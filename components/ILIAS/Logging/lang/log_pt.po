@@ -1,0 +1,56 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: log\n"
+
+msgid "log_component_btn_reset"
+msgstr "Repor definições"
+
+msgid "log_component_col_component"
+msgstr "Componente"
+
+msgid "log_component_col_level"
+msgstr "Nível log"
+
+#, fuzzy
+msgid "log_component_unknown"
+msgstr "Unknown (%s)"
+
+msgid "log_components"
+msgstr "Corso"
+
+msgid "log_level_alert"
+msgstr "ALERTA"
+
+msgid "log_level_critical"
+msgstr "CRÍTICO"
+
+msgid "log_level_debug"
+msgstr "DEBUG"
+
+#, fuzzy
+msgid "log_level_default"
+msgstr "Default (%s)"
+
+msgid "log_level_emergency"
+msgstr "EMERGÊNCIA"
+
+msgid "log_level_error"
+msgstr "ERRO"
+
+msgid "log_level_info"
+msgstr "INFORMAÇÃO"
+
+msgid "log_level_notice"
+msgstr "NOTA"
+
+msgid "log_level_off"
+msgstr "Desativado"
+
+msgid "log_level_warning"
+msgstr "AVISO"

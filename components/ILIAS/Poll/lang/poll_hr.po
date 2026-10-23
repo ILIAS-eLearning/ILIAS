@@ -1,0 +1,234 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hr\n"
+"Language-Team: Croatian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: poll\n"
+
+msgid "poll_absolute"
+msgstr "Trenutačni glasovi"
+
+msgid "poll_activation_online_info"
+msgstr "Aktiviraj ovu postavku kako bi glasovanje bilo dostupno korisnicima."
+
+msgid "poll_add"
+msgstr "Dodaj glasovanje"
+
+msgid "poll_anonymous_warning"
+msgstr "Vaše ime nije vidljivo u rezultatima glasovanja."
+
+msgid "poll_answer"
+msgstr "Odgovor"
+
+#, fuzzy
+msgid "poll_answer_selected_alt_text"
+msgstr "Selected"
+
+msgid "poll_answers"
+msgstr "Mogući odgovori"
+
+msgid "poll_barchart"
+msgstr "Grafikon"
+
+msgid "poll_block_message_already_voted"
+msgstr "Već ste glasali u ovom glasovanju."
+
+msgid "poll_block_message_no_answers"
+msgstr "Ovo glasovanje je nepotpuno."
+
+msgid "poll_block_results_available_on"
+msgstr "Rezultati će biti dostupni %s."
+
+#, fuzzy
+msgid "poll_cannot_set_online_no_answers"
+msgstr "The status cannot be changed to &quot;online&quot; because this poll has no question!"
+
+#, fuzzy
+msgid "poll_chart_votes"
+msgstr "Votes"
+
+msgid "poll_comments"
+msgstr "Komentari"
+
+msgid "poll_copy"
+msgstr "Kopiraj glasovanje"
+
+msgid "poll_delete_votes"
+msgstr "Izbriši sve glasove"
+
+msgid "poll_delete_votes_sure"
+msgstr "Jeste li sigurni da želite izbrisati sve glasove?"
+
+msgid "poll_edit"
+msgstr "Uredi glasovanje"
+
+#, fuzzy
+msgid "poll_edit_question"
+msgstr "Edit Question"
+
+msgid "poll_image"
+msgstr "Slika"
+
+#, fuzzy
+msgid "poll_limit_not_below_answer_count"
+msgstr "The answer limit must be below the number of possible answers."
+
+#, fuzzy
+msgid "poll_limit_number_of_answers"
+msgstr "Limit Number of Answers per Participant"
+
+msgid "poll_max_number_of_answers"
+msgstr "Maksimalan broj odgovora po sudioniku"
+
+#, fuzzy
+msgid "poll_max_number_of_answers_info"
+msgstr "You may choose up to %s answers."
+
+msgid "poll_mode"
+msgstr "Način rada"
+
+msgid "poll_mode_anonymous"
+msgstr "Anonimno"
+
+msgid "poll_mode_anonymous_info"
+msgstr "Glasovi se ne mogu pratiti unatrag do sudionika."
+
+msgid "poll_mode_personal"
+msgstr "Osobno"
+
+msgid "poll_mode_personal_info"
+msgstr "Popis sudionika s njihovim glasovima dostupan je kad postoji odgovarajuće odobrenje."
+
+msgid "poll_new"
+msgstr "Dodaj novo glasovanje"
+
+msgid "poll_non_anonymous_warning"
+msgstr "Vaše ime i glas vidljivi su za administratore u rezultatima."
+
+#, fuzzy
+msgid "poll_notification_activated"
+msgstr "Notification Activated"
+
+#, fuzzy
+msgid "poll_notification_deactivated"
+msgstr "Notification Deactivated"
+
+msgid "poll_notification_subscribe"
+msgstr "Aktiviraj obavijest"
+
+msgid "poll_notification_unsubscribe"
+msgstr "Deaktiviraj obavijest"
+
+msgid "poll_percentage"
+msgstr "Trenutni postotak"
+
+#, fuzzy
+msgid "poll_population"
+msgid_plural "poll_population_plural"
+msgstr[0] "%s sudionika"
+msgstr[1] "%s sudionika"
+msgstr[2] "%s sudionika"
+
+#, fuzzy
+msgid "poll_population_singular"
+msgstr "1 Participant"
+
+msgid "poll_question"
+msgstr "Pitanje"
+
+msgid "poll_result"
+msgstr "Rezultati"
+
+msgid "poll_result_answers"
+msgstr "Glasovi"
+
+msgid "poll_result_sorting"
+msgstr "Sortiranje"
+
+msgid "poll_result_sorting_answers"
+msgstr "Redoslijedom odgovora"
+
+msgid "poll_result_sorting_votes"
+msgstr "Po broju glasova (silazno)"
+
+msgid "poll_result_users"
+msgstr "Sudionici"
+
+msgid "poll_show_results_as"
+msgstr "Prikaži rezultate kao"
+
+msgid "poll_sortorder"
+msgstr "Narudžba"
+
+#, fuzzy
+msgid "poll_stacked_chart"
+msgstr "Stacked Chart"
+
+msgid "poll_view_results"
+msgstr "Prikaži rezultate"
+
+msgid "poll_view_results_after_period"
+msgstr "Nakon razdoblja glasanja"
+
+msgid "poll_view_results_after_period_impossible"
+msgstr "Razdoblje glasanja nije ograničeno."
+
+msgid "poll_view_results_after_vote"
+msgstr "Nakon glasanja"
+
+msgid "poll_view_results_always"
+msgstr "Uvijek"
+
+msgid "poll_view_results_never"
+msgstr "Nikada"
+
+msgid "poll_vote"
+msgstr "Glasanje"
+
+#, fuzzy
+msgid "poll_vote_error_multi"
+msgid_plural "poll_vote_error_multi_plural"
+msgstr[0] "Molimo odaberite najviše %s odgovora."
+msgstr[1] "Molimo odaberite najviše %s odgovora."
+msgstr[2] "Molimo odaberite najviše %s odgovora."
+
+#, fuzzy
+msgid "poll_vote_error_multi_no_answer"
+msgstr "Please select at least 1 answer."
+
+msgid "poll_vote_error_single"
+msgstr "Odaberite 1 odgovor."
+
+msgid "poll_vote_notification_body"
+msgstr "sljedeće glasovanje je dobilo jedan glas."
+
+msgid "poll_vote_notification_link"
+msgstr "Poveznica na glasovanje"
+
+msgid "poll_vote_notification_reason"
+msgstr "Ovu e-poštu primate jer ste aktivirali obavijesti za gore spomenuto glasovanje."
+
+msgid "poll_vote_notification_subject"
+msgstr "Glasovanje \"%s\": novi glas"
+
+msgid "poll_votes_no_edit"
+msgstr "Ovo glasovanje već sadrži glasove. Ne možete uređivati glasovanje dok ne izbrišete ove glasove."
+
+msgid "poll_voting_period_and_results"
+msgstr "Razdoblje glasanja i rezultati"
+
+#, fuzzy
+msgid "poll_voting_period_ended_info"
+msgstr "The voting period ended %s."
+
+msgid "poll_voting_period_full_info"
+msgstr "Razdoblje glasanja od %s do %s"
+
+msgid "poll_voting_period_info"
+msgstr "Rok za glasanje: %s"
+
+msgid "poll_voting_period_limited"
+msgstr "Ograničeno razdoblje glasanja"

@@ -1,0 +1,218 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: poll\n"
+
+msgid "poll_absolute"
+msgstr "Szavazatok száma"
+
+msgid "poll_activation_online_info"
+msgstr "Kapcsolja be, hogy a szavazást elérhessék a felhasználók."
+
+msgid "poll_add"
+msgstr "Szavazás létrehozása"
+
+msgid "poll_anonymous_warning"
+msgstr "Ez egy névtelen szavazás. A szavazatát rögzítjük, de a neve nem fog megjelenni a szavazás eredményében."
+
+msgid "poll_answer"
+msgstr "Válasz"
+
+msgid "poll_answer_selected_alt_text"
+msgstr "Kiválasztott"
+
+msgid "poll_answers"
+msgstr "Lehetséges válaszok"
+
+msgid "poll_barchart"
+msgstr "Oszlopdiagram"
+
+msgid "poll_block_message_already_voted"
+msgstr "Már szavazott ebben a szavazásban."
+
+msgid "poll_block_message_no_answers"
+msgstr "Ez a szavazás még nem készült el teljesen."
+
+msgid "poll_block_results_available_on"
+msgstr "Az eredmény elérhető ettől: %s."
+
+msgid "poll_cannot_set_online_no_answers"
+msgstr "Az állapot nem módosítható &quot;online&quot;-ra, mert egy kérdés sincs még a szavazásban!"
+
+msgid "poll_chart_votes"
+msgstr "Szavazatok"
+
+msgid "poll_comments"
+msgstr "Nyilvános megjegyzések"
+
+msgid "poll_copy"
+msgstr "Szavazás másolása"
+
+msgid "poll_delete_votes"
+msgstr "Összes leadott szavazat törlése"
+
+msgid "poll_delete_votes_sure"
+msgstr "Biztos, hogy törli az összes szavazatot?"
+
+msgid "poll_edit"
+msgstr "Szavazás módosítása"
+
+msgid "poll_edit_question"
+msgstr "Kérdés módosítása"
+
+msgid "poll_image"
+msgstr "Kép"
+
+msgid "poll_limit_not_below_answer_count"
+msgstr "A válaszok megengedett maximális száma kevesebb kell, hogy legyen, mint a válaszlehetősége száma."
+
+msgid "poll_limit_number_of_answers"
+msgstr "Résztvevőkénti válaszok számának korlátozása"
+
+msgid "poll_max_number_of_answers"
+msgstr "Részvevőnkénti válaszok maximális száma"
+
+msgid "poll_max_number_of_answers_info"
+msgstr "Maximálisan %s választ adhat."
+
+msgid "poll_mode"
+msgstr "Mód"
+
+msgid "poll_mode_anonymous"
+msgstr "Névtelen"
+
+msgid "poll_mode_anonymous_info"
+msgstr "A szavazás résztvevőinek neve nem jelenik meg az ‘Eredmények’ lapon. Kérjük, vegye figyelembe: a résztvevők felhasználói azonosítóit azonban rögzítjük az adatbázisban."
+
+msgid "poll_mode_personal"
+msgstr "Nevesített"
+
+msgid "poll_mode_personal_info"
+msgstr "A szavazás résztvevőinek nevei és válaszai az ‘Eredmények’ lapon szerepelnek. Az ehhez a laphoz hozzáféréssel rendelkező felhasználók ellenőrizhetik, hogy ki melyik választ adta."
+
+msgid "poll_new"
+msgstr "Új szavazás létrehozása"
+
+msgid "poll_non_anonymous_warning"
+msgstr "A szavazás szerkesztői megtekintheti a szavazók neveit."
+
+msgid "poll_notification_activated"
+msgstr "Értesítések bekapcsolva"
+
+msgid "poll_notification_deactivated"
+msgstr "Értesítések kikapcsolva"
+
+msgid "poll_notification_subscribe"
+msgstr "Értesítés bekapcsolása"
+
+msgid "poll_notification_unsubscribe"
+msgstr "Értesítés kikapcsolása"
+
+msgid "poll_percentage"
+msgstr "Szavazatok aránya"
+
+msgid "poll_population"
+msgid_plural "poll_population_plural"
+msgstr[0] "1 leadott szavazat"
+msgstr[1] "%s leadott szavazat"
+
+msgid "poll_population_singular"
+msgstr "1 leadott szavazat"
+
+msgid "poll_question"
+msgstr "Kérdés"
+
+msgid "poll_result"
+msgstr "Végeredmények"
+
+msgid "poll_result_answers"
+msgstr "Szavazatok"
+
+msgid "poll_result_sorting"
+msgstr "Rendezés"
+
+msgid "poll_result_sorting_answers"
+msgstr "Lehetséges válaszok sorrendjében"
+
+msgid "poll_result_sorting_votes"
+msgstr "Szavazatok száma szerint ↓"
+
+msgid "poll_result_users"
+msgstr "Résztvevők"
+
+msgid "poll_show_results_as"
+msgstr "Eredmények formátuma"
+
+msgid "poll_sortorder"
+msgstr "Sorrend"
+
+msgid "poll_stacked_chart"
+msgstr "Halmozott diagram"
+
+msgid "poll_view_results"
+msgstr "Eredmények megjelenítése"
+
+msgid "poll_view_results_after_period"
+msgstr "Szavazási időszak után"
+
+msgid "poll_view_results_after_period_impossible"
+msgstr "Ahhoz, hogy az eredmények csak a szavazási időszak végén jelenjenek meg, a fenti dátumok megadásával a szavazási időszakot korlátoznia kell."
+
+msgid "poll_view_results_after_vote"
+msgstr "Szavazás után"
+
+msgid "poll_view_results_always"
+msgstr "Mindig"
+
+msgid "poll_view_results_never"
+msgstr "Soha"
+
+msgid "poll_vote"
+msgstr "Szavazás"
+
+#, fuzzy
+msgid "poll_vote_error_multi"
+msgid_plural "poll_vote_error_multi_plural"
+msgstr[0] "Ne válasszon többet, mint %s."
+msgstr[1] "Ne válasszon többet, mint %s."
+
+msgid "poll_vote_error_multi_no_answer"
+msgstr "Legalább 1 választ jelöljön meg."
+
+msgid "poll_vote_error_single"
+msgstr "Egyet válassz."
+
+msgid "poll_vote_notification_body"
+msgstr "ezúton tájékoztatjuk, hogy új szavazat érkezett."
+
+msgid "poll_vote_notification_link"
+msgstr "Link a Szavazásra"
+
+msgid "poll_vote_notification_reason"
+msgstr "Ezt a levelet azért kapta, mert fent említett szavazásnál beállította, hogy kér értesítést."
+
+msgid "poll_vote_notification_subject"
+msgstr "‘%s’ szavazás: új szavazat"
+
+msgid "poll_votes_no_edit"
+msgstr "Ez a szavazás már tartalmaz szavazatokat. A szavazás nem módosítható, míg nem törli a szavazatokat."
+
+msgid "poll_voting_period_and_results"
+msgstr "Szavazási időszak és eredmények"
+
+msgid "poll_voting_period_ended_info"
+msgstr "A szavazási időszak véget ért %s."
+
+msgid "poll_voting_period_full_info"
+msgstr "Szavazási időszak: %s → %s"
+
+msgid "poll_voting_period_info"
+msgstr "Szavazás határideje: %s"
+
+msgid "poll_voting_period_limited"
+msgstr "Korlátozott"

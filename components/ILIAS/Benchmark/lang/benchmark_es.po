@@ -1,0 +1,42 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: benchmark\n"
+
+msgid "adm_activate_db_benchmark"
+msgstr "Activar evaluación comparativa"
+
+msgid "adm_activate_db_benchmark_desc"
+msgstr "La evaluación comparativa se desactivará automáticamente después de una solicitud."
+
+msgid "adm_db_bench_by_first_table"
+msgstr "Agregado por la primera tabla en SQL"
+
+msgid "adm_db_bench_chronological"
+msgstr "Cronológico"
+
+msgid "adm_db_bench_slowest_first"
+msgstr "Más lentos primero"
+
+msgid "adm_db_bench_sorted_by_sql"
+msgstr "Ordenado por SQL"
+
+msgid "adm_db_benchmark"
+msgstr "Benchmark de BD"
+
+msgid "adm_db_benchmark_user"
+msgstr "Nombre de la cuenta de usuario"
+
+msgid "adm_db_benchmark_user_desc"
+msgstr "Las mediciones se realizarán solo para este usuario. El nombre de usuario ingresado no debe pertenecer al usuario que inicia la evaluación comparativa."
+
+msgid "adm_sql"
+msgstr "SQL"
+
+msgid "adm_time"
+msgstr "Tiempo"

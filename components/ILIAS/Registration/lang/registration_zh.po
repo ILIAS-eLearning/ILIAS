@@ -1,0 +1,341 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: zh\n"
+"Language-Team: Chinese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: registration\n"
+
+msgid "reg_access_limitation_limited_time"
+msgstr "注册成功之后进入"
+
+msgid "reg_access_limitation_limited_until"
+msgstr "访问被限制，直到"
+
+msgid "reg_access_limitation_missing_mode"
+msgstr "请为所有角色选择一个访问限制模式"
+
+msgid "reg_access_limitation_mode"
+msgstr "访问限制模式"
+
+msgid "reg_access_limitation_mode_absolute"
+msgstr "访问被一个固定的日期限制了"
+
+#, fuzzy
+msgid "reg_access_limitation_mode_absolute_target"
+msgstr "Valid until"
+
+msgid "reg_access_limitation_mode_relative"
+msgstr "注册之后，访问被限制在一个固定的时间段内"
+
+#, fuzzy
+msgid "reg_access_limitation_mode_relative_target"
+msgstr "Valid for"
+
+msgid "reg_access_limitation_mode_unlimited"
+msgstr "没有访问限制"
+
+msgid "reg_access_limitation_none"
+msgstr "没有访问限制"
+
+msgid "reg_access_limitation_out_of_date"
+msgstr "一个或多个角色的访问限制过时了！"
+
+msgid "reg_access_limitations"
+msgstr "访问限制"
+
+msgid "reg_add_assignment"
+msgstr "新分配"
+
+msgid "reg_added_assignment"
+msgstr "已添加新分配。"
+
+msgid "reg_allow_codes"
+msgstr "允许代码"
+
+msgid "reg_allow_codes_info"
+msgstr "也可以允许用户通过代码注册。"
+
+msgid "reg_allowed_domains"
+msgstr "允许的邮件地址域"
+
+msgid "reg_allowed_domains_info"
+msgstr "使用 “*” 作为通配符，“;” 作为分隔符。"
+
+msgid "reg_approve"
+msgstr "批准的注册"
+
+msgid "reg_approve_info"
+msgstr "如果勾选，任何用户注册都必须由一个管理员批准。"
+
+msgid "reg_approve_needs_recipient"
+msgstr "如果选择了注册类型“注册需批准”，您将至少要为用户定义一条将被通知的新注册的消息。"
+
+msgid "reg_available_roles"
+msgstr "可用角色："
+
+#, fuzzy
+msgid "reg_confirmation_already_confirmed"
+msgstr "The registration is no longer pending, it has already been confirmed."
+
+msgid "reg_confirmation_hash_life_time"
+msgstr "生命周期"
+
+msgid "reg_confirmation_hash_life_time_expired"
+msgstr "确认链接不再有效。"
+
+msgid "reg_confirmation_hash_life_time_info"
+msgstr "输入确认链接的生命周期(秒)。"
+
+msgid "reg_confirmation_hash_not_found"
+msgstr "没有用户账号能被匹配到这个确认链接。"
+
+#, fuzzy
+msgid "reg_confirmation_hash_not_passed"
+msgstr "The confirmation link is incomplete."
+
+msgid "reg_confirmation_link_successful"
+msgstr "您已成功提交了一个账号请求到ILIAS。您必须确认您是通过点击确认链接注册的。"
+
+msgid "reg_default"
+msgstr "默认"
+
+msgid "reg_deleted_assignment"
+msgstr "已删除的分配"
+
+msgid "reg_direct"
+msgstr "直接注册"
+
+msgid "reg_direct_info"
+msgstr "如果勾选，任何新用户注册请求都将自动批准。"
+
+msgid "reg_disabled"
+msgstr "没可能注册"
+
+msgid "reg_domain"
+msgstr "域"
+
+#, fuzzy
+msgid "reg_domain_already_assigned_p"
+msgstr "The domains '%s' were already entered for another role."
+
+#, fuzzy
+msgid "reg_domain_already_assigned_s"
+msgstr "The domain '%s' was already entered for another role. "
+
+msgid "reg_email"
+msgstr "自动角色分配"
+
+msgid "reg_email_domains"
+msgstr "以下电子邮件地址域是有效的：%s"
+
+#, fuzzy
+msgid "reg_email_domains_code"
+msgstr "With a registration code any E-Mail-Address is valid."
+
+msgid "reg_email_role_assignment"
+msgstr "由域分配角色"
+
+msgid "reg_fixed"
+msgstr "从指定列表选择"
+
+msgid "reg_info_pwd"
+msgstr "如果启用，密码将自动发送到新用户的电子邮箱中。"
+
+#, fuzzy
+msgid "reg_mail_body_activation"
+msgstr "to activate your account and confirm ownership of this email address, click the link below:"
+
+msgid "reg_mail_body_approve"
+msgstr "您已经注册到LILAS eLearning并且接收了一封有您的账号数据的邮件。现在您的账号已经由一位管理员激活了。"
+
+msgid "reg_mail_body_confirmation"
+msgstr "确认这个注册进入ILIAS用户管理和激活账号。"
+
+msgid "reg_mail_body_profile"
+msgstr "资料(profile)数据："
+
+msgid "reg_mail_body_profile_changed"
+msgstr "您的资料(profile)已经更改!"
+
+msgid "reg_mail_body_pwd_generation"
+msgstr "您的账号请求将由一位管理员审查，并将在48小时内激活。您将会收到有关批复信息的邮件。"
+
+msgid "reg_mail_body_reason"
+msgstr "您接收到这封邮件是因为在ILIAS管理中，您的账号中有关新注册的通知被启用。"
+
+#, fuzzy
+msgid "reg_mail_body_timelimit"
+msgstr "Your account has a limited period of validity: %s."
+
+msgid "reg_mail_new_user"
+msgstr "新用户注册"
+
+msgid "reg_mail_new_user_body"
+msgstr "一位新用户已经注册"
+
+#, fuzzy
+msgid "reg_mail_new_user_confirmation"
+msgstr "Request for account confirmation"
+
+msgid "reg_missing_domain"
+msgstr "请填写所有字段。"
+
+msgid "reg_missing_role"
+msgstr "请填写所有字段。"
+
+msgid "reg_notification"
+msgstr "通知"
+
+msgid "reg_notification_info"
+msgstr "输入一个或多个用户的登录ID(逗号分隔)，将获得有关新用户注册的电子邮件。"
+
+msgid "reg_role_access_limitations"
+msgstr "为新注册的用户定义角色的访问限制"
+
+msgid "reg_role_assignment"
+msgstr "角色分配"
+
+msgid "reg_role_info"
+msgstr "角色已分配"
+
+msgid "reg_select_one"
+msgstr "请选择一个条目。"
+
+msgid "reg_selectable_roles"
+msgstr "可选择的角色"
+
+msgid "reg_settings_header"
+msgstr "新注册设置"
+
+msgid "reg_type"
+msgstr "注册类型"
+
+msgid "reg_type_confirmation"
+msgstr "电子邮件确认注册"
+
+msgid "reg_type_confirmation_info"
+msgstr "这个类型允许用户自注册，但要求一封电子邮件确认去激活账号。这避免了错误的自我注册到ILIAS或不存在的电子邮件地址。"
+
+msgid "reg_unknown_recipients"
+msgstr "下面的登录无效:"
+
+msgid "registration_code"
+msgstr "代码"
+
+msgid "registration_code_not_valid"
+msgstr "给定的注册码是无效的或已经被使用。"
+
+msgid "registration_code_optional_info"
+msgstr "如果您有一个ILIAS注册代码，您现在就可以输入它。"
+
+msgid "registration_code_required_info"
+msgstr "注册过程中，一个预定义代码是必需的。"
+
+msgid "registration_code_role_info"
+msgstr "如果您使用一个注册码，角色选择可能被这个注册码取代。"
+
+#, fuzzy
+msgid "registration_codes_access_limitation_all"
+msgstr "All"
+
+msgid "registration_codes_add"
+msgstr "添加代码"
+
+msgid "registration_codes_edit_header"
+msgstr "添加代码"
+
+msgid "registration_codes_export"
+msgstr "导出代码"
+
+#, fuzzy
+msgid "registration_codes_no_assigned_role"
+msgstr "No Predefined Assigned Role"
+
+msgid "registration_codes_number"
+msgstr "代码数"
+
+#, fuzzy
+msgid "registration_codes_override_global_info"
+msgstr "These settings may be overridden by registration codes."
+
+#, fuzzy
+msgid "registration_codes_override_info"
+msgstr "This setting overrides any values defined in \"Registration Settings\"."
+
+msgid "registration_codes_roles"
+msgstr "新账号角色"
+
+#, fuzzy
+msgid "registration_codes_roles_limitation_none"
+msgstr "No Predefined Access Limitation"
+
+#, fuzzy
+msgid "registration_codes_roles_local"
+msgstr "Local Role(s) "
+
+#, fuzzy
+msgid "registration_codes_roles_title"
+msgstr "Role for New Accounts"
+
+#, fuzzy
+msgid "registration_codes_type"
+msgstr "Code Type"
+
+#, fuzzy
+msgid "registration_codes_type_ext"
+msgstr "Extension of limited user accounts"
+
+#, fuzzy
+msgid "registration_codes_type_ext_info"
+msgstr "Code can be used for the extension of limited accounts."
+
+#, fuzzy
+msgid "registration_codes_type_reg"
+msgstr "Registration Code"
+
+#, fuzzy
+msgid "registration_codes_type_reg_info"
+msgstr "Code can be used for the registration if a new user account"
+
+#, fuzzy
+msgid "registration_disabled_no_access"
+msgstr "The self-registration is not enabled. Please contact the system administration for further assistance: %s"
+
+msgid "registration_export_codes_no_data"
+msgstr "没有选择导出的代码。"
+
+msgid "registration_generated"
+msgstr "生成的日期"
+
+msgid "registration_generated_all"
+msgstr "所有日期"
+
+msgid "registration_no_valid_role"
+msgstr "当前新账号没有有效的角色。请联系您的系统管理员。"
+
+msgid "registration_reg_type_codes"
+msgstr "注册码注册"
+
+msgid "registration_reg_type_codes_info"
+msgstr "这个类型允许用户自注册，但必需有一个有效的代码。"
+
+msgid "registration_roles_all"
+msgstr "所有角色"
+
+msgid "registration_settings"
+msgstr "新注册"
+
+msgid "registration_tab_codes"
+msgstr "注册码"
+
+msgid "registration_tab_settings"
+msgstr "注册设置"
+
+msgid "registration_used"
+msgstr "使用的日期"
+
+msgid "registration_user_new_account_mail"
+msgstr "编辑新账号邮件"

@@ -1,0 +1,24 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sl\n"
+"Language-Team: Slovenian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=4; plural=(n % 100 == 1) ? 0 : ((n % 100 == 2) ? 1 : ((n % 100 == 3 || n % 100 == 4) ? 2 : 3));\n"
+"X-Domain: membership\n"
+
+msgid "mem_error_preconditions"
+msgstr "Sprejem ni bil mogoč, ker to preprečuje vsaj ena nastavitev."
+
+msgid "mem_force_notification"
+msgstr "Obveščanje po e-pošti"
+
+msgid "mem_force_notification_mode_all_sub_blocked"
+msgstr "Člani lahko onemogočijo obveščanje"
+
+msgid "mem_force_notification_mode_blocked"
+msgstr "Člani bodo samodejno obveščeni"
+
+msgid "mem_force_notification_mode_self"
+msgstr "Člani morajo aktivirati obveščanje"

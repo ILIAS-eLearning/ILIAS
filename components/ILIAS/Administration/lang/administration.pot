@@ -1,0 +1,786 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: administration\n"
+
+msgid "adm_achievements"
+msgstr ""
+
+msgid "adm_adm_role_protect"
+msgstr ""
+
+msgid "adm_adm_role_protect_info"
+msgstr ""
+
+msgid "adm_auth_login"
+msgstr ""
+
+msgid "adm_auth_reg"
+msgstr ""
+
+msgid "adm_communication"
+msgstr ""
+
+msgid "adm_extending_ilias"
+msgstr ""
+
+msgid "adm_external_setting_edit"
+msgstr ""
+
+msgid "adm_hide"
+msgstr ""
+
+msgid "adm_hide_tabs"
+msgstr ""
+
+msgid "adm_https"
+msgstr ""
+
+msgid "adm_imprint"
+msgstr ""
+
+msgid "adm_imprint_inactive"
+msgstr ""
+
+msgid "adm_layout_and_navigation"
+msgstr ""
+
+msgid "adm_legal_regulations"
+msgstr ""
+
+msgid "adm_locale"
+msgstr ""
+
+msgid "adm_locale_info"
+msgstr ""
+
+msgid "adm_maintenance"
+msgstr ""
+
+msgid "adm_missing_entries"
+msgstr ""
+
+msgid "adm_missing_entry_add"
+msgstr ""
+
+msgid "adm_missing_entry_add_action"
+msgstr ""
+
+msgid "adm_nr_statements"
+msgstr ""
+
+msgid "adm_personal_workspace"
+msgstr ""
+
+msgid "adm_predefined_settings"
+msgstr ""
+
+msgid "adm_pub_section_domain_filter"
+msgstr ""
+
+msgid "adm_pub_section_domain_filter_info"
+msgstr ""
+
+msgid "adm_rep_shorten_description"
+msgstr ""
+
+msgid "adm_rep_shorten_description_info"
+msgstr ""
+
+msgid "adm_rep_shorten_description_length"
+msgstr ""
+
+msgid "adm_rep_tree_all_types"
+msgstr ""
+
+msgid "adm_rep_tree_all_types_info"
+msgstr ""
+
+msgid "adm_rep_tree_limit_grp_crs"
+msgstr ""
+
+msgid "adm_rep_tree_limit_grp_crs_info"
+msgstr ""
+
+msgid "adm_rep_tree_only_cntr"
+msgstr ""
+
+msgid "adm_rep_tree_only_cntr_info"
+msgstr ""
+
+msgid "adm_rep_tree_presentation"
+msgstr ""
+
+msgid "adm_repository_and_objects"
+msgstr ""
+
+msgid "adm_search_and_find"
+msgstr ""
+
+msgid "adm_show_comments_tagging_in_lists"
+msgstr ""
+
+msgid "adm_show_comments_tagging_in_lists_tags"
+msgstr ""
+
+msgid "adm_table"
+msgstr ""
+
+msgid "adm_user_administration"
+msgstr ""
+
+msgid "adm_user_starting_point"
+msgstr ""
+
+msgid "adm_user_starting_point_info"
+msgstr ""
+
+msgid "adm_user_starting_point_inherit"
+msgstr ""
+
+msgid "adm_user_starting_point_inherit_info"
+msgstr ""
+
+msgid "adm_user_starting_point_invalid_info"
+msgstr ""
+
+msgid "adm_user_starting_point_object"
+msgstr ""
+
+msgid "adm_user_starting_point_personal"
+msgstr ""
+
+msgid "adm_user_starting_point_personal_info"
+msgstr ""
+
+msgid "adm_user_starting_point_ref_id"
+msgstr ""
+
+msgid "adm_user_starting_point_ref_id_info"
+msgstr ""
+
+msgid "adm_value"
+msgstr ""
+
+msgid "allow_change_loginname"
+msgstr ""
+
+msgid "analysis_options"
+msgstr ""
+
+msgid "analyze_data"
+msgstr ""
+
+msgid "analyzing_tree_structure"
+msgstr ""
+
+msgid "apache_auth_authenticate_on_login_page"
+msgstr ""
+
+msgid "apache_auth_domains"
+msgstr ""
+
+msgid "apache_auth_domains_description"
+msgstr ""
+
+msgid "apache_auth_enable_override_login"
+msgstr ""
+
+msgid "apache_auth_indicator_name"
+msgstr ""
+
+msgid "apache_auth_indicator_value"
+msgstr ""
+
+msgid "apache_auth_security"
+msgstr ""
+
+msgid "apache_auth_settings"
+msgstr ""
+
+msgid "apache_auth_target_override_login"
+msgstr ""
+
+msgid "apache_auth_username_by_function"
+msgstr ""
+
+msgid "apache_auth_username_config"
+msgstr ""
+
+msgid "apache_auth_username_config_type"
+msgstr ""
+
+msgid "apache_auth_username_direct_mapping"
+msgstr ""
+
+msgid "apache_auth_username_direct_mapping_fieldname"
+msgstr ""
+
+msgid "apache_auth_username_extended_mapping"
+msgstr ""
+
+msgid "apache_autocreate"
+msgstr ""
+
+msgid "apache_default_role"
+msgstr ""
+
+msgid "apache_enable_auth"
+msgstr ""
+
+msgid "apache_enable_ldap"
+msgstr ""
+
+msgid "apache_enable_local"
+msgstr ""
+
+msgid "apache_ldap_hint_ldap_must_be_configured"
+msgstr ""
+
+msgid "apache_settings"
+msgstr ""
+
+msgid "apache_settings_changed_success"
+msgstr ""
+
+msgid "auth_apache"
+msgstr ""
+
+msgid "auth_auth_mode_determination"
+msgstr ""
+
+msgid "auth_automatic"
+msgstr ""
+
+msgid "auth_by_user"
+msgstr ""
+
+msgid "auth_kind_determination"
+msgstr ""
+
+msgid "auth_mode_default_change_info"
+msgstr ""
+
+msgid "auth_mode_determination_info"
+msgstr ""
+
+msgid "clean"
+msgstr ""
+
+msgid "clean_desc"
+msgstr ""
+
+msgid "cleaning"
+msgstr ""
+
+msgid "cleaning_final"
+msgstr ""
+
+msgid "course_export"
+msgstr ""
+
+msgid "done"
+msgstr ""
+
+msgid "dump_tree"
+msgstr ""
+
+msgid "dump_tree_desc"
+msgstr ""
+
+msgid "dumping_tree"
+msgstr ""
+
+msgid "found"
+msgstr ""
+
+msgid "found_none"
+msgstr ""
+
+msgid "git_hash_short"
+msgstr ""
+
+msgid "git_last_commit"
+msgstr ""
+
+msgid "git_revision"
+msgstr ""
+
+msgid "group_export"
+msgstr ""
+
+msgid "history_loginname"
+msgstr ""
+
+msgid "initializing_gaps"
+msgstr ""
+
+msgid "language_all_modules"
+msgstr ""
+
+msgid "language_change_settings"
+msgstr ""
+
+msgid "language_clear_local_changes"
+msgstr ""
+
+msgid "language_clear_local_changes_info"
+msgstr ""
+
+msgid "language_cleared_local"
+msgstr ""
+
+msgid "language_compare"
+msgstr ""
+
+msgid "language_default_entries"
+msgstr ""
+
+msgid "language_delete_local_additions"
+msgstr ""
+
+msgid "language_delete_local_additions_info"
+msgstr ""
+
+msgid "language_error_clear_local"
+msgstr ""
+
+msgid "language_error_delete_local"
+msgstr ""
+
+msgid "language_error_local_missed"
+msgstr ""
+
+msgid "language_error_read_local"
+msgstr ""
+
+msgid "language_error_write_global"
+msgstr ""
+
+msgid "language_export_file"
+msgstr ""
+
+msgid "language_file_imported"
+msgstr ""
+
+msgid "language_file_scope"
+msgstr ""
+
+msgid "language_former_file_description"
+msgstr ""
+
+msgid "language_former_file_equal"
+msgstr ""
+
+msgid "language_former_file_missing"
+msgstr ""
+
+msgid "language_import_file"
+msgstr ""
+
+msgid "language_load_local_changes"
+msgstr ""
+
+msgid "language_load_local_changes_info"
+msgstr ""
+
+msgid "language_loaded_local"
+msgstr ""
+
+msgid "language_local_file_deleted"
+msgstr ""
+
+msgid "language_maintain"
+msgstr ""
+
+msgid "language_maintain_local_changes"
+msgstr ""
+
+msgid "language_maintenance"
+msgstr ""
+
+msgid "language_merge_local_changes"
+msgstr ""
+
+msgid "language_merge_local_changes_info"
+msgstr ""
+
+msgid "language_merged_global"
+msgstr ""
+
+msgid "language_mode_existing"
+msgstr ""
+
+msgid "language_mode_existing_delete"
+msgstr ""
+
+msgid "language_mode_existing_delete_info"
+msgstr ""
+
+msgid "language_mode_existing_keepall"
+msgstr ""
+
+msgid "language_mode_existing_keepall_info"
+msgstr ""
+
+msgid "language_mode_existing_keepnew"
+msgstr ""
+
+msgid "language_mode_existing_keepnew_info"
+msgstr ""
+
+msgid "language_mode_existing_replace"
+msgstr ""
+
+msgid "language_mode_existing_replace_info"
+msgstr ""
+
+msgid "language_note_translation"
+msgstr ""
+
+msgid "language_process_maintenance"
+msgstr ""
+
+msgid "language_remove_local_file"
+msgstr ""
+
+msgid "language_remove_local_file_info"
+msgstr ""
+
+msgid "language_save_dist"
+msgstr ""
+
+msgid "language_save_dist_failed"
+msgstr ""
+
+msgid "language_save_dist_info"
+msgstr ""
+
+msgid "language_save_local_changes"
+msgstr ""
+
+msgid "language_save_local_changes_info"
+msgstr ""
+
+msgid "language_saved_dist"
+msgstr ""
+
+msgid "language_scope_added"
+msgstr ""
+
+msgid "language_scope_added_info"
+msgstr ""
+
+msgid "language_scope_commented"
+msgstr ""
+
+msgid "language_scope_conflicts"
+msgstr ""
+
+msgid "language_scope_dbremarks"
+msgstr ""
+
+msgid "language_scope_different"
+msgstr ""
+
+msgid "language_scope_equal"
+msgstr ""
+
+msgid "language_scope_global"
+msgstr ""
+
+msgid "language_scope_global_info"
+msgstr ""
+
+msgid "language_scope_local"
+msgstr ""
+
+msgid "language_scope_local_info"
+msgstr ""
+
+msgid "language_scope_merged"
+msgstr ""
+
+msgid "language_scope_merged_info"
+msgstr ""
+
+msgid "language_scope_unchanged"
+msgstr ""
+
+msgid "language_scope_unchanged_info"
+msgstr ""
+
+msgid "language_settings"
+msgstr ""
+
+msgid "language_statistics"
+msgstr ""
+
+msgid "language_translation"
+msgstr ""
+
+msgid "language_translation_enabled"
+msgstr ""
+
+msgid "language_variables_saved"
+msgstr ""
+
+msgid "log_scan"
+msgstr ""
+
+msgid "log_scan_desc"
+msgstr ""
+
+msgid "loginname_change_blocking_time"
+msgstr ""
+
+msgid "loginname_change_blocking_time_info"
+msgstr ""
+
+msgid "loginname_change_blocking_time_invalidity_info"
+msgstr ""
+
+msgid "loginname_history_info"
+msgstr ""
+
+msgid "nothing_to_purge"
+msgstr ""
+
+msgid "nothing_to_remove"
+msgstr ""
+
+msgid "nothing_to_restore"
+msgstr ""
+
+msgid "obj_blga"
+msgstr ""
+
+msgid "obj_blga_desc"
+msgstr ""
+
+msgid "obj_chta_desc"
+msgstr ""
+
+msgid "obj_excs"
+msgstr ""
+
+msgid "obj_excs_desc"
+msgstr ""
+
+msgid "obj_gsfo"
+msgstr ""
+
+msgid "obj_gsfo_desc"
+msgstr ""
+
+msgid "obj_impr"
+msgstr ""
+
+msgid "obj_impr_desc"
+msgstr ""
+
+msgid "obj_mds"
+msgstr ""
+
+msgid "obj_mds_desc"
+msgstr ""
+
+msgid "obj_otpl"
+msgstr ""
+
+msgid "obj_otpl_desc"
+msgstr ""
+
+msgid "obj_prfa"
+msgstr ""
+
+msgid "obj_prfa_desc"
+msgstr ""
+
+msgid "obj_taxs"
+msgstr ""
+
+msgid "obj_taxs_desc"
+msgstr ""
+
+msgid "org_op_edit_user_accounts"
+msgstr ""
+
+msgid "output_options"
+msgstr ""
+
+msgid "path_to_mkisofs"
+msgstr ""
+
+msgid "prg_export"
+msgstr ""
+
+msgid "purge_age_limit"
+msgstr ""
+
+msgid "purge_age_limit_desc"
+msgstr ""
+
+msgid "purge_count_limit"
+msgstr ""
+
+msgid "purge_count_limit_desc"
+msgstr ""
+
+msgid "purge_missing"
+msgstr ""
+
+msgid "purge_missing_desc"
+msgstr ""
+
+msgid "purge_trash"
+msgstr ""
+
+msgid "purge_trash_desc"
+msgstr ""
+
+msgid "purge_type_limit"
+msgstr ""
+
+msgid "purge_type_limit_desc"
+msgstr ""
+
+msgid "purging"
+msgstr ""
+
+msgid "purging_missing_objs"
+msgstr ""
+
+msgid "purging_trash"
+msgstr ""
+
+msgid "purging_unbound_objs"
+msgstr ""
+
+msgid "removing_invalid_childs"
+msgstr ""
+
+msgid "removing_invalid_refs"
+msgstr ""
+
+msgid "removing_invalid_rolfs"
+msgstr ""
+
+msgid "repair_options"
+msgstr ""
+
+msgid "restore_missing"
+msgstr ""
+
+msgid "restore_missing_desc"
+msgstr ""
+
+msgid "restore_trash"
+msgstr ""
+
+msgid "restore_trash_desc"
+msgstr ""
+
+msgid "restoring"
+msgstr ""
+
+msgid "restoring_missing_objs"
+msgstr ""
+
+msgid "restoring_trash"
+msgstr ""
+
+msgid "restoring_unbound_objs"
+msgstr ""
+
+msgid "reuse_of_loginnames_contained_in_history"
+msgstr ""
+
+msgid "reuse_of_loginnames_contained_in_history_info"
+msgstr ""
+
+msgid "scan"
+msgstr ""
+
+msgid "scan_desc"
+msgstr ""
+
+msgid "scan_details"
+msgstr ""
+
+msgid "scan_modes"
+msgstr ""
+
+msgid "scanning_system"
+msgstr ""
+
+msgid "searching_deleted_objs"
+msgstr ""
+
+msgid "searching_invalid_childs"
+msgstr ""
+
+msgid "searching_invalid_refs"
+msgstr ""
+
+msgid "searching_invalid_rolfs"
+msgstr ""
+
+msgid "searching_missing_objs"
+msgstr ""
+
+msgid "searching_unbound_objs"
+msgstr ""
+
+msgid "skipped"
+msgstr ""
+
+msgid "start_scan"
+msgstr ""
+
+msgid "svn_path"
+msgstr ""
+
+msgid "svn_revision_current"
+msgstr ""
+
+msgid "svn_revision_last_change"
+msgstr ""
+
+msgid "svn_root"
+msgstr ""
+
+msgid "system_check_no_owner"
+msgstr ""
+
+msgid "system_folder_info"
+msgstr ""
+
+msgid "systemcheck"
+msgstr ""
+
+msgid "tree_corrupt"
+msgstr ""
+
+msgid "user_criteria"
+msgstr ""
+
+msgid "user_criteria_desc"
+msgstr ""
+
+msgid "usr_loginname_history_info"
+msgstr ""
+
+msgid "vc_information"
+msgstr ""
+
+msgid "vc_information_not_determined"
+msgstr ""
+
+msgid "view_last_log"
+msgstr ""
+
+msgid "view_log"
+msgstr ""

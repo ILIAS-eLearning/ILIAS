@@ -1,0 +1,3247 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: tr\n"
+"Language-Team: Turkish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: rbac\n"
+
+msgid "accs_edit_permission"
+msgstr "Kullanıcı Yönetimi Erişilebilirlik Ayarları izinlerini değiştirebilirsiniz."
+
+msgid "accs_read"
+msgstr "Kullanıcı Yönetimi Erişilebilirlik Ayarlar okuma erişimine sahiptir."
+
+msgid "accs_visible"
+msgstr "Erişilebilirlik Ayarları İdaresi görebilir."
+
+msgid "accs_write"
+msgstr "Kullanıcı Yönetimi Erişilebilirlik ayarları düzenleyebilirsiniz."
+
+#, fuzzy
+msgid "activate_wiki_protection"
+msgstr "Set Read-Only"
+
+msgid "active_preconditions"
+msgstr "Önkoşullar"
+
+msgid "add_consultation_hours"
+msgstr "Add Görüşme Saatleri"
+
+#, fuzzy
+msgid "add_consume_provider"
+msgstr "Add Own LTI Provider Settings"
+
+#, fuzzy
+msgid "add_pages"
+msgstr "Add Pages"
+
+msgid "add_reply"
+msgstr "Yanıt ekle"
+
+msgid "add_thread"
+msgstr "Add Konu"
+
+msgid "adm_edit_permission"
+msgstr "Kullanıcı İdaresi Genel Ayarlar izinlerini değiştirebilirsiniz."
+
+msgid "adm_read"
+msgstr "Kullanıcı İdaresi Genel Ayarlar okuma erişimine sahiptir."
+
+msgid "adm_visible"
+msgstr "Genel Ayarlar İdaresi görebilir."
+
+msgid "adm_write"
+msgstr "Kullanıcı İdaresi Genel Ayarlar düzenleyebilirsiniz."
+
+#, fuzzy
+msgid "adn_edit_permission"
+msgstr "User can change permissions of Administrative Notifications' administration."
+
+#, fuzzy
+msgid "adn_read"
+msgstr "User has read access to administration of Administrative Notifications."
+
+#, fuzzy
+msgid "adn_visible"
+msgstr "Administration of Administrative Notifications is visible."
+
+#, fuzzy
+msgid "adn_write"
+msgstr "User can add and edit Administrative Notifications."
+
+msgid "adopt_perm_from_template"
+msgstr "Kopyalama İzin Ayarları"
+
+msgid "adve_edit_permission"
+msgstr "Kullanıcı Düzenleme idaresinin izin ayarlarını değiştirebilirsiniz"
+
+msgid "adve_read"
+msgstr "Kullanıcı Düzenleme İdaresi okuma erişimi"
+
+msgid "adve_visible"
+msgstr "Düzenleme İdaresi görülebilir"
+
+msgid "adve_write"
+msgstr "Kullanıcı Düzenleme İdaresi ayarlarını düzenleyebilirsiniz"
+
+#, fuzzy
+msgid "amend_grading"
+msgstr "Amend finalized grading"
+
+msgid "assf_edit_permission"
+msgstr "Kullanıcı Testi ve Değerlendirme yönetiminin izin ayarlarını değiştirebilirsiniz"
+
+msgid "assf_read"
+msgstr "Kullanıcı erişim Test ve Değerlendirme Dairesi okuma"
+
+msgid "assf_visible"
+msgstr "Test ve Değerlendirme yönetim görülebilir"
+
+msgid "assf_write"
+msgstr "Kullanıcı Testi ve Değerlendirme Dairesi ayarlarını düzenleyebilirsiniz"
+
+msgid "auth_edit_permission"
+msgstr "Kullanıcı Kimlik ve Kayıt idaresinin izin ayarlarını değiştirebilirsiniz"
+
+msgid "auth_read"
+msgstr "Kullanıcı Kimlik ve Kayıt yönetimi için okuma erişimi vardır"
+
+msgid "auth_visible"
+msgstr "Kimlik Yönetimi ve Kayıt görülebilir"
+
+msgid "auth_write"
+msgstr "Kullanıcı Kimlik Doğrulaması ve Kayıt ayarlarını düzenleyebilirsiniz"
+
+#, fuzzy
+msgid "awra_edit_permission"
+msgstr "User can change permission settings in ‘Who is online?’ administration"
+
+#, fuzzy
+msgid "awra_read"
+msgstr "User has read access to ‘Who is online?’ administration"
+
+#, fuzzy
+msgid "awra_visible"
+msgstr "‘Who is online?’ administration is visible"
+
+#, fuzzy
+msgid "awra_write"
+msgstr "Edit settings in ‘Who is online?’ administration"
+
+#, fuzzy
+msgid "bdga_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "bdga_read"
+msgstr "User can read badge administration content"
+
+#, fuzzy
+msgid "bdga_visible"
+msgstr "Badge administration is visible"
+
+#, fuzzy
+msgid "bdga_write"
+msgstr "User can edit badge administration settings"
+
+#, fuzzy
+msgid "bibl_copy"
+msgstr "User can copy bibliography"
+
+#, fuzzy
+msgid "bibl_delete"
+msgstr "User can move or delete bibliography"
+
+#, fuzzy
+msgid "bibl_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "bibl_read"
+msgstr "User can read bibliography content"
+
+#, fuzzy
+msgid "bibl_visible"
+msgstr "Bibliography is visible"
+
+#, fuzzy
+msgid "bibl_write"
+msgstr "User can edit bibliography settings"
+
+#, fuzzy
+msgid "bibs_copy"
+msgstr "User can copy bibliography"
+
+#, fuzzy
+msgid "bibs_delete"
+msgstr "User can delete library entries"
+
+#, fuzzy
+msgid "bibs_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "bibs_read"
+msgstr "User can read bibliography content"
+
+#, fuzzy
+msgid "bibs_visible"
+msgstr "Bibliography-Administration is visible"
+
+#, fuzzy
+msgid "bibs_write"
+msgstr "User can edit bibliography settings"
+
+msgid "blga_edit_permission"
+msgstr "Kullanıcı Blog idaresinin izin ayarlarını değiştirebilirsiniz"
+
+msgid "blga_read"
+msgstr "Kullanıcı Blog İdaresi okuma erişimi"
+
+msgid "blga_visible"
+msgstr "Blog İdaresi görülebilir"
+
+msgid "blga_write"
+msgstr "Kullanıcı Blog Yönetimi ayarlarını düzenleyebilirsiniz"
+
+msgid "blog_contribute"
+msgstr "Kullanıcı katkıda bulunabilir"
+
+msgid "blog_copy"
+msgstr "User blog kopyalayabilirsiniz"
+
+msgid "blog_delete"
+msgstr "User blog taşıyabilir veya silebilirsiniz"
+
+msgid "blog_edit_permission"
+msgstr "Kullanıcı izin ayarlarını değiştirebilir"
+
+msgid "blog_read"
+msgstr "Kullanıcı blog içeriği okuyabilir"
+
+#, fuzzy
+msgid "blog_redact"
+msgstr "User can edit all postings"
+
+msgid "blog_visible"
+msgstr "Blog görünür"
+
+msgid "blog_write"
+msgstr "User blog ayarlarını düzenleyebilirsiniz"
+
+#, fuzzy
+msgid "book_copy"
+msgstr "User can copy booking pool"
+
+msgid "book_delete"
+msgstr "Kullanıcı rezervasyon havuzu taşıyabilir veya silebilirsiniz"
+
+msgid "book_edit_permission"
+msgstr "Kullanıcı rezervasyon havuzu için izin ayarlarını değiştirebilirsiniz"
+
+#, fuzzy
+msgid "book_manage_all_reservations"
+msgstr "User can manage all reservations"
+
+#, fuzzy
+msgid "book_manage_own_reservations"
+msgstr "User can manage own reservations"
+
+msgid "book_read"
+msgstr "Kullanıcı rezervasyon havuzundaki kaynakların / nesneleri yaptırabilirsiniz"
+
+msgid "book_visible"
+msgstr "Rezervasyon havuzu görülebilir"
+
+msgid "book_write"
+msgstr "Kullanıcı ayarları ve rezervasyon havuz içeriğini düzenleyebilirsiniz"
+
+#, fuzzy
+msgid "cadm_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "cadm_read"
+msgstr "User has read access to user connection administration"
+
+#, fuzzy
+msgid "cadm_visible"
+msgstr "User connection administration is visible"
+
+#, fuzzy
+msgid "cadm_write"
+msgstr "User has write access to user connection administration"
+
+msgid "cals_add_consultation_hours"
+msgstr "Kullanıcı Takvimde görüşme saatleri sunabilir ve düzenleyebilirsiniz"
+
+msgid "cals_edit_event"
+msgstr "Kullanıcı ILIAS kamu takvimler ve etkinlikler oluşturabilir ve düzenleyebilirsiniz"
+
+msgid "cals_edit_permission"
+msgstr "Kullanıcı Takvim yönetim için izin ayarlarını değiştirebilirsiniz"
+
+msgid "cals_read"
+msgstr "Kullanıcı Takvim İdaresi okuma erişimi"
+
+msgid "cals_visible"
+msgstr "Takvim İdaresi görülebilir"
+
+msgid "cals_write"
+msgstr "Kullanıcı Takvim İdaresi ayarlarını düzenleyebilirsiniz"
+
+msgid "cat_administrate_users"
+msgstr "Yerel Kullanıcı Hesaplarını Yönet"
+
+msgid "cat_cat_administrate_users"
+msgstr "Kullanıcı bu kategoride yerel kullanıcı hesapları oluşturabilir ve yönetebilirsiniz"
+
+msgid "cat_copy"
+msgstr "Kullanıcı kategorisi kopyalayabilirsiniz"
+
+msgid "cat_delete"
+msgstr "Kullanıcı kategorisi taşıyabilir veya silebilirsiniz"
+
+msgid "cat_edit_permission"
+msgstr "Yetki Ayarlarını Değiştir"
+
+msgid "cat_read"
+msgstr "Kullanıcı kategorisi için okuma erişimi vardır"
+
+msgid "cat_read_users"
+msgstr "Kullanıcı bu kategoride oluşturulan yerel kullanıcı hesapları okuyabilirsiniz"
+
+msgid "cat_visible"
+msgstr "Kategori görünür"
+
+msgid "cat_write"
+msgstr "Kullanıcı Kategorideki ayarları düzenleyebilir ve içeriği yönetebilir"
+
+msgid "catr_copy"
+msgstr "Kullanıcı kategorisi referans kopyalayabilirsiniz"
+
+msgid "catr_delete"
+msgstr "Kullanıcı kategorisi referans taşıyabilir veya silebilirsiniz"
+
+msgid "catr_edit_permission"
+msgstr "Yetki Ayarlarını Değiştir"
+
+msgid "catr_visible"
+msgstr "Kategori referans görünür"
+
+msgid "catr_write"
+msgstr "Kullanıcı kategorisi referans ayarlarını düzenleyebilirsiniz"
+
+msgid "cert_edit_permission"
+msgstr "Kullanıcı Sertifikaları idaresinin izin ayarlarını değiştirebilirsiniz"
+
+msgid "cert_read"
+msgstr "Kullanıcı Sertifikaları İdaresi okuma erişimi"
+
+msgid "cert_visible"
+msgstr "Sertifikaları İdaresi görülebilir"
+
+msgid "cert_write"
+msgstr "Kullanıcı Sertifikaları İdaresi ayarlarını düzenleyebilirsiniz"
+
+msgid "change_existing_object_type_desc"
+msgstr "Bu da bu tür zaten varolan nesnelerin izinlerini değiştirir"
+
+msgid "change_existing_objects"
+msgstr "değiştir Mevcut Nesneler"
+
+msgid "change_existing_objects_desc"
+msgstr "Bu rolün izin ayarlarını TÜM varolan nesneler adpoted edilecektir. Yalnızca belirli nesne türleri için izinleri değiştirmek istiyorsanız uygun nesne türü sağındaki onay kutularını tıklayın."
+
+msgid "change_existing_prefix"
+msgstr "değiştir Mevcut"
+
+msgid "change_existing_prefix_single"
+msgstr "Değiştir"
+
+#, fuzzy
+msgid "change_existing_suffix"
+msgstr "&nbsp;"
+
+#, fuzzy
+msgid "change_existing_suffix_single"
+msgstr "&nbsp;"
+
+#, fuzzy
+msgid "change_presentation"
+msgstr "Change Presentation"
+
+#, fuzzy
+msgid "chtr_delete"
+msgstr "User can move or delete course"
+
+msgid "chtr_edit_permission"
+msgstr "Kullanıcı Chatroom İzni Ayarları değiştirebilirsiniz"
+
+msgid "chtr_moderate"
+msgstr "Kullanıcı sohbet tartışma ılımlı olabilir"
+
+msgid "chtr_read"
+msgstr "Kullanıcı Chatroom de katılmak ve katılabilir"
+
+msgid "chtr_visible"
+msgstr "Chatroom görünür"
+
+msgid "chtr_write"
+msgstr "Kullanıcı Chatroom ve ban kullanıcıların ayarlarını düzenleyebilirsiniz"
+
+#, fuzzy
+msgid "cmis_edit_permission"
+msgstr "User can change permission settings of xAPI/cmi5 administration."
+
+#, fuzzy
+msgid "cmis_read"
+msgstr "User has read access to xAPI/cmi5 administration."
+
+#, fuzzy
+msgid "cmis_visible"
+msgstr "Administration of xAPI/cmi5 is visible."
+
+#, fuzzy
+msgid "cmis_write"
+msgstr "User can edit settings of xAPI/cmi5 administration."
+
+#, fuzzy
+msgid "cmix_copy"
+msgstr "User can copy xAPI/cmi5 Object"
+
+#, fuzzy
+msgid "cmix_delete"
+msgstr "User can move or delete xAPI/cmi5 Object"
+
+#, fuzzy
+msgid "cmix_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+#, fuzzy
+msgid "cmix_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "cmix_read"
+msgstr "User can see xAPI/cmi5 Object"
+
+#, fuzzy
+msgid "cmix_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+#, fuzzy
+msgid "cmix_read_outcomes"
+msgstr "User can see learning experiences and ranking of other users"
+
+#, fuzzy
+msgid "cmix_visible"
+msgstr "xAPI/cmi5 Object is visible"
+
+#, fuzzy
+msgid "cmix_write"
+msgstr "User can edit settings of xAPI/cmi5 Object"
+
+msgid "cmps_edit_permission"
+msgstr "Kullanıcı Plugins, Modüller ve Hizmetleri yönetiminin izin ayarlarını değiştirebilirsiniz"
+
+msgid "cmps_read"
+msgstr "Kullanıcı Plugins, Modüller ve Hizmetleri yönetim okuma erişimi"
+
+msgid "cmps_visible"
+msgstr "Eklentiler, Modüller ve Hizmetleri ayarlarını İdaresi görülebilir"
+
+msgid "cmps_write"
+msgstr "Kullanıcı Plugins, Modüller ve Hizmetleri ayarlarını düzenleyebilirsiniz"
+
+#, fuzzy
+msgid "coms_edit_permissions"
+msgstr "User can change permission settings of administration of Comments."
+
+#, fuzzy
+msgid "coms_read"
+msgstr "User has read access to administration of Comments."
+
+#, fuzzy
+msgid "coms_visible"
+msgstr "Administration of Comments is visible."
+
+#, fuzzy
+msgid "coms_write"
+msgstr "User can edit settings of administration of Comments."
+
+#, fuzzy
+msgid "condition_failed"
+msgstr "Failed"
+
+#, fuzzy
+msgid "condition_learning_progress"
+msgstr "Derive from Learning Progress"
+
+#, fuzzy
+msgid "condition_result_range_percentage"
+msgstr "Result Range"
+
+msgid "contribute"
+msgstr "Contribute"
+
+#, fuzzy
+msgid "copa_copy"
+msgstr "Copy Content Page"
+
+#, fuzzy
+msgid "copa_delete"
+msgstr "User can move or delete Content Page"
+
+#, fuzzy
+msgid "copa_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+#, fuzzy
+msgid "copa_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "copa_read"
+msgstr "User can read Content Page"
+
+#, fuzzy
+msgid "copa_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+#, fuzzy
+msgid "copa_visible"
+msgstr "Content Page is visible"
+
+#, fuzzy
+msgid "copa_write"
+msgstr "User can edit Content Page"
+
+#, fuzzy
+msgid "cpad_edit_permissions"
+msgstr "User can change permission settings of administration of Content Pages."
+
+#, fuzzy
+msgid "cpad_read"
+msgstr "User has read access to administration of Content Pages."
+
+#, fuzzy
+msgid "cpad_visible"
+msgstr "Administration of Content Pages is visible."
+
+#, fuzzy
+msgid "cpad_write"
+msgstr "User can edit settings of administration of Content Pages."
+
+msgid "crs_copy"
+msgstr "Kullanıcı kursu kopyalayabilirsiniz"
+
+msgid "crs_delete"
+msgstr "Kullanıcı kursu taşıyabilir veya silebilirsiniz"
+
+msgid "crs_edit_event"
+msgstr "Düzenleme Takvim Olayları"
+
+msgid "crs_edit_learning_progress"
+msgstr "Kullanıcı tabii üyelerinin öğrenme ilerleme görmek ve öğrenme ilerleme ayarlarını düzenleyebilirsiniz"
+
+msgid "crs_edit_permission"
+msgstr "Yetki Ayarlarını Değiştir"
+
+#, fuzzy
+msgid "crs_grade"
+msgstr "Grade Members of Course"
+
+msgid "crs_join"
+msgstr "Kullanıcı kursumuza katılabilirsiniz"
+
+msgid "crs_leave"
+msgstr "Kullanıcı dersten aboneliğinizi iptal edebilirsiniz"
+
+#, fuzzy
+msgid "crs_manage_members"
+msgstr "Manage Members of Course"
+
+#, fuzzy
+msgid "crs_news_add_news"
+msgstr "Add and edit own news entries in course"
+
+msgid "crs_read"
+msgstr "Kullanıcı ders okuma erişimi"
+
+#, fuzzy
+msgid "crs_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "crs_visible"
+msgstr "Dersin görünür"
+
+msgid "crs_write"
+msgstr "Kullanıcı kursu ayarları düzenleyebilir ve içeriği yönetebilir"
+
+msgid "crsr_copy"
+msgstr "Kullanıcı kursu başvuru kopyalayabilirsiniz"
+
+msgid "crsr_delete"
+msgstr "Kullanıcı kursu başvuru taşıyabilir veya silebilirsiniz"
+
+#, fuzzy
+msgid "crsr_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+msgid "crsr_edit_permission"
+msgstr "Yetki Ayarlarını Değiştir"
+
+#, fuzzy
+msgid "crsr_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "crsr_visible"
+msgstr "Dersin referans görünür"
+
+msgid "crsr_write"
+msgstr "Kullanıcı tabii referans ayarlarını düzenleyebilirsiniz"
+
+#, fuzzy
+msgid "crss_edit_permission"
+msgstr "User can change permission settings in Course administration"
+
+#, fuzzy
+msgid "crss_read"
+msgstr "User has read access to Course administration"
+
+#, fuzzy
+msgid "crss_visible"
+msgstr "Course administration is visible"
+
+#, fuzzy
+msgid "crss_write"
+msgstr "Edit settings in Course administration"
+
+msgid "dcl_add_entry"
+msgstr "Kullanıcı girdilerini eklemek / düzenlemek"
+
+msgid "dcl_copy"
+msgstr "Kullanıcı veri toplama kopyalayabilirsiniz"
+
+msgid "dcl_delete"
+msgstr "Kullanıcı veri toplama taşıyabilir veya silebilirsiniz"
+
+#, fuzzy
+msgid "dcl_edit_content"
+msgstr "Edit entries"
+
+msgid "dcl_edit_permission"
+msgstr "Kullanıcı izin ayarlarını değiştirebilir"
+
+msgid "dcl_read"
+msgstr "Veri Toplama için okuma erişimi"
+
+msgid "dcl_visible"
+msgstr "Veri Toplama görülebilir"
+
+msgid "dcl_write"
+msgstr "Kullanıcı ayarları ve veri toplama içeriğini düzenleyebilirsiniz"
+
+#, fuzzy
+msgid "delete_files"
+msgstr "Delete Files"
+
+#, fuzzy
+msgid "delete_folders"
+msgstr "Delete Folders"
+
+#, fuzzy
+msgid "delete_wiki_pages"
+msgstr "Delete Pages"
+
+#, fuzzy
+msgid "dpro_edit_permission"
+msgstr "User can change permission settings in the Declaration of Data Protected administration"
+
+#, fuzzy
+msgid "dpro_read"
+msgstr "User has read access to the Declaration of Data Protection administration"
+
+#, fuzzy
+msgid "dpro_visible"
+msgstr "Declaration of Data Protection administration is visible"
+
+#, fuzzy
+msgid "dpro_write"
+msgstr "Edit settings in the Declaration of Data Protection"
+
+#, fuzzy
+msgid "dshs_change_presentation"
+msgstr "Change presentation of dashboard view"
+
+#, fuzzy
+msgid "dshs_edit_permission"
+msgstr "User can change permission settings of Dashboard administration"
+
+#, fuzzy
+msgid "dshs_read"
+msgstr "User has read access to Dashboard administration"
+
+#, fuzzy
+msgid "dshs_visible"
+msgstr "Dashboard administration is visible"
+
+#, fuzzy
+msgid "dshs_write"
+msgstr "Edit settings of Dashboard administration"
+
+msgid "ecss_edit_permission"
+msgstr "Kullanıcı ECS idaresinin izin ayarlarını düzenleyebilirsiniz"
+
+msgid "ecss_read"
+msgstr "Kullanıcı genel ECS ayarlarını okuyabilir"
+
+msgid "ecss_visible"
+msgstr "EİS ayarlar görünür"
+
+msgid "ecss_write"
+msgstr "Kullanıcı ECS ayarlarını düzenleyebilirsiniz"
+
+msgid "edit_event"
+msgstr "Düzenleme Takvim"
+
+#, fuzzy
+msgid "edit_file"
+msgstr "Edit File"
+
+#, fuzzy
+msgid "edit_in_online_editor"
+msgstr "Open in online editor"
+
+msgid "edit_learning_progress"
+msgstr "Öğrenme Sürecini Düzenle"
+
+#, fuzzy
+msgid "edit_members"
+msgstr "Manage members"
+
+msgid "edit_permission"
+msgstr "İzinleri Değiştir"
+
+msgid "edit_roleassignment"
+msgstr "Düzenle rol ataması"
+
+#, fuzzy
+msgid "edit_submissions_grades"
+msgstr "Edit Submissions and Grades"
+
+#, fuzzy
+msgid "edit_userassignment"
+msgstr "Edit User Assignment"
+
+#, fuzzy
+msgid "edit_wiki_navigation"
+msgstr "Edit Navigation"
+
+msgid "exc_copy"
+msgstr "Kullanıcı egzersiz kopyalayabilirsiniz"
+
+msgid "exc_delete"
+msgstr "Kullanıcı egzersiz taşıyabilir veya silebilirsiniz"
+
+msgid "exc_edit_learning_progress"
+msgstr "Kullanıcı, diğer kullanıcıların öğrenme ilerleme görmek ve öğrenme ilerleme ayarlarını düzenleyebilirsiniz"
+
+msgid "exc_edit_permission"
+msgstr "Yetki Ayarlarını Değiştir"
+
+#, fuzzy
+msgid "exc_edit_submissions_grades"
+msgstr "User can edit submissions and grades"
+
+msgid "exc_read"
+msgstr "Kullanıcı egzersiz katılabilir"
+
+#, fuzzy
+msgid "exc_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "exc_visible"
+msgstr "Egzersiz görünür"
+
+msgid "exc_write"
+msgstr "Kullanıcı ayarları ve egzersiz atamaları düzenleyebilirsiniz"
+
+#, fuzzy
+msgid "excs_edit_permission"
+msgstr "User can change permission settings in Exercise administration"
+
+#, fuzzy
+msgid "excs_read"
+msgstr "User has read access to Exercise administration"
+
+#, fuzzy
+msgid "excs_visible"
+msgstr "Exercise administration is visible"
+
+#, fuzzy
+msgid "excs_write"
+msgstr "Edit settings in Exercise administration"
+
+msgid "export_member_data"
+msgstr "Kullanıcı Bilgisine Erişim"
+
+msgid "facs_edit_permission"
+msgstr "Kullanıcı Dosyaları ve Klasörleri yönetiminin izin ayarlarını değiştirebilirsiniz"
+
+msgid "facs_read"
+msgstr "Kullanıcı Dosyalar ve Klasörler yönetimi için okuma erişimi vardır"
+
+#, fuzzy
+msgid "facs_upload_blacklisted_files"
+msgstr "Upload indexed file types despite blacklist"
+
+msgid "facs_visible"
+msgstr "Dosya ve Klasörlerin İdaresi görülebilir"
+
+msgid "facs_write"
+msgstr "Kullanıcı Dosyalar ve Klasörler yönetimi ayarlarını düzenleyebilirsiniz"
+
+#, fuzzy
+msgid "feed_copy"
+msgstr "User can copy webfeed"
+
+msgid "feed_delete"
+msgstr "Kullanıcı web besleme taşıyabilir veya silebilirsiniz"
+
+msgid "feed_edit_permission"
+msgstr "Yetki Ayarlarını Değiştir"
+
+msgid "feed_read"
+msgstr "Kullanıcı web beslemesinin içeriğini okuyabilir"
+
+msgid "feed_write"
+msgstr "Kullanıcı web besleme ayarlarını düzenleyebilirsiniz"
+
+msgid "file_copy"
+msgstr "Kullanıcı dosyayı kopyalayabilirsiniz"
+
+msgid "file_delete"
+msgstr "Kullanıcı dosya taşıyabilir veya silebilirsiniz"
+
+#, fuzzy
+msgid "file_edit_file"
+msgstr "Allow to edit the file in an external editor, if available"
+
+#, fuzzy
+msgid "file_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+msgid "file_edit_permission"
+msgstr "Yetki Ayarlarını Değiştir"
+
+#, fuzzy
+msgid "file_file_view_content"
+msgstr "File content presented in browser (if WOPI is active)"
+
+#, fuzzy
+msgid "file_file_view_content_short"
+msgstr "Show Content"
+
+msgid "file_read"
+msgstr "Kullanıcı dosyayı indirebilirsiniz"
+
+#, fuzzy
+msgid "file_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "file_visible"
+msgstr "Dosya görülebilir"
+
+msgid "file_write"
+msgstr "Kullanıcı dosya ayarlarını düzenleyin ve dosyanın yeni sürümünü yükleyebilirsiniz"
+
+#, fuzzy
+msgid "files_visible"
+msgstr "Files Visible"
+
+#, fuzzy
+msgid "fils_edit_permissions"
+msgstr "User can change permission settings of File Services administration."
+
+#, fuzzy
+msgid "fils_read"
+msgstr "User has read access to File Services administration."
+
+#, fuzzy
+msgid "fils_visible"
+msgstr "Administration of File Services is visible."
+
+#, fuzzy
+msgid "fils_write"
+msgstr "User can edit and configure File Services."
+
+msgid "filter_all_roles"
+msgstr "Geçerli durumdaki tüm rolleri göster"
+
+msgid "filter_global_roles"
+msgstr "Sadece global rolleri göster"
+
+msgid "filter_local_roles"
+msgstr "Geçerli durumdaki sadece yerel rolleri göster"
+
+msgid "filter_local_roles_object"
+msgstr "Bu pozisyondaki sadece yerel rolleri göster"
+
+msgid "filter_roles_local_policy"
+msgstr "Bu pozisyondaki sadece yerel politikaları kullanan rolleri göster"
+
+msgid "fld_create_poll"
+msgstr "Oluştur Anket"
+
+msgid "fold_copy"
+msgstr "Kullanıcı klasöre kopyalayabilirsiniz"
+
+msgid "fold_delete"
+msgstr "Kullanıcı klasörü taşıyabilir veya silebilirsiniz"
+
+msgid "fold_edit_learning_progress"
+msgstr "Kullanıcı, diğer kullanıcıların öğrenme ilerleme görmek ve öğrenme ilerleme ayarlarını düzenleyebilirsiniz"
+
+msgid "fold_edit_permission"
+msgstr "Yetki Ayarlarını Değiştir"
+
+msgid "fold_read"
+msgstr "User klasörü için okuma erişimi vardır"
+
+#, fuzzy
+msgid "fold_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "fold_visible"
+msgstr "Klasör görünür"
+
+msgid "fold_write"
+msgstr "Kullanıcı klasör ayarlarını düzenlemek ve içeriği yönetebilir"
+
+#, fuzzy
+msgid "folders_create"
+msgstr "Create Folders"
+
+#, fuzzy
+msgid "folders_visible"
+msgstr "Folders Visible"
+
+msgid "frm_add_reply"
+msgstr "Kullanıcılar ilanıyla cevap veremezsiniz"
+
+msgid "frm_add_thread"
+msgstr "Kullanıcı, yeni bir konu ekleyebilirsiniz"
+
+msgid "frm_copy"
+msgstr "Kullanıcı forumu kopyalayabilirsiniz"
+
+msgid "frm_delete"
+msgstr "Kullanıcı forumu taşıyabilir veya silebilirsiniz"
+
+#, fuzzy
+msgid "frm_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+msgid "frm_edit_permission"
+msgstr "Yetki Ayarlarını Değiştir"
+
+msgid "frm_moderate_frm"
+msgstr "Kullanıcı ilanları, düzenleyebilir sansür ve silebilirsiniz"
+
+msgid "frm_read"
+msgstr "Kullanıcı forumun içeriğini okuyabilir"
+
+#, fuzzy
+msgid "frm_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "frm_visible"
+msgstr "Forum görünür"
+
+msgid "frm_write"
+msgstr "Kullanıcı forumu ayarları ve moderatörleri düzenleyebilirsiniz"
+
+msgid "frma_edit_permission"
+msgstr "Kullanıcı Forumu idaresinin izin ayarlarını değiştirebilirsiniz"
+
+msgid "frma_read"
+msgstr "Kullanıcı Forum Yönetimi okuma erişimi"
+
+msgid "frma_visible"
+msgstr "Forum Yönetimi görülebilir"
+
+msgid "frma_write"
+msgstr "Kullanıcı Forum Yönetimi ayarlarını düzenleyebilirsiniz"
+
+msgid "glo_copy"
+msgstr "Kullanıcı sözlüğü kopyalayabilirsiniz"
+
+msgid "glo_delete"
+msgstr "Kullanıcı sözlüğü taşıyabilir veya silebilirsiniz"
+
+#, fuzzy
+msgid "glo_edit_content"
+msgstr "User can edit content"
+
+msgid "glo_edit_permission"
+msgstr "Yetki Ayarlarını Değiştir"
+
+msgid "glo_read"
+msgstr "Kullanıcı sözlüğü içeriğini okuyabilir"
+
+msgid "glo_visible"
+msgstr "Sözlüğü görünür"
+
+msgid "glo_write"
+msgstr "Kullanıcı içeriği ve sözlük ayarlarını düzenleyebilirsiniz"
+
+msgid "grp_copy"
+msgstr "Kullanıcı grubu kopyalayabilirsiniz"
+
+msgid "grp_delete"
+msgstr "Kullanıcı grubu taşıyabilir veya silebilirsiniz"
+
+msgid "grp_edit_event"
+msgstr "Düzenleme Takvim Olayları"
+
+msgid "grp_edit_learning_progress"
+msgstr "Kullanıcı grubu üyelerinin öğrenme ilerleme görmek ve öğrenme ilerleme ayarlarını düzenleyebilirsiniz"
+
+msgid "grp_edit_permission"
+msgstr "Yetki Ayarlarını Değiştir"
+
+#, fuzzy
+msgid "grp_grade"
+msgstr "Grade Members of Group"
+
+msgid "grp_join"
+msgstr "Kullanıcı grubuna katılabilirsiniz"
+
+msgid "grp_leave"
+msgstr "Kullanıcı gruptan aboneliğinizi iptal edebilirsiniz"
+
+#, fuzzy
+msgid "grp_manage_members"
+msgstr "Manage Members of Group"
+
+#, fuzzy
+msgid "grp_news_add_news"
+msgstr "Add and edit own news entries in group"
+
+msgid "grp_read"
+msgstr "Kullanıcı grubu için okuma erişimi vardır"
+
+#, fuzzy
+msgid "grp_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "grp_visible"
+msgstr "Grubu görünür"
+
+msgid "grp_write"
+msgstr "Kullanıcı, grup ayarlarını düzenleyebilir ve içeriği yönetebilir"
+
+#, fuzzy
+msgid "grpr_copy"
+msgstr "User can copy group reference"
+
+#, fuzzy
+msgid "grpr_delete"
+msgstr "User can move or delete group reference"
+
+#, fuzzy
+msgid "grpr_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "grpr_visible"
+msgstr "Group reference is visible"
+
+#, fuzzy
+msgid "grpr_write"
+msgstr "User can edit settings of group reference"
+
+#, fuzzy
+msgid "grps_edit_permission"
+msgstr "User can change permission settings in Group administration"
+
+#, fuzzy
+msgid "grps_read"
+msgstr "User has read access to Group administration"
+
+#, fuzzy
+msgid "grps_visible"
+msgstr "Group administration is visible"
+
+#, fuzzy
+msgid "grps_write"
+msgstr "Edit settings in Group administration"
+
+msgid "hlps_edit_permission"
+msgstr "Kullanıcı Yardımı Sisteminin yönetim izinlerini değiştirebilirsiniz."
+
+msgid "hlps_read"
+msgstr "Kullanıcı Sistem yönetimi Yardım okuma erişimine sahiptir."
+
+msgid "hlps_visible"
+msgstr "Yardım Sistemi yönetiminin görülebilir."
+
+msgid "hlps_write"
+msgstr "Kullanıcı Yardımı Sisteminin ayarlarını düzenleyebilir ve yeni sürümlerini yükleyebilirsiniz"
+
+msgid "htlm_copy"
+msgstr "Kullanıcı HTML öğrenme modülü kopyalama"
+
+msgid "htlm_delete"
+msgstr "Kullanıcı HTML öğrenme modülü taşıyabilir veya silebilirsiniz"
+
+msgid "htlm_edit_learning_progress"
+msgstr "Kullanıcı, diğer kullanıcıların öğrenme ilerleme görmek ve öğrenme ilerleme ayarlarını düzenleyebilirsiniz"
+
+msgid "htlm_edit_permission"
+msgstr "Yetki Ayarlarını Değiştir"
+
+msgid "htlm_read"
+msgstr "Kullanıcı HTML öğrenme modülü okuyabilirsiniz"
+
+#, fuzzy
+msgid "htlm_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "htlm_visible"
+msgstr "HTML öğrenme modülü görünür"
+
+msgid "htlm_write"
+msgstr "Kullanıcı içeriği ve HTML öğrenme modülü ayarlarını düzenleyebilirsiniz"
+
+#, fuzzy
+msgid "iass_amend_grading"
+msgstr "Amend gradings in an Individual Assessment"
+
+#, fuzzy
+msgid "iass_copy"
+msgstr "Copy a Individual Assessment"
+
+#, fuzzy
+msgid "iass_delete"
+msgstr "Delete a Individual Assessment"
+
+#, fuzzy
+msgid "iass_edit_learning_progress"
+msgstr "Edit learning progress information of a Individual Assessment"
+
+#, fuzzy
+msgid "iass_edit_members"
+msgstr "Edit members of a Individual Assessment"
+
+#, fuzzy
+msgid "iass_edit_permission"
+msgstr "Edit permissions of a Individual Assessment"
+
+#, fuzzy
+msgid "iass_read"
+msgstr "Read content of a Individual Assessment"
+
+#, fuzzy
+msgid "iass_read_learning_progress"
+msgstr "View learning progress information of a Individual Assessment"
+
+#, fuzzy
+msgid "iass_visible"
+msgstr "Individual Assessment is visible"
+
+#, fuzzy
+msgid "iass_write"
+msgstr "Edit a Individual Assessment"
+
+#, fuzzy
+msgid "il_lti_global_role"
+msgstr "LTI User"
+
+#, fuzzy
+msgid "il_sess_participant"
+msgstr "Session Participant"
+
+#, fuzzy
+msgid "il_sess_status_closed"
+msgstr "Non-Participant Closed Session"
+
+#, fuzzy
+msgid "ilias_id"
+msgstr "ILIAS-ID"
+
+#, fuzzy
+msgid "impr_edit_permission"
+msgstr "User can change permission settings of Legal Notice administration"
+
+#, fuzzy
+msgid "impr_read"
+msgstr "User can read in Legal Notice administration"
+
+#, fuzzy
+msgid "impr_visible"
+msgstr "Administration of Legal Notice is visible"
+
+#, fuzzy
+msgid "impr_write"
+msgstr "User can edit content and settings of Legal Notice"
+
+msgid "info_user_view_changed"
+msgstr "Kullanıcı görünümü Değiştirildi"
+
+msgid "internal_mail"
+msgstr "Dahili Posta"
+
+msgid "invite"
+msgstr "Ankete davet"
+
+msgid "itgr_copy"
+msgstr "Kullanıcı madde grubu kopyalayabilirsiniz"
+
+msgid "itgr_delete"
+msgstr "Kullanıcı madde grubu taşıyabilir veya silebilirsiniz"
+
+msgid "itgr_edit_permission"
+msgstr "Kullanıcı izin ayarlarını değiştirebilir"
+
+msgid "itgr_read"
+msgstr "Kullanıcı madde grubu okuyabilir"
+
+#, fuzzy
+msgid "itgr_visible"
+msgstr "Item group is visible"
+
+msgid "itgr_write"
+msgstr "Kullanıcı içeriği ve ürün grubu ayarlarını düzenleyebilirsiniz"
+
+msgid "leave"
+msgstr "bırakın"
+
+#, fuzzy
+msgid "lhts_edit_permissions"
+msgstr "User can change permission settings of Learning History administration."
+
+#, fuzzy
+msgid "lhts_read"
+msgstr "User has read access to Learning History administration."
+
+#, fuzzy
+msgid "lhts_visible"
+msgstr "Administration of Learning History is visible."
+
+#, fuzzy
+msgid "lhts_write"
+msgstr "User can edit settings of Learning History administration."
+
+msgid "lm_copy"
+msgstr "Kullanıcı ILIAS öğrenme modülü kopyalama"
+
+msgid "lm_delete"
+msgstr "Kullanıcı ILIAS öğrenme modülü taşıyabilir veya silebilirsiniz"
+
+msgid "lm_edit_learning_progress"
+msgstr "Kullanıcı, diğer kullanıcıların öğrenme ilerleme görmek ve öğrenme ilerleme ayarlarını düzenleyebilirsiniz"
+
+msgid "lm_edit_permission"
+msgstr "Yetki Ayarlarını Değiştir"
+
+msgid "lm_read"
+msgstr "Kullanıcı ILIAS öğrenme modülü okuyabilirsiniz"
+
+#, fuzzy
+msgid "lm_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "lm_visible"
+msgstr "ILIAS Öğrenme Modülü görünür"
+
+msgid "lm_write"
+msgstr "Kullanıcı içeriği ve ILIAS öğrenme modülü ayarlarını düzenleyebilirsiniz"
+
+msgid "lngf_edit_permission"
+msgstr "Kullanıcı Dil idaresinin izin ayarlarını değiştirebilirsiniz"
+
+msgid "lngf_read"
+msgstr "Kullanıcı Dil yönetimi için okuma erişimi vardır"
+
+msgid "lngf_visible"
+msgstr "Dil idaresi görülebilir"
+
+msgid "lngf_write"
+msgstr "Kullanıcı Dil yönetiminde ayarlarını düzenleyebilir ve genişletilmiş dil bakım kullanabilirsiniz"
+
+#, fuzzy
+msgid "logs_edit_permission"
+msgstr "User can edit permission settings of Logging administration"
+
+#, fuzzy
+msgid "logs_read"
+msgstr "User can read general Logging settings"
+
+#, fuzzy
+msgid "logs_visible"
+msgstr "Logging settings are visible"
+
+#, fuzzy
+msgid "logs_write"
+msgstr "User can edit Logging settings"
+
+msgid "lp_other_users"
+msgstr "Diğer kullanıcıların öğrenme sürecine genel bakış"
+
+msgid "lrss_edit_permission"
+msgstr "Kullanıcı Kaynakları yönetiminin Öğrenme izin ayarlarını değiştirebilirsiniz"
+
+msgid "lrss_read"
+msgstr "Öğrenme Kaynakları yönetimi için okuma erişimi"
+
+msgid "lrss_visible"
+msgstr "Öğrenme Kaynakları İdaresi görülebilir"
+
+msgid "lrss_write"
+msgstr "Kullanıcı yönetiminde Öğrenme Kaynakları ayarlarını düzenleyebilirsiniz"
+
+#, fuzzy
+msgid "lso_copy"
+msgstr "User can copy Learning Sequence"
+
+#, fuzzy
+msgid "lso_delete"
+msgstr "User can delete Learning Sequence"
+
+#, fuzzy
+msgid "lso_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+#, fuzzy
+msgid "lso_edit_permission"
+msgstr "User can change permission settings of Learning Sequence"
+
+#, fuzzy
+msgid "lso_lp_other_users"
+msgstr "User can view learning progress of other users"
+
+#, fuzzy
+msgid "lso_manage_members"
+msgstr "Manage members of Learning Sequence"
+
+#, fuzzy
+msgid "lso_participate"
+msgstr "User can subscribe to a Learning Sequence"
+
+#, fuzzy
+msgid "lso_read"
+msgstr "Users can access the Learning Sequence"
+
+#, fuzzy
+msgid "lso_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+#, fuzzy
+msgid "lso_unparticipate"
+msgstr "User can unsubscribe from a Learning Sequence"
+
+#, fuzzy
+msgid "lso_visible"
+msgstr "Learning Sequence is visible"
+
+#, fuzzy
+msgid "lso_write"
+msgstr "User can edit settings of Learning Sequence"
+
+#, fuzzy
+msgid "lsos_edit_permission"
+msgstr "User can change permission settings of Learning Sequences administration."
+
+#, fuzzy
+msgid "lsos_read"
+msgstr "User has read access to Learning Sequences administration."
+
+#, fuzzy
+msgid "lsos_visible"
+msgstr "Administration of Learning Sequences is visible."
+
+#, fuzzy
+msgid "lsos_write"
+msgstr "User can edit settings of Learning Sequences administration."
+
+#, fuzzy
+msgid "lti_copy"
+msgstr "User can copy LTI consumer"
+
+#, fuzzy
+msgid "lti_delete"
+msgstr "User can move or delete LTI consumer"
+
+#, fuzzy
+msgid "lti_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+#, fuzzy
+msgid "lti_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "lti_read"
+msgstr "User can see LTI consumer"
+
+#, fuzzy
+msgid "lti_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+#, fuzzy
+msgid "lti_read_outcomes"
+msgstr "User can see learning experiences and ranking of other users"
+
+#, fuzzy
+msgid "lti_visible"
+msgstr "LTI consumer is visible"
+
+#, fuzzy
+msgid "lti_write"
+msgstr "User can edit settings of LTI consumer"
+
+#, fuzzy
+msgid "ltis_add_consume_provider"
+msgstr "User can add own provider settings for LTI consumer"
+
+#, fuzzy
+msgid "ltis_edit_permission"
+msgstr "User can change permission settings in LTI administration"
+
+#, fuzzy
+msgid "ltis_read"
+msgstr "User has read access to LTI administration "
+
+#, fuzzy
+msgid "ltis_release_objects"
+msgstr "User can release Objects for LTI Consumer"
+
+#, fuzzy
+msgid "ltis_visible"
+msgstr "LTI administration is visible"
+
+#, fuzzy
+msgid "ltis_write"
+msgstr "User can edit settings in LTI administration"
+
+msgid "mail_internal_mail"
+msgstr "Kullanıcı iç posta sistemi (ILIAS) kullanabilirsiniz"
+
+msgid "mail_mail_to_global_roles"
+msgstr "Kullanıcı küresel rollere postalar gönderebilirsiniz"
+
+msgid "mail_read"
+msgstr "Kullanıcı Posta idaresi okuma erişimi"
+
+msgid "mail_smtp_mail"
+msgstr "Kullanıcı dış adreslere SMTP başına e-posta gönderebilirsiniz"
+
+msgid "mail_to_global_roles"
+msgstr "Global Rollere E-Posta"
+
+msgid "mail_visible"
+msgstr "Posta idaresi görülebilir"
+
+msgid "mail_write"
+msgstr "Kullanıcı Posta idaresi ayarlarını düzenleyebilirsiniz"
+
+#, fuzzy
+msgid "manage_all_reservations"
+msgstr "Manage All Reservations"
+
+#, fuzzy
+msgid "manage_comp"
+msgstr "User can edit Competences"
+
+#, fuzzy
+msgid "manage_comp_temp"
+msgstr "User can edit Competence Templates"
+
+#, fuzzy
+msgid "manage_materials"
+msgstr "Manage Materials"
+
+#, fuzzy
+msgid "manage_own_reservations"
+msgstr "Manage Own Reservations"
+
+#, fuzzy
+msgid "manage_profiles"
+msgstr "User can edit Competence Profiles"
+
+msgid "mcst_copy"
+msgstr "Kullanıcı mediacast kopyalayabilirsiniz"
+
+msgid "mcst_delete"
+msgstr "Kullanıcı mediacast taşıyabilir veya silebilirsiniz"
+
+#, fuzzy
+msgid "mcst_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+msgid "mcst_edit_permission"
+msgstr "Yetki Ayarlarını Değiştir"
+
+msgid "mcst_read"
+msgstr "Kullanıcı mediacast okuyabilirsiniz"
+
+#, fuzzy
+msgid "mcst_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "mcst_visible"
+msgstr "Mediacast görünür"
+
+msgid "mcst_write"
+msgstr "Kullanıcı içeriği ve mediacast ayarlarını düzenleyebilirsiniz"
+
+msgid "mcts_edit_permission"
+msgstr "Kullanıcı Mediacast yönetiminde izin ayarlarını değiştirebilirsiniz"
+
+msgid "mcts_read"
+msgstr "Kullanıcı Mediacast yönetimi için okuma erişimi vardır"
+
+msgid "mcts_visible"
+msgstr "Mediacast yönetim görülebilir"
+
+msgid "mcts_write"
+msgstr "Kullanıcı Mediacast yönetiminde ayarlarını düzenleyebilirsiniz"
+
+msgid "mds_edit_permission"
+msgstr "Kullanıcı Meta yönetiminin izin ayarlarını değiştirebilirsiniz"
+
+msgid "mds_read"
+msgstr "Kullanıcı Meta yönetimi için okuma erişimi vardır"
+
+msgid "mds_visible"
+msgstr "Meta yönetimi görülebilir"
+
+msgid "mds_write"
+msgstr "Kullanıcı Meta yönetiminin ayarlarını düzenleyebilirsiniz"
+
+#, fuzzy
+msgid "mep_copy"
+msgstr "User can copy media pool"
+
+msgid "mep_delete"
+msgstr "Kullanıcı ortam havuzu taşıyabilir veya silebilirsiniz"
+
+msgid "mep_edit_permission"
+msgstr "Yetki Ayarlarını Değiştir"
+
+msgid "mep_read"
+msgstr "Kullanıcı ortam havuzuna erişim okuma ve medya nesneleri yeniden kullanabilirsiniz"
+
+msgid "mep_visible"
+msgstr "Medya havuzu görülebilir"
+
+msgid "mep_write"
+msgstr "Kullanıcı içerik ve ortam havuzunun ayarlarını düzenleyebilirsiniz"
+
+#, fuzzy
+msgid "mme_edit_permission"
+msgstr "User can change permission settings of Main Menu administration"
+
+#, fuzzy
+msgid "mme_read"
+msgstr "User has read access to administration of Main Menu"
+
+#, fuzzy
+msgid "mme_visible"
+msgstr "Administration of Main Menu is visible"
+
+#, fuzzy
+msgid "mme_write"
+msgstr "User can edit settings of Main Menu administration"
+
+msgid "mobs_edit_permission"
+msgstr "Kullanıcı Media Objects / Pools yönetiminde izin ayarlarını değiştirebilirsiniz"
+
+msgid "mobs_read"
+msgstr "Kullanıcı Media Objects / Pools yönetim okuma erişimi"
+
+msgid "mobs_visible"
+msgstr "Media Objects / Pools yönetim görülebilir"
+
+msgid "mobs_write"
+msgstr "Kullanıcı Media Objects / Pools yönetiminde ayarlarını düzenleyebilirsiniz"
+
+msgid "moderate"
+msgstr "Ilımlı"
+
+msgid "moderate_frm"
+msgstr "Ilımlı"
+
+#, fuzzy
+msgid "msg_anonymous_cannot_be_assigned"
+msgstr "Anonymous cannot be assigned to a role."
+
+msgid "msg_no_roles_of_type"
+msgstr "Seçilen filtre ayarı ile kullanılabilir rol yok"
+
+#, fuzzy
+msgid "news_add_news"
+msgstr "Add News"
+
+#, fuzzy
+msgid "no_corresponding_roles"
+msgstr "No corresponding roles could be found."
+
+#, fuzzy
+msgid "nots_edit_permission"
+msgstr "User can change permission settings of Notes administration."
+
+#, fuzzy
+msgid "nots_read"
+msgstr "User has read access to Notes administration."
+
+#, fuzzy
+msgid "nots_visible"
+msgstr "Administration of Notes is visible."
+
+#, fuzzy
+msgid "nots_write"
+msgstr "User can edit settings of Notes administration."
+
+msgid "nwss_edit_permission"
+msgstr "Kullanıcı Haber ve Web Beslemeleri yönetiminde izin ayarlarını değiştirebilirsiniz"
+
+msgid "nwss_read"
+msgstr "Kullanıcı ews ve Web Feeds yönetimi için okuma erişimi vardır"
+
+msgid "nwss_visible"
+msgstr "Haber ve Web Beslemeleri yönetim görülebilir"
+
+msgid "nwss_write"
+msgstr "Kullanıcı Haber ve Web Beslemeleri yönetiminde ayarlarını düzenleyebilirsiniz"
+
+#, fuzzy
+msgid "obj_skee"
+msgstr "Competence Tree"
+
+#, fuzzy
+msgid "org_op_access_results"
+msgstr "Access Results of Subordinated Users"
+
+#, fuzzy
+msgid "org_op_edit_submissions_grades"
+msgstr "Edit submissions of other users"
+
+#, fuzzy
+msgid "org_op_manage_participants"
+msgstr "Manage Subordinated Participants"
+
+#, fuzzy
+msgid "org_op_score_participants"
+msgstr "Score Subordinated Participants"
+
+#, fuzzy
+msgid "org_op_view_certificates"
+msgstr "View certificates of subordinated users"
+
+#, fuzzy
+msgid "org_op_view_competences"
+msgstr "View competences of subordinated users"
+
+#, fuzzy
+msgid "org_op_write_learning_progress"
+msgstr "Set learning Progress of Subordinate Users"
+
+#, fuzzy
+msgid "orgu_cat_administrate_users"
+msgstr "User can create and administrate local user accounts in this Organisational Unit"
+
+#, fuzzy
+msgid "orgu_copy"
+msgstr "Copy Organisational Unit"
+
+#, fuzzy
+msgid "orgu_delete"
+msgstr "User can move or delete Organisational Unit"
+
+#, fuzzy
+msgid "orgu_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "orgu_read"
+msgstr "User has read access to Organisational Unit"
+
+#, fuzzy
+msgid "orgu_read_users"
+msgstr "User can read local user accounts created in this Organisational Unit"
+
+#, fuzzy
+msgid "orgu_view_learning_progress"
+msgstr "View Learning Progress"
+
+#, fuzzy
+msgid "orgu_view_learning_progress_rec"
+msgstr "View Learning Progress of Unit incl. Subunits"
+
+#, fuzzy
+msgid "orgu_visible"
+msgstr "Organisational Unit is visible"
+
+#, fuzzy
+msgid "orgu_write"
+msgstr "User can edit settings of Organisational Unit"
+
+msgid "otpl_edit_permission"
+msgstr "Kullanıcı Nesnesi Şablonları yönetiminde izin ayarlarını değiştirebilirsiniz"
+
+msgid "otpl_read"
+msgstr "Kullanıcı Nesne Şablonlar yönetimi için okuma erişimi vardır"
+
+msgid "otpl_visible"
+msgstr "Nesne Şablonları İdaresi görülebilir"
+
+msgid "otpl_write"
+msgstr "Kullanıcı Nesne Şablonlar ayarlarını düzenleyebilirsiniz"
+
+msgid "perm_class_create"
+msgstr "Yeni Nesneler Oluştur"
+
+msgid "perm_class_create_desc"
+msgstr "Mevcut nesnenin altında oluşturulabilecek nesne tiplerini belirleyin"
+
+msgid "perm_class_object"
+msgstr "Özel İşlemler"
+
+msgid "perm_class_object_desc"
+msgstr "Nesne özel operasyonları"
+
+msgid "perm_global_role"
+msgstr "Global Rol"
+
+msgid "perm_local_role"
+msgstr "Yerel Rolü"
+
+msgid "perm_local_role_desc"
+msgstr "Bu rolü yerel akım nesne tanımlanan ve yerel politika karşılık edilir"
+
+msgid "perm_protected_global_role"
+msgstr "Korumalı Global Rol"
+
+msgid "perm_protected_local_role"
+msgstr "Korumalı Yerel Rolü"
+
+msgid "perm_role_path_info_created"
+msgstr "% 1 $ s \"% 2 $ s\" düzenlendi"
+
+msgid "perm_role_path_info_inheritance"
+msgstr "% 1 yerel ilkeyi kullanarak $ s \"% 2 $ s\""
+
+msgid "perm_use_local_policy"
+msgstr "kullanımlar yerel politika"
+
+msgid "perm_use_local_policy_desc"
+msgstr "Yerel ilkesi etkinse, geçerli nesne için farklı varsayılan izin ayarları tanımlayabilirsiniz."
+
+msgid "poll_copy"
+msgstr "Kullanıcı anket kopyalayabilirsiniz"
+
+msgid "poll_delete"
+msgstr "Kullanıcı anketi taşıyabilir veya silebilirsiniz"
+
+msgid "poll_edit_permission"
+msgstr "Kullanıcı izin ayarlarını değiştirebilir"
+
+msgid "poll_read"
+msgstr "Kullanıcı yoklamasına katılabilir"
+
+msgid "poll_visible"
+msgstr "Anket görünür"
+
+msgid "poll_write"
+msgstr "Kullanıcı anket ayarlarını ve içeriği düzenleyebilirsiniz"
+
+#, fuzzy
+msgid "positions_override_operations"
+msgstr "Override global Settings"
+
+msgid "precondition_not_obligatory_alt"
+msgstr "Önkoşul opsiyonel"
+
+msgid "precondition_num_obligatory"
+msgstr "Gerekli Materyal Sayısı"
+
+msgid "precondition_num_optional_info"
+msgstr "Bu önkoşulun yerine getirilmesi için gerekli olan minimum materyal sayısını giriniz."
+
+#, fuzzy
+msgid "precondition_number_of_required_materials_bigger_preconditions_number"
+msgstr "The number of required materials must be less than the total number of preconditions."
+
+#, fuzzy
+msgid "precondition_number_of_required_materials_lower_compulsory_items"
+msgstr "The number of required materials must be greater than the number of compulsory preconditions."
+
+#, fuzzy
+msgid "precondition_number_of_required_materials_lower_than_one"
+msgstr "The number of required materials must be at least 1."
+
+msgid "precondition_obligatory"
+msgstr "Zorunlu"
+
+msgid "precondition_obligatory_alt"
+msgstr "Önkoşul yerine getirilmelidir"
+
+msgid "precondition_obligatory_info"
+msgstr "Zorunlu önkoşullarını erişimi olması için, yerine getirilmelidir."
+
+msgid "precondition_obligatory_settings"
+msgstr "Önkoşul Ayarları"
+
+#, fuzzy
+msgid "precondition_operator_range_err_min_max"
+msgstr "The minimum value must be less than the maximum value."
+
+#, fuzzy
+msgid "precondition_operator_range_max"
+msgstr "Maximum Percentage"
+
+#, fuzzy
+msgid "precondition_operator_range_min"
+msgstr "Minimum Percentage"
+
+msgid "prfa_edit_permission"
+msgstr "Kullanıcı Portföy yönetiminin izin ayarlarını değiştirebilirsiniz"
+
+msgid "prfa_read"
+msgstr "Kullanıcı Portföy yönetimi için okuma erişimi vardır"
+
+msgid "prfa_visible"
+msgstr "Portföy yönetim görülebilir"
+
+msgid "prfa_write"
+msgstr "Kullanıcı Portföy yönetiminde ayarlarını düzenleyebilirsiniz"
+
+#, fuzzy
+msgid "prg_copy"
+msgstr "User can copy Study Programme"
+
+#, fuzzy
+msgid "prg_delete"
+msgstr "User can delete Study Programme"
+
+#, fuzzy
+msgid "prg_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "prg_manage_members"
+msgstr "Manage members of Study Programme"
+
+#, fuzzy
+msgid "prg_read"
+msgstr "User has read access to Study Programme"
+
+#, fuzzy
+msgid "prg_visible"
+msgstr "Study Programme is visible"
+
+#, fuzzy
+msgid "prg_write"
+msgstr "User can edit settings of Study Programme"
+
+#, fuzzy
+msgid "prgr_copy"
+msgstr "User can copy links to study programmes."
+
+#, fuzzy
+msgid "prgr_delete"
+msgstr "User can move or delete links to study programmes."
+
+#, fuzzy
+msgid "prgr_edit_permission"
+msgstr "User can change permission settings."
+
+#, fuzzy
+msgid "prgr_visible"
+msgstr "Links to study programmes are visible and can be used"
+
+#, fuzzy
+msgid "prgr_write"
+msgstr "User can edit settings of links to study programmes."
+
+#, fuzzy
+msgid "prgs_edit_permission"
+msgstr "Change permission settings in Study Programme administration"
+
+#, fuzzy
+msgid "prgs_read"
+msgstr "User has read access to Study Programme administration"
+
+#, fuzzy
+msgid "prgs_visible"
+msgstr "Study Programme administration is visible"
+
+#, fuzzy
+msgid "prgs_write"
+msgstr "Edit settings in Study Programme administration"
+
+#, fuzzy
+msgid "prss_edit_permission"
+msgstr "User can change permission settings of Personal Resources administration."
+
+#, fuzzy
+msgid "prss_read"
+msgstr "User has read access to Personal Resources administration."
+
+#, fuzzy
+msgid "prss_visible"
+msgstr "Administration of Personal Resources is visible."
+
+#, fuzzy
+msgid "prss_write"
+msgstr "User can edit settings of Personal Resources administration."
+
+#, fuzzy
+msgid "prtt_copy"
+msgstr "User can copy portfolio template"
+
+#, fuzzy
+msgid "prtt_delete"
+msgstr "User can move or delete portfolio template"
+
+#, fuzzy
+msgid "prtt_edit_permission"
+msgstr "User can change permission settings for portfolio template"
+
+#, fuzzy
+msgid "prtt_read"
+msgstr "User has read access to portfolio template"
+
+#, fuzzy
+msgid "prtt_visible"
+msgstr "Portfolio Template is visible"
+
+#, fuzzy
+msgid "prtt_write"
+msgstr "User can edit settings and content of portfolio template"
+
+msgid "ps_edit_permission"
+msgstr "Kullanıcı Gizlilik / Güvenlik idaresinin izin ayarlarını değiştirebilirsiniz"
+
+msgid "ps_export_member_data"
+msgstr "Kullanıcı kursları ve grup üye veri verebilirsiniz"
+
+msgid "ps_read"
+msgstr "Kullanıcı Gizlilik / Güvenlik yönetimi için okuma erişimi vardır"
+
+msgid "ps_visible"
+msgstr "Gizlilik / Güvenlik yönetimi görülebilir"
+
+msgid "ps_write"
+msgstr "Kullanıcı Gizlilik / Güvenlik yönetiminde ayarlarını düzenleyebilirsiniz"
+
+#, fuzzy
+msgid "push_desktop_items"
+msgstr "Recommend Content"
+
+msgid "qpl_copy"
+msgstr "Kullanıcı testler için soru havuzu kopyalayabilirsiniz"
+
+msgid "qpl_delete"
+msgstr "Kullanıcı soru havuzundan, taşıyabilir veya silebilirsiniz"
+
+msgid "qpl_edit_permission"
+msgstr "Yetki ayarlarını değiştir"
+
+msgid "qpl_read"
+msgstr "Kullanıcı havuzda test soruları okumak ve testler bunları ekleyebilirsiniz"
+
+msgid "qpl_visible"
+msgstr "Soru havuzu görülebilir"
+
+msgid "qpl_write"
+msgstr "Kullanıcı test soruları ve havuz ayarlarını düzenleyebilirsiniz"
+
+msgid "rbac_add_new_local_role"
+msgstr "Yeni Yerel Rol Ekle"
+
+#, fuzzy
+msgid "rbac_add_recommended_content"
+msgstr "Recommended Content"
+
+#, fuzzy
+msgid "rbac_add_recommended_content_info"
+msgstr "Adds the current object '%1' for all members of the role as recommended content."
+
+msgid "rbac_admin_permissions"
+msgstr "Yönetim İzinleri"
+
+msgid "rbac_auto_global"
+msgstr "Otomatik oluşturulan global rol"
+
+msgid "rbac_auto_local"
+msgstr "Otomatik oluşturulan yerel rolü"
+
+msgid "rbac_auto_rolt"
+msgstr "Otomatik oluşturulan rol şablonu"
+
+msgid "rbac_back_to_overview"
+msgstr "Rol Listesi dön"
+
+#, fuzzy
+msgid "rbac_cant_import_role_wrong_type"
+msgstr "Can't import a role from item %s into item %s."
+
+msgid "rbac_change_existing_confirm_tbl"
+msgstr "\"Değiştir Mevcut Nesneler\" için Ayarlar"
+
+msgid "rbac_change_existing_objects_desc_new_role"
+msgstr "Bu rolün izin ayarlarını TÜM varolan nesneler adpoted edilecektir."
+
+msgid "rbac_changes"
+msgstr "Değişiklikler"
+
+msgid "rbac_choose_copy_targets"
+msgstr "Hedef rolleri seçmek için bir sorgu girin."
+
+msgid "rbac_condition_delete_sure"
+msgstr "istiyorsanız, aşağıdaki koşulların silmek istediğinizden emin misiniz?"
+
+msgid "rbac_context_global"
+msgstr "Genel"
+
+msgid "rbac_copy_behaviour"
+msgstr "Rol Kopyalama Ayarları"
+
+#, fuzzy
+msgid "rbac_copy_behaviour_info"
+msgstr "Transfer Permissions from: %s to: %s"
+
+msgid "rbac_copy_finished"
+msgstr "kopyalama tamamlandı."
+
+#, fuzzy
+msgid "rbac_copy_multi_targets"
+msgstr "%s, %s and %s further Roles selected%s"
+
+#, fuzzy
+msgid "rbac_copy_no_targets"
+msgstr "At least one Role must be selected as Target"
+
+msgid "rbac_copy_role"
+msgstr "Kopyala Rolü"
+
+#, fuzzy
+msgid "rbac_copy_role_add_perm"
+msgstr "Add Permissions"
+
+#, fuzzy
+msgid "rbac_copy_role_copy"
+msgstr "Copy Permissions"
+
+#, fuzzy
+msgid "rbac_copy_role_remove_perm"
+msgstr "Remove Permissions"
+
+#, fuzzy
+msgid "rbac_create_bibl"
+msgstr "Create Bibliography"
+
+#, fuzzy
+msgid "rbac_create_blog"
+msgstr "Create Blog"
+
+#, fuzzy
+msgid "rbac_create_book"
+msgstr "Create Booking Pool"
+
+#, fuzzy
+msgid "rbac_create_cat"
+msgstr "Create Categories"
+
+#, fuzzy
+msgid "rbac_create_catr"
+msgstr "Create Category Reference"
+
+#, fuzzy
+msgid "rbac_create_chtr"
+msgstr "Create Chatroom"
+
+#, fuzzy
+msgid "rbac_create_cmix"
+msgstr "Create xAPI/cmi5 Object"
+
+#, fuzzy
+msgid "rbac_create_copa"
+msgstr "Create Content Page"
+
+#, fuzzy
+msgid "rbac_create_crs"
+msgstr "Create Course"
+
+#, fuzzy
+msgid "rbac_create_crsr"
+msgstr "Create Course Reference"
+
+#, fuzzy
+msgid "rbac_create_dcl"
+msgstr "Create Data Collection"
+
+#, fuzzy
+msgid "rbac_create_exc"
+msgstr "Create Exercise"
+
+#, fuzzy
+msgid "rbac_create_file"
+msgstr "Upload File"
+
+#, fuzzy
+msgid "rbac_create_fold"
+msgstr "Create Folder"
+
+#, fuzzy
+msgid "rbac_create_frm"
+msgstr "Create Forum"
+
+#, fuzzy
+msgid "rbac_create_glo"
+msgstr "Create Glossary"
+
+#, fuzzy
+msgid "rbac_create_grp"
+msgstr "Create Group"
+
+#, fuzzy
+msgid "rbac_create_grpr"
+msgstr "Create Group Reference"
+
+#, fuzzy
+msgid "rbac_create_htlm"
+msgstr "Create HTML Learning Module"
+
+#, fuzzy
+msgid "rbac_create_iass"
+msgstr "Create Individual Assessment"
+
+#, fuzzy
+msgid "rbac_create_itgr"
+msgstr "Create Item Group"
+
+#, fuzzy
+msgid "rbac_create_lm"
+msgstr "Create ILIAS Learning Module"
+
+#, fuzzy
+msgid "rbac_create_lso"
+msgstr "Create Learning Sequence"
+
+#, fuzzy
+msgid "rbac_create_lti"
+msgstr "Create LTI Consumer"
+
+#, fuzzy
+msgid "rbac_create_mcst"
+msgstr "Create Mediacast"
+
+#, fuzzy
+msgid "rbac_create_mep"
+msgstr "Create Media Pool"
+
+#, fuzzy
+msgid "rbac_create_orgu"
+msgstr "Create Organisational Units"
+
+#, fuzzy
+msgid "rbac_create_poll"
+msgstr "Create Poll"
+
+#, fuzzy
+msgid "rbac_create_prg"
+msgstr "Create Study Programme"
+
+#, fuzzy
+msgid "rbac_create_prgr"
+msgstr "Create link to study programme"
+
+#, fuzzy
+msgid "rbac_create_prtt"
+msgstr "Create Portfolio Template"
+
+#, fuzzy
+msgid "rbac_create_qpl"
+msgstr "Create Question Pool Test"
+
+#, fuzzy
+msgid "rbac_create_rcrs"
+msgstr "Create ECS Course "
+
+#, fuzzy
+msgid "rbac_create_role"
+msgstr "Create new Role"
+
+#, fuzzy
+msgid "rbac_create_rolt"
+msgstr "Create new Role Template"
+
+#, fuzzy
+msgid "rbac_create_sahs"
+msgstr "Create SCORM/AICC Learning Module"
+
+#, fuzzy
+msgid "rbac_create_sess"
+msgstr "Create Session"
+
+#, fuzzy
+msgid "rbac_create_skee"
+msgstr "Create Competence Tree"
+
+#, fuzzy
+msgid "rbac_create_spl"
+msgstr "Create Question Pool Survey"
+
+#, fuzzy
+msgid "rbac_create_svy"
+msgstr "Create Survey"
+
+#, fuzzy
+msgid "rbac_create_tst"
+msgstr "Create Test"
+
+#, fuzzy
+msgid "rbac_create_usr"
+msgstr "User is allowed to create user accounts"
+
+#, fuzzy
+msgid "rbac_create_webr"
+msgstr "Create Weblink"
+
+#, fuzzy
+msgid "rbac_create_wiki"
+msgstr "Create Wiki"
+
+msgid "rbac_delete_local_policies"
+msgstr "Yerel İlkeler sil"
+
+msgid "rbac_delete_local_policies_info"
+msgstr "Aktifse, bütün yerel politikalar silinecektir. Nesne izinleri yeniden ve korunacaktır."
+
+msgid "rbac_delete_role"
+msgstr "Sil Rolü"
+
+msgid "rbac_edit_condition"
+msgstr "Düzenle Önkoşul"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_button"
+msgstr "Rechte anpassen"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_type"
+msgstr "Typ der Rechteanpassung"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_type_add"
+msgstr "Rechte hinzufügen"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_type_add_info"
+msgstr "Fügt MARKIERTE Rechte der ausgewählten globalen Rollenvorlage zu den lokalen Rechtevorgabe hinzu."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_type_clone"
+msgstr "Rechte kopieren"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_type_clone_info"
+msgstr "Alle Rechte der ausgewählten globalen Rollenvorlage überschreiben alle lokalen Rechtevorgaben."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_type_remove"
+msgstr "Rechte entfernen"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_type_remove_info"
+msgstr "Entfernt die MARKIERTEN Rechte der ausgewählten globalen Rollenvorlage aus den lokalen Rechtevorgaben."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_add_no"
+msgstr "Vorhandene Objekte NICHT anpassen"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_add_no_info"
+msgstr "Vorhandene lokale Rechtevorgaben entsprechend ergänzt, die vorhandenen Objekte werden nicht in ihren Rechten angepasst."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_add_yes"
+msgstr "Vorhandene Objekte nur um ausgewählte Rechte ergänzen"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_add_yes_info"
+msgstr "Vorhandene lokale Rechtevorgaben und die Rechteeinstellungen vorhandener Objekte werden entsprechend ergänzt."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_clone_no"
+msgstr "Vorhandene Objekte NICHT anpassen"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_clone_no_info"
+msgstr "Vorhandene lokale Rechtevorgaben werden überschrieben, die vorhandenen Objekte werden nicht in ihren Rechten angepasst."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_clone_yes"
+msgstr "Vorhandene Objekte ändern"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_clone_yes_info"
+msgstr "Vorhandene lokale Rechtevorgaben entsprechend überschreiben und IN GÄNZE mit allen gecheckten und ungecheckten Vorgaben auf vorhandene Objekte angewendet."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_remove_no"
+msgstr "Vorhandene Objekte NICHT anpassen"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_remove_no_info"
+msgstr "Markierte Rechte werden aus vorhandenen lokalen Rechtevorgaben entfernt, die vorhandenen Objekte werden nicht in ihren Rechten angepasst."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_remove_yes"
+msgstr "Vorhandene Objekte nur um ausgewählte Rechte reduzieren"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_remove_yes_info"
+msgstr "Vorhandene lokale Rechtevorgaben und die Rechteeinstellungen vorhandener Objekte werden entsprechend reduziert."
+
+msgid "rbac_global_rolt"
+msgstr "Global Rol Şablonu"
+
+msgid "rbac_import_role"
+msgstr "Rol İçe Aktar"
+
+#, fuzzy
+msgid "rbac_info_only_position_access"
+msgstr "You are presented only with those members with a Position within your organisational unit. Members with other organisational Positions are not shown to you but may reside in this coures without being shown to you."
+
+msgid "rbac_keep_local_policies"
+msgstr "Yerel İlkeler tutun"
+
+msgid "rbac_keep_local_policies_info"
+msgstr "tüm yerel politikaların tutmak için bu modu seçin. Nesne izinleri bu politikaların adapte ve sonrasında korunacaktır."
+
+msgid "rbac_local_policies"
+msgstr "Yerel İlkeler"
+
+msgid "rbac_local_policy"
+msgstr "Yerel Politika"
+
+msgid "rbac_log"
+msgstr "Girişi"
+
+msgid "rbac_log_change_owner"
+msgstr "Object Sahibi Değiştir"
+
+msgid "rbac_log_changed_owner"
+msgstr "Değiştirilen Owner"
+
+msgid "rbac_log_copy_object"
+msgstr "Kopyala Object"
+
+msgid "rbac_log_create_object"
+msgstr "Create Object"
+
+msgid "rbac_log_edit_permissions"
+msgstr "İzinleri Düzenle"
+
+msgid "rbac_log_edit_template"
+msgstr "Düzenle Rol Şablonu"
+
+msgid "rbac_log_edit_template_existing"
+msgstr "Mevcut nesneler için kullanımlar Rol Şablonu"
+
+msgid "rbac_log_inheritance_add"
+msgstr "\"% s\" için Veraset Durduruldu"
+
+#, fuzzy
+msgid "rbac_log_inheritance_rmv"
+msgstr "Allowed Inheritance for \"%s\""
+
+msgid "rbac_log_link_object"
+msgstr "Bağlantı Nesnesi"
+
+msgid "rbac_log_move_object"
+msgstr "Taşı Nesne"
+
+msgid "rbac_log_operation_add"
+msgstr "\"% s\" için Operasyonu eklendi"
+
+#, fuzzy
+msgid "rbac_log_operation_rmv"
+msgstr "Removed Operation for \"%s\""
+
+msgid "rbac_log_source_object"
+msgstr "Kaynak nesne"
+
+msgid "rbac_msg_user_already_assigned"
+msgstr "seçilmiş kullanıcıların zaten bu rolü atanır."
+
+msgid "rbac_not_change_existing_objects"
+msgstr "varolan nesneleri değiştirmek ETMEYİN"
+
+#, fuzzy
+msgid "rbac_permissions"
+msgstr "Permissions"
+
+#, fuzzy
+msgid "rbac_precondition_condition"
+msgstr "Access requires having this status"
+
+#, fuzzy
+msgid "rbac_precondition_hide"
+msgstr "Hide Object"
+
+#, fuzzy
+msgid "rbac_precondition_hide_info"
+msgstr " This option allows to hide the object for users who currently have not fulfilled the preconditions. Therefore, all not accessible content is invisible."
+
+msgid "rbac_precondition_minimum_optional"
+msgstr "en az 2 önkoşulları isteğe kalmak zorunda."
+
+msgid "rbac_precondition_mode"
+msgstr "Modu"
+
+msgid "rbac_precondition_mode_all"
+msgstr "Tüm Önkoşullar"
+
+msgid "rbac_precondition_mode_all_info"
+msgstr "Erişim vermek için tüm önkoşulların yerine getirilmesi gerekir."
+
+msgid "rbac_precondition_mode_subset"
+msgstr "Önkoşulların Alt kümesi"
+
+msgid "rbac_precondition_mode_subset_info"
+msgstr "Erişim vermek için önkoşulların alt kümesi tüm koşulları sağlamalıdır. Bazı ön koşullar halen zorunlu olarak ayarlanmış olabilir."
+
+msgid "rbac_precondition_save_obligatory"
+msgstr "Zorunlu katılım"
+
+msgid "rbac_precondition_source"
+msgstr "Durum Tetik"
+
+msgid "rbac_precondition_target"
+msgstr "Durum sınırlarına erişmek"
+
+msgid "rbac_repository_permissions"
+msgstr "Deposu İzinler"
+
+msgid "rbac_role_delete_qst"
+msgstr "Aşağıdaki rolü silmek istediğinizden emin misiniz?<br /> bu rolü tarafından verilen tüm izinler kalıcı olarak silinecektir."
+
+msgid "rbac_role_delete_self"
+msgstr "<strong> Dikkat: </ strong> bu rolü atanır. Bu silme işlemi devam ederseniz, gevşek bazı ILIAS materyallere erişebilirsiniz."
+
+msgid "rbac_role_exists_alert"
+msgstr "Aynı adı taşıyan bir rolü zaten bu bağlamda var. Başka bir isim seçiniz."
+
+msgid "rbac_role_imported"
+msgstr "rolü ithal edilmiştir."
+
+msgid "rbac_role_rights_copy"
+msgstr "Kopyala İzinler"
+
+msgid "rbac_role_rights_copy_change_existing"
+msgstr "değiştir Mevcut Nesneler"
+
+msgid "rbac_role_rights_copy_empty"
+msgstr "Yok"
+
+msgid "rbac_role_selection"
+msgstr "Rolü Tip"
+
+msgid "rbac_role_title"
+msgstr "Rolü Başlık"
+
+msgid "rbac_select_copy_targets"
+msgstr "Hedef rolleri seçiniz"
+
+msgid "rbac_select_roles"
+msgstr "Role Selection"
+
+msgid "rbac_ud_global"
+msgstr "Kullanıcı tanımlı global rol"
+
+msgid "rbac_ud_local"
+msgstr "Kullanıcı yerel rolü tanımlı"
+
+msgid "rbac_ud_rolt"
+msgstr "Kullanıcı rolü şablonu tanımlı"
+
+msgid "rbac_unprotected_delete_local_policies_info"
+msgstr "Aktifse, bütün yerel politikalar silinecektir. Kurslar ve gruplarda İzinler yeni başlatıldı olacak."
+
+msgid "rbac_unprotected_keep_local_policies_info"
+msgstr "tüm yerel politikalar tutmak için bu modu seçin."
+
+#, fuzzy
+msgid "rbac_view_content"
+msgstr "View Content"
+
+msgid "rcat_delete"
+msgstr "Kullanıcı ECS Kategori taşıyabilir veya silebilirsiniz"
+
+msgid "rcat_edit_permission"
+msgstr "Kullanıcı izin ayarlarını değiştirebilir"
+
+msgid "rcat_read"
+msgstr "Kullanıcı ECS Kategori kullanabilirsiniz"
+
+msgid "rcat_visible"
+msgstr "ECS Kategori görülebilir"
+
+msgid "rcat_write"
+msgstr "Kullanıcı ECS Kategori ayarlarını düzenleyebilirsiniz"
+
+msgid "rcrs_delete"
+msgstr "Kullanıcı ECS Ders taşıyabilir veya silebilirsiniz"
+
+msgid "rcrs_edit_permission"
+msgstr "Yetki ayarlarını değiştir"
+
+msgid "rcrs_read"
+msgstr "Kullanıcı ECS Ders kullanabilirsiniz"
+
+msgid "rcrs_visible"
+msgstr "ECS Ders görülebilir"
+
+msgid "rcrs_write"
+msgstr "Kullanıcı ECS Dersin ayarlarını düzenleyebilirsiniz"
+
+#, fuzzy
+msgid "read_all_accounts"
+msgstr "Read All Accounts"
+
+#, fuzzy
+msgid "read_comp"
+msgstr "User has read access to Competences and Competence Templates"
+
+#, fuzzy
+msgid "read_learning_progress"
+msgstr "View learning progress of other users"
+
+#, fuzzy
+msgid "read_outcomes"
+msgstr "View learning experiences of other users"
+
+#, fuzzy
+msgid "read_profiles"
+msgstr "User has read access to Competence Profiles"
+
+#, fuzzy
+msgid "read_results"
+msgstr "Survey Results"
+
+msgid "read_users"
+msgstr "Yerel Kullanıcı Hesapları Erişim okuyun"
+
+msgid "recf_edit_permission"
+msgstr "Kullanıcı Restored Nesneler idaresinin izin ayarlarını değiştirebilirsiniz"
+
+msgid "recf_read"
+msgstr "Kullanıcı Restored Nesne yönetimi için okuma erişimi vardır"
+
+msgid "recf_visible"
+msgstr "Restored Nesne yönetimi görülebilir"
+
+msgid "recf_write"
+msgstr "Ayarları Düzenle ve restore Nesneler yönetiminde nesneleri geri"
+
+#, fuzzy
+msgid "redact"
+msgstr "Redact"
+
+#, fuzzy
+msgid "release_objects"
+msgstr "Release Objects"
+
+#, fuzzy
+msgid "reps_edit_permission"
+msgstr "User can change permission settings in Repository administration"
+
+#, fuzzy
+msgid "reps_read"
+msgstr "User has read access to Repository administration"
+
+#, fuzzy
+msgid "reps_visible"
+msgstr "Repository administration is visible"
+
+#, fuzzy
+msgid "reps_write"
+msgstr "Edit settings in Repository administration"
+
+msgid "rfil_delete"
+msgstr "Kullanıcı ECS Dosya taşıyabilir veya silebilirsiniz"
+
+msgid "rfil_edit_permission"
+msgstr "Kullanıcı izin ayarlarını değiştirebilir"
+
+msgid "rfil_read"
+msgstr "Kullanıcı ECS Dosya kullanabilirsiniz"
+
+msgid "rfil_visible"
+msgstr "ECS Dosya görülebilir"
+
+msgid "rfil_write"
+msgstr "Kullanıcı ECS Dosyasını ayarlarını düzenleyebilirsiniz"
+
+msgid "rglo_delete"
+msgstr "Kullanıcı ECS Sözlüğü taşıyabilir veya silebilirsiniz"
+
+msgid "rglo_edit_permission"
+msgstr "Kullanıcı izin ayarlarını değiştirebilir"
+
+msgid "rglo_read"
+msgstr "Kullanıcı ECS Sözlüğü kullanabilirsiniz"
+
+msgid "rglo_visible"
+msgstr "ECS Sözlüğü görülebilir"
+
+msgid "rglo_write"
+msgstr "Kullanıcı ECS Sözlüğü ayarlarını düzenleyebilirsiniz"
+
+msgid "rgrp_delete"
+msgstr "Kullanıcı ECS Grup taşıyabilir veya silebilirsiniz"
+
+msgid "rgrp_edit_permission"
+msgstr "Kullanıcı izin ayarlarını değiştirebilir"
+
+msgid "rgrp_read"
+msgstr "Kullanıcı ECS Grup kullanabilirsiniz"
+
+msgid "rgrp_visible"
+msgstr "ECS Grup görülebilir"
+
+msgid "rgrp_write"
+msgstr "Kullanıcı ECS Grubu ayarlarını düzenleyebilirsiniz"
+
+msgid "rlm_delete"
+msgstr "Kullanıcı ECS Öğrenim Modülü taşıyabilir veya silebilirsiniz"
+
+msgid "rlm_edit_permission"
+msgstr "Kullanıcı izin ayarlarını değiştirebilir"
+
+msgid "rlm_read"
+msgstr "Kullanıcı ECS Öğrenim Modülü kullanabilirsiniz"
+
+msgid "rlm_visible"
+msgstr "ECS Öğrenme Modülü görünür"
+
+msgid "rlm_write"
+msgstr "Kullanıcı ECS Öğrenim Modülünün ayarlarını düzenleyebilirsiniz"
+
+msgid "role_block_role"
+msgstr "Sayılı Blok Rolü"
+
+msgid "role_block_role_desc"
+msgstr "Bu ve tüm tali nesnelere erişim iptal edilecektir edilir."
+
+#, fuzzy
+msgid "role_blocked"
+msgstr ": <i>Role will be blocked</i>"
+
+#, fuzzy
+msgid "role_confirm_block_role"
+msgstr "Save Role Status"
+
+msgid "role_confirm_block_role_header"
+msgstr "gerçekten seçilen roller engellemek istiyor musunuz?"
+
+msgid "role_confirm_block_role_info"
+msgstr "aşağıdaki işlemler yapılır: <br /> <br /> - Bu rolü izinleri ve tüm tali nesneler bloke olacaktır <br /> - Yeni izin ayarları korunacaktır.."
+
+#, fuzzy
+msgid "role_confirm_unblock_role_info"
+msgstr "The following steps will be performed for the action \"Unblock Role\":<br /><br />- the local policy will be deleted."
+
+#, fuzzy
+msgid "role_unblocked"
+msgstr ": <i>Role will be unblocked</i>"
+
+msgid "root_edit_permission"
+msgstr "Yetki ayarlarını değiştir"
+
+msgid "root_read"
+msgstr "Ana Sayfa </ i> - Kullanıcı <i> Deposu okuma erişimi"
+
+msgid "root_visible"
+msgstr "<i> Deposu - Ana Sayfa </ i> görülebilir"
+
+msgid "root_write"
+msgstr "Kullanıcı <i> Deposu ayarlarını düzenleyebilirsiniz - Ana Sayfa </ i> ve içerik yönetmek"
+
+msgid "rtst_delete"
+msgstr "Kullanıcı ECS Testi taşıyabilir veya silebilirsiniz"
+
+msgid "rtst_edit_permission"
+msgstr "Kullanıcı izin ayarlarını değiştirebilir"
+
+msgid "rtst_read"
+msgstr "Kullanıcı ECS Testi kullanabilirsiniz"
+
+msgid "rtst_visible"
+msgstr "ECS Testi görülebilir"
+
+msgid "rtst_write"
+msgstr "Kullanıcı ECS Test ayarlarını düzenleyebilirsiniz"
+
+msgid "rwik_delete"
+msgstr "Kullanıcı ECS Wiki taşıyabilir veya silebilirsiniz"
+
+msgid "rwik_edit_permission"
+msgstr "Kullanıcı izin ayarlarını değiştirebilir"
+
+msgid "rwik_read"
+msgstr "Kullanıcı ECS Wiki kullanabilirsiniz"
+
+msgid "rwik_visible"
+msgstr "ECS Wiki görülebilir"
+
+msgid "rwik_write"
+msgstr "Kullanıcı ECS Wiki ayarlarını düzenleyebilirsiniz"
+
+msgid "sahs_copy"
+msgstr "Kullanıcı SCORM / AICC öğrenme modülü kopyalama"
+
+msgid "sahs_delete"
+msgstr "Kullanıcı SCORM / AICC öğrenme modülü taşıyabilir veya silebilirsiniz"
+
+msgid "sahs_edit_learning_progress"
+msgstr "Kullanıcı, diğer kullanıcıların öğrenme ilerleme görmek ve öğrenme ilerleme ayarlarını düzenleyebilirsiniz"
+
+msgid "sahs_edit_permission"
+msgstr "Yetki ayarlarını değiştir"
+
+msgid "sahs_read"
+msgstr "Kullanıcı SCORM / AICC öğrenme modülü okuyabilirsiniz"
+
+#, fuzzy
+msgid "sahs_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "sahs_visible"
+msgstr "SCORM / AICC öğrenme modülü görünür"
+
+msgid "sahs_write"
+msgstr "Kullanıcı içeriği ve SCORM / AICC öğrenme modülü ayarlarını düzenleyebilirsiniz"
+
+msgid "seas_edit_permission"
+msgstr "Kullanıcı izin ayarları veya Arama idaresi değiştirebilirsiniz"
+
+msgid "seas_read"
+msgstr "Kullanıcı Arama yönetimi için okuma erişimi vardır"
+
+msgid "seas_search"
+msgstr "ILIAS genel arama özelliğinin kullanılmasına izin ver"
+
+msgid "seas_visible"
+msgstr "Arama idaresi görülebilir"
+
+msgid "seas_write"
+msgstr "Arama yönetiminde Ayarları düzenle"
+
+msgid "sess_copy"
+msgstr "Kullanıcı oturumu kopyalayabilirsiniz"
+
+msgid "sess_delete"
+msgstr "Kullanıcı oturumu taşıyabilir veya silebilirsiniz"
+
+msgid "sess_edit_event"
+msgstr "Düzenleme Takvim Olayları"
+
+#, fuzzy
+msgid "sess_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+#, fuzzy
+msgid "sess_edit_metadata"
+msgstr "Edit Metadata"
+
+msgid "sess_edit_permission"
+msgstr "Yetki ayarlarını değiştir"
+
+#, fuzzy
+msgid "sess_manage_materials"
+msgstr "Manage Session Materials"
+
+#, fuzzy
+msgid "sess_manage_members"
+msgstr "Manage Participants of a Session"
+
+msgid "sess_read"
+msgstr "Kullanıcı oturumları için okuma erişimi vardır"
+
+#, fuzzy
+msgid "sess_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "sess_visible"
+msgstr "Oturumlar görebilir"
+
+msgid "sess_write"
+msgstr "Kullanıcı oturumu içeriğini ve ayarlarını düzenleyebilirsiniz"
+
+#, fuzzy
+msgid "skee_copy"
+msgstr "User can copy Competence Tree (currently not available)"
+
+#, fuzzy
+msgid "skee_delete"
+msgstr "User can delete Competence Tree"
+
+#, fuzzy
+msgid "skee_edit_permission"
+msgstr "User can change permission settings of Competence Tree administration"
+
+#, fuzzy
+msgid "skee_manage_comp"
+msgstr "User can edit Competences in Competence Tree"
+
+#, fuzzy
+msgid "skee_manage_comp_temp"
+msgstr "User can edit Competence Templates in Competence Tree"
+
+#, fuzzy
+msgid "skee_manage_profiles"
+msgstr "User can edit Competence Profiles in Competence Tree"
+
+#, fuzzy
+msgid "skee_read"
+msgstr "User has read access to administration of Competence Tree"
+
+#, fuzzy
+msgid "skee_read_comp"
+msgstr "User has read access to Competences and Competence Templates in Competence Tree"
+
+#, fuzzy
+msgid "skee_read_profiles"
+msgstr "User has read access to Competence Profiles in Competence Tree"
+
+#, fuzzy
+msgid "skee_visible"
+msgstr "Competence Tree is visible"
+
+#, fuzzy
+msgid "skee_write"
+msgstr "User can edit settings of Competence Tree"
+
+msgid "skmg_edit_permission"
+msgstr "Kullanıcı Yetkinlik Yönetimi idaresinin izin ayarlarını değiştirebilirsiniz"
+
+msgid "skmg_read"
+msgstr "Kullanıcı Yetkinlik Yönetimi idaresi okuma erişimi"
+
+msgid "skmg_visible"
+msgstr "Yetkinlik Yönetimi idaresi görülebilir"
+
+msgid "skmg_write"
+msgstr "Kullanıcı Yetkinlik Yönetimi ayarlarını düzenleyebilirsiniz"
+
+msgid "smtp_mail"
+msgstr "SMTP E-Posta"
+
+msgid "spl_copy"
+msgstr "Kullanıcı anketler için soru havuzu kopyalayabilirsiniz"
+
+msgid "spl_delete"
+msgstr "Kullanıcı soru havuzundan, taşıyabilir veya silebilirsiniz"
+
+msgid "spl_edit_permission"
+msgstr "Yetki ayarlarını değiştir"
+
+msgid "spl_read"
+msgstr "Kullanıcı havuzda anket soruları okumak ve araştırma onları ekleyebilirsiniz"
+
+msgid "spl_visible"
+msgstr "Soru havuzu görülebilir"
+
+msgid "spl_write"
+msgstr "Kullanıcı Anketi soruları ve havuz ayarlarını düzenleyebilirsiniz"
+
+#, fuzzy
+msgid "statistics_read"
+msgstr "View Statistics"
+
+#, fuzzy
+msgid "stus_edit_permission"
+msgstr "User can change permission settings in Shortlink administration"
+
+#, fuzzy
+msgid "stus_read"
+msgstr "User can see the Shortlink Administration"
+
+#, fuzzy
+msgid "stus_write"
+msgstr "User can edit Shortlinks"
+
+#, fuzzy
+msgid "sty_write_content"
+msgstr "Edit Content Styles"
+
+#, fuzzy
+msgid "sty_write_page_layout"
+msgstr "Edit Page Layouts"
+
+#, fuzzy
+msgid "sty_write_system"
+msgstr "Edit System Styles"
+
+msgid "stys_edit_permission"
+msgstr "Yetki ayarlarını değiştir"
+
+msgid "stys_read"
+msgstr "Stil ayarlarına okuma izni"
+
+#, fuzzy
+msgid "stys_sty_write_content"
+msgstr "Edit Content Styles"
+
+#, fuzzy
+msgid "stys_sty_write_custom"
+msgstr "Edit Content Styles"
+
+#, fuzzy
+msgid "stys_sty_write_page_layout"
+msgstr "Edit Page Layouts"
+
+#, fuzzy
+msgid "stys_sty_write_system"
+msgstr "Edit System Styles"
+
+msgid "stys_visible"
+msgstr "Düzeni ve Stilleri yönetim görülebilir"
+
+msgid "svy_copy"
+msgstr "Kullanıcı Anketi kopyalayabilirsiniz"
+
+msgid "svy_delete"
+msgstr "Kullanıcı Anketi taşıyabilir veya silebilirsiniz"
+
+#, fuzzy
+msgid "svy_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+msgid "svy_edit_permission"
+msgstr "Yetki ayarlarını değiştir"
+
+msgid "svy_invite"
+msgstr "Kullanıcı bir anket başkalarını davet edebilir"
+
+msgid "svy_read"
+msgstr "Kullanıcı bir anket de katılabilir"
+
+#, fuzzy
+msgid "svy_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+#, fuzzy
+msgid "svy_read_results"
+msgstr "User has access to survey results of others"
+
+msgid "svy_visible"
+msgstr "Anket görünür"
+
+msgid "svy_write"
+msgstr "Kullanıcı içeriği ve anketin ayarlarını düzenleyebilirsiniz"
+
+msgid "svyf_edit_permission"
+msgstr "Anket yönetiminde Kullanıcı değişimi izin ayarları"
+
+msgid "svyf_read"
+msgstr "Kullanıcı Anketi yönetimi için okuma erişimi vardır"
+
+msgid "svyf_visible"
+msgstr "Anket yönetimi görülebilir"
+
+msgid "svyf_write"
+msgstr "Anket yönetiminde Ayarları düzenle"
+
+#, fuzzy
+msgid "sysc_edit_permission"
+msgstr "User can change permissions of System Check."
+
+#, fuzzy
+msgid "sysc_read"
+msgstr "User has read access to System Check."
+
+#, fuzzy
+msgid "sysc_visible"
+msgstr "System Check is visible."
+
+#, fuzzy
+msgid "sysc_write"
+msgstr "User can execute System Check."
+
+msgid "tags_edit_permission"
+msgstr "Kullanıcı Etiketleme yönetiminde izin ayarlarını değiştirebilirsiniz"
+
+msgid "tags_read"
+msgstr "Kullanıcı Etiketleme yönetimi için okuma erişimi vardır"
+
+msgid "tags_visible"
+msgstr "Etiketleme yönetim görülebilir"
+
+msgid "tags_write"
+msgstr "Kullanıcı Etiketleme yönetiminde ayarlarını düzenleyebilirsiniz"
+
+#, fuzzy
+msgid "tala_edit_permission"
+msgstr "User can change permission settings in Talk Templates administration"
+
+#, fuzzy
+msgid "tala_read"
+msgstr "User has read access to Talk Templates administration"
+
+#, fuzzy
+msgid "tala_visible"
+msgstr "Talk Templates administration is visible"
+
+#, fuzzy
+msgid "tala_write"
+msgstr "User can create and edit Talk Templates"
+
+#, fuzzy
+msgid "taxs_edit_permission"
+msgstr "User can change permission settings in Taxonomy administration"
+
+#, fuzzy
+msgid "taxs_read"
+msgstr "User has read access to Taxonomy administration"
+
+#, fuzzy
+msgid "taxs_visible"
+msgstr "Taxonomy administration is visible"
+
+#, fuzzy
+msgid "taxs_write"
+msgstr "Edit settings in Taxonomy administration"
+
+#, fuzzy
+msgid "tos_edit_permission"
+msgstr "User can change permission settings in Terms of Service administration"
+
+#, fuzzy
+msgid "tos_read"
+msgstr "User has read access to Terms of Service administration"
+
+#, fuzzy
+msgid "tos_visible"
+msgstr "Terms of Service administration is visible"
+
+#, fuzzy
+msgid "tos_write"
+msgstr "Edit settings in Terms of Service administration"
+
+msgid "trac_delete"
+msgstr "Kullanıcı izleme verileri silebilirsiniz"
+
+msgid "trac_edit_permission"
+msgstr "İstatistik ve Öğrenme İlerleme idaresindeki değiştir izin ayarları"
+
+msgid "trac_lp_other_users"
+msgstr "Diğer kullanıcıların öğrenme sürecine genel bakış"
+
+msgid "trac_read"
+msgstr "Kullanıcı İstatistikleri ve Öğrenme İlerleme yönetimi için okuma erişimi vardır"
+
+msgid "trac_visible"
+msgstr "İstatistik ve Öğrenme İlerleme yönetim görülebilir"
+
+msgid "trac_write"
+msgstr "İstatistik ve Öğrenme İlerleme idaresindeki Ayarları düzenle"
+
+msgid "tst_copy"
+msgstr "Test Kopyalama"
+
+msgid "tst_delete"
+msgstr "Test Silme ve Taşıma"
+
+msgid "tst_edit_learning_progress"
+msgstr "Öğrenme süreci düzenleme"
+
+msgid "tst_edit_permission"
+msgstr "Yetki ayarlarını değiştir"
+
+msgid "tst_read"
+msgstr "Test olma"
+
+#, fuzzy
+msgid "tst_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+#, fuzzy
+msgid "tst_tst_history_read"
+msgstr "View History"
+
+#, fuzzy
+msgid "tst_tst_results"
+msgstr "User has access to test results"
+
+msgid "tst_visible"
+msgstr "Test görme"
+
+msgid "tst_write"
+msgstr "Kullanıcı içeriği ve test ayarlarını düzenleme"
+
+#, fuzzy
+msgid "upload_blacklisted_files"
+msgstr "Bypass blacklist"
+
+msgid "usrf_delete"
+msgstr "Kullanıcı kullanıcı hesaplarını silebilirsiniz"
+
+msgid "usrf_edit_permission"
+msgstr "Kullanıcı Kullanıcı yönetiminde izin ayarlarını değiştirebilirsiniz"
+
+msgid "usrf_edit_roleassignment"
+msgstr "Kullanıcı kullanıcı hesabının rolünü atamasını değiştirebilirsiniz"
+
+msgid "usrf_push_desktop_items"
+msgstr "Kullanıcı kişisel desktop.of rol üyeleri öğeleri itmek için izin verilir"
+
+msgid "usrf_read"
+msgstr "Kullanıcı Kullanıcı yönetimi için okuma erişimi vardır"
+
+#, fuzzy
+msgid "usrf_read_all_accounts"
+msgstr "User can list all accounts in User administration"
+
+msgid "usrf_read_users"
+msgstr "Kullanıcı yerel kullanıcı hesapları (yerel yöneticiler) okuma erişimi"
+
+msgid "usrf_visible"
+msgstr "Kullanıcı yönetimi görülebilir"
+
+msgid "usrf_write"
+msgstr "Kullanıcı yönetiminde Ayarları düzenle"
+
+#, fuzzy
+msgid "wbdv_edit_permission"
+msgstr "User can change permission settings of WebDAV administration."
+
+#, fuzzy
+msgid "wbdv_read"
+msgstr "User has read access to WebDAV administration."
+
+#, fuzzy
+msgid "wbdv_visible"
+msgstr "Administration of WebDAV is visible."
+
+#, fuzzy
+msgid "wbdv_write"
+msgstr "User can edit settings of WebDAV administration."
+
+#, fuzzy
+msgid "wbrs_edit_permission"
+msgstr "User can change permission settings in Weblink administration"
+
+#, fuzzy
+msgid "wbrs_read"
+msgstr "User has read access to Weblink administration"
+
+#, fuzzy
+msgid "wbrs_visible"
+msgstr "Weblink administration is visible"
+
+#, fuzzy
+msgid "wbrs_write"
+msgstr "Edit settings in Weblink administration"
+
+msgid "webr_copy"
+msgstr "Kullanıcı weblink kopyalayabilirsiniz"
+
+msgid "webr_delete"
+msgstr "Kullanıcı weblink taşıyabilir veya silebilirsiniz"
+
+msgid "webr_edit_permission"
+msgstr "Yetki ayarlarını değiştir"
+
+msgid "webr_read"
+msgstr "Kullanıcı weblinks okuyabilir ve kullanabilir"
+
+msgid "webr_visible"
+msgstr "Weblink görünür"
+
+msgid "webr_write"
+msgstr "Kullanıcı weblinks ayarlarını düzenleyebilirsiniz"
+
+#, fuzzy
+msgid "wiki_activate_wiki_protection"
+msgstr "Set Wiki Pages to Read-Only"
+
+#, fuzzy
+msgid "wiki_add_pages"
+msgstr "User can create wiki pages"
+
+msgid "wiki_copy"
+msgstr "Kullanıcı wiki kopyalayabilirsiniz"
+
+msgid "wiki_delete"
+msgstr "Kullanıcı wiki taşıyabilir veya silebilirsiniz"
+
+#, fuzzy
+msgid "wiki_delete_wiki_pages"
+msgstr "Delete Wiki Pages"
+
+msgid "wiki_edit_content"
+msgstr "Kullanıcı wiki sayfaları oluşturabilir ve düzenleyebilir"
+
+#, fuzzy
+msgid "wiki_edit_page_meta"
+msgstr "Edit Wiki Page Metadata"
+
+msgid "wiki_edit_permission"
+msgstr "Yetki ayarlarını değiştir"
+
+#, fuzzy
+msgid "wiki_edit_wiki_navigation"
+msgstr "Edit Wiki Navigation"
+
+#, fuzzy
+msgid "wiki_html_export"
+msgstr "Export HTML"
+
+msgid "wiki_read"
+msgstr "Kullanıcı wiki içeriği okuyabilir"
+
+#, fuzzy
+msgid "wiki_statistics_read"
+msgstr "View Statistics"
+
+msgid "wiki_visible"
+msgstr "Wiki görünür"
+
+#, fuzzy
+msgid "wiki_wiki_html_export"
+msgstr "Export Wiki as HTML"
+
+msgid "wiki_write"
+msgstr "Kullanıcı wiki ayarlarını düzenleyebilirsiniz"
+
+#, fuzzy
+msgid "wiks_edit_permission"
+msgstr "User can change permission settings in Wiki administration"
+
+#, fuzzy
+msgid "wiks_read"
+msgstr "User has read access to Wiki administration"
+
+#, fuzzy
+msgid "wiks_visible"
+msgstr "Wiki administration is visible"
+
+#, fuzzy
+msgid "wiks_write"
+msgstr "Edit settings in Wiki administration"
+
+msgid "write"
+msgstr "Ayarları Düzenle"

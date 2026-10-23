@@ -1,0 +1,585 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: wiki\n"
+
+msgid "wiki_activate_extended_rating"
+msgstr ""
+
+msgid "wiki_activate_new_page_rating"
+msgstr ""
+
+msgid "wiki_activate_page_rating"
+msgstr ""
+
+msgid "wiki_activate_rating"
+msgstr ""
+
+msgid "wiki_add_link"
+msgstr ""
+
+msgid "wiki_add_template"
+msgstr ""
+
+msgid "wiki_advmd_block_title"
+msgstr ""
+
+msgid "wiki_all_pages"
+msgstr ""
+
+msgid "wiki_block_page"
+msgstr ""
+
+msgid "wiki_change_notification_body_new"
+msgstr ""
+
+msgid "wiki_change_notification_link"
+msgstr ""
+
+msgid "wiki_change_notification_page_body_comment"
+msgstr ""
+
+msgid "wiki_change_notification_page_body_delete"
+msgstr ""
+
+msgid "wiki_change_notification_page_body_update"
+msgstr ""
+
+msgid "wiki_change_notification_page_link"
+msgstr ""
+
+msgid "wiki_change_notification_salutation"
+msgstr ""
+
+msgid "wiki_change_notification_subject"
+msgstr ""
+
+msgid "wiki_changed_by"
+msgstr ""
+
+msgid "wiki_comment"
+msgstr ""
+
+msgid "wiki_comment_for_learner"
+msgstr ""
+
+msgid "wiki_commented_by"
+msgstr ""
+
+msgid "wiki_contributor"
+msgstr ""
+
+msgid "wiki_contributors"
+msgstr ""
+
+msgid "wiki_copy"
+msgstr ""
+
+msgid "wiki_create_page"
+msgstr ""
+
+msgid "wiki_created_by"
+msgstr ""
+
+msgid "wiki_deactivate_page_rating"
+msgstr ""
+
+msgid "wiki_delete_page"
+msgstr ""
+
+msgid "wiki_download_submission"
+msgstr ""
+
+msgid "wiki_empty_page"
+msgstr ""
+
+msgid "wiki_empty_page_template"
+msgstr ""
+
+msgid "wiki_exc_template"
+msgstr ""
+
+msgid "wiki_exc_wiki_created"
+msgstr ""
+
+msgid "wiki_exercise_info"
+msgstr ""
+
+msgid "wiki_exercise_submitted_info"
+msgstr ""
+
+msgid "wiki_failed"
+msgstr ""
+
+msgid "wiki_feedback_from_tutor"
+msgstr ""
+
+msgid "wiki_finalize_wiki"
+msgstr ""
+
+msgid "wiki_finalized"
+msgstr ""
+
+msgid "wiki_functions"
+msgstr ""
+
+msgid "wiki_general_settings"
+msgstr ""
+
+msgid "wiki_grading"
+msgstr ""
+
+msgid "wiki_html_export"
+msgstr ""
+
+msgid "wiki_imp_page_added"
+msgstr ""
+
+msgid "wiki_import"
+msgstr ""
+
+msgid "wiki_incl_comments"
+msgstr ""
+
+msgid "wiki_indentation"
+msgstr ""
+
+msgid "wiki_introduction"
+msgstr ""
+
+msgid "wiki_last_changed"
+msgstr ""
+
+msgid "wiki_last_changed_by"
+msgstr ""
+
+msgid "wiki_last_edited"
+msgstr ""
+
+msgid "wiki_last_visited_page"
+msgstr ""
+
+msgid "wiki_link_md_values"
+msgstr ""
+
+msgid "wiki_link_md_values_info"
+msgstr ""
+
+msgid "wiki_link_text"
+msgstr ""
+
+msgid "wiki_mark"
+msgstr ""
+
+msgid "wiki_master_existing"
+msgstr ""
+
+msgid "wiki_master_title"
+msgstr ""
+
+msgid "wiki_navigation"
+msgstr ""
+
+msgid "wiki_navigation_info"
+msgstr ""
+
+msgid "wiki_new_page"
+msgstr ""
+
+msgid "wiki_new_page_name"
+msgstr ""
+
+msgid "wiki_new_pages"
+msgstr ""
+
+msgid "wiki_news_page_changed"
+msgstr ""
+
+msgid "wiki_news_page_created"
+msgstr ""
+
+msgid "wiki_no_master"
+msgstr ""
+
+msgid "wiki_no_page_found"
+msgstr ""
+
+msgid "wiki_no_search_term"
+msgstr ""
+
+msgid "wiki_no_start_page"
+msgstr ""
+
+msgid "wiki_not_existing"
+msgstr ""
+
+msgid "wiki_notgraded"
+msgstr ""
+
+msgid "wiki_notification_activate_page"
+msgstr ""
+
+msgid "wiki_notification_activate_wiki"
+msgstr ""
+
+msgid "wiki_notification_activated"
+msgstr ""
+
+msgid "wiki_notification_comment"
+msgstr ""
+
+msgid "wiki_notification_comment_subject"
+msgstr ""
+
+msgid "wiki_notification_deactivate_page"
+msgstr ""
+
+msgid "wiki_notification_deactivate_wiki"
+msgstr ""
+
+msgid "wiki_notification_deactivated"
+msgstr ""
+
+msgid "wiki_number_users_notes_or_comments"
+msgstr ""
+
+msgid "wiki_ordering"
+msgstr ""
+
+msgid "wiki_ordering_and_indent_saved"
+msgstr ""
+
+msgid "wiki_orphaned_pages"
+msgstr ""
+
+msgid "wiki_other_pages_linking"
+msgstr ""
+
+msgid "wiki_page"
+msgstr ""
+
+msgid "wiki_page_actions"
+msgstr ""
+
+msgid "wiki_page_already_exists"
+msgstr ""
+
+msgid "wiki_page_blocked"
+msgstr ""
+
+msgid "wiki_page_changes"
+msgstr ""
+
+msgid "wiki_page_deleted"
+msgstr ""
+
+msgid "wiki_page_deletion_confirmation"
+msgstr ""
+
+msgid "wiki_page_exists"
+msgstr ""
+
+msgid "wiki_page_hits"
+msgstr ""
+
+msgid "wiki_page_in_master_language"
+msgstr ""
+
+msgid "wiki_page_list_form_info"
+msgstr ""
+
+msgid "wiki_page_list_mode"
+msgstr ""
+
+msgid "wiki_page_list_mode_ordered"
+msgstr ""
+
+msgid "wiki_page_list_mode_unordered"
+msgstr ""
+
+msgid "wiki_page_lists"
+msgstr ""
+
+msgid "wiki_page_not_exist_select_templ"
+msgstr ""
+
+msgid "wiki_page_notification_activated"
+msgstr ""
+
+msgid "wiki_page_status_blocked"
+msgstr ""
+
+msgid "wiki_page_template"
+msgstr ""
+
+msgid "wiki_page_templates"
+msgstr ""
+
+msgid "wiki_page_title_too_long"
+msgstr ""
+
+msgid "wiki_page_toc"
+msgstr ""
+
+msgid "wiki_page_toc_info"
+msgstr ""
+
+msgid "wiki_page_type_wpg"
+msgstr ""
+
+msgid "wiki_page_unblocked"
+msgstr ""
+
+msgid "wiki_pages"
+msgstr ""
+
+msgid "wiki_pages_found"
+msgstr ""
+
+msgid "wiki_passed"
+msgstr ""
+
+msgid "wiki_pg_list_no_search_fields"
+msgstr ""
+
+msgid "wiki_please_enter_search_term"
+msgstr ""
+
+msgid "wiki_popular_pages"
+msgstr ""
+
+msgid "wiki_print_view"
+msgstr ""
+
+msgid "wiki_public_comments"
+msgstr ""
+
+msgid "wiki_purpose"
+msgstr ""
+
+msgid "wiki_quick_navigation"
+msgstr ""
+
+msgid "wiki_rate_overall"
+msgstr ""
+
+msgid "wiki_rate_page"
+msgstr ""
+
+msgid "wiki_recent_changes"
+msgstr ""
+
+msgid "wiki_remove_template_status"
+msgstr ""
+
+msgid "wiki_removed_imp_pages"
+msgstr ""
+
+msgid "wiki_rename"
+msgstr ""
+
+msgid "wiki_rename_page"
+msgstr ""
+
+msgid "wiki_save_ordering_and_indent"
+msgstr ""
+
+msgid "wiki_search"
+msgstr ""
+
+msgid "wiki_search_results"
+msgstr ""
+
+msgid "wiki_sec_protect_info"
+msgstr ""
+
+msgid "wiki_select_one_item"
+msgstr ""
+
+msgid "wiki_selected_pages"
+msgstr ""
+
+msgid "wiki_set_as_start_page"
+msgstr ""
+
+msgid "wiki_settings"
+msgstr ""
+
+msgid "wiki_short_title_already_in_use"
+msgstr ""
+
+msgid "wiki_show_pdf_export"
+msgstr ""
+
+msgid "wiki_show_print_view"
+msgstr ""
+
+msgid "wiki_start_page"
+msgstr ""
+
+msgid "wiki_start_page_info"
+msgstr ""
+
+msgid "wiki_stat_chars"
+msgstr ""
+
+msgid "wiki_stat_chars_avg"
+msgstr ""
+
+msgid "wiki_stat_deleted_pages"
+msgstr ""
+
+msgid "wiki_stat_edit_pages"
+msgstr ""
+
+msgid "wiki_stat_edit_pages_avg"
+msgstr ""
+
+msgid "wiki_stat_external_links"
+msgstr ""
+
+msgid "wiki_stat_external_links_avg"
+msgstr ""
+
+msgid "wiki_stat_figure"
+msgstr ""
+
+msgid "wiki_stat_footnotes"
+msgstr ""
+
+msgid "wiki_stat_footnotes_avg"
+msgstr ""
+
+msgid "wiki_stat_internal_links"
+msgstr ""
+
+msgid "wiki_stat_internal_links_avg"
+msgstr ""
+
+msgid "wiki_stat_new_pages"
+msgstr ""
+
+msgid "wiki_stat_new_pages_avg"
+msgstr ""
+
+msgid "wiki_stat_num_pages"
+msgstr ""
+
+msgid "wiki_stat_num_rating"
+msgstr ""
+
+msgid "wiki_stat_num_rating_avg"
+msgstr ""
+
+msgid "wiki_stat_page_changes"
+msgstr ""
+
+msgid "wiki_stat_page_changes_avg"
+msgstr ""
+
+msgid "wiki_stat_page_characters"
+msgstr ""
+
+msgid "wiki_stat_page_external_links"
+msgstr ""
+
+msgid "wiki_stat_page_footnotes"
+msgstr ""
+
+msgid "wiki_stat_page_internal_links"
+msgstr ""
+
+msgid "wiki_stat_page_ratings"
+msgstr ""
+
+msgid "wiki_stat_page_read"
+msgstr ""
+
+msgid "wiki_stat_page_user_edit"
+msgstr ""
+
+msgid "wiki_stat_page_words"
+msgstr ""
+
+msgid "wiki_stat_rating_avg"
+msgstr ""
+
+msgid "wiki_stat_read_pages"
+msgstr ""
+
+msgid "wiki_stat_scope"
+msgstr ""
+
+msgid "wiki_stat_user_edit_pages"
+msgstr ""
+
+msgid "wiki_stat_user_edit_pages_avg"
+msgstr ""
+
+msgid "wiki_stat_words"
+msgstr ""
+
+msgid "wiki_stat_words_avg"
+msgstr ""
+
+msgid "wiki_style"
+msgstr ""
+
+msgid "wiki_sure_remove_imp_pages"
+msgstr ""
+
+msgid "wiki_target_page"
+msgstr ""
+
+msgid "wiki_team_members"
+msgstr ""
+
+msgid "wiki_templ_add_to_page"
+msgstr ""
+
+msgid "wiki_templ_new_pages"
+msgstr ""
+
+msgid "wiki_template_added"
+msgstr ""
+
+msgid "wiki_template_status_removed"
+msgstr ""
+
+msgid "wiki_translate_page_master_info"
+msgstr ""
+
+msgid "wiki_translation_page"
+msgstr ""
+
+msgid "wiki_translations"
+msgstr ""
+
+msgid "wiki_type_wiki_team"
+msgstr ""
+
+msgid "wiki_unblock_page"
+msgstr ""
+
+msgid "wiki_unhide_meta_adv_records"
+msgstr ""
+
+msgid "wiki_what_links_here"
+msgstr ""
+
+msgid "wiki_what_links_to_page"
+msgstr ""
+
+msgid "wiki_whole_wiki"
+msgstr ""
+
+msgid "wiki_wiki_page"
+msgstr ""
+
+msgid "wiki_wiki_search"
+msgstr ""
+
+msgid "wiki_wpg"
+msgstr ""

@@ -1,0 +1,72 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: notifications_adm\n"
+
+msgid "available_providers"
+msgstr "Elérhető szolgáltatók"
+
+msgid "client_settings"
+msgstr "Kliens beállításai"
+
+msgid "enable_osd"
+msgstr "Képernyő-értesítések bekapcsolása"
+
+msgid "enable_osd_desc"
+msgstr "A felhasználók értesítése felugró ablakban."
+
+msgid "enable_push"
+msgstr "Push értesítések bekapcsolása"
+
+msgid "enable_push_desc"
+msgstr "Ha be van kapcsolva, a felhasználók push értesítéseket kapnak. A felhasználó ezt a saját felhasználói beállításaiban módosíthatja."
+
+msgid "notification_settings"
+msgstr "Értesítés beállításai"
+
+msgid "osd_error_refresh_interval_too_small"
+msgstr "A frissítési időköz legalább 3000 ezredmásodperc lehet."
+
+msgid "osd_interval"
+msgstr "Frissítési időköz"
+
+msgid "osd_interval_desc"
+msgstr "Új értesítések ellenőrzési ideje másodpercekben. Az alacsonyabb értéke gyorsabb értesítést jelent, de növeli a kérések számát és az adatforgalmat."
+
+msgid "osd_play_sound"
+msgstr "Hang lejátszása"
+
+msgid "osd_play_sound_desc"
+msgstr "Új értesítéskor hangot játszunk le."
+
+msgid "osd_settings"
+msgstr "Képernyőértesítések"
+
+msgid "push_client_already_used"
+msgstr "Push értesítéseket már egy másik felhasználó használja ehhez a klienshez."
+
+msgid "push_client_edge_case"
+msgstr "Lehetséges, hogy az Edge böngésző az Ön beleegyezése nélkül kikapcsolta az értesítéseket. A böngésző beállításaiban aktiválhatja őket újra."
+
+msgid "push_client_inactive"
+msgstr "Push értesítések ki vannak kapcsolva ezen a weboldalon. Nyissa meg a böngésző beállításait az aktiváláshoz."
+
+msgid "push_client_ios_case"
+msgstr "A push értesítéseket az IOS (Iphone, Ipad, Ipod) nem támogatja. Hozzon létre egy hozzáférést webes alkalmazáson keresztül."
+
+msgid "push_settings"
+msgstr "Push értesítések"
+
+msgid "push_subscription_successfull"
+msgstr "A push értesítéseket sikeresen bekapcsolta."
+
+msgid "push_subscription_successfull_desc"
+msgstr "Ez egy próbaértesítés, hogy ellenőrizze a push értesítések bekapcsolását."
+
+msgid "user_settings"
+msgstr "Felhasználó beállítások"

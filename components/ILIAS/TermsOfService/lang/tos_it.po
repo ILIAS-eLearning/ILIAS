@@ -1,0 +1,65 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: tos\n"
+
+#, fuzzy
+msgid "tos_accept_usr_agreement_anonymous"
+msgstr "Terms of Service"
+
+#, fuzzy
+msgid "tos_accept_usr_agreement_anonymous_intro"
+msgstr "Before you proceed to ILIAS you accept the following Terms of Service."
+
+msgid "tos_account_reg_not_possible"
+msgstr "Una registrazione automatica non è possibile a causa del contratto utente mancante. Per favore contatta il tuo<a href=\"%1$s\">amministratore di sistema</a> per maggiori informazioni."
+
+#, fuzzy
+msgid "tos_agree_date"
+msgstr "ToS agreed on"
+
+msgid "tos_agreement"
+msgstr "Termini di servizio"
+
+msgid "tos_disabled_no_docs_left"
+msgstr "I contratti utente sono ora disabilitati, poiché tutti i documenti sono stati eliminati. Si prega di creare almeno un documento prima di abilitare nuovamente gli accordi utente."
+
+msgid "tos_last_reset_date"
+msgstr "Gli accordi utente sono stati reimpostati l'ultima volta il %s. Reimposta il contratto utente solo se nel frattempo è cambiato e desideri approvare il contratto modificato."
+
+msgid "tos_never_reset"
+msgstr "I termini di servizio non sono ancora stati ripristinati."
+
+msgid "tos_no_documents_exist"
+msgstr "Attualmente non ci sono termini di servizio per ogni lingua installata."
+
+msgid "tos_no_documents_exist_cant_save"
+msgstr "Attualmente non ci sono termini di servizio per ogni lingua installata. Si prega di aggiungere almeno un documento per ogni lingua installata."
+
+#, fuzzy
+msgid "tos_reset_for_all_users"
+msgstr "Reset Terms of Service"
+
+msgid "tos_reset_successful"
+msgstr "I termini di servizio sono stati ripristinati correttamente."
+
+msgid "tos_status_desc"
+msgstr "Se attivato, gli utenti sono costretti ad accettare i termini di servizio prima di poter entrare in ILIAS."
+
+msgid "tos_status_enable"
+msgstr "Attiva i contratti di utilizzo"
+
+msgid "tos_sure_reset_tos"
+msgstr "Sei sicuro di voler ripristinare i termini di servizio per tutti gli utenti del sistema? Questo vale anche per quegli account che vengono utilizzati per i servizi web SOAP, il server di chat o il cron job."
+
+msgid "tos_withdrawal_usr_deletion"
+msgstr "Eliminazione dell'account in caso di ritiro dei termini di servizio"
+
+#, fuzzy
+msgid "tos_withdrawal_usr_deletion_desc"
+msgstr "If a user withdraws their acceptance from  a previously accepted Terms of Service document, this will result in the deletion of the user’s account."

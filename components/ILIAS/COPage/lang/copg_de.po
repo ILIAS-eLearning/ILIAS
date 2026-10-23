@@ -1,0 +1,135 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: copg\n"
+
+msgid "copg_active_to_small"
+msgstr "Dieses Datum muss größer als das „Aktiv ab“-Datum sein."
+
+msgid "copg_add_content"
+msgstr "Inhalte hinzufügen"
+
+msgid "copg_allow_html"
+msgstr "HTML/Javascript erlauben"
+
+msgid "copg_allow_html_info"
+msgstr "Benutzer können HTML oder Javascript in Seiteninhalten verwenden. Dies kann zu Sicherheitsproblemen führen. Sie sollten diese Funktion nur für Komponenten aktivieren, die von vertrauenswürdigen Benutzern verwendet werden. Die Möglichkeit, HTML in dieser Art einzubinden, wird möglicherweise in einer zukünftigen Version komplett entfallen."
+
+msgid "copg_an_error_occured"
+msgstr "Es ist leider ein Problem aufgetreten."
+
+msgid "copg_confirm_el_deletion"
+msgstr "Sollen die ausgewählten Elemente wirklich gelöscht werden?"
+
+msgid "copg_cron_days"
+msgstr "Einträge älter als x löschen"
+
+msgid "copg_cron_days_info"
+msgstr "Löscht Einträge aus dem Verlauf, die älter als der angegebene Zeitraum sind."
+
+msgid "copg_cron_keep_entries"
+msgstr "Mindestanzahl Einträge"
+
+msgid "copg_cron_keep_entries_info"
+msgstr "Diese Anzahl an Einträgen wird im Verlauf behalten, auch wenn diese älter als der angegebene Zeitraum sind."
+
+msgid "copg_days"
+msgstr "Tage"
+
+msgid "copg_details"
+msgstr "Details"
+
+msgid "copg_edit_iframe_title"
+msgstr "Text bearbeiten im Seiteneditor"
+
+msgid "copg_edit_style_class"
+msgstr "Style-Klasse bearbeiten"
+
+msgid "copg_entries"
+msgstr "Einträge"
+
+msgid "copg_error"
+msgstr "Problem"
+
+msgid "copg_error_occured_modal"
+msgstr "Es ist leider ein Fehler aufgetreten. Bitte drücken Sie \"Seite neu laden\" um zum zuletzt gespeicherten Inhalt zu gelangen."
+
+msgid "copg_est_reading_time"
+msgstr "Geschätzte Lesezeit"
+
+msgid "copg_history_cleanup_cron"
+msgstr "Verlaufsbereinigung"
+
+msgid "copg_history_cleanup_cron_info"
+msgstr "Löscht ältere Einträge aus dem Verlauf des Seiteneditors."
+
+msgid "copg_list_item_style"
+msgstr "Listeneintrag"
+
+msgid "copg_list_style"
+msgstr "Liste"
+
+msgid "copg_list_styles"
+msgstr "Listenformat"
+
+msgid "copg_more_character_formats"
+msgstr "Weitere Zeichenformate"
+
+msgid "copg_obj_types"
+msgstr "Objekttypen"
+
+msgid "copg_page_element_not_found"
+msgstr "Unbekanntes Seitenelement."
+
+msgid "copg_page_type_stys"
+msgstr "Seitenlayout"
+
+msgid "copg_pages"
+msgstr "Seiten"
+
+msgid "copg_par_format_selection"
+msgstr "Absatzformatauswahl"
+
+msgid "copg_pc_mob_does_not_exist"
+msgstr "Das Medienobjekt wurde nicht gefunden."
+
+msgid "copg_plugin"
+msgstr "Plugin"
+
+msgid "copg_plugin_not_avail"
+msgstr "Plugin %s nicht verfügbar."
+
+msgid "copg_questions_not_supported_here"
+msgstr "In diesem Kontext werden keine Fragen unterstützt."
+
+msgid "copg_reload_page"
+msgstr "Seite neu laden"
+
+msgid "copg_remove_formats"
+msgstr "Zeichenformate entfernen"
+
+msgid "copg_sec_link_info"
+msgstr "Wählen Sie ein Ziel für die Verlinkung des Blocks. Achtung: In diesem Fall darf der Inhalt des Blocks dann selbst keine weiteren Links enthalten!"
+
+msgid "copg_select_two_versions"
+msgstr "Bitte wählen Sie genau zwei Versionen zum Vergleich aus."
+
+msgid "copg_snippet_cannot_be_edited"
+msgstr "Dies ist ein vordefinierter Inhaltsbaustein, der an dieser Stelle nicht editiert werden kann."
+
+msgid "copg_templates"
+msgstr "Vorlagen"
+
+msgid "copg_unsupported_media_type"
+msgstr "Dieses Medienobjekt hat einen nicht unterstützen Medientyp."
+
+msgid "copg_use_template"
+msgstr "Vorlage nutzen"
+
+msgid "copg_x_minutes"
+msgstr "%s Minute(n)"

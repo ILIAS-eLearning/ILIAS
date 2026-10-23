@@ -18,8 +18,18 @@
 
 declare(strict_types=1);
 
+use ILIAS\Language\ComponentTranslation\MigratedTranslations;
+use ILIAS\Language\ComponentTranslation\NativeGettext;
+use ILIAS\Language\ComponentTranslation\DuplicateIdentifierMessage;
+use ILIAS\Language\ComponentTranslation\InvalidMarkupMessage;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
+use ILIAS\Language\Activities\InstallLanguage;
+use ILIAS\Language\Activities\UpdateLanguage;
+use ILIAS\Language\Activities\UninstallLanguage;
+use ILIAS\Language\Activities\RemoveLocalLanguageChanges;
+use ILIAS\Language\Activities\SetLanguageDetectionEnabled;
+use ILIAS\Language\RendersActivityErrors;
 
 /**
  * Class ilObjLanguageFolderGUI
@@ -31,26 +41,50 @@ use ILIAS\UI\URLBuilderToken;
  *
  * @extends ilObject
  */
-class ilObjLanguageFolderGUI extends ilObjectGUI
+class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterface
 {
+    use RendersActivityErrors;
+
+    private const string CMD_TABLE_ACTION = 'executeTableAction';
+
     protected ilLanguageFolderTable $languageFolderTable;
     protected ILIAS\Data\Factory $df;
     protected URLBuilder $url_builder;
     protected URLBuilderToken $action_token;
     protected URLBuilderToken $id_token;
+    private readonly InstallLanguage $install_language;
+    private readonly UpdateLanguage $update_language;
+    private readonly UninstallLanguage $uninstall_language;
+    private readonly RemoveLocalLanguageChanges $remove_local_language_changes;
+    private readonly SetLanguageDetectionEnabled $set_language_detection_enabled;
+    private readonly int $current_user_id;
 
     /**
      * Constructor
      */
     public function __construct(?array $a_data, int $a_id, bool $a_call_by_reference)
     {
+        global $DIC;
+
         $this->type = "lngf";
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
         $this->lng->loadLanguageModule("lng");
+
+        $this->install_language = $DIC[InstallLanguage::class];
+        $this->update_language = $DIC[UpdateLanguage::class];
+        $this->uninstall_language = $DIC[UninstallLanguage::class];
+        $this->remove_local_language_changes = $DIC[RemoveLocalLanguageChanges::class];
+        $this->set_language_detection_enabled = $DIC[SetLanguageDetectionEnabled::class];
+        $this->current_user_id = $DIC->user()->getId();
+        // used by activityErrorMessage() (see RendersActivityErrors)
+        $this->activity_error_logger = $DIC->logger()->lang();
         $this->df = new ILIAS\Data\Factory();
 
-        $here_uri = $this->df->uri($this->request->getUri()->__toString());
-        $url_builder = new URLBuilder($here_uri);
+        // via ilCtrl, so that the rtoken of the unsafe table action command is appended
+        $url_builder = new URLBuilder($this->df->uri(
+            ilUtil::_getHttpPath() . '/'
+            . $this->ctrl->getLinkTargetByClass([ilAdministrationGUI::class, self::class], self::CMD_TABLE_ACTION)
+        ));
         $query_params_namespace = ['language_folder'];
         [$url_builder, $action_parameter_token, $row_id_token] =
             $url_builder->acquireParameters(
@@ -66,6 +100,20 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
         /** @var ilObjLanguageFolder $folder */
         $folder = $this->object;
         $this->languageFolderTable = new ilLanguageFolderTable($folder, $url_builder, $action_parameter_token, $row_id_token);
+    }
+
+    public function getUnsafeGetCommands(): array
+    {
+        return [
+            self::CMD_TABLE_ACTION,
+            'enableLanguageDetection',
+            'disableLanguageDetection',
+        ];
+    }
+
+    public function getSafePostCommands(): array
+    {
+        return [];
     }
 
     /**
@@ -137,7 +185,56 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
             $this->toolbar->addComponent($toggleButton);
         }
 
-        $this->tpl->setContent($this->ui_renderer->render($table->withRequest($this->request)));
+        $this->tpl->setContent($this->ui_renderer->render([
+            ...$this->nativeGettextMessageBoxes(),
+            $table->withRequest($this->request)
+        ]));
+    }
+
+    /**
+     * Whether the migrated modules can be served through native gettext (see TranslationGettextRepository): a failure box
+     * for a problem concerning every migrated module (no gettext, no build), an info box for one concerning a single
+     * module, language or overlay, and one in a thread-safe PHP (the locale settings apply to every thread there).
+     * Paths are shown relative, the log has the full ones.
+     *
+     * @return list<\ILIAS\UI\Component\MessageBox\MessageBox>
+     */
+    private function nativeGettextMessageBoxes(): array
+    {
+        $boxes = [];
+        $problem = MigratedTranslations::getProblem(defined('CLIENT_DATA_DIR') ? (string) CLIENT_DATA_DIR : null);
+        if ($problem !== null && $problem['fatal']) {
+            $boxes[] = $this->ui_factory->messageBox()->failure(htmlspecialchars(str_replace(
+                '%s',
+                $problem['message'],
+                $this->textOrDefault(
+                    'lng_native_gettext_unavailable',
+                    'The modules maintained in PO files cannot be served, their texts are shown as "-identifier-": %s'
+                )
+            )));
+        } elseif ($problem !== null) {
+            $boxes[] = $this->ui_factory->messageBox()->info(htmlspecialchars(str_replace(
+                '%s',
+                $problem['message'],
+                $this->textOrDefault(
+                    'lng_native_gettext_problem',
+                    'A problem with the language files of the modules maintained in PO files: %s'
+                )
+            )));
+        }
+        if (NativeGettext::isThreadSafe()) {
+            $boxes[] = $this->ui_factory->messageBox()->info(htmlspecialchars($this->textOrDefault(
+                'lng_native_gettext_thread_safe',
+                'PHP runs thread-safe (ZTS): the locale settings for the language files of the modules maintained in PO files apply to every thread of the web server process.'
+            )));
+        }
+
+        return $boxes;
+    }
+
+    private function textOrDefault(string $identifier, string $default): string
+    {
+        return $this->lng->exists($identifier) ? $this->lng->txt($identifier) : $default;
     }
 
     protected function buildConfirmModal(array $ids, string $title, string $action, string $text, string $add_text = ''): ILIAS\UI\Implementation\Component\Modal\Interruptive
@@ -147,6 +244,11 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
         $items = [];
 
         if (!empty($ids)) {
+            if ($this->abortIfAnyIdIsNotALanguageObject($ids)) {
+                // already aborted (failure message and redirect); the Modal is only needed for the return type
+                return $f->modal()->interruptive($title, '', '')->withActionButtonLabel($this->lng->txt('ok'));
+            }
+
             $message = $this->lng->txt($text);
 
             $some_changed = false;
@@ -189,212 +291,418 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
     }
 
     /**
-     * install languages
+     * Localized, comma-separated list of language names.
+     *
+     * @param list<string> $lang_keys
      */
-    public function installObject(array $ids): void
+    private function languageKeysToLocalizedList(array $lang_keys): string
     {
-        $this->checkPermission("write");
-        $this->lng->loadLanguageModule("meta");
+        return implode(', ', array_map(
+            fn(string $key): string => $this->lng->txt('meta_l_' . $key),
+            $lang_keys
+        ));
+    }
 
+    /**
+     * $ids is unvalidated request input, and ilObject::_lookupTitle() returns the title of ANY object type, so every
+     * id must be confirmed to be a "lng" object before its title is trusted as a language key.
+     *
+     * Aborts the WHOLE request (generic failure message, redirect to "view") if a single id is not one. The message
+     * deliberately does not name the mismatch, so probing the parameter reveals nothing about existing ids.
+     *
+     * @param list<string|int> $ids
+     * @return bool true if the request was aborted (the caller must return immediately)
+     */
+    private function abortIfAnyIdIsNotALanguageObject(array $ids): bool
+    {
         foreach ($ids as $obj_id) {
-            $langObj = new ilObjLanguage((int) $obj_id);
-            $key = $langObj->install();
-
-            if ($key !== "") {
-                $lang_installed[] = $key;
+            if (ilObject::_lookupType((int) $obj_id) !== 'lng') {
+                $this->tpl->setOnScreenMessage(
+                    'failure',
+                    $this->lng->txt('obj_not_found') . '<br/>' . $this->lng->txt('action_aborted'),
+                    true
+                );
+                $this->ctrl->redirect($this, 'view');
+                return true;
             }
+        }
+        return false;
+    }
 
-            unset($langObj);
+    /**
+     * $mode is the dispatched "install"/"install_local" command, both are InstallLanguage modes (MODE_INSTALL/MODE_INSTALL_LOCAL).
+     */
+    public function installObject(array $ids, string $mode): void
+    {
+        $this->checkPermission('write');
+
+        // an empty selection must not reach the Activity, its validation message is technical and untranslated
+        if ($ids === []) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_checkbox'), true);
+            $this->ctrl->redirect($this, 'view');
+            return;
         }
 
-        if (isset($lang_installed)) {
-            if (count($lang_installed) === 1) {
-                $this->data = $this->lng->txt("meta_l_" . $lang_installed[0]) . " " . strtolower($this->lng->txt("installed")) . ".";
-            } else {
-                $langnames = [];
-                foreach ($lang_installed as $lang_key) {
-                    $langnames[] = $this->lng->txt("meta_l_" . $lang_key);
-                }
-                $this->data = implode(", ", $langnames) . " " . strtolower($this->lng->txt("installed")) . ".";
-            }
-        } else {
-            $this->data = $this->lng->txt("languages_already_installed");
+        if ($this->abortIfAnyIdIsNotALanguageObject($ids)) {
+            return;
         }
 
-        $this->out();
+        $language_keys = [];
+        foreach ($ids as $obj_id) {
+            $language_keys[] = ilObject::_lookupTitle((int) $obj_id);
+        }
+
+        $result = $this->install_language->maybePerformAs(
+            $this->ui_factory->input(),
+            $this->current_user_id,
+            [
+                'language_keys' => $language_keys,
+                'mode' => $mode,
+            ]
+        );
+
+        if ($result->isError()) {
+            $error = $result->error();
+            $error_message = $this->activityErrorMessage($error);
+
+            // activityErrorMessage() is complete: no prefix ("language_not_installed", "action_aborted") applies to every error
+            $this->tpl->setOnScreenMessage(
+                'failure',
+                $error_message,
+                true
+            );
+
+            $this->ctrl->redirect($this, 'view');
+            return;
+        }
+        $value = $result->value();
+
+        // setOnScreenMessage() keeps one message per type, so messages of one type are combined
+        $success_messages = [];
+
+        if (($lang_installed = $value['installed_language_keys']) !== []) {
+            $success_messages[] = $this->languageKeysToLocalizedList($lang_installed)
+                . " " . strtolower($this->lng->txt("installed")) . ".";
+        }
+
+        // reported explicitly, else it would vanish into "already installed" and suggest nothing happened
+        if (($lang_installed_with_local_file = $value['installed_with_local_language_keys']) !== []) {
+            $success_messages[] = $this->languageKeysToLocalizedList($lang_installed_with_local_file)
+                . ": " . $this->lng->txt("installed_local") . ".";
+        }
+
+        if ($success_messages !== []) {
+            $this->tpl->setOnScreenMessage(
+                'success',
+                implode('<br />', $success_messages),
+                true
+            );
+        }
+
+        $info_messages = [];
+
+        if (($lang_already_installed = $value['already_installed_language_keys']) !== []) {
+            $info_messages[] = $this->lng->txt("languages_already_installed") . ': '
+                . $this->languageKeysToLocalizedList($lang_already_installed);
+        }
+
+        if (($lang_not_installed = $value['not_installed_language_keys']) !== []) {
+            $info_messages[] = $this->languageKeysToLocalizedList($lang_not_installed)
+                . " " . $this->lng->txt("language_not_installed");
+        }
+
+        if ($info_messages !== []) {
+            $this->tpl->setOnScreenMessage(
+                'info',
+                implode('<br />', $info_messages),
+                true
+            );
+        }
+
+        $failure_messages = [];
+        if (($invalid_local_language_files = $value['invalid_local_language_files']) !== []) {
+            $failure_messages[] = $this->lng->txt('local_language_files') . ': '
+                . implode(', ', $invalid_local_language_files) . '. '
+                . $this->lng->txt('file_not_valid');
+        }
+        if (($overlay_write_failed = $value['overlay_write_failed_language_keys'] ?? []) !== []) {
+            $failure_messages[] = $this->overlayWriteFailedMessage($overlay_write_failed);
+        }
+        if (($invalid_markup = $value['invalid_markup_customizing_entries'] ?? []) !== []) {
+            $failure_messages[] = $this->invalidMarkupCustomizingMessage($invalid_markup);
+        }
+        if (($duplicates = $value['duplicate_customizing_entries'] ?? []) !== []) {
+            $failure_messages[] = $this->duplicateCustomizingMessage($duplicates);
+        }
+        if ($failure_messages !== []) {
+            $this->tpl->setOnScreenMessage(
+                'failure',
+                implode('<br />', $failure_messages),
+                true
+            );
+        }
+
+        $this->ctrl->redirect($this, 'view');
     }
 
 
     /**
-     * Install local language modifications.
-     */
-    public function installLocalObject(array $ids): void
-    {
-        $this->checkPermission("write");
-        $this->lng->loadLanguageModule("meta");
-
-        foreach ($ids as $obj_id) {
-            $langObj = new ilObjLanguage((int) $obj_id);
-            $key = $langObj->install();
-
-            if ($key !== "") {
-                $lang_installed[] = $key;
-            }
-
-            unset($langObj);
-
-            $langObj = new ilObjLanguage((int) $obj_id);
-            $key = $langObj->install("local");
-
-            if ($key !== "") {
-                $local_installed[] = $key;
-            }
-
-            unset($langObj);
-        }
-
-        if (isset($lang_installed)) {
-            if (count($lang_installed) === 1) {
-                $this->data = $this->lng->txt("meta_l_" . $lang_installed[0]) . " " . strtolower($this->lng->txt("installed")) . ".";
-            } else {
-                $langnames = [];
-                foreach ($lang_installed as $lang_key) {
-                    $langnames[] = $this->lng->txt("meta_l_" . $lang_key);
-                }
-                $this->data = implode(", ", $langnames) . " " . strtolower($this->lng->txt("installed")) . ".";
-            }
-        }
-
-        if (isset($local_installed)) {
-            if (count($local_installed) === 1) {
-                $this->data .= " " . $this->lng->txt("meta_l_" . $local_installed[0]) . " " . $this->lng->txt("local_language_file") . " " . strtolower($this->lng->txt("installed")) . ".";
-            } else {
-                $langnames = [];
-                foreach ($local_installed as $lang_key) {
-                    $langnames[] = $this->lng->txt("meta_l_" . $lang_key);
-                }
-                $this->data .= " " . implode(", ", $langnames) . " " . $this->lng->txt("local_language_files") . " " . strtolower($this->lng->txt("installed")) . ".";
-            }
-        } else {
-            $this->data .= " " . $this->lng->txt("local_languages_already_installed");
-        }
-
-        $this->out();
-    }
-
-
-    /**
-     * uninstall language
+     * Languages that are not installed, the system language and the language in use are left untouched.
      */
     public function uninstallObject(array $ids): void
     {
         $this->checkPermission('write');
         $this->lng->loadLanguageModule("meta");
 
-        $sys_lang = false;
-        $usr_lang = false;
+        if ($this->abortIfAnyIdIsNotALanguageObject($ids)) {
+            return;
+        }
 
-        // uninstall all selected languages
+        $language_keys = [];
         foreach ($ids as $obj_id) {
-            $langObj = new ilObjLanguage((int) $obj_id);
-            if (!($sys_lang = $langObj->isSystemLanguage()) && !($usr_lang = $langObj->isUserLanguage())) {
-                $key = $langObj->uninstall();
-                if ($key !== "") {
-                    $lang_uninstalled[] = $key;
-                }
-            }
-            unset($langObj);
+            $language_keys[] = ilObject::_lookupTitle((int) $obj_id);
         }
 
-        // generate output message
-        if (isset($lang_uninstalled)) {
-            if (count($lang_uninstalled) === 1) {
-                $this->data = $this->lng->txt("meta_l_" . $lang_uninstalled[0]) . " " . $this->lng->txt("uninstalled");
-            } else {
-                $langnames = [];
-                foreach ($lang_uninstalled as $lang_key) {
-                    $langnames[] = $this->lng->txt("meta_l_" . $lang_key);
-                }
+        $result = $this->uninstall_language->maybePerformAs(
+            $this->ui_factory->input(),
+            $this->current_user_id,
+            ['language_keys' => $language_keys]
+        );
 
-                $this->data = implode(", ", $langnames) . " " . $this->lng->txt("uninstalled");
-            }
-        } elseif ($sys_lang) {
-            $this->data = $this->lng->txt("cannot_uninstall_systemlanguage");
-        } elseif ($usr_lang) {
-            $this->data = $this->lng->txt("cannot_uninstall_language_in_use");
-        } else {
-            $this->data = $this->lng->txt("languages_already_uninstalled");
+        if ($result->isError()) {
+            $error = $result->error();
+            $error_message = $this->activityErrorMessage($error);
+
+            $this->tpl->setOnScreenMessage(
+                'failure',
+                $error_message,
+                true
+            );
+
+            $this->ctrl->redirect($this, 'view');
+            return;
+        }
+        $value = $result->value();
+
+        if (($lang_uninstalled = $value['uninstalled_language_keys']) !== []) {
+            $this->tpl->setOnScreenMessage(
+                'success',
+                $this->languageKeysToLocalizedList($lang_uninstalled) . " " . $this->lng->txt("uninstalled"),
+                true
+            );
         }
 
-        $this->out();
+        $info_messages = [];
+
+        if (($lang_system = $value['system_language_keys']) !== []) {
+            $info_messages[] = $this->lng->txt("cannot_uninstall_systemlanguage") . ': '
+                . $this->languageKeysToLocalizedList($lang_system);
+        }
+
+        if (($lang_in_use = $value['user_language_keys']) !== []) {
+            $info_messages[] = $this->lng->txt("cannot_uninstall_language_in_use") . ': '
+                . $this->languageKeysToLocalizedList($lang_in_use);
+        }
+
+        if (($lang_not_installed = $value['not_installed_language_keys']) !== []) {
+            $info_messages[] = $this->lng->txt("languages_already_uninstalled") . ': '
+                . $this->languageKeysToLocalizedList($lang_not_installed);
+        }
+
+        if ($info_messages !== []) {
+            $this->tpl->setOnScreenMessage('info', implode('<br />', $info_messages), true);
+        }
+
+        if (($overlay_write_failed = $value['overlay_write_failed_language_keys'] ?? []) !== []) {
+            $this->tpl->setOnScreenMessage('failure', $this->overlayWriteFailedMessage($overlay_write_failed), true);
+        }
+
+        $this->ctrl->redirect($this, 'view');
     }
 
 
     /**
-     * Uninstall local changes in the database
+     * Languages that are not installed (or no language key) are left untouched.
      */
     public function uninstallChangesObject(array $ids): void
     {
         $this->checkPermission("write");
-
-        $this->data = $this->lng->txt("selected_languages_updated");
         $this->lng->loadLanguageModule("meta");
-        $refreshed = [];
 
-        foreach ($ids as $id) {
-            $langObj = new ilObjLanguage((int) $id, false);
-
-            if ($langObj->isInstalled()) {
-                if ($langObj->check()) {
-                    $langObj->flush("all");
-                    $langObj->insert();
-                    $langObj->setTitle($langObj->getKey());
-                    $langObj->setDescription("installed");
-                    $langObj->update();
-                    $refreshed[] = $langObj->getKey();
-                }
-                $this->data .= "<br />" . $this->lng->txt("meta_l_" . $langObj->getKey());
-            }
-
-            unset($langObj);
+        if ($this->abortIfAnyIdIsNotALanguageObject($ids)) {
+            return;
         }
-        ilObjLanguage::refreshPlugins($refreshed);
-        $this->out();
+
+        $language_keys = [];
+        foreach ($ids as $obj_id) {
+            $language_keys[] = ilObject::_lookupTitle((int) $obj_id);
+        }
+
+        $result = $this->remove_local_language_changes->maybePerformAs(
+            $this->ui_factory->input(),
+            $this->current_user_id,
+            ['language_keys' => $language_keys]
+        );
+
+        if ($result->isError()) {
+            $error = $result->error();
+            $error_message = $this->activityErrorMessage($error);
+
+            $this->tpl->setOnScreenMessage(
+                'failure',
+                $error_message,
+                true
+            );
+
+            $this->ctrl->redirect($this, 'view');
+            return;
+        }
+        $value = $result->value();
+
+        if (($lang_changed = $value['removed_local_changes_language_keys']) !== []) {
+            $this->tpl->setOnScreenMessage(
+                'success',
+                $this->lng->txt("selected_languages_updated") . "<br />"
+                    . $this->languageKeysToLocalizedList($lang_changed),
+                true
+            );
+        }
+
+        $failure_messages = [];
+        if (($lang_invalid = $value['invalid_language_file_keys']) !== []) {
+            $failure_messages[] = $this->languageKeysToLocalizedList($lang_invalid) . ": " . $this->lng->txt("file_not_valid");
+        }
+        if (($overlay_write_failed = $value['overlay_write_failed_language_keys'] ?? []) !== []) {
+            $failure_messages[] = $this->overlayWriteFailedMessage($overlay_write_failed);
+        }
+        if ($failure_messages !== []) {
+            $this->tpl->setOnScreenMessage('failure', implode('<br />', $failure_messages), true);
+        }
+
+        if (($lang_not_installed = $value['not_installed_language_keys']) !== []) {
+            $this->tpl->setOnScreenMessage(
+                'info',
+                $this->languageKeysToLocalizedList($lang_not_installed)
+                    . " " . $this->lng->txt("language_not_installed"),
+                true
+            );
+        }
+
+        $this->ctrl->redirect($this, 'view');
     }
 
     /**
-     * update all installed languages
-     */
-    public function refreshObject(): void
-    {
-        $this->checkPermission("write");
-
-        ilObjLanguage::refreshAll();
-        $this->data = $this->lng->txt("languages_updated");
-        $this->out();
-    }
-
-    /**
-     * update selected languages
+     * Languages that are not installed are left untouched.
      */
     public function refreshSelectedObject(array $ids): void
     {
-        $this->checkPermission("write");
-        $this->data = $this->lng->txt("selected_languages_updated");
-        $this->lng->loadLanguageModule("meta");
+        $this->checkPermission('write');
 
-        $refreshed = [];
-        foreach ($ids as $id) {
-            $langObj = new ilObjLanguage((int) $id, false);
-            if ($langObj->refresh()) {
-                $refreshed[] = $langObj->getKey();
-                $this->data .= "<br />" . $this->lng->txt("meta_l_" . $langObj->getKey());
-            }
-            unset($langObj);
+        // see installObject()
+        if ($ids === []) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_checkbox'), true);
+            $this->ctrl->redirect($this, 'view');
+            return;
         }
 
-        ilObjLanguage::refreshPlugins($refreshed);
-        $this->out();
+        if ($this->abortIfAnyIdIsNotALanguageObject($ids)) {
+            return;
+        }
+
+        $language_keys = [];
+        foreach ($ids as $obj_id) {
+            $language_keys[] = ilObject::_lookupTitle((int) $obj_id);
+        }
+
+        $result = $this->update_language->maybePerformAs(
+            $this->ui_factory->input(),
+            $this->current_user_id,
+            ['language_keys' => $language_keys]
+        );
+
+        if ($result->isError()) {
+            $error = $result->error();
+            $error_message = $this->activityErrorMessage($error);
+
+            $this->tpl->setOnScreenMessage(
+                'failure',
+                $error_message,
+                true
+            );
+
+            $this->ctrl->redirect($this, 'view');
+            return;
+        }
+        $value = $result->value();
+
+        if (($lang_updated = $value['updated_language_keys']) !== []) {
+            $this->tpl->setOnScreenMessage(
+                'success',
+                $this->lng->txt('selected_languages_updated') . ' '
+                    . $this->languageKeysToLocalizedList($lang_updated),
+                true
+            );
+        }
+
+        if (($lang_not_installed = $value['not_installed_language_keys']) !== []) {
+            $this->tpl->setOnScreenMessage(
+                'info',
+                $this->languageKeysToLocalizedList($lang_not_installed)
+                    . ' ' . $this->lng->txt('language_not_installed'),
+                true
+            );
+        }
+
+        $failure_messages = [];
+        if (($overlay_write_failed = $value['overlay_write_failed_language_keys'] ?? []) !== []) {
+            $failure_messages[] = $this->overlayWriteFailedMessage($overlay_write_failed);
+        }
+        if (($invalid_markup = $value['invalid_markup_customizing_entries'] ?? []) !== []) {
+            $failure_messages[] = $this->invalidMarkupCustomizingMessage($invalid_markup);
+        }
+        if (($duplicates = $value['duplicate_customizing_entries'] ?? []) !== []) {
+            $failure_messages[] = $this->duplicateCustomizingMessage($duplicates);
+        }
+        if ($failure_messages !== []) {
+            $this->tpl->setOnScreenMessage('failure', implode('<br />', $failure_messages), true);
+        }
+
+        $this->ctrl->redirect($this, 'view');
+    }
+
+    /**
+     * Customizing entries not applied because of disallowed markup, see InvalidMarkupMessage. The Activity output
+     * already names each entry with its markup ("<language>: <module>#:#<identifier>: <script>"), so they are listed as is.
+     *
+     * @param list<string> $entries
+     */
+    private function invalidMarkupCustomizingMessage(array $entries): string
+    {
+        return InvalidMarkupMessage::of($this->lng, $this->refinery, array_fill_keys($entries, []));
+    }
+
+    /**
+     * Customizing entries not applied as duplicates of another module: "lng_identifier_not_unique" with the escaped,
+     * shortened list of the Activity output.
+     *
+     * @param list<string> $entries
+     */
+    private function duplicateCustomizingMessage(array $entries): string
+    {
+        return DuplicateIdentifierMessage::of($this->lng, $this->refinery, $entries);
+    }
+
+    /**
+     * The database was written, but the PO/MO files of a PO module could not be (see LanguageActivity::overlayWriteFailedOutputField()).
+     *
+     * @param list<string> $lang_keys
+     */
+    private function overlayWriteFailedMessage(array $lang_keys): string
+    {
+        return sprintf(
+            $this->lng->txt('lng_po_overlay_not_written_languages'),
+            $this->languageKeysToLocalizedList($lang_keys)
+        );
     }
 
     /**
@@ -407,9 +715,6 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 
         $this->checkPermission("write");
         $this->lng->loadLanguageModule("meta");
-
-        #require_once "./Services/User/classes/class.ilObjUser.php";
-
 
         if (count($ids) !== 1) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("choose_only_one_language") . "<br/>" . $this->lng->txt("action_aborted"), true);
@@ -533,139 +838,129 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
             default:
                 $this->tabs_gui->activateTab("settings");
 
-                if ($action = $this->getCommandFromQueryToken($this->action_token->getName())) {
-                    $this->checkPermission("write");
-                    $this->lng->loadLanguageModule("meta");
-                    $f = $this->ui_factory;
-                    $r = $this->ui_renderer;
-                    switch ($action) {
-                        case 'confirmRefresh':
-                            $ids = $this->confirmRefreshObject();
-                            $this->refreshSelectedObject($ids);
-                            break;
-                        case 'checkLanguage':
-                            $this->checkLanguageObject();
-                            break;
-                        case 'refresh':
-                            $ids = $this->getIdsFromQueryToken();
-                            if (current($ids) === 'ALL_OBJECTS') {
-                                array_shift($ids);
-                                $languages = ilObject::_getObjectsByType("lng");
-                                foreach ($languages as $lang) {
-                                    $langObj = new ilObjLanguage((int) $lang["obj_id"], false);
-                                    if ($langObj->isInstalled()) {
-                                        $ids[] = (string) $lang["obj_id"];
-                                    }
-                                }
-                            }
-                            $modal = $this->buildConfirmModal(
-                                $ids,
-                                $action,
-                                'refreshConfirmed',
-                                'lang_refresh_confirm_selected',
-                                "lang_refresh_confirm_info"
-                            );
-                            echo($r->renderAsync([$modal]));
-                            exit();
-                        case 'refreshConfirmed':
-                            $ids = $this->getIdsFromQueryToken();
-                            $this->refreshSelectedObject($ids);
-                            break;
-                        case 'uninstall':
-                            $ids = $this->getIdsFromQueryToken();
-                            if (current($ids) === 'ALL_OBJECTS') {
-                                array_shift($ids);
-                                $languages = ilObject::_getObjectsByType("lng");
-                                foreach ($languages as $lang) {
-                                    $langObj = new ilObjLanguage((int) $lang["obj_id"], false);
-                                    if ($langObj->isInstalled()) {
-                                        $ids[] = (string) $lang["obj_id"];
-                                    }
-                                }
-                            }
-                            $modal = $this->buildConfirmModal(
-                                $ids,
-                                $action,
-                                'uninstallConfirmed',
-                                'lang_uninstall_confirm'
-                            );
-                            echo($r->renderAsync([$modal]));
-                            exit();
-                        case 'uninstallConfirmed':
-                            $ids = $this->getIdsFromQueryToken();
-                            $this->uninstallObject($ids);
-                            break;
-                        case 'install':
-                            $ids = $this->getIdsFromQueryToken();
-                            if (current($ids) === 'ALL_OBJECTS') {
-                                array_shift($ids);
-                                $languages = ilObject::_getObjectsByType("lng");
-                                foreach ($languages as $lang) {
-                                    $langObj = new ilObjLanguage((int) $lang["obj_id"], false);
-                                    if (!$langObj->isInstalled()) {
-                                        $ids[] = (string) $lang["obj_id"];
-                                    }
-                                }
-                            }
-                            $this->installObject($ids);
-                            break;
-                        case 'install_local':
-                            $ids = $this->getIdsFromQueryToken();
-                            if (current($ids) === 'ALL_OBJECTS') {
-                                array_shift($ids);
-                                $languages = ilObject::_getObjectsByType("lng");
-                                foreach ($languages as $lang) {
-                                    $ids[] = (string) $lang["obj_id"];
-                                }
-                            }
-                            $this->installLocalObject($ids);
-                            break;
-                        case 'lang_uninstall_changes':
-                            $ids = $this->getIdsFromQueryToken();
-                            if (current($ids) === 'ALL_OBJECTS') {
-                                array_shift($ids);
-                                $languages = ilObject::_getObjectsByType("lng");
-                                foreach ($languages as $lang) {
-                                    $langObj = new ilObjLanguage((int) $lang["obj_id"], false);
-                                    if ($langObj->isInstalled()) {
-                                        $ids[] = (string) $lang["obj_id"];
-                                    }
-                                }
-                            }
-                            $modal = $this->buildConfirmModal(
-                                $ids,
-                                $action,
-                                'uninstallChanges',
-                                'lang_uninstall_changes_confirm'
-                            );
-                            echo($r->renderAsync([$modal]));
-                            exit();
-                        case 'uninstallChanges':
-                            $ids = $this->getIdsFromQueryToken();
-                            $this->uninstallChangesObject($ids);
-                            break;
-                        case 'setSystemLanguage':
-                            $ids = $this->getIdsFromQueryToken();
-                            $this->setSystemLanguageObject($ids);
-                            break;
-                        case 'setUserLanguage':
-                            $ids = $this->getIdsFromQueryToken();
-                            $this->setUserLanguageObject($ids);
-                            break;
-                        case 'edit':
-                            $ids = $this->getIdsFromQueryToken();
-                            $this->editFolderObject($ids);
-                            break;
-                    }
-                }
-                if (!$cmd) {
-                    $cmd = "view";
-                }
-                $cmd .= "Object";
-                $this->$cmd();
+                // exact match: ilCtrl compares the unsafe commands case-sensitively, PHP method calls are not
+                match ($cmd) {
+                    self::CMD_TABLE_ACTION,
+                    'enableLanguageDetection',
+                    'disableLanguageDetection',
+                    'listDeprecated',
+                    'downloadDeprecated' => $this->{$cmd . 'Object'}(),
+                    default => $this->viewObject(),
+                };
 
                 break;
         }
+    }
+
+    protected function executeTableActionObject(): void
+    {
+        $this->checkPermission("write");
+        $this->lng->loadLanguageModule("meta");
+        $r = $this->ui_renderer;
+        switch ($action = $this->getCommandFromQueryToken($this->action_token->getName())) {
+            case 'confirmRefresh':
+                $ids = $this->confirmRefreshObject();
+                $this->refreshSelectedObject($ids);
+                break;
+            case 'checkLanguage':
+                $this->checkLanguageObject();
+                break;
+            case 'refresh':
+                $ids = $this->getIdsFromQueryToken();
+                if (current($ids) === 'ALL_OBJECTS') {
+                    array_shift($ids);
+                    $languages = ilObject::_getObjectsByType("lng");
+                    foreach ($languages as $lang) {
+                        $langObj = new ilObjLanguage((int) $lang["obj_id"], false);
+                        if ($langObj->isInstalled()) {
+                            $ids[] = (string) $lang["obj_id"];
+                        }
+                    }
+                }
+                $modal = $this->buildConfirmModal(
+                    $ids,
+                    $action,
+                    'refreshConfirmed',
+                    'lang_refresh_confirm_selected',
+                    "lang_refresh_confirm_info"
+                );
+                echo($r->renderAsync([$modal]));
+                exit();
+            case 'refreshConfirmed':
+                $ids = $this->getIdsFromQueryToken();
+                $this->refreshSelectedObject($ids);
+                break;
+            case 'uninstall':
+                $ids = $this->getIdsFromQueryToken();
+                if (current($ids) === 'ALL_OBJECTS') {
+                    array_shift($ids);
+                    $languages = ilObject::_getObjectsByType("lng");
+                    foreach ($languages as $lang) {
+                        $langObj = new ilObjLanguage((int) $lang["obj_id"], false);
+                        if ($langObj->isInstalled()) {
+                            $ids[] = (string) $lang["obj_id"];
+                        }
+                    }
+                }
+                $modal = $this->buildConfirmModal(
+                    $ids,
+                    $action,
+                    'uninstallConfirmed',
+                    'lang_uninstall_confirm'
+                );
+                echo($r->renderAsync([$modal]));
+                exit();
+            case 'uninstallConfirmed':
+                $ids = $this->getIdsFromQueryToken();
+                $this->uninstallObject($ids);
+                break;
+            case 'install':
+            case 'install_local':
+                $ids = $this->getIdsFromQueryToken();
+                if (current($ids) === 'ALL_OBJECTS') {
+                    array_shift($ids);
+                    $languages = ilObject::_getObjectsByType("lng");
+                    foreach ($languages as $lang) {
+                        $ids[] = (string) $lang["obj_id"];
+                    }
+                }
+                // 'install'/'install_local' are the InstallLanguage mode values
+                $this->installObject($ids, $action);
+                break;
+            case 'lang_uninstall_changes':
+                $ids = $this->getIdsFromQueryToken();
+                if (current($ids) === 'ALL_OBJECTS') {
+                    array_shift($ids);
+                    $languages = ilObject::_getObjectsByType("lng");
+                    foreach ($languages as $lang) {
+                        $langObj = new ilObjLanguage((int) $lang["obj_id"], false);
+                        if ($langObj->isInstalled()) {
+                            $ids[] = (string) $lang["obj_id"];
+                        }
+                    }
+                }
+                $modal = $this->buildConfirmModal(
+                    $ids,
+                    $action,
+                    'uninstallChanges',
+                    'lang_uninstall_changes_confirm'
+                );
+                echo($r->renderAsync([$modal]));
+                exit();
+            case 'uninstallChanges':
+                $ids = $this->getIdsFromQueryToken();
+                $this->uninstallChangesObject($ids);
+                break;
+            case 'setSystemLanguage':
+                $ids = $this->getIdsFromQueryToken();
+                $this->setSystemLanguageObject($ids);
+                break;
+            case 'setUserLanguage':
+                $ids = $this->getIdsFromQueryToken();
+                $this->setUserLanguageObject($ids);
+                break;
+        }
+        $this->viewObject();
     }
 
     protected function getCommandFromQueryToken(string $param): ?string
@@ -696,154 +991,39 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
         return $ids;
     }
 
-    public function confirmRefreshSelectedObject(array $a_ids = []): void
-    {
-        $this->checkPermission("write");
-        $this->lng->loadLanguageModule("meta");
-
-        $header = '';
-        $ids = [];
-        if (!empty($a_ids)) {
-            $ids = $a_ids;
-            $header = $this->lng->txt("lang_refresh_confirm");
-        } elseif (!empty($post_id = $this->getIdsFromQueryToken())) {
-            $ids = $post_id;
-            $header = $this->lng->txt("lang_refresh_confirm_selected");
-        } else {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
-            $this->ctrl->redirect($this, "view");
-        }
-
-        $conf_screen = new ilConfirmationGUI();
-        $some_changed = false;
-        foreach ($ids as $id) {
-            $lang_key = ilObject::_lookupTitle((int) $id);
-            $lang_title = $this->lng->txt("meta_l_" . $lang_key);
-            $last_change = ilObjLanguage::_getLastLocalChange($lang_key);
-            if (!empty($last_change)) {
-                $some_changed = true;
-                $lang_title .= " (" . $this->lng->txt("last_change") . " "
-                    . ilDatePresentation::formatDate(new ilDateTime($last_change, IL_CAL_DATETIME)) . ")";
-            }
-            $conf_screen->addItem("id[]", (string) $id, $lang_title);
-        }
-
-        $conf_screen->setFormAction($this->ctrl->getFormAction($this));
-        if ($some_changed) {
-            $header .= "<br />" . $this->lng->txt("lang_refresh_confirm_info");
-        }
-        $conf_screen->setHeaderText($header);
-        $conf_screen->setCancel($this->lng->txt("cancel"), "view");
-        $conf_screen->setConfirm($this->lng->txt("ok"), "refreshSelected");
-        $this->tpl->setContent($conf_screen->getHTML());
-    }
-
-    public function confirmUninstallObject(): void
-    {
-        $this->checkPermission("write");
-
-        $this->lng->loadLanguageModule("meta");
-        $conf_screen = new ilConfirmationGUI();
-        $conf_screen->setFormAction($this->ctrl->getFormAction($this));
-        $conf_screen->setHeaderText($this->lng->txt("lang_uninstall_confirm"));
-        foreach ($this->getIdsFromQueryToken() as $id) {
-            $lang_title = ilObject::_lookupTitle((int) $id);
-            $conf_screen->addItem("id[]", $id, $this->lng->txt("meta_l_" . $lang_title));
-        }
-        $conf_screen->setCancel($this->lng->txt("cancel"), "view");
-        $conf_screen->setConfirm($this->lng->txt("ok"), "uninstall");
-        $this->tpl->setContent($conf_screen->getHTML());
-    }
-
-    public function confirmUninstallChangesObject(): void
-    {
-        $this->checkPermission('write');
-
-        $this->lng->loadLanguageModule("meta");
-        $conf_screen = new ilConfirmationGUI();
-        $conf_screen->setFormAction($this->ctrl->getFormAction($this));
-        $conf_screen->setHeaderText($this->lng->txt("lang_uninstall_changes_confirm"));
-        foreach ($this->getIdsFromQueryToken() as $id) {
-            $lang_title = ilObject::_lookupTitle($id);
-            $conf_screen->addItem("id[]", (string) $id, $this->lng->txt("meta_l_" . $lang_title));
-        }
-        $conf_screen->setCancel($this->lng->txt("cancel"), "view");
-        $conf_screen->setConfirm($this->lng->txt("ok"), "uninstallChanges");
-        $this->tpl->setContent($conf_screen->getHTML());
-    }
-
-    /**
-     * Get Actions
-     */
-    public function getActions(): array
-    {
-        $f = $this->ui_factory;
-        return [
-            'confirmRefreshSelected' => $f->table()->action()->standard(
-                $this->lng->txt("refresh"),
-                $this->url_builder->withParameter($this->action_token, "confirmRefreshSelected"),
-                $this->id_token
-            )->withAsync(),
-            'install' => $f->table()->action()->standard(
-                $this->lng->txt("install"),
-                $this->url_builder->withParameter($this->action_token, "install"),
-                $this->id_token
-            ),
-            'installLocal' => $f->table()->action()->standard(
-                $this->lng->txt("install_local"),
-                $this->url_builder->withParameter($this->action_token, "installLocal"),
-                $this->id_token
-            ),
-            'confirmUninstall' => $f->table()->action()->standard(
-                $this->lng->txt("uninstall"),
-                $this->url_builder->withParameter($this->action_token, "confirmUninstall"),
-                $this->id_token
-            ),
-            'confirmUninstallChanges' => $f->table()->action()->standard(
-                $this->lng->txt("lang_uninstall_changes"),
-                $this->url_builder->withParameter($this->action_token, "confirmUninstallChanges"),
-                $this->id_token
-            ),
-            'setSystemLanguage' => $f->table()->action()->single(
-                $this->lng->txt("setSystemLanguage"),
-                $this->url_builder->withParameter($this->action_token, "setSystemLanguage"),
-                $this->id_token
-            ),
-            'setUserLanguage' => $f->table()->action()->single(
-                $this->lng->txt("setUserLanguage"),
-                $this->url_builder->withParameter($this->action_token, "setUserLanguage"),
-                $this->id_token
-            ),
-            'editFolder' => $f->table()->action()->single(
-                $this->lng->txt("edit"),
-                $this->url_builder->withParameter($this->action_token, "editFolder"),
-                $this->id_token
-            ),
-        ];
-    }
-
-    protected function editFolderObject(array $ids): void
-    {
-        $this->ctrl->setParameterByClass("ilobjlanguageextgui", "obj_id", current($ids));
-        $this->ctrl->redirectByClass("ilobjlanguageextgui");
-    }
-
-    /**
-     * Disable language detection
-     */
     protected function disableLanguageDetectionObject(): void
     {
-        $this->settings->set("lang_detection", '0');
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt("saved_successfully"));
-        $this->viewObject();
+        $this->setLanguageDetectionEnabledObject(false);
     }
 
-    /**
-     * Enable language detection
-     */
     protected function enableLanguageDetectionObject(): void
     {
-        $this->settings->set("lang_detection", '1');
+        $this->setLanguageDetectionEnabledObject(true);
+    }
+
+    private function setLanguageDetectionEnabledObject(bool $enabled): void
+    {
+        $result = $this->set_language_detection_enabled->maybePerformAs(
+            $this->ui_factory->input(),
+            $this->current_user_id,
+            ['enabled' => $enabled]
+        );
+
+        if ($result->isError()) {
+            $error = $result->error();
+            $error_message = $this->activityErrorMessage($error);
+
+            $this->tpl->setOnScreenMessage(
+                'failure',
+                $error_message,
+                true
+            );
+
+            $this->ctrl->redirect($this, 'view');
+            return;
+        }
+
+        // rendered directly with a non-persisted message, no redirect (unlike installObject() & Co.)
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("saved_successfully"));
         $this->viewObject();
     }
@@ -859,8 +1039,6 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
         );
         $this->toolbar->addComponent($button);
 
-        include_once "./Services/Language/classes/class.ilLangDeprecated.php";
-
         $d = new ilLangDeprecated();
         $res = "";
         foreach ($d->getDeprecatedLangVars() as $key => $mod) {
@@ -875,7 +1053,6 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
      */
     public function downloadDeprecatedObject(): void
     {
-        include_once "./Services/Language/classes/class.ilLangDeprecated.php";
         $d = new ilLangDeprecated();
         $res = "";
         foreach ($d->getDeprecatedLangVars() as $key => $mod) {

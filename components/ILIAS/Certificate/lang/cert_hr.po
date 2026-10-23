@@ -1,0 +1,57 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hr\n"
+"Language-Team: Croatian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: cert\n"
+
+msgid "cert_currently_no_certs"
+msgstr "Trenutno još niste dobili nijedan certifikat."
+
+msgid "cert_description_label"
+msgstr "Opis"
+
+msgid "cert_download_label"
+msgstr "Preuzimanje datoteka"
+
+msgid "cert_error_no_access"
+msgstr "Nemate pristup ovom certifikatu."
+
+msgid "cert_issued_on_label"
+msgstr "Izdano dana"
+
+msgid "cert_object_label"
+msgstr "Objekt"
+
+msgid "cert_sortable_by_issue_date_asc"
+msgstr "Datum izdavanja uzlazno"
+
+msgid "cert_sortable_by_issue_date_desc"
+msgstr "Datum izdavanja silazno"
+
+msgid "cert_sortable_by_title_asc"
+msgstr "Naslov uzlazno"
+
+msgid "cert_sortable_by_title_desc"
+msgstr "Naslov silazno"
+
+msgid "certificate_achievement"
+msgstr "Ostvareno %1$s."
+
+msgid "certificate_achievement_sub_obj"
+msgstr "Certifikat za %1$s"
+
+msgid "certificate_no_object_title"
+msgstr "Nije dostupan nijedan naslov objekta"
+
+msgid "certificate_same_not_saved"
+msgstr "Nije spremljena nova verzija predloška certifikata jer se vrijednosti nisu promijenile."
+
+msgid "error_creating_certificate_pdf"
+msgstr "Certifikat se ne može kreirati.  Molimo kontaktirajte administratora kako bi provjerio poslužitelja certifikata."
+
+msgid "user_certificates"
+msgstr "Certifikati"

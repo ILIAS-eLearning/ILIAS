@@ -1,0 +1,180 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"Language-Team: English\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: jscalendar\n"
+
+msgid "about_calendar"
+msgstr "About the calendar"
+
+msgid "about_calendar_long"
+msgstr "DHTML Date/Time Selector © dynarch.com 2002-2003 For latest version visit: http://dynarch.com/mishoo/calendar.epl Distributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details.  Date selection: - Use the buttons « and » to select year - Use the buttons < and > to select month - Hold mouse button on any of the above buttons for faster selection."
+
+msgid "about_time"
+msgstr "  Time selection: - Click on any of the time parts to increase it - or Shift-click to decrease it - or click and drag for faster selection."
+
+msgid "day_first"
+msgstr "Display %s first"
+
+msgid "def_date_format"
+msgstr "%Y-%m-%d"
+
+msgid "drag_to_move"
+msgstr "Drag to move"
+
+msgid "go_today"
+msgstr "Go Today"
+
+msgid "l_01"
+msgstr "January"
+
+msgid "l_02"
+msgstr "February"
+
+msgid "l_03"
+msgstr "March"
+
+msgid "l_04"
+msgstr "April"
+
+msgid "l_05"
+msgstr "May"
+
+msgid "l_06"
+msgstr "June"
+
+msgid "l_07"
+msgstr "July"
+
+msgid "l_08"
+msgstr "August"
+
+msgid "l_09"
+msgstr "September"
+
+msgid "l_10"
+msgstr "October"
+
+msgid "l_11"
+msgstr "November"
+
+msgid "l_12"
+msgstr "December"
+
+msgid "l_fr"
+msgstr "Friday"
+
+msgid "l_mo"
+msgstr "Monday"
+
+msgid "l_sa"
+msgstr "Saturday"
+
+msgid "l_su"
+msgstr "Sunday"
+
+msgid "l_th"
+msgstr "Thursday"
+
+msgid "l_tu"
+msgstr "Tuesday"
+
+msgid "l_we"
+msgstr "Wednesday"
+
+msgid "next_month"
+msgstr "Next month (hold for menu)"
+
+msgid "next_year"
+msgstr "Next year (hold for menu)"
+
+msgid "open_calendar"
+msgstr "Click here to open a calendar for date selection (JavaScript required!)"
+
+msgid "part_today"
+msgstr " (today)"
+
+msgid "prev_month"
+msgstr "Prev. month (hold for menu)"
+
+msgid "prev_year"
+msgstr "Prev. year (hold for menu)"
+
+msgid "s_01"
+msgstr "Jan"
+
+msgid "s_02"
+msgstr "Feb"
+
+msgid "s_03"
+msgstr "Mar"
+
+msgid "s_04"
+msgstr "Apr"
+
+msgid "s_05"
+msgstr "May"
+
+msgid "s_06"
+msgstr "Jun"
+
+msgid "s_07"
+msgstr "Jul"
+
+msgid "s_08"
+msgstr "Aug"
+
+msgid "s_09"
+msgstr "Sep"
+
+msgid "s_10"
+msgstr "Oct"
+
+msgid "s_11"
+msgstr "Nov"
+
+msgid "s_12"
+msgstr "Dec"
+
+msgid "s_fr"
+msgstr "Fr"
+
+msgid "s_mo"
+msgstr "Mo"
+
+msgid "s_sa"
+msgstr "Sa"
+
+msgid "s_su"
+msgstr "Su"
+
+msgid "s_th"
+msgstr "Th"
+
+msgid "s_tu"
+msgstr "Tu"
+
+msgid "s_we"
+msgstr "We"
+
+msgid "select_date"
+msgstr "Select date"
+
+msgid "time"
+msgstr "Time"
+
+msgid "time_part"
+msgstr "(Shift-)Click or drag to change value"
+
+msgid "today"
+msgstr "Today"
+
+msgid "tt_date_format"
+msgstr "%a, %b %e"
+
+msgid "wk"
+msgstr "wk"

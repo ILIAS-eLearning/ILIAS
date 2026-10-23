@@ -1,0 +1,593 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: zh\n"
+"Language-Team: Chinese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: user\n"
+
+#, fuzzy
+msgid "account_not_flagged_for_deletion"
+msgstr "The account is not flagged for deletion."
+
+#, fuzzy
+msgid "activate_in_profile_fields"
+msgstr "To change this setting, the user must first be allowed to change their login name under Profile > Profile Fields"
+
+#, fuzzy
+msgid "administrative_settings"
+msgstr "Administrative Settings"
+
+#, fuzzy
+msgid "all_roles_has_starting_point"
+msgstr "All the roles have starting points"
+
+#, fuzzy
+msgid "back_to_starting_points_list"
+msgstr "Back to Starting Points"
+
+#, fuzzy
+msgid "change_email_email_confirmation_body"
+msgstr "The email address for the account %s was changed. To confirm this change, please click on this link %s. The link is valid for %s minutes."
+
+#, fuzzy
+msgid "change_email_email_confirmation_subject"
+msgstr "Confirm Email Address"
+
+#, fuzzy
+msgid "change_email_email_information_body"
+msgstr "The process to change the email address for the account %s to %s was started. An email with a link to confirm the change was sent to the new address. The link is valid for %s minutes."
+
+#, fuzzy
+msgid "change_email_email_information_subject"
+msgstr "Information about Change of Email Address"
+
+#, fuzzy
+msgid "change_email_email_sent"
+msgstr "An email with a link to confirm your change has been sent. Please check your inbox and make sure to also look in the spam-folder if the email doesn't arrive within the next minutes."
+
+#, fuzzy
+msgid "change_email_info_message"
+msgstr "There is a pending request to change the email address for this account."
+
+#, fuzzy
+msgid "clipboard_add_btn"
+msgstr "Add to Clipboard"
+
+#, fuzzy
+msgid "clipboard_add_from_btn"
+msgstr "Add from Clipboard"
+
+#, fuzzy
+msgid "clipboard_empty_btn"
+msgstr "Empty Clipboard"
+
+#, fuzzy
+msgid "clipboard_remove_btn"
+msgstr "Remove from Clipboard"
+
+#, fuzzy
+msgid "clipboard_table_title"
+msgstr "Clipboard (User Accounts)"
+
+#, fuzzy
+msgid "clipboard_user_added"
+msgstr "Added selected users to clipboard."
+
+#, fuzzy
+msgid "confirm_delete_starting_point"
+msgstr "Are you sure you want to delete this rule?"
+
+#, fuzzy
+msgid "confirm_logout_for_email_change"
+msgstr "You changed your email. To finalize this change, you will need to provide your password. The system is thus going to log you out and you will have 5 minutes to log in again. All other changes will be saved before logging you out."
+
+#, fuzzy
+msgid "confirm_logout_for_email_change_with_confirmation"
+msgstr "Additionally, a confirmation that you control the new email address will be required. After you have logged in again, an email will be sent to you. Please click on the link in the email to confirm that you contoll the address. The change of the email address will only take effect once this second step is also finalized."
+
+#, fuzzy
+msgid "create_starting_point"
+msgstr "Create Rule"
+
+#, fuzzy
+msgid "criteria"
+msgstr "Criteria"
+
+#, fuzzy
+msgid "del_mail_body"
+msgstr "Hello %1$s, %2$s you haven't logged in for a long period of time, on %3$s. So your account will be deleted in %4$s days. You have to login again to prevent the deletion of your account."
+
+#, fuzzy
+msgid "del_mail_subject"
+msgstr "(ILIAS) – Your account will be deleted"
+
+#, fuzzy
+msgid "delete_inactive_user_accounts_frequency"
+msgstr "Frequency"
+
+#, fuzzy
+msgid "delete_inactive_user_accounts_frequency_desc"
+msgstr "Frequency, in which the deletion and email distibution will be tested."
+
+#, fuzzy
+msgid "edit_field"
+msgstr "Edit Field"
+
+#, fuzzy
+msgid "edit_setting"
+msgstr "Edit Setting"
+
+#, fuzzy
+msgid "editing_this_role"
+msgstr "Role"
+
+#, fuzzy
+msgid "email_could_not_be_changed"
+msgstr "The request to change your email could not be finalized."
+
+msgid "enable_local_user_administration"
+msgstr "启用本地用户管理"
+
+msgid "enable_local_user_administration_info"
+msgstr "如果启用，本地用户账号在类目中能被管理。"
+
+#, fuzzy
+msgid "feedhash"
+msgstr "Newsfeedhash"
+
+#, fuzzy
+msgid "field_type_custom"
+msgstr "Custom"
+
+#, fuzzy
+msgid "has_role"
+msgstr "Role"
+
+#, fuzzy
+msgid "info_accessFree_sure"
+msgstr "Are you sure you want to remove the valid until date from the following accounts?"
+
+#, fuzzy
+msgid "inform_user_mail_info"
+msgstr "If activated, an email will be sent to the user. Its content can be defined in Administration > User Management > Settings > New Account Mail."
+
+#, fuzzy
+msgid "interests"
+msgstr "Interests"
+
+#, fuzzy
+msgid "interests_general"
+msgstr "General Interests"
+
+#, fuzzy
+msgid "interests_help_looking"
+msgstr "Looking For Help"
+
+#, fuzzy
+msgid "interests_help_offered"
+msgstr "Offering Help"
+
+#, fuzzy
+msgid "ldoc_accepted_content"
+msgstr "Accepted Content"
+
+#, fuzzy
+msgid "ldoc_not_accepted_yet"
+msgstr "Not accepted yet"
+
+#, fuzzy
+msgid "msg_spoint_not_modified"
+msgstr "Starting point not modified"
+
+#, fuzzy
+msgid "no_deactivate_yourself"
+msgstr "You cannot deactivate your own user account."
+
+#, fuzzy
+msgid "obj_ref_id_not_exist"
+msgstr "The entered Reference-Id does not exist"
+
+#, fuzzy
+msgid "personalise_additional"
+msgstr "Personalise Additional Settings"
+
+#, fuzzy
+msgid "personalise_communication"
+msgstr "Personalise Communication Settings"
+
+#, fuzzy
+msgid "personalise_privacy"
+msgstr "Personalise Privacy Settings"
+
+#, fuzzy
+msgid "profile_fields"
+msgstr "Profile Fields"
+
+#, fuzzy
+msgid "profile_section"
+msgstr "Section"
+
+msgid "restrict_user_access"
+msgstr "受限访问用户账号"
+
+msgid "restrict_user_access_info"
+msgstr "如果启用，访问用户账号将受限。访问取决于“用户账号”和“类目”中的权限“本地用户账号读访问权限”。"
+
+#, fuzzy
+msgid "roles_without_starting_point"
+msgstr "Roles without defined starting point:"
+
+#, fuzzy
+msgid "save_order"
+msgstr "Save Order"
+
+#, fuzzy
+msgid "send_mail_reminder_window_too_small"
+msgstr "Your Frequency setting is too large for this reminder value."
+
+#, fuzzy
+msgid "send_mail_to_inactive_users"
+msgstr "Earliest date in days for sending a reminder mail"
+
+#, fuzzy
+msgid "send_mail_to_inactive_users_desc"
+msgstr "A reminder mail will be send to user's e-mail address to warn about an upcoming account deletion."
+
+#, fuzzy
+msgid "send_mail_to_inactive_users_must_be_smaller_than"
+msgstr "This value must be smaller than the value 'Days passed since last login'."
+
+#, fuzzy
+msgid "send_mail_to_inactive_users_numbers_only"
+msgstr "Only positive non decimal numbers are accepted."
+
+#, fuzzy
+msgid "send_mail_to_inactive_users_suffix"
+msgstr "Days before Deletion."
+
+#, fuzzy
+msgid "show_own_online_status"
+msgstr "Show My Online Status"
+
+#, fuzzy
+msgid "starting_page"
+msgstr "Starting Point"
+
+#, fuzzy
+msgid "starting_point"
+msgstr "Starting Point"
+
+#, fuzzy
+msgid "starting_point_settings"
+msgstr "Starting Point Settings"
+
+#, fuzzy
+msgid "starting_points"
+msgstr "Starting Points"
+
+#, fuzzy
+msgid "udf_select_options"
+msgstr "Options"
+
+msgid "user_access_limited"
+msgstr "有限的"
+
+msgid "user_access_unlimited"
+msgstr "无限的"
+
+msgid "user_account_code"
+msgstr "代码"
+
+msgid "user_account_code_generated"
+msgstr "生成的日期"
+
+msgid "user_account_code_generated_all"
+msgstr "所有日期"
+
+msgid "user_account_code_not_valid"
+msgstr "给定的注册码是无效的或已经被使用。"
+
+msgid "user_account_code_setting"
+msgstr "通过代码启用账号重激活"
+
+msgid "user_account_code_setting_info"
+msgstr "不活跃账号可通过用户预定义代码重新激活。"
+
+msgid "user_account_code_used"
+msgstr "使用的日期"
+
+msgid "user_account_code_valid_until"
+msgstr "有效期至"
+
+msgid "user_account_code_valid_until_dynamic"
+msgstr "天数"
+
+msgid "user_account_code_valid_until_static"
+msgstr "结束日期"
+
+msgid "user_account_code_valid_until_unlimited"
+msgstr "无限制"
+
+msgid "user_account_codes_add"
+msgstr "添加代码"
+
+msgid "user_account_codes_edit_header"
+msgstr "添加代码"
+
+msgid "user_account_codes_export"
+msgstr "导出代码"
+
+msgid "user_account_codes_number"
+msgstr "代码数目"
+
+msgid "user_account_deleted_confirmation"
+msgstr "您的账号已被删除。一封包含详细信息的电子邮件已经发送给您。"
+
+msgid "user_activate_public_profile"
+msgstr "激活公共资料(profile)"
+
+msgid "user_activate_public_profile_info"
+msgstr "您的公共资料(profil)的全局活跃状态。如果已激活，您的姓名将对其他用户可见。"
+
+msgid "user_activation"
+msgstr "激活"
+
+#, fuzzy
+msgid "user_admin_options"
+msgstr "Options"
+
+msgid "user_all"
+msgstr "全部"
+
+msgid "user_allow_delete_own_account"
+msgstr "允许用户删除自己的账号"
+
+msgid "user_any"
+msgstr "任意"
+
+#, fuzzy
+msgid "user_awrn_all_users"
+msgstr "All Users"
+
+#, fuzzy
+msgid "user_awrn_all_users_info"
+msgstr "All users of the platform are listed."
+
+#, fuzzy
+msgid "user_check_profile_data"
+msgstr "Check profile data"
+
+#, fuzzy
+msgid "user_chooses_starting_page"
+msgstr "User Chooses Starting Point"
+
+msgid "user_delete_own_account"
+msgstr "删除账户"
+
+#, fuzzy
+msgid "user_delete_own_account_aborted"
+msgstr "Aborted deletion, account was not changed."
+
+msgid "user_delete_own_account_email_body"
+msgstr "您的用户账号 \"%s\" 已从 %s 被删除。"
+
+msgid "user_delete_own_account_email_subject"
+msgstr "用户账号已删除"
+
+msgid "user_delete_own_account_final_confirmation"
+msgstr "请最后一次确认从ILIAS删除您的用户账号！"
+
+msgid "user_delete_own_account_info"
+msgstr "在这里您能删除您的当前用户账号。记住，您的账号的删除是不可逆的。"
+
+#, fuzzy
+msgid "user_delete_own_account_logout_button"
+msgstr "Proceed to Authentication"
+
+#, fuzzy
+msgid "user_delete_own_account_logout_confirmation"
+msgstr "Your account has been flagged for deletion. Please authenticate to continue the process."
+
+msgid "user_delete_own_account_notification_email"
+msgstr "通知邮件"
+
+msgid "user_field"
+msgstr "字段"
+
+msgid "user_global_role"
+msgstr "全球橘色"
+
+msgid "user_last_login_before"
+msgstr "最后登录之前"
+
+msgid "user_limited_access"
+msgstr "受限访问"
+
+#, fuzzy
+msgid "user_local_role"
+msgstr "Local Role"
+
+msgid "user_lv_do_not_store"
+msgstr "永远不记上次访问"
+
+msgid "user_lv_keep_entries"
+msgstr "记住上次访问"
+
+msgid "user_lv_keep_only_for_session"
+msgstr "记住仅当前会话期间"
+
+#, fuzzy
+msgid "user_make_profile_public"
+msgstr "Publish Profile"
+
+msgid "user_member_of_course_group"
+msgstr "课程/组的成员"
+
+msgid "user_no_courses"
+msgstr "没有课程被分配"
+
+#, fuzzy
+msgid "user_no_groups"
+msgstr "No Groups Assigned"
+
+msgid "user_order"
+msgstr "订单(order)"
+
+msgid "user_ownership"
+msgstr "知识库对象"
+
+msgid "user_please_select_course_group"
+msgstr "请选择一门课程或一个组"
+
+msgid "user_portfolios"
+msgstr "组合"
+
+msgid "user_portfolios_desc"
+msgstr "用户可创建组合并用于他们的资料(profile)中。"
+
+#, fuzzy
+msgid "user_privacy_checklist"
+msgstr "Privacy Checklist"
+
+#, fuzzy
+msgid "user_profile_data"
+msgstr "Profile Data"
+
+#, fuzzy
+msgid "user_profile_data_checked"
+msgstr "Profile data checked"
+
+#, fuzzy
+msgid "user_profile_info"
+msgstr "User Profile Info"
+
+#, fuzzy
+msgid "user_profile_info_std"
+msgstr "Default User Profile Info"
+
+#, fuzzy
+msgid "user_profile_info_text_info"
+msgstr "This text is presented on top of the form for entering personal data."
+
+msgid "user_profile_portfolio"
+msgstr "您可以作为公共资料(profile)来使用一个组合。"
+
+msgid "user_profile_portfolio_selected"
+msgstr "您当前正使用一个组合作为您的资料(profile)。"
+
+msgid "user_profile_preview"
+msgstr "预览"
+
+#, fuzzy
+msgid "user_profile_prompt_text"
+msgstr "Prompt Text"
+
+#, fuzzy
+msgid "user_profile_prompt_text_info"
+msgstr "This text will replace the default info text, if a user has been prompted to the profile."
+
+#, fuzzy
+msgid "user_prompt_incomplete"
+msgstr "Only if profile is incomplete"
+
+#, fuzzy
+msgid "user_prompt_incomplete_info"
+msgstr "If the user has to enter required fields, the profile will be shown after login."
+
+#, fuzzy
+msgid "user_prompt_once_after_login"
+msgstr "Once after specific number of days after first login"
+
+#, fuzzy
+msgid "user_prompt_once_after_login_info"
+msgstr "After this period the user will be prompted with the profile, if the user did not publish the profile yet."
+
+#, fuzzy
+msgid "user_prompt_repeat"
+msgstr "Repeat every specific number of days"
+
+#, fuzzy
+msgid "user_prompt_repeat_info"
+msgstr "The user will be prompted periodically with the profile, if the user did not publish the profile yet."
+
+#, fuzzy
+msgid "user_prompting_recurrence"
+msgstr "Prompting Recurrence"
+
+#, fuzzy
+msgid "user_prompting_settings"
+msgstr "Prompting Settings"
+
+msgid "user_public_profile_info"
+msgstr "请选择能让其他用户可见的个人数据。"
+
+#, fuzzy
+msgid "user_publish_options"
+msgstr "Publish Profile"
+
+#, fuzzy
+msgid "user_role_selection"
+msgstr "Role Selection"
+
+#, fuzzy
+msgid "user_role_starting_point"
+msgstr "User - Starting Point"
+
+#, fuzzy
+msgid "user_save_continue"
+msgstr "Save and Continue"
+
+msgid "user_save_ordering_and_titles"
+msgstr "保存排序和标题"
+
+msgid "user_select_course_group"
+msgstr "选择课程/组"
+
+#, fuzzy
+msgid "user_set_publishing_options"
+msgstr "Set publishing options"
+
+#, fuzzy
+msgid "user_set_visibilty_options"
+msgstr "Set visibility options"
+
+#, fuzzy
+msgid "user_settings"
+msgstr "User Settings"
+
+msgid "user_store_last_visited"
+msgstr "最后访问的"
+
+#, fuzzy
+msgid "user_visibility_settings"
+msgstr "Visibility"
+
+msgid "user_visible_in_profile"
+msgstr "在资料(profile)中可见"
+
+#, fuzzy
+msgid "usr_id"
+msgstr "System ID"
+
+#, fuzzy
+msgid "usr_letter_avatars"
+msgstr "Letter Avatars"
+
+#, fuzzy
+msgid "usr_letter_avatars_info"
+msgstr "Shows initial of user name or login as profile picture, if no public picture is being provided."
+
+msgid "usr_public_profile_disabled"
+msgstr "公共资料(profile)已禁用"
+
+msgid "usr_public_profile_disabled_info"
+msgstr "您的信息只能让行政人员可见。"
+
+msgid "usr_public_profile_global"
+msgstr "全局可见"
+
+msgid "usr_public_profile_logged_in"
+msgstr "已登录用户"

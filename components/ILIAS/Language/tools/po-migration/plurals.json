@@ -1,0 +1,44 @@
+{
+    "_comment": "Input of convert_module_to_po.php, see README.md (\"plurals.json\"). plural_forms: the Plural-Forms header written into every generated .po of the language. Source: CLDR 48.2 (release-48-2, 2026-03-17), integer categories; checked for all 31 languages against n=0..2000 and large values (31/31 OK). CLDR main (49, unreleased) changes vi to 2 forms (nplurals=2; plural=n > 1) - to be followed with release 49. Changing a rule is safe for installations: local form values in existing overlays are taken over by meaning, not by index (see README.md, \"Changing a rule\"). modules: per module the plural messages - msgid => {\"singular\": key whose value - only where the language translated it - becomes the form the rule of the language selects for n = 1 and no other n; every other form gets the message's own value (optional), \"plural_id\": msgid_plural (optional, default <msgid>_plural)}.",
+    "plural_forms": {
+        "ar": "nplurals=6; plural=(n == 0) ? 0 : ((n == 1) ? 1 : ((n == 2) ? 2 : ((n % 100 >= 3 && n % 100 <= 10) ? 3 : ((n % 100 >= 11 && n % 100 <= 99) ? 4 : 5))));",
+        "bg": "nplurals=2; plural=n != 1;",
+        "cs": "nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);",
+        "da": "nplurals=2; plural=n != 1;",
+        "de": "nplurals=2; plural=n != 1;",
+        "el": "nplurals=2; plural=n != 1;",
+        "en": "nplurals=2; plural=n != 1;",
+        "es": "nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);",
+        "et": "nplurals=2; plural=n != 1;",
+        "fa": "nplurals=2; plural=n > 1;",
+        "fr": "nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);",
+        "hr": "nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);",
+        "hu": "nplurals=2; plural=n != 1;",
+        "it": "nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);",
+        "ja": "nplurals=1; plural=0;",
+        "ka": "nplurals=2; plural=n != 1;",
+        "lt": "nplurals=3; plural=(n % 10 == 1 && (n % 100 < 11 || n % 100 > 19)) ? 0 : ((n % 10 >= 2 && n % 10 <= 9 && (n % 100 < 11 || n % 100 > 19)) ? 1 : 2);",
+        "nl": "nplurals=2; plural=n != 1;",
+        "pl": "nplurals=3; plural=(n == 1) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);",
+        "pt": "nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);",
+        "ro": "nplurals=3; plural=(n == 1) ? 0 : ((n == 0 || n != 1 && n % 100 >= 1 && n % 100 <= 19) ? 1 : 2);",
+        "ru": "nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);",
+        "sk": "nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);",
+        "sl": "nplurals=4; plural=(n % 100 == 1) ? 0 : ((n % 100 == 2) ? 1 : ((n % 100 == 3 || n % 100 == 4) ? 2 : 3));",
+        "sq": "nplurals=2; plural=n != 1;",
+        "sr": "nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);",
+        "sv": "nplurals=2; plural=n != 1;",
+        "tr": "nplurals=2; plural=n != 1;",
+        "uk": "nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);",
+        "vi": "nplurals=1; plural=0;",
+        "zh": "nplurals=1; plural=0;"
+    },
+    "modules": {
+        "poll": {
+            "poll_population": {
+                "singular": "poll_population_singular"
+            },
+            "poll_vote_error_multi": {}
+        }
+    }
+}

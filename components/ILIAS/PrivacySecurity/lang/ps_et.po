@@ -1,0 +1,316 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: et\n"
+"Language-Team: Estonian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: ps\n"
+
+msgid "cdf_edited_by_self"
+msgstr "by the User"
+
+msgid "crs_ps_cdf_info"
+msgstr "Further Course-Specific Data:"
+
+msgid "crs_ps_required_info"
+msgstr "Further Course-Specific fields are required for accessing the course content."
+
+msgid "grp_ps_cdf_info"
+msgstr "Further Group-Specific Data:"
+
+msgid "grp_ps_required_info"
+msgstr "Further Group-Specific fields are required for accessing the group content."
+
+msgid "ps_agreement_accepted"
+msgstr "Kasutajatingimustega on nõustutud"
+
+msgid "ps_auto_https"
+msgstr "Autodetect HTTPS"
+
+msgid "ps_auto_https_description"
+msgstr "If enabled, ILIAS tries to detect the HTTPs Status by analysing the header value specified below."
+
+msgid "ps_auto_https_header_name"
+msgstr "Päise nimi"
+
+msgid "ps_auto_https_header_value"
+msgstr "Päise väärtus"
+
+msgid "ps_btn_add_value"
+msgstr "Uus väärtus"
+
+msgid "ps_cdf_add_field"
+msgstr "Lisa kasutaja väli"
+
+msgid "ps_cdf_added_field"
+msgstr "Lisa uus vaikukast."
+
+msgid "ps_cdf_data_fields"
+msgstr "Võimalikud kasutajaväljad"
+
+msgid "ps_cdf_delete_sure"
+msgstr "Do you really want to delete these user fields ?"
+
+msgid "ps_cdf_deleted"
+msgstr "Deleted user fields"
+
+msgid "ps_cdf_deleted_field"
+msgstr "Deleted value"
+
+msgid "ps_cdf_edit_field"
+msgstr "Edit Data Field"
+
+msgid "ps_cdf_name"
+msgstr "Nimi"
+
+msgid "ps_cdf_no_fields"
+msgstr "Kasutaja kirjed pole määratud"
+
+msgid "ps_cdf_no_name_given"
+msgstr "Sisesta nimi."
+
+msgid "ps_cdf_required"
+msgstr "Kohustuslik väli"
+
+msgid "ps_cdf_select_one"
+msgstr "Vali üks."
+
+msgid "ps_cdf_type"
+msgstr "Tüüp"
+
+msgid "ps_cdf_value"
+msgstr "Väärtus"
+
+msgid "ps_cdf_warning_modify"
+msgstr "Attention: Minimum one user has accepted the user agreement. Modifying these course specific fields will reset all user agreements."
+
+msgid "ps_crs_user_fields"
+msgstr "Course-Specific User Fields"
+
+msgid "ps_error_message_https_header_missing"
+msgstr "If you enable the automatic https detection you have to provide a header name and header value."
+
+msgid "ps_error_message_invalid_login_max_attempts"
+msgstr "Maksimaalne logimiste arv ei saa olla väiksem kui 0."
+
+msgid "ps_error_message_invalid_password_max_age"
+msgstr "Maksimaalne salasõna vanus ei tohi olla vähem kui <br />0."
+
+msgid "ps_error_message_invalid_password_max_length"
+msgstr "Maksimaalne salasõna pikkus ei tohi olla vähem kui <br />0."
+
+msgid "ps_error_message_invalid_password_min_length"
+msgstr "Minimaalne parooli pikkus ei saa olla väiksem kui 0."
+
+msgid "ps_error_message_password_max_less_min"
+msgstr "Maksimaalne salasõna pikkus ei tohi olla vähem kui minimaalne salasõna pikkus."
+
+msgid "ps_error_message_password_min1_because_chars"
+msgstr "Minimum password size may not be less than %s."
+
+msgid "ps_error_message_password_min2_because_chars_numbers"
+msgstr "Minimaalne salasõna suurus ei saa olla vähem kui 2, kui salasõna peab sisaldama tähemärke ja numbreid."
+
+msgid "ps_error_message_password_min3_because_chars_numbers_sc"
+msgstr "Minimaalne salasõna suurus ei saa olla vähem kui 3, kui salasõna peab sisaldama tähemärke, numbreid ja erimärke."
+
+msgid "ps_export_admin"
+msgstr "Haldurid"
+
+#. Needs improvement!
+msgid "ps_export_confirm"
+msgstr "Kasutaja kinnitus kursusele sisenemisel"
+
+#. Needs improvement!
+msgid "ps_export_confirm_group"
+msgstr "Kasutaja kinnitus grupiga ühinemisel"
+
+#, fuzzy
+msgid "ps_export_confirm_group_info"
+msgstr "When joining a group, users are required to accept that their personal data can be viewed by the group admins."
+
+#, fuzzy
+msgid "ps_export_confirm_info"
+msgstr "When joining a course, users are required to accept that their personal data can be viewed by the course admins."
+
+msgid "ps_export_course"
+msgstr "Täiustatud kasutajaandmete eksport kursustes"
+
+msgid "ps_export_data"
+msgstr "Kasutajaprofiili andmed"
+
+msgid "ps_export_excel"
+msgstr "Alusta Excel-eksporti"
+
+msgid "ps_export_files"
+msgstr "Ekspordifailid"
+
+msgid "ps_export_groups"
+msgstr "Kasutajakonto andmed gruppides nähtavad"
+
+msgid "ps_export_member"
+msgstr "Liikmed"
+
+#, fuzzy
+msgid "ps_export_prgs"
+msgstr "Allow export of user profile data in Study Programmes"
+
+msgid "ps_export_settings"
+msgstr "Ekspordi seaded"
+
+msgid "ps_export_sub"
+msgstr "Kasutajad"
+
+msgid "ps_export_tutor"
+msgstr "Juhendajad"
+
+msgid "ps_export_user_data"
+msgstr "Andmetüübid"
+
+msgid "ps_export_wait"
+msgstr "Ootejärjekorras olevad kasutajad"
+
+msgid "ps_field_type"
+msgstr "Välja tüüp"
+
+msgid "ps_files_deleted"
+msgstr "Ekspordifailid on kustutatud"
+
+msgid "ps_grp_user_fields"
+msgstr "Group-Specific User Fields"
+
+msgid "ps_login_max_attempts"
+msgstr "Maksimaalne sisselogimisürituste arv"
+
+msgid "ps_login_max_attempts_info"
+msgstr "Määrab sisselogimisürituste maksimaalse arvu. 0 märgib seadistuse vältimist."
+
+msgid "ps_not_accepted"
+msgstr "Pole aktsepteeritud"
+
+#, fuzzy
+msgid "ps_participants_list_courses"
+msgstr "Allow Activation of Participant Lists in the Member Gallery of Courses"
+
+#, fuzzy
+msgid "ps_passwd_policy_change_force_user_reset_succ"
+msgstr "The changes have been successfully applied."
+
+#, fuzzy
+msgid "ps_passwd_policy_changed_force_user_reset"
+msgstr "The changes were saved successfully. You just modified at least one password policy setting. Should local users be forced to change their password after the next successful login?"
+
+msgid "ps_password_change_on_first_login_enabled"
+msgstr "Muuda parool esimesel sisenemisel"
+
+msgid "ps_password_change_on_first_login_enabled_info"
+msgstr "Kui võimaldatud, peavad kasutajad esimesel sisenemisel muutma oma salasõna (v.a iseregistreerunud kasutajad)."
+
+msgid "ps_password_chars_and_numbers_enabled"
+msgstr "Kirjamärgid ja numbrid"
+
+msgid "ps_password_chars_and_numbers_enabled_info"
+msgstr "Kui võimaldatud, peab salasõna sisaldama tähemärke ja numbreid."
+
+#, fuzzy
+msgid "ps_password_force_user_reset"
+msgstr "Force Password Reset"
+
+msgid "ps_password_max_age"
+msgstr "Maximum Password Age"
+
+msgid "ps_password_max_age_info"
+msgstr "Sets the maximum age of passwords in days. Set this to 0 for disabling this option."
+
+msgid "ps_password_max_length"
+msgstr "Maximum Password Size"
+
+msgid "ps_password_max_length_info"
+msgstr "Sets the maximum size of account passwords. Set this to 0 for disabling this option."
+
+msgid "ps_password_min_length"
+msgstr "Minimaalne parooli pikkus"
+
+msgid "ps_password_min_length_info"
+msgstr "Sets the minimum size of account passwords. If set to 0 the passwords anyway have to have a minimum size of 1."
+
+msgid "ps_password_settings"
+msgstr "Password Settings"
+
+msgid "ps_password_special_chars_enabled"
+msgstr "Erimärgid"
+
+msgid "ps_password_special_chars_enabled_info"
+msgstr "Kui võimaldatud, peab salasõna sisaldama kindlaid tähemärke."
+
+msgid "ps_perform_export"
+msgstr "Alusta CSV-eksporti"
+
+msgid "ps_prevent_simultaneous_logins"
+msgstr "Keela samaaegsed sisselogimised"
+
+msgid "ps_prevent_simultaneous_logins_info"
+msgstr "Kui võimaldatud, pole samaaegsed sessioonid sama kasutajanimega erinevatest arvutitest võimalikud."
+
+msgid "ps_privacy_protection"
+msgstr "Privaatsuse seaded"
+
+msgid "ps_profile_export"
+msgstr "Kasutajakonto andmete kaitse"
+
+msgid "ps_security_protection"
+msgstr "Turvseaded"
+
+msgid "ps_select_one"
+msgstr "Vali üks ekspordifail"
+
+msgid "ps_show_crs_access"
+msgstr "Näita kursuslaste viimast sisenemisaega"
+
+msgid "ps_show_grp_access"
+msgstr "Näita grupiliikmete viimast sisenemisaega"
+
+#, fuzzy
+msgid "ps_show_lso_access"
+msgstr "Show last access time of learning sequence participants"
+
+msgid "ps_size"
+msgstr "Faili suurus"
+
+msgid "ps_type_select"
+msgstr "Vali väli"
+
+msgid "ps_type_select_long"
+msgstr "Valikukast (etteantud väärtused)"
+
+msgid "ps_type_text"
+msgstr "Tekstiväli"
+
+msgid "ps_type_txt_long"
+msgstr "Tekstiväli (valikulised väärtused)"
+
+msgid "ps_user_selection"
+msgstr "Osaleja jaotus"
+
+msgid "ps_warning_modify"
+msgstr "Attention: Minimum one user has accepted the user agreement. Modifying these settings will reset all user agreements."
+
+msgid "rbac_log"
+msgstr "Permission Log"
+
+msgid "rbac_log_age"
+msgstr "Keep Log Entries"
+
+msgid "rbac_log_age_info"
+msgstr "Maximum age of log entries in month"
+
+msgid "rbac_log_info"
+msgstr "Võimalda objekti õigustes kõikide muudatuste logi"
+
+msgid "show_privacy"
+msgstr "Privaatsus"
+
+msgid "show_security"
+msgstr "Turva"

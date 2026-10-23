@@ -1,0 +1,153 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: sysc\n"
+
+msgid "sysc_action_list_tree"
+msgstr "Tartalomtárfa-lenyomat létrehozása"
+
+msgid "sysc_action_repair"
+msgstr "Javítás"
+
+msgid "sysc_action_show_tree"
+msgstr "Tartalomtárfa-lenyomat megjelenítése"
+
+msgid "sysc_action_validate"
+msgstr "Ellenőrzés"
+
+msgid "sysc_administrate_deleted"
+msgstr "Törölt objektumok kezelése"
+
+msgid "sysc_btn_tree_missing"
+msgstr "Hiányzók visszaállítása"
+
+msgid "sysc_btn_tree_structure"
+msgstr "Fastruktúra újralétrehozása"
+
+msgid "sysc_completed_num"
+msgstr "Elvégzett feladatok"
+
+msgid "sysc_cron_empty_trash"
+msgstr "Lomtár ürítése"
+
+msgid "sysc_cron_empty_trash_desc"
+msgstr "A lomtárat ürítjük a megfelelő feltételek alapján (életkor, objektumtípus vagy objektumok maximális száma)."
+
+msgid "sysc_failed_num"
+msgstr "El nem végzett feladatok"
+
+msgid "sysc_groups"
+msgstr "Rendszerellenőrzési csoportok"
+
+msgid "sysc_grp_tree"
+msgstr "Tartalomtár"
+
+msgid "sysc_grp_tree_desc"
+msgstr "A fa elemzése és az összes facsomópont megjelenítése az elemzési adatokkal."
+
+msgid "sysc_message_success"
+msgstr "Nincs hiba"
+
+msgid "sysc_message_tree_missing_confirm"
+msgstr "Biztos, hogy visszaállítja a hiányzó bejegyzéseket a Tartalomtár faszerkezetében?"
+
+msgid "sysc_message_tree_structure_confirm"
+msgstr "Biztos, hogy javítja a fastruktúrát? A javítás előtt készítsen biztonsági másolatot adatbázisáról."
+
+msgid "sysc_overview"
+msgstr "Áttekintés"
+
+msgid "sysc_status_completed"
+msgstr "Befejezve"
+
+msgid "sysc_status_failed"
+msgstr "Sikertelen"
+
+msgid "sysc_status_na"
+msgstr "Nem futott"
+
+msgid "sysc_status_running"
+msgstr "Fut"
+
+msgid "sysc_tab_trash"
+msgstr "Törölt objektumok"
+
+msgid "sysc_task_overview"
+msgstr "Feladatok"
+
+msgid "sysc_task_structure"
+msgstr "Fastruktúra"
+
+msgid "sysc_task_structure_desc"
+msgstr "Tartalomtár faszerkezetének elemzése és javítása."
+
+msgid "sysc_task_tree_dump"
+msgstr "Fa listázása"
+
+msgid "sysc_task_tree_dump_desc"
+msgstr "Tartalomtár faszerkezetének elemzése és megjelenítése."
+
+msgid "sysc_task_tree_duplicates"
+msgstr "Duplikált bejegyzések a Tartalomtárban"
+
+msgid "sysc_task_tree_duplicates_desc"
+msgstr "Duplikált bejegyzések keresése a Tartalomtár faszerkezetében."
+
+msgid "sysc_task_tree_missing"
+msgstr "Hiányzó bejegyzések a Tartalomtárban"
+
+msgid "sysc_task_tree_missing_desc"
+msgstr "Hiányzó bejegyzések keresése és javítása a Tartalomtárban."
+
+msgid "sysc_task_tree_missing_reference"
+msgstr "Hiányzó objektumhivatkozások"
+
+msgid "sysc_task_tree_missing_reference_desc"
+msgstr "Hiányzó objektumhivatkozások keresése és javítása a Tartalomtárban."
+
+msgid "sysc_task_tree_missing_tree"
+msgstr "Hiányzó bejegyzések a Tartalomtárban"
+
+msgid "sysc_task_tree_missing_tree_desc"
+msgstr "Hiányzó bejegyzések keresése és javítása a Tartalomtárban."
+
+msgid "sysc_trash_action"
+msgstr "Művelet"
+
+msgid "sysc_trash_limit_age"
+msgstr "Évkorkorlát"
+
+msgid "sysc_trash_limit_num"
+msgstr "Számkorlát"
+
+msgid "sysc_trash_limit_type"
+msgstr "Típuskorlát"
+
+msgid "sysc_trash_remove"
+msgstr "Törölt objektumok végleges eltávolítása"
+
+msgid "sysc_trash_remove_info"
+msgstr "Törölt (lomtárban lévő) objektumok végleges eltávolítása a rendszerből"
+
+msgid "sysc_trash_restore"
+msgstr "Törölt objektumok visszaállítása"
+
+msgid "sysc_trash_restore_info"
+msgstr "A lomtárban lévő törölt objektumok visszaállítása és ‘Helyreállított objektumok’-ba helyezése"
+
+msgid "sysc_tree_duplicate_failures"
+msgstr "Duplikált bejegyzéseket találtunk a Tartalomtár faszerkezetében. Duplikált bejegyzések száma:"
+
+msgid "sysc_tree_list_failures"
+msgstr "A Tartalomtár falenyomatát létrehoztuk. Hibák száma a Tartalomtár szerkezetében:"
+
+msgid "sysc_tree_missing_failures"
+msgstr "Hiányzó bejegyzéseket találtunk a Tartalomtár faszerkezetében. Hiányzó bejegyzések száma:"
+
+msgid "sysc_tree_structure_failures"
+msgstr "Fastruktúra hibáinak száma (szülőkapcsolat):"

@@ -1,0 +1,326 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: bibl\n"
+
+msgid "Type"
+msgstr "Tipo"
+
+msgid "add_filter"
+msgstr "Aggiungi filtro"
+
+msgid "bib_default_abstract"
+msgstr "Riassunto"
+
+msgid "bib_default_address"
+msgstr "Indirizzo"
+
+msgid "bib_default_author"
+msgstr "Autore"
+
+msgid "bib_default_cite"
+msgstr "Bibliografia citazione"
+
+msgid "bib_default_edition"
+msgstr "Edizione"
+
+msgid "bib_default_howpublished"
+msgstr "Pubblicato come"
+
+msgid "bib_default_isbn"
+msgstr "ISSN/ISBN"
+
+msgid "bib_default_journal"
+msgstr "Rivista"
+
+msgid "bib_default_keywords"
+msgstr "Parole chiave"
+
+msgid "bib_default_month"
+msgstr "Mese"
+
+msgid "bib_default_note"
+msgstr "Nota"
+
+msgid "bib_default_number"
+msgstr "Numero"
+
+msgid "bib_default_organization"
+msgstr "Organizzazione"
+
+msgid "bib_default_pages"
+msgstr "Pagine"
+
+msgid "bib_default_publisher"
+msgstr "Editore"
+
+msgid "bib_default_series"
+msgstr "Serie"
+
+msgid "bib_default_title"
+msgstr "Titolo"
+
+msgid "bib_default_type"
+msgstr "Tipo"
+
+msgid "bib_default_url"
+msgstr "URL"
+
+msgid "bib_default_volume"
+msgstr "Volume"
+
+msgid "bib_default_year"
+msgstr "Anno"
+
+msgid "bibl_copy"
+msgstr "L'utente può copiare la bibliografia"
+
+msgid "bibl_edit"
+msgstr "Modifica bibliografia"
+
+msgid "bibl_filter"
+msgstr "Filtra"
+
+msgid "bibl_import"
+msgstr "Importa bibliografia"
+
+msgid "bibl_library_img"
+msgstr "URL di immagine"
+
+msgid "bibl_library_name"
+msgstr "Nome"
+
+msgid "bibl_library_show_in_list"
+msgstr "Mostra come link nella lista"
+
+msgid "bibl_library_url"
+msgstr "URL di base"
+
+msgid "bibl_link_online"
+msgstr "Inventario di ricerca"
+
+msgid "bibl_msg_translations_deleted"
+msgstr "Le traduzioni sono state cancellate"
+
+msgid "bibl_msg_translations_saved"
+msgstr "Le traduzioni sono state salvate"
+
+msgid "bibl_new"
+msgstr "Nuova bibliografia"
+
+msgid "bibl_settings_edit"
+msgstr "Modifica biblioteca"
+
+msgid "bibl_settings_libraries"
+msgstr "Biblioteche"
+
+msgid "bibl_settings_new"
+msgstr "Aggiungi biblioteca"
+
+msgid "bibl_translation_desc"
+msgstr "Descrizione"
+
+msgid "bibl_translation_lang"
+msgstr "Linguaggio"
+
+msgid "bibl_translation_trans"
+msgstr "Traduzione"
+
+msgid "bibliography_file"
+msgstr "Bibliography File"
+
+msgid "bibtex"
+msgstr "Bibtex"
+
+msgid "changes_saved"
+msgstr "Le modifiche sono state salvate."
+
+msgid "custom"
+msgstr "Personalizzato"
+
+msgid "detail_view"
+msgstr "Visualizzazione dettagliata"
+
+#, fuzzy
+msgid "detailed_information"
+msgstr "Detailed Information"
+
+msgid "download_original_file"
+msgstr "Scarica file originale"
+
+msgid "field"
+msgstr "Campo"
+
+msgid "fields"
+msgstr "Fields"
+
+msgid "filter_deleted"
+msgstr "Il filtro è stato cancellato."
+
+msgid "filter_field_info"
+msgstr "Scegli un campo per il quale desideri aggiungere un filtro."
+
+msgid "filter_form_title"
+msgstr "Aggiungi nuovo filtro"
+
+msgid "filter_type"
+msgstr "Tipo di filtro"
+
+msgid "filter_type_1"
+msgstr "L'immissione di testo"
+
+msgid "filter_type_2"
+msgstr "Seleziona input"
+
+msgid "filter_type_3"
+msgstr "Multi-Selectinput"
+
+msgid "filter_type_info"
+msgstr "Scegli un tipo di filtro per il campo."
+
+msgid "identifier"
+msgstr "Identificatore"
+
+msgid "msg_confirm_delete_filter"
+msgstr "Cancellare il seguente filtro?"
+
+#, fuzzy
+msgid "msg_filter_info"
+msgstr "Create a filter here that can be used in the \"Contents\" tab to limit the display of entries."
+
+msgid "news_title_created"
+msgstr "Nuova lista bibliografia aggiunta"
+
+msgid "news_title_updated"
+msgstr "Lista bibliografia aggiornata"
+
+#, fuzzy
+msgid "not_yet_migrated"
+msgstr "This Object has not et been migrated. Please contact the administrators of the platform."
+
+msgid "obj_bibl_duplicate"
+msgstr "Duplica bibliografia"
+
+msgid "order"
+msgstr "Ordine"
+
+msgid "override_entries"
+msgstr "Sovrascrivi voci"
+
+#, fuzzy
+msgid "replace_bibliography_file"
+msgstr "Replace Bibliography File"
+
+#, fuzzy
+msgid "replace_bibliography_file_info"
+msgstr "The current bibliography file will be replaced by the new file. All existing entries from the current file will be deleted."
+
+msgid "ris"
+msgstr "Ris"
+
+msgid "ris_default_a2"
+msgstr "Posizione negli archivi"
+
+msgid "ris_default_au"
+msgstr "Autore"
+
+msgid "ris_default_cy"
+msgstr "Luogo pubblicato"
+
+msgid "ris_default_ep"
+msgstr "Numero di pagina finale"
+
+msgid "ris_default_id"
+msgstr "ID di riferimento"
+
+msgid "ris_default_ja"
+msgstr "Periodo in cui è stato pubblicato l’articolo"
+
+msgid "ris_default_kw"
+msgstr "Parole chiave"
+
+msgid "ris_default_l3"
+msgstr "Registrazioni correlate"
+
+msgid "ris_default_m1"
+msgstr "Numero"
+
+msgid "ris_default_m3"
+msgstr "Vari 3"
+
+msgid "ris_default_n1"
+msgstr "Note"
+
+msgid "ris_default_n2"
+msgstr "Riassunto"
+
+msgid "ris_default_pb"
+msgstr "Editore"
+
+msgid "ris_default_py"
+msgstr "Anno di pubblicazione"
+
+msgid "ris_default_sn"
+msgstr "ISSN/ISBN/ASIN"
+
+msgid "ris_default_t1"
+msgstr "Titolo primario"
+
+msgid "ris_default_t2"
+msgstr "Titolo secondario"
+
+msgid "ris_default_t3"
+msgstr "Titolo terziario"
+
+msgid "ris_default_ti"
+msgstr "Titolo libro"
+
+msgid "ris_default_ty"
+msgstr "Tipo"
+
+msgid "ris_default_u2"
+msgstr "Definito dall’utente"
+
+msgid "ris_default_ur"
+msgstr "URL"
+
+msgid "ris_default_vl"
+msgstr "Volume"
+
+msgid "ris_default_y1"
+msgstr "Anno"
+
+#, fuzzy
+msgid "sorting_1"
+msgstr "By Title (Ascending)"
+
+#, fuzzy
+msgid "sorting_2"
+msgstr "By Title (Descending)"
+
+#, fuzzy
+msgid "sorting_3"
+msgstr "By Author (Ascending)"
+
+#, fuzzy
+msgid "sorting_4"
+msgstr "By Author (Descending)"
+
+#, fuzzy
+msgid "sorting_5"
+msgstr "By Year (Ascending)"
+
+#, fuzzy
+msgid "sorting_6"
+msgstr "By Year (Descending)"
+
+msgid "standard"
+msgstr "Standard"
+
+msgid "translate"
+msgstr "Traduci"

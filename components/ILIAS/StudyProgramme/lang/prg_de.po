@@ -1,0 +1,1047 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: prg\n"
+
+msgid "access_ctr_by_orgu_position"
+msgstr "Berechtigungen anhand Positionen in Organisationseinheiten"
+
+msgid "active_only"
+msgstr "nur aktive"
+
+msgid "add_automembership_source"
+msgstr "Automatismus hinzufügen"
+
+msgid "add_category"
+msgstr "Kategorie hinzufügen"
+
+msgid "assignment_date"
+msgstr "Beitrittsdatum"
+
+msgid "assignments"
+msgstr "Zuweisungen"
+
+msgid "auto_add_success"
+msgstr "Automatismus erfolgreich hinzugefügt."
+
+msgid "auto_membership_description"
+msgstr "Regeln werden nur ausgeführt, wenn ein Kriterium nach Aktivierung der Regel erfüllt wird. Es werden keine Zuweisungen entfernt, wenn zu diesem Zeitpunkt ein anderes aktives Kriterium erfüllt ist."
+
+msgid "auto_membership_src_type"
+msgstr "Typ"
+
+msgid "auto_membership_title"
+msgstr "Quellen für automatische Zuweisung"
+
+msgid "auto_memberships"
+msgstr "Automatische Zuweisung"
+
+msgid "category"
+msgstr "Kategorie"
+
+msgid "cert_relevance"
+msgstr "Zertifikat"
+
+msgid "completion_date"
+msgstr "Abschlussdatum"
+
+msgid "confirm_to_remove_selected_assignments"
+msgstr "Benutzerzuweisung(en) wirklich entfernen?"
+
+msgid "cont_ed_insert_prgactionnote"
+msgstr "Studienprogramm Aktionshinweis einfügen"
+
+msgid "cont_ed_insert_prgstatusinfo"
+msgstr "Studienprogamm Statusinformation einfügen"
+
+msgid "content_automation"
+msgstr "Inhaltsautomatisierung"
+
+msgid "content_automation_title"
+msgstr "Kurse dieser Kategorien automatisch hinzufügen/entfernen"
+
+msgid "could_not_add_users_no_permissons"
+msgstr "Konnte %d Benutzer wegen mangelnder Berechtigung nicht hinzufügen."
+
+msgid "crs_affiliation_to_prg"
+msgstr "Zugehörigkeit zu Studienprogramm"
+
+msgid "deadline"
+msgstr "Stichtag"
+
+msgid "deadline_information"
+msgstr "Informationen zum Bearbeitungszeitraum"
+
+msgid "deadline_updated"
+msgstr "Stichtag aktualisiert"
+
+msgid "edit_participants"
+msgstr "Zuweisungen bearbeiten"
+
+msgid "error_updating_deadline"
+msgstr "Ein Fehler ist während der Aktualisierung von 'Stichtag' aufgetreten."
+
+msgid "error_updating_expire_date"
+msgstr "Ein Fehler ist während der Aktualisierung von 'Ablauf Qualifikation' aufgetreten."
+
+msgid "export_memberships"
+msgstr "Zuweisungen exportieren"
+
+msgid "foreign_assignment"
+msgstr "Nicht oberste Programmebene"
+
+msgid "form_msg_file_wrong_file_type"
+msgstr "Falscher Dateityp."
+
+msgid "header_remove_certificate"
+msgstr "Wollen Sie das Zertifikat von den ausgewählten Benutzern wirklich entfernen?"
+
+msgid "header_update_certificate"
+msgstr "Wollen Sie das Zertifikat wirklich aktualisieren?"
+
+msgid "header_update_current_plan"
+msgstr "Wollen Sie die individuellen Einstellungen der ausgewählten Zuweisungen wirklich zurücksetzen?"
+
+msgid "inactive_only"
+msgstr "nur inaktive"
+
+msgid "info_to_re_assign_mail_body"
+msgstr "%s %s,<br/><br/>die Gültigkeit ihrer Qualifikation am Studienprogramm „%s“ läuft bald ab. Bitte melden Sie sich erneut an."
+
+msgid "info_to_re_assign_mail_subject"
+msgstr "Erinnerung zur erneuten Teilnahme am Studienprogramm"
+
+msgid "invalidated"
+msgstr "Gültigkeit"
+
+msgid "label_crs"
+msgstr "Kursname"
+
+msgid "label_grp"
+msgstr "Gruppenname"
+
+msgid "label_role"
+msgstr "Rollenname"
+
+msgid "last_edited"
+msgstr "Zuletzt bearbeitet"
+
+msgid "last_edited_by"
+msgstr "Zuletzt bearbeitet von"
+
+msgid "mail_assignments"
+msgstr "Mail an zugewiesene Benutzer"
+
+msgid "mails_foreign_assignment_failed"
+msgstr "Die ausgewählten Zuweisungen sind nicht im aktuellen Kontext; Mails sollten nur auf der obersten Ebene des Studienprogramms verschickt werden:"
+
+msgid "manage_assignments"
+msgstr "Zuweisungen verwalten"
+
+msgid "membership_source_id"
+msgstr "ID"
+
+msgid "membership_source_id_byline_objid"
+msgstr "Bitte verwenden Sie die <b>Objekt-ID</b>"
+
+msgid "membership_source_id_byline_refid"
+msgstr "Bitte verwenden Sie die <b>Referenz-ID</b>"
+
+msgid "membership_source_type"
+msgstr "Quelle"
+
+msgid "modal_automembership_title"
+msgstr "Automatismus hinzufügen"
+
+msgid "modal_categories_title"
+msgstr "Zu überwachende Kategorie"
+
+msgid "modal_member_auto_select_title"
+msgstr "Quelle für automatische Zuweisung wählen"
+
+msgid "msg_acknowledge_courses"
+msgstr "Bestandene Kurse wurden anerkannt."
+
+msgid "msg_change_deadline_date"
+msgstr "Stichtag angepasst für %s Benutzer."
+
+msgid "msg_change_deadline_date_failed"
+msgstr "Stichtag nicht angepasst für:"
+
+msgid "msg_change_expire_date"
+msgstr "Ablaufdatum angepasst für %s Benutzer."
+
+msgid "msg_change_expire_date_failed"
+msgstr "Ablauf nicht angepasst für:"
+
+msgid "msg_fill_required"
+msgstr "Bitte füllen Sie alle Pflichtfelder aus."
+
+msgid "msg_impossible_target_status"
+msgstr "Ungültiger Status"
+
+msgid "msg_mark_accredited"
+msgstr "%s Benutzer erfolgreich akkreditiert."
+
+msgid "msg_mark_accredited_failed"
+msgstr "Nicht als akkreditiert markiert:"
+
+msgid "msg_mark_not_relevant"
+msgstr "%s Benutzer als nicht relevant markiert."
+
+msgid "msg_mark_not_relevant_failed"
+msgstr "Nicht als irrelevant markiert:"
+
+msgid "msg_mark_relevant"
+msgstr "%s Benutzer als relevant markiert."
+
+msgid "msg_mark_relevant_failed"
+msgstr "Nicht als relevant markiert:"
+
+msgid "msg_points_must_be_positive"
+msgstr "Nur positive Punktzahlen sind erlaubt."
+
+msgid "msg_unmark_accredited"
+msgstr "%s Benutzer als nicht akkreditiert markiert."
+
+msgid "msg_unmark_accredited_failed"
+msgstr "Akkreditierung entfernen nicht erfolgreich bei:"
+
+msgid "msg_update_certificate"
+msgstr "%s Zertifikat(e) aktualisiert."
+
+msgid "msg_update_certificate_failed"
+msgstr "Zertifikat(e) nicht aktualisiert:"
+
+msgid "msg_update_from_settings"
+msgstr "%s Benutzer aus den Einstellungen aktualisiert."
+
+msgid "msg_update_from_settings_failed"
+msgstr "Aktualisierung nicht erfolgreich:"
+
+msgid "msg_update_individual_plan"
+msgstr "Erfolgreich aktualisiert (%s)"
+
+msgid "msg_update_individual_plan_failed"
+msgstr "Fehler beim Aktualisieren:"
+
+msgid "no_permission_to_update_certificate"
+msgstr "Sie haben keine Berechtigung Zertifikate zu aktualisieren."
+
+msgid "no_srctype_or_id"
+msgstr "ID und Typ dürfen nicht leer sein."
+
+msgid "not_a_valid_cat_id"
+msgstr "%s entspricht keiner Kategorie."
+
+msgid "obj_prg_select"
+msgstr "-- Bitte ein Studienprogramm auswählen --"
+
+msgid "optgrp_label_restart"
+msgstr "Wiederaufnahme"
+
+msgid "optgrp_label_validity"
+msgstr "Ablauf"
+
+msgid "orgu"
+msgstr "Organisationseinheit"
+
+msgid "pc_prg_action_note_label"
+msgstr "Erforderliche Maßnahmen Studienprogramm"
+
+msgid "pc_prg_statusinfo_label"
+msgstr "Statusinformation Studienprogramm"
+
+msgid "pc_prgactionnote_complete_content"
+msgstr "Sie sind zugewiesen, haben aber noch nicht abgeschlossen. Bitte bearbeiten Sie die Inhalte."
+
+msgid "pc_prgactionnote_complete_content_with_deadline"
+msgstr "Sie sind zugewiesen, haben aber noch nicht abgeschlossen. Bitte bearbeiten Sie die Inhalte bis zum"
+
+msgid "pc_prgactionnote_headline"
+msgstr "Erforderliche Maßnahmen"
+
+msgid "pc_prgactionnote_no_actions_required"
+msgstr "Keine Maßnahmen erforderlich."
+
+msgid "pc_prgstatus_edit_qualification"
+msgstr "Erneut zu bearbeiten ab"
+
+msgid "pc_prgstatus_expiration_date"
+msgstr "Ablaufdatum"
+
+msgid "pc_prgstatus_qualification_headline"
+msgstr "Status Ihrer Qualifikation"
+
+msgid "pc_prgstatus_status_no_qualification"
+msgstr "Keine Qualifikation"
+
+msgid "pc_prgstatus_status_valid_qualification"
+msgstr "Gültig"
+
+msgid "pc_prgstatus_text_no_qualification"
+msgstr "Sie besitzen keine gültige Qualifikation"
+
+msgid "pc_prgstatus_unlimited_validation"
+msgstr "unbegrenzt gültig"
+
+msgid "percentage"
+msgstr "%"
+
+msgid "prg_access_by_orgu"
+msgstr "Zugriffsregelungen nach Organisationseinheiten"
+
+msgid "prg_access_by_orgu_byline"
+msgstr "Wenn aktiviert, können zusätzliche Zugriffsregelungen über Positionen in Organisationseinheiten vergeben werden."
+
+msgid "prg_acknowledge_all_completed_courses"
+msgstr "Alle bestandenen Kurse anerkennen"
+
+msgid "prg_acknowledge_completed_courses"
+msgstr "Bestandene Kurse anerkennen"
+
+msgid "prg_add"
+msgstr "Studienprogramm anlegen"
+
+msgid "prg_added_course_ref_successful"
+msgstr "Neuer Kurslink erfolgreich hinzugefügt."
+
+msgid "prg_added_member"
+msgstr "Das neue Mitglied wurde erfolgreich hinzugefügt."
+
+msgid "prg_added_members"
+msgstr "Die neuen Mitglieder wurden erfolgreich hinzugefügt."
+
+msgid "prg_additional_settings"
+msgstr "Zusätzliche Funktionen"
+
+msgid "prg_assessment"
+msgstr "Studienprogrammbewertung"
+
+msgid "prg_assign_date"
+msgstr "Hinzugefügt am"
+
+msgid "prg_assigned_by"
+msgstr "Hinzugefügt von"
+
+msgid "prg_async_create"
+msgstr "Neues Element hinzufügen."
+
+msgid "prg_async_settings"
+msgstr "Einstellungen"
+
+msgid "prg_auto_member_select_crs"
+msgstr "Kurse"
+
+msgid "prg_auto_member_select_grp"
+msgstr "Gruppen"
+
+msgid "prg_auto_member_select_role"
+msgstr "Rollen"
+
+msgid "prg_autoassignment"
+msgstr "(automatisch)"
+
+msgid "prg_availability_action_not_allowed"
+msgstr "Studienprogramme haben keine zeitliche Verfügbarkeit."
+
+msgid "prg_belongs_to"
+msgstr "Gehört zu"
+
+msgid "prg_can_not_manage_in_repo"
+msgstr "Sie dürfen dieses Studienprogramm nicht verwalten, da Ihm bereits Mitglieder zugeordnet sind."
+
+msgid "prg_cancel"
+msgstr "Abbrechen"
+
+msgid "prg_cancel_acknowledge_completed_courses"
+msgstr "Keine Kurse anerkennen"
+
+msgid "prg_cancel_tree_order"
+msgstr "Reihenfolge des Baums verwerfen."
+
+msgid "prg_change_deadline"
+msgstr "Stichtag anpassen"
+
+msgid "prg_change_expire_date"
+msgstr "Ablauf der Qualifikation anpassen"
+
+msgid "prg_changed_by"
+msgstr "Geändert durch"
+
+msgid "prg_completion_by"
+msgstr "Abgeschlossen durch"
+
+msgid "prg_completion_date"
+msgstr "Abschlussdatum"
+
+msgid "prg_confirm_delete"
+msgstr "Löschen"
+
+msgid "prg_copy_threads_info"
+msgstr "Bitte wählen Sie aus, welche Elemente des Studienprogramms kopiert, verlinkt oder übersprungen werden sollen."
+
+msgid "prg_create_new_leaf"
+msgstr "Neuen Kurslink hinzufügen."
+
+msgid "prg_create_new_node"
+msgstr "Neues Studienprogramm hinzufügen"
+
+msgid "prg_cron_job_configuration"
+msgstr "Automatische Mails"
+
+msgid "prg_custom_plan"
+msgstr "Individueller Plan"
+
+msgid "prg_cut_action_not_allowed"
+msgstr "Studienprogramme können nicht verschoben werden."
+
+msgid "prg_dash_label_finish_until"
+msgstr "Zu erledigen bis"
+
+msgid "prg_dash_label_gain"
+msgstr "Aktueller Stand"
+
+msgid "prg_dash_label_minimum"
+msgstr "Minimales Ziel"
+
+msgid "prg_dash_label_restart_from"
+msgstr "Neubeginn ab"
+
+msgid "prg_dash_label_status"
+msgstr "Status"
+
+msgid "prg_dash_label_unreachable"
+msgstr "- Ziel kann nicht erreicht werden."
+
+msgid "prg_dash_label_valid"
+msgstr "Gültigkeit"
+
+msgid "prg_deadline"
+msgstr "Stichtag"
+
+msgid "prg_deadline_date"
+msgstr "Bearbeitungszeitraum endet an festem Stichtag."
+
+msgid "prg_deadline_date_desc"
+msgstr "Das Programm muss bis zu einem Stichtag abgeschlossen werden."
+
+msgid "prg_deadline_date_label"
+msgstr "Bearbeitung bis"
+
+msgid "prg_deadline_period"
+msgstr "Bearbeitungszeitraum endet individuell."
+
+msgid "prg_deadline_period_desc"
+msgstr "Das Programm muss innerhalb des angegebenen Zeitraums (in Tagen) abgeschlossen werden."
+
+msgid "prg_deadline_period_label"
+msgstr "Tage nach Zuweisung"
+
+msgid "prg_deadline_settings"
+msgstr "Bearbeitungszeitraum"
+
+msgid "prg_delete_confirmation"
+msgstr "Möchten Sie die ausgewählten Einträge wirklich löschen?"
+
+msgid "prg_delete_failure"
+msgstr "Löschen fehlgeschlagen."
+
+msgid "prg_delete_nothing_selected"
+msgstr "Es wurden keine Einträge ausgewählt."
+
+msgid "prg_delete_single_confirmation"
+msgstr "Möchten Sie den ausgewählten Eintrag wirklich löschen?"
+
+msgid "prg_delete_single_success"
+msgstr "Eintrag wurde erfolgreich gelöscht."
+
+msgid "prg_delete_success"
+msgstr "Einträge wurden erfolgreich gelöscht."
+
+msgid "prg_deleted_safely"
+msgstr "Knoten wurde sicher entfernt."
+
+msgid "prg_description"
+msgstr "Beschreibung"
+
+msgid "prg_edit"
+msgstr "Studienprogramm bearbeiten"
+
+msgid "prg_expiry_date"
+msgstr "Ablauf Qualifikation"
+
+msgid "prg_formatted_period"
+msgstr "%d Tage"
+
+msgid "prg_import_action_not_allowed"
+msgstr "Studienprogramme unterstützen keinen Import."
+
+msgid "prg_invalidate_expired_progresses_desc"
+msgstr "Setzt 'Gültigkeit' auf 'ungültig' wenn Ablaufdatum erreicht."
+
+msgid "prg_invalidate_expired_progresses_title"
+msgstr "Zeitlich begrenzte Gültigkeit von Studienprogrammen"
+
+msgid "prg_link"
+msgstr "Link"
+
+msgid "prg_mail_context_info"
+msgstr "Mails, die aus den Reitern „Zuweisungen“ oder „Lernfortschritt“ eines Studienprogramms versendet werden."
+
+msgid "prg_mail_context_title"
+msgstr "Studienprogramm: Mail an Mitglieder"
+
+msgid "prg_mail_permanent_link"
+msgstr "Wählen Sie den folgenden Link, um auf den Inhalt des Studienprogramms zuzugreifen:"
+
+msgid "prg_manage"
+msgstr "Verwalten"
+
+msgid "prg_manage_members"
+msgstr "Zuweisungen eines Studienprogramms bearbeiten"
+
+msgid "prg_manage_members_short"
+msgstr "Zuweisungen verwalten"
+
+msgid "prg_manual_status"
+msgstr "Manueller Status"
+
+msgid "prg_mark_accredited"
+msgstr "Akkreditieren"
+
+msgid "prg_mark_accredited_multi_success"
+msgstr "Ausgewählte Benutzer akkreditiert."
+
+msgid "prg_mark_accredited_success"
+msgstr "Das Programm wurde für den Benutzer erfolgreich akkreditiert."
+
+msgid "prg_mark_not_relevant_multi_success"
+msgstr "Ausgewählte Benutzer als nicht relevant markiert."
+
+msgid "prg_mark_relevant"
+msgstr "Als relevant markieren"
+
+msgid "prg_mark_relevant_multi_success"
+msgstr "Ausgewählte Benutzer als relevant markiert."
+
+msgid "prg_more_objects_without_read_permission"
+msgstr "Das Studienprogramm beinhaltet weitere Elemente, die Sie aufgrund von fehlenden Rechten nicht einsehen dürfen."
+
+msgid "prg_multi_change_deadline"
+msgstr "Stichtag anpassen"
+
+msgid "prg_multi_change_expire_date"
+msgstr "Ablauf der Qualifikation anpassen"
+
+msgid "prg_multi_mail_user"
+msgstr "Mail versenden"
+
+msgid "prg_multi_mark_accredited"
+msgstr "Akkreditieren"
+
+msgid "prg_multi_mark_relevant"
+msgstr "Als relevant markieren"
+
+msgid "prg_multi_remove_certificate"
+msgstr "Zertifikate entfernen"
+
+msgid "prg_multi_remove_user"
+msgstr "Benutzer entfernen"
+
+msgid "prg_multi_unmark_accredited"
+msgstr "Akkreditierung entfernen"
+
+msgid "prg_multi_unmark_relevant"
+msgstr "Als irrelevant markieren"
+
+msgid "prg_multi_update_certificate"
+msgstr "Zertifikate aktualisieren"
+
+msgid "prg_multi_update_from_current_plan"
+msgstr "Aus dem aktuellen Plan aktualisieren"
+
+msgid "prg_new"
+msgstr "Neues Studienprogramm anlegen"
+
+msgid "prg_no_deadline"
+msgstr "Kein Bearbeitungszeitraum"
+
+msgid "prg_no_members_not_active"
+msgstr "Da das Studienprogramm nicht aktiv ist, können keine neuen Mitglieder hinzugefügt werden."
+
+msgid "prg_no_permission_to_remove_certificate"
+msgstr "Sie haben keine Berechtigung Zertifikate zu entfernen"
+
+msgid "prg_no_restart"
+msgstr "Keine automatische Wiederaufnahme (bei Ablauf der Qualifikation)"
+
+msgid "prg_no_user_selected"
+msgstr "Es wurde kein Benutzer ausgewählt."
+
+msgid "prg_no_validity_qualification"
+msgstr "Kein Ablauf der Qualifikation"
+
+msgid "prg_not_allowed_node_to_delete"
+msgstr "Sie dürfen dieses Studienprogramm nicht entfernen."
+
+msgid "prg_not_valid"
+msgstr "ungültig"
+
+msgid "prg_open_node"
+msgstr "Zum Studienprogramm wechseln."
+
+msgid "prg_orgus"
+msgstr "Organisationseinheit(en)"
+
+msgid "prg_please_select_a_course_for_creating_a_leaf"
+msgstr "Bitte wählen Sie einen Kurslink."
+
+msgid "prg_points"
+msgstr "Punkte"
+
+msgid "prg_points_byline"
+msgstr "Benutzer erhalten eine bestimmte Anzahl von Punkten, wenn sie dieses Programm erfolgreich absolviert haben, und müssen diese Anzahl von Punkten in nachfolgenden Programmen ereichen."
+
+msgid "prg_points_current"
+msgstr "Derzeitige Punkte"
+
+msgid "prg_points_reachable"
+msgstr "Erreichbare Punkte"
+
+msgid "prg_points_required"
+msgstr "Benötigte Punkte"
+
+msgid "prg_possible"
+msgstr "Möglich"
+
+msgid "prg_prg_type"
+msgstr "Studienprogrammtyp"
+
+msgid "prg_processing_ends_no_success"
+msgstr "Tage vor Ende Bearbeitungszeitraum"
+
+msgid "prg_processing_ends_no_success_info"
+msgstr "Tage vor Ende des Bearbeitungszeitraums"
+
+msgid "prg_profile_not_public"
+msgstr "Das Profil des Benutzers ist nicht öffentlich."
+
+msgid "prg_progress_info"
+msgstr "Sie haben %1$d Punkte. Das Studienprogramm ist mit %2$d Punkten bestanden."
+
+msgid "prg_progress_status"
+msgstr " %1$d von %2$d Punkten"
+
+msgid "prg_progress_status_with_child_sp"
+msgstr " %1$d von möglichen %2$d Punkten"
+
+msgid "prg_quali_not_valid"
+msgstr "Qualifikation ungültig"
+
+msgid "prg_quali_still_valid"
+msgstr "Qualifikation gültig"
+
+msgid "prg_remove_certificate"
+msgstr "Zertifikat entfernen"
+
+msgid "prg_remove_user"
+msgstr "Zuweisung löschen"
+
+msgid "prg_remove_user_success"
+msgstr "Die Zuweisung wurde entfernt."
+
+msgid "prg_remove_users_not_possible"
+msgstr "Ausgewählte Benutzer können nicht entfernt werden."
+
+msgid "prg_remove_users_partial_success"
+msgstr "Zuweisungen (teilweise) entfernt."
+
+msgid "prg_remove_users_success"
+msgstr "Ausgewählte Benutzer wurden entfernt."
+
+msgid "prg_restart_assignments_temporal_progress_desc"
+msgstr "Weist Personen erneut Studienprogrammen zu, sobald der Wiederholungszeitraum beginnt."
+
+msgid "prg_restart_assignments_temporal_progress_title"
+msgstr "Automatische Wiederaufnahme in Studienprogramme"
+
+msgid "prg_save_tree_order"
+msgstr "Reihenfolge des Baums speichern"
+
+msgid "prg_saved_order_successful"
+msgstr "Reihenfolge des Baums erfolgreich gespeichert."
+
+msgid "prg_show_individual_plan"
+msgstr "Individuellen Plan zeigen"
+
+msgid "prg_show_programmes"
+msgstr "Anzeigen"
+
+msgid "prg_show_programmes_on_pd_always"
+msgstr "Studienprogramme sind auf dem Dashboard immer sichtbar."
+
+msgid "prg_show_programmes_on_pd_only_read"
+msgstr "Studienprogramme sind auf Dashboard nur sichtbar, wenn der Lesezugriff möglich ist."
+
+msgid "prg_some_users_may_not_be_accredited"
+msgstr "Ausgewählte Benutzer wurden teilweise akkreditiert."
+
+msgid "prg_some_users_may_not_be_marked_not_relevant"
+msgstr "Fortschritte ausgewählter Benutzer wurden teilweise als nicht relevant markiert."
+
+msgid "prg_some_users_may_not_be_marked_relevant"
+msgstr "Fortschritte ausgewählter Benutzer wurden teilweise als relevant markiert."
+
+msgid "prg_some_users_may_not_be_unmarked_accredited"
+msgstr "Akkreditierung ausgewählter Benutzer wurde teilweise entfernt."
+
+msgid "prg_status"
+msgstr "Status"
+
+msgid "prg_status_1"
+msgstr "In Bearbeitung"
+
+msgid "prg_status_2"
+msgstr "Abgeschlossen"
+
+msgid "prg_status_3"
+msgstr "Akkreditiert"
+
+msgid "prg_status_4"
+msgstr "Nicht relevant"
+
+msgid "prg_status_5"
+msgstr "Nicht bestanden"
+
+msgid "prg_status_accredited"
+msgstr "Akkreditiert"
+
+msgid "prg_status_active"
+msgstr "Aktiv"
+
+msgid "prg_status_byline"
+msgstr "Verwenden Sie den Status, um zu steuern, ob dieses Programm für Benutzer zugänglich ist."
+
+msgid "prg_status_completed"
+msgstr "Abgeschlossen"
+
+msgid "prg_status_draft"
+msgstr "Entwurf"
+
+msgid "prg_status_failed"
+msgstr "nicht bestanden"
+
+msgid "prg_status_hide_irrelevant"
+msgstr "Irrelevante ausblenden"
+
+msgid "prg_status_in_progress"
+msgstr "In Bearbeitung"
+
+msgid "prg_status_not_relevant"
+msgstr "Nicht relevant"
+
+msgid "prg_status_outdated"
+msgstr "Abgelaufen"
+
+msgid "prg_still_valid"
+msgstr "gültig"
+
+msgid "prg_subtype_add"
+msgstr "Neuen Typ hinzufügen"
+
+msgid "prg_subtypes"
+msgstr "Typen"
+
+msgid "prg_successfully_removed_certificate"
+msgstr "Das Zertifikat der ausgewählten Benutzer wurde erfolgreich entfernt."
+
+msgid "prg_title"
+msgstr "Titel"
+
+msgid "prg_type"
+msgstr "Studienprogrammtyp"
+
+msgid "prg_type_add"
+msgstr "Studienprogrammtyp hinzufügen"
+
+msgid "prg_type_assign_amd_sets"
+msgstr "Erweiterten Metadatensatz zuweisen"
+
+msgid "prg_type_available_amd_sets"
+msgstr "Verfügbare benutzerdefinierte Metadatensätze"
+
+msgid "prg_type_byline"
+msgstr "Legen Sie einen Typ fest, um bestimmte vordefinierte Metadatensätze oder Symbole zu verwenden."
+
+msgid "prg_type_custom_icon"
+msgstr "Individuelles Icon"
+
+msgid "prg_type_custom_icon_info"
+msgstr "Info für Individuelles Icon"
+
+msgid "prg_type_edit"
+msgstr "Typ editieren"
+
+msgid "prg_type_msg_deleted"
+msgstr "Typ gelöscht."
+
+msgid "prg_type_msg_error_custom_icon"
+msgstr "Während des Speicherns des individuellen Icons ist ein Fehler aufgetreten."
+
+msgid "prg_type_msg_missing_title"
+msgstr "Titel kann nicht leer sein."
+
+msgid "prg_type_msg_missing_title_default_language"
+msgstr "Es muss eine Standardsprache und ein Titel für die Standardsprache gesetzt sein."
+
+msgid "prg_type_msg_unable_delete"
+msgstr "Konnte Typ nicht löschen, da er bei folgenden Studienprogrammen verwendet wird: %s"
+
+msgid "prg_unmark_accredited"
+msgstr "Akkreditierung entfernen"
+
+msgid "prg_unmark_accredited_multi_success"
+msgstr "Ausgewählte Benutzer als nicht akkreditiert markiert"
+
+msgid "prg_unmark_accredited_success"
+msgstr "Die Akkreditierung wurde erfolgreich entfernt."
+
+msgid "prg_unmark_relevant"
+msgstr "Als irrelevant markieren"
+
+msgid "prg_update_certificate"
+msgstr "Zertifikat aktualisieren"
+
+msgid "prg_update_from_current_plan"
+msgstr "Aus dem aktuellen Plan aktualisieren"
+
+msgid "prg_update_from_current_plan_not_possible"
+msgstr "Aus dem aktuellen Plan aktualisieren ist nicht möglich."
+
+msgid "prg_update_from_current_plan_partitial_success"
+msgstr "Aus dem aktuellen Plan aktualisieren teilweise abgeschlossen."
+
+msgid "prg_update_from_current_plan_success"
+msgstr "Aus dem aktuellen Plan aktualisieren ist erfolgreich."
+
+msgid "prg_update_from_plan_successful"
+msgstr "Die Aktualisierung aus dem aktuellen Plan war erfolgreich."
+
+msgid "prg_update_progress_description"
+msgstr "Setzt Status von „in Bearbeitung“ auf „Nicht bestanden“, wenn das Ende der Bearbeitungsfrist erreicht ist."
+
+msgid "prg_update_progress_title"
+msgstr "Zeitlich begrenzte Bearbeitungszeiträume von Studienprogrammen"
+
+msgid "prg_update_successful"
+msgstr "Änderungen erfolgreich gespeichert!"
+
+msgid "prg_user_not_restarted_desc"
+msgstr "Sendet Benutzern eine Warnmail, wenn eine Qualifikation an einem Studienprogramm ausläuft und diese das Programm noch nicht neu gestartet haben."
+
+msgid "prg_user_not_restarted_time_input"
+msgstr "Tage vor Ablauf der Gültigkeit"
+
+msgid "prg_user_not_restarted_time_input_info"
+msgstr "Tage vor Ablauf der Gültigkeit der Qualifikation"
+
+msgid "prg_user_not_restarted_title"
+msgstr "Warnmail über auslaufende Qualifikation senden"
+
+msgid "prg_user_risky_to_fail_desc"
+msgstr "Sendet Benutzern eine Warnmail, wenn das Risiko besteht, dass sie ein Studienprogramm wegen einer auslaufenden Bearbeitungszeit nicht bestehen."
+
+msgid "prg_user_risky_to_fail_title"
+msgstr "Warnmail über mögliches Nichtbestehen senden"
+
+msgid "prg_validity"
+msgstr "Gültigkeit Qualifikation"
+
+msgid "prg_validity_of_qualification"
+msgstr "Gültigkeit einer erreichten Qualifikation"
+
+msgid "prg_validity_of_qualification_limit"
+msgstr "Ablauf der Gültigkeit"
+
+msgid "prg_validity_of_qualification_restart"
+msgstr "Wiederaufnahme"
+
+msgid "prg_view"
+msgstr "Anzeigen"
+
+msgid "prgr_may_not_create_circular_reference"
+msgstr "Das Verlinken dieses Programms ist hierher nicht möglich, da das beinhaltende Programm darin erhalten ist."
+
+msgid "re_assigned_mail_body"
+msgstr "%s %s,<br/><br/>Sie wurden dem Studienprogramm „%s“ erneut zugewiesen."
+
+msgid "re_assigned_mail_subject"
+msgstr "Erneute Teilnahme am Studienprogramm"
+
+msgid "restart_information"
+msgstr "Wiederaufnahme (in Tagen) vor Ablauf der Qualifikation"
+
+msgid "restart_period"
+msgstr "Automatische Wiederaufnahme vor Ablauf der Qualifikation"
+
+msgid "restart_period_desc"
+msgstr "Wiederaufnahme (in Tagen) vor Ablauf der Qualifikation"
+
+msgid "restart_period_info"
+msgstr "Automatische Wiederaufnahme vor Ablauf der Qualifikation in Tagen"
+
+msgid "restart_period_label"
+msgstr "Tage vor Ablauf der Qualifikation"
+
+msgid "restart_recheck_desc"
+msgstr "Bei Zuweisungen, die über einen Automatismus vorgenommen wurden, wird erneut geprüft, ob Kriterien für die Zuweisung vorliegen."
+
+msgid "restart_recheck_label"
+msgstr "Voraussetzungen erneut prüfen"
+
+msgid "restarted"
+msgstr "Wiederaufnahme"
+
+msgid "risky_to_fail_mail_body"
+msgstr "%s %s,<br/><br/>der Stichtag für das Abschließen des Studienprogramm „%s“ ist bald ereicht."
+
+msgid "risky_to_fail_mail_subject"
+msgstr "Erinnerung, dass der Stichtag am Studienprogramm bald ereicht ist"
+
+msgid "rol"
+msgstr "Rolle"
+
+msgid "select_crs"
+msgstr "Nach Kursen suchen"
+
+msgid "select_grp"
+msgstr "Nach Gruppen suchen"
+
+msgid "select_org"
+msgstr "Nach Organisationseinheiten suchen"
+
+msgid "select_role"
+msgstr "Nach Rollen suchen"
+
+msgid "send_info_to_re_assign_mail"
+msgstr "E-Mail vor Ablauf der Gültigkeit"
+
+msgid "send_info_to_re_assign_mail_info"
+msgstr "Versand einer E-Mail, wenn aktuelle Qualifikation ungültig wird"
+
+msgid "send_re_assigned_mail"
+msgstr "E-Mail bei automat. Wiederaufnahme"
+
+msgid "send_re_assigned_mail_info"
+msgstr "Versand einer E-Mail bei erneuter Zuweisung zum Studienprogramm."
+
+msgid "send_risky_to_fail_mail"
+msgstr "E-Mail bei Risiko der Nicht-Qualifikation"
+
+msgid "send_risky_to_fail_mail_info"
+msgstr "Versand einer E-Mail, wenn Qualifikation noch nicht erworben wurde und Bearbeitungszeitraum endet"
+
+msgid "sp_certificate_completion_date"
+msgstr "Abschlussdatum"
+
+msgid "sp_certificate_description"
+msgstr "Beschreibung des Programms"
+
+msgid "sp_certificate_points"
+msgstr "Anzahl erworbener Punkte"
+
+msgid "sp_certificate_progress_expires_at"
+msgstr "Ablaufdatum der Qualifikation"
+
+msgid "sp_certificate_title"
+msgstr "Titel des Programms"
+
+msgid "sp_certificate_type"
+msgstr "Typ des Programms"
+
+msgid "status_changed"
+msgstr "Status aktualisiert"
+
+msgid "status_changed_due_to_deadline"
+msgstr "Status wurde aufgrund des Bearbeitungszeitraums angepasst."
+
+msgid "status_transition_not_allowed"
+msgstr "Neuer Status nicht anwendbar"
+
+msgid "status_unchanged"
+msgstr "Status unverändert"
+
+msgid "study_programme_icon"
+msgstr "Page Editor Studienprogramm Icon"
+
+msgid "update_deadline"
+msgstr "Stichtag erfolgreich aktualisiert."
+
+msgid "update_expire_date"
+msgstr "Ablauf Qualifikation wurde erfolgreich aktualisiert."
+
+msgid "updated_from_settings"
+msgstr "Aus Einstellungen aktualisiert"
+
+msgid "usr_active"
+msgstr "Benutzer"
+
+msgid "validity_qualification_date"
+msgstr "Ablauf der Qualifikation zu einem Stichtag"
+
+msgid "validity_qualification_date_desc"
+msgstr "Datum des Ablaufs der Qualifikation"
+
+msgid "validity_qualification_period"
+msgstr "Ablauf der Qualifikation - individuell"
+
+msgid "validity_qualification_period_desc"
+msgstr "Die Qualifikation ist nach erfolgreicher Teilnahme für einen Zeitraum (in Tagen) gültig"
+
+msgid "validity_updated"
+msgstr "Gültigkeit aktualisiert"
+
+msgid "vq_date"
+msgstr "Ablaufdatum"
+
+msgid "vq_date_info"
+msgstr "Ablauf der Qualifikation zu einem Stichtag"
+
+msgid "vq_date_label"
+msgstr "Ablaufdatum"
+
+msgid "vq_information"
+msgstr "Gültigkeit einer erreichten Qualifikation"
+
+msgid "vq_period_info"
+msgstr "Die Qualifikation ist nur eine begrenzte Anzahl Tage gültig"
+
+msgid "vq_period_label"
+msgstr "Tage nach erfolgreicher Teilnahme"
+
+msgid "warning"
+msgstr "Warnung!"
+
+msgid "will_not_modify_deadline_on_successful_progress"
+msgstr "keine Änderung, da bereits abgeschlossen oder akkreditiert"
+
+msgid "will_not_modify_irrelevant_progress"
+msgstr "keine Änderung, da irrelevant"
+
+msgid "will_not_modify_relevant_progress"
+msgstr "bereits relevant"
+
+msgid "will_not_modify_validity_on_non_successful_progress"
+msgstr "Gültigkeit kann nur geändert werden, wenn abgeschlossen oder akkreditiert"
+
+msgid "will_not_set_top_progress_to_irrelevant"
+msgstr "Oberste Zuordnung kann nicht irrelevant sein."
+
+msgid "will_not_update_cert_for_unsuccessful_progress"
+msgstr "kein Zertifikat erzeugt, da nicht abgeschlossen oder akkreditiert"

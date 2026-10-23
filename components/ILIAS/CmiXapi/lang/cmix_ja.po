@@ -1,0 +1,795 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: cmix\n"
+
+msgid "achieved_info"
+msgstr "概要、所望のオブジェクト、レベル、努力、スキルの結果、または不屈などのようなものを正しく仕向ける。"
+
+msgid "achieved_label"
+msgstr "'achieve'の動詞付きステートメント"
+
+msgid "activity_id"
+msgstr "Activity-ID"
+
+msgid "activity_id_info"
+msgstr "このID はLRSからのデータ表示を優先して使用されます。リソースプロバイダーからこのIDを受信します。"
+
+msgid "answered_info"
+msgstr "オブジェクトは通常問題を表すアクティビティの位置で問題へ返信した者を表示します。 回答のテキストは内部結果のレスポンンスないによく含まれます。"
+
+msgid "answered_label"
+msgstr "'answered'の動詞付きステートメント"
+
+msgid "btn_change_registration"
+msgstr "提出"
+
+msgid "btn_create_lrs_type"
+msgstr "LRS-Typeを追加"
+
+msgid "btn_create_registration"
+msgstr "提出"
+
+msgid "change_registration"
+msgstr "登録用のE-Mailアドレス"
+
+msgid "cmix_add"
+msgstr "xAPI/cmi5オブジェクトを追加"
+
+msgid "cmix_add_cmi5_lm"
+msgstr "cmi5 Learning Module"
+
+msgid "cmix_add_cmi5_lm_info"
+msgstr "このオプションはコンテンツがcmi5準拠の学習モジュールの場合に使用されます。レポートに相応しいような関連機能は、追加構成なしで利用可能です。"
+
+msgid "cmix_add_lrs_type"
+msgstr "LRSタイプ"
+
+msgid "cmix_add_source"
+msgstr "Source"
+
+msgid "cmix_add_source_external_app"
+msgstr "ILIASで起動されていないリソース"
+
+msgid "cmix_add_source_external_app_info"
+msgstr "appsまたはシミュレータの例のような別途起動されるリソース用にこのオプションを使用。ユーザはデータ取出しに同意する必要があります。"
+
+msgid "cmix_add_source_local_dir"
+msgstr "ローカルディレクトリ"
+
+msgid "cmix_add_source_local_dir_info"
+msgstr "このオプションはローカルデバイスのコンテンツパッケージ用に使用。"
+
+msgid "cmix_add_source_upload_dir"
+msgstr "Upload ディレクトリ"
+
+msgid "cmix_add_source_upload_dir_info"
+msgstr "SCORMとHTMLパッケージにも使用されるILIAS uploadディレクトリへすでにupload 済のコンテンツパッケージ用にこのオプションを使用。"
+
+msgid "cmix_add_source_upload_select"
+msgstr "--- 選択して下さい ---"
+
+msgid "cmix_add_source_url"
+msgstr "Resource URL"
+
+msgid "cmix_add_source_url_info"
+msgstr "Externalリソース用にこのオプションを使用"
+
+msgid "cmix_add_xapi_standard_object"
+msgstr "xAPI Standard Object"
+
+msgid "cmix_add_xapi_standard_object_info"
+msgstr "別のレポートのような全ての機能を提唱する全般的なコンテンツモジュールのためにこのオプションを使用。このオプションは大変拡張性ある機能であるが、より複雑な構成を要する"
+
+msgid "cmix_adlnetgov_expapi_verbs_answered"
+msgstr "回答済"
+
+msgid "cmix_adlnetgov_expapi_verbs_asked"
+msgstr "質問済"
+
+msgid "cmix_adlnetgov_expapi_verbs_attempted"
+msgstr "実行済"
+
+msgid "cmix_adlnetgov_expapi_verbs_attended"
+msgstr "参加済"
+
+msgid "cmix_adlnetgov_expapi_verbs_commented"
+msgstr "コメント済"
+
+msgid "cmix_adlnetgov_expapi_verbs_completed"
+msgstr "完了"
+
+msgid "cmix_adlnetgov_expapi_verbs_exited"
+msgstr "退出"
+
+msgid "cmix_adlnetgov_expapi_verbs_experienced"
+msgstr "実施済"
+
+msgid "cmix_adlnetgov_expapi_verbs_failed"
+msgstr "失敗"
+
+msgid "cmix_adlnetgov_expapi_verbs_imported"
+msgstr "インポート"
+
+msgid "cmix_adlnetgov_expapi_verbs_initialized"
+msgstr "イニシャル"
+
+msgid "cmix_adlnetgov_expapi_verbs_interacted"
+msgstr "相互"
+
+msgid "cmix_adlnetgov_expapi_verbs_launched"
+msgstr "起動"
+
+msgid "cmix_adlnetgov_expapi_verbs_mastered"
+msgstr "修得点"
+
+msgid "cmix_adlnetgov_expapi_verbs_passed"
+msgstr "実施"
+
+msgid "cmix_adlnetgov_expapi_verbs_preferred"
+msgstr "Preferred"
+
+msgid "cmix_adlnetgov_expapi_verbs_progressed"
+msgstr "進捗"
+
+msgid "cmix_adlnetgov_expapi_verbs_registered"
+msgstr "登録しました"
+
+msgid "cmix_adlnetgov_expapi_verbs_responded"
+msgstr "応答"
+
+msgid "cmix_adlnetgov_expapi_verbs_resumed"
+msgstr "回復しました"
+
+msgid "cmix_adlnetgov_expapi_verbs_scored"
+msgstr "点数"
+
+msgid "cmix_adlnetgov_expapi_verbs_shared"
+msgstr "共有しました"
+
+msgid "cmix_adlnetgov_expapi_verbs_suspended"
+msgstr "保留しました"
+
+msgid "cmix_adlnetgov_expapi_verbs_terminated"
+msgstr "終了しました"
+
+msgid "cmix_adlnetgov_expapi_verbs_voided"
+msgstr "回避しました"
+
+msgid "cmix_all_verbs"
+msgstr "All Verbs"
+
+msgid "cmix_copy"
+msgstr "xAPI/cmi5 Objectをコピー"
+
+msgid "cmix_import"
+msgstr "xAPI/cmi5 Objectをインポート"
+
+msgid "cmix_indication_to_user"
+msgstr "このLRSの今後のヒント"
+
+msgid "cmix_info_external_lrs_info"
+msgstr "このLearning Record Storeは外部のLRSです。外部LRSはILIASシステムのオペレータにとってLRS上では影響が十分ではない事に特徴があります。例えばデータ削除の権利が無いような例があります。"
+
+msgid "cmix_info_external_lrs_label"
+msgstr "このLRSに関する追加情報"
+
+msgid "cmix_info_privacy_section"
+msgstr "パーソナルデータに関するInfo"
+
+msgid "cmix_info_privacy_section_launch"
+msgstr "起動時のパーソナルデータ送信に関するInfo"
+
+msgid "cmix_lrs_type"
+msgstr "Learning Record Store (LRS)"
+
+msgid "cmix_new"
+msgstr "New xAPI/cmi5 Object"
+
+msgid "completed_info"
+msgstr "終了した者または通常通りに完結したアクティビティを表示します。"
+
+msgid "completed_label"
+msgstr "'completed'の動詞付きステートメント"
+
+msgid "conf_availability"
+msgstr "Availability(空き状況)"
+
+msgid "conf_availability_0"
+msgstr "利用不可"
+
+msgid "conf_availability_0_info"
+msgstr "このLRSタイプを使用する既存の xAPI/cmi5 オブジェクトは使用される事はありません。"
+
+msgid "conf_availability_1"
+msgstr "許可されているもの"
+
+msgid "conf_availability_1_info"
+msgstr "新しいxAPI/cmi5 オブジェクトが作成されるとこのLRSはオファーされません。このタイプを使用する既存の xAPI/cmi5 オブジェクトは書き込みまたはﾃﾞｰﾀ読込を継続できます。後でLRS接続してデータ削除可能にするためにこのオプションを使用します。"
+
+msgid "conf_availability_2"
+msgstr "新規生成可"
+
+msgid "conf_availability_2_info"
+msgstr "xAPI/cmi5 オブジェクト作成時にこのLRSタイプを選択できます。"
+
+msgid "conf_bypass_proxy"
+msgstr "学習進捗の検知"
+
+msgid "conf_bypass_proxy_disabled"
+msgstr "即時にデータを取得するためのxAPI-Proxy"
+
+msgid "conf_bypass_proxy_enabled"
+msgstr "Learning Record Storeをチェックするcronjob"
+
+msgid "conf_bypass_proxy_info"
+msgstr "多くの場合、xAPI-Proxyの利用を推奨します。リソースあるいはサーバーに関して制限のある場合にcronjobを使用。"
+
+msgid "conf_cronjob_neccessary"
+msgstr "学習進捗にはcronjobが必要です。"
+
+msgid "conf_cronjob_neccessary_info"
+msgstr "このオプションをアクティブにするとこのLRS-Typeを使用するxAPI-Objectは、学習進捗の検知用のデータを即時に取得するxAPI-Proxyを取得する事ができなくなります。リソースまたはサーバーに関して制限のある場合に限りcronjobを利用します。"
+
+msgid "conf_delete_data"
+msgstr "LRSのデータを削除"
+
+msgid "conf_delete_data_info"
+msgstr "削除は現時点ではLearning Record Store (LRS) LearningLocker可能性ありの場合のみです。 データがLRSで偽名化された場合ユーザID削除用二限りこのオプションを使用。"
+
+msgid "conf_delete_data_opt0"
+msgstr "しない"
+
+msgid "conf_delete_data_opt1"
+msgstr "しない - ただし、ユーザ削除されて、xAPI/cmi オブジェクトがゴミ箱へ移動または削除された場合、データはユーザID削除によりILIASの割り当て不可になります。"
+
+msgid "conf_delete_data_opt11"
+msgstr "ユーザが削除されてxAPI/cmi オブジェクトがゴミ箱へ移動または削除された時"
+
+msgid "conf_delete_data_opt12"
+msgstr "さらに、ユーザがコースまたはグループから削除された時"
+
+msgid "conf_delete_data_opt2"
+msgstr "しない - 但し、さらにユーザがコースまたはグループから削除された時に, データはユーザID削除によりILIASの再割り当てはできなくなります。"
+
+msgid "conf_description"
+msgstr "説明"
+
+msgid "conf_external_lrs"
+msgstr "External LRS"
+
+msgid "conf_keep_lp"
+msgstr "学習進捗を保持"
+
+msgid "conf_keep_lp_info"
+msgstr "完了したILIAS学習進捗ステータスはフリーズされました。"
+
+msgid "conf_launch_mode"
+msgstr "起動モード"
+
+msgid "conf_launch_mode_browse"
+msgstr "ブラウザ"
+
+msgid "conf_launch_mode_browse_info"
+msgstr "このオプションは、ユーザへ判断なしで\"見回し\"をユーザへさせるユーザ経験を提供します。"
+
+msgid "conf_launch_mode_normal"
+msgstr "Normal"
+
+msgid "conf_launch_mode_normal_info"
+msgstr "学習進捗に関連のテータが記録されます。"
+
+msgid "conf_launch_mode_review"
+msgstr "レビュー"
+
+msgid "conf_launch_mode_review_info"
+msgstr "このオプションは、すでに完了した教材をユーザへ\"再訪問/レビュー\"させるユーザ経験を提供します。"
+
+msgid "conf_lrs_endpoint"
+msgstr "終了時"
+
+msgid "conf_lrs_key"
+msgstr "Key / Login"
+
+msgid "conf_lrs_secret"
+msgstr "Secret / Password"
+
+msgid "conf_new_window"
+msgstr "新しいWindow"
+
+msgid "conf_new_window_info"
+msgstr "コンテンツは新しいWindow内のオープンされます。コンテンツ～離れるとWindowは閉じます。"
+
+msgid "conf_own_window"
+msgstr "Own Window"
+
+msgid "conf_own_window_info"
+msgstr "コンテンツを同一Windowで開きILIAS画面と置き換えます。コンテンツを離れるとユーザはILIASへ戻ります。"
+
+msgid "conf_privacy_comment_default"
+msgstr "ユーザへ表示"
+
+msgid "conf_privacy_ident"
+msgstr "ユーザID"
+
+msgid "conf_privacy_ident_il_uuid_ext_account"
+msgstr "メールアドレスとしてフォーマットされたユニークなILIASプラットフォームIDで結合された外部ユーザID"
+
+msgid "conf_privacy_ident_il_uuid_ext_account_info"
+msgstr "これはコール毎に同じですがILIASユーザに関して直接的な結論は許容する可能性があります。"
+
+msgid "conf_privacy_ident_il_uuid_login"
+msgstr "メールアドレスとしてフォーマットされたユニークなILIASプラットフォームIDで結合されたILIAS Login"
+
+msgid "conf_privacy_ident_il_uuid_login_info"
+msgstr "これはコール毎に同じですがILIASユーザに関して直接的な結論は許容する可能性があります。"
+
+msgid "conf_privacy_ident_il_uuid_random"
+msgstr "メールアドレスとしてフォーマットされたユニークなILIASプラットフォームIDで結合されたランダムID"
+
+msgid "conf_privacy_ident_il_uuid_random_info"
+msgstr "各ILIASオブジェクトとILIASユーザランダムIDは同じコール毎に識別されて生成されます。ユーザに関する結論は、オブジェクトを横断するユーザプロファイルの作成が困難なので極めて限定的です。"
+
+msgid "conf_privacy_ident_il_uuid_sha256"
+msgstr "メールアドレスでフォーマットされたユニークなILIASプラットフォームidでハッシュを結合"
+
+msgid "conf_privacy_ident_il_uuid_sha256_info"
+msgstr "これはコール毎に同一ですが、ILIASユーザについて直接結論は許可されません。"
+
+msgid "conf_privacy_ident_il_uuid_sha256url"
+msgstr "E-MailアドレスとしてフォーマットされたILIASドメイン有で結合されたハッシュ"
+
+msgid "conf_privacy_ident_il_uuid_sha256url_info"
+msgstr "メールアドレスとしてIDフォーマットされたユニークなILIASプラットフォームでILIASユーザIDは結合されます。"
+
+msgid "conf_privacy_ident_il_uuid_user_id"
+msgstr "E-MailアドレスとしてフォーマットされたユニークなILIASプラットフォームIDで結合されたILIASユーザID"
+
+msgid "conf_privacy_ident_il_uuid_user_id_info"
+msgstr "内部の数値ユーザIDを送信。コール毎に同一ですが、ILIASユーザに関して誘導する可能性があります。"
+
+msgid "conf_privacy_ident_info"
+msgstr "標準はメールアドレスを利用するのが一般的です。ユニークなILIASプラットフォームID:"
+
+msgid "conf_privacy_ident_real_email"
+msgstr "E-Mail Address"
+
+msgid "conf_privacy_ident_real_email_info"
+msgstr "IDとしてのユーザのメールアドレスを送信(警告: メールアドレスは複数のユーザで使用される可能性があります!)"
+
+msgid "conf_privacy_name"
+msgstr "ユーザー名"
+
+msgid "conf_privacy_name_firstname"
+msgstr "氏名"
+
+msgid "conf_privacy_name_firstname_info"
+msgstr "ILIASユーザ名の氏名を送信"
+
+msgid "conf_privacy_name_fullname"
+msgstr "完全な名前"
+
+msgid "conf_privacy_name_fullname_info"
+msgstr "タイトル、名前、姓名を送信"
+
+msgid "conf_privacy_name_info"
+msgstr "ユーザ名の送信は通常必須ではありません。"
+
+msgid "conf_privacy_name_lastname"
+msgstr "タイトルと姓名"
+
+msgid "conf_privacy_name_lastname_info"
+msgstr "ミスターまたはMs/Mrs. (特に指示がない限り)と姓名を送信"
+
+msgid "conf_privacy_name_none"
+msgstr "該当者なし"
+
+msgid "conf_privacy_name_none_info"
+msgstr "名前に替えて '-'を挿入"
+
+msgid "conf_privacy_setting_conf"
+msgstr "オプション構成"
+
+msgid "conf_privacy_setting_default"
+msgstr "オブジェクトの変更可能なデフォルト設定"
+
+msgid "conf_privacy_setting_force"
+msgstr "オブジェクトの設定は変更不可です。"
+
+msgid "conf_privacy_setting_info"
+msgstr "プライバシー設定の構成オプション"
+
+msgid "conf_remarks"
+msgstr "内部コメント"
+
+msgid "conf_title"
+msgstr "Title"
+
+msgid "conf_use_proxy"
+msgstr "xAPI-Proxy"
+
+msgid "conf_use_proxy_info"
+msgstr "xAPI プロキシはILIASの学習進捗を確定するためにリアルタイムデータを提供します。プロキシは選択されたデータ保護オプションに沿ってパーソナルデータを縮小します。xAPI プロキシを解除すると、学習コンテンツはLRSへ直接学習進捗を書き込みます。このデータはLRSから直接読み込まれる必要があります。cron job \"xAPI/cmi5 結果を知る\"は学習進捗の確定に必須です。xAPI proxyはcmi5 オブジェクトの要件であり自動的に有効化されます。"
+
+msgid "conf_use_proxy_info_cmi5"
+msgstr "xAPI プロキシはILIASの学習進捗を確定するためにリアルタイムデータを提供します。プロキシは選択されたデータ保護オプションに沿ってパーソナルデータを縮小します。API プロキシはcmi5 オブジェクトに必須です。"
+
+msgid "conf_use_proxy_info_xapi"
+msgstr "xAPI プロキシはILIASの学習進捗を確定するためにリアルタイムデータを提供します。プロキシは選択されたデータ保護オプションに沿ってパーソナルデータを縮小します。xAPI プロキシを解除すると、学習コンテンツはLRSへ直接学習進捗を書き込みます。このデータはLRSから直接読み込まれる必要があります。cron job \"xAPI/cmi5 結果を知る\"は学習進捗の確定に必須です。xAPI proxyはcmi5 オブジェクトの要件であり自動的に有効化されます。"
+
+msgid "conf_user_ident"
+msgstr "ユーザID"
+
+msgid "conf_user_ident_il_uuid_ext_account"
+msgstr "e-mailドレスとして書式化されたユニークなILIASプラットフォームIDで結合された外部ユーザID"
+
+msgid "conf_user_ident_il_uuid_ext_account_info"
+msgstr "これはユーザ毎に同一ですが、ユーザに関して直接結論つけを許容願います。"
+
+msgid "conf_user_ident_il_uuid_login"
+msgstr "E-Mail AddressのILIASログイン、必要に応じてユニークなILIASプラットフォームIDで結合。"
+
+msgid "conf_user_ident_il_uuid_login_info"
+msgstr "これはユーザ毎に同一ですが、ユーザに関して直接結論つけされる事を許容願います。"
+
+msgid "conf_user_ident_il_uuid_random"
+msgstr "e-mailドレスとして書式化されたユニークなILIASプラットフォームIDで結合されたランダムID。"
+
+msgid "conf_user_ident_il_uuid_random_info"
+msgstr "各ILIASオブジェクトとILIASユーザランダムIDはコール毎に同一で生成されます。ユーザに関する結論はオブジェクトを超えてユーザプロファイルを作成する事が殆ど不可能という理由で非常に限定されます。"
+
+msgid "conf_user_ident_il_uuid_user_id"
+msgstr "E-Mailアドレスで書式化されたユニークなILIASプラットフォーIDで結合のILIASユーザID。"
+
+msgid "conf_user_ident_il_uuid_user_id_info"
+msgstr "これはコール毎に同じですが、ユーザに関して直接結論つけされる事を許容願います。"
+
+msgid "conf_user_ident_info"
+msgstr "標準はemailアドレスに準じます。ユニークなILIASプラットフォームIDは:"
+
+msgid "conf_user_ident_real_email"
+msgstr "E-Mail Address"
+
+msgid "conf_user_ident_real_email_info"
+msgstr "IDとしてユーザのメールアドレスを送信 (Warning: E-Mailアドレスは複数のユーザで使用されている可能性があります)"
+
+msgid "conf_user_name"
+msgstr "ユーザ名"
+
+msgid "conf_user_name_firstname"
+msgstr "氏名"
+
+msgid "conf_user_name_firstname_info"
+msgstr "ILIASからユーザ名の氏名を送信"
+
+msgid "conf_user_name_fullname"
+msgstr "名前全体"
+
+msgid "conf_user_name_fullname_info"
+msgstr "タイトル、氏名、姓名を送信"
+
+msgid "conf_user_name_info"
+msgstr "ユーザ名の送信は通常不要です。"
+
+msgid "conf_user_name_lastname"
+msgstr "タイトルと姓名"
+
+msgid "conf_user_name_lastname_info"
+msgstr " (特に指示なければ) Mister or Ms/Mrs.と姓名を送信"
+
+msgid "conf_user_name_none"
+msgstr "該当なし"
+
+msgid "conf_user_name_none_info"
+msgstr "名前に代えて '-' を送信"
+
+msgid "conf_user_registered_mail"
+msgstr "E-Mail-Addressを登録"
+
+msgid "content_privacy_ident"
+msgstr "リソースのユーザID"
+
+msgid "content_privacy_name"
+msgstr "リソースのユーザ名"
+
+msgid "create_lrs_type_form"
+msgstr "新しいLRS-Type"
+
+msgid "create_registration"
+msgstr "E-Mail addressを登録"
+
+msgid "cron_xapi_del"
+msgstr "Learning Record Store内の xAPI/cmi5 データを削除"
+
+msgid "cron_xapi_del_desc"
+msgstr "データは xAPI/cmi5 オブジェクトの設定に沿って削除されます。"
+
+msgid "cron_xapi_results_evaluation"
+msgstr "xAPI/cmi5 結果を取得"
+
+msgid "cron_xapi_results_evaluation_desc"
+msgstr "ILIAS xAPI proxyをサポートしないオブジェクトのlearning record storeから全てのxAPI結果を要求"
+
+msgid "description_info"
+msgstr "説明はタイトルの下へ表示されます。"
+
+msgid "download_certificate"
+msgstr "証明書をダウンロード"
+
+msgid "duration_info"
+msgstr "期間は例として回答タスクのように入力できます。オプションで期間は既定値 0 秒 (PT00.000S)に設定されます。"
+
+msgid "duration_label"
+msgstr "期間"
+
+msgid "edit_lrs_type_form"
+msgstr "LRS-Type"
+
+msgid "failed_info"
+msgstr "事前に設定した満足度レベルへ正しくパスできなかったアクティビティの者を表示します。"
+
+msgid "failed_label"
+msgstr "'failed'の動詞付きステートメント"
+
+msgid "fetch_xapi_statements"
+msgstr "Learning Record Storeから結果を取得"
+
+msgid "field_user_ident"
+msgstr "E-Mail-Address"
+
+msgid "field_user_ident_info"
+msgstr "識別用の外部アプリケーションに使用するe-mail addressを入力"
+
+msgid "form_change_registration"
+msgstr "登録"
+
+msgid "form_create_registration"
+msgstr "登録"
+
+msgid "hide_data_info"
+msgstr "ILIAS LRS proxy データの一部用に限り利用可能なオプションでLearning Record Storeの認識されない値のステートメントは保存されます。"
+
+msgid "hide_data_label"
+msgstr "黒めのデータ"
+
+msgid "highscore_achieved_ts"
+msgstr "Date"
+
+msgid "highscore_achieved_ts_description"
+msgstr "日付けの入った列はランキングへ含まれます。"
+
+msgid "highscore_all_tables"
+msgstr "受講者自身のランクとTOPランク"
+
+msgid "highscore_all_tables_description"
+msgstr "トップランクとランキング内の自身の位置に関する情報を受講者は得ます。"
+
+msgid "highscore_description"
+msgstr "'他のユーザの学習経験を表示する'の権利が設定されると他のユーザ名が表示可能性があります。"
+
+msgid "highscore_enabled"
+msgstr "ランキング"
+
+msgid "highscore_mode"
+msgstr "Mode"
+
+msgid "highscore_own_table"
+msgstr "受講者自身のランク"
+
+msgid "highscore_own_table_description"
+msgstr "受講者はランク内の自身の位置をアドバイスされます。"
+
+msgid "highscore_percentage"
+msgstr "パーセンテージ"
+
+msgid "highscore_percentage_description"
+msgstr "パーセント化されたスコアの入った列はランキング内に含まれます。"
+
+msgid "highscore_score"
+msgstr "点数"
+
+msgid "highscore_score_description"
+msgstr "点数の入った列はランキングに含まれます。"
+
+msgid "highscore_top_num"
+msgstr "トップランキングの長さ"
+
+msgid "highscore_top_num_description"
+msgstr "ランキングリストへ含めるべきランク数を指定"
+
+msgid "highscore_top_num_unit"
+msgstr "エントリー"
+
+msgid "highscore_top_table"
+msgstr "トップランキング"
+
+msgid "highscore_top_table_description"
+msgstr "受講者はトップランキングの入った表に表示されます。"
+
+msgid "highscore_wtime"
+msgstr "期間"
+
+msgid "highscore_wtime_description"
+msgstr "期間の入った列はランキング内に含まれます。"
+
+msgid "info_availability"
+msgstr "マガジン内のLRSタイプの利用期間をここで操作できます。全てのタイプは削除予定に代えて\"既存予定を許可\"に設定できます。"
+
+msgid "info_description"
+msgstr "新しいオブジェクトのタイプを選択する時にこの説明が表示されます。"
+
+msgid "info_external_lrs"
+msgstr "外部のLRSと通信する際にヒントがユーザへ表示されます。外部LRSはILIASシステムのオペレータによりLRSへ影響不十分とみなされます。これは削除する権利がないような場合です。"
+
+msgid "info_lrs_endpoint"
+msgstr "終了'/'のないエンドポイントのURL"
+
+msgid "info_lrs_key"
+msgstr "キーまたはログイン用のアクセス,例 12345"
+
+msgid "info_lrs_secret"
+msgstr "共有秘密 / パスワード,例　secret"
+
+msgid "info_privacy_comment_default"
+msgstr "このLRSを使用する時のデータセキュリティ上の追加IDが必須の際は挿入してください。"
+
+msgid "info_remarks"
+msgstr "ここは、このLRS-typeのコメントを書きとめる場所"
+
+msgid "info_title"
+msgstr "このタイトルは新しいオブジェクトのタイプを選択する際に表示されます。"
+
+msgid "initialized_info"
+msgstr "アクティビティを正しく開始した者を確定したアクティビティプロバイダーを表示します。"
+
+msgid "initialized_label"
+msgstr "'initialized化'の動詞付きステートメント"
+
+msgid "launch_options"
+msgstr "起動オプション"
+
+msgid "launch_url"
+msgstr "リソースのURL"
+
+msgid "launch_url_info"
+msgstr "http:// または https:// の追加によるインターネットアドレスを挿入。 データセキュリティオプションはリモートリソースとも関連がある。"
+
+msgid "log_options"
+msgstr "送信済データ表示用のオプション"
+
+msgid "lrs_authentication"
+msgstr "認証"
+
+msgid "no_substatements_info"
+msgstr "このオプションでは- ILIAS LRS proxyに限り利用可 - 下位のステートメントのストレージは抑制可能。これはテストにシングルタスクの回答を求めるような例です。コンテンツはステートメントが保存されてしまっている事を連絡します。"
+
+msgid "no_substatements_label"
+msgstr "サブステートメントを保存しない。"
+
+msgid "online_info"
+msgstr "これはオブジェクト表示してをユーザへ可視にします。"
+
+msgid "only_moveon_info"
+msgstr "ILIAS LRS Proxy用に限り利用可能なこのオプション付きは、 定義された動詞のステートメントに限りLearning Record Store (WhiteList)へ保存されます。コンテンツはステートメントが保存された事を知らせます。これは通常有効期限日を明示しますが、コンテンツプロバイダーと議論すべきものです。"
+
+msgid "only_moveon_label"
+msgstr "学習成功データのみ保存"
+
+msgid "passed_info"
+msgstr "予め設定した満足度レベルのアクティビティを正しく通過した者を表示します。"
+
+msgid "passed_label"
+msgstr "'passed'の動詞付きステートメント"
+
+msgid "privacy_options"
+msgstr "データーセキュリティオプション"
+
+msgid "progressed_info"
+msgstr "進展があったあるいはアクティビティに動きのあった者の数を表示。"
+
+msgid "progressed_label"
+msgstr "'progresse'の動詞付きステートメント"
+
+msgid "registration_saved_successfully"
+msgstr "登録は正しく保存されました"
+
+msgid "satisfied_info"
+msgstr "権限であるいはオブジェクトまたはアクティビティの証明を満たしたアクティビティプロバイダが確定した者を表示します。"
+
+msgid "satisfied_label"
+msgstr "'satisfied'の動詞付きステートメント"
+
+msgid "sect_learning_progress_options"
+msgstr "学習進捗オプション"
+
+msgid "show_debug"
+msgstr "学習体験を表示"
+
+msgid "show_debug_info"
+msgstr "'他のユーザの学習経験を表示するを設定'権利が表示されると他のユーザの学習経験が表示される可能性があります。"
+
+msgid "tab_export"
+msgstr "エクスポート"
+
+msgid "tab_info"
+msgstr "Info"
+
+msgid "tab_lrs_types"
+msgstr "LRS-Types"
+
+msgid "tab_scoring"
+msgstr "ランキング"
+
+msgid "tab_settings"
+msgstr "設定"
+
+msgid "tab_statements"
+msgstr "学習経験"
+
+msgid "tbl_action_raw_data"
+msgstr "Raw Dataを表示"
+
+msgid "tbl_lrs_type_availability"
+msgstr "Availability(空き状況)"
+
+msgid "tbl_lrs_type_title"
+msgstr "Title"
+
+msgid "tbl_lrs_type_usages"
+msgstr "使用量カウント"
+
+msgid "tbl_lrs_types_header"
+msgstr "LRS-Types"
+
+msgid "tbl_statements_actor"
+msgstr "User"
+
+msgid "tbl_statements_date"
+msgstr "Date"
+
+msgid "tbl_statements_object"
+msgstr "Object"
+
+msgid "tbl_statements_verb"
+msgstr "Verb"
+
+msgid "terminated_info"
+msgstr "正しく終了したアクティビティの者を表示します。"
+
+msgid "terminated_label"
+msgstr "'terminated'の動詞付きステートメント"
+
+msgid "timestamp_info"
+msgstr "タイムスタンプはステートメントがアクション表示した時間を刻印します。タイムスタンプはオプションで既定値を1.01.1970 (1970-01-01T00:00:00.000Z)に設定されます。Learning Record Storeはタイムスタンプを大まかに同一化できる保存された日付用の値を自動設定可能です。"
+
+msgid "timestamp_label"
+msgstr "タイムタンプ"
+
+msgid "title_info"
+msgstr "オブジェクトタイトルを提供"
+
+msgid "type_cmi5"
+msgstr "cmi5 Learning Module"
+
+msgid "type_generic"
+msgstr "xAPI Standard Object"
+
+msgid "use_fetch"
+msgstr "Fetch-URL経由の認証"
+
+msgid "use_fetch_info"
+msgstr "リソースがこのオプションをサポートする限りデーターセキュリティ向上にはこのオプションを使用すべきです。"
+
+msgid "xapi_statements_fetched_successfully"
+msgstr "Learning Record Storeの結果は正しく取得されました。"
+
+msgid "xapi_statements_last_fetch_date"
+msgstr "結果の更新取得"
+
+msgid "xapi_statements_not_fetched_yet"
+msgstr "まだLearning Record Store結果が取得されていません。"

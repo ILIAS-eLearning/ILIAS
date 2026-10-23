@@ -1,0 +1,246 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: cont\n"
+
+msgid "cont_add_global_profile"
+msgstr ""
+
+msgid "cont_add_local_profile"
+msgstr ""
+
+msgid "cont_add_skill"
+msgstr ""
+
+msgid "cont_assign_competence"
+msgstr ""
+
+msgid "cont_assign_skills"
+msgstr ""
+
+msgid "cont_block_limit"
+msgstr ""
+
+msgid "cont_block_limit_info"
+msgstr ""
+
+msgid "cont_cont_skills"
+msgstr ""
+
+msgid "cont_deassign_competence"
+msgstr ""
+
+msgid "cont_filter"
+msgstr ""
+
+msgid "cont_filter_field"
+msgstr ""
+
+msgid "cont_filter_fields"
+msgstr ""
+
+msgid "cont_filter_record"
+msgstr ""
+
+msgid "cont_found_objects"
+msgstr ""
+
+msgid "cont_item_list"
+msgstr ""
+
+msgid "cont_item_list_info"
+msgstr ""
+
+msgid "cont_list_presentation"
+msgstr ""
+
+msgid "cont_mem_skills"
+msgstr ""
+
+msgid "cont_news_edited"
+msgstr ""
+
+msgid "cont_news_settings"
+msgstr ""
+
+msgid "cont_news_timeline"
+msgstr ""
+
+msgid "cont_news_timeline_auto_entries"
+msgstr ""
+
+msgid "cont_news_timeline_auto_entries_info"
+msgstr ""
+
+msgid "cont_news_timeline_info"
+msgstr ""
+
+msgid "cont_news_timeline_landing_page"
+msgstr ""
+
+msgid "cont_news_timeline_landing_page_info"
+msgstr ""
+
+msgid "cont_news_timeline_tab"
+msgstr ""
+
+msgid "cont_no_title"
+msgstr ""
+
+msgid "cont_only_crs_grp_fold_download"
+msgstr ""
+
+msgid "cont_page_type_cont"
+msgstr ""
+
+msgid "cont_page_type_cstr"
+msgstr ""
+
+msgid "cont_path"
+msgstr ""
+
+msgid "cont_publish_assignment"
+msgstr ""
+
+msgid "cont_published"
+msgstr ""
+
+msgid "cont_really_deassign_skills"
+msgstr ""
+
+msgid "cont_really_remove_skill_from_course"
+msgstr ""
+
+msgid "cont_select_fields"
+msgstr ""
+
+msgid "cont_show_more"
+msgstr ""
+
+msgid "cont_skill"
+msgstr ""
+
+msgid "cont_skill_ass_profiles"
+msgstr ""
+
+msgid "cont_skill_assigned_comp"
+msgstr ""
+
+msgid "cont_skill_assigned_profiles"
+msgstr ""
+
+msgid "cont_skill_deletion_not_possible"
+msgstr ""
+
+msgid "cont_skill_do_not_set"
+msgstr ""
+
+msgid "cont_skill_members"
+msgstr ""
+
+msgid "cont_skill_no_profile_selected"
+msgstr ""
+
+msgid "cont_skill_no_skill"
+msgstr ""
+
+msgid "cont_skill_no_skills_selected"
+msgstr ""
+
+msgid "cont_skill_profile"
+msgstr ""
+
+msgid "cont_skill_profiles"
+msgstr ""
+
+msgid "cont_skill_publish"
+msgstr ""
+
+msgid "cont_skill_publish_auto"
+msgstr ""
+
+msgid "cont_skill_publish_auto_info"
+msgstr ""
+
+msgid "cont_skill_publish_manual"
+msgstr ""
+
+msgid "cont_skill_publish_manual_info"
+msgstr ""
+
+msgid "cont_skill_really_delete_profile_from_list"
+msgstr ""
+
+msgid "cont_skill_really_delete_profiles_from_list"
+msgstr ""
+
+msgid "cont_skill_really_remove_profile_from_list"
+msgstr ""
+
+msgid "cont_skill_really_remove_profiles_from_list"
+msgstr ""
+
+msgid "cont_skill_records"
+msgstr ""
+
+msgid "cont_skill_removal_not_possible"
+msgstr ""
+
+msgid "cont_std_filter_title_1"
+msgstr ""
+
+msgid "cont_std_filter_title_2"
+msgstr ""
+
+msgid "cont_std_filter_title_3"
+msgstr ""
+
+msgid "cont_std_filter_title_4"
+msgstr ""
+
+msgid "cont_std_filter_title_5"
+msgstr ""
+
+msgid "cont_std_filter_title_6"
+msgstr ""
+
+msgid "cont_std_filter_title_7"
+msgstr ""
+
+msgid "cont_std_filter_title_8"
+msgstr ""
+
+msgid "cont_std_filter_title_9"
+msgstr ""
+
+msgid "cont_std_record_title"
+msgstr ""
+
+msgid "cont_tile_size"
+msgstr ""
+
+msgid "cont_tile_size_0"
+msgstr ""
+
+msgid "cont_tile_size_1"
+msgstr ""
+
+msgid "cont_tile_size_2"
+msgstr ""
+
+msgid "cont_tile_size_3"
+msgstr ""
+
+msgid "cont_tile_size_4"
+msgstr ""
+
+msgid "cont_tile_view"
+msgstr ""
+
+msgid "cont_tile_view_info"
+msgstr ""
+
+msgid "cont_trash_general_usage"
+msgstr ""

@@ -1,0 +1,635 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: nl\n"
+"Language-Team: Dutch\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: wiki\n"
+
+msgid "wiki_activate_extended_rating"
+msgstr "Inschakelen Beoordeel categorieën"
+
+msgid "wiki_activate_new_page_rating"
+msgstr "Inschakelen Beoordelen voor nieuwe pagina's"
+
+msgid "wiki_activate_page_rating"
+msgstr "Inschakelen \"Beoordelingen\""
+
+msgid "wiki_activate_rating"
+msgstr "Inschakelen \"Beoordelen\""
+
+msgid "wiki_add_link"
+msgstr "Link toevoegen"
+
+msgid "wiki_add_template"
+msgstr "Set sjablonentatus"
+
+msgid "wiki_advmd_block_title"
+msgstr "Geavanceerde metagegevens van Pagina"
+
+msgid "wiki_all_pages"
+msgstr "Alle Pagina's"
+
+msgid "wiki_block_page"
+msgstr "Blokkeren pagina"
+
+#, fuzzy
+msgid "wiki_change_notification_body_new"
+msgstr "the following wiki page was created"
+
+msgid "wiki_change_notification_link"
+msgstr "Link naar wiki: %s"
+
+#, fuzzy
+msgid "wiki_change_notification_page_body_comment"
+msgstr "a comment has been added to the following wiki page"
+
+#, fuzzy
+msgid "wiki_change_notification_page_body_delete"
+msgstr "the following wiki page has been deleted"
+
+msgid "wiki_change_notification_page_body_update"
+msgstr "In wiki \"%s\" the page \"%s\" was aangepast."
+
+msgid "wiki_change_notification_page_link"
+msgstr "Link naar wiki pagina: %s"
+
+msgid "wiki_change_notification_salutation"
+msgstr "Hallo %s,"
+
+msgid "wiki_change_notification_subject"
+msgstr "Wiki \"%s\" is gewijzigd"
+
+msgid "wiki_changed_by"
+msgstr "Changed by"
+
+#, fuzzy
+msgid "wiki_comment"
+msgstr "Comment"
+
+#, fuzzy
+msgid "wiki_comment_for_learner"
+msgstr "Feedback for contributor"
+
+#, fuzzy
+msgid "wiki_commented_by"
+msgstr "Commented by"
+
+msgid "wiki_contributor"
+msgstr "Bijdragen van"
+
+msgid "wiki_contributors"
+msgstr "Bijgedragen door"
+
+#, fuzzy
+msgid "wiki_copy"
+msgstr "Copy Wiki"
+
+msgid "wiki_create_page"
+msgstr "Aanmaken pagina"
+
+msgid "wiki_created_by"
+msgstr "Gecreëerd door"
+
+msgid "wiki_deactivate_page_rating"
+msgstr "Uitschakelen \"Beoordelen\"."
+
+msgid "wiki_delete_page"
+msgstr "Verwijderen pagina"
+
+#, fuzzy
+msgid "wiki_download_submission"
+msgstr "Download Submission File"
+
+msgid "wiki_empty_page"
+msgstr "Lege pagina"
+
+msgid "wiki_empty_page_template"
+msgstr "Maak pagina'sjabloon leeg bij aanmaken pagina"
+
+#, fuzzy
+msgid "wiki_exc_template"
+msgstr "Wiki Template"
+
+#, fuzzy
+msgid "wiki_exc_wiki_created"
+msgstr "Wiki has been created."
+
+#, fuzzy
+msgid "wiki_exercise_info"
+msgstr "This wiki is part of the assignment \"%s\" of exercise \"%s\"."
+
+#, fuzzy
+msgid "wiki_exercise_submitted_info"
+msgstr "Your last submission was on %s. Please check the export file."
+
+msgid "wiki_failed"
+msgstr "Mislukt"
+
+msgid "wiki_feedback_from_tutor"
+msgstr "Feedback van docent"
+
+#, fuzzy
+msgid "wiki_finalize_wiki"
+msgstr "Finalize and Submit Wiki"
+
+#, fuzzy
+msgid "wiki_finalized"
+msgstr "Wiki has been finalized and submitted."
+
+msgid "wiki_functions"
+msgstr "Wiki Functies"
+
+msgid "wiki_general_settings"
+msgstr "Algemene instellingen"
+
+msgid "wiki_grading"
+msgstr "Cijfers"
+
+#, fuzzy
+msgid "wiki_html_export"
+msgstr "HTML exportieren"
+
+msgid "wiki_imp_page_added"
+msgstr "Page added."
+
+msgid "wiki_import"
+msgstr "Importeer Wiki"
+
+#, fuzzy
+msgid "wiki_incl_comments"
+msgstr "including comments"
+
+msgid "wiki_indentation"
+msgstr "Inspringing"
+
+msgid "wiki_introduction"
+msgstr "Introductie"
+
+msgid "wiki_last_changed"
+msgstr "Laatste wijziging"
+
+msgid "wiki_last_changed_by"
+msgstr "Laatst gewijzigd door"
+
+msgid "wiki_last_edited"
+msgstr "Laatste wijziging"
+
+msgid "wiki_last_visited_page"
+msgstr "Laatst bezochte pagina"
+
+#, fuzzy
+msgid "wiki_link_md_values"
+msgstr "Automatic Linking"
+
+#, fuzzy
+msgid "wiki_link_md_values_info"
+msgstr "Autmatically links properties presented in the side block to wiki pages with the same name."
+
+msgid "wiki_link_text"
+msgstr "Tekst van link"
+
+msgid "wiki_mark"
+msgstr "Cijfer"
+
+#, fuzzy
+msgid "wiki_master_existing"
+msgstr "Page Exists in Master Language"
+
+#, fuzzy
+msgid "wiki_master_title"
+msgstr "Title of Page in Master Language"
+
+msgid "wiki_navigation"
+msgstr "Wiki Navigatie"
+
+msgid "wiki_navigation_info"
+msgstr "Hier kun je koppelingen naar bestaande wiki pagina's toevoegen aan en verwijderen van het navigatieblok in de wiki."
+
+msgid "wiki_new_page"
+msgstr "Nieuwe pagina"
+
+msgid "wiki_new_page_name"
+msgstr "Nieuwe titel"
+
+msgid "wiki_new_pages"
+msgstr "Nieuwe pagina's"
+
+msgid "wiki_news_page_changed"
+msgstr "Wiki page has been updated."
+
+msgid "wiki_news_page_created"
+msgstr "New wiki page has been created."
+
+#, fuzzy
+msgid "wiki_no_master"
+msgstr "Page Does Not Exist in Master Language"
+
+#, fuzzy
+msgid "wiki_no_page_found"
+msgstr "No wiki page has been found for search term '$1'."
+
+#, fuzzy
+msgid "wiki_no_search_term"
+msgstr "No search term has been entered. All pages of the wiki are listed below."
+
+msgid "wiki_no_start_page"
+msgstr "Wiki mist een geldige startpagina."
+
+#, fuzzy
+msgid "wiki_not_existing"
+msgstr "not existing yet"
+
+msgid "wiki_notgraded"
+msgstr "Geen cijfer"
+
+msgid "wiki_notification_activate_page"
+msgstr "Inschakelen berichtgeving voor pagina"
+
+msgid "wiki_notification_activate_wiki"
+msgstr "Inschakelen berichtgeving voor Wiki"
+
+msgid "wiki_notification_activated"
+msgstr "Notification Activated (Whole Wiki)"
+
+#, fuzzy
+msgid "wiki_notification_comment"
+msgstr "the following Wiki Page has been commented."
+
+#, fuzzy
+msgid "wiki_notification_comment_subject"
+msgstr "A comment was added to %s: %s"
+
+msgid "wiki_notification_deactivate_page"
+msgstr "Uitschakelen berichtgeving voor pagina"
+
+msgid "wiki_notification_deactivate_wiki"
+msgstr "Uitschakelen berichtgeving voor Wiki"
+
+msgid "wiki_notification_deactivated"
+msgstr "Berichtgeving niet ingeschakeld"
+
+msgid "wiki_number_users_notes_or_comments"
+msgstr "Aantal gebruikers dat commentaar of notities heeft geplaatst bij deze bladzijde"
+
+msgid "wiki_ordering"
+msgstr "Volgorde"
+
+msgid "wiki_ordering_and_indent_saved"
+msgstr "Volgorde en inspringing opgeslagen."
+
+msgid "wiki_orphaned_pages"
+msgstr "Verweesde Pagina's"
+
+msgid "wiki_other_pages_linking"
+msgstr "Andere pagina's met link naar deze pagina"
+
+msgid "wiki_page"
+msgstr "Pagina"
+
+msgid "wiki_page_actions"
+msgstr "Pagina acties"
+
+msgid "wiki_page_already_exists"
+msgstr "Een pagina met deze titel bestaat reeds."
+
+msgid "wiki_page_blocked"
+msgstr "Wiki pagina geblokkkeerd."
+
+msgid "wiki_page_changes"
+msgstr "Pagina wijzigingen"
+
+msgid "wiki_page_deleted"
+msgstr "Wiki pagina verwijderd."
+
+msgid "wiki_page_deletion_confirmation"
+msgstr "Wil je werkelijk deze wiki pagina verwijderen?"
+
+msgid "wiki_page_exists"
+msgstr "Bestaande pagina"
+
+msgid "wiki_page_hits"
+msgstr "Pagina Hits"
+
+#, fuzzy
+msgid "wiki_page_in_master_language"
+msgstr "Page in Master Language"
+
+#, fuzzy
+msgid "wiki_page_list_form_info"
+msgstr "Adds a list of pages of this wiki that are all assigned to the selected metadata below."
+
+#, fuzzy
+msgid "wiki_page_list_mode"
+msgstr "Type of List"
+
+#, fuzzy
+msgid "wiki_page_list_mode_ordered"
+msgstr "Numbered"
+
+#, fuzzy
+msgid "wiki_page_list_mode_unordered"
+msgstr "Not numbered"
+
+msgid "wiki_page_lists"
+msgstr "Pagina lijsten"
+
+msgid "wiki_page_not_exist_select_templ"
+msgstr "Deze pagina bestaat nog niet. Selecteer een sjabloon voor een nieuwe pagina."
+
+msgid "wiki_page_notification_activated"
+msgstr "Berichtgeving ingeschakeld (enkele pagina)"
+
+msgid "wiki_page_status_blocked"
+msgstr "Wijzigen van deze pagina is momenteel geblokkeerd voor deelnemers."
+
+msgid "wiki_page_template"
+msgstr "pagina'sjabloon"
+
+#, fuzzy
+msgid "wiki_page_templates"
+msgstr "Page Templates"
+
+#, fuzzy
+msgid "wiki_page_title_too_long"
+msgstr "Sorry, the title of the wiki page is too long. Please replace it with a shorter title."
+
+msgid "wiki_page_toc"
+msgstr "Inschakelen pagina overzicht"
+
+msgid "wiki_page_toc_info"
+msgstr "Toont alle kopregels uit deze pagina vooraan de pagina, als het tenminste twee kopregels bevat."
+
+#, fuzzy
+msgid "wiki_page_type_wpg"
+msgstr "Wiki Page"
+
+msgid "wiki_page_unblocked"
+msgstr "Wiki pagina vrijgegeven."
+
+msgid "wiki_pages"
+msgstr "Pagina's"
+
+#, fuzzy
+msgid "wiki_pages_found"
+msgstr "The following pages match your search term '$1'."
+
+msgid "wiki_passed"
+msgstr "Geslaagd"
+
+#, fuzzy
+msgid "wiki_pg_list_no_search_fields"
+msgstr "No searchable meta data fields found in the metadata sets of the wiki."
+
+msgid "wiki_please_enter_search_term"
+msgstr "Zoekterm invoeren."
+
+msgid "wiki_popular_pages"
+msgstr "Populaire pagina's"
+
+msgid "wiki_print_view"
+msgstr "Print Zicht"
+
+msgid "wiki_public_comments"
+msgstr "Publiek Commentaar"
+
+msgid "wiki_purpose"
+msgstr "Doel"
+
+msgid "wiki_quick_navigation"
+msgstr "Wiki Snelle Navigatie"
+
+#, fuzzy
+msgid "wiki_rate_overall"
+msgstr "Rate Wiki"
+
+msgid "wiki_rate_page"
+msgstr "Beoordeel deze Wiki Pagina"
+
+msgid "wiki_recent_changes"
+msgstr "Recente wijzigingen"
+
+#, fuzzy
+msgid "wiki_remove_template_status"
+msgstr "Remove Template Status"
+
+msgid "wiki_removed_imp_pages"
+msgstr "Belangrijke pagina's verwijderd van lijst."
+
+msgid "wiki_rename"
+msgstr "Hernoemen"
+
+msgid "wiki_rename_page"
+msgstr "Hernoemen pagina"
+
+msgid "wiki_save_ordering_and_indent"
+msgstr "Bewaar volgorde en inspringing"
+
+msgid "wiki_search"
+msgstr "Zoeken"
+
+msgid "wiki_search_results"
+msgstr "Zoek resultaten"
+
+#, fuzzy
+msgid "wiki_sec_protect_info"
+msgstr "Protected sections can only be edited by users having \"Edit Settings\" permission."
+
+msgid "wiki_select_one_item"
+msgstr "Selecteer één item."
+
+msgid "wiki_selected_pages"
+msgstr "Geselecteerde pagina's"
+
+msgid "wiki_set_as_start_page"
+msgstr "Instellen als startpagina"
+
+msgid "wiki_settings"
+msgstr "Wiki Instellingen"
+
+msgid "wiki_short_title_already_in_use"
+msgstr "Deze titel wordt al in een ander wiki gebruikt. Kies een andere titel."
+
+msgid "wiki_show_pdf_export"
+msgstr "PDF Export"
+
+msgid "wiki_show_print_view"
+msgstr "Afdruk zicht"
+
+msgid "wiki_start_page"
+msgstr "Startpagina"
+
+msgid "wiki_start_page_info"
+msgstr "Als er nog geen pagina is met deze titel, zal het worden aangemaakt."
+
+msgid "wiki_stat_chars"
+msgstr "Aantal karakters"
+
+msgid "wiki_stat_chars_avg"
+msgstr "Gemiddeld aantal karakters per pagina"
+
+msgid "wiki_stat_deleted_pages"
+msgstr "Aantal verwijderde pagina's"
+
+msgid "wiki_stat_edit_pages"
+msgstr "Aantal gewijzigde pagina's"
+
+msgid "wiki_stat_edit_pages_avg"
+msgstr "Gemiddeld aantal gewijzigde pagina's per gebruiker"
+
+msgid "wiki_stat_external_links"
+msgstr "Aantal externe koppelingen"
+
+msgid "wiki_stat_external_links_avg"
+msgstr "Gemiddeld aantal externe koppelingen per pagina"
+
+msgid "wiki_stat_figure"
+msgstr "Figuur"
+
+msgid "wiki_stat_footnotes"
+msgstr "Aantal voetnoten"
+
+msgid "wiki_stat_footnotes_avg"
+msgstr "Gemiddeld aantal voetnoten per pagina"
+
+msgid "wiki_stat_internal_links"
+msgstr "Aantal interne koppelingen"
+
+msgid "wiki_stat_internal_links_avg"
+msgstr "Gemiddeld aantal interne koppelingen per pagina"
+
+msgid "wiki_stat_new_pages"
+msgstr "Aantal nieuwe pagina's"
+
+msgid "wiki_stat_new_pages_avg"
+msgstr "Gemiddeld aantal nieuwe pagina's per gebruiker"
+
+msgid "wiki_stat_num_pages"
+msgstr "Aantal pagina's"
+
+msgid "wiki_stat_num_rating"
+msgstr "Aantal beoordelingen"
+
+msgid "wiki_stat_num_rating_avg"
+msgstr "Aantal beoordelingen per pagina"
+
+msgid "wiki_stat_page_changes"
+msgstr "Aantal wijzigingen"
+
+msgid "wiki_stat_page_changes_avg"
+msgstr "Gemiddeld aantal wijzigingen"
+
+msgid "wiki_stat_page_characters"
+msgstr "Aantal karakters"
+
+msgid "wiki_stat_page_external_links"
+msgstr "Aantal externe koppelingen"
+
+msgid "wiki_stat_page_footnotes"
+msgstr "Aantal voetnoten"
+
+msgid "wiki_stat_page_internal_links"
+msgstr "Aantal interne koppelingen"
+
+msgid "wiki_stat_page_ratings"
+msgstr "Aantal beoordelingen"
+
+msgid "wiki_stat_page_read"
+msgstr "Aantal leestoegangen"
+
+msgid "wiki_stat_page_user_edit"
+msgstr "aantal gebruikers die een pagina hebben gewijzigd"
+
+msgid "wiki_stat_page_words"
+msgstr "Aantal woorden"
+
+msgid "wiki_stat_rating_avg"
+msgstr "Gemiddelde beoordeling"
+
+msgid "wiki_stat_read_pages"
+msgstr "Aantal leestoegangen"
+
+msgid "wiki_stat_scope"
+msgstr "Timeframe"
+
+msgid "wiki_stat_user_edit_pages"
+msgstr "Aantal gebruikers die pagina's hebben gewijzigd"
+
+msgid "wiki_stat_user_edit_pages_avg"
+msgstr "Gemiddeld aantal gebruikers die pagina's hebben gewijzigd"
+
+msgid "wiki_stat_words"
+msgstr "Aantal woorden"
+
+msgid "wiki_stat_words_avg"
+msgstr "Gemiddeld aantal woorden per pagina"
+
+msgid "wiki_style"
+msgstr "Stijl"
+
+msgid "wiki_sure_remove_imp_pages"
+msgstr "Do you really want to remove the following pages from the list of important pages?"
+
+msgid "wiki_target_page"
+msgstr "Pagina waarnaar gelinkt"
+
+#, fuzzy
+msgid "wiki_team_members"
+msgstr "Team Members"
+
+msgid "wiki_templ_add_to_page"
+msgstr "Beschikbaar om toegevoegd te worden aan bestaande pagina's"
+
+msgid "wiki_templ_new_pages"
+msgstr "Beschikbaar bij aanmaken pagina"
+
+#, fuzzy
+msgid "wiki_template_added"
+msgstr "Template page added."
+
+#, fuzzy
+msgid "wiki_template_status_removed"
+msgstr "Template status removed."
+
+#, fuzzy
+msgid "wiki_translate_page_master_info"
+msgstr "You are creating a new wiki page translation. Please specify, if this translation belongs to an existing master version of the page, or if a completely new page is being created. In the second case you need to specify a page title for the master version."
+
+#, fuzzy
+msgid "wiki_translation_page"
+msgstr "Translation Page"
+
+#, fuzzy
+msgid "wiki_translations"
+msgstr "Translations"
+
+#, fuzzy
+msgid "wiki_type_wiki_team"
+msgstr "Team Wiki"
+
+msgid "wiki_unblock_page"
+msgstr "Pagina vrijgeven"
+
+#, fuzzy
+msgid "wiki_unhide_meta_adv_records"
+msgstr "Show additional properties"
+
+msgid "wiki_what_links_here"
+msgstr "Wat linkt hier"
+
+msgid "wiki_what_links_to_page"
+msgstr "Wat linkt naar pagina \"%s\""
+
+msgid "wiki_whole_wiki"
+msgstr "Gehele Wiki"
+
+msgid "wiki_wiki_page"
+msgstr "Wiki Pagina"
+
+msgid "wiki_wiki_search"
+msgstr "Wiki Zoeken"
+
+msgid "wiki_wpg"
+msgstr "Wiki Pagina"

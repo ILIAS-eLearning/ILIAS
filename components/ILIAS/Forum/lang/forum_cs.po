@@ -1,0 +1,756 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: forum\n"
+
+msgid "activate_new_posts"
+msgstr "Aktivovat nové příspěvky"
+
+msgid "activate_only_current"
+msgstr "Aktivovat aktuální"
+
+msgid "activate_post"
+msgstr "Aktivovat"
+
+msgid "activate_post_txt"
+msgstr "Skutečně chcete aktivovat aktuální příspěvky a jsou-li, také všechny existující potomky příspěvků? Povšimněte si prosím, že všechny předkové příspěvků budou aktivovány také."
+
+msgid "add_new_answer"
+msgstr "Přidat příspěvek"
+
+msgid "add_re_to_subject"
+msgstr "Přidat 'Re: ' předmětu odpovědi"
+
+msgid "adm_autosave_drafts"
+msgstr "Automaticky uložit koncepty"
+
+msgid "adm_autosave_drafts_desc"
+msgstr "Pokud je aktivováno, koncepty se automaticky ukládají během editace."
+
+msgid "adm_autosave_ival"
+msgstr "Interval"
+
+msgid "adm_save_drafts"
+msgstr "Uložit koncepty"
+
+msgid "adm_save_drafts_desc"
+msgstr "Pokud je tato možnost zapnuta, mohou registrovaní uživatelé ukládat příspěvky do fóra jako koncept."
+
+msgid "allow_file_upload_desc"
+msgstr "Pokud je tato možnost zapnuta, uživatelé mohou ke svým příspěvkům připojit soubory."
+
+msgid "ascending_order"
+msgstr "Nejnovější příspěvky dole"
+
+msgid "autosave_draft_info"
+msgstr "<span class=\"asterisk\">Tento koncept bude automaticky uložen každých %s sekund.</span>"
+
+msgid "autosave_post_draft_info"
+msgstr "<span class=\"asterisk\">Tento příspěvek bude automaticky uložen jako koncept každých %s sekund.</span>"
+
+msgid "close_topics"
+msgstr "Zavřít"
+
+msgid "content_censored_post"
+msgstr "Obsah cenzurovaného příspěvku:"
+
+msgid "content_deleted_post"
+msgstr "Obsah smazaného příspěvku:"
+
+msgid "content_deleted_thread"
+msgstr "Obsah smazaného vlákna:"
+
+msgid "content_post_updated"
+msgstr "Obsah upraveného příspěvku:"
+
+#, fuzzy
+msgid "deletePosting"
+msgstr "Delete Posting"
+
+#, fuzzy
+msgid "deletePostingDraft"
+msgstr "Delete Draft"
+
+msgid "delete_draft_successfully"
+msgstr "Koncept byl úspěšně vymazán."
+
+msgid "delete_drafts_successfully"
+msgstr "Koncepty byly úspěšně vymazány."
+
+#, fuzzy
+msgid "delete_thread"
+msgstr "Delete Thread"
+
+msgid "descending_order"
+msgstr "Nejnovější příspěvky nahoře"
+
+msgid "edit_thread_draft"
+msgstr "Upravit koncept vlákna"
+
+msgid "empty_subject"
+msgstr "Při odpovědi musí uživatel vložit nový název."
+
+#, fuzzy
+msgid "empty_thread"
+msgstr "Empty Thread"
+
+msgid "enable_send_attachments"
+msgstr "Odeslat přílohy s upozorněními na fóru"
+
+msgid "enable_send_attachments_desc"
+msgstr "Vezměte na vědomí, že přílohy souborů musí být uloženy odděleně pro každého obeznámeného uživatele. To může způsobit vysoké využití prostoru na disku serveru."
+
+msgid "enable_thread_ratings"
+msgstr "Hodnocení vlákna"
+
+msgid "enable_thread_ratings_info"
+msgstr "Pokud mají aktivovaní uživatelé povoleno hodnotit vlákna."
+
+msgid "enter_new_subject"
+msgstr "Vložte prosím nový předmět"
+
+#, fuzzy
+msgid "error_no_target_selected"
+msgstr "Please select a forum."
+
+msgid "error_reading_file"
+msgstr "Při čtení souboru došlo k chybě"
+
+msgid "error_same_thread_ids"
+msgstr "Zdrojové a cílové vlákno musí být odlišné."
+
+msgid "file_upload_allowed"
+msgstr "Povolit přílohy"
+
+msgid "file_upload_allowed_fora"
+msgstr "Přílohy"
+
+msgid "file_upload_allowed_fora_desc"
+msgstr "Pokud je vybráno „Povolit přílohy ve vybraných fórech“, moderátoři fóra mohou v nastavení každého fóra jednotlivě povolit připojování souborů k příspěvkům. V nových fórech bude standardně zakázáno nahrávání příloh."
+
+msgid "file_upload_option_allow"
+msgstr "Povolit přílohy ve všech fórech"
+
+#, fuzzy
+msgid "file_upload_option_allow_info"
+msgstr "Files can be attached to posts in all forums."
+
+msgid "file_upload_option_disallow"
+msgstr "Povolit přílohy ve vybraných fórech"
+
+msgid "fmr_copy_threads_info"
+msgstr "Máte možnost kopírovat jednotlivá vlákna. Pouze začátek zvoleného vlákna bude duplikován."
+
+msgid "forum_add_quote"
+msgstr "Přidat citát"
+
+msgid "forums_all_threads_marked_read"
+msgstr "Všechny témata budou označeny jako přečtené."
+
+msgid "forums_attachments"
+msgstr "Přílohy"
+
+msgid "forums_attachments_add"
+msgstr "Přidat přílohu"
+
+msgid "forums_censor_comment"
+msgstr "Komentář cenzora"
+
+msgid "forums_count_art"
+msgstr "Počet článků"
+
+msgid "forums_created_by"
+msgstr "Vytvořeno (kým):"
+
+msgid "forums_delete_file"
+msgstr "Odstranit přílohu"
+
+msgid "forums_disable_notification"
+msgstr "Vypnout vyrozumění pro toto téma"
+
+msgid "forums_download_attachment"
+msgstr "Stáhnout soubor"
+
+msgid "forums_edit_draft"
+msgstr "Upravit koncept"
+
+msgid "forums_edit_post"
+msgstr "Upravit článek"
+
+msgid "forums_enable_notification"
+msgstr "Zapnout vyrozumění pro toto téma"
+
+#, fuzzy
+msgid "forums_forum_notification"
+msgstr "Send Forum Notifications"
+
+#, fuzzy
+msgid "forums_forum_notification_desc"
+msgstr "If enabled, all users, who want to be informed about new posts in specified forum threads, will get notifications by mail."
+
+msgid "forums_forum_notification_disabled"
+msgstr "V tomto fóru již nebudete informováni o nových zprávách."
+
+msgid "forums_info_censor2_post"
+msgstr "Zrušit cenzuru?"
+
+msgid "forums_info_censor_post"
+msgstr "Jste si jist(a), že chcete skrýt tento článek?"
+
+msgid "forums_info_delete_draft"
+msgstr "Opravdu chcete odstranit tento koncept?"
+
+msgid "forums_info_delete_post"
+msgstr "Jste si jist(a), že chcete odstranit tento článek včetně všech reakcí?"
+
+msgid "forums_mark_read"
+msgstr "Označit vše jako přečtené"
+
+msgid "forums_new_thread"
+msgstr "Nové téma"
+
+msgid "forums_no_posts_available"
+msgstr "Toto téma nemá dosud žádný příspěvek, nebo moderátor první příspěvek deaktivoval."
+
+msgid "forums_notification_disabled"
+msgstr "Vyrozumění vypnuto"
+
+msgid "forums_notification_enabled"
+msgstr "Vyrozumění zapnuto"
+
+msgid "forums_notification_intro"
+msgstr "Tento e-mail byl Vám automaticky zaslán Vaší instalací ILIAS %s, %s"
+
+msgid "forums_notification_show_frm"
+msgstr "Zobrazit fórum: %s"
+
+msgid "forums_notification_show_post"
+msgstr "Zobrazit příspěvek: %s"
+
+msgid "forums_post_activation_mail"
+msgstr "Jestliže následující příspěvek není aktivován, pak není viditelný pro ostatní uživatele fóra. Tento e-mail jste obdržel(a) jako určený moderátor a máte oprávnění aktivovat tento příspěvek."
+
+msgid "forums_post_deleted"
+msgstr "Příspěvek byl odstraněn"
+
+msgid "forums_post_modified"
+msgstr "Příspěvek byl upraven"
+
+msgid "forums_post_needs_to_be_activated"
+msgstr "Nový příspěvek byl vytvořen, avšak musí být aktivován moderátorem."
+
+msgid "forums_post_new_entry"
+msgstr "Nový příspěvek byl vytvořen"
+
+msgid "forums_post_was_activated"
+msgstr "Příspěvek byl aktivován."
+
+msgid "forums_posts"
+msgstr "Všechny příspěvky"
+
+msgid "forums_posts_not_available"
+msgstr "Příspěvky nejsou dostupné"
+
+msgid "forums_print_thread"
+msgstr "Tisk tématu"
+
+msgid "forums_subject"
+msgstr "Předmět"
+
+msgid "forums_the_post"
+msgstr "Příspěvek"
+
+msgid "forums_thread"
+msgstr "Téma"
+
+msgid "forums_thread_create_from"
+msgstr "Vytvořeno od"
+
+msgid "forums_thread_deleted"
+msgstr "Bylo smazáno vybrané vlákno včetně všech příspěvků."
+
+msgid "forums_thread_drafts_deleted"
+msgstr "Bylo smazáno vybrané vlákno včetně všech příspěvků a konceptů."
+
+msgid "forums_thread_marked"
+msgstr "Toto téma bylo označeno jako přečteno."
+
+msgid "forums_thread_new_entry"
+msgstr "Nové téma bylo vytvořeno"
+
+msgid "forums_threads_deleted"
+msgstr "Byla smazána vybraná vlákna včetně všech příspěvků."
+
+msgid "forums_threads_drafts_deleted"
+msgstr "Byla smazána vybraná vlákna včetně všech příspěvků a konceptů."
+
+msgid "forums_your_reply"
+msgstr "Vaše odpověď"
+
+msgid "frm_action_not_possible_parent_deleted"
+msgstr "Akce není možná, byl smazán nadřazený příspěvek."
+
+msgid "frm_action_not_possible_thr_closed"
+msgstr "Akce není možná, vlákno bylo uzavřeno."
+
+msgid "frm_action_not_possible_thr_deleted"
+msgstr "Akce není možná, vlákno bylo smazáno."
+
+#, fuzzy
+msgid "frm_activation_online_info"
+msgstr "Set the forum online to make it visible and available to other users. If not, only administrators will have access to it."
+
+#, fuzzy
+msgid "frm_adm_sec_default_settings"
+msgstr "Default Object Settings"
+
+#, fuzzy
+msgid "frm_adm_sec_drafts"
+msgstr "Drafts"
+
+#, fuzzy
+msgid "frm_adm_sec_features"
+msgstr "Forum Features"
+
+#, fuzzy
+msgid "frm_adm_sec_notifications"
+msgstr "Notifications"
+
+#, fuzzy
+msgid "frm_all_threads"
+msgstr "All Threads"
+
+msgid "frm_anonymous_posting"
+msgstr "Příspěvek pod pseudonymem"
+
+msgid "frm_anonymous_posting_desc"
+msgstr "Je-li zapnuto, registrovaní uživatelé mohou zasílat to tohoto fóra příspěvky jen pod pseudonymem, nebo beze jména."
+
+msgid "frm_at_least_one_moderator"
+msgstr "Musí být alespoň jeden moderátor."
+
+msgid "frm_censorship"
+msgstr "Cenzor"
+
+msgid "frm_censorship_applied"
+msgstr "Cenzura byla úspěšně použita."
+
+msgid "frm_censorship_revoked"
+msgstr "Cenzura byla úspěšně zrušena."
+
+msgid "frm_copy"
+msgstr "Kopírovat fórum"
+
+msgid "frm_default_view"
+msgstr "Výchozí náhled"
+
+msgid "frm_edit_title"
+msgstr "Upravit název"
+
+#, fuzzy
+msgid "frm_enable_print_option"
+msgstr "Enable print option"
+
+#, fuzzy
+msgid "frm_enable_print_option_desc"
+msgstr "If disabled, nobody is able to select the print option in Forum."
+
+#, fuzzy
+msgid "frm_forum_push_notification_info"
+msgstr "Forum notifications are sent as push notifications instead of e-mail. If the push notification cannot be delivered, an e-mail will be sent instead."
+
+msgid "frm_mark_as_read"
+msgstr "Označit jako přečtené"
+
+msgid "frm_mark_as_unread"
+msgstr "Označit jako nepřečtené"
+
+msgid "frm_max_notification_age"
+msgstr "Max. Stáří oznámení"
+
+msgid "frm_max_notification_age_info"
+msgstr "Definujte maximální stáří příspěvků pro odeslání oznámení. Doporučuje se vybrat vyšší hodnotu než plánovaný interval."
+
+msgid "frm_max_notification_age_unit"
+msgstr "Den (dny)"
+
+msgid "frm_merge_src"
+msgstr "Vybrané vlákno: %s"
+
+msgid "frm_merge_target"
+msgstr "Cíl: %s"
+
+msgid "frm_moderator_f"
+msgstr "Moderátor"
+
+msgid "frm_moderator_m"
+msgstr "Moderátor"
+
+msgid "frm_moderator_n"
+msgstr "Moderování"
+
+msgid "frm_moderator_role_added_successfully"
+msgstr "Role moderátora přidána úspěšně."
+
+msgid "frm_moderators"
+msgstr "Moderátoři"
+
+msgid "frm_moderators_detached_role_successfully"
+msgstr "Role moderátora byla úspěšně odebrána všem vybraným uživatelům."
+
+msgid "frm_moderators_not_exist_yet"
+msgstr "Vyberte prosím moderátora."
+
+msgid "frm_moderators_select_at_least_one"
+msgstr "Vyberte prosím alespoň jednoho moderátora."
+
+msgid "frm_moderators_select_one"
+msgstr "Vyberte prosím jednoho uživatele."
+
+#, fuzzy
+msgid "frm_move_invalid_file_type"
+msgstr "The thread \"%s\" has an unsupported file type attached. Remove the file or contact the administrator of the system to add this file type to the file type whitelist."
+
+msgid "frm_noti_message"
+msgstr "Zpráva:"
+
+msgid "frm_noti_new_post"
+msgstr "nový příspěvek byl vytvořen ve fóru „%1$s“."
+
+#, fuzzy
+msgid "frm_noti_obj_crs"
+msgstr "course"
+
+#, fuzzy
+msgid "frm_noti_obj_grp"
+msgstr "group"
+
+msgid "frm_noti_subject_act_post"
+msgstr "Příspěvek aktivován ve fóru „%1$s“, vláknu „%2$s“"
+
+msgid "frm_noti_subject_answ_post"
+msgstr "Příspěvek zodpovězen ve fóru „%1$s“, vláknu „%2$s“"
+
+msgid "frm_noti_subject_cens_post"
+msgstr "Příspěvek cenzurován ve fóru „%1$s“, vláknu „%2$s“"
+
+msgid "frm_noti_subject_del_post"
+msgstr "Příspěvek smazán ve fóru „%1$s“, vláknu „%2$s“"
+
+msgid "frm_noti_subject_del_thread"
+msgstr "Vlákno „%2$s“ smazáno ve fóru „%1$s“"
+
+msgid "frm_noti_subject_new_post"
+msgstr "Nový příspěvek ve fóru „%1$s“, vláknu „%2$s“"
+
+msgid "frm_noti_subject_uncens_post"
+msgstr "Příspěvek necenzurován ve fóru „%1$s“, vláknu „%2$s“"
+
+msgid "frm_noti_subject_upt_post"
+msgstr "Příspěvek upraven ve fóru „%1$s“, vláknu „%2$s“"
+
+msgid "frm_notification_activated"
+msgstr "Oznámení aktivováno"
+
+#, fuzzy
+msgid "frm_notification_bg_task_title"
+msgstr "Forum notification delivery"
+
+msgid "frm_notification_deactivated"
+msgstr "Oznámení deaktivováno"
+
+msgid "frm_post_not_activated_yet"
+msgstr "Doposud neaktivováno."
+
+#, fuzzy
+msgid "frm_posts"
+msgstr "Forum Posts"
+
+msgid "frm_pseudonym"
+msgstr "Pseudonym"
+
+msgid "frm_purifier_not_implemented_for_type_x"
+msgstr "Čistič typu %s nebyl doposud implementován."
+
+msgid "frm_rating"
+msgstr "Hodnocení"
+
+msgid "frm_revoke_censorship"
+msgstr "Zrušení cenzury"
+
+msgid "frm_search"
+msgstr "Hledání"
+
+msgid "frm_selected_merge_src"
+msgstr "Vybrané vlákno ke sloučení: %s"
+
+msgid "frm_settings_form_header"
+msgstr "Nastavení fóra"
+
+msgid "frm_settings_mod_functions_header"
+msgstr "Funkce moderátora"
+
+msgid "frm_settings_privacy_header"
+msgstr "Soukromí"
+
+msgid "frm_settings_user_functions_header"
+msgstr "Uživatelské funkce"
+
+msgid "frm_statistics"
+msgstr "Statistiky"
+
+msgid "frm_statistics_disabled_for_participants"
+msgstr "Statistiky pro fórum členů jsou vypnuty."
+
+msgid "frm_statistics_enabled"
+msgstr "Zapnout statistiky"
+
+msgid "frm_statistics_enabled_desc"
+msgstr "Zapnout všechny statistiky pro všechny účastníky"
+
+msgid "frm_statistics_ranking"
+msgstr "Počet příspěvků"
+
+msgid "frm_subject_setting"
+msgstr "Nastavení subjektu"
+
+msgid "frm_sure_delete_threads"
+msgstr "Skutečně chcete smazat následující vlákna?"
+
+msgid "frm_sure_merge_threads"
+msgstr "Opravdu chcete sloučit tato vlákna? Upozornění: Tuto akci nelze vrátit zpět! Nakonec systém ILIAS přepne zdrojové a cílové vlákno, pokud je první příspěvek zdrojového vlákna vytvořen dříve než první příspěvek cílového vlákna."
+
+#, fuzzy
+msgid "frm_task_publishing_draft_title"
+msgstr "Publishing of Draft \"%s\""
+
+msgid "frm_wizard_page"
+msgstr "Kopírovat fórum (krok 2/2)"
+
+msgid "is_read"
+msgstr "Označit jako přečtené"
+
+msgid "make_topics_non_sticky"
+msgstr "Označit témata jako \"Nelepkavá\""
+
+msgid "make_topics_sticky"
+msgstr "Označit témata jako \"Lepkavá\""
+
+msgid "mark_moderator_posts"
+msgstr "Označit příspěvky moderátora"
+
+msgid "mark_moderator_posts_desc"
+msgstr "Je-li aktivováno, všechny příspěvky oderátora budou zvýrazněny."
+
+msgid "merge"
+msgstr "Sloučit"
+
+msgid "merge_posts_into_thread"
+msgstr "Sloučit příspěvky do jiného vlákna"
+
+msgid "merged_threads_successfully"
+msgstr "Vybraná vlákna byla úspěšně sloučena"
+
+msgid "move_chosen_topics"
+msgstr "Přesunout zvolené téma"
+
+msgid "move_thread_to_forum"
+msgstr "Přesunout vlákno na jiné fórum"
+
+msgid "new_post"
+msgstr "Nový příspěvek"
+
+#, fuzzy
+msgid "new_thread_with_post"
+msgstr "New Thread with Posting"
+
+msgid "no_forum_selected"
+msgstr "Žádné vybrané fórum pro zařazení zvoleného tématu."
+
+msgid "not_allowed_to_merge_into_another_forum"
+msgstr "Není možné sloučit vlákna různých fór."
+
+#, fuzzy
+msgid "notification_settings"
+msgstr "Notification Settings"
+
+#, fuzzy
+msgid "notify_censored"
+msgstr "Censored Posts"
+
+#, fuzzy
+msgid "notify_modified"
+msgstr "Modified Posts"
+
+#, fuzzy
+msgid "notify_post_deleted"
+msgstr "Deleted Posts"
+
+#, fuzzy
+msgid "notify_thread_deleted"
+msgstr "Deleted Threads"
+
+#, fuzzy
+msgid "notify_uncensored"
+msgstr "Uncensored Posts"
+
+msgid "number_of_threads"
+msgstr "Zobrazený počet vláken na stránku"
+
+msgid "please_choose_target"
+msgstr "Vyberte vlákno jako cíl sloučení."
+
+msgid "post_activation_desc"
+msgstr "Je-li zapnuto, moderátor musí nové příspěvky aktivovat."
+
+msgid "post_censored_by"
+msgstr "cenzurovaný příspěvek ve fóru „%2$s“, cenzuroval „%1$s“:"
+
+msgid "post_censored_comment_by_moderator"
+msgstr "Příspěvek cenzurován, okomentován moderátorem"
+
+msgid "post_deleted_by"
+msgstr "následující příspěvek ve fóru „%2$s“ byl smazán „%1$s“:"
+
+#, fuzzy
+msgid "post_draft_info"
+msgstr "This post draft is only visible for you."
+
+msgid "post_reply"
+msgstr "Re:"
+
+msgid "post_reply_count"
+msgstr "Re(%s):"
+
+msgid "post_uncensored_by"
+msgstr "příspěvek nebyl cenzurován „%1$s“"
+
+msgid "post_updated_by"
+msgstr "následně upravil příspěvek ve fóru „%1$s“ : „%2$s“"
+
+msgid "preset_subject"
+msgstr "Vložte předmět pro odpověď"
+
+msgid "publish"
+msgstr "Publikovat"
+
+#, fuzzy
+msgid "relevance"
+msgstr "Relevance"
+
+msgid "reopen_topics"
+msgstr "Znovu otevřít"
+
+msgid "reply_to_postings"
+msgstr "Reakce"
+
+#, fuzzy
+msgid "reset_limited_view"
+msgstr "Limited view on this post an all posts below it."
+
+#, fuzzy
+msgid "reset_limited_view_button"
+msgstr "Show entire thread"
+
+#, fuzzy
+msgid "reset_limited_view_info"
+msgstr "Limited view on this post and all posts below it."
+
+msgid "restore"
+msgstr "Obnovit"
+
+msgid "restore_draft_from_autosave"
+msgstr "Obnovit koncept"
+
+msgid "save_draft_successfully"
+msgstr "Koncept byl úspěšně uložen."
+
+msgid "sel_threads_already_sticky"
+msgstr "Alespoň jedno z vybraných vláken je již sticky"
+
+msgid "sel_threads_already_unsticky"
+msgstr "Alespoň jedno z vybraných vláken je již unsticky"
+
+msgid "sel_threads_make_sticky"
+msgstr "Vybraná vlákna byla označena jako sticky"
+
+msgid "sel_threads_make_unsticky"
+msgstr "Vybraná vlákna již nejsou označena jako sticky"
+
+msgid "select_at_least_one_thread"
+msgstr "Vyberte prosím alespoň jedno téma."
+
+msgid "select_max_one_thread"
+msgstr "Vyberte pouze jedno vlákno!"
+
+msgid "selected_threads_closed"
+msgstr "Vybraná vlákna byla uzavřena"
+
+msgid "selected_threads_reopened"
+msgstr "Vybraná vlákna byla znovu otevřena"
+
+msgid "sort_by_date"
+msgstr "Řadit podle data"
+
+#, fuzzy
+msgid "sort_by_date_desc"
+msgstr "The thread is presented in a flat view. The posts are shown in chronological order of creation."
+
+msgid "sort_by_posts"
+msgstr "Řadit podle příspěvků"
+
+#, fuzzy
+msgid "sort_by_posts_desc"
+msgstr "The thread is presented in a tree view. Replies to posts are shown in the order in which they relate to each other."
+
+#, fuzzy
+msgid "sorting"
+msgstr "Sorting"
+
+msgid "sticky"
+msgstr "Lepkavé"
+
+msgid "sure_delete_drafts"
+msgstr "Opravdu chcete odstranit vybrané koncepty?"
+
+msgid "switch_threads_for_merge"
+msgstr "Vybrané vlákno je starší než cílové vlákno. Abyste zajistili úspěšné sloučení, bude přepnuto zdrojové a cílové vlákno."
+
+#, fuzzy
+msgid "target_select"
+msgstr "Select posting for limited view"
+
+#, fuzzy
+msgid "thema"
+msgstr "Threads"
+
+msgid "thread"
+msgstr "Téma"
+
+msgid "thread_deleted_by"
+msgstr "následující vlákno ve fóru „%2$s“ smazal „%1$s“:"
+
+#, fuzzy
+msgid "thread_overview"
+msgstr "Thread-Overview"
+
+msgid "threads_moved_successfully"
+msgstr "Vybrané téma bylo úspěšně přesunuto do jiného fóra."
+
+#, fuzzy
+msgid "top_thema"
+msgstr "Top-Threads"
+
+msgid "topic_close"
+msgstr "Zavřeno"
+
+msgid "topics_please_select_one_action"
+msgstr "Vyberte prosím akci."
+
+msgid "user_decides_notification"
+msgstr "Každý uživatel rozhoduje o vyrozumění."

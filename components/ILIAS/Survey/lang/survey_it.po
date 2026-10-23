@@ -1,0 +1,1768 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: survey\n"
+
+msgid "SurveyMatrixQuestion"
+msgstr "Matrice di Domande"
+
+msgid "SurveyMetricQuestion"
+msgstr "Domanda Metrica"
+
+msgid "SurveyMultipleChoiceQuestion"
+msgstr "Domanda a scelta multipla (Risposta Multipla)"
+
+msgid "SurveySingleChoiceQuestion"
+msgstr "Domanda a scelta multipla (Risposta Singola)"
+
+msgid "SurveyTextQuestion"
+msgstr "Saggio (testo libero)"
+
+msgid "add_heading"
+msgstr "Aggiungi intestazione"
+
+msgid "already_completed_survey"
+msgstr "Hai già completato il sondaggio! Non puoi eseguirlo di nuovo."
+
+msgid "anonymization"
+msgstr "Anonimizzazione"
+
+msgid "anonymize_anonymous_introduction"
+msgstr "Questo sondaggio rende anonimi tutti i dati degli utenti. Per poter accedere al sondaggio, devi utilizzare la stringa di 32 caratteri che il creatore/gestore del sondaggio ti ha inviato.<br />Per favore inserisci la stringa nel campo testo qui sotto."
+
+msgid "answer"
+msgstr "Risposta"
+
+msgid "arithmetic_mean"
+msgstr "Valore aritmetico"
+
+msgid "browse_for_questions"
+msgstr "Ricerca con filtro"
+
+msgid "cancel_survey"
+msgstr "Sospendere il sondaggio"
+
+msgid "cannot_read_survey"
+msgstr "Non hai i diritti per vedere i dati del sondaggio!"
+
+msgid "cannot_switch_to_online_no_questions"
+msgstr "Lo stato del sondaggio non può essere messo online perché non contiene domande!"
+
+msgid "cant_send_email_smtp_disabled"
+msgstr "L'invio di mail esterne non è disponibile. Questa opzione è completamente disattivata."
+
+msgid "category"
+msgstr "Categoria"
+
+msgid "category_nr_selected"
+msgstr "Numero di utenti che hanno scelto questa categoria"
+
+msgid "chart"
+msgstr "Grafico"
+
+msgid "codes"
+msgstr "Codici di accesso"
+
+msgid "codes_created"
+msgstr "Codice/i creato"
+
+msgid "codes_deleted"
+msgstr "Codice/i cancellati"
+
+msgid "combobox"
+msgstr "Menu a tendina"
+
+msgid "concatenation"
+msgstr "Concatenazione"
+
+msgid "confirm_delete_all_user_data"
+msgstr "Sei sicuro di voler eliminare tutti i dati del sondaggio?"
+
+msgid "confirm_delete_single_user_data"
+msgstr "Sei sicuro di voler cancellare i dati di sondaggio degli utenti selezionati?"
+
+msgid "confirm_remove_heading"
+msgstr "Vuoi rimuovere l'intestazione?"
+
+msgid "confirm_sync_questions"
+msgstr "La domanda che hai cambiato è la copia di una che è stata creata per essere usata in un sondaggio ancora attivo. Vuoi modificare anche la domanda originale?"
+
+msgid "conjunction_and"
+msgstr "se ogni condizioni è stata soddisfatta"
+
+msgid "conjunction_and_title"
+msgstr "Soddisfa ciascuna delle seguenti condizioni"
+
+msgid "conjunction_or"
+msgstr "se una condizioni è stata soddisfatta"
+
+msgid "conjunction_or_title"
+msgstr "Soddisfa una delle seguenti condizioni"
+
+msgid "constraint_add"
+msgstr "Aggiungi precondizioni"
+
+msgid "constraint_fulfilled"
+msgstr "Mostra pagina"
+
+msgid "constraints"
+msgstr "Vincoli"
+
+msgid "constraints_first_question_description"
+msgstr "La prima entità non può avere alcun routing perché non ci sono domande precedenti."
+
+msgid "constraints_introduction"
+msgstr "È possibile aggiungere una regola di routing a una singola domanda o un blocco di domande con più domande. A seconda della risposta specifica data a una domanda precedente, i partecipanti ricevono una domanda successiva definita. Pertanto, le domande irrilevanti per un partecipante non verranno poste e il sondaggio diventa più breve o più specifico a seconda delle risposte fornite in precedenza. Non è possibile impostare regole di routing per la prima domanda o il blocco di domande in un sondaggio."
+
+msgid "constraints_list_of_entities"
+msgstr "Disponibili sondaggi per precondizioni"
+
+msgid "constraints_no_nonessay_available"
+msgstr "Non ci sono domande (o sono disponibili solo domande di autovalutazione) per il calcolo delle precondizioni (le domande di autovalutazione non sono valide per il calcolo delle precondizioni)"
+
+msgid "constraints_no_questions_or_questionblocks_selected"
+msgstr "Seleziona almeno una domanda o un blocco di domande!"
+
+msgid "contains"
+msgstr "Contiene"
+
+msgid "continue"
+msgstr "Avanti >>"
+
+msgid "create_new"
+msgstr "Nuova domanda"
+
+msgid "dc_agree"
+msgstr "accordo"
+
+msgid "dc_always"
+msgstr "sempre"
+
+msgid "dc_definitelyfalse"
+msgstr "falso"
+
+msgid "dc_definitelytrue"
+msgstr "vero"
+
+msgid "dc_desired"
+msgstr "desiderato"
+
+msgid "dc_disagree"
+msgstr "disaccordo"
+
+msgid "dc_fair"
+msgstr "giusto"
+
+msgid "dc_false"
+msgstr "sbagliato"
+
+msgid "dc_good"
+msgstr "buono"
+
+msgid "dc_manytimes"
+msgstr "molte volte"
+
+msgid "dc_morenegative"
+msgstr "più negativo"
+
+msgid "dc_morepositive"
+msgstr "più positivo"
+
+msgid "dc_mostcertainly"
+msgstr "molto sicuro"
+
+msgid "dc_mostcertainlynot"
+msgstr "molto insicuro"
+
+msgid "dc_must"
+msgstr "deve"
+
+msgid "dc_mustnot"
+msgstr "non deve"
+
+msgid "dc_neutral"
+msgstr "neutro"
+
+msgid "dc_never"
+msgstr "mai"
+
+msgid "dc_no"
+msgstr "No"
+
+msgid "dc_notacceptable"
+msgstr "non accettabile"
+
+msgid "dc_poor"
+msgstr "povero"
+
+msgid "dc_rarely"
+msgstr "raramente"
+
+msgid "dc_should"
+msgstr "dovrebbe"
+
+msgid "dc_shouldnot"
+msgstr "non dovrebbe"
+
+msgid "dc_sometimes"
+msgstr "talvolta"
+
+msgid "dc_stronglyagree"
+msgstr "molto d'accordo"
+
+msgid "dc_stronglydesired"
+msgstr "fortemente desiderato"
+
+msgid "dc_stronglydisagree"
+msgstr "molto in disaccordo"
+
+msgid "dc_stronglyundesired"
+msgstr "fortemente non desiderato"
+
+msgid "dc_true"
+msgstr "vero"
+
+msgid "dc_undecided"
+msgstr "indeciso"
+
+msgid "dc_undesired"
+msgstr "non desiderato"
+
+msgid "dc_varying"
+msgstr "variante"
+
+msgid "dc_verygood"
+msgstr "molto buono"
+
+msgid "dc_yes"
+msgstr "si"
+
+msgid "default_codes_mail_message"
+msgstr "Il tuo codice d'accesso al sondaggio è [code]. Puoi iniziare visitando il seguente indirizzo: [url]"
+
+msgid "default_codes_mail_subject"
+msgstr "Il tuo codice d'accesso è %s"
+
+msgid "define_questionblock"
+msgstr "Definisci un blocco di domande"
+
+msgid "delete_saved_message"
+msgstr "Cancella il testo del messaggio"
+
+msgid "display_all_available"
+msgstr "Mostra"
+
+msgid "duplicate"
+msgstr "Duplica"
+
+msgid "edit_heading"
+msgstr "Modifica intestazione"
+
+msgid "end_date"
+msgstr "Termine ultimo"
+
+msgid "end_date_reached"
+msgstr "Non è possibile avviare il sondaggio. La data di fine è stata raggiunta!"
+
+msgid "enter_anonymous_id"
+msgstr "Codice di accesso al sondaggio"
+
+msgid "enter_valid_number_of_codes"
+msgstr "Per favore indica un numero valido per poter generare i codici di accesso al sondaggio!"
+
+msgid "err_external_rcp_no_email"
+msgstr "I dati importati devono contenere almeno un campo 'email'"
+
+msgid "err_external_rcp_no_email_column"
+msgstr "I dati di importazione devono contenere almeno una colonna \"email\" con il titolo \"email\" nella prima riga e gli indirizzi email nelle righe seguenti"
+
+msgid "err_maxvaluegeminvalue"
+msgstr "Il valore massimo deve essere maggiore o uguale al valore minimo e inferiore o uguale al numero massimo di risposte."
+
+msgid "err_minvalueganswers"
+msgstr "Il numero minimo di risposte deve essere minore o uguale di quello massimo."
+
+msgid "err_no_exact_answers"
+msgstr "Per favore spunta esattamente %s risposte."
+
+msgid "err_no_max_answers"
+msgstr "Per favore spunta al massimo %s risposte."
+
+msgid "err_no_min_answers"
+msgstr "Per favore spunta almeno %s risposte."
+
+msgid "error_retrieving_anonymous_survey"
+msgstr "Il sistema non riesce a reperire i dati del sondaggio associati al codice %s. Per favore verifica il codice del sondaggio che hai inserito!"
+
+msgid "error_save_code"
+msgstr "Il valore non è stato salvato in modo appropriato. <b>L’email: '%s' non è valida</b>. Nome: '%s', Cognome: '%s'.<br>"
+
+msgid "evaluation"
+msgstr "Statistiche"
+
+msgid "evaluation_access"
+msgstr "Accesso di prova"
+
+msgid "evaluation_access_all"
+msgstr "Accesso di prova per tutti gli utenti"
+
+msgid "evaluation_access_info"
+msgstr "Hai accesso di prova al sondaggio"
+
+msgid "evaluation_access_off"
+msgstr "Off"
+
+msgid "evaluation_access_participants"
+msgstr "Accesso di prova per i partecipanti al sondaggio"
+
+msgid "existing_constraints"
+msgstr "Sono esistenti delle precondizioni"
+
+msgid "exp_type_csv"
+msgstr "Valori separati da punteggiatura (CSV)"
+
+msgid "exp_type_excel"
+msgstr "Microsoft Excel"
+
+msgid "export_all_survey_codes"
+msgstr "Esporta tutti i codici di accesso"
+
+msgid "export_label_only"
+msgstr "Esporta solo etichetta"
+
+msgid "export_title_label"
+msgstr "Esporta titolo e etichetta"
+
+msgid "export_title_only"
+msgstr "Esporta solo titolo"
+
+msgid "external_recipients_imported"
+msgstr "Destinatari esterni importati"
+
+msgid "externalmails"
+msgstr "Importa file"
+
+msgid "externalmails_info"
+msgstr "Il file deve essere CSV, con colonne separate da un punto e virgola. La prima riga deve contenere il titolo della colonna. Il file deve contenere la colonna 'email' nella quale sono collocate le e-mail dei destinatari."
+
+msgid "externaltext"
+msgstr "Importa testo"
+
+msgid "externaltext_info"
+msgstr "Il testo da importare deve essere organizzato in righe e colonnem con le colonne separate da un punto e virgola. La prima riga deve contenere il titolo della colonna. Il testo deve contenere una colonna di nome 'email' nella quale sono collocate le e-mail dei destinatari."
+
+msgid "filter_all_question_types"
+msgstr "Tutti i tipi di domande"
+
+msgid "filter_all_questionpools"
+msgstr "Tutte le raccolte di domande"
+
+msgid "finished_mail_subject"
+msgstr "Il sondaggio è terminato"
+
+msgid "freetext_answers"
+msgstr "Apri domande"
+
+msgid "geometric_mean"
+msgstr "Significato geometrico"
+
+msgid "given_answers"
+msgstr "Risposte fornite"
+
+msgid "glossary_term"
+msgstr "Voce del glossario"
+
+msgid "harmonic_mean"
+msgstr "Significato armonico"
+
+msgid "heading"
+msgstr "Intestazione"
+
+msgid "horizontal"
+msgstr "Orizzontale"
+
+msgid "import_error_closing_file"
+msgstr "Errore nella chiusura del file da importare!"
+
+msgid "import_error_opening_file"
+msgstr "Errore nella apertura del file da importare!"
+
+msgid "import_from_file"
+msgstr "Importa da file"
+
+msgid "import_from_text"
+msgstr "Importa un testo"
+
+msgid "import_no_file_selected"
+msgstr "Nessun file selezionato!"
+
+msgid "import_question"
+msgstr "Importa domande"
+
+msgid "import_wrong_file_type"
+msgstr "Tipo di file errato!"
+
+msgid "insert_after"
+msgstr "Inserisci dopo"
+
+msgid "insert_before"
+msgstr "Inserisci prima"
+
+msgid "insert_missing_question"
+msgstr "Per favore, seleziona almeno una domanda da inserire nel sondaggio!"
+
+msgid "insert_missing_questionblock"
+msgstr "Per favore, seleziona almeno un blocco di domande da inserire nel sondaggio!"
+
+msgid "insert_saved_message"
+msgstr "Inserisci il testo del messaggio"
+
+msgid "internal_link"
+msgstr "Collegamento interno"
+
+msgid "introduction"
+msgstr "Introduzione"
+
+msgid "invited_users"
+msgstr "Utenti invitati"
+
+msgid "label"
+msgstr "Etichetta"
+
+msgid "label_info"
+msgstr "Identificazione alternativa per ulteriori elaborazioni dei dati (e.g. in SPSS)"
+
+msgid "language_changed"
+msgstr "Lingua modificata"
+
+msgid "layout"
+msgstr "Impaginazione"
+
+msgid "lower_limit"
+msgstr "Limite inferiore"
+
+msgid "mail_import_example2"
+msgstr "sandraowen@domain.tld;Sandra;Owen"
+
+msgid "mail_import_example3"
+msgstr "kennethbirt@domain.tld;Kenneth;Birt"
+
+msgid "mail_sent_short"
+msgstr "Invia"
+
+msgid "mail_survey_codes"
+msgstr "Codice di accesso mail"
+
+msgid "mailaddresses"
+msgstr "Indirizzo del destinatario"
+
+msgid "mailaddresses_info"
+msgstr "Scrivi un elenco di destinatari, separato da virgola, che riceveranno la notifica ad ogni sondaggio terminato."
+
+msgid "mailnotification"
+msgstr "Notifica via e-mail per ogni sondaggio terminato"
+
+msgid "mailparticipantdata"
+msgstr "Dati aggiuntivi per i partecipanti"
+
+msgid "mailparticipantdata_info"
+msgstr "Questa informazione sarà preceduta dalla sezione dei risultati inclusa automaticamente nella mail di notifica."
+
+msgid "mailparticipantdata_placeholder"
+msgstr "I seguenti segnaposto verranno sostituiti con dati utente reali in sondaggi personalizzati:"
+
+msgid "maintenance"
+msgstr "Partecipanti"
+
+msgid "matrix_appearance"
+msgstr "Aspetto"
+
+msgid "matrix_bipolar_adjectives"
+msgstr "Aggettivi Bipolari"
+
+msgid "matrix_bipolar_adjectives_description"
+msgstr "Puoi utilizzare un paio di aggettivi bipolari per limitare la colonna di risposte a parole, brevi frasi o testi."
+
+msgid "matrix_column_separators"
+msgstr "Separatori di colonna"
+
+msgid "matrix_column_separators_description"
+msgstr "Spunta la casella se vuoi utilizzare i separatori (linee sottili) tra le colonne nella visualizzazione della Matrice di Domande."
+
+msgid "matrix_column_settings"
+msgstr "Impostazioni della Matrice di Domande"
+
+msgid "matrix_columns"
+msgstr "Colonne della Matrice"
+
+msgid "matrix_left_pole"
+msgstr "Polo Sinistro"
+
+msgid "matrix_neutral_answer"
+msgstr "Testo per una Colonna Neutra (\"Non specificato\", \"Non lo so\" etc.)"
+
+msgid "matrix_neutral_column_separator"
+msgstr "Separatore di colonne neutre"
+
+msgid "matrix_neutral_column_separator_description"
+msgstr "Spunta il campo che vuoi abbia un separatore (linea grossa) tra la colonna neutra e le altre colonne nella visualizzazione della Matrice di Domande"
+
+msgid "matrix_question_checkbox_not_checked"
+msgstr "Per favore spunta almeno una casella in ogni riga!"
+
+msgid "matrix_question_radio_button_not_checked"
+msgstr "Per favore seleziona un'opzione per ogni riga!"
+
+msgid "matrix_right_pole"
+msgstr "Polo Destro"
+
+msgid "matrix_row_separators"
+msgstr "Separatore di riga"
+
+msgid "matrix_row_separators_description"
+msgstr "Spunta la casella se vuoi che abbia un separatore (linea sottile) tra le righe nella visualizzazione della Matrice di Domande"
+
+msgid "matrix_rows"
+msgstr "Riga della Matrice"
+
+msgid "matrix_standard_answers"
+msgstr "Testo Colonna"
+
+msgid "matrix_subtype_mr"
+msgstr "Caselle Spuntabili (Risposta Multipla)"
+
+msgid "matrix_subtype_sr"
+msgstr "Tasti con risposte (Risposta Singola)"
+
+msgid "maxchars"
+msgstr "Numero massimo di caratteri"
+
+msgid "maximum"
+msgstr "Valore massimo"
+
+msgid "median"
+msgstr "Medio"
+
+msgid "median_between"
+msgstr "tra"
+
+msgid "menuback"
+msgstr "Indietro"
+
+msgid "menubacktosurvey"
+msgstr "Indietro al sondaggio"
+
+msgid "message_content_info"
+msgstr "Scrivi il messaggio della e-mail di notifica contenente il codice per i partecipanti al sondaggio. Puoi utilizzare i segnaposto [code] (il codice d'accesso), [url] (l'indirizzo web del sondaggio), e quelli dei dati relativi ai partecipanti, in base ai tuoi campi di importazione: %s. I segnaposto saranno sostituiti con i dati del singolo destinatario."
+
+msgid "metric_question_floating_point"
+msgstr "Il valore inserito è un valore in virgola mobile. I valori in virgola mobile non sono consentiti per questo tipo di domanda!"
+
+msgid "metric_question_not_a_value"
+msgstr "Il valore inserito non è un valore numerico!"
+
+msgid "metric_question_out_of_bounds"
+msgstr "Il valore inserito non è compreso tra il valore minimo e massimo!"
+
+msgid "metric_subtype_description_interval"
+msgstr "Intervalli equivalenti fra le misure permettono un confronto significativo fra coppie casuali di misure. Lo zero scala è arbitrario, in questo modo possono essere utilizzati valori negativi. Esempi di intervalli di valori sono le date od intervalli di temperatura (es. scala Celsius)"
+
+msgid "metric_subtype_description_ratioabsolute"
+msgstr "La misurazione assoluta del rapporto utilizza numeri naturali in aggiunta al non-arbitrario punto zero, e.s. il numero di bambini in una famiglia o la sua probcompetenze."
+
+msgid "metric_subtype_description_rationonabsolute"
+msgstr "Oltre alla misurazione dell'intervallo ci sono anche rapporti significativi tra coppie arbitrarie di numeri. Il valore zero su una scala di rapporto non è arbitrario. La maggior parte delle quantità fisiche, come la lunghezza in centimetri o la durata in secondi, vengono misurate su scale di rapporto."
+
+msgid "minimum"
+msgstr "Valore minimo"
+
+msgid "mode"
+msgstr "Valore più selezionato"
+
+msgid "mode_nr_of_selections"
+msgstr "Nr di selezioni"
+
+msgid "mode_text"
+msgstr "Valore più selezionato (testo)"
+
+msgid "msg_duplicate_scale"
+msgstr "Per favore scrivi un'unica scala di valori"
+
+msgid "msg_enter_value_for_valid_constraint"
+msgstr "Per favore scrivi un valore per creare una condizione preliminare valida!"
+
+msgid "msg_input_only_positive_numbers"
+msgstr "Si prega di digitare numeri positivi nella scala dei valori."
+
+msgid "msg_max_nr_answers"
+msgstr "Per favore spunta al massimo %s risposte"
+
+msgid "msg_message_deleted"
+msgstr "Testo del messaggio cancellato"
+
+msgid "msg_message_inserted"
+msgstr "Testo del messaggio inserito"
+
+msgid "msg_min_max_exact_answers"
+msgstr "Per favore spunta esattamente %s risposte"
+
+msgid "msg_min_max_nr_answers"
+msgstr "Per favore spunta almeno %s e al massimo %s risposte"
+
+msgid "msg_min_nr_answers"
+msgstr "Per favore spunta almeno %s risposte"
+
+msgid "msg_no_message_deleted"
+msgstr "Per favore seleziona un testo salvato"
+
+msgid "msg_no_message_inserted"
+msgstr "Per favore seziona un testo di messaggio"
+
+msgid "new_survey_codes"
+msgstr "nuovo codice di accesso al sondaggio"
+
+msgid "no_question_selected_for_copy_to_pool"
+msgstr "Si prega di selezionare almeno una domanda che non è già collegata a un gruppo di domande."
+
+msgid "no_question_selected_for_move"
+msgstr "Per favore, scegli almeno una domanda da spostare!"
+
+msgid "no_question_selected_for_removal"
+msgstr "Per favore, scegli almeno una domanda o un blocco di domande da eliminare!"
+
+msgid "no_target_selected_for_move"
+msgstr "Devi scegliere la posizione di destinazione!"
+
+msgid "non_ratio"
+msgstr "con risposta intera"
+
+msgid "not_sent_only"
+msgstr "Solo ai nuovi destinatari (che non hanno ancora ricevuto l'e-mail)"
+
+msgid "not_used"
+msgstr "non usato"
+
+msgid "nr_max_answers"
+msgstr "Massimo"
+
+msgid "nr_min_answers"
+msgstr "Minimo"
+
+msgid "obligatory"
+msgstr "obbligatorio"
+
+msgid "off"
+msgstr "inattivo"
+
+msgid "on"
+msgstr "attivo"
+
+msgid "or"
+msgstr "O"
+
+msgid "orientation"
+msgstr "Orientamento"
+
+msgid "other_answer"
+msgstr "Altra risposta"
+
+msgid "other_answer_label"
+msgstr "Etichetta dell'altra risposta (opzionale)"
+
+msgid "outro"
+msgstr "Dichiarazione finale"
+
+msgid "please_enter_mail_url"
+msgstr "Si prega di inserire il segnaposto URL di accesso [url]"
+
+msgid "qpl_confirm_delete_questions"
+msgstr "Sei sicuro di voler cancellare le seguenti domande?"
+
+msgid "qpl_define_questionblock_select_missing"
+msgstr "Per favore, seleziona almeno due domande se vuoi definire un blocco!"
+
+msgid "qpl_delete_select_none"
+msgstr "Per favore, seleziona almeno una domanda da cancellare!"
+
+msgid "qpl_export_select_none"
+msgstr "Per favore scegli almeno una domanda da esportare"
+
+msgid "qpl_questions_deleted"
+msgstr "Domande cancellate"
+
+msgid "qpl_unfold_select_none"
+msgstr "Per favore seleziona almeno un blocco di domande se vuoi aprirlo!"
+
+msgid "question_changed_in_survey_only"
+msgstr "La domanda è stata cambiata solo nel sondaggio"
+
+msgid "question_mr_no_other_answer"
+msgstr "Per favore scrivi un testo per l'altra risposta"
+
+msgid "question_mr_no_other_answer_checked"
+msgstr "È necessario selezionare la casella di controllo se si inserisce un testo per una risposta"
+
+msgid "question_mr_not_checked"
+msgstr "Per favore spunta almeno una della domande!"
+
+msgid "question_not_checked"
+msgstr "Per favore, seleziona una delle risposte disponibili!"
+
+msgid "question_obligatory"
+msgstr "La domanda è obbligatoria!"
+
+msgid "question_sr_no_other_answer_checked"
+msgstr "È necessario selezionare il pulsante di opzione se si inserisce un testo per una risposta"
+
+msgid "question_type"
+msgstr "Tipo di domanda"
+
+msgid "questionblock"
+msgstr "Blocco di domande"
+
+msgid "questionblock_inserted"
+msgstr "Blocco di domande inserito"
+
+msgid "questionblocks"
+msgstr "Blocchi di domande"
+
+msgid "questionblocks_inserted"
+msgstr "Blocchi di domande inseriti"
+
+msgid "questions"
+msgstr "Domande"
+
+msgid "questions_inserted"
+msgstr "Domande inserite!"
+
+msgid "questions_removed"
+msgstr "Domande e/o blocco di domande cancellate!"
+
+msgid "questiontype"
+msgstr "Tipo di domanda"
+
+msgid "ratio_absolute"
+msgstr "con risposta frazionaria (assoluta)"
+
+msgid "ratio_non_absolute"
+msgstr "con risposta frazionaria (non assoluta)"
+
+msgid "recipients"
+msgstr "Destinatari"
+
+msgid "remove_question"
+msgstr "Cancella"
+
+msgid "remove_questions"
+msgstr "Sei sicuro di voler cancellare le seguenti domande e/o blocchi di domande dal test?"
+
+msgid "results"
+msgstr "Risultati"
+
+msgid "resume_survey"
+msgstr "Azzera il filtro"
+
+msgid "row_text"
+msgstr "Testo della riga"
+
+msgid "save_obligatory_state"
+msgstr "Salva gli stati obbligatori"
+
+msgid "save_reuse_message"
+msgstr "Salva il testo del messaggio per usarlo successivamente"
+
+msgid "save_reuse_title"
+msgstr "Titolo del messaggio"
+
+msgid "saved_messages"
+msgstr "Messaggi disponibili"
+
+msgid "scale"
+msgstr "Scala"
+
+msgid "search_groups"
+msgstr "Gruppi"
+
+msgid "search_term"
+msgstr "Ricerca il termine"
+
+msgid "select_option"
+msgstr "--- Scegli un valore ---"
+
+msgid "select_prior_question"
+msgstr "Seleziona la domanda precedente"
+
+msgid "select_relation"
+msgstr "Seleziona una relazione"
+
+msgid "select_target_position_for_move_question"
+msgstr "Per favore, seleziona la posizione di destinazione nella quale spostare le domande e premi uno dei pulsanti Inserisci!"
+
+msgid "select_value"
+msgstr "Seleziona un valore"
+
+msgid "selection"
+msgstr "Seleziona"
+
+msgid "send_to_all"
+msgstr "A tutti i partecipanti"
+
+msgid "send_to_answered"
+msgstr "A tutti i partecipanti che hanno completato il sondaggio"
+
+msgid "send_to_unanswered"
+msgstr "A tutti i partecipanti che non hanno completato il sondaggio"
+
+msgid "show_questiontext"
+msgstr "Visualizza il testo della domanda"
+
+msgid "show_questiontext_description"
+msgstr "Se la casella è spuntata, verrà mostrato il testo di ogni domanda del blocco; altrimenti sarà nascosto."
+
+msgid "skipped"
+msgstr "Saltato"
+
+msgid "spl_copy_insert_clipboard"
+msgstr "Le domande selezionate sono state copiate negli appunti"
+
+msgid "spl_copy_select_none"
+msgstr "Per favore spunta almeno una domanda da copiare negli appunti"
+
+msgid "spl_move_insert_clipboard"
+msgstr "Le domande selezionate sono pronte ad essere spostate"
+
+msgid "spl_move_same_pool"
+msgstr "Spostare domande all'interno della stessa raccolta non comporta alcuna modifica."
+
+msgid "spl_move_select_none"
+msgstr "Per favore spunta almeno una domanda da muovere"
+
+msgid "spl_online_property"
+msgstr "Online"
+
+msgid "spl_paste_no_objects"
+msgstr "Non sono presenti domande negli appunti. Per favore copia o muovi una domanda negli appunti."
+
+msgid "spl_paste_success"
+msgstr "Le domande sono state incollate nella raccolta di domade."
+
+msgid "spl_save_obligatory_state"
+msgstr "Salva gli Stati obbligatori"
+
+msgid "start_date"
+msgstr "Giorno di esecuzione"
+
+msgid "start_date_not_reached"
+msgstr "Non è possibile avviare il sondaggio fino al raggiungimento della data di inizio!"
+
+msgid "start_survey"
+msgstr "Inizia il sondaggio"
+
+msgid "subtype"
+msgstr "Sottotipo"
+
+msgid "survey_360_add_external_rater"
+msgstr "Aggiungi valutatore esterno"
+
+msgid "survey_360_add_self_appraisee"
+msgstr "Aggiungi te stesso come valutato a questo sondaggio"
+
+msgid "survey_360_appraisee"
+msgstr "Valutato"
+
+msgid "survey_360_appraisee_close_action"
+msgstr "Chiudi sondaggio per i valutatori"
+
+msgid "survey_360_appraisee_close_action_info"
+msgstr "Questo fornirà l’accesso alle tue statistiche."
+
+msgid "survey_360_appraisee_close_action_info_skill"
+msgstr "Questo fornirà l’accesso alle tue statistiche e aggiornerà i livello di competenze."
+
+msgid "survey_360_appraisee_close_action_status"
+msgstr "Il sondaggio è stato chiuso al %s."
+
+msgid "survey_360_appraisee_close_action_success"
+msgstr "Hai chiuso il tuo sondaggio a 360° per i tupi valutatori."
+
+msgid "survey_360_appraisee_close_action_success_admin"
+msgstr "I sondaggi a 360° sono stati chiusi dai valutati per i valutatori."
+
+msgid "survey_360_appraisee_close_table"
+msgstr "Chiuso al"
+
+msgid "survey_360_appraisee_is_closed"
+msgstr "Il valutato ha chiuso il proprio sondaggio."
+
+msgid "survey_360_appraisees"
+msgstr "Valutati"
+
+msgid "survey_360_edit_raters"
+msgstr "Gestisci valutati"
+
+msgid "survey_360_mode"
+msgstr "Feedback a 360°"
+
+msgid "survey_360_mode_info"
+msgstr "Utilizza per revisione tra pari di persone"
+
+msgid "survey_360_no_appraisees"
+msgstr "Attualmente non ci sono valutati per te da valutare."
+
+#, fuzzy
+msgid "survey_360_rate_other_appraisee"
+msgstr "Rate Appraisee"
+
+msgid "survey_360_rater_finished"
+msgstr "Sondaggio terminato"
+
+msgid "survey_360_rater_mail_sent"
+msgstr "Invia mail"
+
+msgid "survey_360_rater_message_content_anonymous"
+msgstr "Contenuto messaggio (Anonimo)"
+
+msgid "survey_360_rater_message_content_anonymous_default"
+msgstr "Il tuo codice di accesso al sondaggio è [codice]. È possibile avviare il sondaggio nel browser Web utilizzando l'URL [url]."
+
+msgid "survey_360_rater_message_content_registered"
+msgstr "Contenuto messaggio (Registrato)"
+
+msgid "survey_360_rater_message_content_registered_default"
+msgstr "È possibile avviare il sondaggio nel browser Web utilizzando l'URL [url]."
+
+msgid "survey_360_rater_subject_default"
+msgstr "Sei stato invitato come valutatore a un sondaggio di 360°."
+
+msgid "survey_360_raters"
+msgstr "Valutatori"
+
+msgid "survey_360_raters_finished"
+msgstr "Valutazioni terminate"
+
+msgid "survey_360_remove_appraisees"
+msgstr "Rimuovi valutato/i"
+
+msgid "survey_360_results"
+msgstr "Accesso ai risultati per i valutati"
+
+msgid "survey_360_results_all"
+msgstr "A tutti i valutati"
+
+msgid "survey_360_results_all_info"
+msgstr "Tutti i valutatori del sondaggio a 360° possono visualizzare tutti i feedback forniti da tutti i valutatori, non solo dai propri valutatori."
+
+msgid "survey_360_results_none"
+msgstr "Nessun accesso ai risultati"
+
+msgid "survey_360_results_none_info"
+msgstr "I valutatori non possono accedere al feedback fornito dai valutatori"
+
+msgid "survey_360_results_own"
+msgstr "Accesso al feedback dei propri valutatori"
+
+msgid "survey_360_results_own_info"
+msgstr "I valutatori possono accedere solo al feedback dei propri valutatori."
+
+msgid "survey_360_select_appraisee"
+msgstr "Seleziona"
+
+msgid "survey_360_self_appraisee"
+msgstr "Apri Feedback a 360°"
+
+msgid "survey_360_self_appraisee_info"
+msgstr "Nella scheda \"Informazioni\" viene visualizzato un collegamento a tutti gli utenti. Facendo clic su questo collegamento possono aggiungersi come periti e ricevere feedback."
+
+msgid "survey_360_self_evaluation"
+msgstr "Auto Valutazione"
+
+msgid "survey_360_self_evaluation_info"
+msgstr "I valutatori possono valutare loro stessi utilizzando le domande."
+
+msgid "survey_360_self_raters"
+msgstr "I periti possono gestire i loro valutatori"
+
+msgid "survey_360_self_raters_info"
+msgstr "I valutatori selezionano e invitano autonomamente le persone che dovrebbero fornire loro un feedback."
+
+msgid "survey_360_sure_appraisee_close"
+msgstr "Sei sicuro di voler chiudere il sondaggio per tutti i tuoi valutatori?"
+
+msgid "survey_360_sure_appraisee_close_admin"
+msgstr "Sei sicuro di voler chiudere il sondaggio per tutti i seguenti valutati?"
+
+msgid "survey_360_sure_delete_appraises"
+msgstr "Sei sicuro di voler rimuovere i seguenti valutati?"
+
+msgid "survey_360_sure_delete_raters"
+msgstr "Sei sicuro di voler rimuovere i seguenti valutati per %s?"
+
+msgid "survey_access_code"
+msgstr "Autenticazione tramite codici di accesso"
+
+msgid "survey_access_codes_info"
+msgstr "Gli utenti ottengono l'accesso al sondaggio inserendo un codice nella scheda \"Informazioni\". Questi codici di accesso sono generati in una sottoscheda \"Codici di accesso\" nella scheda \"Partecipanti\"."
+
+msgid "survey_activate_skill_service"
+msgstr "Attivare il servizio di competenze"
+
+msgid "survey_activate_skill_service_info"
+msgstr "Verrà visualizzata una nuova scheda \"Competenze\". In questa scheda le domande vengono assegnate alle competenze, quindi vengono attribuite le soglie per raggiungere un livello specifico di una competenza."
+
+msgid "survey_add_new_question"
+msgstr "Crea domanda"
+
+msgid "survey_assign_competence"
+msgstr "Assegna competenze"
+
+msgid "survey_auto_block_title"
+msgstr "Intestazione pagina"
+
+msgid "survey_available_question_pools"
+msgstr "Gruppi disponibili"
+
+msgid "survey_calc_skills"
+msgstr "Determina livelli di competenze"
+
+msgid "survey_calculate_sum_score"
+msgstr "Calculate Sum Score"
+
+msgid "survey_calculate_sum_score_info"
+msgstr "Calculates the sum of all scale values for single choice, multiple choice and matrix questions for each participant. Caution: If participants skip these kind of questions, the whole sum score will not be calculated anymore."
+
+msgid "survey_cancel_preview"
+msgstr "Elimina anteprima"
+
+msgid "survey_cannot_preview_survey"
+msgstr "Anteprima non disponibile"
+
+msgid "survey_code"
+msgstr "Codice di accesso al sondaggio"
+
+msgid "survey_code_delete_sure"
+msgstr "Sei sicuro di voler eliminare i seguenti codici di accesso?"
+
+msgid "survey_code_url"
+msgstr "URL per accesso diretto"
+
+msgid "survey_code_url_name"
+msgstr "URL <small> (utilizzare il pulsante destro del mouse per copiare l'URL) </small>"
+
+msgid "survey_code_used"
+msgstr "Stato del codice"
+
+msgid "survey_codes_lang"
+msgstr "Lingua del sondaggio"
+
+msgid "survey_codes_no_anonymization"
+msgstr "Devi creare un sondaggio anonimo con codici d'accesso per poter creare un nuovi codici d'accesso!"
+
+msgid "survey_competences"
+msgstr "Competenze"
+
+msgid "survey_constraint_deleted"
+msgstr "La regola di gestione è stata eliminata."
+
+msgid "survey_copy_questions_to_pool"
+msgstr "Copia domande nel pool"
+
+msgid "survey_copy_select_questionpool"
+msgstr "Gruppo di domande per inserire le copie"
+
+msgid "survey_copy_to_questionpool_success"
+msgstr "Le domande sono state copiate con successo nel gruppo."
+
+msgid "survey_delete_heading"
+msgstr "Rimuovi intestazione"
+
+msgid "survey_edit_heading"
+msgstr "Modifica intestazione"
+
+msgid "survey_edit_settings"
+msgstr "Modifica impostazioni"
+
+msgid "survey_error_insert_incomplete_question"
+msgstr "Hai provato ad inserire nel sondaggio una domanda incompleta! La domanda non è stata inserita."
+
+msgid "survey_execution_exit"
+msgstr "Torna al repository"
+
+#, fuzzy
+msgid "survey_execution_exit_360"
+msgstr "Back"
+
+msgid "survey_execution_sure_finish"
+msgstr "Sei sicuro di voler terminare questo sondaggio? In seguito non potrai modificare le tue risposte."
+
+msgid "survey_finish"
+msgstr "Salva e finisci il sondaggio >>>"
+
+msgid "survey_finished"
+msgstr "Hai finito il sondaggio. Grazie per la vostra partecipazione!"
+
+msgid "survey_has_datasets_warning"
+msgstr "Il sondaggio contiene già dei dati di partecipazione. Non puoi modificare le domande prima di aver rimosso i dati stessi, utilizzando la sezione \"Manutenzione\""
+
+msgid "survey_has_datasets_warning_page_view"
+msgstr "Il sondaggio contiene già set di dati. Non è possibile modificare le domande del sondaggio fino a quando non si rimuovono questi set di dati."
+
+msgid "survey_has_datasets_warning_page_view_link"
+msgstr "Modifica partecipanti"
+
+msgid "survey_introduction_info"
+msgstr "Questo messaggio appare all'inizio del sondaggio."
+
+msgid "survey_is_offline"
+msgstr "Non puoi iniziare il sondaggio! Il sondaggio è attualmente offline."
+
+msgid "survey_next"
+msgstr "Salva e vai avanti >>>"
+
+msgid "survey_not_available"
+msgstr "non pertinente"
+
+msgid "survey_notification_finished_introduction"
+msgstr "I seguenti partecipanti hanno terminato il sondaggio."
+
+msgid "survey_notification_finished_reason"
+msgstr "Ricevi questa email perché hai attivato le notifiche per il sondaggio sopra menzionato."
+
+msgid "survey_notification_target_group"
+msgstr "Gruppo di destinazione"
+
+msgid "survey_notification_target_group_invited"
+msgstr "All users manually invited to the survey"
+
+msgid "survey_notification_target_group_invited_info"
+msgstr "Utenti attualmente invitati: %s"
+
+msgid "survey_notification_target_group_parent_course"
+msgstr "Tutti i membri del corso/gruppo principale"
+
+msgid "survey_notification_target_group_parent_course_inactive"
+msgstr "Nessun corso/gruppo principale fornito - non sarà inviato alcun promemoria!"
+
+msgid "survey_notification_tutor_body"
+msgstr "Il seguente sondaggio è stato terminato da tutti i partecipanti"
+
+msgid "survey_notification_tutor_link"
+msgstr "Link al sondaggio"
+
+msgid "survey_notification_tutor_recipients"
+msgstr "Tutor (accesso/i)"
+
+msgid "survey_notification_tutor_recipients_invalid"
+msgstr "Si prega di dichiarare gli utenti con permessi di scrittura."
+
+msgid "survey_notification_tutor_salutation"
+msgstr "Ciao %s,"
+
+msgid "survey_notification_tutor_setting"
+msgstr "Avvisa i tutor quando tutti i partecipanti hanno terminato"
+
+msgid "survey_notification_tutor_subject"
+msgstr "Tutti i partecipanti hanno terminato il sondaggio \"%s\""
+
+msgid "survey_order"
+msgstr "Ordinamento"
+
+msgid "survey_previous"
+msgstr "<<< Salva e torna indietro"
+
+msgid "survey_question_editor"
+msgstr "Lista Domande"
+
+msgid "survey_question_obligatory"
+msgstr "Questa domanda è obbligatoria. Devi rispondere alla domanda!"
+
+msgid "survey_question_pool"
+msgstr "Gruppo di domande"
+
+msgid "survey_question_pool_title"
+msgstr "Titolo del gruppo"
+
+msgid "survey_question_title"
+msgstr "Titolo domanda"
+
+msgid "survey_questions"
+msgstr "Domande"
+
+msgid "survey_questions_to_clipboard_copy"
+msgstr "La/e domanda/e è/sono copiata/e negli appunti. Si prega di selezionare un obiettivo o svuota gli appunti."
+
+msgid "survey_reached_level"
+msgstr "Livello raggiunto"
+
+msgid "survey_reminder_body"
+msgstr "non hai ancora terminato il seguente sondaggio"
+
+msgid "survey_reminder_cron"
+msgstr "Remind users to participate / Send results to tutors"
+
+msgid "survey_reminder_cron_info"
+msgstr "Se attivato, agli utenti verrà ricordato di partecipare ai sondaggi."
+
+msgid "survey_reminder_end"
+msgstr "Fine"
+
+msgid "survey_reminder_frequency"
+msgstr "Frequenza"
+
+msgid "survey_reminder_frequency_days"
+msgstr "Giorni"
+
+msgid "survey_reminder_link"
+msgstr "URL"
+
+msgid "survey_reminder_salutation"
+msgstr "Ciao %s,"
+
+msgid "survey_reminder_setting"
+msgstr "Ricorda agli utenti di partecipare"
+
+msgid "survey_reminder_start"
+msgstr "Avvio"
+
+msgid "survey_reminder_subject"
+msgstr "Il sondaggio \"%s\" non è stato terminato"
+
+msgid "survey_remove_competence"
+msgstr "Rimuovi competenze"
+
+msgid "survey_results_anonymization"
+msgstr "Privacy"
+
+msgid "survey_results_anonymized"
+msgstr "Senza nomi"
+
+msgid "survey_results_anonymized_info"
+msgstr "Nella scheda \"Risultati\" i nomi dei partecipanti sono sostituiti da codici. Gli utenti che hanno accesso a questa scheda non possono attribuire le risposte ai partecipanti nominati ma solo all'utente \"iT XaF\" (esempio)."
+
+msgid "survey_results_finished"
+msgstr "Sondaggio terminato"
+
+msgid "survey_results_not_started"
+msgstr "Sondaggio non iniziato"
+
+msgid "survey_results_personalized"
+msgstr "Con nomi"
+
+msgid "survey_results_personalized_info"
+msgstr "Nella scheda \"Risultati\" sono elencati i nomi dei partecipanti e le rispettive risposte. Gli utenti che hanno accesso a questa scheda possono verificare chi ha fornito la risposta."
+
+msgid "survey_results_started"
+msgstr "Sondaggio iniziato"
+
+msgid "survey_show_blocktitle"
+msgstr "Mostra titolo blocco"
+
+msgid "survey_show_blocktitle_description"
+msgstr "Se attivato, il titolo del blocco verrà visualizzato nel sondaggio."
+
+msgid "survey_skill"
+msgstr "competenze"
+
+msgid "survey_skill_assign"
+msgstr "Assegnazione della domanda/competenze"
+
+msgid "survey_skill_level"
+msgstr "Livello di competenze"
+
+msgid "survey_skill_max_scale_points"
+msgstr "Punti di massima Scala"
+
+msgid "survey_skill_nr_q"
+msgstr "Numero delle domande"
+
+msgid "survey_skill_thresholds"
+msgstr "Limiti di competenze"
+
+msgid "survey_start"
+msgstr "<<< Salva e vai alla pagina iniziale"
+
+msgid "survey_sum_of_means"
+msgstr "Somma aritmetica Strumenti per domanda"
+
+msgid "survey_sure_delete_constraint"
+msgstr "Sei sicuro di voler eliminare la regola di gestione \"%1$s\" per la domanda \"%2$s\"?"
+
+msgid "survey_sure_delete_questions"
+msgstr "Sei sicuro di voler eliminare le seguenti domande o intestazioni?"
+
+msgid "survey_sync_insufficient_permissions"
+msgstr "Autorizzazioni insufficienti"
+
+msgid "survey_sync_question_copies"
+msgstr "Sincronizza le copie delle domande"
+
+msgid "survey_sync_question_copies_info"
+msgstr "Le domande selezionate verranno sostituite con la versione corrente del gruppo."
+
+msgid "survey_sync_success"
+msgstr "Le domande selezionate sono state aggiornate."
+
+msgid "survey_up_to_x_points"
+msgstr "Fino a x punti"
+
+msgid "survey_use_start_button"
+msgstr "Premi il tasto \"Inizia il sondaggio\" per iniziare!"
+
+msgid "svy_activation_limited_visibility_info"
+msgstr "Se scelto, il sondaggio è visibile anche al di fuori della data disponibilità."
+
+msgid "svy_activation_online_info"
+msgstr "Attiva questa impostazione per rendere il sondaggio accessibile agli utenti."
+
+#, fuzzy
+msgid "svy_add_internal_user"
+msgstr "Add User"
+
+#, fuzzy
+msgid "svy_add_internal_user_info"
+msgstr "The rater has a registered user on this platform."
+
+#, fuzzy
+msgid "svy_add_rater"
+msgstr "Add Rater"
+
+#, fuzzy
+msgid "svy_all_raters"
+msgstr "All Raters"
+
+msgid "svy_all_survey_competences"
+msgstr "Tutte le competenze di sondaggio"
+
+msgid "svy_all_user_data_deleted"
+msgstr "Tutti i dati degli utenti di questo sondaggio sono stati eliminati!"
+
+msgid "svy_analysis"
+msgstr "Analisi"
+
+msgid "svy_anonymous_participants"
+msgstr "Lista dei partecipanti"
+
+msgid "svy_anonymous_participants_info"
+msgstr "Se attivata, una lista dei partecipanti può essere consentita nei sondaggi anonimi."
+
+msgid "svy_anonymous_participants_min"
+msgstr "Numero minimo di partecipanti"
+
+msgid "svy_anonymous_participants_min_info"
+msgstr "La lista sarà disponibile solo se c’è almeno un numero minimo di partecipanti."
+
+msgid "svy_anonymous_participants_svy"
+msgstr "Lista dei partecipanti"
+
+msgid "svy_anonymous_participants_svy_info"
+msgstr "Se attivata, una lista dei partecipanti è disponibile dopo la fine della data."
+
+msgid "svy_answer_too_long"
+msgstr "La tua risposta attuale è troppo lunga (%s caratteri). Per favore abbrevia la tua risposta."
+
+#, fuzzy
+msgid "svy_app_see_rater_info"
+msgstr "Appraisees can access rater information in the results screens, including names and e-mail addresses, if entered before when adding raters."
+
+msgid "svy_appraisses_cannot_be_raters"
+msgstr "L'utente non può essere aggiunto come rater. Utilizzare invece l'opzione di autovalutazione nelle impostazioni del sondaggio."
+
+msgid "svy_back"
+msgstr "Indietro"
+
+#, fuzzy
+msgid "svy_categories"
+msgstr "Answers"
+
+msgid "svy_check_evaluation_access_introduction"
+msgstr "Poiché questa valutazione del sondaggio è accessibile solo dai partecipanti al sondaggio, è necessario inserire il codice di accesso al sondaggio per aprire la valutazione."
+
+msgid "svy_check_evaluation_authentication_needed"
+msgstr "Autenticazione necessaria"
+
+msgid "svy_check_evaluation_wrong_key"
+msgstr "Hai inserito un codice di accesso non riconosciuto o non puoi partecipare al sondaggio. Accesso negato."
+
+msgid "svy_compress_view"
+msgstr "Visualizzazione compressa"
+
+msgid "svy_compress_view_info"
+msgstr "Se attivato, tutte le domande a scelta singola con scale simili saranno presentate a matrice."
+
+msgid "svy_copy"
+msgstr "Copia sondaggio"
+
+msgid "svy_create_question"
+msgstr "Crea domanda"
+
+msgid "svy_delete_all_user_data"
+msgstr "Elimina tutti i dati degli utenti"
+
+#, fuzzy
+msgid "svy_dont_send"
+msgstr "Don't send a message"
+
+msgid "svy_eval_captions"
+msgstr "Valori"
+
+msgid "svy_eval_captions_abs"
+msgstr "Assoluto"
+
+msgid "svy_eval_captions_abs_perc"
+msgstr "Assoluti e percentuali"
+
+msgid "svy_eval_captions_perc"
+msgstr "Percentuale"
+
+msgid "svy_eval_competences"
+msgstr "Risultati di competenze"
+
+msgid "svy_eval_cumulated"
+msgstr "Risultati aggregati"
+
+msgid "svy_eval_detail"
+msgstr "Risultati aggregati (dettagli)"
+
+msgid "svy_eval_skipped_value"
+msgstr "Risultati: \"ignorato\""
+
+msgid "svy_eval_skipped_value_custom"
+msgstr "Utilizza valore personalizzato"
+
+msgid "svy_eval_skipped_value_custom_info"
+msgstr "Definire qualsiasi valore (o vuoto) da utilizzare per le risposte saltate"
+
+msgid "svy_eval_skipped_value_custom_value"
+msgstr "Valore"
+
+msgid "svy_eval_skipped_value_lng"
+msgstr "Utilizza la voce del file di lingua"
+
+msgid "svy_eval_skipped_value_lng_info"
+msgstr "Valore attuale: \"%s\""
+
+msgid "svy_eval_user"
+msgstr "Per Participant"
+
+msgid "svy_eval_view"
+msgstr "Visualizza"
+
+msgid "svy_eval_view_charts"
+msgstr "Grafici"
+
+msgid "svy_eval_view_tables"
+msgstr "Tabella"
+
+msgid "svy_eval_view_tables_charts"
+msgstr "Tabella e grafico"
+
+msgid "svy_evaluation_access_all_info"
+msgstr "Tutti gli utenti registrati che possono accedere al sondaggio possono anche esaminare i risultati di questo."
+
+msgid "svy_evaluation_access_off_info"
+msgstr "Solo gli utenti che possono modificare il sondaggio (autorizzazione di scrittura) hanno accesso ai risultati del sondaggio."
+
+msgid "svy_evaluation_access_participants_info"
+msgstr "Tutti gli utenti che hanno partecipato al sondaggio possono scegliere di guardare i risultati dopo averlo terminato."
+
+msgid "svy_export_files"
+msgstr "Esporta file"
+
+msgid "svy_export_format"
+msgstr "Esporta dati di sondaggio come"
+
+msgid "svy_export_pdf"
+msgstr "Export PDF"
+
+#, fuzzy
+msgid "svy_ext_rater_firstname"
+msgstr "First name of external rater"
+
+#, fuzzy
+msgid "svy_ext_rater_lastname"
+msgstr "Last name of external rater"
+
+#, fuzzy
+msgid "svy_external_rater"
+msgstr "Add External Rater"
+
+#, fuzzy
+msgid "svy_external_rater_info"
+msgstr "The rater is not registered on this platform."
+
+msgid "svy_fraction_of_selections"
+msgstr "Frazioni delle selezioni"
+
+msgid "svy_gap_analysis"
+msgstr "Analisi gap"
+
+msgid "svy_general_properties"
+msgstr "Proprietà generali"
+
+msgid "svy_import_codes"
+msgstr "Importa codici"
+
+msgid "svy_import_codes_info"
+msgstr "Questa importazione richiede un \"%s\" file di esportazione."
+
+#, fuzzy
+msgid "svy_ind_feedb_info"
+msgstr "Users get distinct evaluations by others."
+
+#, fuzzy
+msgid "svy_ind_feedb_mode"
+msgstr "Individual Feedback"
+
+msgid "svy_mail_confirmation_subject"
+msgstr "Sondaggio \"%s\" - La tua conferma di partecipazione"
+
+#, fuzzy
+msgid "svy_mail_context_rater_invitation_info"
+msgstr "Invite raters to participate in a survey."
+
+#, fuzzy
+msgid "svy_mail_context_rater_invitation_survey_title"
+msgstr "Survey Title"
+
+#, fuzzy
+msgid "svy_mail_context_rater_invitation_title"
+msgstr "Survey: Rater Invitation"
+
+msgid "svy_mail_context_reminder_info"
+msgstr "Ricorda agli utenti di partecipare al sondaggio"
+
+msgid "svy_mail_context_reminder_survey_title"
+msgstr "Titolo di sondaggio"
+
+msgid "svy_mail_context_reminder_title"
+msgstr "Promemoria sondaggio"
+
+msgid "svy_mail_own_results_body"
+msgstr "di seguito è riportato un riepilogo completo della partecipazione al sondaggio."
+
+msgid "svy_mail_own_results_subject"
+msgstr "Sondaggio \"%s\" - Le tue risposte"
+
+msgid "svy_mail_send_confirmation"
+msgstr "Invia conferma di partecipazione"
+
+msgid "svy_matrix_layout_percentages_sum_invalid"
+msgstr "Le impostazioni di colonna non raggiungono il 100%."
+
+msgid "svy_max_sum_score"
+msgstr "Maximum Sum Score"
+
+msgid "svy_neutral_answer"
+msgstr "Testo per una risposta neutra (\"Non specificato\", \"Non lo so\" ecc.)"
+
+#, fuzzy
+msgid "svy_no_appraisees_found"
+msgstr "No appraisees with feedbacks found."
+
+msgid "svy_notification_tutor_results"
+msgstr "One E-Mail including Survey Results"
+
+msgid "svy_notification_tutor_results_alert"
+msgstr "This requires an end date."
+
+msgid "svy_notification_tutor_results_info"
+msgstr "After reaching the end data a cron job will send an email with the detailed survey results attached to it."
+
+#, fuzzy
+msgid "svy_only_max_one_external_rater"
+msgstr "Please select only one external rater."
+
+msgid "svy_page_error"
+msgstr "Si è verificato un errore durante la risposta a una domanda del sondaggio. Si prega di fare riferimento alla domanda per ottenere maggiori informazioni sull'errore!"
+
+msgid "svy_page_errors"
+msgstr "Si sono verificati degli errori rispondendo alle domande del sondaggio. Specifica le domande se vuoi avere maggiori informazioni sugli errori!"
+
+msgid "svy_participant"
+msgstr "Partecipante"
+
+#, fuzzy
+msgid "svy_participants"
+msgstr "Participants"
+
+msgid "svy_participation"
+msgstr "Adesione"
+
+#, fuzzy
+msgid "svy_please_select_unused_codes"
+msgstr "Please select at least one unused code."
+
+msgid "svy_print_hide_labels"
+msgstr "Nascondi etichette"
+
+msgid "svy_print_show_labels"
+msgstr "Mostra etichette"
+
+#, fuzzy
+msgid "svy_privacy_info"
+msgstr "Privacy"
+
+#, fuzzy
+msgid "svy_rater"
+msgstr "Rater"
+
+#, fuzzy
+msgid "svy_rater_see_app_info"
+msgstr "The names of appraisees will be presented to raters to enable them evaluating the questions."
+
+msgid "svy_reminder_mail_template"
+msgstr "Modello di mail"
+
+msgid "svy_reminder_mail_template_none"
+msgstr "Non utilizzare il modello di mail"
+
+msgid "svy_result_mail_notification_info"
+msgstr "Al termine del sondaggio, le risposte di ciascun partecipante saranno inviate ai destinatari definiti."
+
+msgid "svy_results"
+msgstr "Risultati"
+
+msgid "svy_results_mail_confirm"
+msgstr "I partecipanti possono richiedere la conferma di partecipazione"
+
+msgid "svy_results_mail_confirm_info"
+msgstr "I partecipanti possono richiedere una mail di conferma della partecipazione alla fine del sondaggio."
+
+msgid "svy_results_mail_own"
+msgstr "Includere le risposte fornite"
+
+msgid "svy_results_mail_own_info"
+msgstr "Le risposte fornite saranno incluse nella conferma di partecipazione."
+
+#, fuzzy
+msgid "svy_save_and_continue"
+msgstr "Save and Continue"
+
+msgid "svy_save_sync"
+msgstr "Salva e sincronizza le copie delle domande"
+
+#, fuzzy
+msgid "svy_search_user"
+msgstr "Search User"
+
+#, fuzzy
+msgid "svy_search_user_info"
+msgstr "Search for users or roles and pick participants."
+
+msgid "svy_search_users"
+msgstr "Cerca partecipanti"
+
+#, fuzzy
+msgid "svy_select_rater"
+msgstr "Select Rater"
+
+msgid "svy_selected_user_data_deleted"
+msgstr "I dati di partecipazione al sondaggio degli utenti selezionati sono stati rimossi con successo"
+
+msgid "svy_self_ev_access_results_all"
+msgstr "Accesso alle autovalutazioni di tutti i partecipanti"
+
+msgid "svy_self_ev_access_results_none"
+msgstr "Nessun accesso ai risultati"
+
+msgid "svy_self_ev_access_results_own"
+msgstr "Accesso alle proprie autovalutazioni"
+
+msgid "svy_self_ev_info"
+msgstr "Utilizzare per l'autovalutazione."
+
+msgid "svy_self_ev_mode"
+msgstr "Solo autovalutazione"
+
+msgid "svy_settings_section_access"
+msgstr "Amministrare il sondaggio: Accesso"
+
+msgid "svy_settings_section_before_start"
+msgstr "Informazioni prima di iniziare il sondaggio"
+
+msgid "svy_settings_section_finishing"
+msgstr "Terminare il sondaggio"
+
+msgid "svy_settings_section_question_behaviour"
+msgstr "Gestione del sondaggio: comportamento della domanda"
+
+msgid "svy_settings_section_reminders"
+msgstr "Promemoria"
+
+msgid "svy_show_questiontitles"
+msgstr "Mostra i titoli delle domande nel sondaggio"
+
+msgid "svy_skl_comp_assignm_not_supported"
+msgstr "L'assegnazione delle competenze non è supportata per questo tipo di domanda."
+
+msgid "svy_sum_score"
+msgstr "Sum Score"
+
+#, fuzzy
+msgid "svy_type_of_rater"
+msgstr "Type of Rater"
+
+msgid "svy_view_own_results"
+msgstr "Visualizza le risposte date"
+
+#, fuzzy
+msgid "svy_wrong_or_expired_code"
+msgstr "Sorry, you entered an invalid or expired code."
+
+msgid "text_maximum_chars_allowed"
+msgstr "Non inserire più di un massimo di %s caratteri. Tutti i caratteri in eccedenza saranno tagliati."
+
+msgid "text_question_not_filled_out"
+msgstr "Per favore, riempi ogni campo di risposta!"
+
+msgid "unfold"
+msgstr "Apri blocco di domande"
+
+msgid "upper_limit"
+msgstr "Limite superiore"
+
+msgid "use_anonymous_id"
+msgstr "Mostra il codice del sondaggio"
+
+msgid "use_anonymous_id_desc"
+msgstr "Se spuntato, il codice nei sondaggi anonimi sarà mostrato al posto del nome dell'utente, altrimenti verrà visualizzato il testo \"Anonimo\"."
+
+msgid "use_browser_print_function"
+msgstr "Per favore usa la funzione di stampa del tuo browser."
+
+msgid "use_min_answers"
+msgstr "Selezione della risposta"
+
+msgid "use_min_answers_option"
+msgstr "Imposta il numero di selezioni di risposta"
+
+msgid "use_other_answer"
+msgstr "Risposta aperta"
+
+msgid "used"
+msgstr "usato"
+
+msgid "users_answered"
+msgstr "Utenti che hanno risposto"
+
+msgid "users_invited"
+msgstr "%s degli utenti sono stati invitati"
+
+msgid "users_skipped"
+msgstr "Utenti che hanno saltato"
+
+msgid "values"
+msgstr "Valori"
+
+msgid "vertical"
+msgstr "verticale"
+
+msgid "warning_question_not_complete"
+msgstr "La domanda non è completa!"
+
+msgid "workingtime"
+msgstr "Tempo di lavoro"

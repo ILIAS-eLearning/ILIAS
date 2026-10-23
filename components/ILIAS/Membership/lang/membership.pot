@@ -1,0 +1,21 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: membership\n"
+
+msgid "mem_error_preconditions"
+msgstr ""
+
+msgid "mem_force_notification"
+msgstr ""
+
+msgid "mem_force_notification_mode_all_sub_blocked"
+msgstr ""
+
+msgid "mem_force_notification_mode_blocked"
+msgstr ""
+
+msgid "mem_force_notification_mode_self"
+msgstr ""

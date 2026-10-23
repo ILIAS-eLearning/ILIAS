@@ -1,0 +1,77 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ka\n"
+"Language-Team: Georgian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: dpro\n"
+
+#, fuzzy
+msgid "dpro_accept_usr_agreement_anonymous"
+msgstr "Declaration of Data Protection"
+
+#, fuzzy
+msgid "dpro_accept_usr_agreement_anonymous_intro"
+msgstr "Before you proceed to ILIAS you accept the following Declaration of Data Protection."
+
+#, fuzzy
+msgid "dpro_account_reg_not_possible"
+msgstr "Self-registration is currently not possible because there is no Declaration of Data Protection agreement available. Please contact your <a href=\"%1$s\">system administrator</a> for further information."
+
+#, fuzzy
+msgid "dpro_agree_date"
+msgstr "Declaration of Data Protection agreed on"
+
+#, fuzzy
+msgid "dpro_last_reset_date"
+msgstr "The Declaration of Data Protection were reset on %s. Only reset the Declaration of Data Protection if changes have been made to the document(s) and you require all users to agree to the documents."
+
+#, fuzzy
+msgid "dpro_mode"
+msgstr "Agreement Mode"
+
+#, fuzzy
+msgid "dpro_mode_desc"
+msgstr "Please configure when and how the Declaration of Data Protection should be accepted."
+
+#, fuzzy
+msgid "dpro_no_acceptance"
+msgstr "Never, only informative"
+
+#, fuzzy
+msgid "dpro_no_documents_exist"
+msgstr "There are currently no Declaration of Data Protection documents available."
+
+#, fuzzy
+msgid "dpro_no_documents_exist_cant_save"
+msgstr "There are currently no Declaration of Data Protection documents available. Please add at least one document in order to activate this service."
+
+#, fuzzy
+msgid "dpro_once"
+msgstr "Accept once"
+
+#, fuzzy
+msgid "dpro_reset_for_all_users"
+msgstr "Reset the Declaration of Data Protection"
+
+#, fuzzy
+msgid "dpro_status_enable"
+msgstr "Enable the Declaration of Data Protection"
+
+#, fuzzy
+msgid "dpro_status_enable_desc"
+msgstr "Display relevant language-based Declaration of Data Protection documents at the end of the registration form for new users and, if applicable, upon the user’s first login. Users are required to accept the Declaration of Data Protection before they can enter ILIAS."
+
+#, fuzzy
+msgid "dpro_sure_reset_tos"
+msgstr "Are you sure you want to reset the Declaration of Data Protection for all users in the system? This also applies, for example, to those accounts that are used for the SOAP web services."
+
+#, fuzzy
+msgid "dpro_withdrawal_usr_deletion"
+msgstr "Account deletion upon Declaration of Data Protection withdrawal"
+
+#, fuzzy
+msgid "dpro_withdrawal_usr_deletion_desc"
+msgstr "If a user withdraws their acceptance from a previously accepted Declaration of Data Protection document, this will result in the deletion of the user’s account."

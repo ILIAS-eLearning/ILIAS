@@ -1,0 +1,549 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: grp\n"
+
+msgid "crs_add_grouping"
+msgstr "Ny begränsning av medlemskap"
+
+msgid "crs_grouping_delete_sure"
+msgstr "Är du säker på att du vill att denna medlemsrestriktion ska tas bort?"
+
+msgid "crs_grouping_deleted"
+msgstr "Begränsningen för medlemskap har tagits bort."
+
+msgid "crs_grouping_select_one"
+msgstr "Vänligen gör ett urval."
+
+msgid "crs_grp_added_grouping"
+msgstr "En ny medlemsbegränsning har skapats."
+
+msgid "crs_grp_assign_crs"
+msgstr "Gruppuppgift"
+
+msgid "crs_grp_no_courses_assigned"
+msgstr "Det finns inga grupper tilldelade."
+
+msgid "events"
+msgstr "Sessioner"
+
+msgid "grouping_change_assignment"
+msgstr "Ändra uppdrag"
+
+msgid "grp_activate_notification"
+msgstr " Aktivera avisering"
+
+#, fuzzy
+msgid "grp_activation_online_info"
+msgstr "Set the group online to make it visible and available for group members. If not, only group administrators and roles with permission \"Edit Settings\" have access to it."
+
+msgid "grp_add_to_group"
+msgstr "Lägg till i grupp"
+
+msgid "grp_add_user"
+msgstr "Lägg till användare"
+
+msgid "grp_add_user_to_group"
+msgstr "Lägg till användare i grupp"
+
+msgid "grp_added_to_list"
+msgstr "Du har lagts till på väntelistan för gruppen \"%s\".<br />Du har placerat %s på väntelistan."
+
+msgid "grp_admins"
+msgstr "Administratörer"
+
+msgid "grp_admission_link_failure_invalid_code"
+msgstr "Ingen sammankoppling möjlig. Länken är inte giltig."
+
+msgid "grp_admission_link_failure_membership_limited"
+msgstr "Ingen anslutning möjlig. Antalet medlemmar i gruppen är begränsat."
+
+msgid "grp_admission_link_failure_registration_period"
+msgstr "Ingen anslutning möjlig. Registreringen för gruppen ligger utanför accessionsperioden."
+
+msgid "grp_admission_link_success_registration"
+msgstr "Successfully joined the group \"%s\"."
+
+msgid "grp_agree"
+msgstr "Acceptance"
+
+msgid "grp_agreement_header"
+msgstr "Användningsavtal"
+
+msgid "grp_agreement_required"
+msgstr "Du kan endast komma åt gruppinnehållet om du godkänner användaravtalet."
+
+msgid "grp_already_assigned"
+msgstr "Du har redan ansökt om att bli medlem i denna grupp."
+
+msgid "grp_at_least_one_admin"
+msgstr "Minst en administratör måste vara tilldelad denna grupp."
+
+msgid "grp_auto_notification"
+msgstr "Välkomstmail för nya medlemmar"
+
+msgid "grp_auto_notification_info"
+msgstr "Mailaviseringar skickas automatiskt till de medlemmar som har lagts till i gruppen av en administratör."
+
+msgid "grp_cancel_subscr_request"
+msgstr "Tillbakadragande av ansökan om antagning"
+
+msgid "grp_cancellation_end"
+msgstr "Senaste grupputgång"
+
+msgid "grp_cancellation_end_info"
+msgstr "Medlemmar kan endast avsluta sitt gruppmedlemskap självständigt fram till det angivna datumet."
+
+msgid "grp_cancellation_end_rbac_info"
+msgstr "Avbokningens slutdatum nåddes den %s. Utträde ur gruppen är nu inte längre möjligt."
+
+msgid "grp_cdf_edit_member"
+msgstr "Redigera personliga uppgifter för denna grupp"
+
+msgid "grp_cdf_tbl_last_edit"
+msgstr "Uppdaterad (gruppspecifika uppgifter)"
+
+msgid "grp_change_type"
+msgstr "Ändra grupptyp"
+
+msgid "grp_contact"
+msgstr "Stöd"
+
+msgid "grp_copy"
+msgstr "Kopiera grupp"
+
+msgid "grp_create_and_add_user"
+msgstr "Skapa och lägg till"
+
+msgid "grp_create_new"
+msgstr "Skapa ny grupp"
+
+msgid "grp_create_new_grp_in"
+msgstr "Skapa en ny grupp i '%1'."
+
+msgid "grp_create_or_use_existing"
+msgstr "Vill du lägga till användaren i en befintlig grupp eller skapa en ny grupp?"
+
+msgid "grp_created_and_user_been_added"
+msgstr "Gruppen har skapats och användaren har lagts till."
+
+msgid "grp_custom_user_fields"
+msgstr "Personuppgifter"
+
+#, fuzzy
+msgid "grp_custom_user_fields_infobox"
+msgstr "Create additional data fields for group members to fill in when they join. You can show this information as an additional column in the \"Members\" tab."
+
+#, fuzzy
+msgid "grp_custom_user_fields_table_title"
+msgstr "Relevant User Data of This Group"
+
+msgid "grp_deactivate_notification"
+msgstr "Avaktivera avisering"
+
+msgid "grp_enable_map"
+msgstr "Aktivera gruppkort"
+
+msgid "grp_err_registration_limited"
+msgstr "Ange ett giltigt start- och slutdatum för registreringen."
+
+msgid "grp_general_informations"
+msgstr "Allmän information"
+
+msgid "grp_grp_info_reg"
+msgstr "Följande grupper omfattas av en medlemsbegränsning. Du kan bara gå med i en av dessa grupper"
+
+msgid "grp_grp_open"
+msgstr "Öppen grupp"
+
+msgid "grp_header_delete_members"
+msgstr "Du vill avregistrera följande medlemmar från gruppen?"
+
+msgid "grp_header_waiting_list"
+msgstr "Väntelista"
+
+msgid "grp_icon_settings"
+msgstr "Icon"
+
+msgid "grp_import"
+msgstr "Importgrupp"
+
+msgid "grp_info_agree"
+msgstr "Jag håller med om att ovanstående data kan visas av gruppadministratörer."
+
+msgid "grp_info_agreement"
+msgstr "Följande data kan visas av gruppadministratörer"
+
+msgid "grp_info_new_grp_type"
+msgstr "Ny grupptyp"
+
+msgid "grp_info_settings"
+msgstr "Gruppinformation"
+
+msgid "grp_information"
+msgstr "Viktig information"
+
+msgid "grp_information_info"
+msgstr "Den information som ges här kommer att visas på infosidan och under gruppregistreringen."
+
+msgid "grp_join_request"
+msgstr "Skicka"
+
+msgid "grp_lim_assigned"
+msgstr "Är redan medlem i gruppen \"%s\"."
+
+msgid "grp_mail_admission_new_bod"
+msgstr "Du ingår i gruppen \"%s\"."
+
+msgid "grp_mail_admission_new_sub"
+msgstr "Medlemskap i gruppen \"%s"
+
+msgid "grp_mail_all"
+msgstr "För alla medlemmar"
+
+msgid "grp_mail_all_info"
+msgstr " Medlemmar och administratörer kan använda funktionen \"Mail till medlemmar\" på fliken Medlemmar."
+
+msgid "grp_mail_dismiss_bod"
+msgstr "Ditt medlemskap i gruppen \"%s\" har avslutats."
+
+msgid "grp_mail_dismiss_sub"
+msgstr "Medlemskap i grupp \"%s\" avslutat"
+
+msgid "grp_mail_notification_reg_bod"
+msgstr "%s har gått med i gruppen \"%s\"."
+
+msgid "grp_mail_notification_reg_req_bod"
+msgstr "%s har skickat in en medlemsansökan för gruppen \"%s\"."
+
+msgid "grp_mail_notification_reg_req_bod2"
+msgstr "För att ta upp användaren i gruppen eller avvisa begäran måste du ringa upp medlemsadministrationen. För att göra detta, vänligen välj följande länk"
+
+msgid "grp_mail_notification_reg_req_sub"
+msgstr "Ansökan om antagning till grupp \"%s"
+
+msgid "grp_mail_notification_reg_sub"
+msgstr "Nytt medlemskap i gruppen \"%s"
+
+msgid "grp_mail_notification_unsub_bod"
+msgstr "Deltagaren \"%s\" har avslutat sitt medlemskap i gruppen \"%s\"."
+
+msgid "grp_mail_notification_unsub_bod2"
+msgstr "Deltagare kan finnas på väntelistan för denna grupp. För att se listan över deltagare, vänligen gå till följande länk"
+
+msgid "grp_mail_notification_unsub_sub"
+msgstr "Avsluta från gruppen \"%s\""
+
+msgid "grp_mail_permanent_link"
+msgstr "Välj följande länk för att komma åt gruppens innehåll"
+
+msgid "grp_mail_status_bod"
+msgstr "Din status i gruppen \"%s\" har ändrats."
+
+msgid "grp_mail_status_sub"
+msgstr "Status i grupp \"%s"
+
+msgid "grp_mail_sub_acc_bod"
+msgstr "Du har inkluderats i gruppen \"%s\"."
+
+msgid "grp_mail_sub_acc_sub"
+msgstr "Inspelning i grupp \"%s"
+
+msgid "grp_mail_sub_dec_bod"
+msgstr "Din ansökan om inträde i gruppen \"%s\" har avslagits."
+
+msgid "grp_mail_sub_dec_sub"
+msgstr "Avslag på ansökan om antagning till grupp \"%s"
+
+msgid "grp_mail_subscribe_member_bod"
+msgstr "vi har nöjet att informera dig om att din antagning till gruppen \"%s\" har ägt rum."
+
+msgid "grp_mail_subscribe_member_sub"
+msgstr "Din registrering för gruppen \"%s"
+
+msgid "grp_mail_tutors_only"
+msgstr "Endast för administratörer"
+
+msgid "grp_mail_tutors_only_info"
+msgstr "Endast administratörer kan använda funktionen \"Mail till medlemmar\" på fliken Medlemmar."
+
+msgid "grp_mail_type"
+msgstr "Mail till medlemmar"
+
+msgid "grp_mail_unsubscribe_member_bod"
+msgstr "vi bekräftar din avregistrering från gruppen \"%s\"."
+
+msgid "grp_mail_unsubscribe_member_sub"
+msgstr "Din avregistrering från gruppen \"%s\""
+
+msgid "grp_mail_wl_bod"
+msgstr "Du har placerats på väntelistan för gruppen \"%s\" och har positionen %s på väntelistan.  Du kommer att meddelas via e-post så snart din ansökan om tillträde har godkänts eller avslagits."
+
+msgid "grp_mail_wl_sub"
+msgstr "Din registrering för gruppen \"%s"
+
+msgid "grp_map_location"
+msgstr "Lokalisering på gruppkarta"
+
+msgid "grp_map_settings"
+msgstr "Inställningar map"
+
+msgid "grp_max_and_min_members_invalid"
+msgstr "Det lägsta antalet måste vara mindre än det högsta antalet."
+
+msgid "grp_mem_contacts"
+msgstr "Stöd för undervisning"
+
+msgid "grp_mem_tbl_header"
+msgstr "Gruppdeltagare"
+
+msgid "grp_member_administration"
+msgstr "Deltagarstyrning"
+
+msgid "grp_members"
+msgstr "Medlemmar"
+
+msgid "grp_members_deleted"
+msgstr "De valda medlemmarna har tagits bort från gruppen."
+
+msgid "grp_members_map"
+msgstr "Map Gruppmedlemmar"
+
+msgid "grp_members_print_title"
+msgstr "Gruppmedlemmar"
+
+msgid "grp_min_one_admin"
+msgstr "Minst ett konto med rollen \"gruppadministration\" måste vara tilldelat gruppen."
+
+msgid "grp_missing_grp_type"
+msgstr "Vänligen välj typ av grupp."
+
+msgid "grp_missing_password"
+msgstr "Var god ange ett grupplösenord."
+
+msgid "grp_new_status"
+msgstr "Din nya status"
+
+msgid "grp_next"
+msgstr "Fortsättning"
+
+msgid "grp_no_perm_to_add_create_first"
+msgstr "Du måste först skapa en ny grupp. Välj den plats där den nya gruppen ska skapas."
+
+msgid "grp_notification"
+msgstr "Notifiering"
+
+msgid "grp_notification_activated"
+msgstr "Notifiering aktiverad"
+
+msgid "grp_notification_deactivated"
+msgstr "Notifiering avaktiverad"
+
+msgid "grp_notification_explanation_admin"
+msgstr "Du får det här mailet eftersom aviseringar är aktiverade för dig som gruppchef."
+
+msgid "grp_notification_salutation"
+msgstr "Kära gruppdeltagare,"
+
+msgid "grp_notify_off"
+msgstr "Notifieringar om nya registreringar avaktiverade"
+
+msgid "grp_notify_on"
+msgstr "Notifieringar om nya registreringar aktiverade"
+
+msgid "grp_pass_request"
+msgstr "Join med grupplösenord"
+
+msgid "grp_period"
+msgstr "Händelseperiod"
+
+msgid "grp_period_info"
+msgstr "Information om start och slut för det evenemang som ska stödjas med gruppen."
+
+msgid "grp_presentation_type"
+msgstr "Visa"
+
+msgid "grp_print_list"
+msgstr "Skapa lista"
+
+msgid "grp_public"
+msgstr "Publik grupp"
+
+msgid "grp_public_info"
+msgstr "Gruppen är också synlig för icke-medlemmar. Särskilda regler gäller dock för att erhålla medlemskap."
+
+msgid "grp_reg_code"
+msgstr "Anmäl dig via länk"
+
+msgid "grp_reg_code_enabled_info"
+msgstr "Beroende på det valda anslutningsförfarandet och grupprättigheterna, möjliggör detta alternativ direkt anslutning genom att ringa upp en länk."
+
+msgid "grp_reg_code_link"
+msgstr "Länk för direkt anslutning"
+
+msgid "grp_reg_deac_info_screen"
+msgstr "Ingen inspelning är möjlig för tillfället."
+
+msgid "grp_reg_direct"
+msgstr "Direkt anslutning"
+
+msgid "grp_reg_direct_info_screen"
+msgstr "Du kan gå med i den här gruppen direkt."
+
+msgid "grp_reg_disabled"
+msgstr "För närvarande är det inte möjligt att ansluta sig."
+
+msgid "grp_reg_disabled_info"
+msgstr "Endast gruppadministratörer kan lägga till användare i gruppen."
+
+msgid "grp_reg_limited"
+msgstr "Tillfällig anslutning"
+
+msgid "grp_reg_max_members_info"
+msgstr "När det maximala antalet medlemmar har uppnåtts är det inte längre möjligt att ansluta sig självständigt."
+
+msgid "grp_reg_no_selfreg"
+msgstr "Ingen oberoende accession"
+
+msgid "grp_reg_passwd_info_screen"
+msgstr "Om du har fått grupplösenordet från en gruppadministratör kan du gå med i den här gruppen."
+
+msgid "grp_reg_password_info"
+msgstr "Användare måste ange detta lösenord för att gå med i gruppen."
+
+msgid "grp_reg_req_info_screen"
+msgstr "Du kan ansöka om att bli medlem i denna grupp. Så snart en gruppadministratör har godkänt eller avslagit din ansökan kommer du att meddelas via e-post."
+
+msgid "grp_reg_request"
+msgstr "Tillträde efter bekräftelse"
+
+msgid "grp_reg_request_info"
+msgstr "Bli medlem först när det bekräftats av en gruppadministratör."
+
+msgid "grp_reg_subject"
+msgstr "Meddelande"
+
+msgid "grp_registration_unlimited"
+msgstr "Tidsmässigt obegränsad"
+
+msgid "grp_role_status"
+msgstr "Roll/Status"
+
+msgid "grp_search_users"
+msgstr "Sök användare"
+
+msgid "grp_set_on_waiting_list"
+msgstr "När du ansöker om inträde kommer du att sättas upp på väntelistan. Du kommer sedan att få besked från gruppledningen om din ansökan har godkänts eller avslagits."
+
+msgid "grp_setting_header_presentation"
+msgstr "Presentation"
+
+msgid "grp_setting_header_registration"
+msgstr "Self entry av användaren"
+
+msgid "grp_settings"
+msgstr "Gruppens inställningar"
+
+msgid "grp_show_members"
+msgstr "Medlemmarnas galleri"
+
+msgid "grp_show_members_info"
+msgstr "Alla medlemmar kan se medlemsgalleriet på fliken \"Medlemmar\"."
+
+msgid "grp_subscription_min_members_info"
+msgstr "Om det erforderliga minimiantalet medlemmar inte uppnås, kan gruppen inte äga rum. Om minimiantalet medlemmar inte har uppnåtts vid slutet av anslutningsperioden eller den senaste gruppavslutningen, skickar ILIAS ett e-postmeddelande till de gruppadminis"
+
+msgid "grp_sure_add_user_to_group"
+msgstr "Vill du verkligen lägga till användaren i gruppen?"
+
+msgid "grp_sure_create_group_add_user"
+msgstr "Vill du verkligen skapa grupperna och lägga till användaren?"
+
+msgid "grp_typ"
+msgstr "Typ"
+
+msgid "grp_unsubscribe"
+msgstr "Avsluta gruppmedlemskap"
+
+msgid "grp_update_subscr_request"
+msgstr "Uppdatera ansökan om antagning"
+
+msgid "grp_use_existing"
+msgstr "Använd befintlig grupp"
+
+msgid "grp_user_agreement"
+msgstr "Personliga profiluppgifter"
+
+msgid "grp_user_agreement_info"
+msgstr "Om följande information finns tillgänglig i din personliga profil kan den visas av gruppadministrationen."
+
+msgid "grp_user_already_in_group"
+msgstr "Den valda användaren är redan medlem i gruppen."
+
+msgid "grp_user_been_added"
+msgstr "Användaren har lagts till i gruppen."
+
+msgid "grp_users_already_assigned"
+msgstr "En användare är redan medlem i denna grupp."
+
+msgid "grp_usr_agreement"
+msgstr "Användaravtal"
+
+msgid "grp_view_info_by_type"
+msgstr "Alla objekt av en viss typ visas i en separat lista."
+
+msgid "grp_view_info_simple"
+msgstr "Alla objekt visas i en enda lista."
+
+msgid "grp_view_inherit"
+msgstr "Bestäms av kurs"
+
+msgid "grp_view_inherit_info"
+msgstr "Om synen på den överordnade kursen ändras, ändras även gruppens syn."
+
+msgid "grp_waiting_list"
+msgstr "Väntelista"
+
+msgid "grp_waiting_list_autofill"
+msgstr "Med automatisk framflyttning"
+
+msgid "grp_waiting_list_autofill_info"
+msgstr "Deltagare flyttas automatiskt upp från väntelistan i händelse av avbokningar.  Detta bör inte användas i samband med förfarandet \"gå med efter bekräftelse\" eftersom det kringgår bekräftelsen."
+
+msgid "grp_waiting_list_info"
+msgstr "Om det maximala antalet medlemmar uppnås kan ytterligare användare placeras på en väntelista."
+
+msgid "grp_waiting_list_no_autofill"
+msgstr "Utan automatisk framflyttning"
+
+msgid "grp_warn_grp_type_changed"
+msgstr "Är du säker på att du vill ändra grupptyp? Rättighetsinställningarna för den här gruppen skrivs över och anpassas till den nya typen av grupp."
+
+msgid "grp_warn_no_max_set_on_waiting_list"
+msgstr "Det maximala antalet deltagare har uppnåtts. Du kan dock sätta upp ditt namn på väntelistan för denna grupp och kommer då att meddelas via e-post om du kan flytta upp."
+
+msgid "grp_warn_wl_set_on_waiting_list"
+msgstr "Det finns redan användare på väntelistan. Du kan dock sätta upp dig på väntelistan för denna grupp och kommer då att meddelas via e-post om du kan flytta upp."
+
+msgid "grp_wrong_max_members"
+msgstr "Ett maximalt antal medlemmar krävs för väntelistan."
+
+msgid "grp_wrong_min_max_members"
+msgstr "Ange ett lägsta eller högsta antal - eller båda."
+
+msgid "grp_wrong_reg_time_limit"
+msgstr "Kontrollera dina poster för registreringsperioden."
+
+msgid "reg_grp_max_members"
+msgstr "Maximalt antal"
+
+msgid "reg_grp_max_members_short"
+msgstr "Begränsat antal medlemmar"
+
+msgid "reg_grp_min_members"
+msgstr "Minsta antal"

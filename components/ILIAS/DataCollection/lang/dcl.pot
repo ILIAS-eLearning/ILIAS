@@ -1,0 +1,837 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: dcl\n"
+
+msgid "add_value"
+msgstr ""
+
+msgid "dcl_activate_notification"
+msgstr ""
+
+msgid "dcl_add"
+msgstr ""
+
+msgid "dcl_add_new_field"
+msgstr ""
+
+msgid "dcl_add_new_record"
+msgstr ""
+
+msgid "dcl_add_new_table"
+msgstr ""
+
+msgid "dcl_add_new_view"
+msgstr ""
+
+msgid "dcl_add_perm"
+msgstr ""
+
+msgid "dcl_add_perm_desc"
+msgstr ""
+
+msgid "dcl_all_entries"
+msgstr ""
+
+msgid "dcl_any"
+msgstr ""
+
+msgid "dcl_asc"
+msgstr ""
+
+msgid "dcl_boolean"
+msgstr ""
+
+msgid "dcl_boolean_desc"
+msgstr ""
+
+msgid "dcl_cant_delete_last_table"
+msgstr ""
+
+msgid "dcl_change_notification_dcl_delete_record"
+msgstr ""
+
+msgid "dcl_change_notification_dcl_new_record"
+msgstr ""
+
+msgid "dcl_change_notification_dcl_update_record"
+msgstr ""
+
+msgid "dcl_change_notification_link"
+msgstr ""
+
+msgid "dcl_change_notification_subject"
+msgstr ""
+
+msgid "dcl_changed_by"
+msgstr ""
+
+msgid "dcl_checked"
+msgstr ""
+
+msgid "dcl_comments"
+msgstr ""
+
+msgid "dcl_comments_desc"
+msgstr ""
+
+msgid "dcl_confirm_delete_field"
+msgstr ""
+
+msgid "dcl_confirm_delete_fields"
+msgstr ""
+
+msgid "dcl_confirm_delete_record"
+msgstr ""
+
+msgid "dcl_confirm_delete_records"
+msgstr ""
+
+msgid "dcl_confirm_delete_table"
+msgstr ""
+
+msgid "dcl_confirm_storing_records"
+msgstr ""
+
+msgid "dcl_confirm_storing_records_no_permission"
+msgstr ""
+
+msgid "dcl_copy"
+msgstr ""
+
+msgid "dcl_copy_field"
+msgstr ""
+
+msgid "dcl_copy_field_desc"
+msgstr ""
+
+msgid "dcl_copy_title"
+msgstr ""
+
+msgid "dcl_create_date"
+msgstr ""
+
+msgid "dcl_create_entry_rules"
+msgstr ""
+
+msgid "dcl_create_field"
+msgstr ""
+
+msgid "dcl_create_fields"
+msgstr ""
+
+msgid "dcl_creation_date"
+msgstr ""
+
+msgid "dcl_creation_date_description"
+msgstr ""
+
+msgid "dcl_datatype"
+msgstr ""
+
+msgid "dcl_date"
+msgstr ""
+
+msgid "dcl_date_desc"
+msgstr ""
+
+msgid "dcl_date_selection"
+msgstr ""
+
+msgid "dcl_date_selection_desc"
+msgstr ""
+
+msgid "dcl_datetime"
+msgstr ""
+
+msgid "dcl_datetime_desc"
+msgstr ""
+
+msgid "dcl_datetime_selection"
+msgstr ""
+
+msgid "dcl_datetime_selection_desc"
+msgstr ""
+
+msgid "dcl_default_sort_field"
+msgstr ""
+
+msgid "dcl_default_sort_field_order"
+msgstr ""
+
+msgid "dcl_default_sort_field_order_desc"
+msgstr ""
+
+msgid "dcl_delete_fields"
+msgstr ""
+
+msgid "dcl_delete_fields_no_selection"
+msgstr ""
+
+msgid "dcl_delete_perm"
+msgstr ""
+
+msgid "dcl_delete_records"
+msgstr ""
+
+msgid "dcl_deleted_entries"
+msgstr ""
+
+msgid "dcl_deleted_records"
+msgstr ""
+
+msgid "dcl_deprecated_copy"
+msgstr ""
+
+msgid "dcl_desc"
+msgstr ""
+
+msgid "dcl_description"
+msgstr ""
+
+msgid "dcl_detailed_view"
+msgstr ""
+
+msgid "dcl_display_action_menu"
+msgstr ""
+
+msgid "dcl_display_action_menu_desc"
+msgstr ""
+
+msgid "dcl_display_record_alt"
+msgstr ""
+
+msgid "dcl_duplicate_non_unique_entries_exist"
+msgstr ""
+
+msgid "dcl_edit"
+msgstr ""
+
+msgid "dcl_edit_entry_rules"
+msgstr ""
+
+msgid "dcl_edit_field"
+msgstr ""
+
+msgid "dcl_edit_perm"
+msgstr ""
+
+msgid "dcl_edit_table"
+msgstr ""
+
+msgid "dcl_edit_view"
+msgstr ""
+
+msgid "dcl_editable_in_table_gui"
+msgstr ""
+
+msgid "dcl_err_formula_field_not_found"
+msgstr ""
+
+msgid "dcl_error_parsing_expression"
+msgstr ""
+
+msgid "dcl_export_enabled"
+msgstr ""
+
+msgid "dcl_export_enabled_desc"
+msgstr ""
+
+msgid "dcl_field_datatype"
+msgstr ""
+
+msgid "dcl_field_description"
+msgstr ""
+
+msgid "dcl_field_description_desc"
+msgstr ""
+
+msgid "dcl_field_title_change_warning"
+msgstr ""
+
+msgid "dcl_field_title_unique"
+msgstr ""
+
+msgid "dcl_field_visible"
+msgstr ""
+
+msgid "dcl_fieldtitle"
+msgstr ""
+
+msgid "dcl_file"
+msgstr ""
+
+msgid "dcl_file_desc"
+msgstr ""
+
+msgid "dcl_file_format_description"
+msgstr ""
+
+msgid "dcl_file_not_readable"
+msgstr ""
+
+msgid "dcl_filter"
+msgstr ""
+
+msgid "dcl_filter_changeable"
+msgstr ""
+
+msgid "dcl_formula"
+msgstr ""
+
+msgid "dcl_formula_desc"
+msgstr ""
+
+msgid "dcl_formula_detail_desc"
+msgstr ""
+
+msgid "dcl_height"
+msgstr ""
+
+msgid "dcl_height_desc"
+msgstr ""
+
+msgid "dcl_id"
+msgstr ""
+
+msgid "dcl_id_description"
+msgstr ""
+
+msgid "dcl_ilias_reference"
+msgstr ""
+
+msgid "dcl_ilias_reference_desc"
+msgstr ""
+
+msgid "dcl_ilias_reference_link"
+msgstr ""
+
+msgid "dcl_import_enabled"
+msgstr ""
+
+msgid "dcl_import_enabled_desc"
+msgstr ""
+
+msgid "dcl_import_records .xls"
+msgstr ""
+
+msgid "dcl_import_terminated"
+msgstr ""
+
+msgid "dcl_in_export"
+msgstr ""
+
+msgid "dcl_invalid_regex_config"
+msgstr ""
+
+msgid "dcl_last_edit_by"
+msgstr ""
+
+msgid "dcl_last_edited_by"
+msgstr ""
+
+msgid "dcl_last_edited_by_description"
+msgstr ""
+
+msgid "dcl_last_update"
+msgstr ""
+
+msgid "dcl_last_update_description"
+msgstr ""
+
+msgid "dcl_learning_progress"
+msgstr ""
+
+msgid "dcl_learning_progress_desc"
+msgstr ""
+
+msgid "dcl_legend_placeholders"
+msgstr ""
+
+msgid "dcl_length"
+msgstr ""
+
+msgid "dcl_length_info"
+msgstr ""
+
+msgid "dcl_limit_end"
+msgstr ""
+
+msgid "dcl_limit_start"
+msgstr ""
+
+msgid "dcl_limited"
+msgstr ""
+
+msgid "dcl_limited_desc"
+msgstr ""
+
+msgid "dcl_link_detail_page"
+msgstr ""
+
+msgid "dcl_link_detail_page_desc"
+msgstr ""
+
+msgid "dcl_list_fields"
+msgstr ""
+
+msgid "dcl_list_visibility_and_filter"
+msgstr ""
+
+msgid "dcl_manage"
+msgstr ""
+
+msgid "dcl_max_digits"
+msgstr ""
+
+msgid "dcl_max_import"
+msgstr ""
+
+msgid "dcl_max_text_length"
+msgstr ""
+
+msgid "dcl_mob"
+msgstr ""
+
+msgid "dcl_mob_desc"
+msgstr ""
+
+msgid "dcl_msg_field_modified"
+msgstr ""
+
+msgid "dcl_msg_fields_deleted"
+msgstr ""
+
+msgid "dcl_msg_mc_to_sc_confirmation"
+msgstr ""
+
+msgid "dcl_msg_no_perm_edit"
+msgstr ""
+
+msgid "dcl_msg_no_perm_view"
+msgstr ""
+
+msgid "dcl_msg_table_created"
+msgstr ""
+
+msgid "dcl_msg_table_edited"
+msgstr ""
+
+msgid "dcl_msg_tableview_created"
+msgstr ""
+
+msgid "dcl_msg_tableview_deleted"
+msgstr ""
+
+msgid "dcl_msg_tableview_updated"
+msgstr ""
+
+msgid "dcl_msg_tableviews_delete_all"
+msgstr ""
+
+msgid "dcl_multiple_selection"
+msgstr ""
+
+msgid "dcl_new"
+msgstr ""
+
+msgid "dcl_new_entries"
+msgstr ""
+
+msgid "dcl_new_field"
+msgstr ""
+
+msgid "dcl_new_table"
+msgstr ""
+
+msgid "dcl_new_view"
+msgstr ""
+
+msgid "dcl_no_entries"
+msgstr ""
+
+msgid "dcl_no_entry"
+msgstr ""
+
+msgid "dcl_no_export_async_config"
+msgstr ""
+
+msgid "dcl_no_export_data_available"
+msgstr ""
+
+msgid "dcl_no_fields_yet"
+msgstr ""
+
+msgid "dcl_no_search_results_found_for"
+msgstr ""
+
+msgid "dcl_no_such_reference"
+msgstr ""
+
+msgid "dcl_no_table_found"
+msgstr ""
+
+msgid "dcl_no_tableview_found"
+msgstr ""
+
+msgid "dcl_not_checked"
+msgstr ""
+
+msgid "dcl_not_supported_in_import"
+msgstr ""
+
+msgid "dcl_notification_activate"
+msgstr ""
+
+msgid "dcl_notification_activated"
+msgstr ""
+
+msgid "dcl_notification_deactivate"
+msgstr ""
+
+msgid "dcl_notification_deactivated"
+msgstr ""
+
+msgid "dcl_notification_info"
+msgstr ""
+
+msgid "dcl_notification_settings"
+msgstr ""
+
+msgid "dcl_noturl_exception"
+msgstr ""
+
+msgid "dcl_number"
+msgstr ""
+
+msgid "dcl_number_desc"
+msgstr ""
+
+msgid "dcl_online_info"
+msgstr ""
+
+msgid "dcl_open_detail_view"
+msgstr ""
+
+msgid "dcl_open_url"
+msgstr ""
+
+msgid "dcl_order"
+msgstr ""
+
+msgid "dcl_origin_not_found"
+msgstr ""
+
+msgid "dcl_own_entries"
+msgstr ""
+
+msgid "dcl_owner"
+msgstr ""
+
+msgid "dcl_owner_description"
+msgstr ""
+
+msgid "dcl_owner_name"
+msgstr ""
+
+msgid "dcl_page_type_dclf"
+msgstr ""
+
+msgid "dcl_placeholder_info"
+msgstr ""
+
+msgid "dcl_please_select"
+msgstr ""
+
+msgid "dcl_prop_expression"
+msgstr ""
+
+msgid "dcl_prop_expression_info"
+msgstr ""
+
+msgid "dcl_rating"
+msgstr ""
+
+msgid "dcl_rating_desc"
+msgstr ""
+
+msgid "dcl_record"
+msgstr ""
+
+msgid "dcl_record_deleted"
+msgstr ""
+
+msgid "dcl_record_settings"
+msgstr ""
+
+msgid "dcl_reference"
+msgstr ""
+
+msgid "dcl_reference_desc"
+msgstr ""
+
+msgid "dcl_reference_link"
+msgstr ""
+
+msgid "dcl_reference_link_info"
+msgstr ""
+
+msgid "dcl_reference_title"
+msgstr ""
+
+msgid "dcl_reference_title_desc"
+msgstr ""
+
+msgid "dcl_regex"
+msgstr ""
+
+msgid "dcl_regex_info"
+msgstr ""
+
+msgid "dcl_row_not_found"
+msgstr ""
+
+msgid "dcl_save_confirmation"
+msgstr ""
+
+msgid "dcl_save_confirmation_desc"
+msgstr ""
+
+msgid "dcl_selection_options"
+msgstr ""
+
+msgid "dcl_selection_type"
+msgstr ""
+
+msgid "dcl_selection_type_combobox"
+msgstr ""
+
+msgid "dcl_selection_type_multi"
+msgstr ""
+
+msgid "dcl_selection_type_single"
+msgstr ""
+
+msgid "dcl_simulate_import"
+msgstr ""
+
+msgid "dcl_simulate_info"
+msgstr ""
+
+msgid "dcl_skipped_delete_records"
+msgstr ""
+
+msgid "dcl_status"
+msgstr ""
+
+msgid "dcl_std_field_not_importable"
+msgstr ""
+
+msgid "dcl_std_filter"
+msgstr ""
+
+msgid "dcl_supported_filetypes"
+msgstr ""
+
+msgid "dcl_supported_filetypes_desc"
+msgstr ""
+
+msgid "dcl_table"
+msgstr ""
+
+msgid "dcl_table_id"
+msgstr ""
+
+msgid "dcl_table_settings"
+msgstr ""
+
+msgid "dcl_table_settings_saved"
+msgstr ""
+
+msgid "dcl_table_title_not_matching"
+msgstr ""
+
+msgid "dcl_table_title_unique"
+msgstr ""
+
+msgid "dcl_tables"
+msgstr ""
+
+msgid "dcl_tableview"
+msgstr ""
+
+msgid "dcl_tableview_add"
+msgstr ""
+
+msgid "dcl_tableview_confirm_delete"
+msgstr ""
+
+msgid "dcl_tableview_copy"
+msgstr ""
+
+msgid "dcl_tableview_default_value"
+msgstr ""
+
+msgid "dcl_tableview_default_value_fail"
+msgstr ""
+
+msgid "dcl_tableview_field_access"
+msgstr ""
+
+msgid "dcl_tableview_fieldsettings"
+msgstr ""
+
+msgid "dcl_tableview_fieldtitle"
+msgstr ""
+
+msgid "dcl_tableview_locked_visible"
+msgstr ""
+
+msgid "dcl_tableview_not_visible"
+msgstr ""
+
+msgid "dcl_tableview_required"
+msgstr ""
+
+msgid "dcl_tableview_required_visible"
+msgstr ""
+
+msgid "dcl_tableview_visible"
+msgstr ""
+
+msgid "dcl_tableviews"
+msgstr ""
+
+msgid "dcl_tableviews_of_X"
+msgstr ""
+
+msgid "dcl_text"
+msgstr ""
+
+msgid "dcl_text_desc"
+msgstr ""
+
+msgid "dcl_text_email_detail_desc"
+msgstr ""
+
+msgid "dcl_text_email_title"
+msgstr ""
+
+msgid "dcl_text_email_title_info"
+msgstr ""
+
+msgid "dcl_text_selection"
+msgstr ""
+
+msgid "dcl_text_selection_desc"
+msgstr ""
+
+msgid "dcl_title_standard"
+msgstr ""
+
+msgid "dcl_unique"
+msgstr ""
+
+msgid "dcl_unique_desc"
+msgstr ""
+
+msgid "dcl_unique_exception"
+msgstr ""
+
+msgid "dcl_unknown"
+msgstr ""
+
+msgid "dcl_unknown_exception"
+msgstr ""
+
+msgid "dcl_unknown_plugin"
+msgstr ""
+
+msgid "dcl_update_field"
+msgstr ""
+
+msgid "dcl_update_record"
+msgstr ""
+
+msgid "dcl_updated_entries"
+msgstr ""
+
+msgid "dcl_url"
+msgstr ""
+
+msgid "dcl_view_own_records_perm"
+msgstr ""
+
+msgid "dcl_view_own_records_perm_desc"
+msgstr ""
+
+msgid "dcl_view_viewdefinition"
+msgstr ""
+
+msgid "dcl_visible"
+msgstr ""
+
+msgid "dcl_visible_desc"
+msgstr ""
+
+msgid "dcl_width"
+msgstr ""
+
+msgid "dcl_width_desc"
+msgstr ""
+
+msgid "dcl_wrong_input_type"
+msgstr ""
+
+msgid "dcl_wrong_length"
+msgstr ""
+
+msgid "dcl_wrong_regex"
+msgstr ""
+
+msgid "dcl_xls_async_export"
+msgstr ""
+
+msgid "disable_comments"
+msgstr ""
+
+msgid "disable_visible"
+msgstr ""
+
+msgid "duplicate_entries_exist"
+msgstr ""
+
+msgid "enable_comments"
+msgstr ""
+
+msgid "enable_visible"
+msgstr ""
+
+msgid "entry_of"
+msgstr ""
+
+msgid "fieldtitle_allow_chars"
+msgstr ""
+
+msgid "fileupload_not_migrated"
+msgstr ""
+
+msgid "role_limitation"
+msgstr ""
+
+msgid "roles"
+msgstr ""
+
+msgid "roles_desc"
+msgstr ""
+
+msgid "set_as_default"
+msgstr ""
+
+msgid "table_not_found"
+msgstr ""
+
+msgid "tableview_not_found"
+msgstr ""

@@ -1,0 +1,21 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: fold\n"
+
+msgid "fold_copy"
+msgstr "Kopiera mapp"
+
+msgid "fold_import"
+msgstr "Importera mapp"
+
+msgid "fold_presentation"
+msgstr "Presentation"
+
+msgid "fold_settings"
+msgstr "Egenskaper för mappar"

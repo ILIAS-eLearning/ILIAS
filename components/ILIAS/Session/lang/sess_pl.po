@@ -1,0 +1,315 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pl\n"
+"Language-Team: Polish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: sess\n"
+
+msgid "il_sess_participant"
+msgstr "Session Participants"
+
+#, fuzzy
+msgid "il_sess_status_open"
+msgstr "Open Session"
+
+msgid "mail_sess_roles"
+msgstr "Send Mail to Session Roles"
+
+#, fuzzy
+msgid "notification"
+msgstr "Notification"
+
+msgid "objs_crs_role"
+msgstr "Role kursowe"
+
+msgid "objs_grp_role"
+msgstr "Role grupowe"
+
+msgid "send_mail_participants"
+msgstr "All Participants of Session"
+
+msgid "sess_accept_request"
+msgstr "Dopuść do sesji"
+
+#, fuzzy
+msgid "sess_assign"
+msgstr "Assign"
+
+#, fuzzy
+msgid "sess_bt_refuse"
+msgstr "Cannot Participate"
+
+#, fuzzy
+msgid "sess_change_type"
+msgstr "Change Session Type"
+
+msgid "sess_contact"
+msgstr "Contact"
+
+msgid "sess_copy"
+msgstr "Kopiuj sesję"
+
+msgid "sess_filter_all_types"
+msgstr "All types"
+
+msgid "sess_filter_not_assigned"
+msgstr "Not Assigned"
+
+msgid "sess_import"
+msgstr "Importuj sesję"
+
+#, fuzzy
+msgid "sess_info_new_sess_type"
+msgstr "New Session Type"
+
+msgid "sess_is_assigned"
+msgstr "is Assigned"
+
+msgid "sess_list_reg_limit_places"
+msgstr "Ilość wolnych miejsc"
+
+msgid "sess_lp_preset"
+msgstr "Aktywuj postęp w nauce"
+
+msgid "sess_lp_preset_info"
+msgstr "Aktywuj postęp w nauce dla wszystkich terminów konsultacji, które należy utworzyć."
+
+msgid "sess_mail_admins_only"
+msgstr "For Administrators only"
+
+msgid "sess_mail_admins_only_info"
+msgstr "Only administrators can use the feature ‘Mail to Participants’ in the ‘Participants’ tab."
+
+msgid "sess_mail_all"
+msgstr "For all Participants"
+
+msgid "sess_mail_all_info"
+msgstr "All participants can use the feature ‘Mail to Participants’ in the ‘Participants’ tab."
+
+msgid "sess_mail_context_participant_info"
+msgstr "For the participant e-mails on the participants and learning progress screens of a session"
+
+msgid "sess_mail_context_participant_title"
+msgstr "Sitzung: Mail to Participants"
+
+msgid "sess_mail_permanent_link"
+msgstr "Kliknij na poniższy link, aby znaleźć wszystkie potrzebne informacje dotyczące sesji:"
+
+#, fuzzy
+msgid "sess_mail_permanent_link_participants"
+msgstr "Click on the following link to edit the participants of the session:"
+
+msgid "sess_mail_sub_acc_bod"
+msgstr "Zostałeś dopuszczony do udziału w sesji \"%s\"."
+
+msgid "sess_mail_sub_acc_sub"
+msgstr "Udział w sesji \"%s\""
+
+msgid "sess_mail_sub_dec_bod"
+msgstr "Twój wniosek o udział w sesji \"%s\" został odrzucony."
+
+msgid "sess_mail_sub_dec_sub"
+msgstr "Odrzucenie udziału w sesji \"%s\""
+
+msgid "sess_mail_type"
+msgstr "Mail to Participants"
+
+#, fuzzy
+msgid "sess_material_assigned"
+msgstr "Assigned"
+
+#, fuzzy
+msgid "sess_material_not_assigned"
+msgstr "Not Assigned"
+
+msgid "sess_max_members_needed"
+msgstr "Dla tej listy oczekujących potrzebna jest maksymalna liczba członków."
+
+msgid "sess_mem_contacts"
+msgstr "Tutorial Support"
+
+#, fuzzy
+msgid "sess_mem_send_mail"
+msgstr "Send Mail"
+
+msgid "sess_mem_tbl_header"
+msgstr "Uczestnicy sesji"
+
+msgid "sess_member_administration"
+msgstr "Edit Participants"
+
+msgid "sess_members"
+msgstr "Participants"
+
+msgid "sess_members_gallery"
+msgstr "Session Gallery"
+
+msgid "sess_members_print_title"
+msgstr "Uczestnicy sesji"
+
+msgid "sess_msg_applicants_assigned"
+msgstr "Użytkownik został zarejestrowany do sesji."
+
+msgid "sess_msg_applicants_removed"
+msgstr "Wniosek został odrzucony i usunięty z listy."
+
+#, fuzzy
+msgid "sess_new"
+msgstr "Create Session"
+
+msgid "sess_new_registrations"
+msgstr "Wnioski o udział"
+
+#, fuzzy
+msgid "sess_notification_option"
+msgstr "Option"
+
+#, fuzzy
+msgid "sess_notification_option_inherit"
+msgstr "Inherit from Parent"
+
+#, fuzzy
+msgid "sess_notification_option_inherit_info"
+msgstr "Use the parent notification settings (e.g. notification settings from course or group) for members of this session"
+
+#, fuzzy
+msgid "sess_notification_option_manual"
+msgstr "Set manually"
+
+#, fuzzy
+msgid "sess_notification_option_manual_info"
+msgstr "Notification setting for users has to be set manually in tab 'Participants'"
+
+msgid "sess_open"
+msgstr "Otwórz sesję"
+
+msgid "sess_part_filter_participated"
+msgstr "Tylko dla uczestników"
+
+msgid "sess_part_filter_registered"
+msgstr "Tylko dla zarejestrowanych użytkowników"
+
+#, fuzzy
+msgid "sess_part_table_excused"
+msgstr "Excused"
+
+#, fuzzy
+msgid "sess_participation_refused_info"
+msgstr "Your participation for this event has been canceled."
+
+msgid "sess_print_list"
+msgstr "Drukuj listę"
+
+msgid "sess_reg_added_to_wl"
+msgstr "Zostałeś zapisany na liście oczekujących."
+
+#, fuzzy
+msgid "sess_reg_cannot_participate"
+msgstr "Cannot Participate"
+
+#, fuzzy
+msgid "sess_reg_cannot_participate_info"
+msgstr "Users can indicate that they cannot participate in the session."
+
+msgid "sess_reg_direct"
+msgstr "Rejestracja bezpośrednia"
+
+msgid "sess_reg_direct_info"
+msgstr "Użytkownicy muszą kliknąć na opcję „Zaloguj”, jeśli chcą wziąć udział w sesji."
+
+msgid "sess_reg_disabled"
+msgstr "Rejestracja nie jest konieczna"
+
+msgid "sess_reg_disabled_info"
+msgstr "Ten termin konsultacji nie wymaga rejestracji."
+
+msgid "sess_reg_max_members"
+msgstr "Ograniczona ilość członków"
+
+msgid "sess_reg_max_members_info"
+msgstr "Jeśli została osiągnięta maksymalna liczba użytkowników, rejestracja nie jest już możliwa."
+
+msgid "sess_reg_max_members_short"
+msgstr "Ograniczona liczba uczestników"
+
+msgid "sess_reg_max_users_exceeded"
+msgstr "Rejestracja nie jest możliwa, ponieważ dla tego terminu została przekroczona maksymalna liczba uczestników."
+
+msgid "sess_reg_max_users_exceeded_wl"
+msgstr "Dla tego terminu została przekroczona maksymalna liczba uczestników. Możesz wpisać się jednak na listę oczekujących."
+
+msgid "sess_reg_request"
+msgstr "Złóż wniosek o udział"
+
+msgid "sess_reg_request_info"
+msgstr "Udział w sesji wymaga akceptacji administratora."
+
+#, fuzzy
+msgid "sess_reg_tutor"
+msgstr "No Registration Possible"
+
+#, fuzzy
+msgid "sess_reg_tutor_info"
+msgstr "Users cannot register for this session on their own. Only administrators can register users."
+
+msgid "sess_reg_type"
+msgstr "Procedura rejestracji"
+
+msgid "sess_reg_waiting_list"
+msgstr "Lista oczekujących"
+
+msgid "sess_reg_waiting_list_autofill"
+msgstr "Z automatycznym przesuwaniem w górę"
+
+msgid "sess_reg_waiting_list_autofill_info"
+msgstr "W przypadku anulowania rejestracji uczestnicy automatycznie przesuwają się na liście oczekujących do góry. Tej opcji nie należy łączyć z procedurą rejestracji \"Złóż wniosek o udział\", ponieważ w ten sposób potwierdzenie jest pomijane."
+
+msgid "sess_reg_waiting_list_no_autofill"
+msgstr "Bez automatycznego przesuwania w górę"
+
+msgid "sess_reg_waiting_list_no_autofill_info"
+msgstr "Jeśli maksymalna liczba uczestników została osiągnięta, to nowe rejestracje zostaną umieszczone na liście oczekujących."
+
+msgid "sess_reg_waiting_list_none"
+msgstr "Brak"
+
+msgid "sess_registered_confirm"
+msgstr "Zostałeś zarejestrowany do sesji. Twój wniosek musi zatwierdzić jeszcze administrator. Gdy wniosek zostanie zatwierdzony, zostaniesz natychmiast o tym powiadomiony."
+
+#, fuzzy
+msgid "sess_registration_notification"
+msgstr "Notification"
+
+#, fuzzy
+msgid "sess_registration_notification_info"
+msgstr "Shows column in tab 'Participants' to select users being notified about new or leaving participants"
+
+msgid "sess_section_reg"
+msgstr "Rejestracja przez użytkowników"
+
+#, fuzzy
+msgid "sess_setting_header_presentation"
+msgstr "Presentation"
+
+msgid "sess_show_participants_info"
+msgstr "If activated, session participants can access the participant gallery"
+
+#, fuzzy
+msgid "sess_title"
+msgstr "Title of Session"
+
+msgid "sess_users_added"
+msgstr "Użytkownicy zostali zarejestrowani do sesji."
+
+msgid "sess_users_already_assigned"
+msgstr "Użytkownicy już są zarejestrowani do sesji."
+
+msgid "sess_users_removed_from_list"
+msgstr "Wybrani użytkownicy zostali usunięci z listy oczekujących."
+
+#, fuzzy
+msgid "sess_warn_sess_type_changed"
+msgstr "Do you really want to change the session type? All permission settings will be reset."

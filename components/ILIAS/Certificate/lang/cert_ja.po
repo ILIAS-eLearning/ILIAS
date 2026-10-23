@@ -1,0 +1,57 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: cert\n"
+
+msgid "cert_currently_no_certs"
+msgstr "現時点であなたはまだ何の資格も達成していません。"
+
+msgid "cert_description_label"
+msgstr "説明"
+
+msgid "cert_download_label"
+msgstr "Download"
+
+msgid "cert_error_no_access"
+msgstr "この証明書へアクセス権がありません。"
+
+msgid "cert_issued_on_label"
+msgstr "発行日"
+
+msgid "cert_object_label"
+msgstr "オブジェクト"
+
+msgid "cert_sortable_by_issue_date_asc"
+msgstr "発行日昇順"
+
+msgid "cert_sortable_by_issue_date_desc"
+msgstr "発行日降順"
+
+msgid "cert_sortable_by_title_asc"
+msgstr "タイトル昇順"
+
+msgid "cert_sortable_by_title_desc"
+msgstr "タイトル降順"
+
+msgid "certificate_achievement"
+msgstr "%1$s 達成されました"
+
+msgid "certificate_achievement_sub_obj"
+msgstr "%1$sの証明書"
+
+msgid "certificate_no_object_title"
+msgstr "オブジェクトタイトルが利用できません。"
+
+msgid "certificate_same_not_saved"
+msgstr "値に変更がないので新しいバージョンの証明書テンプレートは保存されませんでした。"
+
+msgid "error_creating_certificate_pdf"
+msgstr "証明書は作成できませんでした。管理者へ証明書サーバーを確認してもらうようコンタクトしてください。"
+
+msgid "user_certificates"
+msgstr "証明書"

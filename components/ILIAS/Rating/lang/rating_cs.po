@@ -1,0 +1,100 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: rating\n"
+
+msgid "rat_not_rated_yet"
+msgstr "Dosud nehodnoceno"
+
+msgid "rat_nr_ratings"
+msgstr "%s Hodnocení"
+
+msgid "rat_one_rating"
+msgstr "Jedno hodnocení"
+
+msgid "rating_activate_rating"
+msgstr "Povolit hodnocení"
+
+msgid "rating_activate_rating_info"
+msgstr "pokud je to povoleno, uživatelé mohou tento objekt hodnotit."
+
+msgid "rating_add_category"
+msgstr "Přidat kategorii"
+
+#, fuzzy
+msgid "rating_avg_rating"
+msgstr "Average Rating"
+
+msgid "rating_categories"
+msgstr "Kategorie hodnocení"
+
+msgid "rating_category_add"
+msgstr "Přidat"
+
+msgid "rating_category_create"
+msgstr "Vytvořit kategorii"
+
+msgid "rating_category_created"
+msgstr "Kategorie vytvořena."
+
+msgid "rating_category_delete_sure"
+msgstr "Opravdu chcete odstranit následující kategorie hodnocení?  Všechna hodnocení této kategorie budou ztracena."
+
+msgid "rating_category_deleted"
+msgstr "Kategorie zrušena."
+
+msgid "rating_category_edit"
+msgstr "Upravit kategorii"
+
+msgid "rating_category_update"
+msgstr "Uložit"
+
+msgid "rating_category_updated"
+msgstr "Kategorie byla uložena."
+
+msgid "rating_export_category"
+msgstr "Kategorie"
+
+msgid "rating_export_date"
+msgstr "Datum"
+
+msgid "rating_export_rating"
+msgstr "Hodnocení"
+
+msgid "rating_new_objects_auto"
+msgstr "Povolit hodnocení pro nové objekty"
+
+msgid "rating_new_objects_auto_info"
+msgstr "Pokud je to povoleno, mohou být hodnoceny nové soubory, moduly učení a wiki."
+
+msgid "rating_number_votes"
+msgstr "%s Hodnocení"
+
+#, fuzzy
+msgid "rating_open_dialog"
+msgstr "Open rating dialog"
+
+msgid "rating_overlay_submit"
+msgstr "Odeslat hodnocení"
+
+#, fuzzy
+msgid "rating_personal_rating"
+msgstr "Your Rating"
+
+#, fuzzy
+msgid "rating_rate_x_of_5"
+msgstr "Rate with %s of 5 stars"
+
+msgid "rating_remove"
+msgstr "Odstranit hodnocení"
+
+msgid "rating_update_positions"
+msgstr "Uložit objednávku"
+
+msgid "rating_your_rating"
+msgstr "Vaše hodnocení"

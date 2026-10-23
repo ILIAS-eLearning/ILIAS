@@ -1,0 +1,213 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: da\n"
+"Language-Team: Danish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: cron\n"
+
+#, fuzzy
+msgid "cro_job_rc_job_auto_deactivation_time_limit"
+msgstr "PROBABLY CRASHED"
+
+#, fuzzy
+msgid "cro_job_rc_job_manual_reset"
+msgstr "RESET MANUALLY"
+
+#, fuzzy
+msgid "cro_job_rc_job_no_result"
+msgstr "Cron job did not return a proper result"
+
+#, fuzzy
+msgid "cron_action_activate"
+msgstr "Activate"
+
+#, fuzzy
+msgid "cron_action_activate_success"
+msgstr "Cron-Job activated."
+
+#, fuzzy
+msgid "cron_action_activate_sure"
+msgstr "Are you sure you want to activate the cron-job \"%s\"?"
+
+#, fuzzy
+msgid "cron_action_activate_sure_multi"
+msgstr "Are you sure you want to activate the following cron-jobs?"
+
+#, fuzzy
+msgid "cron_action_deactivate"
+msgstr "Deactivate"
+
+#, fuzzy
+msgid "cron_action_deactivate_success"
+msgstr "Cron-Job deactivated."
+
+#, fuzzy
+msgid "cron_action_deactivate_sure"
+msgstr "Are you sure you want to deactivate the cron-job \"%s\"?"
+
+#, fuzzy
+msgid "cron_action_deactivate_sure_multi"
+msgstr "Are you sure you want to deactivate the following cron-jobs?"
+
+#, fuzzy
+msgid "cron_action_edit"
+msgstr "Edit"
+
+#, fuzzy
+msgid "cron_action_edit_success"
+msgstr "Schedule updated."
+
+#, fuzzy
+msgid "cron_action_reset"
+msgstr "Reset"
+
+#, fuzzy
+msgid "cron_action_reset_success"
+msgstr "Cron-Job reset."
+
+#, fuzzy
+msgid "cron_action_reset_sure"
+msgstr "Are you sure you want to reset the cron-job \"%s\"?"
+
+#, fuzzy
+msgid "cron_action_reset_sure_multi"
+msgstr "Are you sure you want to reset the following cron-jobs?"
+
+#, fuzzy
+msgid "cron_action_run"
+msgstr "Execute"
+
+#, fuzzy
+msgid "cron_action_run_fail"
+msgstr "Cron-Job failed."
+
+#, fuzzy
+msgid "cron_action_run_success"
+msgstr "Cron-Job run successfully."
+
+#, fuzzy
+msgid "cron_action_run_sure"
+msgstr "Are you sure you want to run the cron-job \"%s\"?"
+
+#, fuzzy
+msgid "cron_changed_by_crontab"
+msgstr "SYSTEM "
+
+#, fuzzy
+msgid "cron_component"
+msgstr "Component"
+
+#, fuzzy
+msgid "cron_job_id"
+msgstr "Id"
+
+#, fuzzy
+msgid "cron_jobs_with_required_intervention"
+msgstr "The following jobs may require an intervention."
+
+#, fuzzy
+msgid "cron_last_run"
+msgstr "Last Run"
+
+#, fuzzy
+msgid "cron_no_executable_job_selected"
+msgstr "Please select at least one executable cron-job."
+
+#, fuzzy
+msgid "cron_result"
+msgstr "Result"
+
+#, fuzzy
+msgid "cron_result_info"
+msgstr "Result Info"
+
+#, fuzzy
+msgid "cron_result_status_crashed"
+msgstr "Crashed"
+
+#, fuzzy
+msgid "cron_result_status_fail"
+msgstr "Failed"
+
+#, fuzzy
+msgid "cron_result_status_invalid_configuration"
+msgstr "Invalid Configuration"
+
+#, fuzzy
+msgid "cron_result_status_no_action"
+msgstr "Ok, no processing"
+
+#, fuzzy
+msgid "cron_result_status_ok"
+msgstr "Ok"
+
+#, fuzzy
+msgid "cron_result_status_reset"
+msgstr "Reset"
+
+#, fuzzy
+msgid "cron_running_since"
+msgstr "Running since"
+
+#, fuzzy
+msgid "cron_schedule"
+msgstr "Schedule"
+
+#, fuzzy
+msgid "cron_schedule_daily"
+msgstr "Daily"
+
+#, fuzzy
+msgid "cron_schedule_in_days"
+msgstr "Every %s days"
+
+#, fuzzy
+msgid "cron_schedule_in_hours"
+msgstr "Every %s hours"
+
+#, fuzzy
+msgid "cron_schedule_in_minutes"
+msgstr "Every %s minutes"
+
+#, fuzzy
+msgid "cron_schedule_monthly"
+msgstr "Monthly"
+
+#, fuzzy
+msgid "cron_schedule_quarterly"
+msgstr "Quarterly"
+
+#, fuzzy
+msgid "cron_schedule_type"
+msgstr "Schedule Type"
+
+#, fuzzy
+msgid "cron_schedule_value"
+msgstr "Interval"
+
+#, fuzzy
+msgid "cron_schedule_weekly"
+msgstr "Weekly"
+
+#, fuzzy
+msgid "cron_schedule_yearly"
+msgstr "Yearly"
+
+#, fuzzy
+msgid "cron_status"
+msgstr "Status"
+
+#, fuzzy
+msgid "cron_status_active"
+msgstr "Active"
+
+#, fuzzy
+msgid "cron_status_inactive"
+msgstr "Inactive"
+
+#, fuzzy
+msgid "cron_status_info"
+msgstr "Status Info"

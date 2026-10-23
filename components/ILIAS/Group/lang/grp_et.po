@@ -1,0 +1,593 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: et\n"
+"Language-Team: Estonian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: grp\n"
+
+msgid "crs_add_grouping"
+msgstr "Lisa liikmelisuse piirangud"
+
+msgid "crs_grouping_delete_sure"
+msgstr "Soovite kustutada liikmelisuse piirangud?"
+
+msgid "crs_grouping_deleted"
+msgstr "Liikmelisuse piirangud kustutatud."
+
+msgid "crs_grouping_select_one"
+msgstr "Valige üks liikmelisuse piirang."
+
+msgid "crs_grp_added_grouping"
+msgstr "Uus liikmelisuse piirang on lisatud."
+
+msgid "crs_grp_assign_crs"
+msgstr "Gruppide ülesanded"
+
+msgid "crs_grp_no_courses_assigned"
+msgstr "Gruppe pole määratud"
+
+msgid "events"
+msgstr "Sessions"
+
+msgid "grouping_change_assignment"
+msgstr "Muuda ülesannet"
+
+msgid "grp_activate_notification"
+msgstr "Aktiveeri teavitamine"
+
+#, fuzzy
+msgid "grp_activation_online_info"
+msgstr "Set the group online to make it visible and available for group members. If not, only group administrators and roles with permission \"Edit Settings\" have access to it."
+
+#, fuzzy
+msgid "grp_add_to_group"
+msgstr "Add to Group"
+
+#, fuzzy
+msgid "grp_add_user"
+msgstr "Add User"
+
+#, fuzzy
+msgid "grp_add_user_to_group"
+msgstr "Add user to group"
+
+msgid "grp_added_to_list"
+msgstr "You have been assigned to the waiting list of group \"%s\". You are assigned to position %s on the waiting list."
+
+msgid "grp_admins"
+msgstr "Administraatorid"
+
+#, fuzzy
+msgid "grp_admission_link_failure_invalid_code"
+msgstr "Can't register: Link is invalid."
+
+msgid "grp_admission_link_failure_membership_limited"
+msgstr "Can't registrate: Group membership is limited."
+
+msgid "grp_admission_link_failure_registration_period"
+msgstr "Can't registrate: Group is out of registration period."
+
+msgid "grp_admission_link_success_registration"
+msgstr "Successfully registrated to group \"%s\"."
+
+msgid "grp_agree"
+msgstr "Vastuvõtt"
+
+msgid "grp_agreement_header"
+msgstr "Kasutajatingimused"
+
+msgid "grp_agreement_required"
+msgstr "Grupiga ühinemiseks tuleb nõustuda kasutaja tingimustega."
+
+msgid "grp_already_assigned"
+msgstr "You have already requested membership for this group."
+
+#, fuzzy
+msgid "grp_at_least_one_admin"
+msgstr "There has to be at least one group administrator."
+
+#, fuzzy
+msgid "grp_auto_notification"
+msgstr "Welcome-Mail For New Members"
+
+#, fuzzy
+msgid "grp_auto_notification_info"
+msgstr "New members get a mail notification when added to the group."
+
+msgid "grp_cancel_subscr_request"
+msgstr "Kustuta liikmelisuse taotlus"
+
+#, fuzzy
+msgid "grp_cancellation_end"
+msgstr "Cancellation Limit"
+
+#, fuzzy
+msgid "grp_cancellation_end_info"
+msgstr "From this date on particiants cannot unsubscribe anymore."
+
+#, fuzzy
+msgid "grp_cancellation_end_rbac_info"
+msgstr "The cancellation deadline was met on %s, a cancellation is not possible anymore."
+
+msgid "grp_cdf_edit_member"
+msgstr "Edit Group Relevant User Data"
+
+msgid "grp_cdf_tbl_last_edit"
+msgstr "Last Update (Group-specific Data)"
+
+msgid "grp_change_type"
+msgstr "Muuda grupi tüüp"
+
+#, fuzzy
+msgid "grp_contact"
+msgstr "Contact"
+
+msgid "grp_copy"
+msgstr "Copy Group"
+
+#, fuzzy
+msgid "grp_create_and_add_user"
+msgstr "Create and Add User"
+
+#, fuzzy
+msgid "grp_create_new"
+msgstr "Create New Group"
+
+#, fuzzy
+msgid "grp_create_new_grp_in"
+msgstr "Create new group in '%1'."
+
+#, fuzzy
+msgid "grp_create_or_use_existing"
+msgstr "Do you want to add the user to an existing group or create a new group?"
+
+#, fuzzy
+msgid "grp_created_and_user_been_added"
+msgstr "Die Gruppe wurde erstellt und der Benutzer hinzugefügt."
+
+msgid "grp_custom_user_fields"
+msgstr "Grupi jaks olulised kasutaja andmed"
+
+#, fuzzy
+msgid "grp_custom_user_fields_infobox"
+msgstr "Create additional data fields for group members to fill in when they join. You can show this information as an additional column in the \"Members\" tab."
+
+#, fuzzy
+msgid "grp_custom_user_fields_table_title"
+msgstr "Relevant User Data of This Group"
+
+msgid "grp_deactivate_notification"
+msgstr "Deaktiveeri teavitus"
+
+msgid "grp_enable_map"
+msgstr "Võimalda grupi kaart"
+
+#, fuzzy
+msgid "grp_err_registration_limited"
+msgstr "please enter a valid start and end date for the registration"
+
+msgid "grp_general_informations"
+msgstr "Üldine informatsioon"
+
+msgid "grp_grp_info_reg"
+msgstr "You can only register to one of these groups:"
+
+#, fuzzy
+msgid "grp_grp_open"
+msgstr "Open Group"
+
+#, fuzzy
+msgid "grp_header_delete_members"
+msgstr "Would you like to remove the following members from this group?"
+
+msgid "grp_header_waiting_list"
+msgstr "Ootejärjekord"
+
+msgid "grp_icon_settings"
+msgstr "Grupi ikoon"
+
+msgid "grp_import"
+msgstr "Impordi grupp"
+
+msgid "grp_info_agree"
+msgstr "I accept, that the above data types are visible for group administrators."
+
+msgid "grp_info_agreement"
+msgstr "The following data types are visible for group administrators:"
+
+msgid "grp_info_new_grp_type"
+msgstr "Uus grupi tüüp"
+
+msgid "grp_info_settings"
+msgstr "Grupi info"
+
+msgid "grp_information"
+msgstr "Tähtis info"
+
+msgid "grp_information_info"
+msgstr "See info kuvatakse infolehel ja uute registreerumiste puhul."
+
+msgid "grp_join_request"
+msgstr "Saada"
+
+#, fuzzy
+msgid "grp_lim_assigned"
+msgstr "Already assigned to associated group \"%s\"."
+
+msgid "grp_mail_admission_new_bod"
+msgstr "meil on hea meel teatada, et olete registreeritud gruppi \"%s\"."
+
+msgid "grp_mail_admission_new_sub"
+msgstr "Sinu registreerimine gruppi \"%s\""
+
+msgid "grp_mail_all"
+msgstr "For all Participants"
+
+msgid "grp_mail_all_info"
+msgstr "Members and administrators can use the feature \"Mail to Members\" in the \"Members\" tab."
+
+msgid "grp_mail_dismiss_bod"
+msgstr "sinu liikmelisus grupis \"%s\" on lõpetatud."
+
+msgid "grp_mail_dismiss_sub"
+msgstr "Liikmelisus on grupis \"%s\" peatatud"
+
+msgid "grp_mail_notification_reg_bod"
+msgstr "%s on registreerunud gruppi \"%s\"."
+
+msgid "grp_mail_notification_reg_req_bod"
+msgstr "%s on taotlenud liikmelisust grupis \"%s\"."
+
+msgid "grp_mail_notification_reg_req_bod2"
+msgstr "Registreerimise kinnituseks mine:"
+
+msgid "grp_mail_notification_reg_req_sub"
+msgstr "Soov liituda grupiga \"%s\""
+
+msgid "grp_mail_notification_reg_sub"
+msgstr "Kasutaja registreerus gruppi \"%s\""
+
+msgid "grp_mail_notification_unsub_bod"
+msgstr "%s on tühistanud oma liikmelisuse grupis \"%s\"."
+
+msgid "grp_mail_notification_unsub_bod2"
+msgstr "There might be other members on a waiting list of your group.\\nYou should check for the waiting list now.\\nTo view the members of your group, click here:"
+
+msgid "grp_mail_notification_unsub_sub"
+msgstr "Kasutaja lahkus grupist \"%s\""
+
+msgid "grp_mail_permanent_link"
+msgstr "Klikka järgneval lingil, et näha kogu vajalikku infot, mis puudutab gruppi:"
+
+msgid "grp_mail_status_bod"
+msgstr "Teie staatus grupis \"%s\" on muudetud."
+
+msgid "grp_mail_status_sub"
+msgstr "Muudetud staatus grupis \"%s\""
+
+msgid "grp_mail_sub_acc_bod"
+msgstr "Anname teada teie kinnitamisest gruppi \"%s\"."
+
+msgid "grp_mail_sub_acc_sub"
+msgstr "Registreerimine kinnitatud \"%s\" jaoks"
+
+msgid "grp_mail_sub_dec_bod"
+msgstr "we regret to say that your registration has been refused for group \"%s\"."
+
+msgid "grp_mail_sub_dec_sub"
+msgstr "Registreerumisest keeldumine grupis \"%s\""
+
+msgid "grp_mail_subscribe_member_bod"
+msgstr "Anname teada teie kinnitamisest gruppi \"%s\"."
+
+msgid "grp_mail_subscribe_member_sub"
+msgstr "Sinu registreerimine gruppi \"%s\""
+
+msgid "grp_mail_tutors_only"
+msgstr "For Administrators only"
+
+msgid "grp_mail_tutors_only_info"
+msgstr "Only administrators can use the feature \"Mail to Members\" in the \"Members\" tab."
+
+msgid "grp_mail_type"
+msgstr "Mail to Members"
+
+msgid "grp_mail_unsubscribe_member_bod"
+msgstr "we confirm your cancellation of membership in group %s.\\nWe hope that you find an opportunity to participate in another group."
+
+msgid "grp_mail_unsubscribe_member_sub"
+msgstr "Teie liikmelisuse tühistamine grupis \"%s\""
+
+msgid "grp_mail_wl_bod"
+msgstr "you have been assigned to the waiting list of group \"%s\".\\nYou are assigned to position %s on the list.\\n\\nYou will receive a message from a group administrator when your request has been approved or rejected."
+
+msgid "grp_mail_wl_sub"
+msgstr "Sinu registreerimine gruppi \"%s\"."
+
+msgid "grp_map_location"
+msgstr "Võimalda grupi kaart"
+
+msgid "grp_map_settings"
+msgstr "Kaardi seaded"
+
+#, fuzzy
+msgid "grp_max_and_min_members_invalid"
+msgstr "The minimum number must be smaller than the maximum number of members."
+
+#, fuzzy
+msgid "grp_mem_contacts"
+msgstr "Tutorial Support"
+
+#, fuzzy
+msgid "grp_mem_tbl_header"
+msgstr "Group Participants"
+
+#, fuzzy
+msgid "grp_member_administration"
+msgstr "Edit Participants"
+
+msgid "grp_members"
+msgstr "Liikmed"
+
+#, fuzzy
+msgid "grp_members_deleted"
+msgstr "Deleted members"
+
+msgid "grp_members_map"
+msgstr "Grupiliikmete kaart"
+
+msgid "grp_members_print_title"
+msgstr "Group Members"
+
+#, fuzzy
+msgid "grp_min_one_admin"
+msgstr "There has to be at least one administrator assigned to this group."
+
+msgid "grp_missing_grp_type"
+msgstr "Palun valige grupi tüüp."
+
+msgid "grp_missing_password"
+msgstr "Palun sisesta grupi salasõna."
+
+msgid "grp_new_status"
+msgstr "Uus staatus on:"
+
+#, fuzzy
+msgid "grp_next"
+msgstr "Next"
+
+#, fuzzy
+msgid "grp_no_perm_to_add_create_first"
+msgstr "You need to create a group first. Please select where to create a new group."
+
+msgid "grp_notification"
+msgstr "Teadaanne"
+
+msgid "grp_notification_activated"
+msgstr "Märguanne aktiveeritud"
+
+msgid "grp_notification_deactivated"
+msgstr "Märguanne deaktiveeritud"
+
+msgid "grp_notification_explanation_admin"
+msgstr "Said selle e-kirja, kuna oled administraator grupis, millel on võimaldatud märguanded."
+
+msgid "grp_notification_salutation"
+msgstr "Austatud grupi liige,"
+
+msgid "grp_notify_off"
+msgstr "Uute registreerimiste teavitus blokeeritud"
+
+msgid "grp_notify_on"
+msgstr "Teade uute registreerunute kohta on võimaldatud"
+
+msgid "grp_pass_request"
+msgstr "Liitu grupi salasõnaga"
+
+#, fuzzy
+msgid "grp_period"
+msgstr "Period of Event"
+
+#, fuzzy
+msgid "grp_period_info"
+msgstr "Information about the start and end date of the event, which is supported by the group"
+
+msgid "grp_presentation_type"
+msgstr "Esitluse tüüp"
+
+msgid "grp_print_list"
+msgstr "Generate List"
+
+msgid "grp_public"
+msgstr "Avalik grupp"
+
+msgid "grp_public_info"
+msgstr "Grupp on nähtav kõigile, kuid liitumiseks on oma nõuded."
+
+msgid "grp_reg_code"
+msgstr "Registreerimise kood"
+
+msgid "grp_reg_code_enabled_info"
+msgstr "Kui võimaldatud, saab kasutada automaatset registreerumist kindla registreerumislingi abil."
+
+msgid "grp_reg_code_link"
+msgstr "Registreerimise link"
+
+msgid "grp_reg_deac_info_screen"
+msgstr "Grupi sissepääs on suletud."
+
+msgid "grp_reg_direct"
+msgstr "Otseregistreerumine"
+
+msgid "grp_reg_direct_info_screen"
+msgstr "Saad liituda selle grupiga otse."
+
+msgid "grp_reg_disabled"
+msgstr "Registreerumine pole võimalik"
+
+msgid "grp_reg_disabled_info"
+msgstr "Ainult grupi administraatorid saavad gruppi kasutajaid lisada."
+
+msgid "grp_reg_limited"
+msgstr "Iseregistreerumine"
+
+msgid "grp_reg_max_members_info"
+msgstr "Määra kasutajate maksimaalne arv, mis selle grupiga liituda saab."
+
+msgid "grp_reg_no_selfreg"
+msgstr "No self-enrolment"
+
+msgid "grp_reg_passwd_info_screen"
+msgstr "Kui grupi administraator on andnud sulle grupi salasõna, saad grupiga liituda."
+
+msgid "grp_reg_password_info"
+msgstr "Liitumiseks peavad kasutajad sisestama korrektse salasõna."
+
+msgid "grp_reg_req_info_screen"
+msgstr "Sul on võimalus selles grupis liikmelisust taotleda. Grupi administraator saadab sulle sõnumi sinu taotluse heakskiitmise või tagasilükkamise kohta."
+
+msgid "grp_reg_request"
+msgstr "Liikmelisuse taotlemine"
+
+msgid "grp_reg_request_info"
+msgstr "Huvitatud kasutajad saavad grupi administraatorile saata taotluse/sõnumi."
+
+msgid "grp_reg_subject"
+msgstr "Sõnum"
+
+msgid "grp_registration_unlimited"
+msgstr "Piiramata"
+
+msgid "grp_role_status"
+msgstr "Roll/Olek"
+
+msgid "grp_search_users"
+msgstr "Otsi kasutajat"
+
+msgid "grp_set_on_waiting_list"
+msgstr "Saate lisada oma taotluse ootejärjekorda. Saate administraatorilt teate kui taotlus kinnitatakse või lükatakse tagasi."
+
+msgid "grp_setting_header_presentation"
+msgstr "Grupi tutvustus"
+
+msgid "grp_setting_header_registration"
+msgstr "Grupi registreerimine"
+
+msgid "grp_settings"
+msgstr "Grupi seaded"
+
+#, fuzzy
+msgid "grp_show_members"
+msgstr "Show Members"
+
+#, fuzzy
+msgid "grp_show_members_info"
+msgstr "If activated, group members can access the members gallery."
+
+#, fuzzy
+msgid "grp_subscription_min_members_info"
+msgstr "Define the number of users that is minimally required for this group to be held at all. If this number is not met either after the date until which users can register or unsubscribe from the group a mail will be send to those group administrators or tutors that have activated the 'Notification' flag in the 'Members'-tab."
+
+#, fuzzy
+msgid "grp_sure_add_user_to_group"
+msgstr "Do you really want to add this user to the group?"
+
+#, fuzzy
+msgid "grp_sure_create_group_add_user"
+msgstr "Do you really want to create the group and add the user?"
+
+msgid "grp_typ"
+msgstr "Grupi tüüp"
+
+msgid "grp_unsubscribe"
+msgstr "Tühista tellimus"
+
+msgid "grp_update_subscr_request"
+msgstr "Uuenda liikmelisuse taotlust"
+
+#, fuzzy
+msgid "grp_use_existing"
+msgstr "Use Existing Group"
+
+msgid "grp_user_agreement"
+msgstr "Väljastatud andmetüübid"
+
+msgid "grp_user_agreement_info"
+msgstr "Grupi halduritele nähtavad kasutaja andmed"
+
+#, fuzzy
+msgid "grp_user_already_in_group"
+msgstr "The selected user is already member of the group."
+
+#, fuzzy
+msgid "grp_user_been_added"
+msgstr "The user has been added to the group."
+
+msgid "grp_users_already_assigned"
+msgstr "Kasutaja on selle grupiga juba liidetud."
+
+#, fuzzy
+msgid "grp_usr_agreement"
+msgstr "User Agreement"
+
+msgid "grp_view_info_by_type"
+msgstr "Sisu grupeeritakse tüüpide järgi."
+
+msgid "grp_view_info_simple"
+msgstr "Sisu esitatakse ühes plokis."
+
+msgid "grp_view_inherit"
+msgstr "Standard"
+
+msgid "grp_view_inherit_info"
+msgstr "Grupi sisu esitus sõltub kursuse sisu esitusest."
+
+msgid "grp_waiting_list"
+msgstr "Võimalda ootejärjekord"
+
+#, fuzzy
+msgid "grp_waiting_list_autofill"
+msgstr "With Auto-Fill"
+
+#, fuzzy
+msgid "grp_waiting_list_autofill_info"
+msgstr "Participants are recruited from the waiting list automatically on cancellations."
+
+msgid "grp_waiting_list_info"
+msgstr "Kui on võimaldatud ja kasutajate maksimaalne arv on saavutatud, lisatakse uued registreerumised ootejärjekorda."
+
+#, fuzzy
+msgid "grp_waiting_list_no_autofill"
+msgstr "Without Auto-Fill"
+
+msgid "grp_warn_grp_type_changed"
+msgstr "Kas oled kindel, et soovid muuta grupi tüüpi? Kõik õiguste seaded nullitakse."
+
+msgid "grp_warn_no_max_set_on_waiting_list"
+msgstr "The maximum number of group members is exceeded. You can add your join request to the waiting list. You will receive a message from a group administrator when your request has been approved or rejected."
+
+msgid "grp_warn_wl_set_on_waiting_list"
+msgstr "Mõned kasutajad on juba ennast ootejärjekorda lisanud. Võid järjekorda ka ennast lisada. Grupi administraator saadab sõnumi, kui sinu soov on heakskiidetud või tagasi lükatud."
+
+msgid "grp_wrong_max_members"
+msgstr "Palun märgista kasutajate maksimumarv."
+
+#, fuzzy
+msgid "grp_wrong_min_max_members"
+msgstr "Please check the minimum and maximum number of users."
+
+msgid "grp_wrong_reg_time_limit"
+msgstr "Kontrollige registreerimise alguse ja lõpu aeg."
+
+msgid "reg_grp_max_members"
+msgstr "Kasutajate maksimaalne arv"
+
+msgid "reg_grp_max_members_short"
+msgstr "Liikmete arv"
+
+#, fuzzy
+msgid "reg_grp_min_members"
+msgstr "Minimum Number of Members"

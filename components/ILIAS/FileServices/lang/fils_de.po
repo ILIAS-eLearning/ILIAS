@@ -1,0 +1,105 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: fils\n"
+
+msgid "add_upload_policy"
+msgstr "Richtlinie hinzufügen"
+
+msgid "edit_upload_policy"
+msgstr "Richtlinie bearbeiten"
+
+msgid "file_services"
+msgstr "Datei-Services"
+
+msgid "file_services_description"
+msgstr "Konfiguration der Datei-Service Einstellungen."
+
+msgid "file_suffix_custom_expl_negative"
+msgstr "Verbotene Dateiendungen"
+
+msgid "file_suffix_custom_expl_negative_info"
+msgstr "Dateien mit diesen Endungen werden beim Upload nicht akzeptiert."
+
+msgid "file_suffix_custom_negative"
+msgstr "Dateiendungen: Negativliste (Anpassungen)"
+
+msgid "file_suffix_custom_negative_info"
+msgstr "Diese Dateiendungen werden aus der obigen Positivliste entfernt."
+
+msgid "file_suffix_custom_positive"
+msgstr "Dateiendungen: Positivliste (Anpassungen)"
+
+msgid "file_suffix_custom_positive_info"
+msgstr "Diese Dateiendungen werden der obigen Positivliste hinzugefügt."
+
+msgid "file_suffix_default_positive"
+msgstr "Dateiendungen: Positivliste (Ausgangsliste)"
+
+msgid "file_suffix_default_positive_info"
+msgstr "Voreingestellte Ausgangsliste für akzeptierte Dateiendungen."
+
+msgid "file_suffix_overall_positive"
+msgstr "Effektive Positivliste"
+
+msgid "file_suffix_overall_positive_info"
+msgstr "Dies ist die endgültige Liste akzeptierter Dateiendungen."
+
+msgid "policy_audience"
+msgstr "Zielgruppe"
+
+msgid "policy_audience_all_users_option_desc"
+msgstr "Richtlinie für alle Benutzer:innen anwenden."
+
+msgid "policy_audience_global_roles_option_desc"
+msgstr "Richtlinie für Benutzer:innen, welche bestimmte globale Rollen innehaben, anwenden."
+
+msgid "policy_confirm_deletion"
+msgstr "Wollen Sie die Richtlinie mit den nachfolgenden Eigenschaften wirklich löschen?:"
+
+msgid "policy_deletion_failure_not_found"
+msgstr "Fehler: Die Richtlinie konnte nicht gelöscht werden, da sie nicht gefunden wurde."
+
+msgid "policy_deletion_successful"
+msgstr "Löschung der Richtlinie war erfolgreich."
+
+msgid "policy_filter"
+msgstr "Richtlinien-Filter"
+
+msgid "policy_no_validity_limitation_set"
+msgstr "Unbefristet gültig"
+
+msgid "policy_scope"
+msgstr "Anwendungsbereich"
+
+msgid "policy_table_info_no_policies"
+msgstr "Es wurden noch keine Upload-Richtlinien angelegt."
+
+msgid "policy_title_desc"
+msgstr "Beschreibender Titel für die Richtlinie."
+
+msgid "policy_upload_limit"
+msgstr "Upload Limite"
+
+msgid "policy_upload_limit_desc"
+msgstr "Upload Limite welche durch diese Richtlinie gesetzt wird in MB."
+
+msgid "policy_valid_until"
+msgstr "Gültig bis"
+
+msgid "policy_valid_until_desc"
+msgstr "Legen Sie ein optionales \"Gültig bis\"-Datum fest, nach welchem die Richtlinie abläuft."
+
+msgid "policy_validity"
+msgstr "Gültigkeit"
+
+msgid "upload_limits"
+msgstr "Upload Limits"
+
+msgid "upload_policies"
+msgstr "Upload Richtlinien"

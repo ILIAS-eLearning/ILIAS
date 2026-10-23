@@ -1,0 +1,118 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pl\n"
+"Language-Team: Polish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: cntr\n"
+
+msgid "cntr_add_new_item"
+msgstr "Dodaj nowy obiekt"
+
+msgid "cntr_adopt_content"
+msgstr "Przejmij treści"
+
+msgid "cntr_container_only_on_their_own"
+msgstr "Kategorie, kursy, grupy i foldery można kopiować tylko pojedynczo. Wybierz tylko taki obiekt."
+
+msgid "cntr_copy_crs_grp"
+msgstr "Wybór członkostwa"
+
+msgid "cntr_copy_repo_tree"
+msgstr "Wybór drzewa dostępnych zasobów"
+
+msgid "cntr_hide_title_and_icon"
+msgstr "Ukryj tytuł i ikonę"
+
+msgid "cntr_manage"
+msgstr "Zarządzaj"
+
+msgid "cntr_ordering"
+msgstr "Sortowanie"
+
+msgid "cntr_saved_sorting"
+msgstr "Zapisz sortowanie"
+
+msgid "cntr_switch_to_new_editor_cmd"
+msgstr "Przejdź do poniższych treści. Poprzednie treści zostały usunięte."
+
+msgid "cntr_switch_to_new_editor_message"
+msgstr "To jest domyślny edytor stron. Jeśli chcesz z niego korzystać, musisz dodać treści kliknięciem na pola do wypełnienia znajdujące się na dole. Jeśli klikniesz w poniższy link, poniższe treści zostaną dodane na stronę."
+
+msgid "cntr_switched_editor"
+msgstr "Przejście na nowy wygląd"
+
+msgid "cntr_tax_none_available"
+msgstr "Brak dostępnych klasyfikacji."
+
+#, fuzzy
+msgid "cntr_tax_settings_info"
+msgstr "Taxonomies in categories classify and filter the objects contained in the category. After adding taxonomies, classifications can be made via the \"Metadata\" tabs and the \"Taxonomy Assignment\" sub-tabs of the respective objects. Taxonomies can additionally be displayed in the side block of the category's \"Contents\" tab to enable direct filtering of the assigned objects."
+
+msgid "cntr_taxonomy_definitions"
+msgstr "Definicja klasyfikacji"
+
+msgid "cntr_taxonomy_show_sideblock"
+msgstr "Pokaż klasyfikację w sekcji strony"
+
+msgid "cntr_taxonomy_sideblock_settings"
+msgstr "Ustawienia prezentacji"
+
+msgid "cntr_text_media_editor"
+msgstr "Projektuj stronę"
+
+msgid "cntr_view_by_type"
+msgstr "Grupowane wg typów"
+
+msgid "cntr_view_info_by_type"
+msgstr "Wszystkie obiekty jednego typu przedstawiane są w jednej liście."
+
+msgid "cntr_view_info_sessions"
+msgstr "Sesje pokazywane są w jednej liście. Obiekty, które nie zostały przyporządkowane do żadnych sesji, zostały przedstawione w liście poniżej."
+
+msgid "cntr_view_info_simple"
+msgstr "Wszystkie obiekty przedstawiane są tylko w jednej liście."
+
+msgid "cntr_view_sessions"
+msgstr "Widok sesji"
+
+msgid "cntr_view_simple"
+msgstr "Prosta lista"
+
+msgid "container_import_zip_file_invalid"
+msgstr "Załadowany plik nie jest ważnym plikiem eksportowym ILIAS. Aby załadować struktury indeksu, należy użyć obiektu pliku."
+
+msgid "edit_questions"
+msgstr "Edytuj pytania"
+
+msgid "exc_next_deadline_single"
+msgstr "Termin oddania"
+
+msgid "msg_no_downloadable_objects"
+msgstr "No downloadable objects found."
+
+msgid "objects_duplicated"
+msgstr "Skopiowano obiekty."
+
+msgid "prtf_create_portfolio_from_template"
+msgstr "Utwórz portfolio z szablonu"
+
+msgid "sorting_new_items_at_bottom"
+msgstr "Dół"
+
+msgid "sorting_new_items_at_top"
+msgstr "Góra"
+
+msgid "sorting_new_items_direction"
+msgstr "Kierunek sortowania nowych obiektów"
+
+msgid "sorting_new_items_order"
+msgstr "Kolejność nowych obiektów"
+
+msgid "sorting_new_items_position"
+msgstr "Pozycja nowych obiektów"
+
+msgid "tab_back_to_repository"
+msgstr "Wróć do dostępnych zasobów"

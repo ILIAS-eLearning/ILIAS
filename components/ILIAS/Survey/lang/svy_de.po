@@ -1,0 +1,129 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: svy\n"
+
+msgid "survey_360_appraisees_remind_info"
+msgstr "Wenn die Selbsteinschätzung aktiviert wurde, werden alle Feedback-Nehmer, welche die Umfrage noch nicht abgeschlossen haben, benachrichtigt."
+
+msgid "survey_360_raters_remind_info"
+msgstr "Feedback-Geber, welche die Umfrage noch nicht abgeschlossen haben, erhalten eine Benachrichtigung."
+
+msgid "svy_0_open_appraisees"
+msgstr "Sie können die Umfrage für keinen Feedback-Nehmer mehr durchführen."
+
+msgid "svy_all_pages"
+msgstr "Alle Seiten"
+
+msgid "svy_all_participants"
+msgstr "Alle Befragte"
+
+msgid "svy_all_questions"
+msgstr "Alle Fragen"
+
+msgid "svy_code"
+msgstr "Zugangscode"
+
+msgid "svy_codes"
+msgstr "Zugangscodes"
+
+msgid "svy_current_page"
+msgstr "Aktuelle Seite"
+
+msgid "svy_finish_survey"
+msgstr "An Umfrage \"%1\" teilnehmen"
+
+msgid "svy_finished_x_appraisees"
+msgstr "Sie haben Bewertungen bereits für %s Feedback-Nehmer abgegeben."
+
+msgid "svy_info_participants"
+msgstr "Fügen Sie Personen über eine der folgenden Suchoptionen zu dieser Umfrage hinzu. Die Umfrage wird diesen Personen als Aufgabe auf ihrem Dashboard angezeigt."
+
+msgid "svy_information"
+msgstr "Information"
+
+msgid "svy_invite_participants"
+msgstr "Personen hinzufügen"
+
+msgid "svy_link_to_svy"
+msgstr "Link zur Umfrage"
+
+msgid "svy_part_overview"
+msgstr "Übersicht"
+
+msgid "svy_placeholders_label"
+msgstr "Verfügbare Platzhalter"
+
+msgid "svy_print_selection"
+msgstr "Inhalt der Druckansicht auswählen"
+
+msgid "svy_remove_all_participants"
+msgstr "Alle Datensätze löschen"
+
+msgid "svy_remove_participants"
+msgstr "Daten entfernen"
+
+msgid "svy_selected_participants"
+msgstr "Ausgewählte Befragte"
+
+msgid "svy_selected_questions"
+msgstr "Ausgewählte Fragen"
+
+msgid "svy_selection"
+msgstr "Auswahl"
+
+msgid "svy_status"
+msgstr "Status"
+
+msgid "svy_status_finished"
+msgstr "Beendet"
+
+msgid "svy_status_in_progress"
+msgstr "In Bearbeitung"
+
+msgid "svy_status_invited"
+msgstr "Als To-Do eingetragen"
+
+msgid "svy_user_added_appraisee"
+msgstr "Umfrage „%1“"
+
+msgid "svy_user_added_appraisee_close_mail"
+msgstr "Die Umfrage wurde für Ihre Feedback-Geber geschlossen."
+
+msgid "svy_user_added_appraisee_mail"
+msgstr "Sie wurden der Umfrage als Feedback-Nehmer hinzugefügt."
+
+msgid "svy_user_added_rater"
+msgstr "Umfrage „%1“"
+
+msgid "svy_user_added_rater_mail"
+msgstr "Sie wurden als Feedback-Geber hinzugefügt."
+
+msgid "svy_user_added_rater_reminder_mail"
+msgstr "Bitte vergessen Sie nicht, die folgenden Feedback-Nehmer zu bewerten:"
+
+msgid "svy_user_not_found"
+msgstr "Anmeldename nicht gefunden."
+
+msgid "svy_users_invited"
+msgstr "Die Umfrage wurde den ausgewählten Personen als „To-Do“ im Dashboard hinzugefügt."
+
+msgid "svy_x_appraisees_closed_for_raters"
+msgstr "%s der Feedback-Nehmer haben die Umfrage für Feedback-Geber geschlossen."
+
+msgid "svy_x_open_appraisees"
+msgstr "Es warten noch %s der Feedback-Nehmer auf Ihre Bewertung"
+
+msgid "svy_your_appraisees"
+msgstr "Ihre Feedback-Nehmer"
+
+msgid "svy_your_raters"
+msgstr "Ihre Feedback-Geber"
+
+msgid "svy_your_raters_finished"
+msgstr "%s Ihrer Feedback-Geber haben die Umfrage beendet."

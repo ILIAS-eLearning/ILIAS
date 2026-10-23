@@ -1,0 +1,370 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: orgu\n"
+
+msgid "Staff"
+msgstr "Pessoal"
+
+msgid "add_position"
+msgstr "Adicionar posição"
+
+msgid "authorities"
+msgstr "Autoridades"
+
+msgid "authority"
+msgstr "Autoridade"
+
+msgid "backto_staff"
+msgstr "Voltar ao pessoal"
+
+msgid "change_to_employee"
+msgstr "Mudar para funcionário"
+
+msgid "change_to_superior"
+msgstr "Mudar para superior hierárquico"
+
+msgid "confirm_deletion_and_assign"
+msgstr "Apagar e atribuir utilizadores"
+
+msgid "confirm_deletion_button"
+msgstr "Apagar"
+
+msgid "deassign_user_successful"
+msgstr "Título do nível de competência"
+
+msgid "edit_translations"
+msgstr "Título e descrição"
+
+msgid "employee"
+msgstr "Funcionário"
+
+msgid "ext_id"
+msgstr "ID externo"
+
+msgid "ext_id_updated"
+msgstr "I ID externo foi atualizado com sucesso."
+
+msgid "form_title_org_default_permissions_update"
+msgstr "Permissões predefinidas"
+
+msgid "import_failed"
+msgstr "Título de competência"
+
+msgid "import_successful"
+msgstr "A importação terminou com sucesso. Criado: %s, editado/movido: %s, apagado: %s."
+
+msgid "import_terminated_with_errors"
+msgstr "Título do acionador de competência"
+
+msgid "import_terminated_with_warnings"
+msgstr "A importação terminou com avisos"
+
+msgid "import_xml_file"
+msgstr "Tem a certeza que quer remover os seguintes recursos do nível de competência?"
+
+msgid "local_other_roles"
+msgstr "Criar categoria de competências"
+
+msgid "local_staff"
+msgstr "Funcionários %s"
+
+msgid "msg_assignment_to_employee_done"
+msgstr "Foi realizada a atribuição ao cargo do colaborador"
+
+msgid "msg_confirm_d_ua"
+msgstr "Quer atribuir essas pessoas ao cargo Funcionário das suas respetivas unidades organizacionais?"
+
+msgid "msg_confirm_deletion"
+msgstr "Criar modelo de competência"
+
+msgid "msg_confirm_remove_user"
+msgstr "Quer remover os seguintes utilizadores do cargo %s?"
+
+msgid "msg_deleted"
+msgstr "Apagado"
+
+msgid "msg_position_created"
+msgstr "Cargo criado."
+
+#, fuzzy
+msgid "msg_position_delete_fail"
+msgstr "Position wurde nicht gefunden."
+
+msgid "msg_position_updated"
+msgstr "Cargo atualizado."
+
+msgid "msg_success_permission_saved"
+msgstr "Autorizações guardadas."
+
+msgid "no_assignment"
+msgstr "Verifique o seu ficheiro XML. Não há atribuição de utilizador."
+
+msgid "no_orgunit"
+msgstr "Verifique o seu ficheiro XML. Não há unidade organizacional."
+
+msgid "no_roles"
+msgstr "Neste momento, não há funções adicionais."
+
+msgid "not_movable_to_subtree"
+msgstr "Uma unidade organizacional não pode ser movida para a sua própria subárvore. Isso iria criar um ciclo."
+
+msgid "org_op_access_enrolments"
+msgstr "Ver inscrições"
+
+msgid "org_op_access_results"
+msgstr "Criar competência"
+
+#, fuzzy
+msgid "org_op_create_employee_talk"
+msgstr "Create talk appointments / edit talk appointments that you have created yourself"
+
+#, fuzzy
+msgid "org_op_edit_employee_talk"
+msgstr "Edit Talk appointments"
+
+#, fuzzy
+msgid "org_op_edit_individual_plan"
+msgstr "Edit Individual Plan"
+
+msgid "org_op_edit_submissions_grades"
+msgstr "Editar submissões de outros utilizadores"
+
+msgid "org_op_manage_members"
+msgstr "Gerir membros"
+
+#, fuzzy
+msgid "org_op_read_employee_talk"
+msgstr "Read access talk appointments"
+
+msgid "org_op_read_learning_progress"
+msgstr "Ver progresso de aprendizagem dos outros utilizadores"
+
+#, fuzzy
+msgid "org_op_view_certificates"
+msgstr "View certificates of other users"
+
+#, fuzzy
+msgid "org_op_view_competences"
+msgstr "View competences of other users"
+
+#, fuzzy
+msgid "org_op_view_individual_plan"
+msgstr "View Individual Plan"
+
+#, fuzzy
+msgid "org_op_view_members"
+msgstr "View Members"
+
+msgid "org_op_write_learning_progress"
+msgstr "Definir progresso de aprendizagem dos outros utilizadores"
+
+msgid "org_unit_not_found"
+msgstr "Unidade organizacional não encontrada."
+
+msgid "orgu_add"
+msgstr "Adicionar unidade organizacional"
+
+msgid "orgu_adv_settings"
+msgstr "Definições avançadas"
+
+msgid "orgu_already_deleted"
+msgstr "O objeto já foi apagado."
+
+msgid "orgu_enable_my_staff"
+msgstr "Ativar vista ‘Pessoal’"
+
+msgid "orgu_enable_my_staff_info"
+msgstr "A vista ‘Pessoal’ mostra o progresso de aprendizagem dos próprios funcionários."
+
+msgid "orgu_global_set_form"
+msgstr "Definições globais da unidade organizacional"
+
+msgid "orgu_global_set_positions"
+msgstr "Mostrar dados do utilizador de acordo com os cargos da unidade organizacional"
+
+msgid "orgu_global_set_positions_type_active"
+msgstr "Criar referência de modelo de competências"
+
+msgid "orgu_global_set_type_changeable"
+msgstr "Alterável"
+
+msgid "orgu_global_set_type_changeable_no"
+msgstr "Definição não é alterável"
+
+msgid "orgu_global_set_type_changeable_object"
+msgstr "Definição é alterável ao nível do objeto"
+
+msgid "orgu_global_set_type_default"
+msgstr "Definição padrão"
+
+msgid "orgu_global_set_type_default_info"
+msgstr "Define o padrão para objetos não configurados"
+
+msgid "orgu_import"
+msgstr "Importar unidade organizacional"
+
+msgid "orgu_new"
+msgstr "Nova unidade organizacional"
+
+msgid "orgu_orgu_type"
+msgstr "Tipo de unidade organizacional"
+
+msgid "orgu_settings"
+msgstr "Definições da unidade organizacional"
+
+msgid "orgu_staff"
+msgstr "Pessoal"
+
+msgid "orgu_staff_deassign"
+msgstr "Tem a certeza que quer cancelar a atribuição destes utilizadores a esta função?"
+
+msgid "orgu_type"
+msgstr "Tipo de unidade organizacional"
+
+msgid "orgu_type_add"
+msgstr "Adicionar tipo de unidade organizacional"
+
+msgid "orgu_type_assign_amd_sets"
+msgstr "Atribuir conjuntos de metadados avançadas"
+
+msgid "orgu_type_available_amd_sets"
+msgstr "Conjuntos de metadados avançados disponíveis"
+
+msgid "orgu_type_custom_icon"
+msgstr "Ícone personalizado para este tipo de unidade organizacional"
+
+msgid "orgu_type_custom_icon_info"
+msgstr "Todas as unidades organizacionais atribuídas com este tipo usam o ícone na árvore e cabeçalho."
+
+msgid "orgu_type_edit"
+msgstr "Editar tipo de unidade organizacional"
+
+msgid "orgu_type_msg_assign_amd_prevented"
+msgstr "Atribuição de AMDRecord evitada por plugins: %s"
+
+msgid "orgu_type_msg_deassign_amd_prevented"
+msgstr "Remoção da atribuição de AMDRecord evitada por plugins: %s"
+
+msgid "orgu_type_msg_deleted"
+msgstr "Tipo de unidade organizacional apagado"
+
+msgid "orgu_type_msg_deletion_prevented"
+msgstr "Eliminação do objeto evitada por plugins: %s"
+
+msgid "orgu_type_msg_error_custom_icon"
+msgstr "Não conseguiu guardar o ícone personalizado"
+
+msgid "orgu_type_msg_missing_title"
+msgstr "Deve ser definido um título para o idioma predefinido"
+
+msgid "orgu_type_msg_missing_title_default_language"
+msgstr "Deve ser definido um idioma padrão e um título para o idioma predefinido"
+
+msgid "orgu_type_msg_setting_default_lang_prevented"
+msgstr "Definição '%s' como idioma padrão evitada por plugins: %s"
+
+msgid "orgu_type_msg_setting_member_prevented"
+msgstr "Definição '%s' evitada por plugins: %s"
+
+msgid "orgu_type_msg_unable_delete"
+msgstr "Incapaz de apagar tipo porque continua atribuído às seguintes unidades organizacionais: %s"
+
+msgid "orgu_type_msg_updating_prevented"
+msgstr "Atualização do objeto evitada por plugins: %s"
+
+msgid "orgu_types"
+msgstr "Tipos"
+
+msgid "orgunit_position_permissions_not_active_for"
+msgstr "Criar categoria de modelo de competências"
+
+msgid "ou_external_id_exists"
+msgstr "Editar referência de modelo de competências"
+
+msgid "ou_id_not_valid"
+msgstr "ID de importação não encontrado."
+
+msgid "ou_more_than_one_match_found"
+msgstr "Ativar gestão de competências"
+
+msgid "ou_parent_id_not_valid"
+msgstr "Inserir competências básicas da área de transferência"
+
+msgid "over"
+msgstr "Sobre"
+
+msgid "over_-1"
+msgstr "Qualquer um"
+
+msgid "placeholder"
+msgstr "..."
+
+msgid "positions"
+msgstr "Posições"
+
+msgid "rec_staff"
+msgstr "Inserir categorias de competências da área de transferência"
+
+msgid "remove_successful"
+msgstr "O utilizador foi removido com sucesso."
+
+msgid "remove_user"
+msgstr "Remover"
+
+msgid "scope"
+msgstr "Em"
+
+msgid "scope_1"
+msgstr "A mesma unidade organizacional"
+
+msgid "scope_2"
+msgstr "Subsequentes unidades organizacionais"
+
+msgid "scope_3"
+msgstr "Todas as unidades organizacionais"
+
+msgid "show_learning_progress"
+msgstr "Mostrar progresso de aprendizagem"
+
+msgid "simple_import"
+msgstr "Importação de XML simples"
+
+msgid "simple_user_import"
+msgstr "Atribuição de utilizador XML"
+
+msgid "simple_xls"
+msgstr "Exportação de Excel simples"
+
+msgid "simple_xml"
+msgstr "Exportação de XML simples"
+
+msgid "superior"
+msgstr "Superior"
+
+msgid "user_assignments"
+msgstr "Atribuição de utilizadores"
+
+#, fuzzy
+msgid "user_assignments_recursive"
+msgstr "User Assignments Subtree"
+
+msgid "user_changed_successful"
+msgstr "O utilizador foi alterado com sucesso."
+
+msgid "user_import_successful"
+msgstr "A importação terminou com sucesso. Atribuído: %s, Removido: %s."
+
+msgid "users_successfuly_added"
+msgstr "O utilizador foi adicionado com sucesso."
+
+msgid "view_learning_progress"
+msgstr "Ver progresso de aprendizagem"
+
+msgid "view_learning_progress_rec"
+msgstr "Inserir modelo de competências da área de transferência"

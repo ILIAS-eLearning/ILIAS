@@ -1,0 +1,96 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fr\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: rating\n"
+
+msgid "rat_not_rated_yet"
+msgstr "Pas Encore Noté"
+
+msgid "rat_nr_ratings"
+msgstr "%s Notations"
+
+msgid "rat_one_rating"
+msgstr "Une Notation"
+
+msgid "rating_activate_rating"
+msgstr "Autoriser la Notation"
+
+msgid "rating_activate_rating_info"
+msgstr "Lorsque activé, les utilisateurs peuvent noter cet objet"
+
+msgid "rating_add_category"
+msgstr "Ajouter Catégorie"
+
+msgid "rating_avg_rating"
+msgstr "Average Rating"
+
+msgid "rating_categories"
+msgstr "Catégories de Notation"
+
+msgid "rating_category_add"
+msgstr "Ajouter"
+
+msgid "rating_category_create"
+msgstr "Créer Categorie"
+
+msgid "rating_category_created"
+msgstr "Catégorie créée."
+
+msgid "rating_category_delete_sure"
+msgstr "Etes-vous sûr de vouloir supprimer la catégorie de notation suivante ? Toutes les notations correspondantes seront perdues."
+
+msgid "rating_category_deleted"
+msgstr "Catégorie supprimée."
+
+msgid "rating_category_edit"
+msgstr "Edite Categorie"
+
+msgid "rating_category_update"
+msgstr "Enregistrer"
+
+msgid "rating_category_updated"
+msgstr "Catégorie enregistrée."
+
+msgid "rating_export_category"
+msgstr "Categorie"
+
+msgid "rating_export_date"
+msgstr "Date"
+
+msgid "rating_export_rating"
+msgstr "Notation"
+
+msgid "rating_new_objects_auto"
+msgstr "Autoriser la Notation pour les Nouveaux Objets"
+
+msgid "rating_new_objects_auto_info"
+msgstr "Lorsque activé, les nouveaux fichiers, modules et Wikis peuvent être notés."
+
+msgid "rating_number_votes"
+msgstr "%s Notations"
+
+msgid "rating_open_dialog"
+msgstr "Open rating dialog"
+
+msgid "rating_overlay_submit"
+msgstr "Soumettre Notation"
+
+msgid "rating_personal_rating"
+msgstr "Your Rating"
+
+msgid "rating_rate_x_of_5"
+msgstr "Rate with %s of 5 stars"
+
+msgid "rating_remove"
+msgstr "Supprimer Notation"
+
+msgid "rating_update_positions"
+msgstr "Enregistrer Positions"
+
+msgid "rating_your_rating"
+msgstr "Votre Notation"

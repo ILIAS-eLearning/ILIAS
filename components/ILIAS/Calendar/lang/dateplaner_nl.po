@@ -1,0 +1,1428 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: nl\n"
+"Language-Team: Dutch\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: dateplaner\n"
+
+msgid "Fr_long"
+msgstr "Vrijdag"
+
+msgid "Fr_short"
+msgstr "Vr"
+
+msgid "Mo_long"
+msgstr "Maandag"
+
+msgid "Mo_short"
+msgstr "Ma"
+
+msgid "Sa_long"
+msgstr "Zaterdag"
+
+msgid "Sa_short"
+msgstr "Za"
+
+msgid "Su_long"
+msgstr "Zondag"
+
+msgid "Su_short"
+msgstr "Zo"
+
+msgid "Text"
+msgstr "Tekst"
+
+msgid "Th_long"
+msgstr "Donderdag"
+
+msgid "Th_short"
+msgstr "Do"
+
+msgid "Tu_long"
+msgstr "Dinsdag"
+
+msgid "Tu_short"
+msgstr "Di"
+
+msgid "We_long"
+msgstr "Woensdag"
+
+msgid "We_short"
+msgstr "Wo"
+
+msgid "add_appointment"
+msgstr "Afspraak toevoegen"
+
+msgid "app_consultation_hours"
+msgstr "Spreekuren"
+
+msgid "app_day"
+msgstr "Dagoverzicht"
+
+msgid "app_month"
+msgstr "Maandweergave"
+
+msgid "app_week"
+msgstr "Weekweergave"
+
+#, fuzzy
+msgid "back_to_crs"
+msgstr "Go to Course"
+
+#, fuzzy
+msgid "back_to_grp"
+msgstr "Go to Group"
+
+#, fuzzy
+msgid "back_to_pd"
+msgstr "Back to Personal Desktop"
+
+#, fuzzy
+msgid "btn_ical"
+msgstr "iCal"
+
+msgid "c_date"
+msgstr "Afspraak aanmaken"
+
+msgid "cal_add_appointment"
+msgstr "Afspraak aanmaken"
+
+msgid "cal_add_calendar"
+msgstr "Agenda toevoegen"
+
+msgid "cal_add_category"
+msgstr "Nieuwe agenda aanmaken"
+
+msgid "cal_add_milestone"
+msgstr "Mijlpaal toevoegen"
+
+msgid "cal_adm_notification_info"
+msgstr "Kies deze optie om optionele e-mailberichten te versturen naar cursus- of groepsdeelnemers over gewijzigde afspraken."
+
+msgid "cal_adm_notification_user_info"
+msgstr "Kies deze optie om optionele e-mailberichten te sturen naar geselecteerde gebruikers"
+
+#, fuzzy
+msgid "cal_agenda"
+msgstr "Agenda"
+
+msgid "cal_all_day"
+msgstr "Hele dag"
+
+#, fuzzy
+msgid "cal_app_info"
+msgstr "Appointment Information"
+
+#, fuzzy
+msgid "cal_app_other_materials_num"
+msgstr "View other materials"
+
+#, fuzzy
+msgid "cal_appointment_notifications"
+msgstr "Notification"
+
+msgid "cal_appointments"
+msgstr "Afspraak/Afspraken"
+
+msgid "cal_apps"
+msgstr "Aantal afspraken"
+
+msgid "cal_assigned_appointments"
+msgstr "Toegewezen afspraken"
+
+msgid "cal_back_to_cal"
+msgstr "Terug naar agenda"
+
+msgid "cal_back_to_list"
+msgstr "Terug naar lijst"
+
+msgid "cal_back_to_search"
+msgstr "Terug naar zoeken"
+
+#, fuzzy
+msgid "cal_batch_file_downloads"
+msgstr "Batch file downloads in Calendar"
+
+#, fuzzy
+msgid "cal_batch_file_downloads_info"
+msgstr "Activate button to download all files related to the current calendar/appointment view."
+
+#, fuzzy
+msgid "cal_belongs_to"
+msgstr "Belongs to Calendar"
+
+msgid "cal_book_free"
+msgstr "beschikbaar"
+
+msgid "cal_booked_out"
+msgstr "geboekt op"
+
+msgid "cal_booking_cancellation_body"
+msgstr "je afspraak met %s is geannuleerd."
+
+msgid "cal_booking_cancellation_subject"
+msgstr "De afspraak \"%s\" is geannuleerd"
+
+msgid "cal_booking_cancellation_user"
+msgstr "Dit is een kopie van de originele e-mail aan de gebruiker:"
+
+msgid "cal_booking_confirmation_body"
+msgstr "je afspraak met %s is gemaakt."
+
+msgid "cal_booking_confirmation_link"
+msgstr "Link naar de afspraak:"
+
+msgid "cal_booking_confirmation_subject"
+msgstr "De afspraak \"%s\" is gereserveerd"
+
+msgid "cal_booking_confirmation_user"
+msgstr "Dit is een kopie van de originele e-mail aan de gebruiker:"
+
+msgid "cal_booking_confirmed"
+msgstr "De afspraak is gereserveerd."
+
+msgid "cal_booking_failed_info"
+msgstr "Deze afspraak is volgeboekt. Selecteer een andere afspraak."
+
+#, fuzzy
+msgid "cal_booking_manager_confirmation_body"
+msgstr "%s has booked an appointment with %s."
+
+#, fuzzy
+msgid "cal_booking_owner_confirmation_body"
+msgstr "%s has booked an appointment with you."
+
+msgid "cal_cache"
+msgstr "Agenda-cache"
+
+msgid "cal_cache_disabled"
+msgstr "Uitgeschakeld"
+
+msgid "cal_cache_enabled"
+msgstr "Ingeschakeld"
+
+msgid "cal_cache_info"
+msgstr "Indien ingeschakeld worden de afspraken op het persoonlijk scherm en in het Studiecentrum slechts iedere x minuten bijgewerkt."
+
+msgid "cal_cache_settings"
+msgstr "Cache"
+
+msgid "cal_cal_deleted"
+msgstr "The calendars have been deleted"
+
+msgid "cal_cal_details"
+msgstr "Agenda details"
+
+#, fuzzy
+msgid "cal_cal_shared_with"
+msgstr "Users calendar is shared with"
+
+msgid "cal_cal_sync_success"
+msgstr "Successfully synchronised calendar"
+
+msgid "cal_cal_synchronize"
+msgstr "Synchronise Calendar"
+
+msgid "cal_cal_type"
+msgstr "Agenda Type"
+
+msgid "cal_calendar_color"
+msgstr "Kleur"
+
+#, fuzzy
+msgid "cal_calendar_download"
+msgstr "Calendar Download"
+
+msgid "cal_calendar_name"
+msgstr "Naam voor deze agenda"
+
+#, fuzzy
+msgid "cal_calendar_subscription_modal_title"
+msgstr "Calendar Subscription"
+
+msgid "cal_cancel_booking"
+msgstr "Boeking annuleren"
+
+msgid "cal_cancel_booking_confirmed"
+msgstr "De boeking is geannuleerd."
+
+msgid "cal_cancel_booking_info"
+msgstr "Bevestig de annulering van deze boeking."
+
+msgid "cal_category_selection"
+msgstr "Agenda keuze"
+
+msgid "cal_cg_notification"
+msgstr "Cursus/Groep bericht"
+
+msgid "cal_cg_registration_info"
+msgstr "Geef gebruikers de mogelijkheid om zich aan te melden voor cursus en groeps afspraken"
+
+msgid "cal_cg_registrations"
+msgstr "Aanmelden voor cursus / maken van groepsafspraak"
+
+msgid "cal_ch_add_grp"
+msgstr "Aanmaken Spreekuurreeks"
+
+msgid "cal_ch_add_sequence"
+msgstr "Spreekurenperiode toevoegen"
+
+msgid "cal_ch_app_bookings"
+msgstr "Reserveringen"
+
+msgid "cal_ch_app_grp"
+msgstr "Spreekuurreeks"
+
+msgid "cal_ch_app_list"
+msgstr "Spreekuur afspraak"
+
+msgid "cal_ch_assign_participants"
+msgstr "Gebruikers toewijzen"
+
+msgid "cal_ch_assigned_apps"
+msgstr "Aantal afspraken"
+
+msgid "cal_ch_book"
+msgstr "Afspraak boeken"
+
+msgid "cal_ch_booking"
+msgstr "Boeking van object"
+
+#, fuzzy
+msgid "cal_ch_booking_col_comments"
+msgstr "Comments"
+
+#, fuzzy
+msgid "cal_ch_booking_comment"
+msgstr "Comment:"
+
+#, fuzzy
+msgid "cal_ch_booking_link"
+msgstr "Link to Consultation Hours:"
+
+msgid "cal_ch_booking_message_tbl"
+msgstr "Commentaar"
+
+#, fuzzy
+msgid "cal_ch_booking_num_available"
+msgstr "Available Slots"
+
+#, fuzzy
+msgid "cal_ch_booking_num_free_short"
+msgstr "%s free"
+
+#, fuzzy
+msgid "cal_ch_booking_other_participants"
+msgstr "Other Participants:"
+
+msgid "cal_ch_booking_owner"
+msgstr "Eigenaar"
+
+#, fuzzy
+msgid "cal_ch_booking_participants"
+msgstr "Participants"
+
+msgid "cal_ch_booking_reminder_body"
+msgstr "je afspraak met \"%s\" begint spoedig."
+
+msgid "cal_ch_booking_reminder_subject"
+msgstr "Herinnering aan \"%s\""
+
+#, fuzzy
+msgid "cal_ch_booking_start"
+msgstr "Start"
+
+#, fuzzy
+msgid "cal_ch_booking_your_comment"
+msgstr "Your comment:"
+
+msgid "cal_ch_bookings"
+msgstr "Deelnemers"
+
+msgid "cal_ch_bookings_tbl"
+msgstr "Geboekte reservering"
+
+msgid "cal_ch_cancel_booking"
+msgstr "Boeking annuleren"
+
+msgid "cal_ch_cancel_booking_info"
+msgstr "\"Annuleer reservering\" zal gebruikers berichten per e-mail. Als je de gebruikers niet wilt verwittigen, gebruik dan de optie: \" Verwijder Reservering\"."
+
+msgid "cal_ch_cancel_booking_sure"
+msgstr "Wil je de volgende reservering annuleren?"
+
+msgid "cal_ch_canceled_bookings"
+msgstr "De geselecteerde reserveringen zijn verwijderd."
+
+msgid "cal_ch_ch"
+msgstr "Spreekuren"
+
+msgid "cal_ch_cron_reminder"
+msgstr "Verzend afspraakherinnering"
+
+msgid "cal_ch_cron_reminder_days"
+msgstr "Aantal dagen"
+
+msgid "cal_ch_cron_reminder_info"
+msgstr "Als ingeschakeld zullen e-mailberichten betreffende toekomstige spreekuren worden verzonden."
+
+#, fuzzy
+msgid "cal_ch_current_booking_comment"
+msgstr "Comment"
+
+msgid "cal_ch_current_bookings"
+msgstr "Huidige boekingen"
+
+msgid "cal_ch_deadline"
+msgstr "Laatst mogelijke aanmelding"
+
+msgid "cal_ch_deadline_info"
+msgstr "Geef het aantal uren op voordat de aanmelding wordt geblokkeerd."
+
+msgid "cal_ch_delete_app_booking_info"
+msgstr "De volgende afspraken hebben bestaande reserveringen. Als je de afspraken verwijdert zullen de gebruikers er niet over worden geïnformeerd."
+
+msgid "cal_ch_delete_booking"
+msgstr "Verwijder reservering"
+
+msgid "cal_ch_delete_booking_info"
+msgstr "\"Verwijder reservering\" zal gebruikers niet berichten per e-mail. Als je de gebruikers toch wilt verwittigen, gebruik dan de optie \"Anuleer reservering\"."
+
+msgid "cal_ch_delete_booking_sure"
+msgstr "Wil je de volgende reservering verwijderen?"
+
+msgid "cal_ch_deleted_bookings"
+msgstr "De geselecteerde reserveringen zijn geannuleerd."
+
+msgid "cal_ch_duration"
+msgstr "Duur van elke afspraak"
+
+msgid "cal_ch_export_apps"
+msgstr "Gemaakte afspraken"
+
+#, fuzzy
+msgid "cal_ch_field_ch"
+msgstr "Consultation Hour Appointments"
+
+msgid "cal_ch_form"
+msgstr "Spreekuren inschakelen"
+
+msgid "cal_ch_form_header"
+msgstr "Spreekuren"
+
+msgid "cal_ch_form_info"
+msgstr "Deze optie schakelt het beheer van persoonlijke Spreekuren in de agenda in."
+
+#, fuzzy
+msgid "cal_ch_free_of_available"
+msgstr "%s of %s"
+
+msgid "cal_ch_grp_add_tbl"
+msgstr "Aanmaken nieuwe spreekurenreeks"
+
+msgid "cal_ch_grp_delete_sure"
+msgstr "Wil je de volgende spreekurenreeks verwijderen?"
+
+msgid "cal_ch_grp_header"
+msgstr "Spreekuurreeks"
+
+msgid "cal_ch_grp_multiple"
+msgstr "Reserveringen per gebruiker"
+
+msgid "cal_ch_grp_multiple_info"
+msgstr "Je kunt het maximale aantal reserveringen per gebruiker opgeven."
+
+msgid "cal_ch_grp_no_assignment"
+msgstr "-- Niet toegewezen --"
+
+msgid "cal_ch_grp_selection"
+msgstr "Toewijzing aan spreekuurreeks"
+
+msgid "cal_ch_grp_update_tbl"
+msgstr "Wijzigen nieuwe spreekurenreeks"
+
+#, fuzzy
+msgid "cal_ch_grps"
+msgstr "Consultation Hour Groups"
+
+msgid "cal_ch_manager"
+msgstr "Spreekuren beheren"
+
+msgid "cal_ch_manager_info"
+msgstr "Gebruikersnaam van de gebruiker die je spreekuren zal beheren"
+
+msgid "cal_ch_max_books"
+msgstr "Reserveringen per gebruiker"
+
+#, fuzzy
+msgid "cal_ch_minutes"
+msgstr "Duration (min)"
+
+msgid "cal_ch_multi_edit_sequence"
+msgstr "Meerdere afspraken wijzigen"
+
+msgid "cal_ch_num_appointments"
+msgstr "Aantal afspraken"
+
+msgid "cal_ch_num_appointments_info"
+msgstr "Geef het aantal opeenvolgende afspraken."
+
+msgid "cal_ch_num_bookings"
+msgstr "Boekingen per afspraak"
+
+msgid "cal_ch_personal_book"
+msgstr "Persoonlijke boeking"
+
+msgid "cal_ch_personal_ch"
+msgstr "Persoonlijke spreekuren"
+
+msgid "cal_ch_reject_booking"
+msgstr "Annuleer reservering"
+
+#, fuzzy
+msgid "cal_ch_send_mail"
+msgstr "Send Mail"
+
+msgid "cal_ch_target_object"
+msgstr "Studiecentrum object"
+
+msgid "cal_ch_target_object_info"
+msgstr "Afspraken beperken tot gegeven Studiecentrum object."
+
+msgid "cal_ch_unknown_repository_object"
+msgstr "Het Studiecentrum object ref-id is niet geldig."
+
+msgid "cal_ch_unknown_user"
+msgstr "Deze login komt niet overeen met enige gebruiker."
+
+msgid "cal_ch_user_assignment_failed_info"
+msgstr "De volgende gebuikers kunnen niet worden toegewezen aan afspraken aangezien het maximale aantal reserveringen is bereikt."
+
+#, fuzzy
+msgid "cal_ch_vm_period_all"
+msgstr "All"
+
+#, fuzzy
+msgid "cal_ch_vm_period_past"
+msgstr "Past"
+
+#, fuzzy
+msgid "cal_ch_vm_period_upcoming"
+msgstr "Upcoming"
+
+#, fuzzy
+msgid "cal_ch_vm_status_all"
+msgstr "All"
+
+#, fuzzy
+msgid "cal_ch_vm_status_booked"
+msgstr "Booked Slots"
+
+#, fuzzy
+msgid "cal_ch_vm_status_open"
+msgstr "Open Slots"
+
+#, fuzzy
+msgid "cal_change_calendar_view"
+msgstr "Change Calendar View"
+
+msgid "cal_change_responsible_users"
+msgstr "Verantwoordelijke gebruikers veranderen"
+
+msgid "cal_changed_events_header"
+msgstr "Gewijzigde afspraken"
+
+msgid "cal_confirm_booking"
+msgstr "Boeking bevestigen"
+
+msgid "cal_confirm_booking_info"
+msgstr "Bevestig de boeking van deze afspraak."
+
+msgid "cal_confirm_reg_info"
+msgstr "Bevestig de registratie van deze afspraak."
+
+msgid "cal_confirm_unreg_info"
+msgstr "Bevestig de annulering van deze aanmelding."
+
+msgid "cal_consultation_hours_for"
+msgstr "Spreekuren voor"
+
+#, fuzzy
+msgid "cal_consultation_hours_for_user"
+msgstr "Consultation Hours for %1"
+
+#, fuzzy
+msgid "cal_contained_in"
+msgstr "Contained in"
+
+msgid "cal_create"
+msgstr "Aanmaken"
+
+msgid "cal_created_appointment"
+msgstr "Nieuwe afspraak aangemaakt."
+
+msgid "cal_created_milestone"
+msgstr "Mijlpaal toegevoegd."
+
+msgid "cal_created_milestone_resp_q"
+msgstr "Mijlpaal toegevoegd. Kies de gebruikers die aan deze mijlpaal moeten voldoen."
+
+#, fuzzy
+msgid "cal_cronjob_remote_description"
+msgstr "If activated, appointments of the calendar type \"Web calendar\" are automatically synchronised after the specified time interval."
+
+#, fuzzy
+msgid "cal_cronjob_remote_title"
+msgstr "External Calendar Synchronisation"
+
+#, fuzzy
+msgid "cal_crs_info"
+msgstr "Course Information"
+
+msgid "cal_crs_new_notification_body"
+msgstr "een nieuwe afspraak is gemaakt in cursus \"%s\"."
+
+msgid "cal_crs_new_notification_sub"
+msgstr "Nieuwe afspraak in cursus \"%s\""
+
+msgid "cal_crs_notification_body"
+msgstr "een afspraak is gewijzigd in cursus \"%s\"."
+
+msgid "cal_crs_notification_sub"
+msgstr "Gewijzigde afspraak in cursus \"%s\""
+
+#, fuzzy
+msgid "cal_crs_timing_end"
+msgstr "Suggested End"
+
+#, fuzzy
+msgid "cal_crs_timing_start"
+msgstr "Suggested Start"
+
+msgid "cal_daily"
+msgstr "Dagelijks"
+
+#, fuzzy
+msgid "cal_date_and_time"
+msgstr "Date and Time"
+
+msgid "cal_date_booked"
+msgstr "geboekt"
+
+msgid "cal_date_format_info"
+msgstr "Datumformaat"
+
+#, fuzzy
+msgid "cal_date_time_title"
+msgstr "Date and Time"
+
+msgid "cal_day_end"
+msgstr "Dag eindigt om"
+
+msgid "cal_day_of_month"
+msgstr "Maanddag"
+
+msgid "cal_day_overview"
+msgstr "Dagoverzicht"
+
+msgid "cal_day_s"
+msgstr "Dag(en)"
+
+msgid "cal_day_selection"
+msgstr "Dag kiezen"
+
+msgid "cal_day_start"
+msgstr "Dag begint om"
+
+msgid "cal_day_week_view"
+msgstr "Dag/Week weergave-instellingen"
+
+msgid "cal_deadline"
+msgstr "Deadline"
+
+msgid "cal_def_date_format"
+msgstr "Standaard Datum Input Format"
+
+msgid "cal_def_date_format_info"
+msgstr "Kies een formaat voor de invoer van de data."
+
+#, fuzzy
+msgid "cal_def_day_end"
+msgstr "Default Day End"
+
+#, fuzzy
+msgid "cal_def_day_start"
+msgstr "Default Day Start"
+
+#, fuzzy
+msgid "cal_def_show_weeks"
+msgstr "Default Show Weeks"
+
+msgid "cal_def_time_format"
+msgstr "Standaard tijdformaat"
+
+msgid "cal_def_time_format_info"
+msgstr "Kies een weergave voor tijd."
+
+msgid "cal_def_timezone"
+msgstr "Standaard tijdzone"
+
+msgid "cal_def_timezone_info"
+msgstr "Kies de standaard tijdzone voor de weergave van de afspraken."
+
+#, fuzzy
+msgid "cal_def_view"
+msgstr "Default Calendar View"
+
+msgid "cal_def_week_start"
+msgstr "Begin van de week"
+
+msgid "cal_default_calendar"
+msgstr "Persoonlijke afspraken"
+
+#, fuzzy
+msgid "cal_default_settings"
+msgstr "Default settings"
+
+msgid "cal_del_app_sure"
+msgstr "Wil je daadwerkelijk de geselecteerde afspraken verwijderen?"
+
+msgid "cal_del_cal_sure"
+msgstr "Wil je daadwerkelijk de gekozen agendas verwijderen?"
+
+msgid "cal_delete_app_sure"
+msgstr "Wil je daadwerkelijk de volgende afspraken verwijderen?"
+
+#, fuzzy
+msgid "cal_delete_booking_info"
+msgstr "Please confirm the deletion of this booking"
+
+#, fuzzy
+msgid "cal_delete_cal"
+msgstr "Delete Calendar"
+
+#, fuzzy
+msgid "cal_delete_recurrence_rule"
+msgstr "Delete Series of Appoinments"
+
+msgid "cal_delete_recurrences"
+msgstr "Verwijder alle herhalingen"
+
+msgid "cal_delete_single"
+msgstr "Verwijder alleen deze afspraak"
+
+msgid "cal_deleted_app"
+msgstr "De geselecteerde afspraken zijn verwijderd."
+
+msgid "cal_details"
+msgstr "Afspraak details"
+
+#, fuzzy
+msgid "cal_down_no_files"
+msgstr "Nothing to download, the events listed do not contain files."
+
+#, fuzzy
+msgid "cal_download_all_files"
+msgstr "Download all Files"
+
+#, fuzzy
+msgid "cal_download_files"
+msgstr "Download Files"
+
+#, fuzzy
+msgid "cal_download_files_started"
+msgstr "Download of calendar files has started."
+
+msgid "cal_dstart_dend_warn"
+msgstr "Controleer je invoer. Het begin van de dag moet voor het einde van de dag liggen."
+
+msgid "cal_duration"
+msgstr "Duur"
+
+#, fuzzy
+msgid "cal_duration_end"
+msgstr "End"
+
+#, fuzzy
+msgid "cal_duration_start"
+msgstr "Start"
+
+msgid "cal_edit_appointment"
+msgstr "Afspraak wijzigen"
+
+msgid "cal_edit_category"
+msgstr "Agenda wijzigen"
+
+msgid "cal_edit_milestone"
+msgstr "Mijlpaal wijzigen"
+
+msgid "cal_edit_recurrences"
+msgstr "Wijzig alle afspraken"
+
+msgid "cal_edit_single"
+msgstr "Wijzig deze afspraak"
+
+#, fuzzy
+msgid "cal_edit_single_or_all_info"
+msgstr "Do you want to edit only this appointment or all in its series?"
+
+msgid "cal_enable_group_milestones"
+msgstr "Mijlpalen inschakelen"
+
+msgid "cal_enable_group_milestones_desc"
+msgstr "Deze optie schakelt mijlpaalplanning in de agenda in."
+
+msgid "cal_err_invalid_notification_rcps"
+msgstr "The list of notification recipients is not valid. Please choose only ILIAS user account names or valid e-mail addresses."
+
+msgid "cal_every"
+msgstr "Elke:"
+
+msgid "cal_exc_deadline"
+msgstr "Deadline"
+
+#, fuzzy
+msgid "cal_exc_info"
+msgstr "Assignment Information"
+
+#, fuzzy
+msgid "cal_exc_inst_files"
+msgstr "Instruction Files"
+
+#, fuzzy
+msgid "cal_exc_open"
+msgstr "Open Assignment"
+
+msgid "cal_exc_peer_review_deadline"
+msgstr "Feedback Deadline"
+
+msgid "cal_export_timezone"
+msgstr "Tijdzone voor exporten van agenda"
+
+msgid "cal_export_timezone_tz"
+msgstr "Gebruik ILIAS-tijdzone"
+
+msgid "cal_export_timezone_utc"
+msgstr "Gebruik UTC tijdzone (compatibel met Microsoft Outlook)"
+
+msgid "cal_fifth"
+msgstr "Vijfde"
+
+msgid "cal_first"
+msgstr "Eerste"
+
+msgid "cal_fourth"
+msgstr "Vierde"
+
+msgid "cal_fullday"
+msgstr "Datum/Tijd"
+
+msgid "cal_fullday_title"
+msgstr "Afspraak van een hele dag"
+
+msgid "cal_global_settings"
+msgstr "Globale instellingen"
+
+#, fuzzy
+msgid "cal_grp_curr_crs"
+msgstr "Current Course"
+
+#, fuzzy
+msgid "cal_grp_curr_crs_cons"
+msgstr "Consultation Hours"
+
+#, fuzzy
+msgid "cal_grp_curr_grp"
+msgstr "Current Group"
+
+#, fuzzy
+msgid "cal_grp_info"
+msgstr "Group Information"
+
+msgid "cal_grp_new_notification_body"
+msgstr "een nieuwe afspraak is gemaakt in groep \"%s\"."
+
+msgid "cal_grp_new_notification_sub"
+msgstr "Nieuwe afspraak in groep \"%s\""
+
+msgid "cal_grp_notification_body"
+msgstr "een afspraak is gewijzigd in groep \"%s\"."
+
+msgid "cal_grp_notification_sub"
+msgstr "Gewijzigde afspraak in groep \"%s\""
+
+#, fuzzy
+msgid "cal_grp_others"
+msgstr "Others"
+
+#, fuzzy
+msgid "cal_grp_personal"
+msgstr "Personal"
+
+msgid "cal_ical_infoscreen"
+msgstr "Subscribe"
+
+msgid "cal_ical_url"
+msgstr "iCal-URL"
+
+#, fuzzy
+msgid "cal_ical_url_google"
+msgstr "iCal-URL for Google Calendar"
+
+msgid "cal_import_appointments"
+msgstr "Afspraken importeren"
+
+msgid "cal_import_file"
+msgstr "Import File"
+
+msgid "cal_import_file_info"
+msgstr "Kies het bestand dat je agenda afspraken bevat"
+
+msgid "cal_import_tbl"
+msgstr "Import Appointments"
+
+msgid "cal_imported_success"
+msgstr "Imported %1$s appointments."
+
+msgid "cal_in"
+msgstr "in"
+
+msgid "cal_last"
+msgstr "Laatste"
+
+#, fuzzy
+msgid "cal_list"
+msgstr "List"
+
+msgid "cal_mail_notification_body"
+msgstr "you have been invited to an appointment."
+
+msgid "cal_mail_notification_subject"
+msgstr "Appointment Invitation: \"%s\""
+
+msgid "cal_manage"
+msgstr "Beheren"
+
+#, fuzzy
+msgid "cal_materials"
+msgstr "Materials"
+
+msgid "cal_milestone_settings"
+msgstr "Mijlpalen"
+
+msgid "cal_month_overview"
+msgstr "Maandoverzicht"
+
+msgid "cal_month_s"
+msgstr "Maand(en)"
+
+msgid "cal_month_selection"
+msgstr "Maand kiezen"
+
+msgid "cal_monthly"
+msgstr "Maandelijks"
+
+#, fuzzy
+msgid "cal_monthly_by_date"
+msgstr "Monthly by Date"
+
+#, fuzzy
+msgid "cal_monthly_by_day"
+msgstr "Monthly by Day"
+
+msgid "cal_ms_details"
+msgstr "Mijlpaal details"
+
+msgid "cal_ms_users_responsible"
+msgstr "Verantwoordelijke gebruikers"
+
+msgid "cal_new_app"
+msgstr "Nieuwe afspraak"
+
+msgid "cal_new_ms"
+msgstr "Nieuwe mijlpaal"
+
+msgid "cal_no_ending"
+msgstr "Geen einddatum"
+
+#, fuzzy
+msgid "cal_no_events_block"
+msgstr "Es sind keine Termine für Sie vorhanden."
+
+#, fuzzy
+msgid "cal_no_events_info"
+msgstr "No events found for the selected time period."
+
+msgid "cal_no_recurrence"
+msgstr "Geen herhaling"
+
+msgid "cal_notification"
+msgstr "E-mailberichtgeving"
+
+msgid "cal_notification_crsgrp"
+msgstr "Bericht voor deelnemers van de cursus of groep"
+
+msgid "cal_notification_info"
+msgstr "Als ingeschakeld worden cursus / groepsdeelnemers per e-mail geïnformeerd over deze afspraak."
+
+msgid "cal_notification_users"
+msgstr "Berichte voor geselecteerde gebruikers"
+
+msgid "cal_on"
+msgstr "Op:"
+
+msgid "cal_on_the"
+msgstr "Op de:"
+
+#, fuzzy
+msgid "cal_open_calendar"
+msgstr "Open Calendar"
+
+#, fuzzy
+msgid "cal_origin"
+msgstr "Origin"
+
+#, fuzzy
+msgid "cal_owner"
+msgstr "Owner"
+
+#, fuzzy
+msgid "cal_period"
+msgstr "Period"
+
+msgid "cal_rec_err_limit"
+msgstr "Voer een geldig aantal afspraken in."
+
+#, fuzzy
+msgid "cal_recurrence_confirm_deletion"
+msgstr "Please decide wether you want to delete single appointments or the complete series of appointments."
+
+#, fuzzy
+msgid "cal_recurrence_count"
+msgstr "Number of Appointments"
+
+#, fuzzy
+msgid "cal_recurrence_day_interval"
+msgstr "Every x Day(s)"
+
+#, fuzzy
+msgid "cal_recurrence_end_date"
+msgstr "End Date"
+
+#, fuzzy
+msgid "cal_recurrence_end_date_info"
+msgstr "Last possible date for an appointment."
+
+#, fuzzy
+msgid "cal_recurrence_month_interval"
+msgstr "Every x Month(s)"
+
+#, fuzzy
+msgid "cal_recurrence_until"
+msgstr "Recurrence End"
+
+#, fuzzy
+msgid "cal_recurrence_until_count"
+msgstr "Fixed Number of Appointments"
+
+#, fuzzy
+msgid "cal_recurrence_until_end_date"
+msgstr "Repeat Until End Date"
+
+#, fuzzy
+msgid "cal_recurrence_week_interval"
+msgstr "Every x Week(s)"
+
+#, fuzzy
+msgid "cal_recurrence_year_interval"
+msgstr "Every x Year(s)"
+
+msgid "cal_recurrences"
+msgstr "Herhalingen"
+
+msgid "cal_reg_register"
+msgstr "Register"
+
+msgid "cal_reg_registered"
+msgstr "You have been registered."
+
+msgid "cal_reg_registered_users"
+msgstr "Gebruikerslijst"
+
+msgid "cal_reg_unregister"
+msgstr "Uitschrijven"
+
+msgid "cal_reg_unregistered"
+msgstr "You have been unregistered."
+
+msgid "cal_registrations"
+msgstr "Afspraak Registraties"
+
+msgid "cal_remote_url"
+msgstr "URL"
+
+msgid "cal_repeat_until"
+msgstr "Herhalen tot"
+
+#, fuzzy
+msgid "cal_repo_obj"
+msgstr "Repository Objects"
+
+msgid "cal_responsible"
+msgstr "Verantwoordelijk"
+
+msgid "cal_save_responsible_users"
+msgstr "Verantwoordelijk gebruikers opslaan"
+
+msgid "cal_search"
+msgstr "Zoekterm"
+
+msgid "cal_search_info_share"
+msgstr "Voer de naam van de gewenste gebruiker/rol in voor het delen van de agenda."
+
+msgid "cal_second"
+msgstr "Tweede"
+
+msgid "cal_server_tz"
+msgstr "Tijdzone server"
+
+#, fuzzy
+msgid "cal_sess_info"
+msgstr "Session Information"
+
+#, fuzzy
+msgid "cal_setting_global_crs_act"
+msgstr "Activation in Courses"
+
+#, fuzzy
+msgid "cal_setting_global_crs_act_info"
+msgstr "If selected, the calendar is active in courses by default. In any case the calendar activation can be enabled/disabled in the course settings."
+
+msgid "cal_setting_global_crs_vis"
+msgstr "Toon in cursussen"
+
+msgid "cal_setting_global_crs_vis_info"
+msgstr "Indien ingeschakeld wordt standaard de agenda getoond in cursussen. Per cursus kan deze instelling worden overschreven."
+
+#, fuzzy
+msgid "cal_setting_global_grp_act"
+msgstr "Activation in Groups"
+
+#, fuzzy
+msgid "cal_setting_global_grp_act_info"
+msgstr "If selected, the calendar is active in groups by default. In any case the calendar activation can be enabled/disabled in the group settings."
+
+msgid "cal_setting_global_grp_vis"
+msgstr "Toon in groepen"
+
+msgid "cal_setting_global_grp_vis_info"
+msgstr "Indien ingeschakeld wordt standaard de agenda getoond in groepen. Per groep kan deze instelling worden overschreven."
+
+msgid "cal_setting_global_vis_repos"
+msgstr "Studiecentrum agenda"
+
+msgid "cal_share"
+msgstr "Agenda delen"
+
+msgid "cal_share_accept"
+msgstr "Uitnodiging accepteren"
+
+msgid "cal_share_cal"
+msgstr "Agenda delen"
+
+msgid "cal_share_cal_editable"
+msgstr "Deel agenda (Lezen en Schrijven)"
+
+msgid "cal_share_decline"
+msgstr "Uitnodiging afwijzen"
+
+msgid "cal_share_search_header"
+msgstr "Agenda delen"
+
+msgid "cal_share_search_role_header"
+msgstr "Rolselectie"
+
+msgid "cal_share_search_usr_header"
+msgstr "Gebruikerskeuze"
+
+msgid "cal_shared_access_read_only"
+msgstr "Alleen Lezen"
+
+msgid "cal_shared_access_read_write"
+msgstr "Lezen en Schrijven"
+
+msgid "cal_shared_access_table_col"
+msgstr "Toegang"
+
+msgid "cal_shared_calendars"
+msgstr "Gedeelde agenda's (Uitnodigingen)"
+
+msgid "cal_shared_header"
+msgstr "Gedeelde agendas"
+
+msgid "cal_shared_selected_usr"
+msgstr "De agenda is gedeeld met de geselecteerde gebruikers/rollen."
+
+#, fuzzy
+msgid "cal_show_weeks"
+msgstr "Show Weeks"
+
+#, fuzzy
+msgid "cal_show_weeks_info"
+msgstr "Activates weeks column in calendar side block. Users can deactivate the column in their settings."
+
+msgid "cal_start"
+msgstr "Begin"
+
+#, fuzzy
+msgid "cal_subscription"
+msgstr "Subscription"
+
+msgid "cal_subscription_header"
+msgstr "Agenda-adres"
+
+msgid "cal_subscription_info"
+msgstr "Gebruik het volgende adres om je agenda te benaderen vanuit andere programma's. Je kunt deze knippen en plakken in elk ander agendaprogramma dat het iCal-formaat ondersteund."
+
+msgid "cal_subscription_url"
+msgstr "Agenda URL:"
+
+msgid "cal_sync_cache"
+msgstr "Agenda Cache"
+
+msgid "cal_sync_cache_info"
+msgstr "Indien ingeschakeld worden de nieuw en gewijzigde afspraken slechts iedere x minuten bijgewerkt."
+
+msgid "cal_sync_disabled"
+msgstr "Uitgeschakeld"
+
+msgid "cal_sync_enabled"
+msgstr "Ingeschakeld"
+
+msgid "cal_table_categories"
+msgstr "Agenda selectie"
+
+msgid "cal_task_completion"
+msgstr "Taakvoortgang"
+
+msgid "cal_third"
+msgstr "Derde"
+
+msgid "cal_time_format_info"
+msgstr "Tijdsformaat"
+
+msgid "cal_timezone_info"
+msgstr "Dichtstbijzijnde stad in je tijdzone"
+
+msgid "cal_type_crs"
+msgstr "Cursusagenda"
+
+#, fuzzy
+msgid "cal_type_exc"
+msgstr "Exercise Calendar"
+
+msgid "cal_type_grp"
+msgstr "Groepsagenda"
+
+msgid "cal_type_info"
+msgstr "Kies een agendatype. „Publieke Agenda's” zijn zichtbaar voor alle ILIAS-gebruikers."
+
+msgid "cal_type_local"
+msgstr "Lokale agenda"
+
+msgid "cal_type_personal"
+msgstr "Privé agenda"
+
+msgid "cal_type_remote"
+msgstr "Web Agenda"
+
+msgid "cal_type_rl"
+msgstr "Locatie van agenda"
+
+msgid "cal_type_sess"
+msgstr "Sessie-agenda"
+
+msgid "cal_type_system"
+msgstr "Publieke agenda"
+
+#, fuzzy
+msgid "cal_type_tals"
+msgstr "Talks"
+
+msgid "cal_unshare_cal"
+msgstr "Delen stoppen"
+
+msgid "cal_unshared_selected_usr"
+msgstr "Delen van de agenda met de geselecteerde gebruikers gestopt."
+
+msgid "cal_upcoming_events_header"
+msgstr "Komende gebeurtenissen"
+
+msgid "cal_user_date_format"
+msgstr "Datum formaat voor input"
+
+msgid "cal_user_notification"
+msgstr "User Notification"
+
+msgid "cal_user_notification_info"
+msgstr "Selected users will be notified about this appointment by e-mail. Please enter ILIAS user names or email addresses."
+
+msgid "cal_user_settings"
+msgstr "Agenda instellingen"
+
+msgid "cal_user_time_format"
+msgstr "Tijdformaat"
+
+msgid "cal_user_timezone"
+msgstr "Tijdzone"
+
+#, fuzzy
+msgid "cal_usr_info"
+msgstr "Appointment Information"
+
+#, fuzzy
+msgid "cal_usr_show_weeks"
+msgstr "Show Week Column"
+
+#, fuzzy
+msgid "cal_usr_show_weeks_info"
+msgstr "Activates weeks column in calendar side block."
+
+msgid "cal_webcal_sync"
+msgstr "External Calendar Synchronisation"
+
+msgid "cal_webcal_sync_info"
+msgstr "Automatically synchronise external calendars every x minutes."
+
+msgid "cal_week_abbrev"
+msgstr "W"
+
+msgid "cal_week_month_view"
+msgstr "Week/Maand weergave-instellingen"
+
+msgid "cal_week_overview"
+msgstr "Weekoverzicht"
+
+msgid "cal_week_s"
+msgstr "Week/weken"
+
+msgid "cal_week_selection"
+msgstr "Week kiezen"
+
+msgid "cal_week_start"
+msgstr "Eerste dag van de week"
+
+msgid "cal_weekday"
+msgstr "Weekdag"
+
+msgid "cal_weekly"
+msgstr "Wekelijks"
+
+msgid "cal_where"
+msgstr "Lokatie"
+
+msgid "cal_year_s"
+msgstr "Jaar/Jaren"
+
+msgid "cal_yearly"
+msgstr "Jaarlijks"
+
+#, fuzzy
+msgid "cal_yearly_by_date"
+msgstr "Yearly by Date"
+
+#, fuzzy
+msgid "cal_yearly_by_day"
+msgstr "Yearly by Day"
+
+#, fuzzy
+msgid "consultation_hours_block_title"
+msgstr "Consultation Hours"
+
+msgid "crs_cal_activation_end"
+msgstr "Cursuseinde"
+
+msgid "crs_cal_activation_start"
+msgstr "Cursusaanvang"
+
+#, fuzzy
+msgid "crs_cal_end"
+msgstr "Course ends"
+
+msgid "crs_cal_reg_end"
+msgstr "Einde aanmelding"
+
+msgid "crs_cal_reg_start"
+msgstr "Begin aanmelding"
+
+#, fuzzy
+msgid "crs_cal_start"
+msgstr "Course starts"
+
+msgid "date_format"
+msgstr "d-m-j U:m"
+
+msgid "end_date"
+msgstr "Einddatum"
+
+msgid "err_end_before_start"
+msgstr "De afspraak moet niet beginnen voor het einde."
+
+msgid "err_missing_title"
+msgstr "Voer een afspraaktitel in."
+
+msgid "free"
+msgstr "Vrij"
+
+#, fuzzy
+msgid "grp_cal_end"
+msgstr "Group ends"
+
+msgid "grp_cal_reg_end"
+msgstr "Einde aanmelding"
+
+msgid "grp_cal_reg_start"
+msgstr "Begin van aanmelding"
+
+#, fuzzy
+msgid "grp_cal_start"
+msgstr "Group starts"
+
+msgid "ical_export"
+msgstr "iCal export"
+
+msgid "keep"
+msgstr "Behouden"
+
+msgid "keyword"
+msgstr "Sleutelwoord"
+
+msgid "more"
+msgstr "Meer"
+
+msgid "r_14"
+msgstr "Elke 14 dagen"
+
+msgid "r_4_weeks"
+msgstr "Elke 4 weken"
+
+msgid "remote_pass_info"
+msgstr "Voer je gebruikersinformatie in als toegang tot de webagenda is beschermd."
+
+msgid "to"
+msgstr "tot"
+
+msgid "today"
+msgstr "Vandaag"
+
+msgid "week"
+msgstr "Week"
+
+msgid "wk_short"
+msgstr "Wk"
+
+msgid "year"
+msgstr "Jaar"

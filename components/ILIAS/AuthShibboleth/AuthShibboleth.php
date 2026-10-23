@@ -23,6 +23,8 @@ namespace ILIAS;
 use ILIAS\Component\Component;
 use ILIAS\Component\Resource\PublicAsset;
 use ILIAS\Component\Resource\Endpoint;
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
 
 class AuthShibboleth implements Component
 {
@@ -41,5 +43,9 @@ class AuthShibboleth implements Component
 
         $contribute[PublicAsset::class] = fn(): Endpoint =>
             new Endpoint($this, "shib_logout.php");
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'shib'
+        );
     }
 }

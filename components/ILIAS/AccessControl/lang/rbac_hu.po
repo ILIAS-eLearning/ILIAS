@@ -1,0 +1,2810 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: rbac\n"
+
+msgid "accs_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Könnyű kezelés jogosultsági beállításait"
+
+msgid "accs_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Könnyű kezelés beállításaihoz"
+
+msgid "accs_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Könnyű kezelés menüpontot"
+
+msgid "accs_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Könnyű kezelés beállításait"
+
+msgid "activate_wiki_protection"
+msgstr "Írásvédett"
+
+msgid "active_preconditions"
+msgstr "Előfeltételek"
+
+msgid "add_consultation_hours"
+msgstr "Konzultációs időpontok létrehozása"
+
+msgid "add_consume_provider"
+msgstr "Saját LTI-Kiszolgáló beállításai"
+
+msgid "add_pages"
+msgstr "Oldalak hozzáadása"
+
+msgid "add_reply"
+msgstr "Válasz létrehozása"
+
+msgid "add_thread"
+msgstr "Téma létrehozása"
+
+msgid "adm_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Általános beállítások jogosultsági beállításait"
+
+msgid "adm_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Általános beállítások beállításaihoz"
+
+msgid "adm_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Általános beállítások menüpontot"
+
+msgid "adm_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Általános beállítások beállításait"
+
+msgid "adn_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Rendszerértesítések jogosultsági beállításait"
+
+msgid "adn_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Rendszerértesítések beállításaihoz"
+
+msgid "adn_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Rendszerértesítések menüpontot"
+
+msgid "adn_write"
+msgstr "A felhasználó hozzáadhat és módosíthat rendszerértesítést"
+
+msgid "adopt_perm_from_template"
+msgstr "Jogosultsági beállítások másolása ide másik szerepkörből"
+
+msgid "adve_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Szerkesztés jogosultsági beállításait"
+
+msgid "adve_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Szerkesztés beállításaihoz"
+
+msgid "adve_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Szerkesztés menüpontot"
+
+msgid "adve_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Szerkesztés beállításait"
+
+msgid "amend_grading"
+msgstr "Véglegesített értékelés utólagos módosítása"
+
+msgid "assf_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Teszt és értékelés jogosultsági beállításait"
+
+msgid "assf_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Teszt és értékelés beállításaihoz"
+
+msgid "assf_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Teszt és értékelés menüpontot"
+
+msgid "assf_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Teszt és értékelés beállításait"
+
+msgid "auth_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Hitelesítés és regisztráció jogosultsági beállításait"
+
+msgid "auth_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Hitelesítése és regisztráció beállításaihoz"
+
+msgid "auth_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Hitelesítés és regisztráció menüpontot"
+
+msgid "auth_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Hitelesítés és regisztráció beállításait"
+
+msgid "awra_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » ‘Ki van online’ jogosultsági beállításait"
+
+msgid "awra_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » ‘Ki van online’ beállításaihoz"
+
+msgid "awra_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » ‘Ki van online’ menüpontot"
+
+msgid "awra_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » ‘Ki van online’ beállításait"
+
+msgid "bdga_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Érdemérmek jogosultsági beállításait"
+
+msgid "bdga_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Érdemérmek beállításaihoz"
+
+msgid "bdga_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Érdemérmek menüpontot"
+
+msgid "bdga_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Érdemérmek beállításait"
+
+msgid "bibl_copy"
+msgstr "A felhasználó másolhatja a bibliográfiát"
+
+msgid "bibl_delete"
+msgstr "A felhasználó mozgathatja és törölheti a bibliográfiát"
+
+msgid "bibl_edit_permission"
+msgstr "A felhasználó módosíthatja a jogosultsági beállításokat"
+
+msgid "bibl_read"
+msgstr "A felhasználónak olvasási hozzáférése van a bibliográfia tartalmához"
+
+msgid "bibl_visible"
+msgstr "Bibliográfia látható"
+
+msgid "bibl_write"
+msgstr "A felhasználó szerkesztheti a bibliográfiát beállításait"
+
+msgid "bibs_copy"
+msgstr "A felhasználó másolhatja a bibliográfiát"
+
+msgid "bibs_delete"
+msgstr "A felhasználó törölhet bibliográfiai bejegyzéseket"
+
+msgid "bibs_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Bibliográfia beállításait"
+
+msgid "bibs_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Bibliográfiához"
+
+msgid "bibs_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Bibliográfia menüpontot"
+
+msgid "bibs_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Bibliográfia beállításait"
+
+msgid "blga_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Blog jogosultsági beállításait"
+
+msgid "blga_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Blog beállításaihoz"
+
+msgid "blga_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Blog menüpontot"
+
+msgid "blga_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Blog beállításait"
+
+msgid "blog_contribute"
+msgstr "A felhasználó blogbejegyzést írhat és tehet közzé"
+
+msgid "blog_copy"
+msgstr "A felhasználó másolhat blogot"
+
+msgid "blog_delete"
+msgstr "A felhasználó áthelyezhet vagy törölhet blogot"
+
+msgid "blog_edit_permission"
+msgstr "A felhasználó módosíthatja a jogosultsági beállításokat"
+
+msgid "blog_read"
+msgstr "A felhasználó olvashat blogtartalmat"
+
+msgid "blog_redact"
+msgstr "Felhasználó más szerzők bejegyzéseit is módosíthatja"
+
+msgid "blog_visible"
+msgstr "Blog látható"
+
+msgid "blog_write"
+msgstr "A felhasználó szerkeszthet blogbeállításokat"
+
+msgid "book_copy"
+msgstr "A felhasználó másolhat foglalásgyűjteményt."
+
+msgid "book_delete"
+msgstr "A felhasználó áthelyezhet vagy törölhet foglalásgyűjteményt"
+
+msgid "book_edit_permission"
+msgstr "A felhasználó megváltoztathatja a foglalásgyűjteményt jogosultságait"
+
+msgid "book_manage_all_reservations"
+msgstr "A felhasználó kezelheti az összes foglalást"
+
+msgid "book_manage_own_reservations"
+msgstr "A felhasználó kezelheti a saját foglalásait"
+
+msgid "book_read"
+msgstr "A felhasználó foglalhat a foglalásgyűjtemény erőforrásaiból/objektumaiból"
+
+msgid "book_visible"
+msgstr "A foglalásgyűjtemény látható"
+
+msgid "book_write"
+msgstr "A felhasználó megváltoztathatja a foglalásgyűjteményt beállításait és tartalmát"
+
+msgid "cadm_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Kapcsolatok jogosultsági beállításait"
+
+msgid "cadm_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Kapcsolatok beállításaihoz"
+
+msgid "cadm_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Kapcsolatok menüpontot"
+
+msgid "cadm_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Kapcsolatok beállításait"
+
+msgid "cals_add_consultation_hours"
+msgstr "A felhasználó létrehozhat és módosíthat konzultációs időpontokat a naptárába"
+
+msgid "cals_edit_event"
+msgstr "A felhasználó létrehozhat és szerkeszthet nyilvános naptárakat és eseményeket"
+
+msgid "cals_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Naptár jogosultsági beállításait"
+
+msgid "cals_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Naptár beállításaihoz"
+
+msgid "cals_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Naptár menüpontot"
+
+msgid "cals_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Naptár beállításait"
+
+msgid "cat_administrate_users"
+msgstr "Helyi ILIAS-fiókok kezelése"
+
+msgid "cat_cat_administrate_users"
+msgstr "A felhasználó ebben a kategóriában létrehozhat és kezelhet helyi ILIAS-fiókokat"
+
+msgid "cat_copy"
+msgstr "A felhasználó másolhat kategóriát"
+
+msgid "cat_delete"
+msgstr "A felhasználó áthelyezheti vagy törölheti a kategóriát"
+
+msgid "cat_edit_permission"
+msgstr "A felhasználó módosíthatja a jogosultsági beállításokat"
+
+msgid "cat_read"
+msgstr "A felhasználónak olvasási hozzáférése van a kategóriához"
+
+msgid "cat_read_users"
+msgstr "A felhasználónak olvasási hozzáférése van az ebben a kategóriában létrehozott ILIAS-fiókokhoz"
+
+msgid "cat_visible"
+msgstr "A kategória látható"
+
+msgid "cat_write"
+msgstr "A felhasználó módosíthatja a kategória beállításait és kezelheti tartalmát"
+
+msgid "catr_copy"
+msgstr "A felhasználó másolhat kategórialinket"
+
+msgid "catr_delete"
+msgstr "A felhasználó áthelyezhet vagy törölhet kategórialinket"
+
+msgid "catr_edit_permission"
+msgstr "A felhasználó módosíthatja a jogosultsági beállításokat"
+
+msgid "catr_visible"
+msgstr "A kategórialink látható"
+
+msgid "catr_write"
+msgstr "A felhasználó szerkeszthet kategórialinket beállításokat"
+
+msgid "cert_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Tanúsítvány jogosultsági beállításait"
+
+msgid "cert_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Tanúsítvány beállításaihoz"
+
+msgid "cert_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Tanúsítvány menüpontot"
+
+msgid "cert_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Tanúsítvány beállításait"
+
+msgid "change_existing_object_type_desc"
+msgstr "Ez meg fogja változtatni a típus már létező objektumainak jogosultság-beállításait is"
+
+msgid "change_existing_objects"
+msgstr "A fastruktúra jelen pontjától örökítés"
+
+msgid "change_existing_objects_desc"
+msgstr "Ennek a szerepnek a jogosultsági beállításait alkalmazzuk az összes, már létező objektumra. Ha csak bizonyos objektumtípusokra szeretné a változtatást, kattintson a jelölőnégyzetekre a kiválasztandó objektumtípus jobb oldalán."
+
+msgid "change_existing_prefix"
+msgstr "Már létező"
+
+msgid "change_existing_prefix_single"
+msgstr "A már létező"
+
+msgid "change_existing_suffix"
+msgstr "jogosultságainak módosítása"
+
+msgid "change_existing_suffix_single"
+msgstr "jogosultságainak módosítása"
+
+msgid "change_presentation"
+msgstr "Megjelenítés módosítása"
+
+msgid "chtr_delete"
+msgstr "Felhasználó mozgathat és törölhet csevegőszobát"
+
+msgid "chtr_edit_permission"
+msgstr "A felhasználó szerkesztheti a csevegőszoba jogosultsági beállításait"
+
+msgid "chtr_moderate"
+msgstr "A felhasználó moderálhat beszélgetést csevegőszobában"
+
+msgid "chtr_read"
+msgstr "A felhasználó csatlakozhat és részt vehet a csevegőszobában"
+
+msgid "chtr_visible"
+msgstr "A csevegőszoba látható"
+
+msgid "chtr_write"
+msgstr "A felhasználó szerkesztheti a csevegőszoba beállításait, és kitilthat felhasználókat"
+
+msgid "cmis_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » xAPI/cmi5 jogosultsági beállításait"
+
+msgid "cmis_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » xAPI/cmi5 beállításaihoz"
+
+msgid "cmis_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » xAPI/cmi5 menüpontot"
+
+msgid "cmis_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » xAPI/cmi5 beállításait"
+
+msgid "cmix_copy"
+msgstr "A felhasználó másolhat xAPI/cmi5-objektumot"
+
+msgid "cmix_delete"
+msgstr "A felhasználó áthelyezhet vagy törölhet xAPI/cmi5-objektumot"
+
+msgid "cmix_edit_learning_progress"
+msgstr "A felhasználó szerkesztheti tanulási haladás beállításait"
+
+msgid "cmix_edit_permission"
+msgstr "A felhasználó módosíthatja a jogosultsági beállításokat"
+
+msgid "cmix_read"
+msgstr "A felhasználó láthatja a xAPI/cmi5-objektumot"
+
+msgid "cmix_read_learning_progress"
+msgstr "A felhasználó láthatja más felhasználók tanulási haladását"
+
+msgid "cmix_read_outcomes"
+msgstr "A felhasználó láthatja más felhasználók tanulási tapasztalatait és rangsorolásait"
+
+msgid "cmix_visible"
+msgstr "Az xAPI/cmi5-objektum látható"
+
+msgid "cmix_write"
+msgstr "A felhasználó szerkesztheti xAPI/cmi5-objektum beállításait"
+
+msgid "cmps_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Bővítmények jogosultsági beállításait"
+
+msgid "cmps_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Bővítmények beállításaihoz"
+
+msgid "cmps_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Bővítmények menüpontot"
+
+msgid "cmps_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Bővítmények beállításait"
+
+msgid "coms_edit_permissions"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Hozzászólások jogosultsági beállításait"
+
+msgid "coms_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Hozzászólások beállításaihoz"
+
+msgid "coms_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Hozzászólások menüpontot"
+
+msgid "coms_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Hozzászólások beállításait"
+
+msgid "condition_failed"
+msgstr "Sikertelen"
+
+msgid "condition_learning_progress"
+msgstr "Tanulási haladásból származik"
+
+msgid "condition_result_range_percentage"
+msgstr "Eredménytartomány"
+
+msgid "contribute"
+msgstr "Közreműködés"
+
+msgid "copa_copy"
+msgstr "Tartalomlap másolása"
+
+msgid "copa_delete"
+msgstr "A felhasználó mozgathatja, illetve törölheti a tartalomlapot"
+
+msgid "copa_edit_learning_progress"
+msgstr "A felhasználó módosíthatja a tanulási haladás beállításait"
+
+msgid "copa_edit_permission"
+msgstr "A felhasználó módosíthatja a jogosultsági beállításokat"
+
+msgid "copa_read"
+msgstr "A felhasználó olvashatja a tartalomlapot"
+
+msgid "copa_read_learning_progress"
+msgstr "A felhasználó megnézheti mások tanulási haladását"
+
+msgid "copa_visible"
+msgstr "A tartalomlapok láthatók"
+
+msgid "copa_write"
+msgstr "A felhasználó módosíthatja a tartalomlapot"
+
+msgid "cpad_edit_permissions"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Tartalomlap jogosultsági beállításait"
+
+msgid "cpad_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Tartalomlap beállításaihoz"
+
+msgid "cpad_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Tartalomlap menüpontot"
+
+msgid "cpad_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Tartalomlap beállításait"
+
+msgid "crs_copy"
+msgstr "A felhasználó másolhat kurzust"
+
+msgid "crs_delete"
+msgstr "A felhasználó áthelyezhet vagy törölhet kurzust"
+
+msgid "crs_edit_event"
+msgstr "Naptáresemények módosítása"
+
+msgid "crs_edit_learning_progress"
+msgstr "A felhasználó módosíthatja a tanulási haladás beállításait"
+
+msgid "crs_edit_permission"
+msgstr "A felhasználó módosíthatja a jogosultsági beállításokat"
+
+msgid "crs_grade"
+msgstr "Kurzus tagjaink értékelése"
+
+msgid "crs_join"
+msgstr "A felhasználó csatlakozhat a kurzushoz"
+
+msgid "crs_leave"
+msgstr "A felhasználó kiléphet a kurzusból"
+
+msgid "crs_manage_members"
+msgstr "Kurzus tagjainak kezelése"
+
+msgid "crs_news_add_news"
+msgstr "Kurzusban saját hírek létrehozása és módosítása"
+
+msgid "crs_read"
+msgstr "A felhasználónak olvasási elérése van a kurzushoz"
+
+msgid "crs_read_learning_progress"
+msgstr "A felhasználó megnézheti mások tanulási haladását"
+
+msgid "crs_visible"
+msgstr "A kurzus látható"
+
+msgid "crs_write"
+msgstr "A felhasználó módosíthatja a kurzus beállításait és kezelheti a tartalmát"
+
+msgid "crsr_copy"
+msgstr "A felhasználó másolhat kurzuslinket"
+
+msgid "crsr_delete"
+msgstr "A felhasználó áthelyezhet vagy törölhet kurzuslinket"
+
+msgid "crsr_edit_learning_progress"
+msgstr "A felhasználó módosíthatja a tanulási haladás beállításait"
+
+msgid "crsr_edit_permission"
+msgstr "A felhasználó módosíthatja a jogosultsági beállításokat"
+
+msgid "crsr_read_learning_progress"
+msgstr "A felhasználó megtekintheti a többi felhasználó tanulási haladását"
+
+msgid "crsr_visible"
+msgstr "A kurzuslink látható"
+
+msgid "crsr_write"
+msgstr "A felhasználó szerkesztheti kurzuslinket"
+
+msgid "crss_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Kurzus jogosultsági beállításait"
+
+msgid "crss_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Kurzus beállításaihoz"
+
+msgid "crss_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Kurzus menüpontot"
+
+msgid "crss_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Kurzus beállításait"
+
+msgid "dcl_add_entry"
+msgstr "A felhasználó létrehozhat/törölhet bejegyzéseket"
+
+msgid "dcl_copy"
+msgstr "A felhasználó másolhat adatgyűjtést"
+
+msgid "dcl_delete"
+msgstr "A felhasználó áthelyezhet vagy törölhet adatgyűjtést"
+
+msgid "dcl_edit_content"
+msgstr "Bejegyzések módosítása"
+
+msgid "dcl_edit_permission"
+msgstr "A felhasználó módosíthat jogosultsági beállításokat"
+
+msgid "dcl_read"
+msgstr "Olvasási hozzáférés az adatgyűjtéshez"
+
+msgid "dcl_visible"
+msgstr "Adatgyűjtés látható"
+
+msgid "dcl_write"
+msgstr "A felhasználó szerkesztheti az adatgyűjtés beállításait és tartalmát"
+
+msgid "delete_files"
+msgstr "Fájlok törlése"
+
+msgid "delete_folders"
+msgstr "Mappák törlése"
+
+msgid "delete_wiki_pages"
+msgstr "Oldalak törlése"
+
+msgid "dpro_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Adatvédelem Nyilatkozat jogosultsági beállításait"
+
+msgid "dpro_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Adatvédelem Nyilatkozat beállításaihoz"
+
+msgid "dpro_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Adatvédelem Nyilatkozat menüpontot"
+
+msgid "dpro_write"
+msgstr "A felhasználó szerkesztheti az Adatvédelem Nyilatkozatot"
+
+msgid "dshs_change_presentation"
+msgstr "Műszerfal megjelenítésének módosítása"
+
+msgid "dshs_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Műszerfal jogosultsági beállításait"
+
+msgid "dshs_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Műszerfal beállításaihoz"
+
+msgid "dshs_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Műszerfal menüpontot"
+
+msgid "dshs_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Műszerfal beállításait"
+
+msgid "ecss_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » ECS jogosultsági beállításait"
+
+msgid "ecss_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » ECS beállításaihoz"
+
+msgid "ecss_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » ECS menüpontot"
+
+msgid "ecss_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » ECS beállításait"
+
+msgid "edit_event"
+msgstr "Naptár módosítása"
+
+msgid "edit_file"
+msgstr "Fájl módosítása"
+
+msgid "edit_in_online_editor"
+msgstr "Megnyitás online szerkesztővel"
+
+msgid "edit_learning_progress"
+msgstr "Tanulási haladás beállításainak módosítása"
+
+msgid "edit_members"
+msgstr "Tagok kezelése"
+
+msgid "edit_permission"
+msgstr "Jogosultságok módosítása"
+
+msgid "edit_roleassignment"
+msgstr "Szerep-hozzárendelés módosítása"
+
+msgid "edit_submissions_grades"
+msgstr "Megoldások és értékelések módosítása"
+
+msgid "edit_userassignment"
+msgstr "Felhasználó hozzárendelés módosítása"
+
+msgid "edit_wiki_navigation"
+msgstr "Navigáció módosítása"
+
+msgid "exc_copy"
+msgstr "A felhasználó másolhat beadandó feladatot"
+
+msgid "exc_delete"
+msgstr "A felhasználó áthelyezhet vagy törölhet beadandó feladatot"
+
+msgid "exc_edit_learning_progress"
+msgstr "A felhasználó módosíthatja a tanulási haladás beállításait"
+
+msgid "exc_edit_permission"
+msgstr "A felhasználó módosíthatja a jogosultsági beállításokat"
+
+msgid "exc_edit_submissions_grades"
+msgstr "A felhasználó módosíthatja a Megoldások és értékelések beállításait"
+
+msgid "exc_read"
+msgstr "A felhasználó részt vehet a beadandó feladatban"
+
+msgid "exc_read_learning_progress"
+msgstr "A felhasználó megnézheti mások tanulási haladását"
+
+msgid "exc_visible"
+msgstr "A beadandó feladat látható"
+
+msgid "exc_write"
+msgstr "A felhasználó módosíthatja a beadandó feladat beállításait és feladatait"
+
+msgid "excs_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Beadandó feladat jogosultsági beállításait"
+
+msgid "excs_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Beadandó feladat beállításaihoz"
+
+msgid "excs_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Beadandó feladat menüpontot"
+
+msgid "excs_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Beadandó feladat beállításait"
+
+msgid "export_member_data"
+msgstr "Felhasználói adatokhoz hozzáférés"
+
+msgid "facs_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Fájlok és mappák jogosultsági beállításait"
+
+msgid "facs_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Fájlok és mappák beállításaihoz"
+
+msgid "facs_upload_blacklisted_files"
+msgstr "Az indexelt fájlok feltltése a tiltólista megkerülésével"
+
+msgid "facs_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Fájlok és mappák menüpontot"
+
+msgid "facs_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Fájlok és mappák beállításait"
+
+msgid "feed_copy"
+msgstr "A felhasználó másolhat webhírforrást"
+
+msgid "feed_delete"
+msgstr "A felhasználó áthelyezhet vagy törölhet webhírforrást"
+
+msgid "feed_edit_permission"
+msgstr "A felhasználó módosíthatja a jogosultsági beállításokat"
+
+msgid "feed_read"
+msgstr "A felhasználó olvashat webhírforrást"
+
+msgid "feed_write"
+msgstr "A felhasználó módosíthat webhírforrás-beállításokat"
+
+msgid "file_copy"
+msgstr "A felhasználó másolhat fájlt"
+
+msgid "file_delete"
+msgstr "A felhasználó áthelyezhet vagy törölhet fájlt"
+
+msgid "file_edit_file"
+msgstr "Fájl módosításának engedélyezése külső szerkesztővel (ha van)"
+
+msgid "file_edit_learning_progress"
+msgstr "A felhasználó módosíthatja a tanulási haladás beállításait"
+
+msgid "file_edit_permission"
+msgstr "A felhasználó módosíthatja a jogosultsági beállításokat"
+
+#, fuzzy
+msgid "file_file_view_content"
+msgstr "File content presented in browser (if WOPI is active)"
+
+#, fuzzy
+msgid "file_file_view_content_short"
+msgstr "Show Content"
+
+msgid "file_read"
+msgstr "A felhasználó tölthet fel fájlt"
+
+msgid "file_read_learning_progress"
+msgstr "A felhasználó megnézheti mások tanulási haladását"
+
+msgid "file_visible"
+msgstr "A fájl látható."
+
+msgid "file_write"
+msgstr "A felhasználó módosíthatja a fájlbeállításokat, és tölthet fel új fájlverziót"
+
+msgid "files_visible"
+msgstr "Fájlok láthatók"
+
+msgid "fils_edit_permissions"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Fájlszolgáltatás jogosultsági beállításait"
+
+msgid "fils_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Fájlszolgáltatás beállításaihoz"
+
+msgid "fils_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Fájlszolgáltatás menüpontot"
+
+msgid "fils_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Fájlszolgáltatás beállításait"
+
+msgid "filter_all_roles"
+msgstr "Az itt érvényben lévő összes szerepkör megjelenítése"
+
+msgid "filter_global_roles"
+msgstr "A globális szerepkörök megjelenítése"
+
+msgid "filter_local_roles"
+msgstr "Az itt érvényben lévő helyi szerepkörök megjelenítése"
+
+msgid "filter_local_roles_object"
+msgstr "Az itt létrehozott helyi szerepkörök megjelenítése"
+
+msgid "filter_roles_local_policy"
+msgstr "Az itt helyi jogosultságokat használó szerepkörök megjelenítése"
+
+msgid "fld_create_poll"
+msgstr "Szavazás létrehozása"
+
+msgid "fold_copy"
+msgstr "A felhasználó másolhat mappát"
+
+msgid "fold_delete"
+msgstr "A felhasználó áthelyezhet vagy törölhet mappát"
+
+msgid "fold_edit_learning_progress"
+msgstr "A felhasználó módosíthatja a tanulási haladás beállításait"
+
+msgid "fold_edit_permission"
+msgstr "A felhasználó módosíthatja a jogosultsági beállításokat"
+
+msgid "fold_read"
+msgstr "A felhasználónak olvasási elérése van a mappához"
+
+msgid "fold_read_learning_progress"
+msgstr "A felhasználó megnézheti mások tanulási haladását"
+
+msgid "fold_visible"
+msgstr "A mappa látható"
+
+msgid "fold_write"
+msgstr "A felhasználó módosíthatja a mappák beállításait és kezelheti a tartalmukat"
+
+msgid "folders_create"
+msgstr "Mappák létrehozása"
+
+msgid "folders_visible"
+msgstr "Mappák láthatók"
+
+msgid "frm_add_reply"
+msgstr "A felhasználó válaszolhat a hozzászólásra"
+
+msgid "frm_add_thread"
+msgstr "A felhasználó vehet fel új témát"
+
+msgid "frm_copy"
+msgstr "A felhasználó másolhat fórumot"
+
+msgid "frm_delete"
+msgstr "A felhasználó áthelyezhet vagy törölhet fórumot"
+
+msgid "frm_edit_learning_progress"
+msgstr "A felhasználó módosíthatja a tanulás haladás beállításait"
+
+msgid "frm_edit_permission"
+msgstr "A felhasználó módosíthatja a jogosultsági beállításokat"
+
+msgid "frm_moderate_frm"
+msgstr "A felhasználó módosíthatja, cenzúrázhatja és törölheti a hozzászólásokat"
+
+msgid "frm_read"
+msgstr "A felhasználónak olvasási hozzáférése van a fórumhoz"
+
+msgid "frm_read_learning_progress"
+msgstr "A felhasználó megnézheti a többi felhasználó tanulási haladását"
+
+msgid "frm_visible"
+msgstr "A fórum látható"
+
+msgid "frm_write"
+msgstr "A felhasználó módosíthatja a fórum beállításait és moderátorait"
+
+msgid "frma_edit_permission"
+msgstr "Jogosultsági beállítások változtatása"
+
+msgid "frma_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Fórum beállításaihoz"
+
+msgid "frma_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Fórum menüpontot"
+
+msgid "frma_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Fórum jogosultsági beállításait"
+
+msgid "glo_copy"
+msgstr "A felhasználó másolhat fogalomtárat"
+
+msgid "glo_delete"
+msgstr "A felhasználó áthelyezhet vagy törölhet fogalomtárat"
+
+msgid "glo_edit_content"
+msgstr "Felhasználó szerkesztheti a tartalmat"
+
+msgid "glo_edit_permission"
+msgstr "A felhasználó módosíthatja a jogosultsági beállításokat"
+
+msgid "glo_read"
+msgstr "A felhasználó olvashat fogalomtár-tartalmat"
+
+msgid "glo_visible"
+msgstr "A fogalomtár látható"
+
+msgid "glo_write"
+msgstr "A felhasználó módosíthat fogalomtár-tartalmat és -beállításokat"
+
+msgid "grp_copy"
+msgstr "A felhasználó másolhat csoportot"
+
+msgid "grp_delete"
+msgstr "A felhasználó áthelyezhet vagy törölhet csoportot"
+
+msgid "grp_edit_event"
+msgstr "Naptáresemények módosítása"
+
+msgid "grp_edit_learning_progress"
+msgstr "A felhasználó módosíthatja a tanulási haladás beállításait"
+
+msgid "grp_edit_permission"
+msgstr "A felhasználó módosíthatja a jogosultsági beállításokat"
+
+msgid "grp_grade"
+msgstr "Csoport tagjaink értékelése"
+
+msgid "grp_join"
+msgstr "A felhasználó csatlakozhat a csoporthoz"
+
+msgid "grp_leave"
+msgstr "A felhasználó távozhat a csoportból"
+
+msgid "grp_manage_members"
+msgstr "Csoport tagjainak kezelése"
+
+msgid "grp_news_add_news"
+msgstr "Csoportban saját hírek létrehozása és módosítása"
+
+msgid "grp_read"
+msgstr "A felhasználónak olvasási elérése van csoporthoz"
+
+msgid "grp_read_learning_progress"
+msgstr "A felhasználó megnézheti mások tanulási haladását"
+
+msgid "grp_visible"
+msgstr "A csoport látható"
+
+msgid "grp_write"
+msgstr "A felhasználó szerkeszthet csoportbeállításokat, és kezelheti a tartalmat"
+
+msgid "grpr_copy"
+msgstr "A felhasználók másolhatnak csoportlinket"
+
+msgid "grpr_delete"
+msgstr "A felhasználó mozgathat vagy törölhet csoportlinket"
+
+msgid "grpr_edit_permission"
+msgstr "A felhasználók módosíthatja a csoportlink jogosultságait"
+
+msgid "grpr_visible"
+msgstr "A csoportlink látható"
+
+msgid "grpr_write"
+msgstr "A felhasználók módosíthatja a csoportlink beállításait"
+
+msgid "grps_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Csoport jogosultsági beállításait"
+
+msgid "grps_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Csoport beállításaihoz"
+
+msgid "grps_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Csoport menüpontot"
+
+msgid "grps_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Csoport beállításait"
+
+msgid "hlps_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Súgórendszer jogosultsági beállításait"
+
+msgid "hlps_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Súgórendszer beállításaihoz"
+
+msgid "hlps_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Súgórendszer menüpontot"
+
+msgid "hlps_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Súgórendszer beállításait, és új verziót tölthet fel"
+
+msgid "htlm_copy"
+msgstr "A felhasználó másolhat HTML-tananyagot"
+
+msgid "htlm_delete"
+msgstr "A felhasználó áthelyezhet vagy törölhet HTML-tananyagot"
+
+msgid "htlm_edit_learning_progress"
+msgstr "A felhasználó módosíthatja a tanulási haladás beállításait"
+
+msgid "htlm_edit_permission"
+msgstr "A felhasználó módosíthatja a jogosultsági beállításokat"
+
+msgid "htlm_read"
+msgstr "A felhasználó olvashat HTML-tananyagot"
+
+msgid "htlm_read_learning_progress"
+msgstr "A felhasználó megnézheti mások tanulási haladását"
+
+msgid "htlm_visible"
+msgstr "HTML-tananyag látható"
+
+msgid "htlm_write"
+msgstr "A felhasználó szerkeszthet HTML-tananyag tartalmat és beállításokat"
+
+msgid "iass_amend_grading"
+msgstr "Értékelés utólagos módosítása egy Személyes értékelésben"
+
+msgid "iass_copy"
+msgstr "Személyes értékelés másolása"
+
+msgid "iass_delete"
+msgstr "Személyes értékelés törlése"
+
+msgid "iass_edit_learning_progress"
+msgstr "Személyes értékelés tanulási haladási információjának módosítása"
+
+msgid "iass_edit_members"
+msgstr "Személyes értékelés tagjainak módosítása"
+
+msgid "iass_edit_permission"
+msgstr "Személyes értékelés jogosultságainak módosítása"
+
+msgid "iass_read"
+msgstr "Személyes értékelés tartalmának olvasása"
+
+msgid "iass_read_learning_progress"
+msgstr "Személyes értékelés tanulási haladási információjának megjelenítése"
+
+msgid "iass_visible"
+msgstr "Személyes értékelés látható"
+
+msgid "iass_write"
+msgstr "Személyes értékelés módosítása"
+
+msgid "il_lti_global_role"
+msgstr "LTI-Felhasználó"
+
+msgid "il_sess_participant"
+msgstr "Munkamenet résztvevők"
+
+msgid "il_sess_status_closed"
+msgstr "Résztvevő nélküli zárt esemény"
+
+msgid "ilias_id"
+msgstr "ILIAS-ID"
+
+msgid "impr_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Jogi nyilatkozat jogosultsági beállításait"
+
+msgid "impr_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Jogi nyilatkozat beállításaihoz"
+
+msgid "impr_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Jogi nyilatkozat menüpontot"
+
+msgid "impr_write"
+msgstr "UA felhasználó módosíthatja a Rendszerbeállítások » Jogi nyilatkozat beállításait"
+
+msgid "info_user_view_changed"
+msgstr "A felhasználói nézet megváltozott"
+
+msgid "internal_mail"
+msgstr "Belső levelezés"
+
+msgid "invite"
+msgstr "Meghívás kérdőívhez"
+
+msgid "itgr_copy"
+msgstr "A felhasználó másolhat objektumcsoportot"
+
+msgid "itgr_delete"
+msgstr "A felhasználó áthelyezhet vagy törölhet objektumcsoportot"
+
+msgid "itgr_edit_permission"
+msgstr "A felhasználó módosíthatja a jogosultsági beállításokat"
+
+msgid "itgr_read"
+msgstr "A felhasználó olvashat objektumcsoportot"
+
+msgid "itgr_visible"
+msgstr "Elem csoport látható"
+
+msgid "itgr_write"
+msgstr "A felhasználó szerkesztheti objektumcsoport tartalmát és beállításait"
+
+msgid "leave"
+msgstr "Kilépés"
+
+msgid "lhts_edit_permissions"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Tanulási történelem jogosultsági beállításait"
+
+msgid "lhts_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Tanulási történelem beállításaihoz"
+
+msgid "lhts_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Tanulási történelem menüpontot"
+
+msgid "lhts_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Tanulási történelem beállításait"
+
+msgid "lm_copy"
+msgstr "A felhasználó másolhat ILIAS-tananyagot"
+
+msgid "lm_delete"
+msgstr "A felhasználó áthelyezhet vagy törölhet ILIAS-tananyagot"
+
+msgid "lm_edit_learning_progress"
+msgstr "A felhasználó módosíthatja a tanulási haladás beállításait"
+
+msgid "lm_edit_permission"
+msgstr "A felhasználó módosíthatja a jogosultsági beállításokat"
+
+msgid "lm_read"
+msgstr "A felhasználó olvashat ILIAS-tananyagot"
+
+msgid "lm_read_learning_progress"
+msgstr "A felhasználó megnézheti mások tanulási haladását"
+
+msgid "lm_visible"
+msgstr "ILIAS-tananyag látható"
+
+msgid "lm_write"
+msgstr "A felhasználó szerkeszthet ILIAS-tananyag tartalmat és beállításokat"
+
+msgid "lngf_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Nyelv jogosultsági beállításait"
+
+msgid "lngf_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Nyelv beállításaihoz"
+
+msgid "lngf_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Nyelvek menüpontot"
+
+msgid "lngf_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Nyelvek beállításait, és használhatja a haladó nyelvi karbantartót"
+
+msgid "logs_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Naplózási beállítások beállításait"
+
+msgid "logs_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Naplózási beállítások beállításaihoz"
+
+msgid "logs_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Naplózási beállítások menüpontot"
+
+msgid "logs_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Naplózási beállítások beállításait"
+
+msgid "lp_other_users"
+msgstr "A felhasználó megtekintheti a többi felhasználó tanulási haladását"
+
+msgid "lrss_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Tananyagok jogosultsági beállításait"
+
+msgid "lrss_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Tananyagok beállításaihoz"
+
+msgid "lrss_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Tananyagok menüpontot"
+
+msgid "lrss_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Tananyagok beállításait"
+
+msgid "lso_copy"
+msgstr "A felhasználó másolhat a tanulási sort"
+
+msgid "lso_delete"
+msgstr "A felhasználó törölhet tanulási sort"
+
+msgid "lso_edit_learning_progress"
+msgstr "A felhasználó módosíthatja a tanulási haladás beállításait"
+
+msgid "lso_edit_permission"
+msgstr "A felhasználó módosíthatja a tanulási sor jogosultsági beállításait"
+
+msgid "lso_lp_other_users"
+msgstr "A felhasználó megtekintheti a többi felhasználó tanulási haladását"
+
+msgid "lso_manage_members"
+msgstr "Tanulási sor tagjainak kezelése"
+
+msgid "lso_participate"
+msgstr "A felhasználó feliratkozhat a tanulási sorra"
+
+msgid "lso_read"
+msgstr "A felhasználónak olvasási hozzáférése van a tanulási sorhoz"
+
+msgid "lso_read_learning_progress"
+msgstr "A felhasználó megnézheti mások tanulási haladását"
+
+msgid "lso_unparticipate"
+msgstr "A felhasználó leiratkozhat a tanulási sorról"
+
+msgid "lso_visible"
+msgstr "A tanulási sor látható"
+
+msgid "lso_write"
+msgstr "A felhasználó módosíthatja a tanulási sor beállításait"
+
+msgid "lsos_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Tanulási sor jogosultsági beállításait"
+
+msgid "lsos_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Tanulási sor beállításaihoz"
+
+msgid "lsos_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Tanulási sor menüpontot"
+
+msgid "lsos_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Tanulási sor beállításait"
+
+msgid "lti_copy"
+msgstr "A felhasználó másolhat LTI-Fogyasztót"
+
+msgid "lti_delete"
+msgstr "A felhasználó áthelyezhet vagy törölhet LTI-Fogyasztót"
+
+msgid "lti_edit_learning_progress"
+msgstr "A felhasználó szerkesztheti tanulási folyamat beállításait"
+
+msgid "lti_edit_permission"
+msgstr "A felhasználó módosíthatja a jogosultsági beállításokat"
+
+msgid "lti_read"
+msgstr "A felhasználó láthatja az LTI-Fogyasztót"
+
+msgid "lti_read_learning_progress"
+msgstr "A felhasználó láthatja más felhasználók tanulási folyamatát"
+
+msgid "lti_read_outcomes"
+msgstr "A felhasználó láthatja más felhasználók tanulási tapasztalatait és rangsorolásait"
+
+msgid "lti_visible"
+msgstr "Az LTI-Fogyasztó látható"
+
+msgid "lti_write"
+msgstr "A felhasználó módosíthaja az LTI-Fogyasztó beállításait"
+
+msgid "ltis_add_consume_provider"
+msgstr "A felhasználó hozzáadhat saját kiszolgálóbeállításokat az LTI-Fogyasztóknak"
+
+msgid "ltis_edit_permission"
+msgstr "A felhasználó módosíthatja az LTI-kezelés jogosultsági beállításait"
+
+msgid "ltis_read"
+msgstr "A felhasználónak olvasási hozzáférése van az LTI-kezelés beállításaihoz"
+
+msgid "ltis_release_objects"
+msgstr "A felhasználó kiadhat objektumokat az LTI-fogyasztóknak"
+
+msgid "ltis_visible"
+msgstr "LTI-kezelés látható"
+
+msgid "ltis_write"
+msgstr "A felhasználónak módosíthatja az LTI-kezelés beállításaihoz"
+
+msgid "mail_internal_mail"
+msgstr "A felhasználó használhatja a belső levelezőrendszert (ILIAS)"
+
+msgid "mail_mail_to_global_roles"
+msgstr "A felhasználó küldhet levelet a globális szerepköröknek"
+
+msgid "mail_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Levelezés beállításaihoz"
+
+msgid "mail_smtp_mail"
+msgstr "A felhasználó SMTP-n keresztül küldhet e-mailt külső címekre"
+
+msgid "mail_to_global_roles"
+msgstr "Globális szerepköröknek levél"
+
+msgid "mail_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Levelezés menüpontot"
+
+msgid "mail_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Levelezés beállításait"
+
+msgid "manage_all_reservations"
+msgstr "Az összes foglalás kezelése"
+
+msgid "manage_comp"
+msgstr "A felhasználó módosíthatja a kompetenciákat"
+
+msgid "manage_comp_temp"
+msgstr "A felhasználó módosíthatja a kompetenciasablonokat"
+
+msgid "manage_materials"
+msgstr "Segédanyagok kezelése"
+
+msgid "manage_own_reservations"
+msgstr "Saját foglalások kezelése"
+
+msgid "manage_profiles"
+msgstr "A felhasználó módosíthatja a kompetenciaprofilokat"
+
+msgid "mcst_copy"
+msgstr "A felhasználó másolhat médiasugárzást"
+
+msgid "mcst_delete"
+msgstr "A felhasználó áthelyezhet vagy törölhet médiasugárzást"
+
+msgid "mcst_edit_learning_progress"
+msgstr "A felhasználó módosíthatja a tanulási haladás beállításait"
+
+msgid "mcst_edit_permission"
+msgstr "A felhasználó módosíthatja a jogosultsági beállításokat"
+
+msgid "mcst_read"
+msgstr "A felhasználó olvashat médiasugárzást"
+
+msgid "mcst_read_learning_progress"
+msgstr "A felhasználó megnézheti mások tanulási haladását"
+
+msgid "mcst_visible"
+msgstr "Médiasugárzás látható"
+
+msgid "mcst_write"
+msgstr "A felhasználó szerkeszthet médiasugárzás tartalmat és beállításokat"
+
+msgid "mcts_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » médiasugárzás jogosultsági beállításait"
+
+msgid "mcts_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » médiasugárzás beállításaihoz"
+
+msgid "mcts_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » médiasugárzás menüpontot"
+
+msgid "mcts_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » médiasugárzás beállításait"
+
+msgid "mds_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Metaadat jogosultsági beállításait"
+
+msgid "mds_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Metaadat beállításaihoz"
+
+msgid "mds_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Metaadat menüpontot"
+
+msgid "mds_write"
+msgstr "AA felhasználó módosíthatja a Rendszerbeállítások » Metaadat beállításait"
+
+msgid "mep_copy"
+msgstr "A felhasználó másolhat médiagyűjteményt"
+
+msgid "mep_delete"
+msgstr "A felhasználó áthelyezhet vagy törölhet médiagyűjteményt"
+
+msgid "mep_edit_permission"
+msgstr "A felhasználó módosíthatja a jogosultsági beállításokat"
+
+msgid "mep_read"
+msgstr "A felhasználónak olvasási elérése van a médiagyűjtemény-tartalomhoz, és használhatja a médiaobjektumokat"
+
+msgid "mep_visible"
+msgstr "A médiagyűjtemény látható"
+
+msgid "mep_write"
+msgstr "A felhasználó szerkeszthet médiagyűjtemény-tartalmat és -beállításokat"
+
+msgid "mme_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Főmenü jogosultsági beállításait"
+
+msgid "mme_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Főmenü beállításaihoz"
+
+msgid "mme_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Főmenü menüpontot"
+
+msgid "mme_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Főmenü beállításait"
+
+msgid "mobs_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Médiaobjektumok és -gyűjtemények jogosultsági beállításait"
+
+msgid "mobs_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Médiaobjektumok és -gyűjtemények beállításaihoz"
+
+msgid "mobs_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Médiaobjektumok és -gyűjtemények menüpontot"
+
+msgid "mobs_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Médiaobjektumok és -gyűjtemények beállításait"
+
+msgid "moderate"
+msgstr "Moderálás"
+
+msgid "moderate_frm"
+msgstr "Moderálás"
+
+msgid "msg_anonymous_cannot_be_assigned"
+msgstr "Az Névtelen felhasználót nem lehet szerepkörhöz rendelni."
+
+msgid "msg_no_roles_of_type"
+msgstr "Nincsenek elérhetők szerepkörök a kiválasztott szűrőbeállítással."
+
+msgid "news_add_news"
+msgstr "Hír létrehozása"
+
+msgid "no_corresponding_roles"
+msgstr "Nem található megfelelő szerepkör."
+
+msgid "nots_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Jegyzetek jogosultsági beállításait"
+
+msgid "nots_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Jegyzetek beállításaihoz"
+
+msgid "nots_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Jegyzetek menüpontot"
+
+msgid "nots_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Jegyzetek beállításait"
+
+msgid "nwss_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Hírek és webhírforrások jogosultsági beállításait"
+
+msgid "nwss_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Hírek és webhírforrások beállításaihoz"
+
+msgid "nwss_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Hírek és webhírforrások menüpontot"
+
+msgid "nwss_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Hírek és webhírforrások beállításait"
+
+msgid "obj_skee"
+msgstr "Kompetencia-fa"
+
+msgid "org_op_access_results"
+msgstr "Hozzáférés az alárendelt felhasználók eredményeihez"
+
+msgid "org_op_edit_submissions_grades"
+msgstr "Más felhasználók beküldésének módosítása"
+
+msgid "org_op_manage_participants"
+msgstr "Az alárendelt résztvevők kezelése"
+
+msgid "org_op_score_participants"
+msgstr "Az alárendelt résztvevők pontozása"
+
+msgid "org_op_view_certificates"
+msgstr "Alárendelt felhasználók tanúsítványainak megtekintése"
+
+msgid "org_op_view_competences"
+msgstr "Alárendelt felhasználók kompetenciáinak megtekintése"
+
+msgid "org_op_write_learning_progress"
+msgstr "Alárendelt felhasználók tanulási haladásának módosítása"
+
+msgid "orgu_cat_administrate_users"
+msgstr "A felhasználó létrehozhat és helyi ILIAS-fiókokat kezelhet ebben a Szervezeti egységben"
+
+msgid "orgu_copy"
+msgstr "Szervezeti egység másolása"
+
+msgid "orgu_delete"
+msgstr "A felhasználó mozgathatja és törölheti a Szervezeti egységet"
+
+msgid "orgu_edit_permission"
+msgstr "A felhasználó módosíthatja a jogosultsági beállításokat"
+
+msgid "orgu_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Szervezeti egységhez"
+
+msgid "orgu_read_users"
+msgstr "A felhasználó láthatja a helyi ILIAS-fiókokat ebben a Szervezeti egységben"
+
+msgid "orgu_view_learning_progress"
+msgstr "Tanulási haladás megjelenítése"
+
+msgid "orgu_view_learning_progress_rec"
+msgstr "Egység és alegységei Tanulási haladásának megjelenítése"
+
+msgid "orgu_visible"
+msgstr "Szervezeti egység látható"
+
+msgid "orgu_write"
+msgstr "A felhasználó szerkesztheti a Szervezeti egységet beállításait"
+
+msgid "otpl_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Objektumsablonok jogosultsági beállításait"
+
+msgid "otpl_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Objektumsablonok beállításaihoz"
+
+msgid "otpl_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Objektumsablonok menüpontot"
+
+msgid "otpl_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Objektumsablonok beállításait"
+
+msgid "perm_class_create"
+msgstr "Új objektumok létrehozása"
+
+msgid "perm_class_create_desc"
+msgstr "Itt állíthatja be, hogy milyen objektumtípusokat lehessen létrehozni közvetlenül az objektum alá."
+
+msgid "perm_class_object"
+msgstr "Speciális műveletek"
+
+msgid "perm_class_object_desc"
+msgstr "Objektumspecifikus műveletek."
+
+msgid "perm_global_role"
+msgstr "Globális szerepkör"
+
+msgid "perm_local_role"
+msgstr "Helyi szerepkör"
+
+msgid "perm_local_role_desc"
+msgstr "Ez a szerepkör helyi ebben az objektumban, ami egyenértékű egy helyi jogosultságkezeléssel."
+
+msgid "perm_protected_global_role"
+msgstr "Védett globális szerepkör"
+
+msgid "perm_protected_local_role"
+msgstr "Védett helyi szerepkör"
+
+msgid "perm_role_path_info_created"
+msgstr "Létrehozva ebben: %1$s ‘%2$s’"
+
+msgid "perm_role_path_info_inheritance"
+msgstr "helyi szabályok használata innen: %1$s ‘%2$s’"
+
+msgid "perm_use_local_policy"
+msgstr "Helyi jogosultságkezelés használata"
+
+msgid "perm_use_local_policy_desc"
+msgstr "Ha a helyi jogosultságkezelés be van kapcsolva, az alapértelmezettől eltérő jogosultsági beállításokat adhat meg ehhez az objektumhoz."
+
+msgid "poll_copy"
+msgstr "A felhasználó másolhat szavazást"
+
+msgid "poll_delete"
+msgstr "A felhasználó áthelyezhet és törölhet szavazást"
+
+msgid "poll_edit_permission"
+msgstr "A felhasználó módosíthatja a jogosultsági beállításokat"
+
+msgid "poll_read"
+msgstr "A felhasználó részt vehet szavazásban"
+
+msgid "poll_visible"
+msgstr "Szavazás látható"
+
+msgid "poll_write"
+msgstr "A felhasználó szerkeszthet szavazásbeállításokat és -tartalmat"
+
+msgid "positions_override_operations"
+msgstr "Globális beállítások felülírása"
+
+msgid "precondition_not_obligatory_alt"
+msgstr "Az előfeltétel opcionális"
+
+msgid "precondition_num_obligatory"
+msgstr "Kötelező anyagok száma"
+
+msgid "precondition_num_optional_info"
+msgstr "Adja meg az anyagok minimumszámát az előfeltételek teljesítettségéhez!"
+
+msgid "precondition_number_of_required_materials_bigger_preconditions_number"
+msgstr "A szükséges segédanyagok számának kevesebbnek kell lennie, mint az összes előfeltétel számának."
+
+msgid "precondition_number_of_required_materials_lower_compulsory_items"
+msgstr "A szükséges segédanyagok számának nagyobbnak kell lennie, mint a kötelező előfeltételek számának."
+
+msgid "precondition_number_of_required_materials_lower_than_one"
+msgstr "A szükséges segédanyagok számának legalább 1-nek kell lennie."
+
+msgid "precondition_obligatory"
+msgstr "Kötelező"
+
+msgid "precondition_obligatory_alt"
+msgstr "Az előfeltételeket teljesíteni kell"
+
+msgid "precondition_obligatory_info"
+msgstr "A kötelező előfeltételeket teljesíteni kell a hozzáféréshez."
+
+msgid "precondition_obligatory_settings"
+msgstr "Előfeltételek beállításai"
+
+msgid "precondition_operator_range_err_min_max"
+msgstr "A minimális értéknek kisebbnek kell lennie, mint a maximális értéknek."
+
+msgid "precondition_operator_range_max"
+msgstr "Maximumális %"
+
+msgid "precondition_operator_range_min"
+msgstr "Minimális %"
+
+msgid "prfa_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Portfólió jogosultsági beállításait"
+
+msgid "prfa_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Portfólió beállításaihoz"
+
+msgid "prfa_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Portfólió menüpontot"
+
+msgid "prfa_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Portfólió beállításait"
+
+msgid "prg_copy"
+msgstr "A felhasználó másolhat Képzési programot"
+
+msgid "prg_delete"
+msgstr "A felhasználó törölhet Képzési programot"
+
+msgid "prg_edit_permission"
+msgstr "A felhasználó módosíthatja a jogosultsági beállításokat"
+
+msgid "prg_manage_members"
+msgstr "Képzési programok tagjainak kezelése"
+
+msgid "prg_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Képzési programhoz"
+
+msgid "prg_visible"
+msgstr "A Képzési program látható"
+
+msgid "prg_write"
+msgstr "A felhasználó módosíthatja Képzési programok beállításait"
+
+msgid "prgr_copy"
+msgstr "A felhasználó másolhat képzésiprogram-linket"
+
+msgid "prgr_delete"
+msgstr "A felhasználó áthelyezhet vagy törölhet képzésiprogram-linket"
+
+msgid "prgr_edit_permission"
+msgstr "A felhasználó módosíthatja a jogosultsági beállításokat"
+
+msgid "prgr_visible"
+msgstr "A képzésiprogram-linkek láthatók és használhatók"
+
+msgid "prgr_write"
+msgstr "A felhasználó módosíthatja a képzésiprogram-link beállításait"
+
+msgid "prgs_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Képzési programok jogosultsági beállításait"
+
+msgid "prgs_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Képzési programok beállításaihoz"
+
+msgid "prgs_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Képzési programok menüpontot"
+
+msgid "prgs_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Képzési programok beállításait"
+
+msgid "prss_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » ‘Személyes erőforrások kezelése’ jogosultsági beállításait"
+
+msgid "prss_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » ‘Személyes erőforrások kezelése’ beállításaihoz"
+
+msgid "prss_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » ‘Személyes erőforrások kezelése’ menüpontot"
+
+msgid "prss_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » ‘Személyes erőforrások kezelése’ beállításait"
+
+msgid "prtt_copy"
+msgstr "Felhasználó másolhat portfóliósablont"
+
+msgid "prtt_delete"
+msgstr "Felhasználó áthelyezhet és törölhet portfóliósablont"
+
+msgid "prtt_edit_permission"
+msgstr "A felhasználó megváltoztathatja a portfóliósablon jogosultsági beállításait"
+
+msgid "prtt_read"
+msgstr "Felhasználó olvashat portfóliósablont"
+
+msgid "prtt_visible"
+msgstr "Portfólió sablon látható"
+
+msgid "prtt_write"
+msgstr "Felhasználó szerkesztheti a portfólió sablon beállításait és tartalmát."
+
+msgid "ps_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Adatvédelem és biztonság jogosultsági beállításait"
+
+msgid "ps_export_member_data"
+msgstr "A felhasználó tagadatokat exportálhat kurzusokban és csoportokban"
+
+msgid "ps_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Adatvédelem és biztonság beállításaihoz"
+
+msgid "ps_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Adatvédelem és biztonságot"
+
+msgid "ps_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Adatvédelem és biztonság beállításait"
+
+msgid "push_desktop_items"
+msgstr "Ajánlott tartalom"
+
+msgid "qpl_copy"
+msgstr "A felhasználó másolhat tesztkérdésgyűjteményt tesztekhez"
+
+msgid "qpl_delete"
+msgstr "A felhasználó áthelyezhet vagy törölhet tesztkérdésgyűjteményt"
+
+msgid "qpl_edit_permission"
+msgstr "A felhasználó módosíthatja a jogosultsági beállításokat"
+
+msgid "qpl_read"
+msgstr "A felhasználó olvashat gyűjteményben lévő tesztkérdéseket, és beszúrhatja azokat tesztekbe"
+
+msgid "qpl_visible"
+msgstr "Kérdésgyűjtemény látható"
+
+msgid "qpl_write"
+msgstr "A felhasználó szerkesztheti a kérdésgyűjtemény tesztkérdéseit és beállításait"
+
+msgid "rbac_add_new_local_role"
+msgstr "Új helyi szerepkör létrehozása"
+
+msgid "rbac_add_recommended_content"
+msgstr "Ajánlott tartalom"
+
+msgid "rbac_add_recommended_content_info"
+msgstr "‘%1’ objektumot hozzáadja ajánlott tartalomként a szerepkör összes tagjának."
+
+msgid "rbac_admin_permissions"
+msgstr "Rendszerbeállítási jogosultságok"
+
+msgid "rbac_auto_global"
+msgstr "Automatikusan létrejött globális szerepkör"
+
+msgid "rbac_auto_local"
+msgstr "Automatikusan létrejött helyi szerepkör"
+
+msgid "rbac_auto_rolt"
+msgstr "Automatikusan létrejött szerepsablon"
+
+msgid "rbac_back_to_overview"
+msgstr "Vissza a szereplistához"
+
+msgid "rbac_cant_import_role_wrong_type"
+msgstr "‘%s’ elemből ‘%s’ elembe szabály nem importálható."
+
+msgid "rbac_change_existing_confirm_tbl"
+msgstr "Beállítások a ‘Már létező objektumokra is’ opcióhoz"
+
+msgid "rbac_change_existing_objects_desc_new_role"
+msgstr "Ennek a szerepnek a jogosultsági beállításait a már összes létező objektumra alkalmazzunk."
+
+msgid "rbac_changes"
+msgstr "Változtatások"
+
+msgid "rbac_choose_copy_targets"
+msgstr "Adjon meg egy kifejezést, mellyel megtalálható az a célszerepkör, amelyekre másolni kívánja %s jogosultságait."
+
+msgid "rbac_condition_delete_sure"
+msgstr "Biztos, hogy törli az alábbi előfeltételeket?"
+
+msgid "rbac_context_global"
+msgstr "Globális"
+
+msgid "rbac_copy_behaviour"
+msgstr "Szerepmásolási beállítások"
+
+msgid "rbac_copy_behaviour_info"
+msgstr "Jogosultságok másolása innen: %s ide: %s"
+
+msgid "rbac_copy_finished"
+msgstr "A másolás befejeződött."
+
+msgid "rbac_copy_multi_targets"
+msgstr "%s, %s és %s további szerepkört választott ki %s"
+
+msgid "rbac_copy_no_targets"
+msgstr "Legalább egy szerepkört ki kell válsztania célnak"
+
+msgid "rbac_copy_role"
+msgstr "Szerepkör másolása"
+
+msgid "rbac_copy_role_add_perm"
+msgstr "Hozzáadási engedélyek"
+
+msgid "rbac_copy_role_copy"
+msgstr "Másik szerepkörből másolási engedélyek"
+
+msgid "rbac_copy_role_remove_perm"
+msgstr "Törlései engedélyek"
+
+msgid "rbac_create_bibl"
+msgstr "Bibliográfia létrehozása"
+
+msgid "rbac_create_blog"
+msgstr "Blog létrehozása"
+
+msgid "rbac_create_book"
+msgstr "Foglalásgyűjtemény létrehozása"
+
+msgid "rbac_create_cat"
+msgstr "Kategóriák létrehozása"
+
+msgid "rbac_create_catr"
+msgstr "Kategórialink létrehozása"
+
+msgid "rbac_create_chtr"
+msgstr "Csevegőszoba létrehozása"
+
+msgid "rbac_create_cmix"
+msgstr "xAPI/cmi5-objektum létrehozása"
+
+msgid "rbac_create_copa"
+msgstr "Tartalomlap létrehozása"
+
+msgid "rbac_create_crs"
+msgstr "Kurzus létrehozása"
+
+msgid "rbac_create_crsr"
+msgstr "Kurzuslink létrehozása"
+
+msgid "rbac_create_dcl"
+msgstr "Adatgyűjtés létrehozása"
+
+msgid "rbac_create_exc"
+msgstr "Beadandó feladat létrehozása"
+
+msgid "rbac_create_file"
+msgstr "Fájl feltöltése"
+
+msgid "rbac_create_fold"
+msgstr "Mappa létrehozása"
+
+msgid "rbac_create_frm"
+msgstr "Fórum létrehozása"
+
+msgid "rbac_create_glo"
+msgstr "Fogalomtár létrehozása"
+
+msgid "rbac_create_grp"
+msgstr "Csoport létrehozása"
+
+msgid "rbac_create_grpr"
+msgstr "Csoportlink létrehozása"
+
+msgid "rbac_create_htlm"
+msgstr "HTML-tananyag létrehozása"
+
+msgid "rbac_create_iass"
+msgstr "Személyes értékelés létrehozása"
+
+msgid "rbac_create_itgr"
+msgstr "Objektumcsoport létrehozása"
+
+msgid "rbac_create_lm"
+msgstr "ILIAS-tananyag létrehozása"
+
+msgid "rbac_create_lso"
+msgstr "Tanulási sor létrehozása"
+
+msgid "rbac_create_lti"
+msgstr "LTI-Fogyasztó létrehozása"
+
+msgid "rbac_create_mcst"
+msgstr "Médiasugárzás létrehozása"
+
+msgid "rbac_create_mep"
+msgstr "Médiagyűjtemény létrehozása"
+
+msgid "rbac_create_orgu"
+msgstr "Szervezeti egységek létrehozása"
+
+msgid "rbac_create_poll"
+msgstr "Szavazás létrehozása"
+
+msgid "rbac_create_prg"
+msgstr "Képzési program létrehozása"
+
+msgid "rbac_create_prgr"
+msgstr "Képzésiprogram-link létrehozása"
+
+msgid "rbac_create_prtt"
+msgstr "Portfólió sablon létrehozása"
+
+msgid "rbac_create_qpl"
+msgstr "Tesztkérdésgyűjtemény létrehozása"
+
+msgid "rbac_create_rcrs"
+msgstr "ECS-kurzus létrehozása"
+
+msgid "rbac_create_role"
+msgstr "Új szabály létrehozása"
+
+msgid "rbac_create_rolt"
+msgstr "Új szabály sablon létrehozása"
+
+msgid "rbac_create_sahs"
+msgstr "SCORM-tananyag létrehozása"
+
+msgid "rbac_create_sess"
+msgstr "Esemény létrehozása"
+
+msgid "rbac_create_skee"
+msgstr "Kompetencia-fa létrehozása"
+
+msgid "rbac_create_spl"
+msgstr "Kérdőívkérdés-gyűjtemény létrehozása"
+
+msgid "rbac_create_svy"
+msgstr "Kérdőív létrehozása"
+
+msgid "rbac_create_tst"
+msgstr "Teszt létrehozása"
+
+msgid "rbac_create_usr"
+msgstr "A felhasználó létrehozhat ILIAS-fiókokat"
+
+msgid "rbac_create_webr"
+msgstr "Weblink létrehozása"
+
+msgid "rbac_create_wiki"
+msgstr "Wiki létrehozása"
+
+msgid "rbac_delete_local_policies"
+msgstr "Helyi szabályok törlése"
+
+msgid "rbac_delete_local_policies_info"
+msgstr "A helyi szabályok törlődnek. Az objektumjogosultságok újraíródnak és védettek lesznek."
+
+msgid "rbac_delete_role"
+msgstr "Szerepkör törlése"
+
+msgid "rbac_edit_condition"
+msgstr "Előfeltételek módosítása"
+
+msgid "rbac_form_copy_roles_adjust_button"
+msgstr "Jogosultság beállítása"
+
+msgid "rbac_form_copy_roles_adjust_type"
+msgstr "A jogosultságok típusának beállítása"
+
+msgid "rbac_form_copy_roles_adjust_type_add"
+msgstr "Jogosultságok hozzáadása"
+
+msgid "rbac_form_copy_roles_adjust_type_add_info"
+msgstr "Hozzáadja a kiválasztott globális szerepkörminta KIVÁLASZTOTT jogait a helyi jogosultságokhoz. A ki nem választott jogosultságokat figyelmen kívül hagyjuk."
+
+msgid "rbac_form_copy_roles_adjust_type_clone"
+msgstr "Másolási jogosultságok"
+
+msgid "rbac_form_copy_roles_adjust_type_clone_info"
+msgstr "A kiválasztott globális szerepkörminta minden jogosultsága felülírja a helyi jogosultságokat."
+
+msgid "rbac_form_copy_roles_adjust_type_remove"
+msgstr "Jogosultságok eltávolítása"
+
+msgid "rbac_form_copy_roles_adjust_type_remove_info"
+msgstr "Eltávolítja a kiválasztott globális szerepkörminta KIVÁLASZTOTT jogosultságát a helyi jogosultságokból."
+
+msgid "rbac_form_copy_roles_ce_add_no"
+msgstr "NE módosítsa a meglévő objektumokat"
+
+msgid "rbac_form_copy_roles_ce_add_no_info"
+msgstr "A meglévő helyi engedélyek ennek megfelelően hozzáadódnak, a meglévő objektumok jogosultságai nem módosulnak."
+
+msgid "rbac_form_copy_roles_ce_add_yes"
+msgstr "Csak a kiválasztott jogosultságokat adja hozzá a meglévő objektumokhoz"
+
+msgid "rbac_form_copy_roles_ce_add_yes_info"
+msgstr "A meglévő helyi jogosultságok és a meglévő objektumok jogosultságainak beállításai ennek megfelelően kiegészülnek."
+
+msgid "rbac_form_copy_roles_ce_clone_no"
+msgstr "NE módosítsa a meglévő objektumokat"
+
+msgid "rbac_form_copy_roles_ce_clone_no_info"
+msgstr "A meglévő helyi jogosultságok felülírjuk, a meglévő objektumok jogosultságai nem módosulnak."
+
+msgid "rbac_form_copy_roles_ce_clone_yes"
+msgstr "Meglévő objektumok módosítása"
+
+msgid "rbac_form_copy_roles_ce_clone_yes_info"
+msgstr "Ennek megfelelően felülírja a meglévő helyi jogosultságokat, és MINDEN kiválasztott és nem kiválasztott előbeállítással alkalmazza a meglévő objektumokon."
+
+msgid "rbac_form_copy_roles_ce_remove_no"
+msgstr "NE módosítsa a meglévő objektumokat"
+
+msgid "rbac_form_copy_roles_ce_remove_no_info"
+msgstr "A kiválasztott jogosultságokat eltávolítja a meglévő helyi jogosultságok közül, a meglévő objektumok jogosultságai nem módosulnak."
+
+msgid "rbac_form_copy_roles_ce_remove_yes"
+msgstr "Csak a kiválasztott jogosultságokkal csökkentse a meglévő objektumokat"
+
+msgid "rbac_form_copy_roles_ce_remove_yes_info"
+msgstr "A meglévő helyi jogosultságok és a meglévő objektumok jogosultságainak beállításai ennek megfelelően csökkennek."
+
+msgid "rbac_global_rolt"
+msgstr "Globális szerepsablon"
+
+msgid "rbac_import_role"
+msgstr "Szerepkör importálása"
+
+msgid "rbac_info_only_position_access"
+msgstr "Csak az Ön szervezeti egységében egy pozícióban lévő alábbi kurzustagokat látja. Kurzustagok lehetnek még más szervezeti pozícióban lévők is, de őket nem látja."
+
+msgid "rbac_keep_local_policies"
+msgstr "Helyi szabályok megtartása"
+
+msgid "rbac_keep_local_policies_info"
+msgstr "Válassza ezt a módot a helyi szabályok megtartásához. Ezekhez a szabályokhoz lesznek adaptálva az objektumjogosultságok, valamint a továbbiakban védettek lesznek."
+
+msgid "rbac_local_policies"
+msgstr "Helyi szabályok"
+
+msgid "rbac_local_policy"
+msgstr "Helyi jogosultságkezelés"
+
+msgid "rbac_log"
+msgstr "Naplózás"
+
+msgid "rbac_log_change_owner"
+msgstr "Objektum tulajdonosának cseréje"
+
+msgid "rbac_log_changed_owner"
+msgstr "Objektum tulajdonosának cseréje erre:"
+
+msgid "rbac_log_copy_object"
+msgstr "Objektum másolása"
+
+msgid "rbac_log_create_object"
+msgstr "Objektum létrehozása"
+
+msgid "rbac_log_edit_permissions"
+msgstr "Jogosultságok módosítása"
+
+msgid "rbac_log_edit_template"
+msgstr "Szerepkörminta módosítása"
+
+msgid "rbac_log_edit_template_existing"
+msgstr "Szerepkörminta használata meglévő objektumokhoz"
+
+msgid "rbac_log_inheritance_add"
+msgstr "Megállított öröklődés ennél: ‘%s’"
+
+msgid "rbac_log_inheritance_rmv"
+msgstr "Engedélyezett öröklődés ennél: ‘%s’"
+
+msgid "rbac_log_link_object"
+msgstr "Objektum linkelése"
+
+msgid "rbac_log_move_object"
+msgstr "Objektum eltávolítása"
+
+msgid "rbac_log_operation_add"
+msgstr "Felvett műveletek ehhez: ‘%s’"
+
+msgid "rbac_log_operation_rmv"
+msgstr "Eltávolított műveletek innen: ‘%s’"
+
+msgid "rbac_log_source_object"
+msgstr "Forrásobjektum"
+
+msgid "rbac_msg_user_already_assigned"
+msgstr "A kiválasztott felhasználók már hozzá vannak rendelve ehhez a szerepkörhöz."
+
+msgid "rbac_not_change_existing_objects"
+msgstr "Ne változtasson létező objektumokat"
+
+msgid "rbac_permissions"
+msgstr "Jogosultságok"
+
+msgid "rbac_precondition_condition"
+msgstr "Az állapot eléréséhez hozzáférés szükséges"
+
+msgid "rbac_precondition_hide"
+msgstr "Objektum elrejtése"
+
+msgid "rbac_precondition_hide_info"
+msgstr "Ez az opció lehetővé teszi, hogy az objektum rejtve maradjon az előfeltételeit nem teljesített felhasználók elől, vagyis az összes el nem elérhető tartalom nem látható a felhasználó számára."
+
+msgid "rbac_precondition_minimum_optional"
+msgstr "Legalább két előfeltétel választhatóként kell maradjon."
+
+msgid "rbac_precondition_mode"
+msgstr "Mód"
+
+msgid "rbac_precondition_mode_all"
+msgstr "Összes előfeltétel"
+
+msgid "rbac_precondition_mode_all_info"
+msgstr "Az összes előfeltételt teljesíteni kell a hozzáférés megszerzéséhez."
+
+msgid "rbac_precondition_mode_subset"
+msgstr "Előfeltételek alhalmaza"
+
+msgid "rbac_precondition_mode_subset_info"
+msgstr "Az előfeltételek egy részét elég teljesíteni a hozzáférés megszerzéséhez. Egyes előfeltételek kötelezőnek állíthatók be."
+
+msgid "rbac_precondition_save_obligatory"
+msgstr "Kötelezőként mentés"
+
+msgid "rbac_precondition_source"
+msgstr "Előfeltétel"
+
+msgid "rbac_precondition_target"
+msgstr "Előfeltétel ennek az eléréséhez"
+
+msgid "rbac_repository_permissions"
+msgstr "Tartalomtárbeli jogosultságok"
+
+msgid "rbac_role_delete_qst"
+msgstr "Biztos, hogy törli az alábbi szerepköröket?<br/>Ezzel véglegesen törli az összes szerepkörtagságon keresztül kiosztott jogosultságot is!"
+
+msgid "rbac_role_delete_self"
+msgstr "<strong>Figyelmeztetés:</strong> Ön is tagja ennek a szerepnek! Ha folytatja a törlést, elveszítheti a hozzáférést néhány ILIAS-anyaghoz!"
+
+msgid "rbac_role_exists_alert"
+msgstr "Már van ilyen nevű szerepkör ebben a tartalomban. Válasszon másik nevet."
+
+msgid "rbac_role_imported"
+msgstr "A szerepkört sikeresen importálta és az alapértelmezett jogosultságait is sikeren beállította. Most adja meg, hogy az importált szerepkör milyen jogosultságokkal rendelkezzen ehhez az objektumhoz."
+
+msgid "rbac_role_rights_copy"
+msgstr "Jogosultságok másolása"
+
+msgid "rbac_role_rights_copy_change_existing"
+msgstr "Már létező objektumokra is"
+
+msgid "rbac_role_rights_copy_empty"
+msgstr "Semmi"
+
+msgid "rbac_role_selection"
+msgstr "Szereptípus"
+
+msgid "rbac_role_title"
+msgstr "Szerepcím"
+
+msgid "rbac_select_copy_targets"
+msgstr "Válassza ki a célszerepköröket, amelybe innen másol: <strong>%s</strong>."
+
+msgid "rbac_select_roles"
+msgstr "Szerepkör kiválasztása"
+
+msgid "rbac_ud_global"
+msgstr "Felhasználó által létrehozott globális szerepkör"
+
+msgid "rbac_ud_local"
+msgstr "Felhasználó által létrehozott helyi szerepkör"
+
+msgid "rbac_ud_rolt"
+msgstr "Felhasználó által létrehozott szerepsablon"
+
+msgid "rbac_unprotected_delete_local_policies_info"
+msgstr "A helyi szabályokat is törli. A jogosultságok újrainicializálódnak a kurzusokban és a csoportokban."
+
+msgid "rbac_unprotected_keep_local_policies_info"
+msgstr "A helyi szabályok megtartásához ezt a módot válassza."
+
+msgid "rbac_view_content"
+msgstr "Tartalom megtekintése"
+
+msgid "rcat_delete"
+msgstr "A felhasználó áthelyezhet vagy törölhet ECS kategóriát"
+
+msgid "rcat_edit_permission"
+msgstr "A felhasználó módosíthatja a jogosultsági beállításokat"
+
+msgid "rcat_read"
+msgstr "A felhasználó használhat ECS kategóriát"
+
+msgid "rcat_visible"
+msgstr "Az ECS kategória látható"
+
+msgid "rcat_write"
+msgstr "A felhasználó szerkeszthet ECS kategória beállításokat"
+
+msgid "rcrs_delete"
+msgstr "A felhasználó áthelyezhet vagy törölhet ECS-kurzust"
+
+msgid "rcrs_edit_permission"
+msgstr "A felhasználó módosíthatja a jogosultsági beállításokat"
+
+msgid "rcrs_read"
+msgstr "A felhasználó használhat ECS-kurzust"
+
+msgid "rcrs_visible"
+msgstr "ECS-kurzus látható"
+
+msgid "rcrs_write"
+msgstr "A felhasználó szerkesztheti ECS-kurzus beállításait"
+
+msgid "read_all_accounts"
+msgstr "Az összes ILIAS-fiók olvasása"
+
+msgid "read_comp"
+msgstr "A felhasználónak olvasási hozzáférése van a Kompetenciákhoz és a Kompetencia sablonokhoz"
+
+msgid "read_learning_progress"
+msgstr "Mások tanulási haladásának megtekintése"
+
+msgid "read_outcomes"
+msgstr "A többi felhasználó tanulási tapasztalatának megtekintése"
+
+msgid "read_profiles"
+msgstr "A felhasználónak olvasási hozzáférése van a Kompetenciaprofilokhoz"
+
+msgid "read_results"
+msgstr "Kérdőívre adott válaszok"
+
+msgid "read_users"
+msgstr "Olvasási elérés a helyi ILIAS-fiókokhoz"
+
+msgid "recf_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Helyreállított objektumok jogosultsági beállításait"
+
+msgid "recf_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Helyreállított objektumok menüponthoz"
+
+msgid "recf_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Helyreállított objektumok menüpontot"
+
+msgid "recf_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Helyreállított objektumok beállításait, és objektumokat állíthat vissza"
+
+msgid "redact"
+msgstr "Szerkesztő"
+
+msgid "release_objects"
+msgstr "Kiadott objektumok"
+
+msgid "reps_edit_permission"
+msgstr "A felhasználó megváltoztathatja a Tartalomtár rendszerbeállításait"
+
+msgid "reps_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Tartalomtár beállításaihoz"
+
+msgid "reps_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Tartalomtár menüpontot"
+
+msgid "reps_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Tartalomtár beállításait"
+
+msgid "rfil_delete"
+msgstr "A felhasználó áthelyezhet vagy törölhet ECS fájlt"
+
+msgid "rfil_edit_permission"
+msgstr "A felhasználó módosíthatja a jogosultsági beállításokat"
+
+msgid "rfil_read"
+msgstr "A felhasználó használhat ECS fájlt"
+
+msgid "rfil_visible"
+msgstr "ECS fájl látható"
+
+msgid "rfil_write"
+msgstr "A felhasználó szerkeszthet ECS fájl beállításokat"
+
+msgid "rglo_delete"
+msgstr "A felhasználó áthelyezhet vagy törölhet ECS fogalomtárat"
+
+msgid "rglo_edit_permission"
+msgstr "A felhasználó módosíthat jogosultsági beállításokat"
+
+msgid "rglo_read"
+msgstr "A felhasználó használhat ECS fogalomtárat"
+
+msgid "rglo_visible"
+msgstr "Az ECS fogalomtár látható"
+
+msgid "rglo_write"
+msgstr "A felhasználó szerkeszthet ECS fogalomtár beállításokat"
+
+msgid "rgrp_delete"
+msgstr "A felhasználó áthelyezhet vagy törölhet ECS csoportokat"
+
+msgid "rgrp_edit_permission"
+msgstr "A felhasználó módosíthatja a jogosultsági beállításokat"
+
+msgid "rgrp_read"
+msgstr "A felhasználó használhat ECS csoportot"
+
+msgid "rgrp_visible"
+msgstr "ECS csoport látható"
+
+msgid "rgrp_write"
+msgstr "A felhasználó szerkeszthet ECS csoport szerkesztési beállításokat"
+
+msgid "rlm_delete"
+msgstr "A felhasználó áthelyezhet vagy törölhet ECS tananyagot"
+
+msgid "rlm_edit_permission"
+msgstr "A felhasználó módosíthatja a jogosultsági beállításokat"
+
+msgid "rlm_read"
+msgstr "A felhasználó használhat ECS tananyagot"
+
+msgid "rlm_visible"
+msgstr "Az ECS tananyag látható"
+
+msgid "rlm_write"
+msgstr "A felhasználó szerkeszthet ECS tananyag beállításokat"
+
+msgid "role_block_role"
+msgstr "Szerepkör kizárása"
+
+msgid "role_block_role_desc"
+msgstr "Ehhez az objektumhoz és az összes alárendeltjéhez a hozzáférést visszavonjuk."
+
+msgid "role_blocked"
+msgstr ": <i>Szerepkört ki fogja zárni</i>"
+
+msgid "role_confirm_block_role"
+msgstr "Szerepkör állapotának módosítása"
+
+msgid "role_confirm_block_role_header"
+msgstr "Biztos, hogy megváltoztatja a kiválasztott szerepkör zárolási állapotát?"
+
+msgid "role_confirm_block_role_info"
+msgstr "A ‘Szerepkör kizárása’ művelettel a következő lépéseket hajtja végre:<br /><br />- a szerepkör jogosultságait ehhez az objektumhoz és az összes alárendeltjéhez letiltja.<br />- új jogosultság beállítását meggátolja."
+
+msgid "role_confirm_unblock_role_info"
+msgstr "A ‘Szerepkör kizárásának feloldása’ művelettel a következő lépéseket hajtja végre:<br /><br />- a helyi irányelveket töröli."
+
+msgid "role_unblocked"
+msgstr ": <i>Szerepkör kizárását fel fogja oldani</i>"
+
+msgid "root_edit_permission"
+msgstr "A felhasználó módosíthatja a jogosultsági beállításokat"
+
+msgid "root_read"
+msgstr "A felhasználónak olvasási elérése van a <i>Tartalomtár - Kezdőlap</i>-hoz"
+
+msgid "root_visible"
+msgstr "<i>Tartalomtár - Kezdőlap</i> látható"
+
+msgid "root_write"
+msgstr "A felhasználó szerkesztheti a <i>Tartalomtár - Kezdőlap</i>-ot, és kezelheti a tartalmát"
+
+msgid "rtst_delete"
+msgstr "A felhasználó áthelyezhet vagy törölhet ECS tesztet"
+
+msgid "rtst_edit_permission"
+msgstr "A felhasználó módosíthatja a jogosultsági beállításokat"
+
+msgid "rtst_read"
+msgstr "A felhasználó használhat ECS tesztet"
+
+msgid "rtst_visible"
+msgstr "Az ECS teszt látható"
+
+msgid "rtst_write"
+msgstr "A felhasználó szerkesztheti az ECS teszt beállításokat"
+
+msgid "rwik_delete"
+msgstr "A felhasználó áthelyezhet vagy törölhet ECS wikit"
+
+msgid "rwik_edit_permission"
+msgstr "A felhasználó módosíthat jogosultsági beállításokat"
+
+msgid "rwik_read"
+msgstr "A felhasználó használhat ECS wikit"
+
+msgid "rwik_visible"
+msgstr "Az ECS wiki látható"
+
+msgid "rwik_write"
+msgstr "A felhasználó szerkeszthet ECS wiki beállításokat"
+
+msgid "sahs_copy"
+msgstr "A felhasználó másolhat SCORM-tananyagot"
+
+msgid "sahs_delete"
+msgstr "A felhasználó áthelyezhet vagy törölhet SCORM-tananyagot"
+
+msgid "sahs_edit_learning_progress"
+msgstr "A felhasználó módosíthatja a tanulási haladás beállításait"
+
+msgid "sahs_edit_permission"
+msgstr "A felhasználó módosíthatja a jogosultsági beállításokat"
+
+msgid "sahs_read"
+msgstr "A felhasználó olvashat SCORM-tananyagot"
+
+msgid "sahs_read_learning_progress"
+msgstr "A felhasználó megnézheti mások tanulási haladását"
+
+msgid "sahs_visible"
+msgstr "SCORM-tananyag látható"
+
+msgid "sahs_write"
+msgstr "A felhasználó szerkesztheti SCORM-tananyag tartalmát és beállításait"
+
+msgid "seas_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Keresés jogosultsági beállításait"
+
+msgid "seas_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Keresés beállításaihoz"
+
+msgid "seas_search"
+msgstr "A felhasználó használhatja a keresést"
+
+msgid "seas_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Keresés menüpontot"
+
+msgid "seas_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Keresés beállításait"
+
+msgid "sess_copy"
+msgstr "A felhasználó másolhatja az eseményt"
+
+msgid "sess_delete"
+msgstr "A felhasználó áthelyezhet vagy törölhet munkamenetet"
+
+msgid "sess_edit_event"
+msgstr "A felhasználó módosíthat naptáreseményeket"
+
+msgid "sess_edit_learning_progress"
+msgstr "A felhasználó módosíthatja a tanulási haladás beállításait"
+
+msgid "sess_edit_metadata"
+msgstr "Metaadat módosítása"
+
+msgid "sess_edit_permission"
+msgstr "A felhasználó módosíthatja a jogosultsági beállításokat"
+
+msgid "sess_manage_materials"
+msgstr "Esemény segédanyagainak kezelése"
+
+msgid "sess_manage_members"
+msgstr "Esemény résztvevőinek kezelése"
+
+msgid "sess_read"
+msgstr "A felhasználónak olvasási elérése van munkamenetekhez"
+
+msgid "sess_read_learning_progress"
+msgstr "A felhasználó megnézheti mások tanulási haladását"
+
+msgid "sess_visible"
+msgstr "Az események láthatók"
+
+msgid "sess_write"
+msgstr "A felhasználó eseménytartalmakat és -beállításokat szerkeszthet"
+
+msgid "skee_copy"
+msgstr "A felhasználó másolhat kompetencia-fát"
+
+msgid "skee_delete"
+msgstr "A felhasználó törölhet kompetencia-fát"
+
+msgid "skee_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Kompetencia-fa jogosultsági beállításait"
+
+msgid "skee_manage_comp"
+msgstr "A felhasználó módosíthat kompetenciákat a kompetencia-fában"
+
+msgid "skee_manage_comp_temp"
+msgstr "A felhasználó módosíthat kompetenciasablonokat a kompetencia-fában"
+
+msgid "skee_manage_profiles"
+msgstr "A felhasználó módosíthat kompetenciaprofilokat a kompetencia-fában"
+
+msgid "skee_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Kompetencia-fa beállításaihoz"
+
+msgid "skee_read_comp"
+msgstr "A felhasználónak olvasási hozzáférése van a kompetenciasablonokhoz a kompetencia-fában"
+
+msgid "skee_read_profiles"
+msgstr "A felhasználónak olvasási hozzáférése van a kompetenciaprofilokhoz a kompetencia-fában"
+
+msgid "skee_visible"
+msgstr "A kompetencia-fa látható"
+
+msgid "skee_write"
+msgstr "A felhasználó módosíthat kompetencia-fa beállításait"
+
+msgid "skmg_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Kompetenciamenedzsment jogosultsági beállításait"
+
+msgid "skmg_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Kompetenciamenedzsment beállításaihoz"
+
+msgid "skmg_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Kompetenciamenedzsment menüpontot"
+
+msgid "skmg_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Kompetenciamenedzsment beállításait"
+
+msgid "smtp_mail"
+msgstr "SMTP levelezés"
+
+msgid "spl_copy"
+msgstr "A felhasználó másolhat kérdőívkérdés-gyűjteményt kérdőívekhez"
+
+msgid "spl_delete"
+msgstr "A felhasználó áthelyezhet vagy törölhet kérdőívkérdés-gyűjteményt"
+
+msgid "spl_edit_permission"
+msgstr "A felhasználó módosíthatja a jogosultsági beállításokat"
+
+msgid "spl_read"
+msgstr "A felhasználó kérdőívkérdéseket olvashat kérdőívkérdés-gyűjteményben, és beszúrhatja azokat kérdőívbe"
+
+msgid "spl_visible"
+msgstr "Kérdőívkérdés-gyűjtemény látható"
+
+msgid "spl_write"
+msgstr "A felhasználó módosíthatja kérdésgyűjtemény kérdőívkérdéseit beállításait"
+
+msgid "statistics_read"
+msgstr "Statisztikák megtekintése"
+
+msgid "stus_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Gyorslinkek jogosultsági beállításait"
+
+msgid "stus_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Gyorslinkek beállításaihoz"
+
+msgid "stus_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Gyorslinkek beállításait"
+
+msgid "sty_write_content"
+msgstr "Tartalomstílusok módosítása"
+
+msgid "sty_write_page_layout"
+msgstr "Lapelrendezések módosítása"
+
+msgid "sty_write_system"
+msgstr "Rendszerstílusok módosítása"
+
+msgid "stys_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Stílus és elrendezés jogosultsági beállításait"
+
+msgid "stys_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Stílus és elrendezés beállításaihoz"
+
+msgid "stys_sty_write_content"
+msgstr "Rendszerstílusok módosítása"
+
+msgid "stys_sty_write_custom"
+msgstr "Tartalomstílusok módosítása"
+
+msgid "stys_sty_write_page_layout"
+msgstr "Lapelrendezések módosítása"
+
+msgid "stys_sty_write_system"
+msgstr "Rendszerstílusok módosítása"
+
+msgid "stys_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Stílus és elrendezés menüpontot"
+
+msgid "svy_copy"
+msgstr "A felhasználó másolhat kérdőívet"
+
+msgid "svy_delete"
+msgstr "A felhasználó áthelyezhet vagy törölhet kérdőívet"
+
+msgid "svy_edit_learning_progress"
+msgstr "A felhasználó módosíthatja a tanulási haladás beállításait"
+
+msgid "svy_edit_permission"
+msgstr "A felhasználó módosíthatja a jogosultsági beállításokat"
+
+msgid "svy_invite"
+msgstr "A felhasználó meghívhat másokat kérdőívbe"
+
+msgid "svy_read"
+msgstr "A felhasználó részt vehet kérdőívben"
+
+msgid "svy_read_learning_progress"
+msgstr "A felhasználó megnézheti mások tanulási haladását"
+
+msgid "svy_read_results"
+msgstr "A felhasználó hozzáférhet mások válaszaihoz"
+
+msgid "svy_visible"
+msgstr "A kérdőív látható"
+
+msgid "svy_write"
+msgstr "A felhasználó szerkesztheti a kérdőív tartalmát és beállításait"
+
+msgid "svyf_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Kérdőív jogosultsági beállításait"
+
+msgid "svyf_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Kérdőív beállításaihoz"
+
+msgid "svyf_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Kérdőív menüpontot"
+
+msgid "svyf_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Kérdőív beállításait"
+
+msgid "sysc_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Általános beállítások » Rendszerellenőrzés jogosultsági beállításait"
+
+msgid "sysc_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Általános beállítások » Rendszerellenőrzés beállításaihoz"
+
+msgid "sysc_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Általános beállítások » Rendszerellenőrzés menüpontot"
+
+msgid "sysc_write"
+msgstr "A felhasználó futtathatja a Rendszerellenőrzést"
+
+msgid "tags_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Címkézés jogosultsági beállításait"
+
+msgid "tags_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Címkézés beállításaihoz"
+
+msgid "tags_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Címkézés menüpontot"
+
+msgid "tags_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Címkézés beállításait"
+
+msgid "tala_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Általános beállítások » Megbeszéléssablonok jogosultsági beállításait"
+
+msgid "tala_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Taxonómia menüpontot"
+
+msgid "tala_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Megbeszéléssablonok menüpontot"
+
+msgid "tala_write"
+msgstr "A felhasználó létrehozhat és módosíthat Megbeszéléssablonokat"
+
+msgid "taxs_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Taxonómia jogosultsági beállításait"
+
+msgid "taxs_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Taxonómia beállításaihoz"
+
+msgid "taxs_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Taxonómia menüpontot"
+
+msgid "taxs_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Taxonómia beállításait"
+
+msgid "tos_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Szolgáltatási feltételek jogosultsági beállításait"
+
+msgid "tos_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Szolgáltatási feltételek beállításaihoz"
+
+msgid "tos_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Szolgáltatási feltételek menüpontot"
+
+msgid "tos_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Szolgáltatási feltételek beállításait"
+
+msgid "trac_delete"
+msgstr "A felhasználó törölheti a nyomkövetési adatokat"
+
+msgid "trac_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Statisztikák és tanulási haladás jogosultsági beállításait"
+
+msgid "trac_lp_other_users"
+msgstr "A felhasználó megtekintheti a többi felhasználó tanulási haladását"
+
+msgid "trac_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Statisztikák és tanulási haladás beállításaihoz"
+
+msgid "trac_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Statisztikák és tanulási haladás menüpontot"
+
+msgid "trac_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Statisztikák és tanulási haladás beállításait"
+
+msgid "tst_copy"
+msgstr "A felhasználó másolhat tesztet"
+
+msgid "tst_delete"
+msgstr "A felhasználó áthelyezhet vagy törölhet tesztet"
+
+msgid "tst_edit_learning_progress"
+msgstr "A felhasználó módosíthatja a tanulási haladás beállításait"
+
+msgid "tst_edit_permission"
+msgstr "Jogosultsági beállítások változtatása"
+
+msgid "tst_read"
+msgstr "A felhasználó tesztet tölthet ki"
+
+msgid "tst_read_learning_progress"
+msgstr "A felhasználó megnézheti mások tanulási haladását"
+
+msgid "tst_tst_history_read"
+msgstr "Előzmények megtekintése"
+
+msgid "tst_tst_results"
+msgstr "A felhasználó hozzáférhet mások teszteredményeihez"
+
+msgid "tst_visible"
+msgstr "A teszt látható"
+
+msgid "tst_write"
+msgstr "A felhasználó szerkesztheti teszt tartalmát és beállításait"
+
+msgid "upload_blacklisted_files"
+msgstr "A tiltólista megkerülése"
+
+msgid "usrf_delete"
+msgstr "A felhasználó törölhet ILIAS-fiókokat"
+
+msgid "usrf_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » ILIAS-fiókok jogosultsági beállításait"
+
+msgid "usrf_edit_roleassignment"
+msgstr "A felhasználó ajánlott tartalmat adhat a szerepkörök tagjainak."
+
+msgid "usrf_push_desktop_items"
+msgstr "A felhasználó objektumokat tehet ki a szereppel rendelkezők munkaasztalára"
+
+msgid "usrf_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » ILIAS-fiókok beállításaihoz"
+
+msgid "usrf_read_all_accounts"
+msgstr "A felhasználó listázhatja az összes fiókot a Rendszerbeállítások » ILIAS-fiókok részben"
+
+msgid "usrf_read_users"
+msgstr "A felhasználónak olvasási elérése van a helyi ILIAS-fiókokhoz (helyi rendszergazda)"
+
+msgid "usrf_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » ILIAS-fiókok menüpontot"
+
+msgid "usrf_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » ILIAS-fiókok beállításait"
+
+msgid "wbdv_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » WebDAV jogosultsági beállításait"
+
+msgid "wbdv_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » WebDAV beállításaihoz"
+
+msgid "wbdv_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » WebDAV menüpontot"
+
+msgid "wbdv_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » WebDAV beállításait"
+
+msgid "wbrs_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Weblink jogosultsági beállításait"
+
+msgid "wbrs_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Weblink beállításaihoz"
+
+msgid "wbrs_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Weblink menüpontot"
+
+msgid "wbrs_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Weblink beállításait"
+
+msgid "webr_copy"
+msgstr "A felhasználó másolhat weblinket"
+
+msgid "webr_delete"
+msgstr "A felhasználó áthelyezhet vagy törölhet weblinket"
+
+msgid "webr_edit_permission"
+msgstr "A felhasználó módosíthatja a jogosultsági beállításokat"
+
+msgid "webr_read"
+msgstr "A felhasználó olvashat és használhat weblinket"
+
+msgid "webr_visible"
+msgstr "A weblink látható"
+
+msgid "webr_write"
+msgstr "A felhasználó szerkeszthet weblink-beállításokat"
+
+msgid "wiki_activate_wiki_protection"
+msgstr "Wiki oldalak írásvédetté tétele"
+
+msgid "wiki_add_pages"
+msgstr "A felhasználó létrehozhat wikioldalakat"
+
+msgid "wiki_copy"
+msgstr "A felhasználó másolhat wikit"
+
+msgid "wiki_delete"
+msgstr "A felhasználó áthelyezhet vagy törölhet wikit."
+
+msgid "wiki_delete_wiki_pages"
+msgstr "Wiki oldalak törlése"
+
+msgid "wiki_edit_content"
+msgstr "A felhasználó létrehozhat és szerkeszthet wikilapokat"
+
+msgid "wiki_edit_page_meta"
+msgstr "Wikioldal metaadatának módosítása"
+
+msgid "wiki_edit_permission"
+msgstr "A felhasználó módosíthatja a jogosultsági beállításokat"
+
+msgid "wiki_edit_wiki_navigation"
+msgstr "Wiki navigáció módosítása"
+
+msgid "wiki_html_export"
+msgstr "Exportálás HTML-ként"
+
+msgid "wiki_read"
+msgstr "A felhasználó olvashat wikitartalmat"
+
+msgid "wiki_statistics_read"
+msgstr "Statisztikák megtekintése"
+
+msgid "wiki_visible"
+msgstr "Wiki látható"
+
+msgid "wiki_wiki_html_export"
+msgstr "Wiki exportálás HTML-ként"
+
+msgid "wiki_write"
+msgstr "A felhasználó szerkeszthet wikibeállításokat"
+
+msgid "wiks_edit_permission"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Wiki jogosultsági beállításait"
+
+msgid "wiks_read"
+msgstr "A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Wiki beállításaihoz"
+
+msgid "wiks_visible"
+msgstr "A felhasználó láthatja a Rendszerbeállítások » Wiki menüpontot"
+
+msgid "wiks_write"
+msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Wiki beállításait"
+
+msgid "write"
+msgstr "Beállítások módosítása"

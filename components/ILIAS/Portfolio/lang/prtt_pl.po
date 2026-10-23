@@ -1,0 +1,47 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pl\n"
+"Language-Team: Polish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: prtt\n"
+
+msgid "prtt_activation_limited_visibility_info"
+msgstr "Jeśli ta opcja jest aktywna, szablon portfolio widoczny jest również poza czasami dostępu."
+
+msgid "prtt_activation_online_info"
+msgstr "Wybierz to ustawienie, aby udostępnić użytkownikom szablon portfolio."
+
+msgid "prtt_add"
+msgstr "Utwórz szablon portfolio"
+
+msgid "prtt_copy"
+msgstr "Kopiuj szablon portfolio"
+
+msgid "prtt_edit"
+msgstr "Edytuj szablon portfolio"
+
+msgid "prtt_import"
+msgstr "Importuj szablon portfolio"
+
+msgid "prtt_new"
+msgstr "Utwórz nowy szablon portfolio"
+
+#, fuzzy
+msgid "prtt_pfpg"
+msgstr "Portfolio Page"
+
+msgid "prtt_portfolio_created"
+msgstr "Dodano szablon portfolio"
+
+msgid "prtt_properties"
+msgstr "Właściwości szablonów portfolio"
+
+#, fuzzy
+msgid "prtt_select_datasets"
+msgstr "Select Datasets"
+
+msgid "prtt_style"
+msgstr "Style szablonów portfolio"

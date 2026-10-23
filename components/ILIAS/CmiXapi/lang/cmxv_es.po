@@ -1,0 +1,15 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: cmxv\n"
+
+msgid "cmxv_create"
+msgstr "Crear certificado para objeto xAPI/cmi5"
+
+msgid "cmxv_create_info"
+msgstr "Seleccione un objeto xAPI/cmi5 finalizado para generar un certificado para el mismo"

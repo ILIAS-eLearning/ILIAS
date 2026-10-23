@@ -1,0 +1,372 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fa\n"
+"Language-Team: Persian (Farsi)\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Domain: certificate\n"
+
+#, fuzzy
+msgid "cert_cron_task_desc"
+msgstr "This job's responsibility is the creation of persisting certificate data based on learning achievements of users."
+
+#, fuzzy
+msgid "cert_cron_task_title"
+msgstr "Certificates"
+
+#, fuzzy
+msgid "cert_form_sec_add_features"
+msgstr "Additional Features"
+
+#, fuzzy
+msgid "cert_form_sec_availability"
+msgstr "Availability"
+
+#, fuzzy
+msgid "cert_form_sec_layout"
+msgstr "Layout and Text"
+
+msgid "certificate_a4"
+msgstr "A4 (297 mm x 210 mm)"
+
+msgid "certificate_a4_landscape"
+msgstr "A4 Landscape (210 mm x 297 mm)"
+
+msgid "certificate_a5"
+msgstr "A5 (210 mm x 148 mm)"
+
+msgid "certificate_a5_landscape"
+msgstr "A5 Landscape (148 mm x 210 mm)"
+
+msgid "certificate_background_image"
+msgstr "عکس پس زمینه"
+
+#, fuzzy
+msgid "certificate_card_tile_image"
+msgstr "Thumbnail Image"
+
+#, fuzzy
+msgid "certificate_change_active_status"
+msgstr "The active state of the certificate has been changed"
+
+msgid "certificate_confirm_deletion_text"
+msgstr "Do you really want to delete the certificate and all its related data?"
+
+msgid "certificate_custom"
+msgstr "سفارشی ..."
+
+msgid "certificate_edit"
+msgstr "ساختن/ویرایش الگوی گواهی"
+
+msgid "certificate_error_import"
+msgstr "An error occured during the import of a certificate!"
+
+msgid "certificate_error_upload_bgimage"
+msgstr "An error occured during the upload of the background image!"
+
+msgid "certificate_export"
+msgstr "صدور گواهی"
+
+msgid "certificate_failed"
+msgstr "ناموفق"
+
+msgid "certificate_file_basename"
+msgstr "Certificate"
+
+#, fuzzy
+msgid "certificate_id"
+msgstr "Certificate ID"
+
+#, fuzzy
+msgid "certificate_issue_date"
+msgstr "Issue Date"
+
+#, fuzzy
+msgid "certificate_learning_progress_must_be_active"
+msgstr "Only objects with an active Learning Progress can be selected. The Learning Progress is deactivated on the following objects: %s"
+
+msgid "certificate_letter"
+msgstr "Letter (11 inch x 8.5 inch)"
+
+msgid "certificate_letter_landscape"
+msgstr "Letter Landscape (8.5 inch x 11 inch)"
+
+msgid "certificate_margin_body"
+msgstr "Body Margin"
+
+msgid "certificate_not_well_formed"
+msgstr "The certificate text is not well formed. Please enter valid XHTML for the certificate text!"
+
+msgid "certificate_page_format"
+msgstr "فرمت صفحه"
+
+msgid "certificate_page_format_info"
+msgstr "لطفا فرمت صفحه پیش فرض را برای گواهی های جدید انتخاب کنید."
+
+msgid "certificate_pageheight"
+msgstr "Page Height"
+
+msgid "certificate_pagewidth"
+msgstr "Page Width"
+
+msgid "certificate_passed"
+msgstr "موفق"
+
+msgid "certificate_ph_birthday"
+msgstr "روز تولد کاربر"
+
+#, fuzzy
+msgid "certificate_ph_cert_id"
+msgstr "Unique Certificate ID"
+
+msgid "certificate_ph_city"
+msgstr "شهر کاربر"
+
+msgid "certificate_ph_country"
+msgstr "کشور کاربر"
+
+msgid "certificate_ph_date"
+msgstr "تاریخ واقعی"
+
+msgid "certificate_ph_date_completed"
+msgstr "تاریخ تککیل"
+
+msgid "certificate_ph_datetime"
+msgstr "تاریخ و زمان واقعی"
+
+msgid "certificate_ph_datetime_completed"
+msgstr "تاریخ و زمان تکمیل"
+
+msgid "certificate_ph_department"
+msgstr "اداره کاربر"
+
+msgid "certificate_ph_exercisetitle"
+msgstr "Exercise Title"
+
+msgid "certificate_ph_firstname"
+msgstr "نام کاربر"
+
+msgid "certificate_ph_fullname"
+msgstr "نام کامل کاربر - عنوان، نام و نام خانوادگی"
+
+msgid "certificate_ph_institution"
+msgstr "Institution of the user"
+
+msgid "certificate_ph_introduction"
+msgstr "The following placeholders may be used"
+
+msgid "certificate_ph_lastaccess"
+msgstr "تاریخ و زمان آخرین دسترسی کاربر"
+
+msgid "certificate_ph_lastname"
+msgstr "نام خانوادگی کاربر"
+
+msgid "certificate_ph_login"
+msgstr "ورود به سیستم"
+
+msgid "certificate_ph_mark"
+msgstr "Users mark"
+
+msgid "certificate_ph_marklong"
+msgstr "Users mark (official version)"
+
+msgid "certificate_ph_markshort"
+msgstr "Users mark (short version)"
+
+#, fuzzy
+msgid "certificate_ph_matriculation"
+msgstr "Matriculation number of the user"
+
+msgid "certificate_ph_no_sco"
+msgstr "If items are selected to determine the overall learning progress status, titles and points for these items could be displayed in certificate."
+
+msgid "certificate_ph_salutation"
+msgstr "سلام ابتدایی"
+
+msgid "certificate_ph_sco_points_max"
+msgstr "placeholder<br/>for points<br/>max"
+
+msgid "certificate_ph_sco_points_raw"
+msgstr "placeholder<br/>for points"
+
+msgid "certificate_ph_sco_points_scaled"
+msgstr "placeholder<br/>for points<br/>in percent"
+
+msgid "certificate_ph_sco_title"
+msgstr "placeholder<br/>for title"
+
+msgid "certificate_ph_scormmaxpoints"
+msgstr "Maximum value in the range for the raw score of the last relevant sco (most suitable for a final exam)"
+
+msgid "certificate_ph_scormpoints"
+msgstr "امتیازهای ماژول یادگیری SCORM با درصد"
+
+msgid "certificate_ph_scormtitle"
+msgstr "عنوان ماژول یادگیری SCORM"
+
+msgid "certificate_ph_scos"
+msgstr "این آیتم ها برای تعیین وضعیت کلی پیشروی یادگیری انتخاب شده اند و برای بیانات گواهی قابل دسترس هستند:"
+
+msgid "certificate_ph_street"
+msgstr "خیابان آدرس کاربر"
+
+msgid "certificate_ph_testtitle"
+msgstr "عنوان تست"
+
+msgid "certificate_ph_title"
+msgstr "عنوان کاربر"
+
+msgid "certificate_ph_title_sco"
+msgstr "عنوان"
+
+msgid "certificate_ph_zipcode"
+msgstr "کد پستی آدرس کاربر"
+
+msgid "certificate_points_notavailable"
+msgstr "This value cannot be calculated"
+
+msgid "certificate_preview"
+msgstr "نمایش پیش نمایش گواهی"
+
+msgid "certificate_settings"
+msgstr "تنظیمات گواهی"
+
+msgid "certificate_short_name"
+msgstr "عنوان کوتاه فایل گواهی"
+
+msgid "certificate_short_name_description"
+msgstr "لطفا یک عنوان کوتاه برای نام گواهی وارد کنید. عنوان کوتاه قسمتی از نام گواهی خواهد بود:<br />YYMMDD_[surname]_[SHORT_TITLE]_certificate.pdf."
+
+msgid "certificate_text"
+msgstr "متن گواهی"
+
+#, fuzzy
+msgid "certificate_text_info"
+msgstr "Please enter the certificate text. If the WYSIWYG editor is disabled in the ILIAS administration, you can still use valid XHTML to format the text."
+
+msgid "certificate_unit_description"
+msgstr "لطفا واحدهای اندازه گیری را وارد کنید [cm|mm|in|pt|pc|px|em], e.g. 10mm or 3in"
+
+msgid "certificate_usage"
+msgstr "لطفا دقت کنید که استفاده از گواهی فقط زمانی قابل استفاده است که سرور جاوا در حال اجرا باشد. پیکربندی سرور جاوا در صفحه اصلی مدیریت سیستم در قسمت سرویس های وب قابل دسترسی است."
+
+msgid "certificate_var_max_points"
+msgstr "46"
+
+msgid "certificate_var_result_mark_long"
+msgstr "Good"
+
+msgid "certificate_var_result_mark_short"
+msgstr "B"
+
+msgid "certificate_var_result_passed"
+msgstr "موفق"
+
+msgid "certificate_var_result_percent"
+msgstr "83%"
+
+msgid "certificate_var_result_points"
+msgstr "38"
+
+msgid "certificate_var_user_birthday"
+msgstr "1977-05-08"
+
+msgid "certificate_var_user_city"
+msgstr "Anytown, NY"
+
+msgid "certificate_var_user_country"
+msgstr "USA"
+
+msgid "certificate_var_user_department"
+msgstr "Customer Support"
+
+msgid "certificate_var_user_firstname"
+msgstr "Jane"
+
+msgid "certificate_var_user_fullname"
+msgstr "Dr. Jane Doe"
+
+msgid "certificate_var_user_institution"
+msgstr "ILIAS Open Source"
+
+msgid "certificate_var_user_lastname"
+msgstr "Doe"
+
+msgid "certificate_var_user_login"
+msgstr "jdoe"
+
+#, fuzzy
+msgid "certificate_var_user_matriculation"
+msgstr "12345"
+
+msgid "certificate_var_user_salutation"
+msgstr "Mrs."
+
+msgid "certificate_var_user_street"
+msgstr "خیابان اصلی"
+
+msgid "certificate_var_user_title"
+msgstr "Dr."
+
+msgid "certificate_var_user_zipcode"
+msgstr "12345"
+
+#, fuzzy
+msgid "cmix_cert_ph_object_description"
+msgstr "Description"
+
+#, fuzzy
+msgid "cmix_cert_ph_object_title"
+msgstr "Title of the xAPI/cmi5 Object"
+
+#, fuzzy
+msgid "cmix_cert_ph_reached_score"
+msgstr "Reached score as percentage"
+
+msgid "default_background_info"
+msgstr "عکس پس زمینه به عنوان پیش فرض برای همه گواهی ها استفاده خواهد شد. اگر به عکس پس زمینه دیگری برای یک گواهی نیاز دارید، باید در ویرایشگر گواهی آپلود کنید."
+
+msgid "download_certificate"
+msgstr "Download Certificate"
+
+#, fuzzy
+msgid "learning_progress_deactivated"
+msgstr "The Learning Progress for this object is deactivated. To edit the certificate template and achieve user certificates the learning progress for this object must be activated."
+
+#, fuzzy
+msgid "lti_cert_ph_mastery_score"
+msgstr "Mastery score as percentage"
+
+#, fuzzy
+msgid "lti_cert_ph_object_description"
+msgstr "Description"
+
+#, fuzzy
+msgid "lti_cert_ph_object_title"
+msgstr "Title of the LTI Consumer Object"
+
+#, fuzzy
+msgid "lti_cert_ph_reached_score"
+msgstr "Reached score as percentage"
+
+#, fuzzy
+msgid "persistent_certificate_mode"
+msgstr "User Certificate Creation"
+
+#, fuzzy
+msgid "persistent_certificate_mode_cron"
+msgstr "Cron Job"
+
+#, fuzzy
+msgid "persistent_certificate_mode_cron_info"
+msgstr "This option is recommended for systems with high user interaction."
+
+#, fuzzy
+msgid "persistent_certificate_mode_instant"
+msgstr "Instant"
+
+#, fuzzy
+msgid "persistent_certificate_mode_instant_info"
+msgstr "This option is recommended for systems with low up to mediocre user interactions. Systems that tend to big loading times during creation for multiple user certificates should switch to the \"Cron Job\" option."

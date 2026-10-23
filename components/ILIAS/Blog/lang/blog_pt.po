@@ -1,0 +1,356 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: blog\n"
+
+msgid "blog_abstract_image"
+msgstr "Adicionar imagem a abstrato"
+
+msgid "blog_abstract_image_height"
+msgstr "Altura"
+
+msgid "blog_abstract_image_info"
+msgstr "Não serão usadas imagens que são mais pequenas."
+
+msgid "blog_abstract_image_pixels"
+msgstr "Px"
+
+msgid "blog_abstract_image_width"
+msgstr "Largura"
+
+msgid "blog_abstract_shorten"
+msgstr "Abstrato resumido"
+
+msgid "blog_abstract_shorten_characters"
+msgstr "Caracteres"
+
+msgid "blog_abstract_shorten_length"
+msgstr "Comprimento máximo"
+
+msgid "blog_add"
+msgstr "Criar blog"
+
+msgid "blog_add_contributor"
+msgstr "Adicionar contribuinte"
+
+msgid "blog_add_posting"
+msgstr "Adicionar posting"
+
+msgid "blog_admin_inactive_info"
+msgstr "Pode ativar a funcionalidade do blog na administração do computador pessoal."
+
+msgid "blog_admin_toggle_info"
+msgstr "Pode desativar a funcionalidade do blog completamente na administração do computador pessoal."
+
+msgid "blog_approve"
+msgstr "Exceção desconhecida"
+
+msgid "blog_author"
+msgstr "ID já existe na árvore de ficheiros na sessão:"
+
+msgid "blog_authors"
+msgstr "Autores"
+
+msgid "blog_back_to_blog_owner"
+msgstr "Editar blog"
+
+msgid "blog_change_notification_body_approve"
+msgstr "o seguinte posting de blog requer aprovação."
+
+msgid "blog_change_notification_body_comment"
+msgstr "o seguinte posting de blog foi comentado."
+
+msgid "blog_change_notification_body_new"
+msgstr "ID não existe na árvore de ficheiros na sessão:"
+
+msgid "blog_change_notification_body_update"
+msgstr "Adicionar ficheiro ao diretório atual"
+
+msgid "blog_change_notification_link"
+msgstr "Foi adicionado um novo objeto de Cloud"
+
+msgid "blog_change_notification_reason"
+msgstr "O caminho não existe na árvore de ficheiros na sessão:"
+
+msgid "blog_change_notification_subject"
+msgstr "Blog \"%s\" foi atualizado"
+
+msgid "blog_comments"
+msgstr "Comentários"
+
+msgid "blog_confirm_delete_contributors"
+msgstr "Tem a certeza que quer apagar os seguintes contribuintes?"
+
+msgid "blog_contribute_other_roles"
+msgstr "Ativar"
+
+msgid "blog_contributors"
+msgstr "Ativo"
+
+msgid "blog_copy"
+msgstr "Copiar blog"
+
+msgid "blog_download_submission"
+msgstr "Disponível"
+
+msgid "blog_draft"
+msgstr "Esboço"
+
+msgid "blog_draft_info"
+msgstr "Ficheiros básicos"
+
+msgid "blog_draft_info_contributors"
+msgstr "Este esboço de posting só está visível aos contribuintes."
+
+msgid "blog_draft_text"
+msgstr "Post não publicado"
+
+msgid "blog_edit"
+msgstr "Editar blog"
+
+msgid "blog_edit_date"
+msgstr "Editar data"
+
+msgid "blog_edit_date_info"
+msgstr "O estado de publicação não depende desta data."
+
+msgid "blog_edit_keywords"
+msgstr "Editar palavras-chave"
+
+msgid "blog_edit_posting"
+msgstr "Editar posting"
+
+msgid "blog_enable_approval"
+msgstr "Ficheiro aula"
+
+msgid "blog_enable_approval_info"
+msgstr "Componente"
+
+msgid "blog_enable_keywords"
+msgstr "Palavras-chave"
+
+msgid "blog_enable_keywords_info"
+msgstr "Podem ser definidas palavras-chave para postings. Se clicar numa palavra-passe, mostra todos os postings identificados com esta palavra-passe."
+
+msgid "blog_enable_nav_authors"
+msgstr "Autores"
+
+msgid "blog_enable_nav_authors_info"
+msgstr "É apresentada a lista de autores do blog. Se clicar num nome de utilizador, mostra todos os postings desse autor."
+
+msgid "blog_enable_notes"
+msgstr "Comentários públicos"
+
+msgid "blog_enable_rss"
+msgstr "Versão atual"
+
+msgid "blog_enable_rss_info"
+msgstr "O RSS feed é público e independente da partilha do blog ou das permissões do utilizador."
+
+#, fuzzy
+msgid "blog_est_reading_time"
+msgstr "Estimated Reading Time"
+
+#, fuzzy
+msgid "blog_est_reading_time_info"
+msgstr "Add an automatically generated estimated reading time to blog posts in the repository."
+
+msgid "blog_exercise_info"
+msgstr "Base de dados"
+
+msgid "blog_exercise_submitted_info"
+msgstr "Script de atualização DB"
+
+msgid "blog_finalize_blog"
+msgstr "Finalizar e submeter blog"
+
+msgid "blog_finalized"
+msgstr "O blog foi submetido."
+
+msgid "blog_import"
+msgstr "Importar blog"
+
+#, fuzzy
+msgid "blog_incl_comments"
+msgstr "including comments"
+
+msgid "blog_keyword"
+msgstr "Palavra-chave"
+
+msgid "blog_keyword_enter"
+msgstr "Desativar"
+
+msgid "blog_keywords"
+msgstr "Palavras-chave"
+
+msgid "blog_latest_posting"
+msgstr "Último posting"
+
+#, fuzzy
+msgid "blog_link"
+msgstr "Link"
+
+msgid "blog_list_more"
+msgstr "mais"
+
+msgid "blog_list_num_postings"
+msgstr "Número de postings"
+
+msgid "blog_list_num_postings_info"
+msgstr "Esta definição é usada apenas se não estiver selecionado nenhum mês específico."
+
+msgid "blog_nav_mode"
+msgstr "Postings"
+
+msgid "blog_nav_mode_month_list"
+msgstr "Mostrar lista de meses"
+
+msgid "blog_nav_mode_month_list_info"
+msgstr "Diretório"
+
+msgid "blog_nav_mode_month_list_num_month"
+msgstr "Grupo"
+
+msgid "blog_nav_mode_month_list_num_month_info"
+msgstr "Max. versão ILIAS"
+
+msgid "blog_nav_mode_month_list_num_month_with_post"
+msgstr "Número do mês com postings listados"
+
+msgid "blog_nav_mode_month_list_num_month_with_post_info"
+msgstr "Estes meses serão exibidos com todos os seus posting no bloco de navegação."
+
+msgid "blog_nav_mode_month_single"
+msgstr "Mostrar mês selecionado"
+
+msgid "blog_nav_mode_month_single_info"
+msgstr "Mín. versão ILIAS"
+
+msgid "blog_nav_sortorder"
+msgstr "Ordem de blocos"
+
+msgid "blog_navigation"
+msgstr "Postings"
+
+msgid "blog_needs_approval"
+msgstr "Inativo"
+
+msgid "blog_new"
+msgstr "Criar novo blog"
+
+msgid "blog_new_posting_info"
+msgstr "Idiomas"
+
+msgid "blog_news_posting_authors"
+msgstr "Autores contribuintes: %s"
+
+msgid "blog_news_posting_published"
+msgstr "Um posting de blog foi publicado por %s."
+
+msgid "blog_news_posting_updated"
+msgstr "Um posting de blog foi atualizado por %s."
+
+msgid "blog_no_keywords"
+msgstr "Ainda não foram introduzidas palavras-chave."
+
+msgid "blog_notification_activated"
+msgstr "Notificação ativada"
+
+msgid "blog_notification_deactivated"
+msgstr "Notificação desativada"
+
+msgid "blog_notification_toggle_off"
+msgstr "Ficheiros de idioma"
+
+msgid "blog_notification_toggle_on"
+msgstr "Prefixo de variáveis de idioma"
+
+msgid "blog_number_users_notes_or_comments"
+msgstr "Diretório principal"
+
+msgid "blog_posting"
+msgstr "Posting de blog"
+
+msgid "blog_posting_deleted"
+msgstr "Ausente"
+
+msgid "blog_posting_deletion_confirmation"
+msgstr "Módulo"
+
+msgid "blog_posting_edit_approval_info"
+msgstr "O posting continua à espera de ser aprovado por um tutor antes de ser publicado."
+
+msgid "blog_posting_not_found"
+msgstr "Estes posting de blog não está disponível."
+
+#, fuzzy
+msgid "blog_postings"
+msgstr "Posts"
+
+msgid "blog_presentation_frame"
+msgstr "Apresentação do blog"
+
+msgid "blog_presentation_overview"
+msgstr "Vista geral inicial"
+
+msgid "blog_preview"
+msgstr "Pré-visualização"
+
+msgid "blog_profile_picture"
+msgstr "Apresentar fotografia de perfil"
+
+msgid "blog_profile_picture_repository_info"
+msgstr "As fotografias de perfil dos autores são apenas apresentadas nas páginas dos postings, não nas páginas de vista geral."
+
+msgid "blog_properties"
+msgstr "Propriedades do blog"
+
+msgid "blog_rename_posting"
+msgstr "Mudar o nome do blog"
+
+#, fuzzy
+msgid "blog_selected_pages"
+msgstr "Selected posts"
+
+msgid "blog_settings"
+msgstr "Administração do blog"
+
+msgid "blog_settings_navigation"
+msgstr "Coluna de navegação"
+
+msgid "blog_show_latest"
+msgstr "Mostrar últimos postings/esboços"
+
+#, fuzzy
+msgid "blog_show_print_view"
+msgstr "Show Print View"
+
+#, fuzzy
+msgid "blog_side_blocks"
+msgstr "Side Blocks"
+
+#, fuzzy
+msgid "blog_starting_page"
+msgstr "Starting Page"
+
+#, fuzzy
+msgid "blog_task_publishing_draft_title"
+msgstr "Publishing of Draft \"%s\""
+
+msgid "blog_toggle_draft"
+msgstr "Precisa atualização."
+
+msgid "blog_toggle_draft_admin"
+msgstr "Desativar posting de blog"
+
+msgid "blog_toggle_final"
+msgstr "Publicar posting"
+
+#, fuzzy
+msgid "blog_whole_blog"
+msgstr "Whole blog"

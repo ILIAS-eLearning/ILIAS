@@ -1,0 +1,24 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: cat\n"
+
+msgid "cat_copy"
+msgstr "Kategória másolása"
+
+msgid "cat_hide_tax_in_side_block"
+msgstr "Ne jelenjen meg az oldalpanelen"
+
+msgid "cat_import"
+msgstr "Kategória importja"
+
+msgid "cat_more_translations"
+msgstr "További fordítások"
+
+msgid "cat_show_tax_in_side_block"
+msgstr "Megjelenjen az oldalpanelen"

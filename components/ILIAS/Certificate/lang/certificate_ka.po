@@ -1,0 +1,376 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ka\n"
+"Language-Team: Georgian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: certificate\n"
+
+#, fuzzy
+msgid "cert_cron_task_desc"
+msgstr "This job's responsibility is the creation of persisting certificate data based on learning achievements of users."
+
+#, fuzzy
+msgid "cert_cron_task_title"
+msgstr "Certificates"
+
+#, fuzzy
+msgid "cert_form_sec_add_features"
+msgstr "Additional Features"
+
+#, fuzzy
+msgid "cert_form_sec_availability"
+msgstr "Availability"
+
+#, fuzzy
+msgid "cert_form_sec_layout"
+msgstr "Layout and Text"
+
+#, fuzzy
+msgid "certificate_a4"
+msgstr "A4 (297 mm x 210 mm)"
+
+#, fuzzy
+msgid "certificate_a4_landscape"
+msgstr "A4 Landscape (210 mm x 297 mm)"
+
+#, fuzzy
+msgid "certificate_a5"
+msgstr "A5 (210 mm x 148 mm)"
+
+#, fuzzy
+msgid "certificate_a5_landscape"
+msgstr "A5 Landscape (148 mm x 210 mm)"
+
+msgid "certificate_background_image"
+msgstr "ფონის სურათი"
+
+#, fuzzy
+msgid "certificate_card_tile_image"
+msgstr "Thumbnail Image"
+
+#, fuzzy
+msgid "certificate_change_active_status"
+msgstr "The active state of the certificate has been changed"
+
+msgid "certificate_confirm_deletion_text"
+msgstr "ნამდვილად გსურთ ამ სერთიფიკატის და მასთან დაკავშირებული მთლიანი ინფორმაციის წაშლა?"
+
+msgid "certificate_custom"
+msgstr "საკუთარი"
+
+msgid "certificate_edit"
+msgstr "სერთიფიკატის ნიმუშის წაშლა/რედაქტირება"
+
+msgid "certificate_error_import"
+msgstr "შეცდომა მოხდა სერთიფიკატის გადმოტანის დროს!"
+
+msgid "certificate_error_upload_bgimage"
+msgstr "შეცდომა მოხდა ფონის სურათის ატვირთვის დროს!"
+
+msgid "certificate_export"
+msgstr "სერთიფიკატის გადაგზავნა"
+
+msgid "certificate_failed"
+msgstr "ჩაიშალა"
+
+msgid "certificate_file_basename"
+msgstr "Certificate"
+
+#, fuzzy
+msgid "certificate_id"
+msgstr "Certificate ID"
+
+#, fuzzy
+msgid "certificate_issue_date"
+msgstr "Issue Date"
+
+#, fuzzy
+msgid "certificate_learning_progress_must_be_active"
+msgstr "Only objects with an active Learning Progress can be selected. The Learning Progress is deactivated on the following objects: %s"
+
+msgid "certificate_letter"
+msgstr "წერილის"
+
+msgid "certificate_letter_landscape"
+msgstr "წერილის ლანშაფტი"
+
+msgid "certificate_margin_body"
+msgstr "სხეულის მიჯნა"
+
+msgid "certificate_not_well_formed"
+msgstr "სერთიფიკატის ტექსტი არ არის კარგად გამართული. გთხოვთ შეიყვანოთ სწორი XHTML სერთიფიკატის ტექსტისთვის!"
+
+msgid "certificate_page_format"
+msgstr "გვერდის ფორმატი"
+
+msgid "certificate_page_format_info"
+msgstr "გთხოვთ აირჩიოთ პოსტის გვერდის ფორმატი ახალი კანდიდატებისთვის"
+
+msgid "certificate_pageheight"
+msgstr "გვერდის სიმაღლე"
+
+msgid "certificate_pagewidth"
+msgstr "გვერდის სიგანე"
+
+msgid "certificate_passed"
+msgstr "ჩაბარებული"
+
+msgid "certificate_ph_birthday"
+msgstr "მომხმარებლის დაბადების დღე"
+
+#, fuzzy
+msgid "certificate_ph_cert_id"
+msgstr "Unique Certificate ID"
+
+msgid "certificate_ph_city"
+msgstr "მომხმარებლის საცხოვრებელი ქალაქი"
+
+msgid "certificate_ph_country"
+msgstr "მომხმარებლის ქვეყანა"
+
+msgid "certificate_ph_date"
+msgstr "ნამდვილი თარიღი"
+
+msgid "certificate_ph_date_completed"
+msgstr "Date of completion"
+
+msgid "certificate_ph_datetime"
+msgstr "ნამდვილი დრო და თარიღი"
+
+msgid "certificate_ph_datetime_completed"
+msgstr "Date and time of completion"
+
+msgid "certificate_ph_department"
+msgstr "მომხმარებლის დეპარტამენტი"
+
+msgid "certificate_ph_exercisetitle"
+msgstr "Exercise Title"
+
+msgid "certificate_ph_firstname"
+msgstr "მომხმარებლის სახელი"
+
+msgid "certificate_ph_fullname"
+msgstr "მომხმარებლის სახელი და გვარი ( წოდება, სახელი, გვარი)"
+
+msgid "certificate_ph_institution"
+msgstr "მომხმარებლის ორგანიზაცია"
+
+msgid "certificate_ph_introduction"
+msgstr "შესაძლებელია შემდეგი ადგილების გამოყენება"
+
+msgid "certificate_ph_lastaccess"
+msgstr " მომხმარებლის ბოლო შესვლის თარიღი და დრო"
+
+msgid "certificate_ph_lastname"
+msgstr "მომხმარებლის გვარი"
+
+msgid "certificate_ph_login"
+msgstr "შესვლა"
+
+msgid "certificate_ph_mark"
+msgstr "Users mark"
+
+msgid "certificate_ph_marklong"
+msgstr "მომხმარებლის ქულა/ნიშანი( ოფიციალური)"
+
+msgid "certificate_ph_markshort"
+msgstr "მომხმარებლის ნიშანი (მოკლე ვერსია)"
+
+#, fuzzy
+msgid "certificate_ph_matriculation"
+msgstr "Matriculation number of the user"
+
+msgid "certificate_ph_no_sco"
+msgstr "If items are selected to determine the overall learning progress status, titles and points for these items could be displayed in certificate."
+
+msgid "certificate_ph_salutation"
+msgstr "მილოცვა"
+
+msgid "certificate_ph_sco_points_max"
+msgstr "placeholder<br/>for points<br/>max"
+
+msgid "certificate_ph_sco_points_raw"
+msgstr "placeholder<br/>for points"
+
+msgid "certificate_ph_sco_points_scaled"
+msgstr "placeholder<br/>for points<br/>in percent"
+
+msgid "certificate_ph_sco_title"
+msgstr "placeholder<br/>for title"
+
+msgid "certificate_ph_scormmaxpoints"
+msgstr "ბოლო შესაბამისი SCO-ს რიგის ნიშნის მაქსიმალური ღირებულება ზღვარში ( ყველაზე შესაფერისია ფინალური გამოცდისთვის)"
+
+msgid "certificate_ph_scormpoints"
+msgstr "სკორმის სასწავლო მოდულის ქულები"
+
+msgid "certificate_ph_scormtitle"
+msgstr "სკორმის სასწავლო მოდულის დასახელება"
+
+msgid "certificate_ph_scos"
+msgstr "The following items were selected to determine the overall learning progress status and are available for statements in the certificate:"
+
+msgid "certificate_ph_street"
+msgstr "მომხმარებლი მისამართი( ქუჩა)"
+
+msgid "certificate_ph_testtitle"
+msgstr "ტესტის დასახელება"
+
+msgid "certificate_ph_title"
+msgstr "მომხმარებლის სახელწოდება"
+
+msgid "certificate_ph_title_sco"
+msgstr "title"
+
+msgid "certificate_ph_zipcode"
+msgstr "მომხმარებლის მისამართის საფოსტო კოდი"
+
+msgid "certificate_points_notavailable"
+msgstr "ამ ღირებულების დათვლა შეუძლებელია"
+
+msgid "certificate_preview"
+msgstr "აჩვენე სერთიფიკატი ამობეჭდვის წინ"
+
+msgid "certificate_settings"
+msgstr "სერთიფიკატის პარამეტრები"
+
+msgid "certificate_short_name"
+msgstr "სერთიფიკატის ფაილის მოკლე დასახელება"
+
+msgid "certificate_short_name_description"
+msgstr "გთხოვთ შეიყვანოთ სერთიფიკატის მოკლე სახელწოდება. Eს მოკლე დასახელება იქნება სერთიფიკატის სახელის ნაწილი : წელი/თვე/დღე_[გვარი]_[მოკლე_დასახელება]_სერთიფიკატი.პდფ"
+
+msgid "certificate_text"
+msgstr "სერთიფიკატის ტექსტი"
+
+#, fuzzy
+msgid "certificate_text_info"
+msgstr "Please enter the certificate text. If the WYSIWYG editor is disabled in the ILIAS administration, you can still use valid XHTML to format the text."
+
+msgid "certificate_unit_description"
+msgstr "შეიყვანეთ განსაზღვის/დათვლის ერთეულები როგორც ღირებულება["
+
+msgid "certificate_usage"
+msgstr "გთხოვთ გაითვალისწინოთ რომ სერთიფიკატების გამოყენება შეიძლება მხოლოდ იმ შემთხვევაშითუ ილიასი ჯავა სერვერი აქტიურია. ჯავა სერვერის კონფიგურაცია შესაძლებელია ილიასის ადმინისტრაციის მთავარ გვერდზე ვებ სერვისების განყოფილებაში"
+
+msgid "certificate_var_max_points"
+msgstr "46"
+
+msgid "certificate_var_result_mark_long"
+msgstr "კარგი"
+
+msgid "certificate_var_result_mark_short"
+msgstr "ბ"
+
+msgid "certificate_var_result_passed"
+msgstr "ჩაბარებული"
+
+msgid "certificate_var_result_percent"
+msgstr "83%s"
+
+msgid "certificate_var_result_points"
+msgstr "38"
+
+msgid "certificate_var_user_birthday"
+msgstr "1977-05-09"
+
+msgid "certificate_var_user_city"
+msgstr "ნებისმიერი ქალაქი, ნიუ იორკი"
+
+msgid "certificate_var_user_country"
+msgstr "შეერთებული შტატები"
+
+msgid "certificate_var_user_department"
+msgstr "მომხმარებლის მხარდაჭერა"
+
+msgid "certificate_var_user_firstname"
+msgstr "ჯეინი"
+
+msgid "certificate_var_user_fullname"
+msgstr "დოქტორი ჯეინ დო"
+
+msgid "certificate_var_user_institution"
+msgstr "ილიასის ღია წყარო"
+
+msgid "certificate_var_user_lastname"
+msgstr "დო"
+
+msgid "certificate_var_user_login"
+msgstr "jdoe"
+
+#, fuzzy
+msgid "certificate_var_user_matriculation"
+msgstr "12345"
+
+msgid "certificate_var_user_salutation"
+msgstr "ქალბატონი"
+
+msgid "certificate_var_user_street"
+msgstr "100 მთავარი ქუჩის"
+
+msgid "certificate_var_user_title"
+msgstr "დოქტორი"
+
+msgid "certificate_var_user_zipcode"
+msgstr "12345"
+
+#, fuzzy
+msgid "cmix_cert_ph_object_description"
+msgstr "Description"
+
+#, fuzzy
+msgid "cmix_cert_ph_object_title"
+msgstr "Title of the xAPI/cmi5 Object"
+
+#, fuzzy
+msgid "cmix_cert_ph_reached_score"
+msgstr "Reached score as percentage"
+
+msgid "default_background_info"
+msgstr "ეს ფონის სურათი შეირჩევა ყველა სერთიფიკატისთვის. თუ სხვა ფონის სურათის შერჩევა გსურთ, თქვენ უნდა ატვირთოთ ის სერთიფიკატის რედაქტირების განყოფილებაში"
+
+msgid "download_certificate"
+msgstr "სერთიფიკატის გადმოტვირთვა"
+
+#, fuzzy
+msgid "learning_progress_deactivated"
+msgstr "The Learning Progress for this object is deactivated. To edit the certificate template and achieve user certificates the learning progress for this object must be activated."
+
+#, fuzzy
+msgid "lti_cert_ph_mastery_score"
+msgstr "Mastery score as percentage"
+
+#, fuzzy
+msgid "lti_cert_ph_object_description"
+msgstr "Description"
+
+#, fuzzy
+msgid "lti_cert_ph_object_title"
+msgstr "Title of the LTI Consumer Object"
+
+#, fuzzy
+msgid "lti_cert_ph_reached_score"
+msgstr "Reached score as percentage"
+
+#, fuzzy
+msgid "persistent_certificate_mode"
+msgstr "User Certificate Creation"
+
+#, fuzzy
+msgid "persistent_certificate_mode_cron"
+msgstr "Cron Job"
+
+#, fuzzy
+msgid "persistent_certificate_mode_cron_info"
+msgstr "This option is recommended for systems with high user interaction."
+
+#, fuzzy
+msgid "persistent_certificate_mode_instant"
+msgstr "Instant"
+
+#, fuzzy
+msgid "persistent_certificate_mode_instant_info"
+msgstr "This option is recommended for systems with low up to mediocre user interactions. Systems that tend to big loading times during creation for multiple user certificates should switch to the \"Cron Job\" option."

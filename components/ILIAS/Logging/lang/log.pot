@@ -1,0 +1,51 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: log\n"
+
+msgid "log_component_btn_reset"
+msgstr ""
+
+msgid "log_component_col_component"
+msgstr ""
+
+msgid "log_component_col_level"
+msgstr ""
+
+msgid "log_component_unknown"
+msgstr ""
+
+msgid "log_components"
+msgstr ""
+
+msgid "log_level_alert"
+msgstr ""
+
+msgid "log_level_critical"
+msgstr ""
+
+msgid "log_level_debug"
+msgstr ""
+
+msgid "log_level_default"
+msgstr ""
+
+msgid "log_level_emergency"
+msgstr ""
+
+msgid "log_level_error"
+msgstr ""
+
+msgid "log_level_info"
+msgstr ""
+
+msgid "log_level_notice"
+msgstr ""
+
+msgid "log_level_off"
+msgstr ""
+
+msgid "log_level_warning"
+msgstr ""

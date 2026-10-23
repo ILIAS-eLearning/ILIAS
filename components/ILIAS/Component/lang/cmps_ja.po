@@ -1,0 +1,232 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: cmps\n"
+
+msgid "cmps_activate"
+msgstr "有効にする"
+
+msgid "cmps_active"
+msgstr "アクティブ"
+
+msgid "cmps_add_new_rank"
+msgstr "新規追加オブジェクトラインの位置"
+
+msgid "cmps_available"
+msgstr "利用可能"
+
+msgid "cmps_available_version"
+msgstr "利用可能なバージョン"
+
+msgid "cmps_basic_files"
+msgstr "基本ファイル"
+
+msgid "cmps_class_file"
+msgstr "クラスファイル"
+
+msgid "cmps_component"
+msgstr "構成要素"
+
+msgid "cmps_configure"
+msgstr "構成"
+
+msgid "cmps_current_db_version"
+msgstr "現在のDB-Version"
+
+msgid "cmps_current_version"
+msgstr "現在のバージョン"
+
+msgid "cmps_database"
+msgstr "データベース"
+
+msgid "cmps_db_update"
+msgstr "DB更新スクリプト"
+
+msgid "cmps_deactivate"
+msgstr "アクティブ解除"
+
+msgid "cmps_detailed_information"
+msgstr "詳細を表示情報"
+
+msgid "cmps_dir"
+msgstr "ディレクトリ"
+
+#, fuzzy
+msgid "cmps_disable_creation"
+msgstr "Disable Creation"
+
+msgid "cmps_enable_creation"
+msgstr "作成を有効にする"
+
+msgid "cmps_file_version"
+msgstr "更新ファイルバージョン"
+
+msgid "cmps_group"
+msgstr "グループ"
+
+msgid "cmps_id"
+msgstr "ID"
+
+msgid "cmps_ilias_max_version"
+msgstr "Max. ILIAS Version"
+
+msgid "cmps_ilias_min_version"
+msgstr "Min. ILIAS Version"
+
+msgid "cmps_inactive"
+msgstr "非アクティブ"
+
+msgid "cmps_install"
+msgstr "インストール"
+
+msgid "cmps_is_active"
+msgstr "アクティブ化"
+
+msgid "cmps_is_installed"
+msgstr "インストール済"
+
+msgid "cmps_lang_files"
+msgstr "言語ファイル"
+
+msgid "cmps_lang_prefix"
+msgstr "言語変数プレフィックス"
+
+msgid "cmps_languages"
+msgstr "言語"
+
+msgid "cmps_main_dir"
+msgstr "メインディレクトリ"
+
+msgid "cmps_missing"
+msgstr "不明"
+
+msgid "cmps_module"
+msgstr "モジュール"
+
+msgid "cmps_must_installed"
+msgstr "コンポーネントをインストールする必要があります。"
+
+msgid "cmps_name"
+msgstr "名前"
+
+msgid "cmps_needs_matching_ilias_version"
+msgstr "このプラグインは現在のILIASバージョンでは動作しません。"
+
+msgid "cmps_needs_newer_ilias_version"
+msgstr "このプラグインバージョンは新しいILIASバージョンでのみ動作します。 ILIASをバージョンアップしてください。"
+
+msgid "cmps_needs_newer_plugin_version"
+msgstr "このILIASのバージョンには新しいプラグインバージョンが必要です。プラグインを更新してください。"
+
+msgid "cmps_needs_update"
+msgstr "アップグレードが必要"
+
+msgid "cmps_needs_upgrade"
+msgstr "現在インストールされているプラグインバージョンは以前インストールしていたバージョンよりも古いものです。プラグインをアップグレードしてください。"
+
+msgid "cmps_no_db_update_file_available"
+msgstr "DB更新スクリプトがありません。"
+
+msgid "cmps_no_language_file_available"
+msgstr "言語ファイルがありません。"
+
+msgid "cmps_plugin"
+msgstr "プラグイン"
+
+msgid "cmps_plugin_activated"
+msgstr "プラグインがアクティグになりました。"
+
+msgid "cmps_plugin_db_prefixes"
+msgstr "DBテーブルプレフィックス"
+
+msgid "cmps_plugin_deactivated"
+msgstr "プラグインは解除されました。"
+
+msgid "cmps_plugin_deinstalled"
+msgstr "このプラグインは削除されました。"
+
+msgid "cmps_plugin_file"
+msgstr "プラグインファイル"
+
+msgid "cmps_plugin_lang_prefixes"
+msgstr "プラグイン言語プレフィックス"
+
+msgid "cmps_plugin_slot"
+msgstr "プラグインスロット"
+
+msgid "cmps_plugin_uninstalled"
+msgstr "全ての言語とデータベース関連エントリーは削除されてプラグインは設定解除されました。完全にプラグインをアンインストールするために'Customizing'ディレクトリ内のプラグインのディレクトリとソースコードを削除できます。"
+
+msgid "cmps_plugin_updated"
+msgstr "プラグインはupdateされました。"
+
+msgid "cmps_plugins"
+msgstr "プラグイン"
+
+msgid "cmps_refresh"
+msgstr "言語をリフレッシュ"
+
+msgid "cmps_refresh_lng"
+msgstr "言語をリフレッシュ"
+
+msgid "cmps_rep_object"
+msgstr "オブジェクトタイプのリポジトリ"
+
+msgid "cmps_repository_object_types"
+msgstr "リポジトリオブジェクトタイプ"
+
+msgid "cmps_responsible"
+msgstr "責任者"
+
+msgid "cmps_responsible_mail"
+msgstr "Mail (Responsible)"
+
+msgid "cmps_save_options"
+msgstr "オプションを保存"
+
+msgid "cmps_service"
+msgstr "サービス"
+
+msgid "cmps_show_details"
+msgstr "詳細を表示"
+
+msgid "cmps_slots"
+msgstr "スロット"
+
+msgid "cmps_status"
+msgstr "ステータス"
+
+msgid "cmps_supports_cli_setup"
+msgstr "CLI-Setupをサポート"
+
+msgid "cmps_supports_export"
+msgstr "exportをサポート"
+
+msgid "cmps_supports_learning_progress"
+msgstr "学習進捗をサポート"
+
+msgid "cmps_uninstall"
+msgstr "アンインストール"
+
+msgid "cmps_uninstall_confirm"
+msgstr "本当にプラグイン\"%s\"をアンインストールして関連の全てのデータベースエントリーを削除しますか?"
+
+msgid "cmps_uninstall_inactive_confirm"
+msgstr "プラグイン\"%1$s\"は現在アクティブ (\"%2$s\")にできません。この状態ではプラグインを完全にアンインストールできません。コアのみの統合に戻りプラグインカスタムデータは残る可能性があります。部分アンインストールを続行しますか?"
+
+msgid "cmps_update"
+msgstr "更新"
+
+msgid "cmps_version"
+msgstr "バージョン"
+
+msgid "database_is_uptodate"
+msgstr "データベースは最新です。"
+
+msgid "no_changes"
+msgstr "変更なし"

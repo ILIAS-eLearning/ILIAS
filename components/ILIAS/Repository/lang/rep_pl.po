@@ -1,0 +1,299 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pl\n"
+"Language-Team: Polish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: rep\n"
+
+#, fuzzy
+msgid "btn_undelete_new_location"
+msgstr "Restore (new location)"
+
+#, fuzzy
+msgid "btn_undelete_origin_location"
+msgstr "Restore (same location)"
+
+msgid "rep_activation_access"
+msgstr "Dostęp"
+
+msgid "rep_activation_access_ref_info"
+msgstr "To ustawienie dotyczy tylko aktualnej rekomendacji - żadnej innej."
+
+msgid "rep_activation_availability"
+msgstr "Dostępność"
+
+msgid "rep_activation_limited_end"
+msgstr "Koniec"
+
+msgid "rep_activation_limited_start"
+msgstr "Start"
+
+msgid "rep_activation_limited_visibility"
+msgstr "Zawsze widoczny"
+
+msgid "rep_activation_online"
+msgstr "Online"
+
+msgid "rep_activation_online_object_info"
+msgstr "To ustawienie ma wpływ na wszystkie rekomendacje w repozytorium."
+
+msgid "rep_add_new_def_grp_assessment"
+msgstr "Ocena"
+
+msgid "rep_add_new_def_grp_communication"
+msgstr "Komunikacja"
+
+msgid "rep_add_new_def_grp_content"
+msgstr "Zawartość"
+
+msgid "rep_add_new_def_grp_feedback"
+msgstr "Feedback i ewaluacja"
+
+msgid "rep_add_new_def_grp_organisation"
+msgstr "Organizacja"
+
+msgid "rep_add_new_def_grp_templates"
+msgstr "Szablony"
+
+#, fuzzy
+msgid "rep_added_rec_content"
+msgstr "Recommended content has been added."
+
+#, fuzzy
+msgid "rep_allowed_types"
+msgstr "Allowed Types"
+
+msgid "rep_breadcr_crs"
+msgstr "Breadcrumb starts with course"
+
+#, fuzzy
+msgid "rep_breadcr_crs_config"
+msgstr "Configuration"
+
+msgid "rep_breadcr_crs_overwrite"
+msgstr "Setting is changeable on course level"
+
+msgid "rep_breadcr_crs_overwrite_not"
+msgstr "Setting is not changeable on course level"
+
+#, fuzzy
+msgid "rep_breadcr_crs_overwrite_settings"
+msgstr "Allow Exceptions"
+
+#, fuzzy
+msgid "rep_breadcr_crs_overwrite_with_default"
+msgstr "Setting is changeable on course level, with this as default"
+
+#, fuzzy
+msgid "rep_configure"
+msgstr "Configure"
+
+#, fuzzy
+msgid "rep_crs_default_shortened"
+msgstr "Default: Breadcrumbs Shortened"
+
+msgid "rep_custom_icons"
+msgstr "Dostosowane ikony"
+
+msgid "rep_default"
+msgstr "Default"
+
+#, fuzzy
+msgid "rep_deleted_account"
+msgstr "Deleted Account"
+
+msgid "rep_dependencies"
+msgstr "Zależności"
+
+msgid "rep_dependency"
+msgstr "Zależność"
+
+msgid "rep_dependent_object"
+msgstr "Zależny obiekt"
+
+#, fuzzy
+msgid "rep_export_limit_number"
+msgstr "Number of Objects"
+
+#, fuzzy
+msgid "rep_export_limitation"
+msgstr "Container Export Limitation"
+
+#, fuzzy
+msgid "rep_export_limitation_disabled"
+msgstr "Container Export Disabled"
+
+#, fuzzy
+msgid "rep_export_limitation_info"
+msgstr "Limits the number of objects for container exports (courses, categories, ...) in the repository."
+
+#, fuzzy
+msgid "rep_export_limitation_limited"
+msgstr "Limit Export"
+
+#, fuzzy
+msgid "rep_export_limitation_unlimited"
+msgstr "Unlimited Export"
+
+#, fuzzy
+msgid "rep_failure_trashed_trash"
+msgstr "You selected objects that cannot be restored to their original location, because their parent objects were deleted. Please uncheck the respective object in the table or select the Restore to New Location instead."
+
+msgid "rep_fav_intro1"
+msgstr "Nie wybrałeś jeszcze żadnych ulubionych. Aby to zrobić, musisz wykonać dwa kroki:"
+
+msgid "rep_fav_intro2"
+msgstr "Kliknij '%s' i wybierz obiekt edukacyjny z dostępnych opcji, np. moduł edukacyjny lub forum."
+
+msgid "rep_fav_intro3"
+msgstr "Jeśli znajdziesz coś, co Cię interesuje, możesz łatwo dodać to do ulubionych. Aby dodać interesujący Cię element, wybierz opcję „Dodaj do ulubionych” z menu „Akcje”."
+
+msgid "rep_favourites"
+msgstr "Ulubione"
+
+#, fuzzy
+msgid "rep_favourites_info"
+msgstr "Users can mark single repository items as favourites. Favourites lists can be activated and configured in the dashboard and menu settings."
+
+#, fuzzy
+msgid "rep_input_not_empty"
+msgstr "This field must not be empty, please provide a value."
+
+msgid "rep_intro"
+msgstr "Witamy w dostępnych zasobach!"
+
+msgid "rep_intro1"
+msgstr "W tym obszarze możesz sporządzać i udostępniać materiały nauczania i robocze. To przestrzeń, na której tworzysz zasoby robocze i nauczania dla wszystkich użytkowników. Wszystkie zasoby są podzielone na kategorie. Kategorie mogą odzwierciedlać strukturę twojej instytucji (np. katedry), hierarchię dyscyplin lub klasy szkolne."
+
+msgid "rep_intro2"
+msgstr "Potrzebne są trzy kroki do stworzenia struktury podstawowej:"
+
+msgid "rep_intro3"
+msgstr "Kliknij na przycisk <i>%s</i> obok listy wyboru na górze po prawej stronie."
+
+msgid "rep_intro4"
+msgstr "W nowym formularzu, podaj tytuł i opis i kliknij na <i>%s</i>."
+
+msgid "rep_intro5"
+msgstr "Przez kliknięcie na tytuł kategorii wprowadzasz swoją kategorię."
+
+msgid "rep_intro6"
+msgstr "Potem możesz dodawać do tej kategorii dowolne zasoby nauczania."
+
+#, fuzzy
+msgid "rep_mo_mem_dash"
+msgstr "Sie sind aktuell noch nicht Mitglied eines Kurses oder einer Gruppe."
+
+msgid "rep_multiple_reference_deletion_instruction"
+msgstr "Wybierz te, które również mają zostać usunięte:"
+
+msgid "rep_multiple_reference_deletion_intro"
+msgstr "Dla tego obiektu istnieją dodatkowe rekomendacje."
+
+msgid "rep_new_item_group_add"
+msgstr "Dodaj grupę"
+
+msgid "rep_new_item_group_delete_sure"
+msgstr "Czy naprawdę chcesz usunąć następujące grupy?"
+
+msgid "rep_new_item_group_edit"
+msgstr "Edytuj grupę"
+
+msgid "rep_new_item_group_nr_subitems"
+msgstr "Liczba przydzielonych obiektów"
+
+msgid "rep_new_item_group_other"
+msgstr "Inne"
+
+msgid "rep_new_item_group_unassigned"
+msgstr "Nie przydzielono"
+
+msgid "rep_new_item_group_unassigned_subitems"
+msgstr "Liczba nieprzydzielonych obiektów: %s"
+
+msgid "rep_new_item_groups"
+msgstr "Grupy"
+
+msgid "rep_new_item_menu"
+msgstr "Menu \"Dodaj nowy obiekt\""
+
+#, fuzzy
+msgid "rep_no_last_visited_mess"
+msgstr "You did not visited any resources yet."
+
+msgid "rep_no_permission_to_delete"
+msgstr "Brak uprawnień do usuwania"
+
+msgid "rep_object_lists"
+msgstr "Listy obiektów"
+
+msgid "rep_object_references_cannot_be_read"
+msgstr "Brak uprawnień dla %s kolejnych rekomendacji."
+
+msgid "rep_object_to_delete"
+msgstr "Do usunięcia"
+
+#, fuzzy
+msgid "rep_rec_content_removed"
+msgstr "Recommended content has been removed."
+
+#, fuzzy
+msgid "rep_recommended_content"
+msgstr "Recommended Content"
+
+#, fuzzy
+msgid "rep_remove_rec_content"
+msgstr "Are you sure you want to remove the following recommended content?"
+
+#, fuzzy
+msgid "rep_target_location"
+msgstr "Target Location"
+
+#, fuzzy
+msgid "rep_target_location_info"
+msgstr "Bitte wählen Sie nun das Ziel aus, an dem die ausgewählten Objekte wiederhergestellt werden sollen."
+
+msgid "rep_time_based_availability"
+msgstr "Dostępny tymczasowo"
+
+#, fuzzy
+msgid "rep_time_based_availability_info"
+msgstr "The selected items will only be visible between the start and end date."
+
+msgid "rep_time_period"
+msgstr "Okres"
+
+#, fuzzy
+msgid "rep_trash_deleted_by_unknown"
+msgstr "Unknown"
+
+#, fuzzy
+msgid "rep_trash_table_col_deleted_by"
+msgstr "Deleted by"
+
+#, fuzzy
+msgid "rep_trash_table_col_deleted_on"
+msgstr "Deleted on"
+
+#, fuzzy
+msgid "rep_trash_table_col_num_subs"
+msgstr "Number Subitems"
+
+#, fuzzy
+msgid "rep_trash_table_title"
+msgstr "Deleted objects below:"
+
+msgid "rep_tree_limit"
+msgstr "Limit Items in Tree"
+
+msgid "rep_tree_limit_info"
+msgstr "The number of objects in the repository tree will be limited to enhance performance."
+
+msgid "rep_tree_limit_number"
+msgstr "Maximum Number"
+
+msgid "rep_tree_limit_number_info"
+msgstr "Maximum Number of children elements that are initially shown for an expanded node. If more children elements are present, a search input field is shown to filter the children elements by title."

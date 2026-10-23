@@ -1,0 +1,168 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: nl\n"
+"Language-Team: Dutch\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: form\n"
+
+msgid "email_not_match"
+msgstr "Je ingaven voor het e-mail adres zijn niet gelijk! Voer je e-mail adres nogmaals in."
+
+msgid "form_alphabet_all"
+msgstr "Alle"
+
+#, fuzzy
+msgid "form_chars_remaining"
+msgstr "Characters remaining:"
+
+#, fuzzy
+msgid "form_date_duration_end"
+msgstr "End"
+
+#, fuzzy
+msgid "form_date_duration_start"
+msgstr "Start"
+
+msgid "form_days"
+msgstr "Dagen"
+
+msgid "form_file_input"
+msgstr "Invoer van bestand"
+
+msgid "form_format"
+msgstr "Format"
+
+msgid "form_get_link"
+msgstr "Select Target Object"
+
+#, fuzzy
+msgid "form_hier_click_to_add"
+msgstr "Click here to add new elements."
+
+msgid "form_hierarchy_add_elements"
+msgstr "Klik op plaatsaanduidingen om nieuwe elementen toe te voegen"
+
+msgid "form_hierarchy_drag_drop_help"
+msgstr "Drag and drop iconen op plaatsaanduidingen om elementen te verplaatsen."
+
+msgid "form_hours"
+msgstr "Uren"
+
+msgid "form_image_file_input"
+msgstr "Invoeren afbeeldingsbestand"
+
+#, fuzzy
+msgid "form_invalid_uri"
+msgstr "Invalid URI format."
+
+msgid "form_link_external"
+msgstr "External"
+
+msgid "form_link_internal"
+msgstr "Internal"
+
+msgid "form_location_radius"
+msgstr "Radius"
+
+msgid "form_location_radius_km"
+msgstr "km"
+
+msgid "form_max_value"
+msgstr "Maximale waarde"
+
+msgid "form_min_value"
+msgstr "Minimale waarde"
+
+msgid "form_minutes"
+msgstr "Minuten"
+
+msgid "form_months"
+msgstr "Months"
+
+msgid "form_msg_file_cannot_write_to_disk"
+msgstr "Kan niet schrijven"
+
+#, fuzzy
+msgid "form_msg_file_missing_file_ext"
+msgstr "The uploaded file has no file type exension."
+
+msgid "form_msg_file_missing_tmp_dir"
+msgstr "Tijdelijke map voor ontbrekende uploadbestanden"
+
+msgid "form_msg_file_no_upload"
+msgstr "Deze invoer is verplicht. Selecteer een bestand voor upload."
+
+msgid "form_msg_file_partially_uploaded"
+msgstr "Het bestand kon niet geüpload worden."
+
+msgid "form_msg_file_size_exceeds"
+msgstr "Het bestand overschrijd de maximale toelating."
+
+#, fuzzy
+msgid "form_msg_file_type_is_not_allowed"
+msgstr "This file type is not allowed."
+
+msgid "form_msg_file_upload_stopped_ext"
+msgstr "Upload bestand gestopt door extentie"
+
+msgid "form_msg_file_virus_found"
+msgstr "Virus gevonden in upload bestand"
+
+msgid "form_msg_file_wrong_file_type"
+msgstr "Verkeerd bestandstype"
+
+msgid "form_msg_formula_is_required"
+msgstr "Please enter a correct formula."
+
+#, fuzzy
+msgid "form_msg_max_upload"
+msgstr "Maximum number of simultaneously uploadable files:"
+
+msgid "form_msg_numeric_value_required"
+msgstr "Please enter a numeric value."
+
+msgid "form_msg_value_too_high"
+msgstr "Value too high. Please enter a lower value."
+
+msgid "form_msg_value_too_low"
+msgstr "Value too low. Please enter a higher value."
+
+msgid "form_msg_wrong_date"
+msgstr "Onjuiste datum"
+
+#, fuzzy
+msgid "form_no_link"
+msgstr "No Link"
+
+#, fuzzy
+msgid "form_open_answer"
+msgstr "Open Answer"
+
+msgid "form_password_not_allowed_for_auth"
+msgstr "Het is niet mogelijk om het wachtwoord voor de gekozen authenticatiemethode te wijzigen"
+
+msgid "form_password_required_for_auth"
+msgstr "Wachtwoord is vereist voor de gekozen authenticatiemethode"
+
+msgid "form_please_select"
+msgstr "Selecteren"
+
+msgid "form_retype_email"
+msgstr "E-mail opnieuw intypen"
+
+msgid "form_retype_password"
+msgstr "Wachtwoord opnieuw invoeren"
+
+msgid "form_seconds"
+msgstr "Seconden"
+
+#, fuzzy
+msgid "form_take_snapshot"
+msgstr "Take Snapshot"
+
+#, fuzzy
+msgid "form_use_camera"
+msgstr "Use Camera"

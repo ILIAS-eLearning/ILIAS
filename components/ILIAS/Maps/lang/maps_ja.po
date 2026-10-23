@@ -1,0 +1,60 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: maps\n"
+
+msgid "configure_geolocation"
+msgstr "アドレス検索を有効にするための管理メニュー\"サードパーティーソフトウェア\"の測位構成を完了してください。"
+
+msgid "maps_custom_geolocation_server_info"
+msgstr "Nominatimを使用して測位データを提供するサーバのURL。エントリーには要求の情報に位置を定義するためのプレースフォルダ[QUERY]を含めなければなりません。例: nominatim.example.com/search/[QUERY]?format=json."
+
+msgid "maps_custom_tile_server_info"
+msgstr "タイルデータを提供するためのサーバURL。複数の入力はスペースで区切る必要があります。既定は\"%s\"です。"
+
+msgid "maps_enable_maps"
+msgstr "マップを利用可能にする"
+
+msgid "maps_enable_maps_info"
+msgstr "ユーザプロファイル、グループ、コースのマップを有効化urses."
+
+msgid "maps_geolocation_server"
+msgstr "逆測位用のサーバ"
+
+msgid "maps_https_for_reverse_lookup"
+msgstr "Reverse Lookup用のhttps"
+
+msgid "maps_latitude"
+msgstr "経度"
+
+msgid "maps_longitude"
+msgstr "経線"
+
+msgid "maps_lookup_address"
+msgstr "ルックアップアドレス"
+
+msgid "maps_map_type"
+msgstr "タイプ"
+
+msgid "maps_open_layers_maps"
+msgstr "オープンレイヤーマップ"
+
+msgid "maps_settings"
+msgstr "マップ設定"
+
+msgid "maps_std_location"
+msgstr "ロケーション初期設定"
+
+msgid "maps_std_location_desc"
+msgstr "ロケーションを設定するにはマップをクリック"
+
+msgid "maps_tile_server"
+msgstr "タイル用のサーバ"
+
+msgid "maps_zoom_level"
+msgstr "ズームレベル"

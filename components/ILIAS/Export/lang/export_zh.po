@@ -1,0 +1,81 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: zh\n"
+"Language-Team: Chinese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: export\n"
+
+#, fuzzy
+msgid "exp_file"
+msgstr "File Name"
+
+#, fuzzy
+msgid "exp_public_access"
+msgstr "Public Access"
+
+#, fuzzy
+msgid "exp_size"
+msgstr "File Size (MB)"
+
+#, fuzzy
+msgid "exp_timestamp"
+msgstr "Creation Date"
+
+#, fuzzy
+msgid "exp_toggle_public_access"
+msgstr "Toggle Public Access"
+
+#, fuzzy
+msgid "exp_type"
+msgstr "Type"
+
+msgid "export_create"
+msgstr "创建"
+
+msgid "export_create_new_file"
+msgstr "创建新的导出文件"
+
+msgid "export_existing"
+msgstr "重用"
+
+msgid "export_export_date"
+msgstr "导出日期"
+
+#, fuzzy
+msgid "export_info_public_access"
+msgstr "Public Access Export"
+
+#, fuzzy
+msgid "export_info_public_access_download"
+msgstr "Download"
+
+msgid "export_last_export"
+msgstr "最后导出的"
+
+msgid "export_last_export_file"
+msgstr "使用最后导出的文件"
+
+msgid "export_last_file"
+msgstr "最后文件"
+
+msgid "export_omit"
+msgstr "省略"
+
+msgid "export_omit_resource"
+msgstr "省略资源"
+
+msgid "export_resource"
+msgstr "资源"
+
+msgid "export_save_selection"
+msgstr "开始导出"
+
+msgid "export_select_resources"
+msgstr "选择资源"
+
+#, fuzzy
+msgid "no_file"
+msgstr "No file"

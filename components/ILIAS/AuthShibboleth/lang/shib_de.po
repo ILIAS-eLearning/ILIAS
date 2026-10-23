@@ -1,0 +1,141 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: shib\n"
+
+msgid "shib_account_creation"
+msgstr "Erstellung von Anmeldekonten"
+
+msgid "shib_account_creation_disabled"
+msgstr "Deaktiviert"
+
+msgid "shib_account_creation_disabled_info"
+msgstr "Es wird kein neues Anmeldekonto angelegt."
+
+msgid "shib_account_creation_enabled"
+msgstr "Aktiviert"
+
+msgid "shib_account_creation_enabled_info"
+msgstr "Ein aktives neues Anmeldekonto wird angelegt."
+
+msgid "shib_account_creation_info"
+msgstr "Die Kontoerstellung wird ausgelöst, wenn ein Benutzer ohne ein bereits bestehendes ILIAS-Konto versucht, sich über Shibboleth anzumelden."
+
+msgid "shib_account_creation_with_approval"
+msgstr "Mit Freischaltung"
+
+msgid "shib_account_creation_with_approval_info"
+msgstr "Ein inaktives neues Anmeldekonto wird angelegt. Das Konto bleibt inaktiv, bis es von der technischen Betreuung freigeschaltet wird."
+
+msgid "shib_add_missing"
+msgstr "Fehlende Rollen zuordnen"
+
+msgid "shib_add_remove"
+msgstr "Rollen hinzufügen/entfernen"
+
+msgid "shib_assignment_type"
+msgstr "Art der Zuordnung"
+
+msgid "shib_attr_info"
+msgstr "Die Zuordnung erfolgt anhand eines bestimmten Attributs im Shibboleth-Konto."
+
+msgid "shib_attribute"
+msgstr "Benutzerattribut"
+
+msgid "shib_attribute_name"
+msgstr "Attributname"
+
+msgid "shib_attribute_value"
+msgstr "Attributwert"
+
+msgid "shib_check_role_assignment"
+msgstr "Aktualisierung der Rollenzuordnungen bei jeder Anmeldung:"
+
+msgid "shib_choose_role"
+msgstr "Rolle übernehmen"
+
+msgid "shib_confirm_del_role_ass"
+msgstr "Sind Sie sicher, dass Sie die folgenden Zuordnungen löschen möchten?"
+
+msgid "shib_deleted_rule"
+msgstr "Die Zuordnungsregeln wurden gelöscht."
+
+msgid "shib_global_role"
+msgstr "Globale Rolle"
+
+msgid "shib_ilias_role"
+msgstr "ILIAS-Rollenname"
+
+msgid "shib_local_role"
+msgstr "Lokale Rolle"
+
+msgid "shib_missing_attr_name"
+msgstr "Bitte geben Sie den Namen des Attributes ein."
+
+msgid "shib_missing_attr_value"
+msgstr "Bitte geben Sie den Wert des Attributes ein."
+
+msgid "shib_missing_plugin_id"
+msgstr "Bitte geben Sie eine eindeutige Plugin-ID ein."
+
+msgid "shib_missing_role"
+msgstr "Bitte wählen Sie eine ILIAS-Rolle aus."
+
+msgid "shib_new_rule"
+msgstr "Neue Regel anlegen"
+
+msgid "shib_plugin"
+msgstr "Zuordnung durch Plugin"
+
+msgid "shib_plugin_id"
+msgstr "Plugin-ID"
+
+msgid "shib_plugin_info"
+msgstr "Falls die Zuordnung nicht mit einer einfachen Überprüfung (Attributname/-wert) erfolgen kann, können Sie die Zuordnung alternativ über ein Plugin regeln."
+
+msgid "shib_remove_deprecated"
+msgstr "Unberechtigte Rollen entfernen"
+
+msgid "shib_role_ass_table"
+msgstr "Neue Regel für die ILIAS-Rollenzuordnung"
+
+msgid "shib_role_assignment"
+msgstr "Rollenzuordnungen"
+
+msgid "shib_role_by_attribute"
+msgstr "Benutzerattribut"
+
+msgid "shib_role_by_plugin"
+msgstr "Durch Plugin"
+
+msgid "shib_role_name"
+msgstr "ILIAS-Rollenname"
+
+msgid "shib_role_name_info"
+msgstr "Bitte wählen Sie entweder eine globale Rolle aus oder geben Sie den Namen einer lokalen Rolle ein."
+
+msgid "shib_role_selection"
+msgstr "Rollenauswahl"
+
+msgid "shib_rule_condition"
+msgstr "Bedingung"
+
+msgid "shib_rule_type"
+msgstr "Art der Zuordnung"
+
+msgid "shib_rules_tables"
+msgstr "Aktive Regeln für die Rollenzuordnung"
+
+msgid "shib_settings"
+msgstr "Shibboleth-Einstellungen"
+
+msgid "shib_update_role_ass_table"
+msgstr "Regel zur Rollenzuordnung bearbeiten"
+
+msgid "shib_update_roles"
+msgstr "Rollenzuordnungen"

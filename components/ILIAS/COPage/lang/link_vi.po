@@ -1,0 +1,29 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: vi\n"
+"Language-Team: Vietnamese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: link\n"
+
+#, fuzzy
+msgid "link_chapters"
+msgstr "Chapters"
+
+#, fuzzy
+msgid "link_link"
+msgstr "Link"
+
+#, fuzzy
+msgid "link_mobs"
+msgstr "Media Objects"
+
+#, fuzzy
+msgid "link_terms"
+msgstr "Terms"
+
+#, fuzzy
+msgid "link_wpages"
+msgstr "Wiki Pages"

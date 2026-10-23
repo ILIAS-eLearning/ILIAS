@@ -1,0 +1,2173 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: zh\n"
+"Language-Team: Chinese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: crs\n"
+
+msgid "activation_times_not_valid"
+msgstr "有效期是无效的"
+
+msgid "assigned"
+msgstr "已分配；"
+
+msgid "contact_email_not_valid"
+msgstr "联系人电子邮件无效"
+
+msgid "crs_accept_subscriber"
+msgstr "课程订阅"
+
+msgid "crs_accept_subscriber_body"
+msgstr "您已被分配到这个课程"
+
+msgid "crs_access"
+msgstr "访问"
+
+msgid "crs_activate_notification"
+msgstr "激活通知"
+
+msgid "crs_activation"
+msgstr "激活"
+
+msgid "crs_activation_limited_visibility_info"
+msgstr "如果已选，课程是可见的，即使超出了给定的可用性。"
+
+msgid "crs_activation_online_info"
+msgstr "如果离线，仅课程管理员和导师能查看和编辑课程。"
+
+msgid "crs_add_archive_html"
+msgstr "添加HTML归档文件"
+
+msgid "crs_add_archive_xml"
+msgstr "添加XML归档文件"
+
+msgid "crs_add_grouping"
+msgstr "添加课程分组"
+
+msgid "crs_add_html_archive"
+msgstr "添加HTML归档"
+
+msgid "crs_add_objective"
+msgstr "添加目标"
+
+msgid "crs_add_remove_from_desktop"
+msgstr "从桌面添加/移除"
+
+msgid "crs_add_remove_from_desktop_info"
+msgstr "允许成员添加课程项到个人桌面。"
+
+msgid "crs_add_starter"
+msgstr "添加启动对象"
+
+msgid "crs_add_to_group"
+msgstr "添加到组"
+
+msgid "crs_added_member"
+msgstr "课程会员"
+
+msgid "crs_added_member_body"
+msgstr "您已被这门课程所接受。"
+
+msgid "crs_added_new_archive"
+msgstr "一个新的归档文件已被添加"
+
+msgid "crs_added_objective"
+msgstr "一个新的学习目标已被创建。"
+
+msgid "crs_added_starters"
+msgstr "已分配开始对象"
+
+msgid "crs_added_to_list"
+msgstr "您已被分配到等待列表。您被分配到等待列表的位置%s。"
+
+msgid "crs_admin"
+msgstr "管理员"
+
+msgid "crs_administrators"
+msgstr "管理员"
+
+#, fuzzy
+msgid "crs_admission_link_failure_availability"
+msgstr "Can't register: Course is not online."
+
+#, fuzzy
+msgid "crs_admission_link_failure_invalid_code"
+msgstr "Can't register: Link is invalid."
+
+#, fuzzy
+msgid "crs_admission_link_failure_membership_limited"
+msgstr "Can't registrate: Course membership is limited."
+
+#, fuzzy
+msgid "crs_admission_link_failure_offline"
+msgstr "Can't register: Course is offline."
+
+#, fuzzy
+msgid "crs_admission_link_failure_registration_period"
+msgstr "Can't registrate: Course is out of registration period."
+
+#, fuzzy
+msgid "crs_admission_link_success_registration"
+msgstr "Successfully registrated to course \"%s\"."
+
+msgid "crs_agree"
+msgstr "验收"
+
+msgid "crs_agreement_header"
+msgstr "用户协议"
+
+msgid "crs_agreement_required"
+msgstr "如果您想注册到这门课程，则必须接受这个用户协议。"
+
+#, fuzzy
+msgid "crs_at_least_one_admin"
+msgstr "There has to be at least one course administrator."
+
+msgid "crs_auto_notification"
+msgstr "新成员通知"
+
+msgid "crs_auto_notification_info"
+msgstr "当已添加到课程时，新成员获得一个邮件通知。"
+
+#, fuzzy
+msgid "crs_awrn_current_course"
+msgstr "Current Course"
+
+#, fuzzy
+msgid "crs_awrn_current_course_info"
+msgstr "If the user navigates to a course in the repository, all members of the course are listed."
+
+#, fuzzy
+msgid "crs_awrn_support_contacts"
+msgstr "Tutorial Support"
+
+#, fuzzy
+msgid "crs_awrn_support_contacts_info"
+msgstr "All tutorial support contacts of courses with membership of the current user are listed. Users are defined as tutorial support contacts in the Members tab of the respective course."
+
+msgid "crs_blocked"
+msgstr "访问被拒绝"
+
+msgid "crs_blocked_member"
+msgstr "课程会员"
+
+msgid "crs_blocked_member_body"
+msgstr "您的会员资格已被终止。"
+
+#, fuzzy
+msgid "crs_breadcrumb_crs_only"
+msgstr "Start with Course"
+
+#, fuzzy
+msgid "crs_breadcrumb_full_path"
+msgstr "Full Path"
+
+msgid "crs_cancel_subscr_request"
+msgstr "删除会员请求"
+
+msgid "crs_cancel_subscription"
+msgstr "课程取消注册"
+
+msgid "crs_cancel_subscription_body"
+msgstr "用户已取消订阅此课程。"
+
+msgid "crs_cancel_subscription_body2"
+msgstr "可能有其他成员在您的课程等待清单中。\\您应该现在就检查这个等待清单。\\n查看您的课程成员请点击这里："
+
+#, fuzzy
+msgid "crs_cancellation_end"
+msgstr "Cancellation Limit"
+
+#, fuzzy
+msgid "crs_cancellation_end_info"
+msgstr "From this date on particiants cannot unsubscribe anymore."
+
+#, fuzzy
+msgid "crs_cancellation_end_rbac_info"
+msgstr "The cancellation deadline was met on %s, a cancellation is not possible anymore."
+
+#, fuzzy
+msgid "crs_cannot_find_role"
+msgstr "Can't find this role."
+
+#, fuzzy
+msgid "crs_cdf_edit_member"
+msgstr "Edit Course Relevant User Data"
+
+#, fuzzy
+msgid "crs_cdf_tbl_last_edit"
+msgstr "Last Update (Course-specific Data)"
+
+#, fuzzy
+msgid "crs_checklist_objective"
+msgstr "Checklist Objective"
+
+msgid "crs_contact"
+msgstr "联系"
+
+msgid "crs_contact_consultation"
+msgstr "咨询"
+
+msgid "crs_contact_email"
+msgstr "电子邮件"
+
+msgid "crs_contact_email_info"
+msgstr "输入一个或多个(逗号分隔)电子邮件地址。"
+
+msgid "crs_contact_name"
+msgstr "名字"
+
+msgid "crs_contact_phone"
+msgstr "电话"
+
+msgid "crs_contact_responsibility"
+msgstr "Responsibility(担任)"
+
+msgid "crs_content"
+msgstr "课程内容"
+
+msgid "crs_copy"
+msgstr "复制课程"
+
+msgid "crs_course_group_notification_link"
+msgstr "链接"
+
+#, fuzzy
+msgid "crs_course_period_not_valid"
+msgstr "The course period is not valid."
+
+msgid "crs_course_status_of_users"
+msgstr "已通过的用户的状态"
+
+msgid "crs_create_date"
+msgstr "创建日期"
+
+msgid "crs_custom_user_fields"
+msgstr "课程相关的用户数据"
+
+#, fuzzy
+msgid "crs_custom_user_fields_infobox"
+msgstr "Create additional data fields for course members to fill in when joining. You can show this information as an additional column in the \"Members\" tab."
+
+#, fuzzy
+msgid "crs_custom_user_fields_table_title"
+msgstr "Relevant User Data of This Course"
+
+msgid "crs_dates"
+msgstr "日期"
+
+msgid "crs_deactivate_notification"
+msgstr "关闭通知"
+
+msgid "crs_delete_objectve_sure"
+msgstr "您确信要删除选定的目标？"
+
+msgid "crs_details"
+msgstr "课程详情"
+
+msgid "crs_dismiss_member"
+msgstr "课程会员"
+
+msgid "crs_dismiss_member_body"
+msgstr "您的会员资格已被终止"
+
+#, fuzzy
+msgid "crs_edit_lo_introduction"
+msgstr "Edit Introduction"
+
+msgid "crs_edit_timings"
+msgstr "编辑计时"
+
+msgid "crs_enable_map"
+msgstr "启用课程地图"
+
+msgid "crs_end"
+msgstr "结束"
+
+msgid "crs_export"
+msgstr "课程输出"
+
+msgid "crs_file"
+msgstr "文件"
+
+msgid "crs_file_download"
+msgstr "文件下载"
+
+msgid "crs_file_name"
+msgstr "文件名"
+
+msgid "crs_file_size_info"
+msgstr "文件大小"
+
+msgid "crs_from"
+msgstr "来自："
+
+msgid "crs_general_info"
+msgstr "一般信息"
+
+msgid "crs_general_informations"
+msgstr "一般信息"
+
+msgid "crs_grouping_delete_sure"
+msgstr "您真的要删除以下课程分组吗？"
+
+msgid "crs_grouping_deleted"
+msgstr "已删除课程分组。"
+
+msgid "crs_grouping_select_one"
+msgstr "请选择一个课程分组"
+
+msgid "crs_groupings"
+msgstr "Kurs分组"
+
+msgid "crs_groups_nr"
+msgstr "组成员"
+
+msgid "crs_grp_added_grouping"
+msgstr "添加了新的成员限制"
+
+msgid "crs_grp_already_assigned"
+msgstr "您已经是本课程分组的成员了。"
+
+msgid "crs_grp_assign_crs"
+msgstr "分配课程"
+
+msgid "crs_grp_assignments"
+msgstr "课程成员分配到组"
+
+msgid "crs_grp_enter_title"
+msgstr "请输入一个标题"
+
+msgid "crs_grp_info_reg"
+msgstr "您只能注册到这些课程中的一个："
+
+msgid "crs_grp_matriculation_required"
+msgstr "这个课程分组需要一个独一无二的预科号。<br/>请在个人桌面上您的设置中插入这个值。"
+
+msgid "crs_grp_no_courses_assigned"
+msgstr "没有分配课程"
+
+msgid "crs_grp_table_assigned_courses"
+msgstr "已分配课程"
+
+msgid "crs_header_archives"
+msgstr "课程归档"
+
+msgid "crs_header_delete_members"
+msgstr "删除成员"
+
+msgid "crs_header_edit_members"
+msgstr "编辑成员"
+
+#, fuzzy
+msgid "crs_hide_all_obj"
+msgstr "Collapse All"
+
+msgid "crs_html"
+msgstr "HTML"
+
+msgid "crs_import"
+msgstr "导出课程"
+
+msgid "crs_important_info"
+msgstr "重要信息"
+
+msgid "crs_info_agree"
+msgstr "我接受,以上数据类型对课程管理员可见。"
+
+msgid "crs_info_agreement"
+msgstr "下面的数据类型对课程管理员可见："
+
+msgid "crs_info_download"
+msgstr "文件下载"
+
+msgid "crs_info_reg"
+msgstr "注册信息"
+
+msgid "crs_info_reg_confirmation"
+msgstr "这个课程需要由一个课程管理员确认。如果您被分配到这个课程，那将会获得一个消息。"
+
+msgid "crs_info_reg_deactivated"
+msgstr "没有注册可能"
+
+msgid "crs_info_reg_direct"
+msgstr "有必要注册本课程"
+
+msgid "crs_info_reg_password"
+msgstr "注册需要一个有效的密码。"
+
+msgid "crs_info_settings"
+msgstr "课程信息"
+
+msgid "crs_info_start"
+msgstr "请完成以上所有课程项目。<br/>您处理完所有红色标记对象之后，新课程项目将被激活。"
+
+msgid "crs_intro_course_group_notification_for"
+msgstr "这是每日新闻摘要，为：%s"
+
+#, fuzzy
+msgid "crs_intro_course_group_notification_index"
+msgstr "There are news for the period of %1$s to %2$s for the following courses and groups:"
+
+msgid "crs_item_presetting_info"
+msgstr "选择这个选项向学习者提供建议的编辑时间。"
+
+msgid "crs_join_request"
+msgstr "发出"
+
+#, fuzzy
+msgid "crs_lhist_objective_completed"
+msgstr "Mastered $3$ in $1$."
+
+msgid "crs_lim_assigned"
+msgstr "已经分配给相关课程 \"%s\"。"
+
+msgid "crs_link_hide_next_sessions"
+msgstr "隐藏即将到来的会话"
+
+msgid "crs_link_hide_prev_sessions"
+msgstr "隐藏之前的会话"
+
+msgid "crs_link_show_all_next_sessions"
+msgstr "显示所有即将到来的会话"
+
+msgid "crs_link_show_all_prev_sessions"
+msgstr "显示所有之前的会话"
+
+#, fuzzy
+msgid "crs_lobj_pm_min_goal"
+msgstr "Required Score"
+
+#, fuzzy
+msgid "crs_lobj_pm_score"
+msgstr "Your Result"
+
+#, fuzzy
+msgid "crs_loc_btn_new_assignment"
+msgstr "Neue Testzuordnung"
+
+#, fuzzy
+msgid "crs_loc_confirm_delete_tst"
+msgstr "Do you really want to deassign the test of this learning objective oriented course?"
+
+#, fuzzy
+msgid "crs_loc_delete_assignment"
+msgstr "Delete Assignment"
+
+#, fuzzy
+msgid "crs_loc_err_no_active_it"
+msgstr "Learning Objectives without Initial Test"
+
+#, fuzzy
+msgid "crs_loc_err_no_active_lo"
+msgstr "No active Learning Objective"
+
+#, fuzzy
+msgid "crs_loc_err_no_active_mat"
+msgstr "Learning Objectives without Materials"
+
+#, fuzzy
+msgid "crs_loc_err_no_active_qst"
+msgstr "Objectives without Questions"
+
+#, fuzzy
+msgid "crs_loc_err_no_active_qt"
+msgstr "Learning Objectives without Qualifying Test"
+
+#, fuzzy
+msgid "crs_loc_err_nr_tries_exceeded"
+msgstr "The number of passes per objective exceeds the possible number of passes of the Qualifying Test."
+
+#, fuzzy
+msgid "crs_loc_err_stat_no_it"
+msgstr "No Initial Test available"
+
+#, fuzzy
+msgid "crs_loc_err_stat_no_materials"
+msgstr "No Course Materials available"
+
+#, fuzzy
+msgid "crs_loc_err_stat_no_qt"
+msgstr "No Qualifying Test available"
+
+#, fuzzy
+msgid "crs_loc_err_stat_tst_offline"
+msgstr "Not all tests are online."
+
+#, fuzzy
+msgid "crs_loc_form_assign"
+msgstr "Use Existing Test"
+
+#, fuzzy
+msgid "crs_loc_form_assign_initial_info"
+msgstr "Select a test from this course to serve as Placement Test"
+
+#, fuzzy
+msgid "crs_loc_form_assign_it"
+msgstr "Test Assignment"
+
+#, fuzzy
+msgid "crs_loc_form_assign_qualified_info"
+msgstr "--"
+
+#, fuzzy
+msgid "crs_loc_form_available_tsts"
+msgstr "Available Tests"
+
+#, fuzzy
+msgid "crs_loc_form_create_objectives"
+msgstr "Create Learning Objectives"
+
+#, fuzzy
+msgid "crs_loc_form_random_limits_it"
+msgstr "Define Questions of Initial Test"
+
+#, fuzzy
+msgid "crs_loc_form_random_limits_qt"
+msgstr "Define Questions of Qualifying Test"
+
+#, fuzzy
+msgid "crs_loc_form_tst_new"
+msgstr "Create new Test"
+
+#, fuzzy
+msgid "crs_loc_form_tst_new_initial_info"
+msgstr "Create a new test to serve as Placement Test"
+
+#, fuzzy
+msgid "crs_loc_form_tst_new_qualified_info"
+msgstr "--"
+
+#, fuzzy
+msgid "crs_loc_itest_info"
+msgstr "Initial Test"
+
+#, fuzzy
+msgid "crs_loc_itst_for_objective"
+msgstr "Initial Test \"%1$s\""
+
+#, fuzzy
+msgid "crs_loc_learning_objective"
+msgstr "Learning Objective"
+
+#, fuzzy
+msgid "crs_loc_mem_show_res"
+msgstr "Testergebnisse anzeigen"
+
+#, fuzzy
+msgid "crs_loc_num_qst"
+msgstr "Number of Questions"
+
+#, fuzzy
+msgid "crs_loc_objective_passed_confirmation"
+msgstr "Sie haben das Lernziel bereits bestanden. Ein erneutes Starten des Tests setzt die Ergebnisse zurück. Wollen Sie den Test erneut starten?"
+
+#, fuzzy
+msgid "crs_loc_objectives_passed_confirmation"
+msgstr "Sie haben bereits alle Lernziel bestanden. Ein erneutes Starten des Tests setzt die Ergebnisse zurück. Wollen Sie den Test erneut starten?"
+
+#, fuzzy
+msgid "crs_loc_passes_info"
+msgstr "Maximum Number of test passes"
+
+#, fuzzy
+msgid "crs_loc_passes_left"
+msgstr "Remaining number of test passes"
+
+#, fuzzy
+msgid "crs_loc_passes_reached"
+msgstr "No further test pases possible"
+
+#, fuzzy
+msgid "crs_loc_perc"
+msgstr "Required Percentage of Points"
+
+#, fuzzy
+msgid "crs_loc_progress_do_qualifying"
+msgstr "Please take the qualifying test."
+
+#, fuzzy
+msgid "crs_loc_progress_do_qualifying_again"
+msgstr "Please work through the learning objective materials again."
+
+#, fuzzy
+msgid "crs_loc_progress_no_result_do_initial"
+msgstr "Please take the initial test."
+
+#, fuzzy
+msgid "crs_loc_progress_no_result_no_initial"
+msgstr "Please work through the following learning materials and then take the qualifying test."
+
+#, fuzzy
+msgid "crs_loc_progress_objective_complete"
+msgstr "You completed the learning objective."
+
+#, fuzzy
+msgid "crs_loc_progress_result_itest"
+msgstr "Result of Initial Test"
+
+#, fuzzy
+msgid "crs_loc_progress_result_qtest"
+msgstr "Result"
+
+#, fuzzy
+msgid "crs_loc_qst_resume_tst_itest"
+msgstr "Einstiegstests zu verschiedenen Lernzielen dürfen nicht parallel gestartet werden. Sie haben schon einen Einstiegstest zu einem Lernziel gestartet. Entweder setzen Sie diesen alten Test fort oder Sie starten einen neuen Test."
+
+#, fuzzy
+msgid "crs_loc_qst_resume_tst_qtest"
+msgstr "Qualifizierende Tests zu verschiedenen Lernzielen dürfen nicht parallel gestartet werden. Sie haben schon einen qualifizierenden Test zu einem Lernziel gestartet. Entweder setzen Sie diesen alten Test fort oder Sie starten einen neuen Test."
+
+#, fuzzy
+msgid "crs_loc_qtest_info"
+msgstr "Qualified Test"
+
+#, fuzzy
+msgid "crs_loc_qtst_for_objective"
+msgstr "Qualifying Test \"%1$s\""
+
+#, fuzzy
+msgid "crs_loc_rand_assign_qpl"
+msgstr "Assignment form Question Pool"
+
+#, fuzzy
+msgid "crs_loc_rand_qpl"
+msgstr "Available Question Pools"
+
+#, fuzzy
+msgid "crs_loc_settings_err_qstart"
+msgstr "Die Option \"Abschlusstest als Startobjekt\" wurde deaktiviert, da sie nur für Kurse ohne Einstiegstest verwendet werden kann.\t\t"
+
+#, fuzzy
+msgid "crs_loc_settings_it_start_object"
+msgstr "Einstiegstest ist Startobjekt"
+
+#, fuzzy
+msgid "crs_loc_settings_it_type"
+msgstr "Einstiegstest"
+
+#, fuzzy
+msgid "crs_loc_settings_itest_tbl"
+msgstr "Settings for the Initial Test"
+
+#, fuzzy
+msgid "crs_loc_settings_passed_mode"
+msgstr "Bestandene Lernziele"
+
+#, fuzzy
+msgid "crs_loc_settings_passed_mode_hide"
+msgstr "Testfragen zu bestandenen Lernzielen werden ausgeblendet"
+
+#, fuzzy
+msgid "crs_loc_settings_passed_mode_mark"
+msgstr "Testfragen zu bestandenen Lernzielen werden markiert"
+
+#, fuzzy
+msgid "crs_loc_settings_qt_all"
+msgstr "Abschlusstest"
+
+#, fuzzy
+msgid "crs_loc_settings_qt_start_object"
+msgstr "Abschlusstest ist Startobjekt"
+
+#, fuzzy
+msgid "crs_loc_settings_qtest_tbl"
+msgstr "Settings for the Qualifying Test"
+
+#, fuzzy
+msgid "crs_loc_settings_reset"
+msgstr "Testergebnisse"
+
+#, fuzzy
+msgid "crs_loc_settings_reset_enable"
+msgstr "\"Testergebnis zurücksetzen\" erlauben"
+
+#, fuzzy
+msgid "crs_loc_settings_reset_enable_info"
+msgstr "Wenn aktiviert, haben alle Benutzer die Möglichkeit, ihre individuellen Testergebnisse zurückzusetzen."
+
+#, fuzzy
+msgid "crs_loc_settings_tbl"
+msgstr "Settings for the Learning Objective Oriented Course"
+
+#, fuzzy
+msgid "crs_loc_settings_tbl_it_nq"
+msgstr "Diagnostische Einstiegstests pro Lernziel"
+
+#, fuzzy
+msgid "crs_loc_settings_tbl_it_q"
+msgstr "Qualifizierende Einstiegstests pro Lernziel"
+
+#, fuzzy
+msgid "crs_loc_settings_tbl_its_nq_all"
+msgstr "Diagnostischer Einstiegstest über alle Lernziele"
+
+#, fuzzy
+msgid "crs_loc_settings_tbl_its_q_all"
+msgstr "Qualifizierender Einstiegstest über alle Lernziele"
+
+#, fuzzy
+msgid "crs_loc_settings_tbl_qt"
+msgstr "Abschlusstests pro Lernziel"
+
+#, fuzzy
+msgid "crs_loc_settings_tbl_qts_all"
+msgstr "Abschlusstest über alle Lernziele"
+
+#, fuzzy
+msgid "crs_loc_settings_type_it_none"
+msgstr "Kein Einstiegstest"
+
+#, fuzzy
+msgid "crs_loc_settings_type_it_none_info"
+msgstr "No placement test"
+
+#, fuzzy
+msgid "crs_loc_settings_type_it_placement_all"
+msgstr "Diagnostischer Einstiegstest über alle Lernziele"
+
+#, fuzzy
+msgid "crs_loc_settings_type_it_placement_all_info"
+msgstr "Placement test on all learning objectives"
+
+#, fuzzy
+msgid "crs_loc_settings_type_it_placement_sel"
+msgstr "Diagnostischer Einstiegstest pro Lernziel"
+
+#, fuzzy
+msgid "crs_loc_settings_type_it_placement_sel_info"
+msgstr "Placement test per single learning objective"
+
+#, fuzzy
+msgid "crs_loc_settings_type_it_qualifying_all"
+msgstr "Qualifizierender Einstiegstest über alle Lernziele"
+
+#, fuzzy
+msgid "crs_loc_settings_type_it_qualifying_all_info"
+msgstr "Achievement test on all learning objectives"
+
+#, fuzzy
+msgid "crs_loc_settings_type_it_qualifying_sel"
+msgstr "Qualifizierender Einstiegstest pro Lernziel"
+
+#, fuzzy
+msgid "crs_loc_settings_type_it_qualifying_sel_info"
+msgstr "Achievement test per sinble learning objective"
+
+#, fuzzy
+msgid "crs_loc_settings_type_q_all"
+msgstr "Abschlusstest über alle Lernziele"
+
+#, fuzzy
+msgid "crs_loc_settings_type_q_all_info"
+msgstr "Achievement test on all learning objectives"
+
+#, fuzzy
+msgid "crs_loc_settings_type_q_selected"
+msgstr "Abschlusstest pro Lernziel"
+
+#, fuzzy
+msgid "crs_loc_settings_type_q_selected_info"
+msgstr "Achievement test per sinble learning objective"
+
+#, fuzzy
+msgid "crs_loc_subtab_creation"
+msgstr "Create"
+
+#, fuzzy
+msgid "crs_loc_suggested"
+msgstr "Please work through the following learning materials."
+
+#, fuzzy
+msgid "crs_loc_tab_itest"
+msgstr "Initial Test"
+
+#, fuzzy
+msgid "crs_loc_tab_itests"
+msgstr "Einstiegstests"
+
+#, fuzzy
+msgid "crs_loc_tab_materials"
+msgstr "Materials"
+
+#, fuzzy
+msgid "crs_loc_tab_objectives"
+msgstr "Learning objectives"
+
+#, fuzzy
+msgid "crs_loc_tab_qtest"
+msgstr "Qualifying Test"
+
+#, fuzzy
+msgid "crs_loc_tab_qtests"
+msgstr "Abschlusstests"
+
+#, fuzzy
+msgid "crs_loc_tab_start"
+msgstr "Start Objects"
+
+#, fuzzy
+msgid "crs_loc_tbl_tst_qst_qpl"
+msgstr "Questions/Questionpools"
+
+#, fuzzy
+msgid "crs_loc_tbl_tst_type"
+msgstr "Test Mode"
+
+#, fuzzy
+msgid "crs_loc_test_results_of"
+msgstr "Testergebnisse von:"
+
+#, fuzzy
+msgid "crs_loc_tst_assignment"
+msgstr "Test Assignment"
+
+#, fuzzy
+msgid "crs_loc_tst_new_run"
+msgstr "Neuen Testdurchlauf starten"
+
+#, fuzzy
+msgid "crs_loc_tst_num_qst"
+msgstr "Number of Questions:"
+
+#, fuzzy
+msgid "crs_loc_tst_qpls"
+msgstr "Available Question Pools:"
+
+#, fuzzy
+msgid "crs_loc_tst_resume"
+msgstr "Testdurchlauf fortsetzen"
+
+#, fuzzy
+msgid "crs_loc_tst_start"
+msgstr "Test starten"
+
+#, fuzzy
+msgid "crs_loc_tt_info"
+msgstr "You have reached %1$d%%. The test is passed with %2$d%%."
+
+#, fuzzy
+msgid "crs_loc_type_initial_all_info"
+msgstr "todo"
+
+#, fuzzy
+msgid "crs_loc_type_qualified_info"
+msgstr "todo"
+
+#, fuzzy
+msgid "crs_mail_all"
+msgstr "For all Participants"
+
+#, fuzzy
+msgid "crs_mail_all_info"
+msgstr "Members, administrators and tutors can use the feature \"Mail to Members\" in the \"Members\" tab."
+
+#, fuzzy
+msgid "crs_mail_context_member_info"
+msgstr "For the contact emails on the info screen of a course "
+
+#, fuzzy
+msgid "crs_mail_context_member_title"
+msgstr "Course Member"
+
+#, fuzzy
+msgid "crs_mail_context_tutor_info"
+msgstr "For the participant emails on the member and learning progress screens of a course"
+
+#, fuzzy
+msgid "crs_mail_context_tutor_title"
+msgstr "Course Tutor "
+
+msgid "crs_mail_permanent_link"
+msgstr "选择下面的链接来访问课程内容:"
+
+#, fuzzy
+msgid "crs_mail_tutors_only"
+msgstr "For Tutors and Administrators only"
+
+#, fuzzy
+msgid "crs_mail_tutors_only_info"
+msgstr "Only administrators and tutors can use the feature \"Mail to Members\" in the \"Members\" tab."
+
+#, fuzzy
+msgid "crs_mail_type"
+msgstr "Mail to Members"
+
+msgid "crs_map_location"
+msgstr "课程地图位置"
+
+msgid "crs_map_settings"
+msgstr "地图设置"
+
+msgid "crs_materials"
+msgstr "课程教材"
+
+#, fuzzy
+msgid "crs_max_and_min_members_invalid"
+msgstr "The minimum number must be smaller than the maximum number of members."
+
+#, fuzzy
+msgid "crs_max_and_min_members_needed"
+msgstr "Set a minimum or maximum number of members - or both."
+
+#, fuzzy
+msgid "crs_max_members_needed"
+msgstr "A maximum number of members is needed for the waiting list feature."
+
+msgid "crs_max_members_reached"
+msgstr "已达到最大成员数"
+
+#, fuzzy
+msgid "crs_mem_contact"
+msgstr "Support Contact"
+
+#, fuzzy
+msgid "crs_mem_contacts"
+msgstr "Support Contacts"
+
+msgid "crs_mem_send_mail"
+msgstr "发送邮件"
+
+#, fuzzy
+msgid "crs_mem_tbl_header"
+msgstr "Course Participants"
+
+msgid "crs_member"
+msgstr "成员"
+
+msgid "crs_member_administration"
+msgstr "编辑参与者"
+
+msgid "crs_member_passed_status_changed"
+msgstr "已通过状态已经更改"
+
+msgid "crs_members"
+msgstr "成员"
+
+msgid "crs_members_deleted"
+msgstr "已删除成员"
+
+msgid "crs_members_groups"
+msgstr "课程成员组"
+
+msgid "crs_members_map"
+msgstr "课程成员地图"
+
+msgid "crs_members_print_title"
+msgstr "课程成员"
+
+msgid "crs_min_one_admin"
+msgstr "必须至少有一个管理员分配给本课程"
+
+#, fuzzy
+msgid "crs_msg_no_self_registration_period_if_self_enrolment_disabled"
+msgstr "The limited registration period can not be defined if the \"No Self-enrolment\" setting is active."
+
+msgid "crs_my_courses_groups_enabled"
+msgstr "我的课程和小组"
+
+#, fuzzy
+msgid "crs_my_courses_groups_enabled_info"
+msgstr "If activated, the section 'My Courses and Groups' is visible."
+
+msgid "crs_new_status"
+msgstr "您的新状态"
+
+msgid "crs_new_subscription"
+msgstr "新课程订阅"
+
+msgid "crs_new_subscription_body"
+msgstr "一个新用户已经订阅"
+
+msgid "crs_new_subscription_request"
+msgstr "请求加入课程\"%s\""
+
+msgid "crs_new_subscription_request_body"
+msgstr "一个用户请求加入课程\"%s\"。"
+
+msgid "crs_new_subscription_request_body2"
+msgstr "您必须调用课程的成员管理去接受或拒绝会员的请求。"
+
+msgid "crs_news"
+msgstr "课程新闻"
+
+msgid "crs_no_archive_selected"
+msgstr "没有选择归档"
+
+msgid "crs_no_archives_selected"
+msgstr "请选择一个归档"
+
+msgid "crs_no_notify"
+msgstr "新注册不通知"
+
+msgid "crs_no_objective_lms_found"
+msgstr "本课程不包含任何资料"
+
+msgid "crs_no_objective_selected"
+msgstr "请选择一个目标"
+
+msgid "crs_no_objectives_created"
+msgstr "没有分配目标"
+
+msgid "crs_no_subscribers_selected"
+msgstr "请选择一个用户"
+
+msgid "crs_no_users_added"
+msgstr "没有成员加入"
+
+msgid "crs_no_users_selected"
+msgstr "您没有选择任何用户"
+
+msgid "crs_not_available"
+msgstr "-不可用-"
+
+msgid "crs_notification"
+msgstr "通知"
+
+msgid "crs_notification_activated"
+msgstr "通知已激活"
+
+msgid "crs_notification_deactivated"
+msgstr "通知已停用"
+
+msgid "crs_notification_explanation_admin"
+msgstr "您接收到这封邮件是因为您是课程管理员/导师，并且启用了通知。"
+
+msgid "crs_notification_list_title"
+msgstr "关于新成员的通知"
+
+msgid "crs_notification_salutation"
+msgstr "亲爱的课程参与者,"
+
+msgid "crs_notify"
+msgstr "新注册通知"
+
+msgid "crs_nr"
+msgstr "Nr."
+
+msgid "crs_number_users_added"
+msgstr "下面的用户数量已经分配给该课程"
+
+msgid "crs_obj_final_req_info"
+msgstr "如果这个分值数已实现，学习目标就通过了。"
+
+msgid "crs_obj_initial_req_info"
+msgstr "如果这个分值数已归档，不建议进一步编辑课程资料。"
+
+msgid "crs_obj_required_points"
+msgstr "及格分(Required Points)"
+
+msgid "crs_objective_accomplished"
+msgstr "已完成"
+
+#, fuzzy
+msgid "crs_objective_action_itest"
+msgstr "Question Assignemnt Initial Test"
+
+#, fuzzy
+msgid "crs_objective_action_materials"
+msgstr "Material Assignment"
+
+#, fuzzy
+msgid "crs_objective_action_qtest"
+msgstr "Question Assignment Qualifying"
+
+#, fuzzy
+msgid "crs_objective_action_qtest_sep"
+msgstr "Abschlusstest zuordnen"
+
+msgid "crs_objective_add_mat"
+msgstr "分配资料"
+
+msgid "crs_objective_all_points"
+msgstr "总分"
+
+msgid "crs_objective_assigned_materials"
+msgstr "已分配学习材料"
+
+msgid "crs_objective_err_limit"
+msgstr "请输入 %s 和 %s 之间的分数。"
+
+msgid "crs_objective_final_test"
+msgstr "最终测试"
+
+msgid "crs_objective_limit_err"
+msgstr "及格分数不能比部分还高。"
+
+msgid "crs_objective_modified"
+msgstr "已更新学习目标。"
+
+msgid "crs_objective_not_accomplished"
+msgstr "还没有完成"
+
+msgid "crs_objective_overview_objectives"
+msgstr "目标概况"
+
+msgid "crs_objective_overview_question_assignment"
+msgstr "题目分配概况"
+
+msgid "crs_objective_points"
+msgstr "得分"
+
+msgid "crs_objective_pretest"
+msgstr "自我测评"
+
+msgid "crs_objective_qst_summary"
+msgstr "题目分配概况"
+
+msgid "crs_objective_random_warn"
+msgstr "您不能在组合学习目标中使用随机测试。"
+
+msgid "crs_objective_result"
+msgstr "测试之后"
+
+#, fuzzy
+msgid "crs_objective_result_details"
+msgstr "« Show Details"
+
+#, fuzzy
+msgid "crs_objective_result_summary_initial"
+msgstr "Placement Test: %1$s (%2$s required)"
+
+#, fuzzy
+msgid "crs_objective_result_summary_qualifying"
+msgstr "Achievement Test: %1$s (%2$s required)"
+
+msgid "crs_objective_saved_sorting"
+msgstr "排序已保存。"
+
+msgid "crs_objective_self_assessment"
+msgstr "初始测试"
+
+msgid "crs_objective_status"
+msgstr "目标状态"
+
+#, fuzzy
+msgid "crs_objective_status_configure"
+msgstr "Configure Learning Objective Oriented Course"
+
+#, fuzzy
+msgid "crs_objective_status_itest"
+msgstr "Configure Initial Test"
+
+#, fuzzy
+msgid "crs_objective_status_materials"
+msgstr "Create New Course Materials"
+
+#, fuzzy
+msgid "crs_objective_status_materials_info"
+msgstr "The course is currently empty. Add course materials that can be assigned to learning objectives."
+
+#, fuzzy
+msgid "crs_objective_status_objective_creation"
+msgstr "Create Learning Objective"
+
+#, fuzzy
+msgid "crs_objective_status_objectives"
+msgstr "Configure Learning Objectives"
+
+#, fuzzy
+msgid "crs_objective_status_qtest"
+msgstr "Configure Qualifying Test"
+
+#, fuzzy
+msgid "crs_objective_status_settings"
+msgstr "Course Settings"
+
+#, fuzzy
+msgid "crs_objective_tbl_col_final_tsts"
+msgstr "Abschlusstests"
+
+msgid "crs_objective_wiz_final"
+msgstr "最终测试题目"
+
+msgid "crs_objective_wiz_final_info"
+msgstr "最终测试题目的分配"
+
+msgid "crs_objective_wiz_final_limit"
+msgstr "最终测试的限制"
+
+msgid "crs_objective_wiz_materials"
+msgstr "课程资料的分配"
+
+msgid "crs_objective_wiz_materials_info"
+msgstr "您可以指定教材，用来推荐给学习目标的处理。"
+
+msgid "crs_objective_wiz_self"
+msgstr "初始测试题"
+
+msgid "crs_objective_wiz_self_limit"
+msgstr "初始测试限制"
+
+msgid "crs_objective_wiz_self_limit_info"
+msgstr "请定义初始测试题限制。"
+
+msgid "crs_objective_wiz_title"
+msgstr "学习目标描述"
+
+msgid "crs_objective_wiz_title_info"
+msgstr "请选择一个学习目标的标题和简短描述。"
+
+msgid "crs_objectives"
+msgstr "学习目标"
+
+msgid "crs_objectives_assigned_lm"
+msgstr "选定的学习资料已分配。"
+
+msgid "crs_objectives_deleted"
+msgstr "删除学习目标"
+
+msgid "crs_objectives_edit_question_assignments"
+msgstr "编辑题目分配"
+
+msgid "crs_objectives_reset_sure"
+msgstr "您想删除本课程的所有成绩吗？<br/>所有的测试成绩都将被删除。"
+
+msgid "crs_objectives_reseted"
+msgstr "成绩已经被重置。"
+
+#, fuzzy
+msgid "crs_open"
+msgstr "Open Course"
+
+msgid "crs_other_resources"
+msgstr "其它资源"
+
+#, fuzzy
+msgid "crs_page_type_lobj"
+msgstr "Learning Objective Page"
+
+msgid "crs_passed"
+msgstr "已通过"
+
+#, fuzzy
+msgid "crs_passed_status_manual_by"
+msgstr "Manual by"
+
+#, fuzzy
+msgid "crs_passed_status_system"
+msgstr "System"
+
+msgid "crs_password_not_valid"
+msgstr "您的密码是无效的"
+
+msgid "crs_password_required"
+msgstr "这个注册过程需要一个密码"
+
+msgid "crs_pdf"
+msgstr "文件"
+
+#, fuzzy
+msgid "crs_period"
+msgstr "Course Period"
+
+#, fuzzy
+msgid "crs_period_end_mail_placeholder"
+msgstr "Period End"
+
+#, fuzzy
+msgid "crs_period_info"
+msgstr "Start to end date of the course"
+
+#, fuzzy
+msgid "crs_period_start_mail_placeholder"
+msgstr "Period Start"
+
+msgid "crs_presentation_type"
+msgstr "Presentation Type"
+
+msgid "crs_print_list"
+msgstr "打印列表"
+
+#, fuzzy
+msgid "crs_ref_delete_confirmation_info"
+msgstr "Would you like to remove the following members from this course? If these members are to be removed from courses linked into this course, please activate the respective checkboxes."
+
+#, fuzzy
+msgid "crs_ref_member_update"
+msgstr "Neue Mitglieder hinzufügen"
+
+#, fuzzy
+msgid "crs_ref_member_update_info"
+msgstr "Alle neuen Mitglieder des übergeordneten Kurses werden automatisch in den Kurs, auf den dieser Kurs-Link verweist, eingetragen."
+
+#, fuzzy
+msgid "crs_ref_missing_access"
+msgstr "Die Option kann nicht ausgewählt werden, da Sie nicht die Berechtigung \"Mitglieder verwalten\" für beide Kurse besitzen."
+
+#, fuzzy
+msgid "crs_ref_missing_parent_crs"
+msgstr "Die Option kann nicht ausgewählt werden, da dieser Kurs-Link keinen übergeordneten Kurs besitzt."
+
+msgid "crs_reg"
+msgstr "注册"
+
+msgid "crs_reg_code"
+msgstr "注册码"
+
+msgid "crs_reg_code_enabled_info"
+msgstr "如果启用，使用一个特别的注册链接去自动注册是可能的。"
+
+msgid "crs_reg_code_link"
+msgstr "注册链接"
+
+msgid "crs_reg_max_info"
+msgstr "定义能被分配到这门课程的最大用户数。'0'表示无限。"
+
+#, fuzzy
+msgid "crs_reg_no_selfreg"
+msgstr "No self-enrolment"
+
+#, fuzzy
+msgid "crs_reg_password_info"
+msgstr "Users need to type in this password when joining the course."
+
+#, fuzzy
+msgid "crs_reg_selfreg"
+msgstr "Self-Enrolment"
+
+msgid "crs_reg_subject"
+msgstr "消息"
+
+msgid "crs_reg_until"
+msgstr "注册日期"
+
+msgid "crs_reg_user_already_subscribed"
+msgstr "您已经订阅了本课程"
+
+msgid "crs_registration"
+msgstr "课程注册"
+
+#, fuzzy
+msgid "crs_registration_confirmation_info"
+msgstr "Interested users can send a request/message to course administrator."
+
+msgid "crs_registration_deactivated"
+msgstr "选择这个选项来禁止课程注册。没有用户能独立的加入这个课程。"
+
+msgid "crs_registration_limited"
+msgstr "注册时间被限制"
+
+#, fuzzy
+msgid "crs_registration_limited_info"
+msgstr "Members can only register for this course during a specific period of time."
+
+#, fuzzy
+msgid "crs_registration_period"
+msgstr "Period"
+
+msgid "crs_registration_type"
+msgstr "注册类型"
+
+msgid "crs_reject_subscriber"
+msgstr "课程订阅"
+
+msgid "crs_reject_subscriber_body"
+msgstr "您的订阅已被拒绝。"
+
+msgid "crs_reset_results"
+msgstr "重置结果"
+
+msgid "crs_role_status"
+msgstr "角色/状态"
+
+msgid "crs_search_users"
+msgstr "搜索用户"
+
+msgid "crs_select_archive_language"
+msgstr "请为此归档选择一种语言"
+
+msgid "crs_select_one_archive"
+msgstr "请选择一个归档"
+
+msgid "crs_select_starter"
+msgstr "选择开始对象"
+
+msgid "crs_settings"
+msgstr "课程设置"
+
+msgid "crs_settings_saved"
+msgstr "设置已保存"
+
+#, fuzzy
+msgid "crs_shorten_breadcrumb"
+msgstr "Breadcrumb"
+
+#, fuzzy
+msgid "crs_show_all_obj"
+msgstr "Expand All"
+
+#, fuzzy
+msgid "crs_show_member_export"
+msgstr "Participants List"
+
+#, fuzzy
+msgid "crs_show_member_export_info"
+msgstr "Course Members may print a list of participants."
+
+#, fuzzy
+msgid "crs_show_member_export_settings"
+msgstr "Participants List"
+
+msgid "crs_show_members"
+msgstr "显示成员"
+
+msgid "crs_show_members_info"
+msgstr "如果已激活，课程成员可以访问成员相册并发送邮件给成员。"
+
+msgid "crs_size"
+msgstr "文件大小"
+
+msgid "crs_sort_activation"
+msgstr "以激活状态排序"
+
+msgid "crs_sort_timing_info"
+msgstr "Sort course items be their activation time or timing presettings."
+
+msgid "crs_start"
+msgstr "Start开始"
+
+msgid "crs_start_objects"
+msgstr "开始对象"
+
+msgid "crs_starter_delete_sure"
+msgstr "您确定要删除以下开始对象？"
+
+msgid "crs_starter_deleted"
+msgstr "分配已移除"
+
+msgid "crs_starters_already_assigned"
+msgstr "该对象已分配。"
+
+msgid "crs_status"
+msgstr "状态"
+
+msgid "crs_status_changed"
+msgstr "课程状态"
+
+msgid "crs_status_changed_body"
+msgstr "您的课程状态已经改变"
+
+msgid "crs_status_determination"
+msgstr "决断"
+
+msgid "crs_status_determination_lp"
+msgstr "通过学习进度"
+
+#, fuzzy
+msgid "crs_status_determination_lp_info"
+msgstr "When the learning progress changes to \"Completed\", the course status \"Passed\" will be set automatically. Tutors still can overwrite the status manually."
+
+msgid "crs_status_determination_manual"
+msgstr "单独的学习进度"
+
+msgid "crs_status_determination_sync"
+msgstr "现在同步所有成员的已通过的学习进程状态。"
+
+msgid "crs_structure"
+msgstr "课程结构"
+
+msgid "crs_subject_course_group_notification"
+msgstr "每日邮件为 %s"
+
+msgid "crs_subscribe_member"
+msgstr "您注册的课程 \"%s\""
+
+msgid "crs_subscribe_member_body"
+msgstr "我们很高兴确认您注册了课程 \"%s\"。"
+
+msgid "crs_subscribe_wl"
+msgstr "您注册的课程 \"%s\"。"
+
+msgid "crs_subscribe_wl_body"
+msgstr "您已被分配到课程 \"%s\" 的等待名单上。\\n您被分配到名单上的 %s 位置。\\n\\n当您的请求被批准或被拒绝时，将从课程管理员那里接收到一条消息。"
+
+msgid "crs_subscriber"
+msgstr "订阅者"
+
+msgid "crs_subscribers_deleted"
+msgstr "订阅者已删除"
+
+msgid "crs_subscription"
+msgstr "订阅"
+
+#, fuzzy
+msgid "crs_subscription_failed_limit"
+msgstr "The maximum number of participants has been exceeded."
+
+msgid "crs_subscription_max_members"
+msgstr "成员最大数"
+
+msgid "crs_subscription_max_members_short"
+msgstr "成员最大数"
+
+#, fuzzy
+msgid "crs_subscription_max_members_short_info"
+msgstr "The minimal respectively maximial number of members can be set. A waiting list can be set up."
+
+#, fuzzy
+msgid "crs_subscription_min_members"
+msgstr "Minimum Number"
+
+#, fuzzy
+msgid "crs_subscription_min_members_err"
+msgstr "The minimum number is not allowed to be greater than the maximum number of participants."
+
+#, fuzzy
+msgid "crs_subscription_min_members_info"
+msgstr "See cron job \"Cancellation Limit\"."
+
+msgid "crs_subscription_options_confirmation"
+msgstr "订阅确认"
+
+msgid "crs_subscription_options_direct"
+msgstr "直接订阅"
+
+msgid "crs_subscription_options_password"
+msgstr "以密码订阅"
+
+msgid "crs_subscription_successful"
+msgstr "您已经订阅了这门课程。"
+
+msgid "crs_sure_delete_selected_archives"
+msgstr "您确定要删除选定的归档吗？"
+
+msgid "crs_syllabus"
+msgstr "教学大纲"
+
+#, fuzzy
+msgid "crs_sys_default"
+msgstr "System Default"
+
+msgid "crs_table_start_objects"
+msgstr "开始对象"
+
+#, fuzzy
+msgid "crs_target_group"
+msgstr "Target Group"
+
+#, fuzzy
+msgid "crs_tile_and_objective_view_not_supported"
+msgstr "You cannot activate both \"Tile Presentation\" and \"Learning Objectives Presentation\" at the same time."
+
+#, fuzzy
+msgid "crs_tile_and_session_limit_not_supported"
+msgstr "You cannot activate both \"Tile Presentation\" and \"Session Limitation\" at the same time."
+
+#, fuzzy
+msgid "crs_timing_err_start_end"
+msgstr "The end date must be greater than or equals the start date."
+
+#, fuzzy
+msgid "crs_timings_activate_optional"
+msgstr "Optional mode for course timings"
+
+#, fuzzy
+msgid "crs_timings_activate_optional_own"
+msgstr "Optional mode for my course timings"
+
+msgid "crs_timings_availability_enabled"
+msgstr "临时可用"
+
+msgid "crs_timings_changeable"
+msgstr "时间目标可变"
+
+msgid "crs_timings_changed"
+msgstr "计时(timings)已修改"
+
+#, fuzzy
+msgid "crs_timings_days_after_subsription"
+msgstr "Day(s) after course subscription"
+
+msgid "crs_timings_disabled"
+msgstr "计时(timings)已禁用"
+
+msgid "crs_timings_disabled_info"
+msgstr "选择这个选项来禁用任何计时."
+
+msgid "crs_timings_early_begin"
+msgstr "最早开始"
+
+#, fuzzy
+msgid "crs_timings_edit_personal"
+msgstr "Edit Personal Timings"
+
+msgid "crs_timings_end"
+msgstr "结束时间"
+
+msgid "crs_timings_from_until"
+msgstr "(从/直到)"
+
+msgid "crs_timings_in_days"
+msgstr "(In Days)"
+
+msgid "crs_timings_info_active"
+msgstr "(激活)"
+
+msgid "crs_timings_not_changed"
+msgstr "计时未修改"
+
+#, fuzzy
+msgid "crs_timings_optional_checked"
+msgstr "Optional mode was activated for this user"
+
+#, fuzzy
+msgid "crs_timings_optional_off"
+msgstr "Optional mode is not active."
+
+#, fuzzy
+msgid "crs_timings_optional_on"
+msgstr "Optional mode is active."
+
+#, fuzzy
+msgid "crs_timings_optional_on_and_passed"
+msgstr "Optional mode is active and cannot be changed because user is passed."
+
+#, fuzzy
+msgid "crs_timings_optional_unchecked"
+msgstr "Optional mode was deactivated for this user"
+
+msgid "crs_timings_planed_info"
+msgstr "已计划编辑时间"
+
+msgid "crs_timings_planed_start"
+msgstr "已计划"
+
+msgid "crs_timings_presetting"
+msgstr "已启用目标时间"
+
+msgid "crs_timings_short_active"
+msgstr "已启用"
+
+#, fuzzy
+msgid "crs_timings_short_active_tt"
+msgstr "Activate Timings"
+
+msgid "crs_timings_short_changeable"
+msgstr "可改变的"
+
+#, fuzzy
+msgid "crs_timings_short_end"
+msgstr "End Date"
+
+msgid "crs_timings_short_limit_start_end"
+msgstr "可改变的"
+
+#, fuzzy
+msgid "crs_timings_short_limit_start_end_tt"
+msgstr "Latest end"
+
+#, fuzzy
+msgid "crs_timings_short_limit_start_end_tt_rel"
+msgstr "Latest end in days after course subscription"
+
+msgid "crs_timings_short_start_end"
+msgstr "建议"
+
+#, fuzzy
+msgid "crs_timings_short_start_end_rel"
+msgstr "Suggested Start (in days)"
+
+#, fuzzy
+msgid "crs_timings_short_start_end_tt"
+msgstr "Suggested start"
+
+#, fuzzy
+msgid "crs_timings_short_start_end_tt_rel"
+msgstr "Suggested start after course subscription"
+
+msgid "crs_timings_start"
+msgstr "开始时间"
+
+msgid "crs_timings_start_end_info"
+msgstr "(开始/结束)"
+
+msgid "crs_timings_sug_begin"
+msgstr "建议的开始"
+
+msgid "crs_timings_sug_end"
+msgstr "建议的结束"
+
+msgid "crs_timings_suggested_info"
+msgstr "已建议编辑时间"
+
+msgid "crs_timings_time_frame"
+msgstr "时间桢"
+
+#, fuzzy
+msgid "crs_timings_time_frame_tt"
+msgstr "Time frame in days"
+
+msgid "crs_timings_update_error"
+msgstr "您的设置无效，请核实以下课程资料的时间："
+
+#, fuzzy
+msgid "crs_timings_warning_timing_exists"
+msgstr "Timings are configured for this object. If you active the availability settings, these timing settings will be reseted."
+
+msgid "crs_to"
+msgstr "To:"
+
+msgid "crs_tutor"
+msgstr "导师"
+
+msgid "crs_tutors"
+msgstr "导师"
+
+msgid "crs_unblocked"
+msgstr "免费入场"
+
+msgid "crs_unblocked_member"
+msgstr "课程会员"
+
+msgid "crs_unblocked_member_body"
+msgstr "您的会员资格已恢复"
+
+msgid "crs_unlimited"
+msgstr "无限制的"
+
+msgid "crs_unsubscribe_member"
+msgstr "您在课程 \"%s\" 中取消加入成员。"
+
+msgid "crs_unsubscribe_member_body"
+msgstr "我们确认您在课程 \"%s\" 中取消加入成员。我们希望您有机会去参与其它课程。"
+
+#, fuzzy
+msgid "crs_unsubscribe_member_explanation"
+msgstr "You receive this message because you unsubscribed from the course mentioned above."
+
+msgid "crs_unsubscribe_sure"
+msgstr "您想退订这门课程？"
+
+msgid "crs_unsubscribed_from_crs"
+msgstr "您已订阅了这门课程"
+
+msgid "crs_update_subscr_request"
+msgstr "更新会员请求"
+
+msgid "crs_user_agreement"
+msgstr "已发布的数据类型"
+
+msgid "crs_user_agreement_info"
+msgstr "课程管理员可以看个人数据"
+
+msgid "crs_user_already_assigned"
+msgstr "选择的用户已经分配给本课程。"
+
+msgid "crs_users_added"
+msgstr "已添加用户到课程"
+
+msgid "crs_users_already_assigned"
+msgstr "用户已经分配给本课程"
+
+msgid "crs_users_removed_from_list"
+msgstr "选定的用户已经从等待名单中删除了"
+
+#, fuzzy
+msgid "crs_usr_agreement"
+msgstr "User Agreement"
+
+msgid "crs_view_info_objective"
+msgstr "这个展现模式已用于学习目标的展示。"
+
+msgid "crs_view_info_timing"
+msgstr "定时预设置的展现模式。"
+
+#, fuzzy
+msgid "crs_view_info_timing_absolute"
+msgstr "Start and end date will be set absolute."
+
+#, fuzzy
+msgid "crs_view_info_timing_relative"
+msgstr "Start and end date will be set relative to the subscription date."
+
+msgid "crs_view_mode"
+msgstr "课程介绍(Presentation)"
+
+msgid "crs_view_objective"
+msgstr "面向目标视图"
+
+msgid "crs_view_timing"
+msgstr "定时视图"
+
+#, fuzzy
+msgid "crs_view_timing_absolute"
+msgstr "Absolute Dates"
+
+#, fuzzy
+msgid "crs_view_timing_relative"
+msgstr "Relative Dates"
+
+#, fuzzy
+msgid "crs_view_timings"
+msgstr "Timings View Type"
+
+#, fuzzy
+msgid "crs_visibility"
+msgstr "Visibility"
+
+msgid "crs_visibility_limitless"
+msgstr "可见(无限制)"
+
+msgid "crs_visibility_until"
+msgstr "可见 (从 ... 直到)"
+
+#, fuzzy
+msgid "crs_visibility_until_info"
+msgstr "The course will be visible to it's members in a specific period of time."
+
+#, fuzzy
+msgid "crs_visibility_unvisible"
+msgstr "The course is not visible."
+
+msgid "crs_wait_info"
+msgstr "如果已启用，并且已超过最大用户数，新的注册将被放置在一个等待名单中。"
+
+msgid "crs_waiting_list"
+msgstr "等待名单"
+
+#, fuzzy
+msgid "crs_waiting_list_autofill"
+msgstr "With Auto-Fill"
+
+#, fuzzy
+msgid "crs_waiting_list_autofill_info"
+msgstr "Participants are recruited from the waiting list automatically on cancellations."
+
+#, fuzzy
+msgid "crs_waiting_list_no_autofill"
+msgstr "Without Auto-Fill"
+
+msgid "crs_warn_no_max_set_on_waiting_list"
+msgstr "已超过课程成员的最大数目。您能添加您的加入请求到等待名单中。当您的请求被批准或被拒绝时，您将从课程管理员那里接收到一个消息。"
+
+msgid "crs_warn_wl_set_on_waiting_list"
+msgstr "有些用户已被分配到等待名单。您可以添加您的加入请求到等待名单中。当您的请求被批准或被拒绝时，您将从课程管理员那里接收到一个消息。"
+
+msgid "crs_wiz_back"
+msgstr "返回"
+
+msgid "crs_wiz_next"
+msgstr "保存"
+
+msgid "crs_xml"
+msgstr "XML"
+
+msgid "edit_timings_list"
+msgstr "编辑定时"
+
+msgid "event"
+msgstr "会话"
+
+msgid "event_add_new_event"
+msgstr "新会话已添加"
+
+msgid "event_assign_materials_info"
+msgstr "已指定的课程资料将直接显示在下面的会话中。"
+
+msgid "event_assign_materials_table"
+msgstr "课程资料的指派。"
+
+msgid "event_blank_columns"
+msgstr "附加列"
+
+msgid "event_btn_add"
+msgstr "添加会话"
+
+msgid "event_btn_add_edit"
+msgstr "添加会话和指定资料"
+
+msgid "event_csv_export"
+msgstr "CSV导出"
+
+msgid "event_date_time"
+msgstr "日期和时间"
+
+msgid "event_desc"
+msgstr "描述"
+
+msgid "event_details_workflow"
+msgstr "详情/工作流"
+
+msgid "event_edit_members"
+msgstr "编辑参与者"
+
+msgid "event_etime_smaller_stime"
+msgstr "结束时间早于开始时间。请输入一个有效的时间跨度。"
+
+msgid "event_file"
+msgstr "文件"
+
+msgid "event_files"
+msgstr "已指定的文件"
+
+msgid "event_fulltime_info"
+msgstr "没有指定时间"
+
+msgid "event_lecturer"
+msgstr "名称"
+
+#, fuzzy
+msgid "event_list_registered_only"
+msgstr "Only Registered Members"
+
+msgid "event_location"
+msgstr "位置"
+
+msgid "event_materials"
+msgstr "会话资料"
+
+msgid "event_not_participated"
+msgstr "没有参与"
+
+msgid "event_overview"
+msgstr "在会话中参与"
+
+msgid "event_participated"
+msgstr "已参与"
+
+msgid "event_registered"
+msgstr "您已经注册到此会话。"
+
+msgid "event_section_information"
+msgstr "会话信息"
+
+msgid "event_table_create"
+msgstr "新会话"
+
+msgid "event_table_update"
+msgstr "编辑会话"
+
+#, fuzzy
+msgid "event_tbl_admin"
+msgstr "Administrator"
+
+msgid "event_tbl_admins"
+msgstr "管理员"
+
+#, fuzzy
+msgid "event_tbl_member"
+msgstr "Member"
+
+msgid "event_tbl_members"
+msgstr "成员"
+
+msgid "event_tbl_participated"
+msgstr "已参与"
+
+msgid "event_tbl_registered"
+msgstr "已注册"
+
+#, fuzzy
+msgid "event_tbl_tutor"
+msgstr "Tutor"
+
+msgid "event_tbl_tutors"
+msgstr "导师"
+
+msgid "event_title"
+msgstr "头衔"
+
+msgid "event_tutor_data"
+msgstr "讲师的相关信息"
+
+msgid "event_unregister"
+msgstr "注销"
+
+msgid "event_unregistered"
+msgstr "您已被注销"
+
+msgid "event_updated"
+msgstr "保存设置"
+
+#, fuzzy
+msgid "event_user_selection"
+msgstr "Selection of Users"
+
+#, fuzzy
+msgid "event_user_selection_include_filter"
+msgstr "Include \"%1$s\""
+
+#, fuzzy
+msgid "event_user_selection_include_requests"
+msgstr "Include all users on list \"Join Requests\""
+
+#, fuzzy
+msgid "event_user_selection_include_role"
+msgstr " Include all users with role \"%1$s\""
+
+#, fuzzy
+msgid "event_user_selection_include_waiting_list"
+msgstr "Include all users on \"Waiting List\""
+
+msgid "events"
+msgstr "会话"
+
+msgid "export_members"
+msgstr "导出参与者"
+
+msgid "grouping_change_assignment"
+msgstr "改变分配"
+
+#, fuzzy
+msgid "grp_grp_already_assigned"
+msgstr "You are already member of this grouping of groups."
+
+#, fuzzy
+msgid "grp_not_all_users_assigned_msg"
+msgstr "%s user(s) assigned as group member(s), %s user(s) were already in the group."
+
+#, fuzzy
+msgid "mem_cron_min_members_intro"
+msgstr "The following courses and groups do not meet the minimum number of members (yet)."
+
+#, fuzzy
+msgid "mem_cron_min_members_reason"
+msgstr "You receive this message because you have activated the notification in the members-tab."
+
+#, fuzzy
+msgid "mem_cron_min_members_subject"
+msgstr "Course/Group: Minimum Members Check"
+
+#, fuzzy
+msgid "mem_cron_min_members_task"
+msgstr "Please inform the participants if the course will not take place because of not enough attendants. Adjust the settings afterwards."
+
+#, fuzzy
+msgid "obj_count_members"
+msgstr "Number of members"
+
+msgid "sess_attendance_list"
+msgstr "出席名单"
+
+msgid "sess_gen_attendance_list"
+msgstr "生成考勤名单"
+
+msgid "sess_join_info"
+msgstr "如果您想参加本次会议，请点击加入按钮"
+
+msgid "sess_limit"
+msgstr "会话限制数"
+
+msgid "sess_limit_info"
+msgstr "为限制可见会话数选择此项。"
+
+msgid "sess_num_next"
+msgstr "以下的会话数目"
+
+msgid "sess_num_prev"
+msgstr "过去的会话数量"
+
+msgid "sess_print_attendance_list"
+msgstr "打印考勤名单"
+
+msgid "sess_signature"
+msgstr "签名"
+
+msgid "subscription_times_not_valid"
+msgstr "注册时间段无效"
+
+msgid "timing_accept_table"
+msgstr "计时: 备注"
+
+msgid "timing_accepted"
+msgstr "已接受"
+
+msgid "timing_not_accepted"
+msgstr "未接受"
+
+msgid "timing_remark"
+msgstr "备注"
+
+msgid "timing_tutor_visible"
+msgstr "备注对课程导师可见"
+
+msgid "timing_user_accept"
+msgstr "接受计时"
+
+msgid "timing_user_accepted"
+msgstr "计时被接受"
+
+msgid "timings"
+msgstr "计时"
+
+#, fuzzy
+msgid "timings_cron_reminder_exceeded_start"
+msgstr "Der Bearbeitungszeitraum ist überfällig bei:"
+
+#, fuzzy
+msgid "timings_cron_reminder_exceeded_subject"
+msgstr "Sie haben den Bearbeitungszeitraum überschritten"
+
+#, fuzzy
+msgid "timings_cron_reminder_freshly_start"
+msgstr "Der Bearbeitungszeitraum hat begonnen bei:"
+
+#, fuzzy
+msgid "timings_cron_reminder_started_subject"
+msgstr "Der Bearbeitungszeitraum hat begonnen"
+
+msgid "timings_edit"
+msgstr "编辑计时"
+
+msgid "timings_of"
+msgstr "关闭计时"
+
+#, fuzzy
+msgid "timings_reminder_notifications"
+msgstr "Course Timings Notifications"
+
+#, fuzzy
+msgid "timings_reminder_notifications_info"
+msgstr "If enabled, course participants will be notified about exceeded timing materials."
+
+msgid "timings_timings"
+msgstr "计时"
+
+msgid "timings_timings_off"
+msgstr "计时管理切换到关闭"
+
+msgid "timings_timings_on"
+msgstr "计时管理切换到开启"
+
+msgid "timings_usr_edit"
+msgstr "编辑计时"
+
+msgid "tutor_email"
+msgstr "邮件"
+
+msgid "tutor_name"
+msgstr "名字"
+
+msgid "tutor_phone"
+msgstr "电话"
+
+#, fuzzy
+msgid "tutorial_support_block_byline"
+msgstr "The 'Tutorial Support' block is displayed in the 'Contents' tab. The user selected as \"Contact Person\" in the \"Members\" Tab is shown."
+
+#, fuzzy
+msgid "tutorial_support_block_contact"
+msgstr "Contact"
+
+#, fuzzy
+msgid "tutorial_support_block_send_mail"
+msgstr "send email"
+
+#, fuzzy
+msgid "tutorial_support_block_setting_desc"
+msgstr "The 'Tutorial Support' block is displayed in the 'Contents' tab."
+
+#, fuzzy
+msgid "tutorial_support_block_setting_title"
+msgstr "Tutorial Support Block"
+
+#, fuzzy
+msgid "tutorial_support_block_title"
+msgstr "Contact Person"
+
+msgid "user_fields"
+msgstr "用户字段"

@@ -1,0 +1,340 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: prtf\n"
+
+msgid "pdf_export"
+msgstr "Exportar PDF"
+
+#, fuzzy
+msgid "prtf_add_assignment"
+msgstr "Add Assignment"
+
+msgid "prtf_add_page"
+msgstr "Adicionar página"
+
+msgid "prtf_add_portfolio"
+msgstr "Adicionar portefólio"
+
+#, fuzzy
+msgid "prtf_add_portfolio_from_template"
+msgstr "Add Portfolio From Template"
+
+msgid "prtf_all_pages"
+msgstr "Todas as páginas"
+
+msgid "prtf_allow_html"
+msgstr "Autorizar HTML/Javascript"
+
+msgid "prtf_allow_html_info"
+msgstr "Permite aos utilizadores incluírem HTML e/ou Javascript nas suas páginas de portefólio. Isto pode originar questões de segurança."
+
+msgid "prtf_allow_my_courses"
+msgstr "Tem a certeza que quer apagar a(s) seguinte(s) classe(s) de estilo?"
+
+msgid "prtf_allow_my_courses_info"
+msgstr "Permite incluir uma lista de adesões atuais ao curso num portefólio."
+
+msgid "prtf_author"
+msgstr "Autor"
+
+msgid "prtf_back_to_portfolio_owner"
+msgstr "Editar portefólio"
+
+msgid "prtf_blog_page_created"
+msgstr "O blog foi adicionado."
+
+#, fuzzy
+msgid "prtf_copy_blog_pg"
+msgstr "Copy Blog Page"
+
+msgid "prtf_copy_page"
+msgstr "Copiar página(s)"
+
+#, fuzzy
+msgid "prtf_copy_pg"
+msgstr "Copy Page"
+
+msgid "prtf_copy_tab"
+msgstr "As classes de estilo foram copiadas. Abra o estilo de destino e clique ‘Colar classes de estilo’."
+
+msgid "prtf_create_portfolio"
+msgstr "Adicionar portefólio"
+
+msgid "prtf_create_template_from_portfolio"
+msgstr "Portefólio"
+
+msgid "prtf_create_template_from_portfolio_info"
+msgstr "Selecionar um portefólio para usar o seu conteúdo e definições para o modelo."
+
+msgid "prtf_creation_mode"
+msgstr "Novo portefólio"
+
+msgid "prtf_creation_mode_scratch"
+msgstr "Criar sem modelo"
+
+msgid "prtf_creation_mode_template"
+msgstr "Criar a partir do modelo"
+
+msgid "prtf_date_of_print"
+msgstr "Data de impressão"
+
+msgid "prtf_decl_authorship"
+msgstr "Copiar estilo de sistema"
+
+msgid "prtf_default_portfolio"
+msgstr "O meu perfil"
+
+#, fuzzy
+msgid "prtf_delete_assignment"
+msgstr "Delete Assignments"
+
+#, fuzzy
+msgid "prtf_delete_assignment_sure"
+msgstr "Do you really want to delete the following assignment(s)?"
+
+msgid "prtf_download_submission"
+msgstr "Criar novo estilo de sistema"
+
+msgid "prtf_edit_content"
+msgstr "Criar novo sub-estilo"
+
+#, fuzzy
+msgid "prtf_edit_data"
+msgstr "Edit Data"
+
+msgid "prtf_edit_embedded_blog"
+msgstr "Editar blog \"%s\""
+
+msgid "prtf_edit_portfolio"
+msgstr "Editar portefólio"
+
+#, fuzzy
+msgid "prtf_edit_title"
+msgstr "Edit Title"
+
+msgid "prtf_exercise_info"
+msgstr "Adicionar parâmetros CSS personalizados usando o formato ‘parâmetro: valor’."
+
+msgid "prtf_exercise_submitted_info"
+msgstr "Importar estilo de sistema"
+
+msgid "prtf_existing_portfolio"
+msgstr "Portefólio existente"
+
+msgid "prtf_finalize_portfolio"
+msgstr "Finalizar e submeter portefólio"
+
+msgid "prtf_finalized"
+msgstr "O portefólio foi submetido."
+
+msgid "prtf_first_page_title"
+msgstr "Definir como estilo predefinido"
+
+msgid "prtf_has_been_set_online"
+msgstr "Obrigar este estilo em todos os objetos"
+
+msgid "prtf_link"
+msgstr "Link"
+
+msgid "prtf_manage_portfolios"
+msgstr "Gerir portefólios"
+
+msgid "prtf_new_portfolio"
+msgstr "Novo portefólio"
+
+msgid "prtf_no_blogs_info"
+msgstr "É adicionado um bloco CSS à parte para cada questão de media após o bloco predefinido (nenhuma questão de media especial)."
+
+msgid "prtf_no_offline_share_info"
+msgstr "Nome"
+
+msgid "prtf_no_submission"
+msgstr "SCO e objetivos"
+
+msgid "prtf_page_created"
+msgstr "Página criada"
+
+msgid "prtf_page_element_my_courses_info"
+msgstr "Esta é uma lista de todos os meus cursos que estão atualmente online e aos quais pertence."
+
+msgid "prtf_page_element_my_courses_title"
+msgstr "As seguintes classes de estilo são obrigatórias e não podem ser apagadas. Tem a certeza que quer continuar e apagar as restantes classes de estilo selecionadas?"
+
+msgid "prtf_page_element_teaser_blog_template"
+msgstr "O portefólio apresenta aqui um blog do seu espaço de trabalho pessoal."
+
+msgid "prtf_page_element_teaser_consultation_hours"
+msgstr "O portefólio apresenta aqui um calendário das horas de consulta."
+
+msgid "prtf_page_element_teaser_my_courses"
+msgstr "O portefólio apresenta aqui uma lista dos seus cursos atuais."
+
+msgid "prtf_page_element_teaser_settings"
+msgstr "Definições"
+
+msgid "prtf_page_element_teaser_skills"
+msgstr "O portefólio apresenta aqui o seu nível de competência."
+
+#, fuzzy
+msgid "prtf_page_type_prtf"
+msgstr "Portfolio Page"
+
+#, fuzzy
+msgid "prtf_page_type_prtt"
+msgstr "Portfolio Template Page"
+
+msgid "prtf_pages_copied"
+msgstr "As páginas foram copiadas."
+
+msgid "prtf_pdf"
+msgstr "PDF"
+
+#, fuzzy
+msgid "prtf_permanent_link"
+msgstr "Link to Portfolio:"
+
+msgid "prtf_portfolio_created"
+msgstr "Portefólio adicionado"
+
+msgid "prtf_portfolio_created_from_template"
+msgstr "Isto é uma pré-visualização do seu novo portefólio. Para adicionar páginas e gerir o conteúdo do portefólio clique em “Editar portefólio” na parte superior desta página."
+
+msgid "prtf_portfolio_deleted"
+msgstr "Portefólios apagados"
+
+msgid "prtf_portfolio_page_deleted"
+msgstr "Accordions e painéis"
+
+msgid "prtf_portfolios"
+msgstr "Portefólios"
+
+msgid "prtf_print_options"
+msgstr "Opções"
+
+msgid "prtf_print_selection"
+msgstr "Seleção de página"
+
+msgid "prtf_profile_picture"
+msgstr "Apresentar fotografia de perfil"
+
+msgid "prtf_properties"
+msgstr "Propriedades do portefólio"
+
+msgid "prtf_public_comments"
+msgstr "Comentários públicos"
+
+#, fuzzy
+msgid "prtf_role_assignment"
+msgstr "Role Assignment"
+
+#, fuzzy
+msgid "prtf_role_title"
+msgstr "Role"
+
+msgid "prtf_save_status_and_titles"
+msgstr "Guardar estado e títulos"
+
+#, fuzzy
+msgid "prtf_sec_protected_info"
+msgstr "Protected sections cannot be edited by portfolio owners."
+
+msgid "prtf_selected_pages"
+msgstr "Páginas selecionadas"
+
+msgid "prtf_set_default_publish_global"
+msgstr "Partilhar também com utilizadores não registados"
+
+msgid "prtf_set_default_publish_registered"
+msgstr "Partilhar apenas com utilizadores registados"
+
+msgid "prtf_set_offline"
+msgstr "Para conceder-lhe acesso ao inquérito, tem de usar um código de inquérito de 5 caracteres que pode receber do criador deste inquérito.<br />Introduza-o no campo de texto acima."
+
+msgid "prtf_set_online"
+msgstr "Voltar"
+
+msgid "prtf_settings"
+msgstr "Administração de portefólios"
+
+msgid "prtf_shared_offline_info"
+msgstr "Um portefólio tem de estar online para poder ser acedido pelos utilizadores partilhados."
+
+msgid "prtf_signature"
+msgstr "Campo de assinatura"
+
+msgid "prtf_signature_date"
+msgstr "Data, assinatura"
+
+msgid "prtf_signature_info"
+msgstr "Adiciona um campo à impressão, onde o autor pode assinar o portefólio."
+
+msgid "prtf_style"
+msgstr "Estilo do portefólio"
+
+msgid "prtf_submission_on"
+msgstr "Adicionar a partir do banco"
+
+#, fuzzy
+msgid "prtf_successfully_shared_prtf"
+msgstr "Confirmation Shared Portfolio '%s'"
+
+#, fuzzy
+msgid "prtf_successfully_shared_prtf_body"
+msgstr "You have shared your portfolio '%s' with:"
+
+msgid "prtf_sure_delete_portfolio_pages"
+msgstr "Não possui permissões suficientes para gerir as frases!"
+
+msgid "prtf_sure_delete_portfolios"
+msgstr "Tem a certeza que quer apagar os seguintes portefólios?"
+
+msgid "prtf_tab_other_users"
+msgstr "Não possui permissões suficientes para participar no inquérito!"
+
+msgid "prtf_tab_portfolios"
+msgstr "Os meus portefólios"
+
+#, fuzzy
+msgid "prtf_table_of_contents"
+msgstr "Table of Contents"
+
+msgid "prtf_template_editor_placeholder_info"
+msgstr "Esta variável será subsituada pelo portefólio."
+
+msgid "prtf_template_import_blog_create"
+msgstr "Criar novo blog"
+
+msgid "prtf_template_import_blog_ignore"
+msgstr "Remover página de blog"
+
+msgid "prtf_template_import_blog_reuse"
+msgstr "Usar blog existente"
+
+msgid "prtf_template_import_new_skills"
+msgstr "Se estiver ativado, estes itens serão adicionados às suas competências pessoais."
+
+#, fuzzy
+msgid "prtf_template_title"
+msgstr "Portfolio Template"
+
+msgid "prtf_unset_as_default"
+msgstr "Remover a definição como O meu perfil"
+
+msgid "prtf_unset_default_share_info"
+msgstr "De seguida, as alterações foram guardadas. Verifique as definições atuais para a partilha do portefólio."
+
+msgid "prtf_use_page_layout"
+msgstr "Usar layout da página"
+
+#, fuzzy
+msgid "prtf_visible_for_tutor"
+msgstr "Visible For Tutor"
+
+msgid "prtt_title_info"
+msgstr "Não possui permissões suficientes para enviar e-mails."

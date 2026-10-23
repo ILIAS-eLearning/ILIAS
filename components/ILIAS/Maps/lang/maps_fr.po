@@ -1,0 +1,60 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fr\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: maps\n"
+
+msgid "configure_geolocation"
+msgstr "Veuillez terminer la configuration de géolocalisation dans le menu d'administration \"Logiciels tiers\" pour permettre la recherche d'adresse."
+
+msgid "maps_custom_geolocation_server_info"
+msgstr "URL serveur pour fournir des données de géolocalisation en utilisant Nominatim. Votre entrée doit contenir l’espace [QUERY] pour définir une position pour les informations de demande. Exemple: nominatim.example.com/search/[QUERY]?format=json."
+
+msgid "maps_custom_tile_server_info"
+msgstr "URL serveur pour fournir des données de mosaïque. Les entrées multiples doivent être séparées par des espaces. Les valeurs par défaut sont «%s»."
+
+msgid "maps_enable_maps"
+msgstr "Activer Cartes"
+
+msgid "maps_enable_maps_info"
+msgstr "Active les cartes dans les profils des utilisateurs, les groupes et les cours."
+
+msgid "maps_geolocation_server"
+msgstr "Serveur pour géolocalisation inversée"
+
+msgid "maps_https_for_reverse_lookup"
+msgstr "Https for Reverse Lookup"
+
+msgid "maps_latitude"
+msgstr "Latitude"
+
+msgid "maps_longitude"
+msgstr "Longitude"
+
+msgid "maps_lookup_address"
+msgstr "Consulter adresse"
+
+msgid "maps_map_type"
+msgstr "Type"
+
+msgid "maps_open_layers_maps"
+msgstr "Cartes Openlayers"
+
+msgid "maps_settings"
+msgstr "Paramètres des Cartes"
+
+msgid "maps_std_location"
+msgstr "Emplacement par défaut"
+
+msgid "maps_std_location_desc"
+msgstr "Latitude / Longitude. Cliquer sur la carte pour définir la position géographique."
+
+msgid "maps_tile_server"
+msgstr "Serveur des mosaïques"
+
+msgid "maps_zoom_level"
+msgstr "Niveau de Zoom"

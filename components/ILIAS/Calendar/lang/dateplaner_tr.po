@@ -1,0 +1,1475 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: tr\n"
+"Language-Team: Turkish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: dateplaner\n"
+
+msgid "Fr_long"
+msgstr "Cuma"
+
+msgid "Fr_short"
+msgstr "Fr"
+
+msgid "Mo_long"
+msgstr "Pazartesi"
+
+msgid "Mo_short"
+msgstr "Mo"
+
+msgid "Sa_long"
+msgstr "Cumartesi"
+
+msgid "Sa_short"
+msgstr "Cum"
+
+msgid "Su_long"
+msgstr "Pazar"
+
+msgid "Su_short"
+msgstr "Su"
+
+msgid "Text"
+msgstr "Yazı"
+
+msgid "Th_long"
+msgstr "Perşembe"
+
+msgid "Th_short"
+msgstr "Th"
+
+msgid "Tu_long"
+msgstr "Salı"
+
+msgid "Tu_short"
+msgstr "Tu"
+
+msgid "We_long"
+msgstr "Çarşamba"
+
+msgid "We_short"
+msgstr "Biz"
+
+msgid "add_appointment"
+msgstr "Ekleme Randevu"
+
+msgid "app_consultation_hours"
+msgstr "Görüşme Saatleri"
+
+msgid "app_day"
+msgstr "Günlük Görünüm"
+
+msgid "app_month"
+msgstr "Aylık Görünüm"
+
+msgid "app_week"
+msgstr "Haftalık Görünüm"
+
+#, fuzzy
+msgid "back_to_crs"
+msgstr "Go to Course"
+
+#, fuzzy
+msgid "back_to_grp"
+msgstr "Go to Group"
+
+#, fuzzy
+msgid "back_to_pd"
+msgstr "Back to Personal Desktop"
+
+#, fuzzy
+msgid "btn_ical"
+msgstr "iCal"
+
+msgid "c_date"
+msgstr "Oluştur Olay"
+
+msgid "cal_add_appointment"
+msgstr "Randevu oluşturma"
+
+msgid "cal_add_calendar"
+msgstr "Takvim Ekle"
+
+msgid "cal_add_category"
+msgstr "Yeni Takvim Oluştur"
+
+msgid "cal_add_milestone"
+msgstr "Ekleme Milestone"
+
+msgid "cal_adm_notification_info"
+msgstr "değişti atamalar hakkında ders / grup katılımcılara isteğe posta bildirimleri göndermek için, bu seçeneği seçin."
+
+msgid "cal_adm_notification_user_info"
+msgstr "seçilmiş kullanıcıların isteğe posta bildirimleri göndermek için, bu seçeneği seçin."
+
+#, fuzzy
+msgid "cal_agenda"
+msgstr "Agenda"
+
+msgid "cal_all_day"
+msgstr "Tüm Gün"
+
+#, fuzzy
+msgid "cal_app_info"
+msgstr "Appointment Information"
+
+#, fuzzy
+msgid "cal_app_other_materials_num"
+msgstr "View other materials"
+
+#, fuzzy
+msgid "cal_appointment_notifications"
+msgstr "Notification"
+
+msgid "cal_appointments"
+msgstr "atanması (ler)"
+
+msgid "cal_apps"
+msgstr "Randevuları sayısı"
+
+msgid "cal_assigned_appointments"
+msgstr "Atanan Randevular"
+
+msgid "cal_back_to_cal"
+msgstr "Takvim Geri"
+
+msgid "cal_back_to_list"
+msgstr "Listeye Geri Dön"
+
+msgid "cal_back_to_search"
+msgstr "Arama Geri"
+
+#, fuzzy
+msgid "cal_batch_file_downloads"
+msgstr "Batch file downloads in Calendar"
+
+#, fuzzy
+msgid "cal_batch_file_downloads_info"
+msgstr "Activate button to download all files related to the current calendar/appointment view."
+
+#, fuzzy
+msgid "cal_belongs_to"
+msgstr "Belongs to Calendar"
+
+msgid "cal_book_free"
+msgstr "Mevcut"
+
+msgid "cal_booked_out"
+msgstr "rezervasyonu"
+
+msgid "cal_booking_cancellation_body"
+msgstr "%S ile randevunuz iptal edildi."
+
+msgid "cal_booking_cancellation_subject"
+msgstr "Randevu \"% s\" iptal edildi"
+
+msgid "cal_booking_cancellation_user"
+msgstr "Bu orijinal posta gelen kullanıcı için bir kopyasıdır:"
+
+msgid "cal_booking_confirmation_body"
+msgstr "%S ile Randevunuzu edilmiştir."
+
+msgid "cal_booking_confirmation_link"
+msgstr "Randevuya Link:"
+
+msgid "cal_booking_confirmation_subject"
+msgstr "Randevu \"% s\" rezerve edilmiştir"
+
+msgid "cal_booking_confirmation_user"
+msgstr "Bu orijinal posta gelen kullanıcı için bir kopyasıdır:"
+
+msgid "cal_booking_confirmed"
+msgstr "Randevu başarıyla rezerve edilmiştir."
+
+#, fuzzy
+msgid "cal_booking_failed_info"
+msgstr "This appointment is booked out. Please choose another appointment."
+
+#, fuzzy
+msgid "cal_booking_manager_confirmation_body"
+msgstr "%s has booked an appointment with %s."
+
+#, fuzzy
+msgid "cal_booking_owner_confirmation_body"
+msgstr "%s has booked an appointment with you."
+
+msgid "cal_cache"
+msgstr "Takvim Önbellek"
+
+msgid "cal_cache_disabled"
+msgstr "Kapalı"
+
+msgid "cal_cache_enabled"
+msgstr "Etkin"
+
+msgid "cal_cache_info"
+msgstr "Aktif, kişisel masaüstü ve depodaki takvim randevuları sadece her x dakika hesaplanır ise ."
+
+msgid "cal_cache_settings"
+msgstr "Önbellek"
+
+msgid "cal_cal_deleted"
+msgstr "takvimleri silinmiş"
+
+msgid "cal_cal_details"
+msgstr "Takvim Ayrıntıları"
+
+#, fuzzy
+msgid "cal_cal_shared_with"
+msgstr "Users calendar is shared with"
+
+msgid "cal_cal_sync_success"
+msgstr "Başarıyla takvimi senkronize"
+
+msgid "cal_cal_synchronize"
+msgstr "Senkronize Takvim"
+
+msgid "cal_cal_type"
+msgstr "Takvim Türü"
+
+msgid "cal_calendar_color"
+msgstr "Renk"
+
+#, fuzzy
+msgid "cal_calendar_download"
+msgstr "Calendar Download"
+
+msgid "cal_calendar_name"
+msgstr "Takvim Adı"
+
+#, fuzzy
+msgid "cal_calendar_subscription_modal_title"
+msgstr "Calendar Subscription"
+
+msgid "cal_cancel_booking"
+msgstr "İptal Rezervasyon"
+
+msgid "cal_cancel_booking_confirmed"
+msgstr "rezervasyon başarıyla iptal edildi."
+
+msgid "cal_cancel_booking_info"
+msgstr "Bu rezervasyon iptal teyit edin."
+
+msgid "cal_category_selection"
+msgstr "Takvim Seçimi"
+
+msgid "cal_cg_notification"
+msgstr "Kurs / Grup Bildirim"
+
+msgid "cal_cg_registration_info"
+msgstr "kullanıcılarının ders ve grup randevuları için kayıt olanağı verir."
+
+msgid "cal_cg_registrations"
+msgstr "Kurs / Grup Randevu için Kayıt"
+
+#, fuzzy
+msgid "cal_ch_add_grp"
+msgstr "Create new Consultation Hour Group"
+
+msgid "cal_ch_add_sequence"
+msgstr "Ekleme Görüşme Saatleri Sırası"
+
+#, fuzzy
+msgid "cal_ch_app_bookings"
+msgstr "Bookings"
+
+#, fuzzy
+msgid "cal_ch_app_grp"
+msgstr "Consultation Hour Groups"
+
+#, fuzzy
+msgid "cal_ch_app_list"
+msgstr "Consultation Hour Appointments"
+
+#, fuzzy
+msgid "cal_ch_assign_participants"
+msgstr "Assign Users"
+
+#, fuzzy
+msgid "cal_ch_assigned_apps"
+msgstr "Number of Appointments"
+
+msgid "cal_ch_book"
+msgstr "Randevu"
+
+msgid "cal_ch_booking"
+msgstr "Ressource Rezervasyon"
+
+#, fuzzy
+msgid "cal_ch_booking_col_comments"
+msgstr "Comments"
+
+#, fuzzy
+msgid "cal_ch_booking_comment"
+msgstr "Comment:"
+
+#, fuzzy
+msgid "cal_ch_booking_link"
+msgstr "Link to Consultation Hours:"
+
+#, fuzzy
+msgid "cal_ch_booking_message_tbl"
+msgstr "Comment"
+
+#, fuzzy
+msgid "cal_ch_booking_num_available"
+msgstr "Available Slots"
+
+#, fuzzy
+msgid "cal_ch_booking_num_free_short"
+msgstr "%s free"
+
+#, fuzzy
+msgid "cal_ch_booking_other_participants"
+msgstr "Other Participants:"
+
+msgid "cal_ch_booking_owner"
+msgstr "Owner"
+
+#, fuzzy
+msgid "cal_ch_booking_participants"
+msgstr "Participants"
+
+#, fuzzy
+msgid "cal_ch_booking_reminder_body"
+msgstr "your appointment with \"%s\" starts soon."
+
+#, fuzzy
+msgid "cal_ch_booking_reminder_subject"
+msgstr "Reminder for \"%s\""
+
+#, fuzzy
+msgid "cal_ch_booking_start"
+msgstr "Start"
+
+#, fuzzy
+msgid "cal_ch_booking_your_comment"
+msgstr "Your comment:"
+
+msgid "cal_ch_bookings"
+msgstr "Katılımcıları"
+
+#, fuzzy
+msgid "cal_ch_bookings_tbl"
+msgstr "Booked Appointments"
+
+msgid "cal_ch_cancel_booking"
+msgstr "İptal Rezervasyon"
+
+#, fuzzy
+msgid "cal_ch_cancel_booking_info"
+msgstr "\"Cancel Booking\" sends notification mails to the users. If you do not want to notify the users, choose the option \"Delete Booking\"."
+
+#, fuzzy
+msgid "cal_ch_cancel_booking_sure"
+msgstr "Do you really want to cancel the following bookings?"
+
+#, fuzzy
+msgid "cal_ch_canceled_bookings"
+msgstr "The selected bookings have been deleted."
+
+msgid "cal_ch_ch"
+msgstr "Görüşme Saatleri"
+
+#, fuzzy
+msgid "cal_ch_cron_reminder"
+msgstr "Send Consultation Hour Reminder"
+
+#, fuzzy
+msgid "cal_ch_cron_reminder_days"
+msgstr "Number of Days"
+
+#, fuzzy
+msgid "cal_ch_cron_reminder_info"
+msgstr "If enabled, notification mails about upcoming consultation hour events will be send."
+
+#, fuzzy
+msgid "cal_ch_current_booking_comment"
+msgstr "Comment"
+
+msgid "cal_ch_current_bookings"
+msgstr "Güncel Rezervasyonları"
+
+msgid "cal_ch_deadline"
+msgstr "Yeni Kayıt"
+
+msgid "cal_ch_deadline_info"
+msgstr "kayıt bloke kadar saat sayısını belirtiniz."
+
+#, fuzzy
+msgid "cal_ch_delete_app_booking_info"
+msgstr "The following appointments have existing bookings. If you delete these appointments, the users will not be notified."
+
+#, fuzzy
+msgid "cal_ch_delete_booking"
+msgstr "Delete Booking"
+
+#, fuzzy
+msgid "cal_ch_delete_booking_info"
+msgstr "\"Delete Booking\" will not notify users by email. If you want to notify users, please choose the action \"Cancele Booking\"."
+
+#, fuzzy
+msgid "cal_ch_delete_booking_sure"
+msgstr "Do you really want to delete the following bookings?"
+
+#, fuzzy
+msgid "cal_ch_deleted_bookings"
+msgstr "The selected bookings have been canceled."
+
+msgid "cal_ch_duration"
+msgstr "Her Atama Süre"
+
+#, fuzzy
+msgid "cal_ch_export_apps"
+msgstr "Booked Appointments"
+
+#, fuzzy
+msgid "cal_ch_field_ch"
+msgstr "Consultation Hour Appointments"
+
+msgid "cal_ch_form"
+msgstr "Görüşme Saatleri etkinleştir"
+
+msgid "cal_ch_form_header"
+msgstr "Görüşme Saatleri"
+
+msgid "cal_ch_form_info"
+msgstr "Bu seçenek takvim kişisel danışma saatleri yönetimi sağlar."
+
+#, fuzzy
+msgid "cal_ch_free_of_available"
+msgstr "%s of %s"
+
+#, fuzzy
+msgid "cal_ch_grp_add_tbl"
+msgstr "Create new Consultation Hour Group"
+
+#, fuzzy
+msgid "cal_ch_grp_delete_sure"
+msgstr "Do you really want to delete the following consultation hour groups?"
+
+#, fuzzy
+msgid "cal_ch_grp_header"
+msgstr "Consultation Hour Group"
+
+#, fuzzy
+msgid "cal_ch_grp_multiple"
+msgstr "Bookings per User"
+
+#, fuzzy
+msgid "cal_ch_grp_multiple_info"
+msgstr "You can define the maximum number of bookings per user."
+
+#, fuzzy
+msgid "cal_ch_grp_no_assignment"
+msgstr "-- Not Assigned --"
+
+#, fuzzy
+msgid "cal_ch_grp_selection"
+msgstr "Assignment to Consultation Hour Groups"
+
+#, fuzzy
+msgid "cal_ch_grp_update_tbl"
+msgstr "Edit Consultation Hour Group"
+
+#, fuzzy
+msgid "cal_ch_grps"
+msgstr "Consultation Hour Groups"
+
+msgid "cal_ch_manager"
+msgstr "Danışma Saat Müdürü"
+
+msgid "cal_ch_manager_info"
+msgstr "İstişare saat yönetecek kullanıcının Giriş."
+
+#, fuzzy
+msgid "cal_ch_max_books"
+msgstr "Bookings per User"
+
+#, fuzzy
+msgid "cal_ch_minutes"
+msgstr "Duration (min)"
+
+msgid "cal_ch_multi_edit_sequence"
+msgstr "Düzenle birden fazla randevu"
+
+msgid "cal_ch_num_appointments"
+msgstr "Randevuları sayısı"
+
+msgid "cal_ch_num_appointments_info"
+msgstr "sequent randevu sayısını belirtiniz."
+
+msgid "cal_ch_num_bookings"
+msgstr "Randevu başına Rezervasyon"
+
+msgid "cal_ch_personal_book"
+msgstr "Kişisel Rezervasyonları"
+
+msgid "cal_ch_personal_ch"
+msgstr "Kişisel Görüşme Saatleri"
+
+#, fuzzy
+msgid "cal_ch_reject_booking"
+msgstr "Cancel Booking"
+
+#, fuzzy
+msgid "cal_ch_send_mail"
+msgstr "Send Mail"
+
+msgid "cal_ch_target_object"
+msgstr "Depo Nesne"
+
+msgid "cal_ch_target_object_info"
+msgstr "Verilen depo nesnesi için randevu kısıtlayın."
+
+msgid "cal_ch_unknown_repository_object"
+msgstr "Verilen depo nesnesi ref-id geçerli değil."
+
+msgid "cal_ch_unknown_user"
+msgstr "Verilen giriş herhangi bir kullanıcı uyuşmuyor."
+
+#, fuzzy
+msgid "cal_ch_user_assignment_failed_info"
+msgstr "The following users could not be assigned to appointments, since the maximum number of bookings is exceeded."
+
+#, fuzzy
+msgid "cal_ch_vm_period_all"
+msgstr "All"
+
+#, fuzzy
+msgid "cal_ch_vm_period_past"
+msgstr "Past"
+
+#, fuzzy
+msgid "cal_ch_vm_period_upcoming"
+msgstr "Upcoming"
+
+#, fuzzy
+msgid "cal_ch_vm_status_all"
+msgstr "All"
+
+#, fuzzy
+msgid "cal_ch_vm_status_booked"
+msgstr "Booked Slots"
+
+#, fuzzy
+msgid "cal_ch_vm_status_open"
+msgstr "Open Slots"
+
+#, fuzzy
+msgid "cal_change_calendar_view"
+msgstr "Change Calendar View"
+
+msgid "cal_change_responsible_users"
+msgstr "Değişim Sorumlu Kullanıcıları"
+
+msgid "cal_changed_events_header"
+msgstr "Yeni ve Değiştirilmiş Randevular"
+
+msgid "cal_confirm_booking"
+msgstr "Rezervasyon Onay"
+
+msgid "cal_confirm_booking_info"
+msgstr "Bu randevu için rezervasyon teyit edin."
+
+msgid "cal_confirm_reg_info"
+msgstr "Bu randevu için kaydınızı onaylayın."
+
+msgid "cal_confirm_unreg_info"
+msgstr "Bu kaydının iptal teyit edin."
+
+msgid "cal_consultation_hours_for"
+msgstr "İçin Görüşme saatleri"
+
+#, fuzzy
+msgid "cal_consultation_hours_for_user"
+msgstr "Consultation Hours for %1"
+
+#, fuzzy
+msgid "cal_contained_in"
+msgstr "Contained in"
+
+msgid "cal_create"
+msgstr "Oluştur"
+
+msgid "cal_created_appointment"
+msgstr "Yeni bir randevu düzenlendi."
+
+msgid "cal_created_milestone"
+msgstr "dönüm eklendi."
+
+msgid "cal_created_milestone_resp_q"
+msgstr "dönüm eklendi. Dönüm karşılamak için sorumlu olan kullanıcılardır seçiniz."
+
+#, fuzzy
+msgid "cal_cronjob_remote_description"
+msgstr "If activated, appointments of the calendar type \"Web calendar\" are automatically synchronised after the specified time interval."
+
+#, fuzzy
+msgid "cal_cronjob_remote_title"
+msgstr "External Calendar Synchronisation"
+
+#, fuzzy
+msgid "cal_crs_info"
+msgstr "Course Information"
+
+msgid "cal_crs_new_notification_body"
+msgstr "Yeni bir randevu \"% s\" kursuna oluşturuldu."
+
+msgid "cal_crs_new_notification_sub"
+msgstr "Kursu Yeni Randevu \"% s\""
+
+msgid "cal_crs_notification_body"
+msgstr "Randevu \"% s\" kursuna değiştirildi."
+
+msgid "cal_crs_notification_sub"
+msgstr "Kursu Değiştirilen Randevu \"% s\""
+
+#, fuzzy
+msgid "cal_crs_timing_end"
+msgstr "Suggested End"
+
+#, fuzzy
+msgid "cal_crs_timing_start"
+msgstr "Suggested Start"
+
+msgid "cal_daily"
+msgstr "Günlük"
+
+#, fuzzy
+msgid "cal_date_and_time"
+msgstr "Date and Time"
+
+msgid "cal_date_booked"
+msgstr "ayırtıldı"
+
+msgid "cal_date_format_info"
+msgstr "tarih girişi için bir biçim seçin."
+
+#, fuzzy
+msgid "cal_date_time_title"
+msgstr "Date and Time"
+
+msgid "cal_day_end"
+msgstr "Gün Sonu"
+
+msgid "cal_day_of_month"
+msgstr "Ayın Gün"
+
+msgid "cal_day_overview"
+msgstr "Günlük Bakış"
+
+msgid "cal_day_s"
+msgstr "Gün (ler)"
+
+msgid "cal_day_selection"
+msgstr "Seç Günü"
+
+msgid "cal_day_start"
+msgstr "Gün Başlat"
+
+msgid "cal_day_week_view"
+msgstr "Gün / Hafta Görünüm Ayarları"
+
+msgid "cal_deadline"
+msgstr "Deadline"
+
+msgid "cal_def_date_format"
+msgstr "Standart Tarih Formatı"
+
+msgid "cal_def_date_format_info"
+msgstr "Tarih girişi için bir format seçiniz."
+
+#, fuzzy
+msgid "cal_def_day_end"
+msgstr "Default Day End"
+
+#, fuzzy
+msgid "cal_def_day_start"
+msgstr "Default Day Start"
+
+#, fuzzy
+msgid "cal_def_show_weeks"
+msgstr "Default Show Weeks"
+
+msgid "cal_def_time_format"
+msgstr "Varsayılan Zaman Biçimi"
+
+msgid "cal_def_time_format_info"
+msgstr "Zaman girişleri ve gösterimleri için bir format seçiniz."
+
+msgid "cal_def_timezone"
+msgstr "Standart Zaman"
+
+msgid "cal_def_timezone_info"
+msgstr "randevular tanıtımı için öntanımlı zaman dilimini seçiniz."
+
+#, fuzzy
+msgid "cal_def_view"
+msgstr "Default Calendar View"
+
+msgid "cal_def_week_start"
+msgstr "Hafta Başlangıç"
+
+msgid "cal_default_calendar"
+msgstr "Kişisel Randevular"
+
+#, fuzzy
+msgid "cal_default_settings"
+msgstr "Default settings"
+
+msgid "cal_del_app_sure"
+msgstr "gerçekten seçilen randevuları silmek istediğinizden emin misiniz?"
+
+msgid "cal_del_cal_sure"
+msgstr "Eğer gerçekten seçtiğiniz takvimler silmek istediğinizden emin misiniz?"
+
+msgid "cal_delete_app_sure"
+msgstr "gerçekten şu randevuları silmek istediğinizden emin misiniz?"
+
+#, fuzzy
+msgid "cal_delete_booking_info"
+msgstr "Please confirm the deletion of this booking"
+
+#, fuzzy
+msgid "cal_delete_cal"
+msgstr "Delete Calendar"
+
+#, fuzzy
+msgid "cal_delete_recurrence_rule"
+msgstr "Delete Series of Appoinments"
+
+msgid "cal_delete_recurrences"
+msgstr "tüm nüks sil"
+
+msgid "cal_delete_single"
+msgstr "Sadece bu randevu sil"
+
+msgid "cal_deleted_app"
+msgstr "Seçilen randevu silinmiştir."
+
+msgid "cal_details"
+msgstr "Randevu Detayları"
+
+#, fuzzy
+msgid "cal_down_no_files"
+msgstr "Nothing to download, the events listed do not contain files."
+
+#, fuzzy
+msgid "cal_download_all_files"
+msgstr "Download all Files"
+
+#, fuzzy
+msgid "cal_download_files"
+msgstr "Download Files"
+
+#, fuzzy
+msgid "cal_download_files_started"
+msgstr "Download of calendar files has started."
+
+msgid "cal_dstart_dend_warn"
+msgstr "Lütfen girişinizi kontrol edin. Bir günün başlangıç ​​günün sonunda önce olmalıdır."
+
+msgid "cal_duration"
+msgstr "Süre"
+
+#, fuzzy
+msgid "cal_duration_end"
+msgstr "End"
+
+#, fuzzy
+msgid "cal_duration_start"
+msgstr "Start"
+
+msgid "cal_edit_appointment"
+msgstr "Edit Randevu"
+
+msgid "cal_edit_category"
+msgstr "Düzenleme Takvim"
+
+msgid "cal_edit_milestone"
+msgstr "Edit Milestone"
+
+#, fuzzy
+msgid "cal_edit_recurrences"
+msgstr "Edit all Appointments"
+
+#, fuzzy
+msgid "cal_edit_single"
+msgstr "Edit this Appointment"
+
+#, fuzzy
+msgid "cal_edit_single_or_all_info"
+msgstr "Do you want to edit only this appointment or all in its series?"
+
+msgid "cal_enable_group_milestones"
+msgstr "Etkinleştir Kilometre Taşları"
+
+msgid "cal_enable_group_milestones_desc"
+msgstr "Bu seçenek takvim dönüm noktası planlama sağlar."
+
+msgid "cal_err_invalid_notification_rcps"
+msgstr "bildirim alıcıların listesi geçerli değil. Sadece ILIAS kullanıcı hesap adları veya geçerli e-posta adreslerini seçin."
+
+msgid "cal_every"
+msgstr "Her:"
+
+#, fuzzy
+msgid "cal_exc_deadline"
+msgstr "Deadline"
+
+#, fuzzy
+msgid "cal_exc_info"
+msgstr "Assignment Information"
+
+#, fuzzy
+msgid "cal_exc_inst_files"
+msgstr "Instruction Files"
+
+#, fuzzy
+msgid "cal_exc_open"
+msgstr "Open Assignment"
+
+#, fuzzy
+msgid "cal_exc_peer_review_deadline"
+msgstr "Feedback Deadline"
+
+#, fuzzy
+msgid "cal_export_timezone"
+msgstr "Timezone for Calendar Export"
+
+#, fuzzy
+msgid "cal_export_timezone_tz"
+msgstr "Use ILIAS-Timezone"
+
+#, fuzzy
+msgid "cal_export_timezone_utc"
+msgstr "Use Timezone UTC (compatible with MS Outlook)"
+
+msgid "cal_fifth"
+msgstr "Beşinci"
+
+msgid "cal_first"
+msgstr "İlk"
+
+msgid "cal_fourth"
+msgstr "Dördüncü"
+
+msgid "cal_fullday"
+msgstr "Tarih / Saat"
+
+msgid "cal_fullday_title"
+msgstr "Tüm Gün Olayı"
+
+msgid "cal_global_settings"
+msgstr "Genel Ayarlar"
+
+#, fuzzy
+msgid "cal_grp_curr_crs"
+msgstr "Current Course"
+
+#, fuzzy
+msgid "cal_grp_curr_crs_cons"
+msgstr "Consultation Hours"
+
+#, fuzzy
+msgid "cal_grp_curr_grp"
+msgstr "Current Group"
+
+#, fuzzy
+msgid "cal_grp_info"
+msgstr "Group Information"
+
+msgid "cal_grp_new_notification_body"
+msgstr "Yeni bir randevu grubu \"% s\" oluşturuldu."
+
+msgid "cal_grp_new_notification_sub"
+msgstr "Grup \"% s\" Yeni Randevu"
+
+msgid "cal_grp_notification_body"
+msgstr "Randevu grubu \"% s\" değiştirildi."
+
+msgid "cal_grp_notification_sub"
+msgstr "Grup \"% s\" Değiştirilen Randevu"
+
+#, fuzzy
+msgid "cal_grp_others"
+msgstr "Others"
+
+#, fuzzy
+msgid "cal_grp_personal"
+msgstr "Personal"
+
+msgid "cal_ical_infoscreen"
+msgstr "Abone"
+
+#, fuzzy
+msgid "cal_ical_url"
+msgstr "iCal-URL"
+
+#, fuzzy
+msgid "cal_ical_url_google"
+msgstr "iCal-URL for Google Calendar"
+
+msgid "cal_import_appointments"
+msgstr "Randevuları İçe Aktar"
+
+msgid "cal_import_file"
+msgstr "Dosya İçe aktar"
+
+msgid "cal_import_file_info"
+msgstr "takvim randevuları içeren dosyayı, seçin."
+
+msgid "cal_import_tbl"
+msgstr "Randevuları İçe Aktar"
+
+msgid "cal_imported_success"
+msgstr "İthal% 1 $ s randevular."
+
+msgid "cal_in"
+msgstr "yılında"
+
+msgid "cal_last"
+msgstr "Son"
+
+#, fuzzy
+msgid "cal_list"
+msgstr "List"
+
+msgid "cal_mail_notification_body"
+msgstr "Randevu için davet edilmiştir."
+
+msgid "cal_mail_notification_subject"
+msgstr "Randevu Davet: \"% s\""
+
+msgid "cal_manage"
+msgstr "Takvimler"
+
+#, fuzzy
+msgid "cal_materials"
+msgstr "Materials"
+
+msgid "cal_milestone_settings"
+msgstr "Kilometre Taşları"
+
+msgid "cal_month_overview"
+msgstr "Ay Bakış"
+
+msgid "cal_month_s"
+msgstr "Ay (lar)"
+
+msgid "cal_month_selection"
+msgstr "Ay Seçin"
+
+msgid "cal_monthly"
+msgstr "Aylık"
+
+#, fuzzy
+msgid "cal_monthly_by_date"
+msgstr "Monthly by Date"
+
+#, fuzzy
+msgid "cal_monthly_by_day"
+msgstr "Monthly by Day"
+
+msgid "cal_ms_details"
+msgstr "Milestone Detayları"
+
+msgid "cal_ms_users_responsible"
+msgstr "Kullanıcıları Sorumlu"
+
+msgid "cal_new_app"
+msgstr "Yeni Randevu"
+
+msgid "cal_new_ms"
+msgstr "Yeni Milestone"
+
+msgid "cal_no_ending"
+msgstr "Bitiş Tarihi Yok"
+
+#, fuzzy
+msgid "cal_no_events_block"
+msgstr "Es sind keine Termine für Sie vorhanden."
+
+#, fuzzy
+msgid "cal_no_events_info"
+msgstr "No events found for the selected time period."
+
+msgid "cal_no_recurrence"
+msgstr "Yenilenme Yok"
+
+msgid "cal_notification"
+msgstr "Posta Bildirimi"
+
+msgid "cal_notification_crsgrp"
+msgstr "Kurs / Grup Katılımcılar için Bildirim"
+
+msgid "cal_notification_info"
+msgstr "Etkinse , tüm ders / grup katılımcıları bu randevu hakkinda posta başına bildirilecektir."
+
+msgid "cal_notification_users"
+msgstr "Seçilmiş Kullanıcılar için Bildirim"
+
+msgid "cal_on"
+msgstr "Açık:"
+
+msgid "cal_on_the"
+msgstr "Açık :"
+
+#, fuzzy
+msgid "cal_open_calendar"
+msgstr "Open Calendar"
+
+#, fuzzy
+msgid "cal_origin"
+msgstr "Origin"
+
+#, fuzzy
+msgid "cal_owner"
+msgstr "Owner"
+
+#, fuzzy
+msgid "cal_period"
+msgstr "Period"
+
+msgid "cal_rec_err_limit"
+msgstr "randevular geçerli bir numara giriniz."
+
+#, fuzzy
+msgid "cal_recurrence_confirm_deletion"
+msgstr "Please decide wether you want to delete single appointments or the complete series of appointments."
+
+#, fuzzy
+msgid "cal_recurrence_count"
+msgstr "Number of Appointments"
+
+#, fuzzy
+msgid "cal_recurrence_day_interval"
+msgstr "Every x Day(s)"
+
+#, fuzzy
+msgid "cal_recurrence_end_date"
+msgstr "End Date"
+
+#, fuzzy
+msgid "cal_recurrence_end_date_info"
+msgstr "Last possible date for an appointment."
+
+#, fuzzy
+msgid "cal_recurrence_month_interval"
+msgstr "Every x Month(s)"
+
+#, fuzzy
+msgid "cal_recurrence_until"
+msgstr "Recurrence End"
+
+#, fuzzy
+msgid "cal_recurrence_until_count"
+msgstr "Fixed Number of Appointments"
+
+#, fuzzy
+msgid "cal_recurrence_until_end_date"
+msgstr "Repeat Until End Date"
+
+#, fuzzy
+msgid "cal_recurrence_week_interval"
+msgstr "Every x Week(s)"
+
+#, fuzzy
+msgid "cal_recurrence_year_interval"
+msgstr "Every x Year(s)"
+
+msgid "cal_recurrences"
+msgstr "nüks"
+
+msgid "cal_reg_register"
+msgstr "Kayıt"
+
+msgid "cal_reg_registered"
+msgstr "Sen tescil edilmiştir ."
+
+msgid "cal_reg_registered_users"
+msgstr "Kayıtlı Kullanıcılar"
+
+msgid "cal_reg_unregister"
+msgstr "Unregister"
+
+msgid "cal_reg_unregistered"
+msgstr "Siz kayıtsız olmuştur ."
+
+msgid "cal_registrations"
+msgstr "Randevu Kayıtları"
+
+msgid "cal_remote_url"
+msgstr "URL"
+
+msgid "cal_repeat_until"
+msgstr "kadar tekrarlayın"
+
+#, fuzzy
+msgid "cal_repo_obj"
+msgstr "Repository Objects"
+
+msgid "cal_responsible"
+msgstr "Sorumlu"
+
+msgid "cal_save_responsible_users"
+msgstr "Sorumlu Kullanıcıları kaydet"
+
+msgid "cal_search"
+msgstr "Arama Terimi"
+
+msgid "cal_search_info_share"
+msgstr "İstenilen kullanıcı / takvim paylaşımı için rolün adını giriniz."
+
+msgid "cal_second"
+msgstr "İkincisi"
+
+msgid "cal_server_tz"
+msgstr "Sunucu Zaman"
+
+#, fuzzy
+msgid "cal_sess_info"
+msgstr "Session Information"
+
+#, fuzzy
+msgid "cal_setting_global_crs_act"
+msgstr "Activation in Courses"
+
+#, fuzzy
+msgid "cal_setting_global_crs_act_info"
+msgstr "If selected, the calendar is active in courses by default. In any case the calendar activation can be enabled/disabled in the course settings."
+
+msgid "cal_setting_global_crs_vis"
+msgstr "Dersler göster"
+
+msgid "cal_setting_global_crs_vis_info"
+msgstr "Etkinse , takvimi varsayılan olarak derslerde gösterilen gösterilir. Her durumda takvim tanıtımı etkin / Ders ayarlarında devre dışı bırakılabilir."
+
+#, fuzzy
+msgid "cal_setting_global_grp_act"
+msgstr "Activation in Groups"
+
+#, fuzzy
+msgid "cal_setting_global_grp_act_info"
+msgstr "If selected, the calendar is active in groups by default. In any case the calendar activation can be enabled/disabled in the group settings."
+
+msgid "cal_setting_global_grp_vis"
+msgstr "Gruplar göster"
+
+msgid "cal_setting_global_grp_vis_info"
+msgstr "Etkinse , takvimi varsayılan olarak gruplar halinde gösterilir gösterilmiştir. Her durumda takvim tanıtımı etkin / grup ayarlarını devre dışı bırakılabilir."
+
+msgid "cal_setting_global_vis_repos"
+msgstr "Depo Takvim"
+
+msgid "cal_share"
+msgstr "Paylaş Takvim"
+
+msgid "cal_share_accept"
+msgstr "Daveti Kabul"
+
+msgid "cal_share_cal"
+msgstr "Paylaş takvim"
+
+#, fuzzy
+msgid "cal_share_cal_editable"
+msgstr "Share Calendar (Read and Write)"
+
+msgid "cal_share_decline"
+msgstr "Reddet Davet"
+
+msgid "cal_share_search_header"
+msgstr "Paylaş Takvim"
+
+msgid "cal_share_search_role_header"
+msgstr "Rol Seçimi"
+
+msgid "cal_share_search_usr_header"
+msgstr "Kullanıcı Seçimi"
+
+#, fuzzy
+msgid "cal_shared_access_read_only"
+msgstr "Read-only"
+
+#, fuzzy
+msgid "cal_shared_access_read_write"
+msgstr "Read and Write"
+
+#, fuzzy
+msgid "cal_shared_access_table_col"
+msgstr "Access"
+
+msgid "cal_shared_calendars"
+msgstr "Paylaşılan Takvimler (Davetiye)"
+
+msgid "cal_shared_header"
+msgstr "Paylaşılan Takvimler"
+
+msgid "cal_shared_selected_usr"
+msgstr "takvim seçilen kullanıcılara / rolleri ile paylaşılmıştır."
+
+#, fuzzy
+msgid "cal_show_weeks"
+msgstr "Show Weeks"
+
+#, fuzzy
+msgid "cal_show_weeks_info"
+msgstr "Activates weeks column in calendar side block. Users can deactivate the column in their settings."
+
+msgid "cal_start"
+msgstr "Başlat"
+
+#, fuzzy
+msgid "cal_subscription"
+msgstr "Subscription"
+
+msgid "cal_subscription_header"
+msgstr "Takvim Adresi"
+
+msgid "cal_subscription_info"
+msgstr "diğer uygulamalardan takviminizin erişmek için lütfen aşağıdaki adresi kullanın. Sen ical biçimini destekleyen herhangi bir takvim ürününe yapıştırabilirsiniz."
+
+msgid "cal_subscription_url"
+msgstr "Takvim URL:"
+
+msgid "cal_sync_cache"
+msgstr "Takvim Önbellek"
+
+msgid "cal_sync_cache_info"
+msgstr "aktif, yeni / modifiye takvim randevuları sadece her x dakikada hesaplanır iseniz."
+
+msgid "cal_sync_disabled"
+msgstr "Kapalı"
+
+msgid "cal_sync_enabled"
+msgstr "Etkin"
+
+msgid "cal_table_categories"
+msgstr "Takvim Seçimi"
+
+msgid "cal_task_completion"
+msgstr "Görev Tamamlama"
+
+msgid "cal_third"
+msgstr "Üçüncü"
+
+msgid "cal_time_format_info"
+msgstr "Zaman giriş ve gösterimi için bir biçim seçin."
+
+msgid "cal_timezone_info"
+msgstr "Zaman diliminize en yakın şehri seçiniz."
+
+msgid "cal_type_crs"
+msgstr "Ders Takvimi"
+
+#, fuzzy
+msgid "cal_type_exc"
+msgstr "Exercise Calendar"
+
+msgid "cal_type_grp"
+msgstr "Grup Takvimi"
+
+msgid "cal_type_info"
+msgstr "Bir takvim türü seçiniz. \"Genel Takvimleri\" Tüm ILIAS kullanıcıları görebilir."
+
+msgid "cal_type_local"
+msgstr "Yerel Takvim"
+
+msgid "cal_type_personal"
+msgstr "Özel Takvim"
+
+msgid "cal_type_remote"
+msgstr "Web Takvimi"
+
+msgid "cal_type_rl"
+msgstr "Takvim Yeri"
+
+msgid "cal_type_sess"
+msgstr "Oturum Takvimi"
+
+msgid "cal_type_system"
+msgstr "Genel Takvim"
+
+#, fuzzy
+msgid "cal_type_tals"
+msgstr "Talks"
+
+msgid "cal_unshare_cal"
+msgstr "Paylaşımı Durdur"
+
+msgid "cal_unshared_selected_usr"
+msgstr "seçili kullanıcılarla takvim paylaşımı Durduruldu."
+
+msgid "cal_upcoming_events_header"
+msgstr "Gelecek Etkinlikler"
+
+msgid "cal_user_date_format"
+msgstr "Tarih Formatı"
+
+msgid "cal_user_notification"
+msgstr "Kullanıcı Bildirimi"
+
+msgid "cal_user_notification_info"
+msgstr "Seçilmiş kullanıcılar e-posta ile bu randevu haberdar edilecektir. ILIAS kullanıcı adlarını veya e-posta adreslerini girin."
+
+msgid "cal_user_settings"
+msgstr "Takvim Ayarları"
+
+msgid "cal_user_time_format"
+msgstr "Saat Biçimi"
+
+msgid "cal_user_timezone"
+msgstr "Bölge"
+
+#, fuzzy
+msgid "cal_usr_info"
+msgstr "Appointment Information"
+
+#, fuzzy
+msgid "cal_usr_show_weeks"
+msgstr "Show Week Column"
+
+#, fuzzy
+msgid "cal_usr_show_weeks_info"
+msgstr "Activates weeks column in calendar side block."
+
+msgid "cal_webcal_sync"
+msgstr "Dış Takvim Senkronizasyon"
+
+msgid "cal_webcal_sync_info"
+msgstr "otomatik olarak harici takvimler her x dakikada bir senkronize."
+
+msgid "cal_week_abbrev"
+msgstr "W"
+
+msgid "cal_week_month_view"
+msgstr "Hafta / Ay Görünüm Ayarları"
+
+msgid "cal_week_overview"
+msgstr "Hafta Genel Bakış"
+
+msgid "cal_week_s"
+msgstr "Hafta (lar)"
+
+msgid "cal_week_selection"
+msgstr "Seç Hafta"
+
+msgid "cal_week_start"
+msgstr "Hafta Başlangıç"
+
+msgid "cal_weekday"
+msgstr "Haftasonuna"
+
+msgid "cal_weekly"
+msgstr "Haftalık"
+
+msgid "cal_where"
+msgstr "Yer"
+
+msgid "cal_year_s"
+msgstr "yılı (lar)"
+
+msgid "cal_yearly"
+msgstr "Yıllık"
+
+#, fuzzy
+msgid "cal_yearly_by_date"
+msgstr "Yearly by Date"
+
+#, fuzzy
+msgid "cal_yearly_by_day"
+msgstr "Yearly by Day"
+
+#, fuzzy
+msgid "consultation_hours_block_title"
+msgstr "Consultation Hours"
+
+msgid "crs_cal_activation_end"
+msgstr "Kurs Bitiş"
+
+msgid "crs_cal_activation_start"
+msgstr "Ders Başlangıç"
+
+#, fuzzy
+msgid "crs_cal_end"
+msgstr "Course ends"
+
+msgid "crs_cal_reg_end"
+msgstr "Kayıt Sonu"
+
+msgid "crs_cal_reg_start"
+msgstr "Kayıt Başlat"
+
+#, fuzzy
+msgid "crs_cal_start"
+msgstr "Course starts"
+
+msgid "date_format"
+msgstr "m / d / YH: i"
+
+msgid "end_date"
+msgstr "Bitiş Tarihi"
+
+msgid "err_end_before_start"
+msgstr "Randevu sonundan önce başlamamalıdır."
+
+msgid "err_missing_title"
+msgstr "Randevu başlığını giriniz."
+
+msgid "free"
+msgstr "Ücretsiz"
+
+#, fuzzy
+msgid "grp_cal_end"
+msgstr "Group ends"
+
+msgid "grp_cal_reg_end"
+msgstr "Kayıt Sonu"
+
+msgid "grp_cal_reg_start"
+msgstr "Kayıt Başlat"
+
+#, fuzzy
+msgid "grp_cal_start"
+msgstr "Group starts"
+
+msgid "ical_export"
+msgstr "iCal Dışa Aktar"
+
+msgid "keep"
+msgstr "tutun"
+
+msgid "keyword"
+msgstr "Kelime"
+
+msgid "more"
+msgstr "daha fazla"
+
+msgid "r_14"
+msgstr "14 gün her"
+
+msgid "r_4_weeks"
+msgstr "Her 4 haftada"
+
+#, fuzzy
+msgid "remote_pass_info"
+msgstr "Please enter your account data if the access to the webcalendar ist protected."
+
+msgid "to"
+msgstr "için"
+
+msgid "today"
+msgstr "Bugün"
+
+msgid "week"
+msgstr "Hafta"
+
+msgid "wk_short"
+msgstr "WK"
+
+msgid "year"
+msgstr "Yılı"

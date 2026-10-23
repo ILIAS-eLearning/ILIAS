@@ -1,0 +1,326 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hr\n"
+"Language-Team: Croatian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: bibl\n"
+
+msgid "Type"
+msgstr "Tip"
+
+msgid "add_filter"
+msgstr "Dodaj filtar"
+
+msgid "bib_default_abstract"
+msgstr "Sažetak"
+
+msgid "bib_default_address"
+msgstr "Adresa"
+
+msgid "bib_default_author"
+msgstr "Autor"
+
+msgid "bib_default_cite"
+msgstr "Bib Cite"
+
+msgid "bib_default_edition"
+msgstr "Izdanje"
+
+msgid "bib_default_howpublished"
+msgstr "Objavljeno kao"
+
+msgid "bib_default_isbn"
+msgstr "ISSN/ISBN"
+
+msgid "bib_default_journal"
+msgstr "Časopis/žurnal"
+
+msgid "bib_default_keywords"
+msgstr "Ključne riječi"
+
+msgid "bib_default_month"
+msgstr "Mjesec"
+
+msgid "bib_default_note"
+msgstr "Bilješka"
+
+msgid "bib_default_number"
+msgstr "Broj"
+
+msgid "bib_default_organization"
+msgstr "Organizacija"
+
+msgid "bib_default_pages"
+msgstr "Stranice"
+
+msgid "bib_default_publisher"
+msgstr "Izdavač"
+
+msgid "bib_default_series"
+msgstr "Serije"
+
+msgid "bib_default_title"
+msgstr "Naslov"
+
+msgid "bib_default_type"
+msgstr "Tip"
+
+msgid "bib_default_url"
+msgstr "URL"
+
+msgid "bib_default_volume"
+msgstr "Naklada"
+
+msgid "bib_default_year"
+msgstr "Godina"
+
+msgid "bibl_copy"
+msgstr "Kopiraj bibliografiju"
+
+msgid "bibl_edit"
+msgstr "Uredi bibliografiju"
+
+msgid "bibl_filter"
+msgstr "Filtar"
+
+msgid "bibl_import"
+msgstr "Uvezi bibliografiju"
+
+msgid "bibl_library_img"
+msgstr "URL slike"
+
+msgid "bibl_library_name"
+msgstr "Naziv/ime"
+
+msgid "bibl_library_show_in_list"
+msgstr "Prikaži poveznicu i na popisu"
+
+msgid "bibl_library_url"
+msgstr "Osnovni URL"
+
+msgid "bibl_link_online"
+msgstr "Pregled inventara"
+
+msgid "bibl_msg_translations_deleted"
+msgstr "Prijevodi su izbrisani"
+
+msgid "bibl_msg_translations_saved"
+msgstr "Prijevodi su spremljeni"
+
+msgid "bibl_new"
+msgstr "Nova bibliografija"
+
+msgid "bibl_settings_edit"
+msgstr "Uredi knjižnicu"
+
+msgid "bibl_settings_libraries"
+msgstr "Knjižnice"
+
+msgid "bibl_settings_new"
+msgstr "Dodaj biblioteku"
+
+msgid "bibl_translation_desc"
+msgstr "Opis"
+
+msgid "bibl_translation_lang"
+msgstr "Jezik"
+
+msgid "bibl_translation_trans"
+msgstr "Prijevod"
+
+msgid "bibliography_file"
+msgstr "Datoteka s bibliografijom"
+
+msgid "bibtex"
+msgstr "Bibtex"
+
+msgid "changes_saved"
+msgstr "Promjene su spremljene."
+
+msgid "custom"
+msgstr "Prilagođen"
+
+msgid "detail_view"
+msgstr "Detaljan prikaz"
+
+#, fuzzy
+msgid "detailed_information"
+msgstr "Detailed Information"
+
+msgid "download_original_file"
+msgstr "Preuzmi izvornu datoteku"
+
+msgid "field"
+msgstr "Polje"
+
+msgid "fields"
+msgstr "Polja"
+
+msgid "filter_deleted"
+msgstr "Filter je izbrisan."
+
+msgid "filter_field_info"
+msgstr "Odaberite polje za koje želite dodati filtar."
+
+msgid "filter_form_title"
+msgstr "Dodaj novi filtar"
+
+msgid "filter_type"
+msgstr "Tip filtra"
+
+msgid "filter_type_1"
+msgstr "Polje za tekst"
+
+msgid "filter_type_2"
+msgstr "Odabir"
+
+msgid "filter_type_3"
+msgstr "Višestruki odabir"
+
+msgid "filter_type_info"
+msgstr "Odaberite tip filtra za polje."
+
+msgid "identifier"
+msgstr "Identifikator"
+
+msgid "msg_confirm_delete_filter"
+msgstr "Želite zaista izbrisati sljedeći filtar?"
+
+#, fuzzy
+msgid "msg_filter_info"
+msgstr "Create a filter here that can be used in the \"Contents\" tab to limit the display of entries."
+
+msgid "news_title_created"
+msgstr "Dodan je novi popis bibliografije"
+
+msgid "news_title_updated"
+msgstr "Popis bibliografije ažuriran"
+
+#, fuzzy
+msgid "not_yet_migrated"
+msgstr "This Object has not et been migrated. Please contact the administrators of the platform."
+
+msgid "obj_bibl_duplicate"
+msgstr "Duopliciraj popis bibliografije"
+
+msgid "order"
+msgstr "Razvrstavanje"
+
+msgid "override_entries"
+msgstr "Poništi unose"
+
+#, fuzzy
+msgid "replace_bibliography_file"
+msgstr "Replace Bibliography File"
+
+#, fuzzy
+msgid "replace_bibliography_file_info"
+msgstr "The current bibliography file will be replaced by the new file. All existing entries from the current file will be deleted."
+
+msgid "ris"
+msgstr "Ris"
+
+msgid "ris_default_a2"
+msgstr "Drugi autor"
+
+msgid "ris_default_au"
+msgstr "Autor"
+
+msgid "ris_default_cy"
+msgstr "Mjesto izdavanja"
+
+msgid "ris_default_ep"
+msgstr "posljednja stranica"
+
+msgid "ris_default_id"
+msgstr "Referentni ID"
+
+msgid "ris_default_ja"
+msgstr "Časopis u kojem je članak objavljen"
+
+msgid "ris_default_kw"
+msgstr "Natuknice"
+
+msgid "ris_default_l3"
+msgstr "Slični podatkovni slogovi"
+
+msgid "ris_default_m1"
+msgstr "Broj"
+
+msgid "ris_default_m3"
+msgstr "Razno 3"
+
+msgid "ris_default_n1"
+msgstr "Bilješke"
+
+msgid "ris_default_n2"
+msgstr "Sažetak"
+
+msgid "ris_default_pb"
+msgstr "Izdavač"
+
+msgid "ris_default_py"
+msgstr "Godina izdavanja"
+
+msgid "ris_default_sn"
+msgstr "ISSN/ISBN/ASIN"
+
+msgid "ris_default_t1"
+msgstr "Primarni naslov"
+
+msgid "ris_default_t2"
+msgstr "Sekundarni naslov"
+
+msgid "ris_default_t3"
+msgstr "Tercijarni naslov"
+
+msgid "ris_default_ti"
+msgstr "Naslov knjige"
+
+msgid "ris_default_ty"
+msgstr "Tip"
+
+msgid "ris_default_u2"
+msgstr "Definiran od korisnika"
+
+msgid "ris_default_ur"
+msgstr "URL"
+
+msgid "ris_default_vl"
+msgstr "Svezak"
+
+msgid "ris_default_y1"
+msgstr "Godina"
+
+#, fuzzy
+msgid "sorting_1"
+msgstr "By Title (Ascending)"
+
+#, fuzzy
+msgid "sorting_2"
+msgstr "By Title (Descending)"
+
+#, fuzzy
+msgid "sorting_3"
+msgstr "By Author (Ascending)"
+
+#, fuzzy
+msgid "sorting_4"
+msgstr "By Author (Descending)"
+
+#, fuzzy
+msgid "sorting_5"
+msgstr "By Year (Ascending)"
+
+#, fuzzy
+msgid "sorting_6"
+msgstr "By Year (Descending)"
+
+msgid "standard"
+msgstr "Standardno"
+
+msgid "translate"
+msgstr "Prevedi"

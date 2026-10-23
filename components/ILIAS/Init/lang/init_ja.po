@@ -1,0 +1,21 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: init\n"
+
+msgid "init_error_authentication_fail"
+msgstr "認証に失敗しました。"
+
+msgid "init_error_maintenance"
+msgstr "メンテナンスのためサーバは利用できません。ご迷惑おかけして申し訳ありません。"
+
+msgid "init_error_redirect_click"
+msgstr "継続するにはクリックしてください"
+
+msgid "init_error_redirect_info"
+msgstr "コンテキストでのリダイレクトはサポートされていません。"

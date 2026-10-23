@@ -1,0 +1,180 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: buddysystem\n"
+
+msgid "buddy_allow_to_contact_me"
+msgstr "Permitir solicitudes de contacto"
+
+msgid "buddy_allow_to_contact_me_default_info"
+msgstr "Defines if users can send each other requests for getting into contact by default."
+
+msgid "buddy_allow_to_contact_me_info"
+msgstr "Otros usuarios pueden enviarme solicitudes para ponerse en contacto."
+
+msgid "buddy_bs_act_btn_txt_ignored_request_to_linked"
+msgstr "Confirmar solicitud"
+
+msgid "buddy_bs_act_btn_txt_ignored_request_to_unlinked"
+msgstr "Cancelar solicitud"
+
+msgid "buddy_bs_act_btn_txt_linked_to_unlinked"
+msgstr "Desvincular"
+
+msgid "buddy_bs_act_btn_txt_requested_to_ignored_request"
+msgstr "Ignorar contacto"
+
+msgid "buddy_bs_act_btn_txt_requested_to_linked"
+msgstr "Confirmar contacto"
+
+msgid "buddy_bs_act_btn_txt_requested_to_unlinked"
+msgstr "Cancelar solicitud"
+
+msgid "buddy_bs_action_already_ignored"
+msgstr "Acción no posible. Ya ha ignorado al usuario '%s'."
+
+msgid "buddy_bs_action_already_linked"
+msgstr "Acción no posible. Ya ha aceptado la solicitud de contacto del usuario '%s'."
+
+msgid "buddy_bs_action_already_requested"
+msgstr "Acción no posible. Ya ha enviado una solicitud al usuario '%s'."
+
+msgid "buddy_bs_action_already_unlinked"
+msgstr "Acción no posible. El estado de contacto para el usuario '%s' ya es desvinculado."
+
+msgid "buddy_bs_action_not_possible"
+msgstr "Acción no posible"
+
+msgid "buddy_bs_btn_txt_ignored_request_a"
+msgstr "Contacto solicitado"
+
+msgid "buddy_bs_btn_txt_ignored_request_p"
+msgstr "Solicitud ignorada"
+
+msgid "buddy_bs_btn_txt_linked_a"
+msgstr "Vinculado"
+
+msgid "buddy_bs_btn_txt_linked_p"
+msgstr "Vinculado"
+
+msgid "buddy_bs_btn_txt_requested_a"
+msgstr "Contacto solicitado"
+
+msgid "buddy_bs_btn_txt_requested_p"
+msgstr "Solicitud"
+
+msgid "buddy_bs_btn_txt_unlinked_a"
+msgstr "Solicitar contacto"
+
+msgid "buddy_bs_state_ignored_request_a"
+msgstr "Solicitado"
+
+msgid "buddy_bs_state_ignored_request_p"
+msgstr "Ignorado"
+
+msgid "buddy_bs_state_ignoredrequest"
+msgstr "Ignorado"
+
+msgid "buddy_bs_state_linked"
+msgstr "Vinculado"
+
+msgid "buddy_bs_state_linked_a"
+msgstr "Vinculado"
+
+msgid "buddy_bs_state_linked_p"
+msgstr "Vinculado"
+
+msgid "buddy_bs_state_requested"
+msgstr "Solicitado"
+
+msgid "buddy_bs_state_requested_a"
+msgstr "Solicitado"
+
+msgid "buddy_bs_state_requested_filter_a"
+msgstr "Esperando reacción"
+
+msgid "buddy_bs_state_requested_filter_p"
+msgstr "Acción requerida"
+
+msgid "buddy_bs_state_requested_p"
+msgstr "Solicitado"
+
+msgid "buddy_bs_state_unlinked"
+msgstr "Desvinculado"
+
+msgid "buddy_bs_state_unlinked_a"
+msgstr "Desvinculado"
+
+msgid "buddy_bs_state_unlinked_p"
+msgstr "Desvinculado"
+
+msgid "buddy_confirm_unlink"
+msgstr "¿Realmente deseas desconectarte de este contacto?"
+
+msgid "buddy_enable"
+msgstr "Activar ‘Contactos’"
+
+msgid "buddy_enable_info"
+msgstr "Si se habilita, los usuarios podrán contactar entre sí iniciando solicitudes de contacto. Además, existe un ajuste personal de usuario para permitir o impedir ser contactado."
+
+msgid "buddy_handle_contact_request"
+msgstr "Solicitud de contacto"
+
+msgid "buddy_noti_cr_profile_not_published"
+msgstr "Perfil no publicado"
+
+msgid "buddy_notification_contact_request"
+msgstr "Solicitud de contacto"
+
+msgid "buddy_notification_contact_request_ignore"
+msgstr "Ignorar solicitud"
+
+msgid "buddy_notification_contact_request_ignore_osd"
+msgstr "Ignorar solicitud"
+
+msgid "buddy_notification_contact_request_link"
+msgstr "Aprobar solicitud"
+
+msgid "buddy_notification_contact_request_link_osd"
+msgstr "Aprobar solicitud"
+
+msgid "buddy_notification_contact_request_long"
+msgstr "¡Hola, [SALUTATION]![BR][BR]\"[REQUESTING_USER]\" desea añadirte a su lista de amigos.[BR][BR]Enlace al perfil personal: [PERSONAL_PROFILE_LINK][BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]"
+
+msgid "buddy_notification_contact_request_short"
+msgstr "El usuario \"[REQUESTING_USER]\" desea añadirte a su lista de amigos."
+
+msgid "buddy_relation_requested"
+msgstr "Se ha enviado una solicitud al usuario."
+
+msgid "buddy_request_approved"
+msgstr "Has aprobado el contacto correctamente."
+
+msgid "buddy_request_ignored"
+msgstr "Has ignorado al usuario."
+
+msgid "buddy_tbl_filter_state"
+msgstr "Estado"
+
+msgid "buddy_tbl_state_actions_col_label"
+msgstr "Estado / Acción"
+
+msgid "buddy_tbl_title_relations"
+msgstr "Relaciones con otros usuarios"
+
+msgid "buddy_use_osd"
+msgstr "Ventanas emergentes de solicitudes de contacto"
+
+msgid "buddy_use_osd_info"
+msgstr "Muestra una ventana emergente para indicar que un usuario desea añadirte a su lista de amigos."
+
+msgid "buddy_view_gallery"
+msgstr "Galería"
+
+msgid "buddy_view_table"
+msgstr "Lista"

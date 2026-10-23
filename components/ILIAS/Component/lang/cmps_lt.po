@@ -1,0 +1,261 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: lt\n"
+"Language-Team: Lithuanian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && (n % 100 < 11 || n % 100 > 19)) ? 0 : ((n % 10 >= 2 && n % 10 <= 9 && (n % 100 < 11 || n % 100 > 19)) ? 1 : 2);\n"
+"X-Domain: cmps\n"
+
+msgid "cmps_activate"
+msgstr "Aktyvuoti"
+
+msgid "cmps_active"
+msgstr "Aktyvu"
+
+#, fuzzy
+msgid "cmps_add_new_rank"
+msgstr "Position in Add-New-Object List"
+
+msgid "cmps_available"
+msgstr "Pasiekiama"
+
+#, fuzzy
+msgid "cmps_available_version"
+msgstr "Available Version"
+
+msgid "cmps_basic_files"
+msgstr "Pagrindiniai Failai"
+
+msgid "cmps_class_file"
+msgstr "Klasės Failas"
+
+msgid "cmps_component"
+msgstr "Komponentas"
+
+#, fuzzy
+msgid "cmps_configure"
+msgstr "Configure"
+
+#, fuzzy
+msgid "cmps_current_db_version"
+msgstr "Current DB-Version"
+
+msgid "cmps_current_version"
+msgstr "Versija"
+
+msgid "cmps_database"
+msgstr "Duombazė"
+
+msgid "cmps_db_update"
+msgstr "DB Atnaujinimo Skriptas"
+
+msgid "cmps_deactivate"
+msgstr "Išjungti"
+
+#, fuzzy
+msgid "cmps_detailed_information"
+msgstr "Detailed Informationen"
+
+msgid "cmps_dir"
+msgstr "Katalogas"
+
+#, fuzzy
+msgid "cmps_disable_creation"
+msgstr "Disable Creation"
+
+#, fuzzy
+msgid "cmps_enable_creation"
+msgstr "Enable Creation"
+
+msgid "cmps_file_version"
+msgstr "Atnaujinti Failo Versiją"
+
+msgid "cmps_group"
+msgstr "Grupė"
+
+msgid "cmps_id"
+msgstr "ID"
+
+msgid "cmps_ilias_max_version"
+msgstr "Maks. ILIAS Versija"
+
+msgid "cmps_ilias_min_version"
+msgstr "Min. ILIAS Versija"
+
+msgid "cmps_inactive"
+msgstr "Neaktyvu"
+
+#, fuzzy
+msgid "cmps_install"
+msgstr "Install"
+
+#, fuzzy
+msgid "cmps_is_active"
+msgstr "Activated"
+
+#, fuzzy
+msgid "cmps_is_installed"
+msgstr "Installed"
+
+msgid "cmps_lang_files"
+msgstr "Kalbos Failai"
+
+msgid "cmps_lang_prefix"
+msgstr "Kalbos Kintamųjų Priešdėliai"
+
+msgid "cmps_languages"
+msgstr "Kalbos"
+
+msgid "cmps_main_dir"
+msgstr "Pagrindinis Katalogas"
+
+msgid "cmps_missing"
+msgstr "Trūksta"
+
+msgid "cmps_module"
+msgstr "Modulis"
+
+#, fuzzy
+msgid "cmps_must_installed"
+msgstr "The component must be installed."
+
+msgid "cmps_name"
+msgstr "Pavadinimas"
+
+#, fuzzy
+msgid "cmps_needs_matching_ilias_version"
+msgstr "This plugin does not work with your current ILIAS version."
+
+msgid "cmps_needs_newer_ilias_version"
+msgstr "Šis įskiepis veikia tik naujesnėje ILIAS versijoje. Atnaujinkite ILIAS."
+
+msgid "cmps_needs_newer_plugin_version"
+msgstr "Šiai ILIAS versijai reikia naujesnio įskiepio. Atnaujinkite įskiepį."
+
+msgid "cmps_needs_update"
+msgstr "Reikia atnaujinti"
+
+msgid "cmps_needs_upgrade"
+msgstr "Dabar diegiamas įskiepis yra senesnis už jau įdiegtą. Atnaujinkite įskiepį."
+
+msgid "cmps_no_db_update_file_available"
+msgstr "Nėra DB atnaujinimo skripto"
+
+msgid "cmps_no_language_file_available"
+msgstr "Nėra kalbos failo"
+
+msgid "cmps_plugin"
+msgstr "Įskiepis"
+
+#, fuzzy
+msgid "cmps_plugin_activated"
+msgstr "The plugin has been activated."
+
+msgid "cmps_plugin_db_prefixes"
+msgstr "DB Lentelės Priešdėliai"
+
+#, fuzzy
+msgid "cmps_plugin_deactivated"
+msgstr "The plugin has been deactivated."
+
+#, fuzzy
+msgid "cmps_plugin_deinstalled"
+msgstr "The plugin has been uninstalled"
+
+msgid "cmps_plugin_file"
+msgstr "Įskiepio Failas"
+
+msgid "cmps_plugin_lang_prefixes"
+msgstr "Įskiepių Kalbos Priešdėliai"
+
+msgid "cmps_plugin_slot"
+msgstr "Įskiepio Vieta"
+
+#, fuzzy
+msgid "cmps_plugin_uninstalled"
+msgstr "The plugin has been uninstalled."
+
+#, fuzzy
+msgid "cmps_plugin_updated"
+msgstr "The plugin has been updated"
+
+msgid "cmps_plugins"
+msgstr "Įskiepiai"
+
+msgid "cmps_refresh"
+msgstr "Atnaujinti"
+
+#, fuzzy
+msgid "cmps_refresh_lng"
+msgstr "Refresh language"
+
+msgid "cmps_rep_object"
+msgstr "Saugyklos Objekto Tipas"
+
+#, fuzzy
+msgid "cmps_repository_object_types"
+msgstr "Repository Object Types"
+
+#, fuzzy
+msgid "cmps_responsible"
+msgstr "Responsible"
+
+#, fuzzy
+msgid "cmps_responsible_mail"
+msgstr "Mail (Responsible)"
+
+msgid "cmps_save_options"
+msgstr "Išsaugoti Nustatymus"
+
+msgid "cmps_service"
+msgstr "Tarnyba"
+
+msgid "cmps_show_details"
+msgstr "Rodyti Detales"
+
+#, fuzzy
+msgid "cmps_slots"
+msgstr "Slots"
+
+msgid "cmps_status"
+msgstr "Statusas"
+
+#, fuzzy
+msgid "cmps_supports_cli_setup"
+msgstr "Supports CLI-Setup"
+
+#, fuzzy
+msgid "cmps_supports_export"
+msgstr "Supports export"
+
+#, fuzzy
+msgid "cmps_supports_learning_progress"
+msgstr "Supports learning progress"
+
+#, fuzzy
+msgid "cmps_uninstall"
+msgstr "Uninstall"
+
+#, fuzzy
+msgid "cmps_uninstall_confirm"
+msgstr "Are you sure you want to uninstall the plugin \"%s\"?"
+
+#, fuzzy
+msgid "cmps_uninstall_inactive_confirm"
+msgstr "The plugin \"%1$s\" can currently not be activated (\"%2$s\"). In this state plugins cannot be uninstalled completely. As only the core integration is reverted, plugin custom data may remain. Would you like to continue with the partial uninstall?"
+
+msgid "cmps_update"
+msgstr "Naujinti"
+
+msgid "cmps_version"
+msgstr "Versija"
+
+#, fuzzy
+msgid "database_is_uptodate"
+msgstr "Die Datenbank ist aktuell."
+
+#, fuzzy
+msgid "no_changes"
+msgstr "Keine Änderungen"

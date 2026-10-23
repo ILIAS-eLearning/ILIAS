@@ -1,0 +1,321 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: prtf\n"
+
+msgid "pdf_export"
+msgstr "PDF Export"
+
+msgid "prtf_add_assignment"
+msgstr "Zuordnung hinzufügen"
+
+msgid "prtf_add_page"
+msgstr "Seite hinzufügen"
+
+msgid "prtf_add_portfolio"
+msgstr "Portfolio hinzufügen"
+
+msgid "prtf_add_portfolio_from_template"
+msgstr "Portfolio aus Vorlage hinzufügen"
+
+msgid "prtf_all_pages"
+msgstr "Gesamtes Portfolio"
+
+msgid "prtf_allow_html"
+msgstr "HTML/Javascript erlauben"
+
+msgid "prtf_allow_html_info"
+msgstr "Benutzer können HTML oder Javascript in Ihren Portfolio-Seiten verwenden. Dies kann zu Sicherheitsproblemen führen."
+
+msgid "prtf_allow_my_courses"
+msgstr "Seitenelement \"Meine Kurse\""
+
+msgid "prtf_allow_my_courses_info"
+msgstr "Ermöglicht eine Liste der aktuellen Kursmitgliedschaften in ein Portfolio aufzunehmen."
+
+msgid "prtf_author"
+msgstr "Erstellt von"
+
+msgid "prtf_back_to_portfolio_owner"
+msgstr "Portfolio bearbeiten"
+
+msgid "prtf_blog_page_created"
+msgstr "Blog wurde hinzugefügt."
+
+msgid "prtf_copy_blog_pg"
+msgstr "Blogseite kopieren"
+
+msgid "prtf_copy_page"
+msgstr "Portfolio-Seite(n) kopieren"
+
+msgid "prtf_copy_pg"
+msgstr "Seite kopieren"
+
+msgid "prtf_copy_tab"
+msgstr "Reiter kopieren"
+
+msgid "prtf_create_portfolio"
+msgstr "Portfolio hinzufügen"
+
+msgid "prtf_create_template_from_portfolio"
+msgstr "Portfolio"
+
+msgid "prtf_create_template_from_portfolio_info"
+msgstr "Wählen Sie ein Portfolio, um dessen Inhalte und Einstellungen für die Vorlage zu übernehmen."
+
+msgid "prtf_creation_mode"
+msgstr "Neues Portfolio"
+
+msgid "prtf_creation_mode_scratch"
+msgstr "Ohne Portfoliovorlage erstellen"
+
+msgid "prtf_creation_mode_template"
+msgstr "Aus einer Portfoliovorlage erstellen"
+
+msgid "prtf_date_of_print"
+msgstr "Datum des Ausdrucks"
+
+msgid "prtf_decl_authorship"
+msgstr "Selbstständigkeitserklärung"
+
+msgid "prtf_default_portfolio"
+msgstr "Mein Profil"
+
+msgid "prtf_delete_assignment"
+msgstr "Zuordnungen löschen"
+
+msgid "prtf_delete_assignment_sure"
+msgstr "Wollen Sie wirklich die folgende(n) Zuordnung(en) löschen?"
+
+msgid "prtf_download_submission"
+msgstr "Kopie der Abgabe herunterladen"
+
+msgid "prtf_edit_content"
+msgstr "Inhalt bearbeiten"
+
+msgid "prtf_edit_data"
+msgstr "Felder ausfüllen"
+
+msgid "prtf_edit_embedded_blog"
+msgstr "Blog „%s“ bearbeiten"
+
+msgid "prtf_edit_portfolio"
+msgstr "Portfolio bearbeiten"
+
+msgid "prtf_edit_title"
+msgstr "Seitentitel bearbeiten"
+
+msgid "prtf_exercise_info"
+msgstr "Dieses Portfolio ist der Übungseinheit „%s“ der Übung „%s“ zugeordnet."
+
+msgid "prtf_exercise_submitted_info"
+msgstr "Sie haben Ihr Portfolio am %s eingereicht. Wenn Sie möchten, speichern Sie sich eine Kopie für Ihre persönliche Ablage."
+
+msgid "prtf_existing_portfolio"
+msgstr "Vorhandenes Portfolio"
+
+msgid "prtf_finalize_portfolio"
+msgstr "Portfolio abschließen und abgeben"
+
+msgid "prtf_finalized"
+msgstr "Das Portfolio wurde abgegeben."
+
+msgid "prtf_first_page_title"
+msgstr "Beginnt mit:"
+
+msgid "prtf_has_been_set_online"
+msgstr "Das Portfolio wurde online gesetzt."
+
+msgid "prtf_link"
+msgstr "Link"
+
+msgid "prtf_manage_portfolios"
+msgstr "Portfolios verwalten"
+
+msgid "prtf_new_portfolio"
+msgstr "Neues Portfolio"
+
+msgid "prtf_no_blogs_info"
+msgstr "Wenn Sie im Bereich „%s“ einen Blog anlegen, können Sie dieses auch als Teil Ihres Portfolios verwenden."
+
+msgid "prtf_no_offline_share_info"
+msgstr "Das Portfolio muss zunächst online gesetzt werden, bevor es für bestimmte Benutzer freigegeben werden kann."
+
+msgid "prtf_no_submission"
+msgstr "Keine Abgabe"
+
+msgid "prtf_page_created"
+msgstr "Seite wurde hinzugefügt"
+
+msgid "prtf_page_element_my_courses_info"
+msgstr "Dies ist eine Liste aller Kurse, in denen ich Mitglied bin und die aktuell online sind."
+
+msgid "prtf_page_element_my_courses_title"
+msgstr "Kurs-Mitgliedschaften"
+
+msgid "prtf_page_element_teaser_blog_template"
+msgstr "Innerhalb des Portfolios erscheint an dieser Stelle ein Blog aus Ihren persönlichen Ressourcen."
+
+msgid "prtf_page_element_teaser_consultation_hours"
+msgstr "Innerhalb des Portfolios erscheint an dieser Stelle ein Kalender Ihrer Sprechstunden."
+
+msgid "prtf_page_element_teaser_my_courses"
+msgstr "Innerhalb des Portfolios erscheint an dieser Stelle eine Liste Ihrer Kurse."
+
+msgid "prtf_page_element_teaser_settings"
+msgstr "Einstellungen"
+
+msgid "prtf_page_element_teaser_skills"
+msgstr "Innerhalb des Portfolios erscheint an dieser Stelle Ihre Kompetenzstufe."
+
+msgid "prtf_page_type_prtf"
+msgstr "Portfolioseite"
+
+msgid "prtf_page_type_prtt"
+msgstr "Portfoliovorlagenseite"
+
+msgid "prtf_pages_copied"
+msgstr "Die Seiten wurden kopiert."
+
+msgid "prtf_pdf"
+msgstr "Exportieren als PDF"
+
+msgid "prtf_permanent_link"
+msgstr "Link zum Portfolio:"
+
+msgid "prtf_portfolio_created"
+msgstr "Portfolio wurde hinzugefügt"
+
+msgid "prtf_portfolio_created_from_template"
+msgstr "Dies ist die Vorschau Ihres neuen Portfolios. Um neue Inhalte und Seiten hinzuzufügen, klicken Sie in dieser Ansicht bitte auf \"Portfolio bearbeiten\" oder \"Seite bearbeiten\"."
+
+msgid "prtf_portfolio_deleted"
+msgstr "Portfolio wurde gelöscht"
+
+msgid "prtf_portfolio_page_deleted"
+msgstr "Portfolio- bzw. Blog-Seite wurde gelöscht."
+
+msgid "prtf_portfolios"
+msgstr "Portfolios"
+
+msgid "prtf_print_options"
+msgstr "Auswahl zum PDF"
+
+msgid "prtf_print_selection"
+msgstr "Auswahl"
+
+msgid "prtf_profile_picture"
+msgstr "Profil-Bild anzeigen"
+
+msgid "prtf_properties"
+msgstr "Portfolio-Eigenschaften"
+
+msgid "prtf_public_comments"
+msgstr "Öffentliche Kommentare"
+
+msgid "prtf_role_assignment"
+msgstr "Rollenzuordnung"
+
+msgid "prtf_role_title"
+msgstr "Rolle"
+
+msgid "prtf_save_status_and_titles"
+msgstr "Status und Titel speichern"
+
+msgid "prtf_sec_protected_info"
+msgstr "Geschützte Blöcke können im Portfolio nicht bearbeitet werden."
+
+msgid "prtf_selected_pages"
+msgstr "Ausgewählte Teile des Portfolios"
+
+msgid "prtf_set_default_publish_global"
+msgstr "Auch für unregistrierte Benutzer freigeben"
+
+msgid "prtf_set_default_publish_registered"
+msgstr "Nur für registrierte Nutzer freigeben"
+
+msgid "prtf_set_offline"
+msgstr "Offline setzen"
+
+msgid "prtf_set_online"
+msgstr "Online setzen"
+
+msgid "prtf_settings"
+msgstr "Portfolio Administration"
+
+msgid "prtf_shared_offline_info"
+msgstr "Ein Portfolio muss online sein, um für freigebene Nutzer verfügbar zu sein."
+
+msgid "prtf_signature"
+msgstr "Feld für Unterschrift"
+
+msgid "prtf_signature_date"
+msgstr "Datum, Unterschrift"
+
+msgid "prtf_signature_info"
+msgstr "Das PDF enthält ein Feld, in welchem die Benutzer unterschreiben können."
+
+msgid "prtf_style"
+msgstr "Portfolio-Style"
+
+msgid "prtf_submission_on"
+msgstr "Abgabe am $1"
+
+msgid "prtf_successfully_shared_prtf"
+msgstr "Bestätigung der Freigabe Ihres Portfolios „%s“"
+
+msgid "prtf_successfully_shared_prtf_body"
+msgstr "Sie haben Ihr Portfolio „%s“ erfolgreich freigegeben für:"
+
+msgid "prtf_sure_delete_portfolio_pages"
+msgstr "Wollen Sie die folgende Portfolio- bzw. Blog-Seite wirklich löschen?"
+
+msgid "prtf_sure_delete_portfolios"
+msgstr "Wollen Sie das folgende Portfolio wirklich löschen?"
+
+msgid "prtf_tab_other_users"
+msgstr "Portfolios anderer Benutzer"
+
+msgid "prtf_tab_portfolios"
+msgstr "Meine Portfolios"
+
+msgid "prtf_table_of_contents"
+msgstr "Inhaltsverzeichnis"
+
+msgid "prtf_template_editor_placeholder_info"
+msgstr "Dieser Platzhalter wird im Portfolio ersetzt."
+
+msgid "prtf_template_import_blog_create"
+msgstr "Neues Blog erstellen"
+
+msgid "prtf_template_import_blog_ignore"
+msgstr "Blog-Seite entfernen"
+
+msgid "prtf_template_import_blog_reuse"
+msgstr "Bestehendes Blog nutzen"
+
+msgid "prtf_template_import_new_skills"
+msgstr "Wenn aktiviert, werden diese Kompetenzen zu Ihren persönlichen Kompetenzen hinzugefügt."
+
+msgid "prtf_template_title"
+msgstr "Portfoliovorlage"
+
+msgid "prtf_unset_as_default"
+msgstr "Nicht als Mein Profil verwenden"
+
+msgid "prtf_unset_default_share_info"
+msgstr "Die Änderungen wurden gespeichert. Bitte überprüfen Sie die aktuellen Freigaben für das Portfolio."
+
+msgid "prtf_use_page_layout"
+msgstr "Seitenlayout benutzen"
+
+msgid "prtf_visible_for_tutor"
+msgstr "Einsehbar für Übungsleitung"
+
+msgid "prtt_title_info"
+msgstr "Bitte beachten Sie, dass dieser Titel auch für die aus der Vorlage erstellten Portfolios verwendet wird."

@@ -1,0 +1,154 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: didactic\n"
+
+msgid "activate_exclusive_template"
+msgstr "Grigio predefinito"
+
+msgid "activate_exclusive_template_info"
+msgstr "Questo modello standard non sarà disponibile dove è attivo questo modello."
+
+msgid "activate_local_didactic_template"
+msgstr "Ambito di applicazione"
+
+msgid "activate_local_didactic_template_info"
+msgstr "L’utilizzo di questo modello didattico sarà limitato a queste sottozone."
+
+msgid "didactic_activated_msg"
+msgstr "I modelli didattici selezionati sono stati attivati"
+
+msgid "didactic_adm_tab"
+msgstr "Modelli didattici"
+
+msgid "didactic_applicable_for"
+msgstr "Applicabile per"
+
+msgid "didactic_auto_generated"
+msgstr "Generato automaticamente"
+
+msgid "didactic_available_templates"
+msgstr "Modelli didattici disponibili"
+
+msgid "didactic_back_to_overview"
+msgstr "Torna al sommario"
+
+msgid "didactic_cannot_delete_auto_generated"
+msgstr "Non è consentito eliminare i modelli didattici generati automaticamente."
+
+msgid "didactic_cannot_delete_auto_generated_confirmation"
+msgstr "Almeno uno dei modelli didattici selezionati è generato automaticamente e non può essere eliminato."
+
+msgid "didactic_confirm_apply_new_template"
+msgstr "Vuoi davvero applicare il modello didattico scelto? Tutte le impostazioni di autorizzazione corrente andranno perse!"
+
+msgid "didactic_confirm_delete_msg"
+msgstr "Vuoi davvero eliminare i seguenti modelli didattici?"
+
+msgid "didactic_copy_suc_message"
+msgstr "Modelli didattici copiati"
+
+msgid "didactic_deactivated_msg"
+msgstr "Modelli didattici disattivati"
+
+msgid "didactic_default_type"
+msgstr "Impostazione predefinita"
+
+msgid "didactic_default_type_info"
+msgstr "Utilizza le autorizzazioni predefinite per %s"
+
+msgid "didactic_delete_msg"
+msgstr "Modelli didattici eliminati."
+
+msgid "didactic_do_export"
+msgstr "Esporta"
+
+msgid "didactic_edit_tpl"
+msgstr "Modifica modelli didattici"
+
+msgid "didactic_filter_with_icon"
+msgstr "Con icona"
+
+msgid "didactic_filter_without_icon"
+msgstr "Senza icona"
+
+msgid "didactic_global"
+msgstr "Globale"
+
+msgid "didactic_icon"
+msgstr "Icona"
+
+msgid "didactic_icon_error"
+msgstr "Le icone non possono essere assegnate a oggetti non contenitori."
+
+msgid "didactic_icon_info"
+msgstr "L'icona viene mostrata per tutti gli oggetti che utilizzano questo modello di oggetto. Le \"icone personalizzate\" degli oggetti sovrascrivono le icone dei modelli didattici. Le icone possono essere utilizzate solo per modelli didattici assegnati a oggetti contenitore."
+
+msgid "didactic_import_btn"
+msgstr "Importa modelli didattici"
+
+msgid "didactic_import_failed"
+msgstr "L'importazione del modello didattico non è riuscita:"
+
+msgid "didactic_import_success"
+msgstr "Modello didattico importato correttamente"
+
+msgid "didactic_import_table_title"
+msgstr "Importazione di un modello didattico"
+
+msgid "didactic_install_info"
+msgstr "Informazioni generali"
+
+msgid "didactic_local"
+msgstr "Locale"
+
+msgid "didactic_not_changed"
+msgstr "L'impostazione del modello didattico è invariata."
+
+msgid "didactic_scope"
+msgstr "Ambito"
+
+msgid "didactic_scope_list_header"
+msgstr "Limitato a:"
+
+msgid "didactic_selected_tpl_option"
+msgstr "Modelli didattici applicati:"
+
+msgid "didactic_template_applied"
+msgstr "Modelli didattici applicati."
+
+msgid "didactic_template_update_import"
+msgstr "Aggiorna modelli didattici"
+
+msgid "didactic_template_update_import_info"
+msgstr "Le proprietà verranno modificate in base a questa importazione. Gli oggetti che hanno già applicato questo modello non verranno modificati."
+
+#, fuzzy
+msgid "didactic_translation_add_languages"
+msgstr "Add Languages"
+
+msgid "dtpl_obj_type_info"
+msgstr "Questo modello didattico può essere applicato a questo tipo di oggetto."
+
+msgid "effective_form"
+msgstr "Modello efficace da"
+
+msgid "grp_closed"
+msgstr "Gruppo Chiuso"
+
+msgid "grp_closed_info"
+msgstr "Il gruppo non è visibile ai non iscritti."
+
+msgid "more_translations"
+msgstr "Ulteriori traduzioni"
+
+msgid "sess_closed"
+msgstr "Sessione chiusa"
+
+msgid "sess_closed_info"
+msgstr "La sessione non è visibile per i non-partecipanti."

@@ -1,0 +1,61 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fa\n"
+"Language-Team: Persian (Farsi)\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Domain: chatroom_adm\n"
+
+msgid "chat_cannot_connect_to_server"
+msgstr "ILIAS cannot build a socket connection to the chatserver."
+
+msgid "chat_enabled"
+msgstr "فعال کردن چت"
+
+msgid "chatserver_settings_title"
+msgstr "تنظیمات سرور چت"
+
+msgid "client_settings"
+msgstr "تنظیمات کلاینت"
+
+msgid "general_settings_title"
+msgstr "تنظیمات کلی چت"
+
+msgid "https"
+msgstr "HTTPS"
+
+#, fuzzy
+msgid "osc_adm_browser_noti_info"
+msgstr "If enabled, users may individually decide whether or not they want to receive browser notifications for new conversations and messages. Notifications are triggered if the user works in different browser tabs or the browser is hidden and ILIAS was put into the background. Users will also receive browser notifications after a certain idle time in a conversation if ILIAS is in the foreground."
+
+#, fuzzy
+msgid "osc_adm_browser_noti_label"
+msgstr "Browser Notifications"
+
+#, fuzzy
+msgid "osc_adm_conv_idle_state_threshold_info"
+msgstr "Cut off notifications by given a minimum interval at which browser notifications are triggered for incoming chat messages.."
+
+#, fuzzy
+msgid "osc_adm_conv_idle_state_threshold_label"
+msgstr "Time between Browser Notifications"
+
+msgid "port_info"
+msgstr "سعی کنید که پورت معروف و رایجی انتخاب کنید."
+
+msgid "protocol"
+msgstr "پروتکل"
+
+msgid "public_chat_permissions"
+msgstr "مجوزهای اتاق های چت عمومی"
+
+msgid "public_chat_settings"
+msgstr "تنظیمات اتاق های چت عمومی"
+
+msgid "server_settings"
+msgstr "تنظیمات سرور"
+
+msgid "settings_has_been_saved"
+msgstr "Settings has been saved"

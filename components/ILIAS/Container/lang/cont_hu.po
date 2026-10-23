@@ -1,0 +1,249 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: cont\n"
+
+msgid "cont_add_global_profile"
+msgstr "Globális profil hozzáadása"
+
+msgid "cont_add_local_profile"
+msgstr "Helyi profil hozzáadása"
+
+msgid "cont_add_skill"
+msgstr "Kompetencia hozzáadása"
+
+msgid "cont_assign_competence"
+msgstr "Kompetenciák tagokhoz rendelése"
+
+msgid "cont_assign_skills"
+msgstr "Kompetenciák hozzárendelése"
+
+msgid "cont_block_limit"
+msgstr "Objektumok számának korlátozás blokkonként"
+
+msgid "cont_block_limit_info"
+msgstr "Amennyiben a blokk több objektumot tartalmaz, egy ‘Több megjelenítése’ gomb fog megjelenni."
+
+msgid "cont_cont_skills"
+msgstr "Tagokhoz rendelt kompetenciák"
+
+msgid "cont_deassign_competence"
+msgstr "Kompetenciák hozzárendeléseinek eltávolítása"
+
+msgid "cont_filter"
+msgstr "Szűrés"
+
+msgid "cont_filter_field"
+msgstr "Szűrő"
+
+msgid "cont_filter_fields"
+msgstr "Szűrőmezők"
+
+msgid "cont_filter_record"
+msgstr "Bejegyzések"
+
+msgid "cont_found_objects"
+msgstr "Talált objektumok"
+
+msgid "cont_item_list"
+msgstr "Felsorolás"
+
+msgid "cont_item_list_info"
+msgstr "Ebben a tárolóban lévő objektumok felsorolásban jelennek meg."
+
+msgid "cont_list_presentation"
+msgstr "Tartalom megjelenítési beállításai"
+
+msgid "cont_mem_skills"
+msgstr "Kompetenciák"
+
+msgid "cont_news_edited"
+msgstr "Módosította"
+
+msgid "cont_news_settings"
+msgstr "Hírek beállításai"
+
+msgid "cont_news_timeline"
+msgstr "Hírek idővonala"
+
+msgid "cont_news_timeline_auto_entries"
+msgstr "Automatikus bejegyzések is megjelenjenek"
+
+msgid "cont_news_timeline_auto_entries_info"
+msgstr "Összes automatikusan létrehozott hír is megjelenjen, mint például fórumhozzászólások, fájlok létrehozása."
+
+msgid "cont_news_timeline_info"
+msgstr "Hírek idővonal lapjának bekapcsolása"
+
+msgid "cont_news_timeline_landing_page"
+msgstr "Kezdőoldal"
+
+msgid "cont_news_timeline_landing_page_info"
+msgstr "Az Idővonal lap lesz a kezdőoldal."
+
+msgid "cont_news_timeline_tab"
+msgstr "Idővonal"
+
+msgid "cont_no_title"
+msgstr "Üres cím"
+
+msgid "cont_only_crs_grp_fold_download"
+msgstr "Csak kurzusok, csoportok, mappák vagy fájlok tölthetők le."
+
+msgid "cont_page_type_cont"
+msgstr "Tartalomtár oldal (kurzusok, csoportok, …)"
+
+msgid "cont_page_type_cstr"
+msgstr "Kurzus kezdő oldala (tanulási cél nézet)"
+
+msgid "cont_path"
+msgstr "Útvonal"
+
+msgid "cont_publish_assignment"
+msgstr "Összerendelések közzététele"
+
+msgid "cont_published"
+msgstr "Közzétéve"
+
+msgid "cont_really_deassign_skills"
+msgstr "Biztos, hogy eltávolítja a felhasználóktól a kompetenciákat?"
+
+msgid "cont_really_remove_skill_from_course"
+msgstr "Biztos, hogy eltávolítja ezeket a kompetenciákat a felsorolásból?"
+
+msgid "cont_select_fields"
+msgstr "Válasszon mezőket"
+
+msgid "cont_show_more"
+msgstr "Több megjelenítése"
+
+msgid "cont_skill"
+msgstr "Kompetencia"
+
+msgid "cont_skill_ass_profiles"
+msgstr "Tagokhoz rendelt profilok"
+
+msgid "cont_skill_assigned_comp"
+msgstr "Kompetencia kiválasztása"
+
+msgid "cont_skill_assigned_profiles"
+msgstr "Profil kiválasztása"
+
+msgid "cont_skill_deletion_not_possible"
+msgstr "Globális kompetenciaprofilok törlése nem lehetésges. Csak helyi kompetenciaprofilokat jelöljön ki."
+
+msgid "cont_skill_do_not_set"
+msgstr "Nem állít be"
+
+msgid "cont_skill_members"
+msgstr "Tagok"
+
+msgid "cont_skill_no_profile_selected"
+msgstr "Kérem, válasszon egy profilt."
+
+msgid "cont_skill_no_skill"
+msgstr "Nincs érték (alapértékre állítás)"
+
+msgid "cont_skill_no_skills_selected"
+msgstr "Egy kompetncia sincs még kiválasztva. Legalább egy kompetenciát adjon hozzá a \"Kompetencia kiválasztása\" alatt."
+
+msgid "cont_skill_profile"
+msgstr "Profil"
+
+msgid "cont_skill_profiles"
+msgstr "Tagok profiljai"
+
+msgid "cont_skill_publish"
+msgstr "Közzététel"
+
+msgid "cont_skill_publish_auto"
+msgstr "Automatikus"
+
+msgid "cont_skill_publish_auto_info"
+msgstr "A tagok azonnal láthatják a hozzájuk rendelt kompetenciákat."
+
+msgid "cont_skill_publish_manual"
+msgstr "Kézi"
+
+msgid "cont_skill_publish_manual_info"
+msgstr "A tagok csak publikálás után láthatják a hozzájuk rendelt kompetenciákat."
+
+msgid "cont_skill_really_delete_profile_from_list"
+msgstr "Biztos, hogy törli ezt a profilt?"
+
+msgid "cont_skill_really_delete_profiles_from_list"
+msgstr "Biztos, hogy törli ezeket a profilokat?"
+
+msgid "cont_skill_really_remove_profile_from_list"
+msgstr "Biztos, hogy eltávolítja ezt a profilt a felsorolásból?"
+
+msgid "cont_skill_really_remove_profiles_from_list"
+msgstr "Biztos, hogy eltávolítja ezeket a profilokat a felsorolásból?"
+
+msgid "cont_skill_records"
+msgstr "Kompetencia-bejegyzések"
+
+msgid "cont_skill_removal_not_possible"
+msgstr "Lokális kompetenciaprofilok eltávolítsa nem lehetséges. Csak globális kompetenciaprofilokat jelöljön ki."
+
+msgid "cont_std_filter_title_1"
+msgstr "Cím"
+
+msgid "cont_std_filter_title_2"
+msgstr "Leírás"
+
+msgid "cont_std_filter_title_3"
+msgstr "Cím/Leírás"
+
+msgid "cont_std_filter_title_4"
+msgstr "Kulcsszó"
+
+msgid "cont_std_filter_title_5"
+msgstr "Szerző"
+
+msgid "cont_std_filter_title_6"
+msgstr "Szerzői jog"
+
+msgid "cont_std_filter_title_7"
+msgstr "Oktatói támogatás"
+
+msgid "cont_std_filter_title_8"
+msgstr "Objektumtípus"
+
+msgid "cont_std_filter_title_9"
+msgstr "Online/Offline"
+
+msgid "cont_std_record_title"
+msgstr "Standard"
+
+msgid "cont_tile_size"
+msgstr "Csempeméret"
+
+msgid "cont_tile_size_0"
+msgstr "normal (1-4 csempe soronként)"
+
+msgid "cont_tile_size_1"
+msgstr "kicsi (1-6 csempe soronként)"
+
+msgid "cont_tile_size_2"
+msgstr "nagy (1-3 csempe soronként)"
+
+msgid "cont_tile_size_3"
+msgstr "extra nagy (1-2 csempe soronként)"
+
+msgid "cont_tile_size_4"
+msgstr "teljes (1 csempe soronként)"
+
+msgid "cont_tile_view"
+msgstr "Csempék"
+
+msgid "cont_tile_view_info"
+msgstr "Az ebben a tárolóban lévő objektumok megjelenítése mint miniatűrstílusú csempeként. Csempekép minden objektum saját beállításaiban tölthető fel."
+
+msgid "cont_trash_general_usage"
+msgstr "Ha nagy mennyiségű régi, törölt objektumot kíván eltávolítani a rendszerből, akkor erősen tanácsos a nem tároló típusú objektumokkal kezdeni (például fájlok, fogalomtárak, tesztek), azaz célszerű először minden objektumot eltávolítani a tárolókból (kategóriákból, kurzusokból, csoportokból, tanulási sorokból stb. ). A ‘Típus\" és a ‘Törlés helye’ szűrők használata segíti ezt a folyamatot. Végül távolítsa el a tárolókat."

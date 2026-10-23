@@ -1,0 +1,1001 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hr\n"
+"Language-Team: Croatian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: mail\n"
+
+msgid "back_to_folder"
+msgstr "Povratak na mapu"
+
+msgid "chat_users_have_been_invited"
+msgstr "Pozvani su sljedeći korisnici:"
+
+msgid "chat_users_without_login"
+msgstr "Sljedeći korisnici nemaju ILIAS račun i ne mogu biti pozvani u sobu za razgovor:"
+
+msgid "chat_users_without_permission"
+msgstr "Sljedeći korisnici nemaju pristup odabranoj sobi za razgovor:"
+
+msgid "current_folder"
+msgstr "Trenutna mapa: %s"
+
+#, fuzzy
+msgid "deleteTemplate"
+msgstr "Delete"
+
+#, fuzzy
+msgid "edit_attachments"
+msgstr "Edit Attachments"
+
+msgid "first_email_missing_info"
+msgstr "Odabir nije moguć jer nije unesena adresa e-pošte"
+
+msgid "forward"
+msgstr "Naprijed"
+
+msgid "goto_invitation_chat"
+msgstr "Otvorite sobu za razgovor"
+
+msgid "invite_to_chat"
+msgstr "Pozovi na razgovor"
+
+msgid "link_check_affected_links"
+msgstr "Povezane poveznice"
+
+msgid "link_check_introduction"
+msgstr "sljedeće su web poveznice nevaljane:"
+
+msgid "link_check_perma_link"
+msgstr "Trajna poveznica"
+
+msgid "link_check_reason"
+msgstr "Primate ovu poštu jer ste omogućili obavijest o nevaljanim poveznicama."
+
+#, fuzzy
+msgid "mail_1"
+msgstr "1 Mail"
+
+#, fuzzy
+msgid "mail_absence_auto_responder_body"
+msgstr "Message"
+
+#, fuzzy
+msgid "mail_absence_auto_responder_body_hint"
+msgstr "This is an automatically generated message. If you send further messages to this user during their absence, you will not receive another automatic reply until [NEXT_AUTO_RESPONDER_DATETIME]."
+
+#, fuzzy
+msgid "mail_absence_auto_responder_body_info"
+msgstr "This message will be sent automatically during your absence if users send you a Mail from within ILIAS. <br>Users will be notified of your absence every %1$s days if they send further messages."
+
+#, fuzzy
+msgid "mail_absence_auto_responder_body_info_single_day"
+msgstr "This message will be sent automatically during your absence if users send you a Mail from within ILIAS. <br>Users will be notified again of your absence the next day if they send further messages."
+
+#, fuzzy
+msgid "mail_absence_auto_responder_subject"
+msgstr "Subject"
+
+#, fuzzy
+msgid "mail_absence_duration"
+msgstr "Duration"
+
+#, fuzzy
+msgid "mail_absence_status"
+msgstr "Enable Autoresponder"
+
+#, fuzzy
+msgid "mail_absence_status_info"
+msgstr "Activate an automatic out-of-office message."
+
+#, fuzzy
+msgid "mail_absent_from"
+msgstr "Absent from"
+
+#, fuzzy
+msgid "mail_absent_until"
+msgstr "Absent until"
+
+msgid "mail_account_mail"
+msgstr "Račun e-pošte"
+
+msgid "mail_add_folder"
+msgstr "Dodaj novu podmapu"
+
+msgid "mail_add_recipient"
+msgstr "Unesi primatelja"
+
+msgid "mail_add_subfolder"
+msgstr "Dodaj podmapu"
+
+msgid "mail_add_subject"
+msgstr "Unesi temu"
+
+#, fuzzy
+msgid "mail_adopt_selected_attachements"
+msgstr "Adopt selected Attachments"
+
+#, fuzzy
+msgid "mail_all_in_trash"
+msgstr "All in Trash"
+
+msgid "mail_allow_external"
+msgstr "Vanjska e-pošta"
+
+msgid "mail_allow_external_info"
+msgstr "Ako je onemogućeno, isporuka vanjske e-pošte (putem SMTP-a) globalno je onemogućena."
+
+msgid "mail_assign_entry_to_mailing_list"
+msgstr "Dodijeli unos iz svojih kontakata na popis za slanje"
+
+#, fuzzy
+msgid "mail_assign_to_mailing_list"
+msgstr "Assign"
+
+msgid "mail_attachment_file_not_exist"
+msgstr "Barem jedan od sljedećih privitaka ne postoji: %1$s"
+
+msgid "mail_attachments"
+msgstr "Prilozi"
+
+msgid "mail_auto_generated_info"
+msgstr "Ovu vam je poruku automatski poslala instalacija ILIAS-a %s,%s"
+
+#, fuzzy
+msgid "mail_auto_responder"
+msgstr "Autoresponder"
+
+#, fuzzy
+msgid "mail_auto_responder_idle_time"
+msgstr "Resend"
+
+#, fuzzy
+msgid "mail_auto_responder_idle_time_info"
+msgstr "Specify here how many days should elapse before your out-of-office reply is resent to a mail correspondent who has sent you further mails."
+
+#, fuzzy
+msgid "mail_bcc"
+msgstr "BCC"
+
+#, fuzzy
+msgid "mail_bg_task_desc"
+msgstr "Subject: %s"
+
+#, fuzzy
+msgid "mail_bg_task_title"
+msgstr "E-mail Delivery"
+
+msgid "mail_both_email"
+msgstr "Obje adrese e-pošte"
+
+#, fuzzy
+msgid "mail_cc"
+msgstr "CC"
+
+msgid "mail_change_to_folder"
+msgstr "Prebaci na mapu: %s"
+
+msgid "mail_create_tpl"
+msgstr "Kreiraj tekstualne predloške"
+
+msgid "mail_cronjob_notification_info"
+msgstr "Ovdje možete aktivirati povremene obavijesti o novoj pošti."
+
+msgid "mail_crs_list_members_not_available"
+msgstr "Nije moguće popisati članove označenih tečajeva."
+
+msgid "mail_crs_list_members_not_available_for_at_least_one_crs"
+msgstr "Članovi barem jednog odabranog tečaja ne mogu biti navedeni."
+
+msgid "mail_crs_roles"
+msgstr "Pošalji poštu ulogama tečaja"
+
+msgid "mail_deleted"
+msgstr "Pošta se briše"
+
+msgid "mail_deleted_entry"
+msgstr "Unosi se brišu"
+
+#, fuzzy
+msgid "mail_download_attachment"
+msgstr "Download Attachment"
+
+msgid "mail_download_zip_no_attachments"
+msgstr "Nije moguće pronaći nijedan privitak."
+
+msgid "mail_edit_tpl"
+msgstr "Uredi predloške teksta"
+
+#, fuzzy
+msgid "mail_email_sys_body"
+msgstr "This is a test e-mail to test the delivery of system mails to the external mail account."
+
+#, fuzzy
+msgid "mail_email_sys_subject"
+msgstr "Test E-Mail System Mail"
+
+#, fuzzy
+msgid "mail_email_usr_body"
+msgstr "This is a test e-mail to test the delivery of user mails to the external mail account."
+
+#, fuzzy
+msgid "mail_email_usr_subject"
+msgstr "Test E-Mail User Mail"
+
+msgid "mail_empty_trash"
+msgstr "Isprazni smeće"
+
+msgid "mail_empty_trash_confirmation"
+msgstr "Jeste li sigurni da želite izbrisati svu poštu u smeću?"
+
+msgid "mail_enable_crs_admin_notification"
+msgstr "Obavijestite administratore tečaja"
+
+msgid "mail_enable_crs_admin_notification_info"
+msgstr "Na novim tečajevima postavka 'Obavijest o novim članovima' bit će aktivirana prema zadanim postavkama. Postavlja se na kartici tečaja 'Član'. Administratori tečaja dobit će e-poštu kada se član pridruži tečaju ili ga napusti ili ako minimalni potreban broj polaznika nije zadovoljen kako bi se tečaj održao."
+
+msgid "mail_enable_crs_member_notification"
+msgstr "Obavijestite članove tečaja"
+
+msgid "mail_enable_crs_member_notification_info"
+msgstr "ILIAS će automatski poslati e-poštu svakom članu tečaja ako mu se promijeni status članstva. Ova se postavka odnosi na sve tečajeve na platformi."
+
+msgid "mail_enable_grp_admin_notification"
+msgstr "Obavijesti administratore grupe"
+
+msgid "mail_enable_grp_admin_notification_info"
+msgstr "U novim skupinama postavka 'Obavijest' bit će aktivirana prema zadanim postavkama. Postavlja se na kartici 'Član' grupa. Administratori tečajeva primit će e-poštu kada se član pridruži grupi ili je napusti ili ako minimalni potreban broj polaznika nije zadovoljen kako bi se grupa održala."
+
+msgid "mail_enable_grp_member_notification"
+msgstr "Obavijesti članove grupe"
+
+msgid "mail_enable_grp_member_notification_info"
+msgstr "ILIAS će automatski poslati e-poštu svakom članu grupe ako mu se promijeni status članstva. Ova se postavka odnosi na sve skupine na platformi."
+
+#, fuzzy
+msgid "mail_enable_lso_admin_notification"
+msgstr "Notify Learning Sequence Administrators"
+
+#, fuzzy
+msgid "mail_enable_lso_admin_notification_info"
+msgstr "In new Learning Sequences the setting 'Notification About New Members' will be activated by default. It is set in the 'Member'-tab of Learning Sequences. Administrators will receive an e-mail when a member joins the Learning Sequence or leaves it."
+
+#, fuzzy
+msgid "mail_enable_lso_member_notification"
+msgstr "Notify Learning Sequence Members"
+
+#, fuzzy
+msgid "mail_enable_lso_member_notification_info"
+msgstr "ILIAS will automatically send an e-mail to every member if his or her membership status is changed. This setting applies to all Learning Sequences on the platform."
+
+msgid "mail_entry_of_contacts"
+msgstr "Unos kontakata"
+
+msgid "mail_error_reading_attachment"
+msgstr "Nije moguće utvrditi privitak."
+
+msgid "mail_external_send_test_sys"
+msgstr "Pošaljite testnu e-poštu (sistemska pošta)"
+
+msgid "mail_external_send_test_usr"
+msgstr "Pošaljite testnu e-poštu (korisnička pošta)"
+
+msgid "mail_external_test_sent"
+msgstr "E-pošta je poslana na adresu e-pošte definiranu u vašem profilu."
+
+msgid "mail_file_name"
+msgstr "Naziv datoteke"
+
+msgid "mail_file_size"
+msgstr "Veličina datoteke"
+
+msgid "mail_files_deleted"
+msgstr "Datoteka(e) se briše(u)"
+
+msgid "mail_filter"
+msgstr "Filtar"
+
+msgid "mail_filter_attach"
+msgstr "Prilozi"
+
+msgid "mail_filter_body"
+msgstr "Poruka"
+
+#, fuzzy
+msgid "mail_filter_display"
+msgstr "Display"
+
+msgid "mail_filter_field_placeholder"
+msgstr "Filtriraj ove poruke ..."
+
+msgid "mail_filter_period"
+msgstr "Razdoblje"
+
+msgid "mail_filter_recipients"
+msgstr "Primatelji"
+
+msgid "mail_filter_sender"
+msgstr "Pošiljatelj"
+
+#, fuzzy
+msgid "mail_filter_show_read"
+msgstr "Show Read"
+
+#, fuzzy
+msgid "mail_filter_show_system_mails"
+msgstr "Show System Notifications"
+
+#, fuzzy
+msgid "mail_filter_show_unread"
+msgstr "Show Unread"
+
+#, fuzzy
+msgid "mail_filter_show_user_mails"
+msgstr "Show User Mails"
+
+#, fuzzy
+msgid "mail_filter_show_with_attachments"
+msgstr "Show With Attachments"
+
+#, fuzzy
+msgid "mail_filter_show_without_attachment"
+msgstr "Show Without Attachment"
+
+msgid "mail_filter_subject"
+msgstr "Predmet"
+
+msgid "mail_filter_txt"
+msgstr "Filtriraj poruke prema"
+
+msgid "mail_first_email"
+msgstr "Prva adresa e-pošte"
+
+#, fuzzy
+msgid "mail_firstname_last_name_superior"
+msgstr "Comma separated list for firstname and lastname of the user's superior(s)"
+
+msgid "mail_folder_created"
+msgstr "Stvorena je nova mapa"
+
+msgid "mail_folder_deleted"
+msgstr "Mapa je izbrisana"
+
+msgid "mail_folder_exists"
+msgstr "Mapa s tim imenom već postoji"
+
+msgid "mail_folder_name_changed"
+msgstr "Mapa je preimenovana"
+
+msgid "mail_following_rcp_not_valid"
+msgstr "Sljedeći primatelji nisu valjani:"
+
+#, fuzzy
+msgid "mail_form_placeholders_label"
+msgstr "Available Placeholders"
+
+msgid "mail_generic_rcp_error"
+msgstr "Došlo je do pogreške prilikom provjere valjanosti primatelja: %1$s"
+
+#, fuzzy
+msgid "mail_global_reply_to_addr"
+msgstr "Reply-To"
+
+#, fuzzy
+msgid "mail_global_reply_to_addr_info"
+msgstr "Please enter the desired 'Reply-To' address."
+
+msgid "mail_grp_roles"
+msgstr "Pošaljite poštu ulogama grupe"
+
+#, fuzzy
+msgid "mail_hint_add_placeholder_x"
+msgstr "Add the placeholder '%s' to the message body."
+
+#, fuzzy
+msgid "mail_inbox_external_delivery_only_info"
+msgstr "Your account is configured to receive messages at an external email address.<br>You can only see mails in this inbox if your account is configured to (also) receive them locally."
+
+msgid "mail_incoming"
+msgstr "Dolazna pošta"
+
+msgid "mail_incoming_both"
+msgstr "lokalno i prosljeđivanje"
+
+msgid "mail_incoming_local"
+msgstr "samo lokalni"
+
+msgid "mail_incoming_mail"
+msgstr "Dolazna pošta"
+
+msgid "mail_incoming_smtp"
+msgstr "proslijedi na adresu e-pošte"
+
+msgid "mail_insert_folder_name"
+msgstr "Unesi naziv mape"
+
+msgid "mail_insert_query"
+msgstr "Unesi upit"
+
+msgid "mail_invite_users_to_chat"
+msgstr "Pozovi korisnike na razgovor"
+
+#, fuzzy
+msgid "mail_is_read"
+msgstr "gelesen"
+
+#, fuzzy
+msgid "mail_is_unread"
+msgstr "ungelesen"
+
+msgid "mail_list_members"
+msgstr "Članovi s popisa"
+
+msgid "mail_mailing_list"
+msgstr "Popis za slanje e-pošte"
+
+msgid "mail_mailing_lists"
+msgstr "Popisi za slanje e-pošte"
+
+msgid "mail_mailing_lists_all_contact_entries_assigned"
+msgstr "Sve svoje kontakte već ste dodijelili ovom popisu za slanje e-pošte."
+
+msgid "mail_mailing_lists_no_contact_entries"
+msgstr "U kontaktima nema unosa za dodavanje na popis."
+
+#, fuzzy
+msgid "mail_main_folder"
+msgstr "Main Folder"
+
+#, fuzzy
+msgid "mail_manage_attachments"
+msgstr "Manage Attachments"
+
+#, fuzzy
+msgid "mail_manage_attachments_back_to_compose"
+msgstr "Back to Compose"
+
+#, fuzzy
+msgid "mail_manage_attachments_drop_files_msg"
+msgstr "Drop file to upload"
+
+msgid "mail_mark_read"
+msgstr "Označi poštu kao pročitanu"
+
+msgid "mail_mark_unread"
+msgstr "Označi poštu kao nepročitanu"
+
+msgid "mail_max_size_attachments_total"
+msgstr "Unesi najveću dopuštenu veličinu datoteke kao privitak po pošti. Ova postavka nije povezana s drugim ograničenjima resursa, npr. upload_max_filesize itd. (budući da možete priložiti više datoteka)."
+
+msgid "mail_max_size_attachments_total_error"
+msgstr "Dopuštena veličina privitka je:"
+
+msgid "mail_maxsize_attachment_error"
+msgstr "Ograničenje učitavanja je:"
+
+msgid "mail_member_notification"
+msgstr "Obavijest sudioniku"
+
+msgid "mail_members_of_mailing_list"
+msgstr "Članovi popisa za slanje e-pošte"
+
+msgid "mail_members_search_continue"
+msgstr "Nastavi"
+
+msgid "mail_message_send"
+msgstr "Poruka je poslana"
+
+#, fuzzy
+msgid "mail_mode_switch_label"
+msgstr "Switch between „Personal Mail” and „Serial Letter” mode"
+
+#, fuzzy
+msgid "mail_mode_switch_locked"
+msgstr "You cannot switch to „%s” mode."
+
+msgid "mail_move_error"
+msgstr "Pogreška pri premještanju pošte"
+
+msgid "mail_move_to"
+msgstr "Premjesti u:"
+
+#, fuzzy
+msgid "mail_move_to_folder_btn_label"
+msgstr "Move Mail"
+
+#, fuzzy
+msgid "mail_move_to_folder_x"
+msgstr "to \"%s\""
+
+msgid "mail_moved"
+msgstr "Pošta je premještena"
+
+msgid "mail_moved_to_trash"
+msgstr "Pošta je premještena u otpad"
+
+msgid "mail_multiple_role_recipients_found"
+msgstr "%1$s (pronađeno više uloga za primatelja: %2$s)"
+
+msgid "mail_my_courses"
+msgstr "Moji tečajevi"
+
+msgid "mail_my_groups"
+msgstr "Moje grupe"
+
+msgid "mail_my_mailing_lists"
+msgstr "Moji popisi za slanje e-pošte"
+
+msgid "mail_nacc_admin_mail"
+msgstr "Adresa e-pošte administratora"
+
+msgid "mail_nacc_if_timelimit"
+msgstr "Ovaj je tekst uključen samo ako korisnik ima ograničeno razdoblje pristupa."
+
+msgid "mail_nacc_ilias_url"
+msgstr "URL sustava ILIAS"
+
+#, fuzzy
+msgid "mail_nacc_installation_desc"
+msgstr "Installation Description"
+
+#, fuzzy
+msgid "mail_nacc_installation_name"
+msgstr "Installation Name"
+
+msgid "mail_nacc_login"
+msgstr "Račun za prijavu"
+
+msgid "mail_nacc_no_pw_block"
+msgstr "Ovaj blok teksta uključen je samo ako je novi korisnički račun kreiran bez lozinke."
+
+msgid "mail_nacc_pw_block"
+msgstr "Ovaj je blok teksta uključen samo ako je stvoren novi korisnički račun koji uključuje lozinku."
+
+msgid "mail_nacc_salutation"
+msgstr "Pozdrav"
+
+msgid "mail_nacc_target"
+msgstr "URL ciljane stavke, npr. povezani tečaj koji se ILIAS-u prenosi izvana."
+
+msgid "mail_nacc_target_block"
+msgstr "Ovaj je tekst uključen samo ako je navedena ciljana stavka."
+
+msgid "mail_nacc_target_title"
+msgstr "Naslov ciljane stavke, npr. naslov predmeta."
+
+msgid "mail_nacc_target_type"
+msgstr "Vrsta ciljane stavke, na pr. ‘Tečaj’ za predmet tečaja."
+
+msgid "mail_nacc_timelimit"
+msgstr "Razdoblje pristupa korisnika"
+
+msgid "mail_nacc_title"
+msgstr "Naslov"
+
+msgid "mail_nacc_use_placeholder"
+msgstr "Sljedeća rezervirana mjesta mogu se koristiti (samo u sadržaju poruke)"
+
+#, fuzzy
+msgid "mail_nacc_user_fullname"
+msgstr "User Full Name"
+
+#, fuzzy
+msgid "mail_nacc_user_login"
+msgstr "User Login"
+
+#, fuzzy
+msgid "mail_new"
+msgstr "New Mail"
+
+msgid "mail_new_template"
+msgstr "Novi predložak teksta"
+
+#, fuzzy
+msgid "mail_no_mail_items"
+msgstr "No unread mails."
+
+msgid "mail_no_permissions_write_smtp"
+msgstr "Nemate dopuštenje za pisanje vanjske e-pošte"
+
+#, fuzzy
+msgid "mail_no_subject"
+msgstr "No subject available"
+
+msgid "mail_no_valid_mailing_list"
+msgstr "%1$s (nema važećeg popisa za slanje e-pošte)"
+
+msgid "mail_notification_membership_section"
+msgstr "Članstvo"
+
+msgid "mail_notification_subject"
+msgstr "Nova pošta u pristigloj pošti"
+
+msgid "mail_notify_orphaned"
+msgstr "Poruka obavijesti"
+
+msgid "mail_notify_orphaned_info"
+msgstr "Ako ovdje unesete vrijednost veću ili jednaku 1, ILIAS će poslati e-poštu korisniku prije nego što se interna pošta izbriše. Molimo pripazite da je moguć prijem vanjske e-pošte."
+
+#, fuzzy
+msgid "mail_operation_on_invalid_folder"
+msgstr "It was not possible to carry out the requested operation. The folder given in the server request is invalid. Please contact an administrator."
+
+#, fuzzy
+msgid "mail_options"
+msgstr "Mail Options"
+
+msgid "mail_options_saved"
+msgstr "Opcije spremljene"
+
+msgid "mail_orphaned_mails"
+msgstr "Izbrišite stare ili dugo nekorištene e-poruke"
+
+msgid "mail_orphaned_mails_desc"
+msgstr "Izbrišite stare ili dugo nekorištene e-poruke"
+
+msgid "mail_recipient_not_found"
+msgstr "%1$s (nisam mogao pronaći valjanog primatelja)"
+
+msgid "mail_rename_folder"
+msgstr "Preimenuj mapu"
+
+#, fuzzy
+msgid "mail_roles"
+msgstr "to users with the following local roles"
+
+msgid "mail_s"
+msgstr "E-pošta(e)"
+
+msgid "mail_salutation_anonymous"
+msgstr "Pozdrav"
+
+msgid "mail_salutation_f"
+msgstr "Poštovana gospođo."
+
+msgid "mail_salutation_female"
+msgstr "Izlaz za rezervirano mjesto &lbrace;&lbrace;MAIL_SALUTATION&rbrace;&rbrace;, ako je oslovaljavanje \"Gospođa\""
+
+msgid "mail_salutation_general"
+msgstr "Izlaz za rezervirano mjesto &lbrace;&lbrace;MAIL_SALUTATION&rbrace;&rbrace;, ako oslovljavanje nije poželjno ili navedeno"
+
+msgid "mail_salutation_m"
+msgstr "Poštovani gospodine."
+
+msgid "mail_salutation_male"
+msgstr "Izlaz za rezervirano mjesto &lbrace;&lbrace;MAIL_SALUTATION&rbrace;&rbrace;, ako je oslovljavanje \"Gospodin\""
+
+msgid "mail_salutation_n"
+msgstr "Pozdrav"
+
+msgid "mail_saved"
+msgstr "Poruka je spremljena"
+
+msgid "mail_second_email"
+msgstr "Druga adresa e-pošte"
+
+#, fuzzy
+msgid "mail_sel_label"
+msgstr "Choose the Recipients"
+
+msgid "mail_sel_users"
+msgstr "Pošaljite poštu odabranim korisnicima"
+
+msgid "mail_select_attachment"
+msgstr "Odaberite privitak za preuzimanje."
+
+#, fuzzy
+msgid "mail_select_crs"
+msgstr "Please select at least one course."
+
+#, fuzzy
+msgid "mail_select_grp"
+msgstr "Please select at least one group."
+
+msgid "mail_select_one_entry"
+msgstr "Morate odabrati jedan unos"
+
+msgid "mail_select_one_file"
+msgstr "Morate odabrati jednu datoteku"
+
+msgid "mail_send_html"
+msgstr "HTML okvir"
+
+msgid "mail_send_html_info"
+msgstr "Ako je omogućeno, tekst vanjske e-pošte bit će ugrađen u HTML okvir. Odgovarajući predložak može se prilagoditi izradom kopije datoteke './Services/Mail/templates/default/tpl.html_mail_template.html' na './Customizing/global/skin/[SKIN]/Services/Mail/tpl.html_mail_template. html '."
+
+#, fuzzy
+msgid "mail_sent_datetime"
+msgstr "Date"
+
+msgid "mail_serial_letter_placeholders"
+msgstr "Rezervirana mjesta za serijska slova"
+
+msgid "mail_settings_external_frm_head"
+msgstr "Vanjska e-pošta"
+
+msgid "mail_settings_external_tab"
+msgstr "Vanjski"
+
+msgid "mail_settings_general_tab"
+msgstr "Općenito"
+
+#, fuzzy
+msgid "mail_settings_incoming_type_see_also"
+msgstr "How incoming e-mails for users are handled can also be set <a href=\"%s\">here</a>."
+
+msgid "mail_settings_system_frm_head"
+msgstr "E-pošta sustava"
+
+msgid "mail_settings_user_frm_head"
+msgstr "E-pošta korisnika"
+
+msgid "mail_smtp_encryption"
+msgstr "Enkripcija"
+
+msgid "mail_smtp_encryption_ssl"
+msgstr "SSL"
+
+msgid "mail_smtp_encryption_tls"
+msgstr "TLS"
+
+msgid "mail_smtp_host"
+msgstr "Host"
+
+msgid "mail_smtp_host_info"
+msgstr "Unesite ime hosta ili IP željenog poslužitelja pošte."
+
+msgid "mail_smtp_password"
+msgstr "Zaporka"
+
+msgid "mail_smtp_password_req"
+msgstr "Ako ste definirali korisnika za autentifikaciju, mora se postaviti lozinka."
+
+msgid "mail_smtp_port"
+msgstr "Port"
+
+msgid "mail_smtp_port_info"
+msgstr "Unesite brojčanu vrijednost za port poslužitelja pošte (npr. 25)."
+
+msgid "mail_smtp_status"
+msgstr "Pošalji putem SMTP-a"
+
+msgid "mail_smtp_status_info"
+msgstr "Ako je omogućeno, ILIAS će slati vanjske e-poruke SMTP serveru, umjesto da koristi internu funkcionalnost koju pruža PHP runtime (funkcija mail(), sendmail)."
+
+msgid "mail_smtp_user"
+msgstr "Korisnik"
+
+msgid "mail_subject_prefix"
+msgstr "Predmet pošte"
+
+msgid "mail_subject_prefix_info"
+msgstr "Unesite tekst koji će biti dodan u redak predmeta odlazne automatski generirane e-pošte. Preporučuje se upotreba prefiksa radi podrške filtriranja poruka od strane korisnika."
+
+#, fuzzy
+msgid "mail_subject_too_long"
+msgstr "The subject is too long."
+
+#, fuzzy
+msgid "mail_success_removed_user"
+msgstr "User(s) successfully removed from mailing list."
+
+msgid "mail_sure_delete_entry"
+msgstr "Jeste li sigurni da želite izbrisati sljedeće unose?"
+
+msgid "mail_sure_delete_file"
+msgstr "Jeste li sigurni da želite izbrisati odabrane datoteke?"
+
+msgid "mail_sure_delete_folder"
+msgstr "Mapa i njezin sadržaj trajno će se ukloniti"
+
+#, fuzzy
+msgid "mail_sure_delete_p"
+msgstr "Are you sure you want to delete the following mails?"
+
+#, fuzzy
+msgid "mail_sure_delete_s"
+msgstr "Are you sure you want to delete the following mail?"
+
+#, fuzzy
+msgid "mail_sure_remove_user"
+msgstr "Are you sure you want to remove the following user(s) from the members list?"
+
+msgid "mail_system_sys_env_from_addr"
+msgstr "Tehnički pošiljatelj"
+
+msgid "mail_system_sys_env_from_addr_info"
+msgstr "Ako ovo polje ostavite prazno, e-adresa pošiljatelja koristit će se ako je omogućen SMTP prijenos. Inače je odgovornost administratora servera da konfigurira ovu vrijednost."
+
+msgid "mail_system_sys_from_addr"
+msgstr "E-pošta pošiljatelja (od)"
+
+msgid "mail_system_sys_from_addr_info"
+msgstr "Unesite adresu e-pošte koja će se staviti u zaglavlje 'OD'. Zaglavlje 'OD' koristi se za prikaz pošiljatelja u klijentu e-pošte primatelja. <br /><br /> Primjeri: <span style=\"font-style: italic\">info@institution.de</span> ili <span style=\"font-style: italic\">no-reply@institution.de </span>"
+
+msgid "mail_system_sys_from_name"
+msgstr "Puno ime pošiljatelja (od)"
+
+#, fuzzy
+msgid "mail_system_sys_general_signature"
+msgstr "Signature"
+
+msgid "mail_system_sys_reply_to_addr"
+msgstr "Odgovori"
+
+msgid "mail_system_usr_env_from_addr"
+msgstr "Tehnički pošiljatelj"
+
+msgid "mail_system_usr_env_from_addr_info"
+msgstr "Ako ovo polje ostavite prazno, e-adresa pošiljatelja koristit će se ako je omogućen SMTP prijenos. U suprotnom je za konfiguriranje ove vrijednosti odgovoran administrator servera."
+
+msgid "mail_system_usr_from_addr"
+msgstr "E-pošta pošiljatelja (od)"
+
+msgid "mail_system_usr_from_addr_info"
+msgstr "Unesite adresu e-pošte koja će se staviti u zaglavlje 'OD'. Zaglavlje 'OD' koristi se za prikaz pošiljatelja u klijentu e-pošte primatelja. Adresa e-pošte korisnika koji šalje e-poštu putem ILIAS-a automatski će se staviti u zaglavlje 'Odgovori'. <br /><br /> Primjeri: <span style=\"font-style: italic\">info@institution.de </span> ili <span style=\"font-style: italic\">no-reply@institution.de</span>"
+
+msgid "mail_system_usr_from_name"
+msgstr "Puno ime pošiljatelja (od)"
+
+msgid "mail_system_usr_from_name_info"
+msgstr "Možete koristiti rezervirana mjesta [FULLNAME], [FIRSTNAME] i [LASTNAME], a zamijenit će ih odgovarajući podaci inicijatora e-pošte."
+
+#, fuzzy
+msgid "mail_system_usr_general_signature"
+msgstr "User Signature"
+
+msgid "mail_tbl_head_attachments"
+msgstr "Prilog"
+
+msgid "mail_template_client"
+msgstr "Predložak teksta"
+
+msgid "mail_template_client_info"
+msgstr "Odaberite jedan od dostupnih predložaka teksta i iskoristite rezervirana mjesta. Ako odaberete predložak teksta, tekst i predmet ovog obrasca (ako su definirani u predlošku teksta) bit će zamijenjeni."
+
+msgid "mail_template_context"
+msgstr "Kontekst"
+
+msgid "mail_template_default"
+msgstr "  (Zadano)"
+
+#, fuzzy
+msgid "mail_template_invalid_tpl_syntax"
+msgstr "An invalid syntax has been detected. Please ensure a valid input, especially regarding the placeholder syntax."
+
+msgid "mail_template_missing_id"
+msgstr "Radnju nije moguće izvršiti jer nedostaje ID predloška teksta."
+
+msgid "mail_template_no_context_available"
+msgstr "Ne postoji kontekst koji pruža bilo koja usluga ili modul ILIAS-a. Stoga nije moguće stvoriti ili urediti predložak teksta."
+
+msgid "mail_template_no_valid_context"
+msgstr "Dani kontekst nije valjan."
+
+msgid "mail_template_orphaned_context"
+msgstr "Dugo nekorišten kontekst"
+
+msgid "mail_template_set_as_default"
+msgstr "Postavi kao zadano"
+
+msgid "mail_template_title"
+msgstr "Ime"
+
+msgid "mail_template_unset_as_default"
+msgstr "Poništi kao zadano"
+
+msgid "mail_templates"
+msgstr "Predlošci teksta"
+
+msgid "mail_threshold"
+msgstr "Prag"
+
+msgid "mail_threshold_info"
+msgstr "Unutarnje poruke koje su starije od ovdje definirane vrijednosti praga bit će izbrisane (uključujući moguće postojeće privitke).<br> Imajte na umu da će prilikom prvog pokretanja ovog cron joba puno poruka biti izbrisano i zbog toga nije moguće poslati mail kao upozorenje."
+
+msgid "mail_to"
+msgstr "Za"
+
+msgid "mail_tpl_deleted_p"
+msgstr "Predlošci teksta uspješno su izbrisani."
+
+msgid "mail_tpl_deleted_s"
+msgstr "Predložak teksta uspješno je izbrisan."
+
+msgid "mail_tpl_sure_delete_entries"
+msgstr "Jeste li sigurni da želite izbrisati sljedeće unose?"
+
+msgid "mail_tpl_sure_delete_entry"
+msgstr "Jeste li sigurni da želite izbrisati predložak teksta?"
+
+#, fuzzy
+msgid "mail_use_global_reply_to_addr"
+msgstr "Use Global Reply-To"
+
+#, fuzzy
+msgid "mail_use_global_reply_to_addr_info"
+msgstr "If enabled, the email address entered below is used as value for the 'Reply-To' header. The sender's email address will be not disclosed to recipients. A direct reply is not possible anymore."
+
+#, fuzzy
+msgid "nc_mail_noti_item_title"
+msgstr "Inbox"
+
+#, fuzzy
+msgid "nc_mail_prop_time"
+msgstr "Time"
+
+#, fuzzy
+msgid "nc_mail_unread_messages"
+msgstr "You have %s in your inbox."
+
+#, fuzzy
+msgid "nc_mail_unread_messages_number_p"
+msgstr "%s Unread Mails"
+
+#, fuzzy
+msgid "nc_mail_unread_messages_number_s"
+msgstr "1 Unread Mail"
+
+msgid "only_inbox_trash"
+msgstr "Uzmite u obzir samo pristiglu poštu / otpad"
+
+msgid "only_inbox_trash_info"
+msgstr "Ako je omogućeno, e-poruke brišu se samo ako se nalaze u pristigloj pošti i otpadu određenog korisnika. U suprotnom, sve se poruke brišu bez obzira na mapu."
+
+msgid "orphaned_mail_body"
+msgstr "Sljedeće stare ili dugo nekorištene poruke e-pošte nalaze se u vašem poštanskom sandučiću. Imajte na umu da će se ove poruke uskoro automatski izbrisati."
+
+msgid "orphaned_mail_subject"
+msgstr "Obavijest o dugo nekorištenim porukama"
+
+msgid "placeholders_advise"
+msgstr "Osobna rezervirana mjesta zamjenjuju se samo za primatelje u polju Za.%sOsobna rezervirana mjesta za primatelje CC i BCC ostaju onakva kakva jesu."
+
+#, fuzzy
+msgid "regular_mail"
+msgstr "Personal Mail"
+
+msgid "search_content"
+msgstr "Rezultat pretrage"
+
+msgid "search_recipients"
+msgstr "Primatelji pretraživanja"
+
+msgid "second_email_missing_info"
+msgstr "Odabir nije moguć jer nije unesena druga adresa e-pošte"
+
+#, fuzzy
+msgid "select_mail_with_subject_x"
+msgstr "Select mail with subject „%s“"
+
+msgid "send_mail_admins"
+msgstr "Svi administratori"
+
+msgid "send_mail_members"
+msgstr "Svi članovi"
+
+msgid "send_mail_to"
+msgstr "Pošalji za"
+
+msgid "send_mail_tutors"
+msgstr "Svi mentori"
+
+#, fuzzy
+msgid "serial_letter"
+msgstr "Serial Letter"
+
+msgid "show_mail_settings"
+msgstr "Pokaži postavke pošte"
+
+msgid "show_mail_settings_info"
+msgstr "Ako je omogućeno, korisnikovim `Postavkama pošte` moguće je pristupiti putem odjeljka` Osobne postavke` ili `Pošta`."
+
+msgid "system_notification_installation_changed_by"
+msgstr "Promijenio"
+
+#, fuzzy
+msgid "usrFieldChange_second_mail_visible_in_personal_data"
+msgstr "You have changed the attribute \"%s\" of the field \"%s\".<br>This leads to all accounts settings being reset to \"receive on primary address\" for external delivery,<br>not only for all new accounts but also dismissing the currently active settings made by users."

@@ -1,0 +1,162 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: mep\n"
+
+msgid "mep_all"
+msgstr "Összes"
+
+msgid "mep_all_mobs"
+msgstr "Összes médiaobjektum"
+
+msgid "mep_bulk_upload"
+msgstr "Tömeges feltöltés"
+
+msgid "mep_choose_from_folder"
+msgstr "Válasszon a mappából"
+
+msgid "mep_choose_from_mep"
+msgstr "Válasszon a gyűjteményből"
+
+msgid "mep_clipboard_info"
+msgstr "Ide feltölthet médiafájlokat, amelyeket bármely szerkeszthető oldalra beilleszthet. A vágólap a médiagyűjteményekben is elérhető. Ez a tároló csak az öné, azaz más felhasználók nem tekintheti meg a tartalmát."
+
+msgid "mep_content"
+msgstr "Tartalom"
+
+msgid "mep_content_snippet_in_use"
+msgstr "‘%s’ tartalom-építőelem használatban van, nem törölhető."
+
+msgid "mep_content_snippet_used_in_older_versions"
+msgstr "Ne feledje: néhány lap régebbi verziója használja ezt az építőelemet. Ha ezeket a lapokat visszaállítják egy olyan verzióra, amely tartalmazza ezt az építőelemet, az építőelem hiányozni fog a lapról."
+
+msgid "mep_copy_to_mep"
+msgstr "Másolás a médiagyűjteménybe"
+
+msgid "mep_create_content_snippet"
+msgstr "Tartalom-építőelem létrehozása"
+
+msgid "mep_create_folder"
+msgstr "Mappa létrehozása"
+
+msgid "mep_create_media_files"
+msgstr "Médiaobjektum létrehozása"
+
+msgid "mep_create_mob"
+msgstr "Médiaobjektum létrehozása"
+
+msgid "mep_default_height"
+msgstr "Alapértelmezett magasság"
+
+msgid "mep_default_width"
+msgstr "Alapértelmezett szélesség"
+
+msgid "mep_default_width_height_info"
+msgstr "Az itt megadott szélesség és magasság lesz az új médiaobjektum alapértelmezett szélessége és magassága."
+
+msgid "mep_edit_content_snippet"
+msgstr "Tartalom-építőelem módosítása"
+
+msgid "mep_edit_folder"
+msgstr "Mappa módosítása"
+
+msgid "mep_file"
+msgstr "Fájl"
+
+msgid "mep_folder"
+msgstr "Mappa"
+
+msgid "mep_format"
+msgstr "Formátum"
+
+msgid "mep_import"
+msgstr "Médiagyűjtemény importálása"
+
+msgid "mep_import_lang"
+msgstr "Célnyelv"
+
+msgid "mep_import_trans"
+msgstr "Fordítás importálása"
+
+msgid "mep_master_language_only"
+msgstr "Fordításhoz főnyelv"
+
+msgid "mep_master_language_only_no_media"
+msgstr "Főnyelv, média nélkül"
+
+msgid "mep_media_files"
+msgstr "Mediafájlok"
+
+msgid "mep_media_subtitles"
+msgstr "Feliratok"
+
+msgid "mep_mob"
+msgstr "Mediaobjektum"
+
+msgid "mep_move_select_insert"
+msgstr "Navigáljon a célmappába és kattintson a ‘Beillesztés’-re"
+
+msgid "mep_mpg"
+msgstr "Tartalom-építőelem"
+
+msgid "mep_new_content_snippet"
+msgstr "Új tartalom-építőelem"
+
+msgid "mep_new_folder"
+msgstr "Új mappa"
+
+msgid "mep_page_properties"
+msgstr "Laptulajdonságok"
+
+msgid "mep_page_type_mep"
+msgstr "Tartalom-építőelem"
+
+msgid "mep_thumbnail"
+msgstr "Bélyegkép"
+
+msgid "mep_title_and_description"
+msgstr "Cím és leírás"
+
+msgid "mep_trans_import_info"
+msgstr "Ha ezt a modult ‘XML/Fordításhoz mesternyelv’-ként exportálta egy másik telepítésbe, akkor most újra importálhatja a lefordított exportfájlokat innen a második telepítésből."
+
+msgid "mep_unknown"
+msgstr "Nem ismert"
+
+msgid "mep_up_dir_copy"
+msgstr "Fájlok másolása a feltöltő mappából (a fájlokat a feltöltő mappában tartja)"
+
+msgid "mep_up_dir_move"
+msgstr "Mozifájlok feltöltő mappából (gyorsabb)"
+
+msgid "mep_upload_dir_files"
+msgstr "Fájlok feltöltési mappából"
+
+msgid "mobs_activate_pages"
+msgstr "Tartalom-építőelemek használata"
+
+msgid "mobs_activate_pages_info"
+msgstr "Tartalom-építőelemek létrehozásának engedélyezése médiagyűjteményekben. Ezen építőelemek többször felhasználhatók tananyagokban (de ott nem szerkeszthetőek)."
+
+msgid "mobs_always_show_file_manager"
+msgstr "Mindig látszódjon a fájlkezelő"
+
+msgid "mobs_always_show_file_manager_info"
+msgstr "Ha nincs bekapcsolva, a médiaobjektumok fájlkezelője el lesz rejtve az egyszerű MIME-típusok (például képek) esetén."
+
+msgid "mobs_black_list_file_types"
+msgstr "Tiltott fájltípusok"
+
+msgid "mobs_black_list_file_types_and_allowed_info"
+msgstr "Ez a felsorolás korlátozza az engedélyezett fájltípusokat. Adja meg a mime-típusokat vesszővel elválasztva (például text/html, application/pdf). A jelenleg engedélyzett mime-típusok:"
+
+msgid "mobs_restrict_file_types"
+msgstr "Engedélyezett fájltípusok"
+
+msgid "mobs_restrict_file_types_info"
+msgstr "Adja meg a médiaobjektumokba feltölthető fájlok kiterjesztésének (például jpg, gif) vesszővel elválasztott listáját. Ha nem ad meg értéket, minden fájltípus feltölthető."

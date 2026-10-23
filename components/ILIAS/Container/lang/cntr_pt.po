@@ -1,0 +1,118 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: cntr\n"
+
+msgid "cntr_add_new_item"
+msgstr "Aparecem popups de conteúdo quando o utilizador clica em partes interativas da imagem de fundo. Neste ecrã pode apenas definir os popups. O seu conteúdo pode ser editado no ecrã de edição da página."
+
+msgid "cntr_adopt_content"
+msgstr "Adotar conteúdo"
+
+msgid "cntr_container_only_on_their_own"
+msgstr "As categorias, cursos, grupos ou pastas podem ser copiados apenas como objetos únicos. Selecione apenas um item."
+
+msgid "cntr_copy_crs_grp"
+msgstr "Os meus cursos e grupos"
+
+msgid "cntr_copy_repo_tree"
+msgstr "Árvore do repositório"
+
+msgid "cntr_hide_title_and_icon"
+msgstr "Ocultar título e ícone"
+
+msgid "cntr_manage"
+msgstr "Carregue a imagem de fundo para a imagem interativa."
+
+msgid "cntr_ordering"
+msgstr "São usadas imagens sobreposta para alterar (p. ex. destacar) partes da imagem de fundo quando o rato passa por cima delas. Depois de carregar as imagens, pode selecioná-las no separador ‘Acionadores’."
+
+msgid "cntr_saved_sorting"
+msgstr "Ordenação guardada."
+
+msgid "cntr_switch_to_new_editor_cmd"
+msgstr "Copiar"
+
+msgid "cntr_switch_to_new_editor_message"
+msgstr "Copiar"
+
+msgid "cntr_switched_editor"
+msgstr "Mudou para novo conteúdo."
+
+msgid "cntr_tax_none_available"
+msgstr "Não existem taxonomias disponíveis."
+
+#, fuzzy
+msgid "cntr_tax_settings_info"
+msgstr "Taxonomies in categories classify and filter the objects contained in the category. After adding taxonomies, classifications can be made via the \"Metadata\" tabs and the \"Taxonomy Assignment\" sub-tabs of the respective objects. Taxonomies can additionally be displayed in the side block of the category's \"Contents\" tab to enable direct filtering of the assigned objects."
+
+msgid "cntr_taxonomy_definitions"
+msgstr "Definição de taxonomia"
+
+msgid "cntr_taxonomy_show_sideblock"
+msgstr "Mostrar taxonomia no bloco lateral"
+
+msgid "cntr_taxonomy_sideblock_settings"
+msgstr "Copiar"
+
+msgid "cntr_text_media_editor"
+msgstr "Copiar tudo"
+
+msgid "cntr_view_by_type"
+msgstr "Vista Agrupado por tipo"
+
+msgid "cntr_view_info_by_type"
+msgstr "Esta apresentação de conteúdo agrupa todos os itens por tipo de recurso."
+
+msgid "cntr_view_info_sessions"
+msgstr "Esta apresentação de conteúdo agrupa primeiro todas as sessões. Depois disso, o restante conteúdo do curso é listado."
+
+msgid "cntr_view_info_simple"
+msgstr "Esta apresentação de conteúdo lista todos os itens num bloco."
+
+msgid "cntr_view_sessions"
+msgstr "Vista de sessões"
+
+msgid "cntr_view_simple"
+msgstr "Vista simples"
+
+msgid "container_import_zip_file_invalid"
+msgstr "O ficheiro carregado não é um ficheiro de exportação ILIAS válido. Para carregar uma estrutura de diretório, use um objeto de ficheiro."
+
+msgid "edit_questions"
+msgstr "Editar perguntas"
+
+msgid "exc_next_deadline_single"
+msgstr "Prazo"
+
+msgid "msg_no_downloadable_objects"
+msgstr "- Copiar (%1$s)"
+
+msgid "objects_duplicated"
+msgstr "Objetos copiados"
+
+msgid "prtf_create_portfolio_from_template"
+msgstr "Criar portefólio a partir do modelo"
+
+msgid "sorting_new_items_at_bottom"
+msgstr "Inferior"
+
+msgid "sorting_new_items_at_top"
+msgstr "Superior"
+
+msgid "sorting_new_items_direction"
+msgstr "Ordenar direção para novos objetos"
+
+msgid "sorting_new_items_order"
+msgstr "Ordenar para novos objetos"
+
+msgid "sorting_new_items_position"
+msgstr "Posição para novos objetos"
+
+msgid "tab_back_to_repository"
+msgstr "Voltar ao repositório"

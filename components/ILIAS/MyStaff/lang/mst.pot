@@ -1,0 +1,57 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: mst\n"
+
+msgid "mst_cert_issued_on"
+msgstr ""
+
+msgid "mst_courses_of"
+msgstr ""
+
+msgid "mst_download_certificate"
+msgstr ""
+
+msgid "mst_list_certificates"
+msgstr ""
+
+msgid "mst_list_competences"
+msgstr ""
+
+msgid "mst_list_courses"
+msgstr ""
+
+msgid "mst_list_users"
+msgstr ""
+
+msgid "mst_memb_status_registered"
+msgstr ""
+
+msgid "mst_memb_status_requested"
+msgstr ""
+
+msgid "mst_memb_status_waitinglist"
+msgstr ""
+
+msgid "mst_my_staff"
+msgstr ""
+
+msgid "mst_opt_all"
+msgstr ""
+
+msgid "mst_please_select_course"
+msgstr ""
+
+msgid "mst_profile_fulfilled"
+msgstr ""
+
+msgid "mst_profile_not_fulfilled"
+msgstr ""
+
+msgid "mst_select_course"
+msgstr ""
+
+msgid "mst_show_courses"
+msgstr ""

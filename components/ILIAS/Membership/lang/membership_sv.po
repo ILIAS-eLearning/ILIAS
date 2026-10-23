@@ -1,0 +1,24 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: membership\n"
+
+msgid "mem_error_preconditions"
+msgstr "Inspelningen kunde inte äga rum eftersom minst en inställning förhindrar detta."
+
+msgid "mem_force_notification"
+msgstr "Notifiering via post"
+
+msgid "mem_force_notification_mode_all_sub_blocked"
+msgstr "Medlemmar kan avaktivera aviseringar"
+
+msgid "mem_force_notification_mode_blocked"
+msgstr "Medlemmar kommer att meddelas automatiskt"
+
+msgid "mem_force_notification_mode_self"
+msgstr "Medlemmar måste aktivera aviseringar"

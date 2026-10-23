@@ -1,0 +1,57 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: note\n"
+
+msgid "note_comment_notification_link"
+msgstr "リンク"
+
+msgid "note_comment_notification_reason"
+msgstr "ILIAS管理(パーソナルデスクトップ設定)内の全てのコメント用のグローバル受信者としてアカウントがリストされているのでこのメッセージを受領します。"
+
+msgid "note_comment_notification_salutation"
+msgstr "こんにちは%s, さん"
+
+msgid "note_comment_notification_subject"
+msgstr "コメントが\"%s\"へ追加ｓれました"
+
+msgid "note_comment_notification_subjectc"
+msgstr "コメントが\"%s\"へ追加されました"
+
+msgid "note_comment_notification_user_has_written"
+msgstr "%s が書き込まれました:"
+
+msgid "note_comments_notification"
+msgstr "全コメントに関する全般通知"
+
+msgid "note_comments_notification_info"
+msgstr "各コメント用に通知するコンマ区切りのアカウントリスト"
+
+msgid "note_enable_comments"
+msgstr "コメントを有効にする"
+
+msgid "note_enable_comments_del_tutor"
+msgstr "コメントは指導教員により削除される可能性があります。"
+
+msgid "note_enable_comments_del_tutor_info"
+msgstr "オブジェクト用の\"編集設定\"有のユーザアクセス権はこのオブジェクト内に作成されるどのコメントも削除できます。"
+
+msgid "note_enable_comments_del_user"
+msgstr "著者によりコメントは削除される事があります。"
+
+msgid "note_enable_comments_del_user_info"
+msgstr "コメントは作成者により削除することができます。"
+
+msgid "note_enable_comments_export_info"
+msgstr "このオプションはポートフォリオ、blog、wikiのようなコンテンツオブジェクトのコメントエクスポートを有効にします。"
+
+msgid "note_enable_notes"
+msgstr "注意を有効にする"
+
+msgid "note_html_export_include_comments"
+msgstr "エクスポートへコメントを含んでエクスポートしますか?"

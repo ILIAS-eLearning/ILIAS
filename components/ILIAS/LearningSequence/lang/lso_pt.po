@@ -1,0 +1,343 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: lso\n"
+
+msgid "abstract"
+msgstr "Dinamarquês"
+
+msgid "abstract_img"
+msgstr "Alemão"
+
+msgid "avail_time_period"
+msgstr "Butanês"
+
+msgid "completed_steps"
+msgstr "Grego"
+
+msgid "condition_always"
+msgstr "Inglês"
+
+#, fuzzy
+msgid "cont_ed_insert_lsocurriculum"
+msgstr "Insert Learning Sequence Curriculum"
+
+#, fuzzy
+msgid "cont_ed_insert_lsostartbutton"
+msgstr "Insert Learning Sequence Start Button"
+
+msgid "curriculum"
+msgstr "Espanhol"
+
+msgid "delete_confirmation"
+msgstr "Estoniano"
+
+msgid "entries_deleted"
+msgstr "Basco"
+
+msgid "entries_updated"
+msgstr "Persa (farsi)"
+
+msgid "extro"
+msgstr "Finlandês"
+
+msgid "extro_img"
+msgstr "Francês"
+
+msgid "failed"
+msgstr "Irlandês"
+
+msgid "finished"
+msgstr "Galego"
+
+msgid "first_access"
+msgstr "Hebreu"
+
+msgid "last_visited_step"
+msgstr "Húngaro"
+
+msgid "learner_view"
+msgstr "Arménio"
+
+#, fuzzy
+msgid "lp_not_relevant_post_cond"
+msgstr "currently not relevant for continuation"
+
+msgid "lso_activation_online_info"
+msgstr "Interlíngua"
+
+msgid "lso_at_least_one_admin"
+msgstr "Indonésio"
+
+msgid "lso_edit_permission"
+msgstr "Islandês"
+
+msgid "lso_header_delete_members"
+msgstr "Italiano"
+
+msgid "lso_header_edit_members"
+msgstr "Japonês"
+
+#, fuzzy
+msgid "lso_intropages_deprecationhint"
+msgstr "You can edit the abstract and exit page in the tab \"Content\"."
+
+#, fuzzy
+msgid "lso_legacy_info"
+msgstr "The object will open in a new tab in your browser. Please return to this tab after processing/editing the contents. Reload the page if you have edited the content but the \"Next\" button remains disabled."
+
+msgid "lso_mail_admission_new_bod"
+msgstr "Javanês"
+
+msgid "lso_mail_admission_new_sub"
+msgstr "Georgiano"
+
+msgid "lso_mail_dismiss_bod"
+msgstr "Gronelandês"
+
+msgid "lso_mail_dismiss_sub"
+msgstr "Cambojano"
+
+msgid "lso_mail_notification_reg_bod"
+msgstr "Canará"
+
+msgid "lso_mail_notification_reg_req_bod"
+msgstr "Coreano"
+
+msgid "lso_mail_notification_reg_req_bod2"
+msgstr "Lituano"
+
+msgid "lso_mail_notification_reg_req_sub"
+msgstr "Letão"
+
+msgid "lso_mail_notification_reg_sub"
+msgstr "Macedónio"
+
+msgid "lso_mail_notification_unsub_bod"
+msgstr "Mongol"
+
+msgid "lso_mail_notification_unsub_bod2"
+msgstr "Moldavo"
+
+msgid "lso_mail_notification_unsub_sub"
+msgstr "Holandês"
+
+msgid "lso_mail_permanent_link"
+msgstr "Norueguês"
+
+msgid "lso_mail_status_bod"
+msgstr "Polaco"
+
+msgid "lso_mail_status_sub"
+msgstr "Pachto"
+
+msgid "lso_mail_sub_acc_bod"
+msgstr "Russo"
+
+msgid "lso_mail_sub_acc_sub"
+msgstr "Servo-croata"
+
+msgid "lso_mail_sub_dec_bod"
+msgstr "Eslovaco"
+
+msgid "lso_mail_sub_dec_sub"
+msgstr "Esloveno"
+
+msgid "lso_mail_subscribe_member_bod"
+msgstr "Português"
+
+msgid "lso_mail_subscribe_member_sub"
+msgstr "Romeno"
+
+msgid "lso_mail_unsubscribe_member_bod"
+msgstr "Albanês"
+
+msgid "lso_mail_unsubscribe_member_sub"
+msgstr "Sérvio"
+
+msgid "lso_mail_wl_bod"
+msgstr "Sundanês"
+
+msgid "lso_mail_wl_sub"
+msgstr "Sueco"
+
+#, fuzzy
+msgid "lso_mainbar_button_label_curriculum"
+msgstr "Curriculum"
+
+#, fuzzy
+msgid "lso_mainbar_button_label_toc"
+msgstr "Content"
+
+msgid "lso_mem_tbl_header"
+msgstr "Gestor"
+
+msgid "lso_member_administration"
+msgstr "Chinês"
+
+msgid "lso_members_deleted"
+msgstr "Turco"
+
+msgid "lso_members_gallery"
+msgstr "Ucraniano"
+
+msgid "lso_members_print_title"
+msgstr "Vietnamês"
+
+msgid "lso_min_one_admin"
+msgstr "Versão máxima"
+
+msgid "lso_msg_member_assigned"
+msgstr "Médio"
+
+#, fuzzy
+msgid "lso_multidownload_not_available"
+msgstr "Downloading multiple objects is currently not available for Learning Sequence Objects."
+
+msgid "lso_new_status"
+msgstr "Versão mínima"
+
+msgid "lso_notification"
+msgstr "Misturado"
+
+msgid "lso_notification_explanation_admin"
+msgstr "Nome"
+
+msgid "lso_notify_off"
+msgstr "Texto narrativo"
+
+msgid "lso_notify_on"
+msgstr "Em rede"
+
+msgid "lso_player_abstract"
+msgstr "Novo elemento"
+
+msgid "lso_player_extro"
+msgstr "Não"
+
+msgid "lso_player_finish"
+msgstr "Nenhuns metadados disponíveis para a secção de Anotações."
+
+msgid "lso_player_next"
+msgstr "Nenhuns metadados disponíveis para a secção de Classificação."
+
+#, fuzzy
+msgid "lso_player_noitems"
+msgstr "There are no available items in this Learning Sequence."
+
+msgid "lso_player_previous"
+msgstr "Nenhuns metadados disponíveis para a secção de Educação."
+
+msgid "lso_player_resume"
+msgstr "Nenhuns metadados disponíveis para a secção de Ciclo da vida."
+
+msgid "lso_player_review"
+msgstr "Nenhuns metadados disponíveis para a secção de Metadados."
+
+msgid "lso_player_start"
+msgstr "Nenhuns metadados disponíveis para a secção de Relação."
+
+msgid "lso_player_suspend"
+msgstr "Nenhuns metadados disponíveis para a secção de Direitos."
+
+#, fuzzy
+msgid "lso_player_viewmodelabel"
+msgstr "Learning Sequence"
+
+msgid "lso_print_list"
+msgstr "Nenhuns metadados disponíveis para a secção de Técnica."
+
+msgid "lso_read"
+msgstr "Não usado"
+
+msgid "lso_search_users"
+msgstr "Obrigatório"
+
+msgid "lso_settings_availability"
+msgstr "Opcional"
+
+msgid "lso_settings_extro"
+msgstr "Sistema Operativo"
+
+msgid "lso_settings_intro"
+msgstr "Ou composto"
+
+#, fuzzy
+msgid "lso_settings_old_extro"
+msgstr "View Old Exit Page"
+
+#, fuzzy
+msgid "lso_settings_old_intro"
+msgstr "View Old Intro Page"
+
+msgid "lso_show_members_info"
+msgstr "Outros"
+
+msgid "lso_start_item"
+msgstr "Outros requisitos da plataforma"
+
+#, fuzzy
+msgid "lso_toast_completed_desc"
+msgstr "You have completed this Learning Sequence. You might still keep looking through the content."
+
+#, fuzzy
+msgid "lso_toast_completed_title"
+msgstr "Congratulations"
+
+msgid "lso_users_already_assigned"
+msgstr "Selecione"
+
+msgid "mail_lso_roles"
+msgstr "Ponto de contacto"
+
+msgid "manage"
+msgstr "Pré-requisito"
+
+msgid "manage_content_maintab"
+msgstr "Declaração do problema"
+
+msgid "members_gallery"
+msgstr "Editor"
+
+msgid "no_entries_selected_for_delete"
+msgstr "Questionário"
+
+msgid "not_finished"
+msgstr "Propósito"
+
+#, fuzzy
+msgid "notification_lso_completed_title"
+msgstr "You completed the Learning Sequence %s."
+
+msgid "show_summary"
+msgstr "Relação"
+
+msgid "table_actions"
+msgstr "Requisito"
+
+#, fuzzy
+msgid "table_lp_settings"
+msgstr "Learning Progress Settings"
+
+msgid "table_may_proceed"
+msgstr "Requer"
+
+msgid "table_online"
+msgstr "Recurso"
+
+msgid "table_position"
+msgstr "Revisto"
+
+msgid "table_sequence_content"
+msgstr "Direitos"
+
+msgid "table_title"
+msgstr "Função"
+
+msgid "unparticipate"
+msgstr "Escola"

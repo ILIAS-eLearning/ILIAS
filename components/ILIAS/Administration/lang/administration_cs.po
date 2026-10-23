@@ -1,0 +1,810 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: administration\n"
+
+#, fuzzy
+msgid "adm_achievements"
+msgstr "Achievements"
+
+msgid "adm_adm_role_protect"
+msgstr "Chránit role správce"
+
+msgid "adm_adm_role_protect_info"
+msgstr "Je-li zapnuto, pak jen správce má povoleno zařadit/odebírat uživatele z/do role správce."
+
+#, fuzzy
+msgid "adm_auth_login"
+msgstr "Authentication Login"
+
+#, fuzzy
+msgid "adm_auth_reg"
+msgstr "Authentication Registration"
+
+#, fuzzy
+msgid "adm_communication"
+msgstr "Communication"
+
+#, fuzzy
+msgid "adm_extending_ilias"
+msgstr "Extending ILIAS"
+
+msgid "adm_external_setting_edit"
+msgstr "Upravit nastavení"
+
+msgid "adm_hide"
+msgstr "Skrýt ve formuláři nastavení"
+
+msgid "adm_hide_tabs"
+msgstr "Skrýt tabulky"
+
+msgid "adm_https"
+msgstr "HTTPS"
+
+msgid "adm_imprint"
+msgstr "Impresum"
+
+msgid "adm_imprint_inactive"
+msgstr "Impresum není aktivní a uživatelé nemají k němu přístup."
+
+#, fuzzy
+msgid "adm_layout_and_navigation"
+msgstr "Layout and Navigation"
+
+#, fuzzy
+msgid "adm_legal_regulations"
+msgstr "Legal Regulations"
+
+msgid "adm_locale"
+msgstr "Lokální"
+
+msgid "adm_locale_info"
+msgstr "Lokální nastavení ovlivňuje např. třídění seznamů. Příklady jsou nl_NL nebo de_DE. Vícenásobné lokality mohou být odděleny čárkou. Bude použita první platná."
+
+msgid "adm_maintenance"
+msgstr "Údržba"
+
+msgid "adm_missing_entries"
+msgstr "Chybějící vstupy"
+
+msgid "adm_missing_entry_add"
+msgstr "Přidat nový vstup"
+
+msgid "adm_missing_entry_add_action"
+msgstr "Přidat"
+
+msgid "adm_nr_statements"
+msgstr "Počet příkazů"
+
+#, fuzzy
+msgid "adm_personal_workspace"
+msgstr "Personal Workspace"
+
+msgid "adm_predefined_settings"
+msgstr "Předdefinované nastavení"
+
+msgid "adm_pub_section_domain_filter"
+msgstr "Filtr domén"
+
+msgid "adm_pub_section_domain_filter_info"
+msgstr "Filtry domén udělují anonymní přístup. Zadejte jednu nebo více domén, které umožňují anonymní přístup."
+
+msgid "adm_rep_shorten_description"
+msgstr "Zkrácené popisy"
+
+msgid "adm_rep_shorten_description_info"
+msgstr "Je-li aktivováno, všechny popisy v seznamu objektů budou zkrácené."
+
+msgid "adm_rep_shorten_description_length"
+msgstr "Max. počet znaků"
+
+msgid "adm_rep_tree_all_types"
+msgstr "Všechny typy zdrojů"
+
+msgid "adm_rep_tree_all_types_info"
+msgstr "Všechny typy zdrojů jsou vypsány v tomto stromu."
+
+msgid "adm_rep_tree_limit_grp_crs"
+msgstr "Zobrazit omezený kontextový strom v kurzech a skupinách."
+
+msgid "adm_rep_tree_limit_grp_crs_info"
+msgstr "Toto závisí a automaticky aktivuje vlastnosti 'Synchronizovat stromový rám'."
+
+msgid "adm_rep_tree_only_cntr"
+msgstr "Jen kontejner"
+
+msgid "adm_rep_tree_only_cntr_info"
+msgstr "Jsou vypsány jen kategorie, kurzy a skupiny."
+
+msgid "adm_rep_tree_presentation"
+msgstr "Prezentace stromu úložiště"
+
+#, fuzzy
+msgid "adm_repository_and_objects"
+msgstr "Repository and Objects"
+
+#, fuzzy
+msgid "adm_search_and_find"
+msgstr "Search and Find"
+
+msgid "adm_show_comments_tagging_in_lists"
+msgstr "Ukaž počet poznámek, komentářů a tagů v seznamech objektu"
+
+msgid "adm_show_comments_tagging_in_lists_tags"
+msgstr "Zobrazte tagy místo čísla"
+
+msgid "adm_table"
+msgstr "Tabulka"
+
+msgid "adm_user_administration"
+msgstr "Správa uživatelů"
+
+msgid "adm_user_starting_point"
+msgstr "Osobní výchozí bod"
+
+msgid "adm_user_starting_point_info"
+msgstr "Vyberte stránku nebo objekt, který se po přihlášení zobrazí."
+
+msgid "adm_user_starting_point_inherit"
+msgstr "Použít standardní nastavení"
+
+msgid "adm_user_starting_point_inherit_info"
+msgstr "Bude použito nastavení, které provedl administrátor platformy jako celku."
+
+msgid "adm_user_starting_point_invalid_info"
+msgstr "Tato funkce není právě aktivní."
+
+msgid "adm_user_starting_point_object"
+msgstr "Objekt úložiště"
+
+msgid "adm_user_starting_point_personal"
+msgstr "Osobní nastavení"
+
+msgid "adm_user_starting_point_personal_info"
+msgstr "Je-li aktivováno, uživatelé si mohou vybírat svou výchozí stránku."
+
+msgid "adm_user_starting_point_ref_id"
+msgstr "Odkaz-Id"
+
+msgid "adm_user_starting_point_ref_id_info"
+msgstr "Otevřete objekt, který chcete použít jako osobní výchozí bod. Zkopírujte číslo následující za „ref_id =“ v liště prohlížeče do vstupního textového pole."
+
+msgid "adm_value"
+msgstr "Předdefinovaná hodnota"
+
+msgid "allow_change_loginname"
+msgstr "Povolit změny přihlašovacího jména v \"Osobním profilu\""
+
+msgid "analysis_options"
+msgstr "Volby analýzy"
+
+msgid "analyze_data"
+msgstr "Analyzovat a opravit integritu dat"
+
+msgid "analyzing_tree_structure"
+msgstr "Analyzuji stromovou strukturu..."
+
+msgid "apache_auth_authenticate_on_login_page"
+msgstr "Při vstupu na přihlašovací stránku zkuste použít autentizaci Apache"
+
+msgid "apache_auth_domains"
+msgstr "Přesměrování domény povoleno"
+
+msgid "apache_auth_domains_description"
+msgstr "K povolení přesměrování k tomuto cíli vložte jednu doménu na řádek.<br/>Pokud ILIAS je dosažitelný více, než jednou doménou, vložte prosím všechny cíle, které chcete umožnit.<br />Příklad: priklad.com umožní přesměrování na http://priklad.com a http://www.priklad.com a všechny stránky zde umístěné."
+
+msgid "apache_auth_enable_override_login"
+msgstr "Přeskočit výchozí přihlašovací stránku"
+
+msgid "apache_auth_indicator_name"
+msgstr "Pole indikátoru pro úspěšnou autentizaci"
+
+msgid "apache_auth_indicator_value"
+msgstr "Hodnota indikátoru pro úspěšnou autentizaci"
+
+msgid "apache_auth_security"
+msgstr "Bezpečnostní nastavení"
+
+msgid "apache_auth_settings"
+msgstr "Apache"
+
+msgid "apache_auth_target_override_login"
+msgstr "Cílová url pro uživatelskou přihlašovací stránku"
+
+msgid "apache_auth_username_by_function"
+msgstr "Přiřadit uživatelská jména dle uživatelské funkce"
+
+msgid "apache_auth_username_config"
+msgstr "Konfigurace uživatelského jména"
+
+msgid "apache_auth_username_config_type"
+msgstr "Typ"
+
+msgid "apache_auth_username_direct_mapping"
+msgstr "Přímé přiřazení"
+
+msgid "apache_auth_username_direct_mapping_fieldname"
+msgstr "Pole pro přiřazení"
+
+msgid "apache_auth_username_extended_mapping"
+msgstr "Rozšířené přiřazení"
+
+msgid "apache_autocreate"
+msgstr "Zapnout generování účtů"
+
+msgid "apache_default_role"
+msgstr "Výchozí role uživatele"
+
+msgid "apache_enable_auth"
+msgstr "Zapnout podporu autentizace Apache"
+
+msgid "apache_enable_ldap"
+msgstr "Zapnout LDAP přiřazení uživatele"
+
+msgid "apache_enable_local"
+msgstr "Zapnout lokální přiřazení uživatele"
+
+msgid "apache_ldap_hint_ldap_must_be_configured"
+msgstr "LDAP musí být nastaven ve správě"
+
+msgid "apache_settings"
+msgstr "Konfigurovat LDAP Autentizaci"
+
+msgid "apache_settings_changed_success"
+msgstr "Konfigurace uložena"
+
+msgid "auth_apache"
+msgstr "Apache"
+
+msgid "auth_auth_mode_determination"
+msgstr "Stanovení metody autentizace (pro Login)"
+
+msgid "auth_automatic"
+msgstr "Pevná sekvence"
+
+msgid "auth_by_user"
+msgstr "Podle uživatele"
+
+msgid "auth_kind_determination"
+msgstr "Druh určení"
+
+#, fuzzy
+msgid "auth_mode_default_change_info"
+msgstr "Changing the default authentication method affects all user accounts configured to use the default authentication method. If the selected default method (e.g., Shibboleth, SAML, SOAP, ...) does not support or is not configured to allow fallback to local ILIAS authentication, affected users may no longer be able to log in. To avoid this, please ensure that local fallback authentication is activated in the configuration of the selected method, or that the authentication method stored for affected user accounts is manually changed."
+
+msgid "auth_mode_determination_info"
+msgstr "Zvolte jestli uživatelé si mají vybrat metodu své autentizace v přihlašovacím okně, nebo autentizace je prováděna pevnou sekvencí autentizačních metod."
+
+msgid "clean"
+msgstr "Vyčistit"
+
+msgid "clean_desc"
+msgstr "Odstranit neplatné odkazy a položky stromu. Inicializovat mezery ve stromové struktuře."
+
+msgid "cleaning"
+msgstr "Čištění..."
+
+msgid "cleaning_final"
+msgstr "Finální čištění..."
+
+msgid "course_export"
+msgstr "Viditelné v kurzech"
+
+msgid "done"
+msgstr "Provedeno"
+
+msgid "dump_tree"
+msgstr "Výpis stromu"
+
+msgid "dump_tree_desc"
+msgstr "Provést analýzu stromu a vytisknout všechny stromové uzly během analýzy dat."
+
+msgid "dumping_tree"
+msgstr "Vypisování stromu..."
+
+msgid "found"
+msgstr "nalezeno."
+
+msgid "found_none"
+msgstr "nenalezeno."
+
+msgid "git_hash_short"
+msgstr "Hash záznamu (krátký): %s"
+
+msgid "git_last_commit"
+msgstr "Poslední zápis: %s"
+
+msgid "git_revision"
+msgstr "Číslo: %s"
+
+msgid "group_export"
+msgstr "Viditelné ve skupinách"
+
+msgid "history_loginname"
+msgstr "Historie přihlašovacího jména"
+
+msgid "initializing_gaps"
+msgstr "Inicializace mezer ve stromu..."
+
+msgid "language_all_modules"
+msgstr "Všechny moduly"
+
+msgid "language_change_settings"
+msgstr "Změnit nastavení jazyka"
+
+msgid "language_clear_local_changes"
+msgstr "Smazat lokální změny v databázi."
+
+msgid "language_clear_local_changes_info"
+msgstr "Znovu nastavte vstupy v databázi tohoto jazyka na výchozí vstupy definované v lang/ilias_%s.lang. Budou odstraněny všechny lokální změny nebo přírůstky."
+
+msgid "language_cleared_local"
+msgstr "Lokální změny v databázi byly smazány."
+
+msgid "language_compare"
+msgstr "Porovnat:"
+
+msgid "language_default_entries"
+msgstr "(výchozí položky)"
+
+msgid "language_delete_local_additions"
+msgstr "Smazat lokální přírůstky v databázi"
+
+msgid "language_delete_local_additions_info"
+msgstr "Smažte všechny vstupy, které byly lokálně přidány do databáze."
+
+msgid "language_error_clear_local"
+msgstr "Lokální změny nelze v databázi smazat!"
+
+msgid "language_error_delete_local"
+msgstr "Lokální jazykový soubor nemůže být smazán!"
+
+msgid "language_error_local_missed"
+msgstr "Lokální jazykový soubor neexistuje!"
+
+msgid "language_error_read_local"
+msgstr "Lokální jazykový soubor neexistuje, nebo není čitelný!"
+
+msgid "language_error_write_global"
+msgstr "Globální jazykový soubor nelze zapsat!"
+
+msgid "language_export_file"
+msgstr "Export jazykového souboru"
+
+msgid "language_file_imported"
+msgstr "Jazykový soubor %s byl importován."
+
+msgid "language_file_scope"
+msgstr "Rozsah jazykového souboru"
+
+msgid "language_former_file_description"
+msgstr "K porovnání Vašich lokálních změn se změnami poslední aktualizace, zkopírujte prosím jazykový soubor dříve instalované verze ILIAS do složky lokálních jazykových souborů. Aktuální jazykový soubor se automaticky zkopíruje, když v záložce 'Údržba' uložíte Váš lokální jazykový soubor."
+
+msgid "language_former_file_equal"
+msgstr "Soubor <b>%s</b> je identický s aktuálním jazykovým soouborem."
+
+msgid "language_former_file_missing"
+msgstr "Soubor <b>%s</b> chybí."
+
+msgid "language_import_file"
+msgstr "Import jazykového souboru"
+
+msgid "language_load_local_changes"
+msgstr "Uložit lokální jazykový soubor do databáze"
+
+msgid "language_load_local_changes_info"
+msgstr "Načtěte soubor Přizpůsobení/globální/lang/ilias_%s_lang.local do databáze. Nové položky tohoto souboru jsou přidány do databáze a existující položky jsou přepsány."
+
+msgid "language_loaded_local"
+msgstr "Lokální jazykový soubor byl uložen do databáze."
+
+msgid "language_local_file_deleted"
+msgstr "Lokální jazykový soubor byl smazán."
+
+msgid "language_maintain"
+msgstr "Údržba"
+
+msgid "language_maintain_local_changes"
+msgstr "Provést lokální změny"
+
+msgid "language_maintenance"
+msgstr "Údržba jazyka"
+
+msgid "language_merge_local_changes"
+msgstr "Přpojit lokální změny ke globálnímu jazykovému souboru."
+
+#, fuzzy
+msgid "language_merge_local_changes_info"
+msgstr "Spojte všechny lokální změny a přírůstky abecedně do standardního jazykového souboru lang/ilias_%s.lang. Webový server musí mít oprávnění k zápisu do tohoto souboru."
+
+msgid "language_merged_global"
+msgstr "Lokální změny byly připojeny ke globálnímu jazykovému souboru."
+
+msgid "language_mode_existing"
+msgstr "Existující položky"
+
+msgid "language_mode_existing_delete"
+msgstr "Smazat existující položky"
+
+msgid "language_mode_existing_delete_info"
+msgstr "Před importováním souboru smažte všechny položky v databázi.<br /> VAROVÁNÍ: Importovaný jazykový soubor musí být kompletní, jinak nebudou definované jazykové proměnné. Pokud se to stane, přepněte na záložku „Údržba“ a vyberte „Vymazat lokální změny v databázi“."
+
+msgid "language_mode_existing_keepall"
+msgstr "Zachovat všechny existující položky"
+
+msgid "language_mode_existing_keepall_info"
+msgstr "Importujte pouze nové položky, které ještě neexistují v databázi."
+
+msgid "language_mode_existing_keepnew"
+msgstr "Zachovat všechny lokální změny"
+
+msgid "language_mode_existing_keepnew_info"
+msgstr "Importujte nové položky a přepište všechny položky, které stále mají své výchozí hodnoty. Ponechejte ty položky, které jsou již změněny v databázi."
+
+msgid "language_mode_existing_replace"
+msgstr "Nahradit existující položky"
+
+msgid "language_mode_existing_replace_info"
+msgstr "Importujte nové položky a nahraďte všechny existující položky novými hodnotami definovanými v souboru importu."
+
+msgid "language_note_translation"
+msgstr "Mód překládání stránky je aktivován pro každý jazyk odděleně. Navíc uživatel potřebuje oprávnění číst a zapisovat do složky jazyků."
+
+msgid "language_process_maintenance"
+msgstr "Provést údržbu"
+
+msgid "language_remove_local_file"
+msgstr "Smazat lokální jazykový soubor"
+
+msgid "language_remove_local_file_info"
+msgstr "Odstraňte soubor Přizpůsobení/globální/lang/ilias_%s_lang.local a změňte status jazyka z „Nainstalován s lokálním“ na „Nainstalován“. Změny v databázi nejsou dotčeny."
+
+msgid "language_save_dist"
+msgstr "Zálohovat standardní jazykový soubor"
+
+msgid "language_save_dist_failed"
+msgstr "Nemůže být zapsána záloha standardního jazykového souboru ILIAS."
+
+msgid "language_save_dist_info"
+msgstr "Vytvořte zálohu standardního jazykového souboru ILIAS v datovém adresáři ILIAS. Po aktualizaci ILIAS to pomáhá najít konflikty vlastních změn s aktualizovanými jazykovými proměnnými."
+
+msgid "language_save_local_changes"
+msgstr "Uložit všechny změny do lokálního jazykového souboru."
+
+msgid "language_save_local_changes_info"
+msgstr "Uložte všechny lokálně přidané nebo změněné položky databáze do souboru Přizpůsobení/globální/lang/ilias_%s_lang.local a nastavte status jazyka na „Nainstalován s lokálním“. Webový server musí mít oprávnění k zápisu do této složky. Povšimněte si, že je tento soubor stejný pro všechny klienty této instalace."
+
+msgid "language_saved_dist"
+msgstr "Je vytvořena záloha standardního jazykového souboru ILIAS."
+
+msgid "language_scope_added"
+msgstr "Jen lokální přírůstky"
+
+msgid "language_scope_added_info"
+msgstr "Exportujte všechny položky, které jsou lokálně přidány do databáze. To lze použít pro zálohování dodatečných položek vývoje před smazáním lokálních změn v záložce „Údržba“."
+
+msgid "language_scope_commented"
+msgstr "Zobrazí jen položky s komentářem v jazykovém souboru"
+
+msgid "language_scope_conflicts"
+msgstr "Lokální změny a aktualizace"
+
+msgid "language_scope_dbremarks"
+msgstr "Zobrazí jen položky s komentářem v databázi"
+
+msgid "language_scope_different"
+msgstr "Rozdílné od srovnávacího jazyka"
+
+msgid "language_scope_equal"
+msgstr "Rovné srovnávacímu jazyku"
+
+msgid "language_scope_global"
+msgstr "Všechny položky"
+
+msgid "language_scope_global_info"
+msgstr "Export all database entries of this language. To lze použít pro účely zálohování."
+
+msgid "language_scope_local"
+msgstr "Pouze lokální změny"
+
+msgid "language_scope_local_info"
+msgstr "Exportujte všechny položky, které jsou lokálně přidány nebo změněny v databázi. To je podobné uložení lokálního jazykového souboru v záložce „Údržba“."
+
+msgid "language_scope_merged"
+msgstr "Lokální změny připojeny ke globálnímu jazykovému souboru"
+
+msgid "language_scope_merged_info"
+msgstr "Exportujte standardní jazykový soubor ILIAS se všemi lokálními změnami sloučenými abecedně podle modulu a identifikátoru. To lze použít k aktualizaci globálního jazykového souboru na SVN serveru ILIAS."
+
+msgid "language_scope_unchanged"
+msgstr "Pouze nezměněné položky"
+
+msgid "language_scope_unchanged_info"
+msgstr "Exportovat všechny výchozí položky jazyka, které nejsou změněny v databázi. To je opak „Pouze lokální změny“. Obojí dohromady tvoří kompletní zálohu aktuálního jazyka v databázi."
+
+msgid "language_settings"
+msgstr "Nastavení jazyka"
+
+msgid "language_statistics"
+msgstr "Statistiky"
+
+#, fuzzy
+msgid "language_translation"
+msgstr "Page translation"
+
+msgid "language_translation_enabled"
+msgstr "Překlad stránky zapnut"
+
+#, fuzzy
+msgid "language_variables_saved"
+msgstr "The changes to the language variables were saved successfully."
+
+msgid "log_scan"
+msgstr "Záznam výsledků skenování"
+
+msgid "log_scan_desc"
+msgstr "Zapsat výsledky skenování do souboru 'scanlog.log' v adresáři dat klienta."
+
+msgid "loginname_change_blocking_time"
+msgstr "Čas blokování změny přihlašovacího jména"
+
+msgid "loginname_change_blocking_time_info"
+msgstr "Vložte periodu v sekundách, po kterou má uživatel čekat před další změnou svého přihlašovacího jména. Vložíte-li 0, nebo ponecháte-li toto pole prázdné, může je uživatel změnit kdykoli. Vložte 3600 pro jednu hodinu, 86400 pro jeden den atd."
+
+msgid "loginname_change_blocking_time_invalidity_info"
+msgstr "Vložte prosím numerickou hodnotu."
+
+msgid "loginname_history_info"
+msgstr "Je-li aktivováno, změna přihlašovacího jména bude uložena v databázi. Tato historie je dostupná v tabulce databáze 'loginname_history'."
+
+msgid "nothing_to_purge"
+msgstr "Nic k vyčištění..."
+
+msgid "nothing_to_remove"
+msgstr "Nic k odstranění..."
+
+msgid "nothing_to_restore"
+msgstr "Nic k obnovení..."
+
+msgid "obj_blga"
+msgstr "Blog"
+
+msgid "obj_blga_desc"
+msgstr "Globální nastavení blogu"
+
+msgid "obj_chta_desc"
+msgstr "Správa diskuze"
+
+msgid "obj_excs"
+msgstr "Cvičení"
+
+msgid "obj_excs_desc"
+msgstr "Globální nastavení cvičení"
+
+#, fuzzy
+msgid "obj_gsfo"
+msgstr "Footer"
+
+#, fuzzy
+msgid "obj_gsfo_desc"
+msgstr "Administrate Footer Layout and Content"
+
+#, fuzzy
+msgid "obj_impr"
+msgstr "Legal Notice"
+
+#, fuzzy
+msgid "obj_impr_desc"
+msgstr "Deployment of Legal Notice"
+
+msgid "obj_mds"
+msgstr "Metadata"
+
+msgid "obj_mds_desc"
+msgstr "Konfigurovat metadata a rozšířená nastavení metadat"
+
+msgid "obj_otpl"
+msgstr "Šablony objektu"
+
+msgid "obj_otpl_desc"
+msgstr "Šablony pro tvorbu nových objektů"
+
+msgid "obj_prfa"
+msgstr "Portfolio"
+
+msgid "obj_prfa_desc"
+msgstr "Globální nastavení portfolia"
+
+msgid "obj_taxs"
+msgstr "Taxonomie"
+
+msgid "obj_taxs_desc"
+msgstr "Globální nastavení taxonomie"
+
+#, fuzzy
+msgid "org_op_edit_user_accounts"
+msgstr "Edit User Accounts"
+
+msgid "output_options"
+msgstr "Volby výstupu"
+
+msgid "path_to_mkisofs"
+msgstr "Cesta k mkisofs"
+
+#, fuzzy
+msgid "prg_export"
+msgstr "Visible in Study Programmes"
+
+msgid "purge_age_limit"
+msgstr "Omezit stářím"
+
+msgid "purge_age_limit_desc"
+msgstr "Pokud toto pole obsahuje nějakou hodnotu, pak budou vyčištěny pouze objekty, které byly smazané před specifikovaným počtem dnů."
+
+msgid "purge_count_limit"
+msgstr "Omezit počtem"
+
+msgid "purge_count_limit_desc"
+msgstr "Pokud toto pole obsahuje nějakou hodnotu, pak bude vyčištěn pouze specifikovaný počet objektů."
+
+msgid "purge_missing"
+msgstr "Vyčistit ztracené objekty"
+
+msgid "purge_missing_desc"
+msgstr "Odstranit všechny ztracené a nezapojených objektů, nalezených v systému."
+
+msgid "purge_trash"
+msgstr "Vyčistit smazané objekty"
+
+msgid "purge_trash_desc"
+msgstr "Odstranit všechny objekty v koši systému."
+
+msgid "purge_type_limit"
+msgstr "Omezit typem"
+
+msgid "purge_type_limit_desc"
+msgstr "Pokud toto pole obsahuje nějakou hodnotu, vyčištěn bude pouze specifikovaný typ objektů."
+
+msgid "purging"
+msgstr "Čištění..."
+
+msgid "purging_missing_objs"
+msgstr "Čištění ztracených objektů..."
+
+msgid "purging_trash"
+msgstr "Vysypání koše..."
+
+msgid "purging_unbound_objs"
+msgstr "Čištění nezapojených objektů..."
+
+msgid "removing_invalid_childs"
+msgstr "Odstranění neplatných pozic stromu..."
+
+msgid "removing_invalid_refs"
+msgstr "Odstranění neplatných odkazů..."
+
+msgid "removing_invalid_rolfs"
+msgstr "Odstranění neplatných složek rolí..."
+
+msgid "repair_options"
+msgstr "Volby oprav"
+
+msgid "restore_missing"
+msgstr "Obnovit ztracené objekty"
+
+msgid "restore_missing_desc"
+msgstr "Obnovit ztracené a nezapojené objekty do Složky obnovení."
+
+msgid "restore_trash"
+msgstr "Obnovit smazané objekty"
+
+msgid "restore_trash_desc"
+msgstr "Obnovit všechny objekty v koši do Složky obnovení."
+
+msgid "restoring"
+msgstr "Obnovení..."
+
+msgid "restoring_missing_objs"
+msgstr "Obnovení ztracených objektů..."
+
+msgid "restoring_trash"
+msgstr "Obnovení koše..."
+
+msgid "restoring_unbound_objs"
+msgstr "Obnovení nezapojených objektů a subobjektů..."
+
+msgid "reuse_of_loginnames_contained_in_history"
+msgstr "Opakované použití uživatelských jmen"
+
+msgid "reuse_of_loginnames_contained_in_history_info"
+msgstr "Je-li aktivováno, pak je umožněno znovu použít uživatelské jméno, které je již uloženo v historii (dokonce i když náleží smazanému uživateli)."
+
+msgid "scan"
+msgstr "Skenovat"
+
+msgid "scan_desc"
+msgstr "Skenování systému k vyhledání poškozených/neplatných/chybějících/nezapojených objektů."
+
+msgid "scan_details"
+msgstr "Podrobnosti skenovaní"
+
+msgid "scan_modes"
+msgstr "Použité módy skenování"
+
+msgid "scanning_system"
+msgstr "Skenování systému..."
+
+msgid "searching_deleted_objs"
+msgstr "Hledání smazaných objektů..."
+
+msgid "searching_invalid_childs"
+msgstr "Hledání neplatných položek stromu..."
+
+msgid "searching_invalid_refs"
+msgstr "Hledání neplatných odkazů..."
+
+msgid "searching_invalid_rolfs"
+msgstr "Hledání neplatných složek rolí..."
+
+msgid "searching_missing_objs"
+msgstr "Hledání chybějících objektů..."
+
+msgid "searching_unbound_objs"
+msgstr "Hledání nezapojených objektů..."
+
+msgid "skipped"
+msgstr "přeskočeno"
+
+msgid "start_scan"
+msgstr "Spustit!"
+
+msgid "svn_path"
+msgstr "Cesta: %s"
+
+msgid "svn_revision_current"
+msgstr "Aktuální revize: %s"
+
+msgid "svn_revision_last_change"
+msgstr "Poslední změna revize: %s"
+
+msgid "svn_root"
+msgstr "Kořen: %s"
+
+msgid "system_check_no_owner"
+msgstr "Objekty bez vlastníka"
+
+#, fuzzy
+msgid "system_folder_info"
+msgstr "Please choose an item from the administration main menu."
+
+msgid "systemcheck"
+msgstr "Kontrola systému"
+
+msgid "tree_corrupt"
+msgstr "Strom je poškozen! Pro detaily prohlédněte Scanlog."
+
+msgid "user_criteria"
+msgstr "Unikátní uživatelská kriteria"
+
+msgid "user_criteria_desc"
+msgstr "Unikátní uživatelská kriteria, která jsou použita pro import/export výsledků testu. Tato jsou potřebná pro identifikaci identického uživatele na různých systémech ILIAS."
+
+msgid "usr_loginname_history_info"
+msgstr "Tento uživatel změnij své uživatelské jméno nejméně %s. Dřívější uživatelské jméno bylo: %s."
+
+msgid "vc_information"
+msgstr "Informace kontroly verze"
+
+msgid "vc_information_not_determined"
+msgstr "Systém ILIAS nemohl zjistit informace o správě verzí."
+
+msgid "view_last_log"
+msgstr "Zobrazit poslední Scanlog"
+
+msgid "view_log"
+msgstr "Zobrazit detaily"

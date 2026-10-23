@@ -1,0 +1,180 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: el\n"
+"Language-Team: Greek\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: jscalendar\n"
+
+msgid "about_calendar"
+msgstr "Σχετικά με το ημερολόγιο"
+
+msgid "about_calendar_long"
+msgstr "Ημερομηνία DHTML/Επιλογέας χρόνου\\n(c) dynarch.com 2002-2003\\nΓια την τελευταία έκδοση επισκεφτείτε: http://dynarch.com/mishoo/calendar.epl\\nΔιανεμήθηκε σύμφωνα με την GNU LGPL. Δείτε http://gnu.org/licenses/lgpl.html για λεπτομέρειες.\\n\\nΕπιλογή Ημερομηνίας:\\n- Χρησιμοποιείστε τα κουμπιά «, » για να επιλέξετε έτος\\n- Χρησιμοποιείστε τα κουμπιά <, > για να επιλέξετε μήνα\\n- Για ταχύτερη επιλογή κρατήστε πατημένο το κουμπί του ποντικιού μαζί με οποιοδήποτε από τα παραπάνω κουμπιά."
+
+msgid "about_time"
+msgstr "\\n\\nΕπιλογή χρόνου:\\n- Πατήστε σε οποιοδήποτε από τα μέρη της ώρα για να την αυξήσετε\\n- ή Shift-κλικ για να τη μειώσετε\\n- ή σύρτε-ρίξτε για πιο γρήγορη επιλογή."
+
+msgid "day_first"
+msgstr "Εμφάνιση πρώτων %s"
+
+msgid "def_date_format"
+msgstr "%Y-%m-%d"
+
+msgid "drag_to_move"
+msgstr "Σύρε για μετακίνηση"
+
+msgid "go_today"
+msgstr "Πήγαινε στο σήμερα"
+
+msgid "l_01"
+msgstr "Ιανουάριος"
+
+msgid "l_02"
+msgstr "Φεβρουάριος"
+
+msgid "l_03"
+msgstr "Μάρτιος"
+
+msgid "l_04"
+msgstr "Απρίλιος"
+
+msgid "l_05"
+msgstr "Μάιος"
+
+msgid "l_06"
+msgstr "Ιούνιος"
+
+msgid "l_07"
+msgstr "Ιούλιος"
+
+msgid "l_08"
+msgstr "Αύγουστος"
+
+msgid "l_09"
+msgstr "Σεπτέμβριος"
+
+msgid "l_10"
+msgstr "Οκτώβριος"
+
+msgid "l_11"
+msgstr "Νοέμβριος"
+
+msgid "l_12"
+msgstr "Δεκέμβριος"
+
+msgid "l_fr"
+msgstr "Παρασκευή"
+
+msgid "l_mo"
+msgstr "Δευτέρα"
+
+msgid "l_sa"
+msgstr "Σάββατο"
+
+msgid "l_su"
+msgstr "Κυριακή"
+
+msgid "l_th"
+msgstr "Πέμπτη"
+
+msgid "l_tu"
+msgstr "Τρίτη"
+
+msgid "l_we"
+msgstr "Τετάρτη"
+
+msgid "next_month"
+msgstr "Επόμενος μήνας (κρατήστε για μενού)"
+
+msgid "next_year"
+msgstr "Επόμενο έτος (κρατήστε για μενού)"
+
+msgid "open_calendar"
+msgstr "Κάντε κλικ εδώ για να ανοίξετε το ημερολόγιο για την επιλογή ημερομηνίας. (απαιτείται JavaScript!)"
+
+msgid "part_today"
+msgstr " (σήμερα)"
+
+msgid "prev_month"
+msgstr "Προηγ. Μήνας (κρατήστε για μενού)"
+
+msgid "prev_year"
+msgstr "Προηγ. Έτος (κρατήστε για μενού)"
+
+msgid "s_01"
+msgstr "Ιαν"
+
+msgid "s_02"
+msgstr "Φεβ"
+
+msgid "s_03"
+msgstr "Μαρ"
+
+msgid "s_04"
+msgstr "Απρ"
+
+msgid "s_05"
+msgstr "Μάι"
+
+msgid "s_06"
+msgstr "Ιουν"
+
+msgid "s_07"
+msgstr "Ιουλ"
+
+msgid "s_08"
+msgstr "Αυγ"
+
+msgid "s_09"
+msgstr "Σεπ"
+
+msgid "s_10"
+msgstr "Οκτ"
+
+msgid "s_11"
+msgstr "Νοε"
+
+msgid "s_12"
+msgstr "Δεκ"
+
+msgid "s_fr"
+msgstr "Πα"
+
+msgid "s_mo"
+msgstr "Δε"
+
+msgid "s_sa"
+msgstr "Σα"
+
+msgid "s_su"
+msgstr "Κυ"
+
+msgid "s_th"
+msgstr "Πε"
+
+msgid "s_tu"
+msgstr "Τρ"
+
+msgid "s_we"
+msgstr "Τε"
+
+msgid "select_date"
+msgstr "Επιλογή ημερομηνίας"
+
+msgid "time"
+msgstr "Ώρα"
+
+msgid "time_part"
+msgstr "(Shift-)κλικ ή σύρε για να αλλάξεις τιμή"
+
+msgid "today"
+msgstr "Σήμερα"
+
+msgid "tt_date_format"
+msgstr "%a, %b %e"
+
+msgid "wk"
+msgstr "εβ"

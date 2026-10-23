@@ -1,0 +1,93 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: lt\n"
+"Language-Team: Lithuanian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && (n % 100 < 11 || n % 100 > 19)) ? 0 : ((n % 10 >= 2 && n % 10 <= 9 && (n % 100 < 11 || n % 100 > 19)) ? 1 : 2);\n"
+"X-Domain: wopi\n"
+
+#, fuzzy
+msgid "action_edit"
+msgstr "Edit"
+
+#, fuzzy
+msgid "action_view"
+msgstr "View"
+
+#, fuzzy
+msgid "activate_saving_interval"
+msgstr "Activate Saving Interval"
+
+#, fuzzy
+msgid "activate_wopi"
+msgstr "Activate WOPI"
+
+#, fuzzy
+msgid "close_wopi_editor"
+msgstr "Close Editor"
+
+#, fuzzy
+msgid "close_wopi_editor_info"
+msgstr "It can take up to several minutes for the external editor to transfer the changes to ILIAS. Visit this page again at a later time if the changes you have made are not yet visible."
+
+#, fuzzy
+msgid "currently_supported"
+msgstr "Currently supported Suffixes: %s"
+
+#, fuzzy
+msgid "msg_error_wopi_invalid_discorvery_url"
+msgstr "The Discovery URL entered is invalid or cannot be accessed."
+
+#, fuzzy
+msgid "msg_wopi_settings_modified"
+msgstr "Settings stored"
+
+#, fuzzy
+msgid "open_external_editor"
+msgstr "Open in external Editor"
+
+#, fuzzy
+msgid "open_external_viewer"
+msgstr "Show Content"
+
+#, fuzzy
+msgid "saving_interval"
+msgstr "Interval"
+
+#, fuzzy
+msgid "saving_interval_byline"
+msgstr "By default, ILIAS adds all changes made by an external editor to a draft version until this version is published manually. Activating the save interval causes a new version to be published after the specified number of seconds, if possible. Please note that a low value can lead to a large number of file versions, which in turn takes up a multiple of the hard disk space."
+
+#, fuzzy
+msgid "wopi_crawler_cronjob_description"
+msgstr "Updates the information of the connected WOPI service."
+
+#, fuzzy
+msgid "wopi_crawler_cronjob_no_apps"
+msgstr "No WOPI apps were found in the discovery."
+
+#, fuzzy
+msgid "wopi_crawler_cronjob_not_activated"
+msgstr "WOPI is not activated."
+
+#, fuzzy
+msgid "wopi_crawler_cronjob_success"
+msgstr "WOPI information updated successfully."
+
+#, fuzzy
+msgid "wopi_crawler_cronjob_title"
+msgstr "Update WOPI Discovery"
+
+#, fuzzy
+msgid "wopi_settings"
+msgstr "WOPI"
+
+#, fuzzy
+msgid "wopi_url"
+msgstr "WOPI Discovery URL"
+
+#, fuzzy
+msgid "wopi_url_byline"
+msgstr "Complete URL of the WOPI-Discovery, this must be accessible through the ILIAS server. The XML data of the Discover is read in and stored by ILIAS, the information is regularly updated by the cronjob \"Update WOPI Discovery\". Example: https://example.org/hosting/discovery"

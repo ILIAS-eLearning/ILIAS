@@ -1,0 +1,18 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: contact\n"
+
+msgid "contact_awrn_ap_contacts"
+msgstr ""
+
+msgid "contact_awrn_ap_contacts_info"
+msgstr ""
+
+msgid "contact_awrn_req_contacts"
+msgstr ""
+
+msgid "contact_awrn_req_contacts_info"
+msgstr ""

@@ -1,0 +1,27 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sl\n"
+"Language-Team: Slovenian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=4; plural=(n % 100 == 1) ? 0 : ((n % 100 == 2) ? 1 : ((n % 100 == 3 || n % 100 == 4) ? 2 : 3));\n"
+"X-Domain: objref\n"
+
+msgid "objref_custom_title"
+msgstr "Uporabi naslov po meri"
+
+msgid "objref_edit_ref"
+msgstr "Cilj povezave"
+
+msgid "objref_edit_title"
+msgstr "Naslov"
+
+msgid "objref_failure_target_type"
+msgstr "The target of the link must be of the following type"
+
+msgid "objref_reuse_title"
+msgstr "Prevzemi naslov povezanega objekta"
+
+msgid "objref_title_settings"
+msgstr "Naslov povezanega objekta"

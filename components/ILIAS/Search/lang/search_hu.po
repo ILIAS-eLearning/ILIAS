@@ -1,0 +1,407 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: search\n"
+
+msgid "add_members_header"
+msgstr "Tagok hozzáadása"
+
+msgid "append_results"
+msgstr "Eredmények hozzáfűzése"
+
+msgid "btn_search"
+msgstr "Keresés"
+
+msgid "last_search_result"
+msgstr "Utolsó keresési találat"
+
+msgid "lucene_and"
+msgstr "ÉS"
+
+msgid "lucene_cpu"
+msgstr "Szálak maximális száma"
+
+msgid "lucene_create_ini"
+msgstr "Konfigurációs fájl létrehozása"
+
+msgid "lucene_default_operator"
+msgstr "Alapértelmezett beállítások"
+
+msgid "lucene_default_operator_info"
+msgstr "Válassza ki az alapműveletet a logikai lekérdezésekhez. Alapértelmezett módban (‘ÉS’) az kifejezések együtt, ‘VAGY’ módban a kifejezések lehetőségként vannak figyelembe véve."
+
+msgid "lucene_download_ini"
+msgstr "Konfigurációs fájl letöltése"
+
+msgid "lucene_err_ampersand"
+msgstr "Az && speciális karaktereket tartalmazó kérdéseknek a következő formája kell legyen: kifejezés1 && kifejezés2."
+
+msgid "lucene_err_and_or_not"
+msgstr "Az ÉS/VAGY/NEM-et tartalmazó kérdéseknek a következő formában kell lenniük: kifejezés1 ÉS|VAGY|NEM|ÉS NEM kifejezés2."
+
+msgid "lucene_err_asterisk"
+msgstr "A helyettesítő karaktert (*) legalább egy betű vagy szám kell megelőzze."
+
+msgid "lucene_err_caret"
+msgstr "A hiányjel karakter (^) előtt alfanumerikus karaktereknek kell állni, utána számoknak."
+
+msgid "lucene_err_colon"
+msgstr "A kettőspont (:) előtt és után is legalább egy betű vagy szám kell álljon."
+
+msgid "lucene_err_exclamation_mark"
+msgstr "A felkiáltójel (!) speciális karaktert tartalmazó kérdésnek a következő formája kell legyen: kifejezés1 ! kifejezés2."
+
+msgid "lucene_err_parenthesis_empty"
+msgstr "A zárójelek legalább egy karaktert kell, hogy tartalmazzanak."
+
+msgid "lucene_err_parenthesis_not_closed"
+msgstr "Minden zárójelet be kell zárni."
+
+msgid "lucene_err_plus_minus"
+msgstr "A (+) és (-) módosítókat legalább egy betű vagy szám kell kövesse."
+
+msgid "lucene_err_question_mark"
+msgstr "A kérdőjel karakter (?) előtt legalább egy betű vagy szám kell álljon."
+
+msgid "lucene_err_quotes"
+msgstr "Zárjon be minden idézőjelet (')!"
+
+msgid "lucene_err_quotes_not_empty"
+msgstr "Az idézőjeleknek (') legalább egy karaktert kell tartalmazniuk."
+
+msgid "lucene_general_settings"
+msgstr "Általános beállítások"
+
+msgid "lucene_host"
+msgstr "Kiszolgáló"
+
+msgid "lucene_host_info"
+msgstr "Adja meg a kiszolgálónevet vagy az IP-címet a Java-szerverhez!"
+
+msgid "lucene_index_path"
+msgstr "Mappa az indexfájlokhoz"
+
+msgid "lucene_index_path_info"
+msgstr "Adjon nevet az indexfájlokat tároló mappának!"
+
+msgid "lucene_last_index_time"
+msgstr "Utolsó indexgenerálás"
+
+msgid "lucene_last_index_time_info"
+msgstr "Csak akkor módosítsa ezt a beállítást, ha indexfájlokat állított vissza!"
+
+msgid "lucene_level"
+msgstr "Naplózási szint"
+
+msgid "lucene_log"
+msgstr "Útvonal a naplófájlhoz"
+
+msgid "lucene_log_info"
+msgstr "Adja meg annak a fájlnak az abszolút útvonalát, amelybe az üzenetek beírásra kerülnek. Ha még nem létezik a fájl, automatikusan létre fog jönni."
+
+msgid "lucene_max_fs"
+msgstr "Maximális fájlméret (MB-ban)"
+
+msgid "lucene_max_fs_info"
+msgstr "Fájlmérethatár megadása. Az ennél nagyobb fájlok nem lesznek benne az indexben."
+
+msgid "lucene_num_frag_info"
+msgstr "Válassza ki a kiemelt szövegtöredékek maximális számát."
+
+msgid "lucene_num_fragments"
+msgstr "Szövegtöredékek száma"
+
+msgid "lucene_offline_filter"
+msgstr "Online állapot"
+
+msgid "lucene_or"
+msgstr "VAGY"
+
+msgid "lucene_port"
+msgstr "Port"
+
+msgid "lucene_prefix_wildcard"
+msgstr "Helyettesítő jellel keresés"
+
+msgid "lucene_prefix_wildcard_info"
+msgstr "Helyettesítő jellel végzett keresések támogatása: ‘*LIAS’ találata ‘ILIAS’"
+
+msgid "lucene_settings_index_section"
+msgstr "Index Backup"
+
+msgid "lucene_settings_tab"
+msgstr "Lucene"
+
+msgid "lucene_settings_text_section"
+msgstr "A keresési eredmények megjelenítése"
+
+msgid "lucene_settings_title"
+msgstr "Lucene beállítások"
+
+msgid "lucene_size_frag_info"
+msgstr "Válassza ki a kiemelt szövegtöredékek maximális hosszát. Ehhez adja meg a karakterek számát szóközökkel."
+
+msgid "lucene_size_fragments"
+msgstr "Szövegtöredékek mérete"
+
+msgid "lucene_tbl_create_ini"
+msgstr "Java-szerver ini-fájljának létrehozása"
+
+msgid "search_add_members_from_container_crs"
+msgstr "Felhasználók jelen kurzushoz rendelése"
+
+msgid "search_add_members_from_container_grp"
+msgstr "Felhasználók jelen csoporthoz rendelése"
+
+msgid "search_any"
+msgstr "-- Bármi --"
+
+#, fuzzy
+msgid "search_area_filter"
+msgstr "Scope"
+
+msgid "search_area_info"
+msgstr "Válassza ki azt a területet, ahol a keresés kezdődjön."
+
+msgid "search_auto_complete_length"
+msgstr "Automatikus kiegészítéseket tartalmazó lista bejegyzéseinek száma"
+
+msgid "search_auto_complete_length_info"
+msgstr "Válassza a ‘0’ lehetőséget az automatikus kiegészítési lista kikapcsolásához."
+
+msgid "search_cdate_filter"
+msgstr "Szűrés létrehozás dátum alapján"
+
+msgid "search_cdate_filter_info"
+msgstr "Az objektumok keresése szűrhető létrehozásuk dátuma alapján."
+
+msgid "search_content"
+msgstr "Laptartalom"
+
+msgid "search_copyright"
+msgstr "Copyright"
+
+msgid "search_created_after"
+msgstr "Később jött létre, mint"
+
+msgid "search_created_before"
+msgstr "Korábban jött létre, mint"
+
+msgid "search_created_on"
+msgstr "Ezen a napon jött létre"
+
+msgid "search_crs_title"
+msgstr "Kurzusnév"
+
+msgid "search_detailed_results_title"
+msgstr "Részletes eredmények %s-ban"
+
+msgid "search_details_info"
+msgstr "Részletezett keresés. Válasszon ki egy vagy több forrástípust."
+
+msgid "search_direct"
+msgstr "Direkt keresés"
+
+msgid "search_err_user_not_exist"
+msgstr "Nincs azzal a bejelentkező névvel felhasználó."
+
+msgid "search_fast_info"
+msgstr "Címek, leírások és kulcsszavak keresése minden objektumtípusban"
+
+msgid "search_field"
+msgstr "Kereső bemeneti mező"
+
+msgid "search_field_perform"
+msgstr "Keresés végrehajtása"
+
+msgid "search_filter_by_type"
+msgstr "Típus szerinti szűrő"
+
+msgid "search_filter_cd"
+msgstr "Szűrés létrehozás dátuma alapján"
+
+msgid "search_filter_settings_section"
+msgstr "Szűrők a keresési eredményekhez"
+
+msgid "search_for_crs_members"
+msgstr "Kurzusok keresése"
+
+msgid "search_for_grp_members"
+msgstr "Csoportok keresése"
+
+msgid "search_for_orgu_members"
+msgstr "Szervezeti egységek keresése"
+
+msgid "search_for_orgu_members_recursive"
+msgstr "Az alegységekben is?"
+
+msgid "search_for_role_members"
+msgstr "Szerepkörök keresése"
+
+msgid "search_for_users"
+msgstr "Felhasználók keresése"
+
+msgid "search_grp_title"
+msgstr "Csoportnév"
+
+msgid "search_item_filter_form"
+msgstr "Keresés típus szerint"
+
+msgid "search_item_filter_form_info"
+msgstr "A keresés a kiválasztott objektumtípusokra korlátozható."
+
+#. Needs to be adapted to new content of German lang file.
+msgid "search_like_info"
+msgstr "Válassza ezt az opciót a legjobb eredmények eléréséhez."
+
+msgid "search_limit_reached"
+msgstr "Keresése több mint %s találatot eredményezett. Szűkítheti a keresési kifejezéseket, hogy megfelelőbb eredményeket kapjon."
+
+msgid "search_lucene"
+msgstr "Lucene-keresés"
+
+msgid "search_mime_excel"
+msgstr "Excel fájlok"
+
+msgid "search_mime_filter_form"
+msgstr "MIME-típus szűrő"
+
+msgid "search_mime_filter_form_info"
+msgstr "A keresés a kiválasztott MIME-típusokra korlátozható."
+
+msgid "search_mime_image"
+msgstr "Képek"
+
+msgid "search_mime_pdf"
+msgstr "PDF fájlok"
+
+msgid "search_mime_powerpoint"
+msgstr "PowerPoint fájlok"
+
+msgid "search_mime_word"
+msgstr "Word fájlok"
+
+msgid "search_minimum_info"
+msgstr "Keresési feltétele legalább %s karakter hosszú legyen"
+
+msgid "search_minimum_three"
+msgstr "A keresésnek legalább három karakter hosszúnak kell lennie."
+
+msgid "search_newer_than"
+msgstr "Újabb, mint"
+
+msgid "search_no_connection_lucene"
+msgstr "Nem sikerült kapcsolódni a Lucene-szerverhez."
+
+#, fuzzy
+msgid "search_no_further_match"
+msgstr "No further matches found."
+
+msgid "search_no_match"
+msgstr "A keresése nem adott eredményt."
+
+msgid "search_no_match_hint"
+msgstr "<b>%s</b> keresése egyetlen dokumentumra sem ad találatot.<br/><br/>Javasoljuk, hogy:<br/>• Ellenőrizze, hogy minden szót helyesen írt-e.<br/>• Próbálkozzon más kulcsszavakkal.<br/>• Próbálkozzon általánosabb kulcsszavakkal.<br/>• Próbálkozzon kevesebb kulcsszóval."
+
+msgid "search_no_selection"
+msgstr "Nem választott."
+
+msgid "search_off"
+msgstr "Kikapcsolás"
+
+msgid "search_readme_file"
+msgstr "Readme fájl"
+
+msgid "search_results_show_subitems"
+msgstr "Részletes eredmények megtekintése"
+
+msgid "search_results_too_many_subitems"
+msgstr "További találatok érhetők el, kérjük, pontosítsa a keresési kifejezéseket."
+
+msgid "search_role_title"
+msgstr "Szerepnév"
+
+msgid "search_select_search_area"
+msgstr "Keresési terület kiválasztása"
+
+msgid "search_server_further_information"
+msgstr "A Lucene szerver konfigurációjáról további információkat a readme fájlban talál."
+
+msgid "search_show_inactive_user"
+msgstr "Inaktív felhasználók megjelenítése"
+
+msgid "search_show_inactive_user_info"
+msgstr "A felhasználói keresés az inaktív felhasználókat is visszaadja."
+
+msgid "search_show_limited_user"
+msgstr "Korlátozott hozzáférésű felhasználók megjelenítése"
+
+msgid "search_show_limited_user_info"
+msgstr "A felhasználókeresés visszaadja az engedélyezett időszakán kívül lévő, korlátozott hozzáférésű felhasználókat is."
+
+msgid "search_sort_by"
+msgstr "Rendezés:"
+
+msgid "search_sort_creation_date_asc"
+msgstr "Legidősebb"
+
+msgid "search_sort_creation_date_desc"
+msgstr "Legutolsó"
+
+msgid "search_sort_relevance"
+msgstr "Relevanca szerint"
+
+msgid "search_sort_title_asc"
+msgstr "Betűrendben: A-Z"
+
+msgid "search_sort_title_desc"
+msgstr "Betűrendben: Z-A"
+
+#, fuzzy
+msgid "search_tab_content"
+msgstr "Content"
+
+#, fuzzy
+msgid "search_tab_user"
+msgstr "Users"
+
+msgid "search_term_combination"
+msgstr "Kombináció"
+
+msgid "search_title_description"
+msgstr "Cím / Leírás"
+
+msgid "search_tst_svy"
+msgstr "Tesztek/Kérdőívek"
+
+msgid "search_type"
+msgstr "Keresési típus"
+
+msgid "search_user"
+msgstr "Felhasználók"
+
+msgid "search_user_extended"
+msgstr "Részletes felhasználókeresés"
+
+msgid "search_user_search_form"
+msgstr "Globális felhasználókeresés"
+
+msgid "search_user_search_info_form"
+msgstr "Felhasználókat találhat meg evvel a keresésssel. Amennyiben a Lucene fulltext keresést bekapcsolták, a felhasználói profilok adatai indexeltek és a felhasználók számára kereshetők."
+
+msgid "seas_search_type"
+msgstr "Keresési típus"
+
+msgid "select_orgu"
+msgstr "Válasszon szervezeti egységeket"
+
+msgid "until"
+msgstr "eddig"
+
+msgid "user_search_settings_section"
+msgstr "Felhasználók keresése a ‘Tagok’ lapon"

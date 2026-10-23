@@ -1,0 +1,100 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: nl\n"
+"Language-Team: Dutch\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: adve\n"
+
+msgid "advanced_editing_excass_settings"
+msgstr "Oefeningsinstelligen"
+
+msgid "advanced_editing_tst_editing"
+msgstr "Pagina Editor voor extra inhoud van de vraag."
+
+msgid "advanced_editing_tst_editing_desc"
+msgstr "Inschakelen Pagina Editor voor wijzigen van feedback en suggesties"
+
+msgid "adve_activation"
+msgstr "Inschakelen"
+
+#, fuzzy
+msgid "adve_auto_url_linking"
+msgstr "URL Auto-Linking"
+
+#, fuzzy
+msgid "adve_auto_url_linking_info"
+msgstr "Tries to identify URLs like \"http://..\" in text paragraphs and automatically creates links around them."
+
+#, fuzzy
+msgid "adve_autosave"
+msgstr "Automatic Saving Intervall"
+
+#, fuzzy
+msgid "adve_autosave_info"
+msgstr "Auto-save for text content. With shorter intervals, the server load increases and the performance of the system decreases."
+
+#, fuzzy
+msgid "adve_autosave_info_min_10"
+msgstr "Please choose a value of minimal 10 seconds if you activated this feature."
+
+msgid "adve_blocking_mode"
+msgstr "Wijzigen Vergrendeling"
+
+msgid "adve_excass_settings"
+msgstr "Oefening"
+
+#, fuzzy
+msgid "adve_grp_copa"
+msgstr "Content Pages"
+
+#, fuzzy
+msgid "adve_grp_frm"
+msgstr "Forums"
+
+msgid "adve_grp_glo"
+msgstr "Woordenlijst"
+
+msgid "adve_grp_lm"
+msgstr "ILIAS Leermodules"
+
+msgid "adve_grp_rep"
+msgstr "Studiecentrum pagina's"
+
+msgid "adve_grp_scorm"
+msgstr "SCORM Editor"
+
+msgid "adve_grp_test"
+msgstr "Toetsing en beoordeling"
+
+msgid "adve_grp_wiki"
+msgstr "Wikis"
+
+msgid "adve_minutes"
+msgstr "Minuten"
+
+msgid "adve_minutes_info"
+msgstr "Aantal minuten inactiviteit voordat een \"wijzig\" vergrendeling afloopt en de pagina door een ander kan worden gewijzigd."
+
+msgid "adve_page_editor_settings"
+msgstr "Instellingen ILIAS Pagina editor"
+
+msgid "adve_pe_general"
+msgstr "Algemeen"
+
+msgid "adve_rte_settings"
+msgstr "Rich Text Editor Instellingen"
+
+msgid "adve_text_content_features"
+msgstr "Tekst inhoudsopgave"
+
+msgid "adve_use_physical"
+msgstr "Gebruik b/i/u in plaats van str/emp/imp"
+
+msgid "adve_use_physical_info"
+msgstr "Deze instelling vervangt de semantische style class tags voor sterk, emfatisch en belangrijk met fysieke attributen: b (bold), i (italic) en u (underline). Let op, dit kan resulteren in inconsistenties, als de style editor wordt gebruikt en andere attributen zijn toegewezen voor sterkte/emfatisch/belangrijkheid van stijlen."
+
+msgid "adve_use_tiny_mce"
+msgstr "Inschakelen TinyMCE voor WYSIWYG Editen"

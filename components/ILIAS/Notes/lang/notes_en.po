@@ -1,0 +1,132 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"Language-Team: English\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: notes\n"
+
+msgid "comments_feature_currently_not_activated_for_object"
+msgstr "The public comments feature is currently not activated for this resource."
+
+msgid "note_add_comment"
+msgstr "Add Comment"
+
+msgid "note_add_message"
+msgstr "Add Message"
+
+msgid "note_add_note"
+msgstr "Add Note"
+
+msgid "note_content_removed"
+msgstr "This content has been removed."
+
+msgid "note_text"
+msgstr "Text"
+
+msgid "note_update_comment"
+msgstr "Update Comment"
+
+msgid "note_update_message"
+msgstr "Update Message"
+
+msgid "note_update_note"
+msgstr "Update Note"
+
+msgid "note_without_object"
+msgstr "Without Reference"
+
+msgid "notes_activate_comments"
+msgstr "Activate Public Comments"
+
+msgid "notes_add_comment"
+msgstr "Add Comment"
+
+msgid "notes_add_edit_comment"
+msgstr "Add/Edit Comment"
+
+msgid "notes_add_edit_message"
+msgstr "Add/Edit Message"
+
+msgid "notes_add_edit_note"
+msgstr "Add/Edit Note"
+
+msgid "notes_comment_deleted"
+msgstr "Comment deleted."
+
+msgid "notes_comments"
+msgstr "Comments"
+
+msgid "notes_comments_deleted"
+msgstr "Comments deleted."
+
+msgid "notes_deactivate_comments"
+msgstr "Deactivate Public Comments"
+
+msgid "notes_delete_comment"
+msgstr "Are you sure you want to delete this comment?"
+
+msgid "notes_delete_message"
+msgstr "Are you sure you want to delete this message?"
+
+msgid "notes_delete_note"
+msgstr "Are you sure you want to delete this note?"
+
+msgid "notes_html_export"
+msgstr "HTML Export"
+
+msgid "notes_latest_comment"
+msgstr "Latest Comment"
+
+msgid "notes_latest_message"
+msgstr "Latest Message"
+
+msgid "notes_message_author_you"
+msgstr "You"
+
+msgid "notes_message_deleted"
+msgstr "Message deleted."
+
+msgid "notes_messages"
+msgstr "Messages"
+
+msgid "notes_no_comments"
+msgstr "No comments have been posted yet."
+
+msgid "notes_no_comments_found"
+msgstr "No comments found that match your search criteria."
+
+msgid "notes_no_messages"
+msgstr "No messages have been left yet."
+
+msgid "notes_no_messages_found"
+msgstr "No messages found that match your search criteria."
+
+msgid "notes_no_notes"
+msgstr "You have not yet added any notes to this object."
+
+msgid "notes_no_notes_found"
+msgstr "No notes found that match your search criteria."
+
+msgid "notes_note_deleted"
+msgstr "Note deleted."
+
+msgid "notes_notes_deleted"
+msgstr "Notes deleted."
+
+msgid "notes_origin"
+msgstr "Origin"
+
+msgid "notes_public_comments"
+msgstr "Public Comments"
+
+msgid "notes_sort_asc"
+msgstr "Sort Ascending"
+
+msgid "notes_sort_desc"
+msgstr "Sort Descending"
+
+msgid "notes_text"
+msgstr "Text"

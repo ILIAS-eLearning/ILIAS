@@ -1,0 +1,31 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fr\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: mmbr\n"
+
+msgid "info_refuse_sure"
+msgstr "Etes-vous sûr de vouloir refuser l'utilisateur(s) suivant?"
+
+msgid "mmbr_awrn_my_groups_courses"
+msgstr "Mes cours et groupes"
+
+msgid "mmbr_awrn_my_groups_courses_info"
+msgstr "Tous les membres des groupes ou des cours de l'utilisateur actuel sont répertoriés."
+
+msgid "mmbr_btn_mail_selected_users"
+msgstr "Envoyer mail"
+
+msgid "mmbr_memberships"
+msgstr "Inscriptions"
+
+#, fuzzy
+msgid "mmbr_role_error"
+msgstr "Members must have at least one role assigned."
+
+msgid "mmbr_unsubscribed_from_objs"
+msgstr "You have been unsubscribed from the selected objects."

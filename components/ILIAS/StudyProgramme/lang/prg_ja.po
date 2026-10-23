@@ -1,0 +1,1047 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: prg\n"
+
+msgid "access_ctr_by_orgu_position"
+msgstr "Organisational Unit Positionに準じたアクセスコントロール"
+
+msgid "active_only"
+msgstr "アクティブユーザ限定"
+
+msgid "add_automembership_source"
+msgstr "ソースを追加"
+
+msgid "add_category"
+msgstr "カテゴリーを追加"
+
+msgid "assignment_date"
+msgstr "割当て日"
+
+msgid "assignments"
+msgstr "割当て"
+
+msgid "auto_add_success"
+msgstr "自動機能を正しく追加"
+
+msgid "auto_membership_description"
+msgstr "ルール有効化後基準が満たされた時に限りルールが実行されます。その次時点で他の有効な基準が満たされるとルールの削除が割当てを削除する事はありません。しません。"
+
+msgid "auto_membership_src_type"
+msgstr "Type"
+
+msgid "auto_membership_title"
+msgstr "メンバーシップ自動化用のソース"
+
+msgid "auto_memberships"
+msgstr "メンバーシップ自動化"
+
+msgid "category"
+msgstr "RefIdカテゴリー"
+
+msgid "cert_relevance"
+msgstr "Certificate"
+
+msgid "completion_date"
+msgstr "完了日"
+
+msgid "confirm_to_remove_selected_assignments"
+msgstr "本当にユーザ割当てを削除しますか?"
+
+msgid "cont_ed_insert_prgactionnote"
+msgstr "学習プログラムアクションNoteを挿入"
+
+msgid "cont_ed_insert_prgstatusinfo"
+msgstr "学習プログラムInformationを挿入"
+
+msgid "content_automation"
+msgstr "コンテンツ自動化"
+
+msgid "content_automation_title"
+msgstr "自動的に追加してこのカテゴリーからコースを削除"
+
+msgid "could_not_add_users_no_permissons"
+msgstr "アクセス権不足のため %d ユーザを割当てる事ができませんでした。"
+
+msgid "crs_affiliation_to_prg"
+msgstr "学習プログラムへ参加"
+
+msgid "deadline"
+msgstr "期限"
+
+msgid "deadline_information"
+msgstr "処理期間中に関する情報"
+
+msgid "deadline_updated"
+msgstr "期限更新しました"
+
+msgid "edit_participants"
+msgstr "メンバーを編集"
+
+msgid "error_updating_deadline"
+msgstr "期限更新時のエラー"
+
+msgid "error_updating_expire_date"
+msgstr "期日更新時のエラー"
+
+msgid "export_memberships"
+msgstr "割当を追加エクスポート"
+
+msgid "foreign_assignment"
+msgstr "トップノード外"
+
+msgid "form_msg_file_wrong_file_type"
+msgstr "ファイルタイプが間違っています。"
+
+msgid "header_remove_certificate"
+msgstr "選択のユーザの証明書を本当に削除しますか?"
+
+msgid "header_update_certificate"
+msgstr "選択のユーザの証明書を本当に更新しますか?"
+
+msgid "header_update_current_plan"
+msgstr "選択の割当ての全個別設定を本当にリセットしますか?"
+
+msgid "inactive_only"
+msgstr "非アクティブユーザのみ"
+
+msgid "info_to_re_assign_mail_body"
+msgstr "%s %s,<br/><br/>学習プログラム '% s' 内の受講有効性がまもなく終了します。サインインをやり直して下さい。"
+
+msgid "info_to_re_assign_mail_subject"
+msgstr "学習プログラム内の受講更新の知らせ"
+
+msgid "invalidated"
+msgstr "有効性"
+
+msgid "label_crs"
+msgstr "コース名"
+
+msgid "label_grp"
+msgstr "グループ名"
+
+msgid "label_role"
+msgstr "役割名"
+
+msgid "last_edited"
+msgstr "最終更新日"
+
+msgid "last_edited_by"
+msgstr "最終更新者"
+
+msgid "mail_assignments"
+msgstr "割当てたユーザへメール"
+
+msgid "mails_foreign_assignment_failed"
+msgstr "選択の割当は現在のコンテキストにはありません。メールは学習プログラムのトップノードから送信してはいけません。"
+
+msgid "manage_assignments"
+msgstr "割当てを管理"
+
+msgid "membership_source_id"
+msgstr "Id"
+
+msgid "membership_source_id_byline_objid"
+msgstr "<b>object-id</b>を使用して下さい。"
+
+msgid "membership_source_id_byline_refid"
+msgstr "<b>reference-id</b>を使用して下さい。"
+
+msgid "membership_source_type"
+msgstr "ソース"
+
+msgid "modal_automembership_title"
+msgstr "自動化を追加"
+
+msgid "modal_categories_title"
+msgstr "モニターすべきカテゴリー"
+
+msgid "modal_member_auto_select_title"
+msgstr "自動割当て用のソースを選択"
+
+msgid "msg_acknowledge_courses"
+msgstr "完了したコースは確認されました。"
+
+msgid "msg_change_deadline_date"
+msgstr "%s ユーザの期限更新済"
+
+msgid "msg_change_deadline_date_failed"
+msgstr "期限が更新されていない:"
+
+msgid "msg_change_expire_date"
+msgstr "%sユーザ中の期限更新済:"
+
+msgid "msg_change_expire_date_failed"
+msgstr "期限が更新されていない:"
+
+msgid "msg_fill_required"
+msgstr "全ての必須フィールドに入力してください。"
+
+msgid "msg_impossible_target_status"
+msgstr "不可能なターゲットステータス"
+
+msgid "msg_mark_accredited"
+msgstr "%s ユーザは正しく信任ありにマークしました"
+
+msgid "msg_mark_accredited_failed"
+msgstr "信任ありマークなし:"
+
+msgid "msg_mark_not_relevant"
+msgstr "%s ユーザは正しく関連ありを未マークしました"
+
+msgid "msg_mark_not_relevant_failed"
+msgstr "関連あり未マークなし:"
+
+msgid "msg_mark_relevant"
+msgstr "%s ユーザは正しく関連ありにマークしました"
+
+msgid "msg_mark_relevant_failed"
+msgstr "関連ありマークにマークなし:"
+
+msgid "msg_points_must_be_positive"
+msgstr "正の数字のみ許容されます。"
+
+msgid "msg_unmark_accredited"
+msgstr "未マーク %s ユーザは信任しました。"
+
+msgid "msg_unmark_accredited_failed"
+msgstr "信任の未マークが正しくない:"
+
+msgid "msg_update_certificate"
+msgstr "%s 証明書が更新されました。"
+
+msgid "msg_update_certificate_failed"
+msgstr "証明書は更新されていません。"
+
+msgid "msg_update_from_settings"
+msgstr "設定から更新したユーザ %s 更新したユーザ:"
+
+msgid "msg_update_from_settings_failed"
+msgstr "設定失敗から更新済:"
+
+msgid "msg_update_individual_plan"
+msgstr "個別計画 (%)　は正しく更新されました。"
+
+msgid "msg_update_individual_plan_failed"
+msgstr "失敗した個別計画の更新"
+
+msgid "no_permission_to_update_certificate"
+msgstr "証明書を更新するアクセス権がありません。"
+
+msgid "no_srctype_or_id"
+msgstr "IDとタイプが空でない可能性があります。"
+
+msgid "not_a_valid_cat_id"
+msgstr "%sはカテゴリーの有効なref-id ではありません。"
+
+msgid "obj_prg_select"
+msgstr " -- 学習プログラムを選択してください --"
+
+msgid "optgrp_label_restart"
+msgstr "リスタート"
+
+msgid "optgrp_label_validity"
+msgstr "終了"
+
+msgid "orgu"
+msgstr "Organisational Unit"
+
+msgid "pc_prg_action_note_label"
+msgstr "必須アクション学習プログラム"
+
+msgid "pc_prg_statusinfo_label"
+msgstr "学習プログラムステータス情報"
+
+msgid "pc_prgactionnote_complete_content"
+msgstr "学習プログラムへ割当てされますが、コンテンツを完了していません。コンテンツを完了してください。"
+
+msgid "pc_prgactionnote_complete_content_with_deadline"
+msgstr "学習プログラムへ割当てされますが、コンテンツを完了していません。コンテンツをそれまでに完了してください。"
+
+msgid "pc_prgactionnote_headline"
+msgstr "必須アクション"
+
+msgid "pc_prgactionnote_no_actions_required"
+msgstr "必要なアクションはありません。"
+
+msgid "pc_prgstatus_edit_qualification"
+msgstr "から再処理要求されました"
+
+msgid "pc_prgstatus_expiration_date"
+msgstr "満了日"
+
+msgid "pc_prgstatus_qualification_headline"
+msgstr "資格ステータス"
+
+msgid "pc_prgstatus_status_no_qualification"
+msgstr "資格なし"
+
+msgid "pc_prgstatus_status_valid_qualification"
+msgstr "有効"
+
+msgid "pc_prgstatus_text_no_qualification"
+msgstr "資格は有効ではありません。"
+
+msgid "pc_prgstatus_unlimited_validation"
+msgstr "期間無期限有効"
+
+msgid "percentage"
+msgstr "%"
+
+msgid "prg_access_by_orgu"
+msgstr "Organisation Unit Positionのアクセスコントロール"
+
+msgid "prg_access_by_orgu_byline"
+msgstr "有効にすると、追加アクセスコントロールルールがorganisational unitにより定義されます。"
+
+msgid "prg_acknowledge_all_completed_courses"
+msgstr "全て完了したコースを確認"
+
+msgid "prg_acknowledge_completed_courses"
+msgstr "完了したコースの確認"
+
+msgid "prg_add"
+msgstr "学習プログラムを追加"
+
+msgid "prg_added_course_ref_successful"
+msgstr "新しいコースレファレンスが正しく削除されました。"
+
+msgid "prg_added_member"
+msgstr "新しいメンバーが正しく追加されました。"
+
+msgid "prg_added_members"
+msgstr "新しいメンバーが正しく追加されました。"
+
+msgid "prg_additional_settings"
+msgstr "追加機能"
+
+msgid "prg_assessment"
+msgstr "学習プログラム監査"
+
+msgid "prg_assign_date"
+msgstr "割当て日付"
+
+msgid "prg_assigned_by"
+msgstr "割当て者"
+
+msgid "prg_async_create"
+msgstr "新しいツリーチャイルドを追加"
+
+msgid "prg_async_settings"
+msgstr "設定"
+
+msgid "prg_auto_member_select_crs"
+msgstr "コース"
+
+msgid "prg_auto_member_select_grp"
+msgstr "グループ"
+
+msgid "prg_auto_member_select_role"
+msgstr "役割"
+
+msgid "prg_autoassignment"
+msgstr "(auto)"
+
+msgid "prg_availability_action_not_allowed"
+msgstr "学習プログラムで利用可能期間を設定できません。"
+
+msgid "prg_belongs_to"
+msgstr "所有者"
+
+msgid "prg_can_not_manage_in_repo"
+msgstr "ユーザ割り当ての理由によりこの学習プログラムを管理することは許可されていません。"
+
+msgid "prg_cancel"
+msgstr "キャンセル"
+
+msgid "prg_cancel_acknowledge_completed_courses"
+msgstr "どのコースも認められません。"
+
+msgid "prg_cancel_tree_order"
+msgstr "ツリー順を解除"
+
+msgid "prg_change_deadline"
+msgstr "期限を変更"
+
+msgid "prg_change_expire_date"
+msgstr "期限を変更　"
+
+msgid "prg_changed_by"
+msgstr "更新者"
+
+msgid "prg_completion_by"
+msgstr "完了者"
+
+msgid "prg_completion_date"
+msgstr "キャンセル"
+
+msgid "prg_confirm_delete"
+msgstr "削除"
+
+msgid "prg_copy_threads_info"
+msgstr "どの学習プログラム要素をコｐ－、リンク、省略するか確定してください。"
+
+msgid "prg_create_new_leaf"
+msgstr "新しいリーフを作成"
+
+msgid "prg_create_new_node"
+msgstr "新しいノードを作成"
+
+msgid "prg_cron_job_configuration"
+msgstr "自動メール構成"
+
+msgid "prg_custom_plan"
+msgstr "カスタムプラン"
+
+msgid "prg_cut_action_not_allowed"
+msgstr "学習プログラム移動不可"
+
+msgid "prg_dash_label_finish_until"
+msgstr "終了期限"
+
+msgid "prg_dash_label_gain"
+msgstr "現時点での完了"
+
+msgid "prg_dash_label_minimum"
+msgstr "最短完了"
+
+msgid "prg_dash_label_restart_from"
+msgstr "再開日"
+
+msgid "prg_dash_label_status"
+msgstr "ステータス"
+
+msgid "prg_dash_label_unreachable"
+msgstr " -達成不可"
+
+msgid "prg_dash_label_valid"
+msgstr "有効期間"
+
+msgid "prg_deadline"
+msgstr "期限"
+
+msgid "prg_deadline_date"
+msgstr "設定した日付での処理時間が終了します。"
+
+msgid "prg_deadline_date_desc"
+msgstr "プログラムは指定日までに終了する必要があります。"
+
+msgid "prg_deadline_date_label"
+msgstr "期間内プロセス"
+
+msgid "prg_deadline_period"
+msgstr "処理時間は個別に決定されます。"
+
+msgid "prg_deadline_period_desc"
+msgstr "プログラムは指定の期間内に終了する必要があります。"
+
+msgid "prg_deadline_period_label"
+msgstr "割当て後の日数"
+
+msgid "prg_deadline_settings"
+msgstr "処理期間"
+
+msgid "prg_delete_confirmation"
+msgstr "本当に選択したエントリーを削除しますか?"
+
+msgid "prg_delete_failure"
+msgstr "削除失敗しました"
+
+msgid "prg_delete_nothing_selected"
+msgstr "削除するには一つは選択してください。"
+
+msgid "prg_delete_single_confirmation"
+msgstr "本当に選択したエントリーを削除しますか?"
+
+msgid "prg_delete_single_success"
+msgstr "正しくエントリーを削除しました。"
+
+msgid "prg_delete_success"
+msgstr "正しくエントリーを削除しました。"
+
+msgid "prg_deleted_safely"
+msgstr "ノードは正しく削除されました。"
+
+msgid "prg_description"
+msgstr "説明"
+
+msgid "prg_edit"
+msgstr "学習プログラムを編集"
+
+msgid "prg_expiry_date"
+msgstr "有効期限"
+
+msgid "prg_formatted_period"
+msgstr "%d 日間"
+
+msgid "prg_import_action_not_allowed"
+msgstr "学習プログラムへインポート不可"
+
+msgid "prg_invalidate_expired_progresses_desc"
+msgstr "'未履修'として学習プログラムの進捗期限が切れているものにマーク"
+
+msgid "prg_invalidate_expired_progresses_title"
+msgstr "学習プログラム進捗の制限あり有効期間"
+
+msgid "prg_link"
+msgstr "Link"
+
+msgid "prg_mail_context_info"
+msgstr "メンバーの受講者e-mailと学習プログラムの学習進捗スクリーン用"
+
+msgid "prg_mail_context_title"
+msgstr "学習プログラム: メンバーへメール"
+
+msgid "prg_mail_permanent_link"
+msgstr "学習プログラムに関する必要な情報を見つけるには次のリンクをクリック"
+
+msgid "prg_manage"
+msgstr "管理"
+
+msgid "prg_manage_members"
+msgstr "学習プログラムの要素を管理"
+
+msgid "prg_manage_members_short"
+msgstr "割当てを管理"
+
+msgid "prg_manual_status"
+msgstr "手動ステータス"
+
+msgid "prg_mark_accredited"
+msgstr "認定マーク"
+
+msgid "prg_mark_accredited_multi_success"
+msgstr "新任の選択されたユーザをマーク"
+
+msgid "prg_mark_accredited_success"
+msgstr "ユーザ用プログラムノードを正しく認定しました"
+
+msgid "prg_mark_not_relevant_multi_success"
+msgstr "関連の選択されたユーザのマークを外す"
+
+msgid "prg_mark_relevant"
+msgstr "関連をマーク"
+
+msgid "prg_mark_relevant_multi_success"
+msgstr "関連の選択されたユーザをマーク"
+
+msgid "prg_more_objects_without_read_permission"
+msgstr "権限がないので目標以上に含まれる学習プログラムを見ることができません。"
+
+msgid "prg_multi_change_deadline"
+msgstr "期限を変更"
+
+msgid "prg_multi_change_expire_date"
+msgstr "終了日を変更"
+
+msgid "prg_multi_mail_user"
+msgstr "メール送信"
+
+msgid "prg_multi_mark_accredited"
+msgstr "新任の"
+
+msgid "prg_multi_mark_relevant"
+msgstr "関連をマーク"
+
+msgid "prg_multi_remove_certificate"
+msgstr "証明書を削除"
+
+msgid "prg_multi_remove_user"
+msgstr "ユーザを削除"
+
+msgid "prg_multi_unmark_accredited"
+msgstr "新任のマークを外す"
+
+msgid "prg_multi_unmark_relevant"
+msgstr "関連のマークを外す"
+
+msgid "prg_multi_update_certificate"
+msgstr "証明書を更新"
+
+msgid "prg_multi_update_from_current_plan"
+msgstr "現状の計画を更新"
+
+msgid "prg_new"
+msgstr "新しい学習プログラム"
+
+msgid "prg_no_deadline"
+msgstr "処理時間が未定"
+
+msgid "prg_no_members_not_active"
+msgstr "このプログラムはアクティブではないのでメンバーを追加できません。"
+
+msgid "prg_no_permission_to_remove_certificate"
+msgstr "証明書を削除するアクセス権はありません。"
+
+msgid "prg_no_restart"
+msgstr "再開始不要"
+
+msgid "prg_no_user_selected"
+msgstr "ユーザを未選択です"
+
+msgid "prg_no_validity_qualification"
+msgstr "長持ちする資格"
+
+msgid "prg_not_allowed_node_to_delete"
+msgstr "このノードの削除権がありません。"
+
+msgid "prg_not_valid"
+msgstr "無効"
+
+msgid "prg_open_node"
+msgstr "このノードへ切替"
+
+msgid "prg_orgus"
+msgstr "Organisational Unit"
+
+msgid "prg_please_select_a_course_for_creating_a_leaf"
+msgstr "コースリンクリーフ作成中のコースを選択してください。"
+
+msgid "prg_points"
+msgstr "ポイント"
+
+msgid "prg_points_byline"
+msgstr "この学習プログラムに合格して以降のプログラムに多くの点数を取る必要がある時は学生は一定の点数を得ます。"
+
+msgid "prg_points_current"
+msgstr "現在のポイント"
+
+msgid "prg_points_reachable"
+msgstr "入手可能な点数"
+
+msgid "prg_points_required"
+msgstr "要件点数"
+
+msgid "prg_possible"
+msgstr "可能"
+
+msgid "prg_prg_type"
+msgstr "学習プログラムタイプ"
+
+msgid "prg_processing_ends_no_success"
+msgstr "不合格のリマインダーメール"
+
+msgid "prg_processing_ends_no_success_info"
+msgstr "間に合わないリスクのあるプログラム期限のx days前にユーザへ注意催促する。"
+
+msgid "prg_profile_not_public"
+msgstr "ユーザのプロファイルは公開されません。"
+
+msgid "prg_progress_info"
+msgstr "あなたは%1$dポイントです。学習プログラムは%2$dポイントで完了しました。"
+
+msgid "prg_progress_status"
+msgstr " %1$d of %2$d ポイント"
+
+msgid "prg_progress_status_with_child_sp"
+msgstr " %1$d of %2$dポイント"
+
+msgid "prg_quali_not_valid"
+msgstr "資格は無効"
+
+msgid "prg_quali_still_valid"
+msgstr "資格は有効"
+
+msgid "prg_remove_certificate"
+msgstr "証明書を削除"
+
+msgid "prg_remove_user"
+msgstr "割当を削除"
+
+msgid "prg_remove_user_success"
+msgstr "ユーザを正しく削除しました"
+
+msgid "prg_remove_users_not_possible"
+msgstr "選択のユーザ削除はできません"
+
+msgid "prg_remove_users_partial_success"
+msgstr "割当て (一部) を解除しました。"
+
+msgid "prg_remove_users_success"
+msgstr "選択のユーザを削除"
+
+msgid "prg_restart_assignments_temporal_progress_desc"
+msgstr "期限切れに関する進捗付きの学習プログラム割当てを再開始"
+
+msgid "prg_restart_assignments_temporal_progress_title"
+msgstr "学習プログラム割当てを再開始"
+
+msgid "prg_save_tree_order"
+msgstr "ツリー順に保存"
+
+msgid "prg_saved_order_successful"
+msgstr "順番を正しく保存しました。"
+
+msgid "prg_show_individual_plan"
+msgstr "個別プランを表示"
+
+msgid "prg_show_programmes"
+msgstr "表示"
+
+msgid "prg_show_programmes_on_pd_always"
+msgstr "学習プログラムは常時パーソナルデスクトップ上に表示されます。"
+
+msgid "prg_show_programmes_on_pd_only_read"
+msgstr "学習プログラムは'読み込みアクセス権`でのみパーソナルデスクトップ上に表示されます。"
+
+msgid "prg_some_users_may_not_be_accredited"
+msgstr "部分的にユーザ認定をマーク"
+
+msgid "prg_some_users_may_not_be_marked_not_relevant"
+msgstr "部分的に関連をマーしない"
+
+msgid "prg_some_users_may_not_be_marked_relevant"
+msgstr "部分的に関連をマーク"
+
+msgid "prg_some_users_may_not_be_unmarked_accredited"
+msgstr "部分的にユーザ認定をマークしない"
+
+msgid "prg_status"
+msgstr "ステータス"
+
+msgid "prg_status_1"
+msgstr "進行中"
+
+msgid "prg_status_2"
+msgstr "完了"
+
+msgid "prg_status_3"
+msgstr "認定"
+
+msgid "prg_status_4"
+msgstr "関連なし"
+
+msgid "prg_status_5"
+msgstr "失敗"
+
+msgid "prg_status_accredited"
+msgstr "認定済"
+
+msgid "prg_status_active"
+msgstr "アクティブ"
+
+msgid "prg_status_byline"
+msgstr "このプログラムが学生へ割当てられるとコントロールするにはステータスを使用"
+
+msgid "prg_status_completed"
+msgstr "完了"
+
+msgid "prg_status_draft"
+msgstr "ドラフト"
+
+msgid "prg_status_failed"
+msgstr "失敗"
+
+msgid "prg_status_hide_irrelevant"
+msgstr "不適切を非表示"
+
+msgid "prg_status_in_progress"
+msgstr "実行中"
+
+msgid "prg_status_not_relevant"
+msgstr "不適切"
+
+msgid "prg_status_outdated"
+msgstr "期限切れ"
+
+msgid "prg_still_valid"
+msgstr "有効期間内"
+
+msgid "prg_subtype_add"
+msgstr "新しいサブタイプを追加"
+
+msgid "prg_subtypes"
+msgstr "サブタイプ"
+
+msgid "prg_successfully_removed_certificate"
+msgstr "選択されたユーザの証明書は正しく削除されました。"
+
+msgid "prg_title"
+msgstr "Title"
+
+msgid "prg_type"
+msgstr "学習プログラムタイプ"
+
+msgid "prg_type_add"
+msgstr "学習プログラムタイプ"
+
+msgid "prg_type_assign_amd_sets"
+msgstr "詳細メタデータセットを割り当て"
+
+msgid "prg_type_available_amd_sets"
+msgstr "使用可能な詳細メタデータセット"
+
+msgid "prg_type_byline"
+msgstr "特定のカスタムメタデータもしくはアイコンを利用するにはタイプをセットする。"
+
+msgid "prg_type_custom_icon"
+msgstr "カスタムアイコン"
+
+msgid "prg_type_custom_icon_info"
+msgstr "カスタムアイコンinfo"
+
+msgid "prg_type_edit"
+msgstr "サブタイプを編集"
+
+msgid "prg_type_msg_deleted"
+msgstr "サブタイプを削除しました"
+
+msgid "prg_type_msg_error_custom_icon"
+msgstr "アイコン保存中のエラー"
+
+msgid "prg_type_msg_missing_title"
+msgstr "タイトルを空にできません。"
+
+msgid "prg_type_msg_missing_title_default_language"
+msgstr "既定の言語と既定の言語用タイトルを設定する必要があります。"
+
+msgid "prg_type_msg_unable_delete"
+msgstr "次の学習プログラム: %sにまだ割り当てられているのでタイプ削除はできません。"
+
+msgid "prg_unmark_accredited"
+msgstr "適切化マーク解除"
+
+msgid "prg_unmark_accredited_multi_success"
+msgstr "新任の選択されたユーザのマークを外す"
+
+msgid "prg_unmark_accredited_success"
+msgstr "ユーザ用のプログラムノードを正しく適切化解除しました"
+
+msgid "prg_unmark_relevant"
+msgstr "関連をマーク解除"
+
+msgid "prg_update_certificate"
+msgstr "証明書を更新"
+
+msgid "prg_update_from_current_plan"
+msgstr "現在のプランを更新"
+
+msgid "prg_update_from_current_plan_not_possible"
+msgstr "現状の計画の更新はできません"
+
+msgid "prg_update_from_current_plan_partitial_success"
+msgstr "現在の計画の一部を更新"
+
+msgid "prg_update_from_current_plan_success"
+msgstr "現状の計画の更新"
+
+msgid "prg_update_from_plan_successful"
+msgstr "現在のプランを正しく更新しました"
+
+msgid "prg_update_progress_description"
+msgstr "期限を過ぎた後で'進行中'から'失敗しました'へ進捗を設定。"
+
+msgid "prg_update_progress_title"
+msgstr "期限後に失敗しましたへ進捗を設定。"
+
+msgid "prg_update_successful"
+msgstr "変更を正しく保存しました"
+
+msgid "prg_user_not_restarted_desc"
+msgstr "学習プログラム認定の期限が切れるプログラムをまだ再開していない場合はユーザへ警告メールを送る。"
+
+msgid "prg_user_not_restarted_time_input"
+msgstr "催促メールを再開始。"
+
+msgid "prg_user_not_restarted_time_input_info"
+msgstr "プログラム再起動しなければ無効になるx days前にユーザへ催促メールする。"
+
+msgid "prg_user_not_restarted_title"
+msgstr "再開に関する警告メールを送信する。"
+
+msgid "prg_user_risky_to_fail_desc"
+msgstr "期限の都合で学習プログラクを失敗するリスクがあればユーザへ警告メールを送る"
+
+msgid "prg_user_risky_to_fail_title"
+msgstr "失敗の可能性について警告メールを送る"
+
+msgid "prg_validity"
+msgstr "有効性"
+
+msgid "prg_validity_of_qualification"
+msgstr "達成した資格の有効性"
+
+msgid "prg_validity_of_qualification_limit"
+msgstr "資格満了"
+
+msgid "prg_validity_of_qualification_restart"
+msgstr "再起動"
+
+msgid "prg_view"
+msgstr "ビュー"
+
+msgid "prgr_may_not_create_circular_reference"
+msgstr "親のオブジェクトがターゲット内に既にリンクされていますのでこの学習プログラムはここへリンクできない可能性があります。"
+
+msgid "re_assigned_mail_body"
+msgstr "%s %s,<br/><br/>受講者として学習プログラム '%s' が再割り当てされました。"
+
+msgid "re_assigned_mail_subject"
+msgstr "学習プログラム内のパーティションを更新しました"
+
+msgid "restart_information"
+msgstr "保留中の認定満了に対する自動再開に関する情報"
+
+msgid "restart_period"
+msgstr "再起動必須"
+
+msgid "restart_period_desc"
+msgstr "満了前の自動割当て"
+
+msgid "restart_period_info"
+msgstr "認定を再開するための認定満了までの日にち"
+
+msgid "restart_period_label"
+msgstr "満了までの日にち"
+
+msgid "restart_recheck_desc"
+msgstr "自動機能で作成された割り当ては、まだ存在している割り当ての基準かどうかをシステムが再確認します。"
+
+msgid "restart_recheck_label"
+msgstr "もう一度必要条件をチェックしてください"
+
+msgid "restarted"
+msgstr "再開しました"
+
+msgid "risky_to_fail_mail_body"
+msgstr "%s %s,<br/><br/>学習プログラム '%s' を完了するための期限にまもなく達します。"
+
+msgid "risky_to_fail_mail_subject"
+msgstr "学習プログラム '%s' を完了するための期限にまもなく達する催促。"
+
+msgid "rol"
+msgstr "役割"
+
+msgid "select_crs"
+msgstr "コースを検索"
+
+msgid "select_grp"
+msgstr "グループを検索"
+
+msgid "select_org"
+msgstr "Organisational Unitを検索"
+
+msgid "select_role"
+msgstr "役割を検索"
+
+msgid "send_info_to_re_assign_mail"
+msgstr "E-mail催促再開"
+
+msgid "send_info_to_re_assign_mail_info"
+msgstr "学習プログラムを再開するためにユーザへ催促メールを送る。"
+
+msgid "send_re_assigned_mail"
+msgstr "更新した参加をメールする"
+
+msgid "send_re_assigned_mail_info"
+msgstr "学習プログラムへ自動的に再参加するメールを送る"
+
+msgid "send_risky_to_fail_mail"
+msgstr "失敗した場合のメール"
+
+msgid "send_risky_to_fail_mail_info"
+msgstr "ユーザが学習プログラムに不合格のリスクあればメールを送る"
+
+msgid "sp_certificate_completion_date"
+msgstr "完了の日付け"
+
+msgid "sp_certificate_description"
+msgstr "学習プログラムの説明"
+
+msgid "sp_certificate_points"
+msgstr "取得済の総合点"
+
+msgid "sp_certificate_progress_expires_at"
+msgstr "認定満了日"
+
+msgid "sp_certificate_title"
+msgstr "学習プログラムのタイトル"
+
+msgid "sp_certificate_type"
+msgstr "学習プログラムのタイプ"
+
+msgid "status_changed"
+msgstr "ステータス更新しました"
+
+msgid "status_changed_due_to_deadline"
+msgstr "ステータスが期限に応じて変更されました。"
+
+msgid "status_transition_not_allowed"
+msgstr "ステータス変更は不可"
+
+msgid "status_unchanged"
+msgstr "未変更のステータス"
+
+msgid "study_programme_icon"
+msgstr "ページエディタ学習プログラム"
+
+msgid "update_deadline"
+msgstr "期限を正しく更新"
+
+msgid "update_expire_date"
+msgstr "満了日を正しく更新"
+
+msgid "updated_from_settings"
+msgstr "設定を更新しました"
+
+msgid "usr_active"
+msgstr "ユーザ"
+
+msgid "validity_qualification_date"
+msgstr "設定日で認定を満了"
+
+msgid "validity_qualification_date_desc"
+msgstr "満了日"
+
+msgid "validity_qualification_period"
+msgstr "資格は個別に満了します"
+
+msgid "validity_qualification_period_desc"
+msgstr "完了後の日にち"
+
+msgid "validity_updated"
+msgstr "正当に更新しました"
+
+msgid "vq_date"
+msgstr "満了"
+
+msgid "vq_date_info"
+msgstr "設定した日付で資格は満了します"
+
+msgid "vq_date_label"
+msgstr "満了日"
+
+msgid "vq_information"
+msgstr "合格の資格に関する有効性の情報"
+
+msgid "vq_period_info"
+msgstr "合格後に資格が満了するまでの日にち"
+
+msgid "vq_period_label"
+msgstr "完了後の日にち"
+
+msgid "warning"
+msgstr "Warning!"
+
+msgid "will_not_modify_deadline_on_successful_progress"
+msgstr "すでに完了または信任ありにマークのため変更なし。"
+
+msgid "will_not_modify_irrelevant_progress"
+msgstr "関連性がないので変更なし"
+
+msgid "will_not_modify_relevant_progress"
+msgstr "既に関連あり"
+
+msgid "will_not_modify_validity_on_non_successful_progress"
+msgstr "正しい場合に限り変更できます"
+
+msgid "will_not_set_top_progress_to_irrelevant"
+msgstr "不適切にトップノードを変更できません。"
+
+msgid "will_not_update_cert_for_unsuccessful_progress"
+msgstr "不合格プログラムには証明書はありません"

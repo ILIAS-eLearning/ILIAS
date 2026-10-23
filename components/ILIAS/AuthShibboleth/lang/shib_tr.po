@@ -1,0 +1,149 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: tr\n"
+"Language-Team: Turkish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: shib\n"
+
+#, fuzzy
+msgid "shib_account_creation"
+msgstr "Account Creation"
+
+#, fuzzy
+msgid "shib_account_creation_disabled"
+msgstr "Disabled"
+
+#, fuzzy
+msgid "shib_account_creation_disabled_info"
+msgstr "No new account is created."
+
+#, fuzzy
+msgid "shib_account_creation_enabled"
+msgstr "Enabled"
+
+#, fuzzy
+msgid "shib_account_creation_enabled_info"
+msgstr "An active new account is created."
+
+#, fuzzy
+msgid "shib_account_creation_info"
+msgstr "Account creation is triggered, when a user without a pre-existing ILIAS Account tries to log in via Shibboleth."
+
+#, fuzzy
+msgid "shib_account_creation_with_approval"
+msgstr "With approval"
+
+#, fuzzy
+msgid "shib_account_creation_with_approval_info"
+msgstr "An inactive new account is created. The account remains inactive until activated by an administrator."
+
+msgid "shib_add_missing"
+msgstr "Ata Eksik Rolleri"
+
+msgid "shib_add_remove"
+msgstr "Ekle / Kaldır Rolleri"
+
+msgid "shib_assignment_type"
+msgstr "Atama Tipi"
+
+msgid "shib_attr_info"
+msgstr "Shibboleth Kullanıcı Profili belirli bir özniteliği tarafından atayın."
+
+msgid "shib_attribute"
+msgstr "Kullanıcı Özellik"
+
+msgid "shib_attribute_name"
+msgstr "Özellik Adı"
+
+msgid "shib_attribute_value"
+msgstr "Özellik Değeri"
+
+msgid "shib_check_role_assignment"
+msgstr "Daha sonra oturumları sonra Rollerin Atama"
+
+msgid "shib_choose_role"
+msgstr "Rolü seçin"
+
+msgid "shib_confirm_del_role_ass"
+msgstr "gerçekten aşağıdaki kurallar silmek istediğinizden emin misiniz?"
+
+msgid "shib_deleted_rule"
+msgstr "Silinmiş rol atamaları."
+
+msgid "shib_global_role"
+msgstr "Global Rol"
+
+msgid "shib_ilias_role"
+msgstr "ILIAS Rol Adı"
+
+msgid "shib_local_role"
+msgstr "Yerel Rolü"
+
+msgid "shib_missing_attr_name"
+msgstr "öznitelik adını giriniz."
+
+msgid "shib_missing_attr_value"
+msgstr "öznitelik değeri girin."
+
+msgid "shib_missing_plugin_id"
+msgstr "geçerli bir eklenti kimliği girin."
+
+msgid "shib_missing_role"
+msgstr "bir rol seçin."
+
+msgid "shib_new_rule"
+msgstr "Add new Kuralı"
+
+msgid "shib_plugin"
+msgstr "Plugin Atama"
+
+msgid "shib_plugin_id"
+msgstr "Plugin Kimliği"
+
+msgid "shib_plugin_info"
+msgstr "bir eklenti ile rol atama doğrulayın. Geçerli bir eklenti kimliği girin."
+
+msgid "shib_remove_deprecated"
+msgstr "Onaylanmamış Roller Deassign"
+
+msgid "shib_role_ass_table"
+msgstr "Rol Atamaları için Yeni Kural"
+
+msgid "shib_role_assignment"
+msgstr "Rol Atamaları"
+
+msgid "shib_role_by_attribute"
+msgstr "Shibboleth Özellik"
+
+msgid "shib_role_by_plugin"
+msgstr "Plugin ile"
+
+msgid "shib_role_name"
+msgstr "ILIAS Rol Adı"
+
+msgid "shib_role_name_info"
+msgstr "ya küresel bir rol seçebilir veya yerel rol adını giriniz."
+
+msgid "shib_role_selection"
+msgstr "Rolü Seçimi"
+
+msgid "shib_rule_condition"
+msgstr "Durum"
+
+msgid "shib_rule_type"
+msgstr "Atama Türü"
+
+msgid "shib_rules_tables"
+msgstr "Aktif Rol Atama Kuralları"
+
+msgid "shib_settings"
+msgstr "Shibboleth Ayarları"
+
+msgid "shib_update_role_ass_table"
+msgstr "Düzenleme Rol Atama Kuralı"
+
+msgid "shib_update_roles"
+msgstr "Rol Atamaları"

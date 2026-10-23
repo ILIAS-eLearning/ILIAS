@@ -1,0 +1,842 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: trac\n"
+
+#, fuzzy
+msgid "cmix_lp_mode_deactivated"
+msgstr "Learning Progress is Deactivated"
+
+#, fuzzy
+msgid "cmix_lp_mode_deactivated_info"
+msgstr "The learning progress status is not displayed and does not influence parent objects."
+
+#, fuzzy
+msgid "cmix_lp_mode_when_completed"
+msgstr "Completed when 'completed'"
+
+#, fuzzy
+msgid "cmix_lp_mode_when_completed_info"
+msgstr "ILIAS status 'completed' is set when verb of last relevant xAPI-Statement is 'completed'."
+
+#, fuzzy
+msgid "cmix_lp_mode_when_passed"
+msgstr "Completed when 'passed'"
+
+#, fuzzy
+msgid "cmix_lp_mode_when_passed_info"
+msgstr "ILIAS status 'completed' is set when verb of last relevant xAPI-Statement is 'passed' or 'satisfied'."
+
+#, fuzzy
+msgid "cmix_lp_mode_when_passed_or_completed"
+msgstr "Completed when passed or completed"
+
+#, fuzzy
+msgid "cmix_lp_mode_when_passed_or_completed_info"
+msgstr "ILIAS status 'completed' is set when verb of last relevant xAPI-Statement is 'completed' or 'passed' or 'satisfied'."
+
+#, fuzzy
+msgid "cmix_lp_mode_with_failed"
+msgstr "Also consider failed"
+
+#, fuzzy
+msgid "cmix_lp_mode_with_failed_info"
+msgstr "The status could be 'failed' instead of 'in progress'."
+
+msgid "create_date_max"
+msgstr "Poslední registrace"
+
+msgid "create_date_min"
+msgstr "Nejstarší registrace"
+
+msgid "info_valid_request"
+msgstr "Maximální platný čas mezi dvěma požadavky uživatele."
+
+msgid "meta_typical_learning_time"
+msgstr "Typická doba výuky"
+
+msgid "obj_types"
+msgstr "Typy objektů:"
+
+#, fuzzy
+msgid "personal_learning_progress_view_description"
+msgstr "Ongoing courses with membership"
+
+#, fuzzy
+msgid "personal_learning_progress_view_title"
+msgstr "Your Learning Progress"
+
+msgid "read_count_avg"
+msgstr "Průměrné zobrazení stránky"
+
+msgid "registration_filter"
+msgstr "Datum registrace"
+
+msgid "search_area_info"
+msgstr "Zvolte prosím jeden objekt."
+
+msgid "search_terms"
+msgstr "Hledat termín(y)"
+
+msgid "session_statistics"
+msgstr "Statistiky relace"
+
+msgid "trac_aggregation"
+msgstr "Seskupení"
+
+msgid "trac_all"
+msgstr "Vše"
+
+msgid "trac_anonymized"
+msgstr "Anonymní"
+
+msgid "trac_anonymized_info"
+msgstr "Je-li zapnuto, všechny statistiky budou anonymní."
+
+msgid "trac_anonymized_info_short"
+msgstr "(Anonymizováno)"
+
+msgid "trac_assigned"
+msgstr "Přiděleno"
+
+msgid "trac_average"
+msgstr "Průměr"
+
+msgid "trac_begin_at"
+msgstr "Datum zahájení"
+
+msgid "trac_closed_expire"
+msgstr "Časový limit"
+
+msgid "trac_closed_login"
+msgstr "Anonymní přihlášení"
+
+msgid "trac_closed_manual"
+msgstr "Odhlásit se"
+
+msgid "trac_closed_misc"
+msgstr "Různé"
+
+msgid "trac_collection_assign"
+msgstr "Vybrat pro určení postupu výuky"
+
+msgid "trac_collection_deassign"
+msgstr "Zrušit výběr pro určení postupu výuky"
+
+msgid "trac_collection_manual_learner_changed_ts"
+msgstr "Změněno dne"
+
+msgid "trac_collection_manual_learner_info"
+msgstr "Postup výuky pro tento objekt musí být nastaven ručně."
+
+msgid "trac_collection_manual_learner_lm_info"
+msgstr "Aktivujte všechny kapitoly, které jste dokončili."
+
+msgid "trac_collection_tlt_learner_info"
+msgstr "Postup výuky pro tento objekt je založen na typickém čase výuky."
+
+msgid "trac_collection_tlt_learner_subitem"
+msgstr "Strávili jste %s z %s potřebných k dokončení (%s%%)."
+
+msgid "trac_comment"
+msgstr "Komentář"
+
+msgid "trac_completed"
+msgstr "Hotovo"
+
+msgid "trac_cron_info"
+msgstr "Chcete-li shromažďovat data, aktivujte úlohu cron \"Statistika objektů\"."
+
+msgid "trac_crs_objects"
+msgstr "Postup výuky účastníků kurzu"
+
+msgid "trac_current"
+msgstr "Aktuální"
+
+msgid "trac_current_system_load"
+msgstr "Aktuální zatížení systému"
+
+msgid "trac_data_deleted"
+msgstr "Údaje byly smazány."
+
+msgid "trac_defaults"
+msgstr "Status dokončeno"
+
+msgid "trac_defaults_inactive"
+msgstr "Neaktivní"
+
+msgid "trac_defaults_info"
+msgstr "Nastavte režim určení stavu dokončení pro podporované typy objektů. Používá se u některých typů identifikačních karet."
+
+msgid "trac_delete_data"
+msgstr "Smazat údaje"
+
+msgid "trac_determines_learning_progress"
+msgstr "Určuje postup výuky"
+
+msgid "trac_edit_collection"
+msgstr "Přidělte prosím materiály. Pokud status všech přidělených položek je 'Hotový' pak celkový status je dokončen uživatelem."
+
+msgid "trac_end_at"
+msgstr "Datum ukončení"
+
+msgid "trac_failed"
+msgstr "Neprošel"
+
+msgid "trac_figure"
+msgstr "Klíčové údaje"
+
+msgid "trac_filter_area"
+msgstr "Oblast:"
+
+msgid "trac_filter_has_status"
+msgstr "Zobrazit objekty, u kterých neproběhl žádný pokus"
+
+msgid "trac_filter_hidden"
+msgstr "Skryté:"
+
+msgid "trac_first_access"
+msgstr "První přístup"
+
+msgid "trac_first_and_last_access"
+msgstr "První a poslední přístup"
+
+#, fuzzy
+msgid "trac_frm_contribution_num_postings"
+msgstr "Minimum number of Postings"
+
+#, fuzzy
+msgid "trac_frm_contribution_num_postings_info_p"
+msgstr "%s: %s Posts"
+
+#, fuzzy
+msgid "trac_frm_contribution_num_postings_info_s"
+msgstr "%s: %s Post"
+
+msgid "trac_group_materials"
+msgstr "Materiály skupiny"
+
+msgid "trac_group_materials_save"
+msgstr "Uložit počet povinných materiálů"
+
+msgid "trac_grouped_material_obligatory_err"
+msgstr "Počet materiálů povinných materiálů musí být větší než 0 a menší než počet materiálů přiřazený této skupině."
+
+msgid "trac_hide"
+msgstr "Skrýt"
+
+msgid "trac_hide_selected"
+msgstr "Skrýt vybrané položky"
+
+msgid "trac_in_progress"
+msgstr "Probíhá"
+
+msgid "trac_info_edited"
+msgstr "Nastavte status na 'Hotový' pokud si myslíte, že máte zpracován celý obsah."
+
+msgid "trac_last_access"
+msgstr "Poslední přístup"
+
+msgid "trac_last_aggregation"
+msgstr "Poslední agregace"
+
+msgid "trac_learning_progress"
+msgstr "Postup výuky"
+
+msgid "trac_learning_progress_of"
+msgstr "Postup výuky pro %s"
+
+msgid "trac_learning_progress_settings_info"
+msgstr "Aktivovat zobrazení následujících hodnot v tabulkách postupu výuky:"
+
+msgid "trac_lhist_obj_completed"
+msgstr "$1$ byl dokončen."
+
+msgid "trac_lhist_obj_completed_in"
+msgstr "$1$ byl dokončen za $2$."
+
+msgid "trac_log_info"
+msgstr "Poslední agregace: %s (Nezpracované položky: %s)"
+
+msgid "trac_log_info_link"
+msgstr "Aktualizovat"
+
+msgid "trac_long_system_load"
+msgstr "Dlouhodobý"
+
+msgid "trac_lp_determination"
+msgstr "Určení stavu postupu výuky"
+
+msgid "trac_lp_determination_info_crs"
+msgstr "Vyberte položky, které určují status celkového postupu výuky."
+
+msgid "trac_lp_determination_info_crs_tutor"
+msgstr "Tento výběr není spojen se statusem postupu výuky"
+
+msgid "trac_lp_determination_info_mob"
+msgstr "Vyberte položky, které určují celkový status výukového postupu aplikace Mediacast"
+
+msgid "trac_lp_determination_info_sco"
+msgstr "Vyberte položky, které určují status celkového postupu výuky výukového modulu SCORM."
+
+msgid "trac_lp_determination_tutor"
+msgstr "Zobrazit objekty postupu výuky"
+
+#, fuzzy
+msgid "trac_lp_learner_access"
+msgstr "View Own Learning Progress"
+
+msgid "trac_lp_learner_access_info"
+msgstr "Pokud je aktivní, mohou uživatelé přistupovat ke svému vlastnímu statusu postupu výuky."
+
+msgid "trac_lp_list_gui"
+msgstr "Osobní plocha, úložiště, vyhledávání"
+
+msgid "trac_lp_list_gui_info"
+msgstr "Je-li tato funkce aktivována, je v seznamu objektů zařazen status postupu výuky."
+
+msgid "trac_lp_settings_info_parent_container"
+msgstr "Postup výuky nadřazených objektů"
+
+msgid "trac_lp_settings_info_parent_legend"
+msgstr "Status postupu výuky tohoto objektu je ovlivněn \"%s\"."
+
+msgid "trac_manual_display"
+msgstr "Zobrazit v postupu výuky"
+
+msgid "trac_manual_is_displayed"
+msgstr "Je zobrazeno"
+
+msgid "trac_manual_no_display"
+msgstr "Nezobrazit v postupu výuky"
+
+msgid "trac_mark"
+msgstr "Značka"
+
+msgid "trac_matrix"
+msgstr "Maticové zobrazení"
+
+msgid "trac_measure"
+msgstr "Číslo"
+
+msgid "trac_members_short"
+msgstr "Členové"
+
+msgid "trac_min_passed"
+msgstr "Minimální počet prostudovaných materiálů:"
+
+msgid "trac_mode"
+msgstr "Mód"
+
+#, fuzzy
+msgid "trac_mode_cmix_compl_or_passed_with_failed"
+msgstr "Completed when verb 'completed' or 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'Failed'."
+
+#, fuzzy
+msgid "trac_mode_cmix_compl_or_passed_with_failed_info"
+msgstr "&nbsp;"
+
+#, fuzzy
+msgid "trac_mode_cmix_compl_with_failed"
+msgstr "Completed when verb 'completed' was sent. Verb 'failed' sets status of ILIAS to 'Failed'."
+
+#, fuzzy
+msgid "trac_mode_cmix_compl_with_failed_info"
+msgstr "&nbsp;"
+
+#, fuzzy
+msgid "trac_mode_cmix_completed"
+msgstr "Completed when verb 'completed' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'."
+
+#, fuzzy
+msgid "trac_mode_cmix_completed_info"
+msgstr "&nbsp;"
+
+#, fuzzy
+msgid "trac_mode_cmix_completed_or_passed"
+msgstr "Completed when verb 'completed' or 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'."
+
+#, fuzzy
+msgid "trac_mode_cmix_completed_or_passed_info"
+msgstr "&nbsp;"
+
+#, fuzzy
+msgid "trac_mode_cmix_passed"
+msgstr "Completed when verb 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'."
+
+#, fuzzy
+msgid "trac_mode_cmix_passed_info"
+msgstr "&nbsp;"
+
+#, fuzzy
+msgid "trac_mode_cmix_passed_with_failed"
+msgstr "Completed when verb 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'Failed'."
+
+#, fuzzy
+msgid "trac_mode_cmix_passed_with_failed_info"
+msgstr "&nbsp;"
+
+msgid "trac_mode_collection"
+msgstr "Sbírka objektů"
+
+msgid "trac_mode_collection_info"
+msgstr "Určete materiály, které určují status celkového postupu výuky."
+
+msgid "trac_mode_collection_manual"
+msgstr "Ručně studentem (podle kapitoly)"
+
+msgid "trac_mode_collection_manual_info"
+msgstr "Uživatelé se musí pro každou kapitolu rozhodnout, zda je jejich status dokončen nebo ne."
+
+msgid "trac_mode_collection_mobs"
+msgstr "Soubor mediálních objektů"
+
+msgid "trac_mode_collection_mobs_info"
+msgstr "Status postupu výuky určen statusem zobrazení vybraných mediálních objektů."
+
+msgid "trac_mode_collection_tlt"
+msgstr "Typická doba výuky (podle kapitoly)"
+
+msgid "trac_mode_collection_tlt_info"
+msgstr "Uživatelům, kteří dosáhli Typického času výuky ve všech příslušných kapitolách, budce udělen status „Dokončeno“."
+
+msgid "trac_mode_content_visited"
+msgstr "Navštívil"
+
+msgid "trac_mode_content_visited_info"
+msgstr "Status postupu výuky je v okamžiku, kdy byl objekt předložen uživateli, nastaven na hodnotu „dokončeno“."
+
+#, fuzzy
+msgid "trac_mode_contribution_to_discussion"
+msgstr "Contributions to Discussion"
+
+#, fuzzy
+msgid "trac_mode_contribution_to_discussion_info"
+msgstr "The learning progress status will be determined by the number of written postings."
+
+#, fuzzy
+msgid "trac_mode_course_reference"
+msgstr "Adopted from Course"
+
+#, fuzzy
+msgid "trac_mode_course_reference_info"
+msgstr "The mode is automatically adopted from the course this course link points to."
+
+msgid "trac_mode_deactivated"
+msgstr "Deaktivován"
+
+msgid "trac_mode_deactivated_info_new"
+msgstr "Status postupu výuky nebude zobrazen."
+
+msgid "trac_mode_event"
+msgstr "Účastníci sezení"
+
+msgid "trac_mode_event_info"
+msgstr "Status postupu výuky bude určen statusem účastníka."
+
+msgid "trac_mode_exercise_returned"
+msgstr "Cvičení vráceno"
+
+msgid "trac_mode_exercise_returned_info"
+msgstr "Status 'Hotový' může být nastaven pouze lektorem."
+
+msgid "trac_mode_individual_assessment"
+msgstr "Hodnotí ručně učitel nebo trenér"
+
+msgid "trac_mode_individual_assessment_info"
+msgstr "Záznam uživatele musí být dokončen učitelem, aby bylo možné dokončit individuálního hodnocení."
+
+#, fuzzy
+msgid "trac_mode_lti_outcome"
+msgstr "Mastery Score Must be reached"
+
+#, fuzzy
+msgid "trac_mode_lti_outcome_info"
+msgstr "The Learning Progress will be evaluated from the LTI outcome and the mastery score threshold."
+
+msgid "trac_mode_manual"
+msgstr "Ručně"
+
+msgid "trac_mode_manual_by_tutor"
+msgstr "Ručně lektorem"
+
+msgid "trac_mode_manual_by_tutor_info"
+msgstr "Celkový status může být nastaven pouze lektorem."
+
+msgid "trac_mode_manual_info"
+msgstr "Uživatelé mají rozhodnout, zda jejich status je dokončen, nebo není."
+
+msgid "trac_mode_objectives"
+msgstr "Automaticky podle výukových cílů"
+
+msgid "trac_mode_objectives_info"
+msgstr "Postup výuky bude započítáván automaticky podle počtu zpracovaných výukových úkolů."
+
+msgid "trac_mode_plugin"
+msgstr "Plugin"
+
+msgid "trac_mode_questions"
+msgstr "Otázky"
+
+msgid "trac_mode_questions_info"
+msgstr "Uživatelé, kteří správně odpověděli na všechny otázky, získají status „Dokončeno“."
+
+msgid "trac_mode_scorm"
+msgstr "Automaticky dle sbírky položek SCORM"
+
+msgid "trac_mode_scorm_info"
+msgstr "Status postupu výuky bude určen podle statusu SCO."
+
+msgid "trac_mode_scorm_package"
+msgstr "Automaticky dle statusu kurzu SCORM"
+
+msgid "trac_mode_scorm_package_info"
+msgstr "Status postupu výuky bude určen podle  statusu balíčku kurzu SCORM přímo."
+
+msgid "trac_mode_study_programme"
+msgstr "Studijní program dokončen"
+
+msgid "trac_mode_survey_finished"
+msgstr "Přehled byl dokončen"
+
+msgid "trac_mode_survey_finished_info"
+msgstr "Aby mohl být udělen status „Dokončeno“, musí být průzkum dokončen uživatelem."
+
+msgid "trac_mode_test_finished"
+msgstr "Test ukončen"
+
+msgid "trac_mode_test_finished_info"
+msgstr "Uživatelé musí ukončit test úplně."
+
+msgid "trac_mode_test_passed"
+msgstr "Test proveden"
+
+msgid "trac_mode_test_passed_info"
+msgstr "Test byl vykonán uživatelem a obdržel  status 'Hotový'."
+
+msgid "trac_mode_tlt"
+msgstr "Typický čas výuky"
+
+msgid "trac_mode_tlt_info"
+msgstr "Uživatelé, kteří dosáhnou typický čas výuky, obdrží status 'Hotový'."
+
+msgid "trac_mode_visited_pages"
+msgstr "Navštívené stránky"
+
+msgid "trac_mode_visited_pages_info"
+msgstr "Uživatelé, kteří navštívili všechny stránky, získají stav „Dokončeno“."
+
+msgid "trac_mode_visits"
+msgstr "Počet návštěv"
+
+msgid "trac_mode_visits_info"
+msgstr "Určete počet návštěv, který je potřebný pro zvládnutí tohoto výukového materiálu."
+
+msgid "trac_name_of_installation"
+msgstr "Název instalace"
+
+msgid "trac_no_attempted"
+msgstr "Nedostupný"
+
+msgid "trac_not_accessed"
+msgstr "Nedostupné"
+
+msgid "trac_not_assigned"
+msgstr "Nepřiděleno"
+
+msgid "trac_not_attempted"
+msgstr "Nedostupný"
+
+msgid "trac_not_completed"
+msgstr "Nekompletní"
+
+msgid "trac_not_participated"
+msgstr "Neúčastní se"
+
+msgid "trac_not_registered"
+msgstr "Nezaregistrován"
+
+msgid "trac_object_link"
+msgstr "Odkaz na objekt"
+
+msgid "trac_object_name"
+msgstr "Název objektu"
+
+msgid "trac_object_owner"
+msgstr "Vlastník objektu"
+
+msgid "trac_object_stat_access"
+msgstr "Intenzita použití"
+
+msgid "trac_object_stat_admin"
+msgstr "Spravovat údaje"
+
+msgid "trac_object_stat_daily"
+msgstr "Denní použití"
+
+msgid "trac_object_stat_lp"
+msgstr "Statistiky o postupu výuky kurzu"
+
+msgid "trac_object_stat_lp_max"
+msgstr "Max."
+
+msgid "trac_object_stat_lp_min"
+msgstr "Min."
+
+msgid "trac_object_stat_types"
+msgstr "Počet objektů"
+
+msgid "trac_object_statistics"
+msgstr "Statistiky objektu"
+
+msgid "trac_object_statistics_info"
+msgstr "Pokud je toto aktivováno, budou shromážděna a zpracována základní data pro statistiky použití."
+
+msgid "trac_objects"
+msgstr "Postup výuky uživatelů"
+
+msgid "trac_others"
+msgstr "Ostatní"
+
+msgid "trac_participants"
+msgstr "Zobrazit účastníky"
+
+msgid "trac_participated"
+msgstr "Účastní se"
+
+#, fuzzy
+msgid "trac_paths"
+msgstr "Paths"
+
+msgid "trac_percentage"
+msgstr "Procentuelně"
+
+msgid "trac_periodic_system_load"
+msgstr "Periodicky"
+
+msgid "trac_progress"
+msgstr "Osobní postup výuky"
+
+#, fuzzy
+msgid "trac_progress_block_details"
+msgstr "View Details"
+
+#, fuzzy
+msgid "trac_progress_block_title"
+msgstr "Your Learning Progress"
+
+msgid "trac_read_count"
+msgstr "Počet přístupů"
+
+msgid "trac_read_count_spent_seconds"
+msgstr "Strávený čas / přístupy"
+
+msgid "trac_reference"
+msgstr "Reference"
+
+#, fuzzy
+msgid "trac_reference_ids_column"
+msgstr "Reference-Ids"
+
+msgid "trac_registered"
+msgstr "Registrován(a)"
+
+msgid "trac_release_materials"
+msgstr "Dezintegrovat skupinu materiálů"
+
+msgid "trac_report_date"
+msgstr "Datum zprávy"
+
+msgid "trac_report_owner"
+msgstr "Vlastník zprávy"
+
+msgid "trac_required_visits"
+msgstr "Počet požadovaných návštěv"
+
+msgid "trac_sahs_relevant_items"
+msgstr "Obsahuje položky"
+
+msgid "trac_scale"
+msgstr "Měřítko"
+
+msgid "trac_select_area"
+msgstr "Vybrat oblast"
+
+msgid "trac_session_active_avg"
+msgstr "Aktivní sezení (Průměr)"
+
+msgid "trac_session_active_max"
+msgstr "Aktivní sezení (Maximum)"
+
+msgid "trac_session_active_min"
+msgstr "Aktivní sezení (Minimum)"
+
+msgid "trac_session_statistics_mode_day"
+msgstr "Den"
+
+msgid "trac_session_statistics_mode_last_day"
+msgstr "Posledních 24 hodin"
+
+msgid "trac_session_statistics_mode_last_month"
+msgstr "Posledních 30 dní"
+
+msgid "trac_session_statistics_mode_last_week"
+msgstr "Posledních 7 dní"
+
+msgid "trac_session_statistics_mode_month"
+msgstr "Měsíc"
+
+msgid "trac_session_statistics_mode_today"
+msgstr "Dnes"
+
+msgid "trac_session_statistics_mode_week"
+msgstr "Týden"
+
+msgid "trac_session_statistics_mode_year"
+msgstr "Rok"
+
+msgid "trac_session_statistics_no_data"
+msgstr "Pro tuto statistiku nebyly nalezeny žádné údaje."
+
+msgid "trac_sessions_closed"
+msgstr "Odchody"
+
+msgid "trac_sessions_opened"
+msgstr "Přístupy"
+
+msgid "trac_settings"
+msgstr "Nastavení"
+
+msgid "trac_settings_saved"
+msgstr "nastavení uloženo."
+
+msgid "trac_short_system_load"
+msgstr "Krátkodobý"
+
+msgid "trac_show_graph"
+msgstr "Zobrazit graf"
+
+#, fuzzy
+msgid "trac_show_progress_block"
+msgstr "Show Personal Progress Chart in ‘Content’-Tab"
+
+msgid "trac_show_repository_views"
+msgstr "Změny v úložišti"
+
+msgid "trac_show_repository_views_info"
+msgstr "Zobrazte informace o sledování objektů úložiště na informační stránce."
+
+msgid "trac_spent_seconds"
+msgstr "Strávený čas"
+
+msgid "trac_spent_time"
+msgstr "Strávený čas"
+
+msgid "trac_status"
+msgstr "Status"
+
+msgid "trac_status_changed"
+msgstr "Poslední změna statusu"
+
+msgid "trac_subitems"
+msgstr "Zobrazit podpoložky"
+
+msgid "trac_sum"
+msgstr "Suma"
+
+msgid "trac_summary"
+msgstr "Souhrnně"
+
+msgid "trac_sure_delete_data"
+msgstr "Skutečně chcete smazat úplné údaje pro následující měsíce?"
+
+msgid "trac_sync_obj_stats"
+msgstr "Aktualizovat údaje"
+
+msgid "trac_sync_obj_stats_success"
+msgstr "Údaje byly aktualizovány"
+
+msgid "trac_sync_session_stats"
+msgstr "Shromáždit údaje"
+
+msgid "trac_sync_session_stats_success"
+msgstr "Agregace dat byla úspěšně provedena."
+
+msgid "trac_time_passed"
+msgstr "Čas editace překročen"
+
+msgid "trac_title"
+msgstr "Název"
+
+msgid "trac_title_description"
+msgstr "Název / Popis"
+
+msgid "trac_total_online"
+msgstr "Celkový čas online"
+
+msgid "trac_trash"
+msgstr "přesunuto do koše"
+
+msgid "trac_update_edit_user"
+msgstr "Nastavení uloženo"
+
+msgid "trac_updated_status"
+msgstr "Status postupu výuky uložen."
+
+msgid "trac_user_data"
+msgstr "Údaje uživatele"
+
+msgid "trac_valid_request"
+msgstr "Max. čas mezi požadavky"
+
+msgid "trac_view_crs"
+msgstr "Zpět do kurzu"
+
+msgid "trac_view_list"
+msgstr "Zpět na seznam"
+
+msgid "trac_view_mode"
+msgstr "Zobrazit mód"
+
+msgid "trac_view_mode_all"
+msgstr "Všechny objekty"
+
+msgid "trac_view_mode_collection"
+msgstr "Jen objekty, kteé určují celkový status"
+
+msgid "trac_visits"
+msgstr "Počet návštěv"
+
+msgid "trac_visits_info"
+msgstr "Každá návštěva stránky je počítána jako jedna návštěva."
+
+#, fuzzy
+msgid "trac_visits_nr"
+msgstr "Number of Visits"
+
+msgid "user_total"
+msgstr "Celkem uživatelů"
+
+msgid "view_mode"
+msgstr "Mód zobrazení"
+
+#, fuzzy
+msgid "view_mode_all"
+msgstr "All"
+
+#, fuzzy
+msgid "view_mode_current"
+msgstr "Current"
+
+#, fuzzy
+msgid "view_mode_future"
+msgstr "Future"
+
+#, fuzzy
+msgid "view_mode_past"
+msgstr "Past"

@@ -1,0 +1,372 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: zh\n"
+"Language-Team: Chinese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: certificate\n"
+
+#, fuzzy
+msgid "cert_cron_task_desc"
+msgstr "This job's responsibility is the creation of persisting certificate data based on learning achievements of users."
+
+#, fuzzy
+msgid "cert_cron_task_title"
+msgstr "Certificates"
+
+#, fuzzy
+msgid "cert_form_sec_add_features"
+msgstr "Additional Features"
+
+#, fuzzy
+msgid "cert_form_sec_availability"
+msgstr "Availability"
+
+#, fuzzy
+msgid "cert_form_sec_layout"
+msgstr "Layout and Text"
+
+msgid "certificate_a4"
+msgstr "A4 (297 mm x 210 mm)"
+
+msgid "certificate_a4_landscape"
+msgstr "A4 Landscape (210 mm x 297 mm)"
+
+msgid "certificate_a5"
+msgstr "A5 (210 mm x 148 mm)"
+
+msgid "certificate_a5_landscape"
+msgstr "A5 Landscape (148 mm x 210 mm)"
+
+msgid "certificate_background_image"
+msgstr "背景图片"
+
+#, fuzzy
+msgid "certificate_card_tile_image"
+msgstr "Thumbnail Image"
+
+#, fuzzy
+msgid "certificate_change_active_status"
+msgstr "The active state of the certificate has been changed"
+
+msgid "certificate_confirm_deletion_text"
+msgstr "您真的要删除证书及其所有相关数据吗？"
+
+msgid "certificate_custom"
+msgstr "客户..."
+
+msgid "certificate_edit"
+msgstr "创建/编辑一个证书模板"
+
+msgid "certificate_error_import"
+msgstr "在导入证书时发生了一个错误！"
+
+msgid "certificate_error_upload_bgimage"
+msgstr "在背景图片上传的过程中发生了一个错误！"
+
+msgid "certificate_export"
+msgstr "导出证书"
+
+msgid "certificate_failed"
+msgstr "失败"
+
+msgid "certificate_file_basename"
+msgstr "证书"
+
+#, fuzzy
+msgid "certificate_id"
+msgstr "Certificate ID"
+
+#, fuzzy
+msgid "certificate_issue_date"
+msgstr "Issue Date"
+
+#, fuzzy
+msgid "certificate_learning_progress_must_be_active"
+msgstr "Only objects with an active Learning Progress can be selected. The Learning Progress is deactivated on the following objects: %s"
+
+msgid "certificate_letter"
+msgstr "信件 (11 英寸 x 8.5 英寸)"
+
+msgid "certificate_letter_landscape"
+msgstr "信件 Landscape (8.5 英寸 x 11 英寸)"
+
+msgid "certificate_margin_body"
+msgstr "正文留边余量"
+
+msgid "certificate_not_well_formed"
+msgstr "证书文本没有漂亮的格式。请为证书文本输入有效的XHTML文件"
+
+msgid "certificate_page_format"
+msgstr "页面格式"
+
+msgid "certificate_page_format_info"
+msgstr "请为新证书选择默认的页面格式。"
+
+msgid "certificate_pageheight"
+msgstr "页面高度"
+
+msgid "certificate_pagewidth"
+msgstr "页面宽度"
+
+msgid "certificate_passed"
+msgstr "通过"
+
+msgid "certificate_ph_birthday"
+msgstr "用户生日"
+
+#, fuzzy
+msgid "certificate_ph_cert_id"
+msgstr "Unique Certificate ID"
+
+msgid "certificate_ph_city"
+msgstr "City of the user's address用户住地所在城市"
+
+msgid "certificate_ph_country"
+msgstr "Country of the user's address用户住地所在国家"
+
+msgid "certificate_ph_date"
+msgstr "实际的日期"
+
+msgid "certificate_ph_date_completed"
+msgstr "完工日期"
+
+msgid "certificate_ph_datetime"
+msgstr "实际的日期和时间"
+
+msgid "certificate_ph_datetime_completed"
+msgstr "完工的日期和时间"
+
+msgid "certificate_ph_department"
+msgstr "用户所在部门"
+
+msgid "certificate_ph_exercisetitle"
+msgstr "练习标题"
+
+msgid "certificate_ph_firstname"
+msgstr "用户的名字(first name)"
+
+msgid "certificate_ph_fullname"
+msgstr "用户的命名() (头衔,姓和名)"
+
+msgid "certificate_ph_institution"
+msgstr "用户所在机构"
+
+msgid "certificate_ph_introduction"
+msgstr "可以使用下面的占位符"
+
+msgid "certificate_ph_lastaccess"
+msgstr "用户最后访问的日期和时间"
+
+msgid "certificate_ph_lastname"
+msgstr "用户的姓氏"
+
+msgid "certificate_ph_login"
+msgstr "登录"
+
+msgid "certificate_ph_mark"
+msgstr "用户标记"
+
+msgid "certificate_ph_marklong"
+msgstr "用户标记 (正式版本)"
+
+msgid "certificate_ph_markshort"
+msgstr "用户标记 (简版)"
+
+#, fuzzy
+msgid "certificate_ph_matriculation"
+msgstr "Matriculation number of the user"
+
+msgid "certificate_ph_no_sco"
+msgstr "如果选中项目来确定整体学习进度状态，这些条目的标题和关键点(points)可以显示在证书中。"
+
+msgid "certificate_ph_salutation"
+msgstr "招呼"
+
+msgid "certificate_ph_sco_points_max"
+msgstr "最大<br/>points<br/>占位符"
+
+msgid "certificate_ph_sco_points_raw"
+msgstr "poins<br/>占位符"
+
+msgid "certificate_ph_sco_points_scaled"
+msgstr "points<br/>占位符<br/>百分比"
+
+msgid "certificate_ph_sco_title"
+msgstr "标题<br/>占位符"
+
+msgid "certificate_ph_scormmaxpoints"
+msgstr "最后相应的sco的原始分数范围的最大值(一个期末考试最适合)"
+
+msgid "certificate_ph_scormpoints"
+msgstr "SCORM学习模块的百分点。"
+
+msgid "certificate_ph_scormtitle"
+msgstr "SCORM学习模块的标题"
+
+msgid "certificate_ph_scos"
+msgstr "以下条目被选择来确定整体学习进程状态和证书中可用的陈述："
+
+msgid "certificate_ph_street"
+msgstr "用户住址街道"
+
+msgid "certificate_ph_testtitle"
+msgstr "测试的标题"
+
+msgid "certificate_ph_title"
+msgstr "用户的头衔（title）"
+
+msgid "certificate_ph_title_sco"
+msgstr "标题"
+
+msgid "certificate_ph_zipcode"
+msgstr "用户住址的邮政编码"
+
+msgid "certificate_points_notavailable"
+msgstr "无法计算这个值"
+
+msgid "certificate_preview"
+msgstr "显示证书预览"
+
+msgid "certificate_settings"
+msgstr "证书设置"
+
+msgid "certificate_short_name"
+msgstr "证书文件短标题"
+
+msgid "certificate_short_name_description"
+msgstr "请为证书名输入一个短标题。这个短标题将用作证书名的一部分：YYMMDD_[surname]_[短标题]_certificate.pdf"
+
+msgid "certificate_text"
+msgstr "证书文本"
+
+#, fuzzy
+msgid "certificate_text_info"
+msgstr "Please enter the certificate text. If the WYSIWYG editor is disabled in the ILIAS administration, you can still use valid XHTML to format the text."
+
+msgid "certificate_unit_description"
+msgstr "输入计量单位的值[cm|mm|in|pt|pc|px|em],例如，10mm或3in"
+
+msgid "certificate_usage"
+msgstr "请注意，证书的使用仅在ILIAS Java服务器正在运行中才有效。要使Java服务器有效，请在Webservices章节中的ILIAS管理的主页面中配置。"
+
+msgid "certificate_var_max_points"
+msgstr "46"
+
+msgid "certificate_var_result_mark_long"
+msgstr "好的"
+
+msgid "certificate_var_result_mark_short"
+msgstr "B   B"
+
+msgid "certificate_var_result_passed"
+msgstr "通过"
+
+msgid "certificate_var_result_percent"
+msgstr "83%"
+
+msgid "certificate_var_result_points"
+msgstr "38"
+
+msgid "certificate_var_user_birthday"
+msgstr "1977-05-08"
+
+msgid "certificate_var_user_city"
+msgstr "Anytown, NY纽约"
+
+msgid "certificate_var_user_country"
+msgstr "USA美国"
+
+msgid "certificate_var_user_department"
+msgstr "客户支持"
+
+msgid "certificate_var_user_firstname"
+msgstr "Jane"
+
+msgid "certificate_var_user_fullname"
+msgstr "Dr. Jane Doe"
+
+msgid "certificate_var_user_institution"
+msgstr "ILIAS 开放源码；"
+
+msgid "certificate_var_user_lastname"
+msgstr "Doe"
+
+msgid "certificate_var_user_login"
+msgstr "jdoe"
+
+#, fuzzy
+msgid "certificate_var_user_matriculation"
+msgstr "12345"
+
+msgid "certificate_var_user_salutation"
+msgstr "Mrs."
+
+msgid "certificate_var_user_street"
+msgstr "100 Main Street"
+
+msgid "certificate_var_user_title"
+msgstr "Dr.博士"
+
+msgid "certificate_var_user_zipcode"
+msgstr "12345"
+
+#, fuzzy
+msgid "cmix_cert_ph_object_description"
+msgstr "Description"
+
+#, fuzzy
+msgid "cmix_cert_ph_object_title"
+msgstr "Title of the xAPI/cmi5 Object"
+
+#, fuzzy
+msgid "cmix_cert_ph_reached_score"
+msgstr "Reached score as percentage"
+
+msgid "default_background_info"
+msgstr "这个背景图片将被选做所有证书的默认背景。如果您需要在这个证书中使用其它背景图片，可以在这个证书编辑器中上传一个图片。"
+
+msgid "download_certificate"
+msgstr "下载证书"
+
+#, fuzzy
+msgid "learning_progress_deactivated"
+msgstr "The Learning Progress for this object is deactivated. To edit the certificate template and achieve user certificates the learning progress for this object must be activated."
+
+#, fuzzy
+msgid "lti_cert_ph_mastery_score"
+msgstr "Mastery score as percentage"
+
+#, fuzzy
+msgid "lti_cert_ph_object_description"
+msgstr "Description"
+
+#, fuzzy
+msgid "lti_cert_ph_object_title"
+msgstr "Title of the LTI Consumer Object"
+
+#, fuzzy
+msgid "lti_cert_ph_reached_score"
+msgstr "Reached score as percentage"
+
+#, fuzzy
+msgid "persistent_certificate_mode"
+msgstr "User Certificate Creation"
+
+#, fuzzy
+msgid "persistent_certificate_mode_cron"
+msgstr "Cron Job"
+
+#, fuzzy
+msgid "persistent_certificate_mode_cron_info"
+msgstr "This option is recommended for systems with high user interaction."
+
+#, fuzzy
+msgid "persistent_certificate_mode_instant"
+msgstr "Instant"
+
+#, fuzzy
+msgid "persistent_certificate_mode_instant_info"
+msgstr "This option is recommended for systems with low up to mediocre user interactions. Systems that tend to big loading times during creation for multiple user certificates should switch to the \"Cron Job\" option."

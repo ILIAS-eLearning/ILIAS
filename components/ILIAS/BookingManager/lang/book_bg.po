@@ -1,0 +1,706 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: bg\n"
+"Language-Team: Bulgarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: book\n"
+
+msgid "X_reservations_of"
+msgstr "%s reservations of"
+
+msgid "book_add"
+msgstr "Прибавяне на резервационен басейн"
+
+msgid "book_add_object"
+msgstr "Добавяне на обект"
+
+#, fuzzy
+msgid "book_add_participant"
+msgstr "Add Participant"
+
+msgid "book_add_schedule"
+msgstr "Прибавяне на график"
+
+msgid "book_additional_info_file"
+msgstr "Допълнително описание"
+
+msgid "book_all"
+msgstr "Покажи всичко"
+
+#, fuzzy
+msgid "book_all_day"
+msgstr "All-Day"
+
+msgid "book_all_pools_need_schedules"
+msgstr "Настройките не са запазени. Всички зададени басейни трябва да имат поне един график."
+
+msgid "book_all_users"
+msgstr "Всички участници"
+
+msgid "book_assign"
+msgstr "Присвояване"
+
+msgid "book_assign_object"
+msgstr "Придаване на обект за резервация"
+
+msgid "book_assign_participant"
+msgstr "Придаване на участник"
+
+#, fuzzy
+msgid "book_assign_participants"
+msgstr "Book for other Participant(s)"
+
+msgid "book_back_to_list"
+msgstr "Обртно към списъка"
+
+msgid "book_bobj"
+msgstr "Обект за резервиране"
+
+msgid "book_book"
+msgstr "Резервирай"
+
+#, fuzzy
+msgid "book_book_available"
+msgstr "Book Available Dates"
+
+#, fuzzy
+msgid "book_book_recurrence"
+msgstr "Book multiple dates"
+
+msgid "book_booked_in"
+msgstr "Резервиран в"
+
+#, fuzzy
+msgid "book_booking"
+msgstr "Booking"
+
+msgid "book_booking_information"
+msgstr "Информация"
+
+#, fuzzy
+msgid "book_booking_objects"
+msgstr "Booking Objects"
+
+msgid "book_booking_reminders"
+msgstr "Предстоящи резервации"
+
+#, fuzzy
+msgid "book_bulk_confirmation"
+msgstr "Please check that all values are listed correctly."
+
+#, fuzzy
+msgid "book_bulk_creation"
+msgstr "Bulk Creation"
+
+#, fuzzy
+msgid "book_bulk_data"
+msgstr "Item Data"
+
+msgid "book_cal_entry"
+msgstr "Резервация на:"
+
+msgid "book_confirm_booking"
+msgstr "Потвърждаване на резервация"
+
+#, fuzzy
+msgid "book_confirm_booking_for_users"
+msgstr "Are you sure you want to book this item for the following user(s)?"
+
+msgid "book_confirm_booking_no_schedule"
+msgstr "Със сигурност ли искате да резервирате следния обект?"
+
+msgid "book_confirm_booking_schedule_number_of_objects"
+msgstr "Потвърждение на резервацията"
+
+msgid "book_confirm_booking_schedule_number_of_objects_info"
+msgstr "Моля, посочете броя на обектите, които искате да резервирате."
+
+msgid "book_confirm_cancel"
+msgstr "Сигурни ли сте, че искате да отмените следната резервация?"
+
+msgid "book_confirm_cancel_aggregation"
+msgstr "Брой анулирания"
+
+#, fuzzy
+msgid "book_confirm_cancel_info"
+msgstr "The selected bookings will be cancelled."
+
+msgid "book_confirm_delete"
+msgstr " Наистина ли искате да изтриете следните елементи?"
+
+#, fuzzy
+msgid "book_confirm_remove_participant"
+msgstr "Are you sure you want to remove the following Participant(s)? This will delete all related Bookings."
+
+msgid "book_copy"
+msgstr "Пул за резервиране на копия"
+
+#, fuzzy
+msgid "book_create_objects"
+msgstr "Create Items"
+
+#, fuzzy
+msgid "book_date_from"
+msgstr "From date"
+
+#, fuzzy
+msgid "book_date_to"
+msgstr "To date"
+
+msgid "book_deadline"
+msgstr "Deadline"
+
+msgid "book_deadline_hours"
+msgstr "X часа преди периода на резервация"
+
+msgid "book_deadline_info"
+msgstr "Минимално време между резервацията и резервирания период"
+
+msgid "book_deadline_options"
+msgstr "Краен срок за резервация"
+
+msgid "book_deadline_slot_end"
+msgstr "До края на периода на резервация"
+
+msgid "book_deadline_slot_start"
+msgstr "До началото на периода на резервация"
+
+msgid "book_deassign"
+msgstr "Deassign"
+
+#, fuzzy
+msgid "book_delete_object"
+msgstr "Delete"
+
+#, fuzzy
+msgid "book_deleted_booking"
+msgstr "Deleted Booking(s)"
+
+#, fuzzy
+msgid "book_deleted_object"
+msgstr "Deleted Bookable Item"
+
+msgid "book_download_info"
+msgstr "Download Допълнително описание"
+
+msgid "book_edit"
+msgstr "Едит на резервационен басейн"
+
+msgid "book_edit_object"
+msgstr "Обект за редактиране"
+
+msgid "book_edit_schedule"
+msgstr "Редактиране на график"
+
+#, fuzzy
+msgid "book_filter_end_date"
+msgstr "End Date"
+
+#, fuzzy
+msgid "book_filter_objects"
+msgstr "Bookable Items"
+
+msgid "book_filter_past_reservations"
+msgstr "Показване на минали резервации"
+
+#, fuzzy
+msgid "book_filter_period"
+msgstr "Period"
+
+#, fuzzy
+msgid "book_filter_start_date"
+msgstr "Start Date"
+
+msgid "book_fromto"
+msgstr "Диапазон от дати"
+
+msgid "book_hours"
+msgstr "Часове"
+
+msgid "book_is_used"
+msgstr "Използва се"
+
+msgid "book_limit_objects_available"
+msgstr "Не можете да присвоите %s участници на \"%s\", защото тя има само %s налични елементи."
+
+#, fuzzy
+msgid "book_list"
+msgstr "List"
+
+msgid "book_log"
+msgstr "Log"
+
+#, fuzzy
+msgid "book_mail_permanent_link"
+msgstr "Link to Booking Pool"
+
+#, fuzzy
+msgid "book_mail_to_booker"
+msgstr "Mail to User"
+
+#, fuzzy
+msgid "book_message"
+msgstr "Message"
+
+#, fuzzy
+msgid "book_message_info"
+msgstr "You may enter a message for the booking organiser here."
+
+#, fuzzy
+msgid "book_messages"
+msgstr "Messages"
+
+#, fuzzy
+msgid "book_messages_info"
+msgstr "Allow users to add a message when booking an item."
+
+#, fuzzy
+msgid "book_missing_availability"
+msgstr "It was not possible to book all items on all dates."
+
+#, fuzzy
+msgid "book_missing_items"
+msgstr "$1 missing item(s)."
+
+#, fuzzy
+msgid "book_modal_booking_confirmation"
+msgstr "Booking Confirmation"
+
+#, fuzzy
+msgid "book_modal_enter_quantity_intro"
+msgstr "Please enter the number of items that you would like to book."
+
+#, fuzzy
+msgid "book_modal_recurrence"
+msgstr "Recurrence"
+
+#, fuzzy
+msgid "book_modal_recurrence_multiple"
+msgstr "Book multiple dates"
+
+#, fuzzy
+msgid "book_modal_recurrence_single"
+msgstr "Book only this date"
+
+#, fuzzy
+msgid "book_modal_skipped_unknown_item"
+msgstr "Unknown or invalid selection (%s)."
+
+#, fuzzy
+msgid "book_modal_warning_skipped_selections"
+msgstr "Some selected items or periods are not available for booking and are excluded from this confirmation."
+
+msgid "book_new"
+msgstr "Нова резервация"
+
+msgid "book_no_bookings_for_you"
+msgstr "Няма извършени резервации за вас."
+
+msgid "book_no_objects"
+msgstr "No Assignment"
+
+#, fuzzy
+msgid "book_no_objects_available"
+msgstr "None of the selected items are currently available for booking."
+
+msgid "book_no_of_objects"
+msgstr "No. of Objects"
+
+#, fuzzy
+msgid "book_no_pools_selected"
+msgstr "No booking pools have been assigned to this course. Booking pools can be assigned via the course's 'Resources' tab."
+
+msgid "book_no_preferences_for_you"
+msgstr "Няма запазени предпочитания за вас."
+
+#, fuzzy
+msgid "book_no_recurrence"
+msgstr "Book only this date"
+
+msgid "book_not"
+msgstr "No"
+
+#, fuzzy
+msgid "book_not_cancelled"
+msgstr "Not cancelled"
+
+msgid "book_not_enough_preferences"
+msgstr "Избрали сте недостатъчно предпочитания. Предпочитанията не са запазени."
+
+msgid "book_notification"
+msgstr "Изпращане на известия за резервация"
+
+#, fuzzy
+msgid "book_notification_cron_not_active"
+msgstr "Note: The corresponding cron job \"Send Reservation Notifications\" is currently not activated."
+
+msgid "book_notification_info"
+msgstr "Изпращане на списък с резервации за следващия ден на потребителите (собствени резервации) и администраторите (ако е активирано)."
+
+msgid "book_nr_of_preferences"
+msgstr "Брой предпочитания"
+
+msgid "book_nr_of_preferences_info"
+msgstr "Брой предпочитания, които всеки участник може да посочи."
+
+#, fuzzy
+msgid "book_nr_preferences"
+msgstr "Prefences"
+
+#, fuzzy
+msgid "book_obj_select"
+msgstr "Select"
+
+msgid "book_object_added"
+msgstr "Добавен е обект за резервация."
+
+msgid "book_object_deleted"
+msgstr "Обектът на резервацията е изтрит."
+
+#, fuzzy
+msgid "book_object_selection"
+msgstr "Item Selection"
+
+#, fuzzy
+msgid "book_object_title_or_description"
+msgstr "Title/Description"
+
+msgid "book_object_updated"
+msgstr "Обектът на резервацията е актуализиран."
+
+msgid "book_objects_available"
+msgstr "Достъпни обекти %s"
+
+msgid "book_open"
+msgstr "Отворен басейн за резервации"
+
+msgid "book_overall_limit"
+msgstr "Лимит на броя на резервациите"
+
+msgid "book_overall_limit_warning"
+msgstr "Постигнали сте максималния брой резервации."
+
+#, fuzzy
+msgid "book_overall_limit_would_be_exceeded"
+msgstr "Invalid selection. The overall limit would be exceeded."
+
+#, fuzzy
+msgid "book_participant"
+msgstr "Participant"
+
+msgid "book_participant_already_assigned"
+msgstr "Участникът(ците) вече е(са) назначен(и)."
+
+msgid "book_participant_assigned"
+msgstr "Посочен(и) участник(и)"
+
+#, fuzzy
+msgid "book_participant_removed"
+msgstr "The participants and all related bookings have been removed successfully."
+
+#, fuzzy
+msgid "book_past_bookings"
+msgstr "Past bookings"
+
+msgid "book_period"
+msgstr "Период"
+
+msgid "book_pool_added"
+msgstr "Добавен е басейн за резервации."
+
+msgid "book_pool_selection"
+msgstr "Избор на басейн за резервации"
+
+msgid "book_post_booking_file"
+msgstr "Файл"
+
+msgid "book_post_booking_information"
+msgstr "Информация след резервацията"
+
+#, fuzzy
+msgid "book_post_booking_information_for"
+msgstr "Booking Information for \"%s\""
+
+msgid "book_post_booking_text"
+msgstr "Текст"
+
+msgid "book_post_booking_text_info"
+msgstr "Използвайте [PERIOD] и [OBJECT], за да добавите подробности за резервацията към текста."
+
+msgid "book_pref_book_cron"
+msgstr "Букиране с предпочитания"
+
+msgid "book_pref_book_cron_info"
+msgstr "Автоматично резервиране на басейни с помощта на предпочитания след крайния срок"
+
+msgid "book_pref_deadline"
+msgstr "Deadline"
+
+#, fuzzy
+msgid "book_pref_deadline_info"
+msgstr "Preferences can be given up to this point."
+
+msgid "book_pref_overview"
+msgstr "Overview"
+
+msgid "book_preference_info"
+msgstr "Моля, изберете %1 предпочитание(я) до %2. След изтичането на крайния срок резервациите ще се извършват автоматично въз основа на предпочитанията на всички потребители."
+
+msgid "book_preferences"
+msgstr "Preferences"
+
+msgid "book_preferences_saved"
+msgstr "Предпочитанията са запазени."
+
+#, fuzzy
+msgid "book_present_bookings"
+msgstr "Present bookings"
+
+msgid "book_public_log"
+msgstr "Публични резервации"
+
+msgid "book_public_log_info"
+msgstr "Списъкът с резервации може да се види от всички потребители."
+
+#, fuzzy
+msgid "book_recurrence"
+msgstr "Recurrence"
+
+#, fuzzy
+msgid "book_refresh"
+msgstr "Refresh"
+
+msgid "book_rem_intro"
+msgstr "Това е преглед на предстоящите резервации:"
+
+msgid "book_rem_reason"
+msgstr "Получавате тези писма, защото сте абонирани за известия от съответните пулове за резервации."
+
+msgid "book_reminder_day"
+msgstr "Преди резервация"
+
+msgid "book_reminder_day_info"
+msgstr "Изпращане на списък със собствени резервации на потребителите и пълен списък с резервации на администраторите."
+
+msgid "book_reminder_days"
+msgstr "Ден/дни"
+
+msgid "book_reminder_setting"
+msgstr "Reminder"
+
+#, fuzzy
+msgid "book_remove_participants"
+msgstr "Remove Participant(s)"
+
+#, fuzzy
+msgid "book_rerun_assignments"
+msgstr "Run Assignment Process"
+
+#, fuzzy
+msgid "book_rerun_confirmation"
+msgstr "Attention. The assignments via preference process has already run. You may restart the process, if any errors have occured, e.g. no assignments have been saved. To prevent multiple assignments delete all reservations before restarting the process."
+
+msgid "book_reservation_available"
+msgstr "%s available"
+
+#, fuzzy
+msgid "book_reservation_cancelled"
+msgstr "Reservation(s) cancelled."
+
+msgid "book_reservation_confirmed"
+msgstr "Вашата резервация е потвърдена."
+
+msgid "book_reservation_failed"
+msgstr "Вашата резервация се е провалила."
+
+msgid "book_reservation_failed_overbooked"
+msgstr "Резервацията се е провалила, защото обектът вече не е наличен."
+
+msgid "book_reservation_filter_period"
+msgstr " Период за списъка с резервации"
+
+msgid "book_reservation_filter_period_info"
+msgstr "Стойността по подразбиране за филтъра за период в дни от текущата дата."
+
+msgid "book_reservation_fix_info"
+msgstr "Резервацията може да бъде направена само за определени часове."
+
+msgid "book_reservation_overview"
+msgstr "Преглед на резервациите"
+
+msgid "book_reservation_status_5"
+msgstr "Отменено"
+
+msgid "book_reservation_title"
+msgstr "Резервация за"
+
+msgid "book_reservations_list"
+msgstr "Reservations"
+
+msgid "book_schedule"
+msgstr "График"
+
+msgid "book_schedule_added"
+msgstr "Добавен е график за резервации."
+
+#, fuzzy
+msgid "book_schedule_all_day"
+msgstr "All-Day Schedule"
+
+msgid "book_schedule_days"
+msgstr "Дни от седмицата"
+
+msgid "book_schedule_days_info"
+msgstr "Валидно време за резервация за всеки ден (HH:MM-HH:MM)"
+
+msgid "book_schedule_deleted"
+msgstr "Разписанието за резервации е изтрито."
+
+msgid "book_schedule_slot"
+msgstr "Място"
+
+msgid "book_schedule_type"
+msgstr "Вид"
+
+msgid "book_schedule_type_fixed"
+msgstr "Fixed Schedule"
+
+msgid "book_schedule_type_fixed_info"
+msgstr "Този тип може да се използва за стаи, лъчи и други подобни"
+
+msgid "book_schedule_type_none"
+msgstr "Няма график"
+
+msgid "book_schedule_type_none_direct"
+msgstr "Няма график, директна резервация"
+
+msgid "book_schedule_type_none_direct_info"
+msgstr "Този тип може да се използва за семинарни доклади, места за семинари и други подобни. Участниците могат да резервират артикули директно."
+
+msgid "book_schedule_type_none_info"
+msgstr "Този тип може да се използва за семинарни доклади, места за семинари и други подобни"
+
+msgid "book_schedule_type_none_preference"
+msgstr "Няма график, използване на предпочитания"
+
+msgid "book_schedule_type_none_preference_info"
+msgstr "Този тип може да се използва за семинарни доклади, места за семинари и други подобни. Участниците ще посочат своите предпочитания. Елементите ще бъдат разпределени автоматично след крайния срок за преференциите."
+
+msgid "book_schedule_updated"
+msgstr "Разписанието за резервации е актуализирано."
+
+msgid "book_schedule_warning_edit"
+msgstr "Понастоящем няма наличен график. За да използвате пула за резервации, трябва да създадете график за резервации."
+
+msgid "book_schedules"
+msgstr "Графици"
+
+msgid "book_select_pool"
+msgstr "Избор на басейн"
+
+msgid "book_set_cancel"
+msgstr "Отмяна на резервация"
+
+msgid "book_set_delete"
+msgstr "Delete"
+
+#, fuzzy
+msgid "book_show_message"
+msgstr "Show Message"
+
+#, fuzzy
+msgid "book_show_past_bookings"
+msgstr "Show past bookings"
+
+#, fuzzy
+msgid "book_some_reservations_unavailable"
+msgstr "Some of the selected items could not be booked because they are no longer available."
+
+#, fuzzy
+msgid "book_table"
+msgstr "Table"
+
+#, fuzzy
+msgid "book_table_col_availability"
+msgstr "Availability"
+
+#, fuzzy
+msgid "book_table_col_datetime"
+msgstr "Date/Time"
+
+#, fuzzy
+msgid "book_title_description_nr"
+msgstr "Title; Description; Number of Units"
+
+#, fuzzy
+msgid "book_title_description_nr_info"
+msgstr "Enter title, description and number of units separated by semicolon or TAB character (if importing from spreadsheet software). Use one line per item."
+
+msgid "book_too_many_preferences"
+msgstr "Избрали сте твърде много предпочитания. Предпочитанията не са запазени."
+
+#, fuzzy
+msgid "book_total_individual_bookings_limit"
+msgstr "Limit the number of bookings that can be carried out by/for individual participants in total, across all available items. Each bookable item can still only be booked once per participant."
+
+msgid "book_type_warning"
+msgstr "Понастоящем няма налични обекти за резервации. За да използвате пула за резервации, трябва да създадете обекти за резервации."
+
+#, fuzzy
+msgid "book_view"
+msgstr "View"
+
+#, fuzzy
+msgid "book_week"
+msgstr "Week"
+
+#, fuzzy
+msgid "book_week_no_objects_selected"
+msgstr "Select at least one Bookable Item at the ‘Item Selection’ section on the right and click the ‘Refresh’ button."
+
+msgid "book_your_bookings"
+msgstr "Вашите резервации"
+
+msgid "book_your_preferences"
+msgstr "Вашите предпочитания"
+
+msgid "book_your_reservations"
+msgstr "Вашите резервации"
+
+msgid "booking_multiple_succesfully"
+msgstr "Успешно създадени резервации."
+
+msgid "booking_nr_of_items"
+msgstr "Nr of Items"
+
+#, fuzzy
+msgid "booking_process_error"
+msgstr "There was an error while processing your booking(s). Please try again."
+
+#, fuzzy
+msgid "bookings_log"
+msgstr "Bookings"
+
+#, fuzzy
+msgid "delete_bookable_item"
+msgstr "Delete Bookable Item"
+
+#, fuzzy
+msgid "no_valid_selection"
+msgstr "No valid selection"
+
+msgid "obj_book_duplicate"
+msgstr "Copy Booking Pool"
+
+msgid "participants"
+msgstr "Участници"
+
+msgid "reservation_deleted"
+msgstr "Изтрита резервация"
+
+#, fuzzy
+msgid "schedule_type"
+msgstr "Schedule Type"

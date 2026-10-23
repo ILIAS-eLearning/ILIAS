@@ -1,0 +1,18 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: init\n"
+
+msgid "init_error_authentication_fail"
+msgstr ""
+
+msgid "init_error_maintenance"
+msgstr ""
+
+msgid "init_error_redirect_click"
+msgstr ""
+
+msgid "init_error_redirect_info"
+msgstr ""

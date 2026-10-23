@@ -1,0 +1,153 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: notes\n"
+
+msgid "comments_feature_currently_not_activated_for_object"
+msgstr "Funkce veřejných komentářů pro tento zdroj aktuálně není aktivovaná."
+
+msgid "note_add_comment"
+msgstr "Přidat komentář"
+
+#, fuzzy
+msgid "note_add_message"
+msgstr "Add Message"
+
+msgid "note_add_note"
+msgstr "Přidat poznámku"
+
+msgid "note_content_removed"
+msgstr "Obsah byl odstraněn."
+
+#, fuzzy
+msgid "note_text"
+msgstr "Text"
+
+msgid "note_update_comment"
+msgstr "Aktualizovat komentář"
+
+#, fuzzy
+msgid "note_update_message"
+msgstr "Update Message"
+
+msgid "note_update_note"
+msgstr "Aktualizovat poznámku"
+
+#, fuzzy
+msgid "note_without_object"
+msgstr "Without reference"
+
+msgid "notes_activate_comments"
+msgstr "Aktivovat veřejné komentáře"
+
+msgid "notes_add_comment"
+msgstr "Přidat komentář"
+
+msgid "notes_add_edit_comment"
+msgstr "Přidat / upravit komentář"
+
+#, fuzzy
+msgid "notes_add_edit_message"
+msgstr "Add/Edit Message"
+
+#, fuzzy
+msgid "notes_add_edit_note"
+msgstr "Add/Edit Note"
+
+msgid "notes_comment_deleted"
+msgstr "Komentář byl smazán."
+
+msgid "notes_comments"
+msgstr "Komentáře"
+
+msgid "notes_comments_deleted"
+msgstr "Komentáře byly smazány."
+
+msgid "notes_deactivate_comments"
+msgstr "Deaktivovat veřejné komentáře"
+
+#, fuzzy
+msgid "notes_delete_comment"
+msgstr "Do you really want to delete this comment?"
+
+#, fuzzy
+msgid "notes_delete_message"
+msgstr "Do you really want to delete this message?"
+
+#, fuzzy
+msgid "notes_delete_note"
+msgstr "Do you really want to delete this note?"
+
+#, fuzzy
+msgid "notes_html_export"
+msgstr "HTML Export"
+
+msgid "notes_latest_comment"
+msgstr "Poslední komentář"
+
+#, fuzzy
+msgid "notes_latest_message"
+msgstr "Latest Message"
+
+#, fuzzy
+msgid "notes_message_author_you"
+msgstr "You"
+
+#, fuzzy
+msgid "notes_message_deleted"
+msgstr "Message deleted."
+
+#, fuzzy
+msgid "notes_messages"
+msgstr "Messages"
+
+msgid "notes_no_comments"
+msgstr "Zatím nebyl přidán žádný komentář."
+
+#, fuzzy
+msgid "notes_no_comments_found"
+msgstr "No comments found that match your seach criteria."
+
+#, fuzzy
+msgid "notes_no_messages"
+msgstr "No messages have been attached yet."
+
+#, fuzzy
+msgid "notes_no_messages_found"
+msgstr "No messages found that match your seach criteria."
+
+#, fuzzy
+msgid "notes_no_notes"
+msgstr "No notes have been attached yet."
+
+#, fuzzy
+msgid "notes_no_notes_found"
+msgstr "No notes found that match your seach criteria."
+
+msgid "notes_note_deleted"
+msgstr "Poznámka byla smazána."
+
+msgid "notes_notes_deleted"
+msgstr "Tyto poznámky budou smazány."
+
+#, fuzzy
+msgid "notes_origin"
+msgstr "Origin"
+
+msgid "notes_public_comments"
+msgstr "Veřejné komentáře"
+
+msgid "notes_sort_asc"
+msgstr "Seřadit vzestupně"
+
+msgid "notes_sort_desc"
+msgstr "Seřadit sestupně"
+
+#, fuzzy
+msgid "notes_text"
+msgstr "Text"

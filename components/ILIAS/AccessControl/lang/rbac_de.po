@@ -1,0 +1,2808 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: rbac\n"
+
+msgid "accs_edit_permission"
+msgstr "Rechteeinstellungen für die Einstellungen zur Barrierefreiheit ändern"
+
+msgid "accs_read"
+msgstr "Einstellungen zur Barrierefreiheit einsehen"
+
+msgid "accs_visible"
+msgstr "Administrationsknoten „Barrierefreiheit“ sehen"
+
+msgid "accs_write"
+msgstr "Einstellungen zur Barrierefreiheit bearbeiten"
+
+msgid "activate_wiki_protection"
+msgstr "Schreibschutz aktivieren"
+
+msgid "active_preconditions"
+msgstr "Vorbedingungen"
+
+msgid "add_consultation_hours"
+msgstr "Sprechstundentermine anlegen"
+
+msgid "add_consume_provider"
+msgstr "Eigene LTI-Provider-Einstellungen hinzufügen"
+
+msgid "add_pages"
+msgstr "Seiten erstellen"
+
+msgid "add_reply"
+msgstr "Antwort anlegen"
+
+msgid "add_thread"
+msgstr "Thema anlegen"
+
+msgid "adm_edit_permission"
+msgstr "Rechteeinstellungen für die Allgemeinen Einstellungen der Administration ändern"
+
+msgid "adm_read"
+msgstr "Allgemeine Einstellungen der Administration bearbeiten"
+
+msgid "adm_visible"
+msgstr "Administrationsknoten „Allgemeine Einstellungen“ sehen"
+
+msgid "adm_write"
+msgstr "Allgemeine Einstellungen in der Administration bearbeiten"
+
+msgid "adn_edit_permission"
+msgstr "Rechteeinstellungen für die Verwaltung der Ankündigungen ändern"
+
+msgid "adn_read"
+msgstr "Einstellungen für Ankündigungen in der Administration einsehen"
+
+msgid "adn_visible"
+msgstr "Administrationsknoten „Ankündigungen“ sehen"
+
+msgid "adn_write"
+msgstr "Ankündigungen erstellen und verwalten"
+
+msgid "adopt_perm_from_template"
+msgstr "Rechteeinstellungen von anderer Rolle übernehmen"
+
+msgid "adve_edit_permission"
+msgstr "Rechteeinstellungen der Editor-Administration ändern"
+
+msgid "adve_read"
+msgstr "Einstellungen zur Editor-Administration einsehen"
+
+msgid "adve_visible"
+msgstr "Administrationsknoten „Editor“ sehen"
+
+msgid "adve_write"
+msgstr "Einstellungen für den Editor bearbeiten"
+
+msgid "amend_grading"
+msgstr "Abschließende Bewertung ändern"
+
+msgid "assf_edit_permission"
+msgstr "Rechteeinstellungen für die Verwaltung des Test&Assessments ändern"
+
+msgid "assf_read"
+msgstr "Einstellungen in der Test&Assessment-Administration einsehen"
+
+msgid "assf_visible"
+msgstr "Administrationsknoten „Test&Assessment“ sehen"
+
+msgid "assf_write"
+msgstr "Einstellungen in Test&Assessment-Verwaltung ändern"
+
+msgid "auth_edit_permission"
+msgstr "Rechteeinstellungen für die Verwaltung von „Authentifizierung / Neuanmeldung“ ändern"
+
+msgid "auth_read"
+msgstr "Einstellungen für „Authentifizierung / Neuanmeldung“ einsehen"
+
+msgid "auth_visible"
+msgstr "Administrationsknoten „Authentifizierung / Neuanmeldung“ sehen"
+
+msgid "auth_write"
+msgstr "Einstellungen für „Authentifizierung / Neuanmeldung“ bearbeiten"
+
+msgid "awra_edit_permission"
+msgstr "Rechteeinstellungen für die Verwaltung der „Wer ist online?“-Anzeige ändern"
+
+msgid "awra_read"
+msgstr "Einstellungen der „Wer ist online?“-Anzeige einsehen"
+
+msgid "awra_visible"
+msgstr "Administrationsknoten „Wer ist online?“ sehen"
+
+msgid "awra_write"
+msgstr "Einstellungen der „Wer ist online?“-Anzeige ändern"
+
+msgid "bdga_edit_permission"
+msgstr "Rechteeinstellungen für die Verwaltung der „Badges“ ändern"
+
+msgid "bdga_read"
+msgstr "Einstellungen der „Badges“-Verwaltung einsehen"
+
+msgid "bdga_visible"
+msgstr "Administrationsknoten „Badges“ sehen"
+
+msgid "bdga_write"
+msgstr "Einstellungen der „Badges“ bearbeiten"
+
+msgid "bibl_copy"
+msgstr "Literaturliste kopieren"
+
+msgid "bibl_delete"
+msgstr "Literaturliste löschen"
+
+msgid "bibl_edit_permission"
+msgstr "Rechteeinstellungen ändern"
+
+msgid "bibl_read"
+msgstr "Literaturliste lesen"
+
+msgid "bibl_visible"
+msgstr "Literaturliste ist sichtbar"
+
+msgid "bibl_write"
+msgstr "Literaturliste bearbeiten"
+
+msgid "bibs_copy"
+msgstr "Literaturlisten kopieren"
+
+msgid "bibs_delete"
+msgstr "Bibliothek-Eintrag löschen"
+
+msgid "bibs_edit_permission"
+msgstr "Rechteeinstellungen für die Verwaltung der Literaturlisten ändern"
+
+msgid "bibs_read"
+msgstr "Einstellungen der Literaturlisten-Verwaltung einsehen"
+
+msgid "bibs_visible"
+msgstr "Administrationsknoten „Literaturliste“ sehen"
+
+msgid "bibs_write"
+msgstr "Einstellungen der Literaturlisten und Bibliotheken bearbeiten"
+
+msgid "blga_edit_permission"
+msgstr "Rechteeinstellungen für die Verwaltung der Blogs ändern"
+
+msgid "blga_read"
+msgstr "Einstellungen der Blog-Administration einsehen"
+
+msgid "blga_visible"
+msgstr "Administrationsknoten „Blog“ sehen"
+
+msgid "blga_write"
+msgstr "Einstellungen in der Blog-Administration bearbeiten"
+
+msgid "blog_contribute"
+msgstr "Benutzer darf Beiträge hinzufügen"
+
+msgid "blog_copy"
+msgstr "Blog kopieren"
+
+msgid "blog_delete"
+msgstr "Blog löschen"
+
+msgid "blog_edit_permission"
+msgstr "Rechteeinstellungen ändern"
+
+msgid "blog_read"
+msgstr "Blog lesen"
+
+msgid "blog_redact"
+msgstr "Benutzer kann auch Beiträge anderer Mitwirkender bearbeiten"
+
+msgid "blog_visible"
+msgstr "Blog ist sichtbar"
+
+msgid "blog_write"
+msgstr "Blog bearbeiten"
+
+msgid "book_copy"
+msgstr "Buchungspool kopieren"
+
+msgid "book_delete"
+msgstr "Buchungspool löschen oder verschieben"
+
+msgid "book_edit_permission"
+msgstr "Rechteeinstellungen für Buchungspool ändern"
+
+msgid "book_manage_all_reservations"
+msgstr "Benutzer kann alle Reservierungen verwalten"
+
+msgid "book_manage_own_reservations"
+msgstr "Benutzer kann die eigenen Reservierungen verwalten"
+
+msgid "book_read"
+msgstr "Buchungen in Buchungspool durchführen"
+
+msgid "book_visible"
+msgstr "Buchungspool ist sichtbar"
+
+msgid "book_write"
+msgstr "Buchungsobjekte anlegen und Einstellungen des Buchungspools bearbeiten"
+
+msgid "cadm_edit_permission"
+msgstr "Rechteeinstellungen der Administration für Benutzerkontakte ändern"
+
+msgid "cadm_read"
+msgstr "Einstellungen in der Benutzerkontakte-Administration einsehen"
+
+msgid "cadm_visible"
+msgstr "Administrationsknoten „Benutzerkontakte“ sehen"
+
+msgid "cadm_write"
+msgstr "Einstellungen zu Benutzerkontakten bearbeiten"
+
+msgid "cals_add_consultation_hours"
+msgstr "Benutzer kann in Kalender Sprechstundentermine anlegen und bearbeiten"
+
+msgid "cals_edit_event"
+msgstr "Öffentliche Kalender und Termine in ILIAS anlegen und verwalten"
+
+msgid "cals_edit_permission"
+msgstr "Rechteeinstellungen der Administration für den Kalender ändern"
+
+msgid "cals_read"
+msgstr "Einstellungen der Kalender-Administration einsehen"
+
+msgid "cals_visible"
+msgstr "Administrationsknoten „Kalender“ sehen"
+
+msgid "cals_write"
+msgstr "Globale Einstellungen für den Kalender bearbeiten"
+
+msgid "cat_administrate_users"
+msgstr "Lokale Anmeldekonten verwalten"
+
+msgid "cat_cat_administrate_users"
+msgstr "Lokale Anmeldekonten können angelegt und verwaltet werden"
+
+msgid "cat_copy"
+msgstr "Kategorie kopieren"
+
+msgid "cat_delete"
+msgstr "Kategorie löschen oder verschieben"
+
+msgid "cat_edit_permission"
+msgstr "Rechteeinstellungen ändern"
+
+msgid "cat_read"
+msgstr "Seiteninhalt der Kategorie kann gelesen werden"
+
+msgid "cat_read_users"
+msgstr "Lokale Anmeldekonten dieser Kategorie können eingesehen werden"
+
+msgid "cat_visible"
+msgstr "Kategorie ist sichtbar"
+
+msgid "cat_write"
+msgstr "Einstellungen der Kategorie bearbeiten und Inhalte verwalten"
+
+msgid "catr_copy"
+msgstr "Kategorielinks kopieren"
+
+msgid "catr_delete"
+msgstr "Kategorielinks verschieben oder löschen"
+
+msgid "catr_edit_permission"
+msgstr "Rechteeinstellungen ändern"
+
+msgid "catr_visible"
+msgstr "Kategorielinks sind sichtbar und können genutzt werden"
+
+msgid "catr_write"
+msgstr "Einstellungen der Kategorielinks bearbeiten"
+
+msgid "cert_edit_permission"
+msgstr "Rechteeinstellungen der Zertifikatsverwaltung ändern"
+
+msgid "cert_read"
+msgstr "Einstellung in der Zertifikatsverwaltung einsehen"
+
+msgid "cert_visible"
+msgstr "Administrationsknoten „Zertifikate“ sehen"
+
+msgid "cert_write"
+msgstr "Einstellungen der Zertifikatsverwaltung bearbeiten"
+
+msgid "change_existing_object_type_desc"
+msgstr "Wenn aktiviert, werden auch die Rechte von bereits vorhandenen Objekten dieses Typs geändert. Ansonsten gilt die Rechteänderung nur für künftig erstellte Objekte."
+
+msgid "change_existing_objects"
+msgstr "Vorhandene Objekte ändern"
+
+msgid "change_existing_objects_desc"
+msgstr "Wenn aktiviert, werden die geänderten Rechteeinstellungen dieser Rolle auch auf alle bereits bestehenden Objekte übertragen. Um nur die Rechte einzelner Objekttypen anzupassen, klicken Sie bitte die jeweiligen Checkboxen auf der rechten Seite an."
+
+msgid "change_existing_prefix"
+msgstr "Bereits vorhandene"
+
+msgid "change_existing_prefix_single"
+msgstr "&nbsp;"
+
+msgid "change_existing_suffix"
+msgstr "ändern"
+
+msgid "change_existing_suffix_single"
+msgstr "anpassen"
+
+msgid "change_presentation"
+msgstr "Präsentation ändern"
+
+msgid "chtr_delete"
+msgstr "Chat löschen oder verschieben"
+
+msgid "chtr_edit_permission"
+msgstr "Rechteeinstellungen für Chatraum ändern"
+
+msgid "chtr_moderate"
+msgstr "Diskussion im Chatraum moderieren"
+
+msgid "chtr_read"
+msgstr "An Diskussion im Chatraum teilnehmen"
+
+msgid "chtr_visible"
+msgstr "Chatraum ist sichtbar"
+
+msgid "chtr_write"
+msgstr "Einstellungen des Chatraums bearbeiten und Benutzer sperren"
+
+msgid "cmis_edit_permission"
+msgstr "Rechteeinstellungen der Administration für xAPI/cmi5 ändern"
+
+msgid "cmis_read"
+msgstr "Lesezugriff auf Administration für xAPI/cmi5"
+
+msgid "cmis_visible"
+msgstr "Administration für xAPI/cmi5 ist sichtbar."
+
+msgid "cmis_write"
+msgstr "Einstellungen in Administration für xAPI/cmi5 ändern"
+
+msgid "cmix_copy"
+msgstr "Benutzer kann xAPI/cmi5-Objekt kopieren"
+
+msgid "cmix_delete"
+msgstr "Benutzer kann xAPI/cmi5-Objekt verschieben oder löschen"
+
+msgid "cmix_edit_learning_progress"
+msgstr "Benutzer kann die Einstellungen für den Lernfortschritt bearbeiten"
+
+msgid "cmix_edit_permission"
+msgstr "Benutzer kann Berechtigungseinstellungen ändern"
+
+msgid "cmix_read"
+msgstr "Benutzer kann xAPI/cmi5-Objekt sehen"
+
+msgid "cmix_read_learning_progress"
+msgstr "Benutzer kann den Lernfortschritt anderer Benutzer einsehen"
+
+msgid "cmix_read_outcomes"
+msgstr "Benutzer kann Lernerfahrungen und das Ranking anderer Benutzer einsehen"
+
+msgid "cmix_visible"
+msgstr "xAPI/cmi5-Objekt ist sichtbar"
+
+msgid "cmix_write"
+msgstr "Benutzer kann die Einstellungen des xAPI/cmi5-Objekts bearbeiten"
+
+msgid "cmps_edit_permission"
+msgstr "Rechteeinstellung ändern"
+
+msgid "cmps_read"
+msgstr "Lesezugriff auf Administration für Plugins, Module und Dienste"
+
+msgid "cmps_visible"
+msgstr "Administration für Plugins, Module und Dienste ist sichtbar"
+
+msgid "cmps_write"
+msgstr "Einstellungen für Plugins, Module und Dienste bearbeiten"
+
+msgid "coms_edit_permissions"
+msgstr "Rechteeinstellungen der Administration für Kommentare ändern"
+
+msgid "coms_read"
+msgstr "Lesezugriff auf Administration für Kommentare"
+
+msgid "coms_visible"
+msgstr "Administration für Kommentare ist sichtbar."
+
+msgid "coms_write"
+msgstr "Einstellungen in Administration für Kommentare ändern"
+
+msgid "condition_failed"
+msgstr "Nicht bestanden"
+
+msgid "condition_learning_progress"
+msgstr "Gemäß Lernfortschritt"
+
+msgid "condition_result_range_percentage"
+msgstr "Ergebnisbereich"
+
+msgid "contribute"
+msgstr "Beiträge erstellen"
+
+msgid "copa_copy"
+msgstr "Inhaltsseite kopieren"
+
+msgid "copa_delete"
+msgstr "Inhaltsseite löschen"
+
+msgid "copa_edit_learning_progress"
+msgstr "Lernfortschrittseinstellungen können bearbeitet werden"
+
+msgid "copa_edit_permission"
+msgstr "Rechteeinstellungen ändern"
+
+msgid "copa_read"
+msgstr "Inhaltsseite lesen"
+
+msgid "copa_read_learning_progress"
+msgstr "Lernfortschritt von anderen einsehen"
+
+msgid "copa_visible"
+msgstr "Inhaltsseite ist sichtbar"
+
+msgid "copa_write"
+msgstr "Inhaltsseite bearbeiten"
+
+msgid "cpad_edit_permissions"
+msgstr "Rechteeinstellungen der Administration für Inhaltsseiten ändern"
+
+msgid "cpad_read"
+msgstr "Lesezugriff auf Administration für Inhaltsseiten"
+
+msgid "cpad_visible"
+msgstr "Administration für Inhaltsseiten ist sichtbar."
+
+msgid "cpad_write"
+msgstr "Einstellungen in Administration für Inhaltsseiten ändern"
+
+msgid "crs_copy"
+msgstr "Kurs kopieren"
+
+msgid "crs_delete"
+msgstr "Kurs löschen oder verschieben"
+
+msgid "crs_edit_event"
+msgstr "Kalendertermine bearbeiten"
+
+msgid "crs_edit_learning_progress"
+msgstr "Lernfortschrittseinstellungen können bearbeitet werden"
+
+msgid "crs_edit_permission"
+msgstr "Rechteeinstellungen ändern"
+
+msgid "crs_grade"
+msgstr "Kursmitglieder bewerten"
+
+msgid "crs_join"
+msgstr "Kurs beitreten"
+
+msgid "crs_leave"
+msgstr "Kursmitgliedschaft beenden"
+
+msgid "crs_manage_members"
+msgstr "Mitglieder eines Kurses verwalten"
+
+msgid "crs_news_add_news"
+msgstr "Neuigkeiten erstellen und eigene Neuigkeiten bearbeiten"
+
+msgid "crs_read"
+msgstr "Kurs lesen"
+
+msgid "crs_read_learning_progress"
+msgstr "Lernfortschritt von anderen einsehen"
+
+msgid "crs_visible"
+msgstr "Kurs ist sichtbar"
+
+msgid "crs_write"
+msgstr "Kurs bearbeiten"
+
+msgid "crsr_copy"
+msgstr "Kurslinks kopieren"
+
+msgid "crsr_delete"
+msgstr "Kurslinks verschieben oder löschen"
+
+msgid "crsr_edit_learning_progress"
+msgstr "Lernfortschrittseinstellungen können bearbeitet werden"
+
+msgid "crsr_edit_permission"
+msgstr "Rechteeinstellungen ändern"
+
+msgid "crsr_read_learning_progress"
+msgstr "Lernfortschritt von anderen einsehen"
+
+msgid "crsr_visible"
+msgstr "Kurslinks sind sichtbar und können genutzt werden"
+
+msgid "crsr_write"
+msgstr "Einstellungen der Kurslinks bearbeiten"
+
+msgid "crss_edit_permission"
+msgstr "Rechteeinstellungen für die Kurs-Administration ändern"
+
+msgid "crss_read"
+msgstr "Lesezugriff auf Kurs-Administration"
+
+msgid "crss_visible"
+msgstr "Kurs-Administration ist sichtbar"
+
+msgid "crss_write"
+msgstr "Einstellungen in Kurs-Administration bearbeiten"
+
+msgid "dcl_add_entry"
+msgstr "Eintrag hinzufügen"
+
+msgid "dcl_copy"
+msgstr "Datensammlung kopieren"
+
+msgid "dcl_delete"
+msgstr "Datensammlung löschen"
+
+msgid "dcl_edit_content"
+msgstr "Einträge bearbeiten"
+
+msgid "dcl_edit_permission"
+msgstr "Rechteeinstellungen ändern"
+
+msgid "dcl_read"
+msgstr "Datensammlung lesen"
+
+msgid "dcl_visible"
+msgstr "Datensammlung ist sichtbar"
+
+msgid "dcl_write"
+msgstr "Datensammlung bearbeiten"
+
+msgid "delete_files"
+msgstr "Dateien löschen"
+
+msgid "delete_folders"
+msgstr "Ordner löschen"
+
+msgid "delete_wiki_pages"
+msgstr "Seite löschen"
+
+msgid "dpro_edit_permission"
+msgstr "Rechteeinstellungen für die Datenschutzerklärungs-Verwaltung ändern"
+
+msgid "dpro_read"
+msgstr "Lesezugriff auf die Datenschutzerklärungs-Verwaltung"
+
+msgid "dpro_visible"
+msgstr "Datenschutzerklärungs-Verwaltung ist sichtbar"
+
+msgid "dpro_write"
+msgstr "Einstellungen in der Datenschutzerklärungs-Verwaltung bearbeiten"
+
+msgid "dshs_change_presentation"
+msgstr "Darstellung des Dashboards ändern"
+
+msgid "dshs_edit_permission"
+msgstr "Rechteeinstellung in der Administration des Dashboards ändern"
+
+msgid "dshs_read"
+msgstr "Lesezugriff auf Administration des Dashboards"
+
+msgid "dshs_visible"
+msgstr "Administration des Dashboards ist sichtbar"
+
+msgid "dshs_write"
+msgstr "Einstellungen für Dashboard bearbeiten"
+
+msgid "ecss_edit_permission"
+msgstr "Rechteeinstellung der ECS-Administration ändern"
+
+msgid "ecss_read"
+msgstr "Lesezugriff auf Einstellungen der ECS-Administration"
+
+msgid "ecss_visible"
+msgstr "ECS-Administration ist sichtbar"
+
+msgid "ecss_write"
+msgstr "Einstellungen der ECS-Administration bearbeiten"
+
+msgid "edit_event"
+msgstr "Kalender bearbeiten"
+
+msgid "edit_file"
+msgstr "Datei bearbeiten"
+
+msgid "edit_in_online_editor"
+msgstr "In Online-Editor bearbeiten"
+
+msgid "edit_learning_progress"
+msgstr "Lernfortschrittseinstellungen bearbeiten"
+
+msgid "edit_members"
+msgstr "Teilnehmer bearbeiten"
+
+msgid "edit_permission"
+msgstr "Rechteeinstellungen ändern"
+
+msgid "edit_roleassignment"
+msgstr "Rollenzuweisung bearbeiten"
+
+msgid "edit_submissions_grades"
+msgstr "Abgaben und Noten bearbeiten"
+
+msgid "edit_userassignment"
+msgstr "Benutzerzuweisung ändern"
+
+msgid "edit_wiki_navigation"
+msgstr "Navigation bearbeiten"
+
+msgid "exc_copy"
+msgstr "Übung kopieren"
+
+msgid "exc_delete"
+msgstr "Übung löschen oder verschieben"
+
+msgid "exc_edit_learning_progress"
+msgstr "Lernfortschrittseinstellungen können bearbeitet werden"
+
+msgid "exc_edit_permission"
+msgstr "Rechteeinstellungen ändern"
+
+msgid "exc_edit_submissions_grades"
+msgstr "Benutzer kann Abgaben und Noten bearbeiten"
+
+msgid "exc_read"
+msgstr "An Übung teilnehmen"
+
+msgid "exc_read_learning_progress"
+msgstr "Lernfortschritt von anderen einsehen"
+
+msgid "exc_visible"
+msgstr "Übung ist sichtbar"
+
+msgid "exc_write"
+msgstr "Einstellungen und Aufgaben der Übung bearbeiten"
+
+msgid "excs_edit_permission"
+msgstr "Rechteeinstellungen für die Übungs-Administration ändern"
+
+msgid "excs_read"
+msgstr "Lesezugriff auf Übungs-Administration"
+
+msgid "excs_visible"
+msgstr "Übungs-Administration ist sichtbar"
+
+msgid "excs_write"
+msgstr "Einstellungen in Übungs-Administration bearbeiten"
+
+msgid "export_member_data"
+msgstr "Export von Mitgliederdaten"
+
+msgid "facs_edit_permission"
+msgstr "Rechteeinstellung für die Administration ändern"
+
+msgid "facs_read"
+msgstr "Lesezugriff auf Administration für Dateien und Ordner"
+
+msgid "facs_upload_blacklisted_files"
+msgstr "Dateien mit indexierten Endungen hochladen"
+
+msgid "facs_visible"
+msgstr "Administration für Dateien und Ordner ist sichtbar"
+
+msgid "facs_write"
+msgstr "Einstellungen für Dateien und Ordner bearbeiten"
+
+msgid "feed_copy"
+msgstr "Webfeed kopieren"
+
+msgid "feed_delete"
+msgstr "Webfeed löschen"
+
+msgid "feed_edit_permission"
+msgstr "Rechteeinstellungen ändern"
+
+msgid "feed_read"
+msgstr "Inhalt des Webfeeds lesen"
+
+msgid "feed_write"
+msgstr "Einstellungen des Webfeeds bearbeiten"
+
+msgid "file_copy"
+msgstr "Datei kopieren"
+
+msgid "file_delete"
+msgstr "Datei verschieben oder löschen"
+
+msgid "file_edit_file"
+msgstr "Bearbeitung in einem externen Editor erlauben, sofern vorhanden"
+
+msgid "file_edit_learning_progress"
+msgstr "Lernfortschrittseinstellungen können bearbeitet werden."
+
+msgid "file_edit_permission"
+msgstr "Rechteeinstellungen ändern"
+
+msgid "file_file_view_content"
+msgstr "Inhalt der Datei wird im Browser angezeigt (wenn WOPI aktiv ist)."
+
+msgid "file_file_view_content_short"
+msgstr "Inhalt anzeigen"
+
+msgid "file_read"
+msgstr "Datei herunterladen"
+
+msgid "file_read_learning_progress"
+msgstr "Lernfortschritt von anderen einsehen"
+
+msgid "file_visible"
+msgstr "Datei ist sichtbar."
+
+msgid "file_write"
+msgstr "Einstellungen der Datei bearbeiten und neue Version hochladen"
+
+msgid "files_visible"
+msgstr "Dateien sichtbar"
+
+msgid "fils_edit_permissions"
+msgstr "Rechteeinstellungen der Administration für Datei-Services ändern"
+
+msgid "fils_read"
+msgstr "Lesezugriff auf Administration für Datei-Services"
+
+msgid "fils_visible"
+msgstr "Administration der Datei-Services ist sichtbar."
+
+msgid "fils_write"
+msgstr "Konfiguration der Datei-Services bearbeiten"
+
+msgid "filter_all_roles"
+msgstr "Zeige alle Rollen im aktuellen Kontext"
+
+msgid "filter_global_roles"
+msgstr "Zeige nur globale Rollen"
+
+msgid "filter_local_roles"
+msgstr "Zeige nur lokale Rollen im aktuellen Kontext"
+
+msgid "filter_local_roles_object"
+msgstr "Zeige nur lokale Rollen an dieser Position"
+
+msgid "filter_roles_local_policy"
+msgstr "Zeige nur Rollen mit lokaler Zugriffsregelung an dieser Position"
+
+msgid "fld_create_poll"
+msgstr "Abstimmung anlegen"
+
+msgid "fold_copy"
+msgstr "Ordner kopieren"
+
+msgid "fold_delete"
+msgstr "Ordner löschen oder verschieben"
+
+msgid "fold_edit_learning_progress"
+msgstr "Lernfortschrittseinstellungen können bearbeitet werden"
+
+msgid "fold_edit_permission"
+msgstr "Rechteeinstellungen ändern"
+
+msgid "fold_read"
+msgstr "Lesezugriff auf Ordner"
+
+msgid "fold_read_learning_progress"
+msgstr "Lernfortschritt von anderen einsehen"
+
+msgid "fold_visible"
+msgstr "Ordner ist sichtbar"
+
+msgid "fold_write"
+msgstr "Ordner bearbeiten"
+
+msgid "folders_create"
+msgstr "Ordner erstellen"
+
+msgid "folders_visible"
+msgstr "Ordner sichtbar"
+
+msgid "frm_add_reply"
+msgstr "Benutzer können auf Forenbeiträge antworten"
+
+msgid "frm_add_thread"
+msgstr "Forenthema anlegen"
+
+msgid "frm_copy"
+msgstr "Forum kopieren"
+
+msgid "frm_delete"
+msgstr "Forum löschen oder verschieben"
+
+msgid "frm_edit_learning_progress"
+msgstr "Lernfortschrittseinstellungen können bearbeitet werden"
+
+msgid "frm_edit_permission"
+msgstr "Rechteeinstellungen ändern"
+
+msgid "frm_moderate_frm"
+msgstr "Forenbeiträge löschen und zensieren"
+
+msgid "frm_read"
+msgstr "Forum und Beiträge lesen"
+
+msgid "frm_read_learning_progress"
+msgstr "Lernfortschritt von anderen einsehen"
+
+msgid "frm_visible"
+msgstr "Forum ist sichtbar"
+
+msgid "frm_write"
+msgstr "Einstellungen des Forums bearbeiten und Moderation verwalten"
+
+msgid "frma_edit_permission"
+msgstr "Rechteeinstellungen für Administration ändern"
+
+msgid "frma_read"
+msgstr "Lesezugriff auf globale Einstellungen für Foren"
+
+msgid "frma_visible"
+msgstr "Globale Einstellungen für Foren sind sichtbar"
+
+msgid "frma_write"
+msgstr "Globale Einstellungen für Foren können bearbeitet werden"
+
+msgid "glo_copy"
+msgstr "Glossar kopieren"
+
+msgid "glo_delete"
+msgstr "Glossar löschen oder verschieben"
+
+msgid "glo_edit_content"
+msgstr "Benutzer kann Inhalt bearbeiten"
+
+msgid "glo_edit_permission"
+msgstr "Rechteeinstellungen ändern"
+
+msgid "glo_read"
+msgstr "Glossarinhalt lesen"
+
+msgid "glo_visible"
+msgstr "Glossar ist sichtbar"
+
+msgid "glo_write"
+msgstr "Inhalt und Einstellungen des Glossars bearbeiten"
+
+msgid "grp_copy"
+msgstr "Gruppe kopieren"
+
+msgid "grp_delete"
+msgstr "Gruppe löschen oder verschieben"
+
+msgid "grp_edit_event"
+msgstr "Kalendertermine bearbeiten"
+
+msgid "grp_edit_learning_progress"
+msgstr "Lernfortschrittseinstellungen können bearbeitet werden"
+
+msgid "grp_edit_permission"
+msgstr "Rechteeinstellungen ändern"
+
+msgid "grp_grade"
+msgstr "Gruppenmitglieder bewerten"
+
+msgid "grp_join"
+msgstr "Benutzer kann Gruppe beitreten"
+
+msgid "grp_leave"
+msgstr "Benutzer kann Gruppenmitgliedschaft beenden"
+
+msgid "grp_manage_members"
+msgstr "Mitglieder einer Gruppe verwalten"
+
+msgid "grp_news_add_news"
+msgstr "Neuigkeiten erstellen und eigene Neuigkeiten bearbeiten"
+
+msgid "grp_read"
+msgstr "Lesezugriff auf Gruppe"
+
+msgid "grp_read_learning_progress"
+msgstr "Lernfortschritt von anderen einsehen"
+
+msgid "grp_visible"
+msgstr "Gruppe ist sichtbar"
+
+msgid "grp_write"
+msgstr "Einstellungen der Gruppe und Inhalt bearbeiten"
+
+msgid "grpr_copy"
+msgstr "Gruppenlinks kopieren"
+
+msgid "grpr_delete"
+msgstr "Gruppenlinks verschieben oder löschen"
+
+msgid "grpr_edit_permission"
+msgstr "Rechteeinstellungen ändern"
+
+msgid "grpr_visible"
+msgstr "Gruppenlinks sind sichtbar und können genutzt werden"
+
+msgid "grpr_write"
+msgstr "Einstellungen der Gruppenlinks bearbeiten"
+
+msgid "grps_edit_permission"
+msgstr "Rechteeinstellungen für die Gruppen-Administration ändern"
+
+msgid "grps_read"
+msgstr "Lesezugriff auf Gruppen-Administration"
+
+msgid "grps_visible"
+msgstr "Gruppen-Administration ist sichtbar"
+
+msgid "grps_write"
+msgstr "Einstellungen in Gruppen-Administration bearbeiten"
+
+msgid "hlps_edit_permission"
+msgstr "Rechteeinstellungen für die Administration.der Online-Hilfe ändern"
+
+msgid "hlps_read"
+msgstr "Lesezugriff auf die Administration der Online-Hilfe"
+
+msgid "hlps_visible"
+msgstr "Administration der Online-Hilfe ist sichtbar."
+
+msgid "hlps_write"
+msgstr "Einstellungen der Online-Hilfe bearbeiten und neue Version hochladen"
+
+msgid "htlm_copy"
+msgstr "HTML-Lernmodul kopieren"
+
+msgid "htlm_delete"
+msgstr "HTML-Lernmodul löschen"
+
+msgid "htlm_edit_learning_progress"
+msgstr "Lernfortschrittseinstellungen können bearbeitet werden"
+
+msgid "htlm_edit_permission"
+msgstr "Rechteeinstellungen ändern"
+
+msgid "htlm_read"
+msgstr "HTML-Lernmodul lesen"
+
+msgid "htlm_read_learning_progress"
+msgstr "Lernfortschritt von anderen einsehen"
+
+msgid "htlm_visible"
+msgstr "HTML-Lernmodul ist sichtbar"
+
+msgid "htlm_write"
+msgstr "HTML-Lernmodul bearbeiten"
+
+msgid "iass_amend_grading"
+msgstr "Finalisierte Bewertung der Individuellen Bewertung ändern"
+
+msgid "iass_copy"
+msgstr "Individuelle Bewertung kopieren"
+
+msgid "iass_delete"
+msgstr "Individuelle Bewertung löschen"
+
+msgid "iass_edit_learning_progress"
+msgstr "Lernfortschritt in Individuellen Bewertung bearbeiten"
+
+msgid "iass_edit_members"
+msgstr "Personen der Individuellen Bewertung hinzufügen und bewerten"
+
+msgid "iass_edit_permission"
+msgstr "Rechteeinstellungen ändern"
+
+msgid "iass_read"
+msgstr "Lesezugriff auf Individuelle Bewertung"
+
+msgid "iass_read_learning_progress"
+msgstr "Lernfortschritt in Individuellen Bewertung einsehen"
+
+msgid "iass_visible"
+msgstr "Individuelle Bewertung ist sichtbar"
+
+msgid "iass_write"
+msgstr "Einstellungen der Individuelle Bewertung bearbeiten"
+
+msgid "il_lti_global_role"
+msgstr "LTI User"
+
+msgid "il_sess_participant"
+msgstr "Sitzungsteilnahme"
+
+msgid "il_sess_status_closed"
+msgstr "Keine Teilnahme an geschlossener Sitzung"
+
+msgid "ilias_id"
+msgstr "ILIAS-ID"
+
+msgid "impr_edit_permission"
+msgstr "Rechteeinstellungen der Impressumsverwaltung ändern"
+
+msgid "impr_read"
+msgstr "Lesezugriff auf Impressumsverwaltung"
+
+msgid "impr_visible"
+msgstr "Impressumsverwaltung ist sichtbar"
+
+msgid "impr_write"
+msgstr "Inhalt und Einstellungen des Impressums bearbeiten"
+
+msgid "info_user_view_changed"
+msgstr "Benutzersicht gewechselt"
+
+msgid "internal_mail"
+msgstr "Internes Mail-System"
+
+msgid "invite"
+msgstr "Zu Umfrage einladen"
+
+msgid "itgr_copy"
+msgstr "Objekteblock kopieren"
+
+msgid "itgr_delete"
+msgstr "Objekteblock löschen oder verschieben"
+
+msgid "itgr_edit_permission"
+msgstr "Rechteeinstellungen des Objekteblocks ändern"
+
+msgid "itgr_read"
+msgstr "Lesezugriff auf Objekteblock"
+
+msgid "itgr_visible"
+msgstr "Objekteblock ist sichtbar"
+
+msgid "itgr_write"
+msgstr "Inhalt und Einstellungen eines Objekteblocks bearbeiten"
+
+msgid "leave"
+msgstr "Mitgliedschaft beenden"
+
+msgid "lhts_edit_permissions"
+msgstr "Rechteeinstellungen der Administration für Lernverlauf ändern"
+
+msgid "lhts_read"
+msgstr "Lesezugriff auf Administration für Lernverlauf"
+
+msgid "lhts_visible"
+msgstr "Administration für Lernverlauf ist sichtbar."
+
+msgid "lhts_write"
+msgstr "Einstellungen in Administration für Lernverlauf ändern"
+
+msgid "lm_copy"
+msgstr "ILIAS-Lernmodul kopieren"
+
+msgid "lm_delete"
+msgstr "ILIAS-Lernmodul löschen"
+
+msgid "lm_edit_learning_progress"
+msgstr "Lernfortschrittseinstellungen können bearbeitet werden"
+
+msgid "lm_edit_permission"
+msgstr "Rechteeinstellungen ändern"
+
+msgid "lm_read"
+msgstr "ILIAS-Lernmodul lesen"
+
+msgid "lm_read_learning_progress"
+msgstr "Lernfortschritt von anderen einsehen"
+
+msgid "lm_visible"
+msgstr "ILIAS-Lernmodul ist sichtbar"
+
+msgid "lm_write"
+msgstr "ILIAS-Lernmodul bearbeiten"
+
+msgid "lngf_edit_permission"
+msgstr "Rechteeinstellungen der Administration ändern"
+
+msgid "lngf_read"
+msgstr "Lesezugriff auf Sprachenverwaltung"
+
+msgid "lngf_visible"
+msgstr "Sprachenverwaltung ist sichtbar"
+
+msgid "lngf_write"
+msgstr "Spracheinstellungen können bearbeitet und erweiterte Sprachenverwaltung genutzt werden"
+
+msgid "logs_edit_permission"
+msgstr "Rechteeinstellung der Protokollierung ändern"
+
+msgid "logs_read"
+msgstr "Lesezugriff auf Einstellungen der Protokollierung"
+
+msgid "logs_visible"
+msgstr "Protokollierungs-Administration ist sichtbar"
+
+msgid "logs_write"
+msgstr "Einstellungen der Protokollierungs-Administration bearbeiten"
+
+msgid "lp_other_users"
+msgstr "Lernfortschritt anderer Benutzer einsehen"
+
+msgid "lrss_edit_permission"
+msgstr "Rechteeinstellungen der Administration ändern"
+
+msgid "lrss_read"
+msgstr "Lesezugriff auf Administration der Lernressourcen"
+
+msgid "lrss_visible"
+msgstr "Administration der Lernressourcen ist sichtbar"
+
+msgid "lrss_write"
+msgstr "Einstellungen für Lernressourcen in Administration bearbeiten"
+
+msgid "lso_copy"
+msgstr "Lernsequenz kopieren"
+
+msgid "lso_delete"
+msgstr "Lernsequenz löschen"
+
+msgid "lso_edit_learning_progress"
+msgstr "Lernfortschrittseinstellungen bearbeiten"
+
+msgid "lso_edit_permission"
+msgstr "Rechteeinstellungen ändern"
+
+msgid "lso_lp_other_users"
+msgstr "Lernfortschritt von anderen einsehen"
+
+msgid "lso_manage_members"
+msgstr "Mitglieder bearbeiten"
+
+msgid "lso_participate"
+msgstr "An der Lernsequenz anmelden"
+
+msgid "lso_read"
+msgstr "Lesezugriff auf die Lernsequenz"
+
+msgid "lso_read_learning_progress"
+msgstr "Lernfortschritt von anderen einsehen"
+
+msgid "lso_unparticipate"
+msgstr "Von der Lernsequenz abmelden"
+
+msgid "lso_visible"
+msgstr "Lernsequenz sichtbar"
+
+msgid "lso_write"
+msgstr "Lernsequenz bearbeiten"
+
+msgid "lsos_edit_permission"
+msgstr "Rechteeinstellungen der Administration für Lernsequenzen ändern"
+
+msgid "lsos_read"
+msgstr "Lesezugriff auf Administration für Lernsequenzen"
+
+msgid "lsos_visible"
+msgstr "Administration für Lernsequenzen ist sichtbar."
+
+msgid "lsos_write"
+msgstr "Einstellungen in Administration für Lernsequenzen ändern"
+
+msgid "lti_copy"
+msgstr "Benutzer kann LTI-Konsumenten kopieren"
+
+msgid "lti_delete"
+msgstr "Benutzer kann den LTI-Konsumenten verschieben oder löschen"
+
+msgid "lti_edit_learning_progress"
+msgstr "Benutzer kann die Einstellungen für den Lernfortschritt bearbeiten"
+
+msgid "lti_edit_permission"
+msgstr "Benutzer kann Berechtigungseinstellungen ändern"
+
+msgid "lti_read"
+msgstr "Benutzer kann LTI-Konsumenten sehen"
+
+msgid "lti_read_learning_progress"
+msgstr "Benutzer kann den Lernfortschritt anderer Benutzer einsehen"
+
+msgid "lti_read_outcomes"
+msgstr "Benutzer kann Lernerfahrungen und das Ranking anderer Benutzer einsehen"
+
+msgid "lti_visible"
+msgstr "LTI-Konsument ist sichtbar"
+
+msgid "lti_write"
+msgstr "Benutzer kann die Einstellungen des LTI-Konsumenten bearbeiten"
+
+msgid "ltis_add_consume_provider"
+msgstr "Benutzer kann eigene Provider-Einstellungen für LTI-Konsument hinzufügen"
+
+msgid "ltis_edit_permission"
+msgstr "Rechteeinstellungen für LTI-Administration ändern"
+
+msgid "ltis_read"
+msgstr "Lesezugriff auf LTI-Administration"
+
+msgid "ltis_release_objects"
+msgstr "Benutzer kann Objekte für LTI Consumer freigeben"
+
+msgid "ltis_visible"
+msgstr "LTI-Administration ist sichtbar"
+
+msgid "ltis_write"
+msgstr "Einstellungen in LTI-Administration bearbeiten"
+
+msgid "mail_internal_mail"
+msgstr "Benutzer dürfen das interne Mail-System nutzen (ILIAS)"
+
+msgid "mail_mail_to_global_roles"
+msgstr "Benutzer darf Mails an globale Rollen versenden."
+
+msgid "mail_read"
+msgstr "Lesezugriff auf Mail-Administration"
+
+msgid "mail_smtp_mail"
+msgstr "Benutzer darf E-Mails per SMTP an externe Adressen senden"
+
+msgid "mail_to_global_roles"
+msgstr "Globale Mails"
+
+msgid "mail_visible"
+msgstr "Mail-Administration ist sichtbar"
+
+msgid "mail_write"
+msgstr "Einstellungen im Mail-Administration bearbeiten"
+
+msgid "manage_all_reservations"
+msgstr "Alle Reservierungen verwalten"
+
+msgid "manage_comp"
+msgstr "Kompetenzen bearbeiten"
+
+msgid "manage_comp_temp"
+msgstr "Kompetenzvorlagen bearbeiten"
+
+msgid "manage_materials"
+msgstr "Materialien verwalten"
+
+msgid "manage_own_reservations"
+msgstr "Eigene Reservierungen verwalten"
+
+msgid "manage_profiles"
+msgstr "Kompetenzprofile bearbeiten"
+
+msgid "mcst_copy"
+msgstr "Mediacast kopieren"
+
+msgid "mcst_delete"
+msgstr "Mediacast löschen oder verschieben"
+
+msgid "mcst_edit_learning_progress"
+msgstr "Lernfortschrittseinstellungen bearbeiten"
+
+msgid "mcst_edit_permission"
+msgstr "Rechteeinstellung ändern"
+
+msgid "mcst_read"
+msgstr "Mediacast lesen"
+
+msgid "mcst_read_learning_progress"
+msgstr "Lernfortschritt von anderen einsehen"
+
+msgid "mcst_visible"
+msgstr "Mediacast ist sichtbar"
+
+msgid "mcst_write"
+msgstr "Inhalt und Einstellungen des Mediacasts bearbeiten"
+
+msgid "mcts_edit_permission"
+msgstr "Rechteeinstellung in Mediacast-Administration ändern"
+
+msgid "mcts_read"
+msgstr "Lesezugriff auf Mediacast-Administration"
+
+msgid "mcts_visible"
+msgstr "Mediacast-Administration ist sichtbar"
+
+msgid "mcts_write"
+msgstr "Einstellungen in Mediacast-Administration bearbeiten"
+
+msgid "mds_edit_permission"
+msgstr "Rechteeinstellungen in Metadaten-Administration ändern"
+
+msgid "mds_read"
+msgstr "Lesezugriff auf  Metadaten-Administration"
+
+msgid "mds_visible"
+msgstr " Metadaten-Administration ist sichtbar"
+
+msgid "mds_write"
+msgstr "Einstellungen in Metadaten-Administration bearbeiten"
+
+msgid "mep_copy"
+msgstr "Medienpool kopieren"
+
+msgid "mep_delete"
+msgstr "Medienpool löschen oder verschieben"
+
+msgid "mep_edit_permission"
+msgstr "Rechteeinstellungen ändern"
+
+msgid "mep_read"
+msgstr "Lesezugriff auf Inhalte des Mediapools"
+
+msgid "mep_visible"
+msgstr "Medienpool ist sichtbar"
+
+msgid "mep_write"
+msgstr "Inhalt und Einstellungen des Medienpools bearbeiten"
+
+msgid "mme_edit_permission"
+msgstr "Rechteeinstellung der Administration des Hauptmenüs ändern"
+
+msgid "mme_read"
+msgstr "Lesezugriff auf Administration des Hauptmenüs"
+
+msgid "mme_visible"
+msgstr "Administration des Hauptmenüs ist sichtbar"
+
+msgid "mme_write"
+msgstr "Einstellungen der Administration des Hauptmenüs bearbeiten"
+
+msgid "mobs_edit_permission"
+msgstr "Rechteeinstellungen in Administration für Medienobjekte und -pools ändern"
+
+msgid "mobs_read"
+msgstr "Lesezugriff auf Administration für Medienobjekte und -pools"
+
+msgid "mobs_visible"
+msgstr "Administration für Medienobjekte und -pools ist sichtbar"
+
+msgid "mobs_write"
+msgstr "Einstellungen für Medienobjekte und -pools bearbeiten"
+
+msgid "moderate"
+msgstr "Moderieren"
+
+msgid "moderate_frm"
+msgstr "Moderieren"
+
+msgid "msg_anonymous_cannot_be_assigned"
+msgstr "Der anonyme Benutzer darf keiner Rolle zugewiesen werden."
+
+msgid "msg_no_roles_of_type"
+msgstr "Keine Rollen vorhanden mit der gewählten Filtereinstellung"
+
+msgid "news_add_news"
+msgstr "Neuigkeiten erstellen"
+
+msgid "no_corresponding_roles"
+msgstr "Es sind keine passenden Rollen vorhanden."
+
+msgid "nots_edit_permission"
+msgstr "Rechteeinstellungen der Administration für Notizen ändern"
+
+msgid "nots_read"
+msgstr "Lesezugriff auf Administration für Notizen"
+
+msgid "nots_visible"
+msgstr "Administration für Notizen ist sichtbar."
+
+msgid "nots_write"
+msgstr "Einstellungen in Administration für Notizen ändern"
+
+msgid "nwss_edit_permission"
+msgstr "Rechteeinstellungen in der News- und Webfeeds-Administration ändern"
+
+msgid "nwss_read"
+msgstr "Lesezugriff auf News- und Webfeeds-Administration"
+
+msgid "nwss_visible"
+msgstr "News- und Webfeeds-Administration ist sichtbar"
+
+msgid "nwss_write"
+msgstr "Einstellungen in der News- und Webfeeds-Administration bearbeiten"
+
+msgid "obj_skee"
+msgstr "Kompetenzbaum"
+
+msgid "org_op_access_results"
+msgstr "Zugriff auf Ergebnisse untergeordneter Benutzer"
+
+msgid "org_op_edit_submissions_grades"
+msgstr "Abgaben von anderen Benutzern bearbeiten"
+
+msgid "org_op_manage_participants"
+msgstr "Untergeordnete Teilnehmer verwalten"
+
+msgid "org_op_score_participants"
+msgstr "Untergeordnete Teilnehmer bewerten"
+
+msgid "org_op_view_certificates"
+msgstr "Zertifikate untergeordneter Benutzern einsehen"
+
+msgid "org_op_view_competences"
+msgstr "Kompetenzen untergeordneter Benutzern einsehen"
+
+msgid "org_op_write_learning_progress"
+msgstr "Lernfortschritt untergeordneter Benutzer setzen"
+
+msgid "orgu_cat_administrate_users"
+msgstr "Lokale Anmeldekonten können angelegt und verwaltet werden"
+
+msgid "orgu_copy"
+msgstr "Organisationseinheit kopieren"
+
+msgid "orgu_delete"
+msgstr "Organisationseinheit löschen oder verschieben"
+
+msgid "orgu_edit_permission"
+msgstr "Rechteeinstellungen ändern"
+
+msgid "orgu_read"
+msgstr "Lesezugriff auf Organisationseinheit"
+
+msgid "orgu_read_users"
+msgstr "Lokale Anmeldekonten dieser Organisationseinheit können eingesehen werden"
+
+msgid "orgu_view_learning_progress"
+msgstr "Lernfortschritt einsehen"
+
+msgid "orgu_view_learning_progress_rec"
+msgstr "Lernfortschritt rekursiv einsehen"
+
+msgid "orgu_visible"
+msgstr "Organisationseinheit ist sichtbar."
+
+msgid "orgu_write"
+msgstr "Einstellungen der Organisationseinheit bearbeiten"
+
+msgid "otpl_edit_permission"
+msgstr "Rechteeinstellungen in Administration der Didaktischen Vorlagen ändern"
+
+msgid "otpl_read"
+msgstr "Lesezugriff auf Administration der Didaktischen Vorlagen"
+
+msgid "otpl_visible"
+msgstr "Administration der Didaktischen Vorlagen ist sichtbar"
+
+msgid "otpl_write"
+msgstr "Einstellungen für Didaktischen Vorlagen bearbeiten"
+
+msgid "perm_class_create"
+msgstr "Neue Objekte erzeugen"
+
+msgid "perm_class_create_desc"
+msgstr "Hier stellen Sie ein, welche Objekte unter diesem Objekt angelegt werden dürfen."
+
+msgid "perm_class_object"
+msgstr "Operationen"
+
+msgid "perm_class_object_desc"
+msgstr "Hier sind die Rechte für Operationen aufgeführt, die für den aktuellen Objekttyp verfügbar sind."
+
+msgid "perm_global_role"
+msgstr "Globale Rolle"
+
+msgid "perm_local_role"
+msgstr "Lokale Rolle"
+
+msgid "perm_local_role_desc"
+msgstr "Diese Rolle ist lokal an diesem Objekt definiert und entspricht bereits einer lokalen Zugriffsregelung"
+
+msgid "perm_protected_global_role"
+msgstr "Geschützte globale Rolle"
+
+msgid "perm_protected_local_role"
+msgstr "Geschützte lokale Rolle"
+
+msgid "perm_role_path_info_created"
+msgstr "angelegt in %1$s \"%2$s\""
+
+msgid "perm_role_path_info_inheritance"
+msgstr "verwendet lokale Zugriffsregelung aus %1$s \"%2$s\""
+
+msgid "perm_use_local_policy"
+msgstr "Verwende lokale Zugriffsregelung"
+
+msgid "perm_use_local_policy_desc"
+msgstr "Wenn die lokale Zugriffsregelung aktiviert ist, können an dieser Stelle andere Rechtevorgaben definiert werden"
+
+msgid "poll_copy"
+msgstr "Abstimmung kopieren"
+
+msgid "poll_delete"
+msgstr "Abstimmung löschen"
+
+msgid "poll_edit_permission"
+msgstr "Rechteeinstellungen ändern"
+
+msgid "poll_read"
+msgstr "Abstimmung lesen"
+
+msgid "poll_visible"
+msgstr "Abstimmung ist sichtbar"
+
+msgid "poll_write"
+msgstr "Abstimmung bearbeiten"
+
+msgid "positions_override_operations"
+msgstr "Globale Einstellungen überschreiben"
+
+msgid "precondition_not_obligatory_alt"
+msgstr "Die Vorbedingung ist optional"
+
+msgid "precondition_num_obligatory"
+msgstr "Geforderte Anzahl Materialien"
+
+msgid "precondition_num_optional_info"
+msgstr "Anzahl von Materialien, die bis zum festgelegten Status / Ergebnis zu bearbeiten sind"
+
+msgid "precondition_number_of_required_materials_bigger_preconditions_number"
+msgstr "Die Anzahl der geforderten Materialien muss kleiner sein als die Anzahl der Vorbedingungen."
+
+msgid "precondition_number_of_required_materials_lower_compulsory_items"
+msgstr "Die Anzahl der geforderten Materialien muss größer sein als die Anzahl der verpflichtenden Vorbedingungen."
+
+msgid "precondition_number_of_required_materials_lower_than_one"
+msgstr "Die Anzahl der geforderten Materialien muss mindestens 1 sein."
+
+msgid "precondition_obligatory"
+msgstr "Verpflichtend"
+
+msgid "precondition_obligatory_alt"
+msgstr "Die Vorbedingung muss erfüllt werden"
+
+msgid "precondition_obligatory_info"
+msgstr "Verpflichtende Vorbedingungen müssen erfüllt werden, um Zugriff zu erhalten."
+
+msgid "precondition_obligatory_settings"
+msgstr "Einstellungen für Vorbedingungen"
+
+msgid "precondition_operator_range_err_min_max"
+msgstr "Der Minimalwert muss kleiner als der Maximalwert sein."
+
+msgid "precondition_operator_range_max"
+msgstr "Maximale Prozentzahl"
+
+msgid "precondition_operator_range_min"
+msgstr "Minimale Prozentzahl"
+
+msgid "prfa_edit_permission"
+msgstr "Rechteeinstellungen in Portfolio-Administration ändern"
+
+msgid "prfa_read"
+msgstr "Lesezugriff auf Portfolio-Administration"
+
+msgid "prfa_visible"
+msgstr "Portfolio-Administration ist sichtbar"
+
+msgid "prfa_write"
+msgstr "Einstellungen in Portfolio-Administration bearbeiten"
+
+msgid "prg_copy"
+msgstr "Benutzer kann das Studienprogramm kopieren"
+
+msgid "prg_delete"
+msgstr "Studienprogramm löschen"
+
+msgid "prg_edit_permission"
+msgstr "Rechteeinstellungen bearbeiten"
+
+msgid "prg_manage_members"
+msgstr "Zuweisungen eines Studienprogramms bearbeiten"
+
+msgid "prg_read"
+msgstr "Seiteninhalt des Studienprogramms kann gelesen werden"
+
+msgid "prg_visible"
+msgstr "Studienprogramm ist sichtbar"
+
+msgid "prg_write"
+msgstr "Benutzer kann Einstellungen bearbeiten"
+
+msgid "prgr_copy"
+msgstr "Links zu Studienprogrammen kopieren"
+
+msgid "prgr_delete"
+msgstr "Links zu Studienprogrammen verschieben oder löschen"
+
+msgid "prgr_edit_permission"
+msgstr "Rechteeinstellungen ändern"
+
+msgid "prgr_visible"
+msgstr "Links zu Studienprogrammen sind sichtbar und können genutzt werden"
+
+msgid "prgr_write"
+msgstr "Einstellungen der Links zu Studienprogrammen bearbeiten"
+
+msgid "prgs_edit_permission"
+msgstr "Rechteeinstellungen in Studienprogramm-Administration ändern"
+
+msgid "prgs_read"
+msgstr "Lesezugriff auf Studienprogramm-Administration"
+
+msgid "prgs_visible"
+msgstr "Studienprogramm-Administration ist sichtbar"
+
+msgid "prgs_write"
+msgstr "Einstellungen in Studienprogramm-Administration bearbeiten"
+
+msgid "prss_edit_permission"
+msgstr "Rechteeinstellungen der Administration für Persönliche Ressourcen ändern"
+
+msgid "prss_read"
+msgstr "Lesezugriff auf Administration für Persönliche Ressourcen"
+
+msgid "prss_visible"
+msgstr "Administration für Persönliche Ressourcen ist sichtbar."
+
+msgid "prss_write"
+msgstr "Einstellungen in Administration für Persönliche Ressourcen ändern"
+
+msgid "prtt_copy"
+msgstr "Portfoliovorlage kopieren"
+
+msgid "prtt_delete"
+msgstr "Portfoliovorlage löschen oder verschieben"
+
+msgid "prtt_edit_permission"
+msgstr "Rechteeinstellungen für Portfoliovorlage ändern"
+
+msgid "prtt_read"
+msgstr "Portfoliovorlage lesen"
+
+msgid "prtt_visible"
+msgstr "Portfoliovorlage ist sichtbar"
+
+msgid "prtt_write"
+msgstr "Portfoliovorlagen anlegen und Einstellungen der Portfoliovorlage bearbeiten"
+
+msgid "ps_edit_permission"
+msgstr "Rechteeinstellungen der Datenschutz- und Sicherheitseinstellungen ändern"
+
+msgid "ps_export_member_data"
+msgstr "Export von Mitgliederdaten in Gruppen und Kursen erlauben"
+
+msgid "ps_read"
+msgstr "Lesezugriff auf Datenschutz- und Sicherheitseinstellungen"
+
+msgid "ps_visible"
+msgstr "Datenschutz- und Sicherheitseinstellungen sind sichtbar"
+
+msgid "ps_write"
+msgstr "Bearbeiten der Datenschutz- und Sicherheitseinstellungen erlauben"
+
+msgid "push_desktop_items"
+msgstr "Inhalte empfehlen"
+
+msgid "qpl_copy"
+msgstr "Fragenpool kopieren"
+
+msgid "qpl_delete"
+msgstr "Fragenpool löschen oder verschieben"
+
+msgid "qpl_edit_permission"
+msgstr "Rechteeinstellungen ändern"
+
+msgid "qpl_read"
+msgstr "Fragen im Pool können eingesehen und für Tests übernommen werden"
+
+msgid "qpl_visible"
+msgstr "Fragenpool ist sichtbar"
+
+msgid "qpl_write"
+msgstr "Fragen und Einstellungen des Fragenpools bearbeiten"
+
+msgid "rbac_add_new_local_role"
+msgstr "Neue lokale Rolle anlegen"
+
+msgid "rbac_add_recommended_content"
+msgstr "Empfohlener Inhalt"
+
+msgid "rbac_add_recommended_content_info"
+msgstr "Weist das aktuelle Objekt '%1' allen Benutzern der Rolle als empfohlenen Inhalt zu."
+
+msgid "rbac_admin_permissions"
+msgstr "Administrationsrechte"
+
+msgid "rbac_auto_global"
+msgstr "Automatisch generierte globale Rolle"
+
+msgid "rbac_auto_local"
+msgstr "Automatisch generierte lokale Rolle"
+
+msgid "rbac_auto_rolt"
+msgstr "Automatisch generierte Rollenvorlage"
+
+msgid "rbac_back_to_overview"
+msgstr "Zurück zur Rollenübersicht"
+
+msgid "rbac_cant_import_role_wrong_type"
+msgstr "Eine Rolle aus dem Objekt $s in ein Objekt $s hinzuzufügen ist nicht möglich."
+
+msgid "rbac_change_existing_confirm_tbl"
+msgstr "Einstellungen zum Ändern vorhandener Objekte"
+
+msgid "rbac_change_existing_objects_desc_new_role"
+msgstr "Die Rechteeinstellungen von dieser Rolle werden auf ALLE vorhandenen Objekte übertragen."
+
+msgid "rbac_changes"
+msgstr "Änderungen"
+
+msgid "rbac_choose_copy_targets"
+msgstr "Bitte geben Sie einen Suchbegriff ein, um die Rollen zu finden, auf die Rechte von %s übertragen werden sollen."
+
+msgid "rbac_condition_delete_sure"
+msgstr "Wollen Sie wirklich die folgenden Vorbedingungen löschen?"
+
+msgid "rbac_context_global"
+msgstr "Global"
+
+msgid "rbac_copy_behaviour"
+msgstr "Einstellungen zum Kopieren der Rechte"
+
+msgid "rbac_copy_behaviour_info"
+msgstr "Übertragen der Rechte von %s nach %s"
+
+msgid "rbac_copy_finished"
+msgstr "Die Rechte wurden auf die ausgewählten Rollen übertragen."
+
+msgid "rbac_copy_multi_targets"
+msgstr "%s, %s und %s weitere Rollen ausgewählt%s"
+
+msgid "rbac_copy_no_targets"
+msgstr "Es muss mindestens eine Rolle als Ziel ausgewählt werden"
+
+msgid "rbac_copy_role"
+msgstr "Rolle kopieren"
+
+msgid "rbac_copy_role_add_perm"
+msgstr "Rechte hinzufügen"
+
+msgid "rbac_copy_role_copy"
+msgstr "Rechte auf andere Rolle(n) übertragen"
+
+msgid "rbac_copy_role_remove_perm"
+msgstr "Rechte entfernen"
+
+msgid "rbac_create_bibl"
+msgstr "Literaturliste anlegen"
+
+msgid "rbac_create_blog"
+msgstr "Blog anlegen"
+
+msgid "rbac_create_book"
+msgstr "Buchungspool anlegen"
+
+msgid "rbac_create_cat"
+msgstr "Kategorien anlegen"
+
+msgid "rbac_create_catr"
+msgstr "Kategorienlink anlegen"
+
+msgid "rbac_create_chtr"
+msgstr "Chatraum anlegen"
+
+msgid "rbac_create_cmix"
+msgstr "xAPI/cmi5-Objekt anlegen"
+
+msgid "rbac_create_copa"
+msgstr "Inhaltsseite anlegen"
+
+msgid "rbac_create_crs"
+msgstr "Kurs anlegen"
+
+msgid "rbac_create_crsr"
+msgstr "Kurslink anlegen"
+
+msgid "rbac_create_dcl"
+msgstr "Datensammlung anlegen"
+
+msgid "rbac_create_exc"
+msgstr "Übung anlegen"
+
+msgid "rbac_create_file"
+msgstr "Datei hochladen"
+
+msgid "rbac_create_fold"
+msgstr "Ordner anlegen"
+
+msgid "rbac_create_frm"
+msgstr "Forum anlegen"
+
+msgid "rbac_create_glo"
+msgstr "Glossar anlegen"
+
+msgid "rbac_create_grp"
+msgstr "Gruppe anlegen"
+
+msgid "rbac_create_grpr"
+msgstr "Gruppenlink anlegen"
+
+msgid "rbac_create_htlm"
+msgstr "HTML-Lernmodul anlegen"
+
+msgid "rbac_create_iass"
+msgstr "Individuelle Bewertung anlegen"
+
+msgid "rbac_create_itgr"
+msgstr "Objekteblock anlegen"
+
+msgid "rbac_create_lm"
+msgstr "ILIAS-Lernmodul anlegen"
+
+msgid "rbac_create_lso"
+msgstr "Lernsequenz anlegen"
+
+msgid "rbac_create_lti"
+msgstr "LTI-Konsumenten anlegen"
+
+msgid "rbac_create_mcst"
+msgstr "Mediacast anlegen"
+
+msgid "rbac_create_mep"
+msgstr "Medienpool anlegen"
+
+msgid "rbac_create_orgu"
+msgstr "Organisationseinheiten anlegen"
+
+msgid "rbac_create_poll"
+msgstr "Abstimmung anlegen"
+
+msgid "rbac_create_prg"
+msgstr "Studienprogramm anlegen"
+
+msgid "rbac_create_prgr"
+msgstr "Link zu Studienprogramm anlegen"
+
+msgid "rbac_create_prtt"
+msgstr "Portfoliovorlage anlegen"
+
+msgid "rbac_create_qpl"
+msgstr "Fragenpool für Tests anlegen"
+
+msgid "rbac_create_rcrs"
+msgstr "ECS-Kurs anlegen"
+
+msgid "rbac_create_role"
+msgstr "Rolle anlegen"
+
+msgid "rbac_create_rolt"
+msgstr "Rollenvorlage anlegen"
+
+msgid "rbac_create_sahs"
+msgstr "SCORM-Lernmodul anlegen"
+
+msgid "rbac_create_sess"
+msgstr "Sitzung anlegen"
+
+msgid "rbac_create_skee"
+msgstr "Kompetenzbaum anlegen"
+
+msgid "rbac_create_spl"
+msgstr "Fragenpool für Umfragen anlegen"
+
+msgid "rbac_create_svy"
+msgstr "Umfrage anlegen"
+
+msgid "rbac_create_tst"
+msgstr "Test anlegen"
+
+msgid "rbac_create_usr"
+msgstr "Benutzer anlegen"
+
+msgid "rbac_create_webr"
+msgstr "Weblink anlegen"
+
+msgid "rbac_create_wiki"
+msgstr "Wiki anlegen"
+
+msgid "rbac_delete_local_policies"
+msgstr "Lokale Zugriffsregelungen überschreiben"
+
+msgid "rbac_delete_local_policies_info"
+msgstr "Wählen Sie diese Einstellung, um alle vorhandenen lokalen Zugriffsregelungen (z.B. in Kursen und Gruppen) zu entfernen. Alle Rechte werden neu geschrieben, anschließend wird der Rechteschutz aktiviert."
+
+msgid "rbac_delete_role"
+msgstr "Rolle löschen"
+
+msgid "rbac_edit_condition"
+msgstr "Vorbedingung bearbeiten"
+
+msgid "rbac_form_copy_roles_adjust_button"
+msgstr "Rechte anpassen"
+
+msgid "rbac_form_copy_roles_adjust_type"
+msgstr "Art der Rechteanpassung"
+
+msgid "rbac_form_copy_roles_adjust_type_add"
+msgstr "Rechte hinzufügen"
+
+msgid "rbac_form_copy_roles_adjust_type_add_info"
+msgstr "Fügt die MARKIERTEN Rechte der zuerst ausgewählten Rolle bzw. Rollenvorlage den Rechtevorgaben der Rollen hinzu, die im zweiten Schritt ausgewählt wurden."
+
+msgid "rbac_form_copy_roles_adjust_type_clone"
+msgstr "Rechte kopieren"
+
+msgid "rbac_form_copy_roles_adjust_type_clone_info"
+msgstr "Die Rechteeinstellungen der zuerst ausgewählten Rolle bzw. Rollenvorlage werden VOLLSTÄNDIG in die Rechtevorgaben der im zweiten Schritt ausgewählten Rolle/n übernommen. Dies gilt für ausgewählte und nicht ausgewählte Rechte."
+
+msgid "rbac_form_copy_roles_adjust_type_remove"
+msgstr "Rechte entfernen"
+
+msgid "rbac_form_copy_roles_adjust_type_remove_info"
+msgstr "Die in der zuerst ausgewählten Rolle bzw. Rollenvorlage MARKIERTEN Rechte werden aus den Rechtevorgaben der im zweiten Schritt ausgewählten Rolle/n entfernt."
+
+msgid "rbac_form_copy_roles_ce_add_no"
+msgstr "Vorhandene Objekte NICHT anpassen"
+
+msgid "rbac_form_copy_roles_ce_add_no_info"
+msgstr "Nur die Rechtevorgaben der ausgewählten Rollen werden ergänzt. Die Rechteeinstellungen von bereits vorhandenen Objekten bleiben unverändert."
+
+msgid "rbac_form_copy_roles_ce_add_yes"
+msgstr "Vorhandene Objekte um ausgewählte Rechte ergänzen"
+
+msgid "rbac_form_copy_roles_ce_add_yes_info"
+msgstr "Die Rechtevorgaben der ausgewählten Rollen UND die Rechteeinstellungen bereits vorhandener Objekte werden entsprechend ergänzt."
+
+msgid "rbac_form_copy_roles_ce_clone_no"
+msgstr "Vorhandene Objekte NICHT anpassen"
+
+msgid "rbac_form_copy_roles_ce_clone_no_info"
+msgstr "Nur die Rechtevorgaben der ausgewählten Rollen werden geändert. Die Rechteeinstellungen von bereits vorhandenen Objekten bleiben unverändert."
+
+msgid "rbac_form_copy_roles_ce_clone_yes"
+msgstr "Vorhandene Objekte ändern"
+
+msgid "rbac_form_copy_roles_ce_clone_yes_info"
+msgstr "Die Rechtevorgaben der ausgewählten Rollen UND die Rechteeinstellungen bereits vorhandener Objekte werden entsprechend geändert."
+
+msgid "rbac_form_copy_roles_ce_remove_no"
+msgstr "Vorhandene Objekte NICHT anpassen"
+
+msgid "rbac_form_copy_roles_ce_remove_no_info"
+msgstr "Es werden nur die Rechtevorgaben der Rollen verändert. Die Rechteeinstellungen von bereits vorhandenen Objekten bleiben unverändert."
+
+msgid "rbac_form_copy_roles_ce_remove_yes"
+msgstr "Ausgewählte Rechte in vorhandenen Objekten entfernen"
+
+msgid "rbac_form_copy_roles_ce_remove_yes_info"
+msgstr "Die Rechte werden aus den Rechtevorgaben der ausgewählten Rollen UND aus den Rechteeinstellungen bereits vorhandener Objekte entfernt."
+
+msgid "rbac_global_rolt"
+msgstr "Globale Rollenvorlage"
+
+msgid "rbac_import_role"
+msgstr "Rolle importieren"
+
+msgid "rbac_info_only_position_access"
+msgstr "Ihnen werden nur die Mitglieder angezeigt, auf die Sie aufgrund Ihrer Mitgliedschaften in Organisationseinheiten Zugriff haben."
+
+msgid "rbac_keep_local_policies"
+msgstr "Lokale Zugriffsregelungen beibehalten"
+
+msgid "rbac_keep_local_policies_info"
+msgstr "Wenn aktiviert, werden alle lokalen Zugriffsregelungen beibehalten. Die Rechte aller anderen Objekte werden angepasst und anschließend geschützt."
+
+msgid "rbac_local_policies"
+msgstr "Lokale Zugriffsregelungen"
+
+msgid "rbac_local_policy"
+msgstr "Lokale Zugriffsregelung"
+
+msgid "rbac_log"
+msgstr "Log"
+
+msgid "rbac_log_change_owner"
+msgstr "Besitz ändern"
+
+msgid "rbac_log_changed_owner"
+msgstr "Objekt jetzt im Besitz von"
+
+msgid "rbac_log_copy_object"
+msgstr "Objekt kopieren"
+
+msgid "rbac_log_create_object"
+msgstr "Objekt anlegen"
+
+msgid "rbac_log_edit_permissions"
+msgstr "Rechteinstellungen verändern"
+
+msgid "rbac_log_edit_template"
+msgstr "Rollenvorlagen editieren"
+
+msgid "rbac_log_edit_template_existing"
+msgstr "Rollenvorlagen auf Objekte anwenden"
+
+msgid "rbac_log_inheritance_add"
+msgstr "Vererbung unterbrochen für „%s“"
+
+msgid "rbac_log_inheritance_rmv"
+msgstr "Vererbung wiederherstellen für „%s“"
+
+msgid "rbac_log_link_object"
+msgstr "Objekt verknüpfen"
+
+msgid "rbac_log_move_object"
+msgstr "Objekt verschieben"
+
+msgid "rbac_log_operation_add"
+msgstr "Recht hinzugefügt für „%s“"
+
+msgid "rbac_log_operation_rmv"
+msgstr "Recht entfernt für „%s“"
+
+msgid "rbac_log_source_object"
+msgstr "Quell-Objekt"
+
+msgid "rbac_msg_user_already_assigned"
+msgstr "Die ausgewählten Benutzer sind dieser Rolle bereits zugeordnet."
+
+msgid "rbac_not_change_existing_objects"
+msgstr "Vorhandene Objekte NICHT anpassen"
+
+msgid "rbac_permissions"
+msgstr "Rechte"
+
+msgid "rbac_precondition_condition"
+msgstr "Zugriff erfordert folgenden Status"
+
+msgid "rbac_precondition_hide"
+msgstr "Objekt verbergen"
+
+msgid "rbac_precondition_hide_info"
+msgstr "Dieses Objekt wird Benutzern solange nicht angezeigt, bis die definierten Vorbedingungen erfüllt sind."
+
+msgid "rbac_precondition_minimum_optional"
+msgstr "Es müssen mindestens zwei Vorbedingungen optional verbleiben."
+
+msgid "rbac_precondition_mode"
+msgstr "Modus"
+
+msgid "rbac_precondition_mode_all"
+msgstr "Alle Vorbedingungen erfüllen"
+
+msgid "rbac_precondition_mode_all_info"
+msgstr "Um auf dieses Objekt zuzugreifen, muss jemand vorher alle Vorbedingungen erfüllen und alle Materialien bis zum festgelegten Status / Ergebnis bearbeiten."
+
+msgid "rbac_precondition_mode_subset"
+msgstr "Nur einige Vorbedingungen erfüllen"
+
+msgid "rbac_precondition_mode_subset_info"
+msgstr "Die festgelegte Anzahl von Materialien muss bis zum festgelegten Status / Ergebnis bearbeitet werden.<br/>Achtung: Das Durcharbeiten einiger Materialien kann trotzdem auf \"verpflichtend\" gesetzt werden."
+
+msgid "rbac_precondition_save_obligatory"
+msgstr "Verpflichtend-Status speichern"
+
+msgid "rbac_precondition_source"
+msgstr "Materialien"
+
+msgid "rbac_precondition_target"
+msgstr "Vorbedingung für Zugriff auf"
+
+msgid "rbac_repository_permissions"
+msgstr "Magazinrechte"
+
+msgid "rbac_role_delete_qst"
+msgstr "Sind Sie sicher, dass Sie diese Rolle löschen möchten. Alle Rechte, die durch die Rolle gewährt werden, sind dann unwiderruflich aufgehoben."
+
+msgid "rbac_role_delete_self"
+msgstr "<strong>Achtung:</strong> Sie selbst sind dieser Rolle zugeordnet. Wenn Sie den Löschvorgang fortführen, kann es sein, dass Sie Zugriffsrechte an diesem oder anderen ILIAS-Materialien verlieren."
+
+msgid "rbac_role_exists_alert"
+msgstr "Es existiert bereits eine Rolle mit dem gleichen Namen. Bitte wählen Sie einen anderen Rollennamen."
+
+msgid "rbac_role_imported"
+msgstr "Die Rolle wurde erfolgreich importiert und die gesetzten Rechte in die Rechtevorgaben der neuen Rolle übernommen. Legen Sie jetzt noch unten fest, welche Rechte die importierte Rolle für das vorliegende Objekt haben soll."
+
+msgid "rbac_role_rights_copy"
+msgstr "Rechte übertragen"
+
+msgid "rbac_role_rights_copy_change_existing"
+msgstr "Vorhandene Objekte ändern"
+
+msgid "rbac_role_rights_copy_empty"
+msgstr "Keine"
+
+msgid "rbac_role_selection"
+msgstr "Rollentyp"
+
+msgid "rbac_role_title"
+msgstr "Rollentitel"
+
+msgid "rbac_select_copy_targets"
+msgstr "Bitte wählen Sie die Rollen aus, auf die die Rechte von <strong>%s</strong> übertragen werden sollen."
+
+msgid "rbac_select_roles"
+msgstr "Rollenauswahl"
+
+msgid "rbac_ud_global"
+msgstr "Selbst erstellte globale Rolle"
+
+msgid "rbac_ud_local"
+msgstr "Selbst erstelle lokale Rolle"
+
+msgid "rbac_ud_rolt"
+msgstr "Selbst erstellte Rollenvorlage"
+
+msgid "rbac_unprotected_delete_local_policies_info"
+msgstr "Wenn aktiviert, werden alle lokalen Zugriffsregelungen überschrieben und die Rechte in Kursen und Gruppen neu initialisiert."
+
+msgid "rbac_unprotected_keep_local_policies_info"
+msgstr "Wählen Sie diese Einstellung, um alle vorhandenen lokalen Zugriffsregelungen beizubehalten."
+
+msgid "rbac_view_content"
+msgstr "Inhalt anzeigen"
+
+msgid "rcat_delete"
+msgstr "ECS-Kategorie löschen"
+
+msgid "rcat_edit_permission"
+msgstr "Rechteeinstellungen ändern"
+
+msgid "rcat_read"
+msgstr "Lesezugriff auf ECS-Kategorie"
+
+msgid "rcat_visible"
+msgstr "ECS-Kategorie ist sichtbar"
+
+msgid "rcat_write"
+msgstr "ECS-Kategorie bearbeiten"
+
+msgid "rcrs_delete"
+msgstr "ECS-Kurs löschen"
+
+msgid "rcrs_edit_permission"
+msgstr "Rechteeinstellungen ändern"
+
+msgid "rcrs_read"
+msgstr "Lesezugriff auf ECS-Kurs"
+
+msgid "rcrs_visible"
+msgstr "ECS-Kurs ist sichtbar"
+
+msgid "rcrs_write"
+msgstr "ECS-Kurs bearbeiten"
+
+msgid "read_all_accounts"
+msgstr "Alle Anmeldekonten einsehen"
+
+msgid "read_comp"
+msgstr "Lesezugriff Kompetenzen"
+
+msgid "read_learning_progress"
+msgstr "Lernfortschritt anderer Benutzer einsehen"
+
+msgid "read_outcomes"
+msgstr "Lernerfahrungen anderer Benutzer anzeigen"
+
+msgid "read_profiles"
+msgstr "Lesezugriff Kompetenzprofile"
+
+msgid "read_results"
+msgstr "Umfrageergebnisse"
+
+msgid "read_users"
+msgstr "Lokale Anmeldekonten einsehen"
+
+msgid "recf_edit_permission"
+msgstr "Rechteeinstellungen in der Verwaltung wiederhergestellter Objekte ändern"
+
+msgid "recf_read"
+msgstr "Lesezugriff auf Wiederhergestellte Objekte"
+
+msgid "recf_visible"
+msgstr "Verwaltung wiederhergestellter Objekte ist sichtbar"
+
+msgid "recf_write"
+msgstr "Objekte wiederherstellen"
+
+msgid "redact"
+msgstr "Redigieren"
+
+msgid "release_objects"
+msgstr "Objekte freigeben"
+
+msgid "reps_edit_permission"
+msgstr "Rechteeinstellungen für die Magazinverwaltung ändern"
+
+msgid "reps_read"
+msgstr "Lesezugriff auf Magazinverwaltung"
+
+msgid "reps_visible"
+msgstr "Magazinverwaltung ist sichtbar"
+
+msgid "reps_write"
+msgstr "Einstellungen in Magazinverwaltung bearbeiten"
+
+msgid "rfil_delete"
+msgstr "ECS-Kategorie löschen"
+
+msgid "rfil_edit_permission"
+msgstr "Rechteeinstellungen ändern"
+
+msgid "rfil_read"
+msgstr "Lesezugriff auf ECS-Kategorie"
+
+msgid "rfil_visible"
+msgstr "ECS-Kategorie ist sichtbar"
+
+msgid "rfil_write"
+msgstr "ECS-Kategorie bearbeiten"
+
+msgid "rglo_delete"
+msgstr "ECS-Glossar löschen"
+
+msgid "rglo_edit_permission"
+msgstr "Rechteeinstellungen ändern"
+
+msgid "rglo_read"
+msgstr "Lesezugriff auf ECS-Glossar"
+
+msgid "rglo_visible"
+msgstr "ECS-Glossar ist sichtbar"
+
+msgid "rglo_write"
+msgstr "ECS-Glossar bearbeiten"
+
+msgid "rgrp_delete"
+msgstr "ECS-Gruppe löschen"
+
+msgid "rgrp_edit_permission"
+msgstr "Rechteeinstellungen ändern"
+
+msgid "rgrp_read"
+msgstr "Lesezugriff auf ECS-Gruppe"
+
+msgid "rgrp_visible"
+msgstr "ECS-Gruppe ist sichtbar"
+
+msgid "rgrp_write"
+msgstr "ECS-Gruppe bearbeiten"
+
+msgid "rlm_delete"
+msgstr "ECS-Lernmodul löschen"
+
+msgid "rlm_edit_permission"
+msgstr "Rechteeinstellungen ändern"
+
+msgid "rlm_read"
+msgstr "Lesezugriff auf ECS-Lernmodul"
+
+msgid "rlm_visible"
+msgstr "ECS-Lernmodul ist sichtbar"
+
+msgid "rlm_write"
+msgstr "ECS-Lernmodul bearbeiten"
+
+msgid "role_block_role"
+msgstr "Rolle sperren"
+
+msgid "role_block_role_desc"
+msgstr "Alle Rechte für dieses Objekt und seine Unterobjekte werden weggenommen."
+
+msgid "role_blocked"
+msgstr ": <i>Rolle wird gesperrt</i>"
+
+msgid "role_confirm_block_role"
+msgstr "Rollen-Status speichern"
+
+msgid "role_confirm_block_role_header"
+msgstr "Möchten Sie wirklich den Status der ausgewählten Rollen ändern?"
+
+msgid "role_confirm_block_role_info"
+msgstr "Für die Aktion „Rolle sperren“ werden folgende Aktionen durchgeführt:<br /><br />• Bei allen blockierten Rollen werden die für dieses Objekt und die darin enthaltenen Unterobjekte entfernt.<br />• Diese Rechteeinstellungen werden geschützt und können nur geändert werden, in dem „Rolle sperren“ wieder aufgehoben wird."
+
+msgid "role_confirm_unblock_role_info"
+msgstr "Beim Aufheben von „Rolle sperren“ werden folgende Aktionen durchgeführt:<br /><br />• Die lokale Zugriffsregelung wird wieder aufgeboben.<br />• Die Rechte der entsperrten Rollen werden auf Basis der aktuell gültigen Rechtevorgaben (Rollenvorlage) dieser Rollen neu gesetzt. Dies gilt für das aktuelle Objekt und alle enthaltenen Unterobjekte."
+
+msgid "role_unblocked"
+msgstr ": <i>Sperrung der Rolle wird aufgehoben</i>"
+
+msgid "root_edit_permission"
+msgstr "Rechteeinstellungen ändern"
+
+msgid "root_read"
+msgstr "Lesezugriff auf ILIAS-System"
+
+msgid "root_visible"
+msgstr "ILIAS-System ist sichtbar"
+
+msgid "root_write"
+msgstr "Daten des Systemknotens bearbeiten"
+
+msgid "rtst_delete"
+msgstr "ECS-Test löschen"
+
+msgid "rtst_edit_permission"
+msgstr "Rechteeinstellungen ändern"
+
+msgid "rtst_read"
+msgstr "Lesezugriff auf ECS-Test"
+
+msgid "rtst_visible"
+msgstr "ECS-Test ist sichtbar"
+
+msgid "rtst_write"
+msgstr "ECS-Test bearbeiten"
+
+msgid "rwik_delete"
+msgstr "ECS-Wiki löschen"
+
+msgid "rwik_edit_permission"
+msgstr "Rechteeinstellungen ändern"
+
+msgid "rwik_read"
+msgstr "Lesezugriff auf ECS-Wiki"
+
+msgid "rwik_visible"
+msgstr "ECS-Wiki ist sichtbar"
+
+msgid "rwik_write"
+msgstr "ECS-Wiki bearbeiten"
+
+msgid "sahs_copy"
+msgstr "Benutzer kann SCORM-Lernmodul kopieren"
+
+msgid "sahs_delete"
+msgstr "SCORM-Lernmodul löschen oder verschieben"
+
+msgid "sahs_edit_learning_progress"
+msgstr "Lernfortschrittseinstellungen können bearbeitet werden"
+
+msgid "sahs_edit_permission"
+msgstr "Rechteeinstellungen ändern"
+
+msgid "sahs_read"
+msgstr "SCORM-Lernmodul lesen"
+
+msgid "sahs_read_learning_progress"
+msgstr "Lernfortschritt von anderen einsehen"
+
+msgid "sahs_visible"
+msgstr "SCORM-Lernmodul ist sichtbar"
+
+msgid "sahs_write"
+msgstr "Inhalt und Einstellungen des SCORM-Lernmoduls bearbeiten"
+
+msgid "seas_edit_permission"
+msgstr "Rechteeinstellungen der Suche-Administration ändern"
+
+msgid "seas_read"
+msgstr "Lesezugriff auf Administration der Suche"
+
+msgid "seas_search"
+msgstr "Benutzung der Suche erlauben"
+
+msgid "seas_visible"
+msgstr "Administration der Suche ist sichtbar"
+
+msgid "seas_write"
+msgstr "Einstellungen in Administration der Suche bearbeiten"
+
+msgid "sess_copy"
+msgstr "Sitzung kopieren"
+
+msgid "sess_delete"
+msgstr "Sitzung löschen"
+
+msgid "sess_edit_event"
+msgstr "Kalendertermine bearbeiten"
+
+msgid "sess_edit_learning_progress"
+msgstr "Lernfortschrittseinstellungen können bearbeitet werden"
+
+msgid "sess_edit_metadata"
+msgstr "Metadaten bearbeiten"
+
+msgid "sess_edit_permission"
+msgstr "Rechteeinstellungen ändern"
+
+msgid "sess_manage_materials"
+msgstr "Materialzuordnungen verwalten"
+
+msgid "sess_manage_members"
+msgstr "Teilnahme an Sitzungen verwalten"
+
+msgid "sess_read"
+msgstr "Lesezugriff auf Sitzungen"
+
+msgid "sess_read_learning_progress"
+msgstr "Lernfortschritt von anderen einsehen"
+
+msgid "sess_visible"
+msgstr "Sitzungen sind sichtbar"
+
+msgid "sess_write"
+msgstr "Sitzungen bearbeiten"
+
+msgid "skee_copy"
+msgstr "Kompetenzbaum kopieren (derzeit nicht verfügbar)"
+
+msgid "skee_delete"
+msgstr "Kompetenzbaum löschen"
+
+msgid "skee_edit_permission"
+msgstr "Rechteeinstellungen der Kompetenzbaum-Administration ändern"
+
+msgid "skee_manage_comp"
+msgstr "Kompetenzen in Kompetenzbaum bearbeiten"
+
+msgid "skee_manage_comp_temp"
+msgstr "Kompetenzvorlagen in Kompetenzbaum bearbeiten"
+
+msgid "skee_manage_profiles"
+msgstr "Kompetenzprofile in Kompetenzbaum bearbeiten"
+
+msgid "skee_read"
+msgstr "Lesezugriff auf Administration für Kompetenzbaum"
+
+msgid "skee_read_comp"
+msgstr "Lesezugriff auf Kompetenzen und Kompetenzvorlagen in Kompetenzbaum"
+
+msgid "skee_read_profiles"
+msgstr "Lesezugriff auf Kompetenzprofile in Kompetenzbaum"
+
+msgid "skee_visible"
+msgstr "Kompetenzbaum ist sichtbar"
+
+msgid "skee_write"
+msgstr "Einstellungen für Kompetenzbaum bearbeiten"
+
+msgid "skmg_edit_permission"
+msgstr "Rechteeinstellungen für die Verwaltung des Kompetenzmanagements ändern"
+
+msgid "skmg_read"
+msgstr "Lesezugriff auf Kompetenzmanagement"
+
+msgid "skmg_visible"
+msgstr "Kompetenzmanagement ist sichtbar"
+
+msgid "skmg_write"
+msgstr "Kompetenzmanagement bearbeiten"
+
+msgid "smtp_mail"
+msgstr "SMTP E-Mail"
+
+msgid "spl_copy"
+msgstr "Fragenpool für Umfragen kopieren"
+
+msgid "spl_delete"
+msgstr "Fragenpool löschen oder verschieben"
+
+msgid "spl_edit_permission"
+msgstr "Rechteeinstellungen ändern"
+
+msgid "spl_read"
+msgstr "Fragen im Pool können eingesehen und für Umfrage übernommen werden"
+
+msgid "spl_visible"
+msgstr "Fragenpool ist sichtbar"
+
+msgid "spl_write"
+msgstr "Fragen und Einstellungen des Fragenpools bearbeiten"
+
+msgid "statistics_read"
+msgstr "Statistiken einsehen"
+
+msgid "stus_edit_permission"
+msgstr "Benutzer kann die Berechtigungseinstellungen in der Kurz-URL-Verwaltung ändern"
+
+msgid "stus_read"
+msgstr "Benutzer kann die Kurz-URL-Verwaltung einsehen"
+
+msgid "stus_write"
+msgstr "Benutzer kann Kurz-URLs bearbeiten"
+
+msgid "sty_write_content"
+msgstr "Content-Styles bearbeiten"
+
+msgid "sty_write_page_layout"
+msgstr "Seitenlayouts bearbeiten"
+
+msgid "sty_write_system"
+msgstr "System-Styles bearbeiten"
+
+msgid "stys_edit_permission"
+msgstr "Rechteeinstellungen in Layout-Administration ändern"
+
+msgid "stys_read"
+msgstr "Lesezugriff auf Layout-Administration"
+
+msgid "stys_sty_write_content"
+msgstr "Content-Styles bearbeiten"
+
+msgid "stys_sty_write_custom"
+msgstr "Content-Styles bearbeiten"
+
+msgid "stys_sty_write_page_layout"
+msgstr "Seitenlayouts bearbeiten"
+
+msgid "stys_sty_write_system"
+msgstr "System-Styles bearbeiten"
+
+msgid "stys_visible"
+msgstr "Layout-Administration ist sichtbar"
+
+msgid "svy_copy"
+msgstr "Umfrage kopieren"
+
+msgid "svy_delete"
+msgstr "Umfrage löschen oder verschieben"
+
+msgid "svy_edit_learning_progress"
+msgstr "Lernfortschrittseinstellungen können bearbeitet werden"
+
+msgid "svy_edit_permission"
+msgstr "Rechteeinstellungen ändern"
+
+msgid "svy_invite"
+msgstr "Andere zu einer Umfrage einladen"
+
+msgid "svy_read"
+msgstr "An Umfrage teilnehmen"
+
+msgid "svy_read_learning_progress"
+msgstr "Lernfortschritt von anderen einsehen"
+
+msgid "svy_read_results"
+msgstr "Benutzer hat Zugriff auf alle Umfrageergebnisse"
+
+msgid "svy_visible"
+msgstr "Umfrage ist sichtbar"
+
+msgid "svy_write"
+msgstr "Umfrage zusammenstellen und Einstellungen bearbeiten"
+
+msgid "svyf_edit_permission"
+msgstr "Rechteeinstellung in Umfrage-Administration ändern"
+
+msgid "svyf_read"
+msgstr "Lesezugriff auf Umfrage-Administration"
+
+msgid "svyf_visible"
+msgstr "Umfrage-Administration ist sichtbar"
+
+msgid "svyf_write"
+msgstr "Einstellungen in Umfrage-Administration bearbeiten"
+
+msgid "sysc_edit_permission"
+msgstr "Rechteeinstellungen für System-Check ändern"
+
+msgid "sysc_read"
+msgstr "Rechteeinstellungen für den Systemcheck ändern."
+
+msgid "sysc_visible"
+msgstr "Lesezugriff auf den Systemcheck"
+
+msgid "sysc_write"
+msgstr "Benutzer darf Systemcheck durchführen."
+
+msgid "tags_edit_permission"
+msgstr "Rechteeinstellungen ändern"
+
+msgid "tags_read"
+msgstr "Lesezugriff zu den Tagging-Einstellungen"
+
+msgid "tags_visible"
+msgstr "Tagging-Einstellungen sind sichtbar"
+
+msgid "tags_write"
+msgstr "Tagging-Einstellungen bearbeiten"
+
+msgid "tala_edit_permission"
+msgstr "Rechteeinstellungen in der Gesprächsvorlagen-Administration ändern"
+
+msgid "tala_read"
+msgstr "Lesezugriff auf Gesprächsvorlagen-Administration"
+
+msgid "tala_visible"
+msgstr "Gesprächsvorlagen-Administration ist sichtbar"
+
+msgid "tala_write"
+msgstr "Gesprächsvorlagen anlegen und bearbeiten"
+
+msgid "taxs_edit_permission"
+msgstr "Rechteeinstellungen für die Taxonomie-Administration ändern"
+
+msgid "taxs_read"
+msgstr "Lesezugriff auf Taxonomie-Administration"
+
+msgid "taxs_visible"
+msgstr "Taxonomie-Administration ist sichtbar"
+
+msgid "taxs_write"
+msgstr "Einstellungen in Taxonomie-Administration bearbeiten"
+
+msgid "tos_edit_permission"
+msgstr "Rechteeinstellungen für die Nutzungsvereinbarungs-Verwaltung ändern"
+
+msgid "tos_read"
+msgstr "Lesezugriff auf Nutzungsvereinbarungs-Verwaltung"
+
+msgid "tos_visible"
+msgstr "Nutzungsvereinbarungs-Verwaltung ist sichtbar"
+
+msgid "tos_write"
+msgstr "Einstellungen in Nutzungsvereinbarungs-Verwaltung bearbeiten"
+
+msgid "trac_delete"
+msgstr "Tracking-Daten löschen"
+
+msgid "trac_edit_permission"
+msgstr "Rechteeinstellungen in Zugriffsstatistiken und Lernfortschrittsverwaltung ändern"
+
+msgid "trac_lp_other_users"
+msgstr "Lernfortschritt anderer Benutzer einsehen"
+
+msgid "trac_read"
+msgstr "Lesezugriff auf Zugriffsstatistiken und Lernfortschrittsverwaltung"
+
+msgid "trac_visible"
+msgstr "Zugriffsstatistiken und Lernfortschrittsverwaltung ist sichtbar"
+
+msgid "trac_write"
+msgstr "Einstellungen für Zugriffsstatistiken und Lernfortschrittsverwaltung bearbeiten"
+
+msgid "tst_copy"
+msgstr "Test kopieren"
+
+msgid "tst_delete"
+msgstr "Test löschen oder verschieben"
+
+msgid "tst_edit_learning_progress"
+msgstr "Lernfortschrittseinstellungen können bearbeitet werden"
+
+msgid "tst_edit_permission"
+msgstr "Rechteeinstellungen bearbeiten"
+
+msgid "tst_read"
+msgstr "Test durchführen"
+
+msgid "tst_read_learning_progress"
+msgstr "Lernfortschritt von anderen einsehen"
+
+msgid "tst_tst_history_read"
+msgstr "Verlauf einsehen"
+
+msgid "tst_tst_results"
+msgstr "Zugriff auf Testergebnisse"
+
+msgid "tst_visible"
+msgstr "Test ist sichtbar"
+
+msgid "tst_write"
+msgstr "Test zusammenstellen und Einstellungen bearbeiten"
+
+msgid "upload_blacklisted_files"
+msgstr "Negativliste umgehen"
+
+msgid "usrf_delete"
+msgstr "Anmeldekonten löschen"
+
+msgid "usrf_edit_permission"
+msgstr "Rechteeinstellungen für die Anmeldekontenverwaltung ändern"
+
+msgid "usrf_edit_roleassignment"
+msgstr "Rollenzuweisung von Anmeldekonten ändern"
+
+msgid "usrf_push_desktop_items"
+msgstr "Erlaube ILIAS-Objekte anderen Benutzern als empfohlene Inhalte vorzulegen."
+
+msgid "usrf_read"
+msgstr "Lesezugriff auf Anmeldekontenverwaltung"
+
+msgid "usrf_read_all_accounts"
+msgstr "Lesezugriff auf alle Anmeldekonten"
+
+msgid "usrf_read_users"
+msgstr "Lesezugriff auf Anmeldekonten für lokale Administration"
+
+msgid "usrf_visible"
+msgstr "Anmeldekontenverwaltung ist sichtbar"
+
+msgid "usrf_write"
+msgstr "Einstellungen in Anmeldekontenverwaltung bearbeiten"
+
+msgid "wbdv_edit_permission"
+msgstr "Rechteeinstellungen der Administration für WebDAV ändern"
+
+msgid "wbdv_read"
+msgstr "Lesezugriff auf Administration für WebDAV"
+
+msgid "wbdv_visible"
+msgstr "Administration für WebDAV ist sichtbar."
+
+msgid "wbdv_write"
+msgstr "Einstellungen in Administration für WebDAV ändern"
+
+msgid "wbrs_edit_permission"
+msgstr "Rechteeinstellungen für die Weblink-Verwaltung ändern"
+
+msgid "wbrs_read"
+msgstr "Lesezugriff auf Weblink-Verwaltung"
+
+msgid "wbrs_visible"
+msgstr "Weblink-Verwaltung ist sichtbar"
+
+msgid "wbrs_write"
+msgstr "Einstellungen in Weblink-Verwaltung bearbeiten"
+
+msgid "webr_copy"
+msgstr "Weblink-Sammlung kopieren"
+
+msgid "webr_delete"
+msgstr "Weblink-Sammlung löschen"
+
+msgid "webr_edit_permission"
+msgstr "Rechteeinstellungen ändern"
+
+msgid "webr_read"
+msgstr "Weblinks aufrufen"
+
+msgid "webr_visible"
+msgstr "Weblinks sind sichtbar"
+
+msgid "webr_write"
+msgstr "Einstellungen der Weblinks bearbeiten"
+
+msgid "wiki_activate_wiki_protection"
+msgstr "Schreibschutz für einzelne Wikiseiten aktivieren"
+
+msgid "wiki_add_pages"
+msgstr "Wiki-Seiten erstellen"
+
+msgid "wiki_copy"
+msgstr "Wiki kopieren"
+
+msgid "wiki_delete"
+msgstr "Wiki löschen oder verschieben"
+
+msgid "wiki_delete_wiki_pages"
+msgstr "Wikiseiten löschen"
+
+msgid "wiki_edit_content"
+msgstr "Wiki-Seiten bearbeiten"
+
+msgid "wiki_edit_page_meta"
+msgstr "Wikiseitenmetadaten bearbeiten"
+
+msgid "wiki_edit_permission"
+msgstr "Rechteeinstellungen ändern"
+
+msgid "wiki_edit_wiki_navigation"
+msgstr "Wiki-Navigation bearbeiten"
+
+msgid "wiki_html_export"
+msgstr "HTML exportieren"
+
+msgid "wiki_read"
+msgstr "Wiki-Inhalte lesen"
+
+msgid "wiki_statistics_read"
+msgstr "Statistiken einsehen"
+
+msgid "wiki_visible"
+msgstr "Wiki ist sichtbar"
+
+msgid "wiki_wiki_html_export"
+msgstr "Wiki nach HTML exportieren"
+
+msgid "wiki_write"
+msgstr "Einstellungen des Wikis bearbeiten"
+
+msgid "wiks_edit_permission"
+msgstr "Rechteeinstellungen für die Wiki-Verwaltung ändern"
+
+msgid "wiks_read"
+msgstr "Lesezugriff auf Wiki-Verwaltung"
+
+msgid "wiks_visible"
+msgstr "Wiki-Verwaltung ist sichtbar"
+
+msgid "wiks_write"
+msgstr "Einstellungen in Wiki-Verwaltung bearbeiten"
+
+msgid "write"
+msgstr "Einstellungen bearbeiten"

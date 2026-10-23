@@ -1,0 +1,15 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: tstv\n"
+
+msgid "tstv_create"
+msgstr "Vytvořit verifikaci testu"
+
+msgid "tstv_create_info"
+msgstr "Vyberte úplný test pro generování jeho certifikátu"

@@ -1,0 +1,407 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: search\n"
+
+msgid "add_members_header"
+msgstr "メンバーを追加"
+
+msgid "append_results"
+msgstr "結果を追記"
+
+msgid "btn_search"
+msgstr "検索"
+
+msgid "last_search_result"
+msgstr "前回検索結果"
+
+msgid "lucene_and"
+msgstr "AND"
+
+msgid "lucene_cpu"
+msgstr "スレッド最大数"
+
+msgid "lucene_create_ini"
+msgstr "構成ファイルを作成"
+
+msgid "lucene_default_operator"
+msgstr "オペレーター初期設定"
+
+msgid "lucene_default_operator_info"
+msgstr "演算子初期設定はブール値のクエリを選択してください。 初期設定モードで (AND) 用語と組合わせてみなされます。 「OR」モードでは、用語、修飾子なしオプションと見なされます。"
+
+msgid "lucene_download_ini"
+msgstr "構成ファイルをダウンロード"
+
+msgid "lucene_err_ampersand"
+msgstr "クエリーには、特殊文字 &&がフォームの中に含まれる必要があります。 term1 && term2."
+
+msgid "lucene_err_and_or_not"
+msgstr "クエリーには、AND/OR/NOTがフォームの中に含まれる必要があります。term1 AND|OR|NOT|AND NOT term2."
+
+msgid "lucene_err_asterisk"
+msgstr "ワイルドカード (*)文字は、少なくとも 1 つのアルファベットまたは番号を前にする必要があります。"
+
+msgid "lucene_err_caret"
+msgstr "キャレット (^)文字は、英数文字と続く番号を前にしなければなりません。"
+
+msgid "lucene_err_colon"
+msgstr "フィールド宣言 ( ) は前が少なくとも 1 つの文字または番号で、後が少なくとも 1 つのアルファベットまたは数字にする必要があります。"
+
+msgid "lucene_err_exclamation_mark"
+msgstr "クエリーには、特殊文字 (!)がフォームの中に含まれる必要があります。 term1 ! term2."
+
+msgid "lucene_err_parenthesis_empty"
+msgstr "かっこは、少なくとも 1 つの文字を含める必要があります。"
+
+msgid "lucene_err_parenthesis_not_closed"
+msgstr "かっこは閉じる必要があります。"
+
+msgid "lucene_err_plus_minus"
+msgstr "(+) および (-) 修飾子は、少なくとも1 つのアルファベットまたは番号が続く必要があります。"
+
+msgid "lucene_err_question_mark"
+msgstr "疑問符 (?) の文字には、少なくとも 1 つのアルファベットまたは番号を前にする必要があります。"
+
+msgid "lucene_err_quotes"
+msgstr "すべての (') 引用符を閉じてください。"
+
+msgid "lucene_err_quotes_not_empty"
+msgstr "引用符 (') は、少なくとも 1 つの文字を含める必要があります。"
+
+msgid "lucene_general_settings"
+msgstr "全般設定"
+
+msgid "lucene_host"
+msgstr "ホスト"
+
+msgid "lucene_host_info"
+msgstr "Javaサーバーのホスト名かIPアドレスを入力してください。"
+
+msgid "lucene_index_path"
+msgstr "Index ファイル用のディレクトリ"
+
+msgid "lucene_index_path_info"
+msgstr "Indexファイル並び替え用のディレクトリ名を入力してください。"
+
+msgid "lucene_last_index_time"
+msgstr "最終Index生成"
+
+msgid "lucene_last_index_time_info"
+msgstr "インデックスバックアップがインストールされている場合のみこの設定を変更してください。"
+
+msgid "lucene_level"
+msgstr "ログレベル"
+
+msgid "lucene_log"
+msgstr "ログファイルのpath"
+
+msgid "lucene_log_info"
+msgstr "ログメッセージの書かれたファイルの絶対pathを入力してください。ファイルがない場合は、自動的に作成されます。"
+
+msgid "lucene_max_fs"
+msgstr "最大ファイルサイズ(MB)"
+
+msgid "lucene_max_fs_info"
+msgstr "ファイルサイズを定義します。大き目のファイルはindexには含まれません。"
+
+msgid "lucene_num_frag_info"
+msgstr "強調表示されたテキストのフラグメントの最大数を選択してください。"
+
+msgid "lucene_num_fragments"
+msgstr "テキストフラグメント数"
+
+msgid "lucene_offline_filter"
+msgstr "オフライン状況"
+
+msgid "lucene_or"
+msgstr "OR"
+
+msgid "lucene_port"
+msgstr "ポート"
+
+msgid "lucene_prefix_wildcard"
+msgstr "ワイルドカード検索プレフィックス"
+
+msgid "lucene_prefix_wildcard_info"
+msgstr "有効にするとプレフィックスワイルドカードクエリー(*LIASはILIASを検索)がサポートされます。"
+
+msgid "lucene_settings_index_section"
+msgstr "インデクスバックアップ"
+
+msgid "lucene_settings_tab"
+msgstr "Lucene（ルシーン）"
+
+msgid "lucene_settings_text_section"
+msgstr "検索結果の表示"
+
+msgid "lucene_settings_title"
+msgstr "Lucene（ルシーン）設定"
+
+msgid "lucene_size_frag_info"
+msgstr "強調されたテストフラグメントの最大サイズを選んでください。"
+
+msgid "lucene_size_fragments"
+msgstr "テキスト フラグメントのサイズ"
+
+msgid "lucene_tbl_create_ini"
+msgstr "JavaサーバーIni-ファイルを作成"
+
+msgid "search_add_members_from_container_crs"
+msgstr "現在のコースのユーザを追加"
+
+msgid "search_add_members_from_container_grp"
+msgstr "現在のグループのユーザを追加"
+
+msgid "search_any"
+msgstr "-- 選択 --"
+
+#, fuzzy
+msgid "search_area_filter"
+msgstr "Scope"
+
+msgid "search_area_info"
+msgstr "検索を開始する範囲を選択してください。"
+
+msgid "search_auto_complete_length"
+msgstr "自動完了リストのエントリー数"
+
+msgid "search_auto_complete_length_info"
+msgstr "自動補完リストをオフにするには「0」を選択してください。"
+
+msgid "search_cdate_filter"
+msgstr "作成日でフィルター"
+
+msgid "search_cdate_filter_info"
+msgstr "有効にするとオブジェクト検索は作成日フィルターオプションでフィルターできます"
+
+msgid "search_content"
+msgstr "ページコンテンツ"
+
+msgid "search_copyright"
+msgstr "Copyright"
+
+msgid "search_created_after"
+msgstr "後に作成されたオブジェクト"
+
+msgid "search_created_before"
+msgstr ". . .以前に作成されたオブジェクト"
+
+msgid "search_created_on"
+msgstr ". . .に作成されたオブジェクト. . ."
+
+msgid "search_crs_title"
+msgstr "コース名"
+
+msgid "search_detailed_results_title"
+msgstr "「%s」の詳細な結果"
+
+msgid "search_details_info"
+msgstr "詳細検索。1つまたは複数のリソースの種類を選択してください。"
+
+msgid "search_direct"
+msgstr "ダイレクト検索"
+
+msgid "search_err_user_not_exist"
+msgstr "そのログイン名のユーザは存在しません。"
+
+msgid "search_fast_info"
+msgstr "全てのオブジェクトタイプのタイトル、説明、キーワードを検索"
+
+msgid "search_field"
+msgstr "検索入力フィールド"
+
+msgid "search_field_perform"
+msgstr "検索実行"
+
+msgid "search_filter_by_type"
+msgstr "タイプでフィルタ"
+
+msgid "search_filter_cd"
+msgstr "作成日でフィルター"
+
+msgid "search_filter_settings_section"
+msgstr "検索結果用のフィルタ"
+
+msgid "search_for_crs_members"
+msgstr "コースメンバーの検索"
+
+msgid "search_for_grp_members"
+msgstr "グループメンバーの検索"
+
+msgid "search_for_orgu_members"
+msgstr "組織単位の検索"
+
+msgid "search_for_orgu_members_recursive"
+msgstr "サブユニットを含めますか？"
+
+msgid "search_for_role_members"
+msgstr "役割メンバーの検索"
+
+msgid "search_for_users"
+msgstr "ユーザの検索"
+
+msgid "search_grp_title"
+msgstr "グループ名"
+
+msgid "search_item_filter_form"
+msgstr "タイプで検索"
+
+msgid "search_item_filter_form_info"
+msgstr "ONすると選択したアイテムタイプに対して制限検索ができます。"
+
+#. Needs to be adapted to new content of German lang file.
+msgid "search_like_info"
+msgstr "ベストな結果を得るにはこのオプションを選びます。"
+
+msgid "search_limit_reached"
+msgstr "検索の結果%s件を超えるヒットがあります。条件を絞り込んで詳細結果を得る事ができます。"
+
+msgid "search_lucene"
+msgstr "Lucene(ルシーン)検索"
+
+msgid "search_mime_excel"
+msgstr "Excelファイル"
+
+msgid "search_mime_filter_form"
+msgstr "MIMEタイプフィルタ"
+
+msgid "search_mime_filter_form_info"
+msgstr "検索は選択のmimiタイプで制限できます。"
+
+msgid "search_mime_image"
+msgstr "画像"
+
+msgid "search_mime_pdf"
+msgstr "PDFファイル"
+
+msgid "search_mime_powerpoint"
+msgstr "PowerPointファイル"
+
+msgid "search_mime_word"
+msgstr "Wordファイル"
+
+msgid "search_minimum_info"
+msgstr "検索は%s文字以上である必要があります。"
+
+msgid "search_minimum_three"
+msgstr "検索は最低3文字長以上にしなければなりません"
+
+msgid "search_newer_than"
+msgstr "よりも新しいオブジェクト"
+
+msgid "search_no_connection_lucene"
+msgstr "Lucene(ルシーン）サーバーへ接続できません。"
+
+#, fuzzy
+msgid "search_no_further_match"
+msgstr "No further matches found."
+
+msgid "search_no_match"
+msgstr "検索結果が一致しませんでした"
+
+msgid "search_no_match_hint"
+msgstr "検索 - <b>%s</b> - 一致するドキュメントがありません。<br /><br />提案<br />・スペル間違いがないか確認<br />・別のキーワードで検索<br />・より一般的なキーワードで検索<br />・さらに絞り込んだキーワードで検索"
+
+msgid "search_no_selection"
+msgstr "何も選択されませんでした。"
+
+msgid "search_off"
+msgstr "Off"
+
+msgid "search_readme_file"
+msgstr "Readme ファイル"
+
+msgid "search_results_show_subitems"
+msgstr "詳細結果を参照"
+
+msgid "search_results_too_many_subitems"
+msgstr "さらに結果が利用可能です。検索語をより正確にしてください。"
+
+msgid "search_role_title"
+msgstr "役割名"
+
+msgid "search_select_search_area"
+msgstr "検索範囲の選択"
+
+msgid "search_server_further_information"
+msgstr "Luceneサーバーの構成に関するさらに詳しい情報は、READMEファイルで確認できます。"
+
+msgid "search_show_inactive_user"
+msgstr "休止ユーザを表示"
+
+msgid "search_show_inactive_user_info"
+msgstr "有効にするとユーザ検索は休止ユーザを表示します。"
+
+msgid "search_show_limited_user"
+msgstr "限定ユーザを表示"
+
+msgid "search_show_limited_user_info"
+msgstr "有効にするとユーザ検索は限定アクセスと許可時間外のユーザを表示します。"
+
+msgid "search_sort_by"
+msgstr "仕分け:"
+
+msgid "search_sort_creation_date_asc"
+msgstr "最古"
+
+msgid "search_sort_creation_date_desc"
+msgstr "最新"
+
+msgid "search_sort_relevance"
+msgstr "関連順"
+
+msgid "search_sort_title_asc"
+msgstr "アルファベット順：A-Z"
+
+msgid "search_sort_title_desc"
+msgstr "アルファベット順：Z-A"
+
+#, fuzzy
+msgid "search_tab_content"
+msgstr "Content"
+
+#, fuzzy
+msgid "search_tab_user"
+msgstr "Users"
+
+msgid "search_term_combination"
+msgstr "混在"
+
+msgid "search_title_description"
+msgstr "タイトル / 説明"
+
+msgid "search_tst_svy"
+msgstr "テスト/サーベイ"
+
+msgid "search_type"
+msgstr "検索タイプ"
+
+msgid "search_user"
+msgstr "ユーザ"
+
+msgid "search_user_extended"
+msgstr "拡張ユーザ検索"
+
+msgid "search_user_search_form"
+msgstr "パーソナルフロファイルを検索"
+
+msgid "search_user_search_info_form"
+msgstr "有効にするとユーザデータが索引付けされて検索可能になります。"
+
+msgid "seas_search_type"
+msgstr "タイプ"
+
+msgid "select_orgu"
+msgstr "組織単位を選択"
+
+msgid "until"
+msgstr "最大"
+
+msgid "user_search_settings_section"
+msgstr "「メンバー」タブでのユーザー検索"

@@ -1,0 +1,161 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: didactic\n"
+
+msgid "activate_exclusive_template"
+msgstr "Predefinição a cinzento"
+
+msgid "activate_exclusive_template_info"
+msgstr "O modelo padrão não estará disponível quando este modelo estiver ativo."
+
+msgid "activate_local_didactic_template"
+msgstr "Âmbito de aplicação"
+
+msgid "activate_local_didactic_template_info"
+msgstr "A utilização deste modelo didático será limitado a estas subáreas."
+
+msgid "didactic_activated_msg"
+msgstr "Modelos didáticos ativados"
+
+msgid "didactic_adm_tab"
+msgstr "Qui"
+
+msgid "didactic_applicable_for"
+msgstr "Ter"
+
+msgid "didactic_auto_generated"
+msgstr "Automaticamente criado"
+
+msgid "didactic_available_templates"
+msgstr "Modelos didáticos disponíveis"
+
+msgid "didactic_back_to_overview"
+msgstr "Regressar à vista geral"
+
+msgid "didactic_cannot_delete_auto_generated"
+msgstr "Não é permitido apagar modelos didáticos automaticamente criados."
+
+msgid "didactic_cannot_delete_auto_generated_confirmation"
+msgstr "Pelo menos um dos modelos didáticos selecionados é automaticamente criado e não pode ser apagado."
+
+msgid "didactic_confirm_apply_new_template"
+msgstr "Tem a certeza que quer aplicar o modelo didático escolhido? Perdem-se todas as definições de permissões atuais!"
+
+msgid "didactic_confirm_delete_msg"
+msgstr "Tem a certeza que quer apagar os seguintes modelos didáticos?"
+
+msgid "didactic_copy_suc_message"
+msgstr "Modelo didático copiado"
+
+msgid "didactic_deactivated_msg"
+msgstr "Modelos didáticos desativados"
+
+msgid "didactic_default_type"
+msgstr "Predefinição"
+
+msgid "didactic_default_type_info"
+msgstr "Qua"
+
+msgid "didactic_delete_msg"
+msgstr "Hora"
+
+msgid "didactic_do_export"
+msgstr "Exportar"
+
+msgid "didactic_edit_tpl"
+msgstr "Editar modelo didático"
+
+#, fuzzy
+msgid "didactic_filter_with_icon"
+msgstr "with Icon"
+
+#, fuzzy
+msgid "didactic_filter_without_icon"
+msgstr "without Icon"
+
+#, fuzzy
+msgid "didactic_global"
+msgstr "Global"
+
+#, fuzzy
+msgid "didactic_icon"
+msgstr "Icon"
+
+#, fuzzy
+msgid "didactic_icon_error"
+msgstr "Icons cannot be assigned to non-container objects."
+
+#, fuzzy
+msgid "didactic_icon_info"
+msgstr "The Icon is shown for all objects, which use this object template. \"Custom Icons\" of objects overwrite the didactic template icons. Icons can only be used for didactic templates assigned to container objects."
+
+msgid "didactic_import_btn"
+msgstr "Importar modelo didático"
+
+msgid "didactic_import_failed"
+msgstr "Clicar (Shift) ou arrastar para alterar o valor"
+
+msgid "didactic_import_success"
+msgstr "Hoje"
+
+msgid "didactic_import_table_title"
+msgstr "Importar um modelo didático"
+
+msgid "didactic_install_info"
+msgstr "Informações gerais"
+
+#, fuzzy
+msgid "didactic_local"
+msgstr "Local"
+
+msgid "didactic_not_changed"
+msgstr "A definição do modelo didático está inalterada."
+
+msgid "didactic_scope"
+msgstr "Âmbito"
+
+msgid "didactic_scope_list_header"
+msgstr "Limitado a:"
+
+msgid "didactic_selected_tpl_option"
+msgstr "Modelo didático aplicado:"
+
+msgid "didactic_template_applied"
+msgstr "Modelo didático aplicado."
+
+msgid "didactic_template_update_import"
+msgstr "Atualizar modelo didático"
+
+msgid "didactic_template_update_import_info"
+msgstr "As propriedades mudam de acordo com esta importação. Os objetos que já foram aplicados a este modelo não serão alterados."
+
+#, fuzzy
+msgid "didactic_translation_add_languages"
+msgstr "Add Languages"
+
+msgid "dtpl_obj_type_info"
+msgstr "Este modelo didático pode ser aplicado neste tipo de objeto."
+
+msgid "effective_form"
+msgstr "Modelo efetivo de"
+
+msgid "grp_closed"
+msgstr "Grupo fechado"
+
+msgid "grp_closed_info"
+msgstr "O grupo não está visível a não-membros."
+
+msgid "more_translations"
+msgstr "Mais traduções"
+
+msgid "sess_closed"
+msgstr "Sessão fechada"
+
+msgid "sess_closed_info"
+msgstr "A sessão não está visível a não-participantes."

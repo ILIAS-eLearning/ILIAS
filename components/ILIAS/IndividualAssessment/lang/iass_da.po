@@ -1,0 +1,353 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: da\n"
+"Language-Team: Danish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: iass\n"
+
+#, fuzzy
+msgid "download_assessment_paper"
+msgstr "Download Record file"
+
+#, fuzzy
+msgid "grading"
+msgstr "Grading"
+
+#, fuzzy
+msgid "grading_info"
+msgstr "Grading info"
+
+#, fuzzy
+msgid "grading_record"
+msgstr "Grading record"
+
+#, fuzzy
+msgid "iass_add"
+msgstr "Create Individual Assessment"
+
+#, fuzzy
+msgid "iass_add_user_failure"
+msgstr "One or more user could not be added."
+
+#, fuzzy
+msgid "iass_add_user_success"
+msgstr "User added as examinee."
+
+#, fuzzy
+msgid "iass_added"
+msgstr "Individual Assessment added"
+
+#, fuzzy
+msgid "iass_amend_saved"
+msgstr "Amended record has been saved."
+
+#, fuzzy
+msgid "iass_assessment_not_completed"
+msgstr "Assessment not completet"
+
+#, fuzzy
+msgid "iass_cancel"
+msgstr "Cancel"
+
+#, fuzzy
+msgid "iass_changed_by"
+msgstr "Changed after finalization"
+
+#, fuzzy
+msgid "iass_confirm_finalize"
+msgstr "Finalize"
+
+#, fuzzy
+msgid "iass_consultation_hours"
+msgstr "Consultation Hours"
+
+#, fuzzy
+msgid "iass_contact"
+msgstr "Name"
+
+#, fuzzy
+msgid "iass_contact_info"
+msgstr "Contact information"
+
+#, fuzzy
+msgid "iass_content"
+msgstr "Assessment content description"
+
+#, fuzzy
+msgid "iass_content_explanation"
+msgstr "Contents of the assessment, e.g., relevant topics."
+
+#, fuzzy
+msgid "iass_copy"
+msgstr "Copy Individual Assessment"
+
+#, fuzzy
+msgid "iass_download"
+msgstr "Download"
+
+#, fuzzy
+msgid "iass_edit"
+msgstr "Settings"
+
+#, fuzzy
+msgid "iass_edit_info"
+msgstr "Info Settings"
+
+#, fuzzy
+msgid "iass_edit_record"
+msgstr "User record"
+
+#, fuzzy
+msgid "iass_event_time"
+msgstr "Event time"
+
+#, fuzzy
+msgid "iass_event_time_place_required"
+msgstr "Date and place required"
+
+#, fuzzy
+msgid "iass_event_time_place_required_info"
+msgstr "Date and place of assessment have to be added to each participant record."
+
+#, fuzzy
+msgid "iass_file"
+msgstr "File"
+
+#, fuzzy
+msgid "iass_file_dropzone"
+msgstr "you can drop your files here"
+
+#, fuzzy
+msgid "iass_file_required"
+msgstr "Record file required"
+
+#, fuzzy
+msgid "iass_file_required_info"
+msgstr "A record file has to be uploaded to each participant record."
+
+#, fuzzy
+msgid "iass_file_visible_examinee"
+msgstr "File visible for participant"
+
+#, fuzzy
+msgid "iass_file_visible_examinee_info"
+msgstr "Once the individual assessment has been completed, the person assessed can view the record file. To do so, the ‘Make Result Available to Participant’ function must be enabled."
+
+#, fuzzy
+msgid "iass_filter_all"
+msgstr "All"
+
+#, fuzzy
+msgid "iass_filter_failed"
+msgstr "Failed only"
+
+#, fuzzy
+msgid "iass_filter_finalized"
+msgstr "Completed only"
+
+#, fuzzy
+msgid "iass_filter_not_finalized"
+msgstr "Not completed only"
+
+#, fuzzy
+msgid "iass_filter_not_started"
+msgstr "Not started only"
+
+#, fuzzy
+msgid "iass_finalize"
+msgstr "Finalize"
+
+#, fuzzy
+msgid "iass_finalize_info"
+msgstr "Individual Assessment will be finalized."
+
+#, fuzzy
+msgid "iass_finalize_user_qst"
+msgstr "Should the examinee's status really be finalised? No changes possible thereafter."
+
+#, fuzzy
+msgid "iass_further_field_headline"
+msgstr "Detailed Information"
+
+#, fuzzy
+msgid "iass_graded_by"
+msgstr "Graded by"
+
+#, fuzzy
+msgid "iass_info_emails_expl"
+msgstr "You may provide several addresses separated by a coma."
+
+#, fuzzy
+msgid "iass_internal_note"
+msgstr "Internal record note (should not be seen by examinee)"
+
+#, fuzzy
+msgid "iass_internal_note_info"
+msgstr "Internal notes are only visible for tutors but not for examinees."
+
+#, fuzzy
+msgid "iass_location"
+msgstr "Location"
+
+#, fuzzy
+msgid "iass_mails"
+msgstr "Mails"
+
+#, fuzzy
+msgid "iass_may_not_finalize"
+msgstr "Examinee may not be finalised."
+
+#, fuzzy
+msgid "iass_membership_finalized"
+msgstr "Record finalised"
+
+#, fuzzy
+msgid "iass_membership_saved"
+msgstr "Record saved, not yet finalised"
+
+#, fuzzy
+msgid "iass_mess_notification_completed"
+msgstr "You passed the assessment %s. Please check the following record for details:"
+
+#, fuzzy
+msgid "iass_mess_notification_failed"
+msgstr "You failed the assessment %s. Please check the following record for details:"
+
+#, fuzzy
+msgid "iass_notify"
+msgstr "Notify user after finalization"
+
+#, fuzzy
+msgid "iass_notify_explanation"
+msgstr "The examinee will be notified via email after finalisation and will get access to her or his record on the Info screen."
+
+#, fuzzy
+msgid "iass_phone"
+msgstr "Phone"
+
+#, fuzzy
+msgid "iass_place"
+msgstr "Event location"
+
+#, fuzzy
+msgid "iass_record"
+msgstr "Record note"
+
+#, fuzzy
+msgid "iass_record_info"
+msgstr "Examinees can see the record note after having been graded finally. If notification is enabled below, the record note will be send to the examinee by e-mail, too."
+
+#, fuzzy
+msgid "iass_record_template"
+msgstr "Record template"
+
+#, fuzzy
+msgid "iass_record_template_explanation"
+msgstr "Template for examinee grading record. Will be used automatically for any new examinee."
+
+#, fuzzy
+msgid "iass_remove_user_qst"
+msgstr "Should the examinee really be removed?"
+
+#, fuzzy
+msgid "iass_responsibility"
+msgstr "Responsibility"
+
+#, fuzzy
+msgid "iass_save_amend"
+msgstr "Save Amend"
+
+#, fuzzy
+msgid "iass_settings_availability"
+msgstr "Availability"
+
+#, fuzzy
+msgid "iass_settings_saved"
+msgstr "Settings saved."
+
+#, fuzzy
+msgid "iass_sort_changetime_asc"
+msgstr "Last Change ascending"
+
+#, fuzzy
+msgid "iass_sort_changetime_desc"
+msgstr "Last Change descending"
+
+#, fuzzy
+msgid "iass_sort_examiner_login_asc"
+msgstr "Examiner ascending"
+
+#, fuzzy
+msgid "iass_sort_examiner_login_desc"
+msgstr "Examiner descending"
+
+#, fuzzy
+msgid "iass_sort_name_asc"
+msgstr "Username ascending"
+
+#, fuzzy
+msgid "iass_sort_name_desc"
+msgstr "Username descending"
+
+#, fuzzy
+msgid "iass_status_completed"
+msgstr "Completed"
+
+#, fuzzy
+msgid "iass_status_failed"
+msgstr "Failed"
+
+#, fuzzy
+msgid "iass_status_pending"
+msgstr "Status pending"
+
+#, fuzzy
+msgid "iass_subj_notification_completed"
+msgstr "%s: Individual Assessment completed."
+
+#, fuzzy
+msgid "iass_subj_notification_failed"
+msgstr "%s: Individual Assessment failed."
+
+#, fuzzy
+msgid "iass_upload_file"
+msgstr "Upload a file"
+
+#, fuzzy
+msgid "iass_user_removed"
+msgstr "User successfully removed."
+
+#, fuzzy
+msgid "iass_usr_amend"
+msgstr "Amend Grading"
+
+#, fuzzy
+msgid "iass_usr_download_attachment"
+msgstr "Download Attachment"
+
+#, fuzzy
+msgid "iass_usr_edit"
+msgstr "Edit user record and learning progress"
+
+#, fuzzy
+msgid "iass_usr_remove"
+msgstr "Remove user from object"
+
+#, fuzzy
+msgid "iass_usr_view"
+msgstr "User record"
+
+#, fuzzy
+msgid "il_iass_members"
+msgstr "Participants"
+
+#, fuzzy
+msgid "lp_inactive"
+msgstr "Note: the learning progress for this object is inactive. Thus memberships may not be finalised."
+
+#, fuzzy
+msgid "save_amend"
+msgstr "Save Amended Record"

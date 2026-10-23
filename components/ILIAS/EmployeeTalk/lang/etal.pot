@@ -1,0 +1,135 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: etal\n"
+
+msgid "appointments"
+msgstr ""
+
+msgid "cal_type_tals"
+msgstr ""
+
+msgid "change_date_of_series"
+msgstr ""
+
+msgid "change_date_of_talk"
+msgstr ""
+
+msgid "date_of_talk"
+msgstr ""
+
+msgid "etal_add"
+msgstr ""
+
+msgid "etal_add_new_item"
+msgstr ""
+
+msgid "etal_create_invalid_template_ref"
+msgstr ""
+
+msgid "etal_date_appointment_edit"
+msgstr ""
+
+msgid "etal_date_series_edit"
+msgstr ""
+
+msgid "etal_delete_confirmation_msg"
+msgstr ""
+
+msgid "etal_edit"
+msgstr ""
+
+msgid "etal_invalid_user"
+msgstr ""
+
+msgid "etal_location"
+msgstr ""
+
+msgid "etal_new"
+msgstr ""
+
+msgid "etal_open"
+msgstr ""
+
+msgid "etal_recurrence"
+msgstr ""
+
+msgid "etal_status_all"
+msgstr ""
+
+msgid "etal_status_completed"
+msgstr ""
+
+msgid "etal_status_pending"
+msgstr ""
+
+msgid "etal_unknown_username"
+msgstr ""
+
+msgid "lock_edititng_for_others"
+msgstr ""
+
+msgid "meta_adv_records"
+msgstr ""
+
+msgid "mm_org_etal"
+msgstr ""
+
+msgid "mm_talk_template"
+msgstr ""
+
+msgid "notification_talks_created"
+msgstr ""
+
+msgid "notification_talks_date_list_header"
+msgstr ""
+
+msgid "notification_talks_removed"
+msgstr ""
+
+msgid "notification_talks_subject"
+msgstr ""
+
+msgid "notification_talks_subject_update"
+msgstr ""
+
+msgid "notification_talks_updated"
+msgstr ""
+
+msgid "pending_talks_warning"
+msgstr ""
+
+msgid "tala_no_content_without_admin_info"
+msgstr ""
+
+msgid "talk_serial"
+msgstr ""
+
+msgid "tals_add"
+msgstr ""
+
+msgid "tals_new"
+msgstr ""
+
+msgid "talt_activation_online_info"
+msgstr ""
+
+msgid "talt_add"
+msgstr ""
+
+msgid "talt_edit"
+msgstr ""
+
+msgid "talt_etal"
+msgstr ""
+
+msgid "talt_new"
+msgstr ""
+
+msgid "will_update_series_info_lock"
+msgstr ""
+
+msgid "will_update_series_info_title"
+msgstr ""

@@ -1,0 +1,878 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: zh\n"
+"Language-Team: Chinese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: trac\n"
+
+#, fuzzy
+msgid "cmix_lp_mode_deactivated"
+msgstr "Learning Progress is Deactivated"
+
+#, fuzzy
+msgid "cmix_lp_mode_deactivated_info"
+msgstr "The learning progress status is not displayed and does not influence parent objects."
+
+#, fuzzy
+msgid "cmix_lp_mode_when_completed"
+msgstr "Completed when 'completed'"
+
+#, fuzzy
+msgid "cmix_lp_mode_when_completed_info"
+msgstr "ILIAS status 'completed' is set when verb of last relevant xAPI-Statement is 'completed'."
+
+#, fuzzy
+msgid "cmix_lp_mode_when_passed"
+msgstr "Completed when 'passed'"
+
+#, fuzzy
+msgid "cmix_lp_mode_when_passed_info"
+msgstr "ILIAS status 'completed' is set when verb of last relevant xAPI-Statement is 'passed' or 'satisfied'."
+
+#, fuzzy
+msgid "cmix_lp_mode_when_passed_or_completed"
+msgstr "Completed when passed or completed"
+
+#, fuzzy
+msgid "cmix_lp_mode_when_passed_or_completed_info"
+msgstr "ILIAS status 'completed' is set when verb of last relevant xAPI-Statement is 'completed' or 'passed' or 'satisfied'."
+
+#, fuzzy
+msgid "cmix_lp_mode_with_failed"
+msgstr "Also consider failed"
+
+#, fuzzy
+msgid "cmix_lp_mode_with_failed_info"
+msgstr "The status could be 'failed' instead of 'in progress'."
+
+msgid "create_date_max"
+msgstr "最新注册"
+
+msgid "create_date_min"
+msgstr "最早注册"
+
+msgid "info_valid_request"
+msgstr "一个用户的两个请求之间最大有效时间。"
+
+msgid "meta_typical_learning_time"
+msgstr "典型的学习时间"
+
+msgid "obj_types"
+msgstr "学习类型"
+
+#, fuzzy
+msgid "personal_learning_progress_view_description"
+msgstr "Ongoing courses with membership"
+
+#, fuzzy
+msgid "personal_learning_progress_view_title"
+msgstr "Your Learning Progress"
+
+msgid "read_count_avg"
+msgstr "平均页面访问量"
+
+msgid "registration_filter"
+msgstr "注册日期"
+
+msgid "search_area_info"
+msgstr "请选择一个对象"
+
+msgid "search_terms"
+msgstr "搜索术语"
+
+msgid "session_statistics"
+msgstr "会话统计"
+
+msgid "trac_aggregation"
+msgstr "聚合"
+
+msgid "trac_all"
+msgstr "所有"
+
+msgid "trac_anonymized"
+msgstr "匿名化"
+
+msgid "trac_anonymized_info"
+msgstr "如果启用，所有统计都将匿名化。"
+
+msgid "trac_anonymized_info_short"
+msgstr "(匿名化)"
+
+msgid "trac_assigned"
+msgstr "已分配"
+
+msgid "trac_average"
+msgstr "平均"
+
+msgid "trac_begin_at"
+msgstr "开始日期"
+
+msgid "trac_closed_expire"
+msgstr "超时"
+
+msgid "trac_closed_login"
+msgstr "匿名登录"
+
+msgid "trac_closed_manual"
+msgstr "退出"
+
+msgid "trac_closed_misc"
+msgstr "杂项"
+
+msgid "trac_collection_assign"
+msgstr "分配"
+
+msgid "trac_collection_deassign"
+msgstr "取消分配"
+
+#, fuzzy
+msgid "trac_collection_manual_learner_changed_ts"
+msgstr "Changed on"
+
+#, fuzzy
+msgid "trac_collection_manual_learner_info"
+msgstr "The learning progress for this object has to be set manually."
+
+#, fuzzy
+msgid "trac_collection_manual_learner_lm_info"
+msgstr "Activate all chapters you completed."
+
+#, fuzzy
+msgid "trac_collection_tlt_learner_info"
+msgstr "The learning progress for this object is based on the typical learning time."
+
+#, fuzzy
+msgid "trac_collection_tlt_learner_subitem"
+msgstr "You have spent %s of the %s needed for completion (%s%%)."
+
+msgid "trac_comment"
+msgstr "评论"
+
+msgid "trac_completed"
+msgstr "完成"
+
+#, fuzzy
+msgid "trac_cron_info"
+msgstr "Please activate the \"Object Statistics\" cron job to gather data."
+
+msgid "trac_crs_objects"
+msgstr "课程成员的学习进程"
+
+msgid "trac_current"
+msgstr "当前"
+
+msgid "trac_current_system_load"
+msgstr "当前系统负载"
+
+msgid "trac_data_deleted"
+msgstr "数据已被删除"
+
+#, fuzzy
+msgid "trac_defaults"
+msgstr "Completion Status"
+
+#, fuzzy
+msgid "trac_defaults_inactive"
+msgstr "Inactive"
+
+#, fuzzy
+msgid "trac_defaults_info"
+msgstr "Set the completion status determination mode for supported object types. Used by certain badge types."
+
+msgid "trac_delete_data"
+msgstr "删除数据"
+
+msgid "trac_determines_learning_progress"
+msgstr "确定学习进度"
+
+msgid "trac_edit_collection"
+msgstr "请指定课程项。如果所有已指定项的状态是'已完成'，则此用户的整个课程都已经完成。"
+
+msgid "trac_end_at"
+msgstr "结束日期"
+
+msgid "trac_failed"
+msgstr "失败"
+
+msgid "trac_figure"
+msgstr "Key Figure"
+
+msgid "trac_filter_area"
+msgstr "范围"
+
+msgid "trac_filter_has_status"
+msgstr "显示没有尝试的对象"
+
+msgid "trac_filter_hidden"
+msgstr "隐藏："
+
+msgid "trac_first_access"
+msgstr "首次访问"
+
+msgid "trac_first_and_last_access"
+msgstr "第一个和最后一个访问"
+
+#, fuzzy
+msgid "trac_frm_contribution_num_postings"
+msgstr "Minimum number of Postings"
+
+#, fuzzy
+msgid "trac_frm_contribution_num_postings_info_p"
+msgstr "%s: %s Posts"
+
+#, fuzzy
+msgid "trac_frm_contribution_num_postings_info_s"
+msgstr "%s: %s Post"
+
+msgid "trac_group_materials"
+msgstr "组材料"
+
+msgid "trac_group_materials_save"
+msgstr "保存必修资料的数目"
+
+msgid "trac_grouped_material_obligatory_err"
+msgstr "通过的材料数量必须大于0并且小于分组的材料数。"
+
+msgid "trac_hide"
+msgstr "隐藏"
+
+msgid "trac_hide_selected"
+msgstr "隐藏选定的项"
+
+msgid "trac_in_progress"
+msgstr "进行中"
+
+msgid "trac_info_edited"
+msgstr "如果您认为已经处理完所有内容，请设置状态到“已完成”。"
+
+msgid "trac_last_access"
+msgstr "最后访问"
+
+msgid "trac_last_aggregation"
+msgstr "最后聚合"
+
+msgid "trac_learning_progress"
+msgstr "学习内容"
+
+msgid "trac_learning_progress_of"
+msgstr "%s 的进展"
+
+msgid "trac_learning_progress_settings_info"
+msgstr "激活显示以下学习进程表中的值："
+
+#, fuzzy
+msgid "trac_lhist_obj_completed"
+msgstr "$1$ was completed."
+
+#, fuzzy
+msgid "trac_lhist_obj_completed_in"
+msgstr "$1$ was completed in $2$."
+
+msgid "trac_log_info"
+msgstr "最后聚合：%s (未处理的项目: %s)"
+
+msgid "trac_log_info_link"
+msgstr "更新"
+
+msgid "trac_long_system_load"
+msgstr "长期"
+
+msgid "trac_lp_determination"
+msgstr "学习进程状态判定"
+
+msgid "trac_lp_determination_info_crs"
+msgstr "选择此项，判定整体学习进程状态。"
+
+msgid "trac_lp_determination_info_crs_tutor"
+msgstr "这个选择没有连接到学习进程状态。"
+
+#, fuzzy
+msgid "trac_lp_determination_info_mob"
+msgstr "Select the items that determine the overall learning progress status of the Mediacast"
+
+msgid "trac_lp_determination_info_sco"
+msgstr "选择此项，判定SCORM学习模块的整体学习进程状态。"
+
+msgid "trac_lp_determination_tutor"
+msgstr "显示学习进程中的对象"
+
+#, fuzzy
+msgid "trac_lp_learner_access"
+msgstr "View Own Learning Progress"
+
+msgid "trac_lp_learner_access_info"
+msgstr "如果激活，用户可以访问他们自己的学习里程状态。"
+
+#, fuzzy
+msgid "trac_lp_list_gui"
+msgstr "Personal Desktop, Repository, Search"
+
+#, fuzzy
+msgid "trac_lp_list_gui_info"
+msgstr "If activated, the learning progress status is included in objects lists."
+
+#, fuzzy
+msgid "trac_lp_settings_info_parent_container"
+msgstr "Learning Progress of Parent Objects"
+
+#, fuzzy
+msgid "trac_lp_settings_info_parent_legend"
+msgstr "The learning progress status of this object is influenced by \"%s\"."
+
+msgid "trac_manual_display"
+msgstr "显示在学习进程中"
+
+msgid "trac_manual_is_displayed"
+msgstr "已显示的"
+
+msgid "trac_manual_no_display"
+msgstr "不显示在学习进程中"
+
+msgid "trac_mark"
+msgstr "标记"
+
+msgid "trac_matrix"
+msgstr "矩阵视图"
+
+msgid "trac_measure"
+msgstr "Figure"
+
+msgid "trac_members_short"
+msgstr "成员"
+
+msgid "trac_min_passed"
+msgstr "已通过资料的最小数量"
+
+msgid "trac_mode"
+msgstr "模式"
+
+#, fuzzy
+msgid "trac_mode_cmix_compl_or_passed_with_failed"
+msgstr "Completed when verb 'completed' or 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'Failed'."
+
+#, fuzzy
+msgid "trac_mode_cmix_compl_or_passed_with_failed_info"
+msgstr "&nbsp;"
+
+#, fuzzy
+msgid "trac_mode_cmix_compl_with_failed"
+msgstr "Completed when verb 'completed' was sent. Verb 'failed' sets status of ILIAS to 'Failed'."
+
+#, fuzzy
+msgid "trac_mode_cmix_compl_with_failed_info"
+msgstr "&nbsp;"
+
+#, fuzzy
+msgid "trac_mode_cmix_completed"
+msgstr "Completed when verb 'completed' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'."
+
+#, fuzzy
+msgid "trac_mode_cmix_completed_info"
+msgstr "&nbsp;"
+
+#, fuzzy
+msgid "trac_mode_cmix_completed_or_passed"
+msgstr "Completed when verb 'completed' or 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'."
+
+#, fuzzy
+msgid "trac_mode_cmix_completed_or_passed_info"
+msgstr "&nbsp;"
+
+#, fuzzy
+msgid "trac_mode_cmix_passed"
+msgstr "Completed when verb 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'."
+
+#, fuzzy
+msgid "trac_mode_cmix_passed_info"
+msgstr "&nbsp;"
+
+#, fuzzy
+msgid "trac_mode_cmix_passed_with_failed"
+msgstr "Completed when verb 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'Failed'."
+
+#, fuzzy
+msgid "trac_mode_cmix_passed_with_failed_info"
+msgstr "&nbsp;"
+
+msgid "trac_mode_collection"
+msgstr "对象收集"
+
+msgid "trac_mode_collection_info"
+msgstr "定义资料，将决定学习进程状态。"
+
+#, fuzzy
+msgid "trac_mode_collection_manual"
+msgstr "Manual by Learner (per Chapter)"
+
+#, fuzzy
+msgid "trac_mode_collection_manual_info"
+msgstr "Users have to decide for each chapter whether their status is completed or not."
+
+#, fuzzy
+msgid "trac_mode_collection_mobs"
+msgstr "Collection of Media Objects"
+
+#, fuzzy
+msgid "trac_mode_collection_mobs_info"
+msgstr "The learning progress status will be determined by the viewing status of selected media objects."
+
+#, fuzzy
+msgid "trac_mode_collection_tlt"
+msgstr "Typical Learning Time (per Chapter)"
+
+#, fuzzy
+msgid "trac_mode_collection_tlt_info"
+msgstr "Users who reached the Typical Learning Time of all relevant chapters will gain the status 'Completed'."
+
+#, fuzzy
+msgid "trac_mode_content_visited"
+msgstr "Visited"
+
+#, fuzzy
+msgid "trac_mode_content_visited_info"
+msgstr "Learning progress status is set to 'completed' when object has been presented to user."
+
+#, fuzzy
+msgid "trac_mode_contribution_to_discussion"
+msgstr "Contributions to Discussion"
+
+#, fuzzy
+msgid "trac_mode_contribution_to_discussion_info"
+msgstr "The learning progress status will be determined by the number of written postings."
+
+#, fuzzy
+msgid "trac_mode_course_reference"
+msgstr "Adopted from Course"
+
+#, fuzzy
+msgid "trac_mode_course_reference_info"
+msgstr "The mode is automatically adopted from the course this course link points to."
+
+msgid "trac_mode_deactivated"
+msgstr "无效的"
+
+msgid "trac_mode_deactivated_info_new"
+msgstr "学习进程状态将不会显示。"
+
+msgid "trac_mode_event"
+msgstr "参与会话"
+
+#, fuzzy
+msgid "trac_mode_event_info"
+msgstr "The learning progress status will be determined by the participation status."
+
+msgid "trac_mode_exercise_returned"
+msgstr "练习已解决"
+
+msgid "trac_mode_exercise_returned_info"
+msgstr "状态“已完成”只能由导师设置。"
+
+#, fuzzy
+msgid "trac_mode_individual_assessment"
+msgstr "Graded manually by tutor or trainer"
+
+#, fuzzy
+msgid "trac_mode_individual_assessment_info"
+msgstr "The record of a user has to be finalized by the tutor in order to complete individual assessment."
+
+#, fuzzy
+msgid "trac_mode_lti_outcome"
+msgstr "Mastery Score Must be reached"
+
+#, fuzzy
+msgid "trac_mode_lti_outcome_info"
+msgstr "The Learning Progress will be evaluated from the LTI outcome and the mastery score threshold."
+
+msgid "trac_mode_manual"
+msgstr "手动"
+
+msgid "trac_mode_manual_by_tutor"
+msgstr "通过导师手动"
+
+msgid "trac_mode_manual_by_tutor_info"
+msgstr "总体状态只能由导师设置。"
+
+msgid "trac_mode_manual_info"
+msgstr "用户必须决定他们的状态是已完成还是未完成。"
+
+msgid "trac_mode_objectives"
+msgstr "学习目标"
+
+msgid "trac_mode_objectives_info"
+msgstr "学习进程将根据通过的学习目标自动计算。"
+
+msgid "trac_mode_plugin"
+msgstr "插件"
+
+#, fuzzy
+msgid "trac_mode_questions"
+msgstr "Questions"
+
+#, fuzzy
+msgid "trac_mode_questions_info"
+msgstr "Users who answered all questions correctly will gain the status 'Completed'."
+
+msgid "trac_mode_scorm"
+msgstr "SCORM/AICC"
+
+msgid "trac_mode_scorm_info"
+msgstr "学习进程状态将由SCO的状态决定。"
+
+msgid "trac_mode_scorm_package"
+msgstr "通过SCORM课程状态自动的"
+
+msgid "trac_mode_scorm_package_info"
+msgstr "学习进程状态将由SCORM课程包状态直接决定。"
+
+#, fuzzy
+msgid "trac_mode_study_programme"
+msgstr "Study Programme Completed"
+
+#, fuzzy
+msgid "trac_mode_survey_finished"
+msgstr "Survey Finished"
+
+#, fuzzy
+msgid "trac_mode_survey_finished_info"
+msgstr "The survey has to be finished by an user to receive the status 'Completed'."
+
+msgid "trac_mode_test_finished"
+msgstr "测试已完成"
+
+msgid "trac_mode_test_finished_info"
+msgstr "用户必须完成一个完整的测试。"
+
+msgid "trac_mode_test_passed"
+msgstr "测试已通过"
+
+msgid "trac_mode_test_passed_info"
+msgstr "测试必须由一个用户接收状态“已完成”才通过。"
+
+msgid "trac_mode_tlt"
+msgstr "典型的学习时间"
+
+msgid "trac_mode_tlt_info"
+msgstr "用户已达到典型的学习时间，将获得状态“已完成”。"
+
+#, fuzzy
+msgid "trac_mode_visited_pages"
+msgstr "Visited Pages"
+
+#, fuzzy
+msgid "trac_mode_visited_pages_info"
+msgstr "Users who visited all pages will gain the status ‘Completed’."
+
+msgid "trac_mode_visits"
+msgstr "访问量"
+
+msgid "trac_mode_visits_info"
+msgstr "定义为了完成这个学习资料的访问量。"
+
+msgid "trac_name_of_installation"
+msgstr "安装的名称"
+
+msgid "trac_no_attempted"
+msgstr "没有尝试"
+
+msgid "trac_not_accessed"
+msgstr "没有访问"
+
+msgid "trac_not_assigned"
+msgstr "没有分配"
+
+msgid "trac_not_attempted"
+msgstr "没有尝试"
+
+msgid "trac_not_completed"
+msgstr "没有完成"
+
+msgid "trac_not_participated"
+msgstr "没有参与"
+
+msgid "trac_not_registered"
+msgstr "没有注册"
+
+msgid "trac_object_link"
+msgstr "链接到对象"
+
+msgid "trac_object_name"
+msgstr "对象的名称"
+
+msgid "trac_object_owner"
+msgstr "对象的所有者"
+
+msgid "trac_object_stat_access"
+msgstr "使用强度"
+
+msgid "trac_object_stat_admin"
+msgstr "管理数据"
+
+msgid "trac_object_stat_daily"
+msgstr "日常使用"
+
+msgid "trac_object_stat_lp"
+msgstr "学习进程统计课程"
+
+msgid "trac_object_stat_lp_max"
+msgstr "最大"
+
+msgid "trac_object_stat_lp_min"
+msgstr "最小"
+
+msgid "trac_object_stat_types"
+msgstr "对象数量"
+
+msgid "trac_object_statistics"
+msgstr "对象统计"
+
+#, fuzzy
+msgid "trac_object_statistics_info"
+msgstr "If activated, the basic data for the usage statistics will be gathered and processed."
+
+msgid "trac_objects"
+msgstr "对象列表"
+
+msgid "trac_others"
+msgstr "其他"
+
+msgid "trac_participants"
+msgstr "显示参与者"
+
+msgid "trac_participated"
+msgstr "已参与"
+
+#, fuzzy
+msgid "trac_paths"
+msgstr "Paths"
+
+msgid "trac_percentage"
+msgstr "百分比"
+
+msgid "trac_periodic_system_load"
+msgstr "定期"
+
+msgid "trac_progress"
+msgstr "个人学习进程"
+
+#, fuzzy
+msgid "trac_progress_block_details"
+msgstr "View Details"
+
+#, fuzzy
+msgid "trac_progress_block_title"
+msgstr "Your Learning Progress"
+
+msgid "trac_read_count"
+msgstr "Access Number"
+
+msgid "trac_read_count_spent_seconds"
+msgstr "费时/访问"
+
+msgid "trac_reference"
+msgstr "参考文献"
+
+#, fuzzy
+msgid "trac_reference_ids_column"
+msgstr "Reference-Ids"
+
+msgid "trac_registered"
+msgstr "已注册"
+
+msgid "trac_release_materials"
+msgstr "分解材料组"
+
+msgid "trac_report_date"
+msgstr "报告的日期"
+
+msgid "trac_report_owner"
+msgstr "报告的所有者"
+
+msgid "trac_required_visits"
+msgstr "请求访问的数量"
+
+msgid "trac_sahs_relevant_items"
+msgstr "SCO's"
+
+msgid "trac_scale"
+msgstr "scale"
+
+msgid "trac_select_area"
+msgstr "选择区域"
+
+msgid "trac_session_active_avg"
+msgstr "活跃会话数(平均)"
+
+msgid "trac_session_active_max"
+msgstr "活跃会话数(最大)"
+
+msgid "trac_session_active_min"
+msgstr "活跃会话数(最小)"
+
+msgid "trac_session_statistics_mode_day"
+msgstr "天"
+
+msgid "trac_session_statistics_mode_last_day"
+msgstr "最近24小时"
+
+msgid "trac_session_statistics_mode_last_month"
+msgstr "最近30天"
+
+msgid "trac_session_statistics_mode_last_week"
+msgstr "最近7天"
+
+msgid "trac_session_statistics_mode_month"
+msgstr "月"
+
+msgid "trac_session_statistics_mode_today"
+msgstr "今天"
+
+msgid "trac_session_statistics_mode_week"
+msgstr "周"
+
+msgid "trac_session_statistics_mode_year"
+msgstr "年"
+
+msgid "trac_session_statistics_no_data"
+msgstr "这个统计的数据没发现。"
+
+msgid "trac_sessions_closed"
+msgstr "离开"
+
+msgid "trac_sessions_opened"
+msgstr "招生(Admissions)"
+
+msgid "trac_settings"
+msgstr "设置"
+
+msgid "trac_settings_saved"
+msgstr "保存设置。"
+
+msgid "trac_short_system_load"
+msgstr "短期"
+
+msgid "trac_show_graph"
+msgstr "显示图形"
+
+#, fuzzy
+msgid "trac_show_progress_block"
+msgstr "Show Personal Progress Chart in ‘Content’-Tab"
+
+msgid "trac_show_repository_views"
+msgstr "知识库中的变化"
+
+#, fuzzy
+msgid "trac_show_repository_views_info"
+msgstr "Show tracking information for repository objects on info page."
+
+msgid "trac_spent_seconds"
+msgstr "花费时间"
+
+msgid "trac_spent_time"
+msgstr "花时间"
+
+msgid "trac_status"
+msgstr "状态"
+
+msgid "trac_status_changed"
+msgstr "最后的状态变化"
+
+msgid "trac_subitems"
+msgstr "显示子项"
+
+msgid "trac_sum"
+msgstr "总和"
+
+msgid "trac_summary"
+msgstr "摘要"
+
+msgid "trac_sure_delete_data"
+msgstr "您确定要删除以下月份的完整数据？"
+
+msgid "trac_sync_obj_stats"
+msgstr "更新数据"
+
+msgid "trac_sync_obj_stats_success"
+msgstr "数据已经更新"
+
+msgid "trac_sync_session_stats"
+msgstr "聚合数据"
+
+msgid "trac_sync_session_stats_success"
+msgstr "数据聚合已成功完成。"
+
+msgid "trac_time_passed"
+msgstr "编辑时间已超过"
+
+msgid "trac_title"
+msgstr "标题"
+
+msgid "trac_title_description"
+msgstr "标题/描述"
+
+msgid "trac_total_online"
+msgstr "总在线时间"
+
+msgid "trac_trash"
+msgstr "移动到垃圾箱"
+
+msgid "trac_update_edit_user"
+msgstr "已保存设置"
+
+msgid "trac_updated_status"
+msgstr "已保存学习进程状态"
+
+msgid "trac_user_data"
+msgstr "用户数据"
+
+msgid "trac_valid_request"
+msgstr "两个请求之间最大时间"
+
+msgid "trac_view_crs"
+msgstr "回到课堂"
+
+msgid "trac_view_list"
+msgstr "回到列表"
+
+msgid "trac_view_mode"
+msgstr "视图模式"
+
+msgid "trac_view_mode_all"
+msgstr "所有对象"
+
+msgid "trac_view_mode_collection"
+msgstr "仅确定整体状态的对象"
+
+msgid "trac_visits"
+msgstr "访问量"
+
+msgid "trac_visits_info"
+msgstr "每个页面访问都做为一次访问计数。"
+
+#, fuzzy
+msgid "trac_visits_nr"
+msgstr "Number of Visits"
+
+msgid "user_total"
+msgstr "用户总数"
+
+msgid "view_mode"
+msgstr "视图模式"
+
+#, fuzzy
+msgid "view_mode_all"
+msgstr "All"
+
+#, fuzzy
+msgid "view_mode_current"
+msgstr "Current"
+
+#, fuzzy
+msgid "view_mode_future"
+msgstr "Future"
+
+#, fuzzy
+msgid "view_mode_past"
+msgstr "Past"

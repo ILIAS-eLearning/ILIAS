@@ -1,0 +1,586 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: skmg\n"
+
+msgid "scat"
+msgstr "Categoria di competenze"
+
+msgid "skll"
+msgstr "Competenze di base"
+
+msgid "skmg_360_survey"
+msgstr "Sondaggio a 360°"
+
+msgid "skmg_add_assignment"
+msgstr "Aggiungi ruoli / membri"
+
+msgid "skmg_add_level"
+msgstr "Aggiungi Livello"
+
+msgid "skmg_add_local_profile"
+msgstr "Add Local Profile"
+
+msgid "skmg_add_profile"
+msgstr "Aggiungi profilo"
+
+msgid "skmg_add_resource"
+msgstr "Aggiungi risorsa"
+
+msgid "skmg_add_skill"
+msgstr "Aggiungi competenze"
+
+#, fuzzy
+msgid "skmg_add_skill_tree"
+msgstr "Add Competence Tree"
+
+msgid "skmg_add_user_to_profile"
+msgstr "Aggiungi utenti o ruoli al profilo"
+
+msgid "skmg_all"
+msgstr "Tutto"
+
+msgid "skmg_allow_local_profiles"
+msgstr "Allow Creation of Local Profiles"
+
+msgid "skmg_allow_local_profiles_info"
+msgstr "Users with permission 'Edit Settings' in Courses and Groups can create local competence profiles using globally defined competences."
+
+msgid "skmg_ass_materials_from_workspace"
+msgstr "Qui è possibile assegnare materiali, per esempio file dal tuo spazio di lavoro personale ai livelli di competenze. Se si desidera aggiungere materiali al proprio spazio di lavoro personale ora, cliccare sul seguente link."
+
+msgid "skmg_assign_level"
+msgstr "Assegna livello"
+
+msgid "skmg_assign_materials"
+msgstr "Assegna Materiali"
+
+msgid "skmg_assign_user"
+msgstr "Assegna utente"
+
+msgid "skmg_assigned_objects"
+msgstr "Assigned Objects"
+
+msgid "skmg_assigned_profiles"
+msgstr "Profili assegnati"
+
+msgid "skmg_assigned_skill_levels"
+msgstr "Livelli di competenze assegnati"
+
+msgid "skmg_assigned_users"
+msgstr "Utenti assegnati"
+
+#, fuzzy
+msgid "skmg_bar_charts"
+msgstr "Bar Charts"
+
+msgid "skmg_cannot_delete_nodes_in_use"
+msgstr "Alcune voci non possono essere eliminate perché ancora in uso."
+
+msgid "skmg_cert_skill_level_title"
+msgstr "Titolo del Livello di competenze"
+
+msgid "skmg_cert_skill_title"
+msgstr "Titolo della competenze"
+
+msgid "skmg_cert_skill_trigger_title"
+msgstr "Titolo trigger competenze"
+
+msgid "skmg_confirm_level_resources_removal"
+msgstr "Vuoi veramente rimuovere le seguenti risorse dal livello di competenze?"
+
+msgid "skmg_confirm_remove_level_ass"
+msgstr "Vuoi davvero rimuovere i seguenti livelli di competenze da questo profilo?"
+
+msgid "skmg_confirm_user_removal"
+msgstr "Vuoi davvero rimuovere i seguenti utenti da questo profilo?"
+
+#, fuzzy
+msgid "skmg_cont_profiles_info"
+msgstr "In this view, you can select the competence profiles with competence entries, which are related to the currently open object (course/group). To get to the global view with all competence profiles you are assigned to and all competence entries, click on the link below."
+
+#, fuzzy
+msgid "skmg_cont_profiles_info_empty"
+msgstr "There are no competence profiles related to the currently open object."
+
+#, fuzzy
+msgid "skmg_cont_records_info_empty"
+msgstr "There are no competences related to the currently opened object."
+
+msgid "skmg_context_global"
+msgstr "Global"
+
+msgid "skmg_context_local"
+msgstr "Local"
+
+#, fuzzy
+msgid "skmg_count_references"
+msgstr "Number of referenced competences:"
+
+msgid "skmg_create_sctp"
+msgstr "Crea una Categoria di Template"
+
+msgid "skmg_create_skill_category"
+msgstr "Crea una Categoria di competenze"
+
+msgid "skmg_create_skill_template"
+msgstr "Crea Template di competenze"
+
+msgid "skmg_create_skill_template_category"
+msgstr "Crea una Categoria di Template di competenze"
+
+msgid "skmg_create_skill_template_reference"
+msgstr "Create Relazione di Template di competenze"
+
+msgid "skmg_create_skll"
+msgstr "Crea competenze"
+
+#, fuzzy
+msgid "skmg_custom_image_alt"
+msgstr "Custom image for competence profile"
+
+msgid "skmg_delete_profiles"
+msgstr "Vuoi davvero eliminare i seguenti profili?"
+
+#, fuzzy
+msgid "skmg_delete_warning"
+msgstr "Are you sure that you want to delete the following item(s)? When you delete the items, you also delete all usages, assignments and achievements of it. To be on the safe side, you find a list of all usages below. If the item is used in a competence profile, it will be removed from the profile, too. This may cause the fulfilment of the competence profile for the assigned users. If your are not sure whether an item should really be deleted, please use the statuses in the settings of a single item."
+
+msgid "skmg_description_info"
+msgstr "La descrizione proviene dal template."
+
+msgid "skmg_edit_level"
+msgstr "Livello di modifica"
+
+msgid "skmg_edit_profile"
+msgstr "Modifica profilo"
+
+msgid "skmg_edit_scat"
+msgstr "Edita la Categoria di competenze"
+
+msgid "skmg_edit_sctp"
+msgstr "Edit Template Category"
+
+msgid "skmg_edit_skll"
+msgstr "Edita le impostazioni di competenze"
+
+msgid "skmg_edit_sktr"
+msgstr "Edita Relazione dei Template di competenze"
+
+msgid "skmg_enable_skmg"
+msgstr "Attivare la Gestione delle Competenze."
+
+msgid "skmg_eval_type_1"
+msgstr "Valutazione"
+
+msgid "skmg_eval_type_2"
+msgstr "Misurazione"
+
+msgid "skmg_eval_type_3"
+msgstr "Autovalutazione"
+
+#, fuzzy
+msgid "skmg_eval_type_latest_1"
+msgstr "Latest Appraisal"
+
+#, fuzzy
+msgid "skmg_eval_type_latest_2"
+msgstr "Latest Measurement"
+
+#, fuzzy
+msgid "skmg_eval_type_latest_3"
+msgstr "Latest Self-Evaluation"
+
+msgid "skmg_execute_self_evaluation"
+msgstr "Inizia"
+
+#, fuzzy
+msgid "skmg_form_presentation"
+msgstr "Presentation"
+
+msgid "skmg_from_lower_to_higher_levels"
+msgstr "Per favore ordina i Livelli dal più basso in cima alla lista e il più alto, in fondo alla lista."
+
+msgid "skmg_hide_profile_self_eval"
+msgstr "Nascondi profilo senza autovalutazione"
+
+msgid "skmg_hide_profile_self_eval_info"
+msgstr "I valori di destinazione del profilo non verranno mostrati a un utente, se non è stata effettuata un'autovalutazione per una specifica competenze."
+
+msgid "skmg_import_skills"
+msgstr "Importa"
+
+msgid "skmg_input_file"
+msgstr "Importa file"
+
+msgid "skmg_insert_basic_skill_from_clip"
+msgstr "Inserisci le Competenze di base, dal Clipboard."
+
+msgid "skmg_insert_please_choose_one_type_only"
+msgstr "Per favore seleziona un solo tipo di oggetto."
+
+msgid "skmg_insert_skill_category_from_clip"
+msgstr "Inserisci Categoria di competenze, dal Clipboard."
+
+msgid "skmg_insert_skill_template_from_clip"
+msgstr "Inserisci Template di competenze, dal Clpboard."
+
+msgid "skmg_insert_skill_template_reference_from_clip"
+msgstr "Inserisci Relazione Template di competenze, dal Clipboard."
+
+msgid "skmg_insert_template_category_from_clip"
+msgstr "Inserisci Categoria di Template  dal Clipboard."
+
+msgid "skmg_items"
+msgstr "Oggetti"
+
+msgid "skmg_level"
+msgstr "Livello"
+
+msgid "skmg_list_skills"
+msgstr "Elenca le Competenze."
+
+msgid "skmg_local_assignment_profiles"
+msgstr "Allow Local Assignment of Global Profiles"
+
+msgid "skmg_lp_triggers_level"
+msgstr "Innescato dal completamento"
+
+msgid "skmg_materials"
+msgstr "Materiali."
+
+#, fuzzy
+msgid "skmg_materials_resources"
+msgstr "Learning Materials"
+
+msgid "skmg_new_level"
+msgstr "Nuovo Livello."
+
+msgid "skmg_new_sktr"
+msgstr "Nuova Relazione di Template di competenze."
+
+msgid "skmg_next_step"
+msgstr "Prossima azione."
+
+msgid "skmg_no_nodes_selectable"
+msgstr "Attualmente non ci sono competenze selezionabili."
+
+#, fuzzy
+msgid "skmg_no_skill_entries"
+msgstr "You do not have any entries for this competence yet."
+
+#, fuzzy
+msgid "skmg_no_skills_selected_info"
+msgstr "You have not selected or fulfilled any competences yet. Click on the \"Add Competence\"-button to select a competence. You can add any number of competences. If you fulfill competences by editing learning materials, they will be automatically listed here."
+
+msgid "skmg_no_trigger"
+msgstr "No Trigger."
+
+msgid "skmg_nr"
+msgstr "Nr."
+
+msgid "skmg_number"
+msgstr "Numero"
+
+#, fuzzy
+msgid "skmg_open"
+msgstr "Open"
+
+#, fuzzy
+msgid "skmg_open_all_assigned_profiles"
+msgstr "Open All Assigned Competence Profiles"
+
+msgid "skmg_order"
+msgstr "Ordine."
+
+msgid "skmg_order_nr"
+msgstr "Numero d'ordine."
+
+msgid "skmg_order_nr_info"
+msgstr "Posizioni competenze nell'elenco delle competenze."
+
+msgid "skmg_please_select_self_skill"
+msgstr "Inizia una nuova auto valutazione. competenze:"
+
+msgid "skmg_please_select_your_skill_levels"
+msgstr "Per favore seleziona il tuo Livello di competenze"
+
+msgid "skmg_previous_step"
+msgstr "Azione precedente."
+
+msgid "skmg_profile"
+msgstr "Profilo"
+
+msgid "skmg_really_delete_levels"
+msgstr "Vuoi veramente cancellare il seguente Livello di competenze?"
+
+msgid "skmg_really_remove_skills"
+msgstr "Vuoi veramente Rimuovere le seguenti Competenze dalla tua lista?"
+
+#, fuzzy
+msgid "skmg_recommended_learning_material_crs"
+msgstr "Achieve your targets in this course"
+
+#, fuzzy
+msgid "skmg_recommended_learning_material_global"
+msgstr "Achieve your targets"
+
+#, fuzzy
+msgid "skmg_recommended_learning_material_grp"
+msgstr "Achieve your targets in this group"
+
+#, fuzzy
+msgid "skmg_recommended_learning_material_info"
+msgstr "Select exactly one of the following learning materials. Please work through it to achieve the competence target."
+
+msgid "skmg_refresh_view"
+msgstr "Ricarica"
+
+#, fuzzy
+msgid "skmg_remove"
+msgstr "Remove"
+
+msgid "skmg_remove_levels"
+msgstr "Rimuovi livelli"
+
+msgid "skmg_remove_skill"
+msgstr "Rimuovi la competenze."
+
+msgid "skmg_remove_trigger"
+msgstr "Rimuovi Trigger."
+
+msgid "skmg_resources"
+msgstr "Risorse"
+
+msgid "skmg_save_order"
+msgstr "Salva l'ordine."
+
+msgid "skmg_save_self_evaluation"
+msgstr "Finisci l'auto valutazione."
+
+msgid "skmg_save_settings"
+msgstr "Salva impostazioni"
+
+msgid "skmg_sctp"
+msgstr "Categoria di Template di competenze."
+
+#, fuzzy
+msgid "skmg_select_level"
+msgstr "Select Competence Level"
+
+msgid "skmg_select_skill"
+msgstr "Clicca su una competenze per aggiungerla alle tue Competenze personali."
+
+msgid "skmg_select_skill_level_assign"
+msgstr "Si prega di selezionare una competenze."
+
+msgid "skmg_select_trigger"
+msgstr "Seleziona Trigger."
+
+msgid "skmg_selectable"
+msgstr "Selezionabile"
+
+msgid "skmg_selectable_info"
+msgstr "Permetti all'utente di selezionare questa Categoria come competenze personale."
+
+msgid "skmg_selected_items_have_been_copied"
+msgstr "Gli oggetti selezionati sono stati copiati."
+
+msgid "skmg_selected_items_have_been_cut"
+msgstr "Gli oggetti selezionati sono stati tagliati."
+
+msgid "skmg_selected_skills"
+msgstr "Competenze selezionate"
+
+msgid "skmg_self_evaluation"
+msgstr "Auto-valutazione."
+
+#, fuzzy
+msgid "skmg_self_evaluation_byline"
+msgstr "The self-evaluation will be excluded from target achievement. It is used for your guidance."
+
+msgid "skmg_self_evaluations"
+msgstr "Auto-valutazioni."
+
+#, fuzzy
+msgid "skmg_set_as_lp_trigger"
+msgstr "Completion Should Trigger Competence Record"
+
+#, fuzzy
+msgid "skmg_set_as_no_lp_trigger"
+msgstr "Completion Should Not Trigger Competence Record"
+
+#, fuzzy
+msgid "skmg_set_as_no_suggested"
+msgstr "Do not Show as Learning Material"
+
+#, fuzzy
+msgid "skmg_set_as_suggested"
+msgstr "Show as Learning Material"
+
+msgid "skmg_settings"
+msgstr "Impostazionei di gestione delle Competenze."
+
+#, fuzzy
+msgid "skmg_show_all"
+msgstr "Show All"
+
+#, fuzzy
+msgid "skmg_show_latest_entries"
+msgstr "Show Latest Entries"
+
+msgid "skmg_skill"
+msgstr "competenze."
+
+msgid "skmg_skill_in_use"
+msgstr "Questa competenze è utilizzata dall’utente o dal contenuto. Non tutti i comandi sono disponibili. Si prega di ricordare che qualsiasi modifica apportata avrà effetti sugli utilizzi attuali."
+
+msgid "skmg_skill_level"
+msgstr "Livello di competenze."
+
+msgid "skmg_skill_level_trigger"
+msgstr "Trigger di Livello di competenze."
+
+msgid "skmg_skill_levels"
+msgstr "Livelli di competenze."
+
+msgid "skmg_skill_management_deactivated"
+msgstr "La gestione delle Competenze è attualmente disattivata."
+
+msgid "skmg_skill_needs_impr_no_res"
+msgstr "È necessario migliorare questa competenze. Sfortunatamente non sono attualmente disponibili risorse di apprendimento per fornire materiale didattico adeguato al livello di competenze di destinazione."
+
+msgid "skmg_skill_needs_impr_res"
+msgstr "È necessario migliorare questa competenze. Le seguenti risorse forniscono materiale didattico adeguato al livello di competenze di destinazione."
+
+#, fuzzy
+msgid "skmg_skill_needs_self_eval"
+msgstr "Please conduct a self-evaluation first to see your competence target."
+
+#, fuzzy
+msgid "skmg_skill_needs_self_eval_box"
+msgstr "Please note that you have not conducted a self-evaluation for at least one competence in this profile. You will not see the competence target for the affected competences until a self-evaluation is done."
+
+msgid "skmg_skill_no_needs_impr"
+msgstr "Il tuo livello di competenze è sufficiente per il profilo selezionato."
+
+#, fuzzy
+msgid "skmg_skill_no_needs_impr_info"
+msgstr "You achieved the target for this competence."
+
+#, fuzzy
+msgid "skmg_skill_overview"
+msgstr "Overview"
+
+#, fuzzy
+msgid "skmg_skill_profile_records"
+msgstr "Competence Records"
+
+msgid "skmg_skill_profiles"
+msgstr "Profili"
+
+msgid "skmg_skill_template"
+msgstr "Template di competenze."
+
+msgid "skmg_skill_templates"
+msgstr "Templates di competenze."
+
+#, fuzzy
+msgid "skmg_skill_tree"
+msgstr "Competence Tree"
+
+#, fuzzy
+msgid "skmg_skill_trees"
+msgstr "Competence Trees"
+
+msgid "skmg_skills"
+msgstr "Competenze."
+
+msgid "skmg_sktr"
+msgstr "Relazione di Templates di competenze."
+
+msgid "skmg_status"
+msgstr "Stato"
+
+msgid "skmg_status_draft"
+msgstr "Bozza (Offline)"
+
+msgid "skmg_status_draft_info"
+msgstr "La voce verrà nascosta."
+
+msgid "skmg_status_outdated"
+msgstr "Obsoleto"
+
+msgid "skmg_status_outdated_info"
+msgstr "Le voci non possono essere nuovamente selezionate dagli utenti come competenze personale o assegnate agli oggetti repository o profili di competenze. Tuttavia, le assegnazioni e i dati esistenti vengono ancora presentati."
+
+msgid "skmg_status_publish"
+msgstr "Pubblicato"
+
+msgid "skmg_status_publish_info"
+msgstr "La voce può essere utilizzata se anche tutti i principali sono pubblicati. Una volta che le voci sono utilizzate, lo stato non può più essere impostato per la bozza, e non possono nemmeno essere eliminate."
+
+msgid "skmg_suggested"
+msgstr "Risorsa suggerita"
+
+msgid "skmg_suggested_resources"
+msgstr "Risorse suggerite"
+
+msgid "skmg_sure_delete_self_evaluation"
+msgstr "Vuoi veramente cancellare le seguenti auto valutazioni?"
+
+msgid "skmg_target_level"
+msgstr "Livello profilo di destinazione"
+
+msgid "skmg_target_levels"
+msgstr "Target Levels"
+
+msgid "skmg_trigger"
+msgstr "Trigger."
+
+msgid "skmg_type"
+msgstr "Tipo"
+
+msgid "skmg_type_of_formation"
+msgstr "Tipo di formazione"
+
+msgid "skmg_update_order"
+msgstr "Aggiorna l'Ordine."
+
+msgid "skmg_usage"
+msgstr "Utilizzo"
+
+msgid "skmg_usage_obj_objects"
+msgstr "Oggetto/i"
+
+msgid "skmg_usage_obj_profiles"
+msgstr "Profilo/i"
+
+msgid "skmg_usage_obj_users"
+msgstr "Utente/i"
+
+msgid "skmg_usage_type_info_gen"
+msgstr "Utilizzo generico negli oggetti repository"
+
+msgid "skmg_usage_type_info_mat"
+msgstr "Gli utenti hanno assegnato materiale dal loro spazio di lavoro personale"
+
+msgid "skmg_usage_type_info_pers"
+msgstr "Selezionato dagli utenti come competenze personale"
+
+msgid "skmg_usage_type_info_prof"
+msgstr "Utilizzato nei profili di competenze"
+
+msgid "skmg_usage_type_info_res"
+msgstr "Oggetti repository assegnati come risorsa suggerita"
+
+msgid "skmg_usage_type_info_user"
+msgstr "Assegnato agli utenti"
+
+msgid "skmg_your_self_evaluation"
+msgstr "La tua auto valutazione."

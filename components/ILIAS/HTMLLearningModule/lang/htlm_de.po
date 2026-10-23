@@ -1,0 +1,24 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: htlm\n"
+
+msgid "file_import_from_upload_dir_failed"
+msgstr "Datei aus Uploadverzeichnis nicht importiert"
+
+msgid "file_imported_from_upload_dir"
+msgstr "Datei aus Uploadverzeichnis importiert"
+
+msgid "import_from_upload_dir"
+msgstr "Import aus Uploadverzeichnis"
+
+msgid "import_from_upload_dir_file_name"
+msgstr "Dateiname"
+
+msgid "import_from_upload_dir_info"
+msgstr "Bitte Datei zur Übernahme auswählen"

@@ -1,0 +1,133 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: zh\n"
+"Language-Team: Chinese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: cntr\n"
+
+msgid "cntr_add_new_item"
+msgstr "加入新条目"
+
+msgid "cntr_adopt_content"
+msgstr "适用的内容"
+
+msgid "cntr_container_only_on_their_own"
+msgstr "Categories, courses, groups, folders or study programmes can only be copied as single objects. Please select one item only."
+
+msgid "cntr_copy_crs_grp"
+msgstr "我的课程和小组"
+
+#, fuzzy
+msgid "cntr_copy_repo_tree"
+msgstr "Repository Tree"
+
+msgid "cntr_hide_title_and_icon"
+msgstr "隐藏标题和图标"
+
+msgid "cntr_manage"
+msgstr "管理"
+
+msgid "cntr_ordering"
+msgstr "排序"
+
+msgid "cntr_saved_sorting"
+msgstr "已保存的排序"
+
+msgid "cntr_switch_to_new_editor_cmd"
+msgstr "切换到这个页面介绍"
+
+msgid "cntr_switch_to_new_editor_message"
+msgstr "这是已支持的标准编辑器。请使用它设置内容页面。如果您点击下面的链接，知识库中的内容介绍将从老编辑器的内容切换到这个页面。"
+
+msgid "cntr_switched_editor"
+msgstr "已切换到新内容。"
+
+#, fuzzy
+msgid "cntr_tax_none_available"
+msgstr "There are no taxonomies available."
+
+#, fuzzy
+msgid "cntr_tax_settings_info"
+msgstr "Taxonomies in categories classify and filter the objects contained in the category. After adding taxonomies, classifications can be made via the \"Metadata\" tabs and the \"Taxonomy Assignment\" sub-tabs of the respective objects. Taxonomies can additionally be displayed in the side block of the category's \"Contents\" tab to enable direct filtering of the assigned objects."
+
+#, fuzzy
+msgid "cntr_taxonomy_definitions"
+msgstr "Taxonomy Definition"
+
+#, fuzzy
+msgid "cntr_taxonomy_show_sideblock"
+msgstr "Show taxonomy in side block"
+
+#, fuzzy
+msgid "cntr_taxonomy_sideblock_settings"
+msgstr "Taxonomy Block Settings"
+
+msgid "cntr_text_media_editor"
+msgstr "文本/媒体编辑器"
+
+msgid "cntr_view_by_type"
+msgstr "类型分组(Grouped-by-Type) 视图"
+
+msgid "cntr_view_info_by_type"
+msgstr "This content presentation groups all items by resource type."
+
+msgid "cntr_view_info_sessions"
+msgstr "This content presentation groups all sessions first. After that the other course content is listed."
+
+msgid "cntr_view_info_simple"
+msgstr "此内容介绍在一个区块中列出所有条目。"
+
+msgid "cntr_view_sessions"
+msgstr "会话视图"
+
+msgid "cntr_view_simple"
+msgstr "简单视图"
+
+msgid "container_import_zip_file_invalid"
+msgstr "已上传文件不是一个有效的ILIAS导出文件。请使用一个文件对象去上传一个目录结构。"
+
+msgid "edit_questions"
+msgstr "编辑题目"
+
+#, fuzzy
+msgid "exc_next_deadline_single"
+msgstr "Deadline"
+
+#, fuzzy
+msgid "msg_no_downloadable_objects"
+msgstr "No downloadable objects found."
+
+#, fuzzy
+msgid "objects_duplicated"
+msgstr "Objects copied"
+
+#, fuzzy
+msgid "prtf_create_portfolio_from_template"
+msgstr "Create Portfolio From Template"
+
+#, fuzzy
+msgid "sorting_new_items_at_bottom"
+msgstr "Bottom"
+
+#, fuzzy
+msgid "sorting_new_items_at_top"
+msgstr "Top"
+
+#, fuzzy
+msgid "sorting_new_items_direction"
+msgstr "Sorting Direction for New Objects"
+
+#, fuzzy
+msgid "sorting_new_items_order"
+msgstr "Order For New Objects"
+
+#, fuzzy
+msgid "sorting_new_items_position"
+msgstr "Position For New Objects"
+
+#, fuzzy
+msgid "tab_back_to_repository"
+msgstr "Back to Repository"

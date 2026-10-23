@@ -1,0 +1,57 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: note\n"
+
+msgid "note_comment_notification_link"
+msgstr "Link"
+
+msgid "note_comment_notification_reason"
+msgstr "Sie erhalten diese Nachricht, weil in der ILIAS-Adminstration eingetragen ist, Sie über alle Kommentare zu benachrichtigen."
+
+msgid "note_comment_notification_salutation"
+msgstr "Hallo %s,"
+
+msgid "note_comment_notification_subject"
+msgstr "Neuer Kommentar in „%s“."
+
+msgid "note_comment_notification_subjectc"
+msgstr "Geänderter Kommentar in „%s“."
+
+msgid "note_comment_notification_user_has_written"
+msgstr "%s hat geschrieben:"
+
+msgid "note_comments_notification"
+msgstr "Generelle Benachrichtigung über alle Kommentare"
+
+msgid "note_comments_notification_info"
+msgstr "Kommagetrennte Liste von ILIAS-Konten, welche jeden Kommentar als E-Mail erhalten."
+
+msgid "note_enable_comments"
+msgstr "Kommentare aktivieren"
+
+msgid "note_enable_comments_del_tutor"
+msgstr "Alle Kommentare im Objekt"
+
+msgid "note_enable_comments_del_tutor_info"
+msgstr "Benutzer mit dem Recht „Einstellungen bearbeiten“ an einem Objekt können alle darin gemachten Kommentare löschen."
+
+msgid "note_enable_comments_del_user"
+msgstr "Eigene Kommentare löschen"
+
+msgid "note_enable_comments_del_user_info"
+msgstr "Kommentare können von der Person, die sie erstellt hat, wieder gelöscht werden."
+
+msgid "note_enable_comments_export_info"
+msgstr "Erlaubt innerhalb von Objekten wie Portfolios, Blogs oder Wikis die Kommentare zu exportieren."
+
+msgid "note_enable_notes"
+msgstr "Notizen aktivieren"
+
+msgid "note_html_export_include_comments"
+msgstr "Sollen die Kommentare mit exportiert werden?"

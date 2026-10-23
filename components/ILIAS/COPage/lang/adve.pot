@@ -1,0 +1,90 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: adve\n"
+
+msgid "advanced_editing_excass_settings"
+msgstr ""
+
+msgid "advanced_editing_tst_editing"
+msgstr ""
+
+msgid "advanced_editing_tst_editing_desc"
+msgstr ""
+
+msgid "adve_activation"
+msgstr ""
+
+msgid "adve_auto_url_linking"
+msgstr ""
+
+msgid "adve_auto_url_linking_info"
+msgstr ""
+
+msgid "adve_autosave"
+msgstr ""
+
+msgid "adve_autosave_info"
+msgstr ""
+
+msgid "adve_autosave_info_min_10"
+msgstr ""
+
+msgid "adve_blocking_mode"
+msgstr ""
+
+msgid "adve_excass_settings"
+msgstr ""
+
+msgid "adve_grp_copa"
+msgstr ""
+
+msgid "adve_grp_frm"
+msgstr ""
+
+msgid "adve_grp_glo"
+msgstr ""
+
+msgid "adve_grp_lm"
+msgstr ""
+
+msgid "adve_grp_rep"
+msgstr ""
+
+msgid "adve_grp_scorm"
+msgstr ""
+
+msgid "adve_grp_test"
+msgstr ""
+
+msgid "adve_grp_wiki"
+msgstr ""
+
+msgid "adve_minutes"
+msgstr ""
+
+msgid "adve_minutes_info"
+msgstr ""
+
+msgid "adve_page_editor_settings"
+msgstr ""
+
+msgid "adve_pe_general"
+msgstr ""
+
+msgid "adve_rte_settings"
+msgstr ""
+
+msgid "adve_text_content_features"
+msgstr ""
+
+msgid "adve_use_physical"
+msgstr ""
+
+msgid "adve_use_physical_info"
+msgstr ""
+
+msgid "adve_use_tiny_mce"
+msgstr ""

@@ -1,0 +1,205 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: lt\n"
+"Language-Team: Lithuanian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && (n % 100 < 11 || n % 100 > 19)) ? 0 : ((n % 10 >= 2 && n % 10 <= 9 && (n % 100 < 11 || n % 100 > 19)) ? 1 : 2);\n"
+"X-Domain: form\n"
+
+#, fuzzy
+msgid "email_not_match"
+msgstr "Your entries for the email address don't match! Please re-enter your email address."
+
+#, fuzzy
+msgid "form_alphabet_all"
+msgstr "All"
+
+#, fuzzy
+msgid "form_chars_remaining"
+msgstr "Characters remaining:"
+
+#, fuzzy
+msgid "form_date_duration_end"
+msgstr "End"
+
+#, fuzzy
+msgid "form_date_duration_start"
+msgstr "Start"
+
+#, fuzzy
+msgid "form_days"
+msgstr "Days"
+
+#, fuzzy
+msgid "form_file_input"
+msgstr "File Input"
+
+#, fuzzy
+msgid "form_format"
+msgstr "Format"
+
+#, fuzzy
+msgid "form_get_link"
+msgstr "Select Target Object"
+
+#, fuzzy
+msgid "form_hier_click_to_add"
+msgstr "Click here to add new elements."
+
+#, fuzzy
+msgid "form_hierarchy_add_elements"
+msgstr "Click on placeholders to add new elements."
+
+#, fuzzy
+msgid "form_hierarchy_drag_drop_help"
+msgstr "Drag and drop icons on placeholders to move elements."
+
+#, fuzzy
+msgid "form_hours"
+msgstr "Hours"
+
+#, fuzzy
+msgid "form_image_file_input"
+msgstr "Image File Input"
+
+#, fuzzy
+msgid "form_invalid_uri"
+msgstr "Invalid URI format."
+
+#, fuzzy
+msgid "form_link_external"
+msgstr "External"
+
+#, fuzzy
+msgid "form_link_internal"
+msgstr "Internal"
+
+#, fuzzy
+msgid "form_location_radius"
+msgstr "Radius"
+
+#, fuzzy
+msgid "form_location_radius_km"
+msgstr "km"
+
+#, fuzzy
+msgid "form_max_value"
+msgstr "Maximum Value"
+
+#, fuzzy
+msgid "form_min_value"
+msgstr "Minimum Value"
+
+#, fuzzy
+msgid "form_minutes"
+msgstr "Minutes"
+
+#, fuzzy
+msgid "form_months"
+msgstr "Months"
+
+#, fuzzy
+msgid "form_msg_file_cannot_write_to_disk"
+msgstr "Cannot write to disk."
+
+#, fuzzy
+msgid "form_msg_file_missing_file_ext"
+msgstr "The uploaded file has no file type exension."
+
+#, fuzzy
+msgid "form_msg_file_missing_tmp_dir"
+msgstr "Temporary directory for file upload missing."
+
+#, fuzzy
+msgid "form_msg_file_no_upload"
+msgstr "This input is required. Please select a file for upload."
+
+#, fuzzy
+msgid "form_msg_file_partially_uploaded"
+msgstr "The file could not be uploaded completely."
+
+#, fuzzy
+msgid "form_msg_file_size_exceeds"
+msgstr "The uploaded file exceeds the max. allowed file size."
+
+#, fuzzy
+msgid "form_msg_file_type_is_not_allowed"
+msgstr "This file type is not allowed."
+
+#, fuzzy
+msgid "form_msg_file_upload_stopped_ext"
+msgstr "File upload stopped by extension."
+
+#, fuzzy
+msgid "form_msg_file_virus_found"
+msgstr "Virus found in uploaded file."
+
+#, fuzzy
+msgid "form_msg_file_wrong_file_type"
+msgstr "Wrong file type."
+
+#, fuzzy
+msgid "form_msg_formula_is_required"
+msgstr "Please enter a correct formula."
+
+#, fuzzy
+msgid "form_msg_max_upload"
+msgstr "Maximum number of simultaneously uploadable files:"
+
+#, fuzzy
+msgid "form_msg_numeric_value_required"
+msgstr "Please enter a numeric value."
+
+#, fuzzy
+msgid "form_msg_value_too_high"
+msgstr "Value too high. Please enter a lower value."
+
+#, fuzzy
+msgid "form_msg_value_too_low"
+msgstr "Value too low. Please enter a higher value."
+
+#, fuzzy
+msgid "form_msg_wrong_date"
+msgstr "Wrong date. Please enter a valid date."
+
+#, fuzzy
+msgid "form_no_link"
+msgstr "No Link"
+
+#, fuzzy
+msgid "form_open_answer"
+msgstr "Open Answer"
+
+#, fuzzy
+msgid "form_password_not_allowed_for_auth"
+msgstr "It is not possible to change the password for the chosen authentication method."
+
+#, fuzzy
+msgid "form_password_required_for_auth"
+msgstr "Password is required for the chosen authentication method."
+
+#, fuzzy
+msgid "form_please_select"
+msgstr "Please Select"
+
+#, fuzzy
+msgid "form_retype_email"
+msgstr "Retype Email"
+
+#, fuzzy
+msgid "form_retype_password"
+msgstr "Retype Password"
+
+#, fuzzy
+msgid "form_seconds"
+msgstr "Seconds"
+
+#, fuzzy
+msgid "form_take_snapshot"
+msgstr "Take Snapshot"
+
+#, fuzzy
+msgid "form_use_camera"
+msgstr "Use Camera"

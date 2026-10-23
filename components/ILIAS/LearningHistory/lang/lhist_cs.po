@@ -1,0 +1,56 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: lhist\n"
+
+msgid "cont_create_lhist"
+msgstr "Vytvořit prvek historie výuky"
+
+msgid "cont_update_lhist"
+msgstr "Upravit prvek historie výuky"
+
+msgid "lhist_all"
+msgstr "Všechno"
+
+msgid "lhist_cont_placeholder_text"
+msgstr "Tento prvek ukáže historii výuky v prezentačním režimu portfolia."
+
+#, fuzzy
+msgid "lhist_enable_learning_history"
+msgstr "Learning History"
+
+#, fuzzy
+msgid "lhist_enable_learning_history_info"
+msgstr "Enables an overview of all achievements of a user."
+
+msgid "lhist_first_login"
+msgstr "První přihlášení"
+
+msgid "lhist_learning_history"
+msgstr "Historie výuky"
+
+msgid "lhist_lhist"
+msgstr "Historie výuky"
+
+msgid "lhist_manual"
+msgstr "Manuál"
+
+msgid "lhist_no_entries"
+msgstr "Dosáhněte svých cílů! Naučte se dnes něco dalšího, abyste podpořili historii výuky."
+
+msgid "lhist_period"
+msgstr "Doba"
+
+msgid "lhist_selected"
+msgstr "Vybraný"
+
+msgid "lhist_show_more"
+msgstr "Zobrazit více"
+
+msgid "lhist_type_of_achievement"
+msgstr "Typ úspěchu"

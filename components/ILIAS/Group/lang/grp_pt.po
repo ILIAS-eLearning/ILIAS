@@ -1,0 +1,553 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: grp\n"
+
+msgid "crs_add_grouping"
+msgstr "Adicionar limitação da adesão"
+
+msgid "crs_grouping_delete_sure"
+msgstr "Tem a certeza que quer apagar esta limitações de adesão?"
+
+msgid "crs_grouping_deleted"
+msgstr "Limitação de adesão apagada."
+
+msgid "crs_grouping_select_one"
+msgstr "Selecione uma limitações de adesão."
+
+msgid "crs_grp_added_grouping"
+msgstr "Nova limitação da adesão adicionada."
+
+msgid "crs_grp_assign_crs"
+msgstr "Atribuição de grupos"
+
+msgid "crs_grp_no_courses_assigned"
+msgstr "Nenhum grupo atribuído"
+
+msgid "events"
+msgstr "Sessões"
+
+msgid "grouping_change_assignment"
+msgstr "Mudar atribuição"
+
+msgid "grp_activate_notification"
+msgstr "Território Oceânico Indiano Britânico"
+
+#, fuzzy
+msgid "grp_activation_online_info"
+msgstr "Set the group online to make it visible and available for group members. If not, only group administrators and roles with permission \"Edit Settings\" have access to it."
+
+msgid "grp_add_to_group"
+msgstr "Adicionar ao grupo"
+
+msgid "grp_add_user"
+msgstr "Adicionar utilizador"
+
+msgid "grp_add_user_to_group"
+msgstr "Adicionar utilizador ao grupo"
+
+msgid "grp_added_to_list"
+msgstr "Iraque"
+
+msgid "grp_admins"
+msgstr "Administradores"
+
+msgid "grp_admission_link_failure_invalid_code"
+msgstr "Não pode registar: Link é inválido."
+
+msgid "grp_admission_link_failure_membership_limited"
+msgstr "Irão"
+
+msgid "grp_admission_link_failure_registration_period"
+msgstr "Islândia"
+
+msgid "grp_admission_link_success_registration"
+msgstr "Itália"
+
+msgid "grp_agree"
+msgstr "Jordão"
+
+msgid "grp_agreement_header"
+msgstr "Japão"
+
+msgid "grp_agreement_required"
+msgstr "Quénia"
+
+msgid "grp_already_assigned"
+msgstr "Já pediu a adesão a este grupo."
+
+msgid "grp_at_least_one_admin"
+msgstr "Tem de haver pelo menos um administrador de grupo."
+
+#, fuzzy
+msgid "grp_auto_notification"
+msgstr "Welcome-Mail For New Members"
+
+#, fuzzy
+msgid "grp_auto_notification_info"
+msgstr "New members get a mail notification when added to the group."
+
+msgid "grp_cancel_subscr_request"
+msgstr "Apagar pedido de adesão"
+
+msgid "grp_cancellation_end"
+msgstr "Quirguistão"
+
+msgid "grp_cancellation_end_info"
+msgstr "Camboja"
+
+msgid "grp_cancellation_end_rbac_info"
+msgstr "O prazo de cancelamento foi a %s, já não é possível cancelar."
+
+msgid "grp_cdf_edit_member"
+msgstr "Editar dados do utilizador relevantes para o grupo"
+
+msgid "grp_cdf_tbl_last_edit"
+msgstr "São Cristóvão e Neves"
+
+msgid "grp_change_type"
+msgstr "Mudar tipo de grupo"
+
+msgid "grp_contact"
+msgstr "Coreia do Norte (República Popular Democrática da Coreia)"
+
+msgid "grp_copy"
+msgstr "Copiar grupo"
+
+msgid "grp_create_and_add_user"
+msgstr "Criar e adicionar utilizador"
+
+msgid "grp_create_new"
+msgstr "Criar novo grupo"
+
+msgid "grp_create_new_grp_in"
+msgstr "Criar novo grupo em '%1'."
+
+msgid "grp_create_or_use_existing"
+msgstr "Quer adicionar o utilizador a um grupo existente ou criar um novo grupo?"
+
+msgid "grp_created_and_user_been_added"
+msgstr "O grupo foi criado e o utilizador foi adicionado."
+
+msgid "grp_custom_user_fields"
+msgstr "Dados do utilizador relevantes para o grupo"
+
+#, fuzzy
+msgid "grp_custom_user_fields_infobox"
+msgstr "Create additional data fields for group members to fill in when they join. You can show this information as an additional column in the \"Members\" tab."
+
+#, fuzzy
+msgid "grp_custom_user_fields_table_title"
+msgstr "Relevant User Data of This Group"
+
+msgid "grp_deactivate_notification"
+msgstr "Coreia do Sul (República da Coreia)"
+
+msgid "grp_enable_map"
+msgstr "Ativar mapa do grupo"
+
+msgid "grp_err_registration_limited"
+msgstr "Insira uma data de início e de fim válida para o registo"
+
+msgid "grp_general_informations"
+msgstr "Informações gerais"
+
+msgid "grp_grp_info_reg"
+msgstr "Pode apenas registar-se num destes grupos:"
+
+msgid "grp_grp_open"
+msgstr "Abrir grupo"
+
+msgid "grp_header_delete_members"
+msgstr "Quer remover os seguintes membros deste grupo?"
+
+msgid "grp_header_waiting_list"
+msgstr "Lista de espera"
+
+msgid "grp_icon_settings"
+msgstr "Ilhas Caimão"
+
+msgid "grp_import"
+msgstr "Importar grupo"
+
+msgid "grp_info_agree"
+msgstr "Eu aceito, que os tipos de dados acima são visíveis para os administradores do grupo."
+
+msgid "grp_info_agreement"
+msgstr "Os seguintes tipos de dados são visíveis para os administradores do grupo:"
+
+msgid "grp_info_new_grp_type"
+msgstr "Novo tipo de grupo"
+
+msgid "grp_info_settings"
+msgstr "Informação de grupo"
+
+msgid "grp_information"
+msgstr "Cazaquistão"
+
+msgid "grp_information_info"
+msgstr "Esta informação será exibida na página de informação e para novos registos."
+
+msgid "grp_join_request"
+msgstr "Enviar"
+
+#, fuzzy
+msgid "grp_lim_assigned"
+msgstr "Already assigned to associated group \"%s\"."
+
+msgid "grp_mail_admission_new_bod"
+msgstr "anunciamos o seu registo para o grupo \"%s\"."
+
+msgid "grp_mail_admission_new_sub"
+msgstr "O seu registo para o grupo \"%s\""
+
+msgid "grp_mail_all"
+msgstr "Para todos os participantes"
+
+msgid "grp_mail_all_info"
+msgstr "República Democrática Popular do Laos"
+
+msgid "grp_mail_dismiss_bod"
+msgstr "A sua adesão ao grupo \"%s\" foi concluída."
+
+msgid "grp_mail_dismiss_sub"
+msgstr "Adesão terminou no grupo \"%s\""
+
+msgid "grp_mail_notification_reg_bod"
+msgstr "%s registou-se para o grupo \"%s\"."
+
+msgid "grp_mail_notification_reg_req_bod"
+msgstr "%s pediu adesão ao grupo \"%s\"."
+
+msgid "grp_mail_notification_reg_req_bod2"
+msgstr "Para confirmar este registo, vá a:"
+
+msgid "grp_mail_notification_reg_req_sub"
+msgstr "Pedido para entrar no grupo \"%s\""
+
+msgid "grp_mail_notification_reg_sub"
+msgstr "O utilizador registou-se para o grupo \"%s\""
+
+msgid "grp_mail_notification_unsub_bod"
+msgstr "%s  cancelou a sua adesão a este grupo \"%s\"."
+
+msgid "grp_mail_notification_unsub_bod2"
+msgstr "Pode haver outros membros numa lista de espera do seu grupo.\\nDevia verificar a lista de espera agora.\\nPara ver membros do seu grupo, clique aqui:"
+
+msgid "grp_mail_notification_unsub_sub"
+msgstr "Utilizador saiu do grupo \"%s\""
+
+msgid "grp_mail_permanent_link"
+msgstr "Clique no seguinte link para encontrar toda a informação que precisa relativamente ao grupo:"
+
+msgid "grp_mail_status_bod"
+msgstr "o seu estado no grupo \"%s\" foi alterado."
+
+msgid "grp_mail_status_sub"
+msgstr "Estado alterado no grupo \"%s\""
+
+msgid "grp_mail_sub_acc_bod"
+msgstr "confirmamos o seu registo para o grupo \"%s\"."
+
+msgid "grp_mail_sub_acc_sub"
+msgstr "Registo confirmado para \"%s\""
+
+msgid "grp_mail_sub_dec_bod"
+msgstr "lamentamos, mas o seu registo foi recusado para o grupo \"%s\"."
+
+msgid "grp_mail_sub_dec_sub"
+msgstr "Registo recusado para o grupo \"%s\""
+
+msgid "grp_mail_subscribe_member_bod"
+msgstr "confirmamos o seu registo para o grupo \"%s\"."
+
+msgid "grp_mail_subscribe_member_sub"
+msgstr "O seu registo para o grupo \"%s\""
+
+msgid "grp_mail_tutors_only"
+msgstr "Para administradores apenas"
+
+msgid "grp_mail_tutors_only_info"
+msgstr "Líbano"
+
+msgid "grp_mail_type"
+msgstr "E-mail aos membros"
+
+msgid "grp_mail_unsubscribe_member_bod"
+msgstr "confirmamos o seu cancelamento de adesão ao grupo %s.\\nEsperamos que tenha oportunidade de participar noutro grupo."
+
+msgid "grp_mail_unsubscribe_member_sub"
+msgstr "O cancelamento da sua adesão ao grupo \"%s\""
+
+msgid "grp_mail_wl_bod"
+msgstr "Santa Lúcia"
+
+msgid "grp_mail_wl_sub"
+msgstr "Libéria"
+
+msgid "grp_map_location"
+msgstr "Localização do mapa do grupo"
+
+msgid "grp_map_settings"
+msgstr "Definições de mapa"
+
+msgid "grp_max_and_min_members_invalid"
+msgstr "O número mínimo tem de ser inferior ao número máximo de membros."
+
+msgid "grp_mem_contacts"
+msgstr "Lesoto"
+
+msgid "grp_mem_tbl_header"
+msgstr "Participantes do grupo"
+
+msgid "grp_member_administration"
+msgstr "Editar participantes"
+
+msgid "grp_members"
+msgstr "Membros"
+
+msgid "grp_members_deleted"
+msgstr "Membros apagados"
+
+msgid "grp_members_map"
+msgstr "Mapa dos membros do grupo"
+
+msgid "grp_members_print_title"
+msgstr "Membros do grupo"
+
+#, fuzzy
+msgid "grp_min_one_admin"
+msgstr "There has to be at least one administrator assigned to this group."
+
+msgid "grp_missing_grp_type"
+msgstr "Escolha um tipo de grupo."
+
+msgid "grp_missing_password"
+msgstr "Insira uma palavra-passe de grupo."
+
+msgid "grp_new_status"
+msgstr "O seu novo estado é:"
+
+msgid "grp_next"
+msgstr "Próximo"
+
+msgid "grp_no_perm_to_add_create_first"
+msgstr "Tem de criar um grupo primeiro. Selecione onde deve ser criado o novo grupo."
+
+msgid "grp_notification"
+msgstr "Notificação"
+
+msgid "grp_notification_activated"
+msgstr "Notificação ativada"
+
+msgid "grp_notification_deactivated"
+msgstr "Notificação desativada"
+
+msgid "grp_notification_explanation_admin"
+msgstr "Lituânia"
+
+msgid "grp_notification_salutation"
+msgstr "Estimado participante do grupo,"
+
+msgid "grp_notify_off"
+msgstr "Notificação sobre novo registo desativada"
+
+msgid "grp_notify_on"
+msgstr "Notificação sobre novo registo ativada"
+
+msgid "grp_pass_request"
+msgstr "Entre com a palavra-passe de grupo"
+
+msgid "grp_period"
+msgstr "Período do evento"
+
+msgid "grp_period_info"
+msgstr "Informação sobre a data de início e de fim do evento, que é suportada pelo grupo"
+
+msgid "grp_presentation_type"
+msgstr "Tipo de apresentação"
+
+msgid "grp_print_list"
+msgstr "Criar lista"
+
+msgid "grp_public"
+msgstr "Grupo público"
+
+msgid "grp_public_info"
+msgstr "O grupo está visível a não-membros, mas tem requisitos especiais para poder fazer parte dele."
+
+msgid "grp_reg_code"
+msgstr "Letónia"
+
+msgid "grp_reg_code_enabled_info"
+msgstr "Líbia"
+
+msgid "grp_reg_code_link"
+msgstr "Marrocos"
+
+msgid "grp_reg_deac_info_screen"
+msgstr "A aceitação para o grupo fechou."
+
+msgid "grp_reg_direct"
+msgstr "Registo direto"
+
+msgid "grp_reg_direct_info_screen"
+msgstr "Pode juntar-se a este grupo diretamente."
+
+msgid "grp_reg_disabled"
+msgstr "Nenhum registo possível"
+
+msgid "grp_reg_disabled_info"
+msgstr "Apenas os administrador do grupo é podem adicionar utilizadores ao grupo."
+
+msgid "grp_reg_limited"
+msgstr "Mónaco"
+
+msgid "grp_reg_max_members_info"
+msgstr "Moldávia"
+
+msgid "grp_reg_no_selfreg"
+msgstr "Nenhuma auto-inscrição"
+
+msgid "grp_reg_passwd_info_screen"
+msgstr "Se um administrador de grupo lhe deu a palavra-passe do grupo, pode juntar-se a este grupo."
+
+msgid "grp_reg_password_info"
+msgstr "Ilha de São Martinho (parte francesa)"
+
+msgid "grp_reg_req_info_screen"
+msgstr "Pode pedir a adesão a este grupo. Receberá uma mensagem de um administrador do grupo quando o seu pedido for aprovado ou rejeitado."
+
+msgid "grp_reg_request"
+msgstr "Pedir adesão"
+
+msgid "grp_reg_request_info"
+msgstr "Os utilizadores interessados podem enviar um pedido/mensagem ao administrador do grupo."
+
+msgid "grp_reg_subject"
+msgstr "Mensagem"
+
+msgid "grp_registration_unlimited"
+msgstr "Luxemburgo"
+
+msgid "grp_role_status"
+msgstr "Função/Estado"
+
+msgid "grp_search_users"
+msgstr "Pesquisar utilizador"
+
+msgid "grp_set_on_waiting_list"
+msgstr "Madagáscar"
+
+msgid "grp_setting_header_presentation"
+msgstr "Apresentação do grupo"
+
+msgid "grp_setting_header_registration"
+msgstr "Registo do grupo"
+
+msgid "grp_settings"
+msgstr "Definições do grupo"
+
+msgid "grp_show_members"
+msgstr "Mostrar membros"
+
+msgid "grp_show_members_info"
+msgstr "Se estiver ativado, os membros do grupo podem aceder à galeria de membros."
+
+msgid "grp_subscription_min_members_info"
+msgstr "Defina o número de utilizadores mínimo exigido para este grupo poder sequer existir. Se o número não for alcançado após a data limite de registo ou anulação da subscrição do grupo, será enviado um mail para os administradores ou tutores do grupo que ativaram a bandeira 'Notificação' no separador 'Membros'."
+
+msgid "grp_sure_add_user_to_group"
+msgstr "Tem a certeza que quer adicionar este utilizador ao grupo?"
+
+msgid "grp_sure_create_group_add_user"
+msgstr "Tem a certeza que quer criar o grupo e adicionar o utilizador?"
+
+msgid "grp_typ"
+msgstr "Tipo de grupo"
+
+msgid "grp_unsubscribe"
+msgstr "Ilhas Marshall"
+
+msgid "grp_update_subscr_request"
+msgstr "Atualizar pedido de adesão"
+
+msgid "grp_use_existing"
+msgstr "Usar grupo existente"
+
+msgid "grp_user_agreement"
+msgstr "Macedónia"
+
+msgid "grp_user_agreement_info"
+msgstr "Dados pessoais visíveis para administrador do grupo"
+
+msgid "grp_user_already_in_group"
+msgstr "O utilizador selecionado já é membro do grupo."
+
+msgid "grp_user_been_added"
+msgstr "O utilizador foi adicionado ao grupo."
+
+msgid "grp_users_already_assigned"
+msgstr "O utilizador já está atribuído a este grupo."
+
+msgid "grp_usr_agreement"
+msgstr "Acordo do utilizador"
+
+msgid "grp_view_info_by_type"
+msgstr "Esta apresentação de conteúdo agrupa todos os itens por tipo de recurso."
+
+msgid "grp_view_info_simple"
+msgstr "Esta apresentação de conteúdo lista todos os itens num bloco."
+
+msgid "grp_view_inherit"
+msgstr "Myanmar (Birmânia)"
+
+msgid "grp_view_inherit_info"
+msgstr "Mongólia"
+
+msgid "grp_waiting_list"
+msgstr "Ilhas Marianas do Norte"
+
+msgid "grp_waiting_list_autofill"
+msgstr "Com autopreenchimento"
+
+msgid "grp_waiting_list_autofill_info"
+msgstr "Mauritânia"
+
+msgid "grp_waiting_list_info"
+msgstr "Se estiver ativado e se o número máximo de utilizadores for excedido, os novos registos ficarão em lista de espera."
+
+msgid "grp_waiting_list_no_autofill"
+msgstr "Sem autopreenchimento"
+
+msgid "grp_warn_grp_type_changed"
+msgstr "Monserrate"
+
+msgid "grp_warn_no_max_set_on_waiting_list"
+msgstr "O número máximo de membros do grupo foi excedido. Pode adicionar o seu pedido de adesão à lista de espera. Receberá uma mensagem de um administrador do grupo quando o seu pedido for aprovado ou rejeitado."
+
+msgid "grp_warn_wl_set_on_waiting_list"
+msgstr "Alguns utilizadores já estão atribuídos à lista de espera. Pode adicionar o seu pedido de adesão à lista de espera. Receberá uma mensagem de um administrador do grupo quando o seu pedido for aprovado ou rejeitado."
+
+msgid "grp_wrong_max_members"
+msgstr "Maldivas"
+
+msgid "grp_wrong_min_max_members"
+msgstr "Maláui"
+
+msgid "grp_wrong_reg_time_limit"
+msgstr "México"
+
+msgid "reg_grp_max_members"
+msgstr "Malásia"
+
+msgid "reg_grp_max_members_short"
+msgstr "Moçambique"
+
+msgid "reg_grp_min_members"
+msgstr "Número mínimo de membros"

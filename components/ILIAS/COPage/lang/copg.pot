@@ -1,0 +1,132 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: copg\n"
+
+msgid "copg_active_to_small"
+msgstr ""
+
+msgid "copg_add_content"
+msgstr ""
+
+msgid "copg_allow_html"
+msgstr ""
+
+msgid "copg_allow_html_info"
+msgstr ""
+
+msgid "copg_an_error_occured"
+msgstr ""
+
+msgid "copg_confirm_el_deletion"
+msgstr ""
+
+msgid "copg_cron_days"
+msgstr ""
+
+msgid "copg_cron_days_info"
+msgstr ""
+
+msgid "copg_cron_keep_entries"
+msgstr ""
+
+msgid "copg_cron_keep_entries_info"
+msgstr ""
+
+msgid "copg_days"
+msgstr ""
+
+msgid "copg_details"
+msgstr ""
+
+msgid "copg_edit_iframe_title"
+msgstr ""
+
+msgid "copg_edit_style_class"
+msgstr ""
+
+msgid "copg_entries"
+msgstr ""
+
+msgid "copg_error"
+msgstr ""
+
+msgid "copg_error_occured_modal"
+msgstr ""
+
+msgid "copg_est_reading_time"
+msgstr ""
+
+msgid "copg_history_cleanup_cron"
+msgstr ""
+
+msgid "copg_history_cleanup_cron_info"
+msgstr ""
+
+msgid "copg_list_item_style"
+msgstr ""
+
+msgid "copg_list_style"
+msgstr ""
+
+msgid "copg_list_styles"
+msgstr ""
+
+msgid "copg_more_character_formats"
+msgstr ""
+
+msgid "copg_obj_types"
+msgstr ""
+
+msgid "copg_page_element_not_found"
+msgstr ""
+
+msgid "copg_page_type_stys"
+msgstr ""
+
+msgid "copg_pages"
+msgstr ""
+
+msgid "copg_par_format_selection"
+msgstr ""
+
+msgid "copg_pc_mob_does_not_exist"
+msgstr ""
+
+msgid "copg_plugin"
+msgstr ""
+
+msgid "copg_plugin_not_avail"
+msgstr ""
+
+msgid "copg_questions_not_supported_here"
+msgstr ""
+
+msgid "copg_reload_page"
+msgstr ""
+
+msgid "copg_remove_formats"
+msgstr ""
+
+msgid "copg_sec_link_info"
+msgstr ""
+
+msgid "copg_select_two_versions"
+msgstr ""
+
+msgid "copg_snippet_cannot_be_edited"
+msgstr ""
+
+msgid "copg_templates"
+msgstr ""
+
+msgid "copg_unsupported_media_type"
+msgstr ""
+
+msgid "copg_use_template"
+msgstr ""
+
+msgid "copg_x_minutes"
+msgstr ""

@@ -1,0 +1,1496 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: exc\n"
+
+msgid "exc_add_assignment"
+msgstr "Feladat létrehozása"
+
+msgid "exc_add_criteria"
+msgstr "Szempont hozzáadása"
+
+msgid "exc_add_criteria_catalogue"
+msgstr "Szempontgyűjtemény hozzáadása"
+
+msgid "exc_add_feedback_file"
+msgstr "Visszajelzésfájl letétbe helyezése"
+
+msgid "exc_add_participant"
+msgstr "Résztvevő hozzáadása"
+
+msgid "exc_adopt_group_teams"
+msgstr "Csapatok átemelése a csoportokból"
+
+msgid "exc_adopt_group_teams_added"
+msgstr "%s felhasználót sikeresen hozzáadta."
+
+msgid "exc_adopt_group_teams_blocked"
+msgstr "%s felhasználót már hozzárendelték."
+
+msgid "exc_adopt_group_teams_conflict"
+msgstr "‘%1$s’ felhasználót a(z) ‘%2$s’ csoporthoz már kiválasztotta."
+
+msgid "exc_adopt_group_teams_no_members"
+msgstr "Nincsenek tagok"
+
+msgid "exc_after_submission"
+msgstr "Beküldés után"
+
+msgid "exc_all"
+msgstr "Összes"
+
+msgid "exc_all_new_files_offered_already"
+msgstr "Az összes új fájlt már felkínáltuk letöltésre. További letörléshez kattintson az alul lévő Műveletek lehetőségre."
+
+msgid "exc_ass_submission_zip"
+msgstr "Beadott megoldások"
+
+msgid "exc_ass_team_wiki"
+msgstr "Csatlakozás wikicsapathoz"
+
+msgid "exc_assignment"
+msgstr "Feladat"
+
+msgid "exc_assignment_list"
+msgstr "Feladatok felsorolása"
+
+msgid "exc_assignment_type"
+msgstr "Beadás módja"
+
+msgid "exc_assignment_view"
+msgstr "Feladatnézet"
+
+msgid "exc_assignments"
+msgstr "Feladatok"
+
+msgid "exc_assignments_deleted"
+msgstr "A feladatokat sikeresen törölte."
+
+#, fuzzy
+msgid "exc_auto_last_save"
+msgstr "Last saved:"
+
+#, fuzzy
+msgid "exc_auto_save_info"
+msgstr "The text will be saved every 30 seconds, if changes are made."
+
+#, fuzzy
+msgid "exc_auto_saved_minutes_p"
+msgstr "%s minute ago"
+
+#, fuzzy
+msgid "exc_auto_saved_minutes_s"
+msgstr "%s minutes ago"
+
+msgid "exc_blog_created"
+msgstr "Sikeresen létrehozott egy blogot."
+
+msgid "exc_blog_returned"
+msgstr "Hozzárendelt blog"
+
+msgid "exc_blog_selected"
+msgstr "A blogot sikeresen hozzárendelte."
+
+msgid "exc_cannot_submit_any_files"
+msgstr "Ezentúl nem adhat be fájlt."
+
+msgid "exc_chars_remaining"
+msgstr "Fennmaradó karakterszám:"
+
+msgid "exc_comment_for_learner_edit"
+msgstr "Megjegyzés írása"
+
+msgid "exc_comment_for_learner_info"
+msgstr "Értesítést küldünk a felhasználónak, valamint a visszajelzés bekerül a felhasználó feladatnézetébe."
+
+msgid "exc_compare_selected_submissions"
+msgstr "A kiválasztott beküldések összehasonlítása"
+
+msgid "exc_compare_submissions"
+msgstr "Beadások összehasonlítása"
+
+msgid "exc_completion_by_submission"
+msgstr "Teljesítve elküldéssel"
+
+msgid "exc_completion_by_submission_info"
+msgstr "Legalább egy fájl elküldése ennek a feladatnak a teljesítését jelenti a maximális pontszám megszerzésével. A pont a későbbiekben manuálisan módosítható. Ennek a beállításnak a bekapcsolása nincs hatással a már beküldött megoldásokra."
+
+msgid "exc_completion_by_tutor"
+msgstr "Csak manuálisan a tutor"
+
+msgid "exc_conf_del_assignments"
+msgstr "Biztos, hogy törli az alábbi feladatokat?"
+
+msgid "exc_copy"
+msgstr "Beadandó feladat másolása"
+
+msgid "exc_copy_zip_error"
+msgstr "A beküldés nem nyitható meg. Hiba a fájl másolásakor."
+
+msgid "exc_create_blog"
+msgstr "Blog létrehozása"
+
+msgid "exc_create_blog_select_info"
+msgstr "Válassza ki a forrásmappát a bloghoz hozzáadáshoz."
+
+msgid "exc_create_portfolio"
+msgstr "Portfólió létrehozása"
+
+msgid "exc_create_portfolio_no_template"
+msgstr "Minta használata nélkül"
+
+msgid "exc_create_team"
+msgstr "Csapat létrehozása"
+
+msgid "exc_create_team_times_up_warning"
+msgstr "Nem hozhatsz létre csapatot - vedd fel a kapcsolatot a tutorral."
+
+msgid "exc_create_wiki"
+msgstr "Wiki létrehozása"
+
+msgid "exc_crit_cat_protected_assignment"
+msgstr "Aktív tanulói visszajelzések"
+
+msgid "exc_crit_cat_protected_assignment_info"
+msgstr "Aktív tanulói visszajelzéssel rendelkező gyakorlatok szempontgyűjteménye már nem módosítható."
+
+msgid "exc_criteria_catalogue_create_form"
+msgstr "Új szempontgyűjtemény hozzáadása"
+
+msgid "exc_criteria_catalogue_default"
+msgstr "Nem gyűjtemény alapján, hanem:"
+
+msgid "exc_criteria_catalogue_deletion_confirmation"
+msgstr "Biztos, hogy törli az alábbi szempontgyűjteményt?"
+
+msgid "exc_criteria_catalogue_update_form"
+msgstr "Szempontgyűjtemény módosítása"
+
+msgid "exc_criteria_catalogues"
+msgstr "Szempontgyűjtemény"
+
+msgid "exc_criteria_create_form"
+msgstr "Új szempont hozzáadása"
+
+msgid "exc_criteria_deletion_confirmation"
+msgstr "Biztos, hogy törli az alábbi szempontokat?"
+
+msgid "exc_criteria_type_bool"
+msgstr "Igen/Nem megfeleltetés"
+
+msgid "exc_criteria_type_file"
+msgstr "Fájlfeltöltés"
+
+msgid "exc_criteria_type_rating"
+msgstr "5 csillagos értékelés"
+
+msgid "exc_criteria_type_text"
+msgstr "Szöveg"
+
+msgid "exc_criteria_update_form"
+msgstr "Szempontok módosítása"
+
+msgid "exc_criterias"
+msgstr "Szempontok"
+
+msgid "exc_deadline"
+msgstr "Határidő"
+
+msgid "exc_deadline_ext_mismatch"
+msgstr "A türelmi időszaknak a határidő után kell véget érnie!"
+
+msgid "exc_deadline_extended"
+msgstr "Türelmi időszak"
+
+msgid "exc_deadline_extended_info"
+msgstr "A határidő és a türelmi idő között késői beadások lehetségesek."
+
+msgid "exc_deadline_not_set_yet"
+msgstr "Még nincs beállítva"
+
+msgid "exc_deadline_requested"
+msgstr "Kötelező"
+
+msgid "exc_delete_team"
+msgstr "Csapat törlése"
+
+msgid "exc_deleted_user"
+msgstr "Törölt felhasználó"
+
+msgid "exc_denied_has_peer_reviews"
+msgstr "Ok: néhány feladathoz aktiválták a tanulói visszajelzést."
+
+msgid "exc_denied_has_submissions"
+msgstr "Ok: a felhasználók már beadták a feladatot."
+
+msgid "exc_denied_has_team_assignments"
+msgstr "Ok: a feladatban csapathozzárendelések vannak."
+
+msgid "exc_direct_no_submit"
+msgstr "Ne küldje be"
+
+msgid "exc_direct_submit"
+msgstr "Jóváhagyás"
+
+msgid "exc_direct_submit_blog"
+msgstr "Szeretné most elküldeni a blog jelenlegi verzióját? Ezt a későbbiekben is bármikor megteheti a blogszerkesztőből."
+
+msgid "exc_direct_submit_portfolio"
+msgstr "Szeretné most elküldeni a portfólió jelenlegi verzióját? Ezt a későbbiekben is bármikor megteheti a portfóliószerkesztőből."
+
+msgid "exc_down_files_started_bg"
+msgstr "A beküldött fájlok letöltése megkezdődött. Kérem, ellenőrizze a háttérfolyamatokat a jobb felső sarokban."
+
+msgid "exc_download_selected"
+msgstr "Kiválasztott beadások leadása"
+
+msgid "exc_download_zip_structure"
+msgstr "ZIP-mappastruktúra letöltése"
+
+msgid "exc_earliest_start_time"
+msgstr "Legkorábbi kezdési idő"
+
+msgid "exc_edit_assignment"
+msgstr "Feladat módosítása"
+
+msgid "exc_edit_assignments"
+msgstr "Feladatok módosítása"
+
+msgid "exc_edit_blog"
+msgstr "Blog módosítása"
+
+msgid "exc_edit_criterias"
+msgstr "Szempont módosítása"
+
+msgid "exc_edit_portfolio"
+msgstr "Portfólió módosítása"
+
+msgid "exc_edit_submission"
+msgstr "Megoldás módosítása"
+
+msgid "exc_edit_wiki"
+msgstr "Wiki módosítása"
+
+msgid "exc_ended"
+msgstr "Befejezve"
+
+msgid "exc_ended_on"
+msgstr "Lezárva"
+
+msgid "exc_export_excel"
+msgstr "Exportálás Excel (.xls) fájlba"
+
+msgid "exc_fb_files"
+msgstr "Értékelésfájlok"
+
+msgid "exc_fb_tutor_info"
+msgstr "Ha egy visszajelzésfájlt feltölt, figyelmeztetés küldünk a felhasználónak, valamint a fájl a felhasználó nézetében megjelenik."
+
+msgid "exc_feedback"
+msgstr "Tutori értékelés"
+
+msgid "exc_feedback_notification_body"
+msgstr "ezúton értesítjük, hogy az alábbi feltöltéséhez új visszajelzés érkezett."
+
+msgid "exc_feedback_notification_link"
+msgstr "Link a beadandó feladathoz"
+
+msgid "exc_feedback_notification_reason"
+msgstr "Ezt a levelet azért kapta, mert fent említett beadandó feladatnak résztvevője."
+
+msgid "exc_feedback_notification_subject"
+msgstr "‘%s’ beadandó feladathoz visszajelzés"
+
+msgid "exc_files_returned_text"
+msgstr "Hozzárendelt szöveg"
+
+msgid "exc_find_zip_error"
+msgstr "A beküldés nem nyitható meg. Az eredeti fájl nem található."
+
+msgid "exc_fixed_date"
+msgstr "Megadott dátum"
+
+msgid "exc_fixed_date_individual"
+msgstr "Csak egyéni határidők"
+
+msgid "exc_fixed_date_individual_info"
+msgstr "Nincs általános határidő, minden résztvevőnek egyéni határidőt kell beállítani."
+
+msgid "exc_fixed_date_info"
+msgstr "Az összes felhasználónak ugyanaz a határidő."
+
+msgid "exc_fullscreen"
+msgstr "Teljes képernyő"
+
+msgid "exc_future"
+msgstr "Közelgő"
+
+msgid "exc_given_feedback"
+msgstr "Elküldött visszajelzések"
+
+msgid "exc_global_feedback_file"
+msgstr "Mintamegoldás"
+
+msgid "exc_global_feedback_file_after_date"
+msgstr "Megadott dátum után"
+
+msgid "exc_global_feedback_file_cron"
+msgstr "Értesítés"
+
+msgid "exc_global_feedback_file_cron_info"
+msgstr "Az összes hallgató értesítést kapjon ütemezett feladaton keresztül, amikor a mintamegoldás elérhetővé válik."
+
+msgid "exc_global_feedback_file_date"
+msgstr "Elérhető"
+
+msgid "exc_global_feedback_file_date_deadline"
+msgstr "Határidő után"
+
+msgid "exc_global_feedback_file_date_upload"
+msgstr "Beadás után"
+
+msgid "exc_go_to_exercise"
+msgstr "Ugrás a feladathoz"
+
+msgid "exc_graded_mem_notified"
+msgstr "Az összes értékelt résztvevőt értesítettük."
+
+msgid "exc_grades"
+msgstr "Értékelések"
+
+msgid "exc_grades_overview"
+msgstr "Értékelések"
+
+msgid "exc_hand_in"
+msgstr "Beadás"
+
+msgid "exc_hand_in_lead_text"
+msgstr "%s a beadásig"
+
+msgid "exc_idl_request_and_tutor_needed"
+msgstr "Kérem, írjon egy üzenetet a tutornak, hogy állítson be egyéni határidőt."
+
+msgid "exc_idl_tutor_needed"
+msgstr "Már kért határidőt, kérése még függőben van. Értesítjük, amint beállítják határidejét."
+
+msgid "exc_import"
+msgstr "Beadandó feladat importálása"
+
+msgid "exc_individual_deadline"
+msgstr "Egyéni határidő"
+
+msgid "exc_individual_deadline_action"
+msgstr "Egyéni határidő beállításai"
+
+msgid "exc_individual_deadline_before_global"
+msgstr "Ennek az időpontnak a legutolsó határidőnél későbbre kell esnie: %s."
+
+msgid "exc_instruction_files"
+msgstr "Utasításfájlok"
+
+msgid "exc_instruction_migration_not_run"
+msgstr "Az utasításfájl migrációja még nem készült el. Kérem, keresse a rendszerüzemeltetőt."
+
+msgid "exc_late_submission"
+msgstr "Késői beadás"
+
+msgid "exc_late_submission_warning"
+msgstr "%s utáni beadások későinek lesznek megjelölve."
+
+msgid "exc_lead_request_idl"
+msgstr "Határidő kérése"
+
+msgid "exc_lead_wait_for_idl"
+msgstr "Várakozás az egyéni határidőre"
+
+msgid "exc_limit_characters"
+msgstr "Karakterszám korlátozása"
+
+msgid "exc_link_to_assignment"
+msgstr "Link a feladathoz"
+
+msgid "exc_list_submission"
+msgstr "Az összes megoldás módosítása"
+
+msgid "exc_list_text_assignment"
+msgstr "Összes beadott megjelenítése"
+
+msgid "exc_mail_context_grade_reminder_info"
+msgstr "A feladat értékelésére hívja fel a tutor/oktató figyelmét"
+
+msgid "exc_mail_context_grade_reminder_title"
+msgstr "Feladat: emlékeztető az értékelésére"
+
+msgid "exc_mail_context_peer_reminder_info"
+msgstr "A feladatra visszajelzésre hívja fel a résztvevő figyelmét"
+
+msgid "exc_mail_context_peer_reminder_title"
+msgstr "Feladat: emlékeztető a visszajelzésre"
+
+msgid "exc_mail_context_reminder_assignment_title"
+msgstr "Feladat címe"
+
+msgid "exc_mail_context_reminder_exercise_title"
+msgstr "Feladatok címe"
+
+msgid "exc_mail_context_submit_reminder_info"
+msgstr "A feladat beadására hívja fel a felhasználó figyelmét"
+
+msgid "exc_mail_context_submit_reminder_title"
+msgstr "Feladat: emlékeztető a beadására"
+
+msgid "exc_mail_permanent_link"
+msgstr "Az alábbi linken érheti el a beadandó feladatot:"
+
+msgid "exc_manage_team"
+msgstr "Csapat kezelése"
+
+msgid "exc_mandatory"
+msgstr "Kötelező"
+
+msgid "exc_mandatory_info"
+msgstr "A kötelező feladatot meg kell oldani a teljes beadandó feladat teljesítéséhez."
+
+msgid "exc_mandatory_rand_determined"
+msgstr "Véletlenszerűen meghatározott"
+
+msgid "exc_max_char_limit"
+msgstr "Maximális karakterszám"
+
+msgid "exc_max_file"
+msgstr "Fájlok maximális száma"
+
+msgid "exc_max_file_info"
+msgstr "A korlát elérése után a felhasználók már tudnak több fájlt feltölteni. Csapattagság esetén nincs csapatszintű korlát, ott is a felhasználónkénti korlát él."
+
+msgid "exc_max_file_reached"
+msgstr "%s fájlnál többet nem tud feltölteni."
+
+msgid "exc_max_file_tgl"
+msgstr "Feltöltési korlát"
+
+msgid "exc_max_team_participants"
+msgstr "Maximális szám"
+
+msgid "exc_members_already_assigned_team"
+msgstr "Ez a felhasználó már tagja ennek a csapatnak."
+
+msgid "exc_min_char_limit"
+msgstr "Minimális karakterszám"
+
+msgid "exc_min_nr"
+msgstr "Feladatok száma"
+
+msgid "exc_min_nr_info"
+msgstr "Ez az érték a kötelező feladatok számánál nem lehet kisebb."
+
+msgid "exc_min_team_participants"
+msgstr "Minimális szám"
+
+msgid "exc_msg_all_mandatory_ass"
+msgstr "Minden kötelező feladatot meg kell oldania a beadandó feladat teljesítéséhez."
+
+msgid "exc_msg_deadline_request_body"
+msgstr "az alábbi felhasználók kértek egyéni határidőt."
+
+msgid "exc_msg_deadline_request_subject"
+msgstr "‘%s’ beadandó feladathoz határidőt kértek"
+
+msgid "exc_msg_failed_mandatory"
+msgstr "Nem sikerült legalább egy kötelező feladat."
+
+msgid "exc_msg_grading_done"
+msgstr "‘%s’ beadandó feladatban egyy értékelés született"
+
+msgid "exc_msg_grading_done_body"
+msgstr "‘%s’ beadandó feladatban értékelést kapott"
+
+msgid "exc_msg_idl_set_body"
+msgstr "új egyéni határidőt állítottak be."
+
+msgid "exc_msg_idl_set_subject"
+msgstr "‘%s’ beadandó feladatban új határidőt állítottak be."
+
+msgid "exc_msg_min_number_ass"
+msgstr "Legalább %s feladatot kell megoldania a beadandó feladat teljesítéséhez."
+
+msgid "exc_msg_missed_minimum_number"
+msgstr "Nem oldotta meg a minimális számú feladatot."
+
+msgid "exc_msg_new_feedback_file_uploaded"
+msgstr "‘%s’ beadandó feladathoz új visszajelzésfájl"
+
+msgid "exc_msg_new_feedback_file_uploaded2"
+msgstr "ezúton tájékoztatjuk, hogy új visszajelzésfájlt töltöttek fel az Ön megoldásához."
+
+msgid "exc_msg_new_feedback_text_uploaded"
+msgstr "‘%s’ beadandó feladathoz új megjegyzés jött létre"
+
+msgid "exc_msg_new_feedback_text_uploaded2"
+msgstr "ezúton tájékoztatjuk, hogy egy tutor megjegyzést írt Önnek."
+
+msgid "exc_msg_new_message_from_pf_giver"
+msgstr "‘%s’ feladathoz egy visszajelző üzenetet küldött."
+
+msgid "exc_msg_new_message_from_pf_giver2"
+msgstr "Egy visszajelző üzenetet küldött Önnek:"
+
+msgid "exc_msg_new_message_from_pf_recipient"
+msgstr "‘%s’ feladathoz egy visszajelzett üzenetet küldött."
+
+msgid "exc_msg_new_message_from_pf_recipient2"
+msgstr "egy visszajelzett üzenetet küldött Önnek:"
+
+msgid "exc_msg_participants_removed"
+msgstr "A résztvevőket eltávolítottuk a beadandó feladatból."
+
+msgid "exc_msg_public_submission"
+msgstr "Összes megoldást publikáltuk a határidő után."
+
+msgid "exc_msg_saved_grades"
+msgstr "Az értékeléseket és a megjegyzéseket mentettük."
+
+msgid "exc_msg_sure_to_deassign_participant"
+msgstr "Biztos, hogy eltávolítja a résztvevőket a beadandó feladat összes feladatából? Ezzel törli a megoldásaikat is!"
+
+msgid "exc_multi_feedb_info"
+msgstr "Ezen az oldalon több visszajelzést tölthet fel egy fájlban. Először kattintson a ‘ZIP-mappastruktúra letöltése’ gombra, mentse és csomagolja ki a fájlt a saját gépéden. Helyezze a visszajelzés-fájlokat a megfelelő felhasználó-mappákba. Csomagolja be az egész mappát ZIP-fájl-ba. A ‘Többszörös fájl-visszajelzés’ alatt tallózza ki ezt a ZIP-fájlt, majd kattintson a ‘Feltöltés’ gombra, végül mentse a visszajelzés-fájlokat. Ne használjon speciális karaktereket a fájlnevekben."
+
+msgid "exc_multi_feedback"
+msgstr "Több résztvevő értékelése"
+
+msgid "exc_multi_feedback_file"
+msgstr "Többszörös-visszajelző fájl"
+
+msgid "exc_multi_feedback_files"
+msgstr "Többszörös-visszajelző fájlok"
+
+msgid "exc_needs_deadline"
+msgstr "Ez a funkció csak hozzárendelt határidővel működik."
+
+msgid "exc_needs_fixed_deadline"
+msgstr "Ez a funkció csak megadott dátum esetén működik."
+
+msgid "exc_new_assignment"
+msgstr "Új feladat"
+
+msgid "exc_no_assignments"
+msgstr "Nincsenek beaadandó feladatok."
+
+msgid "exc_no_assignments_available"
+msgstr "Nincs még összerendelés. Nyissa meg az ‘Összerendelés’-t és a ‘Szerkesztés’-t az első összerendelés létrehozásához."
+
+msgid "exc_no_deadline"
+msgstr "Nincs határidő"
+
+msgid "exc_no_deadline_info"
+msgstr "A résztvevőknek nincs határidő a feladat beadására."
+
+msgid "exc_no_deadline_specified"
+msgstr "Nincs megadva határidő."
+
+msgid "exc_no_feedback_dir_found_in_zip"
+msgstr "A feltöltött ZIP-archívum fájl mappaszerkezetét nem lehet feldolgozni."
+
+msgid "exc_no_get_target"
+msgstr "Egy valós célt még nem küldött el."
+
+msgid "exc_no_graded_mem_selected"
+msgstr "Válaaszon legalább egy értékelt résztvevőt."
+
+msgid "exc_no_participants"
+msgstr "Jelenleg nincsenek résztvevők."
+
+msgid "exc_no_peer_feedback_deadline"
+msgstr "Nincs határidő visszajelzés küldésére"
+
+msgid "exc_no_portfolio_templates"
+msgstr "Egy portfóliósablon sem érhető el."
+
+msgid "exc_no_submission_yet"
+msgstr "Még nem adta be senki."
+
+msgid "exc_no_team_yet"
+msgstr "Nincs csapathoz hozzárendelve"
+
+msgid "exc_no_team_yet_info"
+msgstr "Létrehozhat saját magának egy csapatot, vagy meglévő csapathoz hozzáadhatják annak tagjai."
+
+msgid "exc_no_team_yet_info_tutor"
+msgstr "A beadandó feladat tutorai kezelik a csapatokat."
+
+msgid "exc_no_team_yet_notice"
+msgstr "Még egy csapathoz sincs hozzárendelve!"
+
+msgid "exc_note_for_tutor"
+msgstr "Megjegyzés a tutornak"
+
+msgid "exc_notification"
+msgstr "Személyes értesítés"
+
+msgid "exc_nr_random_mand"
+msgstr "Kötelező hozzárendelések száma"
+
+msgid "exc_num_teams"
+msgstr "Szám"
+
+msgid "exc_ongoing"
+msgstr "Folyamatban lévő"
+
+msgid "exc_optional"
+msgstr "Választható"
+
+msgid "exc_order_by_deadline"
+msgstr "Rendezés határidő szerint"
+
+msgid "exc_overview"
+msgstr "Áttekintés"
+
+msgid "exc_participant"
+msgstr "Résztvevő"
+
+msgid "exc_participant_view"
+msgstr "Résztvevők"
+
+msgid "exc_participants"
+msgstr "Résztvevők"
+
+msgid "exc_pass_all"
+msgstr "Kötelező feladat(ok)"
+
+msgid "exc_pass_all_info"
+msgstr "A beadandó feladat teljesítéséhez az összes kötelező feladatot meg kell oldani."
+
+msgid "exc_pass_minimum_nr"
+msgstr "Feladatok minimális száma"
+
+msgid "exc_pass_minimum_nr_info"
+msgstr "a beadandó feladat teljesítéséhez minimálisan ennyi feladatot kell megoldani. Ez a szám egyenlő vagy magasabb kell legyen, mint a kötelező feladatok száma."
+
+msgid "exc_pass_mode"
+msgstr "Beadandó feladat befejezettsége"
+
+msgid "exc_pass_mode_not_changeable_info"
+msgstr "A kitöltés módja már nem módosítható."
+
+msgid "exc_passed_status_determination"
+msgstr "‘Sikeresen teljesítette’ állapot meghatározása"
+
+msgid "exc_passing_exc"
+msgstr "Beadandó feladat teljesítése"
+
+msgid "exc_past"
+msgstr "Elmúlt"
+
+msgid "exc_peer_deadline_mismatch"
+msgstr "Hogy visszajelzést lehessen küldeni, a visszajelzés határideje nem lehet korábbi, mint a feladata beadási határideje."
+
+msgid "exc_peer_feedback_status"
+msgstr "Visszajelzés állapota"
+
+msgid "exc_peer_review"
+msgstr "Tanulói visszajelzés"
+
+msgid "exc_peer_review_ass_setting_info"
+msgstr "Felhasználók értékelhetik a társaik megoldását a határidő után és amennyiben létezik türelmi idő, annak lejárta után. A visszajelzés néhány tulajdonságát az adott lapon lehet beállítani. Ezen opció aktiválása és mentése után megjelenik a ‘Visszajelzés’ lap."
+
+msgid "exc_peer_review_chars_invalid"
+msgstr "Visszajelzésének hossza nem éri a szükséges %s karaktert."
+
+msgid "exc_peer_review_completion"
+msgstr "‘Sikeresen megfelelt’ állapot meghatározása"
+
+msgid "exc_peer_review_completion_all"
+msgstr "Az összes szükséges visszajelzés"
+
+msgid "exc_peer_review_completion_all_info"
+msgstr "A beadandó feladat automatikusan ‘Sikeresen teljesítette’ lesz a megoldás beadása és az összes szükséges visszajelzés beérkezése után."
+
+msgid "exc_peer_review_completion_none"
+msgstr "Nem szükséges a tanulói visszajelzés"
+
+msgid "exc_peer_review_completion_none_info"
+msgstr "A beadandó feladat automatikusan ‘Sikeresen teljesítette’ lesz a megoldás beadása után, attól függetlenül,hogy érkezett-e visszajelzés vagy sem."
+
+msgid "exc_peer_review_completion_one"
+msgstr "Legalább egy visszajelzés"
+
+msgid "exc_peer_review_completion_one_info"
+msgstr "A beadandó feladat automatikusan ‘Sikeresen teljesítette’ lesz a megoldás beadása és egy visszajelzés beérkezése után."
+
+msgid "exc_peer_review_deadline"
+msgstr "Visszajelzés határideje"
+
+msgid "exc_peer_review_deadline_info"
+msgstr "Visszajelzés eddig az időpontig adható, és a kapott visszajelzés is csak ekkortól elérhető el."
+
+msgid "exc_peer_review_deadline_info_button"
+msgstr "Határidő: %s"
+
+msgid "exc_peer_review_deadline_reached"
+msgstr "A visszajelzés ideje lejárt."
+
+msgid "exc_peer_review_file"
+msgstr "Fájl feltöltése"
+
+msgid "exc_peer_review_file_info"
+msgstr "Visszajelzésenként egy fájl feltöltésének engedélyezése"
+
+msgid "exc_peer_review_give"
+msgstr "Visszajelzés küldése"
+
+msgid "exc_peer_review_given"
+msgstr "Adott visszajelzések megjelenítése"
+
+msgid "exc_peer_review_giver"
+msgstr "Visszajelzés feladója"
+
+msgid "exc_peer_review_invalid_giver_ids"
+msgstr "Azon felhasználók, akik nem tagjai a beadandó feladatnak vagy nem adtak be feladatot, de adtak visszajelzést"
+
+msgid "exc_peer_review_invalid_peer_ids"
+msgstr "Azon felhasználók, akik nem tagjai a beadandó feladatnak vagy nem adtak be feladatot, de kaptak visszajelzést"
+
+msgid "exc_peer_review_min_chars"
+msgstr "Karakterek minimális száma"
+
+msgid "exc_peer_review_min_chars_info"
+msgstr "Érvényes visszajelzéshez szükséges minimális karakterhosszúság."
+
+msgid "exc_peer_review_min_chars_tgl"
+msgstr "Minimális hossz"
+
+msgid "exc_peer_review_min_number"
+msgstr "Szükséges visszajelzések száma"
+
+msgid "exc_peer_review_min_number_info"
+msgstr "Ennyi felhasználó munkáját kell értékelnie egy résztvevőnek. Amennyiben a megoldások beadásainak száma ennél kisebb, automatikusan csökkentjük az értéket arra a számra."
+
+msgid "exc_peer_review_missing_info"
+msgstr "A visszajelzés megtekintéséhez még %s visszajelzést kell adnia."
+
+msgid "exc_peer_review_missing_info_deadline"
+msgstr "Hogy lásd a kapott visszajelzést, összesen %2$s, még %1$s visszajelzést kell adnia."
+
+msgid "exc_peer_review_missing_users"
+msgstr "Azon felhasználók, akik adtak be feladatot, de nem részei a visszajelzéseknek"
+
+msgid "exc_peer_review_no_peers"
+msgstr "Nincs társ, akinek visszajelzés küldhető."
+
+msgid "exc_peer_review_no_peers_reviewed_yet"
+msgstr "Még nem készült visszajelzés."
+
+msgid "exc_peer_review_not_returned_users"
+msgstr "Azon felhasználók, akik nem adtak be feladatot, de nem részei a visszajelzéseknek"
+
+msgid "exc_peer_review_overview"
+msgstr "Visszajelző csoportok megjelenítése"
+
+msgid "exc_peer_review_overview_invalid_users"
+msgstr "Érvénytelen felhasználók"
+
+msgid "exc_peer_review_personal"
+msgstr "Személyre szabott bírálat-visszajelzés"
+
+msgid "exc_peer_review_personal_info"
+msgstr "Visszajelzéseket teljes névvel jelenítse meg"
+
+msgid "exc_peer_review_rating"
+msgstr "5 csillagos értékelés"
+
+msgid "exc_peer_review_recipient"
+msgstr "Visszajelzés címzettje"
+
+msgid "exc_peer_review_reset"
+msgstr "Törlése, és a visszajelzések alapértelmezettre állítása"
+
+msgid "exc_peer_review_reset_done"
+msgstr "Az összes visszajelzéssel kapcsolatos adatot sikeresen törölte."
+
+msgid "exc_peer_review_reset_sure"
+msgstr "Biztos, hogy törli ‘%s’ összes visszajelzését?"
+
+msgid "exc_peer_review_show"
+msgstr "Beérkezett visszajelzések megjelenítése"
+
+msgid "exc_peer_review_show_missing"
+msgstr "Még nem tekintheti meg a kapott visszajelzéseit, mert még nem adott elegendő számú visszajelzést."
+
+msgid "exc_peer_review_show_received_none"
+msgstr "Még egy visszajelzést sem kapott."
+
+msgid "exc_peer_review_simple_unlock"
+msgstr "Hozzáférés a kapott visszajelzésekhez"
+
+msgid "exc_peer_review_simple_unlock_active"
+msgstr "Legalább egy érvényes visszajelzés beérkezése után."
+
+msgid "exc_peer_review_simple_unlock_immed"
+msgstr "A kapott visszajelzések mindig látszódjanak."
+
+msgid "exc_peer_review_simple_unlock_inactive"
+msgstr "Az összes szükséges visszajelzés beérkezése után."
+
+msgid "exc_peer_review_text"
+msgstr "Szöveg"
+
+msgid "exc_peer_review_updated"
+msgstr "Visszajelzését mentettük."
+
+msgid "exc_peer_reviews_in_lead_text"
+msgstr "%s visszajelzést küldéeni"
+
+msgid "exc_peer_reviews_invalid_warning"
+msgstr "Érvénytelen visszajelző csoportok"
+
+msgid "exc_portfolio_created"
+msgstr "Sikeresen létrehozott egy portfóliót."
+
+msgid "exc_portfolio_returned"
+msgstr "Hozzárendelt portfólió"
+
+msgid "exc_portfolio_selected"
+msgstr "A portfóliót sikeresen hozzárendelte."
+
+msgid "exc_portfolio_template"
+msgstr "Portfóliósablon"
+
+msgid "exc_portfolio_unlinked_from_assignment"
+msgstr "A portfóliót sikeresen eltávolította a hozzárendelésből"
+
+msgid "exc_presentation_order"
+msgstr "Megjelenítési sorrend"
+
+msgid "exc_print_pdf"
+msgstr "Nyomtatás/PDF"
+
+msgid "exc_public_submission"
+msgstr "Nyilvános megoldások"
+
+msgid "exc_publishing"
+msgstr "Közzététel"
+
+msgid "exc_rand_nr_mandatory"
+msgstr "Kötelező feladatok száma"
+
+msgid "exc_rand_overall_ass"
+msgstr "Összes hozzárendelt feladat száma"
+
+msgid "exc_random"
+msgstr "Véletlenszerű"
+
+msgid "exc_random_assignment"
+msgstr "Véletlenszerű hozzárendelés"
+
+msgid "exc_random_assignment_info"
+msgstr "A feladat indulásakor néhány hozzárendelt feladat véletlenszerűen kötelezőnek lesz megjelölve az Ön számára."
+
+msgid "exc_random_selection"
+msgstr "Véletlenszerű kiválasztás"
+
+msgid "exc_random_selection_info"
+msgstr "Az összes felhasználóhoz véletlenszerűen rendelünk kötelező feladatokat."
+
+msgid "exc_random_selection_not_changeable_info"
+msgstr "Ez a mód nem aktiválható."
+
+msgid "exc_received_feedback"
+msgstr "Beérkezett visszajelzések"
+
+msgid "exc_rel_last_submission"
+msgstr "Utolsó lehetséges beadás"
+
+msgid "exc_rel_last_submission_info"
+msgstr "Ha ez az opcionális dátum be van állítva, eddig a határidőig az összes felhasználónak be kell adnia a megoldását."
+
+msgid "exc_rel_start_latest_lead_text"
+msgstr "%s a legkésőbbi"
+
+msgid "exc_rel_start_lead_text"
+msgstr "Submit %s nappal a kezdés után"
+
+msgid "exc_relative_date"
+msgstr "Relatív Dátum"
+
+msgid "exc_relative_date_info"
+msgstr "Az összes felhasználónál a feladat megkezdésétől számítjuk a határidőt."
+
+msgid "exc_relative_date_period"
+msgstr "Munkaidő"
+
+msgid "exc_rem_time_after_start"
+msgstr "Hátralévő idő"
+
+msgid "exc_reminder_cron_ok"
+msgstr "Emlékeztető kiküldve:"
+
+msgid "exc_reminder_end"
+msgstr "Emlékeztetők vége"
+
+msgid "exc_reminder_feedback_setting"
+msgstr "A résztvevők emlékeztetése a visszajelzésre"
+
+msgid "exc_reminder_feedback_start"
+msgstr "Emlékeztetők indítása a visszajelzés határideje előtt"
+
+msgid "exc_reminder_frequency"
+msgstr "Gyakoriság"
+
+msgid "exc_reminder_grade_body"
+msgstr "ezúton értesítem, hogy az alábbi feladatokat még nem értékelte"
+
+msgid "exc_reminder_grade_setting"
+msgstr "A tutorok emlékeztetése az értékelésre"
+
+msgid "exc_reminder_grade_subject"
+msgstr "‘%s’ feladatot még nem értékelte"
+
+msgid "exc_reminder_link"
+msgstr "URL"
+
+msgid "exc_reminder_mail_no_tpl"
+msgstr "Levélsablon használata nélkül"
+
+msgid "exc_reminder_mail_template"
+msgstr "Levélsablon"
+
+msgid "exc_reminder_peer_body"
+msgstr "ezúton értesítem, hogy az alábbi feladatokra még nem jelzett vissza"
+
+msgid "exc_reminder_peer_subject"
+msgstr "‘%s’ feladatra még nem jelzett vissza"
+
+msgid "exc_reminder_salutation"
+msgstr "Tisztelt %s,"
+
+msgid "exc_reminder_start"
+msgstr "Emlékeztetők indítása a határidő előtt"
+
+msgid "exc_reminder_start_info"
+msgstr "A szülőkurzus/-csoport összes tagjának küldünk emlékeztetőket.<br />Egy szülőkurzus/-csoport sincs - egy emlékeztetőt sem fogunk küldeni!"
+
+msgid "exc_reminder_submit_body"
+msgstr "ezúton értesítem, hogy az alábbi feladatokat még nem fejezte be"
+
+msgid "exc_reminder_submit_setting"
+msgstr "Felhasználók emlékeztetése a beküldésre"
+
+msgid "exc_reminder_submit_subject"
+msgstr "‘%s’ feladatot még nem fejezte be"
+
+msgid "exc_reminders_cron"
+msgstr "Emlékeztetés a feladatokra"
+
+msgid "exc_reminders_cron_info"
+msgstr "3 emlékeztető lesz aktív: felhasználókat a beadásra, tutorokat az értékelésére és résztvevőket a visszajelzésre."
+
+#, fuzzy
+msgid "exc_reminders_cron_not_active"
+msgstr "Note: Notifications will not be sent until the 'Reminders for Assignments' cron job is activated. Currently the cron job is deactivated."
+
+msgid "exc_request_deadline"
+msgstr "Határidő kérése"
+
+msgid "exc_requirement"
+msgstr "Követelmény"
+
+msgid "exc_review_anytime"
+msgstr "Visszajelzés küldése tetszőleges időpontban"
+
+msgid "exc_save_all"
+msgstr "Összes mentése"
+
+msgid "exc_save_order"
+msgstr "Sorrend mentése"
+
+msgid "exc_save_selected"
+msgstr "Kijelöltek mentése"
+
+msgid "exc_saved_order"
+msgstr "Mentett megjelenítési sorrend"
+
+msgid "exc_select_ass"
+msgstr "Feladat kiválasztása"
+
+msgid "exc_select_blog"
+msgstr "Meglévő blog használata"
+
+msgid "exc_select_blog_change"
+msgstr "Másik blog használata"
+
+msgid "exc_select_blog_info"
+msgstr "Válasszon ki egyet blogjai közül ehhez az értékeléshez."
+
+msgid "exc_select_blog_unlink"
+msgstr "Blog eltávolítása"
+
+msgid "exc_select_portfolio"
+msgstr "Meglévő portfólió használata"
+
+msgid "exc_select_portfolio_change"
+msgstr "Másik portfólió használata"
+
+msgid "exc_select_portfolio_info"
+msgstr "Válasszon ki egyet a portfóliói közül ehhez az értékeléshez."
+
+msgid "exc_select_portfolio_unlink"
+msgstr "Portfólió eltávolítása"
+
+msgid "exc_send_assignment"
+msgstr "Feladat elküldése e-mailben"
+
+msgid "exc_send_grading_notification"
+msgstr "Értékelési értesítés küldése"
+
+msgid "exc_set_failed"
+msgstr "Beállítás nem teljesítettként"
+
+msgid "exc_set_passed"
+msgstr "Beállítás sikeresen teljesítettként"
+
+msgid "exc_settings_feedback"
+msgstr "Értékelés"
+
+msgid "exc_settings_feedback_file"
+msgstr "Fájlban"
+
+msgid "exc_settings_feedback_file_info"
+msgstr "A tutorok fájl töltenek fel, melyről a résztvevők értesítést kapnak. A fájlt feladat áttekintésénél tudják letölteni."
+
+msgid "exc_settings_feedback_mail"
+msgstr "Levélben"
+
+msgid "exc_settings_feedback_mail_info"
+msgstr "A tutorok az értékeléseiket egy levél űrlapon adják meg, amit elküldünk a résztvevőknek."
+
+msgid "exc_settings_feedback_text"
+msgstr "Szövegdobozban"
+
+msgid "exc_settings_feedback_text_info"
+msgstr "A tutorok az értékeléseiket egy szöveges mezőben adják meg, melyről a résztvevők értesítést kapnak. Az értékelés a feladat áttekintésénél jelenik meg."
+
+msgid "exc_show_instructions"
+msgstr "Munkautasítások megjelenítése"
+
+msgid "exc_show_more"
+msgstr "Több…"
+
+msgid "exc_show_peer_review"
+msgstr "Hallgatói visszajelzések megjelenítése"
+
+msgid "exc_show_submissions"
+msgstr "Megoldások közzététele a határidő után"
+
+msgid "exc_show_submissions_info"
+msgstr "A fix beadási határidővel rendelkező feladatok esetén a résztvevők a beadási határidő lejárta után az összes megoldást megtekinthetik."
+
+msgid "exc_start_assignment"
+msgstr "Feladat elkezdése"
+
+msgid "exc_start_exercise"
+msgstr "Feladat indítása"
+
+msgid "exc_start_time"
+msgstr "Kezdő időpont"
+
+msgid "exc_starting_on"
+msgstr "Kezdő időpont:"
+
+msgid "exc_submission_and_grades_notification_link"
+msgstr "Link a feladat ‘Megoldások és értékelések’ részére: %s"
+
+msgid "exc_submission_downloads_notification_link"
+msgstr "Új megoldások letöltése: %s"
+
+msgid "exc_submission_file"
+msgstr "Fájl beadása"
+
+msgid "exc_submission_no_new_files"
+msgstr "Egy új megoldás sem érhető el."
+
+msgid "exc_submission_notification"
+msgstr "E-mail értesítés beadásról"
+
+msgid "exc_submission_notification_body"
+msgstr "ezúton értesítjük, hogy ‘%s’ beadandó feladathoz új megoldás töltöttek fel."
+
+msgid "exc_submission_notification_info"
+msgstr "Értesítjük, ha megoldást feltöltenek fel."
+
+msgid "exc_submission_notification_link"
+msgstr "A beadandó feladat linkje: %s"
+
+msgid "exc_submission_notification_subject"
+msgstr "‘%s’ beadandó feladat - új megoldást feltöltöttek fel"
+
+msgid "exc_submission_open_notification_link"
+msgstr "Feladat nyitása: %s"
+
+msgid "exc_submission_text"
+msgstr "Szöveg beadása"
+
+msgid "exc_submissions_and_grades"
+msgstr "Megoldások és értékelések"
+
+msgid "exc_submit_anytime"
+msgstr "Bármikor beadható"
+
+msgid "exc_submit_convenience_no_deadline"
+msgstr "Nincs határidőhöz kötve a beadás."
+
+msgid "exc_submitted_files_deleted"
+msgstr "A kiválasztott fájlt sikeresen törölte."
+
+msgid "exc_sure_unlink_blog"
+msgstr "Biztos, hogy eltávolítja ezt a blogot a hozzárendelésből?"
+
+msgid "exc_sure_unlink_portfolio"
+msgstr "Biztos, hogy eltávolítja ezt a portfóliót a hozzárendelésből?"
+
+msgid "exc_target_not_valid"
+msgstr "A kívánt cél még nem való vagy nem teljes."
+
+msgid "exc_task_grading"
+msgstr "‘%1’ feladat értékelése"
+
+msgid "exc_task_peer_feedback"
+msgstr "‘%1’ feladatban visszajelzése küldése"
+
+msgid "exc_task_submission"
+msgstr "‘%1’ feladat beadása"
+
+msgid "exc_tbl_action_download_all_files"
+msgstr "Összes beadott letöltése"
+
+msgid "exc_tbl_action_download_files"
+msgstr "Beadottak letöltése"
+
+msgid "exc_tbl_action_download_new_files"
+msgstr "Új beadottak letöltése"
+
+msgid "exc_tbl_action_feedback_file"
+msgstr "Értékelés küldése fájlban"
+
+msgid "exc_tbl_action_feedback_mail"
+msgstr "Értékelés küldése levélben"
+
+msgid "exc_tbl_action_feedback_text"
+msgstr "Szöveges értékelés írása"
+
+msgid "exc_tbl_action_open_submission"
+msgstr "Beadás megnyitása"
+
+msgid "exc_tbl_action_peer_review_given"
+msgstr "Küldött tanulói visszajelzés megjelenítése"
+
+msgid "exc_tbl_action_peer_review_received"
+msgstr "Kapott tanulói visszajelzés megjelenítése"
+
+msgid "exc_tbl_action_team_log"
+msgstr "Csapatnaplók megjelenítése"
+
+msgid "exc_tbl_action_text_assignment_show"
+msgstr "Beadott megjelenítése"
+
+msgid "exc_tbl_calculated_deadline"
+msgstr "Kiszámolt határidő"
+
+msgid "exc_tbl_comment"
+msgstr "Szöveges értékelés"
+
+msgid "exc_tbl_feedback_time"
+msgstr "Szöveges értékelés időpontja"
+
+msgid "exc_tbl_filter_has_no_submission"
+msgstr "Még adták be"
+
+msgid "exc_tbl_filter_has_submission"
+msgstr "Beadták"
+
+msgid "exc_tbl_filter_submission"
+msgstr "Beadás"
+
+msgid "exc_tbl_filter_submission_after"
+msgstr "Beküldés után"
+
+msgid "exc_tbl_filter_submission_before"
+msgstr "Beküldés előtt"
+
+msgid "exc_tbl_individual_deadline"
+msgstr "Egyéni határidő"
+
+msgid "exc_tbl_mark"
+msgstr "Érdemjegy"
+
+msgid "exc_tbl_notice"
+msgstr "Megjegyzés a tutoroknak"
+
+msgid "exc_tbl_sent_time"
+msgstr "Hozzárendelés elküldésének időpontja"
+
+msgid "exc_tbl_status"
+msgstr "Értékelés"
+
+msgid "exc_tbl_status_time"
+msgstr "Értékelés időpontja"
+
+msgid "exc_tbl_submission_date"
+msgstr "Beküldés időpontja"
+
+msgid "exc_tbl_team"
+msgstr "Csapat"
+
+msgid "exc_team"
+msgstr "Csapat"
+
+msgid "exc_team_assignment_adopt"
+msgstr "Csapatok eltávolítása a meglévő hozzárendelések közül"
+
+msgid "exc_team_assignment_adopt_already_assigned"
+msgstr "már hozzá van rendelve"
+
+msgid "exc_team_assignment_adopt_none"
+msgstr "Ne rendeljen hozzá csapatot"
+
+msgid "exc_team_assignment_adopt_none_user"
+msgstr "Új csapat létrehozása"
+
+msgid "exc_team_assignment_adopt_teams"
+msgstr "Csapatok"
+
+msgid "exc_team_assignment_adopt_user"
+msgstr "Csapat eltávolítása a hozzárendelések közül"
+
+msgid "exc_team_at_least_one"
+msgstr "Legalább egy csapattagnak lennie kell."
+
+msgid "exc_team_by_assignment"
+msgstr "Csapatok örökítése másik feladatból"
+
+msgid "exc_team_by_assignment_info"
+msgstr "Egy másik feladatban létrejött csapatok használata ebben a feladatban."
+
+msgid "exc_team_by_participants"
+msgstr "Önszerveződő csapatok"
+
+msgid "exc_team_by_participants_info"
+msgstr "A résztvevők maguk jelentkeznek a csapatba."
+
+msgid "exc_team_by_random"
+msgstr "Automatikusan, véletlenszerűen létrejövő csapatok"
+
+msgid "exc_team_by_random_add_info"
+msgstr "Ezen mód használata előtt az összes felhasználót hozzá kell rendelnie."
+
+msgid "exc_team_by_random_info"
+msgstr "A megadott számú csapatba az ILIAS rendezi a résztvevőket."
+
+msgid "exc_team_by_tutors"
+msgstr "Vezetők/tutorok hozzák létre a csapatokat"
+
+msgid "exc_team_by_tutors_info"
+msgstr "Vezetők/tutorok rendezik csapatokba a felhasználókat."
+
+msgid "exc_team_by_tutors_manual"
+msgstr "Manuálisan"
+
+msgid "exc_team_by_tutors_manual_info"
+msgstr "A vezetők/tutorok manuálisan osztják csapatokra a felhasználókat."
+
+msgid "exc_team_creation"
+msgstr "Létrehozás"
+
+msgid "exc_team_formation"
+msgstr "Csapatlétrehozás"
+
+msgid "exc_team_log"
+msgstr "Csapatlog"
+
+msgid "exc_team_log_add_file"
+msgstr "Felvett fájl: %s."
+
+msgid "exc_team_log_add_member"
+msgstr "Felvett tag: %s."
+
+msgid "exc_team_log_create_team"
+msgstr "Sikeresen létrehozott egy csapatot."
+
+msgid "exc_team_log_remove_file"
+msgstr "Eltávolított fájl: %s."
+
+msgid "exc_team_log_remove_member"
+msgstr "Eltávolított tag: %s."
+
+msgid "exc_team_max_small_than_members"
+msgstr "A csapat résztvevőinek maximális száma nem lehet %s, mert néhány csapatnak %s résztvevőt kell befogadnia."
+
+msgid "exc_team_member_add"
+msgstr "Csapattag hozzáadása (keresés)"
+
+msgid "exc_team_member_container_add"
+msgstr "Csapattag hozzáadása kurzusból/csoportból"
+
+msgid "exc_team_member_remove_sure"
+msgstr "Biztos, hogy eltávolítja csoportja következő tagjait? ezzel a csoportjába feltöltött összes fájljukat is törli!"
+
+msgid "exc_team_members"
+msgstr "Csapattagok"
+
+msgid "exc_team_min_big_than_max"
+msgstr "A csapat résztvevőinek maximális száma nem lehet kisebb, mint a csapat résztvevőinek minimális száma."
+
+msgid "exc_team_min_small_than_members"
+msgstr "A csapat résztvevőinek minimális száma nem lehet %s, mert néhány csapatok %s résztvevőre lettek beállítva."
+
+msgid "exc_team_minimal_too_big"
+msgstr "A csapat résztvevőinek minimális száma %s, ami túl nagy. Kérem, csökkentse az értéket."
+
+msgid "exc_team_multi_create"
+msgstr "Csapat létrehozása"
+
+msgid "exc_team_multi_dissolve"
+msgstr "Csapat(ok) feloszlatása"
+
+msgid "exc_team_notification_body_add"
+msgstr "ezúton tájékoztatjuk, hogy tag lett egy csapatfeltöltési feladatban."
+
+msgid "exc_team_notification_body_rmv"
+msgstr "ezúton tájékoztatjuk, hogy tagsága megszűnt egy csapatfeltöltési feladatban."
+
+msgid "exc_team_notification_link"
+msgstr "Link a beadandó feladathoz"
+
+msgid "exc_team_notification_reason"
+msgstr "Ezt a levelet azért kapta, mert fent említett csoportnak tagja."
+
+msgid "exc_team_notification_subject_add"
+msgstr "‘%s’ feladatban csapattagság"
+
+msgid "exc_team_notification_subject_rmv"
+msgstr "‘%s’ feladatban csapattagság megszűnése"
+
+msgid "exc_teams_assignment_adopted"
+msgstr "A csapatokat sikeresen örökítettük egy már létező feladatból"
+
+msgid "exc_template"
+msgstr "Sablon"
+
+msgid "exc_text_assignment_edit"
+msgstr "Szöveg módosítása"
+
+msgid "exc_text_assignment_show"
+msgstr "Szöveg megjelenítése"
+
+msgid "exc_text_saved"
+msgstr "A szöveget sikeresen mentette."
+
+msgid "exc_too_many_files"
+msgstr "Túlsok fájlt próbál feltölteni."
+
+msgid "exc_total_exc"
+msgstr "Összes beadandó feladat"
+
+msgid "exc_total_members"
+msgstr "Feladat résztvevőinek összszáma:"
+
+msgid "exc_type"
+msgstr "Típus"
+
+msgid "exc_type_blog"
+msgstr "Blog"
+
+msgid "exc_type_portfolio"
+msgstr "Portfólió"
+
+msgid "exc_type_text"
+msgstr "Szöveg"
+
+msgid "exc_type_upload"
+msgstr "Feltöltés"
+
+msgid "exc_type_upload_team"
+msgstr "Csapatfeltöltés"
+
+msgid "exc_value_can_not_set"
+msgstr "Ez az érték nem állítható be."
+
+msgid "exc_view_portfolio"
+msgstr "Portfólió megtekintése"
+
+msgid "exc_view_wiki"
+msgstr "Wiki megjelenítése"
+
+msgid "exc_wait_for_files"
+msgstr "Letöltése automatikusan elindul 5 másodpercen belül. Amennyiben mégsem, kattintson ide"
+
+msgid "exc_wiki_container"
+msgstr "Wikitároló"
+
+msgid "exc_wiki_container_info"
+msgstr "A hely, ahová a résztvevők a wikijeit létrehozzák."
+
+msgid "exc_with_template"
+msgstr "Portfólióval - Sablon"
+
+msgid "exc_with_template_info"
+msgstr "egy üres portfólió jön létre egy meghatározott portfóliósablonból."
+
+msgid "exc_with_wiki_template"
+msgstr "Wikisablonnal"
+
+msgid "exc_with_wiki_template_info"
+msgstr "A résztvevőknek egy sablont másolunk a wiki létrehozásához."
+
+msgid "exc_without_template"
+msgstr "Portfólió nélkül - Sablon"
+
+msgid "exc_without_template_info"
+msgstr "A résztvevő a porfóliójukat a semmiből építik fel."
+
+msgid "exc_without_wiki_template"
+msgstr "Wikisablon nélkül"
+
+msgid "exc_without_wiki_template_info"
+msgstr "A résztvevők a semmiből hozzák létre a saját wikijüket."
+
+msgid "exc_work_instructions"
+msgstr "Utasítások a feladat elvégzéséhez"
+
+msgid "exc_x_of_y"
+msgstr "/"
+
+msgid "exc_your_text"
+msgstr "Szövege"
+
+msgid "feedback_from"
+msgstr "Visszajelzés feladója"
+
+msgid "feedback_given"
+msgstr "Visszajelzés elküldve"
+
+msgid "feedback_received"
+msgstr "Visszajelzés fogadva"
+
+msgid "fiter_no_results"
+msgstr "A jelenlegi szűrés alapján egy beadványt sem találtunk."
+
+msgid "grade_evaluate"
+msgstr "Minősítés és értékelés"
+
+msgid "not_yet"
+msgstr "még nem"
+
+msgid "submissions_feedback"
+msgstr "A beadványok és a tanulói visszajelzések"
+
+msgid "submissions_only"
+msgstr "Csak a beadványok"
+
+msgid "text_assignment"
+msgstr "Szövegkiosztás"

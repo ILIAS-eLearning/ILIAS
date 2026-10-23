@@ -1,0 +1,381 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: vi\n"
+"Language-Team: Vietnamese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: news\n"
+
+#, fuzzy
+msgid "lso_news_online_title"
+msgstr "A new learning sequence object is online!"
+
+#, fuzzy
+msgid "lso_news_online_txt"
+msgstr "A new object for your learning sequence was just published."
+
+#, fuzzy
+msgid "new_test_online"
+msgstr "The Test was set online."
+
+#, fuzzy
+msgid "news_1_file_created"
+msgstr "1 File has been added."
+
+#, fuzzy
+msgid "news_1_file_updated"
+msgstr "1 File has been updated."
+
+#, fuzzy
+msgid "news_1_postings"
+msgstr "One post has been added."
+
+#, fuzzy
+msgid "news_add_news"
+msgstr "Add News"
+
+#, fuzzy
+msgid "news_all_items"
+msgstr "All Items"
+
+#, fuzzy
+msgid "news_allow_longer_periods"
+msgstr "Allow Longer Periods"
+
+#, fuzzy
+msgid "news_allow_longer_periods_info"
+msgstr "Users may select longer news periods on personal desktop."
+
+#, fuzzy
+msgid "news_allow_shorter_periods"
+msgstr "Allow Shorter Periods"
+
+#, fuzzy
+msgid "news_allow_shorter_periods_info"
+msgstr "Users may select shorter news periods on personal desktop."
+
+#, fuzzy
+msgid "news_attached_to"
+msgstr "Attached to"
+
+#, fuzzy
+msgid "news_block_information"
+msgstr "The <b>News</b> block lists all news that are related to the <b>Personal Items</b> you have selected on the personal desktop."
+
+#, fuzzy
+msgid "news_cache"
+msgstr "News Cache (Minutes)"
+
+#, fuzzy
+msgid "news_cache_info"
+msgstr "Update news blocks all x minutes. '0' means everytime. Higher values improve performance, but news may link to non-accessible items."
+
+#, fuzzy
+msgid "news_default_visibility"
+msgstr "Default Access"
+
+#, fuzzy
+msgid "news_edit_news_settings"
+msgstr "Edit Settings"
+
+#, fuzzy
+msgid "news_enable_internal_news"
+msgstr "Enable Internal News"
+
+#, fuzzy
+msgid "news_enable_internal_news_info"
+msgstr "Activates news blocks for categories, courses, groups and other objects. Users can subscribe to news and news are presented on the personal desktop."
+
+#, fuzzy
+msgid "news_enable_internal_rss"
+msgstr "Enable RSS for Internal News"
+
+#, fuzzy
+msgid "news_enable_internal_rss_info"
+msgstr "Allows to publish news items via RSS. These items will be accessible outside of the system without authentication."
+
+#, fuzzy
+msgid "news_enable_private_feed"
+msgstr "Enable private Newsfeed"
+
+#, fuzzy
+msgid "news_enable_private_feed_info"
+msgstr "If this option is enabled, public and private news can be obtained by personal RSS feeds outside of ILIAS. Authentification is provided by password."
+
+#, fuzzy
+msgid "news_feed_url"
+msgstr "Feed URL"
+
+#, fuzzy
+msgid "news_feed_url_for"
+msgstr "Feed URL for '%s'"
+
+#, fuzzy
+msgid "news_first_letter_of_word_notification"
+msgstr "N"
+
+#, fuzzy
+msgid "news_get_feed_info"
+msgstr "This is a personal news feed URL. The feed includes only news that are declared as public by the author. The feed is not protected by any authentication procedure. Please do not share this URL with other people."
+
+#, fuzzy
+msgid "news_get_feed_title"
+msgstr "Personal Feed URL"
+
+#, fuzzy
+msgid "news_get_feed_url"
+msgstr "Get Feed URL"
+
+#, fuzzy
+msgid "news_get_priv_feed_info"
+msgstr "This is a personal private news feed URL. The feed includes news that are declared as public and private by the author. This feed is protected by a password, which can be changed under \"Settings\". Please do not share this URL with other people. Please replace -password- in this URL with your Feed-Password."
+
+#, fuzzy
+msgid "news_get_priv_feed_title"
+msgstr "Personal private Feed-URL"
+
+#, fuzzy
+msgid "news_hide_news_block"
+msgstr "Hide News Block"
+
+#, fuzzy
+msgid "news_hide_news_block_info"
+msgstr "Hide block in learner's view. The news block will only be visible for users with write permission."
+
+#, fuzzy
+msgid "news_hide_news_date"
+msgstr "Starting Date"
+
+#, fuzzy
+msgid "news_hide_news_per_date"
+msgstr "Show News After"
+
+#, fuzzy
+msgid "news_hide_news_per_date_info"
+msgstr "Only news that are newer than a certain date will be displayed."
+
+#, fuzzy
+msgid "news_inactive_private_feed_info"
+msgstr "Your private news feed is deactivated. Please set a password in the settings."
+
+#, fuzzy
+msgid "news_internal_news"
+msgstr "Internal News"
+
+#, fuzzy
+msgid "news_keep_minimal_x_items"
+msgstr "Keep at least x items"
+
+#, fuzzy
+msgid "news_keep_minimal_x_items_info"
+msgstr "If set to a value > 0, this is the number of items that are kept in the feed, even if they are older than the default lifetime."
+
+#, fuzzy
+msgid "news_loading_news"
+msgstr "Loading News..."
+
+#, fuzzy
+msgid "news_media"
+msgstr "Media File"
+
+#, fuzzy
+msgid "news_new_comments"
+msgstr "New comments"
+
+#, fuzzy
+msgid "news_new_reactions"
+msgstr "New reactions"
+
+#, fuzzy
+msgid "news_news_block"
+msgstr "News Block"
+
+#, fuzzy
+msgid "news_news_item_content"
+msgstr "Text"
+
+#, fuzzy
+msgid "news_news_item_content_long"
+msgstr "Long Text"
+
+#, fuzzy
+msgid "news_news_item_content_long_info"
+msgstr "This text will not be published via RSS."
+
+#, fuzzy
+msgid "news_news_item_def_visibility_public_info"
+msgstr "Current news are accessible in a public RSS webfeed. They should not contain confidential information."
+
+#, fuzzy
+msgid "news_news_item_def_visibility_users_info"
+msgstr "Only authenticated users have access to current news."
+
+#, fuzzy
+msgid "news_news_item_head"
+msgstr "News Item"
+
+#, fuzzy
+msgid "news_news_item_title"
+msgstr "Headline"
+
+#, fuzzy
+msgid "news_news_item_visibility"
+msgstr "Access"
+
+#, fuzzy
+msgid "news_news_item_visibility_info"
+msgstr "Public news can be accessed without authentication outside of ILIAS via RSS. Please do not include any confidential information."
+
+#, fuzzy
+msgid "news_news_items"
+msgstr "News Item(s)"
+
+#, fuzzy
+msgid "news_no_js_click_here"
+msgstr "If news are not displayed, click here."
+
+#, fuzzy
+msgid "news_no_news_items"
+msgstr "No news available."
+
+#, fuzzy
+msgid "news_not_available"
+msgstr "Unavailable News"
+
+#, fuzzy
+msgid "news_notifications"
+msgstr "Notifications"
+
+#, fuzzy
+msgid "news_notifications_public"
+msgstr "Public Notifications"
+
+#, fuzzy
+msgid "news_notifications_public_info"
+msgstr "If this option is enabled, notifications can be obtained by personal RSS feeds outside of ILIAS. Please note that this makes notifications accessible without authentification."
+
+#, fuzzy
+msgid "news_nr_of_items"
+msgstr "Number of Maximum News Items per Object"
+
+#, fuzzy
+msgid "news_nr_of_items_info"
+msgstr "Number of news items that are kept for an object (e.g. a file or a learning module) in the database. Please note, that container objects (e.g. categories, courses) may list more items, because they aggregate news of subobjects."
+
+#, fuzzy
+msgid "news_pd_period"
+msgstr "Personal Desktop News Period"
+
+#, fuzzy
+msgid "news_pd_period_info"
+msgstr "Defines the time period used for news on the personal desktop. Select lower values, if you experience any performance problems."
+
+#, fuzzy
+msgid "news_period_1_month"
+msgstr "Last Month"
+
+#, fuzzy
+msgid "news_period_1_week"
+msgstr "Last Week"
+
+#, fuzzy
+msgid "news_period_1_year"
+msgstr "Last Year"
+
+#, fuzzy
+msgid "news_period_x_days"
+msgstr "Last %s Days"
+
+#, fuzzy
+msgid "news_period_x_months"
+msgstr "Last %s Months"
+
+#, fuzzy
+msgid "news_period_x_weeks"
+msgstr "Last %s Weeks"
+
+#, fuzzy
+msgid "news_public_feed"
+msgstr "Extra Feed URL"
+
+#, fuzzy
+msgid "news_public_feed_info"
+msgstr "If this option is enabled, a separated news feed url for this item is provided."
+
+#, fuzzy
+msgid "news_really_delete_news"
+msgstr "Do you really want to delete this news item?"
+
+#, fuzzy
+msgid "news_rss"
+msgstr "RSS"
+
+#, fuzzy
+msgid "news_rss_period"
+msgstr "RSS Period"
+
+#, fuzzy
+msgid "news_rss_title_format"
+msgstr "Title Format of RSS Entries"
+
+#, fuzzy
+msgid "news_rss_title_format_news_obj"
+msgstr "News Headline (Object Title)"
+
+#, fuzzy
+msgid "news_rss_title_format_obj_news"
+msgstr "Object Title - News Headline"
+
+#, fuzzy
+msgid "news_settings"
+msgstr "News Settings"
+
+#, fuzzy
+msgid "news_sorry_not_accessible_anymore"
+msgstr "Sorry, this item is not accessible anymore."
+
+#, fuzzy
+msgid "news_time_period"
+msgstr "Time Period"
+
+#, fuzzy
+msgid "news_timline_add_entries_info"
+msgstr "No news available yet. Click \"Add\" to create news entries."
+
+#, fuzzy
+msgid "news_timline_no_entries"
+msgstr "No news have been found."
+
+#, fuzzy
+msgid "news_visibility_public"
+msgstr "Public"
+
+#, fuzzy
+msgid "news_visibility_users"
+msgstr "Logged in Users"
+
+#, fuzzy
+msgid "news_x_files_created"
+msgstr "%s Files have been added."
+
+#, fuzzy
+msgid "news_x_files_updated"
+msgstr "%s Files have been updated."
+
+#, fuzzy
+msgid "news_x_postings"
+msgstr "%s Postings have been added."
+
+#, fuzzy
+msgid "passwd_equals_ilpasswd"
+msgstr "Please enter a password different from your ILIAS-password."
+
+#, fuzzy
+msgid "priv_feed_disabled"
+msgstr "Private Newsfeed disabled."
+
+#, fuzzy
+msgid "priv_feed_settings"
+msgstr "Private Newsfeed settings"

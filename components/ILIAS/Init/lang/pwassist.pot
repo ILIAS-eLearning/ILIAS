@@ -1,0 +1,48 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: pwassist\n"
+
+msgid "password_assistance"
+msgstr ""
+
+msgid "pwassist_disabled_no_access"
+msgstr ""
+
+msgid "pwassist_enter_email"
+msgstr ""
+
+msgid "pwassist_enter_username_and_email"
+msgstr ""
+
+msgid "pwassist_enter_username_and_new_password"
+msgstr ""
+
+msgid "pwassist_login_not_match"
+msgstr ""
+
+msgid "pwassist_mail_body"
+msgstr ""
+
+msgid "pwassist_mail_sent"
+msgstr ""
+
+msgid "pwassist_mail_sent_generic"
+msgstr ""
+
+msgid "pwassist_mail_subject"
+msgstr ""
+
+msgid "pwassist_password_assigned"
+msgstr ""
+
+msgid "pwassist_session_expired"
+msgstr ""
+
+msgid "pwassist_username_mail_body"
+msgstr ""
+
+msgid "unassist_disabled_no_access"
+msgstr ""

@@ -1,0 +1,590 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: wiki\n"
+
+msgid "wiki_activate_extended_rating"
+msgstr "評価カテゴリを有効化"
+
+msgid "wiki_activate_new_page_rating"
+msgstr "新しいページの評価を有効化"
+
+msgid "wiki_activate_page_rating"
+msgstr "評価を有効"
+
+msgid "wiki_activate_rating"
+msgstr "評価を有効にする"
+
+msgid "wiki_add_link"
+msgstr "リンクを追加"
+
+msgid "wiki_add_template"
+msgstr "テンプレートステータスを設定"
+
+msgid "wiki_advmd_block_title"
+msgstr "ページの詳細メタデータ"
+
+msgid "wiki_all_pages"
+msgstr "全ページ"
+
+msgid "wiki_block_page"
+msgstr "読み込み権のみに設定"
+
+msgid "wiki_change_notification_body_new"
+msgstr "次のwikiページが作成されました。"
+
+msgid "wiki_change_notification_link"
+msgstr "URL"
+
+msgid "wiki_change_notification_page_body_comment"
+msgstr "コメントが次のwiliページへ追加されました。"
+
+msgid "wiki_change_notification_page_body_delete"
+msgstr "次のwikiページが削除されました。"
+
+msgid "wiki_change_notification_page_body_update"
+msgstr "次のwikiページがアップロードされました"
+
+msgid "wiki_change_notification_page_link"
+msgstr "URL"
+
+msgid "wiki_change_notification_salutation"
+msgstr "こんにちは%s, さん"
+
+msgid "wiki_change_notification_subject"
+msgstr "Wiki \"%1$s\" が更新されました: %2$s"
+
+msgid "wiki_changed_by"
+msgstr "更新者"
+
+#, fuzzy
+msgid "wiki_comment"
+msgstr "Comment"
+
+#, fuzzy
+msgid "wiki_comment_for_learner"
+msgstr "Feedback for contributor"
+
+msgid "wiki_commented_by"
+msgstr "コメント者"
+
+msgid "wiki_contributor"
+msgstr "寄稿者"
+
+msgid "wiki_contributors"
+msgstr "寄稿者"
+
+msgid "wiki_copy"
+msgstr "Wikiをコピー"
+
+msgid "wiki_create_page"
+msgstr "ページを作成"
+
+msgid "wiki_created_by"
+msgstr "作成者"
+
+msgid "wiki_deactivate_page_rating"
+msgstr "評価を解除"
+
+msgid "wiki_delete_page"
+msgstr "ページ削除"
+
+msgid "wiki_download_submission"
+msgstr "提出ファイルをダウンロード"
+
+msgid "wiki_empty_page"
+msgstr "空のページ"
+
+msgid "wiki_empty_page_template"
+msgstr "ページ作成時の空ページテンプレート"
+
+msgid "wiki_exc_template"
+msgstr "Wiki テンプレート"
+
+msgid "wiki_exc_wiki_created"
+msgstr "Wiki が作成されました。"
+
+msgid "wiki_exercise_info"
+msgstr " この wiki は演習 \"%s\"の\"%s\" の割当ての一部です。"
+
+msgid "wiki_exercise_submitted_info"
+msgstr "最終提出日は%sでした。エクスポートファイルをチェックしてください。"
+
+msgid "wiki_failed"
+msgstr "失敗"
+
+msgid "wiki_feedback_from_tutor"
+msgstr "指導教員からのからのフィードバック"
+
+msgid "wiki_finalize_wiki"
+msgstr "Wiki の最終化と提出"
+
+msgid "wiki_finalized"
+msgstr "Wiki は最終化されて提出されました。"
+
+msgid "wiki_functions"
+msgstr "Wiki機能"
+
+msgid "wiki_general_settings"
+msgstr "全般設定"
+
+msgid "wiki_grading"
+msgstr "評価"
+
+msgid "wiki_html_export"
+msgstr "HTMLエクスポート"
+
+msgid "wiki_imp_page_added"
+msgstr "ページが追加されました。"
+
+msgid "wiki_import"
+msgstr "Wikiをインポート"
+
+msgid "wiki_incl_comments"
+msgstr "コメントを含める"
+
+msgid "wiki_indentation"
+msgstr "字下げ"
+
+msgid "wiki_introduction"
+msgstr "Introduction"
+
+msgid "wiki_last_changed"
+msgstr "最終変更"
+
+msgid "wiki_last_changed_by"
+msgstr "最終更新者"
+
+msgid "wiki_last_edited"
+msgstr "最終更新"
+
+msgid "wiki_last_visited_page"
+msgstr "前回訪問ページ"
+
+msgid "wiki_link_md_values"
+msgstr "自動リンク"
+
+msgid "wiki_link_md_values_info"
+msgstr "同一名のwikiページのサイドブロックに表示されるプロパティーへ自動的にリンクします。"
+
+msgid "wiki_link_text"
+msgstr "リンクテキスト"
+
+msgid "wiki_mark"
+msgstr "マーク"
+
+msgid "wiki_master_existing"
+msgstr "ページがマスター言語内に存在します。"
+
+msgid "wiki_master_title"
+msgstr "マスター言語内にページタイトル"
+
+msgid "wiki_navigation"
+msgstr "Wikiナビゲーション"
+
+msgid "wiki_navigation_info"
+msgstr "wikiのナビゲーションブロックの現在のwikiページへ追加と削除ができます。"
+
+msgid "wiki_new_page"
+msgstr "新規ページ"
+
+msgid "wiki_new_page_name"
+msgstr "新規タイトル"
+
+msgid "wiki_new_pages"
+msgstr "新規ページ"
+
+msgid "wiki_news_page_changed"
+msgstr "Wikiページは更新されました。"
+
+msgid "wiki_news_page_created"
+msgstr "新規Wikページが作成されました。"
+
+msgid "wiki_no_master"
+msgstr "マスター言語内にページがありません。"
+
+msgid "wiki_no_page_found"
+msgstr "Wikiページには検索用語\"$1\"がありませんでした。"
+
+msgid "wiki_no_search_term"
+msgstr "検索用語が入力されていません。wikiの全ページは以下にリストされます。"
+
+msgid "wiki_no_start_page"
+msgstr "Wikiに有効な開始ページがありません。"
+
+msgid "wiki_not_existing"
+msgstr "まだ存在していません"
+
+msgid "wiki_notgraded"
+msgstr "未評価"
+
+msgid "wiki_notification_activate_page"
+msgstr "ページ通知を有効"
+
+msgid "wiki_notification_activate_wiki"
+msgstr "Wiki通知を有効"
+
+msgid "wiki_notification_activated"
+msgstr "(全Wiki)の通知が有効になりました"
+
+msgid "wiki_notification_comment"
+msgstr "次のWiki Pageはコメントがありました。"
+
+msgid "wiki_notification_comment_subject"
+msgstr " %sへコメントが追加されました: %s"
+
+msgid "wiki_notification_deactivate_page"
+msgstr "ページ通知を無効"
+
+msgid "wiki_notification_deactivate_wiki"
+msgstr "Wiki通知を無効"
+
+msgid "wiki_notification_deactivated"
+msgstr "オフになっている通知"
+
+msgid "wiki_number_users_notes_or_comments"
+msgstr "このページに添付されたメモやコメントのユーザ数"
+
+msgid "wiki_ordering"
+msgstr "順番"
+
+msgid "wiki_ordering_and_indent_saved"
+msgstr "順番と字下げを保存しました"
+
+msgid "wiki_orphaned_pages"
+msgstr "Orphaned(孤立)ページ"
+
+msgid "wiki_other_pages_linking"
+msgstr "このページにリンクしている他のページ"
+
+msgid "wiki_page"
+msgstr "ページ"
+
+msgid "wiki_page_actions"
+msgstr "ページアクション"
+
+msgid "wiki_page_already_exists"
+msgstr "このタイトルのページはすでに存在します。"
+
+msgid "wiki_page_blocked"
+msgstr "Wikiページを読み込み権のみに設定しました。≪Edit Settings≫アクセス権のあるユーザのみ書き込みアクセス権があります。"
+
+msgid "wiki_page_changes"
+msgstr "ページ変更"
+
+msgid "wiki_page_deleted"
+msgstr "Wiki ページを削除しました。"
+
+msgid "wiki_page_deletion_confirmation"
+msgstr "このWikiページを削除しますか?"
+
+msgid "wiki_page_exists"
+msgstr "現在のページ"
+
+msgid "wiki_page_hits"
+msgstr "ページヒット"
+
+msgid "wiki_page_in_master_language"
+msgstr "マスター言語内にページ"
+
+msgid "wiki_page_list_form_info"
+msgstr "以下のメタデータ選択するのに全て割り当てられるこのwikiのページリストを追加します。"
+
+msgid "wiki_page_list_mode"
+msgstr "リストのタイプ"
+
+msgid "wiki_page_list_mode_ordered"
+msgstr "番号付け"
+
+msgid "wiki_page_list_mode_unordered"
+msgstr "未割付"
+
+msgid "wiki_page_lists"
+msgstr "ページリスト"
+
+msgid "wiki_page_not_exist_select_templ"
+msgstr "このページはまだ存在しません。新しいページ用のテンプレートを選択してください。"
+
+msgid "wiki_page_notification_activated"
+msgstr "(単一ページ)の通知が有効になりました"
+
+msgid "wiki_page_status_blocked"
+msgstr "このページはRead-Onlyです。"
+
+msgid "wiki_page_template"
+msgstr "ページテンプレート"
+
+msgid "wiki_page_templates"
+msgstr "ページテンプレート"
+
+msgid "wiki_page_title_too_long"
+msgstr "申し訳ありませんがwikiページのタイトルが長すぎます。短いタイトルへ変更してください。"
+
+msgid "wiki_page_toc"
+msgstr "ページ概要ブロックを起動する"
+
+msgid "wiki_page_toc_info"
+msgstr "ページが2つ以上の見出しを使用する場合には各ページの開始部分のコンテンツへリンクされる全ての見出しを表示します。"
+
+msgid "wiki_page_type_wpg"
+msgstr "Wiki Page"
+
+msgid "wiki_page_unblocked"
+msgstr "ユーザには書込みアクセス権があります。"
+
+msgid "wiki_pages"
+msgstr "ページ"
+
+msgid "wiki_pages_found"
+msgstr "以降のページは検索用語'$1'に一致します。"
+
+msgid "wiki_passed"
+msgstr "成功"
+
+msgid "wiki_pg_list_no_search_fields"
+msgstr "wikiのメタデータセット内に検索可能なメターデータフィールドが見つかりませんでした。"
+
+msgid "wiki_please_enter_search_term"
+msgstr "検索用語を入力してください。"
+
+msgid "wiki_popular_pages"
+msgstr "人気のあるページ"
+
+msgid "wiki_print_view"
+msgstr "印刷ビュー"
+
+msgid "wiki_public_comments"
+msgstr "パブリックコメント"
+
+msgid "wiki_purpose"
+msgstr "目的"
+
+msgid "wiki_quick_navigation"
+msgstr "Wikiクイックナビゲーション"
+
+msgid "wiki_rate_overall"
+msgstr "Wikiを評価"
+
+msgid "wiki_rate_page"
+msgstr "このページの評価"
+
+msgid "wiki_recent_changes"
+msgstr "最近の更新"
+
+msgid "wiki_remove_template_status"
+msgstr "テンプレートステータスを削除"
+
+msgid "wiki_removed_imp_pages"
+msgstr "重要ページがリストから削除されました。"
+
+msgid "wiki_rename"
+msgstr "名前を変更"
+
+msgid "wiki_rename_page"
+msgstr "名前変更ページ"
+
+msgid "wiki_save_ordering_and_indent"
+msgstr "順番と字下げを保存"
+
+msgid "wiki_search"
+msgstr "検索"
+
+msgid "wiki_search_results"
+msgstr "検索結果"
+
+msgid "wiki_sec_protect_info"
+msgstr "保護されたセクションは\"編集設定\"アクセス権を持つユーザのみが編集できます。"
+
+msgid "wiki_select_one_item"
+msgstr "アイテムを一つ選択してください。"
+
+msgid "wiki_selected_pages"
+msgstr "選択ページ"
+
+msgid "wiki_set_as_start_page"
+msgstr "開始ページとして設定"
+
+msgid "wiki_settings"
+msgstr "Wiki 設定"
+
+msgid "wiki_short_title_already_in_use"
+msgstr "このタイトルは既にほかのWikiで使用されています。違うタイトルを選択してください。"
+
+msgid "wiki_show_pdf_export"
+msgstr "PDFエクスポート"
+
+msgid "wiki_show_print_view"
+msgstr "プリントビュー"
+
+msgid "wiki_start_page"
+msgstr "開始ページ"
+
+msgid "wiki_start_page_info"
+msgstr "このタイトルでページが存在しない場合は新規ページが作成されます。"
+
+msgid "wiki_stat_chars"
+msgstr "文字数"
+
+msgid "wiki_stat_chars_avg"
+msgstr "ページあたりの平均文字数"
+
+msgid "wiki_stat_deleted_pages"
+msgstr "削除されたページ数"
+
+msgid "wiki_stat_edit_pages"
+msgstr "編集されたページ数"
+
+msgid "wiki_stat_edit_pages_avg"
+msgstr "ユーザあたりの平均編集数"
+
+msgid "wiki_stat_external_links"
+msgstr "外部リンク数"
+
+msgid "wiki_stat_external_links_avg"
+msgstr "ページあたりの平均外部リンク数"
+
+msgid "wiki_stat_figure"
+msgstr "図"
+
+msgid "wiki_stat_footnotes"
+msgstr "脚注数"
+
+msgid "wiki_stat_footnotes_avg"
+msgstr "ページあたりの脚注数"
+
+msgid "wiki_stat_internal_links"
+msgstr "外部リンク数"
+
+msgid "wiki_stat_internal_links_avg"
+msgstr "ページあたりの平均外部リンク数"
+
+msgid "wiki_stat_new_pages"
+msgstr "新規ページ数"
+
+msgid "wiki_stat_new_pages_avg"
+msgstr "ユーザあたりの平均新規ページ数"
+
+msgid "wiki_stat_num_pages"
+msgstr "ページ数"
+
+msgid "wiki_stat_num_rating"
+msgstr "レーティング数"
+
+msgid "wiki_stat_num_rating_avg"
+msgstr "ページあたりの平均レート数"
+
+msgid "wiki_stat_page_changes"
+msgstr "変更数"
+
+msgid "wiki_stat_page_changes_avg"
+msgstr "平均変更数"
+
+msgid "wiki_stat_page_characters"
+msgstr "文字数"
+
+msgid "wiki_stat_page_external_links"
+msgstr "外部リンク数"
+
+msgid "wiki_stat_page_footnotes"
+msgstr "脚注数"
+
+msgid "wiki_stat_page_internal_links"
+msgstr "外部リンク数"
+
+msgid "wiki_stat_page_ratings"
+msgstr "レーティング数"
+
+msgid "wiki_stat_page_read"
+msgstr "読み込みアクセス数"
+
+msgid "wiki_stat_page_user_edit"
+msgstr "ページ編集したユーザ数"
+
+msgid "wiki_stat_page_words"
+msgstr "単語数"
+
+msgid "wiki_stat_rating_avg"
+msgstr "平均レート"
+
+msgid "wiki_stat_read_pages"
+msgstr "読み込みアクセス数"
+
+msgid "wiki_stat_scope"
+msgstr "時間軸"
+
+msgid "wiki_stat_user_edit_pages"
+msgstr "編集した平均ユーザ数"
+
+msgid "wiki_stat_user_edit_pages_avg"
+msgstr "ページ編集した平均ユーザ数"
+
+msgid "wiki_stat_words"
+msgstr "単語数"
+
+msgid "wiki_stat_words_avg"
+msgstr "ページあたりの平均単語数"
+
+msgid "wiki_style"
+msgstr "スタイル"
+
+msgid "wiki_sure_remove_imp_pages"
+msgstr "重要ページのリストから次のページを本当に削除しますか?"
+
+msgid "wiki_target_page"
+msgstr "ターゲットページ"
+
+msgid "wiki_team_members"
+msgstr "Team Members"
+
+msgid "wiki_templ_add_to_page"
+msgstr "既存ページへの追加動作は可能"
+
+msgid "wiki_templ_new_pages"
+msgstr "ページ作成可能"
+
+msgid "wiki_template_added"
+msgstr "テンプレートページが追加されました。"
+
+msgid "wiki_template_status_removed"
+msgstr "テンプレートステータスが削除されました。"
+
+msgid "wiki_translate_page_master_info"
+msgstr "新しいWikiページ翻訳を作成しました。この翻訳がページの既存マスターページに属する場合、あるいは全く新しいページが作成される場合は指定してください。二番目の場合は、マスターバージョンのページタイトルを指定する必要があります。"
+
+msgid "wiki_translation_page"
+msgstr "翻訳ページ"
+
+msgid "wiki_translations"
+msgstr "翻訳"
+
+msgid "wiki_type_wiki_team"
+msgstr "Team Wiki"
+
+msgid "wiki_unblock_page"
+msgstr "書込みアクセスを許可"
+
+msgid "wiki_unhide_meta_adv_records"
+msgstr "追加のプロパティを表示"
+
+msgid "wiki_what_links_here"
+msgstr "ここへのリンクは?"
+
+msgid "wiki_what_links_to_page"
+msgstr "ページ \"%s\"へのリンクは?"
+
+msgid "wiki_whole_wiki"
+msgstr "Wiki全体"
+
+msgid "wiki_wiki_page"
+msgstr "Wikiページ"
+
+msgid "wiki_wiki_search"
+msgstr "Wiki検索"
+
+msgid "wiki_wpg"
+msgstr "Wikiページ"

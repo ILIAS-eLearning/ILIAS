@@ -1,0 +1,33 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sk\n"
+"Language-Team: Slovak\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: classification\n"
+
+#, fuzzy
+msgid "clsfct_back_to_cat"
+msgstr "Back to Category"
+
+#, fuzzy
+msgid "clsfct_block_info"
+msgstr "Your Selection filters the objects."
+
+#, fuzzy
+msgid "clsfct_block_title"
+msgstr "Selection by Topics"
+
+#, fuzzy
+msgid "clsfct_content_no_match"
+msgstr "No hits"
+
+#, fuzzy
+msgid "clsfct_content_title"
+msgstr "Objects matching your selection"
+
+#, fuzzy
+msgid "clsfct_selected_objects"
+msgstr "Selected Objects"

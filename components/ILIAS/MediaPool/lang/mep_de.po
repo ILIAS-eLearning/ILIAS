@@ -1,0 +1,162 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: mep\n"
+
+msgid "mep_all"
+msgstr "Alle"
+
+msgid "mep_all_mobs"
+msgstr "Alle Medienobjekte"
+
+msgid "mep_bulk_upload"
+msgstr "Massen-Upload"
+
+msgid "mep_choose_from_folder"
+msgstr "Aus Ordner auswählen"
+
+msgid "mep_choose_from_mep"
+msgstr "Aus Pool auswählen"
+
+msgid "mep_clipboard_info"
+msgstr "Hier können Sie Mediendateien hochladen, auf die Sie anschließend von jeder Seite, auf der Sie Zugriff auf den Seiteneditor haben, zugreifen können. Ebenfalls können Sie das Clipboard in Medienpools nutzen. Dieser Speicher ist nur für Sie und kann nicht von anderen Benutzern eingesehen werden."
+
+msgid "mep_content"
+msgstr "Medienobjekte"
+
+msgid "mep_content_snippet_in_use"
+msgstr "Inhaltsbaustein „%s“ wird verwendet und kann daher nicht gelöscht werden."
+
+msgid "mep_content_snippet_used_in_older_versions"
+msgstr "Achtung: Der Inhaltsbaustein wurde in älteren Versionen von einigen Seiten genutzt. Wenn so eine Version einer Seite wiederhergestellt wird, wird der Inhaltsbaustein in ihr fehlen."
+
+msgid "mep_copy_to_mep"
+msgstr "In Medienpool kopieren"
+
+msgid "mep_create_content_snippet"
+msgstr "Inhaltsbaustein anlegen"
+
+msgid "mep_create_folder"
+msgstr "Ordner anlegen"
+
+msgid "mep_create_media_files"
+msgstr "Mediaobjekte anlegen"
+
+msgid "mep_create_mob"
+msgstr "Medienobjekt anlegen"
+
+msgid "mep_default_height"
+msgstr "Standardhöhe"
+
+msgid "mep_default_width"
+msgstr "Standardbreite"
+
+msgid "mep_default_width_height_info"
+msgstr "Standardbreite und -höhe werden als Voreinstellung für neue Medienobjekte verwendet."
+
+msgid "mep_edit_content_snippet"
+msgstr "Inhaltsbaustein bearbeiten"
+
+msgid "mep_edit_folder"
+msgstr "Ordner bearbeiten"
+
+msgid "mep_file"
+msgstr "Datei"
+
+msgid "mep_folder"
+msgstr "Ordner"
+
+msgid "mep_format"
+msgstr "Format"
+
+msgid "mep_import"
+msgstr "Medienpool importieren"
+
+msgid "mep_import_lang"
+msgstr "Zielsprache"
+
+msgid "mep_import_trans"
+msgstr "Übersetzung importieren"
+
+msgid "mep_master_language_only"
+msgstr "Basissprache für Übersetzung - Master"
+
+msgid "mep_master_language_only_no_media"
+msgstr "Basissprache für Übersetzung - ohne Medienobjekte"
+
+msgid "mep_media_files"
+msgstr "Mediendateien"
+
+msgid "mep_media_subtitles"
+msgstr "Untertitel"
+
+msgid "mep_mob"
+msgstr "Medienobjekt"
+
+msgid "mep_move_select_insert"
+msgstr "Navigieren Sie zum Zielordner und wählen Sie „Einfügen“."
+
+msgid "mep_mpg"
+msgstr "Inhaltsbaustein"
+
+msgid "mep_new_content_snippet"
+msgstr "Neuer Inhaltsbaustein"
+
+msgid "mep_new_folder"
+msgstr "Neuer Ordner"
+
+msgid "mep_page_properties"
+msgstr "Eigenschaften des Bausteins"
+
+msgid "mep_page_type_mep"
+msgstr "Inhaltsbaustein"
+
+msgid "mep_thumbnail"
+msgstr "Miniaturbild"
+
+msgid "mep_title_and_description"
+msgstr "Titel und Beschreibung"
+
+msgid "mep_trans_import_info"
+msgstr "Wenn Sie dieses Modul als \"XML (Basissprache für Übersetzung - Master)\" in eine andere Installation exportiert haben, können Sie hier die übersetzten Export-Dateien dieser Installation wieder importieren."
+
+msgid "mep_unknown"
+msgstr "Unbekannt"
+
+msgid "mep_up_dir_copy"
+msgstr "Dateien aus Upload-Verzeichnis kopieren (Erhält Dateien in Upload-Verzeichnis)"
+
+msgid "mep_up_dir_move"
+msgstr "Dateien aus Upload-Verzeichnis verschieben (Schneller)"
+
+msgid "mep_upload_dir_files"
+msgstr "Dateien aus Upload-Verzeichnis"
+
+msgid "mobs_activate_pages"
+msgstr "Inhaltsbausteine nutzen"
+
+msgid "mobs_activate_pages_info"
+msgstr "Ermöglicht es, Seiteninhalte als Bausteine in Medienpools anzulegen. Diese Inhaltsbausteine können in ILIAS Lernmodulen wiederverwendet, aber dort nicht bearbeitet werden."
+
+msgid "mobs_always_show_file_manager"
+msgstr "Dateistruktur immer anzeigen"
+
+msgid "mobs_always_show_file_manager_info"
+msgstr "Wenn deaktiviert, wird die Dateistruktur für einfache Datentypen, wie z.B. Bilder, nicht angezeigt."
+
+msgid "mobs_black_list_file_types"
+msgstr "Verbotene Dateitypen"
+
+msgid "mobs_black_list_file_types_and_allowed_info"
+msgstr "Diese Liste schränkt die Menge der erlaubten Dateitypen ein. Tragen Sie dazu die jeweilige MIME-Typen mit Komma getrennt ein (z.B. text/html, application/pdf). Aktuell erlaubte MIME-Typen:"
+
+msgid "mobs_restrict_file_types"
+msgstr "Erlaubte Dateitypen"
+
+msgid "mobs_restrict_file_types_info"
+msgstr "Bestimmen Sie alle Dateitypen, die in Medienobjekten hochgeladen werden dürfen. Tragen Sie dazu die jeweilige Dateiendungen mit Komma getrennt ein (z.B. jpg, gif). Wird kein Eintrag vorgenommen, sind alle Typen erlaubt."

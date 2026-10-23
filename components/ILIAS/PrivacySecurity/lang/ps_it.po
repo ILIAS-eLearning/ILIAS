@@ -1,0 +1,313 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: ps\n"
+
+msgid "cdf_edited_by_self"
+msgstr "dall’utente"
+
+msgid "crs_ps_cdf_info"
+msgstr "Ulteriori dati relativi al corso. Compila i seguenti campi."
+
+msgid "crs_ps_required_info"
+msgstr "Per accedere al corso è necessario riempire questi campi."
+
+msgid "grp_ps_cdf_info"
+msgstr "Per accedere al gruppo è necessario riempire questi campi."
+
+msgid "grp_ps_required_info"
+msgstr "Per l'accesso a questo gruppo è necessario compilari ulteriori campi."
+
+msgid "ps_agreement_accepted"
+msgstr "Condizioni di accesso accettate"
+
+msgid "ps_auto_https"
+msgstr "rilevazione automatica del HTTPS"
+
+msgid "ps_auto_https_description"
+msgstr "Se abilitato, ILIAS prova a rilevare la condizione HTTPS analizzando il valore dell'intestazione specificato qui sotto."
+
+msgid "ps_auto_https_header_name"
+msgstr "Nome Intestazione"
+
+msgid "ps_auto_https_header_value"
+msgstr "Valore dell'Intestazione"
+
+msgid "ps_btn_add_value"
+msgstr "Nuovo Valore"
+
+msgid "ps_cdf_add_field"
+msgstr "Inserisci campo utente"
+
+msgid "ps_cdf_added_field"
+msgstr "Inserita nuova box di selezione"
+
+msgid "ps_cdf_data_fields"
+msgstr "Campo dati disponibile"
+
+msgid "ps_cdf_delete_sure"
+msgstr "Vuoi cancellare realmente questi campi utente?"
+
+msgid "ps_cdf_deleted"
+msgstr "Cancellati i campi utente"
+
+msgid "ps_cdf_deleted_field"
+msgstr "valore cancellato"
+
+msgid "ps_cdf_edit_field"
+msgstr "Modifica questo campo dati"
+
+msgid "ps_cdf_name"
+msgstr "Nome"
+
+msgid "ps_cdf_no_fields"
+msgstr "Questo corso non contiene campi dati"
+
+msgid "ps_cdf_no_name_given"
+msgstr "Inserisci Nome."
+
+msgid "ps_cdf_required"
+msgstr "Campo obbligatorio"
+
+msgid "ps_cdf_select_one"
+msgstr "Seleziona uno"
+
+msgid "ps_cdf_type"
+msgstr "Tipo"
+
+msgid "ps_cdf_value"
+msgstr "Valore"
+
+msgid "ps_cdf_warning_modify"
+msgstr "Attenzione: almeno un utente ha accettato le condizioni di uso. Modificando questi campi utente specifici verranno  resettate le condizioni di uso."
+
+msgid "ps_crs_user_fields"
+msgstr "Campi Utente specifici del corso"
+
+msgid "ps_error_message_https_header_missing"
+msgstr "Se abilitate la rilevazione automatica dell'HTTPS dovete fornire un valore ed un nome dell'intestazione."
+
+msgid "ps_error_message_invalid_login_max_attempts"
+msgstr "Il numero massimo di tentativi di login non può essere minore di zero (0)."
+
+msgid "ps_error_message_invalid_password_max_age"
+msgstr "La durata massima della password non può essere minore di zero (0)."
+
+msgid "ps_error_message_invalid_password_max_length"
+msgstr "La grandezza massima della password non può essere minore di zero (0)."
+
+msgid "ps_error_message_invalid_password_min_length"
+msgstr "La grandezza minima della password non può essere minore di zero (0)."
+
+msgid "ps_error_message_password_max_less_min"
+msgstr "La grandezza massima della password non può essere minore della grandezza minima."
+
+msgid "ps_error_message_password_min1_because_chars"
+msgstr "La grandezza della password non può essere minore di %s."
+
+msgid "ps_error_message_password_min2_because_chars_numbers"
+msgstr "La grandezza massima della password non può essere minore di due (2) caratteri se la password deve conterere caratteri e numeri."
+
+msgid "ps_error_message_password_min3_because_chars_numbers_sc"
+msgstr "La grandezza minima della password non può essere minore di tre (3) caratteri se la password deve conterere caratteri alfanumerici, speciali e numeri."
+
+msgid "ps_export_admin"
+msgstr "Amministratori"
+
+#. Needs improvement!
+msgid "ps_export_confirm"
+msgstr "Attiva le condizioni di utilizzo all'accesso per l'utente"
+
+#. Needs improvement!
+msgid "ps_export_confirm_group"
+msgstr "Attiva le condizioni di utilizzo per il partecipante al gruppo"
+
+#, fuzzy
+msgid "ps_export_confirm_group_info"
+msgstr "When joining a group, users are required to accept that their personal data can be viewed by the group admins."
+
+#, fuzzy
+msgid "ps_export_confirm_info"
+msgstr "When joining a course, users are required to accept that their personal data can be viewed by the course admins."
+
+msgid "ps_export_course"
+msgstr "Mostra dati utente ed export nei corsi."
+
+msgid "ps_export_data"
+msgstr "Dati del Profilo Personale"
+
+msgid "ps_export_excel"
+msgstr "Inizia l'esportazione excel"
+
+msgid "ps_export_files"
+msgstr "Esporta files"
+
+msgid "ps_export_groups"
+msgstr "Mostra ed esporta  i dati personali"
+
+msgid "ps_export_member"
+msgstr "Membri"
+
+#, fuzzy
+msgid "ps_export_prgs"
+msgstr "Allow export of user profile data in Study Programmes"
+
+msgid "ps_export_settings"
+msgstr "Esporta Impostazioni"
+
+msgid "ps_export_sub"
+msgstr "Partecipanti"
+
+msgid "ps_export_tutor"
+msgstr "Tutor"
+
+msgid "ps_export_user_data"
+msgstr "Tipo Dati"
+
+msgid "ps_export_wait"
+msgstr "Utenti in lista d'attesa"
+
+msgid "ps_field_type"
+msgstr "Tipo Campo"
+
+msgid "ps_files_deleted"
+msgstr "Esporta files cancellati"
+
+msgid "ps_grp_user_fields"
+msgstr "Campi utente specifici per gruppo"
+
+msgid "ps_login_max_attempts"
+msgstr "Numero massimo di tentativi di login"
+
+msgid "ps_login_max_attempts_info"
+msgstr "Numero massimo di tentativi di login. Inserire zero (0) per disabilitare questa opzione."
+
+msgid "ps_not_accepted"
+msgstr "Non accettato"
+
+msgid "ps_participants_list_courses"
+msgstr "Permettere l'attivazione di liste di partecipanti nella galleria dei membri dei corsi"
+
+msgid "ps_passwd_policy_change_force_user_reset_succ"
+msgstr "Le modifiche sono state applicate con successo."
+
+msgid "ps_passwd_policy_changed_force_user_reset"
+msgstr "Le modifiche sono state salvate con successo. Hai appena modificato almeno un'impostazione della politica delle password. Gli utenti locali dovrebbero essere costretti a cambiare la loro password dopo il prossimo login riuscito?"
+
+msgid "ps_password_change_on_first_login_enabled"
+msgstr "Cambia la password al primo accesso"
+
+msgid "ps_password_change_on_first_login_enabled_info"
+msgstr "Se abilitato, gli utenti devono cambiare le password al primo login (eccetto gli utenti che si sono registrati da soli)."
+
+msgid "ps_password_chars_and_numbers_enabled"
+msgstr "Caratteri e Numeri"
+
+msgid "ps_password_chars_and_numbers_enabled_info"
+msgstr "Se abilitato, le password devono contenere sia caratteri che cifre numeriche."
+
+#, fuzzy
+msgid "ps_password_force_user_reset"
+msgstr "Force Password Reset"
+
+msgid "ps_password_max_age"
+msgstr "Durata massima della password"
+
+msgid "ps_password_max_age_info"
+msgstr "Imposta la durata massima della password in giorni. Inserire zero (0) per disabilitare questa opzione."
+
+msgid "ps_password_max_length"
+msgstr "Lunghezza massima della password"
+
+msgid "ps_password_max_length_info"
+msgstr "Imposta la lunghezza massima della password. Inserire zero (0) per disabilitare questa opzione."
+
+msgid "ps_password_min_length"
+msgstr "Lunghezza minima della password"
+
+msgid "ps_password_min_length_info"
+msgstr "Imposta la lunghezza minima della password. Se settato a zero (0) le password devono avere un minimo di un carattere."
+
+msgid "ps_password_settings"
+msgstr "Impostazioni di password"
+
+msgid "ps_password_special_chars_enabled"
+msgstr "Caratteri speciali"
+
+msgid "ps_password_special_chars_enabled_info"
+msgstr "Se abilitato, le password devono contenere caratteri speciali."
+
+msgid "ps_perform_export"
+msgstr "Inizia CSV-Export"
+
+msgid "ps_prevent_simultaneous_logins"
+msgstr "previene accessi simultanei"
+
+msgid "ps_prevent_simultaneous_logins_info"
+msgstr "Se abilitato, login simultanei dello stesso account da diversi computer non sono possibili."
+
+msgid "ps_privacy_protection"
+msgstr "Impostazioni di Privacy"
+
+msgid "ps_profile_export"
+msgstr "Protezione dati utente"
+
+msgid "ps_security_protection"
+msgstr "Impostazioni di sicurezza"
+
+msgid "ps_select_one"
+msgstr "Seleziona un file di export"
+
+msgid "ps_show_crs_access"
+msgstr "Visualizza l'ultimo tempo di accesso dei partecipanti al corso"
+
+msgid "ps_show_grp_access"
+msgstr "Visualizza l'ultimo tempo di accesso dei partecipanti del grupo"
+
+#, fuzzy
+msgid "ps_show_lso_access"
+msgstr "Show last access time of learning sequence participants"
+
+msgid "ps_size"
+msgstr "Dimensioni"
+
+msgid "ps_type_select"
+msgstr "Seleziona Campo"
+
+msgid "ps_type_select_long"
+msgstr "Seleziona Box (valori fissi)"
+
+msgid "ps_type_text"
+msgstr "Campo testo"
+
+msgid "ps_type_txt_long"
+msgstr "Campo testo (valori opzionali)"
+
+msgid "ps_user_selection"
+msgstr "Selezione Partecipanti"
+
+msgid "ps_warning_modify"
+msgstr "Attenzione: almeno un utente ha accettato le condizioni di uso. Modificando questi campi utente specifici resetterà le condizioni di uso."
+
+msgid "rbac_log"
+msgstr "Log delle impostazioni di sicurezza"
+
+msgid "rbac_log_age"
+msgstr "Inserimenti del log disponibili"
+
+msgid "rbac_log_age_info"
+msgstr "Durata massima degli inserimenti del log in mesi"
+
+msgid "rbac_log_info"
+msgstr "Attiva Logging di tutti i cambiamenti e delle impostazioni di sicurezza"
+
+msgid "show_privacy"
+msgstr "Privacy"
+
+msgid "show_security"
+msgstr "Sicurezza"

@@ -1,0 +1,137 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ka\n"
+"Language-Team: Georgian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: stus\n"
+
+#, fuzzy
+msgid "stus_action_delete"
+msgstr "Delete"
+
+#, fuzzy
+msgid "stus_action_edit"
+msgstr "Edit"
+
+#, fuzzy
+msgid "stus_action_toggle"
+msgstr "Activate/Deactivate"
+
+#, fuzzy
+msgid "stus_active"
+msgstr "Active"
+
+#, fuzzy
+msgid "stus_alias"
+msgstr "Shortlink"
+
+#, fuzzy
+msgid "stus_alias_already_exists"
+msgstr "The shortlink is already taken. Please choose another one."
+
+#, fuzzy
+msgid "stus_alias_invalid"
+msgstr "The shortlink contains invalid characters. Permitted characters: A-Z, a-z, 0-9, - and _"
+
+#, fuzzy
+msgid "stus_confirm_delete"
+msgstr "Delete entries"
+
+#, fuzzy
+msgid "stus_create_shortlink"
+msgstr "Create shortlink"
+
+#, fuzzy
+msgid "stus_delete"
+msgstr "Delete"
+
+#, fuzzy
+msgid "stus_delete_shortlink"
+msgstr "Delete"
+
+#, fuzzy
+msgid "stus_delete_shortlink_msg"
+msgstr "Shortlink deleted"
+
+#, fuzzy
+msgid "stus_index"
+msgstr "Manage"
+
+#, fuzzy
+msgid "stus_info"
+msgstr "Information"
+
+#, fuzzy
+msgid "stus_info_active"
+msgstr "Inactive shortlinks are not redirected when called up."
+
+#, fuzzy
+msgid "stus_info_alias"
+msgstr "May only contain the following characters: A-Z, a-z, 0-9, - und _"
+
+#, fuzzy
+msgid "stus_info_target_ref_id"
+msgstr "Target object"
+
+#, fuzzy
+msgid "stus_order_saved"
+msgstr "Order saved"
+
+#, fuzzy
+msgid "stus_prefix"
+msgstr "Prefix"
+
+#, fuzzy
+msgid "stus_rbac_permissions"
+msgstr "Permissions"
+
+#, fuzzy
+msgid "stus_shortlink"
+msgstr "Shortlink"
+
+#, fuzzy
+msgid "stus_shortlinks"
+msgstr "Shortlinks"
+
+#, fuzzy
+msgid "stus_shortlinks_deleted"
+msgstr "Shortlinks have been deleted"
+
+#, fuzzy
+msgid "stus_shortlinks_toggled"
+msgstr "Shortlinks have been deactivated/activated"
+
+#, fuzzy
+msgid "stus_stus_stored_sucessfully"
+msgstr "Shortlink successfully saved"
+
+#, fuzzy
+msgid "stus_stus_toggle"
+msgstr "Deactivate/Activate"
+
+#, fuzzy
+msgid "stus_target_link"
+msgstr "Target object"
+
+#, fuzzy
+msgid "stus_target_ref_id"
+msgstr "Target object"
+
+#, fuzzy
+msgid "stus_target_ref_id_required"
+msgstr "Select a target object."
+
+#, fuzzy
+msgid "stus_toggle"
+msgstr "Deactivate/Activate"
+
+#, fuzzy
+msgid "stus_toggle_shortlink"
+msgstr "Change status"
+
+#, fuzzy
+msgid "stus_toggle_shortlink_msg"
+msgstr "Would you like to change the active status of the following entries?"

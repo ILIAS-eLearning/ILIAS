@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+
 class Help implements Component\Component
 {
     public function init(
@@ -47,5 +50,9 @@ class Help implements Component\Component
 
         $contribute[User\Settings\UserSettings::class] = fn() =>
             new Help\UserSettings\Settings();
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'help'
+        );
     }
 }

@@ -1,0 +1,267 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: rep\n"
+
+msgid "btn_undelete_new_location"
+msgstr "Wiederherstellen (neuer Ort)"
+
+msgid "btn_undelete_origin_location"
+msgstr "Wiederherstellen (Originalort)"
+
+msgid "rep_activation_access"
+msgstr "Zugriff"
+
+msgid "rep_activation_access_ref_info"
+msgstr "Dieses Einstellung betrifft nur die aktuelle und keine andere Referenz."
+
+msgid "rep_activation_availability"
+msgstr "Verfügbarkeit"
+
+msgid "rep_activation_limited_end"
+msgstr "Ende"
+
+msgid "rep_activation_limited_start"
+msgstr "Start"
+
+msgid "rep_activation_limited_visibility"
+msgstr "Immer sichtbar"
+
+msgid "rep_activation_online"
+msgstr "Online"
+
+msgid "rep_activation_online_object_info"
+msgstr "Diese Einstellung wirkt sich auf alle Referenzen im Magazin aus."
+
+msgid "rep_add_new_def_grp_assessment"
+msgstr "Assessment"
+
+msgid "rep_add_new_def_grp_communication"
+msgstr "Kommunikation"
+
+msgid "rep_add_new_def_grp_content"
+msgstr "Inhalt"
+
+msgid "rep_add_new_def_grp_feedback"
+msgstr "Feedback und Evaluation"
+
+msgid "rep_add_new_def_grp_organisation"
+msgstr "Organisation"
+
+msgid "rep_add_new_def_grp_templates"
+msgstr "Vorlagen"
+
+msgid "rep_added_rec_content"
+msgstr "Empfohlener Inhalt wurde hinzugefügt."
+
+msgid "rep_allowed_types"
+msgstr "Allowed Types"
+
+msgid "rep_breadcr_crs"
+msgstr "Brotkrumennavigation beginnt mit Kurs"
+
+msgid "rep_breadcr_crs_config"
+msgstr "Konfiguration"
+
+msgid "rep_breadcr_crs_overwrite"
+msgstr "Brotkrumendarstellung kann im Kurs konfiguriert werden."
+
+msgid "rep_breadcr_crs_overwrite_not"
+msgstr "Brotkrumendarstellung kann im Kurs nicht konfiguriert werden."
+
+msgid "rep_breadcr_crs_overwrite_settings"
+msgstr "Erlaube Ausnahmen"
+
+msgid "rep_breadcr_crs_overwrite_with_default"
+msgstr "Einstellung ist für Kurs vorgegeben, kann aber geändert werden."
+
+msgid "rep_configure"
+msgstr "Konfigurieren"
+
+msgid "rep_crs_default_shortened"
+msgstr "Standardvorgabe: Gekürzte Brotkrumen"
+
+msgid "rep_custom_icons"
+msgstr "Angepasste Icons"
+
+msgid "rep_default"
+msgstr "Standardwert"
+
+msgid "rep_deleted_account"
+msgstr "Gelöschtes ILIAS-Konto"
+
+msgid "rep_dependencies"
+msgstr "Abhängigkeiten"
+
+msgid "rep_dependency"
+msgstr "Abhängigkeit"
+
+msgid "rep_dependent_object"
+msgstr "Abhängiges Objekt"
+
+msgid "rep_export_limit_number"
+msgstr "Anzahl Objekte"
+
+msgid "rep_export_limitation"
+msgstr "Container-Exportbegrenzung"
+
+msgid "rep_export_limitation_disabled"
+msgstr "Container-Export deaktiviert"
+
+msgid "rep_export_limitation_info"
+msgstr "Begrenzt die Anzahl an exportierten Unterobjekten beim Export von Containern (Kategorien, Kurse, ...) im Magazin."
+
+msgid "rep_export_limitation_limited"
+msgstr "Limit"
+
+msgid "rep_export_limitation_unlimited"
+msgstr "Unbegrenzter Export"
+
+msgid "rep_failure_trashed_trash"
+msgstr "Sie haben Objekte ausgewählt, die nicht mehr an ihrem Originalort wiederhergestellt werden können, da das übergeordnete Objekt gelöscht wurde. Für diese Objekte können Sie nur die Option \"Wiederherstellen (neuer Ort)\" verwenden."
+
+msgid "rep_fav_intro1"
+msgstr "Sie haben aktuell noch keine Favoriten ausgewählt. Um dies zu tun, müssen Sie zwei Schritte machen:"
+
+msgid "rep_fav_intro2"
+msgstr "Klicken Sie auf „%s“ und wählen Sie aus dem verfügbaren Angebot ein Lernobjekt aus, z. B. ein Lernmodul oder ein Forum."
+
+msgid "rep_fav_intro3"
+msgstr "Wenn Sie etwas gefunden haben, das Sie interessiert, können Sie es ganz einfach zu Ihren Favoriten hinzufügen. Wählen Sie beim gewünschten Objekt im <i>Aktionen</i>-Menü die Option \"<i>Zu Favoriten hinzufügen</i>\"."
+
+msgid "rep_favourites"
+msgstr "Favoriten"
+
+msgid "rep_favourites_info"
+msgstr "Benutzer können einzelne Magazinobjekte als Favorit markieren. Favoritenlisten können in der Dashboard- und Hauptmenükonfiguration aktiviert werden."
+
+msgid "rep_input_not_empty"
+msgstr "Dieses Feld erfordert eine Angabe."
+
+msgid "rep_intro"
+msgstr "Willkommen im Magazin!"
+
+msgid "rep_intro1"
+msgstr "In diesem Bereich können Sie Lern- und Arbeitsmaterialien erstellen und verfügbar machen. Alle Inhalte werden in Kategorien organisiert. Diese Kategorien können z. B. die Organisation Ihrer Institution (z. B. Abteilungen oder Klassen) abbilden. Kategorien können aber auch verwendet werden, um die Inhalte thematisch zu strukturieren."
+
+msgid "rep_intro2"
+msgstr "Mit drei Schritten können Sie eine erste Struktur aufbauen:"
+
+msgid "rep_intro3"
+msgstr "Klicken Sie auf den <i>%s</i>-Button neben der Auswahlliste oben rechts, um eine erste Kategorie anzulegen."
+
+msgid "rep_intro4"
+msgstr "Im folgenden Menü geben Sie bitte einen Titel und einen Beschreibungstext für die Kategorie ein und klicken abschließend auf <i>%s</i>."
+
+msgid "rep_intro5"
+msgstr "Durch Klicken auf den Titel gelangen Sie in Ihre erste Kategorie."
+
+msgid "rep_intro6"
+msgstr "Nach diesem ersten Schritt können Sie nun weitere Kategorien anlegen oder erste Lernmaterialien in diese Kategorie einfügen."
+
+msgid "rep_mo_mem_dash"
+msgstr "Sie sind aktuell noch nicht Mitglied eines Kurses oder einer Gruppe."
+
+msgid "rep_multiple_reference_deletion_instruction"
+msgstr "Wählen Sie diejenigen, die ebenfalls gelöscht werden sollen:"
+
+msgid "rep_multiple_reference_deletion_intro"
+msgstr "Es existieren weitere Referenzen für dieses Objekt."
+
+msgid "rep_new_item_group_add"
+msgstr "Gruppierung hinzufügen"
+
+msgid "rep_new_item_group_delete_sure"
+msgstr "Wollen Sie wirklich die folgenden Gruppierungen löschen?"
+
+msgid "rep_new_item_group_edit"
+msgstr "Gruppierung bearbeiten"
+
+msgid "rep_new_item_group_nr_subitems"
+msgstr "Anzahl zugeordnete Objekte"
+
+msgid "rep_new_item_group_other"
+msgstr "Weitere"
+
+msgid "rep_new_item_group_unassigned"
+msgstr "Nicht zugeordnet"
+
+msgid "rep_new_item_group_unassigned_subitems"
+msgstr "Anzahl nicht zugeordneter Objekte: %s"
+
+msgid "rep_new_item_groups"
+msgstr "Gruppierungen"
+
+msgid "rep_new_item_menu"
+msgstr "\"Neues Objekt hinzufügen\"-Menü"
+
+msgid "rep_no_last_visited_mess"
+msgstr "Sie haben noch keine Objekte im Magazin aufgerufen."
+
+msgid "rep_no_permission_to_delete"
+msgstr "Kein Recht zum Löschen"
+
+msgid "rep_object_lists"
+msgstr "Objektlisten"
+
+msgid "rep_object_references_cannot_be_read"
+msgstr "Keine Rechte an %s weiteren Referenzen."
+
+msgid "rep_object_to_delete"
+msgstr "Zu löschen"
+
+msgid "rep_rec_content_removed"
+msgstr "Empfohlener Inhalt wurde entfernt."
+
+msgid "rep_recommended_content"
+msgstr "Empfohlene Inhalte"
+
+msgid "rep_remove_rec_content"
+msgstr "Sollen die folgenden Empfehlungen wirklich entfernt werden? Die entsprechenden Inhalte bleiben weiterhin erhalten."
+
+msgid "rep_target_location"
+msgstr "Zielort"
+
+msgid "rep_target_location_info"
+msgstr "Bitte wählen sie den Zielort aus, an dem die ausgewählten Objekte wiederhergestellt werden sollen."
+
+msgid "rep_time_based_availability"
+msgstr "Zeitlich begrenzte Verfügbarkeit"
+
+msgid "rep_time_based_availability_info"
+msgstr "Die gewählten Objekte sind nur im gewählten Zeitraum verfügbar."
+
+msgid "rep_time_period"
+msgstr "Zeitraum"
+
+msgid "rep_trash_deleted_by_unknown"
+msgstr "Unbekannt"
+
+msgid "rep_trash_table_col_deleted_by"
+msgstr "Gelöscht von"
+
+msgid "rep_trash_table_col_deleted_on"
+msgstr "Gelöscht am"
+
+msgid "rep_trash_table_col_num_subs"
+msgstr "Anzahl Unterobjekte"
+
+msgid "rep_trash_table_title"
+msgstr "Gelöschte Objekte unterhalb von:"
+
+msgid "rep_tree_limit"
+msgstr "Anzahl Einträge im Baum begrenzen"
+
+msgid "rep_tree_limit_info"
+msgstr "Zeigt nur eine begrenzt Anzahl von Elementen im Baum an, um die Performanz zu erhöhen."
+
+msgid "rep_tree_limit_number"
+msgstr "Maximale Anzahl"
+
+msgid "rep_tree_limit_number_info"
+msgstr "Maximale Anzahl an Kindelementen, die initial für einen Knoten angezeigt wird. Falls mehr Kindelemente existieren, wird ein Sucheingabefeld angezeigt, mit dem die Kindelemente nach Titeln gefiltert werden können."

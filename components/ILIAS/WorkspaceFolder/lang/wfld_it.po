@@ -1,0 +1,36 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: wfld\n"
+
+msgid "wfld_add"
+msgstr "Crea cartella"
+
+msgid "wfld_alphabetically_asc"
+msgstr "Alfabetico, asc."
+
+msgid "wfld_alphabetically_desc"
+msgstr "Alfabetico, disc."
+
+msgid "wfld_creation_asc"
+msgstr "Data di creazione, asc."
+
+msgid "wfld_creation_desc"
+msgstr "Data di creazione, disc."
+
+msgid "wfld_derive"
+msgstr "Come cartella principale"
+
+msgid "wfld_edit"
+msgstr "Modifica cartella"
+
+msgid "wfld_new"
+msgstr "Crea nuova cartella"
+
+msgid "wfld_sortation"
+msgstr "Ordinamento"

@@ -1,0 +1,15 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: cpad\n"
+
+msgid "cpad_reading_time_status"
+msgstr "Lesezeit"
+
+msgid "cpad_reading_time_status_desc"
+msgstr "Falls aktiviert, wird die geschätzte Lesezeit für Inhaltsseiten ermittelt und angezeigt."

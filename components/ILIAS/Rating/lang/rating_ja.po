@@ -1,0 +1,96 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: rating\n"
+
+msgid "rat_not_rated_yet"
+msgstr "星評価なし"
+
+msgid "rat_nr_ratings"
+msgstr "%s星評価"
+
+msgid "rat_one_rating"
+msgstr "1つ星評価"
+
+msgid "rating_activate_rating"
+msgstr "星評価を有効"
+
+msgid "rating_activate_rating_info"
+msgstr "有効にするとユーザはこのオブジェクトを評価できます。"
+
+msgid "rating_add_category"
+msgstr "カテゴリ追加"
+
+msgid "rating_avg_rating"
+msgstr "平均レート"
+
+msgid "rating_categories"
+msgstr "星評価カテゴリ"
+
+msgid "rating_category_add"
+msgstr "追加"
+
+msgid "rating_category_create"
+msgstr "カテゴリ作成"
+
+msgid "rating_category_created"
+msgstr "カテゴリを追加しました。"
+
+msgid "rating_category_delete_sure"
+msgstr "以下の評価カテゴリを削除しますか?　カテゴリの全評価は削除されます。"
+
+msgid "rating_category_deleted"
+msgstr "カテゴリを削除しました。"
+
+msgid "rating_category_edit"
+msgstr "カテゴリ編集"
+
+msgid "rating_category_update"
+msgstr "保存"
+
+msgid "rating_category_updated"
+msgstr "カテゴリを保存しました。"
+
+msgid "rating_export_category"
+msgstr "カテゴリ"
+
+msgid "rating_export_date"
+msgstr "日付"
+
+msgid "rating_export_rating"
+msgstr "星評価"
+
+msgid "rating_new_objects_auto"
+msgstr "新規オブジェクトの評価を有効にする"
+
+msgid "rating_new_objects_auto_info"
+msgstr "新規のファイル、学習モジュール、wikは初期設定で星評価iが有効です。"
+
+msgid "rating_number_votes"
+msgstr "%s星評価数"
+
+msgid "rating_open_dialog"
+msgstr "レートダイアログを開く"
+
+msgid "rating_overlay_submit"
+msgstr "星評価を提出"
+
+msgid "rating_personal_rating"
+msgstr "レート"
+
+msgid "rating_rate_x_of_5"
+msgstr "5 スター中の %s レート"
+
+msgid "rating_remove"
+msgstr "評価を削除"
+
+msgid "rating_update_positions"
+msgstr "順を保存"
+
+msgid "rating_your_rating"
+msgstr "評価"

@@ -1,0 +1,2505 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: meta\n"
+
+msgid "adt_error_max_length"
+msgstr "Der eingegebene Text ist zu lang. Bitte geben Sie einen kürzeren Text ein."
+
+msgid "md_adn_int_error_no_default"
+msgstr "Bitte wählen Sie eine aktivierte Sprache als \"Default-Sprache\" aus."
+
+msgid "md_adv_active"
+msgstr "Aktiv"
+
+msgid "md_adv_added_new_record"
+msgstr "Ein neuer Datensatz wurde angelegt."
+
+msgid "md_adv_col_presentation_ordering"
+msgstr "Position"
+
+msgid "md_adv_confirm_definition"
+msgstr "Bitte bestätigen Sie die neuen Einstellungen."
+
+msgid "md_adv_confirm_definition_select_option"
+msgstr "Gelöschte Option"
+
+msgid "md_adv_confirm_definition_select_option_all"
+msgstr "Alle vorhandenen Einträge gleich behandeln"
+
+msgid "md_adv_confirm_definition_select_option_all_action"
+msgstr "Neuer Wert"
+
+msgid "md_adv_confirm_definition_select_option_overwrite"
+msgstr "Wert überschreiben"
+
+msgid "md_adv_confirm_definition_select_option_remove"
+msgstr "Wert entfernen"
+
+msgid "md_adv_confirm_definition_select_option_single"
+msgstr "Jeden vorhandenen Eintrag einzeln entscheiden"
+
+msgid "md_adv_confirm_definition_select_section"
+msgstr "Migration der gelöschten Optionen"
+
+msgid "md_adv_create_field"
+msgstr "Neues Feld hinzufügen"
+
+msgid "md_adv_create_record"
+msgstr "Neuen Datensatz anlegen"
+
+msgid "md_adv_delete_fields_sure"
+msgstr "Sind Sie sicher, dass die folgenden Felddefinitionen gelöscht werden sollen?"
+
+msgid "md_adv_delete_files_sure"
+msgstr "Sind Sie sicher, dass die folgenden Dateien gelöscht werden sollen?"
+
+msgid "md_adv_delete_record_sure"
+msgstr "Sind Sie sicher, dass die folgenden Datensätze gelöscht werden sollen?"
+
+msgid "md_adv_deleted_fields"
+msgstr "Die Felder wurden gelöscht."
+
+msgid "md_adv_deleted_files"
+msgstr "Die Dateien wurden gelöscht."
+
+msgid "md_adv_deleted_records"
+msgstr "Der Datensatz wurde gelöscht"
+
+msgid "md_adv_desc_show"
+msgstr "Beschreibung anzeigen"
+
+msgid "md_adv_edit_complex_option"
+msgstr "Options-Eigenschaften bearbeiten"
+
+msgid "md_adv_edit_field"
+msgstr "Feld bearbeiten"
+
+msgid "md_adv_edit_record"
+msgstr "Datensatz bearbeiten"
+
+msgid "md_adv_field_fields"
+msgstr "Felder"
+
+msgid "md_adv_field_filter_warning"
+msgstr "Die Feldtypen %s werden aktuell nicht als Tabellenfilter unterstützt."
+
+msgid "md_adv_field_list"
+msgstr "Datenfelder"
+
+msgid "md_adv_field_names"
+msgstr "Feldnamen"
+
+msgid "md_adv_field_table"
+msgstr "Felder bearbeiten"
+
+msgid "md_adv_fields_show"
+msgstr "Feldnamen anzeigen"
+
+msgid "md_adv_file_list"
+msgstr "Exportdateien"
+
+msgid "md_adv_import_record"
+msgstr "Datensatz importieren"
+
+msgid "md_adv_int_current"
+msgstr "Aktuelle Sprache:"
+
+msgid "md_adv_int_default"
+msgstr "Standardsprache:"
+
+msgid "md_adv_int_translation_info"
+msgstr "Übersetzung:"
+
+msgid "md_adv_no_fields"
+msgstr "Keine Felder definiert"
+
+msgid "md_adv_number_decimals"
+msgstr "Nachkommastellen"
+
+msgid "md_adv_number_max"
+msgstr "Maximaler Wert"
+
+msgid "md_adv_number_min"
+msgstr "Minimaler Wert"
+
+msgid "md_adv_number_suffix"
+msgstr "Suffix"
+
+msgid "md_adv_presentation"
+msgstr "Darstellung"
+
+msgid "md_adv_record_activate_languages"
+msgstr "Sprachen aktivieren"
+
+msgid "md_adv_record_list"
+msgstr "Datensätze"
+
+msgid "md_adv_record_lng_table"
+msgstr "Sprachenverwaltung"
+
+msgid "md_adv_record_lng_table_active"
+msgstr "Aktiv"
+
+msgid "md_adv_record_lng_table_default"
+msgstr "Default"
+
+msgid "md_adv_record_lng_table_inst"
+msgstr "Installiert"
+
+msgid "md_adv_record_lng_table_lng"
+msgstr "Sprache"
+
+msgid "md_adv_records"
+msgstr "Enthaltene Datensätze"
+
+msgid "md_adv_records_exported"
+msgstr "Eine neue Exportdatei wurde angelegt."
+
+msgid "md_adv_scope"
+msgstr "Gültigkeitsbereich"
+
+msgid "md_adv_scope_info"
+msgstr "Die Nutzung dieses Metadatensatzes auf Teilbereiche des Magazins beschränken."
+
+msgid "md_adv_scope_list_header"
+msgstr "Beschränkt auf:"
+
+msgid "md_adv_scope_objects"
+msgstr "Datensatz wirksam ab"
+
+msgid "md_adv_searchable"
+msgstr "Durchsuchbar"
+
+msgid "md_adv_select_one_file"
+msgstr "Bitte wählen Sie eine Datei aus."
+
+msgid "md_adv_show"
+msgstr "Anzeigen"
+
+msgid "md_adv_substitution_table"
+msgstr "Darstellung im Magazin"
+
+msgid "md_adv_text_max_length"
+msgstr "Maximale Länge"
+
+msgid "md_adv_text_multi"
+msgstr "Mehrzeilig"
+
+msgid "md_adv_text_multi_val"
+msgstr "Mehrsprachige Werte"
+
+msgid "md_adv_text_multi_val_info"
+msgstr "Erlauben Sie mehrsprachige Feldwerte für dieses Datenfeld. Für Texte, die keiner Übersetzung bedürfen, wie z.B. Personennamen, empfiehlt sich die Deaktivierung dieser Option."
+
+msgid "md_advanced"
+msgstr "Benutzerdefinierte Metadaten"
+
+msgid "md_aria_language_selection"
+msgstr "Sprachauswahl"
+
+msgid "md_copyright"
+msgstr "Lizenz"
+
+msgid "md_copyright_add"
+msgstr "Neue Lizenz hinzufügen"
+
+msgid "md_copyright_admin_tab"
+msgstr "LOM & OER"
+
+msgid "md_copyright_alt_text"
+msgstr "Alternativtext"
+
+msgid "md_copyright_alt_text_info"
+msgstr "Wird für das „Alt“-Attribut des Bildes verwendet"
+
+msgid "md_copyright_default"
+msgstr "Standard"
+
+msgid "md_copyright_edit"
+msgstr "Lizenzen bearbeiten"
+
+msgid "md_copyright_enable_info"
+msgstr "Welche Lizenzen in Objekten angeboten werden, legen Sie im Unterreiter „Lizenzen“ fest."
+
+msgid "md_copyright_enabled"
+msgstr "Lizenzen in Objekten"
+
+msgid "md_copyright_full_name"
+msgstr "Vollständiger Name"
+
+msgid "md_copyright_image"
+msgstr "Bild"
+
+msgid "md_copyright_image_file"
+msgstr "Datei"
+
+msgid "md_copyright_image_is_file"
+msgstr "Datei hochladen"
+
+msgid "md_copyright_image_is_link"
+msgstr "URL eingeben"
+
+msgid "md_copyright_image_link"
+msgstr "URL"
+
+msgid "md_copyright_link"
+msgstr "URL"
+
+msgid "md_copyright_link_info"
+msgstr "Link zu der Lizenz"
+
+msgid "md_copyright_preview"
+msgstr "Vorschau"
+
+msgid "md_copyright_selection"
+msgstr "Lizenzen"
+
+msgid "md_copyright_value"
+msgstr "Lizenz"
+
+msgid "md_copyrights_deleted"
+msgstr "Die ausgewählten Lizenzen wurden entfernt."
+
+msgid "md_days"
+msgstr "Tage:"
+
+msgid "md_delete_cp_sure"
+msgstr "Möchten Sie wirklich die ausgewählten Vorgaben entfernen?"
+
+msgid "md_delimiter"
+msgstr "Trennzeichen"
+
+msgid "md_delimiter_info"
+msgstr "Das Trennzeichen wird in der Schnellbearbeitung der Metadaten verwendet, um mehrere Angaben zu trennen. Standardzeichen ist „'“."
+
+msgid "md_editor_custom_input"
+msgstr "Eigene Angabe"
+
+msgid "md_editor_from_vocab_input"
+msgstr "Aus Vokabular"
+
+msgid "md_editor_value"
+msgstr "Begriff"
+
+msgid "md_fields"
+msgstr "Felder"
+
+msgid "md_import_file_vocab"
+msgstr "Importdatei"
+
+msgid "md_import_vocab"
+msgstr "Vokabular importieren"
+
+msgid "md_import_vocab_modal"
+msgstr "Aus Datei importieren"
+
+msgid "md_months"
+msgstr "Monate:"
+
+msgid "md_oai_contact_mail"
+msgstr "E-Mail-Kontakt dieser Organisation"
+
+msgid "md_oai_identifier_prefix"
+msgstr "OAI Präfix"
+
+msgid "md_oai_identifier_prefix_info"
+msgstr "Dieser Präfix wird als Namespace in den Bezeichnern von abgefragten OER-Datensätzen benutzt."
+
+msgid "md_oai_pmh_enabled"
+msgstr "Abfragen über OAI-PMH Schnittstelle erlauben"
+
+msgid "md_oai_pmh_enabled_info"
+msgstr "Wenn aktiviert, können veröffentlichte Resourcen von externen Parteien wie OER Repositorien abgefragt werden."
+
+msgid "md_oai_repository_name"
+msgstr "Name der Installation"
+
+msgid "md_oai_repository_name_info"
+msgstr "Bei Anfragen über die Schnittstelle wird dies als Name dieser ILIAS-Installation angegeben."
+
+msgid "md_obj_types"
+msgstr "Zugeordnete Objekte"
+
+msgid "md_publishing"
+msgstr "Veröffentlichung"
+
+msgid "md_publishing_action_accept"
+msgstr "Für Veröffentlichung annehmen"
+
+msgid "md_publishing_action_block"
+msgstr "Für Veröffentlichung sperren"
+
+msgid "md_publishing_action_publish"
+msgstr "Veröffentlichen"
+
+msgid "md_publishing_action_reject"
+msgstr "Ablehnen"
+
+msgid "md_publishing_action_submit"
+msgstr "Für Veröffentlichung einreichen"
+
+msgid "md_publishing_action_unblock"
+msgstr "Entsperren"
+
+msgid "md_publishing_action_withdraw"
+msgstr "Zurückziehen"
+
+msgid "md_publishing_center_title"
+msgstr "OER Veröffentlichung"
+
+msgid "md_publishing_confirmation_accept"
+msgstr "Annehmen"
+
+msgid "md_publishing_confirmation_info_accept"
+msgstr "Sind Sie sicher, dass Sie dieses Objekt veröffentlichen wollen?"
+
+msgid "md_publishing_confirmation_info_reject"
+msgstr "Sind Sie sicher, dass Sie dieses Objekt für die Veröffentlichung ablehnen wollen?"
+
+msgid "md_publishing_confirmation_info_withdraw"
+msgstr "Sind Sie sicher, dass Sie dieses Objekt von der Veröffentlichung zurückziehen wollen?"
+
+msgid "md_publishing_confirmation_reject"
+msgstr "Ablehnen"
+
+msgid "md_publishing_confirmation_withdraw"
+msgstr "Zurückziehen"
+
+msgid "md_publishing_control_center"
+msgstr "OER Veröffentlichung"
+
+msgid "md_publishing_current_status"
+msgstr "OER Veröffentlichung dieses Objekts: <strong>%s</strong>"
+
+msgid "md_publishing_info_blocked"
+msgstr "Dieses Objekt ist gesperrt und wird nicht automatisch veröffentlicht."
+
+msgid "md_publishing_info_published"
+msgstr "Dieses Objekt ist als Open Educational Resource veröffentlicht."
+
+msgid "md_publishing_info_under_review"
+msgstr "Dieses Objekt wurde zur Veröffentlichung eingereicht, und wird von der Redaktion überprüft."
+
+msgid "md_publishing_info_unpublished"
+msgstr "Dieses Objekt kann als Open Educational Resource veröffentlicht werden."
+
+msgid "md_publishing_info_wrong_copyright"
+msgstr "Um dieses Objekt als Open Educational Resource zu veröffentlichen, schließen Sie bitte diesen Dialog und stellen Sie es unter eine geeignete Lizenz:%s"
+
+msgid "md_publishing_last_reference_info"
+msgstr "Dieses Objekt wird nicht entfernt, weil es keine weiteren Referenzen im Magazin hat."
+
+msgid "md_publishing_status_blocked"
+msgstr "Gesperrt"
+
+msgid "md_publishing_status_published"
+msgstr "Veröffentlicht"
+
+msgid "md_publishing_status_under_review"
+msgstr "In Prüfung"
+
+msgid "md_publishing_status_unpublished"
+msgstr "Nicht veröffentlicht"
+
+msgid "md_publishing_success_accept"
+msgstr "Objekt erfolgreich veröffentlicht."
+
+msgid "md_publishing_success_block"
+msgstr "Objekt erfolgreich für die Veröffentlichung gesperrt."
+
+msgid "md_publishing_success_publish"
+msgstr "Objekt erfolgreich veröffentlicht."
+
+msgid "md_publishing_success_reject"
+msgstr "Objekt erfolgreich abgelehnt."
+
+msgid "md_publishing_success_submit"
+msgstr "Objekt erfolgreich zur Prüfung engereicht."
+
+msgid "md_publishing_success_unblock"
+msgstr "Objekt erfolgreich entsperrt."
+
+msgid "md_publishing_success_withdraw"
+msgstr "Objekt erfolgreich zurückgezogen."
+
+msgid "md_publishing_workflow"
+msgstr "Ablauf von Veröffentlichungen"
+
+msgid "md_publishing_workflow_automatic"
+msgstr "Automatisch"
+
+msgid "md_publishing_workflow_automatic_info"
+msgstr "Entsprechend ausgezeichnete Objekte werden automatisch vom OER-Harvester Cron Job veröffentlicht."
+
+msgid "md_publishing_workflow_manual"
+msgstr "Manuell"
+
+msgid "md_publishing_workflow_manual_info"
+msgstr "Objekte können auf ihrem Metadaten-Reiter über einen Button veröffentlicht werden."
+
+msgid "md_publishing_workflow_mode"
+msgstr "Veröffentlichung aktivieren"
+
+msgid "md_publishing_workflow_mode_info"
+msgstr "Zur Veröffentlichung eines Objekts wird es einer definierten Kategorie hinzugefügt, und eine dazugehörige Exportdatei generiert. Zusätzlich wird ein Eintrag angelegt, der (wenn aktiviert) über eine OAI-PMH Schnittstelle ausgelesen werden kann."
+
+msgid "md_record_export_table"
+msgstr "Exportdateien"
+
+msgid "md_record_list_table"
+msgstr "Benutzerdefinierte Metadatensätze"
+
+msgid "md_separated_by"
+msgstr "Getrennt mit %s"
+
+msgid "md_settings"
+msgstr "Einstellungen"
+
+msgid "md_settings_harvester"
+msgstr "OER-Harvester"
+
+msgid "md_settings_licence"
+msgstr "Nutzungsregeln"
+
+msgid "md_settings_publishing"
+msgstr "Abfrage durch Repositorien"
+
+msgid "md_time"
+msgstr "Zeit:"
+
+msgid "md_unknown_vocabulary_flag"
+msgstr "(unbekanntes Vokabular)"
+
+msgid "md_used"
+msgstr "Verwendung (Anzahl)"
+
+msgid "md_vocab_activate_action"
+msgstr "Aktivieren"
+
+msgid "md_vocab_active_column"
+msgstr "Aktiv"
+
+msgid "md_vocab_all_values_title"
+msgstr "Begriffe für %s (%s)"
+
+msgid "md_vocab_allow_custom_input_action"
+msgstr "Eigene Angaben erlauben"
+
+msgid "md_vocab_custom_input_column"
+msgstr "Erlaubt eigene Angaben"
+
+msgid "md_vocab_deactivate_action"
+msgstr "Deaktivieren"
+
+msgid "md_vocab_delete_action"
+msgstr "Löschen"
+
+msgid "md_vocab_delete_confirmation_text"
+msgstr "Sind Sie sicher, dass sie dass Vokabular %s (%s) mit den folgenden Begriffen löschen wollen?"
+
+msgid "md_vocab_delete_confirmation_title"
+msgstr "Vokabular löschen"
+
+msgid "md_vocab_deletion_successful"
+msgstr "Vokabular erfolgreich gelöscht"
+
+msgid "md_vocab_disallow_custom_input_action"
+msgstr "Keine eigenen Angaben erlauben"
+
+msgid "md_vocab_element_column"
+msgstr "Element"
+
+msgid "md_vocab_element_with_condition"
+msgstr "%s mit %s %s"
+
+msgid "md_vocab_import_invalid"
+msgstr "Die Importdatei ist ungültig:<br/>%s"
+
+msgid "md_vocab_import_successful"
+msgstr "Vokabular erfolgreich importiert"
+
+msgid "md_vocab_import_upload_failed"
+msgstr "Das Hochladen der Importdatei ist fehlgeschlagen."
+
+msgid "md_vocab_preview_column"
+msgstr "Werte"
+
+msgid "md_vocab_show_all_action"
+msgstr "Alle Werte anzeigen"
+
+msgid "md_vocab_source_column"
+msgstr "Quelle"
+
+msgid "md_vocab_table_title"
+msgstr "Metadaten-Elemente mit vordefinierten Werten"
+
+msgid "md_vocab_type_column"
+msgstr "Typ"
+
+msgid "md_vocab_type_controlled_string"
+msgstr "Kontrollierter Text"
+
+msgid "md_vocab_type_controlled_vocab_value"
+msgstr "Kontrollierte Auswahl"
+
+msgid "md_vocab_type_copyright"
+msgstr "Lizenz"
+
+msgid "md_vocab_type_standard"
+msgstr "Standard"
+
+msgid "md_vocab_update_successful"
+msgstr "Vokabular erfolgreich aktualisiert"
+
+msgid "md_vocabularies_config"
+msgstr "LOM-Vokabulare"
+
+msgid "meta_1"
+msgstr "1"
+
+msgid "meta_2"
+msgstr "2"
+
+msgid "meta_3"
+msgstr "3"
+
+msgid "meta_4"
+msgstr "4"
+
+msgid "meta_accessibility_restrictions"
+msgstr "Zugangsbeschränkungen"
+
+msgid "meta_active"
+msgstr "Aktiv"
+
+msgid "meta_add"
+msgstr "Hinzufügen"
+
+msgid "meta_add_element"
+msgstr "%s hinzufügen"
+
+msgid "meta_add_element_success"
+msgstr "Element erfolgreich hinzugefügt"
+
+msgid "meta_advmd_add_field"
+msgstr "Neues Feld hinzufügen"
+
+msgid "meta_advmd_select_delete_option"
+msgstr "Diesen Eintrag löschen"
+
+msgid "meta_advmd_select_first_position_identifier"
+msgstr "An den Anfang"
+
+msgid "meta_advmd_select_new_option"
+msgstr "Neuen Eintrag hinzufügen"
+
+msgid "meta_advmd_select_option_position"
+msgstr "Position"
+
+msgid "meta_advmd_select_option_value"
+msgstr "Wert"
+
+msgid "meta_advmd_select_options"
+msgstr "Einträge"
+
+msgid "meta_advmd_select_options_edit"
+msgstr "Einträge bearbeiten"
+
+msgid "meta_advmd_select_position_identifier"
+msgstr "Nach „%s“"
+
+msgid "meta_aggregation_level"
+msgstr "Aggregationsstufe"
+
+msgid "meta_amaya"
+msgstr "Amaya"
+
+msgid "meta_annotation"
+msgstr "Anmerkung"
+
+msgid "meta_annotation_plural"
+msgstr "Anmerkungen"
+
+msgid "meta_any"
+msgstr "Beliebig"
+
+msgid "meta_atomic"
+msgstr "Atomar"
+
+msgid "meta_author"
+msgstr "Autor"
+
+msgid "meta_authors"
+msgstr "Beitragende Personen"
+
+msgid "meta_browser"
+msgstr "Browser"
+
+msgid "meta_button_to_full_editor_label"
+msgstr "Vollständige Lernobjekt-Metadaten bearbeiten"
+
+msgid "meta_c_AD"
+msgstr "Andorra"
+
+msgid "meta_c_AE"
+msgstr "Vereinigte Arabische Emirate"
+
+msgid "meta_c_AF"
+msgstr "Afghanistan"
+
+msgid "meta_c_AG"
+msgstr "Antigua und Barbuda"
+
+msgid "meta_c_AI"
+msgstr "Anguilla"
+
+msgid "meta_c_AL"
+msgstr "Albanien"
+
+msgid "meta_c_AM"
+msgstr "Armenien"
+
+msgid "meta_c_AN"
+msgstr "Niederländische Antillen"
+
+msgid "meta_c_AO"
+msgstr "Angola"
+
+msgid "meta_c_AQ"
+msgstr "Antarktis"
+
+msgid "meta_c_AR"
+msgstr "Argentinien"
+
+msgid "meta_c_AS"
+msgstr "Amerikanisch Samoa"
+
+msgid "meta_c_AT"
+msgstr "Österreich"
+
+msgid "meta_c_AU"
+msgstr "Australien"
+
+msgid "meta_c_AW"
+msgstr "Aruba"
+
+msgid "meta_c_AX"
+msgstr "Åland"
+
+msgid "meta_c_AZ"
+msgstr "Azerbaidschan"
+
+msgid "meta_c_BA"
+msgstr "Bosnien-Herzegowina"
+
+msgid "meta_c_BB"
+msgstr "Barbados"
+
+msgid "meta_c_BD"
+msgstr "Bangladesh"
+
+msgid "meta_c_BE"
+msgstr "Belgien"
+
+msgid "meta_c_BF"
+msgstr "Burkina Faso"
+
+msgid "meta_c_BG"
+msgstr "Bulgarien"
+
+msgid "meta_c_BH"
+msgstr "Bahrain"
+
+msgid "meta_c_BI"
+msgstr "Burundi"
+
+msgid "meta_c_BJ"
+msgstr "Benin"
+
+msgid "meta_c_BL"
+msgstr "Saint-Barthélemy"
+
+msgid "meta_c_BM"
+msgstr "Bermudas"
+
+msgid "meta_c_BN"
+msgstr "Brunei"
+
+msgid "meta_c_BO"
+msgstr "Bolivien"
+
+msgid "meta_c_BR"
+msgstr "Brasilien"
+
+msgid "meta_c_BS"
+msgstr "Bahamas"
+
+msgid "meta_c_BT"
+msgstr "Bhutan"
+
+msgid "meta_c_BV"
+msgstr "Bouvet Island"
+
+msgid "meta_c_BW"
+msgstr "Botswana"
+
+msgid "meta_c_BY"
+msgstr "Weißrussland"
+
+msgid "meta_c_BZ"
+msgstr "Belize"
+
+msgid "meta_c_CA"
+msgstr "Kanada"
+
+msgid "meta_c_CC"
+msgstr "Kokos (Keeling) Inseln"
+
+msgid "meta_c_CF"
+msgstr "Zentralafrikanische Republik"
+
+msgid "meta_c_CG"
+msgstr "Kongo"
+
+msgid "meta_c_CH"
+msgstr "Schweiz"
+
+msgid "meta_c_CI"
+msgstr "Elfenbeinküste"
+
+msgid "meta_c_CK"
+msgstr "Cook Inseln"
+
+msgid "meta_c_CL"
+msgstr "Chile"
+
+msgid "meta_c_CM"
+msgstr "Kamerun"
+
+msgid "meta_c_CN"
+msgstr "China"
+
+msgid "meta_c_CO"
+msgstr "Kolumbien"
+
+msgid "meta_c_CR"
+msgstr "Costa Rica"
+
+msgid "meta_c_CU"
+msgstr "Kuba"
+
+msgid "meta_c_CV"
+msgstr "Kapverdische Inseln"
+
+msgid "meta_c_CX"
+msgstr "Weihnachtsinseln"
+
+msgid "meta_c_CY"
+msgstr "Zypern"
+
+msgid "meta_c_CZ"
+msgstr "Tschechische Republik"
+
+msgid "meta_c_DE"
+msgstr "Deutschland"
+
+msgid "meta_c_DJ"
+msgstr "Djibouti"
+
+msgid "meta_c_DK"
+msgstr "Dänemark"
+
+msgid "meta_c_DM"
+msgstr "Dominica"
+
+msgid "meta_c_DO"
+msgstr "Dominikanische Republik"
+
+msgid "meta_c_DZ"
+msgstr "Algerien"
+
+msgid "meta_c_EC"
+msgstr "Ekuador"
+
+msgid "meta_c_EE"
+msgstr "Estland"
+
+msgid "meta_c_EG"
+msgstr "Ägypten"
+
+msgid "meta_c_EH"
+msgstr "West-Sahara"
+
+msgid "meta_c_ER"
+msgstr "Eritrea"
+
+msgid "meta_c_ES"
+msgstr "Spanien"
+
+msgid "meta_c_ET"
+msgstr "Äthiopien"
+
+msgid "meta_c_FI"
+msgstr "Finnland"
+
+msgid "meta_c_FJ"
+msgstr "Fiji"
+
+msgid "meta_c_FK"
+msgstr "Falkland Inseln"
+
+msgid "meta_c_FM"
+msgstr "Mikronesien"
+
+msgid "meta_c_FO"
+msgstr "Faroer"
+
+msgid "meta_c_FR"
+msgstr "Frankreich"
+
+msgid "meta_c_FX"
+msgstr "Frankreich"
+
+msgid "meta_c_GA"
+msgstr "Gabun"
+
+msgid "meta_c_GB"
+msgstr "Vereinigtes Königreich"
+
+msgid "meta_c_GD"
+msgstr "Grenada"
+
+msgid "meta_c_GE"
+msgstr "Georgien"
+
+msgid "meta_c_GF"
+msgstr "Französisch Guyana"
+
+msgid "meta_c_GG"
+msgstr "Guernsey (Kanalinsel)"
+
+msgid "meta_c_GH"
+msgstr "Ghana"
+
+msgid "meta_c_GI"
+msgstr "Gibraltar"
+
+msgid "meta_c_GL"
+msgstr "Grönland"
+
+msgid "meta_c_GM"
+msgstr "Gambia"
+
+msgid "meta_c_GN"
+msgstr "Guinea"
+
+msgid "meta_c_GP"
+msgstr "Guadeloupe"
+
+msgid "meta_c_GQ"
+msgstr "Äquatorial-Guinea"
+
+msgid "meta_c_GR"
+msgstr "Griechenland"
+
+msgid "meta_c_GS"
+msgstr "Süd-Georgia und die Südlichen Sandwich-Inseln"
+
+msgid "meta_c_GT"
+msgstr "Guatemala"
+
+msgid "meta_c_GU"
+msgstr "Guam"
+
+msgid "meta_c_GW"
+msgstr "Guinea-Bissau"
+
+msgid "meta_c_GY"
+msgstr "Guyana"
+
+msgid "meta_c_HK"
+msgstr "Hong Kong"
+
+msgid "meta_c_HM"
+msgstr "Heard und McDonald Inseln"
+
+msgid "meta_c_HN"
+msgstr "Honduras"
+
+msgid "meta_c_HR"
+msgstr "Kroatien"
+
+msgid "meta_c_HT"
+msgstr "Haiti"
+
+msgid "meta_c_HU"
+msgstr "Ungarn"
+
+msgid "meta_c_ID"
+msgstr "Indonesien"
+
+msgid "meta_c_IE"
+msgstr "Irland"
+
+msgid "meta_c_IL"
+msgstr "Israel"
+
+msgid "meta_c_IM"
+msgstr "Insel Man"
+
+msgid "meta_c_IN"
+msgstr "Indien"
+
+msgid "meta_c_IO"
+msgstr "Britische Territorien im Indischen Ozean"
+
+msgid "meta_c_IQ"
+msgstr "Irak"
+
+msgid "meta_c_IR"
+msgstr "Iran"
+
+msgid "meta_c_IS"
+msgstr "Island"
+
+msgid "meta_c_IT"
+msgstr "Italien"
+
+msgid "meta_c_JE"
+msgstr "Jersey (Kanalinsel)"
+
+msgid "meta_c_JM"
+msgstr "Jamaika"
+
+msgid "meta_c_JO"
+msgstr "Jordanien"
+
+msgid "meta_c_JP"
+msgstr "Japan"
+
+msgid "meta_c_KE"
+msgstr "Kenia"
+
+msgid "meta_c_KG"
+msgstr "Kirgisien"
+
+msgid "meta_c_KH"
+msgstr "Kambodscha"
+
+msgid "meta_c_KI"
+msgstr "Kiribati"
+
+msgid "meta_c_KM"
+msgstr "Komoren"
+
+msgid "meta_c_KN"
+msgstr "Saint Kitts und Nevis"
+
+msgid "meta_c_KP"
+msgstr "Nord-Korea (Volksrepublik Korea)"
+
+msgid "meta_c_KR"
+msgstr "Süd-Korea (Republik)"
+
+msgid "meta_c_KW"
+msgstr "Kuwait"
+
+msgid "meta_c_KY"
+msgstr "Kaiman Inseln"
+
+msgid "meta_c_KZ"
+msgstr "Kasachstan"
+
+msgid "meta_c_LA"
+msgstr "Laos"
+
+msgid "meta_c_LB"
+msgstr "Libanon"
+
+msgid "meta_c_LC"
+msgstr "Saint Lucia"
+
+msgid "meta_c_LI"
+msgstr "Liechtenstein"
+
+msgid "meta_c_LK"
+msgstr "Sri Lanka"
+
+msgid "meta_c_LR"
+msgstr "Liberia"
+
+msgid "meta_c_LS"
+msgstr "Lesotho"
+
+msgid "meta_c_LT"
+msgstr "Litauen"
+
+msgid "meta_c_LU"
+msgstr "Luxemburg"
+
+msgid "meta_c_LV"
+msgstr "Lettland"
+
+msgid "meta_c_LY"
+msgstr "Libyen"
+
+msgid "meta_c_MA"
+msgstr "Marokko"
+
+msgid "meta_c_MC"
+msgstr "Monaco"
+
+msgid "meta_c_MD"
+msgstr "Moldawien"
+
+msgid "meta_c_ME"
+msgstr "Montenegro"
+
+msgid "meta_c_MF"
+msgstr "Saint-Martin (franz. Teil)"
+
+msgid "meta_c_MG"
+msgstr "Madagaskar"
+
+msgid "meta_c_MH"
+msgstr "Marshall Inseln"
+
+msgid "meta_c_MK"
+msgstr "Nordmazedonien"
+
+msgid "meta_c_ML"
+msgstr "Mali"
+
+msgid "meta_c_MM"
+msgstr "Myanmar"
+
+msgid "meta_c_MN"
+msgstr "Mongolei"
+
+msgid "meta_c_MO"
+msgstr "Macau"
+
+msgid "meta_c_MP"
+msgstr "Nördliche Mariannen-Inseln"
+
+msgid "meta_c_MQ"
+msgstr "Martinique"
+
+msgid "meta_c_MR"
+msgstr "Mauretanien"
+
+msgid "meta_c_MS"
+msgstr "Montserrat"
+
+msgid "meta_c_MT"
+msgstr "Malta"
+
+msgid "meta_c_MU"
+msgstr "Mauritius"
+
+msgid "meta_c_MV"
+msgstr "Malediven"
+
+msgid "meta_c_MW"
+msgstr "Malawi"
+
+msgid "meta_c_MX"
+msgstr "Mexiko"
+
+msgid "meta_c_MY"
+msgstr "Malaysia"
+
+msgid "meta_c_MZ"
+msgstr "Mozambik"
+
+msgid "meta_c_NA"
+msgstr "Namibia"
+
+msgid "meta_c_NC"
+msgstr "Neu Kaledonien"
+
+msgid "meta_c_NE"
+msgstr "Niger"
+
+msgid "meta_c_NF"
+msgstr "Norfolk Island"
+
+msgid "meta_c_NG"
+msgstr "Nigeria"
+
+msgid "meta_c_NI"
+msgstr "Nicaragua"
+
+msgid "meta_c_NL"
+msgstr "Niederlande"
+
+msgid "meta_c_NO"
+msgstr "Norwegen"
+
+msgid "meta_c_NP"
+msgstr "Nepal"
+
+msgid "meta_c_NR"
+msgstr "Nauru"
+
+msgid "meta_c_NU"
+msgstr "Niue"
+
+msgid "meta_c_NZ"
+msgstr "Neuseeland"
+
+msgid "meta_c_OM"
+msgstr "Oman"
+
+msgid "meta_c_PA"
+msgstr "Panama"
+
+msgid "meta_c_PE"
+msgstr "Peru"
+
+msgid "meta_c_PF"
+msgstr "Französisch Polynesien"
+
+msgid "meta_c_PG"
+msgstr "Papua-Neuguinea"
+
+msgid "meta_c_PH"
+msgstr "Philippinen"
+
+msgid "meta_c_PK"
+msgstr "Pakistan"
+
+msgid "meta_c_PL"
+msgstr "Polen"
+
+msgid "meta_c_PM"
+msgstr "St. Pierre und Miquelon"
+
+msgid "meta_c_PN"
+msgstr "Pitcairn"
+
+msgid "meta_c_PR"
+msgstr "Puerto Rico"
+
+msgid "meta_c_PS"
+msgstr "Palästinensische Autonomiegebiete"
+
+msgid "meta_c_PT"
+msgstr "Portugal"
+
+msgid "meta_c_PW"
+msgstr "Palau"
+
+msgid "meta_c_PY"
+msgstr "Paraguay"
+
+msgid "meta_c_QA"
+msgstr "Katar"
+
+msgid "meta_c_RE"
+msgstr "Reunion"
+
+msgid "meta_c_RO"
+msgstr "Rumänien"
+
+msgid "meta_c_RS"
+msgstr "Serbien"
+
+msgid "meta_c_RU"
+msgstr "Russische Föderation"
+
+msgid "meta_c_RW"
+msgstr "Ruanda"
+
+msgid "meta_c_SA"
+msgstr "Saudi-Arabien"
+
+msgid "meta_c_SB"
+msgstr "Solomon Inseln"
+
+msgid "meta_c_SC"
+msgstr "Seychellen"
+
+msgid "meta_c_SD"
+msgstr "Sudan"
+
+msgid "meta_c_SE"
+msgstr "Schweden"
+
+msgid "meta_c_SG"
+msgstr "Singapur"
+
+msgid "meta_c_SH"
+msgstr "St. Helena"
+
+msgid "meta_c_SI"
+msgstr "Slowenien"
+
+msgid "meta_c_SJ"
+msgstr "Svalbard und Jan Mayen Inseln"
+
+msgid "meta_c_SK"
+msgstr "Slowakei"
+
+msgid "meta_c_SL"
+msgstr "Sierra Leone"
+
+msgid "meta_c_SM"
+msgstr "San Marino"
+
+msgid "meta_c_SN"
+msgstr "Senegal"
+
+msgid "meta_c_SO"
+msgstr "Somalia"
+
+msgid "meta_c_SR"
+msgstr "Surinam"
+
+msgid "meta_c_ST"
+msgstr "Sao Tome und Principe"
+
+msgid "meta_c_SV"
+msgstr "El Salvador"
+
+msgid "meta_c_SY"
+msgstr "Syrien"
+
+msgid "meta_c_SZ"
+msgstr "Swaziland"
+
+msgid "meta_c_TC"
+msgstr "Turks und Caicos Inseln"
+
+msgid "meta_c_TD"
+msgstr "Tschad"
+
+msgid "meta_c_TF"
+msgstr "Französische Südliche Territorien"
+
+msgid "meta_c_TG"
+msgstr "Togo"
+
+msgid "meta_c_TH"
+msgstr "Thailand"
+
+msgid "meta_c_TJ"
+msgstr "Tadschikistan"
+
+msgid "meta_c_TK"
+msgstr "Tokelau"
+
+msgid "meta_c_TL"
+msgstr "Osttimor"
+
+msgid "meta_c_TM"
+msgstr "Turkmenistan"
+
+msgid "meta_c_TN"
+msgstr "Tunesien"
+
+msgid "meta_c_TO"
+msgstr "Tonga"
+
+msgid "meta_c_TR"
+msgstr "Türkei"
+
+msgid "meta_c_TT"
+msgstr "Trinidad und Tobago"
+
+msgid "meta_c_TV"
+msgstr "Tuvalu"
+
+msgid "meta_c_TW"
+msgstr "Taiwan"
+
+msgid "meta_c_TZ"
+msgstr "Tansania"
+
+msgid "meta_c_UA"
+msgstr "Ukraine"
+
+msgid "meta_c_UG"
+msgstr "Uganda"
+
+msgid "meta_c_UM"
+msgstr "U.S. Minor Outlying Inseln"
+
+msgid "meta_c_US"
+msgstr "Vereinigte Staaten"
+
+msgid "meta_c_UY"
+msgstr "Uruguay"
+
+msgid "meta_c_UZ"
+msgstr "Usbekistan"
+
+msgid "meta_c_VA"
+msgstr "Vatikan"
+
+msgid "meta_c_VC"
+msgstr "Saint Vincent und Grenadines"
+
+msgid "meta_c_VE"
+msgstr "Venezuela"
+
+msgid "meta_c_VG"
+msgstr "Virgin Islands (Britisch)"
+
+msgid "meta_c_VI"
+msgstr "Virgin Islands (US)"
+
+msgid "meta_c_VN"
+msgstr "Vietnam"
+
+msgid "meta_c_VU"
+msgstr "Vanuatu"
+
+msgid "meta_c_WF"
+msgstr "Wallis und Futuna"
+
+msgid "meta_c_WS"
+msgstr "Samoa"
+
+msgid "meta_c_XK"
+msgstr "Kosovo"
+
+msgid "meta_c_YE"
+msgstr "Jemen"
+
+msgid "meta_c_YT"
+msgstr "Mayotte"
+
+msgid "meta_c_ZA"
+msgstr "Südafrika"
+
+msgid "meta_c_ZM"
+msgstr "Sambia"
+
+msgid "meta_c_ZW"
+msgstr "Simbabwe"
+
+msgid "meta_catalog"
+msgstr "Katalog"
+
+msgid "meta_classification"
+msgstr "Klassifizierung"
+
+msgid "meta_classification_plural"
+msgstr "Klassifizierungen"
+
+msgid "meta_collection"
+msgstr "Sammlung"
+
+msgid "meta_competency"
+msgstr "Kompetenz"
+
+msgid "meta_contentprovider"
+msgstr "Content angeboten von"
+
+msgid "meta_context"
+msgstr "Kontext"
+
+msgid "meta_context_plural"
+msgstr "Kontexte"
+
+msgid "meta_contribute"
+msgstr "Beitrag"
+
+msgid "meta_contribute_plural"
+msgstr "Beiträge"
+
+msgid "meta_copyright"
+msgstr "Lizenz"
+
+msgid "meta_copyright_and_other_restrictions"
+msgstr "Lizenzen und andere Einschränkungen"
+
+msgid "meta_copyright_change_info"
+msgstr "Beachten Sie unbedingt das Urheberrecht, wenn Sie die Lizenz für dieses Objekt ändern. Bitte fahren Sie nur fort, wenn Sie befugt sind, über die Nutzungsrechte an dem Objekt zu entscheiden."
+
+msgid "meta_copyright_change_oer_info"
+msgstr "Die Lizenz, die Sie ausgewählt haben, zeichnet das Object als Open Educational Resource aus. Wenn Sie fortfahren, wird es eventuell als solches mit einer Exportdatei gelistet, und über diese Plattform hinaus veröffentlicht."
+
+msgid "meta_copyright_change_warning_title"
+msgstr "Lizenz ändern"
+
+msgid "meta_copyright_in_use"
+msgstr "Aktuell"
+
+msgid "meta_copyright_outdated"
+msgstr "Veraltet"
+
+msgid "meta_copyright_outdated_error"
+msgstr "Die ausgewählt Lizenz ist veraltet und darf nicht mehr benutzt werden."
+
+msgid "meta_copyright_show_usages"
+msgstr "Verwendung anzeigen"
+
+msgid "meta_copyright_status"
+msgstr "Status"
+
+msgid "meta_copyright_sub_items"
+msgstr "Sub Items"
+
+msgid "meta_copyright_usage"
+msgstr "Verwendung"
+
+msgid "meta_cost"
+msgstr "Kosten"
+
+msgid "meta_coverage"
+msgstr "Anwendungsbereich"
+
+msgid "meta_coverage_plural"
+msgstr "Anwendungsbereiche"
+
+msgid "meta_cp_own"
+msgstr "Eigene Angabe:"
+
+msgid "meta_creator"
+msgstr "Ersteller"
+
+msgid "meta_current_value"
+msgstr "Aktueller Wert"
+
+msgid "meta_date"
+msgstr "Datum"
+
+msgid "meta_date_time"
+msgstr "Datum"
+
+msgid "meta_delete"
+msgstr "Löschen"
+
+msgid "meta_delete_confirm"
+msgstr "Sind Sie sicher, dass sie dieses Element und dessen Inhalt löschen wollen?"
+
+msgid "meta_delete_element"
+msgstr "%s löschen"
+
+msgid "meta_delete_element_success"
+msgstr "Element erfolgreich gelöscht"
+
+msgid "meta_delete_this_element"
+msgstr "Dieses Element Löschen"
+
+msgid "meta_description"
+msgstr "Beschreibung"
+
+msgid "meta_description_plural"
+msgstr "Beschreibungen"
+
+msgid "meta_diagramm"
+msgstr "Diagramm"
+
+msgid "meta_difficult"
+msgstr "Schwierig"
+
+msgid "meta_difficulty"
+msgstr "Schwierigkeit"
+
+msgid "meta_discipline"
+msgstr "Disziplin"
+
+msgid "meta_draft"
+msgstr "Entwurf"
+
+msgid "meta_duration"
+msgstr "Dauer"
+
+msgid "meta_easy"
+msgstr "Leicht"
+
+msgid "meta_edit_element"
+msgstr "%s bearbeiten"
+
+msgid "meta_edit_element_success"
+msgstr "Element erfolgreich bearbeitet"
+
+msgid "meta_editor"
+msgstr "Redakteur"
+
+msgid "meta_education"
+msgstr "Ausbildung"
+
+msgid "meta_educational"
+msgstr "Pädagogik"
+
+msgid "meta_educational_level"
+msgstr "Ausbildungsstufe"
+
+msgid "meta_educational_objective"
+msgstr "Ausbildungsziel"
+
+msgid "meta_educational_plural"
+msgstr "Pädagogik"
+
+msgid "meta_educationalvalidator"
+msgstr "Pädagogische Abnahme"
+
+msgid "meta_entity"
+msgstr "Instanz"
+
+msgid "meta_entity_plural"
+msgstr "Instanzen"
+
+msgid "meta_entry"
+msgstr "Eintrag"
+
+msgid "meta_error_empty_input"
+msgstr "Mindestens eines der folgenden Formularfelder muss ausgefüllt sein."
+
+msgid "meta_exam"
+msgstr "Prüfung"
+
+msgid "meta_exercise"
+msgstr "Übung"
+
+msgid "meta_experiment"
+msgstr "Experiment"
+
+msgid "meta_expositive"
+msgstr "Erklärend"
+
+msgid "meta_figure"
+msgstr "Abbildung"
+
+msgid "meta_final"
+msgstr "Endfassung"
+
+msgid "meta_first_author"
+msgstr "Erste Person"
+
+msgid "meta_format"
+msgstr "Format"
+
+msgid "meta_format_plural"
+msgstr "Formate"
+
+msgid "meta_full_editor_navigation_info"
+msgstr "Um dieses Metadaten-Set zu navigieren und zu bearbeiten, benutzen Sie den \"LOM\"-Baum im \"Tools\" Eintrag des Hauptmenüs."
+
+msgid "meta_general"
+msgstr "Allgemein"
+
+msgid "meta_global"
+msgstr "Global"
+
+msgid "meta_graph"
+msgstr "Graph"
+
+msgid "meta_graphicaldesigner"
+msgstr "Graphik-Designer"
+
+msgid "meta_has_format"
+msgstr "...hat Format..."
+
+msgid "meta_has_part"
+msgstr "..hat Teil von..."
+
+msgid "meta_has_version"
+msgstr "..hat Version..."
+
+msgid "meta_hierarchical"
+msgstr "Hierarchisch"
+
+msgid "meta_high"
+msgstr "Hoch"
+
+msgid "meta_higher_education"
+msgstr "Hochschulbildung"
+
+msgid "meta_id"
+msgstr "ID"
+
+msgid "meta_idea"
+msgstr "Idee"
+
+msgid "meta_identifier"
+msgstr "Kennung"
+
+msgid "meta_identifier_plural"
+msgstr "Kennungen"
+
+msgid "meta_index"
+msgstr "Index"
+
+msgid "meta_info_licence_section"
+msgstr "Lizenz und Nachnutzung"
+
+msgid "meta_info_only_repository_objects"
+msgstr "Nachfolgend werden nur Magazinobjekte angezeigt, nicht aber Medienobjekte oder Lernmodulseiten."
+
+msgid "meta_initiator"
+msgstr "Initiator"
+
+msgid "meta_installation_remarks"
+msgstr "Installationsanmerkungen"
+
+msgid "meta_instructionaldesigner"
+msgstr "Lern-Designer"
+
+msgid "meta_intended_end_user_role"
+msgstr "Beabsichtige Endbenutzer Rolle"
+
+msgid "meta_intended_end_user_role_plural"
+msgstr "Beabsichtige Endbenutzer Rollen"
+
+msgid "meta_interactivity_level"
+msgstr "Stufe der Interaktivität"
+
+msgid "meta_interactivity_type"
+msgstr "Art der Interaktivität"
+
+msgid "meta_is_based_on"
+msgstr "Basiert auf"
+
+msgid "meta_is_basis_for"
+msgstr "...ist Voraussetzung für..."
+
+msgid "meta_is_format_of"
+msgstr "...ist Format von..."
+
+msgid "meta_is_part_of"
+msgstr "...ist Teil von..."
+
+msgid "meta_is_referenced_by"
+msgstr "...ist referenziert von..."
+
+msgid "meta_is_required_by"
+msgstr "...wird benötigt von..."
+
+msgid "meta_is_version_of"
+msgstr "...ist Version von..."
+
+msgid "meta_keyword"
+msgstr "Schlagwort"
+
+msgid "meta_keyword_plural"
+msgstr "Schlagwörter"
+
+msgid "meta_kind"
+msgstr "Art"
+
+msgid "meta_l_aa"
+msgstr "Afar"
+
+msgid "meta_l_ab"
+msgstr "Abchasisch"
+
+msgid "meta_l_af"
+msgstr "Afrikaans"
+
+msgid "meta_l_am"
+msgstr "Amharisch"
+
+msgid "meta_l_ar"
+msgstr "Arabisch"
+
+msgid "meta_l_as"
+msgstr "Assamesisch"
+
+msgid "meta_l_ay"
+msgstr "Aymara"
+
+msgid "meta_l_az"
+msgstr "Aserbaidschanisch"
+
+msgid "meta_l_ba"
+msgstr "Baschkirisch"
+
+msgid "meta_l_be"
+msgstr "Belarussisch"
+
+msgid "meta_l_bg"
+msgstr "Bulgarisch"
+
+msgid "meta_l_bh"
+msgstr "Biharisch"
+
+msgid "meta_l_bi"
+msgstr "Bislamisch"
+
+msgid "meta_l_bn"
+msgstr "Bengalisch"
+
+msgid "meta_l_bo"
+msgstr "Tibetanisch"
+
+msgid "meta_l_br"
+msgstr "Bretonisch"
+
+msgid "meta_l_ca"
+msgstr "Katalanisch"
+
+msgid "meta_l_co"
+msgstr "Korsisch"
+
+msgid "meta_l_cs"
+msgstr "Tschechisch"
+
+msgid "meta_l_cy"
+msgstr "Walisisch"
+
+msgid "meta_l_da"
+msgstr "Dänisch"
+
+msgid "meta_l_de"
+msgstr "Deutsch"
+
+msgid "meta_l_dz"
+msgstr "Bhutani"
+
+msgid "meta_l_el"
+msgstr "Griechisch"
+
+msgid "meta_l_en"
+msgstr "Englisch"
+
+msgid "meta_l_eo"
+msgstr "Esperanto"
+
+msgid "meta_l_es"
+msgstr "Spanisch"
+
+msgid "meta_l_et"
+msgstr "Estnisch"
+
+msgid "meta_l_eu"
+msgstr "Baskisch"
+
+msgid "meta_l_fa"
+msgstr "Persisch (Farsi)"
+
+msgid "meta_l_fi"
+msgstr "Finnisch"
+
+msgid "meta_l_fj"
+msgstr "Fidschi"
+
+msgid "meta_l_fo"
+msgstr "Faröisch"
+
+msgid "meta_l_fr"
+msgstr "Französisch"
+
+msgid "meta_l_fy"
+msgstr "Friesisch"
+
+msgid "meta_l_ga"
+msgstr "Irisch"
+
+msgid "meta_l_gd"
+msgstr "Schottisches Gälisch"
+
+msgid "meta_l_gl"
+msgstr "Galizisch"
+
+msgid "meta_l_gn"
+msgstr "Guarani"
+
+msgid "meta_l_gu"
+msgstr "Gujaratisch"
+
+msgid "meta_l_ha"
+msgstr "Hausa"
+
+msgid "meta_l_he"
+msgstr "Hebräisch"
+
+msgid "meta_l_hi"
+msgstr "Hindi"
+
+msgid "meta_l_hr"
+msgstr "Kroatisch"
+
+msgid "meta_l_hu"
+msgstr "Ungarisch"
+
+msgid "meta_l_hy"
+msgstr "Armenisch"
+
+msgid "meta_l_ia"
+msgstr "Interlingua"
+
+msgid "meta_l_id"
+msgstr "Indonesisch"
+
+msgid "meta_l_ie"
+msgstr "Interlingue"
+
+msgid "meta_l_ik"
+msgstr "Inupiak"
+
+msgid "meta_l_is"
+msgstr "Isländisch"
+
+msgid "meta_l_it"
+msgstr "Italienisch"
+
+msgid "meta_l_iu"
+msgstr "Inuktitut"
+
+msgid "meta_l_ja"
+msgstr "Japanisch"
+
+msgid "meta_l_jv"
+msgstr "Javanesisch"
+
+msgid "meta_l_ka"
+msgstr "Georgisch"
+
+msgid "meta_l_kk"
+msgstr "Kasachisch"
+
+msgid "meta_l_kl"
+msgstr "Grönländisch"
+
+msgid "meta_l_km"
+msgstr "Kambodschanisch"
+
+msgid "meta_l_kn"
+msgstr "Kannada"
+
+msgid "meta_l_ko"
+msgstr "Koreanisch"
+
+msgid "meta_l_ks"
+msgstr "Kashmirisch"
+
+msgid "meta_l_ku"
+msgstr "Kurdisch"
+
+msgid "meta_l_ky"
+msgstr "Kirgisisch"
+
+msgid "meta_l_la"
+msgstr "Lateinisch"
+
+msgid "meta_l_ln"
+msgstr "Lingalisch"
+
+msgid "meta_l_lo"
+msgstr "Laotisch"
+
+msgid "meta_l_lt"
+msgstr "Litauisch"
+
+msgid "meta_l_lv"
+msgstr "Lettisch"
+
+msgid "meta_l_mg"
+msgstr "Malagasisch"
+
+msgid "meta_l_mi"
+msgstr "Maorisch"
+
+msgid "meta_l_mk"
+msgstr "Mazedonisch"
+
+msgid "meta_l_ml"
+msgstr "Malajalam"
+
+msgid "meta_l_mn"
+msgstr "Mongolisch"
+
+msgid "meta_l_mo"
+msgstr "Moldavisch"
+
+msgid "meta_l_mr"
+msgstr "Marathi"
+
+msgid "meta_l_ms"
+msgstr "Malayisch"
+
+msgid "meta_l_mt"
+msgstr "Maltesisch"
+
+msgid "meta_l_my"
+msgstr "Burmesisch"
+
+msgid "meta_l_na"
+msgstr "Nauruisch"
+
+msgid "meta_l_ne"
+msgstr "Nepalesisch"
+
+msgid "meta_l_nl"
+msgstr "Niederländisch"
+
+msgid "meta_l_no"
+msgstr "Norwegisch"
+
+msgid "meta_l_oc"
+msgstr "Okzitanisch"
+
+msgid "meta_l_om"
+msgstr "Oromo"
+
+msgid "meta_l_or"
+msgstr "Odia"
+
+msgid "meta_l_pa"
+msgstr "Punjabi"
+
+msgid "meta_l_pl"
+msgstr "Polnisch"
+
+msgid "meta_l_ps"
+msgstr "Paschtu"
+
+msgid "meta_l_pt"
+msgstr "Portugiesisch"
+
+msgid "meta_l_qu"
+msgstr "Quechua"
+
+msgid "meta_l_rm"
+msgstr "Rätoromanisch"
+
+msgid "meta_l_rn"
+msgstr "Kirundi"
+
+msgid "meta_l_ro"
+msgstr "Rumänisch"
+
+msgid "meta_l_ru"
+msgstr "Russisch"
+
+msgid "meta_l_rw"
+msgstr "Kinyarwanda"
+
+msgid "meta_l_sa"
+msgstr "Sanskrit"
+
+msgid "meta_l_sd"
+msgstr "Sindhi"
+
+msgid "meta_l_sg"
+msgstr "Sango"
+
+msgid "meta_l_sh"
+msgstr "Serbokroatisch"
+
+msgid "meta_l_si"
+msgstr "Singhalesisch"
+
+msgid "meta_l_sk"
+msgstr "Slowakisch"
+
+msgid "meta_l_sl"
+msgstr "Slowenisch"
+
+msgid "meta_l_sm"
+msgstr "Samoanisch"
+
+msgid "meta_l_sn"
+msgstr "Shona"
+
+msgid "meta_l_so"
+msgstr "Somalisch"
+
+msgid "meta_l_sq"
+msgstr "Albanisch"
+
+msgid "meta_l_sr"
+msgstr "Serbisch"
+
+msgid "meta_l_ss"
+msgstr "Siswati"
+
+msgid "meta_l_st"
+msgstr "Sesothisch"
+
+msgid "meta_l_su"
+msgstr "Sundanesisch"
+
+msgid "meta_l_sv"
+msgstr "Schwedisch"
+
+msgid "meta_l_sw"
+msgstr "Suaheli"
+
+msgid "meta_l_ta"
+msgstr "Tamilisch"
+
+msgid "meta_l_te"
+msgstr "Telugu"
+
+msgid "meta_l_tg"
+msgstr "Tadschikisch"
+
+msgid "meta_l_th"
+msgstr "Thai"
+
+msgid "meta_l_ti"
+msgstr "Tigrinja"
+
+msgid "meta_l_tk"
+msgstr "Turkmenisch"
+
+msgid "meta_l_tl"
+msgstr "Tagalog"
+
+msgid "meta_l_tn"
+msgstr "Sezuan"
+
+msgid "meta_l_to"
+msgstr "Tongaisch"
+
+msgid "meta_l_tr"
+msgstr "Türkisch"
+
+msgid "meta_l_ts"
+msgstr "Tsongaisch"
+
+msgid "meta_l_tt"
+msgstr "Tatarisch"
+
+msgid "meta_l_tw"
+msgstr "Twi"
+
+msgid "meta_l_ug"
+msgstr "Uigur"
+
+msgid "meta_l_uk"
+msgstr "Ukrainisch"
+
+msgid "meta_l_ur"
+msgstr "Urdu"
+
+msgid "meta_l_uz"
+msgstr "Usbekisch"
+
+msgid "meta_l_vi"
+msgstr "Vietnamesisch"
+
+msgid "meta_l_vo"
+msgstr "Volapük"
+
+msgid "meta_l_wo"
+msgstr "Wolof"
+
+msgid "meta_l_xh"
+msgstr "Xhosa"
+
+msgid "meta_l_xx"
+msgstr "keine"
+
+msgid "meta_l_yi"
+msgstr "Jiddish"
+
+msgid "meta_l_yo"
+msgstr "Yoruba"
+
+msgid "meta_l_za"
+msgstr "Zhuang"
+
+msgid "meta_l_zh"
+msgstr "Chinesisch"
+
+msgid "meta_l_zu"
+msgstr "Zulu"
+
+msgid "meta_language"
+msgstr "Sprache"
+
+msgid "meta_language_plural"
+msgstr "Sprachen"
+
+msgid "meta_learner"
+msgstr "Lernender"
+
+msgid "meta_learning_resource_type"
+msgstr "Art des Lernmittels"
+
+msgid "meta_learning_resource_type_plural"
+msgstr "Arten des Lernmittels"
+
+msgid "meta_lecture"
+msgstr "Lektüre"
+
+msgid "meta_lifecycle"
+msgstr "Lebenszyklus"
+
+msgid "meta_linear"
+msgstr "Linear"
+
+msgid "meta_local"
+msgstr "Lokal"
+
+msgid "meta_location"
+msgstr "Standort"
+
+msgid "meta_location_plural"
+msgstr "Standorte"
+
+msgid "meta_lom"
+msgstr "Lernobjekt-Metadaten"
+
+msgid "meta_lom_short"
+msgstr "LOM"
+
+msgid "meta_low"
+msgstr "niedrig"
+
+msgid "meta_macos"
+msgstr "MAC-OS"
+
+msgid "meta_manager"
+msgstr "Manager"
+
+msgid "meta_maximum_version"
+msgstr "Maximum-Version"
+
+msgid "meta_medium"
+msgstr "Mittel"
+
+msgid "meta_meta_metadata"
+msgstr "Meta-Metadaten"
+
+msgid "meta_metadatascheme"
+msgstr "Metadaten-Schema"
+
+msgid "meta_metadatascheme_plural"
+msgstr "Metadaten-Schemas"
+
+msgid "meta_minimum_version"
+msgstr "Minimal-Version"
+
+msgid "meta_mixed"
+msgstr "Gemischt"
+
+msgid "meta_ms-internet_explorer"
+msgstr "MS-Internet Explorer"
+
+msgid "meta_ms-windows"
+msgstr "MS-Windows"
+
+msgid "meta_multi-os"
+msgstr "Multi-OS"
+
+msgid "meta_name"
+msgstr "Name"
+
+msgid "meta_narrative_text"
+msgstr "Erzählender Text"
+
+msgid "meta_netscape_communicator"
+msgstr "Netscape Communicator"
+
+msgid "meta_networked"
+msgstr "Vernetzt"
+
+msgid "meta_new_element"
+msgstr "Neues Element"
+
+msgid "meta_no"
+msgstr "Nein"
+
+msgid "meta_none"
+msgstr "Keines"
+
+msgid "meta_obj_type_active"
+msgstr "Datensatz anbieten"
+
+msgid "meta_obj_type_inactive"
+msgstr "Datensatz nicht anbieten"
+
+msgid "meta_obj_type_mandatory"
+msgstr "Immer zum Ausfüllen anbieten"
+
+msgid "meta_obj_type_optional"
+msgstr "Datensatz muss aktiviert werden"
+
+msgid "meta_oer_copyright_selection"
+msgstr "Veröffentlichung von Objekten mit folgenden Lizenzen"
+
+msgid "meta_oer_copyright_selection_info"
+msgstr "Nur Objekte mit einer der ausgewählten Lizenzen werden veröffentlicht."
+
+msgid "meta_oer_editorial_category"
+msgstr "Redaktionelle Kategorie"
+
+msgid "meta_oer_editorial_step_info"
+msgstr "Objekte können vor ihrer Veröffentlichung von einer Redaktion geprüft werden. Objekte werden erst in die redaktionellen Kategorie eingereicht. Erst nach Annahme für die Veröffentlichung werden die Objekte in die Kategorie für veröffentlichte Inhalte bewegt, und Einträge für die OAI-PMH Schnittstelle angelegt."
+
+msgid "meta_oer_editorial_step_toggle"
+msgstr "Redaktionellen Zwischenschritt aktivieren"
+
+msgid "meta_oer_exposed_source"
+msgstr "Veröffentlichung in"
+
+msgid "meta_oer_harvested_licences"
+msgstr "Lizenzauswahl"
+
+msgid "meta_oer_harvested_types"
+msgstr "Auswahl Objekttypen"
+
+msgid "meta_oer_harvester"
+msgstr "OER-Harvester"
+
+msgid "meta_oer_harvester_desc"
+msgstr "Der OER-Harvester muss aktiviert sein, um zu gewährleisten, dass die Veröffentlichung von Objekten als OER funktioniert, siehe die Einstellungen zur Veröffentlichung in der Metadaten-Administration.<br/>Einträge von veröffentlichten Objekten in der OAI-PMH Schnittstelle werden aktualisiert, und nicht mehr geeignete Objekte werden von der Veröffentlichung zurückgezogen. Wenn automatische Veröffentlichung aktiviert ist, sammelt der OER-Harvester Objekte anhand der Einstellungen ein, und veröffentlicht sie (oder reicht sie zur Prüfung ein, wenn ein redaktioneller Zwischenschritt aktiviert ist)."
+
+msgid "meta_oer_object_type_selection"
+msgstr "Veröffentlichung folgender Objekttypen"
+
+msgid "meta_opera"
+msgstr "Opera"
+
+msgid "meta_operating_system"
+msgstr "Betriebssystem"
+
+msgid "meta_or_composite"
+msgstr "... oder zusammengesetzt ..."
+
+msgid "meta_or_composite_plural"
+msgstr "... oder zusammengesetzt ..."
+
+msgid "meta_order"
+msgstr "Order"
+
+msgid "meta_other"
+msgstr "Andere"
+
+msgid "meta_other_plattform_requirements"
+msgstr "Andere Plattform-Anforderungen"
+
+msgid "meta_pc-dos"
+msgstr "PC-DOS"
+
+msgid "meta_pointofcontact"
+msgstr "Kontakt"
+
+msgid "meta_prerequisite"
+msgstr "Voraussetzung"
+
+msgid "meta_problem_statement"
+msgstr "Problemstellung"
+
+msgid "meta_publisher"
+msgstr "Herausgeber"
+
+msgid "meta_publishing_config_cp"
+msgstr "Lizenzen in Objekten: <strong>%s</strong>"
+
+msgid "meta_publishing_config_cron_job_admin"
+msgstr "Cron Job Administration"
+
+msgid "meta_publishing_config_disabled"
+msgstr "Deaktiviert"
+
+msgid "meta_publishing_config_enabled"
+msgstr "Aktiviert"
+
+msgid "meta_publishing_config_harvester"
+msgstr "OER-Harvester: <strong>%s</strong>"
+
+msgid "meta_publishing_config_status"
+msgstr "Damit das Veröffentlichen von Objekten funktioniert, müssen Lizenzen in Objekten und der OER-Harvester Cron Job aktiviert sein."
+
+msgid "meta_purpose"
+msgstr "Zweck"
+
+msgid "meta_questionnaire"
+msgstr "Fragebogen"
+
+msgid "meta_references"
+msgstr "Referenzen"
+
+msgid "meta_relation"
+msgstr "Beziehung"
+
+msgid "meta_relation_plural"
+msgstr "Beziehungen"
+
+msgid "meta_requirement"
+msgstr "Anforderung"
+
+msgid "meta_requirement_plural"
+msgstr "Anforderungen"
+
+msgid "meta_requires"
+msgstr "Benötigt"
+
+msgid "meta_resource"
+msgstr "Ressource"
+
+msgid "meta_revised"
+msgstr "Überarbeitete Fassung"
+
+msgid "meta_rights"
+msgstr "Rechte und Lizenzen"
+
+msgid "meta_role"
+msgstr "Rolle"
+
+msgid "meta_save_order"
+msgstr "Reihenfolge speichern"
+
+msgid "meta_school"
+msgstr "Schule"
+
+msgid "meta_scriptwriter"
+msgstr "Werbetexter"
+
+msgid "meta_second_author"
+msgstr "Zweite Person"
+
+msgid "meta_section"
+msgstr "Bereich"
+
+msgid "meta_security_level"
+msgstr "Sicherheitsstufe"
+
+msgid "meta_self_assessment"
+msgstr "Selbsttest"
+
+msgid "meta_semantic_density"
+msgstr "Semantische Dichte"
+
+msgid "meta_simulation"
+msgstr "Simulation"
+
+msgid "meta_size"
+msgstr "Größe"
+
+msgid "meta_skill_level"
+msgstr "Stufe der Kompetenz"
+
+msgid "meta_slide"
+msgstr "Folie"
+
+msgid "meta_source"
+msgstr "Quelle"
+
+msgid "meta_status"
+msgstr "Status"
+
+msgid "meta_string"
+msgstr "Text"
+
+msgid "meta_structure"
+msgstr "Struktur"
+
+msgid "meta_tab_advmd"
+msgstr "Benutzerdefinierte Metadaten"
+
+msgid "meta_tab_advmd_def"
+msgstr "Metadatensätze verwalten"
+
+msgid "meta_tab_lom"
+msgstr "LOM"
+
+msgid "meta_table"
+msgstr "Tabelle"
+
+msgid "meta_taxon"
+msgstr "Taxon"
+
+msgid "meta_taxon_path"
+msgstr "Taxon-Pfad"
+
+msgid "meta_taxon_path_plural"
+msgstr "Taxon-Pfade"
+
+msgid "meta_taxon_plural"
+msgstr "Taxa"
+
+msgid "meta_teacher"
+msgstr "Lehrer"
+
+msgid "meta_technical"
+msgstr "Technische Angaben"
+
+msgid "meta_technicalimplementer"
+msgstr "Technische Umsetzung"
+
+msgid "meta_technicalvalidator"
+msgstr "Technische Überprüfung"
+
+msgid "meta_terminator"
+msgstr "Schlussredakteur"
+
+msgid "meta_third_author"
+msgstr "Dritte Person"
+
+msgid "meta_title"
+msgstr "Titel"
+
+msgid "meta_training"
+msgstr "Training"
+
+msgid "meta_type"
+msgstr "Typ"
+
+msgid "meta_typical_age_range"
+msgstr "Typische Altersspanne"
+
+msgid "meta_typical_age_range_plural"
+msgstr "Typische Altersspannen"
+
+msgid "meta_typical_learning_time"
+msgstr "Typische Lerndauer"
+
+msgid "meta_unavailable"
+msgstr "Nicht verfügbar"
+
+msgid "meta_unix"
+msgstr "Unix"
+
+msgid "meta_unknown"
+msgstr "Unbekannt"
+
+msgid "meta_validator"
+msgstr "Überprüfung"
+
+msgid "meta_value"
+msgstr "Eintrag"
+
+msgid "meta_version"
+msgstr "Version"
+
+msgid "meta_very_difficult"
+msgstr "Sehr schwierig"
+
+msgid "meta_very_easy"
+msgstr "Sehr leicht"
+
+msgid "meta_very_high"
+msgstr "Sehr hoch"
+
+msgid "meta_very_low"
+msgstr "Sehr niedrig"
+
+msgid "meta_yes"
+msgstr "Ja"
+
+msgid "udf_type_address"
+msgstr "Adresse"
+
+msgid "udf_type_externallink"
+msgstr "Externer Link"
+
+msgid "udf_type_float"
+msgstr "Gleitkommazahl"
+
+msgid "udf_type_integer"
+msgstr "Ganzzahl"
+
+msgid "udf_type_internallink"
+msgstr "Interner Link"
+
+msgid "udf_type_location"
+msgstr "Standort"
+
+msgid "udf_type_selectmulti"
+msgstr "Auswahlliste (Mehrfachauswahl)"

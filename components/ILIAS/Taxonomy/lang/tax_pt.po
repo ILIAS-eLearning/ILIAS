@@ -1,0 +1,78 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: tax\n"
+
+msgid "obj_taxn"
+msgstr "Nó"
+
+msgid "tax_add_taxonomy"
+msgstr "Adicionar taxonomia"
+
+msgid "tax_added"
+msgstr "A taxonomia foi criada."
+
+msgid "tax_admin_settings_repository"
+msgstr "Taxonomias repositório"
+
+msgid "tax_alphabetical"
+msgstr "Alfabético"
+
+msgid "tax_assigned_items"
+msgstr "Itens atribuídos"
+
+msgid "tax_confirm_deletion"
+msgstr "Tem a certeza que quer apagar toda a taxonomia e todas as suas relações?"
+
+msgid "tax_create_node"
+msgstr "Criar nó"
+
+msgid "tax_item_sorting"
+msgstr "Suportar classificação de itens atribuídos"
+
+msgid "tax_manual"
+msgstr "Manual"
+
+msgid "tax_max_one_tax"
+msgstr "Pode usar no máximo uma taxonomia neste contexto."
+
+msgid "tax_new_tax_node"
+msgstr "Novo nó"
+
+msgid "tax_node"
+msgstr "Nó"
+
+msgid "tax_node_sorting"
+msgstr "Classificar nós"
+
+msgid "tax_nodes"
+msgstr "Nós"
+
+msgid "tax_order"
+msgstr "Ordem"
+
+msgid "tax_order_nr"
+msgstr "N.º ordem"
+
+msgid "tax_please_select_target"
+msgstr "Selecione o destino."
+
+msgid "tax_target_within_nodes"
+msgstr "The target must not be a subnode of the selected items."
+
+msgid "tax_tax_assignment"
+msgstr "Atribuição de taxonomia"
+
+msgid "tax_tax_deleted"
+msgstr "A taxonomia foi apagada."
+
+msgid "tax_tax_settings"
+msgstr "Definições de taxonomia"
+
+msgid "tax_taxonomy"
+msgstr "Taxonomia"

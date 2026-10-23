@@ -1,0 +1,532 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: user\n"
+
+#, fuzzy
+msgid "account_not_flagged_for_deletion"
+msgstr "The account is not flagged for deletion."
+
+#, fuzzy
+msgid "activate_in_profile_fields"
+msgstr "To change this setting, the user must first be allowed to change their login name under Profile > Profile Fields"
+
+#, fuzzy
+msgid "administrative_settings"
+msgstr "Administrative Settings"
+
+msgid "all_roles_has_starting_point"
+msgstr "Todas as funções têm pontos de início"
+
+msgid "back_to_starting_points_list"
+msgstr "Voltar aos pontos de início"
+
+#, fuzzy
+msgid "change_email_email_confirmation_body"
+msgstr "The email address for the account %s was changed. To confirm this change, please click on this link %s . The link is valid for %s minutes."
+
+#, fuzzy
+msgid "change_email_email_confirmation_subject"
+msgstr "Confirm Email Address"
+
+#, fuzzy
+msgid "change_email_email_information_body"
+msgstr "The process to change the email address for the account %s to %s was started. An email with a link to confirm the change was sent to the new address. The link is valid for %s minutes."
+
+#, fuzzy
+msgid "change_email_email_information_subject"
+msgstr "Information about Change of Email Address"
+
+#, fuzzy
+msgid "change_email_email_sent"
+msgstr "An email with a link to confirm your change has been sent. Please check your inbox and make sure to also look in the spam-folder if the email doesn't arrive within the next minutes."
+
+#, fuzzy
+msgid "change_email_info_message"
+msgstr "There is a pending request to change the email address for this account."
+
+msgid "clipboard_add_btn"
+msgstr "Adicionar à área de transferência"
+
+msgid "clipboard_add_from_btn"
+msgstr "Adicionar a partir da área de transferência"
+
+msgid "clipboard_empty_btn"
+msgstr "Área de transferência vazia"
+
+msgid "clipboard_remove_btn"
+msgstr "Remover da área de transferência"
+
+msgid "clipboard_table_title"
+msgstr "Área de transferência (contas de utilizador)"
+
+msgid "clipboard_user_added"
+msgstr "Utilizadores selecionados adicionados à área de transferência."
+
+msgid "confirm_delete_starting_point"
+msgstr "Tem a certeza que quer apagar esta regra?"
+
+#, fuzzy
+msgid "confirm_logout_for_email_change"
+msgstr "You changed your email. To finalize this change, you will need to provide your password. The system is thus going to log you out and you will have 5 minutes to log in again. All other changes will be saved before logging you out."
+
+#, fuzzy
+msgid "confirm_logout_for_email_change_with_confirmation"
+msgstr "Additionally, a confirmation that you control the new email address will be required. After you have logged in again, an email will be sent to you. Please click on the link in the email to confirm that you contoll the address. The change of the email address will only take effect once this second step is also finalized."
+
+msgid "create_starting_point"
+msgstr "Criar regra"
+
+msgid "criteria"
+msgstr "Critérios"
+
+msgid "del_mail_body"
+msgstr "Hello %1$s, %2$s you haven't logged in for a long period of time, on %3$s. So your account will be deleted in %4$s days. You have to login again to prevent the deletion of your account."
+
+msgid "del_mail_subject"
+msgstr "(ILIAS) – A sua conta foi apagada"
+
+msgid "delete_inactive_user_accounts_frequency"
+msgstr "Frequência"
+
+msgid "delete_inactive_user_accounts_frequency_desc"
+msgstr "Frequency, in which the deletion and email distibution will be tested."
+
+#, fuzzy
+msgid "edit_field"
+msgstr "Edit Field"
+
+#, fuzzy
+msgid "edit_setting"
+msgstr "Edit Setting"
+
+msgid "editing_this_role"
+msgstr "Função"
+
+#, fuzzy
+msgid "email_could_not_be_changed"
+msgstr "The request to change your email could not be finalized."
+
+msgid "enable_local_user_administration"
+msgstr "Habilitar administração local de usuário"
+
+msgid "enable_local_user_administration_info"
+msgstr "Se habiliatdo, contas locais de usuário podem ser administradas nas categorias."
+
+msgid "feedhash"
+msgstr "Newsfeedhash"
+
+#, fuzzy
+msgid "field_type_custom"
+msgstr "Custom"
+
+msgid "has_role"
+msgstr "Função"
+
+#, fuzzy
+msgid "info_accessFree_sure"
+msgstr "Are you sure you want to remove the valid until date from the following accounts?"
+
+msgid "inform_user_mail_info"
+msgstr "If activated, an email will be sent to the user. Its content can be defined in Administration > User Management > Settings > New Account Mail."
+
+msgid "interests"
+msgstr "Interesses"
+
+msgid "interests_general"
+msgstr "Interesses gerais"
+
+msgid "interests_help_looking"
+msgstr "Procurar ajuda"
+
+msgid "interests_help_offered"
+msgstr "Oferecer ajuda"
+
+#, fuzzy
+msgid "ldoc_accepted_content"
+msgstr "Accepted Content"
+
+#, fuzzy
+msgid "ldoc_not_accepted_yet"
+msgstr "Not accepted yet"
+
+msgid "msg_spoint_not_modified"
+msgstr "Ponto de início não modificado"
+
+#, fuzzy
+msgid "no_deactivate_yourself"
+msgstr "You cannot deactivate your own user account."
+
+msgid "obj_ref_id_not_exist"
+msgstr "O Id de referência introduzido não existe"
+
+#, fuzzy
+msgid "personalise_additional"
+msgstr "Personalise Additional Settings"
+
+#, fuzzy
+msgid "personalise_communication"
+msgstr "Personalise Communication Settings"
+
+#, fuzzy
+msgid "personalise_privacy"
+msgstr "Personalise Privacy Settings"
+
+#, fuzzy
+msgid "profile_fields"
+msgstr "Profile Fields"
+
+#, fuzzy
+msgid "profile_section"
+msgstr "Section"
+
+msgid "restrict_user_access"
+msgstr "Acesso restrito aos contas usuário"
+
+msgid "restrict_user_access_info"
+msgstr "Se habilitado o acesso aos contas de usuário é restrito. A permissão de acesso depende de \"Acesso para Leitura da conta local do usuário\" no \"Contas de usuário\" e \"Categorias\"."
+
+msgid "roles_without_starting_point"
+msgstr "Funções sem ponto de início definido:"
+
+msgid "save_order"
+msgstr "Guardar ordem"
+
+msgid "send_mail_reminder_window_too_small"
+msgstr "A sua definição de frequência é demasiado grande para este valor de lembrete."
+
+msgid "send_mail_to_inactive_users"
+msgstr "Earliest date in days for sending a reminder mail"
+
+msgid "send_mail_to_inactive_users_desc"
+msgstr "A reminder mail will be send to user's e-mail address to warn about an upcoming account deletion."
+
+msgid "send_mail_to_inactive_users_must_be_smaller_than"
+msgstr "This value must be smaller than the value 'Days passed since last login'."
+
+msgid "send_mail_to_inactive_users_numbers_only"
+msgstr "Apenas são aceites números positivos não decimais."
+
+msgid "send_mail_to_inactive_users_suffix"
+msgstr "Dias antes da eliminação."
+
+#, fuzzy
+msgid "show_own_online_status"
+msgstr "Show My Online Status"
+
+msgid "starting_page"
+msgstr "Ponto de início"
+
+msgid "starting_point"
+msgstr "Ponto de início"
+
+msgid "starting_point_settings"
+msgstr "Definições ponto de início"
+
+msgid "starting_points"
+msgstr "Pontos de início"
+
+#, fuzzy
+msgid "udf_select_options"
+msgstr "Options"
+
+msgid "user_access_limited"
+msgstr "Limitado"
+
+msgid "user_access_unlimited"
+msgstr "Ilimitado"
+
+msgid "user_account_code"
+msgstr "Código"
+
+msgid "user_account_code_generated"
+msgstr "A data de geração"
+
+msgid "user_account_code_generated_all"
+msgstr "Todas as datas"
+
+msgid "user_account_code_not_valid"
+msgstr "O código é inválido ou já foi utilizado"
+
+msgid "user_account_code_setting"
+msgstr "Habilitar reativação da conta por código"
+
+msgid "user_account_code_setting_info"
+msgstr "Contas inativas podem ser reativadas pelos  usuários com códigos pré-definidos"
+
+msgid "user_account_code_used"
+msgstr "Data de utilização do código"
+
+msgid "user_account_code_valid_until"
+msgstr "Válido até"
+
+msgid "user_account_code_valid_until_dynamic"
+msgstr "Número de dias"
+
+msgid "user_account_code_valid_until_static"
+msgstr "Data final"
+
+msgid "user_account_code_valid_until_unlimited"
+msgstr "Ilimitado"
+
+msgid "user_account_codes_add"
+msgstr "Adicionar Códigos"
+
+msgid "user_account_codes_edit_header"
+msgstr "Adicionar Códigos"
+
+msgid "user_account_codes_export"
+msgstr "Exportar códigos"
+
+msgid "user_account_codes_number"
+msgstr "Número de códigos"
+
+msgid "user_account_deleted_confirmation"
+msgstr "Your account has been deleted. An email containing detailed information has been sent to you."
+
+msgid "user_activate_public_profile"
+msgstr "Ativar Perfil Público"
+
+msgid "user_activate_public_profile_info"
+msgstr "Ativação Global do Perfil Público. Se habilitado seu nome e sobrenome ficarão visíveis para outros usuários."
+
+msgid "user_activation"
+msgstr "Ativação"
+
+#, fuzzy
+msgid "user_admin_options"
+msgstr "Options"
+
+msgid "user_all"
+msgstr "Tudo"
+
+msgid "user_allow_delete_own_account"
+msgstr "Permite aos utilizadores apagar a própria conta"
+
+msgid "user_any"
+msgstr "Nenhum"
+
+msgid "user_awrn_all_users"
+msgstr "Todos os utilizadores"
+
+msgid "user_awrn_all_users_info"
+msgstr "All users of the platform are listed."
+
+#, fuzzy
+msgid "user_check_profile_data"
+msgstr "Check profile data"
+
+msgid "user_chooses_starting_page"
+msgstr "Utilizador escolhe ponto de início"
+
+msgid "user_delete_own_account"
+msgstr "Apagar conta"
+
+msgid "user_delete_own_account_aborted"
+msgstr "Eliminação cancelada, conta não foi mudada."
+
+msgid "user_delete_own_account_email_body"
+msgstr "Your user account \"%s\" has been deleted from %s."
+
+msgid "user_delete_own_account_email_subject"
+msgstr "Conta de utilizador apagada"
+
+msgid "user_delete_own_account_final_confirmation"
+msgstr "Confirme, pela última vez, para remover a sua conta de utilizador de ILIAS!"
+
+msgid "user_delete_own_account_info"
+msgstr "Here you can delete your current user account. Keep in mind that the deletion of your account is irreversible!"
+
+msgid "user_delete_own_account_logout_button"
+msgstr "Proceder à autenticação"
+
+msgid "user_delete_own_account_logout_confirmation"
+msgstr "A sua conta foi assinalada para eliminação. Autentique para continuar o processo."
+
+msgid "user_delete_own_account_notification_email"
+msgstr "Notification Email"
+
+msgid "user_field"
+msgstr "Campo"
+
+msgid "user_global_role"
+msgstr "Papel global"
+
+msgid "user_last_login_before"
+msgstr "Último inicio de acesso antes de"
+
+msgid "user_limited_access"
+msgstr "Acesso Limitado"
+
+#, fuzzy
+msgid "user_local_role"
+msgstr "Local Role"
+
+msgid "user_lv_do_not_store"
+msgstr "Never remeber last visited"
+
+msgid "user_lv_keep_entries"
+msgstr "Lembrar última visita"
+
+msgid "user_lv_keep_only_for_session"
+msgstr "Lembrar apenas durante a sessão atual"
+
+msgid "user_make_profile_public"
+msgstr "Publicar perfil"
+
+msgid "user_member_of_course_group"
+msgstr "Membro do Curso/Grupo"
+
+msgid "user_no_courses"
+msgstr "Nenhum curso atribuído"
+
+msgid "user_no_groups"
+msgstr "Nenhum grupo atribuído"
+
+msgid "user_order"
+msgstr "Pedido"
+
+msgid "user_ownership"
+msgstr "Objetos do repositório"
+
+msgid "user_please_select_course_group"
+msgstr "Por favor selecione um curso ou um grupo"
+
+msgid "user_portfolios"
+msgstr "Portfólios"
+
+msgid "user_portfolios_desc"
+msgstr "Usuários podem criar portfólios e usá-lo como perfil"
+
+#, fuzzy
+msgid "user_privacy_checklist"
+msgstr "Privacy Checklist"
+
+#, fuzzy
+msgid "user_profile_data"
+msgstr "Profile Data"
+
+#, fuzzy
+msgid "user_profile_data_checked"
+msgstr "Profile data checked"
+
+msgid "user_profile_info"
+msgstr "Informação do perfil do utilizador"
+
+msgid "user_profile_info_std"
+msgstr "Informação padrão do perfil do utilizador"
+
+msgid "user_profile_info_text_info"
+msgstr "Este texto é apresentado na parte superior do formulário para inserir dados pessoais."
+
+msgid "user_profile_portfolio"
+msgstr "É possível usar o portfolio como Perfil Público"
+
+msgid "user_profile_portfolio_selected"
+msgstr "Você está usando atualmente um portfólio  como seu perfil"
+
+msgid "user_profile_preview"
+msgstr "Pré-visualização"
+
+#, fuzzy
+msgid "user_profile_prompt_text"
+msgstr "Prompt Text"
+
+msgid "user_profile_prompt_text_info"
+msgstr "Este texto vai substituir o texto de informação padrão, se um utilizador tiver sido alertado para o perfil."
+
+msgid "user_prompt_incomplete"
+msgstr "Apenas se o perfil estiver incompleto"
+
+msgid "user_prompt_incomplete_info"
+msgstr "Se o utilizador tiver de inserir campos necessários, o perfil será apresentado depois do login."
+
+msgid "user_prompt_once_after_login"
+msgstr "Uma vez depois do número específico de dias após o primeiro login"
+
+msgid "user_prompt_once_after_login_info"
+msgstr "Depois deste período, o utilizador é alertado para o perfil, se o utilizador não publicou ainda o perfil."
+
+msgid "user_prompt_repeat"
+msgstr "Repetir cada número específico de dias"
+
+msgid "user_prompt_repeat_info"
+msgstr "O utilizador será alertado periodicamente para o perfil, se não publicou ainda o perfil."
+
+msgid "user_prompting_recurrence"
+msgstr "Alertar para recorrência"
+
+msgid "user_prompting_settings"
+msgstr "Alertar para definições"
+
+msgid "user_public_profile_info"
+msgstr "Por favor selecionar que dados pessoais devem ser visíveis para outros usuários."
+
+#, fuzzy
+msgid "user_publish_options"
+msgstr "Publish Profile"
+
+#, fuzzy
+msgid "user_role_selection"
+msgstr "Role Selection"
+
+msgid "user_role_starting_point"
+msgstr "Utilizador - ponto de início"
+
+#, fuzzy
+msgid "user_save_continue"
+msgstr "Save and Continue"
+
+msgid "user_save_ordering_and_titles"
+msgstr "Salvar pedidos e títulos"
+
+msgid "user_select_course_group"
+msgstr "Selecionar Curso/Grupo"
+
+#, fuzzy
+msgid "user_set_publishing_options"
+msgstr "Set publishing options"
+
+#, fuzzy
+msgid "user_set_visibilty_options"
+msgstr "Set visibility options"
+
+#, fuzzy
+msgid "user_settings"
+msgstr "User Settings"
+
+msgid "user_store_last_visited"
+msgstr "Última visita"
+
+#, fuzzy
+msgid "user_visibility_settings"
+msgstr "Visibility"
+
+msgid "user_visible_in_profile"
+msgstr "Visível no Perfil"
+
+msgid "usr_id"
+msgstr "System ID"
+
+msgid "usr_letter_avatars"
+msgstr "Letra Avatars"
+
+msgid "usr_letter_avatars_info"
+msgstr "Mostra a primeira letra do nome do utilizador ou o login como imagem de perfil, se não for fornecida nenhuma fotografia pública."
+
+msgid "usr_public_profile_disabled"
+msgstr "Perfil Público desativado"
+
+msgid "usr_public_profile_disabled_info"
+msgstr "Sua informação é visível apenas para o corpo administrativo."
+
+msgid "usr_public_profile_global"
+msgstr "Visão global"
+
+msgid "usr_public_profile_logged_in"
+msgstr "Visível para usuários conectados."

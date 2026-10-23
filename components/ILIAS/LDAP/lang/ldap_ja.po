@@ -1,0 +1,393 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: ldap\n"
+
+msgid "add_ldap_server"
+msgstr "サーバを追加"
+
+msgid "ldap_add_missing"
+msgstr "未役割を割当てる"
+
+msgid "ldap_add_role_ass_rule"
+msgstr "役割割当て用の新しいルール"
+
+msgid "ldap_add_roles"
+msgstr "役割を選択追加"
+
+msgid "ldap_as_ds"
+msgstr "データーソースとして使用"
+
+msgid "ldap_as_ds_info"
+msgstr "有効にするとこのLDAP構成は他の認証方式(例：CASやRadius)の組み合わせとユーザアカウントの同期にのみ使用されます。"
+
+msgid "ldap_assignment_type"
+msgstr "割当てのタイプ"
+
+msgid "ldap_authentication_settings"
+msgstr "認証設定"
+
+msgid "ldap_bind_anonymous"
+msgstr "匿名で認証"
+
+msgid "ldap_bind_user"
+msgstr "ユーザで認証:"
+
+msgid "ldap_btn_add_role_ass"
+msgstr "新規役割を追加"
+
+msgid "ldap_check_role_assignment"
+msgstr "後でログイン時の役割割当て"
+
+msgid "ldap_choose_role"
+msgstr "役割を選択"
+
+msgid "ldap_confirm_del_role_ass"
+msgstr "役割割り当てを削除"
+
+msgid "ldap_deleted_role_mapping"
+msgstr "割当てを削除しました。"
+
+msgid "ldap_deleted_rule"
+msgstr "選択した役割割当を削除しました。"
+
+msgid "ldap_dn_info"
+msgstr "LDAP グループの識別名を入力してください。"
+
+msgid "ldap_edit_role_ass_rule"
+msgstr "役割割当てのルールを編集"
+
+msgid "ldap_edit_role_assignment"
+msgstr "役割編集 -> グルーク割当て"
+
+msgid "ldap_err_missing_plugin_id"
+msgstr "有効なプラグインIDを入力してください。"
+
+msgid "ldap_escapedn"
+msgstr "DN回避"
+
+msgid "ldap_escapedn_info"
+msgstr "有効にするとユーザアカウントの\"識別名\"の特定文字はグループメンバーシップ用の問合せが回避されます。"
+
+msgid "ldap_filter_info"
+msgstr "検索フィルタへ追加されるフィルタは次の通り: (&(userattr=username)<strong>(userfilter)</strong>)"
+
+msgid "ldap_global_role"
+msgstr "グローバル 役割"
+
+msgid "ldap_global_role_assignment"
+msgstr "ILIAS-役割割当て"
+
+msgid "ldap_global_role_info"
+msgstr "新規ユーザへ割当てられるILIASの役割を選んでください。<span class=\"asterisk\">*</span>同期のタイプを選んだ場合は役割割当てが<b>必須</b>です。"
+
+msgid "ldap_group_attribute"
+msgstr "グループの検索"
+
+msgid "ldap_group_attribute_info"
+msgstr "検索用のグループ属性"
+
+msgid "ldap_group_dn"
+msgstr "グループDN"
+
+msgid "ldap_group_dn_info"
+msgstr "グループ検索時に\"BaseDN\"へ付与"
+
+msgid "ldap_group_dn_short"
+msgstr "グループDN:"
+
+msgid "ldap_group_filter"
+msgstr "LDAPフィルタ"
+
+msgid "ldap_group_filter_info"
+msgstr "グループ検索時に検索フィルタへ追加するフィルタ: (&(groupattr=group)(memberattr=username)<strong>(groupfilter)</strong>)."
+
+msgid "ldap_group_member"
+msgstr "グループメンバー属性"
+
+msgid "ldap_group_member_info"
+msgstr "ユーザDNを見つけるグループ オブジェクトの属性。メンバー属性がユーザの識別名の場合は\"属性値はDN\"を選択。"
+
+msgid "ldap_group_member_optional"
+msgstr "グループメンバーシップはオプション"
+
+msgid "ldap_group_member_short"
+msgstr "属性:"
+
+msgid "ldap_group_membership"
+msgstr "グループメンバーシップ"
+
+msgid "ldap_group_name"
+msgstr "グループ名"
+
+msgid "ldap_group_name_info"
+msgstr "グループユーザの名前は正しく認証されるメンバーである必要があります。"
+
+msgid "ldap_group_optional_info"
+msgstr "有効にするとグループメンバーシップは認証許可を必要としません。これらのグループのメンバーシップ用のユーザフィルタを入力してください。:<br/>(&(userattr=username)<strong>(userfilter)</strong>)"
+
+msgid "ldap_group_restrictions"
+msgstr "グループ メンバーシップの制限"
+
+msgid "ldap_group_scope"
+msgstr "範囲を検索"
+
+msgid "ldap_group_scope_info"
+msgstr "グループ検索の範囲。不確実な場合は\"Sub\"を選択。"
+
+msgid "ldap_group_search_base"
+msgstr "グループ検索ベース"
+
+msgid "ldap_group_user_filter"
+msgstr "ユーザフィルタ"
+
+msgid "ldap_ilias_role"
+msgstr "ILIAS役割名"
+
+msgid "ldap_info_text"
+msgstr "インフォメーションテキスト"
+
+msgid "ldap_info_text_info"
+msgstr "入力するとこのテキストがこの役割に割当てられたオブジェクトをinfo画面上に表示されます。 必要に応じてこのテキストやリポジトリ内とパーソナルデスクトップ上で利用できます。"
+
+msgid "ldap_local_role"
+msgstr "ローカル役割"
+
+msgid "ldap_mapping_info_type"
+msgstr "リポジトリ/パーソナルデスクトップ内の情報も表示"
+
+msgid "ldap_mapping_table"
+msgstr "LDAP属性のILIAS ユーザプロファイルへの割当て"
+
+msgid "ldap_mapping_template"
+msgstr "オブジェクトクラス用のテンプレート:"
+
+msgid "ldap_member_info"
+msgstr "ユーザDNのある場所のグループ オブジェクトの属性です。"
+
+msgid "ldap_memberisdn"
+msgstr "属性値はDN"
+
+msgid "ldap_missing_bind_user"
+msgstr " \"ユーザで認証\"を選択しました:LDAPユーザ名とパスワードを入力してください。"
+
+msgid "ldap_missing_role_assignment"
+msgstr "新規ユーザが割当てられようにグローバル役割を選んでください。"
+
+msgid "ldap_moment_sync"
+msgstr "同期のタイプ"
+
+msgid "ldap_new_role_assignment"
+msgstr "新規役割を追加 -> グループ割当て"
+
+msgid "ldap_plugin"
+msgstr "プラグインによる割当て"
+
+msgid "ldap_plugin_id"
+msgstr "プラグインID"
+
+msgid "ldap_plugin_info"
+msgstr "プラグイン有りの役割割当てを検証します。有効なプラグインIDを入力してください。"
+
+msgid "ldap_referrals"
+msgstr "照会"
+
+msgid "ldap_referrals_info"
+msgstr "設定するとLDAPライブラリーはLDAPサーバが返す照会を自動的にフォローするかどうかを決定します。アクティブディレクトリサーバを使用している場合は機能しないようにする事が必須です。"
+
+msgid "ldap_remove_deprecated"
+msgstr "未使用の役割を解除"
+
+msgid "ldap_remove_roles"
+msgstr "役割を削除"
+
+msgid "ldap_role_active"
+msgstr "グループ 同期を有効"
+
+msgid "ldap_role_assignments"
+msgstr "役割割当て"
+
+msgid "ldap_role_at_info"
+msgstr "割当はLDAPユーザプロファイル内の特定の属性に基づいています。"
+
+msgid "ldap_role_at_name"
+msgstr "属性名"
+
+msgid "ldap_role_at_value"
+msgstr "属性値"
+
+msgid "ldap_role_bind_pass"
+msgstr "パスワード"
+
+msgid "ldap_role_bind_pass_info"
+msgstr "パスワード"
+
+msgid "ldap_role_bind_user"
+msgstr "Usern DN"
+
+msgid "ldap_role_bind_user_info"
+msgstr "LDAP ユーザアカウントの識別名を入力してください。 このユーザはLDAP グループの書込み権が必要です。"
+
+msgid "ldap_role_by_attribute"
+msgstr "LDAP属性"
+
+msgid "ldap_role_by_group"
+msgstr "グループメンバーシップ"
+
+msgid "ldap_role_by_plugin"
+msgstr "プラグインによる"
+
+msgid "ldap_role_group_assignments"
+msgstr "既存の役割 -> グループ割当て"
+
+msgid "ldap_role_grp_at"
+msgstr "属性"
+
+msgid "ldap_role_grp_dn_info"
+msgstr "LDAPグループの \"識別名\" を入力してください。"
+
+msgid "ldap_role_grp_info"
+msgstr "特定のLDAPグループメンバーは与えられたILIAS役割に割当てられます。"
+
+msgid "ldap_role_grp_isdn"
+msgstr "属性値はDN"
+
+msgid "ldap_role_info"
+msgstr "LDAPグループのメンバーシップをコントロールするILIAS役割名を入力してください。"
+
+msgid "ldap_role_mapping"
+msgstr "ILIAS役割 -> LDAP グループMapping"
+
+msgid "ldap_role_name_info"
+msgstr "グローバル役割を選ぶか、ローカル役割の名前を入力してください。"
+
+msgid "ldap_role_not_exists"
+msgstr "その名前の役割は存在しません。"
+
+msgid "ldap_role_selection"
+msgstr "役割選択"
+
+msgid "ldap_role_selection_info"
+msgstr "選択がわかりません。次の役割のいずれかを選択してください。"
+
+msgid "ldap_role_settings"
+msgstr "LDAP グループ同期設定"
+
+msgid "ldap_rule_condition"
+msgstr "条件"
+
+msgid "ldap_rule_type"
+msgstr "割当てタイプ"
+
+msgid "ldap_scope_one"
+msgstr "One"
+
+msgid "ldap_scope_sub"
+msgstr "Sub"
+
+msgid "ldap_search_base_info"
+msgstr "ユーザ検索時にはbasednへ付与する"
+
+msgid "ldap_search_filter"
+msgstr "LDAPフィルタ"
+
+msgid "ldap_server_bind_dn"
+msgstr "ユーザDN"
+
+msgid "ldap_server_bind_pass"
+msgstr "パスワード"
+
+msgid "ldap_server_binding"
+msgstr "認証操作"
+
+msgid "ldap_server_name"
+msgstr "LDAP構成名"
+
+msgid "ldap_server_name_info"
+msgstr "このLDAPサーバーの構成名を選んでください。"
+
+msgid "ldap_server_security_settings"
+msgstr "セキュリティ設定"
+
+msgid "ldap_server_short"
+msgstr "サーバーURL"
+
+msgid "ldap_server_url_info"
+msgstr "指定のプロトコル、URL、ポートにより接続する完全修飾のURL名。 例 \"ldap://ldap.ilias.de:389\"。複数のサーバをコンマ区切りで追記できます。"
+
+#, fuzzy
+msgid "ldap_server_url_invalid_parts"
+msgstr "The following server URL(s) could not be parsed as valid URIs and may not work until corrected:"
+
+#, fuzzy
+msgid "ldap_server_url_invalid_uris"
+msgstr "Every comma-separated entry must be a valid URI (e.g. ldap://host:389). Invalid:"
+
+#, fuzzy
+msgid "ldap_server_url_required"
+msgstr "Server URL is required."
+
+msgid "ldap_server_version_info"
+msgstr "使用するLDAPバージョンは通常3です。"
+
+msgid "ldap_servers"
+msgstr "LDAP Server"
+
+msgid "ldap_settings"
+msgstr "サーバー設定"
+
+msgid "ldap_sync_cron"
+msgstr "Cron-Jobごと"
+
+msgid "ldap_sync_login"
+msgstr "ログオン時"
+
+msgid "ldap_tbl_role_ass"
+msgstr "ルールをアクティブにする"
+
+msgid "ldap_tls_conflict"
+msgstr "LDAP-TLSはLDAPv2と組合わせて使用する事はできません。LDAPバージョン \"3\"を選択するかTLSサポートを無効にしてください。"
+
+msgid "ldap_update_field_info"
+msgstr "自動更新"
+
+msgid "ldap_update_roles"
+msgstr "役割割当て"
+
+msgid "ldap_user_attribute"
+msgstr "ログイン名属性"
+
+msgid "ldap_user_dn"
+msgstr "ユーザ検索ベース"
+
+msgid "ldap_user_mapping"
+msgstr "ユーザプロファイルのマッピング"
+
+msgid "ldap_user_scope"
+msgstr "検索範囲"
+
+msgid "ldap_user_scope_info"
+msgstr "ユーザ検索範囲。よく分からない場合は\"Sub\"を選択。"
+
+msgid "ldap_user_sync"
+msgstr "ユーザ同期設定"
+
+msgid "ldap_user_sync_cron"
+msgstr "LDAPユーザ同期"
+
+msgid "ldap_user_sync_cron_info"
+msgstr "有効にするとユーザアカウントがLDAPディレクトリからインポートされてオプションで同期を継続します。"
+
+msgid "ldap_user_sync_info"
+msgstr "新規ユーザをログイン時あるいは定期Cron ジョブで自動生成するかを定義します。"
+
+msgid "ldap_username_filter"
+msgstr "ユーザ名フィルター"
+
+msgid "ldap_username_filter_info"
+msgstr "ワイルドカードに*を使用"

@@ -1,0 +1,129 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: svy\n"
+
+msgid "survey_360_appraisees_remind_info"
+msgstr "自己評価を有効にするとまだサーベイを終了していない評価は注意催促されます。"
+
+msgid "survey_360_raters_remind_info"
+msgstr "まだサーベイを終了していない考課者は注意催促されます。"
+
+msgid "svy_0_open_appraisees"
+msgstr "評価する対象者がもういないか、またはアンケートは評価者に対してもう公開されていません。"
+
+msgid "svy_all_pages"
+msgstr "全ページ"
+
+msgid "svy_all_participants"
+msgstr "全参加者"
+
+msgid "svy_all_questions"
+msgstr "全問題"
+
+msgid "svy_code"
+msgstr "アクセスコード"
+
+msgid "svy_codes"
+msgstr "アクセスコード"
+
+msgid "svy_current_page"
+msgstr "現在のページ"
+
+msgid "svy_finish_survey"
+msgstr "サーベイ'%1'を実行"
+
+msgid "svy_finished_x_appraisees"
+msgstr "あなたはすでに%s人の評価対象者に対するアンケートを完了しています。"
+
+msgid "svy_info_participants"
+msgstr "次のいずれかの検索オプションを使用して、このアンケートにユーザーを参加者として追加します。追加されたユーザーには、このアンケートがダッシュボード上のタスクとして表示されます。"
+
+msgid "svy_information"
+msgstr "インフォメーション"
+
+msgid "svy_invite_participants"
+msgstr "参加者を招待"
+
+msgid "svy_link_to_svy"
+msgstr "サーベイへのリンク"
+
+msgid "svy_part_overview"
+msgstr "概要"
+
+msgid "svy_placeholders_label"
+msgstr "利用可能なワイルドカード"
+
+msgid "svy_print_selection"
+msgstr "印刷ビュー選択"
+
+msgid "svy_remove_all_participants"
+msgstr "全参加者を削除"
+
+msgid "svy_remove_participants"
+msgstr "参加者を削除"
+
+msgid "svy_selected_participants"
+msgstr "選択の参加者"
+
+msgid "svy_selected_questions"
+msgstr "選択の参加者"
+
+msgid "svy_selection"
+msgstr "選択"
+
+msgid "svy_status"
+msgstr "ステータス"
+
+msgid "svy_status_finished"
+msgstr "終了"
+
+msgid "svy_status_in_progress"
+msgstr "進行中"
+
+msgid "svy_status_invited"
+msgstr "招待済"
+
+msgid "svy_user_added_appraisee"
+msgstr "サーベイ '%1'"
+
+msgid "svy_user_added_appraisee_close_mail"
+msgstr "サーベイは評価者用にクローズされました。"
+
+msgid "svy_user_added_appraisee_mail"
+msgstr "評価対象者としてサーベイへ追加されました。"
+
+msgid "svy_user_added_rater"
+msgstr "サーベイ '%1'"
+
+msgid "svy_user_added_rater_mail"
+msgstr "サーベイへ評価者として追加されました。"
+
+msgid "svy_user_added_rater_reminder_mail"
+msgstr "次の評価対象者の評価を終了してください。"
+
+msgid "svy_user_not_found"
+msgstr "ユーザが見つかりませんでした。"
+
+msgid "svy_users_invited"
+msgstr "ユーザは招待されました。"
+
+msgid "svy_x_appraisees_closed_for_raters"
+msgstr "このサーベイは、%s 人の被評価者によって評価者に対して閉鎖されました。"
+
+msgid "svy_x_open_appraisees"
+msgstr "あなたには、フィードバックを待っている%s人の評価対象者がいます。"
+
+msgid "svy_your_appraisees"
+msgstr "あなたの被評価者"
+
+msgid "svy_your_raters"
+msgstr "あなたの評価者"
+
+msgid "svy_your_raters_finished"
+msgstr "あなたの評価者の%sがアンケートを完了しました。"

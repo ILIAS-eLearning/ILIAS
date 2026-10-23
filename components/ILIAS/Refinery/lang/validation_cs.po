@@ -1,0 +1,74 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: validation\n"
+
+#, fuzzy
+msgid "datetime_required"
+msgstr "Time/Date required"
+
+#, fuzzy
+msgid "no_array"
+msgstr "Given value is not an array"
+
+msgid "not_a_null"
+msgstr "Hodnota typu '%s' není nula."
+
+msgid "not_a_string"
+msgstr "Hodnota typu '%s' není řada."
+
+msgid "not_an_array"
+msgstr "'% s' není pole."
+
+msgid "not_an_array_of"
+msgstr "Prvky pole selhávají: % s"
+
+msgid "not_an_int"
+msgstr "Hodnota typu '%s' není celé číslo."
+
+msgid "not_generic"
+msgstr "Neplatí, že: % s"
+
+msgid "not_greater_than"
+msgstr "'%s' není větší než '%s'."
+
+#, fuzzy
+msgid "not_greater_than_or_equal"
+msgstr "The value is not greater than or equal '%s'."
+
+msgid "not_less_than"
+msgstr "'%s' není menší než '%s'."
+
+#, fuzzy
+msgid "not_less_than_or_equal"
+msgstr "The value is not less than or equal '%s'."
+
+msgid "not_max_length"
+msgstr "Zadaný text má délku větší než '%s'."
+
+msgid "not_min_length"
+msgstr "Váš vstup má délku %d a je tedy kratší než minimální délka %d."
+
+msgid "not_numeric"
+msgstr "'%s' není číselná hodnota."
+
+#, fuzzy
+msgid "not_numeric_empty_string"
+msgstr "Your input is not numeric."
+
+#, fuzzy
+msgid "numeric_only"
+msgstr "Please insert a whole number."
+
+#, fuzzy
+msgid "required"
+msgstr "This input is required."
+
+#, fuzzy
+msgid "tag_required"
+msgstr "Please insert at least one tag."

@@ -1,0 +1,228 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: badge\n"
+
+msgid "awarded_by"
+msgstr ""
+
+msgid "badge_activity_badges"
+msgstr ""
+
+msgid "badge_add_template"
+msgstr ""
+
+msgid "badge_add_to_profile"
+msgstr ""
+
+msgid "badge_assignment_deletion_confirmation"
+msgstr ""
+
+msgid "badge_award_badge"
+msgstr ""
+
+msgid "badge_award_revoke"
+msgstr ""
+
+msgid "badge_badge"
+msgstr ""
+
+msgid "badge_course_lp"
+msgstr ""
+
+msgid "badge_course_lp_invalid"
+msgstr ""
+
+msgid "badge_create"
+msgstr ""
+
+msgid "badge_create_image_processing_failed"
+msgstr ""
+
+msgid "badge_criteria"
+msgstr ""
+
+msgid "badge_crs_merit"
+msgstr ""
+
+msgid "badge_deletion"
+msgstr ""
+
+msgid "badge_deletion_confirmation"
+msgstr ""
+
+msgid "badge_image_from_template"
+msgstr ""
+
+msgid "badge_image_from_upload"
+msgstr ""
+
+msgid "badge_image_template_form"
+msgstr ""
+
+msgid "badge_image_templates"
+msgstr ""
+
+msgid "badge_in_profile"
+msgstr ""
+
+msgid "badge_issued_on"
+msgstr ""
+
+msgid "badge_lhist_badge_completed"
+msgstr ""
+
+msgid "badge_lhist_badge_completed_in"
+msgstr ""
+
+msgid "badge_manual"
+msgstr ""
+
+msgid "badge_new_badges"
+msgstr ""
+
+msgid "badge_no_valid_types_for_obj"
+msgstr ""
+
+msgid "badge_notification_badges"
+msgstr ""
+
+msgid "badge_notification_badges_goto"
+msgstr ""
+
+msgid "badge_notification_body"
+msgstr ""
+
+msgid "badge_notification_osd"
+msgstr ""
+
+msgid "badge_notification_parent_goto"
+msgstr ""
+
+msgid "badge_notification_reason"
+msgstr ""
+
+msgid "badge_notification_subject"
+msgstr ""
+
+msgid "badge_object_badges"
+msgstr ""
+
+msgid "badge_personal_badges"
+msgstr ""
+
+msgid "badge_profile_less"
+msgstr ""
+
+msgid "badge_profile_more"
+msgstr ""
+
+msgid "badge_remove_badge"
+msgstr ""
+
+msgid "badge_remove_from_profile"
+msgstr ""
+
+msgid "badge_select_one"
+msgstr ""
+
+msgid "badge_service_activate"
+msgstr ""
+
+msgid "badge_service_activate_info"
+msgstr ""
+
+msgid "badge_settings"
+msgstr ""
+
+msgid "badge_sort_active_badges_first"
+msgstr ""
+
+msgid "badge_sort_active_badges_last"
+msgstr ""
+
+msgid "badge_sort_activity_badges_first"
+msgstr ""
+
+msgid "badge_sort_activity_badges_last"
+msgstr ""
+
+msgid "badge_sort_added_to_profile_last"
+msgstr ""
+
+msgid "badge_sort_excluded_from_profile_first"
+msgstr ""
+
+msgid "badge_sort_manual_awarding_first"
+msgstr ""
+
+msgid "badge_sort_manual_awarding_last"
+msgstr ""
+
+msgid "badge_subtype_auto"
+msgstr ""
+
+msgid "badge_subtype_manual"
+msgstr ""
+
+msgid "badge_template_deletion_confirmation"
+msgstr ""
+
+msgid "badge_template_types"
+msgstr ""
+
+msgid "badge_template_types_all"
+msgstr ""
+
+msgid "badge_template_types_specific"
+msgstr ""
+
+msgid "badge_types"
+msgstr ""
+
+msgid "badge_update_image_processing_failed"
+msgstr ""
+
+msgid "badge_uploaded_image_file_not_found"
+msgstr ""
+
+msgid "badge_user_profile"
+msgstr ""
+
+msgid "badge_valid"
+msgstr ""
+
+msgid "criteria"
+msgstr ""
+
+msgid "endless"
+msgstr ""
+
+msgid "issued_on"
+msgstr ""
+
+msgid "position_updated"
+msgstr ""
+
+msgid "sort_by_date_asc"
+msgstr ""
+
+msgid "sort_by_date_desc"
+msgstr ""
+
+msgid "sort_by_title_asc"
+msgstr ""
+
+msgid "sort_by_title_desc"
+msgstr ""
+
+msgid "table_view"
+msgstr ""
+
+msgid "tile_view"
+msgstr ""
+
+msgid "valid_until"
+msgstr ""

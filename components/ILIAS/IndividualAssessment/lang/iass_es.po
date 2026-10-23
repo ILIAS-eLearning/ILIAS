@@ -1,0 +1,268 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: iass\n"
+
+msgid "download_assessment_paper"
+msgstr "Descargar archivo de registro"
+
+msgid "grading"
+msgstr "Calificación"
+
+msgid "grading_info"
+msgstr "Información de calificación"
+
+msgid "grading_record"
+msgstr "Registro de calificación"
+
+msgid "iass_add"
+msgstr "Crear Evaluación Individual"
+
+msgid "iass_add_user_failure"
+msgstr "Uno o más usuarios no pudieron ser agregados."
+
+msgid "iass_add_user_success"
+msgstr "Usuario agregado como participante."
+
+msgid "iass_added"
+msgstr "Evaluación Individual agregada"
+
+msgid "iass_amend_saved"
+msgstr "El registro modificado ha sido guardado."
+
+msgid "iass_assessment_not_completed"
+msgstr "Aún no completado"
+
+msgid "iass_cancel"
+msgstr "Cancelar"
+
+msgid "iass_changed_by"
+msgstr "Cambiado después de la finalización"
+
+msgid "iass_confirm_finalize"
+msgstr "Finalizar"
+
+msgid "iass_consultation_hours"
+msgstr "Horario de tutoría"
+
+msgid "iass_contact"
+msgstr "Nombre"
+
+msgid "iass_contact_info"
+msgstr "Información de contacto"
+
+msgid "iass_content"
+msgstr "Descripción del contenido de la evaluación"
+
+msgid "iass_content_explanation"
+msgstr "Contenidos de la evaluación, p. ej., temas relevantes."
+
+msgid "iass_copy"
+msgstr "Copiar Evaluación Individual"
+
+msgid "iass_download"
+msgstr "Descargar"
+
+msgid "iass_edit"
+msgstr "Configuración"
+
+msgid "iass_edit_info"
+msgstr "Configuración de información"
+
+msgid "iass_edit_record"
+msgstr "Registro del participante"
+
+msgid "iass_event_time"
+msgstr "Fecha de la evaluación"
+
+msgid "iass_event_time_place_required"
+msgstr "Fecha y lugar obligatorios"
+
+msgid "iass_event_time_place_required_info"
+msgstr "La fecha y el lugar de la evaluación deben agregarse a cada registro de participante."
+
+msgid "iass_file"
+msgstr "Archivo"
+
+msgid "iass_file_dropzone"
+msgstr "puede soltar sus archivos aquí"
+
+msgid "iass_file_required"
+msgstr "Archivo de registro obligatorio"
+
+msgid "iass_file_required_info"
+msgstr "Se debe subir un archivo de registro en cada registro de participante."
+
+msgid "iass_file_visible_examinee"
+msgstr "Archivo visible para el participante"
+
+#, fuzzy
+msgid "iass_file_visible_examinee_info"
+msgstr "Once the individual assessment has been completed, the person assessed can view the record file. To do so, the ‘Make Result Available to Participant’ function must be enabled."
+
+msgid "iass_filter_all"
+msgstr "Todos"
+
+msgid "iass_filter_failed"
+msgstr "Solo suspensos"
+
+msgid "iass_filter_finalized"
+msgstr "Solo completados"
+
+msgid "iass_filter_not_finalized"
+msgstr "Solo borradores"
+
+msgid "iass_filter_not_started"
+msgstr "Solo no iniciados"
+
+msgid "iass_finalize"
+msgstr "Finalizar"
+
+msgid "iass_finalize_info"
+msgstr "La Evaluación Individual será finalizada."
+
+msgid "iass_finalize_user_qst"
+msgstr "¿Realmente desea finalizar el estado del participante? No será posible realizar cambios después."
+
+msgid "iass_further_field_headline"
+msgstr "Información detallada"
+
+msgid "iass_graded_by"
+msgstr "Calificado por"
+
+msgid "iass_info_emails_expl"
+msgstr "Puede proporcionar varias direcciones separadas por comas."
+
+msgid "iass_internal_note"
+msgstr "Nota de registro interna"
+
+msgid "iass_internal_note_info"
+msgstr "Las notas internas solo son visibles para los tutores, no para los participantes."
+
+msgid "iass_location"
+msgstr "Ubicación"
+
+msgid "iass_mails"
+msgstr "Correo electrónico"
+
+msgid "iass_may_not_finalize"
+msgstr "El examinado no puede ser finalizado. Por favor, califique al usuario primero."
+
+msgid "iass_membership_finalized"
+msgstr "Registro finalizado"
+
+msgid "iass_membership_saved"
+msgstr "Registro guardado, aún no finalizado"
+
+msgid "iass_mess_notification_completed"
+msgstr "Ha aprobado la evaluación <i>%s</i>. Por favor, consulte el siguiente registro de calificación para más detalles:"
+
+msgid "iass_mess_notification_failed"
+msgstr "Ha suspendido la evaluación <i>%s</i>. Por favor, consulte el siguiente registro de calificación para más detalles:"
+
+msgid "iass_notify"
+msgstr "Poner resultado a disposición del participante"
+
+msgid "iass_notify_explanation"
+msgstr "El participante será notificado por correo electrónico tras la finalización y tendrá acceso a su registro en la pantalla de información."
+
+msgid "iass_phone"
+msgstr "Teléfono"
+
+msgid "iass_place"
+msgstr "Lugar de la evaluación"
+
+msgid "iass_record"
+msgstr "Nota de registro"
+
+msgid "iass_record_info"
+msgstr "Los examinados pueden ver la nota de registro después de haber sido calificados definitivamente. Si la notificación está activada abajo, la nota de registro también se enviará al participante por correo electrónico."
+
+msgid "iass_record_template"
+msgstr "Plantilla de registro"
+
+msgid "iass_record_template_explanation"
+msgstr "Plantilla para el registro de calificación del participante. Se utilizará automáticamente para cualquier participante nuevo."
+
+msgid "iass_remove_user_qst"
+msgstr "¿Realmente desea eliminar al participante?"
+
+msgid "iass_responsibility"
+msgstr "Responsabilidad"
+
+msgid "iass_save_amend"
+msgstr "Guardar registro modificado"
+
+msgid "iass_settings_availability"
+msgstr "Disponibilidad"
+
+msgid "iass_settings_saved"
+msgstr "Ajustes guardados."
+
+msgid "iass_sort_changetime_asc"
+msgstr "Último cambio ascendente"
+
+msgid "iass_sort_changetime_desc"
+msgstr "Último cambio descendente"
+
+msgid "iass_sort_examiner_login_asc"
+msgstr "Examinador ascendente"
+
+msgid "iass_sort_examiner_login_desc"
+msgstr "Examinador descendente"
+
+msgid "iass_sort_name_asc"
+msgstr "Nombre de usuario ascendente"
+
+msgid "iass_sort_name_desc"
+msgstr "Nombre de usuario descendente"
+
+msgid "iass_status_completed"
+msgstr "Completado"
+
+msgid "iass_status_failed"
+msgstr "Reprobado"
+
+msgid "iass_status_pending"
+msgstr "Estado pendiente"
+
+msgid "iass_subj_notification_completed"
+msgstr "%s: La Evaluación Individual se ha completado."
+
+msgid "iass_subj_notification_failed"
+msgstr "%s: La Evaluación Individual ha fallado."
+
+msgid "iass_upload_file"
+msgstr "Grabar archivo"
+
+msgid "iass_user_removed"
+msgstr "El participante ha sido eliminado con éxito."
+
+msgid "iass_usr_amend"
+msgstr "Enmendar calificación"
+
+msgid "iass_usr_download_attachment"
+msgstr "Descargar adjunto"
+
+msgid "iass_usr_edit"
+msgstr "Editar registro de participante"
+
+msgid "iass_usr_remove"
+msgstr "Eliminar participante de la evaluación"
+
+msgid "iass_usr_view"
+msgstr "Registro de participante"
+
+msgid "il_iass_members"
+msgstr "Participantes"
+
+msgid "lp_inactive"
+msgstr "Nota: el progreso de aprendizaje para este objeto está inactivo. Por lo tanto, las membresías no pueden ser finalizadas."
+
+msgid "save_amend"
+msgstr "Guardar registro enmendado"

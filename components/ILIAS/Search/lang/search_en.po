@@ -1,0 +1,403 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"Language-Team: English\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: search\n"
+
+msgid "add_members_header"
+msgstr "Add Members"
+
+msgid "append_results"
+msgstr "Append results"
+
+msgid "btn_search"
+msgstr "Search"
+
+msgid "last_search_result"
+msgstr "Last Search Result"
+
+msgid "lucene_and"
+msgstr "AND"
+
+msgid "lucene_cpu"
+msgstr "Maximum Number of Threads"
+
+msgid "lucene_create_ini"
+msgstr "Create Configuration File"
+
+msgid "lucene_default_operator"
+msgstr "Default Operator"
+
+msgid "lucene_default_operator_info"
+msgstr "Please choose the default operator for boolean queries. In default mode (‘AND’) terms are considered to be in conjunction. In ‘OR’ mode terms without any modifiers are considered optional."
+
+msgid "lucene_download_ini"
+msgstr "Download Configuration File"
+
+msgid "lucene_err_ampersand"
+msgstr "Queries containing the special characters && must be in the form: term1 && term2."
+
+msgid "lucene_err_and_or_not"
+msgstr "Queries containing AND/OR/NOT must be in the form: term1 AND|OR|NOT|AND NOT term2."
+
+msgid "lucene_err_asterisk"
+msgstr "The wildcard (*) character must be preceded by at least one alphabet or number."
+
+msgid "lucene_err_caret"
+msgstr "The caret (^) character must be preceded by alphanumeric characters and followed by numbers."
+
+msgid "lucene_err_colon"
+msgstr "Field declarations (:) must be preceded by at least one alphabet or number and followed by at least one alphabet or number."
+
+msgid "lucene_err_exclamation_mark"
+msgstr "Queries containing the special character (!) must be in the form: term1 ! term2."
+
+msgid "lucene_err_parenthesis_empty"
+msgstr "Parentheses must contain at least one character."
+
+msgid "lucene_err_parenthesis_not_closed"
+msgstr "Parentheses must be closed."
+
+msgid "lucene_err_plus_minus"
+msgstr "(+) and (-) modifiers must be followed by at least one alphabet or number."
+
+msgid "lucene_err_question_mark"
+msgstr "The question mark (?) character must be preceded by at least one alphabet or number."
+
+msgid "lucene_err_quotes"
+msgstr "Please close all quote (\") marks."
+
+msgid "lucene_err_quotes_not_empty"
+msgstr "Quotes (\") must contain at least one character."
+
+msgid "lucene_general_settings"
+msgstr "General Settings"
+
+msgid "lucene_host"
+msgstr "Host"
+
+msgid "lucene_host_info"
+msgstr "Please enter the hostname or Ip-address for the java server."
+
+msgid "lucene_index_path"
+msgstr "Directory for Index Files"
+
+msgid "lucene_index_path_info"
+msgstr "Please enter a directory name for storing index files."
+
+msgid "lucene_last_index_time"
+msgstr "Last Index Generation"
+
+msgid "lucene_last_index_time_info"
+msgstr "Please modify this settings only if you have installed an index backup."
+
+msgid "lucene_level"
+msgstr "Log-Level"
+
+msgid "lucene_log"
+msgstr "Path to Logfile"
+
+msgid "lucene_log_info"
+msgstr "Enter the absolute path to a file in which log messages will we written. If the file does not exist, it will be created automatically."
+
+msgid "lucene_max_fs"
+msgstr "Maximum File Size (in MB)"
+
+msgid "lucene_max_fs_info"
+msgstr "Defines the file size limit. Bigger files will not be included in the index."
+
+msgid "lucene_num_frag_info"
+msgstr "Please choose the maximum number of highlighted text fragments."
+
+msgid "lucene_num_fragments"
+msgstr "Number of Text Fragments"
+
+msgid "lucene_offline_filter"
+msgstr "Online-Status"
+
+msgid "lucene_or"
+msgstr "OR"
+
+msgid "lucene_port"
+msgstr "Port"
+
+msgid "lucene_prefix_wildcard"
+msgstr "Prefix Wildcard Queries"
+
+msgid "lucene_prefix_wildcard_info"
+msgstr "Supports prefix wildcard queries: ‘*LIAS’ finds ‘ILIAS’"
+
+msgid "lucene_settings_index_section"
+msgstr "Index Backup"
+
+msgid "lucene_settings_tab"
+msgstr "Lucene"
+
+msgid "lucene_settings_text_section"
+msgstr "Presentation of Search Results"
+
+msgid "lucene_settings_title"
+msgstr "Lucene Settings"
+
+msgid "lucene_size_frag_info"
+msgstr "Please choose the maximum size of highlighted text fragments. To do this, enter the number of characters including spaces."
+
+msgid "lucene_size_fragments"
+msgstr "Size of Text Fragments"
+
+msgid "lucene_tbl_create_ini"
+msgstr "Create Java-Server Ini-File"
+
+msgid "search_add_members_from_container_crs"
+msgstr "Add Users From Current Course"
+
+msgid "search_add_members_from_container_grp"
+msgstr "Add Users From Current Group"
+
+msgid "search_any"
+msgstr "-- Any --"
+
+msgid "search_area_filter"
+msgstr "Scope"
+
+msgid "search_area_info"
+msgstr "Please select an area where the search should start."
+
+msgid "search_auto_complete_length"
+msgstr "Number of Auto-Complete List Entries"
+
+msgid "search_auto_complete_length_info"
+msgstr "Choose ‘0‘ to switch off the auto-complete list."
+
+msgid "search_cdate_filter"
+msgstr "Filter by Creation Date"
+
+msgid "search_cdate_filter_info"
+msgstr "If enabled, the object search can be filtered by an optional creation date filter."
+
+msgid "search_content"
+msgstr "Page Content"
+
+msgid "search_copyright"
+msgstr "Copyright"
+
+msgid "search_created_after"
+msgstr "Objects created after"
+
+msgid "search_created_before"
+msgstr "Objects created before..."
+
+msgid "search_created_on"
+msgstr "Objects create on..."
+
+msgid "search_crs_title"
+msgstr "Course Name"
+
+msgid "search_detailed_results_title"
+msgstr "Detailed results in %s"
+
+msgid "search_details_info"
+msgstr "Detailed search. Please select one or more resource types."
+
+msgid "search_direct"
+msgstr "Direct search"
+
+msgid "search_err_user_not_exist"
+msgstr "A user with that login name does not exist."
+
+msgid "search_fast_info"
+msgstr "Search for titles, descriptions and keywords in all object types"
+
+msgid "search_field"
+msgstr "Search Input Field"
+
+msgid "search_field_perform"
+msgstr "Perform Search"
+
+msgid "search_filter_by_type"
+msgstr "Filter by Type"
+
+msgid "search_filter_cd"
+msgstr "Filter by Creation Date"
+
+msgid "search_filter_settings_section"
+msgstr "Filters for the Search Results"
+
+msgid "search_for_crs_members"
+msgstr "Search for Courses"
+
+msgid "search_for_grp_members"
+msgstr "Search for Groups"
+
+msgid "search_for_orgu_members"
+msgstr "Search for Organisational Units"
+
+msgid "search_for_orgu_members_recursive"
+msgstr "Include Subunits?"
+
+msgid "search_for_role_members"
+msgstr "Search for Roles"
+
+msgid "search_for_users"
+msgstr "Search for Users"
+
+msgid "search_grp_title"
+msgstr "Group Name"
+
+msgid "search_item_filter_form"
+msgstr "Search by Type"
+
+msgid "search_item_filter_form_info"
+msgstr "Search can be restricted to the chosen object types."
+
+#. Needs to be adapted to new content of German lang file.
+msgid "search_like_info"
+msgstr "Choose this option to get best results."
+
+msgid "search_limit_reached"
+msgstr "Your search produced more than %s hits. You can restrict the search terms to receive more detailed results."
+
+msgid "search_lucene"
+msgstr "Lucene search"
+
+msgid "search_mime_excel"
+msgstr "Excel Files"
+
+msgid "search_mime_filter_form"
+msgstr "Mime Type Filter"
+
+msgid "search_mime_filter_form_info"
+msgstr "Search can be restricted to the chosen mime types."
+
+msgid "search_mime_image"
+msgstr "Images"
+
+msgid "search_mime_pdf"
+msgstr "PDF Files"
+
+msgid "search_mime_powerpoint"
+msgstr "Powerpoint Files"
+
+msgid "search_mime_word"
+msgstr "Word Files"
+
+msgid "search_minimum_info"
+msgstr "Your search must be at least %s characters long"
+
+msgid "search_minimum_three"
+msgstr "Your search must be at least three characters long."
+
+msgid "search_newer_than"
+msgstr "Objects newer than"
+
+msgid "search_no_connection_lucene"
+msgstr "Cannot connect to Lucene server."
+
+msgid "search_no_further_match"
+msgstr "No further matches found."
+
+msgid "search_no_match"
+msgstr "Your search did not match any results."
+
+msgid "search_no_match_hint"
+msgstr "Your search for <b>%s</b> did not match any documents.<br /><br />Suggestions:<br />• Make sure all words are spelled correctly.<br />• Try different keywords.<br />• Try more general keywords.<br />• Try fewer keywords."
+
+msgid "search_no_selection"
+msgstr "You made no selection."
+
+msgid "search_off"
+msgstr "Off"
+
+msgid "search_readme_file"
+msgstr "Readme File"
+
+msgid "search_results_show_subitems"
+msgstr "See detailed results"
+
+msgid "search_results_too_many_subitems"
+msgstr "More results are available, please make your search terms more precise."
+
+msgid "search_role_title"
+msgstr "Role Name"
+
+msgid "search_select_search_area"
+msgstr "Select Search Area"
+
+msgid "search_server_further_information"
+msgstr "You can find further information about the Lucene server configuration in the readme file."
+
+msgid "search_show_inactive_user"
+msgstr "Show Inactive Users"
+
+msgid "search_show_inactive_user_info"
+msgstr "If enabled, the user search will show inactive users, too."
+
+msgid "search_show_limited_user"
+msgstr "Show Users with Limited Access"
+
+msgid "search_show_limited_user_info"
+msgstr "If enabled, the user search will also show users with limited access outside their allowed time period."
+
+msgid "search_sort_by"
+msgstr "Sortation:"
+
+msgid "search_sort_creation_date_asc"
+msgstr "Oldest"
+
+msgid "search_sort_creation_date_desc"
+msgstr "Latest"
+
+msgid "search_sort_relevance"
+msgstr "By Relevance"
+
+msgid "search_sort_title_asc"
+msgstr "Alphabetically: A-Z"
+
+msgid "search_sort_title_desc"
+msgstr "Alphabetically: Z-A"
+
+msgid "search_tab_content"
+msgstr "Content"
+
+msgid "search_tab_user"
+msgstr "Users"
+
+msgid "search_term_combination"
+msgstr "Combination"
+
+msgid "search_title_description"
+msgstr "Title / Description"
+
+msgid "search_tst_svy"
+msgstr "Tests/Surveys"
+
+msgid "search_type"
+msgstr "Type"
+
+msgid "search_user"
+msgstr "Users"
+
+msgid "search_user_extended"
+msgstr "Extended User Search"
+
+msgid "search_user_search_form"
+msgstr "Global User Search"
+
+msgid "search_user_search_info_form"
+msgstr "Users can be found in the global search. Furthermore, data in personal profiles of users is indexed if the Lucene fulltext search is enabled."
+
+msgid "seas_search_type"
+msgstr "Type"
+
+msgid "select_orgu"
+msgstr "Select Organisational Units"
+
+msgid "until"
+msgstr "up to"
+
+msgid "user_search_settings_section"
+msgstr "User Search in 'Member'-tabs"

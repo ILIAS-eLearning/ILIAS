@@ -1,0 +1,292 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: news\n"
+
+#, fuzzy
+msgid "lso_news_online_title"
+msgstr "A new learning sequence object is online!"
+
+#, fuzzy
+msgid "lso_news_online_txt"
+msgstr "A new object for your learning sequence was just published."
+
+msgid "new_test_online"
+msgstr "O teste foi definido online."
+
+msgid "news_1_file_created"
+msgstr "ID da interação"
+
+msgid "news_1_file_updated"
+msgstr "Resultado da interação"
+
+msgid "news_1_postings"
+msgstr "latência: tempo"
+
+msgid "news_add_news"
+msgstr "Adicionar notícias"
+
+msgid "news_all_items"
+msgstr "latência: tempo em segundos"
+
+msgid "news_allow_longer_periods"
+msgstr "Permitir períodos mais compridos"
+
+msgid "news_allow_longer_periods_info"
+msgstr "Os utilizadores podem selecionar períodos de notícias mais compridos no computador pessoal."
+
+msgid "news_allow_shorter_periods"
+msgstr "Permitir períodos mais curtos"
+
+msgid "news_allow_shorter_periods_info"
+msgstr "Os utilizadores podem selecionar períodos de notícias mais curtos no computador pessoal."
+
+msgid "news_attached_to"
+msgstr "Anexado a"
+
+msgid "news_block_information"
+msgstr "launch_data: dados no início de SCO"
+
+msgid "news_cache"
+msgstr "Cache notícias (minutos)"
+
+msgid "news_cache_info"
+msgstr "learner_response: Resposta"
+
+msgid "news_default_visibility"
+msgstr "Acesso predefinido"
+
+msgid "news_edit_news_settings"
+msgstr "Editar definições"
+
+msgid "news_enable_internal_news"
+msgstr "Ativar notícias internas"
+
+msgid "news_enable_internal_news_info"
+msgstr "Ativa blocos de notícias para categorias, cursos, grupos e outros objetos. Os utilizadores podem subscrever notícias e estas são apresentadas no computador pessoal."
+
+msgid "news_enable_internal_rss"
+msgstr "Ativar RSS para notícias internas"
+
+msgid "news_enable_internal_rss_info"
+msgstr "ID do módulo de aprendizagem"
+
+msgid "news_enable_private_feed"
+msgstr "Título do módulo de aprendizagem"
+
+msgid "news_enable_private_feed_info"
+msgstr "Versão do módulo de aprendizagem"
+
+msgid "news_feed_url"
+msgstr "Feed URL"
+
+msgid "news_feed_url_for"
+msgstr "Feed URL para '%s'"
+
+msgid "news_first_letter_of_word_notification"
+msgstr "N"
+
+msgid "news_get_feed_info"
+msgstr "É um feed URL de notícias pessoal. O feed inclui apenas notícias que são declaradas como públicas por outro autor. O feed não está protegido por nenhum procedimento de autenticação. Não partilhe este URL com outras pessoas."
+
+msgid "news_get_feed_title"
+msgstr "Feed URL pessoal"
+
+msgid "news_get_feed_url"
+msgstr "progress_measure"
+
+msgid "news_get_priv_feed_info"
+msgstr "resultado"
+
+msgid "news_get_priv_feed_title"
+msgstr "Feed URL privado pessoal"
+
+msgid "news_hide_news_block"
+msgstr "Ocultar bloco de notícias"
+
+msgid "news_hide_news_block_info"
+msgstr "Ocultar bloco na vista do aluno. O bloco de notícias estará visível apenas aos utilizadores com autorização de escrita."
+
+msgid "news_hide_news_date"
+msgstr "Data de início"
+
+msgid "news_hide_news_per_date"
+msgstr "Mostrar notícias depois"
+
+msgid "news_hide_news_per_date_info"
+msgstr "Apenas as notícias mais recentes do que uma certa data é que serão apresentadas."
+
+msgid "news_inactive_private_feed_info"
+msgstr "O seu feed de notícias privado está desativado. Defina uma palavra-passe nas definições."
+
+msgid "news_internal_news"
+msgstr "score.scaled: pontuação alcançada como fração decimal"
+
+msgid "news_keep_minimal_x_items"
+msgstr "scaled_passing_score: pontuação necessária para passar como fração decimal"
+
+msgid "news_keep_minimal_x_items_info"
+msgstr "ID do capítulo / SCO"
+
+msgid "news_loading_news"
+msgstr "Título do capítulo / SCO"
+
+msgid "news_media"
+msgstr "session_time: tempo na última sessão"
+
+msgid "news_new_comments"
+msgstr "success_status: sucesso"
+
+msgid "news_new_reactions"
+msgstr "suspend_data: memória variável de SCO"
+
+msgid "news_news_block"
+msgstr "session_time: tempo na última sessão em segundos"
+
+msgid "news_news_item_content"
+msgstr "Texto"
+
+msgid "news_news_item_content_long"
+msgstr "Texto comprido"
+
+msgid "news_news_item_content_long_info"
+msgstr "Este texto não será publicado via RSS."
+
+msgid "news_news_item_def_visibility_public_info"
+msgstr "As notícias atuais são acessíveis num webfeed RSS público. Não devem conter informação confidencial."
+
+msgid "news_news_item_def_visibility_users_info"
+msgstr "Apenas os utilizadores autenticados é que podem aceder a estas notícias."
+
+msgid "news_news_item_head"
+msgstr "Item de notícias"
+
+msgid "news_news_item_title"
+msgstr "Título"
+
+msgid "news_news_item_visibility"
+msgstr "Acesso"
+
+msgid "news_news_item_visibility_info"
+msgstr "Pode aceder a notícias públicas sem autenticação fora de ILIAS via RSS. Não inclua qualquer informação confidencial."
+
+msgid "news_news_items"
+msgstr "Número de SCOs iniciados"
+
+msgid "news_no_js_click_here"
+msgstr "total_time: tempo total em segundos"
+
+msgid "news_no_news_items"
+msgstr "importância"
+
+#, fuzzy
+msgid "news_not_available"
+msgstr "Unavailable News"
+
+msgid "news_notifications"
+msgstr "Notificações"
+
+msgid "news_notifications_public"
+msgstr "Notificações públicas"
+
+msgid "news_notifications_public_info"
+msgstr "total_time: tempo total"
+
+msgid "news_nr_of_items"
+msgstr "Número máximo de itens de notícias por objeto"
+
+msgid "news_nr_of_items_info"
+msgstr "Definições da pesquisa"
+
+msgid "news_pd_period"
+msgstr "Período de notícias no computador pessoal"
+
+msgid "news_pd_period_info"
+msgstr "Define o período de tempo usado para notícias no computador pessoal. Selecionar valores inferiores, se sentir problemas de desempenho."
+
+msgid "news_period_1_month"
+msgstr "Escolha o operador padrão para consultas booleanas. No modo padrão (‘E’) os termos são considerados como estando em conjunção. No modo ‘OU’ os termos sem quaisquer modificadores são considerados opcionais."
+
+msgid "news_period_1_week"
+msgstr "Insira o caminho absoluto para um ficheiro, no qual serão escritas mensagem de registo. Se o ficheiro não existir, será criado automaticamente."
+
+msgid "news_period_1_year"
+msgstr "Tamanho máximo do ficheiro (em MB)"
+
+msgid "news_period_x_days"
+msgstr "Número de subitens"
+
+msgid "news_period_x_months"
+msgstr "Insira o número máximo de subitens (tópicos de fórum, termos do glossário...) que são apresentados por defeito."
+
+msgid "news_period_x_weeks"
+msgstr "Estado online"
+
+msgid "news_public_feed"
+msgstr "Suporta questões de variável de prefixo: ‘*LIAS’ encontra ‘ILIAS’"
+
+msgid "news_public_feed_info"
+msgstr "Mostrar relevância de subitem"
+
+msgid "news_really_delete_news"
+msgstr "Tem a certeza que quer apagar este item de notícias?"
+
+msgid "news_rss"
+msgstr "RSS"
+
+msgid "news_rss_period"
+msgstr "Período RSS"
+
+msgid "news_rss_title_format"
+msgstr "Formato de título de entradas RSS"
+
+msgid "news_rss_title_format_news_obj"
+msgstr "Título notícias (título de objeto)"
+
+msgid "news_rss_title_format_obj_news"
+msgstr "Título de objeto - título notícias"
+
+msgid "news_settings"
+msgstr "Definições das notícias"
+
+msgid "news_sorry_not_accessible_anymore"
+msgstr "Lamentamos, mas este item já não está acessível."
+
+msgid "news_time_period"
+msgstr "Escolha o tamanho máximo de fragmentos de texto destacados."
+
+msgid "news_timline_add_entries_info"
+msgstr "Nenhumas notícias disponíveis ainda. Clique “Adicionar” para criar novas entradas."
+
+#, fuzzy
+msgid "news_timline_no_entries"
+msgstr "No news have been found."
+
+msgid "news_visibility_public"
+msgstr "Público"
+
+msgid "news_visibility_users"
+msgstr "Todas as palavras <small>(<i>E</i>)</small>"
+
+msgid "news_x_files_created"
+msgstr "%s Foram adicionados ficheiros."
+
+msgid "news_x_files_updated"
+msgstr "%s Foram atualizados ficheiros."
+
+msgid "news_x_postings"
+msgstr "%s Foram adicionados postings."
+
+msgid "passwd_equals_ilpasswd"
+msgstr "Insira uma palavra-passe diferente da sua palavra-passe ILIAS."
+
+msgid "priv_feed_disabled"
+msgstr "Newsfeed privado desativado."
+
+msgid "priv_feed_settings"
+msgstr "Qualquer palavra <small>(<i>OU</i>)</small>"

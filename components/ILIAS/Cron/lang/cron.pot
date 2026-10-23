@@ -1,0 +1,159 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: cron\n"
+
+msgid "cro_job_rc_job_auto_deactivation_time_limit"
+msgstr ""
+
+msgid "cro_job_rc_job_manual_reset"
+msgstr ""
+
+msgid "cro_job_rc_job_no_result"
+msgstr ""
+
+msgid "cron_action_activate"
+msgstr ""
+
+msgid "cron_action_activate_success"
+msgstr ""
+
+msgid "cron_action_activate_sure"
+msgstr ""
+
+msgid "cron_action_activate_sure_multi"
+msgstr ""
+
+msgid "cron_action_deactivate"
+msgstr ""
+
+msgid "cron_action_deactivate_success"
+msgstr ""
+
+msgid "cron_action_deactivate_sure"
+msgstr ""
+
+msgid "cron_action_deactivate_sure_multi"
+msgstr ""
+
+msgid "cron_action_edit"
+msgstr ""
+
+msgid "cron_action_edit_success"
+msgstr ""
+
+msgid "cron_action_reset"
+msgstr ""
+
+msgid "cron_action_reset_success"
+msgstr ""
+
+msgid "cron_action_reset_sure"
+msgstr ""
+
+msgid "cron_action_reset_sure_multi"
+msgstr ""
+
+msgid "cron_action_run"
+msgstr ""
+
+msgid "cron_action_run_fail"
+msgstr ""
+
+msgid "cron_action_run_success"
+msgstr ""
+
+msgid "cron_action_run_sure"
+msgstr ""
+
+msgid "cron_changed_by_crontab"
+msgstr ""
+
+msgid "cron_component"
+msgstr ""
+
+msgid "cron_job_id"
+msgstr ""
+
+msgid "cron_jobs_with_required_intervention"
+msgstr ""
+
+msgid "cron_last_run"
+msgstr ""
+
+msgid "cron_no_executable_job_selected"
+msgstr ""
+
+msgid "cron_result"
+msgstr ""
+
+msgid "cron_result_info"
+msgstr ""
+
+msgid "cron_result_status_crashed"
+msgstr ""
+
+msgid "cron_result_status_fail"
+msgstr ""
+
+msgid "cron_result_status_invalid_configuration"
+msgstr ""
+
+msgid "cron_result_status_no_action"
+msgstr ""
+
+msgid "cron_result_status_ok"
+msgstr ""
+
+msgid "cron_result_status_reset"
+msgstr ""
+
+msgid "cron_running_since"
+msgstr ""
+
+msgid "cron_schedule"
+msgstr ""
+
+msgid "cron_schedule_daily"
+msgstr ""
+
+msgid "cron_schedule_in_days"
+msgstr ""
+
+msgid "cron_schedule_in_hours"
+msgstr ""
+
+msgid "cron_schedule_in_minutes"
+msgstr ""
+
+msgid "cron_schedule_monthly"
+msgstr ""
+
+msgid "cron_schedule_quarterly"
+msgstr ""
+
+msgid "cron_schedule_type"
+msgstr ""
+
+msgid "cron_schedule_value"
+msgstr ""
+
+msgid "cron_schedule_weekly"
+msgstr ""
+
+msgid "cron_schedule_yearly"
+msgstr ""
+
+msgid "cron_status"
+msgstr ""
+
+msgid "cron_status_active"
+msgstr ""
+
+msgid "cron_status_inactive"
+msgstr ""
+
+msgid "cron_status_info"
+msgstr ""

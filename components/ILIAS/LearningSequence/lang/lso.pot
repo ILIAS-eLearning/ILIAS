@@ -1,0 +1,324 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: lso\n"
+
+msgid "abstract"
+msgstr ""
+
+msgid "abstract_img"
+msgstr ""
+
+msgid "avail_time_period"
+msgstr ""
+
+msgid "completed_steps"
+msgstr ""
+
+msgid "condition_always"
+msgstr ""
+
+msgid "cont_ed_insert_lsocurriculum"
+msgstr ""
+
+msgid "cont_ed_insert_lsostartbutton"
+msgstr ""
+
+msgid "curriculum"
+msgstr ""
+
+msgid "delete_confirmation"
+msgstr ""
+
+msgid "entries_deleted"
+msgstr ""
+
+msgid "entries_updated"
+msgstr ""
+
+msgid "extro"
+msgstr ""
+
+msgid "extro_img"
+msgstr ""
+
+msgid "failed"
+msgstr ""
+
+msgid "finished"
+msgstr ""
+
+msgid "first_access"
+msgstr ""
+
+msgid "last_visited_step"
+msgstr ""
+
+msgid "learner_view"
+msgstr ""
+
+msgid "lp_not_relevant_post_cond"
+msgstr ""
+
+msgid "lso_activation_online_info"
+msgstr ""
+
+msgid "lso_at_least_one_admin"
+msgstr ""
+
+msgid "lso_edit_permission"
+msgstr ""
+
+msgid "lso_header_delete_members"
+msgstr ""
+
+msgid "lso_header_edit_members"
+msgstr ""
+
+msgid "lso_intropages_deprecationhint"
+msgstr ""
+
+msgid "lso_legacy_info"
+msgstr ""
+
+msgid "lso_mail_admission_new_bod"
+msgstr ""
+
+msgid "lso_mail_admission_new_sub"
+msgstr ""
+
+msgid "lso_mail_dismiss_bod"
+msgstr ""
+
+msgid "lso_mail_dismiss_sub"
+msgstr ""
+
+msgid "lso_mail_notification_reg_bod"
+msgstr ""
+
+msgid "lso_mail_notification_reg_req_bod"
+msgstr ""
+
+msgid "lso_mail_notification_reg_req_bod2"
+msgstr ""
+
+msgid "lso_mail_notification_reg_req_sub"
+msgstr ""
+
+msgid "lso_mail_notification_reg_sub"
+msgstr ""
+
+msgid "lso_mail_notification_unsub_bod"
+msgstr ""
+
+msgid "lso_mail_notification_unsub_bod2"
+msgstr ""
+
+msgid "lso_mail_notification_unsub_sub"
+msgstr ""
+
+msgid "lso_mail_permanent_link"
+msgstr ""
+
+msgid "lso_mail_status_bod"
+msgstr ""
+
+msgid "lso_mail_status_sub"
+msgstr ""
+
+msgid "lso_mail_sub_acc_bod"
+msgstr ""
+
+msgid "lso_mail_sub_acc_sub"
+msgstr ""
+
+msgid "lso_mail_sub_dec_bod"
+msgstr ""
+
+msgid "lso_mail_sub_dec_sub"
+msgstr ""
+
+msgid "lso_mail_subscribe_member_bod"
+msgstr ""
+
+msgid "lso_mail_subscribe_member_sub"
+msgstr ""
+
+msgid "lso_mail_unsubscribe_member_bod"
+msgstr ""
+
+msgid "lso_mail_unsubscribe_member_sub"
+msgstr ""
+
+msgid "lso_mail_wl_bod"
+msgstr ""
+
+msgid "lso_mail_wl_sub"
+msgstr ""
+
+msgid "lso_mainbar_button_label_curriculum"
+msgstr ""
+
+msgid "lso_mainbar_button_label_toc"
+msgstr ""
+
+msgid "lso_mem_tbl_header"
+msgstr ""
+
+msgid "lso_member_administration"
+msgstr ""
+
+msgid "lso_members_deleted"
+msgstr ""
+
+msgid "lso_members_gallery"
+msgstr ""
+
+msgid "lso_members_print_title"
+msgstr ""
+
+msgid "lso_min_one_admin"
+msgstr ""
+
+msgid "lso_msg_member_assigned"
+msgstr ""
+
+msgid "lso_multidownload_not_available"
+msgstr ""
+
+msgid "lso_new_status"
+msgstr ""
+
+msgid "lso_notification"
+msgstr ""
+
+msgid "lso_notification_explanation_admin"
+msgstr ""
+
+msgid "lso_notify_off"
+msgstr ""
+
+msgid "lso_notify_on"
+msgstr ""
+
+msgid "lso_player_abstract"
+msgstr ""
+
+msgid "lso_player_extro"
+msgstr ""
+
+msgid "lso_player_finish"
+msgstr ""
+
+msgid "lso_player_next"
+msgstr ""
+
+msgid "lso_player_noitems"
+msgstr ""
+
+msgid "lso_player_previous"
+msgstr ""
+
+msgid "lso_player_resume"
+msgstr ""
+
+msgid "lso_player_review"
+msgstr ""
+
+msgid "lso_player_start"
+msgstr ""
+
+msgid "lso_player_suspend"
+msgstr ""
+
+msgid "lso_player_viewmodelabel"
+msgstr ""
+
+msgid "lso_print_list"
+msgstr ""
+
+msgid "lso_read"
+msgstr ""
+
+msgid "lso_search_users"
+msgstr ""
+
+msgid "lso_settings_availability"
+msgstr ""
+
+msgid "lso_settings_extro"
+msgstr ""
+
+msgid "lso_settings_intro"
+msgstr ""
+
+msgid "lso_settings_old_extro"
+msgstr ""
+
+msgid "lso_settings_old_intro"
+msgstr ""
+
+msgid "lso_show_members_info"
+msgstr ""
+
+msgid "lso_start_item"
+msgstr ""
+
+msgid "lso_toast_completed_desc"
+msgstr ""
+
+msgid "lso_toast_completed_title"
+msgstr ""
+
+msgid "lso_users_already_assigned"
+msgstr ""
+
+msgid "mail_lso_roles"
+msgstr ""
+
+msgid "manage"
+msgstr ""
+
+msgid "manage_content_maintab"
+msgstr ""
+
+msgid "members_gallery"
+msgstr ""
+
+msgid "no_entries_selected_for_delete"
+msgstr ""
+
+msgid "not_finished"
+msgstr ""
+
+msgid "notification_lso_completed_title"
+msgstr ""
+
+msgid "show_summary"
+msgstr ""
+
+msgid "table_actions"
+msgstr ""
+
+msgid "table_lp_settings"
+msgstr ""
+
+msgid "table_may_proceed"
+msgstr ""
+
+msgid "table_online"
+msgstr ""
+
+msgid "table_position"
+msgstr ""
+
+msgid "table_sequence_content"
+msgstr ""
+
+msgid "table_title"
+msgstr ""
+
+msgid "unparticipate"
+msgstr ""

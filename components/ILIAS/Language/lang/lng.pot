@@ -1,0 +1,57 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: lng\n"
+
+msgid "language_detection"
+msgstr ""
+
+msgid "lng_disable_language_detection"
+msgstr ""
+
+msgid "lng_download_deprecated"
+msgstr ""
+
+msgid "lng_enable_language_detection"
+msgstr ""
+
+msgid "lng_error_clear_shipped_po_unreadable"
+msgstr ""
+
+msgid "lng_identifier_not_unique"
+msgstr ""
+
+msgid "lng_invalid_language_files"
+msgstr ""
+
+msgid "lng_markup_not_allowed"
+msgstr ""
+
+msgid "lng_merge_database_not_updated"
+msgstr ""
+
+msgid "lng_merge_nothing_to_merge"
+msgstr ""
+
+msgid "lng_merge_po_not_written"
+msgstr ""
+
+msgid "lng_merged_po_modules"
+msgstr ""
+
+msgid "lng_not_translated"
+msgstr ""
+
+msgid "lng_po_overlay_not_written"
+msgstr ""
+
+msgid "lng_po_overlay_not_written_languages"
+msgstr ""
+
+msgid "lng_shipped_po_unreadable_fallback"
+msgstr ""
+
+msgid "lng_switch_language_detection"
+msgstr ""

@@ -1,0 +1,57 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sl\n"
+"Language-Team: Slovenian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=4; plural=(n % 100 == 1) ? 0 : ((n % 100 == 2) ? 1 : ((n % 100 == 3 || n % 100 == 4) ? 2 : 3));\n"
+"X-Domain: cert\n"
+
+msgid "cert_currently_no_certs"
+msgstr "Trenutno še nimate nobenega certifikata."
+
+msgid "cert_description_label"
+msgstr "Opis"
+
+msgid "cert_download_label"
+msgstr "Prenesi"
+
+msgid "cert_error_no_access"
+msgstr "Nimate pravice za dostop do tega certifikata."
+
+msgid "cert_issued_on_label"
+msgstr "Izdano dne"
+
+msgid "cert_object_label"
+msgstr "Object"
+
+msgid "cert_sortable_by_issue_date_asc"
+msgstr "Razvrščeno po datumu izdaje - najstarejši najprej"
+
+msgid "cert_sortable_by_issue_date_desc"
+msgstr "Razvrščeno po datumu izdaje - najnovejši najprej"
+
+msgid "cert_sortable_by_title_asc"
+msgstr "Razvrščeno po naslovu (A→Z)"
+
+msgid "cert_sortable_by_title_desc"
+msgstr "Razvrščeno po naslovu (Z→A)"
+
+msgid "certificate_achievement"
+msgstr "%1$s prejeto."
+
+msgid "certificate_achievement_sub_obj"
+msgstr "Certifikat za %1$s"
+
+msgid "certificate_no_object_title"
+msgstr "Naslov ni na voljo"
+
+msgid "certificate_same_not_saved"
+msgstr "Nova različica predloge certifikata ni bila shranjena, ker se ustrezne vrednosti niso spremenile."
+
+msgid "error_creating_certificate_pdf"
+msgstr "Certifikata ni bilo mogoče ustvariti. Obrnite se na administratorja, da preveri strežnik certifikatov."
+
+msgid "user_certificates"
+msgstr "Certifikati"

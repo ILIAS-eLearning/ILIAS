@@ -1,0 +1,57 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: vi\n"
+"Language-Team: Vietnamese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: exercise\n"
+
+#, fuzzy
+msgid "exc_admin_settings"
+msgstr "Exercise Administration"
+
+#, fuzzy
+msgid "exc_comment"
+msgstr "Comment"
+
+#, fuzzy
+msgid "exc_comment_for_learner"
+msgstr "Comment for Learner"
+
+#, fuzzy
+msgid "exc_failed"
+msgstr "Failed"
+
+#, fuzzy
+msgid "exc_feedback_from_tutor"
+msgstr "Feedback from Tutor"
+
+#, fuzzy
+msgid "exc_grading"
+msgstr "Grading"
+
+#, fuzzy
+msgid "exc_mark"
+msgstr "Mark"
+
+#, fuzzy
+msgid "exc_notgraded"
+msgstr "Not Graded"
+
+#, fuzzy
+msgid "exc_passed"
+msgstr "Passed"
+
+#, fuzzy
+msgid "exc_send_mail"
+msgstr "Send Mail"
+
+#, fuzzy
+msgid "exc_start_date_should_be_before_end_date"
+msgstr "Start time should be before deadline."
+
+#, fuzzy
+msgid "exc_your_submission"
+msgstr "Your Submission"

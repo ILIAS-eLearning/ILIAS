@@ -1,0 +1,313 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sl\n"
+"Language-Team: Slovenian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=4; plural=(n % 100 == 1) ? 0 : ((n % 100 == 2) ? 1 : ((n % 100 == 3 || n % 100 == 4) ? 2 : 3));\n"
+"X-Domain: ps\n"
+
+msgid "cdf_edited_by_self"
+msgstr "by the User"
+
+msgid "crs_ps_cdf_info"
+msgstr "Further Course-Specific Data"
+
+msgid "crs_ps_required_info"
+msgstr "Further Course-Specific fields are required for accessing the course content."
+
+msgid "grp_ps_cdf_info"
+msgstr "Further Group-Specific Data"
+
+msgid "grp_ps_required_info"
+msgstr "Further Group-Specific fields are required for accessing the group content."
+
+msgid "ps_agreement_accepted"
+msgstr "User Agreement Accepted"
+
+msgid "ps_auto_https"
+msgstr "Autodetect HTTPS"
+
+msgid "ps_auto_https_description"
+msgstr "If enabled, ILIAS tries to detect the HTTPs Status by analysing the header value specified below."
+
+msgid "ps_auto_https_header_name"
+msgstr "Header Name"
+
+msgid "ps_auto_https_header_value"
+msgstr "Header Value"
+
+msgid "ps_btn_add_value"
+msgstr "New Value"
+
+msgid "ps_cdf_add_field"
+msgstr "Add User Field"
+
+msgid "ps_cdf_added_field"
+msgstr "Added new selection box."
+
+msgid "ps_cdf_data_fields"
+msgstr "Available User Fields"
+
+msgid "ps_cdf_delete_sure"
+msgstr "Do you really want to delete these user fields ?"
+
+msgid "ps_cdf_deleted"
+msgstr "Deleted user fields"
+
+msgid "ps_cdf_deleted_field"
+msgstr "Deleted value"
+
+msgid "ps_cdf_edit_field"
+msgstr "Edit Data Field"
+
+msgid "ps_cdf_name"
+msgstr "Name"
+
+msgid "ps_cdf_no_fields"
+msgstr "No User Fields Defined"
+
+msgid "ps_cdf_no_name_given"
+msgstr "Please enter a name."
+
+msgid "ps_cdf_required"
+msgstr "Required Field"
+
+msgid "ps_cdf_select_one"
+msgstr "Please select one."
+
+msgid "ps_cdf_type"
+msgstr "Type"
+
+msgid "ps_cdf_value"
+msgstr "Value"
+
+msgid "ps_cdf_warning_modify"
+msgstr "Attention"
+
+msgid "ps_crs_user_fields"
+msgstr "Course-Specific User Fields"
+
+msgid "ps_error_message_https_header_missing"
+msgstr "If you enable the automatic https detection you have to provide a header name and header value."
+
+msgid "ps_error_message_invalid_login_max_attempts"
+msgstr "Maximum login attempts may not be less than 0."
+
+msgid "ps_error_message_invalid_password_max_age"
+msgstr "Maximum password age may not be less than 0."
+
+msgid "ps_error_message_invalid_password_max_length"
+msgstr "Maximum password size may not be less than 0."
+
+msgid "ps_error_message_invalid_password_min_length"
+msgstr "Minimum password size may not be less than 0."
+
+msgid "ps_error_message_password_max_less_min"
+msgstr "Maximum password size may not be less than minimum password size."
+
+msgid "ps_error_message_password_min1_because_chars"
+msgstr "Minimum password size may not be less than %s."
+
+msgid "ps_error_message_password_min2_because_chars_numbers"
+msgstr "Minimum password size may not be less than %s if password have to contain characters and numbers."
+
+msgid "ps_error_message_password_min3_because_chars_numbers_sc"
+msgstr "Minimum password size may not be less than %s if password have to contain characters, numbers and special characters."
+
+msgid "ps_export_admin"
+msgstr "Administrators"
+
+#. Needs improvement!
+msgid "ps_export_confirm"
+msgstr "User Confirmation when Entering Courses"
+
+#. Needs improvement!
+msgid "ps_export_confirm_group"
+msgstr "User Confirmation when Entering Groups"
+
+#, fuzzy
+msgid "ps_export_confirm_group_info"
+msgstr "When joining a group, users are required to accept that their personal data can be viewed by the group admins."
+
+#, fuzzy
+msgid "ps_export_confirm_info"
+msgstr "When joining a course, users are required to accept that their personal data can be viewed by the course admins."
+
+msgid "ps_export_course"
+msgstr "Allow export of user profile data in courses"
+
+msgid "ps_export_data"
+msgstr "Data Types of the Personal Profile"
+
+msgid "ps_export_excel"
+msgstr "Start Excel Export"
+
+msgid "ps_export_files"
+msgstr "Export Files"
+
+msgid "ps_export_groups"
+msgstr "Allow export of user profile data in groups"
+
+msgid "ps_export_member"
+msgstr "Members"
+
+#, fuzzy
+msgid "ps_export_prgs"
+msgstr "Allow export of user profile data in Study Programmes"
+
+msgid "ps_export_settings"
+msgstr "Export Settings"
+
+msgid "ps_export_sub"
+msgstr "Subscribers"
+
+msgid "ps_export_tutor"
+msgstr "Tutors"
+
+msgid "ps_export_user_data"
+msgstr "Data Types"
+
+msgid "ps_export_wait"
+msgstr "Users on the Waiting List"
+
+msgid "ps_field_type"
+msgstr "Field Type"
+
+msgid "ps_files_deleted"
+msgstr "Export Files Deleted"
+
+msgid "ps_grp_user_fields"
+msgstr "Group-Specific User Fields"
+
+msgid "ps_login_max_attempts"
+msgstr "Maximum Login Attempts"
+
+msgid "ps_login_max_attempts_info"
+msgstr " Sets the maximum number of unsuccessful attempts to login. After the maximum number of unsuccessful attempts is exceeded, the respective user will be set to 'inactive' and would require re-activation in User Management. Leave the field empty to disable this option and ILIAS will not count failed login attempts."
+
+msgid "ps_not_accepted"
+msgstr "Not Accepted"
+
+msgid "ps_participants_list_courses"
+msgstr "Allow Activation of Participant Lists in the Member Gallery of Courses"
+
+msgid "ps_passwd_policy_change_force_user_reset_succ"
+msgstr "The changes have been successfully applied."
+
+msgid "ps_passwd_policy_changed_force_user_reset"
+msgstr "The changes were saved successfully. You just modified at least one password policy setting. Should local users be forced to change their password after the next successful login?"
+
+msgid "ps_password_change_on_first_login_enabled"
+msgstr "Change Password on First Login"
+
+msgid "ps_password_change_on_first_login_enabled_info"
+msgstr "If enabled, users have to change their password on first login (except users registered themselves)."
+
+msgid "ps_password_chars_and_numbers_enabled"
+msgstr "Force Characters and Numbers"
+
+msgid "ps_password_chars_and_numbers_enabled_info"
+msgstr "If enabled, passwords have to contain characters and numbers."
+
+#, fuzzy
+msgid "ps_password_force_user_reset"
+msgstr "Force Password Reset"
+
+msgid "ps_password_max_age"
+msgstr "Maximum Password Age"
+
+msgid "ps_password_max_age_info"
+msgstr "Sets the maximum age of passwords in days. Set this to 0 for disabling this option."
+
+msgid "ps_password_max_length"
+msgstr "Maximum Password Size"
+
+msgid "ps_password_max_length_info"
+msgstr "Sets the maximum size of account passwords. Set this to 0 for disabling this option."
+
+msgid "ps_password_min_length"
+msgstr "Minimum Password Size"
+
+msgid "ps_password_min_length_info"
+msgstr "Sets the minimum size of account passwords. If set to 0, the passwords anyway have to have a minimum size of 1. If the required length is altered, the new requirement will be applied only to those accounts that were created or changed after the new length was set. Existing accounts are not affected."
+
+msgid "ps_password_settings"
+msgstr "Password Settings"
+
+msgid "ps_password_special_chars_enabled"
+msgstr "Force Special Characters"
+
+msgid "ps_password_special_chars_enabled_info"
+msgstr "If enabled, passwords have to contain special characters."
+
+msgid "ps_perform_export"
+msgstr "Start CSV-Export"
+
+msgid "ps_prevent_simultaneous_logins"
+msgstr "Prevent Simultaneous Logins"
+
+msgid "ps_prevent_simultaneous_logins_info"
+msgstr "If enabled, simultaneous logins with the same account from different computers are not possible."
+
+msgid "ps_privacy_protection"
+msgstr "Privacy Settings"
+
+msgid "ps_profile_export"
+msgstr "Protection of User Profile Data"
+
+msgid "ps_security_protection"
+msgstr "Security Settings"
+
+msgid "ps_select_one"
+msgstr "Please select one export file"
+
+msgid "ps_show_crs_access"
+msgstr "Show last access time of course participants"
+
+msgid "ps_show_grp_access"
+msgstr "Show last access time of group participants"
+
+#, fuzzy
+msgid "ps_show_lso_access"
+msgstr "Show last access time of learning sequence participants"
+
+msgid "ps_size"
+msgstr "Files Size"
+
+msgid "ps_type_select"
+msgstr "Select Field"
+
+msgid "ps_type_select_long"
+msgstr "Selection Box (Fixed Values)"
+
+msgid "ps_type_text"
+msgstr "Text Field"
+
+msgid "ps_type_txt_long"
+msgstr "Text Field (Optional Values)"
+
+msgid "ps_user_selection"
+msgstr "Participants Selection"
+
+msgid "ps_warning_modify"
+msgstr "Attention"
+
+msgid "rbac_log"
+msgstr "Permission Log"
+
+msgid "rbac_log_age"
+msgstr "Keep Log Entries"
+
+msgid "rbac_log_age_info"
+msgstr "Maximum age of log entries in month"
+
+msgid "rbac_log_info"
+msgstr "Enable logging of all changes to object permissions"
+
+msgid "show_privacy"
+msgstr "Privacy"
+
+msgid "show_security"
+msgstr "Security"

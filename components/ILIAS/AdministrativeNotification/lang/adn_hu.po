@@ -1,0 +1,168 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: adn\n"
+
+msgid "action_confirm_delete"
+msgstr "Értesítések törlése"
+
+msgid "action_confirm_delete_msg"
+msgstr "Biztos, hohgy törli a következő értesítés(eke)t?"
+
+msgid "administrative_notification"
+msgstr "Rendszerértesítések"
+
+msgid "administrative_notification_description"
+msgstr "Rendszerértesítések megjelenítésének lehetősége az ILIAS felső sávjában"
+
+msgid "btn_cancel"
+msgstr "Mégsem"
+
+msgid "btn_delete"
+msgstr "Törlés"
+
+msgid "btn_delete_confirm"
+msgstr "Biztos, hogy törli ezt az értesítést?"
+
+msgid "btn_duplicate"
+msgstr "Duplikálás"
+
+msgid "btn_edit"
+msgstr "Módosítás"
+
+msgid "btn_reset"
+msgstr "Reszetelés"
+
+msgid "btn_reset_confirm"
+msgstr "Biztos, hogy alapértékre álítja ezt az értesítést az összes felhasználónál?"
+
+msgid "common_actions"
+msgstr "Műveletek"
+
+msgid "common_add_msg"
+msgstr "Értesítés létrehozása"
+
+msgid "main"
+msgstr "Értesítések"
+
+msgid "msg_body"
+msgstr "Szöveg"
+
+msgid "msg_body_info"
+msgstr "Az értesítés szövege."
+
+msgid "msg_dismissable"
+msgstr "Levehető"
+
+msgid "msg_dismissable_info"
+msgstr "A felhasználók az értesítést bezárhassák-e. Bezárás után az értesítés többet nem jelenik meg."
+
+msgid "msg_display_date_end"
+msgstr "Megjelenés eddig"
+
+msgid "msg_display_date_start"
+msgstr "Megjelenés ekkortól"
+
+msgid "msg_error_false_date_configuration"
+msgstr "Az értesítés nem hozható létre ezekkel a időpontokkal. Az eseménynek a megjelenítési idő között kell lennie."
+
+msgid "msg_event_date_end"
+msgstr "Esemény vége"
+
+msgid "msg_event_date_start"
+msgstr "Esemény eleje"
+
+msgid "msg_form_title"
+msgstr "Értesítés"
+
+msgid "msg_has_language_limitation"
+msgstr "Korlátozás a telpeített nyelvekre"
+
+msgid "msg_has_language_limitation_info"
+msgstr "Csak a kijelölt nyelveken jelennek meg az értesítések"
+
+msgid "msg_languages"
+msgstr "Nyelvek"
+
+msgid "msg_limit_to_roles"
+msgstr "Szerepkörfüggő megjelenítés"
+
+msgid "msg_limit_to_roles_info"
+msgstr "Csak a kijelölt szerepkörök tagjainak jelenik meg az értesítés."
+
+msgid "msg_limited_to_role_ids"
+msgstr "Szerepkörök"
+
+msgid "msg_permanent"
+msgstr "Megjelenítés"
+
+msgid "msg_permanent_info"
+msgstr "Megadható, hogy az értesítés állandó vagy ideiglenes legyen-e."
+
+msgid "msg_permanent_no"
+msgstr "Ideiglenesen"
+
+msgid "msg_permanent_yes"
+msgstr "Állandóan"
+
+msgid "msg_presentation"
+msgstr "Megjelenítés"
+
+msgid "msg_show_to_all_languages"
+msgstr "Megjelenítés az összes nyelven"
+
+msgid "msg_show_to_all_roles"
+msgstr "Megjelenítés az összes szerepkörnek"
+
+msgid "msg_show_to_all_roles_info"
+msgstr "Mindenki, még a be nem jelentkezett felhasználók is látni fogják ezt az értesítést."
+
+msgid "msg_success_created"
+msgstr "Az értesítést sikeresen létrehozta"
+
+msgid "msg_success_deleted"
+msgstr "Az értesítést sikeresen törölte"
+
+msgid "msg_success_duplicated"
+msgstr "Az értesítést sikeresen duplikálta"
+
+msgid "msg_success_reset"
+msgstr "Az értesítést sikeresen alapértékre állította"
+
+msgid "msg_success_updated"
+msgstr "Az értesítést sikeresen módosította"
+
+msgid "msg_table_title"
+msgstr "Értesítések"
+
+msgid "msg_title"
+msgstr "Tárgy"
+
+msgid "msg_title_info"
+msgstr "Az értesítés rövid tárgya."
+
+msgid "msg_type"
+msgstr "Fontosság"
+
+msgid "msg_type_0"
+msgstr "Értesítés"
+
+msgid "msg_type_1"
+msgstr "Értesítés"
+
+msgid "msg_type_2"
+msgstr "Fontos"
+
+msgid "msg_type_3"
+msgstr "Friss hírek"
+
+msgid "msg_type_during_event"
+msgstr "Esemény közben"
+
+msgid "msg_type_info"
+msgstr "A fontosság az értesítés színét határozza meg."

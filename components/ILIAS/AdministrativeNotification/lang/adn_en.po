@@ -1,0 +1,168 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"Language-Team: English\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: adn\n"
+
+msgid "action_confirm_delete"
+msgstr "Delete Notifications"
+
+msgid "action_confirm_delete_msg"
+msgstr "Would you like to delete the following notification(s)?"
+
+msgid "administrative_notification"
+msgstr "Administrative Notifications"
+
+msgid "administrative_notification_description"
+msgstr "Provide system-wide notifications in topbar of ILIAS"
+
+msgid "btn_cancel"
+msgstr "Cancel"
+
+msgid "btn_delete"
+msgstr "Delete"
+
+msgid "btn_delete_confirm"
+msgstr "Would you like to delete this Notification?"
+
+msgid "btn_duplicate"
+msgstr "Duplicate"
+
+msgid "btn_edit"
+msgstr "Edit"
+
+msgid "btn_reset"
+msgstr "Reset"
+
+msgid "btn_reset_confirm"
+msgstr "Would you like to reset this Notification for all Users?"
+
+msgid "common_actions"
+msgstr "Actions"
+
+msgid "common_add_msg"
+msgstr "Add Notification"
+
+msgid "main"
+msgstr "Notifications"
+
+msgid "msg_body"
+msgstr "Body"
+
+msgid "msg_body_info"
+msgstr "Body of the Notification"
+
+msgid "msg_dismissable"
+msgstr "Dismissable"
+
+msgid "msg_dismissable_info"
+msgstr "Notifications can be closed by the user. The user won't see this notification again."
+
+msgid "msg_display_date_end"
+msgstr "Displayed Until"
+
+msgid "msg_display_date_start"
+msgstr "Displayed From"
+
+msgid "msg_error_false_date_configuration"
+msgstr "Can't create a notification with this configuration of dates. The event must be within the display time."
+
+msgid "msg_event_date_end"
+msgstr "Event Ends"
+
+msgid "msg_event_date_start"
+msgstr "Event Starts"
+
+msgid "msg_form_title"
+msgstr "Notification"
+
+msgid "msg_has_language_limitation"
+msgstr "Limited to selected languages"
+
+msgid "msg_has_language_limitation_info"
+msgstr "Only selected languages will see the notification."
+
+msgid "msg_languages"
+msgstr "Languages"
+
+msgid "msg_limit_to_roles"
+msgstr "Limited to Selected Roles"
+
+msgid "msg_limit_to_roles_info"
+msgstr "Only selected roles will see the notification."
+
+msgid "msg_limited_to_role_ids"
+msgstr "Presentation"
+
+msgid "msg_permanent"
+msgstr "Display"
+
+msgid "msg_permanent_info"
+msgstr "Display Notifications permanently or temporarily"
+
+msgid "msg_permanent_no"
+msgstr "Show Temporarily"
+
+msgid "msg_permanent_yes"
+msgstr "Show Permanently"
+
+msgid "msg_presentation"
+msgstr "Presentation"
+
+msgid "msg_show_to_all_languages"
+msgstr "Show to all languages"
+
+msgid "msg_show_to_all_roles"
+msgstr "Show to all roles"
+
+msgid "msg_show_to_all_roles_info"
+msgstr "All users even when not logged-in will see notification."
+
+msgid "msg_success_created"
+msgstr "Notification created"
+
+msgid "msg_success_deleted"
+msgstr "Notification(s) sucessfully deleted"
+
+msgid "msg_success_duplicated"
+msgstr "Notification sucessfully duplicated"
+
+msgid "msg_success_reset"
+msgstr "Notification reset"
+
+msgid "msg_success_updated"
+msgstr "Notification updated"
+
+msgid "msg_table_title"
+msgstr "Notifications"
+
+msgid "msg_title"
+msgstr "Headline"
+
+msgid "msg_title_info"
+msgstr "Short Headline of the Notification"
+
+msgid "msg_type"
+msgstr "Importance"
+
+msgid "msg_type_0"
+msgstr "Notice"
+
+msgid "msg_type_1"
+msgstr "Notice"
+
+msgid "msg_type_2"
+msgstr "Important"
+
+msgid "msg_type_3"
+msgstr "Breaking News"
+
+msgid "msg_type_during_event"
+msgstr "During Event"
+
+msgid "msg_type_info"
+msgstr "the importance has an influence on the color representation of the notification"

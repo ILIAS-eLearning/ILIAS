@@ -1,0 +1,433 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: zh\n"
+"Language-Team: Chinese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: lso\n"
+
+#, fuzzy
+msgid "abstract"
+msgstr "Abstract"
+
+#, fuzzy
+msgid "abstract_img"
+msgstr "Image for Abstract"
+
+#, fuzzy
+msgid "avail_time_period"
+msgstr "Period"
+
+#, fuzzy
+msgid "completed_steps"
+msgstr "Passed Steps"
+
+#, fuzzy
+msgid "condition_always"
+msgstr "Always"
+
+#, fuzzy
+msgid "cont_ed_insert_lsocurriculum"
+msgstr "Insert Learning Sequence Curriculum"
+
+#, fuzzy
+msgid "cont_ed_insert_lsostartbutton"
+msgstr "Insert Learning Sequence Start Button"
+
+#, fuzzy
+msgid "curriculum"
+msgstr "Curriculum"
+
+#, fuzzy
+msgid "delete_confirmation"
+msgstr "Are you sure you want to delete this objects?"
+
+#, fuzzy
+msgid "entries_deleted"
+msgstr "Successfuly delete entries"
+
+#, fuzzy
+msgid "entries_updated"
+msgstr "Entries saved"
+
+#, fuzzy
+msgid "extro"
+msgstr "Exitpage"
+
+#, fuzzy
+msgid "extro_img"
+msgstr "Image for Exitpage"
+
+#, fuzzy
+msgid "failed"
+msgstr "Failed"
+
+#, fuzzy
+msgid "finished"
+msgstr "Finished"
+
+#, fuzzy
+msgid "first_access"
+msgstr "First Access"
+
+#, fuzzy
+msgid "last_visited_step"
+msgstr "Last visited Step"
+
+#, fuzzy
+msgid "learner_view"
+msgstr "Overview"
+
+#, fuzzy
+msgid "lp_not_relevant_post_cond"
+msgstr "currently not relevant for continuation"
+
+#, fuzzy
+msgid "lso_activation_online_info"
+msgstr "Set the Learning Sequence online to make it visible and available for Learning Sequence members. If not, only administrators and tutors will have access to it."
+
+#, fuzzy
+msgid "lso_at_least_one_admin"
+msgstr "There has to be at least one learning sequence administrator."
+
+#, fuzzy
+msgid "lso_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "lso_header_delete_members"
+msgstr "Would you like to remove the following members from this learning sequence?"
+
+#, fuzzy
+msgid "lso_header_edit_members"
+msgstr "Edit Members"
+
+#, fuzzy
+msgid "lso_intropages_deprecationhint"
+msgstr "You can edit the abstract and exit page in the tab \"Content\"."
+
+#, fuzzy
+msgid "lso_legacy_info"
+msgstr "The object will open in a new tab in your browser. Please return to this tab after processing/editing the contents. Reload the page if you have edited the content but the \"Next\" button remains disabled."
+
+#, fuzzy
+msgid "lso_mail_admission_new_bod"
+msgstr "we are pleased to announce your registration for the learning sequence \"%s\"."
+
+#, fuzzy
+msgid "lso_mail_admission_new_sub"
+msgstr "Your registration for learning sequence \"%s\""
+
+#, fuzzy
+msgid "lso_mail_dismiss_bod"
+msgstr "your membership in learning sequence \"%s\" has been terminated."
+
+#, fuzzy
+msgid "lso_mail_dismiss_sub"
+msgstr "Membership terminated in learning sequence \"%s\""
+
+#, fuzzy
+msgid "lso_mail_notification_reg_bod"
+msgstr "%s has registered for learning sequence \"%s\"."
+
+#, fuzzy
+msgid "lso_mail_notification_reg_req_bod"
+msgstr "%s has requested membership for learning sequence \"%s\"."
+
+#, fuzzy
+msgid "lso_mail_notification_reg_req_bod2"
+msgstr "To confirm this registration, go to:"
+
+#, fuzzy
+msgid "lso_mail_notification_reg_req_sub"
+msgstr "Request to join learning sequence \"%s\""
+
+#, fuzzy
+msgid "lso_mail_notification_reg_sub"
+msgstr "User registered for learning sequence \"%s\""
+
+#, fuzzy
+msgid "lso_mail_notification_unsub_bod"
+msgstr "%s has cancelled his/her membership for the learning sequence \"%s\"."
+
+#, fuzzy
+msgid "lso_mail_notification_unsub_bod2"
+msgstr "There might be other members on a waiting list of your learning sequence.\\nYou should check for the waiting list now.\\nTo view the members of your learning sequence, click here:"
+
+#, fuzzy
+msgid "lso_mail_notification_unsub_sub"
+msgstr "User left learning sequence \"%s\""
+
+#, fuzzy
+msgid "lso_mail_permanent_link"
+msgstr "Click on the following link to find all of the information you need regarding the learning sequence:"
+
+#, fuzzy
+msgid "lso_mail_status_bod"
+msgstr "your status in learning sequence \"%s\" has been changed."
+
+#, fuzzy
+msgid "lso_mail_status_sub"
+msgstr "Changed status in learning sequence \"%s\""
+
+#, fuzzy
+msgid "lso_mail_sub_acc_bod"
+msgstr "we are pleased to confirm your registration for the learning sequence \"%s\"."
+
+#, fuzzy
+msgid "lso_mail_sub_acc_sub"
+msgstr "Registration confirmed for \"%s\""
+
+#, fuzzy
+msgid "lso_mail_sub_dec_bod"
+msgstr "we regret to say that your registration has been refused for learning sequence \"%s\"."
+
+#, fuzzy
+msgid "lso_mail_sub_dec_sub"
+msgstr "Registration refused for learning sequence \"%s\""
+
+#, fuzzy
+msgid "lso_mail_subscribe_member_bod"
+msgstr "we are pleased to confirm your registration for the learning sequence \"%s\"."
+
+#, fuzzy
+msgid "lso_mail_subscribe_member_sub"
+msgstr "Your registration for learning sequence \"%s\""
+
+#, fuzzy
+msgid "lso_mail_unsubscribe_member_bod"
+msgstr "we confirm your cancellation of membership in learning sequence %s.\\nWe hope that you find an opportunity to participate in another learning sequence."
+
+#, fuzzy
+msgid "lso_mail_unsubscribe_member_sub"
+msgstr "Your cancellation of membership in learning sequence \"%s\""
+
+#, fuzzy
+msgid "lso_mail_wl_bod"
+msgstr "you have been assigned to the waiting list of learning sequence \"%s\".\\nYou are assigned to position %s on the list.\\n\\nYou will receive a message from a learning sequence administrator when your request has been approved or rejected."
+
+#, fuzzy
+msgid "lso_mail_wl_sub"
+msgstr "Your registration for learning sequence \"%s\""
+
+#, fuzzy
+msgid "lso_mainbar_button_label_curriculum"
+msgstr "Curriculum"
+
+#, fuzzy
+msgid "lso_mainbar_button_label_toc"
+msgstr "Content"
+
+#, fuzzy
+msgid "lso_mem_tbl_header"
+msgstr "Learning Sequence Member"
+
+#, fuzzy
+msgid "lso_member_administration"
+msgstr "Edit Participants"
+
+#, fuzzy
+msgid "lso_members_deleted"
+msgstr "Deleted members"
+
+#, fuzzy
+msgid "lso_members_gallery"
+msgstr "Learning Sequence Members Gallery"
+
+#, fuzzy
+msgid "lso_members_print_title"
+msgstr "Learning sequence mebers"
+
+#, fuzzy
+msgid "lso_min_one_admin"
+msgstr "There has to be at least one administrator assigned to this learning sequence."
+
+#, fuzzy
+msgid "lso_msg_member_assigned"
+msgstr "User(s) assigned as learning sequence member(s)"
+
+#, fuzzy
+msgid "lso_multidownload_not_available"
+msgstr "Downloading multiple objects is currently not available for Learning Sequence Objects."
+
+#, fuzzy
+msgid "lso_new_status"
+msgstr "Your new status is:"
+
+#, fuzzy
+msgid "lso_notification"
+msgstr "Notification"
+
+#, fuzzy
+msgid "lso_notification_explanation_admin"
+msgstr "You receive mail from ILIAS because you are learning sequence administrator with notification enabled."
+
+#, fuzzy
+msgid "lso_notify_off"
+msgstr "Notification about new registrations disabled"
+
+#, fuzzy
+msgid "lso_notify_on"
+msgstr "Notification about new registrations enabled"
+
+#, fuzzy
+msgid "lso_player_abstract"
+msgstr "Show Abstract Info"
+
+#, fuzzy
+msgid "lso_player_extro"
+msgstr "Show Final Page"
+
+#, fuzzy
+msgid "lso_player_finish"
+msgstr "Finish"
+
+#, fuzzy
+msgid "lso_player_next"
+msgstr "Next"
+
+#, fuzzy
+msgid "lso_player_noitems"
+msgstr "There are no available items in this Learning Sequence."
+
+#, fuzzy
+msgid "lso_player_previous"
+msgstr "Previous"
+
+#, fuzzy
+msgid "lso_player_resume"
+msgstr "Resume Learning Sequence"
+
+#, fuzzy
+msgid "lso_player_review"
+msgstr "Review Learning Sequence"
+
+#, fuzzy
+msgid "lso_player_start"
+msgstr "Start Learning Sequence"
+
+#, fuzzy
+msgid "lso_player_suspend"
+msgstr "Suspend"
+
+#, fuzzy
+msgid "lso_player_viewmodelabel"
+msgstr "Learning Sequence"
+
+#, fuzzy
+msgid "lso_print_list"
+msgstr "Print list"
+
+#, fuzzy
+msgid "lso_read"
+msgstr "User has read access to Learning Sequence"
+
+#, fuzzy
+msgid "lso_search_users"
+msgstr "Search user"
+
+#, fuzzy
+msgid "lso_settings_availability"
+msgstr "availability"
+
+#, fuzzy
+msgid "lso_settings_extro"
+msgstr "Exitpage Settings"
+
+#, fuzzy
+msgid "lso_settings_intro"
+msgstr "Intropage Settings"
+
+#, fuzzy
+msgid "lso_settings_old_extro"
+msgstr "View Old Exit Page"
+
+#, fuzzy
+msgid "lso_settings_old_intro"
+msgstr "View Old Intro Page"
+
+#, fuzzy
+msgid "lso_show_members_info"
+msgstr "Member Gallery available for users"
+
+#, fuzzy
+msgid "lso_start_item"
+msgstr "Open %s"
+
+#, fuzzy
+msgid "lso_toast_completed_desc"
+msgstr "You have completed this Learning Sequence. You might still keep looking through the content."
+
+#, fuzzy
+msgid "lso_toast_completed_title"
+msgstr "Congratulations"
+
+#, fuzzy
+msgid "lso_users_already_assigned"
+msgstr "The user is already assigned to this learning sequence"
+
+#, fuzzy
+msgid "mail_lso_roles"
+msgstr "Send mails to roles of learning sequence."
+
+#, fuzzy
+msgid "manage"
+msgstr "Manage"
+
+#, fuzzy
+msgid "manage_content_maintab"
+msgstr "Content"
+
+#, fuzzy
+msgid "members_gallery"
+msgstr "Member Gallery"
+
+#, fuzzy
+msgid "no_entries_selected_for_delete"
+msgstr "There has to be at least one entry selected."
+
+#, fuzzy
+msgid "not_finished"
+msgstr "Not Finished"
+
+#, fuzzy
+msgid "notification_lso_completed_title"
+msgstr "You completed the Learning Sequence %s."
+
+#, fuzzy
+msgid "show_summary"
+msgstr "Info"
+
+#, fuzzy
+msgid "table_actions"
+msgstr "Actions"
+
+#, fuzzy
+msgid "table_lp_settings"
+msgstr "Learning Progress Settings"
+
+#, fuzzy
+msgid "table_may_proceed"
+msgstr "User may proceed"
+
+#, fuzzy
+msgid "table_online"
+msgstr "Online"
+
+#, fuzzy
+msgid "table_position"
+msgstr "Position"
+
+#, fuzzy
+msgid "table_sequence_content"
+msgstr "Content Management"
+
+#, fuzzy
+msgid "table_title"
+msgstr "Title"
+
+#, fuzzy
+msgid "unparticipate"
+msgstr "Unsubscribe"

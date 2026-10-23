@@ -1,0 +1,716 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: forum\n"
+
+msgid "activate_new_posts"
+msgstr "Aprobar publicaciones"
+
+msgid "activate_only_current"
+msgstr "Aprobar publicación"
+
+msgid "activate_post"
+msgstr "Aprobar"
+
+msgid "activate_post_txt"
+msgstr "¿Realmente desea aprobar la publicación actual?"
+
+msgid "add_new_answer"
+msgstr "Añadir publicación"
+
+msgid "add_re_to_subject"
+msgstr "Añadir \"Re: \" al asunto al responder"
+
+msgid "adm_autosave_drafts"
+msgstr "Guardar borradores automáticamente"
+
+msgid "adm_autosave_drafts_desc"
+msgstr "Si se activa, los borradores se guardan automáticamente durante la edición."
+
+msgid "adm_autosave_ival"
+msgstr "Intervalo"
+
+msgid "adm_save_drafts"
+msgstr "Habilitar borradores"
+
+msgid "adm_save_drafts_desc"
+msgstr "Si se habilita, los usuarios registrados podrán guardar las publicaciones del foro como borradores."
+
+msgid "allow_file_upload_desc"
+msgstr "Si se habilita, los usuarios podrán adjuntar archivos a sus publicaciones."
+
+msgid "ascending_order"
+msgstr "Publicaciones más recientes al final"
+
+msgid "autosave_draft_info"
+msgstr "<span class=\"asterisk\">Este borrador se guardará automáticamente cada %s segundos.</span>"
+
+msgid "autosave_post_draft_info"
+msgstr "<span class=\"asterisk\">Esta publicación se guardará automáticamente como borrador cada %s segundos.</span>"
+
+msgid "close_topics"
+msgstr "Cerrar"
+
+msgid "content_censored_post"
+msgstr "Contenido de la publicación censurada:"
+
+msgid "content_deleted_post"
+msgstr "Contenido de la publicación eliminada:"
+
+msgid "content_deleted_thread"
+msgstr "Contenido del hilo eliminado:"
+
+msgid "content_post_updated"
+msgstr "Contenido de la publicación editada:"
+
+msgid "deletePosting"
+msgstr "Eliminar publicación"
+
+msgid "deletePostingDraft"
+msgstr "Eliminar borrador"
+
+msgid "delete_draft_successfully"
+msgstr "El borrador se eliminó con éxito."
+
+msgid "delete_drafts_successfully"
+msgstr "Los borradores se eliminaron con éxito."
+
+msgid "delete_thread"
+msgstr "Eliminar hilo"
+
+msgid "descending_order"
+msgstr "Publicaciones más recientes al principio"
+
+msgid "edit_thread_draft"
+msgstr "Editar borradores de hilos creados en foros."
+
+msgid "empty_subject"
+msgstr "Al responder, el usuario debe introducir un título nuevo."
+
+msgid "empty_thread"
+msgstr "Hilo vacío"
+
+msgid "enable_send_attachments"
+msgstr "Enviar archivos adjuntos con las notificaciones del foro"
+
+msgid "enable_send_attachments_desc"
+msgstr "Tenga en cuenta que los archivos adjuntos deben almacenarse por separado para cada usuario notificado. Esto puede causar un alto uso del espacio en disco del servidor."
+
+msgid "enable_thread_ratings"
+msgstr "Calificación de hilos"
+
+msgid "enable_thread_ratings_info"
+msgstr "Si se activa, los usuarios podrán calificar los hilos."
+
+msgid "enter_new_subject"
+msgstr "Por favor, introduzca un asunto nuevo"
+
+msgid "error_no_target_selected"
+msgstr "Por favor, seleccione un foro."
+
+msgid "error_reading_file"
+msgstr "Se produjo un error al leer el archivo"
+
+msgid "error_same_thread_ids"
+msgstr "El hilo de origen y el de destino deben ser diferentes."
+
+msgid "file_upload_allowed"
+msgstr "Permitir archivos adjuntos"
+
+msgid "file_upload_allowed_fora"
+msgstr "Archivos adjuntos"
+
+msgid "file_upload_allowed_fora_desc"
+msgstr "El adjunto de archivos debe estar habilitado en cada foro. En los foros nuevos, la carga de archivos adjuntos estará desactivada por defecto."
+
+msgid "file_upload_option_allow"
+msgstr "Permitir archivos adjuntos en todos los foros"
+
+msgid "file_upload_option_allow_info"
+msgstr "Se pueden adjuntar archivos a las publicaciones en todos los foros."
+
+msgid "file_upload_option_disallow"
+msgstr "Permitir archivos adjuntos en foros seleccionados"
+
+msgid "fmr_copy_threads_info"
+msgstr "Tiene la posibilidad de copiar hilos individuales. Solo se duplicará el inicio de los hilos seleccionados."
+
+msgid "forum_add_quote"
+msgstr "Añadir cita"
+
+msgid "forums_all_threads_marked_read"
+msgstr "Todos los hilos han sido marcados como leídos"
+
+msgid "forums_attachments"
+msgstr "Archivos adjuntos"
+
+msgid "forums_attachments_add"
+msgstr "Añadir archivo adjunto"
+
+msgid "forums_censor_comment"
+msgstr "Comentario del censor"
+
+msgid "forums_count_art"
+msgstr "Número de mensajes"
+
+msgid "forums_created_by"
+msgstr "Creado por"
+
+msgid "forums_delete_file"
+msgstr "Eliminar archivo adjunto"
+
+msgid "forums_disable_notification"
+msgstr "Desactivar notificaciones para este hilo"
+
+msgid "forums_download_attachment"
+msgstr "Descargar archivo"
+
+msgid "forums_edit_draft"
+msgstr "Editar borrador"
+
+msgid "forums_edit_post"
+msgstr "Editar mensaje"
+
+msgid "forums_enable_notification"
+msgstr "Activar notificaciones para este hilo"
+
+msgid "forums_forum_notification"
+msgstr "Enviar notificaciones del foro"
+
+msgid "forums_forum_notification_desc"
+msgstr "Si se activa, todos los usuarios que deseen estar informados sobre nuevos mensajes en hilos específicos del foro recibirán notificaciones por correo electrónico."
+
+msgid "forums_forum_notification_disabled"
+msgstr "Ya no recibirá más notificaciones sobre nuevos mensajes en este foro."
+
+msgid "forums_info_censor2_post"
+msgstr "¿Revocar censura?"
+
+msgid "forums_info_censor_post"
+msgstr "Por favor, proporcione un motivo para ocultar este mensaje."
+
+msgid "forums_info_delete_draft"
+msgstr "¿Está seguro de que desea eliminar este borrador?"
+
+msgid "forums_info_delete_post"
+msgstr "¿Está seguro de que desea eliminar este mensaje incluyendo todas sus respuestas?"
+
+msgid "forums_mark_read"
+msgstr "Marcar todo como leído"
+
+msgid "forums_new_thread"
+msgstr "Nuevo hilo"
+
+msgid "forums_no_posts_available"
+msgstr "Este hilo no tiene mensajes."
+
+msgid "forums_notification_disabled"
+msgstr "Notificación desactivada"
+
+msgid "forums_notification_enabled"
+msgstr "Notificación activada"
+
+msgid "forums_notification_intro"
+msgstr "Este correo le ha sido enviado automáticamente por la instalación de ILIAS %s, %s"
+
+msgid "forums_notification_show_frm"
+msgstr "Mostrar foro: %s"
+
+msgid "forums_notification_show_post"
+msgstr "Mostrar mensaje: %s"
+
+msgid "forums_post_activation_mail"
+msgstr "A menos que se active el siguiente mensaje, no será visible para otros usuarios del foro. Usted recibe este correo electrónico porque está asignado como moderador y tiene permiso para activar este mensaje."
+
+msgid "forums_post_deleted"
+msgstr "El mensaje ha sido eliminado"
+
+msgid "forums_post_modified"
+msgstr "El mensaje ha sido modificado"
+
+msgid "forums_post_needs_to_be_activated"
+msgstr "Se ha creado un nuevo mensaje, pero debe ser activado por un moderador."
+
+msgid "forums_post_new_entry"
+msgstr "Se ha creado un nuevo mensaje."
+
+msgid "forums_post_was_activated"
+msgstr "El mensaje ha sido activado."
+
+msgid "forums_posts"
+msgstr "Todos los mensajes"
+
+msgid "forums_posts_not_available"
+msgstr "Mensajes no disponibles"
+
+msgid "forums_print_thread"
+msgstr "Imprimir hilo"
+
+msgid "forums_subject"
+msgstr "Asunto"
+
+msgid "forums_the_post"
+msgstr "Mensaje"
+
+msgid "forums_thread"
+msgstr "Hilo"
+
+msgid "forums_thread_create_from"
+msgstr "Creado desde"
+
+msgid "forums_thread_deleted"
+msgstr "Se ha eliminado el hilo seleccionado incluyendo todos los mensajes."
+
+msgid "forums_thread_drafts_deleted"
+msgstr "Se ha eliminado el hilo seleccionado incluyendo todos los mensajes y borradores."
+
+msgid "forums_thread_marked"
+msgstr "El hilo ha sido marcado como leído."
+
+msgid "forums_thread_new_entry"
+msgstr "Se ha creado un nuevo tema"
+
+msgid "forums_threads_deleted"
+msgstr "Se han eliminado los hilos seleccionados incluyendo todos los mensajes."
+
+msgid "forums_threads_drafts_deleted"
+msgstr "Se han eliminado los hilos seleccionados incluyendo todos los mensajes y borradores."
+
+msgid "forums_your_reply"
+msgstr "Su respuesta"
+
+msgid "frm_action_not_possible_parent_deleted"
+msgstr "Acción no posible, el mensaje original ha sido eliminado."
+
+msgid "frm_action_not_possible_thr_closed"
+msgstr "Acción no posible, el hilo ha sido cerrado."
+
+msgid "frm_action_not_possible_thr_deleted"
+msgstr "Acción no posible, el hilo ha sido eliminado."
+
+msgid "frm_activation_online_info"
+msgstr "Ponga el foro en línea para que sea visible y esté disponible para otros usuarios. De lo contrario, solo los administradores tendrán acceso a él."
+
+msgid "frm_adm_sec_default_settings"
+msgstr "Configuración predeterminada del objeto"
+
+msgid "frm_adm_sec_drafts"
+msgstr "Borradores"
+
+msgid "frm_adm_sec_features"
+msgstr "Características del foro"
+
+msgid "frm_adm_sec_notifications"
+msgstr "Notificaciones"
+
+msgid "frm_all_threads"
+msgstr "Todos los hilos"
+
+msgid "frm_anonymous_posting"
+msgstr "Publicar con seudónimo"
+
+msgid "frm_anonymous_posting_desc"
+msgstr "Si está activado, los usuarios registrados pueden publicar en este foro solo utilizando un seudónimo o sin nombre. Si la opción \"Marcar mensajes de moderadores\" también está activada, los moderadores no podrán usar un seudónimo."
+
+msgid "frm_at_least_one_moderator"
+msgstr "Debe haber al menos un moderador."
+
+msgid "frm_censorship"
+msgstr "Censurar"
+
+msgid "frm_censorship_applied"
+msgstr "La censura se ha aplicado correctamente."
+
+msgid "frm_censorship_revoked"
+msgstr "La censura se ha revocado correctamente."
+
+msgid "frm_copy"
+msgstr "Copiar foro"
+
+msgid "frm_default_view"
+msgstr "Vista predeterminada"
+
+msgid "frm_edit_title"
+msgstr "Editar título"
+
+msgid "frm_enable_print_option"
+msgstr "Activar opción de impresión"
+
+msgid "frm_enable_print_option_desc"
+msgstr "Si se desactiva, nadie podrá seleccionar la opción de impresión en el Foro."
+
+#, fuzzy
+msgid "frm_forum_push_notification_info"
+msgstr "Forum notifications are sent as push notifications instead of e-mail. If the push notification cannot be delivered, an e-mail will be sent instead."
+
+msgid "frm_mark_as_read"
+msgstr "Marcar como leído"
+
+msgid "frm_mark_as_unread"
+msgstr "Marcar como no leído"
+
+msgid "frm_max_notification_age"
+msgstr "Antigüedad máxima de notificación"
+
+msgid "frm_max_notification_age_info"
+msgstr "Por favor, defina la antigüedad máxima de las publicaciones para las que se enviarán notificaciones. Se recomienda elegir un valor superior al intervalo programado."
+
+msgid "frm_max_notification_age_unit"
+msgstr "Día(s)"
+
+msgid "frm_merge_src"
+msgstr "Hilo seleccionado: %s"
+
+msgid "frm_merge_target"
+msgstr "Destino: %s"
+
+msgid "frm_moderator_f"
+msgstr "Moderadora"
+
+msgid "frm_moderator_m"
+msgstr "Moderador"
+
+msgid "frm_moderator_n"
+msgstr "Moderación"
+
+msgid "frm_moderator_role_added_successfully"
+msgstr "El usuario fue añadido como moderador con éxito."
+
+msgid "frm_moderators"
+msgstr "Moderadores"
+
+msgid "frm_moderators_detached_role_successfully"
+msgstr "El rol de moderador se ha desvinculado con éxito para todos los usuarios seleccionados."
+
+msgid "frm_moderators_not_exist_yet"
+msgstr "Por favor, elija un moderador."
+
+msgid "frm_moderators_select_at_least_one"
+msgstr "Por favor, elija al menos un moderador."
+
+msgid "frm_moderators_select_one"
+msgstr "Por favor, elija un usuario."
+
+msgid "frm_move_invalid_file_type"
+msgstr "El hilo \"%s\" tiene adjunto un tipo de archivo no compatible. Elimine el archivo o contacte con el administrador del sistema para añadir este tipo de archivo a la lista blanca de tipos de archivo."
+
+msgid "frm_noti_message"
+msgstr "Mensaje:"
+
+msgid "frm_noti_new_post"
+msgstr "se ha creado una nueva publicación en el foro \"%1$s\"."
+
+msgid "frm_noti_obj_crs"
+msgstr "curso"
+
+msgid "frm_noti_obj_grp"
+msgstr "grupo"
+
+msgid "frm_noti_subject_act_post"
+msgstr "Activar publicación en el foro \"%1$s\"%2$s, hilo \"%3$s\""
+
+msgid "frm_noti_subject_answ_post"
+msgstr "Publicación respondida en el foro \"%1$s\"%2$s, hilo \"%3$s\""
+
+msgid "frm_noti_subject_cens_post"
+msgstr "Publicación censurada en el foro \"%1$s\"%2$s, hilo \"%3$s\""
+
+msgid "frm_noti_subject_del_post"
+msgstr "Publicación eliminada en el foro \"%1$s\"%2$s, hilo \"%3$s\""
+
+msgid "frm_noti_subject_del_thread"
+msgstr "Hilo \"%3$s\" eliminado en el foro \"%1$s\"%2$s"
+
+msgid "frm_noti_subject_new_post"
+msgstr "Nueva publicación en el foro \"%1$s\"%2$s, hilo \"%3$s\""
+
+msgid "frm_noti_subject_uncens_post"
+msgstr "Mensaje sin censura en el foro \"%1$s\"%2$s, hilo \"%3$s\""
+
+msgid "frm_noti_subject_upt_post"
+msgstr "Mensaje modificado en el foro \"%1$s\"%2$s, hilo \"%3$s\""
+
+msgid "frm_notification_activated"
+msgstr "Notificación activada"
+
+#, fuzzy
+msgid "frm_notification_bg_task_title"
+msgstr "Forum notification delivery"
+
+msgid "frm_notification_deactivated"
+msgstr "Notificación desactivada"
+
+msgid "frm_post_not_activated_yet"
+msgstr "Aún no activado."
+
+msgid "frm_posts"
+msgstr "Mensajes del foro"
+
+msgid "frm_pseudonym"
+msgstr "Seudónimo"
+
+msgid "frm_purifier_not_implemented_for_type_x"
+msgstr "Depurador (purifier) para el tipo %s aún no implementado."
+
+msgid "frm_rating"
+msgstr "Calificación"
+
+msgid "frm_revoke_censorship"
+msgstr "Revocar censura"
+
+msgid "frm_search"
+msgstr "Buscar"
+
+msgid "frm_selected_merge_src"
+msgstr "Hilo seleccionado para fusionar: %s"
+
+msgid "frm_settings_form_header"
+msgstr "Configuración del foro"
+
+msgid "frm_settings_mod_functions_header"
+msgstr "Funciones de moderador"
+
+msgid "frm_settings_privacy_header"
+msgstr "Privacidad"
+
+msgid "frm_settings_user_functions_header"
+msgstr "Funciones de usuario"
+
+msgid "frm_statistics"
+msgstr "Estadísticas"
+
+msgid "frm_statistics_disabled_for_participants"
+msgstr "Las estadísticas están desactivadas para los miembros del foro."
+
+msgid "frm_statistics_enabled"
+msgstr "Activar estadísticas"
+
+msgid "frm_statistics_enabled_desc"
+msgstr "Activar estadísticas de mensajes para todos los participantes"
+
+msgid "frm_statistics_ranking"
+msgstr "Número de mensajes"
+
+msgid "frm_subject_setting"
+msgstr "Configuración del asunto"
+
+msgid "frm_sure_delete_threads"
+msgstr "¿Está seguro de que desea eliminar el siguiente hilo?"
+
+msgid "frm_sure_merge_threads"
+msgstr "¿Está seguro de que desea fusionar estos hilos? Advertencia: Esta acción no se puede deshacer."
+
+msgid "frm_task_publishing_draft_title"
+msgstr "Publicación del borrador \"%s\""
+
+msgid "frm_wizard_page"
+msgstr "Copiar foro (Paso 2/2)"
+
+msgid "is_read"
+msgstr "Marcar como leído"
+
+msgid "make_topics_non_sticky"
+msgstr "Quitar fijación de los hilos"
+
+msgid "make_topics_sticky"
+msgstr "Fijar hilos"
+
+msgid "mark_moderator_posts"
+msgstr "Marcar mensajes del moderador"
+
+msgid "mark_moderator_posts_desc"
+msgstr "Si se activa, las publicaciones del moderador aparecerán resaltadas"
+
+msgid "merge"
+msgstr "Fusionar"
+
+msgid "merge_posts_into_thread"
+msgstr "Fusionar publicaciones en otro hilo"
+
+msgid "merged_threads_successfully"
+msgstr "Los hilos seleccionados fueron fusionados correctamente"
+
+msgid "move_chosen_topics"
+msgstr "Mover el hilo \"%s\" a:"
+
+msgid "move_thread_to_forum"
+msgstr "Mover hilo a otro foro"
+
+msgid "new_post"
+msgstr "Nueva publicación"
+
+msgid "new_thread_with_post"
+msgstr "Nuevo hilo con publicación"
+
+msgid "no_forum_selected"
+msgstr "No se ha seleccionado ningún foro para mover los hilos elegidos"
+
+msgid "not_allowed_to_merge_into_another_forum"
+msgstr "No es posible fusionar hilos de diferentes foros."
+
+msgid "notification_settings"
+msgstr "Configuración de notificaciones"
+
+msgid "notify_censored"
+msgstr "Publicaciones censuradas"
+
+msgid "notify_modified"
+msgstr "Publicaciones modificadas"
+
+msgid "notify_post_deleted"
+msgstr "Publicaciones eliminadas"
+
+msgid "notify_thread_deleted"
+msgstr "Hilos eliminados"
+
+msgid "notify_uncensored"
+msgstr "Publicaciones no censuradas"
+
+msgid "number_of_threads"
+msgstr "Número de hilos mostrados por página"
+
+msgid "please_choose_target"
+msgstr "Por favor, elija un hilo como destino para la fusión."
+
+msgid "post_activation_desc"
+msgstr "Antes de ser publicadas, todas las publicaciones deben ser aprobadas por un moderador."
+
+msgid "post_censored_by"
+msgstr "publicación censurada en el foro \"%2$s\" por \"%1$s\":"
+
+msgid "post_censored_comment_by_moderator"
+msgstr "Publicación censurada, comentario del moderador"
+
+msgid "post_deleted_by"
+msgstr "la siguiente publicación en el foro \"%2$s\" fue eliminada por \"%1$s\":"
+
+msgid "post_draft_info"
+msgstr "Este borrador de publicación solo es visible para usted."
+
+msgid "post_reply"
+msgstr "Re:"
+
+msgid "post_reply_count"
+msgstr "Re(%s):"
+
+msgid "post_uncensored_by"
+msgstr "una publicación fue descensurada por \"%1$s\""
+
+msgid "post_updated_by"
+msgstr "publicación editada posteriormente en el foro por \"%1$s\": \"%2$s\""
+
+msgid "preset_subject"
+msgstr "Asunto preestablecido al responder"
+
+msgid "publish"
+msgstr "Publicar"
+
+msgid "relevance"
+msgstr "Relevancia"
+
+msgid "reopen_topics"
+msgstr "Reabrir"
+
+msgid "reply_to_postings"
+msgstr "Responder"
+
+msgid "reset_limited_view"
+msgstr "Vista limitada en este mensaje y en todos los mensajes inferiores."
+
+msgid "reset_limited_view_button"
+msgstr "Mostrar hilo completo"
+
+msgid "reset_limited_view_info"
+msgstr "Vista limitada en este mensaje y en todos los mensajes debajo de él."
+
+msgid "restore"
+msgstr "Restaurar"
+
+msgid "restore_draft_from_autosave"
+msgstr "Restaurar borrador"
+
+msgid "save_draft_successfully"
+msgstr "El borrador se ha guardado correctamente."
+
+msgid "sel_threads_already_sticky"
+msgstr "Al menos uno de los hilos seleccionados ya es permanente."
+
+msgid "sel_threads_already_unsticky"
+msgstr "Al menos uno de los hilos seleccionados no está marcado como permanente."
+
+msgid "sel_threads_make_sticky"
+msgstr "Los hilos seleccionados han sido marcados como permanentes."
+
+msgid "sel_threads_make_unsticky"
+msgstr "Los hilos seleccionados ya no están marcados como permanentes."
+
+msgid "select_at_least_one_thread"
+msgstr "Por favor, seleccione al menos un hilo."
+
+msgid "select_max_one_thread"
+msgstr "¡Por favor, seleccione solo un hilo!"
+
+msgid "selected_threads_closed"
+msgstr "Los hilos seleccionados han sido cerrados."
+
+msgid "selected_threads_reopened"
+msgstr "Los hilos seleccionados han sido reabiertos."
+
+msgid "sort_by_date"
+msgstr "Por fecha"
+
+msgid "sort_by_date_desc"
+msgstr "El hilo se presenta en una vista plana. Los mensajes se muestran en orden cronológico de creación."
+
+msgid "sort_by_posts"
+msgstr "Por respuesta"
+
+msgid "sort_by_posts_desc"
+msgstr "El hilo se presenta en una vista de árbol. Las respuestas a los mensajes se muestran en el orden en que se relacionan entre sí."
+
+msgid "sorting"
+msgstr "Ordenación"
+
+msgid "sticky"
+msgstr "Permanente"
+
+msgid "sure_delete_drafts"
+msgstr "¿Está seguro de que desea eliminar los borradores seleccionados?"
+
+msgid "switch_threads_for_merge"
+msgstr "El hilo seleccionado es más antiguo que el hilo de destino. Para asegurar una fusión exitosa, se intercambiarán el hilo de origen y el de destino."
+
+msgid "target_select"
+msgstr "Seleccionar mensaje para vista limitada"
+
+msgid "thema"
+msgstr "Hilos"
+
+msgid "thread"
+msgstr "Hilo"
+
+msgid "thread_deleted_by"
+msgstr "el siguiente hilo en el foro \"%2$s\" fue eliminado por \"%1$s\":"
+
+msgid "thread_overview"
+msgstr "Vista general del hilo"
+
+msgid "threads_moved_successfully"
+msgstr "El hilo elegido se ha movido a otro foro correctamente."
+
+msgid "top_thema"
+msgstr "Hilos destacados"
+
+msgid "topic_close"
+msgstr "Cerrado"
+
+msgid "topics_please_select_one_action"
+msgstr "Por favor, seleccione una acción."
+
+msgid "user_decides_notification"
+msgstr "Los miembros tienen que activar manualmente las notificaciones"

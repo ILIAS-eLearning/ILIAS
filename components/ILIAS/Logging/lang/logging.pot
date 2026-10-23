@@ -1,0 +1,42 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: logging\n"
+
+msgid "error_settings_saved"
+msgstr ""
+
+msgid "frm_clear_older_then"
+msgstr ""
+
+msgid "frm_clear_older_then_info"
+msgstr ""
+
+msgid "log_error_file_cleanup_info"
+msgstr ""
+
+msgid "log_error_file_cleanup_title"
+msgstr ""
+
+msgid "log_error_folder"
+msgstr ""
+
+msgid "log_error_mail"
+msgstr ""
+
+msgid "log_error_message"
+msgstr ""
+
+msgid "log_error_message_send_mail"
+msgstr ""
+
+msgid "log_error_path_not_configured_or_wrong"
+msgstr ""
+
+msgid "log_error_settings"
+msgstr ""
+
+msgid "logs_settings"
+msgstr ""

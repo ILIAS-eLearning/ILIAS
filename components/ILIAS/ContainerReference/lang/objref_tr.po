@@ -1,0 +1,28 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: tr\n"
+"Language-Team: Turkish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: objref\n"
+
+msgid "objref_custom_title"
+msgstr "Özel Başlık Kullan"
+
+msgid "objref_edit_ref"
+msgstr "Hedef Ayarları"
+
+msgid "objref_edit_title"
+msgstr "Başlık Ayarları"
+
+#, fuzzy
+msgid "objref_failure_target_type"
+msgstr "Das Ziel des Links muss vom folgendem Typ sein:"
+
+msgid "objref_reuse_title"
+msgstr "Referans Yeniden Başlığı"
+
+msgid "objref_title_settings"
+msgstr "Edit Referans Başlığı"

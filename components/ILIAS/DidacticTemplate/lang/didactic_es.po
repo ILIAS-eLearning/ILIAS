@@ -1,0 +1,153 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: didactic\n"
+
+msgid "activate_exclusive_template"
+msgstr "Grisar predeterminado"
+
+msgid "activate_exclusive_template_info"
+msgstr "La plantilla estándar no estará disponible en los lugares donde esta plantilla esté activa."
+
+msgid "activate_local_didactic_template"
+msgstr "Ámbito de aplicación"
+
+msgid "activate_local_didactic_template_info"
+msgstr "El uso de esta plantilla didáctica se limitará a estas subáreas."
+
+msgid "didactic_activated_msg"
+msgstr "Plantillas didácticas activadas"
+
+msgid "didactic_adm_tab"
+msgstr "Plantillas didácticas"
+
+msgid "didactic_applicable_for"
+msgstr "Aplicable para"
+
+msgid "didactic_auto_generated"
+msgstr "Generado automáticamente"
+
+msgid "didactic_available_templates"
+msgstr "Plantillas didácticas disponibles"
+
+msgid "didactic_back_to_overview"
+msgstr "Volver a la vista general"
+
+msgid "didactic_cannot_delete_auto_generated"
+msgstr "No está permitido eliminar plantillas didácticas generadas automáticamente."
+
+msgid "didactic_cannot_delete_auto_generated_confirmation"
+msgstr "Al menos una de las plantillas didácticas seleccionadas se ha generado automáticamente y no se puede eliminar."
+
+msgid "didactic_confirm_apply_new_template"
+msgstr "¿Realmente desea aplicar la plantilla didáctica elegida? ¡Se perderán todos los ajustes de permisos actuales!"
+
+msgid "didactic_confirm_delete_msg"
+msgstr "¿Realmente desea eliminar las siguientes plantillas didácticas?"
+
+msgid "didactic_copy_suc_message"
+msgstr "Plantilla didáctica copiada"
+
+msgid "didactic_deactivated_msg"
+msgstr "Plantillas didácticas desactivadas"
+
+msgid "didactic_default_type"
+msgstr "Predeterminado"
+
+msgid "didactic_default_type_info"
+msgstr "Se aplicará el conjunto de permisos predeterminado."
+
+msgid "didactic_delete_msg"
+msgstr "Plantillas didácticas eliminadas."
+
+msgid "didactic_do_export"
+msgstr "Exportar"
+
+msgid "didactic_edit_tpl"
+msgstr "Editar plantilla didáctica"
+
+msgid "didactic_filter_with_icon"
+msgstr "con icono"
+
+msgid "didactic_filter_without_icon"
+msgstr "sin icono"
+
+msgid "didactic_global"
+msgstr "Global"
+
+msgid "didactic_icon"
+msgstr "Icono"
+
+msgid "didactic_icon_error"
+msgstr "Los iconos no se pueden asignar a objetos que no sean contenedores."
+
+msgid "didactic_icon_info"
+msgstr "El icono se muestra para todos los objetos que utilizan esta plantilla de objeto. Los \"iconos personalizados\" de los objetos sobrescriben los iconos de la plantilla didáctica. Los iconos solo se pueden utilizar para plantillas didácticas asignadas a objetos contenedor."
+
+msgid "didactic_import_btn"
+msgstr "Importar plantilla didáctica"
+
+msgid "didactic_import_failed"
+msgstr "La importación de la plantilla didáctica falló con el mensaje:"
+
+msgid "didactic_import_success"
+msgstr "Plantilla didáctica importada con éxito"
+
+msgid "didactic_import_table_title"
+msgstr "Importación de una plantilla didáctica"
+
+msgid "didactic_install_info"
+msgstr "Información General"
+
+msgid "didactic_local"
+msgstr "Local"
+
+msgid "didactic_not_changed"
+msgstr "La configuración de la plantilla didáctica no se ha modificado."
+
+msgid "didactic_scope"
+msgstr "Ámbito"
+
+msgid "didactic_scope_list_header"
+msgstr "Limitado a:"
+
+msgid "didactic_selected_tpl_option"
+msgstr "Plantilla didáctica aplicada:"
+
+msgid "didactic_template_applied"
+msgstr "Plantilla didáctica aplicada."
+
+msgid "didactic_template_update_import"
+msgstr "Actualizar Plantilla Didáctica"
+
+msgid "didactic_template_update_import_info"
+msgstr "Las propiedades se cambiarán de acuerdo con esta importación. Los objetos que ya tengan aplicada esta plantilla no se verán afectados."
+
+msgid "didactic_translation_add_languages"
+msgstr "Añadir idiomas"
+
+msgid "dtpl_obj_type_info"
+msgstr "Esta plantilla didáctica puede aplicarse a este tipo de objeto."
+
+msgid "effective_form"
+msgstr "Plantilla efectiva desde"
+
+msgid "grp_closed"
+msgstr "Grupo Cerrado"
+
+msgid "grp_closed_info"
+msgstr "El grupo no es visible para los no miembros."
+
+msgid "more_translations"
+msgstr "Más traducciones"
+
+msgid "sess_closed"
+msgstr "Sesión Cerrada"
+
+msgid "sess_closed_info"
+msgstr "La sesión no es visible para los no participantes."

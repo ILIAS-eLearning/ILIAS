@@ -1,0 +1,26 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: cat\n"
+
+msgid "cat_copy"
+msgstr "Copiar categoria"
+
+#, fuzzy
+msgid "cat_hide_tax_in_side_block"
+msgstr "Don't Present in Side Panel"
+
+msgid "cat_import"
+msgstr "Importar categoria"
+
+msgid "cat_more_translations"
+msgstr "Mais traduções"
+
+#, fuzzy
+msgid "cat_show_tax_in_side_block"
+msgstr "Present in Side Panel"

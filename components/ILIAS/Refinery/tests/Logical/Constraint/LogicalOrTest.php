@@ -96,9 +96,9 @@ class LogicalOrTest extends TestCase
     public static function constraintsProvider(): array
     {
         $language = new class () implements \ILIAS\Language\Language {
-            public function txt(string $a_topic, string $a_default_lang_fallback_mod = ""): string
+            public function txt(string|\ILIAS\Language\LanguageIdentifier $a_topic, ?int $n = null): string
             {
-                return $a_topic;
+                return is_string($a_topic) ? $a_topic : (string) $a_topic->value;
             }
             public function loadLanguageModule(string $a_module): void
             {

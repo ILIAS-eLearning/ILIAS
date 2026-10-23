@@ -1,0 +1,45 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: exercise\n"
+
+msgid "exc_admin_settings"
+msgstr "Beadandó feladat beállításainak kezelése"
+
+msgid "exc_comment"
+msgstr "Szöveges értékelés"
+
+msgid "exc_comment_for_learner"
+msgstr "Szöveges értékelés"
+
+msgid "exc_failed"
+msgstr "Nem elfogadható"
+
+msgid "exc_feedback_from_tutor"
+msgstr "Szöveges értékelés a tutortól"
+
+msgid "exc_grading"
+msgstr "Értékelés"
+
+msgid "exc_mark"
+msgstr "Érdemjegy"
+
+msgid "exc_notgraded"
+msgstr "Nincs értékelve"
+
+msgid "exc_passed"
+msgstr "Elfogadva"
+
+msgid "exc_send_mail"
+msgstr "Feladat linkjének küldés levélben"
+
+msgid "exc_start_date_should_be_before_end_date"
+msgstr "A kezdő időpont a határidő előtt kell, hogy legyen."
+
+msgid "exc_your_submission"
+msgstr "Az Ön megoldása"

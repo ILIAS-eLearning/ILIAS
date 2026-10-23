@@ -1,0 +1,2077 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: et\n"
+"Language-Team: Estonian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: crs\n"
+
+msgid "activation_times_not_valid"
+msgstr "Aktiveerimisperiood pole kättesaadav."
+
+msgid "assigned"
+msgstr "Lisatud"
+
+msgid "contact_email_not_valid"
+msgstr "E-posti aadress pole kehtiv"
+
+msgid "crs_accept_subscriber"
+msgstr "Sind lisati kursusele \"%s\""
+
+msgid "crs_accept_subscriber_body"
+msgstr "Sind on lisatud kursusele \"%s\"."
+
+msgid "crs_access"
+msgstr "Ligipääs"
+
+msgid "crs_activate_notification"
+msgstr "Aktiveeri märguanne"
+
+msgid "crs_activation"
+msgstr "Aktiveerimine"
+
+msgid "crs_activation_limited_visibility_info"
+msgstr "If chosen, the course is visible even outside of the given availability."
+
+msgid "crs_activation_online_info"
+msgstr "If offline, only course administrators and tutors can see and edit the course."
+
+msgid "crs_add_archive_html"
+msgstr "Loo HTML fail"
+
+msgid "crs_add_archive_xml"
+msgstr "Loo XML fail"
+
+msgid "crs_add_grouping"
+msgstr "Lisa kursuse rühmitus"
+
+msgid "crs_add_html_archive"
+msgstr "Lisa HTML arhiiv"
+
+msgid "crs_add_objective"
+msgstr "Lisa eesmärk"
+
+msgid "crs_add_remove_from_desktop"
+msgstr "Lisa/eemalda töölaualt"
+
+msgid "crs_add_remove_from_desktop_info"
+msgstr "Luba liikmetel lisada kursuse üksusi personaalsele töölauale."
+
+msgid "crs_add_starter"
+msgstr "Lisa algusobjekt"
+
+msgid "crs_add_to_group"
+msgstr "Lisa grupp"
+
+msgid "crs_added_member"
+msgstr "Liikmelisus kursusel \"%s\""
+
+msgid "crs_added_member_body"
+msgstr "Sind on lisatud kursusele \"%s\"."
+
+msgid "crs_added_new_archive"
+msgstr "Uus arhiiv on lisatud"
+
+msgid "crs_added_objective"
+msgstr "Uus õpieesmärk on loodud"
+
+msgid "crs_added_starters"
+msgstr "Algusobjekt(id) määratud"
+
+msgid "crs_added_to_list"
+msgstr "Olete lisatud ootejärjekorda  %s-ndana."
+
+msgid "crs_admin"
+msgstr "Administraator"
+
+msgid "crs_administrators"
+msgstr "Administraatorid"
+
+#, fuzzy
+msgid "crs_admission_link_failure_availability"
+msgstr "Can't register: Course is not online."
+
+#, fuzzy
+msgid "crs_admission_link_failure_invalid_code"
+msgstr "Can't register: Link is invalid."
+
+msgid "crs_admission_link_failure_membership_limited"
+msgstr "Can't registrate: Course membership is limited."
+
+#, fuzzy
+msgid "crs_admission_link_failure_offline"
+msgstr "Can't register: Course is offline."
+
+msgid "crs_admission_link_failure_registration_period"
+msgstr "Can't registrate: Course is out of registration period."
+
+msgid "crs_admission_link_success_registration"
+msgstr "Successfully registrated to course \"%s\"."
+
+msgid "crs_agree"
+msgstr "Nõustumine"
+
+msgid "crs_agreement_header"
+msgstr "Kasutajatingimused"
+
+msgid "crs_agreement_required"
+msgstr "Kursusele registreerumiseks peate nõustuma kasutajatingimustega."
+
+#, fuzzy
+msgid "crs_at_least_one_admin"
+msgstr "There has to be at least one course administrator."
+
+msgid "crs_auto_notification"
+msgstr "Notification For New Member"
+
+msgid "crs_auto_notification_info"
+msgstr "New members get a mail notification when added to the course."
+
+#, fuzzy
+msgid "crs_awrn_current_course"
+msgstr "Current Course"
+
+#, fuzzy
+msgid "crs_awrn_current_course_info"
+msgstr "If the user navigates to a course in the repository, all members of the course are listed."
+
+#, fuzzy
+msgid "crs_awrn_support_contacts"
+msgstr "Tutorial Support"
+
+#, fuzzy
+msgid "crs_awrn_support_contacts_info"
+msgstr "All tutorial support contacts of courses with membership of the current user are listed. Users are defined as tutorial support contacts in the Members tab of the respective course."
+
+msgid "crs_blocked"
+msgstr "Ligipääs piiratud"
+
+msgid "crs_blocked_member"
+msgstr "Liikmelisus kursusel on \"%s\""
+
+msgid "crs_blocked_member_body"
+msgstr "Sinu liikmelisus kursusel \"%s\" on blokeeritud."
+
+#, fuzzy
+msgid "crs_breadcrumb_crs_only"
+msgstr "Start with Course"
+
+#, fuzzy
+msgid "crs_breadcrumb_full_path"
+msgstr "Full Path"
+
+msgid "crs_cancel_subscr_request"
+msgstr "Kustuta liikmelisuse taotlus"
+
+msgid "crs_cancel_subscription"
+msgstr "Loobumine kursusest \"%s\""
+
+msgid "crs_cancel_subscription_body"
+msgstr "Liige loobus kursusest \"%s\"."
+
+msgid "crs_cancel_subscription_body2"
+msgstr "Sinu kursuse ootejärjekorras võib olla teisi liikmeid.\\nPeaksid ootejärjekorda praegu kontrollima.\\nOma kursuse liikmete vaatamiseks klikka siia:"
+
+#, fuzzy
+msgid "crs_cancellation_end"
+msgstr "Cancellation Limit"
+
+#, fuzzy
+msgid "crs_cancellation_end_info"
+msgstr "From this date on particiants cannot unsubscribe anymore."
+
+#, fuzzy
+msgid "crs_cancellation_end_rbac_info"
+msgstr "The cancellation deadline was met on %s, a cancellation is not possible anymore."
+
+#, fuzzy
+msgid "crs_cannot_find_role"
+msgstr "Can't find this role."
+
+msgid "crs_cdf_edit_member"
+msgstr "Edit Course Relevant User Data"
+
+msgid "crs_cdf_tbl_last_edit"
+msgstr "Last Update (Course-specific Data)"
+
+#, fuzzy
+msgid "crs_checklist_objective"
+msgstr "Checklist Objective"
+
+msgid "crs_contact"
+msgstr "Kontakt"
+
+msgid "crs_contact_consultation"
+msgstr "Konsultatsioon"
+
+msgid "crs_contact_email"
+msgstr "E-post"
+
+msgid "crs_contact_email_info"
+msgstr "Sisesta üks või rohkem (komaga eraldatud) e-posti aadressi."
+
+msgid "crs_contact_name"
+msgstr "Nimi"
+
+msgid "crs_contact_phone"
+msgstr "Telefon"
+
+msgid "crs_contact_responsibility"
+msgstr "Ametikoht"
+
+msgid "crs_content"
+msgstr "Kursuse sisu"
+
+msgid "crs_copy"
+msgstr "Copy Course"
+
+msgid "crs_course_group_notification_link"
+msgstr "Link:"
+
+#, fuzzy
+msgid "crs_course_period_not_valid"
+msgstr "The course period is not valid."
+
+msgid "crs_course_status_of_users"
+msgstr "Passed Status of Users"
+
+msgid "crs_create_date"
+msgstr "Määra kuupäev"
+
+msgid "crs_custom_user_fields"
+msgstr "Kursuse jaoks olulised kasutaja andmed"
+
+#, fuzzy
+msgid "crs_custom_user_fields_infobox"
+msgstr "Create additional data fields for course members to fill in when joining. You can show this information as an additional column in the \"Members\" tab."
+
+#, fuzzy
+msgid "crs_custom_user_fields_table_title"
+msgstr "Relevant User Data of This Course"
+
+msgid "crs_dates"
+msgstr "Kuupäevad"
+
+msgid "crs_deactivate_notification"
+msgstr "Deaktiveeri märguanne"
+
+msgid "crs_delete_objectve_sure"
+msgstr "Kas oled kindel järgnevate objektide kustutamises?"
+
+msgid "crs_details"
+msgstr "kursuse andmed"
+
+msgid "crs_dismiss_member"
+msgstr "Liikmelisus lõpetatud kursusel \"%s\""
+
+msgid "crs_dismiss_member_body"
+msgstr "sinu liikmelisus kursusel \"%s\" on lõpetatud"
+
+#, fuzzy
+msgid "crs_edit_lo_introduction"
+msgstr "Edit Introduction"
+
+msgid "crs_edit_timings"
+msgstr "Muuda ajastust"
+
+msgid "crs_enable_map"
+msgstr "Võimalda kursuse kaart"
+
+msgid "crs_end"
+msgstr "Lõpp"
+
+msgid "crs_export"
+msgstr "Kursuse eksport"
+
+msgid "crs_file"
+msgstr "Fail"
+
+msgid "crs_file_download"
+msgstr "Failid allalaadimiseks"
+
+msgid "crs_file_name"
+msgstr "Faili nimi"
+
+msgid "crs_file_size_info"
+msgstr "Faili suurus"
+
+msgid "crs_from"
+msgstr "Alates:"
+
+msgid "crs_general_info"
+msgstr "Üldinfo"
+
+msgid "crs_general_informations"
+msgstr "Üldinfo"
+
+msgid "crs_grouping_delete_sure"
+msgstr "Kas soovid tõesti kustutada järgmised kursuse grupeeringud?"
+
+msgid "crs_grouping_deleted"
+msgstr "Kursuse grupid kustutatud."
+
+msgid "crs_grouping_select_one"
+msgstr "Palun vali kursuse rühmitus."
+
+msgid "crs_groupings"
+msgstr "Kursuse grupid"
+
+msgid "crs_groups_nr"
+msgstr "Gruppide arv"
+
+msgid "crs_grp_added_grouping"
+msgstr "Uus liikmelisuse piirang on lisatud."
+
+msgid "crs_grp_already_assigned"
+msgstr "Olete juba selle kursuse grupi liige."
+
+msgid "crs_grp_assign_crs"
+msgstr "Lisa kursus"
+
+msgid "crs_grp_assignments"
+msgstr "Kursuseliikmete gruppidesse määramine"
+
+msgid "crs_grp_enter_title"
+msgstr "Palun sisesta pealkiri"
+
+msgid "crs_grp_info_reg"
+msgstr "Saate registreeruda ainult ühele järgnevatest kursustest:"
+
+msgid "crs_grp_matriculation_required"
+msgstr "See kursuse rühmitus nõuab unikaalset matriklinumbrit. <br />Palun sisesta see oma töölaual isiklikesse ."
+
+msgid "crs_grp_no_courses_assigned"
+msgstr "Määratud kursused puuuduvad."
+
+msgid "crs_grp_table_assigned_courses"
+msgstr "Lisatud kursused"
+
+msgid "crs_header_archives"
+msgstr "Kursuse arhiivid"
+
+msgid "crs_header_delete_members"
+msgstr "Kustuta liikmed"
+
+msgid "crs_header_edit_members"
+msgstr "Muuda liikmeid"
+
+msgid "crs_hide_all_obj"
+msgstr "Collapse All"
+
+msgid "crs_html"
+msgstr "HTML"
+
+msgid "crs_import"
+msgstr "Kursuse importimine"
+
+msgid "crs_important_info"
+msgstr "Tähtis info"
+
+msgid "crs_info_agree"
+msgstr "Olen nõus, et ülalolevad andmetüübid on kursuse adminstraatoritele nähtavad."
+
+msgid "crs_info_agreement"
+msgstr "Järgmised andmed on nähtavad kursuse administraatoritele:"
+
+msgid "crs_info_download"
+msgstr "Failid allalaadimiseks"
+
+msgid "crs_info_reg"
+msgstr "Sissepääsuõigus:"
+
+msgid "crs_info_reg_confirmation"
+msgstr "Saate taotleda kursuse liikmeks saamist. Pärast taotluse läbi vaatamist: kinnitamist või tagasi lükkamist, saadetakse Teile kursuse haldurilt vastav teade."
+
+msgid "crs_info_reg_deactivated"
+msgstr "Sissepääs kursusele suletud."
+
+msgid "crs_info_reg_direct"
+msgstr "sa võid liituda kursusega kohe"
+
+msgid "crs_info_reg_password"
+msgstr "Kui kursuse haldur on andnud sulle parooli, saad kursusega liituda."
+
+msgid "crs_info_settings"
+msgstr "Kursuse info"
+
+msgid "crs_info_start"
+msgstr "Palun loe läbi kõik allpool olevad kursuse üksused.<br />Kui punasega märgistatud objektid on läbi loetud, aktiveeritakse uued kursuse üksused."
+
+msgid "crs_intro_course_group_notification_for"
+msgstr "This is the daily news digest for: %s"
+
+#, fuzzy
+msgid "crs_intro_course_group_notification_index"
+msgstr "There are news for the period of %1$s to %2$s for the following courses and groups:"
+
+msgid "crs_item_presetting_info"
+msgstr "Tee see valik, pakkumaks õppuritele soovituslikke õppimisaegu."
+
+msgid "crs_join_request"
+msgstr "Saada"
+
+#, fuzzy
+msgid "crs_lhist_objective_completed"
+msgstr "Mastered $3$ in $1$."
+
+msgid "crs_lim_assigned"
+msgstr "Olete juba määratud kursusele \"%s\"."
+
+msgid "crs_link_hide_next_sessions"
+msgstr "Peida järgmised sessioonid"
+
+msgid "crs_link_hide_prev_sessions"
+msgstr "Peida eelmised sessioonid"
+
+msgid "crs_link_show_all_next_sessions"
+msgstr "Näita kõiki järgmisena tulevaid sessioone"
+
+msgid "crs_link_show_all_prev_sessions"
+msgstr "Näita kõiki eelmisi sessioone"
+
+#, fuzzy
+msgid "crs_lobj_pm_min_goal"
+msgstr "Required Score"
+
+#, fuzzy
+msgid "crs_lobj_pm_score"
+msgstr "Your Result"
+
+#, fuzzy
+msgid "crs_loc_btn_new_assignment"
+msgstr "Neue Testzuordnung"
+
+msgid "crs_loc_confirm_delete_tst"
+msgstr "Do you really want to deassign the test of this learning objective oriented course?"
+
+msgid "crs_loc_delete_assignment"
+msgstr "Delete Assignment"
+
+msgid "crs_loc_err_no_active_it"
+msgstr "Learning Objectives without Initial Test"
+
+msgid "crs_loc_err_no_active_lo"
+msgstr "No active Learning Objective"
+
+msgid "crs_loc_err_no_active_mat"
+msgstr "Learning Objectives without Materials"
+
+msgid "crs_loc_err_no_active_qst"
+msgstr "Objectives without Questions"
+
+msgid "crs_loc_err_no_active_qt"
+msgstr "Learning Objectives without Qualifying Test"
+
+msgid "crs_loc_err_nr_tries_exceeded"
+msgstr "The number of passes per objective exceeds the possible number of passes of the Qualifying Test."
+
+msgid "crs_loc_err_stat_no_it"
+msgstr "No Initial Test available"
+
+msgid "crs_loc_err_stat_no_materials"
+msgstr "No Course Materials available"
+
+msgid "crs_loc_err_stat_no_qt"
+msgstr "No Qualifying Test available"
+
+#, fuzzy
+msgid "crs_loc_err_stat_tst_offline"
+msgstr "Not all tests are online."
+
+msgid "crs_loc_form_assign"
+msgstr "Use Existing Test"
+
+msgid "crs_loc_form_assign_initial_info"
+msgstr "Select a test from this course to serve as Placement Test"
+
+msgid "crs_loc_form_assign_it"
+msgstr "Test Assignment"
+
+msgid "crs_loc_form_assign_qualified_info"
+msgstr "--"
+
+msgid "crs_loc_form_available_tsts"
+msgstr "Available Tests"
+
+msgid "crs_loc_form_create_objectives"
+msgstr "Create Learning Objectives"
+
+msgid "crs_loc_form_random_limits_it"
+msgstr "Define Questions of Initial Test"
+
+msgid "crs_loc_form_random_limits_qt"
+msgstr "Define Questions of Qualifying Test"
+
+msgid "crs_loc_form_tst_new"
+msgstr "Create new Test"
+
+msgid "crs_loc_form_tst_new_initial_info"
+msgstr "Create a new test to serve as Placement Test"
+
+msgid "crs_loc_form_tst_new_qualified_info"
+msgstr "--"
+
+msgid "crs_loc_itest_info"
+msgstr "Initial Test"
+
+msgid "crs_loc_itst_for_objective"
+msgstr "Initial Test \"%1$s\""
+
+msgid "crs_loc_learning_objective"
+msgstr "Learning Objective"
+
+#, fuzzy
+msgid "crs_loc_mem_show_res"
+msgstr "Testergebnisse anzeigen"
+
+msgid "crs_loc_num_qst"
+msgstr "Number of Questions"
+
+#, fuzzy
+msgid "crs_loc_objective_passed_confirmation"
+msgstr "Sie haben das Lernziel bereits bestanden. Ein erneutes Starten des Tests setzt die Ergebnisse zurück. Wollen Sie den Test erneut starten?"
+
+#, fuzzy
+msgid "crs_loc_objectives_passed_confirmation"
+msgstr "Sie haben bereits alle Lernziel bestanden. Ein erneutes Starten des Tests setzt die Ergebnisse zurück. Wollen Sie den Test erneut starten?"
+
+msgid "crs_loc_passes_info"
+msgstr "Maximum Number of test passes"
+
+msgid "crs_loc_passes_left"
+msgstr "Remaining number of test passes"
+
+msgid "crs_loc_passes_reached"
+msgstr "No further test pases possible"
+
+msgid "crs_loc_perc"
+msgstr "Required Percentage of Points"
+
+msgid "crs_loc_progress_do_qualifying"
+msgstr "Please take the qualifying test."
+
+msgid "crs_loc_progress_do_qualifying_again"
+msgstr "Please work through the learning objective materials again."
+
+msgid "crs_loc_progress_no_result_do_initial"
+msgstr "Please take the initial test."
+
+msgid "crs_loc_progress_no_result_no_initial"
+msgstr "Please work through the following learning materials and then take the qualifying test."
+
+msgid "crs_loc_progress_objective_complete"
+msgstr "You completed the learning objective."
+
+msgid "crs_loc_progress_result_itest"
+msgstr "Result of Initial Test"
+
+msgid "crs_loc_progress_result_qtest"
+msgstr "Result"
+
+msgid "crs_loc_qst_resume_tst_itest"
+msgstr "Einstiegstests zu verschiedenen Lernzielen dürfen nicht parallel gestartet werden. Sie haben schon einen Einstiegstest zu einem Lernziel gestartet. Entweder setzen Sie diesen alten Test fort oder Sie starten einen neuen Test."
+
+msgid "crs_loc_qst_resume_tst_qtest"
+msgstr "Qualifizierende Tests zu verschiedenen Lernzielen dürfen nicht parallel gestartet werden. Sie haben schon einen qualifizierenden Test zu einem Lernziel gestartet. Entweder setzen Sie diesen alten Test fort oder Sie starten einen neuen Test."
+
+msgid "crs_loc_qtest_info"
+msgstr "Qualified Test"
+
+msgid "crs_loc_qtst_for_objective"
+msgstr "Qualifying Test \"%1$s\""
+
+msgid "crs_loc_rand_assign_qpl"
+msgstr "Assignment form Question Pool"
+
+msgid "crs_loc_rand_qpl"
+msgstr "Available Question Pools"
+
+#, fuzzy
+msgid "crs_loc_settings_err_qstart"
+msgstr "Die Option \"Abschlusstest als Startobjekt\" wurde deaktiviert, da sie nur für Kurse ohne Einstiegstest verwendet werden kann.\t\t"
+
+#, fuzzy
+msgid "crs_loc_settings_it_start_object"
+msgstr "Einstiegstest ist Startobjekt"
+
+#, fuzzy
+msgid "crs_loc_settings_it_type"
+msgstr "Einstiegstest"
+
+msgid "crs_loc_settings_itest_tbl"
+msgstr "Settings for the Initial Test"
+
+#, fuzzy
+msgid "crs_loc_settings_passed_mode"
+msgstr "Bestandene Lernziele"
+
+#, fuzzy
+msgid "crs_loc_settings_passed_mode_hide"
+msgstr "Testfragen zu bestandenen Lernzielen werden ausgeblendet"
+
+#, fuzzy
+msgid "crs_loc_settings_passed_mode_mark"
+msgstr "Testfragen zu bestandenen Lernzielen werden markiert"
+
+#, fuzzy
+msgid "crs_loc_settings_qt_all"
+msgstr "Abschlusstest"
+
+#, fuzzy
+msgid "crs_loc_settings_qt_start_object"
+msgstr "Abschlusstest ist Startobjekt"
+
+msgid "crs_loc_settings_qtest_tbl"
+msgstr "Settings for the Qualifying Test"
+
+msgid "crs_loc_settings_reset"
+msgstr "Testergebnisse"
+
+msgid "crs_loc_settings_reset_enable"
+msgstr "\"Testergebnis zurücksetzen\" erlauben"
+
+msgid "crs_loc_settings_reset_enable_info"
+msgstr "Wenn aktiviert, haben alle Benutzer die Möglichkeit, ihre individuellen Testergebnisse zurückzusetzen."
+
+msgid "crs_loc_settings_tbl"
+msgstr "Settings for the Learning Objective Oriented Course"
+
+#, fuzzy
+msgid "crs_loc_settings_tbl_it_nq"
+msgstr "Diagnostische Einstiegstests pro Lernziel"
+
+#, fuzzy
+msgid "crs_loc_settings_tbl_it_q"
+msgstr "Qualifizierende Einstiegstests pro Lernziel"
+
+#, fuzzy
+msgid "crs_loc_settings_tbl_its_nq_all"
+msgstr "Diagnostischer Einstiegstest über alle Lernziele"
+
+#, fuzzy
+msgid "crs_loc_settings_tbl_its_q_all"
+msgstr "Qualifizierender Einstiegstest über alle Lernziele"
+
+#, fuzzy
+msgid "crs_loc_settings_tbl_qt"
+msgstr "Abschlusstests pro Lernziel"
+
+#, fuzzy
+msgid "crs_loc_settings_tbl_qts_all"
+msgstr "Abschlusstest über alle Lernziele"
+
+#, fuzzy
+msgid "crs_loc_settings_type_it_none"
+msgstr "Kein Einstiegstest"
+
+#, fuzzy
+msgid "crs_loc_settings_type_it_none_info"
+msgstr "No placement test"
+
+#, fuzzy
+msgid "crs_loc_settings_type_it_placement_all"
+msgstr "Diagnostischer Einstiegstest über alle Lernziele"
+
+#, fuzzy
+msgid "crs_loc_settings_type_it_placement_all_info"
+msgstr "Placement test on all learning objectives"
+
+#, fuzzy
+msgid "crs_loc_settings_type_it_placement_sel"
+msgstr "Diagnostischer Einstiegstest pro Lernziel"
+
+#, fuzzy
+msgid "crs_loc_settings_type_it_placement_sel_info"
+msgstr "Placement test per single learning objective"
+
+#, fuzzy
+msgid "crs_loc_settings_type_it_qualifying_all"
+msgstr "Qualifizierender Einstiegstest über alle Lernziele"
+
+#, fuzzy
+msgid "crs_loc_settings_type_it_qualifying_all_info"
+msgstr "Achievement test on all learning objectives"
+
+#, fuzzy
+msgid "crs_loc_settings_type_it_qualifying_sel"
+msgstr "Qualifizierender Einstiegstest pro Lernziel"
+
+#, fuzzy
+msgid "crs_loc_settings_type_it_qualifying_sel_info"
+msgstr "Achievement test per sinble learning objective"
+
+#, fuzzy
+msgid "crs_loc_settings_type_q_all"
+msgstr "Abschlusstest über alle Lernziele"
+
+#, fuzzy
+msgid "crs_loc_settings_type_q_all_info"
+msgstr "Achievement test on all learning objectives"
+
+#, fuzzy
+msgid "crs_loc_settings_type_q_selected"
+msgstr "Abschlusstest pro Lernziel"
+
+#, fuzzy
+msgid "crs_loc_settings_type_q_selected_info"
+msgstr "Achievement test per sinble learning objective"
+
+msgid "crs_loc_subtab_creation"
+msgstr "Create"
+
+msgid "crs_loc_suggested"
+msgstr "Please work through the following learning materials."
+
+msgid "crs_loc_tab_itest"
+msgstr "Initial Test"
+
+#, fuzzy
+msgid "crs_loc_tab_itests"
+msgstr "Einstiegstests"
+
+msgid "crs_loc_tab_materials"
+msgstr "Materials"
+
+msgid "crs_loc_tab_objectives"
+msgstr "Learning objectives"
+
+msgid "crs_loc_tab_qtest"
+msgstr "Qualifying Test"
+
+#, fuzzy
+msgid "crs_loc_tab_qtests"
+msgstr "Abschlusstests"
+
+msgid "crs_loc_tab_start"
+msgstr "Start Objects"
+
+msgid "crs_loc_tbl_tst_qst_qpl"
+msgstr "Questions/Questionpools"
+
+msgid "crs_loc_tbl_tst_type"
+msgstr "Test Mode"
+
+#, fuzzy
+msgid "crs_loc_test_results_of"
+msgstr "Testergebnisse von:"
+
+msgid "crs_loc_tst_assignment"
+msgstr "Test Assignment"
+
+msgid "crs_loc_tst_new_run"
+msgstr "Neuen Testdurchlauf starten"
+
+msgid "crs_loc_tst_num_qst"
+msgstr "Number of Questions:"
+
+msgid "crs_loc_tst_qpls"
+msgstr "Available Question Pools:"
+
+msgid "crs_loc_tst_resume"
+msgstr "Testdurchlauf fortsetzen"
+
+#, fuzzy
+msgid "crs_loc_tst_start"
+msgstr "Test starten"
+
+msgid "crs_loc_tt_info"
+msgstr "You have reached %1$d%%. The test is passed with %2$d%%."
+
+msgid "crs_loc_type_initial_all_info"
+msgstr "todo"
+
+msgid "crs_loc_type_qualified_info"
+msgstr "todo"
+
+msgid "crs_mail_all"
+msgstr "For all Participants"
+
+msgid "crs_mail_all_info"
+msgstr "Members, administrators and tutors can use the feature \"Mail to Members\" in the \"Members\" tab."
+
+#, fuzzy
+msgid "crs_mail_context_member_info"
+msgstr "For the contact emails on the info screen of a course "
+
+#, fuzzy
+msgid "crs_mail_context_member_title"
+msgstr "Course Member"
+
+#, fuzzy
+msgid "crs_mail_context_tutor_info"
+msgstr "For the participant emails on the member and learning progress screens of a course"
+
+#, fuzzy
+msgid "crs_mail_context_tutor_title"
+msgstr "Course Tutor "
+
+msgid "crs_mail_permanent_link"
+msgstr "Kursusesse sisenemiseks klikake sellel lingil:"
+
+msgid "crs_mail_tutors_only"
+msgstr "For Tutors and Administrators only"
+
+msgid "crs_mail_tutors_only_info"
+msgstr "Only administrators and tutors can use the feature \"Mail to Members\" in the \"Members\" tab."
+
+msgid "crs_mail_type"
+msgstr "Mail to Members"
+
+msgid "crs_map_location"
+msgstr "Asukoht kursuse kaardil"
+
+msgid "crs_map_settings"
+msgstr "Kaardi seaded"
+
+msgid "crs_materials"
+msgstr "Kursuse materjalid"
+
+#, fuzzy
+msgid "crs_max_and_min_members_invalid"
+msgstr "The minimum number must be smaller than the maximum number of members."
+
+#, fuzzy
+msgid "crs_max_and_min_members_needed"
+msgstr "Set a minimum or maximum number of members - or both."
+
+#, fuzzy
+msgid "crs_max_members_needed"
+msgstr "A maximum number of members is needed for the waiting list feature."
+
+msgid "crs_max_members_reached"
+msgstr "Maksimaalne võimalik liikmete arv on saavutatud"
+
+#, fuzzy
+msgid "crs_mem_contact"
+msgstr "Support Contact"
+
+#, fuzzy
+msgid "crs_mem_contacts"
+msgstr "Support Contacts"
+
+msgid "crs_mem_send_mail"
+msgstr "Saada kiri"
+
+#, fuzzy
+msgid "crs_mem_tbl_header"
+msgstr "Course Participants"
+
+msgid "crs_member"
+msgstr "Liige"
+
+msgid "crs_member_administration"
+msgstr "Muuda liikmeid"
+
+msgid "crs_member_passed_status_changed"
+msgstr "Passed Status Changed"
+
+msgid "crs_members"
+msgstr "Liikmed"
+
+msgid "crs_members_deleted"
+msgstr "Kustutatud liikmed"
+
+msgid "crs_members_groups"
+msgstr "Kursuseliikmete grupid"
+
+msgid "crs_members_map"
+msgstr "Kursuseliikmete kaart"
+
+msgid "crs_members_print_title"
+msgstr "Kursuse liikmed"
+
+msgid "crs_min_one_admin"
+msgstr "Kursusele peab olema määratud vähemalt üks haldur."
+
+#, fuzzy
+msgid "crs_msg_no_self_registration_period_if_self_enrolment_disabled"
+msgstr "The limited registration period can not be defined if the \"No Self-enrolment\" setting is active."
+
+#, fuzzy
+msgid "crs_my_courses_groups_enabled"
+msgstr "My Courses and Groups"
+
+#, fuzzy
+msgid "crs_my_courses_groups_enabled_info"
+msgstr "If activated, the section 'My Courses and Groups' is visible."
+
+msgid "crs_new_status"
+msgstr "Uus staatus on:"
+
+msgid "crs_new_subscription"
+msgstr "Kasutaja liitus kursusega \"%s\""
+
+msgid "crs_new_subscription_body"
+msgstr "Kasutaja \"%s\" liitus kursusega \"%s\"."
+
+msgid "crs_new_subscription_request"
+msgstr "Taotlus liitumaks kursusega \"%s\""
+
+msgid "crs_new_subscription_request_body"
+msgstr "Kasutaja %s on avaldanud soovi liitud kursusega \"%s\"."
+
+msgid "crs_new_subscription_request_body2"
+msgstr "Võta selle liitumistaotluse kinnitamiseks või tagasilükkamiseks ühendust kursuse administreerijaga."
+
+msgid "crs_news"
+msgstr "Kursuse uudised"
+
+msgid "crs_no_archive_selected"
+msgstr "Arhiiv pole valitud"
+
+msgid "crs_no_archives_selected"
+msgstr "Palun vali arhiiv!"
+
+msgid "crs_no_notify"
+msgstr "Uutest registreerumistest teateid pole"
+
+msgid "crs_no_objective_lms_found"
+msgstr "Antud kursusel pole materjale."
+
+msgid "crs_no_objective_selected"
+msgstr "Palun vali üks eesmärk."
+
+msgid "crs_no_objectives_created"
+msgstr "Ühtegi objekti pole määratud."
+
+msgid "crs_no_subscribers_selected"
+msgstr "Palun vali kasutaja"
+
+msgid "crs_no_users_added"
+msgstr "Ühtegi osalejat pole lisatud"
+
+msgid "crs_no_users_selected"
+msgstr "Sa ei valinud ühtegi kasutajat"
+
+msgid "crs_not_available"
+msgstr "-Pole saadaval-"
+
+msgid "crs_notification"
+msgstr "Märguanne"
+
+msgid "crs_notification_activated"
+msgstr "Märguanne aktiveeritud"
+
+msgid "crs_notification_deactivated"
+msgstr "Märguanne deaktiveeritud"
+
+msgid "crs_notification_explanation_admin"
+msgstr "Sa said selle e-kirja, kuna oled kursuse administraator/tuutor, aktiveeritud märguandega."
+
+msgid "crs_notification_list_title"
+msgstr "Notification About New Members"
+
+msgid "crs_notification_salutation"
+msgstr "Kallis kursusel osaleja,"
+
+msgid "crs_notify"
+msgstr "Teavitus liikmete lisandumisel"
+
+msgid "crs_nr"
+msgstr "Nr."
+
+msgid "crs_number_users_added"
+msgstr "Kursusele määratud kasutajate arv:"
+
+msgid "crs_obj_final_req_info"
+msgstr "Kui see punktiarv on saavutatud, on õpieesmärk täidetud."
+
+msgid "crs_obj_initial_req_info"
+msgstr "Kui see punktiarv on saavutatud, lõpetatakse kursuse materjalide soovitamine."
+
+msgid "crs_obj_required_points"
+msgstr "Nõutud punktid"
+
+msgid "crs_objective_accomplished"
+msgstr "Teostatud"
+
+msgid "crs_objective_action_itest"
+msgstr "Question Assignemnt Initial Test"
+
+msgid "crs_objective_action_materials"
+msgstr "Material Assignment"
+
+msgid "crs_objective_action_qtest"
+msgstr "Question Assignment Qualifying"
+
+#, fuzzy
+msgid "crs_objective_action_qtest_sep"
+msgstr "Abschlusstest zuordnen"
+
+msgid "crs_objective_add_mat"
+msgstr "Määra materjalid"
+
+msgid "crs_objective_all_points"
+msgstr "Punktide koguarv"
+
+msgid "crs_objective_assigned_materials"
+msgstr "Määratud õppematerjalid"
+
+msgid "crs_objective_err_limit"
+msgstr "Palun sisesta punktid %s ja %s vahel."
+
+msgid "crs_objective_final_test"
+msgstr "Lõpptest"
+
+msgid "crs_objective_limit_err"
+msgstr "Nõutud punktid ei tohi olla kõrgemad kui kogupunktid."
+
+msgid "crs_objective_modified"
+msgstr "Uuendatud õpieesmärk."
+
+msgid "crs_objective_not_accomplished"
+msgstr "Ei teostatud"
+
+msgid "crs_objective_overview_objectives"
+msgstr "Eesmärkide ülevaade"
+
+msgid "crs_objective_overview_question_assignment"
+msgstr "Määratud küsimuste ülevaade"
+
+msgid "crs_objective_points"
+msgstr "Punkt(i)"
+
+msgid "crs_objective_pretest"
+msgstr "Pärast algtesti"
+
+msgid "crs_objective_qst_summary"
+msgstr "Määratud küsimuste ülevaade"
+
+msgid "crs_objective_random_warn"
+msgstr "Juhuvalikuga teste ei saa õpieemärkidega kombineerida."
+
+msgid "crs_objective_result"
+msgstr "Lõpptest"
+
+#, fuzzy
+msgid "crs_objective_result_details"
+msgstr "« Show Details"
+
+#, fuzzy
+msgid "crs_objective_result_summary_initial"
+msgstr "Placement Test: %1$s (%2$s required)"
+
+#, fuzzy
+msgid "crs_objective_result_summary_qualifying"
+msgstr "Achievement Test: %1$s (%2$s required)"
+
+msgid "crs_objective_saved_sorting"
+msgstr "Sorteerimine salvestatud."
+
+msgid "crs_objective_self_assessment"
+msgstr "Algtest"
+
+msgid "crs_objective_status"
+msgstr "Õpieesmärgi staatus"
+
+msgid "crs_objective_status_configure"
+msgstr "Configure Learning Objective Oriented Course"
+
+msgid "crs_objective_status_itest"
+msgstr "Configure Initial Test"
+
+msgid "crs_objective_status_materials"
+msgstr "Create New Course Materials"
+
+#, fuzzy
+msgid "crs_objective_status_materials_info"
+msgstr "The course is currently empty. Add course materials that can be assigned to learning objectives."
+
+msgid "crs_objective_status_objective_creation"
+msgstr "Create Learning Objective"
+
+msgid "crs_objective_status_objectives"
+msgstr "Configure Learning Objectives"
+
+msgid "crs_objective_status_qtest"
+msgstr "Configure Qualifying Test"
+
+msgid "crs_objective_status_settings"
+msgstr "Course Settings"
+
+#, fuzzy
+msgid "crs_objective_tbl_col_final_tsts"
+msgstr "Abschlusstests"
+
+msgid "crs_objective_wiz_final"
+msgstr "Lõputesti küsimused"
+
+msgid "crs_objective_wiz_final_info"
+msgstr "Määratud lõputesti küsimused"
+
+msgid "crs_objective_wiz_final_limit"
+msgstr "Lõputesti nõutud punktid"
+
+msgid "crs_objective_wiz_materials"
+msgstr "Määratud kursusematerjalid"
+
+msgid "crs_objective_wiz_materials_info"
+msgstr "Sul on võimalik määrata materjalid, mis on õpieesmärgi saavutamiseks soovituslikud."
+
+msgid "crs_objective_wiz_self"
+msgstr "Eeltesti küsimused"
+
+msgid "crs_objective_wiz_self_limit"
+msgstr "Eeltesti nõutud punktid"
+
+msgid "crs_objective_wiz_self_limit_info"
+msgstr "Palun määra eeltesti küsimuste piirid."
+
+msgid "crs_objective_wiz_title"
+msgstr "Õpieesmärgi kirjeldus"
+
+msgid "crs_objective_wiz_title_info"
+msgstr "Palun kirjuta õpieesmärgi nimetus ja lühikirjeldus."
+
+msgid "crs_objectives"
+msgstr "Õpieesmärgid"
+
+msgid "crs_objectives_assigned_lm"
+msgstr "Valitud materjalid määratud."
+
+msgid "crs_objectives_deleted"
+msgstr "Kustuta õpieesmärgid"
+
+msgid "crs_objectives_edit_question_assignments"
+msgstr "Muuda määratud küsimusi"
+
+msgid "crs_objectives_reset_sure"
+msgstr "Sa soovid kustutada selle kursuse kõiki tulemusi. <br />Kõik testitulemused kustutatakse."
+
+msgid "crs_objectives_reseted"
+msgstr "Tulemused nullitud."
+
+#, fuzzy
+msgid "crs_open"
+msgstr "Open Course"
+
+msgid "crs_other_resources"
+msgstr "Muud ressursid"
+
+#, fuzzy
+msgid "crs_page_type_lobj"
+msgstr "Learning Objective Page"
+
+msgid "crs_passed"
+msgstr "Läbitud"
+
+msgid "crs_passed_status_manual_by"
+msgstr "Manual by"
+
+msgid "crs_passed_status_system"
+msgstr "System"
+
+msgid "crs_password_not_valid"
+msgstr "Sinu salasõna ei ole õige"
+
+msgid "crs_password_required"
+msgstr "Registreerumine salasõna abil"
+
+msgid "crs_pdf"
+msgstr "PDF"
+
+#, fuzzy
+msgid "crs_period"
+msgstr "Course Period"
+
+#, fuzzy
+msgid "crs_period_end_mail_placeholder"
+msgstr "Period End"
+
+#, fuzzy
+msgid "crs_period_info"
+msgstr "Start to end date of the course"
+
+#, fuzzy
+msgid "crs_period_start_mail_placeholder"
+msgstr "Period Start"
+
+msgid "crs_presentation_type"
+msgstr "Esitustüüp"
+
+msgid "crs_print_list"
+msgstr "Prindi nimekiri"
+
+#, fuzzy
+msgid "crs_ref_delete_confirmation_info"
+msgstr "Would you like to remove the following members from this course? If these members are to be removed from courses linked into this course, please activate the respective checkboxes."
+
+#, fuzzy
+msgid "crs_ref_member_update"
+msgstr "Neue Mitglieder hinzufügen"
+
+#, fuzzy
+msgid "crs_ref_member_update_info"
+msgstr "Alle neuen Mitglieder des übergeordneten Kurses werden automatisch in den Kurs, auf den dieser Kurs-Link verweist, eingetragen."
+
+#, fuzzy
+msgid "crs_ref_missing_access"
+msgstr "Die Option kann nicht ausgewählt werden, da Sie nicht die Berechtigung \"Mitglieder verwalten\" für beide Kurse besitzen."
+
+#, fuzzy
+msgid "crs_ref_missing_parent_crs"
+msgstr "Die Option kann nicht ausgewählt werden, da dieser Kurs-Link keinen übergeordneten Kurs besitzt."
+
+msgid "crs_reg"
+msgstr "Registreerumine"
+
+msgid "crs_reg_code"
+msgstr "Registreerumislink"
+
+msgid "crs_reg_code_enabled_info"
+msgstr "Võimaldamise korral on automaatne registreerumine võimalik, kasutades kindlat registreerumislinki."
+
+msgid "crs_reg_code_link"
+msgstr "Registreerimislink"
+
+msgid "crs_reg_max_info"
+msgstr "Määra maksimaalne kursuse liikmete arv. '0' tähendab piiramatut hulka liikmeid."
+
+msgid "crs_reg_no_selfreg"
+msgstr "No self-enrolment"
+
+msgid "crs_reg_password_info"
+msgstr "Users need to type in this password when joining the course."
+
+#, fuzzy
+msgid "crs_reg_selfreg"
+msgstr "Self-Enrolment"
+
+msgid "crs_reg_subject"
+msgstr "Sõnum"
+
+msgid "crs_reg_until"
+msgstr "Registreerumise periood:"
+
+msgid "crs_reg_user_already_subscribed"
+msgstr "Sa oled juba taotlenud selle kursuse liikmeks saamist"
+
+msgid "crs_registration"
+msgstr "Kursusele registreerumine"
+
+msgid "crs_registration_confirmation_info"
+msgstr "Interested users can send a request/message to course administrator."
+
+msgid "crs_registration_deactivated"
+msgstr "Registreerimist ei toimu. Ükski kasutaja ei saa kursusele registreeruda ega kursusega liituda."
+
+msgid "crs_registration_limited"
+msgstr "Piiratud registreerimise periood"
+
+#, fuzzy
+msgid "crs_registration_limited_info"
+msgstr "Members can only register for this course during a specific period of time."
+
+msgid "crs_registration_period"
+msgstr "Period"
+
+msgid "crs_registration_type"
+msgstr "Registreerimise protseduur"
+
+msgid "crs_reject_subscriber"
+msgstr "Kursuse \"%s\" liikmetaotlus tagasi lükatud."
+
+msgid "crs_reject_subscriber_body"
+msgstr "Sinu soov  liituda kursusega \"%s\" on tagasi lükatud."
+
+msgid "crs_reset_results"
+msgstr "Nulli tulemused"
+
+msgid "crs_role_status"
+msgstr "Roll / Staatus"
+
+msgid "crs_search_users"
+msgstr "Otsi kasutajaid"
+
+msgid "crs_select_archive_language"
+msgstr "Palun vali arhiivi jaoks keel"
+
+msgid "crs_select_one_archive"
+msgstr "Valige üks arhiividest"
+
+msgid "crs_select_starter"
+msgstr "Vali algusobjekt"
+
+msgid "crs_settings"
+msgstr "Kursuse seaded"
+
+msgid "crs_settings_saved"
+msgstr "Seaded salvestatud"
+
+#, fuzzy
+msgid "crs_shorten_breadcrumb"
+msgstr "Breadcrumb"
+
+msgid "crs_show_all_obj"
+msgstr "Expand All"
+
+#, fuzzy
+msgid "crs_show_member_export"
+msgstr "Participants List"
+
+#, fuzzy
+msgid "crs_show_member_export_info"
+msgstr "Course Members may print a list of participants."
+
+#, fuzzy
+msgid "crs_show_member_export_settings"
+msgstr "Participants List"
+
+msgid "crs_show_members"
+msgstr "Näita liikmeid"
+
+msgid "crs_show_members_info"
+msgstr "Aktiveerimise korral pääsevad kursuse liikmed liikmete galeriisse ja saavad seal e-kirja saata."
+
+msgid "crs_size"
+msgstr "Faili suurus"
+
+msgid "crs_sort_activation"
+msgstr "Sordi aktiveerimise järgi"
+
+msgid "crs_sort_timing_info"
+msgstr "Sordi kursuse üksused kas nende aktiivaja või ajastuse eelseadete järgi."
+
+msgid "crs_start"
+msgstr "Algus"
+
+msgid "crs_start_objects"
+msgstr "Algusobjektid"
+
+msgid "crs_starter_delete_sure"
+msgstr "Are you sure you want to delete the following start objects?"
+
+msgid "crs_starter_deleted"
+msgstr "Määrang eemaldatud."
+
+msgid "crs_starters_already_assigned"
+msgstr "See objekt on juba määratud"
+
+msgid "crs_status"
+msgstr "Staatus"
+
+msgid "crs_status_changed"
+msgstr "Staatus kursusel \"%s\""
+
+msgid "crs_status_changed_body"
+msgstr "Sinu staatust kursusel \"%s\" on muudetud!"
+
+msgid "crs_status_determination"
+msgstr "Determination"
+
+msgid "crs_status_determination_lp"
+msgstr "Through Learning Progress"
+
+msgid "crs_status_determination_lp_info"
+msgstr "When the learning progress changes to \"Completed\", the course status \"Passed\" will be set automatically. Tutors still can overwrite the status manually."
+
+msgid "crs_status_determination_manual"
+msgstr "Independent of Learning Progress"
+
+msgid "crs_status_determination_sync"
+msgstr "Sync passed status with learning progress of all members now"
+
+msgid "crs_structure"
+msgstr "Kursuse ülesehitus"
+
+msgid "crs_subject_course_group_notification"
+msgstr "Daily Mail for %s"
+
+msgid "crs_subscribe_member"
+msgstr "Sinu registreerumine kursusele \"%s\""
+
+msgid "crs_subscribe_member_body"
+msgstr "meil on hea meel kinnitada teie registreerumine kursusele \"%s\"."
+
+msgid "crs_subscribe_wl"
+msgstr "Sinu registreerumine kursusele \"%s\"."
+
+msgid "crs_subscribe_wl_body"
+msgstr "olete määratud kursuse \"%s\" ootejärjekorda.\\n Olete ootejärjekorras %s -s.\\n\\nSaate kirja kursuse haldurilt kui taotlus on vastuvõetud või tagasi lükatud."
+
+msgid "crs_subscriber"
+msgstr "Tellija"
+
+msgid "crs_subscribers_deleted"
+msgstr "Kustuta kasutaja(d)"
+
+msgid "crs_subscription"
+msgstr "Tellimus"
+
+msgid "crs_subscription_failed_limit"
+msgstr "The maximum number of participants has been exceeded."
+
+msgid "crs_subscription_max_members"
+msgstr "Maksimaalne liikmete arv"
+
+msgid "crs_subscription_max_members_short"
+msgstr "Liikmete arv"
+
+#, fuzzy
+msgid "crs_subscription_max_members_short_info"
+msgstr "The minimal respectively maximial number of members can be set. A waiting list can be set up."
+
+#, fuzzy
+msgid "crs_subscription_min_members"
+msgstr "Minimum Number"
+
+#, fuzzy
+msgid "crs_subscription_min_members_err"
+msgstr "The minimum number is not allowed to be greater than the maximum number of participants."
+
+#, fuzzy
+msgid "crs_subscription_min_members_info"
+msgstr "See cron job \"Cancellation Limit\"."
+
+msgid "crs_subscription_options_confirmation"
+msgstr "Taotle liikmeks saamist"
+
+msgid "crs_subscription_options_direct"
+msgstr "Liitu kohe"
+
+msgid "crs_subscription_options_password"
+msgstr "Liitu salasõnaga"
+
+msgid "crs_subscription_successful"
+msgstr "Sa oled liitunud kursusega"
+
+msgid "crs_sure_delete_selected_archives"
+msgstr "Oled kindel, et soovid valitud arhiivid kustutada?"
+
+msgid "crs_syllabus"
+msgstr "Lühikokkuvõte"
+
+#, fuzzy
+msgid "crs_sys_default"
+msgstr "System Default"
+
+msgid "crs_table_start_objects"
+msgstr "Algusobjektid"
+
+#, fuzzy
+msgid "crs_target_group"
+msgstr "Target Group"
+
+#, fuzzy
+msgid "crs_tile_and_objective_view_not_supported"
+msgstr "You cannot activate both \"Tile Presentation\" and \"Learning Objectives Presentation\" at the same time."
+
+#, fuzzy
+msgid "crs_tile_and_session_limit_not_supported"
+msgstr "You cannot activate both \"Tile Presentation\" and \"Session Limitation\" at the same time."
+
+#, fuzzy
+msgid "crs_timing_err_start_end"
+msgstr "The end date must be greater than or equals the start date."
+
+#, fuzzy
+msgid "crs_timings_activate_optional"
+msgstr "Optional mode for course timings"
+
+#, fuzzy
+msgid "crs_timings_activate_optional_own"
+msgstr "Optional mode for my course timings"
+
+msgid "crs_timings_availability_enabled"
+msgstr "Ajutiselt kättesaadav"
+
+msgid "crs_timings_changeable"
+msgstr "Määratud aeg on muudetav"
+
+msgid "crs_timings_changed"
+msgstr "Ajastamine uuendatud"
+
+#, fuzzy
+msgid "crs_timings_days_after_subsription"
+msgstr "Day(s) after course subscription"
+
+msgid "crs_timings_disabled"
+msgstr "Ajapiiranguid pole"
+
+msgid "crs_timings_disabled_info"
+msgstr "Tee see valik, kui ajapiiranguid ei soovi"
+
+msgid "crs_timings_early_begin"
+msgstr "Varaseim algus"
+
+#, fuzzy
+msgid "crs_timings_edit_personal"
+msgstr "Edit Personal Timings"
+
+msgid "crs_timings_end"
+msgstr "Lõpetamisaeg"
+
+msgid "crs_timings_from_until"
+msgstr "(Alates/kuni)"
+
+msgid "crs_timings_in_days"
+msgstr "(Päevades)"
+
+msgid "crs_timings_info_active"
+msgstr "(Aktiivne)"
+
+msgid "crs_timings_not_changed"
+msgstr "Ajastamist pole uuendatud"
+
+#, fuzzy
+msgid "crs_timings_optional_checked"
+msgstr "Optional mode was activated for this user"
+
+#, fuzzy
+msgid "crs_timings_optional_off"
+msgstr "Optional mode is not active."
+
+#, fuzzy
+msgid "crs_timings_optional_on"
+msgstr "Optional mode is active."
+
+#, fuzzy
+msgid "crs_timings_optional_on_and_passed"
+msgstr "Optional mode is active and cannot be changed because user is passed."
+
+#, fuzzy
+msgid "crs_timings_optional_unchecked"
+msgstr "Optional mode was deactivated for this user"
+
+msgid "crs_timings_planed_info"
+msgstr "Tasandatud toimetamise aeg"
+
+msgid "crs_timings_planed_start"
+msgstr "Tasandatud"
+
+msgid "crs_timings_presetting"
+msgstr "Määratud aeg võimaldatud"
+
+msgid "crs_timings_short_active"
+msgstr "Võimaldatud"
+
+#, fuzzy
+msgid "crs_timings_short_active_tt"
+msgstr "Activate Timings"
+
+msgid "crs_timings_short_changeable"
+msgstr "Muudetav"
+
+#, fuzzy
+msgid "crs_timings_short_end"
+msgstr "End Date"
+
+msgid "crs_timings_short_limit_start_end"
+msgstr "Muudetav"
+
+#, fuzzy
+msgid "crs_timings_short_limit_start_end_tt"
+msgstr "Latest end"
+
+#, fuzzy
+msgid "crs_timings_short_limit_start_end_tt_rel"
+msgstr "Latest end in days after course subscription"
+
+msgid "crs_timings_short_start_end"
+msgstr "Soovitus"
+
+#, fuzzy
+msgid "crs_timings_short_start_end_rel"
+msgstr "Suggested Start (in days)"
+
+#, fuzzy
+msgid "crs_timings_short_start_end_tt"
+msgstr "Suggested start"
+
+#, fuzzy
+msgid "crs_timings_short_start_end_tt_rel"
+msgstr "Suggested start after course subscription"
+
+msgid "crs_timings_start"
+msgstr "Alustamisaeg"
+
+msgid "crs_timings_start_end_info"
+msgstr "(Algus/lõpp)"
+
+msgid "crs_timings_sug_begin"
+msgstr "Soovituslik algus"
+
+msgid "crs_timings_sug_end"
+msgstr "Soovituslik lõpp"
+
+msgid "crs_timings_suggested_info"
+msgstr "Soovituslik õppimisaeg"
+
+msgid "crs_timings_time_frame"
+msgstr "Ajavahemik"
+
+#, fuzzy
+msgid "crs_timings_time_frame_tt"
+msgstr "Time frame in days"
+
+msgid "crs_timings_update_error"
+msgstr "Teie seaded ei kehti, palun kinnitage ajamäärangud järgnevatele kursuse materjalidele:"
+
+#, fuzzy
+msgid "crs_timings_warning_timing_exists"
+msgstr "Timings are configured for this object. If you active the availability settings, these timing settings will be reseted."
+
+msgid "crs_to"
+msgstr "Kuni:"
+
+msgid "crs_tutor"
+msgstr "Tuutor"
+
+msgid "crs_tutors"
+msgstr "Tuutorid"
+
+msgid "crs_unblocked"
+msgstr "Vaba ligipääs"
+
+msgid "crs_unblocked_member"
+msgstr "Staatus kursusel \"%s\""
+
+msgid "crs_unblocked_member_body"
+msgstr "Sinu liikmelisus kursusel \"%s\" on taastatud"
+
+msgid "crs_unlimited"
+msgstr "piiramatu"
+
+msgid "crs_unsubscribe_member"
+msgstr "Teie liikmestaatuse katkestamine kursusel \"%s\""
+
+msgid "crs_unsubscribe_member_body"
+msgstr "kinnitame Teie loobumist kursuselt \"%s\". Loodame, et leiate võimaluse osaleda mõnel teisel kursusel."
+
+#, fuzzy
+msgid "crs_unsubscribe_member_explanation"
+msgstr "You receive this message because you unsubscribed from the course mentioned above."
+
+msgid "crs_unsubscribe_sure"
+msgstr "Kas soovid sellest kursusest loobuda?"
+
+msgid "crs_unsubscribed_from_crs"
+msgstr "Sa oled sellelt kursuselt eemaldatud."
+
+msgid "crs_update_subscr_request"
+msgstr "Uuendage liikmetaotlust"
+
+msgid "crs_user_agreement"
+msgstr "Väljastatud andmetüübid"
+
+msgid "crs_user_agreement_info"
+msgstr "Kursuse halduritele nähtavad isikuandmed"
+
+msgid "crs_user_already_assigned"
+msgstr "Valitud kasutaja on kursusele juba lisatud."
+
+msgid "crs_users_added"
+msgstr "Kasutaja on lisatud kursusele"
+
+msgid "crs_users_already_assigned"
+msgstr "Kasutaja on juba määratud kursusele"
+
+msgid "crs_users_removed_from_list"
+msgstr "Valitud kasutajad on eemaldatud kursusele saamise järjekorrast"
+
+#, fuzzy
+msgid "crs_usr_agreement"
+msgstr "User Agreement"
+
+msgid "crs_view_info_objective"
+msgstr "Seda esitusviisi kasutatakse õpieesmärkide kuvamiseks."
+
+msgid "crs_view_info_timing"
+msgstr "Ajastuse eelseadete esitusviis."
+
+#, fuzzy
+msgid "crs_view_info_timing_absolute"
+msgstr "Start and end date will be set absolute."
+
+#, fuzzy
+msgid "crs_view_info_timing_relative"
+msgstr "Start and end date will be set relative to the subscription date."
+
+msgid "crs_view_mode"
+msgstr "Kursuse esitus"
+
+msgid "crs_view_objective"
+msgstr "Õpieesmärkide vaade"
+
+msgid "crs_view_timing"
+msgstr "Ajastuste vaade"
+
+#, fuzzy
+msgid "crs_view_timing_absolute"
+msgstr "Absolute Dates"
+
+#, fuzzy
+msgid "crs_view_timing_relative"
+msgstr "Relative Dates"
+
+#, fuzzy
+msgid "crs_view_timings"
+msgstr "Timings View Type"
+
+#, fuzzy
+msgid "crs_visibility"
+msgstr "Visibility"
+
+msgid "crs_visibility_limitless"
+msgstr "Avatud"
+
+msgid "crs_visibility_until"
+msgstr "Ajutiselt avatud"
+
+#, fuzzy
+msgid "crs_visibility_until_info"
+msgstr "The course will be visible to it's members in a specific period of time."
+
+#, fuzzy
+msgid "crs_visibility_unvisible"
+msgstr "The course is not visible."
+
+msgid "crs_wait_info"
+msgstr "Kui märgitud siis kõik maksimaalse arvu ületanud taotlused saadetakse kursusel osaleda soovijate nimekirja."
+
+msgid "crs_waiting_list"
+msgstr "Kursusel osaleda soovijate nimekiri"
+
+#, fuzzy
+msgid "crs_waiting_list_autofill"
+msgstr "With Auto-Fill"
+
+#, fuzzy
+msgid "crs_waiting_list_autofill_info"
+msgstr "Participants are recruited from the waiting list automatically on cancellations."
+
+#, fuzzy
+msgid "crs_waiting_list_no_autofill"
+msgstr "Without Auto-Fill"
+
+msgid "crs_warn_no_max_set_on_waiting_list"
+msgstr "Maksimaalne kursusel osalejate arv on ületatud. Saate esitada liitumistaotluse ja jääda ootejärjekorda. Kui kursuse haldur on taotluse üle vaadanud, saate teate kinnitamise või tagasi lükkamise kohta."
+
+msgid "crs_warn_wl_set_on_waiting_list"
+msgstr "Mõned kasutajad on juba ennast ootejärjekorda lisanud. Võid järjekorda ka ennast lisada. Kursuse administraator saadab sõnumi, kui sinu soov on heakskiidetud või tagasi lükatud."
+
+msgid "crs_wiz_back"
+msgstr "Tagasi"
+
+msgid "crs_wiz_next"
+msgstr "Salvesta"
+
+msgid "crs_xml"
+msgstr "XML"
+
+msgid "edit_timings_list"
+msgstr "Muuda ajastust"
+
+msgid "event"
+msgstr "Kohtumised"
+
+msgid "event_add_new_event"
+msgstr "Uus kohtumine on lisatud"
+
+msgid "event_assign_materials_info"
+msgstr "Kursusele määratud materjalid esitatakse sessiooni all."
+
+msgid "event_assign_materials_table"
+msgstr "Kursuse materjalide määrangud"
+
+msgid "event_blank_columns"
+msgstr "Additional Columns"
+
+msgid "event_btn_add"
+msgstr "Lisa kohtumine"
+
+msgid "event_btn_add_edit"
+msgstr "Lisa kohtumine ja määra materjalid"
+
+msgid "event_csv_export"
+msgstr "CSV eksport"
+
+msgid "event_date_time"
+msgstr "Koht ja aeg"
+
+msgid "event_desc"
+msgstr "Kirjeldus"
+
+msgid "event_details_workflow"
+msgstr "Detailid/töö kulg"
+
+msgid "event_edit_members"
+msgstr "Muuda liikmeid"
+
+msgid "event_etime_smaller_stime"
+msgstr "Lõpetamisaeg on varasem kui alustamisaeg. Palun sisesta sobivam aeg."
+
+msgid "event_file"
+msgstr "Fail"
+
+msgid "event_files"
+msgstr "Määratud failid"
+
+msgid "event_fulltime_info"
+msgstr "Aeg määratlemata"
+
+msgid "event_lecturer"
+msgstr "Nimi"
+
+msgid "event_list_registered_only"
+msgstr "Only Registered Members"
+
+msgid "event_location"
+msgstr "Koht"
+
+msgid "event_materials"
+msgstr "Sessiooni materjalid"
+
+msgid "event_not_participated"
+msgstr "Pole osalenud"
+
+msgid "event_overview"
+msgstr "Osalemine kohtumistel"
+
+msgid "event_participated"
+msgstr "Osales"
+
+msgid "event_registered"
+msgstr "Olete antud sessioonile kirja pandud."
+
+msgid "event_section_information"
+msgstr "Kohtumise info"
+
+msgid "event_table_create"
+msgstr "Uus kohtumine"
+
+msgid "event_table_update"
+msgstr "Muuda kohtumist"
+
+#, fuzzy
+msgid "event_tbl_admin"
+msgstr "Administrator"
+
+msgid "event_tbl_admins"
+msgstr "Administraatorid"
+
+#, fuzzy
+msgid "event_tbl_member"
+msgstr "Member"
+
+msgid "event_tbl_members"
+msgstr "Liikmed"
+
+msgid "event_tbl_participated"
+msgstr "Osales"
+
+msgid "event_tbl_registered"
+msgstr "Registreeritud"
+
+#, fuzzy
+msgid "event_tbl_tutor"
+msgstr "Tutor"
+
+msgid "event_tbl_tutors"
+msgstr "Tuutorid"
+
+msgid "event_title"
+msgstr "Pealkiri"
+
+msgid "event_tutor_data"
+msgstr "Lektori info"
+
+msgid "event_unregister"
+msgstr "Registreeri ennast välja"
+
+msgid "event_unregistered"
+msgstr "Te pole registreerunud."
+
+msgid "event_updated"
+msgstr "Seaded salvestatud"
+
+#, fuzzy
+msgid "event_user_selection"
+msgstr "Selection of Users"
+
+#, fuzzy
+msgid "event_user_selection_include_filter"
+msgstr "Include \"%1$s\""
+
+#, fuzzy
+msgid "event_user_selection_include_requests"
+msgstr "Include all users on list \"Join Requests\""
+
+#, fuzzy
+msgid "event_user_selection_include_role"
+msgstr " Include all users with role \"%1$s\""
+
+#, fuzzy
+msgid "event_user_selection_include_waiting_list"
+msgstr "Include all users on \"Waiting List\""
+
+msgid "events"
+msgstr "Kohtumised"
+
+msgid "export_members"
+msgstr "Ekspordi osalejad"
+
+msgid "grouping_change_assignment"
+msgstr "Muuda ülesannet"
+
+#, fuzzy
+msgid "grp_grp_already_assigned"
+msgstr "You are already member of this grouping of groups."
+
+#, fuzzy
+msgid "grp_not_all_users_assigned_msg"
+msgstr "%s user(s) assigned as group member(s), %s user(s) were already in the group."
+
+#, fuzzy
+msgid "mem_cron_min_members_intro"
+msgstr "The following courses and groups do not meet the minimum number of members (yet)."
+
+#, fuzzy
+msgid "mem_cron_min_members_reason"
+msgstr "You receive this message because you have activated the notification in the members-tab."
+
+#, fuzzy
+msgid "mem_cron_min_members_subject"
+msgstr "Course/Group: Minimum Members Check"
+
+#, fuzzy
+msgid "mem_cron_min_members_task"
+msgstr "Please inform the participants if the course will not take place because of not enough attendants. Adjust the settings afterwards."
+
+#, fuzzy
+msgid "obj_count_members"
+msgstr "Number of members"
+
+msgid "sess_attendance_list"
+msgstr "Kohalolijate loend"
+
+msgid "sess_gen_attendance_list"
+msgstr "Loo osalejate nimestik"
+
+msgid "sess_join_info"
+msgstr "Sessioonil osalemiseks vajutage nuppu Liitu."
+
+msgid "sess_limit"
+msgstr "Kohtumiste limiitarv"
+
+msgid "sess_limit_info"
+msgstr "Tee see valik näha olevate kohtumiste arvu limiteerimiseks"
+
+msgid "sess_num_next"
+msgstr "Tulevaste kohtumiste arv"
+
+msgid "sess_num_prev"
+msgstr "Möödunud kohtumiste arv"
+
+msgid "sess_print_attendance_list"
+msgstr "Prindi osalejate nimestik"
+
+msgid "sess_signature"
+msgstr "Signatuur"
+
+msgid "subscription_times_not_valid"
+msgstr "Registreerimisperiood ei kehti."
+
+msgid "timing_accept_table"
+msgstr "Ajastused: ääremärkused"
+
+msgid "timing_accepted"
+msgstr "Nõustutud"
+
+msgid "timing_not_accepted"
+msgstr "Pole vastu võetud"
+
+msgid "timing_remark"
+msgstr "Ääremärkus"
+
+msgid "timing_tutor_visible"
+msgstr "Ääremärkus on nähtav kursuse tuutoritele"
+
+msgid "timing_user_accept"
+msgstr "Nõustu ajastusega"
+
+msgid "timing_user_accepted"
+msgstr "Ajastamised vastu võetud"
+
+msgid "timings"
+msgstr "Ajastused"
+
+#, fuzzy
+msgid "timings_cron_reminder_exceeded_start"
+msgstr "Der Bearbeitungszeitraum ist überfällig bei:"
+
+#, fuzzy
+msgid "timings_cron_reminder_exceeded_subject"
+msgstr "Sie haben den Bearbeitungszeitraum überschritten"
+
+#, fuzzy
+msgid "timings_cron_reminder_freshly_start"
+msgstr "Der Bearbeitungszeitraum hat begonnen bei:"
+
+#, fuzzy
+msgid "timings_cron_reminder_started_subject"
+msgstr "Der Bearbeitungszeitraum hat begonnen"
+
+msgid "timings_edit"
+msgstr "Muuda ajastust"
+
+msgid "timings_of"
+msgstr "Ajastused väljas"
+
+#, fuzzy
+msgid "timings_reminder_notifications"
+msgstr "Course Timings Notifications"
+
+#, fuzzy
+msgid "timings_reminder_notifications_info"
+msgstr "If enabled, course participants will be notified about exceeded timing materials."
+
+msgid "timings_timings"
+msgstr "Ajastamised"
+
+msgid "timings_timings_off"
+msgstr "Lülita ajastuse administreerimine välja"
+
+msgid "timings_timings_on"
+msgstr "Lülita ajastuse administreerimine sisse"
+
+msgid "timings_usr_edit"
+msgstr "Muuda ajastust"
+
+msgid "tutor_email"
+msgstr "E-post"
+
+msgid "tutor_name"
+msgstr "Nimi"
+
+msgid "tutor_phone"
+msgstr "Telefon"
+
+#, fuzzy
+msgid "tutorial_support_block_byline"
+msgstr "The 'Tutorial Support' block is displayed in the 'Contents' tab. The user selected as \"Contact Person\" in the \"Members\" Tab is shown."
+
+#, fuzzy
+msgid "tutorial_support_block_contact"
+msgstr "Contact"
+
+#, fuzzy
+msgid "tutorial_support_block_send_mail"
+msgstr "send email"
+
+#, fuzzy
+msgid "tutorial_support_block_setting_desc"
+msgstr "The 'Tutorial Support' block is displayed in the 'Contents' tab."
+
+#, fuzzy
+msgid "tutorial_support_block_setting_title"
+msgstr "Tutorial Support Block"
+
+#, fuzzy
+msgid "tutorial_support_block_title"
+msgstr "Contact Person"
+
+msgid "user_fields"
+msgstr "Kasutaja väljad"

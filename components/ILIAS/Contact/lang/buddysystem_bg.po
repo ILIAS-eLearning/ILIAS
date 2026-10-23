@@ -1,0 +1,188 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: bg\n"
+"Language-Team: Bulgarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: buddysystem\n"
+
+msgid "buddy_allow_to_contact_me"
+msgstr "Да се свържете с мен"
+
+#, fuzzy
+msgid "buddy_allow_to_contact_me_default_info"
+msgstr "Defines if users can send each other requests for getting into contact by default."
+
+msgid "buddy_allow_to_contact_me_info"
+msgstr "Ако е разрешено, другите потребители могат да ми изпращат заявки за контакт."
+
+msgid "buddy_bs_act_btn_txt_ignored_request_to_linked"
+msgstr "Потвърждаване на заявката"
+
+msgid "buddy_bs_act_btn_txt_ignored_request_to_unlinked"
+msgstr "Отмяна на заявката"
+
+msgid "buddy_bs_act_btn_txt_linked_to_unlinked"
+msgstr "Unlink"
+
+msgid "buddy_bs_act_btn_txt_requested_to_ignored_request"
+msgstr "Ignore"
+
+msgid "buddy_bs_act_btn_txt_requested_to_linked"
+msgstr "Потвърждаване"
+
+msgid "buddy_bs_act_btn_txt_requested_to_unlinked"
+msgstr "Отмяна на заявката"
+
+msgid "buddy_bs_action_already_ignored"
+msgstr "Вие вече игнорирахте потребител '%s'."
+
+msgid "buddy_bs_action_already_linked"
+msgstr "Вие вече приехте заявката за контакт от потребител '%s'."
+
+msgid "buddy_bs_action_already_requested"
+msgstr "Вие вече поискахте потребител '%s'."
+
+msgid "buddy_bs_action_already_unlinked"
+msgstr "Състоянието на контакта за потребител '%s' вече е развързано."
+
+msgid "buddy_bs_action_not_possible"
+msgstr "Действието не е възможно"
+
+msgid "buddy_bs_btn_txt_ignored_request_a"
+msgstr "Запитан контакт"
+
+msgid "buddy_bs_btn_txt_ignored_request_p"
+msgstr "Игнориране на заявка"
+
+msgid "buddy_bs_btn_txt_linked_a"
+msgstr "Linked"
+
+msgid "buddy_bs_btn_txt_linked_p"
+msgstr "Linked"
+
+msgid "buddy_bs_btn_txt_requested_a"
+msgstr "Запитване за контакт"
+
+msgid "buddy_bs_btn_txt_requested_p"
+msgstr "Запитване"
+
+msgid "buddy_bs_btn_txt_unlinked_a"
+msgstr "Запитване за контакт"
+
+msgid "buddy_bs_state_ignored_request_a"
+msgstr "Requested"
+
+msgid "buddy_bs_state_ignored_request_p"
+msgstr "Ignored"
+
+msgid "buddy_bs_state_ignoredrequest"
+msgstr "Ignored"
+
+msgid "buddy_bs_state_linked"
+msgstr "Linked"
+
+msgid "buddy_bs_state_linked_a"
+msgstr "Linked"
+
+#, fuzzy
+msgid "buddy_bs_state_linked_p"
+msgstr "Свързан"
+
+msgid "buddy_bs_state_requested"
+msgstr "Запитване"
+
+msgid "buddy_bs_state_requested_a"
+msgstr "Requested"
+
+#, fuzzy
+msgid "buddy_bs_state_requested_filter_a"
+msgstr "В очакване на реакция"
+
+#, fuzzy
+msgid "buddy_bs_state_requested_filter_p"
+msgstr "Изисква се действие"
+
+msgid "buddy_bs_state_requested_p"
+msgstr "Requested"
+
+#, fuzzy
+msgid "buddy_bs_state_unlinked"
+msgstr "Без връзки"
+
+msgid "buddy_bs_state_unlinked_a"
+msgstr "Unlinked"
+
+#, fuzzy
+msgid "buddy_bs_state_unlinked_p"
+msgstr "Без връзки"
+
+#, fuzzy
+msgid "buddy_confirm_unlink"
+msgstr "Do you really want to disconnect from this contact?"
+
+msgid "buddy_enable"
+msgstr "Активиране на 'Контакти'"
+
+msgid "buddy_enable_info"
+msgstr "Ако е разрешено, на потребителите е позволено да се свързват помежду си, като инициират заявки за контакт. Освен това има лична потребителска настройка, с която да разрешите или забраните да се свързвате с тях."
+
+msgid "buddy_handle_contact_request"
+msgstr "Заявка за контакт"
+
+msgid "buddy_noti_cr_profile_not_published"
+msgstr "Профилът не е публикуван"
+
+msgid "buddy_notification_contact_request"
+msgstr "Заявка за контакт"
+
+msgid "buddy_notification_contact_request_ignore"
+msgstr "Игнориране на заявката:"
+
+msgid "buddy_notification_contact_request_ignore_osd"
+msgstr "Игнориране на заявка"
+
+msgid "buddy_notification_contact_request_link"
+msgstr "Одобряване на заявката:"
+
+msgid "buddy_notification_contact_request_link_osd"
+msgstr "Одобряване на заявката"
+
+msgid "buddy_notification_contact_request_long"
+msgstr "[SALUTATION][BR][BR]потребителят \"[REQUESTING_USER]\" иска да ви добави в списъка си с приятели.[BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]"
+
+msgid "buddy_notification_contact_request_short"
+msgstr "Потребителят \"[REQUESTING_USER]\" иска да ви добави в списъка си с приятели.[BR][BR][APPROVE_REQUEST][BR][IGNORE_REQUEST]"
+
+msgid "buddy_relation_requested"
+msgstr "Заявка е изпратена до потребителя."
+
+msgid "buddy_request_approved"
+msgstr "Успешно одобрихте контакта."
+
+msgid "buddy_request_ignored"
+msgstr "Игнорирахте потребителя."
+
+msgid "buddy_tbl_filter_state"
+msgstr "Status"
+
+#, fuzzy
+msgid "buddy_tbl_state_actions_col_label"
+msgstr "State / Action"
+
+msgid "buddy_tbl_title_relations"
+msgstr "Връзки с други потребители"
+
+msgid "buddy_use_osd"
+msgstr "Заявки за контакт в прозореца"
+
+msgid "buddy_use_osd_info"
+msgstr "Показване на изскачащ прозорец, който показва, че потребителят иска да ви добави в списъците си с приятели."
+
+msgid "buddy_view_gallery"
+msgstr "Галерия"
+
+msgid "buddy_view_table"
+msgstr "Списък"

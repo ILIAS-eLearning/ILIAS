@@ -1,0 +1,66 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: validation\n"
+
+msgid "datetime_required"
+msgstr "Zeit/Datum erforderlich"
+
+msgid "no_array"
+msgstr "Wert ist kein Feld"
+
+msgid "not_a_null"
+msgstr "Wert vom Typ „%s“ ist keine Null."
+
+msgid "not_a_string"
+msgstr "Wert vom Typ „%s“ ist kein String."
+
+msgid "not_an_array"
+msgstr "„%s“ ist kein Array."
+
+msgid "not_an_array_of"
+msgstr "Die Elemente des Arrays scheitern an Bedingungen: %s"
+
+msgid "not_an_int"
+msgstr "Wert vom Typ „%s“ ist kein Integer."
+
+msgid "not_generic"
+msgstr "Es ist nicht der Fall, dass %s"
+
+msgid "not_greater_than"
+msgstr "„%s“ ist nicht größer als „%s“."
+
+msgid "not_greater_than_or_equal"
+msgstr "Der Wert ist nicht größer oder gleich „%s“."
+
+msgid "not_less_than"
+msgstr "„%s“ ist nicht kleiner als „%s“."
+
+msgid "not_less_than_or_equal"
+msgstr "Der Wert ist nicht kleiner oder gleich „%s“."
+
+msgid "not_max_length"
+msgstr "Der eingegebene Text hat eine Länge von mehr als „%s“."
+
+msgid "not_min_length"
+msgstr "Ihre Eingabe hat eine Länge von %d und liegt damit unter der Mindestlänge von %d."
+
+msgid "not_numeric"
+msgstr "„%s“ ist nicht nummerisch."
+
+msgid "not_numeric_empty_string"
+msgstr "Ihre Eingabe ist nicht numerisch."
+
+msgid "numeric_only"
+msgstr "Bitte geben sie eine ganze Zahl ein."
+
+msgid "required"
+msgstr "Diese Eingabe ist erforderlich."
+
+msgid "tag_required"
+msgstr "Bitte geben sie mindestens ein Tag ein."

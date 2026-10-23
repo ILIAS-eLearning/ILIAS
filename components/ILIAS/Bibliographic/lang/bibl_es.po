@@ -1,0 +1,315 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: bibl\n"
+
+msgid "Type"
+msgstr "Tipo"
+
+msgid "add_filter"
+msgstr "Añadir filtro"
+
+msgid "bib_default_abstract"
+msgstr "Resumen"
+
+msgid "bib_default_address"
+msgstr "Dirección"
+
+msgid "bib_default_author"
+msgstr "Autor"
+
+msgid "bib_default_cite"
+msgstr "Cita bibliográfica"
+
+msgid "bib_default_edition"
+msgstr "Edición"
+
+msgid "bib_default_howpublished"
+msgstr "Publicado como"
+
+msgid "bib_default_isbn"
+msgstr "ISSN/ISBN"
+
+msgid "bib_default_journal"
+msgstr "Revista"
+
+msgid "bib_default_keywords"
+msgstr "Palabras clave"
+
+msgid "bib_default_month"
+msgstr "Mes"
+
+msgid "bib_default_note"
+msgstr "Nota"
+
+msgid "bib_default_number"
+msgstr "Número"
+
+msgid "bib_default_organization"
+msgstr "Organización"
+
+msgid "bib_default_pages"
+msgstr "Páginas"
+
+msgid "bib_default_publisher"
+msgstr "Editorial"
+
+msgid "bib_default_series"
+msgstr "Serie"
+
+msgid "bib_default_title"
+msgstr "Título"
+
+msgid "bib_default_type"
+msgstr "Tipo"
+
+msgid "bib_default_url"
+msgstr "URL"
+
+msgid "bib_default_volume"
+msgstr "Volumen"
+
+msgid "bib_default_year"
+msgstr "Año"
+
+msgid "bibl_copy"
+msgstr "Copiar bibliografía"
+
+msgid "bibl_edit"
+msgstr "Editar bibliografía"
+
+msgid "bibl_filter"
+msgstr "Filtro"
+
+msgid "bibl_import"
+msgstr "Importar bibliografía"
+
+msgid "bibl_library_img"
+msgstr "URL de la imagen"
+
+msgid "bibl_library_name"
+msgstr "Nombre"
+
+msgid "bibl_library_show_in_list"
+msgstr "Mostrar como enlace en la lista"
+
+msgid "bibl_library_url"
+msgstr "URL base"
+
+msgid "bibl_link_online"
+msgstr "Consultar inventario"
+
+msgid "bibl_msg_translations_deleted"
+msgstr "Se eliminaron las traducciones"
+
+msgid "bibl_msg_translations_saved"
+msgstr "Se guardaron las traducciones"
+
+msgid "bibl_new"
+msgstr "Nueva bibliografía"
+
+msgid "bibl_settings_edit"
+msgstr "Editar biblioteca"
+
+msgid "bibl_settings_libraries"
+msgstr "Bibliotecas"
+
+msgid "bibl_settings_new"
+msgstr "Agregar biblioteca"
+
+msgid "bibl_translation_desc"
+msgstr "Descripción"
+
+msgid "bibl_translation_lang"
+msgstr "Idioma"
+
+msgid "bibl_translation_trans"
+msgstr "Traducción"
+
+msgid "bibliography_file"
+msgstr "Archivo de bibliografía"
+
+msgid "bibtex"
+msgstr "Bibtex"
+
+msgid "changes_saved"
+msgstr "Se han guardado los cambios."
+
+msgid "custom"
+msgstr "Personalizado"
+
+msgid "detail_view"
+msgstr "Vista de detalles"
+
+msgid "detailed_information"
+msgstr "Información detallada"
+
+msgid "download_original_file"
+msgstr "Descargar archivo original"
+
+msgid "field"
+msgstr "Campo"
+
+msgid "fields"
+msgstr "Campos"
+
+msgid "filter_deleted"
+msgstr "Se ha eliminado el filtro."
+
+msgid "filter_field_info"
+msgstr "Elija un campo para el cual desea agregar un filtro."
+
+msgid "filter_form_title"
+msgstr "Agregar nuevo filtro"
+
+msgid "filter_type"
+msgstr "Tipo de filtro"
+
+msgid "filter_type_1"
+msgstr "Entrada de texto"
+
+msgid "filter_type_2"
+msgstr "Entrada de selección"
+
+msgid "filter_type_3"
+msgstr "Entrada de selección múltiple"
+
+msgid "filter_type_info"
+msgstr "Elija un tipo de filtro para el campo."
+
+msgid "identifier"
+msgstr "Identificador"
+
+msgid "msg_confirm_delete_filter"
+msgstr "¿Desea eliminar el siguiente filtro?"
+
+msgid "msg_filter_info"
+msgstr "Cree aquí un filtro que pueda utilizarse en la pestaña \"Contenidos\" para limitar la visualización de las entradas."
+
+msgid "news_title_created"
+msgstr "Nueva lista bibliográfica agregada"
+
+msgid "news_title_updated"
+msgstr "Lista bibliográfica actualizada"
+
+msgid "not_yet_migrated"
+msgstr "Este objeto aún no ha sido migrado. Por favor, póngase en contacto con los administradores de la plataforma."
+
+msgid "obj_bibl_duplicate"
+msgstr "Duplicar bibliografía"
+
+msgid "order"
+msgstr "Orden"
+
+msgid "override_entries"
+msgstr "Sobrescribir entradas"
+
+msgid "replace_bibliography_file"
+msgstr "Reemplazar archivo de bibliografía"
+
+msgid "replace_bibliography_file_info"
+msgstr "El archivo de bibliografía actual será reemplazado por el nuevo archivo. Todas las entradas existentes del archivo actual serán eliminadas."
+
+msgid "ris"
+msgstr "Ris"
+
+msgid "ris_default_a2"
+msgstr "Ubicación en archivos"
+
+msgid "ris_default_au"
+msgstr "Autor"
+
+msgid "ris_default_cy"
+msgstr "Lugar de publicación"
+
+msgid "ris_default_ep"
+msgstr "Número de página final"
+
+msgid "ris_default_id"
+msgstr "ID de referencia"
+
+msgid "ris_default_ja"
+msgstr "Publicación periódica en la que se publicó el artículo"
+
+msgid "ris_default_kw"
+msgstr "Palabras clave"
+
+msgid "ris_default_l3"
+msgstr "Registros relacionados"
+
+msgid "ris_default_m1"
+msgstr "Número"
+
+msgid "ris_default_m3"
+msgstr "Misc. 3"
+
+msgid "ris_default_n1"
+msgstr "Notas"
+
+msgid "ris_default_n2"
+msgstr "Resumen"
+
+msgid "ris_default_pb"
+msgstr "Editorial"
+
+msgid "ris_default_py"
+msgstr "Año de publicación"
+
+msgid "ris_default_sn"
+msgstr "ISSN/ISBN/ASIN"
+
+msgid "ris_default_t1"
+msgstr "Título primario"
+
+msgid "ris_default_t2"
+msgstr "Título secundario"
+
+msgid "ris_default_t3"
+msgstr "Título terciario"
+
+msgid "ris_default_ti"
+msgstr "Título del libro"
+
+msgid "ris_default_ty"
+msgstr "Tipo"
+
+msgid "ris_default_u2"
+msgstr "Definido por el usuario"
+
+msgid "ris_default_ur"
+msgstr "URL"
+
+msgid "ris_default_vl"
+msgstr "Volumen"
+
+msgid "ris_default_y1"
+msgstr "Año"
+
+msgid "sorting_1"
+msgstr "Por título (ascendente)"
+
+msgid "sorting_2"
+msgstr "Por título (descendente)"
+
+msgid "sorting_3"
+msgstr "Por autor (ascendente)"
+
+msgid "sorting_4"
+msgstr "Por autor (descendente)"
+
+msgid "sorting_5"
+msgstr "Por año (ascendente)"
+
+msgid "sorting_6"
+msgstr "Por año (descendente)"
+
+msgid "standard"
+msgstr "Estándar"
+
+msgid "translate"
+msgstr "Traducir"

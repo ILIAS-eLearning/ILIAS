@@ -1,0 +1,841 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: dcl\n"
+
+msgid "add_value"
+msgstr "新しい記録を追加"
+
+msgid "dcl_activate_notification"
+msgstr "通知を有効化"
+
+msgid "dcl_add"
+msgstr "データ収集を作成"
+
+msgid "dcl_add_new_field"
+msgstr "新規フィールドを追加"
+
+msgid "dcl_add_new_record"
+msgstr "新規レコードを追加"
+
+msgid "dcl_add_new_table"
+msgstr "新規テーブルを追加"
+
+msgid "dcl_add_new_view"
+msgstr "新しいビューを追加"
+
+msgid "dcl_add_perm"
+msgstr "アクセス権追加エントリ"
+
+msgid "dcl_add_perm_desc"
+msgstr "ユーザはこのテーブルのエントリーを追加できます。"
+
+msgid "dcl_all_entries"
+msgstr "全てのエントリー"
+
+msgid "dcl_any"
+msgstr "どれか"
+
+msgid "dcl_asc"
+msgstr "昇順 (ASC)"
+
+msgid "dcl_boolean"
+msgstr "ブール代数"
+
+msgid "dcl_boolean_desc"
+msgstr " \"True\"または\"False\"用のチェックボックス"
+
+msgid "dcl_cant_delete_last_table"
+msgstr "このデータ収集のテーブルだけのためにこのテーブルを完全に削除することはできません。そのコンテンツと構造が代わりに削除されます。"
+
+msgid "dcl_change_notification_dcl_delete_record"
+msgstr "次のデータ記録は削除されました。"
+
+msgid "dcl_change_notification_dcl_new_record"
+msgstr "次のレコードが作成されました"
+
+msgid "dcl_change_notification_dcl_update_record"
+msgstr "次のレコードが更新されました"
+
+msgid "dcl_change_notification_link"
+msgstr "URL"
+
+msgid "dcl_change_notification_subject"
+msgstr "データ収集\"%s\"は変更されました"
+
+msgid "dcl_changed_by"
+msgstr "更新者"
+
+msgid "dcl_checked"
+msgstr "チェック済"
+
+msgid "dcl_comments"
+msgstr "コメント"
+
+msgid "dcl_comments_desc"
+msgstr "エントリーのコメント数を表示します。"
+
+msgid "dcl_confirm_delete_field"
+msgstr "本当にこのフィールドを削除しますか?"
+
+msgid "dcl_confirm_delete_fields"
+msgstr "本当にこのフィールドを削除しますか?"
+
+msgid "dcl_confirm_delete_record"
+msgstr "このレコードを削除しますか?"
+
+msgid "dcl_confirm_delete_records"
+msgstr "このレコードを本当に削除しますか?"
+
+msgid "dcl_confirm_delete_table"
+msgstr "内容や階層の含まれるこのテーブルを本当に削除しますか?"
+
+msgid "dcl_confirm_storing_records"
+msgstr "有効にして入力を確認して下さい。"
+
+msgid "dcl_confirm_storing_records_no_permission"
+msgstr "以降は記録を変更する権利がありません。"
+
+msgid "dcl_copy"
+msgstr "データ収集を作成"
+
+msgid "dcl_copy_field"
+msgstr "Copy"
+
+msgid "dcl_copy_field_desc"
+msgstr "表の別フィールドに保存されたコピーオプションへのフィールド"
+
+msgid "dcl_copy_title"
+msgstr "表とフィールドのコピー"
+
+msgid "dcl_create_date"
+msgstr "作成日"
+
+msgid "dcl_create_entry_rules"
+msgstr "作成のエントリー"
+
+msgid "dcl_create_field"
+msgstr "フィールドを作成"
+
+msgid "dcl_create_fields"
+msgstr "”表”タブの表をクリックして”新規フィールド追加”ボタンを使い新しいフィールドを作成"
+
+msgid "dcl_creation_date"
+msgstr "作成日"
+
+msgid "dcl_creation_date_description"
+msgstr "エントリが作成された日付"
+
+msgid "dcl_datatype"
+msgstr "データタイプ"
+
+msgid "dcl_date"
+msgstr "日付入力"
+
+msgid "dcl_date_desc"
+msgstr "日付用のフィールド"
+
+msgid "dcl_date_selection"
+msgstr "日付選択"
+
+msgid "dcl_date_selection_desc"
+msgstr "日付オプションの選択を提示"
+
+msgid "dcl_datetime"
+msgstr "日時入力"
+
+msgid "dcl_datetime_desc"
+msgstr "ユーザーは任意の日付と時刻を入力することも、カレンダーを使って選択することもできます。"
+
+msgid "dcl_datetime_selection"
+msgstr "日時選択"
+
+msgid "dcl_datetime_selection_desc"
+msgstr "あらかじめ定義された日時オプションの中から日付と時刻を選択できるようにする。"
+
+msgid "dcl_default_sort_field"
+msgstr "既定のソートフィールド"
+
+msgid "dcl_default_sort_field_order"
+msgstr "既定のソートフィールド順"
+
+msgid "dcl_default_sort_field_order_desc"
+msgstr "このフィールドのテーブルベース内エントリーの順番をアレンジ"
+
+msgid "dcl_delete_fields"
+msgstr "フィールド削除"
+
+msgid "dcl_delete_fields_no_selection"
+msgstr "削除するフィールドを一つは選択して下さい。"
+
+msgid "dcl_delete_perm"
+msgstr "アクセス権削除エントリ"
+
+msgid "dcl_delete_records"
+msgstr "レコード削除"
+
+msgid "dcl_deleted_entries"
+msgstr "エントリーを削除しました"
+
+msgid "dcl_deleted_records"
+msgstr "%sレコードが正しく削除されました"
+
+msgid "dcl_deprecated_copy"
+msgstr "(廃止)"
+
+msgid "dcl_desc"
+msgstr "降順 (DESC)"
+
+msgid "dcl_description"
+msgstr "フィールド説明"
+
+msgid "dcl_detailed_view"
+msgstr "詳細ビュー"
+
+msgid "dcl_display_action_menu"
+msgstr "コピー"
+
+msgid "dcl_display_action_menu_desc"
+msgstr "このオブジェクトはエエントリーからコピーできます。"
+
+msgid "dcl_display_record_alt"
+msgstr "エントリーを表示"
+
+msgid "dcl_duplicate_non_unique_entries_exist"
+msgstr "これは既存の記録にも関係する可能性があります。"
+
+msgid "dcl_edit"
+msgstr "このデータ収集の設定"
+
+msgid "dcl_edit_entry_rules"
+msgstr "エントリー編集"
+
+msgid "dcl_edit_field"
+msgstr "フィールド編集"
+
+msgid "dcl_edit_perm"
+msgstr "エントリーを編集"
+
+msgid "dcl_edit_table"
+msgstr "テーブル'%'の設定"
+
+msgid "dcl_edit_view"
+msgstr "ビュー「%s」の設定を編集"
+
+msgid "dcl_editable_in_table_gui"
+msgstr "テーブルビューへ投票してください。"
+
+msgid "dcl_err_formula_field_not_found"
+msgstr "タイトル'%s'のフィールドが見つかりませんでした"
+
+msgid "dcl_error_parsing_expression"
+msgstr "構文解析式エラー"
+
+msgid "dcl_export_enabled"
+msgstr "全ユーザへエクスポート機能を許可する"
+
+msgid "dcl_export_enabled_desc"
+msgstr "全てのユーザはこの表のデータをエクスポートできます。どのフィールドをエクスポートさせるのか表全体に明示する必要があります。"
+
+msgid "dcl_field_datatype"
+msgstr "フィールドデータタイプ"
+
+msgid "dcl_field_description"
+msgstr "説明"
+
+msgid "dcl_field_description_desc"
+msgstr "新しい入力を作成する際、説明は入力フィールドの下に表示されます。"
+
+msgid "dcl_field_title_change_warning"
+msgstr "タイトルフィールドを変更したのでビュー定義内のいづれかのプレースフォルダは壊れた可能性があります。そのような場合は手動にて修復しなければなりません。"
+
+msgid "dcl_field_title_unique"
+msgstr "このタイトルですでにフィールドが存在します。"
+
+msgid "dcl_field_visible"
+msgstr "表示"
+
+msgid "dcl_fieldtitle"
+msgstr "フィールドタイトル"
+
+msgid "dcl_file"
+msgstr "ファイルアップロード"
+
+msgid "dcl_file_desc"
+msgstr "任意のファイルアップロード用のフィールド。リンク付きでダウンロードできます。"
+
+msgid "dcl_file_format_description"
+msgstr "最初のシートへインポートするにはデータ付きのExcel .xslファイルの必要があります。インポートすると最初の行は名前フィールド(大小文字区分)があり、続いての行へ値を追加できます。インポートに先立ってシュミレーションされる事を強くお勧めします。"
+
+msgid "dcl_file_not_readable"
+msgstr "ファイルを読込むことができませんでした。UploadするXLSファイルを確認してください。"
+
+msgid "dcl_filter"
+msgstr "フィルタ"
+
+msgid "dcl_filter_changeable"
+msgstr "フィルタ変更可"
+
+msgid "dcl_formula"
+msgstr "公式"
+
+msgid "dcl_formula_desc"
+msgstr "数式つきの記録に複数のエントリーを集計できます。"
+
+msgid "dcl_formula_detail_desc"
+msgstr "エントリーは自動生成されますがエントリーを編集することはできません。"
+
+msgid "dcl_height"
+msgstr "ピクセル高さ"
+
+msgid "dcl_height_desc"
+msgstr "アップロード中にファイルの高さはこの値に縮小されます。"
+
+msgid "dcl_id"
+msgstr "ID"
+
+msgid "dcl_id_description"
+msgstr "内部ID"
+
+msgid "dcl_ilias_reference"
+msgstr "ILIASモジュールへのリンク"
+
+msgid "dcl_ilias_reference_desc"
+msgstr "ILIASオブジェクト選択用の検索フィールド"
+
+msgid "dcl_ilias_reference_link"
+msgstr "テーブルビュー内のリンクとして表示"
+
+msgid "dcl_import_enabled"
+msgstr "全てのユーザへインポート機能を許可"
+
+msgid "dcl_import_enabled_desc"
+msgstr "書き込みアクセス権が必須になっていると全てのユーザはテーブルへデータをインポートできます。"
+
+msgid "dcl_import_records .xls"
+msgstr "Excelインポート"
+
+msgid "dcl_import_terminated"
+msgstr "インポートが完了しました。エントリが追加されました。"
+
+msgid "dcl_in_export"
+msgstr "エクスポートする"
+
+msgid "dcl_invalid_regex_config"
+msgstr "このフィールド用に構成される通常表現は有効です。障害を解決するには設定を確認してください。"
+
+msgid "dcl_last_edit_by"
+msgstr "最終更新者"
+
+msgid "dcl_last_edited_by"
+msgstr "最終更新者"
+
+msgid "dcl_last_edited_by_description"
+msgstr "このエントリを最後に編集したユーザ"
+
+msgid "dcl_last_update"
+msgstr "最終編集"
+
+msgid "dcl_last_update_description"
+msgstr "エントリの日付が最終編集です"
+
+msgid "dcl_learning_progress"
+msgstr "学習進捗"
+
+msgid "dcl_learning_progress_desc"
+msgstr "各ユーザーに選択された項目の学習進捗を表示する。"
+
+msgid "dcl_legend_placeholders"
+msgstr "プレースホルダー"
+
+msgid "dcl_length"
+msgstr "最長文字数"
+
+msgid "dcl_length_info"
+msgstr "(200文字以上用には追加のテキストエリアオプションを使用)"
+
+msgid "dcl_limit_end"
+msgstr "終了"
+
+msgid "dcl_limit_start"
+msgstr "開始"
+
+msgid "dcl_limited"
+msgstr "限定の追加・編集・削除 期間"
+
+msgid "dcl_limited_desc"
+msgstr "ユーザは指定する期間内に限りエントリーを編集できます。"
+
+msgid "dcl_link_detail_page"
+msgstr "詳細ビューへのリンク"
+
+msgid "dcl_link_detail_page_desc"
+msgstr "さらに、'詳細ビュー'タブ内で詳細ビューのテンプレートが作成され、アクティブ化されている必要があります。"
+
+msgid "dcl_list_fields"
+msgstr "フィールド"
+
+msgid "dcl_list_visibility_and_filter"
+msgstr "概要"
+
+msgid "dcl_manage"
+msgstr "管理"
+
+msgid "dcl_max_digits"
+msgstr "最大桁数"
+
+msgid "dcl_max_import"
+msgstr "最大インポートエントリ数に達しました。"
+
+msgid "dcl_max_text_length"
+msgstr "最大長: %s"
+
+msgid "dcl_mob"
+msgstr "メディアオブジェクト"
+
+msgid "dcl_mob_desc"
+msgstr "イメージ、オーディオ、ビデオファイルアップロード用のフィールド。データ収集の際に直接表示されます。表示するデータタイプ: %s"
+
+msgid "dcl_msg_field_modified"
+msgstr "フィールドを更新しました"
+
+msgid "dcl_msg_fields_deleted"
+msgstr "フィールドを削除しました"
+
+msgid "dcl_msg_mc_to_sc_confirmation"
+msgstr "複数選択からシングル選択への切替えは既存のエントリーのデータ損失へつながる可能性があります。本当に続けますか?"
+
+msgid "dcl_msg_no_perm_edit"
+msgstr "このレコードの編集アクセス権がありません"
+
+msgid "dcl_msg_no_perm_view"
+msgstr "このレコードを表示するアクセス権がありません"
+
+msgid "dcl_msg_table_created"
+msgstr "テーブルを作成しました"
+
+msgid "dcl_msg_table_edited"
+msgstr "テーブル設定は保存されました"
+
+msgid "dcl_msg_tableview_created"
+msgstr "ビューを作成しました。"
+
+msgid "dcl_msg_tableview_deleted"
+msgstr "ビューを削除しました。"
+
+msgid "dcl_msg_tableview_updated"
+msgstr "ビューを更新しました。"
+
+msgid "dcl_msg_tableviews_delete_all"
+msgstr "削除できませんでした: ビューが一つは存在する必要があります"
+
+msgid "dcl_multiple_selection"
+msgstr "複数選択"
+
+msgid "dcl_new"
+msgstr "新規データ収集を作成"
+
+msgid "dcl_new_entries"
+msgstr "新規エントリー"
+
+msgid "dcl_new_field"
+msgstr "新規フィールド"
+
+msgid "dcl_new_table"
+msgstr "新規テーブル"
+
+msgid "dcl_new_view"
+msgstr "新規ビュー"
+
+msgid "dcl_no_entries"
+msgstr "アクションは許可されていません"
+
+msgid "dcl_no_entry"
+msgstr "エントリーなし"
+
+msgid "dcl_no_export_async_config"
+msgstr "async用のSOAP構成エクスポートは利用できません。"
+
+msgid "dcl_no_export_data_available"
+msgstr "エクスポート用のデータまたはフィールドがありません"
+
+msgid "dcl_no_fields_yet"
+msgstr "このテーブルに定義されるフィールドがないのでまだ何もエントリを作成できません。"
+
+msgid "dcl_no_search_results_found_for"
+msgstr "モジュールが見つかりません"
+
+msgid "dcl_no_such_reference"
+msgstr "レファレンステーブル中に次の値はありません:"
+
+msgid "dcl_no_table_found"
+msgstr "表示可能なテーブルが見つかりません！"
+
+msgid "dcl_no_tableview_found"
+msgstr "表示可能なテーブルビューがありません!"
+
+msgid "dcl_not_checked"
+msgstr "未チェック"
+
+msgid "dcl_not_supported_in_import"
+msgstr "このタイプのフィールドはインポートではサポートされません。"
+
+msgid "dcl_notification_activate"
+msgstr "通知を有効にする"
+
+msgid "dcl_notification_activated"
+msgstr "通知が有効化されました"
+
+msgid "dcl_notification_deactivate"
+msgstr "通知を無効にする"
+
+msgid "dcl_notification_deactivated"
+msgstr "通知が解除されました"
+
+msgid "dcl_notification_info"
+msgstr "ユーザ個々に通知を確定"
+
+#, fuzzy
+msgid "dcl_notification_settings"
+msgstr "Notification Settings"
+
+msgid "dcl_noturl_exception"
+msgstr "リンク(http://で始まる)を入力する必要があります。"
+
+msgid "dcl_number"
+msgstr "整数"
+
+msgid "dcl_number_desc"
+msgstr "整数値(最大9桁)用のフィールドです。小数や分数ではありません。"
+
+msgid "dcl_online_info"
+msgstr "データ収集がオンラインの場合に限りユーザはデータ収集を使用できます。"
+
+msgid "dcl_open_detail_view"
+msgstr "詳細ビューを開く"
+
+msgid "dcl_open_url"
+msgstr "リンクを開く"
+
+msgid "dcl_order"
+msgstr "順"
+
+msgid "dcl_origin_not_found"
+msgstr "オリジンフィールドが見つかりませんでした。"
+
+msgid "dcl_own_entries"
+msgstr "自己エントリーのみ"
+
+msgid "dcl_owner"
+msgstr "オーナ"
+
+msgid "dcl_owner_description"
+msgstr "エントリーのオーナ"
+
+msgid "dcl_owner_name"
+msgstr "オーナー(名前)"
+
+msgid "dcl_page_type_dclf"
+msgstr "詳細ビュー"
+
+msgid "dcl_placeholder_info"
+msgstr "このテーブルのフィールドのデータをこの詳細ビューに表示するためには、これらのフィールドに対応するプレースホルダーを入力してください。それらのプレースホルダーは、ページ要素「テキスト」と「データテーブル」のツールバーに記載されています。"
+
+msgid "dcl_please_select"
+msgstr "--- 選択してください ---"
+
+msgid "dcl_prop_expression"
+msgstr "式"
+
+msgid "dcl_prop_expression_info"
+msgstr "サポートしている演算子: <b>%s</b><br>サポートしている機能: <b>%s</b><br>カッコ<b>‘(’, ‘)’</b>を使用 して グループ計算。<br>ストリングとプレースフォルダーを&で連結: <b>'結果' & [[Int 1]] * [[Int2]]</b><br>使用する機能: <b>SUM([[Int 1]];[[Int 2]])</b><br><br>利用できるフィールド(内部の式をコピーするにはタイトルをクリック:<br>%s"
+
+msgid "dcl_rating"
+msgstr "星評価"
+
+msgid "dcl_rating_desc"
+msgstr "ユーザは5つ星までのエントリを評価できます。"
+
+msgid "dcl_record"
+msgstr "エントリー"
+
+msgid "dcl_record_deleted"
+msgstr "エントリーを削除しました"
+
+msgid "dcl_record_settings"
+msgstr "設定記録"
+
+msgid "dcl_reference"
+msgstr "参考"
+
+msgid "dcl_reference_desc"
+msgstr "表の異なるフィールドへ保存された参照オプションのフィールド"
+
+msgid "dcl_reference_link"
+msgstr "テーブルビュー内へのリンクとして表示"
+
+msgid "dcl_reference_link_info"
+msgstr "詳細ビューは参照テーブル内で有効である必要があります。"
+
+msgid "dcl_reference_title"
+msgstr "詳細表示は参照テーブル内を有効にする必要があります。"
+
+msgid "dcl_reference_title_desc"
+msgstr "選択されたフィールドのデータ項目が、このフィールドで選択可能なオプションになります。"
+
+msgid "dcl_regex"
+msgstr "正規表現"
+
+msgid "dcl_regex_info"
+msgstr "(区切り記号なし)"
+
+msgid "dcl_row_not_found"
+msgstr " - このフィールドをテーブル内に見つけることができませんでした。"
+
+msgid "dcl_save_confirmation"
+msgstr "確認を保存"
+
+msgid "dcl_save_confirmation_desc"
+msgstr "ユーザは新しいデータ収集エントリを確認しなければなりません。"
+
+msgid "dcl_selection_options"
+msgstr "オプション"
+
+msgid "dcl_selection_type"
+msgstr "タイプ"
+
+msgid "dcl_selection_type_combobox"
+msgstr "Combobox (Dropdown)"
+
+msgid "dcl_selection_type_multi"
+msgstr "複数選択"
+
+msgid "dcl_selection_type_single"
+msgstr "シングル選択"
+
+msgid "dcl_simulate_import"
+msgstr "インポートをシミュレートする"
+
+msgid "dcl_simulate_info"
+msgstr "インポートのシュミレーションはインポートファイルへ障害のフィードバックをする可能性はありますがデータ収集へフィールド追加はしませんので破損エントリーの防止に効果があります"
+
+msgid "dcl_skipped_delete_records"
+msgstr "アクセス権設定により%sレコードは削除されませんでした。"
+
+msgid "dcl_status"
+msgstr "ステータス"
+
+msgid "dcl_std_field_not_importable"
+msgstr " - 標準フィールドはインポートできません。"
+
+msgid "dcl_std_filter"
+msgstr "標準フィルター"
+
+msgid "dcl_supported_filetypes"
+msgstr "許可された拡張子"
+
+msgid "dcl_supported_filetypes_desc"
+msgstr "許可されたコンマ区切りの拡張子を設定できます。例: pdf, docx"
+
+msgid "dcl_table"
+msgstr "テーブル"
+
+msgid "dcl_table_id"
+msgstr "テーブルID"
+
+msgid "dcl_table_settings"
+msgstr "テーブル設定"
+
+msgid "dcl_table_settings_saved"
+msgstr "テーブル設定は保存されました。"
+
+msgid "dcl_table_title_not_matching"
+msgstr "Excelシートのタイトルとデータ収集テーブルが一致しません。正しくインポートするにはシートを別名にします。"
+
+msgid "dcl_table_title_unique"
+msgstr "このタイトルですでにテーブルが存在します。タイトルはユニークである必要があります。"
+
+msgid "dcl_tables"
+msgstr "テーブル"
+
+msgid "dcl_tableview"
+msgstr "ビュー"
+
+msgid "dcl_tableview_add"
+msgstr "新しいビューを追加"
+
+msgid "dcl_tableview_confirm_delete"
+msgstr "以下のビューを本当に削除しますか?"
+
+msgid "dcl_tableview_copy"
+msgstr "正しくコピーされたものを表示"
+
+msgid "dcl_tableview_default_value"
+msgstr "既定値"
+
+msgid "dcl_tableview_default_value_fail"
+msgstr "文字が含まれているためにいくつかの既定の数字は保存されませんでした。やり直してください。"
+
+msgid "dcl_tableview_field_access"
+msgstr "フィールドアクセス"
+
+msgid "dcl_tableview_fieldsettings"
+msgstr "フィールド特定の設定"
+
+msgid "dcl_tableview_fieldtitle"
+msgstr "フィールドタイトル"
+
+msgid "dcl_tableview_locked_visible"
+msgstr "Locked & 表示"
+
+msgid "dcl_tableview_not_visible"
+msgstr "非表示"
+
+msgid "dcl_tableview_required"
+msgstr "必須"
+
+msgid "dcl_tableview_required_visible"
+msgstr "必須 & 表示"
+
+msgid "dcl_tableview_visible"
+msgstr "表示"
+
+msgid "dcl_tableviews"
+msgstr "ビュー"
+
+msgid "dcl_tableviews_of_X"
+msgstr "テーブルのビュー"
+
+msgid "dcl_text"
+msgstr "テキスト"
+
+msgid "dcl_text_desc"
+msgstr "テキスト、リンク、e-mailアドレス用のテキストフィールド"
+
+msgid "dcl_text_email_detail_desc"
+msgstr "有効なURLまたはE-Mailアドレスを入力してください。"
+
+msgid "dcl_text_email_title"
+msgstr "タイトル"
+
+msgid "dcl_text_email_title_info"
+msgstr "上記のURLまたはE-Mailアドレス用のタイトル。(オプション)"
+
+msgid "dcl_text_selection"
+msgstr "テキスト選択"
+
+msgid "dcl_text_selection_desc"
+msgstr "テキストオプションを提示"
+
+msgid "dcl_title_standard"
+msgstr "標準"
+
+msgid "dcl_unique"
+msgstr "ユニーク"
+
+msgid "dcl_unique_desc"
+msgstr "このフィールドの値は全てのエントリー内で同じにする必要があります。"
+
+msgid "dcl_unique_exception"
+msgstr "入力した値はすでに別のレコードで使用されています。"
+
+msgid "dcl_unknown"
+msgstr "不明"
+
+msgid "dcl_unknown_exception"
+msgstr "入力した値は無効です。"
+
+msgid "dcl_unknown_plugin"
+msgstr "不明なプラグインタイプ"
+
+msgid "dcl_update_field"
+msgstr "フィールドを更新"
+
+msgid "dcl_update_record"
+msgstr "レコードを更新"
+
+msgid "dcl_updated_entries"
+msgstr "エントリーを更新しました"
+
+msgid "dcl_url"
+msgstr "URL"
+
+msgid "dcl_view_own_records_perm"
+msgstr "自己エントリーのみ表示"
+
+msgid "dcl_view_own_records_perm_desc"
+msgstr "他のユーザのエントリーは表示されません。"
+
+msgid "dcl_view_viewdefinition"
+msgstr "ビュー定義"
+
+msgid "dcl_visible"
+msgstr "全ユーザへ表示"
+
+msgid "dcl_visible_desc"
+msgstr "ユーザはこの表へアクセスできます。"
+
+msgid "dcl_width"
+msgstr "ピクセル幅"
+
+msgid "dcl_width_desc"
+msgstr "ファイルの幅はアップロード中はこの値へ縮小されます。"
+
+msgid "dcl_wrong_input_type"
+msgstr "入力したテキストはこのフィールドの定義(タイプ間違い)と一致しません。"
+
+msgid "dcl_wrong_length"
+msgstr "入力したテキストは長すぎます"
+
+msgid "dcl_wrong_regex"
+msgstr "入力したテキストはこのフィールドの定義(正規表現)と一致しません。"
+
+msgid "dcl_xls_async_export"
+msgstr "XLSX (asynchronous)用"
+
+msgid "disable_comments"
+msgstr "コメント無効"
+
+msgid "disable_visible"
+msgstr "表示無効"
+
+msgid "duplicate_entries_exist"
+msgstr "このフィールドの既存の値のいくつかは同一です。この設定を変更するには、既存のすべてのエントリがこのフィールドに対して一意の値を持つことを確認してください。"
+
+msgid "enable_comments"
+msgstr "コメント有効"
+
+msgid "enable_visible"
+msgstr "表示有効"
+
+msgid "entry_of"
+msgstr "エントリー %1$d of %2$d"
+
+msgid "fieldtitle_allow_chars"
+msgstr "使用できない文字: %s"
+
+msgid "fileupload_not_migrated"
+msgstr "ファイルの統合がまだ完了していないので表示できません。システム管理者へコンタクトしてください。"
+
+msgid "role_limitation"
+msgstr "役割ベースのアクセス"
+
+msgid "roles"
+msgstr "アクセス有の役割"
+
+msgid "roles_desc"
+msgstr "上で選択された役割のみがこのビューにアクセスできます。"
+
+msgid "set_as_default"
+msgstr "デフォルトに設定"
+
+msgid "table_not_found"
+msgstr "テーブルが見つかりませんでした"
+
+msgid "tableview_not_found"
+msgstr "テーブルビューが見つかりませんでした"

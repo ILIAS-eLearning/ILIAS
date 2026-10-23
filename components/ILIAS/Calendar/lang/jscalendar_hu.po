@@ -1,0 +1,180 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: jscalendar\n"
+
+msgid "about_calendar"
+msgstr "Súgó"
+
+msgid "about_calendar_long"
+msgstr "Dátumválasztók: - Év léptetése: « » - Hónap léptetése: < > - Tartsa nyomva a gombot a gyorsabb kiválasztáshoz. DHTML dátum/időpont választó (c) dynarch.com 2002-2003 Legfrissebb verzió: http://dynarch.com/mishoo/calendar.epl Terjeszti a GNU LGPL. Lásd http://gnu.org/licenses/lgpl.html a részletekért."
+
+msgid "about_time"
+msgstr "Időválasztó: - Kattintson a megfelelő időrészen megnöveléséhez - vagy Shift-kattintással csökkentéséhez - vagy kattintás-húzás a gyorsabb kiválasztáshoz."
+
+msgid "day_first"
+msgstr "%s megjelenítése először"
+
+msgid "def_date_format"
+msgstr "%Y-%m-%d"
+
+msgid "drag_to_move"
+msgstr "Fogd-és-vidd az áthelyezéshez"
+
+msgid "go_today"
+msgstr "Ugrás a mai naphoz"
+
+msgid "l_01"
+msgstr "január"
+
+msgid "l_02"
+msgstr "február"
+
+msgid "l_03"
+msgstr "március"
+
+msgid "l_04"
+msgstr "április"
+
+msgid "l_05"
+msgstr "május"
+
+msgid "l_06"
+msgstr "június"
+
+msgid "l_07"
+msgstr "július"
+
+msgid "l_08"
+msgstr "augusztus"
+
+msgid "l_09"
+msgstr "szeptember"
+
+msgid "l_10"
+msgstr "október"
+
+msgid "l_11"
+msgstr "november"
+
+msgid "l_12"
+msgstr "december"
+
+msgid "l_fr"
+msgstr "péntek"
+
+msgid "l_mo"
+msgstr "hétfő"
+
+msgid "l_sa"
+msgstr "szombat"
+
+msgid "l_su"
+msgstr "vasárnap"
+
+msgid "l_th"
+msgstr "csütörtök"
+
+msgid "l_tu"
+msgstr "kedd"
+
+msgid "l_we"
+msgstr "szerda"
+
+msgid "next_month"
+msgstr "Következő hónap (tipp: tartsa nyomva)"
+
+msgid "next_year"
+msgstr "Következő év (tipp: tartsa nyomva)"
+
+msgid "open_calendar"
+msgstr "Dátum kiválasztása naptárból"
+
+msgid "part_today"
+msgstr " (ma)"
+
+msgid "prev_month"
+msgstr "Előző hónap (tipp: tartsa nyomva)"
+
+msgid "prev_year"
+msgstr "Előző év (tipp: tartsa nyomva)"
+
+msgid "s_01"
+msgstr "jan"
+
+msgid "s_02"
+msgstr "febr"
+
+msgid "s_03"
+msgstr "márc"
+
+msgid "s_04"
+msgstr "ápr"
+
+msgid "s_05"
+msgstr "máj"
+
+msgid "s_06"
+msgstr "jún"
+
+msgid "s_07"
+msgstr "júl"
+
+msgid "s_08"
+msgstr "aug"
+
+msgid "s_09"
+msgstr "szept"
+
+msgid "s_10"
+msgstr "okt"
+
+msgid "s_11"
+msgstr "nov"
+
+msgid "s_12"
+msgstr "dec"
+
+msgid "s_fr"
+msgstr "P"
+
+msgid "s_mo"
+msgstr "H"
+
+msgid "s_sa"
+msgstr "Szo"
+
+msgid "s_su"
+msgstr "V"
+
+msgid "s_th"
+msgstr "Cs"
+
+msgid "s_tu"
+msgstr "K"
+
+msgid "s_we"
+msgstr "Sze"
+
+msgid "select_date"
+msgstr "Dátum kiválasztása"
+
+msgid "time"
+msgstr "Idő"
+
+msgid "time_part"
+msgstr "(Shift-) Kattintson vagy fogja az értékváltoztatáshoz"
+
+msgid "today"
+msgstr "Ma"
+
+msgid "tt_date_format"
+msgstr "%a, %b %e"
+
+msgid "wk"
+msgstr "hét"

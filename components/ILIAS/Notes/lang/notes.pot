@@ -1,0 +1,129 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: notes\n"
+
+msgid "comments_feature_currently_not_activated_for_object"
+msgstr ""
+
+msgid "note_add_comment"
+msgstr ""
+
+msgid "note_add_message"
+msgstr ""
+
+msgid "note_add_note"
+msgstr ""
+
+msgid "note_content_removed"
+msgstr ""
+
+msgid "note_text"
+msgstr ""
+
+msgid "note_update_comment"
+msgstr ""
+
+msgid "note_update_message"
+msgstr ""
+
+msgid "note_update_note"
+msgstr ""
+
+msgid "note_without_object"
+msgstr ""
+
+msgid "notes_activate_comments"
+msgstr ""
+
+msgid "notes_add_comment"
+msgstr ""
+
+msgid "notes_add_edit_comment"
+msgstr ""
+
+msgid "notes_add_edit_message"
+msgstr ""
+
+msgid "notes_add_edit_note"
+msgstr ""
+
+msgid "notes_comment_deleted"
+msgstr ""
+
+msgid "notes_comments"
+msgstr ""
+
+msgid "notes_comments_deleted"
+msgstr ""
+
+msgid "notes_deactivate_comments"
+msgstr ""
+
+msgid "notes_delete_comment"
+msgstr ""
+
+msgid "notes_delete_message"
+msgstr ""
+
+msgid "notes_delete_note"
+msgstr ""
+
+msgid "notes_html_export"
+msgstr ""
+
+msgid "notes_latest_comment"
+msgstr ""
+
+msgid "notes_latest_message"
+msgstr ""
+
+msgid "notes_message_author_you"
+msgstr ""
+
+msgid "notes_message_deleted"
+msgstr ""
+
+msgid "notes_messages"
+msgstr ""
+
+msgid "notes_no_comments"
+msgstr ""
+
+msgid "notes_no_comments_found"
+msgstr ""
+
+msgid "notes_no_messages"
+msgstr ""
+
+msgid "notes_no_messages_found"
+msgstr ""
+
+msgid "notes_no_notes"
+msgstr ""
+
+msgid "notes_no_notes_found"
+msgstr ""
+
+msgid "notes_note_deleted"
+msgstr ""
+
+msgid "notes_notes_deleted"
+msgstr ""
+
+msgid "notes_origin"
+msgstr ""
+
+msgid "notes_public_comments"
+msgstr ""
+
+msgid "notes_sort_asc"
+msgstr ""
+
+msgid "notes_sort_desc"
+msgstr ""
+
+msgid "notes_text"
+msgstr ""

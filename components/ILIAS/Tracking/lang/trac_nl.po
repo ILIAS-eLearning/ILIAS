@@ -1,0 +1,864 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: nl\n"
+"Language-Team: Dutch\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: trac\n"
+
+#, fuzzy
+msgid "cmix_lp_mode_deactivated"
+msgstr "Learning Progress is Deactivated"
+
+#, fuzzy
+msgid "cmix_lp_mode_deactivated_info"
+msgstr "The learning progress status is not displayed and does not influence parent objects."
+
+#, fuzzy
+msgid "cmix_lp_mode_when_completed"
+msgstr "Completed when 'completed'"
+
+#, fuzzy
+msgid "cmix_lp_mode_when_completed_info"
+msgstr "ILIAS status 'completed' is set when verb of last relevant xAPI-Statement is 'completed'."
+
+#, fuzzy
+msgid "cmix_lp_mode_when_passed"
+msgstr "Completed when 'passed'"
+
+#, fuzzy
+msgid "cmix_lp_mode_when_passed_info"
+msgstr "ILIAS status 'completed' is set when verb of last relevant xAPI-Statement is 'passed' or 'satisfied'."
+
+#, fuzzy
+msgid "cmix_lp_mode_when_passed_or_completed"
+msgstr "Completed when passed or completed"
+
+#, fuzzy
+msgid "cmix_lp_mode_when_passed_or_completed_info"
+msgstr "ILIAS status 'completed' is set when verb of last relevant xAPI-Statement is 'completed' or 'passed' or 'satisfied'."
+
+#, fuzzy
+msgid "cmix_lp_mode_with_failed"
+msgstr "Also consider failed"
+
+#, fuzzy
+msgid "cmix_lp_mode_with_failed_info"
+msgstr "The status could be 'failed' instead of 'in progress'."
+
+msgid "create_date_max"
+msgstr "Laatste aamelding"
+
+msgid "create_date_min"
+msgstr "Vroegste aanmelding"
+
+msgid "info_valid_request"
+msgstr "De maximum geldige tijd tussen twee verzoeken van een gebruiker."
+
+msgid "meta_typical_learning_time"
+msgstr "Typische leerduur"
+
+msgid "obj_types"
+msgstr "Object types:"
+
+#, fuzzy
+msgid "personal_learning_progress_view_description"
+msgstr "Ongoing courses with membership"
+
+#, fuzzy
+msgid "personal_learning_progress_view_title"
+msgstr "Your Learning Progress"
+
+msgid "read_count_avg"
+msgstr "Gemiddeld aantal pagina's bekeken"
+
+msgid "registration_filter"
+msgstr "Registratiedatum"
+
+msgid "search_area_info"
+msgstr "Gelieve een doel te kiezen"
+
+msgid "search_terms"
+msgstr "Zoekterm(en)"
+
+msgid "session_statistics"
+msgstr "Sessie statistieken"
+
+msgid "trac_aggregation"
+msgstr "Aggregatie"
+
+msgid "trac_all"
+msgstr "Alle"
+
+msgid "trac_anonymized"
+msgstr "Anoniem gemaakt"
+
+msgid "trac_anonymized_info"
+msgstr "Indien ingeschakeld worden alle statistieken geanonimiseerd."
+
+msgid "trac_anonymized_info_short"
+msgstr "(anoniem)"
+
+msgid "trac_assigned"
+msgstr "Toegewezen"
+
+msgid "trac_average"
+msgstr "Gemiddelde"
+
+msgid "trac_begin_at"
+msgstr "Start date"
+
+msgid "trac_closed_expire"
+msgstr "Timeout"
+
+msgid "trac_closed_login"
+msgstr "Anonieme Logins"
+
+msgid "trac_closed_manual"
+msgstr "Logout"
+
+msgid "trac_closed_misc"
+msgstr "Diverse"
+
+msgid "trac_collection_assign"
+msgstr "Toewijzen"
+
+msgid "trac_collection_deassign"
+msgstr "Toewijzing verwijderen"
+
+msgid "trac_collection_manual_learner_changed_ts"
+msgstr "Gewijzigd op"
+
+msgid "trac_collection_manual_learner_info"
+msgstr "De leervoortgang voor dit object moet handmatig worden gezet."
+
+msgid "trac_collection_manual_learner_lm_info"
+msgstr "Inschakelen van alle hoofdstukken die je gedaan hebt."
+
+msgid "trac_collection_tlt_learner_info"
+msgstr "De leervoortgang voor dit object is gebaseerd op de typische doorlooptijd."
+
+msgid "trac_collection_tlt_learner_subitem"
+msgstr "Je bent %s bezig geweest. Benodigd voor compleet status is %s(%s%%)."
+
+msgid "trac_comment"
+msgstr "Commentaar"
+
+msgid "trac_completed"
+msgstr "Voltooid"
+
+#, fuzzy
+msgid "trac_cron_info"
+msgstr "Please activate the \"Object Statistics\" cron job to gather data."
+
+msgid "trac_crs_objects"
+msgstr "Voortgang van de cursusdeelnemers"
+
+msgid "trac_current"
+msgstr "Huidig"
+
+msgid "trac_current_system_load"
+msgstr "Huidige systeembelasting"
+
+msgid "trac_data_deleted"
+msgstr "Data has been deleted."
+
+#, fuzzy
+msgid "trac_defaults"
+msgstr "Completion Status"
+
+#, fuzzy
+msgid "trac_defaults_inactive"
+msgstr "Inactive"
+
+#, fuzzy
+msgid "trac_defaults_info"
+msgstr "Set the completion status determination mode for supported object types. Used by certain badge types."
+
+msgid "trac_delete_data"
+msgstr "Verwijderen gegevens"
+
+msgid "trac_determines_learning_progress"
+msgstr "Meebepalend voor voortgang"
+
+msgid "trac_edit_collection"
+msgstr "Gelieve cursusitems toe te wijzen. Als het statuut van alle toegewezen items „Voltooid“ wordt de gehele cursus beëindigd door de gebruiker."
+
+msgid "trac_end_at"
+msgstr "Einddatum"
+
+msgid "trac_failed"
+msgstr "Niet geslaagd"
+
+msgid "trac_figure"
+msgstr "Sleutelcijfer"
+
+msgid "trac_filter_area"
+msgstr "Gebied:"
+
+msgid "trac_filter_has_status"
+msgstr "Tonen objecten zonder pogingen"
+
+msgid "trac_filter_hidden"
+msgstr "Verborgen:"
+
+msgid "trac_first_access"
+msgstr "Eerste toegang"
+
+msgid "trac_first_and_last_access"
+msgstr "Eerste en laatste toegang"
+
+#, fuzzy
+msgid "trac_frm_contribution_num_postings"
+msgstr "Minimum number of Postings"
+
+#, fuzzy
+msgid "trac_frm_contribution_num_postings_info_p"
+msgstr "%s: %s Posts"
+
+#, fuzzy
+msgid "trac_frm_contribution_num_postings_info_s"
+msgstr "%s: %s Post"
+
+msgid "trac_group_materials"
+msgstr "Groeperen met optionele onderdelen"
+
+msgid "trac_group_materials_save"
+msgstr "Aantal verplichte onderdelen"
+
+msgid "trac_grouped_material_obligatory_err"
+msgstr "Het aantal onderdelen dat je dient te voltooien moet meer zijn dan 0 maar minder of gelijk aan het aantal onderdelen in de groepering."
+
+msgid "trac_hide"
+msgstr "Verberg"
+
+msgid "trac_hide_selected"
+msgstr "Verbergen geselecteerd items"
+
+msgid "trac_in_progress"
+msgstr "Lopend"
+
+msgid "trac_info_edited"
+msgstr "Pas de status aan naar „Voltooid“ als je denkt dat je de hele inhoud hebt verwerkt."
+
+msgid "trac_last_access"
+msgstr "Laatste toegang"
+
+msgid "trac_last_aggregation"
+msgstr "Laatste aggregatie"
+
+msgid "trac_learning_progress"
+msgstr "Voortgang"
+
+msgid "trac_learning_progress_of"
+msgstr "Voortgang van %s"
+
+msgid "trac_learning_progress_settings_info"
+msgstr "Inschakelen van het tonen van de volgende waarden in de voortgang tabel"
+
+#, fuzzy
+msgid "trac_lhist_obj_completed"
+msgstr "$1$ was completed."
+
+#, fuzzy
+msgid "trac_lhist_obj_completed_in"
+msgstr "$1$ was completed in $2$."
+
+msgid "trac_log_info"
+msgstr "Laatste aggregatie: %s (onbewerkte items %s)"
+
+msgid "trac_log_info_link"
+msgstr "Wijzigen"
+
+msgid "trac_long_system_load"
+msgstr "Lange termijn"
+
+msgid "trac_lp_determination"
+msgstr "Bepalen van de voortgangstatus"
+
+msgid "trac_lp_determination_info_crs"
+msgstr "Selecteer de onderdelen die de voortgangsstatus van de cursus bepalen."
+
+msgid "trac_lp_determination_info_crs_tutor"
+msgstr "Deze selectie is niet gekoppeld aan de voortgangstatus"
+
+#, fuzzy
+msgid "trac_lp_determination_info_mob"
+msgstr "Select the items that determine the overall learning progress status of the Mediacast"
+
+msgid "trac_lp_determination_info_sco"
+msgstr "Selecteer de items die de voortgangsstatus van de SCORM module bepalen"
+
+msgid "trac_lp_determination_tutor"
+msgstr "Objecten in studievoortgang tonen"
+
+#, fuzzy
+msgid "trac_lp_learner_access"
+msgstr "View Own Learning Progress"
+
+msgid "trac_lp_learner_access_info"
+msgstr "Als actief kunnen gebruikers hun eigen leerweg voortgang inzien."
+
+msgid "trac_lp_list_gui"
+msgstr "Persoonlijk Scherm, Studiecentrum, Zoeken"
+
+msgid "trac_lp_list_gui_info"
+msgstr "Als ingeschakeld is de voortgang deel van de objectenlijst."
+
+#, fuzzy
+msgid "trac_lp_settings_info_parent_container"
+msgstr "Learning Progress of Parent Objects"
+
+#, fuzzy
+msgid "trac_lp_settings_info_parent_legend"
+msgstr "The learning progress status of this object is influenced by \"%s\"."
+
+msgid "trac_manual_display"
+msgstr "Display in Learning Progress"
+
+msgid "trac_manual_is_displayed"
+msgstr "Is Displayed"
+
+msgid "trac_manual_no_display"
+msgstr "Do not display in Learning Progress"
+
+msgid "trac_mark"
+msgstr "Markeren"
+
+msgid "trac_matrix"
+msgstr "Matrix zicht"
+
+msgid "trac_measure"
+msgstr "Kengetal"
+
+msgid "trac_members_short"
+msgstr "Deelnemers"
+
+msgid "trac_min_passed"
+msgstr "Minimaal aantal benodigde onderdelen"
+
+msgid "trac_mode"
+msgstr "Modus"
+
+#, fuzzy
+msgid "trac_mode_cmix_compl_or_passed_with_failed"
+msgstr "Completed when verb 'completed' or 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'Failed'."
+
+#, fuzzy
+msgid "trac_mode_cmix_compl_or_passed_with_failed_info"
+msgstr "&nbsp;"
+
+#, fuzzy
+msgid "trac_mode_cmix_compl_with_failed"
+msgstr "Completed when verb 'completed' was sent. Verb 'failed' sets status of ILIAS to 'Failed'."
+
+#, fuzzy
+msgid "trac_mode_cmix_compl_with_failed_info"
+msgstr "&nbsp;"
+
+#, fuzzy
+msgid "trac_mode_cmix_completed"
+msgstr "Completed when verb 'completed' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'."
+
+#, fuzzy
+msgid "trac_mode_cmix_completed_info"
+msgstr "&nbsp;"
+
+#, fuzzy
+msgid "trac_mode_cmix_completed_or_passed"
+msgstr "Completed when verb 'completed' or 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'."
+
+#, fuzzy
+msgid "trac_mode_cmix_completed_or_passed_info"
+msgstr "&nbsp;"
+
+#, fuzzy
+msgid "trac_mode_cmix_passed"
+msgstr "Completed when verb 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'."
+
+#, fuzzy
+msgid "trac_mode_cmix_passed_info"
+msgstr "&nbsp;"
+
+#, fuzzy
+msgid "trac_mode_cmix_passed_with_failed"
+msgstr "Completed when verb 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'Failed'."
+
+#, fuzzy
+msgid "trac_mode_cmix_passed_with_failed_info"
+msgstr "&nbsp;"
+
+msgid "trac_mode_collection"
+msgstr "Verzameling van onderdelen"
+
+msgid "trac_mode_collection_info"
+msgstr "Definieer de onderdelen die de voortgangsstatus bepalen"
+
+msgid "trac_mode_collection_manual"
+msgstr "Handmatig per deelnemers (per hoofdstuk)"
+
+msgid "trac_mode_collection_manual_info"
+msgstr "Gebruikers moeten per hoofdstuk zelf beslissen of hun status compleet is of niet."
+
+#, fuzzy
+msgid "trac_mode_collection_mobs"
+msgstr "Collection of Media Objects"
+
+#, fuzzy
+msgid "trac_mode_collection_mobs_info"
+msgstr "The learning progress status will be determined by the viewing status of selected media objects."
+
+msgid "trac_mode_collection_tlt"
+msgstr "Typische doorlooptijd (per hoofdstuk)"
+
+msgid "trac_mode_collection_tlt_info"
+msgstr "Gebruikers die de typische doorlooptijd voor all relevante hoofdstukken hebben hebben bereikt, krijgen de status \"Compleet\"."
+
+#, fuzzy
+msgid "trac_mode_content_visited"
+msgstr "Visited"
+
+#, fuzzy
+msgid "trac_mode_content_visited_info"
+msgstr "Learning progress status is set to 'completed' when object has been presented to user."
+
+#, fuzzy
+msgid "trac_mode_contribution_to_discussion"
+msgstr "Contributions to Discussion"
+
+#, fuzzy
+msgid "trac_mode_contribution_to_discussion_info"
+msgstr "The learning progress status will be determined by the number of written postings."
+
+#, fuzzy
+msgid "trac_mode_course_reference"
+msgstr "Adopted from Course"
+
+#, fuzzy
+msgid "trac_mode_course_reference_info"
+msgstr "The mode is automatically adopted from the course this course link points to."
+
+msgid "trac_mode_deactivated"
+msgstr "Uitgeschakeld"
+
+msgid "trac_mode_deactivated_info_new"
+msgstr "De voortgang zal niet worden getoond"
+
+msgid "trac_mode_event"
+msgstr "Deelname  in Sessies"
+
+#, fuzzy
+msgid "trac_mode_event_info"
+msgstr "The learning progress status will be determined by the participation status."
+
+msgid "trac_mode_exercise_returned"
+msgstr "Oefening opgelost"
+
+msgid "trac_mode_exercise_returned_info"
+msgstr "De status 'Voltooid' kan enkel ingesteld worden door de instructeurs."
+
+#, fuzzy
+msgid "trac_mode_individual_assessment"
+msgstr "Graded manually by tutor or trainer"
+
+#, fuzzy
+msgid "trac_mode_individual_assessment_info"
+msgstr "The record of a user has to be finalized by the tutor in order to complete individual assessment."
+
+#, fuzzy
+msgid "trac_mode_lti_outcome"
+msgstr "Mastery Score Must be reached"
+
+#, fuzzy
+msgid "trac_mode_lti_outcome_info"
+msgstr "The Learning Progress will be evaluated from the LTI outcome and the mastery score threshold."
+
+msgid "trac_mode_manual"
+msgstr "Manueel"
+
+msgid "trac_mode_manual_by_tutor"
+msgstr "Handmatig door de instructeur"
+
+msgid "trac_mode_manual_by_tutor_info"
+msgstr "De voortgangsstatus kan enkel ingesteld worden door de instructeurs."
+
+msgid "trac_mode_manual_info"
+msgstr "Gebruikers moeten beslissen wanneer hun status geeïndigd is of niet."
+
+msgid "trac_mode_objectives"
+msgstr "Leerdoelen"
+
+msgid "trac_mode_objectives_info"
+msgstr "Het leerproces zal automatisch berekend worden afhankelijk van het aantal geslaagde leerobjecten"
+
+msgid "trac_mode_plugin"
+msgstr "Plugin"
+
+msgid "trac_mode_questions"
+msgstr "Vragen"
+
+msgid "trac_mode_questions_info"
+msgstr "Gebruikers die alle vragen correct hebben beantwoord zullen de status \"Voltooid\" krijgen."
+
+msgid "trac_mode_scorm"
+msgstr "SCORM/AICC"
+
+msgid "trac_mode_scorm_info"
+msgstr "De leerproces status zal bepaald worden door de status van de SCO's."
+
+msgid "trac_mode_scorm_package"
+msgstr "Automatisch door SCORM Cursus Status"
+
+msgid "trac_mode_scorm_package_info"
+msgstr "De voortgang in de leerweg wordt bepaald door de status van het SCORM pakket."
+
+#, fuzzy
+msgid "trac_mode_study_programme"
+msgstr "Study Programme Completed"
+
+#, fuzzy
+msgid "trac_mode_survey_finished"
+msgstr "Survey Finished"
+
+#, fuzzy
+msgid "trac_mode_survey_finished_info"
+msgstr "The survey has to be finished by an user to receive the status 'Completed'."
+
+msgid "trac_mode_test_finished"
+msgstr "Toets afgelopen"
+
+msgid "trac_mode_test_finished_info"
+msgstr "Gebruikers moeten de toets geheel afmaken."
+
+msgid "trac_mode_test_passed"
+msgstr "Toets afgerond"
+
+msgid "trac_mode_test_passed_info"
+msgstr "De toets moet geeïndigd zijn door een gebruiker om de status 'Voltooid' te ontvangen."
+
+msgid "trac_mode_tlt"
+msgstr "Normale leertijd"
+
+msgid "trac_mode_tlt_info"
+msgstr "Gebruikers die de Typical Learning Time bereiken krijgen de status 'Voltooid'."
+
+#, fuzzy
+msgid "trac_mode_visited_pages"
+msgstr "Visited Pages"
+
+#, fuzzy
+msgid "trac_mode_visited_pages_info"
+msgstr "Users who visited all pages will gain the status ‘Completed’."
+
+msgid "trac_mode_visits"
+msgstr "Aantal bezoeken"
+
+msgid "trac_mode_visits_info"
+msgstr "Definieer het aantal bezoeken dat nodig is om dit onderwerp te voltooien."
+
+msgid "trac_name_of_installation"
+msgstr "Naam van de Installatie"
+
+msgid "trac_no_attempted"
+msgstr "Niet geprobeerd"
+
+msgid "trac_not_accessed"
+msgstr "Niet betreden"
+
+msgid "trac_not_assigned"
+msgstr "Niet toegewezen"
+
+msgid "trac_not_attempted"
+msgstr "Niet geprobeerd"
+
+msgid "trac_not_completed"
+msgstr "Niet voltooid"
+
+msgid "trac_not_participated"
+msgstr "Niet deelgenomen"
+
+msgid "trac_not_registered"
+msgstr "Niet geregistreerd"
+
+msgid "trac_object_link"
+msgstr "Link naar Object"
+
+msgid "trac_object_name"
+msgstr "Naam van het Object"
+
+msgid "trac_object_owner"
+msgstr "Eigenaar van het object"
+
+msgid "trac_object_stat_access"
+msgstr "Intensiteit van gebruik"
+
+msgid "trac_object_stat_admin"
+msgstr "Beheren Data"
+
+msgid "trac_object_stat_daily"
+msgstr "Dagelijks gebruik"
+
+msgid "trac_object_stat_lp"
+msgstr "Statistieken leerweg voortgang van cursus"
+
+msgid "trac_object_stat_lp_max"
+msgstr "Max."
+
+msgid "trac_object_stat_lp_min"
+msgstr "Min."
+
+msgid "trac_object_stat_types"
+msgstr "Aantal objecten"
+
+msgid "trac_object_statistics"
+msgstr "Object Statistieken"
+
+msgid "trac_object_statistics_info"
+msgstr "Als ingeschakeld zullen de basisgegevens van de gebruiksstatistieken worden verzameld en verwerkt."
+
+msgid "trac_objects"
+msgstr "Objectenlijst"
+
+msgid "trac_others"
+msgstr "Andere"
+
+msgid "trac_participants"
+msgstr "Deelnemers tonen"
+
+msgid "trac_participated"
+msgstr "Deelgenomen"
+
+#, fuzzy
+msgid "trac_paths"
+msgstr "Paths"
+
+msgid "trac_percentage"
+msgstr "Percentage"
+
+msgid "trac_periodic_system_load"
+msgstr "Periodiek"
+
+msgid "trac_progress"
+msgstr "Persoonlijke voortgang"
+
+#, fuzzy
+msgid "trac_progress_block_details"
+msgstr "View Details"
+
+#, fuzzy
+msgid "trac_progress_block_title"
+msgstr "Your Learning Progress"
+
+msgid "trac_read_count"
+msgstr "Aantal toegangen"
+
+msgid "trac_read_count_spent_seconds"
+msgstr "Tijd / Toegangen"
+
+msgid "trac_reference"
+msgstr "Referenties"
+
+#, fuzzy
+msgid "trac_reference_ids_column"
+msgstr "Reference-Ids"
+
+msgid "trac_registered"
+msgstr "Geregistreerd"
+
+msgid "trac_release_materials"
+msgstr "Ongedaan maken van groepering"
+
+msgid "trac_report_date"
+msgstr "Rapportage datum"
+
+msgid "trac_report_owner"
+msgstr "Eigenaar van het rapport"
+
+msgid "trac_required_visits"
+msgstr "Aantal verplichte bezoeken"
+
+msgid "trac_sahs_relevant_items"
+msgstr "SCO's"
+
+msgid "trac_scale"
+msgstr "Schaal"
+
+msgid "trac_select_area"
+msgstr "Gebied selecteren"
+
+msgid "trac_session_active_avg"
+msgstr "Inschakelen Sessies (Gemiddeld)"
+
+msgid "trac_session_active_max"
+msgstr "Inschakelen Sessies (Maximum)"
+
+msgid "trac_session_active_min"
+msgstr "Inschakelen Sessies (Minimum)"
+
+msgid "trac_session_statistics_mode_day"
+msgstr "Dag"
+
+msgid "trac_session_statistics_mode_last_day"
+msgstr "Afgelopen 24 uur"
+
+msgid "trac_session_statistics_mode_last_month"
+msgstr "Afgelopen 30 dagen"
+
+msgid "trac_session_statistics_mode_last_week"
+msgstr "Afgelopen 7 dagen"
+
+msgid "trac_session_statistics_mode_month"
+msgstr "Month"
+
+msgid "trac_session_statistics_mode_today"
+msgstr "Vandaag"
+
+msgid "trac_session_statistics_mode_week"
+msgstr "Week"
+
+msgid "trac_session_statistics_mode_year"
+msgstr "Jaar"
+
+msgid "trac_session_statistics_no_data"
+msgstr "Geen statistische gegevens gevonden."
+
+msgid "trac_sessions_closed"
+msgstr "Verlaters"
+
+msgid "trac_sessions_opened"
+msgstr "Toegangen"
+
+msgid "trac_settings"
+msgstr "Instellingen"
+
+msgid "trac_settings_saved"
+msgstr "Instellingen opgeslaan"
+
+msgid "trac_short_system_load"
+msgstr "Korte termijn"
+
+msgid "trac_show_graph"
+msgstr "Tonen grafiek"
+
+#, fuzzy
+msgid "trac_show_progress_block"
+msgstr "Show Personal Progress Chart in ‘Content’-Tab"
+
+msgid "trac_show_repository_views"
+msgstr "Wijzigingen in het Studiecentrum"
+
+#, fuzzy
+msgid "trac_show_repository_views_info"
+msgstr "Show tracking information for repository objects on info page."
+
+msgid "trac_spent_seconds"
+msgstr "Bestede tijd"
+
+msgid "trac_spent_time"
+msgstr "Gespendeerde tijd"
+
+msgid "trac_status"
+msgstr "Status"
+
+msgid "trac_status_changed"
+msgstr "Datum/tijd laatste wijziging"
+
+msgid "trac_subitems"
+msgstr "Subitems tonen"
+
+msgid "trac_sum"
+msgstr "Som"
+
+msgid "trac_summary"
+msgstr "Samenvatting"
+
+msgid "trac_sure_delete_data"
+msgstr "Weet je zeker dat je de volledige gegevens voor de volgende maand wilt verwijderen?"
+
+msgid "trac_sync_obj_stats"
+msgstr "Gegevens Wijzigen"
+
+msgid "trac_sync_obj_stats_success"
+msgstr "Data has been updated."
+
+msgid "trac_sync_session_stats"
+msgstr "Aggregeren gegevens"
+
+msgid "trac_sync_session_stats_success"
+msgstr "Data aggregation was done successfully."
+
+msgid "trac_time_passed"
+msgstr "Wijzigingstijd overschreden"
+
+msgid "trac_title"
+msgstr "Titel"
+
+msgid "trac_title_description"
+msgstr "Titel / Beschrijving"
+
+msgid "trac_total_online"
+msgstr "Totale tijd online"
+
+msgid "trac_trash"
+msgstr "Moved to Trash"
+
+msgid "trac_update_edit_user"
+msgstr "Instellingen opgeslaan"
+
+msgid "trac_updated_status"
+msgstr "Voortgangsstatus opgeslaan."
+
+msgid "trac_user_data"
+msgstr "Gebruikersgegevens"
+
+msgid "trac_valid_request"
+msgstr "Max. tijd tussen aanvragen"
+
+msgid "trac_view_crs"
+msgstr "Terug naar de cursus"
+
+msgid "trac_view_list"
+msgstr "Terug naar de lijst"
+
+msgid "trac_view_mode"
+msgstr "View Modus"
+
+msgid "trac_view_mode_all"
+msgstr "Alle objecten"
+
+msgid "trac_view_mode_collection"
+msgstr "Alleen objecten die de totale / algehele status bepalen"
+
+msgid "trac_visits"
+msgstr "Aantal bezoeken"
+
+msgid "trac_visits_info"
+msgstr "Elk paginabezoek telt voor 1 bezoek"
+
+#, fuzzy
+msgid "trac_visits_nr"
+msgstr "Number of Visits"
+
+msgid "user_total"
+msgstr "Gebruiker totaal"
+
+msgid "view_mode"
+msgstr "Toon mode"
+
+#, fuzzy
+msgid "view_mode_all"
+msgstr "All"
+
+#, fuzzy
+msgid "view_mode_current"
+msgstr "Current"
+
+#, fuzzy
+msgid "view_mode_future"
+msgstr "Future"
+
+#, fuzzy
+msgid "view_mode_past"
+msgstr "Past"

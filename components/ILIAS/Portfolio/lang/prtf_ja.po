@@ -1,0 +1,322 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: prtf\n"
+
+msgid "pdf_export"
+msgstr "PDＦエクスポート"
+
+msgid "prtf_add_assignment"
+msgstr "割当を追加"
+
+msgid "prtf_add_page"
+msgstr "ページを追加"
+
+msgid "prtf_add_portfolio"
+msgstr "ポートフォリオを追加"
+
+msgid "prtf_add_portfolio_from_template"
+msgstr "テンプレートからポートフォリオを追加"
+
+msgid "prtf_all_pages"
+msgstr "全ページ"
+
+msgid "prtf_allow_html"
+msgstr "HTML/Javascript使用を許可"
+
+msgid "prtf_allow_html_info"
+msgstr "ユーザへHTMLまたはJavascriptどちらでもポートフォリオページに含む事を可能にします。セキュリティー事項を優先にできます。"
+
+msgid "prtf_allow_my_courses"
+msgstr " \"マイコース\"のページ要素"
+
+msgid "prtf_allow_my_courses_info"
+msgstr "ポートフォリアオ内へ現状のコースメンバーリストを含む事を可能にする"
+
+msgid "prtf_author"
+msgstr "著者"
+
+msgid "prtf_back_to_portfolio_owner"
+msgstr "ポートフォリオを編集"
+
+msgid "prtf_blog_page_created"
+msgstr "ブログが追加されました。"
+
+msgid "prtf_copy_blog_pg"
+msgstr "ブログページをコピー"
+
+msgid "prtf_copy_page"
+msgstr "ページをコピー"
+
+msgid "prtf_copy_pg"
+msgstr "ページをコピー"
+
+msgid "prtf_copy_tab"
+msgstr "Copy Tab"
+
+msgid "prtf_create_portfolio"
+msgstr "ポートフォリオを追加"
+
+msgid "prtf_create_template_from_portfolio"
+msgstr "ポートフォリオ"
+
+msgid "prtf_create_template_from_portfolio_info"
+msgstr "コンテンツとテンプレートの設定を使用するにはポートフォリオを選択"
+
+msgid "prtf_creation_mode"
+msgstr "新規ポートフォリオ"
+
+msgid "prtf_creation_mode_scratch"
+msgstr "テンプレートなしで作成"
+
+msgid "prtf_creation_mode_template"
+msgstr "テンプレートから作成"
+
+msgid "prtf_date_of_print"
+msgstr "印刷日"
+
+msgid "prtf_decl_authorship"
+msgstr "著作者宣言"
+
+msgid "prtf_default_portfolio"
+msgstr "マイプロファイル"
+
+msgid "prtf_delete_assignment"
+msgstr "割当てを削除"
+
+msgid "prtf_delete_assignment_sure"
+msgstr "次の割当てを本当に削除しますか?"
+
+msgid "prtf_download_submission"
+msgstr "提出をダウンロード"
+
+msgid "prtf_edit_content"
+msgstr "コンテンツを編集"
+
+msgid "prtf_edit_data"
+msgstr "データを編集"
+
+msgid "prtf_edit_embedded_blog"
+msgstr "ブログ \"%s\"を編集"
+
+msgid "prtf_edit_portfolio"
+msgstr "ポートフォリオを編集"
+
+#, fuzzy
+msgid "prtf_edit_title"
+msgstr "Edit Title"
+
+msgid "prtf_exercise_info"
+msgstr "このポートフォリオは演習問題\"%s\"の割当て\"%s\"の一部です。"
+
+msgid "prtf_exercise_submitted_info"
+msgstr "最後の提出は%sです。エクスポートファイル: %sをチェックしてください。"
+
+msgid "prtf_existing_portfolio"
+msgstr "既存のポートフォリオ"
+
+msgid "prtf_finalize_portfolio"
+msgstr "完了してポートフォリオを提出する"
+
+msgid "prtf_finalized"
+msgstr "ポートフォリオは提出されました。"
+
+msgid "prtf_first_page_title"
+msgstr "最初のページのタイプ"
+
+msgid "prtf_has_been_set_online"
+msgstr "ポ－トフォリオはオンラインに設定されました。"
+
+msgid "prtf_link"
+msgstr "リンク"
+
+msgid "prtf_manage_portfolios"
+msgstr "ポートフォリオを管理"
+
+msgid "prtf_new_portfolio"
+msgstr "新しいポートフォリオ"
+
+msgid "prtf_no_blogs_info"
+msgstr "ワークスペースには何もブログがありません。ポートフォリオの領域として使用するにはブログを作成します。"
+
+msgid "prtf_no_offline_share_info"
+msgstr "他のユーザと共有するにはポートフォリオをオンラインに設定しなければなりません。"
+
+msgid "prtf_no_submission"
+msgstr "未提出"
+
+msgid "prtf_page_created"
+msgstr "ページが作成されました。"
+
+msgid "prtf_page_element_my_courses_info"
+msgstr "現在オンラインの全てのマイコースとどのメンバーシップかを示すリストです。"
+
+msgid "prtf_page_element_my_courses_title"
+msgstr "コースメンバーシップ"
+
+msgid "prtf_page_element_teaser_blog_template"
+msgstr "ポートフォリオはパーソナルワークスペースのブログをここに表示します。"
+
+msgid "prtf_page_element_teaser_consultation_hours"
+msgstr "ポートフォリオは会議時間をここに表示します。"
+
+msgid "prtf_page_element_teaser_my_courses"
+msgstr "ポートフォリオには現状のコースのリストが表示されます。"
+
+msgid "prtf_page_element_teaser_settings"
+msgstr "設定"
+
+msgid "prtf_page_element_teaser_skills"
+msgstr "ポートフォリは能力レベルをここに表示します。"
+
+msgid "prtf_page_type_prtf"
+msgstr "ポートフォリオページ"
+
+msgid "prtf_page_type_prtt"
+msgstr "ポートフォリオテンプレートページ"
+
+msgid "prtf_pages_copied"
+msgstr "ページがコピーされました。"
+
+msgid "prtf_pdf"
+msgstr "PDF"
+
+msgid "prtf_permanent_link"
+msgstr "ポートフォリオへのリンク:"
+
+msgid "prtf_portfolio_created"
+msgstr "ポートフォリオが追加されました"
+
+msgid "prtf_portfolio_created_from_template"
+msgstr "これは新しいポートフォリオのプレビューです。ページを追加してポートフォリオコンテンツを管理するには、このページのトップにある”ポートフォリオを編集\"をクリックしてください。"
+
+msgid "prtf_portfolio_deleted"
+msgstr "ポートフォリオが削除されました。"
+
+msgid "prtf_portfolio_page_deleted"
+msgstr "ポートフォリオページかつブログページが削除されました"
+
+msgid "prtf_portfolios"
+msgstr "ポートフォリオ"
+
+msgid "prtf_print_options"
+msgstr "オプション"
+
+msgid "prtf_print_selection"
+msgstr "ページ選択"
+
+msgid "prtf_profile_picture"
+msgstr "プロファイルの写真を表示"
+
+msgid "prtf_properties"
+msgstr "ポートフォリオのプロパティ"
+
+msgid "prtf_public_comments"
+msgstr "パブリックコメント"
+
+msgid "prtf_role_assignment"
+msgstr "役割の割当て"
+
+msgid "prtf_role_title"
+msgstr "役割"
+
+msgid "prtf_save_status_and_titles"
+msgstr "ステータスとタイトルを保存"
+
+msgid "prtf_sec_protected_info"
+msgstr "保護されたセクションはポートフォリオオーナーは編集できません。"
+
+msgid "prtf_selected_pages"
+msgstr "選択のページ"
+
+msgid "prtf_set_default_publish_global"
+msgstr "未登録ユーザでも共有"
+
+msgid "prtf_set_default_publish_registered"
+msgstr "登録済みユーザのみで共有"
+
+msgid "prtf_set_offline"
+msgstr "オフラインに設定"
+
+msgid "prtf_set_online"
+msgstr "オンラインに設定"
+
+msgid "prtf_settings"
+msgstr "ポートフォリオ管理"
+
+msgid "prtf_shared_offline_info"
+msgstr "ポートフォリオは共有者によりアクセス可能になるようオンラインにする必要があります。"
+
+msgid "prtf_signature"
+msgstr "シグネチャーフィールド"
+
+msgid "prtf_signature_date"
+msgstr "日付、シグネチャー"
+
+msgid "prtf_signature_info"
+msgstr "著者がポートフォリオをサインする場所の印刷フィールドを追加。"
+
+msgid "prtf_style"
+msgstr "ポートフォリオのスタイル"
+
+msgid "prtf_submission_on"
+msgstr "$1に提出"
+
+msgid "prtf_successfully_shared_prtf"
+msgstr "共有ポートフォリオ '%s' の確認"
+
+msgid "prtf_successfully_shared_prtf_body"
+msgstr "共有ポートフォリオ '%s'  があります:"
+
+msgid "prtf_sure_delete_portfolio_pages"
+msgstr "本当に次のポトフォリオページかつブログページを削除しますか?"
+
+msgid "prtf_sure_delete_portfolios"
+msgstr "次のポートフォリオを本当に削除しますか?"
+
+msgid "prtf_tab_other_users"
+msgstr "他のユーザのポートフォリオ"
+
+msgid "prtf_tab_portfolios"
+msgstr "マイプロファイル"
+
+msgid "prtf_table_of_contents"
+msgstr "目次"
+
+msgid "prtf_template_editor_placeholder_info"
+msgstr "このプレースフォルダはポートフォリオに置き換えられます。"
+
+msgid "prtf_template_import_blog_create"
+msgstr "新しいブログを作成"
+
+msgid "prtf_template_import_blog_ignore"
+msgstr "ブログページを削除"
+
+msgid "prtf_template_import_blog_reuse"
+msgstr "現在のブログを使用"
+
+msgid "prtf_template_import_new_skills"
+msgstr "有効にするとこれらのアイテムはパーソナル能力へ追加されます。"
+
+msgid "prtf_template_title"
+msgstr "ポートフォリオテンプレート"
+
+msgid "prtf_unset_as_default"
+msgstr "マイプロファイルに設定しない"
+
+msgid "prtf_unset_default_share_info"
+msgstr "変更は保存されました。ポ－トフォリオ共有用の現在の設定を確認してください。"
+
+msgid "prtf_use_page_layout"
+msgstr "ページレイアウトを使用"
+
+msgid "prtf_visible_for_tutor"
+msgstr "指導教員へ表示"
+
+msgid "prtt_title_info"
+msgstr "これもまた、このテンプレーロで作成されたポートフォリオのdefaultタイトルになります。"

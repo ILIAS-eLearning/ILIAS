@@ -1,0 +1,21 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: pwsp\n"
+
+msgid "pwsp_enable_personal_resources"
+msgstr ""
+
+msgid "pwsp_enable_wsp_blogs"
+msgstr ""
+
+msgid "pwsp_enable_wsp_files"
+msgstr ""
+
+msgid "pwsp_enable_wsp_links"
+msgstr ""
+
+msgid "pwsp_type_cannot_be_copied"
+msgstr ""

@@ -1,0 +1,91 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: webr\n"
+
+msgid "invalid_links_tbl"
+msgstr "Ogiltiga länkar"
+
+msgid "webr_active"
+msgstr "Aktiv"
+
+msgid "webr_container_info"
+msgstr "Eftersom denna webblänksamling bör innehålla mer än en webblänk, bör du tilldela en titel och eventuellt en beskrivningstext för visningen i tidningen."
+
+msgid "webr_copy"
+msgstr "Kopiera Webblänk"
+
+msgid "webr_deactivate"
+msgstr "Avaktivera Webblänk"
+
+msgid "webr_edit_links"
+msgstr "Redigera Webblänkar"
+
+msgid "webr_edit_list"
+msgstr "Redigera Webblänk samling"
+
+msgid "webr_edit_settings"
+msgstr "Redigera inställningar"
+
+msgid "webr_import"
+msgstr "Import webblänk"
+
+msgid "webr_inactive_success"
+msgstr "Webblänken har avaktiverats."
+
+msgid "webr_link_added"
+msgstr "En ny webblänk har skapats."
+
+msgid "webr_link_target"
+msgstr "Mål"
+
+msgid "webr_link_title"
+msgstr "titel på webblänken / titel på webblänkens samling"
+
+msgid "webr_link_type_list"
+msgstr "Samling av webblänkar"
+
+msgid "webr_link_type_single"
+msgstr "Enstaka webblänk"
+
+msgid "webr_list_added"
+msgstr "En ny webblänksamling har skapats."
+
+msgid "webr_list_desc"
+msgstr "Beskrivning av samlingen av webblänkar"
+
+msgid "webr_list_set"
+msgstr "Webblänken har omvandlats till en webblänksamling."
+
+msgid "webr_list_title"
+msgstr "Titel på samlingen av webblänkar"
+
+#, fuzzy
+msgid "webr_new"
+msgstr "Create Weblink"
+
+msgid "webr_new_link"
+msgstr "Skapa ny webblänk"
+
+msgid "webr_new_list"
+msgstr "Skapa ny webblänksamling"
+
+msgid "webr_new_list_info"
+msgstr "Please enter a title and optional a description for the presentation of this web link collection in the magazine."
+
+msgid "webr_set_to_list"
+msgstr "Konvertera till insamling av webblänkar"
+
+msgid "webr_sort_manual"
+msgstr "Manuell sortering"
+
+msgid "webr_sort_title"
+msgstr "Alfabetiskt efter titel"
+
+msgid "webr_sorting"
+msgstr "Sortering av webblänkar"

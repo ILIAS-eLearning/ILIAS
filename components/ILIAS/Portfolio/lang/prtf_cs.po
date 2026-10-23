@@ -1,0 +1,340 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: prtf\n"
+
+msgid "pdf_export"
+msgstr "Export PDF"
+
+#, fuzzy
+msgid "prtf_add_assignment"
+msgstr "Add Assignment"
+
+msgid "prtf_add_page"
+msgstr "Přidat stránku"
+
+msgid "prtf_add_portfolio"
+msgstr "Přidat Portfolio"
+
+#, fuzzy
+msgid "prtf_add_portfolio_from_template"
+msgstr "Add Portfolio From Template"
+
+msgid "prtf_all_pages"
+msgstr "Všechny stránky"
+
+msgid "prtf_allow_html"
+msgstr "Povolit HTML / Javascript"
+
+msgid "prtf_allow_html_info"
+msgstr "Umožňuje uživatelům zahrnout HTML a / nebo Javascript do svých stránek portfolia. To může vést k bezpečnostním problémům."
+
+msgid "prtf_allow_my_courses"
+msgstr "Prvek stránky \"Moje kurzy\""
+
+msgid "prtf_allow_my_courses_info"
+msgstr "Umožňuje zahrnout do portfolia seznam aktuálních členství v kurzu."
+
+msgid "prtf_author"
+msgstr "Autor"
+
+msgid "prtf_back_to_portfolio_owner"
+msgstr "Upravit portfolio"
+
+msgid "prtf_blog_page_created"
+msgstr "Blog byl přidán."
+
+#, fuzzy
+msgid "prtf_copy_blog_pg"
+msgstr "Copy Blog Page"
+
+msgid "prtf_copy_page"
+msgstr "Kopírovat stránky"
+
+#, fuzzy
+msgid "prtf_copy_pg"
+msgstr "Copy Page"
+
+msgid "prtf_copy_tab"
+msgstr "Kopírovat záložku"
+
+msgid "prtf_create_portfolio"
+msgstr "Přidat Portfolio"
+
+msgid "prtf_create_template_from_portfolio"
+msgstr "Portfolio"
+
+msgid "prtf_create_template_from_portfolio_info"
+msgstr "Vyberte portfolio, které bude používat jeho obsah a nastavení šablony."
+
+msgid "prtf_creation_mode"
+msgstr "Nové portfolio"
+
+msgid "prtf_creation_mode_scratch"
+msgstr "Vytvořit bez šablony"
+
+msgid "prtf_creation_mode_template"
+msgstr "Vytvořit ze šablony"
+
+msgid "prtf_date_of_print"
+msgstr "Datum tisku"
+
+msgid "prtf_decl_authorship"
+msgstr "Prohlášení o autorství"
+
+msgid "prtf_default_portfolio"
+msgstr "Můj profil"
+
+#, fuzzy
+msgid "prtf_delete_assignment"
+msgstr "Delete Assignments"
+
+#, fuzzy
+msgid "prtf_delete_assignment_sure"
+msgstr "Do you really want to delete the following assignment(s)?"
+
+msgid "prtf_download_submission"
+msgstr "Stáhnout žádost"
+
+msgid "prtf_edit_content"
+msgstr "Upravit obsah"
+
+#, fuzzy
+msgid "prtf_edit_data"
+msgstr "Edit Data"
+
+msgid "prtf_edit_embedded_blog"
+msgstr "Upravit blog „%s“"
+
+msgid "prtf_edit_portfolio"
+msgstr "Upravit portfolio"
+
+#, fuzzy
+msgid "prtf_edit_title"
+msgstr "Edit Title"
+
+msgid "prtf_exercise_info"
+msgstr "Toto portfolio je částí úlohy \"%s\" cvičení \"%s\"."
+
+msgid "prtf_exercise_submitted_info"
+msgstr "Vaše poslední odevzdání bylo %s, zkontrolujte prosím exportní soubor: %s."
+
+msgid "prtf_existing_portfolio"
+msgstr "Existující portfolio"
+
+msgid "prtf_finalize_portfolio"
+msgstr "Ukončit a odevzdat portfolio"
+
+msgid "prtf_finalized"
+msgstr "Portfolio bylo odevzdáno."
+
+msgid "prtf_first_page_title"
+msgstr "Název první stránky"
+
+msgid "prtf_has_been_set_online"
+msgstr "Portfolio bylo nastaveno online."
+
+msgid "prtf_link"
+msgstr "Odkaz"
+
+msgid "prtf_manage_portfolios"
+msgstr "Zobrazit portfolia"
+
+msgid "prtf_new_portfolio"
+msgstr "Nové portfolio"
+
+msgid "prtf_no_blogs_info"
+msgstr "Váš pracovní prostor neobsahuje žádné blogy. Vytvořte blogy k jejich využití jako součásti Vašich portfolií."
+
+msgid "prtf_no_offline_share_info"
+msgstr "Portfolio musí být online, aby ho mohli sdílet ostatní uživatelé."
+
+msgid "prtf_no_submission"
+msgstr "Žádná žádost"
+
+msgid "prtf_page_created"
+msgstr "Stránka vytvořena"
+
+msgid "prtf_page_element_my_courses_info"
+msgstr "Toto je seznam všech mých kurzů, které jsou v současné době online a kde mám členství."
+
+msgid "prtf_page_element_my_courses_title"
+msgstr "Aktuální kurzy"
+
+msgid "prtf_page_element_teaser_blog_template"
+msgstr "Portfolio zde zobrazí blog vašeho osobního pracovního prostoru."
+
+msgid "prtf_page_element_teaser_consultation_hours"
+msgstr "Portfolio zde zobrazí kalendář konzultačních hodin."
+
+msgid "prtf_page_element_teaser_my_courses"
+msgstr "Portfolio zde zobrazí blog vašeho osobního pracovního prostoru."
+
+msgid "prtf_page_element_teaser_settings"
+msgstr "Nastavení"
+
+msgid "prtf_page_element_teaser_skills"
+msgstr "Portfolio vám zde ukáže úroveň vaší způsobilosti."
+
+#, fuzzy
+msgid "prtf_page_type_prtf"
+msgstr "Portfolio Page"
+
+#, fuzzy
+msgid "prtf_page_type_prtt"
+msgstr "Portfolio Template Page"
+
+msgid "prtf_pages_copied"
+msgstr "Stránky byly kopírovány."
+
+msgid "prtf_pdf"
+msgstr "PDF"
+
+#, fuzzy
+msgid "prtf_permanent_link"
+msgstr "Link to Portfolio:"
+
+msgid "prtf_portfolio_created"
+msgstr "Portfolio přidáno"
+
+msgid "prtf_portfolio_created_from_template"
+msgstr "Toto je náhled vašeho nového portfolia. Chcete-li přidat stránky a spravovat obsah portfolia, klikněte na položku „Upravit portfolio“ v horní části této stránky."
+
+msgid "prtf_portfolio_deleted"
+msgstr "Portfolia smazány"
+
+msgid "prtf_portfolio_page_deleted"
+msgstr "Stránky portfolia smazány"
+
+msgid "prtf_portfolios"
+msgstr "Portfolioa"
+
+msgid "prtf_print_options"
+msgstr "Volby"
+
+msgid "prtf_print_selection"
+msgstr "Volba stránky"
+
+msgid "prtf_profile_picture"
+msgstr "Zobrazit obrázek profilu"
+
+msgid "prtf_properties"
+msgstr "Vlastnosti portfolia"
+
+msgid "prtf_public_comments"
+msgstr "Veřejné komentáře"
+
+#, fuzzy
+msgid "prtf_role_assignment"
+msgstr "Role Assignment"
+
+#, fuzzy
+msgid "prtf_role_title"
+msgstr "Role"
+
+msgid "prtf_save_status_and_titles"
+msgstr "Uložit status a názvy"
+
+#, fuzzy
+msgid "prtf_sec_protected_info"
+msgstr "Protected sections cannot be edited by portfolio owners."
+
+msgid "prtf_selected_pages"
+msgstr "Vybrané stránky"
+
+msgid "prtf_set_default_publish_global"
+msgstr "Sdílet také s neregistrovanými uživateli"
+
+msgid "prtf_set_default_publish_registered"
+msgstr "Sdílet pouze s registrovanými uživateli"
+
+msgid "prtf_set_offline"
+msgstr "Nastavit offline"
+
+msgid "prtf_set_online"
+msgstr "Nastavit online"
+
+msgid "prtf_settings"
+msgstr "Správa portfolia"
+
+msgid "prtf_shared_offline_info"
+msgstr "Portfolio musí být online, aby ho mohli sdílet ostatní uživatelé."
+
+msgid "prtf_signature"
+msgstr "Nepodařilo se přidat podpis"
+
+msgid "prtf_signature_date"
+msgstr "Datum, podpis"
+
+msgid "prtf_signature_info"
+msgstr "Přidá pole do tisku, kde může autor podepsat portfolio."
+
+msgid "prtf_style"
+msgstr "Styl portfolia"
+
+msgid "prtf_submission_on"
+msgstr "Odesláno na $1"
+
+#, fuzzy
+msgid "prtf_successfully_shared_prtf"
+msgstr "Confirmation Shared Portfolio '%s'"
+
+#, fuzzy
+msgid "prtf_successfully_shared_prtf_body"
+msgstr "You have shared your portfolio '%s' with:"
+
+msgid "prtf_sure_delete_portfolio_pages"
+msgstr "Skutečně chcete smazat následující stránky portfolia?"
+
+msgid "prtf_sure_delete_portfolios"
+msgstr "Skutečně chcete smazat následující portfolia?"
+
+msgid "prtf_tab_other_users"
+msgstr "Portfolioa jiných uživatelů"
+
+msgid "prtf_tab_portfolios"
+msgstr "Moje portfolia"
+
+#, fuzzy
+msgid "prtf_table_of_contents"
+msgstr "Table of Contents"
+
+msgid "prtf_template_editor_placeholder_info"
+msgstr "Tento zástupný symbol bude v portfoliu nahrazen."
+
+msgid "prtf_template_import_blog_create"
+msgstr "Vytvořit nový blog"
+
+msgid "prtf_template_import_blog_ignore"
+msgstr "Odebrat stránku blogu"
+
+msgid "prtf_template_import_blog_reuse"
+msgstr "Použít existující blog"
+
+msgid "prtf_template_import_new_skills"
+msgstr "Pokud jsou aktivovány, budou tyto položky přidány do vašich osobních způsobilostí."
+
+#, fuzzy
+msgid "prtf_template_title"
+msgstr "Portfolio Template"
+
+msgid "prtf_unset_as_default"
+msgstr "Zrušit nastavení jako mého profilu"
+
+msgid "prtf_unset_default_share_info"
+msgstr "Změny byly uloženy. Zkontrolujte prosím aktuální nastavení pro sdílení portfolia."
+
+msgid "prtf_use_page_layout"
+msgstr "Použít rozvržení stránky."
+
+#, fuzzy
+msgid "prtf_visible_for_tutor"
+msgstr "Visible For Tutor"
+
+msgid "prtt_title_info"
+msgstr "Upozorňujeme, že toto bude také výchozí název pro všechna portfolia vytvořená z této šablony."

@@ -1,0 +1,1376 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: dateplaner\n"
+
+msgid "Fr_long"
+msgstr "Fechado"
+
+msgid "Fr_short"
+msgstr "Os membros têm de ativar manualmente notificações"
+
+msgid "Mo_long"
+msgstr "Atualizado (dados específicos do grupo)"
+
+msgid "Mo_short"
+msgstr "Desativar notificação"
+
+msgid "Sa_long"
+msgstr "O seu registo para o grupo \"%s\""
+
+msgid "Sa_short"
+msgstr "Recebe um mail de ILIAS porque é administrador do grupo com a notificação ativada."
+
+msgid "Su_long"
+msgstr "Ilimitado"
+
+msgid "Su_short"
+msgstr "Admissão por link"
+
+msgid "Text"
+msgstr "Para além do procedimento de registo escolhido e das permissões, esta opção permite aos utilizadores inserir diretamente usando o seguinte link."
+
+msgid "Th_long"
+msgstr "Link para admissão direta"
+
+msgid "Th_short"
+msgstr "Período de registo limitado"
+
+msgid "Tu_long"
+msgstr "Pode definir-se a si próprio na lista de espera. Receberá uma mensagem de um administrador do grupo quando o seu pedido for aprovado ou rejeitado."
+
+msgid "Tu_short"
+msgstr "Cancelar a subscrição"
+
+msgid "We_long"
+msgstr "Predefinição"
+
+msgid "We_short"
+msgstr "O tipo de apresentação do grupo é adotado de um curso familiar."
+
+msgid "add_appointment"
+msgstr "Adicionar marcação"
+
+msgid "app_consultation_hours"
+msgstr "Horas de consulta"
+
+msgid "app_day"
+msgstr "Número de artigos"
+
+msgid "app_month"
+msgstr "Apagar anexo"
+
+msgid "app_week"
+msgstr "Desativar notificação para este tópico"
+
+msgid "back_to_crs"
+msgstr "Editar artigo"
+
+msgid "back_to_grp"
+msgstr "Ativar notificação para este tópico"
+
+msgid "back_to_pd"
+msgstr "Revogar censura?"
+
+msgid "btn_ical"
+msgstr "Tem a certeza que quer ocultar este artigo?"
+
+msgid "c_date"
+msgstr "Selecione pelo menos um tópico."
+
+msgid "cal_add_appointment"
+msgstr "Criar marcação"
+
+msgid "cal_add_calendar"
+msgstr "Adicionar calendário"
+
+msgid "cal_add_category"
+msgstr "Criar novo calendário"
+
+msgid "cal_add_milestone"
+msgstr "Adicionar marco"
+
+msgid "cal_adm_notification_info"
+msgstr "Escolha esta opção para enviar notificações de mail para os participantes do curso/grupo sobre as marcações alteradas."
+
+msgid "cal_adm_notification_user_info"
+msgstr "Escolha esta opção para enviar notificações de mail opcionais aos utilizadores selecionados."
+
+msgid "cal_agenda"
+msgstr "Agenda"
+
+msgid "cal_all_day"
+msgstr "Todo o dia"
+
+msgid "cal_app_info"
+msgstr "Informação sobre a marcação"
+
+#, fuzzy
+msgid "cal_app_other_materials_num"
+msgstr "View other materials"
+
+#, fuzzy
+msgid "cal_appointment_notifications"
+msgstr "Notification"
+
+msgid "cal_appointments"
+msgstr "Marcação(marcações)"
+
+msgid "cal_apps"
+msgstr "Número de marcações"
+
+msgid "cal_assigned_appointments"
+msgstr "Marcações atribuídas"
+
+msgid "cal_back_to_cal"
+msgstr "Voltar ao calendário"
+
+msgid "cal_back_to_list"
+msgstr "Voltar à lista"
+
+msgid "cal_back_to_search"
+msgstr "Voltar à pesquisa"
+
+msgid "cal_batch_file_downloads"
+msgstr "Downloads do ficheiro batch para o calendário"
+
+msgid "cal_batch_file_downloads_info"
+msgstr "Ativar botão para descarregar todos os ficheiros relacionados com a vista atual do calendário/marcação."
+
+#, fuzzy
+msgid "cal_belongs_to"
+msgstr "Belongs to Calendar"
+
+msgid "cal_book_free"
+msgstr "disponível"
+
+msgid "cal_booked_out"
+msgstr "reservado"
+
+msgid "cal_booking_cancellation_body"
+msgstr "a sua marcação com %s foi cancelada."
+
+msgid "cal_booking_cancellation_subject"
+msgstr "A marcação \"%s\" foi cancelada"
+
+msgid "cal_booking_cancellation_user"
+msgstr "Isto é uma cópia do mail original para o utilizador:"
+
+msgid "cal_booking_confirmation_body"
+msgstr "a sua marcação com %s foi reservada."
+
+msgid "cal_booking_confirmation_link"
+msgstr "Link para a marcação:"
+
+msgid "cal_booking_confirmation_subject"
+msgstr "A marcação \"%s\" foi reservada"
+
+msgid "cal_booking_confirmation_user"
+msgstr "Isto é uma cópia do mail original para o utilizador:"
+
+msgid "cal_booking_confirmed"
+msgstr "A marcação foi reservada com sucesso."
+
+msgid "cal_booking_failed_info"
+msgstr "Esta marcação está reservada. Escolha outra marcação."
+
+#, fuzzy
+msgid "cal_booking_manager_confirmation_body"
+msgstr "%s has booked an appointment with %s."
+
+#, fuzzy
+msgid "cal_booking_owner_confirmation_body"
+msgstr "%s has booked an appointment with you."
+
+msgid "cal_cache"
+msgstr "Tem a certeza que quer apagar este artigo incluindo quaisquer respostas?"
+
+msgid "cal_cache_disabled"
+msgstr "Desativado"
+
+msgid "cal_cache_enabled"
+msgstr "Ativado"
+
+msgid "cal_cache_info"
+msgstr "Se estiver ativado, as marcações no calendário no computador pessoal e no repositório são calculadas apenas a cada x minutos."
+
+msgid "cal_cache_settings"
+msgstr "Cache"
+
+msgid "cal_cal_deleted"
+msgstr "Os calendários foram apagados"
+
+msgid "cal_cal_details"
+msgstr "Detalhes do calendário"
+
+msgid "cal_cal_shared_with"
+msgstr "O calendário do utilizador é partilhado com"
+
+msgid "cal_cal_sync_success"
+msgstr "Calendário sincronizado com sucesso"
+
+msgid "cal_cal_synchronize"
+msgstr "Sincronizar calendário"
+
+msgid "cal_cal_type"
+msgstr "Tipo de calendário"
+
+msgid "cal_calendar_color"
+msgstr "Cor"
+
+msgid "cal_calendar_download"
+msgstr "Marcar tudo como lido"
+
+msgid "cal_calendar_name"
+msgstr "Novo tópico"
+
+msgid "cal_calendar_subscription_modal_title"
+msgstr "Notificação desativada"
+
+msgid "cal_cancel_booking"
+msgstr "Cancelar reserva"
+
+msgid "cal_cancel_booking_confirmed"
+msgstr "A reserva foi cancelada com sucesso."
+
+msgid "cal_cancel_booking_info"
+msgstr "Confirme o cancelamento desta reserva."
+
+msgid "cal_category_selection"
+msgstr "Seleção de calendário"
+
+msgid "cal_cg_notification"
+msgstr "Notificação de curso/grupo"
+
+msgid "cal_cg_registration_info"
+msgstr "Dá aos utilizadores a possibilidade de registarem-se em marcações do curso e grupo."
+
+msgid "cal_cg_registrations"
+msgstr "Registo para marcações do curso/grupo"
+
+msgid "cal_ch_add_grp"
+msgstr "Criar novo grupo de horas de consulta"
+
+msgid "cal_ch_add_sequence"
+msgstr "Adicionar sequência de horas de consulta"
+
+msgid "cal_ch_app_bookings"
+msgstr "Reservas"
+
+msgid "cal_ch_app_grp"
+msgstr "Grupos de horas de consulta"
+
+msgid "cal_ch_app_list"
+msgstr "Marcações de horas de consulta"
+
+msgid "cal_ch_assign_participants"
+msgstr "Atribuir utilizadores"
+
+msgid "cal_ch_assigned_apps"
+msgstr "Número de marcações"
+
+msgid "cal_ch_book"
+msgstr "Reservar marcação"
+
+msgid "cal_ch_booking"
+msgstr "Mostrar posting: %s"
+
+#, fuzzy
+msgid "cal_ch_booking_col_comments"
+msgstr "Comments"
+
+#, fuzzy
+msgid "cal_ch_booking_comment"
+msgstr "Comment:"
+
+#, fuzzy
+msgid "cal_ch_booking_link"
+msgstr "Link to Consultation Hours:"
+
+msgid "cal_ch_booking_message_tbl"
+msgstr "Comentário"
+
+#, fuzzy
+msgid "cal_ch_booking_num_available"
+msgstr "Available Slots"
+
+#, fuzzy
+msgid "cal_ch_booking_num_free_short"
+msgstr "%s free"
+
+#, fuzzy
+msgid "cal_ch_booking_other_participants"
+msgstr "Other Participants:"
+
+msgid "cal_ch_booking_owner"
+msgstr "Proprietário"
+
+#, fuzzy
+msgid "cal_ch_booking_participants"
+msgstr "Participants"
+
+msgid "cal_ch_booking_reminder_body"
+msgstr "a sua marcação com \"%s\" começa em breve."
+
+msgid "cal_ch_booking_reminder_subject"
+msgstr "Lembrete de \"%s\""
+
+#, fuzzy
+msgid "cal_ch_booking_start"
+msgstr "Start"
+
+#, fuzzy
+msgid "cal_ch_booking_your_comment"
+msgstr "Your comment:"
+
+msgid "cal_ch_bookings"
+msgstr "Participantes"
+
+msgid "cal_ch_bookings_tbl"
+msgstr "Marcações reservadas"
+
+msgid "cal_ch_cancel_booking"
+msgstr "Cancelar reserva"
+
+msgid "cal_ch_cancel_booking_info"
+msgstr "Este tópico ainda não tem posts ou o moderador desativou o primeiro post."
+
+msgid "cal_ch_cancel_booking_sure"
+msgstr "Tem a certeza que quer cancelar as seguintes reservas?"
+
+msgid "cal_ch_canceled_bookings"
+msgstr "As reservas selecionadas foram apagadas."
+
+msgid "cal_ch_ch"
+msgstr "Horas de consulta"
+
+msgid "cal_ch_cron_reminder"
+msgstr "Enviar lembrete da hora da consulta"
+
+msgid "cal_ch_cron_reminder_days"
+msgstr "Número de dias"
+
+msgid "cal_ch_cron_reminder_info"
+msgstr "Se esta opção estiver ativada, serão enviados mails de notificação sobre os eventos das horas de consulta futuras."
+
+#, fuzzy
+msgid "cal_ch_current_booking_comment"
+msgstr "Comment"
+
+msgid "cal_ch_current_bookings"
+msgstr "Reservas atuais"
+
+msgid "cal_ch_deadline"
+msgstr "Último registo"
+
+msgid "cal_ch_deadline_info"
+msgstr "Defina o número de horas até o registo ficar reservado."
+
+msgid "cal_ch_delete_app_booking_info"
+msgstr "As seguintes marcações têm reservas existentes. Se apagar estas marcações, os utilizadores não serão notificados."
+
+msgid "cal_ch_delete_booking"
+msgstr "Apagar reserva"
+
+msgid "cal_ch_delete_booking_info"
+msgstr "Todos os postings"
+
+msgid "cal_ch_delete_booking_sure"
+msgstr "Tem a certeza que quer apagar as seguintes reservas?"
+
+msgid "cal_ch_deleted_bookings"
+msgstr "As reservas selecionadas foram canceladas."
+
+msgid "cal_ch_duration"
+msgstr "Postings indisponíveis"
+
+msgid "cal_ch_export_apps"
+msgstr "Marcações reservadas"
+
+msgid "cal_ch_field_ch"
+msgstr "Marcações de horas de consulta"
+
+msgid "cal_ch_form"
+msgstr "Ativar horas de consulta"
+
+msgid "cal_ch_form_header"
+msgstr "Horas de consulta"
+
+msgid "cal_ch_form_info"
+msgstr "A não ser que o seguinte posting não esteja ativado, não está visível a outros utilizadores do fórum. Recebe este e-mail porque está atribuído como moderador e tem permissão para ativar este posting."
+
+#, fuzzy
+msgid "cal_ch_free_of_available"
+msgstr "%s of %s"
+
+msgid "cal_ch_grp_add_tbl"
+msgstr "Criar novo grupo de horas de consulta"
+
+msgid "cal_ch_grp_delete_sure"
+msgstr "Tem a certeza que quer apagar as seguintes horas de consulta?"
+
+msgid "cal_ch_grp_header"
+msgstr "Grupo de horas de consulta"
+
+msgid "cal_ch_grp_multiple"
+msgstr "Reservas por utilizador"
+
+msgid "cal_ch_grp_multiple_info"
+msgstr "Pode definir o número máximo de reservas por utilizador."
+
+msgid "cal_ch_grp_no_assignment"
+msgstr "-- Não atribuído --"
+
+msgid "cal_ch_grp_selection"
+msgstr "Atribuição a grupos de horas de consulta"
+
+msgid "cal_ch_grp_update_tbl"
+msgstr "Editar grupo de horas de consulta"
+
+msgid "cal_ch_grps"
+msgstr "Grupos de horas de consulta"
+
+msgid "cal_ch_manager"
+msgstr "Gestor de horas de consulta"
+
+msgid "cal_ch_manager_info"
+msgstr "Login do utilizador que vai gerir as suas horas de consulta."
+
+msgid "cal_ch_max_books"
+msgstr "Reservas por utilizador"
+
+#, fuzzy
+msgid "cal_ch_minutes"
+msgstr "Duration (min)"
+
+msgid "cal_ch_multi_edit_sequence"
+msgstr "Editar marcações múltiplas"
+
+msgid "cal_ch_num_appointments"
+msgstr "Número de marcações"
+
+msgid "cal_ch_num_appointments_info"
+msgstr "Defina o número de marcações seguidas."
+
+msgid "cal_ch_num_bookings"
+msgstr "Reserva por marcação"
+
+msgid "cal_ch_personal_book"
+msgstr "O posting foi apagado"
+
+msgid "cal_ch_personal_ch"
+msgstr "Horas de consulta pessoais"
+
+msgid "cal_ch_reject_booking"
+msgstr "Cancelar reserva"
+
+#, fuzzy
+msgid "cal_ch_send_mail"
+msgstr "Send Mail"
+
+msgid "cal_ch_target_object"
+msgstr "Objeto do repositório"
+
+msgid "cal_ch_target_object_info"
+msgstr "O posting foi modificado"
+
+msgid "cal_ch_unknown_repository_object"
+msgstr "O id de referência do objeto do repositório fornecido não é válido."
+
+msgid "cal_ch_unknown_user"
+msgstr "O login fornecido não corresponde a nenhum utilizador."
+
+msgid "cal_ch_user_assignment_failed_info"
+msgstr "Não foi possível atribuir os seguintes utilizadores às marcações, uma vez que o número máximo de reservas foi excedido."
+
+#, fuzzy
+msgid "cal_ch_vm_period_all"
+msgstr "All"
+
+#, fuzzy
+msgid "cal_ch_vm_period_past"
+msgstr "Past"
+
+#, fuzzy
+msgid "cal_ch_vm_period_upcoming"
+msgstr "Upcoming"
+
+#, fuzzy
+msgid "cal_ch_vm_status_all"
+msgstr "All"
+
+#, fuzzy
+msgid "cal_ch_vm_status_booked"
+msgstr "Booked Slots"
+
+#, fuzzy
+msgid "cal_ch_vm_status_open"
+msgstr "Open Slots"
+
+#, fuzzy
+msgid "cal_change_calendar_view"
+msgstr "Change Calendar View"
+
+msgid "cal_change_responsible_users"
+msgstr "Mudar utilizadores responsáveis"
+
+msgid "cal_changed_events_header"
+msgstr "Este mail foi enviado automaticamente para si pela instalação ILIAS %s, %s"
+
+msgid "cal_confirm_booking"
+msgstr "Confirmar reserva"
+
+msgid "cal_confirm_booking_info"
+msgstr "Confirme a reserva desta marcação."
+
+msgid "cal_confirm_reg_info"
+msgstr "Confirme o registo desta marcação."
+
+msgid "cal_confirm_unreg_info"
+msgstr "Confirme o cancelamento deste registo."
+
+msgid "cal_consultation_hours_for"
+msgstr "Horas de consulta para"
+
+msgid "cal_consultation_hours_for_user"
+msgstr "Horas de Consulta para %1"
+
+msgid "cal_contained_in"
+msgstr "Contido em"
+
+msgid "cal_create"
+msgstr "Criar"
+
+msgid "cal_created_appointment"
+msgstr "Nova marcação criada."
+
+msgid "cal_created_milestone"
+msgstr "Marco adicionado"
+
+msgid "cal_created_milestone_resp_q"
+msgstr "Marco adicionado Selecione os utilizadores que são responsáveis por cumprir o marco."
+
+#, fuzzy
+msgid "cal_cronjob_remote_description"
+msgstr "If activated, appointments of the calendar type \"Web calendar\" are automatically synchronised after the specified time interval."
+
+#, fuzzy
+msgid "cal_cronjob_remote_title"
+msgstr "External Calendar Synchronisation"
+
+msgid "cal_crs_info"
+msgstr "Informações sobre o curso"
+
+msgid "cal_crs_new_notification_body"
+msgstr "foi criada uma nova marcação no curso \"%s\"."
+
+msgid "cal_crs_new_notification_sub"
+msgstr "Nova marcação no curso \"%s\""
+
+msgid "cal_crs_notification_body"
+msgstr "foi alterada uma marcação no curso \"%s\"."
+
+msgid "cal_crs_notification_sub"
+msgstr "Marcação alterada no curso \"%s\""
+
+msgid "cal_crs_timing_end"
+msgstr "Foi criado um novo posting, mas tem de ser ativado por um moderador."
+
+msgid "cal_crs_timing_start"
+msgstr "Foi criado um novo posting"
+
+msgid "cal_daily"
+msgstr "Diariamente"
+
+#, fuzzy
+msgid "cal_date_and_time"
+msgstr "Date and Time"
+
+msgid "cal_date_booked"
+msgstr "reservado"
+
+msgid "cal_date_format_info"
+msgstr "O posting foi ativado."
+
+#, fuzzy
+msgid "cal_date_time_title"
+msgstr "Date and Time"
+
+msgid "cal_day_end"
+msgstr "Fim do dia"
+
+msgid "cal_day_of_month"
+msgstr "Dia do mês"
+
+msgid "cal_day_overview"
+msgstr "Vista geral dos dias"
+
+msgid "cal_day_s"
+msgstr "Dia(s)"
+
+msgid "cal_day_selection"
+msgstr "Selecionar dia"
+
+msgid "cal_day_start"
+msgstr "Início do dia"
+
+msgid "cal_day_week_view"
+msgstr "Definições da vista de dias/semanas"
+
+msgid "cal_deadline"
+msgstr "Prazo"
+
+msgid "cal_def_date_format"
+msgstr "Formato de entrada da data predefinida"
+
+msgid "cal_def_date_format_info"
+msgstr "Escolha um formato para a entrada de datas."
+
+msgid "cal_def_day_end"
+msgstr "Fim do dia predefinido"
+
+msgid "cal_def_day_start"
+msgstr "Início do dia predefinido"
+
+msgid "cal_def_show_weeks"
+msgstr "Semanas apresentadas predefinidas"
+
+msgid "cal_def_time_format"
+msgstr "Formato de hora predefinido"
+
+msgid "cal_def_time_format_info"
+msgstr "Imprimir tópico"
+
+msgid "cal_def_timezone"
+msgstr "Hora local predefinida"
+
+msgid "cal_def_timezone_info"
+msgstr "Escolha uma hora local predefinida para a apresentação das marcações."
+
+#, fuzzy
+msgid "cal_def_view"
+msgstr "Default Calendar View"
+
+msgid "cal_def_week_start"
+msgstr "Posting"
+
+msgid "cal_default_calendar"
+msgstr "Marcações pessoais"
+
+#, fuzzy
+msgid "cal_default_settings"
+msgstr "Default settings"
+
+msgid "cal_del_app_sure"
+msgstr "Tem a certeza que quer apagar as marcações selecionadas?"
+
+msgid "cal_del_cal_sure"
+msgstr "Tem a certeza que quer apagar os calendários escolhidos?"
+
+msgid "cal_delete_app_sure"
+msgstr "Tem a certeza que quer apagar as seguintes marcações?"
+
+#, fuzzy
+msgid "cal_delete_booking_info"
+msgstr "Please confirm the deletion of this booking"
+
+msgid "cal_delete_cal"
+msgstr "Apagar calendário"
+
+#, fuzzy
+msgid "cal_delete_recurrence_rule"
+msgstr "Delete Series of Appoinments"
+
+msgid "cal_delete_recurrences"
+msgstr "Apagar todas as recorrências"
+
+msgid "cal_delete_single"
+msgstr "Apagar apenas esta marcação"
+
+msgid "cal_deleted_app"
+msgstr "As marcações selecionadas foram apagadas."
+
+msgid "cal_details"
+msgstr "Detalhes da marcação"
+
+msgid "cal_down_no_files"
+msgstr "Nada para descarregar, os eventos listados não contêm ficheiros."
+
+msgid "cal_download_all_files"
+msgstr "Download todos os ficheiros"
+
+msgid "cal_download_files"
+msgstr "Download ficheiros"
+
+msgid "cal_download_files_started"
+msgstr "Tópico"
+
+msgid "cal_dstart_dend_warn"
+msgstr "Verifique a sua entrada. O início de um dia deve ser anterior ao fim do dia."
+
+msgid "cal_duration"
+msgstr "Duração"
+
+#, fuzzy
+msgid "cal_duration_end"
+msgstr "End"
+
+#, fuzzy
+msgid "cal_duration_start"
+msgstr "Start"
+
+msgid "cal_edit_appointment"
+msgstr "Editar marcação"
+
+msgid "cal_edit_category"
+msgstr "Editar calendário"
+
+msgid "cal_edit_milestone"
+msgstr "Editar marco"
+
+msgid "cal_edit_recurrences"
+msgstr "Editar todas as marcações"
+
+msgid "cal_edit_single"
+msgstr "Editar esta marcação"
+
+#, fuzzy
+msgid "cal_edit_single_or_all_info"
+msgstr "Do you want to edit only this appointment or all in its series?"
+
+msgid "cal_enable_group_milestones"
+msgstr "Ativar marcos"
+
+msgid "cal_enable_group_milestones_desc"
+msgstr "Esta opção ativa o planeamento dos marcos no calendário."
+
+msgid "cal_err_invalid_notification_rcps"
+msgstr "Criado a partir de"
+
+msgid "cal_every"
+msgstr "A cada:"
+
+msgid "cal_exc_deadline"
+msgstr "Prazo"
+
+msgid "cal_exc_info"
+msgstr "Informação da atribuição"
+
+msgid "cal_exc_inst_files"
+msgstr "Ficheiros de instruções"
+
+msgid "cal_exc_open"
+msgstr "Abrir atribuição"
+
+msgid "cal_exc_peer_review_deadline"
+msgstr "Prazo do feedback"
+
+msgid "cal_export_timezone"
+msgstr "Hora local para exportação de calendário"
+
+msgid "cal_export_timezone_tz"
+msgstr "Usar hora local ILIAS"
+
+msgid "cal_export_timezone_utc"
+msgstr "Usar hora local UTC (compatível com MS Outlook)"
+
+msgid "cal_fifth"
+msgstr "Quinto"
+
+msgid "cal_first"
+msgstr "Primeiro"
+
+msgid "cal_fourth"
+msgstr "Quarto"
+
+msgid "cal_fullday"
+msgstr "Foi criado um novo tópico"
+
+msgid "cal_fullday_title"
+msgstr "A sua reposta"
+
+msgid "cal_global_settings"
+msgstr "Definições globais"
+
+msgid "cal_grp_curr_crs"
+msgstr "Curso atual"
+
+msgid "cal_grp_curr_crs_cons"
+msgstr "Horas de consulta"
+
+msgid "cal_grp_curr_grp"
+msgstr "Grupo atual"
+
+msgid "cal_grp_info"
+msgstr "Informação de grupo"
+
+msgid "cal_grp_new_notification_body"
+msgstr "foi criada uma nova marcação no grupo \"%s\"."
+
+msgid "cal_grp_new_notification_sub"
+msgstr "Nova marcação no grupo \"%s\""
+
+msgid "cal_grp_notification_body"
+msgstr "foi alterada uma marcação no grupo \"%s\"."
+
+msgid "cal_grp_notification_sub"
+msgstr "Marcação alterada no grupo \"%s\""
+
+msgid "cal_grp_others"
+msgstr "Outras"
+
+msgid "cal_grp_personal"
+msgstr "Pessoal"
+
+msgid "cal_ical_infoscreen"
+msgstr "Subscrever"
+
+msgid "cal_ical_url"
+msgstr "iCal-URL"
+
+#, fuzzy
+msgid "cal_ical_url_google"
+msgstr "iCal-URL for Google Calendar"
+
+msgid "cal_import_appointments"
+msgstr "Marcações importadas"
+
+msgid "cal_import_file"
+msgstr "Importar ficheiro"
+
+msgid "cal_import_file_info"
+msgstr "Escolha o ficheiro que contém as suas marcações de calendário."
+
+msgid "cal_import_tbl"
+msgstr "Marcações importadas"
+
+msgid "cal_imported_success"
+msgstr "Marcações %1$s importadas."
+
+msgid "cal_in"
+msgstr "em"
+
+msgid "cal_last"
+msgstr "Última"
+
+msgid "cal_list"
+msgstr "Lista"
+
+msgid "cal_mail_notification_body"
+msgstr "foi convidado para uma marcação."
+
+msgid "cal_mail_notification_subject"
+msgstr "Convite de marcação: \"%s\""
+
+msgid "cal_manage"
+msgstr "Posting com pseudónimo"
+
+#, fuzzy
+msgid "cal_materials"
+msgstr "Materials"
+
+msgid "cal_milestone_settings"
+msgstr "Marcos"
+
+msgid "cal_month_overview"
+msgstr "Se estiver ativado, os utilizadores registados podem postar para este fórum apenas usando um pseudónimo ou sem nome. Se a opção \"Marcar posts do moderador\" também estiver ativada, os moderadores não podem usar um pseudónimo."
+
+msgid "cal_month_s"
+msgstr "Mês(meses)"
+
+msgid "cal_month_selection"
+msgstr "Selecionar mês"
+
+msgid "cal_monthly"
+msgstr "Mensalmente"
+
+#, fuzzy
+msgid "cal_monthly_by_date"
+msgstr "Monthly by Date"
+
+#, fuzzy
+msgid "cal_monthly_by_day"
+msgstr "Monthly by Day"
+
+msgid "cal_ms_details"
+msgstr "Detalhes do marco"
+
+msgid "cal_ms_users_responsible"
+msgstr "Responsabilidade dos utilizadores"
+
+msgid "cal_new_app"
+msgstr "Nova marcação"
+
+msgid "cal_new_ms"
+msgstr "Novo marco"
+
+msgid "cal_no_ending"
+msgstr "Nenhuma data de fim"
+
+#, fuzzy
+msgid "cal_no_events_block"
+msgstr "Es sind keine Termine für Sie vorhanden."
+
+msgid "cal_no_events_info"
+msgstr "Nenhum evento encontrado para o período de tempo selecionado."
+
+msgid "cal_no_recurrence"
+msgstr "Nenhuma recorrência"
+
+msgid "cal_notification"
+msgstr "Notificação de mail"
+
+msgid "cal_notification_crsgrp"
+msgstr "Notificação para participantes no curso/grupo"
+
+msgid "cal_notification_info"
+msgstr "Se estiver ativado, todos os participantes no curso/grupo serão notificados por mail sobre esta marcação."
+
+msgid "cal_notification_users"
+msgstr "Notificação para utilizadores selecionados"
+
+msgid "cal_on"
+msgstr "Em:"
+
+msgid "cal_on_the"
+msgstr "A."
+
+msgid "cal_open_calendar"
+msgstr "Abrir calendário"
+
+msgid "cal_origin"
+msgstr "Origem"
+
+msgid "cal_owner"
+msgstr "Proprietário"
+
+#, fuzzy
+msgid "cal_period"
+msgstr "Period"
+
+msgid "cal_rec_err_limit"
+msgstr "Insira um valor válido de marcações."
+
+#, fuzzy
+msgid "cal_recurrence_confirm_deletion"
+msgstr "Please decide wether you want to delete single appointments or the complete series of appointments."
+
+#, fuzzy
+msgid "cal_recurrence_count"
+msgstr "Number of Appointments"
+
+#, fuzzy
+msgid "cal_recurrence_day_interval"
+msgstr "Every x Day(s)"
+
+#, fuzzy
+msgid "cal_recurrence_end_date"
+msgstr "End Date"
+
+#, fuzzy
+msgid "cal_recurrence_end_date_info"
+msgstr "Last possible date for an appointment."
+
+#, fuzzy
+msgid "cal_recurrence_month_interval"
+msgstr "Every x Month(s)"
+
+#, fuzzy
+msgid "cal_recurrence_until"
+msgstr "Recurrence End"
+
+#, fuzzy
+msgid "cal_recurrence_until_count"
+msgstr "Fixed Number of Appointments"
+
+#, fuzzy
+msgid "cal_recurrence_until_end_date"
+msgstr "Repeat Until End Date"
+
+#, fuzzy
+msgid "cal_recurrence_week_interval"
+msgstr "Every x Week(s)"
+
+#, fuzzy
+msgid "cal_recurrence_year_interval"
+msgstr "Every x Year(s)"
+
+msgid "cal_recurrences"
+msgstr "Recorrências"
+
+msgid "cal_reg_register"
+msgstr "Registar"
+
+msgid "cal_reg_registered"
+msgstr "Ficou registado."
+
+msgid "cal_reg_registered_users"
+msgstr "Utilizadores registados"
+
+msgid "cal_reg_unregister"
+msgstr "Sair"
+
+msgid "cal_reg_unregistered"
+msgstr "Saiu."
+
+msgid "cal_registrations"
+msgstr "Registos de marcações"
+
+msgid "cal_remote_url"
+msgstr "URL"
+
+msgid "cal_repeat_until"
+msgstr "Repetir até"
+
+msgid "cal_repo_obj"
+msgstr "Objetos do repositório"
+
+msgid "cal_responsible"
+msgstr "Responsável"
+
+msgid "cal_save_responsible_users"
+msgstr "Guardar utilizadores responsáveis"
+
+msgid "cal_search"
+msgstr "Pesquisar termo"
+
+msgid "cal_search_info_share"
+msgstr "Insira o nome do utilizador/função pretendida para partilhar o calendário."
+
+msgid "cal_second"
+msgstr "Segundo"
+
+msgid "cal_server_tz"
+msgstr "Hora local do servidor"
+
+msgid "cal_sess_info"
+msgstr "Informação da sessão"
+
+#, fuzzy
+msgid "cal_setting_global_crs_act"
+msgstr "Activation in Courses"
+
+#, fuzzy
+msgid "cal_setting_global_crs_act_info"
+msgstr "If selected, the calendar is active in courses by default. In any case the calendar activation can be enabled/disabled in the course settings."
+
+msgid "cal_setting_global_crs_vis"
+msgstr "Mostrar em cursos"
+
+msgid "cal_setting_global_crs_vis_info"
+msgstr "Se estiver ativado, o calendário é apresentado em cursos por defeito. Em todo o caso, a apresentação do calendário pode ser ativada/desativada nas definições do curso."
+
+#, fuzzy
+msgid "cal_setting_global_grp_act"
+msgstr "Activation in Groups"
+
+#, fuzzy
+msgid "cal_setting_global_grp_act_info"
+msgstr "If selected, the calendar is active in groups by default. In any case the calendar activation can be enabled/disabled in the group settings."
+
+msgid "cal_setting_global_grp_vis"
+msgstr "Mostrar em grupos"
+
+msgid "cal_setting_global_grp_vis_info"
+msgstr "Se estiver ativado, o calendário é apresentado em grupos por defeito. Em todo o caso, a apresentação do calendário pode ser ativada/desativada nas definições do grupo."
+
+msgid "cal_setting_global_vis_repos"
+msgstr "Calendário de repositório"
+
+msgid "cal_share"
+msgstr "O utilizador foi adicionado como moderador com sucesso."
+
+msgid "cal_share_accept"
+msgstr "Aceitar convite"
+
+msgid "cal_share_cal"
+msgstr "Pseudónimo"
+
+msgid "cal_share_cal_editable"
+msgstr "Partilhar calendário (leitura e escrita)"
+
+msgid "cal_share_decline"
+msgstr "Recusar convite"
+
+msgid "cal_share_search_header"
+msgstr "Partilhar calendário"
+
+msgid "cal_share_search_role_header"
+msgstr "Seleção de função"
+
+msgid "cal_share_search_usr_header"
+msgstr "Seleção de utilizador"
+
+msgid "cal_shared_access_read_only"
+msgstr "Leitura apenas"
+
+msgid "cal_shared_access_read_write"
+msgstr "Leitura e escrita"
+
+msgid "cal_shared_access_table_col"
+msgstr "Acesso"
+
+msgid "cal_shared_calendars"
+msgstr "Calendários partilhados (convites)"
+
+msgid "cal_shared_header"
+msgstr "Calendários partilhados"
+
+msgid "cal_shared_selected_usr"
+msgstr "O calendário foi partilhado com os utilizadores/funções selecionadas."
+
+msgid "cal_show_weeks"
+msgstr "Mostrar semanas"
+
+msgid "cal_show_weeks_info"
+msgstr "Ativa a coluna de semanas no bloco lateral do calendário. Os utilizadores podem desativar a coluna nas suas definições."
+
+msgid "cal_start"
+msgstr "Início"
+
+msgid "cal_subscription"
+msgstr "Subscrição"
+
+msgid "cal_subscription_header"
+msgstr "Endereço de calendário"
+
+msgid "cal_subscription_info"
+msgstr "Use o seguinte endereço para aceder ao calendário a partir de outras aplicações. Pode copiar e colar isso para qualquer produto do calendário que suporta o formato ical."
+
+msgid "cal_subscription_url"
+msgstr "URL do calendário:"
+
+msgid "cal_sync_cache"
+msgstr "Cache do calendário"
+
+msgid "cal_sync_cache_info"
+msgstr "Se estiver ativado, as marcações novas/modificadas do calendário são calculadas apenas a cada x minutos."
+
+msgid "cal_sync_disabled"
+msgstr "Desativado"
+
+msgid "cal_sync_enabled"
+msgstr "Ativado"
+
+msgid "cal_table_categories"
+msgstr "Seleção de calendário"
+
+msgid "cal_task_completion"
+msgstr "Conclusão da tarefa"
+
+msgid "cal_third"
+msgstr "Terceiro"
+
+msgid "cal_time_format_info"
+msgstr "Número de postings"
+
+msgid "cal_timezone_info"
+msgstr "Estatística"
+
+msgid "cal_type_crs"
+msgstr "Calendário do curso"
+
+msgid "cal_type_exc"
+msgstr "Calendário do exercício"
+
+msgid "cal_type_grp"
+msgstr "Calendário do grupo"
+
+msgid "cal_type_info"
+msgstr "Tem a certeza que quer apagar os seguintes tópicos?"
+
+msgid "cal_type_local"
+msgstr "Calendário local"
+
+msgid "cal_type_personal"
+msgstr "Calendário privado"
+
+msgid "cal_type_remote"
+msgstr "Calendário da web"
+
+msgid "cal_type_rl"
+msgstr "Localização do calendário"
+
+msgid "cal_type_sess"
+msgstr "Calendário da sessão"
+
+msgid "cal_type_system"
+msgstr "Calendário público"
+
+#, fuzzy
+msgid "cal_type_tals"
+msgstr "Talks"
+
+msgid "cal_unshare_cal"
+msgstr "Parar partilha"
+
+msgid "cal_unshared_selected_usr"
+msgstr "Deixou de partilhar o calendário com os utilizadores selecionados."
+
+msgid "cal_upcoming_events_header"
+msgstr "Eventos futuros"
+
+msgid "cal_user_date_format"
+msgstr "Tem a certeza que quer unir estes tópicos? Aviso: Esta ação não pode ser anulada."
+
+msgid "cal_user_notification"
+msgstr "Notificação do utilizador"
+
+msgid "cal_user_notification_info"
+msgstr "Marcar como lido"
+
+msgid "cal_user_settings"
+msgstr "Definições do calendário"
+
+msgid "cal_user_time_format"
+msgstr "Fixar tópicos"
+
+msgid "cal_user_timezone"
+msgstr "Não fixar tópicos"
+
+#, fuzzy
+msgid "cal_usr_info"
+msgstr "Appointment Information"
+
+msgid "cal_usr_show_weeks"
+msgstr "Mostrar coluna de semanas"
+
+msgid "cal_usr_show_weeks_info"
+msgstr "Ativa a coluna de semanas no bloco lateral do calendário."
+
+msgid "cal_webcal_sync"
+msgstr "Sincronização do calendário externo"
+
+msgid "cal_webcal_sync_info"
+msgstr "Sincroniza automaticamente os calendários externos a cada x minutos."
+
+msgid "cal_week_abbrev"
+msgstr "Mover tópicos escolhidos"
+
+msgid "cal_week_month_view"
+msgstr "Definições da vista das semanas/meses"
+
+msgid "cal_week_overview"
+msgstr "Vista geral das semanas"
+
+msgid "cal_week_s"
+msgstr "Semana(s)"
+
+msgid "cal_week_selection"
+msgstr "Selecionar semana"
+
+msgid "cal_week_start"
+msgstr "Iniciar semana"
+
+msgid "cal_weekday"
+msgstr "Dia da semana"
+
+msgid "cal_weekly"
+msgstr "Semanal"
+
+msgid "cal_where"
+msgstr "Localização"
+
+msgid "cal_year_s"
+msgstr "Ano(s)"
+
+msgid "cal_yearly"
+msgstr "Anual"
+
+#, fuzzy
+msgid "cal_yearly_by_date"
+msgstr "Yearly by Date"
+
+#, fuzzy
+msgid "cal_yearly_by_day"
+msgstr "Yearly by Day"
+
+#, fuzzy
+msgid "consultation_hours_block_title"
+msgstr "Consultation Hours"
+
+msgid "crs_cal_activation_end"
+msgstr "Antes de serem publicados, todos os postings têm de ser aprovados por um moderador."
+
+msgid "crs_cal_activation_start"
+msgstr "Posting censurado, comentário por moderador"
+
+msgid "crs_cal_end"
+msgstr "Curso acaba"
+
+msgid "crs_cal_reg_end"
+msgstr "Fim do registo"
+
+msgid "crs_cal_reg_start"
+msgstr "Início do registo"
+
+msgid "crs_cal_start"
+msgstr "Curso começa"
+
+msgid "date_format"
+msgstr "Os ‘Tópicos fixos’’ são sempre apresentados em cima na lista de tópicos. Dentro dos ‘Tópicos fixos’’ pode ordenar os tópicos manualmente, se tiver escolhido esta opção."
+
+msgid "end_date"
+msgstr "Tópico"
+
+msgid "err_end_before_start"
+msgstr "A marcação não pode começar antes do fim."
+
+msgid "err_missing_title"
+msgstr "Insira um título de marcação."
+
+msgid "free"
+msgstr "Os tópicos escolhidos foram movidos para outro fórum com sucesso."
+
+msgid "grp_cal_end"
+msgstr "Grupo acaba"
+
+msgid "grp_cal_reg_end"
+msgstr "Fim do registo"
+
+msgid "grp_cal_reg_start"
+msgstr "Início do registo"
+
+msgid "grp_cal_start"
+msgstr "Grupo começa"
+
+msgid "ical_export"
+msgstr "Não pode registar: a adesão ao grupo é limitada."
+
+msgid "keep"
+msgstr "Registado com sucesso no grupo \"%s\"."
+
+msgid "keyword"
+msgstr "Aceitação"
+
+msgid "more"
+msgstr "Os membros selecionados até esta data podem cancelar a inscrição do grupo."
+
+msgid "r_14"
+msgstr "Apenas os administradores podem usar a funcionalidade ‘Mail para participantes’ no separador ‘Membros’."
+
+msgid "r_4_weeks"
+msgstr "foi atribuído à lista de espera do grupo \"%s\".\\nEstá atribuído à posição %s na lista.\\n\\nVai receber uma mensagem de um administrador do grupo assim que o seu pedido for aprovado ou rejeitado."
+
+msgid "remote_pass_info"
+msgstr "Os membros e os administradores podem usar a funcionalidade ‘Mail para participantes’ no separador ‘Membros’."
+
+msgid "to"
+msgstr "Definir o número máximo de utilizadores que podem inscrever-se neste grupo."
+
+msgid "today"
+msgstr "Os utilizadores têm de digitar esta palavra-passe quando aderem ao grupo."
+
+msgid "week"
+msgstr "Tipos de dados lançados"
+
+msgid "wk_short"
+msgstr "WK"
+
+msgid "year"
+msgstr "Lista de espera"

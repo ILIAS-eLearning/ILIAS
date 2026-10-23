@@ -1,0 +1,270 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sl\n"
+"Language-Team: Slovenian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=4; plural=(n % 100 == 1) ? 0 : ((n % 100 == 2) ? 1 : ((n % 100 == 3 || n % 100 == 4) ? 2 : 3));\n"
+"X-Domain: iass\n"
+
+msgid "download_assessment_paper"
+msgstr "Download Record file"
+
+msgid "grading"
+msgstr "Ocena"
+
+msgid "grading_info"
+msgstr "Informacije o oceni"
+
+msgid "grading_record"
+msgstr "Povzetek ocene"
+
+msgid "iass_add"
+msgstr "Ustvari individualno oceno"
+
+msgid "iass_add_user_failure"
+msgstr "Enega ali več uporabnikov ni bilo mogoče dodati."
+
+msgid "iass_add_user_success"
+msgstr "Uporabnik je dodan kot udeleženec."
+
+msgid "iass_added"
+msgstr "Dodana je individualna ocena"
+
+msgid "iass_amend_saved"
+msgstr "Spremenjeni podatki o izpitu so bili shranjeni."
+
+msgid "iass_assessment_not_completed"
+msgstr "Še ni zaključeno"
+
+msgid "iass_cancel"
+msgstr "Cancel"
+
+msgid "iass_changed_by"
+msgstr "Spremenjeno po zaključku"
+
+msgid "iass_confirm_finalize"
+msgstr "Finalize"
+
+msgid "iass_consultation_hours"
+msgstr "Govorilne ure"
+
+msgid "iass_contact"
+msgstr "Ime"
+
+msgid "iass_contact_info"
+msgstr "Kontaktni podatki"
+
+msgid "iass_content"
+msgstr "Vsebina"
+
+msgid "iass_content_explanation"
+msgstr "Vsebine izpita."
+
+msgid "iass_copy"
+msgstr "Kopiraj individualno oceno"
+
+msgid "iass_download"
+msgstr "Prenos"
+
+msgid "iass_edit"
+msgstr "Nastavitve"
+
+msgid "iass_edit_info"
+msgstr "Nastavitve stikov"
+
+msgid "iass_edit_record"
+msgstr "Podatki o izpitu"
+
+msgid "iass_event_time"
+msgstr "Datum izpita"
+
+msgid "iass_event_time_place_required"
+msgstr "Obvezen podatek datum in kraj"
+
+msgid "iass_event_time_place_required_info"
+msgstr "Potreben je vnos datuma in kraja izpita."
+
+msgid "iass_file"
+msgstr "Datoteka"
+
+msgid "iass_file_dropzone"
+msgstr "you can drop your files here"
+
+msgid "iass_file_required"
+msgstr "Obvezen podatek izpitna pola"
+
+msgid "iass_file_required_info"
+msgstr "Izpitna pola mora biti naložena"
+
+msgid "iass_file_visible_examinee"
+msgstr "Datoteka je vidna udeležencu"
+
+#, fuzzy
+msgid "iass_file_visible_examinee_info"
+msgstr "Once the individual assessment has been completed, the person assessed can view the record file. To do so, the ‘Make Result Available to Participant’ function must be enabled."
+
+msgid "iass_filter_all"
+msgstr "Vsi"
+
+msgid "iass_filter_failed"
+msgstr "Samo tisti, ki niso opravili"
+
+msgid "iass_filter_finalized"
+msgstr "Samo tisti, ki so opravili"
+
+msgid "iass_filter_not_finalized"
+msgstr "Samo tisti, ki niso zaključili"
+
+msgid "iass_filter_not_started"
+msgstr "Samo tisti, ki niso ocenjeni"
+
+msgid "iass_finalize"
+msgstr "Zaključi"
+
+msgid "iass_finalize_info"
+msgstr "Individual Assessment will be finalized."
+
+msgid "iass_finalize_user_qst"
+msgstr "Ali res želite dokončno zaključiti oceno udeleženca? Naknadne spremembe ocene niso možne."
+
+msgid "iass_further_field_headline"
+msgstr "Podrobne informacije"
+
+msgid "iass_graded_by"
+msgstr "Ocenil"
+
+msgid "iass_info_emails_expl"
+msgstr "Vnesete lahko več naslovov, ločenih z vejicami."
+
+msgid "iass_internal_note"
+msgstr "Notranje opombe k izpitu"
+
+msgid "iass_internal_note_info"
+msgstr "Te opombe so vidne le mentorjem, ki imajo vpogled v izpitne podatke udeležencev. Udeleženci sami ne vidijo opomb k izpitu."
+
+msgid "iass_location"
+msgstr "Kraj"
+
+msgid "iass_mails"
+msgstr "E-pošta"
+
+msgid "iass_may_not_finalize"
+msgstr "Izpita še ni mogoče dokončno oceniti. Oddajte oceno."
+
+msgid "iass_membership_finalized"
+msgstr "Ocenjevanje zaključeno."
+
+msgid "iass_membership_saved"
+msgstr "Ocena je bila shranjena, ni pa še dokončno zaključena."
+
+msgid "iass_mess_notification_completed"
+msgstr "Opravili ste izpit „%s“. Upoštevajte tudi naslednje opombe k izpitu."
+
+msgid "iass_mess_notification_failed"
+msgstr "Izpita „%s“ žal niste opravili. Upoštevajte tudi naslednjo opombo k izpitu."
+
+msgid "iass_notify"
+msgstr "Obvesti udeleženca po zaključenem ocenjevanju"
+
+msgid "iass_notify_explanation"
+msgstr "Po zaključenem ocenjevanju bo udeleženec obveščen po e-pošti in bo imel vpogled v opombe k izpitu na strani z informacijami."
+
+msgid "iass_phone"
+msgstr "Phone"
+
+msgid "iass_place"
+msgstr "Lokacija izpita"
+
+msgid "iass_record"
+msgstr "Opomba k izpitu"
+
+msgid "iass_record_info"
+msgstr "Po zaključeni oceni ima udeleženec vpogled v opombo k izpitu. Če je spodaj aktivirano obveščanje, bo udeleženec opombo k izpitu prejel tudi po e-pošti."
+
+msgid "iass_record_template"
+msgstr "Predloga opombe k izpitu"
+
+msgid "iass_record_template_explanation"
+msgstr "Predloga za opombo k izpitu. Uporabi se za vsakega novega udeleženca."
+
+msgid "iass_remove_user_qst"
+msgstr "Ali res želite odstraniti udeleženca?"
+
+msgid "iass_responsibility"
+msgstr "Odgovornost"
+
+msgid "iass_save_amend"
+msgstr "Shrani spremenjene podatke o izpitu"
+
+#, fuzzy
+msgid "iass_settings_availability"
+msgstr "Availability"
+
+msgid "iass_settings_saved"
+msgstr "Nastavitve so shranjene."
+
+msgid "iass_sort_changetime_asc"
+msgstr "Zadnja sprememba → naraščajoče"
+
+msgid "iass_sort_changetime_desc"
+msgstr "Zadnja sprememba → padajoče"
+
+msgid "iass_sort_examiner_login_asc"
+msgstr "Pregledovalec → naraščajoče"
+
+msgid "iass_sort_examiner_login_desc"
+msgstr "Pregledovalec → padajoče"
+
+msgid "iass_sort_name_asc"
+msgstr "Uporabniško ime → naraščajoče"
+
+msgid "iass_sort_name_desc"
+msgstr "Uporabniško ime → padajoče"
+
+msgid "iass_status_completed"
+msgstr "Opravil"
+
+msgid "iass_status_failed"
+msgstr "Ni opravljeno"
+
+msgid "iass_status_pending"
+msgstr "Še ni ocenjen"
+
+msgid "iass_subj_notification_completed"
+msgstr "%s: Individualna ocena uspešno zaključena."
+
+msgid "iass_subj_notification_failed"
+msgstr "%s: Individualna ocena ni uspešna."
+
+msgid "iass_upload_file"
+msgstr "Izpitna pola"
+
+msgid "iass_user_removed"
+msgstr "Uporabnik je bil uspešno odstranjen."
+
+msgid "iass_usr_amend"
+msgstr "Naknadno spremeni podatke o izpitu"
+
+msgid "iass_usr_download_attachment"
+msgstr "Prenesi datoteko"
+
+msgid "iass_usr_edit"
+msgstr "Oceni udeleženca in uredi učni napredek"
+
+msgid "iass_usr_remove"
+msgstr "Odstrani udeleženca"
+
+msgid "iass_usr_view"
+msgstr "Podatki o izpitu"
+
+msgid "il_iass_members"
+msgstr "Udeleženec"
+
+msgid "lp_inactive"
+msgstr "Upoštevajte: določanje učnega napredka za ta objekt je onemogočeno. Zato udeležb ni mogoče zaključiti."
+
+#, fuzzy
+msgid "save_amend"
+msgstr "Save Amended Record"

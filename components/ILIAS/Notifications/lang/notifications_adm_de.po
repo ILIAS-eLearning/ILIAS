@@ -1,0 +1,72 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: notifications_adm\n"
+
+msgid "available_providers"
+msgstr "Verfügbare Provider"
+
+msgid "client_settings"
+msgstr "Browsereinstellungen"
+
+msgid "enable_osd"
+msgstr "Pop-up-Benachrichtigungen aktivieren"
+
+msgid "enable_osd_desc"
+msgstr "Wenn aktiviert, werden Benutzer durch ein Pop-up über neue Benachrichtigungen informiert."
+
+msgid "enable_push"
+msgstr "Push-Benachrichtigungen aktivieren"
+
+msgid "enable_push_desc"
+msgstr "Wenn aktiviert, werden Benutzer durch Push-Benachrichtigungen informiert. Nutzer können diese Benachrichtigungen in den Benutzereinstellungen anpassen."
+
+msgid "notification_settings"
+msgstr "Benachrichtigungseinstellungen"
+
+msgid "osd_error_refresh_interval_too_small"
+msgstr "Das Abfrageintervall muss mindestens 3000 Millisekunden betragen."
+
+msgid "osd_interval"
+msgstr "Abfrageintervall"
+
+msgid "osd_interval_desc"
+msgstr "Abfrageintervall für Nachrichten in Millisekunden.Eine geringere Zeit ermöglicht zeitnähere Benachrichtigungen, erhöht aber die Serverlast."
+
+msgid "osd_play_sound"
+msgstr "Ton abspielen"
+
+msgid "osd_play_sound_desc"
+msgstr "Ton abspielen bei Erhalt einer neuen Benachrichtigung."
+
+msgid "osd_settings"
+msgstr "Pop-up-Benachrichtigungen"
+
+msgid "push_client_already_used"
+msgstr "Push-Benachrichtigungen für diesen Browser werden bereits von einem anderen Nutzer genutzt."
+
+msgid "push_client_edge_case"
+msgstr "Möglicherweise hat der Edge Browser ihre Benachrichtigungen automatisch deaktiviert. Gehen Sie in die Browsereinstellungen um diese zu reaktivieren."
+
+msgid "push_client_inactive"
+msgstr "Push-Benachrichtigungen für diese Webseite sind deaktiviert. Öffnen sie die Browsereinstellungen um sie zu aktivieren."
+
+msgid "push_client_ios_case"
+msgstr "Wenn sie IOS (IPhone, IPad, IPod) nutzen werden keine Benachrichtigungen durch Webseiten unterstützt. Erstellen sie einen Web App Zugriff um Benachrichtigungen nutzen zu können."
+
+msgid "push_settings"
+msgstr "Push-Benachrichtigungen"
+
+msgid "push_subscription_successfull"
+msgstr "Aktivierung der Push-Benachrichtigungen erfolgreich"
+
+msgid "push_subscription_successfull_desc"
+msgstr "Dies ist eine Test Benachrichtigungen um die erfolgreiche Aktivierung der Push Benachrichtigungen zu bestätigen."
+
+msgid "user_settings"
+msgstr "Benutzereinstellungen"

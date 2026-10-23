@@ -1,0 +1,180 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ro\n"
+"Language-Team: Romanian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n == 0 || n != 1 && n % 100 >= 1 && n % 100 <= 19) ? 1 : 2);\n"
+"X-Domain: jscalendar\n"
+
+msgid "about_calendar"
+msgstr "Despre calendar"
+
+msgid "about_calendar_long"
+msgstr "Selector de Data / Timp DHTML \\n(c) dynarch.com 2002-2003\\nPentru ultima versiune vizitati: http://dynarch.com/mishoo/calendar.epl\\nDistribuit sub conditiile GNU LGPL.  Vezi http://gnu.org/licenses/lgpl.html pentru detalii.\\n\\nSelectarea datei:\\n- Folositi butoanele Ã‚Â«, Ã‚Â» pentru a selecta anul\\n- Folositi butoanele <, > pentru a selecta luna \\n- Tineti apasat butonul de la mouse pe oricare din butoanele de mai sus pentru o selectare mai rapida."
+
+msgid "about_time"
+msgstr "\\n\\nSelectarea timpului:\\n- Apasati pe oricare din diviziunile timpului pentru a-i mari valoarea\\n- sau tineti apasat si shift pentru ai scadea valoarea\\n- sau apasati si trageti pentru o selectare mai rapida."
+
+msgid "day_first"
+msgstr "Afiseaza %s mai intai"
+
+msgid "def_date_format"
+msgstr "%A-%l-%z"
+
+msgid "drag_to_move"
+msgstr "Trageti pentru a muta"
+
+msgid "go_today"
+msgstr "Mergi la data de azi"
+
+msgid "l_01"
+msgstr "Ianuarie"
+
+msgid "l_02"
+msgstr "Februarie"
+
+msgid "l_03"
+msgstr "Martie"
+
+msgid "l_04"
+msgstr "Aprilie"
+
+msgid "l_05"
+msgstr "Mai"
+
+msgid "l_06"
+msgstr "Iunie"
+
+msgid "l_07"
+msgstr "Iulie"
+
+msgid "l_08"
+msgstr "August"
+
+msgid "l_09"
+msgstr "Septembrie"
+
+msgid "l_10"
+msgstr "Octombrie"
+
+msgid "l_11"
+msgstr "Noiembrie"
+
+msgid "l_12"
+msgstr "Decembrie"
+
+msgid "l_fr"
+msgstr "Vineri"
+
+msgid "l_mo"
+msgstr "Luni"
+
+msgid "l_sa"
+msgstr "Sambata"
+
+msgid "l_su"
+msgstr "Duminica"
+
+msgid "l_th"
+msgstr "Joi"
+
+msgid "l_tu"
+msgstr "Marti"
+
+msgid "l_we"
+msgstr "Miercuri"
+
+msgid "next_month"
+msgstr "luna urmatoare (pastreaza pentru meniu)"
+
+msgid "next_year"
+msgstr "anul urmator (pastreaza pentru meniu)"
+
+msgid "open_calendar"
+msgstr "Apasati aici pentru a deschide un calendar pentru selectarea datei (JavaScript este necesar!)"
+
+msgid "part_today"
+msgstr " (azi)"
+
+msgid "prev_month"
+msgstr "Luna trecuta (pastreaza pentru meniu)"
+
+msgid "prev_year"
+msgstr "Anul trecut (pastreaza pentru meniu)"
+
+msgid "s_01"
+msgstr "Ian"
+
+msgid "s_02"
+msgstr "Feb"
+
+msgid "s_03"
+msgstr "Mar"
+
+msgid "s_04"
+msgstr "Apr"
+
+msgid "s_05"
+msgstr "Mai"
+
+msgid "s_06"
+msgstr "Iun"
+
+msgid "s_07"
+msgstr "Iul"
+
+msgid "s_08"
+msgstr "Aug"
+
+msgid "s_09"
+msgstr "Sep"
+
+msgid "s_10"
+msgstr "Oct"
+
+msgid "s_11"
+msgstr "Noi"
+
+msgid "s_12"
+msgstr "Dec"
+
+msgid "s_fr"
+msgstr "Vi"
+
+msgid "s_mo"
+msgstr "Lu"
+
+msgid "s_sa"
+msgstr "Sa"
+
+msgid "s_su"
+msgstr "Du"
+
+msgid "s_th"
+msgstr "Jo"
+
+msgid "s_tu"
+msgstr "Ma"
+
+msgid "s_we"
+msgstr "Mi"
+
+msgid "select_date"
+msgstr "Selectati data"
+
+msgid "time"
+msgstr "Timp"
+
+msgid "time_part"
+msgstr "(Shift-)Apasati sau trageti pentru a schimba valoarea"
+
+msgid "today"
+msgstr "Azi"
+
+msgid "tt_date_format"
+msgstr "%a, %b %e"
+
+msgid "wk"
+msgstr "sapt"

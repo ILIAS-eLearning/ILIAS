@@ -1,0 +1,53 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: pwassist\n"
+
+msgid "password_assistance"
+msgstr "Stöd för lösenord"
+
+msgid "pwassist_disabled_no_access"
+msgstr "Stöd för lösenord är inte aktiverat.  Kontakta en systemadministratör för ytterligare support"
+
+msgid "pwassist_enter_email"
+msgstr "Ange din e-postadress här. ILIAS kommer att skicka en lista över alla relaterade inloggningsnamn till denna adress och informera dig om lösenordssupport. Om du inte får något e-postmeddelande, meddela din kursadministratör eller skicka ett e-postmeddelan"
+
+msgid "pwassist_enter_username_and_email"
+msgstr "Ange ett inloggningsnamn och motsvarande e-postadress. ILIAS kommer att skicka instruktioner för att ange ett nytt lösenord till denna adress. Om du inte får något e-postmeddelande, meddela din kursadministratör eller skicka ett e-postmeddelande till %1$"
+
+# Modifierad som en del av jämställdhetsintegreringsaktiviteter för ILIAS 8
+msgid "pwassist_enter_username_and_new_password"
+msgstr "Ange inloggningsnamn och tilldela ett nytt lösenord."
+
+# Modifierad som en del av jämställdhetsintegreringsaktiviteter för ILIAS 8
+msgid "pwassist_login_not_match"
+msgstr "Det inloggningsnamn du angav stämmer inte överens med det inloggningsnamn som du begärde lösenordssupport för. Vänligen ange rätt inloggningsnamn."
+
+msgid "pwassist_mail_body"
+msgstr "Ange ett nytt lösenord för ditt inloggningskonto %1$s <br><br>Detta meddelande genererades automatiskt av ILIAS-installationen"
+
+msgid "pwassist_mail_sent"
+msgstr "ILIAS har skickat ett e-postmeddelande till adressen %1$s, om det finns ett ILIAS-konto med det angivna inloggningsnamnet och e-postadressen. Ytterligare instruktioner finns i detta e-postmeddelande."
+
+msgid "pwassist_mail_sent_generic"
+msgstr "ILIAS har skickat ett e-postmeddelande till den deponerade adressen. Du hittar ytterligare instruktioner i detta mail."
+
+msgid "pwassist_mail_subject"
+msgstr "ILIAS lösenord stöd"
+
+msgid "pwassist_password_assigned"
+msgstr "Lösenordet för inloggningsnamnet %1$s sparades framgångsrikt."
+
+msgid "pwassist_session_expired"
+msgstr "Vänligen fyll i formuläret igen. Tiden för att utföra lösenordssupport har löpt ut. Det kan bero på att du har försökt använda den adress som skickades till dig mer än en gång, eller att det har gått för lång tid sedan adressen skickades till dig."
+
+msgid "pwassist_username_mail_body"
+msgstr "Detta är de aktiva inloggningsnamn som tilldelats denna e-postadress i ILIAS."
+
+msgid "unassist_disabled_no_access"
+msgstr "Stöd för inloggningsnamn är inte aktiverat. Kontakta en systemadministratör för ytterligare support"

@@ -1,0 +1,305 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ar\n"
+"Language-Team: Arabic\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=6; plural=(n == 0) ? 0 : ((n == 1) ? 1 : ((n == 2) ? 2 : ((n % 100 >= 3 && n % 100 <= 10) ? 3 : ((n % 100 >= 11 && n % 100 <= 99) ? 4 : 5))));\n"
+"X-Domain: news\n"
+
+#, fuzzy
+msgid "lso_news_online_title"
+msgstr "A new learning sequence object is online!"
+
+#, fuzzy
+msgid "lso_news_online_txt"
+msgstr "A new object for your learning sequence was just published."
+
+#, fuzzy
+msgid "new_test_online"
+msgstr "The Test was set online."
+
+msgid "news_1_file_created"
+msgstr "1 File has been added."
+
+msgid "news_1_file_updated"
+msgstr "1 File has been updated."
+
+#, fuzzy
+msgid "news_1_postings"
+msgstr "One post has been added."
+
+msgid "news_add_news"
+msgstr "اضافة اخبار"
+
+msgid "news_all_items"
+msgstr "اخبار لجميع العناصر على سطح المكتب الشخصي"
+
+msgid "news_allow_longer_periods"
+msgstr "السماح بمدة اطول"
+
+msgid "news_allow_longer_periods_info"
+msgstr "سيختار المستخدمون مدة الاخبار الاطول على اجهزتهم الشخصية"
+
+msgid "news_allow_shorter_periods"
+msgstr "السماح بمدة اقصر"
+
+msgid "news_allow_shorter_periods_info"
+msgstr "سيختار المستخدمون مدة الاخبار الاقصر على اجهزتهم الشخصية"
+
+msgid "news_attached_to"
+msgstr "Attached to"
+
+msgid "news_block_information"
+msgstr "The <b>News</b> block lists all news that are related to the <b>Personal Items</b> you have selected on the personal desktop."
+
+msgid "news_cache"
+msgstr "اخبار الكاش- دقائق"
+
+msgid "news_cache_info"
+msgstr "تحديث الاخبار في كل الدقائق السابقة. 0 يعني في كل وقت. تحسن القيم العليا العرض لكن الاخبار يمكن ان تتصل بعناصر غير قابلة للوصول"
+
+msgid "news_default_visibility"
+msgstr "الوصول الافتراضي"
+
+msgid "news_edit_news_settings"
+msgstr "تعديل الاعدادات"
+
+msgid "news_enable_internal_news"
+msgstr "تفعيل الاخبار الداخلية"
+
+msgid "news_enable_internal_news_info"
+msgstr "تفعيل اخبار الفئات والدورات والمجموعات والعناصر الاخرى. يستطيع المستخدمون الاشتراك بالاخبار والاخبار الموجودة على سطح المكتب الشخصي."
+
+msgid "news_enable_internal_rss"
+msgstr " للاخبار الداخلية RSS تفعيل"
+
+msgid "news_enable_internal_rss_info"
+msgstr "سيكون بالامكان الوصول للعناصر الموجودة خارج النظام دون المصادقة RSS السماح للاخبار بواسطة"
+
+msgid "news_enable_private_feed"
+msgstr "تمكين نشرة الاخبار الخاصة"
+
+msgid "news_enable_private_feed_info"
+msgstr "تم تزويد المصادقة بكلمة مرور ILIAS الشخصية خارج RSS عند تفعيل هذا الخيار سيكون بالامكان حفظ الاخبار العامة والخاصة بواسطة نشرات"
+
+msgid "news_feed_url"
+msgstr "Feed URL"
+
+msgid "news_feed_url_for"
+msgstr "Feed URL for '%s'"
+
+msgid "news_first_letter_of_word_notification"
+msgstr "N"
+
+msgid "news_get_feed_info"
+msgstr "This is a personal news feed URL. The feed includes only news that are declared as public by the author. The feed is not protected by any authentication procedure. Please do not share this URL with other people."
+
+msgid "news_get_feed_title"
+msgstr "Personal Feed URL"
+
+msgid "news_get_feed_url"
+msgstr "الحصول على رابط الخلاصة"
+
+msgid "news_get_priv_feed_info"
+msgstr "This is a personal private news feed URL. The feed includes news that are declared as public and private by the author. This feed is protected by a password, which can be changed under \"Settings\". Please do not share this URL with other people. Please replace -password- in this URL with your Feed-Password."
+
+msgid "news_get_priv_feed_title"
+msgstr "Personal private Feed-URL"
+
+msgid "news_hide_news_block"
+msgstr "Hide News Block"
+
+msgid "news_hide_news_block_info"
+msgstr "Hide block in learner's view. The news block will only be visible for users with write permission."
+
+msgid "news_hide_news_date"
+msgstr "Starting Date"
+
+msgid "news_hide_news_per_date"
+msgstr "Show News After"
+
+msgid "news_hide_news_per_date_info"
+msgstr "Only news that are newer than a certain date will be displayed."
+
+#, fuzzy
+msgid "news_inactive_private_feed_info"
+msgstr "Your private news feed is deactivated. Please set a password in the settings."
+
+msgid "news_internal_news"
+msgstr "أخبار"
+
+msgid "news_keep_minimal_x_items"
+msgstr "Keep at least x items"
+
+msgid "news_keep_minimal_x_items_info"
+msgstr "If set to a value > 0, this is the number of items that are kept in the feed, even if they are older than the default lifetime."
+
+msgid "news_loading_news"
+msgstr "تحميل الاخبار....."
+
+#, fuzzy
+msgid "news_media"
+msgstr "Media File"
+
+#, fuzzy
+msgid "news_new_comments"
+msgstr "New comments"
+
+#, fuzzy
+msgid "news_new_reactions"
+msgstr "New reactions"
+
+#, fuzzy
+msgid "news_news_block"
+msgstr "News Block"
+
+msgid "news_news_item_content"
+msgstr "النص"
+
+msgid "news_news_item_content_long"
+msgstr "نص طويل"
+
+msgid "news_news_item_content_long_info"
+msgstr " RSS هذا النص لن ينشر بواسطة"
+
+#, fuzzy
+msgid "news_news_item_def_visibility_public_info"
+msgstr "Current news are accessible in a public RSS webfeed. They should not contain confidential information."
+
+#, fuzzy
+msgid "news_news_item_def_visibility_users_info"
+msgstr "Only authenticated users have access to current news."
+
+msgid "news_news_item_head"
+msgstr "عنصر الاخبار"
+
+msgid "news_news_item_title"
+msgstr "عنوان رئيسي"
+
+msgid "news_news_item_visibility"
+msgstr "وصول"
+
+msgid "news_news_item_visibility_info"
+msgstr "  الرجاء عدم ادراج اية معلومات سرية RSS بواسطة النظام يمكن الدخول الى الاخبار العامة بدون المصادقة خارج"
+
+msgid "news_news_items"
+msgstr "عناصر الاخبار"
+
+msgid "news_no_js_click_here"
+msgstr "اذا لم يتم عرض الاخبار، انقر هنا"
+
+msgid "news_no_news_items"
+msgstr "لا يوجد اية اخبار"
+
+#, fuzzy
+msgid "news_not_available"
+msgstr "Unavailable News"
+
+msgid "news_notifications"
+msgstr "Notifications"
+
+msgid "news_notifications_public"
+msgstr "الاشعارات العامة"
+
+msgid "news_notifications_public_info"
+msgstr ".  الرجاء ملاحظة ان هذا سيجعل الاشعارات ممكنة بدون مصادقة ILIASالشخصية خارج RSS feeds اذا تم تفعيل هذا الخيار فسيتم حفظ اشعارات بواسطة"
+
+msgid "news_nr_of_items"
+msgstr "العدد الاقصى لمواضع الاخبار للعنصر"
+
+msgid "news_nr_of_items_info"
+msgstr "عدد الاخبار التي تم حفظها لعنصر معين، على سبيل المثال ملف او وحدة تعليمية، في قاعدة البيانات. الرجاء ملاحظة أن حاوي العناصر، كالفئات والدورات، يمكن ان تحوي عناصر اكثر لانها تجمع اخبار العناصر الفرعية"
+
+msgid "news_pd_period"
+msgstr "مدة اخبار سطح المكتب الشخصي"
+
+msgid "news_pd_period_info"
+msgstr "تعريف المدة الزمنية المستخدمة للاخبار على سطح المكتب الشخصي. اختر قيم اقل، اذا تعرضت لاية مشاكل في العرض"
+
+msgid "news_period_1_month"
+msgstr "الشهر الماضي"
+
+msgid "news_period_1_week"
+msgstr "الأسبوع الماضي"
+
+msgid "news_period_1_year"
+msgstr "السنة الماضية"
+
+msgid "news_period_x_days"
+msgstr "Last %s Days"
+
+msgid "news_period_x_months"
+msgstr "Last %s Months"
+
+msgid "news_period_x_weeks"
+msgstr "Last %s Weeks"
+
+msgid "news_public_feed"
+msgstr "اضافية RSS Feed"
+
+msgid "news_public_feed_info"
+msgstr "جديدRSS feed اذا تم تفعيل هذا الخيار، فسيتم التزويد ب"
+
+#, fuzzy
+msgid "news_really_delete_news"
+msgstr "Do you really want to delete this news item?"
+
+#, fuzzy
+msgid "news_rss"
+msgstr "RSS"
+
+msgid "news_rss_period"
+msgstr "RSS Period"
+
+msgid "news_rss_title_format"
+msgstr "RSS تصميم عنوان مدخلات"
+
+msgid "news_rss_title_format_news_obj"
+msgstr "العنوان الرئيسي للاخبار- عنوان العنصر"
+
+msgid "news_rss_title_format_obj_news"
+msgstr "عنوان العنصر- عنوان الاخبار الرئيسي"
+
+msgid "news_settings"
+msgstr "اعدادات الاخبار"
+
+#, fuzzy
+msgid "news_sorry_not_accessible_anymore"
+msgstr "Sorry, this item is not accessible anymore."
+
+msgid "news_time_period"
+msgstr "المدة"
+
+#, fuzzy
+msgid "news_timline_add_entries_info"
+msgstr "No news available yet. Click \"Add\" to create news entries."
+
+#, fuzzy
+msgid "news_timline_no_entries"
+msgstr "No news have been found."
+
+msgid "news_visibility_public"
+msgstr "عام"
+
+msgid "news_visibility_users"
+msgstr "تسجيل دخول المستخدمين"
+
+msgid "news_x_files_created"
+msgstr "%s Files have been added."
+
+msgid "news_x_files_updated"
+msgstr "%s Files have been updated."
+
+msgid "news_x_postings"
+msgstr "%s Postings have been added."
+
+msgid "passwd_equals_ilpasswd"
+msgstr "Please enter a password different from your ILIAS-password."
+
+msgid "priv_feed_disabled"
+msgstr "Private Newsfeed disabled."
+
+msgid "priv_feed_settings"
+msgstr "اعدادات نشرة الاخبار الخاصة"

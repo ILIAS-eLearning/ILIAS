@@ -1,0 +1,150 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: didactic\n"
+
+msgid "activate_exclusive_template"
+msgstr ""
+
+msgid "activate_exclusive_template_info"
+msgstr ""
+
+msgid "activate_local_didactic_template"
+msgstr ""
+
+msgid "activate_local_didactic_template_info"
+msgstr ""
+
+msgid "didactic_activated_msg"
+msgstr ""
+
+msgid "didactic_adm_tab"
+msgstr ""
+
+msgid "didactic_applicable_for"
+msgstr ""
+
+msgid "didactic_auto_generated"
+msgstr ""
+
+msgid "didactic_available_templates"
+msgstr ""
+
+msgid "didactic_back_to_overview"
+msgstr ""
+
+msgid "didactic_cannot_delete_auto_generated"
+msgstr ""
+
+msgid "didactic_cannot_delete_auto_generated_confirmation"
+msgstr ""
+
+msgid "didactic_confirm_apply_new_template"
+msgstr ""
+
+msgid "didactic_confirm_delete_msg"
+msgstr ""
+
+msgid "didactic_copy_suc_message"
+msgstr ""
+
+msgid "didactic_deactivated_msg"
+msgstr ""
+
+msgid "didactic_default_type"
+msgstr ""
+
+msgid "didactic_default_type_info"
+msgstr ""
+
+msgid "didactic_delete_msg"
+msgstr ""
+
+msgid "didactic_do_export"
+msgstr ""
+
+msgid "didactic_edit_tpl"
+msgstr ""
+
+msgid "didactic_filter_with_icon"
+msgstr ""
+
+msgid "didactic_filter_without_icon"
+msgstr ""
+
+msgid "didactic_global"
+msgstr ""
+
+msgid "didactic_icon"
+msgstr ""
+
+msgid "didactic_icon_error"
+msgstr ""
+
+msgid "didactic_icon_info"
+msgstr ""
+
+msgid "didactic_import_btn"
+msgstr ""
+
+msgid "didactic_import_failed"
+msgstr ""
+
+msgid "didactic_import_success"
+msgstr ""
+
+msgid "didactic_import_table_title"
+msgstr ""
+
+msgid "didactic_install_info"
+msgstr ""
+
+msgid "didactic_local"
+msgstr ""
+
+msgid "didactic_not_changed"
+msgstr ""
+
+msgid "didactic_scope"
+msgstr ""
+
+msgid "didactic_scope_list_header"
+msgstr ""
+
+msgid "didactic_selected_tpl_option"
+msgstr ""
+
+msgid "didactic_template_applied"
+msgstr ""
+
+msgid "didactic_template_update_import"
+msgstr ""
+
+msgid "didactic_template_update_import_info"
+msgstr ""
+
+msgid "didactic_translation_add_languages"
+msgstr ""
+
+msgid "dtpl_obj_type_info"
+msgstr ""
+
+msgid "effective_form"
+msgstr ""
+
+msgid "grp_closed"
+msgstr ""
+
+msgid "grp_closed_info"
+msgstr ""
+
+msgid "more_translations"
+msgstr ""
+
+msgid "sess_closed"
+msgstr ""
+
+msgid "sess_closed_info"
+msgstr ""

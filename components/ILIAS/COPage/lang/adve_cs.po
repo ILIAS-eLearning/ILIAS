@@ -1,0 +1,97 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: adve\n"
+
+msgid "advanced_editing_excass_settings"
+msgstr "Nastavení úkolů cvičení"
+
+msgid "advanced_editing_tst_editing"
+msgstr "Editor stránky pro dodatečný obsah otázky"
+
+msgid "advanced_editing_tst_editing_desc"
+msgstr "Aktivuje editor stránky ILIAS pro zpětnou vazbu a úpravu textu nápovědy."
+
+msgid "adve_activation"
+msgstr "Aktivace"
+
+msgid "adve_auto_url_linking"
+msgstr "Automatické URL odkazy"
+
+msgid "adve_auto_url_linking_info"
+msgstr "Snaží se identifikovat URL jako „http: // ..“ v odstavcích textu a automaticky z nich vytváří odkazy."
+
+#, fuzzy
+msgid "adve_autosave"
+msgstr "Automatic Saving Intervall"
+
+#, fuzzy
+msgid "adve_autosave_info"
+msgstr "Auto-save for text content. With shorter intervals, the server load increases and the performance of the system decreases."
+
+#, fuzzy
+msgid "adve_autosave_info_min_10"
+msgstr "Please choose a value of minimal 10 seconds if you activated this feature."
+
+msgid "adve_blocking_mode"
+msgstr "Uzamčení editace"
+
+msgid "adve_excass_settings"
+msgstr "Úkoly cvičení"
+
+msgid "adve_grp_copa"
+msgstr "Stránky obsahu"
+
+#, fuzzy
+msgid "adve_grp_frm"
+msgstr "Forums"
+
+msgid "adve_grp_glo"
+msgstr "Glosáře"
+
+msgid "adve_grp_lm"
+msgstr "Výukové moduly ILIAS"
+
+msgid "adve_grp_rep"
+msgstr "Stránky úložiště"
+
+msgid "adve_grp_scorm"
+msgstr "Editace SCORM"
+
+msgid "adve_grp_test"
+msgstr "Test & Hodnocení"
+
+msgid "adve_grp_wiki"
+msgstr "Wiki"
+
+msgid "adve_minutes"
+msgstr "Minuty"
+
+msgid "adve_minutes_info"
+msgstr "Minuty neaktivity před vypršením uzamčení editace a uvolnění stránky k editaci jiným uživatelem."
+
+msgid "adve_page_editor_settings"
+msgstr "Editor obsahu ILIAS"
+
+msgid "adve_pe_general"
+msgstr "Všeobecné"
+
+msgid "adve_rte_settings"
+msgstr "Editor TinyMCE"
+
+msgid "adve_text_content_features"
+msgstr "Nabídka textového obsahu"
+
+msgid "adve_use_physical"
+msgstr "Použít b/i/u namísto str/emp/imp"
+
+msgid "adve_use_physical_info"
+msgstr "Toto nastavení nahrazuje tlačítka sémantické třídy stylu pro silné (strong),  zdůrazněné (emphatic) a důležité (important) tlačítky fyzikálních atributů b (bold-tučné), i (italic-kurzíva) a u (underline-podtržené). Povšimněte si prosím, že to může mít za následek nekonzistence, pokud je použit tento editor stylu a jiné fyzické atributy jsou přiřazeny třídám stylu strong/emphatic/important."
+
+msgid "adve_use_tiny_mce"
+msgstr "Zapnout TinyMCE pro editaci WYSIWYG"

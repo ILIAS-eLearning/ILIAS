@@ -1,0 +1,121 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: itgr\n"
+
+msgid "itgr_always_open"
+msgstr "Mindig nyitva"
+
+#, fuzzy
+msgid "itgr_assign"
+msgstr "Assign"
+
+msgid "itgr_assign_materials"
+msgstr "Objektumok hozzárendelése"
+
+#, fuzzy
+msgid "itgr_assigned_first"
+msgstr "Assigned First"
+
+msgid "itgr_assigned_materials"
+msgstr "Hozzárendelt objektumok"
+
+msgid "itgr_assignment"
+msgstr "Hozzárendelve"
+
+#, fuzzy
+msgid "itgr_assignment_to_other_itgr"
+msgstr "Already assigned to another Object Group"
+
+#, fuzzy
+msgid "itgr_behaviour"
+msgstr "Block Behaviour"
+
+#, fuzzy
+msgid "itgr_behaviour_info"
+msgstr "The system will store the opened/closed state for the current user until logout."
+
+#, fuzzy
+msgid "itgr_create_and_assign_object"
+msgstr "Create and Assign Object"
+
+msgid "itgr_desc_info"
+msgstr "Az objektumcsoport leírása nem jelenik meg az objektumcsoport tárolójában."
+
+#, fuzzy
+msgid "itgr_display"
+msgstr "Display"
+
+#, fuzzy
+msgid "itgr_display_with_title"
+msgstr "With Title"
+
+#, fuzzy
+msgid "itgr_display_with_title_and_toggleable"
+msgstr "With Title, Item Group collapsible"
+
+#, fuzzy
+msgid "itgr_display_with_title_and_toggleable_initially"
+msgstr "Initial state"
+
+#, fuzzy
+msgid "itgr_display_with_title_and_toggleable_initially_closed"
+msgstr "initially closed"
+
+#, fuzzy
+msgid "itgr_display_with_title_and_toggleable_initially_open"
+msgstr "initially opened"
+
+#, fuzzy
+msgid "itgr_display_without_title"
+msgstr "Without Title"
+
+msgid "itgr_edit"
+msgstr "Objektumcsoportok módosítása"
+
+msgid "itgr_expandable_closed"
+msgstr "Kibontható (kezdetben zárt)"
+
+msgid "itgr_expandable_open"
+msgstr "Kibontható (kezdetben nyitott)"
+
+msgid "itgr_item"
+msgstr "Objektum"
+
+msgid "itgr_list"
+msgstr "Felsorolás"
+
+msgid "itgr_list_default"
+msgstr "Alapértelmezett"
+
+msgid "itgr_list_default_info"
+msgstr "Értékek örökítése a feljebbi tárolókból."
+
+msgid "itgr_list_presentation"
+msgstr "Elemmegjelenítés"
+
+msgid "itgr_materials"
+msgstr "Objektumok"
+
+#, fuzzy
+msgid "itgr_organise_objects"
+msgstr "Manage Objects"
+
+msgid "itgr_tile"
+msgstr "Csempe"
+
+msgid "itgr_tile_size"
+msgstr "Csempe mérete"
+
+#, fuzzy
+msgid "itgr_unassign"
+msgstr "Unassign"
+
+#, fuzzy
+msgid "itgr_unassigned_first"
+msgstr "Unassigned First"

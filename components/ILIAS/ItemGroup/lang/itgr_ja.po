@@ -1,0 +1,119 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: itgr\n"
+
+msgid "itgr_always_open"
+msgstr "常時オープン"
+
+#, fuzzy
+msgid "itgr_assign"
+msgstr "Assign"
+
+msgid "itgr_assign_materials"
+msgstr "教材を割当てる"
+
+#, fuzzy
+msgid "itgr_assigned_first"
+msgstr "Assigned First"
+
+msgid "itgr_assigned_materials"
+msgstr "割り当てる教材"
+
+msgid "itgr_assignment"
+msgstr "割り当て"
+
+#, fuzzy
+msgid "itgr_assignment_to_other_itgr"
+msgstr "Already assigned to another Item Group"
+
+msgid "itgr_behaviour"
+msgstr "ブロックの動作"
+
+msgid "itgr_behaviour_info"
+msgstr "現在のユーザがログアウトするまでの間システムは開いたもの/閉じたものを保存します。"
+
+#, fuzzy
+msgid "itgr_create_and_assign_object"
+msgstr "Create and Assign Object"
+
+msgid "itgr_desc_info"
+msgstr "説明はコンテナ内のグループプレゼンテーションの部分アイテムにはなりません。"
+
+#, fuzzy
+msgid "itgr_display"
+msgstr "Display"
+
+#, fuzzy
+msgid "itgr_display_with_title"
+msgstr "With Title"
+
+#, fuzzy
+msgid "itgr_display_with_title_and_toggleable"
+msgstr "With Title, Item Group collapsible"
+
+#, fuzzy
+msgid "itgr_display_with_title_and_toggleable_initially"
+msgstr "Initial state"
+
+#, fuzzy
+msgid "itgr_display_with_title_and_toggleable_initially_closed"
+msgstr "initially closed"
+
+#, fuzzy
+msgid "itgr_display_with_title_and_toggleable_initially_open"
+msgstr "initially opened"
+
+#, fuzzy
+msgid "itgr_display_without_title"
+msgstr "Without Title"
+
+msgid "itgr_edit"
+msgstr "アイテムグループを編集"
+
+msgid "itgr_expandable_closed"
+msgstr "拡張可(初期値は閉じている)"
+
+msgid "itgr_expandable_open"
+msgstr "拡張可(初期値は開いている)"
+
+msgid "itgr_item"
+msgstr "アイテム"
+
+msgid "itgr_list"
+msgstr "List"
+
+msgid "itgr_list_default"
+msgstr "Default"
+
+msgid "itgr_list_default_info"
+msgstr "上位コンテナからボリュームを引き継ぐ"
+
+msgid "itgr_list_presentation"
+msgstr "アイテムプレゼンテーション"
+
+msgid "itgr_materials"
+msgstr "材料"
+
+#, fuzzy
+msgid "itgr_organise_objects"
+msgstr "Manage Objects"
+
+msgid "itgr_tile"
+msgstr "Tiles"
+
+msgid "itgr_tile_size"
+msgstr "Tile Size"
+
+#, fuzzy
+msgid "itgr_unassign"
+msgstr "Unassign"
+
+#, fuzzy
+msgid "itgr_unassigned_first"
+msgstr "Unassigned First"

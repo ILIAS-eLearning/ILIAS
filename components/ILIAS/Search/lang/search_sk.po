@@ -1,0 +1,461 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sk\n"
+"Language-Team: Slovak\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: search\n"
+
+msgid "add_members_header"
+msgstr "Přidat členy"
+
+msgid "append_results"
+msgstr "Připojit výsledky"
+
+#, fuzzy
+msgid "btn_search"
+msgstr "Search"
+
+msgid "last_search_result"
+msgstr "Poslední výsledky hledání"
+
+msgid "lucene_and"
+msgstr "AND"
+
+msgid "lucene_cpu"
+msgstr "Maximální počet vláken"
+
+msgid "lucene_create_ini"
+msgstr "Vytvořit konfigurační soubor"
+
+msgid "lucene_default_operator"
+msgstr "Výchozí operátor"
+
+msgid "lucene_default_operator_info"
+msgstr "Vyberte prosím výchozí operátor pro booleovské dotazy. Ve výchozím módu podmínka \"AND\" je považována za konjunkci. V módu \"OR\" tato podmínka bez jakýchkoli modifikátorů je považována za volitelnou."
+
+msgid "lucene_download_ini"
+msgstr "Stáhnout konfigurační soubor"
+
+msgid "lucene_err_ampersand"
+msgstr "Dotazy obsahující zvláštní znaky && musí být ve tvaru: termín1 && termín2."
+
+msgid "lucene_err_and_or_not"
+msgstr "Dotazy obsahující  AND/OR/NOT musí být ve tvaru: termín1 AND|OR|NOT|AND NOT termín2."
+
+msgid "lucene_err_asterisk"
+msgstr "Zástupnému znaku (*) musí předcházet nejméně jedno písmeno nebo číslice."
+
+msgid "lucene_err_caret"
+msgstr "Znaku stříšky (^) musí předcházet alfanumerické znaky a po něm musí následovat číslice."
+
+msgid "lucene_err_colon"
+msgstr "Deklaraci pole (:) musí předcházet alespoň jeden alfanumerický znak a za ním musí následovat nejméně jeden alfanumerický znak."
+
+msgid "lucene_err_exclamation_mark"
+msgstr "Dotazy obsahující zvláštní znak (!) musí být ve tvaru: termín1 ! termín2."
+
+msgid "lucene_err_parenthesis_empty"
+msgstr "Závorky musí obsahovat nejméně jeden znak."
+
+msgid "lucene_err_parenthesis_not_closed"
+msgstr "Závorky musí být uzavřeny."
+
+msgid "lucene_err_plus_minus"
+msgstr "(+) a (-) modifikátory musí být následovány nejméně jedním písmenem nebo číslem."
+
+msgid "lucene_err_question_mark"
+msgstr "Znaku otazníku (?) musí předcházet nejméně jedno písmeno nebo číslice."
+
+msgid "lucene_err_quotes"
+msgstr "Uzavřete prosím všechny znaky uvozovek (\")."
+
+msgid "lucene_err_quotes_not_empty"
+msgstr "Uvozovky (\") musí obsahovat nejméně jeden znak."
+
+msgid "lucene_general_settings"
+msgstr "Obecná nastavení"
+
+msgid "lucene_host"
+msgstr "Host"
+
+msgid "lucene_host_info"
+msgstr "Vložte prosím hostitelské jméno (hostname) nebo IP adresu java serveru."
+
+msgid "lucene_index_path"
+msgstr "Adresář pro indexované soubory"
+
+msgid "lucene_index_path_info"
+msgstr "Vložte prosím název adresáře pro ukládání indexovaných souborů."
+
+msgid "lucene_last_index_time"
+msgstr "Generování posledního indexu"
+
+msgid "lucene_last_index_time_info"
+msgstr "Upravte prosím toto nastavení, pokud máte nainstalováno zálohování indexování."
+
+msgid "lucene_level"
+msgstr "Úroveň přihlášení"
+
+msgid "lucene_log"
+msgstr "Cesta k Logfile"
+
+msgid "lucene_log_info"
+msgstr "The file will be created automatically."
+
+#, fuzzy
+msgid "lucene_max_fs"
+msgstr "Maximum Filesize (in MB)"
+
+#, fuzzy
+msgid "lucene_max_fs_info"
+msgstr "Defines the file size limit. Bigger files will not be included in the index."
+
+msgid "lucene_num_frag_info"
+msgstr "Vyberte prosím maximální počet zvýrazněných fragmentů textu."
+
+msgid "lucene_num_fragments"
+msgstr "Počet fragmentů textu."
+
+#, fuzzy
+msgid "lucene_offline_filter"
+msgstr "Offline-Status"
+
+msgid "lucene_or"
+msgstr "OR"
+
+msgid "lucene_port"
+msgstr "Port"
+
+#, fuzzy
+msgid "lucene_prefix_wildcard"
+msgstr "Prefix Wildcard Queries"
+
+#, fuzzy
+msgid "lucene_prefix_wildcard_info"
+msgstr "If enabled, prefix wildcard queries (*LIAS finds ILIAS) are supported."
+
+#, fuzzy
+msgid "lucene_settings_index_section"
+msgstr "Index Backup"
+
+msgid "lucene_settings_tab"
+msgstr "Lucene"
+
+#, fuzzy
+msgid "lucene_settings_text_section"
+msgstr "Presentation of Search Results"
+
+msgid "lucene_settings_title"
+msgstr "Nastavení Lucene"
+
+msgid "lucene_size_frag_info"
+msgstr "Vyberte prosím maximální délku fragmentu zvýrazněného textu."
+
+msgid "lucene_size_fragments"
+msgstr "Délka textových fragmentů"
+
+msgid "lucene_tbl_create_ini"
+msgstr "Vytvořit inicializační soubor Java-serveru"
+
+#, fuzzy
+msgid "search_add_members_from_container_crs"
+msgstr "Add Users of Current Course"
+
+#, fuzzy
+msgid "search_add_members_from_container_grp"
+msgstr "Add Users of Current Group"
+
+msgid "search_any"
+msgstr "-- Libovolný --"
+
+#, fuzzy
+msgid "search_area_filter"
+msgstr "Scope"
+
+msgid "search_area_info"
+msgstr "Vyberte prosím oblast, kde by hledání mělo začít."
+
+msgid "search_auto_complete_length"
+msgstr "Počet automaticky kompletovaného seznamu položek"
+
+#, fuzzy
+msgid "search_auto_complete_length_info"
+msgstr "Choose ‘0‘ to switch off the auto-complete list."
+
+#, fuzzy
+msgid "search_cdate_filter"
+msgstr "Filter by Creation Date"
+
+#, fuzzy
+msgid "search_cdate_filter_info"
+msgstr "If enabled, the object search can be filtered by an optional creation date filter."
+
+msgid "search_content"
+msgstr "Obsah stránky"
+
+#, fuzzy
+msgid "search_copyright"
+msgstr "Copyright"
+
+#, fuzzy
+msgid "search_created_after"
+msgstr "Objects created after"
+
+#, fuzzy
+msgid "search_created_before"
+msgstr "Objects created before..."
+
+#, fuzzy
+msgid "search_created_on"
+msgstr "Objects create on..."
+
+msgid "search_crs_title"
+msgstr "Název kurzu"
+
+#, fuzzy
+msgid "search_detailed_results_title"
+msgstr "Detailed results in %s"
+
+msgid "search_details_info"
+msgstr "Podrobné hledání. Vyberte prosím jeden, nebo více zdrojových typů"
+
+msgid "search_direct"
+msgstr "Přímé hledání"
+
+#, fuzzy
+msgid "search_err_user_not_exist"
+msgstr "A user with that login name does not exist."
+
+msgid "search_fast_info"
+msgstr "Hledání názvu, popisu a klíčových slov ve všech typech objektů"
+
+#, fuzzy
+msgid "search_field"
+msgstr "Search Input Field"
+
+#, fuzzy
+msgid "search_field_perform"
+msgstr "Perform Search"
+
+#, fuzzy
+msgid "search_filter_by_type"
+msgstr "Filter by Type"
+
+#, fuzzy
+msgid "search_filter_cd"
+msgstr "Filter by Creation Date"
+
+#, fuzzy
+msgid "search_filter_settings_section"
+msgstr "Filters for the Search Results"
+
+msgid "search_for_crs_members"
+msgstr "Hledat členy kurzu"
+
+msgid "search_for_grp_members"
+msgstr "Vybrat členy skupiny"
+
+#, fuzzy
+msgid "search_for_orgu_members"
+msgstr "Search for Organisational Units"
+
+#, fuzzy
+msgid "search_for_orgu_members_recursive"
+msgstr "Include Subunits?"
+
+msgid "search_for_role_members"
+msgstr "Vybrat členy role"
+
+msgid "search_for_users"
+msgstr "Vybrat uživatele"
+
+msgid "search_grp_title"
+msgstr "Název skupiny"
+
+msgid "search_item_filter_form"
+msgstr "Hledat dle typu"
+
+msgid "search_item_filter_form_info"
+msgstr "Je-li zapnuto, hledání může být omezeno na vybrané typy položek."
+
+#. Needs to be adapted to new content of German lang file.
+msgid "search_like_info"
+msgstr "Vyberte tuto volbu k dosažení nejlepších výsledků."
+
+msgid "search_limit_reached"
+msgstr "Vaše hledání dosáhlo přes %s zásahů. Můžete omezit termín hledání k získání podrobnějších výsledků."
+
+msgid "search_lucene"
+msgstr "Hledání pomocí Lucene"
+
+#, fuzzy
+msgid "search_mime_excel"
+msgstr "Excel Files"
+
+#, fuzzy
+msgid "search_mime_filter_form"
+msgstr "Mime Type Filter"
+
+#, fuzzy
+msgid "search_mime_filter_form_info"
+msgstr "Search can be restricted to the chosen mime types."
+
+#, fuzzy
+msgid "search_mime_image"
+msgstr "Images"
+
+#, fuzzy
+msgid "search_mime_pdf"
+msgstr "PDF Files"
+
+#, fuzzy
+msgid "search_mime_powerpoint"
+msgstr "Powerpoint Files"
+
+#, fuzzy
+msgid "search_mime_word"
+msgstr "Word Files"
+
+#, fuzzy
+msgid "search_minimum_info"
+msgstr "Your search must be at least %s characters long"
+
+msgid "search_minimum_three"
+msgstr "Hledaný výraz musí být minimálně tři znaky dlouhý"
+
+#, fuzzy
+msgid "search_newer_than"
+msgstr "Objects newer than"
+
+msgid "search_no_connection_lucene"
+msgstr "Nelze pripojit Lucene server."
+
+#, fuzzy
+msgid "search_no_further_match"
+msgstr "No further matches found."
+
+msgid "search_no_match"
+msgstr "Nebyla nalezena žádná data vyhovující zadané podmínce"
+
+msgid "search_no_match_hint"
+msgstr "Vašemu zadání - <b>%s</b> - neodpovídá žádný dokument.<br /><br />Doporučení:<br />Zkontrolujte, zda všechna slova jsou korektně napsána.<br />Zkuste jiná klíčová slova.<br />Zkuste obecnější klíčová slova.<br />Zkuste méně klíčových slov."
+
+msgid "search_no_selection"
+msgstr "Nic jste nevybral"
+
+#, fuzzy
+msgid "search_off"
+msgstr "Off"
+
+#, fuzzy
+msgid "search_readme_file"
+msgstr "Readme File"
+
+#, fuzzy
+msgid "search_results_show_subitems"
+msgstr "See detailed results"
+
+#, fuzzy
+msgid "search_results_too_many_subitems"
+msgstr "More results are available, please make your search terms more precise."
+
+msgid "search_role_title"
+msgstr "Název role"
+
+msgid "search_select_search_area"
+msgstr "Vyberte oblast hledání"
+
+#, fuzzy
+msgid "search_server_further_information"
+msgstr "You can find further information about the Lucene server configuration in the readme file."
+
+#, fuzzy
+msgid "search_show_inactive_user"
+msgstr "Show Inactive Users"
+
+#, fuzzy
+msgid "search_show_inactive_user_info"
+msgstr "If enabled, the user search will show inactive users."
+
+#, fuzzy
+msgid "search_show_limited_user"
+msgstr "Show Limited Users"
+
+#, fuzzy
+msgid "search_show_limited_user_info"
+msgstr "If enabled, the user search will show users with limited access and outside their allowed time period."
+
+#, fuzzy
+msgid "search_sort_by"
+msgstr "Sortation: %s"
+
+#, fuzzy
+msgid "search_sort_creation_date_asc"
+msgstr "Oldest"
+
+#, fuzzy
+msgid "search_sort_creation_date_desc"
+msgstr "Latest"
+
+#, fuzzy
+msgid "search_sort_relevance"
+msgstr "By Relevance"
+
+#, fuzzy
+msgid "search_sort_title_asc"
+msgstr "Alphabetically: A-Z"
+
+#, fuzzy
+msgid "search_sort_title_desc"
+msgstr "Alphabetically: Z-A"
+
+#, fuzzy
+msgid "search_tab_content"
+msgstr "Content"
+
+#, fuzzy
+msgid "search_tab_user"
+msgstr "Users"
+
+msgid "search_term_combination"
+msgstr "Kombinace"
+
+msgid "search_title_description"
+msgstr "Název / Popis"
+
+msgid "search_tst_svy"
+msgstr "Testy/Ankety"
+
+msgid "search_type"
+msgstr "Vyhledat typ"
+
+msgid "search_user"
+msgstr "Uživatelé"
+
+msgid "search_user_extended"
+msgstr "Rozšířené hledání uživatele"
+
+#, fuzzy
+msgid "search_user_search_form"
+msgstr "User Search"
+
+#, fuzzy
+msgid "search_user_search_info_form"
+msgstr "If enabled, users data will be indexed and is searchable."
+
+msgid "seas_search_type"
+msgstr "Vyhledat typ"
+
+#, fuzzy
+msgid "select_orgu"
+msgstr "Select Organisational Units"
+
+msgid "until"
+msgstr "do"
+
+#, fuzzy
+msgid "user_search_settings_section"
+msgstr "User Search in 'Member'-tabs"

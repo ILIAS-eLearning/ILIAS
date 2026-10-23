@@ -1,0 +1,249 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: help\n"
+
+msgid "gdtr_active"
+msgstr "有効化"
+
+msgid "gdtr_add_step"
+msgstr "ステップを追加"
+
+msgid "gdtr_add_tour"
+msgstr "ツアーを追加"
+
+msgid "gdtr_close"
+msgstr "ツアーを終了"
+
+msgid "gdtr_delete_step"
+msgstr "ステップを削除"
+
+msgid "gdtr_delete_step_mess"
+msgstr "このステップを削除してもよろしいですか？"
+
+msgid "gdtr_delete_tour"
+msgstr "ツアーを削除"
+
+msgid "gdtr_delete_tour_mess"
+msgstr "このツアーを削除しますか?"
+
+msgid "gdtr_deleted_step"
+msgstr "ステップは削除されました。"
+
+msgid "gdtr_deleted_tour"
+msgstr "ツアーは削除されました。"
+
+msgid "gdtr_edit_content"
+msgstr "コンテンツを編集"
+
+msgid "gdtr_edit_page_info"
+msgstr "選択したUI要素を説明するために提示すべき内容を編集します。"
+
+msgid "gdtr_edit_properties"
+msgstr "プロパティを編集"
+
+msgid "gdtr_edit_step_info"
+msgstr "この画面では、ツアーのこのステップで画面上のどの要素を説明するかを定義します。定義した説明文を表示するポップオーバーが、この要素を指す形で表示されます。"
+
+msgid "gdtr_edit_steps"
+msgstr "編集ステップ"
+
+msgid "gdtr_element_id"
+msgstr "要素ID"
+
+msgid "gdtr_form"
+msgstr "フォーム"
+
+msgid "gdtr_form_info"
+msgstr "メインコンテンツエリアの最初のフォーム。通常、ビューには1つのフォームのみ含める必要があります。"
+
+msgid "gdtr_guided_tours"
+msgstr "ガイド付きツアー"
+
+msgid "gdtr_id_pres_users"
+msgstr "ユーザアカウントのIDを表示"
+
+msgid "gdtr_id_pres_users_info"
+msgstr "要素IDを表示する必要があるユーザーのログイン名。複数のエントリはカンマで区切ってください。"
+
+msgid "gdtr_id_settings"
+msgstr "ID設定"
+
+msgid "gdtr_import_tour"
+msgstr "ツアーをインポート"
+
+msgid "gdtr_language"
+msgstr "言語"
+
+msgid "gdtr_language_info"
+msgstr "選択された言語のユーザーにのみガイド付きツアーを有効にします。"
+
+msgid "gdtr_list_tours_mess"
+msgstr "画面および要素のIDをツールチップとして表示するには、ID設定に切り替えてアカウント名を入力してください。"
+
+msgid "gdtr_mainbar"
+msgstr "メインバー"
+
+msgid "gdtr_mainbar_ID_info"
+msgstr "メインメニュー内の希望するエントリのID。エントリの上にマウスを移動すると、ツールチップとしてIDが表示されます。"
+
+msgid "gdtr_mainbar_info"
+msgstr "メインバーは左側のメインメニューです。"
+
+msgid "gdtr_metabar"
+msgstr "メタバー"
+
+msgid "gdtr_metabar_ID_info"
+msgstr "メタバー内の目的の要素のID。要素にマウスを移動すると、IDがツールチップとして表示されます。"
+
+msgid "gdtr_metabar_info"
+msgstr "メタバーは右上のメニューです"
+
+msgid "gdtr_next_step"
+msgstr "次のステップ"
+
+msgid "gdtr_permission"
+msgstr "許可"
+
+msgid "gdtr_permission_info"
+msgstr "現在のリポジトリオブジェクトに対して特定の権限を持つユーザーのみが利用できるガイド付きツアーを有効にします。例えば、コースの「設定を編集」権限を持つユーザーのみが対象です。「作成」が選択されている場合、ユーザーが任意の作成権限を持っていればツアーが有効になります。"
+
+msgid "gdtr_presentation_limitation"
+msgstr "プレゼンテーションの制限"
+
+msgid "gdtr_primary_button"
+msgstr "プライマリーボタン"
+
+msgid "gdtr_primary_button_info"
+msgstr "メインコンテンツエリアの最初のプライマリボタン。プライマリボタンは、標準ボタンと比べて強調して表示されます。通常、ビューにはプライマリボタンは1つだけ含めるべきです。"
+
+msgid "gdtr_reset_tour"
+msgstr "ツアーを再スタート"
+
+msgid "gdtr_reset_tour_mess"
+msgstr "ツアーをリセットすると、以前にツアーを終了したすべてのユーザーに再びツアーが表示されます。本当に続行してよろしいですか？"
+
+msgid "gdtr_screen_ids"
+msgstr "スクリーンID"
+
+msgid "gdtr_screen_ids_info"
+msgstr "システムの異なるビューに対してのみガイド付きツアーを有効にします。要素IDが有効になっている場合、現在のビューの画面IDはヘッダーの上部で確認できます。複数のIDはカンマで区切る必要があります。"
+
+msgid "gdtr_step"
+msgstr "ステップ"
+
+msgid "gdtr_step_type"
+msgstr "ユーザインタフェース要素"
+
+msgid "gdtr_table"
+msgstr "テーブル"
+
+msgid "gdtr_table_info"
+msgstr "メインコンテンツエリアの最初のテーブル。通常、ビューはテーブルを1つだけ含める必要があります。"
+
+msgid "gdtr_tabs"
+msgstr "タブ"
+
+msgid "gdtr_tabs_ID_info"
+msgstr "目的のタブのID。タブにマウスを重ねると、ツールチップとしてIDが表示されます。"
+
+msgid "gdtr_tabs_info"
+msgstr "タブは画面のメインヘッダーの下に表示されます。"
+
+msgid "gdtr_toolbar"
+msgstr "ツールバー"
+
+msgid "gdtr_toolbar_info"
+msgstr "メインコンテンツエリアの最初のツールバーは、通常タブの下に表示されます。ビューにはツールバーは1つだけ含める必要があります。"
+
+msgid "gdtr_tour_has_been_reset"
+msgstr "ツアーが再開されました。"
+
+msgid "gdtr_tour_settings"
+msgstr "設定を編集"
+
+msgid "gdtr_tour_steps"
+msgstr "ツアーステップ"
+
+msgid "gdtr_tours"
+msgstr "ツアー"
+
+msgid "gdtr_type"
+msgstr "タイプ"
+
+msgid "guided_tour"
+msgstr "ガイド付きツアー"
+
+msgid "help_all"
+msgstr "全て"
+
+msgid "help_component"
+msgstr "構成"
+
+msgid "help_filter"
+msgstr "フィルタ"
+
+msgid "help_help_file"
+msgstr "ヘルプパッケージファイル"
+
+msgid "help_help_only"
+msgstr "ワークフローヘルプのみ"
+
+msgid "help_imported_on"
+msgstr "インポートした日付"
+
+msgid "help_module_uploaded"
+msgstr "ヘルプパッケージをアップロードしました。"
+
+msgid "help_modules"
+msgstr "ヘルプパッケージ"
+
+msgid "help_no_content"
+msgstr "この画面にはヘルプコンテンツがありません。検索ツールを利用できます。"
+
+msgid "help_open_online_help"
+msgstr "オンライヘルプを開く"
+
+msgid "help_order"
+msgstr "Order"
+
+msgid "help_search_label"
+msgstr "Help検索"
+
+msgid "help_select_a_file"
+msgstr "ファイルを1個選択して下さい。"
+
+msgid "help_set_mode"
+msgstr "モードをセット"
+
+msgid "help_sure_delete_help_modules"
+msgstr "本当にそれらのパッケージを削除しますか。"
+
+msgid "help_toggle_tooltips"
+msgstr "ツールチップヘルプを切替える"
+
+msgid "help_toggle_tooltips_info"
+msgstr "メニューとタブ用のヘルプツールチップを表示"
+
+msgid "help_tooltip_id"
+msgstr "ツールチップID"
+
+msgid "help_tooltips"
+msgstr "ツールチップヘルプ"
+
+msgid "help_tooltips_and_help"
+msgstr "ツールチップとワークフローヘルプ"
+
+msgid "help_tooltips_only"
+msgstr "ツールチップのみ"
+
+msgid "help_topcis"
+msgstr "トピック"
+
+msgid "help_tt_text"
+msgstr "テキスト"

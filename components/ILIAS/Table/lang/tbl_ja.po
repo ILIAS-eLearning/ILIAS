@@ -1,0 +1,33 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: tbl\n"
+
+msgid "tbl_export_csv"
+msgstr ".csvをエクスポート"
+
+msgid "tbl_export_excel"
+msgstr ".xlsをエクスポート"
+
+msgid "tbl_selection"
+msgstr "選択"
+
+msgid "tbl_template_create"
+msgstr "現在の表示を保存する"
+
+msgid "tbl_template_created"
+msgstr "現在の表示が保存されました。"
+
+msgid "tbl_template_delete"
+msgstr "保存した表示を削除します"
+
+msgid "tbl_template_deleted"
+msgstr "保全した表示を削除しました。"
+
+msgid "tbl_templates"
+msgstr "表示"

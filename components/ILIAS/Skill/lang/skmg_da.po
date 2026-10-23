@@ -1,0 +1,722 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: da\n"
+"Language-Team: Danish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: skmg\n"
+
+#, fuzzy
+msgid "scat"
+msgstr "Skill Category"
+
+#, fuzzy
+msgid "skll"
+msgstr "Basic Skill"
+
+#, fuzzy
+msgid "skmg_360_survey"
+msgstr "360° Survey"
+
+#, fuzzy
+msgid "skmg_add_assignment"
+msgstr "Add Roles / Members"
+
+#, fuzzy
+msgid "skmg_add_level"
+msgstr "Add Level"
+
+#, fuzzy
+msgid "skmg_add_local_profile"
+msgstr "Add Local Profile"
+
+#, fuzzy
+msgid "skmg_add_profile"
+msgstr "Add Profile"
+
+#, fuzzy
+msgid "skmg_add_resource"
+msgstr "Add Resource"
+
+#, fuzzy
+msgid "skmg_add_skill"
+msgstr "Add Skill"
+
+#, fuzzy
+msgid "skmg_add_skill_tree"
+msgstr "Add Competence Tree"
+
+#, fuzzy
+msgid "skmg_add_user_to_profile"
+msgstr "Add users or roles to profile"
+
+#, fuzzy
+msgid "skmg_all"
+msgstr "All"
+
+#, fuzzy
+msgid "skmg_allow_local_profiles"
+msgstr "Allow Creation of Local Profiles"
+
+#, fuzzy
+msgid "skmg_allow_local_profiles_info"
+msgstr "Users with permission 'Edit Settings' in Courses and Groups can create local competence profiles using globally defined competences."
+
+#, fuzzy
+msgid "skmg_ass_materials_from_workspace"
+msgstr "Here you can assign materials, e.g. files, from your personal workspace to competence levels. If you would like to add materials to your personal workspace now, please click the following link."
+
+#, fuzzy
+msgid "skmg_assign_level"
+msgstr "Assign Level"
+
+#, fuzzy
+msgid "skmg_assign_materials"
+msgstr "Assign Materials"
+
+#, fuzzy
+msgid "skmg_assign_user"
+msgstr "Assign User"
+
+#, fuzzy
+msgid "skmg_assigned_objects"
+msgstr "Assigned Objects"
+
+#, fuzzy
+msgid "skmg_assigned_profiles"
+msgstr "Assigned Profiles"
+
+#, fuzzy
+msgid "skmg_assigned_skill_levels"
+msgstr "Assigned Competence Levels"
+
+#, fuzzy
+msgid "skmg_assigned_users"
+msgstr "Assigned Users"
+
+#, fuzzy
+msgid "skmg_bar_charts"
+msgstr "Bar Charts"
+
+#, fuzzy
+msgid "skmg_cannot_delete_nodes_in_use"
+msgstr "Some items cannot be deleted, because they are still in use."
+
+#, fuzzy
+msgid "skmg_cert_skill_level_title"
+msgstr "Skill Level Title"
+
+#, fuzzy
+msgid "skmg_cert_skill_title"
+msgstr "Skill Title"
+
+#, fuzzy
+msgid "skmg_cert_skill_trigger_title"
+msgstr "Skill Trigger Title"
+
+#, fuzzy
+msgid "skmg_confirm_level_resources_removal"
+msgstr "Do you really want to remove the followin resources from the competence level?"
+
+#, fuzzy
+msgid "skmg_confirm_remove_level_ass"
+msgstr "So you really want to remove the following competence levels from the profile?"
+
+#, fuzzy
+msgid "skmg_confirm_user_removal"
+msgstr "Do you really want to remove the following users from this profile?"
+
+#, fuzzy
+msgid "skmg_cont_profiles_info"
+msgstr "In this view, you can select the competence profiles with competence entries, which are related to the currently open object (course/group). To get to the global view with all competence profiles you are assigned to and all competence entries, click on the link below."
+
+#, fuzzy
+msgid "skmg_cont_profiles_info_empty"
+msgstr "There are no competence profiles related to the currently open object."
+
+#, fuzzy
+msgid "skmg_cont_records_info_empty"
+msgstr "There are no competences related to the currently opened object."
+
+#, fuzzy
+msgid "skmg_context_global"
+msgstr "Global"
+
+#, fuzzy
+msgid "skmg_context_local"
+msgstr "Local"
+
+#, fuzzy
+msgid "skmg_count_references"
+msgstr "Number of referenced competences:"
+
+#, fuzzy
+msgid "skmg_create_sctp"
+msgstr "Create Template Category"
+
+#, fuzzy
+msgid "skmg_create_skill_category"
+msgstr "Create Skill Category"
+
+#, fuzzy
+msgid "skmg_create_skill_template"
+msgstr "Create Skill Template"
+
+#, fuzzy
+msgid "skmg_create_skill_template_category"
+msgstr "Create Skill Template Category"
+
+#, fuzzy
+msgid "skmg_create_skill_template_reference"
+msgstr "Create Skill Template Reference"
+
+#, fuzzy
+msgid "skmg_create_skll"
+msgstr "Create Skill"
+
+#, fuzzy
+msgid "skmg_custom_image_alt"
+msgstr "Custom image for competence profile"
+
+#, fuzzy
+msgid "skmg_delete_profiles"
+msgstr "Do you really want to delete the following profiles?"
+
+#, fuzzy
+msgid "skmg_delete_warning"
+msgstr "Are you sure that you want to delete the following item(s)? When you delete the items, you also delete all usages, assignments and achievements of it. To be on the safe side, you find a list of all usages below. If the item is used in a competence profile, it will be removed from the profile, too. This may cause the fulfilment of the competence profile for the assigned users. If your are not sure whether an item should really be deleted, please use the statuses in the settings of a single item."
+
+#, fuzzy
+msgid "skmg_description_info"
+msgstr "The description comes from the template."
+
+#, fuzzy
+msgid "skmg_edit_level"
+msgstr "Edit Level"
+
+#, fuzzy
+msgid "skmg_edit_profile"
+msgstr "Edit Profile"
+
+#, fuzzy
+msgid "skmg_edit_scat"
+msgstr "Edit Skill Category"
+
+#, fuzzy
+msgid "skmg_edit_sctp"
+msgstr "Edit Template Category"
+
+#, fuzzy
+msgid "skmg_edit_skll"
+msgstr "Edit Skill Settings"
+
+#, fuzzy
+msgid "skmg_edit_sktr"
+msgstr "Edit Skill Template Reference"
+
+msgid "skmg_enable_skmg"
+msgstr "Aktiver håndtering af færdigheder"
+
+#, fuzzy
+msgid "skmg_eval_type_1"
+msgstr "Appraisal"
+
+#, fuzzy
+msgid "skmg_eval_type_2"
+msgstr "Measurement"
+
+#, fuzzy
+msgid "skmg_eval_type_3"
+msgstr "Self-Evaluation"
+
+#, fuzzy
+msgid "skmg_eval_type_latest_1"
+msgstr "Latest Appraisal"
+
+#, fuzzy
+msgid "skmg_eval_type_latest_2"
+msgstr "Latest Measurement"
+
+#, fuzzy
+msgid "skmg_eval_type_latest_3"
+msgstr "Latest Self-Evaluation"
+
+#, fuzzy
+msgid "skmg_execute_self_evaluation"
+msgstr "Start"
+
+#, fuzzy
+msgid "skmg_form_presentation"
+msgstr "Presentation"
+
+#, fuzzy
+msgid "skmg_from_lower_to_higher_levels"
+msgstr "Please order the levels from lower ones on top to higher ones at the bottom."
+
+#, fuzzy
+msgid "skmg_hide_profile_self_eval"
+msgstr "Hide Profile without Self Evaluation"
+
+#, fuzzy
+msgid "skmg_hide_profile_self_eval_info"
+msgstr "Profile target values will not be shown to a user, if no self evaluation has been done for a specific skill."
+
+#, fuzzy
+msgid "skmg_import_skills"
+msgstr "Import"
+
+#, fuzzy
+msgid "skmg_input_file"
+msgstr "Import File"
+
+#, fuzzy
+msgid "skmg_insert_basic_skill_from_clip"
+msgstr "Insert Basic Skills from Clipboard"
+
+#, fuzzy
+msgid "skmg_insert_please_choose_one_type_only"
+msgstr "Please choose only one type of items."
+
+#, fuzzy
+msgid "skmg_insert_skill_category_from_clip"
+msgstr "Insert Skill Categories from Clipboard"
+
+#, fuzzy
+msgid "skmg_insert_skill_template_from_clip"
+msgstr "Insert Skill Template from Clipboard"
+
+#, fuzzy
+msgid "skmg_insert_skill_template_reference_from_clip"
+msgstr "Insert Skill Template Reference from Clipboard"
+
+#, fuzzy
+msgid "skmg_insert_template_category_from_clip"
+msgstr "Insert Template Category from Clipboard"
+
+#, fuzzy
+msgid "skmg_items"
+msgstr "Items"
+
+#, fuzzy
+msgid "skmg_level"
+msgstr "Level"
+
+#, fuzzy
+msgid "skmg_list_skills"
+msgstr "List Skills"
+
+#, fuzzy
+msgid "skmg_local_assignment_profiles"
+msgstr "Allow Local Assignment of Global Profiles"
+
+#, fuzzy
+msgid "skmg_lp_triggers_level"
+msgstr "Triggered by Completion"
+
+msgid "skmg_materials"
+msgstr "Materialer"
+
+#, fuzzy
+msgid "skmg_materials_resources"
+msgstr "Learning Materials"
+
+#, fuzzy
+msgid "skmg_new_level"
+msgstr "New Level"
+
+#, fuzzy
+msgid "skmg_new_sktr"
+msgstr "New Skill Template Reference"
+
+msgid "skmg_next_step"
+msgstr "Næste skridt"
+
+#, fuzzy
+msgid "skmg_no_nodes_selectable"
+msgstr "Currently there are no competences selectable."
+
+#, fuzzy
+msgid "skmg_no_skill_entries"
+msgstr "You do not have any entries for this competence yet."
+
+#, fuzzy
+msgid "skmg_no_skills_selected_info"
+msgstr "You have not selected any competences yet. Click on the button \"Add Competence\" to select a competence and to see it here. You can add any number of competences."
+
+#, fuzzy
+msgid "skmg_no_trigger"
+msgstr "No Trigger"
+
+#, fuzzy
+msgid "skmg_nr"
+msgstr "Nr"
+
+#, fuzzy
+msgid "skmg_number"
+msgstr "Number"
+
+#, fuzzy
+msgid "skmg_open"
+msgstr "Open"
+
+#, fuzzy
+msgid "skmg_open_all_assigned_profiles"
+msgstr "Open All Assigned Competence Profiles"
+
+#, fuzzy
+msgid "skmg_order"
+msgstr "Order"
+
+#, fuzzy
+msgid "skmg_order_nr"
+msgstr "Order Number"
+
+#, fuzzy
+msgid "skmg_order_nr_info"
+msgstr "Positions competence in the list of competences."
+
+#, fuzzy
+msgid "skmg_please_select_self_skill"
+msgstr "Start a new Self Evaluation. Skill:"
+
+#, fuzzy
+msgid "skmg_please_select_your_skill_levels"
+msgstr "Please select your skill levels."
+
+msgid "skmg_previous_step"
+msgstr "Forrige skridt"
+
+#, fuzzy
+msgid "skmg_profile"
+msgstr "Profile"
+
+#, fuzzy
+msgid "skmg_really_delete_levels"
+msgstr "Do you really want to delete the following skill levels?"
+
+#, fuzzy
+msgid "skmg_really_remove_skills"
+msgstr "Do you really want to remove the followig skills from your list?"
+
+#, fuzzy
+msgid "skmg_recommended_learning_material_crs"
+msgstr "Achieve your targets in this course"
+
+#, fuzzy
+msgid "skmg_recommended_learning_material_global"
+msgstr "Achieve your targets"
+
+#, fuzzy
+msgid "skmg_recommended_learning_material_grp"
+msgstr "Achieve your targets in this group"
+
+#, fuzzy
+msgid "skmg_recommended_learning_material_info"
+msgstr "Select exactly one of the following learning materials. Please work through it to achieve the competence target."
+
+#, fuzzy
+msgid "skmg_refresh_view"
+msgstr "Refresh"
+
+#, fuzzy
+msgid "skmg_remove"
+msgstr "Remove"
+
+#, fuzzy
+msgid "skmg_remove_levels"
+msgstr "Remove Levels"
+
+#, fuzzy
+msgid "skmg_remove_skill"
+msgstr "Remove Skill"
+
+#, fuzzy
+msgid "skmg_remove_trigger"
+msgstr "Remove Trigger"
+
+#, fuzzy
+msgid "skmg_resources"
+msgstr "Resources"
+
+#, fuzzy
+msgid "skmg_save_order"
+msgstr "Save Order"
+
+#, fuzzy
+msgid "skmg_save_self_evaluation"
+msgstr "Finish Self-Evaluation"
+
+#, fuzzy
+msgid "skmg_save_settings"
+msgstr "Save Settings"
+
+#, fuzzy
+msgid "skmg_sctp"
+msgstr "Skill Template Category"
+
+#, fuzzy
+msgid "skmg_select_level"
+msgstr "Select Competence Level"
+
+#, fuzzy
+msgid "skmg_select_skill"
+msgstr "Click on a competence to add it to your personal competences."
+
+#, fuzzy
+msgid "skmg_select_skill_level_assign"
+msgstr "Please select a skill."
+
+#, fuzzy
+msgid "skmg_select_trigger"
+msgstr "Select Trigger"
+
+#, fuzzy
+msgid "skmg_selectable"
+msgstr "Selectable"
+
+#, fuzzy
+msgid "skmg_selectable_info"
+msgstr "Allows user to select this category as a personal skill."
+
+#, fuzzy
+msgid "skmg_selected_items_have_been_copied"
+msgstr "Selected items have been copied."
+
+#, fuzzy
+msgid "skmg_selected_items_have_been_cut"
+msgstr "Selected items have been cut."
+
+#, fuzzy
+msgid "skmg_selected_skills"
+msgstr "Selected Skills"
+
+#, fuzzy
+msgid "skmg_self_evaluation"
+msgstr "Self-Evaluation"
+
+#, fuzzy
+msgid "skmg_self_evaluation_byline"
+msgstr "The self-evaluation will be excluded from target achievement. It is used for your guidance."
+
+msgid "skmg_self_evaluations"
+msgstr "Selvevalueringer"
+
+#, fuzzy
+msgid "skmg_set_as_lp_trigger"
+msgstr "Completion Should Trigger Competence Record"
+
+#, fuzzy
+msgid "skmg_set_as_no_lp_trigger"
+msgstr "Completion Should Not Trigger Competence Record"
+
+#, fuzzy
+msgid "skmg_set_as_no_suggested"
+msgstr "Do not Show as Learning Material"
+
+#, fuzzy
+msgid "skmg_set_as_suggested"
+msgstr "Show as Learning Material"
+
+#, fuzzy
+msgid "skmg_settings"
+msgstr "Skill Management Settings"
+
+#, fuzzy
+msgid "skmg_show_all"
+msgstr "Show All"
+
+#, fuzzy
+msgid "skmg_show_latest_entries"
+msgstr "Show Latest Entries"
+
+#, fuzzy
+msgid "skmg_skill"
+msgstr "Skill"
+
+#, fuzzy
+msgid "skmg_skill_in_use"
+msgstr "This skill is used by users or content. Not all commands are available. Please keep in mind that any changes that are made will affect the existing usages."
+
+#, fuzzy
+msgid "skmg_skill_level"
+msgstr "Skill Level"
+
+#, fuzzy
+msgid "skmg_skill_level_trigger"
+msgstr "Skill Level Trigger"
+
+#, fuzzy
+msgid "skmg_skill_levels"
+msgstr "Skill Levels"
+
+#, fuzzy
+msgid "skmg_skill_management_deactivated"
+msgstr "Skill Management is currently deaktivated."
+
+#, fuzzy
+msgid "skmg_skill_needs_impr_no_res"
+msgstr "You need to improve this competence. Unfortunately there are currently no learning resources available providing learning material aligned to your target competence level."
+
+#, fuzzy
+msgid "skmg_skill_needs_impr_res"
+msgstr "You need to improve this competence. The following resources provide learning material aligned to your target competence level."
+
+#, fuzzy
+msgid "skmg_skill_needs_self_eval"
+msgstr "Please conduct a self-evaluation first to see your competence target. Please click on \"Actions\" for that."
+
+#, fuzzy
+msgid "skmg_skill_needs_self_eval_box"
+msgstr "Please note that you have not conducted a self-evaluation for at least one competence in this profile. You will not see the competence target for the affected competences until a self-evaluation is done."
+
+#, fuzzy
+msgid "skmg_skill_no_needs_impr"
+msgstr "Your competence level is sufficient for the selected profile."
+
+#, fuzzy
+msgid "skmg_skill_no_needs_impr_info"
+msgstr "You achieved the target for this competence."
+
+#, fuzzy
+msgid "skmg_skill_overview"
+msgstr "Overview"
+
+#, fuzzy
+msgid "skmg_skill_profile_records"
+msgstr "Competence Records"
+
+#, fuzzy
+msgid "skmg_skill_profiles"
+msgstr "Profiles"
+
+#, fuzzy
+msgid "skmg_skill_template"
+msgstr "Skill Template"
+
+#, fuzzy
+msgid "skmg_skill_templates"
+msgstr "Skill Templates"
+
+#, fuzzy
+msgid "skmg_skill_tree"
+msgstr "Competence Tree"
+
+#, fuzzy
+msgid "skmg_skill_trees"
+msgstr "Competence Trees"
+
+msgid "skmg_skills"
+msgstr "Færdigheder"
+
+#, fuzzy
+msgid "skmg_sktr"
+msgstr "Skill Template Reference"
+
+#, fuzzy
+msgid "skmg_status"
+msgstr "Status"
+
+#, fuzzy
+msgid "skmg_status_draft"
+msgstr "Draft (Offline)"
+
+#, fuzzy
+msgid "skmg_status_draft_info"
+msgstr "Item will be hidden."
+
+#, fuzzy
+msgid "skmg_status_outdated"
+msgstr "Outdated"
+
+#, fuzzy
+msgid "skmg_status_outdated_info"
+msgstr "Item cannot be newly selected by users as personal skill, or newly assigned to repository objects or skill profiles. However existing assignments and data are still presented."
+
+#, fuzzy
+msgid "skmg_status_publish"
+msgstr "Published"
+
+#, fuzzy
+msgid "skmg_status_publish_info"
+msgstr "Item can be used if all parents are published, too. Once items are used, the status cannot be set to draft anymore, neither can they be deleted."
+
+#, fuzzy
+msgid "skmg_suggested"
+msgstr "Suggested Resource"
+
+#, fuzzy
+msgid "skmg_suggested_resources"
+msgstr "Suggested Resources"
+
+msgid "skmg_sure_delete_self_evaluation"
+msgstr "Vil du slette de følgende selvevalueringer?"
+
+#, fuzzy
+msgid "skmg_target_level"
+msgstr "Profile Target Level"
+
+#, fuzzy
+msgid "skmg_target_levels"
+msgstr "Competence Targets"
+
+#, fuzzy
+msgid "skmg_trigger"
+msgstr "Trigger"
+
+#, fuzzy
+msgid "skmg_type"
+msgstr "Type"
+
+#, fuzzy
+msgid "skmg_type_of_formation"
+msgstr "Type of Formation"
+
+#, fuzzy
+msgid "skmg_update_order"
+msgstr "Update Order"
+
+#, fuzzy
+msgid "skmg_usage"
+msgstr "Usage"
+
+#, fuzzy
+msgid "skmg_usage_obj_objects"
+msgstr "Object(s)"
+
+#, fuzzy
+msgid "skmg_usage_obj_profiles"
+msgstr "Profile(s)"
+
+#, fuzzy
+msgid "skmg_usage_obj_users"
+msgstr "User(s)"
+
+#, fuzzy
+msgid "skmg_usage_type_info_gen"
+msgstr "General Use in Repository Objects"
+
+#, fuzzy
+msgid "skmg_usage_type_info_mat"
+msgstr "Users assigned material from their personal workspace"
+
+#, fuzzy
+msgid "skmg_usage_type_info_pers"
+msgstr "Selected by Users as Personal Skill"
+
+#, fuzzy
+msgid "skmg_usage_type_info_prof"
+msgstr "Used in Skill Profiles"
+
+#, fuzzy
+msgid "skmg_usage_type_info_res"
+msgstr "Repository Objects Assigned as Suggested Resource"
+
+#, fuzzy
+msgid "skmg_usage_type_info_user"
+msgstr "Assigned to Users"
+
+#, fuzzy
+msgid "skmg_your_self_evaluation"
+msgstr "Your Self-Evaluation"

@@ -1,0 +1,2555 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: meta\n"
+
+msgid "adt_error_max_length"
+msgstr "A beírt szöveg túl hosszú, kérem, írjon rövidebbet."
+
+msgid "md_adn_int_error_no_default"
+msgstr "Állítson be egy nyelvet ‘Alapértelmezett nyelv’-nek."
+
+msgid "md_adv_active"
+msgstr "Aktív"
+
+msgid "md_adv_added_new_record"
+msgstr "Az új adatcsoport sikeresen hozzáadta."
+
+msgid "md_adv_col_presentation_ordering"
+msgstr "Pozíció"
+
+msgid "md_adv_confirm_definition"
+msgstr "Kérem, hagyja jóvá az új beállításokat."
+
+msgid "md_adv_confirm_definition_select_option"
+msgstr "Törölt opció"
+
+msgid "md_adv_confirm_definition_select_option_all"
+msgstr "Összes bejegyzése kezelése ugyanúgy"
+
+msgid "md_adv_confirm_definition_select_option_all_action"
+msgstr "Új érték"
+
+msgid "md_adv_confirm_definition_select_option_overwrite"
+msgstr "Értéke legyen"
+
+msgid "md_adv_confirm_definition_select_option_remove"
+msgstr "Érték eltávolítása"
+
+msgid "md_adv_confirm_definition_select_option_single"
+msgstr "Döntéshozatal bejegyzésenként"
+
+msgid "md_adv_confirm_definition_select_section"
+msgstr "Törölt opciók migrációja"
+
+msgid "md_adv_create_field"
+msgstr "Új mező"
+
+msgid "md_adv_create_record"
+msgstr "Új adatcsoport"
+
+msgid "md_adv_delete_fields_sure"
+msgstr "Biztos, hogy törli az alábbi meződefiníció(ka)t?"
+
+msgid "md_adv_delete_files_sure"
+msgstr "Biztos, hogy törli az alábbi exportfájl(oka)t?"
+
+msgid "md_adv_delete_record_sure"
+msgstr "Biztos, hogy törli az alábbi adatcsoporto(ka)t?"
+
+msgid "md_adv_deleted_fields"
+msgstr "A mező(ke)t sikeresen törölte."
+
+msgid "md_adv_deleted_files"
+msgstr "Az exportfájl(oka)t sikeresen törölte."
+
+msgid "md_adv_deleted_records"
+msgstr "Az adatcsoporto(ka)t sikeresen törölte."
+
+msgid "md_adv_desc_show"
+msgstr "Leírás megjelenítése"
+
+msgid "md_adv_edit_complex_option"
+msgstr "Tulajdonságok módosítása"
+
+msgid "md_adv_edit_field"
+msgstr "Mező módosítása"
+
+msgid "md_adv_edit_record"
+msgstr "Adatcsoport módosítása"
+
+msgid "md_adv_field_fields"
+msgstr "Mezők"
+
+msgid "md_adv_field_filter_warning"
+msgstr "%s mezőtípusok jelenleg nem használhatók táblaszűrőként."
+
+msgid "md_adv_field_list"
+msgstr "Mezők"
+
+msgid "md_adv_field_names"
+msgstr "Mezőnevek"
+
+msgid "md_adv_field_table"
+msgstr "Mezők módosítása"
+
+msgid "md_adv_fields_show"
+msgstr "Mezőnevek megjelenítése"
+
+msgid "md_adv_file_list"
+msgstr "Exportfájlok"
+
+msgid "md_adv_import_record"
+msgstr "Metaadatcsoport importálása"
+
+msgid "md_adv_int_current"
+msgstr "Jelenlegi nyelv:"
+
+msgid "md_adv_int_default"
+msgstr "Alapértelmezett nyelv:"
+
+msgid "md_adv_int_translation_info"
+msgstr "Fordítás:"
+
+msgid "md_adv_no_fields"
+msgstr "Ennek az adatcsoportnak még egy mezője sincs."
+
+msgid "md_adv_number_decimals"
+msgstr "Tizedes helyek"
+
+msgid "md_adv_number_max"
+msgstr "Maximális érték"
+
+msgid "md_adv_number_min"
+msgstr "Minimális érték"
+
+msgid "md_adv_number_suffix"
+msgstr "Utótag (Suffix)"
+
+msgid "md_adv_presentation"
+msgstr "Megjelenítési beállítások"
+
+msgid "md_adv_record_activate_languages"
+msgstr "Nyelvek aktiválása"
+
+msgid "md_adv_record_list"
+msgstr "Adatcsoportok"
+
+msgid "md_adv_record_lng_table"
+msgstr "Nyelvkezelés"
+
+msgid "md_adv_record_lng_table_active"
+msgstr "Aktív"
+
+msgid "md_adv_record_lng_table_default"
+msgstr "Alapértelmezett"
+
+msgid "md_adv_record_lng_table_inst"
+msgstr "Telepített"
+
+msgid "md_adv_record_lng_table_lng"
+msgstr "Nyelv"
+
+msgid "md_adv_records"
+msgstr "Magába foglalt rekordok"
+
+msgid "md_adv_records_exported"
+msgstr "Az új exportfájl(ok) sikeresen létrejött(ek)."
+
+msgid "md_adv_scope"
+msgstr "Hatókör"
+
+msgid "md_adv_scope_info"
+msgstr "Ennek az egyéni metaadat-készletnek a használata a tartalomtár kiválasztott részeire korlátozódik."
+
+msgid "md_adv_scope_list_header"
+msgstr "Korlátozva erre:"
+
+msgid "md_adv_scope_objects"
+msgstr "Az adatkészlet hatályos ekkortól:"
+
+msgid "md_adv_searchable"
+msgstr "Kereshető"
+
+msgid "md_adv_select_one_file"
+msgstr "Csak egy fáljt válasszon!"
+
+msgid "md_adv_show"
+msgstr "Megjelenítés"
+
+msgid "md_adv_substitution_table"
+msgstr "Egyéni metaadatok megjelenítési beállításai a Tartalomtárban"
+
+msgid "md_adv_text_max_length"
+msgstr "Maximális hossz"
+
+msgid "md_adv_text_multi"
+msgstr "Többsoros"
+
+msgid "md_adv_text_multi_val"
+msgstr "Többnyelvű értékek"
+
+msgid "md_adv_text_multi_val_info"
+msgstr "Többnyelvű mezőértékek engedélyezése ehhez az adatmezőhöz. Ennek az opciónak a kikapcsolása olyan szövegeknél javasolt, amelyeket nem kell fordítani, mint például a személynevek."
+
+msgid "md_advanced"
+msgstr "Egyéni metaadatok"
+
+msgid "md_aria_language_selection"
+msgstr "Nyelv választása"
+
+msgid "md_copyright"
+msgstr "Szerzői jog"
+
+msgid "md_copyright_add"
+msgstr "Új szerzői jog hozzáadása"
+
+msgid "md_copyright_admin_tab"
+msgstr "Szerzői jog & NyOE"
+
+msgid "md_copyright_alt_text"
+msgstr "Szöveges alternatíva"
+
+msgid "md_copyright_alt_text_info"
+msgstr "A kép ‘alt’ attribútuma"
+
+msgid "md_copyright_default"
+msgstr "Alapértelmezett"
+
+msgid "md_copyright_edit"
+msgstr "Alapértelmezett szerzői jog módosítása"
+
+msgid "md_copyright_enable_info"
+msgstr "Válassza ezt az opciót előre meghatározott szerzői jogok ajánlására."
+
+msgid "md_copyright_enabled"
+msgstr "Szerzői jog kiválasztásának engedélyezése"
+
+msgid "md_copyright_full_name"
+msgstr "Teljes név"
+
+msgid "md_copyright_image"
+msgstr "Kép"
+
+msgid "md_copyright_image_file"
+msgstr "Fájl"
+
+msgid "md_copyright_image_is_file"
+msgstr "Fájl feltöltése"
+
+msgid "md_copyright_image_is_link"
+msgstr "Add meg az URL-t"
+
+msgid "md_copyright_image_link"
+msgstr "URL"
+
+msgid "md_copyright_link"
+msgstr "URL"
+
+msgid "md_copyright_link_info"
+msgstr "A licenszre mutató link"
+
+msgid "md_copyright_preview"
+msgstr "Szerzői jog (előnézet)"
+
+msgid "md_copyright_selection"
+msgstr "Elérhető Szerzői jogok"
+
+msgid "md_copyright_value"
+msgstr "Szerzői jog"
+
+msgid "md_copyrights_deleted"
+msgstr "A szerző jogot sikeresen törölte"
+
+msgid "md_days"
+msgstr "Nap:"
+
+msgid "md_delete_cp_sure"
+msgstr "Biztos, hogy törli az alábbi bejegyzéseket?"
+
+msgid "md_delimiter"
+msgstr "Határolójel"
+
+msgid "md_delimiter_info"
+msgstr "A gyorsszerkesztő képernyőn a kulcsszavakhoz és más elválasztásokhoz határolójel használt. Az alapértelmezett a ‘,’."
+
+msgid "md_editor_custom_input"
+msgstr "Egyéni"
+
+msgid "md_editor_from_vocab_input"
+msgstr "Szótárból"
+
+msgid "md_editor_value"
+msgstr "Érték"
+
+msgid "md_fields"
+msgstr "Mezők"
+
+msgid "md_import_file_vocab"
+msgstr "Importfájl"
+
+msgid "md_import_vocab"
+msgstr "Importálás"
+
+msgid "md_import_vocab_modal"
+msgstr "Importálás fájlból"
+
+msgid "md_months"
+msgstr "Hónap:"
+
+msgid "md_oai_contact_mail"
+msgstr "A szervezet kontakt e-mail címe"
+
+msgid "md_oai_identifier_prefix"
+msgstr "OAI előtag"
+
+msgid "md_oai_identifier_prefix_info"
+msgstr "Ez az előtag névtérként használatos a visszaadott NyOE-rekordok azonosítóiban."
+
+msgid "md_oai_pmh_enabled"
+msgstr "OAI-PMH Interfészen keresztüli lekérdezés engedélyezése"
+
+msgid "md_oai_pmh_enabled_info"
+msgstr "Ha bekapcsolja, az összegyűjtött NyOE-kat lekérdezhetik külső érdekelt felek, például NyOE-repozitorik."
+
+msgid "md_oai_repository_name"
+msgstr "Repozitórium neve"
+
+msgid "md_oai_repository_name_info"
+msgstr "Ez az ILIAS-telepítés nevét adja vissza lekérdezéskor."
+
+msgid "md_obj_types"
+msgstr "Hozzárendelt objektumok"
+
+#, fuzzy
+msgid "md_publishing"
+msgstr "Publishing"
+
+#, fuzzy
+msgid "md_publishing_action_accept"
+msgstr "Accept for Publishing"
+
+#, fuzzy
+msgid "md_publishing_action_block"
+msgstr "Block From Publishing"
+
+#, fuzzy
+msgid "md_publishing_action_publish"
+msgstr "Publish"
+
+#, fuzzy
+msgid "md_publishing_action_reject"
+msgstr "Reject"
+
+#, fuzzy
+msgid "md_publishing_action_submit"
+msgstr "Submit for Publishing"
+
+#, fuzzy
+msgid "md_publishing_action_unblock"
+msgstr "Unblock"
+
+#, fuzzy
+msgid "md_publishing_action_withdraw"
+msgstr "Withdraw"
+
+#, fuzzy
+msgid "md_publishing_center_title"
+msgstr "OER Publishing"
+
+#, fuzzy
+msgid "md_publishing_confirmation_accept"
+msgstr "Accept for Publishing"
+
+#, fuzzy
+msgid "md_publishing_confirmation_info_accept"
+msgstr "Are you sure you want to publish this object?"
+
+#, fuzzy
+msgid "md_publishing_confirmation_info_reject"
+msgstr "Are you sure you want to reject this object for publishing?"
+
+#, fuzzy
+msgid "md_publishing_confirmation_info_withdraw"
+msgstr "Are you sure you want to withdraw this object from publishing?"
+
+#, fuzzy
+msgid "md_publishing_confirmation_reject"
+msgstr "Reject for Publishing"
+
+#, fuzzy
+msgid "md_publishing_confirmation_withdraw"
+msgstr "Withdraw From Publishing"
+
+#, fuzzy
+msgid "md_publishing_control_center"
+msgstr "OER Publishing"
+
+#, fuzzy
+msgid "md_publishing_current_status"
+msgstr "Publishing this object as OER: <strong>%s</strong>"
+
+#, fuzzy
+msgid "md_publishing_info_blocked"
+msgstr "This object is blocked from being automatically published."
+
+#, fuzzy
+msgid "md_publishing_info_published"
+msgstr "This object has been published as an Open Educational Resource."
+
+#, fuzzy
+msgid "md_publishing_info_under_review"
+msgstr "This object was submitted for publishing, and is currently being reviewed by the editorial team."
+
+#, fuzzy
+msgid "md_publishing_info_unpublished"
+msgstr "This object can be published as an Open Educational Resource."
+
+#, fuzzy
+msgid "md_publishing_info_wrong_copyright"
+msgstr "To publish this object as an Open Educational Resource, please close this dialog and select an eligible licence:%s"
+
+#, fuzzy
+msgid "md_publishing_last_reference_info"
+msgstr "Please note that this object will not be removed, because there are no other references to it in the repository."
+
+#, fuzzy
+msgid "md_publishing_status_blocked"
+msgstr "Blocked"
+
+#, fuzzy
+msgid "md_publishing_status_published"
+msgstr "Published"
+
+#, fuzzy
+msgid "md_publishing_status_under_review"
+msgstr "Under Review"
+
+#, fuzzy
+msgid "md_publishing_status_unpublished"
+msgstr "Unpublished"
+
+#, fuzzy
+msgid "md_publishing_success_accept"
+msgstr "Object successfully published."
+
+#, fuzzy
+msgid "md_publishing_success_block"
+msgstr "Object successfully blocked from publishing."
+
+#, fuzzy
+msgid "md_publishing_success_publish"
+msgstr "Object successfully published."
+
+#, fuzzy
+msgid "md_publishing_success_reject"
+msgstr "Object successfully rejected."
+
+#, fuzzy
+msgid "md_publishing_success_submit"
+msgstr "Object successfully submitted for review."
+
+#, fuzzy
+msgid "md_publishing_success_unblock"
+msgstr "Object successfully unblocked."
+
+#, fuzzy
+msgid "md_publishing_success_withdraw"
+msgstr "Object successfully withdrawn."
+
+#, fuzzy
+msgid "md_publishing_workflow"
+msgstr "Publishing Workflow"
+
+#, fuzzy
+msgid "md_publishing_workflow_automatic"
+msgstr "Automatic"
+
+#, fuzzy
+msgid "md_publishing_workflow_automatic_info"
+msgstr "Eligible objects are automatically published by the OER Harvester cron job."
+
+#, fuzzy
+msgid "md_publishing_workflow_manual"
+msgstr "Manual"
+
+#, fuzzy
+msgid "md_publishing_workflow_manual_info"
+msgstr "Add an option to the LOM of objects to publish them with the click of a button."
+
+#, fuzzy
+msgid "md_publishing_workflow_mode"
+msgstr "Enable Publishing"
+
+#, fuzzy
+msgid "md_publishing_workflow_mode_info"
+msgstr "When an object is published, it is added to a predefined category and an export file is generated for it. Additionally, a record is compiled that (if activated) can be read out via an OAI-PMH interface."
+
+msgid "md_record_export_table"
+msgstr "Exportfájlok"
+
+msgid "md_record_list_table"
+msgstr "Egyéni metaadatbeállítások"
+
+msgid "md_separated_by"
+msgstr "Elválasztva ezzel: %s"
+
+msgid "md_settings"
+msgstr "Szerzői jogi beállítások"
+
+msgid "md_settings_harvester"
+msgstr "NyOE-összegyűjtő"
+
+msgid "md_settings_licence"
+msgstr "A használat feltételei"
+
+msgid "md_settings_publishing"
+msgstr "Repozitorik lekérdezése"
+
+msgid "md_time"
+msgstr "Idő:"
+
+msgid "md_unknown_vocabulary_flag"
+msgstr "(ismeretlen szótár)"
+
+msgid "md_used"
+msgstr "Pillanatnyi használatok száma"
+
+msgid "md_vocab_activate_action"
+msgstr "Aktiválás"
+
+msgid "md_vocab_active_column"
+msgstr "Aktív"
+
+msgid "md_vocab_all_values_title"
+msgstr "‘%s’ (%s) értékei"
+
+msgid "md_vocab_allow_custom_input_action"
+msgstr "Egyéni bemenet engedélyezése"
+
+msgid "md_vocab_custom_input_column"
+msgstr "Egyéni bemenet engedélyezett"
+
+msgid "md_vocab_deactivate_action"
+msgstr "Inaktiválás"
+
+msgid "md_vocab_delete_action"
+msgstr "Törlés"
+
+msgid "md_vocab_delete_confirmation_text"
+msgstr "Biztos, hogy törli ‘%s’ (%s) szótárát a következő értékekkel?"
+
+msgid "md_vocab_delete_confirmation_title"
+msgstr "Szótár törlése"
+
+msgid "md_vocab_deletion_successful"
+msgstr "A szótárat sikeresen törölte"
+
+msgid "md_vocab_disallow_custom_input_action"
+msgstr "Egyéni bevitel nem egedélyezett"
+
+msgid "md_vocab_element_column"
+msgstr "Elem"
+
+msgid "md_vocab_element_with_condition"
+msgstr "%s ahol %s értéke %s"
+
+msgid "md_vocab_import_invalid"
+msgstr "Az importfájl érvénytelen:<br/>%s"
+
+msgid "md_vocab_import_successful"
+msgstr "A szótárat sikeresen importálta."
+
+msgid "md_vocab_import_upload_failed"
+msgstr "Az importfájl feltöltése sikertelen."
+
+msgid "md_vocab_preview_column"
+msgstr "Előnézet"
+
+msgid "md_vocab_show_all_action"
+msgstr "Összes érték megjelenítése"
+
+msgid "md_vocab_source_column"
+msgstr "Forrás"
+
+msgid "md_vocab_table_title"
+msgstr "Szótárak"
+
+msgid "md_vocab_type_column"
+msgstr "Típus"
+
+msgid "md_vocab_type_controlled_string"
+msgstr "Kontrolűlt típus"
+
+msgid "md_vocab_type_controlled_vocab_value"
+msgstr "Kontrolált kiválasztás"
+
+msgid "md_vocab_type_copyright"
+msgstr "Szerzői jog"
+
+msgid "md_vocab_type_standard"
+msgstr "Standard"
+
+msgid "md_vocab_update_successful"
+msgstr "A szótárat sikeresen módosította."
+
+msgid "md_vocabularies_config"
+msgstr "LOM szótárak"
+
+msgid "meta_1"
+msgstr "1"
+
+msgid "meta_2"
+msgstr "2"
+
+msgid "meta_3"
+msgstr "3"
+
+msgid "meta_4"
+msgstr "4"
+
+msgid "meta_accessibility_restrictions"
+msgstr "Hozzáférési korlátozások"
+
+msgid "meta_active"
+msgstr "Aktív"
+
+msgid "meta_add"
+msgstr "Hozzáadás"
+
+msgid "meta_add_element"
+msgstr "s hozzáadása"
+
+msgid "meta_add_element_success"
+msgstr "Az elemet sikeresen hozzáadta."
+
+msgid "meta_advmd_add_field"
+msgstr "Új mező létrehozása"
+
+msgid "meta_advmd_select_delete_option"
+msgstr "Bejegyzés törlése"
+
+msgid "meta_advmd_select_first_position_identifier"
+msgstr "Első"
+
+msgid "meta_advmd_select_new_option"
+msgstr "Új bejegyzés létrehozása"
+
+msgid "meta_advmd_select_option_position"
+msgstr "Pozíció"
+
+msgid "meta_advmd_select_option_value"
+msgstr "Értéke"
+
+msgid "meta_advmd_select_options"
+msgstr "Bejegyzések"
+
+msgid "meta_advmd_select_options_edit"
+msgstr "Bejegyzések módosítása"
+
+msgid "meta_advmd_select_position_identifier"
+msgstr "‘%s’ mögé"
+
+msgid "meta_aggregation_level"
+msgstr "Aggregációs szint"
+
+msgid "meta_amaya"
+msgstr "Amaya"
+
+msgid "meta_annotation"
+msgstr "Kommentár"
+
+msgid "meta_annotation_plural"
+msgstr "Annotációk"
+
+msgid "meta_any"
+msgstr "Bármelyik"
+
+msgid "meta_atomic"
+msgstr "Atomi"
+
+msgid "meta_author"
+msgstr "Szerző"
+
+msgid "meta_authors"
+msgstr "Szerkesztők"
+
+msgid "meta_browser"
+msgstr "Böngésző"
+
+msgid "meta_button_to_full_editor_label"
+msgstr "A tanulási objektumok összes metaadatának módosítása"
+
+msgid "meta_c_AD"
+msgstr "Andorra"
+
+msgid "meta_c_AE"
+msgstr "Egyesült Arab Emirátusok"
+
+msgid "meta_c_AF"
+msgstr "Afganisztán"
+
+msgid "meta_c_AG"
+msgstr "Antigua és Barbuda"
+
+msgid "meta_c_AI"
+msgstr "Anguilla"
+
+msgid "meta_c_AL"
+msgstr "Albánia"
+
+msgid "meta_c_AM"
+msgstr "Örményország"
+
+msgid "meta_c_AN"
+msgstr "Holland Antillák"
+
+msgid "meta_c_AO"
+msgstr "Angola"
+
+msgid "meta_c_AQ"
+msgstr "Antarktisz"
+
+msgid "meta_c_AR"
+msgstr "Argentína"
+
+msgid "meta_c_AS"
+msgstr "Amerikai Szamoa"
+
+msgid "meta_c_AT"
+msgstr "Ausztria"
+
+msgid "meta_c_AU"
+msgstr "Ausztrália"
+
+msgid "meta_c_AW"
+msgstr "Aruba"
+
+msgid "meta_c_AX"
+msgstr "Åland Islands"
+
+msgid "meta_c_AZ"
+msgstr "Azerbajdzsán"
+
+msgid "meta_c_BA"
+msgstr "Bosznia-Hercegovina"
+
+msgid "meta_c_BB"
+msgstr "Barbados"
+
+msgid "meta_c_BD"
+msgstr "Banglades"
+
+msgid "meta_c_BE"
+msgstr "Belgium"
+
+msgid "meta_c_BF"
+msgstr "Burkina Faso"
+
+msgid "meta_c_BG"
+msgstr "Bulgária"
+
+msgid "meta_c_BH"
+msgstr "Bahrain"
+
+msgid "meta_c_BI"
+msgstr "Burundi"
+
+msgid "meta_c_BJ"
+msgstr "Benin"
+
+msgid "meta_c_BL"
+msgstr "Saint Barthélemy"
+
+msgid "meta_c_BM"
+msgstr "Bermuda"
+
+msgid "meta_c_BN"
+msgstr "Brunei Szultánság"
+
+msgid "meta_c_BO"
+msgstr "Bolívia"
+
+msgid "meta_c_BR"
+msgstr "Brazília"
+
+msgid "meta_c_BS"
+msgstr "Bahamák"
+
+msgid "meta_c_BT"
+msgstr "Bhután"
+
+msgid "meta_c_BV"
+msgstr "Bouvet-szigetek"
+
+msgid "meta_c_BW"
+msgstr "Botswana"
+
+msgid "meta_c_BY"
+msgstr "Belorusszia"
+
+msgid "meta_c_BZ"
+msgstr "Belliz"
+
+msgid "meta_c_CA"
+msgstr "Kanada"
+
+msgid "meta_c_CC"
+msgstr "Kókusz-szigetek"
+
+msgid "meta_c_CF"
+msgstr "Közép-Afrikai Köztársaság"
+
+msgid "meta_c_CG"
+msgstr "Kongó"
+
+msgid "meta_c_CH"
+msgstr "Svájc"
+
+msgid "meta_c_CI"
+msgstr "Elefántcsontpart"
+
+msgid "meta_c_CK"
+msgstr "Cook-szigetek"
+
+msgid "meta_c_CL"
+msgstr "Chile"
+
+msgid "meta_c_CM"
+msgstr "Kamerun"
+
+msgid "meta_c_CN"
+msgstr "Kína"
+
+msgid "meta_c_CO"
+msgstr "Kolumbia"
+
+msgid "meta_c_CR"
+msgstr "Costa Rica"
+
+msgid "meta_c_CU"
+msgstr "Kuba"
+
+msgid "meta_c_CV"
+msgstr "Zöldfoki-szigetek"
+
+msgid "meta_c_CX"
+msgstr "Karácsony-szigetek"
+
+msgid "meta_c_CY"
+msgstr "Ciprus"
+
+msgid "meta_c_CZ"
+msgstr "Cseh Köztársaság"
+
+msgid "meta_c_DE"
+msgstr "Németország"
+
+msgid "meta_c_DJ"
+msgstr "Djibouti"
+
+msgid "meta_c_DK"
+msgstr "Dánia"
+
+msgid "meta_c_DM"
+msgstr "Dominika"
+
+msgid "meta_c_DO"
+msgstr "Dominikai Köztársaság"
+
+msgid "meta_c_DZ"
+msgstr "Algéria"
+
+msgid "meta_c_EC"
+msgstr "Ecuador"
+
+msgid "meta_c_EE"
+msgstr "Észtország"
+
+msgid "meta_c_EG"
+msgstr "Egyiptom"
+
+msgid "meta_c_EH"
+msgstr "Nyugat-Szahara"
+
+msgid "meta_c_ER"
+msgstr "Eritrea"
+
+msgid "meta_c_ES"
+msgstr "Spanyolország"
+
+msgid "meta_c_ET"
+msgstr "Etiópia"
+
+msgid "meta_c_FI"
+msgstr "Finnország"
+
+msgid "meta_c_FJ"
+msgstr "Fiji-szigetek"
+
+msgid "meta_c_FK"
+msgstr "Falkland-szigetek"
+
+msgid "meta_c_FM"
+msgstr "Mikronézia"
+
+msgid "meta_c_FO"
+msgstr "Faröer-szigetek"
+
+msgid "meta_c_FR"
+msgstr "Franciaország"
+
+msgid "meta_c_FX"
+msgstr "Franciaország, Metropolitan"
+
+msgid "meta_c_GA"
+msgstr "Gabon"
+
+msgid "meta_c_GB"
+msgstr "Egyesült Királyság"
+
+msgid "meta_c_GD"
+msgstr "Grenada"
+
+msgid "meta_c_GE"
+msgstr "Grúzia"
+
+msgid "meta_c_GF"
+msgstr "Francia Guyana"
+
+msgid "meta_c_GG"
+msgstr "Guernsey"
+
+msgid "meta_c_GH"
+msgstr "Ghána"
+
+msgid "meta_c_GI"
+msgstr "Gibraltár"
+
+msgid "meta_c_GL"
+msgstr "Grönland"
+
+msgid "meta_c_GM"
+msgstr "Gambia"
+
+msgid "meta_c_GN"
+msgstr "Guinea"
+
+msgid "meta_c_GP"
+msgstr "Guadeloupe"
+
+msgid "meta_c_GQ"
+msgstr "Egyenlítői Guinea"
+
+msgid "meta_c_GR"
+msgstr "Görögország"
+
+msgid "meta_c_GS"
+msgstr "Dél-Georgia és a Dél-Szendvics Szigetek"
+
+msgid "meta_c_GT"
+msgstr "Guatemala"
+
+msgid "meta_c_GU"
+msgstr "Guam"
+
+msgid "meta_c_GW"
+msgstr "Bissau-Guinea"
+
+msgid "meta_c_GY"
+msgstr "Guyana"
+
+msgid "meta_c_HK"
+msgstr "Hong Kong"
+
+msgid "meta_c_HM"
+msgstr "Donald-szigetek"
+
+msgid "meta_c_HN"
+msgstr "Honduras"
+
+msgid "meta_c_HR"
+msgstr "Horvátország"
+
+msgid "meta_c_HT"
+msgstr "Haiti"
+
+msgid "meta_c_HU"
+msgstr "Magyarország"
+
+msgid "meta_c_ID"
+msgstr "Indonézia"
+
+msgid "meta_c_IE"
+msgstr "Írország"
+
+msgid "meta_c_IL"
+msgstr "Izrael"
+
+msgid "meta_c_IM"
+msgstr "Man-sziget"
+
+msgid "meta_c_IN"
+msgstr "India"
+
+msgid "meta_c_IO"
+msgstr "Brit-Indiai Óceáni Terület"
+
+msgid "meta_c_IQ"
+msgstr "Irak"
+
+msgid "meta_c_IR"
+msgstr "Irán"
+
+msgid "meta_c_IS"
+msgstr "Izland"
+
+msgid "meta_c_IT"
+msgstr "Olaszország"
+
+msgid "meta_c_JE"
+msgstr "Jersey"
+
+msgid "meta_c_JM"
+msgstr "Jamaica"
+
+msgid "meta_c_JO"
+msgstr "Jordánia"
+
+msgid "meta_c_JP"
+msgstr "Japán"
+
+msgid "meta_c_KE"
+msgstr "Kenya"
+
+msgid "meta_c_KG"
+msgstr "Kirgizisztán"
+
+msgid "meta_c_KH"
+msgstr "Kambodzsa"
+
+msgid "meta_c_KI"
+msgstr "Kiribati"
+
+msgid "meta_c_KM"
+msgstr "Comoros"
+
+msgid "meta_c_KN"
+msgstr "Szent Kitts és Nevis Szigetek"
+
+msgid "meta_c_KP"
+msgstr "Észak-Korea (Koreai Népköztársaság)"
+
+msgid "meta_c_KR"
+msgstr "Dél-Korea (Koreai Köztársaság)"
+
+msgid "meta_c_KW"
+msgstr "Kuvait"
+
+msgid "meta_c_KY"
+msgstr "Kajmán-szigetek"
+
+msgid "meta_c_KZ"
+msgstr "Kazahsztán"
+
+msgid "meta_c_LA"
+msgstr "Laoi Demokratikus Köztársaság"
+
+msgid "meta_c_LB"
+msgstr "Libanon"
+
+msgid "meta_c_LC"
+msgstr "Szent Lucia"
+
+msgid "meta_c_LI"
+msgstr "Liechtenstein"
+
+msgid "meta_c_LK"
+msgstr "Sri Lanka"
+
+msgid "meta_c_LR"
+msgstr "Libéria"
+
+msgid "meta_c_LS"
+msgstr "Lesotho"
+
+msgid "meta_c_LT"
+msgstr "Litvánia"
+
+msgid "meta_c_LU"
+msgstr "Luxemburg"
+
+msgid "meta_c_LV"
+msgstr "Lettország"
+
+msgid "meta_c_LY"
+msgstr "Líbia"
+
+msgid "meta_c_MA"
+msgstr "Marokkó"
+
+msgid "meta_c_MC"
+msgstr "Monakó"
+
+msgid "meta_c_MD"
+msgstr "Moldávia"
+
+msgid "meta_c_ME"
+msgstr "Montenegro"
+
+msgid "meta_c_MF"
+msgstr "Szent Martin (francia rész)"
+
+msgid "meta_c_MG"
+msgstr "Madagaszkár"
+
+msgid "meta_c_MH"
+msgstr "Marshall-szigetek"
+
+msgid "meta_c_MK"
+msgstr "Észak-Macedónia"
+
+msgid "meta_c_ML"
+msgstr "Mali"
+
+msgid "meta_c_MM"
+msgstr "Mianmar"
+
+msgid "meta_c_MN"
+msgstr "Mongólia"
+
+msgid "meta_c_MO"
+msgstr "Makaó"
+
+msgid "meta_c_MP"
+msgstr "Északi Marianna-szigetek"
+
+msgid "meta_c_MQ"
+msgstr "Martinique"
+
+msgid "meta_c_MR"
+msgstr "Mauritánia"
+
+msgid "meta_c_MS"
+msgstr "Montserrat"
+
+msgid "meta_c_MT"
+msgstr "Málta"
+
+msgid "meta_c_MU"
+msgstr "Mauritius"
+
+msgid "meta_c_MV"
+msgstr "Maldív-szigetek"
+
+msgid "meta_c_MW"
+msgstr "Malawi"
+
+msgid "meta_c_MX"
+msgstr "Mexikó"
+
+msgid "meta_c_MY"
+msgstr "Malajzia"
+
+msgid "meta_c_MZ"
+msgstr "Mozambik"
+
+msgid "meta_c_NA"
+msgstr "Namíbia"
+
+msgid "meta_c_NC"
+msgstr "Új-Kaledónia"
+
+msgid "meta_c_NE"
+msgstr "Niger"
+
+msgid "meta_c_NF"
+msgstr "Norfolk-szigetek"
+
+msgid "meta_c_NG"
+msgstr "Nigéria"
+
+msgid "meta_c_NI"
+msgstr "Nicaragua"
+
+msgid "meta_c_NL"
+msgstr "Hollandia"
+
+msgid "meta_c_NO"
+msgstr "Norvégia"
+
+msgid "meta_c_NP"
+msgstr "Nepál"
+
+msgid "meta_c_NR"
+msgstr "Nauru"
+
+msgid "meta_c_NU"
+msgstr "Niue"
+
+msgid "meta_c_NZ"
+msgstr "Új-Zéland"
+
+msgid "meta_c_OM"
+msgstr "Omán"
+
+msgid "meta_c_PA"
+msgstr "Panama"
+
+msgid "meta_c_PE"
+msgstr "Peru"
+
+msgid "meta_c_PF"
+msgstr "Francia Polinézia"
+
+msgid "meta_c_PG"
+msgstr "Pápua Új-Guinea"
+
+msgid "meta_c_PH"
+msgstr "Fülöp-szigetek"
+
+msgid "meta_c_PK"
+msgstr "Pakisztán"
+
+msgid "meta_c_PL"
+msgstr "Lengyelország"
+
+msgid "meta_c_PM"
+msgstr "Szt. Pierre és Miquelon"
+
+msgid "meta_c_PN"
+msgstr "Pitcairn"
+
+msgid "meta_c_PR"
+msgstr "Puerto Rico"
+
+msgid "meta_c_PS"
+msgstr "Palesztin területek (elfoglalt)"
+
+msgid "meta_c_PT"
+msgstr "Portugália"
+
+msgid "meta_c_PW"
+msgstr "Palau"
+
+msgid "meta_c_PY"
+msgstr "Paraguay"
+
+msgid "meta_c_QA"
+msgstr "Quatar"
+
+msgid "meta_c_RE"
+msgstr "Reunion"
+
+msgid "meta_c_RO"
+msgstr "Románia"
+
+msgid "meta_c_RS"
+msgstr "Szerbia"
+
+msgid "meta_c_RU"
+msgstr "Orosz Föderáció"
+
+msgid "meta_c_RW"
+msgstr "Ruanda"
+
+msgid "meta_c_SA"
+msgstr "Szaúd-Arábia"
+
+msgid "meta_c_SB"
+msgstr "Salamon-szigetek"
+
+msgid "meta_c_SC"
+msgstr "Seychelles-szigetek"
+
+msgid "meta_c_SD"
+msgstr "Szudán"
+
+msgid "meta_c_SE"
+msgstr "Svédország"
+
+msgid "meta_c_SG"
+msgstr "Szingapúr"
+
+msgid "meta_c_SH"
+msgstr "Szt. Helén"
+
+msgid "meta_c_SI"
+msgstr "Szlovénia"
+
+msgid "meta_c_SJ"
+msgstr "Svalbard és Jan Mayen-szigetek"
+
+msgid "meta_c_SK"
+msgstr "Szlovákia"
+
+msgid "meta_c_SL"
+msgstr "Sierra Leone"
+
+msgid "meta_c_SM"
+msgstr "San Marino"
+
+msgid "meta_c_SN"
+msgstr "Szenegál"
+
+msgid "meta_c_SO"
+msgstr "Szomália"
+
+msgid "meta_c_SR"
+msgstr "Suriname"
+
+msgid "meta_c_ST"
+msgstr "Sao Toma és Principe"
+
+msgid "meta_c_SV"
+msgstr "Salvador"
+
+msgid "meta_c_SY"
+msgstr "Szíriai Arab Köztársaság"
+
+msgid "meta_c_SZ"
+msgstr "Szváziföld"
+
+msgid "meta_c_TC"
+msgstr "Turks- és Caicos-szigetek"
+
+msgid "meta_c_TD"
+msgstr "Csád"
+
+msgid "meta_c_TF"
+msgstr "Francia Déli Területek"
+
+msgid "meta_c_TG"
+msgstr "Togo"
+
+msgid "meta_c_TH"
+msgstr "Thaiföld"
+
+msgid "meta_c_TJ"
+msgstr "Tádzsikisztán"
+
+msgid "meta_c_TK"
+msgstr "Tokelau"
+
+msgid "meta_c_TL"
+msgstr "Kelet-Timor"
+
+msgid "meta_c_TM"
+msgstr "Türkmenisztán"
+
+msgid "meta_c_TN"
+msgstr "Tunézia"
+
+msgid "meta_c_TO"
+msgstr "Tonga"
+
+msgid "meta_c_TR"
+msgstr "Törökország"
+
+msgid "meta_c_TT"
+msgstr "Trinidad és Tobago"
+
+msgid "meta_c_TV"
+msgstr "Tuvalu"
+
+msgid "meta_c_TW"
+msgstr "Tajvan"
+
+msgid "meta_c_TZ"
+msgstr "Tanzánia"
+
+msgid "meta_c_UA"
+msgstr "Ukrajna"
+
+msgid "meta_c_UG"
+msgstr "Uganda"
+
+msgid "meta_c_UM"
+msgstr "Amerikai Csendes-óceáni-szigetek"
+
+msgid "meta_c_US"
+msgstr "Amerikai Egyesült Államok"
+
+msgid "meta_c_UY"
+msgstr "Uruguay"
+
+msgid "meta_c_UZ"
+msgstr "Üzbegisztán"
+
+msgid "meta_c_VA"
+msgstr "Vatikán Városállam"
+
+msgid "meta_c_VC"
+msgstr "Saint Vincent és a Grenadine-szigetek"
+
+msgid "meta_c_VE"
+msgstr "Venezuela"
+
+msgid "meta_c_VG"
+msgstr "Virgin-szigetek (Anglia)"
+
+msgid "meta_c_VI"
+msgstr "Virgin-szigetek (US)"
+
+msgid "meta_c_VN"
+msgstr "Vietnam"
+
+msgid "meta_c_VU"
+msgstr "Vanuatu"
+
+msgid "meta_c_WF"
+msgstr "Wallis és Futuna-szigetek"
+
+msgid "meta_c_WS"
+msgstr "Szamoa"
+
+msgid "meta_c_XK"
+msgstr "Koszovó"
+
+msgid "meta_c_YE"
+msgstr "Jemen"
+
+msgid "meta_c_YT"
+msgstr "Mayotte"
+
+msgid "meta_c_ZA"
+msgstr "Dél-Afrikai Köztársaság"
+
+msgid "meta_c_ZM"
+msgstr "Zambia"
+
+msgid "meta_c_ZW"
+msgstr "Zimbabwe"
+
+msgid "meta_catalog"
+msgstr "Katalógus"
+
+msgid "meta_classification"
+msgstr "Besorolás"
+
+msgid "meta_classification_plural"
+msgstr "Besorolások"
+
+msgid "meta_collection"
+msgstr "Gyűjtemény"
+
+msgid "meta_competency"
+msgstr "Kompetencia"
+
+msgid "meta_contentprovider"
+msgstr "Tartalomszolgáltató"
+
+msgid "meta_context"
+msgstr "Kontextus"
+
+msgid "meta_context_plural"
+msgstr "Kontextusok"
+
+msgid "meta_contribute"
+msgstr "Közreműködés"
+
+msgid "meta_contribute_plural"
+msgstr "Hozzájárulás"
+
+msgid "meta_copyright"
+msgstr "Szerzői jog"
+
+msgid "meta_copyright_and_other_restrictions"
+msgstr "Szerzői jogi és további megszorítások"
+
+msgid "meta_copyright_change_info"
+msgstr "Módosítani fogja az ehhez a tartalomhoz rendelt licenszet. Ez csak a szerzői jog tulajdonosának a belegyezésével történhet csak meg, továbbá az új licensz nem lehet szigorúbb, korlátozóbb, mint a jelenlegi."
+
+msgid "meta_copyright_change_oer_info"
+msgstr "A kiválasztott szerzői jogi licensz lehetővé teszi, hogy ez az objektum Nyílt Oktatási Erőforrásként begyűjthető legyen. Ha folytatja, előfordulhat, hogy egy exportfájllal együtt szerepel a felsorolásban, és közzétehető lehet ezen a platformon kívül is"
+
+msgid "meta_copyright_change_warning_title"
+msgstr "Szerzői jogi beállítások módosítása"
+
+msgid "meta_copyright_in_use"
+msgstr "Használatban"
+
+msgid "meta_copyright_outdated"
+msgstr "Elavult / Már nincs használatban"
+
+msgid "meta_copyright_outdated_error"
+msgstr "A kiválasztott szerzői jog elavult és már nincs használatban."
+
+msgid "meta_copyright_show_usages"
+msgstr "Használat megjelenítése"
+
+msgid "meta_copyright_status"
+msgstr "Állapot"
+
+msgid "meta_copyright_sub_items"
+msgstr "Alelemek"
+
+msgid "meta_copyright_usage"
+msgstr "Használat"
+
+msgid "meta_cost"
+msgstr "Költség"
+
+msgid "meta_coverage"
+msgstr "Terjedelem"
+
+msgid "meta_coverage_plural"
+msgstr "Lefedettség"
+
+msgid "meta_cp_own"
+msgstr "Saját szerzői jog információk:"
+
+msgid "meta_creator"
+msgstr "Létrehozó"
+
+msgid "meta_current_value"
+msgstr "Jelenlegi érték"
+
+msgid "meta_date"
+msgstr "Dátum"
+
+msgid "meta_date_time"
+msgstr "Dárum"
+
+msgid "meta_delete"
+msgstr "Törlés"
+
+msgid "meta_delete_confirm"
+msgstr "Biztos, hogy törli ezt az elemet és annak tartalmát?"
+
+msgid "meta_delete_element"
+msgstr "%s törlése"
+
+msgid "meta_delete_element_success"
+msgstr "Az elemet sikeresen törölte"
+
+msgid "meta_delete_this_element"
+msgstr "Ennek az elemnek a törlése"
+
+msgid "meta_description"
+msgstr "Leírás"
+
+msgid "meta_description_plural"
+msgstr "Leírások"
+
+msgid "meta_diagramm"
+msgstr "Diagram"
+
+msgid "meta_difficult"
+msgstr "Nehéz"
+
+msgid "meta_difficulty"
+msgstr "Nehézség"
+
+msgid "meta_discipline"
+msgstr "Fegyelem"
+
+msgid "meta_draft"
+msgstr "Tervezet"
+
+msgid "meta_duration"
+msgstr "Időtartam"
+
+msgid "meta_easy"
+msgstr "Könnyű"
+
+msgid "meta_edit_element"
+msgstr "%s szerkesztése"
+
+msgid "meta_edit_element_success"
+msgstr "Az elemet sikeresen szerkesztette"
+
+msgid "meta_editor"
+msgstr "Szerkesztő"
+
+msgid "meta_education"
+msgstr "Oktatás"
+
+msgid "meta_educational"
+msgstr "Oktatási"
+
+msgid "meta_educational_level"
+msgstr "Képzési szint"
+
+msgid "meta_educational_objective"
+msgstr "Képzési cél"
+
+msgid "meta_educational_plural"
+msgstr "Oktatási"
+
+msgid "meta_educationalvalidator"
+msgstr "Oktatási jóváhagyó"
+
+msgid "meta_entity"
+msgstr "Entitás"
+
+msgid "meta_entity_plural"
+msgstr "Entitások"
+
+msgid "meta_entry"
+msgstr "Bejegyzés"
+
+msgid "meta_error_empty_input"
+msgstr "Győződjön meg arról, hogy az alábbi beviteli mezők közül legalább egy nem üres."
+
+msgid "meta_exam"
+msgstr "Vizsga"
+
+msgid "meta_exercise"
+msgstr "Beadandó feladat"
+
+msgid "meta_experiment"
+msgstr "Kísérlet"
+
+msgid "meta_expositive"
+msgstr "Értelmező"
+
+msgid "meta_figure"
+msgstr "Kép / Illusztráció"
+
+msgid "meta_final"
+msgstr "Végső verzió"
+
+msgid "meta_first_author"
+msgstr "Első szerkesztő"
+
+msgid "meta_format"
+msgstr "Formátum"
+
+msgid "meta_format_plural"
+msgstr "Formátumok"
+
+msgid "meta_full_editor_navigation_info"
+msgstr "A metaadatkészletben való navigáláshoz és szerkesztéshez használja a főmenü ‘Eszközök’ bejegyzésében található ‘LOM’-fát"
+
+msgid "meta_general"
+msgstr "Általános"
+
+msgid "meta_global"
+msgstr "Globális"
+
+msgid "meta_graph"
+msgstr "Grafikon"
+
+msgid "meta_graphicaldesigner"
+msgstr "Grafikai tervezés"
+
+msgid "meta_has_format"
+msgstr "Formátuma …"
+
+msgid "meta_has_part"
+msgstr "Része …"
+
+msgid "meta_has_version"
+msgstr "Verziója"
+
+msgid "meta_hierarchical"
+msgstr "Hierarchikus"
+
+msgid "meta_high"
+msgstr "Magas"
+
+msgid "meta_higher_education"
+msgstr "Felsőfokú képzés"
+
+msgid "meta_id"
+msgstr "Azonosító"
+
+msgid "meta_idea"
+msgstr "Ötlet"
+
+msgid "meta_identifier"
+msgstr "Azonosító"
+
+msgid "meta_identifier_plural"
+msgstr "Azonosítók"
+
+msgid "meta_index"
+msgstr "Index"
+
+msgid "meta_info_licence_section"
+msgstr "Licensz és használata"
+
+msgid "meta_info_only_repository_objects"
+msgstr "Csak ILIAS-objektumokat sorolunk fel (médiaobjektumokat nem, illetve tananyagoldalakat sem)."
+
+msgid "meta_initiator"
+msgstr "Kezdeményező"
+
+msgid "meta_installation_remarks"
+msgstr "Észrevételek a telepítéshez"
+
+msgid "meta_instructionaldesigner"
+msgstr "Oktatástervező"
+
+msgid "meta_intended_end_user_role"
+msgstr "A megcélzott végfelhasználói szerepkör"
+
+msgid "meta_intended_end_user_role_plural"
+msgstr "A megcélzott végfelhasználói szerepkörök"
+
+msgid "meta_interactivity_level"
+msgstr "Interaktivitás szintje"
+
+msgid "meta_interactivity_type"
+msgstr "Interaktivitás típusa"
+
+msgid "meta_is_based_on"
+msgstr "Ezen alapul …"
+
+msgid "meta_is_basis_for"
+msgstr "Erre épül …"
+
+msgid "meta_is_format_of"
+msgstr "Ilyen formátumú …"
+
+msgid "meta_is_part_of"
+msgstr "Része ennek …"
+
+msgid "meta_is_referenced_by"
+msgstr "Hivatkozza ez"
+
+msgid "meta_is_required_by"
+msgstr "Szükséges ehhez"
+
+msgid "meta_is_version_of"
+msgstr "Verziója ennek"
+
+msgid "meta_keyword"
+msgstr "Kulcsszó"
+
+msgid "meta_keyword_plural"
+msgstr "Kulcsszavak"
+
+msgid "meta_kind"
+msgstr "Fajta"
+
+msgid "meta_l_aa"
+msgstr "afar"
+
+msgid "meta_l_ab"
+msgstr "abkhazian"
+
+msgid "meta_l_af"
+msgstr "afrikai"
+
+msgid "meta_l_am"
+msgstr "amharic"
+
+msgid "meta_l_ar"
+msgstr "arab"
+
+msgid "meta_l_as"
+msgstr "assamese"
+
+msgid "meta_l_ay"
+msgstr "aymara"
+
+msgid "meta_l_az"
+msgstr "azerbajdzsán"
+
+msgid "meta_l_ba"
+msgstr "baskír"
+
+msgid "meta_l_be"
+msgstr "belorusz"
+
+msgid "meta_l_bg"
+msgstr "bolgár"
+
+msgid "meta_l_bh"
+msgstr "bihari"
+
+msgid "meta_l_bi"
+msgstr "bislama"
+
+msgid "meta_l_bn"
+msgstr "bengáli; bangla"
+
+msgid "meta_l_bo"
+msgstr "tibeti"
+
+msgid "meta_l_br"
+msgstr "breton"
+
+msgid "meta_l_ca"
+msgstr "katalán"
+
+msgid "meta_l_co"
+msgstr "korzikai"
+
+msgid "meta_l_cs"
+msgstr "cseh"
+
+msgid "meta_l_cy"
+msgstr "walesi"
+
+msgid "meta_l_da"
+msgstr "dán"
+
+msgid "meta_l_de"
+msgstr "német"
+
+msgid "meta_l_dz"
+msgstr "butáni"
+
+msgid "meta_l_el"
+msgstr "görög"
+
+msgid "meta_l_en"
+msgstr "angol"
+
+msgid "meta_l_eo"
+msgstr "eszperantó"
+
+msgid "meta_l_es"
+msgstr "spanyol"
+
+msgid "meta_l_et"
+msgstr "észt"
+
+msgid "meta_l_eu"
+msgstr "baskír"
+
+msgid "meta_l_fa"
+msgstr "perzsa (farsi)"
+
+msgid "meta_l_fi"
+msgstr "finn"
+
+msgid "meta_l_fj"
+msgstr "fijii"
+
+msgid "meta_l_fo"
+msgstr "feröeri"
+
+msgid "meta_l_fr"
+msgstr "francia"
+
+msgid "meta_l_fy"
+msgstr "fríz"
+
+msgid "meta_l_ga"
+msgstr "ír"
+
+msgid "meta_l_gd"
+msgstr "skót gall"
+
+msgid "meta_l_gl"
+msgstr "galíciai"
+
+msgid "meta_l_gn"
+msgstr "guarani"
+
+msgid "meta_l_gu"
+msgstr "gujarati"
+
+msgid "meta_l_ha"
+msgstr "hausa"
+
+msgid "meta_l_he"
+msgstr "héber"
+
+msgid "meta_l_hi"
+msgstr "hindu"
+
+msgid "meta_l_hr"
+msgstr "horvát"
+
+msgid "meta_l_hu"
+msgstr "magyar"
+
+msgid "meta_l_hy"
+msgstr "örmény"
+
+msgid "meta_l_ia"
+msgstr "interlingua"
+
+msgid "meta_l_id"
+msgstr "indonéz"
+
+msgid "meta_l_ie"
+msgstr "interlingue"
+
+msgid "meta_l_ik"
+msgstr "inupiak"
+
+msgid "meta_l_is"
+msgstr "izlandi"
+
+msgid "meta_l_it"
+msgstr "olasz"
+
+msgid "meta_l_iu"
+msgstr "inuktitut"
+
+msgid "meta_l_ja"
+msgstr "japán"
+
+msgid "meta_l_jv"
+msgstr "jávai"
+
+msgid "meta_l_ka"
+msgstr "grúz"
+
+msgid "meta_l_kk"
+msgstr "kazah"
+
+msgid "meta_l_kl"
+msgstr "grönlandi"
+
+msgid "meta_l_km"
+msgstr "kambodzsai"
+
+msgid "meta_l_kn"
+msgstr "kanadai"
+
+msgid "meta_l_ko"
+msgstr "koreai"
+
+msgid "meta_l_ks"
+msgstr "kasmír"
+
+msgid "meta_l_ku"
+msgstr "kurd"
+
+msgid "meta_l_ky"
+msgstr "kirgiz"
+
+msgid "meta_l_la"
+msgstr "latin"
+
+msgid "meta_l_ln"
+msgstr "lingala"
+
+msgid "meta_l_lo"
+msgstr "laoszi"
+
+msgid "meta_l_lt"
+msgstr "litván"
+
+msgid "meta_l_lv"
+msgstr "lett"
+
+msgid "meta_l_mg"
+msgstr "malagaszi"
+
+msgid "meta_l_mi"
+msgstr "maori"
+
+msgid "meta_l_mk"
+msgstr "makedón"
+
+msgid "meta_l_ml"
+msgstr "maláj"
+
+msgid "meta_l_mn"
+msgstr "mongol"
+
+msgid "meta_l_mo"
+msgstr "moldáv"
+
+msgid "meta_l_mr"
+msgstr "marathi"
+
+msgid "meta_l_ms"
+msgstr "maláj"
+
+msgid "meta_l_mt"
+msgstr "máltai"
+
+msgid "meta_l_my"
+msgstr "burmai"
+
+msgid "meta_l_na"
+msgstr "naurui"
+
+msgid "meta_l_ne"
+msgstr "nepáli"
+
+msgid "meta_l_nl"
+msgstr "holland"
+
+msgid "meta_l_no"
+msgstr "norvég"
+
+msgid "meta_l_oc"
+msgstr "occitan"
+
+msgid "meta_l_om"
+msgstr "oromo; afaan oromoo"
+
+msgid "meta_l_or"
+msgstr "oriya"
+
+msgid "meta_l_pa"
+msgstr "pandzsáb"
+
+msgid "meta_l_pl"
+msgstr "lengyel"
+
+msgid "meta_l_ps"
+msgstr "pashto; pushto"
+
+msgid "meta_l_pt"
+msgstr "portugál"
+
+msgid "meta_l_qu"
+msgstr "quechua"
+
+msgid "meta_l_rm"
+msgstr "rhaeto-romance"
+
+msgid "meta_l_rn"
+msgstr "kurzundi"
+
+msgid "meta_l_ro"
+msgstr "román"
+
+msgid "meta_l_ru"
+msgstr "orosz"
+
+msgid "meta_l_rw"
+msgstr "kinyarwanda"
+
+msgid "meta_l_sa"
+msgstr "szanszkrit"
+
+msgid "meta_l_sd"
+msgstr "sindhi"
+
+msgid "meta_l_sg"
+msgstr "sangho"
+
+msgid "meta_l_sh"
+msgstr "serbo-croatian"
+
+msgid "meta_l_si"
+msgstr "szingaléz"
+
+msgid "meta_l_sk"
+msgstr "szlovák"
+
+msgid "meta_l_sl"
+msgstr "szlovén"
+
+msgid "meta_l_sm"
+msgstr "samoan"
+
+msgid "meta_l_sn"
+msgstr "shona"
+
+msgid "meta_l_so"
+msgstr "szomál"
+
+msgid "meta_l_sq"
+msgstr "albán"
+
+msgid "meta_l_sr"
+msgstr "szerb"
+
+msgid "meta_l_ss"
+msgstr "siswati"
+
+msgid "meta_l_st"
+msgstr "sesotho"
+
+msgid "meta_l_su"
+msgstr "sundanese"
+
+msgid "meta_l_sv"
+msgstr "svéd"
+
+msgid "meta_l_sw"
+msgstr "swahili; kiswahili"
+
+msgid "meta_l_ta"
+msgstr "tamil"
+
+msgid "meta_l_te"
+msgstr "telugu"
+
+msgid "meta_l_tg"
+msgstr "tajik"
+
+msgid "meta_l_th"
+msgstr "thai"
+
+msgid "meta_l_ti"
+msgstr "tigrinya"
+
+msgid "meta_l_tk"
+msgstr "türkmén"
+
+msgid "meta_l_tl"
+msgstr "tagalog"
+
+msgid "meta_l_tn"
+msgstr "setswana"
+
+msgid "meta_l_to"
+msgstr "tongai"
+
+msgid "meta_l_tr"
+msgstr "török"
+
+msgid "meta_l_ts"
+msgstr "tsonga"
+
+msgid "meta_l_tt"
+msgstr "tatár"
+
+msgid "meta_l_tw"
+msgstr "twi"
+
+msgid "meta_l_ug"
+msgstr "uigur"
+
+msgid "meta_l_uk"
+msgstr "ukrán"
+
+msgid "meta_l_ur"
+msgstr "urdu"
+
+msgid "meta_l_uz"
+msgstr "üzbég"
+
+msgid "meta_l_vi"
+msgstr "vietnámi"
+
+msgid "meta_l_vo"
+msgstr "volapük"
+
+msgid "meta_l_wo"
+msgstr "wolof"
+
+msgid "meta_l_xh"
+msgstr "xhosa"
+
+msgid "meta_l_xx"
+msgstr "egyik sem"
+
+msgid "meta_l_yi"
+msgstr "zsidó"
+
+msgid "meta_l_yo"
+msgstr "yoruba"
+
+msgid "meta_l_za"
+msgstr "zhuang"
+
+msgid "meta_l_zh"
+msgstr "kínai"
+
+msgid "meta_l_zu"
+msgstr "zulu"
+
+msgid "meta_language"
+msgstr "Nyelv"
+
+msgid "meta_language_plural"
+msgstr "Nyelvek"
+
+msgid "meta_learner"
+msgstr "Tanuló"
+
+msgid "meta_learning_resource_type"
+msgstr "Tananyag típusa"
+
+msgid "meta_learning_resource_type_plural"
+msgstr "Tananyag típusai"
+
+msgid "meta_lecture"
+msgstr "Előadás"
+
+msgid "meta_lifecycle"
+msgstr "Életciklus"
+
+msgid "meta_linear"
+msgstr "Lineáris"
+
+msgid "meta_local"
+msgstr "Helyi"
+
+msgid "meta_location"
+msgstr "Helyszín"
+
+msgid "meta_location_plural"
+msgstr "Helyszínek"
+
+msgid "meta_lom"
+msgstr "Tanulási objektum metaadat"
+
+msgid "meta_lom_short"
+msgstr "LOM"
+
+msgid "meta_low"
+msgstr "Alacsony"
+
+msgid "meta_macos"
+msgstr "MAC-OS"
+
+msgid "meta_manager"
+msgstr "Menedzser"
+
+msgid "meta_maximum_version"
+msgstr "Maximális verzió"
+
+msgid "meta_medium"
+msgstr "Közepes"
+
+msgid "meta_meta_metadata"
+msgstr "Meta-metaadat"
+
+msgid "meta_metadatascheme"
+msgstr "Metaadatséma"
+
+msgid "meta_metadatascheme_plural"
+msgstr "Metaadatsémák"
+
+msgid "meta_minimum_version"
+msgstr "Minimális verzió"
+
+msgid "meta_mixed"
+msgstr "Vegyes"
+
+msgid "meta_ms-internet_explorer"
+msgstr "MS-Internet Explorer"
+
+msgid "meta_ms-windows"
+msgstr "MS-Windows"
+
+msgid "meta_multi-os"
+msgstr "Multi-OS"
+
+msgid "meta_name"
+msgstr "Név"
+
+msgid "meta_narrative_text"
+msgstr "Elbeszélés"
+
+msgid "meta_netscape_communicator"
+msgstr "Netscape Communicator"
+
+msgid "meta_networked"
+msgstr "Hálózatos"
+
+msgid "meta_new_element"
+msgstr "Új elem"
+
+msgid "meta_no"
+msgstr "Nem"
+
+msgid "meta_none"
+msgstr "Egyik sem"
+
+msgid "meta_obj_type_active"
+msgstr "Adatkészletet felkínáljuk"
+
+msgid "meta_obj_type_inactive"
+msgstr "Adatkészlet nincs használatban"
+
+msgid "meta_obj_type_mandatory"
+msgstr "Adatkészletet mindig felkínáljuk"
+
+msgid "meta_obj_type_optional"
+msgstr "Adatkészletet aktiválni kell"
+
+msgid "meta_oer_copyright_selection"
+msgstr "Licensz kiválasztása"
+
+msgid "meta_oer_copyright_selection_info"
+msgstr "Csak a kiválasztott licensz alatt közzétett objektumokat vesszük figyelembe."
+
+#, fuzzy
+msgid "meta_oer_editorial_category"
+msgstr "Editorial Category"
+
+#, fuzzy
+msgid "meta_oer_editorial_step_info"
+msgstr "Add a step in the publishing workflow where objects can be checked by an editorial team before being published. Objects are first submitted to the Editorial Category. Only after being accepted are they moved to the category for published OER content, and records for the OAI-PMH interface are compiled."
+
+#, fuzzy
+msgid "meta_oer_editorial_step_toggle"
+msgstr "Enable Editorial Step"
+
+msgid "meta_oer_exposed_source"
+msgstr "Kategória közzétett NyOE-tartalom számára"
+
+msgid "meta_oer_harvested_licences"
+msgstr "Licenszek az NyOE-összegyűjtőnek"
+
+msgid "meta_oer_harvested_types"
+msgstr "Az összegyűjtendő objektumok típusai"
+
+msgid "meta_oer_harvester"
+msgstr "NyOE-összegyűjtő"
+
+msgid "meta_oer_harvester_desc"
+msgstr "A Tartalomtárban az összes fájl objektum végigpásztázása licenszeik után. A NyOE-tartalmak (Nyílt Oktatási Erőforrások, OER) összegyűjtője elhelyezi az összes erőforrást az ütemezett feladatokban kiválasztott licenszek alá. Ahhoz, hogy az ütemezett feladat eredményes legyen, szükséges bekapcsolni és beállítani a szerzői jog részt a Rendszerbeállítások » Metaadatok alatt."
+
+msgid "meta_oer_object_type_selection"
+msgstr "Összegyűjtött objektumtípusok"
+
+msgid "meta_opera"
+msgstr "Opera"
+
+msgid "meta_operating_system"
+msgstr "Operációs rendszer"
+
+msgid "meta_or_composite"
+msgstr "vagy összetett …"
+
+msgid "meta_or_composite_plural"
+msgstr "vagy kompozitok"
+
+msgid "meta_order"
+msgstr "Rendezés"
+
+msgid "meta_other"
+msgstr "Egyéb"
+
+msgid "meta_other_plattform_requirements"
+msgstr "További platformkövetelmények"
+
+msgid "meta_pc-dos"
+msgstr "PC-DOS"
+
+msgid "meta_pointofcontact"
+msgstr "Kapcsolattartó(k)"
+
+msgid "meta_prerequisite"
+msgstr "Előfeltétel"
+
+msgid "meta_problem_statement"
+msgstr "Problémaállapot"
+
+msgid "meta_publisher"
+msgstr "Kiadó"
+
+#, fuzzy
+msgid "meta_publishing_config_cp"
+msgstr "Copyright Selection: <strong>%s</strong>"
+
+#, fuzzy
+msgid "meta_publishing_config_cron_job_admin"
+msgstr "Cron Job Administration"
+
+#, fuzzy
+msgid "meta_publishing_config_disabled"
+msgstr "Disabled"
+
+#, fuzzy
+msgid "meta_publishing_config_enabled"
+msgstr "Enabled"
+
+#, fuzzy
+msgid "meta_publishing_config_harvester"
+msgstr "OER Harvester: <strong>%s</strong>"
+
+#, fuzzy
+msgid "meta_publishing_config_status"
+msgstr "For publishing to function, copyright selection and the OER Harvester cron job have to be enabled."
+
+msgid "meta_purpose"
+msgstr "Cél"
+
+msgid "meta_questionnaire"
+msgstr "Kérdőív"
+
+msgid "meta_references"
+msgstr "Hivatkozások"
+
+msgid "meta_relation"
+msgstr "Kapcsolat"
+
+msgid "meta_relation_plural"
+msgstr "Kapcsolatok"
+
+msgid "meta_requirement"
+msgstr "Követelmény"
+
+msgid "meta_requirement_plural"
+msgstr "Követelmények"
+
+msgid "meta_requires"
+msgstr "Igények"
+
+msgid "meta_resource"
+msgstr "Forrás"
+
+msgid "meta_revised"
+msgstr "Javított"
+
+msgid "meta_rights"
+msgstr "Jogok"
+
+msgid "meta_role"
+msgstr "Szerepkör"
+
+msgid "meta_save_order"
+msgstr "Rendezés mentése"
+
+msgid "meta_school"
+msgstr "Iskola"
+
+msgid "meta_scriptwriter"
+msgstr "Szkriptíró"
+
+msgid "meta_second_author"
+msgstr "Második szerkesztő"
+
+msgid "meta_section"
+msgstr "Fejezet"
+
+msgid "meta_security_level"
+msgstr "Biztonsági szint"
+
+msgid "meta_self_assessment"
+msgstr "Önértékelés"
+
+msgid "meta_semantic_density"
+msgstr "Tartalmi mélység"
+
+msgid "meta_simulation"
+msgstr "Szimuláció"
+
+msgid "meta_size"
+msgstr "Méret"
+
+msgid "meta_skill_level"
+msgstr "Kompetenciaszint"
+
+msgid "meta_slide"
+msgstr "Dia"
+
+msgid "meta_source"
+msgstr "Forrás"
+
+msgid "meta_status"
+msgstr "Állapot"
+
+msgid "meta_string"
+msgstr "Szöveg"
+
+msgid "meta_structure"
+msgstr "Szerkezet"
+
+msgid "meta_tab_advmd"
+msgstr "Egyéni metaadat"
+
+msgid "meta_tab_advmd_def"
+msgstr "Egyéni metaadat meghatározása"
+
+msgid "meta_tab_lom"
+msgstr "LOM"
+
+msgid "meta_table"
+msgstr "Táblázat"
+
+msgid "meta_taxon"
+msgstr "Rendszertan"
+
+msgid "meta_taxon_path"
+msgstr "Rendszertani ágazat"
+
+msgid "meta_taxon_path_plural"
+msgstr "Taxon útvonalai"
+
+msgid "meta_taxon_plural"
+msgstr "Taxonok"
+
+msgid "meta_teacher"
+msgstr "Tanár"
+
+msgid "meta_technical"
+msgstr "Technikai"
+
+msgid "meta_technicalimplementer"
+msgstr "Technikai kivitelező"
+
+msgid "meta_technicalvalidator"
+msgstr "Technikai jóváhagyó"
+
+msgid "meta_terminator"
+msgstr "Végső szerkesztő"
+
+msgid "meta_third_author"
+msgstr "Harmadik szerző"
+
+msgid "meta_title"
+msgstr "Cím"
+
+msgid "meta_training"
+msgstr "Tréning"
+
+msgid "meta_type"
+msgstr "Típus"
+
+msgid "meta_typical_age_range"
+msgstr "Jellemző életkor"
+
+msgid "meta_typical_age_range_plural"
+msgstr "Tipikus korosztályok"
+
+msgid "meta_typical_learning_time"
+msgstr "Szokásos tanulási idő"
+
+msgid "meta_unavailable"
+msgstr "Elérhetetlen"
+
+msgid "meta_unix"
+msgstr "Unix"
+
+msgid "meta_unknown"
+msgstr "Ismeretlen"
+
+msgid "meta_validator"
+msgstr "Jóváhagyó"
+
+msgid "meta_value"
+msgstr "Érték"
+
+msgid "meta_version"
+msgstr "Verzió"
+
+msgid "meta_very_difficult"
+msgstr "Nagyon nehéz"
+
+msgid "meta_very_easy"
+msgstr "Nagyon könnyű"
+
+msgid "meta_very_high"
+msgstr "Nagyon magas"
+
+msgid "meta_very_low"
+msgstr "Nagyon alacsony"
+
+msgid "meta_yes"
+msgstr "Igen"
+
+msgid "udf_type_address"
+msgstr "Cím"
+
+msgid "udf_type_externallink"
+msgstr "Külső link"
+
+msgid "udf_type_float"
+msgstr "Lebegőpontos szám"
+
+msgid "udf_type_integer"
+msgstr "Egész szám"
+
+msgid "udf_type_internallink"
+msgstr "Belső link"
+
+msgid "udf_type_location"
+msgstr "Helyszín"
+
+msgid "udf_type_selectmulti"
+msgstr "Választási lista (többválasztásos)"

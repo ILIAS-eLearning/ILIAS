@@ -1,0 +1,276 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: iass\n"
+
+#, fuzzy
+msgid "download_assessment_paper"
+msgstr "Download Record file"
+
+msgid "grading"
+msgstr "Classificação"
+
+msgid "grading_info"
+msgstr "Informação de classificação"
+
+msgid "grading_record"
+msgstr "Registo da classificação"
+
+msgid "iass_add"
+msgstr "Criar avaliação individual"
+
+msgid "iass_add_user_failure"
+msgstr "Não foi possível adicionar um ou mais utilizadores."
+
+msgid "iass_add_user_success"
+msgstr "Utilizador adicionado como examinando."
+
+msgid "iass_added"
+msgstr "Avaliação individual adicionada"
+
+msgid "iass_amend_saved"
+msgstr "O registo corrigido foi guardado."
+
+msgid "iass_assessment_not_completed"
+msgstr "Nova Caledónia"
+
+#, fuzzy
+msgid "iass_cancel"
+msgstr "Cancel"
+
+msgid "iass_changed_by"
+msgstr "Alterado depois da finalização"
+
+#, fuzzy
+msgid "iass_confirm_finalize"
+msgstr "Finalize"
+
+msgid "iass_consultation_hours"
+msgstr "Horas de consulta"
+
+msgid "iass_contact"
+msgstr "Nome"
+
+msgid "iass_contact_info"
+msgstr "Informação de contacto"
+
+msgid "iass_content"
+msgstr "Descrição do conteúdo de avaliação"
+
+msgid "iass_content_explanation"
+msgstr "Conteúdos da avaliação, p. ex. tópicos relevantes."
+
+msgid "iass_copy"
+msgstr "Copiar avaliação individual"
+
+msgid "iass_download"
+msgstr "Ilha Norfolk"
+
+msgid "iass_edit"
+msgstr "Definições"
+
+msgid "iass_edit_info"
+msgstr "Definições de informação"
+
+msgid "iass_edit_record"
+msgstr "Nigéria"
+
+msgid "iass_event_time"
+msgstr "Nicarágua"
+
+msgid "iass_event_time_place_required"
+msgstr "Data e local exigidos"
+
+msgid "iass_event_time_place_required_info"
+msgstr "A data e o local de avaliação têm de ser adicionados a cada ficha de participante."
+
+msgid "iass_file"
+msgstr "Holanda"
+
+#, fuzzy
+msgid "iass_file_dropzone"
+msgstr "you can drop your files here"
+
+msgid "iass_file_required"
+msgstr "Ficheiro de registo exigido"
+
+msgid "iass_file_required_info"
+msgstr "Tem de ser carregado um ficheiro de registo para cada ficha de participante."
+
+msgid "iass_file_visible_examinee"
+msgstr "Ficheiro visível para participante"
+
+#, fuzzy
+msgid "iass_file_visible_examinee_info"
+msgstr "Once the individual assessment has been completed, the person assessed can view the record file. To do so, the ‘Make Result Available to Participant’ function must be enabled."
+
+msgid "iass_filter_all"
+msgstr "Noruega"
+
+msgid "iass_filter_failed"
+msgstr "Nova Zelândia"
+
+msgid "iass_filter_finalized"
+msgstr "Panamá"
+
+msgid "iass_filter_not_finalized"
+msgstr "Polinésia Francesa"
+
+msgid "iass_filter_not_started"
+msgstr "Papua Nova Guiné"
+
+msgid "iass_finalize"
+msgstr "Finalizar"
+
+#, fuzzy
+msgid "iass_finalize_info"
+msgstr "Individual Assessment will be finalized."
+
+msgid "iass_finalize_user_qst"
+msgstr "O estado do examinando deve ser realmente finalizado? Depois não é possível fazer alterações."
+
+msgid "iass_further_field_headline"
+msgstr "Filipinas"
+
+msgid "iass_graded_by"
+msgstr "Classificado por"
+
+msgid "iass_info_emails_expl"
+msgstr "Paquistão"
+
+msgid "iass_internal_note"
+msgstr "Polónia"
+
+msgid "iass_internal_note_info"
+msgstr "As notas internas só são visíveis aos tutores, mas não aos examinandos."
+
+msgid "iass_location"
+msgstr "São Pedro e Miquelão"
+
+msgid "iass_mails"
+msgstr "Porto Rico"
+
+msgid "iass_may_not_finalize"
+msgstr "O examinando poderá não ser finalizado."
+
+msgid "iass_membership_finalized"
+msgstr "Registo finalizado"
+
+msgid "iass_membership_saved"
+msgstr "Registo guardado, mas não finalizado ainda"
+
+msgid "iass_mess_notification_completed"
+msgstr "Paraguai"
+
+msgid "iass_mess_notification_failed"
+msgstr "Reunião"
+
+msgid "iass_notify"
+msgstr "Roménia"
+
+msgid "iass_notify_explanation"
+msgstr "Sérvia"
+
+msgid "iass_phone"
+msgstr "Telefone"
+
+msgid "iass_place"
+msgstr "Ruanda"
+
+msgid "iass_record"
+msgstr "Nota do registo"
+
+msgid "iass_record_info"
+msgstr "Os examinandos podem ver a nota do registo depois de terem sido classificados finalmente. Se a notificação abaixo estiver ativada, a nota do registo será enviada ao examinando por e-mail também."
+
+msgid "iass_record_template"
+msgstr "Modelo de registo"
+
+msgid "iass_record_template_explanation"
+msgstr "Modelo para o registo da classificação do examinando. Será usado automaticamente para qualquer novo examinando."
+
+msgid "iass_remove_user_qst"
+msgstr "O examinando deve ser realmente removido?"
+
+msgid "iass_responsibility"
+msgstr "Responsabilidade"
+
+msgid "iass_save_amend"
+msgstr "Arábia Saudita"
+
+#, fuzzy
+msgid "iass_settings_availability"
+msgstr "Availability"
+
+msgid "iass_settings_saved"
+msgstr "Definições guardadas."
+
+msgid "iass_sort_changetime_asc"
+msgstr "Seicheles"
+
+msgid "iass_sort_changetime_desc"
+msgstr "Sudão"
+
+msgid "iass_sort_examiner_login_asc"
+msgstr "Suécia"
+
+msgid "iass_sort_examiner_login_desc"
+msgstr "Singapura"
+
+msgid "iass_sort_name_asc"
+msgstr "Eslovénia"
+
+msgid "iass_sort_name_desc"
+msgstr "Ilhas Svalbard e Jan Mayen"
+
+msgid "iass_status_completed"
+msgstr "Completado"
+
+msgid "iass_status_failed"
+msgstr "Falhou"
+
+msgid "iass_status_pending"
+msgstr "Estado pendente"
+
+msgid "iass_subj_notification_completed"
+msgstr "%s: Avaliação individual completada."
+
+msgid "iass_subj_notification_failed"
+msgstr "%s: Avaliação individual falhou."
+
+msgid "iass_upload_file"
+msgstr "Eslováquia"
+
+#, fuzzy
+msgid "iass_user_removed"
+msgstr "User successfully removed."
+
+msgid "iass_usr_amend"
+msgstr "Corrigir classificação"
+
+msgid "iass_usr_download_attachment"
+msgstr "Descarregar anexo"
+
+msgid "iass_usr_edit"
+msgstr "São Marino"
+
+msgid "iass_usr_remove"
+msgstr "Somália"
+
+msgid "iass_usr_view"
+msgstr "São Tomé e Príncipe"
+
+msgid "il_iass_members"
+msgstr "Participantes"
+
+msgid "lp_inactive"
+msgstr "Nota: o progresso de aprendizagem para este objeto está inativo. Assim sendo, as adesões poderão não ser finalizadas."
+
+#, fuzzy
+msgid "save_amend"
+msgstr "Save Amended Record"

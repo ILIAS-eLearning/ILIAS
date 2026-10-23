@@ -1,0 +1,492 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: user\n"
+
+msgid "account_not_flagged_for_deletion"
+msgstr "La cuenta no está marcada para eliminación."
+
+msgid "activate_in_profile_fields"
+msgstr "To change this setting, the user must first be allowed to change their login name under Profile > Profile Fields"
+
+msgid "administrative_settings"
+msgstr "Administrative Settings"
+
+msgid "all_roles_has_starting_point"
+msgstr "Todos los roles tienen puntos de inicio"
+
+msgid "back_to_starting_points_list"
+msgstr "Volver a Puntos de Inicio"
+
+msgid "change_email_email_confirmation_body"
+msgstr "La dirección de correo electrónico de la cuenta %s ha sido modificada. Para confirmar este cambio, por favor haga clic en este enlace %s . El enlace es válido durante %s minutos."
+
+msgid "change_email_email_confirmation_subject"
+msgstr "Confirmar dirección de correo electrónico"
+
+msgid "change_email_email_information_body"
+msgstr "Se ha iniciado el proceso para cambiar la dirección de correo electrónico de la cuenta %s a %s. Se ha enviado un correo electrónico con un enlace para confirmar el cambio a la nueva dirección. El enlace es válido durante %s minutos."
+
+msgid "change_email_email_information_subject"
+msgstr "Información sobre el cambio de dirección de correo electrónico"
+
+msgid "change_email_email_sent"
+msgstr "Se ha enviado un correo electrónico con un enlace para confirmar su cambio. Por favor, compruebe su bandeja de entrada y asegúrese de mirar también en la carpeta de correo no deseado si el mensaje no llega en los próximos minutos."
+
+msgid "change_email_info_message"
+msgstr "Hay una solicitud pendiente para cambiar la dirección de correo electrónico de esta cuenta."
+
+msgid "clipboard_add_btn"
+msgstr "Añadir al portapapeles"
+
+msgid "clipboard_add_from_btn"
+msgstr "Añadir desde el portapapeles"
+
+msgid "clipboard_empty_btn"
+msgstr "Vaciar portapapeles"
+
+msgid "clipboard_remove_btn"
+msgstr "Eliminar del portapapeles"
+
+msgid "clipboard_table_title"
+msgstr "Portapapeles (Cuentas de usuario)"
+
+msgid "clipboard_user_added"
+msgstr "Se han añadido los usuarios seleccionados al portapapeles."
+
+msgid "confirm_delete_starting_point"
+msgstr "¿Está seguro de que desea eliminar esta regla?"
+
+msgid "confirm_logout_for_email_change"
+msgstr "Ha cambiado su correo electrónico. Para finalizar este cambio, deberá proporcionar su contraseña. Por lo tanto, el sistema va a cerrar su sesión y tendrá 5 minutos para volver a iniciar sesión. Todos los demás cambios se guardarán antes de cerrar la sesión."
+
+msgid "confirm_logout_for_email_change_with_confirmation"
+msgstr "Adicionalmente, se requerirá una confirmación de que usted controla la nueva dirección de correo electrónico. Una vez que haya iniciado sesión de nuevo, se le enviará un correo electrónico. Por favor, haga clic en el enlace del correo para confirmar que controla la dirección. El cambio de la dirección de correo electrónico solo tendrá efecto una vez que este segundo paso también se haya finalizado."
+
+msgid "create_starting_point"
+msgstr "Crear regla"
+
+msgid "criteria"
+msgstr "Criterios"
+
+msgid "del_mail_body"
+msgstr "Hola %1$s, %2$s No has iniciado sesión en %3$s durante mucho tiempo. Por lo tanto, se espera que tu cuenta de ILIAS %5$s sea eliminada el %4$s. Para conservar tu cuenta de ILIAS, debes iniciar sesión de nuevo antes de la fecha mencionada."
+
+msgid "del_mail_subject"
+msgstr "Tu cuenta de ILIAS será eliminada pronto"
+
+msgid "delete_inactive_user_accounts_frequency"
+msgstr "Frecuencia"
+
+msgid "delete_inactive_user_accounts_frequency_desc"
+msgstr "Frecuencia con la que se probará la eliminación y la distribución de correos electrónicos."
+
+msgid "edit_field"
+msgstr "Edit Field"
+
+msgid "edit_setting"
+msgstr "Edit Setting"
+
+msgid "editing_this_role"
+msgstr "Rol"
+
+msgid "email_could_not_be_changed"
+msgstr "La solicitud para cambiar su correo electrónico no pudo ser finalizada."
+
+msgid "enable_local_user_administration"
+msgstr "Activar administración local de usuarios"
+
+msgid "enable_local_user_administration_info"
+msgstr "Permitir que las cuentas de usuario locales sean administradas en categorías y unidades organizativas."
+
+msgid "feedhash"
+msgstr "Hash de canal de noticias"
+
+msgid "field_type_custom"
+msgstr "Custom"
+
+msgid "has_role"
+msgstr "Rol"
+
+msgid "info_accessFree_sure"
+msgstr "¿Está seguro de que desea eliminar la fecha de validez de las siguientes cuentas?"
+
+msgid "inform_user_mail_info"
+msgstr "Si se activa, se enviará un correo electrónico al usuario. El contenido puede definirse en 'Administración » Usuarios y Roles » Gestión de Usuarios', pestaña 'Ajustes : Correo de nueva cuenta'."
+
+msgid "interests"
+msgstr "Intereses"
+
+msgid "interests_general"
+msgstr "Intereses generales"
+
+msgid "interests_help_looking"
+msgstr "Busca ayuda"
+
+msgid "interests_help_offered"
+msgstr "Ofrece ayuda"
+
+msgid "ldoc_accepted_content"
+msgstr "Contenido aceptado"
+
+msgid "ldoc_not_accepted_yet"
+msgstr "No aceptado todavía"
+
+msgid "msg_spoint_not_modified"
+msgstr "Punto de inicio no modificado"
+
+msgid "no_deactivate_yourself"
+msgstr "No puede desactivar su propia cuenta de usuario."
+
+msgid "obj_ref_id_not_exist"
+msgstr "El ID de referencia introducido no existe"
+
+msgid "personalise_additional"
+msgstr "Personalizar configuraciones adicionales"
+
+msgid "personalise_communication"
+msgstr "Personalise Communication Settings"
+
+msgid "personalise_privacy"
+msgstr "Personalizar ajustes de privacidad"
+
+msgid "profile_fields"
+msgstr "Campos del perfil"
+
+msgid "profile_section"
+msgstr "Section"
+
+msgid "restrict_user_access"
+msgstr "Búsqueda restringida en cuentas de usuario"
+
+msgid "restrict_user_access_info"
+msgstr "Las cuentas de ILIAS solo se autocompletarán en la búsqueda para roles con 'Acceso de lectura a cuentas de usuario'."
+
+msgid "roles_without_starting_point"
+msgstr "Roles sin punto de inicio definido:"
+
+msgid "save_order"
+msgstr "Guardar orden"
+
+msgid "send_mail_reminder_window_too_small"
+msgstr "Su configuración de frecuencia es demasiado grande para este valor de recordatorio."
+
+msgid "send_mail_to_inactive_users"
+msgstr "Correo de advertencia"
+
+msgid "send_mail_to_inactive_users_desc"
+msgstr "Si se activa, se enviará un correo de advertencia al usuario antes de que su cuenta sea eliminada por inactividad. Por favor, asegúrese de que el envío de correos externos sea posible. Al activarse con correo de recordatorio, puede ocurrir que el intervalo de tiempo entre el correo de recordatorio y la eliminación sea menor que el configurado."
+
+msgid "send_mail_to_inactive_users_must_be_smaller_than"
+msgstr "Este valor debe ser menor que el valor 'Días transcurridos desde el último inicio de sesión'."
+
+msgid "send_mail_to_inactive_users_numbers_only"
+msgstr "Solo se aceptan números positivos no decimales."
+
+msgid "send_mail_to_inactive_users_suffix"
+msgstr "Días antes de la eliminación."
+
+msgid "show_own_online_status"
+msgstr "Mostrar mi estado en línea"
+
+msgid "starting_page"
+msgstr "Punto de inicio"
+
+msgid "starting_point"
+msgstr "Punto de inicio"
+
+msgid "starting_point_settings"
+msgstr "Ajustes del punto de inicio"
+
+msgid "starting_points"
+msgstr "Puntos de inicio"
+
+msgid "udf_select_options"
+msgstr "Opciones"
+
+msgid "user_access_limited"
+msgstr "Limitado"
+
+msgid "user_access_unlimited"
+msgstr "Ilimitado"
+
+msgid "user_account_code"
+msgstr "Código"
+
+msgid "user_account_code_generated"
+msgstr "Fecha de generación"
+
+msgid "user_account_code_generated_all"
+msgstr "Todas las fechas"
+
+msgid "user_account_code_not_valid"
+msgstr "El código de registro proporcionado no es válido o ya ha sido utilizado."
+
+msgid "user_account_code_setting"
+msgstr "Habilitar la reactivación de cuenta por código"
+
+msgid "user_account_code_setting_info"
+msgstr "Los usuarios pueden reactivar su cuenta de usuario caducada con un código predefinido. Los códigos correspondientes para la renovación de cuentas temporales de ILIAS se generan en 'Administración » Usuarios y Roles » Autenticación y Registro', pestaña 'Autenticación ILIAS / Autoregistro : Códigos de registro'. Las cuentas inactivas no pueden reactivarse mediante códigos."
+
+msgid "user_account_code_used"
+msgstr "Fecha de uso"
+
+msgid "user_account_code_valid_until"
+msgstr "Válido hasta"
+
+msgid "user_account_code_valid_until_dynamic"
+msgstr "Número de días"
+
+msgid "user_account_code_valid_until_static"
+msgstr "Fecha de finalización"
+
+msgid "user_account_code_valid_until_unlimited"
+msgstr "Ilimitado"
+
+msgid "user_account_codes_add"
+msgstr "Añadir códigos"
+
+msgid "user_account_codes_edit_header"
+msgstr "Añadir códigos"
+
+msgid "user_account_codes_export"
+msgstr "Exportar códigos"
+
+msgid "user_account_codes_number"
+msgstr "Número de códigos"
+
+msgid "user_account_deleted_confirmation"
+msgstr "Su cuenta ha sido eliminada. Se le ha enviado un correo electrónico con información detallada."
+
+msgid "user_activate_public_profile"
+msgstr "Activación"
+
+msgid "user_activate_public_profile_info"
+msgstr "Su nombre y apellido siempre serán visibles en su perfil si está activado."
+
+msgid "user_activation"
+msgstr "Activación"
+
+msgid "user_admin_options"
+msgstr "Options"
+
+msgid "user_all"
+msgstr "Todos"
+
+msgid "user_allow_delete_own_account"
+msgstr "Permitir a los usuarios eliminar su propia cuenta"
+
+msgid "user_any"
+msgstr "Cualquiera"
+
+msgid "user_awrn_all_users"
+msgstr "Todos los usuarios"
+
+msgid "user_awrn_all_users_info"
+msgstr "Se listan todos los usuarios de la plataforma. Tenga en cuenta que el ajuste \"En línea y Fuera de línea\" puede reducir considerablemente el rendimiento en instalaciones con un gran número de usuarios."
+
+msgid "user_check_profile_data"
+msgstr "Comprobar datos del perfil"
+
+msgid "user_chooses_starting_page"
+msgstr "El usuario elige el punto de inicio"
+
+msgid "user_delete_own_account"
+msgstr "Eliminar cuenta"
+
+msgid "user_delete_own_account_aborted"
+msgstr "Eliminación abortada, la cuenta no ha sido modificada."
+
+msgid "user_delete_own_account_email_body"
+msgstr "Su cuenta de usuario \"%s\" ha sido eliminada de %s el %s."
+
+msgid "user_delete_own_account_email_subject"
+msgstr "Cuenta de usuario eliminada"
+
+msgid "user_delete_own_account_final_confirmation"
+msgstr "¡Por favor, confirme por última vez que desea eliminar su cuenta de usuario de ILIAS!"
+
+msgid "user_delete_own_account_info"
+msgstr "Aquí puede eliminar su cuenta de usuario actual. ¡Tenga en cuenta que la eliminación de su cuenta es irreversible!"
+
+msgid "user_delete_own_account_logout_button"
+msgstr "Proceder a la Autenticación"
+
+msgid "user_delete_own_account_logout_confirmation"
+msgstr "Su cuenta ha sido marcada para su eliminación. Por favor, autentíquese para continuar con el proceso."
+
+msgid "user_delete_own_account_notification_email"
+msgstr "Correo electrónico de notificación"
+
+msgid "user_field"
+msgstr "Campo"
+
+msgid "user_global_role"
+msgstr "Rol Global"
+
+msgid "user_last_login_before"
+msgstr "Último inicio de sesión antes de"
+
+msgid "user_limited_access"
+msgstr "Acceso Limitado"
+
+msgid "user_local_role"
+msgstr "Rol Local"
+
+msgid "user_lv_do_not_store"
+msgstr "No recordar nunca lo último visitado"
+
+msgid "user_lv_keep_entries"
+msgstr "Recordar lo último visitado"
+
+msgid "user_lv_keep_only_for_session"
+msgstr "Recordar solo durante la sesión actual"
+
+msgid "user_make_profile_public"
+msgstr "Publicar Perfil"
+
+msgid "user_member_of_course_group"
+msgstr "Miembro de Curso/Grupo"
+
+msgid "user_no_courses"
+msgstr "No hay cursos asignados"
+
+msgid "user_no_groups"
+msgstr "No hay grupos asignados"
+
+msgid "user_order"
+msgstr "Orden"
+
+msgid "user_ownership"
+msgstr "Objetos del Repositorio"
+
+msgid "user_please_select_course_group"
+msgstr "Por favor, seleccione un curso o un grupo."
+
+msgid "user_portfolios"
+msgstr "Portafolios"
+
+msgid "user_portfolios_desc"
+msgstr "Los usuarios pueden crear portafolios y usarlos como perfil."
+
+msgid "user_privacy_checklist"
+msgstr "Lista de verificación de privacidad"
+
+msgid "user_profile_data"
+msgstr "Datos del perfil"
+
+msgid "user_profile_data_checked"
+msgstr "Datos del perfil verificados"
+
+msgid "user_profile_info"
+msgstr "Información del perfil de usuario"
+
+msgid "user_profile_info_std"
+msgstr "Información de perfil de usuario predeterminada"
+
+msgid "user_profile_info_text_info"
+msgstr "Este texto se presenta en la parte superior del formulario para introducir datos personales."
+
+msgid "user_profile_portfolio"
+msgstr "Si desea utilizar un portafolio como su perfil, vaya a la sección de portafolios y seleccione \"Establecer como mi perfil\" en el menú desplegable a la derecha del portafolio que desea utilizar."
+
+msgid "user_profile_portfolio_selected"
+msgstr "Actualmente está utilizando un portafolio como su perfil. La activación se puede configurar allí usando la pestaña \"Compartir\"."
+
+msgid "user_profile_preview"
+msgstr "Vista previa del perfil"
+
+msgid "user_profile_prompt_text"
+msgstr "Texto de aviso"
+
+msgid "user_profile_prompt_text_info"
+msgstr "Este texto sustituye al texto informativo por defecto que se muestra cuando se pide a un usuario que complete el perfil."
+
+msgid "user_prompt_incomplete"
+msgstr "Solo si el perfil está incompleto"
+
+msgid "user_prompt_incomplete_info"
+msgstr "Si el usuario tiene que completar campos obligatorios, el perfil se mostrará después de iniciar sesión."
+
+msgid "user_prompt_once_after_login"
+msgstr "Una vez, tras un número específico de días después del primer inicio de sesión"
+
+msgid "user_prompt_once_after_login_info"
+msgstr "Después de este periodo, se le pedirá al usuario que revise el perfil si aún no lo ha publicado."
+
+msgid "user_prompt_repeat"
+msgstr "Repetir cada número específico de días"
+
+msgid "user_prompt_repeat_info"
+msgstr "Se pedirá periódicamente al usuario que publique su perfil si aún no lo ha hecho."
+
+msgid "user_prompting_recurrence"
+msgstr "Cuándo y con qué frecuencia se pregunta al usuario"
+
+msgid "user_prompting_settings"
+msgstr "Configuración de avisos"
+
+msgid "user_public_profile_info"
+msgstr "Por favor, seleccione qué datos personales desea que sean visibles en su perfil y qué usuarios deberían poder visitarlo."
+
+msgid "user_publish_options"
+msgstr "Publicar perfil"
+
+msgid "user_role_selection"
+msgstr "Selección de rol"
+
+msgid "user_role_starting_point"
+msgstr "Usuario - Punto de partida"
+
+msgid "user_save_continue"
+msgstr "Guardar y continuar"
+
+msgid "user_save_ordering_and_titles"
+msgstr "Guardar orden y títulos"
+
+msgid "user_select_course_group"
+msgstr "Seleccionar curso/grupo"
+
+msgid "user_set_publishing_options"
+msgstr "Establecer opciones de publicación"
+
+msgid "user_set_visibilty_options"
+msgstr "Establecer opciones de visibilidad"
+
+msgid "user_settings"
+msgstr "User Settings"
+
+msgid "user_store_last_visited"
+msgstr "Última visita"
+
+msgid "user_visibility_settings"
+msgstr "Visibilidad"
+
+msgid "user_visible_in_profile"
+msgstr "Visible en datos personales"
+
+msgid "usr_id"
+msgstr "ID de usuario"
+
+msgid "usr_letter_avatars"
+msgstr "Avatares con letra"
+
+msgid "usr_letter_avatars_info"
+msgstr "Muestra el nombre de usuario (o las iniciales del nombre de usuario) como imagen de perfil del usuario si no se ha proporcionado una imagen pública."
+
+msgid "usr_public_profile_disabled"
+msgstr "Perfil desactivado"
+
+msgid "usr_public_profile_disabled_info"
+msgstr "Su información solo es visible para el personal administrativo."
+
+msgid "usr_public_profile_global"
+msgstr "WWW / Accesible para todos los usuarios en Internet"
+
+msgid "usr_public_profile_logged_in"
+msgstr "Visible para usuarios con sesión iniciada"

@@ -1,0 +1,67 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: note\n"
+
+msgid "note_comment_notification_link"
+msgstr "Link"
+
+msgid "note_comment_notification_reason"
+msgstr "Recebe esta mensagem porque a sua conta está listada como destinatário global para todos os comentários na administração ILIAS (definições do computador pessoal)."
+
+msgid "note_comment_notification_salutation"
+msgstr "Olá %s,"
+
+msgid "note_comment_notification_subject"
+msgstr "Foi adicionado um comentário a \"%s\""
+
+msgid "note_comment_notification_subjectc"
+msgstr "Foi alterado um comentário em \"%s\""
+
+msgid "note_comment_notification_user_has_written"
+msgstr "%s escreveu:"
+
+#, fuzzy
+msgid "note_comments_notification"
+msgstr "General notification about all comments"
+
+#, fuzzy
+msgid "note_comments_notification_info"
+msgstr "Comma separated list of accounts that are notified for each comment"
+
+#, fuzzy
+msgid "note_enable_comments"
+msgstr "Enable Comments"
+
+#, fuzzy
+msgid "note_enable_comments_del_tutor"
+msgstr "Any Comment may be deleted by tutors"
+
+#, fuzzy
+msgid "note_enable_comments_del_tutor_info"
+msgstr "User with \"Edit Settings\" permission for an object can delete any comment made in this object."
+
+#, fuzzy
+msgid "note_enable_comments_del_user"
+msgstr "Comments may be deleted by their authors"
+
+#, fuzzy
+msgid "note_enable_comments_del_user_info"
+msgstr "Comments can be deleted by the person who created them."
+
+#, fuzzy
+msgid "note_enable_comments_export_info"
+msgstr "This option enables comments export for content objects like portfolio, blog and wiki."
+
+#, fuzzy
+msgid "note_enable_notes"
+msgstr "Enable Notes"
+
+#, fuzzy
+msgid "note_html_export_include_comments"
+msgstr "Should comments be included in the export?"

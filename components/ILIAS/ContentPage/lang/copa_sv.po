@@ -1,0 +1,48 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: copa\n"
+
+msgid "copa_activation_online_info"
+msgstr "Endast när innehållssidan är online kan användare komma åt innehållssidan. Om inte, är innehållssidan endast tillgänglig för administratörer."
+
+msgid "copa_add"
+msgstr "Skapa innehållssida"
+
+msgid "copa_btn_lp_toggle_state_completed"
+msgstr "Set till \"Ej redigerad"
+
+msgid "copa_btn_lp_toggle_state_not_completed"
+msgstr "Set till \"Redigerad"
+
+msgid "copa_copy"
+msgstr "Kopiera innehållssida"
+
+msgid "copa_edit"
+msgstr "Inställningar för innehållssida"
+
+msgid "copa_import"
+msgstr "Importera innehållssida"
+
+msgid "copa_new"
+msgstr "Skapa ny innehållssida"
+
+msgid "copa_page_type_copa"
+msgstr "Innehållssida"
+
+msgid "copa_prop_reading_time"
+msgstr "Tid för läsning"
+
+msgid "copa_value_reading_time_f_p"
+msgstr "%s minuter"
+
+msgid "copa_value_reading_time_f_s"
+msgstr "%s minut"
+
+msgid "obj_copa_duplicate"
+msgstr "Sidor med duplicerat innehåll"

@@ -1,0 +1,264 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: iass\n"
+
+msgid "download_assessment_paper"
+msgstr ""
+
+msgid "grading"
+msgstr ""
+
+msgid "grading_info"
+msgstr ""
+
+msgid "grading_record"
+msgstr ""
+
+msgid "iass_add"
+msgstr ""
+
+msgid "iass_add_user_failure"
+msgstr ""
+
+msgid "iass_add_user_success"
+msgstr ""
+
+msgid "iass_added"
+msgstr ""
+
+msgid "iass_amend_saved"
+msgstr ""
+
+msgid "iass_assessment_not_completed"
+msgstr ""
+
+msgid "iass_cancel"
+msgstr ""
+
+msgid "iass_changed_by"
+msgstr ""
+
+msgid "iass_confirm_finalize"
+msgstr ""
+
+msgid "iass_consultation_hours"
+msgstr ""
+
+msgid "iass_contact"
+msgstr ""
+
+msgid "iass_contact_info"
+msgstr ""
+
+msgid "iass_content"
+msgstr ""
+
+msgid "iass_content_explanation"
+msgstr ""
+
+msgid "iass_copy"
+msgstr ""
+
+msgid "iass_download"
+msgstr ""
+
+msgid "iass_edit"
+msgstr ""
+
+msgid "iass_edit_info"
+msgstr ""
+
+msgid "iass_edit_record"
+msgstr ""
+
+msgid "iass_event_time"
+msgstr ""
+
+msgid "iass_event_time_place_required"
+msgstr ""
+
+msgid "iass_event_time_place_required_info"
+msgstr ""
+
+msgid "iass_file"
+msgstr ""
+
+msgid "iass_file_dropzone"
+msgstr ""
+
+msgid "iass_file_required"
+msgstr ""
+
+msgid "iass_file_required_info"
+msgstr ""
+
+msgid "iass_file_visible_examinee"
+msgstr ""
+
+msgid "iass_file_visible_examinee_info"
+msgstr ""
+
+msgid "iass_filter_all"
+msgstr ""
+
+msgid "iass_filter_failed"
+msgstr ""
+
+msgid "iass_filter_finalized"
+msgstr ""
+
+msgid "iass_filter_not_finalized"
+msgstr ""
+
+msgid "iass_filter_not_started"
+msgstr ""
+
+msgid "iass_finalize"
+msgstr ""
+
+msgid "iass_finalize_info"
+msgstr ""
+
+msgid "iass_finalize_user_qst"
+msgstr ""
+
+msgid "iass_further_field_headline"
+msgstr ""
+
+msgid "iass_graded_by"
+msgstr ""
+
+msgid "iass_info_emails_expl"
+msgstr ""
+
+msgid "iass_internal_note"
+msgstr ""
+
+msgid "iass_internal_note_info"
+msgstr ""
+
+msgid "iass_location"
+msgstr ""
+
+msgid "iass_mails"
+msgstr ""
+
+msgid "iass_may_not_finalize"
+msgstr ""
+
+msgid "iass_membership_finalized"
+msgstr ""
+
+msgid "iass_membership_saved"
+msgstr ""
+
+msgid "iass_mess_notification_completed"
+msgstr ""
+
+msgid "iass_mess_notification_failed"
+msgstr ""
+
+msgid "iass_notify"
+msgstr ""
+
+msgid "iass_notify_explanation"
+msgstr ""
+
+msgid "iass_phone"
+msgstr ""
+
+msgid "iass_place"
+msgstr ""
+
+msgid "iass_record"
+msgstr ""
+
+msgid "iass_record_info"
+msgstr ""
+
+msgid "iass_record_template"
+msgstr ""
+
+msgid "iass_record_template_explanation"
+msgstr ""
+
+msgid "iass_remove_user_qst"
+msgstr ""
+
+msgid "iass_responsibility"
+msgstr ""
+
+msgid "iass_save_amend"
+msgstr ""
+
+msgid "iass_settings_availability"
+msgstr ""
+
+msgid "iass_settings_saved"
+msgstr ""
+
+msgid "iass_sort_changetime_asc"
+msgstr ""
+
+msgid "iass_sort_changetime_desc"
+msgstr ""
+
+msgid "iass_sort_examiner_login_asc"
+msgstr ""
+
+msgid "iass_sort_examiner_login_desc"
+msgstr ""
+
+msgid "iass_sort_name_asc"
+msgstr ""
+
+msgid "iass_sort_name_desc"
+msgstr ""
+
+msgid "iass_status_completed"
+msgstr ""
+
+msgid "iass_status_failed"
+msgstr ""
+
+msgid "iass_status_pending"
+msgstr ""
+
+msgid "iass_subj_notification_completed"
+msgstr ""
+
+msgid "iass_subj_notification_failed"
+msgstr ""
+
+msgid "iass_upload_file"
+msgstr ""
+
+msgid "iass_user_removed"
+msgstr ""
+
+msgid "iass_usr_amend"
+msgstr ""
+
+msgid "iass_usr_download_attachment"
+msgstr ""
+
+msgid "iass_usr_edit"
+msgstr ""
+
+msgid "iass_usr_remove"
+msgstr ""
+
+msgid "iass_usr_view"
+msgstr ""
+
+msgid "il_iass_members"
+msgstr ""
+
+msgid "lp_inactive"
+msgstr ""
+
+msgid "save_amend"
+msgstr ""

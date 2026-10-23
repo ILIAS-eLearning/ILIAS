@@ -1,0 +1,755 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hr\n"
+"Language-Team: Croatian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: forum\n"
+
+msgid "activate_new_posts"
+msgstr "Odobri objave"
+
+msgid "activate_only_current"
+msgstr "Odobri objavu"
+
+msgid "activate_post"
+msgstr "Odobri"
+
+msgid "activate_post_txt"
+msgstr "Želite li stvarno odobriti trenutačnu objavu?"
+
+msgid "add_new_answer"
+msgstr "Dodaj objavu"
+
+msgid "add_re_to_subject"
+msgstr "Dodajte 'Re:' uz predmet na koji se odgovara"
+
+msgid "adm_autosave_drafts"
+msgstr "Automatski spremi nacrt"
+
+msgid "adm_autosave_drafts_desc"
+msgstr "Ako je aktivirano, nacrti se automatski spremaju tijekom uređivanja."
+
+msgid "adm_autosave_ival"
+msgstr "Interval"
+
+msgid "adm_save_drafts"
+msgstr "Spremi nacrte"
+
+msgid "adm_save_drafts_desc"
+msgstr "Ako je omogućeno, registrirani korisnici mogu spremati postove na forumu kao nacrt."
+
+msgid "allow_file_upload_desc"
+msgstr "Ako je omogućeno, korisnici mogu priložiti datoteke uz svoje objave."
+
+msgid "ascending_order"
+msgstr "Najnovije objave na dnu"
+
+msgid "autosave_draft_info"
+msgstr "<span class=\"asterisk\">Ovaj se nacrt automatski sprema svake %s sekunde.</span>"
+
+msgid "autosave_post_draft_info"
+msgstr "<span class=\"asterisk\">Ova će se objava automatski spremati kao nacrt svakih %s sekundi.</span>"
+
+msgid "close_topics"
+msgstr "Zatvori"
+
+msgid "content_censored_post"
+msgstr "Sadržaj cenzurirane objave:"
+
+msgid "content_deleted_post"
+msgstr "Sadržaj izbrisane objave:"
+
+msgid "content_deleted_thread"
+msgstr "Sadržaj izbrisane teme:"
+
+msgid "content_post_updated"
+msgstr "Sadržaj uređene objave:"
+
+#, fuzzy
+msgid "deletePosting"
+msgstr "Delete Posting"
+
+#, fuzzy
+msgid "deletePostingDraft"
+msgstr "Delete Draft"
+
+msgid "delete_draft_successfully"
+msgstr "Nacrt je uspješno izbrisan."
+
+msgid "delete_drafts_successfully"
+msgstr "Nacrti su uspješno izbrisani."
+
+#, fuzzy
+msgid "delete_thread"
+msgstr "Delete Thread"
+
+msgid "descending_order"
+msgstr "Najnovije objave na vrhu"
+
+msgid "edit_thread_draft"
+msgstr "Uredi nacrt teme"
+
+msgid "empty_subject"
+msgstr "U slučaju odgovora korisnik mora unijeti novi naslov."
+
+#, fuzzy
+msgid "empty_thread"
+msgstr "Empty Thread"
+
+msgid "enable_send_attachments"
+msgstr "Pošaljite privitke s obavijestima na forumu"
+
+msgid "enable_send_attachments_desc"
+msgstr "Imajte na umu da se prilozi datoteka moraju pohraniti odvojeno za svakog prijavljenog korisnika. To može uzrokovati veliku upotrebu prostora na disku servera."
+
+msgid "enable_thread_ratings"
+msgstr "Ocjena tema"
+
+msgid "enable_thread_ratings_info"
+msgstr "Ako je aktivirano, korisnici mogu ocjenjivati teme."
+
+msgid "enter_new_subject"
+msgstr "Unesite novi predmet"
+
+#, fuzzy
+msgid "error_no_target_selected"
+msgstr "Please select a forum."
+
+msgid "error_reading_file"
+msgstr "Došlo je do pogreške prilikom čitanja datoteke"
+
+msgid "error_same_thread_ids"
+msgstr "Izvorna i ciljana tema moraju se razlikovati."
+
+msgid "file_upload_allowed"
+msgstr "Dopusti privitke"
+
+msgid "file_upload_allowed_fora"
+msgstr "Prilozi"
+
+msgid "file_upload_allowed_fora_desc"
+msgstr "Ako je odabrano \"Dopusti privitke na odabranim forumima\", moderatori foruma u postavkama svakog foruma pojedinačno mogu dopustiti pričvršćivanje datoteka uz objave. Na novim forumima učitavanje privitaka bit će onemogućeno prema zadanim postavkama."
+
+msgid "file_upload_option_allow"
+msgstr "Dopusti privitke na svim forumima"
+
+#, fuzzy
+msgid "file_upload_option_allow_info"
+msgstr "Files can be attached to posts in all forums."
+
+msgid "file_upload_option_disallow"
+msgstr "Dopusti privitke na odabranim forumima"
+
+msgid "fmr_copy_threads_info"
+msgstr "Imate mogućnost kopiranja pojedinačnih tema. Duplicirat će se samo početak odabranih tema."
+
+msgid "forum_add_quote"
+msgstr "Dodaj citat"
+
+msgid "forums_all_threads_marked_read"
+msgstr "Sve su teme označene kao pročitane"
+
+msgid "forums_attachments"
+msgstr "Privitci"
+
+msgid "forums_attachments_add"
+msgstr "Dodaj privitak"
+
+msgid "forums_censor_comment"
+msgstr "Komentar cenzora"
+
+msgid "forums_count_art"
+msgstr "Broj članaka"
+
+msgid "forums_created_by"
+msgstr "Izradio"
+
+msgid "forums_delete_file"
+msgstr "Izbriši privitak"
+
+msgid "forums_disable_notification"
+msgstr "Onemogući obavijest za ovu temu"
+
+msgid "forums_download_attachment"
+msgstr "Preuzmi datoteku"
+
+msgid "forums_edit_draft"
+msgstr "Uredi skicu"
+
+msgid "forums_edit_post"
+msgstr "Uredi članak"
+
+msgid "forums_enable_notification"
+msgstr "Omogući obavijest za ovu temuz"
+
+#, fuzzy
+msgid "forums_forum_notification"
+msgstr "Send Forum Notifications"
+
+#, fuzzy
+msgid "forums_forum_notification_desc"
+msgstr "If enabled, all users, who want to be informed about new posts in specified forum threads, will get notifications by mail."
+
+msgid "forums_forum_notification_disabled"
+msgstr "Više nećete biti obaviješteni o novim porukama na ovom forumu."
+
+msgid "forums_info_censor2_post"
+msgstr "Ukinuti cenzuru?"
+
+msgid "forums_info_censor_post"
+msgstr "Jeste li sigurni da želite sakriti ovaj članak?"
+
+msgid "forums_info_delete_draft"
+msgstr "Jeste li sigurni da želite izbrisati ovu skicu?"
+
+msgid "forums_info_delete_post"
+msgstr "Jeste li sigurni da želite izbrisati ovaj članak, uključujući sve odgovore?"
+
+msgid "forums_mark_read"
+msgstr "Označi sve kao pročitano"
+
+msgid "forums_new_thread"
+msgstr "Nova tema"
+
+msgid "forums_no_posts_available"
+msgstr "Uz ovu temu nema objava."
+
+msgid "forums_notification_disabled"
+msgstr "Obavijest onemogućena"
+
+msgid "forums_notification_enabled"
+msgstr "Obavijest omogućena"
+
+msgid "forums_notification_intro"
+msgstr "Ovu vam je poruku automatski poslala instalacija ILIAS %s,%s"
+
+msgid "forums_notification_show_frm"
+msgstr "Prikaži forum: %s"
+
+msgid "forums_notification_show_post"
+msgstr "Prikaži objavu: %s"
+
+msgid "forums_post_activation_mail"
+msgstr "Osim ako se sljedeća objava ne aktivira, nije vidljiva ostalim korisnicima foruma. Ovu e-poštu primate jer ste označeni kao moderator i imate dopuštenje za aktiviranje ove objave."
+
+msgid "forums_post_deleted"
+msgstr "Objava je izbrisana"
+
+msgid "forums_post_modified"
+msgstr "Objava je izmijenjena"
+
+msgid "forums_post_needs_to_be_activated"
+msgstr "Kreirana je nova objava, ali je mora aktivirati moderator."
+
+msgid "forums_post_new_entry"
+msgstr "Kreirana je nova objava"
+
+msgid "forums_post_was_activated"
+msgstr "Objava je aktivirana."
+
+msgid "forums_posts"
+msgstr "Sve objave"
+
+msgid "forums_posts_not_available"
+msgstr "Objave nisu dostupne"
+
+msgid "forums_print_thread"
+msgstr "Ispiši temu"
+
+msgid "forums_subject"
+msgstr "Predmet"
+
+msgid "forums_the_post"
+msgstr "Objava"
+
+msgid "forums_thread"
+msgstr "Tema"
+
+msgid "forums_thread_create_from"
+msgstr "Kreirano iz"
+
+msgid "forums_thread_deleted"
+msgstr "Odabrana tema uključujući sve objave koje su izbrisane."
+
+msgid "forums_thread_drafts_deleted"
+msgstr "Odabrana tema uključujući sve objave i nacrte koji su izbrisani."
+
+msgid "forums_thread_marked"
+msgstr "Tema je označena kao pročitana."
+
+msgid "forums_thread_new_entry"
+msgstr "Kreirana je nova tema"
+
+msgid "forums_threads_deleted"
+msgstr "Odabrane teme uključujući sve objave koje su izbrisane."
+
+msgid "forums_threads_drafts_deleted"
+msgstr "Odabrane teme uključujući sve objave i nacrte koji su izbrisani."
+
+msgid "forums_your_reply"
+msgstr "Vaš odgovor"
+
+msgid "frm_action_not_possible_parent_deleted"
+msgstr "Radnja nije moguća, nadređena objava je izbrisana."
+
+msgid "frm_action_not_possible_thr_closed"
+msgstr "Radnja nije moguća, tema je zatvorena."
+
+msgid "frm_action_not_possible_thr_deleted"
+msgstr "Radnja nije moguća, tema je izbrisana."
+
+#, fuzzy
+msgid "frm_activation_online_info"
+msgstr "Set the forum online to make it visible and available to other users. If not, only administrators will have access to it."
+
+#, fuzzy
+msgid "frm_adm_sec_default_settings"
+msgstr "Default Object Settings"
+
+#, fuzzy
+msgid "frm_adm_sec_drafts"
+msgstr "Drafts"
+
+#, fuzzy
+msgid "frm_adm_sec_features"
+msgstr "Forum Features"
+
+#, fuzzy
+msgid "frm_adm_sec_notifications"
+msgstr "Notifications"
+
+#, fuzzy
+msgid "frm_all_threads"
+msgstr "All Threads"
+
+msgid "frm_anonymous_posting"
+msgstr "Objava pod pseudonimom"
+
+msgid "frm_anonymous_posting_desc"
+msgstr "Ako je omogućeno, registrirani korisnici poruke na ovaj forum mogu postavljati samo koristeći pseudonim ili bez imena. Ako je omogućena i opcija \"Označi poruke moderatora\", moderatori ne mogu koristiti pseudonim."
+
+msgid "frm_at_least_one_moderator"
+msgstr "Mora postojati barem jedan moderator."
+
+msgid "frm_censorship"
+msgstr "Cenzor"
+
+msgid "frm_censorship_applied"
+msgstr "Cenzura je uspješno primijenjena."
+
+msgid "frm_censorship_revoked"
+msgstr "Cenzura je uspješno opozvana."
+
+msgid "frm_copy"
+msgstr "Kopiraj forum"
+
+msgid "frm_default_view"
+msgstr "Zadani prikaz"
+
+msgid "frm_edit_title"
+msgstr "Uredi naslov"
+
+#, fuzzy
+msgid "frm_enable_print_option"
+msgstr "Enable print option"
+
+#, fuzzy
+msgid "frm_enable_print_option_desc"
+msgstr "If disabled, nobody is able to select the print option in Forum."
+
+#, fuzzy
+msgid "frm_forum_push_notification_info"
+msgstr "Forum notifications are sent as push notifications instead of e-mail. If the push notification cannot be delivered, an e-mail will be sent instead."
+
+msgid "frm_mark_as_read"
+msgstr "Označi kao pročitano"
+
+msgid "frm_mark_as_unread"
+msgstr "Označi kao nepročitano"
+
+msgid "frm_max_notification_age"
+msgstr "Maks. dob za obavijesti"
+
+msgid "frm_max_notification_age_info"
+msgstr "Odredite maksimalnu dob objava za slanje obavijesti. Preporučuje se odabrati veću vrijednost od planiranog intervala."
+
+msgid "frm_max_notification_age_unit"
+msgstr "Dan(i)"
+
+msgid "frm_merge_src"
+msgstr "Odabrana tema: %s"
+
+msgid "frm_merge_target"
+msgstr "Cilj: %s"
+
+msgid "frm_moderator_f"
+msgstr "Moderator"
+
+msgid "frm_moderator_m"
+msgstr "Moderator"
+
+msgid "frm_moderator_n"
+msgstr "Moderacija"
+
+msgid "frm_moderator_role_added_successfully"
+msgstr "Korisnik je uspješno dodan kao moderator."
+
+msgid "frm_moderators"
+msgstr "Moderatori"
+
+msgid "frm_moderators_detached_role_successfully"
+msgstr "Uloga moderatora uspješno je uklonjena za sve odabrane korisnike."
+
+msgid "frm_moderators_not_exist_yet"
+msgstr "Odaberi moderatora."
+
+msgid "frm_moderators_select_at_least_one"
+msgstr "Odaberi barem jednog moderatora."
+
+msgid "frm_moderators_select_one"
+msgstr "Odaberi jednog korisnika."
+
+msgid "frm_move_invalid_file_type"
+msgstr "Uz temu \"%s\" priložen je nepodržani tip datoteke. Uklonite datoteku ili kontaktirajte administratora sustava da biste dodali ovu vrstu datoteke na bijelu listu vrsta datoteka."
+
+msgid "frm_noti_message"
+msgstr "Poruka:"
+
+msgid "frm_noti_new_post"
+msgstr "kreirana je nova objava na forumu \"%1$s\"."
+
+#, fuzzy
+msgid "frm_noti_obj_crs"
+msgstr "course"
+
+#, fuzzy
+msgid "frm_noti_obj_grp"
+msgstr "group"
+
+msgid "frm_noti_subject_act_post"
+msgstr "Objava je aktivirana na forumu \"%1$s\", tema \"%2$s\""
+
+msgid "frm_noti_subject_answ_post"
+msgstr "Na objavu je odgovoreno na forumu \"%1$s\", tema \"%2$s\""
+
+msgid "frm_noti_subject_cens_post"
+msgstr "Objava je cenzurirana na forumu \"%1$s\", tema \"%2$s\""
+
+msgid "frm_noti_subject_del_post"
+msgstr "Objava je izbrisana na forumu \"%1$s\", tema \"%2$s\""
+
+msgid "frm_noti_subject_del_thread"
+msgstr "Tema \"%2$s\" izbrisana na forumu \"%1$s\""
+
+msgid "frm_noti_subject_new_post"
+msgstr "Nova objava na forumu \"%1$s\", tema \"%2$s\""
+
+msgid "frm_noti_subject_uncens_post"
+msgstr "Ukinuta cenzura za objavu na forumu \"%1$s\", tema \"%2$s\""
+
+msgid "frm_noti_subject_upt_post"
+msgstr "Objava izmijenjena na forumu \"%1$s\", tema \"%2$s\""
+
+msgid "frm_notification_activated"
+msgstr "Obavijest aktivirana"
+
+#, fuzzy
+msgid "frm_notification_bg_task_title"
+msgstr "Forum notification delivery"
+
+msgid "frm_notification_deactivated"
+msgstr "Obavijest deaktivirana"
+
+msgid "frm_post_not_activated_yet"
+msgstr "Još nije aktivirano."
+
+#, fuzzy
+msgid "frm_posts"
+msgstr "Forum Posts"
+
+msgid "frm_pseudonym"
+msgstr "Pseudonim"
+
+msgid "frm_purifier_not_implemented_for_type_x"
+msgstr "Pročišćivač za tip %s još nije implementiran."
+
+msgid "frm_rating"
+msgstr "Ocjena"
+
+msgid "frm_revoke_censorship"
+msgstr "Opozovi cenzuru"
+
+msgid "frm_search"
+msgstr "Traži"
+
+msgid "frm_selected_merge_src"
+msgstr "Odabrana tema za spajanje: %s"
+
+msgid "frm_settings_form_header"
+msgstr "Postavke foruma"
+
+msgid "frm_settings_mod_functions_header"
+msgstr "Funkcije moderatora"
+
+msgid "frm_settings_privacy_header"
+msgstr "Privatnost"
+
+msgid "frm_settings_user_functions_header"
+msgstr "Korisničke funkcije"
+
+msgid "frm_statistics"
+msgstr "Statistika"
+
+msgid "frm_statistics_disabled_for_participants"
+msgstr "Statistika je onemogućena za članove foruma."
+
+msgid "frm_statistics_enabled"
+msgstr "Omogući statistiku"
+
+msgid "frm_statistics_enabled_desc"
+msgstr "Omogući statistiku objava za sve sudionike"
+
+msgid "frm_statistics_ranking"
+msgstr "Broj objava"
+
+msgid "frm_subject_setting"
+msgstr "Postavka predmeta"
+
+msgid "frm_sure_delete_threads"
+msgstr "Jeste li sigurni da želite izbrisati sljedeće teme?"
+
+msgid "frm_sure_merge_threads"
+msgstr "Jeste li sigurni da želite spojiti ove teme? Upozorenje: ova se radnja ne može poništiti."
+
+#, fuzzy
+msgid "frm_task_publishing_draft_title"
+msgstr "Publishing of Draft \"%s\""
+
+msgid "frm_wizard_page"
+msgstr "Kopiraj forum (korak 2/2)"
+
+msgid "is_read"
+msgstr "Označi kao pročitano"
+
+msgid "make_topics_non_sticky"
+msgstr "Ukini klasifikaciju kao 'top tema'"
+
+msgid "make_topics_sticky"
+msgstr "Postavi temu kao 'top temu'"
+
+msgid "mark_moderator_posts"
+msgstr "Označi objave moderatora"
+
+msgid "mark_moderator_posts_desc"
+msgstr "Ako je aktivirano, objave moderatora će se istaknuti"
+
+msgid "merge"
+msgstr "Spoji"
+
+msgid "merge_posts_into_thread"
+msgstr "Spoji objave u drugu temuit"
+
+msgid "merged_threads_successfully"
+msgstr "Odabrane teme uspješno su spojene"
+
+msgid "move_chosen_topics"
+msgstr "Premjesti odabrane teme"
+
+msgid "move_thread_to_forum"
+msgstr "Premjesti temu na drugi forum"
+
+msgid "new_post"
+msgstr "Nova objava"
+
+#, fuzzy
+msgid "new_thread_with_post"
+msgstr "New Thread with Posting"
+
+msgid "no_forum_selected"
+msgstr "Nijedan forum nije odabran za premještanje odabranih tema"
+
+msgid "not_allowed_to_merge_into_another_forum"
+msgstr "Nije moguće spojiti teme različitih foruma."
+
+#, fuzzy
+msgid "notification_settings"
+msgstr "Notification Settings"
+
+#, fuzzy
+msgid "notify_censored"
+msgstr "Censored Posts"
+
+#, fuzzy
+msgid "notify_modified"
+msgstr "Modified Posts"
+
+#, fuzzy
+msgid "notify_post_deleted"
+msgstr "Deleted Posts"
+
+#, fuzzy
+msgid "notify_thread_deleted"
+msgstr "Deleted Threads"
+
+#, fuzzy
+msgid "notify_uncensored"
+msgstr "Uncensored Posts"
+
+msgid "number_of_threads"
+msgstr "Prikazani broj tema po stranici"
+
+msgid "please_choose_target"
+msgstr "Odaberite temu kao cilj spajanja."
+
+msgid "post_activation_desc"
+msgstr "Prije objavljivanja sve objave mora odobriti moderator."
+
+msgid "post_censored_by"
+msgstr "cenzurirana objava na forumu \"%2$s\" od \"%1$s\":"
+
+msgid "post_censored_comment_by_moderator"
+msgstr "Objava cenzurirana, komentar moderatora"
+
+msgid "post_deleted_by"
+msgstr "sljedeće objave na forumu \"%2$s\" izbrisao je \"%1$s\":"
+
+#, fuzzy
+msgid "post_draft_info"
+msgstr "This post draft is only visible for you."
+
+msgid "post_reply"
+msgstr "Predmet:"
+
+msgid "post_reply_count"
+msgstr "Predmet (%s):"
+
+msgid "post_uncensored_by"
+msgstr "za objavu je ukinuta cenzura \"%1$s\""
+
+msgid "post_updated_by"
+msgstr "objavu na forumu naknadno uredio \"%1$s\": \"%2$s\""
+
+msgid "preset_subject"
+msgstr "Unaprijed postavljena tema u odgovoru"
+
+msgid "publish"
+msgstr "Objavi"
+
+#, fuzzy
+msgid "relevance"
+msgstr "Relevance"
+
+msgid "reopen_topics"
+msgstr "Otvori ponovno"
+
+msgid "reply_to_postings"
+msgstr "Odgovor"
+
+#, fuzzy
+msgid "reset_limited_view"
+msgstr "Limited view on this post an all posts below it."
+
+#, fuzzy
+msgid "reset_limited_view_button"
+msgstr "Show entire thread"
+
+#, fuzzy
+msgid "reset_limited_view_info"
+msgstr "Limited view on this post and all posts below it."
+
+msgid "restore"
+msgstr "Vrati"
+
+msgid "restore_draft_from_autosave"
+msgstr "Vrati nacrt"
+
+msgid "save_draft_successfully"
+msgstr "Nacrt je uspješno spremljen."
+
+msgid "sel_threads_already_sticky"
+msgstr "Barem jedna od odabranih tema je već top tema"
+
+msgid "sel_threads_already_unsticky"
+msgstr "Barem jedna od odabranih tema nije označena kao top tema"
+
+msgid "sel_threads_make_sticky"
+msgstr "Odabrane teme označene su kao top teme"
+
+msgid "sel_threads_make_unsticky"
+msgstr "Odabrane teme više nisu označene kao top teme"
+
+msgid "select_at_least_one_thread"
+msgstr "Odaberite barem jednu temu."
+
+msgid "select_max_one_thread"
+msgstr "Molimo odaberite samo jednu temu!"
+
+msgid "selected_threads_closed"
+msgstr "Odabrane teme su zatvorene"
+
+msgid "selected_threads_reopened"
+msgstr "Odabrane teme su ponovno otvorene"
+
+msgid "sort_by_date"
+msgstr "Poredaj po datumu"
+
+#, fuzzy
+msgid "sort_by_date_desc"
+msgstr "The thread is presented in a flat view. The posts are shown in chronological order of creation."
+
+msgid "sort_by_posts"
+msgstr "Poredaj po objavama"
+
+#, fuzzy
+msgid "sort_by_posts_desc"
+msgstr "The thread is presented in a tree view. Replies to posts are shown in the order in which they relate to each other."
+
+#, fuzzy
+msgid "sorting"
+msgstr "Sorting"
+
+msgid "sticky"
+msgstr "Top tema"
+
+msgid "sure_delete_drafts"
+msgstr "Jeste li sigurni da želite izbrisati odabrane nacrte?"
+
+msgid "switch_threads_for_merge"
+msgstr "Odabrana tema je starija od ciljane teme. Kako bi se osiguralo uspješno spajanje, izvorna i ciljana tema će se zamijeniti."
+
+#, fuzzy
+msgid "target_select"
+msgstr "Select posting for limited view"
+
+#, fuzzy
+msgid "thema"
+msgstr "Threads"
+
+msgid "thread"
+msgstr "Tema"
+
+msgid "thread_deleted_by"
+msgstr "sljedeću temu na forumu \"%2$s\" izbrisao je \"%1$s\":"
+
+#, fuzzy
+msgid "thread_overview"
+msgstr "Thread-Overview"
+
+msgid "threads_moved_successfully"
+msgstr "Odabrane teme uspješno su premještene na drugi forum."
+
+#, fuzzy
+msgid "top_thema"
+msgstr "Top-Threads"
+
+msgid "topic_close"
+msgstr "Zatvoreno"
+
+msgid "topics_please_select_one_action"
+msgstr "Odaberite radnju."
+
+msgid "user_decides_notification"
+msgstr "Članovi moraju ručno aktivirati obavijesti"

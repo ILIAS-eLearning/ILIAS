@@ -1,0 +1,178 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: tr\n"
+"Language-Team: Turkish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: mep\n"
+
+msgid "mep_all"
+msgstr "Tüm"
+
+msgid "mep_all_mobs"
+msgstr "All Media Objects"
+
+#, fuzzy
+msgid "mep_bulk_upload"
+msgstr "Bulk Upload"
+
+msgid "mep_choose_from_folder"
+msgstr "Klasör seçin"
+
+msgid "mep_choose_from_mep"
+msgstr "Havuz seçin"
+
+#, fuzzy
+msgid "mep_clipboard_info"
+msgstr "Here you can upload media files that you can then access from any page on which you have access to the page editor. The clipboard is also accessible in media pools. This storage is only for you and cannot be viewed by other users."
+
+#, fuzzy
+msgid "mep_content"
+msgstr "Content"
+
+msgid "mep_content_snippet_in_use"
+msgstr "İçerik pasajı '% s' kullanımda ve silinemez."
+
+msgid "mep_content_snippet_used_in_older_versions"
+msgstr "Lütfen dikkat: Bu pasajı, bazı sayfaların eski versiyonları kullanılır. Bu sayfaların bu parçacık içeren bir sürüme geri alınır, pasajı, sayfanın eksik olacaktır."
+
+msgid "mep_copy_to_mep"
+msgstr "Medya Pool Kopya"
+
+msgid "mep_create_content_snippet"
+msgstr "Oluştur İçerik Snippet"
+
+msgid "mep_create_folder"
+msgstr "Klasör Oluştur"
+
+msgid "mep_create_media_files"
+msgstr "Oluştur Media Objects"
+
+msgid "mep_create_mob"
+msgstr "Oluştur Ortam Nesnesi"
+
+msgid "mep_default_height"
+msgstr "Standart Boy"
+
+msgid "mep_default_width"
+msgstr "Standart Genişlik"
+
+msgid "mep_default_width_height_info"
+msgstr "Standart genişlik ve yükseklik Yeni bir medya nesnesi oluşturmak için ön ayar olarak kullanılır."
+
+msgid "mep_edit_content_snippet"
+msgstr "İçerik Parçası Düzenle"
+
+msgid "mep_edit_folder"
+msgstr "Klasör Düzenle"
+
+msgid "mep_file"
+msgstr "Dosya"
+
+msgid "mep_folder"
+msgstr "Klasör"
+
+msgid "mep_format"
+msgstr "Format"
+
+msgid "mep_import"
+msgstr "bir ortam havuzu alma"
+
+#, fuzzy
+msgid "mep_import_lang"
+msgstr "Target Language"
+
+#, fuzzy
+msgid "mep_import_trans"
+msgstr "Import Translation"
+
+#, fuzzy
+msgid "mep_master_language_only"
+msgstr "Master Language for Translation"
+
+#, fuzzy
+msgid "mep_master_language_only_no_media"
+msgstr "Master Language without Media"
+
+#, fuzzy
+msgid "mep_media_files"
+msgstr "Media Files"
+
+#, fuzzy
+msgid "mep_media_subtitles"
+msgstr "Media Subtitles"
+
+#, fuzzy
+msgid "mep_mob"
+msgstr "Media Object"
+
+#, fuzzy
+msgid "mep_move_select_insert"
+msgstr "Navigate to target folder and click \"Insert\""
+
+#, fuzzy
+msgid "mep_mpg"
+msgstr "Content Snippet"
+
+msgid "mep_new_content_snippet"
+msgstr "Yeni İçerik Snippet"
+
+msgid "mep_new_folder"
+msgstr "Yeni Klasör"
+
+msgid "mep_page_properties"
+msgstr "Sayfa Özellikleri"
+
+#, fuzzy
+msgid "mep_page_type_mep"
+msgstr "Content Snippet"
+
+msgid "mep_thumbnail"
+msgstr "Küçük"
+
+msgid "mep_title_and_description"
+msgstr "Başlık ve Açıklama"
+
+#, fuzzy
+msgid "mep_trans_import_info"
+msgstr "If you exported this module as XML/Master Language for Translation to another installation, you can now re-import translated export files from this second installation here."
+
+msgid "mep_unknown"
+msgstr "Bilinmeyen"
+
+msgid "mep_up_dir_copy"
+msgstr "İmge Directory'den Dosya Kopyalama (yükleme dizininde dosyaları tutar)"
+
+msgid "mep_up_dir_move"
+msgstr "İmge Directory'den Dosyaları Taşı (hızlı)"
+
+msgid "mep_upload_dir_files"
+msgstr "İmge Directory'den Dosyalar"
+
+msgid "mobs_activate_pages"
+msgstr "İçerik Parçacıkları Yönetimi etkinleştirin"
+
+msgid "mobs_activate_pages_info"
+msgstr "ortam havuzları içerik parçacıkları eklemek için izin ver. Bu parçacıkları modüller vb öğrenme (düzenlenemez) yeniden kullanılabilir"
+
+msgid "mobs_always_show_file_manager"
+msgstr "Dosya Yöneticisini Her Zaman Göster"
+
+msgid "mobs_always_show_file_manager_info"
+msgstr "medya nesneleri için dosya yöneticisi basit MIME türleri (örneğin görüntüler) için gizli olacaktır deaktive edin."
+
+#, fuzzy
+msgid "mobs_black_list_file_types"
+msgstr "Forbidden File Types"
+
+#, fuzzy
+msgid "mobs_black_list_file_types_and_allowed_info"
+msgstr "Enter a comma separated list of mime types. This list will restrict the set of allowed file types. Currently allowed mime types are:"
+
+msgid "mobs_restrict_file_types"
+msgstr "Dosya Türleri sınırla"
+
+msgid "mobs_restrict_file_types_info"
+msgstr "medya nesneleri yüklenecek izin verilen dosya soneklerinin bir virgülle ayrılmış listesi (örneğin, jpg, gif) girin. Hiçbir değeri girilirse, tüm dosya türlerine izin verilir."

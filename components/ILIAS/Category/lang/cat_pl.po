@@ -1,0 +1,26 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pl\n"
+"Language-Team: Polish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: cat\n"
+
+msgid "cat_copy"
+msgstr "Kopiuj kategorię"
+
+#, fuzzy
+msgid "cat_hide_tax_in_side_block"
+msgstr "Don't Present in Side Panel"
+
+msgid "cat_import"
+msgstr "Importuj kategorię"
+
+msgid "cat_more_translations"
+msgstr "Dodatkowe tłumaczenia"
+
+#, fuzzy
+msgid "cat_show_tax_in_side_block"
+msgstr "Present in Side Panel"

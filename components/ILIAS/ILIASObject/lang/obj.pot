@@ -1,0 +1,279 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: obj\n"
+
+msgid "activation_visible_when_disabled"
+msgstr ""
+
+msgid "activation_visible_when_disabled_info"
+msgstr ""
+
+msgid "availability_period_changed"
+msgstr ""
+
+msgid "available_languages"
+msgstr ""
+
+msgid "cont_filter_empty"
+msgstr ""
+
+msgid "cont_skll_published"
+msgstr ""
+
+msgid "cont_skll_published_some_not"
+msgstr ""
+
+msgid "copy_container_page_no_label"
+msgstr ""
+
+msgid "copy_container_page_yes_byline"
+msgstr ""
+
+msgid "copy_container_page_yes_label"
+msgstr ""
+
+msgid "custom_icon"
+msgstr ""
+
+msgid "default_base_lang_not_deletable"
+msgstr ""
+
+msgid "edit_availability_period"
+msgstr ""
+
+msgid "edit_language"
+msgstr ""
+
+msgid "edit_questions"
+msgstr ""
+
+msgid "make_default_language"
+msgstr ""
+
+msgid "missing_migration"
+msgstr ""
+
+msgid "multiple_reference_deletion_info"
+msgstr ""
+
+msgid "multiple_selection"
+msgstr ""
+
+msgid "no_objects_selected"
+msgstr ""
+
+msgid "obj_activate_content_lang"
+msgstr ""
+
+msgid "obj_activate_multilang"
+msgstr ""
+
+msgid "obj_activation"
+msgstr ""
+
+msgid "obj_activation_list_gui"
+msgstr ""
+
+msgid "obj_add_language"
+msgstr ""
+
+msgid "obj_additional_langs"
+msgstr ""
+
+msgid "obj_base_lang"
+msgstr ""
+
+msgid "obj_conf_delete_lang"
+msgstr ""
+
+msgid "obj_cont_transl_deactivated"
+msgstr ""
+
+msgid "obj_copy_progress"
+msgstr ""
+
+msgid "obj_copy_progress_estimate"
+msgstr ""
+
+msgid "obj_copy_progress_failure"
+msgstr ""
+
+msgid "obj_copy_progress_success"
+msgstr ""
+
+msgid "obj_copy_progress_to"
+msgstr ""
+
+msgid "obj_deactivate_content_lang"
+msgstr ""
+
+msgid "obj_deactivate_content_transl_conf"
+msgstr ""
+
+msgid "obj_deactivate_multilang"
+msgstr ""
+
+msgid "obj_deactivate_multilang_conf"
+msgstr ""
+
+msgid "obj_fallback_lang"
+msgstr ""
+
+msgid "obj_features"
+msgstr ""
+
+msgid "obj_import_file_error"
+msgstr ""
+
+msgid "obj_insert_into_clipboard"
+msgstr ""
+
+msgid "obj_inserted_clipboard"
+msgstr ""
+
+msgid "obj_master_lang"
+msgstr ""
+
+msgid "obj_more_translations"
+msgstr ""
+
+msgid "obj_multilang_deactivated"
+msgstr ""
+
+msgid "obj_multilang_title_descr_only"
+msgstr ""
+
+msgid "obj_multilinguality"
+msgstr ""
+
+msgid "obj_orgunit_positions"
+msgstr ""
+
+msgid "obj_orgunit_positions_info"
+msgstr ""
+
+msgid "obj_permission_settings"
+msgstr ""
+
+msgid "obj_presentation"
+msgstr ""
+
+msgid "obj_select_base_lang"
+msgstr ""
+
+msgid "obj_select_one_language"
+msgstr ""
+
+msgid "obj_set_fallback_lang"
+msgstr ""
+
+msgid "obj_settings_for_all_members"
+msgstr ""
+
+msgid "obj_show_header_actions"
+msgstr ""
+
+msgid "obj_show_title_and_icon"
+msgstr ""
+
+msgid "obj_target_location"
+msgstr ""
+
+msgid "obj_tile_image"
+msgstr ""
+
+msgid "obj_tile_image_info"
+msgstr ""
+
+msgid "obj_tool_booking"
+msgstr ""
+
+msgid "obj_tool_booking_info"
+msgstr ""
+
+msgid "obj_tool_ext_mail_subject_prefix"
+msgstr ""
+
+msgid "obj_tool_ext_mail_subject_prefix_info"
+msgstr ""
+
+msgid "obj_tool_setting_badges"
+msgstr ""
+
+msgid "obj_tool_setting_badges_info"
+msgstr ""
+
+msgid "obj_tool_setting_booking"
+msgstr ""
+
+msgid "obj_tool_setting_filter"
+msgstr ""
+
+msgid "obj_tool_setting_filter_empty"
+msgstr ""
+
+msgid "obj_tool_setting_filter_empty_info"
+msgstr ""
+
+msgid "obj_tool_setting_filter_info"
+msgstr ""
+
+msgid "obj_tool_setting_info_tab"
+msgstr ""
+
+msgid "obj_tool_setting_info_tab_info"
+msgstr ""
+
+msgid "obj_tool_setting_skills"
+msgstr ""
+
+msgid "obj_tool_setting_skills_info"
+msgstr ""
+
+msgid "obj_tool_setting_tag_cloud"
+msgstr ""
+
+msgid "obj_tool_setting_tag_cloud_info"
+msgstr ""
+
+msgid "obj_tool_setting_taxonomies"
+msgstr ""
+
+msgid "obj_tool_setting_taxonomies_info"
+msgstr ""
+
+msgid "obj_tool_setting_use_news"
+msgstr ""
+
+msgid "obj_tool_setting_use_news_info"
+msgstr ""
+
+msgid "obj_tool_setting_use_news_open_settings"
+msgstr ""
+
+msgid "obj_user_decides_notification"
+msgstr ""
+
+msgid "obj_user_not_disable_not"
+msgstr ""
+
+msgid "online_input_byline"
+msgstr ""
+
+msgid "select_import_type_info"
+msgstr ""
+
+msgid "select_object_type"
+msgstr ""
+
+msgid "svy_results"
+msgstr ""
+
+msgid "unequal_items_for_availability_period_message"
+msgstr ""
+
+msgid "user_owns_no_objects"
+msgstr ""

@@ -1,0 +1,134 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: tr\n"
+"Language-Team: Turkish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: cntr\n"
+
+msgid "cntr_add_new_item"
+msgstr "Yeni Öğe Ekle"
+
+msgid "cntr_adopt_content"
+msgstr "İçerik Adopt"
+
+msgid "cntr_container_only_on_their_own"
+msgstr "Categories, courses, groups, folders or study programmes can only be copied as single objects. Please select one item only."
+
+#, fuzzy
+msgid "cntr_copy_crs_grp"
+msgstr "My Courses and Groups"
+
+#, fuzzy
+msgid "cntr_copy_repo_tree"
+msgstr "Repository Tree"
+
+msgid "cntr_hide_title_and_icon"
+msgstr "Başlık ve Icon Gizle"
+
+msgid "cntr_manage"
+msgstr "Yönet"
+
+msgid "cntr_ordering"
+msgstr "Sıralama"
+
+msgid "cntr_saved_sorting"
+msgstr "Sıralama Kaydedildi."
+
+msgid "cntr_switch_to_new_editor_cmd"
+msgstr "Bu sayfayı yeni içerik Anahtarı. Alt içerik silinecektir."
+
+msgid "cntr_switch_to_new_editor_message"
+msgstr "Bu desteklenen standart bir editördür. Eski editörü içeriği transfer edilemez. Aşağıda yeni bir sayfa içerik eklemeye başlayın lütfen. Eğer aşağıdaki bağlantıyı tıklarsanız, yeni içerik kullanılacaktır."
+
+msgid "cntr_switched_editor"
+msgstr "yeni içerik geçildi."
+
+#, fuzzy
+msgid "cntr_tax_none_available"
+msgstr "There are no taxonomies available."
+
+#, fuzzy
+msgid "cntr_tax_settings_info"
+msgstr "Taxonomies in categories classify and filter the objects contained in the category. After adding taxonomies, classifications can be made via the \"Metadata\" tabs and the \"Taxonomy Assignment\" sub-tabs of the respective objects. Taxonomies can additionally be displayed in the side block of the category's \"Contents\" tab to enable direct filtering of the assigned objects."
+
+#, fuzzy
+msgid "cntr_taxonomy_definitions"
+msgstr "Taxonomy Definition"
+
+#, fuzzy
+msgid "cntr_taxonomy_show_sideblock"
+msgstr "Show taxonomy in side block"
+
+#, fuzzy
+msgid "cntr_taxonomy_sideblock_settings"
+msgstr "Taxonomy Block Settings"
+
+msgid "cntr_text_media_editor"
+msgstr "özelleştirme Sayfa"
+
+msgid "cntr_view_by_type"
+msgstr "Türüne Göre Gruplandırılmış Görünüm"
+
+msgid "cntr_view_info_by_type"
+msgstr "Bu içerik sunumu, tüm öğeleri kaynak türüne göre gruplar."
+
+msgid "cntr_view_info_sessions"
+msgstr "Bu içerik sunum grupları tüm oturumlarda ilk önce gösterilir. Daha sonra diğer ders içeriği listelenir."
+
+msgid "cntr_view_info_simple"
+msgstr "Bu içerik sunumu, tüm öğeleri tek blokta listeler."
+
+msgid "cntr_view_sessions"
+msgstr "Oturumlar Görünümü"
+
+msgid "cntr_view_simple"
+msgstr "Basit Görünüm"
+
+msgid "container_import_zip_file_invalid"
+msgstr "Yüklenen dosya geçerli bir ILIAS dışa aktarma dosyası değil. Bir dizin yapısı yüklemek için dosya nesnesi kullanın."
+
+msgid "edit_questions"
+msgstr "Soruları düzenle"
+
+#, fuzzy
+msgid "exc_next_deadline_single"
+msgstr "Deadline"
+
+#, fuzzy
+msgid "msg_no_downloadable_objects"
+msgstr "No downloadable objects found."
+
+#, fuzzy
+msgid "objects_duplicated"
+msgstr "Objects copied"
+
+#, fuzzy
+msgid "prtf_create_portfolio_from_template"
+msgstr "Create Portfolio From Template"
+
+#, fuzzy
+msgid "sorting_new_items_at_bottom"
+msgstr "Bottom"
+
+#, fuzzy
+msgid "sorting_new_items_at_top"
+msgstr "Top"
+
+#, fuzzy
+msgid "sorting_new_items_direction"
+msgstr "Sorting Direction for New Objects"
+
+#, fuzzy
+msgid "sorting_new_items_order"
+msgstr "Order For New Objects"
+
+#, fuzzy
+msgid "sorting_new_items_position"
+msgstr "Position For New Objects"
+
+#, fuzzy
+msgid "tab_back_to_repository"
+msgstr "Back to Repository"

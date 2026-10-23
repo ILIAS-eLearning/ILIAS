@@ -1,0 +1,108 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: lm\n"
+
+msgid "lm_btn_lp_toggle_state_completed"
+msgstr "Set till \"Ej redigerad"
+
+msgid "lm_btn_lp_toggle_state_not_completed"
+msgstr "Set till \"Redigerad"
+
+msgid "lm_copy"
+msgstr "Kopiera ILIAS utbildningsmodul"
+
+msgid "lm_edit_chapters"
+msgstr "Redigera kapitel"
+
+#, fuzzy
+msgid "lm_edit_content"
+msgstr "Edit Content"
+
+msgid "lm_edit_lm_settings"
+msgstr "Redigera inställningar för lärmodulen"
+
+msgid "lm_est_reading_time"
+msgstr "Uppskattad lästid"
+
+msgid "lm_est_reading_time_info"
+msgstr "I lärmoduler kan en uppskattad lästid bestämmas och visas."
+
+#, fuzzy
+msgid "lm_insert_chapter"
+msgstr "Insert chapter"
+
+#, fuzzy
+msgid "lm_insert_chapter_after"
+msgstr "Insert chapter after"
+
+#, fuzzy
+msgid "lm_insert_chapter_before"
+msgstr "Insert chapter before"
+
+#, fuzzy
+msgid "lm_insert_chapter_clip"
+msgstr "Insert chapter from clipboard"
+
+#, fuzzy
+msgid "lm_insert_chapter_clip_after"
+msgstr "Insert chapter from clipboard after"
+
+#, fuzzy
+msgid "lm_insert_chapter_clip_before"
+msgstr "Insert chapter from clipboard before"
+
+#, fuzzy
+msgid "lm_insert_layout_after"
+msgstr "Insert template after"
+
+#, fuzzy
+msgid "lm_insert_layout_before"
+msgstr "Insert template before"
+
+#, fuzzy
+msgid "lm_insert_page"
+msgstr "Insert page"
+
+#, fuzzy
+msgid "lm_insert_page_after"
+msgstr "Insert page after"
+
+#, fuzzy
+msgid "lm_insert_page_before"
+msgstr "Insert page before"
+
+#, fuzzy
+msgid "lm_insert_page_clip"
+msgstr "Insert page from clipboard"
+
+#, fuzzy
+msgid "lm_insert_page_clip_after"
+msgstr "Insert page from clipboard after"
+
+#, fuzzy
+msgid "lm_insert_page_clip_before"
+msgstr "Insert page from clipboard before"
+
+#, fuzzy
+msgid "lm_list_pages"
+msgstr "Edit Pages"
+
+#, fuzzy
+msgid "lm_page_added"
+msgstr "Page has been added."
+
+msgid "lm_page_type_lm"
+msgstr "sida för utbildningsmodul"
+
+#, fuzzy
+msgid "lm_pages_added"
+msgstr "Pages have been added."
+
+msgid "lm_save_titles"
+msgstr "Titlar har sparats."

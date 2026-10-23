@@ -1,0 +1,1488 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: exc\n"
+
+msgid "exc_add_assignment"
+msgstr ""
+
+msgid "exc_add_criteria"
+msgstr ""
+
+msgid "exc_add_criteria_catalogue"
+msgstr ""
+
+msgid "exc_add_feedback_file"
+msgstr ""
+
+msgid "exc_add_participant"
+msgstr ""
+
+msgid "exc_adopt_group_teams"
+msgstr ""
+
+msgid "exc_adopt_group_teams_added"
+msgstr ""
+
+msgid "exc_adopt_group_teams_blocked"
+msgstr ""
+
+msgid "exc_adopt_group_teams_conflict"
+msgstr ""
+
+msgid "exc_adopt_group_teams_no_members"
+msgstr ""
+
+msgid "exc_after_submission"
+msgstr ""
+
+msgid "exc_all"
+msgstr ""
+
+msgid "exc_all_new_files_offered_already"
+msgstr ""
+
+msgid "exc_ass_submission_zip"
+msgstr ""
+
+msgid "exc_ass_team_wiki"
+msgstr ""
+
+msgid "exc_assignment"
+msgstr ""
+
+msgid "exc_assignment_list"
+msgstr ""
+
+msgid "exc_assignment_type"
+msgstr ""
+
+msgid "exc_assignment_view"
+msgstr ""
+
+msgid "exc_assignments"
+msgstr ""
+
+msgid "exc_assignments_deleted"
+msgstr ""
+
+msgid "exc_auto_last_save"
+msgstr ""
+
+msgid "exc_auto_save_info"
+msgstr ""
+
+msgid "exc_auto_saved_minutes_p"
+msgstr ""
+
+msgid "exc_auto_saved_minutes_s"
+msgstr ""
+
+msgid "exc_blog_created"
+msgstr ""
+
+msgid "exc_blog_returned"
+msgstr ""
+
+msgid "exc_blog_selected"
+msgstr ""
+
+msgid "exc_cannot_submit_any_files"
+msgstr ""
+
+msgid "exc_chars_remaining"
+msgstr ""
+
+msgid "exc_comment_for_learner_edit"
+msgstr ""
+
+msgid "exc_comment_for_learner_info"
+msgstr ""
+
+msgid "exc_compare_selected_submissions"
+msgstr ""
+
+msgid "exc_compare_submissions"
+msgstr ""
+
+msgid "exc_completion_by_submission"
+msgstr ""
+
+msgid "exc_completion_by_submission_info"
+msgstr ""
+
+msgid "exc_completion_by_tutor"
+msgstr ""
+
+msgid "exc_conf_del_assignments"
+msgstr ""
+
+msgid "exc_copy"
+msgstr ""
+
+msgid "exc_copy_zip_error"
+msgstr ""
+
+msgid "exc_create_blog"
+msgstr ""
+
+msgid "exc_create_blog_select_info"
+msgstr ""
+
+msgid "exc_create_portfolio"
+msgstr ""
+
+msgid "exc_create_portfolio_no_template"
+msgstr ""
+
+msgid "exc_create_team"
+msgstr ""
+
+msgid "exc_create_team_times_up_warning"
+msgstr ""
+
+msgid "exc_create_wiki"
+msgstr ""
+
+msgid "exc_crit_cat_protected_assignment"
+msgstr ""
+
+msgid "exc_crit_cat_protected_assignment_info"
+msgstr ""
+
+msgid "exc_criteria_catalogue_create_form"
+msgstr ""
+
+msgid "exc_criteria_catalogue_default"
+msgstr ""
+
+msgid "exc_criteria_catalogue_deletion_confirmation"
+msgstr ""
+
+msgid "exc_criteria_catalogue_update_form"
+msgstr ""
+
+msgid "exc_criteria_catalogues"
+msgstr ""
+
+msgid "exc_criteria_create_form"
+msgstr ""
+
+msgid "exc_criteria_deletion_confirmation"
+msgstr ""
+
+msgid "exc_criteria_type_bool"
+msgstr ""
+
+msgid "exc_criteria_type_file"
+msgstr ""
+
+msgid "exc_criteria_type_rating"
+msgstr ""
+
+msgid "exc_criteria_type_text"
+msgstr ""
+
+msgid "exc_criteria_update_form"
+msgstr ""
+
+msgid "exc_criterias"
+msgstr ""
+
+msgid "exc_deadline"
+msgstr ""
+
+msgid "exc_deadline_ext_mismatch"
+msgstr ""
+
+msgid "exc_deadline_extended"
+msgstr ""
+
+msgid "exc_deadline_extended_info"
+msgstr ""
+
+msgid "exc_deadline_not_set_yet"
+msgstr ""
+
+msgid "exc_deadline_requested"
+msgstr ""
+
+msgid "exc_delete_team"
+msgstr ""
+
+msgid "exc_deleted_user"
+msgstr ""
+
+msgid "exc_denied_has_peer_reviews"
+msgstr ""
+
+msgid "exc_denied_has_submissions"
+msgstr ""
+
+msgid "exc_denied_has_team_assignments"
+msgstr ""
+
+msgid "exc_direct_no_submit"
+msgstr ""
+
+msgid "exc_direct_submit"
+msgstr ""
+
+msgid "exc_direct_submit_blog"
+msgstr ""
+
+msgid "exc_direct_submit_portfolio"
+msgstr ""
+
+msgid "exc_down_files_started_bg"
+msgstr ""
+
+msgid "exc_download_selected"
+msgstr ""
+
+msgid "exc_download_zip_structure"
+msgstr ""
+
+msgid "exc_earliest_start_time"
+msgstr ""
+
+msgid "exc_edit_assignment"
+msgstr ""
+
+msgid "exc_edit_assignments"
+msgstr ""
+
+msgid "exc_edit_blog"
+msgstr ""
+
+msgid "exc_edit_criterias"
+msgstr ""
+
+msgid "exc_edit_portfolio"
+msgstr ""
+
+msgid "exc_edit_submission"
+msgstr ""
+
+msgid "exc_edit_wiki"
+msgstr ""
+
+msgid "exc_ended"
+msgstr ""
+
+msgid "exc_ended_on"
+msgstr ""
+
+msgid "exc_export_excel"
+msgstr ""
+
+msgid "exc_fb_files"
+msgstr ""
+
+msgid "exc_fb_tutor_info"
+msgstr ""
+
+msgid "exc_feedback"
+msgstr ""
+
+msgid "exc_feedback_notification_body"
+msgstr ""
+
+msgid "exc_feedback_notification_link"
+msgstr ""
+
+msgid "exc_feedback_notification_reason"
+msgstr ""
+
+msgid "exc_feedback_notification_subject"
+msgstr ""
+
+msgid "exc_files_returned_text"
+msgstr ""
+
+msgid "exc_find_zip_error"
+msgstr ""
+
+msgid "exc_fixed_date"
+msgstr ""
+
+msgid "exc_fixed_date_individual"
+msgstr ""
+
+msgid "exc_fixed_date_individual_info"
+msgstr ""
+
+msgid "exc_fixed_date_info"
+msgstr ""
+
+msgid "exc_fullscreen"
+msgstr ""
+
+msgid "exc_future"
+msgstr ""
+
+msgid "exc_given_feedback"
+msgstr ""
+
+msgid "exc_global_feedback_file"
+msgstr ""
+
+msgid "exc_global_feedback_file_after_date"
+msgstr ""
+
+msgid "exc_global_feedback_file_cron"
+msgstr ""
+
+msgid "exc_global_feedback_file_cron_info"
+msgstr ""
+
+msgid "exc_global_feedback_file_date"
+msgstr ""
+
+msgid "exc_global_feedback_file_date_deadline"
+msgstr ""
+
+msgid "exc_global_feedback_file_date_upload"
+msgstr ""
+
+msgid "exc_go_to_exercise"
+msgstr ""
+
+msgid "exc_graded_mem_notified"
+msgstr ""
+
+msgid "exc_grades"
+msgstr ""
+
+msgid "exc_grades_overview"
+msgstr ""
+
+msgid "exc_hand_in"
+msgstr ""
+
+msgid "exc_hand_in_lead_text"
+msgstr ""
+
+msgid "exc_idl_request_and_tutor_needed"
+msgstr ""
+
+msgid "exc_idl_tutor_needed"
+msgstr ""
+
+msgid "exc_import"
+msgstr ""
+
+msgid "exc_individual_deadline"
+msgstr ""
+
+msgid "exc_individual_deadline_action"
+msgstr ""
+
+msgid "exc_individual_deadline_before_global"
+msgstr ""
+
+msgid "exc_instruction_files"
+msgstr ""
+
+msgid "exc_instruction_migration_not_run"
+msgstr ""
+
+msgid "exc_late_submission"
+msgstr ""
+
+msgid "exc_late_submission_warning"
+msgstr ""
+
+msgid "exc_lead_request_idl"
+msgstr ""
+
+msgid "exc_lead_wait_for_idl"
+msgstr ""
+
+msgid "exc_limit_characters"
+msgstr ""
+
+msgid "exc_link_to_assignment"
+msgstr ""
+
+msgid "exc_list_submission"
+msgstr ""
+
+msgid "exc_list_text_assignment"
+msgstr ""
+
+msgid "exc_mail_context_grade_reminder_info"
+msgstr ""
+
+msgid "exc_mail_context_grade_reminder_title"
+msgstr ""
+
+msgid "exc_mail_context_peer_reminder_info"
+msgstr ""
+
+msgid "exc_mail_context_peer_reminder_title"
+msgstr ""
+
+msgid "exc_mail_context_reminder_assignment_title"
+msgstr ""
+
+msgid "exc_mail_context_reminder_exercise_title"
+msgstr ""
+
+msgid "exc_mail_context_submit_reminder_info"
+msgstr ""
+
+msgid "exc_mail_context_submit_reminder_title"
+msgstr ""
+
+msgid "exc_mail_permanent_link"
+msgstr ""
+
+msgid "exc_manage_team"
+msgstr ""
+
+msgid "exc_mandatory"
+msgstr ""
+
+msgid "exc_mandatory_info"
+msgstr ""
+
+msgid "exc_mandatory_rand_determined"
+msgstr ""
+
+msgid "exc_max_char_limit"
+msgstr ""
+
+msgid "exc_max_file"
+msgstr ""
+
+msgid "exc_max_file_info"
+msgstr ""
+
+msgid "exc_max_file_reached"
+msgstr ""
+
+msgid "exc_max_file_tgl"
+msgstr ""
+
+msgid "exc_max_team_participants"
+msgstr ""
+
+msgid "exc_members_already_assigned_team"
+msgstr ""
+
+msgid "exc_min_char_limit"
+msgstr ""
+
+msgid "exc_min_nr"
+msgstr ""
+
+msgid "exc_min_nr_info"
+msgstr ""
+
+msgid "exc_min_team_participants"
+msgstr ""
+
+msgid "exc_msg_all_mandatory_ass"
+msgstr ""
+
+msgid "exc_msg_deadline_request_body"
+msgstr ""
+
+msgid "exc_msg_deadline_request_subject"
+msgstr ""
+
+msgid "exc_msg_failed_mandatory"
+msgstr ""
+
+msgid "exc_msg_grading_done"
+msgstr ""
+
+msgid "exc_msg_grading_done_body"
+msgstr ""
+
+msgid "exc_msg_idl_set_body"
+msgstr ""
+
+msgid "exc_msg_idl_set_subject"
+msgstr ""
+
+msgid "exc_msg_min_number_ass"
+msgstr ""
+
+msgid "exc_msg_missed_minimum_number"
+msgstr ""
+
+msgid "exc_msg_new_feedback_file_uploaded"
+msgstr ""
+
+msgid "exc_msg_new_feedback_file_uploaded2"
+msgstr ""
+
+msgid "exc_msg_new_feedback_text_uploaded"
+msgstr ""
+
+msgid "exc_msg_new_feedback_text_uploaded2"
+msgstr ""
+
+msgid "exc_msg_new_message_from_pf_giver"
+msgstr ""
+
+msgid "exc_msg_new_message_from_pf_giver2"
+msgstr ""
+
+msgid "exc_msg_new_message_from_pf_recipient"
+msgstr ""
+
+msgid "exc_msg_new_message_from_pf_recipient2"
+msgstr ""
+
+msgid "exc_msg_participants_removed"
+msgstr ""
+
+msgid "exc_msg_public_submission"
+msgstr ""
+
+msgid "exc_msg_saved_grades"
+msgstr ""
+
+msgid "exc_msg_sure_to_deassign_participant"
+msgstr ""
+
+msgid "exc_multi_feedb_info"
+msgstr ""
+
+msgid "exc_multi_feedback"
+msgstr ""
+
+msgid "exc_multi_feedback_file"
+msgstr ""
+
+msgid "exc_multi_feedback_files"
+msgstr ""
+
+msgid "exc_needs_deadline"
+msgstr ""
+
+msgid "exc_needs_fixed_deadline"
+msgstr ""
+
+msgid "exc_new_assignment"
+msgstr ""
+
+msgid "exc_no_assignments"
+msgstr ""
+
+msgid "exc_no_assignments_available"
+msgstr ""
+
+msgid "exc_no_deadline"
+msgstr ""
+
+msgid "exc_no_deadline_info"
+msgstr ""
+
+msgid "exc_no_deadline_specified"
+msgstr ""
+
+msgid "exc_no_feedback_dir_found_in_zip"
+msgstr ""
+
+msgid "exc_no_get_target"
+msgstr ""
+
+msgid "exc_no_graded_mem_selected"
+msgstr ""
+
+msgid "exc_no_participants"
+msgstr ""
+
+msgid "exc_no_peer_feedback_deadline"
+msgstr ""
+
+msgid "exc_no_portfolio_templates"
+msgstr ""
+
+msgid "exc_no_submission_yet"
+msgstr ""
+
+msgid "exc_no_team_yet"
+msgstr ""
+
+msgid "exc_no_team_yet_info"
+msgstr ""
+
+msgid "exc_no_team_yet_info_tutor"
+msgstr ""
+
+msgid "exc_no_team_yet_notice"
+msgstr ""
+
+msgid "exc_note_for_tutor"
+msgstr ""
+
+msgid "exc_notification"
+msgstr ""
+
+msgid "exc_nr_random_mand"
+msgstr ""
+
+msgid "exc_num_teams"
+msgstr ""
+
+msgid "exc_ongoing"
+msgstr ""
+
+msgid "exc_optional"
+msgstr ""
+
+msgid "exc_order_by_deadline"
+msgstr ""
+
+msgid "exc_overview"
+msgstr ""
+
+msgid "exc_participant"
+msgstr ""
+
+msgid "exc_participant_view"
+msgstr ""
+
+msgid "exc_participants"
+msgstr ""
+
+msgid "exc_pass_all"
+msgstr ""
+
+msgid "exc_pass_all_info"
+msgstr ""
+
+msgid "exc_pass_minimum_nr"
+msgstr ""
+
+msgid "exc_pass_minimum_nr_info"
+msgstr ""
+
+msgid "exc_pass_mode"
+msgstr ""
+
+msgid "exc_pass_mode_not_changeable_info"
+msgstr ""
+
+msgid "exc_passed_status_determination"
+msgstr ""
+
+msgid "exc_passing_exc"
+msgstr ""
+
+msgid "exc_past"
+msgstr ""
+
+msgid "exc_peer_deadline_mismatch"
+msgstr ""
+
+msgid "exc_peer_feedback_status"
+msgstr ""
+
+msgid "exc_peer_review"
+msgstr ""
+
+msgid "exc_peer_review_ass_setting_info"
+msgstr ""
+
+msgid "exc_peer_review_chars_invalid"
+msgstr ""
+
+msgid "exc_peer_review_completion"
+msgstr ""
+
+msgid "exc_peer_review_completion_all"
+msgstr ""
+
+msgid "exc_peer_review_completion_all_info"
+msgstr ""
+
+msgid "exc_peer_review_completion_none"
+msgstr ""
+
+msgid "exc_peer_review_completion_none_info"
+msgstr ""
+
+msgid "exc_peer_review_completion_one"
+msgstr ""
+
+msgid "exc_peer_review_completion_one_info"
+msgstr ""
+
+msgid "exc_peer_review_deadline"
+msgstr ""
+
+msgid "exc_peer_review_deadline_info"
+msgstr ""
+
+msgid "exc_peer_review_deadline_info_button"
+msgstr ""
+
+msgid "exc_peer_review_deadline_reached"
+msgstr ""
+
+msgid "exc_peer_review_file"
+msgstr ""
+
+msgid "exc_peer_review_file_info"
+msgstr ""
+
+msgid "exc_peer_review_give"
+msgstr ""
+
+msgid "exc_peer_review_given"
+msgstr ""
+
+msgid "exc_peer_review_giver"
+msgstr ""
+
+msgid "exc_peer_review_invalid_giver_ids"
+msgstr ""
+
+msgid "exc_peer_review_invalid_peer_ids"
+msgstr ""
+
+msgid "exc_peer_review_min_chars"
+msgstr ""
+
+msgid "exc_peer_review_min_chars_info"
+msgstr ""
+
+msgid "exc_peer_review_min_chars_tgl"
+msgstr ""
+
+msgid "exc_peer_review_min_number"
+msgstr ""
+
+msgid "exc_peer_review_min_number_info"
+msgstr ""
+
+msgid "exc_peer_review_missing_info"
+msgstr ""
+
+msgid "exc_peer_review_missing_info_deadline"
+msgstr ""
+
+msgid "exc_peer_review_missing_users"
+msgstr ""
+
+msgid "exc_peer_review_no_peers"
+msgstr ""
+
+msgid "exc_peer_review_no_peers_reviewed_yet"
+msgstr ""
+
+msgid "exc_peer_review_not_returned_users"
+msgstr ""
+
+msgid "exc_peer_review_overview"
+msgstr ""
+
+msgid "exc_peer_review_overview_invalid_users"
+msgstr ""
+
+msgid "exc_peer_review_personal"
+msgstr ""
+
+msgid "exc_peer_review_personal_info"
+msgstr ""
+
+msgid "exc_peer_review_rating"
+msgstr ""
+
+msgid "exc_peer_review_recipient"
+msgstr ""
+
+msgid "exc_peer_review_reset"
+msgstr ""
+
+msgid "exc_peer_review_reset_done"
+msgstr ""
+
+msgid "exc_peer_review_reset_sure"
+msgstr ""
+
+msgid "exc_peer_review_show"
+msgstr ""
+
+msgid "exc_peer_review_show_missing"
+msgstr ""
+
+msgid "exc_peer_review_show_received_none"
+msgstr ""
+
+msgid "exc_peer_review_simple_unlock"
+msgstr ""
+
+msgid "exc_peer_review_simple_unlock_active"
+msgstr ""
+
+msgid "exc_peer_review_simple_unlock_immed"
+msgstr ""
+
+msgid "exc_peer_review_simple_unlock_inactive"
+msgstr ""
+
+msgid "exc_peer_review_text"
+msgstr ""
+
+msgid "exc_peer_review_updated"
+msgstr ""
+
+msgid "exc_peer_reviews_in_lead_text"
+msgstr ""
+
+msgid "exc_peer_reviews_invalid_warning"
+msgstr ""
+
+msgid "exc_portfolio_created"
+msgstr ""
+
+msgid "exc_portfolio_returned"
+msgstr ""
+
+msgid "exc_portfolio_selected"
+msgstr ""
+
+msgid "exc_portfolio_template"
+msgstr ""
+
+msgid "exc_portfolio_unlinked_from_assignment"
+msgstr ""
+
+msgid "exc_presentation_order"
+msgstr ""
+
+msgid "exc_print_pdf"
+msgstr ""
+
+msgid "exc_public_submission"
+msgstr ""
+
+msgid "exc_publishing"
+msgstr ""
+
+msgid "exc_rand_nr_mandatory"
+msgstr ""
+
+msgid "exc_rand_overall_ass"
+msgstr ""
+
+msgid "exc_random"
+msgstr ""
+
+msgid "exc_random_assignment"
+msgstr ""
+
+msgid "exc_random_assignment_info"
+msgstr ""
+
+msgid "exc_random_selection"
+msgstr ""
+
+msgid "exc_random_selection_info"
+msgstr ""
+
+msgid "exc_random_selection_not_changeable_info"
+msgstr ""
+
+msgid "exc_received_feedback"
+msgstr ""
+
+msgid "exc_rel_last_submission"
+msgstr ""
+
+msgid "exc_rel_last_submission_info"
+msgstr ""
+
+msgid "exc_rel_start_latest_lead_text"
+msgstr ""
+
+msgid "exc_rel_start_lead_text"
+msgstr ""
+
+msgid "exc_relative_date"
+msgstr ""
+
+msgid "exc_relative_date_info"
+msgstr ""
+
+msgid "exc_relative_date_period"
+msgstr ""
+
+msgid "exc_rem_time_after_start"
+msgstr ""
+
+msgid "exc_reminder_cron_ok"
+msgstr ""
+
+msgid "exc_reminder_end"
+msgstr ""
+
+msgid "exc_reminder_feedback_setting"
+msgstr ""
+
+msgid "exc_reminder_feedback_start"
+msgstr ""
+
+msgid "exc_reminder_frequency"
+msgstr ""
+
+msgid "exc_reminder_grade_body"
+msgstr ""
+
+msgid "exc_reminder_grade_setting"
+msgstr ""
+
+msgid "exc_reminder_grade_subject"
+msgstr ""
+
+msgid "exc_reminder_link"
+msgstr ""
+
+msgid "exc_reminder_mail_no_tpl"
+msgstr ""
+
+msgid "exc_reminder_mail_template"
+msgstr ""
+
+msgid "exc_reminder_peer_body"
+msgstr ""
+
+msgid "exc_reminder_peer_subject"
+msgstr ""
+
+msgid "exc_reminder_salutation"
+msgstr ""
+
+msgid "exc_reminder_start"
+msgstr ""
+
+msgid "exc_reminder_start_info"
+msgstr ""
+
+msgid "exc_reminder_submit_body"
+msgstr ""
+
+msgid "exc_reminder_submit_setting"
+msgstr ""
+
+msgid "exc_reminder_submit_subject"
+msgstr ""
+
+msgid "exc_reminders_cron"
+msgstr ""
+
+msgid "exc_reminders_cron_info"
+msgstr ""
+
+msgid "exc_reminders_cron_not_active"
+msgstr ""
+
+msgid "exc_request_deadline"
+msgstr ""
+
+msgid "exc_requirement"
+msgstr ""
+
+msgid "exc_review_anytime"
+msgstr ""
+
+msgid "exc_save_all"
+msgstr ""
+
+msgid "exc_save_order"
+msgstr ""
+
+msgid "exc_save_selected"
+msgstr ""
+
+msgid "exc_saved_order"
+msgstr ""
+
+msgid "exc_select_ass"
+msgstr ""
+
+msgid "exc_select_blog"
+msgstr ""
+
+msgid "exc_select_blog_change"
+msgstr ""
+
+msgid "exc_select_blog_info"
+msgstr ""
+
+msgid "exc_select_blog_unlink"
+msgstr ""
+
+msgid "exc_select_portfolio"
+msgstr ""
+
+msgid "exc_select_portfolio_change"
+msgstr ""
+
+msgid "exc_select_portfolio_info"
+msgstr ""
+
+msgid "exc_select_portfolio_unlink"
+msgstr ""
+
+msgid "exc_send_assignment"
+msgstr ""
+
+msgid "exc_send_grading_notification"
+msgstr ""
+
+msgid "exc_set_failed"
+msgstr ""
+
+msgid "exc_set_passed"
+msgstr ""
+
+msgid "exc_settings_feedback"
+msgstr ""
+
+msgid "exc_settings_feedback_file"
+msgstr ""
+
+msgid "exc_settings_feedback_file_info"
+msgstr ""
+
+msgid "exc_settings_feedback_mail"
+msgstr ""
+
+msgid "exc_settings_feedback_mail_info"
+msgstr ""
+
+msgid "exc_settings_feedback_text"
+msgstr ""
+
+msgid "exc_settings_feedback_text_info"
+msgstr ""
+
+msgid "exc_show_instructions"
+msgstr ""
+
+msgid "exc_show_more"
+msgstr ""
+
+msgid "exc_show_peer_review"
+msgstr ""
+
+msgid "exc_show_submissions"
+msgstr ""
+
+msgid "exc_show_submissions_info"
+msgstr ""
+
+msgid "exc_start_assignment"
+msgstr ""
+
+msgid "exc_start_exercise"
+msgstr ""
+
+msgid "exc_start_time"
+msgstr ""
+
+msgid "exc_starting_on"
+msgstr ""
+
+msgid "exc_submission_and_grades_notification_link"
+msgstr ""
+
+msgid "exc_submission_downloads_notification_link"
+msgstr ""
+
+msgid "exc_submission_file"
+msgstr ""
+
+msgid "exc_submission_no_new_files"
+msgstr ""
+
+msgid "exc_submission_notification"
+msgstr ""
+
+msgid "exc_submission_notification_body"
+msgstr ""
+
+msgid "exc_submission_notification_info"
+msgstr ""
+
+msgid "exc_submission_notification_link"
+msgstr ""
+
+msgid "exc_submission_notification_subject"
+msgstr ""
+
+msgid "exc_submission_open_notification_link"
+msgstr ""
+
+msgid "exc_submission_text"
+msgstr ""
+
+msgid "exc_submissions_and_grades"
+msgstr ""
+
+msgid "exc_submit_anytime"
+msgstr ""
+
+msgid "exc_submit_convenience_no_deadline"
+msgstr ""
+
+msgid "exc_submitted_files_deleted"
+msgstr ""
+
+msgid "exc_sure_unlink_blog"
+msgstr ""
+
+msgid "exc_sure_unlink_portfolio"
+msgstr ""
+
+msgid "exc_target_not_valid"
+msgstr ""
+
+msgid "exc_task_grading"
+msgstr ""
+
+msgid "exc_task_peer_feedback"
+msgstr ""
+
+msgid "exc_task_submission"
+msgstr ""
+
+msgid "exc_tbl_action_download_all_files"
+msgstr ""
+
+msgid "exc_tbl_action_download_files"
+msgstr ""
+
+msgid "exc_tbl_action_download_new_files"
+msgstr ""
+
+msgid "exc_tbl_action_feedback_file"
+msgstr ""
+
+msgid "exc_tbl_action_feedback_mail"
+msgstr ""
+
+msgid "exc_tbl_action_feedback_text"
+msgstr ""
+
+msgid "exc_tbl_action_open_submission"
+msgstr ""
+
+msgid "exc_tbl_action_peer_review_given"
+msgstr ""
+
+msgid "exc_tbl_action_peer_review_received"
+msgstr ""
+
+msgid "exc_tbl_action_team_log"
+msgstr ""
+
+msgid "exc_tbl_action_text_assignment_show"
+msgstr ""
+
+msgid "exc_tbl_calculated_deadline"
+msgstr ""
+
+msgid "exc_tbl_comment"
+msgstr ""
+
+msgid "exc_tbl_feedback_time"
+msgstr ""
+
+msgid "exc_tbl_filter_has_no_submission"
+msgstr ""
+
+msgid "exc_tbl_filter_has_submission"
+msgstr ""
+
+msgid "exc_tbl_filter_submission"
+msgstr ""
+
+msgid "exc_tbl_filter_submission_after"
+msgstr ""
+
+msgid "exc_tbl_filter_submission_before"
+msgstr ""
+
+msgid "exc_tbl_individual_deadline"
+msgstr ""
+
+msgid "exc_tbl_mark"
+msgstr ""
+
+msgid "exc_tbl_notice"
+msgstr ""
+
+msgid "exc_tbl_sent_time"
+msgstr ""
+
+msgid "exc_tbl_status"
+msgstr ""
+
+msgid "exc_tbl_status_time"
+msgstr ""
+
+msgid "exc_tbl_submission_date"
+msgstr ""
+
+msgid "exc_tbl_team"
+msgstr ""
+
+msgid "exc_team"
+msgstr ""
+
+msgid "exc_team_assignment_adopt"
+msgstr ""
+
+msgid "exc_team_assignment_adopt_already_assigned"
+msgstr ""
+
+msgid "exc_team_assignment_adopt_none"
+msgstr ""
+
+msgid "exc_team_assignment_adopt_none_user"
+msgstr ""
+
+msgid "exc_team_assignment_adopt_teams"
+msgstr ""
+
+msgid "exc_team_assignment_adopt_user"
+msgstr ""
+
+msgid "exc_team_at_least_one"
+msgstr ""
+
+msgid "exc_team_by_assignment"
+msgstr ""
+
+msgid "exc_team_by_assignment_info"
+msgstr ""
+
+msgid "exc_team_by_participants"
+msgstr ""
+
+msgid "exc_team_by_participants_info"
+msgstr ""
+
+msgid "exc_team_by_random"
+msgstr ""
+
+msgid "exc_team_by_random_add_info"
+msgstr ""
+
+msgid "exc_team_by_random_info"
+msgstr ""
+
+msgid "exc_team_by_tutors"
+msgstr ""
+
+msgid "exc_team_by_tutors_info"
+msgstr ""
+
+msgid "exc_team_by_tutors_manual"
+msgstr ""
+
+msgid "exc_team_by_tutors_manual_info"
+msgstr ""
+
+msgid "exc_team_creation"
+msgstr ""
+
+msgid "exc_team_formation"
+msgstr ""
+
+msgid "exc_team_log"
+msgstr ""
+
+msgid "exc_team_log_add_file"
+msgstr ""
+
+msgid "exc_team_log_add_member"
+msgstr ""
+
+msgid "exc_team_log_create_team"
+msgstr ""
+
+msgid "exc_team_log_remove_file"
+msgstr ""
+
+msgid "exc_team_log_remove_member"
+msgstr ""
+
+msgid "exc_team_max_small_than_members"
+msgstr ""
+
+msgid "exc_team_member_add"
+msgstr ""
+
+msgid "exc_team_member_container_add"
+msgstr ""
+
+msgid "exc_team_member_remove_sure"
+msgstr ""
+
+msgid "exc_team_members"
+msgstr ""
+
+msgid "exc_team_min_big_than_max"
+msgstr ""
+
+msgid "exc_team_min_small_than_members"
+msgstr ""
+
+msgid "exc_team_minimal_too_big"
+msgstr ""
+
+msgid "exc_team_multi_create"
+msgstr ""
+
+msgid "exc_team_multi_dissolve"
+msgstr ""
+
+msgid "exc_team_notification_body_add"
+msgstr ""
+
+msgid "exc_team_notification_body_rmv"
+msgstr ""
+
+msgid "exc_team_notification_link"
+msgstr ""
+
+msgid "exc_team_notification_reason"
+msgstr ""
+
+msgid "exc_team_notification_subject_add"
+msgstr ""
+
+msgid "exc_team_notification_subject_rmv"
+msgstr ""
+
+msgid "exc_teams_assignment_adopted"
+msgstr ""
+
+msgid "exc_template"
+msgstr ""
+
+msgid "exc_text_assignment_edit"
+msgstr ""
+
+msgid "exc_text_assignment_show"
+msgstr ""
+
+msgid "exc_text_saved"
+msgstr ""
+
+msgid "exc_too_many_files"
+msgstr ""
+
+msgid "exc_total_exc"
+msgstr ""
+
+msgid "exc_total_members"
+msgstr ""
+
+msgid "exc_type"
+msgstr ""
+
+msgid "exc_type_blog"
+msgstr ""
+
+msgid "exc_type_portfolio"
+msgstr ""
+
+msgid "exc_type_text"
+msgstr ""
+
+msgid "exc_type_upload"
+msgstr ""
+
+msgid "exc_type_upload_team"
+msgstr ""
+
+msgid "exc_value_can_not_set"
+msgstr ""
+
+msgid "exc_view_portfolio"
+msgstr ""
+
+msgid "exc_view_wiki"
+msgstr ""
+
+msgid "exc_wait_for_files"
+msgstr ""
+
+msgid "exc_wiki_container"
+msgstr ""
+
+msgid "exc_wiki_container_info"
+msgstr ""
+
+msgid "exc_with_template"
+msgstr ""
+
+msgid "exc_with_template_info"
+msgstr ""
+
+msgid "exc_with_wiki_template"
+msgstr ""
+
+msgid "exc_with_wiki_template_info"
+msgstr ""
+
+msgid "exc_without_template"
+msgstr ""
+
+msgid "exc_without_template_info"
+msgstr ""
+
+msgid "exc_without_wiki_template"
+msgstr ""
+
+msgid "exc_without_wiki_template_info"
+msgstr ""
+
+msgid "exc_work_instructions"
+msgstr ""
+
+msgid "exc_x_of_y"
+msgstr ""
+
+msgid "exc_your_text"
+msgstr ""
+
+msgid "feedback_from"
+msgstr ""
+
+msgid "feedback_given"
+msgstr ""
+
+msgid "feedback_received"
+msgstr ""
+
+msgid "fiter_no_results"
+msgstr ""
+
+msgid "grade_evaluate"
+msgstr ""
+
+msgid "not_yet"
+msgstr ""
+
+msgid "submissions_feedback"
+msgstr ""
+
+msgid "submissions_only"
+msgstr ""
+
+msgid "text_assignment"
+msgstr ""

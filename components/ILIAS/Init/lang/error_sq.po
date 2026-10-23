@@ -1,0 +1,25 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sq\n"
+"Language-Team: Albanian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: error\n"
+
+#, fuzzy
+msgid "error_back_to_repository"
+msgstr "Back to Repository"
+
+#, fuzzy
+msgid "error_sry_error"
+msgstr "Sorry, an error occured."
+
+#, fuzzy
+msgid "http_404_not_found"
+msgstr "The requested page could not be found."
+
+#, fuzzy
+msgid "http_500_internal_server_error"
+msgstr "An internal server error occurred."

@@ -1,0 +1,429 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hr\n"
+"Language-Team: Croatian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: search\n"
+
+msgid "add_members_header"
+msgstr "Dodaj članove"
+
+msgid "append_results"
+msgstr "Dodaj rezultate"
+
+msgid "btn_search"
+msgstr "Traži"
+
+msgid "last_search_result"
+msgstr "Posljednji rezultat pretraživanja"
+
+msgid "lucene_and"
+msgstr "I"
+
+msgid "lucene_cpu"
+msgstr "Maksimalan broj tema"
+
+msgid "lucene_create_ini"
+msgstr "Izradi konfiguracijsku datoteku"
+
+msgid "lucene_default_operator"
+msgstr "Zadani operater"
+
+msgid "lucene_default_operator_info"
+msgstr "Odaberite zadanog operatora za logičke upite. U zadanom načinu rada ('I') pojmovi se smatraju povezanima. U načinu 'ILI' pojmovi bez ikakvih modifikatora smatraju se neobaveznima."
+
+msgid "lucene_download_ini"
+msgstr "Preuzmi konfiguracijsku datoteku"
+
+msgid "lucene_err_ampersand"
+msgstr "Upiti koji sadrže posebne znakove && moraju biti u obliku: pojam1 && pojam2."
+
+msgid "lucene_err_and_or_not"
+msgstr "Upiti koji sadrže I/ILI/NE moraju biti u obliku: pojam1 I|ILI|NE|I NE pojam2."
+
+msgid "lucene_err_asterisk"
+msgstr "Zamjenski znak (*) mora sadržavati najmanje jedno slovo abecede ili broj."
+
+msgid "lucene_err_caret"
+msgstr "Znaku obrnute kvačice (^) moraju prethoditi alfanumerički znakovi i brojke."
+
+msgid "lucene_err_colon"
+msgstr "Deklaracijama polja (:) mora prethoditi najmanje jedno slovo abeceda ili broj, a nakon njih mora slijedii najmanje jedno slovo abecede ili broj."
+
+msgid "lucene_err_exclamation_mark"
+msgstr "Upiti koji sadrže specijalni znak (!) moraju biti u obliku: pojam1! pojam2."
+
+msgid "lucene_err_parenthesis_empty"
+msgstr "Zagrade moraju sadržavati najmanje jedan znak."
+
+msgid "lucene_err_parenthesis_not_closed"
+msgstr "Zagrade moraju biti zatvorene."
+
+msgid "lucene_err_plus_minus"
+msgstr "Nakon modifikatora (+) i (-) mora slijediti barem jedno slovo abecede ili broj."
+
+msgid "lucene_err_question_mark"
+msgstr "Znaku pitanja (?) mora prethoditi barem jedno slovo abecede ili broj."
+
+msgid "lucene_err_quotes"
+msgstr "Zatvorite sve navodnike (\")."
+
+msgid "lucene_err_quotes_not_empty"
+msgstr "Navodnici (\") moraju sadržavati najmanje jedan znak."
+
+msgid "lucene_general_settings"
+msgstr "Opće postavke"
+
+msgid "lucene_host"
+msgstr "Host"
+
+msgid "lucene_host_info"
+msgstr "Unesite ime hosta ili IP adresu za java server."
+
+msgid "lucene_index_path"
+msgstr "Direktorij za indeksne datoteke"
+
+msgid "lucene_index_path_info"
+msgstr "Unesi naziv direktorija za pohranu indeksnih datoteka."
+
+msgid "lucene_last_index_time"
+msgstr "Posljednja generacija indeksa"
+
+msgid "lucene_last_index_time_info"
+msgstr "Izmijenite ove postavke samo ako ste instalirali sigurnosnu kopiju indeksa."
+
+msgid "lucene_level"
+msgstr "Razina dnevnika"
+
+msgid "lucene_log"
+msgstr "Put do dnevničke datoteke"
+
+msgid "lucene_log_info"
+msgstr "Unesite apsolutni put do datoteke u koju ćemo zapisati poruke dnevnika. Ako datoteka ne postoji, automatski će se kreirati."
+
+msgid "lucene_max_fs"
+msgstr "Maksimalna veličina datoteke (u MB)"
+
+msgid "lucene_max_fs_info"
+msgstr "Definira ograničenje veličine datoteke. Veće datoteke neće biti uključene u indeks."
+
+msgid "lucene_num_frag_info"
+msgstr "Odaberite maksimalan broj istaknutih fragmenata teksta."
+
+msgid "lucene_num_fragments"
+msgstr "Broj fragmenata teksta"
+
+msgid "lucene_offline_filter"
+msgstr "Online status"
+
+msgid "lucene_or"
+msgstr "ILI"
+
+msgid "lucene_port"
+msgstr "Port"
+
+msgid "lucene_prefix_wildcard"
+msgstr "Zamjenski znak na početku riječi za pretraživanje"
+
+msgid "lucene_prefix_wildcard_info"
+msgstr "Podržava zamjenske znakove na početku riječi za pretraživanje: s pomoću '* LIAS' pronaći će se 'ILIAS'"
+
+#, fuzzy
+msgid "lucene_settings_index_section"
+msgstr "Index Backup"
+
+msgid "lucene_settings_tab"
+msgstr "Lucene"
+
+#, fuzzy
+msgid "lucene_settings_text_section"
+msgstr "Presentation of Search Results"
+
+msgid "lucene_settings_title"
+msgstr "Postavke lucene"
+
+msgid "lucene_size_frag_info"
+msgstr "Odaberite maksimalnu veličinu istaknutih fragmenata teksta."
+
+msgid "lucene_size_fragments"
+msgstr "Veličina fragmenata teksta"
+
+msgid "lucene_tbl_create_ini"
+msgstr "Kreiraj konfiguracijsku datoteku Java servera"
+
+msgid "search_add_members_from_container_crs"
+msgstr "Dodaj korisnike trenutačnog tečaja"
+
+msgid "search_add_members_from_container_grp"
+msgstr "Dodaj korisnike trenutačne grupe"
+
+msgid "search_any"
+msgstr "- Bilo koji -"
+
+#, fuzzy
+msgid "search_area_filter"
+msgstr "Scope"
+
+msgid "search_area_info"
+msgstr "Odaberi područje na kojem bi pretraga trebala započeti."
+
+msgid "search_auto_complete_length"
+msgstr "Broj unosa s automatskim dovršavanjem popisa"
+
+#, fuzzy
+msgid "search_auto_complete_length_info"
+msgstr "Choose ‘0‘ to switch off the auto-complete list."
+
+msgid "search_cdate_filter"
+msgstr "Filtriraj prema datumu izrade"
+
+msgid "search_cdate_filter_info"
+msgstr "Ako je omogućeno, pretraživanje objekta može se filtrirati opcijskim filterom datuma izrade."
+
+msgid "search_content"
+msgstr "Sadržaj stranice"
+
+#, fuzzy
+msgid "search_copyright"
+msgstr "Copyright"
+
+msgid "search_created_after"
+msgstr "Objekti kreirani nakon"
+
+msgid "search_created_before"
+msgstr "Objekti kreirani prije ..."
+
+msgid "search_created_on"
+msgstr "Objekti kreirani dana ..."
+
+msgid "search_crs_title"
+msgstr "Naziv tečaja"
+
+#, fuzzy
+msgid "search_detailed_results_title"
+msgstr "Detailed results in %s"
+
+msgid "search_details_info"
+msgstr "Detaljna pretraga. Odaberite jednu ili više vrsta resursa."
+
+msgid "search_direct"
+msgstr "Izravno pretraživanje"
+
+msgid "search_err_user_not_exist"
+msgstr "Korisnik s tim imenom za prijavu ne postoji."
+
+msgid "search_fast_info"
+msgstr "Pretraži naslove, opise i ključne riječi u svim tipovima objekata"
+
+#, fuzzy
+msgid "search_field"
+msgstr "Search Input Field"
+
+#, fuzzy
+msgid "search_field_perform"
+msgstr "Perform Search"
+
+msgid "search_filter_by_type"
+msgstr "Filtriraj prema vrsti"
+
+msgid "search_filter_cd"
+msgstr "Filtriraj prema datumu izrade"
+
+#, fuzzy
+msgid "search_filter_settings_section"
+msgstr "Filters for the Search Results"
+
+msgid "search_for_crs_members"
+msgstr "Potraži članove tečaja"
+
+msgid "search_for_grp_members"
+msgstr "Potraži članove grupe"
+
+#, fuzzy
+msgid "search_for_orgu_members"
+msgstr "Search for Organisational Units"
+
+#, fuzzy
+msgid "search_for_orgu_members_recursive"
+msgstr "Include Subunits?"
+
+msgid "search_for_role_members"
+msgstr "Potraži članove uloga"
+
+msgid "search_for_users"
+msgstr "Potraži korisnike"
+
+msgid "search_grp_title"
+msgstr "Grupno ime"
+
+msgid "search_item_filter_form"
+msgstr "Traži po tipu"
+
+msgid "search_item_filter_form_info"
+msgstr "Pretraživanje može biti ograničeno na odabrane tipove objekata."
+
+#. Needs to be adapted to new content of German lang file.
+msgid "search_like_info"
+msgstr "Odaberite ovu opciju da biste postigli najbolje rezultate."
+
+msgid "search_limit_reached"
+msgstr "Vaša je pretraga dala više od %s pogodaka. Pojmove za pretraživanje možete ograničiti da biste dobili detaljnije rezultate."
+
+msgid "search_lucene"
+msgstr "Pretraživanje lucene"
+
+msgid "search_mime_excel"
+msgstr "Excel datoteke"
+
+msgid "search_mime_filter_form"
+msgstr "Filtar tipa Mime"
+
+msgid "search_mime_filter_form_info"
+msgstr "Pretraživanje može biti ograničeno na odabrane tipove mime."
+
+msgid "search_mime_image"
+msgstr "Slike"
+
+msgid "search_mime_pdf"
+msgstr "PDF datoteke"
+
+msgid "search_mime_powerpoint"
+msgstr "Powerpoint datoteke"
+
+msgid "search_mime_word"
+msgstr "Word datoteke"
+
+msgid "search_minimum_info"
+msgstr "Vaša pretraga mora sadržavati najmanje %s znakova"
+
+msgid "search_minimum_three"
+msgstr "Vaša pretraga mora sadržavati najmanje tri znaka."
+
+msgid "search_newer_than"
+msgstr "Predmeti noviji od"
+
+msgid "search_no_connection_lucene"
+msgstr "Ne može se povezati sa serverom Lucene."
+
+#, fuzzy
+msgid "search_no_further_match"
+msgstr "No further matches found."
+
+msgid "search_no_match"
+msgstr "Vaša pretraga nije pronašla nijedan rezultat"
+
+msgid "search_no_match_hint"
+msgstr "Vaša pretraga za <b>%s</b> nije rezultirala nijednim dokumentom. <br/><br/>Prijedlozi:<br/>• Provjerite jesu li sve riječi ispravno napisane.<br/>•Pokušajte s različitim ključnim riječima.<br/>•Isprobajte općenitije ključne riječi.<br/>•Pokušajte s manje ključnih riječi."
+
+msgid "search_no_selection"
+msgstr "Niste izvršili odabir."
+
+msgid "search_off"
+msgstr "Isključeno"
+
+#, fuzzy
+msgid "search_readme_file"
+msgstr "Readme File"
+
+#, fuzzy
+msgid "search_results_show_subitems"
+msgstr "See detailed results"
+
+#, fuzzy
+msgid "search_results_too_many_subitems"
+msgstr "More results are available, please make your search terms more precise."
+
+msgid "search_role_title"
+msgstr "Ime uloge"
+
+msgid "search_select_search_area"
+msgstr "Odaberi područje pretraživanja"
+
+#, fuzzy
+msgid "search_server_further_information"
+msgstr "You can find further information about the Lucene server configuration in the readme file."
+
+msgid "search_show_inactive_user"
+msgstr "Prikaži neaktivne korisnike"
+
+msgid "search_show_inactive_user_info"
+msgstr "Ako je omogućeno, pretraživanje korisnika prikazat će i neaktivne korisnike."
+
+msgid "search_show_limited_user"
+msgstr "Prikaži korisnike s ograničenim pristupom"
+
+msgid "search_show_limited_user_info"
+msgstr "Ako je omogućeno, pretraživanje korisnika prikazat će i korisnike s ograničenim pristupom izvan dopuštenog vremenskog razdoblja."
+
+#, fuzzy
+msgid "search_sort_by"
+msgstr "Sortation: %s"
+
+#, fuzzy
+msgid "search_sort_creation_date_asc"
+msgstr "Oldest"
+
+#, fuzzy
+msgid "search_sort_creation_date_desc"
+msgstr "Latest"
+
+#, fuzzy
+msgid "search_sort_relevance"
+msgstr "By Relevance"
+
+#, fuzzy
+msgid "search_sort_title_asc"
+msgstr "Alphabetically: A-Z"
+
+#, fuzzy
+msgid "search_sort_title_desc"
+msgstr "Alphabetically: Z-A"
+
+#, fuzzy
+msgid "search_tab_content"
+msgstr "Content"
+
+#, fuzzy
+msgid "search_tab_user"
+msgstr "Users"
+
+msgid "search_term_combination"
+msgstr "Kombinacija"
+
+msgid "search_title_description"
+msgstr "Naslov / opis"
+
+msgid "search_tst_svy"
+msgstr "Testovi/ankete"
+
+msgid "search_type"
+msgstr "Tip"
+
+msgid "search_user"
+msgstr "Korisnici"
+
+msgid "search_user_extended"
+msgstr "Prošireno pretraživanje korisnika"
+
+msgid "search_user_search_form"
+msgstr "Pretražite u osobnim profilima"
+
+msgid "search_user_search_info_form"
+msgstr "Podaci u osobnim profilima korisnika indeksiraju se i mogu se koristiti za pretraživanje korisnika."
+
+msgid "seas_search_type"
+msgstr "Tip"
+
+#, fuzzy
+msgid "select_orgu"
+msgstr "Select Organisational Units"
+
+msgid "until"
+msgstr "do"
+
+#, fuzzy
+msgid "user_search_settings_section"
+msgstr "User Search in 'Member'-tabs"

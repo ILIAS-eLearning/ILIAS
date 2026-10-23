@@ -1,0 +1,141 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: shib\n"
+
+msgid "shib_account_creation"
+msgstr "アカウント作成"
+
+msgid "shib_account_creation_disabled"
+msgstr "無効"
+
+msgid "shib_account_creation_disabled_info"
+msgstr "新しいアカウントは作成されません。"
+
+msgid "shib_account_creation_enabled"
+msgstr "有効化"
+
+msgid "shib_account_creation_enabled_info"
+msgstr "新しいアクティブなアカウントが作成されました。"
+
+msgid "shib_account_creation_info"
+msgstr "アカウント作成は、既存のILIASアカウントを持たないユーザーがShibboleth経由でログインしようとしたときに開始されます。"
+
+msgid "shib_account_creation_with_approval"
+msgstr "承認あり"
+
+msgid "shib_account_creation_with_approval_info"
+msgstr "非アクティブの新しいアカウントが作成されます。アカウントは管理者によって有効化されるまで非アクティブのままです。"
+
+msgid "shib_add_missing"
+msgstr "不足の役割を割り当てる"
+
+msgid "shib_add_remove"
+msgstr "役割の追加/削除"
+
+msgid "shib_assignment_type"
+msgstr "割当ての種類"
+
+msgid "shib_attr_info"
+msgstr "Shibbolethユーザプロファイルの特定の属性で割当てる"
+
+msgid "shib_attribute"
+msgstr "ユーザ属性"
+
+msgid "shib_attribute_name"
+msgstr "属性名"
+
+msgid "shib_attribute_value"
+msgstr "属性値"
+
+msgid "shib_check_role_assignment"
+msgstr "後でログインした後の役割の割当て"
+
+msgid "shib_choose_role"
+msgstr "役割を選ぶ"
+
+msgid "shib_confirm_del_role_ass"
+msgstr "本当に次の役割を削除しますか?"
+
+msgid "shib_deleted_rule"
+msgstr "役割を削除します。"
+
+msgid "shib_global_role"
+msgstr "グローバル役割"
+
+msgid "shib_ilias_role"
+msgstr "ILIAS役割名"
+
+msgid "shib_local_role"
+msgstr "ローカル役割"
+
+msgid "shib_missing_attr_name"
+msgstr "属性名を入力してください。"
+
+msgid "shib_missing_attr_value"
+msgstr "属性値を入力してください。"
+
+msgid "shib_missing_plugin_id"
+msgstr "有効なプラグインIDを入力してください。"
+
+msgid "shib_missing_role"
+msgstr "役割を１つ選択してください。"
+
+msgid "shib_new_rule"
+msgstr "新しいルールを追加"
+
+msgid "shib_plugin"
+msgstr "プラグインによる割当て"
+
+msgid "shib_plugin_id"
+msgstr "プラグインID"
+
+msgid "shib_plugin_info"
+msgstr "プラグイ付きの役割の割当てを検証します。 有効なプラグイン ID を入力してください。"
+
+msgid "shib_remove_deprecated"
+msgstr "未使用の役割を解除"
+
+msgid "shib_role_ass_table"
+msgstr "役割割り当ての新しいルール"
+
+msgid "shib_role_assignment"
+msgstr "役割の割当て"
+
+msgid "shib_role_by_attribute"
+msgstr "Shibboleth属性"
+
+msgid "shib_role_by_plugin"
+msgstr "プラグインによる"
+
+msgid "shib_role_name"
+msgstr "ILIAS役割名"
+
+msgid "shib_role_name_info"
+msgstr "グローバル 役割を選ぶかまたはローカル役割名を入力してください。"
+
+msgid "shib_role_selection"
+msgstr "役割選択"
+
+msgid "shib_rule_condition"
+msgstr "条件"
+
+msgid "shib_rule_type"
+msgstr "割当のタイプ"
+
+msgid "shib_rules_tables"
+msgstr "有効な役割 割り当てのルール"
+
+msgid "shib_settings"
+msgstr "Shibboleth設定"
+
+msgid "shib_update_role_ass_table"
+msgstr "役割割当のルールを編集"
+
+msgid "shib_update_roles"
+msgstr "役割の割当て"

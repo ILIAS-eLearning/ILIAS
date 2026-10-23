@@ -1,0 +1,60 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: maps\n"
+
+msgid "configure_geolocation"
+msgstr "Um nach Adressen suchen zu können, schließen Sie bitte die Konfiguration für die Geolocation im Administrationsmenü „ILIAS erweitern > Karten“ ab."
+
+msgid "maps_custom_geolocation_server_info"
+msgstr "URL des Servers, über den die Geolocation-Daten mithilfe des Nominatim-Dienstes bereitgestellt werden. Der Eintrag muss den Platzhalter [QUERY] enthalten, um die Anfrageposition festzulegen. Beispiel: https://nominatim.example.com/search?q=[QUERY]&format=json"
+
+msgid "maps_custom_tile_server_info"
+msgstr "URL des Servers für die Bereitstellung der Kacheln. Mehrere Einträge müssen mit Leerzeichen getrennt werden. Standardeingabe ist „%s“."
+
+msgid "maps_enable_maps"
+msgstr "Karten aktivieren"
+
+msgid "maps_enable_maps_info"
+msgstr "Karten können systemweit in Profilen, Kursen und Gruppen angezeigt werden."
+
+msgid "maps_geolocation_server"
+msgstr "Server für Reverse Geolocation"
+
+msgid "maps_https_for_reverse_lookup"
+msgstr "Https für Reverse Lookup"
+
+msgid "maps_latitude"
+msgstr "Breitengrad"
+
+msgid "maps_longitude"
+msgstr "Längengrad"
+
+msgid "maps_lookup_address"
+msgstr "Adresse suchen"
+
+msgid "maps_map_type"
+msgstr "Typ"
+
+msgid "maps_open_layers_maps"
+msgstr "Open Layers Maps"
+
+msgid "maps_settings"
+msgstr "Einstellungen Karten"
+
+msgid "maps_std_location"
+msgstr "Standardposition"
+
+msgid "maps_std_location_desc"
+msgstr "Klicken Sie auf die Karte, um die eigene Position anzugeben."
+
+msgid "maps_tile_server"
+msgstr "Server für Kacheln"
+
+msgid "maps_zoom_level"
+msgstr "Vergrößerungsstufe"

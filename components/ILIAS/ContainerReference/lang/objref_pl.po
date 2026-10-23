@@ -1,0 +1,28 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pl\n"
+"Language-Team: Polish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: objref\n"
+
+msgid "objref_custom_title"
+msgstr "Użyj własny tytuł"
+
+msgid "objref_edit_ref"
+msgstr "Cel linku"
+
+msgid "objref_edit_title"
+msgstr "Tytuł"
+
+#, fuzzy
+msgid "objref_failure_target_type"
+msgstr "Das Ziel des Links muss vom folgendem Typ sein:"
+
+msgid "objref_reuse_title"
+msgstr "Przejmij tytuł podlinkowanego obiektu"
+
+msgid "objref_title_settings"
+msgstr "Tytuł podlinkowanego obiektu"

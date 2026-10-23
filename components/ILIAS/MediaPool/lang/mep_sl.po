@@ -1,0 +1,166 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sl\n"
+"Language-Team: Slovenian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=4; plural=(n % 100 == 1) ? 0 : ((n % 100 == 2) ? 1 : ((n % 100 == 3 || n % 100 == 4) ? 2 : 3));\n"
+"X-Domain: mep\n"
+
+msgid "mep_all"
+msgstr "Vsi"
+
+msgid "mep_all_mobs"
+msgstr "Vsi medijski objekti"
+
+msgid "mep_bulk_upload"
+msgstr "Masovno nalaganje"
+
+msgid "mep_choose_from_folder"
+msgstr "Izberi iz mape"
+
+msgid "mep_choose_from_mep"
+msgstr "Izberi iz skupine"
+
+#, fuzzy
+msgid "mep_clipboard_info"
+msgstr "Here you can upload media files that you can then access from any page on which you have access to the page editor. The clipboard is also accessible in media pools. This storage is only for you and cannot be viewed by other users."
+
+msgid "mep_content"
+msgstr "Medijski objekti"
+
+msgid "mep_content_snippet_in_use"
+msgstr "Sestavni del vsebine '%s' je v uporabi in ga zato ni mogoče izbrisati."
+
+msgid "mep_content_snippet_used_in_older_versions"
+msgstr "Pozor: Ta sestavni del vsebine so v starejših različicah uporabljale nekatere strani. Če je taka različica strani obnovljena, bo v njej manjkal ta sestavni del vsebine."
+
+msgid "mep_copy_to_mep"
+msgstr "Kopiraj v skupino medijev"
+
+msgid "mep_create_content_snippet"
+msgstr "Ustvari sestavni del vsebine"
+
+msgid "mep_create_folder"
+msgstr "Ustvari mapo"
+
+msgid "mep_create_media_files"
+msgstr "Ustvari medijske objekte"
+
+msgid "mep_create_mob"
+msgstr "Ustvari medijski objekt"
+
+msgid "mep_default_height"
+msgstr "Privzeta višina"
+
+msgid "mep_default_width"
+msgstr "Privzeta širina"
+
+msgid "mep_default_width_height_info"
+msgstr "Privzeta širina in višina se uporabljata kot prednastavitvi za nove medijske objekte."
+
+msgid "mep_edit_content_snippet"
+msgstr "Ustvari sestavni del vsebine"
+
+msgid "mep_edit_folder"
+msgstr "Uredi mapo"
+
+msgid "mep_file"
+msgstr "Datoteka"
+
+msgid "mep_folder"
+msgstr "Mape"
+
+msgid "mep_format"
+msgstr "Format"
+
+msgid "mep_import"
+msgstr "Uvozi skupino medijev"
+
+msgid "mep_import_lang"
+msgstr "Ciljni jezik"
+
+msgid "mep_import_trans"
+msgstr "Uvozi prevod"
+
+msgid "mep_master_language_only"
+msgstr "Glavni jezik za prevajanje - master"
+
+msgid "mep_master_language_only_no_media"
+msgstr "Glavni jezik za prevajanje - brez medijskih objektov"
+
+msgid "mep_media_files"
+msgstr "Medijske datoteke"
+
+msgid "mep_media_subtitles"
+msgstr "Podnapisi"
+
+msgid "mep_mob"
+msgstr "Medijski objekt"
+
+#, fuzzy
+msgid "mep_move_select_insert"
+msgstr "Navigate to target folder and click \"Insert\""
+
+#, fuzzy
+msgid "mep_mpg"
+msgstr "Content Snippet"
+
+msgid "mep_new_content_snippet"
+msgstr "Nov sestavni del vsebine"
+
+msgid "mep_new_folder"
+msgstr "Nova mapa"
+
+msgid "mep_page_properties"
+msgstr "Lastnosti sestavnega dela"
+
+msgid "mep_page_type_mep"
+msgstr "Content Snippet"
+
+msgid "mep_thumbnail"
+msgstr "Sličica"
+
+msgid "mep_title_and_description"
+msgstr "Naslov in opis"
+
+msgid "mep_trans_import_info"
+msgstr "Če ste ta modul izvozili v drugo namestitev kot \"XML (glavni jezik za prevod - master)\", lahko tukaj znova uvozite prevedene datoteke za izvoz te druge namestitve."
+
+msgid "mep_unknown"
+msgstr "Neznano"
+
+msgid "mep_up_dir_copy"
+msgstr "Kopiraj datoteke iz seznama za nalaganje (prejme datoteke na seznamu za nalaganje)"
+
+msgid "mep_up_dir_move"
+msgstr "Premakni datoteke iz seznama za nalaganje (hitreje)"
+
+msgid "mep_upload_dir_files"
+msgstr "Datoteke iz seznama za nalaganje"
+
+msgid "mobs_activate_pages"
+msgstr "Uporabi sestavne dele vsebine"
+
+msgid "mobs_activate_pages_info"
+msgstr "Omogoča, da se vsebine strani ustvarijo kot sestavni deli v skupinah medijev. Te sestavne dele vsebine je mogoče ponovno uporabiti v učnih modulih ILIAS, kjer pa jih ni mogoče urejati."
+
+msgid "mobs_always_show_file_manager"
+msgstr "Vedno prikaži strukturo datoteke"
+
+msgid "mobs_always_show_file_manager_info"
+msgstr "Če je onemogočeno, struktura datotek za preproste tipe datotek, kot npr. slike, ne bo prikazana."
+
+msgid "mobs_black_list_file_types"
+msgstr "Prepovedani tipi datotek"
+
+#, fuzzy
+msgid "mobs_black_list_file_types_and_allowed_info"
+msgstr "Enter a comma separated list of mime types. This list will restrict the set of allowed file types. Currently allowed mime types are:"
+
+msgid "mobs_restrict_file_types"
+msgstr "Dovoljeni tipi datotek"
+
+msgid "mobs_restrict_file_types_info"
+msgstr "Določite vse tipe datotek, ki jih je dovoljeno nalagati v medijske objekte. Vnesite posamezne končnice datotek, ločenih z vejicami (npr. jpg, gif). Če ni nobenega vnosa, so dovoljeni vsi tipi."

@@ -1,0 +1,191 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: buddysystem\n"
+
+msgid "buddy_allow_to_contact_me"
+msgstr "Umožnit kontakt"
+
+#, fuzzy
+msgid "buddy_allow_to_contact_me_default_info"
+msgstr "Defines if users can send each other requests for getting into contact by default."
+
+msgid "buddy_allow_to_contact_me_info"
+msgstr "Je-li aktivováno, ostatní uživatelé mi mohou poslat žádost o navázání kontaktu."
+
+msgid "buddy_bs_act_btn_txt_ignored_request_to_linked"
+msgstr "Potvrdit požadavek"
+
+msgid "buddy_bs_act_btn_txt_ignored_request_to_unlinked"
+msgstr "Zrušit požadavek"
+
+msgid "buddy_bs_act_btn_txt_linked_to_unlinked"
+msgstr "Odpojit"
+
+msgid "buddy_bs_act_btn_txt_requested_to_ignored_request"
+msgstr "Ignorovat"
+
+msgid "buddy_bs_act_btn_txt_requested_to_linked"
+msgstr "Potvrdit"
+
+msgid "buddy_bs_act_btn_txt_requested_to_unlinked"
+msgstr "Zrušit požadavek"
+
+msgid "buddy_bs_action_already_ignored"
+msgstr "Již ignorovaný uživatel „%s“."
+
+msgid "buddy_bs_action_already_linked"
+msgstr "Již přijata žádost o kontakt od uživatele „%s“."
+
+msgid "buddy_bs_action_already_requested"
+msgstr "Již požadovaný uživatel „%s“."
+
+msgid "buddy_bs_action_already_unlinked"
+msgstr "Stav kontaktu pro uživatele „%s“ je již odpojen."
+
+msgid "buddy_bs_action_not_possible"
+msgstr "Akce není možná"
+
+msgid "buddy_bs_btn_txt_ignored_request_a"
+msgstr "Požadovaný kontakt"
+
+msgid "buddy_bs_btn_txt_ignored_request_p"
+msgstr "Požadavek ignorován"
+
+msgid "buddy_bs_btn_txt_linked_a"
+msgstr "Spojeno"
+
+msgid "buddy_bs_btn_txt_linked_p"
+msgstr "Spojeno"
+
+msgid "buddy_bs_btn_txt_requested_a"
+msgstr "Požadovaný kontakt"
+
+msgid "buddy_bs_btn_txt_requested_p"
+msgstr "Požadavek"
+
+msgid "buddy_bs_btn_txt_unlinked_a"
+msgstr "Požádat o kontakt"
+
+msgid "buddy_bs_state_ignored_request_a"
+msgstr "Požadováno"
+
+msgid "buddy_bs_state_ignored_request_p"
+msgstr "Ignorováno"
+
+msgid "buddy_bs_state_ignoredrequest"
+msgstr "Ignorováno"
+
+msgid "buddy_bs_state_linked"
+msgstr "Spojeno"
+
+msgid "buddy_bs_state_linked_a"
+msgstr "Spojeno"
+
+#, fuzzy
+msgid "buddy_bs_state_linked_p"
+msgstr "Linked"
+
+msgid "buddy_bs_state_requested"
+msgstr "Požadováno"
+
+msgid "buddy_bs_state_requested_a"
+msgstr "Požadováno"
+
+#, fuzzy
+msgid "buddy_bs_state_requested_filter_a"
+msgstr "Waiting for Reaction"
+
+#, fuzzy
+msgid "buddy_bs_state_requested_filter_p"
+msgstr "Action Required"
+
+msgid "buddy_bs_state_requested_p"
+msgstr "Požadováno"
+
+#, fuzzy
+msgid "buddy_bs_state_unlinked"
+msgstr "Unlinked"
+
+msgid "buddy_bs_state_unlinked_a"
+msgstr "Odpojeno"
+
+#, fuzzy
+msgid "buddy_bs_state_unlinked_p"
+msgstr "Unlinked"
+
+#, fuzzy
+msgid "buddy_confirm_unlink"
+msgstr "Do you really want to disconnect from this contact?"
+
+msgid "buddy_enable"
+msgstr "Aktivovat „Kontakty“"
+
+msgid "buddy_enable_info"
+msgstr "Pokud je tato možnost povolena, uživatelé se mohou vzájemně kontaktovat tím, že zahájí žádosti o kontakt. Kromě toho osobní nastavení uživatele umožňuje povolit nebo zabránit kontaktu."
+
+msgid "buddy_handle_contact_request"
+msgstr "Žádost o kontakt"
+
+#, fuzzy
+msgid "buddy_noti_cr_profile_not_published"
+msgstr "Profile not published"
+
+msgid "buddy_notification_contact_request"
+msgstr "Žádost o kontakt"
+
+#, fuzzy
+msgid "buddy_notification_contact_request_ignore"
+msgstr "Ignore Request"
+
+msgid "buddy_notification_contact_request_ignore_osd"
+msgstr "Ignorovat požadavek"
+
+#, fuzzy
+msgid "buddy_notification_contact_request_link"
+msgstr "Approve Request"
+
+msgid "buddy_notification_contact_request_link_osd"
+msgstr "Schválit požadavek"
+
+msgid "buddy_notification_contact_request_long"
+msgstr "[SALUTATION][BR][BR]uživatel „[REQUESTING_USER]“ vás chce přidat do seznamu přátel.[BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]"
+
+msgid "buddy_notification_contact_request_short"
+msgstr "Uživatel „[REQUESTING_USER]“ vás chce přidat do seznamu přátel.[BR][BR][APPROVE_REQUEST][BR][IGNORE_REQUEST]"
+
+msgid "buddy_relation_requested"
+msgstr "Uživateli byl odeslán požadavek."
+
+msgid "buddy_request_approved"
+msgstr "Úspěšně jste schválili kontakt."
+
+msgid "buddy_request_ignored"
+msgstr "Ignorovali jste uživatele."
+
+msgid "buddy_tbl_filter_state"
+msgstr "Status"
+
+#, fuzzy
+msgid "buddy_tbl_state_actions_col_label"
+msgstr "State / Action"
+
+msgid "buddy_tbl_title_relations"
+msgstr "Vztahy s ostatními uživateli"
+
+msgid "buddy_use_osd"
+msgstr "Vyskakovací okno Žádosti o kontakt"
+
+msgid "buddy_use_osd_info"
+msgstr "Zobrazí se vyskakovací okno, které vás upozorní, že vás chce uživatel přidat do seznamů přátel."
+
+msgid "buddy_view_gallery"
+msgstr "Galerie"
+
+msgid "buddy_view_table"
+msgstr "List"

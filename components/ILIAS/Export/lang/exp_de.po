@@ -1,0 +1,81 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: exp\n"
+
+msgid "exp_create_file"
+msgstr "Exportdatei erzeugen"
+
+msgid "exp_error_disabled"
+msgstr "Der Export von Container-Objekten ist deaktiviert. Bei Fragen wenden Sie sich bitte an die technische Betreuung."
+
+msgid "exp_error_too_many_objects"
+msgstr "Der Export überschreitet die maximal erlaubte Zahl an Objekten (%1). Bitte wählen Sie eine kleinere Anzahl an Objekten."
+
+msgid "exp_export_dropdown"
+msgstr "Export"
+
+msgid "exp_export_files"
+msgstr "Exportdateien"
+
+msgid "exp_export_single_option"
+msgstr "Export %s"
+
+msgid "exp_file_created"
+msgstr "Eine Exportdatei wurde erstellt."
+
+msgid "exp_format_dropdown-csv"
+msgstr "als CSV"
+
+msgid "exp_format_dropdown-html"
+msgstr "als HTML"
+
+msgid "exp_format_dropdown-xls"
+msgstr "als XLS"
+
+msgid "exp_format_dropdown-xml"
+msgstr "als XML"
+
+msgid "exp_html"
+msgstr "HTML"
+
+msgid "exp_import_validation_err_no_matching_xsd"
+msgstr "Eine Schema Datei für Version %s existiert nicht."
+
+msgid "exp_not_public_access_status"
+msgstr "Nicht veröffentlicht"
+
+msgid "exp_print_pdf"
+msgstr "Drucken/PDF"
+
+msgid "exp_print_pdf_info"
+msgstr "Um ein PDF zu erstellen, wählen Sie bitte anschließend in der Druckansicht \"Als PDF speichern\" als Ziel."
+
+msgid "exp_public_access_status"
+msgstr "Im Reiter „Info“ verfügbar"
+
+msgid "exp_really_delete"
+msgstr "Möchten Sie diese Exportdateien wirklich löschen?"
+
+msgid "exp_show_print_view"
+msgstr "Druckansicht anzeigen"
+
+msgid "exp_xml"
+msgstr "XML"
+
+msgid "export_created"
+msgstr "Eine neue Exportdatei wurde erstellt."
+
+msgid "export_files_deleted"
+msgstr "Die ausgewählten Exportdateien wurden gelöscht."
+
+msgid "export_options"
+msgstr "Export Optionen"
+
+msgid "export_type"
+msgstr "Export Typ"

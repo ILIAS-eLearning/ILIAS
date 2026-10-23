@@ -1,0 +1,294 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: sess\n"
+
+msgid "il_sess_participant"
+msgstr "Partecipanti alla sessione"
+
+#, fuzzy
+msgid "il_sess_status_open"
+msgstr "Open Session"
+
+msgid "mail_sess_roles"
+msgstr "Invia posta ai ruoli di sessione"
+
+msgid "notification"
+msgstr "Notifica"
+
+msgid "objs_crs_role"
+msgstr "Ruoli del corso"
+
+msgid "objs_grp_role"
+msgstr "Ruoli del gruppo"
+
+msgid "send_mail_participants"
+msgstr "Tutti i partecipanti alla sessione"
+
+msgid "sess_accept_request"
+msgstr "Accetta partecipazione"
+
+msgid "sess_assign"
+msgstr "Assegnare"
+
+msgid "sess_bt_refuse"
+msgstr "Cannot Participate"
+
+#, fuzzy
+msgid "sess_change_type"
+msgstr "Change Session Type"
+
+msgid "sess_contact"
+msgstr "Contatto"
+
+msgid "sess_copy"
+msgstr "Copia Sessione"
+
+msgid "sess_filter_all_types"
+msgstr "Tutti i tipi"
+
+msgid "sess_filter_not_assigned"
+msgstr "Non assegnato"
+
+msgid "sess_import"
+msgstr "Importa Sessione"
+
+#, fuzzy
+msgid "sess_info_new_sess_type"
+msgstr "New Session Type"
+
+msgid "sess_is_assigned"
+msgstr "is Assigned"
+
+msgid "sess_list_reg_limit_places"
+msgstr "Posti disponibili"
+
+msgid "sess_lp_preset"
+msgstr "Attiva il progresso dell'apprendimento"
+
+msgid "sess_lp_preset_info"
+msgstr "(De-) Attiva l'avanzamento dell'apprendimento per tutti gli eventi della sessione."
+
+msgid "sess_mail_admins_only"
+msgstr "Solo per amministratori"
+
+msgid "sess_mail_admins_only_info"
+msgstr "Solo gli amministratori possono utilizzare la funzione \"Invia ai partecipanti\" nella scheda \"Partecipanti\"."
+
+msgid "sess_mail_all"
+msgstr "Per tutti i partecipanti"
+
+msgid "sess_mail_all_info"
+msgstr "Tutti i partecipanti possono utilizzare la funzione \"Invia ai partecipanti\" nella scheda \"Partecipanti\"."
+
+msgid "sess_mail_context_participant_info"
+msgstr "Per i partecipanti e-mail sui partecipanti e schermate di avanzamento dell'apprendimento di una sessione"
+
+msgid "sess_mail_context_participant_title"
+msgstr "Sezione: Mail ai partecipanti"
+
+msgid "sess_mail_permanent_link"
+msgstr "Clicca sul seguente link per avere tutte le informazioni di cui hai bisogno riguardo la sessione:"
+
+msgid "sess_mail_permanent_link_participants"
+msgstr "Fare clic sul seguente collegamento per modificare i partecipanti alla sessione:"
+
+msgid "sess_mail_sub_acc_bod"
+msgstr "Sei stato registrato per la sessione \"%s\"."
+
+msgid "sess_mail_sub_acc_sub"
+msgstr "Registrazione per la sessione \"%s\""
+
+msgid "sess_mail_sub_dec_bod"
+msgstr "Siamo spiacenti nel dirti che la tua registrazione è stata rifiutata per la sessione \"%s\"."
+
+msgid "sess_mail_sub_dec_sub"
+msgstr "Registrazione rifiutato per la sessione \"%s\""
+
+msgid "sess_mail_type"
+msgstr "Mail ai partecipanti"
+
+msgid "sess_material_assigned"
+msgstr "Assegnato"
+
+msgid "sess_material_not_assigned"
+msgstr "Not Assegnato"
+
+msgid "sess_max_members_needed"
+msgstr "Per la funzionalità della lista di attesta è necessario un numero massimo dei membri."
+
+msgid "sess_mem_contacts"
+msgstr "Tutorial Support"
+
+#, fuzzy
+msgid "sess_mem_send_mail"
+msgstr "Send Mail"
+
+msgid "sess_mem_tbl_header"
+msgstr "Partecipanti alla sessione"
+
+msgid "sess_member_administration"
+msgstr "Modifica partecipanti"
+
+msgid "sess_members"
+msgstr "Participanti"
+
+msgid "sess_members_gallery"
+msgstr "Galleria delle sessioni"
+
+msgid "sess_members_print_title"
+msgstr "Partecipanti alla sessione"
+
+msgid "sess_msg_applicants_assigned"
+msgstr "Candidato/i registrato/i per la sessione."
+
+msgid "sess_msg_applicants_removed"
+msgstr "Candidato/i rimosso/i dalla lista."
+
+#, fuzzy
+msgid "sess_new"
+msgstr "Create Session"
+
+msgid "sess_new_registrations"
+msgstr "Partecipa alla richiesta"
+
+msgid "sess_notification_option"
+msgstr "Opzione"
+
+msgid "sess_notification_option_inherit"
+msgstr "Eredita da Genitore"
+
+msgid "sess_notification_option_inherit_info"
+msgstr "Utilizza le impostazioni di notifica dei genitori (ad es. Le impostazioni di notifica del corso o del gruppo) per i membri di questa sessione"
+
+msgid "sess_notification_option_manual"
+msgstr "Imposta manualmente"
+
+msgid "sess_notification_option_manual_info"
+msgstr "L'impostazione delle notifiche per gli utenti deve essere impostata manualmente nella scheda \"Partecipanti\""
+
+msgid "sess_open"
+msgstr "Apri sessione"
+
+msgid "sess_part_filter_participated"
+msgstr "Solo frequentato"
+
+msgid "sess_part_filter_registered"
+msgstr "Solo registrato"
+
+msgid "sess_part_table_excused"
+msgstr "Scusato"
+
+msgid "sess_participation_refused_info"
+msgstr "La tua partecipazione a questo evento è stata annullata."
+
+msgid "sess_print_list"
+msgstr "Genera lista"
+
+msgid "sess_reg_added_to_wl"
+msgstr "Sei stato aggiunto alla lista di attesta del gruppo."
+
+msgid "sess_reg_cannot_participate"
+msgstr "Cannot Participate"
+
+msgid "sess_reg_cannot_participate_info"
+msgstr "Users can indicate that they cannot participate in the session."
+
+msgid "sess_reg_direct"
+msgstr "Registrazione diretta"
+
+msgid "sess_reg_direct_info"
+msgstr "L’utente ha il pulsante “Partecipa” per partecipare alla sessione"
+
+msgid "sess_reg_disabled"
+msgstr "Nessuna iscrizione automatica"
+
+msgid "sess_reg_disabled_info"
+msgstr "Non è richiesta la registrazione per questo appuntamento di sessione"
+
+msgid "sess_reg_max_members"
+msgstr "Numero limitato di membri"
+
+msgid "sess_reg_max_members_info"
+msgstr "Definire il numero massimo di utenti che possono partecipare a questa sessione."
+
+msgid "sess_reg_max_members_short"
+msgstr "Numero dei membri"
+
+msgid "sess_reg_max_users_exceeded"
+msgstr "Non è possibile registrarsi fino a quando il numero massimo degli utente sarà superato."
+
+msgid "sess_reg_max_users_exceeded_wl"
+msgstr "Il numero massimo degli utenti per questo appuntamento della sessione è stato superato."
+
+msgid "sess_reg_request"
+msgstr "Richiedi la partecipazione"
+
+msgid "sess_reg_request_info"
+msgstr "Gli utenti interessati possono inviare una richiesta / messaggio agli amministratori."
+
+msgid "sess_reg_tutor"
+msgstr "No Registration Possible"
+
+msgid "sess_reg_tutor_info"
+msgstr "Users cannot register for this session on their own. Only administrators can register users."
+
+msgid "sess_reg_type"
+msgstr "Procedura di registrazione"
+
+msgid "sess_reg_waiting_list"
+msgstr "Lista di attesta"
+
+msgid "sess_reg_waiting_list_autofill"
+msgstr "Con riempimento automatico"
+
+msgid "sess_reg_waiting_list_autofill_info"
+msgstr "I partecipanti vengono reclutati automaticamente dalla lista di attesa in caso di cancellazione."
+
+msgid "sess_reg_waiting_list_no_autofill"
+msgstr "Senza riempimento automatico"
+
+msgid "sess_reg_waiting_list_no_autofill_info"
+msgstr "Se viene superato il numero massimo di utenti, le nuove registrazioni verranno inserite in una lista di attesa."
+
+msgid "sess_reg_waiting_list_none"
+msgstr "Nessuno"
+
+msgid "sess_registered_confirm"
+msgstr "La registrazione richiede la conferma di un amministratore. Riceverai una notifica al termine della procedura di registrazione."
+
+msgid "sess_registration_notification"
+msgstr "Notifica"
+
+msgid "sess_registration_notification_info"
+msgstr "Mostra la colonna nella scheda \"Partecipanti\" per selezionare gli utenti a cui vengono notificati i partecipanti nuovi o in uscita"
+
+msgid "sess_section_reg"
+msgstr "Impostazioni di registrazione"
+
+msgid "sess_setting_header_presentation"
+msgstr "Presentation"
+
+msgid "sess_show_participants_info"
+msgstr "Se attivato, i partecipanti alla sessione possono accedere alla galleria dei partecipanti"
+
+msgid "sess_title"
+msgstr "Titolo della sessione"
+
+msgid "sess_users_added"
+msgstr "Utenti selezionati registrati per la sessione."
+
+msgid "sess_users_already_assigned"
+msgstr "L’utente si è appena registrato a questa sessione."
+
+msgid "sess_users_removed_from_list"
+msgstr "Gli utenti selezionati sono stati eliminati dalla lista di attesta."
+
+#, fuzzy
+msgid "sess_warn_sess_type_changed"
+msgstr "Do you really want to change the session type? All permission settings will be reset."

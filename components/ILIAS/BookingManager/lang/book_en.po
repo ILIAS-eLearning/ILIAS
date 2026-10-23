@@ -1,0 +1,627 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"Language-Team: English\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: book\n"
+
+msgid "X_reservations_of"
+msgstr "%s booking(s) of"
+
+msgid "book_add"
+msgstr "Add Booking Pool"
+
+msgid "book_add_object"
+msgstr "Add Item"
+
+msgid "book_add_participant"
+msgstr "Add Participant"
+
+msgid "book_add_schedule"
+msgstr "Add Schedule"
+
+msgid "book_additional_info_file"
+msgstr "Additional Description"
+
+msgid "book_all"
+msgstr "Show all"
+
+msgid "book_all_day"
+msgstr "All-Day"
+
+msgid "book_all_pools_need_schedules"
+msgstr "Settings not saved. All selected booking pools need to have at least one schedule."
+
+msgid "book_all_users"
+msgstr "All Participants"
+
+msgid "book_assign"
+msgstr "Book"
+
+msgid "book_assign_object"
+msgstr "Book Items for Participant"
+
+msgid "book_assign_participant"
+msgstr "Book for Other Participant"
+
+msgid "book_assign_participants"
+msgstr "Book for other Participant(s)"
+
+msgid "book_back_to_list"
+msgstr "Back to List"
+
+msgid "book_bobj"
+msgstr "Bookable Item"
+
+msgid "book_book"
+msgstr "Book"
+
+msgid "book_book_available"
+msgstr "Book Available Dates"
+
+msgid "book_book_recurrence"
+msgstr "Book multiple dates"
+
+msgid "book_booked_in"
+msgstr "Booked In"
+
+msgid "book_booking"
+msgstr "Booking"
+
+msgid "book_booking_information"
+msgstr "Information"
+
+msgid "book_booking_objects"
+msgstr "Bookable Items"
+
+msgid "book_booking_reminders"
+msgstr "Upcoming Bookings"
+
+msgid "book_bulk_confirmation"
+msgstr "Please check that all values are listed correctly."
+
+msgid "book_bulk_creation"
+msgstr "Bulk Creation"
+
+msgid "book_bulk_data"
+msgstr "Item Data"
+
+msgid "book_cal_entry"
+msgstr "Booking:"
+
+msgid "book_confirm_booking"
+msgstr "Confirm Booking"
+
+msgid "book_confirm_booking_for_users"
+msgstr "Are you sure you want to book this item for the following user(s)?"
+
+msgid "book_confirm_booking_no_schedule"
+msgstr "Are you sure you want to book the following item?"
+
+msgid "book_confirm_booking_schedule_number_of_objects"
+msgstr "Booking Confirmation"
+
+msgid "book_confirm_booking_schedule_number_of_objects_info"
+msgstr "Please enter the number of items that you would like to book."
+
+msgid "book_confirm_cancel"
+msgstr "Are you sure you want to cancel the following booking(s)?"
+
+msgid "book_confirm_cancel_aggregation"
+msgstr "Number of Cancellations"
+
+msgid "book_confirm_cancel_info"
+msgstr "The selected bookings will be cancelled."
+
+msgid "book_confirm_delete"
+msgstr "Are you sure you want to delete the following items including all related time slots? This will also delete all related Bookings."
+
+msgid "book_confirm_remove_participant"
+msgstr "Are you sure you want to remove the following Participant(s)? This will delete all related Bookings."
+
+msgid "book_copy"
+msgstr "Copy Booking Pool"
+
+msgid "book_create_objects"
+msgstr "Create Items"
+
+msgid "book_date_from"
+msgstr "From date"
+
+msgid "book_date_to"
+msgstr "To date"
+
+msgid "book_deadline"
+msgstr "Deadline"
+
+msgid "book_deadline_hours"
+msgstr "X hours before time slot begins"
+
+msgid "book_deadline_info"
+msgstr "Minimum time between booking and booked period"
+
+msgid "book_deadline_options"
+msgstr "Bookings Can Be Made Until:"
+
+msgid "book_deadline_slot_end"
+msgstr "Time slot ends"
+
+msgid "book_deadline_slot_start"
+msgstr "Time slot begins"
+
+msgid "book_deassign"
+msgstr "Edit Bookings"
+
+msgid "book_delete_object"
+msgstr "Delete"
+
+msgid "book_deleted_booking"
+msgstr "Deleted Booking(s)"
+
+msgid "book_deleted_object"
+msgstr "Deleted Bookable Item"
+
+msgid "book_download_info"
+msgstr "Download Additional Description"
+
+msgid "book_edit"
+msgstr "Edit Booking Pool"
+
+msgid "book_edit_object"
+msgstr "Edit Bookable Item"
+
+msgid "book_edit_schedule"
+msgstr "Edit Schedule"
+
+msgid "book_filter_end_date"
+msgstr "End Date"
+
+msgid "book_filter_objects"
+msgstr "Bookable Items"
+
+msgid "book_filter_past_reservations"
+msgstr "Show Past Bookings"
+
+msgid "book_filter_period"
+msgstr "Period"
+
+msgid "book_filter_start_date"
+msgstr "Start Date"
+
+msgid "book_fromto"
+msgstr "Date Range"
+
+msgid "book_hours"
+msgstr "Hours before start of timeslot."
+
+msgid "book_is_used"
+msgstr "In Use"
+
+msgid "book_limit_objects_available"
+msgstr "You cannot book this item for %s participants. ‘%s’ is only available %s times."
+
+msgid "book_list"
+msgstr "List"
+
+msgid "book_log"
+msgstr "Bookings"
+
+msgid "book_mail_permanent_link"
+msgstr "Link to Booking Pool"
+
+msgid "book_mail_to_booker"
+msgstr "Mail to User"
+
+msgid "book_message"
+msgstr "Message"
+
+msgid "book_message_info"
+msgstr "You may enter a message for the booking organiser here."
+
+msgid "book_messages"
+msgstr "Messages"
+
+msgid "book_messages_info"
+msgstr "Allow users to add a message when booking an item."
+
+msgid "book_missing_availability"
+msgstr "It was not possible to book all items on all dates."
+
+msgid "book_missing_items"
+msgstr "$1 missing item(s)."
+
+msgid "book_modal_booking_confirmation"
+msgstr "Booking Confirmation"
+
+msgid "book_modal_enter_quantity_intro"
+msgstr "Please enter the number of items that you would like to book."
+
+msgid "book_modal_recurrence"
+msgstr "Recurrence"
+
+msgid "book_modal_recurrence_multiple"
+msgstr "Book multiple dates"
+
+msgid "book_modal_recurrence_single"
+msgstr "Book only this date"
+
+msgid "book_modal_skipped_unknown_item"
+msgstr "Unknown or invalid selection (%s)."
+
+msgid "book_modal_warning_skipped_selections"
+msgstr "Some selected items or periods are not available for booking and are excluded from this confirmation."
+
+msgid "book_new"
+msgstr "New Booking Pool"
+
+msgid "book_no_bookings_for_you"
+msgstr "No bookings have been made for you."
+
+msgid "book_no_objects"
+msgstr "No Bookings"
+
+msgid "book_no_objects_available"
+msgstr "None of the selected items are currently available for booking."
+
+msgid "book_no_of_objects"
+msgstr "No. of Units"
+
+msgid "book_no_pools_selected"
+msgstr "No booking pools have been assigned to this course. Booking pools can be assigned via the course's 'Resources' tab."
+
+msgid "book_no_preferences_for_you"
+msgstr "No preferences have been recorded for you."
+
+msgid "book_no_recurrence"
+msgstr "Book only this date"
+
+msgid "book_not"
+msgstr "Not"
+
+msgid "book_not_cancelled"
+msgstr "Not cancelled"
+
+msgid "book_not_enough_preferences"
+msgstr "You have not selected enough preferences. Your preferences have not been saved."
+
+msgid "book_notification"
+msgstr "Send Booking Notifications"
+
+msgid "book_notification_cron_not_active"
+msgstr "Note: The necessary cron job, 'Send Reservation Notifications', is currently not active."
+
+msgid "book_notification_info"
+msgstr "Send a list of the next day’s bookings to users (own bookings) and admins (if activated)."
+
+msgid "book_nr_of_preferences"
+msgstr "Number of Preferences"
+
+msgid "book_nr_of_preferences_info"
+msgstr "Number of preferences each participant is required to state."
+
+msgid "book_nr_preferences"
+msgstr "Preferences"
+
+msgid "book_obj_select"
+msgstr "Select"
+
+msgid "book_object_added"
+msgstr "Bookable item added."
+
+msgid "book_object_deleted"
+msgstr "Bookable item deleted."
+
+msgid "book_object_selection"
+msgstr "Item Selection"
+
+msgid "book_object_title_or_description"
+msgstr "Title/Description"
+
+msgid "book_object_updated"
+msgstr "Bookable item updated."
+
+msgid "book_objects_available"
+msgstr "Items available %s"
+
+msgid "book_open"
+msgstr "Open Booking Pool"
+
+msgid "book_overall_limit"
+msgstr "Limit Total Number of Bookings per User"
+
+msgid "book_overall_limit_warning"
+msgstr "You have reached the maximum number of bookings allowed."
+
+msgid "book_overall_limit_would_be_exceeded"
+msgstr "Invalid selection. The overall limit would be exceeded."
+
+msgid "book_participant"
+msgstr "Participant"
+
+msgid "book_participant_already_assigned"
+msgstr "One or more participants have already been added."
+
+msgid "book_participant_assigned"
+msgstr "Participant(s) added."
+
+msgid "book_participant_removed"
+msgstr "The participants and all related bookings have been removed successfully."
+
+msgid "book_past_bookings"
+msgstr "Past bookings"
+
+msgid "book_period"
+msgstr "Period"
+
+msgid "book_pool_added"
+msgstr "Booking pool successfully created."
+
+msgid "book_pool_selection"
+msgstr "Booking Pool Selection"
+
+msgid "book_post_booking_file"
+msgstr "File"
+
+msgid "book_post_booking_information"
+msgstr "Booking Information"
+
+msgid "book_post_booking_information_for"
+msgstr "Booking Information for \"%s\""
+
+msgid "book_post_booking_text"
+msgstr "Text"
+
+msgid "book_post_booking_text_info"
+msgstr "Use placeholders to include booking-specific information. <br />[OBJECT] will be replaced by the respective Bookable Item. <br />[PERIOD] will be replaced by the respective schedule."
+
+msgid "book_pref_book_cron"
+msgstr "Booking with Preferences"
+
+msgid "book_pref_book_cron_info"
+msgstr "Automatically allocate bookings based on preferences after expiration of deadline."
+
+msgid "book_pref_deadline"
+msgstr "Deadline"
+
+msgid "book_pref_deadline_info"
+msgstr "Preferences can be stated up to this point."
+
+msgid "book_pref_overview"
+msgstr "Overview"
+
+msgid "book_preference_info"
+msgstr "Please select %1 preference(s) by %2. After this deadline, bookings will be allocated automatically, taking into consideration the preferences of all users."
+
+msgid "book_preferences"
+msgstr "Preferences"
+
+msgid "book_preferences_saved"
+msgstr "Your preferences have been saved."
+
+msgid "book_present_bookings"
+msgstr "Present bookings"
+
+msgid "book_public_log"
+msgstr "Bookings Visible to All Participants"
+
+msgid "book_public_log_info"
+msgstr "Users with the ‘Read’ permission are able to see the bookings of the other participants in the ‘Bookings’ tab."
+
+msgid "book_recurrence"
+msgstr "Recurrence"
+
+msgid "book_refresh"
+msgstr "Refresh"
+
+msgid "book_rem_intro"
+msgstr "This is an overview of upcoming reservations:"
+
+msgid "book_rem_reason"
+msgstr "You have received this mail because you are subscribed to notifications for the booking pool mentioned in this mail."
+
+msgid "book_reminder_day"
+msgstr "Send Reminder"
+
+msgid "book_reminder_day_info"
+msgstr "Send list of own bookings to users and full list of all upcoming bookings to admins. Please note: in order to receive reminders, users need to have activated notifications via the ‘Actions’ menu at the top right-hand corner of the booking pool."
+
+msgid "book_reminder_days"
+msgstr "day(s) before time-slot of booking"
+
+msgid "book_reminder_setting"
+msgstr "Reminder"
+
+msgid "book_remove_participants"
+msgstr "Remove Participant(s)"
+
+msgid "book_rerun_assignments"
+msgstr "Run Allocation Process"
+
+msgid "book_rerun_confirmation"
+msgstr "Attention. The process of allocating bookings according to preferences has already taken place. You may restart the process if any errors have occurred, e.g. no bookings have been saved. To prevent multiple allocations, please delete all existing bookings before restarting the process."
+
+msgid "book_reservation_available"
+msgstr "%s available"
+
+msgid "book_reservation_cancelled"
+msgstr "Reservation(s) cancelled."
+
+msgid "book_reservation_confirmed"
+msgstr "Your booking has been confirmed."
+
+msgid "book_reservation_failed"
+msgstr "It was not possible to confirm your booking."
+
+msgid "book_reservation_failed_overbooked"
+msgstr "Your booking failed because the bookable item in question is no longer available."
+
+msgid "book_reservation_filter_period"
+msgstr "Default Value for ’Period’ Filter"
+
+msgid "book_reservation_filter_period_info"
+msgstr "The default value for the ‘Period’ filter in the ‘Bookings’ and 'Bookable Items' tab (in days from the current date). With a value '0'  no filter is set."
+
+msgid "book_reservation_fix_info"
+msgstr "Bookings can only be made for the time slots shown as available below."
+
+msgid "book_reservation_overview"
+msgstr "Bookings Overview"
+
+msgid "book_reservation_status_5"
+msgstr "Cancelled"
+
+msgid "book_reservation_title"
+msgstr "Booking Reservation for"
+
+msgid "book_reservations_list"
+msgstr "Bookings"
+
+msgid "book_schedule"
+msgstr "Schedule"
+
+msgid "book_schedule_added"
+msgstr "Booking schedule added."
+
+msgid "book_schedule_all_day"
+msgstr "All-Day Schedule"
+
+msgid "book_schedule_days"
+msgstr "Time Slots"
+
+msgid "book_schedule_days_info"
+msgstr "Valid booking times for each day (HH:MM-HH:MM)"
+
+msgid "book_schedule_deleted"
+msgstr "Booking schedule deleted."
+
+msgid "book_schedule_slot"
+msgstr "Time Slot"
+
+msgid "book_schedule_type"
+msgstr "Booking Mode"
+
+msgid "book_schedule_type_fixed"
+msgstr "Fixed Schedule"
+
+msgid "book_schedule_type_fixed_info"
+msgstr "This booking mode can be used for things that can be booked for specific periods of time, such as rooms, services and equipment."
+
+msgid "book_schedule_type_none"
+msgstr "No Schedule"
+
+msgid "book_schedule_type_none_direct"
+msgstr "No Schedule, Direct Booking"
+
+msgid "book_schedule_type_none_direct_info"
+msgstr "This booking mode is ideal for presentation topics or places in seminars that do not require set times. Participants can book items directly on a first come, first served basis. Each item can only be booked once per participant."
+
+msgid "book_schedule_type_none_info"
+msgstr "This type can be used for seminar papers, seminar places and such."
+
+msgid "book_schedule_type_none_preference"
+msgstr "No Schedule, Using Preferences"
+
+msgid "book_schedule_type_none_preference_info"
+msgstr "This booking mode is ideal for presentation topics, places in seminars or similar. Participants get to indicate their preferences in terms of which items they are most interested in. Items will then be allocated automatically after the preferences deadline has passed."
+
+msgid "book_schedule_updated"
+msgstr "Booking schedule updated."
+
+msgid "book_schedule_warning_edit"
+msgstr "Your booking pool currently does not have a schedule available. To use the booking pool you either need to create a schedule or select a ‘no schedule’ booking mode in the ‘Booking Mode’ section of the ‘Settings’ tab."
+
+msgid "book_schedules"
+msgstr "Schedules"
+
+msgid "book_select_pool"
+msgstr "Select Pool"
+
+msgid "book_set_cancel"
+msgstr "Cancel Booking"
+
+msgid "book_set_delete"
+msgstr "Delete Booking"
+
+msgid "book_show_message"
+msgstr "Show Message"
+
+msgid "book_show_past_bookings"
+msgstr "Show past bookings"
+
+msgid "book_some_reservations_unavailable"
+msgstr "Some of the selected items could not be booked because they are no longer available."
+
+msgid "book_table"
+msgstr "Table"
+
+msgid "book_table_col_availability"
+msgstr "Availability"
+
+msgid "book_table_col_datetime"
+msgstr "Date/Time"
+
+msgid "book_title_description_nr"
+msgstr "Title; Description; Number of Units"
+
+msgid "book_title_description_nr_info"
+msgstr "Enter title, description and number of units separated by semicolon or TAB character (if importing from spreadsheet software). Use one line per item."
+
+msgid "book_too_many_preferences"
+msgstr "You have selected too many preferences. Your preferences have not been saved."
+
+msgid "book_total_individual_bookings_limit"
+msgstr "Limit the number of bookings that can be carried out by/for individual participants in total, across all available items. Each bookable item can still only be booked once per participant."
+
+msgid "book_type_warning"
+msgstr "There are currently no bookable items available. Please create some bookable items to be able to use this booking pool."
+
+msgid "book_view"
+msgstr "View"
+
+msgid "book_week"
+msgstr "Week"
+
+msgid "book_week_no_objects_selected"
+msgstr "Select at least one Bookable Item at the ‘Item Selection’ section on the right and click the ‘Refresh’ button."
+
+msgid "book_your_bookings"
+msgstr "Your Bookings"
+
+msgid "book_your_preferences"
+msgstr "Your Preferences"
+
+msgid "book_your_reservations"
+msgstr "Your Bookings"
+
+msgid "booking_multiple_succesfully"
+msgstr "Bookings successfully carried out."
+
+msgid "booking_nr_of_items"
+msgstr "Number of Items"
+
+msgid "booking_process_error"
+msgstr "There was an error while processing your booking(s). Please try again."
+
+msgid "bookings_log"
+msgstr "Bookings"
+
+msgid "delete_bookable_item"
+msgstr "Delete Bookable Item"
+
+msgid "no_valid_selection"
+msgstr "No valid selection"
+
+msgid "obj_book_duplicate"
+msgstr "Copy Booking Pool"
+
+msgid "participants"
+msgstr "Participants"
+
+msgid "reservation_deleted"
+msgstr "Booking deleted."
+
+msgid "schedule_type"
+msgstr "Schedule Type"

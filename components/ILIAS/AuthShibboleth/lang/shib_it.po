@@ -1,0 +1,150 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: shib\n"
+
+#, fuzzy
+msgid "shib_account_creation"
+msgstr "Account Creation"
+
+#, fuzzy
+msgid "shib_account_creation_disabled"
+msgstr "Disabled"
+
+#, fuzzy
+msgid "shib_account_creation_disabled_info"
+msgstr "No new account is created."
+
+#, fuzzy
+msgid "shib_account_creation_enabled"
+msgstr "Enabled"
+
+#, fuzzy
+msgid "shib_account_creation_enabled_info"
+msgstr "An active new account is created."
+
+#, fuzzy
+msgid "shib_account_creation_info"
+msgstr "Account creation is triggered, when a user without a pre-existing ILIAS Account tries to log in via Shibboleth."
+
+#, fuzzy
+msgid "shib_account_creation_with_approval"
+msgstr "With approval"
+
+#, fuzzy
+msgid "shib_account_creation_with_approval_info"
+msgstr "An inactive new account is created. The account remains inactive until activated by an administrator."
+
+msgid "shib_add_missing"
+msgstr "Assegna Ruoli Mancanti"
+
+msgid "shib_add_remove"
+msgstr "Aggiungi/Rimuovi Ruoli"
+
+msgid "shib_assignment_type"
+msgstr "Tipo di assegnazione"
+
+msgid "shib_attr_info"
+msgstr "Assegnato da un attributo specifico del Profilo Utente Shibboleth"
+
+msgid "shib_attribute"
+msgstr "Attributo Utente"
+
+msgid "shib_attribute_name"
+msgstr "Nome Attributo"
+
+msgid "shib_attribute_value"
+msgstr "Valore Attributo"
+
+msgid "shib_check_role_assignment"
+msgstr "Assegnazione di Ruoli dopo Login a posteriori"
+
+msgid "shib_choose_role"
+msgstr "Scegli Ruolo"
+
+msgid "shib_confirm_del_role_ass"
+msgstr "Vuoi veramente cancellare le regole seguenti?"
+
+msgid "shib_deleted_rule"
+msgstr "Cancellato le assegnazioni di ruolo"
+
+msgid "shib_global_role"
+msgstr "Ruolo Globale"
+
+#, fuzzy
+msgid "shib_ilias_role"
+msgstr "ILIAS Role Name"
+
+msgid "shib_local_role"
+msgstr "Ruolo Locale"
+
+msgid "shib_missing_attr_name"
+msgstr "Per favore inserisci il nome dell'attributo"
+
+msgid "shib_missing_attr_value"
+msgstr "Per favore inserisci il valore dell'attributo."
+
+msgid "shib_missing_plugin_id"
+msgstr "Inserire un ID di plugin valido."
+
+msgid "shib_missing_role"
+msgstr "Per favore seleziona un Ruolo"
+
+msgid "shib_new_rule"
+msgstr "Aggiungi nuova regola"
+
+msgid "shib_plugin"
+msgstr "Assegnazione via Plugin"
+
+msgid "shib_plugin_id"
+msgstr "Id Plug-in"
+
+msgid "shib_plugin_info"
+msgstr "Validare l'assegnazione ruolo con un plugin. Inserire un ID plugin valido."
+
+msgid "shib_remove_deprecated"
+msgstr "Non assegnare ruoli criticati"
+
+msgid "shib_role_ass_table"
+msgstr "Nuova regola di Assegnazione Ruolo"
+
+msgid "shib_role_assignment"
+msgstr "Assegnazione Ruoli"
+
+msgid "shib_role_by_attribute"
+msgstr "Attributo Shibboleth"
+
+msgid "shib_role_by_plugin"
+msgstr "Tramite Plug-in"
+
+msgid "shib_role_name"
+msgstr "Nome Ruolo ILIAS"
+
+msgid "shib_role_name_info"
+msgstr "Scegliere un Ruolo Globale o inserire nome di un Ruolo Locale"
+
+msgid "shib_role_selection"
+msgstr "Selezione Ruolo"
+
+msgid "shib_rule_condition"
+msgstr "Condizione"
+
+msgid "shib_rule_type"
+msgstr "Tipo di assegnazione"
+
+msgid "shib_rules_tables"
+msgstr "Regole assegnazione Ruolo Attivo"
+
+msgid "shib_settings"
+msgstr "Impostazioni Shibboleth"
+
+msgid "shib_update_role_ass_table"
+msgstr "Modifica Regola di Assegnazione Ruolo"
+
+msgid "shib_update_roles"
+msgstr "Assegnazioni Ruoli"

@@ -1,0 +1,573 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: et\n"
+"Language-Team: Estonian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: user\n"
+
+#, fuzzy
+msgid "account_not_flagged_for_deletion"
+msgstr "The account is not flagged for deletion."
+
+#, fuzzy
+msgid "activate_in_profile_fields"
+msgstr "To change this setting, the user must first be allowed to change their login name under Profile > Profile Fields"
+
+#, fuzzy
+msgid "administrative_settings"
+msgstr "Administrative Settings"
+
+#, fuzzy
+msgid "all_roles_has_starting_point"
+msgstr "All the roles have starting points"
+
+#, fuzzy
+msgid "back_to_starting_points_list"
+msgstr "Back to Starting Points"
+
+#, fuzzy
+msgid "change_email_email_confirmation_body"
+msgstr "The email address for the account %s was changed. To confirm this change, please click on this link %s. The link is valid for %s minutes."
+
+#, fuzzy
+msgid "change_email_email_confirmation_subject"
+msgstr "Confirm Email Address"
+
+#, fuzzy
+msgid "change_email_email_information_body"
+msgstr "The process to change the email address for the account %s to %s was started. An email with a link to confirm the change was sent to the new address. The link is valid for %s minutes."
+
+#, fuzzy
+msgid "change_email_email_information_subject"
+msgstr "Information about Change of Email Address"
+
+#, fuzzy
+msgid "change_email_email_sent"
+msgstr "An email with a link to confirm your change has been sent. Please check your inbox and make sure to also look in the spam-folder if the email doesn't arrive within the next minutes."
+
+#, fuzzy
+msgid "change_email_info_message"
+msgstr "There is a pending request to change the email address for this account."
+
+#, fuzzy
+msgid "clipboard_add_btn"
+msgstr "Add to Clipboard"
+
+#, fuzzy
+msgid "clipboard_add_from_btn"
+msgstr "Add from Clipboard"
+
+#, fuzzy
+msgid "clipboard_empty_btn"
+msgstr "Empty Clipboard"
+
+#, fuzzy
+msgid "clipboard_remove_btn"
+msgstr "Remove from Clipboard"
+
+#, fuzzy
+msgid "clipboard_table_title"
+msgstr "Clipboard (User Accounts)"
+
+#, fuzzy
+msgid "clipboard_user_added"
+msgstr "Added selected users to clipboard."
+
+#, fuzzy
+msgid "confirm_delete_starting_point"
+msgstr "Are you sure you want to delete this rule?"
+
+#, fuzzy
+msgid "confirm_logout_for_email_change"
+msgstr "You changed your email. To finalize this change, you will need to provide your password. The system is thus going to log you out and you will have 5 minutes to log in again. All other changes will be saved before logging you out."
+
+#, fuzzy
+msgid "confirm_logout_for_email_change_with_confirmation"
+msgstr "Additionally, a confirmation that you control the new email address will be required. After you have logged in again, an email will be sent to you. Please click on the link in the email to confirm that you contoll the address. The change of the email address will only take effect once this second step is also finalized."
+
+#, fuzzy
+msgid "create_starting_point"
+msgstr "Create Rule"
+
+#, fuzzy
+msgid "criteria"
+msgstr "Criteria"
+
+msgid "del_mail_body"
+msgstr "Hello %1$s, %2$s you haven't logged in for a long period of time, on %3$s. So your account will be deleted in %4$s days. You have to login again to prevent the deletion of your account."
+
+msgid "del_mail_subject"
+msgstr "(ILIAS) – Your account will be deleted"
+
+msgid "delete_inactive_user_accounts_frequency"
+msgstr "Frequency"
+
+msgid "delete_inactive_user_accounts_frequency_desc"
+msgstr "Frequency, in which the deletion and email distibution will be tested."
+
+#, fuzzy
+msgid "edit_field"
+msgstr "Edit Field"
+
+#, fuzzy
+msgid "edit_setting"
+msgstr "Edit Setting"
+
+#, fuzzy
+msgid "editing_this_role"
+msgstr "Role"
+
+#, fuzzy
+msgid "email_could_not_be_changed"
+msgstr "The request to change your email could not be finalized."
+
+msgid "enable_local_user_administration"
+msgstr "Võimalda kohalike kasutajate haldus"
+
+msgid "enable_local_user_administration_info"
+msgstr "Võimaldamise korral on kategooriate all võimalik hallata kasutajakontosid."
+
+#, fuzzy
+msgid "feedhash"
+msgstr "Newsfeedhash"
+
+#, fuzzy
+msgid "field_type_custom"
+msgstr "Custom"
+
+#, fuzzy
+msgid "has_role"
+msgstr "Role"
+
+#, fuzzy
+msgid "info_accessFree_sure"
+msgstr "Are you sure you want to remove the valid until date from the following accounts?"
+
+msgid "inform_user_mail_info"
+msgstr "If activated, an email will be sent to the user. Its content can be defined in Administration > User Management > Settings > New Account Mail."
+
+msgid "interests"
+msgstr "Interests"
+
+msgid "interests_general"
+msgstr "General Interests"
+
+msgid "interests_help_looking"
+msgstr "Looking For Help"
+
+msgid "interests_help_offered"
+msgstr "Offering Help"
+
+#, fuzzy
+msgid "ldoc_accepted_content"
+msgstr "Accepted Content"
+
+#, fuzzy
+msgid "ldoc_not_accepted_yet"
+msgstr "Not accepted yet"
+
+#, fuzzy
+msgid "msg_spoint_not_modified"
+msgstr "Starting point not modified"
+
+#, fuzzy
+msgid "no_deactivate_yourself"
+msgstr "You cannot deactivate your own user account."
+
+#, fuzzy
+msgid "obj_ref_id_not_exist"
+msgstr "The entered Reference-Id does not exist"
+
+#, fuzzy
+msgid "personalise_additional"
+msgstr "Personalise Additional Settings"
+
+#, fuzzy
+msgid "personalise_communication"
+msgstr "Personalise Communication Settings"
+
+#, fuzzy
+msgid "personalise_privacy"
+msgstr "Personalise Privacy Settings"
+
+#, fuzzy
+msgid "profile_fields"
+msgstr "Profile Fields"
+
+#, fuzzy
+msgid "profile_section"
+msgstr "Section"
+
+msgid "restrict_user_access"
+msgstr "Juurdepääs kasutajate kontodele piiratud"
+
+msgid "restrict_user_access_info"
+msgstr "Kui võimaldatud, on ligipääs kasutajakontole kinni. Ligipääs sõltub õigusest \"Kohaliku kasutaja konto lugemisõigused\" asukohas \"Kasutajad\" ja \"Kategooriad\"."
+
+#, fuzzy
+msgid "roles_without_starting_point"
+msgstr "Roles without defined starting point:"
+
+#, fuzzy
+msgid "save_order"
+msgstr "Save Order"
+
+msgid "send_mail_reminder_window_too_small"
+msgstr "Your Frequency setting is too large for this reminder value."
+
+msgid "send_mail_to_inactive_users"
+msgstr "Earliest date in days for sending a reminder mail"
+
+msgid "send_mail_to_inactive_users_desc"
+msgstr "A reminder mail will be send to user's e-mail address to warn about an upcoming account deletion."
+
+msgid "send_mail_to_inactive_users_must_be_smaller_than"
+msgstr "This value must be smaller than the value 'Days passed since last login'."
+
+msgid "send_mail_to_inactive_users_numbers_only"
+msgstr "Only positive non decimal numbers are accepted."
+
+msgid "send_mail_to_inactive_users_suffix"
+msgstr "Days before Deletion."
+
+#, fuzzy
+msgid "show_own_online_status"
+msgstr "Show My Online Status"
+
+#, fuzzy
+msgid "starting_page"
+msgstr "Starting Point"
+
+#, fuzzy
+msgid "starting_point"
+msgstr "Starting Point"
+
+#, fuzzy
+msgid "starting_point_settings"
+msgstr "Starting Point Settings"
+
+#, fuzzy
+msgid "starting_points"
+msgstr "Starting Points"
+
+#, fuzzy
+msgid "udf_select_options"
+msgstr "Options"
+
+msgid "user_access_limited"
+msgstr "Piiratud"
+
+msgid "user_access_unlimited"
+msgstr "Piiramatu"
+
+msgid "user_account_code"
+msgstr "Kood"
+
+msgid "user_account_code_generated"
+msgstr "Loomise kuupäev"
+
+msgid "user_account_code_generated_all"
+msgstr "Kõik kuupäevad"
+
+msgid "user_account_code_not_valid"
+msgstr "The given registration code is either invalid or already has been used."
+
+msgid "user_account_code_setting"
+msgstr "Enable Account Re-Activation By Code"
+
+msgid "user_account_code_setting_info"
+msgstr "Inactive Accounts can be re-activated by users with pre-defined codes."
+
+msgid "user_account_code_used"
+msgstr "Kasutamise kuupäev"
+
+msgid "user_account_code_valid_until"
+msgstr "Kehtiv kuni"
+
+msgid "user_account_code_valid_until_dynamic"
+msgstr "Päevade arv"
+
+msgid "user_account_code_valid_until_static"
+msgstr "Lõpp-kuupäev"
+
+msgid "user_account_code_valid_until_unlimited"
+msgstr "Piiramata"
+
+msgid "user_account_codes_add"
+msgstr "Kõik koodid"
+
+msgid "user_account_codes_edit_header"
+msgstr "Kõik koodid"
+
+msgid "user_account_codes_export"
+msgstr "Ekspordi koodid"
+
+msgid "user_account_codes_number"
+msgstr "Koodide arv"
+
+msgid "user_account_deleted_confirmation"
+msgstr "Your account has been deleted. An email containing detailed information has been sent to you."
+
+msgid "user_activate_public_profile"
+msgstr "Aktiveeri avalik profiil"
+
+msgid "user_activate_public_profile_info"
+msgstr "Sinu avaliku profiili üldine aktiveerimine. Aktiveerimise korral on sinu ees- ja perenimi teistele kasutajatele näha."
+
+msgid "user_activation"
+msgstr "Aktiveerimine"
+
+#, fuzzy
+msgid "user_admin_options"
+msgstr "Options"
+
+msgid "user_all"
+msgstr "Kõik"
+
+msgid "user_allow_delete_own_account"
+msgstr "Allow users to delete own account"
+
+msgid "user_any"
+msgstr "Kõik"
+
+#, fuzzy
+msgid "user_awrn_all_users"
+msgstr "All Users"
+
+#, fuzzy
+msgid "user_awrn_all_users_info"
+msgstr "All users of the platform are listed."
+
+#, fuzzy
+msgid "user_check_profile_data"
+msgstr "Check profile data"
+
+#, fuzzy
+msgid "user_chooses_starting_page"
+msgstr "User Chooses Starting Point"
+
+msgid "user_delete_own_account"
+msgstr "Delete Account"
+
+msgid "user_delete_own_account_aborted"
+msgstr "Aborted deletion, account was not changed."
+
+msgid "user_delete_own_account_email_body"
+msgstr "Your user account \"%s\" has been deleted from %s."
+
+msgid "user_delete_own_account_email_subject"
+msgstr "User account deleted"
+
+msgid "user_delete_own_account_final_confirmation"
+msgstr "Please confirm for the last time to remove your user account from ILIAS!"
+
+msgid "user_delete_own_account_info"
+msgstr "Here you can delete your current user account. Keep in mind that the deletion of your account is irreversible!"
+
+msgid "user_delete_own_account_logout_button"
+msgstr "Proceed to Authentication"
+
+msgid "user_delete_own_account_logout_confirmation"
+msgstr "Your account has been flagged for deletion. Please authenticate to continue the process."
+
+msgid "user_delete_own_account_notification_email"
+msgstr "Notification Email"
+
+msgid "user_field"
+msgstr "Väli"
+
+msgid "user_global_role"
+msgstr "Üldine roll"
+
+msgid "user_last_login_before"
+msgstr "Viimane sisselogimine enne"
+
+msgid "user_limited_access"
+msgstr "Piiratud ligipääs"
+
+#, fuzzy
+msgid "user_local_role"
+msgstr "Local Role"
+
+msgid "user_lv_do_not_store"
+msgstr "Never remeber last visited"
+
+msgid "user_lv_keep_entries"
+msgstr "Remember last visited"
+
+msgid "user_lv_keep_only_for_session"
+msgstr "Remember only during current session"
+
+#, fuzzy
+msgid "user_make_profile_public"
+msgstr "Publish Profile"
+
+msgid "user_member_of_course_group"
+msgstr "Kursuse/grupi liige"
+
+msgid "user_no_courses"
+msgstr "Pole kursusi"
+
+msgid "user_no_groups"
+msgstr "No Groups Assigned"
+
+msgid "user_order"
+msgstr "Järjesta"
+
+msgid "user_ownership"
+msgstr "Repository Objects"
+
+msgid "user_please_select_course_group"
+msgstr "Palun vali kursus või grupp"
+
+msgid "user_portfolios"
+msgstr "Portfooliod"
+
+msgid "user_portfolios_desc"
+msgstr "Kasutajad saavad luua portfoolioid ja kasutada neid kui profiili."
+
+#, fuzzy
+msgid "user_privacy_checklist"
+msgstr "Privacy Checklist"
+
+#, fuzzy
+msgid "user_profile_data"
+msgstr "Profile Data"
+
+#, fuzzy
+msgid "user_profile_data_checked"
+msgstr "Profile data checked"
+
+#, fuzzy
+msgid "user_profile_info"
+msgstr "User Profile Info"
+
+#, fuzzy
+msgid "user_profile_info_std"
+msgstr "Default User Profile Info"
+
+#, fuzzy
+msgid "user_profile_info_text_info"
+msgstr "This text is presented on top of the form for entering personal data."
+
+msgid "user_profile_portfolio"
+msgstr "Võid kasutada portfooliot avaliku profiilina."
+
+msgid "user_profile_portfolio_selected"
+msgstr "Kasutate praegu oma portfooliot oma profiilina."
+
+msgid "user_profile_preview"
+msgstr "Eelvaade"
+
+#, fuzzy
+msgid "user_profile_prompt_text"
+msgstr "Prompt Text"
+
+#, fuzzy
+msgid "user_profile_prompt_text_info"
+msgstr "This text will replace the default info text, if a user has been prompted to the profile."
+
+#, fuzzy
+msgid "user_prompt_incomplete"
+msgstr "Only if profile is incomplete"
+
+#, fuzzy
+msgid "user_prompt_incomplete_info"
+msgstr "If the user has to enter required fields, the profile will be shown after login."
+
+#, fuzzy
+msgid "user_prompt_once_after_login"
+msgstr "Once after specific number of days after first login"
+
+#, fuzzy
+msgid "user_prompt_once_after_login_info"
+msgstr "After this period the user will be prompted with the profile, if the user did not publish the profile yet."
+
+#, fuzzy
+msgid "user_prompt_repeat"
+msgstr "Repeat every specific number of days"
+
+#, fuzzy
+msgid "user_prompt_repeat_info"
+msgstr "The user will be prompted periodically with the profile, if the user did not publish the profile yet."
+
+#, fuzzy
+msgid "user_prompting_recurrence"
+msgstr "Prompting Recurrence"
+
+#, fuzzy
+msgid "user_prompting_settings"
+msgstr "Prompting Settings"
+
+msgid "user_public_profile_info"
+msgstr "Palun vali, millised isiklikud andmed peaksid teiste kasutajate jaoks nähtavad olema."
+
+#, fuzzy
+msgid "user_publish_options"
+msgstr "Publish Profile"
+
+#, fuzzy
+msgid "user_role_selection"
+msgstr "Role Selection"
+
+#, fuzzy
+msgid "user_role_starting_point"
+msgstr "User - Starting Point"
+
+#, fuzzy
+msgid "user_save_continue"
+msgstr "Save and Continue"
+
+msgid "user_save_ordering_and_titles"
+msgstr "Save ordering and title"
+
+msgid "user_select_course_group"
+msgstr "Vali kursus/grupp"
+
+#, fuzzy
+msgid "user_set_publishing_options"
+msgstr "Set publishing options"
+
+#, fuzzy
+msgid "user_set_visibilty_options"
+msgstr "Set visibility options"
+
+#, fuzzy
+msgid "user_settings"
+msgstr "User Settings"
+
+msgid "user_store_last_visited"
+msgstr "Last Visited"
+
+#, fuzzy
+msgid "user_visibility_settings"
+msgstr "Visibility"
+
+msgid "user_visible_in_profile"
+msgstr "Profiilis nähtav"
+
+msgid "usr_id"
+msgstr "System ID"
+
+#, fuzzy
+msgid "usr_letter_avatars"
+msgstr "Letter Avatars"
+
+#, fuzzy
+msgid "usr_letter_avatars_info"
+msgstr "Shows initial of user name or login as profile picture, if no public picture is being provided."
+
+msgid "usr_public_profile_disabled"
+msgstr "Avalik profiil pole aktiivne"
+
+msgid "usr_public_profile_disabled_info"
+msgstr "Sinu andmed on nähtavad ainult administratiivmeeskonnale."
+
+msgid "usr_public_profile_global"
+msgstr "Üldiselt nähtav"
+
+msgid "usr_public_profile_logged_in"
+msgstr "Sisseloginud kasutajad"

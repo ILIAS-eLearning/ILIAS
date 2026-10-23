@@ -1,0 +1,288 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: news\n"
+
+msgid "lso_news_online_title"
+msgstr "A tanulási sorban egy új online objektum!"
+
+msgid "lso_news_online_txt"
+msgstr "A tanulási sorban egy új objektumot tettek elérhetővé."
+
+msgid "new_test_online"
+msgstr "A teszt online lett."
+
+msgid "news_1_file_created"
+msgstr "Egy fájlt sikeresen létrehozott."
+
+msgid "news_1_file_updated"
+msgstr "Egy fájlt sikeresen frissített."
+
+msgid "news_1_postings"
+msgstr "Egy új hozzászólás érkezett."
+
+msgid "news_add_news"
+msgstr "Hír létrehozása"
+
+msgid "news_all_items"
+msgstr "Hírek az összes kedvenc elemhez"
+
+msgid "news_allow_longer_periods"
+msgstr "Hosszabb időszak engedélyezése"
+
+msgid "news_allow_longer_periods_info"
+msgstr "A felhasználók választhatnak hosszabb időszakot a műszerfalon."
+
+msgid "news_allow_shorter_periods"
+msgstr "Rövidebb időszak engedélyezése"
+
+msgid "news_allow_shorter_periods_info"
+msgstr "A felhasználók választhatnak rövidebb időszakot a műszerfalon."
+
+msgid "news_attached_to"
+msgstr "Ehhez kapcsolva:"
+
+msgid "news_block_information"
+msgstr "A <b>Hírek</b> blokk megjelenít minden olyan hírt, amely a <b>Kedvencek</b> elemeihez kapcsolódik."
+
+msgid "news_cache"
+msgstr "Hírek gyorsítótárazása (perc)"
+
+msgid "news_cache_info"
+msgstr "Hírblokk frissítése x percenként. A ‘0’ azt jelenti, mindig. Magasabb érték növeli a teljesítményt, de lehet, hogy a hírek nem elérhető helyre linkelnek."
+
+msgid "news_default_visibility"
+msgstr "Alapértelmezett elérés"
+
+msgid "news_edit_news_settings"
+msgstr "Beállítások módosítása"
+
+msgid "news_enable_internal_news"
+msgstr "Belső hírek engedélyezése"
+
+msgid "news_enable_internal_news_info"
+msgstr "Hírblokk aktiválása kategóriákhoz, kurzusokhoz, csoportokhoz és további objektumokhoz. A felhasználó feliratkozhat a hírekre, a hírek a műszerfalon jelennek meg."
+
+msgid "news_enable_internal_rss"
+msgstr "RSS engedélyezése belső hírekhez"
+
+msgid "news_enable_internal_rss_info"
+msgstr "Hírek engedélyezése RSS-ben. Ezek a hírek elérhetők lesznek a rendszeren kívülről, bejelentkezés nélkül."
+
+msgid "news_enable_private_feed"
+msgstr "Személyes RSS-hírforrás engedélyezése"
+
+msgid "news_enable_private_feed_info"
+msgstr "A nyilvános és a személyes hírek az ILIAS-on kívüli személyes RSS-ben is megkaphatók. A hitelesítés jelszóhoz között."
+
+msgid "news_feed_url"
+msgstr "Hírforrás URL-je"
+
+msgid "news_feed_url_for"
+msgstr "Hírforrás URL-je ehhez: ‘%s’"
+
+msgid "news_first_letter_of_word_notification"
+msgstr "É"
+
+msgid "news_get_feed_info"
+msgstr "Ez egy személyes hírforrás URL-je. A hírforrás csak olyan híreket tartalmaz, amelyeket a szerző nyilvánosnak minősített. A hírforrást nem védi semmilyen hitelesítési eljárás. Ne ossza meg másokkal ezt az URL-t!"
+
+msgid "news_get_feed_title"
+msgstr "Személyes hírforrás URL-je"
+
+msgid "news_get_feed_url"
+msgstr "Hírforrás URL-jének kérése"
+
+msgid "news_get_priv_feed_info"
+msgstr "Ez egy személyes hírforrás URL-je. A hírforrás olyan híreket tartalmaz, amelyeket a szerző személyesnek és nyilvánosnak minősített. Ezt a hírforrást jelszó védi, amely a ‘Beállítások’ alatt módosítható. Ne ossza meg senkivel ezt az URL-t! Cserélje le -a jelszót- ezen az URL-en az ön hírforrásjelszavával!"
+
+msgid "news_get_priv_feed_title"
+msgstr "Személyes URL-forrás"
+
+msgid "news_hide_news_block"
+msgstr "Hírblokkok elrejtése"
+
+msgid "news_hide_news_block_info"
+msgstr "Blokkok elrejtése tanulói nézetben. A hírblokkok csak az írási joggal rendelkező felhasználók számára lesznek láthatók."
+
+msgid "news_hide_news_date"
+msgstr "Kezdő dátum/időpont"
+
+msgid "news_hide_news_per_date"
+msgstr "Későbbi hírek megjelenítése, mint"
+
+msgid "news_hide_news_per_date_info"
+msgstr "Csak a megadott dátumnál újabb hírek jelennek meg."
+
+msgid "news_inactive_private_feed_info"
+msgstr "Az Ön privát hírcsatornája nincs engedélyezve. Kérem, adjon meg egy jelszót a beállításokban."
+
+msgid "news_internal_news"
+msgstr "Hírek"
+
+msgid "news_keep_minimal_x_items"
+msgstr "Legalább x elem megtartása"
+
+msgid "news_keep_minimal_x_items_info"
+msgstr "Elérhető régi elemek száma, az RSS-életidőt figyelmen kívül hagyva."
+
+msgid "news_loading_news"
+msgstr "Hírek töltése…"
+
+msgid "news_media"
+msgstr "Mediafájl"
+
+msgid "news_new_comments"
+msgstr "Új hozzászólás"
+
+msgid "news_new_reactions"
+msgstr "Új reakciók"
+
+msgid "news_news_block"
+msgstr "Hírek blokk"
+
+msgid "news_news_item_content"
+msgstr "Szöveg"
+
+msgid "news_news_item_content_long"
+msgstr "Bővebb szöveg"
+
+msgid "news_news_item_content_long_info"
+msgstr "A bővebb szöveget nem publikáljuk RSS-en keresztül."
+
+msgid "news_news_item_def_visibility_public_info"
+msgstr "Az aktuális hírek elérhetőek nyilvános RSS hírcsatornában, ezért ne tartalmazzanak bizalmas információkat."
+
+msgid "news_news_item_def_visibility_users_info"
+msgstr "Csak hitelesített felhasználóknak van hozzáférése az aktuális hírekhez."
+
+msgid "news_news_item_head"
+msgstr "hír"
+
+msgid "news_news_item_title"
+msgstr "Címsor"
+
+msgid "news_news_item_visibility"
+msgstr "Hozzáférés"
+
+msgid "news_news_item_visibility_info"
+msgstr "A nyilvános hírek elérhetők bejelentkezés nélkül az ILIAS-on kívül RSS-en keresztül. Ne tegyen bele bizalmas információkat."
+
+msgid "news_news_items"
+msgstr "hír"
+
+msgid "news_no_js_click_here"
+msgstr "Ha nem jelennek meg a hírek, kattintson ide!"
+
+msgid "news_no_news_items"
+msgstr "Nincsenek elérhető hírek."
+
+msgid "news_not_available"
+msgstr "El nem érhető hírek"
+
+msgid "news_notifications"
+msgstr "Értesítések"
+
+msgid "news_notifications_public"
+msgstr "Nyilvános értesítések"
+
+msgid "news_notifications_public_info"
+msgstr "A személyes RSS-csatornák elérhetők az ILIAS-on kívül is. Tehát így bejelentkezés nélkül is elérhetővé teszi az értesítéseket."
+
+msgid "news_nr_of_items"
+msgstr "Objektumonkénti hírek max. száma"
+
+msgid "news_nr_of_items_info"
+msgstr "Objektumhoz (például fájlhoz vagy tananyaghoz) tartozó hírek maximális száma. Vegye figyelembe, hogy egy tárolóobjektum (például kategória, kurzus) több alobjektumot is tartalmazhat, és az alobjektumok is tartalmazhatnak híreket."
+
+msgid "news_pd_period"
+msgstr "Műszerfalon megjelenő hírek időszaka"
+
+msgid "news_pd_period_info"
+msgstr "Időszak meghatározása a műszerfal híreihez. Válasszon alacsonyabb értéket, ha teljesítményproblémát tapasztal."
+
+msgid "news_period_1_month"
+msgstr "Utolsó hónap"
+
+msgid "news_period_1_week"
+msgstr "Utolsó hét"
+
+msgid "news_period_1_year"
+msgstr "Utolsó év"
+
+msgid "news_period_x_days"
+msgstr "Utolsó %s nap"
+
+msgid "news_period_x_months"
+msgstr "Utolsó %s hónap"
+
+msgid "news_period_x_weeks"
+msgstr "Utolsó %s hét"
+
+msgid "news_public_feed"
+msgstr "Extra RSS-csatorna"
+
+msgid "news_public_feed_info"
+msgstr "Saját RSS-csatornája lesz ennek a médiasugárzásnak."
+
+msgid "news_really_delete_news"
+msgstr "Biztos, hogy törli ezt a hírt?"
+
+msgid "news_rss"
+msgstr "RSS"
+
+msgid "news_rss_period"
+msgstr "RSS-időhossz"
+
+msgid "news_rss_title_format"
+msgstr "RSS bejegyzések címformátuma"
+
+msgid "news_rss_title_format_news_obj"
+msgstr "Hírek címsora (objektumcím)"
+
+msgid "news_rss_title_format_obj_news"
+msgstr "Objektumcím - hírek címsora"
+
+msgid "news_settings"
+msgstr "Hírek beállításai"
+
+msgid "news_sorry_not_accessible_anymore"
+msgstr "Sajnáljuk, ez már nem érhető el."
+
+msgid "news_time_period"
+msgstr "Időszak"
+
+msgid "news_timline_add_entries_info"
+msgstr "Jelenleg egy hír sincs, kattintson a ‘Létrehozása’ gombra."
+
+msgid "news_timline_no_entries"
+msgstr "Egy hír sincs."
+
+msgid "news_visibility_public"
+msgstr "Nyilvános"
+
+msgid "news_visibility_users"
+msgstr "Bejelentkezett felhasználók"
+
+msgid "news_x_files_created"
+msgstr "%s fájl elkészült."
+
+msgid "news_x_files_updated"
+msgstr "%s fájl frissült."
+
+msgid "news_x_postings"
+msgstr "%s új hozzászólás érkezett."
+
+msgid "passwd_equals_ilpasswd"
+msgstr "Adjon meg egy, az ILIAS-jelszavától különböző jelszót!"
+
+msgid "priv_feed_disabled"
+msgstr "Személyes hírforrás letiltva."
+
+msgid "priv_feed_settings"
+msgstr "Személyes hírforrás beállításai"

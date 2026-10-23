@@ -1,0 +1,360 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: orgu\n"
+
+msgid "Staff"
+msgstr "スタッフ"
+
+msgid "add_position"
+msgstr "ポジションを追加"
+
+msgid "authorities"
+msgstr "権限"
+
+msgid "authority"
+msgstr "権限"
+
+msgid "backto_staff"
+msgstr "スタッフへ戻る"
+
+msgid "change_to_employee"
+msgstr "社員(構成員)へ変更"
+
+msgid "change_to_superior"
+msgstr "上長へ変更"
+
+msgid "confirm_deletion_and_assign"
+msgstr "削除してユーザを割当てる"
+
+msgid "confirm_deletion_button"
+msgstr "削除"
+
+msgid "deassign_user_successful"
+msgstr "ユーザはこの役割から正しく外されました。"
+
+msgid "edit_translations"
+msgstr "タイトルと説明"
+
+msgid "employee"
+msgstr "従業員"
+
+msgid "ext_id"
+msgstr "外部ID"
+
+msgid "ext_id_updated"
+msgstr "外部IDは正しく更新されました。"
+
+msgid "form_title_org_default_permissions_update"
+msgstr "アクセス権限既定値"
+
+msgid "import_failed"
+msgstr "インポートに失敗しました。ファイルがxml形式で有効な構成になっている事を確認してください。"
+
+msgid "import_successful"
+msgstr "正しくインポートを完了しました。作成: %s, 編集/moved: %s, 削除: %s。"
+
+msgid "import_terminated_with_errors"
+msgstr "作成や編集や削除のできなかった組織がいくつかあり、エラー状態でインポートを完了しました。"
+
+msgid "import_terminated_with_warnings"
+msgstr "警告状態でインポートを完了しました"
+
+msgid "import_xml_file"
+msgstr "Dateiをインポート"
+
+msgid "local_other_roles"
+msgstr "追加役割 %s"
+
+msgid "local_staff"
+msgstr "従業員 %s"
+
+msgid "msg_assignment_to_employee_done"
+msgstr "従業員役割の割当に成功"
+
+msgid "msg_confirm_d_ua"
+msgstr "それぞれの組織ユニットの社員ポジションへこれらの人達を割当てますか?"
+
+msgid "msg_confirm_deletion"
+msgstr "次のポジションを本当に削除しますか?"
+
+msgid "msg_confirm_remove_user"
+msgstr "ポジションから次のユーザを本当に削除しますか?"
+
+msgid "msg_deleted"
+msgstr "削除しました"
+
+msgid "msg_position_created"
+msgstr "ポジションを作成しました。"
+
+msgid "msg_position_delete_fail"
+msgstr "位置が見つかりません。"
+
+msgid "msg_position_updated"
+msgstr "ポジションを更新しました。"
+
+msgid "msg_success_permission_saved"
+msgstr "アクセス権を保存しました。"
+
+msgid "no_assignment"
+msgstr "XML-Fileをチェックしてください。ユーザ割当てがありません。"
+
+msgid "no_orgunit"
+msgstr "XML-Fileをチェックしてください。組織ユニットがありません。"
+
+msgid "no_roles"
+msgstr "この時点では追加役割はありません。"
+
+msgid "not_movable_to_subtree"
+msgstr "組織ユニットは自身のサブツリー内へ移動できません。ループにつながります。"
+
+msgid "org_op_access_enrolments"
+msgstr "登録を表示"
+
+msgid "org_op_access_results"
+msgstr "結果へアクセス"
+
+msgid "org_op_create_employee_talk"
+msgstr "自身で作成したトークアポイントの作成 / トークアポイントの編集"
+
+msgid "org_op_edit_employee_talk"
+msgstr "トークアポイントの編集"
+
+msgid "org_op_edit_individual_plan"
+msgstr "個別計画を編集"
+
+msgid "org_op_edit_submissions_grades"
+msgstr "他のユーザの提出を編集"
+
+msgid "org_op_manage_members"
+msgstr "メンバーを管理"
+
+msgid "org_op_read_employee_talk"
+msgstr "トークアポイントの編集の読込アクセス権"
+
+msgid "org_op_read_learning_progress"
+msgstr "他のユーザの学習進捗を表示"
+
+msgid "org_op_view_certificates"
+msgstr "他のユーザの証明書を表示"
+
+msgid "org_op_view_competences"
+msgstr "他のユーザの強みを表示"
+
+msgid "org_op_view_individual_plan"
+msgstr "個別計画を表示"
+
+msgid "org_op_view_members"
+msgstr "メンバーを表示"
+
+msgid "org_op_write_learning_progress"
+msgstr "他のユーザの学習管理を設定"
+
+msgid "org_unit_not_found"
+msgstr "組織ユニットが見つかりませんでした"
+
+msgid "orgu_add"
+msgstr "組織単位を追加"
+
+msgid "orgu_adv_settings"
+msgstr "拡張設定"
+
+msgid "orgu_already_deleted"
+msgstr "オブジェクトはすでに削除されました。"
+
+msgid "orgu_enable_my_staff"
+msgstr "‘Staff’ビューを有効にする"
+
+msgid "orgu_enable_my_staff_info"
+msgstr "自身従業員の学習進捗を表示"
+
+msgid "orgu_global_set_form"
+msgstr "グローバル組織ユニット設定"
+
+msgid "orgu_global_set_positions"
+msgstr "組織ユニットポジションによるユーザデータを表示"
+
+msgid "orgu_global_set_positions_type_active"
+msgstr "アクティブ:"
+
+msgid "orgu_global_set_type_changeable"
+msgstr "可変"
+
+msgid "orgu_global_set_type_changeable_no"
+msgstr "設定は変更不可です。"
+
+msgid "orgu_global_set_type_changeable_object"
+msgstr "設定はオブジェクトレベルで変更可能です。"
+
+msgid "orgu_global_set_type_default"
+msgstr "初期設定"
+
+msgid "orgu_global_set_type_default_info"
+msgstr "未構成オブジェクトの初期値を定義"
+
+msgid "orgu_import"
+msgstr "組織単位をインポート"
+
+msgid "orgu_new"
+msgstr "新しい組織単位"
+
+msgid "orgu_orgu_type"
+msgstr "組織ユニットタイプ"
+
+msgid "orgu_settings"
+msgstr "組織ユニット設定"
+
+msgid "orgu_staff"
+msgstr "スタッフ"
+
+msgid "orgu_staff_deassign"
+msgstr "本当にこれらのユーザをこの役割から外しますか?"
+
+msgid "orgu_type"
+msgstr "組織ユニットタイプ"
+
+msgid "orgu_type_add"
+msgstr "組織ユニットタイプを追加"
+
+msgid "orgu_type_assign_amd_sets"
+msgstr "拡張メタデータセットを割り当てます"
+
+msgid "orgu_type_available_amd_sets"
+msgstr "利用可能な拡張メタデータセット"
+
+msgid "orgu_type_custom_icon"
+msgstr "この組織ユニットタイプ用のカスタムアイコン"
+
+msgid "orgu_type_custom_icon_info"
+msgstr "このタイプに割り当てられている全ての組織ユニットはツリーとヘッダーのアイコンに使用されます。"
+
+msgid "orgu_type_edit"
+msgstr "組織ユニットタイプを編集"
+
+msgid "orgu_type_msg_assign_amd_prevented"
+msgstr "プラグイン: %sで回避されるAMDRレコードの割り当て"
+
+msgid "orgu_type_msg_deassign_amd_prevented"
+msgstr "プラグイン: %sで回避されるAMDRレコードの割り当て解除"
+
+msgid "orgu_type_msg_deleted"
+msgstr "組織ユニットタイプを削除しました"
+
+msgid "orgu_type_msg_deletion_prevented"
+msgstr "プラグイン: %sで防止されるオブジェクトの削除"
+
+msgid "orgu_type_msg_error_custom_icon"
+msgstr "カスタムアイコンを保存できませんでした"
+
+msgid "orgu_type_msg_missing_title"
+msgstr "既定の言語用のタイトルを設定する必要があります。"
+
+msgid "orgu_type_msg_missing_title_default_language"
+msgstr "既定の言語と既定の言語用のタイトルを設定する必要があります。"
+
+msgid "orgu_type_msg_setting_default_lang_prevented"
+msgstr "プラグイン: %sで回避される既定の言語の設定 '%s'"
+
+msgid "orgu_type_msg_setting_member_prevented"
+msgstr "プラグイン: %sで回避される設定 '%s'"
+
+msgid "orgu_type_msg_unable_delete"
+msgstr "次の組織ユニット:%へ割り当てられる事によるタイプ削除を不可"
+
+msgid "orgu_type_msg_updating_prevented"
+msgstr "プラグイン:%sによる回避されるオブジェクトを更新"
+
+msgid "orgu_types"
+msgstr "タイプ"
+
+msgid "orgunit_position_permissions_not_active_for"
+msgstr "タイプの特定権限のポジションを上書きできません。"
+
+msgid "ou_external_id_exists"
+msgstr "外部IDのユニットはすでにこのシステム上に存在します。"
+
+msgid "ou_id_not_valid"
+msgstr "インポートIDが見つかりませんでした。"
+
+msgid "ou_more_than_one_match_found"
+msgstr "一つ以上が一致しました。"
+
+msgid "ou_parent_id_not_valid"
+msgstr "ou_parent_idタイプが見つかりませんでした。"
+
+msgid "over"
+msgstr "以上"
+
+msgid "over_-1"
+msgstr "全員"
+
+msgid "placeholder"
+msgstr "..."
+
+msgid "positions"
+msgstr "ポジション"
+
+msgid "rec_staff"
+msgstr "サブユニットを含む授業員 %"
+
+msgid "remove_successful"
+msgstr "ユーザは正しく削除されました。"
+
+msgid "remove_user"
+msgstr "削除"
+
+msgid "scope"
+msgstr "以内"
+
+msgid "scope_1"
+msgstr "同一組織ユニット"
+
+msgid "scope_2"
+msgstr "配下組織ユニット"
+
+msgid "scope_3"
+msgstr "全ての組織ユニット"
+
+msgid "show_learning_progress"
+msgstr "学習進捗を表示"
+
+msgid "simple_import"
+msgstr "シンプルXMLのインポート"
+
+msgid "simple_user_import"
+msgstr "XMLユーザ割当て"
+
+msgid "simple_xls"
+msgstr "シンプルExcelエクスポート"
+
+msgid "simple_xml"
+msgstr "シンプルXMLエクスポート"
+
+msgid "superior"
+msgstr "上長"
+
+msgid "user_assignments"
+msgstr "ユーザ割当て"
+
+msgid "user_assignments_recursive"
+msgstr "ユーザ割当てサブツリー"
+
+msgid "user_changed_successful"
+msgstr "ユーザが正しく変更されました。"
+
+msgid "user_import_successful"
+msgstr "インポートは正しく完了しました。割当て: %s, 削除: %s"
+
+msgid "users_successfuly_added"
+msgstr "ユーザが正しく追加されました。"
+
+msgid "view_learning_progress"
+msgstr "学習進捗を表示"
+
+msgid "view_learning_progress_rec"
+msgstr "サブユニットを含む学習進捗を表示"

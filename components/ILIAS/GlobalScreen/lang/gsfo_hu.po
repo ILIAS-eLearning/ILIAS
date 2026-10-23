@@ -1,0 +1,159 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: gsfo\n"
+
+msgid "accessibility"
+msgstr "Hozzáférhetőség"
+
+msgid "confirm_delete"
+msgstr "Biztos, hogy törli a következő elem(ek)et?"
+
+msgid "confirm_reset"
+msgstr "A lábléc alapértelmezettre állítása az összes elemet eredeti állapotába állítja. A személyre szabások és a kézi bejegyzések visszavonhatatlanul törlődnek. Biztos, hogy folytatja?"
+
+msgid "entries_add"
+msgstr "Elem hozzáadása"
+
+msgid "entries_edit"
+msgstr "Elem módosítása"
+
+msgid "entries_parent"
+msgstr "Blokk kiválasztása"
+
+msgid "entries_select_parent"
+msgstr "Elem mozgatása a csoportba"
+
+#, fuzzy
+msgid "entries_target_group"
+msgstr "Select target group"
+
+msgid "entry_action"
+msgstr "Link"
+
+msgid "entry_action_info"
+msgstr "Teljes link a protokollal (pl. https://www.ilias.hu)"
+
+msgid "entry_activation_toggled"
+msgstr "Az aktiválás megváltozott"
+
+msgid "entry_active"
+msgstr "Aktív"
+
+msgid "entry_active_info"
+msgstr "Elem aktiválása"
+
+msgid "entry_add"
+msgstr "Elem hozzáadása"
+
+msgid "entry_delete"
+msgstr "Törlés"
+
+msgid "entry_deleted"
+msgstr "Törölt"
+
+#, fuzzy
+msgid "entry_deleted_failed"
+msgstr "Deletion not possible"
+
+msgid "entry_edit"
+msgstr "Módosítás"
+
+msgid "entry_external"
+msgstr "Megnyitás új lapon"
+
+msgid "entry_move"
+msgstr "Áthelyezés"
+
+msgid "entry_moved"
+msgstr "Az elemet sikeresen áthelyezte"
+
+msgid "entry_title"
+msgstr "Cím (alapértelmezett nyelven)"
+
+msgid "entry_toggle_activation"
+msgstr "(In-)Aktiválás"
+
+msgid "group_activation_toggled"
+msgstr "Az aktiváció megváltozott"
+
+msgid "group_active"
+msgstr "Aktív"
+
+msgid "group_active_info"
+msgstr "Blokk aktiválása"
+
+msgid "group_add"
+msgstr "Blokk hozzáadása"
+
+msgid "group_delete"
+msgstr "Törlés"
+
+msgid "group_deleted"
+msgstr "Törölt"
+
+msgid "group_edit"
+msgstr "Blokk módosítása"
+
+msgid "group_edit_entries"
+msgstr "Elem módosítása"
+
+msgid "group_items"
+msgstr "Elemek"
+
+msgid "group_not_empty"
+msgstr "Ebben a blokkban vannak elemek. Először ezeket helyezze át vagy törölje"
+
+msgid "group_title"
+msgstr "Cím (alapértelmezett nyelv)"
+
+msgid "group_title_info"
+msgstr "A blokk mentése után további fordításokat adhat hozzá a ‘Fordítás hozzáadása’ művelettel."
+
+msgid "group_toggle_activation"
+msgstr "(In-)aktiválás"
+
+msgid "group_translate"
+msgstr "Fordítás"
+
+msgid "info_not_deletable_core"
+msgstr "Az alapértelmezett elemek nem törölhetők"
+
+msgid "info_not_deletable_not_empty"
+msgstr "Csak üres blokk törlhetők."
+
+#, fuzzy
+msgid "item_moved"
+msgstr "Entry moved"
+
+msgid "legal_information"
+msgstr "Jogi információk"
+
+msgid "order_saved"
+msgstr "A sorbarendezést sikeresen mentette"
+
+msgid "permanent"
+msgstr "állandó"
+
+msgid "reset_footer"
+msgstr "Lábléc alapértelmezettre állítása"
+
+msgid "reset_success"
+msgstr "A láblécet sikeresen alapértelmezettre állította"
+
+msgid "services"
+msgstr "Szolgáltatások"
+
+msgid "support"
+msgstr "Támogatás"
+
+msgid "translate"
+msgstr "Fordítás"
+
+msgid "translations"
+msgstr "Fordítások"

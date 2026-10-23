@@ -1,0 +1,405 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ar\n"
+"Language-Team: Arabic\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=6; plural=(n == 0) ? 0 : ((n == 1) ? 1 : ((n == 2) ? 2 : ((n % 100 >= 3 && n % 100 <= 10) ? 3 : ((n % 100 >= 11 && n % 100 <= 99) ? 4 : 5))));\n"
+"X-Domain: ldap\n"
+
+#, fuzzy
+msgid "add_ldap_server"
+msgstr "Add Server"
+
+msgid "ldap_add_missing"
+msgstr "تعيين القوانين المفقودة"
+
+msgid "ldap_add_role_ass_rule"
+msgstr "قاعدة جديدة لتعيين الوظائف"
+
+#, fuzzy
+msgid "ldap_add_roles"
+msgstr "Add Roles"
+
+msgid "ldap_as_ds"
+msgstr "Use as Data Source"
+
+msgid "ldap_as_ds_info"
+msgstr "If activated, this LDAP configuration is used only for the synchronization of user accounts in combination with other authentication methods."
+
+msgid "ldap_assignment_type"
+msgstr "نوع التعيين"
+
+msgid "ldap_authentication_settings"
+msgstr "اعدادات المصادقة"
+
+msgid "ldap_bind_anonymous"
+msgstr "التزام كمجهول"
+
+msgid "ldap_bind_user"
+msgstr "التزام كمستخدم"
+
+msgid "ldap_btn_add_role_ass"
+msgstr "اضافة قاعدة جديدة"
+
+msgid "ldap_check_role_assignment"
+msgstr "تعيين الوظائف بعد اخر دخول"
+
+#, fuzzy
+msgid "ldap_choose_role"
+msgstr "Choose Role"
+
+msgid "ldap_confirm_del_role_ass"
+msgstr "حذف تعيين وظيفة"
+
+msgid "ldap_deleted_role_mapping"
+msgstr "Deleted assignment."
+
+msgid "ldap_deleted_rule"
+msgstr "تم حذف تعيين الوظائف المختارة"
+
+msgid "ldap_dn_info"
+msgstr "LDAP ادخل اسم مميز لمجموعة"
+
+msgid "ldap_edit_role_ass_rule"
+msgstr "تعديل قاعدة تعيين وظيفة"
+
+#, fuzzy
+msgid "ldap_edit_role_assignment"
+msgstr "Edit Role -> Group Assignment"
+
+msgid "ldap_err_missing_plugin_id"
+msgstr "Please enter a valid plugin id."
+
+#, fuzzy
+msgid "ldap_escapedn"
+msgstr "Escape DN"
+
+#, fuzzy
+msgid "ldap_escapedn_info"
+msgstr "If enabled, special characters in the \"Distinguished Name (DN)\" of user accounts are escaped in queries for group membership."
+
+msgid "ldap_filter_info"
+msgstr "(&(userattr=username)<strong>(userfilter)</strong>)  هذه التصفية ستضاف الى تصفية البحث بهذه الطريقة"
+
+msgid "ldap_global_role"
+msgstr "وظيفة عامة"
+
+msgid "ldap_global_role_assignment"
+msgstr "ILIAS-تعيين وظيفة"
+
+msgid "ldap_global_role_info"
+msgstr "حتى يتم تعيين مستخدمين جدد وظيفة الاختيار  <span class=\"asterisk\">*</span> <b>مطلوبة</b> في حالة اختيار نوع التزامنILIAS الرجاء اختيار وظيفة"
+
+msgid "ldap_group_attribute"
+msgstr "وصف المجموعة"
+
+msgid "ldap_group_attribute_info"
+msgstr "تصف المجموعة البحث عن"
+
+msgid "ldap_group_dn"
+msgstr "DN مجموعة"
+
+msgid "ldap_group_dn_info"
+msgstr "عند البحث عن مجموعة \"BaseDN\" اعتمد على"
+
+msgid "ldap_group_dn_short"
+msgstr "Group DN:"
+
+msgid "ldap_group_filter"
+msgstr "LDAP تصفية"
+
+msgid "ldap_group_filter_info"
+msgstr "Filter that will be added to the search filter when searching for a group: (&(groupattr=group)(memberattr=username)<strong>(groupfilter)</strong>)."
+
+msgid "ldap_group_member"
+msgstr "وصف عضو المجموعة"
+
+msgid "ldap_group_member_info"
+msgstr "The attribute of the group object where the user dn may be found. Choose \"Attribute Value is DN\" if the member attribute is the distinguished name of the users."
+
+msgid "ldap_group_member_optional"
+msgstr "عضوية المجموعة اختيارية"
+
+msgid "ldap_group_member_short"
+msgstr "Attribute:"
+
+msgid "ldap_group_membership"
+msgstr "عضوية المجموعة"
+
+msgid "ldap_group_name"
+msgstr "اسم المجموعة"
+
+msgid "ldap_group_name_info"
+msgstr "يجب ان تكون اسماء مستخدمي المجموعة اسماء اعضاء حتى تتم المصادقة بنجاح"
+
+msgid "ldap_group_optional_info"
+msgstr "<br />(&(userattr=username)<strong>(userfilter)</strong>) عند التفعيل، لن تحتاج عضوية المجموعة عملية مصادقة ناجحة. الرجاء ادخال تصفية مستخدم لاعضاء هذه المجموعات"
+
+msgid "ldap_group_restrictions"
+msgstr "حدود عضوية المجموعة"
+
+msgid "ldap_group_scope"
+msgstr "مجال البحث"
+
+msgid "ldap_group_scope_info"
+msgstr "مجال بحث المجموعة. اذا لم تكن متأكدا اختر فرعي"
+
+msgid "ldap_group_search_base"
+msgstr "قاعدة بحث المجموعة"
+
+msgid "ldap_group_user_filter"
+msgstr "تصفية المستخدم"
+
+msgid "ldap_ilias_role"
+msgstr "ILIAS اسم وظيفة"
+
+msgid "ldap_info_text"
+msgstr "نص المعلومات"
+
+msgid "ldap_info_text_info"
+msgstr "عند الادخال، سيتم عرض هذا النص على شاشة المعلومات للعنصر الذي عينت له الوظيفة. واختياريا سيكون هذا النص موجود في المكتبة وعلى سطع المكتب الشخصي"
+
+msgid "ldap_local_role"
+msgstr "وظيفة محلية"
+
+msgid "ldap_mapping_info_type"
+msgstr "عرض المعلومات ايضا في المكتبة\\سطح الملف الشخصي"
+
+msgid "ldap_mapping_table"
+msgstr "ILIAS الملف الشخصي في LDAP يصف تعيين"
+
+msgid "ldap_mapping_template"
+msgstr "Template for objectClass:"
+
+msgid "ldap_member_info"
+msgstr "DN يمكن ايجاد وصف عنصر المجموعة حيث يوجد مستخدم"
+
+msgid "ldap_memberisdn"
+msgstr "Attribute Value is DN"
+
+msgid "ldap_missing_bind_user"
+msgstr "You have chosen \"Bind as User\": Please enter a valid LDAP username and password."
+
+msgid "ldap_missing_role_assignment"
+msgstr "Please choose a global role new users will be assigned to."
+
+msgid "ldap_moment_sync"
+msgstr "نوع التزامن"
+
+msgid "ldap_new_role_assignment"
+msgstr "تعيين مجموعة <- اضافة وظيفة جديدة"
+
+msgid "ldap_plugin"
+msgstr "تعيين بواسطة المساعد"
+
+msgid "ldap_plugin_id"
+msgstr "اسم الهوية المساعد"
+
+msgid "ldap_plugin_info"
+msgstr "تحقق من تعيين الوظيفة باستخدام المساعد. الرجاء ادخال اسم هوية مساعد صحيح"
+
+msgid "ldap_referrals"
+msgstr "إحالات"
+
+msgid "ldap_referrals_info"
+msgstr "او لا .يجب ان يكون هذا معطلا اذا كنت تستخدم خادم دليل نشط LDAP تتبع الاحالات الراجعة من خادم  LDAP عند اتخاذ هذه الوضعية، فهي تحدد فيما اذا كانت مكتبة"
+
+msgid "ldap_remove_deprecated"
+msgstr "عدم تعيين الوظائف المطلوبة"
+
+#, fuzzy
+msgid "ldap_remove_roles"
+msgstr "Remove Roles"
+
+msgid "ldap_role_active"
+msgstr "تفعيل تزامن المجموعة"
+
+msgid "ldap_role_assignments"
+msgstr "تعيين وظيفة"
+
+msgid "ldap_role_at_info"
+msgstr "LDAP يتوقف التعيين على وصف محدد في ملف المستخدم الشخصي في"
+
+msgid "ldap_role_at_name"
+msgstr "اسم الوصف"
+
+msgid "ldap_role_at_value"
+msgstr "قيمة الوصف"
+
+msgid "ldap_role_bind_pass"
+msgstr "كلمة المرور"
+
+msgid "ldap_role_bind_pass_info"
+msgstr "كلمة المرور"
+
+msgid "ldap_role_bind_user"
+msgstr "DN مستخدم"
+
+msgid "ldap_role_bind_user_info"
+msgstr "LDAPيحتاج المستخدم كتابة معلومات الوصول لمجموعات LDAPالرجاء ادخال اسم مميز لحساب"
+
+msgid "ldap_role_by_attribute"
+msgstr "LDAP وصف"
+
+msgid "ldap_role_by_group"
+msgstr "عضوية المجموعة"
+
+msgid "ldap_role_by_plugin"
+msgstr "By Plugin"
+
+msgid "ldap_role_group_assignments"
+msgstr "Existing Role -> Group Assignments"
+
+msgid "ldap_role_grp_at"
+msgstr "الوصف"
+
+msgid "ldap_role_grp_dn_info"
+msgstr "LDAP  الرجاء ادخال اسم مميز لمجموعة"
+
+msgid "ldap_role_grp_info"
+msgstr " المعطاة النظام في وظيفة LDAP سيتم تعيين اعضاء مجموعة محددة من"
+
+msgid "ldap_role_grp_isdn"
+msgstr "Attribute value is DN"
+
+msgid "ldap_role_info"
+msgstr "LDAP التي ستدير عضوية مجموعة ILIAS ادخل اسم لوظيفة"
+
+msgid "ldap_role_mapping"
+msgstr "LDAP تخطيط مجموعة <- ILIAS وظيفة"
+
+msgid "ldap_role_name_info"
+msgstr "الرجاء اختيار اما وظيفة عامة او ادخل اسم وظيفة محلية"
+
+msgid "ldap_role_not_exists"
+msgstr "A role with that name does not exist"
+
+msgid "ldap_role_selection"
+msgstr "Role Selection"
+
+msgid "ldap_role_selection_info"
+msgstr "Your selection is ambiguous. Please choose one of the following roles."
+
+msgid "ldap_role_settings"
+msgstr "LDAP اعدادات التزامن لمجموعة"
+
+msgid "ldap_rule_condition"
+msgstr "الشرط"
+
+msgid "ldap_rule_type"
+msgstr "نوع التعيين"
+
+msgid "ldap_scope_one"
+msgstr "واحدة"
+
+msgid "ldap_scope_sub"
+msgstr "فرعي"
+
+msgid "ldap_search_base_info"
+msgstr "عند البحث عن مستخدمين \"BaseDN\" اعتمد على"
+
+msgid "ldap_search_filter"
+msgstr "LDAP تصفية"
+
+msgid "ldap_server_bind_dn"
+msgstr "الخاص بالمستخدم DN"
+
+msgid "ldap_server_bind_pass"
+msgstr "كلمة المرور"
+
+msgid "ldap_server_binding"
+msgstr "الالتزام"
+
+msgid "ldap_server_name"
+msgstr "LDAP اسم انشاء"
+
+msgid "ldap_server_name_info"
+msgstr "LDAP الرجاء اختياراسم لانشاء خادم"
+
+msgid "ldap_server_security_settings"
+msgstr "اعدادات الحماية"
+
+msgid "ldap_server_short"
+msgstr "Server URL:"
+
+msgid "ldap_server_url_info"
+msgstr "A fully qualified URL for specifying the protocol, url and port to connect to. E.g \"ldap://ldap.ilias.de:389\".  You may add multiple servers with commas separated."
+
+#, fuzzy
+msgid "ldap_server_url_invalid_parts"
+msgstr "The following server URL(s) could not be parsed as valid URIs and may not work until corrected:"
+
+#, fuzzy
+msgid "ldap_server_url_invalid_uris"
+msgstr "Every comma-separated entry must be a valid URI (e.g. ldap://host:389). Invalid:"
+
+#, fuzzy
+msgid "ldap_server_url_required"
+msgstr "Server URL is required."
+
+msgid "ldap_server_version_info"
+msgstr "المستخدم عادة هو رقم 3 LDAP اصدار"
+
+#, fuzzy
+msgid "ldap_servers"
+msgstr "LDAP Server"
+
+msgid "ldap_settings"
+msgstr "اعدادات الخادم"
+
+msgid "ldap_sync_cron"
+msgstr "Cron-Job لكل"
+
+msgid "ldap_sync_login"
+msgstr "عند الدخول"
+
+msgid "ldap_tbl_role_ass"
+msgstr "القواعد النشطة"
+
+msgid "ldap_tls_conflict"
+msgstr "LDAP-TLS can not be used in combination with LDAPv2. Please choose LDAP version \"3\" or disable TLS support."
+
+msgid "ldap_update_field_info"
+msgstr "التحديث تلقائيا"
+
+msgid "ldap_update_roles"
+msgstr "تعيين وظائف"
+
+msgid "ldap_user_attribute"
+msgstr "وصف اسم الدخول"
+
+msgid "ldap_user_dn"
+msgstr "البحث في قاعدة المستخدم"
+
+msgid "ldap_user_mapping"
+msgstr "تخطيط ملف المستخدم الشخصي"
+
+msgid "ldap_user_scope"
+msgstr "مجال البحث"
+
+msgid "ldap_user_scope_info"
+msgstr "مجال بحث المستخدم. اذا لم تكن متأكدا اختر فرعي"
+
+msgid "ldap_user_sync"
+msgstr "اعدادات تزامن المستخدم"
+
+#, fuzzy
+msgid "ldap_user_sync_cron"
+msgstr "LDAP User Synchronization "
+
+#, fuzzy
+msgid "ldap_user_sync_cron_info"
+msgstr "If activated, user accounts will be imported from the LDAP directory and synchronised continuously as an option."
+
+msgid "ldap_user_sync_info"
+msgstr "Cron-Job تعرف فيما اذا كان المستخدمون الجدد قاموا بإنشاء اسماء دخول تلقائيا او بانتظام لكل"
+
+#, fuzzy
+msgid "ldap_username_filter"
+msgstr "Username Filter"
+
+#, fuzzy
+msgid "ldap_username_filter_info"
+msgstr "Use * as wildcard."

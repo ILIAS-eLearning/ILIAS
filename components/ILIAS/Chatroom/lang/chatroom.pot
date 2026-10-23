@@ -1,0 +1,543 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: chatroom\n"
+
+msgid "allow_anonymous"
+msgstr ""
+
+msgid "allow_custom_usernames"
+msgstr ""
+
+msgid "allow_custom_usernames_info"
+msgstr ""
+
+msgid "anonymous_hint"
+msgstr ""
+
+msgid "auto_scroll"
+msgstr ""
+
+msgid "autogen_usernames"
+msgstr ""
+
+msgid "autogen_usernames_info"
+msgstr ""
+
+msgid "ban_question"
+msgstr ""
+
+msgid "ban_table_title"
+msgstr ""
+
+msgid "banned"
+msgstr ""
+
+msgid "bans"
+msgstr ""
+
+msgid "chat_address"
+msgstr ""
+
+msgid "chat_anonymous_not_allowed"
+msgstr ""
+
+msgid "chat_auth_token_info"
+msgstr ""
+
+msgid "chat_ban"
+msgstr ""
+
+msgid "chat_broadcast_typing"
+msgstr ""
+
+msgid "chat_broadcast_typing_default_info"
+msgstr ""
+
+msgid "chat_broadcast_typing_info"
+msgstr ""
+
+msgid "chat_connection_disconnected"
+msgstr ""
+
+msgid "chat_connection_established"
+msgstr ""
+
+msgid "chat_deletion_disabled"
+msgstr ""
+
+msgid "chat_deletion_interval"
+msgstr ""
+
+msgid "chat_deletion_interval_info"
+msgstr ""
+
+msgid "chat_deletion_interval_run_at"
+msgstr ""
+
+msgid "chat_deletion_interval_run_at_info"
+msgstr ""
+
+msgid "chat_deletion_interval_unit"
+msgstr ""
+
+msgid "chat_deletion_interval_value"
+msgstr ""
+
+msgid "chat_deletion_ival_max_val"
+msgstr ""
+
+msgid "chat_deletion_section_head"
+msgstr ""
+
+msgid "chat_enable_history"
+msgstr ""
+
+msgid "chat_enable_history_info"
+msgstr ""
+
+msgid "chat_error_log_info"
+msgstr ""
+
+msgid "chat_functions"
+msgstr ""
+
+msgid "chat_https_cert_info"
+msgstr ""
+
+msgid "chat_https_dhparam_info"
+msgstr ""
+
+msgid "chat_https_key_info"
+msgstr ""
+
+msgid "chat_invitation"
+msgstr ""
+
+msgid "chat_invitation_long"
+msgstr ""
+
+msgid "chat_invitation_modal_headline"
+msgstr ""
+
+msgid "chat_invitation_modal_section"
+msgstr ""
+
+msgid "chat_invitation_nc_inv_x"
+msgstr ""
+
+msgid "chat_invitation_nc_no_inv"
+msgstr ""
+
+msgid "chat_invitation_short"
+msgstr ""
+
+msgid "chat_invitation_username_input_label"
+msgstr ""
+
+msgid "chat_invitations"
+msgstr ""
+
+msgid "chat_invite"
+msgstr ""
+
+msgid "chat_join"
+msgstr ""
+
+msgid "chat_kick"
+msgstr ""
+
+msgid "chat_log_info"
+msgstr ""
+
+msgid "chat_log_level"
+msgstr ""
+
+msgid "chat_mainroom"
+msgstr ""
+
+msgid "chat_message"
+msgstr ""
+
+msgid "chat_message_display"
+msgstr ""
+
+msgid "chat_message_options"
+msgstr ""
+
+msgid "chat_no_use_typing_broadcast"
+msgstr ""
+
+msgid "chat_not_use_osc"
+msgstr ""
+
+msgid "chat_osc_accept_msg"
+msgstr ""
+
+msgid "chat_osc_accept_msg_default_info"
+msgstr ""
+
+msgid "chat_osc_accept_msg_info"
+msgstr ""
+
+msgid "chat_osc_accept_msg_info_slate"
+msgstr ""
+
+msgid "chat_osc_accept_msg_info_slate_link_txt"
+msgstr ""
+
+msgid "chat_osc_accept_no_conv_info_slate"
+msgstr ""
+
+msgid "chat_osc_accepts_messages_no"
+msgstr ""
+
+msgid "chat_osc_accepts_messages_yes"
+msgstr ""
+
+msgid "chat_osc_add_user"
+msgstr ""
+
+msgid "chat_osc_conversations"
+msgstr ""
+
+msgid "chat_osc_doesnt_accept_msg"
+msgstr ""
+
+msgid "chat_osc_head_grp_x_persons"
+msgstr ""
+
+msgid "chat_osc_invite_to_conversation"
+msgstr ""
+
+msgid "chat_osc_leave_grp_conv"
+msgstr ""
+
+msgid "chat_osc_minimize"
+msgstr ""
+
+msgid "chat_osc_nc_conv_x_p"
+msgstr ""
+
+msgid "chat_osc_nc_conv_x_s"
+msgstr ""
+
+msgid "chat_osc_nc_no_conv"
+msgstr ""
+
+msgid "chat_osc_nc_prop_time"
+msgstr ""
+
+msgid "chat_osc_no_conv"
+msgstr ""
+
+msgid "chat_osc_no_sub_directory"
+msgstr ""
+
+msgid "chat_osc_no_sub_directory_info"
+msgstr ""
+
+msgid "chat_osc_no_usr_found"
+msgstr ""
+
+msgid "chat_osc_search_modal_info"
+msgstr ""
+
+msgid "chat_osc_self_rej_msgs"
+msgstr ""
+
+msgid "chat_osc_send"
+msgstr ""
+
+msgid "chat_osc_start_conversation"
+msgstr ""
+
+msgid "chat_osc_subs_rej_msgs"
+msgstr ""
+
+msgid "chat_osc_subs_rej_msgs_p"
+msgstr ""
+
+msgid "chat_osc_sure_to_leave_grp_conv"
+msgstr ""
+
+msgid "chat_osc_user"
+msgstr ""
+
+msgid "chat_osc_user_left_grp_conv"
+msgstr ""
+
+msgid "chat_osc_write_a_msg"
+msgstr ""
+
+msgid "chat_select_room"
+msgstr ""
+
+msgid "chat_settings"
+msgstr ""
+
+msgid "chat_settings_functions_header"
+msgstr ""
+
+msgid "chat_show_auto_messages"
+msgstr ""
+
+msgid "chat_to_mainroom"
+msgstr ""
+
+msgid "chat_use_osc"
+msgstr ""
+
+msgid "chat_use_typing_broadcast"
+msgstr ""
+
+msgid "chat_user_action_invite_osd"
+msgstr ""
+
+msgid "chat_user_action_invite_public_room"
+msgstr ""
+
+msgid "chat_user_x_is_typing"
+msgstr ""
+
+msgid "chat_users_are_typing"
+msgstr ""
+
+msgid "chat_whisper"
+msgstr ""
+
+msgid "chatroom_anonymous_default"
+msgstr ""
+
+msgid "chatroom_auth"
+msgstr ""
+
+msgid "chatroom_auth_btn_txt"
+msgstr ""
+
+msgid "chatroom_auth_key"
+msgstr ""
+
+msgid "chatroom_auth_secret"
+msgstr ""
+
+msgid "chatroom_client_name"
+msgstr ""
+
+msgid "chatroom_client_name_info"
+msgstr ""
+
+msgid "chatroom_enable_osc"
+msgstr ""
+
+msgid "chatroom_enable_osc_info"
+msgstr ""
+
+msgid "chatroom_log"
+msgstr ""
+
+msgid "chatserver_address"
+msgstr ""
+
+msgid "chatserver_port"
+msgstr ""
+
+msgid "chtr_activation_limited_visibility_info"
+msgstr ""
+
+msgid "chtr_activation_online_info"
+msgstr ""
+
+msgid "chtr_add"
+msgstr ""
+
+msgid "chtr_ban_actor_tbl_head"
+msgstr ""
+
+msgid "chtr_ban_ts_tbl_head"
+msgstr ""
+
+msgid "chtr_new"
+msgstr ""
+
+msgid "chtr_server_status"
+msgstr ""
+
+msgid "clear_room_history"
+msgstr ""
+
+msgid "clear_room_history_question"
+msgstr ""
+
+msgid "client_chatserver_connection"
+msgstr ""
+
+msgid "client_proxy_info"
+msgstr ""
+
+msgid "connection_url_info"
+msgstr ""
+
+msgid "custom_username"
+msgstr ""
+
+msgid "dhparam"
+msgstr ""
+
+msgid "display_past_msgs"
+msgstr ""
+
+msgid "duration_from"
+msgstr ""
+
+msgid "duration_to"
+msgstr ""
+
+msgid "end_whisper"
+msgstr ""
+
+msgid "enter"
+msgstr ""
+
+msgid "error_log"
+msgstr ""
+
+msgid "hint_display_past_msgs"
+msgstr ""
+
+msgid "history_byday_title"
+msgstr ""
+
+msgid "history_cleared"
+msgstr ""
+
+msgid "history_title_general"
+msgstr ""
+
+msgid "ilias_chatserver_connection"
+msgstr ""
+
+msgid "ilias_proxy_info"
+msgstr ""
+
+msgid "invite_to_private_room"
+msgstr ""
+
+msgid "invite_username"
+msgstr ""
+
+msgid "key"
+msgstr ""
+
+msgid "kick_question"
+msgstr ""
+
+msgid "kicked"
+msgstr ""
+
+msgid "lost_connection"
+msgstr ""
+
+msgid "main"
+msgstr ""
+
+msgid "messages"
+msgstr ""
+
+msgid "no_further_users"
+msgstr ""
+
+msgid "no_messages"
+msgstr ""
+
+msgid "no_username_given"
+msgstr ""
+
+msgid "osc_browser_noti_no_permission_error"
+msgstr ""
+
+msgid "osc_browser_noti_no_support_error"
+msgstr ""
+
+msgid "osc_browser_noti_req_permission_error"
+msgstr ""
+
+msgid "osc_enable_browser_notifications_info"
+msgstr ""
+
+msgid "osc_enable_browser_notifications_label"
+msgstr ""
+
+msgid "osc_noti_title"
+msgstr ""
+
+msgid "period"
+msgstr ""
+
+msgid "permissions"
+msgstr ""
+
+msgid "preferred_chatname"
+msgstr ""
+
+msgid "public_chat_created"
+msgstr ""
+
+msgid "scope"
+msgstr ""
+
+msgid "select_custom_username"
+msgstr ""
+
+msgid "server_further_information"
+msgstr ""
+
+msgid "server_readme_file_btn_label"
+msgstr ""
+
+msgid "session"
+msgstr ""
+
+msgid "settings_general"
+msgstr ""
+
+msgid "settings_title"
+msgstr ""
+
+msgid "start_private_chat"
+msgstr ""
+
+msgid "unable_to_connect"
+msgstr ""
+
+msgid "unban"
+msgstr ""
+
+msgid "user_banned"
+msgstr ""
+
+msgid "user_in_ilias"
+msgstr ""
+
+msgid "user_in_room"
+msgstr ""
+
+msgid "user_invited"
+msgstr ""
+
+msgid "user_invited_self"
+msgstr ""
+
+msgid "user_kicked"
+msgstr ""
+
+msgid "users"
+msgstr ""
+
+msgid "welcome_to_chat"
+msgstr ""
+
+msgid "write_message"
+msgstr ""

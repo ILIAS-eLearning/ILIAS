@@ -1,0 +1,221 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: da\n"
+"Language-Team: Danish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: adn\n"
+
+#, fuzzy
+msgid "action_confirm_delete"
+msgstr "Delete Notifications"
+
+#, fuzzy
+msgid "action_confirm_delete_msg"
+msgstr "Would you like to delete the following notification(s)?"
+
+#, fuzzy
+msgid "administrative_notification"
+msgstr "Administrative Notifications"
+
+#, fuzzy
+msgid "administrative_notification_description"
+msgstr "Provide system-wide notifications in topbar of ILIAS"
+
+#, fuzzy
+msgid "btn_cancel"
+msgstr "Cancel"
+
+#, fuzzy
+msgid "btn_delete"
+msgstr "Delete"
+
+#, fuzzy
+msgid "btn_delete_confirm"
+msgstr "Would you like to delete this Notification?"
+
+#, fuzzy
+msgid "btn_duplicate"
+msgstr "Duplicate"
+
+#, fuzzy
+msgid "btn_edit"
+msgstr "Edit"
+
+#, fuzzy
+msgid "btn_reset"
+msgstr "Reset"
+
+#, fuzzy
+msgid "btn_reset_confirm"
+msgstr "Would you like to reset this Notification for all Users?"
+
+#, fuzzy
+msgid "common_actions"
+msgstr "Actions"
+
+#, fuzzy
+msgid "common_add_msg"
+msgstr "Add Notification"
+
+#, fuzzy
+msgid "main"
+msgstr "Notifications"
+
+#, fuzzy
+msgid "msg_body"
+msgstr "Body"
+
+#, fuzzy
+msgid "msg_body_info"
+msgstr "Body of the Notification"
+
+#, fuzzy
+msgid "msg_dismissable"
+msgstr "Dismissable"
+
+#, fuzzy
+msgid "msg_dismissable_info"
+msgstr "Notifications can be closed by the user. The user won't see this notification again."
+
+#, fuzzy
+msgid "msg_display_date_end"
+msgstr "Displayed Until"
+
+#, fuzzy
+msgid "msg_display_date_start"
+msgstr "Displayed From"
+
+#, fuzzy
+msgid "msg_error_false_date_configuration"
+msgstr "Can't create a notification with this configuration of dates. The event must be within the display time."
+
+#, fuzzy
+msgid "msg_event_date_end"
+msgstr "Event Ends"
+
+#, fuzzy
+msgid "msg_event_date_start"
+msgstr "Event Starts"
+
+#, fuzzy
+msgid "msg_form_title"
+msgstr "Notification"
+
+#, fuzzy
+msgid "msg_has_language_limitation"
+msgstr "Limited to selected languages"
+
+#, fuzzy
+msgid "msg_has_language_limitation_info"
+msgstr "Only selected languages will see the notification."
+
+#, fuzzy
+msgid "msg_languages"
+msgstr "Languages"
+
+#, fuzzy
+msgid "msg_limit_to_roles"
+msgstr "Role-sensitive Presentation"
+
+#, fuzzy
+msgid "msg_limit_to_roles_info"
+msgstr "Only the selected roles will see the notification."
+
+#, fuzzy
+msgid "msg_limited_to_role_ids"
+msgstr "Roles"
+
+#, fuzzy
+msgid "msg_permanent"
+msgstr "Display"
+
+#, fuzzy
+msgid "msg_permanent_info"
+msgstr "Display Notifications permanently or temporarily"
+
+#, fuzzy
+msgid "msg_permanent_no"
+msgstr "Show Temporarily"
+
+#, fuzzy
+msgid "msg_permanent_yes"
+msgstr "Show Permanently"
+
+#, fuzzy
+msgid "msg_presentation"
+msgstr "Presentation"
+
+#, fuzzy
+msgid "msg_show_to_all_languages"
+msgstr "Show to all languages"
+
+#, fuzzy
+msgid "msg_show_to_all_roles"
+msgstr "Show to all roles"
+
+#, fuzzy
+msgid "msg_show_to_all_roles_info"
+msgstr "All users even when not logged-in will see notification."
+
+#, fuzzy
+msgid "msg_success_created"
+msgstr "Notification created"
+
+#, fuzzy
+msgid "msg_success_deleted"
+msgstr "Notification sucessfully deleted"
+
+#, fuzzy
+msgid "msg_success_duplicated"
+msgstr "Notification sucessfully duplicated"
+
+#, fuzzy
+msgid "msg_success_reset"
+msgstr "Notification reset"
+
+#, fuzzy
+msgid "msg_success_updated"
+msgstr "Notification updated"
+
+#, fuzzy
+msgid "msg_table_title"
+msgstr "Notifications"
+
+#, fuzzy
+msgid "msg_title"
+msgstr "Headline"
+
+#, fuzzy
+msgid "msg_title_info"
+msgstr "Short Headline of the Notification"
+
+#, fuzzy
+msgid "msg_type"
+msgstr "Importance"
+
+#, fuzzy
+msgid "msg_type_0"
+msgstr "Notice"
+
+#, fuzzy
+msgid "msg_type_1"
+msgstr "Notice"
+
+#, fuzzy
+msgid "msg_type_2"
+msgstr "Important"
+
+#, fuzzy
+msgid "msg_type_3"
+msgstr "Breaking News"
+
+#, fuzzy
+msgid "msg_type_during_event"
+msgstr "During Event"
+
+#, fuzzy
+msgid "msg_type_info"
+msgstr "the importance has an influence on the color representation of the notification"

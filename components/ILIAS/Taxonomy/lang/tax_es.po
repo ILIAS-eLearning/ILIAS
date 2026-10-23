@@ -1,0 +1,78 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: tax\n"
+
+msgid "obj_taxn"
+msgstr "Nodo"
+
+msgid "tax_add_taxonomy"
+msgstr "Añadir taxonomía"
+
+msgid "tax_added"
+msgstr "Se ha creado la taxonomía."
+
+msgid "tax_admin_settings_repository"
+msgstr "Taxonomías del repositorio"
+
+msgid "tax_alphabetical"
+msgstr "Alfabético"
+
+msgid "tax_assigned_items"
+msgstr "Elementos asignados"
+
+msgid "tax_confirm_deletion"
+msgstr "¿Realmente desea eliminar toda la taxonomía y todas sus relaciones?"
+
+msgid "tax_create_node"
+msgstr "Crear nodo"
+
+msgid "tax_item_sorting"
+msgstr "Permitir la ordenación de elementos asignados"
+
+msgid "tax_manual"
+msgstr "Manual"
+
+msgid "tax_max_one_tax"
+msgstr "Sólo puede utilizar una taxonomía como máximo en este contexto."
+
+msgid "tax_new_tax_node"
+msgstr "Nuevo nodo"
+
+msgid "tax_node"
+msgstr "Nodo"
+
+msgid "tax_node_sorting"
+msgstr "Ordenación de nodos"
+
+msgid "tax_nodes"
+msgstr "Nodos"
+
+msgid "tax_order"
+msgstr "Orden"
+
+msgid "tax_order_nr"
+msgstr "Núm. de orden"
+
+msgid "tax_please_select_target"
+msgstr "Por favor, seleccione el destino."
+
+msgid "tax_target_within_nodes"
+msgstr "El destino no debe ser un subnodo de los elementos seleccionados."
+
+msgid "tax_tax_assignment"
+msgstr "Asignación de taxonomía"
+
+msgid "tax_tax_deleted"
+msgstr "La taxonomía ha sido eliminada."
+
+msgid "tax_tax_settings"
+msgstr "Ajustes de taxonomía"
+
+msgid "tax_taxonomy"
+msgstr "Taxonomía"

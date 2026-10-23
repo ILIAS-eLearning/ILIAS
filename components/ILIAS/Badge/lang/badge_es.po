@@ -1,0 +1,231 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: badge\n"
+
+msgid "awarded_by"
+msgstr "Otorgado por"
+
+msgid "badge_activity_badges"
+msgstr "Insignias de actividad"
+
+msgid "badge_add_template"
+msgstr "Agregar plantilla"
+
+msgid "badge_add_to_profile"
+msgstr "Agregar al perfil"
+
+msgid "badge_assignment_deletion_confirmation"
+msgstr "¿Estás seguro de que deseas revocar la insignia «%s» otorgada a los siguientes usuario(s)?"
+
+msgid "badge_award_badge"
+msgstr "Otorgar insignia"
+
+msgid "badge_award_revoke"
+msgstr "Otorgar/Revocar insignia"
+
+msgid "badge_badge"
+msgstr "Insignia"
+
+msgid "badge_course_lp"
+msgstr "Progreso de aprendizaje del curso"
+
+msgid "badge_course_lp_invalid"
+msgstr "Los siguientes objetos tienen un modo de progreso de aprendizaje que no es compatible: %s."
+
+msgid "badge_create"
+msgstr "Crear insignia"
+
+msgid "badge_create_image_processing_failed"
+msgstr "No se pudo crear la insignia, ocurrió un error al procesar la imagen."
+
+msgid "badge_criteria"
+msgstr "Criterios"
+
+msgid "badge_crs_merit"
+msgstr "Mérito"
+
+msgid "badge_deletion"
+msgstr "Insignia eliminada con éxito."
+
+msgid "badge_deletion_confirmation"
+msgstr "¿Está seguro de que desea eliminar las siguientes insignias? Esto también eliminará cualquiera de estas insignias que hayan sido obtenidas por o otorgadas a los usuarios."
+
+msgid "badge_image_from_template"
+msgstr "Usar plantilla"
+
+msgid "badge_image_from_upload"
+msgstr "Subir imagen"
+
+msgid "badge_image_template_form"
+msgstr "Plantilla de imagen"
+
+msgid "badge_image_templates"
+msgstr "Plantillas de imagen"
+
+msgid "badge_in_profile"
+msgstr "En el perfil"
+
+msgid "badge_issued_on"
+msgstr "Emitida el"
+
+msgid "badge_lhist_badge_completed"
+msgstr "Se le ha otorgado la insignia $3$."
+
+msgid "badge_lhist_badge_completed_in"
+msgstr "Se le ha otorgado la insignia $3$ en $1$."
+
+msgid "badge_manual"
+msgstr "Adjudicación manual"
+
+msgid "badge_new_badges"
+msgstr "Tiene %1 nueva(s) insignia(s)."
+
+msgid "badge_no_valid_types_for_obj"
+msgstr "Actualmente no hay tipos de insignias activos y, por lo tanto, no puede crear nuevas insignias. Póngase en contacto con el soporte técnico de su instalación."
+
+msgid "badge_notification_badges"
+msgstr "Nuevas insignias"
+
+msgid "badge_notification_badges_goto"
+msgstr "Ir a sus insignias"
+
+msgid "badge_notification_body"
+msgstr "Acaba de recibir una o más insignias nuevas."
+
+msgid "badge_notification_osd"
+msgstr "Ha recibido una o más insignias nuevas: [BADGE_LIST]"
+
+msgid "badge_notification_parent_goto"
+msgstr "Ir al repositorio"
+
+msgid "badge_notification_reason"
+msgstr "Si va a la sección ‘Insignias’ de sus ‘Logros’ en su instalación de ILIAS (vea el enlace de arriba), podrá añadir cualquier insignia nueva o existente a su perfil."
+
+msgid "badge_notification_subject"
+msgstr "Nueva(s) insignia(s)"
+
+msgid "badge_object_badges"
+msgstr "Insignias de objeto"
+
+msgid "badge_personal_badges"
+msgstr "Mis insignias"
+
+msgid "badge_profile_less"
+msgstr "Mostrar menos"
+
+msgid "badge_profile_more"
+msgstr "Mostrar todo"
+
+msgid "badge_remove_badge"
+msgstr "Revocar insignia"
+
+msgid "badge_remove_from_profile"
+msgstr "Quitar del perfil"
+
+msgid "badge_select_one"
+msgstr "Debe seleccionar al menos una insignia"
+
+msgid "badge_service_activate"
+msgstr "Activar servicio"
+
+msgid "badge_service_activate_info"
+msgstr "Permitir que se ganen y otorguen insignias en esta instalación."
+
+msgid "badge_settings"
+msgstr "Configuración de insignias"
+
+msgid "badge_sort_active_badges_first"
+msgstr "Insignias activas primero"
+
+msgid "badge_sort_active_badges_last"
+msgstr "Insignias activas al final"
+
+msgid "badge_sort_activity_badges_first"
+msgstr "Insignias de actividad primero"
+
+msgid "badge_sort_activity_badges_last"
+msgstr "Insignias de actividad al final"
+
+msgid "badge_sort_added_to_profile_last"
+msgstr "Agregadas al perfil primero"
+
+msgid "badge_sort_excluded_from_profile_first"
+msgstr "Excluidas del perfil primero"
+
+msgid "badge_sort_manual_awarding_first"
+msgstr "Insignias con asignación manual primero"
+
+msgid "badge_sort_manual_awarding_last"
+msgstr "Insignias con asignación manual al final"
+
+msgid "badge_subtype_auto"
+msgstr "Automática"
+
+msgid "badge_subtype_manual"
+msgstr "Manual"
+
+msgid "badge_template_deletion_confirmation"
+msgstr "¿Está seguro de que desea eliminar las siguientes plantillas de imagen?"
+
+msgid "badge_template_types"
+msgstr "Asignación de tipos de insignia"
+
+msgid "badge_template_types_all"
+msgstr "Todo"
+
+msgid "badge_template_types_specific"
+msgstr "Específico"
+
+msgid "badge_types"
+msgstr "Tipos"
+
+msgid "badge_update_image_processing_failed"
+msgstr "No fue posible actualizar la insignia. Ocurrió un error al procesar la imagen."
+
+msgid "badge_uploaded_image_file_not_found"
+msgstr "No se pudo encontrar ninguna imagen cargada para la insignia."
+
+msgid "badge_user_profile"
+msgstr "Perfil de usuario"
+
+msgid "badge_valid"
+msgstr "Válido hasta"
+
+msgid "criteria"
+msgstr "Criterios"
+
+msgid "endless"
+msgstr "Para siempre"
+
+msgid "issued_on"
+msgstr "Emitido el"
+
+msgid "position_updated"
+msgstr "Las insignias mostradas en su perfil han sido actualizadas."
+
+msgid "sort_by_date_asc"
+msgstr "Fecha ascendente"
+
+msgid "sort_by_date_desc"
+msgstr "Fecha descendente"
+
+msgid "sort_by_title_asc"
+msgstr "Título ascendente"
+
+msgid "sort_by_title_desc"
+msgstr "Título descendente"
+
+msgid "table_view"
+msgstr "Vista de Tabla"
+
+msgid "tile_view"
+msgstr "Vista de Mosaico"
+
+msgid "valid_until"
+msgstr "Válido hasta"

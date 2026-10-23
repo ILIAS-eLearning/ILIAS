@@ -1,0 +1,716 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: forum\n"
+
+msgid "activate_new_posts"
+msgstr "投稿をアクティブにする"
+
+msgid "activate_only_current"
+msgstr "現在をアクティブにする"
+
+msgid "activate_post"
+msgstr "アクティブにする"
+
+msgid "activate_post_txt"
+msgstr "本当に現在の投稿を承認しますか?　"
+
+msgid "add_new_answer"
+msgstr "投稿を追加"
+
+msgid "add_re_to_subject"
+msgstr "返信時に 'Re：' をSubjectに追加"
+
+msgid "adm_autosave_drafts"
+msgstr "自動的にドラフトを保存"
+
+msgid "adm_autosave_drafts_desc"
+msgstr "有効にすると編集中ドラフトは自動的に保存されます。"
+
+msgid "adm_autosave_ival"
+msgstr "間隔"
+
+msgid "adm_save_drafts"
+msgstr "ドラフトを保存"
+
+msgid "adm_save_drafts_desc"
+msgstr "有効にすると登録済みのユーザはドラフトとして掲示板投稿を保存可能になります。"
+
+msgid "allow_file_upload_desc"
+msgstr "有効にするとユーザは投稿へのファイル添付が可能になります。"
+
+msgid "ascending_order"
+msgstr "bottomに最新投稿"
+
+msgid "autosave_draft_info"
+msgstr "<span class=\"asterisk\">このドラフトは%s秒ごとに自動的に保存されます。</span>"
+
+msgid "autosave_post_draft_info"
+msgstr "<span class=\"asterisk\">この投稿は%s秒ごとに自動的に保存されます。</span>"
+
+msgid "close_topics"
+msgstr "終了"
+
+msgid "content_censored_post"
+msgstr "検閲された投稿の内容:"
+
+msgid "content_deleted_post"
+msgstr "削除された投稿の内容:"
+
+msgid "content_deleted_thread"
+msgstr "削除されたスレッドの内容:"
+
+msgid "content_post_updated"
+msgstr "編集された投稿の内容:"
+
+msgid "deletePosting"
+msgstr "投稿を削除"
+
+msgid "deletePostingDraft"
+msgstr "下書きを削除"
+
+msgid "delete_draft_successfully"
+msgstr "ドラフトは正しく削除されました。"
+
+msgid "delete_drafts_successfully"
+msgstr "ドラフトは正しく削除されました。"
+
+msgid "delete_thread"
+msgstr "スレッドを削除"
+
+msgid "descending_order"
+msgstr "topに最新投稿"
+
+msgid "edit_thread_draft"
+msgstr "スレッドドラフトを編集"
+
+msgid "empty_subject"
+msgstr "返信するにはユーザは新しいタイトルを入力する必要があります。"
+
+msgid "empty_thread"
+msgstr "スレッドを空にする"
+
+msgid "enable_send_attachments"
+msgstr "掲示板注釈付きの添付を送信"
+
+msgid "enable_send_attachments_desc"
+msgstr "添付ファイルは各通知ユーザ用として分けて保存する必要があることに注意願います。これはサーバディスクスペースの高利用になることがあります。"
+
+msgid "enable_thread_ratings"
+msgstr "スレッドレート"
+
+msgid "enable_thread_ratings_info"
+msgstr "有効にするとユーザはスレッドの評価ができます。"
+
+msgid "enter_new_subject"
+msgstr "新規件名を入力してください"
+
+msgid "error_no_target_selected"
+msgstr "掲示板を選択してください。"
+
+msgid "error_reading_file"
+msgstr "ファイル読み込み中にエラーが発生しました。"
+
+msgid "error_same_thread_ids"
+msgstr "ソースとターゲットのスレッドは別である必要があります。"
+
+msgid "file_upload_allowed"
+msgstr "添付を許可"
+
+msgid "file_upload_allowed_fora"
+msgstr "添付"
+
+msgid "file_upload_allowed_fora_desc"
+msgstr "選択した掲示板へ添付を許可が選択されると掲示板のモデレータは各掲示板の設定へ投稿するための添付ファイルを個別に許可することができます。新規掲示板内の添付のアップロードの初期値は無効となっています。"
+
+msgid "file_upload_option_allow"
+msgstr "全ての掲示板内へ添付を許可"
+
+msgid "file_upload_option_allow_info"
+msgstr "全ての掲示板の投稿へファイルを添付できます。"
+
+msgid "file_upload_option_disallow"
+msgstr "選択した掲示板へ添付を許可"
+
+msgid "fmr_copy_threads_info"
+msgstr "シングルスレッドをコピーする可能性があります。選択したスレッドの最初だけが複製されます。"
+
+msgid "forum_add_quote"
+msgstr "引用追加"
+
+msgid "forums_all_threads_marked_read"
+msgstr "全てのトピックスは既読としてマークされました。"
+
+msgid "forums_attachments"
+msgstr "添付ファイル"
+
+msgid "forums_attachments_add"
+msgstr "添付ファイルを追加"
+
+msgid "forums_censor_comment"
+msgstr "検閲者のコメント"
+
+msgid "forums_count_art"
+msgstr "記事の数"
+
+msgid "forums_created_by"
+msgstr "作成者"
+
+msgid "forums_delete_file"
+msgstr "添付を削除"
+
+msgid "forums_disable_notification"
+msgstr "このトピックの通知を無効"
+
+msgid "forums_download_attachment"
+msgstr "ファイルをダウンロード"
+
+msgid "forums_edit_draft"
+msgstr "ドラフトを編集"
+
+msgid "forums_edit_post"
+msgstr "記事を編集"
+
+msgid "forums_enable_notification"
+msgstr "このトピックの通知を有効"
+
+msgid "forums_forum_notification"
+msgstr "掲示板通知を送信"
+
+msgid "forums_forum_notification_desc"
+msgstr "有効にすると特定の掲示板内の新しい投稿に関する情報を得たい全ユーザは、メールで通知されます。"
+
+msgid "forums_forum_notification_disabled"
+msgstr "この掲示板の新規メッセージは今後通知されません。"
+
+msgid "forums_info_censor2_post"
+msgstr "検閲を取り消しますか?"
+
+msgid "forums_info_censor_post"
+msgstr "本当にこの記事を非表示にしますか?"
+
+msgid "forums_info_delete_draft"
+msgstr "このドラフトを本当に削除しますか?"
+
+msgid "forums_info_delete_post"
+msgstr "本当に応答を含むこの記事を削除しますか?"
+
+msgid "forums_mark_read"
+msgstr "既読として全てマーク"
+
+msgid "forums_new_thread"
+msgstr "新しいトピック"
+
+msgid "forums_no_posts_available"
+msgstr "このトピックにはまだ未投稿かモデレータが最初の投稿をアクティブ解除しています。"
+
+msgid "forums_notification_disabled"
+msgstr "通知しない"
+
+msgid "forums_notification_enabled"
+msgstr "通知する"
+
+msgid "forums_notification_intro"
+msgstr "このメールはILIASシステム%sから自動的に送信されたものです。"
+
+msgid "forums_notification_show_frm"
+msgstr "掲示板を表示:%s"
+
+msgid "forums_notification_show_post"
+msgstr "投稿を表示:%s"
+
+msgid "forums_post_activation_mail"
+msgstr "次の投稿がアクティブにならないとフォーラムのユーザは表示されません。モデレータ役なので投稿を有効にする役割としてemailを受信します。"
+
+msgid "forums_post_deleted"
+msgstr "記事が削除されました。"
+
+msgid "forums_post_modified"
+msgstr "記事が修正されました。"
+
+msgid "forums_post_needs_to_be_activated"
+msgstr "新しい投稿が作成されましたが、モデレータによるアクティブ化が必要です。"
+
+msgid "forums_post_new_entry"
+msgstr "新しい投稿が作成されました"
+
+msgid "forums_post_was_activated"
+msgstr "投稿が使用可能になりました。"
+
+msgid "forums_posts"
+msgstr "全ての投稿"
+
+msgid "forums_posts_not_available"
+msgstr "投稿は利用できません"
+
+msgid "forums_print_thread"
+msgstr "トピックを印刷"
+
+msgid "forums_subject"
+msgstr "件名"
+
+msgid "forums_the_post"
+msgstr "記事"
+
+msgid "forums_thread"
+msgstr "トピック"
+
+msgid "forums_thread_create_from"
+msgstr "作成者"
+
+msgid "forums_thread_deleted"
+msgstr "全ての投稿を含む選択されたスレッドは削除されました。"
+
+msgid "forums_thread_drafts_deleted"
+msgstr "全ての投稿とドラフトを含む選択されたスレッドは削除されました。"
+
+msgid "forums_thread_marked"
+msgstr "トピックは既読としてマークされました。"
+
+msgid "forums_thread_new_entry"
+msgstr "新しいトピックが作成されました"
+
+msgid "forums_threads_deleted"
+msgstr "全ての投稿を含む選択されたスレッドは削除されました。"
+
+msgid "forums_threads_drafts_deleted"
+msgstr "全ての投稿とドラフトを含む選択したスレッドは削除されました。"
+
+msgid "forums_your_reply"
+msgstr "返信"
+
+msgid "frm_action_not_possible_parent_deleted"
+msgstr "親の投稿が削除されたのでアクション不可。"
+
+msgid "frm_action_not_possible_thr_closed"
+msgstr "スレッドがクローズされたのでアクション不可。"
+
+msgid "frm_action_not_possible_thr_deleted"
+msgstr "スレッドが削除されたのでアクション不可。"
+
+msgid "frm_activation_online_info"
+msgstr "掲示板をオンラインにして他のユーザへ表示するように設定します。そうしないと管理者のみしかアクセスできなくなります。"
+
+msgid "frm_adm_sec_default_settings"
+msgstr "デフォルトオブジェクト設定"
+
+msgid "frm_adm_sec_drafts"
+msgstr "ドラフト"
+
+msgid "frm_adm_sec_features"
+msgstr "掲示板機能"
+
+msgid "frm_adm_sec_notifications"
+msgstr "通知"
+
+msgid "frm_all_threads"
+msgstr "全てのスレッド"
+
+msgid "frm_anonymous_posting"
+msgstr "ペンネームで投稿"
+
+msgid "frm_anonymous_posting_desc"
+msgstr "有効にすると登録済ユーザはペンネームのみかまたは無記名でこのフォーラムへ投稿する事ができます。"
+
+msgid "frm_at_least_one_moderator"
+msgstr "モデレータが一人は必須です。"
+
+msgid "frm_censorship"
+msgstr "検閲"
+
+msgid "frm_censorship_applied"
+msgstr "検閲権が正しく適用されました"
+
+msgid "frm_censorship_revoked"
+msgstr "検閲権が正しく破棄されました。"
+
+msgid "frm_copy"
+msgstr "掲示板をコピー"
+
+msgid "frm_default_view"
+msgstr "表示初期設定"
+
+msgid "frm_edit_title"
+msgstr "タイトルの編集"
+
+msgid "frm_enable_print_option"
+msgstr "印刷オプションを有効"
+
+msgid "frm_enable_print_option_desc"
+msgstr "無効にすると、掲示板の印刷オプションを誰も選択できなくなります。"
+
+#, fuzzy
+msgid "frm_forum_push_notification_info"
+msgstr "Forum notifications are sent as push notifications instead of e-mail. If the push notification cannot be delivered, an e-mail will be sent instead."
+
+msgid "frm_mark_as_read"
+msgstr "既読としてマーク"
+
+msgid "frm_mark_as_unread"
+msgstr "未読としてマーク"
+
+msgid "frm_max_notification_age"
+msgstr "通知上限年齢"
+
+msgid "frm_max_notification_age_info"
+msgstr "通知を投稿する年齢上限値を定義してください。定期間隔よりも高い値の選択をおすすめします。"
+
+msgid "frm_max_notification_age_unit"
+msgstr "Day(s)"
+
+msgid "frm_merge_src"
+msgstr "選択のスレッド: %s"
+
+msgid "frm_merge_target"
+msgstr "ターゲット: %s"
+
+msgid "frm_moderator_f"
+msgstr "モデレータ"
+
+msgid "frm_moderator_m"
+msgstr "モデレータ"
+
+msgid "frm_moderator_n"
+msgstr "モデレーション"
+
+msgid "frm_moderator_role_added_successfully"
+msgstr "モデレータ役が正しく追加されました。"
+
+msgid "frm_moderators"
+msgstr "モデレータ"
+
+msgid "frm_moderators_detached_role_successfully"
+msgstr "モデレータの役割が選択した全てのユーザから正しく外されました。"
+
+msgid "frm_moderators_not_exist_yet"
+msgstr "モデレータを選んでください。"
+
+msgid "frm_moderators_select_at_least_one"
+msgstr "モデレータを一人は選んでください。"
+
+msgid "frm_moderators_select_one"
+msgstr "ユーザを一人選んでください。"
+
+msgid "frm_move_invalid_file_type"
+msgstr "スレッド \"%s\" はサポートされていないファイルタイプが添付されています。ファイルを削除するかシステム管理者へコンタクトしてファイルタイプホワイトリストへこのファイルタイプを追加してください。"
+
+msgid "frm_noti_message"
+msgstr "メッセージ:"
+
+msgid "frm_noti_new_post"
+msgstr "新しい投稿が掲示板\"%1$s\"内に作成されました。"
+
+msgid "frm_noti_obj_crs"
+msgstr "コース"
+
+msgid "frm_noti_obj_grp"
+msgstr "グループ"
+
+msgid "frm_noti_subject_act_post"
+msgstr "掲示板\"%1$s\",スレッド\"%2$s\"の有効化された投稿"
+
+msgid "frm_noti_subject_answ_post"
+msgstr "掲示板\"%1$s\",スレッド\"%2$s\"の回答された投稿"
+
+msgid "frm_noti_subject_cens_post"
+msgstr "掲示板\"%1$s\",スレッド\"%2$s\"の検閲された投稿"
+
+msgid "frm_noti_subject_del_post"
+msgstr "掲示板\"%1$s\",スレッド\"%2$s\"の削除された投稿"
+
+msgid "frm_noti_subject_del_thread"
+msgstr "掲示板内\"%1$s\"の削除されたスレッド\"%2$s\""
+
+msgid "frm_noti_subject_new_post"
+msgstr "掲示板\"%1$s\"スレッド\"%2$s\"内の新しい投稿"
+
+msgid "frm_noti_subject_uncens_post"
+msgstr "掲示板\"%1$s\",スレッド\"%2$s\"の未検閲投稿"
+
+msgid "frm_noti_subject_upt_post"
+msgstr "掲示板\"%1$s\",スレッド\"%2$s\"の修正投稿"
+
+msgid "frm_notification_activated"
+msgstr "通知を有効にしました"
+
+#, fuzzy
+msgid "frm_notification_bg_task_title"
+msgstr "Forum notification delivery"
+
+msgid "frm_notification_deactivated"
+msgstr "通知を解除しました"
+
+msgid "frm_post_not_activated_yet"
+msgstr "まだ有効になっていません。"
+
+msgid "frm_posts"
+msgstr "掲示板投稿"
+
+msgid "frm_pseudonym"
+msgstr "ペンネーム"
+
+msgid "frm_purifier_not_implemented_for_type_x"
+msgstr "タイプ %の検証ツールはまだ実装されていません。"
+
+msgid "frm_rating"
+msgstr "評価"
+
+msgid "frm_revoke_censorship"
+msgstr "検閲権破棄"
+
+msgid "frm_search"
+msgstr "検索"
+
+msgid "frm_selected_merge_src"
+msgstr "マージする選択したスレッド: %s"
+
+msgid "frm_settings_form_header"
+msgstr "掲示板設定"
+
+msgid "frm_settings_mod_functions_header"
+msgstr "モデレータの機能"
+
+msgid "frm_settings_privacy_header"
+msgstr "プライバシー"
+
+msgid "frm_settings_user_functions_header"
+msgstr "ユーザ機能"
+
+msgid "frm_statistics"
+msgstr "統計"
+
+msgid "frm_statistics_disabled_for_participants"
+msgstr "フォーラム メンバーには統計は機能しません。"
+
+msgid "frm_statistics_enabled"
+msgstr "統計を可能にする"
+
+msgid "frm_statistics_enabled_desc"
+msgstr "受講者用の投稿の統計を可能にする"
+
+msgid "frm_statistics_ranking"
+msgstr "投稿数"
+
+msgid "frm_subject_setting"
+msgstr "Subject設定"
+
+msgid "frm_sure_delete_threads"
+msgstr "本当に次のスレッドを削除しますか?"
+
+msgid "frm_sure_merge_threads"
+msgstr "本当にこれらのスレッドをマージしますか?　警告: これは後戻りできません。ソーススレッドの最初の投稿がターゲットスレッドの最初の投稿以前に行われると最終的にILIASはソースとターゲットのスレッドをスワップします。"
+
+msgid "frm_task_publishing_draft_title"
+msgstr "Draft \"%s\"の公開"
+
+msgid "frm_wizard_page"
+msgstr "フォーラムをコピー (Step 2/2)"
+
+msgid "is_read"
+msgstr "既読としてマーク"
+
+msgid "make_topics_non_sticky"
+msgstr "トピックを付箋しない"
+
+msgid "make_topics_sticky"
+msgstr "トピックを付箋"
+
+msgid "mark_moderator_posts"
+msgstr "モデレータのポストをマーク"
+
+msgid "mark_moderator_posts_desc"
+msgstr "有効にするとモデレータの投稿がハイライトされます。"
+
+msgid "merge"
+msgstr "マージ"
+
+msgid "merge_posts_into_thread"
+msgstr "投稿を他のスレッドへ統合"
+
+msgid "merged_threads_successfully"
+msgstr "選択されたスレッドは正しくマージされました。"
+
+msgid "move_chosen_topics"
+msgstr "選択したトピックを移動"
+
+msgid "move_thread_to_forum"
+msgstr "ヅレッドを他の掲示板へ移動"
+
+msgid "new_post"
+msgstr "新しい投稿"
+
+msgid "new_thread_with_post"
+msgstr "投稿の新しいスレッド"
+
+msgid "no_forum_selected"
+msgstr "移動するトピックスのフォーラムが選択されていません"
+
+msgid "not_allowed_to_merge_into_another_forum"
+msgstr "他の掲示板のスレッドをマージできません。"
+
+msgid "notification_settings"
+msgstr "通知設定"
+
+msgid "notify_censored"
+msgstr "検閲された投稿"
+
+msgid "notify_modified"
+msgstr "編集された投稿"
+
+msgid "notify_post_deleted"
+msgstr "削除された投稿"
+
+msgid "notify_thread_deleted"
+msgstr "削除されたスレッドの内容:"
+
+msgid "notify_uncensored"
+msgstr "未検閲投稿"
+
+msgid "number_of_threads"
+msgstr "ページあたりのスレッド表示数"
+
+msgid "please_choose_target"
+msgstr "マージターゲットとしてスレッドを選択してください。"
+
+msgid "post_activation_desc"
+msgstr "告知する前に全ての投稿はモデレータが承認する必要があります。"
+
+msgid "post_censored_by"
+msgstr "%1$sによる掲示板\"%2$s\"内の検閲された投稿:"
+
+msgid "post_censored_comment_by_moderator"
+msgstr "モデレータによるコメント、検閲の投稿"
+
+msgid "post_deleted_by"
+msgstr "掲示板\"%2$s\"への次の投稿は\"%1$s\"により削除されました:"
+
+msgid "post_draft_info"
+msgstr "あなただけにこの投稿が表示されます。"
+
+msgid "post_reply"
+msgstr "Re:"
+
+msgid "post_reply_count"
+msgstr "Re(%s):"
+
+msgid "post_uncensored_by"
+msgstr "投稿は\"%1$s\"により検閲されませんでした"
+
+msgid "post_updated_by"
+msgstr "%1$sによる掲示板内の以降編集された投稿: \"%2$s\""
+
+msgid "preset_subject"
+msgstr "返信時の件名をプリセットします"
+
+msgid "publish"
+msgstr "公開"
+
+msgid "relevance"
+msgstr "関連性"
+
+msgid "reopen_topics"
+msgstr "再開"
+
+msgid "reply_to_postings"
+msgstr "返信"
+
+msgid "reset_limited_view"
+msgstr "以下の全投稿のこの投稿の限定ビュー"
+
+msgid "reset_limited_view_button"
+msgstr "全スレッドを表示"
+
+msgid "reset_limited_view_info"
+msgstr "以下の全投稿のこの投稿の限定ビュー"
+
+msgid "restore"
+msgstr "リストア"
+
+msgid "restore_draft_from_autosave"
+msgstr "ドラフトをリストア"
+
+msgid "save_draft_successfully"
+msgstr "ドラフトは正しく保存されました。"
+
+msgid "sel_threads_already_sticky"
+msgstr "選択されたスレッドが一つはすでに付箋済みです。"
+
+msgid "sel_threads_already_unsticky"
+msgstr "選択されたスレッドが一つはすでにはがされています。"
+
+msgid "sel_threads_make_sticky"
+msgstr "選択されたスレッドは付箋としてマークされています。"
+
+msgid "sel_threads_make_unsticky"
+msgstr "選択されたスレッドは付箋としてもうマークされていません。"
+
+msgid "select_at_least_one_thread"
+msgstr "トピックを一つは選択してください。"
+
+msgid "select_max_one_thread"
+msgstr "1スレッドのみ選択してください!"
+
+msgid "selected_threads_closed"
+msgstr "選択されたスレッドは閉鎖されました。"
+
+msgid "selected_threads_reopened"
+msgstr "選択されたスレッドは再開しました。"
+
+msgid "sort_by_date"
+msgstr "日付でソート"
+
+msgid "sort_by_date_desc"
+msgstr "スレッドはフラットビュー内に表示されます。投稿は作成の年月順に表示されます。"
+
+msgid "sort_by_posts"
+msgstr "投稿でソート"
+
+msgid "sort_by_posts_desc"
+msgstr "スレッドはツリービューで表示されます。投稿の役割は両者の関係性順に表示されます。"
+
+msgid "sorting"
+msgstr "並び替え"
+
+msgid "sticky"
+msgstr "付箋"
+
+msgid "sure_delete_drafts"
+msgstr "選択したドラフトを本当に削除しますか?"
+
+msgid "switch_threads_for_merge"
+msgstr "選択されたスレッドはターゲットのスレッドより古いです。正しくマージするためにソースとターゲットスレッドは切替されます。"
+
+msgid "target_select"
+msgstr "限定ビュー用の投稿を選択"
+
+msgid "thema"
+msgstr "スレッド"
+
+msgid "thread"
+msgstr "スレッド"
+
+msgid "thread_deleted_by"
+msgstr "掲示板\"%2$s\"内の次のスレッドは\"%1$s\"により削除されました:"
+
+msgid "thread_overview"
+msgstr "スレッド概略"
+
+msgid "threads_moved_successfully"
+msgstr "選択のスレッドは別の掲示板へ正しく移動されました。"
+
+msgid "top_thema"
+msgstr "トップスレッド"
+
+msgid "topic_close"
+msgstr "終了"
+
+msgid "topics_please_select_one_action"
+msgstr "アクションを選択してください。"
+
+msgid "user_decides_notification"
+msgstr "メンバーは手動で通知を有効にする必要あり"

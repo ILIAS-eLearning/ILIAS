@@ -1,0 +1,231 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: badge\n"
+
+msgid "awarded_by"
+msgstr "表彰者"
+
+msgid "badge_activity_badges"
+msgstr "アクティビティバッジ"
+
+msgid "badge_add_template"
+msgstr "テンプレートを追加"
+
+msgid "badge_add_to_profile"
+msgstr "プロファイルを追加"
+
+msgid "badge_assignment_deletion_confirmation"
+msgstr "%sの以下のバッジ割当てを本当に取り消ししますか?"
+
+msgid "badge_award_badge"
+msgstr "バッジを授与"
+
+msgid "badge_award_revoke"
+msgstr "バッジを授与/取り消す"
+
+msgid "badge_badge"
+msgstr "バッジ"
+
+msgid "badge_course_lp"
+msgstr "コースLP"
+
+msgid "badge_course_lp_invalid"
+msgstr "次のオブジェクトにはサポートされていないLPモードがあります: %s"
+
+msgid "badge_create"
+msgstr "バッジを生成"
+
+msgid "badge_create_image_processing_failed"
+msgstr "イメージ処理中にエラーが発生したためバッジを生成できませんでした。"
+
+msgid "badge_criteria"
+msgstr "判定基準"
+
+msgid "badge_crs_merit"
+msgstr "メリット"
+
+msgid "badge_deletion"
+msgstr "バッジは正しく削除されました。"
+
+msgid "badge_deletion_confirmation"
+msgstr "次のバッジとそれぞれの割当てすべてを本当に削除しますか?"
+
+msgid "badge_image_from_template"
+msgstr "テンプレートを使用"
+
+msgid "badge_image_from_upload"
+msgstr "イメージをアップロード"
+
+msgid "badge_image_template_form"
+msgstr "イメージテンプレート"
+
+msgid "badge_image_templates"
+msgstr "イメージテンプレート"
+
+msgid "badge_in_profile"
+msgstr "プロファイル上"
+
+msgid "badge_issued_on"
+msgstr "発行日"
+
+msgid "badge_lhist_badge_completed"
+msgstr "$3$ バッジを授与しました"
+
+msgid "badge_lhist_badge_completed_in"
+msgstr "$1$でバッジ$3$を授与しました。"
+
+msgid "badge_manual"
+msgstr "手動授与"
+
+msgid "badge_new_badges"
+msgstr "%1 新しいバッジがあります。"
+
+msgid "badge_no_valid_types_for_obj"
+msgstr "現在アクティブなバッジタイプがありません。新しいバッジを作成できません。管理者へ連絡してください。"
+
+msgid "badge_notification_badges"
+msgstr "新しいバッジ"
+
+msgid "badge_notification_badges_goto"
+msgstr "あなたのバッジへ"
+
+msgid "badge_notification_body"
+msgstr "たった今新しいバッジを受領しました。"
+
+msgid "badge_notification_osd"
+msgstr "たった今新しいバッジを受領しました。: [BADGE_LIST]"
+
+msgid "badge_notification_parent_goto"
+msgstr "リポジトリへ"
+
+msgid "badge_notification_reason"
+msgstr "プロファイルへバッジ追加が可能になるのでこのメッセージを受信しています。"
+
+msgid "badge_notification_subject"
+msgstr "バッジを受領しました"
+
+msgid "badge_object_badges"
+msgstr "オブジェクトバッジ"
+
+msgid "badge_personal_badges"
+msgstr "マイバッジ"
+
+msgid "badge_profile_less"
+msgstr "少なく表示"
+
+msgid "badge_profile_more"
+msgstr "全てを表示"
+
+msgid "badge_remove_badge"
+msgstr "バッジを取り消す"
+
+msgid "badge_remove_from_profile"
+msgstr "プロファイルから取り消す"
+
+msgid "badge_select_one"
+msgstr "バッジを一つは選択する必要があります。"
+
+msgid "badge_service_activate"
+msgstr "サービスを有効にする"
+
+msgid "badge_service_activate_info"
+msgstr "バッジ利用が可能になるようサービスを有効にする"
+
+msgid "badge_settings"
+msgstr "バッジ設定"
+
+msgid "badge_sort_active_badges_first"
+msgstr "アクティブバッジを先に"
+
+msgid "badge_sort_active_badges_last"
+msgstr "アクティブバッジを最後に"
+
+msgid "badge_sort_activity_badges_first"
+msgstr "アクティビティバッジを最初に"
+
+msgid "badge_sort_activity_badges_last"
+msgstr "アクティビティバッジを最後に"
+
+msgid "badge_sort_added_to_profile_last"
+msgstr "プロフィールに最初に追加されました"
+
+msgid "badge_sort_excluded_from_profile_first"
+msgstr "プロフィールから最初に除外"
+
+msgid "badge_sort_manual_awarding_first"
+msgstr "バッジは手動で付与するものを最初に"
+
+msgid "badge_sort_manual_awarding_last"
+msgstr "バッジを手動で最後に付与"
+
+msgid "badge_subtype_auto"
+msgstr "自動的に"
+
+msgid "badge_subtype_manual"
+msgstr "手動"
+
+msgid "badge_template_deletion_confirmation"
+msgstr "次のイメージテンプレートを本当に削除しますか?"
+
+msgid "badge_template_types"
+msgstr "有効なタイプ"
+
+msgid "badge_template_types_all"
+msgstr "All"
+
+msgid "badge_template_types_specific"
+msgstr "特定の"
+
+msgid "badge_types"
+msgstr "タイプ"
+
+msgid "badge_update_image_processing_failed"
+msgstr "イメージ処理中にエラーが発生したためバッジを更新できませんでした。"
+
+msgid "badge_uploaded_image_file_not_found"
+msgstr "バッジが見つからなかったためイメージをアップロード不可。"
+
+msgid "badge_user_profile"
+msgstr "ユーザプロファイル"
+
+msgid "badge_valid"
+msgstr "有効期限"
+
+msgid "criteria"
+msgstr "基準"
+
+msgid "endless"
+msgstr "常時"
+
+msgid "issued_on"
+msgstr "発行日"
+
+msgid "position_updated"
+msgstr "プロファイル割り当てを更新しました。"
+
+msgid "sort_by_date_asc"
+msgstr "昇順で日にちを並び替え"
+
+msgid "sort_by_date_desc"
+msgstr "降順で日にちを並び替え"
+
+msgid "sort_by_title_asc"
+msgstr "昇順でタイトルを並び替え"
+
+msgid "sort_by_title_desc"
+msgstr "降順でタイトルを並び替え"
+
+msgid "table_view"
+msgstr "Table View"
+
+msgid "tile_view"
+msgstr "Tile View"
+
+msgid "valid_until"
+msgstr "有効期間"

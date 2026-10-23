@@ -1,0 +1,57 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: chatroom_adm\n"
+
+msgid "chat_cannot_connect_to_server"
+msgstr "ILIAS kann keine Socket-Verbindung zum Chat-Server aufbauen."
+
+msgid "chat_enabled"
+msgstr "Chat aktivieren"
+
+msgid "chatserver_settings_title"
+msgstr "Chat-Server"
+
+msgid "client_settings"
+msgstr "Allgemeine Einstellungen"
+
+msgid "general_settings_title"
+msgstr "Allgemeine Chat-Einstellungen"
+
+msgid "https"
+msgstr "HTTPS"
+
+msgid "osc_adm_browser_noti_info"
+msgstr "Falls aktiviert, können Benutzer selbst entscheiden, ob sie für neue Konversationen und Nachrichten eine Browser-Benachrichtigung erhalten wollen. Diese werden dann zugestellt, wenn a) der Benutzer in anderen Browser-Tabs aktiv oder der Browser ausgeblendet ist, und sich ILIAS im Hintergrund befindet, oder wenn b) die in der Administration eingestellte „Zeit zwischen Benachrichtigungen“ vergangen ist."
+
+msgid "osc_adm_browser_noti_label"
+msgstr "Browser-Benachrichtigungen"
+
+msgid "osc_adm_conv_idle_state_threshold_info"
+msgstr "Definieren Sie hier die Zeit zwischen zwei eingehenden Nachrichten eines Chats, die mindestens vergehen muss, damit eine Browser-Benachrichtigung für eine neue Chat-Nachricht zugestellt wird, wenn sich ILIAS im Vordergrund befindet."
+
+msgid "osc_adm_conv_idle_state_threshold_label"
+msgstr "Zeit zwischen Benachrichtigungen"
+
+msgid "port_info"
+msgstr "Oft werden selten genutzte Ports von Firewalls oder Proxy-Servern geblockt. Benutzer werden mit ihrem Browser keine Verbindung zum Chat-Server aufbauen können, wenn der eingetragene Port nicht offen ist."
+
+msgid "protocol"
+msgstr "Protokoll"
+
+msgid "public_chat_permissions"
+msgstr "Öffentlicher Chatraum : Rechte"
+
+msgid "public_chat_settings"
+msgstr "Öffentlicher Chatraum : Einstellungen"
+
+msgid "server_settings"
+msgstr "Chat-Server-Einstellungen"
+
+msgid "settings_has_been_saved"
+msgstr "Einstellungen wurden gespeichert."

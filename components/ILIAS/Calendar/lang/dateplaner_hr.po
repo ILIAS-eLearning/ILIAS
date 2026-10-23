@@ -1,0 +1,1375 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hr\n"
+"Language-Team: Croatian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: dateplaner\n"
+
+msgid "Fr_long"
+msgstr "Petak"
+
+msgid "Fr_short"
+msgstr "Pet"
+
+msgid "Mo_long"
+msgstr "Ponedjeljak"
+
+msgid "Mo_short"
+msgstr "Pon"
+
+msgid "Sa_long"
+msgstr "Subota"
+
+msgid "Sa_short"
+msgstr "Sub"
+
+msgid "Su_long"
+msgstr "Nedjelja"
+
+msgid "Su_short"
+msgstr "Ned"
+
+msgid "Text"
+msgstr "Tekst"
+
+msgid "Th_long"
+msgstr "Četvrtak"
+
+msgid "Th_short"
+msgstr "Čet"
+
+msgid "Tu_long"
+msgstr "Utorak"
+
+msgid "Tu_short"
+msgstr "Uto"
+
+msgid "We_long"
+msgstr "Srijeda"
+
+msgid "We_short"
+msgstr "Sri"
+
+msgid "add_appointment"
+msgstr "Dodaj imenovanje"
+
+msgid "app_consultation_hours"
+msgstr "Vrijeme konzultacija"
+
+msgid "app_day"
+msgstr "Dan"
+
+msgid "app_month"
+msgstr "Mjesec"
+
+msgid "app_week"
+msgstr "Tjedan"
+
+msgid "back_to_crs"
+msgstr "Idi na tečaj"
+
+msgid "back_to_grp"
+msgstr "Idi na grupu"
+
+msgid "back_to_pd"
+msgstr "Natrag"
+
+msgid "btn_ical"
+msgstr "iCal"
+
+msgid "c_date"
+msgstr "Stvori događaj"
+
+msgid "cal_add_appointment"
+msgstr "Stvori sastanak"
+
+msgid "cal_add_calendar"
+msgstr "Dodaj kalendar"
+
+msgid "cal_add_category"
+msgstr "Stvori novi kalendar"
+
+msgid "cal_add_milestone"
+msgstr "Dodaj ključnu točku"
+
+msgid "cal_adm_notification_info"
+msgstr "Odaberite ovu opciju da biste polaznicima tečaja/grupe slali opcionalne obavijesti o promijenjenim sastancima."
+
+msgid "cal_adm_notification_user_info"
+msgstr "Odaberite ovu opciju da biste odabranim korisnicima slali opcionalne obavijesti e-poštom."
+
+msgid "cal_agenda"
+msgstr "Dnevni red"
+
+msgid "cal_all_day"
+msgstr "Cijeli dan"
+
+msgid "cal_app_info"
+msgstr "Informacije o imenovanju"
+
+#, fuzzy
+msgid "cal_app_other_materials_num"
+msgstr "View other materials"
+
+#, fuzzy
+msgid "cal_appointment_notifications"
+msgstr "Notification"
+
+msgid "cal_appointments"
+msgstr "Imenovanje(a)"
+
+msgid "cal_apps"
+msgstr "Broj imenovanja"
+
+msgid "cal_assigned_appointments"
+msgstr "Dodijeljena imenovanja"
+
+msgid "cal_back_to_cal"
+msgstr "Natrag na kalendar"
+
+msgid "cal_back_to_list"
+msgstr "Natrag na popis"
+
+msgid "cal_back_to_search"
+msgstr "Natrag na pretraživanje"
+
+msgid "cal_batch_file_downloads"
+msgstr "Skupna obrada preuzetih datoteka iz kalendara"
+
+msgid "cal_batch_file_downloads_info"
+msgstr "Aktiviraj gumb za preuzimanje svih datoteka povezanih s trenutačnim prikazom kalendara/sastanka."
+
+#, fuzzy
+msgid "cal_belongs_to"
+msgstr "Belongs to Calendar"
+
+msgid "cal_book_free"
+msgstr "dostupno"
+
+msgid "cal_booked_out"
+msgstr "rezervirano"
+
+msgid "cal_booking_cancellation_body"
+msgstr "vaš sastanak s %s je otkazan."
+
+msgid "cal_booking_cancellation_subject"
+msgstr "Termin \"%s\" je otkazan"
+
+msgid "cal_booking_cancellation_user"
+msgstr "Ovo je kopija originalne pošte korisniku:"
+
+msgid "cal_booking_confirmation_body"
+msgstr "zakazan je vaš sastanak s %s."
+
+msgid "cal_booking_confirmation_link"
+msgstr "Poveznica na sastanak:"
+
+msgid "cal_booking_confirmation_subject"
+msgstr "Sastanak \"%s\" je rezerviran"
+
+msgid "cal_booking_confirmation_user"
+msgstr "Ovo je kopija originalne pošte korisniku:"
+
+msgid "cal_booking_confirmed"
+msgstr "Termin je uspješno rezerviran."
+
+msgid "cal_booking_failed_info"
+msgstr "Ovaj je termin rezerviran. Odaberite drugi termin."
+
+#, fuzzy
+msgid "cal_booking_manager_confirmation_body"
+msgstr "%s has booked an appointment with %s."
+
+#, fuzzy
+msgid "cal_booking_owner_confirmation_body"
+msgstr "%s has booked an appointment with you."
+
+msgid "cal_cache"
+msgstr "Predmemorija kalendara"
+
+msgid "cal_cache_disabled"
+msgstr "Onemogućeno"
+
+msgid "cal_cache_enabled"
+msgstr "Omogućeno"
+
+msgid "cal_cache_info"
+msgstr "Ako se aktiviraju, sastanci kalendara na osobnoj radnoj površini i u repozitoriju izračunavaju se samo svakih x minuta."
+
+msgid "cal_cache_settings"
+msgstr "Predmemorija"
+
+msgid "cal_cal_deleted"
+msgstr "Kalendari su izbrisani"
+
+msgid "cal_cal_details"
+msgstr "Pojedinosti kalendara"
+
+msgid "cal_cal_shared_with"
+msgstr "Kalendar korisnika je podijeljen s"
+
+msgid "cal_cal_sync_success"
+msgstr "Uspješno sinkroniziran kalendar"
+
+msgid "cal_cal_synchronize"
+msgstr "Termin je uspješno rezerviran."
+
+msgid "cal_cal_type"
+msgstr "Ovaj je termin rezerviran. Odaberite drugi termin."
+
+msgid "cal_calendar_color"
+msgstr "Predmemorija kalendara"
+
+msgid "cal_calendar_download"
+msgstr "Onemogućeno"
+
+msgid "cal_calendar_name"
+msgstr "Omogućeno"
+
+msgid "cal_calendar_subscription_modal_title"
+msgstr "Ako se aktiviraju, sastanci kalendara na osobnoj radnoj površini i u repozitoriju izračunavaju se samo svakih x minuta."
+
+msgid "cal_cancel_booking"
+msgstr "Predmemorija"
+
+msgid "cal_cancel_booking_confirmed"
+msgstr "Kalendari su izbrisani"
+
+msgid "cal_cancel_booking_info"
+msgstr "Pojedinosti kalendara"
+
+msgid "cal_category_selection"
+msgstr "Kalendar korisnika je podijeljen s"
+
+msgid "cal_cg_notification"
+msgstr "Uspješno sinkroniziran kalendar"
+
+msgid "cal_cg_registration_info"
+msgstr "Daje korisnicima mogućnost da se registriraju na tečajeve i grupne sastanke."
+
+msgid "cal_cg_registrations"
+msgstr "Prijava za tečaj/sastanke grupe"
+
+msgid "cal_ch_add_grp"
+msgstr "Kreiraj novu grupu konzultacija"
+
+msgid "cal_ch_add_sequence"
+msgstr "Dodaj novi redoslijed konzultacija"
+
+msgid "cal_ch_app_bookings"
+msgstr "Rezervacije"
+
+msgid "cal_ch_app_grp"
+msgstr "Grupe konzultacija"
+
+msgid "cal_ch_app_list"
+msgstr "Termini za konzultacije"
+
+msgid "cal_ch_assign_participants"
+msgstr "Dodijeli korisnike"
+
+msgid "cal_ch_assigned_apps"
+msgstr "Broj sastanaka"
+
+msgid "cal_ch_book"
+msgstr "Rezerviraj konzultacije"
+
+msgid "cal_ch_booking"
+msgstr "Rezervacija resursa"
+
+#, fuzzy
+msgid "cal_ch_booking_col_comments"
+msgstr "Comments"
+
+#, fuzzy
+msgid "cal_ch_booking_comment"
+msgstr "Comment:"
+
+#, fuzzy
+msgid "cal_ch_booking_link"
+msgstr "Link to Consultation Hours:"
+
+msgid "cal_ch_booking_message_tbl"
+msgstr "Komentar"
+
+#, fuzzy
+msgid "cal_ch_booking_num_available"
+msgstr "Available Slots"
+
+#, fuzzy
+msgid "cal_ch_booking_num_free_short"
+msgstr "%s free"
+
+#, fuzzy
+msgid "cal_ch_booking_other_participants"
+msgstr "Other Participants:"
+
+msgid "cal_ch_booking_owner"
+msgstr "Vlasnik"
+
+#, fuzzy
+msgid "cal_ch_booking_participants"
+msgstr "Participants"
+
+msgid "cal_ch_booking_reminder_body"
+msgstr "vaš sastanak s \"%s\" počinje uskoro."
+
+msgid "cal_ch_booking_reminder_subject"
+msgstr "Podsjetnik za \"%s\""
+
+#, fuzzy
+msgid "cal_ch_booking_start"
+msgstr "Start"
+
+#, fuzzy
+msgid "cal_ch_booking_your_comment"
+msgstr "Your comment:"
+
+msgid "cal_ch_bookings"
+msgstr "Sudionici"
+
+msgid "cal_ch_bookings_tbl"
+msgstr "Rezervirani termini"
+
+msgid "cal_ch_cancel_booking"
+msgstr "Otkaži rezervaciju"
+
+msgid "cal_ch_cancel_booking_info"
+msgstr "‘Otkaži rezervaciju’ šalje korisnicima e-poštu s obavijestima. Ako ne želite obavijestiti korisnike, odaberite opciju ‘Izbriši rezervaciju’."
+
+msgid "cal_ch_cancel_booking_sure"
+msgstr "Želite li zaista otkazati sljedeće rezervacije?"
+
+msgid "cal_ch_canceled_bookings"
+msgstr "Odabrane rezervacije su izbrisane."
+
+msgid "cal_ch_ch"
+msgstr "Termini za konzultacije"
+
+msgid "cal_ch_cron_reminder"
+msgstr "Pošaljite podsjetnik za termin za konzultacije"
+
+msgid "cal_ch_cron_reminder_days"
+msgstr "Broj dana"
+
+msgid "cal_ch_cron_reminder_info"
+msgstr "Ako je omogućeno, poslat će se obavijesti o nadolazećim terminima za konzultacije."
+
+#, fuzzy
+msgid "cal_ch_current_booking_comment"
+msgstr "Comment"
+
+msgid "cal_ch_current_bookings"
+msgstr "Trenutne rezervacije"
+
+msgid "cal_ch_deadline"
+msgstr "Najnovija registracija"
+
+msgid "cal_ch_deadline_info"
+msgstr "Odredite broj sati do blokiranja registracije."
+
+msgid "cal_ch_delete_app_booking_info"
+msgstr "Za sljedeće sastanke već postoje rezervacije. Ako izbrišete ove sastanke, korisnici neće biti obaviješteni."
+
+msgid "cal_ch_delete_booking"
+msgstr "Izbriši rezervaciju"
+
+msgid "cal_ch_delete_booking_info"
+msgstr "‘Izbriši rezervaciju’ neće korisnike obavijestiti e-poštom. Ako želite obavijestiti korisnike, odaberite radnju ‘Otkaži rezervaciju’."
+
+msgid "cal_ch_delete_booking_sure"
+msgstr "Želite li zaista izbrisati sljedeće rezervacije?"
+
+msgid "cal_ch_deleted_bookings"
+msgstr "Odabrane rezervacije su otkazane."
+
+msgid "cal_ch_duration"
+msgstr "Trajanje svakog sastanka"
+
+msgid "cal_ch_export_apps"
+msgstr "Rezervirani sastanci"
+
+msgid "cal_ch_field_ch"
+msgstr "Termini za konzultacije"
+
+msgid "cal_ch_form"
+msgstr "Omogući konzultacije"
+
+msgid "cal_ch_form_header"
+msgstr "Konzultacije"
+
+msgid "cal_ch_form_info"
+msgstr "Ova opcija omogućuje upravljanje osobnim konzultacijama u kalendaru."
+
+#, fuzzy
+msgid "cal_ch_free_of_available"
+msgstr "%s of %s"
+
+msgid "cal_ch_grp_add_tbl"
+msgstr "Stvori novu grupu za konzultacije"
+
+msgid "cal_ch_grp_delete_sure"
+msgstr "Želite li zaista izbrisati sljedeće grupe za konzultacije?"
+
+msgid "cal_ch_grp_header"
+msgstr "Grupa za konzultacije"
+
+msgid "cal_ch_grp_multiple"
+msgstr "Rezervacije po korisniku"
+
+msgid "cal_ch_grp_multiple_info"
+msgstr "Možete definirati maksimalan broj rezervacija po korisniku."
+
+msgid "cal_ch_grp_no_assignment"
+msgstr "- Nije dodijeljeno -"
+
+msgid "cal_ch_grp_selection"
+msgstr "Dodjela grupama za konzultacije"
+
+msgid "cal_ch_grp_update_tbl"
+msgstr "Uredi grupu za konzultacije"
+
+msgid "cal_ch_grps"
+msgstr "Grupe za konzultacije"
+
+msgid "cal_ch_manager"
+msgstr "Voditelj konzultacija"
+
+msgid "cal_ch_manager_info"
+msgstr "Prijava korisnika koji će upravljati vašim konzultacijama."
+
+msgid "cal_ch_max_books"
+msgstr "Rezervacije po korisniku"
+
+#, fuzzy
+msgid "cal_ch_minutes"
+msgstr "Duration (min)"
+
+msgid "cal_ch_multi_edit_sequence"
+msgstr "Uredite više sastanaka"
+
+msgid "cal_ch_num_appointments"
+msgstr "Broj sastanaka"
+
+msgid "cal_ch_num_appointments_info"
+msgstr "Molimo definirajte broj uzastopnih sastanaka."
+
+msgid "cal_ch_num_bookings"
+msgstr "Rezervacija po sastanku"
+
+msgid "cal_ch_personal_book"
+msgstr "Osobne rezervacije"
+
+msgid "cal_ch_personal_ch"
+msgstr "Osobne konzultacije"
+
+msgid "cal_ch_reject_booking"
+msgstr "Otkaži rezervaciju"
+
+#, fuzzy
+msgid "cal_ch_send_mail"
+msgstr "Send Mail"
+
+msgid "cal_ch_target_object"
+msgstr "Objekt repozitorija"
+
+msgid "cal_ch_target_object_info"
+msgstr "Konzultacije bit će prikazane u bloku desno od tečaja/grupe. Da biste ograničili prikaz konzultacija na određene tečajeve ili grupe, unesite Ref-ID navedenih predmeta. Ref-ID možete pronaći u URL-u odgovarajućih objekata. Dodajte više Ref-ID-a odvojenih zarezom. Bez obzira na to, konzultacije mogu se također pojaviti u vašim e-portfeljima."
+
+msgid "cal_ch_unknown_repository_object"
+msgstr "Navedeni ref-id objekta repozitorija nije valjan."
+
+msgid "cal_ch_unknown_user"
+msgstr "Navedena prijava ne odgovara nijednom korisniku."
+
+msgid "cal_ch_user_assignment_failed_info"
+msgstr "Sljedećim korisnicima nije bilo moguće dodijeliti sastanke jer je premašen maksimalni broj rezervacija."
+
+#, fuzzy
+msgid "cal_ch_vm_period_all"
+msgstr "All"
+
+#, fuzzy
+msgid "cal_ch_vm_period_past"
+msgstr "Past"
+
+#, fuzzy
+msgid "cal_ch_vm_period_upcoming"
+msgstr "Upcoming"
+
+#, fuzzy
+msgid "cal_ch_vm_status_all"
+msgstr "All"
+
+#, fuzzy
+msgid "cal_ch_vm_status_booked"
+msgstr "Booked Slots"
+
+#, fuzzy
+msgid "cal_ch_vm_status_open"
+msgstr "Open Slots"
+
+#, fuzzy
+msgid "cal_change_calendar_view"
+msgstr "Change Calendar View"
+
+msgid "cal_change_responsible_users"
+msgstr "Promijenite odgovorne korisnike"
+
+msgid "cal_changed_events_header"
+msgstr "Novi i promijenjeni sastanci"
+
+msgid "cal_confirm_booking"
+msgstr "Potvrdi rezervaciju"
+
+msgid "cal_confirm_booking_info"
+msgstr "Molimo potvrdite rezervaciju za ovaj sastanak."
+
+msgid "cal_confirm_reg_info"
+msgstr "Molimo potvrdite registraciju za ovaj sastanak."
+
+msgid "cal_confirm_unreg_info"
+msgstr "Molimo potvrdite otkazivanje ove registracije."
+
+msgid "cal_consultation_hours_for"
+msgstr "Konzultacije za"
+
+msgid "cal_consultation_hours_for_user"
+msgstr "Konzultacije za% 1"
+
+msgid "cal_contained_in"
+msgstr "Sadržano u"
+
+msgid "cal_create"
+msgstr "Stvori"
+
+msgid "cal_created_appointment"
+msgstr "Stvoren novi sastanak."
+
+msgid "cal_created_milestone"
+msgstr "Dodana ključna točka."
+
+msgid "cal_created_milestone_resp_q"
+msgstr "Dodana ključna točka. Odaberite korisnike koji su odgovorni za postizanje ključne točke."
+
+#, fuzzy
+msgid "cal_cronjob_remote_description"
+msgstr "If activated, appointments of the calendar type \"Web calendar\" are automatically synchronised after the specified time interval."
+
+#, fuzzy
+msgid "cal_cronjob_remote_title"
+msgstr "External Calendar Synchronisation"
+
+msgid "cal_crs_info"
+msgstr "Informacije o tečaju"
+
+msgid "cal_crs_new_notification_body"
+msgstr "stvoren je novi sastanak na tečaju \"%s\"."
+
+msgid "cal_crs_new_notification_sub"
+msgstr "Novi sastanak na tečaju \"%s\""
+
+msgid "cal_crs_notification_body"
+msgstr "sastanak je promijenjen na tečaju \"%s\"."
+
+msgid "cal_crs_notification_sub"
+msgstr "Promijenjen sastanak na tečaju \"%s\""
+
+msgid "cal_crs_timing_end"
+msgstr "Predloženi kraj"
+
+msgid "cal_crs_timing_start"
+msgstr "Predloženi početak"
+
+msgid "cal_daily"
+msgstr "Dnevno"
+
+#, fuzzy
+msgid "cal_date_and_time"
+msgstr "Date and Time"
+
+msgid "cal_date_booked"
+msgstr "rezervirano"
+
+msgid "cal_date_format_info"
+msgstr "Odaberite format za unos datuma."
+
+#, fuzzy
+msgid "cal_date_time_title"
+msgstr "Date and Time"
+
+msgid "cal_day_end"
+msgstr "Kraj dana"
+
+msgid "cal_day_of_month"
+msgstr "Dan u mjesecu"
+
+msgid "cal_day_overview"
+msgstr "Pregled dana"
+
+msgid "cal_day_s"
+msgstr "Dan(i)"
+
+msgid "cal_day_selection"
+msgstr "Odaberite dan"
+
+msgid "cal_day_start"
+msgstr "Dan početka"
+
+msgid "cal_day_week_view"
+msgstr "Postavke prikaza dana/tjedna"
+
+msgid "cal_deadline"
+msgstr "Krajnji rok"
+
+msgid "cal_def_date_format"
+msgstr "Zadani format unosa datuma"
+
+msgid "cal_def_date_format_info"
+msgstr "Odaberite format za unos datuma."
+
+msgid "cal_def_day_end"
+msgstr "Zadani kraj dana"
+
+msgid "cal_def_day_start"
+msgstr "Zadani početak dana"
+
+msgid "cal_def_show_weeks"
+msgstr "Prikaži tjedne"
+
+msgid "cal_def_time_format"
+msgstr "Zadani format vremena"
+
+msgid "cal_def_time_format_info"
+msgstr "Odaberite format za unos i prezentaciju vremena."
+
+msgid "cal_def_timezone"
+msgstr "Zadana vremenska zona"
+
+msgid "cal_def_timezone_info"
+msgstr "Odaberite zadanu vremensku zonu za predstavljanje sastanaka."
+
+#, fuzzy
+msgid "cal_def_view"
+msgstr "Default Calendar View"
+
+msgid "cal_def_week_start"
+msgstr "Zadani početak tjedna"
+
+msgid "cal_default_calendar"
+msgstr "Osobni sastanci"
+
+#, fuzzy
+msgid "cal_default_settings"
+msgstr "Default settings"
+
+msgid "cal_del_app_sure"
+msgstr "Želite li zaista izbrisati odabrane sastanke?"
+
+msgid "cal_del_cal_sure"
+msgstr "Želite li zaista izbrisati odabrane kalendare?"
+
+msgid "cal_delete_app_sure"
+msgstr "Želite li zaista izbrisati sljedeće sastanke?"
+
+#, fuzzy
+msgid "cal_delete_booking_info"
+msgstr "Please confirm the deletion of this booking"
+
+msgid "cal_delete_cal"
+msgstr "Izbriši kalendar"
+
+#, fuzzy
+msgid "cal_delete_recurrence_rule"
+msgstr "Delete Series of Appoinments"
+
+msgid "cal_delete_recurrences"
+msgstr "Izbriši sva ponavljanja"
+
+msgid "cal_delete_single"
+msgstr "Izbriši samo ovaj sastanak"
+
+msgid "cal_deleted_app"
+msgstr "Odabrani sastanci su izbrisani."
+
+msgid "cal_details"
+msgstr "Pojedinosti o sastanku"
+
+msgid "cal_down_no_files"
+msgstr "Nema ništa za preuzimanje, navedeni događaji ne sadrže datoteke."
+
+msgid "cal_download_all_files"
+msgstr "Preuzmi sve datoteke"
+
+msgid "cal_download_files"
+msgstr "Preuzmi datoteke"
+
+msgid "cal_download_files_started"
+msgstr "ILIAS generira ZIP arhivu svih dostupnih datoteka. Možete ih preuzeti klikom na ikonu vrećice na gornjoj traci."
+
+msgid "cal_dstart_dend_warn"
+msgstr "Molimo provjerite svoj unos. Početak dana trebao bi biti prije kraja dana."
+
+msgid "cal_duration"
+msgstr "Trajanje"
+
+#, fuzzy
+msgid "cal_duration_end"
+msgstr "End"
+
+#, fuzzy
+msgid "cal_duration_start"
+msgstr "Start"
+
+msgid "cal_edit_appointment"
+msgstr "Uredi sastanak"
+
+msgid "cal_edit_category"
+msgstr "Uredi kalendar"
+
+msgid "cal_edit_milestone"
+msgstr "Uredi ključnu točku"
+
+msgid "cal_edit_recurrences"
+msgstr "Uredi sve sastanke"
+
+msgid "cal_edit_single"
+msgstr "Uredi ovaj sastanak"
+
+#, fuzzy
+msgid "cal_edit_single_or_all_info"
+msgstr "Do you want to edit only this appointment or all in its series?"
+
+msgid "cal_enable_group_milestones"
+msgstr "Omogući ključne točke"
+
+msgid "cal_enable_group_milestones_desc"
+msgstr "Ova opcija omogućuje planiranje ključnih točaka u kalendaru."
+
+msgid "cal_err_invalid_notification_rcps"
+msgstr "Popis primatelja obavijesti nije valjan. Odaberite samo imena korisničkih računa ILIAS ili važeće adrese e-pošte."
+
+msgid "cal_every"
+msgstr "Svaki:"
+
+msgid "cal_exc_deadline"
+msgstr "Rok"
+
+msgid "cal_exc_info"
+msgstr "Informacije o dodjeli zadatka"
+
+msgid "cal_exc_inst_files"
+msgstr "Datoteke s uputama"
+
+msgid "cal_exc_open"
+msgstr "Otvori zadatak"
+
+msgid "cal_exc_peer_review_deadline"
+msgstr "Rok za povratne informacije"
+
+msgid "cal_export_timezone"
+msgstr "Vremenska zona za izvoz kalendara"
+
+msgid "cal_export_timezone_tz"
+msgstr "Koristi ILIAS-vremensku zonu"
+
+msgid "cal_export_timezone_utc"
+msgstr "Koristi vremensku zonu UTC (kompatibilno s MS Outlookom)"
+
+msgid "cal_fifth"
+msgstr "Peti"
+
+msgid "cal_first"
+msgstr "Prvi"
+
+msgid "cal_fourth"
+msgstr "Četvrti"
+
+msgid "cal_fullday"
+msgstr "Datum/vrijeme"
+
+msgid "cal_fullday_title"
+msgstr "Cjelodnevni događaj"
+
+msgid "cal_global_settings"
+msgstr "Globalne postavke"
+
+msgid "cal_grp_curr_crs"
+msgstr "Trenutni tečaj"
+
+msgid "cal_grp_curr_crs_cons"
+msgstr "Konzultacije"
+
+msgid "cal_grp_curr_grp"
+msgstr "Trenutačna grupa"
+
+msgid "cal_grp_info"
+msgstr "Informacije o grupi"
+
+msgid "cal_grp_new_notification_body"
+msgstr "stvoren je novi sastanak u grupi \"%s\"."
+
+msgid "cal_grp_new_notification_sub"
+msgstr "Novi sastanak u grupi \"%s\""
+
+msgid "cal_grp_notification_body"
+msgstr "sastanak je promijenjen u grupi \"%s\"."
+
+msgid "cal_grp_notification_sub"
+msgstr "Promijenjen sastanak u grupi \"%s\""
+
+msgid "cal_grp_others"
+msgstr "Drugi"
+
+msgid "cal_grp_personal"
+msgstr "Osobno"
+
+msgid "cal_ical_infoscreen"
+msgstr "Pretplati se"
+
+msgid "cal_ical_url"
+msgstr "iCal-URL"
+
+#, fuzzy
+msgid "cal_ical_url_google"
+msgstr "iCal-URL for Google Calendar"
+
+msgid "cal_import_appointments"
+msgstr "Uvezi sastanke"
+
+msgid "cal_import_file"
+msgstr "Uvezi datoteku"
+
+msgid "cal_import_file_info"
+msgstr "Odaberi datoteku koja sadrži vaše sastanke iz kalendara."
+
+msgid "cal_import_tbl"
+msgstr "Uvezi sastanke"
+
+msgid "cal_imported_success"
+msgstr "Uvezen je sastanak %1$s."
+
+msgid "cal_in"
+msgstr "u"
+
+msgid "cal_last"
+msgstr "Posljednji"
+
+msgid "cal_list"
+msgstr "Popis"
+
+msgid "cal_mail_notification_body"
+msgstr "pozvani ste na sastanak."
+
+msgid "cal_mail_notification_subject"
+msgstr "Pozivnica za sastanak: \"%s\""
+
+msgid "cal_manage"
+msgstr "Upravljaj kalendarima"
+
+#, fuzzy
+msgid "cal_materials"
+msgstr "Materials"
+
+msgid "cal_milestone_settings"
+msgstr "Ključne točke"
+
+msgid "cal_month_overview"
+msgstr "Pregled mjeseca"
+
+msgid "cal_month_s"
+msgstr "Mjesec(i)"
+
+msgid "cal_month_selection"
+msgstr "Odaberi mjesec"
+
+msgid "cal_monthly"
+msgstr "Mjesečno"
+
+#, fuzzy
+msgid "cal_monthly_by_date"
+msgstr "Monthly by Date"
+
+#, fuzzy
+msgid "cal_monthly_by_day"
+msgstr "Monthly by Day"
+
+msgid "cal_ms_details"
+msgstr "Detalji ključne točke"
+
+msgid "cal_ms_users_responsible"
+msgstr "Odgovorni korisnici"
+
+msgid "cal_new_app"
+msgstr "Novi sastanak"
+
+msgid "cal_new_ms"
+msgstr "Nova ključna točka"
+
+msgid "cal_no_ending"
+msgstr "Nema završnog datuma"
+
+#, fuzzy
+msgid "cal_no_events_block"
+msgstr "There are no dates available for you."
+
+msgid "cal_no_events_info"
+msgstr "Za odabrano vremensko razdoblje nisu pronađeni događaji."
+
+msgid "cal_no_recurrence"
+msgstr "Nema ponavljanja"
+
+msgid "cal_notification"
+msgstr "Obavijest poštom"
+
+msgid "cal_notification_crsgrp"
+msgstr "Obavijest za polaznike tečaja/grupe"
+
+msgid "cal_notification_info"
+msgstr "Ako je omogućeno, svi sudionici tečaja/grupe bit će obaviješteni poštom o ovom sastanku."
+
+msgid "cal_notification_users"
+msgstr "Obavijest za odabrane korisnike"
+
+msgid "cal_on"
+msgstr "Na:"
+
+msgid "cal_on_the"
+msgstr "Na:"
+
+msgid "cal_open_calendar"
+msgstr "Otvori kalendar"
+
+msgid "cal_origin"
+msgstr "Podrijetlo"
+
+msgid "cal_owner"
+msgstr "Vlasnik"
+
+#, fuzzy
+msgid "cal_period"
+msgstr "Period"
+
+msgid "cal_rec_err_limit"
+msgstr "Unesi valjani broj sastanaka."
+
+#, fuzzy
+msgid "cal_recurrence_confirm_deletion"
+msgstr "Please decide wether you want to delete single appointments or the complete series of appointments."
+
+#, fuzzy
+msgid "cal_recurrence_count"
+msgstr "Number of Appointments"
+
+#, fuzzy
+msgid "cal_recurrence_day_interval"
+msgstr "Every x Day(s)"
+
+#, fuzzy
+msgid "cal_recurrence_end_date"
+msgstr "End Date"
+
+#, fuzzy
+msgid "cal_recurrence_end_date_info"
+msgstr "Last possible date for an appointment."
+
+#, fuzzy
+msgid "cal_recurrence_month_interval"
+msgstr "Every x Month(s)"
+
+#, fuzzy
+msgid "cal_recurrence_until"
+msgstr "Recurrence End"
+
+#, fuzzy
+msgid "cal_recurrence_until_count"
+msgstr "Fixed Number of Appointments"
+
+#, fuzzy
+msgid "cal_recurrence_until_end_date"
+msgstr "Repeat Until End Date"
+
+#, fuzzy
+msgid "cal_recurrence_week_interval"
+msgstr "Every x Week(s)"
+
+#, fuzzy
+msgid "cal_recurrence_year_interval"
+msgstr "Every x Year(s)"
+
+msgid "cal_recurrences"
+msgstr "Ponavljanja"
+
+msgid "cal_reg_register"
+msgstr "Registriraj se"
+
+msgid "cal_reg_registered"
+msgstr "Registrirani ste."
+
+msgid "cal_reg_registered_users"
+msgstr "Registrirani korisnici"
+
+msgid "cal_reg_unregister"
+msgstr "Odjava"
+
+msgid "cal_reg_unregistered"
+msgstr "Odjavljeni ste."
+
+msgid "cal_registrations"
+msgstr "Prijave za sastanak"
+
+msgid "cal_remote_url"
+msgstr "URL"
+
+msgid "cal_repeat_until"
+msgstr "Ponavljaj do"
+
+msgid "cal_repo_obj"
+msgstr "Objekti repozitorija"
+
+msgid "cal_responsible"
+msgstr "Odgovoran"
+
+msgid "cal_save_responsible_users"
+msgstr "Spremi odgovorne korisnike"
+
+msgid "cal_search"
+msgstr "Pojam za pretraživanje"
+
+msgid "cal_search_info_share"
+msgstr "Unesi ime željenog korisnika/uloge za dijeljenje kalendara."
+
+msgid "cal_second"
+msgstr "Drugi"
+
+msgid "cal_server_tz"
+msgstr "Vremenska zona servera"
+
+msgid "cal_sess_info"
+msgstr "Informacije o sesiji"
+
+#, fuzzy
+msgid "cal_setting_global_crs_act"
+msgstr "Activation in Courses"
+
+#, fuzzy
+msgid "cal_setting_global_crs_act_info"
+msgstr "If selected, the calendar is active in courses by default. In any case the calendar activation can be enabled/disabled in the course settings."
+
+msgid "cal_setting_global_crs_vis"
+msgstr "Prikaži u tečajevima"
+
+msgid "cal_setting_global_crs_vis_info"
+msgstr "Ako je omogućeno, kalendar je prema zadanim postavkama prikazan u tečajevima. U svakom slučaju prezentacija kalendara može se omogućiti/onemogućiti u postavkama tečaja."
+
+#, fuzzy
+msgid "cal_setting_global_grp_act"
+msgstr "Activation in Groups"
+
+#, fuzzy
+msgid "cal_setting_global_grp_act_info"
+msgstr "If selected, the calendar is active in groups by default. In any case the calendar activation can be enabled/disabled in the group settings."
+
+msgid "cal_setting_global_grp_vis"
+msgstr "Prikaži u grupama"
+
+msgid "cal_setting_global_grp_vis_info"
+msgstr "Ako je omogućeno, kalendar je prema zadanim postavkama prikazan u grupama. U svakom slučaju prezentacija kalendara može se omogućiti/onemogućiti u postavkama grupe."
+
+msgid "cal_setting_global_vis_repos"
+msgstr "Kalendar repozitorija"
+
+msgid "cal_share"
+msgstr "Dijeli"
+
+msgid "cal_share_accept"
+msgstr "Prihvatite pozivnicu"
+
+msgid "cal_share_cal"
+msgstr "Dijeli kalendar (samo za čitanje)"
+
+msgid "cal_share_cal_editable"
+msgstr "Dijeli kalendar (čitanje i pisanje)"
+
+msgid "cal_share_decline"
+msgstr "Odbij pozivnicu"
+
+msgid "cal_share_search_header"
+msgstr "Podijeli kalendar"
+
+msgid "cal_share_search_role_header"
+msgstr "Odabir uloga"
+
+msgid "cal_share_search_usr_header"
+msgstr "Odabir korisnika"
+
+msgid "cal_shared_access_read_only"
+msgstr "Samo za čitanje"
+
+msgid "cal_shared_access_read_write"
+msgstr "Čitanje i pisanje"
+
+msgid "cal_shared_access_table_col"
+msgstr "Pristup"
+
+msgid "cal_shared_calendars"
+msgstr "Dijeljeni kalendari (pozivnice)"
+
+msgid "cal_shared_header"
+msgstr "Dijeljeni kalendari"
+
+msgid "cal_shared_selected_usr"
+msgstr "Kalendar je podijeljen s odabranim korisnicima/ulogama."
+
+msgid "cal_show_weeks"
+msgstr "Prikaži tjedne"
+
+msgid "cal_show_weeks_info"
+msgstr "Aktivira stupac tjedana u bočnom bloku kalendara."
+
+msgid "cal_start"
+msgstr "Početak"
+
+msgid "cal_subscription"
+msgstr "Pretplata"
+
+msgid "cal_subscription_header"
+msgstr "Adresa kalendara"
+
+msgid "cal_subscription_info"
+msgstr "Upotrijebite sljedeću adresu za pristup kalendaru iz drugih aplikacija. Ovo možete kopirati i zalijepiti u bilo koji kalendarski proizvod koji podržava ical format."
+
+msgid "cal_subscription_url"
+msgstr "URL kalendara:"
+
+msgid "cal_sync_cache"
+msgstr "Predmemorija kalendara"
+
+msgid "cal_sync_cache_info"
+msgstr "Ako je aktivirano, novi/modificirani kalendarski sastanci izračunavaju se samo svakih x minuta."
+
+msgid "cal_sync_disabled"
+msgstr "Onemogućeno"
+
+msgid "cal_sync_enabled"
+msgstr "Omogućeno"
+
+msgid "cal_table_categories"
+msgstr "Izbor kalendara"
+
+msgid "cal_task_completion"
+msgstr "Završetak zadatka"
+
+msgid "cal_third"
+msgstr "Treći"
+
+msgid "cal_time_format_info"
+msgstr "Odaberi format za unos i prezentaciju vremena."
+
+msgid "cal_timezone_info"
+msgstr "Odaberi najbliži grad u vašoj vremenskoj zoni."
+
+msgid "cal_type_crs"
+msgstr "Kalendar tečaja"
+
+msgid "cal_type_exc"
+msgstr "Kalendar vježbanja"
+
+msgid "cal_type_grp"
+msgstr "Grupni kalendar"
+
+msgid "cal_type_info"
+msgstr "Odaberite jednu vrstu kalendara. ‘Javni kalendari’ vidljivi su za sve korisnike ILIAS-a."
+
+msgid "cal_type_local"
+msgstr "Lokalni kalendar"
+
+msgid "cal_type_personal"
+msgstr "Privatni kalendar"
+
+msgid "cal_type_remote"
+msgstr "Web kalendar"
+
+msgid "cal_type_rl"
+msgstr "Lokacija kalendara"
+
+msgid "cal_type_sess"
+msgstr "Kalendar sesija"
+
+msgid "cal_type_system"
+msgstr "Javni kalendar"
+
+#, fuzzy
+msgid "cal_type_tals"
+msgstr "Talks"
+
+msgid "cal_unshare_cal"
+msgstr "Prestani dijeliti"
+
+msgid "cal_unshared_selected_usr"
+msgstr "Prestao dijeliti kalendar s odabranim korisnicima."
+
+msgid "cal_upcoming_events_header"
+msgstr "Nadolazeći događaji"
+
+msgid "cal_user_date_format"
+msgstr "Format unosa datuma"
+
+msgid "cal_user_notification"
+msgstr "Obavijest korisnika"
+
+msgid "cal_user_notification_info"
+msgstr "Odabrani će korisnici biti obaviješteni o ovom sastanku e-poštom. Molimo unesite ILIAS korisnička imena ili adrese e-pošte."
+
+msgid "cal_user_settings"
+msgstr "Postavke kalendara"
+
+msgid "cal_user_time_format"
+msgstr "Vremenski format"
+
+msgid "cal_user_timezone"
+msgstr "ILIAS vremenska zona"
+
+msgid "cal_usr_info"
+msgstr "Informacije o imenovanju"
+
+msgid "cal_usr_show_weeks"
+msgstr "Prikaži stupac tjedna"
+
+msgid "cal_usr_show_weeks_info"
+msgstr "Aktivira stupac tjedana u bočnom bloku kalendara."
+
+msgid "cal_webcal_sync"
+msgstr "Vanjska sinkronizacija kalendara"
+
+msgid "cal_webcal_sync_info"
+msgstr "Automatski sinkroniziraj vanjske kalendare svakih x minuta."
+
+msgid "cal_week_abbrev"
+msgstr "KW (KT)"
+
+msgid "cal_week_month_view"
+msgstr "Postavke prikaza tjedna/mjeseca"
+
+msgid "cal_week_overview"
+msgstr "Pregled tjedna"
+
+msgid "cal_week_s"
+msgstr "Tjedan(ni)"
+
+msgid "cal_week_selection"
+msgstr "Odaberite tjedan"
+
+msgid "cal_week_start"
+msgstr "Početak tjedna"
+
+msgid "cal_weekday"
+msgstr "Radnim danom"
+
+msgid "cal_weekly"
+msgstr "Tjedno"
+
+msgid "cal_where"
+msgstr "Mjesto"
+
+msgid "cal_year_s"
+msgstr "Godina(e)"
+
+msgid "cal_yearly"
+msgstr "Godišnje"
+
+#, fuzzy
+msgid "cal_yearly_by_date"
+msgstr "Yearly by Date"
+
+#, fuzzy
+msgid "cal_yearly_by_day"
+msgstr "Yearly by Day"
+
+#, fuzzy
+msgid "consultation_hours_block_title"
+msgstr "Consultation Hours"
+
+msgid "crs_cal_activation_end"
+msgstr "Dostupnost tečaja završava"
+
+msgid "crs_cal_activation_start"
+msgstr "Dostupnost tečaja započinje"
+
+msgid "crs_cal_end"
+msgstr "Tečaj završava"
+
+msgid "crs_cal_reg_end"
+msgstr "Kraj registracije"
+
+msgid "crs_cal_reg_start"
+msgstr "Početak registracije"
+
+msgid "crs_cal_start"
+msgstr "Tečaj započinje"
+
+msgid "date_format"
+msgstr "m/d/G H:i"
+
+msgid "end_date"
+msgstr "Datum završetka"
+
+msgid "err_end_before_start"
+msgstr "Sastanak ne smije započeti prije kraja."
+
+msgid "err_missing_title"
+msgstr "Unesite naziv sastanka."
+
+msgid "free"
+msgstr "Besplatno"
+
+msgid "grp_cal_end"
+msgstr "Grupa završava"
+
+msgid "grp_cal_reg_end"
+msgstr "Kraj registracije"
+
+msgid "grp_cal_reg_start"
+msgstr "Početak registracije"
+
+msgid "grp_cal_start"
+msgstr "Grupa započinje"
+
+msgid "ical_export"
+msgstr "iCal izvoz"
+
+msgid "keep"
+msgstr "Zadrži"
+
+msgid "keyword"
+msgstr "Ključna riječ"
+
+msgid "more"
+msgstr "Više"
+
+msgid "r_14"
+msgstr "Svakih 14 dana"
+
+msgid "r_4_weeks"
+msgstr "Svaka 4 tjedna"
+
+msgid "remote_pass_info"
+msgstr "Unesite podatke o svom računu ako je pristup web kalendaru zaštićen."
+
+msgid "to"
+msgstr "do"
+
+msgid "today"
+msgstr "Danas"
+
+msgid "week"
+msgstr "Tjedan"
+
+msgid "wk_short"
+msgstr "TJ"
+
+msgid "year"
+msgstr "Godina"

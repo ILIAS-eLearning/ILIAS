@@ -1,0 +1,139 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: svy\n"
+
+msgid "survey_360_appraisees_remind_info"
+msgstr "Om självutvärdering är aktiverat kommer feedbackmottagare som ännu inte har slutfört undersökningen att få ett påminnelsemeddelande."
+
+msgid "survey_360_raters_remind_info"
+msgstr "Feedback-donatorer som ännu inte har slutfört undersökningen kommer att få ett påminnelsemeddelande."
+
+#, fuzzy
+msgid "svy_0_open_appraisees"
+msgstr "You cannot perform the survey for any appraisee anymore."
+
+msgid "svy_all_pages"
+msgstr "Alla sidor"
+
+msgid "svy_all_participants"
+msgstr "Alla deltagare"
+
+msgid "svy_all_questions"
+msgstr "Alla frågor"
+
+#, fuzzy
+msgid "svy_code"
+msgstr "Access Code"
+
+msgid "svy_codes"
+msgstr "Nyckel för åtkomst"
+
+msgid "svy_current_page"
+msgstr "Aktuell sida"
+
+msgid "svy_finish_survey"
+msgstr "Redigera undersökning \"%1"
+
+#, fuzzy
+msgid "svy_finished_x_appraisees"
+msgstr "You have finished the survey for %s appraisee(s)."
+
+msgid "svy_info_participants"
+msgstr "Lägg till användare som deltagare i den här enkäten med ett av följande sökalternativ. Enkäten läggs till för dessa användare som en uppgift på deras instrumentpanel."
+
+#, fuzzy
+msgid "svy_information"
+msgstr "Information"
+
+msgid "svy_invite_participants"
+msgstr "Bjud in deltagare"
+
+msgid "svy_link_to_svy"
+msgstr "Länk till undersökningen"
+
+msgid "svy_part_overview"
+msgstr "Översikt"
+
+#, fuzzy
+msgid "svy_placeholders_label"
+msgstr "Available Placeholders"
+
+msgid "svy_print_selection"
+msgstr "Selektion utskriftsvy"
+
+msgid "svy_remove_all_participants"
+msgstr "Radera alla deltagardata"
+
+msgid "svy_remove_participants"
+msgstr "Ta bort deltagare"
+
+msgid "svy_selected_participants"
+msgstr "Utvalda deltagare"
+
+msgid "svy_selected_questions"
+msgstr "Utvalda frågor"
+
+msgid "svy_selection"
+msgstr "Urval"
+
+msgid "svy_status"
+msgstr "Status"
+
+msgid "svy_status_finished"
+msgstr "Färdig"
+
+msgid "svy_status_in_progress"
+msgstr "Pågår"
+
+msgid "svy_status_invited"
+msgstr "Inbjuden"
+
+msgid "svy_user_added_appraisee"
+msgstr "Förfrågan '%1"
+
+msgid "svy_user_added_appraisee_close_mail"
+msgstr "Undersökningen har avslutats för dina feedbackgivare."
+
+msgid "svy_user_added_appraisee_mail"
+msgstr "Du har lagts till i undersökningen som en feedbackmottagare."
+
+msgid "svy_user_added_rater"
+msgstr "Förfrågan '%1"
+
+msgid "svy_user_added_rater_mail"
+msgstr "Du har lagts till som en feedbackgivare."
+
+msgid "svy_user_added_rater_reminder_mail"
+msgstr "Bedöm fortfarande följande feedbackmottagare"
+
+msgid "svy_user_not_found"
+msgstr "Ingen motsvarande användare hittades."
+
+msgid "svy_users_invited"
+msgstr "Användarna har bjudits in."
+
+#, fuzzy
+msgid "svy_x_appraisees_closed_for_raters"
+msgstr "%s appraisee(s) has/have closed the survey for raters."
+
+#, fuzzy
+msgid "svy_x_open_appraisees"
+msgstr "%s appraisee(s) are open for you to rate."
+
+#, fuzzy
+msgid "svy_your_appraisees"
+msgstr "Your Appraisees"
+
+#, fuzzy
+msgid "svy_your_raters"
+msgstr "Your Raters"
+
+#, fuzzy
+msgid "svy_your_raters_finished"
+msgstr "%s of your raters have finished the survey."

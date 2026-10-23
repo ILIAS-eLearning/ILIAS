@@ -1,0 +1,285 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ru\n"
+"Language-Team: Russian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: dash\n"
+
+#, fuzzy
+msgid "add_to_favourites"
+msgstr "Add to Favourites"
+
+#, fuzzy
+msgid "added_to_favourites"
+msgstr "The item has been added to your favourites."
+
+#, fuzzy
+msgid "dash_activation"
+msgstr "activation"
+
+#, fuzzy
+msgid "dash_added_to_favs"
+msgstr "Recommendation has been added to personal favourites."
+
+#, fuzzy
+msgid "dash_avail_presentation"
+msgstr "Available Presentations"
+
+#, fuzzy
+msgid "dash_avail_sortation"
+msgstr "Available Sortations"
+
+#, fuzzy
+msgid "dash_click_here"
+msgstr "Click here"
+
+#, fuzzy
+msgid "dash_co_delete"
+msgstr "Delete Dashboard style"
+
+#, fuzzy
+msgid "dash_co_lang"
+msgstr "Dashboard style by languages"
+
+#, fuzzy
+msgid "dash_customization"
+msgstr "Customize Dashboard Content"
+
+#, fuzzy
+msgid "dash_dash_fav_remove"
+msgstr "Remove"
+
+#, fuzzy
+msgid "dash_dash_fav_remove_info"
+msgstr "Are you sure you want to remove the following objects from your Favourites?"
+
+#, fuzzy
+msgid "dash_dash_fav_remove_multiple"
+msgstr "Remove Multiple Favorites"
+
+#, fuzzy
+msgid "dash_dash_ls_remove"
+msgstr "Unsubscribe"
+
+#, fuzzy
+msgid "dash_dash_ls_remove_info"
+msgstr "Are you sure you want to unsubscribe from the following learning sequences?"
+
+#, fuzzy
+msgid "dash_dash_ls_remove_multiple"
+msgstr "Unsubscribe Multiple Learning Sequences"
+
+#, fuzzy
+msgid "dash_dash_mem_remove"
+msgstr "Unsubscribe"
+
+#, fuzzy
+msgid "dash_dash_mem_remove_info"
+msgstr "Are you sure you want to unsubscribe from the following courses and groups?"
+
+#, fuzzy
+msgid "dash_dash_mem_remove_multiple"
+msgstr "Unsubscribe Multiple Courses and Groups"
+
+#, fuzzy
+msgid "dash_dash_rc_remove"
+msgstr "Remove"
+
+#, fuzzy
+msgid "dash_dash_rc_remove_info"
+msgstr "Are you sure you want to remove the following objects from your recommended content?"
+
+#, fuzzy
+msgid "dash_dash_rc_remove_multiple"
+msgstr "Remove Multiple Contents"
+
+#, fuzzy
+msgid "dash_dashboard"
+msgstr "Dashboard"
+
+#, fuzzy
+msgid "dash_default_presentation"
+msgstr "Default Presentation"
+
+#, fuzzy
+msgid "dash_default_sortation"
+msgstr "Default Sortation"
+
+#, fuzzy
+msgid "dash_enable_cal"
+msgstr "Calendar"
+
+#, fuzzy
+msgid "dash_enable_favourites"
+msgstr "Favourites"
+
+#, fuzzy
+msgid "dash_enable_learning_sequences"
+msgstr "Learning Sequences"
+
+#, fuzzy
+msgid "dash_enable_mail"
+msgstr "Mail"
+
+#, fuzzy
+msgid "dash_enable_memberships"
+msgstr "My Courses and Groups"
+
+#, fuzzy
+msgid "dash_enable_news"
+msgstr "News"
+
+#, fuzzy
+msgid "dash_enable_recommended_content"
+msgstr "Recommended Content"
+
+#, fuzzy
+msgid "dash_enable_study_programmes"
+msgstr "Study Programmes"
+
+#, fuzzy
+msgid "dash_enable_task"
+msgstr "Tasks"
+
+#, fuzzy
+msgid "dash_favourites"
+msgstr "Favourites"
+
+#, fuzzy
+msgid "dash_item_removed"
+msgstr "Recommendation has been removed from the list."
+
+#, fuzzy
+msgid "dash_learning_sequences"
+msgstr "My Learning Sequences"
+
+#, fuzzy
+msgid "dash_list"
+msgstr "List"
+
+#, fuzzy
+msgid "dash_main_panel"
+msgstr "Main Panel"
+
+#, fuzzy
+msgid "dash_manual_new_item_pos"
+msgstr "Position of New Objects"
+
+#, fuzzy
+msgid "dash_manual_new_item_pos_bot"
+msgstr "Bottom"
+
+#, fuzzy
+msgid "dash_manual_new_item_pos_top"
+msgstr "Top"
+
+#, fuzzy
+msgid "dash_manual_sorting_title"
+msgstr "Manual Sorting of Favorites"
+
+#, fuzzy
+msgid "dash_member_main_alt"
+msgstr "Courses and groups can also be configured as a separate main menu entry."
+
+#, fuzzy
+msgid "dash_memberships"
+msgstr "My Courses and Groups"
+
+#, fuzzy
+msgid "dash_no_items_to_manage"
+msgstr "No items available for removal."
+
+#, fuzzy
+msgid "dash_page_edit_info"
+msgstr "The content of this page is displayed to all users on their dashboard. The contents of the various blocks of the dashboard are presented below."
+
+#, fuzzy
+msgid "dash_presentation"
+msgstr "Presentation"
+
+#, fuzzy
+msgid "dash_recommended_content"
+msgstr "Recommended Content"
+
+#, fuzzy
+msgid "dash_remove_from_list"
+msgstr "Remove from List"
+
+#, fuzzy
+msgid "dash_side_panel"
+msgstr "Side Panel"
+
+#, fuzzy
+msgid "dash_sort_by_alphabet"
+msgstr "Sort by Alphabet"
+
+#, fuzzy
+msgid "dash_sort_by_location"
+msgstr "Sort by Location"
+
+#, fuzzy
+msgid "dash_sort_by_manually"
+msgstr "Manually"
+
+#, fuzzy
+msgid "dash_sort_by_start_date"
+msgstr "Sort by Start Date"
+
+#, fuzzy
+msgid "dash_sort_by_type"
+msgstr "Sort by Type"
+
+#, fuzzy
+msgid "dash_sort_option_bot"
+msgstr "Bottom"
+
+#, fuzzy
+msgid "dash_sort_option_top"
+msgstr "Top"
+
+#, fuzzy
+msgid "dash_sort_options"
+msgstr "Postition of new Objects"
+
+#, fuzzy
+msgid "dash_sortation"
+msgstr "Sortation"
+
+#, fuzzy
+msgid "dash_study_programmes"
+msgstr "My Study Programmes"
+
+#, fuzzy
+msgid "dash_tile"
+msgstr "Tile"
+
+#, fuzzy
+msgid "dash_view_courses_groups"
+msgstr "Section ‘My Courses and Groups’"
+
+#, fuzzy
+msgid "dash_view_favourites"
+msgstr "Section ‘Favourites’"
+
+#, fuzzy
+msgid "favourites_disabled_info"
+msgstr "Add to favorites is deactivated. You may change this inside the repository settings."
+
+#, fuzzy
+msgid "memberships_disabled_info"
+msgstr "Subscriptions are deactivated. You may change this inside the course settings."
+
+#, fuzzy
+msgid "remove_from_favourites"
+msgstr "Remove from Favourites"
+
+#, fuzzy
+msgid "removed_from_favourites"
+msgstr "The item has been removed from your favourites."
+
+#, fuzzy
+msgid "topitem_block"
+msgstr "Block"

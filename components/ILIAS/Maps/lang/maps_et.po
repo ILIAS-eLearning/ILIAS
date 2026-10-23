@@ -1,0 +1,66 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: et\n"
+"Language-Team: Estonian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: maps\n"
+
+#, fuzzy
+msgid "configure_geolocation"
+msgstr "Please finish the geolocation configuration in the \"Third Party Software\" administration menu to enable address search."
+
+#, fuzzy
+msgid "maps_custom_geolocation_server_info"
+msgstr "Server URL to provide geolocation-data using Nominatim. Your entry should contain the placeholder [QUERY] to define a position for request information. Example: https://nominatim.example.com/search/[QUERY]?format=json."
+
+#, fuzzy
+msgid "maps_custom_tile_server_info"
+msgstr "Server URL to provide tile-data. Multiple inputs should be separated by spaces. Defaults is \"%s\"."
+
+msgid "maps_enable_maps"
+msgstr "Enable Maps"
+
+msgid "maps_enable_maps_info"
+msgstr "Activates Maps in user profiles, groups and courses."
+
+#, fuzzy
+msgid "maps_geolocation_server"
+msgstr "Server for Reverse Geolocation"
+
+#, fuzzy
+msgid "maps_https_for_reverse_lookup"
+msgstr "Https for Reverse Lookup"
+
+msgid "maps_latitude"
+msgstr "Latitude"
+
+msgid "maps_longitude"
+msgstr "Longitude"
+
+msgid "maps_lookup_address"
+msgstr "Lookup Address"
+
+msgid "maps_map_type"
+msgstr "Typ"
+
+msgid "maps_open_layers_maps"
+msgstr "Open Layers Maps"
+
+msgid "maps_settings"
+msgstr "Maps Settings"
+
+msgid "maps_std_location"
+msgstr "Default Location"
+
+msgid "maps_std_location_desc"
+msgstr "Click map to set location."
+
+#, fuzzy
+msgid "maps_tile_server"
+msgstr "Server for Tiles"
+
+msgid "maps_zoom_level"
+msgstr "Zoom Level"

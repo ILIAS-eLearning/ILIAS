@@ -1,0 +1,604 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ka\n"
+"Language-Team: Georgian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: grp\n"
+
+msgid "crs_add_grouping"
+msgstr "წევრობის შეზღუდვის დამატება"
+
+msgid "crs_grouping_delete_sure"
+msgstr "დარწმუნებული ხართ რომ წევრობის შეზღუდვის წაშლა გსურთ?"
+
+msgid "crs_grouping_deleted"
+msgstr "წევრობის შეზღუდვის წაშლა"
+
+msgid "crs_grouping_select_one"
+msgstr "გთხოვთ აირჩიოთ ერთი წევრობის შეზღუდვა"
+
+msgid "crs_grp_added_grouping"
+msgstr "ახალი წევრობის შეზღუდვა დამატებულია"
+
+msgid "crs_grp_assign_crs"
+msgstr "ჯგუფების დანიშვნა"
+
+msgid "crs_grp_no_courses_assigned"
+msgstr "ჯგუფები არ არის დანიშნული"
+
+msgid "events"
+msgstr "Sessions"
+
+msgid "grouping_change_assignment"
+msgstr "დანიშვნის შეცვლა"
+
+msgid "grp_activate_notification"
+msgstr "აქტიური შეტყობინება"
+
+#, fuzzy
+msgid "grp_activation_online_info"
+msgstr "Set the group online to make it visible and available for group members. If not, only group administrators and roles with permission \"Edit Settings\" have access to it."
+
+#, fuzzy
+msgid "grp_add_to_group"
+msgstr "Add to Group"
+
+#, fuzzy
+msgid "grp_add_user"
+msgstr "Add User"
+
+#, fuzzy
+msgid "grp_add_user_to_group"
+msgstr "Add user to group"
+
+msgid "grp_added_to_list"
+msgstr "თქვენ დანიშნული ხართ ჯგუფის მოლოდინის სიაში \"%s\" თქვენ დანიშნული ხართ ადგილზე %s მოლოდინის სიაში"
+
+msgid "grp_admins"
+msgstr "ადმინსტრატორები"
+
+#, fuzzy
+msgid "grp_admission_link_failure_invalid_code"
+msgstr "Can't register: Link is invalid."
+
+#, fuzzy
+msgid "grp_admission_link_failure_membership_limited"
+msgstr "Can't registrate: Group membership is limited."
+
+#, fuzzy
+msgid "grp_admission_link_failure_registration_period"
+msgstr "Can't registrate: Group is out of registration period."
+
+#, fuzzy
+msgid "grp_admission_link_success_registration"
+msgstr "Successfully registrated to group \"%s\"."
+
+msgid "grp_agree"
+msgstr "მიღება"
+
+msgid "grp_agreement_header"
+msgstr "მომხმარებლის ხელშეკრულება"
+
+msgid "grp_agreement_required"
+msgstr "თქვენ უნდა მიიღოთ მომხმარებლის ხელშეკრულება, თუ გსურთ ჯგუფის შინაარსში შესვლა"
+
+msgid "grp_already_assigned"
+msgstr "თქვენ უკვე მოითხოვეთ წევრობა ამ ჯგუფში"
+
+#, fuzzy
+msgid "grp_at_least_one_admin"
+msgstr "There has to be at least one group administrator."
+
+#, fuzzy
+msgid "grp_auto_notification"
+msgstr "Welcome-Mail For New Members"
+
+#, fuzzy
+msgid "grp_auto_notification_info"
+msgstr "New members get a mail notification when added to the group."
+
+msgid "grp_cancel_subscr_request"
+msgstr "წევრობის მოთხვნის წაშლა"
+
+#, fuzzy
+msgid "grp_cancellation_end"
+msgstr "Cancellation Limit"
+
+#, fuzzy
+msgid "grp_cancellation_end_info"
+msgstr "From this date on particiants cannot unsubscribe anymore."
+
+#, fuzzy
+msgid "grp_cancellation_end_rbac_info"
+msgstr "The cancellation deadline was met on %s, a cancellation is not possible anymore."
+
+#, fuzzy
+msgid "grp_cdf_edit_member"
+msgstr "Edit Group Relevant User Data"
+
+#, fuzzy
+msgid "grp_cdf_tbl_last_edit"
+msgstr "Last Update (Group-specific Data)"
+
+msgid "grp_change_type"
+msgstr "ჯგუფის სახეობის წაშლა"
+
+#, fuzzy
+msgid "grp_contact"
+msgstr "Contact"
+
+msgid "grp_copy"
+msgstr "Copy Group"
+
+#, fuzzy
+msgid "grp_create_and_add_user"
+msgstr "Create and Add User"
+
+#, fuzzy
+msgid "grp_create_new"
+msgstr "Create New Group"
+
+#, fuzzy
+msgid "grp_create_new_grp_in"
+msgstr "Create new group in '%1'."
+
+#, fuzzy
+msgid "grp_create_or_use_existing"
+msgstr "Do you want to add the user to an existing group or create a new group?"
+
+#, fuzzy
+msgid "grp_created_and_user_been_added"
+msgstr "Die Gruppe wurde erstellt und der Benutzer hinzugefügt."
+
+msgid "grp_custom_user_fields"
+msgstr "ჯგუფის შესაბამისი მომხმარებლის მონაცემები"
+
+#, fuzzy
+msgid "grp_custom_user_fields_infobox"
+msgstr "Create additional data fields for group members to fill in when they join. You can show this information as an additional column in the \"Members\" tab."
+
+#, fuzzy
+msgid "grp_custom_user_fields_table_title"
+msgstr "Relevant User Data of This Group"
+
+msgid "grp_deactivate_notification"
+msgstr "შეტყობინების გაუქმება"
+
+msgid "grp_enable_map"
+msgstr "ჯგუფის რუკის გააქტიურება"
+
+#, fuzzy
+msgid "grp_err_registration_limited"
+msgstr "please enter a valid start and end date for the registration"
+
+msgid "grp_general_informations"
+msgstr "ზოგადი ინფორმაცია"
+
+msgid "grp_grp_info_reg"
+msgstr "თქვენ ამ ჯგუფებიდან მხოლოდ ერთში შეგიძლიათ რეგისტრაციის გავლა"
+
+#, fuzzy
+msgid "grp_grp_open"
+msgstr "Open Group"
+
+#, fuzzy
+msgid "grp_header_delete_members"
+msgstr "Would you like to remove the following members from this group?"
+
+msgid "grp_header_waiting_list"
+msgstr "მოლოდინის სია"
+
+msgid "grp_icon_settings"
+msgstr "გამოსახულების პარამეტრები"
+
+msgid "grp_import"
+msgstr "ჯგუფის იმპორტი"
+
+msgid "grp_info_agree"
+msgstr "მე ვეთანხმები, რომ ზემოთ მოცემული მონაცემების სახეობები ხილვადია ჯგუფის ადმინისტრატორებისთვის"
+
+msgid "grp_info_agreement"
+msgstr "შემდეგი მონაცემების სახეობები ხილვადია ჯგუფის ადმინისტრატორებისთვის"
+
+msgid "grp_info_new_grp_type"
+msgstr "ახალი ჯგუფის სახეობა"
+
+msgid "grp_info_settings"
+msgstr "ჯგუფის ინფორმაცია"
+
+msgid "grp_information"
+msgstr "მნიშვნელოვანი ინფორმაცია"
+
+msgid "grp_information_info"
+msgstr "ეს ინფორმაცია გამოჩნდება ინფორმაციის გვერდზე და ახლად დარეგისტრირებულებთან"
+
+msgid "grp_join_request"
+msgstr "გაგზავნა"
+
+#, fuzzy
+msgid "grp_lim_assigned"
+msgstr "Already assigned to associated group \"%s\"."
+
+msgid "grp_mail_admission_new_bod"
+msgstr "ჩვენ მოხარულები ვართ თქვენი ჯგუფში \"%s\" რეგისტრაციის გამოცხადებით"
+
+msgid "grp_mail_admission_new_sub"
+msgstr "თქვენი რეგისტრაცია ჯგუფში \"%s\""
+
+#, fuzzy
+msgid "grp_mail_all"
+msgstr "For all Participants"
+
+#, fuzzy
+msgid "grp_mail_all_info"
+msgstr "Members and administrators can use the feature \"Mail to Members\" in the \"Members\" tab."
+
+msgid "grp_mail_dismiss_bod"
+msgstr "თქვენი წევრობა ჯგუფში \"%s\" გაჩერებულია"
+
+msgid "grp_mail_dismiss_sub"
+msgstr "წევრობა ჯგუფში \"%s\" გაჩერებულია"
+
+msgid "grp_mail_notification_reg_bod"
+msgstr "%s დარეგისტრირდა ჯგუფში %s\""
+
+msgid "grp_mail_notification_reg_req_bod"
+msgstr ":%s მოითხოვა წევრობა ჯგუფში \"%s\""
+
+msgid "grp_mail_notification_reg_req_bod2"
+msgstr "რეგისტრაციის დასადასტურებლად, მიბრძანდით:"
+
+msgid "grp_mail_notification_reg_req_sub"
+msgstr "ჯგუფში გაწევრიანების მოთხოვნა \"%s\""
+
+msgid "grp_mail_notification_reg_sub"
+msgstr "მომხმარებელი დარეგისტრირდა ჯგუფში \"%s\""
+
+msgid "grp_mail_notification_unsub_bod"
+msgstr "%s შეწყვიტა მისი წევრობა ჯგუფში \"%s\""
+
+msgid "grp_mail_notification_unsub_bod2"
+msgstr "შესაძლოა მოლოდინის სიაში იყვნენ სხვა მომხმარებლები. თქვენ უნდა შეამოწმოთ სია ახლა. ჟგუფის წევრების სანახავად დააკლიკეთ აქ"
+
+msgid "grp_mail_notification_unsub_sub"
+msgstr "მომხმარებელმა დატოვა ჯგუფი \"%s\""
+
+msgid "grp_mail_permanent_link"
+msgstr "დააკლიკეთ შემდეგ ლინკს იმისათვის რომ იპოვოთ ყველა ინფორმაცია რა ჯგუფთან დაკავშირებით გჭირდებათ"
+
+msgid "grp_mail_status_bod"
+msgstr "თქვენი სტატუსი ჯგუფში \"%s\" შეცვლილია"
+
+msgid "grp_mail_status_sub"
+msgstr "სტატუსის შეცვლა ჯგუფში \"%s\""
+
+msgid "grp_mail_sub_acc_bod"
+msgstr "ჩვენ მოხარულები ვართ თქვენი ჯგუფში \"%s\" რეგისტრაციის დადასტურებით"
+
+msgid "grp_mail_sub_acc_sub"
+msgstr "რეგისტრაცია დადასტურებულია \"%s\""
+
+msgid "grp_mail_sub_dec_bod"
+msgstr "სამწუხაროდ თქვენი რეგისტრაცია  ჯგუფში უარყოფილია \"%s\""
+
+msgid "grp_mail_sub_dec_sub"
+msgstr "ჯგუფში რეგისტრაციის უარყოფა \"%s\""
+
+msgid "grp_mail_subscribe_member_bod"
+msgstr "ჩვენ მოხარულები ვართ თქვენი ჯგუფში რეგისტრაციის გამოცხადებით \"%s\""
+
+msgid "grp_mail_subscribe_member_sub"
+msgstr "თქვენი რეგისტრაცია ჯგუფში \"%s\""
+
+#, fuzzy
+msgid "grp_mail_tutors_only"
+msgstr "For Administrators only"
+
+#, fuzzy
+msgid "grp_mail_tutors_only_info"
+msgstr "Only administrators can use the feature \"Mail to Members\" in the \"Members\" tab."
+
+#, fuzzy
+msgid "grp_mail_type"
+msgstr "Mail to Members"
+
+msgid "grp_mail_unsubscribe_member_bod"
+msgstr "ჩვენ ვადასტურებთ თქვენი წვერობის გაუქმებას ჯგუფში %s ჩვენ ვიმედოვნებთ რომ თქვენ გექნებათ სხვა ჯგუფში მონაწილეობის შესაძლებლობა"
+
+msgid "grp_mail_unsubscribe_member_sub"
+msgstr "თქვენი ჯგუფში წევრობის გაუქმება %s"
+
+msgid "grp_mail_wl_bod"
+msgstr "თქვენ დანიშნული ხართ ჯგუფის მოლოდინის სიაში \"%s\" თქვენ დანიშნული ხართ ადგილზე %s სიაში. თქვენ მიიღებთ შეტყობინებას ჯუფის ადმინისტრატორისაგან თქვენი წევრობის დადასტურების ან უარყოფის თაობაზე"
+
+msgid "grp_mail_wl_sub"
+msgstr "თქვენი რეგისტრაცია ჯგუფში \"%s\""
+
+msgid "grp_map_location"
+msgstr "ჯგუფში რუკის ადგილმდბარეობა"
+
+msgid "grp_map_settings"
+msgstr "რუკის პარამეტრები"
+
+#, fuzzy
+msgid "grp_max_and_min_members_invalid"
+msgstr "The minimum number must be smaller than the maximum number of members."
+
+#, fuzzy
+msgid "grp_mem_contacts"
+msgstr "Tutorial Support"
+
+#, fuzzy
+msgid "grp_mem_tbl_header"
+msgstr "Group Participants"
+
+#, fuzzy
+msgid "grp_member_administration"
+msgstr "Edit Participants"
+
+msgid "grp_members"
+msgstr "წევრები"
+
+#, fuzzy
+msgid "grp_members_deleted"
+msgstr "Deleted members"
+
+msgid "grp_members_map"
+msgstr "ჯგუფის წევრების რუკა"
+
+msgid "grp_members_print_title"
+msgstr "Group Members"
+
+#, fuzzy
+msgid "grp_min_one_admin"
+msgstr "There has to be at least one administrator assigned to this group."
+
+msgid "grp_missing_grp_type"
+msgstr "გთხოვთ აირჩიოთ ჯგუფის სახეობა"
+
+msgid "grp_missing_password"
+msgstr "გთხოვთ შეიყვანოთ ჯგუფის პაროლი"
+
+msgid "grp_new_status"
+msgstr "თქვენი ახალი სტატუსია"
+
+#, fuzzy
+msgid "grp_next"
+msgstr "Next"
+
+#, fuzzy
+msgid "grp_no_perm_to_add_create_first"
+msgstr "You need to create a group first. Please select where to create a new group."
+
+msgid "grp_notification"
+msgstr "შეტყობინება"
+
+msgid "grp_notification_activated"
+msgstr "შეტყობინება აქტიურია"
+
+msgid "grp_notification_deactivated"
+msgstr "შეტყობინება არააქტიურია"
+
+msgid "grp_notification_explanation_admin"
+msgstr "თქვენ მიიღებთ ემაილს რადგან თქვენ ხართ ჯგუფის ადმინისტრატორი გააქტიურებული შეტყობინებებით"
+
+msgid "grp_notification_salutation"
+msgstr "პატივცემულო ჯგუფის მონაწილე,"
+
+msgid "grp_notify_off"
+msgstr "შეტყობინება თქვენს ახალ რეგისტრაციებზე გაუქმებულია"
+
+msgid "grp_notify_on"
+msgstr "შეტყობინება თქვენს ახალ რეგისტრაციებზე გააქტიურებულია"
+
+msgid "grp_pass_request"
+msgstr "ჯგუფის პაროლით გაწევრიანება"
+
+#, fuzzy
+msgid "grp_period"
+msgstr "Period of Event"
+
+#, fuzzy
+msgid "grp_period_info"
+msgstr "Information about the start and end date of the event, which is supported by the group"
+
+msgid "grp_presentation_type"
+msgstr "პრეზენტაციის სახეობა"
+
+msgid "grp_print_list"
+msgstr "Generate List"
+
+msgid "grp_public"
+msgstr "საჯარო ჯგუფი"
+
+msgid "grp_public_info"
+msgstr "ჯგუფი ხილვადია არაწევრებისთვისაც მაგრამ აქვს გარკვეული მოთხოვნები გასაწევრიანებლად"
+
+msgid "grp_reg_code"
+msgstr "რეგისტრაციის კოდი"
+
+msgid "grp_reg_code_enabled_info"
+msgstr "თუ გააქტიურებულია, ავტომატური რეგისტრაციაა შესაძლებელი გარკვეული რეგისტრაციის ლინკის მეშვეობით"
+
+msgid "grp_reg_code_link"
+msgstr "რეგისტრაციის ლინკი"
+
+msgid "grp_reg_deac_info_screen"
+msgstr "ჯგუფშI დამატება დაკეტილია"
+
+msgid "grp_reg_direct"
+msgstr "პირდაპირი რეგისტრაცია"
+
+msgid "grp_reg_direct_info_screen"
+msgstr "თქვენ პირდაპირ შეგიძლიათ ამ ჯგუში გაწევრიანება"
+
+msgid "grp_reg_disabled"
+msgstr "რეგისტრაცია არა არის შესაძლებელი"
+
+msgid "grp_reg_disabled_info"
+msgstr "მხოლოდ ჯგუფის ადმინისტრატორებს შეუძლიათ დაამატონ მომხმარებლები ჯგუფში"
+
+msgid "grp_reg_limited"
+msgstr "თვით რეგისტრაცია"
+
+msgid "grp_reg_max_members_info"
+msgstr "განსაზღვრეთ იმ მომხმარებელთა მაქსიმალური რაოდენობა რომლეის დანიშვნაც შეიძლება ამ ჯგუფში"
+
+#, fuzzy
+msgid "grp_reg_no_selfreg"
+msgstr "No self-enrolment"
+
+msgid "grp_reg_passwd_info_screen"
+msgstr "თუ ჯგუფის ადმინისტრატორმა გადმოგცათ ჯგუფის პაროლი, თქვენ შეგიძლიათ ჯგუფში გაწევრიანება"
+
+msgid "grp_reg_password_info"
+msgstr "მომხმარებლებმა უნდა დაწერონ სწორი პაროლი ჯგუფში გასაწევრიანებლად"
+
+msgid "grp_reg_req_info_screen"
+msgstr "თქვენ შეგიძლიათ მოითხოვოთ ჯგუფში წევრობა. თქვენ მიიღებთ შეტყობინებას ჯგუფის ადმინისტრატორისგან როდესაც თქვენი მთხოვნა დამტკიცდება ან პირიქით"
+
+msgid "grp_reg_request"
+msgstr "წევრობის მოთხოვნა"
+
+msgid "grp_reg_request_info"
+msgstr "დაინტერესებულ მომხმარებლებს შეუძლიათ შეტყობინების გაგზავნა ჯგუფის ადმინისტრატორისთვის"
+
+msgid "grp_reg_subject"
+msgstr "შეტყობინება"
+
+msgid "grp_registration_unlimited"
+msgstr "შეუზღუდავი"
+
+msgid "grp_role_status"
+msgstr "პასუხისმგებლობა/სტატუსი"
+
+msgid "grp_search_users"
+msgstr "მომხმარებლის ძიება"
+
+msgid "grp_set_on_waiting_list"
+msgstr "თქვენ შეგიძლიათ თქვენი წევრობის მოთხოვნის დამატება მოლოდინის სიაში. თქვენ მიიღებთ შეტყობინებას მისი მართლების ან უარყოფის შემთხვევაში"
+
+msgid "grp_setting_header_presentation"
+msgstr "ჯგუფის პრეზენტაცია"
+
+msgid "grp_setting_header_registration"
+msgstr "ჯგუფის რეგისტრაცია"
+
+msgid "grp_settings"
+msgstr "ჯგუფის პარამეტრები"
+
+#, fuzzy
+msgid "grp_show_members"
+msgstr "Show Members"
+
+#, fuzzy
+msgid "grp_show_members_info"
+msgstr "If activated, group members can access the members gallery."
+
+#, fuzzy
+msgid "grp_subscription_min_members_info"
+msgstr "Define the number of users that is minimally required for this group to be held at all. If this number is not met either after the date until which users can register or unsubscribe from the group a mail will be send to those group administrators or tutors that have activated the 'Notification' flag in the 'Members'-tab."
+
+#, fuzzy
+msgid "grp_sure_add_user_to_group"
+msgstr "Do you really want to add this user to the group?"
+
+#, fuzzy
+msgid "grp_sure_create_group_add_user"
+msgstr "Do you really want to create the group and add the user?"
+
+msgid "grp_typ"
+msgstr "ჯგუფის სახეობა"
+
+msgid "grp_unsubscribe"
+msgstr "ხელის მოწერაზე უარის თქმა"
+
+msgid "grp_update_subscr_request"
+msgstr "წევრობის მოთხოვნის განახლება"
+
+#, fuzzy
+msgid "grp_use_existing"
+msgstr "Use Existing Group"
+
+msgid "grp_user_agreement"
+msgstr "გამოცემული მონაცემების სახეობები"
+
+msgid "grp_user_agreement_info"
+msgstr "ჯგუფის ადმინისტრატორისთვის ხილვადი პირადი მონაცემები"
+
+#, fuzzy
+msgid "grp_user_already_in_group"
+msgstr "The selected user is already member of the group."
+
+#, fuzzy
+msgid "grp_user_been_added"
+msgstr "The user has been added to the group."
+
+msgid "grp_users_already_assigned"
+msgstr "მომხმრაებელი უკვე დანიშნულია ამ ჯგუფში"
+
+#, fuzzy
+msgid "grp_usr_agreement"
+msgstr "User Agreement"
+
+msgid "grp_view_info_by_type"
+msgstr "ამ შინაარსის პრეზენტაცია აჯგუფებს ყველა ობიექტს რესურსის სახეობის მიხედვით"
+
+msgid "grp_view_info_simple"
+msgstr "ამ შინაარსის პრეზენტაცია ჩამოთვლის ყველა ობიექტს ერთ ბლოკში"
+
+msgid "grp_view_inherit"
+msgstr "სტანდარტი"
+
+msgid "grp_view_inherit_info"
+msgstr "ჯგუფის პრეზენტაციის სახეობა ადაფტირებულია მშობელი კურსიდან"
+
+msgid "grp_waiting_list"
+msgstr "მოლოდინის სიის გააქტიურება"
+
+#, fuzzy
+msgid "grp_waiting_list_autofill"
+msgstr "With Auto-Fill"
+
+#, fuzzy
+msgid "grp_waiting_list_autofill_info"
+msgstr "Participants are recruited from the waiting list automatically on cancellations."
+
+msgid "grp_waiting_list_info"
+msgstr "თუ გააქტიურებულია და მომხმარებელთა მაქსიმალური რაოდენობა გადაჭარბებულია, ახალი რეგისტრაციები განთავსდება მოლოდინის სიაში"
+
+#, fuzzy
+msgid "grp_waiting_list_no_autofill"
+msgstr "Without Auto-Fill"
+
+msgid "grp_warn_grp_type_changed"
+msgstr "ნამდვილად გსურთ ჯგუფის სახეობის შეცვლა? Yყველა დაშვების პარამეტრი გადაყენებული იქნება"
+
+msgid "grp_warn_no_max_set_on_waiting_list"
+msgstr "ჯგუფის წევრთა მაქსიმალური რაოდენობა გადაჭარბებულია, თქვენ მიიღებთ შეტყობინებას ჯგუფის ადმინისტრატორისგან მოთხოვნის მიღების ან უარყოფის თაობაზე"
+
+msgid "grp_warn_wl_set_on_waiting_list"
+msgstr "რამდენიმე მომხმარებელი უკვე დანიშნულია მოლოდინის სიაში. თქვენ შეგიძლიათ დაამატოთ თქვენი მოთხოვნა სიაში. თქვენ მიიღებთ შეტყობინებას ჯგუფის ადმინისტრატორისაგან როცა ის გამართლდება ან პირიქით"
+
+msgid "grp_wrong_max_members"
+msgstr "გთხოვთ შეამოწმოთ მომხმარებელთა მაქსიმალური რაოდენობა"
+
+#, fuzzy
+msgid "grp_wrong_min_max_members"
+msgstr "Please check the minimum and maximum number of users."
+
+msgid "grp_wrong_reg_time_limit"
+msgstr "გთხოვთ შეამოწმოთ რეგისტრაციის დაწყებისა და დასრულების დროები"
+
+msgid "reg_grp_max_members"
+msgstr "წევრების შეზღუდული რაოდენობა"
+
+msgid "reg_grp_max_members_short"
+msgstr "წევრების რაოდენობა"
+
+#, fuzzy
+msgid "reg_grp_min_members"
+msgstr "Minimum Number of Members"

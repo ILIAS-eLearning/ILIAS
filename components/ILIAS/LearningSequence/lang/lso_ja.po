@@ -1,0 +1,327 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: lso\n"
+
+msgid "abstract"
+msgstr "要約"
+
+msgid "abstract_img"
+msgstr "要約のイメージ"
+
+msgid "avail_time_period"
+msgstr "期間"
+
+msgid "completed_steps"
+msgstr "通過ステップ"
+
+msgid "condition_always"
+msgstr "常時"
+
+msgid "cont_ed_insert_lsocurriculum"
+msgstr "学習シーケンスカリキュラムを挿入"
+
+msgid "cont_ed_insert_lsostartbutton"
+msgstr "学習シーケンススタートボタンを挿入"
+
+msgid "curriculum"
+msgstr "完了"
+
+msgid "delete_confirmation"
+msgstr "失敗"
+
+msgid "entries_deleted"
+msgstr "カリキュラム"
+
+msgid "entries_updated"
+msgstr "このオブジェクトを本当に削除しますか?"
+
+msgid "extro"
+msgstr "エントリーを正しく削除"
+
+msgid "extro_img"
+msgstr "エントリーを保存しました"
+
+msgid "failed"
+msgstr "終了ページ"
+
+msgid "finished"
+msgstr "終了ページ用のイメージ"
+
+msgid "first_access"
+msgstr "最初のアクセス"
+
+msgid "last_visited_step"
+msgstr "最終訪問ステップ"
+
+msgid "learner_view"
+msgstr "概要"
+
+msgid "lp_not_relevant_post_cond"
+msgstr "現在継続性の関連性なし"
+
+msgid "lso_activation_online_info"
+msgstr "学習シーケンスメンバーへ表示して利用可能になるよう学習シーケンスオンラインを設定します。そうでない場合は管理者と指導教員のみしかアクセスできません。"
+
+msgid "lso_at_least_one_admin"
+msgstr "一人は学習シーケンス管理者が存在する必要があります。"
+
+msgid "lso_edit_permission"
+msgstr "ユーザはアクセス権設定を変更できます。"
+
+msgid "lso_header_delete_members"
+msgstr "この学習シーケンスから次のメンバーを削除しますか?"
+
+msgid "lso_header_edit_members"
+msgstr "メンバーを編集"
+
+msgid "lso_intropages_deprecationhint"
+msgstr "アブストラクトの編集と\"コンテンツ\"タブのページを出る事が出来ます。"
+
+msgid "lso_legacy_info"
+msgstr "オブジェクトはブラウザの新しいタブで開かれます。 ドキュメントの処理/編集後はこのタブへ戻って下さい。コンテンツ編集しても\"次へ”ボタンが無効状態の場合はページを再読み込みしてください。"
+
+msgid "lso_mail_admission_new_bod"
+msgstr "学習シーケンス\"%s\"へ登録されたことをご案内します。"
+
+msgid "lso_mail_admission_new_sub"
+msgstr "学習シーケンス\"%s\"の登録"
+
+msgid "lso_mail_dismiss_bod"
+msgstr "学習シーケンス\"%s\"のメンバーシップは終了しました。"
+
+msgid "lso_mail_dismiss_sub"
+msgstr "学習シーケンス\"%s\"のメンバーシップを修了しました"
+
+msgid "lso_mail_notification_reg_bod"
+msgstr "%sは学習シーケンス\"%s\"へ登録されました。"
+
+msgid "lso_mail_notification_reg_req_bod"
+msgstr "%sは学習シーケンス\"%s\"のメンバーシップを要求しました。"
+
+msgid "lso_mail_notification_reg_req_bod2"
+msgstr "この登録を確認するにはここへ行く:"
+
+msgid "lso_mail_notification_reg_req_sub"
+msgstr "学習シーケンス\"%s\"のジョインを要求"
+
+msgid "lso_mail_notification_reg_sub"
+msgstr "ユーザは学習シーケンス\"%s\"を登録しました。"
+
+msgid "lso_mail_notification_unsub_bod"
+msgstr "%sは学習シーケンス\"%s\"のメンバーシップをキャンセルしました。"
+
+msgid "lso_mail_notification_unsub_bod2"
+msgstr "学習シーケンスの待ちリストに他のメンバーがいる可能性があります。すぐに待ちリストを確認すべきです。学習シーケンスのメンバーを表示するにはここをクリック:"
+
+msgid "lso_mail_notification_unsub_sub"
+msgstr "ユーザは学習シーケンス\"%s\"を離れました。"
+
+msgid "lso_mail_permanent_link"
+msgstr "あなたの学習シーケンスに関する必要なすべての情報見つけるには次のリンクをクリック。"
+
+msgid "lso_mail_status_bod"
+msgstr "学習シーケンス\"%s\"内のステータスは変更されました。"
+
+msgid "lso_mail_status_sub"
+msgstr "学習シーケンス\"%s\"内のステータスを変更しました。"
+
+msgid "lso_mail_sub_acc_bod"
+msgstr "学習シーケンス\"%s\"の登録が完了したことを確認しました。"
+
+msgid "lso_mail_sub_acc_sub"
+msgstr "%sの登録完了しました"
+
+msgid "lso_mail_sub_dec_bod"
+msgstr "残念ながら学習シーケンス\"%s\"の登録は拒否されました。"
+
+msgid "lso_mail_sub_dec_sub"
+msgstr "学習シーケンス\"%s\"の登録を拒否しました。"
+
+msgid "lso_mail_subscribe_member_bod"
+msgstr "学習シーケンス\"%s\"の登録が確認されたことを案内します。"
+
+msgid "lso_mail_subscribe_member_sub"
+msgstr "学習シーケンス\"%s\"の登録"
+
+msgid "lso_mail_unsubscribe_member_bod"
+msgstr "学習シーケンス\"%s\"のメンバーシップキャンセルを確認します。もう一つの学習シーケンスへ参加する機会が見つかるように期待します。"
+
+msgid "lso_mail_unsubscribe_member_sub"
+msgstr "学習シーケンス\"%s\"内のメンバーシップキャンセル"
+
+msgid "lso_mail_wl_bod"
+msgstr "学習シーケンス\"%s\"の待ちリストへ割当てられました。リストの%sポジションへ割当てられました。リクエストが承認または拒否されると学習シーケンス管理者からメッセージを受信します。"
+
+msgid "lso_mail_wl_sub"
+msgstr "学習シーケンス\"%s\"の登録"
+
+msgid "lso_mainbar_button_label_curriculum"
+msgstr "カリキュラム"
+
+msgid "lso_mainbar_button_label_toc"
+msgstr "コンテンツ"
+
+msgid "lso_mem_tbl_header"
+msgstr "学習シーケンスメンバー"
+
+msgid "lso_member_administration"
+msgstr "参加者を編集"
+
+msgid "lso_members_deleted"
+msgstr "メンバーを編集削除しました"
+
+msgid "lso_members_gallery"
+msgstr "学習シーケンスメンバーギャラリー"
+
+msgid "lso_members_print_title"
+msgstr "学習シーケンスメンバー"
+
+msgid "lso_min_one_admin"
+msgstr "この学習シーケンスに対して一人は管理者を割当てる必要があります。"
+
+msgid "lso_msg_member_assigned"
+msgstr "ユーザは学習シーケンスメンバーとして割当てられました。"
+
+msgid "lso_multidownload_not_available"
+msgstr "ダウンロード中の複数のオブジェクトは、現在、学習シーケンスオブジェクトには利用できません。"
+
+msgid "lso_new_status"
+msgstr "新しいステータスは:"
+
+msgid "lso_notification"
+msgstr "通知"
+
+msgid "lso_notification_explanation_admin"
+msgstr "通知を有効にしている学習シーケンス管理者なのでILIASからメール受信します。"
+
+msgid "lso_notify_off"
+msgstr "新規登録不可状態だった事に関する通知"
+
+msgid "lso_notify_on"
+msgstr "新規登録可能状態だった事に関する通知"
+
+msgid "lso_player_abstract"
+msgstr "要約Infoを表示"
+
+msgid "lso_player_extro"
+msgstr "最終ページを表示"
+
+msgid "lso_player_finish"
+msgstr "終了"
+
+msgid "lso_player_next"
+msgstr "次へ"
+
+msgid "lso_player_noitems"
+msgstr "ラーニングシーケンスに利用可能なアイテムがありません。"
+
+msgid "lso_player_previous"
+msgstr "戻る"
+
+msgid "lso_player_resume"
+msgstr "学習シーケンスを再開"
+
+msgid "lso_player_review"
+msgstr "学習シーケンスをレビュー"
+
+msgid "lso_player_start"
+msgstr "学習シーケンスを開始"
+
+msgid "lso_player_suspend"
+msgstr "保留"
+
+msgid "lso_player_viewmodelabel"
+msgstr "Learning Sequence"
+
+msgid "lso_print_list"
+msgstr "リストを印刷"
+
+msgid "lso_read"
+msgstr "ユーザは学習シーケンスへ読み込みアクセス権があります。"
+
+msgid "lso_search_users"
+msgstr "ユーザを検索"
+
+msgid "lso_settings_availability"
+msgstr "Availability(空き状況)"
+
+msgid "lso_settings_extro"
+msgstr "退出ページ設定"
+
+msgid "lso_settings_intro"
+msgstr "イントロページ設定"
+
+msgid "lso_settings_old_extro"
+msgstr "古いExitページを表示"
+
+msgid "lso_settings_old_intro"
+msgstr "古いイントロページを表示"
+
+msgid "lso_show_members_info"
+msgstr "ユーザの利用可能なメンバーギャラリー"
+
+msgid "lso_start_item"
+msgstr "開始"
+
+msgid "lso_toast_completed_desc"
+msgstr "このラーニングシーケンスを完了しました。コンテンツを見続けられる可能性はあります。"
+
+msgid "lso_toast_completed_title"
+msgstr "おめでとうございます"
+
+msgid "lso_users_already_assigned"
+msgstr "ユーザはこの学習シーケンスへ既に割当て済です。"
+
+msgid "mail_lso_roles"
+msgstr "学習シーケンスの役割へメールを送信"
+
+msgid "manage"
+msgstr "管理"
+
+msgid "manage_content_maintab"
+msgstr "コンテンツ"
+
+msgid "members_gallery"
+msgstr "メンバーギャラリー"
+
+msgid "no_entries_selected_for_delete"
+msgstr "エントリーを一つは選択する必要があります"
+
+msgid "not_finished"
+msgstr "未終了"
+
+msgid "notification_lso_completed_title"
+msgstr "ラーニングシーケンス %s　を完了しました。"
+
+msgid "show_summary"
+msgstr "Info"
+
+msgid "table_actions"
+msgstr "アクション"
+
+msgid "table_lp_settings"
+msgstr "学習進捗設定"
+
+msgid "table_may_proceed"
+msgstr "ユーザは進行可能"
+
+msgid "table_online"
+msgstr "オンライン"
+
+msgid "table_position"
+msgstr "ポジション"
+
+msgid "table_sequence_content"
+msgstr "コンテンツ管理"
+
+msgid "table_title"
+msgstr "タイトル"
+
+msgid "unparticipate"
+msgstr "未購読"

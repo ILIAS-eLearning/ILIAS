@@ -1,0 +1,790 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: administration\n"
+
+msgid "adm_achievements"
+msgstr "Logros"
+
+msgid "adm_adm_role_protect"
+msgstr "Proteger el rol de administrador"
+
+msgid "adm_adm_role_protect_info"
+msgstr "Permitir solo a los administradores asignar o eliminar usuarios del rol de administrador."
+
+msgid "adm_auth_login"
+msgstr "Inicio de sesión"
+
+msgid "adm_auth_reg"
+msgstr "Registro de autenticación"
+
+msgid "adm_communication"
+msgstr "Comunicación"
+
+msgid "adm_extending_ilias"
+msgstr "Ampliando ILIAS"
+
+msgid "adm_external_setting_edit"
+msgstr "Editar ajustes"
+
+msgid "adm_hide"
+msgstr "Ocultar en el formulario de configuración"
+
+msgid "adm_hide_tabs"
+msgstr "Ocultar pestañas"
+
+msgid "adm_https"
+msgstr "HTTPS"
+
+msgid "adm_imprint"
+msgstr "Aviso legal"
+
+msgid "adm_imprint_inactive"
+msgstr "El aviso legal no está activo y los usuarios no pueden acceder a él."
+
+msgid "adm_layout_and_navigation"
+msgstr "Diseño y navegación"
+
+msgid "adm_legal_regulations"
+msgstr "Regulaciones legales"
+
+msgid "adm_locale"
+msgstr "Configuración regional"
+
+msgid "adm_locale_info"
+msgstr "La configuración regional influye, por ejemplo, en el ordenamiento de listas. Ejemplos: nl_NL o de_DE. Se pueden separar varias configuraciones regionales mediante comas. Se utilizará la primera válida."
+
+msgid "adm_maintenance"
+msgstr "Configuración del sistema y mantenimiento"
+
+msgid "adm_missing_entries"
+msgstr "Entradas faltantes"
+
+msgid "adm_missing_entry_add"
+msgstr "Agregar nueva entrada"
+
+msgid "adm_missing_entry_add_action"
+msgstr "Agregar"
+
+msgid "adm_nr_statements"
+msgstr "Número de declaraciones"
+
+msgid "adm_personal_workspace"
+msgstr "Espacio personal"
+
+msgid "adm_predefined_settings"
+msgstr "Configuraciones predefinidas"
+
+msgid "adm_pub_section_domain_filter"
+msgstr "Filtro de dominio"
+
+msgid "adm_pub_section_domain_filter_info"
+msgstr "Filtros de dominio que conceden acceso anónimo. Introduzca uno o más dominios que permitan el acceso anónimo."
+
+msgid "adm_rep_shorten_description"
+msgstr "Longitud limitada de descripciones"
+
+msgid "adm_rep_shorten_description_info"
+msgstr "Si está activado, todas las descripciones en las listas de objetos se presentan con un número máximo de caracteres."
+
+msgid "adm_rep_shorten_description_length"
+msgstr "Número máximo de caracteres"
+
+msgid "adm_rep_tree_all_types"
+msgstr "Todos los tipos de objetos"
+
+msgid "adm_rep_tree_all_types_info"
+msgstr "Todos los tipos de objetos se presentan en la vista de árbol (Slate)."
+
+msgid "adm_rep_tree_limit_grp_crs"
+msgstr "Mostrar solo en cursos y grupos."
+
+msgid "adm_rep_tree_limit_grp_crs_info"
+msgstr "La Vista en Árbol muestra todos los objetos solo dentro de cursos y grupos. Fuera de cursos y grupos, solo se presentan los objetos contenedores."
+
+msgid "adm_rep_tree_only_cntr"
+msgstr "Solo objetos contenedores"
+
+msgid "adm_rep_tree_only_cntr_info"
+msgstr "Solo se presentan en la Vista en Árbol los objetos de tipo Programa de estudios, Categoría, Curso, Grupo y Secuencia de aprendizaje."
+
+msgid "adm_rep_tree_presentation"
+msgstr "Vista en árbol del repositorio"
+
+msgid "adm_repository_and_objects"
+msgstr "Repositorio y objetos"
+
+msgid "adm_search_and_find"
+msgstr "Buscar y encontrar"
+
+msgid "adm_show_comments_tagging_in_lists"
+msgstr "Mostrar número de notas, comentarios y etiquetas en las listas de objetos"
+
+msgid "adm_show_comments_tagging_in_lists_tags"
+msgstr "Mostrar etiquetas en lugar del número"
+
+msgid "adm_table"
+msgstr "Tabla"
+
+msgid "adm_user_administration"
+msgstr "Usuarios y roles"
+
+msgid "adm_user_starting_point"
+msgstr "Punto de inicio personal"
+
+msgid "adm_user_starting_point_info"
+msgstr "Seleccione la página u objeto que se mostrará después de iniciar sesión."
+
+msgid "adm_user_starting_point_inherit"
+msgstr "Usar configuración estándar"
+
+msgid "adm_user_starting_point_inherit_info"
+msgstr "Usar la configuración global estándar establecida por el administrador de su plataforma."
+
+msgid "adm_user_starting_point_invalid_info"
+msgstr "Esta función no está activa actualmente."
+
+msgid "adm_user_starting_point_object"
+msgstr "Objeto del repositorio"
+
+msgid "adm_user_starting_point_personal"
+msgstr "Configuración personal"
+
+msgid "adm_user_starting_point_personal_info"
+msgstr "Los usuarios pueden seleccionar su propia página de inicio."
+
+msgid "adm_user_starting_point_ref_id"
+msgstr "ID de referencia"
+
+msgid "adm_user_starting_point_ref_id_info"
+msgstr "Abra el objeto que le gustaría usar como su punto de inicio personal y copie el número que aparece directamente después de \"ref_id=\" en la barra del navegador en el campo de texto de arriba."
+
+msgid "adm_value"
+msgstr "Valor predefinido"
+
+msgid "allow_change_loginname"
+msgstr "Permitir cambiar los nombres de inicio de sesión en 'Datos personales'"
+
+msgid "analysis_options"
+msgstr "Opciones de análisis"
+
+msgid "analyze_data"
+msgstr "Analizar y reparar la integridad de los datos"
+
+msgid "analyzing_tree_structure"
+msgstr "Analizando la estructura del árbol…"
+
+msgid "apache_auth_authenticate_on_login_page"
+msgstr "Intentar la autenticación Apache al acceder a la página de inicio de sesión"
+
+msgid "apache_auth_domains"
+msgstr "Dominios de redirección permitidos"
+
+msgid "apache_auth_domains_description"
+msgstr "Introduzca un dominio por línea para permitir redirección a este destino.<br/>Si ILIAS es accesible desde más de un dominio, introduzca todos los destinos que quiera permitir.<br />Ejemplo: example.com permite la redirección a http://example.com y http://www.example.com y a todas las páginas allí localizadas."
+
+msgid "apache_auth_enable_override_login"
+msgstr "Sobrescribir la página de inicio de sesión predeterminada"
+
+msgid "apache_auth_indicator_name"
+msgstr "Campo indicador para la autenticación exitosa"
+
+msgid "apache_auth_indicator_value"
+msgstr "Valor indicador para la autenticación exitosa"
+
+msgid "apache_auth_security"
+msgstr "Configuración de seguridad"
+
+msgid "apache_auth_settings"
+msgstr "Apache"
+
+msgid "apache_auth_target_override_login"
+msgstr "URL de destino para la página de inicio de sesión personalizada"
+
+msgid "apache_auth_username_by_function"
+msgstr "Asignar nombres de usuario mediante función personalizada"
+
+msgid "apache_auth_username_config"
+msgstr "Configuración del nombre de usuario"
+
+msgid "apache_auth_username_config_type"
+msgstr "Tipo"
+
+msgid "apache_auth_username_direct_mapping"
+msgstr "Asignación directa"
+
+msgid "apache_auth_username_direct_mapping_fieldname"
+msgstr "Campo para la asignación"
+
+msgid "apache_auth_username_extended_mapping"
+msgstr "Asignación extendida"
+
+msgid "apache_autocreate"
+msgstr "Habilitar creación de cuentas"
+
+msgid "apache_default_role"
+msgstr "Rol de usuario predeterminado"
+
+msgid "apache_enable_auth"
+msgstr "Habilitar soporte de autenticación Apache"
+
+msgid "apache_enable_ldap"
+msgstr "Habilitar asignación de usuarios LDAP"
+
+msgid "apache_enable_local"
+msgstr "Habilitar asignación de usuarios locales"
+
+msgid "apache_ldap_hint_ldap_must_be_configured"
+msgstr "LDAP debe estar configurado en la administración"
+
+msgid "apache_settings"
+msgstr "Configurar autenticación LDAP"
+
+msgid "apache_settings_changed_success"
+msgstr "Configuración guardada"
+
+msgid "auth_apache"
+msgstr "Apache"
+
+msgid "auth_auth_mode_determination"
+msgstr "Determinación del método de autenticación (para el inicio de sesión)"
+
+msgid "auth_automatic"
+msgstr "Secuencia fija"
+
+msgid "auth_by_user"
+msgstr "Por el usuario"
+
+msgid "auth_kind_determination"
+msgstr "Tipo de determinación"
+
+msgid "auth_mode_default_change_info"
+msgstr "Cambiar el método de autenticación predeterminado afecta a todas las cuentas de usuario configuradas para usar dicho método. Si el método predeterminado seleccionado (p. ej., Shibboleth, SAML, SOAP, ...) no admite o no está configurado para permitir la autenticación local de ILIAS como respaldo, los usuarios afectados podrían dejar de poder iniciar sesión. Para evitarlo, asegúrese de que la autenticación local como respaldo esté activada en la configuración del método seleccionado, o que el método de autenticación almacenado para las cuentas de usuario afectadas se cambie manualmente."
+
+msgid "auth_mode_determination_info"
+msgstr "Elija si los usuarios deben seleccionar su método de autenticación en la pantalla de inicio de sesión o si esto se gestiona mediante una secuencia fija de métodos de autenticación."
+
+msgid "clean"
+msgstr "Limpiar"
+
+msgid "clean_desc"
+msgstr "Eliminar referencias y entradas de árbol inválidas. Inicializar huecos en la estructura del árbol."
+
+msgid "cleaning"
+msgstr "Limpiando..."
+
+msgid "cleaning_final"
+msgstr "Limpieza final..."
+
+msgid "course_export"
+msgstr "Visible en los cursos"
+
+msgid "done"
+msgstr "Hecho"
+
+msgid "dump_tree"
+msgstr "Volcar árbol"
+
+msgid "dump_tree_desc"
+msgstr "Realizar un análisis del árbol e imprimir todos los nodos del árbol junto con los datos del análisis."
+
+msgid "dumping_tree"
+msgstr "Volcando el árbol..."
+
+msgid "found"
+msgstr "encontrado."
+
+msgid "found_none"
+msgstr "no se encontraron."
+
+msgid "git_hash_short"
+msgstr "Hash del commit (corto): %s"
+
+msgid "git_last_commit"
+msgstr "Último commit: %s"
+
+msgid "git_revision"
+msgstr "Número: %s"
+
+msgid "group_export"
+msgstr "Visible en los grupos"
+
+msgid "history_loginname"
+msgstr "Historial de nombres de usuario"
+
+msgid "initializing_gaps"
+msgstr "Inicializando huecos en el árbol..."
+
+msgid "language_all_modules"
+msgstr "Todos los módulos"
+
+msgid "language_change_settings"
+msgstr "Cambiar configuración de idioma"
+
+msgid "language_clear_local_changes"
+msgstr "Borrar cambios locales en la base de datos"
+
+msgid "language_clear_local_changes_info"
+msgstr "Restablecer las entradas de la base de datos de este idioma a las entradas predeterminadas definidas en lang/ilias_%s.lang. Todos los cambios o adiciones locales serán eliminados."
+
+msgid "language_cleared_local"
+msgstr "Los cambios locales se eliminaron de la base de datos."
+
+msgid "language_compare"
+msgstr "Comparar"
+
+msgid "language_default_entries"
+msgstr " (entradas predeterminadas)"
+
+msgid "language_delete_local_additions"
+msgstr "Eliminar adiciones locales de la base de datos"
+
+msgid "language_delete_local_additions_info"
+msgstr "Eliminar todas las entradas que fueron añadidas localmente a la base de datos."
+
+msgid "language_error_clear_local"
+msgstr "¡Los cambios locales no pudieron ser eliminados de la base de datos!"
+
+msgid "language_error_delete_local"
+msgstr "¡No se pudo eliminar el archivo de idioma personalizado!"
+
+msgid "language_error_local_missed"
+msgstr "¡El archivo de idioma personalizado no existe!"
+
+msgid "language_error_read_local"
+msgstr "¡El archivo de idioma personalizado no existe o no se puede leer!"
+
+msgid "language_error_write_global"
+msgstr "¡No se puede escribir el archivo de idioma estándar!"
+
+msgid "language_export_file"
+msgstr "Exportar archivo de idioma"
+
+msgid "language_file_imported"
+msgstr "El archivo de idioma %s fue importado."
+
+msgid "language_file_scope"
+msgstr "Alcance del archivo de idioma"
+
+msgid "language_former_file_description"
+msgstr "Para comparar sus cambios locales con los de la última actualización, copie el archivo de idioma de la versión de ILIAS instalada previamente en la ruta mencionada arriba. Antes de la próxima actualización, puede hacer esto con la opción 'Hacer copia de seguridad del archivo de idioma estándar' en la pestaña de mantenimiento."
+
+msgid "language_former_file_equal"
+msgstr "El archivo <b>%s</b> es idéntico al archivo de idioma actual."
+
+msgid "language_former_file_missing"
+msgstr "El archivo <b>%s</b> no existe."
+
+msgid "language_import_file"
+msgstr "Importar archivo de idioma"
+
+msgid "language_load_local_changes"
+msgstr "Cargar el archivo de idioma personalizado en la base de datos"
+
+msgid "language_load_local_changes_info"
+msgstr "Cargue el archivo lang/customizing/ilias_%s.lang.local en la base de datos. Las nuevas entradas de este archivo se añaden a la base de datos y las entradas existentes se sobrescriben."
+
+msgid "language_loaded_local"
+msgstr "El archivo de idioma personalizado se cargó en la base de datos."
+
+msgid "language_local_file_deleted"
+msgstr "El archivo de idioma personalizado fue eliminado."
+
+msgid "language_maintain"
+msgstr "Mantener"
+
+msgid "language_maintain_local_changes"
+msgstr "Mantener cambios locales"
+
+msgid "language_maintenance"
+msgstr "Mantenimiento del idioma"
+
+msgid "language_merge_local_changes"
+msgstr "Fusionar cambios locales en el archivo de idioma estándar"
+
+#, fuzzy
+msgid "language_merge_local_changes_info"
+msgstr "Fusionar todos los cambios locales y adiciones alfabéticamente en el archivo de idioma estándar lang/ilias_%s.lang. El servidor web debe tener permiso de escritura en este archivo."
+
+msgid "language_merged_global"
+msgstr "Los cambios locales se han fusionado en el archivo de idioma estándar."
+
+msgid "language_mode_existing"
+msgstr "Entradas existentes"
+
+msgid "language_mode_existing_delete"
+msgstr "Eliminar entradas existentes"
+
+msgid "language_mode_existing_delete_info"
+msgstr "Eliminar todas las entradas en la base de datos antes de importar el archivo.<br /> ADVERTENCIA: El archivo de idioma importado debe estar completo, de lo contrario habrá variables de idioma sin definir. Si eso ocurre, cambie a la pestaña ‘Mantener’ y elija ‘Borrar cambios locales en la base de datos’."
+
+msgid "language_mode_existing_keepall"
+msgstr "Conservar todas las entradas existentes"
+
+msgid "language_mode_existing_keepall_info"
+msgstr "Importar solo nuevas entradas que aún no existan en la base de datos."
+
+msgid "language_mode_existing_keepnew"
+msgstr "Conservar todos los cambios locales"
+
+msgid "language_mode_existing_keepnew_info"
+msgstr "Importar nuevas entradas y sobrescribir todas las entradas que aún tengan sus valores predeterminados. Conservar las entradas que ya han sido modificadas en la base de datos."
+
+msgid "language_mode_existing_replace"
+msgstr "Reemplazar entradas existentes"
+
+msgid "language_mode_existing_replace_info"
+msgstr "Importar nuevas entradas y reemplazar todas las entradas existentes con los nuevos valores definidos en el archivo de importación."
+
+msgid "language_note_translation"
+msgstr "El modo de traducción de página está activado para cada idioma por separado. Además, el usuario necesita permisos de lectura y escritura en la carpeta de idiomas."
+
+msgid "language_process_maintenance"
+msgstr "Procesar mantenimiento"
+
+msgid "language_remove_local_file"
+msgstr "Eliminar el archivo de idioma personalizado"
+
+msgid "language_remove_local_file_info"
+msgstr "Eliminar el archivo lang/customizing/ilias_%s.lang.local y cambiar el estado del idioma de ‘Installed With Local’ a ‘Installed’. Los cambios en la base de datos no se modifican."
+
+msgid "language_save_dist"
+msgstr "Hacer copia de seguridad del archivo de idioma estándar"
+
+msgid "language_save_dist_failed"
+msgstr "No se pudo escribir la copia de seguridad del archivo de idioma estándar de ILIAS."
+
+msgid "language_save_dist_info"
+msgstr "Cree una copia de seguridad del archivo de idioma estándar de ILIAS en el directorio de datos de ILIAS. Esto ayuda, después de una actualización de ILIAS, a encontrar conflictos entre los cambios propios y las variables de idioma actualizadas."
+
+msgid "language_save_local_changes"
+msgstr "Guardar todos los cambios en el archivo de idioma personalizado"
+
+msgid "language_save_local_changes_info"
+msgstr "Guarde todas las entradas de la base de datos añadidas o modificadas localmente en el archivo lang/customizing/ilias_%s.lang.local y establezca el estado del idioma en ‘Installed With Local’. El servidor web debe tener permiso de escritura en esta carpeta. Tenga en cuenta que este archivo es el mismo para todos los clientes de esta instalación."
+
+msgid "language_saved_dist"
+msgstr "Se ha creado la copia de seguridad del archivo de idioma estándar de ILIAS."
+
+msgid "language_scope_added"
+msgstr "Solo adiciones locales"
+
+msgid "language_scope_added_info"
+msgstr "Exporte todas las entradas que se han añadido localmente en la base de datos. Esto puede usarse para respaldar entradas adicionales de desarrollo antes de que los cambios locales se eliminen en la pestaña ‘Maintain’."
+
+msgid "language_scope_commented"
+msgstr "Muestra solo entradas con comentarios en el archivo de idioma"
+
+msgid "language_scope_conflicts"
+msgstr "Cambios locales y de actualización"
+
+msgid "language_scope_dbremarks"
+msgstr "Muestra solo entradas con comentarios en la base de datos"
+
+msgid "language_scope_different"
+msgstr "Diferente del idioma de comparación"
+
+msgid "language_scope_equal"
+msgstr "Igual al idioma de comparación"
+
+msgid "language_scope_global"
+msgstr "Todas las entradas"
+
+msgid "language_scope_global_info"
+msgstr "Exporte todas las entradas de la base de datos de este idioma. Esto puede usarse con fines de respaldo."
+
+msgid "language_scope_local"
+msgstr "Solo cambios locales"
+
+msgid "language_scope_local_info"
+msgstr "Exporte todas las entradas que se han añadido o modificado localmente en la base de datos."
+
+msgid "language_scope_merged"
+msgstr "Cambios locales fusionados en el archivo de idioma estándar"
+
+msgid "language_scope_merged_info"
+msgstr "Exporte el archivo de idioma estándar de ILIAS con todos los cambios locales fusionados, ordenados alfabéticamente por módulo e identificador. Esto puede usarse para actualizar el archivo de idioma estándar en el repositorio git de ILIAS."
+
+msgid "language_scope_unchanged"
+msgstr "Solo entradas sin cambios"
+
+msgid "language_scope_unchanged_info"
+msgstr "Exporte todas las entradas del idioma por defecto que no han sido modificadas en la base de datos. Esto es lo opuesto a ‘Local changes only’. Ambas, juntas, constituyen una copia de seguridad completa del idioma actual en la base de datos."
+
+msgid "language_settings"
+msgstr "Configuración de idioma"
+
+msgid "language_statistics"
+msgstr "Estadísticas"
+
+msgid "language_translation"
+msgstr "Traducción de la página"
+
+msgid "language_translation_enabled"
+msgstr "Traducción de la página habilitada"
+
+msgid "language_variables_saved"
+msgstr "Los cambios en las variables de idioma se guardaron correctamente."
+
+msgid "log_scan"
+msgstr "Resultados del escaneo de registros"
+
+msgid "log_scan_desc"
+msgstr "Escribir los resultados del escaneo en ‘scanlog.log’ en el directorio de datos del cliente."
+
+msgid "loginname_change_blocking_time"
+msgstr "Tiempo de bloqueo para cambiar nombres de usuario"
+
+msgid "loginname_change_blocking_time_info"
+msgstr "Introduzca un número de días que un usuario debe esperar antes de poder cambiar nuevamente su nombre de usuario (ID de inicio de sesión). Establezca 0 para permitir que los usuarios cambien su nombre de usuario tantas veces como deseen."
+
+msgid "loginname_change_blocking_time_invalidity_info"
+msgstr "Por favor, introduzca un valor numérico."
+
+msgid "loginname_history_info"
+msgstr "Registrar los cambios de nombre de usuario (ID de inicio de sesión) en la base de datos. Este historial es accesible en la tabla de la base de datos ‘loginname_history’."
+
+msgid "nothing_to_purge"
+msgstr "Nada que purgar..."
+
+msgid "nothing_to_remove"
+msgstr "Nada que eliminar..."
+
+msgid "nothing_to_restore"
+msgstr "Nada que restaurar..."
+
+msgid "obj_blga"
+msgstr "Blog"
+
+msgid "obj_blga_desc"
+msgstr "Configuración global del blog"
+
+msgid "obj_chta_desc"
+msgstr "Administración del chat"
+
+msgid "obj_excs"
+msgstr "Ejercicio"
+
+msgid "obj_excs_desc"
+msgstr "Configuración global del ejercicio"
+
+msgid "obj_gsfo"
+msgstr "Pie de página"
+
+msgid "obj_gsfo_desc"
+msgstr "Administrar el diseño y contenido del pie de página"
+
+msgid "obj_impr"
+msgstr "Aviso legal"
+
+msgid "obj_impr_desc"
+msgstr "Despliegue del Aviso Legal"
+
+msgid "obj_mds"
+msgstr "Metadatos"
+
+msgid "obj_mds_desc"
+msgstr "Configurar metadatos y ajustes de metadatos personalizados"
+
+msgid "obj_otpl"
+msgstr "Plantillas didácticas"
+
+msgid "obj_otpl_desc"
+msgstr "Plantilla para crear nuevos objetos con ajustes de permisos predefinidos"
+
+msgid "obj_prfa"
+msgstr "Portafolio"
+
+msgid "obj_prfa_desc"
+msgstr "Ajustes globales del portafolio"
+
+msgid "obj_taxs"
+msgstr "Taxonomía"
+
+msgid "obj_taxs_desc"
+msgstr "Ajustes globales de taxonomía"
+
+msgid "org_op_edit_user_accounts"
+msgstr "Editar cuentas de usuario"
+
+msgid "output_options"
+msgstr "Opciones de salida"
+
+msgid "path_to_mkisofs"
+msgstr "Ruta a mkisofs"
+
+msgid "prg_export"
+msgstr "Visible en los programas de estudio"
+
+msgid "purge_age_limit"
+msgstr "Límite de antigüedad"
+
+msgid "purge_age_limit_desc"
+msgstr "Si este campo contiene un valor, solo se purgarán los objetos que fueron eliminados antes del número de días especificado."
+
+msgid "purge_count_limit"
+msgstr "Límite de cantidad"
+
+msgid "purge_count_limit_desc"
+msgstr "Si este campo contiene un valor, solo se purgará el número especificado de objetos."
+
+msgid "purge_missing"
+msgstr "Purgar objetos faltantes"
+
+msgid "purge_missing_desc"
+msgstr "Eliminar del sistema todos los objetos faltantes y no enlazados encontrados."
+
+msgid "purge_trash"
+msgstr "Purgar objetos eliminados"
+
+msgid "purge_trash_desc"
+msgstr "Eliminar todos los objetos de la papelera del sistema."
+
+msgid "purge_type_limit"
+msgstr "Limitar por tipo"
+
+msgid "purge_type_limit_desc"
+msgstr "Si este campo contiene un valor, solo se eliminarán los objetos del tipo especificado."
+
+msgid "purging"
+msgstr "Purgando..."
+
+msgid "purging_missing_objs"
+msgstr "Purgando objetos faltantes..."
+
+msgid "purging_trash"
+msgstr "Purgando la papelera..."
+
+msgid "purging_unbound_objs"
+msgstr "Purgando objetos no vinculados..."
+
+msgid "removing_invalid_childs"
+msgstr "Eliminando entradas inválidas del árbol..."
+
+msgid "removing_invalid_refs"
+msgstr "Eliminando referencias inválidas..."
+
+msgid "removing_invalid_rolfs"
+msgstr "Eliminando carpetas de rol inválidas..."
+
+msgid "repair_options"
+msgstr "Opciones de reparación"
+
+msgid "restore_missing"
+msgstr "Restaurar objetos faltantes"
+
+msgid "restore_missing_desc"
+msgstr "Restaurar objetos faltantes y no vinculados a RecoveryFolder."
+
+msgid "restore_trash"
+msgstr "Restaurar objetos eliminados"
+
+msgid "restore_trash_desc"
+msgstr "Restaurar todos los objetos de la papelera a RecoveryFolder."
+
+msgid "restoring"
+msgstr "Restaurando..."
+
+msgid "restoring_missing_objs"
+msgstr "Restaurando objetos faltantes..."
+
+msgid "restoring_trash"
+msgstr "Restaurando la papelera..."
+
+msgid "restoring_unbound_objs"
+msgstr "Restaurando objetos no vinculados y subobjetos..."
+
+msgid "reuse_of_loginnames_contained_in_history"
+msgstr "Reutilización de nombres de usuario"
+
+msgid "reuse_of_loginnames_contained_in_history_info"
+msgstr "Permitir a los usuarios reutilizar cualquier nombre de inicio de sesión (que no esté actualmente en uso) que ya aparezca en el historial (incluso si pertenece a un usuario eliminado)."
+
+msgid "scan"
+msgstr "Escanear"
+
+msgid "scan_desc"
+msgstr "Escanear el sistema en busca de objetos corruptos/invalidos/faltantes/no vinculados."
+
+msgid "scan_details"
+msgstr "Detalles del escaneo"
+
+msgid "scan_modes"
+msgstr "Modos de escaneo utilizados"
+
+msgid "scanning_system"
+msgstr "Escaneando el sistema..."
+
+msgid "searching_deleted_objs"
+msgstr "Buscando objetos eliminados..."
+
+msgid "searching_invalid_childs"
+msgstr "Buscando entradas inválidas en el árbol..."
+
+msgid "searching_invalid_refs"
+msgstr "Buscando referencias inválidas..."
+
+msgid "searching_invalid_rolfs"
+msgstr "Buscando carpetas de roles inválidas..."
+
+msgid "searching_missing_objs"
+msgstr "Buscando objetos faltantes..."
+
+msgid "searching_unbound_objs"
+msgstr "Buscando objetos no vinculados..."
+
+msgid "skipped"
+msgstr "omitido"
+
+msgid "start_scan"
+msgstr "¡Iniciar!"
+
+msgid "svn_path"
+msgstr "Path: %s"
+
+msgid "svn_revision_current"
+msgstr "Current Revision: %s"
+
+msgid "svn_revision_last_change"
+msgstr "Last Changed Revision: %s"
+
+msgid "svn_root"
+msgstr "Root: %s"
+
+msgid "system_check_no_owner"
+msgstr "Objetos sin propietario"
+
+msgid "system_folder_info"
+msgstr "Please choose an item from the administration main menu."
+
+msgid "systemcheck"
+msgstr "Comprobación del sistema"
+
+msgid "tree_corrupt"
+msgstr "¡El árbol está corrupto! Consulte el registro de escaneo para más detalles."
+
+msgid "user_criteria"
+msgstr "Criterios únicos de usuario"
+
+msgid "user_criteria_desc"
+msgstr "Criterios únicos de usuario que se utilizan para la importación/exportación de resultados de pruebas. Esto es necesario para identificar usuarios idénticos en distintos sistemas ILIAS."
+
+msgid "usr_loginname_history_info"
+msgstr "El usuario cambió su nombre de acceso por última vez el %s. El nombre de acceso anterior era: %s."
+
+msgid "vc_information"
+msgstr "Mostrar información de control de versiones"
+
+msgid "vc_information_not_determined"
+msgstr "ILIAS no pudo determinar ninguna información de control de versiones."
+
+msgid "view_last_log"
+msgstr "Ver último registro de escaneo"
+
+msgid "view_log"
+msgstr "Ver detalles"

@@ -1,0 +1,1047 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: prg\n"
+
+msgid "access_ctr_by_orgu_position"
+msgstr "Hozzáférés-kezelés szervezeti egység pozíciói alapján"
+
+msgid "active_only"
+msgstr "csak aktív felhasználók"
+
+msgid "add_automembership_source"
+msgstr "Forrása hozzáadása"
+
+msgid "add_category"
+msgstr "Kategória hozzáadása"
+
+msgid "assignment_date"
+msgstr "Hozzárendelés időpontja"
+
+msgid "assignments"
+msgstr "Hozzárendelések"
+
+msgid "auto_add_success"
+msgstr "Az automatizmust sikeresen hozzáadta."
+
+msgid "auto_membership_description"
+msgstr "Szabály csak akkor fut le, amikor annak aktiválása után teljesülnek annak feltételei. Szabály törlése nem távolít el hozzárendelést, ha bámely más aktiválási feltétel teljesül."
+
+msgid "auto_membership_src_type"
+msgstr "Típus"
+
+msgid "auto_membership_title"
+msgstr "Automatizált tagság forrásai"
+
+msgid "auto_memberships"
+msgstr "Tagság automatizálása"
+
+msgid "category"
+msgstr "Kategória"
+
+msgid "cert_relevance"
+msgstr "Tanúsítvány"
+
+msgid "completion_date"
+msgstr "Befejezés időpontja"
+
+msgid "confirm_to_remove_selected_assignments"
+msgstr "Biztos, hogy eltávolítja a felhasználó hozzárendeléseit?"
+
+msgid "cont_ed_insert_prgactionnote"
+msgstr "Képzési program teendőhez megjegyzés beillesztése"
+
+msgid "cont_ed_insert_prgstatusinfo"
+msgstr "Képzési program állapotinformációjának beillesztése"
+
+msgid "content_automation"
+msgstr "Tartalomautomatizmus"
+
+msgid "content_automation_title"
+msgstr "Automatikusan hozzáadja, illetve eltávolítja a kategóriákban lévő kurzusokat."
+
+msgid "could_not_add_users_no_permissons"
+msgstr "%d felhasználót nem sikerült hozzárendelni jogosultság hiánya miatt."
+
+msgid "crs_affiliation_to_prg"
+msgstr "Képzési programokhoz való tartozás"
+
+msgid "deadline"
+msgstr "Határidő"
+
+msgid "deadline_information"
+msgstr "A feldolgozási időszakra vonatkozó információk"
+
+msgid "deadline_updated"
+msgstr "A határidőt sikeresen módosította"
+
+msgid "edit_participants"
+msgstr "Tagok módosítása"
+
+msgid "error_updating_deadline"
+msgstr "Hiba a határidő módosításakor."
+
+msgid "error_updating_expire_date"
+msgstr "Hiba a lejárati idő módosításakor."
+
+msgid "export_memberships"
+msgstr "Hozzárendelések exportálása"
+
+msgid "foreign_assignment"
+msgstr "nem a legfelső csomópont"
+
+msgid "form_msg_file_wrong_file_type"
+msgstr "Rossz fájltípus."
+
+msgid "header_remove_certificate"
+msgstr "Biztos, hogy eltávolítja a kiválasztott felhasználók tanúsítványát?"
+
+msgid "header_update_certificate"
+msgstr "Biztos, hogy módosítja a tanúsítványt?"
+
+msgid "header_update_current_plan"
+msgstr "Biztos, hogy alapértemezettre állítja az összes egyéni beállítást a megjelölt hozzárendeléseknél?"
+
+msgid "inactive_only"
+msgstr "csak inaktív felhasználók"
+
+msgid "info_to_re_assign_mail_body"
+msgstr "%s %s,<br/><br/>ezúton értesítjük, hogy ‘%s’ Képzési programban tagságának érvényessége hamarosan lejár. Kérjük, jelentkezzen be újra."
+
+msgid "info_to_re_assign_mail_subject"
+msgstr "Emlékeztető részvétel megújításáról Képzési programban"
+
+msgid "invalidated"
+msgstr "érvényesség"
+
+msgid "label_crs"
+msgstr "Kurzus neve"
+
+msgid "label_grp"
+msgstr "Csoport neve"
+
+msgid "label_role"
+msgstr "Szerepkör neve"
+
+msgid "last_edited"
+msgstr "Utoljára módosítva"
+
+msgid "last_edited_by"
+msgstr "Utoljára módosította"
+
+msgid "mail_assignments"
+msgstr "Levél küldése a hozzárendelt felhasználóknak"
+
+msgid "mails_foreign_assignment_failed"
+msgstr "A kiválasztott hozzárendelések nincsenek a jelenlegi kontextusban. Leveleket a tanulmányi program legfelső csomópontjából lehet csak küldeni."
+
+msgid "manage_assignments"
+msgstr "Hozzárendelések kezelése"
+
+msgid "membership_source_id"
+msgstr "Id"
+
+msgid "membership_source_id_byline_objid"
+msgstr "Kérem, az <b>object-id</b>-t használja"
+
+msgid "membership_source_id_byline_refid"
+msgstr "Kérem, a <b>reference-id</b>-t használja"
+
+msgid "membership_source_type"
+msgstr "Forrás"
+
+msgid "modal_automembership_title"
+msgstr "Automatikus hozzárendelés"
+
+msgid "modal_categories_title"
+msgstr "Monitorozandó kategória"
+
+msgid "modal_member_auto_select_title"
+msgstr "Válassza ki az automatikus összerendelés forrását"
+
+msgid "msg_acknowledge_courses"
+msgstr "Az elvégzett kurzusokat elismerték."
+
+msgid "msg_change_deadline_date"
+msgstr "%s felhasználónál a határidőt sikeresen módosította."
+
+msgid "msg_change_deadline_date_failed"
+msgstr "A határidő nem módosult:"
+
+msgid "msg_change_expire_date"
+msgstr "%s felhasználónál a lejárati időt sikeresen módosította"
+
+msgid "msg_change_expire_date_failed"
+msgstr "A lejárati idő nem módosult"
+
+msgid "msg_fill_required"
+msgstr "Az összes kötelező mezőt töltse ki."
+
+msgid "msg_impossible_target_status"
+msgstr "Lehetetlen célállapot"
+
+msgid "msg_mark_accredited"
+msgstr "%s felhasználót sikeresen megjelölt abszolvált állapotúra"
+
+msgid "msg_mark_accredited_failed"
+msgstr "Nincs megjelölve abszolváltként:"
+
+msgid "msg_mark_not_relevant"
+msgstr "%s felhasználó releváns állapotát sikeresen eltávolította"
+
+msgid "msg_mark_not_relevant_failed"
+msgstr "A releváns el nem távolítva:"
+
+msgid "msg_mark_relevant"
+msgstr "%s felhasználót sikeresen módosította irrelevánsra"
+
+msgid "msg_mark_relevant_failed"
+msgstr "Nem releváns:"
+
+msgid "msg_points_must_be_positive"
+msgstr "Csak pozitív szám lehetséges."
+
+msgid "msg_unmark_accredited"
+msgstr "%s felhasználó abszolvált állapotát sikeresen eltávolította"
+
+msgid "msg_unmark_accredited_failed"
+msgstr "Abszolvált állapot eltávolítása sikertelen:"
+
+msgid "msg_update_certificate"
+msgstr "%s tanúsítvány(oka)t sikeresen módosította."
+
+msgid "msg_update_certificate_failed"
+msgstr "A tanúsítványt nem sikerült frissíteni"
+
+msgid "msg_update_from_settings"
+msgstr "%s felhasználót sikeresen módosított a beállításokból"
+
+msgid "msg_update_from_settings_failed"
+msgstr "A módosítás a beállításokból sikertelen:"
+
+msgid "msg_update_individual_plan"
+msgstr "Az egyéni tervet sikeresen módosította(%)"
+
+msgid "msg_update_individual_plan_failed"
+msgstr "Az egyéni terv módosítása sikertelen"
+
+msgid "no_permission_to_update_certificate"
+msgstr "Nincs jogosultsága a tanúsítvány módosításához."
+
+msgid "no_srctype_or_id"
+msgstr "Az ID vagy a típus üres."
+
+msgid "not_a_valid_cat_id"
+msgstr "%s nem érvényes ref-id-je egy kategóriának sem."
+
+msgid "obj_prg_select"
+msgstr "-- Válasszon képzési programot --"
+
+msgid "optgrp_label_restart"
+msgstr "Újrakezdés"
+
+msgid "optgrp_label_validity"
+msgstr "Lejárat"
+
+msgid "orgu"
+msgstr "Szervezeti egység"
+
+msgid "pc_prg_action_note_label"
+msgstr "Képzési program kötelező teendői"
+
+msgid "pc_prg_statusinfo_label"
+msgstr "Képzési program állapotinformációi"
+
+msgid "pc_prgactionnote_complete_content"
+msgstr "Kérem, fejezze be a Képézis program tartalmát."
+
+msgid "pc_prgactionnote_complete_content_with_deadline"
+msgstr "Kérem, fejezze be a Képzési program tartalmát eddig:"
+
+msgid "pc_prgactionnote_headline"
+msgstr "Kötelező teendő"
+
+msgid "pc_prgactionnote_no_actions_required"
+msgstr "Nincs kötelező teendő"
+
+msgid "pc_prgstatus_edit_qualification"
+msgstr "Újrafeldolgozás szükséges innen:"
+
+msgid "pc_prgstatus_expiration_date"
+msgstr "Lejárat dátuma"
+
+msgid "pc_prgstatus_qualification_headline"
+msgstr "Képesítésének állapota"
+
+msgid "pc_prgstatus_status_no_qualification"
+msgstr "Nincs képesítése"
+
+msgid "pc_prgstatus_status_valid_qualification"
+msgstr "Érvényes"
+
+msgid "pc_prgstatus_text_no_qualification"
+msgstr "Képesítésem érvényességének kezdete:"
+
+msgid "pc_prgstatus_unlimited_validation"
+msgstr "Nincs lejárata"
+
+msgid "percentage"
+msgstr "%"
+
+msgid "prg_access_by_orgu"
+msgstr "Hozzáférés-vezérlés a szervezeti egység pozíciói alapján"
+
+msgid "prg_access_by_orgu_byline"
+msgstr "További hozzáférés-vezérlési szabályok adhatók meg a szervezeti egységekben elfoglalt pozíciók alapján."
+
+msgid "prg_acknowledge_all_completed_courses"
+msgstr "Az összes teljesített kurzus e"
+
+msgid "prg_acknowledge_completed_courses"
+msgstr "Teljesített kurzusok elismerése"
+
+msgid "prg_add"
+msgstr "Képzési program hozzáadása"
+
+msgid "prg_added_course_ref_successful"
+msgstr "Új kurzuslinket sikeresen hozzáadta."
+
+msgid "prg_added_member"
+msgstr "Sikeresen hozzáadta az új tagot."
+
+msgid "prg_added_members"
+msgstr "Sikeresen hozzáadta az új tagokat."
+
+msgid "prg_additional_settings"
+msgstr "További tulajdonságok"
+
+msgid "prg_assessment"
+msgstr "Képzési program értékei"
+
+msgid "prg_assign_date"
+msgstr "Hozzárendelés dátuma"
+
+msgid "prg_assigned_by"
+msgstr "Hozzárendelte"
+
+msgid "prg_async_create"
+msgstr "Új gyermekfa hozzáadása"
+
+msgid "prg_async_settings"
+msgstr "Beállítások"
+
+msgid "prg_auto_member_select_crs"
+msgstr "Kurzusok"
+
+msgid "prg_auto_member_select_grp"
+msgstr "Csoportok"
+
+msgid "prg_auto_member_select_role"
+msgstr "Szerepkörök"
+
+msgid "prg_autoassignment"
+msgstr "(automatikus)"
+
+msgid "prg_availability_action_not_allowed"
+msgstr "Nem állíthat be elérhetőségi időszakot Képzési programhoz"
+
+msgid "prg_belongs_to"
+msgstr "Kiindulópontja"
+
+msgid "prg_can_not_manage_in_repo"
+msgstr "Nincs jogosultsága ennek a Képzési programnak a kezeléséhez."
+
+msgid "prg_cancel"
+msgstr "Mégsem"
+
+msgid "prg_cancel_acknowledge_completed_courses"
+msgstr "Ne ismerjen el semmilyen kurzust"
+
+msgid "prg_cancel_tree_order"
+msgstr "Faszerkezet eldobása"
+
+msgid "prg_change_deadline"
+msgstr "Határidő módosítása"
+
+msgid "prg_change_expire_date"
+msgstr "Lejárati idő módosítása"
+
+msgid "prg_changed_by"
+msgstr "Módosította"
+
+msgid "prg_completion_by"
+msgstr "Véglegesítette"
+
+msgid "prg_completion_date"
+msgstr "Befejezés dátuma"
+
+msgid "prg_confirm_delete"
+msgstr "Törlés"
+
+msgid "prg_copy_threads_info"
+msgstr "Kérem, válassza ki a Képzési program mely elemeit másolja, linkeli, illetve hagyja ki."
+
+msgid "prg_create_new_leaf"
+msgstr "Új levél létrehozása"
+
+msgid "prg_create_new_node"
+msgstr "Új csomópont létrehozása"
+
+msgid "prg_cron_job_configuration"
+msgstr "Automatikus e-mailek beállításai"
+
+msgid "prg_custom_plan"
+msgstr "Egyéni tanterv"
+
+msgid "prg_cut_action_not_allowed"
+msgstr "Nem helyezhet át Képzési programokat"
+
+msgid "prg_dash_label_finish_until"
+msgstr "Befejezés eddig"
+
+msgid "prg_dash_label_gain"
+msgstr "Jelenlegi teljesítettség"
+
+msgid "prg_dash_label_minimum"
+msgstr "Minimális teljesítettség"
+
+msgid "prg_dash_label_restart_from"
+msgstr "Megújítás ekkortól"
+
+msgid "prg_dash_label_status"
+msgstr "Állapot"
+
+msgid "prg_dash_label_unreachable"
+msgstr "- nem valósítható meg"
+
+msgid "prg_dash_label_valid"
+msgstr "Érvényes"
+
+msgid "prg_deadline"
+msgstr "Határidő"
+
+msgid "prg_deadline_date"
+msgstr "A feldolgozási idő egy megadott időpontban jár le"
+
+msgid "prg_deadline_date_desc"
+msgstr "A programot a megadott időpontig kell teljesíteni."
+
+msgid "prg_deadline_date_label"
+msgstr "Feldolgozás eddig"
+
+msgid "prg_deadline_period"
+msgstr "A feldolgozási időszak személyre szabott"
+
+msgid "prg_deadline_period_desc"
+msgstr "A programot a megadott időtartam alatt kell teljesíteni."
+
+msgid "prg_deadline_period_label"
+msgstr "Hozzárendelés után X nap"
+
+msgid "prg_deadline_settings"
+msgstr "Feldolgozási időszak"
+
+msgid "prg_delete_confirmation"
+msgstr "Biztos, hogy törli a kiválasztott bejegyzéseket?"
+
+msgid "prg_delete_failure"
+msgstr "A törlés nem sikerült."
+
+msgid "prg_delete_nothing_selected"
+msgstr "Legalább egy sort válasszon ki."
+
+msgid "prg_delete_single_confirmation"
+msgstr "Biztos, hogy törli a kiválasztott bejegyzést?"
+
+msgid "prg_delete_single_success"
+msgstr "A bejegyzést sikeresen törölte."
+
+msgid "prg_delete_success"
+msgstr "A bejegyzéseket sikeresen törölte."
+
+msgid "prg_deleted_safely"
+msgstr "Csomópontot biztonságosan törölte."
+
+msgid "prg_description"
+msgstr "Leírás"
+
+msgid "prg_edit"
+msgstr "Képzési program módosítása"
+
+msgid "prg_expiry_date"
+msgstr "Lejárat dátuma"
+
+msgid "prg_formatted_period"
+msgstr "%d nap"
+
+msgid "prg_import_action_not_allowed"
+msgstr "Nem importálhat Képzési programba"
+
+msgid "prg_invalidate_expired_progresses_desc"
+msgstr "A lejárt képesítésű Képzési programok megjelölése ‘nem teljesített’-ként"
+
+msgid "prg_invalidate_expired_progresses_title"
+msgstr "A Képzési program képesítésének korlátozott érvényessége"
+
+msgid "prg_link"
+msgstr "Link"
+
+msgid "prg_mail_context_info"
+msgstr "Képzési program tagsága, illetve tanulási haladási állapotai alapján levél küldés a résztvevőknek"
+
+msgid "prg_mail_context_title"
+msgstr "Képzési program: levél a tagoknak"
+
+msgid "prg_mail_permanent_link"
+msgstr "A Képzési programmal kapcsolatos összes információért kattintson a linkre:"
+
+msgid "prg_manage"
+msgstr "Kezelés"
+
+msgid "prg_manage_members"
+msgstr "Képzési program beiratkozásainak kezelése"
+
+msgid "prg_manage_members_short"
+msgstr "Hozzárendelések kezelése"
+
+msgid "prg_manual_status"
+msgstr "Kézi állapot"
+
+msgid "prg_mark_accredited"
+msgstr "Abszolváltként megjelölése"
+
+msgid "prg_mark_accredited_multi_success"
+msgstr "Kijelölt felhasználók megjelölés akkreditáltként"
+
+msgid "prg_mark_accredited_success"
+msgstr "A felhasználó programcsomópont teljesítettségét sikeresen beállította."
+
+msgid "prg_mark_not_relevant_multi_success"
+msgstr "Kijelölt felhasználók releváns jelölésének eltávolítása"
+
+msgid "prg_mark_relevant"
+msgstr "Megjelölés relevánsként"
+
+msgid "prg_mark_relevant_multi_success"
+msgstr "Kijelölt felhasználók megjelölés relevánsként"
+
+msgid "prg_more_objects_without_read_permission"
+msgstr "Képzési program több olyan objektumot is tartalmaz, melyek megtekintéséhez nem rendelkezik megfelelő jogosultsággal."
+
+msgid "prg_multi_change_deadline"
+msgstr "Határidő módosítása"
+
+msgid "prg_multi_change_expire_date"
+msgstr "Lejárati idő módosítása"
+
+msgid "prg_multi_mail_user"
+msgstr "Levél küldése"
+
+msgid "prg_multi_mark_accredited"
+msgstr "Akkreditált"
+
+msgid "prg_multi_mark_relevant"
+msgstr "Megjelölés relevánsként"
+
+msgid "prg_multi_remove_certificate"
+msgstr "Tanúsítványok eltávolítása"
+
+msgid "prg_multi_remove_user"
+msgstr "Felhasználó eltávolítása"
+
+msgid "prg_multi_unmark_accredited"
+msgstr "Akkreditált jelölés eltávolítása"
+
+msgid "prg_multi_unmark_relevant"
+msgstr "Releváns jelölés eltávolítása"
+
+msgid "prg_multi_update_certificate"
+msgstr "Tanúsítványok frissítése"
+
+msgid "prg_multi_update_from_current_plan"
+msgstr "Frissítés a jelenlegi tervből"
+
+msgid "prg_new"
+msgstr "Új Képzési program"
+
+msgid "prg_no_deadline"
+msgstr "Nincs rögzített feldolgozási időszak"
+
+msgid "prg_no_members_not_active"
+msgstr "Nem adhat hozzá felhasználókat, mert a program nem aktív."
+
+msgid "prg_no_permission_to_remove_certificate"
+msgstr "Nincs jogosultsága eltávolítani a tanúsítványt"
+
+msgid "prg_no_restart"
+msgstr "Nem igényel megújítást"
+
+msgid "prg_no_user_selected"
+msgstr "Egy felhasználót sem választott ki"
+
+msgid "prg_no_validity_qualification"
+msgstr "Le nem járó képesítés"
+
+msgid "prg_not_allowed_node_to_delete"
+msgstr "Nem törölheti ezt a csomópontot."
+
+msgid "prg_not_valid"
+msgstr "már nem érvényes"
+
+msgid "prg_open_node"
+msgstr "Váltás erre a csomópontra"
+
+msgid "prg_orgus"
+msgstr "Szervezeti egységek"
+
+msgid "prg_please_select_a_course_for_creating_a_leaf"
+msgstr "Válasszon egy kurzust kurzuslink-levél létrehozásához"
+
+msgid "prg_points"
+msgstr "Pontszám"
+
+msgid "prg_points_byline"
+msgstr "A tanulók a meghatározott pontot kapják meg amikor sikeresen teljesítetik ezt a programot és ennyi pontot kell megszerezniük az erre épülő programokban lépéshez."
+
+msgid "prg_points_current"
+msgstr "Jelenlegi pontszám"
+
+msgid "prg_points_reachable"
+msgstr "Elérhető pontszám"
+
+msgid "prg_points_required"
+msgstr "Szükséges pontszám"
+
+msgid "prg_possible"
+msgstr "Elfogadható-e"
+
+msgid "prg_prg_type"
+msgstr "Képzésiprogram-típus"
+
+msgid "prg_processing_ends_no_success"
+msgstr "Emlékeztető e-mail sikertelen teljesítés kockázatáról"
+
+msgid "prg_processing_ends_no_success_info"
+msgstr "Emlékeztető e-mail küldése a felhasználónak a sikertelen teljesítés kockázatáról a képzési program lejárta előtt x nappal."
+
+msgid "prg_profile_not_public"
+msgstr "A felhasználó profilja nem nyilvános."
+
+msgid "prg_progress_info"
+msgstr "%1$d pontja van. A Képzési programot %2$d ponttal tudja teljesíteni."
+
+msgid "prg_progress_status"
+msgstr "%1$d pont %2$d pontból"
+
+msgid "prg_progress_status_with_child_sp"
+msgstr "%1$d pont a lehetséges %2$d pontból"
+
+msgid "prg_quali_not_valid"
+msgstr "A képesítés már nem érvényes"
+
+msgid "prg_quali_still_valid"
+msgstr "A képesítés még érvényes"
+
+msgid "prg_remove_certificate"
+msgstr "Tanúsítvány eltávolítása"
+
+msgid "prg_remove_user"
+msgstr "Felhasználó eltávolítása"
+
+msgid "prg_remove_user_success"
+msgstr "A felhasználót sikeresen törölte."
+
+msgid "prg_remove_users_not_possible"
+msgstr "Nem sikerült eltávolítani a kijelölt felhasználókat"
+
+msgid "prg_remove_users_partial_success"
+msgstr "A hozzárendeseket (részlegesen) eltávolította."
+
+msgid "prg_remove_users_success"
+msgstr "Sikeresen eltávolította a kijelölt felhasználókat"
+
+msgid "prg_restart_assignments_temporal_progress_desc"
+msgstr "A hamarosan lejáró Képzési programok újraindítása"
+
+msgid "prg_restart_assignments_temporal_progress_title"
+msgstr "A hozzárendelések újraindítása"
+
+msgid "prg_save_tree_order"
+msgstr "Faszerkezet mentése"
+
+msgid "prg_saved_order_successful"
+msgstr "A faszerkezetet sikeresen mentette."
+
+msgid "prg_show_individual_plan"
+msgstr "Teljesítettség megjelenítése"
+
+msgid "prg_show_programmes"
+msgstr "Láthatóság"
+
+msgid "prg_show_programmes_on_pd_always"
+msgstr "Az összes Képzési program az összes tagja Műszerfalán mindig látható."
+
+msgid "prg_show_programmes_on_pd_only_read"
+msgstr "Képzési program a hozzá olvasási jogosultsággal rendelkezők Műszerfalán mindig látható."
+
+msgid "prg_some_users_may_not_be_accredited"
+msgstr "A részben megjelölt felhasználók akkreditáltak."
+
+msgid "prg_some_users_may_not_be_marked_not_relevant"
+msgstr "Részben meg nem jelölt relevánsként."
+
+msgid "prg_some_users_may_not_be_marked_relevant"
+msgstr "Részben megjelölt relevánsként."
+
+msgid "prg_some_users_may_not_be_unmarked_accredited"
+msgstr "A részben nem megjelölt felhasználók akkreditáltak."
+
+msgid "prg_status"
+msgstr "Állapot"
+
+msgid "prg_status_1"
+msgstr "Folyamatban"
+
+msgid "prg_status_2"
+msgstr "Teljesítve"
+
+msgid "prg_status_3"
+msgstr "Akkreditált"
+
+msgid "prg_status_4"
+msgstr "Nem releváns"
+
+msgid "prg_status_5"
+msgstr "Sikertelen"
+
+msgid "prg_status_accredited"
+msgstr "Abszolválva"
+
+msgid "prg_status_active"
+msgstr "Aktív"
+
+msgid "prg_status_byline"
+msgstr "Az állapot segítségével ellenőrizheti, hogy ez a program tanulókhoz van-e rendelve."
+
+msgid "prg_status_completed"
+msgstr "Befejezve"
+
+msgid "prg_status_draft"
+msgstr "Tervezet"
+
+msgid "prg_status_failed"
+msgstr "sikertelen"
+
+msgid "prg_status_hide_irrelevant"
+msgstr "Nem relevánsak elrejtése"
+
+msgid "prg_status_in_progress"
+msgstr "Folyamatban"
+
+msgid "prg_status_not_relevant"
+msgstr "Nem releváns"
+
+msgid "prg_status_outdated"
+msgstr "Elavult"
+
+msgid "prg_still_valid"
+msgstr "még érvényes"
+
+msgid "prg_subtype_add"
+msgstr "Új típus hozzáadása"
+
+msgid "prg_subtypes"
+msgstr "Képzésiprogram-altípusok"
+
+msgid "prg_successfully_removed_certificate"
+msgstr "Sikeresen eltávolította a kiválasztott felhasználók tanúsítványát."
+
+msgid "prg_title"
+msgstr "Cím"
+
+msgid "prg_type"
+msgstr "Képzésiprogram-típus"
+
+msgid "prg_type_add"
+msgstr "Képzésiprogram-típus"
+
+msgid "prg_type_assign_amd_sets"
+msgstr "Egyénimetaadat-készletek hozzárendelés"
+
+msgid "prg_type_available_amd_sets"
+msgstr "Elérhető egyénimetaadat-készletek"
+
+msgid "prg_type_byline"
+msgstr "Állítson be egy típust bizonyos egyedi metaadatkészletek vagy ikonok használatához."
+
+msgid "prg_type_custom_icon"
+msgstr "Egyéni ikonok"
+
+msgid "prg_type_custom_icon_info"
+msgstr "Egyéni ikoninformáció"
+
+msgid "prg_type_edit"
+msgstr "Programtípus módosítása"
+
+msgid "prg_type_msg_deleted"
+msgstr "Programtípus törlése"
+
+msgid "prg_type_msg_error_custom_icon"
+msgstr "Hiba az ion mentésekor"
+
+msgid "prg_type_msg_missing_title"
+msgstr "Cím nem lehet üres."
+
+msgid "prg_type_msg_missing_title_default_language"
+msgstr "Adjon meg alapértelmezett nyelvet és ahhoz a nyelvhez címet."
+
+msgid "prg_type_msg_unable_delete"
+msgstr "Nem törölhető ez a típus, mert az alábbi Képzési programok ilyen típusúak: %s"
+
+msgid "prg_unmark_accredited"
+msgstr "Abszolvált jelölés eltávolítása"
+
+msgid "prg_unmark_accredited_multi_success"
+msgstr "Kijelölt felhasználók akkreditált jelölésének eltávolítása"
+
+msgid "prg_unmark_accredited_success"
+msgstr "A felhasználó programcsomópont teljesítettségét sikeresen eltávolította."
+
+msgid "prg_unmark_relevant"
+msgstr "Releváns jelölés eltávolítása"
+
+msgid "prg_update_certificate"
+msgstr "Tanúsítvány frissítése"
+
+msgid "prg_update_from_current_plan"
+msgstr "Frissítés a jelenlegi terv alapján"
+
+msgid "prg_update_from_current_plan_not_possible"
+msgstr "Nem sikerült frissíteni a jelenlegi tervből"
+
+msgid "prg_update_from_current_plan_partitial_success"
+msgstr "Részben sikeresen frissített a jelenlegi tervből"
+
+msgid "prg_update_from_current_plan_success"
+msgstr "Sikeresen frissített a jelenlegi tervből"
+
+msgid "prg_update_from_plan_successful"
+msgstr "Sikeresen frissítette a jelenlegi terv alapján."
+
+msgid "prg_update_progress_description"
+msgstr "A ‘Folyamatban’ állapotok módosítása ‘Nem teljesítette’ állapotra a határidő után."
+
+msgid "prg_update_progress_title"
+msgstr "Határidő után a ‘Folyamatban’ legyen ‘Nem teljesítette’"
+
+msgid "prg_update_successful"
+msgstr "Módosításokat sikeresen mentette."
+
+msgid "prg_user_not_restarted_desc"
+msgstr "Értesítő e-mail küldése, amikor a képzési program képesítése lejár és meg nem újították meg a képesítést."
+
+msgid "prg_user_not_restarted_time_input"
+msgstr "Emlékeztető e-mail megújításról"
+
+msgid "prg_user_not_restarted_time_input_info"
+msgstr "Emlékeztető e-mail küldése a felhasználónak a képesítés megújításának szükségességéről a Képzési program lejárta előtt x nappal."
+
+msgid "prg_user_not_restarted_title"
+msgstr "Figyelmeztető e-mail küldése megújításhoz"
+
+msgid "prg_user_risky_to_fail_desc"
+msgstr "Figyelmeztető e-mail küldése, amikor fenn áll a veszélye, hogy egy tanulónak nem sikerül teljesíteni a képzési programot a határidőig."
+
+msgid "prg_user_risky_to_fail_title"
+msgstr "Figyelmeztető e-mail esetleges kudarcról"
+
+msgid "prg_validity"
+msgstr "Érvényesség"
+
+msgid "prg_validity_of_qualification"
+msgstr "A megszerzett képesítés érvényessége"
+
+msgid "prg_validity_of_qualification_limit"
+msgstr "Képesítés lejárata"
+
+msgid "prg_validity_of_qualification_restart"
+msgstr "Megújítás"
+
+msgid "prg_view"
+msgstr "Megtekintés"
+
+msgid "prgr_may_not_create_circular_reference"
+msgstr "Erre a képzési programra mutató link nem hozható létre, mert a szülőobjektumának linkje már szerepel itt."
+
+msgid "re_assigned_mail_body"
+msgstr "%s %s,<br/><br/>ezúton értesítjük, hogy ‘%s’ Képzési programhoz újra hozzárendelték."
+
+msgid "re_assigned_mail_subject"
+msgstr "Részvétel megújítása Képzési programban"
+
+msgid "restart_information"
+msgstr "Információk a függőben lévő lejáró képesítések automatikus megújításról"
+
+msgid "restart_period"
+msgstr "Megújítást igényel"
+
+msgid "restart_period_desc"
+msgstr "hozzárendelés automatikus eltávolítása a lejárat előtt"
+
+msgid "restart_period_info"
+msgstr "A képesítés megújításához a képesítés lejárta előtti napok száma"
+
+msgid "restart_period_label"
+msgstr "Lejárt előtt hány nappal"
+
+msgid "restart_recheck_desc"
+msgstr "Az automatizmussal végrehajtott hozzárendeléseknél a rendszer újra ellenőrzi, hogy a hozzárendelés feltételei még léteznek-e."
+
+msgid "restart_recheck_label"
+msgstr "Előfeltételek ismételt ellenőrzése"
+
+msgid "restarted"
+msgstr "újraindított"
+
+msgid "risky_to_fail_mail_body"
+msgstr "%s %s,<br/><br/>ezúton értesítjük, hogy ‘%s’ a képzési program teljesítésének határideje hamarosan lejár."
+
+msgid "risky_to_fail_mail_subject"
+msgstr "Emlékeztető, hogy a képzési program teljesítésének határideje hamarosan lejár"
+
+msgid "rol"
+msgstr "Szerepkör"
+
+msgid "select_crs"
+msgstr "Kurzusok keresése"
+
+msgid "select_grp"
+msgstr "Csoportok keresése"
+
+msgid "select_org"
+msgstr "Szervezeti egységek keresése"
+
+msgid "select_role"
+msgstr "Szerepkörök keresése"
+
+msgid "send_info_to_re_assign_mail"
+msgstr "Emlékeztető e-mail megújításról"
+
+msgid "send_info_to_re_assign_mail_info"
+msgstr "E-mail küldése a tanulóknak, ami emlékezteti őket, hogy újítsák meg a képesítésüket."
+
+msgid "send_re_assigned_mail"
+msgstr "E-mail megújított részvételről"
+
+msgid "send_re_assigned_mail_info"
+msgstr "E-mail küldése a Képzési programhoz automatikus újracsatlakozásról."
+
+msgid "send_risky_to_fail_mail"
+msgstr "E-mail kudarcról"
+
+msgid "send_risky_to_fail_mail_info"
+msgstr "E-mail küldése, amikor valószínű, hogy egy tanulónak nem sikerül teljesíteni a képzési programot."
+
+msgid "sp_certificate_completion_date"
+msgstr "Befejezés dátuma"
+
+msgid "sp_certificate_description"
+msgstr "Képzési program leírása"
+
+msgid "sp_certificate_points"
+msgstr "Megszerzett pontok mennyisége"
+
+msgid "sp_certificate_progress_expires_at"
+msgstr "Képesítés lejáratának dátuma"
+
+msgid "sp_certificate_title"
+msgstr "Képzési program címe"
+
+msgid "sp_certificate_type"
+msgstr "Képzési program típusa"
+
+msgid "status_changed"
+msgstr "Az állapotot sikeresen módosította"
+
+msgid "status_changed_due_to_deadline"
+msgstr "Az állapot módosult a határidőnek megfelelően."
+
+msgid "status_transition_not_allowed"
+msgstr "Az állapot módosítása nem engedélyezett"
+
+msgid "status_unchanged"
+msgstr "Az állapot nem változott"
+
+msgid "study_programme_icon"
+msgstr "A Képzési program oldalszerkesztőjének ikonja"
+
+msgid "update_deadline"
+msgstr "A határidőt sikeresen módosította."
+
+msgid "update_expire_date"
+msgstr "A lejárati időt sikeresen módosította."
+
+msgid "updated_from_settings"
+msgstr "A beállításokból sikeresen módosította"
+
+msgid "usr_active"
+msgstr "Felhasználó"
+
+msgid "validity_qualification_date"
+msgstr "A képesítés megadott időpontban jár le"
+
+msgid "validity_qualification_date_desc"
+msgstr "lejárat időpontja"
+
+msgid "validity_qualification_period"
+msgstr "A képesítés személyre szabottan jár le"
+
+msgid "validity_qualification_period_desc"
+msgstr "A képesítés ennyi napig érvényes, utána lejár"
+
+msgid "validity_updated"
+msgstr "Az érvényességet sikeresen módosította"
+
+msgid "vq_date"
+msgstr "Lejárat"
+
+msgid "vq_date_info"
+msgstr "A képesítés megadott időpontban jár le"
+
+msgid "vq_date_label"
+msgstr "Lejárat dátuma"
+
+msgid "vq_information"
+msgstr "Információk a megszerzett képesítésekről"
+
+msgid "vq_period_info"
+msgstr "A megszerzése után ennyi nappal jár le a képesítés"
+
+msgid "vq_period_label"
+msgstr "Befejezés után ennyi nappal"
+
+msgid "warning"
+msgstr "Figyelem!"
+
+msgid "will_not_modify_deadline_on_successful_progress"
+msgstr "Nem módosult, mert már teljesített vagy abszolvált az állapota"
+
+msgid "will_not_modify_irrelevant_progress"
+msgstr "Nem módosult, mert nem releváns"
+
+msgid "will_not_modify_relevant_progress"
+msgstr "már releváns"
+
+msgid "will_not_modify_validity_on_non_successful_progress"
+msgstr "Csak teljesített esetén módosítható"
+
+msgid "will_not_set_top_progress_to_irrelevant"
+msgstr "A legfelső csomópont nem lehet irreleváns."
+
+msgid "will_not_update_cert_for_unsuccessful_progress"
+msgstr "Nem jár tanúsítvány a nem teljesített programért"

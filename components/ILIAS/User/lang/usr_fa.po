@@ -1,0 +1,21 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fa\n"
+"Language-Team: Persian (Farsi)\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Domain: usr\n"
+
+#, fuzzy
+msgid "user_action"
+msgstr "User Action"
+
+#, fuzzy
+msgid "user_actions"
+msgstr "User Actions"
+
+#, fuzzy
+msgid "user_actions_activation_info"
+msgstr "Actions will only be listet for users, if the corresponding services are activated and all preconditions are given (e.g. permissions requirements)."

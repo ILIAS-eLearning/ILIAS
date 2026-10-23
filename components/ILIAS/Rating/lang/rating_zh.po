@@ -1,0 +1,105 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: zh\n"
+"Language-Team: Chinese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: rating\n"
+
+msgid "rat_not_rated_yet"
+msgstr "还没有评级"
+
+msgid "rat_nr_ratings"
+msgstr "%s 评级"
+
+msgid "rat_one_rating"
+msgstr "One 评级"
+
+#, fuzzy
+msgid "rating_activate_rating"
+msgstr "Enable Rating"
+
+#, fuzzy
+msgid "rating_activate_rating_info"
+msgstr "if enabled, users can rate this object."
+
+msgid "rating_add_category"
+msgstr "添加类目"
+
+#, fuzzy
+msgid "rating_avg_rating"
+msgstr "Average Rating"
+
+msgid "rating_categories"
+msgstr "分级类目"
+
+msgid "rating_category_add"
+msgstr "添加"
+
+msgid "rating_category_create"
+msgstr "创建类目"
+
+msgid "rating_category_created"
+msgstr "类目已创建"
+
+msgid "rating_category_delete_sure"
+msgstr "您真的要删除以下分级类目吗？所有的类目分级都将丢失。"
+
+msgid "rating_category_deleted"
+msgstr "类目已删除"
+
+msgid "rating_category_edit"
+msgstr "编辑类目"
+
+msgid "rating_category_update"
+msgstr "保存"
+
+msgid "rating_category_updated"
+msgstr "类目已保存。"
+
+msgid "rating_export_category"
+msgstr "类目"
+
+msgid "rating_export_date"
+msgstr "日期"
+
+msgid "rating_export_rating"
+msgstr "评级"
+
+#, fuzzy
+msgid "rating_new_objects_auto"
+msgstr "Enable Rating for new Objects"
+
+#, fuzzy
+msgid "rating_new_objects_auto_info"
+msgstr "If enabled, new files, learning modules and wikis can be rated."
+
+msgid "rating_number_votes"
+msgstr "%s 评级"
+
+#, fuzzy
+msgid "rating_open_dialog"
+msgstr "Open rating dialog"
+
+msgid "rating_overlay_submit"
+msgstr "提交分级"
+
+#, fuzzy
+msgid "rating_personal_rating"
+msgstr "Your Rating"
+
+#, fuzzy
+msgid "rating_rate_x_of_5"
+msgstr "Rate with %s of 5 stars"
+
+#, fuzzy
+msgid "rating_remove"
+msgstr "Remove Rating"
+
+msgid "rating_update_positions"
+msgstr "保存排序"
+
+msgid "rating_your_rating"
+msgstr "您的评分"

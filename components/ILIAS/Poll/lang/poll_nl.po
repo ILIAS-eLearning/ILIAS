@@ -1,0 +1,234 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: nl\n"
+"Language-Team: Dutch\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: poll\n"
+
+msgid "poll_absolute"
+msgstr "Huidige stemmen"
+
+msgid "poll_activation_online_info"
+msgstr "Indien deze instelling actief is, is de poll beschikbaar voor alle gebruikers."
+
+msgid "poll_add"
+msgstr "Toevoegen poll"
+
+msgid "poll_anonymous_warning"
+msgstr "Je naam is niet zichtbaar is de poll resultaten."
+
+msgid "poll_answer"
+msgstr "Stem"
+
+#, fuzzy
+msgid "poll_answer_selected_alt_text"
+msgstr "Selected"
+
+msgid "poll_answers"
+msgstr "Mogelijke stemmen"
+
+msgid "poll_barchart"
+msgstr "Bar Chart"
+
+msgid "poll_block_message_already_voted"
+msgstr "Je hebt al gestemd in deze poll."
+
+msgid "poll_block_message_no_answers"
+msgstr "De poll is niet volledig."
+
+msgid "poll_block_results_available_on"
+msgstr "De resultaten zullen beschikbaar zijn op %s."
+
+#, fuzzy
+msgid "poll_cannot_set_online_no_answers"
+msgstr "The status cannot be changed to &quot;online&quot; because this poll has no question!"
+
+#, fuzzy
+msgid "poll_chart_votes"
+msgstr "Votes"
+
+msgid "poll_comments"
+msgstr "Commentaar"
+
+msgid "poll_copy"
+msgstr "kopiëren Poll"
+
+msgid "poll_delete_votes"
+msgstr "Verwijder alle stemmen"
+
+msgid "poll_delete_votes_sure"
+msgstr "Weet je zeker dat je alle stemmen wilt verwijderen?"
+
+msgid "poll_edit"
+msgstr "Wijzigen Poll"
+
+#, fuzzy
+msgid "poll_edit_question"
+msgstr "Edit Question"
+
+msgid "poll_image"
+msgstr "Afbeelding"
+
+#, fuzzy
+msgid "poll_limit_not_below_answer_count"
+msgstr "The answer limit must be below the number of possible answers."
+
+#, fuzzy
+msgid "poll_limit_number_of_answers"
+msgstr "Limit Number of Answers per Participant"
+
+msgid "poll_max_number_of_answers"
+msgstr "Maximaal aantal antwoorden per deelnemer"
+
+#, fuzzy
+msgid "poll_max_number_of_answers_info"
+msgstr "You may choose up to %s answers."
+
+msgid "poll_mode"
+msgstr "Modus"
+
+msgid "poll_mode_anonymous"
+msgstr "Anoniem"
+
+msgid "poll_mode_anonymous_info"
+msgstr "Stemmen kunnen niet worden herleid naar deelnemers"
+
+msgid "poll_mode_personal"
+msgstr "Persoonlijk"
+
+msgid "poll_mode_personal_info"
+msgstr "Een lijst met deelnemers en hun stemmen is beschikbaar als je voldoende rechten hebt"
+
+msgid "poll_new"
+msgstr "Toevoegen nieuwe poll"
+
+msgid "poll_non_anonymous_warning"
+msgstr "Je naam en stem zijn zichtbaar voor beheerders"
+
+#, fuzzy
+msgid "poll_notification_activated"
+msgstr "Notification Activated"
+
+#, fuzzy
+msgid "poll_notification_deactivated"
+msgstr "Notification Deactivated"
+
+msgid "poll_notification_subscribe"
+msgstr "Inschakelen berichtgeving"
+
+msgid "poll_notification_unsubscribe"
+msgstr "Uitschakelen berichtgeving"
+
+msgid "poll_percentage"
+msgstr "Huidig Percentage"
+
+#, fuzzy
+msgid "poll_population"
+msgid_plural "poll_population_plural"
+msgstr[0] "%s Stemmen"
+msgstr[1] "%s Stemmen"
+
+#, fuzzy
+msgid "poll_population_singular"
+msgstr "1 Participant"
+
+msgid "poll_question"
+msgstr "Vraag"
+
+msgid "poll_result"
+msgstr "Stemresultaten"
+
+msgid "poll_result_answers"
+msgstr "Stemmen"
+
+msgid "poll_result_sorting"
+msgstr "Volgorde"
+
+msgid "poll_result_sorting_answers"
+msgstr "In de volgorde van de antwoorden"
+
+msgid "poll_result_sorting_votes"
+msgstr "Per aantal stemmen (aflopend)"
+
+msgid "poll_result_users"
+msgstr "Deelnemers"
+
+msgid "poll_show_results_as"
+msgstr "Toon resultaten als"
+
+msgid "poll_sortorder"
+msgstr "Volgorde"
+
+#, fuzzy
+msgid "poll_stacked_chart"
+msgstr "Stacked Chart"
+
+msgid "poll_view_results"
+msgstr "Tonen resultaten"
+
+msgid "poll_view_results_after_period"
+msgstr "Na stemperiode"
+
+#, fuzzy
+msgid "poll_view_results_after_period_impossible"
+msgstr "The voting period is not limited."
+
+msgid "poll_view_results_after_vote"
+msgstr "Na het stemmen"
+
+msgid "poll_view_results_always"
+msgstr "Altijd"
+
+msgid "poll_view_results_never"
+msgstr "Nooit"
+
+msgid "poll_vote"
+msgstr "Stemmen"
+
+#, fuzzy
+msgid "poll_vote_error_multi"
+msgid_plural "poll_vote_error_multi_plural"
+msgstr[0] "Niet meer dan %s antwoorden selecteren"
+msgstr[1] "Niet meer dan %s antwoorden selecteren"
+
+#, fuzzy
+msgid "poll_vote_error_multi_no_answer"
+msgstr "Please select at least 1 answer."
+
+msgid "poll_vote_error_single"
+msgstr "Selecteer één antwoord"
+
+msgid "poll_vote_notification_body"
+msgstr "Er is een stem uitgebracht voor de volgende pool."
+
+msgid "poll_vote_notification_link"
+msgstr "Koppeling naar poll"
+
+msgid "poll_vote_notification_reason"
+msgstr "Je ontvangt deze e-mail omdat je berichtgeving voor de poll hierboven hebt ingeschakeld."
+
+msgid "poll_vote_notification_subject"
+msgstr "Poll \"%s\": nieuwe stem"
+
+msgid "poll_votes_no_edit"
+msgstr "Deze poll kan niet worden verwijderd vanwege bestaande stemmen."
+
+msgid "poll_voting_period_and_results"
+msgstr "Stemperiode and resultaten"
+
+#, fuzzy
+msgid "poll_voting_period_ended_info"
+msgstr "The voting period ended %s."
+
+#, fuzzy
+msgid "poll_voting_period_full_info"
+msgstr "Voting period from %s to %s"
+
+msgid "poll_voting_period_info"
+msgstr "Deadline om te stemmen: %s"
+
+msgid "poll_voting_period_limited"
+msgstr "Beperkt"

@@ -1,0 +1,102 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: stus\n"
+
+msgid "stus_action_delete"
+msgstr ""
+
+msgid "stus_action_edit"
+msgstr ""
+
+msgid "stus_action_toggle"
+msgstr ""
+
+msgid "stus_active"
+msgstr ""
+
+msgid "stus_alias"
+msgstr ""
+
+msgid "stus_alias_already_exists"
+msgstr ""
+
+msgid "stus_alias_invalid"
+msgstr ""
+
+msgid "stus_confirm_delete"
+msgstr ""
+
+msgid "stus_create_shortlink"
+msgstr ""
+
+msgid "stus_delete"
+msgstr ""
+
+msgid "stus_delete_shortlink"
+msgstr ""
+
+msgid "stus_delete_shortlink_msg"
+msgstr ""
+
+msgid "stus_index"
+msgstr ""
+
+msgid "stus_info"
+msgstr ""
+
+msgid "stus_info_active"
+msgstr ""
+
+msgid "stus_info_alias"
+msgstr ""
+
+msgid "stus_info_target_ref_id"
+msgstr ""
+
+msgid "stus_order_saved"
+msgstr ""
+
+msgid "stus_prefix"
+msgstr ""
+
+msgid "stus_rbac_permissions"
+msgstr ""
+
+msgid "stus_shortlink"
+msgstr ""
+
+msgid "stus_shortlinks"
+msgstr ""
+
+msgid "stus_shortlinks_deleted"
+msgstr ""
+
+msgid "stus_shortlinks_toggled"
+msgstr ""
+
+msgid "stus_stus_stored_sucessfully"
+msgstr ""
+
+msgid "stus_stus_toggle"
+msgstr ""
+
+msgid "stus_target_link"
+msgstr ""
+
+msgid "stus_target_ref_id"
+msgstr ""
+
+msgid "stus_target_ref_id_required"
+msgstr ""
+
+msgid "stus_toggle"
+msgstr ""
+
+msgid "stus_toggle_shortlink"
+msgstr ""
+
+msgid "stus_toggle_shortlink_msg"
+msgstr ""

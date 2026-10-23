@@ -1,0 +1,123 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: mob\n"
+
+msgid "mob_choose_from_pool"
+msgstr "Aus Medienpool"
+
+msgid "mob_copyright"
+msgstr "Lizenz"
+
+msgid "mob_copyright_icon"
+msgstr "Lizenz-Icon"
+
+msgid "mob_external_url"
+msgstr "Externe URL"
+
+msgid "mob_extract_preview_image"
+msgstr "Vorschaubild erzeugen"
+
+msgid "mob_file"
+msgstr "Datei"
+
+msgid "mob_file_could_not_be_uploaded"
+msgstr "Datei konnte nicht hochgeladen werden."
+
+msgid "mob_general"
+msgstr "Allgemein"
+
+msgid "mob_image_extracted"
+msgstr "Vorschaubild wurde erzeugt"
+
+msgid "mob_internal_usages_in_object"
+msgstr "Auf Seiten"
+
+msgid "mob_language"
+msgstr "Sprache"
+
+msgid "mob_last_update"
+msgstr "Letztes Update"
+
+msgid "mob_media"
+msgstr "Medien"
+
+msgid "mob_media_objects_overview"
+msgstr "Medienobjekte auf Seiten"
+
+msgid "mob_mime_type_not_allowed"
+msgstr "Die folgenden MIME-Typen sind am Zielort nicht erlaubt."
+
+msgid "mob_multi_srt_files"
+msgstr "Untertitel-Dateien"
+
+msgid "mob_no_extraction_possible"
+msgstr "Leider konnte kein Vorschaubild aus der Datei erzeugt werden."
+
+msgid "mob_no_fixed_size_map_editing"
+msgstr "Bitte bestimmen Sie eine feste Größe für ihr Bild, bevor Sie verlinkte Bereiche definieren. Die Bereiche werden nicht angepasst, wenn ihr Bild durch einen Content-Style oder andere CSS-Regeln skaliert wird."
+
+msgid "mob_object"
+msgstr "Objekt"
+
+msgid "mob_please_select_pool"
+msgstr "Bitte wählen Sie einen Medienpool aus."
+
+msgid "mob_preview_picture"
+msgstr "Vorschaubild"
+
+msgid "mob_really_delete_srt"
+msgstr "Möchten Sie wirklich die folgenden Untertitel-Dateien löschen?"
+
+msgid "mob_second"
+msgstr "Sekunde"
+
+msgid "mob_srt_files_deleted"
+msgstr "Dateien für Untertitel wurden gelöscht."
+
+msgid "mob_srt_not_allowed"
+msgstr "Dateien vom Typ .vtt können aktuell nicht hochgeladen werden. Kontaktieren Sie die technische Betreuung, um .vtt-Dateien zur Positivliste hinzuzufügen. Dies erfolgt unter Administration » Systemeinstellungen und Wartung » Datei-Services."
+
+msgid "mob_subtitle_file"
+msgstr "Datei für Untertitel"
+
+msgid "mob_subtitle_files"
+msgstr "Dateien für Untertitel"
+
+msgid "mob_subtitles"
+msgstr "Untertitel"
+
+msgid "mob_type_not_supported"
+msgstr "Der Mime-Type wird an dieser Stelle nicht unterstützt:"
+
+msgid "mob_upload_file"
+msgstr "Datei hochladen"
+
+msgid "mob_upload_multi_srt"
+msgstr "Hochladen als ZIP-Datei"
+
+msgid "mob_upload_multi_srt_howto"
+msgstr "Die .zip-Datei / .zip-Archiv darf keine Unterverzeichnisse enthalten. Alle .vtt-Dateien müssen auf oberster Ebene liegen, um erkannt zu werden. Die Dateinamen müssen enden mit \"_&lt;SPRACHE&gt;.vtt\", wobei SPRACHE die entsprechende Sprachkennung ist (z. B. \"en\", \"it\" oder \"de\"). Der Rest des Dateinamens muss dem Namen der zugehörigen Videodatei entsprechen. Die Datei für englische Untertitel des Videos \"my_video.mp4\" heißt entsprechend \"my_video_en.vtt\"."
+
+msgid "mob_url"
+msgstr "URL"
+
+msgid "mob_url_info"
+msgstr "Externe URL, z.B. Youtube- oder Vimeo-URL."
+
+msgid "mob_url_info1"
+msgstr "URL des externen Inhalts. Erlaubte Dateikennungen sind:"
+
+msgid "mob_url_info_video"
+msgstr "Sie können auch auf ein Video bei Youtube oder Vimeo verweisen."
+
+msgid "mob_usages_in_media_pools"
+msgstr "In Medienpools"
+
+msgid "mob_usages_in_other_objects"
+msgstr "Andere Nutzungen"

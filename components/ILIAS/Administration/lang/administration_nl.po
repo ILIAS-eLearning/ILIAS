@@ -1,0 +1,828 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: nl\n"
+"Language-Team: Dutch\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: administration\n"
+
+#, fuzzy
+msgid "adm_achievements"
+msgstr "Achievements"
+
+msgid "adm_adm_role_protect"
+msgstr "Beschermen Beheerders-rol"
+
+msgid "adm_adm_role_protect_info"
+msgstr "Indien ingeschakeld, kunnen alleen beheerders gebruikers toekennen en verwijderen van de beheerders-rol."
+
+#, fuzzy
+msgid "adm_auth_login"
+msgstr "Authentication Login"
+
+#, fuzzy
+msgid "adm_auth_reg"
+msgstr "Authentication Registration"
+
+#, fuzzy
+msgid "adm_communication"
+msgstr "Communication"
+
+#, fuzzy
+msgid "adm_extending_ilias"
+msgstr "Extending ILIAS"
+
+msgid "adm_external_setting_edit"
+msgstr "Wijzigen instellingen"
+
+msgid "adm_hide"
+msgstr "Verbergen"
+
+msgid "adm_hide_tabs"
+msgstr "Tabs verbergen"
+
+msgid "adm_https"
+msgstr "HTTPS"
+
+msgid "adm_imprint"
+msgstr "Over Ons"
+
+msgid "adm_imprint_inactive"
+msgstr "\"Over ons\" is niet actief en gebruikers zullen het niet zien."
+
+#, fuzzy
+msgid "adm_layout_and_navigation"
+msgstr "Layout and Navigation"
+
+#, fuzzy
+msgid "adm_legal_regulations"
+msgstr "Legal Regulations"
+
+msgid "adm_locale"
+msgstr "Lokaal"
+
+msgid "adm_locale_info"
+msgstr "Lokale instellingen beïnvloeden bijvoorbeeld de sortering van lijsten. Voorbeelden zijn nl_NL of de_DE. Meervoudige lokale instellingen kunnen worden ingevoerd gescheiden door een komma. De eerste geldige wordt gebruikt."
+
+#, fuzzy
+msgid "adm_maintenance"
+msgstr "Maintenance"
+
+#, fuzzy
+msgid "adm_missing_entries"
+msgstr "Missing Entries"
+
+#, fuzzy
+msgid "adm_missing_entry_add"
+msgstr "Add New Entry"
+
+#, fuzzy
+msgid "adm_missing_entry_add_action"
+msgstr "Add"
+
+msgid "adm_nr_statements"
+msgstr "Aantal regels"
+
+#, fuzzy
+msgid "adm_personal_workspace"
+msgstr "Personal Workspace"
+
+msgid "adm_predefined_settings"
+msgstr "Initiële instellingen"
+
+#, fuzzy
+msgid "adm_pub_section_domain_filter"
+msgstr "Domain Filter"
+
+#, fuzzy
+msgid "adm_pub_section_domain_filter_info"
+msgstr "Domain filters granting anonymous access. Enter one ore more domains, which allow anonymous access. "
+
+msgid "adm_rep_shorten_description"
+msgstr "Verkorte beschrijvingen"
+
+msgid "adm_rep_shorten_description_info"
+msgstr "Indien ingeschakeld, worden alle beschrijvingen in de objectenlijst verkort."
+
+msgid "adm_rep_shorten_description_length"
+msgstr "Maximaal aantal karakters"
+
+msgid "adm_rep_tree_all_types"
+msgstr "Alle types hulpmiddelen"
+
+msgid "adm_rep_tree_all_types_info"
+msgstr "Alle types hulpmiddelen worden getoond in de boom."
+
+msgid "adm_rep_tree_limit_grp_crs"
+msgstr "Toon beperkte context tree in cursussen en groepen."
+
+msgid "adm_rep_tree_limit_grp_crs_info"
+msgstr "Dit hangt af van en schakelt automatisch de \"Synchroniseer boomstructuur met studiecentrum hoofdaanzicht\" in."
+
+msgid "adm_rep_tree_only_cntr"
+msgstr "Alleen container objecten"
+
+msgid "adm_rep_tree_only_cntr_info"
+msgstr "Alleen categorieën, cursussen en groepen worden getoond."
+
+msgid "adm_rep_tree_presentation"
+msgstr "Studiecentrum boomstructuur"
+
+#, fuzzy
+msgid "adm_repository_and_objects"
+msgstr "Repository and Objects"
+
+#, fuzzy
+msgid "adm_search_and_find"
+msgstr "Search and Find"
+
+msgid "adm_show_comments_tagging_in_lists"
+msgstr "Toon het aantal opmerkingen, commentaar en koppelingen en label in de objectenlijst"
+
+msgid "adm_show_comments_tagging_in_lists_tags"
+msgstr "Toon tags in plaats van nummer"
+
+msgid "adm_table"
+msgstr "Tabel"
+
+#, fuzzy
+msgid "adm_user_administration"
+msgstr "User Administration"
+
+msgid "adm_user_starting_point"
+msgstr "Persoonlijk startpunt"
+
+msgid "adm_user_starting_point_info"
+msgstr "Selecteren van de pagina of object dat zal worden getoond na het aanmelden"
+
+#, fuzzy
+msgid "adm_user_starting_point_inherit"
+msgstr "Use Standard-Settings"
+
+#, fuzzy
+msgid "adm_user_starting_point_inherit_info"
+msgstr "The settings that were made by the administrator of the platform as a whole will be used."
+
+msgid "adm_user_starting_point_invalid_info"
+msgstr "Deze functionaliteit is momenteel niet ingeschakeld."
+
+msgid "adm_user_starting_point_object"
+msgstr "Studiecentrum object"
+
+msgid "adm_user_starting_point_personal"
+msgstr "Persoonlijke instellingen"
+
+msgid "adm_user_starting_point_personal_info"
+msgstr "Indien ingeschakeld, mogen gebruikers hun eigen startpagina bepalen."
+
+msgid "adm_user_starting_point_ref_id"
+msgstr "Referentie id"
+
+#, fuzzy
+msgid "adm_user_starting_point_ref_id_info"
+msgstr "Open the object that you would like to use as Personal Starting Point. Please copy the number directly following \"ref_id=\" in the browser bar into the textinput field."
+
+msgid "adm_value"
+msgstr "Waarde"
+
+msgid "allow_change_loginname"
+msgstr "Wijzigen van gebruikersnaam toestaan in 'Persoonlijk Profiel'."
+
+msgid "analysis_options"
+msgstr "Analyseren opties"
+
+msgid "analyze_data"
+msgstr "Analyseren Data-integriteit"
+
+msgid "analyzing_tree_structure"
+msgstr "Analyseren structuur..."
+
+msgid "apache_auth_authenticate_on_login_page"
+msgstr "Probeer apache authenticatie op de startpagina"
+
+msgid "apache_auth_domains"
+msgstr "Toegestane omleiding domeinen"
+
+msgid "apache_auth_domains_description"
+msgstr "Voer 1 domein per regel voor het toestaan omleiding naar dit doel.<br/>als ILIAS bereikbaar is op meer dan 1 domein voer dan al de doel-omgevingen in die je wilt toestaan.<br />Bijvoorbeeld: example.com staat omleiding toe naar http://example.com en http://www.example.com en al de pagina's die daar staan."
+
+msgid "apache_auth_enable_override_login"
+msgstr "Overschrijven van standaard login pagina"
+
+msgid "apache_auth_indicator_name"
+msgstr "Indicator-veld voor succesvolle authenticatie"
+
+msgid "apache_auth_indicator_value"
+msgstr "Indicator-waarde voor succesvolle authenticatie"
+
+msgid "apache_auth_security"
+msgstr "Veiligheidsinstellingen"
+
+msgid "apache_auth_settings"
+msgstr "Apache"
+
+msgid "apache_auth_target_override_login"
+msgstr "Doel URL voor aangepaste login page"
+
+msgid "apache_auth_username_by_function"
+msgstr "Gebruikersnamen toewijzen op basis van gewone functies"
+
+msgid "apache_auth_username_config"
+msgstr "Gebruikersnaam configuratie"
+
+msgid "apache_auth_username_config_type"
+msgstr "Type"
+
+msgid "apache_auth_username_direct_mapping"
+msgstr "Rechtstreekse toekenning"
+
+msgid "apache_auth_username_direct_mapping_fieldname"
+msgstr "Veld voor toewijzing"
+
+msgid "apache_auth_username_extended_mapping"
+msgstr "Uitgebreide toewijzing"
+
+msgid "apache_autocreate"
+msgstr "Genereren van gebuikersaccounts toestaan"
+
+msgid "apache_default_role"
+msgstr "Standaard gebruikersrol"
+
+msgid "apache_enable_auth"
+msgstr "Apache Authenticatiesupport aanzetten"
+
+msgid "apache_enable_ldap"
+msgstr "LDAP gebruikerstoewijzing aanzetten"
+
+msgid "apache_enable_local"
+msgstr "Lokale gebruikerstoewijzing aanzetten"
+
+msgid "apache_ldap_hint_ldap_must_be_configured"
+msgstr "LDAP moet geconfigureerd zijn in beheer"
+
+msgid "apache_settings"
+msgstr "LDAP Authenticatie configureren"
+
+msgid "apache_settings_changed_success"
+msgstr "Configuratie opgeslagen"
+
+msgid "auth_apache"
+msgstr "Apache"
+
+msgid "auth_auth_mode_determination"
+msgstr "Authenticatie Methode Bepaling (voor het inloggen)"
+
+msgid "auth_automatic"
+msgstr "Vaste volgorde"
+
+msgid "auth_by_user"
+msgstr "Door de gebruiker"
+
+msgid "auth_kind_determination"
+msgstr "Vorm van Determinatie"
+
+#, fuzzy
+msgid "auth_mode_default_change_info"
+msgstr "Changing the default authentication method affects all user accounts configured to use the default authentication method. If the selected default method (e.g., Shibboleth, SAML, SOAP, ...) does not support or is not configured to allow fallback to local ILIAS authentication, affected users may no longer be able to log in. To avoid this, please ensure that local fallback authentication is activated in the configuration of the selected method, or that the authentication method stored for affected user accounts is manually changed."
+
+msgid "auth_mode_determination_info"
+msgstr "Kies of een gebruiker zijn authenticatie methode in het login scherm moet kiezen of dat dit wordt gedaan door een vaste volgorde van authenticatie methoden"
+
+msgid "clean"
+msgstr "Opruimen"
+
+msgid "clean_desc"
+msgstr "Verwijderen ongeldige referenties & knooppunten. Initialiseren openingen in de structuur."
+
+msgid "cleaning"
+msgstr "Opruimen."
+
+msgid "cleaning_final"
+msgstr "Einde opruiming..."
+
+msgid "course_export"
+msgstr "Cursus-export"
+
+msgid "done"
+msgstr "Klaar"
+
+msgid "dump_tree"
+msgstr "Verwijderen structuur"
+
+msgid "dump_tree_desc"
+msgstr "Voert een analyse van de structuur uit en print alles met de analysegegevens"
+
+msgid "dumping_tree"
+msgstr "Bezig met structuur te verwijderen"
+
+msgid "found"
+msgstr "Gevonden"
+
+msgid "found_none"
+msgstr "Geen enkele gevonden."
+
+#, fuzzy
+msgid "git_hash_short"
+msgstr "Commit Hash (short): %s"
+
+#, fuzzy
+msgid "git_last_commit"
+msgstr "Last Commit: %s"
+
+#, fuzzy
+msgid "git_revision"
+msgstr "Number: %s"
+
+msgid "group_export"
+msgstr "Zichtbaar in groepen"
+
+msgid "history_loginname"
+msgstr "Gebruikersnaam Historie"
+
+msgid "initializing_gaps"
+msgstr "Gaten initialiseren in de structuur"
+
+msgid "language_all_modules"
+msgstr "Alle modules"
+
+msgid "language_change_settings"
+msgstr "Taalinstellingen wijzigen"
+
+msgid "language_clear_local_changes"
+msgstr "Lokale wijzigingen in de database wissen"
+
+msgid "language_clear_local_changes_info"
+msgstr "Herstel de taal naar de standaard waarden zoals gedefinieerd in bestand lang/ilias_%s.lang. Alle lokale toevoegingen en wijzigingen zullen worden verwijderd."
+
+msgid "language_cleared_local"
+msgstr "De plaatselijke veranderingen werden toegestaan in de database."
+
+msgid "language_compare"
+msgstr "Vergelijken met:"
+
+msgid "language_default_entries"
+msgstr " (standaard invoer)"
+
+msgid "language_delete_local_additions"
+msgstr "Verwijderen lokale toevoegingen uit de database"
+
+msgid "language_delete_local_additions_info"
+msgstr "Verwijder alle termen die lokaal zijn toegevoegd aan de database."
+
+msgid "language_error_clear_local"
+msgstr "Het lokale bestand kon niet worden vrijgegeven in de database"
+
+msgid "language_error_delete_local"
+msgstr "Het lokale talen bestand kan niet worden verwijderd"
+
+msgid "language_error_local_missed"
+msgstr "Het lokale taalbestand bestaat niet"
+
+msgid "language_error_read_local"
+msgstr "Het lokale taalbestand bestaat niet of kon niet worden gelezen."
+
+msgid "language_error_write_global"
+msgstr "Het globale taalbestand kan niet worden aangemaakt"
+
+msgid "language_export_file"
+msgstr "Taalbestand exporteren"
+
+msgid "language_file_imported"
+msgstr "Het taalbestand %s is geïmporteerd."
+
+msgid "language_file_scope"
+msgstr "Inhoud taalbestand"
+
+msgid "language_former_file_description"
+msgstr "Om de lokale wijzigingen te vergelijken met de wijzigingen van de laatste update, kopieer het taal bestand van de eerder geïnstalleerde versie van ILIAS naar map met lokale taalbestanden. Het huidige taal bestand wordt automatisch gekopieerd als je het lokale bestand opslaat."
+
+msgid "language_former_file_equal"
+msgstr "Het bestand <b>%s</b> is identiek aan het huidige taalbestand."
+
+msgid "language_former_file_missing"
+msgstr "het bestand <b>%s</b> is niet aanwezig."
+
+msgid "language_import_file"
+msgstr "Taalbestand importeren"
+
+msgid "language_load_local_changes"
+msgstr "Bestand met lokale taal in de database laden"
+
+msgid "language_load_local_changes_info"
+msgstr "Laad het bestand lang/customizing/ilias_%s_lang.local in de database. Nieuwe termen worden toegevoegd en bestaande termen worden overschreven."
+
+msgid "language_loaded_local"
+msgstr "Het lokale taalbestand werd geladen in de database."
+
+msgid "language_local_file_deleted"
+msgstr "Het lokale taalbestand werd verwijderd."
+
+msgid "language_maintain"
+msgstr "Onderhoud"
+
+msgid "language_maintain_local_changes"
+msgstr "Lokale wijzigingen beheren"
+
+msgid "language_maintenance"
+msgstr "Taalonderhoud"
+
+msgid "language_merge_local_changes"
+msgstr "Toevoegingen van veranderingen in de algemene taal file"
+
+#, fuzzy
+msgid "language_merge_local_changes_info"
+msgstr "Voeg alle lokale wijzigingen en toevoegingen toe aan het standaard taalbestand lang/ilias_%s.lang. De webserver moet schrijftoegang hebben tot dit bestand."
+
+msgid "language_merged_global"
+msgstr "De lokale wijzigingen werden samengevoegd in het globale taalbestand."
+
+msgid "language_mode_existing"
+msgstr "Huidige vertaling"
+
+msgid "language_mode_existing_delete"
+msgstr "Alle vertalingen verwijderen"
+
+msgid "language_mode_existing_delete_info"
+msgstr "Verwijder alle taaltermen in de database voordat je het bestand importeert. <br />. WAARSCHUWING: Het te importeren taalbestand moet compleet zijn anders zullen er niet-gedefinieerde taaltermen zijn. Als dat gebeurt, ga dan naar tabblad \"Onderhoud\" en selecteer \"Verwijder lokale taaltermen in de database\"."
+
+msgid "language_mode_existing_keepall"
+msgstr "Alle aanwezige vertalingen behouden"
+
+msgid "language_mode_existing_keepall_info"
+msgstr "Importeer alleen nieuwe taaltermen die nog niet bestaan in de database."
+
+msgid "language_mode_existing_keepnew"
+msgstr "Alle eigen aanpassingen behouden"
+
+msgid "language_mode_existing_keepnew_info"
+msgstr "Importeer nieuwe taaltermen en overschrijf de termen die nog steeds hun standaard waarde bevatten. Behoud de termen die al zijn gewijzigd in de database."
+
+msgid "language_mode_existing_replace"
+msgstr "Alle vertalingen vervangen"
+
+msgid "language_mode_existing_replace_info"
+msgstr "Importeer nieuwe termen en vervang alle bestaande termen met de nieuwe waarden uit het taalbestand."
+
+msgid "language_note_translation"
+msgstr "Vertaling per pagina wordt voor elke taal afzonderlijk ingeschakeld. Daarnaast heeft de gebruiker lees- en schrijfrechten nodig in de talen map."
+
+msgid "language_process_maintenance"
+msgstr "Beheer uitvoeren"
+
+msgid "language_remove_local_file"
+msgstr "Verwijderen lokaal taalbestand"
+
+msgid "language_remove_local_file_info"
+msgstr "Verwijder het bestand lang/customizing/ilias_%s_lang.local en verander de taalstatus van \"Geïnstalleerd met Lokaal\" naar \"Geïnstalleerd\". De wijzigingen in de database blijven hetzelfde."
+
+#, fuzzy
+msgid "language_save_dist"
+msgstr "Backup the standard language file"
+
+#, fuzzy
+msgid "language_save_dist_failed"
+msgstr "The backup of the standard ILIAS language file could not be written."
+
+#, fuzzy
+msgid "language_save_dist_info"
+msgstr "Create a backup of the standard ILIAS language file in the ILIAS data directory. This helps after an ILIAS update to find conflicst of own changes with updated language variables."
+
+msgid "language_save_local_changes"
+msgstr "Alle wijzigingen van het lokale taalbestand opslaan."
+
+msgid "language_save_local_changes_info"
+msgstr "Opslaan van alle lokaal toegevoegde of gewijzigde taaltermen naar bestand lang/customizing/ilias_%s_lang.local en zet status op \"Geïnstalleerd met Lokaal\". De web server moet schrijftoegang hebben tot deze folder. Let erop dat ditzelfde bestand wordt gebruikt voor alle clients van deze installatie."
+
+#, fuzzy
+msgid "language_saved_dist"
+msgstr "The backup of the standard ILIAS language file is created."
+
+msgid "language_scope_added"
+msgstr "Alleen lokale versies"
+
+msgid "language_scope_added_info"
+msgstr "Exporteer alle termen die lokaal zijn toegevoegd in de database. Dit kan worden gebruikt als backup voordat lokale wijzingen worden verwijderd vanaf tabblad \"Onderhoud\"."
+
+msgid "language_scope_commented"
+msgstr "Met opmerkingen van de talenbeheerder"
+
+msgid "language_scope_conflicts"
+msgstr "Lokale en bijgewerkte wijzigingen"
+
+msgid "language_scope_dbremarks"
+msgstr "Toon alleen onderdelen met commentaar in database"
+
+msgid "language_scope_different"
+msgstr "Verschillend t.o.v. de vergelijkingstaal"
+
+msgid "language_scope_equal"
+msgstr "Gelijk aan de vergelijkingstaal"
+
+msgid "language_scope_global"
+msgstr "Alle ingaven"
+
+msgid "language_scope_global_info"
+msgstr "Exporteer alle termen voor deze taal. Dit kan worden gebruikt als backup."
+
+msgid "language_scope_local"
+msgstr "Alleen lokale wijzigingen"
+
+msgid "language_scope_local_info"
+msgstr "Exporteer alle termen die lokaal zijn toegevoegd of gewijzigd. Dit is hetzelfde als het opslaan vaan een lokaal taalbestand in tabblad \"Onderhoud\"."
+
+msgid "language_scope_merged"
+msgstr "Lokale talen worden samengevoegd in het globale taal bestand"
+
+msgid "language_scope_merged_info"
+msgstr "Exporteer het standaard ILIAS taalbestand met alle standaard en lokale wijzigingen erin verwerkt in alfabetische volgorde per module en identifier. Dit kan worden gebruikt om het globale taalbestand op de SVN server te updaten."
+
+msgid "language_scope_unchanged"
+msgstr "Alleen ongewijzigde ingaven"
+
+msgid "language_scope_unchanged_info"
+msgstr "Exporteer alle standaard taaltermen die niet zijn gewijzigd in de database. Dit is het tegenovergestelde van \"Alleen lokale wijzigingen\". Beide tezamen vormen een complete backup van de huidige taal."
+
+msgid "language_settings"
+msgstr "Taalinstellingen"
+
+msgid "language_statistics"
+msgstr "Statistieken"
+
+#, fuzzy
+msgid "language_translation"
+msgstr "Page translation"
+
+msgid "language_translation_enabled"
+msgstr "Vertaling per pagina ingeschakeld"
+
+#, fuzzy
+msgid "language_variables_saved"
+msgstr "The changes to the language variables were saved successfully."
+
+msgid "log_scan"
+msgstr "Scan resultaten vastleggen"
+
+msgid "log_scan_desc"
+msgstr "Scan resultaten schrijven naar 'scanlog.log\" in de map data."
+
+msgid "loginname_change_blocking_time"
+msgstr "Blokkeertijd voor wijzigen loginnamen"
+
+msgid "loginname_change_blocking_time_info"
+msgstr "Voer een periode in seconden in hoelang een gebruiker moet wachten voordat hij weer de gebruikersnaam mag wijzigen.<br />Als 0 of niets wordt ingevoerd dan kan de gebruiker dit ten alle tijde doen.<br />Voer 3600 in voor een uur, 86400 voor een dag, etc."
+
+msgid "loginname_change_blocking_time_invalidity_info"
+msgstr "Voer een numerieke waarde in."
+
+msgid "loginname_history_info"
+msgstr "Indien ingeschakeld, dan worden de gebruikersnaam-wijzigingen gelogd in de  database. De historie is inzichtelijk in de database tabel 'loginname_history'."
+
+msgid "nothing_to_purge"
+msgstr "Niets te elimineren..."
+
+msgid "nothing_to_remove"
+msgstr "Niets te verwijderen..."
+
+msgid "nothing_to_restore"
+msgstr "Niets te herstellen..."
+
+msgid "obj_blga"
+msgstr "Blog"
+
+msgid "obj_blga_desc"
+msgstr "Globale Blog instellingen"
+
+msgid "obj_chta_desc"
+msgstr "Chat Beheer"
+
+msgid "obj_excs"
+msgstr "Oefening"
+
+msgid "obj_excs_desc"
+msgstr "Globale oefeningsinstellingen"
+
+#, fuzzy
+msgid "obj_gsfo"
+msgstr "Footer"
+
+#, fuzzy
+msgid "obj_gsfo_desc"
+msgstr "Administrate Footer Layout and Content"
+
+#, fuzzy
+msgid "obj_impr"
+msgstr "Legal Notice"
+
+#, fuzzy
+msgid "obj_impr_desc"
+msgstr "Deployment of Legal Notice"
+
+msgid "obj_mds"
+msgstr "Meta Data"
+
+msgid "obj_mds_desc"
+msgstr "Configureer Meta Data en Geavanceerde Meta Data Instellingen"
+
+msgid "obj_otpl"
+msgstr "Didactische Sjablonen"
+
+msgid "obj_otpl_desc"
+msgstr "Sjabloon om nieuwe objecten aan te maken"
+
+msgid "obj_prfa"
+msgstr "Portfolio"
+
+msgid "obj_prfa_desc"
+msgstr "Globale Portfolio instellingen"
+
+msgid "obj_taxs"
+msgstr "Taxonomie"
+
+msgid "obj_taxs_desc"
+msgstr "Globale taxonomie instellingen"
+
+#, fuzzy
+msgid "org_op_edit_user_accounts"
+msgstr "Edit User Accounts"
+
+msgid "output_options"
+msgstr "Uitvoer opties"
+
+msgid "path_to_mkisofs"
+msgstr "Pad naar mkisofs"
+
+#, fuzzy
+msgid "prg_export"
+msgstr "Visible in Study Programmes"
+
+msgid "purge_age_limit"
+msgstr "Leeftijdslimiet"
+
+msgid "purge_age_limit_desc"
+msgstr "Als dit veld een waarde bevat, zullen enkel de objecten die reeds verwijderd zijn geëlimineerd worden."
+
+msgid "purge_count_limit"
+msgstr "Teller limiet"
+
+msgid "purge_count_limit_desc"
+msgstr "Als dit veld een waarde bevat, zullen enkel de objecten geëlimineerd worden van het gespecifieerde nummer."
+
+msgid "purge_missing"
+msgstr "Verwijderen ontbrekende objecten"
+
+msgid "purge_missing_desc"
+msgstr "Elimineren ontbrekende objecten"
+
+msgid "purge_trash"
+msgstr "Elimineren verwijderde objecten"
+
+msgid "purge_trash_desc"
+msgstr "Verwijderen alle objecten in prullenbak van het systeem."
+
+msgid "purge_type_limit"
+msgstr "Limiettype"
+
+msgid "purge_type_limit_desc"
+msgstr "Als dit veld een waarde bevat, zullen enkel de objecten van het gespecifieerde type geëlimineerd worden."
+
+msgid "purging"
+msgstr "Elimineren..."
+
+msgid "purging_missing_objs"
+msgstr "Elimineren ontbrekende objecten..."
+
+msgid "purging_trash"
+msgstr "Prullenbak leegmaken..."
+
+msgid "purging_unbound_objs"
+msgstr "Elimineren ongebonden objecten..."
+
+msgid "removing_invalid_childs"
+msgstr "Verwijderen ongeldige ingangen..."
+
+msgid "removing_invalid_refs"
+msgstr "Verwijderen ongeldige referenties..."
+
+msgid "removing_invalid_rolfs"
+msgstr "Verwijderen ongeldige rolmappen..."
+
+msgid "repair_options"
+msgstr "Opties herstellen"
+
+msgid "restore_missing"
+msgstr "Herstellen verloren objecten"
+
+msgid "restore_missing_desc"
+msgstr "Herstel verloren en ongebonden objecten en plaats ze in de herstelmap."
+
+msgid "restore_trash"
+msgstr "Herstellen verwijderde objecten"
+
+msgid "restore_trash_desc"
+msgstr "Herstel alle objecten in prullenbak en plaats ze in de herstelmap."
+
+msgid "restoring"
+msgstr "Bezig met herstellen..."
+
+msgid "restoring_missing_objs"
+msgstr "Herstellen verloren objecten..."
+
+msgid "restoring_trash"
+msgstr "Herstellen inhoud prullenbak..."
+
+msgid "restoring_unbound_objs"
+msgstr "Herstellen ongebonden objecten en sub-objecten..."
+
+msgid "reuse_of_loginnames_contained_in_history"
+msgstr "Geen hergebruik van gebruikersnamen"
+
+msgid "reuse_of_loginnames_contained_in_history_info"
+msgstr "Indien ingeschakeld, is het toegestaan om gebruikersnamen  die zich in de historie bevinden opnieuw te gebruiken, ook al behoorde het bij een andere gebruiker"
+
+msgid "scan"
+msgstr "Scan"
+
+msgid "scan_desc"
+msgstr "Systeem scan voor slechte/ongeldige/verloren/ongebonden objecten.."
+
+msgid "scan_details"
+msgstr "Scan details"
+
+msgid "scan_modes"
+msgstr "Scan modus gebruikt"
+
+msgid "scanning_system"
+msgstr "Scanning systeem..."
+
+msgid "searching_deleted_objs"
+msgstr "Zoeken naar verwijderde objecten..."
+
+msgid "searching_invalid_childs"
+msgstr "Zoeken naar ongeldige boomingangen..."
+
+msgid "searching_invalid_refs"
+msgstr "Zoeken naar ongeldige referenties..."
+
+msgid "searching_invalid_rolfs"
+msgstr "Zoeken naar ongeldige rolmappen..."
+
+msgid "searching_missing_objs"
+msgstr "Zoeken naar verloren objecten..."
+
+msgid "searching_unbound_objs"
+msgstr "Zoeken naar ongebonden objecten..."
+
+msgid "skipped"
+msgstr "Overgeslagen"
+
+msgid "start_scan"
+msgstr "Start!"
+
+msgid "svn_path"
+msgstr "Pad: %s"
+
+msgid "svn_revision_current"
+msgstr "Huidige Revisie: %s"
+
+msgid "svn_revision_last_change"
+msgstr "Laatst gewijzigde revisie: %s"
+
+msgid "svn_root"
+msgstr "Root: %s"
+
+msgid "system_check_no_owner"
+msgstr "Objecten zonder eigenaar"
+
+#, fuzzy
+msgid "system_folder_info"
+msgstr "Please choose an item from the administration main menu."
+
+msgid "systemcheck"
+msgstr "Systeemcontrole"
+
+msgid "tree_corrupt"
+msgstr "Fout in de structuur! Bekijk de scan log voor meer details."
+
+msgid "user_criteria"
+msgstr "Unieke gebruikerscriteria"
+
+msgid "user_criteria_desc"
+msgstr "Unieke gebruikerscriteria die wordt gebruik voor import/export van toets resultaten. Dit is nodig om gelijke gebruikersaccounts te identificeren op verschillende ILIAS omgevingen."
+
+msgid "usr_loginname_history_info"
+msgstr "De gebruiker wijzigde zijn/haar login op %s. De laatste keer ingelogd: %s."
+
+msgid "vc_information"
+msgstr "Versiebeheer Informatie"
+
+#, fuzzy
+msgid "vc_information_not_determined"
+msgstr "ILIAS could not determine any version control information."
+
+msgid "view_last_log"
+msgstr "Toon laatste scanlog"
+
+msgid "view_log"
+msgstr "Toon details"

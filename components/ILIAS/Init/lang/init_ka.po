@@ -1,0 +1,25 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ka\n"
+"Language-Team: Georgian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: init\n"
+
+#, fuzzy
+msgid "init_error_authentication_fail"
+msgstr "Authentication failed."
+
+#, fuzzy
+msgid "init_error_maintenance"
+msgstr "The server is not available due to maintenance. We apologise for any inconvenience."
+
+#, fuzzy
+msgid "init_error_redirect_click"
+msgstr "Please click to continue."
+
+#, fuzzy
+msgid "init_error_redirect_info"
+msgstr "Redirect not supported by context."

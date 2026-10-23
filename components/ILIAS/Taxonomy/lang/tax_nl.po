@@ -1,0 +1,80 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: nl\n"
+"Language-Team: Dutch\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: tax\n"
+
+msgid "obj_taxn"
+msgstr "Knoop"
+
+msgid "tax_add_taxonomy"
+msgstr "Toevoegen Taxonomie"
+
+msgid "tax_added"
+msgstr "Taxonomie is aangemaakt."
+
+msgid "tax_admin_settings_repository"
+msgstr "Studiecentrum Taxonomieën"
+
+msgid "tax_alphabetical"
+msgstr "Alfabetisch"
+
+msgid "tax_assigned_items"
+msgstr "Toegewezen Items"
+
+msgid "tax_confirm_deletion"
+msgstr "Do you really want to delete the whole taxonomy and all its relations?"
+
+msgid "tax_create_node"
+msgstr "Aanmaken knoop"
+
+msgid "tax_item_sorting"
+msgstr "Ondersteunt het sorteren van toegewezen items"
+
+msgid "tax_manual"
+msgstr "Handmatig"
+
+msgid "tax_max_one_tax"
+msgstr "Je kunt maximaal één taxonomie gebruiken in deze context."
+
+msgid "tax_new_tax_node"
+msgstr "New Node"
+
+msgid "tax_node"
+msgstr "Knoop"
+
+msgid "tax_node_sorting"
+msgstr "Sorteren van knooppunten"
+
+msgid "tax_nodes"
+msgstr "Knopen"
+
+msgid "tax_order"
+msgstr "Order"
+
+msgid "tax_order_nr"
+msgstr "Order Nr"
+
+msgid "tax_please_select_target"
+msgstr "Please select the target."
+
+msgid "tax_target_within_nodes"
+msgstr "The target must not be a subnode of the selected items."
+
+#, fuzzy
+msgid "tax_tax_assignment"
+msgstr "Taxonomy Assignment"
+
+msgid "tax_tax_deleted"
+msgstr "The taxonomy has been deleted."
+
+#, fuzzy
+msgid "tax_tax_settings"
+msgstr "Taxonomy Settings"
+
+msgid "tax_taxonomy"
+msgstr "Taxonomie"

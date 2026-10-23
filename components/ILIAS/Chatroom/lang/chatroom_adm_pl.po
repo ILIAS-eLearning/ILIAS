@@ -1,0 +1,61 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pl\n"
+"Language-Team: Polish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: chatroom_adm\n"
+
+msgid "chat_cannot_connect_to_server"
+msgstr "ILIAS nie może utworzyć połączenia typu Socket z serwerem czatu."
+
+msgid "chat_enabled"
+msgstr "Aktywuj czat"
+
+msgid "chatserver_settings_title"
+msgstr "Serwer czatu"
+
+msgid "client_settings"
+msgstr "Ustawienia ogólne"
+
+msgid "general_settings_title"
+msgstr "Ogólne ustawienia dotyczące czatu"
+
+msgid "https"
+msgstr "HTTPS"
+
+#, fuzzy
+msgid "osc_adm_browser_noti_info"
+msgstr "If enabled, users may individually decide whether or not they want to receive browser notifications for new conversations and messages. Notifications are triggered if the user works in different browser tabs or the browser is hidden and ILIAS was put into the background. Users will also receive browser notifications after a certain idle time in a conversation if ILIAS is in the foreground."
+
+#, fuzzy
+msgid "osc_adm_browser_noti_label"
+msgstr "Browser Notifications"
+
+#, fuzzy
+msgid "osc_adm_conv_idle_state_threshold_info"
+msgstr "Cut off notifications by given a minimum interval at which browser notifications are triggered for incoming chat messages.."
+
+#, fuzzy
+msgid "osc_adm_conv_idle_state_threshold_label"
+msgstr "Time between Browser Notifications"
+
+msgid "port_info"
+msgstr "Zapory ogniowe lub serwery proxy często blokują rzadko używane interfejsy. Jeśli wpisany interfejs nie jest otwarty, przeglądarka użytkowników nie będzie mogła połączyć się z serwerem czatu."
+
+msgid "protocol"
+msgstr "Protokół"
+
+msgid "public_chat_permissions"
+msgstr "Publiczne forum: Prawa"
+
+msgid "public_chat_settings"
+msgstr "Publiczne forum: Ustawienia"
+
+msgid "server_settings"
+msgstr "Ustawienia dotyczące serwera czatu"
+
+msgid "settings_has_been_saved"
+msgstr "Ustawienia zostały zapisane."

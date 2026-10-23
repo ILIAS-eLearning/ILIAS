@@ -1,0 +1,153 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pl\n"
+"Language-Team: Polish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: sysc\n"
+
+msgid "sysc_action_list_tree"
+msgstr "Wygeneruj zrzut struktury drzewa"
+
+msgid "sysc_action_repair"
+msgstr "Napraw"
+
+msgid "sysc_action_show_tree"
+msgstr "Pokaż strukturę drzewa"
+
+msgid "sysc_action_validate"
+msgstr "Sprawdź"
+
+msgid "sysc_administrate_deleted"
+msgstr "Zarządzaj usuniętymi obiektami"
+
+msgid "sysc_btn_tree_missing"
+msgstr "Uruchom przywracanie"
+
+msgid "sysc_btn_tree_structure"
+msgstr "Generuj nową strukturę drzewa"
+
+msgid "sysc_completed_num"
+msgstr "Spełnione zadania"
+
+msgid "sysc_cron_empty_trash"
+msgstr "Opróżnij kosz"
+
+msgid "sysc_cron_empty_trash_desc"
+msgstr "Jeśli ta opcja jest aktywna, obiekty w koszu automatycznie usuwane są z systemu na podstawie odpowiednich kryteriów (wiek, typ obiektu, liczba)."
+
+msgid "sysc_failed_num"
+msgstr "Niespełnione zadania"
+
+msgid "sysc_groups"
+msgstr "Grupa kontroli systemowej"
+
+msgid "sysc_grp_tree"
+msgstr "Drzewo dostępnych zasobów"
+
+msgid "sysc_grp_tree_desc"
+msgstr "Analizuje i naprawia integralność danych drzewa dostępnych zasobów"
+
+msgid "sysc_message_success"
+msgstr "Nie stwierdzono żadnego błędu."
+
+msgid "sysc_message_tree_missing_confirm"
+msgstr "Czy chcesz przywrócić brakujące wpisy w strukturze drzewa?"
+
+msgid "sysc_message_tree_structure_confirm"
+msgstr "Jesteś pewien, że chcesz naprawić strukturę drzewa? Zaleca się, aby przed naprawą koniecznie wykonać kopię zapasową bazy danych ILIAS."
+
+msgid "sysc_overview"
+msgstr "Przegląd"
+
+msgid "sysc_status_completed"
+msgstr "Spełnione"
+
+msgid "sysc_status_failed"
+msgstr "Nie udało się"
+
+msgid "sysc_status_na"
+msgstr "Jeszcze nie wykonano."
+
+msgid "sysc_status_running"
+msgstr "W toku"
+
+msgid "sysc_tab_trash"
+msgstr "Usunięte obiekty"
+
+msgid "sysc_task_overview"
+msgstr "Zadania"
+
+msgid "sysc_task_structure"
+msgstr "Struktura drzewa"
+
+msgid "sysc_task_structure_desc"
+msgstr "Analizuje i koryguje strukturę drzewa dostępnych zasobów"
+
+msgid "sysc_task_tree_dump"
+msgstr "Kopiuj drzewo"
+
+msgid "sysc_task_tree_dump_desc"
+msgstr "Analizuje strukturę drzewa i tworzy zestawienie wszystkich węzłów drzewa wraz z danymi analitycznymi."
+
+msgid "sysc_task_tree_duplicates"
+msgstr "Podwójne wpisy w strukturze drzewa"
+
+msgid "sysc_task_tree_duplicates_desc"
+msgstr "Szuka w systemie podwójnych wpisów w drzewie dostępnych zasobów."
+
+msgid "sysc_task_tree_missing"
+msgstr "Brakujące wpisy w strukturze drzewa"
+
+msgid "sysc_task_tree_missing_desc"
+msgstr "Szuka w systemie brakujących wpisów w strukturze drzewa."
+
+msgid "sysc_task_tree_missing_reference"
+msgstr "Brakujące referencje"
+
+msgid "sysc_task_tree_missing_reference_desc"
+msgstr "Szuka i naprawia brakujące obiekty odniesienia dla wpisów w drzewie dostępnych zasobów."
+
+msgid "sysc_task_tree_missing_tree"
+msgstr "Brakujące wpisy w drzewie dostępnych zasobów"
+
+msgid "sysc_task_tree_missing_tree_desc"
+msgstr "Szuka i naprawia brakujące wpisy obiektów odniesienia w drzewie dostępnych zasobów."
+
+msgid "sysc_trash_action"
+msgstr "Akcja"
+
+msgid "sysc_trash_limit_age"
+msgstr "Ograniczenie czasu"
+
+msgid "sysc_trash_limit_num"
+msgstr "Ograniczenie ilości"
+
+msgid "sysc_trash_limit_type"
+msgstr "Typ ograniczenia"
+
+msgid "sysc_trash_remove"
+msgstr "Usuń usunięte obiekty"
+
+msgid "sysc_trash_remove_info"
+msgstr "Usuń usunięte obiekty znajdujące się w koszu z systemu"
+
+msgid "sysc_trash_restore"
+msgstr "Przywróć usunięte obiekty"
+
+msgid "sysc_trash_restore_info"
+msgstr "Odtwarzanie wszystkich obiektów z kosza do folderu odtwarzania."
+
+msgid "sysc_tree_duplicate_failures"
+msgstr "Znaleziono podwójne wpisy w strukturze drzewa. Liczba podwójnych wpisów:"
+
+msgid "sysc_tree_list_failures"
+msgstr "Utworzono zrzut struktury drzewa. Liczba znalezionych błędów:"
+
+msgid "sysc_tree_missing_failures"
+msgstr "W strukturze drzewa brakuje wpisów. Liczba brakujących wpisów:"
+
+msgid "sysc_tree_structure_failures"
+msgstr "Liczba błędów w strukturze drzewa (parent-relation):"

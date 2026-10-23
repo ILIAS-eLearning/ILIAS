@@ -1,0 +1,322 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: registration\n"
+
+msgid "reg_access_limitation_limited_time"
+msgstr "Acesso após o registo"
+
+msgid "reg_access_limitation_limited_until"
+msgstr "O acesso será válido até"
+
+msgid "reg_access_limitation_missing_mode"
+msgstr "Por favor selecione para todos os papéis um modo do acesso limitado"
+
+msgid "reg_access_limitation_mode"
+msgstr "Modo de acesso limitado"
+
+msgid "reg_access_limitation_mode_absolute"
+msgstr "O acesso será válido até uma data fixada"
+
+msgid "reg_access_limitation_mode_absolute_target"
+msgstr "Válido até"
+
+msgid "reg_access_limitation_mode_relative"
+msgstr "Acesso limitado por um período de tempo fixo após de registo"
+
+msgid "reg_access_limitation_mode_relative_target"
+msgstr "Válido para"
+
+msgid "reg_access_limitation_mode_unlimited"
+msgstr "Acesso sem limitação"
+
+msgid "reg_access_limitation_none"
+msgstr "Acesso ilimitado"
+
+msgid "reg_access_limitation_out_of_date"
+msgstr "Um ou mais papéis tem um acesso limitado por  estar desatualizado!"
+
+msgid "reg_access_limitations"
+msgstr "Acesso limitado"
+
+msgid "reg_add_assignment"
+msgstr "Nova atribuiçao"
+
+msgid "reg_added_assignment"
+msgstr "Nova atribuição adicionada"
+
+msgid "reg_allow_codes"
+msgstr "Permite-se códigos"
+
+msgid "reg_allow_codes_info"
+msgstr "Os usuários são também autorizados para se cadastrar por códigos"
+
+msgid "reg_allowed_domains"
+msgstr "Allowed Email Address Domains"
+
+msgid "reg_allowed_domains_info"
+msgstr "Use * as wildcard and ; as separator."
+
+msgid "reg_approve"
+msgstr "Registo por aprovação"
+
+msgid "reg_approve_info"
+msgstr "Se habilitado qualquer novo cadastro de usuário deve ser aprovado por um administrador"
+
+msgid "reg_approve_needs_recipient"
+msgstr "Você deve definir no mínimo um usuário quem será notificado para novos cadastros, se o tipo de registro \"Registo com Aprovação\" é selecionada"
+
+msgid "reg_available_roles"
+msgstr "Papeis disponíveis:"
+
+#, fuzzy
+msgid "reg_confirmation_already_confirmed"
+msgstr "The registration is no longer pending, it has already been confirmed."
+
+msgid "reg_confirmation_hash_life_time"
+msgstr "Vigência"
+
+msgid "reg_confirmation_hash_life_time_expired"
+msgstr "O link de confirmação não é mais válido. Por favor,  cadastre-se de novo!"
+
+msgid "reg_confirmation_hash_life_time_info"
+msgstr "Inserir a vigência (segundos) dos links da confirmação"
+
+msgid "reg_confirmation_hash_not_found"
+msgstr "Nenhuma conta de usuário corresponde no link de confirmação"
+
+#, fuzzy
+msgid "reg_confirmation_hash_not_passed"
+msgstr "The confirmation link is incomplete."
+
+msgid "reg_confirmation_link_successful"
+msgstr "Você submeteu uma solicitação de conta no ILIAS com sucesso. Você receberá um e-mail de confirmação nos próximos minutos. Por favor confirme o seu cadastro clicando no link de confirmação neste e-mail. Você será redirecionado para a tela do Login após 20 segundos."
+
+msgid "reg_default"
+msgstr "Por Padrão"
+
+msgid "reg_deleted_assignment"
+msgstr "Atribuições eliminados"
+
+msgid "reg_direct"
+msgstr "Registro direto"
+
+msgid "reg_direct_info"
+msgstr "Se isto é ativado, qualquer nova solicitação de cadastro de usuário será automaticamente aprovada"
+
+msgid "reg_disabled"
+msgstr "Nenhum registro possível"
+
+msgid "reg_domain"
+msgstr "Domínio"
+
+#, fuzzy
+msgid "reg_domain_already_assigned_p"
+msgstr "The domains '%s' were already entered for another role."
+
+#, fuzzy
+msgid "reg_domain_already_assigned_s"
+msgstr "The domain '%s' was already entered for another role."
+
+msgid "reg_email"
+msgstr "Atribuição automática de papel"
+
+msgid "reg_email_domains"
+msgstr "The following email address domains are valid: %s"
+
+msgid "reg_email_domains_code"
+msgstr "Com um código de registo, qualquer endereço de e-mail é válido."
+
+msgid "reg_email_role_assignment"
+msgstr "Atribuição de papel por domínio"
+
+msgid "reg_fixed"
+msgstr "Seleção da lista especifica"
+
+msgid "reg_info_pwd"
+msgstr "Se habilitado as senhas serão enviadas automaticamente aos novos usuários por e-mail."
+
+msgid "reg_mail_body_activation"
+msgstr "to activate your account and confirm ownership of this email address, click the link below:"
+
+msgid "reg_mail_body_approve"
+msgstr "Você já se registou ao ILIAS eLearning e recebeu um e-mail com os dados da sua conta. A sua conta foi ativada por um administrador agora"
+
+msgid "reg_mail_body_confirmation"
+msgstr "Para confirmar este cadastro clique ao link siguinte:"
+
+msgid "reg_mail_body_profile"
+msgstr "Dado do perfil:"
+
+msgid "reg_mail_body_profile_changed"
+msgstr "O seu perfil mudou!"
+
+msgid "reg_mail_body_pwd_generation"
+msgstr "O seu pedido de conta será examinada por um administrador e deverá ser ativada dentro de 48 horas. Você será informado sobre a aprovação por e-mail"
+
+msgid "reg_mail_body_reason"
+msgstr "Você recebe este e-mail de ILIAS, porque notificações sobre novos cadastros são habilitadas para a sua conta de administração no ILIAS"
+
+msgid "reg_mail_body_timelimit"
+msgstr "A sua conta tem um período de validade limitado: %s."
+
+msgid "reg_mail_new_user"
+msgstr "Registro de novo usuário"
+
+msgid "reg_mail_new_user_body"
+msgstr "Se registrou um novo usuário"
+
+msgid "reg_mail_new_user_confirmation"
+msgstr "Pedido de confirmação de conta"
+
+msgid "reg_missing_domain"
+msgstr "Preencha, por favor, todos os campos"
+
+msgid "reg_missing_role"
+msgstr "Preencha, por favor, todos os campos"
+
+msgid "reg_notification"
+msgstr "Notificações"
+
+msgid "reg_notification_info"
+msgstr "Inserir uma ou mais ID's de Login dos usuários (separados por vírgula) que seja informado sobre novos registos de usuário por e-mail"
+
+msgid "reg_role_access_limitations"
+msgstr "Definir as limitações de acesso dos papeis para novos usuários cadastrados"
+
+msgid "reg_role_assignment"
+msgstr "Atribuição de papel"
+
+msgid "reg_role_info"
+msgstr "Papéis atribuídos"
+
+msgid "reg_select_one"
+msgstr "Por favor escolha uma entrada"
+
+msgid "reg_selectable_roles"
+msgstr "Papéis selecionáveis"
+
+msgid "reg_settings_header"
+msgstr "Configurações novos registos"
+
+msgid "reg_type"
+msgstr "Tipo de Registro"
+
+msgid "reg_type_confirmation"
+msgstr "Registo com confirmação de e-mail"
+
+msgid "reg_type_confirmation_info"
+msgstr "Este tipo de auto-registo dos usuário exige uma confirmação por e-mail para ativar a conta. Isto  evite auto-registros no ILIAS com endereços electrónicos incorretos ou não existentes"
+
+msgid "reg_unknown_recipients"
+msgstr "Os logins seguintes não são válidos:"
+
+msgid "registration_code"
+msgstr "Código"
+
+msgid "registration_code_not_valid"
+msgstr "O código indicado é inválido ou já foi utilizado"
+
+msgid "registration_code_optional_info"
+msgstr "Se você possuir um código de registro de ILIAS, pode inserir-lo agora"
+
+msgid "registration_code_required_info"
+msgstr "Um código pré-definido é obrigatório para o processo de registo"
+
+msgid "registration_code_role_info"
+msgstr "Se usar um código de registo, a seleção de função pode ser substituída pelo código."
+
+msgid "registration_codes_access_limitation_all"
+msgstr "Todos"
+
+msgid "registration_codes_add"
+msgstr "Adicionar códigos"
+
+msgid "registration_codes_edit_header"
+msgstr "Adicionar Códigos"
+
+msgid "registration_codes_export"
+msgstr "Exportar códigos"
+
+msgid "registration_codes_no_assigned_role"
+msgstr "Nenhuma função atribuída predefinida"
+
+msgid "registration_codes_number"
+msgstr "Número de códigos"
+
+msgid "registration_codes_override_global_info"
+msgstr "Esta definições podem ser substituídas por códigos de registo."
+
+msgid "registration_codes_override_info"
+msgstr "This setting overrides any values defined in \"Registration Settings\"."
+
+msgid "registration_codes_roles"
+msgstr "Papel para novas contas"
+
+msgid "registration_codes_roles_limitation_none"
+msgstr "Nenhuma limitação ao acesso predefinida"
+
+msgid "registration_codes_roles_local"
+msgstr "Função(funções) local(locais)"
+
+msgid "registration_codes_roles_title"
+msgstr "Função para contas novas"
+
+msgid "registration_codes_type"
+msgstr "Copiar tipo"
+
+msgid "registration_codes_type_ext"
+msgstr "Extensão de contas de utilizador limitadas"
+
+msgid "registration_codes_type_ext_info"
+msgstr "O código pode ser usado para a extensão de contas limitadas."
+
+msgid "registration_codes_type_reg"
+msgstr "Código de registo"
+
+msgid "registration_codes_type_reg_info"
+msgstr "O código pode ser usado para o registo, se for uma conta de utilizador nova"
+
+msgid "registration_disabled_no_access"
+msgstr "O autorregisto não está ativado. Entre em contacto com o administrador do sistema para mais assistência: %s"
+
+msgid "registration_export_codes_no_data"
+msgstr "Não foram definidos os códigos para exportar"
+
+msgid "registration_generated"
+msgstr "Data de geração"
+
+msgid "registration_generated_all"
+msgstr "Todas as datas"
+
+msgid "registration_no_valid_role"
+msgstr "Atualmente não existe uma papel válido para novas contas. Por favor contate com o seu administrador"
+
+msgid "registration_reg_type_codes"
+msgstr "Registo por códigos"
+
+msgid "registration_reg_type_codes_info"
+msgstr "Este tipo permita o auto-registo dos usuários, mas exige um código válido"
+
+msgid "registration_roles_all"
+msgstr "Todos os papéis"
+
+msgid "registration_settings"
+msgstr "Novos registos"
+
+msgid "registration_tab_codes"
+msgstr "Códigos de registo"
+
+msgid "registration_tab_settings"
+msgstr "Configurações de registo"
+
+msgid "registration_used"
+msgstr "Data de utilização"
+
+msgid "registration_user_new_account_mail"
+msgstr "Editar novas contas de correio"

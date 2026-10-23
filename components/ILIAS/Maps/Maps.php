@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+
 class Maps implements Component\Component
 {
     public function init(
@@ -38,5 +41,9 @@ class Maps implements Component\Component
             new \ILIAS\Maps\Setup\Agent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'maps'
+        );
     }
 }

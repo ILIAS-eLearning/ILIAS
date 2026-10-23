@@ -1,0 +1,460 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: lt\n"
+"Language-Team: Lithuanian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && (n % 100 < 11 || n % 100 > 19)) ? 0 : ((n % 10 >= 2 && n % 10 <= 9 && (n % 100 < 11 || n % 100 > 19)) ? 1 : 2);\n"
+"X-Domain: ldap\n"
+
+#, fuzzy
+msgid "add_ldap_server"
+msgstr "Add Server"
+
+#, fuzzy
+msgid "ldap_add_missing"
+msgstr "Assign Missing Roles"
+
+#, fuzzy
+msgid "ldap_add_role_ass_rule"
+msgstr "New Rule for Role Assignments"
+
+#, fuzzy
+msgid "ldap_add_roles"
+msgstr "Add Roles"
+
+#, fuzzy
+msgid "ldap_as_ds"
+msgstr "Use as Data Source"
+
+#, fuzzy
+msgid "ldap_as_ds_info"
+msgstr "If activated, this LDAP configuration is used only for the synchronization of user accounts in combination with other authentication methods."
+
+#, fuzzy
+msgid "ldap_assignment_type"
+msgstr "Assignment Type"
+
+msgid "ldap_authentication_settings"
+msgstr "Autorizacijos Nuostatos"
+
+#, fuzzy
+msgid "ldap_bind_anonymous"
+msgstr "Bind Anonymously"
+
+#, fuzzy
+msgid "ldap_bind_user"
+msgstr "Bind as User:"
+
+msgid "ldap_btn_add_role_ass"
+msgstr "Sukurti Naują Taisyklę"
+
+#, fuzzy
+msgid "ldap_check_role_assignment"
+msgstr "Assignment of Roles After Later Logins"
+
+#, fuzzy
+msgid "ldap_choose_role"
+msgstr "Choose Role"
+
+msgid "ldap_confirm_del_role_ass"
+msgstr "Šalinti Rolės Priskyrimą"
+
+msgid "ldap_deleted_role_mapping"
+msgstr "Ištrintas priskyrimas."
+
+#, fuzzy
+msgid "ldap_deleted_rule"
+msgstr "Deleted selected role assignments."
+
+msgid "ldap_dn_info"
+msgstr "Nurodykite LDAP grupės skiriamąjį pavadinimą."
+
+msgid "ldap_edit_role_ass_rule"
+msgstr "Redaguoti Rolės Priskyrimo Tasiyklę"
+
+#, fuzzy
+msgid "ldap_edit_role_assignment"
+msgstr "Edit Role -> Group Assignment"
+
+#, fuzzy
+msgid "ldap_err_missing_plugin_id"
+msgstr "Please enter a valid plugin id."
+
+#, fuzzy
+msgid "ldap_escapedn"
+msgstr "Escape DN"
+
+#, fuzzy
+msgid "ldap_escapedn_info"
+msgstr "If enabled, special characters in the \"Distinguished Name (DN)\" of user accounts are escaped in queries for group membership."
+
+#, fuzzy
+msgid "ldap_filter_info"
+msgstr "Filter that will be added to the search filter this way: (&(userattr=username)(userfilter))."
+
+#, fuzzy
+msgid "ldap_global_role"
+msgstr "Global Role"
+
+msgid "ldap_global_role_assignment"
+msgstr "ILIAS Rolės Priskyrimas"
+
+msgid "ldap_global_role_info"
+msgstr "Pasirinkite, kuriai Rolei priskirsite naujus ILIAS vartotojus."
+
+msgid "ldap_group_attribute"
+msgstr "Grupės Atributas"
+
+msgid "ldap_group_attribute_info"
+msgstr "Ieškomas grupės atributas."
+
+#, fuzzy
+msgid "ldap_group_dn"
+msgstr "Group DN"
+
+#, fuzzy
+msgid "ldap_group_dn_info"
+msgstr "Gets prepended to basedn when searching for groups."
+
+#, fuzzy
+msgid "ldap_group_dn_short"
+msgstr "Group DN:"
+
+msgid "ldap_group_filter"
+msgstr "LDAP Filras"
+
+#, fuzzy
+msgid "ldap_group_filter_info"
+msgstr "Filter that will be added to the search filter when searching for a group: (&(groupattr=group)(memberattr=username)(groupfilter))."
+
+msgid "ldap_group_member"
+msgstr "Grupės Nario Atributas"
+
+#, fuzzy
+msgid "ldap_group_member_info"
+msgstr "The attribute of the group object where the user dn may be found. Choose \"Attribute Value is DN\" if the member attribute is the distinguished name of the users."
+
+#, fuzzy
+msgid "ldap_group_member_optional"
+msgstr "Group Membership is Optional"
+
+#, fuzzy
+msgid "ldap_group_member_short"
+msgstr "Attribute:"
+
+#, fuzzy
+msgid "ldap_group_membership"
+msgstr "Group Membership"
+
+msgid "ldap_group_name"
+msgstr "Grupės Pavadinimas"
+
+#, fuzzy
+msgid "ldap_group_name_info"
+msgstr "The name of the group users have to be a member of to authenticate successfully."
+
+#, fuzzy
+msgid "ldap_group_optional_info"
+msgstr "If enabled, the group membership is not required for a successful authentication. Please enter a user filter for the members of these groups:<br />(&(userattr=username)<strong>(userfilter)</strong>)"
+
+msgid "ldap_group_restrictions"
+msgstr "Grupės Apribojimai"
+
+msgid "ldap_group_scope"
+msgstr "Paieškos Sritis"
+
+msgid "ldap_group_scope_info"
+msgstr "Grupės paieškos sritis. Jei nesate tikri, rinkitės \"Sub\""
+
+#, fuzzy
+msgid "ldap_group_search_base"
+msgstr "Group Search Base"
+
+#, fuzzy
+msgid "ldap_group_user_filter"
+msgstr "User Filter"
+
+msgid "ldap_ilias_role"
+msgstr "ILIAS Rolė"
+
+#, fuzzy
+msgid "ldap_info_text"
+msgstr "Information Text"
+
+#, fuzzy
+msgid "ldap_info_text_info"
+msgstr "If entered, this text will be shown in the repository and on the info screen for the object this role is assigned to."
+
+#, fuzzy
+msgid "ldap_local_role"
+msgstr "Local Role"
+
+#, fuzzy
+msgid "ldap_mapping_info_type"
+msgstr "Show Information also in the Repository/Personal Desktop"
+
+msgid "ldap_mapping_table"
+msgstr "LDAP Atributų Priskyrimas ILIAS VArtotojo Profiliui"
+
+msgid "ldap_mapping_template"
+msgstr "ObjectClass šablonas:"
+
+#, fuzzy
+msgid "ldap_member_info"
+msgstr "The attribute of the group object where the user dn may be found."
+
+#, fuzzy
+msgid "ldap_memberisdn"
+msgstr "Attribute Value is DN"
+
+#, fuzzy
+msgid "ldap_missing_bind_user"
+msgstr "You have chosen \"Bind as User\": Please enter a valid LDAP username and password."
+
+msgid "ldap_missing_role_assignment"
+msgstr "Pasirinkite globalią rolę, kuriai priskirsite naujus vartotojus."
+
+msgid "ldap_moment_sync"
+msgstr "Sinchronizacjos Tipas"
+
+msgid "ldap_new_role_assignment"
+msgstr "Sukurti Naują Rolę -> Grupės Priskyrimas"
+
+#, fuzzy
+msgid "ldap_plugin"
+msgstr "Assignment by Plugin"
+
+#, fuzzy
+msgid "ldap_plugin_id"
+msgstr "Plugin Id"
+
+#, fuzzy
+msgid "ldap_plugin_info"
+msgstr "Validate the role assignment with a plugin. Please enter a valid plugin id."
+
+#, fuzzy
+msgid "ldap_referrals"
+msgstr "Referrals"
+
+msgid "ldap_referrals_info"
+msgstr "Jei nurodyta, nustatoma ar LDAP biblioteka automatiškai seka nuorodas, pateiktas LDAP serverių, ar ne."
+
+#, fuzzy
+msgid "ldap_remove_deprecated"
+msgstr "Deassign Deprecated Roles"
+
+#, fuzzy
+msgid "ldap_remove_roles"
+msgstr "Remove Roles"
+
+msgid "ldap_role_active"
+msgstr "Aktyvuoti Grupės Sinchronizavimą"
+
+#, fuzzy
+msgid "ldap_role_assignments"
+msgstr "Role Assignment"
+
+msgid "ldap_role_at_info"
+msgstr "Priskyrimas vykdomas pagal specifinį LDAP vartotojo profilyje esantį požymį."
+
+msgid "ldap_role_at_name"
+msgstr "Atributo Pavadinimas"
+
+msgid "ldap_role_at_value"
+msgstr "Požymio Reikšmė"
+
+msgid "ldap_role_bind_pass"
+msgstr "Slaptažodis"
+
+msgid "ldap_role_bind_pass_info"
+msgstr "Slaptažodis"
+
+#, fuzzy
+msgid "ldap_role_bind_user"
+msgstr "Usern DN"
+
+msgid "ldap_role_bind_user_info"
+msgstr "Nurodykite LDAP vartotojo paskyros skiriamąjį pavadinimą. Šis vartotojas turi turėti rašymo teisę LDAP grupėse."
+
+msgid "ldap_role_by_attribute"
+msgstr "LDAP Požymis"
+
+#, fuzzy
+msgid "ldap_role_by_group"
+msgstr "Groupmembership"
+
+#, fuzzy
+msgid "ldap_role_by_plugin"
+msgstr "By Plugin"
+
+msgid "ldap_role_group_assignments"
+msgstr "Egzistuojanti Rolė -> Grupės Priskyrimas"
+
+#, fuzzy
+msgid "ldap_role_grp_at"
+msgstr "Attribute"
+
+#, fuzzy
+msgid "ldap_role_grp_dn_info"
+msgstr "Please enter the \"Distinguished Name\" of the LDAP Group."
+
+#, fuzzy
+msgid "ldap_role_grp_info"
+msgstr "Members of a specific LDAP Group will be assigned to the given ILIAS role."
+
+msgid "ldap_role_grp_isdn"
+msgstr "Požymo reikšmė yra DN"
+
+msgid "ldap_role_info"
+msgstr "Nurodykite ILIAS Rolės pavadinimą, kuri kontroliuos narystę LDAP grupėje."
+
+msgid "ldap_role_mapping"
+msgstr "LDAP-Grupė -> Rolės Atvaizdis"
+
+#, fuzzy
+msgid "ldap_role_name_info"
+msgstr "Please choose either a global role or enter the name of a local role."
+
+msgid "ldap_role_not_exists"
+msgstr "Rolė šiuo pavadinimu neegzistuoja"
+
+#, fuzzy
+msgid "ldap_role_selection"
+msgstr "Role Selection"
+
+#, fuzzy
+msgid "ldap_role_selection_info"
+msgstr "Your selection is ambiguous. Please choose one of the following roles."
+
+msgid "ldap_role_settings"
+msgstr "LDAP Grupės Sinchronizavimo Nuostatos"
+
+msgid "ldap_rule_condition"
+msgstr "sąlyga"
+
+msgid "ldap_rule_type"
+msgstr "Priskyrimo Tipas"
+
+msgid "ldap_scope_one"
+msgstr "Vienas"
+
+#, fuzzy
+msgid "ldap_scope_sub"
+msgstr "Sub"
+
+#, fuzzy
+msgid "ldap_search_base_info"
+msgstr "Gets prepended to basedn when searching for users."
+
+msgid "ldap_search_filter"
+msgstr "LDAP Filras"
+
+#, fuzzy
+msgid "ldap_server_bind_dn"
+msgstr "User DN"
+
+msgid "ldap_server_bind_pass"
+msgstr "Slaptažodis"
+
+msgid "ldap_server_binding"
+msgstr "Sietis"
+
+msgid "ldap_server_name"
+msgstr "LDAP Konfigūracijos pavadinimas"
+
+msgid "ldap_server_name_info"
+msgstr "Parinkite šios LDAP konfigūracijos pavadinimą"
+
+msgid "ldap_server_security_settings"
+msgstr "Saugumo Nuostatos"
+
+#, fuzzy
+msgid "ldap_server_short"
+msgstr "Server URL:"
+
+msgid "ldap_server_url_info"
+msgstr "Pilnas adresas specifiniam protokolui, jungties url ir prievadas, pvz., \"ldap://ldap.ilias.de:389\""
+
+#, fuzzy
+msgid "ldap_server_url_invalid_parts"
+msgstr "The following server URL(s) could not be parsed as valid URIs and may not work until corrected:"
+
+#, fuzzy
+msgid "ldap_server_url_invalid_uris"
+msgstr "Every comma-separated entry must be a valid URI (e.g. ldap://host:389). Invalid:"
+
+#, fuzzy
+msgid "ldap_server_url_required"
+msgstr "Server URL is required."
+
+msgid "ldap_server_version_info"
+msgstr "Naudotina LDAP versija, paprastai 3."
+
+#, fuzzy
+msgid "ldap_servers"
+msgstr "LDAP Server"
+
+msgid "ldap_settings"
+msgstr "Serverio Nuostatos"
+
+#, fuzzy
+msgid "ldap_sync_cron"
+msgstr "Per Cron-Job"
+
+msgid "ldap_sync_login"
+msgstr "Prisijungiant"
+
+msgid "ldap_tbl_role_ass"
+msgstr "Aktyvios Taisyklės"
+
+msgid "ldap_tls_conflict"
+msgstr "LDAP-TLS negali būti naudojama su LDAPv2. Pasirinkite LDAP versiją \"3\" arba išjunkite TLS palaikymą."
+
+msgid "ldap_update_field_info"
+msgstr "Atnaujinti automatiškai"
+
+#, fuzzy
+msgid "ldap_update_roles"
+msgstr "Role Assignments"
+
+msgid "ldap_user_attribute"
+msgstr "Registracijos Vardo Atributas"
+
+#, fuzzy
+msgid "ldap_user_dn"
+msgstr "User DN"
+
+msgid "ldap_user_mapping"
+msgstr "Vartotojo Profilio Atvaizdis (mapping)"
+
+msgid "ldap_user_scope"
+msgstr "Paieškos Sritis"
+
+#, fuzzy
+msgid "ldap_user_scope_info"
+msgstr "Scope for user searching. If unsure choose \"Sub\"."
+
+msgid "ldap_user_sync"
+msgstr "Vartotojų Sinchronizavimo Nuostatos"
+
+#, fuzzy
+msgid "ldap_user_sync_cron"
+msgstr "LDAP User Synchronization "
+
+#, fuzzy
+msgid "ldap_user_sync_cron_info"
+msgstr "If activated, user accounts will be imported from the LDAP directory and synchronised continuously as an option."
+
+#, fuzzy
+msgid "ldap_user_sync_info"
+msgstr "Defines whether new users are automatically created on login or regularly per Cron-Job."
+
+#, fuzzy
+msgid "ldap_username_filter"
+msgstr "Username Filter"
+
+#, fuzzy
+msgid "ldap_username_filter_info"
+msgstr "Use * as wildcard."

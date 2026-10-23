@@ -24,6 +24,8 @@ use ilExportSetupAgent;
 use ILIAS\Export\HTML;
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\Setup\Agent as SetupAgent;
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
 
 class Export implements Component\Component
 {
@@ -41,5 +43,13 @@ class Export implements Component\Component
         $contribute[SetupAgent::class] = fn() => new HTML\Setup\Agent($pull[RefineryFactory::class]);
         $contribute[\ILIAS\StaticURL\Handler\Handler::class] = static fn() =>
             new \ILIAS\Export\ExportHandler\PublicAccess\Link\Handler();
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'export'
+        );
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'exp'
+        );
     }
 }

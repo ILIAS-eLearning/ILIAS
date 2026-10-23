@@ -1,0 +1,337 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: lso\n"
+
+msgid "abstract"
+msgstr "Inledning"
+
+msgid "abstract_img"
+msgstr "Bild för introduktionssidan"
+
+msgid "avail_time_period"
+msgstr "Tidsperiod"
+
+msgid "completed_steps"
+msgstr "Passerade steg"
+
+msgid "condition_always"
+msgstr "Alltid"
+
+#, fuzzy
+msgid "cont_ed_insert_lsocurriculum"
+msgstr "Insert Learning Sequence Curriculum"
+
+#, fuzzy
+msgid "cont_ed_insert_lsostartbutton"
+msgstr "Insert Learning Sequence Start Button"
+
+msgid "curriculum"
+msgstr "Innehåll"
+
+msgid "delete_confirmation"
+msgstr "Vill du verkligen ta bort följande objekt?"
+
+msgid "entries_deleted"
+msgstr "Poster har raderats framgångsrikt."
+
+msgid "entries_updated"
+msgstr "Ingångar sparade"
+
+msgid "extro"
+msgstr "Sista sidan"
+
+msgid "extro_img"
+msgstr "Bild för sista sidan"
+
+msgid "failed"
+msgstr "Misslyckad"
+
+msgid "finished"
+msgstr "Fullbordad"
+
+msgid "first_access"
+msgstr "Första åtkomst"
+
+msgid "last_visited_step"
+msgstr "Sista besökta steg"
+
+msgid "learner_view"
+msgstr "Översikt"
+
+#, fuzzy
+msgid "lp_not_relevant_post_cond"
+msgstr "currently not relevant for continuation"
+
+msgid "lso_activation_online_info"
+msgstr "Endast när inlärningssekvensen är online kan användare gå med och medlemmar komma åt inlärningssekvensen. Om inte, är inlärningssekvensen endast tillgänglig för administratörer och handledare."
+
+msgid "lso_at_least_one_admin"
+msgstr "Minst en administratör måste vara utsedd för denna utbildningssekvens."
+
+msgid "lso_edit_permission"
+msgstr "Ändra inställningar för rättigheter"
+
+msgid "lso_header_delete_members"
+msgstr "Vill du avanmäla följande medlemmar från utbildningssekvensen?"
+
+msgid "lso_header_edit_members"
+msgstr "Redigera medlemmar"
+
+msgid "lso_intropages_deprecationhint"
+msgstr "Du kan redigera inlednings- och avslutningssidorna under \"Innehåll\"."
+
+#, fuzzy
+msgid "lso_legacy_info"
+msgstr "The object will open in a new tab in your browser. Please return to this tab after processing/editing the contents. Reload the page if you have edited the content but the \"Next\" button remains disabled."
+
+msgid "lso_mail_admission_new_bod"
+msgstr "Du har accepterats som medlem i inlärningssekvensen \"%s\"."
+
+msgid "lso_mail_admission_new_sub"
+msgstr "Medlemskap i inlärningssekvensen \"%s\""
+
+msgid "lso_mail_dismiss_bod"
+msgstr "Ditt medlemskap i inlärningssekvensen \"%s\" har upphört."
+
+msgid "lso_mail_dismiss_sub"
+msgstr "Medlemskap i utbildningssekvensen \"%s\" avslutat"
+
+msgid "lso_mail_notification_reg_bod"
+msgstr "%s har skickat in en ansökan om antagning till utbildningssekvensen \"%s\"."
+
+msgid "lso_mail_notification_reg_req_bod"
+msgstr "%s har skickat in en ansökan om antagning till utbildningssekvensen \"%s\"."
+
+msgid "lso_mail_notification_reg_req_bod2"
+msgstr "För att godkänna användaren till utbildningssekvensen eller avvisa begäran måste du ringa upp medlemsadministrationen. För att göra detta, vänligen välj följande länk"
+
+msgid "lso_mail_notification_reg_req_sub"
+msgstr "Inspelning av begäran för inlärningssekvensen \"%s\""
+
+msgid "lso_mail_notification_reg_sub"
+msgstr "Nytt medlemskap i inlärningssekvensen \"%s\""
+
+msgid "lso_mail_notification_unsub_bod"
+msgstr "Deltagaren \"%s\" har slutfört medlemskapet i utbildningssekvensen \"%s\"."
+
+msgid "lso_mail_notification_unsub_bod2"
+msgstr "Deltagare kan stå på väntelistan för denna utbildningssekvens. För att se listan över deltagare, vänligen gå till följande länk"
+
+msgid "lso_mail_notification_unsub_sub"
+msgstr "Avsluta från inlärningssekvensen \"%s\""
+
+msgid "lso_mail_permanent_link"
+msgstr "Välj följande länk för att komma åt innehållet i inlärningssekvensen"
+
+msgid "lso_mail_status_bod"
+msgstr "Din status i inlärningssekvensen \"%s\" har ändrats."
+
+msgid "lso_mail_status_sub"
+msgstr "Status i inlärningssekvensen \"%s"
+
+msgid "lso_mail_sub_acc_bod"
+msgstr "Du har inkluderats i inlärningssekvensen \"%s\"."
+
+msgid "lso_mail_sub_acc_sub"
+msgstr "Inspelning i inlärningssekvensen \"%s\""
+
+msgid "lso_mail_sub_dec_bod"
+msgstr "Din inskrivningsansökan för utbildningssekvensen \"%s\" har avvisats."
+
+msgid "lso_mail_sub_dec_sub"
+msgstr "Avslag på inskrivningsansökan för utbildningssekvensen \"%s"
+
+msgid "lso_mail_subscribe_member_bod"
+msgstr "vi är glada att kunna informera dig om att din inkludering i inlärningssekvensen \"%s\" har ägt rum."
+
+msgid "lso_mail_subscribe_member_sub"
+msgstr "Din registrering för inlärningssekvensen \"%s\""
+
+msgid "lso_mail_unsubscribe_member_bod"
+msgstr "vi bekräftar din avregistrering från inlärningssekvensen \"%s\"."
+
+msgid "lso_mail_unsubscribe_member_sub"
+msgstr "Din utloggning från inlärningssekvensen \"%s\"."
+
+msgid "lso_mail_wl_bod"
+msgstr "Du har placerats på väntelistan för inlärningssekvensen \"%s\" och har positionen %s på väntelistan.  Du kommer att meddelas via e-post så snart din ansökan om tillträde har godkänts eller avslagits."
+
+msgid "lso_mail_wl_sub"
+msgstr "Din registrering för inlärningssekvensen \"%s\""
+
+msgid "lso_mainbar_button_label_curriculum"
+msgstr "Lärande sekvens"
+
+msgid "lso_mainbar_button_label_toc"
+msgstr "Innehåll"
+
+msgid "lso_mem_tbl_header"
+msgstr "Deltagare i inlärningssekvens"
+
+msgid "lso_member_administration"
+msgstr "Deltagarstyrning"
+
+msgid "lso_members_deleted"
+msgstr "De utvalda medlemmarna har avregistrerats från inlärningssekvensen."
+
+msgid "lso_members_gallery"
+msgstr "Medlemmarnas galleri"
+
+msgid "lso_members_print_title"
+msgstr "inlärningssekvens medlemmar"
+
+msgid "lso_min_one_admin"
+msgstr "Minst en administratör måste fortsätta att arbeta med denna utbildningssekvens."
+
+msgid "lso_msg_member_assigned"
+msgstr "Användaren/användarna inkluderades i inlärningssekvensen"
+
+msgid "lso_multidownload_not_available"
+msgstr "Hämtning av olika objekt är för närvarande inte tillgängligt för inlärningssekvensobjekt."
+
+msgid "lso_new_status"
+msgstr "Din nya status"
+
+msgid "lso_notification"
+msgstr "Notifiering"
+
+msgid "lso_notification_explanation_admin"
+msgstr "Du får det här mailet eftersom aviseringar är aktiverade för dig som handledare för en inlärningssekvens."
+
+msgid "lso_notify_off"
+msgstr "Notifieringar om nya registreringar avaktiverade"
+
+msgid "lso_notify_on"
+msgstr "Notifieringar om nya registreringar aktiverade"
+
+msgid "lso_player_abstract"
+msgstr "Till inledningen"
+
+msgid "lso_player_extro"
+msgstr "Till den avslutande sidan"
+
+msgid "lso_player_finish"
+msgstr "Utgång"
+
+msgid "lso_player_next"
+msgstr "Fortsättning"
+
+#, fuzzy
+msgid "lso_player_noitems"
+msgstr "There are no available items in this Learning Sequence."
+
+msgid "lso_player_previous"
+msgstr "Tillbaka"
+
+msgid "lso_player_resume"
+msgstr "Återuppta inlärningssekvensen"
+
+msgid "lso_player_review"
+msgstr "Se över inlärningssekvensen"
+
+msgid "lso_player_start"
+msgstr "Starta inlärningssekvensen"
+
+msgid "lso_player_suspend"
+msgstr "Interrupt"
+
+msgid "lso_player_viewmodelabel"
+msgstr "Bearbetning av inlärningssekvensen"
+
+msgid "lso_print_list"
+msgstr "Skapa lista"
+
+msgid "lso_read"
+msgstr "Läsning tillgång till Learning Sequence"
+
+msgid "lso_search_users"
+msgstr "Sök användare"
+
+msgid "lso_settings_availability"
+msgstr "Tillgänglighet"
+
+msgid "lso_settings_extro"
+msgstr "Redigera sista sidan"
+
+msgid "lso_settings_intro"
+msgstr "Redigera introduktionssida"
+
+msgid "lso_settings_old_extro"
+msgstr "Visa gamla avslutande sidan"
+
+msgid "lso_settings_old_intro"
+msgstr "Visa gamla introduktionssidan"
+
+msgid "lso_show_members_info"
+msgstr "Medlemmarnas galleri synligt för användare"
+
+msgid "lso_start_item"
+msgstr "%s öppna"
+
+#, fuzzy
+msgid "lso_toast_completed_desc"
+msgstr "You have completed this Learning Sequence. You might still keep looking through the content."
+
+#, fuzzy
+msgid "lso_toast_completed_title"
+msgstr "Congratulations"
+
+msgid "lso_users_already_assigned"
+msgstr "En användare är redan medlem i denna inlärningssekvens"
+
+# Modifierad som en del av jämställdhetsarbetet för ILIAS 8. Etiketten är nu generaliserad för alla komponenter som stöder "mail till medlemmar".
+msgid "mail_lso_roles"
+msgstr "Alla personer med följande lokala roller"
+
+msgid "manage"
+msgstr "Hantering"
+
+msgid "manage_content_maintab"
+msgstr "Innehåll"
+
+msgid "members_gallery"
+msgstr "Medlemmarnas galleri"
+
+msgid "no_entries_selected_for_delete"
+msgstr "Minst en listpost måste väljas."
+
+msgid "not_finished"
+msgstr "Ej slutförd"
+
+#, fuzzy
+msgid "notification_lso_completed_title"
+msgstr "You completed the Learning Sequence %s."
+
+msgid "show_summary"
+msgstr "Info"
+
+msgid "table_actions"
+msgstr "Åtgärder"
+
+#, fuzzy
+msgid "table_lp_settings"
+msgstr "Learning Progress Settings"
+
+msgid "table_may_proceed"
+msgstr "Användaren kan fortsätta"
+
+msgid "table_online"
+msgstr "Online"
+
+msgid "table_position"
+msgstr "Position"
+
+msgid "table_sequence_content"
+msgstr "Hantering av innehåll"
+
+msgid "table_title"
+msgstr "Titel"
+
+msgid "unparticipate"
+msgstr "Avsluta inlärningssekvensen"

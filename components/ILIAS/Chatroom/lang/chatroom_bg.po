@@ -1,0 +1,609 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: bg\n"
+"Language-Team: Bulgarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: chatroom\n"
+
+msgid "allow_anonymous"
+msgstr "Позволяване на анонимно влизане"
+
+msgid "allow_custom_usernames"
+msgstr "Предоставяне на потребителски потребителски имена"
+
+#, fuzzy
+msgid "allow_custom_usernames_info"
+msgstr "Allow users to enter their own unique session name to use within the chat room. If this option is not selected, users are automatically identified using their usernames (login) when in the chat room."
+
+msgid "anonymous_hint"
+msgstr "Не забравяйте да зададете правилните разрешения в раздела \"Разрешения\", за да разрешите достъпа на анонимен потребител до този елемент от хранилището."
+
+msgid "auto_scroll"
+msgstr "Превърнете се към дъното"
+
+msgid "autogen_usernames"
+msgstr "Автоматично генерирани потребителски имена"
+
+msgid "autogen_usernames_info"
+msgstr "Образец за автоматично генерирани потребителски имена. '#' ще бъде автоматично заменен с число"
+
+msgid "ban_question"
+msgstr " Наистина ли искате да забраните достъпа на потребителя до текущата стая?"
+
+msgid "ban_table_title"
+msgstr "Забранени потребители"
+
+msgid "banned"
+msgstr "Бяхте забранени от този чат"
+
+#, fuzzy
+msgid "bans"
+msgstr "Забрани"
+
+#, fuzzy
+msgid "chat_address"
+msgstr "Адрес"
+
+msgid "chat_anonymous_not_allowed"
+msgstr "Моля, влезте, за да използвате чата."
+
+msgid "chat_auth_token_info"
+msgstr "Моля, дефинирайте уникални низове, използвани от ILIAS за целите на удостоверяването, когато изпращате заявки към сървъра за чат. Можете да създадете тези низове автоматично, като щракнете върху съответния бутон. Моля, обърнете внимание, че чат сървърът може да комуникира с множество клиенти на ILIAS, но идентификаторът на всеки клиент трябва да бъде <b>уникален</b>."
+
+#, fuzzy
+msgid "chat_ban"
+msgstr "Забрана"
+
+#, fuzzy
+msgid "chat_broadcast_typing"
+msgstr "Broadcast Typing"
+
+#, fuzzy
+msgid "chat_broadcast_typing_default_info"
+msgstr "If enabled, typing will be broadcasted to other participants of a conversation or chat room by default."
+
+#, fuzzy
+msgid "chat_broadcast_typing_info"
+msgstr "Allow participants in conversations or chatrooms to see when you are typing a message."
+
+msgid "chat_connection_disconnected"
+msgstr "Прекъснато връзка"
+
+msgid "chat_connection_established"
+msgstr "Връзката е установена"
+
+#, fuzzy
+msgid "chat_deletion_disabled"
+msgstr "Изключено"
+
+#, fuzzy
+msgid "chat_deletion_interval"
+msgstr "Интервал"
+
+msgid "chat_deletion_interval_info"
+msgstr "Ако бъде избрано, съобщенията в чата на хранилището в разговорите On-Screen-Chat ще бъдат изтрити след определения праг."
+
+#, fuzzy
+msgid "chat_deletion_interval_run_at"
+msgstr "Време"
+
+msgid "chat_deletion_interval_run_at_info"
+msgstr "Моля, определете времето (формат: HH:MM), когато сървърът трябва да обработи изтриването на съобщението."
+
+#, fuzzy
+msgid "chat_deletion_interval_unit"
+msgstr "Модул"
+
+msgid "chat_deletion_interval_value"
+msgstr "Стойност"
+
+msgid "chat_deletion_ival_max_val"
+msgstr "Максималната стойност за избраната единица '%s' е: %s"
+
+msgid "chat_deletion_section_head"
+msgstr "Изтриване на стари съобщения"
+
+#, fuzzy
+msgid "chat_enable_history"
+msgstr "Enable History"
+
+#, fuzzy
+msgid "chat_enable_history_info"
+msgstr "Everybody can read and export past public chat messages in the tab „History“. Messages from within private rooms are only accessible by invited users."
+
+msgid "chat_error_log_info"
+msgstr "Поискайте да зададете абсолютен път до сървъра до файла с дневника за грешки на чат сървъра (напр: /var/www/ilias/data/chat_error.log). Ако не посочите път, чат сървърът автоматично ще създаде файл, разположен в директорията на чат сървъра."
+
+#, fuzzy
+msgid "chat_functions"
+msgstr "Chat Functions"
+
+msgid "chat_https_cert_info"
+msgstr "Поискайте да зададете абсолютен път до сървъра до файла със SSL сертификата (напр.: /etc/ssl/certs/server.pem)."
+
+msgid "chat_https_dhparam_info"
+msgstr "Поискайте да зададете абсолютен път до сървъра на файла (напр: /etc/ssl/private/dhparam.pem), използван за договаряне на параметрите на Diffie Hellman (напр. генерирани чрез: openssl dhparam -out /etc/ssl/private/dhparam.pem 2048 )."
+
+msgid "chat_https_key_info"
+msgstr "Поискайте да зададете абсолютен път до сървъра за файла с частния ключ (например..: /etc/ssl/private/server.key)."
+
+msgid "chat_invitation"
+msgstr "Покана от ##inviter_name## към чат ##room_name"
+
+# , за да се присъедините директно към този чат.
+msgid "chat_invitation_long"
+msgstr "Поканени сте от ##inviter_name## в чат ##room_name##.  Кликнете върху тази връзка ##link"
+
+#, fuzzy
+msgid "chat_invitation_modal_headline"
+msgstr "Invitation to Chat Room"
+
+#, fuzzy
+msgid "chat_invitation_modal_section"
+msgstr "Invite User"
+
+#, fuzzy
+msgid "chat_invitation_nc_inv_x"
+msgstr "You have %s chat invitations."
+
+#, fuzzy
+msgid "chat_invitation_nc_no_inv"
+msgstr "You have no chat invitations."
+
+msgid "chat_invitation_short"
+msgstr "Моля, кликнете върху връзката със заглавието, за да влезете в чата."
+
+#, fuzzy
+msgid "chat_invitation_username_input_label"
+msgstr "Enter Username:"
+
+#, fuzzy
+msgid "chat_invitations"
+msgstr "Chat invitations"
+
+#, fuzzy
+msgid "chat_invite"
+msgstr "Покана"
+
+#, fuzzy
+msgid "chat_join"
+msgstr "Присъединяване"
+
+#, fuzzy
+msgid "chat_kick"
+msgstr "Изхвърляне"
+
+msgid "chat_log_info"
+msgstr "Поискайте да зададете абсолютен път до лог файла на чат сървъра (напр.: /var/www/ilias/data/chat.log). Ако не посочите път, чат сървърът автоматично ще създаде файл, разположен в директорията на чат сървъра."
+
+msgid "chat_log_level"
+msgstr "Log Level"
+
+msgid "chat_mainroom"
+msgstr "Основна стая"
+
+msgid "chat_message"
+msgstr "Message"
+
+msgid "chat_message_display"
+msgstr "Options"
+
+msgid "chat_message_options"
+msgstr "Display"
+
+#, fuzzy
+msgid "chat_no_use_typing_broadcast"
+msgstr "Typing will not be broadcasted"
+
+#, fuzzy
+msgid "chat_not_use_osc"
+msgstr "Без използване на екранен чат"
+
+msgid "chat_osc_accept_msg"
+msgstr "Allow On-Screen Chat Conversations"
+
+#, fuzzy
+msgid "chat_osc_accept_msg_default_info"
+msgstr "If enabled, users are by default allowed to send each other messages using the on-screen chat system."
+
+msgid "chat_osc_accept_msg_info"
+msgstr "Ако е активирано, на другите потребители е позволено да започнат разговор с мен."
+
+#, fuzzy
+msgid "chat_osc_accept_msg_info_slate"
+msgstr "To have private conversations, you must enable your setting \"Allow On-Screen Chat Conversations\"."
+
+#, fuzzy
+msgid "chat_osc_accept_msg_info_slate_link_txt"
+msgstr "Visibility (in Profile and Privacy)"
+
+#, fuzzy
+msgid "chat_osc_accept_no_conv_info_slate"
+msgstr "There are currently no minimzed conversations."
+
+msgid "chat_osc_accepts_messages_no"
+msgstr "Не приемам съобщения в чата"
+
+msgid "chat_osc_accepts_messages_yes"
+msgstr "Приема съобщения в чата"
+
+msgid "chat_osc_add_user"
+msgstr "Добавяне на допълнителни потребители"
+
+#, fuzzy
+msgid "chat_osc_conversations"
+msgstr "Разговори"
+
+msgid "chat_osc_doesnt_accept_msg"
+msgstr "Конверсиите не са възможни"
+
+msgid "chat_osc_head_grp_x_persons"
+msgstr "%s Потребители"
+
+#, fuzzy
+msgid "chat_osc_invite_to_conversation"
+msgstr "Добавяне към разговора"
+
+msgid "chat_osc_leave_grp_conv"
+msgstr "Остави разговора"
+
+#, fuzzy
+msgid "chat_osc_minimize"
+msgstr "Minimize"
+
+msgid "chat_osc_nc_conv_x_p"
+msgstr " Имате %s скрити разговори."
+
+msgid "chat_osc_nc_conv_x_s"
+msgstr "Имате един скрит разговор."
+
+msgid "chat_osc_nc_no_conv"
+msgstr "Няма налични разговори"
+
+#, fuzzy
+msgid "chat_osc_nc_prop_time"
+msgstr "Време"
+
+msgid "chat_osc_no_conv"
+msgstr "Няма разговори."
+
+#, fuzzy
+msgid "chat_osc_no_sub_directory"
+msgstr "Под-директория"
+
+msgid "chat_osc_no_sub_directory_info"
+msgstr "Ако чатсървърът е достъпен само чрез поддиректория с URL като \"http(s)://[IP/Domain]/[PATH]\", е необходимо да въведете [PATH] за този чатсървър."
+
+msgid "chat_osc_no_usr_found"
+msgstr "Не успях да намеря потребител, който да отговаря на търсенето ви."
+
+msgid "chat_osc_search_modal_info"
+msgstr "Тук можете да търсите потребители, които искате да добавите към даден разговор. Ако диалогът за търсене е отворен в групов чат, новият потребител ще бъде добавен към този чат. Ако сте започнали търсенето в чат 1:1, ще се отвори нов прозорец за групов чат."
+
+msgid "chat_osc_self_rej_msgs"
+msgstr "В момента не можете да участвате в този разговор, защото сте забранили получаването на съобщения в настройките си."
+
+#, fuzzy
+msgid "chat_osc_send"
+msgstr "Изпращане"
+
+#, fuzzy
+msgid "chat_osc_start_conversation"
+msgstr "Започване на разговор"
+
+msgid "chat_osc_subs_rej_msgs"
+msgstr "Понастоящем не е възможно да продължите този разговор. Вашият чат-партньор трябва да активира чатовете в настройките на чата."
+
+msgid "chat_osc_subs_rej_msgs_p"
+msgstr "Следващите чат партньори от вашия разговор не искат повече да получават съобщения: %s"
+
+msgid "chat_osc_sure_to_leave_grp_conv"
+msgstr "Със сигурност ли искате да напуснете груповия разговор?"
+
+#, fuzzy
+msgid "chat_osc_user"
+msgstr "Потребител"
+
+msgid "chat_osc_user_left_grp_conv"
+msgstr "Потребителят '%s' напусна груповия разговор."
+
+#, fuzzy
+msgid "chat_osc_write_a_msg"
+msgstr "Напишете съобщение ..."
+
+msgid "chat_select_room"
+msgstr "Избор на стая за чат"
+
+msgid "chat_settings"
+msgstr "Настройки на чата"
+
+#, fuzzy
+msgid "chat_settings_functions_header"
+msgstr "Chat Room Functions"
+
+#, fuzzy
+msgid "chat_show_auto_messages"
+msgstr "Show Status Messages"
+
+msgid "chat_to_mainroom"
+msgstr "До основната стая"
+
+#, fuzzy
+msgid "chat_use_osc"
+msgstr "Използване на услугата On-Screen-Chat"
+
+#, fuzzy
+msgid "chat_use_typing_broadcast"
+msgstr "Typing will be broadcasted"
+
+msgid "chat_user_action_invite_osd"
+msgstr "Покана за чат на екрана"
+
+msgid "chat_user_action_invite_public_room"
+msgstr "Покана за участие в публичен чат"
+
+#, fuzzy
+msgid "chat_user_x_is_typing"
+msgstr "User %s is typing ..."
+
+#, fuzzy
+msgid "chat_users_are_typing"
+msgstr "Multiple users are typing ..."
+
+#, fuzzy
+msgid "chat_whisper"
+msgstr "Шепот"
+
+#, fuzzy
+msgid "chatroom_anonymous_default"
+msgstr "Anonymous #"
+
+msgid "chatroom_auth"
+msgstr "Аутентикация"
+
+msgid "chatroom_auth_btn_txt"
+msgstr "Генериране на ключове"
+
+msgid "chatroom_auth_key"
+msgstr "Authentication-Key"
+
+msgid "chatroom_auth_secret"
+msgstr "Authentication-Secret"
+
+msgid "chatroom_client_name"
+msgstr "Име"
+
+msgid "chatroom_client_name_info"
+msgstr "Въведете име на този клиент на ILIAS. Въведеният низ трябва да е уникален в световен мащаб. Първоначално тази стойност е зададена като идентификатора на клиента на ILIAS. Ако се промени, сървърът за чат трябва да се рестартира."
+
+msgid "chatroom_enable_osc"
+msgstr "Активиране на екранния чат"
+
+msgid "chatroom_enable_osc_info"
+msgstr "Активира ли се, чатът на екрана ще бъде достъпен за всеки потребител. Но всеки потребител може да реши дали желае да се свързва с други потребители или не. Разговорите могат да бъдат започнати в блока \"Кой е онлайн?\"."
+
+msgid "chatroom_log"
+msgstr "Chatserver Log"
+
+msgid "chatserver_address"
+msgstr "IP-адрес на чатсървърите"
+
+msgid "chatserver_port"
+msgstr "Порт на чатсървърите"
+
+msgid "chtr_activation_limited_visibility_info"
+msgstr "Ако е маркирано, заглавието на чата ще бъде видимо дори извън зададената наличност. До чата обаче няма достъп."
+
+msgid "chtr_activation_online_info"
+msgstr "Настройте чата онлайн, за да го направите видим и достъпен за участниците. Ако не, достъп до него ще имат само потребителите с разрешение за \"Редактиране на настройките\"."
+
+msgid "chtr_add"
+msgstr "Добавяне на чат стая"
+
+#, fuzzy
+msgid "chtr_ban_actor_tbl_head"
+msgstr "заключен от"
+
+msgid "chtr_ban_ts_tbl_head"
+msgstr "Времеви отпечатък"
+
+msgid "chtr_new"
+msgstr "Нова чат стая"
+
+msgid "chtr_server_status"
+msgstr "Състояние на сървъра"
+
+msgid "clear_room_history"
+msgstr "Изтриване на историята на съобщенията"
+
+msgid "clear_room_history_question"
+msgstr " Наистина ли искате да изтриете всички съобщения от текущата стая?"
+
+msgid "client_chatserver_connection"
+msgstr "Свързване на клиент със сървър"
+
+msgid "client_proxy_info"
+msgstr "Ако сървърът не е достъпен с IP-адреса и порта по подразбиране, възможно е да конфигурирате потребителски URL адрес за връзка между клиента и сървъра."
+
+msgid "connection_url_info"
+msgstr "Вмъкнете URL адреса на връзката със сървъра."
+
+msgid "custom_username"
+msgstr "Подходящо потребителско име"
+
+msgid "dhparam"
+msgstr "Параметър на Дифи-Хелман"
+
+msgid "display_past_msgs"
+msgstr "Брой минали съобщения"
+
+#, fuzzy
+msgid "duration_from"
+msgstr "От"
+
+msgid "duration_to"
+msgstr "To"
+
+msgid "end_whisper"
+msgstr "Отмяна"
+
+msgid "enter"
+msgstr "Въвеждане на чат"
+
+msgid "error_log"
+msgstr "Chatserver Error-Log"
+
+msgid "hint_display_past_msgs"
+msgstr "Брой минали съобщения, които да се покажат, когато се влезе в стаята. Стойност \"0\" изключва тази функция."
+
+msgid "history_byday_title"
+msgstr "История по дни"
+
+msgid "history_cleared"
+msgstr "Историята на съобщението е изтрита от модератор."
+
+msgid "history_title_general"
+msgstr "Разговор в чат стая \"%s\""
+
+msgid "ilias_chatserver_connection"
+msgstr "ILIAS to Server Connection"
+
+msgid "ilias_proxy_info"
+msgstr "Ако сървърът не е достъпен с IP-адреса и порта по подразбиране, възможно е да конфигурирате потребителски URL адрес за връзка на ILIAS със сървъра."
+
+msgid "invite_to_private_room"
+msgstr "Покана към текущата стая"
+
+#, fuzzy
+msgid "invite_username"
+msgstr "Потребителско име"
+
+#, fuzzy
+msgid "key"
+msgstr "Ключ"
+
+msgid "kick_question"
+msgstr " Наистина ли искате да изгоните потребителя от текущата стая?"
+
+msgid "kicked"
+msgstr "Изхвърлени сте от тази чат стая"
+
+msgid "lost_connection"
+msgstr "Връзката с чатсървъра беше прекъсната."
+
+msgid "main"
+msgstr "Главна стая"
+
+#, fuzzy
+msgid "messages"
+msgstr "Messages"
+
+msgid "no_further_users"
+msgstr "Няма други потребители"
+
+msgid "no_messages"
+msgstr "Няма запазени съобщения за дадения период."
+
+msgid "no_username_given"
+msgstr "Моля, изберете потребителско име"
+
+msgid "osc_browser_noti_no_permission_error"
+msgstr "Моля, премахнете този домейн от списъка с блокирани домейни в настройките за уведомяване на вашия браузър или операционна система. В противен случай няма да можете да получавате известия от браузъра."
+
+msgid "osc_browser_noti_no_support_error"
+msgstr "Известията от браузъра не се поддържат във вашия браузър. Моля, уверете се, че заявявате ILIAS чрез HTTPS и използвате <a href=&quot;https://caniuse.com/#feat=notifications&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;>поддържан браузър</a>."
+
+msgid "osc_browser_noti_req_permission_error"
+msgstr "Известията в браузъра не могат да бъдат активирани, защото не сте предоставили достъп. Моля, премахнете този домейн от списъка с блокирани домейни в настройките за уведомяване на вашия браузър или операционна система."
+
+msgid "osc_enable_browser_notifications_info"
+msgstr "Ако е разрешено, ще се показва известие от браузъра, ако получавате нови съобщения и разговори, когато разделът на браузъра ILIAS е във фонов режим или ако браузърът е скрит. Също така ще получите известие от браузъра за нови съобщения в разговор след %s минута(и) бездействие, ако разделът ILIAS е на преден план."
+
+msgid "osc_enable_browser_notifications_label"
+msgstr "Известия от браузъра"
+
+msgid "osc_noti_title"
+msgstr "Ново съобщение в чата"
+
+#, fuzzy
+msgid "period"
+msgstr "Период"
+
+msgid "permissions"
+msgstr "Permissions"
+
+#, fuzzy
+msgid "preferred_chatname"
+msgstr "Preferred Name"
+
+msgid "public_chat_created"
+msgstr " Публичната чат стая е добавена към хранилището"
+
+#, fuzzy
+msgid "scope"
+msgstr "Стая/частна стая"
+
+msgid "select_custom_username"
+msgstr "Изберете потребителско име"
+
+msgid "server_further_information"
+msgstr "Подробна информация за конфигурацията на сървъра можете да намерите в <a href=&quot;%1$s&quot; target=&quot;_blank&quot;>файла readme</a>."
+
+#, fuzzy
+msgid "server_readme_file_btn_label"
+msgstr "Readme File"
+
+#, fuzzy
+msgid "session"
+msgstr "Сесия"
+
+#, fuzzy
+msgid "settings_general"
+msgstr "Общи"
+
+msgid "settings_title"
+msgstr "Настройки"
+
+#, fuzzy
+msgid "start_private_chat"
+msgstr "Start Private Chat"
+
+msgid "unable_to_connect"
+msgstr "Връзката с чатсървъра не може да бъде установена."
+
+#, fuzzy
+msgid "unban"
+msgstr "Отмяна на забраната"
+
+#, fuzzy
+msgid "user_banned"
+msgstr "The user #user# has been banned."
+
+msgid "user_in_ilias"
+msgstr "Издирване и покана на потребител от ILIAS"
+
+msgid "user_in_room"
+msgstr "Поканване на потребител от текущата чат стая"
+
+msgid "user_invited"
+msgstr "Потребителят <b>#user#</b> е поканен."
+
+msgid "user_invited_self"
+msgstr "<b>#user#</b> ви покани в чата <b>#room#</b>."
+
+msgid "user_kicked"
+msgstr "Потребителят <b>#user#</b> е изгонен."
+
+#, fuzzy
+msgid "users"
+msgstr "Потребители"
+
+msgid "welcome_to_chat"
+msgstr "Добре дошли в чата"
+
+#, fuzzy
+msgid "write_message"
+msgstr "New Message"

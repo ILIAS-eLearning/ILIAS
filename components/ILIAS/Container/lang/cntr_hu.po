@@ -1,0 +1,117 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: cntr\n"
+
+msgid "cntr_add_new_item"
+msgstr "Új objektum létrehozása"
+
+msgid "cntr_adopt_content"
+msgstr "Tartalom örökítése"
+
+msgid "cntr_container_only_on_their_own"
+msgstr "Egyszerű objektumonként csak kategóriák, kurzusok, csoportok, mappák, tanulási sorok, illetve képzési programok másolhatók. Csak egy elemet válasszon."
+
+msgid "cntr_copy_crs_grp"
+msgstr "Kurzusaim és csoportjaim"
+
+msgid "cntr_copy_repo_tree"
+msgstr "Tartalomtár"
+
+msgid "cntr_hide_title_and_icon"
+msgstr "Cím és ikon elrejtése"
+
+msgid "cntr_manage"
+msgstr "Kezelés"
+
+msgid "cntr_ordering"
+msgstr "Rendezés"
+
+msgid "cntr_saved_sorting"
+msgstr "Rendezés mentése sikerült"
+
+msgid "cntr_switch_to_new_editor_cmd"
+msgstr "Új tartalom kapcsolása ehhez a laphoz. A régi tartalom eltávolításra kerül."
+
+msgid "cntr_switch_to_new_editor_message"
+msgstr "Ez a támogatott szabványos szerkesztő. A régi szerkesztő tartalma nem hozható át. Lentebb vegyen fel új laptartalmat. Ha az alábbi linkre kattint, az új tartalom kerül használatra."
+
+msgid "cntr_switched_editor"
+msgstr "Új tartalomhoz kapcsolva."
+
+msgid "cntr_tax_none_available"
+msgstr "Nincsenek elérhető taxonómiák."
+
+msgid "cntr_tax_settings_info"
+msgstr "A kategóriákban lévő taxonómiák osztályozzák és szűrik a kategóriában lévő objektumokat. A taxonómiák hozzáadása után a besorolásokat a megfelelő objektumok ‘Metaadatok’ és ‘Taxonómia hozzárendelése’ allapjain lehet elvégezni. A taxonómiák emellett a kategória ‘Tartalom’ lapjának oldalsó blokkjában is megjeleníthetők, így lehetővé válik a hozzárendelt objektumok közvetlen szűrése is."
+
+msgid "cntr_taxonomy_definitions"
+msgstr "Taxonómia meghatározása"
+
+msgid "cntr_taxonomy_show_sideblock"
+msgstr "Taxonómiát mutassa az oldalblokkban"
+
+msgid "cntr_taxonomy_sideblock_settings"
+msgstr "Megjelenítési beállítások"
+
+msgid "cntr_text_media_editor"
+msgstr "Lap szerkesztése"
+
+msgid "cntr_view_by_type"
+msgstr "Típus szerint csoportosított nézet"
+
+msgid "cntr_view_info_by_type"
+msgstr "Az objektumokat típusuk alapján csoportosítva jelenítjük meg."
+
+msgid "cntr_view_info_sessions"
+msgstr "Először az eseményeket azok objektumaival, alatta pedig a további kurzustartalmakat jelenítjük meg."
+
+msgid "cntr_view_info_simple"
+msgstr "Az objektumokat nem csoportosítjuk, azokat egymás alatt jelenítjük meg."
+
+msgid "cntr_view_sessions"
+msgstr "Események nézete"
+
+msgid "cntr_view_simple"
+msgstr "Egyszerű nézet"
+
+msgid "container_import_zip_file_invalid"
+msgstr "A feltöltött fájl nem érvényes ILIAS-exportfájl. A mappaszerkezet feltöltéséhez használjon fájlobjektumot."
+
+msgid "edit_questions"
+msgstr "Kérdések módosítása"
+
+msgid "exc_next_deadline_single"
+msgstr "Határidő"
+
+msgid "msg_no_downloadable_objects"
+msgstr "Egy letölthető objektumot sem találtunk."
+
+msgid "objects_duplicated"
+msgstr "Objektumok átmásolva"
+
+msgid "prtf_create_portfolio_from_template"
+msgstr "Portfólió létrehozása sablonból"
+
+msgid "sorting_new_items_at_bottom"
+msgstr "Alulra"
+
+msgid "sorting_new_items_at_top"
+msgstr "Felülre"
+
+msgid "sorting_new_items_direction"
+msgstr "Új objektumok rendezési iránya"
+
+msgid "sorting_new_items_order"
+msgstr "Új objektumok rendezése"
+
+msgid "sorting_new_items_position"
+msgstr "Új objektumok pozíciója"
+
+msgid "tab_back_to_repository"
+msgstr "Vissza a Tartalomtárhoz"

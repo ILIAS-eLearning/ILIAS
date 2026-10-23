@@ -1,0 +1,177 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: jscalendar\n"
+
+msgid "about_calendar"
+msgstr ""
+
+msgid "about_calendar_long"
+msgstr ""
+
+msgid "about_time"
+msgstr ""
+
+msgid "day_first"
+msgstr ""
+
+msgid "def_date_format"
+msgstr ""
+
+msgid "drag_to_move"
+msgstr ""
+
+msgid "go_today"
+msgstr ""
+
+msgid "l_01"
+msgstr ""
+
+msgid "l_02"
+msgstr ""
+
+msgid "l_03"
+msgstr ""
+
+msgid "l_04"
+msgstr ""
+
+msgid "l_05"
+msgstr ""
+
+msgid "l_06"
+msgstr ""
+
+msgid "l_07"
+msgstr ""
+
+msgid "l_08"
+msgstr ""
+
+msgid "l_09"
+msgstr ""
+
+msgid "l_10"
+msgstr ""
+
+msgid "l_11"
+msgstr ""
+
+msgid "l_12"
+msgstr ""
+
+msgid "l_fr"
+msgstr ""
+
+msgid "l_mo"
+msgstr ""
+
+msgid "l_sa"
+msgstr ""
+
+msgid "l_su"
+msgstr ""
+
+msgid "l_th"
+msgstr ""
+
+msgid "l_tu"
+msgstr ""
+
+msgid "l_we"
+msgstr ""
+
+msgid "next_month"
+msgstr ""
+
+msgid "next_year"
+msgstr ""
+
+msgid "open_calendar"
+msgstr ""
+
+msgid "part_today"
+msgstr ""
+
+msgid "prev_month"
+msgstr ""
+
+msgid "prev_year"
+msgstr ""
+
+msgid "s_01"
+msgstr ""
+
+msgid "s_02"
+msgstr ""
+
+msgid "s_03"
+msgstr ""
+
+msgid "s_04"
+msgstr ""
+
+msgid "s_05"
+msgstr ""
+
+msgid "s_06"
+msgstr ""
+
+msgid "s_07"
+msgstr ""
+
+msgid "s_08"
+msgstr ""
+
+msgid "s_09"
+msgstr ""
+
+msgid "s_10"
+msgstr ""
+
+msgid "s_11"
+msgstr ""
+
+msgid "s_12"
+msgstr ""
+
+msgid "s_fr"
+msgstr ""
+
+msgid "s_mo"
+msgstr ""
+
+msgid "s_sa"
+msgstr ""
+
+msgid "s_su"
+msgstr ""
+
+msgid "s_th"
+msgstr ""
+
+msgid "s_tu"
+msgstr ""
+
+msgid "s_we"
+msgstr ""
+
+msgid "select_date"
+msgstr ""
+
+msgid "time"
+msgstr ""
+
+msgid "time_part"
+msgstr ""
+
+msgid "today"
+msgstr ""
+
+msgid "tt_date_format"
+msgstr ""
+
+msgid "wk"
+msgstr ""

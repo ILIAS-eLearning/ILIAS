@@ -1,0 +1,107 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: tr\n"
+"Language-Team: Turkish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: adve\n"
+
+#, fuzzy
+msgid "advanced_editing_excass_settings"
+msgstr "Exercise Assignments Settings"
+
+#, fuzzy
+msgid "advanced_editing_tst_editing"
+msgstr "Page Editor for additional question content"
+
+#, fuzzy
+msgid "advanced_editing_tst_editing_desc"
+msgstr "Aktivates ILIAS Page Eidotr for feedback and hint text editing."
+
+msgid "adve_activation"
+msgstr "Etkinleştirme"
+
+#, fuzzy
+msgid "adve_auto_url_linking"
+msgstr "URL Auto-Linking"
+
+#, fuzzy
+msgid "adve_auto_url_linking_info"
+msgstr "Tries to identify URLs like \"http://..\" in text paragraphs and automatically creates links around them."
+
+#, fuzzy
+msgid "adve_autosave"
+msgstr "Automatic Saving Intervall"
+
+#, fuzzy
+msgid "adve_autosave_info"
+msgstr "Auto-save for text content. With shorter intervals, the server load increases and the performance of the system decreases."
+
+#, fuzzy
+msgid "adve_autosave_info_min_10"
+msgstr "Please choose a value of minimal 10 seconds if you activated this feature."
+
+#, fuzzy
+msgid "adve_blocking_mode"
+msgstr "Edit Lock"
+
+#, fuzzy
+msgid "adve_excass_settings"
+msgstr "Exercise Assignments"
+
+#, fuzzy
+msgid "adve_grp_copa"
+msgstr "Content Pages"
+
+#, fuzzy
+msgid "adve_grp_frm"
+msgstr "Forums"
+
+msgid "adve_grp_glo"
+msgstr "Sözlükler"
+
+msgid "adve_grp_lm"
+msgstr "​​ILIAS Öğrenme Modüllleri"
+
+msgid "adve_grp_rep"
+msgstr "Depo Sayfaları"
+
+msgid "adve_grp_scorm"
+msgstr "SCORM Düzenleme"
+
+msgid "adve_grp_test"
+msgstr "Test ve Değerlendirme"
+
+msgid "adve_grp_wiki"
+msgstr "Wiki'ler"
+
+#, fuzzy
+msgid "adve_minutes"
+msgstr "Minutes"
+
+#, fuzzy
+msgid "adve_minutes_info"
+msgstr "Minutes of inactivity before an edit lock expires and a page can be edited by another user."
+
+msgid "adve_page_editor_settings"
+msgstr "ILIAS İçerik Düzenleyici"
+
+msgid "adve_pe_general"
+msgstr "Genel"
+
+msgid "adve_rte_settings"
+msgstr "TinyMCE Editör"
+
+msgid "adve_text_content_features"
+msgstr "Metin İçerik Menüsü"
+
+msgid "adve_use_physical"
+msgstr "str / emp / imp yerine b / i / u kullan"
+
+msgid "adve_use_physical_info"
+msgstr "Bu ayar anlamsal stil sınıfı butonları (strong,emphatic,important) yerine b (bold), i (italic) and u (underline) butonlarını koyar. Eğer stil editörü strong/emphatic/important stil sınıflarına atanmış başka fiziksel öznitelikler kullanıyorsa tutarsızlıklar oluşabilir."
+
+msgid "adve_use_tiny_mce"
+msgstr "WYSIWYG düzenleme için TinyMCE kullan"

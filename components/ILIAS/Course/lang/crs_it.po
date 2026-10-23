@@ -1,0 +1,1931 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: crs\n"
+
+msgid "activation_times_not_valid"
+msgstr "Il periodo di attivazione non è valido."
+
+msgid "assigned"
+msgstr "Assegnato"
+
+msgid "contact_email_not_valid"
+msgstr "l'indirizzo di posta del contatto non è valido."
+
+msgid "crs_accept_subscriber"
+msgstr "Iscrizione al corso \"%s\""
+
+msgid "crs_accept_subscriber_body"
+msgstr "Sei stato iscritto a questo corso."
+
+msgid "crs_access"
+msgstr "Accesso"
+
+msgid "crs_activate_notification"
+msgstr "Attiva notifica"
+
+msgid "crs_activation"
+msgstr "Attivazione"
+
+msgid "crs_activation_limited_visibility_info"
+msgstr "Se scelto, il corso è visibile anche al di fuori della data disponibilità."
+
+msgid "crs_activation_online_info"
+msgstr "Se offline, solo gli amministratori e i tutor dei corsi possono visualizzare e modificare il corso."
+
+msgid "crs_add_archive_html"
+msgstr "Crea archivio HTML"
+
+msgid "crs_add_archive_xml"
+msgstr "Crea archivio XML"
+
+msgid "crs_add_grouping"
+msgstr "Crea un gruppo di corsi"
+
+msgid "crs_add_html_archive"
+msgstr "Aggiungi archivio (HTML)"
+
+msgid "crs_add_objective"
+msgstr "Aggiungi obiettivo"
+
+msgid "crs_add_remove_from_desktop"
+msgstr "Aggiungi/rimuovi dal desktop"
+
+msgid "crs_add_remove_from_desktop_info"
+msgstr "Consenti ai membri di aggiungere elementi del corso al desktop personale."
+
+msgid "crs_add_starter"
+msgstr "Aggiungi oggetto di partenza"
+
+msgid "crs_add_to_group"
+msgstr "Aggiungi al gruppo"
+
+msgid "crs_added_member"
+msgstr "Utente iscritto"
+
+msgid "crs_added_member_body"
+msgstr "Sei stato iscritto a questo corso."
+
+msgid "crs_added_new_archive"
+msgstr "Aggiunto un nuovo archivio"
+
+msgid "crs_added_objective"
+msgstr "Nuovo obiettivo formativo aggiunto."
+
+msgid "crs_added_starters"
+msgstr "Oggetto(i) di partenza assegnato(i)."
+
+msgid "crs_added_to_list"
+msgstr "Sei stato aggiunto alla lista di attesa. Ti trovi al %s° posto nella lista di attesa."
+
+msgid "crs_admin"
+msgstr "Amministratore"
+
+msgid "crs_administrators"
+msgstr "Amministratori"
+
+msgid "crs_admission_link_failure_availability"
+msgstr "Impossibile registrarsi: Il corso non è online."
+
+msgid "crs_admission_link_failure_invalid_code"
+msgstr "Impossibile registrarsi: Il link non è valido."
+
+msgid "crs_admission_link_failure_membership_limited"
+msgstr "Impossibile registrarsi: l'iscrizione al corso è limitata."
+
+msgid "crs_admission_link_failure_offline"
+msgstr "Impossibile registrarsi: Il corso è offline."
+
+msgid "crs_admission_link_failure_registration_period"
+msgstr "Impossibile iscriversi: il corso non è in corso di registrazione."
+
+msgid "crs_admission_link_success_registration"
+msgstr "Registrato correttamente al corso \"%s\"."
+
+msgid "crs_agree"
+msgstr "Accettazione"
+
+msgid "crs_agreement_header"
+msgstr "Accordo con l’utente"
+
+msgid "crs_agreement_required"
+msgstr "Devi accettare questo user agreement se vuoi registrarti a questo corso."
+
+msgid "crs_at_least_one_admin"
+msgstr "Deve esserci almeno un amministratore del corso."
+
+msgid "crs_auto_notification"
+msgstr "Notifica per il nuovo membro"
+
+msgid "crs_auto_notification_info"
+msgstr "I nuovi membri riceveranno una mail dopo essere stati aggiunti al corso."
+
+msgid "crs_awrn_current_course"
+msgstr "Corso attuale"
+
+msgid "crs_awrn_current_course_info"
+msgstr "Se l'utente accede a un corso nel repository, sono elencati tutti i membri del corso."
+
+msgid "crs_awrn_support_contacts"
+msgstr "Supporto tutorial"
+
+msgid "crs_awrn_support_contacts_info"
+msgstr "Sono elencati tutti i contatti di supporto tutorial dei corsi con l’appartenenza dell’utente attuale. Gli utenti sono definiti come contatti supporto tutorial nella Scheda membri del rispettivo corso."
+
+msgid "crs_blocked"
+msgstr "Accesso negato"
+
+msgid "crs_blocked_member"
+msgstr "Stato delle iscrizioni al corso \"%s\""
+
+msgid "crs_blocked_member_body"
+msgstr "La tua iscrizione al corso \"%s\" non è più attiva."
+
+msgid "crs_breadcrumb_crs_only"
+msgstr "Start with Course"
+
+msgid "crs_breadcrumb_full_path"
+msgstr "Full Path"
+
+msgid "crs_cancel_subscr_request"
+msgstr "Cancella richiesta di membership"
+
+msgid "crs_cancel_subscription"
+msgstr "Cancellato dal corso \"%s\""
+
+msgid "crs_cancel_subscription_body"
+msgstr "%s ha annullato la sua iscrizione al corso \"%s\"."
+
+msgid "crs_cancel_subscription_body2"
+msgstr "Ci potrebbero essere altri membri in attesa per questo corso. Dovresti verificare la lista d'attesa. Per vedere i membri di questo corso clicca qui:"
+
+msgid "crs_cancellation_end"
+msgstr "Limite di cancellazione"
+
+msgid "crs_cancellation_end_info"
+msgstr "Da questa data in poi i partecipanti non potranno più annullare l'iscrizione."
+
+msgid "crs_cancellation_end_rbac_info"
+msgstr "La scadenza della cancellazione è stata soddisfatta su %s, non è più possibile una cancellazione."
+
+msgid "crs_cannot_find_role"
+msgstr "Non è possibile trovare questo ruolo."
+
+msgid "crs_cdf_edit_member"
+msgstr "Modifica dati utente relativi al corso"
+
+msgid "crs_cdf_tbl_last_edit"
+msgstr "Last Update (Course-specific Data)"
+
+msgid "crs_checklist_objective"
+msgstr "Obiettivo della lista di controllo"
+
+msgid "crs_contact"
+msgstr "Contatto"
+
+msgid "crs_contact_consultation"
+msgstr "Consultazione"
+
+msgid "crs_contact_email"
+msgstr "eMail"
+
+msgid "crs_contact_email_info"
+msgstr "Inserisci uno o più indirizzi eMail (separati da virgola)."
+
+msgid "crs_contact_name"
+msgstr "Nome"
+
+msgid "crs_contact_phone"
+msgstr "Telefono"
+
+msgid "crs_contact_responsibility"
+msgstr "Responsibilità"
+
+msgid "crs_content"
+msgstr "Contenuto del corso"
+
+msgid "crs_copy"
+msgstr "Copia corso"
+
+msgid "crs_course_group_notification_link"
+msgstr "Link:"
+
+msgid "crs_course_period_not_valid"
+msgstr "Il periodo del corso non è valido."
+
+msgid "crs_course_status_of_users"
+msgstr "Convalida dell'utente"
+
+msgid "crs_create_date"
+msgstr "Crea data"
+
+msgid "crs_custom_user_fields"
+msgstr "Dati utente relativi al corso"
+
+#, fuzzy
+msgid "crs_custom_user_fields_infobox"
+msgstr "Create additional data fields for course members to fill in when joining. You can show this information as an additional column in the \"Members\" tab."
+
+#, fuzzy
+msgid "crs_custom_user_fields_table_title"
+msgstr "Relevant User Data of This Course"
+
+msgid "crs_dates"
+msgstr "Scadenze"
+
+msgid "crs_deactivate_notification"
+msgstr "Disattiva notifica"
+
+msgid "crs_delete_objectve_sure"
+msgstr "Sei sicuro di voler eliminare i seguenti obiettivi?"
+
+msgid "crs_details"
+msgstr "Dettagli del corso"
+
+msgid "crs_dismiss_member"
+msgstr "Iscritti al corso \"%s\""
+
+msgid "crs_dismiss_member_body"
+msgstr "la tua iscrizione è stata chiusa nel corso \"%s\"."
+
+msgid "crs_edit_lo_introduction"
+msgstr "Modifica introduzione"
+
+msgid "crs_edit_timings"
+msgstr "Edita Tempi"
+
+msgid "crs_enable_map"
+msgstr "Attiva mappa dei corsi"
+
+msgid "crs_end"
+msgstr "Fine periodo"
+
+msgid "crs_export"
+msgstr "Esportazione corso"
+
+msgid "crs_file"
+msgstr "File"
+
+msgid "crs_file_download"
+msgstr "Files per Download"
+
+msgid "crs_file_name"
+msgstr "Nome file"
+
+msgid "crs_file_size_info"
+msgstr "Dimensione file"
+
+msgid "crs_from"
+msgstr "Da:"
+
+msgid "crs_general_info"
+msgstr "Informazioni generali"
+
+msgid "crs_general_informations"
+msgstr "Informazioni generali"
+
+msgid "crs_grouping_delete_sure"
+msgstr "Vuoi veramente eliminare il seguente gruppo di corsi?"
+
+msgid "crs_grouping_deleted"
+msgstr "Rimossi piani formativi."
+
+msgid "crs_grouping_select_one"
+msgstr "Scegli il gruppo di corsi."
+
+msgid "crs_groupings"
+msgstr "Gruppi di corsi"
+
+msgid "crs_groups_nr"
+msgstr "Numero di gruppi"
+
+msgid "crs_grp_added_grouping"
+msgstr "Aggiunta nuova limitazione all'utente."
+
+msgid "crs_grp_already_assigned"
+msgstr "Sei giàmembro di questo gruppo di corsi."
+
+msgid "crs_grp_assign_crs"
+msgstr "Assegna corso"
+
+msgid "crs_grp_assignments"
+msgstr "Assegnazioni dei membri del corso ai gruppi"
+
+msgid "crs_grp_enter_title"
+msgstr "Per favore inserisci un titolo."
+
+msgid "crs_grp_info_reg"
+msgstr "Puoi registrarti solamente ad uno dei seguenti piani formativi:"
+
+msgid "crs_grp_matriculation_required"
+msgstr "Questo gruppo di corsi richiede un numero di matricola univoco. <br />Inserisci questo valore tra le impostazioni del desktop personale."
+
+msgid "crs_grp_no_courses_assigned"
+msgstr "Non sono presenti corsi."
+
+msgid "crs_grp_table_assigned_courses"
+msgstr "Corsi assegnati"
+
+msgid "crs_header_archives"
+msgstr "Archivi del corso"
+
+msgid "crs_header_delete_members"
+msgstr "Cancella membri"
+
+msgid "crs_header_edit_members"
+msgstr "Modifica iscrizioni"
+
+msgid "crs_hide_all_obj"
+msgstr "Comprimi tutto"
+
+msgid "crs_html"
+msgstr "HTML"
+
+msgid "crs_import"
+msgstr "Importa corso"
+
+msgid "crs_important_info"
+msgstr "Informazioni importanti"
+
+msgid "crs_info_agree"
+msgstr "Consento la visibilità di questi tipi di dati da parte degli amministratori del corso."
+
+msgid "crs_info_agreement"
+msgstr "I seguenti  tipi di dati sono visibili agli amministratori del corso:"
+
+msgid "crs_info_download"
+msgstr "File per download"
+
+msgid "crs_info_reg"
+msgstr "Ammissione"
+
+msgid "crs_info_reg_confirmation"
+msgstr "L'iscrizione a questo corso è vincolata all'accettazione dell'amministratore. Riceverai un messaggio quando l'iscrizione verrà confermata."
+
+msgid "crs_info_reg_deactivated"
+msgstr "Non è possibile iscriversi"
+
+msgid "crs_info_reg_direct"
+msgstr "Puoi iscriverti direttamente a questo corso."
+
+msgid "crs_info_reg_password"
+msgstr "Per l'iscrizione occorre una password valida."
+
+msgid "crs_info_settings"
+msgstr "Informazioni sul corso"
+
+msgid "crs_info_start"
+msgstr "Per favore lavora con tutti gli elementi del corso iniziato evidenziati. <br />Una volta che avrai terminato tutti gli oggetti marcati di rosso, gli elementi del nuovo corso saranno disponibili."
+
+msgid "crs_intro_course_group_notification_for"
+msgstr "Questo è il riassunto giornaliero  delle notizie per: %s"
+
+msgid "crs_intro_course_group_notification_index"
+msgstr "Ci sono notizie per il periodo di %1$s a %2$s per i seguenti corsi e gruppi:"
+
+msgid "crs_item_presetting_info"
+msgstr "Scegli questa opzione per suggerire agli utenti tempi di esecuzione"
+
+msgid "crs_join_request"
+msgstr "Invia"
+
+msgid "crs_lhist_objective_completed"
+msgstr "Masterizzato $3$ in $1$."
+
+msgid "crs_lim_assigned"
+msgstr "gia assegnato a corsi \"%s\"."
+
+msgid "crs_link_hide_next_sessions"
+msgstr "Nascondi prossime sessioni"
+
+msgid "crs_link_hide_prev_sessions"
+msgstr "Nascondi sessioni precedenti"
+
+msgid "crs_link_show_all_next_sessions"
+msgstr "Mostra le prossime sessioni in arrivo"
+
+msgid "crs_link_show_all_prev_sessions"
+msgstr "Mostra tutte le sessioni precedenti"
+
+msgid "crs_lobj_pm_min_goal"
+msgstr "Punteggio richiesto"
+
+msgid "crs_lobj_pm_score"
+msgstr "Il tuo risultato"
+
+msgid "crs_loc_btn_new_assignment"
+msgstr "Nuovo compito di prova"
+
+msgid "crs_loc_confirm_delete_tst"
+msgstr "Vuoi davvero togliere l’assegnazione del test di questo corso orientato all’obiettivo dell’apprendimento?"
+
+msgid "crs_loc_delete_assignment"
+msgstr "Elimina assegnazione"
+
+msgid "crs_loc_err_no_active_it"
+msgstr "Obiettivi di apprendimento senza test iniziale"
+
+msgid "crs_loc_err_no_active_lo"
+msgstr "Nessun obiettivo dell’apprendimento attivo"
+
+msgid "crs_loc_err_no_active_mat"
+msgstr "Obiettivi di apprendimento senza materiali"
+
+msgid "crs_loc_err_no_active_qst"
+msgstr "Obiettivi senza domande"
+
+msgid "crs_loc_err_no_active_qt"
+msgstr "Obiettivi di apprendimento senza test di qualificazione"
+
+msgid "crs_loc_err_nr_tries_exceeded"
+msgstr "Il numero di passaggi per obiettivo supera il numero possibile di passaggi del test di qualificazione."
+
+msgid "crs_loc_err_stat_no_it"
+msgstr "Nessun test iniziale disponibile"
+
+msgid "crs_loc_err_stat_no_materials"
+msgstr "Nessun materiale del corso disponibile"
+
+msgid "crs_loc_err_stat_no_qt"
+msgstr "Nessun test di qualificazione disponibile"
+
+msgid "crs_loc_err_stat_tst_offline"
+msgstr "Non tutti i test sono online."
+
+msgid "crs_loc_form_assign"
+msgstr "Utilizza test esistente"
+
+msgid "crs_loc_form_assign_initial_info"
+msgstr "Seleziona un test da questo corso per fungere da test di posizionamento"
+
+msgid "crs_loc_form_assign_it"
+msgstr "Assegnazione del test"
+
+msgid "crs_loc_form_assign_qualified_info"
+msgstr "--"
+
+msgid "crs_loc_form_available_tsts"
+msgstr "Test disponibili"
+
+msgid "crs_loc_form_create_objectives"
+msgstr "Crea obiettivi dell’apprendimento"
+
+msgid "crs_loc_form_random_limits_it"
+msgstr "Definisci le domande del test iniziale"
+
+msgid "crs_loc_form_random_limits_qt"
+msgstr "Definisci le domande del test di qualificazione"
+
+msgid "crs_loc_form_tst_new"
+msgstr "Crea nuovo test"
+
+msgid "crs_loc_form_tst_new_initial_info"
+msgstr "Crea un nuovo test da utilizzare come test di posizionamento"
+
+msgid "crs_loc_form_tst_new_qualified_info"
+msgstr "--"
+
+msgid "crs_loc_itest_info"
+msgstr "Test iniziale"
+
+msgid "crs_loc_itst_for_objective"
+msgstr "Test iniziale \"%1$s\""
+
+msgid "crs_loc_learning_objective"
+msgstr "Obiettivo dell’apprendimento"
+
+msgid "crs_loc_mem_show_res"
+msgstr "Visualizza i risultati del test"
+
+msgid "crs_loc_num_qst"
+msgstr "Numero delle domande"
+
+msgid "crs_loc_objective_passed_confirmation"
+msgstr "Hai già superato l'obiettivo di apprendimento. Riavviare il test ripristinerà i risultati. Vuoi ricominciare il test?"
+
+msgid "crs_loc_objectives_passed_confirmation"
+msgstr "Hai già superato tutti gli obiettivi di apprendimento. Riavviare il test ripristinerà i risultati. Vuoi ricominciare il test?"
+
+msgid "crs_loc_passes_info"
+msgstr "Numero massimo dei passaggi del test"
+
+msgid "crs_loc_passes_left"
+msgstr "Rimanente numero massimo dei passaggi del test"
+
+msgid "crs_loc_passes_reached"
+msgstr "Non sono possibili ulteriori test"
+
+msgid "crs_loc_perc"
+msgstr "Percentuale di punti richiesta"
+
+msgid "crs_loc_progress_do_qualifying"
+msgstr "Si prega di sostenere il test di qualificazione."
+
+msgid "crs_loc_progress_do_qualifying_again"
+msgstr "Si prega di lavorare nuovamente attraverso i materiali didattici."
+
+msgid "crs_loc_progress_no_result_do_initial"
+msgstr "Si prega di accettare il test iniziale."
+
+msgid "crs_loc_progress_no_result_no_initial"
+msgstr "Si prega di lavorare attraverso i seguenti materiali didattici e poi accettare il test di qualificazione."
+
+msgid "crs_loc_progress_objective_complete"
+msgstr "Hai completato l’obiettivo dell’apprendimento."
+
+msgid "crs_loc_progress_result_itest"
+msgstr "Risultato del test iniziale"
+
+msgid "crs_loc_progress_result_qtest"
+msgstr "Risultato"
+
+msgid "crs_loc_qst_resume_tst_itest"
+msgstr "I test d'ingresso per diversi obiettivi di apprendimento non devono essere avviati in parallelo. Hai già iniziato un test d'ingresso per un obiettivo di apprendimento. Continua questo vecchio test o avvia un nuovo test."
+
+msgid "crs_loc_qst_resume_tst_qtest"
+msgstr "I test di qualificazione per diversi obiettivi di apprendimento non devono essere avviati in parallelo. Hai già iniziato un test di qualificazione per un obiettivo di apprendimento. Continua questo vecchio test o avvia un nuovo test."
+
+msgid "crs_loc_qtest_info"
+msgstr "Test qualificato"
+
+msgid "crs_loc_qtst_for_objective"
+msgstr "Test di qualificazione \"%1$s\""
+
+msgid "crs_loc_rand_assign_qpl"
+msgstr "Modulo di assegnazione del gruppo di domande"
+
+msgid "crs_loc_rand_qpl"
+msgstr "Gruppi di domande disponibili"
+
+msgid "crs_loc_settings_err_qstart"
+msgstr "L'opzione \"Test finale come oggetto iniziale\" \"è stata disattivata perché può essere utilizzata solo per i corsi senza un test iniziale.\""
+
+msgid "crs_loc_settings_it_start_object"
+msgstr "Il test di ingresso è oggetto di avvio"
+
+msgid "crs_loc_settings_it_type"
+msgstr "test d'ingresso"
+
+msgid "crs_loc_settings_itest_tbl"
+msgstr "Impostazioni per test iniziale"
+
+msgid "crs_loc_settings_passed_mode"
+msgstr "Obiettivi di apprendimento superati"
+
+msgid "crs_loc_settings_passed_mode_hide"
+msgstr "Le domande di prova sugli obiettivi di apprendimento passati sono nascoste"
+
+msgid "crs_loc_settings_passed_mode_mark"
+msgstr "Le domande di prova per gli obiettivi di apprendimento superati sono contrassegnate"
+
+msgid "crs_loc_settings_qt_all"
+msgstr "Prova Finale"
+
+msgid "crs_loc_settings_qt_start_object"
+msgstr "Il test finale è l'oggetto iniziale"
+
+msgid "crs_loc_settings_qtest_tbl"
+msgstr "Impostazioni per il test d'ingresso"
+
+msgid "crs_loc_settings_reset"
+msgstr "i risultati dei test"
+
+msgid "crs_loc_settings_reset_enable"
+msgstr "Consenti \"Ripristina risultato del test\""
+
+msgid "crs_loc_settings_reset_enable_info"
+msgstr "Se attivato, tutti gli utenti hanno la possibilità di ripristinare i risultati dei singoli test."
+
+msgid "crs_loc_settings_tbl"
+msgstr "Impostazioni per il corso orientato agli obiettivi di apprendimento"
+
+msgid "crs_loc_settings_tbl_it_nq"
+msgstr "Test di accesso diagnostico per obiettivo di apprendimento"
+
+msgid "crs_loc_settings_tbl_it_q"
+msgstr "Test di ammissione qualificati per ciascun obiettivo di apprendimento"
+
+msgid "crs_loc_settings_tbl_its_nq_all"
+msgstr "Test di accesso diagnostico per obiettivo di apprendimento"
+
+msgid "crs_loc_settings_tbl_its_q_all"
+msgstr "Test d'ingresso idoneo per tutti gli obiettivi di apprendimento"
+
+msgid "crs_loc_settings_tbl_qt"
+msgstr "Test finali per obiettivo di apprendimento"
+
+msgid "crs_loc_settings_tbl_qts_all"
+msgstr "Test finale di tutti gli obiettivi di apprendimento"
+
+msgid "crs_loc_settings_type_it_none"
+msgstr "Nessun test d'ingresso"
+
+msgid "crs_loc_settings_type_it_none_info"
+msgstr "Nessun test di posizionamento"
+
+msgid "crs_loc_settings_type_it_placement_all"
+msgstr "Test di accesso diagnostico per obiettivo di apprendimento"
+
+msgid "crs_loc_settings_type_it_placement_all_info"
+msgstr "Test di posizionamento su tutti gli obiettivi di apprendimento"
+
+msgid "crs_loc_settings_type_it_placement_sel"
+msgstr "Test di accesso diagnostico per obiettivo di apprendimento"
+
+msgid "crs_loc_settings_type_it_placement_sel_info"
+msgstr "Test di posizionamento per singolo obiettivo di apprendimento"
+
+msgid "crs_loc_settings_type_it_qualifying_all"
+msgstr "Test d'ingresso idoneo per tutti gli obiettivi di apprendimento"
+
+msgid "crs_loc_settings_type_it_qualifying_all_info"
+msgstr "Test di conseguimento su tutti gli obiettivi di apprendimento"
+
+msgid "crs_loc_settings_type_it_qualifying_sel"
+msgstr "Test d'ingresso idoneo per ciascun obiettivo di apprendimento"
+
+msgid "crs_loc_settings_type_it_qualifying_sel_info"
+msgstr "Test di raggiungimento per singolo obiettivo di apprendimento"
+
+msgid "crs_loc_settings_type_q_all"
+msgstr "Test finale di tutti gli obiettivi di apprendimento"
+
+msgid "crs_loc_settings_type_q_all_info"
+msgstr "Test di conseguimento su tutti gli obiettivi di apprendimento"
+
+msgid "crs_loc_settings_type_q_selected"
+msgstr "Test finale per obiettivo di apprendimento"
+
+msgid "crs_loc_settings_type_q_selected_info"
+msgstr "Test di raggiungimento per singolo obiettivo di apprendimento"
+
+msgid "crs_loc_subtab_creation"
+msgstr "Crea"
+
+msgid "crs_loc_suggested"
+msgstr "Si prega di lavorare attraverso i seguenti materiali didattici."
+
+msgid "crs_loc_tab_itest"
+msgstr "Test iniziale"
+
+msgid "crs_loc_tab_itests"
+msgstr "test di ingresso"
+
+msgid "crs_loc_tab_materials"
+msgstr "Materia"
+
+msgid "crs_loc_tab_objectives"
+msgstr "Obiettivi dell’apprendimento"
+
+msgid "crs_loc_tab_qtest"
+msgstr "Test di qualificazione"
+
+msgid "crs_loc_tab_qtests"
+msgstr "Test Finali"
+
+msgid "crs_loc_tab_start"
+msgstr "Avvia obiettivi"
+
+msgid "crs_loc_tbl_tst_qst_qpl"
+msgstr "Domande/Gruppi di domande"
+
+msgid "crs_loc_tbl_tst_type"
+msgstr "Modalità di prova"
+
+msgid "crs_loc_test_results_of"
+msgstr "Risultati del test da:"
+
+msgid "crs_loc_tst_assignment"
+msgstr "Assegnazione del test"
+
+msgid "crs_loc_tst_new_run"
+msgstr "Inizia una nuova prova"
+
+msgid "crs_loc_tst_num_qst"
+msgstr "Numero delle domande:"
+
+msgid "crs_loc_tst_qpls"
+msgstr "Gruppi di domande disponibili:"
+
+msgid "crs_loc_tst_resume"
+msgstr "Continua l'esecuzione del test"
+
+msgid "crs_loc_tst_start"
+msgstr "Test starten"
+
+msgid "crs_loc_tt_info"
+msgstr "Hai raggiunto %1$d%%. Il test è superato con %2$d%%."
+
+msgid "crs_loc_type_initial_all_info"
+msgstr "todo"
+
+msgid "crs_loc_type_qualified_info"
+msgstr "todo"
+
+msgid "crs_mail_all"
+msgstr "Per tutti i partecipanti"
+
+msgid "crs_mail_all_info"
+msgstr "Membri, amministratori e tutor possono utilizzare la funzione \"Invia ai membri\" nella scheda \"Membri\"."
+
+msgid "crs_mail_context_member_info"
+msgstr "Per le e-mail di contatto nella schermata informativa di un corso"
+
+msgid "crs_mail_context_member_title"
+msgstr "Membro del corso"
+
+msgid "crs_mail_context_tutor_info"
+msgstr "Per i partecipanti e-mail sulle schermate membro e stato di avanzamento di un corso"
+
+msgid "crs_mail_context_tutor_title"
+msgstr "Tutor del corso"
+
+msgid "crs_mail_permanent_link"
+msgstr "Segli il link seguente per accedere a contenuto del corso:"
+
+msgid "crs_mail_tutors_only"
+msgstr "Solo per tutor e amministratori"
+
+msgid "crs_mail_tutors_only_info"
+msgstr "Solo gli amministratori e i tutor possono utilizzare la funzione \"Invia ai membri\" nella scheda \"Membri\"."
+
+msgid "crs_mail_type"
+msgstr "Mail per i membri"
+
+msgid "crs_map_location"
+msgstr "Mappa Località del corso"
+
+msgid "crs_map_settings"
+msgstr "Impostazioni della mappa"
+
+msgid "crs_materials"
+msgstr "Materiali del corso"
+
+msgid "crs_max_and_min_members_invalid"
+msgstr "Il numero minimo deve essere minore del numero massimo dei membri."
+
+msgid "crs_max_and_min_members_needed"
+msgstr "Seleziona un numero minimo o massimo dei membri - o entrambi."
+
+msgid "crs_max_members_needed"
+msgstr "Per la funzionalità della lista di attesta è necessario un numero massimo dei membri."
+
+msgid "crs_max_members_reached"
+msgstr "E' stato raggiunto il numero massimo di iscritti"
+
+msgid "crs_mem_contact"
+msgstr "Support Contact"
+
+msgid "crs_mem_contacts"
+msgstr "Support Contacts"
+
+msgid "crs_mem_send_mail"
+msgstr "Invia eMail"
+
+msgid "crs_mem_tbl_header"
+msgstr "Partecipanti al corso"
+
+msgid "crs_member"
+msgstr "Iscritti"
+
+msgid "crs_member_administration"
+msgstr "Edita Partcipanti"
+
+msgid "crs_member_passed_status_changed"
+msgstr "Stato superato modificato"
+
+msgid "crs_members"
+msgstr "Membri"
+
+msgid "crs_members_deleted"
+msgstr "Eliminati iscritti"
+
+msgid "crs_members_groups"
+msgstr "Gruppi dei membri del corso"
+
+msgid "crs_members_map"
+msgstr "Mappa dei membri del corso"
+
+msgid "crs_members_print_title"
+msgstr "Iscritti al corso"
+
+msgid "crs_min_one_admin"
+msgstr "Deve essere assegnato almeno un amministratore a questo corso."
+
+#, fuzzy
+msgid "crs_msg_no_self_registration_period_if_self_enrolment_disabled"
+msgstr "The limited registration period can not be defined if the \"No Self-enrolment\" setting is active."
+
+#, fuzzy
+msgid "crs_my_courses_groups_enabled"
+msgstr "My Courses and Groups"
+
+#, fuzzy
+msgid "crs_my_courses_groups_enabled_info"
+msgstr "If activated, the section 'My Courses and Groups' is visible."
+
+msgid "crs_new_status"
+msgstr "Il tuo nuovo status e':"
+
+msgid "crs_new_subscription"
+msgstr "Nuova iscrizione al corso \"%s\""
+
+msgid "crs_new_subscription_body"
+msgstr "%s è registrato per il corso \"%s\"."
+
+msgid "crs_new_subscription_request"
+msgstr "Richiesta di iscrizione al corso \"%s\""
+
+msgid "crs_new_subscription_request_body"
+msgstr "Un utente ha richiesto di iscriversi al corso &"
+
+msgid "crs_new_subscription_request_body2"
+msgstr "Devi contattare l'amministratore per l'accettazione della richiesta"
+
+msgid "crs_news"
+msgstr "News del corso"
+
+msgid "crs_no_archive_selected"
+msgstr "Nessun archivio è stato scelto"
+
+msgid "crs_no_archives_selected"
+msgstr "Per favore scegli un archivio"
+
+msgid "crs_no_notify"
+msgstr "Nessuna notifica per nuove registrazioni"
+
+msgid "crs_no_objective_lms_found"
+msgstr "Questo corso non contiene materiali"
+
+msgid "crs_no_objective_selected"
+msgstr "Scegli un obiettivo formativo."
+
+msgid "crs_no_objectives_created"
+msgstr "Non ci sono obiettivi formativi."
+
+msgid "crs_no_subscribers_selected"
+msgstr "Per favore scegli un utente"
+
+msgid "crs_no_users_added"
+msgstr "Nessun membro aggiunto"
+
+msgid "crs_no_users_selected"
+msgstr "Non hai scelto alcun utente"
+
+msgid "crs_not_available"
+msgstr "-Non disponibile-"
+
+msgid "crs_notification"
+msgstr "Notifiche"
+
+msgid "crs_notification_activated"
+msgstr "Notifica attivata"
+
+msgid "crs_notification_deactivated"
+msgstr "Notifica disattivata"
+
+msgid "crs_notification_explanation_admin"
+msgstr "Ricevi questa email perché sei un amministratore o un tutor di corso con le notifiche abilitate."
+
+msgid "crs_notification_list_title"
+msgstr "Notifica sui nuovi membri"
+
+msgid "crs_notification_salutation"
+msgstr "Caro partecipante al corso,"
+
+msgid "crs_notify"
+msgstr "Notifica per nuova registrazione"
+
+msgid "crs_nr"
+msgstr "Numero"
+
+msgid "crs_number_users_added"
+msgstr "Il seguente numero di utenti è stato assegnato al corso:"
+
+msgid "crs_obj_final_req_info"
+msgstr "Se è stato raggiunto questo numero di punti, l'oiettivo didattico è stat ottenuto ."
+
+msgid "crs_obj_initial_req_info"
+msgstr "Se è stato raggiunto questo numero di punti, non sarà raccomandato ulteriore materiale didattico per l'editing"
+
+msgid "crs_obj_required_points"
+msgstr "Punti richiesti"
+
+msgid "crs_objective_accomplished"
+msgstr "Eseguito"
+
+msgid "crs_objective_action_itest"
+msgstr "Test iniziale di assegnazione delle domande"
+
+msgid "crs_objective_action_materials"
+msgstr "Assegnazione materiale"
+
+msgid "crs_objective_action_qtest"
+msgstr "Qualifica assegnazione domanda"
+
+msgid "crs_objective_action_qtest_sep"
+msgstr "Assegna il test finale"
+
+msgid "crs_objective_add_mat"
+msgstr "Assegna materiali"
+
+msgid "crs_objective_all_points"
+msgstr "Punteggio totale"
+
+msgid "crs_objective_assigned_materials"
+msgstr "Materiale didattico assegnato"
+
+msgid "crs_objective_err_limit"
+msgstr "Inserisci punti tra %s e %s."
+
+msgid "crs_objective_final_test"
+msgstr "Test finale"
+
+msgid "crs_objective_limit_err"
+msgstr "Il punteggio richiesto non dovrebbe essere superiore al punteggio totale."
+
+msgid "crs_objective_modified"
+msgstr "Aggiorna obiettivo formativo"
+
+msgid "crs_objective_not_accomplished"
+msgstr "Non completato"
+
+msgid "crs_objective_overview_objectives"
+msgstr "Visualizzazione obiettivi"
+
+msgid "crs_objective_overview_question_assignment"
+msgstr "Elenco assegnazione domande"
+
+msgid "crs_objective_points"
+msgstr "Punti"
+
+msgid "crs_objective_pretest"
+msgstr "Test di ingresso"
+
+msgid "crs_objective_qst_summary"
+msgstr "Visualizzazione assegnazione domande"
+
+msgid "crs_objective_random_warn"
+msgstr "Non puoi usare test random in combinazione con obiettivi di apprendimento."
+
+msgid "crs_objective_result"
+msgstr "Risultati"
+
+msgid "crs_objective_result_details"
+msgstr "« Show Details"
+
+msgid "crs_objective_result_summary_initial"
+msgstr "Placement Test: %1$s (%2$s required)"
+
+msgid "crs_objective_result_summary_qualifying"
+msgstr "Achievement Test: %1$s (%2$s required)"
+
+msgid "crs_objective_saved_sorting"
+msgstr "Ordinamento salvato."
+
+msgid "crs_objective_self_assessment"
+msgstr "Test iniziale"
+
+msgid "crs_objective_status"
+msgstr "Stato obiettivo"
+
+msgid "crs_objective_status_configure"
+msgstr "Configurare il corso orientato all'apprendimento degli obiettivi"
+
+msgid "crs_objective_status_itest"
+msgstr "Configura test iniziale"
+
+msgid "crs_objective_status_materials"
+msgstr "Crea nuovi materiali del corso"
+
+#, fuzzy
+msgid "crs_objective_status_materials_info"
+msgstr "The course is currently empty. Add course materials that can be assigned to learning objectives."
+
+msgid "crs_objective_status_objective_creation"
+msgstr "Crea obiettivo dell’apprendimento"
+
+msgid "crs_objective_status_objectives"
+msgstr "Configura obiettivi di apprendimento"
+
+msgid "crs_objective_status_qtest"
+msgstr "Configura test di qualificazione"
+
+msgid "crs_objective_status_settings"
+msgstr "Impostazioni corso"
+
+msgid "crs_objective_tbl_col_final_tsts"
+msgstr "Test Finali"
+
+msgid "crs_objective_wiz_final"
+msgstr "Domande del test finale"
+
+msgid "crs_objective_wiz_final_info"
+msgstr "Assegnazione delle domande finali del test."
+
+msgid "crs_objective_wiz_final_limit"
+msgstr "Limiti per il test finale"
+
+msgid "crs_objective_wiz_materials"
+msgstr "Assegnazione di materiale del corso"
+
+msgid "crs_objective_wiz_materials_info"
+msgstr "Puoi assegnare materiali raccomandati per gli obiettivi formativi."
+
+msgid "crs_objective_wiz_self"
+msgstr "Domande del test iniziale"
+
+msgid "crs_objective_wiz_self_limit"
+msgstr "Limiti per il test iniziale"
+
+msgid "crs_objective_wiz_self_limit_info"
+msgstr "Definisci i limiti per il test iniziale."
+
+msgid "crs_objective_wiz_title"
+msgstr "Descrizione degli obiettivi didattici"
+
+msgid "crs_objective_wiz_title_info"
+msgstr "Definisci un titolo ed una breve descrizione dell'obiettivo formativo."
+
+msgid "crs_objectives"
+msgstr "Obiettivi formativi"
+
+msgid "crs_objectives_assigned_lm"
+msgstr "Il materiale formativo selezionato è stato assegnato."
+
+msgid "crs_objectives_deleted"
+msgstr "Obiettivi formativi eliminati"
+
+msgid "crs_objectives_edit_question_assignments"
+msgstr "Modifica assegnazione domande"
+
+msgid "crs_objectives_reset_sure"
+msgstr "Hai deciso di eliminare tutti i risultati di questo corso. Tutti i risultati del test saranno eliminati."
+
+msgid "crs_objectives_reseted"
+msgstr "Risultati eliminati."
+
+msgid "crs_open"
+msgstr "Apri corso"
+
+msgid "crs_other_resources"
+msgstr "Altre risorse"
+
+msgid "crs_page_type_lobj"
+msgstr "Pagina Obiettivo di apprendimento"
+
+msgid "crs_passed"
+msgstr "Superato"
+
+msgid "crs_passed_status_manual_by"
+msgstr "Manuale da"
+
+msgid "crs_passed_status_system"
+msgstr "Sistema"
+
+msgid "crs_password_not_valid"
+msgstr "La tua password non è valida"
+
+msgid "crs_password_required"
+msgstr "La procedura di registrazione richiede una password."
+
+msgid "crs_pdf"
+msgstr "PDF"
+
+msgid "crs_period"
+msgstr "Periodo del corso"
+
+msgid "crs_period_end_mail_placeholder"
+msgstr "Period End"
+
+msgid "crs_period_info"
+msgstr "Inizia alla fine del corso"
+
+msgid "crs_period_start_mail_placeholder"
+msgstr "Period Start"
+
+msgid "crs_presentation_type"
+msgstr "Tipo di presentazione"
+
+msgid "crs_print_list"
+msgstr "Stampa elenco"
+
+msgid "crs_ref_delete_confirmation_info"
+msgstr "Would you like to remove the following members from this course? If these members are to be removed from courses linked into this course, please activate the respective checkboxes."
+
+msgid "crs_ref_member_update"
+msgstr "Neue Mitglieder hinzufügen"
+
+msgid "crs_ref_member_update_info"
+msgstr "Alle neuen Mitglieder des übergeordneten Kurses werden automatisch in den Kurs, auf den dieser Kurs-Link verweist, eingetragen."
+
+msgid "crs_ref_missing_access"
+msgstr "Die Option kann nicht ausgewählt werden, da Sie nicht die Berechtigung \"Mitglieder verwalten\" für beide Kurse besitzen."
+
+msgid "crs_ref_missing_parent_crs"
+msgstr "Die Option kann nicht ausgewählt werden, da dieser Kurs-Link keinen übergeordneten Kurs besitzt."
+
+msgid "crs_reg"
+msgstr "impostazioni di registrazione"
+
+msgid "crs_reg_code"
+msgstr "Codice di registrazione"
+
+msgid "crs_reg_code_enabled_info"
+msgstr "Se abilitato, è possibile una registrazione automatica utilizzando un collegamento di registrazione particolare."
+
+msgid "crs_reg_code_link"
+msgstr "Link di registrazione"
+
+msgid "crs_reg_max_info"
+msgstr "Definisci il numero massimo di utenti che può essere assegnato a questo corso"
+
+msgid "crs_reg_no_selfreg"
+msgstr "Nessuna iscrizione automatica"
+
+msgid "crs_reg_password_info"
+msgstr "Gli utenti devono digitare questa password quando si uniscono al corso."
+
+#, fuzzy
+msgid "crs_reg_selfreg"
+msgstr "Self-Enrolment"
+
+msgid "crs_reg_subject"
+msgstr "Messaggio"
+
+msgid "crs_reg_until"
+msgstr "Scadenza registrazione"
+
+msgid "crs_reg_user_already_subscribed"
+msgstr "Hai già richiesto l'iscrizione a questo corso"
+
+msgid "crs_registration"
+msgstr "Registarazione al corso"
+
+msgid "crs_registration_confirmation_info"
+msgstr "Gli utenti interessati possono inviare una richiesta/un messaggio all’amministratore del corso."
+
+msgid "crs_registration_deactivated"
+msgstr "Solo gli amministratori del corso possono aggiungere utenti al corso."
+
+msgid "crs_registration_limited"
+msgstr "Registrazione limitata nel tempo"
+
+msgid "crs_registration_limited_info"
+msgstr "I membri possono registrarsi solo per questo corso durante un determinato periodo di tempo."
+
+msgid "crs_registration_period"
+msgstr "Periodo"
+
+msgid "crs_registration_type"
+msgstr "Tipo di registrazione"
+
+msgid "crs_reject_subscriber"
+msgstr "Rifiutato al corso \"%s\""
+
+msgid "crs_reject_subscriber_body"
+msgstr "La tua richiesta di iscrizione é stata rifiutata."
+
+msgid "crs_reset_results"
+msgstr "Risultati azzerati"
+
+msgid "crs_role_status"
+msgstr "Ruolo/Stato"
+
+msgid "crs_search_users"
+msgstr "Cerca Utenti"
+
+msgid "crs_select_archive_language"
+msgstr "Per favore scegli una lingua per l'archivio"
+
+msgid "crs_select_one_archive"
+msgstr "Per favore scegli un archivio"
+
+msgid "crs_select_starter"
+msgstr "Seleziona Avvia oggetto"
+
+msgid "crs_settings"
+msgstr "Impostazioni del corso"
+
+msgid "crs_settings_saved"
+msgstr "Impostazioni salvate"
+
+msgid "crs_shorten_breadcrumb"
+msgstr "Breadcrumb"
+
+msgid "crs_show_all_obj"
+msgstr "Espandi tutto"
+
+msgid "crs_show_member_export"
+msgstr "Lista partecipanti"
+
+msgid "crs_show_member_export_info"
+msgstr "I membri del corso possono stampare un lista dei partecipanti."
+
+msgid "crs_show_member_export_settings"
+msgstr "Lista partecipanti"
+
+msgid "crs_show_members"
+msgstr "Visualizza Membri"
+
+msgid "crs_show_members_info"
+msgstr "I membri del corso, se abilitati, possono accedere alla lista degli iscritti ed utlizzare la email"
+
+msgid "crs_size"
+msgstr "Dimensioni file"
+
+msgid "crs_sort_activation"
+msgstr "Ordine per attivazione"
+
+msgid "crs_sort_timing_info"
+msgstr "L'ordine degli elementi del corso è in base al loro tempo di attivazione."
+
+msgid "crs_start"
+msgstr "Inizio periodo"
+
+msgid "crs_start_objects"
+msgstr "Oggetti di partenza"
+
+msgid "crs_starter_delete_sure"
+msgstr "Sei sicuro di voler eliminare i seguenti oggetti di avvio?"
+
+msgid "crs_starter_deleted"
+msgstr "Rimosso l'oggetto di partenza"
+
+msgid "crs_starters_already_assigned"
+msgstr "Questo oggetto è già stato assegnato"
+
+msgid "crs_status"
+msgstr "Stato"
+
+msgid "crs_status_changed"
+msgstr "Stato corso"
+
+msgid "crs_status_changed_body"
+msgstr "Il tuo stato nel corso \"%s\" è stato modificato."
+
+msgid "crs_status_determination"
+msgstr "Determinazione"
+
+msgid "crs_status_determination_lp"
+msgstr "Attraverso il progresso dell'apprendimento"
+
+msgid "crs_status_determination_lp_info"
+msgstr "Quando l'avanzamento dell'apprendimento cambia in \"Completato\", lo stato del corso \"Passato\" verrà impostato automaticamente. I tutor possono comunque sovrascrivere lo stato manualmente."
+
+msgid "crs_status_determination_manual"
+msgstr "Indipendente dal progresso dell'apprendimento"
+
+msgid "crs_status_determination_sync"
+msgstr "Sincronizza lo stato passato con i progressi di apprendimento di tutti i membri ora"
+
+msgid "crs_structure"
+msgstr "Struttura del corso"
+
+msgid "crs_subject_course_group_notification"
+msgstr "Mail giornaliera per %s"
+
+msgid "crs_subscribe_member"
+msgstr "La tua registrazione per il corso \"%s\""
+
+msgid "crs_subscribe_member_body"
+msgstr "siamo lieti di confermare la tua registrazione al corso \"%s\"."
+
+msgid "crs_subscribe_wl"
+msgstr "La tua registrazione per il corso \"%s\"."
+
+msgid "crs_subscribe_wl_body"
+msgstr "Sei stato assegnato alla lista di attesa per il corso \"%s\". Ti e' stata assegnata la posizione %s nella lista.   Riceverai un messaggio dall'amministratore del corso quando la tua richiesta sarà stata approvata o respinta."
+
+msgid "crs_subscriber"
+msgstr "Iscritto"
+
+msgid "crs_subscribers_deleted"
+msgstr "Iscritti eliminati"
+
+msgid "crs_subscription"
+msgstr "Iscrizione"
+
+msgid "crs_subscription_failed_limit"
+msgstr "È stato superato il numero massimo dei partecipanti."
+
+msgid "crs_subscription_max_members"
+msgstr "Numero massimo di iscritti"
+
+msgid "crs_subscription_max_members_short"
+msgstr "Numero di iscritti"
+
+msgid "crs_subscription_max_members_short_info"
+msgstr "È possibile impostare il numero minimo rispettivamente massimo di membri. Può essere impostata una lista di attesta."
+
+msgid "crs_subscription_min_members"
+msgstr "Numero minimo"
+
+msgid "crs_subscription_min_members_err"
+msgstr "Il numero minimo non può essere maggiore del numero massimo di partecipanti."
+
+msgid "crs_subscription_min_members_info"
+msgstr "Vedi cron job \"Limite cancellazione\"."
+
+msgid "crs_subscription_options_confirmation"
+msgstr "Iscrizione richista"
+
+msgid "crs_subscription_options_direct"
+msgstr "Iscrizione diretta"
+
+msgid "crs_subscription_options_password"
+msgstr "Iscrizione con password del corso"
+
+msgid "crs_subscription_successful"
+msgstr "Sei stato iscritto a questo corso"
+
+msgid "crs_sure_delete_selected_archives"
+msgstr "Sei sicuro di voler eliminare gli archivi selezionati"
+
+msgid "crs_syllabus"
+msgstr "Sommario"
+
+msgid "crs_sys_default"
+msgstr "Default del sistema"
+
+msgid "crs_table_start_objects"
+msgstr "Oggetti di partenza"
+
+msgid "crs_target_group"
+msgstr "Target Group"
+
+msgid "crs_tile_and_objective_view_not_supported"
+msgstr "Non è possibile attivare contemporaneamente \"Presentazione affiancata\" e \"Presentazione degli obiettivi di apprendimento\"."
+
+msgid "crs_tile_and_session_limit_not_supported"
+msgstr "Non è possibile attivare contemporaneamente \"Presentazione tessera\" e \"Limitazione sessione\"."
+
+msgid "crs_timing_err_start_end"
+msgstr "The end date must be greater than or equals the start date."
+
+msgid "crs_timings_activate_optional"
+msgstr "Modalità opzionale per gli orari dei corsi"
+
+msgid "crs_timings_activate_optional_own"
+msgstr "Modalità opzionale per i tempi del mio corso"
+
+msgid "crs_timings_availability_enabled"
+msgstr "Temporaneamente disponibile"
+
+msgid "crs_timings_changeable"
+msgstr "Time Target modificabile"
+
+msgid "crs_timings_changed"
+msgstr "Temporizzazioni modificate"
+
+msgid "crs_timings_days_after_subsription"
+msgstr "Giorno/i dopo l'abbonamento al corso"
+
+msgid "crs_timings_disabled"
+msgstr "Temporizzazioni disabilitate"
+
+msgid "crs_timings_disabled_info"
+msgstr "Scegli questa opzione per disattivare la temporizzazione"
+
+msgid "crs_timings_early_begin"
+msgstr "Avvio anticipato"
+
+msgid "crs_timings_edit_personal"
+msgstr "Modifica i tempi personali"
+
+msgid "crs_timings_end"
+msgstr "Fine tempo"
+
+msgid "crs_timings_from_until"
+msgstr "(Da/a)"
+
+msgid "crs_timings_in_days"
+msgstr "(In giorni)"
+
+msgid "crs_timings_info_active"
+msgstr "(Attivo)"
+
+msgid "crs_timings_not_changed"
+msgstr "Temporizzazioni non modificate"
+
+msgid "crs_timings_optional_checked"
+msgstr "La modalità opzionale è stata attivata per questo utente"
+
+msgid "crs_timings_optional_off"
+msgstr "La modalità opzionale non è attiva."
+
+msgid "crs_timings_optional_on"
+msgstr "La modalità opzionale è attiva."
+
+msgid "crs_timings_optional_on_and_passed"
+msgstr "La modalità opzionale è attiva e non può essere modificata perché l'utente è passato."
+
+msgid "crs_timings_optional_unchecked"
+msgstr "La modalità opzionale è stata disattivata per questo utente"
+
+msgid "crs_timings_planed_info"
+msgstr "Tempo di editing definito"
+
+msgid "crs_timings_planed_start"
+msgstr "Definito"
+
+msgid "crs_timings_presetting"
+msgstr "Time Target abilitato"
+
+msgid "crs_timings_short_active"
+msgstr "Attivato"
+
+msgid "crs_timings_short_active_tt"
+msgstr "Attiva i tempi"
+
+msgid "crs_timings_short_changeable"
+msgstr "Modificabile"
+
+msgid "crs_timings_short_end"
+msgstr "Data di fine"
+
+msgid "crs_timings_short_limit_start_end"
+msgstr "Modificabile"
+
+msgid "crs_timings_short_limit_start_end_tt"
+msgstr "Ultima fine"
+
+msgid "crs_timings_short_limit_start_end_tt_rel"
+msgstr "Ultima scadenza dopo l'iscrizione al corso"
+
+msgid "crs_timings_short_start_end"
+msgstr "Inizio/fine suggeriti"
+
+msgid "crs_timings_short_start_end_rel"
+msgstr "Inizio suggerito (in giorni)"
+
+msgid "crs_timings_short_start_end_tt"
+msgstr "Inizio suggerito"
+
+msgid "crs_timings_short_start_end_tt_rel"
+msgstr "Inizio suggerito dopo l'abbonamento al corso"
+
+msgid "crs_timings_start"
+msgstr "Tempo di partenza"
+
+msgid "crs_timings_start_end_info"
+msgstr "(Inizio/fine)"
+
+msgid "crs_timings_sug_begin"
+msgstr "Inizio suggerito"
+
+msgid "crs_timings_sug_end"
+msgstr "Fine suggerita"
+
+msgid "crs_timings_suggested_info"
+msgstr "Tempo di editing suggerito"
+
+msgid "crs_timings_time_frame"
+msgstr "Lasso di tempo"
+
+msgid "crs_timings_time_frame_tt"
+msgstr "Intervallo di tempo in giorni"
+
+msgid "crs_timings_update_error"
+msgstr "Le tue impostazioni non sono valide, verifica i tempi per i seguenti materiali"
+
+msgid "crs_timings_warning_timing_exists"
+msgstr "I tempi sono configurati per questo oggetto. Se attivi le impostazioni di disponibilità, queste impostazioni di temporizzazione verranno ripristinate."
+
+msgid "crs_to"
+msgstr "A:"
+
+msgid "crs_tutor"
+msgstr "Tutor"
+
+msgid "crs_tutors"
+msgstr "Tutor"
+
+msgid "crs_unblocked"
+msgstr "Accesso libero"
+
+msgid "crs_unblocked_member"
+msgstr "Accesso concesso nel corso \"%s\""
+
+msgid "crs_unblocked_member_body"
+msgstr "La tua iscrizione al corso \"%s\" stata ripristinata"
+
+msgid "crs_unlimited"
+msgstr "Senza limite"
+
+msgid "crs_unsubscribe_member"
+msgstr "La tua cancellazione come membre dal corso \"%s\""
+
+msgid "crs_unsubscribe_member_body"
+msgstr "confermiamo la tua cancellazione dell'iscrizione al corso \"%s\". Speriamo che tu abbia l'opportunità di partecipare ad un altro corso."
+
+msgid "crs_unsubscribe_member_explanation"
+msgstr "Ricevi questo messaggio perché hai cancellato la registrazione dal corso menzionato sopra."
+
+msgid "crs_unsubscribe_sure"
+msgstr "Sei sicuro di voler annullare l'iscrizione a questo corso?"
+
+msgid "crs_unsubscribed_from_crs"
+msgstr "Sei iscritto a questo corso."
+
+msgid "crs_update_subscr_request"
+msgstr "Aggiorna la tua richiesta per diventare membro"
+
+msgid "crs_user_agreement"
+msgstr "Tipi di dati rilasciati"
+
+msgid "crs_user_agreement_info"
+msgstr "Dati personali visibili per gli amministartori del corso"
+
+msgid "crs_user_already_assigned"
+msgstr "L'utente scelto è gia assegnato a questo corso"
+
+msgid "crs_users_added"
+msgstr "Utente iscritto a questo corso."
+
+msgid "crs_users_already_assigned"
+msgstr "L'utente è già iscritto a questo corso"
+
+msgid "crs_users_removed_from_list"
+msgstr "Gli utenti selezionati sono stati tolti dalla lista di attesa"
+
+msgid "crs_usr_agreement"
+msgstr "Accordo con l’utente"
+
+msgid "crs_view_info_objective"
+msgstr "Questo modo di presentazione si usa per la presentazione degli obiettivi formativi."
+
+msgid "crs_view_info_timing"
+msgstr "Modo di temporizzazione per la presentazione."
+
+msgid "crs_view_info_timing_absolute"
+msgstr "La data di inizio e fine verrà impostata in modo assoluto."
+
+msgid "crs_view_info_timing_relative"
+msgstr "La data di inizio e fine verrà impostata in relazione alla data di iscrizione."
+
+msgid "crs_view_mode"
+msgstr "Presentazione del corso"
+
+msgid "crs_view_objective"
+msgstr "Visualizzazione obiettivi formativi"
+
+msgid "crs_view_timing"
+msgstr "Visualizzazione temporizzazioni"
+
+msgid "crs_view_timing_absolute"
+msgstr "Data assoluta"
+
+msgid "crs_view_timing_relative"
+msgstr "Data relativa"
+
+msgid "crs_view_timings"
+msgstr "Tipo di visualizzazione degli orari"
+
+#, fuzzy
+msgid "crs_visibility"
+msgstr "Visibility"
+
+msgid "crs_visibility_limitless"
+msgstr "Visibile (senza limiti)"
+
+msgid "crs_visibility_until"
+msgstr "Visibile (da ... a ...)"
+
+msgid "crs_visibility_until_info"
+msgstr "Il corso sarà visibile ai suoi membri in un determinato periodo di tempo."
+
+#, fuzzy
+msgid "crs_visibility_unvisible"
+msgstr "The course is not visible."
+
+msgid "crs_wait_info"
+msgstr "Se viene superato il numero massimo di utenti, le nuove registrazioni verranno inserite in una lista di attesa."
+
+msgid "crs_waiting_list"
+msgstr "Lista di attesa"
+
+msgid "crs_waiting_list_autofill"
+msgstr "Con riempimento automatico"
+
+msgid "crs_waiting_list_autofill_info"
+msgstr "I partecipanti vengono reclutati automaticamente dalla lista di attesa in caso di cancellazione."
+
+msgid "crs_waiting_list_no_autofill"
+msgstr "Senza riempimento automatico"
+
+msgid "crs_warn_no_max_set_on_waiting_list"
+msgstr "Il numero massimo di partecipanti al corso è stato superato. Puoi agiungere la tua richiesta alla lista di attesa. Riceverai un massaggio dall'amministratore se la tua richiesta è stata accettata o rifiutarta"
+
+msgid "crs_warn_wl_set_on_waiting_list"
+msgstr "Alcuni utenti sono già inseriti in lista di attesa. Puoi aggiungere la tua richiesta alla lista. Riceverai un messaggio dall'amministratore se la tua richiesta è stata acettata o respinta."
+
+msgid "crs_wiz_back"
+msgstr "Indietro"
+
+msgid "crs_wiz_next"
+msgstr "Salva"
+
+msgid "crs_xml"
+msgstr "XML"
+
+msgid "edit_timings_list"
+msgstr "Edita Tempi"
+
+msgid "event"
+msgstr "Sessione"
+
+msgid "event_add_new_event"
+msgstr "Aggiunta nuova sessione"
+
+msgid "event_assign_materials_info"
+msgstr "I materali del corso assegnati saranno visualizzati direttamente sotto alla sessione"
+
+msgid "event_assign_materials_table"
+msgstr "Assegnazione di materiale del corso"
+
+msgid "event_blank_columns"
+msgstr "Colonne aggiuntive"
+
+msgid "event_btn_add"
+msgstr "Aggiungi sessione"
+
+msgid "event_btn_add_edit"
+msgstr "Aggiungi sessione e assegna materiali"
+
+msgid "event_csv_export"
+msgstr "Esportazione CSV"
+
+msgid "event_date_time"
+msgstr "Data e ora"
+
+msgid "event_desc"
+msgstr "Descrizione"
+
+msgid "event_details_workflow"
+msgstr "Dettagli/Workflow"
+
+msgid "event_edit_members"
+msgstr "Edita Partcipanti"
+
+msgid "event_etime_smaller_stime"
+msgstr "Il tempo finale e precedente al tempo iniziale. Inserisci un intervallo di tempo valido"
+
+msgid "event_file"
+msgstr "File"
+
+msgid "event_files"
+msgstr "Files assegnati"
+
+msgid "event_fulltime_info"
+msgstr "Nessun tempo specificato"
+
+msgid "event_lecturer"
+msgstr "Nome"
+
+msgid "event_list_registered_only"
+msgstr "Solo membri registrati"
+
+msgid "event_location"
+msgstr "Posizione"
+
+msgid "event_materials"
+msgstr "Materiali della sessione"
+
+msgid "event_not_participated"
+msgstr "Non partecipato"
+
+msgid "event_overview"
+msgstr "Partecipazioni alle sessioni"
+
+msgid "event_participated"
+msgstr "Partecipato"
+
+msgid "event_registered"
+msgstr "Sei stato registrato a questo evento."
+
+msgid "event_section_information"
+msgstr "Informazione di sessione"
+
+msgid "event_table_create"
+msgstr "Nuova sessione"
+
+msgid "event_table_update"
+msgstr "Edita sessione"
+
+msgid "event_tbl_admin"
+msgstr "Amministratore"
+
+msgid "event_tbl_admins"
+msgstr "Amministratori"
+
+msgid "event_tbl_member"
+msgstr "Membro"
+
+msgid "event_tbl_members"
+msgstr "Membri"
+
+msgid "event_tbl_participated"
+msgstr "Partecipato"
+
+msgid "event_tbl_registered"
+msgstr "Registrato"
+
+msgid "event_tbl_tutor"
+msgstr "Tutor"
+
+msgid "event_tbl_tutors"
+msgstr "Tutor"
+
+msgid "event_title"
+msgstr "Titolo"
+
+msgid "event_tutor_data"
+msgstr "Informazioni sul docente"
+
+msgid "event_unregister"
+msgstr "Elimina registrazione"
+
+msgid "event_unregistered"
+msgstr "La registrazione è stata cancellata."
+
+msgid "event_updated"
+msgstr "Impostazioni salvate"
+
+msgid "event_user_selection"
+msgstr "Selezione degli utenti"
+
+msgid "event_user_selection_include_filter"
+msgstr "Includi \"%1$s\""
+
+msgid "event_user_selection_include_requests"
+msgstr "Includi tutti gli utenti nella lista \"Partecipa alle richieste\""
+
+msgid "event_user_selection_include_role"
+msgstr " Includi tutti gli utenti con ruolo \"%1$s\""
+
+msgid "event_user_selection_include_waiting_list"
+msgstr "Includi tutti gli utenti nella \"Lista di attesta\""
+
+msgid "events"
+msgstr "Sessioni"
+
+msgid "export_members"
+msgstr "Esporta partecipanti"
+
+msgid "grouping_change_assignment"
+msgstr "Cambio assegnazione"
+
+msgid "grp_grp_already_assigned"
+msgstr "Sei già membro di questo raggruppamento di gruppi."
+
+#, fuzzy
+msgid "grp_not_all_users_assigned_msg"
+msgstr "%s user(s) assigned as group member(s), %s user(s) were already in the group."
+
+msgid "mem_cron_min_members_intro"
+msgstr "I gruppi e i corsi seguenti non soddisfano (ancora)il numero minimo di membri."
+
+msgid "mem_cron_min_members_reason"
+msgstr "Hai ricevuto questa mail perché hai attivato la notifica nella scheda dei membri."
+
+msgid "mem_cron_min_members_subject"
+msgstr "Corso/Gruppo: Controllo numero minimo dei membri"
+
+msgid "mem_cron_min_members_task"
+msgstr "Si prega di informare i partecipanti se non si svolgerà il corso a causa dei pochi partecipanti. Regola le impostazioni seguenti."
+
+#, fuzzy
+msgid "obj_count_members"
+msgstr "Number of members"
+
+msgid "sess_attendance_list"
+msgstr "Lista delle presenze"
+
+msgid "sess_gen_attendance_list"
+msgstr "Genera lista di presenze"
+
+msgid "sess_join_info"
+msgstr "Fare clic sul pulsante Partecipa se si desidera prendere parte a questa sessione"
+
+msgid "sess_limit"
+msgstr "Numero limite di sessioni"
+
+msgid "sess_limit_info"
+msgstr "Scegli questa opzione per limitare il numero di sessioni visibili."
+
+msgid "sess_num_next"
+msgstr "Numero di sessioni seguenti"
+
+msgid "sess_num_prev"
+msgstr "Numero di sessioni passate"
+
+msgid "sess_print_attendance_list"
+msgstr "Lista di attesa stampa"
+
+msgid "sess_signature"
+msgstr "Firma"
+
+msgid "subscription_times_not_valid"
+msgstr "Il periodo di registrazione non è valido."
+
+msgid "timing_accept_table"
+msgstr "Tempi di apprendimento: Note"
+
+msgid "timing_accepted"
+msgstr "Accettato"
+
+msgid "timing_not_accepted"
+msgstr "Non accettato"
+
+msgid "timing_remark"
+msgstr "Commento"
+
+msgid "timing_tutor_visible"
+msgstr "il Remark è visibile ai tutor"
+
+msgid "timing_user_accept"
+msgstr "Accetta il piano di apprendimento consigliato"
+
+msgid "timing_user_accepted"
+msgstr "Piano di apprendimento accettato"
+
+msgid "timings"
+msgstr "Temporizzazioni"
+
+msgid "timings_cron_reminder_exceeded_start"
+msgstr "Il periodo di elaborazione è scaduto per:"
+
+msgid "timings_cron_reminder_exceeded_subject"
+msgstr "Hai superato il periodo di elaborazione"
+
+msgid "timings_cron_reminder_freshly_start"
+msgstr "Il periodo di elaborazione è iniziato alle:"
+
+msgid "timings_cron_reminder_started_subject"
+msgstr "Il periodo di elaborazione è iniziato"
+
+msgid "timings_edit"
+msgstr "Edita Tempi"
+
+msgid "timings_of"
+msgstr "Pianificazione dell'apprendimento da"
+
+msgid "timings_reminder_notifications"
+msgstr "Notifiche sugli orari dei corsi"
+
+msgid "timings_reminder_notifications_info"
+msgstr "Se abilitato, i partecipanti al corso verranno informati del superamento dei materiali per la pianificazione dell'apprendimento."
+
+msgid "timings_timings"
+msgstr "Pianificazione dell'apprendimento"
+
+msgid "timings_timings_off"
+msgstr "Disattivare l'amministrazione dei tempi di apprendimento"
+
+msgid "timings_timings_on"
+msgstr "Attivare l'amministrazione dei tempi di apprendimento"
+
+msgid "timings_usr_edit"
+msgstr "Edita Tempi di apprendimento"
+
+msgid "tutor_email"
+msgstr "Mail"
+
+msgid "tutor_name"
+msgstr "Nome"
+
+msgid "tutor_phone"
+msgstr "Telefono"
+
+#, fuzzy
+msgid "tutorial_support_block_byline"
+msgstr "The 'Tutorial Support' block is displayed in the 'Contents' tab. The user selected as \"Contact Person\" in the \"Members\" Tab is shown."
+
+#, fuzzy
+msgid "tutorial_support_block_contact"
+msgstr "Contact"
+
+#, fuzzy
+msgid "tutorial_support_block_send_mail"
+msgstr "send email"
+
+#, fuzzy
+msgid "tutorial_support_block_setting_desc"
+msgstr "The 'Tutorial Support' block is displayed in the 'Contents' tab."
+
+#, fuzzy
+msgid "tutorial_support_block_setting_title"
+msgstr "Tutorial Support Block"
+
+#, fuzzy
+msgid "tutorial_support_block_title"
+msgstr "Contact Person"
+
+msgid "user_fields"
+msgstr "Campi utente"

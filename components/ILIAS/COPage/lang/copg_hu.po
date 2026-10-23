@@ -1,0 +1,137 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: copg\n"
+
+msgid "copg_active_to_small"
+msgstr "A dátumnak a kezdő dátumnál későbbinek kell lennie."
+
+msgid "copg_add_content"
+msgstr "Tartalom hozzáadása"
+
+msgid "copg_allow_html"
+msgstr "HTML/Javascript bekapcsolása"
+
+msgid "copg_allow_html_info"
+msgstr "HTML, illetve Javascript oldaltartalmakat használhat. Ez biztonsági rést okozhat, ezért ne kapcsolja be, ha lehet ártó szándékú felhasználója. Az ilyen módú HTML-tartalom hozzáadása várhatóan már nem lesz támogatott a későbbi verziókban."
+
+msgid "copg_an_error_occured"
+msgstr "Hiba történt."
+
+msgid "copg_confirm_el_deletion"
+msgstr "Biztos, hogy törli a kijelölt elemeket?"
+
+msgid "copg_cron_days"
+msgstr "Ennél régebbi lapok törlése:"
+
+msgid "copg_cron_days_info"
+msgstr "Töröljük a megadottnál régebbi lapelőzményeket."
+
+msgid "copg_cron_keep_entries"
+msgstr "Minimálisan megtartandók"
+
+msgid "copg_cron_keep_entries_info"
+msgstr "Legalább ennyi bejegyzést akkor is megtartunk, ha azok régebbiek a megadottnál."
+
+msgid "copg_days"
+msgstr "Napok"
+
+msgid "copg_details"
+msgstr "Részletek"
+
+msgid "copg_edit_iframe_title"
+msgstr "Az oldalszerkesztő szövegszerkesztése"
+
+#, fuzzy
+msgid "copg_edit_style_class"
+msgstr "Edit Style Class"
+
+msgid "copg_entries"
+msgstr "Bejegyzések"
+
+msgid "copg_error"
+msgstr "Hiba"
+
+msgid "copg_error_occured_modal"
+msgstr "Hiba az oldal betöltése közben. Kattintson az oldal újratöltésére, így visszatér a korábban mentett állapothoz."
+
+msgid "copg_est_reading_time"
+msgstr "Becsült olvasási idő"
+
+msgid "copg_history_cleanup_cron"
+msgstr "Oldalszerkesztőelőzmény-tisztítás"
+
+msgid "copg_history_cleanup_cron_info"
+msgstr "Régi bejegyzések eltávolítása az oldalelőzményekből."
+
+msgid "copg_list_item_style"
+msgstr "Felsorolás eleme"
+
+msgid "copg_list_style"
+msgstr "Felsorolás"
+
+msgid "copg_list_styles"
+msgstr "Felsorolási formátumok"
+
+msgid "copg_more_character_formats"
+msgstr "További karakterstílusok"
+
+msgid "copg_obj_types"
+msgstr "Objektumtípusok"
+
+msgid "copg_page_element_not_found"
+msgstr "Az oldalelem nem található."
+
+msgid "copg_page_type_stys"
+msgstr "Lapelrendezés"
+
+msgid "copg_pages"
+msgstr "Lapok"
+
+msgid "copg_par_format_selection"
+msgstr "Bekezdésformátumok"
+
+msgid "copg_pc_mob_does_not_exist"
+msgstr "Ez a médiaelem nem létezik."
+
+msgid "copg_plugin"
+msgstr "Bővítmény"
+
+msgid "copg_plugin_not_avail"
+msgstr "‘%s’ bővítmény nem érhető el"
+
+msgid "copg_questions_not_supported_here"
+msgstr "Ebben a kontextusban a kérdéseket nem támogatjuk."
+
+msgid "copg_reload_page"
+msgstr "Oldal újratöltése"
+
+msgid "copg_remove_formats"
+msgstr "Formázás eltávolítása"
+
+msgid "copg_sec_link_info"
+msgstr "Válassza ki a célt, amire a blokk mutat. Figyelem: Ebben az esetben a blokk nem tartalmazhat további linket!"
+
+#, fuzzy
+msgid "copg_select_two_versions"
+msgstr "Select exactly two versions of the page to compare."
+
+msgid "copg_snippet_cannot_be_edited"
+msgstr "Ez egy előre definiált tartalom-építőelem, ezért itt nem módosítható."
+
+msgid "copg_templates"
+msgstr "Sablonok"
+
+msgid "copg_unsupported_media_type"
+msgstr "Nem támogatott médiatípus."
+
+msgid "copg_use_template"
+msgstr "Sablon használata"
+
+msgid "copg_x_minutes"
+msgstr "%s perc"

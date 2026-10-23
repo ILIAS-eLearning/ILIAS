@@ -1,0 +1,78 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: tax\n"
+
+msgid "obj_taxn"
+msgstr "Knoten"
+
+msgid "tax_add_taxonomy"
+msgstr "Taxonomie hinzufügen"
+
+msgid "tax_added"
+msgstr "Die Taxonomie wurde erstellt."
+
+msgid "tax_admin_settings_repository"
+msgstr "Magazin-Taxonomien"
+
+msgid "tax_alphabetical"
+msgstr "Alphabetisch"
+
+msgid "tax_assigned_items"
+msgstr "Zugeordnete Fragen"
+
+msgid "tax_confirm_deletion"
+msgstr "Wollen Sie wirklich die gesamte Taxonomie mit allen Beziehungen löschen?"
+
+msgid "tax_create_node"
+msgstr "Knoten anlegen"
+
+msgid "tax_item_sorting"
+msgstr "Sortierung der zugewiesenen Einträge unterstützen"
+
+msgid "tax_manual"
+msgstr "Manuell"
+
+msgid "tax_max_one_tax"
+msgstr "Sie können hier nur eine Taxonomie verwenden."
+
+msgid "tax_new_tax_node"
+msgstr "Neuer Knoten"
+
+msgid "tax_node"
+msgstr "Knoten"
+
+msgid "tax_node_sorting"
+msgstr "Sortierung der Knoten"
+
+msgid "tax_nodes"
+msgstr "Knoten"
+
+msgid "tax_order"
+msgstr "Reihenfolge"
+
+msgid "tax_order_nr"
+msgstr "Ordnungsnummer"
+
+msgid "tax_please_select_target"
+msgstr "Bitte wählen Sie ein Ziel aus!"
+
+msgid "tax_target_within_nodes"
+msgstr "Das Ziel darf kein Unterknoten des ausgewählten Elements sein."
+
+msgid "tax_tax_assignment"
+msgstr "Zuordnung zu Taxonomien"
+
+msgid "tax_tax_deleted"
+msgstr "Die Taxonomie wurde gelöscht."
+
+msgid "tax_tax_settings"
+msgstr "Taxonomien darstellen"
+
+msgid "tax_taxonomy"
+msgstr "Taxonomie"

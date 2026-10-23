@@ -1,0 +1,312 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hr\n"
+"Language-Team: Croatian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: sess\n"
+
+msgid "il_sess_participant"
+msgstr "Sudionici sesije"
+
+#, fuzzy
+msgid "il_sess_status_open"
+msgstr "Open Session"
+
+msgid "mail_sess_roles"
+msgstr "Pošaljite poštu ulogama sesije"
+
+#, fuzzy
+msgid "notification"
+msgstr "Notification"
+
+msgid "objs_crs_role"
+msgstr "Uloge tečaja"
+
+msgid "objs_grp_role"
+msgstr "Grupne uloge"
+
+msgid "send_mail_participants"
+msgstr "Svi sudionici sesije"
+
+msgid "sess_accept_request"
+msgstr "Prihvati sudjelovanje"
+
+msgid "sess_assign"
+msgstr "Dodijeli"
+
+#, fuzzy
+msgid "sess_bt_refuse"
+msgstr "Cannot Participate"
+
+#, fuzzy
+msgid "sess_change_type"
+msgstr "Change Session Type"
+
+msgid "sess_contact"
+msgstr "Kontakt"
+
+msgid "sess_copy"
+msgstr "Kopiraj sesiju"
+
+msgid "sess_filter_all_types"
+msgstr "Svi tipovi"
+
+msgid "sess_filter_not_assigned"
+msgstr "Nije dodijeljeno"
+
+msgid "sess_import"
+msgstr "Uvezi sesiju"
+
+#, fuzzy
+msgid "sess_info_new_sess_type"
+msgstr "New Session Type"
+
+msgid "sess_is_assigned"
+msgstr "je dodijeljen"
+
+msgid "sess_list_reg_limit_places"
+msgstr "Slobodna mjesta"
+
+msgid "sess_lp_preset"
+msgstr "Aktiviraj napredak u učenju"
+
+msgid "sess_lp_preset_info"
+msgstr "Aktivira napredak u učenju za sve događaje sesije koji će se kreirati."
+
+msgid "sess_mail_admins_only"
+msgstr "Samo za administratore"
+
+msgid "sess_mail_admins_only_info"
+msgstr "Samo administratori mogu koristiti značajku 'Pošalji sudionicima' na kartici 'Sudionici'."
+
+msgid "sess_mail_all"
+msgstr "Za sve sudionike"
+
+msgid "sess_mail_all_info"
+msgstr "Svi sudionici mogu upotrijebiti značajku 'Pošalji poštu sudionicima' na kartici 'Sudionici'."
+
+msgid "sess_mail_context_participant_info"
+msgstr "Za e-poštu sudionika i zaslone napretka u učenju sesije"
+
+msgid "sess_mail_context_participant_title"
+msgstr "Sesija: pošta sudionicima"
+
+msgid "sess_mail_permanent_link"
+msgstr "Kliknite na sljedeću poveznicu kako biste pronašli sve potrebne informacije u vezi sa sesijom:"
+
+#, fuzzy
+msgid "sess_mail_permanent_link_participants"
+msgstr "Click on the following link to edit the participants of the session:"
+
+msgid "sess_mail_sub_acc_bod"
+msgstr "registrirani ste za sesiju \"%s\"."
+
+msgid "sess_mail_sub_acc_sub"
+msgstr "Prijava za sesiju \"%s\""
+
+msgid "sess_mail_sub_dec_bod"
+msgstr "nažalost vas moramo obavijestiti da je vaša registracija za sesiju \"%s\" odbijena."
+
+msgid "sess_mail_sub_dec_sub"
+msgstr "Registracija za sesiju \"%s\" odbijena"
+
+msgid "sess_mail_type"
+msgstr "Pošta sudionicima"
+
+msgid "sess_material_assigned"
+msgstr "Dodijeljeno"
+
+msgid "sess_material_not_assigned"
+msgstr "Nije dodijeljeno"
+
+msgid "sess_max_members_needed"
+msgstr "Za značajku liste čekanja potreban je maksimalan broj članova."
+
+msgid "sess_mem_contacts"
+msgstr "Vodič (tutorijal) za podršku"
+
+#, fuzzy
+msgid "sess_mem_send_mail"
+msgstr "Send Mail"
+
+msgid "sess_mem_tbl_header"
+msgstr "Sudionici sesije"
+
+msgid "sess_member_administration"
+msgstr "Uredi sudionike"
+
+msgid "sess_members"
+msgstr "Sudionici"
+
+msgid "sess_members_gallery"
+msgstr "Galerija sesije"
+
+msgid "sess_members_print_title"
+msgstr "Sudionici sesije"
+
+msgid "sess_msg_applicants_assigned"
+msgstr "Podnositelj(i) zahtjeva prijavljeni za sesiju."
+
+msgid "sess_msg_applicants_removed"
+msgstr "Podnositelj(i) zahtjeva uklonjen(i) s popisa."
+
+#, fuzzy
+msgid "sess_new"
+msgstr "Create Session"
+
+msgid "sess_new_registrations"
+msgstr "Pridruži se zahtjevu"
+
+#, fuzzy
+msgid "sess_notification_option"
+msgstr "Option"
+
+#, fuzzy
+msgid "sess_notification_option_inherit"
+msgstr "Inherit from Parent"
+
+#, fuzzy
+msgid "sess_notification_option_inherit_info"
+msgstr "Use the parent notification settings (e.g. notification settings from course or group) for members of this session"
+
+#, fuzzy
+msgid "sess_notification_option_manual"
+msgstr "Set manually"
+
+#, fuzzy
+msgid "sess_notification_option_manual_info"
+msgstr "Notification setting for users has to be set manually in tab 'Participants'"
+
+msgid "sess_open"
+msgstr "Otvori sesiju"
+
+msgid "sess_part_filter_participated"
+msgstr "Samo polaznici koji su sudjelovalo"
+
+msgid "sess_part_filter_registered"
+msgstr "Samo registrirani"
+
+#, fuzzy
+msgid "sess_part_table_excused"
+msgstr "Excused"
+
+#, fuzzy
+msgid "sess_participation_refused_info"
+msgstr "Your participation for this event has been canceled."
+
+msgid "sess_print_list"
+msgstr "Generiraj popis"
+
+msgid "sess_reg_added_to_wl"
+msgstr "Dodani ste na listu čekanja."
+
+#, fuzzy
+msgid "sess_reg_cannot_participate"
+msgstr "Cannot Participate"
+
+#, fuzzy
+msgid "sess_reg_cannot_participate_info"
+msgstr "Users can indicate that they cannot participate in the session."
+
+msgid "sess_reg_direct"
+msgstr "Izjavi sudjelovanje"
+
+msgid "sess_reg_direct_info"
+msgstr "Korisnik mora kliknuti na 'Pridruži se' da bi sudjelovao u sesiji"
+
+msgid "sess_reg_disabled"
+msgstr "Nije potrebna registracija"
+
+msgid "sess_reg_disabled_info"
+msgstr "Korisnici se ne trebaju registrirati za sudjelovanje u sesiji."
+
+msgid "sess_reg_max_members"
+msgstr "Ograničeni broj članova"
+
+msgid "sess_reg_max_members_info"
+msgstr "Odredite maksimalni broj korisnika koji mogu sudjelovati u sesiji."
+
+msgid "sess_reg_max_members_short"
+msgstr "Broj članova"
+
+msgid "sess_reg_max_users_exceeded"
+msgstr "Registracija nije moguća jer je premašen maksimalni broj id-a korisnika."
+
+msgid "sess_reg_max_users_exceeded_wl"
+msgstr "Premašen je maksimalan broj korisnika za ovu zakazanu sesiju."
+
+msgid "sess_reg_request"
+msgstr "Prijavi se za sudjelovanje"
+
+msgid "sess_reg_request_info"
+msgstr "Administrator mora odlučiti o prijavi svakog korisnika za sudjelovanje u sesiji."
+
+#, fuzzy
+msgid "sess_reg_tutor"
+msgstr "No Registration Possible"
+
+#, fuzzy
+msgid "sess_reg_tutor_info"
+msgstr "Users cannot register for this session on their own. Only administrators can register users."
+
+msgid "sess_reg_type"
+msgstr "  Postupak registracije"
+
+msgid "sess_reg_waiting_list"
+msgstr "Lista čekanja"
+
+msgid "sess_reg_waiting_list_autofill"
+msgstr "S automatskim popunjavanjem"
+
+msgid "sess_reg_waiting_list_autofill_info"
+msgstr "Sudionici se automatski uključuju s popisa čekanja u slučaju otkazivanja. To se ne smije koristiti kod postupka registracije 'Prijavi se za sudjelovanje' jer će ga automatsko popunjavanje zaobići."
+
+msgid "sess_reg_waiting_list_no_autofill"
+msgstr "Bez automatskog popunjavanja"
+
+msgid "sess_reg_waiting_list_no_autofill_info"
+msgstr "Ako se premaši maksimalan broj korisnika, nove registracije stavit će se na listu čekanja."
+
+msgid "sess_reg_waiting_list_none"
+msgstr "Nema"
+
+msgid "sess_registered_confirm"
+msgstr "Za sudjelovanje je potrebna potvrda od strane administratora. Bit ćete obaviješteni kada se obradi vaša prijava."
+
+#, fuzzy
+msgid "sess_registration_notification"
+msgstr "Notification"
+
+#, fuzzy
+msgid "sess_registration_notification_info"
+msgstr "Shows column in tab 'Participants' to select users being notified about new or leaving participants"
+
+msgid "sess_section_reg"
+msgstr "Postavke registracije"
+
+#, fuzzy
+msgid "sess_setting_header_presentation"
+msgstr "Presentation"
+
+msgid "sess_show_participants_info"
+msgstr "Ako je aktivirano, sudionici sesije mogu pristupiti galeriji sudionika"
+
+#, fuzzy
+msgid "sess_title"
+msgstr "Title of Session"
+
+msgid "sess_users_added"
+msgstr "Registrirani odabrani korisnici za sesiju."
+
+msgid "sess_users_already_assigned"
+msgstr "Korisnik je već registriran za ovu sesiju."
+
+msgid "sess_users_removed_from_list"
+msgstr "Odabrani korisnici uklonjeni su s liste čekanja."
+
+#, fuzzy
+msgid "sess_warn_sess_type_changed"
+msgstr "Do you really want to change the session type? All permission settings will be reset."

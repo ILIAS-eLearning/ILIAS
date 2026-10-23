@@ -1,0 +1,180 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: adn\n"
+
+#, fuzzy
+msgid "action_confirm_delete"
+msgstr "Delete Notifications"
+
+#, fuzzy
+msgid "action_confirm_delete_msg"
+msgstr "Would you like to delete the following notification(s)?"
+
+#, fuzzy
+msgid "administrative_notification"
+msgstr "Administrative Notifications"
+
+msgid "administrative_notification_description"
+msgstr "Fornisci notifiche a livello di sistema nella barra superiore di ILIAS"
+
+msgid "btn_cancel"
+msgstr "Annulla"
+
+msgid "btn_delete"
+msgstr "Cancella"
+
+msgid "btn_delete_confirm"
+msgstr "Vuoi eliminare questa notifica?"
+
+#, fuzzy
+msgid "btn_duplicate"
+msgstr "Duplicate"
+
+msgid "btn_edit"
+msgstr "Modifica"
+
+msgid "btn_reset"
+msgstr "Reset"
+
+msgid "btn_reset_confirm"
+msgstr "Vuoi reimpostare questa notifica per tutti gli utenti?"
+
+msgid "common_actions"
+msgstr "Azioni"
+
+msgid "common_add_msg"
+msgstr "Aggiungi Notifiche"
+
+msgid "main"
+msgstr "Notifiche"
+
+msgid "msg_body"
+msgstr "Corpo"
+
+msgid "msg_body_info"
+msgstr "Corpo Notifica"
+
+msgid "msg_dismissable"
+msgstr "Ignorabile"
+
+msgid "msg_dismissable_info"
+msgstr "Le notifiche possono essere chiuse dall'utente. L'utente non vedrà più questa notifica."
+
+msgid "msg_display_date_end"
+msgstr "Visibile fino al"
+
+msgid "msg_display_date_start"
+msgstr "Visibile dal"
+
+msgid "msg_error_false_date_configuration"
+msgstr "Impossibile creare una notifica con questa configurazione di date. L'evento deve rientrare nel tempo di visualizzazione."
+
+msgid "msg_event_date_end"
+msgstr "Termine Evento"
+
+msgid "msg_event_date_start"
+msgstr "Inizio Evento"
+
+msgid "msg_form_title"
+msgstr "Notifiche"
+
+#, fuzzy
+msgid "msg_has_language_limitation"
+msgstr "Limited to selected languages"
+
+#, fuzzy
+msgid "msg_has_language_limitation_info"
+msgstr "Only selected languages will see the notification."
+
+#, fuzzy
+msgid "msg_languages"
+msgstr "Languages"
+
+msgid "msg_limit_to_roles"
+msgstr "Presentazione dipendente dal ruolo"
+
+msgid "msg_limit_to_roles_info"
+msgstr "Solo i ruoli selezionati vedranno la notifica."
+
+msgid "msg_limited_to_role_ids"
+msgstr "Ruoli"
+
+msgid "msg_permanent"
+msgstr "Visualizza"
+
+msgid "msg_permanent_info"
+msgstr "Visualizza notifiche in modo permanente o temporaneo"
+
+msgid "msg_permanent_no"
+msgstr "Mostra temporaneamente"
+
+msgid "msg_permanent_yes"
+msgstr "Mostra permanentemente"
+
+#, fuzzy
+msgid "msg_presentation"
+msgstr "Presentation"
+
+#, fuzzy
+msgid "msg_show_to_all_languages"
+msgstr "Show to all languages"
+
+#, fuzzy
+msgid "msg_show_to_all_roles"
+msgstr "Show to all roles"
+
+#, fuzzy
+msgid "msg_show_to_all_roles_info"
+msgstr "All users even when not logged-in will see notification."
+
+msgid "msg_success_created"
+msgstr "Notifica creata"
+
+msgid "msg_success_deleted"
+msgstr "Notifica cancellata"
+
+#, fuzzy
+msgid "msg_success_duplicated"
+msgstr "Notification sucessfully duplicated"
+
+msgid "msg_success_reset"
+msgstr "Notifica resettata"
+
+msgid "msg_success_updated"
+msgstr "Notifica aggiornata"
+
+msgid "msg_table_title"
+msgstr "Notifiche"
+
+msgid "msg_title"
+msgstr "Titolo"
+
+msgid "msg_title_info"
+msgstr "Breve titolo della notifica"
+
+msgid "msg_type"
+msgstr "Importanza"
+
+msgid "msg_type_0"
+msgstr "Avviso"
+
+msgid "msg_type_1"
+msgstr "Avviso"
+
+msgid "msg_type_2"
+msgstr "Importante"
+
+msgid "msg_type_3"
+msgstr "Breaking News"
+
+msgid "msg_type_during_event"
+msgstr "During Event"
+
+msgid "msg_type_info"
+msgstr "l'importanza ha un'influenza sulla rappresentazione del colore della notifica"

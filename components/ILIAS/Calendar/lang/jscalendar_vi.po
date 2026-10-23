@@ -1,0 +1,180 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: vi\n"
+"Language-Team: Vietnamese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: jscalendar\n"
+
+msgid "about_calendar"
+msgstr "Về lịch"
+
+msgid "about_calendar_long"
+msgstr "Chương trình chọn ngày/thời gian DHTML (c) dynarch.com 2002-2003\\nPhiên bản mới nhất có tại: http://dynarch.com/mishoo/calendar.epl\\nPhân phối theo GNU LGPL.  Truy cập http://gnu.org/licenses/lgpl.html để xem chi tiết.\\n\\nChọn ngày:\\n- Sử dụng các nút «, » để chọn năm\\n- Sử dụng các nút <, > để chọn tháng\\n- Nhấn giữ chuột trên các nút này để chọn nhanh hơn."
+
+msgid "about_time"
+msgstr "\\n\\nLựa chọn thời gian:\\n- Kích chuột vào bất kỳ thành phần thời gian nào để tăng\\n- hoặc nhấn giữ phím Shift và kích chuột để giảm\\n- hoặc kích vào kéo chuột để chọn nhanh hơn."
+
+msgid "day_first"
+msgstr "Hiển thị %s đầu tuần"
+
+msgid "def_date_format"
+msgstr "%d-%m-%Y"
+
+msgid "drag_to_move"
+msgstr "Kéo để di chuyển"
+
+msgid "go_today"
+msgstr "Đi tới hôm nay"
+
+msgid "l_01"
+msgstr "Tháng Một"
+
+msgid "l_02"
+msgstr "Tháng Hai"
+
+msgid "l_03"
+msgstr "Tháng Ba"
+
+msgid "l_04"
+msgstr "Tháng Tư"
+
+msgid "l_05"
+msgstr "Tháng Năm"
+
+msgid "l_06"
+msgstr "Tháng Sáu"
+
+msgid "l_07"
+msgstr "Tháng Bảy"
+
+msgid "l_08"
+msgstr "Tháng Tám"
+
+msgid "l_09"
+msgstr "Tháng Chín"
+
+msgid "l_10"
+msgstr "Tháng Mười"
+
+msgid "l_11"
+msgstr "Tháng Mười Một"
+
+msgid "l_12"
+msgstr "Tháng Mười Hai"
+
+msgid "l_fr"
+msgstr "Thứ sáu"
+
+msgid "l_mo"
+msgstr "Thứ hai"
+
+msgid "l_sa"
+msgstr "Thứ bảy"
+
+msgid "l_su"
+msgstr "Chủ nhật"
+
+msgid "l_th"
+msgstr "Thứ năm"
+
+msgid "l_tu"
+msgstr "Thứ ba"
+
+msgid "l_we"
+msgstr "Thứ tư"
+
+msgid "next_month"
+msgstr "Tháng sau (giữ để có bảng chọn)"
+
+msgid "next_year"
+msgstr "Năm sau (giữ để có bảng chọn)"
+
+msgid "open_calendar"
+msgstr "Kích vào đây để mở lịch chọn ngày (yêu cầu có JavaScript hoạt động!)"
+
+msgid "part_today"
+msgstr " (hôm nay)"
+
+msgid "prev_month"
+msgstr "Tháng trước (giữ để có bảng chọn)"
+
+msgid "prev_year"
+msgstr "Năm trước (giữ để có bảng chọn)"
+
+msgid "s_01"
+msgstr "Tháng Một"
+
+msgid "s_02"
+msgstr "Tháng Hai"
+
+msgid "s_03"
+msgstr "Tháng Ba"
+
+msgid "s_04"
+msgstr "Tháng Tư"
+
+msgid "s_05"
+msgstr "Tháng Năm"
+
+msgid "s_06"
+msgstr "Tháng Sáu"
+
+msgid "s_07"
+msgstr "Tháng Bảy"
+
+msgid "s_08"
+msgstr "Tháng Tám"
+
+msgid "s_09"
+msgstr "Tháng Chín"
+
+msgid "s_10"
+msgstr "Tháng Mười"
+
+msgid "s_11"
+msgstr "Tháng Mười Một"
+
+msgid "s_12"
+msgstr "Tháng Mười Hai"
+
+msgid "s_fr"
+msgstr "Thứ sáu"
+
+msgid "s_mo"
+msgstr "Thứ hai"
+
+msgid "s_sa"
+msgstr "Thứ bảy"
+
+msgid "s_su"
+msgstr "Chủ nhật"
+
+msgid "s_th"
+msgstr "Thứ năm"
+
+msgid "s_tu"
+msgstr "Thứ ba"
+
+msgid "s_we"
+msgstr "Thứ tư"
+
+msgid "select_date"
+msgstr "Chọn ngày"
+
+msgid "time"
+msgstr "Thời gian"
+
+msgid "time_part"
+msgstr "Nhấn giữ Shift và kích chuột hoặc kéo để thay đổi giá trị"
+
+msgid "today"
+msgstr "Hôm nay"
+
+msgid "tt_date_format"
+msgstr "%a, %e %b"
+
+msgid "wk"
+msgstr "Tuần"
