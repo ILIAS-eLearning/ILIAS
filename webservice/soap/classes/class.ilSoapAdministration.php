@@ -78,6 +78,15 @@ class ilSoapAdministration
             return false;
         }
 
+        if (!ilSession::_exists($sid)) {
+            if (session_status() === PHP_SESSION_ACTIVE) {
+                session_abort();
+            }
+            $this->setMessage('Session invalid');
+            $this->setMessageCode('Client');
+            return false;
+        }
+
         if (!$GLOBALS['DIC']['ilAuthSession']->isAuthenticated()) {
             $this->setMessage('Session invalid');
             $this->setMessageCode('Client');

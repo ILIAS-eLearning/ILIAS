@@ -97,6 +97,7 @@ class ilGroupExporter extends ilXmlExporter
 
         $writer = new ilGroupXMLWriter($group);
         $writer->setMode(ilGroupXMLWriter::MODE_EXPORT);
+        $writer->setIncludeRegistrationSecrets(true);
         $writer->start();
         return $writer->getXML();
     }

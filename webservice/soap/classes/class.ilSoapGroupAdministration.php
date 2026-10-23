@@ -151,20 +151,18 @@ class ilSoapGroupAdministration extends ilSoapAdministration
             return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
-        if (ilObject::_isInTrash($ref_id)) {
-            return $this->raiseError("Parent with ID $ref_id has been deleted.", 'CLIENT_OBJECT_DELETED');
-        }
+        global $DIC;
 
-        /** @var ilObjGroup $grp_obj */
-        if (!$grp_obj = ilObjectFactory::getInstanceByRefId($ref_id, false)) {
-            return $this->raiseError(
-                'No valid reference id given.',
-                'Client'
-            );
+        $grp_obj = $this->checkObjectAccess($ref_id, ['grp'], 'read', true);
+        if (!$grp_obj instanceof ilObjGroup) {
+            return $grp_obj;
         }
 
         include_once 'Modules/Group/classes/class.ilGroupXMLWriter.php';
         $xml_writer = new ilGroupXMLWriter($grp_obj);
+        $xml_writer->setIncludeRegistrationSecrets(
+            $DIC->rbac()->system()->checkAccess('write', $ref_id, 'grp')
+        );
         $xml_writer->start();
 
         return $xml_writer->getXML();
@@ -444,6 +442,7 @@ class ilSoapGroupAdministration extends ilSoapAdministration
                 $row->setValue("ref_id", $group_id);
                 $xmlWriter = new ilGroupXMLWriter($group_obj);
                 $xmlWriter->setAttachUsers(false);
+                $xmlWriter->setIncludeRegistrationSecrets(true);
                 $xmlWriter->start();
                 $row->setValue("xml", $xmlWriter->getXML());
                 $row->setValue("parent_ref_id", $tree->getParentId($group_id));
