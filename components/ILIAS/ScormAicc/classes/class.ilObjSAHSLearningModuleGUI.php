@@ -1042,6 +1042,15 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
             get_class($this)
         );
 
+        if (method_exists($this, 'adoptSettings')) {
+            $ilTabs->addSubTabTarget(
+                "sahs_adopt_settings",
+                $this->ctrl->getLinkTarget($this, "adoptSettings"),
+                array("edit", ""),
+                get_class($this)
+            );
+        }
+
         $validator = new ilCertificateActiveValidator();
         if (true === $validator->validate()) {
             // // create and insert object in objecttree

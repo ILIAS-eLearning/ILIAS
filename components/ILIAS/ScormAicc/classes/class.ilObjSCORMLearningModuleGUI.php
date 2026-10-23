@@ -21,6 +21,10 @@ declare(strict_types=1);
 use ILIAS\DI\Container;
 use ILIAS\Repository\Filter\FilterAdapterGUI;
 use ILIAS\UI\Component\Dropdown\Standard as DropdownStandard;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\UI\URLBuilder;
+use ILIAS\UI\URLBuilderToken;
 
 /**
 * Class ilObjSCORMLearningModuleGUI
@@ -47,6 +51,10 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 
     protected int $refId;
     protected ilCtrl $ctrl;
+
+    protected const ADOPT_SOURCE_REF_ID = 'source_ref_id';
+    protected const ADOPT_TREE_PARENT_REF_ID = 'sahs_adopt_tree_parent_ref_id';
+    protected const ADOPT_TREE_MAX_SYNC_DEPTH = 2;
 
     /**
     * Constructor
@@ -371,6 +379,287 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         $values["name_setting"] = $this->object->getNameSetting();
         $values["cobj_debug"] = $this->object->getDebug();
         $this->form->setValuesByArray($values);
+    }
+
+    public function adoptSettings(): void
+    {
+
+        if (!$this->dic->access()->checkAccess("write", "", $this->object->getRefId())) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_no_perm_write"), true);
+            ilObjectGUI::_gotoRepositoryRoot();
+            return;
+        }
+
+        $this->setSettingsSubTabs();
+        $this->dic->tabs()->setSubTabActive('sahs_adopt_settings');
+        $this->renderAdoptSettingsForm($this->buildAdoptSettingsForm());
+    }
+
+    public function applyAdoptSettings(): void
+    {
+
+        if (!$this->dic->access()->checkAccess("write", "", $this->object->getRefId())) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_no_perm_write"), true);
+            ilObjectGUI::_gotoRepositoryRoot();
+            return;
+        }
+
+        $this->setSettingsSubTabs();
+        $this->dic->tabs()->setSubTabActive('sahs_adopt_settings');
+
+        $form = $this->buildAdoptSettingsForm()->withRequest($this->dic->http()->request());
+        $data = $form->getData();
+
+        if (!is_array($data)) {
+            $this->renderAdoptSettingsForm($form);
+            return;
+        }
+
+        $source_ref_id = $this->extractSourceRefId($data[self::ADOPT_SOURCE_REF_ID] ?? null);
+        if ($source_ref_id <= 0) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('sahs_adopt_settings_invalid_source'), true);
+            $this->ctrl->redirect($this, 'adoptSettings');
+        }
+
+        $source_obj_id = ilObject::_lookupObjectId($source_ref_id);
+        if ($source_obj_id === $this->object->getId()) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('sahs_adopt_settings_invalid_source'), true);
+            $this->ctrl->redirect($this, 'adoptSettings');
+        }
+
+        if (!$this->dic->access()->checkAccess("write", "", $source_ref_id)) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('sahs_adopt_settings_source_no_write'), true);
+            $this->ctrl->redirect($this, 'adoptSettings');
+        }
+
+        if ($source_obj_id <= 0 || ilObject::_lookupType($source_obj_id) !== "sahs") {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('sahs_adopt_settings_invalid_source'), true);
+            $this->ctrl->redirect($this, 'adoptSettings');
+        }
+
+        $target_subtype = $this->object->getSubType();
+        $source_subtype = ilObjSAHSLearningModule::_lookupSubType($source_obj_id);
+        if ($target_subtype !== $source_subtype) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('sahs_adopt_settings_subtype_mismatch'), true);
+            $this->ctrl->redirect($this, 'adoptSettings');
+        }
+
+        $source = new ilObjSAHSLearningModule($source_ref_id, true);
+
+        if (!$this->object->adoptSettingsFrom($source)) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('sahs_adopt_settings_subtype_mismatch'), true);
+            $this->ctrl->redirect($this, 'adoptSettings');
+        }
+        $this->object->update();
+
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('sahs_adopt_settings_success'), true);
+        $this->ctrl->redirect($this, 'properties');
+    }
+
+    public function loadAdoptSettingsTreeNodes(): void
+    {
+        if (!$this->ctrl->isAsynch()) {
+            throw new \RuntimeException(self::class . '::' . __FUNCTION__ . ' must be called asynchronously.');
+        }
+
+        if (!$this->dic->access()->checkAccess("write", "", $this->object->getRefId())) {
+            $this->sendAdoptSettingsTreeResponse('');
+            return;
+        }
+
+        [, $parent_id_parameter] = $this->buildAdoptSettingsTreeUrlBuilder();
+        $parent_id_parameter_name = $parent_id_parameter->getName();
+
+        $query = $this->dic->http()->wrapper()->query();
+        if (!$query->has($parent_id_parameter_name)) {
+            $this->sendAdoptSettingsTreeResponse('');
+            return;
+        }
+
+        $parent_ref_id = (int) $query->retrieve(
+            $parent_id_parameter_name,
+            $this->dic->refinery()->kindlyTo()->int()
+        );
+        if ($parent_ref_id <= 0) {
+            $this->sendAdoptSettingsTreeResponse('');
+            return;
+        }
+
+        $factory = $this->dic->ui()->factory();
+        $renderer = $this->dic->ui()->renderer();
+        $node_retrieval = $this->buildAdoptSettingsNodeRetrieval();
+        $node_generator = $node_retrieval->getNodes(
+            $factory->input()->field()->node(),
+            $factory->symbol()->icon(),
+            [],
+            (string) $parent_ref_id,
+        );
+
+        $html = '';
+        foreach ($node_generator as $node) {
+            $html .= $renderer->renderAsync($node);
+        }
+
+        $this->sendAdoptSettingsTreeResponse($html);
+    }
+
+    protected function buildAdoptSettingsForm(): \ILIAS\UI\Component\Input\Container\Form\Standard
+    {
+        $factory = $this->dic->ui()->factory();
+
+
+        $source_input = $factory->input()->field()->treeSelect(
+            $this->buildAdoptSettingsNodeRetrieval(),
+            $this->lng->txt('sahs_adopt_settings_source'),
+            $this->lng->txt('sahs_adopt_settings_source_info')
+        )->withAdditionalTransformation(
+            $this->dic->refinery()->custom()->constraint(
+                static function ($value): bool {
+                    if (is_array($value) && isset($value[0])) {
+                        return (int) $value[0] > 0;
+                    }
+                    if (is_scalar($value)) {
+                        return (int) $value > 0;
+                    }
+                    return false;
+                },
+                $this->lng->txt('sahs_adopt_settings_source_required')
+            )
+        )->withAdditionalOnLoadCode(
+            static function (string $id): string {
+                return <<<JS
+const field_input = document.getElementById('$id');
+if (field_input) {
+    const tree_select = field_input.closest('.c-input-tree_select');
+    if (tree_select) {
+        const hide_non_leaf_selection = () => {
+            tree_select.querySelectorAll('.c-input-node:not(.c-input-node__leaf) > .c-input-node__select')
+                .forEach((button) => {
+                    button.disabled = true;
+                    button.setAttribute('aria-disabled', 'true');
+                    const glyph = button.querySelector('.glyph');
+                    if (glyph) {
+                        glyph.classList.add('disabled');
+                    }
+                    const node = button.closest('.c-input-node');
+                    const drilldown_trigger = node
+                        ? node.querySelector('.c-drilldown__menulevel--trigger')
+                        : null;
+                    if (drilldown_trigger instanceof HTMLElement) {
+                        drilldown_trigger.style.setProperty('width', '100%', 'important');
+                    }
+                    button.hidden = true;
+                    button.style.display = 'none';
+                    button.setAttribute('aria-hidden', 'true');
+                    button.tabIndex = -1;
+                    button.style.pointerEvents = 'none';
+                });
+        };
+        if (typeof MutationObserver === 'function') {
+            new MutationObserver(hide_non_leaf_selection).observe(tree_select, {childList: true, subtree: true});
+        }
+
+        hide_non_leaf_selection();
+    }
+}
+JS;
+            }
+        );
+
+        return $factory->input()->container()->form()->standard(
+            $this->ctrl->getFormAction($this, 'applyAdoptSettings'),
+            [self::ADOPT_SOURCE_REF_ID => $source_input],
+        )->withSubmitLabel($this->lng->txt('sahs_adopt_settings_apply'));
+    }
+
+    protected function renderAdoptSettingsForm(\ILIAS\UI\Component\Input\Container\Form\Standard $form): void
+    {
+        $factory = $this->dic->ui()->factory();
+        $renderer = $this->dic->ui()->renderer();
+
+        $description = $factory->legacy()->content(
+            '<p>' . htmlspecialchars($this->lng->txt('sahs_adopt_settings_description'), ENT_QUOTES, 'UTF-8') . '</p>'
+        );
+        $panel = $factory->panel()->standard(
+            $this->lng->txt('sahs_adopt_settings_title'),
+            [$description, $form],
+        );
+        $this->tpl->setContent($renderer->render($panel));
+    }
+
+    protected function buildAdoptSettingsNodeRetrieval(): ilSCORMAdoptSettingsNodeRetrieval
+    {
+        $data_factory = new DataFactory();
+        [$url_builder, $parent_id_parameter] = $this->buildAdoptSettingsTreeUrlBuilder();
+
+        $async_uri_provider = static function (int $parent_ref_id) use (
+            $data_factory,
+            $url_builder,
+            $parent_id_parameter
+        ): \ILIAS\Data\URI {
+            return $data_factory->uri(
+                (string) $url_builder
+                    ->withParameter($parent_id_parameter, (string) $parent_ref_id)
+                    ->buildURI()
+            );
+        };
+
+        return new ilSCORMAdoptSettingsNodeRetrieval(
+            $this->object->getRefId(),
+            $this->object->getSubType(),
+            $async_uri_provider,
+            $this->dic->language(),
+            $this->dic->access(),
+            $this->dic->repositoryTree(),
+            $this->dic['objDefinition']->getExplorerContainerTypes(),
+            self::ADOPT_TREE_MAX_SYNC_DEPTH,
+        );
+    }
+
+    /**
+     * @return array{0: URLBuilder, 1: URLBuilderToken}
+     */
+    protected function buildAdoptSettingsTreeUrlBuilder(): array
+    {
+        $data_factory = new DataFactory();
+        $url_builder = new URLBuilder(
+            $data_factory->uri(
+                ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTarget(
+                    $this,
+                    'loadAdoptSettingsTreeNodes',
+                    null,
+                    true
+                )
+            )
+        );
+
+        return $url_builder->acquireParameter(
+            ['sahs', 'adopt', 'settings'],
+            self::ADOPT_TREE_PARENT_REF_ID,
+        );
+    }
+
+    protected function sendAdoptSettingsTreeResponse(string $html): void
+    {
+        $http = $this->dic->http();
+        $http->saveResponse(
+            $http->response()
+                ->withHeader('Content-Type', 'text/html; charset=utf-8')
+                ->withBody(Streams::ofString($html))
+        );
+        $http->sendResponse();
+        $http->close();
+    }
+
+    protected function extractSourceRefId(mixed $value): int
+    {
+        if (is_array($value) && isset($value[0])) {
+            return (int) $value[0];
+        }
+        if (is_scalar($value)) {
+            return (int) $value;
+        }
+        return 0;
     }
 
     /**
