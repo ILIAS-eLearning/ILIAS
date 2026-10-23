@@ -29,8 +29,6 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\MockInterface;
 use org\bovigo\vfs;
 use Psr\Http\Message\ResponseInterface;
-use ILIAS\HTTP\Cookies\CookieWrapper;
-use Dflydev\FigCookies\SetCookie;
 
 /**
  * TestCase for the ilWACTokenTest
@@ -216,19 +214,19 @@ class ilWACTokenTest extends MockeryTestCase
         $cookieJar
             ->shouldReceive('with')
             ->times(3)
-            ->with(new CookieWrapper(SetCookie::create('')))
+            ->with((new CookieFactoryImpl())->create(''))
             ->andReturnSelf()
             ->getMock()
 
             ->shouldReceive('with')
             ->times(3)
-            ->with(new CookieWrapper(SetCookie::create('')))
+            ->with((new CookieFactoryImpl())->create(''))
             ->andReturnSelf()
             ->getMock()
 
             ->shouldReceive('with')
             ->times(3)
-            ->with(new CookieWrapper(SetCookie::create('')))
+            ->with((new CookieFactoryImpl())->create(''))
             ->andReturnSelf()
             ->getMock();
 

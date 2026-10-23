@@ -69,7 +69,7 @@ $GLOBALS["DIC"] = $container;
 $Services = $container['http'];
 
 //TODO: fix tests and mod_xsendfile which refuses to work
-ilWebAccessCheckerDelivery::run($Services, new CookieFactoryImpl());
+ilWebAccessCheckerDelivery::run($Services, $Services->cookies());
 
 //send response
 $Services->sendResponse();
