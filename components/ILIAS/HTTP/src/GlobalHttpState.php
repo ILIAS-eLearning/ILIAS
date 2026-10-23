@@ -26,6 +26,7 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\HTTP\Duration\DurationFactory;
+use ILIAS\HTTP\Message\MessageFactory;
 use ILIAS\HTTP\Response\Sender\ResponseSenderStrategy;
 
 /**
@@ -44,6 +45,8 @@ use ILIAS\HTTP\Response\Sender\ResponseSenderStrategy;
 interface GlobalHttpState
 {
     public function durations(): DurationFactory;
+
+    public function messages(): MessageFactory;
 
     public function wrapper(): WrapperFactory;
 
