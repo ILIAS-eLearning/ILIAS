@@ -23,7 +23,8 @@ namespace ILIAS\UI\Implementation\Component\ViewControl;
 use ILIAS\UI\Component\ViewControl as VC;
 use ILIAS\UI\Component\Button\Button;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
-use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Button\Month;
+use ILIAS\UI\Component\Dropdown\Standard as StandardDropdown;
 
 class Factory implements VC\Factory
 {
@@ -39,7 +40,7 @@ class Factory implements VC\Factory
         return new Mode($labelled_actions, $aria_label);
     }
 
-    public function section(Button $previous_action, Component $button, Button $next_action): Section
+    public function section(Button $previous_action, Button|Month|StandardDropdown $button, Button $next_action): Section
     {
         return new Section($previous_action, $button, $next_action);
     }
