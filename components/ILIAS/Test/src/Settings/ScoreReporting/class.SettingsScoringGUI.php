@@ -178,21 +178,22 @@ class SettingsScoringGUI extends TestSettingsGUI
         $this->ctrl->redirect($this, self::CMD_SHOW_FORM);
     }
 
+    /**
+     * Restores the submitted form data, which has been relayed through the
+     * confirmation, on the current request.
+     */
     private function getRelayedRequest(): Request
     {
-        return unserialize(
+        $relayed_body = json_decode(
             base64_decode(
-                $this->request->getParsedBody()[self::F_CONFIRM_SETTINGS]
+                (string) ($this->request->getParsedBody()[self::F_CONFIRM_SETTINGS] ?? '')
             ),
-            [
-                'allowed_classes' => [
-                    \GuzzleHttp\Psr7\ServerRequest::class,
-                    \GuzzleHttp\Psr7\Uri::class,
-                    \GuzzleHttp\Psr7\UploadedFile::class,
-                    \GuzzleHttp\Psr7\Stream::class,
-                ]
-            ]
+            true,
+            512,
+            JSON_THROW_ON_ERROR
         );
+
+        return $this->request->withParsedBody(is_array($relayed_body) ? $relayed_body : []);
     }
 
     private function buildForm(): Form
@@ -303,7 +304,10 @@ class SettingsScoringGUI extends TestSettingsGUI
         $confirmation->setFormAction($this->ctrl->getFormAction($this));
         $confirmation->setCancel($this->lng->txt('cancel'), self::CMD_CANCEL_RECALC);
         $confirmation->setConfirm($this->lng->txt('confirm'), self::CMD_CONFIRMED_RECALC);
-        $confirmation->addHiddenItem(self::F_CONFIRM_SETTINGS, base64_encode(serialize($request)));
+        $confirmation->addHiddenItem(
+            self::F_CONFIRM_SETTINGS,
+            base64_encode(json_encode($request->getParsedBody(), JSON_THROW_ON_ERROR))
+        );
         $this->tpl->setContent($this->ctrl->getHTML($confirmation));
     }
 }

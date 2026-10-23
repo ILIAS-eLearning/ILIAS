@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Badge\test;
 
+use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\DI\Container;
 use ILIAS\HTTP\Services;
-use GuzzleHttp\Psr7\ServerRequest;
 use PHPUnit\Framework\TestCase;
 use ILIAS\Badge\Tile;
 use ILIAS\Badge\PresentationHeader;
@@ -53,7 +53,7 @@ class TileViewTest extends TestCase
 
     public function testShow(): void
     {
-        $request = $this->getMockBuilder(ServerRequest::class)->disableOriginalConstructor()->getMock();
+        $request = $this->createMock(ServerRequestInterface::class);
         $request->method('getQueryParams')->willReturn([]);
 
         $http = $this->getMockBuilder(Services::class)->disableOriginalConstructor()->getMock();

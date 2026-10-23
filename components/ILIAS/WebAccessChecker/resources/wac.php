@@ -31,6 +31,7 @@ use ILIAS\HTTP\Duration\DurationFactory;
 use ILIAS\HTTP\Duration\Increment\IncrementFactory;
 use ILIAS\HTTP\Services;
 use ILIAS\HTTP\Cookies\CookieFactoryImpl;
+use ILIAS\HTTP\Message\MessageFactoryImpl;
 
 /** @noRector */
 require_once(__DIR__ . '/../vendor/composer/vendor/autoload.php');
@@ -58,6 +59,7 @@ $container['http'] = static fn($c): Services => new Services(
     $c['http.cookie_jar_factory'],
     $c['http.response_sender_strategy'],
     $c['http.duration_factory'],
+    new MessageFactoryImpl(),
 );
 
 $GLOBALS["DIC"] = $container;

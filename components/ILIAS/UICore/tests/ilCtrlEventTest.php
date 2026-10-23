@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\HTTP\Message\MessageFactory;
 use PHPUnit\Framework\TestCase;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 use ILIAS\Refinery\Factory as Refinery;
@@ -131,6 +132,7 @@ class ilCtrlEventTest extends TestCase
             $this->createStub(ilComponentFactory::class),
             $subject ?? $this->subject,
             $this->createStub(ilCtrlQueryParserInterface::class),
+            $this->createStub(MessageFactory::class),
         );
     }
 }

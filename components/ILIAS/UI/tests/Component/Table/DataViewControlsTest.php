@@ -207,7 +207,7 @@ class DataViewControlsTest extends TableTestBase
         $request = $this->createMock(ServerRequestInterface::class);
         $request
             ->method("getUri")
-            ->willReturn(new \GuzzleHttp\Psr7\Uri('http://localhost:80'));
+            ->willReturn((new \ILIAS\HTTP\Message\MessageFactoryImpl())->uri('http://localhost:80'));
         $request
             ->method("getQueryParams")
             ->willReturn($returns);

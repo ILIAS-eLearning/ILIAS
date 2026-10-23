@@ -16,6 +16,7 @@ matching namespace) per topic, and are autoloaded via composer PSR-4
 ```
 Rules/
   SuperGlobals/   ILIAS\Scripts\PHPStan\Rules\SuperGlobals   — no-superglobal-write rule
+  WrappedLibraries/ ILIAS\Scripts\PHPStan\Rules\WrappedLibraries — wrapped libraries only in their component
   LegacyUI/       ILIAS\Scripts\PHPStan\Rules\LegacyUI       — legacy UI component rules
 Attributes/       ILIAS\Scripts\PHPStan\Attributes           — the AllowRuleViolation exemption attribute + checker
 IliasVersion.php  ILIAS\Scripts\PHPStan\IliasVersion         — the ILIAS major the exemptions are checked against
@@ -54,6 +55,7 @@ appends to the GitHub step summary.
 | Rule classes | Identifier | Policy |
 |---|---|---|
 | `SuperglobalAssignRule`, `SuperglobalAssignOpRule`, `SuperglobalAssignRefRule` | `ilias.superglobalWrite` | No writing to request-input superglobals (`$_GET`, `$_POST`, `$_REQUEST`, `$_COOKIE`, `$_FILES`). The request is immutable — use the HTTP service / request wrapper instead. |
+| `WrappedLibraryUsageRule` | `ilias.wrappedLibraryUsage` | A third-party library wrapped by a component may only be used inside that component; everybody else uses the component's services and types. The wrapped namespaces are listed in `WrappedLibraryUsageRule::WRAPPED_LIBRARIES` (currently `GuzzleHttp\Psr7` → `HTTP`). Convenience exemption attribute: `AllowWrappedLibraryUsage`. |
 
 ### Adding a policy rule
 

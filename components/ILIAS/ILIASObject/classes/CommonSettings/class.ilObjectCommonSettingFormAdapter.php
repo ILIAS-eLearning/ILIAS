@@ -26,7 +26,7 @@ use ILIAS\FileUpload\FileUpload;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\ResourceStorage\Services as ResourceStorageServices;
 use ILIAS\HTTP\Services;
-use GuzzleHttp\Psr7\UploadedFile;
+use Psr\Http\Message\UploadedFileInterface;
 
 /**
  *
@@ -123,8 +123,8 @@ class ilObjectCommonSettingFormAdapter implements ilObjectCommonSettingFormAdapt
         // this problem no longer have anyway. But at the moment we have to pick the right one out of all uploadResults,
         // that's only possible with this way
 
-        /** @var UploadedFile $file */
-        $file = $this->http->request()->getUploadedFiles()['tile_image']; // Direct Access to the Psr7/UploadedFile
+        /** @var UploadedFileInterface $file */
+        $file = $this->http->request()->getUploadedFiles()['tile_image']; // Direct Access to the Psr7 UploadedFile
         if ($file->getClientFilename() === '') {
             return;
         }

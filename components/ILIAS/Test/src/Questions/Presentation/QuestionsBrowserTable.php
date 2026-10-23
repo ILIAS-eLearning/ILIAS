@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\Test\Questions\Presentation;
 
 use ILIAS\Taxonomy\DomainService as TaxonomyService;
-use GuzzleHttp\Psr7\ServerRequest;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Order;
 use ILIAS\Data\Range;

@@ -20,8 +20,7 @@ declare(strict_types=1);
 
 namespace XapiProxy;
 
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\Psr7\Response;
+use Psr\Http\Message\RequestInterface;
 
 class XapiProxy extends XapiProxyPolyFill
 {
@@ -34,7 +33,7 @@ class XapiProxy extends XapiProxyPolyFill
         $this->log()->debug($this->msg('proxy initialized'));
     }
 
-    public function setRequestParams(Request $request): void
+    public function setRequestParams(RequestInterface $request): void
     {
         preg_match(self::PARTS_REG, (string) $request->getUri(), $this->cmdParts);
     }

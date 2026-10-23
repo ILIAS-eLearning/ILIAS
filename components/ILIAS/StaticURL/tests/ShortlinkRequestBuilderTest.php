@@ -70,7 +70,7 @@ final class ShortlinkRequestBuilderTest extends Base
     private function prepareRequest(string $called_url): void
     {
         $uri = new URI($called_url);
-        $this->request_stub->method('getUri')->willReturn(new \GuzzleHttp\Psr7\Uri($called_url));
+        $this->request_stub->method('getUri')->willReturn((new \ILIAS\HTTP\Message\MessageFactoryImpl())->uri($called_url));
         $this->request_stub->method('getQueryParams')->willReturn($uri->getParameters());
         $this->http_stub->method('wrapper')->willReturn(new WrapperFactory($this->request_stub));
     }
