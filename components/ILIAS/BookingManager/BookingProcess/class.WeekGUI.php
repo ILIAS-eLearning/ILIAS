@@ -175,7 +175,7 @@ class WeekGUI
                     $nr_available = \ilBookingReservation::getAvailableObject(
                         [$object_id],
                         $slot_from,
-                        $slot_to - 1,
+                        $slot_to,
                         false,
                         true
                     );
