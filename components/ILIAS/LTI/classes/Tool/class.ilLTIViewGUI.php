@@ -44,6 +44,8 @@ class ilLTIViewGUI implements ILIAS\LTI\View
 
     private const string CONTEXT_PARAM = 'lti_context_id';
 
+    private bool $initialised = false;
+
     public function __construct(
         private readonly GlobalHttpState $http,
         private readonly Refinery $refinery,
@@ -60,6 +62,7 @@ class ilLTIViewGUI implements ILIAS\LTI\View
 
     public function init(): void
     {
+        $this->initialised = true;
         if (!$this->isActive()) {
             return;
         }
@@ -81,8 +84,9 @@ class ilLTIViewGUI implements ILIAS\LTI\View
 
     public function isActive(): bool
     {
-        // without a user, as in the cron job or the SOAP server, there is no view
-        if (!ilContext::hasUser()) {
+        // before ilInitialisation has set up the user, and without a user, as in the cron job or the SOAP
+        // server, there is no view
+        if (!$this->initialised || !ilContext::hasUser()) {
             return false;
         }
 
