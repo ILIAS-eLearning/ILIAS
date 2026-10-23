@@ -10650,8 +10650,6 @@ lti#:#use_xapi#:#Utilizza il supporto alle xAPI
 lti#:#use_xapi_info#:#Questo strumento LTI supporta gli statements xAPI.
 lti#:#user_lng#:#Lingua utente
 lti#:#user_provider_subtab#:#Fornitori definiti dagli utenti
-ltiv#:#ltiv_create#:#Crea certificato per Oggetto consumatore LTI.
-ltiv#:#ltiv_create_info#:#Seleziona un Oggetto consumatore LTI completato per generare un certificato.
 mail#:#back_to_folder#:#Torna alla cartella
 mail#:#chat_users_have_been_invited#:#I seguenti utenti sono stati invitati:
 mail#:#chat_users_without_login#:#I seguenti utenti non hanno un account di ILIAS e quindi non possono essere invitati alla Chat Room:

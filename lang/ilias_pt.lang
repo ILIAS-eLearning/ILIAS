@@ -10693,8 +10693,6 @@ lti#:#use_xapi#:#Use xAPI-Support###07 02 2020 new variable
 lti#:#use_xapi_info#:#This LTI Tool supports xAPI-Statements.###07 02 2020 new variable
 lti#:#user_lng#:#Idioma de utilizador
 lti#:#user_provider_subtab#:#Providers Defined by Users###07 02 2020 new variable
-ltiv#:#ltiv_create#:#Create Certificate for LTI Consumer Object###07 02 2020 new variable
-ltiv#:#ltiv_create_info#:#Select a completed LTI consumer object to generate a certificate for it###07 02 2020 new variable
 mail#:#back_to_folder#:#Voltar à pasta
 mail#:#chat_users_have_been_invited#:#Estrutura
 mail#:#chat_users_without_login#:#Perito(s) no assunto

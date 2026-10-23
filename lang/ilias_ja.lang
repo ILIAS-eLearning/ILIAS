@@ -10659,8 +10659,6 @@ lti#:#use_xapi#:#xAPI-Supportを使用
 lti#:#use_xapi_info#:#このLTIツールはxAPI-Statementsをサポートします。
 lti#:#user_lng#:#User言語
 lti#:#user_provider_subtab#:#ユーザ別プロバイダー定義
-ltiv#:#ltiv_create#:#LTI Consumerオブジェクト用の証明書を作成
-ltiv#:#ltiv_create_info#:#証明書作成用の完了したLTI consumerオブジェクトを選択
 mail#:#back_to_folder#:#フォルダへ戻る
 mail#:#chat_users_have_been_invited#:#ユーザは招待されています。
 mail#:#chat_users_without_login#:#次のユーザはILIAS アカウントがなく、チャットルームへ招待することはできません。

@@ -10632,8 +10632,6 @@ lti#:#use_xapi#:#Use xAPI-Support
 lti#:#use_xapi_info#:#This LTI Tool supports xAPI-Statements.
 lti#:#user_lng#:#Langue de l’utilisateur
 lti#:#user_provider_subtab#:#Providers Defined by Users
-ltiv#:#ltiv_create#:#Create Certificate for LTI Consumer Object
-ltiv#:#ltiv_create_info#:#Select a completed LTI consumer object to generate a certificate for it
 mail#:#back_to_folder#:#Retour au dossier
 mail#:#chat_users_have_been_invited#:#The following users have been invited:###26 08 2024 new variable
 mail#:#chat_users_without_login#:#The following users don't have an ILIAS account and can't be invited to a chat room:###26 08 2024 new variable
