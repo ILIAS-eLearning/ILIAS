@@ -154,7 +154,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     {
         return [
             'doStandardAuthentication',
-            'doLTIAuthentication'
         ];
     }
 
@@ -600,57 +599,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             ->withSubmitLabel($this->lng->txt('log_in'))
             ->withAdditionalTransformation($this->mergeValuesTrafo())
             ->withAdditionalTransformation($this->saniziteArrayElementsTrafo());
-    }
-
-    private function doLTIAuthentication(): void
-    {
-        $this->getLogger()->debug('Trying lti authentication');
-
-        $credentials = new ilAuthFrontendCredentialsLTI();
-        $credentials->initFromRequest();
-
-        $provider_factory = new ilAuthProviderFactory();
-        $provider = $provider_factory->getProviderByAuthMode($credentials, ilAuthUtils::AUTH_PROVIDER_LTI);
-
-        $status = ilAuthStatus::getInstance();
-
-        $frontend_factory = new ilAuthFrontendFactory();
-        $frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_STANDARD_FORM);
-        $frontend = $frontend_factory->getFrontend(
-            $this->authSession,
-            $status,
-            $credentials,
-            [$provider]
-        );
-        $frontend->authenticate();
-
-        $lti_target = $this->dic['lti']->getLaunchTarget();
-        if ($lti_target !== '') {
-            ilSession::set('orig_request_target', $lti_target);
-        }
-
-        switch ($status->getStatus()) {
-            case ilAuthStatus::STATUS_AUTHENTICATED:
-                ilLTISessionCookie::allowCrossSite();
-                // the user of a launch goes to the object the platform launched
-                if ($lti_target !== '') {
-                    $this->ctrl->redirectToURL($lti_target);
-                }
-                ilLoggerFactory::getLogger('auth')->debug('Authentication successful; Redirecting to starting page.');
-                ilInitialisation::redirectToStartingPage();
-
-                // no break
-            case ilAuthStatus::STATUS_ACCOUNT_MIGRATION_REQUIRED:
-                $this->ctrl->redirect($this, 'showAccountMigration');
-
-                // no break
-            case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
-                $this->mainTemplate->setOnScreenMessage('failure', $status->getTranslatedReason(), true);
-                $this->ctrl->redirect($this, 'showLoginPage');
-        }
-
-        $this->mainTemplate->setOnScreenMessage('failure', $this->lng->txt('err_wrong_login'));
-        $this->showLoginPage();
     }
 
     private function doApacheAuthentication(): void
