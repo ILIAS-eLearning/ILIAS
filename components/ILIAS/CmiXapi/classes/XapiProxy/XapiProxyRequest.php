@@ -297,7 +297,7 @@ class XapiProxyRequest
             "Pragma: no-cache",
         ];
         if ($request->hasHeader('X-Experience-API-Version')) {
-            $headers[]= "X-Experience-API-Version: " . $request->getHeader('X-Experience-API-Version')[0];
+            $headers[] = "X-Experience-API-Version: " . $request->getHeader('X-Experience-API-Version')[0];
         }
         if ($request->hasHeader('Origin')) {
             $headers[] = "Origin: " . $request->getHeader('Origin')[0];
@@ -310,12 +310,12 @@ class XapiProxyRequest
         if ($request->hasHeader('Connection')) {
             $headers[] = "Connection: " . $request->getHeader('Connection')[0];
         }
-//        if ($request->hasHeader('Content-Length')) {
-//            $contentLength = $request->getHeader('Content-Length');
-//            if (is_array($contentLength) && $contentLength[0] != '') {
-//                $headers[] = "Content-Length: " . $contentLength[0];
-//            }
-//        }
+        //        if ($request->hasHeader('Content-Length')) {
+        //            $contentLength = $request->getHeader('Content-Length');
+        //            if (is_array($contentLength) && $contentLength[0] != '') {
+        //                $headers[] = "Content-Length: " . $contentLength[0];
+        //            }
+        //        }
         if ($request->hasHeader('Content-Type')) {
             $headers[] = "Content-Type: " . $request->getHeader('Content-Type')[0];
             $headers[] = "Accept: application/json";
@@ -358,33 +358,33 @@ class XapiProxyRequest
             $headers['X-Experience-API-Version'] = $request->getHeader('X-Experience-API-Version');
         }
 
-//        if ($request->hasHeader('Referrer')) {
-//            $headers['Referrer'] = $request->getHeader('Referrer');
-//        }
+        //        if ($request->hasHeader('Referrer')) {
+        //            $headers['Referrer'] = $request->getHeader('Referrer');
+        //        }
 
-//        if ($request->hasHeader('Content-Type')) {
-//            $headers['Content-Type'] = $request->getHeader('Content-Type');
-//        }
+        //        if ($request->hasHeader('Content-Type')) {
+        //            $headers['Content-Type'] = $request->getHeader('Content-Type');
+        //        }
 
         if ($request->hasHeader('Origin')) {
-//            $headers['Origin'] = $request->getHeader('Origin');
+            //            $headers['Origin'] = $request->getHeader('Origin');
             $headers['Access-Control-Allow-Origin'] = $request->getHeader('Origin');
             //$headers["Content-Security-Policy"] = "frame-ancestors 'self' " . $request->getHeader('Origin')[0];
         }
 
-//        if ($request->hasHeader('Content-Length')) {
-//            $contentLength = $request->getHeader('Content-Length');
-//            if (is_array($contentLength) && $contentLength[0] === '') {
-//                $contentLength = array(0);
-//            } elseif ($contentLength === '') {
-//                $contentLength = array(0);
-//            }
-//            $headers['Content-Length'] = $contentLength;
-//        }
+        //        if ($request->hasHeader('Content-Length')) {
+        //            $contentLength = $request->getHeader('Content-Length');
+        //            if (is_array($contentLength) && $contentLength[0] === '') {
+        //                $contentLength = array(0);
+        //            } elseif ($contentLength === '') {
+        //                $contentLength = array(0);
+        //            }
+        //            $headers['Content-Length'] = $contentLength;
+        //        }
 
-//        if ($request->hasHeader('Connection')) {
-//            $headers['Connection'] = $request->getHeader('Connection');
-//        }
+        //        if ($request->hasHeader('Connection')) {
+        //            $headers['Connection'] = $request->getHeader('Connection');
+        //        }
 
 
 
