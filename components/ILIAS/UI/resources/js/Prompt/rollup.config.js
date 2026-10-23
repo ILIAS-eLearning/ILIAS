@@ -33,8 +33,7 @@ export default {
     ],
     globals: {
       il: 'il',
-      DOMParser: 'DOMParser',
     },
   },
-  external: ['il', 'DOMParser'],
+  external: ['il'],
 };
