@@ -18,16 +18,16 @@
 
 declare(strict_types=1);
 
-use PhpOffice\PhpSpreadsheet\Cell\DataType;
+use ILIAS\Excel\CellType;
 
 class ilDclTextSelectionRecordFieldModel extends ilDclSelectionRecordFieldModel
 {
     /**
-     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @throws \ILIAS\Excel\ExcelException
      */
     public function fillExcelExport(ilExcel $worksheet, int &$row, int &$col): void
     {
-        $worksheet->setCell($row, $col, $this->getExportValue(), DataType::TYPE_STRING);
+        $worksheet->setCell($row, $col, $this->getExportValue(), CellType::STRING);
         $col++;
     }
 }

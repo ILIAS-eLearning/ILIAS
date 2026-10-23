@@ -72,7 +72,7 @@ class ilDclContentImporter
 
     /**
      * @throws ilException
-     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @throws \ILIAS\Excel\ExcelException
      * @throws ilDateTimeException
      */
     public function import(string $file, bool $simulate = false): array
