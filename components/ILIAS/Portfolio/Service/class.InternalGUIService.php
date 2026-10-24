@@ -45,6 +45,24 @@ class InternalGUIService
         );
     }
 
+    public function cmdPerm(
+        ?\ilPortfolioAccessHandler $portfolio_access,
+        ?\ilAccessHandler $repo_access,
+        int $node_id,
+        ?StandardGUIRequest $request = null
+    ): Permission\PortfolioCmdPermission {
+        return new Permission\PortfolioCmdPermission(
+            $this->domain_service->lng(),
+            $portfolio_access,
+            $repo_access,
+            $this->mainTemplate(),
+            $this->ctrl(),
+            $request ?? $this->standardRequest(),
+            $node_id
+        );
+    }
+
+
     public function settings(
     ): Settings\GUIService {
         return self::$instance["settings"] ??= new Settings\GUIService(

@@ -50,7 +50,13 @@ class ilPortfolioDeclarationOfAuthorship
         string $l,
         string $value
     ): void {
-        $this->prtf_settings->set("decl_author_" . $l, $value);
+        $key = "decl_author_" . $l;
+        if ($value === "") {
+            $this->prtf_settings->delete($key);
+            return;
+        }
+
+        $this->prtf_settings->set($key, $value);
     }
 
     /**
