@@ -56,19 +56,6 @@ abstract class CmdPermission implements CmdPermissionInterface
         return is_array($this?->getRequestEntity()->getId());
     }
 
-    public function isTableCommandPermitted(string $cmd, string $entity_id): bool
-    {
-        if (is_null($this->ctrl)) {
-            return false;
-        }
-        return $this->isCommandPermitted(
-            $cmd,
-            $this->getRequestNodeId(),
-            (string) $this?->getRequestEntity()->getType(),
-            $entity_id
-        );
-    }
-
     public function isCommandPermittedMulti(
         string $cmd,
         int $node_id,

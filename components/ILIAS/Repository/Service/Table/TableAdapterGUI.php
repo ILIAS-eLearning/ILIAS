@@ -23,6 +23,7 @@ namespace ILIAS\Repository\Table;
 use ILIAS\UI\Component\Table\Column\Column;
 use ILIAS\UI\Component\Table\Table;
 use ILIAS\UI\URLBuilder;
+use ILIAS\Repository\Permission\CmdPermissionInterface;
 use ILIAS\Repository\BaseGUIRequest;
 use ILIAS\UI\URLBuilderToken;
 use ILIAS\Repository\RetrievalInterface;
@@ -62,7 +63,9 @@ class TableAdapterGUI
         protected string $ordering_cmd = "",
         protected ?\Closure $active_action_closure = null,
         protected ?\Closure $row_transformer = null,
-        protected bool $numeric_ids = true
+        protected bool $numeric_ids = true,
+        protected ?CmdPermissionInterface $cmd_permission = null,
+        protected ?string $permission_entity = null
     ) {
         global $DIC;
         $this->ui = $DIC->ui();
@@ -281,8 +284,11 @@ class TableAdapterGUI
     {
         $action = $this->str($this->action_parameter_token->getName());
         if ($action !== "") {
+            if (!isset($this->actions[$action])) {
+                return false;
+            }
             if ($this->actions[$action]["type"] === self::SINGLE) {
-                $id = $this->getItemIds()[0];
+                $id = $this->getItemIds()[0] ?? "";
                 if ($this->actions[$action]["redirect_class_path"] ?? false) {
                     $path = $this->actions[$action]["redirect_class_path"];
                     if ($this->actions[$action]["redirect_id_param"] ?? false) {
@@ -294,15 +300,56 @@ class TableAdapterGUI
                     }
                     $cmd = $this->actions[$action]["redirect_cmd"] ?? $action;
                     $this->ctrl->redirectByClass($this->actions[$action]["redirect_class_path"], $cmd);
+                    return true;
                 }
+                $this->checkActionPermission($action);
                 $this->parent_gui->$action($id);
                 return true;
             } else {
+                $this->checkActionPermission($action);
                 $this->parent_gui->$action($this->getItemIds());
                 return true;
             }
         }
         return false;
+    }
+
+    protected function checkActionPermission(string $action): void
+    {
+        if ($this->cmd_permission === null) {
+            return;
+        }
+
+        $entity_ids = $this->getItemIds();
+        if ($this->permission_entity === null || $this->permission_entity === "" || $entity_ids === []) {
+            throw new \ilPermissionException($this->lng->txt("permission_denied"));
+        }
+
+        $action_data = $this->actions[$action];
+        $cmd = $action;
+        $node_id = $this->cmd_permission->getRequestNodeId();
+
+        if ($action_data["type"] === self::SINGLE) {
+            if (count($entity_ids) !== 1 || !$this->cmd_permission->isCommandPermitted(
+                $cmd,
+                $node_id,
+                $this->permission_entity,
+                (string) $entity_ids[0]
+            )) {
+                throw new \ilPermissionException($this->lng->txt("permission_denied"));
+            }
+            return;
+        }
+
+        $entity_ids = array_map("strval", $entity_ids);
+        if (!$this->cmd_permission->isCommandPermittedMulti(
+            $cmd,
+            $node_id,
+            $this->permission_entity,
+            $entity_ids
+        )) {
+            throw new \ilPermissionException($this->lng->txt("permission_denied"));
+        }
     }
 
     protected function getTable(): Table

@@ -43,6 +43,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
     protected \ILIAS\DI\UIServices $ui;
     protected \ILIAS\Style\Content\GUIService $content_style_gui;
     protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
+    protected ?\ILIAS\Repository\Permission\CmdPermission $cmd_perm = null;
 
     public function __construct(
         int $a_id = 0,
@@ -147,7 +148,9 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         // needed for editor
         $page_gui->setStyleId($this->content_style_domain->getEffectiveStyleId());
 
-        $ret = $this->ctrl->forwardCommand($page_gui);
+        $ret = $this->cmd_perm
+            ? $this->cmd_perm->forwardPermitted($this, $page_gui)
+            : $this->ctrl->forwardCommand($page_gui);
         if ($ret != "" && $ret !== true) {
             // preview (fullscreen)
             if ($this->page_mode === "preview") {
@@ -282,7 +285,8 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         return $this->gui->portfolioPageTableBuilder(
             $this->getObject()->getId(),
             $this,
-            "view"
+            "view",
+            $this->cmd_perm
         )->getTable();
     }
 
@@ -676,7 +680,9 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
             $comment_gui = $this->getCommentGUI();
             $next_class = $this->ctrl->getNextClass($this);
             if ($next_class === "ilcommentgui") {
-                $notes = $this->ctrl->forwardCommand($comment_gui);
+                $notes = $this->cmd_perm
+                    ? $this->cmd_perm->forwardPermitted($this, $comment_gui)
+                    : $this->ctrl->forwardCommand($comment_gui);
             } else {
                 $notes = $comment_gui->getListHTML();
             }

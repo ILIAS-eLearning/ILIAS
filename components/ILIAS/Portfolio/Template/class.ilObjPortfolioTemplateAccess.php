@@ -43,7 +43,7 @@ class ilObjPortfolioTemplateAccess extends ilObjectAccess
             array("permission" => "read", "cmd" => "preview", "lang_var" => "preview", "default" => true),
             array("permission" => "write", "cmd" => "view", "lang_var" => "edit_content"),
             array("permission" => "write", "cmd" => "edit", "lang_var" => "settings"),
-            array("permission" => "read", "cmd" => "createfromtemplate", "lang_var" => "prtf_create_portfolio_from_template"),
+            array("permission" => "read", "cmd" => "createFromTemplate", "lang_var" => "prtf_create_portfolio_from_template"),
             // array("permission" => "write", "cmd" => "export", "lang_var" => "export_html")
         );
 

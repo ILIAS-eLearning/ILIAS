@@ -52,6 +52,11 @@ class StandardGUIRequest
         return $prt_id;
     }
 
+    public function getPortfolioTargetId(): int
+    {
+        return $this->int("prtf");
+    }
+
     public function getPortfolioIds(): array
     {
         $ids = $this->intArray("prtfs");
@@ -116,6 +121,9 @@ class StandardGUIRequest
         $pages = $this->intArray("prtf_pages");
         if ((count($pages) === 0) && $this->int("prtf_page") > 0) {
             $pages = [$this->int("prtf_page")];
+        }
+        if ($pages === []) {
+            $pages = $this->intArray("interruptive_items");
         }
         return $pages;
     }
