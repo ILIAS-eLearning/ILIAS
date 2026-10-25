@@ -24,6 +24,8 @@ use ILIAS\DI\Container;
 use ILIAS\Repository\GlobalDICGUIServices;
 use ILIAS\Portfolio\Administration\PortfolioRoleAssignmentTableBuilder;
 use ILIAS\Portfolio\Page\PortfolioPageTableBuilder;
+use ILIAS\Repository\Permission\CmdPermissionInterface;
+use ILIAS\Portfolio\Permission\PortfolioCmdPermission;
 
 class InternalGUIService
 {
@@ -47,6 +49,24 @@ class InternalGUIService
         );
     }
 
+    public function cmdPerm(
+        ?\ilPortfolioAccessHandler $portfolio_access,
+        ?\ilAccessHandler $repo_access,
+        int $node_id,
+        ?StandardGUIRequest $request = null
+    ): Permission\PortfolioCmdPermission {
+        return new Permission\PortfolioCmdPermission(
+            $this->domain_service->lng(),
+            $portfolio_access,
+            $repo_access,
+            $this->mainTemplate(),
+            $this->ctrl(),
+            $request ?? $this->standardRequest(),
+            $node_id
+        );
+    }
+
+
     public function settings(
     ): Settings\GUIService {
         return self::$instance["settings"] ??= new Settings\GUIService(
@@ -59,14 +79,16 @@ class InternalGUIService
     public function portfolioPageTableBuilder(
         int $portfolio_id,
         object $parent_gui,
-        string $parent_cmd
+        string $parent_cmd,
+        PortfolioCmdPermission $cmd_permission
     ): PortfolioPageTableBuilder {
         return new PortfolioPageTableBuilder(
             $this->domain_service,
             $this,
             $portfolio_id,
             $parent_gui,
-            $parent_cmd
+            $parent_cmd,
+            $cmd_permission
         );
     }
 

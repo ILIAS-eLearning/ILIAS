@@ -622,6 +622,11 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
         return (bool) $this->settings->get('user_portfolios');
     }
 
+    public function canCreatePortfolio(): bool
+    {
+        return $this->user->getId() !== ANONYMOUS_USER_ID && $this->editPortfolios();
+    }
+
     public function addMissingPermissionForObjects(int $node_id, array $objects): bool
     {
         $existing = $this->getPermissions($node_id);

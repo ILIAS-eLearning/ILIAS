@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Repository\Table;
 
 use ILIAS\Repository\RetrievalInterface;
+use ILIAS\Repository\Permission\CmdPermissionInterface;
 
 abstract class CommonTableBuilder
 {
@@ -29,7 +30,9 @@ abstract class CommonTableBuilder
     public function __construct(
         protected object $parent_gui,
         protected string $parent_cmd,
-        bool $numeric_ids = true
+        bool $numeric_ids = true,
+        protected ?CmdPermissionInterface $cmd_permission = null,
+        protected ?string $permission_entity = null
     ) {
         $this->table = new TableAdapterGUI(
             $this->getId(),
@@ -41,7 +44,9 @@ abstract class CommonTableBuilder
             $this->getOrderingCommand(),
             \Closure::fromCallable([$this, 'activeAction']),
             \Closure::fromCallable([$this, 'transformRow']),
-            $numeric_ids
+            $numeric_ids,
+            $this->cmd_permission,
+            $this->permission_entity
         );
         $this->table = $this->build($this->table);
     }

@@ -23,8 +23,10 @@ namespace ILIAS\Portfolio\Page;
 use ILIAS\Portfolio\InternalDomainService;
 use ILIAS\Portfolio\InternalGUIService;
 use ILIAS\Repository\RetrievalInterface;
+use ILIAS\Repository\Permission\CmdPermissionInterface;
 use ILIAS\Repository\Table\CommonTableBuilder;
 use ILIAS\Repository\Table\TableAdapterGUI;
+use ILIAS\Portfolio\Permission\PortfolioCmdPermission;
 
 class PortfolioPageTableBuilder extends CommonTableBuilder
 {
@@ -33,9 +35,10 @@ class PortfolioPageTableBuilder extends CommonTableBuilder
         protected InternalGUIService $gui,
         protected int $portfolio_id,
         object $parent_gui,
-        string $parent_cmd
+        string $parent_cmd,
+        PortfolioCmdPermission $cmd_permission
     ) {
-        parent::__construct($parent_gui, $parent_cmd);
+        parent::__construct($parent_gui, $parent_cmd, true, $cmd_permission, PortfolioCmdPermission::PORTFOLIO_PAGE);
     }
 
     protected function getId(): string
