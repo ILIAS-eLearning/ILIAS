@@ -100,7 +100,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         $o->components = $components;
         $o->pcModel = $this->getPCModel();
         $o->pcDefinition = $this->getComponentsDefinitions();
-        $o->pcFormActions = $this->getPCFormActions($components);
+        $o->pcFormActions = $this->getPCFormActions();
         $o->formatSelection = $this->getFormatSelection();
         $o->modal = $this->getModalTemplate();
         $o->confirmation = $this->getConfirmationTemplate();
@@ -642,12 +642,10 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         return $pcdef;
     }
 
-    protected function getPCFormActions(array $components): array
+    protected function getPCFormActions(): array
     {
         $actions = [];
-        $component_names = array_unique([...array_keys($components), "Plugged", "ContentInclude"]);
-        foreach ($component_names as $name) {
-            $def = $this->pc_definition->getPCDefinitionByName($name);
+        foreach ($this->page_gui->getPageConfig()->getEnabledTopPCTypes() as $def) {
             $actions[$def["name"]] = $this->ctrl->getFormActionByClass(
                 [\ilPageEditorGUI::class, $def["pc_gui_class"]],
                 ""
