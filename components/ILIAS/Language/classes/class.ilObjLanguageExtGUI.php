@@ -34,6 +34,8 @@ use ILIAS\UI\Implementation\Component\Table as DataTable;
 use ILIAS\UI\Component\Component as UIComponent;
 use ILIAS\UI\Component\Modal\RoundTrip;
 use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
+use ILIAS\UI\Component\Panel\Standard as StandardPanel;
 
 /**
 * Class ilObjLanguageExtGUI
@@ -719,17 +721,27 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
      * The form with its data: null if an input is invalid, false for a manipulated request (KS throws, Radio even
      * a TypeError for an array).
      *
-     * @return array{0: \ILIAS\UI\Component\Input\Container\Form\Standard, 1: array|null|false}
+     * @return array{0: StandardForm, 1: array|null|false}
      */
-    private function readForm(\ILIAS\UI\Component\Input\Container\Form\Standard $form): array
+    private function readForm(StandardForm $form): array
     {
         try {
             $with_request = $form->withRequest($this->http->request());
 
             return [$with_request, $with_request->getData()];
-        } catch (InvalidArgumentException|TypeError) {
-            return [$form, false];
+        } catch (TypeError $e) {
+            $this->activity_error_logger->warning('Rejected a manipulated form request: ' . $e->getMessage());
+        } catch (InvalidArgumentException $e) {
+            $this->activity_error_logger->info('Rejected a manipulated form request: ' . $e->getMessage());
         }
+
+        return [$form, false];
+    }
+
+    /** The title the form had as ilPropertyFormGUI, a KS form has none. */
+    private function inPanel(string $title_key, StandardForm $form, UIComponent ...$below): StandardPanel
+    {
+        return $this->ui_factory->panel()->standard($this->lng->txt($title_key), [$form, ...$below]);
     }
 
     private function sendAsync(UIComponent $component): void
@@ -744,7 +756,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
     /** Shows the import form; right after a stored "replace"/"delete" import, the confirmation opens once. */
     public function importObject(): void
     {
-        $components = [$this->buildImportForm()];
+        $components = [$this->inPanel('language_import_file', $this->buildImportForm())];
 
         $token = $this->takePendingToShow(self::IMPORT_PENDING_SESSION_KEY);
         $pending = $token === null ? null : $this->getPendingImport($token);
@@ -761,7 +773,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         $this->tpl->setContent($this->ui_renderer->render($components));
     }
 
-    private function buildImportForm(): \ILIAS\UI\Component\Input\Container\Form\Standard
+    private function buildImportForm(): StandardForm
     {
         $field = $this->ui_factory->input()->field();
         $mode = $field->radio($this->lng->txt('language_mode_existing'))->withRequired(true);
@@ -795,7 +807,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         [$form, $data] = $this->readForm($this->buildImportForm());
         if ($data === false) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
-            $this->tpl->setContent($this->ui_renderer->render($form));
+            $this->tpl->setContent($this->ui_renderer->render($this->inPanel('language_import_file', $form)));
             return;
         }
         $handler = $this->getImportUploadHandler();
@@ -807,7 +819,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         }
         if ($data === null || $file_missing || !in_array($mode, self::IMPORT_MODES, true)) {
             // no clean-up here, the form keeps referring to its upload
-            $this->tpl->setContent($this->ui_renderer->render($form));
+            $this->tpl->setContent($this->ui_renderer->render($this->inPanel('language_import_file', $form)));
             return;
         }
 
@@ -1053,12 +1065,14 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
     /**
     * Show the screen to export a language file
     */
-    public function exportObject(?\ILIAS\UI\Component\Input\Container\Form\Standard $form = null): void
+    public function exportObject(?StandardForm $form = null): void
     {
-        $this->tpl->setContent($this->ui_renderer->render($form ?? $this->buildExportForm()));
+        $this->tpl->setContent($this->ui_renderer->render(
+            $this->inPanel('language_export_file', $form ?? $this->buildExportForm())
+        ));
     }
 
-    private function buildExportForm(): \ILIAS\UI\Component\Input\Container\Form\Standard
+    private function buildExportForm(): StandardForm
     {
         $options = $this->getExportScopes();
         $radio = $this->ui_factory->input()->field()
@@ -1150,9 +1164,9 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
     }
 
     /** Shows the maintenance form; right after a stored destructive option, the confirmation opens once. */
-    public function maintainObject(?\ILIAS\UI\Component\Input\Container\Form\Standard $form = null): void
+    public function maintainObject(?StandardForm $form = null): void
     {
-        $components = [$form ?? $this->buildMaintainForm()];
+        $components = [$this->inPanel('language_maintenance', $form ?? $this->buildMaintainForm())];
         $token = $this->takePendingToShow(self::MAINTAIN_PENDING_SESSION_KEY);
         $option = $token === null ? null : $this->getPendingMaintainOption($token);
         if ($option === null) {
@@ -1164,7 +1178,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         $this->tpl->setContent($this->ui_renderer->render($components));
     }
 
-    private function buildMaintainForm(): \ILIAS\UI\Component\Input\Container\Form\Standard
+    private function buildMaintainForm(): StandardForm
     {
         $options = $this->getMaintainOptions();
         $radio = $this->ui_factory->input()->field()
@@ -1425,7 +1439,9 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
      */
     public function settingsObject(): void
     {
-        $this->tpl->setContent($this->ui_renderer->render($this->buildSettingsForm()));
+        $this->tpl->setContent($this->ui_renderer->render(
+            $this->inPanel('language_settings', $this->buildSettingsForm())
+        ));
     }
 
     /**
@@ -1438,6 +1454,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         $ilUser = $this->user;
 
         [, $data] = $this->readForm($this->buildSettingsForm());
+        // the KS checkbox does not throw today; should a request ever be rejected, it must not switch the setting off
         if (!is_array($data)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
             $this->settingsObject();
@@ -1468,7 +1485,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         $this->settingsObject();
     }
 
-    protected function buildSettingsForm(): \ILIAS\UI\Component\Input\Container\Form\Standard
+    protected function buildSettingsForm(): StandardForm
     {
         global $DIC;
         $translate = (bool) $DIC->settings()->get("lang_translate_" . $this->object->key, '0');
@@ -1607,7 +1624,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
     // new entries
     //
 
-    /** @param list<string|int> $missing topics (a numeric one arrives as int) of the translated page without an entry in this language */
+    /** @param array<int|string, string|int> $missing topics of the translated page without an entry (keys kept by array_diff, a numeric topic arrives as int) */
     protected function buildMissingEntries(array $missing): ?\ILIAS\UI\Component\Panel\Standard
     {
         if ($missing === []) {
@@ -1634,7 +1651,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         );
     }
 
-    public function addNewEntryObject(?\ILIAS\UI\Component\Input\Container\Form\Standard $form = null): void
+    public function addNewEntryObject(?StandardForm $form = null): void
     {
         $identifier = $this->getNewEntryIdentifier();
         if ($identifier === null) {
@@ -1642,11 +1659,12 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
             return;
         }
 
-        $this->tpl->setContent($this->ui_renderer->render([
+        $this->tpl->setContent($this->ui_renderer->render($this->inPanel(
+            'adm_missing_entry_add',
             $form ?? $this->buildAddNewEntryForm($identifier),
-            // KS forms have a single submit, the former "cancel" command button led to the view
-            $this->ui_factory->button()->standard($this->lng->txt('cancel'), $this->ctrl->getLinkTarget($this, 'view')),
-        ]));
+            // in the panel next to its form like the former command button, a KS form has a single submit
+            $this->ui_factory->button()->standard($this->lng->txt('cancel'), $this->ctrl->getLinkTarget($this, 'view'))
+        )));
     }
 
     /** The "eid" of a missing entry, only if it is one of the topics stored by the entries view. */
@@ -1660,7 +1678,8 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
             $this->refinery->byTrying([$this->refinery->kindlyTo()->string(), $this->refinery->always('')])
         ));
 
-        return $identifier !== '' && in_array($identifier, ilObjLanguageAccess::_getSavedTopics())
+        return $identifier !== ''
+            && in_array($identifier, array_map('strval', ilObjLanguageAccess::_getSavedTopics()), true)
             ? $identifier
             : null;
     }
@@ -1673,7 +1692,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         return $filtered === $value ? $filtered : ilUtil::stripSlashes(str_replace('<', '< ', $value));
     }
 
-    protected function buildAddNewEntryForm(string $identifier): \ILIAS\UI\Component\Input\Container\Form\Standard
+    protected function buildAddNewEntryForm(string $identifier): StandardForm
     {
         $field = $this->ui_factory->input()->field();
         $filter = $this->refinery->custom()->transformation(

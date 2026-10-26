@@ -1830,10 +1830,22 @@ class ilObjLanguageExtGUITest extends TestCase
             }
         );
 
+        $ctx->panel_titles = [];
         $renderer = $this->createStub(\ILIAS\UI\Renderer::class);
         $renderer->method('render')->willReturnCallback(
             static function ($components) use ($ctx): string {
-                $ctx->rendered[] = is_array($components) ? $components : [$components];
+                // a form is wrapped in a panel for its title: recorded as the panel content plus its title
+                $flat = [];
+                foreach (is_array($components) ? $components : [$components] as $component) {
+                    if ($component instanceof \ILIAS\UI\Component\Panel\Standard) {
+                        $ctx->panel_titles[] = $component->getTitle();
+                        $content = $component->getContent();
+                        array_push($flat, ...(is_array($content) ? $content : [$content]));
+                    } else {
+                        $flat[] = $component;
+                    }
+                }
+                $ctx->rendered[] = $flat;
                 return 'html';
             }
         );

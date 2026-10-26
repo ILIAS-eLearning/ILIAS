@@ -37,18 +37,21 @@ class ilObjLanguageExtGUISaveSettingsTest extends TestCase
         \ILIAS\HTTP\GlobalHttpState $http,
         ilObjUser $user,
         ilGlobalTemplateInterface $tpl,
-        ?ilLanguage $lng = null
+        ?ilLanguage $lng = null,
+        ?\ILIAS\UI\Component\Input\Container\Form\Standard $form = null
     ): ilObjLanguageExtGUI {
         /** @var ilObjLanguageExtGUI&MockObject $gui */
         $gui = $this->getMockBuilder(ilObjLanguageExtGUI::class)
             ->disableOriginalConstructor()
-            ->onlyMethods(['buildSettingsForm'])
+            ->onlyMethods(['buildSettingsForm', 'settingsObject'])
             ->getMock();
 
-        $post = $http->request()->getParsedBody();
-        $form = $this->createStub(\ILIAS\UI\Component\Input\Container\Form\Standard::class);
-        $form->method('withRequest')->willReturnSelf();
-        $form->method('getData')->willReturn(['translation' => ($post['translation'] ?? '') === 'checked']);
+        if ($form === null) {
+            $post = $http->request()->getParsedBody();
+            $form = $this->createStub(\ILIAS\UI\Component\Input\Container\Form\Standard::class);
+            $form->method('withRequest')->willReturnSelf();
+            $form->method('getData')->willReturn(['translation' => ($post['translation'] ?? '') === 'checked']);
+        }
         $gui->method('buildSettingsForm')->willReturn($form);
         $renderer = $this->createStub(\ILIAS\UI\Renderer::class);
         $renderer->method('render')->willReturn('');
@@ -193,6 +196,32 @@ class ilObjLanguageExtGUISaveSettingsTest extends TestCase
         );
 
         // no $ctrl is injected: a redirect would fatally error instead of passing silently
+        $gui->saveSettingsObject();
+    }
+
+    /** A rejected request (e.g. a TypeError of a KS input) is logged and never switches the setting. */
+    public function testSaveSettingsObjectNeverCallsTheActivityForARejectedRequest(): void
+    {
+        $activity = $this->createMock(SetLanguageTranslationEnabled::class);
+        $activity->expects($this->never())->method('maybePerformAs');
+        $tpl = $this->createMock(ilGlobalTemplateInterface::class);
+        $tpl->expects($this->once())->method('setOnScreenMessage')->with('failure', 'form_input_not_valid');
+        $logger = $this->createMock(\ilLogger::class);
+        $logger->expects($this->once())->method('warning');
+        $this->stubbed_activity_error_logger = $logger;
+
+        $form = $this->createStub(\ILIAS\UI\Component\Input\Container\Form\Standard::class);
+        $form->method('withRequest')->willThrowException(new TypeError('array given'));
+        $gui = $this->createGuiForSaveSettings(
+            $activity,
+            $this->mockHttpWithParsedBody(['translation' => ['checked']]),
+            $this->createStub(ilObjUser::class),
+            $tpl,
+            null,
+            $form
+        );
+        $gui->expects($this->once())->method('settingsObject');
+
         $gui->saveSettingsObject();
     }
 }
