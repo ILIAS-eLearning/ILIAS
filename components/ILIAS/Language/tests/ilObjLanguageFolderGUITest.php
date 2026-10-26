@@ -25,12 +25,17 @@ use ILIAS\Language\Activities\UninstallLanguage;
 use ILIAS\Language\Activities\RemoveLocalLanguageChanges;
 use ILIAS\Data\Result\Ok as ResultOk;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\TestCase;
+
+require_once __DIR__ . '/../../UI/tests/UITestHelper.php';
 
 class ilObjLanguageFolderGUITest extends TestCase
 {
     use RestoresProcessState;
 
+    use UITestHelper;
     use ilObjLanguageFolderGUITestFixture {
         tearDown as private tearDownGuiTestSupport;
     }
@@ -883,5 +888,71 @@ class ilObjLanguageFolderGUITest extends TestCase
     private function invokeTableAction(ilObjLanguageFolderGUI $gui): void
     {
         (new ReflectionMethod(ilObjLanguageFolderGUI::class, 'executeTableActionObject'))->invoke($gui);
+    }
+
+    /** The code scan of ilLangDeprecated runs over ILIAS_ABSOLUTE_PATH: an empty directory in an own process keeps the constant out of other tests. */
+    #[RunInSeparateProcess]
+    #[PreserveGlobalState(false)]
+    public function testListDeprecatedObjectShowsOneEscapedModuleAndIdentifierLinePerEntry(): void
+    {
+        $dir = sys_get_temp_dir() . '/lng_deprecated_' . bin2hex(random_bytes(6));
+        mkdir($dir);
+        define('ILIAS_ABSOLUTE_PATH', $dir);
+        try {
+            $rows = [
+                ['module' => 'common', 'identifier' => 'plain_key'],
+                ['module' => '<b>mod</b>', 'identifier' => '"><img src=x onerror=alert(1)>&'],
+            ];
+            $log = $this->createStub(ilDBStatement::class);
+            $data = $this->createStub(ilDBStatement::class);
+            $queues = [spl_object_id($log) => [], spl_object_id($data) => $rows];
+            $db = $this->createStub(ilDBInterface::class);
+            $db->method('query')->willReturnCallback(
+                static fn(string $sql): ilDBStatement => str_contains($sql, 'lng_log') ? $log : $data
+            );
+            $db->method('quote')->willReturnArgument(0);
+            $db->method('fetchAssoc')->willReturnCallback(
+                static function (ilDBStatement $set) use (&$queues): ?array {
+                    return array_shift($queues[spl_object_id($set)]);
+                }
+            );
+            $dic = $this->init();
+            $dic['ilDB'] = $db;
+            $GLOBALS['DIC'] = $dic;
+
+            $ctrl = $this->createStub(ilCtrl::class);
+            $ctrl->method('getLinkTarget')->willReturn('link');
+            $toolbar = $this->createMock(ilToolbarGUI::class);
+            $toolbar->expects($this->once())->method('addComponent');
+            $contents = [];
+            $tpl = $this->createStub(ilGlobalTemplateInterface::class);
+            $tpl->method('setContent')->willReturnCallback(static function (string $c) use (&$contents): void {
+                $contents[] = $c;
+            });
+
+            $gui = $this->getMockBuilder(ilObjLanguageFolderGUI::class)->disableOriginalConstructor()->onlyMethods([])->getMock();
+            foreach ([
+                'lng' => $this->createLanguageMockReturningTopicAsIs(),
+                'ctrl' => $ctrl,
+                'toolbar' => $toolbar,
+                'tpl' => $tpl,
+                'ui_factory' => $this->factory(),
+                'ui_renderer' => $this->renderer(),
+            ] as $name => $value) {
+                (new ReflectionProperty(ilObjLanguageFolderGUI::class, $name))->setValue($gui, $value);
+            }
+
+            $gui->listDeprecatedObject();
+
+            $this->assertCount(1, $contents);
+            $html = $contents[0];
+            $this->assertStringContainsString('common,plain_key', $html);
+            $this->assertStringContainsString('&lt;b&gt;mod&lt;/b&gt;,&quot;&gt;&lt;img src=x onerror=alert(1)&gt;&amp;', $html);
+            $this->assertStringNotContainsString('<img', $html);
+            $this->assertStringNotContainsString('<b>', $html);
+            $this->assertStringNotContainsString('&amp;amp;', $html, 'escaped once only');
+        } finally {
+            rmdir($dir);
+        }
     }
 }

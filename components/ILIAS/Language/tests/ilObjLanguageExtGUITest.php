@@ -20,7 +20,9 @@ declare(strict_types=1);
 
 use ILIAS\Data\Result\Ok as ResultOk;
 use ILIAS\HTTP\Wrapper\RequestWrapper;
+use ILIAS\Language\Activities\AddLanguageEntry;
 use ILIAS\Language\Activities\RemoveLocalLanguageChanges;
+use ILIAS\Language\Activities\SetLanguageTranslationEnabled;
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\UI\URLBuilderToken;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -1743,6 +1745,9 @@ class ilObjLanguageExtGUITest extends TestCase
     /** @var list<string> files of the current test, removed in cleanUpScratchFiles() */
     private array $scratch_paths = [];
 
+    /** @var array<string, string> values of the settings stub of createGuiForForms() */
+    private array $settings_values = [];
+
     #[\PHPUnit\Framework\Attributes\After]
     public function cleanUpScratchFiles(): void
     {
@@ -1764,6 +1769,7 @@ class ilObjLanguageExtGUITest extends TestCase
     /**
      * @param array<string, mixed> $post
      * @param array<string, string> $query token parameters of the request
+     * @param list<string> $installed_languages
      * @return array{0: ilObjLanguageExtGUI, 1: stdClass} the GUI and what it did (redirects, messages, contents, rendered, params, object, handler)
      */
     private function createGuiForForms(
@@ -1771,9 +1777,16 @@ class ilObjLanguageExtGUITest extends TestCase
         array $post = [],
         array $query = [],
         ?string $upload_name = null,
-        string $key = 'de'
+        string $key = 'de',
+        array $installed_languages = [],
+        string $method = 'POST'
     ): array {
         $dic = $this->init();
+        $settings = $this->createStub(ilSetting::class);
+        $settings->method('get')->willReturnCallback(
+            fn(string $name, ?string $default = null): ?string => $this->settings_values[$name] ?? $default
+        );
+        $dic['ilSetting'] = $settings;
         $GLOBALS['DIC'] = $dic;
         $ctx = new stdClass();
         $ctx->redirects = [];
@@ -1795,6 +1808,9 @@ class ilObjLanguageExtGUITest extends TestCase
         );
         $ctrl->method('getFormAction')->willReturnCallback(
             static fn($gui, string $cmd): string => 'action:' . $cmd . '?' . http_build_query($ctx->params)
+        );
+        $ctrl->method('getLinkTarget')->willReturnCallback(
+            static fn($gui, string $cmd): string => 'link:' . $cmd . '?' . http_build_query($ctx->params)
         );
         $ctrl->method('redirect')->willReturnCallback(
             static function ($gui, string $cmd) use ($ctx): void {
@@ -1825,8 +1841,12 @@ class ilObjLanguageExtGUITest extends TestCase
         $request = $this->createStub(ServerRequestInterface::class);
         $request->method('getParsedBody')->willReturn($post);
         $request->method('getQueryParams')->willReturn([]);
+        $request->method('getMethod')->willReturn($method);
         $http = $this->createStub(\ILIAS\HTTP\GlobalHttpState::class);
         $http->method('request')->willReturn($request);
+        $wrapper_factory = $this->createStub(\ILIAS\HTTP\Wrapper\WrapperFactory::class);
+        $wrapper_factory->method('query')->willReturn(new \ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper($query));
+        $http->method('wrapper')->willReturn($wrapper_factory);
 
         $request_wrapper = $this->createStub(RequestWrapper::class);
         $request_wrapper->method('has')->willReturnCallback(static fn(string $name): bool => isset($query[$name]));
@@ -1883,7 +1903,7 @@ class ilObjLanguageExtGUITest extends TestCase
             ->onlyMethods([])
             ->getMock();
         $this->inject($gui, 'object', $ctx->object);
-        $this->inject($gui, 'lng', $this->createLanguageMockReturningTopicAsIs());
+        $this->inject($gui, 'lng', $this->createLanguageMockReturningTopicAsIs($installed_languages));
         $this->inject($gui, 'ctrl', $ctrl);
         $this->inject($gui, 'ui_factory', $this->factory());
         $this->inject($gui, 'ui_renderer', $renderer);
@@ -1908,13 +1928,15 @@ class ilObjLanguageExtGUITest extends TestCase
      * Post body of a form of the GUI: field key => value, addressed by the real input names.
      *
      * @param array<string, mixed> $values
+     * @param list<mixed> $args arguments of the builder
+     * @param list<string> $installed_languages
      * @return array<string, mixed>
      */
-    private function postFor(string $builder, array $values): array
+    private function postFor(string $builder, array $values, array $args = [], array $installed_languages = []): array
     {
-        [$probe] = $this->createGuiForForms();
+        [$probe] = $this->createGuiForForms(installed_languages: $installed_languages);
         $body = [];
-        foreach ($this->invokeProtectedMethod($probe, $builder)->getInputs() as $key => $input) {
+        foreach ($this->invokeProtectedMethod($probe, $builder, $args)->getInputs() as $key => $input) {
             if (!array_key_exists($key, $values)) {
                 continue;
             }
@@ -2465,5 +2487,401 @@ class ilObjLanguageExtGUITest extends TestCase
 
         self::assertSame([['failure', 'action_aborted']], $ctx->messages);
         self::assertSame([['maintain', []]], $ctx->redirects);
+    }
+
+    // export, settings, new entry and missing entries as KS forms/panel (real KS factory, request and session)
+
+    /** @return array<string, array{string, list<string>}> langmode, scopes in the order of the former form */
+    public static function exportScopesByLangmode(): array
+    {
+        return [
+            'langmode' => ['1', ['global', 'local', 'added', 'unchanged', 'merged']],
+            'no langmode' => ['0', ['global', 'local', 'unchanged']],
+        ];
+    }
+
+    /** @param list<string> $scopes */
+    #[DataProvider('exportScopesByLangmode')]
+    public function testTheExportFormOffersAddedAndMergedOnlyInLangmodeInTheFormerOrder(string $langmode, array $scopes): void
+    {
+        [$gui, $ctx] = $this->createGuiForForms($langmode);
+
+        $gui->exportObject();
+
+        $form = $ctx->rendered[0][0];
+        self::assertInstanceOf(\ILIAS\UI\Component\Input\Container\Form\Standard::class, $form);
+        self::assertSame('action:download?', $form->getPostURL());
+        $radio = $form->getInputs()['scope'];
+        self::assertInstanceOf(\ILIAS\UI\Implementation\Component\Input\Field\Radio::class, $radio);
+        self::assertSame($scopes, array_keys($radio->getOptions()));
+        self::assertTrue($radio->isRequired());
+        foreach ($scopes as $scope) {
+            self::assertSame('language_scope_' . $scope, $radio->getOptions()[$scope]);
+            self::assertSame('language_scope_' . $scope . '_info', $radio->getBylineFor($scope));
+        }
+        self::assertSame('global', $radio->getValue());
+    }
+
+    /** @return array<string, array{string, ?string, string}> langmode, remembered scope, preselected scope */
+    public static function exportPresets(): array
+    {
+        return [
+            'remembered local' => ['0', 'local', 'local'],
+            'remembered merged in langmode' => ['1', 'merged', 'merged'],
+            'merged is not offered without langmode' => ['0', 'merged', 'global'],
+            'unknown remembered scope' => ['1', 'bogus', 'global'],
+            'nothing remembered' => ['1', null, 'global'],
+        ];
+    }
+
+    #[DataProvider('exportPresets')]
+    public function testTheExportFormPreselectsTheRememberedScopeIfItIsOffered(
+        string $langmode,
+        ?string $remembered,
+        string $expected
+    ): void {
+        [$gui, $ctx] = $this->createGuiForForms($langmode);
+        $_SESSION['lang_ext_maintenance'] = $remembered === null ? [] : ['export' => ['scope' => $remembered]];
+
+        $gui->exportObject();
+
+        self::assertSame($expected, $ctx->rendered[0][0]->getInputs()['scope']->getValue());
+    }
+
+    /** @return array<string, array{string, array<string, mixed>}> langmode, post */
+    public static function invalidExportSubmissions(): array
+    {
+        return [
+            'merged without langmode' => ['0', ['scope' => 'merged']],
+            'added without langmode' => ['0', ['scope' => 'added']],
+            'unknown scope' => ['1', ['scope' => '../etc/passwd']],
+            'no scope' => ['1', []],
+            'empty scope' => ['1', ['scope' => '']],
+        ];
+    }
+
+    /** @param array<string, mixed> $post */
+    #[DataProvider('invalidExportSubmissions')]
+    public function testDownloadObjectRefusesAScopeThatIsNotOfferedAndDeliversNothing(string $langmode, array $post): void
+    {
+        defined('ILIAS_VERSION') || define('ILIAS_VERSION', '10.0');
+        [$gui, $ctx] = $this->createGuiForForms($langmode, $this->postFor('buildExportForm', $post));
+        $ctx->object->expects($this->never())->method('getGlobalLanguageFile');
+        $_SESSION['lang_ext_maintenance'] = ['export' => ['scope' => 'local']];
+
+        $gui->downloadObject();
+
+        self::assertSame([['failure', 'form_input_not_valid']], $ctx->messages);
+        self::assertSame('local', $_SESSION['lang_ext_maintenance']['export']['scope'], 'the remembered scope is kept');
+        self::assertCount(1, $ctx->contents, 'the form is shown again');
+    }
+
+    public function testDownloadObjectOnlyShowsTheFormForARequestThatIsNotAPost(): void
+    {
+        [$gui, $ctx] = $this->createGuiForForms(
+            '1',
+            $this->postFor('buildExportForm', ['scope' => 'global']),
+            [],
+            null,
+            'de',
+            [],
+            'GET'
+        );
+        $ctx->object->expects($this->never())->method('getGlobalLanguageFile');
+
+        $gui->downloadObject();
+
+        self::assertSame([], $ctx->messages);
+        self::assertCount(1, $ctx->contents);
+        self::assertArrayNotHasKey('lang_ext_maintenance', $_SESSION);
+    }
+
+    /** @param list<string> $scopes */
+    #[DataProvider('exportScopesByLangmode')]
+    public function testDownloadObjectAcceptsEveryOfferedScopeAndRemembersItForThePreselection(string $langmode, array $scopes): void
+    {
+        defined('ILIAS_VERSION') || define('ILIAS_VERSION', '10.0');
+        foreach ($scopes as $scope) {
+            [$gui, $ctx] = $this->createGuiForForms($langmode, $this->postFor('buildExportForm', ['scope' => $scope]));
+            $ctx->object->method('getGlobalLanguageFile')->willThrowException(new LogicException('delivery reached'));
+            $_SESSION = [];
+
+            try {
+                $gui->downloadObject();
+                self::fail('the export was not started for ' . $scope);
+            } catch (LogicException $e) {
+                self::assertSame('delivery reached', $e->getMessage());
+            }
+
+            self::assertSame([], $ctx->messages, $scope);
+            self::assertSame($scope, ilSession::get('lang_ext_maintenance')['export']['scope'], $scope);
+        }
+    }
+
+    public function testTheSettingsFormPreselectsTheStoredTranslationFlagOfThisLanguage(): void
+    {
+        foreach ([[true, '1', '0'], [false, '0', '1']] as [$expected, $stored, $other]) {
+            $this->settings_values = ['lang_translate_de' => $stored, 'lang_translate_en' => $other];
+            [$gui, $ctx] = $this->createGuiForForms();
+
+            $gui->settingsObject();
+
+            $form = $ctx->rendered[0][0];
+            self::assertSame('action:saveSettings?', $form->getPostURL());
+            $checkbox = $form->getInputs()['translation'];
+            self::assertSame($expected, $checkbox->getValue(), $stored);
+            self::assertSame('language_translation_enabled', $checkbox->getLabel());
+            self::assertSame('language_note_translation', $checkbox->getByline());
+        }
+    }
+
+    public function testTheSettingsFormIsNotCheckedWithoutAStoredFlag(): void
+    {
+        [$gui, $ctx] = $this->createGuiForForms();
+
+        $gui->settingsObject();
+
+        self::assertFalse($ctx->rendered[0][0]->getInputs()['translation']->getValue());
+    }
+
+    /** @return array<string, array{array<string, string>, bool}> */
+    public static function settingsValues(): array
+    {
+        return ['checked' => [['translation' => 'checked'], true], 'unchecked box is not submitted' => [[], false]];
+    }
+
+    /** @param array<string, string> $values */
+    #[DataProvider('settingsValues')]
+    public function testSaveSettingsObjectHandsTheStateOfTheRealCheckboxToTheActivityAndShowsTheFormAgain(array $values, bool $enabled): void
+    {
+        [$gui, $ctx] = $this->createGuiForForms('1', $this->postFor('buildSettingsForm', $values));
+        $user = $this->createStub(ilObjUser::class);
+        $user->method('getId')->willReturn(6);
+        $this->inject($gui, 'user', $user);
+        $activity = $this->createMock(SetLanguageTranslationEnabled::class);
+        $activity->expects($this->once())->method('maybePerformAs')
+            ->with($this->anything(), 6, ['language_key' => 'de', 'enabled' => $enabled])
+            ->willReturn(new ResultOk(['changed' => true]));
+        $this->inject($gui, 'set_language_translation_enabled', $activity);
+
+        $gui->saveSettingsObject();
+
+        self::assertSame([['success', 'settings_saved']], $ctx->messages);
+        self::assertCount(1, $ctx->contents);
+    }
+
+    private const array NEW_ENTRY_LANGUAGES = ['de', 'en', 'fr'];
+
+    /**
+     * @param array<string, mixed> $values form fields by key
+     * @param array<string, string> $query
+     * @return array{0: ilObjLanguageExtGUI, 1: stdClass}
+     */
+    private function newEntryGui(array $values, array $query = ['eid' => 'sometopic'], string $method = 'POST'): array
+    {
+        $_SESSION['lang_ext_maintenance'] = [
+            'used_topics' => ['sometopic', 'other'],
+            'used_modules' => ['common', 'user'],
+        ];
+        $post = $this->postFor('buildAddNewEntryForm', $values, ['sometopic'], self::NEW_ENTRY_LANGUAGES);
+
+        return $this->createGuiForForms('1', $post, $query, null, 'de', self::NEW_ENTRY_LANGUAGES, $method);
+    }
+
+    public function testTheNewEntryFormHasModuleIdentifierAndOneFieldPerInstalledLanguageWithDeAndEnRequired(): void
+    {
+        [$gui, $ctx] = $this->newEntryGui([]);
+
+        $form = $this->invokeProtectedMethod($gui, 'buildAddNewEntryForm', ['sometopic']);
+
+        self::assertSame('action:saveNewEntry?eid=sometopic', $form->getPostURL());
+        self::assertSame([], $ctx->params, 'the eid is not left on the ctrl');
+        $inputs = $form->getInputs();
+        self::assertSame(['mod', 'id', 'trans_de', 'trans_en', 'trans_fr'], array_keys($inputs));
+        self::assertTrue($inputs['mod']->isRequired());
+        self::assertSame(['common' => 'common', 'user' => 'user'], $inputs['mod']->getOptions());
+        self::assertTrue($inputs['id']->isDisabled());
+        self::assertSame('sometopic', $inputs['id']->getValue());
+        self::assertTrue($inputs['trans_de']->isRequired());
+        self::assertTrue($inputs['trans_en']->isRequired());
+        self::assertFalse($inputs['trans_fr']->isRequired());
+        self::assertSame('meta_l_fr', $inputs['trans_fr']->getLabel());
+    }
+
+    /** @return array<string, array{string, string}> posted text, value handed to the activity (like ilTextInputGUI) */
+    public static function postedNewEntryTexts(): array
+    {
+        return [
+            'plain text is kept' => ['Hallo Welt', 'Hallo Welt'],
+            'surrounding blanks are trimmed' => ['  Hallo  ', 'Hallo'],
+            'allowed tags are kept' => ['<b>x</b> <i>y</i>', '<b>x</b> <i>y</i>'],
+            'script is neutralized, not executable' => ['a<script>alert(1)</script>b', 'a< script>alert(1)< /script>b'],
+            'tags outside the allowlist are neutralized' => ['<table>t</table><b>x</b>', '< table>t< /table>< b>x< /b>'],
+            'lone less-than is kept with a blank' => ['1 <2', '1 < 2'],
+        ];
+    }
+
+    #[DataProvider('postedNewEntryTexts')]
+    public function testSaveNewEntryObjectFiltersTheTextsLikeATextInputAndTakesTheIdentifierFromTheEid(
+        string $posted,
+        string $expected
+    ): void {
+        [$gui, $ctx] = $this->newEntryGui([
+            'mod' => 'user',
+            'id' => 'tampered',
+            'trans_de' => $posted,
+            'trans_en' => 'Hello',
+            'trans_fr' => $posted,
+        ]);
+        $user = $this->createStub(ilObjUser::class);
+        $user->method('getId')->willReturn(6);
+        $this->inject($gui, 'user', $user);
+        $activity = $this->createMock(AddLanguageEntry::class);
+        $activity->expects($this->once())->method('maybePerformAs')
+            ->with($this->anything(), 6, [
+                'module' => 'user',
+                'identifier' => 'sometopic',
+                'translations' => ['de' => $expected, 'en' => 'Hello', 'fr' => $expected],
+            ])
+            ->willReturn(new ResultOk(['added_language_keys' => ['de', 'en', 'fr']]));
+        $this->inject($gui, 'add_language_entry', $activity);
+
+        $gui->saveNewEntryObject();
+
+        self::assertSame([['success', 'settings_saved']], $ctx->messages);
+        self::assertSame([['view', []]], $ctx->redirects);
+    }
+
+    /** @return array<string, array{array<string, string>}> */
+    public static function invalidNewEntries(): array
+    {
+        $valid = ['mod' => 'common', 'trans_de' => 'Hallo', 'trans_en' => 'Hello', 'trans_fr' => 'Salut'];
+
+        return [
+            'de missing' => [array_diff_key($valid, ['trans_de' => 1])],
+            'de blank' => [['trans_de' => "  \t"] + $valid],
+            'module not offered' => [['mod' => 'secrets'] + $valid],
+            'module missing' => [array_diff_key($valid, ['mod' => 1])],
+        ];
+    }
+
+    /** @param array<string, string> $values */
+    #[DataProvider('invalidNewEntries')]
+    public function testSaveNewEntryObjectRefusesMissingRequiredFieldsAndForeignModulesAndShowsTheFormAgain(array $values): void
+    {
+        [$gui, $ctx] = $this->newEntryGui($values);
+        $activity = $this->createMock(AddLanguageEntry::class);
+        $activity->expects($this->never())->method('maybePerformAs');
+        $this->inject($gui, 'add_language_entry', $activity);
+
+        $gui->saveNewEntryObject();
+
+        self::assertSame([['failure', 'form_input_not_valid']], $ctx->messages);
+        self::assertSame([], $ctx->redirects);
+        self::assertCount(1, $ctx->contents);
+    }
+
+    public function testAFilledOptionalLanguageIsNotRequiredAndABlankOneIsHandedOnAsEmpty(): void
+    {
+        [$gui] = $this->newEntryGui(['mod' => 'common', 'trans_de' => 'Hallo', 'trans_en' => 'Hello', 'trans_fr' => '']);
+        $user = $this->createStub(ilObjUser::class);
+        $this->inject($gui, 'user', $user);
+        $activity = $this->createMock(AddLanguageEntry::class);
+        $activity->expects($this->once())->method('maybePerformAs')
+            ->with($this->anything(), $this->anything(), $this->callback(
+                static fn(array $p): bool => $p['translations'] === ['de' => 'Hallo', 'en' => 'Hello', 'fr' => '']
+            ))
+            ->willReturn(new ResultOk(['added_language_keys' => ['de', 'en']]));
+        $this->inject($gui, 'add_language_entry', $activity);
+
+        $gui->saveNewEntryObject();
+    }
+
+    /** @return array<string, array{array<string, string>}> */
+    public static function unusableEids(): array
+    {
+        return [
+            'unknown topic' => [['eid' => 'not_stored']],
+            'empty' => [['eid' => '']],
+            'blank' => [['eid' => '   ']],
+            'missing' => [[]],
+        ];
+    }
+
+    /** @param array<string, string> $query */
+    #[DataProvider('unusableEids')]
+    public function testAddNewEntryAndSaveNewEntryLeadBackToTheViewForAnEidThatIsNoStoredTopic(array $query): void
+    {
+        foreach (['addNewEntryObject', 'saveNewEntryObject'] as $command) {
+            [$gui, $ctx] = $this->newEntryGui(['mod' => 'common', 'trans_de' => 'a', 'trans_en' => 'b'], $query);
+            $activity = $this->createMock(AddLanguageEntry::class);
+            $activity->expects($this->never())->method('maybePerformAs');
+            $this->inject($gui, 'add_language_entry', $activity);
+
+            $gui->$command();
+
+            self::assertSame([['view', []]], $ctx->redirects, $command);
+            self::assertSame([], $ctx->contents, $command);
+            self::assertSame([], $ctx->messages, $command);
+        }
+    }
+
+    public function testAddNewEntryObjectShowsTheFormOfTheTrimmedStoredEidWithACancelButtonToTheView(): void
+    {
+        [$gui, $ctx] = $this->newEntryGui([], ['eid' => ' sometopic ']);
+
+        $gui->addNewEntryObject();
+
+        self::assertSame([], $ctx->redirects);
+        [$form, $cancel] = $ctx->rendered[0];
+        self::assertSame('action:saveNewEntry?eid=sometopic', $form->getPostURL());
+        self::assertSame('sometopic', $form->getInputs()['id']->getValue());
+        self::assertSame('cancel', $cancel->getLabel());
+        self::assertSame('link:view?', $cancel->getAction());
+    }
+
+    public function testBuildMissingEntriesListsEscapedEntriesWithAnAddLinkCarryingTheEidAndLeavesNoParameterBehind(): void
+    {
+        [$gui, $ctx] = $this->createGuiForForms();
+        $this->inject($gui, 'ui_renderer', $this->renderer());
+        // like ilCtrl, which puts the already URL-encoded parameter value into the link as given
+        $ctrl = $this->createStub(ilCtrl::class);
+        $ctrl->method('setParameter')->willReturnCallback(
+            static function ($gui, string $name, $value) use ($ctx): void {
+                $ctx->params[$name] = $value;
+            }
+        );
+        $ctrl->method('clearParameterByClass')->willReturnCallback(
+            static function (string $class, string $name) use ($ctx): void {
+                unset($ctx->params[$name]);
+            }
+        );
+        $ctrl->method('getLinkTarget')->willReturnCallback(
+            static fn($gui, string $cmd): string => 'link:' . $cmd . '?eid=' . ($ctx->params['eid'] ?? '')
+        );
+        $this->inject($gui, 'ctrl', $ctrl);
+        $evil = '<script>alert(1)</script>';
+
+        $panel = $this->invokeProtectedMethod($gui, 'buildMissingEntries', [[$evil, 'a&b', 'plain']]);
+
+        self::assertInstanceOf(\ILIAS\UI\Component\Panel\Standard::class, $panel);
+        self::assertSame('adm_missing_entries', $panel->getTitle());
+        $html = $this->renderer()->render($panel);
+        self::assertStringNotContainsString('<script>', $html);
+        self::assertStringContainsString('&lt;script&gt;alert(1)&lt;/script&gt;', $html);
+        self::assertStringContainsString('a&amp;b', $html);
+        self::assertStringNotContainsString('a&amp;amp;b', $html, 'escaped once only');
+        self::assertSame(3, substr_count($html, 'adm_missing_entry_add_action'));
+        self::assertStringContainsString('link:addNewEntry?eid=' . rawurlencode($evil), str_replace('+', '%20', $html));
+        self::assertStringContainsString('eid=a%26b', str_replace('&amp;', '&', $html));
+        self::assertStringContainsString('eid=plain', $html);
+        self::assertSame([], $ctx->params);
+    }
+
+    public function testBuildMissingEntriesReturnsNoPanelWithoutEntries(): void
+    {
+        [$gui] = $this->createGuiForForms();
+
+        self::assertNull($this->invokeProtectedMethod($gui, 'buildMissingEntries', [[]]));
     }
 }
