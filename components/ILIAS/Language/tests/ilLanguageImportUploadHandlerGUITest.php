@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\Filesystem\Exception\IOException;
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Provider\Configuration\LocalConfig;
 use ILIAS\Filesystem\Provider\FlySystem\FlySystemLocalFilesystemFactory;
@@ -61,10 +62,10 @@ class ilLanguageImportUploadHandlerGUITest extends TestCase
         rmdir($dir);
     }
 
-    private function createHandler(?FileUpload $upload = null): ilLanguageImportUploadHandlerGUI
+    private function createHandler(?FileUpload $upload = null, ?Filesystem $temp = null): ilLanguageImportUploadHandlerGUI
     {
         $handler = (new ReflectionClass(ilLanguageImportUploadHandlerGUI::class))->newInstanceWithoutConstructor();
-        (new ReflectionProperty(ilLanguageImportUploadHandlerGUI::class, 'temp_system'))->setValue($handler, $this->temp);
+        (new ReflectionProperty(ilLanguageImportUploadHandlerGUI::class, 'temp_system'))->setValue($handler, $temp ?? $this->temp);
         if ($upload !== null) {
             (new ReflectionProperty(\ILIAS\FileUpload\Handler\AbstractCtrlAwareUploadHandler::class, 'upload'))
                 ->setValue($handler, $upload);
@@ -208,5 +209,97 @@ class ilLanguageImportUploadHandlerGUITest extends TestCase
         self::assertSame(HandlerResult::STATUS_FAILED, $result->getStatus());
         self::assertSame('too big', $result->getMessage());
         self::assertArrayNotHasKey(self::SESSION_KEY, $_SESSION);
+    }
+
+    /** @param \Closure(string): string $sanitize the filename sanitizer of the DIC */
+    private function runUpload(string $name, int $size, \Closure $sanitize): HandlerResult
+    {
+        $source = $this->root . '/source.lang';
+        file_put_contents($source, 'payload');
+        $GLOBALS['DIC'] = new \ILIAS\DI\Container();
+        $GLOBALS['DIC']['filesystem.security.sanitizing.filename'] = new class ($sanitize) {
+            public function __construct(private readonly \Closure $sanitize)
+            {
+            }
+
+            public function sanitize(string $name): string
+            {
+                return ($this->sanitize)($name);
+            }
+        };
+        $upload = $this->createStub(FileUpload::class);
+        $upload->method('hasBeenProcessed')->willReturn(true);
+        $upload->method('getResults')->willReturn([new UploadResult(
+            $name,
+            $size,
+            'text/plain',
+            $this->createStub(ImmutableStringMap::class),
+            new ProcessingStatus(ProcessingStatus::OK, 'ok'),
+            $source
+        )]);
+        $handler = $this->createHandler($upload);
+
+        return (new ReflectionMethod($handler, 'getUploadResult'))->invoke($handler);
+    }
+
+    public function testAnUploadOverTheServerSideSizeLimitIsRefusedAndStoresNothing(): void
+    {
+        // the limit is checked in the browser only, the declared size of the result is what counts
+        $result = $this->runUpload('big.lang', ilLanguageImportUploadHandlerGUI::MAX_FILE_SIZE + 1, static fn(string $n): string => $n);
+
+        self::assertSame(HandlerResult::STATUS_FAILED, $result->getStatus());
+        self::assertSame('', $result->getFileIdentifier());
+        self::assertArrayNotHasKey(self::SESSION_KEY, $_SESSION);
+        // only the source file of the test, no identifier directory
+        self::assertSame(['source.lang'], array_map(static fn($m): string => $m->getPath(), $this->temp->listContents('', true)));
+    }
+
+    public function testAnUploadExactlyAtTheSizeLimitIsAccepted(): void
+    {
+        $result = $this->runUpload('edge.lang', ilLanguageImportUploadHandlerGUI::MAX_FILE_SIZE, static fn(string $n): string => $n);
+
+        self::assertSame(HandlerResult::STATUS_OK, $result->getStatus());
+        self::assertSame([$result->getFileIdentifier()], $_SESSION[self::SESSION_KEY]);
+    }
+
+    public function testAFileNameThatSanitizesToNothingGetsTheFallbackName(): void
+    {
+        $result = $this->runUpload('../', 7, static fn(string $n): string => '');
+
+        self::assertSame(HandlerResult::STATUS_OK, $result->getStatus());
+        $handler = $this->createHandler();
+        self::assertSame('language.lang', $handler->getFileName($result->getFileIdentifier()));
+    }
+
+    public function testTheInfoResultEscapesTheFileNameButTheStoredNameStaysRaw(): void
+    {
+        $this->storeUpload('own', '<img src=x onerror=alert(1)>.lang', true);
+        $handler = $this->createHandler();
+
+        $info = $handler->getInfoResult('own');
+
+        self::assertSame('&lt;img src=x onerror=alert(1)&gt;.lang', $info->getName());
+        self::assertSame(7, $info->getSize());
+        self::assertSame('<img src=x onerror=alert(1)>.lang', $handler->getFileName('own'));
+    }
+
+    /** The detector gives up on the unknown extension .lang; any other detected type is passed on. */
+    public function testTheMimeTypeFallsBackToPlainTextOnlyWhenTheDetectionFails(): void
+    {
+        $this->storeUpload('own', 'own.lang', true);
+        $real = $this->temp;
+        foreach ([new IOException('unknown'), 'application/x-detected'] as $detected) {
+            $fs = $this->createStub(Filesystem::class);
+            $fs->method('hasDir')->willReturnCallback(static fn(string $d): bool => $real->hasDir($d));
+            $fs->method('listContents')->willReturnCallback(static fn(string $d): array => $real->listContents($d));
+            $fs->method('getSize')->willReturnCallback(static fn(string $p, $unit) => $real->getSize($p, $unit));
+            $detected instanceof IOException
+                ? $fs->method('getMimeType')->willThrowException($detected)
+                : $fs->method('getMimeType')->willReturn($detected);
+            $handler = $this->createHandler(null, $fs);
+
+            $expected = $detected instanceof IOException ? 'text/plain' : $detected;
+            self::assertSame($expected, $handler->getInfoResult('own')->getMimeType());
+        }
     }
 }

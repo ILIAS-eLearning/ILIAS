@@ -35,6 +35,11 @@ class ilObjLanguageFolderGUITest extends TestCase
         tearDown as private tearDownGuiTestSupport;
     }
 
+    private function invokeProtectedMethod(object $object, string $method_name, array $args = []): mixed
+    {
+        return (new ReflectionMethod($object, $method_name))->invoke($object, ...$args);
+    }
+
     /** The real, static ilSession writes into $_SESSION. */
     protected function tearDown(): void
     {
@@ -696,6 +701,185 @@ class ilObjLanguageFolderGUITest extends TestCase
             'confirm enable' => [true, false, 'ON'],
             'confirm disable' => [false, true, 'OFF'],
         ];
+    }
+
+    /**
+     * Real Refinery, the request wrapper applies the transformation like the real one does.
+     *
+     * @param list<non-empty-string> $methods
+     * @return ilObjLanguageFolderGUI&\PHPUnit\Framework\MockObject\MockObject
+     */
+    private function createTableActionGui(?string $action, string $http_method, mixed $ids, array $methods): ilObjLanguageFolderGUI
+    {
+        $gui = $this->getMockBuilder(ilObjLanguageFolderGUI::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(array_merge(['checkPermission'], $methods))
+            ->getMock();
+
+        $action_token = new \ILIAS\UI\URLBuilderToken(['language_folder'], 'action');
+        $id_token = new \ILIAS\UI\URLBuilderToken(['language_folder'], 'id');
+        $values = [];
+        if ($action !== null) {
+            $values[$action_token->getName()] = $action;
+        }
+        if ($ids !== 'absent') {
+            $values[$id_token->getName()] = $ids;
+        }
+        $request_wrapper = $this->createStub(\ILIAS\HTTP\Wrapper\RequestWrapper::class);
+        $request_wrapper->method('has')->willReturnCallback(static fn(string $key): bool => array_key_exists($key, $values));
+        $request_wrapper->method('retrieve')->willReturnCallback(
+            static fn(string $key, \ILIAS\Refinery\Transformation $trafo): mixed => $trafo->transform($values[$key])
+        );
+        $lng = $this->createStub(ilLanguage::class);
+        $lng->method('txt')->willReturnArgument(0);
+        $language = $this->createStub(\ILIAS\Language\Language::class);
+
+        foreach ([
+            'action_token' => $action_token,
+            'id_token' => $id_token,
+            'request_wrapper' => $request_wrapper,
+            'refinery' => new \ILIAS\Refinery\Factory(new \ILIAS\Data\Factory(), $language),
+            'http' => $this->stubHttpWithMethod($http_method),
+            'ui_renderer' => $this->createStub(\ILIAS\UI\Renderer::class),
+            'lng' => $lng,
+        ] as $name => $value) {
+            (new ReflectionProperty(ilObjLanguageFolderGUI::class, $name))->setValue($gui, $value);
+        }
+
+        return $gui;
+    }
+
+    #[\PHPUnit\Framework\Attributes\DataProvider('installActions')]
+    public function testInstallTableActionsOnlyOpenTheConfirmationForTheConfirmedActionAndExecuteNothing(
+        string $action,
+        string $confirmed_action,
+        string $text
+    ): void {
+        // GET is fine here: the modal is fetched asynchronously, it changes nothing
+        $gui = $this->createTableActionGui($action, 'GET', ['5', '6'], ['buildConfirmModal', 'installObject', 'viewObject']);
+        $modal = $this->createStub(\ILIAS\UI\Component\Modal\Interruptive::class);
+        $gui->expects($this->once())->method('buildConfirmModal')
+            ->with(['5', '6'], $action, $confirmed_action, $text)
+            ->willReturn($modal);
+        $gui->expects($this->never())->method('installObject');
+        $gui->expects($this->never())->method('viewObject');
+
+        // the real code echoes the modal and exit()s, the exception stands in for it
+        $renderer = $this->createMock(\ILIAS\UI\Renderer::class);
+        $renderer->expects($this->once())->method('renderAsync')->with([$modal])
+            ->willThrowException(new \LogicException('rendered'));
+        $this->inject($gui, 'ui_renderer', $renderer);
+
+        $this->expectExceptionMessage('rendered');
+        $this->invokeTableAction($gui);
+    }
+
+    /** @return array<string, array{string, string, string}> */
+    public static function installActions(): array
+    {
+        return [
+            'install' => ['install', 'installConfirmed', 'lang_install_confirm_selected'],
+            'install_local' => ['install_local', 'installLocalConfirmed', 'lang_install_local_confirm_selected'],
+        ];
+    }
+
+    /** @param list<mixed> $expected_args */
+    #[\PHPUnit\Framework\Attributes\DataProvider('confirmedTableActions')]
+    public function testConfirmedTableActionsRunOnlyByPostAndOtherwiseOnlyTheListIsShown(
+        string $action,
+        string $expected_method,
+        array $expected_args,
+        string $http_method,
+        bool $must_run
+    ): void {
+        $all = ['confirmRefreshObject', 'refreshSelectedObject', 'uninstallObject', 'uninstallChangesObject', 'installObject', 'viewObject'];
+        $gui = $this->createTableActionGui($action, $http_method, ['5'], $all);
+        $gui->method('confirmRefreshObject')->willReturn(['5']);
+
+        foreach ($all as $method) {
+            if ($method === 'viewObject') {
+                $gui->expects($this->once())->method('viewObject');
+            } elseif ($must_run && $method === $expected_method) {
+                $gui->expects($this->once())->method($method)->with(...$expected_args);
+            } elseif ($method !== 'confirmRefreshObject') {
+                $gui->expects($this->never())->method($method);
+            }
+        }
+
+        $this->invokeTableAction($gui);
+    }
+
+    /** @return array<string, array{string, string, list<mixed>, string, bool}> */
+    public static function confirmedTableActions(): array
+    {
+        $cases = [];
+        foreach ([
+            'confirmRefresh' => ['refreshSelectedObject', [['5']]],
+            'refreshConfirmed' => ['refreshSelectedObject', [['5']]],
+            'uninstallConfirmed' => ['uninstallObject', [['5']]],
+            'uninstallChanges' => ['uninstallChangesObject', [['5']]],
+            'installConfirmed' => ['installObject', [['5'], InstallLanguage::MODE_INSTALL]],
+            'installLocalConfirmed' => ['installObject', [['5'], InstallLanguage::MODE_INSTALL_LOCAL]],
+        ] as $action => [$method, $args]) {
+            $cases[$action . ' by POST'] = [$action, $method, $args, 'POST', true];
+            $cases[$action . ' by GET'] = [$action, $method, $args, 'GET', false];
+            $cases[$action . ' by HEAD'] = [$action, $method, $args, 'HEAD', false];
+        }
+
+        return $cases;
+    }
+
+    /** @param list<string> $expected */
+    #[\PHPUnit\Framework\Attributes\DataProvider('idsFromQueryToken')]
+    public function testGetIdsFromQueryTokenNormalisesListScalarAndNonsenseToAListOfStrings(mixed $request_value, array $expected): void
+    {
+        $gui = $this->createTableActionGui(null, 'POST', $request_value, []);
+
+        $this->assertSame($expected, $this->invokeProtectedMethod($gui, 'getIdsFromQueryToken'));
+    }
+
+    /** @return array<string, array{mixed, list<string>}> */
+    public static function idsFromQueryToken(): array
+    {
+        return [
+            'list' => [['5', '6'], ['5', '6']],
+            'scalar becomes a one element list' => ['5', ['5']],
+            'ALL_OBJECTS marker is kept' => [['ALL_OBJECTS', '7'], ['ALL_OBJECTS', '7']],
+            'nested array is nonsense' => [[['x']], []],
+            'null is nonsense' => [null, []],
+            'parameter missing' => ['absent', []],
+        ];
+    }
+
+    #[\PHPUnit\Framework\Attributes\DataProvider('detectionSwitchCommands')]
+    public function testSetLanguageDetectionEnabledObjectKeepsTheSuccessMessageAcrossTheRedirectAndDoesNotRenderTheList(
+        string $method,
+        bool $enabled
+    ): void {
+        $activity = $this->createMock(SetLanguageDetectionEnabled::class);
+        $activity->expects($this->once())->method('maybePerformAs')->with($this->anything(), 6, ['enabled' => $enabled])
+            ->willReturn(new ResultOk(null));
+
+        // persistent (true): the message has to survive the redirect of the POST-redirect-GET
+        $tpl = $this->createMock(ilGlobalTemplateInterface::class);
+        $tpl->expects($this->once())->method('setOnScreenMessage')->with('success', 'saved_successfully', true);
+        $ctrl = $this->createMock(ilCtrl::class);
+        $ctrl->expects($this->once())->method('redirect')->with($this->isInstanceOf(ilObjLanguageFolderGUI::class), 'view');
+
+        $gui = $this->createGuiWithSetLanguageDetectionEnabledCollaborators(
+            $activity,
+            $tpl,
+            $ctrl,
+            $this->createLanguageMockReturningTopicAsIs()
+        );
+
+        $this->invokeProtectedMethod($gui, $method);
+    }
+
+    /** @return array<string, array{string, bool}> */
+    public static function detectionSwitchCommands(): array
+    {
+        return ['enable' => ['enableLanguageDetectionObject', true], 'disable' => ['disableLanguageDetectionObject', false]];
     }
 
     private function invokeTableAction(ilObjLanguageFolderGUI $gui): void

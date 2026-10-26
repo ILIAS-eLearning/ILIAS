@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\Language\Activities\InstallLanguage;
 use ILIAS\Language\Activities\UpdateLanguage;
+use ILIAS\Language\Activities\SetLanguageDetectionEnabled;
 use ILIAS\Language\Activities\UninstallLanguage;
 use ILIAS\Language\Activities\RemoveLocalLanguageChanges;
 
@@ -69,6 +70,26 @@ trait ilObjLanguageFolderGUITestFixture
         $gui = $this->newGuiWithoutConstructor(ilObjLanguageFolderGUI::class);
 
         $this->inject($gui, 'update_language', $update_language);
+        $this->inject($gui, 'current_user_id', 6);
+        $this->inject($gui, 'tpl', $tpl);
+        $this->inject($gui, 'ctrl', $ctrl);
+        $this->inject($gui, 'lng', $lng);
+        $this->inject($gui, 'activity_error_logger', $this->activityErrorLoggerForGui());
+        $this->inject($gui, 'ui_factory', $this->stubUiFactoryForMaybePerformAs());
+
+        return $gui;
+    }
+
+    private function createGuiWithSetLanguageDetectionEnabledCollaborators(
+        SetLanguageDetectionEnabled $set_language_detection_enabled,
+        ilGlobalTemplateInterface $tpl,
+        ilCtrl $ctrl,
+        ilLanguage $lng
+    ): ilObjLanguageFolderGUI {
+        /** @var ilObjLanguageFolderGUI $gui */
+        $gui = $this->newGuiWithoutConstructor(ilObjLanguageFolderGUI::class);
+
+        $this->inject($gui, 'set_language_detection_enabled', $set_language_detection_enabled);
         $this->inject($gui, 'current_user_id', 6);
         $this->inject($gui, 'tpl', $tpl);
         $this->inject($gui, 'ctrl', $ctrl);
