@@ -1424,8 +1424,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
      */
     public function settingsObject(): void
     {
-        $form = $this->initNewSettingsForm();
-        $this->tpl->setContent($form->getHTML());
+        $this->tpl->setContent($this->ui_renderer->render($this->buildSettingsForm()));
     }
 
     /**
@@ -1437,8 +1436,9 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
     {
         $ilUser = $this->user;
 
-        $post_translation = $this->http->request()->getParsedBody()['translation'] ?? null;
-        $enabled = $post_translation !== null && $post_translation !== '';
+        // a checkbox form is never invalid, an unchecked box reads as false
+        $data = $this->buildSettingsForm()->withRequest($this->http->request())->getData();
+        $enabled = (bool) ($data['translation'] ?? false);
 
         $result = $this->set_language_translation_enabled->maybePerformAs(
             $this->ui_factory->input(),
@@ -1459,31 +1459,24 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"));
         }
 
-        $form = $this->initNewSettingsForm();
-
         // rendered directly with a non-persisted message, no redirect (unlike installObject() & Co.)
-        $this->tpl->setContent($form->getHTML());
+        $this->settingsObject();
     }
 
-    protected function initNewSettingsForm(): ilPropertyFormGUI
+    protected function buildSettingsForm(): \ILIAS\UI\Component\Input\Container\Form\Standard
     {
         global $DIC;
-        $ilSetting = $DIC->settings();
-        $translate_key = "lang_translate_" . $this->object->key;
-        $translate = (bool) $ilSetting->get($translate_key, '0');
+        $translate = (bool) $DIC->settings()->get("lang_translate_" . $this->object->key, '0');
 
-        $form = new ilPropertyFormGUI();
-        $form->setFormAction($this->ctrl->getFormAction($this));
-        $form->setTitle($this->lng->txt("language_settings"));
-        $form->setPreventDoubleSubmission(false);
-        $form->addCommandButton('saveSettings', $this->lng->txt("language_change_settings"));
-
-        $ci = new ilCheckboxInputGUI($this->lng->txt("language_translation_enabled"), "translation");
-        $ci->setChecked($translate);
-        $ci->setInfo($this->lng->txt("language_note_translation"));
-        $form->addItem($ci);
-
-        return $form;
+        return $this->ui_factory->input()->container()->form()->standard(
+            $this->ctrl->getFormAction($this, 'saveSettings'),
+            [
+                'translation' => $this->ui_factory->input()->field()->checkbox(
+                    $this->lng->txt('language_translation_enabled'),
+                    $this->lng->txt('language_note_translation')
+                )->withValue($translate),
+            ]
+        )->withSubmitLabel($this->lng->txt('language_change_settings'));
     }
 
     /**
