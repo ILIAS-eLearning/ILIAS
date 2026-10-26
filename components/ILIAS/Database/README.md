@@ -389,3 +389,26 @@ $q = "SELECT * FROM " . $DIC->database()->quoteIdentifier('select');
 ...
 
 ```
+
+## Getting the connection in a bootstrapped component
+
+Pull `ILIAS\Database\Connection`. It extends `ilDBInterface`, and the connection opens on first use, so it can be injected while the component is built:
+
+```php
+$internal[MyComponent\MyRepository::class] = static fn() =>
+    new MyComponent\MyRepository($pull[\ILIAS\Database\Connection::class]);
+```
+
+```php
+final readonly class MyRepository
+{
+    public function __construct(private \ILIAS\Database\Connection $connection)
+    {
+    }
+
+    public function read(): void
+    {
+        $result = $this->connection->query('SELECT ...');
+    }
+}
+```
