@@ -76,6 +76,7 @@ class MatchingValue implements Clonable
         return $this->answer_option->getTextValue();
     }
 
+    #[\Override]
     public function clone(
         UuidFactory $uuid_factory,
         array $environment = []
