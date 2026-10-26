@@ -311,6 +311,9 @@ msgstr "Folder to store sounds of the skin into. This directory can be shared wi
 msgid "sty_acopy"
 msgstr "Copy"
 
+msgid "sty_activate"
+msgstr "Activate"
+
 msgid "sty_add_assignment"
 msgstr "Add Assignment"
 
@@ -520,6 +523,9 @@ msgstr "Custom Parameters"
 
 msgid "sty_custom_par_info"
 msgstr "Add custom CSS parameters using format ‘parameter: value’."
+
+msgid "sty_deactivate"
+msgstr "Deactivate"
 
 msgid "sty_default"
 msgstr "Default"
