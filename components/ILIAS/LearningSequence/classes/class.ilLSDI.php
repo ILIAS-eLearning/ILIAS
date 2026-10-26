@@ -63,7 +63,7 @@ class ilLSDI extends Container
         };
 
         $this["conditions.types"] = function ($c) use ($dic): ConditionTypes {
-            return $dic["lso.condition_types"];
+            return $dic[ConditionTypes::class];
         };
 
         $this["conditions.factory"] = function ($c) use ($dic): ConditionFactory {
@@ -77,7 +77,6 @@ class ilLSDI extends Container
             return new ConditionHandler(
                 $dic["ilDB"],
                 $dic["lng"],
-                $c["conditions.types"],
                 $c["conditions.factory"]
             );
         };

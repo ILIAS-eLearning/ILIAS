@@ -119,7 +119,6 @@ class LogicGateInputAwareConditionTest extends TestCase
         LogicGateInputAwareCondition $condition,
         ConditionFactory $factory
     ): void {
-        $factory_property = new ReflectionProperty($condition, 'condition_factory');
-        $factory_property->setValue($condition, $factory);
+        $condition->setConditionFactory($factory);
     }
 }

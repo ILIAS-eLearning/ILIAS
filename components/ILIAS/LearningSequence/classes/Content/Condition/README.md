@@ -53,7 +53,7 @@ $contribute[\ILIAS\LearningSequence\Content\Condition\ConditionType::class] = st
 ```
 
 The `ConditionTypeRegistry` seeks all contributions and implements `ConditionTypes`, which is available as
-`$DIC['lso.condition_types']` in the legacy environment.
+`$DIC[ConditionTypes::class]` in the legacy environment.
 
 - A contributed class that implements `InputConditionInterface` is treated as an input condition.
 - A contributed class that implements `OutputConditionInterface` is treated as an output condition.
@@ -403,7 +403,7 @@ final class CompletedItemInputCondition extends AbstractCondition implements
 
     public function getAdditionalForm(): FormStandard
     {
-        $picker = new LSOObjectPicker((int) $this->lso_ref_id, (int) $this->getObjRefId())->getPicker(
+        $picker = new LSOObjectPicker($this->ui_factory, (int) $this->lso_ref_id, (int) $this->getObjRefId())->getPicker(
             $this->lang->txt('lso_condition_simple_choice_target'),
             false
         );

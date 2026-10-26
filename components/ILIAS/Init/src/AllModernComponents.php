@@ -257,7 +257,7 @@ class AllModernComponents implements \ILIAS\Component\EntryPoint
         $DIC['logging.factory'] = fn(): Logging\Logger\LoggerFactoryInterface => $this->logger_factory;
         $DIC['logging.defaultConfigFactory'] = fn(): Logging\Logger\DefaultConfigLoggerFactoryInterface => $this->default_config_logger_factory;
         $DIC['logging.config'] = fn(): Logging\Config\ConfigInterface => $this->logging_config;
-        $DIC['lso.condition_types'] = fn(): ConditionTypes => $this->lso_condition_types;
+        $DIC[ConditionTypes::class] = fn(): ConditionTypes => $this->lso_condition_types;
     }
 
     public function getName(): string

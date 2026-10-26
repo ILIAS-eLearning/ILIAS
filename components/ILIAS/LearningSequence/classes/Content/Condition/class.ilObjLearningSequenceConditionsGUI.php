@@ -22,7 +22,8 @@ use ILIAS\Data\Factory;
 use ILIAS\HTTP\Wrapper\RequestWrapper;
 use ILIAS\LearningSequence\Content\Condition\AbstractCondition;
 use ILIAS\LearningSequence\Content\Condition\ConditionFactory;
-use ILIAS\LearningSequence\Content\Condition\ConditionTypes;
+use ILIAS\LearningSequence\Content\Condition\ConditionHandler;
+use ILIAS\LearningSequence\Content\Condition\UnknownConditionTypeException;
 use ILIAS\UI\Component\Menu\Drilldown;
 use ILIAS\UI\Component\Modal\Roundtrip;
 use ILIAS\UI\Component\Panel\Panel;
@@ -43,8 +44,6 @@ class ilObjLearningSequenceConditionsGUI implements ilCtrlSecurityInterface
     protected int $lso_ref_id;
     /** @var int LSO content object */
     protected int $item_ref_id;
-    private ConditionTypes $condition_types;
-    private ConditionFactory $condition_factory;
 
     public function __construct(
         protected ilObjLearningSequenceGUI|ilObjLearningSequenceContentGUI $parent_gui,
@@ -58,12 +57,12 @@ class ilObjLearningSequenceConditionsGUI implements ilCtrlSecurityInterface
         protected ILIAS\UI\Renderer $ui_renderer,
         protected ServerRequestInterface $request,
         protected \ILIAS\Refinery\Factory $refinery,
+        private ConditionFactory $condition_factory,
+        private ConditionHandler $condition_handler,
     ) {
         global $DIC;
         $this->lso_ref_id = $this->query_wrapper->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int());
         $this->item_ref_id = $this->query_wrapper->retrieve('item_ref_id', $DIC->refinery()->kindlyTo()->int());
-        $this->condition_types = $DIC['lso.condition_types'];
-        $this->condition_factory = new ConditionFactory($this->condition_types, $DIC->database());
     }
 
     /**
@@ -91,6 +90,7 @@ class ilObjLearningSequenceConditionsGUI implements ilCtrlSecurityInterface
                     $this->ui_factory,
                     $this->ui_renderer,
                     $this->request,
+                    $this->condition_factory,
                 ));
                 break;
             default:
@@ -174,7 +174,7 @@ class ilObjLearningSequenceConditionsGUI implements ilCtrlSecurityInterface
                 $condition->setLsoRefId($this->lso_ref_id);
                 return $condition->setupSteps();
             },
-            $this->condition_types->getAllInputConditions()
+            $this->condition_factory->getConditionTypes()->getAllInputConditions()
         );
 
         $output_conditions_steps = array_map(
@@ -184,7 +184,7 @@ class ilObjLearningSequenceConditionsGUI implements ilCtrlSecurityInterface
                 $condition->setLsoRefId($this->lso_ref_id);
                 return $condition->setupSteps();
             },
-            $this->condition_types->getAllOutputConditions()
+            $this->condition_factory->getConditionTypes()->getAllOutputConditions()
         );
 
         return $this->ui_factory->menu()->drilldown(
@@ -267,7 +267,7 @@ class ilObjLearningSequenceConditionsGUI implements ilCtrlSecurityInterface
         )->withAsync();
 
         $table = $this->ui_factory->table()->data(
-            new ilLearningSequenceConditionsRetrieval($this->lso_ref_id, $this->item_ref_id),
+            new ilLearningSequenceConditionsRetrieval($this->lso_ref_id, $this->item_ref_id, $this->condition_factory),
             '',
             [
                 'type' => $this->ui_factory->table()->column()->text(
@@ -387,6 +387,12 @@ class ilObjLearningSequenceConditionsGUI implements ilCtrlSecurityInterface
                     'condition_' . $condition_id,
                     $this->lng->txt($this->condition_factory->getConditionInstanceById($condition_id)->getName()),
                 );
+            } catch (UnknownConditionTypeException $e) {
+                $affected_items[] = $this->ui_factory->modal()->interruptiveItem()->standard(
+                    'condition_' . $condition_id,
+                    $this->lng->txt('lso_condition_unknown_type') . ': '
+                    . htmlspecialchars($e->getConditionName(), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'),
+                );
             } catch (Exception $e) {
                 // condition not found
             }
@@ -419,7 +425,13 @@ class ilObjLearningSequenceConditionsGUI implements ilCtrlSecurityInterface
 
         foreach ($condition_to_delete as $condition) {
             $condition_id = (int) str_replace('condition_', '', $condition);
-            $condition = $this->condition_factory->getConditionInstanceById($condition_id);
+            try {
+                $condition = $this->condition_factory->getConditionInstanceById($condition_id);
+            } catch (UnknownConditionTypeException) {
+                // The payload tables of an unknown type are not known, only the condition itself is removed.
+                $this->condition_handler->deleteCondition($condition_id);
+                continue;
+            }
             $condition->delete();
         }
 

@@ -46,6 +46,14 @@ class ConditionFactory
     }
 
     /**
+     * Gets the condition types this factory creates conditions of.
+     */
+    public function getConditionTypes(): ConditionTypes
+    {
+        return $this->condition_types;
+    }
+
+    /**
      * @return int[]
      */
     public function getConditionIdsForItem(int $item_ref_id): array
@@ -107,6 +115,7 @@ class ConditionFactory
     }
 
     /**
+     * @throws UnknownConditionTypeException if the type of the condition is not contributed
      * @throws ilException|ReflectionException
      */
     public function getConditionInstanceById(int $condition_id): AbstractCondition
@@ -164,7 +173,8 @@ class ConditionFactory
     }
 
     /**
-     * @throws ilException|ReflectionException
+     * @throws UnknownConditionTypeException if no contributed condition type has this name
+     * @throws ReflectionException
      */
     public function getConditionInstanceByName(string $condition_name): AbstractCondition
     {
@@ -174,11 +184,13 @@ class ConditionFactory
             if (isset($class_map[$candidate])) {
                 $class = $class_map[$candidate];
                 /** @var AbstractCondition $condition */
-                return new $class();
+                $condition = new $class();
+                $condition->setConditionFactory($this);
+                return $condition;
             }
         }
 
-        throw new ilException("Condition class for '{$condition_name}' not found.");
+        throw new UnknownConditionTypeException($condition_name);
     }
 
     /**

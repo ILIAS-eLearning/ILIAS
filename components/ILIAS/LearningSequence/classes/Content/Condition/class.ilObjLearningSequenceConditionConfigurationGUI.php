@@ -22,6 +22,7 @@ use ILIAS\DI\Container;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 use ILIAS\LearningSequence\Content\Condition\AbstractCondition;
 use ILIAS\LearningSequence\Content\Condition\ConditionFactory;
+use ILIAS\LearningSequence\Content\Condition\UnknownConditionTypeException;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -37,7 +38,6 @@ class ilObjLearningSequenceConditionConfigurationGUI implements ilCtrlSecurityIn
     protected bool $create = true;
     private ArrayBasedRequestWrapper $query;
     private Container $dic;
-    private ConditionFactory $condition_factory;
 
     public function __construct(
         protected ilCtrl $ctrl,
@@ -48,13 +48,13 @@ class ilObjLearningSequenceConditionConfigurationGUI implements ilCtrlSecurityIn
         protected ILIAS\UI\Factory $ui_factory,
         protected ILIAS\UI\Renderer $ui_renderer,
         protected ServerRequestInterface $request,
+        private ConditionFactory $condition_factory,
     ) {
         global $DIC;
         $this->dic = $DIC;
         $this->ctrl = $DIC->ctrl();
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->query = $DIC->http()->wrapper()->query();
-        $this->condition_factory = new ConditionFactory($DIC['lso.condition_types'], $DIC->database());
     }
 
     public const string CMD_CREATE_CONDITION = "createCondition";
@@ -223,7 +223,11 @@ class ilObjLearningSequenceConditionConfigurationGUI implements ilCtrlSecurityIn
 
         $condition_ids = $this->condition_factory->getConditionIdsForItem($this->item_ref_id);
         foreach ($condition_ids as $condition_id) {
-            $any_condition_of_object = $this->condition_factory->getConditionInstanceById($condition_id);
+            try {
+                $any_condition_of_object = $this->condition_factory->getConditionInstanceById($condition_id);
+            } catch (UnknownConditionTypeException) {
+                continue;
+            }
             if (
                 $condition->getTypeId() === $any_condition_of_object->getTypeId()
                 && !$condition->allowMultipleConditionsOfSameType()

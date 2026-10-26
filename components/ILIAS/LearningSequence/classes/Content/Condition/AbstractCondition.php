@@ -55,6 +55,10 @@ abstract class AbstractCondition
     protected ?string $subtype = null;
     protected Factory $ui_factory;
     /**
+     * Factory which created this condition, used to resolve other conditions.
+     */
+    protected ?ConditionFactory $condition_factory = null;
+    /**
      * Ref-id mappings (old → new) passed in from the importer.
      * Used by importPayload() to rewrite ref_id values in payload rows.
      *
@@ -489,6 +493,27 @@ abstract class AbstractCondition
         return $this->dic->database();
     }
 
+    /**
+     * Sets the factory which created this condition. Conditions resolving other
+     * conditions use it, so the caches of the factory are shared.
+     */
+    public function setConditionFactory(ConditionFactory $condition_factory): void
+    {
+        $this->condition_factory = $condition_factory;
+    }
+
+    /**
+     * Returns the factory which created this condition. A condition which was
+     * not created by a factory gets its own one.
+     */
+    protected function getConditionFactory(): ConditionFactory
+    {
+        return $this->condition_factory ??= new ConditionFactory(
+            $this->dic[ConditionTypes::class],
+            $this->getDatabase()
+        );
+    }
+
     protected function getObjectTitleByRefId(int $ref_id): string
     {
         $obj_id = \ilObject::_lookupObjId($ref_id);
@@ -555,16 +580,14 @@ abstract class AbstractCondition
             [$this->lso_ref_id, $this->obj_ref_id, $type_id]
         );
 
-        $factory = null;
         while ($row = $db->fetchAssoc($res)) {
             $condition_id = (int) $row['condition_id'];
             if ($condition_id === $this->condition_id) {
                 continue;
             }
 
-            $factory ??= new ConditionFactory($this->dic['lso.condition_types'], $db);
             try {
-                $other = $factory->getConditionInstanceById($condition_id);
+                $other = $this->getConditionFactory()->getConditionInstanceById($condition_id);
             } catch (ilException) {
                 continue;
             }

@@ -23,7 +23,6 @@ namespace ILIAS\LearningSequence\Content\Condition\InputCondition;
 use ilCtrlException;
 use ilException;
 use ILIAS\LearningSequence\Content\Condition\AbstractCondition;
-use ILIAS\LearningSequence\Content\Condition\ConditionFactory;
 use ILIAS\LearningSequence\Content\Condition\InputCondition\InputConditionNavigationAwareInterface;
 use ILIAS\LearningSequence\Content\Condition\SubtypeAwareInterface;
 use ILIAS\LearningSequence\Content\Condition\LSOObjectPicker;
@@ -31,6 +30,7 @@ use ILIAS\LearningSequence\Content\Condition\OutputCondition\OutputConditionInte
 use ILIAS\LearningSequence\Content\Condition\StaticInputConfigurationIssue;
 use ILIAS\LearningSequence\Content\Condition\StaticInputConfigurationIssueDetail;
 use ILIAS\LearningSequence\Content\Condition\TableDefinition;
+use ILIAS\LearningSequence\Content\Condition\UnknownConditionTypeException;
 use ILIAS\UI\Component\Input\Container\Form\Standard as FormStandard;
 use ILIAS\UI\Component\Link\Bulky;
 use ILIAS\UI\Component\Symbol\Glyph\Glyph;
@@ -50,17 +50,6 @@ class LogicGateInputAwareCondition extends AbstractCondition implements
     private const string SUBTYPE_OR = 'logic_gate_or';
     private const string SUBTYPE_NOT = 'logic_gate_not';
     private array $items = [];
-    private ConditionFactory $condition_factory;
-
-    public function __construct(?int $condition_id = null)
-    {
-        parent::__construct($condition_id);
-
-        $this->condition_factory = new ConditionFactory(
-            $this->dic['lso.condition_types'],
-            $this->dic->database(),
-        );
-    }
 
     /**
      * @return void
@@ -276,19 +265,23 @@ class LogicGateInputAwareCondition extends AbstractCondition implements
      *
      * If an item defines output conditions, all of them must be fulfilled, mirroring
      * the navigator's canLeave() semantics. Without output conditions we fall back to
-     * the item's regular learning-progress completion state.
+     * the item's regular learning-progress completion state. Conditions of a type
+     * which is not contributed (anymore) cannot be evaluated and are skipped, like
+     * the navigator does.
      *
      * @throws ReflectionException
      * @throws ilException
      */
     private function isItemCompleted(int $item_ref_id): bool
     {
-        $conditions_of_item = $this->condition_factory->getConditionIdsForItem($item_ref_id);
-
-        $conditions = array_map(
-            fn($condition_id) => $this->condition_factory->getConditionInstanceById($condition_id),
-            $conditions_of_item
-        );
+        $conditions = [];
+        foreach ($this->getConditionFactory()->getConditionIdsForItem($item_ref_id) as $condition_id) {
+            try {
+                $conditions[] = $this->getConditionFactory()->getConditionInstanceById($condition_id);
+            } catch (UnknownConditionTypeException) {
+                continue;
+            }
+        }
 
         $output_conditions = array_filter(
             $conditions,

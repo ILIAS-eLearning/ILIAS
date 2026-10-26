@@ -27,7 +27,7 @@ use ILIAS\LearningSequence\LearningMap\LSOLearningMapPosition;
  * Removes entries of the visit log of the learners (lso_item_visits).
  * The entries are written by LSOLearningMapPosition.
  */
-class LSOItemVisits
+final class LSOItemVisits
 {
     public function __construct(
         protected ilDBInterface $db

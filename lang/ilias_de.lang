@@ -11264,6 +11264,7 @@ lso#:#lso_choice_page_start_label#:#Objekt starten
 lso#:#lso_choice_page_subline#:#Wählen Sie eines der folgenden Objekte aus, um Ihren Weg fortzusetzen.
 lso#:#lso_condition_simple_choice_target#:#Einzelnes Objekt auswählen
 lso#:#lso_condition_simple_multi_target#:#Mehrere Objekte auswählen
+lso#:#lso_condition_unknown_type#:#Unbekannter Bedingungstyp
 lso#:#lso_edit_permission#:#Rechteeinstellungen ändern
 lso#:#lso_exception_additional_form_no_override#:#%s definiert ein zusätzliches Konfigurationsformular, überschreibt aber applyAdditionalFormData() nicht.
 lso#:#lso_exception_at_least_one_object#:#Mindestens ein Objekt muss ausgewählt werden.
