@@ -716,8 +716,8 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
     }
 
     /**
-     * The form with the request and its data: null if KS marks an input as invalid, false for a manipulated request.
-     * KS throws for a value outside the options and Radio even a TypeError for an array, which must be no error page.
+     * The form with its data: null if an input is invalid, false for a manipulated request (KS throws, Radio even
+     * a TypeError for an array).
      *
      * @return array{0: \ILIAS\UI\Component\Input\Container\Form\Standard, 1: array|null|false}
      */
@@ -1437,7 +1437,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
     {
         $ilUser = $this->user;
 
-        // an unchecked box reads as false
         [, $data] = $this->readForm($this->buildSettingsForm());
         if (!is_array($data)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));

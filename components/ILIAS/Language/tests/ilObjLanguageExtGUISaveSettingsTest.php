@@ -45,7 +45,6 @@ class ilObjLanguageExtGUISaveSettingsTest extends TestCase
             ->onlyMethods(['buildSettingsForm'])
             ->getMock();
 
-        // the KS checkbox reads the post; here only what it hands on matters
         $post = $http->request()->getParsedBody();
         $form = $this->createStub(\ILIAS\UI\Component\Input\Container\Form\Standard::class);
         $form->method('withRequest')->willReturnSelf();

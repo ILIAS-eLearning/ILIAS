@@ -211,7 +211,6 @@ class ilObjLanguageExtGUISaveNewEntryTest extends TestCase
             $form,
             $this->createLanguageMockReturningTopicAsIs(['de', 'en'])
         );
-        // the re-render gets the form that carries the entered values
         $gui->expects($this->once())->method('addNewEntryObject')->with($form);
 
         $gui->saveNewEntryObject();
