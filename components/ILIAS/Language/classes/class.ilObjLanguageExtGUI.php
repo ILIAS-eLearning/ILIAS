@@ -776,7 +776,8 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
     private function buildImportForm(): StandardForm
     {
         $field = $this->ui_factory->input()->field();
-        $mode = $field->radio($this->lng->txt('language_mode_existing'))->withRequired(true);
+        // not required: always preset, a missing value is refused by uploadObject()
+        $mode = $field->radio($this->lng->txt('language_mode_existing'));
         foreach (self::IMPORT_MODES as $value) {
             $mode = $mode->withOption(
                 $value,
@@ -816,6 +817,8 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         $file_missing = $handler->getFileName($identifier) === null;
         if ($data !== null && $file_missing) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('upload_error_file_not_found'));
+        } elseif ($data !== null && !in_array($mode, self::IMPORT_MODES, true)) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
         }
         if ($data === null || $file_missing || !in_array($mode, self::IMPORT_MODES, true)) {
             // no clean-up here, the form keeps referring to its upload
@@ -1076,8 +1079,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
     {
         $options = $this->getExportScopes();
         $radio = $this->ui_factory->input()->field()
-            ->radio($this->lng->txt('language_file_scope'))
-            ->withRequired(true);
+            ->radio($this->lng->txt('language_file_scope'));
         foreach ($options as $scope) {
             $radio = $radio->withOption(
                 $scope,
@@ -1182,8 +1184,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
     {
         $options = $this->getMaintainOptions();
         $radio = $this->ui_factory->input()->field()
-            ->radio($this->lng->txt('language_maintain_local_changes'))
-            ->withRequired(true);
+            ->radio($this->lng->txt('language_maintain_local_changes'));
         foreach ($options as $option => [$label, $info]) {
             $radio = $radio->withOption($option, $label, $info);
         }

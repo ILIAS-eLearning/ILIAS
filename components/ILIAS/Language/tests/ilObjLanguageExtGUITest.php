@@ -2061,7 +2061,9 @@ class ilObjLanguageExtGUITest extends TestCase
             'unknown option' => [['maintain' => 'format_disk'], '1'],
             'langmode option without langmode' => [['maintain' => 'remove_local_file'], '0'],
             'merge without langmode' => [['maintain' => 'merge'], '0'],
+            // the radio is not required (always preset), the server still refuses a missing option
             'nothing selected' => [[], '1'],
+            'empty option' => [['maintain' => ''], '1'],
             'array instead of an option' => [['maintain' => ['clear']], '1'],
         ];
     }
@@ -2254,13 +2256,16 @@ class ilObjLanguageExtGUITest extends TestCase
         return [
             'unknown mode' => ['format_disk'],
             'array instead of a mode' => [['replace']],
+            // the radio is not required (always preset), the server still refuses a missing mode
+            'no mode sent' => [null],
+            'empty mode' => [''],
         ];
     }
 
     #[DataProvider('forgedImportModes')]
     public function testUploadObjectRejectsAnUnknownModeAndImportsNothing(mixed $mode): void
     {
-        [$gui, $ctx] = $this->importGui(['file' => ['up1'], 'mode' => $mode]);
+        [$gui, $ctx] = $this->importGui(['file' => ['up1']] + ($mode === null ? [] : ['mode' => $mode]));
         $ctx->object->expects($this->never())->method('importLanguageFile');
 
         $gui->uploadObject();
@@ -2535,7 +2540,8 @@ class ilObjLanguageExtGUITest extends TestCase
         $radio = $form->getInputs()['scope'];
         self::assertInstanceOf(\ILIAS\UI\Implementation\Component\Input\Field\Radio::class, $radio);
         self::assertSame($scopes, array_keys($radio->getOptions()));
-        self::assertTrue($radio->isRequired());
+        // as before not marked as required: a scope is always preset
+        self::assertFalse($radio->isRequired());
         foreach ($scopes as $scope) {
             self::assertSame('language_scope_' . $scope, $radio->getOptions()[$scope]);
             self::assertSame('language_scope_' . $scope . '_info', $radio->getBylineFor($scope));
@@ -2576,6 +2582,7 @@ class ilObjLanguageExtGUITest extends TestCase
             'merged without langmode' => ['0', ['scope' => 'merged']],
             'added without langmode' => ['0', ['scope' => 'added']],
             'unknown scope' => ['1', ['scope' => '../etc/passwd']],
+            // the radio is not required (always preset), the server still refuses a missing scope
             'no scope' => ['1', []],
             'empty scope' => ['1', ['scope' => '']],
             'array instead of a scope' => ['1', ['scope' => ['global']]],
