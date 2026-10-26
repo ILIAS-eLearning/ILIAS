@@ -157,6 +157,9 @@ class Renderer extends AbstractComponentRenderer
             case ($component instanceof F\Hidden):
                 return $this->renderHiddenField($component);
 
+            case ($component instanceof F\HiddenList):
+                return $this->renderHiddenListField($component, $default_renderer);
+
             case ($component instanceof F\ColorSelect):
                 return $this->renderColorSelectField($component, $default_renderer);
 
@@ -930,6 +933,18 @@ class Renderer extends AbstractComponentRenderer
         if ($input->isDisabled()) {
             $template->setVariable("DISABLED", 'disabled="disabled"');
         }
+        $this->bindJSandApplyId($input, $template);
+        return $template->get();
+    }
+
+    protected function renderHiddenListField(F\HiddenList $input, RendererInterface $default_renderer): string
+    {
+        $generated_inputs = $input->getGeneratedDynamicInputs();
+        if (0 >= count($generated_inputs)) {
+            return '';
+        }
+        $template = $this->getTemplate('tpl.hidden_list.html', true, true);
+        $template->setVariable('HIDDEN_INPUTS', $default_renderer->render($generated_inputs));
         $this->bindJSandApplyId($input, $template);
         return $template->get();
     }
