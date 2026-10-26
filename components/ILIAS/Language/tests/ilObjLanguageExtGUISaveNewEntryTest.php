@@ -37,16 +37,20 @@ class ilObjLanguageExtGUISaveNewEntryTest extends TestCase
         ilCtrl $ctrl,
         ilObjUser $user,
         ilGlobalTemplateInterface $tpl,
-        ilPropertyFormGUI&MockObject $form,
+        \ILIAS\UI\Component\Input\Container\Form\Standard $form,
         ilLanguage $lng
     ): ilObjLanguageExtGUI {
         /** @var ilObjLanguageExtGUI&MockObject $gui */
         $gui = $this->getMockBuilder(ilObjLanguageExtGUI::class)
             ->disableOriginalConstructor()
-            ->onlyMethods(['initAddNewEntryForm'])
+            ->onlyMethods(['buildAddNewEntryForm', 'getNewEntryIdentifier', 'addNewEntryObject'])
             ->getMock();
 
-        $gui->method('initAddNewEntryForm')->willReturn($form);
+        $gui->method('getNewEntryIdentifier')->willReturn('sometopic');
+        $gui->method('buildAddNewEntryForm')->willReturn($form);
+        $http = $this->createStub(\ILIAS\HTTP\GlobalHttpState::class);
+        $http->method('request')->willReturn($this->createStub(\Psr\Http\Message\ServerRequestInterface::class));
+        $this->inject($gui, 'http', $http);
 
         $this->inject($gui, 'ctrl', $ctrl);
         $this->inject($gui, 'user', $user);
@@ -63,13 +67,12 @@ class ilObjLanguageExtGUISaveNewEntryTest extends TestCase
         return $gui;
     }
 
-    private function mockCheckedFormWithInputs(array $inputs): ilPropertyFormGUI&MockObject
+    /** A KS form whose request data are $inputs; the identifier comes from "eid", not from the form. */
+    private function mockCheckedFormWithInputs(array $inputs): \ILIAS\UI\Component\Input\Container\Form\Standard&MockObject
     {
-        $form = $this->createMock(ilPropertyFormGUI::class);
-        $form->method('checkInput')->willReturn(true);
-        $form->method('getInput')->willReturnCallback(
-            static fn(string $name): mixed => $inputs[$name] ?? ''
-        );
+        $form = $this->createMock(\ILIAS\UI\Component\Input\Container\Form\Standard::class);
+        $form->method('withRequest')->willReturnSelf();
+        $form->method('getData')->willReturn($inputs);
 
         return $form;
     }
@@ -199,11 +202,6 @@ class ilObjLanguageExtGUISaveNewEntryTest extends TestCase
         $ctrl->expects($this->never())->method('redirect');
 
         $form = $this->mockCheckedFormWithInputs(['mod' => 'common', 'id' => 'sometopic']);
-        $form->expects($this->once())->method('setValuesByPost');
-        // addNewEntryObject() (the real re-render path) needs global $DIC["tpl"] and the form HTML: stubbed
-        $form->method('getHTML')->willReturn('');
-        $GLOBALS['DIC'] = new \ILIAS\DI\Container();
-        $GLOBALS['DIC']['tpl'] = $this->createStub(ilGlobalTemplateInterface::class);
 
         $gui = $this->createGuiForSaveNewEntry(
             $add_language_entry,
@@ -213,14 +211,8 @@ class ilObjLanguageExtGUISaveNewEntryTest extends TestCase
             $form,
             $this->createLanguageMockReturningTopicAsIs(['de', 'en'])
         );
-        // addNewEntryObject() also checks the "eid" query parameter
-        $query_wrapper = $this->createStub(\ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper::class);
-        $query_wrapper->method('has')->willReturn(false);
-        $wrapper_factory = $this->createStub(\ILIAS\HTTP\Wrapper\WrapperFactory::class);
-        $wrapper_factory->method('query')->willReturn($query_wrapper);
-        $http = $this->createStub(\ILIAS\HTTP\GlobalHttpState::class);
-        $http->method('wrapper')->willReturn($wrapper_factory);
-        $this->inject($gui, 'http', $http);
+        // the re-render gets the form that carries the entered values
+        $gui->expects($this->once())->method('addNewEntryObject')->with($form);
 
         $gui->saveNewEntryObject();
     }
