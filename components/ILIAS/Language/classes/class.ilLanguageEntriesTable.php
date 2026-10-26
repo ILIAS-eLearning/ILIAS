@@ -62,7 +62,7 @@ class ilLanguageEntriesTable implements DataTable\DataRetrieval
     {
         return $this->ui_factory->table()->data(
             $this,
-            '',
+            $this->lng->txt('meta_l_' . $this->object->key),
             $this->getColumns($filter_data)
         )->withId(self::tableId())
             ->withActions([
@@ -93,12 +93,12 @@ class ilLanguageEntriesTable implements DataTable\DataRetrieval
             'commented' => $f->boolean(
                 $this->lng->txt('comment'),
                 $this->ui_factory->symbol()->icon()->custom(
-                    'assets/images/standard/icon_checked.svg',
+                    ilUtil::getImagePath('standard/icon_checked.svg'),
                     $this->lng->txt('yes'),
                     'small'
                 ),
                 $this->ui_factory->symbol()->icon()->custom(
-                    'assets/images/standard/icon_unchecked.svg',
+                    ilUtil::getImagePath('standard/icon_unchecked.svg'),
                     $this->lng->txt('no'),
                     'small'
                 )
@@ -237,8 +237,7 @@ class ilLanguageEntriesTable implements DataTable\DataRetrieval
             static fn(string $a, string $b): int => $direction * strnatcasecmp($sort_keys[$a], $sort_keys[$b])
         );
 
-        // numeric-looking string keys become int array keys
-        return array_map('strval', array_keys($sort_keys));
+        return array_keys($sort_keys);
     }
 
     public function getTotalRowCount(
@@ -252,6 +251,7 @@ class ilLanguageEntriesTable implements DataTable\DataRetrieval
     /** module#:#topic => value for the current filter. */
     private function getFilteredEntries(mixed $filter_data): array
     {
+        // key-less cache: $filter_data does not change within a request
         if ($this->filtered_entries_cache !== null) {
             return $this->filtered_entries_cache;
         }
@@ -408,6 +408,7 @@ class ilLanguageEntriesTable implements DataTable\DataRetrieval
     /** Shipped values (global file, .po of PO modules) when compared with the edited language itself, else the DB values. */
     private function getCompareContent(mixed $filter_data, array $modules, array $topics): array
     {
+        // key-less cache: $filter_data does not change within a request
         if ($this->compare_content_cache !== null) {
             return $this->compare_content_cache;
         }

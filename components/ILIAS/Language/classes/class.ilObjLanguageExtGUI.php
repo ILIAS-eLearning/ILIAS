@@ -64,7 +64,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
     private readonly AddLanguageEntry $add_language_entry;
     private readonly SetLanguageTranslationEnabled $set_language_translation_enabled;
     private readonly RemoveLocalLanguageChanges $remove_local_language_changes;
-    private URLBuilder $url_builder;
     private URLBuilderToken $action_token;
     private URLBuilderToken $row_id_token;
     private ilLanguageEntriesTable $entries_table;
@@ -135,7 +134,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
             "table_action", //this is the actions's parameter name
             "entry_names"   //this is the parameter name to be used for row-ids
         );
-        $this->url_builder = $url_builder;
         $this->action_token = $action_token;
         $this->row_id_token = $row_id_token;
 
