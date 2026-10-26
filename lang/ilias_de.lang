@@ -11225,11 +11225,8 @@ lso#:#logic_gate_or_byline#:#Mindestens eines der ausgewählten Objekte muss abs
 lso#:#lp_not_relevant_post_cond#:#für Fortfahren aktuell nicht maßgeblich
 lso#:#lso_activation_online_info#:#Nur wenn die Lernsequenz online geschaltet ist, können Personen beitreten und Mitglieder auf die Lernsequenz zugreifen. Wenn nicht, ist die Lernsequenz nur für Administration und Rollen mit dem Recht „Einstellungen bearbeiten“ verfügbar.
 lso#:#lso_adaptive_dead_end#:#Sackgasse
-lso#:#lso_adaptive_dead_end_info#:#Dieses Objekt hat keinen Nachfolger und ist nicht das Endobjekt. Lernende können von hier aus nicht weitergehen.
 lso#:#lso_adaptive_end#:#Ende
-lso#:#lso_adaptive_end_info#:#Dies ist das Endobjekt der Lernsequenz. Hier schließen Lernende die Lernsequenz ab.
 lso#:#lso_adaptive_entry_point#:#Einstiegspunkt
-lso#:#lso_adaptive_entry_point_info#:#Dieses Objekt hat keinen Vorgänger und ist nicht das Startobjekt. Lernende können es über den Lernpfad nicht erreichen.
 lso#:#lso_adaptive_information#:#Informationen
 lso#:#lso_adaptive_misconfigured#:#Fehlkonfiguration
 lso#:#lso_adaptive_misconfigured_info#:#Die Eingangsbedingungen dieses Objekts widersprechen sich. Lernende können es unter Umständen nicht aufrufen.
@@ -11239,12 +11236,9 @@ lso#:#lso_adaptive_missing_start_object#:#Um die Lernsequenz zu starten, wird ei
 lso#:#lso_adaptive_next_object#:#Nächstes Objekt
 lso#:#lso_adaptive_offline#:#Offline
 lso#:#lso_adaptive_offline_due_to_missing_boundaries#:#Weil es kein Start-/Endobjekt mehr gibt, wurde die Lernsequenz offline geschaltet.
-lso#:#lso_adaptive_offline_info#:#Dieses Objekt ist offline und wird Lernenden nicht angezeigt.
-lso#:#lso_adaptive_online_info#:#Dieses Objekt ist online und für Lernende zugänglich.
 lso#:#lso_adaptive_previous_object#:#Vorheriges Objekt
 lso#:#lso_adaptive_start#:#Start
 lso#:#lso_adaptive_start_end_not_same#:#Ein Objekt kann nicht gleichzeitig Start- und Endobjekt sein.
-lso#:#lso_adaptive_start_info#:#Dies ist das Startobjekt der Lernsequenz. Hier beginnen Lernende.
 lso#:#lso_at_least_one_admin#:#Dieser Lernsequenz muss mindestens eine Person mit der Rolle „Lernsequenzadministration“ zugeordnet sein.
 lso#:#lso_choice_page_headline#:#Welches Objekt möchten Sie als Nächstes bearbeiten?
 lso#:#lso_choice_page_start_label#:#Objekt starten

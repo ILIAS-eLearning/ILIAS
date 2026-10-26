@@ -20,8 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\LearningSequence\Content\Adaptive;
 
-use ILIAS\UI\Component\Button\Tag;
-
 /**
  * Renders the adaptive learning sequence content table.
  */
@@ -73,7 +71,8 @@ readonly class LSOAdaptiveTable
         }
 
         $modals = [];
-        $environment = $this->buildEnvironment($modals);
+        $item_status = new LSOAdaptiveItemStatus($this->ui_factory, $this->lng);
+        $environment = $this->buildEnvironment($modals, $item_status);
 
         $mapping = function (
             $row,
@@ -94,6 +93,7 @@ readonly class LSOAdaptiveTable
                 ->withHeadline($headline)
                 ->withLeadingSymbol($leading_icon)
                 ->withSubheadline($record->description)
+                ->withTags(...$env['tags']($record))
                 ->withContent($content)
                 ->withFurtherFieldsHeadline($this->lng->txt('lso_adaptive_information'))
                 ->withFurtherFields($env['further_fields']($record))
@@ -123,49 +123,15 @@ readonly class LSOAdaptiveTable
      * @param array<int, \ILIAS\UI\Component\Modal\Interruptive> $modals
      * @return array<string, callable>
      */
-    private function buildEnvironment(array &$modals): array
+    private function buildEnvironment(array &$modals, LSOAdaptiveItemStatus $item_status): array
     {
         $headline = function (\ilObjLearningSequenceContentData $record): string {
-            $link_html = $this->ui_renderer->render(
+            return $this->ui_renderer->render(
                 $this->ui_factory->link()->standard($record->title, $record->href)
             );
-
-            $tags = [];
-            if ($record->is_online) {
-                $tags[] = $this->buildStatusTag('table_online', 'lso_adaptive_online_info', Tag::REL_LOW);
-            } else {
-                $tags[] = $this->buildStatusTag('lso_adaptive_offline', 'lso_adaptive_offline_info', Tag::REL_MID);
-            }
-
-            if ($record->start_object !== '') {
-                $tags[] = $this->buildStatusTag('lso_adaptive_start', 'lso_adaptive_start_info', Tag::REL_LOW);
-            }
-            if ($record->end_object !== '') {
-                $tags[] = $this->buildStatusTag('lso_adaptive_end', 'lso_adaptive_end_info', Tag::REL_LOW);
-            }
-            if ($record->end_object === '' && !$record->has_structural_successor) {
-                $tags[] = $this->buildStatusTag('lso_adaptive_dead_end', 'lso_adaptive_dead_end_info', Tag::REL_HIGH);
-            }
-            if ($record->has_conflicting_input_configuration) {
-                $tags[] = $this->buildMisconfigurationTag($record);
-            }
-            if ($record->start_object === '' && !$record->has_structural_predecessor) {
-                $tags[] = $this->buildStatusTag(
-                    'lso_adaptive_entry_point',
-                    'lso_adaptive_entry_point_info',
-                    Tag::REL_LOW
-                );
-            }
-
-            // Each entry is a popover together with its triggering tag.
-            $tags_html = array_map(
-                fn(array $popover_and_tag): string => $this->ui_renderer->render($popover_and_tag),
-                $tags
-            );
-
-            // Tags carry their own right margin, so no extra whitespace is added between them.
-            return $link_html . ' ' . implode('', $tags_html);
         };
+
+        $tags = fn(\ilObjLearningSequenceContentData $record): array => $item_status->getTags($record);
 
         $actions = function (\ilObjLearningSequenceContentData $record) use (&$modals) {
             $dropdown_items = [];
@@ -220,11 +186,17 @@ readonly class LSOAdaptiveTable
             return $this->ui_factory->dropdown()->standard($dropdown_items)->withLabel('');
         };
 
-        $content = function (\ilObjLearningSequenceContentData $record) {
-            return $this->ui_factory->listing()->descriptive([
+        $content = function (\ilObjLearningSequenceContentData $record) use ($item_status) {
+            $items = [
                 $this->lng->txt('input_conditions') => $this->buildConditionListing($record->input_conditions),
                 $this->lng->txt('output_conditions') => $this->buildConditionListing($record->output_conditions),
-            ]);
+            ];
+            $issues = $item_status->getConfigurationIssues($record);
+            if ($issues !== null) {
+                $items[$this->lng->txt('lso_adaptive_misconfigured')] = $issues;
+            }
+
+            return $this->ui_factory->listing()->descriptive($items);
         };
 
         $further_fields = fn(\ilObjLearningSequenceContentData $record): array => [
@@ -234,126 +206,11 @@ readonly class LSOAdaptiveTable
 
         return [
             'headline' => $headline,
+            'tags' => $tags,
             'actions' => $actions,
             'content' => $content,
             'further_fields' => $further_fields,
         ];
-    }
-
-    /**
-     * Builds a status tag that opens a popover explaining the status.
-     *
-     * @return \ILIAS\UI\Component\Component[] The popover and its triggering tag.
-     */
-    private function buildStatusTag(string $language_var, string $info_language_var, string $relevance): array
-    {
-        $popover = $this->ui_factory->popover()
-            ->listing([
-                $this->ui_factory->item()
-                    ->standard($this->lng->txt($language_var))
-                    ->withDescription($this->lng->txt($info_language_var)),
-            ])
-            ->withVerticalPosition();
-        $tag = $this->ui_factory->button()
-            ->tag($this->lng->txt($language_var), '')
-            ->withRelevance($relevance)
-            ->withOnClick($popover->getShowSignal());
-
-        return [$popover, $tag];
-    }
-
-    /**
-     * Builds the misconfiguration tag. If issue details exist, the tag opens them in a popover.
-     *
-     * @return \ILIAS\UI\Component\Component[]
-     */
-    private function buildMisconfigurationTag(\ilObjLearningSequenceContentData $record): array
-    {
-        if ($record->static_input_configuration_issue_details === []) {
-            return $this->buildStatusTag(
-                'lso_adaptive_misconfigured',
-                'lso_adaptive_misconfigured_info',
-                Tag::REL_HIGH
-            );
-        }
-
-        $items = [];
-        $issue_details = $record->static_input_configuration_issue_details;
-        foreach ($issue_details as $index => $detail) {
-            $item = $this->ui_factory->item()->standard(
-                $this->lng->txt($detail->title_language_var)
-            );
-
-            $description = $this->buildIssueDetailDescription($detail);
-            if ($description !== null && $description !== '') {
-                $item = $item->withDescription($description);
-            }
-
-            $items[] = $item;
-
-            if ($index < count($issue_details) - 1) {
-                $items[] = $this->ui_factory->divider()->horizontal();
-            }
-        }
-
-        $popover = $this->ui_factory->popover()
-            ->listing($items)
-            ->withTitle($this->lng->txt('lso_adaptive_misconfigured'))
-            ->withVerticalPosition();
-        $tag = $this->ui_factory->button()
-            ->tag($this->lng->txt('lso_adaptive_misconfigured'), '')
-            ->withRelevance(Tag::REL_HIGH)
-            ->withOnClick($popover->getShowSignal());
-
-        return [$popover, $tag];
-    }
-
-    /**
-     * @return string|null
-     */
-    private function buildIssueDetailDescription(
-        \ILIAS\LearningSequence\Content\Condition\StaticInputConfigurationIssueDetail $detail
-    ): ?string {
-        $parts = [];
-
-        if ($detail->description_language_var !== null) {
-            $parts[] = $this->lng->txt($detail->description_language_var);
-        }
-
-        foreach ($detail->properties_by_language_var as $language_var => $value) {
-            $parts[] = sprintf(
-                '%s: %s',
-                $this->lng->txt($language_var),
-                is_array($value) ? $this->renderIssueDetailPropertyList($value) : $value
-            );
-        }
-
-        if ($parts === []) {
-            return null;
-        }
-
-        return implode(' ', $parts);
-    }
-
-    /**
-     * @param array<int, int|string> $values
-     */
-    private function renderIssueDetailPropertyList(array $values): string
-    {
-        $items = [];
-
-        foreach ($values as $value) {
-            if (is_int($value)) {
-                $items[] = \ilObject::_lookupTitle(\ilObject::_lookupObjId($value));
-                continue;
-            }
-
-            $items[] = $value;
-        }
-
-        sort($items);
-
-        return implode(', ', $items);
     }
 
     /**

@@ -11198,11 +11198,8 @@ lso#:#logic_gate_or_byline#:#At least one of the selected objects must be comple
 lso#:#lp_not_relevant_post_cond#:#currently not relevant for continuation
 lso#:#lso_activation_online_info#:#Set the Learning Sequence online to make it visible and available for Learning Sequence members. If not, only administrators and tutors will have access to it.
 lso#:#lso_adaptive_dead_end#:#Dead End
-lso#:#lso_adaptive_dead_end_info#:#This object has no successor and is not the end object. Learners cannot continue from here.
 lso#:#lso_adaptive_end#:#End
-lso#:#lso_adaptive_end_info#:#This is the end object of the learning sequence. Learners complete the learning sequence here.
 lso#:#lso_adaptive_entry_point#:#Entry Point
-lso#:#lso_adaptive_entry_point_info#:#This object has no predecessor and is not the start object. Learners cannot reach it via the learning path.
 lso#:#lso_adaptive_information#:#Information
 lso#:#lso_adaptive_misconfigured#:#Misconfigured
 lso#:#lso_adaptive_misconfigured_info#:#The input conditions of this object contradict each other. Learners may not be able to access it.
@@ -11212,12 +11209,9 @@ lso#:#lso_adaptive_missing_start_object#:#To start the learning sequence, a star
 lso#:#lso_adaptive_next_object#:#Next Object
 lso#:#lso_adaptive_offline#:#Offline
 lso#:#lso_adaptive_offline_due_to_missing_boundaries#:#The Learning Sequence was taken offline because it no longer has a start or end object.
-lso#:#lso_adaptive_offline_info#:#This object is offline and is not shown to learners.
-lso#:#lso_adaptive_online_info#:#This object is online and can be accessed by learners.
 lso#:#lso_adaptive_previous_object#:#Previous Object
 lso#:#lso_adaptive_start#:#Start
 lso#:#lso_adaptive_start_end_not_same#:#An object cannot be the start and end object at the same time.
-lso#:#lso_adaptive_start_info#:#This is the start object of the learning sequence. Learners begin here.
 lso#:#lso_at_least_one_admin#:#There has to be at least one learning sequence administrator.
 lso#:#lso_choice_page_headline#:#Which object would you like to edit next?
 lso#:#lso_choice_page_start_label#:#Start object
