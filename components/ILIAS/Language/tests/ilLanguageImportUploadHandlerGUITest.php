@@ -250,7 +250,6 @@ class ilLanguageImportUploadHandlerGUITest extends TestCase
         self::assertSame(HandlerResult::STATUS_FAILED, $result->getStatus());
         self::assertSame('', $result->getFileIdentifier());
         self::assertArrayNotHasKey(self::SESSION_KEY, $_SESSION);
-        // only the source file of the test, no identifier directory
         self::assertSame(['source.lang'], array_map(static fn($m): string => $m->getPath(), $this->temp->listContents('', true)));
     }
 

@@ -1042,7 +1042,6 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
                 $this->refinery->byTrying([$this->refinery->kindlyTo()->bool(), $this->refinery->always(null)])
             )
             : null;
-        // a missing or invalid value opens no modal
         if (is_bool($enable)) {
             ilSession::set(self::DETECTION_CONFIRM_SESSION_KEY, $enable);
         }

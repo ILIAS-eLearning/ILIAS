@@ -1184,7 +1184,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         $token = $this->takePendingToShow(self::MAINTAIN_PENDING_SESSION_KEY);
         $option = $token === null ? null : $this->getPendingMaintainOption($token);
         if ($option === null) {
-            // confirmation already shown (reload, back, cancel) or abandoned
             ilSession::clear(self::MAINTAIN_PENDING_SESSION_KEY);
         } else {
             $modal = $this->buildMaintainConfirmModal($option, $token);

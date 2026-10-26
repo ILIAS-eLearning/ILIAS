@@ -2014,7 +2014,6 @@ class ilObjLanguageExtGUITest extends TestCase
         self::assertSame([['success', 'language_cleared_local']], $ctx->messages);
         self::assertSame([['maintain', []]], $ctx->redirects);
 
-        // second submit with the same token: nothing runs, no failure next to the success
         $gui->maintainConfirmedObject();
 
         self::assertSame([['success', 'language_cleared_local']], $ctx->messages);
@@ -2081,7 +2080,6 @@ class ilObjLanguageExtGUITest extends TestCase
         self::assertArrayNotHasKey(self::MAINTAIN_TOKEN, $ctx->params);
         self::assertFalse($_SESSION[self::MAINTAIN_PENDING]['show'], 'the Vormerkung stays until it is confirmed');
 
-        // reload, back or cancel: only the form, the Vormerkung is gone
         $gui->maintainObject();
         self::assertCount(1, $ctx->rendered[1]);
         self::assertArrayNotHasKey(self::MAINTAIN_PENDING, $_SESSION);
@@ -2208,7 +2206,6 @@ class ilObjLanguageExtGUITest extends TestCase
         self::assertSame(['up1'], $ctx->handler->discarded);
         self::assertCount(1, $ctx->handler->local_files);
         self::assertFileDoesNotExist($ctx->handler->local_files[0]);
-        // the second submit with the same token adds no failure next to the success
         self::assertSame([['success', 'language_file_imported']], $ctx->messages);
         self::assertArrayNotHasKey(self::IMPORT_PENDING, $_SESSION);
         self::assertSame([['import', []], ['import', []]], $ctx->redirects);
@@ -2292,7 +2289,6 @@ class ilObjLanguageExtGUITest extends TestCase
         self::assertSame([['up1']], $ctx->handler->discard_all_calls);
         self::assertFalse($_SESSION[self::IMPORT_PENDING]['show']);
 
-        // reload, back or cancel: only the form, Vormerkung and upload are gone
         $gui->importObject();
         self::assertCount(1, $ctx->rendered[1]);
         self::assertSame(['up1'], $ctx->handler->discarded);
