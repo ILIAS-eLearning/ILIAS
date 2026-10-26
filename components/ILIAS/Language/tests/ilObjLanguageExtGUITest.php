@@ -120,7 +120,6 @@ class ilObjLanguageExtGUITest extends TestCase
         $assertOnMessage($this, $message);
     }
 
-    /** Only object and lng: effectiveRemarkOf()/remarkOf() need no UI collaborators. */
     private function entriesTableFor(ilObjLanguageExt $object, ilLanguage $lng): ilLanguageEntriesTable
     {
         $table = (new ReflectionClass(ilLanguageEntriesTable::class))->newInstanceWithoutConstructor();
@@ -266,7 +265,6 @@ class ilObjLanguageExtGUITest extends TestCase
         array $filtered_names = [],
         array $modules = ['administration']
     ): ilObjLanguageExtGUI {
-        // obj_id 0 is the id of the fake language object
         $_SESSION['lang_ext_edit_selection'] = array_map(
             static fn(array $names): array => ['obj_id' => 0, 'names' => $names],
             $session_selections
@@ -294,7 +292,6 @@ class ilObjLanguageExtGUITest extends TestCase
         $dic['http'] = $http;
 
         $this->edit_db = $this->createMock(ilDBInterface::class);
-        // only ilObjLanguageExt::_getModules() (the filter's module options) gets a row
         $this->edit_db->method('query')->willReturnCallback(function (string $sql) use ($modules): ilDBStatement {
             $statement = $this->createMock(ilDBStatement::class);
             $statement->method('fetchRow')->willReturnOnConsecutiveCalls(
@@ -314,7 +311,6 @@ class ilObjLanguageExtGUITest extends TestCase
         );
         $this->edit_db->method('quote')->willReturnCallback(static fn($value, string $type): string => "'" . $value . "'");
         $dic['ilDB'] = $this->edit_db;
-        // only the "module not found" warning of _saveValues() is logged
         $dic['ilLoggerFactory'] = new class ($this->createMock(ilLogger::class)) {
             public function __construct(private readonly ilLogger $logger)
             {
@@ -388,7 +384,6 @@ class ilObjLanguageExtGUITest extends TestCase
         return $gui;
     }
 
-    /** editSelectedObject() ends the request via http->close(), which the mock turns into an exception. */
     private function editSelected(ilObjLanguageExtGUI $gui, array $names): void
     {
         try {
@@ -430,8 +425,6 @@ class ilObjLanguageExtGUITest extends TestCase
     }
 
     /**
-     * Post body for a modal: input name => value, addressed by the field keys of buildEditEntriesModal().
-     *
      * @param array<string, string> $values field key => value
      */
     private function postBodyFor(\ILIAS\UI\Implementation\Component\Modal\RoundTrip $modal, array $values): array
@@ -447,8 +440,6 @@ class ilObjLanguageExtGUITest extends TestCase
     }
 
     /**
-     * Stands in for the static collaborators of ilObjLanguageExt::_saveValues() (global file, language cache).
-     *
      * @return callable restores the static caches
      */
     private function stubSaveValuesStatics(): callable
@@ -472,8 +463,6 @@ class ilObjLanguageExtGUITest extends TestCase
     }
 
     /**
-     * Creates a GUI for a save request: the modal of $names built like the save does, filled with $fields.
-     *
      * @param array<string, string> $fields field key => posted value
      * @param array<string, string> $values entries that exist
      * @param array<string, list<string>> $selections stored selections: token => names
@@ -705,9 +694,6 @@ class ilObjLanguageExtGUITest extends TestCase
         $this->buildModal($gui, ['common#:#access']);
     }
 
-    /**
-     * Outside langmode the form has no comment field: the existing remark is written back unchanged.
-     */
     public function testSaveEditedEntriesObjectKeepsTheExistingRemarksOutsideLangmode(): void
     {
         $restore = $this->stubSaveValuesStatics();
@@ -1080,7 +1066,6 @@ class ilObjLanguageExtGUITest extends TestCase
         ];
     }
 
-    /** The comment field must show the stored remark unchanged, so saving it back does not alter it. */
     #[DataProvider('remarkWithAmpersandProvider')]
     public function testTheCommentFieldShowsARemarkWithAmpersandsUnchanged(string $remark): void
     {
@@ -1088,7 +1073,6 @@ class ilObjLanguageExtGUITest extends TestCase
 
         $value = $this->inputsOf($this->buildModal($gui, ['common#:#access']))['comment_0']->getValue();
 
-        // what the browser shows of KS' escaping (htmlspecialchars without double encoding)
         $shown = html_entity_decode(htmlspecialchars($value, ENT_QUOTES, 'UTF-8', false), ENT_QUOTES | ENT_HTML5, 'UTF-8');
         self::assertSame($remark, $shown);
     }
@@ -1146,23 +1130,8 @@ class ilObjLanguageExtGUITest extends TestCase
         $gui->saveEditedEntriesObject();
     }
 
-    // -----------------------------------------------------------------
-    // executeCommand()
-    //
-    // ilObjLanguageAccess::_checkMaintenance() (the method's very first
-    // statement) is a static call that itself reaches into $DIC->user(),
-    // $DIC->rbac()->system() and, once a user id is present,
-    // $DIC->database() (via _lookupLangFolderRefId()) - all real DIC
-    // services, stubbed here (via $GLOBALS['DIC']) purely so that call
-    // returns true and execution proceeds; none of *this* class' own logic
-    // is inside _checkMaintenance() itself; ilObjLanguageAccessTest is the
-    // right place for that method's own behaviour.
-    // -----------------------------------------------------------------
 
-    /**
-     * @return ilHelpGUI&MockObject the "ilHelp" collaborator, so a test can
-     *         still add its own expectation on setScreenIdComponent()
-     */
+    /** @return ilHelpGUI&MockObject */
     private function stubMaintenanceGranted(bool $granted = true): ilHelpGUI
     {
         $GLOBALS['DIC'] = new \ILIAS\DI\Container();
@@ -1171,10 +1140,6 @@ class ilObjLanguageExtGUITest extends TestCase
         $user->method('getId')->willReturn(6);
         $GLOBALS['DIC']['ilUser'] = $user;
 
-        // _checkMaintenance() -> _lookupLangFolderRefId() runs one query,
-        // then rbacsystem->checkAccess() is asked - both stubbed to grant
-        // access unconditionally, since none of executeCommand()'s own
-        // behaviour depends on which ref_id/permission was actually used.
         $db = $this->createMock(ilDBInterface::class);
         $db->method('quote')->willReturnCallback(static fn($value, string $type): string => "'" . $value . "'");
         $db->method('query')->willReturn($this->createMock(ilDBStatement::class));
@@ -1231,11 +1196,6 @@ class ilObjLanguageExtGUITest extends TestCase
             }
         );
 
-        // A real (not mocked) Refinery Factory: getCommandFromQueryToken()/
-        // getIdsFromQueryToken() only use it to build the Transformation
-        // objects handed to $request_wrapper->retrieve() above, which
-        // ignores them and returns the canned value directly - kindlyTo()/
-        // custom() need no further collaborators to construct those.
         $refinery = new RefineryFactory(
             new \ILIAS\Data\Factory(),
             $this->createMock(\ILIAS\Language\Language::class)
@@ -1250,23 +1210,12 @@ class ilObjLanguageExtGUITest extends TestCase
         return $gui;
     }
 
-    /**
-     * Regression test for the "no fallthrough" contract documented on
-     * executeCommand(): once the 'edit' action is dispatched via the query
-     * token, the method must return immediately - never reach the
-     * `$cmd = ...; $this->$cmd();` fallthrough below (which would call
-     * viewObject() and overwrite editSelectedObject()'s content/response).
-     * If the `return` after the case's body were ever removed/moved, this
-     * test's `expects($this->never())->method('viewObject')` would fail.
-     */
     public function testExecuteCommandDispatchesEditActionAndNeverFallsThroughToViewObject(): void
     {
         $help = $this->stubMaintenanceGranted();
         $help->expects($this->once())->method('setScreenIdComponent')->with('lng');
 
         $ctrl = $this->createMock(ilCtrl::class);
-        // If the dispatch ever fell through, $ctrl->getCmd() would be asked
-        // for the default command - not expected here at all.
         $ctrl->expects($this->never())->method('getCmd');
 
         $gui = $this->createGuiForExecuteCommand(
@@ -1281,12 +1230,6 @@ class ilObjLanguageExtGUITest extends TestCase
         $gui->executeCommand();
     }
 
-    /**
-     * Control case: with no 'table_action' query token present at all, the
-     * normal ilCtrl-driven dispatch (here: the default "view" command) must
-     * still run exactly as before - the new query-token dispatch must not
-     * interfere with the untouched fallthrough path.
-     */
     public function testExecuteCommandFallsThroughToTheNormalDispatchWhenNoActionTokenIsPresent(): void
     {
         $help = $this->stubMaintenanceGranted();
@@ -1314,7 +1257,6 @@ class ilObjLanguageExtGUITest extends TestCase
 
         $handler = $this->createMock(ilLanguageImportUploadHandlerGUI::class);
         $ctrl = $this->createMock(ilCtrl::class);
-        // mixed case: the class name is compared case-insensitively
         $ctrl->method('getNextClass')->willReturn('ilLanguageImportUploadHandlerGUI');
         $ctrl->expects($this->once())->method('forwardCommand')->with($this->identicalTo($handler));
         $ctrl->expects($this->never())->method('getCmd');
@@ -1344,7 +1286,6 @@ class ilObjLanguageExtGUITest extends TestCase
         $lng = $this->createMock(ilLanguage::class);
         $lng->method('txt')->willReturnArgument(0);
         $this->inject($gui, 'lng', $lng);
-        // raiseError() ends the request with exit; the exception stands in for it
         $error = $this->createMock(ilErrorHandling::class);
         $error->expects($this->once())->method('raiseError')
             ->with('permission_denied')
@@ -1484,19 +1425,6 @@ class ilObjLanguageExtGUITest extends TestCase
         $gui->getAdminTabs();
     }
 
-    // -----------------------------------------------------------------
-    // getIdsFromQueryToken() (private) - exercised indirectly through
-    // executeCommand()'s query-token dispatch, exactly like the 'edit'
-    // action tests above, but this time with a REAL RequestWrapper::retrieve()
-    // stand-in that actually applies the given Transformation to a raw query
-    // value (createGuiForExecuteCommand() above deliberately ignores the
-    // transformation and returns its canned $row_ids as-is, which is not
-    // suitable for testing the transformation itself). Regression coverage
-    // for the reflected-XSS fix: whatever shape the raw
-    // "lang_entries_entry_names[]" query value has, editSelectedObject()
-    // must always receive a genuine list<string> - never a raw/untransformed
-    // value, and never a TypeError.
-    // -----------------------------------------------------------------
 
     /**
      * @return ilObjLanguageExtGUI&MockObject
@@ -1515,11 +1443,6 @@ class ilObjLanguageExtGUITest extends TestCase
 
         $request_wrapper = $this->createMock(RequestWrapper::class);
         $request_wrapper->method('has')->willReturn(true);
-        // Unlike createGuiForExecuteCommand() above, this actually applies
-        // the transformation handed in by getIdsFromQueryToken() to a raw
-        // value under this test's control - only this way is the
-        // byTrying([...]) shape-normalisation itself exercised, rather than
-        // bypassed.
         $request_wrapper->method('retrieve')->willReturnCallback(
             static fn(string $name, $trafo) => match ($name) {
                 'table_action' => 'edit',
@@ -1552,11 +1475,6 @@ class ilObjLanguageExtGUITest extends TestCase
         $gui->executeCommand();
     }
 
-    /**
-     * A raw query value of "...&entry_names=foo" (a single string, no "[]")
-     * must be wrapped into a single-element list rather than causing a
-     * TypeError further down (editSelectedObject(array $names)).
-     */
     public function testGetIdsFromQueryTokenWrapsABareStringRawValueIntoASingleElementList(): void
     {
         $this->stubMaintenanceGranted();
@@ -1567,11 +1485,6 @@ class ilObjLanguageExtGUITest extends TestCase
         $gui->executeCommand();
     }
 
-    /**
-     * Any raw shape that is neither a genuine array nor a string (e.g. an
-     * int, from a malformed/forged query string) must fall back to an empty
-     * list, not a TypeError or the untransformed raw value.
-     */
     public function testGetIdsFromQueryTokenFallsBackToAnEmptyListForAnUnexpectedRawShape(): void
     {
         $this->stubMaintenanceGranted();
@@ -1582,9 +1495,6 @@ class ilObjLanguageExtGUITest extends TestCase
         $gui->executeCommand();
     }
 
-    // -----------------------------------------------------------------
-    // resolveFilterData()
-    // -----------------------------------------------------------------
 
     public function testResolveFilterDataReturnsTheFiltersInputsWhenItIsActivated(): void
     {
@@ -1601,14 +1511,7 @@ class ilObjLanguageExtGUITest extends TestCase
         self::assertSame($inputs, $this->invokeProtectedMethod($gui, 'resolveFilterData', [$filter]));
     }
 
-    /**
-     * A deactivated Filter must resolve to `null` - NOT to
-     * $filter->getInputs() (which, per the Filter\Standard implementation,
-     * is not itself gated by isActivated() at all) - so that
-     * ilLanguageEntriesTable::filterValue()'s "!is_array($filter_data)" guard
-     * falls back to every field's default, exactly as if no filter had been
-     * applied.
-     */
+    /** A deactivated Filter yields null, not $filter->getInputs(), which ignores isActivated(). */
     public function testResolveFilterDataReturnsNullWhenTheFilterIsDeactivatedAndNeverReadsItsInputs(): void
     {
         $filter = $this->createMock(\ILIAS\UI\Component\Input\Container\Filter\Filter::class);
@@ -1623,17 +1526,6 @@ class ilObjLanguageExtGUITest extends TestCase
         self::assertNull($this->invokeProtectedMethod($gui, 'resolveFilterData', [$filter]));
     }
 
-    // -----------------------------------------------------------------
-    // resetEntriesTableRangeIfRequested()
-    //
-    // ilObjLanguageAccess::_isPageTranslation() (the method's own first
-    // check) is a static call reaching into `global $DIC->http()`/
-    // `$DIC->refinery()` - stubbed here via $GLOBALS['DIC'], independently
-    // of the GUI instance's OWN request_wrapper/refinery properties (used
-    // afterwards to read the "reset_offset" query parameter itself) - same
-    // two-DIC-levels distinction as ilLanguageEntriesTableTest's own
-    // setIsPageTranslation() helper.
-    // -----------------------------------------------------------------
 
     private function stubGlobalDicIsPageTranslation(bool $is_page_translation): void
     {
@@ -1714,13 +1606,7 @@ class ilObjLanguageExtGUITest extends TestCase
         self::assertSame(['some' => 'state that must survive'], $_SESSION[$session_key]);
     }
 
-    /**
-     * Outside page-translation mode, resetEntriesTableRangeIfRequested()
-     * must return immediately without ever reading $this->request_wrapper -
-     * deliberately left unset on this GUI instance, so a regression that
-     * dropped the early return would fatal-error here (accessing an
-     * uninitialized typed property) rather than silently passing.
-     */
+    /** request_wrapper stays unset on purpose: a dropped early return fails with an uninitialized property. */
     public function testResetEntriesTableRangeIfRequestedDoesNothingOutsidePageTranslationModeEvenWithResetOffsetTrue(): void
     {
         $this->stubGlobalDicIsPageTranslation(false);
@@ -1735,7 +1621,6 @@ class ilObjLanguageExtGUITest extends TestCase
         $this->addToAssertionCount(1); // reaching here without a fatal error IS the assertion
     }
 
-    // maintenance and import: real KS factory, request and session, recording stubs for ctrl/tpl/renderer
 
     private const string MAINTAIN_PENDING = 'lang_ext_maintain_pending';
     private const string MAINTAIN_TOKEN = 'lang_maintain_token';
@@ -1834,7 +1719,6 @@ class ilObjLanguageExtGUITest extends TestCase
         $renderer = $this->createStub(\ILIAS\UI\Renderer::class);
         $renderer->method('render')->willReturnCallback(
             static function ($components) use ($ctx): string {
-                // a form is wrapped in a panel for its title: recorded as the panel content plus its title
                 $flat = [];
                 foreach (is_array($components) ? $components : [$components] as $component) {
                     if ($component instanceof \ILIAS\UI\Component\Panel\Standard) {
@@ -1937,8 +1821,6 @@ class ilObjLanguageExtGUITest extends TestCase
     }
 
     /**
-     * Post body of a form of the GUI: field key => value, addressed by the real input names.
-     *
      * @param array<string, mixed> $values
      * @param list<mixed> $args arguments of the builder
      * @param list<string> $installed_languages
@@ -1953,7 +1835,6 @@ class ilObjLanguageExtGUITest extends TestCase
                 continue;
             }
             if ($input instanceof \ILIAS\UI\Implementation\Component\Input\Field\File) {
-                // dynamic inputs: parent name => [name of the hidden input => identifiers]
                 $template = $input->getTemplateForDynamicInputs();
                 self::assertInstanceOf(\ILIAS\UI\Implementation\Component\Input\Field\FormInput::class, $template);
                 preg_match('/\[([^\]]+)\]\[\]$/', $template->getName(), $inner);
@@ -1979,7 +1860,6 @@ class ilObjLanguageExtGUITest extends TestCase
         );
     }
 
-    /** @return string the path of the distributed language file, which exists */
     private function givenDistributedLanguageFile(ilObjLanguageExt&MockObject $object): string
     {
         $dir = $this->scratchDir();
@@ -2061,7 +1941,6 @@ class ilObjLanguageExtGUITest extends TestCase
             'unknown option' => [['maintain' => 'format_disk'], '1'],
             'langmode option without langmode' => [['maintain' => 'remove_local_file'], '0'],
             'merge without langmode' => [['maintain' => 'merge'], '0'],
-            // the radio is not required (always preset), the server still refuses a missing option
             'nothing selected' => [[], '1'],
             'empty option' => [['maintain' => ''], '1'],
             'array instead of an option' => [['maintain' => ['clear']], '1'],
@@ -2162,7 +2041,6 @@ class ilObjLanguageExtGUITest extends TestCase
         self::assertStringContainsString('language_merge_local_changes', $modal->getMessage());
         self::assertSame(['0'], array_map(static fn($item) => $item->getId(), $modal->getAffectedItems()));
         self::assertSame('html', $ctx->contents[0]);
-        // the token must not leak into the other links of the page
         self::assertArrayNotHasKey(self::MAINTAIN_TOKEN, $ctx->params);
         self::assertFalse($_SESSION[self::MAINTAIN_PENDING]['show'], 'the Vormerkung stays until it is confirmed');
 
@@ -2171,7 +2049,6 @@ class ilObjLanguageExtGUITest extends TestCase
         self::assertArrayNotHasKey(self::MAINTAIN_PENDING, $_SESSION);
     }
 
-    /** A token in the URL never opens the confirmation, only the one-time marker of the Vormerkung does. */
     public function testMaintainObjectWithoutTheShowMarkerShowsOnlyTheFormAndDiscardsTheVormerkung(): void
     {
         foreach ([null, 'tok'] as $token) {
@@ -2256,7 +2133,6 @@ class ilObjLanguageExtGUITest extends TestCase
         return [
             'unknown mode' => ['format_disk'],
             'array instead of a mode' => [['replace']],
-            // the radio is not required (always preset), the server still refuses a missing mode
             'no mode sent' => [null],
             'empty mode' => [''],
         ];
@@ -2310,7 +2186,6 @@ class ilObjLanguageExtGUITest extends TestCase
         self::assertSame([['import', []], ['import', []]], $ctx->redirects);
     }
 
-    /** Anything else may carry SQL: it is logged and only the generic message is shown. */
     public function testImportConfirmedRemovesUploadAndLocalCopyEvenWhenTheImportThrows(): void
     {
         $this->stubLoggerLangError('SELECT secret FROM lng_data failed', ilException::class);
@@ -2328,7 +2203,6 @@ class ilObjLanguageExtGUITest extends TestCase
         self::assertSame([['import', []]], $ctx->redirects);
     }
 
-    /** An error of the upload itself (code 400) is meant for the user and shown escaped. */
     public function testImportConfirmedShowsAnUploadErrorWithCode400Escaped(): void
     {
         [$gui, $ctx] = $this->createGuiForForms('1', [], [self::IMPORT_TOKEN => 'tok'], 'ilias_de.lang');
@@ -2394,8 +2268,6 @@ class ilObjLanguageExtGUITest extends TestCase
         self::assertArrayNotHasKey(self::IMPORT_PENDING, $_SESSION);
     }
 
-    /** A token in the URL never opens the confirmation, only the one-time marker of the Vormerkung does. */
-    /** Exports end in .lang.local, .lang.global etc., dropzone would reject them by name; the server checks the content. */
     public function testTheImportFileFieldFiltersNoFileTypesButLimitsTheSize(): void
     {
         [$gui] = $this->createGuiForForms();
@@ -2540,7 +2412,6 @@ class ilObjLanguageExtGUITest extends TestCase
         $radio = $form->getInputs()['scope'];
         self::assertInstanceOf(\ILIAS\UI\Implementation\Component\Input\Field\Radio::class, $radio);
         self::assertSame($scopes, array_keys($radio->getOptions()));
-        // as before not marked as required: a scope is always preset
         self::assertFalse($radio->isRequired());
         foreach ($scopes as $scope) {
             self::assertSame('language_scope_' . $scope, $radio->getOptions()[$scope]);
@@ -2582,7 +2453,6 @@ class ilObjLanguageExtGUITest extends TestCase
             'merged without langmode' => ['0', ['scope' => 'merged']],
             'added without langmode' => ['0', ['scope' => 'added']],
             'unknown scope' => ['1', ['scope' => '../etc/passwd']],
-            // the radio is not required (always preset), the server still refuses a missing scope
             'no scope' => ['1', []],
             'empty scope' => ['1', ['scope' => '']],
             'array instead of a scope' => ['1', ['scope' => ['global']]],

@@ -26,17 +26,14 @@ use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
 
 /**
- * Read-only KS Data Table of the entries of one language, KS has no editable column type.
- * Editing happens in the Round-Trip modal of ilObjLanguageExtGUI::buildEditEntriesModal().
+ * Read-only: KS has no editable column type, editing is the Round-Trip modal of ilObjLanguageExtGUI.
  */
 class ilLanguageEntriesTable implements DataTable\DataRetrieval
 {
     public const string DEFAULT_MODULE = 'administration';
 
-    /** Module used while the filter is deactivated, kept equal to the filter preset. */
     private string $default_module = self::DEFAULT_MODULE;
 
-    /** Per-request caches, key-less because $filter_data does not change within a request. */
     private ?array $filtered_entries_cache = null;
     private ?array $conflicts_check_cache = null;
     private ?array $remarks_cache = null;
@@ -59,7 +56,6 @@ class ilLanguageEntriesTable implements DataTable\DataRetrieval
         $this->default_module = $module;
     }
 
-    /** Also the filter id and the view-control session key, separate for page translation and administration. */
     public static function tableId(): string
     {
         return 'lang_ext_entries_' . (ilObjLanguageAccess::_isPageTranslation() ? 'trans' : 'admin');
@@ -81,7 +77,6 @@ class ilLanguageEntriesTable implements DataTable\DataRetrieval
             ]);
     }
 
-    /** "default" is titled after the compare language, as in the former ilLanguageExtTableGUI. */
     protected function getColumns(mixed $filter_data): array
     {
         $f = $this->ui_factory->table()->column();
@@ -124,11 +119,7 @@ class ilLanguageEntriesTable implements DataTable\DataRetrieval
         return $title;
     }
 
-    /**
-     * The compare language's values for the current filter scope, as shown in the "default" column.
-     *
-     * @return array<string, string>
-     */
+    /** @return array<string, string> */
     public function getCompareValues(mixed $filter_data): array
     {
         [$modules, $topics] = $this->resolveModulesAndTopics($filter_data);
@@ -141,21 +132,13 @@ class ilLanguageEntriesTable implements DataTable\DataRetrieval
         return (string) $this->filterValue($filter_data, 'compare', $this->lng->getDefaultLanguage());
     }
 
-    /**
-     * Without pagination, also resolves the ALL_OBJECTS selection.
-     *
-     * @return list<string>
-     */
+    /** @return list<string> */
     public function getFilteredEntryNames(mixed $filter_data): array
     {
         return array_keys($this->getFilteredEntries($filter_data));
     }
 
-    /**
-     * The message for the "conflicts" mode, set by the caller.
-     *
-     * @return array{type: string, text: string}|null
-     */
+    /** @return array{type: string, text: string}|null */
     public function getConflictsNotice(mixed $filter_data): ?array
     {
         if ((string) $this->filterValue($filter_data, 'mode', 'all') !== 'conflicts') {
@@ -218,11 +201,7 @@ class ilLanguageEntriesTable implements DataTable\DataRetrieval
         return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
     }
 
-    /**
-     * Natural, case-insensitive order on precomputed keys; DESC flips the comparator so ties keep their order.
-     *
-     * @param list<string> $names
-     */
+    /** @param list<string> $names */
     private function sortEntryNames(array $names, array $entries, array $compare_content, Order $order): array
     {
         [$order_field, $order_direction] = $order->join([], static fn($ret, $key, $value): array => [$key, $value]);
@@ -256,7 +235,6 @@ class ilLanguageEntriesTable implements DataTable\DataRetrieval
         return count($this->getFilteredEntryNames($filter_data));
     }
 
-    /** module#:#topic => value for the current filter. */
     private function getFilteredEntries(mixed $filter_data): array
     {
         if ($this->filtered_entries_cache !== null) {
@@ -270,8 +248,6 @@ class ilLanguageEntriesTable implements DataTable\DataRetrieval
     }
 
     /**
-     * Case-insensitive substring match on the remark shown and edited in langmode, see effectiveRemarkOf().
-     *
      * @param array<string, string> $entries
      * @return array<string, string>
      */
@@ -294,8 +270,7 @@ class ilLanguageEntriesTable implements DataTable\DataRetrieval
     }
 
     /**
-     * Literal, ASCII-case-insensitive substring of the identifier, unlike the SQL LIKE of "pattern".
-     *
+     * Literal substring, unlike the SQL LIKE of "pattern".
      * @param array<string, string> $entries
      * @return array<string, string>
      */
@@ -388,7 +363,6 @@ class ilLanguageEntriesTable implements DataTable\DataRetrieval
         return $this->remarks_cache = $this->object->getAllRemarks();
     }
 
-    /** The remark the edit form shows and saveValues() compares against, see ilObjLanguageExt::getEffectiveRemarks(). */
     public function effectiveRemarkOf(string $name): string
     {
         $this->effective_remarks_cache ??= $this->object->getEffectiveRemarks();
@@ -396,11 +370,7 @@ class ilLanguageEntriesTable implements DataTable\DataRetrieval
         return $this->remarkOf($this->effective_remarks_cache, $name);
     }
 
-    /**
-     * A form of a plural message without a comment of its own gets the one of its identifier (see PluralFormKey).
-     *
-     * @param array<string, string|null> $comments
-     */
+    /** A plural form without a remark of its own gets the one of its identifier. */
     private function remarkOf(array $comments, string $name): string
     {
         if (($comments[$name] ?? '') !== '') {
@@ -412,7 +382,6 @@ class ilLanguageEntriesTable implements DataTable\DataRetrieval
         return $identifier === null ? '' : (string) ($comments[$keys[0] . $this->lng->separator . $identifier] ?? '');
     }
 
-    /** Shipped values (global file, .po of PO modules) when compared with the edited language itself, else the DB values. */
     private function getCompareContent(mixed $filter_data, array $modules, array $topics): array
     {
         if ($this->compare_content_cache !== null) {
@@ -428,12 +397,7 @@ class ilLanguageEntriesTable implements DataTable\DataRetrieval
         return $this->compare_content_cache = ilObjLanguageExt::_getValues($compare, $modules, $topics);
     }
 
-    /**
-     * Page translation uses the modules/topics saved in the session instead of the filter fields.
-     * Otherwise topics stay empty, filterByIdentifier() applies "identifier" afterwards.
-     *
-     * @return array{0: list<string>, 1: list<string>}
-     */
+    /** @return array{0: list<string>, 1: list<string>} */
     private function resolveModulesAndTopics(mixed $filter_data): array
     {
         if (ilObjLanguageAccess::_isPageTranslation()) {
@@ -480,7 +444,6 @@ class ilLanguageEntriesTable implements DataTable\DataRetrieval
         return ['status' => 'ok', 'former_file' => $former_file, 'global_changes' => $global_changes];
     }
 
-    /** $filter_data is null for a deactivated filter, then every field falls back to $default. */
     private function filterValue(mixed $filter_data, string $key, mixed $default = null): mixed
     {
         if (!is_array($filter_data) || !isset($filter_data[$key])) {

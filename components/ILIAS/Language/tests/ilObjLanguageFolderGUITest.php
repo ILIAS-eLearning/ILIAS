@@ -707,8 +707,6 @@ class ilObjLanguageFolderGUITest extends TestCase
     }
 
     /**
-     * Real Refinery, the request wrapper applies the transformation like the real one does.
-     *
      * @param list<non-empty-string> $methods
      * @return ilObjLanguageFolderGUI&\PHPUnit\Framework\MockObject\MockObject
      */
@@ -758,7 +756,6 @@ class ilObjLanguageFolderGUITest extends TestCase
         string $confirmed_action,
         string $text
     ): void {
-        // GET is fine here: the modal is fetched asynchronously, it changes nothing
         $gui = $this->createTableActionGui($action, 'GET', ['5', '6'], ['buildConfirmModal', 'installObject', 'viewObject']);
         $modal = $this->createStub(\ILIAS\UI\Component\Modal\Interruptive::class);
         $gui->expects($this->once())->method('buildConfirmModal')
@@ -767,7 +764,6 @@ class ilObjLanguageFolderGUITest extends TestCase
         $gui->expects($this->never())->method('installObject');
         $gui->expects($this->never())->method('viewObject');
 
-        // the real code echoes the modal and exit()s, the exception stands in for it
         $renderer = $this->createMock(\ILIAS\UI\Renderer::class);
         $renderer->expects($this->once())->method('renderAsync')->with([$modal])
             ->willThrowException(new \LogicException('rendered'));
@@ -863,7 +859,6 @@ class ilObjLanguageFolderGUITest extends TestCase
         $activity->expects($this->once())->method('maybePerformAs')->with($this->anything(), 6, ['enabled' => $enabled])
             ->willReturn(new ResultOk(null));
 
-        // persistent (true): the message has to survive the redirect of the POST-redirect-GET
         $tpl = $this->createMock(ilGlobalTemplateInterface::class);
         $tpl->expects($this->once())->method('setOnScreenMessage')->with('success', 'saved_successfully', true);
         $ctrl = $this->createMock(ilCtrl::class);

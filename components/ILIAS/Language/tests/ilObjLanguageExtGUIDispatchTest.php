@@ -66,12 +66,11 @@ class ilObjLanguageExtGUIDispatchTest extends TestCase
             ->onlyMethods(array_map(static fn(string $command): string => $command . 'Object', [...self::COMMANDS, 'view']))
             ->getMock();
         $this->inject($gui, 'ctrl', $ctrl);
-        // no table action in the request: the command dispatch is reached
         $action_token = $this->createStub(URLBuilderToken::class);
         $action_token->method('getName')->willReturn('table_action');
         $this->inject($gui, 'action_token', $action_token);
         $this->inject($gui, 'request_wrapper', $this->createStub(RequestWrapper::class));
-        // unsafe commands only run by POST, see ilObjLanguageExtGUI::VIEW_OF_UNSAFE_COMMAND
+        // unsafe commands only run by POST
         $request = $this->createStub(\Psr\Http\Message\ServerRequestInterface::class);
         $request->method('getMethod')->willReturn('POST');
         $http = $this->createStub(\ILIAS\HTTP\GlobalHttpState::class);

@@ -30,9 +30,6 @@ use ILIAS\FileUpload\Handler\HandlerResult;
 use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\TestCase;
 
-/**
- * The temp filesystem is a real one below a scratch directory, the session is the real, static ilSession.
- */
 class ilLanguageImportUploadHandlerGUITest extends TestCase
 {
     private const string SESSION_KEY = 'lang_ext_import_uploads';
@@ -75,7 +72,6 @@ class ilLanguageImportUploadHandlerGUITest extends TestCase
         return $handler;
     }
 
-    /** A file in the temp filesystem, issued to this session only if $own. */
     private function storeUpload(string $identifier, string $name, bool $own): void
     {
         $this->temp->createDir($identifier);
@@ -245,7 +241,6 @@ class ilLanguageImportUploadHandlerGUITest extends TestCase
 
     public function testAnUploadOverTheServerSideSizeLimitIsRefusedAndStoresNothing(): void
     {
-        // the limit is checked in the browser only, the declared size of the result is what counts
         $result = $this->runUpload('big.lang', ilLanguageImportUploadHandlerGUI::MAX_FILE_SIZE + 1, static fn(string $n): string => $n);
 
         self::assertSame(HandlerResult::STATUS_FAILED, $result->getStatus());
@@ -271,7 +266,7 @@ class ilLanguageImportUploadHandlerGUITest extends TestCase
         self::assertSame('language.lang', $handler->getFileName($result->getFileIdentifier()));
     }
 
-    /** @return array<string, array{string, string}> name given by the browser => display name */
+    /** @return array<string, array{string, string}> */
     public static function clientFileNames(): array
     {
         return [
@@ -287,7 +282,6 @@ class ilLanguageImportUploadHandlerGUITest extends TestCase
     #[\PHPUnit\Framework\Attributes\DataProvider('clientFileNames')]
     public function testTheFileIsStoredUnderAFixedNameAndTheBrowserNameIsKeptForDisplay(string $client_name, string $display_name): void
     {
-        // getValidFilename() must play no part anymore: a sanitizer that destroys every name
         $result = $this->runUpload($client_name, 7, static fn(string $n): string => 'mangled.sec');
         $identifier = $result->getFileIdentifier();
         $handler = $this->createHandler();
@@ -361,7 +355,6 @@ class ilLanguageImportUploadHandlerGUITest extends TestCase
         self::assertSame('<img src=x onerror=alert(1)>.lang', $handler->getFileName('own'));
     }
 
-    /** The detector gives up on the unknown extension .lang; any other detected type is passed on. */
     public function testTheMimeTypeFallsBackToPlainTextOnlyWhenTheDetectionFails(): void
     {
         $this->storeUpload('own', 'own.lang', true);

@@ -48,9 +48,8 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
     private const string CMD_TABLE_ACTION = 'executeTableAction';
     private const string DETECTION_PARAMETER = 'lang_detection_enable';
     private const string DETECTION_CONFIRM_SESSION_KEY = 'lang_detection_confirm';
-    /** confirmed table action => InstallLanguage mode */
     private const array INSTALL_CONFIRMED_ACTIONS = ['installConfirmed' => 'install', 'installLocalConfirmed' => 'install_local'];
-    /** table actions sent by the POST of a confirmation modal, a GET (the URL carries the rtoken) only shows the list */
+    /** Only the POST of a confirmation modal runs these, a GET only shows the list. */
     private const array CONFIRMED_TABLE_ACTIONS = [
         'confirmRefresh',
         'refreshConfirmed',
@@ -139,7 +138,6 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
         global $DIC;
 
         $table = $this->languageFolderTable->getTable();
-        // set by confirmLanguageDetectionObject(), shown only once so a reload does not reopen the modal
         $confirm_detection = ilSession::get(self::DETECTION_CONFIRM_SESSION_KEY);
         ilSession::clear(self::DETECTION_CONFIRM_SESSION_KEY);
 
@@ -355,9 +353,6 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
         return false;
     }
 
-    /**
-     * $mode is an InstallLanguage mode (MODE_INSTALL/MODE_INSTALL_LOCAL), see INSTALL_CONFIRMED_ACTIONS.
-     */
     public function installObject(array $ids, string $mode): void
     {
         $this->checkPermission('write');
@@ -1035,7 +1030,6 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
         return $ids;
     }
 
-    /** Switches nothing: the next list view opens the confirmation modal once, only its POST switches the setting. */
     protected function confirmLanguageDetectionObject(): void
     {
         $enable = $this->request_wrapper->has(self::DETECTION_PARAMETER)
@@ -1138,7 +1132,6 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
         return $url_builder->buildURI()->__toString();
     }
 
-    /** Only normalises the shape, abortIfAnyIdIsNotALanguageObject() checks the ids. */
     private function getIdsFromQueryToken(): array
     {
         if (!$this->request_wrapper->has($this->id_token->getName())) {

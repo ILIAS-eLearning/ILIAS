@@ -68,7 +68,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
     private const array IMPORT_MODES = ['keepall', 'keepnew', 'replace', 'delete'];
     private const array IMPORT_WITHOUT_CONFIRMATION = ['keepall', 'keepnew'];
     private const int REMARK_MAX_LENGTH = 250;
-    /** unsafe command => view shown instead when it is not reached by POST */
     private const array VIEW_OF_UNSAFE_COMMAND = [
         'saveEditedEntries' => 'view',
         'upload' => 'import',
@@ -137,7 +136,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
 
         // do all generic GUI initialisations
         parent::__construct($a_data, $this->id, false, true);
-        // the upload handler resolves the language by obj_id
         $this->ctrl->setParameter($this, 'obj_id', $this->id);
 
         // initialize the array to store session variables for extended language maintenance
@@ -279,7 +277,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         return $this->request_wrapper->retrieve($param, $trafo);
     }
 
-    /** Only normalises the shape, resolveEntryNames() drops unknown names. */
     private function getIdsFromQueryToken(): array
     {
         if (!$this->request_wrapper->has($this->row_id_token->getName())) {
@@ -304,7 +301,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
             ])
         );
     }
-    /** Also used to resolve ALL_OBJECTS: the same filter id restores the same values from the session. */
     private function initFilter(): ilFilter
     {
         global $DIC;
@@ -375,18 +371,12 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         );
     }
 
-    /** Same gating as ilUIFilterService::getData(), but keeps the inputs for ilLanguageEntriesTable::filterValue(). */
     private function resolveFilterData(ilFilter $filter): ?array
     {
         return $filter->isActivated() ? $filter->getInputs() : null;
     }
 
-    /**
-     * Show the edit screen
-     *
-     * @param RoundTrip|null $reopened_modal edit modal of a rejected save, rendered with the table
-     * @param list<string> $additional_failure_messages HTML, shown together with the failure messages of this view
-     */
+    /** @param list<string> $additional_failure_messages HTML */
     public function viewObject(?RoundTrip $reopened_modal = null, array $additional_failure_messages = []): void
     {
         global $DIC;
@@ -441,10 +431,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         ));
     }
 
-    /**
-     * KS Data Table cannot reset only the range for "&reset_offset=true" of
-     * ilObjLanguageAccess::_getTranslationLink(), so its whole view-control state is cleared.
-     */
+    /** KS cannot reset only the range for "&reset_offset=true", so the whole view-control state is cleared. */
     private function resetEntriesTableRangeIfRequested(): void
     {
         if (!ilObjLanguageAccess::_isPageTranslation()) {
@@ -460,10 +447,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         }
     }
 
-    /**
-     * Answers the async "edit" action of the entries table with the edit modal, or with a failure message box.
-     * ALL_OBJECTS is resolved against the session-persisted filter, like the table itself.
-     */
     protected function editSelectedObject(array $names): void
     {
         $names = $this->resolveEntryNames($names);
@@ -483,11 +466,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         $this->sendAsync($this->buildEditEntriesModal($names, $this->storeEditSelection($names), true));
     }
 
-    /**
-     * Expands ALL_OBJECTS and drops names that do not exist (labels are rendered unescaped by KS).
-     *
-     * @return list<string>
-     */
+    /** @return list<string> */
     private function resolveEntryNames(array $names): array
     {
         if (in_array('ALL_OBJECTS', $names, true)) {
@@ -507,7 +486,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         return $this->all_translations ??= $this->object->getAllValues();
     }
 
-    /** Fields per entry (translation, plus comment in langmode) and the trailing "expected_entry_count". */
     private function exceedsMaxInputVars(int $entry_count): bool
     {
         $max_input_vars = ini_get('max_input_vars');
@@ -517,8 +495,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
     }
 
     /**
-     * The selection stays in the session (a long one does not fit into the post URL); the token keeps
-     * modals opened in parallel tabs apart, so no value is ever saved to another tab's entry.
+     * The token keeps modals opened in parallel tabs apart, so no value is saved to another tab's entry.
      *
      * @param list<string> $names
      */
@@ -535,11 +512,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         return $token;
     }
 
-    /**
-     * Null for a missing, evicted or unknown token and for a selection of another language.
-     *
-     * @return list<string>|null
-     */
+    /** @return list<string>|null */
     private function retrieveEditSelection(): ?array
     {
         $selections = $this->getEditSelections();
@@ -576,7 +549,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
     }
 
     /**
-     * One textarea per entry, in edit mode with the compare language's value (from the table filter) as byline.
      * "expected_entry_count" is the last field, so a POST truncated by max_input_vars misses it.
      *
      * @param list<string> $names existing entry names, see resolveEntryNames()
@@ -601,7 +573,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
             $label = htmlspecialchars(($keys[0] ?? '') . ' / ' . ($keys[1] ?? ''), ENT_QUOTES, 'UTF-8');
             $translation = $field_factory
                 ->textarea($label)
-                // markup is checked by TranslationMarkupPolicy in saveEditedEntriesObject(), not stripped
+                // markup is checked by TranslationMarkupPolicy on save
                 ->withoutStripTags()
                 ->withValue($translations[$name] ?? '');
 
@@ -618,7 +590,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
                 // no withMaxLength(): KS counts bytes, the remarks column characters; see normalizeRemark()
                 $inputs["comment_$idx"] = $field_factory
                     ->text($this->lng->txt('comment'))
-                    // remarks were always stored unfiltered and are only output escaped
                     ->withoutStripTags()
                     // KS escapes without double encoding, so "&amp;" would come back as "&"
                     ->withValue(str_replace('&', '&amp;', $this->normalizeRemark($this->entries_table->effectiveRemarkOf($name))));
@@ -639,7 +610,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         return mb_substr(trim((string) preg_replace('/\R/u', ' ', $remark)), 0, self::REMARK_MAX_LENGTH);
     }
 
-    /** Outside langmode the remarks are written back as shown (see ilObjLanguageExt::getEffectiveRemarks()). */
     public function saveEditedEntriesObject(): void
     {
         $selection = $this->retrieveEditSelection();
@@ -659,7 +629,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         try {
             $data = $this->buildEditEntriesModal($names, '', false)->withRequest($this->request)->getData();
         } catch (InvalidArgumentException|TypeError) {
-            // KS rejects missing (truncated) or manipulated field values instead of reporting them
             $data = null;
         }
 
@@ -677,13 +646,12 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         $remarks_array = [];
         foreach ($names as $idx => $name) {
             $value = (string) ($data["translation_$idx"] ?? '');
-            // avoid line breaks
             $value = preg_replace("/(\015\012)|(\015)|(\012)/", "<br />", $value);
             $value = str_replace("<<", "«", $value);
             // markup is checked below (TranslationMarkupPolicy), not stripped
             $save_array[$name] = $value;
 
-            // an unchanged remark is passed as shown, so saveValues() does not turn a shipped note into a local one
+            // passed as shown, else saveValues() would turn a shipped note into a local remark
             $current_remark = $this->entries_table->effectiveRemarkOf($name);
             $remarks_array[$name] = $current_remark;
             if ($this->langmode) {
@@ -697,7 +665,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         // nothing is saved if any changed value has disallowed markup; all affected keys are named
         $invalid_values = ilObjLanguageExt::findInvalidMarkupOfChangedValues($this->object->key, $save_array);
         if ($invalid_values !== []) {
-            // the modal is opened again with the input of this save, so nothing typed in is lost
             $this->removeEditSelection();
             $modal = $this->buildEditEntriesModal($names, $this->storeEditSelection($names), true)
                 ->withRequest($this->request);
@@ -718,8 +685,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
     }
 
     /**
-     * The form with its data: null if an input is invalid, false for a manipulated request (KS throws, Radio even
-     * a TypeError for an array).
+     * Null data if an input is invalid, false for a manipulated request (KS throws).
      *
      * @return array{0: StandardForm, 1: array|null|false}
      */
@@ -738,7 +704,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         return [$form, false];
     }
 
-    /** The title the form had as ilPropertyFormGUI, a KS form has none. */
     private function inPanel(string $title_key, StandardForm $form, UIComponent ...$below): StandardPanel
     {
         return $this->ui_factory->panel()->standard($this->lng->txt($title_key), [$form, ...$below]);
@@ -753,7 +718,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         $this->http->close();
     }
 
-    /** Shows the import form; right after a stored "replace"/"delete" import, the confirmation opens once. */
     public function importObject(): void
     {
         $components = [$this->inPanel('language_import_file', $this->buildImportForm())];
@@ -761,7 +725,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         $token = $this->takePendingToShow(self::IMPORT_PENDING_SESSION_KEY);
         $pending = $token === null ? null : $this->getPendingImport($token);
         if ($pending === null) {
-            // confirmation already shown (reload, back, cancel) or abandoned, uploads left over from it
             $this->discardPendingImport();
             $this->getImportUploadHandler()->discardAll();
         } else {
@@ -776,7 +739,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
     private function buildImportForm(): StandardForm
     {
         $field = $this->ui_factory->input()->field();
-        // not required: always preset, a missing value is refused by uploadObject()
         $mode = $field->radio($this->lng->txt('language_mode_existing'));
         foreach (self::IMPORT_MODES as $value) {
             $mode = $mode->withOption(
@@ -790,7 +752,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         return $this->ui_factory->input()->container()->form()->standard(
             $this->ctrl->getFormAction($this, 'upload'),
             [
-                // one file is the default of the File field
                 'file' => $field->file($this->getImportUploadHandler(), $this->lng->txt('file'))
                     ->withRequired(true)
                     // no type filter: dropzone checks only the name end, exports end in .lang.local etc.
@@ -800,9 +761,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         )->withSubmitLabel($this->lng->txt('upload'));
     }
 
-    /**
-    * Process the import form; "replace" and "delete" are only stored and run by importConfirmedObject()
-    */
     public function uploadObject(): void
     {
         [$form, $data] = $this->readForm($this->buildImportForm());
@@ -821,7 +779,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
         }
         if ($data === null || $file_missing || !in_array($mode, self::IMPORT_MODES, true)) {
-            // no clean-up here, the form keeps referring to its upload
             $this->tpl->setContent($this->ui_renderer->render($this->inPanel('language_import_file', $form)));
             return;
         }
@@ -836,7 +793,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
             return;
         }
 
-        // only the identifier of an upload of this session is stored, never a path
         $this->storePending(self::IMPORT_PENDING_SESSION_KEY, ['mode' => $mode, 'upload' => $identifier]);
         $this->ctrl->redirect($this, 'import');
     }
@@ -849,7 +805,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
             $this->discardPendingImport();
             $this->abortUnlessJustConfirmed($token);
         } else {
-            // one-time: a second submit does not import again
             ilSession::clear(self::IMPORT_PENDING_SESSION_KEY);
             ilSession::set(self::CONFIRMED_TOKEN_SESSION_KEY, $token);
             $this->runImport($pending['upload'], $pending['mode']);
@@ -887,9 +842,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
     }
 
     /**
-     * Interruptive Modal instead of a Prompt: a Prompt cannot hold the File field (its JS submits before the upload
-     * has finished) and cannot be opened on load.
-     */
+    /** Interruptive Modal instead of a Prompt: a Prompt cannot hold the File field and cannot be opened on load. */
     private function buildImportConfirmModal(
         string $mode,
         string $identifier,
@@ -928,7 +881,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         ]);
     }
 
-    /** The next page build shows the confirmation once, the token only goes into the modal's form action. */
     private function storePending(string $session_key, array $data): void
     {
         ilSession::set(
@@ -937,7 +889,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         );
     }
 
-    /** The token of a pending action of this language whose confirmation is still to be shown; marks it shown. */
     private function takePendingToShow(string $session_key): ?string
     {
         $pending = ilSession::get($session_key);
@@ -968,7 +919,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         return $pending;
     }
 
-    /** A second click on the confirm button finds the action already done and adds no failure to its message. */
     private function abortUnlessJustConfirmed(string $token): void
     {
         $confirmed = ilSession::get(self::CONFIRMED_TOKEN_SESSION_KEY);
@@ -1105,7 +1055,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
 
     public function downloadObject(): void
     {
-        // read-only, but only the form posts a scope
         if ($this->http->request()->getMethod() !== 'POST') {
             $this->exportObject();
             return;
@@ -1165,7 +1114,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         ilUtil::deliverData($local_file_obj->build(), $filename);
     }
 
-    /** Shows the maintenance form; right after a stored destructive option, the confirmation opens once. */
     public function maintainObject(?StandardForm $form = null): void
     {
         $components = [$this->inPanel('language_maintenance', $form ?? $this->buildMaintainForm())];
@@ -1216,7 +1164,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         );
     }
 
-    /** Interruptive Modal like the import: a Prompt cannot be opened on load. */
     private function buildMaintainConfirmModal(string $option, string $token): \ILIAS\UI\Component\Modal\Interruptive
     {
         [$label, $info] = $this->getMaintainOptions()[$option];
@@ -1230,7 +1177,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         )->withActionButtonLabel($this->lng->txt('language_process_maintenance'));
     }
 
-    /** Destructive options are only stored here and run by maintainConfirmedObject() after the confirmation. */
     public function maintainExecuteObject(): void
     {
         [$form, $data] = $this->readForm($this->buildMaintainForm());
@@ -1257,7 +1203,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
     {
         $token = $this->getToken(self::MAINTAIN_TOKEN_PARAMETER);
         $option = $this->getPendingMaintainOption($token);
-        // one-time: a reload or a second submit does not run the option again
         ilSession::clear(self::MAINTAIN_PENDING_SESSION_KEY);
         if ($option === null) {
             $this->abortUnlessJustConfirmed($token);
@@ -1268,7 +1213,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         $this->ctrl->redirect($this, 'maintain');
     }
 
-    /** The option stored by maintainExecuteObject() for this token and language, if it is still offered. */
     private function getPendingMaintainOption(string $token): ?string
     {
         $pending = $this->getPending(self::MAINTAIN_PENDING_SESSION_KEY, $token);
@@ -1455,7 +1399,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         $ilUser = $this->user;
 
         [, $data] = $this->readForm($this->buildSettingsForm());
-        // the KS checkbox does not throw today; should a request ever be rejected, it must not switch the setting off
         if (!is_array($data)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
             $this->settingsObject();
@@ -1569,7 +1512,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
                 $this->ctrl->getLinkTarget($this, "statistics")
             );
 
-            // unknown commands are answered by viewObject(), see executeCommand()
             $this->tabs_gui->activateTab(match ($cmd) {
                 'import', 'upload', 'importConfirmed' => 'import',
                 'export', 'download' => 'export',
@@ -1625,7 +1567,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
     // new entries
     //
 
-    /** @param array<int|string, string|int> $missing topics of the translated page without an entry (keys kept by array_diff, a numeric topic arrives as int) */
+    /** @param array<int|string, string|int> $missing */
     protected function buildMissingEntries(array $missing): ?\ILIAS\UI\Component\Panel\Standard
     {
         if ($missing === []) {
@@ -1663,12 +1605,10 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         $this->tpl->setContent($this->ui_renderer->render($this->inPanel(
             'adm_missing_entry_add',
             $form ?? $this->buildAddNewEntryForm($identifier),
-            // in the panel next to its form like the former command button, a KS form has a single submit
             $this->ui_factory->button()->standard($this->lng->txt('cancel'), $this->ctrl->getLinkTarget($this, 'view'))
         )));
     }
 
-    /** The "eid" of a missing entry, only if it is one of the topics stored by the entries view. */
     protected function getNewEntryIdentifier(): ?string
     {
         if (!$this->http->wrapper()->query()->has('eid')) {
@@ -1685,7 +1625,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
             : null;
     }
 
-    /** Text inputs as before: ilTextInputGUI keeps the secure tags and strips all others (see ilFormPropertyGUI::str()). */
     private function filterLikeTextInput(string $value): string
     {
         $filtered = ilUtil::stripSlashes($value);
@@ -1744,7 +1683,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
             return;
         }
 
-        // a language left blank is skipped by AddLanguageEntry
         $translations = [];
         foreach ($this->lng->getInstalledLanguages() as $lang_key) {
             $translations[$lang_key] = trim((string) ($data['trans_' . $lang_key] ?? ''));
@@ -1765,13 +1703,11 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
             $error_message = $this->activityErrorMessage($error);
 
             if ($this->isActivityInputError($error)) {
-                // input rejection (e.g. blank "de"/"en"): re-render the form, keeping the entered values
                 $this->tpl->setOnScreenMessage('failure', $error_message);
                 $this->addNewEntryObject($form);
                 return;
             }
 
-            // unexpected failure (logged by activityErrorMessage()): redirect, like every other Activity error path
             $this->tpl->setOnScreenMessage('failure', $error_message, true);
             $this->ctrl->redirect($this, "view");
             return;

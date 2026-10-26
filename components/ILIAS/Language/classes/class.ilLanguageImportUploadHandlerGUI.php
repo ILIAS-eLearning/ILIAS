@@ -29,17 +29,14 @@ use ILIAS\Filesystem\Exception\IOException;
 use ILIAS\Filesystem\Filesystem;
 
 /**
- * Keeps an uploaded language file in the temporary filesystem until it is imported.
  * Only identifiers issued to this session are accepted, so a request can never point to another file.
  */
 class ilLanguageImportUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
 {
     private const string SESSION_KEY = 'lang_ext_import_uploads';
-    /** identifier => display name, the file itself is stored under STORED_FILE_NAME */
     private const string NAMES_SESSION_KEY = 'lang_ext_import_upload_names';
     private const string STORED_FILE_NAME = 'language.lang';
     private const int MAX_NAME_LENGTH = 200;
-    /** about five times the largest distributed language file */
     public const int MAX_FILE_SIZE = 10 * 1024 * 1024;
 
     private readonly Filesystem $temp_system;
@@ -139,7 +136,6 @@ class ilLanguageImportUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
         )));
     }
 
-    /** The name given by the browser, unescaped. */
     public function getFileName(string $identifier): ?string
     {
         $path = $this->getPath($identifier);
@@ -165,10 +161,7 @@ class ilLanguageImportUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
         return (array) (ilSession::get(self::NAMES_SESSION_KEY) ?? []);
     }
 
-    /**
-     * Copies the upload to a local file, since ilObjLanguage::importLanguageFile() needs a path.
-     * The caller removes the returned file.
-     */
+    /** The caller removes the returned file. */
     public function copyToLocalFile(string $identifier): ?string
     {
         $path = $this->getPath($identifier);
@@ -201,7 +194,7 @@ class ilLanguageImportUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
         ilSession::set(self::NAMES_SESSION_KEY, $names);
     }
 
-    /** @param list<string> $except identifiers to keep */
+    /** @param list<string> $except */
     public function discardAll(array $except = []): void
     {
         foreach (array_diff($this->getOwnIdentifiers(), $except) as $identifier) {

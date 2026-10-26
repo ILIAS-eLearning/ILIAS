@@ -58,7 +58,6 @@ class ilObjLanguageExtTest extends TestCase
         $GLOBALS['DIC'] = new \ILIAS\DI\Container();
         $GLOBALS['DIC']['lng'] = $lng;
         $GLOBALS['DIC']['ilDB'] = $db;
-        // ilLanguageFile reads both while it is built
         defined('ILIAS_HTTP_PATH') || define('ILIAS_HTTP_PATH', 'http://ilias.de/');
         defined('ILIAS_VERSION') || define('ILIAS_VERSION', '10.0');
         $this->file = sys_get_temp_dir() . '/lng_ext_test_' . bin2hex(random_bytes(6)) . '.lang';
