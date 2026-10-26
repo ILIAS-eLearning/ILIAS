@@ -614,7 +614,6 @@ class ilObjExercise extends ilObject
 
     /**
      * Exports grades as excel
-     * @throws \ILIAS\Excel\ExcelException
      * @throws ilExcUnknownAssignmentTypeException
      */
     public function exportGradesExcel(): void

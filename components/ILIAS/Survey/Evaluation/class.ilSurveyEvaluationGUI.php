@@ -425,7 +425,6 @@ class ilSurveyEvaluationGUI
     /**
      * Export details (excel only)
      * @param ilSurveyEvaluationResults|array $a_results
-     * @throws \ILIAS\Excel\ExcelException
      */
     protected function exportResultsDetailsExcel(
         ilExcel $a_excel,
