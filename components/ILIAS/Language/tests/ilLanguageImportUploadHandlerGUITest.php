@@ -27,6 +27,7 @@ use ILIAS\FileUpload\DTO\ProcessingStatus;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\FileUpload\Handler\HandlerResult;
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -301,6 +302,51 @@ class ilLanguageImportUploadHandlerGUITest extends TestCase
 
         $handler->discard($identifier);
         self::assertSame([], $_SESSION['lang_ext_import_upload_names']);
+    }
+
+    public function testTheRemoveResultDiscardsTheOwnUploadWithFileIdentifierAndDisplayName(): void
+    {
+        $this->storeUpload('a', 'a.lang', true);
+        $this->storeUpload('b', 'b.lang', true);
+        $_SESSION['lang_ext_import_upload_names'] = ['a' => 'Mine.lang', 'b' => 'Other.lang'];
+        $handler = $this->createHandler();
+
+        $result = (new ReflectionMethod($handler, 'getRemoveResult'))->invoke($handler, 'a');
+
+        self::assertSame(HandlerResult::STATUS_OK, $result->getStatus());
+        self::assertSame('a', $result->getFileIdentifier());
+        self::assertFalse($this->temp->hasDir('a'));
+        self::assertTrue($this->temp->hasDir('b'));
+        self::assertSame(['b'], array_values($_SESSION[self::SESSION_KEY]));
+        self::assertSame(['b' => 'Other.lang'], $_SESSION['lang_ext_import_upload_names']);
+    }
+
+    public function testTheRemoveResultLeavesAForeignUploadAlone(): void
+    {
+        $this->storeUpload('foreign', 'foreign.lang', false);
+        $handler = $this->createHandler();
+
+        (new ReflectionMethod($handler, 'getRemoveResult'))->invoke($handler, 'foreign');
+
+        self::assertTrue($this->temp->hasDir('foreign'));
+    }
+
+    /** ilFileUtils::ilTempnam() needs CLIENT_DATA_DIR, a constant: hence a separate process. */
+    #[RunInSeparateProcess]
+    public function testCopyToLocalFileCopiesTheOwnUploadAndTheCallerGetsAFileWithItsContent(): void
+    {
+        define('CLIENT_DATA_DIR', $this->root . '/data');
+        mkdir(CLIENT_DATA_DIR . '/temp', 0777, true);
+        $this->storeUpload('own', 'language.lang', true);
+        $handler = $this->createHandler();
+
+        $local = $handler->copyToLocalFile('own');
+
+        self::assertNotNull($local);
+        self::assertFileExists($local);
+        self::assertSame('content', file_get_contents($local));
+        self::assertStringEndsWith('.sec', $local);
+        self::assertTrue($this->temp->hasDir('own'), 'the upload itself stays until it is discarded');
     }
 
     public function testTheInfoResultEscapesTheFileNameButTheStoredNameStaysRaw(): void

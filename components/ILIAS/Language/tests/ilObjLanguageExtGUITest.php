@@ -1160,7 +1160,7 @@ class ilObjLanguageExtGUITest extends TestCase
      * @return ilHelpGUI&MockObject the "ilHelp" collaborator, so a test can
      *         still add its own expectation on setScreenIdComponent()
      */
-    private function stubMaintenanceGranted(): ilHelpGUI
+    private function stubMaintenanceGranted(bool $granted = true): ilHelpGUI
     {
         $GLOBALS['DIC'] = new \ILIAS\DI\Container();
 
@@ -1179,7 +1179,7 @@ class ilObjLanguageExtGUITest extends TestCase
         $GLOBALS['DIC']['ilDB'] = $db;
 
         $rbacsystem = $this->createMock(ilRbacSystem::class);
-        $rbacsystem->method('checkAccess')->willReturn(true);
+        $rbacsystem->method('checkAccess')->willReturn($granted);
         $GLOBALS['DIC']['rbacsystem'] = $rbacsystem;
 
         $GLOBALS['DIC']['ilSetting'] = $this->createMock(ilSetting::class);
@@ -1301,6 +1301,54 @@ class ilObjLanguageExtGUITest extends TestCase
         $gui->expects($this->never())->method('editSelectedObject');
         $gui->expects($this->once())->method('viewObject');
 
+        $gui->executeCommand();
+    }
+
+    public function testExecuteCommandForwardsTheImportUploadHandlerClassToTheHandlerAndStopsThere(): void
+    {
+        $help = $this->stubMaintenanceGranted();
+        $help->expects($this->never())->method('setScreenIdComponent');
+
+        $handler = $this->createMock(ilLanguageImportUploadHandlerGUI::class);
+        $ctrl = $this->createMock(ilCtrl::class);
+        // mixed case: the class name is compared case-insensitively
+        $ctrl->method('getNextClass')->willReturn('ilLanguageImportUploadHandlerGUI');
+        $ctrl->expects($this->once())->method('forwardCommand')->with($this->identicalTo($handler));
+        $ctrl->expects($this->never())->method('getCmd');
+
+        $gui = $this->createGuiForExecuteCommand(false, null, [], $ctrl);
+        $this->inject($gui, 'import_upload_handler', $handler);
+        $gui->expects($this->never())->method('editSelectedObject');
+        $gui->expects($this->never())->method('viewObject');
+
+        $gui->executeCommand();
+    }
+
+    public function testExecuteCommandDoesNotForwardToTheImportUploadHandlerWithoutMaintenanceRight(): void
+    {
+        $this->stubMaintenanceGranted(false);
+
+        $ctrl = $this->createMock(ilCtrl::class);
+        $ctrl->method('getNextClass')->willReturn('ilLanguageImportUploadHandlerGUI');
+        $ctrl->expects($this->never())->method('forwardCommand');
+
+        $gui = $this->createGuiForExecuteCommand(false, null, [], $ctrl);
+        $this->inject(
+            $gui,
+            'import_upload_handler',
+            $this->createMock(ilLanguageImportUploadHandlerGUI::class)
+        );
+        $lng = $this->createMock(ilLanguage::class);
+        $lng->method('txt')->willReturnArgument(0);
+        $this->inject($gui, 'lng', $lng);
+        // raiseError() ends the request with exit; the exception stands in for it
+        $error = $this->createMock(ilErrorHandling::class);
+        $error->expects($this->once())->method('raiseError')
+            ->with('permission_denied')
+            ->willThrowException(new RuntimeException('denied'));
+        $this->inject($gui, 'error', $error);
+
+        $this->expectExceptionMessage('denied');
         $gui->executeCommand();
     }
 
