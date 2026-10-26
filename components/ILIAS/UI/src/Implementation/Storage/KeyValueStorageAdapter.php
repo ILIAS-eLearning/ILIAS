@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Authentication\KeyValueStorage;
+namespace ILIAS\UI\Implementation\Storage;
 
 use ILIAS\Authentication\Domain\AuthenticatedSubjectResolver;
 use ILIAS\KeyValueStorage\Services;
@@ -31,9 +31,10 @@ use ILIAS\UI\Storage as UiStorage;
  * Adapts key-value storage to the UI ArrayAccess contract.
  *
  * A fully authenticated user keeps UI state in the persistent subject store.
- * Everyone else keeps it in the current session.
+ * Everyone else keeps it in the current session. The namespace and the keys
+ * stored under it belong to the UI component.
  */
-final readonly class UiStorageAdapter implements UiStorage
+final readonly class KeyValueStorageAdapter implements UiStorage
 {
     private const array NAMESPACE = ['ui', 'storage'];
 
