@@ -22,9 +22,6 @@ use ILIAS\Excel\CellType;
 
 class ilDclTextSelectionRecordFieldModel extends ilDclSelectionRecordFieldModel
 {
-    /**
-     * @throws \ILIAS\Excel\ExcelException
-     */
     public function fillExcelExport(ilExcel $worksheet, int &$row, int &$col): void
     {
         $worksheet->setCell($row, $col, $this->getExportValue(), CellType::STRING);

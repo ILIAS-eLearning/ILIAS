@@ -69,12 +69,8 @@ class ExcelTest extends TestCase
         $excel = new ilExcel();
         $excel->addSheet('first');
 
-        try {
-            $excel->setActiveSheet(5);
-            $this->fail('No exception thrown for a missing sheet.');
-        } catch (\ILIAS\Excel\ExcelException $e) {
-            $this->assertInstanceOf(\PhpOffice\PhpSpreadsheet\Exception::class, $e->getPrevious());
-        }
+        $this->expectException(ilException::class);
+        $excel->setActiveSheet(5);
     }
 
     public function testExplicitStringDataTypeKeepsNumericText(): void

@@ -128,9 +128,6 @@ class ResultsExportExcel implements Exporter
         return $path;
     }
 
-    /**
-     * @throws \ILIAS\Excel\ExcelException
-     */
     public function deliver(): void
     {
         $this->worksheet->sendToClient($this->filename);

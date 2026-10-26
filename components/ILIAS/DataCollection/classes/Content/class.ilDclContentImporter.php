@@ -71,7 +71,6 @@ class ilDclContentImporter
 
     /**
      * @throws ilException
-     * @throws \ILIAS\Excel\ExcelException
      * @throws ilDateTimeException
      */
     public function import(string $file, bool $simulate = false): array
