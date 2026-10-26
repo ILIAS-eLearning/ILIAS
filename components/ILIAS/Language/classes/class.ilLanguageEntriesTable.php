@@ -188,11 +188,12 @@ class ilLanguageEntriesTable implements DataTable\DataRetrieval
         foreach ($names as $name) {
             $keys = explode($this->lng->separator, $name);
 
+            // KS text columns are rendered unescaped
             $record = [
-                'module' => $keys[0] ?? '',
-                'topic' => $keys[1] ?? '',
-                'translation' => $entries[$name] ?? '',
-                'default' => $compare_content[$name] ?? '',
+                'module' => $this->escape($keys[0] ?? ''),
+                'topic' => $this->escape($keys[1] ?? ''),
+                'translation' => $this->escape((string) ($entries[$name] ?? '')),
+                'default' => $this->escape((string) ($compare_content[$name] ?? '')),
             ];
             if ($this->langmode) {
                 $record['commented'] = $this->effectiveRemarkOf($name) !== '';
@@ -200,6 +201,11 @@ class ilLanguageEntriesTable implements DataTable\DataRetrieval
 
             yield $row_builder->buildDataRow($name, $record);
         }
+    }
+
+    private function escape(string $value): string
+    {
+        return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
     }
 
     /**
