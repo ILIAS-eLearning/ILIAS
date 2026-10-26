@@ -32,7 +32,6 @@ use ILIAS\UI\Component\Input\Container\Filter\Standard as FilterComponent;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Table\DataRetrieval;
 use ILIAS\UI\Component\Table\DataRowBuilder;
-use ILIAS\UI\Component\ViewControl\Mode;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\URLBuilder;
 use Psr\Http\Message\ServerRequestInterface;
@@ -40,13 +39,10 @@ use Psr\Http\Message\ServerRequestInterface;
 class ParticipantTable implements DataRetrieval
 {
     private const ID = 'pt';
-    public const VIEW_MODE_PARAMETER = 'view_mode';
-    public const VIEW_MODE_SCORED_ATTEMPTS = 'scored_attempts';
-    public const VIEW_MODE_LAST_ATTEMPTS = 'last_attempts';
 
     private ?iterable $records = null;
     private bool $scoring_enabled = false;
-    private string $view_mode;
+    private AttemptSpecifiers $attempt_specifier;
 
     public function __construct(
         private readonly UIFactory $ui_factory,
@@ -64,10 +60,7 @@ class ParticipantTable implements DataRetrieval
         private readonly ParticipantTableActions $table_actions
     ) {
         $this->scoring_enabled = $this->test_object->getGlobalSettings()->isManualScoringEnabled();
-        $view_mode = $this->test_request->getViewMode();
-        $this->view_mode = in_array($view_mode, [self::VIEW_MODE_SCORED_ATTEMPTS, self::VIEW_MODE_LAST_ATTEMPTS])
-            ? $view_mode
-            : self::VIEW_MODE_LAST_ATTEMPTS;
+        $this->attempt_specifier = AttemptSpecifiers::tryFrom($this->test_request->getViewMode()) ?? AttemptSpecifiers::LastAttempt;
     }
 
     public function execute(URLBuilder $url_builder): ?Modal
@@ -96,35 +89,10 @@ class ParticipantTable implements DataRetrieval
 
         return [
             $summary_information,
-            $this->getModeViewControlComponent(),
+            $this->attempt_specifier->buildViewControl($this->ctrl, $this->lng, $this->ui_factory),
             $filter,
             $table->withActions($this->table_actions->getEnabledActions(...$this->acquireParameters($url_builder)))
         ];
-    }
-
-    private function getModeViewControlComponent(): Mode
-    {
-        $target_class = \ilTestParticipantsGUI::class;
-        $this->ctrl->setParameterByClass($target_class, self::VIEW_MODE_PARAMETER, 'scored_attempts');
-        $scored_attempts_target = $this->ctrl->getLinkTargetByClass($target_class);
-        $this->ctrl->setParameterByClass($target_class, self::VIEW_MODE_PARAMETER, 'last_attempts');
-        $last_attempts_target = $this->ctrl->getLinkTargetByClass($target_class);
-        $this->ctrl->clearParametersByClass($target_class);
-
-        $scored_attempts_label = $this->lng->txt('tst_participant_scored_attempts');
-        $last_attempts_label = $this->lng->txt('tst_participant_last_attempts');
-
-        return $this->ui_factory->viewControl()->mode(
-            [
-                $scored_attempts_label => $scored_attempts_target,
-                $last_attempts_label => $last_attempts_target
-            ],
-            $this->lng->txt('participant_view_control_aria')
-        )->withActive(
-            $this->view_mode === self::VIEW_MODE_LAST_ATTEMPTS
-                ? $last_attempts_label
-                : $scored_attempts_label
-        );
     }
 
     public function getTotalRowCount(
@@ -516,10 +484,10 @@ class ParticipantTable implements DataRetrieval
         return $columns;
     }
 
-    private function loadRecords(?array $filter, Order $order): iterable
+    private function loadRecords(?array $filter, Order $order): void
     {
         if ($this->records !== null) {
-            return $this->records;
+            return;
         }
 
         $records = iterator_to_array(
@@ -530,21 +498,33 @@ class ParticipantTable implements DataRetrieval
                 $order
             )
         );
+        $accessible_user_ids = $this->buildAccessFilteredParticipantsList($records);
 
-        $records = array_filter(
-            $records,
-            fn(Participant $participant) => in_array(
-                $participant->getUserId(),
-                $this->buildAccessFilteredParticipantsList($records)
-            )
-        );
-
-        return $this->records = $this->results_data_factory->addAttemptOverviewInformationToParticipants(
+        $this->records = $this->results_data_factory->addAttemptOverviewInformationToParticipants(
             $this->results_presentation_settings,
             $this->test_object,
-            $records,
-            $this->view_mode === self::VIEW_MODE_LAST_ATTEMPTS
+            array_filter(
+                $records,
+                static fn(Participant $participant): bool => in_array(
+                    $participant->getUserId(),
+                    $accessible_user_ids,
+                    true
+                )
+            ),
+            $this->attempt_specifier
         );
+    }
+
+    /**
+     * @return iterable<Participant>
+     */
+    private function retrieveRecords(?array $filter, Order $order): iterable
+    {
+        if ($this->records === null) {
+            $this->loadRecords($filter, $order);
+        }
+
+        return $this->records;
     }
 
     /**
@@ -574,7 +554,7 @@ class ParticipantTable implements DataRetrieval
         return $this->limitRecords(
             $this->orderRecords(
                 $this->filterRecords(
-                    $this->loadRecords($filter_data, $order),
+                    $this->retrieveRecords($filter_data, $order),
                     $filter_data
                 ),
                 $order
