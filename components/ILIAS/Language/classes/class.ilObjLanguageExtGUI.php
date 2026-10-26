@@ -62,6 +62,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
     private const array MAINTAIN_WITHOUT_CONFIRMATION = ['save_dist'];
     private const string IMPORT_PENDING_SESSION_KEY = 'lang_ext_import_pending';
     private const string IMPORT_TOKEN_PARAMETER = 'lang_import_token';
+    private const string CONFIRMED_TOKEN_SESSION_KEY = 'lang_ext_confirmed_token';
     private const array IMPORT_MODES = ['keepall', 'keepnew', 'replace', 'delete'];
     private const array IMPORT_WITHOUT_CONFIRMATION = ['keepall', 'keepnew'];
     private const int REMARK_MAX_LENGTH = 250;
@@ -807,7 +808,11 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
             $this->ctrl->getFormAction($this, 'upload'),
             [
                 // one file is the default of the File field
-                'file' => $field->file($this->getImportUploadHandler(), $this->lng->txt('file'))->withRequired(true),
+                'file' => $field->file($this->getImportUploadHandler(), $this->lng->txt('file'))
+                    ->withRequired(true)
+                    ->withMaxFileSize(ilLanguageImportUploadHandlerGUI::MAX_FILE_SIZE)
+                    // dropzone.js also accepts file extensions, the server checks the content
+                    ->withAcceptedMimeTypes(['.lang']),
                 'mode' => $mode->withValue(in_array($preset, self::IMPORT_MODES, true) ? $preset : 'keepall'),
             ]
         )->withSubmitLabel($this->lng->txt('upload'));
@@ -857,13 +862,15 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
 
     public function importConfirmedObject(): void
     {
-        $pending = $this->getPendingImport($this->getToken(self::IMPORT_TOKEN_PARAMETER));
+        $token = $this->getToken(self::IMPORT_TOKEN_PARAMETER);
+        $pending = $this->getPendingImport($token);
         if ($pending === null) {
             $this->discardPendingImport();
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('action_aborted'), true);
+            $this->abortUnlessJustConfirmed($token);
         } else {
             // one-time: a second submit does not import again
             ilSession::clear(self::IMPORT_PENDING_SESSION_KEY);
+            ilSession::set(self::CONFIRMED_TOKEN_SESSION_KEY, $token);
             $this->runImport($pending['upload'], $pending['mode']);
         }
         $this->ctrl->redirect($this, 'import');
@@ -978,6 +985,15 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         }
 
         return $pending;
+    }
+
+    /** A second click on the confirm button finds the action already done and adds no failure to its message. */
+    private function abortUnlessJustConfirmed(string $token): void
+    {
+        $confirmed = ilSession::get(self::CONFIRMED_TOKEN_SESSION_KEY);
+        if ($token === '' || !is_string($confirmed) || !hash_equals($confirmed, $token)) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('action_aborted'), true);
+        }
     }
 
     private function getImportUploadHandler(): ilLanguageImportUploadHandlerGUI
@@ -1259,12 +1275,14 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
 
     public function maintainConfirmedObject(): void
     {
-        $option = $this->getPendingMaintainOption($this->getToken(self::MAINTAIN_TOKEN_PARAMETER));
+        $token = $this->getToken(self::MAINTAIN_TOKEN_PARAMETER);
+        $option = $this->getPendingMaintainOption($token);
         // one-time: a reload or a second submit does not run the option again
         ilSession::clear(self::MAINTAIN_PENDING_SESSION_KEY);
         if ($option === null) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('action_aborted'), true);
+            $this->abortUnlessJustConfirmed($token);
         } else {
+            ilSession::set(self::CONFIRMED_TOKEN_SESSION_KEY, $token);
             $this->executeMaintainOption($option);
         }
         $this->ctrl->redirect($this, 'maintain');
@@ -1302,8 +1320,13 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
             case "load":
                 $lang_file = $this->object->getCustLangPath() . "/ilias_" . $this->object->key . ".lang.local";
                 if (is_file($lang_file) and is_readable($lang_file)) {
-                    // values with disallowed markup (like at installation) and duplicates are left out and named
-                    $modules_with_unwritten_overlay = $this->object->importLanguageFile($lang_file, "replace", true);
+                    try {
+                        // values with disallowed markup (like at installation) and duplicates are left out and named
+                        $modules_with_unwritten_overlay = $this->object->importLanguageFile($lang_file, "replace", true);
+                    } catch (Exception $e) {
+                        $this->tpl->setOnScreenMessage('failure', $this->activityErrorMessage($e), true);
+                        break;
+                    }
                     $this->object->setLocal(true);
                     $skipped = [];
                     if ($this->object->getSkippedInvalidMarkupValues() !== []) {

@@ -690,8 +690,6 @@ class ilObjLanguageExt extends ilObjLanguage
     *                       ('keepall','keepnew','replace','delete')
     * The values of the file are local ones; resetting to the shipped state is ilObjLanguage::removeLocalChanges().
     *
-    * $a_mode_existing      handling of existing values
-    *                       ('keepall','keepnew','replace','delete')
     * $skipInvalidEntries   `false` (an upload): one value with disallowed markup (ilLanguageInvalidMarkupException) or
     *                       whose identifier exists in another module or spelling (ilLanguageDuplicateIdentifierException,
     *                       language.md rule 2) rejects the whole import. `true` (the customizing file): such values
@@ -700,6 +698,7 @@ class ilObjLanguageExt extends ilObjLanguage
     * @return list<string> the modules whose PO/MO overlay could not be written (the database was written regardless)
     * @throws ilLanguageInvalidMarkupException|ilLanguageDuplicateIdentifierException before anything is changed,
     *         see $skipInvalidEntries
+    * @throws ilException for an invalid file (code 400, the message is meant for the user), before anything is changed
     */
     public function importLanguageFile(
         string $a_file,
@@ -708,13 +707,12 @@ class ilObjLanguageExt extends ilObjLanguage
     ): array {
         global $DIC;
         $ilDB = $DIC->database();
-        /** @var ilErrorHandling $ilErr */
-        $ilErr = $DIC["ilErr"];
 
         // Read the new language file
         $import_file_obj = new ilLanguageFile($a_file);
         if (!$import_file_obj->read()) {
-            $ilErr->raiseError($import_file_obj->getErrorMessage(), $ilErr->MESSAGE);
+            // no raiseError(): its exit would skip the clean-up of the caller
+            throw new ilException($import_file_obj->getErrorMessage(), 400);
         }
 
         // a plain line of a plural message is its default form; before the modes compare and the markup check runs

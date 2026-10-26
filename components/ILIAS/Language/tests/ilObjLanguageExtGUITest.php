@@ -2014,13 +2014,10 @@ class ilObjLanguageExtGUITest extends TestCase
         self::assertSame([['success', 'language_cleared_local']], $ctx->messages);
         self::assertSame([['maintain', []]], $ctx->redirects);
 
-        // reload / second submit with the same token
+        // second submit with the same token: nothing runs, no failure next to the success
         $gui->maintainConfirmedObject();
 
-        self::assertSame(
-            [['success', 'language_cleared_local'], ['failure', 'action_aborted']],
-            $ctx->messages
-        );
+        self::assertSame([['success', 'language_cleared_local']], $ctx->messages);
     }
 
     /** @return array<string, array{?string, int, string}> token of the request, obj_id and option of the Vormerkung */
@@ -2211,10 +2208,8 @@ class ilObjLanguageExtGUITest extends TestCase
         self::assertSame(['up1'], $ctx->handler->discarded);
         self::assertCount(1, $ctx->handler->local_files);
         self::assertFileDoesNotExist($ctx->handler->local_files[0]);
-        self::assertSame(
-            [['success', 'language_file_imported'], ['failure', 'action_aborted']],
-            $ctx->messages
-        );
+        // the second submit with the same token adds no failure next to the success
+        self::assertSame([['success', 'language_file_imported']], $ctx->messages);
         self::assertArrayNotHasKey(self::IMPORT_PENDING, $_SESSION);
         self::assertSame([['import', []], ['import', []]], $ctx->redirects);
     }

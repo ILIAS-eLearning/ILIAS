@@ -25,6 +25,7 @@ use ILIAS\FileUpload\Handler\BasicFileInfoResult;
 use ILIAS\FileUpload\Handler\BasicHandlerResult;
 use ILIAS\FileUpload\Handler\FileInfoResult;
 use ILIAS\FileUpload\Handler\HandlerResult;
+use ILIAS\Filesystem\Exception\IOException;
 use ILIAS\Filesystem\Filesystem;
 
 /**
@@ -34,6 +35,9 @@ use ILIAS\Filesystem\Filesystem;
 class ilLanguageImportUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
 {
     private const string SESSION_KEY = 'lang_ext_import_uploads';
+    private const string FALLBACK_FILE_NAME = 'language.lang';
+    /** about five times the largest distributed language file */
+    public const int MAX_FILE_SIZE = 10 * 1024 * 1024;
 
     private readonly Filesystem $temp_system;
 
@@ -60,11 +64,21 @@ class ilLanguageImportUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
                 $result instanceof UploadResult ? $result->getStatus()->getMessage() : 'no upload'
             );
         }
+        // the size limit of the File field is only checked in the browser
+        if ($result->getSize() > self::MAX_FILE_SIZE) {
+            return new BasicHandlerResult(
+                $this->getFileIdentifierParameterName(),
+                HandlerResult::STATUS_FAILED,
+                '',
+                'file too large'
+            );
+        }
 
         $identifier = uniqid('lng', true);
         $this->temp_system->createDir($identifier);
+        $file_name = ilFileUtils::getValidFilename($result->getName());
         $this->temp_system->put(
-            $identifier . '/' . ilFileUtils::getValidFilename($result->getName()),
+            $identifier . '/' . ($file_name !== '' ? $file_name : self::FALLBACK_FILE_NAME),
             file_get_contents($result->getPath())
         );
         ilSession::set(self::SESSION_KEY, [...$this->getOwnIdentifiers(), $identifier]);
@@ -96,12 +110,20 @@ class ilLanguageImportUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
             return null;
         }
 
+        try {
+            $mime_type = $this->temp_system->getMimeType($path);
+        } catch (IOException) {
+            // the detector gives up on plain text with the unknown extension .lang
+            $mime_type = 'text/plain';
+        }
+
         return new BasicFileInfoResult(
             $this->getFileIdentifierParameterName(),
             $identifier,
-            basename($path),
+            // the KS renderer outputs the file name unescaped
+            htmlspecialchars(basename($path), ENT_QUOTES, 'UTF-8'),
             (int) $this->temp_system->getSize($path, DataSize::Byte)->inBytes(),
-            $this->temp_system->getMimeType($path)
+            $mime_type
         );
     }
 
@@ -131,7 +153,12 @@ class ilLanguageImportUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
             return null;
         }
         $local_file = ilFileUtils::ilTempnam() . '.sec';
-        file_put_contents($local_file, $this->temp_system->read($path));
+        if (file_put_contents($local_file, $this->temp_system->read($path)) === false) {
+            if (is_file($local_file)) {
+                unlink($local_file);
+            }
+            return null;
+        }
 
         return $local_file;
     }

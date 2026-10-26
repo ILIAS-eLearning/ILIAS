@@ -476,7 +476,7 @@ class ilObjLanguageFolderGUITest extends TestCase
     #[\PHPUnit\Framework\Attributes\DataProvider('confirmParameterValues')]
     public function testConfirmLanguageDetectionIsReadOnlyAndRedirectsToTheViewWithTheRequestedModalMarked(
         ?string $parameter,
-        bool $expected_confirm_state
+        bool|string $expected_confirm_state
     ): void {
         $gui = $this->createDispatchGui('confirmLanguageDetection', null, ['viewObject', 'enableLanguageDetectionObject', 'disableLanguageDetectionObject']);
         (new ReflectionProperty(ilObjLanguageFolderGUI::class, 'http'))->setValue($gui, $this->stubHttpWithMethod('GET'));
@@ -514,13 +514,14 @@ class ilObjLanguageFolderGUITest extends TestCase
         $this->assertSame($expected_confirm_state, $_SESSION['lang_detection_confirm'] ?? 'not marked');
     }
 
-    /** @return array<string, array{?string, bool}> */
+    /** @return array<string, array{?string, bool|string}> */
     public static function confirmParameterValues(): array
     {
         return [
             'enable' => ['1', true],
             'disable' => ['0', false],
-            'parameter missing never enables' => [null, false],
+            'parameter missing opens no modal' => [null, 'not marked'],
+            'invalid value opens no modal' => ['abc', 'not marked'],
         ];
     }
 

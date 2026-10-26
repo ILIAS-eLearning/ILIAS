@@ -1036,11 +1036,16 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
     /** Switches nothing: the next list view opens the confirmation modal once, only its POST switches the setting. */
     protected function confirmLanguageDetectionObject(): void
     {
-        ilSession::set(
-            self::DETECTION_CONFIRM_SESSION_KEY,
-            $this->request_wrapper->has(self::DETECTION_PARAMETER)
-            && $this->request_wrapper->retrieve(self::DETECTION_PARAMETER, $this->refinery->kindlyTo()->bool())
-        );
+        $enable = $this->request_wrapper->has(self::DETECTION_PARAMETER)
+            ? $this->request_wrapper->retrieve(
+                self::DETECTION_PARAMETER,
+                $this->refinery->byTrying([$this->refinery->kindlyTo()->bool(), $this->refinery->always(null)])
+            )
+            : null;
+        // a missing or invalid value opens no modal
+        if (is_bool($enable)) {
+            ilSession::set(self::DETECTION_CONFIRM_SESSION_KEY, $enable);
+        }
         $this->ctrl->redirect($this, 'view');
     }
 
@@ -1132,15 +1137,27 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
         return $url_builder->buildURI()->__toString();
     }
 
+    /** Only normalises the shape, abortIfAnyIdIsNotALanguageObject() checks the ids. */
     private function getIdsFromQueryToken(): array
     {
-        $ids = [];
-        if ($this->request_wrapper->has($this->id_token->getName())) {
-            $ids = $this->request_wrapper->retrieve(
-                $this->id_token->getName(),
-                $this->refinery->custom()->transformation(fn($v) => $v)
-            );
+        if (!$this->request_wrapper->has($this->id_token->getName())) {
+            return [];
         }
-        return $ids;
+
+        return $this->request_wrapper->retrieve(
+            $this->id_token->getName(),
+            $this->refinery->byTrying([
+                $this->refinery->container()->mapValues($this->refinery->kindlyTo()->string()),
+                $this->refinery->custom()->transformation(
+                    static function ($value): array {
+                        if (!is_string($value)) {
+                            throw new \UnexpectedValueException('Not a string.');
+                        }
+                        return [$value];
+                    }
+                ),
+                $this->refinery->always([]),
+            ])
+        );
     }
 } // END class.ilObjLanguageFolderGUI
