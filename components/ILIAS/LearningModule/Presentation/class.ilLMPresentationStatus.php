@@ -82,11 +82,11 @@ class ilLMPresentationStatus
             } else {
                 $this->lang = $this->user->getCurrentLanguage();
             }
-            if (!isset($langs[$this->lang]) && $this->lang != $this->ot->getMasterLanguage()) {
-                $fallback_language = $this->ot->getFallbackLanguage();
+            if (!isset($langs[$this->lang]) && $this->lang != $this->ot->getBaseLanguage()) {
+                $fallback_language = $this->ot->getDefaultLanguage();
                 $this->lang = isset($langs[$fallback_language])
                     ? $fallback_language
-                    : $this->ot->getMasterLanguage();
+                    : $this->ot->getBaseLanguage();
             }
             $this->concrete_lang = $this->lang;
             if ($this->lang == $this->ot->getBaseLanguage()) {
