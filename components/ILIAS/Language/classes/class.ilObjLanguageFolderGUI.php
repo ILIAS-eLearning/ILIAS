@@ -46,6 +46,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
     use RendersActivityErrors;
 
     private const string CMD_TABLE_ACTION = 'executeTableAction';
+    private const string DETECTION_PARAMETER = 'lang_detection_enable';
 
     protected ilLanguageFolderTable $languageFolderTable;
     protected ILIAS\Data\Factory $df;
@@ -58,6 +59,8 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
     private readonly RemoveLocalLanguageChanges $remove_local_language_changes;
     private readonly SetLanguageDetectionEnabled $set_language_detection_enabled;
     private readonly int $current_user_id;
+    /** Set by confirmLanguageDetectionObject(): the confirmation modal to open on load */
+    private ?bool $confirm_detection = null;
 
     /**
      * Constructor
@@ -173,10 +176,18 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
                 $this->ctrl->getFormActionByClass(self::class, "disableLanguageDetection")
             )
                                           ->withActionButtonLabel($this->lng->txt('ok'));
+            if ($this->confirm_detection !== null) {
+                if ($this->confirm_detection) {
+                    $modal_on = $modal_on->withOnLoad($modal_on->getShowSignal());
+                } else {
+                    $modal_off = $modal_off->withOnLoad($modal_off->getShowSignal());
+                }
+            }
+            // URL actions reload the page in the real state, so a cancelled modal leaves the Toggle correct
             $toggleButton = $this->ui_factory->button()->toggle(
                 $this->lng->txt("language_detection"),
-                $modal_on->getShowSignal(),
-                $modal_off->getShowSignal(),
+                $this->getConfirmDetectionUrl(true),
+                $this->getConfirmDetectionUrl(false),
                 (bool) ($this->settings->get("lang_detection"))
             )
                                              ->withAriaLabel($this->lng->txt("lng_switch_language_detection"));
@@ -840,9 +851,13 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
 
                 // exact match: ilCtrl compares the unsafe commands case-sensitively, PHP method calls are not
                 match ($cmd) {
-                    self::CMD_TABLE_ACTION,
+                    // only the POST of the confirmation modal may switch the setting (Mantis 36949)
                     'enableLanguageDetection',
-                    'disableLanguageDetection',
+                    'disableLanguageDetection' => $this->http->request()->getMethod() === 'POST'
+                        ? $this->{$cmd . 'Object'}()
+                        : $this->viewObject(),
+                    self::CMD_TABLE_ACTION,
+                    'confirmLanguageDetection',
                     'listDeprecated',
                     'downloadDeprecated' => $this->{$cmd . 'Object'}(),
                     default => $this->viewObject(),
@@ -989,6 +1004,23 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
             }
         }
         return $ids;
+    }
+
+    /** Read-only: shows the list with the confirmation modal open, only its POST switches the setting. */
+    protected function confirmLanguageDetectionObject(): void
+    {
+        $this->confirm_detection = $this->request_wrapper->has(self::DETECTION_PARAMETER)
+            && $this->request_wrapper->retrieve(self::DETECTION_PARAMETER, $this->refinery->kindlyTo()->bool());
+        $this->viewObject();
+    }
+
+    private function getConfirmDetectionUrl(bool $enable): string
+    {
+        $this->ctrl->setParameter($this, self::DETECTION_PARAMETER, $enable ? '1' : '0');
+        $url = $this->ctrl->getLinkTarget($this, 'confirmLanguageDetection');
+        $this->ctrl->clearParameterByClass(self::class, self::DETECTION_PARAMETER);
+
+        return $url;
     }
 
     protected function disableLanguageDetectionObject(): void
