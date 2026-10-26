@@ -15,7 +15,7 @@ or contribute a fix via [Pull Request](../../../docs/development/contributing.md
     - Http
     - LegalDocuments
     - Locator
-    - [LTI](../../ILIAS/LTIProvider/PRIVACY.md)
+    - [LTI](../../ILIAS/LTI/PRIVACY.md)
     - ILIAS Object
     - OpenIdConnect
     - Saml

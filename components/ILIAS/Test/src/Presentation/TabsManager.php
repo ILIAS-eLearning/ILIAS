@@ -745,15 +745,6 @@ class TabsManager
         return $this->objective_parent->isObjectiveOrientedPresentationRequired();
     }
 
-    public function needsHighSoreSubTab(): bool
-    {
-        if (!$this->test_object->isScoreReportingEnabled()) {
-            return false;
-        }
-
-        return $this->test_object->getHighscoreEnabled();
-    }
-
     public function needsSkillResultsSubTab(): bool
     {
         if (!$this->test_object->isScoreReportingEnabled()) {
@@ -797,14 +788,6 @@ class TabsManager
                 self::SUBTAB_ID_SKILL_RESULTS,
                 $this->lng->txt('tst_show_comp_results'),
                 $this->ctrl->getLinkTargetByClass([\ilTestResultsGUI::class, \ilTestSkillEvaluationGUI::class])
-            );
-        }
-
-        if ($this->needsHighSoreSubTab()) {
-            $this->tabs->addSubTab(
-                self::SUBTAB_ID_HIGHSCORE,
-                $this->lng->txt('tst_show_toplist'),
-                $this->ctrl->getLinkTargetByClass([\ilTestResultsGUI::class, \ilTestToplistGUI::class], 'outResultsToplist')
             );
         }
 

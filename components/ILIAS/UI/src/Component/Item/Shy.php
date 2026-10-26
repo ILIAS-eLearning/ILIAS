@@ -17,6 +17,7 @@
  *********************************************************************/
 
 declare(strict_types=1);
+
 namespace ILIAS\UI\Component\Item;
 
 use ILIAS\UI\Component\Button\Close;

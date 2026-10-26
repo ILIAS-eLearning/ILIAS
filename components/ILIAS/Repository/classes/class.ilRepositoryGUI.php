@@ -38,7 +38,7 @@ use ILIAS\Repository\StandardGUIRequest;
  * @ilCtrl_Calls ilRepositoryGUI: ilObjRemoteTestGUI, ilObjCloudGUI, ilObjPortfolioTemplateGUI
  * @ilCtrl_Calls ilRepositoryGUI: ilObjStudyProgrammeGUI
  * @ilCtrl_Calls ilRepositoryGUI: ilObjIndividualAssessmentGUI
- * @ilCtrl_Calls ilRepositoryGUI: ilObjLTIConsumerGUI
+ * @ilCtrl_Calls ilRepositoryGUI: ilObjLTIToolGUI
  * @ilCtrl_Calls ilRepositoryGUI: ilObjCmiXapiGUI
  * @ilCtrl_Calls ilRepositoryGUI: ilPermissionGUI
  *

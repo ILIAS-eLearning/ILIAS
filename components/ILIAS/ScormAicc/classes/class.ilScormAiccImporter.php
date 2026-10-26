@@ -217,6 +217,8 @@ class ilScormAiccImporter extends ilXmlImporter
                         }
 
                         $title = $new_object->readObject();
+                        // move the imported package into a Resource Storage container
+                        $new_object->moveDataDirectoryToContainer();
                         $new_object->setLearningProgressSettingsAtUpload();
                     }
 

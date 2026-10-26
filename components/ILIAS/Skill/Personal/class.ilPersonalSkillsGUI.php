@@ -818,7 +818,7 @@ class ilPersonalSkillsGUI
                     break;
 
                 case "ltiv":
-                    $obj = new ilObjLTIConsumerVerification($obj_id, false);
+                    $obj = new ilObjLTIToolVerification($obj_id, false);
                     $url .= $obj->getOfflineFilename();
                     break;
 

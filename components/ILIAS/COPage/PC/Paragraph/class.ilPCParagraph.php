@@ -744,7 +744,8 @@ class ilPCParagraph extends ilPageContent
                             $a_text,
                             [
                                 "Target" => "il_" . $inst_str . "_obj_" . $obj_id,
-                                "Type" => "RepositoryItem"
+                                "Type" => "RepositoryItem",
+                                "Anchor" => $attribs["anchor"] ?? ""
                             ]
                         );
                     } else {
@@ -1079,7 +1080,10 @@ class ilPCParagraph extends ilPageContent
                     if ($target_type === "") {
                         $target_type = "obj";
                     }
-                    $a_text = preg_replace('~<IntLink' . $found[1] . '>~i', "[iln " . $inst_str . "$target_type=\"" . $target_id . "\"" . $tframestr . "]", $a_text);
+                    $ancstr = (!empty($attribs["Anchor"]))
+                        ? ' anchor="' . $attribs["Anchor"] . '"'
+                        : "";
+                    $a_text = preg_replace('~<IntLink' . $found[1] . '>~i', "[iln " . $inst_str . "$target_type=\"" . $target_id . "\"" . $ancstr . "]", $a_text);
                     break;
 
                     // Download File (not in repository, Object ID)

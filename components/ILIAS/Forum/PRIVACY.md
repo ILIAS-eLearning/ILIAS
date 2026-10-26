@@ -91,6 +91,7 @@ If an **entire forum** is deleted and the ILIAS "Trash" is active, all personal 
 ## Data being exported
 
 If a **notification about new or changed posts** is set, it will be sent via the ILIAS mail system. For users who have set forwarding to an external e-mail address, the notification will be forwarded to this address. The notification contains the date, title and content of the post, as well as the username or pseudonym of the creator. Depending on the setting, file attachments are also forwarded.
+- If push notifcations are active and enabled for the forum a push notification is send instead of a mail. The Notification contains the title of the forum, thread and (if part of the context) post and a link to the thread or post. If the push notification couldnt be delivered a mail is send instead.
 
 New posts can be subscribed to via an **RSS feed** in suitable programs. In the forum, you can set whether this feed is password-protected or public. A public feed contains the title of the forum, the **title, content, creation date** and a link to the post in ILIAS for each post. If the forum itself is not public, you will be taken to the ILIAS login page when you use the link.
 

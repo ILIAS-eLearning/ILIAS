@@ -57,7 +57,7 @@ class ilCmiXapiStatementsReport
 
         if (ilObject::_lookupType($objId) == 'lti') {
             $this->contentType = ilObjCmiXapi::CONT_TYPE_GENERIC;
-            $this->isMixedContentType = ilObjLTIConsumer::getInstance($objId, false)->isMixedContentType();
+            $this->isMixedContentType = ilObjLTITool::getInstance($objId, false)->isMixedContentType();
         } else {
             $this->contentType = ilObjCmiXapi::getInstance($objId, false)->getContentType();
             $this->isMixedContentType = ilObjCmiXapi::getInstance($objId, false)->isMixedContentType();

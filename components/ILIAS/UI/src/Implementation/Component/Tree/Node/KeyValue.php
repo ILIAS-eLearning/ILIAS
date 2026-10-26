@@ -1,4 +1,6 @@
-<?php /**
+<?php
+
+/**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
  *
@@ -35,7 +37,7 @@ class KeyValue extends Simple implements KeyValueInterface
         $this->value = $value;
     }
 
-    public function getValue() : string
+    public function getValue(): string
     {
         return $this->value;
     }

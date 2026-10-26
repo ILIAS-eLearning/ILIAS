@@ -36,7 +36,7 @@ class ilCertificateTypeClassMap
         'tst' => ['placeholder' => TestPlaceholderValues::class],
         'exc' => ['placeholder' => ExercisePlaceholderValues::class],
         'cmix' => ['placeholder' => ilCmiXapiPlaceholderValues::class],
-        'lti' => ['placeholder' => ilLTIConsumerPlaceholderValues::class],
+        'lti' => ['placeholder' => ilLTIToolPlaceholderValues::class],
         'sahs' => ['placeholder' => ilScormPlaceholderValues::class],
         'prg' => ['placeholder' => ilStudyProgrammePlaceholderValues::class]
     ];

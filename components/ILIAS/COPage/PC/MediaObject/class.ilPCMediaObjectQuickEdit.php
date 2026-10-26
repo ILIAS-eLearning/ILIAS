@@ -161,7 +161,7 @@ class ilPCMediaObjectQuickEdit
         $std_alias = $this->pcmedia->getStandardMediaAliasItem();
         $std_item = $this->mob->getMediaItem("Standard");
 
-        if (trim($std_alias->getCaption()) == "") {
+        if (!$std_alias->definesCaption()) {
             return trim($std_item->getCaption());
         }
         return trim($std_alias->getCaption());

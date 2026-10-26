@@ -136,7 +136,7 @@ class TermListTable
         $table = $this->ui_fac->table()
                               ->data($data_retrieval, $this->lng->txt("cont_terms"), $columns)
                               ->withId(
-                                  self::class . "_" .
+                                  str_replace('\\', '', self::class) . "_" .
                                   $this->glossary->getRefId()
                               )
                               ->withActions($actions)
@@ -191,10 +191,8 @@ class TermListTable
             $id = $c["id"];
             if ($id == 0) {
                 $columns["term"] = $this->ui_fac->table()->column()->text($this->lng->txt("cont_term"));
-            } else {
-                if (empty($adv_columns)) {
-                    $adv_columns = $this->adv_term_mode->getColumns();
-                }
+            } elseif (empty($adv_columns)) {
+                $adv_columns = $this->adv_term_mode->getColumns();
             }
         }
 

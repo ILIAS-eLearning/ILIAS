@@ -53,7 +53,6 @@ class ilPageEditorGUI
     public ilGlobalTemplateInterface $tpl;
     public ilLanguage $lng;
     public ilCtrl $ctrl;
-    public ilObjectDefinition $objDefinition;
     public ilPageObject $page;
     public string $target_script = "";
     public string $return_location = "";
@@ -83,7 +82,6 @@ class ilPageEditorGUI
         $this->access = $DIC->access();
         $tpl = $DIC["tpl"];
         $lng = $DIC->language();
-        $objDefinition = $DIC["objDefinition"];
         $ilCtrl = $DIC->ctrl();
         $ilTabs = $DIC->tabs();
 
@@ -106,7 +104,6 @@ class ilPageEditorGUI
         $this->ctrl = $ilCtrl;
         $this->tpl = $tpl;
         $this->lng = $lng;
-        $this->objDefinition = $objDefinition;
         $this->tabs_gui = $ilTabs;
         $this->page = $a_page_object;
         $this->page_gui = $a_page_object_gui;
@@ -154,6 +151,65 @@ class ilPageEditorGUI
         $this->page_back_title = $a_title;
     }
 
+    private function hasRequestedComponent(): bool
+    {
+        return $this->requested_ctype !== "" || $this->requested_cname !== "";
+    }
+
+    private function isNewComponentCommand(string $cmd): bool
+    {
+        return in_array($cmd, ["insert", "create", "upload"], true);
+    }
+
+    protected function isMatchingContentObjectGUI(string $next_class, string $ctype): bool
+    {
+        $pc_def = $this->pc_definition->getPCDefinitionByType($ctype);
+        return is_array($pc_def) && strtolower($pc_def["pc_gui_class"]) === $next_class;
+    }
+
+    private function resolveHierId(string $next_class): string
+    {
+        $new_hier_id = $this->request->getString("new_hier_id");
+        $hier_id = $new_hier_id !== "" ? $new_hier_id : $this->requested_hier_id;
+
+        if ($next_class === "ilpcplaceholdergui" && $hier_id === "" && $this->requested_pl_pc_id !== "") {
+            $hier_ids = $this->page->getHierIdsForPCIds([$this->requested_pl_pc_id]);
+            $hier_id = $hier_ids[$this->requested_pl_pc_id];
+        }
+
+        return $hier_id;
+    }
+
+    private function resolveRequestedComponentTarget(): array
+    {
+        $ctype = $this->requested_ctype;
+        if ($this->requested_cname !== "") {
+            $pc_def = $this->pc_definition->getPCDefinitionByName($this->requested_cname);
+            $ctype = $pc_def["pc_type"];
+        }
+
+        return [$ctype, $this->requested_hier_id, $this->requested_pc_id];
+    }
+
+    private function getContentObjectForTarget(
+        string $next_class,
+        string $cmd,
+        string $hier_id,
+        string $pc_id
+    ): ?ilPageContent {
+        if (!$this->pc_definition->isPCGUIClassName($next_class, true) || $this->isNewComponentCommand($cmd)) {
+            return null;
+        }
+
+        $cont_obj = $this->page->getContentObject($hier_id, $pc_id);
+        if (!is_object($cont_obj)) {
+            $this->log->debug("returnToParent");
+            $this->ctrl->returnToParent($this);
+        }
+
+        return $cont_obj;
+    }
+
     /**
      * execute command
      */
@@ -163,156 +219,42 @@ class ilPageEditorGUI
         $ilHelp = $this->help;
         $this->log->debug("begin =========================");
         $ctype = "";
-        $cont_obj = null;
-
         $ret = "";
-        $add_type = "";
 
-        // Step BC (basic command determination)
-        // determine cmd, cmdClass, hier_id and pc_id
         $cmd = $this->ctrl->getCmd("displayPage");
-        $cmdClass = strtolower($this->ctrl->getCmdClass());
-
-        $hier_id = $this->requested_hier_id;
+        $has_requested_component = $this->hasRequestedComponent();
         $pc_id = $this->requested_pc_id;
-        $new_hier_id = $this->request->getString("new_hier_id");
-        if ($new_hier_id != "") {
-            $hier_id = $new_hier_id;
-        }
-
-        $this->log->debug("step BC: cmd:$cmd, cmdClass:$cmdClass, hier_id: $hier_id, pc_id: $pc_id");
-
-        // Step EC (exec_ command handling)
-        // handle special exec_ commands, modify pc, hier_id
-        if (substr($cmd, 0, 5) == "exec_") {
-            // check whether pc id is given
-            $pca = explode(":", $this->ctrl->getCmd());
-            $pc_id = $pca[1];
-            $cmd = explode("_", $pca[0]);
-            unset($cmd[0]);
-            $hier_id = implode("_", $cmd);
-            $cmd = $this->request->getString("command" . $hier_id);
-        }
-        $this->log->debug("step EC: cmd:$cmd, hier_id: $hier_id, pc_id: $pc_id");
-
-        // Step CC (handle table container (and similar) commands
-        // ... strip "c" "r" of table ids from hierarchical id
-        $first_hier_character = substr($hier_id, 0, 1);
-        if ($first_hier_character == "c" ||
-            $first_hier_character == "r" ||
-            $first_hier_character == "g" ||
-            $first_hier_character == "i") {
-            $hier_id = substr($hier_id, 1);
-        }
-        $this->log->debug("step CC: cmd:$cmd, hier_id: $hier_id, pc_id: $pc_id");
-
-        // Step B (build dom, and ids in XML)
         $this->page->buildDom();
         $this->page->addHierIDs();
 
-
-        // Step CS (strip base command)
-        $com = null;
-        if ($cmdClass != "ilcontainerresourcegui") {
-            $com = explode("_", $cmd);
-            $cmd = $com[0];
-        }
-        $this->log->debug("step CS: cmd:$cmd");
-
-
-        // Step NC (determine next class)
         $next_class = $this->ctrl->getNextClass($this);
-        $this->log->debug("step NC: next class: " . $next_class);
-
-        // Step PH (placeholder handling, placeholders from preview mode come without hier_id)
-        if ($next_class == "ilpcplaceholdergui" && $hier_id == "" && $this->requested_pl_pc_id != "") {
-            $hid = $this->page->getHierIdsForPCIds(array($this->requested_pl_pc_id));
-            $hier_id = $hid[$this->requested_pl_pc_id];
+        $hier_id = $this->resolveHierId($next_class);
+        if ($has_requested_component) {
+            [$ctype, $hier_id, $pc_id] = $this->resolveRequestedComponentTarget();
         }
-        $this->log->debug("step PH: next class: " . $next_class);
-        if (!is_null($com) && ($com[0] == "insert" || $com[0] == "create")) {
-            // Step CM (creation mode handling)
-            $cmd = $com[0];
-            $ctype = $com[1] ?? "";				// note ctype holds type if cmdclass is empty, but also subcommands if not (e.g. applyFilter in ilpcmediaobjectgui)
-            $add_type = $this->request->getString("pluginName");
-            if ($ctype == "mob") {
-                $ctype = "media";
-            }
-
-            $this->log->debug("step CM: cmd: " . $cmd . ", ctype: " . $ctype . ", add_type: " . $add_type);
-        } else {
-            $this->log->debug("step LM: cmd: " . $cmd . ", cmdClass: " . $cmdClass);
-
-            // Step PR (get content object and return to parent)
-            $this->log->debug("before PR: cmdClass: $cmdClass, nextClass: $next_class" .
-                ", hier_id: " . $hier_id . ", pc_id: " . $pc_id . ")");
-            // note: ilinternallinkgui for page: no cont_obj is received
-            // ilinternallinkgui for mob: cont_obj is received
-            if ($this->requested_ctype == "" && $this->requested_cname == "" &&
-                $cmd != "insertFromClipboard" && $cmd != "pasteFromClipboard" &&
-                $cmd != "setMediaMode" && $cmd != "copyLinkedMediaToClipboard" &&
-                $cmd != "activatePage" && $cmd != "deactivatePage" &&
-                $cmd != "copyLinkedMediaToMediaPool" && $cmd != "showSnippetInfo" &&
-                $cmd != "delete" && $cmd != "paste" &&
-                $cmd != "cancelDeleteSelected" && $cmd != "confirmedDeleteSelected" &&
-                $cmd != "copy" && $cmd != "cut" &&
-                ($cmd != "displayPage" || $this->request->getString("editImagemapForward_x") != "" || $cmdClass == "ilcontainerresourcegui") &&
-                $cmd != "activate" && $cmd != "characteristic" &&
-                $cmd != "assignCharacteristic" &&
-                $cmdClass != "ilrepositoryselector2inputgui" &&
-                $cmdClass != "ilpageeditorserveradaptergui" &&
-                $cmd != "cancelCreate" && $cmd != "popup" &&
-                $cmdClass != "ileditclipboardgui" && $cmd != "addChangeComment" &&
-                ($cmdClass != "ilinternallinkgui" || ($next_class == "ilpcmediaobjectgui"))) {
-                $cont_obj = $this->page->getContentObject($hier_id, $pc_id);
-                if (!is_object($cont_obj)) {
-                    $this->log->debug("returnToParent");
-                    $ilCtrl->returnToParent($this);
-                }
-                $ctype = $cont_obj->getType();
-            }
-        }
-        // Step NC (handle empty next class)
-        if ($this->requested_ctype != "" || $this->requested_cname != "") {
-            $ctype = $this->requested_ctype;
-            if ($this->requested_cname != "") {
-                $pc_def = $this->pc_definition->getPCDefinitionByName($this->requested_cname);
-                $ctype = $pc_def["pc_type"];
-            }
-            $pc_id = $this->requested_pc_id;
-            $hier_id = $this->requested_hier_id;
-            if (!in_array($cmd, ["insert", "create", "upload"])) {
-                $cont_obj = $this->page->getContentObject($hier_id, $pc_id);
-            }
+        $cont_obj = $this->getContentObjectForTarget($next_class, $cmd, $hier_id, $pc_id);
+        if (is_object($cont_obj)) {
+            $ctype = $cont_obj->getType();
         }
         // this fixes e.g. #31214
         if ($pc_id != "" && $hier_id == "") {
             $hier_id = $this->page->getHierIdForPcId($pc_id);
         }
-        if ($ctype != "media" || !is_object($cont_obj)) {
-            if ($this->getHeader() != "") {
-                $this->tpl->setTitle($this->getHeader());
-            }
+        if (($ctype !== "media" || !is_object($cont_obj)) && $this->getHeader() !== "") {
+            $this->tpl->setTitle($this->getHeader());
         }
 
         $this->cont_obj = $cont_obj;
 
         $this->ctrl->setParameter($this, "hier_id", $hier_id);
         $this->ctrl->setParameter($this, "pc_id", $pc_id);
+        if ($has_requested_component) {
+            $this->ctrl->setParameter($this, "ctype", $ctype);
+        }
 
-        if ($next_class == "") {
-            $pc_def = $this->pc_definition->getPCDefinitionByType($ctype);
-            if (is_array($pc_def)) {
-                if ($ctype === "plug") {
-                    $this->ctrl->setParameterByClass(
-                        $pc_def["pc_gui_class"],
-                        "pluginName",
-                        $this->request->getString("pluginName")
-                    );
-                }
-                $this->ctrl->redirectByClass($pc_def["pc_gui_class"], $this->ctrl->getCmd());
-            }
-            $next_class = $this->ctrl->getNextClass($this);
+        if (is_object($cont_obj) && !$this->isMatchingContentObjectGUI($next_class, $ctype)) {
+            $this->log->debug("returnToParent due to mismatching content object GUI");
+            $ilCtrl->returnToParent($this);
         }
         $this->log->debug("step NC2: next_class: $next_class");
 
@@ -400,7 +342,7 @@ class ilPageEditorGUI
                     $this->page,
                     $cont_obj,
                     $hier_id,
-                    $add_type,
+                    $this->request->getString("pluginName"),
                     $pc_id
                 );
                 $ret = $this->ctrl->forwardCommand($plugged_gui);
@@ -436,18 +378,7 @@ class ilPageEditorGUI
                     $pc_gui->setPageConfig($this->page_gui->getPageConfig());
                     $ret = $this->ctrl->forwardCommand($pc_gui);
                 } else {
-                    $this->log->debug("Call ilPageEditorGUI command.");
-                    // cmd belongs to ilPageEditorGUI
-
-                    if ($cmd == "pasteFromClipboard") {
-                        //$ret = $this->pasteFromClipboard($hier_id);
-                        $this->pasteFromClipboard($hier_id);
-                    } elseif ($cmd == "paste") {
-                        //$ret = $this->paste($hier_id);
-                        $this->paste($hier_id);
-                    } else {
-                        $ret = $this->$cmd();
-                    }
+                    $ret = $this->$cmd();
                 }
                 break;
         }
@@ -468,32 +399,6 @@ class ilPageEditorGUI
     }
 
     /**
-     * set media and editing mode
-     */
-    public function setMediaMode(): void
-    {
-        $ilUser = $this->user;
-
-        $ilUser->writePref(
-            "ilPageEditor_MediaMode",
-            $this->request->getString("media_mode")
-        );
-        $ilUser->writePref(
-            "ilPageEditor_HTMLMode",
-            $this->request->getString("html_mode")
-        );
-        $js_mode = $this->request->getString("js_mode");
-        $ilUser->writePref("ilPageEditor_JavaScript", $js_mode);
-
-        // again not so nice...
-        if ($this->page->getParentType() == "lm") {
-            $this->ctrl->redirectByClass("illmpageobjectgui", "edit");
-        } else {
-            $this->ctrl->returnToParent($this);
-        }
-    }
-
-    /**
      * copy linked media object to clipboard
      */
     public function copyLinkedMediaToClipboard(): void
@@ -507,255 +412,6 @@ class ilPageEditorGUI
             ilObject::_lookupTitle($this->requested_mob_id)
         );
         $this->ctrl->returnToParent($this);
-    }
-
-    /**
-     * copy linked media object to media pool
-     */
-    public function copyLinkedMediaToMediaPool(): void
-    {
-        $this->ctrl->setParameterByClass("ilmediapooltargetselector", "mob_id", $this->requested_mob_id);
-        $this->ctrl->redirectByClass("ilmediapooltargetselector", "listPools");
-    }
-
-    /**
-     * Confirm
-     */
-    public function delete(): void
-    {
-        $ilCtrl = $this->ctrl;
-        $tpl = $this->tpl;
-        $lng = $this->lng;
-
-        $targets = $this->request->getIds();
-
-        if (count($targets) == 0) {
-            $this->tpl->setOnScreenMessage('info', $lng->txt("no_checkbox"), true);
-            $this->ctrl->returnToParent($this);
-        } else {
-            $cgui = new ilConfirmationGUI();
-            $cgui->setFormAction($ilCtrl->getFormAction($this));
-            $cgui->setHeaderText($lng->txt("copg_confirm_el_deletion"));
-            $cgui->setCancel($lng->txt("cancel"), "cancelDeleteSelected");
-            $cgui->setConfirm($lng->txt("confirm"), "confirmedDeleteSelected");
-            foreach ($targets as $t) {
-                $cgui->addHiddenItem("ids[]", $t);
-            }
-
-            $tpl->setContent($cgui->getHTML());
-        }
-    }
-
-    public function cancelDeleteSelected(): void
-    {
-        $this->ctrl->returnToParent($this);
-    }
-
-    public function confirmedDeleteSelected(): void
-    {
-        $targets = $this->request->getIds();
-        if (count($targets) > 0) {
-            $updated = $this->page->deleteContents(
-                $targets,
-                true,
-                $this->page_gui->getPageConfig()->getEnableSelfAssessment()
-            );
-            if ($updated !== true) {
-                $this->edit_repo->setPageError($updated);
-            } else {
-                $this->edit_repo->clearPageError();
-            }
-        }
-        $this->ctrl->returnToParent($this);
-    }
-
-    /**
-     * Copy selected items
-     */
-    public function copy(): void
-    {
-        $lng = $this->lng;
-
-        $ids = $this->request->getIds();
-        if (count($ids) > 0) {
-            $this->page->copyContents($ids);
-            $this->tpl->setOnScreenMessage('success', $lng->txt("cont_sel_el_copied_use_paste"), true);
-        }
-        $this->ctrl->returnToParent($this);
-    }
-
-    /**
-     * Cut selected items
-     */
-    public function cut(): void
-    {
-        $lng = $this->lng;
-
-        $ids = $this->request->getIds();
-        if (count($ids)) {
-            $updated = $this->page->cutContents($ids);
-            if ($updated !== true) {
-                $this->edit_repo->setPageError($updated);
-            } else {
-                $this->edit_repo->clearPageError();
-            }
-            $this->tpl->setOnScreenMessage('success', $lng->txt("cont_sel_el_cut_use_paste"), true);
-        }
-        $this->ctrl->returnToParent($this);
-    }
-
-    /**
-     * paste from clipboard (redirects to clipboard)
-     */
-    public function paste(string $a_hier_id): void
-    {
-        $this->page->pasteContents($a_hier_id, $this->page_gui->getPageConfig()->getEnableSelfAssessment());
-        //ilEditClipboard::setAction("");
-        $this->ctrl->returnToParent($this);
-    }
-
-    /**
-     * (de-)activate selected items
-     */
-    public function activate(): void
-    {
-        $ids = $this->request->getIds();
-        if (count($ids) > 0) {
-            $updated = $this->page->switchEnableMultiple(
-                $ids,
-                true,
-                $this->page_gui->getPageConfig()->getEnableSelfAssessment()
-            );
-            if ($updated !== true) {
-                $this->edit_repo->setPageError($updated);
-            } else {
-                $this->edit_repo->clearPageError();
-            }
-        }
-        $this->ctrl->returnToParent($this);
-    }
-
-    /**
-     * Assign characeristic to text blocks/sections
-     */
-    public function characteristic(): void
-    {
-        $tpl = $this->tpl;
-        $lng = $this->lng;
-
-        $ids = $this->request->getIds();
-        if (count($ids) > 0) {
-            $types = array();
-
-            // check what content element types have been selected
-            foreach ($ids as $t) {
-                $tarr = explode(":", $t);
-                $cont_obj = $this->page->getContentObject($tarr[0], $tarr[1]);
-                if (is_object($cont_obj) && $cont_obj->getType() == "par") {
-                    $types["par"] = "par";
-                }
-                if (is_object($cont_obj) && $cont_obj->getType() == "sec") {
-                    $types["sec"] = "sec";
-                }
-            }
-
-            if (count($types) == 0) {
-                $this->tpl->setOnScreenMessage('failure', $lng->txt("cont_select_par_or_section"), true);
-                $this->ctrl->returnToParent($this);
-            } else {
-                $this->initCharacteristicForm($ids, $types);
-                $tpl->setContent($this->form->getHTML());
-            }
-        } else {
-            $this->ctrl->returnToParent($this);
-        }
-    }
-
-    /**
-     * Init map creation/update form
-     */
-    public function initCharacteristicForm(
-        array $a_target,
-        array $a_types
-    ): void {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-
-
-        // edit form
-        $this->form = new ilPropertyFormGUI();
-        $this->form->setTitle($this->lng->txt("cont_choose_characteristic"));
-
-        if ($a_types["par"] == "par") {
-            $select_prop = new ilSelectInputGUI(
-                $this->lng->txt("cont_choose_characteristic_text"),
-                "char_par"
-            );
-            $options = ilPCParagraphGUI::_getCharacteristics($this->page_gui->getStyleId());
-            $select_prop->setOptions($options);
-            $this->form->addItem($select_prop);
-        }
-        if ($a_types["sec"] == "sec") {
-            $select_prop = new ilSelectInputGUI(
-                $this->lng->txt("cont_choose_characteristic_section"),
-                "char_sec"
-            );
-            $options = ilPCSectionGUI::_getCharacteristics($this->page_gui->getStyleId());
-            $select_prop->setOptions($options);
-            $this->form->addItem($select_prop);
-        }
-
-        foreach ($a_target as $t) {
-            $hidden = new ilHiddenInputGUI("target[]");
-            $hidden->setValue($t);
-            $this->form->addItem($hidden);
-        }
-
-        $this->form->setFormAction($ilCtrl->getFormAction($this));
-        $this->form->addCommandButton("assignCharacteristic", $lng->txt("save"));
-        $this->form->addCommandButton("showPage", $lng->txt("cancel"));
-    }
-
-    public function assignCharacteristic(): void
-    {
-        $char_par = $this->request->getString("char_par");
-        $char_sec = $this->request->getString("char_sec");
-
-        $updated = $this->page->assignCharacteristic(
-            $this->request->getStringArray("target"),
-            $char_par,
-            $char_sec,
-            ""
-        );
-        if ($updated !== true) {
-            $this->edit_repo->setPageError($updated);
-        } else {
-            $this->edit_repo->clearPageError();
-        }
-        $this->ctrl->returnToParent($this);
-    }
-
-    /**
-     * paste from clipboard (redirects to clipboard)
-     */
-    public function pasteFromClipboard(string $a_hier_id): void
-    {
-        $ilCtrl = $this->ctrl;
-        //var_dump($a_hier_id);
-        $ilCtrl->setParameter($this, "hier_id", $a_hier_id);
-        $ilCtrl->setParameterByClass(
-            "ilEditClipboardGUI",
-            "returnCommand",
-            rawurlencode($ilCtrl->getLinkTarget(
-                $this,
-                "insertFromClipboard",
-                "",
-                false,
-                false
-            ))
-        );
-        //echo ":".$ilCtrl->getLinkTarget($this, "insertFromClipboard").":";
-        $ilCtrl->redirectByClass("ilEditClipboardGUI", "getObject");
     }
 
     /**
@@ -800,53 +456,5 @@ class ilPageEditorGUI
     public function displayPage(): void
     {
         $this->ctrl->returnToParent($this);
-    }
-
-    /**
-     * Show snippet info
-     */
-    public function showSnippetInfo(): void
-    {
-        $tpl = $this->tpl;
-        $lng = $this->lng;
-        $ilAccess = $this->access;
-        $ilCtrl = $this->ctrl;
-
-        $stpl = new ilTemplate("tpl.snippet_info.html", true, true, "components/ILIAS/COPage");
-
-        $mep_pools = ilMediaPoolItem::getPoolForItemId(
-            $this->request->getString("ci_id")
-        );
-        foreach ($mep_pools as $mep_id) {
-            $ref_ids = ilObject::_getAllReferences($mep_id);
-            $edit_link = false;
-            foreach ($ref_ids as $rid) {
-                if (!$edit_link && $ilAccess->checkAccess("write", "", $rid)) {
-                    $stpl->setCurrentBlock("edit_link");
-                    $stpl->setVariable("TXT_EDIT", $lng->txt("edit"));
-                    $stpl->setVariable(
-                        "HREF_EDIT",
-                        "./goto.php?target=mep_" . $rid
-                    );
-                    $stpl->parseCurrentBlock();
-                }
-            }
-            $stpl->setCurrentBlock("pool");
-            $stpl->setVariable("TXT_MEDIA_POOL", $lng->txt("obj_mep"));
-            $stpl->setVariable("VAL_MEDIA_POOL", ilObject::_lookupTitle($mep_id));
-            $stpl->parseCurrentBlock();
-        }
-
-        $stpl->setVariable("TXT_TITLE", $lng->txt("title"));
-        $stpl->setVariable(
-            "VAL_TITLE",
-            ilMediaPoolPage::lookupTitle($this->request->getString("ci_id"))
-        );
-        $stpl->setVariable("TXT_BACK", $lng->txt("back"));
-        $stpl->setVariable(
-            "HREF_BACK",
-            $ilCtrl->getLinkTarget($this->page_gui, "edit")
-        );
-        $tpl->setContent($stpl->get());
     }
 }

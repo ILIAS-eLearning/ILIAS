@@ -28,6 +28,7 @@ class ilImprintGUI extends ilPageObjectGUI implements ilCtrlBaseClassInterface
 {
     private StandardGUIRequest $imprint_request;
     private \ILIAS\Http\GlobalHttpState $http;
+    private \ILIAS\COPage\Page\PageManagerInterface $page_manager;
 
     public function __construct()
     {
@@ -37,6 +38,7 @@ class ilImprintGUI extends ilPageObjectGUI implements ilCtrlBaseClassInterface
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->http = $DIC->http();
+        $this->page_manager = $DIC->copage()->internal()->domain()->page();
 
         $this->imprint_request = new StandardGUIRequest(
             $DIC->http(),
@@ -100,7 +102,7 @@ class ilImprintGUI extends ilPageObjectGUI implements ilCtrlBaseClassInterface
 
     private function renderFullscreen(): never
     {
-        if (!ilImprint::isActive()) {
+        if (!$this->page_manager->lookupActive(1, 'impr')) {
             $this->ctrl->redirectToURL('ilias.php?baseClass=ilDashboardGUI');
         }
 

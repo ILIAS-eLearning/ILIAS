@@ -83,7 +83,7 @@ class RSSGUI
             $id = $item->getId();
 
             // only published items
-            $is_active = \ilBlogPosting::_lookupActive($id, "blp");
+            $is_active = $this->domain->pageManager()->lookupActive($id, "blp");
             if (!$is_active) {
                 continue;
             }

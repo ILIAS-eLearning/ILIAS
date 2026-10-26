@@ -24,4 +24,5 @@ use ILIAS\UI\Component\Component;
 
 interface State extends Component
 {
+    public function withTitle(string $title): self;
 }

@@ -38,7 +38,7 @@ class Echoing implements HelpTextRetriever
         }
 
         return array_map(
-            fn ($t) => $purpose . ": " . $t->get(),
+            fn($t) => $purpose . ": " . $t->get(),
             $topics
         );
     }

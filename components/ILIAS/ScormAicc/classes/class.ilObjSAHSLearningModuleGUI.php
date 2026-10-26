@@ -19,6 +19,10 @@
 declare(strict_types=1);
 
 use ILIAS\Filesystem\Util\Archive\ZipDirectoryHandling;
+use ILIAS\components\ResourceStorage\Container\View\ActionBuilder\TopAction;
+use ILIAS\components\ResourceStorage\Container\View\Configuration as ContainerViewConfiguration;
+use ILIAS\components\ResourceStorage\Container\View\Mode as ContainerViewMode;
+use ILIAS\Filesystem\Stream\Streams;
 
 /**
 * SCORM Learning Modules
@@ -27,12 +31,13 @@ use ILIAS\Filesystem\Util\Archive\ZipDirectoryHandling;
 * $Id$
 *
 * @ilCtrl_Calls ilObjSAHSLearningModuleGUI: ilFileSystemGUI, ilObjectMetaDataGUI, ilPermissionGUI, ilInfoScreenGUI, ilLearningProgressGUI
-* @ilCtrl_Calls ilObjSAHSLearningModuleGUI: ilCommonActionDispatcherGUI, ilExportGUI, ilObjectCopyGUI
+* @ilCtrl_Calls ilObjSAHSLearningModuleGUI: ilCommonActionDispatcherGUI, ilExportGUI, ilObjectCopyGUI, ilContainerResourceGUI
 *
 * @ingroup components\ILIASScormAicc
 */
 class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 {
+    public const CMD_IMPORT_FROM_UPLOAD_DIR = 'importFromUploadDir';
     private ilPropertyFormGUI $form;
     private $archives;
 
@@ -46,8 +51,153 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         $lng = $DIC->language();
         $rbacsystem = $DIC->access();
         $lng->loadLanguageModule("content");
+        $lng->loadLanguageModule("sahs");
         $this->type = "sahs";
         parent::__construct($data, $id, $call_by_reference, false);
+    }
+
+    /**
+     * List files tab: forward to the container view once migrated,
+     * otherwise show an info box.
+     */
+    public function listFiles(): void
+    {
+        global $DIC;
+        if ($this->object->hasContainerResource()) {
+            $this->ctrl->redirectByClass(ilContainerResourceGUI::class);
+            return;
+        }
+        $this->tabs_gui->setTabActive('cont_list_files');
+        $message_box = $DIC->ui()->factory()->messageBox()->info(
+            $this->lng->txt('infobox_files_not_migrated')
+        );
+        $this->tpl->setContent($DIC->ui()->renderer()->render([$message_box]));
+    }
+
+    public function importFromUploadDir(): void
+    {
+        global $DIC;
+        if (!$DIC->access()->checkAccess("write", "", $this->object->getRefId())) {
+            $DIC->ui()->mainTemplate()->setOnScreenMessage(
+                'failure',
+                $this->lng->txt("msg_no_perm_write"),
+                true
+            );
+            ilObjectGUI::_gotoRepositoryRoot();
+            return;
+        }
+
+        $resource = $this->object->getResource();
+        if ($resource === null) {
+            $DIC->ui()->mainTemplate()->setOnScreenMessage(
+                'failure',
+                $this->lng->txt('permission_denied'),
+                true
+            );
+            $this->ctrl->redirect($this, "listFiles");
+            return;
+        }
+
+        $file = '';
+        if ($DIC->http()->wrapper()->post()->has('form/input_0')) {
+            $file = $DIC->http()->wrapper()->post()->retrieve(
+                'form/input_0',
+                $DIC->refinery()->kindlyTo()->string()
+            );
+        }
+
+        $upload_directory = $this->getUploadDirectory();
+        $path = $upload_directory . DIRECTORY_SEPARATOR . $file;
+        $real_path = realpath($path);
+        $upload_directory_prefix = rtrim($upload_directory, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+        $is_upload_file = $upload_directory !== ''
+            && $real_path !== false
+            && is_readable($real_path)
+            && str_starts_with($real_path, $upload_directory_prefix);
+
+        if ($file === '') {
+            $DIC->ui()->mainTemplate()->setOnScreenMessage(
+                'failure',
+                $this->lng->txt('sahs_import_from_upload_dir_info'),
+                true
+            );
+        } elseif ($is_upload_file) {
+            $stream_resource = fopen($real_path, 'rb');
+            if ($stream_resource === false) {
+                $DIC->ui()->mainTemplate()->setOnScreenMessage(
+                    'failure',
+                    $this->lng->txt('sahs_file_import_from_upload_dir_failed'),
+                    true
+                );
+            } else {
+                try {
+                    $success = $DIC->resourceStorage()->manageContainer()->addStreamToContainer(
+                        $resource->getIdentification(),
+                        Streams::ofResource($stream_resource),
+                        $file
+                    );
+                } finally {
+                    fclose($stream_resource);
+                }
+                if ($success) {
+                    $DIC->ui()->mainTemplate()->setOnScreenMessage(
+                        'success',
+                        $this->lng->txt('sahs_file_imported_from_upload_dir'),
+                        true
+                    );
+                } else {
+                    $DIC->ui()->mainTemplate()->setOnScreenMessage(
+                        'failure',
+                        $this->lng->txt('sahs_file_import_from_upload_dir_failed'),
+                        true
+                    );
+                }
+            }
+        } else {
+            $DIC->ui()->mainTemplate()->setOnScreenMessage(
+                'failure',
+                $this->lng->txt('sahs_file_import_from_upload_dir_failed'),
+                true
+            );
+        }
+
+        $this->ctrl->redirect($this, "listFiles");
+    }
+
+    public function getUploadDirectory(): string
+    {
+        $import_file_factory = new ilImportDirectoryFactory();
+        try {
+            $import_directory = $import_file_factory->getInstanceForComponent(ilImportDirectoryFactory::TYPE_SAHS);
+        } catch (InvalidArgumentException) {
+            return '';
+        }
+        return $import_directory->getAbsolutePath();
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getUploadFiles(): array
+    {
+        $upload_dir = $this->getUploadDirectory();
+        if ($upload_dir === '') {
+            return [];
+        }
+        $handle = opendir($upload_dir);
+        if ($handle === false) {
+            return [];
+        }
+        $files = [];
+        while (false !== ($file = readdir($handle))) {
+            $full_path = $upload_dir . "/" . $file;
+            if (is_file($full_path) && is_readable($full_path)) {
+                $files[] = $file;
+            }
+        }
+        closedir($handle);
+        sort($files);
+        return $files;
     }
 
     /**
@@ -117,13 +267,63 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                 break;
 
             case "ilfilesystemgui":
-                if (!$ilAccess->checkAccess('write', '', $this->object->getRefId())) {
+                // legacy on-disk file editing is no longer offered; content is
+                // managed through the Resource Storage container once migrated
+                $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->WARNING);
+                break;
+
+            case strtolower(ilContainerResourceGUI::class):
+                if (!$this->object->hasContainerResource()) {
                     $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->WARNING);
                 }
-                $fs_gui = new ilFileSystemGUI($this->object->getDataDirectory());
-                $fs_gui->setUseUploadDirectory(true);
-                $fs_gui->setTableId("sahsfs" . $this->object->getId());
-                $this->ctrl->forwardCommand($fs_gui);
+                $ilTabs->setTabActive('cont_list_files');
+                $check_access = $ilAccess->checkAccess('write', '', $this->object->getRefId());
+                $view_config = new ContainerViewConfiguration(
+                    $this->object->getResource(),
+                    new ilSAHSStakeholder(),
+                    $this->lng->txt('files'),
+                    ContainerViewMode::DATA_TABLE,
+                    250,
+                    $check_access,
+                    $check_access
+                );
+                if ($check_access) {
+                    $upload_files = $this->getUploadFiles();
+                    if ($upload_files !== []) {
+                        $options = [];
+                        foreach ($upload_files as $file) {
+                            $options[$file] = $file;
+                        }
+
+                        $modal = $DIC->ui()->factory()->modal()->roundtrip(
+                            $this->lng->txt('sahs_import_from_upload_dir'),
+                            [],
+                            [
+                                $DIC->ui()->factory()->input()->field()->select(
+                                    $this->lng->txt('sahs_import_from_upload_dir_file_name'),
+                                    $options,
+                                    $this->lng->txt('sahs_import_from_upload_dir_info')
+                                )->withRequired(true)
+                            ],
+                            $this->ctrl->getFormAction(
+                                $this,
+                                self::CMD_IMPORT_FROM_UPLOAD_DIR
+                            )
+                        );
+
+                        $top_action = new TopAction(
+                            $this->lng->txt('sahs_import_from_upload_dir'),
+                            $modal->getShowSignal()
+                        );
+                        $view_config = $view_config->withExternalTopAction(
+                            'sahs_import_from_upload_dir',
+                            $top_action,
+                            $modal
+                        );
+                    }
+                }
+                $container_gui = new ilContainerResourceGUI($view_config);
+                $this->ctrl->forwardCommand($container_gui);
                 break;
 
             case "ilcertificategui":
@@ -442,8 +642,12 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
         $title = $newObj->readObject();
         if ($title != "") {
+            $newObj->setTitle($title);
             ilObject::_writeTitle($newObj->getId(), $title);
         }
+
+        // move the freshly uploaded package into a Resource Storage container
+        $newObj->moveDataDirectoryToContainer();
 
         //auto set learning progress settings
         $newObj->setLearningProgressSettingsAtUpload();
@@ -547,6 +751,9 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
             ilObject::_writeTitle($new_obj->getId(), $title);
         }
 
+        // move the imported package into a Resource Storage container
+        $new_obj->moveDataDirectoryToContainer();
+
         //auto set learning progress settings
         $new_obj->setLearningProgressSettingsAtUpload();
 
@@ -627,17 +834,15 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                 break;
         }
 
-        // file system gui tabs
-        // properties
+        // list files tab — routes to the container view (migrated) or an
+        // info box (not yet migrated); legacy on-disk editing is gone
         if ($rbacsystem->checkAccess("write", "", $this->object->getRefId())) {
-            $ilCtrl->setParameterByClass("ilfilesystemgui", "resetoffset", 1);
             $this->tabs_gui->addTarget(
                 "cont_list_files",
-                $this->ctrl->getLinkTargetByClass("ilfilesystemgui", "listFiles"),
+                $this->ctrl->getLinkTarget($this, "listFiles"),
                 "",
-                "ilfilesystemgui"
+                ""
             );
-            $ilCtrl->setParameterByClass("ilfilesystemgui", "resetoffset", "");
         }
         // info screen
         $force_active = ($this->ctrl->getNextClass() === "ilinfoscreengui")
@@ -836,6 +1041,15 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
             array("edit", ""),
             get_class($this)
         );
+
+        if (method_exists($this, 'adoptSettings')) {
+            $ilTabs->addSubTabTarget(
+                "sahs_adopt_settings",
+                $this->ctrl->getLinkTarget($this, "adoptSettings"),
+                array("edit", ""),
+                get_class($this)
+            );
+        }
 
         $validator = new ilCertificateActiveValidator();
         if (true === $validator->validate()) {

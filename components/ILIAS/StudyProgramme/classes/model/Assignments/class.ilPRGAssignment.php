@@ -44,7 +44,7 @@ class ilPRGAssignment
     protected int $usr_id;
     protected ?\DateTimeImmutable $last_change = null;
     protected ?int $last_change_by = null;
-    protected ?\DateTimeImmutable$restart_date = null;
+    protected ?\DateTimeImmutable $restart_date = null;
     protected ?int $restarted_asssignment_id = self::NO_RESTARTED_ASSIGNMENT;
     protected bool $manually_assigned;
     /**

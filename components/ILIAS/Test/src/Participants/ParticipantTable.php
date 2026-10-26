@@ -196,9 +196,10 @@ class ParticipantTable implements DataRetrieval
         return [
             'solution' => fn(string $value, Participant $record) =>
                 $value === 'true' ? $record->hasAnsweredQuestionsForScoredAttempt() : !$record->hasAnsweredQuestionsForScoredAttempt(),
-            'status_of_attempt' => fn(string $value, Participant $record) =>
-                ($value === StatusOfAttempt::NOT_YET_STARTED->value && $record->getAttemptOverviewInformation()?->getStatusOfAttempt() === null) ||
-                $value === $record->getAttemptOverviewInformation()?->getStatusOfAttempt()->value,
+            'status_of_attempt' => fn(array $value, Participant $record) =>
+                (in_array(StatusOfAttempt::NOT_YET_STARTED->value, $value)
+                    && $record->getAttemptOverviewInformation()?->getStatusOfAttempt() === null)
+                || in_array($record->getAttemptOverviewInformation()?->getStatusOfAttempt()->value, $value),
             'test_passed' => fn(string $value, Participant $record) => $value === 'true'
                 ? $record->getAttemptOverviewInformation()?->hasPassingMark() === true
                 : $record->getAttemptOverviewInformation()?->hasPassingMark() !== true,
@@ -311,16 +312,6 @@ class ParticipantTable implements DataRetrieval
             'true' => $this->lng->txt('with_solution')
         ];
 
-        $status_of_attempt_options = [
-            StatusOfAttempt::NOT_YET_STARTED->value => $this->lng->txt(StatusOfAttempt::NOT_YET_STARTED->value),
-            StatusOfAttempt::RUNNING->value => $this->lng->txt(StatusOfAttempt::RUNNING->value),
-            StatusOfAttempt::FINISHED_BY_UNKNOWN->value => $this->lng->txt(StatusOfAttempt::FINISHED_BY_UNKNOWN->value),
-            StatusOfAttempt::FINISHED_BY_ADMINISTRATOR->value => $this->lng->txt(StatusOfAttempt::FINISHED_BY_ADMINISTRATOR->value),
-            StatusOfAttempt::FINISHED_BY_CRONJOB->value => $this->lng->txt(StatusOfAttempt::FINISHED_BY_CRONJOB->value),
-            StatusOfAttempt::FINISHED_BY_DURATION->value => $this->lng->txt(StatusOfAttempt::FINISHED_BY_DURATION->value),
-            StatusOfAttempt::FINISHED_BY_PARTICIPANT->value => $this->lng->txt(StatusOfAttempt::FINISHED_BY_PARTICIPANT->value),
-        ];
-
         $filters = [
             'name' => [$field_factory->text($this->lng->txt('name')), true],
             'login' => [$field_factory->text($this->lng->txt('login')), true],
@@ -333,7 +324,17 @@ class ParticipantTable implements DataRetrieval
         }
 
         $filters['status_of_attempt'] = [
-            $field_factory->select($this->lng->txt('status_of_attempt'), $status_of_attempt_options),
+            $field_factory->multiSelect(
+                $this->lng->txt('status_of_attempt'),
+                array_reduce(
+                    StatusOfAttempt::cases(),
+                    function (array $c, StatusOfAttempt $v): array {
+                        $c[$v->value] = $v->getTranslation($this->lng);
+                        return $c;
+                    },
+                    []
+                )
+            ),
             true
         ];
 

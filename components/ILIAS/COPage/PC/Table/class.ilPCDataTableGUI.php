@@ -524,7 +524,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
 
         $style_cb = new ilCheckboxInputGUI($lng->txt("cont_change_style"), "style_cb");
 
-        $style = new ilSelectInputGUI(
+        $style = new ilRadioGroupInputGUI(
             $this->lng->txt("cont_style"),
             "style"
         );
@@ -534,13 +534,17 @@ class ilPCDataTableGUI extends ilPCTableGUI
         $chars = $this->getCharacteristics();	// scorm-2004
         $options = array_merge(array("" => $this->lng->txt("none")), $chars);	// scorm-2004
         foreach ($options as $k => $option) {
-            $html = '<table border="0" cellspacing="0" cellpadding="0"><tr><td class="ilc_table_cell_' . $k . '">' .
-                $option . '</td></tr></table>';
-            //$style->addOption($k, $option, $html);
+            $class = "";
+            if ($k !== "") {
+                $class = ' class="' . ilLegacyFormElementsUtil::prepareFormOutput("ilc_table_cell_" . $k) . '"';
+            }
+            $html = '<table border="0" cellspacing="0" cellpadding="0"><tr><td' . $class . '>' .
+                ilLegacyFormElementsUtil::prepareFormOutput($option) . '</td></tr></table>';
+            $style->addOption(new ilRadioOption($html, (string) $k));
         }
 
         if (count($options) > 1) {
-            $style->setOptions($options);
+            $style->setValue("");
             $style_cb->addSubItem($style);
             $form->addItem($style_cb);
         }

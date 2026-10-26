@@ -119,7 +119,7 @@ class EvalMath
         // convert exponential notation
         $expr = preg_replace_callback(
             "/(\\d{0,1})e(-{0,1}\\d+)/is",
-            fn ($hit): string => $hit[1] . ((strlen($hit[1])) ? '*' : '') . '10^(' . $hit[2] . ')',
+            fn($hit): string => $hit[1] . ((strlen($hit[1])) ? '*' : '') . '10^(' . $hit[2] . ')',
             $expr
         );
         // standard functionality
@@ -139,8 +139,8 @@ class EvalMath
             } // get the result and make sure it's good
             $this->v[$matches[1]] = $tmp; // if so, stick it in the variable array
             return $this->v[$matches[1]]; // and return the resulting value
-        //===============
-        // is it a function assignment?
+            //===============
+            // is it a function assignment?
         } elseif (preg_match('/^\s*([a-z]\w*)\s*\(\s*([a-z]\w*(?:\s*,\s*[a-z]\w*)*)\s*\)\s*=\s*(.+)$/', $expr, $matches)) {
             $fnn = $matches[1]; // get the function name
             if (in_array($matches[1], $this->fb)) { // make sure it isn't built in
@@ -215,7 +215,7 @@ class EvalMath
                 $index++;
             } elseif ($op == '_') { // we have to explicitly deny this, because it's legal on the stack
                 return $this->trigger("illegal character '_'"); // but not in the input expression
-            //===============
+                //===============
             } elseif ((in_array($op, $ops) or $ex) and $expecting_op) { // are we putting an operator on the stack?
                 if ($ex) { // are we expecting an operator but have a number/variable/function/opening parethesis?
                     $op = '*';
@@ -229,7 +229,7 @@ class EvalMath
                 $stack->push($op); // finally put OUR operator onto the stack
                 $index++;
                 $expecting_op = false;
-            //===============
+                //===============
             } elseif ($op == ')' and $expecting_op) { // ready to close a parenthesis?
                 while (($o2 = $stack->pop()) != '(') { // pop off the stack back to the last (
                     if (is_null($o2)) {
@@ -255,7 +255,7 @@ class EvalMath
                     }
                 }
                 $index++;
-            //===============
+                //===============
             } elseif ($op == ',' and $expecting_op) { // did we just finish a function argument?
                 while (($o2 = $stack->pop()) != '(') {
                     if (is_null($o2)) {
@@ -273,12 +273,12 @@ class EvalMath
                 $stack->push('('); // put the ( back on, we'll need to pop back to it again
                 $index++;
                 $expecting_op = false;
-            //===============
+                //===============
             } elseif ($op == '(' and !$expecting_op) {
                 $stack->push('('); // that was easy
                 $index++;
                 $allow_neg = true;
-            //===============
+                //===============
             } elseif ($ex and !$expecting_op) { // do we now have a function/variable/number?
                 $expecting_op = true;
                 $val = $match[1];
@@ -296,7 +296,7 @@ class EvalMath
                     $output[] = $val;
                 }
                 $index += strlen($val);
-            //===============
+                //===============
             } elseif ($op == ')') { // miscellaneous error checking
                 return $this->trigger("unexpected ')'");
             } elseif (in_array($op, $ops) and !$expecting_op) {
@@ -362,10 +362,10 @@ class EvalMath
                         $stack->push(ilMath::_pow($op1, $op2));
                         break;
                 }
-            // if the token is a unary operator, pop one value off the stack, do the operation, and push it back on
+                // if the token is a unary operator, pop one value off the stack, do the operation, and push it back on
             } elseif ($token == "_") {
                 $stack->push(-1 * $stack->pop());
-            // if the token is a function, pop arguments off the stack, hand them to the function, and push the result back on
+                // if the token is a function, pop arguments off the stack, hand them to the function, and push the result back on
             } elseif (preg_match("/^([a-z]\w*)\($/", $token, $matches)) { // it's a function!
                 $fnn = $matches[1];
                 if (in_array($fnn, $this->fb)) { // built-in function:
@@ -390,7 +390,7 @@ class EvalMath
                     }
                     $stack->push($this->pfx($this->f[$fnn]['func'], $args)); // yay... recursion!!!!
                 }
-            // if the token is a number or variable, push it on the stack
+                // if the token is a number or variable, push it on the stack
             } else {
                 if (is_numeric($token)) {
                     $stack->push($token);

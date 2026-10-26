@@ -201,6 +201,9 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
                                 $obj_type,
                                 new \ILIAS\Data\ReferenceId($target_id)
                             );
+                            if (($int_link["Anchor"] ?? "") != "") {
+                                $href .= "#" . rawurlencode("copganc_" . $int_link["Anchor"]);
+                            }
                         } else {
                             $href = "#";
                         }

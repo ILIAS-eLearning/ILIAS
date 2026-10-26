@@ -23,7 +23,6 @@ require_once("vendor/composer/vendor/autoload.php");
 use ILIAS\UI\Implementation\Crawler\Entry\ComponentEntry as Entry;
 use ILIAS\UI\Implementation\Crawler\Entry\ComponentEntryDescription as Description;
 use ILIAS\UI\Implementation\Crawler\Entry\ComponentEntryRules as Rules;
-
 use PHPUnit\Framework\TestCase;
 
 class ComponentEntryTest extends TestCase

@@ -40,6 +40,7 @@ use ILIAS\FileDelivery\Delivery\LegacyDelivery;
 use ILIAS\FileDelivery\FileDeliveryServices;
 use ILIAS\FileDelivery\Token\DataSigning;
 use ILIAS\FileDelivery\Isolation\IsolationConfig;
+use ILIAS\FileDelivery\Activities\FilePayloadFactory;
 
 class FileDelivery implements Component
 {
@@ -109,5 +110,13 @@ class FileDelivery implements Component
             $internal[FileDeliveryServices::class],
             $use[GlobalHttpState::class],
         );
+
+        /**
+         * Every activity that delivers a file builds its result with this, so
+         * all of them look alike to their consumers - see the activities of the
+         * ResourceStorage.
+         */
+        $internal[FilePayloadFactory::class] = static fn() => new FilePayloadFactory();
+        $provide[FilePayloadFactory::class] = static fn() => $internal[FilePayloadFactory::class];
     }
 }

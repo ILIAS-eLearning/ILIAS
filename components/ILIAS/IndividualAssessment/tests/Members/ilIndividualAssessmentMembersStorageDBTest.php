@@ -256,7 +256,7 @@ class ilIndividualAssessmentMembersStorageDBTest extends TestCase
                     list($ev, $etype) = array_shift($consecutive);
                     $this->assertEquals($ev, $v);
                     $this->assertEquals($etype, $type);
-                    return (string)$v;
+                    return (string) $v;
                 }
             );
 
@@ -338,7 +338,7 @@ class ilIndividualAssessmentMembersStorageDBTest extends TestCase
                     list($ev, $etype) = array_shift($consecutive);
                     $this->assertEquals($ev, $v);
                     $this->assertEquals($etype, $type);
-                    return (string)$v;
+                    return (string) $v;
                 }
             );
 
@@ -641,7 +641,7 @@ class ilIndividualAssessmentMembersStorageDBTest extends TestCase
                     list($ev, $etype) = array_shift($consecutive);
                     $this->assertEquals($ev, $v);
                     $this->assertEquals($etype, $type);
-                    return (string)$v;
+                    return (string) $v;
                 }
             );
 

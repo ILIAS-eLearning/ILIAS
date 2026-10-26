@@ -80,7 +80,7 @@ class IOWrapper implements AdminInteraction
             return $this->style->ask(
                 $message,
                 null,
-                fn (string $input): bool => $type_text_to_confirm === $input
+                fn(string $input): bool => $type_text_to_confirm === $input
             );
         } else {
             $this->inform("Automatically confirmed:\n\n$message");

@@ -196,6 +196,10 @@ class MediaPoolTableBuilder extends CommonTableBuilder
                 );
         } elseif ($this->mode === 'selectsingle') {
             $table = $table->multiAction('selectObjectReference', $lng->txt('cont_select'));
+        } elseif ($this->mode === 'selectc') {
+            $table = $table
+                ->multiAction($this->insert_command, $lng->txt('insert'))
+                ->singleAction($this->insert_command . 'Single', $lng->txt('insert'));
         } else {
             $table = $table->multiAction($this->insert_command, $lng->txt('insert'));
         }

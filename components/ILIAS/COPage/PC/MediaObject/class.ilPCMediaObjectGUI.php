@@ -405,7 +405,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
                 $this->pool_view == "all",
                 $this->pool_view == "all" ? "insert_applyFilter" : null,
                 $this->pool_view == "all" ? "insert_resetFilter" : null,
-                $tmode === "selectsingle" ? "selectObjectReference" : "create_mob",
+                $tmode === "selectsingle" ? "selectObjectReference" : "create",
                 $this,
                 $tcmd
             );
@@ -573,11 +573,6 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
             return $this->content_obj;
         }
         return null;
-    }
-
-    protected function create_mob(): void
-    {
-        $this->create();
     }
 
     /**

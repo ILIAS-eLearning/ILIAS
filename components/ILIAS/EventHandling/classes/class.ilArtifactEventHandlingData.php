@@ -18,7 +18,6 @@
 
 class ilArtifactEventHandlingData
 {
-
     protected array $event_handling_data;
 
     public function __construct()

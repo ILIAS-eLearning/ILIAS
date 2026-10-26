@@ -30,7 +30,6 @@ use ILIAS\Setup\Artifact;
  */
 class ilCtrlBaseClassArtifactObjective extends BuildArtifactObjective
 {
-
     public function getArtifactName(): string
     {
         return "ctrl_base_classes";

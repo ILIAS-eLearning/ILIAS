@@ -1,0 +1,144 @@
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+
+/**
+ * LTI 1.1 copy of the former ilLTIToolResult (table lti_consumer_results), so that LTI1p1
+ * does not depend on other LTI code.
+ *
+ * @author      Saúl Díaz <sdiaz@surlabs.com>
+ * @author      Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
+ * @author      Björn Heyser <info@bjoernheyser.de>
+ */
+class ilLTI1p1ConsumerResult
+{
+    /**
+     * @var integer
+     */
+    public int $id;
+
+    /**
+     * @var integer
+     */
+    public int $obj_id;
+
+    /**
+     * @var integer
+     */
+    public int $usr_id;
+
+    /**
+     * @var float|null
+     */
+    public ?float $result = null;
+
+    /**
+     * @var bool
+     */
+    public bool $attended = false;
+
+    /**
+     * Get a result by object and user key
+     * @param int $a_obj_id
+     * @param int $a_usr_id
+     * @param bool|null $a_create
+     * @return ilLTI1p1ConsumerResult|null
+     */
+    public static function getByKeys(int $a_obj_id, int $a_usr_id, ?bool $a_create = false): ?ilLTI1p1ConsumerResult
+    {
+        global $DIC;
+
+        $query = 'SELECT * FROM lti_consumer_results'
+            . ' WHERE obj_id = ' . $DIC->database()->quote($a_obj_id, 'integer')
+            . ' AND usr_id = ' . $DIC->database()->quote($a_usr_id, 'integer');
+
+        $res = $DIC->database()->query($query);
+        if ($row = $DIC->database()->fetchAssoc($res)) {
+            $res_obj = new ilLTI1p1ConsumerResult();
+            $res_obj->fillData($row);
+            return $res_obj;
+        } elseif ($a_create) {
+            $res_obj = new ilLTI1p1ConsumerResult();
+            $res_obj->obj_id = $a_obj_id;
+            $res_obj->usr_id = $a_usr_id;
+            $res_obj->result = null;
+            $res_obj->save();
+            return $res_obj;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Fill the properties with data from an array
+     * @param array $data
+     */
+    protected function fillData(array $data): void
+    {
+        $this->id = (int) $data['id'];
+        $this->obj_id = (int) $data['obj_id'];
+        $this->usr_id = (int) $data['usr_id'];
+        $this->result = $data['result'] === null ? null : (float) $data['result'];
+        $this->attended = (bool) $data['attended'];
+    }
+
+    /**
+     * Save a result object
+     */
+    public function save(): bool
+    {
+        global $DIC; /* @var ILIAS\DI\Container $DIC */
+
+        if (!isset($this->usr_id) || !isset($this->obj_id)) {
+            return false;
+        }
+        if (!isset($this->id)) {
+            $this->id = $DIC->database()->nextId('lti_consumer_results');
+        }
+
+        $DIC->database()->replace(
+            'lti_consumer_results',
+            [
+                'id' => ['integer', $this->id]
+            ],
+            [
+                'obj_id' => ['integer', $this->obj_id],
+                'usr_id' => ['integer', $this->usr_id],
+                'result' => ['float', $this->result],
+                'attended' => ['integer', $this->attended]
+            ]
+        );
+        return true;
+    }
+
+    public function getObjId(): int
+    {
+        return $this->obj_id;
+    }
+
+    public function getUsrId(): int
+    {
+        return $this->usr_id;
+    }
+
+    public function setAttended(bool $attended): void
+    {
+        $this->attended = $attended;
+    }
+}

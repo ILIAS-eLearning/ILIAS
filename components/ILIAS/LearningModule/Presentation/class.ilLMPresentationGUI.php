@@ -94,6 +94,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
     protected \ILIAS\Style\Content\GUIService $content_style_gui;
     protected ?\ILIAS\Style\Content\Service $cs = null;
+    protected \ILIAS\COPage\Page\PageManagerInterface $page_manager;
 
     public function __construct(
         string $a_export_format = "",
@@ -104,6 +105,8 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         bool $embed_mode = false
     ) {
         global $DIC;
+
+        $this->page_manager = $DIC->copage()->internal()->domain()->page();
 
         $this->offline = ($a_export_format != "");
         $this->export_all_languages = $a_all_languages;
@@ -997,8 +1000,6 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
     public function ilLocator(): void
     {
-        global $DIC;
-        $ltiview = $DIC["lti"];
         $ilLocator = $this->locator;
 
         $a_id = $this->getLocatorObjectId();
@@ -1466,7 +1467,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
             $img_alt = "";
 
             // check page activation
-            $active = ilLMPage::_lookupActive(
+            $active = $this->page_manager->lookupActive(
                 $node["obj_id"],
                 $this->lm->getType(),
                 (bool) $this->lm_set->get("time_scheduled_page_activation")
@@ -1745,7 +1746,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
         foreach ($nodes as $node_key => $node) {
             // check page activation
-            $active = ilLMPage::_lookupActive(
+            $active = $this->page_manager->lookupActive(
                 $node["obj_id"],
                 $this->lm->getType(),
                 (bool) $this->lm_set->get("time_scheduled_page_activation")

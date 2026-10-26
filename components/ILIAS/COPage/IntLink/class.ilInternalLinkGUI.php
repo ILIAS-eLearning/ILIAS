@@ -18,11 +18,6 @@
 
 use ILIAS\COPage\IntLink\StandardGUIRequest;
 
-/**
- * Internal link selector
- * @author Alexander Killing <killing@leifos.de>
- * @deprecated 10 This component will be removed with ILIAS 10
- */
 class ilInternalLinkGUI
 {
     protected \ILIAS\MediaObjects\Thumbs\ThumbsGUI $thumbs_gui;

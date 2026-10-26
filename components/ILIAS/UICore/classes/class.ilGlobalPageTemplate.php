@@ -108,7 +108,8 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
             ilSessionReminder::byLoggedInUser(),
             $this,
             $this->lng,
-            $this->logging_config
+            $this->logging_config,
+            ILIAS\Authentication\SessionReminder\TokenCipher::fromKeyFile()
         );
 
         $sessionReminder->populatePage();

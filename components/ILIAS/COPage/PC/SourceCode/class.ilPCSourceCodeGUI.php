@@ -137,7 +137,7 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
         $this->displayValidationError();
 
         $cmd = $this->ctrl->getCmd();
-        if ($cmd == "create_src") {
+        if ($cmd == "create") {
             $form->setValuesByPost();
         } else {
             if ($this->getCurrentTextLang() != "") {

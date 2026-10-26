@@ -137,15 +137,15 @@ class ilStudyProgrammeMailMemberSearchGUI
         $ret = [];
         $foreign = $this->messages->getMessageCollection('mails_foreign_assignment');
 
-        foreach($data as  $entry) {
-            if($entry['root_id'] === $this->context_prg_obj_id) {
+        foreach ($data as $entry) {
+            if ($entry['root_id'] === $this->context_prg_obj_id) {
                 $ret[$entry['user_id']] = $entry;
             } else {
                 $foreign->add(false, 'foreign_assignment', $entry['name']);
             }
         }
 
-        if($foreign->hasErrors()) {
+        if ($foreign->hasErrors()) {
             $this->messages->showMessages($foreign);
         }
 

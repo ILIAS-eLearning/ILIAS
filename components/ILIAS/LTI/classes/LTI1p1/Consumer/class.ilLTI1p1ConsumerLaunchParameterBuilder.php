@@ -1,0 +1,184 @@
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+
+use ceLTIc\LTI\OAuth\OAuthConsumer;
+use ceLTIc\LTI\OAuth\OAuthRequest;
+use ceLTIc\LTI\OAuth\OAuthSignatureMethod_HMAC_SHA1;
+use ILIAS\Data\ReferenceId;
+
+/**
+ * Builds the parameters of an LTI 1.1 launch and signs them with OAuth1, using the credentials of the
+ * provider or the ones set on the object.
+ *
+ * @author Saúl Díaz <sdiaz@surlabs.com>
+ */
+final class ilLTI1p1ConsumerLaunchParameterBuilder
+{
+    /**
+     * The launch of the object, signed with OAuth1: with the key and secret of the object when the tool lets
+     * each object have its own, else with those of the tool.
+     *
+     * @throws ilWACException
+     * @throws Exception
+     */
+    public static function build(
+        ilObjLTITool $object,
+        ilCmiXapiUser $cmix_user,
+        string $token,
+        string $context_type,
+        string $context_id,
+        string $context_title,
+        ?string $return_url = ''
+    ): array {
+        global $DIC;
+        $tool = $object->getTool();
+        $ref_id = $object->getRefId();
+        $obj_id = $object->getId();
+        $title = $object->getTitle();
+        $description = $object->getDescription();
+        $launch_method = $object->getLaunchMethod();
+        $credentials = $object->getLti1p1Credentials();
+        $launch_key = $tool->isKeyCustomizable() ? $credentials->getKey() : $tool->getKey();
+        $launch_secret = $tool->isKeyCustomizable() ? $credentials->getSecret() : $tool->getSecret();
+        $custom_params_array = $object->getCustomParamsArray();
+        /* @var ILIAS\DI\Container $DIC */
+        $DIC->user()->setExternalAccount($cmix_user->getUsrIdent());
+
+        $roles = $DIC->access()->checkAccess('write', '', $ref_id) ? "Instructor" : "Learner";
+        if ($tool->getAlwaysLearner()) {
+            $roles = "Learner";
+        }
+
+        $resource_link_id = $ref_id;
+        if ($tool->getUseToolId()) {
+            $resource_link_id = 'p' . $tool->getId();
+        }
+
+        $usr_image = '';
+        if ($tool->getIncludeUserPicture()) {
+            $usr_image = $DIC->user()->getPersonalPicturePath();
+        }
+
+        $document_target = "window";
+        if ($launch_method === ilObjLTITool::LAUNCH_METHOD_EMBEDDED) {
+            $document_target = "iframe";
+        }
+
+        $name_given = '-';
+        $name_family = '-';
+        $name_full = '-';
+        switch ($tool->getPrivacyName()) {
+            case ilLTITool::PRIVACY_NAME_FIRSTNAME:
+                $name_given = $DIC->user()->getFirstname();
+                $name_full = $DIC->user()->getFirstname();
+                break;
+            case ilLTITool::PRIVACY_NAME_LASTNAME:
+                $usr_name = $DIC->user()->getUTitle() ? $DIC->user()->getUTitle() . ' ' : '';
+                $usr_name .= $DIC->user()->getLastname();
+                $name_family = $usr_name;
+                $name_full = $usr_name;
+                break;
+            case ilLTITool::PRIVACY_NAME_FULLNAME:
+                $name_given = $DIC->user()->getFirstname();
+                $name_family = $DIC->user()->getLastname();
+                $name_full = $DIC->user()->getFullname();
+                break;
+        }
+
+        $user_id_lti = ilCmiXapiUser::getIdentAsId($tool->getPrivacyIdent(), $DIC->user());
+
+        $email_primary = $cmix_user->getUsrIdent();
+        if ($tool->getPrivacyIdent() === ilObjCmiXapi::PRIVACY_IDENT_IL_UUID_RANDOM) {
+            $user_id_lti = strstr($email_primary, '@' . ilCmiXapiUser::getIliasUuid(), true);
+        }
+
+        ilLTIToolResult::start($obj_id, $DIC->user()->getId());
+
+        $tool_custom_params = $tool->getCustomParamsArray();
+        $merged_params = array_merge($tool_custom_params, $custom_params_array);
+
+        $launch_vars = [
+            "lti_message_type" => "basic-lti-launch-request",
+            "lti_version" => ilLTITool::VERSION_1P1,
+            "resource_link_id" => $resource_link_id,
+            "resource_link_title" => $title,
+            "resource_link_description" => $description,
+            "user_id" => $user_id_lti,
+            "user_image" => $usr_image,
+            "roles" => $roles,
+            "lis_person_name_given" => $name_given,
+            "lis_person_name_family" => $name_family,
+            "lis_person_name_full" => $name_full,
+            "lis_person_contact_email_primary" => $email_primary,
+            "context_id" => $context_id,
+            "context_title" => $context_title,
+            "context_label" => $context_type . " " . $context_id,
+            "launch_presentation_locale" => $DIC->language()->getLangKey(),
+            "launch_presentation_document_target" => $document_target,
+            "launch_presentation_return_url" => $return_url,
+            "tool_consumer_instance_guid" => ilLTIEndpoint::getInstanceGuid(),
+            "tool_consumer_instance_name" => $DIC->settings()->get("short_inst_name") ? $DIC->settings()->get(
+                "short_inst_name"
+            ) : CLIENT_ID,
+            "tool_consumer_instance_description" => ilObjSystemFolder::_getHeaderTitle(),
+            "tool_consumer_instance_url" => (string) $DIC["static_url"]->builder()->build("root", new ReferenceId(ROOT_FOLDER_ID)),
+            "tool_consumer_instance_contact_email" => $DIC->settings()->get("admin_email"),
+            "launch_presentation_css_url" => "",
+            "tool_consumer_info_product_family_code" => "ilias",
+            "tool_consumer_info_version" => ILIAS_VERSION,
+            "lis_result_sourcedid" => $token,
+            "lis_outcome_service_url" => ilLTIEndpoint::getUrl(ilLTIEndpoint::RESULT, "?client_id=" . CLIENT_ID)
+        ];
+
+        $oauth_params = [
+            "url" => $tool->getUrl(),
+            "key" => $launch_key,
+            "secret" => $launch_secret,
+            "callback" => "about:blank",
+            "http_method" => "POST",
+            "sign_method" => "HMAC_SHA1",
+            "token" => null,
+            "data" => ($launch_vars + $merged_params)
+        ];
+
+        return self::signOAuth($oauth_params);
+    }
+
+    /**
+     * Signs the launch data with OAuth 1.
+     *
+     * @param array $a_params sign_method, key, secret, token, callback, http_method, url and data
+     * @return array
+     * @throws Exception
+     */
+    public static function signOAuth(array $a_params): array
+    {
+        $method = match ($a_params['sign_method']) {
+            "HMAC_SHA1" => new OAuthSignatureMethod_HMAC_SHA1(),
+            default => throw new Exception("Unknown signature method: " . $a_params['sign_method']),
+        };
+
+        $consumer = new OAuthConsumer($a_params["key"], $a_params["secret"], $a_params["callback"]);
+        $request = OAuthRequest::from_consumer_and_token($consumer, $a_params["token"], $a_params["http_method"], $a_params["url"], $a_params["data"]);
+        $request->sign_request($method, $consumer, $a_params["token"]);
+
+        return $request->get_parameters();
+    }
+}

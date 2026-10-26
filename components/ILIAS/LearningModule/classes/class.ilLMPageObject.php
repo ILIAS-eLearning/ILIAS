@@ -298,14 +298,14 @@ class ilLMPageObject extends ilLMObject
             if (count($childs) > 1) {
                 $cnt = 0;
                 foreach ($childs as $child) {
-                    $active = ilLMPage::_lookupActive(
+                    $active = $DIC->copage()->internal()->domain()->page()->lookupActive(
                         $child["obj_id"],
                         ilObject::_lookupType($a_lm_id),
                         $a_time_scheduled_activation
                     );
 
                     if (!$active) {
-                        $act_data = ilLMPage::_lookupActivationData((int) $child["obj_id"], ilObject::_lookupType($a_lm_id));
+                        $act_data = $DIC->copage()->internal()->domain()->page()->lookupActivationData((int) $child["obj_id"], ilObject::_lookupType($a_lm_id));
                         if ($act_data["show_activation_info"] &&
                             (ilUtil::now() < $act_data["activation_start"])) {
                             $active = true;

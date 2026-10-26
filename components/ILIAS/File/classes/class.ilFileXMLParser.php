@@ -251,8 +251,8 @@ class ilFileXMLParser extends ilSaxParser
                             ilFileException::$ID_MISMATCH
                         );
                     }
-                    $rel      = self::normalizeRelativePath($this->cdata);
-                    $base     = realpath($importDir);
+                    $rel = self::normalizeRelativePath($this->cdata);
+                    $base = realpath($importDir);
                     $resolved = realpath($importDir . '/' . $rel);
                     if ($base === false || $resolved === false
                         || !str_starts_with($resolved, $base . DIRECTORY_SEPARATOR)) {

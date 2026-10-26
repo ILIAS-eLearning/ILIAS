@@ -218,7 +218,7 @@ class ilRepositoryTrashGUI
         foreach ($a_ids as $ref_id) {
             $obj_id = ilObject::_lookupObjId($ref_id);
             $type = ilObject::_lookupType($obj_id);
-            $title = call_user_func([ilObjectFactory::getClassByType($type), '_lookupTitle'], $obj_id);
+            $title = ilObject::_lookupTitle($obj_id);
             $alt = ($objDefinition->isPlugin($type))
                 ? $lng->txt("icon") . " " . ilObjectPlugin::lookupTxtById($type, "obj_" . $type)
                 : $lng->txt("icon") . " " . $lng->txt("obj_" . $type);
@@ -505,7 +505,7 @@ class ilRepositoryTrashGUI
         foreach ($a_ids as $id) {
             $obj_id = ilObject::_lookupObjId($id);
             $type = ilObject::_lookupType($obj_id);
-            $title = call_user_func([ilObjectFactory::getClassByType($type), '_lookupTitle'], $obj_id);
+            $title = ilObject::_lookupTitle($obj_id);
             $alt = ($objDefinition->isPlugin($type))
                 ? $lng->txt("icon") . " " . ilObjectPlugin::lookupTxtById($type, "obj_" . $type)
                 : $lng->txt("icon") . " " . $lng->txt("obj_" . $type);

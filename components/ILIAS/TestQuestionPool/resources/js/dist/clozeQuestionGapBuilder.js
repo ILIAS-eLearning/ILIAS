@@ -905,10 +905,10 @@ const ClozeQuestionGapBuilder = (function () {
           let points_value = values.points;
           points_value = points_value.toString().replace(',', '.');
           points += parseFloat(points_value);
-          if (parseFloat(points_value) > 0) {
+          if (parseFloat(points_value) > 0 ) {
             select_at_least_on_positive = true;
           }
-          if (isNaN(points_value) || points_value === '') {
+          if (isNaN(points_value) || points_value === '' || points_value.match(/^0[1-9][0-9\.]*$/) !== null) {
             pro.highlightRed($(`#gap_${row}\\[points\\]\\[${counter}\\]`));
             number = false;
           } else {
@@ -951,7 +951,7 @@ const ClozeQuestionGapBuilder = (function () {
   };
 
   pro.checkInputIsNumeric = function (number, row, field) {
-    if (isNaN(number.toString().replace(',', '.')) || number === '') {
+    if (isNaN(number.toString().replace(',', '.')) || number === '' || number.match(/^0[1-9][0-9\.]*$/) !== null) {
       pro.highlightRed($(`.gap_${row}_numeric${field}`));
       return 1;
     }
@@ -1162,7 +1162,9 @@ const ClozeQuestionGapBuilder = (function () {
   };
 
   pub.paintGaps = function () {
-    const last_position = $(window).scrollTop();
+    const scroll_container = document.querySelector('main.il-layout-page-content')
+      || document.scrollingElement;
+    const last_position = scroll_container.scrollTop;
     $('.interactive').remove();
     let c = 0;
     ClozeSettings.gaps_php.forEach((obj, counter) => {
@@ -1198,7 +1200,7 @@ const ClozeQuestionGapBuilder = (function () {
     if (typeof (tinyMCE) !== 'undefined') {
       ilTinyMceInitCallbackRegistry.addCallback(pro.bindTextareaHandlerTiny);
     }
-    $(window).scrollTop(last_position);
+    scroll_container.scrollTop = last_position;
   };
 
   pub.showHidePointsFieldForGaps = function (gap, show) {

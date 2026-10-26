@@ -17,6 +17,7 @@
  *********************************************************************/
 
 declare(strict_types=1);
+
 namespace ILIAS\Tests\Setup;
 
 use PHPUnit\Framework\TestCase;

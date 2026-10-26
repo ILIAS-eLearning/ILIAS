@@ -24,13 +24,13 @@ declare(strict_types=1);
  */
 class ilTestRandomQuestionsQuantitiesDistributionTest extends ilTestBaseTestCase
 {
-    private ilTestRandomQuestionsQuantitiesDistribution $testObj;
+    private ilTestRandomQuestionsQuantitiesDistribution $test_obj;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->testObj = new ilTestRandomQuestionsQuantitiesDistribution(
+        $this->test_obj = new ilTestRandomQuestionsQuantitiesDistribution(
             $this->createMock(ilDBInterface::class),
             $this->createMock(ilTestRandomSourcePoolDefinitionQuestionCollectionProvider::class),
             $this->createMock(ilTestRandomQuestionSetSourcePoolDefinitionList::class)
@@ -39,6 +39,6 @@ class ilTestRandomQuestionsQuantitiesDistributionTest extends ilTestBaseTestCase
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        $this->assertInstanceOf(ilTestRandomQuestionsQuantitiesDistribution::class, $this->testObj);
+        $this->assertInstanceOf(ilTestRandomQuestionsQuantitiesDistribution::class, $this->test_obj);
     }
 }

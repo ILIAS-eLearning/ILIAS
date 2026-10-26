@@ -51,7 +51,8 @@ class PostingManager
 
     public function getById(int $id): ?Posting
     {
-        return $this->repo->posting()->getById($id);
+        $posting = $this->repo->posting()->getById($id);
+        return $posting === null ? null : $this->withPageActivation($posting);
     }
 
     /**
@@ -59,7 +60,10 @@ class PostingManager
      */
     public function getAllByBlog(int $blog_id, int $limit = 1000, int $offset = 0): array
     {
-        return $this->repo->posting()->getAllByBlog($blog_id, $limit, $offset);
+        return array_map(
+            fn(Posting $posting): Posting => $this->withPageActivation($posting),
+            $this->repo->posting()->getAllByBlog($blog_id, $limit, $offset)
+        );
     }
 
     /**
@@ -89,7 +93,7 @@ class PostingManager
     {
         $pages = \ilPageObject::getAllPages("blp", $a_blog_id);
         $posts = [];
-        foreach ($this->repo->posting()->getAllByBlog(
+        foreach ($this->getAllByBlog(
             $a_blog_id,
             $a_limit,
             $a_offset
@@ -146,5 +150,12 @@ class PostingManager
         }
 
         return $result;
+    }
+
+    protected function withPageActivation(Posting $posting): Posting
+    {
+        return $posting->withActive(
+            $this->domain->pageManager()->lookupActive($posting->getId(), "blp")
+        );
     }
 }

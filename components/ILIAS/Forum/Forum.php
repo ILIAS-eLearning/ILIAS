@@ -40,5 +40,7 @@ class Forum implements Component\Component
             new Component\Resource\ComponentJS($this, "autosave_forum.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
         new Component\Resource\ComponentCSS($this, "forum_table.css");
+        $contribute[\ILIAS\Notifications\Interfaces\PushProviderInterface::class] = static fn() =>
+            new \ilForumPushProvider();
     }
 }

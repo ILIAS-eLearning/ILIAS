@@ -220,7 +220,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
     }
     public function removeIconFromIrss(string $identifier): void
     {
-        if($rid = $this->irss->manage()->find($identifier)) {
+        if ($rid = $this->irss->manage()->find($identifier)) {
             $this->irss->manage()->remove($rid, new ilStudyProgrammeTypeStakeholder());
         }
     }
@@ -328,7 +328,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
         }
 
 
-        if($rid = $this->irss->manage()->find($type->getIconIdentifier())) {
+        if ($rid = $this->irss->manage()->find($type->getIconIdentifier())) {
             $this->irss->manage()->remove($rid, new ilStudyProgrammeTypeStakeholder());
         }
         $this->deleteAllTranslationsByTypeId($type->getId());
@@ -404,7 +404,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
             $return[] = $this->createTypeByRow($row);
         }
 
-        if($order) {
+        if ($order) {
             list($order_field, $order_direction) = $order->join([], fn($ret, $key, $value) => [$key, $value]);
             usort(
                 $return,
@@ -430,7 +430,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
                 $return = array_reverse($return);
             }
         }
-        if($range) {
+        if ($range) {
             $return = array_slice($return, $range->getStart(), $range->getLength());
         }
 
@@ -747,12 +747,12 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
             $default_language = $type->getDefaultLang();
 
             $icon = $this->ui_factory->symbol()->icon()->standard('prg', $this->lng->txt('prg_type'), 'small');
-            if($type->getIconIdentifier() && $icon_path = $this->getIconPath($type)) {
+            if ($type->getIconIdentifier() && $icon_path = $this->getIconPath($type)) {
                 $icon = $this->ui_factory->symbol()->icon()->custom($icon_path, '');
             }
 
             yield $row_builder->buildDataRow(
-                (string)$type->getId(),
+                (string) $type->getId(),
                 [
                     'title' => $type->getTitle($default_language),
                     'description' => $type->getDescription($default_language),
@@ -766,7 +766,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
     public function getIconPathFS(ilStudyProgrammeType $type): ?string
     {
         $icon_id = $this->irss->manage()->find($type->getIconIdentifier());
-        if($icon_id) {
+        if ($icon_id) {
             return $this->irss->consume()->stream($icon_id)->getStream()->getMetadata('uri');
         }
         return null;
@@ -775,7 +775,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
     public function getIconPath(ilStudyProgrammeType $type): ?string
     {
         $icon_id = $this->irss->manage()->find($type->getIconIdentifier());
-        if($icon_id) {
+        if ($icon_id) {
             return $this->irss->consume()->src($icon_id)->getSrc();
         }
         return null;

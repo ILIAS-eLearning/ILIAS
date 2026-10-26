@@ -1515,27 +1515,6 @@ assessment#:#tst_hide_info_tab#:#Hide Info Tab###30 04 2024 new variable
 assessment#:#tst_hide_info_tab_desc#:#Hides the tab ‘Info’ of the test.###30 04 2024 new variable
 assessment#:#tst_hide_pagecontents#:#Hide page content###31 03 2023 new variable
 assessment#:#tst_hide_pagecontents_desc#:#ILIAS content placed before and after the actual question text via the "Edit Page" button will not be displayed in the result views and print output.###31 03 2023 new variable
-assessment#:#tst_highscore_achieved_ts#:#Mostra data del test
-assessment#:#tst_highscore_achieved_ts_description#:#Viene visualizzata una colonna aggiuntiva con l'ora del test.
-assessment#:#tst_highscore_all_tables#:#Proprio grado e classifica
-assessment#:#tst_highscore_all_tables_description#:#Mostra sia una tabella con il proprio posizionamento che una tabella con i migliori posizionamenti.
-assessment#:#tst_highscore_anon#:#Anonimizzazione delle voci.
-assessment#:#tst_highscore_anon_description#:#I posizionamenti degli altri partecipanti vengono visualizzati senza specificare i loro nomi. Ciò accade comunque con i test resi anonimi.
-assessment#:#tst_highscore_description#:#Nella scheda "Risultati", i partecipanti vedranno una sottoscheda "Posizionamento". Dopo aver cliccato, ai partecipanti verrà mostrata una tabella che mostra le prestazioni dei vari partecipanti al test. È necessario abilitare l'opzione "I partecipanti vedranno i risultati del test" per utilizzare questa funzione.
-assessment#:#tst_highscore_enabled#:#Visualizzazione dei punteggi piu' alti attivata
-assessment#:#tst_highscore_mode#:#Modalità
-assessment#:#tst_highscore_own_table#:#Mostra tabella 'punteggi personali'
-assessment#:#tst_highscore_own_table_description#:#Ai partecipanti viene mostrata una tabella con la loro posizione in tutti i posizionamenti.
-assessment#:#tst_highscore_percentage#:#Mostra percentuale
-assessment#:#tst_highscore_percentage_description#:#Viene visualizzata un'ulteriore colonna con l'indicazione del valore percentuale raggiunto.
-assessment#:#tst_highscore_score#:#Mostra punteggio
-assessment#:#tst_highscore_score_description#:#Viene visualizzata una colonna aggiuntiva con il dettaglio dei punti ottenuti.
-assessment#:#tst_highscore_top_num#:#Lunghezza della classifica
-assessment#:#tst_highscore_top_num_description#:#Determina il numero di voci visualizzate nella classifica.
-assessment#:#tst_highscore_top_table#:#Classifica dei migliori
-assessment#:#tst_highscore_top_table_description#:#I partecipanti vedranno una tabella con le prime classifiche.
-assessment#:#tst_highscore_wtime#:#Tempo di elaborazione
-assessment#:#tst_highscore_wtime_description#:#Viene visualizzata una colonna aggiuntiva con il tempo di elaborazione.
 assessment#:#tst_imap_qst_mode#:#Modalità di risposta
 assessment#:#tst_imap_qst_mode_mc#:#Scelta multipla
 assessment#:#tst_imap_qst_mode_sc#:#Scelta singola
@@ -2010,7 +1989,7 @@ assessment#:#uploaded_material#:#Materiale salvato
 assessment#:#use_previous_solution#:#Usa soluzione precedente
 assessment#:#use_previous_solution_advice#:#La soluzione mostrata per la domanda è quella che avete dato precedentemente. Bisogna confermare la soluzione adottata se si desidera utilizzarla senza modifiche.
 assessment#:#user_has_finished_a_test#:#Un partecipante ha terminato il test.
-assessment#:#user_ip_outside_range#:#You are not allowed to access the test from this IP.###28 11 2025 new variable
+assessment#:#user_ip_outside_range#:#You are not allowed to start the test from this IP address.###28 11 2025 new variable
 assessment#:#user_not_invited#:#Non sei ammesso ad eseguire questo test.
 assessment#:#usr_manscoring_complete#:#Marke as 'scored'###28 11 2025 new variable
 assessment#:#value_between_x_and_y#:#Il valore deve essere tra %s e %s
@@ -4557,7 +4536,9 @@ common#:#lso_edit#:#Modifica sequenza di apprendimento
 common#:#lso_import#:#Importa sequenza di apprendimento
 common#:#lso_new#:#Nuova Sequenza di Apprendimento
 common#:#lso_wizard_page#:#Copia sequenza di apprendimento (Step 2/2)
-common#:#lti_outcome#:#LTI Notifica progresso dell’apprendimento
+common#:#lti#:#Consumer LTI###14 10 2026 new variable
+common#:#lti_add#:#Add LTI Tool (Consumer)###22 09 2026 new variable
+common#:#lti_new#:#New LTI Tool (Consumer)###22 09 2026 new variable
 common#:#lti_outcome_info#:#Invia lo stato di progresso dell’apprendimento degli utenti LTI a Strumento del consumatore LTI.
 common#:#mail#:#Posta
 common#:#mail_addressbook#:#Rubrica
@@ -11184,7 +11165,7 @@ lso#:#table_title#:#Titolo
 lso#:#unparticipate#:#Annulla l'iscrizione
 lti#:#act_lti_for_obj_type#:#Attiva LTI per tipo di oggetto
 lti#:#activity_id#:#ID attività
-lti#:#activity_id_info#:#Questo ID attività viene utilizzato dal provider LTI per identificare gli statements.
+lti#:#activity_id_info#:#Questo ID attività viene utilizzato dallo strumento LTI per identificare gli statements.
 lti#:#auth_lti#:#Auth LTI
 lti#:#conf_privacy_ident#:#User identification###28 11 2025 new variable
 lti#:#conf_privacy_ident_il_uuid_SHA256#:#Hash combined with a unique ILIAS platform id formatted as an E-Mail address###28 11 2025 new variable
@@ -11212,31 +11193,9 @@ lti#:#conf_privacy_name_lastname#:#Title and last name###28 11 2025 new variable
 lti#:#conf_privacy_name_lastname_info#:#Sends Mister or Ms/Mrs. (unless otherwise specified) and the last name###28 11 2025 new variable
 lti#:#conf_privacy_name_none#:#No one###28 11 2025 new variable
 lti#:#conf_privacy_name_none_info#:#Sends '-' instead of a name###28 11 2025 new variable
-lti#:#conf_user_ident#:#User identification###28 11 2025 new variable
-lti#:#conf_user_ident_il_uuid_ext_account#:#External User ID combined with a unique ILIAS platform id formated as an email adress.###28 11 2025 new variable
-lti#:#conf_user_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.###28 11 2025 new variable
-lti#:#conf_user_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formated as an email adress.###28 11 2025 new variable
-lti#:#conf_user_ident_il_uuid_login_info#:#This is identical to each call, but may allow a direct conclusion about the ILIAS user.###28 11 2025 new variable
-lti#:#conf_user_ident_il_uuid_user_id#:#ILIAS user id combined with a unique ILIAS platform id formated as an email adress.###28 11 2025 new variable
-lti#:#conf_user_ident_il_uuid_user_id_info#:#This is identical to each call, but doesn't allow a direct conclusion about the ILIAS user.###28 11 2025 new variable
-lti#:#conf_user_ident_info#:#Standard is frequently the email address. The unique ILIAS platform id is:###28 11 2025 new variable
-lti#:#conf_user_ident_real_email#:#E-Mail Address###28 11 2025 new variable
-lti#:#conf_user_ident_real_email_info#:#Sends E-Mail Address of user as identification (Warning: an E-Mail Address might be used by multiple users!)###28 11 2025 new variable
 lti#:#conf_user_name#:#User name###28 11 2025 new variable
-lti#:#conf_user_name_firstname#:#First name###28 11 2025 new variable
-lti#:#conf_user_name_firstname_info#:#Sends the first name of the user name from ILIAS###28 11 2025 new variable
-lti#:#conf_user_name_fullname#:#Entire name###28 11 2025 new variable
-lti#:#conf_user_name_fullname_info#:#Sends title, first name and last name###28 11 2025 new variable
-lti#:#conf_user_name_info#:#Sending an user name is usually not required.###28 11 2025 new variable
-lti#:#conf_user_name_lastname#:#Title and last name###28 11 2025 new variable
-lti#:#conf_user_name_lastname_info#:#Sends Mister or Ms/Mrs. (unless otherwise specified) and the last name###28 11 2025 new variable
-lti#:#conf_user_name_none#:#No one###28 11 2025 new variable
-lti#:#conf_user_name_none_info#:#Sends '-' instead of a name###28 11 2025 new variable
 lti#:#consumers#:#Consumatori
 lti#:#description_info#:#La descrizione verrà mostrata sotto il titolo.
-lti#:#field_provider_xml#:#File XML
-lti#:#field_provider_xml_info#:#Sono supportati file XML per strumento utenti e per cartuccia comune in accordo a https://www.imsglobal.org/specs/lti/xml.
-lti#:#form_import_provider#:#Importa fornitore globale
 lti#:#gbl_roles_to_users#:#Ruolo globale assegnato agli utenti LTI
 lti#:#global_provider_subtab#:#Fornitori globali per tutti gli utenti
 lti#:#grade_activity_progress_all#:#All Information on Activity Progress###30 04 2024 new variable
@@ -11263,7 +11222,6 @@ lti#:#highscore_own_table_description#:#I partecipanti visualizzano la propria p
 lti#:#highscore_percentage#:#Percentuale
 lti#:#highscore_percentage_description#:#Una colonna contenente il punteggio come percentuale sarà inclusa nella classifica.
 lti#:#highscore_score#:#Punteggio
-lti#:#highscore_score_description#:#Una colonna contenente il punteggio sarà inclusa nella classifica.
 lti#:#highscore_top_num#:#Numero di voci dei migliori risultati
 lti#:#highscore_top_num_description#:#Specifica quanti punteggi devono essere inclusi nella classifica dei migliori risultati.
 lti#:#highscore_top_num_unit#:#voci
@@ -11280,27 +11238,22 @@ lti#:#launch_method_own_win#:#Propria finestra
 lti#:#launch_method_own_win_info#:#Il contenuto viene aperto nella stessa finestra e rimpiazza la schermata di ILIAS. Quando viene abbandonato il contenuto si ritornerà alla schermata ILIAS.
 lti#:#launched#:#La risorsa è stata già avviata.
 lti#:#learning_progress_options#:#Opzioni per i progressi didattici
-lti#:#lm_only_one_download_per_type#:#Si prega di notare che è possibile creare un solo file per tipo (XLM, HTML, SCORM) accessibile al pubblico.
 lti#:#lti13_hints#:#Hints###31 03 2023 new variable
 lti#:#lti_13_authentication_url#:#Authentication Request URL###04 12 2025 new variable
 lti#:#lti_13_client_id#:#Client-ID###31 03 2023 new variable
 lti#:#lti_13_deployment_id#:#Deployment-ID###31 03 2023 new variable
 lti#:#lti_13_keyset_url#:#Public Keyset URL###04 12 2025 new variable
 lti#:#lti_13_platform_id#:#Platform-ID###31 03 2023 new variable
-lti#:#lti_13_step1#:#Step 1###31 03 2023 new variable
-lti#:#lti_13_step1_info#:#For the initiating platform (consumer), enter the following address for Launch URL, Initiate Login URL, Redirection URI, and Registration URL:###31 03 2023 new variable
-lti#:#lti_13_step2#:#Step 2###31 03 2023 new variable
-lti#:#lti_13_step2_info#:#You will receive information from the initiating platform (Consumer), which you must enter in the following fields. After saving, the LTI 1.3 functionalities are available.###31 03 2023 new variable
 lti#:#lti_13_token_url#:#Access Token URL###04 12 2025 new variable
+lti#:#lti_1p1_deprecated_info#:#LTI 1.1 is deprecated: 1EdTech ended all support for it on 30 June 2022 and it will be removed from ILIAS in a future version. Please use LTI 1.3 (LTI Advantage) whenever the other system supports it.###17 09 2026 new variable
+lti#:#lti_1p1_deprecated_link#:#1EdTech: Security Update and Deprecation Schedule for Early Versions of LTI###18 09 2026 new variable
 lti#:#lti_action_accept_provider_as_global#:#Accetta fornitori come globali per tutti gli utenti
-lti#:#lti_action_accept_providers_as_global#:#Accetta fornitori come globali
-lti#:#lti_action_delete_providers#:#Cancella fornitore
-lti#:#lti_action_edit_provider#:#Modifica fornitore
 lti#:#lti_action_reset_provider_to_user_scope#:#Resetta il fornitore come fornitore definito dall'utente
-lti#:#lti_action_reset_providers_to_user_scope#:#Resetta i fornitori come definiti dall'utente
 lti#:#lti_add_global_provider#:#Aggiungi fornitore globale per tutti gli utenti
-lti#:#lti_add_own_provider#:#Aggiungi fornitore personale (non per tutti gli utenti)
+lti#:#lti_add_own_provider#:#Aggiungi strumento personale (non per tutti gli utenti)
 lti#:#lti_admin#:#Amministratore LTI
+lti#:#lti_at_least_one_not_acceptable_as_global#:#At least one of the selected tools cannot be accepted as global tool, because it has no creator or is already global.###17 09 2026 new variable
+lti#:#lti_at_least_one_not_resetable_to_usr_def#:#At least one of the selected tools cannot be reset to user defined tool, because it has no creator or is already user defined.###17 09 2026 new variable
 lti#:#lti_at_least_one_prov_has_usages#:#Almeno uno dei provider non può essere cancellato perchè sono utilizzati (potrebbero essere nel cestino)
 lti#:#lti_auth_failed_invalid_key#:#Autenticazione fallita, nessuna chiave del consumatore valida fornita.
 lti#:#lti_con_content_item#:#Support for Deep Linking###31 03 2023 new variable
@@ -11314,6 +11267,8 @@ lti#:#lti_con_key_type_jwk_url#:#URL###31 03 2023 new variable
 lti#:#lti_con_key_type_rsa#:#RSA-Key###31 03 2023 new variable
 lti#:#lti_con_key_type_rsa_public_key#:#Public Key###31 03 2023 new variable
 lti#:#lti_con_key_type_rsa_public_key_info#:#Insert the key provided by the tool (provider) in PEM format here.###31 03 2023 new variable
+lti#:#lti_con_names_roles#:#Names and Role Provisioning Services###01 10 2026 new variable
+lti#:#lti_con_names_roles_info#:#The tool may read the members of the course or group of its objects and their roles, as far as the privacy settings of the tool allow.###01 10 2026 new variable
 lti#:#lti_con_prov_always_learner#:#L'utente LTI è sempre il Learner
 lti#:#lti_con_prov_always_learner_info#:#Di solito il ruolo in ILIAS è mappato a un ruolo LTI. Gli amministratori del corso possono ottenere più diritti (esempio: manipolazione degli oggetti). Attiva questa opzione per evitare il mapping dei ruoli.
 lti#:#lti_con_prov_authentication#:#Autenticazione
@@ -11336,7 +11291,6 @@ lti#:#lti_con_prov_group_options#:#Opzione per raggruppare e filtrare i fornitor
 lti#:#lti_con_prov_has_outcome_service#:#Il fornitore supporta l'esito
 lti#:#lti_con_prov_has_outcome_service_info#:#Se il protocollo LTI dell'esito è supportato, l'avanzamento del progresso può essere attivato.<br />Il fornitore produrrà un valore tra 0 e 1 per indicare il progresso.
 lti#:#lti_con_prov_hints#:#Suggerimenti
-lti#:#lti_con_prov_icon#:#Icone
 lti#:#lti_con_prov_inc_usr_pic#:#Invia immagine utente
 lti#:#lti_con_prov_inc_usr_pic_info#:#I link alle Immagini utente ILIAS sono incluse all'avvio del'oggetto consumatore LTI.
 lti#:#lti_con_prov_instructor_email#:#Instructor E-Mail###31 03 2023 new variable
@@ -11350,10 +11304,6 @@ lti#:#lti_con_prov_launch_options#:#Opzioni di avvio
 lti#:#lti_con_prov_learning_progress_options#:#Opzioni per l'avanzamento del progresso
 lti#:#lti_con_prov_mastery_score_default#:#Soglia di punteggio predefinita
 lti#:#lti_con_prov_mastery_score_default_info#:#Il progresso dell'apprendimento sarà valutato dal servizio di esito del fornitore e dal punteggio di soglia.
-lti#:#lti_con_prov_privacy_setting_conf#:#Opzioni di configurazione
-lti#:#lti_con_prov_privacy_setting_default#:#Opzioni predefinite, modificabili per gli Oggetti
-lti#:#lti_con_prov_privacy_setting_force#:#Opzioni non modificabili per gli Oggetti
-lti#:#lti_con_prov_privacy_setting_info#:#Opzioni di Configurazione per la Privacy
 lti#:#lti_con_prov_privacy_settings#:#Opzioni di privacy
 lti#:#lti_con_prov_provider_key_global#:#Chiave e segreto predefiniti
 lti#:#lti_con_prov_provider_key_global_info#:#Se non impostata, gli utenti dovranno impostare la chiave e il segreto per utilizzare il fornitore.
@@ -11368,93 +11318,93 @@ lti#:#lti_con_prov_use_xapi_info#:#Il fornitore supporta gli statements xAPI
 lti#:#lti_con_prov_xapi_activity_id#:#ID Attività
 lti#:#lti_con_prov_xapi_activity_id_info#:#L'ID Attività è necessario per richiedere dati dal Learning Record Store. Compila questo campo solo se l'assegnazione della risorsa del fornitore all'ID Attività è unica! Se viene lasciato vuoto, l'ID Attività può essere inserito dal consumatore LTI. L'ID attività può essere richiesto dal fornitore LTI.
 lti#:#lti_con_prov_xapi_launch_key#:#Chiave dell'Endpoint LRS
-lti#:#lti_con_prov_xapi_launch_key_info#:#&nbsp;
 lti#:#lti_con_prov_xapi_launch_secret#:#Segreto dell'Endpoint LRS
-lti#:#lti_con_prov_xapi_launch_secret_info#:#&nbsp;
 lti#:#lti_con_prov_xapi_launch_url#:#URL dell'Endpoint LRS
 lti#:#lti_con_prov_xapi_launch_url_info#:#Per favore inserisci l'URL completo con https://
 lti#:#lti_con_redirection_uris#:#Redirection URI###31 03 2023 new variable
 lti#:#lti_con_tool_url#:#Launch URL###31 03 2023 new variable
 lti#:#lti_con_version#:#LTI Version###31 03 2023 new variable
-lti#:#lti_con_version_1.1#:#Version 1.1###31 03 2023 new variable
 lti#:#lti_con_version_1.3#:#Version 1.3###31 03 2023 new variable
 lti#:#lti_con_version_1.3_before_id#:#If dynamic registration is not used, after entering the data provided by the tool, additional data will appear that must be entered with the tool.###28 07 2023 new variable
 lti#:#lti_confirm_delete_providers#:#Sei sicuro di voler eliminare i seguenti fornitori?
 lti#:#lti_consumer#:#Approvazione per
 lti#:#lti_consumer_created#:#Consumatore creato
 lti#:#lti_consumer_deleted#:#Consumatore eliminato
-lti#:#lti_consumer_key#:#Chiave del consumatore
-lti#:#lti_consumer_secret#:#Segreto del consumatore
 lti#:#lti_consumer_set_active#:#Consumatore attivato
 lti#:#lti_consumer_set_inactive#:#Consumatore disattivato
 lti#:#lti_consumer_updated#:#Consumatore aggiornato
 lti#:#lti_consuming_tab#:#ILIAS come Consumatore LTI
-lti#:#lti_copy#:#Copia consumatore
 lti#:#lti_create_consumer#:#Crea consumatore
 lti#:#lti_create_lti_user_role#:#Crea un ruolo globale raccomandato per gli utenti LTI
-lti#:#lti_cron_title#:#Servizio esiti LTI
-lti#:#lti_cron_title_desc#:#Sincronizza i progressi didattici degli utenti LTI con i consumatori LTI, se supporta il servizio degli esiti. Questo cron job è richiesto solo per trasferire aggiornamenti di stato dopo l'aggiornamento dei settaggi dei progressi didattici.
-lti#:#lti_custom_new#:#Impostazioni di creazione fornitore personale
-lti#:#lti_deep_linking_not_available_for_admin_objects#:#I consumer creati in Amministrazione non consentono la selezione del contenuto
-lti#:#lti_delete_consume_provider#:#Elimina fornitore
-lti#:#lti_delete_consume_providers#:#Elimina fornitori
+lti#:#lti_cron_title#:#LTI Grade Service###06 10 2026 changed variable
+lti#:#lti_cron_title_desc#:#Sends the learning progress of LTI users that changed since the last run to their platform again, so that a score the platform could not take at the time, e.g. because it was not reachable, still reaches it. Scores the platform has already are not sent again.###06 10 2026 changed variable
+lti#:#lti_custom_new#:#Crea impostazioni dello strumento personale
+lti#:#lti_deep_linking_expired#:#This selection has expired. Start the content selection in the platform again.###29 09 2026 new variable
+lti#:#lti_deep_linking_failed#:#The content selected in the tool could not be added. Please try again.###29 09 2026 new variable
+lti#:#lti_deep_linking_no_content#:#The tool did not send any content that can be added as an LTI object.###29 09 2026 new variable
+lti#:#lti_deep_linking_running#:#Select the content in the tool. An object is created for each content item the tool sends back.###29 09 2026 new variable
+lti#:#lti_deep_linking_select#:#Select Content###29 09 2026 new variable
+lti#:#lti_deep_linking_select_info#:#Select the ILIAS objects to add to the platform.###29 09 2026 new variable
+lti#:#lti_deep_linking_submit#:#Add###29 09 2026 new variable
+lti#:#lti_deep_linking_url#:#Deep Linking URL###29 09 2026 new variable
 lti#:#lti_delete_provider#:#Elimina fornitore
+lti#:#lti_dyn_reg_failed#:#The tool could not be registered. Check the registration URL and try again.###28 09 2026 new variable
+lti#:#lti_dyn_reg_finish#:#Finish Registration###28 09 2026 new variable
+lti#:#lti_dyn_reg_running#:#Complete the registration in the tool below. The object is created as soon as the tool reports that it is done. If the tool does not report it, click “Finish Registration” once you are done.###28 09 2026 new variable
+lti#:#lti_dyn_reg_tool_done#:#ILIAS has been registered with the platform.###28 09 2026 new variable
+lti#:#lti_dyn_reg_tool_failed#:#ILIAS could not be registered with the platform.###28 09 2026 new variable
+lti#:#lti_dyn_reg_tool_url#:#Dynamic Registration URL###28 09 2026 new variable
+lti#:#lti_dyn_reg_tool_url_after_save#:#Save the platform to get a URL for LTI Advantage Dynamic Registration.###28 09 2026 new variable
+lti#:#lti_dyn_reg_tool_url_info#:#Enter this URL in the platform to register ILIAS through LTI Advantage Dynamic Registration. It is valid for 24 hours and for one registration. Each time this form opens, it shows a new URL.###28 09 2026 new variable
 lti#:#lti_dynamic_registration#:#Create Own Settings for Tool with Dynamic Registration (LTI 1.3)###04 12 2025
 lti#:#lti_edit_consumer#:#Modifica consumatore LTI
 lti#:#lti_exit#:#Chiudi sessione LTI
 lti#:#lti_exited#:#Sessione LTI chiusa
 lti#:#lti_exited_info#:#Sessione LTI chiusa con successo
-lti#:#lti_form_provider_content_selection#:#Selezione contenuto
 lti#:#lti_form_provider_create#:#Impostazioni di creazione fornitore
 lti#:#lti_form_provider_edit#:#Modifica impostazioni del fornitore
 lti#:#lti_form_section_appearance#:#Opzioni di avvio
-lti#:#lti_global_settings_form#:#Impostazioni globali
-lti#:#lti_import_global_provider#:#Importa il fornitore globale per gli utenti da un file XML
-lti#:#lti_info_external_provider_info#:#Il fornitore utilizzato è un fornitore esterno. Un fornitore esterno è caratterizzato da una scarsa influenza sul fornitore da parte di ILIAS. Questo è il caso se non ci sono ad esempio i permessi di cancellare i dati.
-lti#:#lti_info_external_provider_label#:#Informazioni aggiuntive su questo fornitore
+lti#:#lti_info_external_provider_info#:#Lo strumento utilizzato è uno strumento esterno. Uno strumento esterno è caratterizzato da una scarsa influenza sullo strumento da parte di ILIAS. Questo è il caso se non ci sono ad esempio i permessi di cancellare i dati.
+lti#:#lti_info_external_provider_label#:#Informazioni aggiuntive su questo strumento
 lti#:#lti_info_learning_progress_section#:#Informazioni sulla determinazione dei progressi didattici
 lti#:#lti_info_privacy_section#:#Informazioni sui dati personali trasmessi all'avvio al fornitore
 lti#:#lti_launch_url#:#Url
 lti#:#lti_member#:#Membro LTI
-lti#:#lti_navigation#:#Navigazione
 lti#:#lti_no_provider_selected#:#Nessun fornitore selezionato
-lti#:#lti_not_allowed#:#Accesso negato. La tua richiesta è stata reindirizzata alla radice dell’oggetto LTI.
-lti#:#lti_obj_active#:#Fornitore degli strumenti LTI
-lti#:#lti_obj_active_info#:#Se abilitato, questo oggetto funge da fornitore di strumenti LTI. I nuovi utenti LTI possono essere automaticamente assegnati ai seguenti ruoli locali.
-lti#:#lti_obj_version#:#LTI Version###31 03 2023 new variable
-lti#:#lti_obj_version_11#:#Version 1.1###31 03 2023 new variable
-lti#:#lti_obj_version_13#:#Version 1.3###31 03 2023 new variable
 lti#:#lti_object_consumer#:#Consumatori LTI
 lti#:#lti_object_release_settings_form#:#Modifica versioni LTI
+lti#:#lti_platform_names_roles_info#:#When an instructor or administrator of the platform launches an object, ILIAS reads the members of the course at the platform. Members without an account get one with the roles of the release, also those who never launch ILIAS.###06 10 2026 new variable
+lti#:#lti_platform_registration#:#LTI Advantage Registration###17 09 2026 new variable
+lti#:#lti_platform_registration_incomplete#:#Fill in all fields of the registration or leave them all empty.###28 09 2026 new variable
+lti#:#lti_platform_registration_info#:#Filled in when the platform registers ILIAS through Dynamic Registration. Otherwise, enter the data the platform gives for ILIAS.###28 09 2026 new variable
+lti#:#lti_platform_registration_taken#:#Another platform is already registered with this platform ID, client ID and deployment ID.###29 09 2026 new variable
 lti#:#lti_provider#:#Versioni LTI
-lti#:#lti_provider_not_avail_msg#:#Il fornitore è impostato come 'Non disponibile'
-lti#:#lti_provider_not_set_msg#:#Configuration of LTI Provider / tool is not completely finished.###08 07 2025 new variable
+lti#:#lti_provider_not_avail_msg#:#Lo strumento è impostato come 'Non disponibile'
+lti#:#lti_provider_not_set_msg#:#La configurazione dello strumento LTI non è completa.###08 07 2025 new variable
 lti#:#lti_providing_tab#:#ILIAS come fornitore LTI
 lti#:#lti_released_objects#:#Versioni degli Oggetti
-lti#:#lti_select_provider#:#Seleziona un fornitore
-lti#:#lti_session#:#Sessione LTI
+lti#:#lti_select_provider#:#Seleziona uno strumento
 lti#:#lti_settings#:#Impostazioni LTI
 lti#:#lti_settings_form#:#Impostazioni oggetto
 lti#:#lti_success_accept_as_global#:#Accettato con successo come fornitore globale per tutti gli utenti
-lti#:#lti_success_accept_as_global_multi#:#Accettato con successo come fornitore globale per tutti gli utenti
 lti#:#lti_success_delete_provider#:#Eliminato correttamente
 lti#:#lti_success_reset_to_usr_def#:#Reimpostato con successo come fornitore definito dall'utente
-lti#:#lti_success_reset_to_usr_def_multi#:#Reimpostato con successo come fornitore definito dall'utente
 lti#:#lti_tutor#:#Istruttore LTI
 lti#:#lti_user_role_created#:#Il ruolo globale raccomandato per gli utenti LTI è stato creato.
-lti#:#lti_user_role_info#:#Il ruolo globale raccomandato per gli utenti LTI non è ancora stato creato in questa installazione. Questo ruolo globale speciale contiene solo il permesso 'visibile' per il repository e per le categorie.
+lti#:#lti_user_role_info#:#Il ruolo globale raccomandato per gli utenti LTI non è ancora stato creato in questa installazione. Questo ruolo globale speciale contiene solo il permesso 'lettura' per il repository e per le categorie.
+lti#:#lti_version_1p1_deprecated#:#LTI 1.1 (Deprecated)###17 09 2026 new variable
+lti#:#lti_version_advantage#:#LTI 1.3 (LTI Advantage)###17 09 2026 new variable
 lti#:#mastery_score#:#Punteggio di padronanza
-lti#:#mastery_score_info#:#Il progresso dell'apprendimento sarà valutato in base al servizio di risultato del fornitore e alla soglia del punteggio di padronanza.
+lti#:#mastery_score_info#:#Il progresso dell'apprendimento sarà valutato in base al servizio di risultato dello strumento e alla soglia del punteggio di padronanza.
 lti#:#obj_tile_image_info#:#Utilizzare un'immagine quadrata
 lti#:#online_info#:#Questo rende l'oggetto visibile e utilizzabile per gli utenti.
 lti#:#prefix#:#Prefisso
-lti#:#provider_info#:#Fornitore utilizzato
+lti#:#provider_info#:#Strumento utilizzato
 lti#:#settings_subtab#:#Impostazioni
 lti#:#show_statements#:#Mostra esperienze di apprendimento
 lti#:#show_statements_info#:#Le esperienze di apprendimento di altri utenti potrebbero essere visualizzate se è impostata correttamente "Visualizza esperienze di apprendimento di altri utenti".
-lti#:#subtab_certificate#:#Certificato
 lti#:#subtab_object_settings#:#Impostazioni oggetto
-lti#:#subtab_provider_settings#:#Impostazioni fornitore LTI
+lti#:#subtab_provider_settings#:#Impostazioni strumento LTI
 lti#:#tab_content#:#Contenuto
 lti#:#tab_grade_synchronization#:#Gradebook
 lti#:#tab_info#:#Info
@@ -11468,11 +11418,9 @@ lti#:#tbl_grade_grading_progress#:#Grading Progress###30 04 2024 new variable
 lti#:#tbl_grade_period#:#Period###31 03 2023 new variable
 lti#:#tbl_grade_score#:#Score###31 03 2023 new variable
 lti#:#tbl_grade_stored#:#Transmitted to ILIAS###30 04 2024 new variable
-lti#:#tbl_lti_prov_all_categories#:#Tutte le categorie
 lti#:#tbl_lti_prov_availability#:#Disponibilità
 lti#:#tbl_lti_prov_category#:#Categoria
 lti#:#tbl_lti_prov_description#:#Descrizione
-lti#:#tbl_lti_prov_icon#:#Icona
 lti#:#tbl_lti_prov_internal#:#Fornitore interno
 lti#:#tbl_lti_prov_keyword#:#Parola chiave
 lti#:#tbl_lti_prov_keywords#:#Parole chiave
@@ -11487,11 +11435,10 @@ lti#:#tbl_lti_prov_used_by#:#Fornitore utilizzato per gli oggetti nell'albero
 lti#:#tbl_lti_prov_with_key#:#Predefinito con Chiave / Segreto
 lti#:#tbl_provider_header#:#Fornitore LTI
 lti#:#tbl_provider_usage_header#:#Fornitore LTI
-lti#:#tbl_provider_usage_header_info#:#Prima di eliminare i fornitori, è necessario eliminare anche gli oggetti spostati nel cestino.
 lti#:#title_info#:#Dai un titolo all'oggetto.
 lti#:#usage_subtab#:#Utilizzi
 lti#:#use_xapi#:#Utilizza il supporto alle xAPI
-lti#:#use_xapi_info#:#Questo fornitore LTI supporta gli statements xAPI.
+lti#:#use_xapi_info#:#Questo strumento LTI supporta gli statements xAPI.
 lti#:#user_lng#:#Lingua utente
 lti#:#user_provider_subtab#:#Fornitori definiti dagli utenti
 ltiv#:#ltiv_create#:#Crea certificato per Oggetto consumatore LTI.

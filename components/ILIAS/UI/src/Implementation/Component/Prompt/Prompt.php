@@ -25,7 +25,6 @@ use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
-
 use ILIAS\Data\URI;
 
 /**

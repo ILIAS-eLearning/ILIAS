@@ -118,15 +118,10 @@ il.IntLink = {
 	 * @param id			(in case of page editor undefined)
 	 */
   initPanel(internal_link, id) {
-    // move node to body to prevent form in form, see e.g. #16369
-    $('#ilIntLinkModal').appendTo('body');
     if (internal_link != undefined) {
       this.setInternalLinkUrl(internal_link);
       this.id = id.substring(0, id.length - 5);
     }
-
-    const parent = document.getElementById('ilIntLinkModal');
-    parent.innerHTML = JSON.parse(il.IntLink.modalTemplate);
 
     il.IntLink.showPanel();
     const j = this.getInternalLinkUrl();
@@ -138,6 +133,12 @@ il.IntLink = {
 	 * panel is used by other features, too (e.g. wiki link handling)
 	 */
   showPanel() {
+    // Prepare the shared modal for all callers, including wiki links.
+    // Move node to body to prevent form in form, see e.g. #16369.
+    $('#ilIntLinkModal').appendTo('body');
+    const parent = document.getElementById('ilIntLinkModal');
+    parent.innerHTML = JSON.parse(il.IntLink.modalTemplate);
+
     const showSignal = il.IntLink.modalShowSignal;
     $(document).trigger(
       showSignal,

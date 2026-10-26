@@ -208,6 +208,27 @@ final class ilServicesFileServicesTest extends TestCase
     }
 
     /**
+     * The title is no path, slashes must not cut off everything in front of them,
+     * see https://mantis.ilias.de/view.php?id=47801
+     */
+    public function testFileNamePolicyKeepsTitleInFrontOfSlash(): void
+    {
+        foreach ([true, false] as $as_ascii) {
+            $settings = $this->createMock(ilFileServicesSettings::class);
+            $settings->method('getBlackListedSuffixes')->willReturn([]);
+            $settings->method('getWhiteListedSuffixes')->willReturn(['pdf', 'pptx']);
+            $settings->method('isASCIIConvertionEnabled')->willReturn($as_ascii);
+
+            $policy = new ilFileServicesPolicy($settings);
+            $this->assertSame(
+                'Thema MF J+S-Coach 2027_28.pptx',
+                $policy->prepareFileNameForConsumer('Thema MF J+S-Coach 2027/28.pptx')
+            );
+            $this->assertSame('a_b_c.pdf', $policy->prepareFileNameForConsumer('a/b\\c.pdf'));
+        }
+    }
+
+    /**
      * Control characters must not survive, they are invisible in the title but break
      * paths and HTTP headers built from it, see https://mantis.ilias.de/view.php?id=30709
      */

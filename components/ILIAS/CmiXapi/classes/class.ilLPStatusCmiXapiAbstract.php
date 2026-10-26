@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 /**
- * Class ilLPStatusLTIConsumerAbstract
+ * Class ilLPStatusCmiXapiAbstract
  *
  * @author      Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
  * @author      Björn Heyser <info@bjoernheyser.de>

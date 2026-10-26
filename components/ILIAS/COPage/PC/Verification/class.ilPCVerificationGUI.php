@@ -114,7 +114,7 @@ class ilPCVerificationGUI extends ilPageContentGUI
         $data = [];
         if ($a_insert) {
             $form->setTitle($this->lng->txt('cont_insert_verification'));
-            $form->addCommandButton('create_verification', $this->lng->txt('save'));
+            $form->addCommandButton('create', $this->lng->txt('save'));
             $form->addCommandButton('cancelCreate', $this->lng->txt('cancel'));
         } else {
             $form->setTitle($this->lng->txt('cont_update_verification'));
@@ -189,11 +189,6 @@ class ilPCVerificationGUI extends ilPageContentGUI
         $workspaceCertificates->setValue($data['id']);
 
         return $form;
-    }
-
-    public function create_verification(): void
-    {
-        $this->create();
     }
 
     public function create(): void

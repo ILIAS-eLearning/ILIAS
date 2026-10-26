@@ -18,15 +18,12 @@
 
 declare(strict_types=1);
 
-use ILIAS\Setup\Agent\HasNoNamedObjective;
 use ILIAS\Setup\Agent\NullAgent;
 use ILIAS\Setup\Config;
 use ILIAS\Setup\Objective;
 
 class ilNewsSetupAgent extends NullAgent
 {
-    use HasNoNamedObjective;
-
     public function getUpdateObjective(?ILIAS\Setup\Config $config = null): Objective
     {
         return new ilDatabaseUpdateStepsExecutedObjective(new ilNewsDBUpdateSteps());
@@ -36,6 +33,7 @@ class ilNewsSetupAgent extends NullAgent
     {
         return [
             new ilNewsDefaultVisibilityMigration(),
+            new ilNewsHideDateMigration()
         ];
     }
 }

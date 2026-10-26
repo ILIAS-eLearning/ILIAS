@@ -104,8 +104,7 @@ class ScoreSettingsDatabaseRepository implements ScoreSettingsRepository
             $settings->getResultSummarySettings()->toStorage(),
             $settings->getResultDetailsSettings()
                 ->withShowPassDetails($settings->getResultSummarySettings()->getShowPassDetails())
-                ->toStorage(),
-            $settings->getGamificationSettings()->toStorage()
+                ->toStorage()
         );
 
         $this->db->update(

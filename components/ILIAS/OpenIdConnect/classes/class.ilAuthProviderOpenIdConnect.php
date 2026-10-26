@@ -18,17 +18,16 @@
 
 declare(strict_types=1);
 
-use Jumbojett\OpenIDConnectClient;
-
 class ilAuthProviderOpenIdConnect extends ilAuthProvider
 {
     private const OIDC_AUTH_IDTOKEN = 'oidc_auth_idtoken';
+    private const OIDC_LOGOUT_STATE = 'oidc_logout_state';
+    private const OIDC_LOGOUT_USER_LANGUAGE = 'oidc_logout_user_language';
 
     private const ERR_AUTH_FAILED = 'auth_oidc_failed';
     private const ERR_AUTH_WRONG_LOGIN = 'err_wrong_login';
 
     private readonly ilOpenIdConnectSettings $settings;
-    /** @var array $body */
     private readonly ilLogger $logger;
     private readonly ilLanguage $lng;
 
@@ -43,27 +42,77 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider
         $this->lng->loadLanguageModule('auth');
     }
 
-    public function handleLogout(): void
+    /**
+     * Static post-logout redirect URI for OP registration (OpenID Connect RP-Initiated Logout).
+     * Same endpoint as login; pending logout is detected via ilSession.
+     */
+    public function getPostLogoutRedirectUri(): string
+    {
+        return ILIAS_HTTP_PATH . '/openidconnect.php';
+    }
+
+    public function isPostLogoutPending(): bool
+    {
+        $state = ilSession::get(self::OIDC_LOGOUT_STATE);
+
+        return is_string($state) && $state !== '';
+    }
+
+    public function handleLogout(ilObjUser $user): void
     {
         if ($this->settings->getLogoutScope() === ilOpenIdConnectSettings::LOGOUT_SCOPE_LOCAL) {
             return;
         }
 
         $id_token = ilSession::get(self::OIDC_AUTH_IDTOKEN);
+        if (!isset($id_token) || $id_token === '') {
+            return;
+        }
+
         $this->logger->debug('Logging out with token: ' . $id_token);
 
-        if (isset($id_token) && $id_token !== '') {
-            ilSession::set(self::OIDC_AUTH_IDTOKEN, '');
-            $oidc = $this->initClient();
-            try {
-                $oidc->signOut(
-                    $id_token,
-                    ILIAS_HTTP_PATH . '/' . ilStartUpGUI::logoutUrl()
-                );
-            } catch (\Jumbojett\OpenIDConnectClientException $e) {
-                $this->logger->warning('Logging out of OIDC provider failed with: ' . $e->getMessage());
-            }
+        // Keep dynamic logout context in the ILIAS session; only a static URI is sent to the OP.
+        $state = bin2hex(random_bytes(16));
+        ilSession::set(self::OIDC_LOGOUT_STATE, $state);
+        ilSession::set(self::OIDC_LOGOUT_USER_LANGUAGE, $user->getLanguage());
+        ilSession::set(self::OIDC_AUTH_IDTOKEN, '');
+
+        $oidc = $this->initClient();
+
+        try {
+            $oidc->signOutWithState(
+                $id_token,
+                $this->getPostLogoutRedirectUri(),
+                $state
+            );
+        } catch (\Jumbojett\OpenIDConnectClientException $e) {
+            ilSession::set(self::OIDC_LOGOUT_STATE, '');
+            ilSession::set(self::OIDC_LOGOUT_USER_LANGUAGE, '');
+            $this->logger->warning('Logging out of OIDC provider failed with: ' . $e->getMessage());
         }
+    }
+
+    public function validatePostLogoutState(string $state): bool
+    {
+        $expected_state = ilSession::get(self::OIDC_LOGOUT_STATE);
+
+        if (!is_string($expected_state) || $expected_state === '' || !hash_equals($expected_state, $state)) {
+            $this->logger->warning('OpenID Connect post-logout state validation failed.');
+
+            return false;
+        }
+
+        ilSession::set(self::OIDC_LOGOUT_STATE, '');
+
+        return true;
+    }
+
+    public function consumePostLogoutUserLanguage(): string
+    {
+        $language = ilSession::get(self::OIDC_LOGOUT_USER_LANGUAGE);
+        ilSession::set(self::OIDC_LOGOUT_USER_LANGUAGE, '');
+
+        return is_string($language) && $language !== '' ? $language : 'en';
     }
 
     public function doAuthentication(ilAuthStatus $status): bool
@@ -172,9 +221,9 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider
         return $status;
     }
 
-    private function initClient(): OpenIDConnectClient
+    private function initClient(): ilOpenIdConnectClient
     {
-        $oidc = new OpenIDConnectClient(
+        $oidc = new ilOpenIdConnectClient(
             $this->settings->getProvider(),
             $this->settings->getClientId(),
             $this->settings->getSecret()

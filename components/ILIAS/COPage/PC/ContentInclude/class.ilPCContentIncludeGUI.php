@@ -154,9 +154,9 @@ class ilPCContentIncludeGUI extends ilPageContentGUI
     /**
      * create new content include in dom and update page in db
      */
-    public function create(): void
+    public function create(?array $ids = null): void
     {
-        $ids = $this->request->getIntArray("id");
+        $ids ??= $this->request->getIntArray("id");
         if (count($ids) > 0) {
             for ($i = count($ids) - 1; $i >= 0; $i--) {
                 // similar code in ilpageeditorgui::insertFromClipboard
@@ -176,6 +176,11 @@ class ilPCContentIncludeGUI extends ilPageContentGUI
         } else {
             $this->insert();
         }
+    }
+
+    public function createSingle(int $id): void
+    {
+        $this->create([$id]);
     }
 
     /**

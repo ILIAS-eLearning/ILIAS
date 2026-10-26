@@ -94,7 +94,7 @@ export default class ParagraphUIActionHandler {
               'SourceCode',
               params.pcid,
               params.hierid,
-            ));
+            ), this.ui.uiModel.pcFormActions.SourceCode);
             form_sent = true;
           }
           break;

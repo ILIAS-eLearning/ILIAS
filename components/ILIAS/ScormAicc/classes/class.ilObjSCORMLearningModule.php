@@ -255,24 +255,38 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
     //        return "";
     //    }
 
-    public function getTrackedUsers(string $a_search): array
+    public function getTrackedUsers(array $filters = []): array
     {
         global $DIC;
         $ilDB = $DIC->database();
-        $ilUser = $DIC->user();
-        //TODO: UK last_access is not correct if no Commit or last_visited_sco
-        //		$query = 'SELECT user_id,MAX(c_timestamp) last_access, lastname, firstname FROM scorm_tracking st ' .
-        $query = 'SELECT user_id, last_access, lastname, firstname FROM sahs_user st ' .
-            'JOIN usr_data ud ON st.user_id = ud.usr_id ' .
-            'WHERE obj_id = ' . $ilDB->quote($this->getId(), 'integer');
-        if ($a_search) {
-            //			$query .= ' AND (' . $ilDB->like('lastname', 'text', '%' . $a_search . '%') . ' OR ' . $ilDB->like('firstname', 'text', '%' . $a_search . '%') .')';
-            $query .= ' AND ' . $ilDB->like('lastname', 'text', '%' . $a_search . '%');
+        // NOTE: `sahs_user.last_access` is only refreshed on attempt init / commit / unload;
+        // if a SCO skips commit/unload, this value may be older than the user's actual last interaction.
+        $where = [
+            'su.obj_id = ' . $ilDB->quote($this->getId(), ilDBConstants::T_INTEGER)
+        ];
+
+        $text_filter_columns = [
+            'lastname_filter' => 'ud.lastname',
+            'firstname_filter' => 'ud.firstname',
+            'login_filter' => 'ud.login',
+            'email_filter' => 'ud.email',
+        ];
+
+        foreach ($text_filter_columns as $filter_key => $column) {
+            $value = trim((string) ($filters[$filter_key] ?? ''));
+            if ($value === '') {
+                continue;
+            }
+            $where[] = $ilDB->like($column, ilDBConstants::T_TEXT, '%' . $value . '%');
         }
-        $query .= ' GROUP BY user_id, lastname, firstname, last_access';
+
+        $query = 'SELECT su.user_id, su.last_access, ud.lastname, ud.firstname, ud.login, ud.email FROM sahs_user su '
+            . 'JOIN usr_data ud ON su.user_id = ud.usr_id '
+            . 'WHERE ' . implode(' AND ', $where)
+            . ' GROUP BY su.user_id, su.last_access, ud.lastname, ud.firstname, ud.login, ud.email';
         $sco_set = $ilDB->query($query);
 
-        $items = array();
+        $items = [];
         while ($sco_rec = $ilDB->fetchAssoc($sco_set)) {
             $items[] = $sco_rec;
         }

@@ -72,6 +72,14 @@ class ilContextSaml implements ilContextTemplate
 
     public static function modifyHttpPath(string $httpPath): string
     {
+        try {
+            $uri = new \ILIAS\Data\URI($httpPath);
+            if ($uri->getPath() === 'module.php' || str_starts_with($uri->getPath(), 'module.php/')) {
+                return (string) $uri->withPath(null);
+            }
+        } catch (\Throwable) {
+            return $httpPath;
+        }
         return $httpPath;
     }
 }

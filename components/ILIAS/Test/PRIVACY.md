@@ -22,7 +22,7 @@ The Test component employs the following components, please consult the respecti
   - [Export](https://github.com/ILIAS-eLearning/ILIAS/tree/trunk/components/ILIAS/Export)
   - [InfoScreen](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/components/ILIAS/InfoScreen/PRIVACY.md)
   - [KioskMode](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/components/ILIAS/KioskMode/PRIVACY.md)
-  - [LTI Provider](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/components/ILIAS/LTIProvider/PRIVACY.md): Is used to provide the Test via LTI and is able to present personal data.
+  - [LTI](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/components/ILIAS/LTI/PRIVACY.md): Is used to provide the Test via LTI and is able to present personal data.
   - [Metadata](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/components/ILIAS/MetaData/Privacy.md): Stores the full name of the author of the test.
   - [Notes](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/components/ILIAS/Notes/Privacy.md)
   - [Object](https://github.com/ILIAS-eLearning/ILIAS/tree/trunk/components/ILIAS/ILIASObject)

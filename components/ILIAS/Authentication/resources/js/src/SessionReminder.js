@@ -103,7 +103,7 @@ export default class SessionReminder {
     this.#logger.info('Stopped periodical executer');
 
     const formData = new FormData();
-    formData.append('hash', this.#options.hash);
+    formData.append('token', this.#options.token);
 
     fetch(this.#options.url, {
       method: 'POST',

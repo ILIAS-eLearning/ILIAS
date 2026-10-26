@@ -28,6 +28,7 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
     protected int $cnt_lmobj = 0;
     protected string $obj_id = "";
     protected string $transl = "";
+    protected \ILIAS\COPage\Page\PageManagerInterface $page_manager;
 
     /**
      * @param object|string $a_parent_obj
@@ -42,12 +43,13 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
 
         $this->user = $DIC->user();
         $this->lm = $a_lm;
+        $this->page_manager = $DIC->copage()->internal()->domain()->page();
 
         $tree = ilLMTree::getInstance($this->lm->getId());
 
         $this->cnt_lmobj = ilLMObject::preloadDataByLM($this->lm->getId());
 
-        ilPageObject::preloadActivationDataByParentId($this->lm->getId());
+        $this->page_manager->preloadActivationDataByParentId($this->lm->getId());
 
         if ($a_id == "") {
             $a_id = "lm_exp";

@@ -145,7 +145,8 @@ class AllModernComponents implements \ILIAS\Component\EntryPoint
         protected Logging\Logger\LoggerFactoryInterface $logger_factory,
         protected Logging\Logger\DefaultConfigLoggerFactoryInterface $default_config_logger_factory,
         protected Logging\Config\ConfigInterface $logging_config,
-        protected ConditionTypes $lso_condition_types
+        protected ConditionTypes $lso_condition_types,
+        protected \ILIAS\LTI\View $lti_view
     ) {
     }
 
@@ -258,6 +259,7 @@ class AllModernComponents implements \ILIAS\Component\EntryPoint
         $DIC['logging.defaultConfigFactory'] = fn(): Logging\Logger\DefaultConfigLoggerFactoryInterface => $this->default_config_logger_factory;
         $DIC['logging.config'] = fn(): Logging\Config\ConfigInterface => $this->logging_config;
         $DIC[ConditionTypes::class] = fn(): ConditionTypes => $this->lso_condition_types;
+        $DIC['lti'] = fn(): \ILIAS\LTI\View => $this->lti_view;
     }
 
     public function getName(): string

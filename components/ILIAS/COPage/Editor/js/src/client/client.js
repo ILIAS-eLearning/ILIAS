@@ -208,15 +208,15 @@ export default class Client {
    * Send form (includes redirect, use sendCommand to do ajax!)
    * @param {CommandAction} command_action
    */
-  sendForm(command_action) {
+  sendForm(command_action, formAction = this.form_action) {
     const data = command_action.getParams();
     if (data.cmd) {
       data[`cmd[${data.cmd}]`] = '-';
     }
 
-    this.log(`client.sendForm ${this.form_action}`);
+    this.log(`client.sendForm ${formAction}`);
     this.log(data);
 
-    FormWrapper.postForm(this.form_action, data);
+    FormWrapper.postForm(formAction, data);
   }
 }
