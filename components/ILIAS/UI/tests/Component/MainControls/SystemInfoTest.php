@@ -230,6 +230,11 @@ EOT;
             public function getOnLoadCodeAsync(): string
             {
             }
+
+            public function clearOnLoadCodeAsync(): void
+            {
+                $this->on_load_code = [];
+            }
         });
     }
 

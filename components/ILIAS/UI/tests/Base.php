@@ -227,6 +227,11 @@ class LoggingJavaScriptBinding implements JavaScriptBinding
     {
         return "";
     }
+
+    public function clearOnLoadCodeAsync(): void
+    {
+        $this->on_load_code = [];
+    }
 }
 
 class TestDefaultRenderer extends DefaultRenderer

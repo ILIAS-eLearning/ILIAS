@@ -198,6 +198,39 @@ class DefaultRendererTest extends ILIAS_UI_TestBase
         $this->assertEquals('foo<script data-replace-marker="script">id:foo.id content:foo</script>', $html);
     }
 
+    public function testClearOnLoadCodeBeforeSyncRendering(): void
+    {
+        $js_binding = $this->createMock(JavaScriptBinding::class);
+        $js_binding->expects($this->never())->method('clearOnLoadCodeAsync');
+
+        $sync_component_1 = new JSTestComponent("foo");
+        $sync_component_2 = new JSTestComponent("bar");
+
+        $renderer = $this->getDefaultRenderer($js_binding);
+
+        $sync_html_1 = $renderer->render($sync_component_1);
+        $sync_html_2 = $renderer->render($sync_component_2);
+
+        $this->assertStringNotContainsString("script", $sync_html_1);
+        $this->assertStringNotContainsString("script", $sync_html_2);
+    }
+
+    public function testClearOnLoadCodeBeforeAsyncRendering(): void
+    {
+        $js_binding = $this->createMock(JavaScriptBinding::class);
+        $js_binding->expects($this->once())->method('clearOnLoadCodeAsync');
+
+        $sync_component = new JSTestComponent("foo");
+        $async_component = new JSTestComponent("bar");
+
+        $renderer = $this->getDefaultRenderer($js_binding);
+
+        $sync_html = $renderer->render($sync_component);
+        $async_html = $renderer->renderAsync($async_component);
+
+        $this->assertStringNotContainsString("foo", $async_html);
+    }
+
     public function testRenderAsyncArray(): void
     {
         $c1 = new TestComponent("foo");
