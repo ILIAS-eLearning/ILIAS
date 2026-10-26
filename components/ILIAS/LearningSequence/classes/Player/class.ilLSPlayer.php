@@ -234,13 +234,13 @@ class ilLSPlayer
             $content = $this->amendAdaptiveContent($content, $items, $item);
         }
         if ($this->isAdaptive() && $show_choice) {
-            $this->page_renderer->addCss(self::PLAYER_CSS);
             $situation = $this->getAdaptiveSituation($items, $item);
             if ($situation === 'branch') {
                 $obj_title = $this->choice_page_builder->getHeadline();
                 $obj_description = '';
                 $content = $this->buildAdaptiveChoiceContent($items, $item);
             } elseif ($situation === 'deadend') {
+                $this->page_renderer->addCss(self::PLAYER_CSS);
                 $obj_title = $this->txt('lso_player_dead_end_title');
                 $obj_description = '';
                 $content = $this->buildAdaptiveDeadEndContent();

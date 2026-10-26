@@ -249,6 +249,7 @@ class ilLSLocalDI extends Container
             $choice_page_builder = new LSChoicePageBuilder(
                 $dic["ui.factory"],
                 $dic["lng"],
+                $dic["ilObjDataCache"],
                 $c["player.urlbuilder"],
                 ilLSPlayer::LSO_CMD_GOTO
             );
