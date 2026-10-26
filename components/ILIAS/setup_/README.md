@@ -65,10 +65,10 @@ plugin, use `php cli/setup.php install --legacy-plugin <plugin name>`. A configu
 file is only required when that plugin's agent has configuration.
 
 A legacy plugin may contribute its own setup agent by implementing `ILIAS\Setup\Agent`.
-The contributed agent is added to the default agent of that legacy plugin, unless it
-already extends `ilPluginDefaultAgent`. It can supply further objectives. Installation,
-update and activation stay with the default agent. Activation runs during installation
-only. `update` does not activate a legacy plugin again that an administrator has
+Unless the contributed agent already extends `ilPluginDefaultAgent`, the setup adds the
+default objectives of that legacy plugin (installation, update and activation) to it.
+Named objectives, migrations and the configuration of the contributed agent keep their
+names. Activation runs during installation only. `update` does not activate a legacy plugin again that an administrator has
 deactivated.
 
 The install command also offers the option to import a zip file during setup. The 
