@@ -761,7 +761,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
     {
         $components = [$this->buildImportForm()];
 
-        $token = $this->getImportToken();
+        $token = $this->getToken(self::IMPORT_TOKEN_PARAMETER);
         $pending = $this->getPendingImport($token);
         if ($pending === null) {
             // a cancelled or abandoned confirmation, uploads left over from it
@@ -816,13 +816,11 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         $handler = $this->getImportUploadHandler();
         $identifier = (string) ($data['file'][0] ?? '');
         $mode = (string) ($data['mode'] ?? '');
-        if ($data !== null && $handler->getFileName($identifier) === null) {
+        $file_missing = $handler->getFileName($identifier) === null;
+        if ($data !== null && $file_missing) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('upload_error_file_not_found'));
         }
-        if ($data === null
-            || $handler->getFileName($identifier) === null
-            || !in_array($mode, self::IMPORT_MODES, true)
-        ) {
+        if ($data === null || $file_missing || !in_array($mode, self::IMPORT_MODES, true)) {
             // no clean-up here, the form keeps referring to its upload
             $this->tpl->setContent($this->ui_renderer->render($form));
             return;
@@ -839,21 +837,18 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
             return;
         }
 
-        $token = bin2hex(random_bytes(8));
         // only the identifier of an upload of this session is stored, never a path
-        ilSession::set(self::IMPORT_PENDING_SESSION_KEY, [
-            'token' => $token,
-            'obj_id' => $this->object->getId(),
-            'mode' => $mode,
-            'upload' => $identifier,
-        ]);
-        $this->ctrl->setParameter($this, self::IMPORT_TOKEN_PARAMETER, $token);
+        $this->storePending(
+            self::IMPORT_PENDING_SESSION_KEY,
+            self::IMPORT_TOKEN_PARAMETER,
+            ['mode' => $mode, 'upload' => $identifier]
+        );
         $this->ctrl->redirect($this, 'import');
     }
 
     public function importConfirmedObject(): void
     {
-        $pending = $this->getPendingImport($this->getImportToken());
+        $pending = $this->getPendingImport($this->getToken(self::IMPORT_TOKEN_PARAMETER));
         if ($pending === null) {
             $this->discardPendingImport();
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('action_aborted'), true);
@@ -906,22 +901,59 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
     ): \ILIAS\UI\Component\Modal\Interruptive {
         $key = 'language_mode_existing_' . $mode;
         $file_name = (string) $this->getImportUploadHandler()->getFileName($identifier);
-        $this->ctrl->setParameter($this, self::IMPORT_TOKEN_PARAMETER, $token);
-        $form_action = $this->ctrl->getFormAction($this, 'importConfirmed');
-        $this->ctrl->clearParameterByClass(self::class, self::IMPORT_TOKEN_PARAMETER);
 
         // label and info are trusted language texts, the info may contain markup
-        return $this->ui_factory->modal()->interruptive(
+        return $this->buildConfirmModal(
             $this->lng->txt('language_import_file'),
             '<b>' . $this->lng->txt($key) . '</b><br />' . $this->lng->txt($key . '_info') . '<br />'
             . $this->lng->txt('file') . ': ' . htmlspecialchars($file_name, ENT_QUOTES, 'UTF-8'),
-            $form_action
-        )->withAffectedItems([
+            'importConfirmed',
+            self::IMPORT_TOKEN_PARAMETER,
+            $token
+        )->withActionButtonLabel($this->lng->txt('confirm'));
+    }
+
+    /** Interruptive modal for the language of this object, posting to the confirmation command with the token. */
+    private function buildConfirmModal(
+        string $title,
+        string $message,
+        string $confirm_cmd,
+        string $token_parameter,
+        string $token
+    ): \ILIAS\UI\Component\Modal\Interruptive {
+        $this->ctrl->setParameter($this, $token_parameter, $token);
+        $form_action = $this->ctrl->getFormAction($this, $confirm_cmd);
+        $this->ctrl->clearParameterByClass(self::class, $token_parameter);
+
+        return $this->ui_factory->modal()->interruptive($title, $message, $form_action)->withAffectedItems([
             $this->ui_factory->modal()->interruptiveItem()->standard(
                 (string) $this->object->getId(),
                 $this->lng->txt('meta_l_' . $this->object->key)
             ),
-        ])->withActionButtonLabel($this->lng->txt('confirm'));
+        ]);
+    }
+
+    /** Stores a pending action for this language in the session and puts its one-time token into the URL. */
+    private function storePending(string $session_key, string $token_parameter, array $data): void
+    {
+        $token = bin2hex(random_bytes(8));
+        ilSession::set($session_key, ['token' => $token, 'obj_id' => $this->object->getId()] + $data);
+        $this->ctrl->setParameter($this, $token_parameter, $token);
+    }
+
+    /** The pending action stored for this token and language, or null. */
+    private function getPending(string $session_key, string $token): ?array
+    {
+        $pending = ilSession::get($session_key);
+        if ($token === ''
+            || !is_array($pending)
+            || !hash_equals((string) ($pending['token'] ?? ''), $token)
+            || ($pending['obj_id'] ?? null) !== $this->object->getId()
+        ) {
+            return null;
+        }
+
+        return $pending;
     }
 
     private function getImportUploadHandler(): ilLanguageImportUploadHandlerGUI
@@ -929,14 +961,14 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         return $this->import_upload_handler ??= new ilLanguageImportUploadHandlerGUI();
     }
 
-    private function getImportToken(): string
+    private function getToken(string $parameter): string
     {
-        if (!$this->request_wrapper->has(self::IMPORT_TOKEN_PARAMETER)) {
+        if (!$this->request_wrapper->has($parameter)) {
             return '';
         }
 
         return $this->request_wrapper->retrieve(
-            self::IMPORT_TOKEN_PARAMETER,
+            $parameter,
             $this->refinery->byTrying([$this->refinery->kindlyTo()->string(), $this->refinery->always('')])
         );
     }
@@ -948,11 +980,8 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
      */
     private function getPendingImport(string $token): ?array
     {
-        $pending = ilSession::get(self::IMPORT_PENDING_SESSION_KEY);
-        if ($token === ''
-            || !is_array($pending)
-            || !hash_equals((string) ($pending['token'] ?? ''), $token)
-            || ($pending['obj_id'] ?? null) !== $this->object->getId()
+        $pending = $this->getPending(self::IMPORT_PENDING_SESSION_KEY, $token);
+        if ($pending === null
             || !in_array($pending['mode'] ?? null, self::IMPORT_MODES, true)
             || !is_string($pending['upload'] ?? null)
         ) {
@@ -1117,7 +1146,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
     public function maintainObject(?\ILIAS\UI\Component\Input\Container\Form\Standard $form = null): void
     {
         $components = [$form ?? $this->buildMaintainForm()];
-        $token = $this->getMaintainToken();
+        $token = $this->getToken(self::MAINTAIN_TOKEN_PARAMETER);
         $option = $this->getPendingMaintainOption($token);
         if ($option === null) {
             // a cancelled or abandoned confirmation
@@ -1174,21 +1203,15 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
     private function buildMaintainConfirmModal(string $option, string $token): \ILIAS\UI\Component\Modal\Interruptive
     {
         [$label, $info] = $this->getMaintainOptions()[$option];
-        $this->ctrl->setParameter($this, self::MAINTAIN_TOKEN_PARAMETER, $token);
-        $form_action = $this->ctrl->getFormAction($this, 'maintainConfirmed');
-        $this->ctrl->clearParameterByClass(self::class, self::MAINTAIN_TOKEN_PARAMETER);
 
         // label and info are trusted language texts, the info may contain markup
-        return $this->ui_factory->modal()->interruptive(
+        return $this->buildConfirmModal(
             $this->lng->txt('language_maintenance'),
             '<b>' . $label . '</b><br />' . $info,
-            $form_action
-        )->withAffectedItems([
-            $this->ui_factory->modal()->interruptiveItem()->standard(
-                (string) $this->object->getId(),
-                $this->lng->txt('meta_l_' . $this->object->key)
-            ),
-        ])->withActionButtonLabel($this->lng->txt('language_process_maintenance'));
+            'maintainConfirmed',
+            self::MAINTAIN_TOKEN_PARAMETER,
+            $token
+        )->withActionButtonLabel($this->lng->txt('language_process_maintenance'));
     }
 
     /** Destructive options are only stored here and run by maintainConfirmedObject() after the confirmation. */
@@ -1216,19 +1239,17 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
             return;
         }
 
-        $token = bin2hex(random_bytes(8));
-        ilSession::set(self::MAINTAIN_PENDING_SESSION_KEY, [
-            'token' => $token,
-            'obj_id' => $this->object->getId(),
-            'option' => $option,
-        ]);
-        $this->ctrl->setParameter($this, self::MAINTAIN_TOKEN_PARAMETER, $token);
+        $this->storePending(
+            self::MAINTAIN_PENDING_SESSION_KEY,
+            self::MAINTAIN_TOKEN_PARAMETER,
+            ['option' => $option]
+        );
         $this->ctrl->redirect($this, 'maintain');
     }
 
     public function maintainConfirmedObject(): void
     {
-        $option = $this->getPendingMaintainOption($this->getMaintainToken());
+        $option = $this->getPendingMaintainOption($this->getToken(self::MAINTAIN_TOKEN_PARAMETER));
         // one-time: a reload or a second submit does not run the option again
         ilSession::clear(self::MAINTAIN_PENDING_SESSION_KEY);
         if ($option === null) {
@@ -1239,27 +1260,11 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         $this->ctrl->redirect($this, 'maintain');
     }
 
-    private function getMaintainToken(): string
-    {
-        if (!$this->request_wrapper->has(self::MAINTAIN_TOKEN_PARAMETER)) {
-            return '';
-        }
-
-        return $this->request_wrapper->retrieve(
-            self::MAINTAIN_TOKEN_PARAMETER,
-            $this->refinery->byTrying([$this->refinery->kindlyTo()->string(), $this->refinery->always('')])
-        );
-    }
-
     /** The option stored by maintainExecuteObject() for this token and language, if it is still offered. */
     private function getPendingMaintainOption(string $token): ?string
     {
-        $pending = ilSession::get(self::MAINTAIN_PENDING_SESSION_KEY);
-        if ($token === ''
-            || !is_array($pending)
-            || !hash_equals((string) ($pending['token'] ?? ''), $token)
-            || ($pending['obj_id'] ?? null) !== $this->object->getId()
-        ) {
+        $pending = $this->getPending(self::MAINTAIN_PENDING_SESSION_KEY, $token);
+        if ($pending === null) {
             return null;
         }
         $option = (string) ($pending['option'] ?? '');
