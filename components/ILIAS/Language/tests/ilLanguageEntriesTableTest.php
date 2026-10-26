@@ -297,7 +297,7 @@ class ilLanguageEntriesTableTest extends ilLanguageBaseTestCase
         $this->setIsPageTranslation(false);
 
         $object = $this->createObject();
-        $object->method('getAllValues')->with([], '', [])->willReturn([
+        $object->method('getAllValues')->with([ilLanguageEntriesTable::DEFAULT_MODULE], '', [])->willReturn([
             'common#:#access' => 'Access',
             'common#:#other' => 'Other',
         ]);
@@ -938,7 +938,7 @@ class ilLanguageEntriesTableTest extends ilLanguageBaseTestCase
 
         $table = $this->createTable($object, $this->createLng());
 
-        $table->getFilteredEntryNames($this->filterData(['mode' => 'changed', 'identifier' => '']));
+        $table->getFilteredEntryNames($this->filterData(['mode' => 'changed', 'module' => 'all', 'identifier' => '']));
     }
 
     public function testIdentifierFilterMatchesSubstringsCaseInsensitively(): void
@@ -964,7 +964,7 @@ class ilLanguageEntriesTableTest extends ilLanguageBaseTestCase
                 'acc#:#acc_crit_type_usr_language',
                 'common#:#CRITICAL',
             ],
-            $table->getFilteredEntryNames($this->filterData(['identifier' => 'crit']))
+            $table->getFilteredEntryNames($this->filterData(['module' => 'all', 'identifier' => 'crit']))
         );
     }
 
@@ -1205,7 +1205,7 @@ class ilLanguageEntriesTableTest extends ilLanguageBaseTestCase
         $this->setIsPageTranslation(false);
 
         $object = $this->createObject();
-        $object->method('getAllValues')->with([], '', [])->willReturn(['common#:#a' => 'A']);
+        $object->method('getAllValues')->with([ilLanguageEntriesTable::DEFAULT_MODULE], '', [])->willReturn(['common#:#a' => 'A']);
 
         $table = $this->createTable($object, $this->createLng());
 

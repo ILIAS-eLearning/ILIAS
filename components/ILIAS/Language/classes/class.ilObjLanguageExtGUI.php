@@ -292,7 +292,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
             }
             $fields['module'] = $field_factory
                 ->select(ucfirst($this->lng->txt('module')), $module_options)
-                ->withValue('administration');
+                ->withValue(ilLanguageEntriesTable::DEFAULT_MODULE);
 
             $fields['identifier'] = $field_factory->text(ucfirst($this->lng->txt('identifier')));
 
@@ -420,6 +420,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
             && $this->request_wrapper->retrieve('reset_offset', $this->refinery->kindlyTo()->bool());
 
         if ($reset_offset) {
+            // relies on KS storing the view controls in ilSession under STORAGE_ID_PREFIX . table id
             ilSession::clear(DataTable\Data::STORAGE_ID_PREFIX . ilLanguageEntriesTable::tableId());
         }
     }
@@ -1270,15 +1271,15 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
                 $this->ctrl->getLinkTarget($this, "statistics")
             );
 
-            switch ($cmd) {
-                case "":
-                case "view":
-                case "saveEditedEntries":
-                    $this->tabs_gui->activateTab("edit");
-                    break;
-                default:
-                    $this->tabs_gui->activateTab($cmd);
-            }
+            // unknown commands are answered by viewObject(), see executeCommand()
+            $this->tabs_gui->activateTab(match ($cmd) {
+                'import', 'upload' => 'import',
+                'export', 'download' => 'export',
+                'maintain', 'maintainExecute' => 'maintain',
+                'settings', 'saveSettings' => 'settings',
+                'statistics' => 'statistics',
+                default => 'edit',
+            });
         }
     }
 

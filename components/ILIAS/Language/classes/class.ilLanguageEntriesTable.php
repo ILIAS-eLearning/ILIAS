@@ -31,6 +31,9 @@ use ILIAS\UI\URLBuilderToken;
  */
 class ilLanguageEntriesTable implements DataTable\DataRetrieval
 {
+    /** Preset of the module filter, also used while the filter is deactivated. */
+    public const string DEFAULT_MODULE = 'administration';
+
     /** Per-request caches, otherwise each table render repeats the same queries and file reads. */
     private ?array $filtered_entries_cache = null;
     private ?array $conflicts_check_cache = null;
@@ -430,7 +433,7 @@ class ilLanguageEntriesTable implements DataTable\DataRetrieval
             return [ilObjLanguageAccess::_getSavedModules(), ilObjLanguageAccess::_getSavedTopics()];
         }
 
-        $filter_module = (string) $this->filterValue($filter_data, 'module', 'all');
+        $filter_module = (string) $this->filterValue($filter_data, 'module', self::DEFAULT_MODULE);
         $filter_module = $filter_module === 'all' ? '' : $filter_module;
         $filter_modules = $filter_module !== '' ? [$filter_module] : [];
 
