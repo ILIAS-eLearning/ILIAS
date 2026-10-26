@@ -40,6 +40,7 @@ declare(strict_types=1);
     private ilObjGroup $group_obj;
     private ilGroupParticipants $participants;
     private bool $attach_users = true;
+    private bool $include_registration_secrets = false;
 
     public function __construct(ilObjGroup $group_obj)
     {
@@ -210,7 +211,8 @@ declare(strict_types=1);
 
         $this->xmlStartTag('registration', $attrs);
 
-        if (strlen($pwd = $this->group_obj->getPassword())) {
+        $pwd = $this->group_obj->getPassword();
+        if ($this->include_registration_secrets && $pwd !== '') {
             $this->xmlElement('password', null, $pwd);
         }
 
@@ -233,13 +235,15 @@ declare(strict_types=1);
 
         $this->xmlElement('mailMembersType', null, (string) $this->group_obj->getMailToMembersType());
 
-        $this->xmlElement(
-            'RegistrationAccessCode',
-            [
-                'enabled' => (int) $this->group_obj->isRegistrationAccessCodeEnabled(),
-                'code' => $this->group_obj->getRegistrationAccessCode()
-            ]
-        );
+        if (
+            $this->include_registration_secrets
+            && $this->group_obj->isRegistrationAccessCodeEnabled()
+        ) {
+            $this->xmlElement('RegistrationAccessCode', [
+                'enabled' => 1,
+                'code' => $this->group_obj->getRegistrationAccessCode(),
+            ]);
+        }
 
         $this->xmlEndTag('registration');
     }
@@ -314,5 +318,10 @@ declare(strict_types=1);
     public function setAttachUsers(bool $value)
     {
         $this->attach_users = $value;
+    }
+
+    public function setIncludeRegistrationSecrets(bool $include): void
+    {
+        $this->include_registration_secrets = $include;
     }
 }
