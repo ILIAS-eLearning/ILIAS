@@ -239,6 +239,7 @@ class ilObjLanguageExtGUITest extends TestCase
      * @param array<string, list<string>> $session_selections stored edit selections: token => entry names
      * @param string|null $token edit selection token of the save request's query
      * @param array<string, mixed> $post parsed body of the save request
+     * @param list<string> $modules modules of the language in the database (options of the module filter)
      */
     private function createGuiForEditModal(
         bool $langmode,
@@ -248,7 +249,8 @@ class ilObjLanguageExtGUITest extends TestCase
         array $session_selections = [],
         ?string $token = null,
         array $post = [],
-        array $filtered_names = []
+        array $filtered_names = [],
+        array $modules = ['administration']
     ): ilObjLanguageExtGUI {
         // obj_id 0 is the id of the fake language object
         $_SESSION['lang_ext_edit_selection'] = array_map(
@@ -279,10 +281,12 @@ class ilObjLanguageExtGUITest extends TestCase
 
         $this->edit_db = $this->createMock(ilDBInterface::class);
         // only ilObjLanguageExt::_getModules() (the filter's module options) gets a row
-        $this->edit_db->method('query')->willReturnCallback(function (string $sql): ilDBStatement {
+        $this->edit_db->method('query')->willReturnCallback(function (string $sql) use ($modules): ilDBStatement {
             $statement = $this->createMock(ilDBStatement::class);
             $statement->method('fetchRow')->willReturnOnConsecutiveCalls(
-                ...(str_contains($sql, 'SELECT DISTINCT module') ? [['module' => 'administration'], false] : [false])
+                ...(str_contains($sql, 'SELECT DISTINCT module')
+                    ? [...array_map(static fn(string $module): array => ['module' => $module], $modules), false]
+                    : [false])
             );
             return $statement;
         });
@@ -817,11 +821,91 @@ class ilObjLanguageExtGUITest extends TestCase
     }
 
     /**
+     * @return array<string, array{0: mixed}> stored selection that does not belong to the edited language
+     */
+    public static function foreignSelectionProvider(): array
+    {
+        return [
+            'selection of another language' => [['obj_id' => 99, 'names' => ['zztest#:#access']]],
+            'selection without obj_id' => [['names' => ['zztest#:#access']]],
+            'old format, bare list of names' => [['zztest#:#access']],
+        ];
+    }
+
+    #[DataProvider('foreignSelectionProvider')]
+    public function testSaveEditedEntriesObjectRefusesASelectionStoredForAnotherLanguage(mixed $stored): void
+    {
+        [$gui] = $this->createGuiForSave(
+            false,
+            ['zztest#:#access' => 'A'],
+            ['t' => ['zztest#:#access']],
+            't',
+            ['translation_0' => 'X', 'expected_entry_count' => '1']
+        );
+        $_SESSION['lang_ext_edit_selection']['t'] = $stored;
+        $this->expectSaveRefused($gui, 'action_aborted');
+
+        $gui->saveEditedEntriesObject();
+    }
+
+    public function testSaveEditedEntriesObjectRefusesASelectionWhoseEntriesAreAllGone(): void
+    {
+        [$gui] = $this->createGuiForSave(
+            false,
+            ['a#:#other' => 'A'],
+            ['t' => ['a#:#gone']],
+            't',
+            [],
+            modal_names: []
+        );
+        $this->expectSaveRefused($gui, 'msg_form_save_error');
+
+        $gui->saveEditedEntriesObject();
+    }
+
+    public function testSaveEditedEntriesObjectRemovesOnlyTheUsedSelectionFromTheSessionOnSuccess(): void
+    {
+        $restore = $this->stubSaveValuesStatics();
+        try {
+            [$gui] = $this->createGuiForSave(
+                false,
+                ['a#:#one' => 'Old1', 'a#:#two' => 'Old2'],
+                ['A' => ['a#:#one'], 'B' => ['a#:#two']],
+                'A',
+                ['translation_0' => 'New', 'expected_entry_count' => '1']
+            );
+
+            $gui->saveEditedEntriesObject();
+
+            self::assertSame(['B'], array_keys($_SESSION['lang_ext_edit_selection']));
+        } finally {
+            $restore();
+        }
+    }
+
+    public function testSaveEditedEntriesObjectKeepsTheSelectionInTheSessionWhenTheSaveIsRefused(): void
+    {
+        [$gui] = $this->createGuiForSave(
+            false,
+            ['a#:#one' => 'A', 'a#:#two' => 'B'],
+            ['t' => ['a#:#one', 'a#:#two']],
+            't',
+            ['translation_0' => 'X', 'translation_1' => 'Y', 'expected_entry_count' => '3']
+        );
+
+        $gui->saveEditedEntriesObject();
+
+        self::assertSame(['t'], array_keys($_SESSION['lang_ext_edit_selection']));
+    }
+
+    /**
      * @return array<string, array{0: string, 1: string}> posted translation, stored value
      */
     public static function postedMarkupProvider(): array
     {
         return [
+            'allowed tags are kept' => ['<b>x</b> <i>y</i>', '<b>x</b> <i>y</i>'],
+            'line break becomes br' => ["one\ntwo", 'one<br />two'],
             'carriage return and line feed become one br' => ["one\r\ntwo", 'one<br />two'],
             'double less-than becomes a guillemet' => ['a << b', 'a « b'],
         ];
@@ -931,6 +1015,46 @@ class ilObjLanguageExtGUITest extends TestCase
         self::assertSame([], $warnings);
     }
 
+    public function testSaveEditedEntriesObjectStoresTheMarkupOfTheCommentUnfiltered(): void
+    {
+        $restore = $this->stubSaveValuesStatics();
+        try {
+            [$gui, $replaced] = $this->createGuiForSave(
+                true,
+                ['zztest#:#access' => 'Old'],
+                ['t' => ['zztest#:#access']],
+                't',
+                ['translation_0' => 'New', 'comment_0' => '<b>why</b> & <script>', 'expected_entry_count' => '1']
+            );
+
+            $gui->saveEditedEntriesObject();
+
+            self::assertSame('<b>why</b> & <script>', $replaced['zztest#:#access']['remarks'][1]);
+        } finally {
+            $restore();
+        }
+    }
+
+    public function testBuildEditEntriesModalEscapesTheLabelOfTheTranslationField(): void
+    {
+        $gui = $this->createGuiForEditModal(false, ['<b>m#:#"t"' => 'A']);
+
+        $inputs = $this->inputsOf($this->buildModal($gui, ['<b>m#:#"t"']));
+
+        self::assertSame('&lt;b&gt;m / &quot;t&quot;', $inputs['translation_0']->getLabel());
+    }
+
+    public function testTheModuleFilterEscapesTheOptionTextsButKeepsTheKeysRaw(): void
+    {
+        $gui = $this->createGuiForEditModal(false, [], modules: ['a<b', 'administration']);
+
+        $filter = $this->invokeProtectedMethod($gui, 'initFilter');
+
+        $options = $filter->getInputs()['module']->getOptions();
+        self::assertSame('a&lt;b', $options['a<b']);
+        self::assertSame('administration', $options['administration']);
+        self::assertSame(ilLanguageEntriesTable::DEFAULT_MODULE, $filter->getInputs()['module']->getValue());
+    }
 
     public function testSaveEditedEntriesObjectRefusesAnEntryCountThatDiffersFromTheSelection(): void
     {
@@ -1023,17 +1147,20 @@ class ilObjLanguageExtGUITest extends TestCase
     }
 
     /**
+     * @param list<string> $row_ids
+     * @param list<non-empty-string> $mocked_methods
      * @return ilObjLanguageExtGUI&MockObject
      */
     private function createGuiForExecuteCommand(
         bool $has_action_token,
         ?string $action_value,
         array $row_ids,
-        ilCtrl $ctrl
+        ilCtrl $ctrl,
+        array $mocked_methods = ['editSelectedObject', 'viewObject']
     ): ilObjLanguageExtGUI {
         $gui = $this->getMockBuilder(ilObjLanguageExtGUI::class)
             ->disableOriginalConstructor()
-            ->onlyMethods(['editSelectedObject', 'viewObject'])
+            ->onlyMethods($mocked_methods)
             ->getMock();
 
         $action_token = $this->createMock(URLBuilderToken::class);
@@ -1119,7 +1246,7 @@ class ilObjLanguageExtGUITest extends TestCase
         $help->expects($this->once())->method('setScreenIdComponent')->with('lng');
 
         $ctrl = $this->createMock(ilCtrl::class);
-        $ctrl->method('getCmd')->with('view')->willReturn('view');
+        $ctrl->expects($this->atLeastOnce())->method('getCmd')->with('view')->willReturn('view');
 
         $gui = $this->createGuiForExecuteCommand(
             has_action_token: false,
@@ -1131,6 +1258,108 @@ class ilObjLanguageExtGUITest extends TestCase
         $gui->expects($this->once())->method('viewObject');
 
         $gui->executeCommand();
+    }
+
+    public function testTheGuiIsSecuredAgainstCsrfForTheStateChangingCommandsOnly(): void
+    {
+        $gui = (new ReflectionClass(ilObjLanguageExtGUI::class))->newInstanceWithoutConstructor();
+        $this->assertInstanceOf(ilCtrlSecurityInterface::class, $gui);
+
+        $this->assertEqualsCanonicalizing(
+            ['saveEditedEntries', 'upload', 'maintainExecute', 'saveSettings', 'saveNewEntry'],
+            $gui->getUnsafeGetCommands()
+        );
+        $this->assertSame([], $gui->getSafePostCommands());
+    }
+
+    /**
+     * @return array<string, array{0: string}> commands that are no exact spelling of a dispatchable command
+     */
+    public static function commandsThatMustFallBackToViewProvider(): array
+    {
+        return [
+            'unknown' => ['doesNotExist'],
+            'wrong case of an unsafe command' => ['SaveSettings'],
+            'upper case' => ['SAVESETTINGS'],
+            'inherited command' => ['save'],
+            'inherited command with delete' => ['delete'],
+            'already suffixed' => ['saveSettingsObject'],
+            'empty' => [''],
+        ];
+    }
+
+    #[DataProvider('commandsThatMustFallBackToViewProvider')]
+    public function testExecuteCommandShowsTheViewForCommandsOutsideTheExactAllowlist(string $cmd): void
+    {
+        $this->stubMaintenanceGranted();
+        $ctrl = $this->createMock(ilCtrl::class);
+        $ctrl->method('getCmd')->willReturn($cmd);
+        $gui = $this->createGuiForExecuteCommand(
+            false,
+            null,
+            [],
+            $ctrl,
+            ['viewObject', 'saveObject', 'deleteObject', 'saveSettingsObject']
+        );
+        $gui->expects($this->once())->method('viewObject');
+        $gui->expects($this->never())->method('saveObject');
+        $gui->expects($this->never())->method('deleteObject');
+        $gui->expects($this->never())->method('saveSettingsObject');
+
+        $gui->executeCommand();
+    }
+
+    public function testExecuteCommandCallsTheMethodOfAnAllowlistedCommand(): void
+    {
+        $this->stubMaintenanceGranted();
+        $ctrl = $this->createMock(ilCtrl::class);
+        $ctrl->method('getCmd')->willReturn('saveSettings');
+        $gui = $this->createGuiForExecuteCommand(false, null, [], $ctrl, ['viewObject', 'saveSettingsObject']);
+        $gui->expects($this->once())->method('saveSettingsObject');
+        $gui->expects($this->never())->method('viewObject');
+
+        $gui->executeCommand();
+    }
+
+    /**
+     * @return array<string, array{0: string, 1: string}> command, tab
+     */
+    public static function tabOfCommandProvider(): array
+    {
+        return [
+            'empty' => ['', 'edit'],
+            'view' => ['view', 'edit'],
+            'saveEditedEntries' => ['saveEditedEntries', 'edit'],
+            'unknown' => ['doesNotExist', 'edit'],
+            'import' => ['import', 'import'],
+            'upload' => ['upload', 'import'],
+            'export' => ['export', 'export'],
+            'download' => ['download', 'export'],
+            'maintain' => ['maintain', 'maintain'],
+            'maintainExecute' => ['maintainExecute', 'maintain'],
+            'settings' => ['settings', 'settings'],
+            'saveSettings' => ['saveSettings', 'settings'],
+            'statistics' => ['statistics', 'statistics'],
+        ];
+    }
+
+    #[DataProvider('tabOfCommandProvider')]
+    public function testGetAdminTabsActivatesTheTabOfTheCommand(string $cmd, string $expected_tab): void
+    {
+        $this->stubGlobalDicIsPageTranslation(false);
+        $ctrl = $this->createMock(ilCtrl::class);
+        $ctrl->method('getCmd')->willReturn($cmd);
+        $GLOBALS['DIC']['ilCtrl'] = $ctrl;
+
+        $tabs = $this->createMock(ilTabsGUI::class);
+        $tabs->expects($this->once())->method('activateTab')->with($expected_tab);
+        $gui = $this->getMockBuilder(ilObjLanguageExtGUI::class)->disableOriginalConstructor()->onlyMethods([])->getMock();
+        $this->inject($gui, 'tabs_gui', $tabs);
+        $this->inject($gui, 'ctrl', $this->createMock(ilCtrl::class));
+        $this->inject($gui, 'lng', $this->createLanguageMockReturningTopicAsIs());
+        $this->inject($gui, 'id', 7);
+
+        $gui->getAdminTabs();
     }
 
     // -----------------------------------------------------------------

@@ -297,7 +297,7 @@ class ilLanguageEntriesTableTest extends ilLanguageBaseTestCase
         $this->setIsPageTranslation(false);
 
         $object = $this->createObject();
-        $object->method('getAllValues')->with([ilLanguageEntriesTable::DEFAULT_MODULE], '', [])->willReturn([
+        $object->expects($this->atLeastOnce())->method('getAllValues')->with([ilLanguageEntriesTable::DEFAULT_MODULE], '', [])->willReturn([
             'common#:#access' => 'Access',
             'common#:#other' => 'Other',
         ]);
@@ -1205,7 +1205,7 @@ class ilLanguageEntriesTableTest extends ilLanguageBaseTestCase
         $this->setIsPageTranslation(false);
 
         $object = $this->createObject();
-        $object->method('getAllValues')->with([ilLanguageEntriesTable::DEFAULT_MODULE], '', [])->willReturn(['common#:#a' => 'A']);
+        $object->expects($this->atLeastOnce())->method('getAllValues')->with([ilLanguageEntriesTable::DEFAULT_MODULE], '', [])->willReturn(['common#:#a' => 'A']);
 
         $table = $this->createTable($object, $this->createLng());
 
@@ -1547,6 +1547,130 @@ class ilLanguageEntriesTableTest extends ilLanguageBaseTestCase
         ));
 
         return $captured;
+    }
+
+    /**
+     * @return array<string, array{0: string, 1: list<string>}> module sort direction, entries in that order
+     */
+    public static function naturalCaseInsensitiveSortProvider(): array
+    {
+        return [
+            'item2 before item10 ascending' => [Order::ASC, ['m#:#item2', 'm#:#item10', 'm#:#Item11']],
+            'item11 first descending' => [Order::DESC, ['m#:#Item11', 'm#:#item10', 'm#:#item2']],
+        ];
+    }
+
+    /**
+     * @param list<string> $expected
+     */
+    #[DataProvider('naturalCaseInsensitiveSortProvider')]
+    public function testGetRowsSortsNaturallyAndIgnoringCase(string $direction, array $expected): void
+    {
+        $this->setIsPageTranslation(false);
+
+        $object = $this->createObject('de');
+        $object->method('getAllValues')->willReturn(['m#:#item10' => 'x', 'm#:#Item11' => 'x', 'm#:#item2' => 'x']);
+        $global_file = $this->createMock(ilLanguageFile::class);
+        $global_file->method('getAllValues')->willReturn([]);
+        $object->method('getGlobalLanguageFile')->willReturn($global_file);
+        $table = $this->createTable($object, $this->createLng(default_language: 'de'));
+
+        self::assertSame(
+            $expected,
+            $this->getEntryIdOrderViaRows($table, $this->filterData(['compare' => 'de']), new Order('topic', $direction))
+        );
+    }
+
+    public function testGetRowsIgnoresCaseWhenSorting(): void
+    {
+        $this->setIsPageTranslation(false);
+
+        $object = $this->createObject('de');
+        $object->method('getAllValues')->willReturn(['b#:#t' => 'x', 'A#:#t' => 'x', 'c#:#t' => 'x']);
+        $global_file = $this->createMock(ilLanguageFile::class);
+        $global_file->method('getAllValues')->willReturn([]);
+        $object->method('getGlobalLanguageFile')->willReturn($global_file);
+        $table = $this->createTable($object, $this->createLng(default_language: 'de'));
+
+        self::assertSame(
+            ['A#:#t', 'b#:#t', 'c#:#t'],
+            $this->getEntryIdOrderViaRows($table, $this->filterData(['compare' => 'de']), new Order('module', Order::ASC))
+        );
+    }
+
+    /**
+     * KS renders text columns unescaped: all four cells must be escaped, the row id stays raw.
+     */
+    public function testGetRowsEscapesModuleTopicTranslationAndDefaultButKeepsTheRowIdRaw(): void
+    {
+        $this->setIsPageTranslation(false);
+
+        $object = $this->createObject('de');
+        $object->method('getAllValues')->willReturn(['<b>m#:#"t"' => '<b>x</b> & \'y\'']);
+        $object->method('getShippedValues')->willReturn(['<b>m#:#"t"' => '<script>alert(1)</script>']);
+        $table = $this->createTable($object, $this->createLng(default_language: 'de'));
+
+        $captured = [];
+        $row_builder = $this->createMock(DataRowBuilder::class);
+        $row_builder->method('buildDataRow')->willReturnCallback(
+            function (string $id, array $record) use (&$captured) {
+                $captured = [$id, $record];
+                return $this->createMock(DataRow::class);
+            }
+        );
+        iterator_to_array($table->getRows(
+            $row_builder,
+            [],
+            new Range(0, 10),
+            new Order('module', Order::ASC),
+            null,
+            $this->filterData(['compare' => 'de']),
+            null
+        ));
+
+        self::assertSame('<b>m#:#"t"', $captured[0]);
+        self::assertSame('&lt;b&gt;m', $captured[1]['module']);
+        self::assertSame('&quot;t&quot;', $captured[1]['topic']);
+        self::assertSame('&lt;b&gt;x&lt;/b&gt; &amp; &#039;y&#039;', $captured[1]['translation']);
+        self::assertSame('&lt;script&gt;alert(1)&lt;/script&gt;', $captured[1]['default']);
+    }
+
+    /**
+     * Escaping must come after sorting: raw '"' sorts before raw '<', whereas '&quot;' sorts after '&lt;'.
+     */
+    public function testGetRowsSortsOnTheRawValuesNotOnTheEscapedOnes(): void
+    {
+        $this->setIsPageTranslation(false);
+
+        $object = $this->createObject('de');
+        $object->method('getAllValues')->willReturn(['m#:#lt' => '<', 'm#:#quot' => '"']);
+        $global_file = $this->createMock(ilLanguageFile::class);
+        $global_file->method('getAllValues')->willReturn([]);
+        $object->method('getGlobalLanguageFile')->willReturn($global_file);
+        $table = $this->createTable($object, $this->createLng(default_language: 'de'));
+
+        self::assertSame(
+            ['m#:#quot', 'm#:#lt'],
+            $this->getEntryIdOrderViaRows(
+                $table,
+                $this->filterData(['compare' => 'de']),
+                new Order('translation', Order::ASC)
+            )
+        );
+    }
+
+    public function testIdentifierFilterMatchesMarkupCharactersOnTheRawIdentifier(): void
+    {
+        $this->setIsPageTranslation(false);
+
+        $object = $this->createObject();
+        $object->method('getAllValues')->willReturn(['m#:#x<b>y' => 'A', 'm#:#plain' => 'B']);
+        $table = $this->createTable($object, $this->createLng());
+
+        self::assertSame(
+            ['m#:#x<b>y'],
+            $table->getFilteredEntryNames($this->filterData(['identifier' => '<b>']))
+        );
     }
 
     // -----------------------------------------------------------------
