@@ -124,7 +124,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
 
         // do all generic GUI initialisations
         parent::__construct($a_data, $this->id, false, true);
-        // also the upload handler must keep working on this language
+        // the upload handler resolves the language by obj_id
         $this->ctrl->setParameter($this, 'obj_id', $this->id);
 
         // initialize the array to store session variables for extended language maintenance
@@ -826,7 +826,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
             return;
         }
 
-        // save form inputs for next display
         ilSession::set('lang_ext_maintenance', ['import' => ['mode_existing' => $mode]]);
         $this->discardPendingImport();
         $handler->discardAll([$identifier]);
@@ -860,7 +859,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         $this->ctrl->redirect($this, 'import');
     }
 
-    /** Imports and always removes the upload and its local copy. */
     private function runImport(string $identifier, string $mode): void
     {
         $handler = $this->getImportUploadHandler();
@@ -913,7 +911,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         )->withActionButtonLabel($this->lng->txt('confirm'));
     }
 
-    /** Interruptive modal for the language of this object, posting to the confirmation command with the token. */
     private function buildTokenConfirmModal(
         string $title,
         string $message,
@@ -941,7 +938,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         $this->ctrl->setParameter($this, $token_parameter, $token);
     }
 
-    /** The pending action stored for this token and language, or null. */
     private function getPending(string $session_key, string $token): ?array
     {
         $pending = ilSession::get($session_key);
@@ -973,11 +969,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         );
     }
 
-    /**
-     * The import stored by uploadObject() for this token and language.
-     *
-     * @return array{mode: string, upload: string}|null
-     */
+    /** @return array{mode: string, upload: string}|null */
     private function getPendingImport(string $token): ?array
     {
         $pending = $this->getPending(self::IMPORT_PENDING_SESSION_KEY, $token);
@@ -991,7 +983,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         return ['mode' => $pending['mode'], 'upload' => $pending['upload']];
     }
 
-    /** Removes a stored import together with its upload. */
     private function discardPendingImport(): void
     {
         $pending = ilSession::get(self::IMPORT_PENDING_SESSION_KEY);
@@ -1175,11 +1166,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         )->withSubmitLabel($this->lng->txt('language_process_maintenance'));
     }
 
-    /**
-     * Options offered in this mode: option => [label, info].
-     *
-     * @return array<string, array{0: string, 1: string}>
-     */
+    /** @return array<string, array{0: string, 1: string}> option => [label, info] */
     private function getMaintainOptions(): array
     {
         $keys = ['load' => 'language_load_local_changes', 'clear' => 'language_clear_local_changes'];
@@ -1204,7 +1191,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
     {
         [$label, $info] = $this->getMaintainOptions()[$option];
 
-        // label and info are trusted language texts, the info may contain markup
         return $this->buildTokenConfirmModal(
             $this->lng->txt('language_maintenance'),
             '<b>' . $label . '</b><br />' . $info,

@@ -1659,10 +1659,7 @@ class ilObjLanguageExtGUITest extends TestCase
         $this->addToAssertionCount(1); // reaching here without a fatal error IS the assertion
     }
 
-    // -----------------------------------------------------------------
-    // Maintenance and import as KS forms: destructive choices are only stored (token + obj_id) and run
-    // after the confirmation; real KS factory, request and session, recording stubs for ctrl/tpl/renderer.
-    // -----------------------------------------------------------------
+    // maintenance and import: real KS factory, request and session, recording stubs for ctrl/tpl/renderer
 
     private const string MAINTAIN_PENDING = 'lang_ext_maintain_pending';
     private const string MAINTAIN_TOKEN = 'lang_maintain_token';
@@ -1886,11 +1883,7 @@ class ilObjLanguageExtGUITest extends TestCase
         return $file;
     }
 
-    /**
-     * Stores a pending action like storePending() does.
-     *
-     * @param array<string, mixed> $data
-     */
+    /** @param array<string, mixed> $data */
     private function givenPending(string $session_key, array $data, string $token = 'tok', int $obj_id = 0): void
     {
         $_SESSION[$session_key] = ['token' => $token, 'obj_id' => $obj_id] + $data;
@@ -2073,8 +2066,6 @@ class ilObjLanguageExtGUITest extends TestCase
             self::assertArrayNotHasKey(self::MAINTAIN_PENDING, $_SESSION);
         }
     }
-
-    // ---- import ---------------------------------------------------------------------------------
 
     /**
      * @param array<string, mixed> $values
