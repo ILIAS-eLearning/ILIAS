@@ -22,8 +22,6 @@ use ILIAS\Language\ComponentTranslation\PlainLogText;
 use ILIAS\Language\ComponentTranslation\DuplicateIdentifierMessage;
 use ILIAS\Language\ComponentTranslation\InvalidMarkupMessage;
 use ILIAS\Language\ComponentTranslation\PluralFormKey;
-use ILIAS\FileUpload\DTO\ProcessingStatus;
-use ILIAS\FileUpload\Location;
 use ILIAS\Language\Activities\AddLanguageEntry;
 use ILIAS\Language\Activities\RemoveLocalLanguageChanges;
 use ILIAS\Language\Activities\RepositoryProvider;
@@ -46,7 +44,7 @@ use ILIAS\Filesystem\Stream\Streams;
 * @author Fred Neumann <fred.neumann@fim.uni-erlangen.de>
 * @version $Id: class.ilObjLanguageExtGUI.php $
 *
-* @ilCtrl_Calls ilObjLanguageExtGUI:
+* @ilCtrl_Calls ilObjLanguageExtGUI: ilLanguageImportUploadHandlerGUI
 * @ilCtrl_IsCalledBy ilObjLanguageExtGUI: ilDashboardGUI
 *
 * @ingroup ServicesLanguage
@@ -62,6 +60,10 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
     private const string MAINTAIN_PENDING_SESSION_KEY = 'lang_ext_maintain_pending';
     private const string MAINTAIN_TOKEN_PARAMETER = 'lang_maintain_token';
     private const array MAINTAIN_WITHOUT_CONFIRMATION = ['save_dist'];
+    private const string IMPORT_PENDING_SESSION_KEY = 'lang_ext_import_pending';
+    private const string IMPORT_TOKEN_PARAMETER = 'lang_import_token';
+    private const array IMPORT_MODES = ['keepall', 'keepnew', 'replace', 'delete'];
+    private const array IMPORT_WITHOUT_CONFIRMATION = ['keepall', 'keepnew'];
     private const int REMARK_MAX_LENGTH = 250;
     private string $langmode;
     private readonly AddLanguageEntry $add_language_entry;
@@ -71,6 +73,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
     private URLBuilderToken $row_id_token;
     private ilLanguageEntriesTable $entries_table;
     private ?array $all_translations = null;
+    private ?ilLanguageImportUploadHandlerGUI $import_upload_handler = null;
 
     /**
     * Constructor
@@ -121,6 +124,8 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
 
         // do all generic GUI initialisations
         parent::__construct($a_data, $this->id, false, true);
+        // also the upload handler must keep working on this language
+        $this->ctrl->setParameter($this, 'obj_id', $this->id);
 
         // initialize the array to store session variables for extended language maintenance
         if (!is_array($this->getSession())) {
@@ -181,7 +186,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
      */
     public function getUnsafeGetCommands(): array
     {
-        return ['saveEditedEntries', 'upload', 'maintainExecute', 'maintainConfirmed', 'saveSettings', 'saveNewEntry'];
+        return ['saveEditedEntries', 'upload', 'importConfirmed', 'maintainExecute', 'maintainConfirmed', 'saveSettings', 'saveNewEntry'];
     }
 
     /**
@@ -205,6 +210,12 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
             exit;
         }
 
+        $next_class = strtolower((string) $this->ctrl->getNextClass($this));
+        if ($next_class === strtolower(ilLanguageImportUploadHandlerGUI::class)) {
+            $this->ctrl->forwardCommand($this->getImportUploadHandler());
+            return;
+        }
+
         // async table action: editSelectedObject() answers with the modal and closes the response
         if ($action = $this->getCommandFromQueryToken($this->action_token->getName())) {
             switch ($action) {
@@ -222,6 +233,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
             'saveEditedEntries',
             'import',
             'upload',
+            'importConfirmed',
             'export',
             'download',
             'maintain',
@@ -744,107 +756,220 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         $this->http->close();
     }
 
-    /**
-    * Show the screen to import a language file
-    */
+    /** Shows the import form; with the token of a stored "replace"/"delete" import, the confirmation opens. */
     public function importObject(): void
     {
-        $form = $this->initNewImportForm();
-        $this->tpl->setContent($form->getHTML());
+        $components = [$this->buildImportForm()];
+
+        $token = $this->getImportToken();
+        $pending = $this->getPendingImport($token);
+        if ($pending === null) {
+            // a cancelled or abandoned confirmation, uploads left over from it
+            $this->discardPendingImport();
+            $this->getImportUploadHandler()->discardAll();
+        } else {
+            $this->getImportUploadHandler()->discardAll([$pending['upload']]);
+            $modal = $this->buildImportConfirmModal($pending['mode'], $pending['upload'], $token);
+            $components[] = $modal->withOnLoad($modal->getShowSignal());
+        }
+
+        $this->tpl->setContent($this->ui_renderer->render($components));
     }
 
-    protected function initNewImportForm(): ilPropertyFormGUI
+    private function buildImportForm(): \ILIAS\UI\Component\Input\Container\Form\Standard
     {
-        $form = new ilPropertyFormGUI();
-        $form->setFormAction($this->ctrl->getFormAction($this));
-        $form->setTitle($this->lng->txt("language_import_file"));
-        $form->addCommandButton("upload", $this->lng->txt("upload"));
+        $field = $this->ui_factory->input()->field();
+        $mode = $field->radio($this->lng->txt('language_mode_existing'))->withRequired(true);
+        foreach (self::IMPORT_MODES as $value) {
+            $mode = $mode->withOption(
+                $value,
+                $this->lng->txt('language_mode_existing_' . $value),
+                $this->lng->txt('language_mode_existing_' . $value . '_info')
+            );
+        }
+        $preset = $this->getSession()['import']['mode_existing'] ?? 'keepall';
 
-        $fu = new ilFileInputGUI($this->lng->txt("file"), "userfile");
-        $fu->setRequired(true);
-        $form->addItem($fu);
-
-        $rg = new ilRadioGroupInputGUI($this->lng->txt("language_mode_existing"), "mode_existing");
-        $ro = new ilRadioOption($this->lng->txt("language_mode_existing_keepall"), "keepall");
-        $ro->setInfo($this->lng->txt("language_mode_existing_keepall_info"));
-        $rg->addOption($ro);
-        $ro = new ilRadioOption($this->lng->txt("language_mode_existing_keepnew"), "keepnew");
-        $ro->setInfo($this->lng->txt("language_mode_existing_keepnew_info"));
-        $rg->addOption($ro);
-        $ro = new ilRadioOption($this->lng->txt("language_mode_existing_replace"), "replace");
-        $ro->setInfo($this->lng->txt("language_mode_existing_replace_info"));
-        $rg->addOption($ro);
-        $ro = new ilRadioOption($this->lng->txt("language_mode_existing_delete"), "delete");
-        $ro->setInfo($this->lng->txt("language_mode_existing_delete_info"));
-        $rg->addOption($ro);
-        $rg->setValue($this->getSession()["import"]["mode_existing"] ?? "keepall");
-        $form->addItem($rg);
-
-        return $form;
+        return $this->ui_factory->input()->container()->form()->standard(
+            $this->ctrl->getFormAction($this, 'upload'),
+            [
+                // one file is the default of the File field
+                'file' => $field->file($this->getImportUploadHandler(), $this->lng->txt('file'))->withRequired(true),
+                'mode' => $mode->withValue(in_array($preset, self::IMPORT_MODES, true) ? $preset : 'keepall'),
+            ]
+        )->withSubmitLabel($this->lng->txt('upload'));
     }
 
     /**
-    * Process an uploaded language file
+    * Process the import form; "replace" and "delete" are only stored and run by importConfirmedObject()
     */
     public function uploadObject(): void
     {
-        global $DIC;
-
-        $form = $this->initNewImportForm();
-        if ($form->checkInput()) {
-            $post_mode_existing = $this->http->request()->getParsedBody()['mode_existing'] ?? "";
-            // save form inputs for next display
-            $tmp["import"]["mode_existing"] = ilUtil::stripSlashes($post_mode_existing);
-            ilSession::set("lang_ext_maintenance", $tmp);
-            try {
-                $upload = $DIC->upload();
-                //mantis #41617
-                if (!$upload->hasBeenProcessed()) {
-                    $upload->process();
-                }
-
-
-                // code 400: shown escaped by activityErrorMessage()
-                if (!$upload->hasUploads()) {
-                    throw new ilException($DIC->language()->txt("upload_error_file_not_found"), 400);
-                }
-                $UploadResult = $upload->getResults()[$_FILES["userfile"]["tmp_name"]];
-
-                $ProcessingStatus = $UploadResult->getStatus();
-                if ($ProcessingStatus->getCode() === ProcessingStatus::REJECTED) {
-                    throw new ilException($ProcessingStatus->getMessage(), 400);
-                }
-
-                // todo: refactor when importLanguageFile() is able to work with the new Filesystem service
-                $tempfile = ilFileUtils::ilTempnam() . ".sec";
-                $upload->moveOneFileTo($UploadResult, '', Location::TEMPORARY, basename($tempfile), true);
-                try {
-                    $modules_with_unwritten_overlay = $this->object->importLanguageFile($tempfile, $post_mode_existing);
-                } finally {
-                    $tempfs = $DIC->filesystem()->temp();
-                    $tempfs->delete(basename($tempfile));
-                }
-            } catch (ilLanguageInvalidMarkupException $e) {
-                $this->tpl->setOnScreenMessage('failure', $this->invalidMarkupMessage($e->getInvalidValues()), true);
-                $this->ctrl->redirect($this, 'import');
-            } catch (ilLanguageDuplicateIdentifierException $e) {
-                $this->tpl->setOnScreenMessage('failure', $this->duplicateIdentifierMessage($e->getDuplicates()), true);
-                $this->ctrl->redirect($this, 'import');
-            } catch (Exception $e) {
-                // anything else may carry SQL: logged, a generic message shown
-                $this->tpl->setOnScreenMessage('failure', $this->activityErrorMessage($e), true);
-                $this->ctrl->redirect($this, 'import');
-            }
-
-            $this->setSuccessOrOverlayWarning(
-                $this->importedMessage((string) ($_FILES["userfile"]["name"] ?? '')),
-                $modules_with_unwritten_overlay
-            );
-            $this->ctrl->redirect($this, "import");
+        try {
+            $form = $this->buildImportForm()->withRequest($this->http->request());
+            $data = $form->getData();
+        } catch (InvalidArgumentException) {
+            // KS rejects a mode that is not one of the options
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
+            $this->tpl->setContent($this->ui_renderer->render($this->buildImportForm()));
+            return;
+        }
+        $handler = $this->getImportUploadHandler();
+        $identifier = (string) ($data['file'][0] ?? '');
+        $mode = (string) ($data['mode'] ?? '');
+        if ($data !== null && $handler->getFileName($identifier) === null) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('upload_error_file_not_found'));
+        }
+        if ($data === null
+            || $handler->getFileName($identifier) === null
+            || !in_array($mode, self::IMPORT_MODES, true)
+        ) {
+            // no clean-up here, the form keeps referring to its upload
+            $this->tpl->setContent($this->ui_renderer->render($form));
+            return;
         }
 
-        $form->setValuesByPost();
-        $this->tpl->setContent($form->getHTML());
+        // save form inputs for next display
+        ilSession::set('lang_ext_maintenance', ['import' => ['mode_existing' => $mode]]);
+        $this->discardPendingImport();
+        $handler->discardAll([$identifier]);
+
+        if (in_array($mode, self::IMPORT_WITHOUT_CONFIRMATION, true)) {
+            $this->runImport($identifier, $mode);
+            $this->ctrl->redirect($this, 'import');
+            return;
+        }
+
+        $token = bin2hex(random_bytes(8));
+        // only the identifier of an upload of this session is stored, never a path
+        ilSession::set(self::IMPORT_PENDING_SESSION_KEY, [
+            'token' => $token,
+            'obj_id' => $this->object->getId(),
+            'mode' => $mode,
+            'upload' => $identifier,
+        ]);
+        $this->ctrl->setParameter($this, self::IMPORT_TOKEN_PARAMETER, $token);
+        $this->ctrl->redirect($this, 'import');
+    }
+
+    public function importConfirmedObject(): void
+    {
+        $pending = $this->getPendingImport($this->getImportToken());
+        if ($pending === null) {
+            $this->discardPendingImport();
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('action_aborted'), true);
+        } else {
+            // one-time: a second submit does not import again
+            ilSession::clear(self::IMPORT_PENDING_SESSION_KEY);
+            $this->runImport($pending['upload'], $pending['mode']);
+        }
+        $this->ctrl->redirect($this, 'import');
+    }
+
+    /** Imports and always removes the upload and its local copy. */
+    private function runImport(string $identifier, string $mode): void
+    {
+        $handler = $this->getImportUploadHandler();
+        $name = (string) $handler->getFileName($identifier);
+        $local_file = $handler->copyToLocalFile($identifier);
+        try {
+            if ($local_file === null) {
+                // code 400: shown escaped by activityErrorMessage()
+                throw new ilException($this->lng->txt('upload_error_file_not_found'), 400);
+            }
+            $this->setSuccessOrOverlayWarning(
+                $this->importedMessage($name),
+                $this->object->importLanguageFile($local_file, $mode)
+            );
+        } catch (ilLanguageInvalidMarkupException $e) {
+            $this->tpl->setOnScreenMessage('failure', $this->invalidMarkupMessage($e->getInvalidValues()), true);
+        } catch (ilLanguageDuplicateIdentifierException $e) {
+            $this->tpl->setOnScreenMessage('failure', $this->duplicateIdentifierMessage($e->getDuplicates()), true);
+        } catch (Exception $e) {
+            // anything else may carry SQL: logged, a generic message shown
+            $this->tpl->setOnScreenMessage('failure', $this->activityErrorMessage($e), true);
+        } finally {
+            if ($local_file !== null && is_file($local_file)) {
+                unlink($local_file);
+            }
+            $handler->discard($identifier);
+        }
+    }
+
+    /**
+     * Interruptive Modal instead of a Prompt: a Prompt cannot hold the File field (its JS submits before the upload
+     * has finished) and cannot be opened on load.
+     */
+    private function buildImportConfirmModal(
+        string $mode,
+        string $identifier,
+        string $token
+    ): \ILIAS\UI\Component\Modal\Interruptive {
+        $key = 'language_mode_existing_' . $mode;
+        $file_name = (string) $this->getImportUploadHandler()->getFileName($identifier);
+        $this->ctrl->setParameter($this, self::IMPORT_TOKEN_PARAMETER, $token);
+        $form_action = $this->ctrl->getFormAction($this, 'importConfirmed');
+        $this->ctrl->clearParameterByClass(self::class, self::IMPORT_TOKEN_PARAMETER);
+
+        // label and info are trusted language texts, the info may contain markup
+        return $this->ui_factory->modal()->interruptive(
+            $this->lng->txt('language_import_file'),
+            '<b>' . $this->lng->txt($key) . '</b><br />' . $this->lng->txt($key . '_info') . '<br />'
+            . $this->lng->txt('file') . ': ' . htmlspecialchars($file_name, ENT_QUOTES, 'UTF-8'),
+            $form_action
+        )->withAffectedItems([
+            $this->ui_factory->modal()->interruptiveItem()->standard(
+                (string) $this->object->getId(),
+                $this->lng->txt('meta_l_' . $this->object->key)
+            ),
+        ])->withActionButtonLabel($this->lng->txt('confirm'));
+    }
+
+    private function getImportUploadHandler(): ilLanguageImportUploadHandlerGUI
+    {
+        return $this->import_upload_handler ??= new ilLanguageImportUploadHandlerGUI();
+    }
+
+    private function getImportToken(): string
+    {
+        if (!$this->request_wrapper->has(self::IMPORT_TOKEN_PARAMETER)) {
+            return '';
+        }
+
+        return $this->request_wrapper->retrieve(
+            self::IMPORT_TOKEN_PARAMETER,
+            $this->refinery->byTrying([$this->refinery->kindlyTo()->string(), $this->refinery->always('')])
+        );
+    }
+
+    /**
+     * The import stored by uploadObject() for this token and language.
+     *
+     * @return array{mode: string, upload: string}|null
+     */
+    private function getPendingImport(string $token): ?array
+    {
+        $pending = ilSession::get(self::IMPORT_PENDING_SESSION_KEY);
+        if ($token === ''
+            || !is_array($pending)
+            || !hash_equals((string) ($pending['token'] ?? ''), $token)
+            || ($pending['obj_id'] ?? null) !== $this->object->getId()
+            || !in_array($pending['mode'] ?? null, self::IMPORT_MODES, true)
+            || !is_string($pending['upload'] ?? null)
+        ) {
+            return null;
+        }
+
+        return ['mode' => $pending['mode'], 'upload' => $pending['upload']];
+    }
+
+    /** Removes a stored import together with its upload. */
+    private function discardPendingImport(): void
+    {
+        $pending = ilSession::get(self::IMPORT_PENDING_SESSION_KEY);
+        if (is_array($pending) && is_string($pending['upload'] ?? null)) {
+            $this->getImportUploadHandler()->discard($pending['upload']);
+        }
+        ilSession::clear(self::IMPORT_PENDING_SESSION_KEY);
     }
 
     /**
@@ -1378,7 +1503,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
 
             // unknown commands are answered by viewObject(), see executeCommand()
             $this->tabs_gui->activateTab(match ($cmd) {
-                'import', 'upload' => 'import',
+                'import', 'upload', 'importConfirmed' => 'import',
                 'export', 'download' => 'export',
                 'maintain', 'maintainExecute', 'maintainConfirmed' => 'maintain',
                 'settings', 'saveSettings' => 'settings',

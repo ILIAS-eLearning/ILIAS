@@ -31,7 +31,7 @@ class ilObjLanguageExtGUIDispatchTest extends TestCase
     use ilObjLanguageGuiTestSupport;
 
     private const array COMMANDS = [
-        'saveEditedEntries', 'import', 'upload', 'export', 'download', 'maintain',
+        'saveEditedEntries', 'import', 'upload', 'importConfirmed', 'export', 'download', 'maintain',
         'maintainExecute', 'maintainConfirmed', 'settings', 'saveSettings', 'statistics', 'addNewEntry', 'saveNewEntry',
     ];
 

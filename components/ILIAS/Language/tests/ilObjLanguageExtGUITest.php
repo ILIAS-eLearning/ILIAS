@@ -50,7 +50,7 @@ class ilObjLanguageExtGUITest extends TestCase
         $gui = $this->newGuiWithoutConstructor(ilObjLanguageExtGUI::class);
 
         $this->assertSame(
-            ['saveEditedEntries', 'upload', 'maintainExecute', 'maintainConfirmed', 'saveSettings', 'saveNewEntry'],
+            ['saveEditedEntries', 'upload', 'importConfirmed', 'maintainExecute', 'maintainConfirmed', 'saveSettings', 'saveNewEntry'],
             $gui->getUnsafeGetCommands()
         );
     }
@@ -1301,7 +1301,7 @@ class ilObjLanguageExtGUITest extends TestCase
         $this->assertInstanceOf(ilCtrlSecurityInterface::class, $gui);
 
         $this->assertEqualsCanonicalizing(
-            ['saveEditedEntries', 'upload', 'maintainExecute', 'maintainConfirmed', 'saveSettings', 'saveNewEntry'],
+            ['saveEditedEntries', 'upload', 'importConfirmed', 'maintainExecute', 'maintainConfirmed', 'saveSettings', 'saveNewEntry'],
             $gui->getUnsafeGetCommands()
         );
         $this->assertSame([], $gui->getSafePostCommands());
