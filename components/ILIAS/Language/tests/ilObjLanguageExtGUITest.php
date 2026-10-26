@@ -1353,13 +1353,38 @@ class ilObjLanguageExtGUITest extends TestCase
         $gui->executeCommand();
     }
 
-    public function testExecuteCommandCallsTheMethodOfAnAllowlistedCommand(): void
+    /** @return array<string, array{string, string}> request method and the method that must run */
+    public static function requestMethodsOfAnUnsafeCommand(): array
+    {
+        return [
+            'POST runs the command' => ['POST', 'saveSettingsObject'],
+            'GET only shows its view' => ['GET', 'settingsObject'],
+            'HEAD only shows its view' => ['HEAD', 'settingsObject'],
+        ];
+    }
+
+    #[DataProvider('requestMethodsOfAnUnsafeCommand')]
+    public function testExecuteCommandRunsAnAllowlistedUnsafeCommandOnlyByPost(string $method, string $expected): void
     {
         $this->stubMaintenanceGranted();
         $ctrl = $this->createMock(ilCtrl::class);
         $ctrl->method('getCmd')->willReturn('saveSettings');
-        $gui = $this->createGuiForExecuteCommand(false, null, [], $ctrl, ['viewObject', 'saveSettingsObject']);
-        $gui->expects($this->once())->method('saveSettingsObject');
+        $gui = $this->createGuiForExecuteCommand(
+            false,
+            null,
+            [],
+            $ctrl,
+            ['viewObject', 'saveSettingsObject', 'settingsObject']
+        );
+        $request = $this->createStub(\Psr\Http\Message\ServerRequestInterface::class);
+        $request->method('getMethod')->willReturn($method);
+        $http = $this->createStub(\ILIAS\HTTP\GlobalHttpState::class);
+        $http->method('request')->willReturn($request);
+        $this->inject($gui, 'http', $http);
+
+        foreach (['saveSettingsObject', 'settingsObject'] as $candidate) {
+            $gui->expects($candidate === $expected ? $this->once() : $this->never())->method($candidate);
+        }
         $gui->expects($this->never())->method('viewObject');
 
         $gui->executeCommand();

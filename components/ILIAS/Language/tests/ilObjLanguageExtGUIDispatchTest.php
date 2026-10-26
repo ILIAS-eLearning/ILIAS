@@ -71,6 +71,12 @@ class ilObjLanguageExtGUIDispatchTest extends TestCase
         $action_token->method('getName')->willReturn('table_action');
         $this->inject($gui, 'action_token', $action_token);
         $this->inject($gui, 'request_wrapper', $this->createStub(RequestWrapper::class));
+        // unsafe commands only run by POST, see ilObjLanguageExtGUI::VIEW_OF_UNSAFE_COMMAND
+        $request = $this->createStub(\Psr\Http\Message\ServerRequestInterface::class);
+        $request->method('getMethod')->willReturn('POST');
+        $http = $this->createStub(\ILIAS\HTTP\GlobalHttpState::class);
+        $http->method('request')->willReturn($request);
+        $this->inject($gui, 'http', $http);
 
         return $gui;
     }

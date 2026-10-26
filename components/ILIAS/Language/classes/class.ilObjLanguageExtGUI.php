@@ -65,6 +65,16 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
     private const array IMPORT_MODES = ['keepall', 'keepnew', 'replace', 'delete'];
     private const array IMPORT_WITHOUT_CONFIRMATION = ['keepall', 'keepnew'];
     private const int REMARK_MAX_LENGTH = 250;
+    /** unsafe command => view shown instead when it is not reached by POST */
+    private const array VIEW_OF_UNSAFE_COMMAND = [
+        'saveEditedEntries' => 'view',
+        'upload' => 'import',
+        'importConfirmed' => 'import',
+        'maintainExecute' => 'maintain',
+        'maintainConfirmed' => 'maintain',
+        'saveSettings' => 'settings',
+        'saveNewEntry' => 'addNewEntry',
+    ];
     private string $langmode;
     private readonly AddLanguageEntry $add_language_entry;
     private readonly SetLanguageTranslationEnabled $set_language_translation_enabled;
@@ -186,7 +196,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
      */
     public function getUnsafeGetCommands(): array
     {
-        return ['saveEditedEntries', 'upload', 'importConfirmed', 'maintainExecute', 'maintainConfirmed', 'saveSettings', 'saveNewEntry'];
+        return array_keys(self::VIEW_OF_UNSAFE_COMMAND);
     }
 
     /**
@@ -227,7 +237,11 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
             }
         }
 
-        $cmd = $this->ctrl->getCmd("view");
+        $cmd = $this->ctrl->getCmd('view');
+        // the CSRF token alone also admits a GET, a state change needs the POST of the form
+        if (isset(self::VIEW_OF_UNSAFE_COMMAND[$cmd]) && $this->http->request()->getMethod() !== 'POST') {
+            $cmd = self::VIEW_OF_UNSAFE_COMMAND[$cmd];
+        }
         // exact match: ilCtrl compares the unsafe commands case-sensitively, PHP method calls are not
         match ($cmd) {
             'saveEditedEntries',
