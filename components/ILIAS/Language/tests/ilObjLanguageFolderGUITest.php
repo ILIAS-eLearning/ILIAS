@@ -339,12 +339,10 @@ class ilObjLanguageFolderGUITest extends TestCase
         $this->assertInstanceOf(ilCtrlSecurityInterface::class, $gui);
 
         $this->assertEqualsCanonicalizing(
-            ['executeTableAction', 'enableLanguageDetection', 'disableLanguageDetection'],
+            ['executeTableAction', 'enableLanguageDetection', 'disableLanguageDetection', 'confirmLanguageDetection'],
             $gui->getUnsafeGetCommands()
         );
         $this->assertSame([], $gui->getSafePostCommands());
-        // read-only: must stay reachable by the plain GET links of the toggle
-        $this->assertNotContains('confirmLanguageDetection', $gui->getUnsafeGetCommands());
     }
 
     /**

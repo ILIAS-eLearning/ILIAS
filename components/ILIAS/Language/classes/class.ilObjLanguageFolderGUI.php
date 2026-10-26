@@ -121,6 +121,8 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
             self::CMD_TABLE_ACTION,
             'enableLanguageDetection',
             'disableLanguageDetection',
+            // sets the session marker, a foreign link without rtoken must not open the modal
+            'confirmLanguageDetection',
         ];
     }
 

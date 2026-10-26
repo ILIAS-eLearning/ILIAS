@@ -2296,6 +2296,17 @@ class ilObjLanguageExtGUITest extends TestCase
     }
 
     /** A token in the URL never opens the confirmation, only the one-time marker of the Vormerkung does. */
+    /** Exports end in .lang.local, .lang.global etc., dropzone would reject them by name; the server checks the content. */
+    public function testTheImportFileFieldFiltersNoFileTypesButLimitsTheSize(): void
+    {
+        [$gui] = $this->createGuiForForms();
+        $file = $this->invokeProtectedMethod($gui, 'buildImportForm')->getInputs()['file'];
+
+        self::assertInstanceOf(\ILIAS\UI\Implementation\Component\Input\Field\File::class, $file);
+        self::assertSame([], $file->getAcceptedMimeTypes());
+        self::assertLessThanOrEqual(ilLanguageImportUploadHandlerGUI::MAX_FILE_SIZE, $file->getMaxFileSize());
+    }
+
     public function testImportObjectWithoutTheShowMarkerShowsOnlyTheFormAndCleansUp(): void
     {
         foreach ([null, 'tok'] as $token) {

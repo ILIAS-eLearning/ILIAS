@@ -810,9 +810,8 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
                 // one file is the default of the File field
                 'file' => $field->file($this->getImportUploadHandler(), $this->lng->txt('file'))
                     ->withRequired(true)
-                    ->withMaxFileSize(ilLanguageImportUploadHandlerGUI::MAX_FILE_SIZE)
-                    // dropzone.js also accepts file extensions, the server checks the content
-                    ->withAcceptedMimeTypes(['.lang']),
+                    // no type filter: dropzone checks only the name end, exports end in .lang.local etc.
+                    ->withMaxFileSize(ilLanguageImportUploadHandlerGUI::MAX_FILE_SIZE),
                 'mode' => $mode->withValue(in_array($preset, self::IMPORT_MODES, true) ? $preset : 'keepall'),
             ]
         )->withSubmitLabel($this->lng->txt('upload'));
