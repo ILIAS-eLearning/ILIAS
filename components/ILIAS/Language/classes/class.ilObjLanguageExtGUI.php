@@ -434,10 +434,9 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
             $missing_entries = RepositoryProvider::filterAddable($DIC->database(), $modules, array_values($missing_entries));
         }
 
-        $this->tpl->setContent(
-            $this->ui_renderer->render(array_filter([$filter, $table, $reopened_modal]))
-            . $this->buildMissingEntries($missing_entries)
-        );
+        $this->tpl->setContent($this->ui_renderer->render(
+            array_filter([$filter, $table, $this->buildMissingEntries($missing_entries), $reopened_modal])
+        ));
     }
 
     /**
@@ -1602,31 +1601,31 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
     // new entries
     //
 
-    protected function buildMissingEntries(?array $a_missing = null): string
+    /** @param list<string|int> $missing topics (a numeric one arrives as int) of the translated page without an entry in this language */
+    protected function buildMissingEntries(array $missing): ?\ILIAS\UI\Component\Panel\Standard
     {
-        global $DIC;
-        $ilCtrl = $DIC->ctrl();
-
-        if (!count($a_missing)) {
-            return '';
+        if ($missing === []) {
+            return null;
         }
 
-        $res = array("<h3>" . $this->lng->txt("adm_missing_entries") . "</h3>", "<ul>");
-
-        foreach ($a_missing as $entry) {
+        $items = [];
+        foreach ($missing as $entry) {
             $entry = (string) $entry;
             // ilCtrl only escapes "&" of a parameter value
-            $ilCtrl->setParameter($this, "eid", $this->refinery->encode()->url()->transform($entry));
-            $link = $this->refinery->encode()->htmlAttributeValue()->transform($ilCtrl->getLinkTarget($this, "addNewEntry"));
-            $res[] = '<li>' . $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform($entry) .
-                ' <a href="' . $link .
-                '">' . $this->lng->txt("adm_missing_entry_add_action") . '</a></li>';
-            $ilCtrl->setParameter($this, "eid", "");
+            $this->ctrl->setParameter($this, 'eid', $this->refinery->encode()->url()->transform($entry));
+            // listing items given as string are not escaped by the KS renderer
+            $items[] = $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform($entry) . ' '
+                . $this->ui_renderer->render($this->ui_factory->link()->standard(
+                    $this->lng->txt('adm_missing_entry_add_action'),
+                    $this->ctrl->getLinkTarget($this, 'addNewEntry')
+                ));
+            $this->ctrl->clearParameterByClass(self::class, 'eid');
         }
 
-        $res[] = "</ul>";
-
-        return implode("\n", $res);
+        return $this->ui_factory->panel()->standard(
+            $this->lng->txt('adm_missing_entries'),
+            $this->ui_factory->listing()->unordered($items)
+        );
     }
 
     public function addNewEntryObject(?\ILIAS\UI\Component\Input\Container\Form\Standard $form = null): void

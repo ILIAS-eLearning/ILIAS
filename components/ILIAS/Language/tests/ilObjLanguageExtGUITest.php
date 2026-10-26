@@ -187,7 +187,7 @@ class ilObjLanguageExtGUITest extends TestCase
         ];
     }
 
-    /** The list text is HTML-escaped, the "eid" parameter URL-encoded and the link target safe inside the href attribute. */
+    /** The list text is HTML-escaped and the "eid" parameter URL-encoded; the link is a KS link. */
     #[DataProvider('missingTopicProvider')]
     public function testBuildMissingEntriesEscapesTheTopicForTextParameterAndLink(string|int $topic, string $eid, string $text): void
     {
@@ -198,20 +198,23 @@ class ilObjLanguageExtGUITest extends TestCase
                 $parameters[] = [$name, $value];
             }
         );
-        $ctrl->method('getLinkTarget')->willReturn('ilias.php?a=1&b="2"');
-        $GLOBALS['DIC'] = new \ILIAS\DI\Container();
-        $GLOBALS['DIC']['ilCtrl'] = $ctrl;
+        $ctrl->method('getLinkTarget')->willReturn('ilias.php?a=1');
+        $renderer = $this->createStub(\ILIAS\UI\Renderer::class);
+        $renderer->method('render')->willReturn('<a>link</a>');
         $gui = $this->newGuiWithoutConstructor(ilObjLanguageExtGUI::class);
+        $this->inject($gui, 'ctrl', $ctrl);
         $this->inject($gui, 'lng', $this->createLanguageMockReturningTopicAsIs());
+        $this->inject($gui, 'ui_factory', $this->factory());
+        $this->inject($gui, 'ui_renderer', $renderer);
         $this->inject($gui, 'refinery', new \ILIAS\Refinery\Factory(
             $this->createStub(\ILIAS\Data\Factory::class),
             $this->createStub(\ILIAS\Language\Language::class)
         ));
 
-        $html = (new ReflectionMethod(ilObjLanguageExtGUI::class, 'buildMissingEntries'))->invoke($gui, [$topic]);
+        $panel = (new ReflectionMethod(ilObjLanguageExtGUI::class, 'buildMissingEntries'))->invoke($gui, [$topic]);
 
-        $this->assertSame([['eid', $eid], ['eid', '']], $parameters);
-        $this->assertStringContainsString('<li>' . $text . ' <a href="ilias.php&#x3F;a&#x3D;1&amp;b&#x3D;&quot;2&quot;">', $html);
+        $this->assertSame([['eid', $eid]], $parameters);
+        $this->assertSame([$text . ' <a>link</a>'], $panel->getContent()[0]->getItems());
     }
 
     // -----------------------------------------------------------------
@@ -967,8 +970,6 @@ class ilObjLanguageExtGUITest extends TestCase
                 't',
                 ['translation_0' => $posted, 'expected_entry_count' => '1']
             );
-            // the view shown again builds the missing entries with the global ilCtrl
-            $GLOBALS['DIC']['ilCtrl'] = $this->edit_ctrl;
             $this->edit_db->expects($this->never())->method('replace');
             $this->edit_db->expects($this->never())->method('insert');
             $this->edit_ctrl->expects($this->never())->method('redirect');

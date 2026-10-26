@@ -1106,13 +1106,13 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
         );
         $this->toolbar->addComponent($button);
 
-        $d = new ilLangDeprecated();
-        $res = "";
-        foreach ($d->getDeprecatedLangVars() as $key => $mod) {
-            $res .= $mod . "," . $key . "\n";
+        // one "module,identifier" line per entry as before, listing items given as string are not escaped by the KS renderer
+        $lines = [];
+        foreach ((new ilLangDeprecated())->getDeprecatedLangVars() as $key => $mod) {
+            $lines[] = htmlspecialchars($mod . ',' . $key, ENT_QUOTES, 'UTF-8');
         }
 
-        $this->tpl->setContent("<pre>" . $res . "</pre>");
+        $this->tpl->setContent($this->ui_renderer->render($this->ui_factory->listing()->unordered($lines)));
     }
 
     /**
