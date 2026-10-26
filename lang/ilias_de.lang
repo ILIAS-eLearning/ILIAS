@@ -4142,6 +4142,7 @@ common#:#file_created#:#Die Datei wurde hinzugefügt.
 common#:#file_edit#:#Einstellungen der Datei bearbeiten
 common#:#file_info#:#Einstellungen der Datei
 common#:#file_is_infected#:#Die Datei ist von einem Virus befallen.
+common#:#file_new#:#Neue Datei anlegen
 common#:#file_no_valid_file_type#:#Dieser Dateityp ist nicht erlaubt.
 common#:#file_not_found#:#Datei nicht gefunden
 common#:#file_not_found_sec#:#Diese Datei wurde in ILIAS nicht gefunden oder wurde aus Sicherheitsgründen gesperrt.
@@ -9886,6 +9887,8 @@ file#:#file_action_show_info#:#Der Reiter „Info“ wird angezeigt, wo die Date
 file#:#file_btn_lp_toggle_state_completed#:#Auf „Nicht bearbeitet“ setzen
 file#:#file_btn_lp_toggle_state_not_completed#:#Auf „Bearbeitet“ setzen
 file#:#file_copy#:#Datei kopieren
+file#:#file_create_empty_document#:#Leeres Dokument erstellen
+file#:#file_creation_mode#:#Art der Erstellung
 file#:#file_download#:#Datei herunterladen
 file#:#file_import#:#Dateiimport
 file#:#file_new_version#:#Neue Version anlegen
@@ -9893,6 +9896,7 @@ file#:#file_new_version_info#:#Eine neue Dateiversion anlegen. Alte Versionen bl
 file#:#file_publish#:#Entwurf veröffentlichen
 file#:#file_rollback_rollback_first#:#Die Version konnte nicht zurückgesetzt werden, weil ein unveröffentlichter Entwurf existiert.
 file#:#file_rollback_same_version#:#Dies ist bereits die veröffentlichte Version
+file#:#file_type#:#Dateityp
 file#:#file_unpublish#:#Als Entwurf markieren
 file#:#file_upload_info_file_with_critical_extension#:#Mindestens eine Datei enthält eine kritische oder unbekannte Dateiendung. Die Dateiendung wird bei jedem Download zu .sec geändert. Bitte kontaktieren Sie gegebenenfalls Ihre technische Betreuung. Dateiname(n): %s
 file#:#file_uploaded_by#:#Hochgeladen von
@@ -18047,11 +18051,15 @@ wiki#:#wiki_wiki_page#:#Wiki-Seite
 wiki#:#wiki_wiki_search#:#Suche im Wiki
 wiki#:#wiki_wpg#:#Wiki-Seite
 wopi#:#action_edit#:#Editieren
+wopi#:#action_editnew#:#Erstellen
+wopi#:#action_editnew_templates#:#Erstellen (Vorlagen)
 wopi#:#action_view#:#Anzeigen
 wopi#:#activate_saving_interval#:#Automatische Veröffentlichung
 wopi#:#activate_wopi#:#WOPI aktivieren
 wopi#:#close_wopi_editor#:#Editor schliessen
 wopi#:#close_wopi_editor_info#:#Es kann bis zu mehreren Minuten dauern, bis der externe Editor die Änderungen an ILIAS übertragen hat. Besuchen Sie diese Seite zu einem späteren Zeitpunkt wieder, wenn die gemachten Änderungen noch nicht ersichtlich sind.
+wopi#:#create_templates#:#Vorlagen erstellen
+wopi#:#create_templates_byline#:#Beim Erstellen eines leeren Dokuments werden auch Vorlagenformate wie dotx oder xltx angeboten.
 wopi#:#currently_supported#:#Derzeit unterstützte Dateiendungen
 wopi#:#msg_error_wopi_invalid_discorvery_url#:#Die eingegebene Discovery-URL ist ungültig oder kann nicht erreicht werden.
 wopi#:#msg_wopi_settings_modified#:#Einstellungen gespeichert

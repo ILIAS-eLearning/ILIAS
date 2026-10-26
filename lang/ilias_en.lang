@@ -4143,6 +4143,7 @@ common#:#file_created#:#File has been added.
 common#:#file_edit#:#Edit File Information
 common#:#file_info#:#File Information
 common#:#file_is_infected#:#The file is infected by a virus.
+common#:#file_new#:#New File
 common#:#file_no_valid_file_type#:#This file type is not allowed.
 common#:#file_not_found#:#File Not Found
 common#:#file_not_found_sec#:#This file cannot be found in ILIAS or has been blocked for security reasons.
@@ -9861,6 +9862,8 @@ file#:#file_action_show_info#:#The 'Info' tab is shown where the file could be d
 file#:#file_btn_lp_toggle_state_completed#:#Set Not Completed
 file#:#file_btn_lp_toggle_state_not_completed#:#Set Completed
 file#:#file_copy#:#Copy File
+file#:#file_create_empty_document#:#Create empty document
+file#:#file_creation_mode#:#Creation mode
 file#:#file_download#:#Download File
 file#:#file_import#:#Import File
 file#:#file_new_version#:#Create New Version
@@ -9868,6 +9871,7 @@ file#:#file_new_version_info#:#Create new file version. Previous versions will n
 file#:#file_publish#:#Publish Draft
 file#:#file_rollback_rollback_first#:#The selected version could not be published because an unpublished draft exists.
 file#:#file_rollback_same_version#:#This is already the published version!
+file#:#file_type#:#File type
 file#:#file_unpublish#:#Mark as Draft
 file#:#file_upload_info_file_with_critical_extension#:#At least one uploaded file contains a critical or unknown file ending. Whenever the file is downloaded, its ending will be changed to ‘.sec’. If necessary, contact your administrator. Filename(s): %s
 file#:#file_uploaded_by#:#Uploaded By
@@ -18000,11 +18004,15 @@ wiki#:#wiki_wiki_page#:#Wiki Page
 wiki#:#wiki_wiki_search#:#Wiki Search
 wiki#:#wiki_wpg#:#Wiki Page
 wopi#:#action_edit#:#Edit
+wopi#:#action_editnew#:#Create
+wopi#:#action_editnew_templates#:#Create (Templates)
 wopi#:#action_view#:#View
 wopi#:#activate_saving_interval#:#Automatic Publication
 wopi#:#activate_wopi#:#Activate WOPI
 wopi#:#close_wopi_editor#:#Close Editor
 wopi#:#close_wopi_editor_info#:#It can take up to several minutes for the external editor to transfer the changes to ILIAS. Visit this page again at a later time if the changes you have made are not yet visible.
+wopi#:#create_templates#:#Create Templates
+wopi#:#create_templates_byline#:#Template formats such as dotx or xltx are offered as well when creating an empty document.
 wopi#:#currently_supported#:#Currently supported Suffixes
 wopi#:#msg_error_wopi_invalid_discorvery_url#:#The Discovery URL entered is invalid or cannot be accessed.
 wopi#:#msg_wopi_settings_modified#:#Settings saved.

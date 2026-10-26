@@ -17,6 +17,14 @@
  *********************************************************************/
 
 use ILIAS\WOPI\Handler\RequestHandler;
+use ILIAS\WOPI\Lock\LockService;
+use ILIAS\WOPI\Lock\LockDBRepository;
+use ILIAS\WOPI\Handler\ProofValidator;
+use ILIAS\WOPI\Discovery\ProofKeyRepository;
+use ILIAS\WOPI\Discovery\ProofKeyRefresh;
+use ILIAS\WOPI\Discovery\Crawler;
+use ILIAS\WOPI\Discovery\ProofKeys;
+use ILIAS\Data\URI;
 
 // this is the base file for WOPI requests. It responds to the following requests:
 // - CheckFileInfo
@@ -31,5 +39,32 @@ require_once("../../artifacts/bootstrap_default.php");
 entry_point("ILIAS Legacy Initialisation Adapter");
 
 // handle all requests behind /wopi/index.php/
-$handler = new RequestHandler();
+global $DIC;
+$ilias_url = new URI(ILIAS_HTTP_PATH);
+$settings = $DIC->settings();
+$proof_keys = new ProofKeyRepository($settings);
+$handler = new RequestHandler(
+    $DIC->http(),
+    $DIC->resourceStorage(),
+    $DIC['file_delivery.data_signer'],
+    new LockService(new LockDBRepository($DIC->database())),
+    new ProofValidator($proof_keys->get()),
+    $ilias_url->getSchema() . '://' . $ilias_url->getAuthority(),
+    $settings->get('wopi_activated', '0') === '1',
+    (int) $settings->get('saving_interval', '0'),
+    $DIC['ui.upload_limit_resolver']->getPhpUploadLimitInBytes(),
+    \Closure::fromCallable(new ProofKeyRefresh(
+        $proof_keys,
+        $settings,
+        static function () use ($settings): ?ProofKeys {
+            $discovery_url = $settings->get('wopi_discovery_url');
+            $crawler = new Crawler();
+            if ($discovery_url === null || !$crawler->validate(new URI($discovery_url))) {
+                return null;
+            }
+            return $crawler->getProofKeys();
+        }
+    )),
+    $DIC->logger()->wopi()
+);
 $handler->handleRequest();

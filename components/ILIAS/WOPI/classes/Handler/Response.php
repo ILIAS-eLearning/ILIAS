@@ -48,6 +48,7 @@ class Response implements \JsonSerializable
     protected const CLOSE_POST_MESSAGE = 'ClosePostMessage';
     protected const SUPPORTS_LOCKS = 'SupportsLocks';
     protected const SUPPORTS_GET_LOCK = 'SupportsGetLock';
+    protected const SUPPORTS_EXTENDED_LOCK_LENGTH = 'SupportsExtendedLockLength';
     protected const USER_CAN_RENAME = 'UserCanRename';
 
     public function __construct(

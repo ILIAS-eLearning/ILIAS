@@ -37,7 +37,7 @@ final class GetFileInfoResponseTest extends TestCase
 
         $GLOBALS['DIC'] ??= new \ILIAS\DI\Container();
         if (!isset($GLOBALS['DIC']['ilDB'])) {
-            $db = $this->createMock(\ilDBInterface::class);
+            $db = $this->createStub(\ilDBInterface::class);
             $db->method('queryF')->willReturn($this->createStub(\ilDBStatement::class));
             $db->method('fetchAssoc')->willReturn(
                 ['firstname' => 'Ada', 'lastname' => 'Lovelace', 'title' => '', 'login' => 'ada']
@@ -48,12 +48,12 @@ final class GetFileInfoResponseTest extends TestCase
 
     private function responseFor(bool $editable, ?bool $user_can_write = null): array
     {
-        $information = $this->createMock(Information::class);
+        $information = $this->createStub(Information::class);
         $information->method('getSuffix')->willReturn('odt');
         $information->method('getSize')->willReturn(1234);
         $information->method('getCreationDate')->willReturn(new \DateTimeImmutable('2026-01-01 12:00:00'));
 
-        $revision = $this->createMock(Revision::class);
+        $revision = $this->createStub(Revision::class);
         $revision->method('getTitle')->willReturn('minutes.odt');
         $revision->method('getVersionNumber')->willReturn(3);
         $revision->method('getOwnerId')->willReturn(6);
@@ -132,5 +132,27 @@ final class GetFileInfoResponseTest extends TestCase
     {
         $this->assertFalse($this->responseFor(false, true)['EditModePostMessage']);
         $this->assertFalse($this->responseFor(true)['EditModePostMessage']);
+    }
+
+    /**
+     * ILIAS closes the WOPI client itself, a close button of the client would do nothing.
+     */
+    public function testNoCloseButtonOfTheClientIsAnnounced(): void
+    {
+        foreach ([false, true] as $editable) {
+            $response = $this->responseFor($editable);
+
+            $this->assertArrayNotHasKey('CloseUrl', $response);
+            $this->assertFalse($response['ClosePostMessage']);
+        }
+    }
+
+    public function testIdsAndVersionAreStrings(): void
+    {
+        $response = $this->responseFor(true);
+
+        $this->assertSame('6', $response['OwnerId']);
+        $this->assertSame('6', $response['UserId']);
+        $this->assertIsString($response['Version']);
     }
 }

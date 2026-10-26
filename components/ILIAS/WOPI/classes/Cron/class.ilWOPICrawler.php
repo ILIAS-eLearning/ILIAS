@@ -22,6 +22,7 @@ use ILIAS\Cron\Job\Schedule\JobScheduleType;
 use ILIAS\WOPI\Discovery\Crawler;
 use ILIAS\WOPI\Discovery\AppDBRepository;
 use ILIAS\WOPI\Discovery\ActionDBRepository;
+use ILIAS\WOPI\Discovery\ProofKeyRepository;
 use ILIAS\WOPI\Discovery\AppRepository;
 use ILIAS\WOPI\Discovery\ActionRepository;
 use ILIAS\Data\URI;
@@ -109,6 +110,7 @@ class ilWOPICrawler extends CronJob
         }
         $result->setMessage($this->language->txt('wopi_crawler_cronjob_success'));
         $this->app_repository->storeCollection($apps, $this->action_repository);
+        (new ProofKeyRepository($this->settings))->store($this->crawler->getProofKeys());
 
         return $result;
     }

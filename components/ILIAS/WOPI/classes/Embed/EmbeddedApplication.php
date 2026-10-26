@@ -22,6 +22,7 @@ namespace ILIAS\WOPI\Embed;
 
 use ILIAS\Data\URI;
 use ILIAS\WOPI\Discovery\Action;
+use ILIAS\WOPI\Discovery\Crawler;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\WOPI\Handler\RequestHandler;
@@ -71,7 +72,7 @@ class EmbeddedApplication
         $this->ilias_base_url = new URI(ILIAS_HTTP_PATH);
         $editable = in_array(
             $this->action?->getName(),
-            [ActionTarget::EDIT->value, ActionTarget::EMBED_EDIT->value],
+            [ActionTarget::EDIT->value, ActionTarget::EMBED_EDIT->value, ActionTarget::EDIT_NEW->value],
             true
         );
 
@@ -113,7 +114,8 @@ class EmbeddedApplication
 
     public function getActionLauncherURL(): ?URI
     {
-        if ($this->action === null) {
+        // launcher URLs stored before they have been checked while crawling
+        if ($this->action === null || !Crawler::isWebUrl($this->action->getLauncherUrl())) {
             return null;
         }
 
