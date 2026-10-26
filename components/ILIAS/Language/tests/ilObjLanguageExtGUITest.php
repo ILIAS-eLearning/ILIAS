@@ -18,7 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\Data\Result\Ok as ResultOk;
 use ILIAS\HTTP\Wrapper\RequestWrapper;
+use ILIAS\Language\Activities\RemoveLocalLanguageChanges;
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\UI\URLBuilderToken;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -34,7 +36,14 @@ class ilObjLanguageExtGUITest extends TestCase
 
     use UITestHelper;
     use ilObjLanguageExtGUITestFixture {
+        setUp as private setUpGuiTestSupport;
         tearDown as private tearDownGuiTestSupport;
+    }
+
+    protected function setUp(): void
+    {
+        $this->setUpGuiTestSupport();
+        $_SESSION = [];
     }
 
     /** The real, static ilSession writes into $_SESSION. */
@@ -1368,10 +1377,12 @@ class ilObjLanguageExtGUITest extends TestCase
             'unknown' => ['doesNotExist', 'edit'],
             'import' => ['import', 'import'],
             'upload' => ['upload', 'import'],
+            'importConfirmed' => ['importConfirmed', 'import'],
             'export' => ['export', 'export'],
             'download' => ['download', 'export'],
             'maintain' => ['maintain', 'maintain'],
             'maintainExecute' => ['maintainExecute', 'maintain'],
+            'maintainConfirmed' => ['maintainConfirmed', 'maintain'],
             'settings' => ['settings', 'settings'],
             'saveSettings' => ['saveSettings', 'settings'],
             'statistics' => ['statistics', 'statistics'],
@@ -1646,5 +1657,629 @@ class ilObjLanguageExtGUITest extends TestCase
         $this->invokeProtectedMethod($gui, 'resetEntriesTableRangeIfRequested');
 
         $this->addToAssertionCount(1); // reaching here without a fatal error IS the assertion
+    }
+
+    // -----------------------------------------------------------------
+    // Maintenance and import as KS forms: destructive choices are only stored (token + obj_id) and run
+    // after the confirmation; real KS factory, request and session, recording stubs for ctrl/tpl/renderer.
+    // -----------------------------------------------------------------
+
+    private const string MAINTAIN_PENDING = 'lang_ext_maintain_pending';
+    private const string MAINTAIN_TOKEN = 'lang_maintain_token';
+    private const string IMPORT_PENDING = 'lang_ext_import_pending';
+    private const string IMPORT_TOKEN = 'lang_import_token';
+
+    /** @var list<string> files of the current test, removed in cleanUpScratchFiles() */
+    private array $scratch_paths = [];
+
+    #[\PHPUnit\Framework\Attributes\After]
+    public function cleanUpScratchFiles(): void
+    {
+        foreach (array_reverse($this->scratch_paths) as $path) {
+            is_dir($path) ? @rmdir($path) : @unlink($path);
+        }
+        $this->scratch_paths = [];
+    }
+
+    private function scratchDir(): string
+    {
+        $dir = sys_get_temp_dir() . '/lng_gui_test_' . bin2hex(random_bytes(6));
+        mkdir($dir);
+        $this->scratch_paths[] = $dir;
+
+        return $dir;
+    }
+
+    /**
+     * @param array<string, mixed> $post
+     * @param array<string, string> $query token parameters of the request
+     * @return array{0: ilObjLanguageExtGUI, 1: stdClass} the GUI and what it did (redirects, messages, contents, rendered, params, object, handler)
+     */
+    private function createGuiForForms(
+        string $langmode = '1',
+        array $post = [],
+        array $query = [],
+        ?string $upload_name = null,
+        string $key = 'de'
+    ): array {
+        $dic = $this->init();
+        $GLOBALS['DIC'] = $dic;
+        $ctx = new stdClass();
+        $ctx->redirects = [];
+        $ctx->messages = [];
+        $ctx->contents = [];
+        $ctx->rendered = [];
+        $ctx->params = [];
+
+        $ctrl = $this->createStub(ilCtrl::class);
+        $ctrl->method('setParameter')->willReturnCallback(
+            static function ($gui, string $name, $value) use ($ctx): void {
+                $ctx->params[$name] = $value;
+            }
+        );
+        $ctrl->method('clearParameterByClass')->willReturnCallback(
+            static function (string $class, string $name) use ($ctx): void {
+                unset($ctx->params[$name]);
+            }
+        );
+        $ctrl->method('getFormAction')->willReturnCallback(
+            static fn($gui, string $cmd): string => 'action:' . $cmd . '?' . http_build_query($ctx->params)
+        );
+        $ctrl->method('redirect')->willReturnCallback(
+            static function ($gui, string $cmd) use ($ctx): void {
+                $ctx->redirects[] = [$cmd, $ctx->params];
+            }
+        );
+
+        $tpl = $this->createStub(ilGlobalTemplateInterface::class);
+        $tpl->method('setOnScreenMessage')->willReturnCallback(
+            static function (string $type, string $text) use ($ctx): void {
+                $ctx->messages[] = [$type, $text];
+            }
+        );
+        $tpl->method('setContent')->willReturnCallback(
+            static function (string $content) use ($ctx): void {
+                $ctx->contents[] = $content;
+            }
+        );
+
+        $renderer = $this->createStub(\ILIAS\UI\Renderer::class);
+        $renderer->method('render')->willReturnCallback(
+            static function ($components) use ($ctx): string {
+                $ctx->rendered[] = is_array($components) ? $components : [$components];
+                return 'html';
+            }
+        );
+
+        $request = $this->createStub(ServerRequestInterface::class);
+        $request->method('getParsedBody')->willReturn($post);
+        $request->method('getQueryParams')->willReturn([]);
+        $http = $this->createStub(\ILIAS\HTTP\GlobalHttpState::class);
+        $http->method('request')->willReturn($request);
+
+        $request_wrapper = $this->createStub(RequestWrapper::class);
+        $request_wrapper->method('has')->willReturnCallback(static fn(string $name): bool => isset($query[$name]));
+        $request_wrapper->method('retrieve')->willReturnCallback(static fn(string $name) => $query[$name] ?? null);
+
+        $ctx->object = $this->createFakeLanguageObjectMock($key);
+
+        $ctx->handler = new class () extends ilLanguageImportUploadHandlerGUI {
+            /** @var array<string, string> identifier => file name of the uploads of this session */
+            public array $files = [];
+            /** @var list<string> */
+            public array $discarded = [];
+            /** @var list<list<string>> */
+            public array $discard_all_calls = [];
+            /** @var list<string> */
+            public array $local_files = [];
+
+            public function __construct()
+            {
+            }
+
+            public function getFileName(string $identifier): ?string
+            {
+                return $this->files[$identifier] ?? null;
+            }
+
+            public function copyToLocalFile(string $identifier): ?string
+            {
+                if (!isset($this->files[$identifier])) {
+                    return null;
+                }
+                $path = sys_get_temp_dir() . '/lng_gui_local_' . bin2hex(random_bytes(6));
+                file_put_contents($path, 'local copy');
+
+                return $this->local_files[] = $path;
+            }
+
+            public function discard(string $identifier): void
+            {
+                $this->discarded[] = $identifier;
+            }
+
+            public function discardAll(array $except = []): void
+            {
+                $this->discard_all_calls[] = $except;
+            }
+        };
+        if ($upload_name !== null) {
+            $ctx->handler->files['up1'] = $upload_name;
+        }
+
+        $gui = $this->getMockBuilder(ilObjLanguageExtGUI::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods([])
+            ->getMock();
+        $this->inject($gui, 'object', $ctx->object);
+        $this->inject($gui, 'lng', $this->createLanguageMockReturningTopicAsIs());
+        $this->inject($gui, 'ctrl', $ctrl);
+        $this->inject($gui, 'ui_factory', $this->factory());
+        $this->inject($gui, 'ui_renderer', $renderer);
+        $this->inject($gui, 'tpl', $tpl);
+        $this->inject($gui, 'http', $http);
+        $this->inject($gui, 'request_wrapper', $request_wrapper);
+        $this->inject($gui, 'refinery', $dic['refinery']);
+        $this->inject($gui, 'activity_error_logger', $this->activityErrorLoggerForGui());
+        $declaring = new ReflectionClass(ilObjLanguageExtGUI::class);
+        $declaring->getProperty('langmode')->setValue($gui, $langmode);
+        $declaring->getProperty('import_upload_handler')->setValue($gui, $ctx->handler);
+        $ctx->remove_local_language_changes = $this->createMock(RemoveLocalLanguageChanges::class);
+        $this->inject($gui, 'remove_local_language_changes', $ctx->remove_local_language_changes);
+        $user = $this->createStub(ilObjUser::class);
+        $user->method('getId')->willReturn(6);
+        $this->inject($gui, 'user', $user);
+
+        return [$gui, $ctx];
+    }
+
+    /**
+     * Post body of a form of the GUI: field key => value, addressed by the real input names.
+     *
+     * @param array<string, mixed> $values
+     * @return array<string, mixed>
+     */
+    private function postFor(string $builder, array $values): array
+    {
+        [$probe] = $this->createGuiForForms();
+        $body = [];
+        foreach ($this->invokeProtectedMethod($probe, $builder)->getInputs() as $key => $input) {
+            if (!array_key_exists($key, $values)) {
+                continue;
+            }
+            if ($input instanceof \ILIAS\UI\Implementation\Component\Input\Field\File) {
+                // dynamic inputs: parent name => [name of the hidden input => identifiers]
+                $template = $input->getTemplateForDynamicInputs();
+                self::assertInstanceOf(\ILIAS\UI\Implementation\Component\Input\Field\FormInput::class, $template);
+                preg_match('/\[([^\]]+)\]\[\]$/', $template->getName(), $inner);
+                $body[$input->getName()] = [$inner[1] => $values[$key]];
+            } else {
+                $body[$input->getName()] = $values[$key];
+            }
+        }
+
+        return $body;
+    }
+
+    /**
+     * @param array<string, string> $query
+     * @return array{0: ilObjLanguageExtGUI, 1: stdClass}
+     */
+    private function maintainGui(string $option, string $langmode = '1', array $query = []): array
+    {
+        return $this->createGuiForForms(
+            $langmode,
+            $this->postFor('buildMaintainForm', ['maintain' => $option]),
+            $query
+        );
+    }
+
+    /** @return string the path of the distributed language file, which exists */
+    private function givenDistributedLanguageFile(ilObjLanguageExt&MockObject $object): string
+    {
+        $dir = $this->scratchDir();
+        $file = $dir . '/ilias_de.lang';
+        file_put_contents($file, 'dist');
+        $this->scratch_paths[] = $file;
+        $object->method('getLangPath')->willReturn($dir);
+
+        return $file;
+    }
+
+    /**
+     * Stores a pending action like storePending() does.
+     *
+     * @param array<string, mixed> $data
+     */
+    private function givenPending(string $session_key, array $data, string $token = 'tok', int $obj_id = 0): void
+    {
+        $_SESSION[$session_key] = ['token' => $token, 'obj_id' => $obj_id] + $data;
+    }
+
+    #[DataProvider('destructiveMaintainOptions')]
+    public function testMaintainExecuteOnlyStoresADestructiveOptionAndRedirectsWithItsToken(
+        string $option,
+        string $langmode
+    ): void {
+        [$gui, $ctx] = $this->maintainGui($option, $langmode);
+        $ctx->object->expects($this->never())->method('importLanguageFile');
+        $ctx->object->expects($this->never())->method('setLocal');
+
+        $gui->maintainExecuteObject();
+
+        $pending = $_SESSION[self::MAINTAIN_PENDING];
+        self::assertSame($option, $pending['option']);
+        self::assertSame(0, $pending['obj_id']);
+        self::assertMatchesRegularExpression('/^[0-9a-f]{16}$/', $pending['token']);
+        self::assertSame([['maintain', [self::MAINTAIN_TOKEN => $pending['token']]]], $ctx->redirects);
+        self::assertSame([], $ctx->messages);
+    }
+
+    /** @return array<string, array{string, string}> */
+    public static function destructiveMaintainOptions(): array
+    {
+        return [
+            'load' => ['load', '0'],
+            'clear' => ['clear', '0'],
+            'delete_added' => ['delete_added', '1'],
+            'remove_local_file' => ['remove_local_file', '1'],
+            'merge' => ['merge', '1'],
+        ];
+    }
+
+    public function testMaintainExecuteRunsSaveDistDirectlyWithoutVormerkung(): void
+    {
+        [$gui, $ctx] = $this->maintainGui('save_dist', '0');
+        $source_dir = $this->scratchDir();
+        $target_dir = $this->scratchDir();
+        file_put_contents($source_dir . '/ilias_de.lang', 'dist');
+        $this->scratch_paths[] = $source_dir . '/ilias_de.lang';
+        $this->scratch_paths[] = $target_dir . '/ilias_de.lang';
+        $ctx->object->method('getLangPath')->willReturn($source_dir);
+        $ctx->object->method('getDataPath')->willReturn($target_dir);
+
+        $gui->maintainExecuteObject();
+
+        self::assertSame('dist', file_get_contents($target_dir . '/ilias_de.lang'));
+        self::assertSame([['success', 'language_saved_dist']], $ctx->messages);
+        self::assertArrayNotHasKey(self::MAINTAIN_PENDING, $_SESSION);
+        self::assertSame([['maintain', []]], $ctx->redirects);
+    }
+
+    /** @return array<string, array{array<string, mixed>, string}> */
+    public static function invalidMaintainSubmissions(): array
+    {
+        return [
+            'unknown option' => [['maintain' => 'format_disk'], '1'],
+            'langmode option without langmode' => [['maintain' => 'remove_local_file'], '0'],
+            'merge without langmode' => [['maintain' => 'merge'], '0'],
+            'nothing selected' => [[], '1'],
+        ];
+    }
+
+    /** @param array<string, mixed> $values */
+    #[DataProvider('invalidMaintainSubmissions')]
+    public function testMaintainExecuteRefusesAnOptionThatIsNotOfferedAndRunsNothing(array $values, string $langmode): void
+    {
+        [$gui, $ctx] = $this->createGuiForForms(
+            $langmode,
+            $this->postFor('buildMaintainForm', $values)
+        );
+        $ctx->object->expects($this->never())->method('importLanguageFile');
+        $ctx->object->expects($this->never())->method('setLocal');
+
+        $gui->maintainExecuteObject();
+
+        self::assertSame([['failure', 'form_input_not_valid']], $ctx->messages);
+        self::assertArrayNotHasKey(self::MAINTAIN_PENDING, $_SESSION);
+        self::assertSame([], $ctx->redirects);
+        self::assertCount(1, $ctx->contents, 'the form is shown again');
+    }
+
+    public function testMaintainConfirmedRunsTheStoredOptionExactlyOnceAndClearsTheVormerkung(): void
+    {
+        [$gui, $ctx] = $this->createGuiForForms('0', [], [self::MAINTAIN_TOKEN => 'tok']);
+        $this->givenPending(self::MAINTAIN_PENDING, ['option' => 'clear']);
+        $ctx->remove_local_language_changes->expects($this->once())->method('maybePerformAs')
+            ->with($this->anything(), 6, ['language_keys' => ['de']])
+            ->willReturn(new ResultOk(['removed_local_changes_language_keys' => ['de']]));
+
+        $gui->maintainConfirmedObject();
+        self::assertArrayNotHasKey(self::MAINTAIN_PENDING, $_SESSION);
+        self::assertSame([['success', 'language_cleared_local']], $ctx->messages);
+        self::assertSame([['maintain', []]], $ctx->redirects);
+
+        // reload / second submit with the same token
+        $gui->maintainConfirmedObject();
+
+        self::assertSame(
+            [['success', 'language_cleared_local'], ['failure', 'action_aborted']],
+            $ctx->messages
+        );
+    }
+
+    /** @return array<string, array{?string, int, string}> token of the request, obj_id and option of the Vormerkung */
+    public static function unusableMaintainConfirmations(): array
+    {
+        return [
+            'wrong token' => ['other', 0, 'clear'],
+            'missing token' => [null, 0, 'clear'],
+            'foreign language' => ['tok', 99, 'clear'],
+            'option not offered any more' => ['tok', 0, 'merge'],
+        ];
+    }
+
+    #[DataProvider('unusableMaintainConfirmations')]
+    public function testMaintainConfirmedAbortsWithoutRunningAnythingForAnUnusableVormerkung(
+        ?string $token,
+        int $obj_id,
+        string $option
+    ): void {
+        [$gui, $ctx] = $this->createGuiForForms('0', [], $token === null ? [] : [self::MAINTAIN_TOKEN => $token]);
+        $this->givenDistributedLanguageFile($ctx->object);
+        $this->givenPending(self::MAINTAIN_PENDING, ['option' => $option], 'tok', $obj_id);
+        $ctx->object->expects($this->never())->method('importLanguageFile');
+        $ctx->object->expects($this->never())->method('setLocal');
+        $ctx->remove_local_language_changes->expects($this->never())->method('maybePerformAs');
+
+        $gui->maintainConfirmedObject();
+
+        self::assertSame([['failure', 'action_aborted']], $ctx->messages);
+        self::assertArrayNotHasKey(self::MAINTAIN_PENDING, $_SESSION);
+        self::assertSame([['maintain', []]], $ctx->redirects);
+    }
+
+    public function testMaintainConfirmedNeverAcceptsAMissingTokenEvenForAVormerkungWithAnEmptyToken(): void
+    {
+        [$gui, $ctx] = $this->createGuiForForms('0');
+        $this->givenPending(self::MAINTAIN_PENDING, ['option' => 'clear'], '');
+        $ctx->object->expects($this->never())->method('importLanguageFile');
+
+        $gui->maintainConfirmedObject();
+
+        self::assertSame([['failure', 'action_aborted']], $ctx->messages);
+    }
+
+    public function testMaintainObjectShowsFormAndConfirmationModalForAValidToken(): void
+    {
+        [$gui, $ctx] = $this->createGuiForForms('1', [], [self::MAINTAIN_TOKEN => 'tok']);
+        $this->givenPending(self::MAINTAIN_PENDING, ['option' => 'merge']);
+
+        $gui->maintainObject();
+
+        self::assertCount(1, $ctx->rendered);
+        [$form, $modal] = $ctx->rendered[0];
+        self::assertInstanceOf(\ILIAS\UI\Component\Input\Container\Form\Standard::class, $form);
+        self::assertInstanceOf(\ILIAS\UI\Component\Modal\Interruptive::class, $modal);
+        self::assertSame('action:maintainConfirmed?' . self::MAINTAIN_TOKEN . '=tok', $modal->getFormAction());
+        self::assertStringContainsString('language_merge_local_changes', $modal->getMessage());
+        self::assertSame(['0'], array_map(static fn($item) => $item->getId(), $modal->getAffectedItems()));
+        self::assertSame('html', $ctx->contents[0]);
+        // the token must not leak into the other links of the page
+        self::assertArrayNotHasKey(self::MAINTAIN_TOKEN, $ctx->params);
+        self::assertArrayHasKey(self::MAINTAIN_PENDING, $_SESSION, 'the Vormerkung stays until it is confirmed');
+    }
+
+    public function testMaintainObjectWithoutAValidTokenShowsOnlyTheFormAndDiscardsTheVormerkung(): void
+    {
+        foreach ([null, 'other'] as $token) {
+            [$gui, $ctx] = $this->createGuiForForms('1', [], $token === null ? [] : [self::MAINTAIN_TOKEN => $token]);
+            $this->givenPending(self::MAINTAIN_PENDING, ['option' => 'merge']);
+
+            $gui->maintainObject();
+
+            self::assertCount(1, $ctx->rendered);
+            self::assertCount(1, $ctx->rendered[0], (string) $token);
+            self::assertArrayNotHasKey(self::MAINTAIN_PENDING, $_SESSION);
+        }
+    }
+
+    // ---- import ---------------------------------------------------------------------------------
+
+    /**
+     * @param array<string, mixed> $values
+     * @param array<string, string> $query
+     * @return array{0: ilObjLanguageExtGUI, 1: stdClass}
+     */
+    private function importGui(array $values, array $query = [], string $upload_name = 'ilias_de.lang'): array
+    {
+        return $this->createGuiForForms(
+            '1',
+            $this->postFor('buildImportForm', $values),
+            $query,
+            $upload_name
+        );
+    }
+
+    #[DataProvider('importModesWithoutConfirmation')]
+    public function testUploadObjectImportsKeepModesDirectlyAndRemovesTheUpload(string $mode): void
+    {
+        [$gui, $ctx] = $this->importGui(['file' => ['up1'], 'mode' => $mode]);
+        $ctx->object->expects($this->once())->method('importLanguageFile')
+            ->with($this->callback(static fn(string $path): bool => is_file($path)), $mode);
+
+        $gui->uploadObject();
+
+        self::assertArrayNotHasKey(self::IMPORT_PENDING, $_SESSION);
+        self::assertContains('up1', $ctx->handler->discarded);
+        self::assertCount(1, $ctx->handler->local_files);
+        self::assertFileDoesNotExist($ctx->handler->local_files[0]);
+        self::assertSame([['success', 'language_file_imported']], $ctx->messages);
+        self::assertSame([['import', []]], $ctx->redirects);
+    }
+
+    /** @return array<string, array{string}> */
+    public static function importModesWithoutConfirmation(): array
+    {
+        return ['keepall' => ['keepall'], 'keepnew' => ['keepnew']];
+    }
+
+    #[DataProvider('importModesWithConfirmation')]
+    public function testUploadObjectOnlyStoresDestructiveModesAndKeepsTheUploadForTheConfirmation(string $mode): void
+    {
+        [$gui, $ctx] = $this->importGui(['file' => ['up1'], 'mode' => $mode]);
+        $ctx->object->expects($this->never())->method('importLanguageFile');
+
+        $gui->uploadObject();
+
+        $pending = $_SESSION[self::IMPORT_PENDING];
+        self::assertSame($mode, $pending['mode']);
+        self::assertSame('up1', $pending['upload']);
+        self::assertSame(0, $pending['obj_id']);
+        self::assertSame([['import', [self::IMPORT_TOKEN => $pending['token']]]], $ctx->redirects);
+        self::assertNotContains('up1', $ctx->handler->discarded);
+        self::assertSame([['up1']], $ctx->handler->discard_all_calls);
+        self::assertSame([], $ctx->handler->local_files);
+        self::assertSame([], $ctx->messages);
+    }
+
+    /** @return array<string, array{string}> */
+    public static function importModesWithConfirmation(): array
+    {
+        return ['replace' => ['replace'], 'delete' => ['delete']];
+    }
+
+    public function testUploadObjectRejectsAnUnknownModeAndImportsNothing(): void
+    {
+        [$gui, $ctx] = $this->importGui(['file' => ['up1'], 'mode' => 'format_disk']);
+        $ctx->object->expects($this->never())->method('importLanguageFile');
+
+        $gui->uploadObject();
+
+        self::assertSame([['failure', 'form_input_not_valid']], $ctx->messages);
+        self::assertCount(1, $ctx->contents);
+        self::assertArrayNotHasKey(self::IMPORT_PENDING, $_SESSION);
+        self::assertSame([], $ctx->redirects);
+        self::assertSame([], $ctx->handler->discarded);
+    }
+
+    #[DataProvider('importModesWithConfirmation')]
+    public function testUploadObjectRejectsAnUploadIdentifierOfAnotherSession(string $mode): void
+    {
+        [$gui, $ctx] = $this->importGui(['file' => ['foreign'], 'mode' => $mode]);
+        $ctx->object->expects($this->never())->method('importLanguageFile');
+
+        $gui->uploadObject();
+
+        self::assertSame([['failure', 'upload_error_file_not_found']], $ctx->messages);
+        self::assertCount(1, $ctx->contents);
+        self::assertArrayNotHasKey(self::IMPORT_PENDING, $_SESSION);
+        self::assertSame([], $ctx->redirects);
+        self::assertSame([], $ctx->handler->discarded);
+    }
+
+    public function testImportConfirmedRunsTheStoredImportOnceAndRemovesUploadAndLocalCopy(): void
+    {
+        [$gui, $ctx] = $this->createGuiForForms('1', [], [self::IMPORT_TOKEN => 'tok'], 'ilias_de.lang');
+        $this->givenPending(self::IMPORT_PENDING, ['mode' => 'replace', 'upload' => 'up1']);
+        $ctx->object->expects($this->once())->method('importLanguageFile')
+            ->with($this->callback(static fn(string $path): bool => is_file($path)), 'replace');
+
+        $gui->importConfirmedObject();
+        $gui->importConfirmedObject();
+
+        self::assertSame(['up1'], $ctx->handler->discarded);
+        self::assertCount(1, $ctx->handler->local_files);
+        self::assertFileDoesNotExist($ctx->handler->local_files[0]);
+        self::assertSame(
+            [['success', 'language_file_imported'], ['failure', 'action_aborted']],
+            $ctx->messages
+        );
+        self::assertArrayNotHasKey(self::IMPORT_PENDING, $_SESSION);
+        self::assertSame([['import', []], ['import', []]], $ctx->redirects);
+    }
+
+    /** Anything else may carry SQL: it is logged and only the generic message is shown. */
+    public function testImportConfirmedRemovesUploadAndLocalCopyEvenWhenTheImportThrows(): void
+    {
+        $this->stubLoggerLangError('SELECT secret FROM lng_data failed', ilException::class);
+        [$gui, $ctx] = $this->createGuiForForms('1', [], [self::IMPORT_TOKEN => 'tok'], 'ilias_de.lang');
+        $this->givenPending(self::IMPORT_PENDING, ['mode' => 'delete', 'upload' => 'up1']);
+        $ctx->object->expects($this->once())->method('importLanguageFile')
+            ->willThrowException(new ilException('SELECT secret FROM lng_data failed'));
+
+        $gui->importConfirmedObject();
+
+        self::assertSame(['up1'], $ctx->handler->discarded);
+        self::assertCount(1, $ctx->handler->local_files);
+        self::assertFileDoesNotExist($ctx->handler->local_files[0]);
+        self::assertSame([['failure', 'action_aborted']], $ctx->messages);
+        self::assertSame([['import', []]], $ctx->redirects);
+    }
+
+    /** An error of the upload itself (code 400) is meant for the user and shown escaped. */
+    public function testImportConfirmedShowsAnUploadErrorWithCode400Escaped(): void
+    {
+        [$gui, $ctx] = $this->createGuiForForms('1', [], [self::IMPORT_TOKEN => 'tok'], 'ilias_de.lang');
+        $this->givenPending(self::IMPORT_PENDING, ['mode' => 'delete', 'upload' => 'up1']);
+        $ctx->object->expects($this->once())->method('importLanguageFile')
+            ->willThrowException(new ilException('<b>not found</b>', 400));
+
+        $gui->importConfirmedObject();
+
+        self::assertSame([['failure', '&lt;b&gt;not found&lt;/b&gt;']], $ctx->messages);
+    }
+
+    /** @return array<string, array{?string, int, string, string}> token of the request, obj_id, mode and upload of the Vormerkung */
+    public static function unusableImportConfirmations(): array
+    {
+        return [
+            'wrong token' => ['other', 0, 'replace', 'up1'],
+            'missing token' => [null, 0, 'replace', 'up1'],
+            'foreign language' => ['tok', 99, 'replace', 'up1'],
+            'manipulated mode' => ['tok', 0, 'format_disk', 'up1'],
+        ];
+    }
+
+    #[DataProvider('unusableImportConfirmations')]
+    public function testImportConfirmedAbortsAndDiscardsTheUploadForAnUnusableVormerkung(
+        ?string $token,
+        int $obj_id,
+        string $mode,
+        string $upload
+    ): void {
+        [$gui, $ctx] = $this->createGuiForForms('1', [], $token === null ? [] : [self::IMPORT_TOKEN => $token], 'x.lang');
+        $this->givenPending(self::IMPORT_PENDING, ['mode' => $mode, 'upload' => $upload], 'tok', $obj_id);
+        $ctx->object->expects($this->never())->method('importLanguageFile');
+
+        $gui->importConfirmedObject();
+
+        self::assertSame([['failure', 'action_aborted']], $ctx->messages);
+        self::assertSame([$upload], $ctx->handler->discarded);
+        self::assertArrayNotHasKey(self::IMPORT_PENDING, $_SESSION);
+        self::assertSame([['import', []]], $ctx->redirects);
+    }
+
+    public function testImportObjectWithATokenOpensTheModalWithTheEscapedFileNameAndKeepsOnlyThatUpload(): void
+    {
+        [$gui, $ctx] = $this->createGuiForForms('1', [], [self::IMPORT_TOKEN => 'tok'], '<img src=x onerror=alert(1)>.lang');
+        $this->givenPending(self::IMPORT_PENDING, ['mode' => 'replace', 'upload' => 'up1']);
+
+        $gui->importObject();
+
+        [$form, $modal] = $ctx->rendered[0];
+        self::assertInstanceOf(\ILIAS\UI\Component\Input\Container\Form\Standard::class, $form);
+        self::assertInstanceOf(\ILIAS\UI\Component\Modal\Interruptive::class, $modal);
+        self::assertSame('action:importConfirmed?' . self::IMPORT_TOKEN . '=tok', $modal->getFormAction());
+        self::assertStringContainsString('&lt;img src=x onerror=alert(1)&gt;.lang', $modal->getMessage());
+        self::assertStringNotContainsString('<img', $modal->getMessage());
+        self::assertStringContainsString('language_mode_existing_replace', $modal->getMessage());
+        self::assertSame([['up1']], $ctx->handler->discard_all_calls);
+        self::assertArrayHasKey(self::IMPORT_PENDING, $_SESSION);
+    }
+
+    public function testImportObjectWithoutAValidTokenShowsOnlyTheFormAndCleansUp(): void
+    {
+        foreach ([null, 'other'] as $token) {
+            [$gui, $ctx] = $this->createGuiForForms('1', [], $token === null ? [] : [self::IMPORT_TOKEN => $token]);
+            $this->givenPending(self::IMPORT_PENDING, ['mode' => 'replace', 'upload' => 'up1']);
+
+            $gui->importObject();
+
+            self::assertCount(1, $ctx->rendered[0], (string) $token);
+            self::assertSame(['up1'], $ctx->handler->discarded);
+            self::assertSame([[]], $ctx->handler->discard_all_calls);
+            self::assertArrayNotHasKey(self::IMPORT_PENDING, $_SESSION);
+        }
     }
 }
