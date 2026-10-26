@@ -35,7 +35,10 @@ use ILIAS\Filesystem\Filesystem;
 class ilLanguageImportUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
 {
     private const string SESSION_KEY = 'lang_ext_import_uploads';
-    private const string FALLBACK_FILE_NAME = 'language.lang';
+    /** identifier => display name, the file itself is stored under STORED_FILE_NAME */
+    private const string NAMES_SESSION_KEY = 'lang_ext_import_upload_names';
+    private const string STORED_FILE_NAME = 'language.lang';
+    private const int MAX_NAME_LENGTH = 200;
     /** about five times the largest distributed language file */
     public const int MAX_FILE_SIZE = 10 * 1024 * 1024;
 
@@ -76,12 +79,13 @@ class ilLanguageImportUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
 
         $identifier = uniqid('lng', true);
         $this->temp_system->createDir($identifier);
-        $file_name = ilFileUtils::getValidFilename($result->getName());
-        $this->temp_system->put(
-            $identifier . '/' . ($file_name !== '' ? $file_name : self::FALLBACK_FILE_NAME),
-            file_get_contents($result->getPath())
-        );
+        // a fixed name on disk: getValidFilename() would mangle exports like ilias_de.lang.local
+        $this->temp_system->put($identifier . '/' . self::STORED_FILE_NAME, file_get_contents($result->getPath()));
         ilSession::set(self::SESSION_KEY, [...$this->getOwnIdentifiers(), $identifier]);
+        ilSession::set(
+            self::NAMES_SESSION_KEY,
+            [...$this->getNames(), $identifier => $this->toDisplayName($result->getName())]
+        );
 
         return new BasicHandlerResult(
             $this->getFileIdentifierParameterName(),
@@ -121,7 +125,7 @@ class ilLanguageImportUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
             $this->getFileIdentifierParameterName(),
             $identifier,
             // the KS renderer outputs the file name unescaped
-            htmlspecialchars(basename($path), ENT_QUOTES, 'UTF-8'),
+            htmlspecialchars((string) $this->getFileName($identifier), ENT_QUOTES, 'UTF-8'),
             (int) $this->temp_system->getSize($path, DataSize::Byte)->inBytes(),
             $mime_type
         );
@@ -135,11 +139,30 @@ class ilLanguageImportUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
         )));
     }
 
+    /** The name given by the browser, unescaped. */
     public function getFileName(string $identifier): ?string
     {
         $path = $this->getPath($identifier);
+        if ($path === null) {
+            return null;
+        }
+        $name = $this->getNames()[$identifier] ?? null;
 
-        return $path === null ? null : basename($path);
+        return is_string($name) ? $name : basename($path);
+    }
+
+    private function toDisplayName(string $client_name): string
+    {
+        $name = trim((string) preg_replace('/[\x00-\x1F\x7F]/u', '', basename(str_replace('\\', '/', $client_name))));
+        $name = mb_substr($name, 0, self::MAX_NAME_LENGTH);
+
+        return in_array($name, ['', '.', '..'], true) ? self::STORED_FILE_NAME : $name;
+    }
+
+    /** @return array<string, mixed> */
+    private function getNames(): array
+    {
+        return (array) (ilSession::get(self::NAMES_SESSION_KEY) ?? []);
     }
 
     /**
@@ -173,6 +196,9 @@ class ilLanguageImportUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
             $this->temp_system->deleteDir($identifier);
         }
         ilSession::set(self::SESSION_KEY, array_values(array_diff($own, [$identifier])));
+        $names = $this->getNames();
+        unset($names[$identifier]);
+        ilSession::set(self::NAMES_SESSION_KEY, $names);
     }
 
     /** @param list<string> $except identifiers to keep */

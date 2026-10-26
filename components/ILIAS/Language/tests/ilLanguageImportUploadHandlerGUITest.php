@@ -270,6 +270,39 @@ class ilLanguageImportUploadHandlerGUITest extends TestCase
         self::assertSame('language.lang', $handler->getFileName($result->getFileIdentifier()));
     }
 
+    /** @return array<string, array{string, string}> name given by the browser => display name */
+    public static function clientFileNames(): array
+    {
+        return [
+            'own export' => ['ilias_de_x.lang.local', 'ilias_de_x.lang.local'],
+            'ampersand and markup' => ['ilias_de_x&y <b>.lang.local', 'ilias_de_x&y <b>.lang.local'],
+            'windows path' => ['C:\\Users\\me\\ilias_de.lang.global', 'ilias_de.lang.global'],
+            'control characters' => ["ilias\x00_de\n.lang", 'ilias_de.lang'],
+            'too long' => [str_repeat('a', 250) . '.lang', str_repeat('a', 200)],
+            'only dots' => ['..', 'language.lang'],
+        ];
+    }
+
+    #[\PHPUnit\Framework\Attributes\DataProvider('clientFileNames')]
+    public function testTheFileIsStoredUnderAFixedNameAndTheBrowserNameIsKeptForDisplay(string $client_name, string $display_name): void
+    {
+        // getValidFilename() must play no part anymore: a sanitizer that destroys every name
+        $result = $this->runUpload($client_name, 7, static fn(string $n): string => 'mangled.sec');
+        $identifier = $result->getFileIdentifier();
+        $handler = $this->createHandler();
+
+        self::assertSame(HandlerResult::STATUS_OK, $result->getStatus());
+        self::assertSame([$identifier . '/language.lang'], array_map(
+            static fn($m): string => $m->getPath(),
+            $this->temp->listContents($identifier)
+        ));
+        self::assertSame($display_name, $handler->getFileName($identifier));
+        self::assertSame(htmlspecialchars($display_name, ENT_QUOTES, 'UTF-8'), $handler->getInfoResult($identifier)->getName());
+
+        $handler->discard($identifier);
+        self::assertSame([], $_SESSION['lang_ext_import_upload_names']);
+    }
+
     public function testTheInfoResultEscapesTheFileNameButTheStoredNameStaysRaw(): void
     {
         $this->storeUpload('own', '<img src=x onerror=alert(1)>.lang', true);
