@@ -1598,6 +1598,23 @@ class ilLanguageEntriesTableTest extends ilLanguageBaseTestCase
         );
     }
 
+    public function testGetRowsSortsANumericEntryNameWhichPhpStoresAsAnIntKey(): void
+    {
+        $this->setIsPageTranslation(false);
+
+        $object = $this->createObject('de');
+        $object->method('getAllValues')->willReturn(['m#:#a' => 'x', '12' => 'x']);
+        $global_file = $this->createMock(ilLanguageFile::class);
+        $global_file->method('getAllValues')->willReturn([]);
+        $object->method('getGlobalLanguageFile')->willReturn($global_file);
+        $table = $this->createTable($object, $this->createLng(default_language: 'de'));
+
+        self::assertSame(
+            ['12', 'm#:#a'],
+            $this->getEntryIdOrderViaRows($table, $this->filterData(['compare' => 'de']), new Order('module', Order::ASC))
+        );
+    }
+
     /**
      * KS renders text columns unescaped: all four cells must be escaped, the row id stays raw.
      */

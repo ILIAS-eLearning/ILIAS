@@ -229,7 +229,7 @@ class ilLanguageEntriesTable implements DataTable\DataRetrieval
 
         $sort_keys = [];
         foreach ($names as $name) {
-            $keys = explode($this->lng->separator, $name);
+            $keys = explode($this->lng->separator, (string) $name);
             $sort_keys[$name] = match ($order_field) {
                 'topic' => $keys[1] ?? '',
                 'translation' => (string) ($entries[$name] ?? ''),
@@ -241,10 +241,11 @@ class ilLanguageEntriesTable implements DataTable\DataRetrieval
         $direction = $order_direction === Order::DESC ? -1 : 1;
         uksort(
             $sort_keys,
-            static fn(string $a, string $b): int => $direction * strnatcasecmp($sort_keys[$a], $sort_keys[$b])
+            static fn(int|string $a, int|string $b): int => $direction * strnatcasecmp($sort_keys[$a], $sort_keys[$b])
         );
 
-        return array_keys($sort_keys);
+        // PHP turns numeric names into int keys
+        return array_map('strval', array_keys($sort_keys));
     }
 
     public function getTotalRowCount(

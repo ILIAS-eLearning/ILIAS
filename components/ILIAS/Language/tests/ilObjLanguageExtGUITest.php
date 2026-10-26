@@ -1056,6 +1056,31 @@ class ilObjLanguageExtGUITest extends TestCase
         self::assertSame(ilLanguageEntriesTable::DEFAULT_MODULE, $filter->getInputs()['module']->getValue());
     }
 
+    /**
+     * @return array<string, array{0: string}> stored remark
+     */
+    public static function remarkWithAmpersandProvider(): array
+    {
+        return [
+            'encoded entity' => ['Tom &amp; Jerry'],
+            'plain ampersand' => ['Tom & Jerry'],
+            'encoded tag' => ['&lt;b&gt;'],
+        ];
+    }
+
+    /** The comment field must show the stored remark unchanged, so saving it back does not alter it. */
+    #[DataProvider('remarkWithAmpersandProvider')]
+    public function testTheCommentFieldShowsARemarkWithAmpersandsUnchanged(string $remark): void
+    {
+        $gui = $this->createGuiForEditModal(true, ['common#:#access' => 'A'], ['common#:#access' => $remark]);
+
+        $value = $this->inputsOf($this->buildModal($gui, ['common#:#access']))['comment_0']->getValue();
+
+        // what the browser shows of KS' escaping (htmlspecialchars without double encoding)
+        $shown = html_entity_decode(htmlspecialchars($value, ENT_QUOTES, 'UTF-8', false), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        self::assertSame($remark, $shown);
+    }
+
     public function testTheModuleFilterPresetsAllModulesIfTheLanguageLacksTheDefaultModule(): void
     {
         $gui = $this->createGuiForEditModal(false, [], modules: ['a<b', 'common']);
