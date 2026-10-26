@@ -250,7 +250,11 @@ class ilObjLanguageExtGUITest extends TestCase
         array $post = [],
         array $filtered_names = []
     ): ilObjLanguageExtGUI {
-        $_SESSION['lang_ext_edit_selection'] = $session_selections;
+        // obj_id 0 is the id of the fake language object
+        $_SESSION['lang_ext_edit_selection'] = array_map(
+            static fn(array $names): array => ['obj_id' => 0, 'names' => $names],
+            $session_selections
+        );
         $dic = $this->init();
         $GLOBALS['DIC'] = $dic;
 
@@ -515,7 +519,7 @@ class ilObjLanguageExtGUITest extends TestCase
         );
         $stored = $_SESSION['lang_ext_edit_selection'];
         self::assertCount(1, $stored);
-        self::assertSame(['common#:#access', 'common#:#other'], reset($stored));
+        self::assertSame(['obj_id' => 0, 'names' => ['common#:#access', 'common#:#other']], reset($stored));
         self::assertStringEndsWith('&lang_entries_edit_selection=' . key($stored), $modal->getPostURL());
         self::assertStringNotContainsString('forged', $modal->getPostURL());
     }
@@ -544,7 +548,10 @@ class ilObjLanguageExtGUITest extends TestCase
 
         $this->editSelected($gui, ['ALL_OBJECTS']);
 
-        self::assertSame([['common#:#other']], array_values($_SESSION['lang_ext_edit_selection']));
+        self::assertSame(
+            [['obj_id' => 0, 'names' => ['common#:#other']]],
+            array_values($_SESSION['lang_ext_edit_selection'])
+        );
         self::assertSame(['translation_0', 'expected_entry_count'], array_keys($this->renderedModal(0)->getInputs()));
     }
 
@@ -789,7 +796,7 @@ class ilObjLanguageExtGUITest extends TestCase
             ['translation_0' => 'X', 'expected_entry_count' => '1'],
             modal_names: ['zztest#:#access']
         );
-        $this->expectSaveRefused($gui, 'no_checkbox');
+        $this->expectSaveRefused($gui, 'action_aborted');
 
         $gui->saveEditedEntriesObject();
     }
@@ -881,7 +888,9 @@ class ilObjLanguageExtGUITest extends TestCase
             $gui->saveEditedEntriesObject();
 
             $stored = $_SESSION['lang_ext_edit_selection'];
-            self::assertSame(['zztest#:#access'], end($stored));
+            self::assertNotContains('t', array_keys($stored));
+            self::assertCount(1, $stored);
+            self::assertSame(['obj_id' => 0, 'names' => ['zztest#:#access']], reset($stored));
         } finally {
             $restore();
         }
