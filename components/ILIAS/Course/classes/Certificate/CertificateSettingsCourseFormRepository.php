@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\Course\Certificate;
 
 use ilTree;
-use ilAccess;
 use ilObject;
 use ilSetting;
 use ilLanguage;
@@ -60,7 +59,6 @@ class CertificateSettingsCourseFormRepository implements ilCertificateFormReposi
         bool $hasAdditionalElements,
         private readonly ilLanguage $language,
         ilCtrlInterface $ctrl,
-        ilAccess $access,
         ilToolbarGUI $toolbar,
         ilCertificatePlaceholderDescription $placeholderDescriptionObject,
         ?ilCertificateSettingsFormRepository $settingsFormFactory = null,
@@ -78,7 +76,6 @@ class CertificateSettingsCourseFormRepository implements ilCertificateFormReposi
             $hasAdditionalElements,
             $language,
             $ctrl,
-            $access,
             $toolbar,
             $placeholderDescriptionObject,
             $DIC->ui()->factory(),

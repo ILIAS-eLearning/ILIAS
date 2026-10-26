@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\Certificate\CertificateEditorMode;
 use ILIAS\Filesystem\Util\Archive\ZipDirectoryHandling;
 use ILIAS\components\ResourceStorage\Container\View\ActionBuilder\TopAction;
 use ILIAS\components\ResourceStorage\Container\View\Configuration as ContainerViewConfiguration;
@@ -327,14 +328,17 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                 break;
 
             case "ilcertificategui":
-                if (!$ilAccess->checkAccess('write', '', $this->object->getRefId())) {
+                if (
+                    !$ilAccess->checkAccess('read', '', $this->object->getRefId())
+                    && !$ilAccess->checkAccess('write', '', $this->object->getRefId())
+                ) {
                     $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->WARNING);
                 }
                 $this->setSettingsSubTabs();
                 $ilTabs->setSubTabActive('certificate');
 
                 $guiFactory = new ilCertificateGUIFactory();
-                $output_gui = $guiFactory->create($this->object);
+                $output_gui = $guiFactory->create($this->object, $this->certificateEditorMode());
 
                 $this->ctrl->forwardCommand($output_gui);
                 break;
@@ -803,10 +807,27 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
      */
     public function certificate(): void
     {
+        global $DIC;
+        $access = $DIC->access();
+        $error = $DIC['ilErr'];
+        if (
+            !$access->checkAccess('read', '', $this->object->getRefId())
+            && !$access->checkAccess('write', '', $this->object->getRefId())
+        ) {
+            $error->raiseError($this->lng->txt('permission_denied'), $error->WARNING);
+        }
+
         $guiFactory = new ilCertificateGUIFactory();
-        $output_gui = $guiFactory->create($this->object);
+        $output_gui = $guiFactory->create($this->object, $this->certificateEditorMode());
 
         $output_gui->certificateEditor();
+    }
+
+    private function certificateEditorMode(): CertificateEditorMode
+    {
+        return $this->checkPermissionBool('write')
+            ? CertificateEditorMode::Write
+            : CertificateEditorMode::Read;
     }
 
     /**

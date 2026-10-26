@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Exercise\Certificate;
 
-use ilAccess;
 use ilObject;
 use ilLanguage;
 use ilToolbarGUI;
@@ -54,10 +53,6 @@ class ilCertificateSettingsExerciseRepositoryTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $access = $this->getMockBuilder(ilAccess::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $toolbar = $this->getMockBuilder(ilToolbarGUI::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -81,7 +76,6 @@ class ilCertificateSettingsExerciseRepositoryTest extends TestCase
             false,
             $language,
             $controller,
-            $access,
             $toolbar,
             $placeholderDescriptionObject,
             $settingsFormFactory
@@ -115,10 +109,6 @@ class ilCertificateSettingsExerciseRepositoryTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $access = $this->getMockBuilder(ilAccess::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $toolbar = $this->getMockBuilder(ilToolbarGUI::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -137,7 +127,6 @@ class ilCertificateSettingsExerciseRepositoryTest extends TestCase
             false,
             $language,
             $controller,
-            $access,
             $toolbar,
             $placeholderDescriptionObject,
             $settingsFormFactory
@@ -159,10 +148,6 @@ class ilCertificateSettingsExerciseRepositoryTest extends TestCase
             ->getMock();
 
         $controller = $this->getMockBuilder(ilCtrlInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $access = $this->getMockBuilder(ilAccess::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -189,7 +174,6 @@ class ilCertificateSettingsExerciseRepositoryTest extends TestCase
             false,
             $language,
             $controller,
-            $access,
             $toolbar,
             $placeholderDescriptionObject,
             $settingsFormFactory

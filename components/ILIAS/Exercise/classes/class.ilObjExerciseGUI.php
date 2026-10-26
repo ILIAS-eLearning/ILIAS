@@ -16,6 +16,7 @@
  *
  *********************************************************************/
 
+use ILIAS\Certificate\CertificateEditorMode;
 use ILIAS\Exercise\InternalService;
 use ILIAS\Exercise;
 use ILIAS\Exercise\Settings;
@@ -182,12 +183,15 @@ class ilObjExerciseGUI extends ilObjectGUI
                 break;
 
             case "ilcertificategui":
+                if (!$this->checkPermissionBool('read') && !$this->checkPermissionBool('write')) {
+                    $this->checkPermission('read');
+                }
                 $this->setSettingsSubTabs();
                 $this->tabs_gui->activateTab("settings");
                 $this->tabs_gui->activateSubTab("certificate");
 
                 $guiFactory = new ilCertificateGUIFactory();
-                $output_gui = $guiFactory->create($this->object);
+                $output_gui = $guiFactory->create($this->object, $this->certificateEditorMode());
 
                 $this->ctrl->forwardCommand($output_gui);
                 break;
@@ -985,14 +989,24 @@ class ilObjExerciseGUI extends ilObjectGUI
      */
     public function certificateObject(): void
     {
+        if (!$this->checkPermissionBool('read') && !$this->checkPermissionBool('write')) {
+            $this->checkPermission('read');
+        }
         $this->setSettingsSubTabs();
         $this->tabs_gui->activateTab("settings");
         $this->tabs_gui->activateSubTab("certificate");
 
         $guiFactory = new ilCertificateGUIFactory();
-        $output_gui = $guiFactory->create($this->object);
+        $output_gui = $guiFactory->create($this->object, $this->certificateEditorMode());
 
         $output_gui->certificateEditor();
+    }
+
+    private function certificateEditorMode(): CertificateEditorMode
+    {
+        return $this->checkPermissionBool('write')
+            ? CertificateEditorMode::Write
+            : CertificateEditorMode::Read;
     }
 
     public function outCertificateObject(): void

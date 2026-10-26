@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\Certificate\CertificateEditorMode;
 use ILIAS\Container\Content\ViewManager;
 use ILIAS\Refinery;
 use ILIAS\HTTP\Wrapper\RequestWrapper;
@@ -243,12 +244,15 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                 $this->ctrl->forwardCommand($transgui);
                 break;
             case "ilcertificategui":
+                $this->denyAccessIfNotAnyOf([
+                    ilPRGPermissionsHelper::ROLEPERM_READ,
+                    ilPRGPermissionsHelper::ROLEPERM_WRITE,
+                ]);
                 $this->getSubTabs('settings');
-                $this->denyAccessIfNot(ilPRGPermissionsHelper::ROLEPERM_WRITE);
                 $this->tabs_gui->activateTab(self::TAB_SETTINGS);
                 $this->tabs_gui->activateSubTab('certificate');
                 $guiFactory = new ilCertificateGUIFactory();
-                $output_gui = $guiFactory->create($this->object);
+                $output_gui = $guiFactory->create($this->object, $this->certificateEditorMode());
                 $this->ctrl->forwardCommand($output_gui);
                 break;
             case "ilprgpageobjectgui":
@@ -819,5 +823,12 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
     protected function supportsPageEditor(): bool
     {
         return true;
+    }
+
+    private function certificateEditorMode(): CertificateEditorMode
+    {
+        return $this->checkAccess(ilPRGPermissionsHelper::ROLEPERM_WRITE)
+            ? CertificateEditorMode::Write
+            : CertificateEditorMode::Read;
     }
 }

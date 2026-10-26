@@ -37,7 +37,6 @@ class ilCertificateSettingsCmiXapiFormRepository implements ilCertificateFormRep
         bool $hasAdditionalElements,
         ilLanguage $language,
         ilCtrl $controller,
-        ilAccess $access,
         ilToolbarGUI $toolbar,
         ilCertificatePlaceholderDescription $placeholderDescriptionObject,
         ?ilCertificateSettingsFormRepository $settingsFormRepository = null
@@ -49,7 +48,6 @@ class ilCertificateSettingsCmiXapiFormRepository implements ilCertificateFormRep
                 $hasAdditionalElements,
                 $language,
                 $controller,
-                $access,
                 $toolbar,
                 $placeholderDescriptionObject
             );

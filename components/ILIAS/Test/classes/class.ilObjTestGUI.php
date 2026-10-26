@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\Certificate\CertificateEditorMode;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 use ILIAS\Skill\Service\SkillUsageService;
 use ILIAS\Test\Results\Data\Repository as TestResultRepository;
@@ -601,7 +602,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 $this->tabs_manager->activateTab(TabsManager::TAB_ID_SETTINGS);
 
                 $gui_factory = new ilCertificateGUIFactory();
-                $output_gui = $gui_factory->create($this->getTestObject());
+                $output_gui = $gui_factory->create($this->getTestObject(), $this->certificateEditorMode());
 
                 $this->ctrl->forwardCommand($output_gui);
                 break;
@@ -2433,10 +2434,14 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     */
     public function certificateObject()
     {
+        if (!$this->access->checkAccess('read', '', $this->testrequest->getRefId())) {
+            $this->redirectAfterMissingRead();
+        }
+
         $this->tabs_manager->activateTab(TabsManager::TAB_ID_SETTINGS);
 
         $guiFactory = new ilCertificateGUIFactory();
-        $output_gui = $guiFactory->create($this->getTestObject());
+        $output_gui = $guiFactory->create($this->getTestObject(), $this->certificateEditorMode());
 
         $output_gui->certificateEditor();
     }
@@ -2708,6 +2713,13 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         }
 
         return $form;
+    }
+
+    private function certificateEditorMode(): CertificateEditorMode
+    {
+        return $this->access->checkAccess('write', '', $this->testrequest->getRefId())
+            ? CertificateEditorMode::Write
+            : CertificateEditorMode::Read;
     }
 
     protected function protectByWritePermission(): void

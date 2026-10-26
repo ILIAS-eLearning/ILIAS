@@ -38,7 +38,6 @@ readonly class ilCertificateSettingsLTIToolFormRepository implements ilCertifica
         bool $hasAdditionalElements,
         ilLanguage $language,
         ilCtrlInterface $controller,
-        ilAccess $access,
         ilToolbarGUI $toolbar,
         ilCertificatePlaceholderDescription $placeholderDescriptionObject
     ) {
@@ -48,7 +47,6 @@ readonly class ilCertificateSettingsLTIToolFormRepository implements ilCertifica
             $hasAdditionalElements,
             $language,
             $controller,
-            $access,
             $toolbar,
             $placeholderDescriptionObject
         );

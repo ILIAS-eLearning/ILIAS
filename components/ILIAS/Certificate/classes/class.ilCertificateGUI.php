@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\Certificate\CertificateEditorMode;
 use ILIAS\Refinery\Factory;
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\FileUpload\FileUpload;
@@ -46,8 +47,6 @@ class ilCertificateGUI
     protected ILIAS $ilias;
     protected ilGlobalPageTemplate $tpl;
     protected ilLanguage $lng;
-    protected int $ref_id;
-    protected ilAccessHandler $access;
     protected ilToolbarGUI $toolbar;
     private readonly WrapperFactory $httpWrapper;
     private readonly Factory $refinery;
@@ -72,6 +71,7 @@ class ilCertificateGUI
         ilCertificatePlaceholderValues $placeholderValuesObject,
         private readonly int $objectId,
         string $certificatePath,
+        private readonly CertificateEditorMode $editorMode,
         ?ilCertificateFormRepository $settingsFormFactory = null,
         ?ilCertificateDeleteAction $deleteAction = null,
         ?ilCertificateTemplateRepository $templateRepository = null,
@@ -96,15 +96,12 @@ class ilCertificateGUI
         $this->stakeholder = new ilCertificateTemplateStakeholder($this->objectId);
 
         $this->tree = $DIC['tree'];
-        $this->access = $DIC['ilAccess'];
         $this->toolbar = $DIC['ilToolbar'];
 
         $this->global_certificate_settings = new ilObjCertificateSettings();
         $this->lng->loadLanguageModule('certificate');
         $this->lng->loadLanguageModule('cert');
         $this->lng->loadLanguageModule('trac');
-
-        $this->ref_id = (int) $DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int());
 
         $this->logger = $DIC->logger()->cert();
 
@@ -114,7 +111,6 @@ class ilCertificateGUI
             $this->lng,
             $this->tpl,
             $this->ctrl,
-            $this->access,
             $this->toolbar,
             $placeholderDescriptionObject,
             $DIC->ui()->factory(),
@@ -160,6 +156,11 @@ class ilCertificateGUI
         $ret = null;
 
         $cmd = $this->getCommand($cmd);
+        if (!$this->editorMode->allowsCommand($cmd)) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
+            $this->ctrl->redirect($this, self::EDITOR_COMMAND);
+        }
+
         switch ($next_class) {
             case 'ilpropertyformgui':
                 $form = $this->getEditorForm();
@@ -178,6 +179,11 @@ class ilCertificateGUI
     public function getCommand($cmd)
     {
         return $cmd;
+    }
+
+    public function canWrite(): bool
+    {
+        return $this->editorMode->canWrite();
     }
 
     public function certificateImport(): void

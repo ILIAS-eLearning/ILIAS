@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\Course\Certificate;
 
 use ilTree;
-use ilAccess;
 use ilSetting;
 use ilLanguage;
 use ilObjectLP;
@@ -52,8 +51,6 @@ class ilCertificateSettingsCourseFormRepositoryTest extends TestCase
         $language = $this->createStub(ilLanguage::class);
 
         $controller = $this->createStub(ilCtrlInterface::class);
-
-        $access = $this->createStub(ilAccess::class);
 
         $toolbar = $this->createStub(ilToolbarGUI::class);
 
@@ -88,7 +85,6 @@ class ilCertificateSettingsCourseFormRepositoryTest extends TestCase
             false,
             $language,
             $controller,
-            $access,
             $toolbar,
             $placeholderDescriptionObject,
             $settingsFormFactory,
@@ -114,8 +110,6 @@ class ilCertificateSettingsCourseFormRepositoryTest extends TestCase
         $language = $this->createStub(ilLanguage::class);
 
         $controller = $this->createStub(ilCtrlInterface::class);
-
-        $access = $this->createStub(ilAccess::class);
 
         $toolbar = $this->createStub(ilToolbarGUI::class);
 
@@ -154,7 +148,6 @@ class ilCertificateSettingsCourseFormRepositoryTest extends TestCase
             false,
             $language,
             $controller,
-            $access,
             $toolbar,
             $placeholderDescriptionObject,
             $settingsFormFactory,
