@@ -209,7 +209,7 @@ class ilLanguageEntriesTable implements DataTable\DataRetrieval
     }
 
     /**
-     * Flipped comparator for DESC instead of reversing, so ties keep their order.
+     * Natural, case-insensitive order on precomputed keys; DESC flips the comparator so ties keep their order.
      *
      * @param list<string> $names
      */
@@ -217,23 +217,25 @@ class ilLanguageEntriesTable implements DataTable\DataRetrieval
     {
         [$order_field, $order_direction] = $order->join([], static fn($ret, $key, $value): array => [$key, $value]);
 
-        $aspect = function (string $name) use ($order_field, $entries, $compare_content): string {
+        $sort_keys = [];
+        foreach ($names as $name) {
             $keys = explode($this->lng->separator, $name);
-            return match ($order_field) {
+            $sort_keys[$name] = match ($order_field) {
                 'topic' => $keys[1] ?? '',
                 'translation' => (string) ($entries[$name] ?? ''),
                 'default' => (string) ($compare_content[$name] ?? ''),
                 default => $keys[0] ?? '', // 'module' and any unknown field
             };
-        };
+        }
 
-        $comparator = $order_direction === Order::DESC
-            ? static fn(string $a, string $b): int => $aspect($b) <=> $aspect($a)
-            : static fn(string $a, string $b): int => $aspect($a) <=> $aspect($b);
+        $direction = $order_direction === Order::DESC ? -1 : 1;
+        uksort(
+            $sort_keys,
+            static fn(string $a, string $b): int => $direction * strnatcasecmp($sort_keys[$a], $sort_keys[$b])
+        );
 
-        usort($names, $comparator);
-
-        return $names;
+        // numeric-looking string keys become int array keys
+        return array_map('strval', array_keys($sort_keys));
     }
 
     public function getTotalRowCount(
