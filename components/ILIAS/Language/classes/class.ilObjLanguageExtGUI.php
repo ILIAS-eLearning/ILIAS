@@ -1086,87 +1086,99 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
     /**
     * Show the screen to export a language file
     */
-    public function exportObject(): void
+    public function exportObject(?\ILIAS\UI\Component\Input\Container\Form\Standard $form = null): void
     {
-        $form = new ilPropertyFormGUI();
-        $form->setFormAction($this->ctrl->getFormAction($this));
-        $form->setTitle($this->lng->txt("language_export_file"));
-        $form->setPreventDoubleSubmission(false);
-        $form->addCommandButton("download", $this->lng->txt("download"));
-
-        $rg = new ilRadioGroupInputGUI($this->lng->txt("language_file_scope"), "scope");
-        $ro = new ilRadioOption($this->lng->txt("language_scope_global"), "global");
-        $ro->setInfo($this->lng->txt("language_scope_global_info"));
-        $rg->addOption($ro);
-        $ro = new ilRadioOption($this->lng->txt("language_scope_local"), "local");
-        $ro->setInfo($this->lng->txt("language_scope_local_info"));
-        $rg->addOption($ro);
-        if ($this->langmode) {
-            $ro = new ilRadioOption($this->lng->txt("language_scope_added"), "added");
-            $ro->setInfo($this->lng->txt("language_scope_added_info"));
-            $rg->addOption($ro);
-        }
-        $ro = new ilRadioOption($this->lng->txt("language_scope_unchanged"), "unchanged");
-        $ro->setInfo($this->lng->txt("language_scope_unchanged_info"));
-        $rg->addOption($ro);
-        if ($this->langmode) {
-            $ro = new ilRadioOption($this->lng->txt("language_scope_merged"), "merged");
-            $ro->setInfo($this->lng->txt("language_scope_merged_info"));
-            $rg->addOption($ro);
-        }
-
-        $rg->setValue($this->getSession()["export"]["scope"] ?? "global");
-        $form->addItem($rg);
-
-        $this->tpl->setContent($form->getHTML());
+        $this->tpl->setContent($this->ui_renderer->render($form ?? $this->buildExportForm()));
     }
 
-    /**
-    * Download a language file
-    */
+    private function buildExportForm(): \ILIAS\UI\Component\Input\Container\Form\Standard
+    {
+        $options = $this->getExportScopes();
+        $radio = $this->ui_factory->input()->field()
+            ->radio($this->lng->txt('language_file_scope'))
+            ->withRequired(true);
+        foreach ($options as $scope) {
+            $radio = $radio->withOption(
+                $scope,
+                $this->lng->txt('language_scope_' . $scope),
+                $this->lng->txt('language_scope_' . $scope . '_info')
+            );
+        }
+        $preset = $this->getSession()['export']['scope'] ?? 'global';
+
+        return $this->ui_factory->input()->container()->form()->standard(
+            $this->ctrl->getFormAction($this, 'download'),
+            ['scope' => $radio->withValue(in_array($preset, $options, true) ? $preset : 'global')]
+        )->withSubmitLabel($this->lng->txt('download'));
+    }
+
+    /** @return list<string> "added" and "merged" only in langmode */
+    private function getExportScopes(): array
+    {
+        return $this->langmode
+            ? ['global', 'local', 'added', 'unchanged', 'merged']
+            : ['global', 'local', 'unchanged'];
+    }
+
     public function downloadObject(): void
     {
-        $post_scope = $this->http->request()->getParsedBody()['scope'] ?? "";
+        // read-only, but only the form posts a scope
+        if ($this->http->request()->getMethod() !== 'POST') {
+            $this->exportObject();
+            return;
+        }
+        try {
+            $form = $this->buildExportForm()->withRequest($this->http->request());
+            $scope = (string) ($form->getData()['scope'] ?? '');
+        } catch (InvalidArgumentException) {
+            // KS rejects a value that is not one of the options
+            $form = $this->buildExportForm();
+            $scope = '';
+        }
+        if (!in_array($scope, $this->getExportScopes(), true)) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
+            $this->exportObject($form);
+            return;
+        }
         // save the selected scope
-        $tmp["export"]["scope"] = ilUtil::stripSlashes($post_scope);
-        ilSession::set("lang_ext_maintenance", $tmp);
+        ilSession::set('lang_ext_maintenance', ['export' => ['scope' => $scope]]);
 
         $pos = strpos(ILIAS_VERSION, " ");
         $pos = $pos === false ? null : $pos;
         $filename = "ilias_" . $this->object->key . '_'
         . str_replace(".", "_", substr(ILIAS_VERSION, 0, $pos))
         . "-" . gmdate("Y-m-d")
-        . ".lang." . $this->getSession()["export"]["scope"];
+        . ".lang." . $scope;
 
         $global_file_obj = $this->object->getGlobalLanguageFile();
-        $local_file_obj = new ilLanguageFile($filename, $this->object->key, $post_scope);
+        $local_file_obj = new ilLanguageFile($filename, $this->object->key, $scope);
 
-        if ($post_scope === "global") {
+        if ($scope === "global") {
             $local_file_obj->setParam("author", $global_file_obj->getParam("author"));
             $local_file_obj->setParam("version", $global_file_obj->getParam("version"));
             $local_file_obj->setAllValues($this->object->getAllValues());
             if ($this->langmode) {
                 $local_file_obj->setAllComments($this->object->getEffectiveRemarks());
             }
-        } elseif ($post_scope === "local") {
+        } elseif ($scope === "local") {
             $local_file_obj->setParam("based_on", $global_file_obj->getParam("version"));
             $local_file_obj->setAllValues($this->object->getChangedValues());
             if ($this->langmode) {
                 $local_file_obj->setAllComments($this->object->getEffectiveRemarks());
             }
-        } elseif ($post_scope === "added") { // langmode only
+        } elseif ($scope === "added") { // langmode only
             $local_file_obj->setParam("author", $global_file_obj->getParam("author"));
             $local_file_obj->setParam("version", $global_file_obj->getParam("version"));
             $local_file_obj->setAllValues($this->object->getAddedValues());
             $local_file_obj->setAllComments($this->object->getEffectiveRemarks());
-        } elseif ($post_scope === "unchanged") {
+        } elseif ($scope === "unchanged") {
             $local_file_obj->setParam("author", $global_file_obj->getParam("author"));
             $local_file_obj->setParam("version", $global_file_obj->getParam("version"));
             $local_file_obj->setAllValues($this->object->getUnchangedValues());
             if ($this->langmode) {
                 $local_file_obj->setAllComments($this->object->getEffectiveRemarks());
             }
-        } elseif ($post_scope === "merged") { // langmode only
+        } elseif ($scope === "merged") { // langmode only
             $local_file_obj->setParam("author", $global_file_obj->getParam("author"));
             $local_file_obj->setParam("version", $global_file_obj->getParam("version"));
             $local_file_obj->setAllValues($this->object->getMergedValues());
