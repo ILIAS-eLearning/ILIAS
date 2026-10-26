@@ -48,6 +48,17 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
     private const string CMD_TABLE_ACTION = 'executeTableAction';
     private const string DETECTION_PARAMETER = 'lang_detection_enable';
     private const string DETECTION_CONFIRM_SESSION_KEY = 'lang_detection_confirm';
+    /** confirmed table action => InstallLanguage mode */
+    private const array INSTALL_CONFIRMED_ACTIONS = ['installConfirmed' => 'install', 'installLocalConfirmed' => 'install_local'];
+    /** table actions sent by the POST of a confirmation modal, a GET (the URL carries the rtoken) only shows the list */
+    private const array CONFIRMED_TABLE_ACTIONS = [
+        'confirmRefresh',
+        'refreshConfirmed',
+        'uninstallConfirmed',
+        'uninstallChanges',
+        'installConfirmed',
+        'installLocalConfirmed',
+    ];
 
     protected ilLanguageFolderTable $languageFolderTable;
     protected ILIAS\Data\Factory $df;
@@ -343,7 +354,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
     }
 
     /**
-     * $mode is the dispatched "install"/"install_local" command, both are InstallLanguage modes (MODE_INSTALL/MODE_INSTALL_LOCAL).
+     * $mode is an InstallLanguage mode (MODE_INSTALL/MODE_INSTALL_LOCAL), see INSTALL_CONFIRMED_ACTIONS.
      */
     public function installObject(array $ids, string $mode): void
     {
@@ -874,7 +885,12 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
         $this->checkPermission("write");
         $this->lng->loadLanguageModule("meta");
         $r = $this->ui_renderer;
-        switch ($action = $this->getCommandFromQueryToken($this->action_token->getName())) {
+        $action = $this->getCommandFromQueryToken($this->action_token->getName());
+        if (in_array($action, self::CONFIRMED_TABLE_ACTIONS, true) && $this->http->request()->getMethod() !== 'POST') {
+            $this->viewObject();
+            return;
+        }
+        switch ($action) {
             case 'confirmRefresh':
                 $ids = $this->confirmRefreshObject();
                 $this->refreshSelectedObject($ids);
@@ -941,8 +957,17 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
                         $ids[] = (string) $lang["obj_id"];
                     }
                 }
-                // 'install'/'install_local' are the InstallLanguage mode values
-                $this->installObject($ids, $action);
+                $modal = $this->buildConfirmModal(
+                    $ids,
+                    $action,
+                    array_search($action, self::INSTALL_CONFIRMED_ACTIONS, true),
+                    $action === 'install' ? 'lang_install_confirm_selected' : 'lang_install_local_confirm_selected'
+                );
+                echo($r->renderAsync([$modal]));
+                exit();
+            case 'installConfirmed':
+            case 'installLocalConfirmed':
+                $this->installObject($this->getIdsFromQueryToken(), self::INSTALL_CONFIRMED_ACTIONS[$action]);
                 break;
             case 'lang_uninstall_changes':
                 $ids = $this->getIdsFromQueryToken();

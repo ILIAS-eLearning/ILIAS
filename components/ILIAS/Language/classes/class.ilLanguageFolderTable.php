@@ -103,8 +103,8 @@ class ilLanguageFolderTable implements DataTable\DataRetrieval
     {
         $actions = array_merge(
             $this->buildAction('refresh', 'standard', true),
-            $this->buildAction('install', 'standard'),
-            $this->buildAction('install_local', 'standard'),
+            $this->buildAction('install', 'standard', true),
+            $this->buildAction('install_local', 'standard', true),
             $this->buildAction('uninstall', 'standard', true),
             $this->buildAction('lang_uninstall_changes', 'standard', true),
             $this->buildAction('setSystemLanguage', 'single'),

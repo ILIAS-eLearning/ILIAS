@@ -3131,6 +3131,14 @@ msgstr "Search Area"
 msgid "lang_dateformat"
 msgstr "Y-m-d"
 
+#, fuzzy
+msgid "lang_install_confirm_selected"
+msgstr "Do you really want to install the selected languages?"
+
+#, fuzzy
+msgid "lang_install_local_confirm_selected"
+msgstr "Do you really want to install the selected languages with their custom language file? The custom file overwrites local changes that are older than the file date."
+
 msgid "lang_path"
 msgstr "Путь к lang-файлу"
 

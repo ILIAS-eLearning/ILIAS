@@ -2973,6 +2973,12 @@ msgstr ""
 msgid "lang_dateformat"
 msgstr ""
 
+msgid "lang_install_confirm_selected"
+msgstr ""
+
+msgid "lang_install_local_confirm_selected"
+msgstr ""
+
 msgid "lang_path"
 msgstr ""
 
