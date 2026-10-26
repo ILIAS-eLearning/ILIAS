@@ -1,6 +1,6 @@
 # Like Privacy
 
-> **Disclaimer: This documentation does not guarantee completeness or accuracy. Please report any missing or incorrect information by submitting a [Pull Request](docs/development/contributing.md#pull-request-to-the-repositories) or, if you prefer, via the [ILIAS bug tracker](https://mantis.ilias.de). When using the bug tracker, please select the corresponding component in the **Category** field.**
+> **Disclaimer: This documentation does not guarantee completeness or accuracy. Please report any missing or incorrect information by submitting a [Pull Request](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/contributing.md#pull-request-to-the-repositories) or, if you prefer, via the [ILIAS bug tracker](https://mantis.ilias.de). When using the bug tracker, please select the corresponding component in the **Category** field.**
 
 ## General Information
 
@@ -43,9 +43,16 @@ from storing reactions.
   object or news item they have access to. Clicking on the reaction counters opens a detail modal.
 - **Each user** with access to the containing object (e.g., persons with "read" access to the
   parent object in the News timeline) can see the detail modal, which shows:
-    - the **name** and **profile picture** of each user who reacted,
+    - the **login** of each user who reacted,
+    - the **first and last name**, only if that user has a public profile (`y` or `g`),
+    - the **profile picture**, only if the public profile and the public-avatar preference are
+      both enabled; otherwise a placeholder (for a non-public profile, the first two characters
+      of the login),
     - the **type of reaction** each user selected, and
     - the **date and time** of each reaction.
+- **Membership notification mails** for courses and groups include the same reaction data
+  (login, name if the public profile is enabled, reaction type, timestamp) for recipients with
+  read access. The Like component does not send these mails itself.
 - **Each user** can see which of their own reactions are currently active (highlighted in the
   emoticon popover).
 - Access to the Like widget is not controlled by a Like-specific permission. Instead, it is
