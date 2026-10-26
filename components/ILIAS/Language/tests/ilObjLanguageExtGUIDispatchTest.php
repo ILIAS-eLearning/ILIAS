@@ -32,7 +32,7 @@ class ilObjLanguageExtGUIDispatchTest extends TestCase
 
     private const array COMMANDS = [
         'saveEditedEntries', 'import', 'upload', 'export', 'download', 'maintain',
-        'maintainExecute', 'settings', 'saveSettings', 'statistics', 'addNewEntry', 'saveNewEntry',
+        'maintainExecute', 'maintainConfirmed', 'settings', 'saveSettings', 'statistics', 'addNewEntry', 'saveNewEntry',
     ];
 
     /** The maintenance check and the help of executeCommand() read the legacy $DIC. */

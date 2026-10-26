@@ -59,6 +59,9 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
     private const string EDIT_SELECTION_SESSION_KEY = 'lang_ext_edit_selection';
     private const string EDIT_SELECTION_PARAMETER = 'lang_entries_edit_selection';
     private const int EDIT_SELECTION_MAX_STORED = 10;
+    private const string MAINTAIN_PENDING_SESSION_KEY = 'lang_ext_maintain_pending';
+    private const string MAINTAIN_TOKEN_PARAMETER = 'lang_maintain_token';
+    private const array MAINTAIN_WITHOUT_CONFIRMATION = ['save_dist'];
     private const int REMARK_MAX_LENGTH = 250;
     private string $langmode;
     private readonly AddLanguageEntry $add_language_entry;
@@ -178,7 +181,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
      */
     public function getUnsafeGetCommands(): array
     {
-        return ['saveEditedEntries', 'upload', 'maintainExecute', 'saveSettings', 'saveNewEntry'];
+        return ['saveEditedEntries', 'upload', 'maintainExecute', 'maintainConfirmed', 'saveSettings', 'saveNewEntry'];
     }
 
     /**
@@ -223,6 +226,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
             'download',
             'maintain',
             'maintainExecute',
+            'maintainConfirmed',
             'settings',
             'saveSettings',
             'statistics',
@@ -996,48 +1000,147 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         $form->addCommandButton("maintainExecute", $this->lng->txt("language_process_maintenance"));
 
         $rg = new ilRadioGroupInputGUI($this->lng->txt("language_maintain_local_changes"), "maintain");
-        $ro = new ilRadioOption($this->lng->txt("language_load_local_changes"), "load");
-        $ro->setInfo(sprintf($this->lng->txt("language_load_local_changes_info"), $this->object->key));
-        $rg->addOption($ro);
-        $ro = new ilRadioOption($this->lng->txt("language_clear_local_changes"), "clear");
-        $ro->setInfo(sprintf($this->lng->txt("language_clear_local_changes_info"), $this->object->key));
-        $rg->addOption($ro);
-        if ($this->langmode) {
-            $ro = new ilRadioOption($this->lng->txt("language_delete_local_additions"), "delete_added");
-            $ro->setInfo(sprintf($this->lng->txt("language_delete_local_additions_info"), $this->object->key));
-            $rg->addOption($ro);
-            $ro = new ilRadioOption($this->lng->txt("language_remove_local_file"), "remove_local_file");
-            $ro->setInfo(sprintf($this->lng->txt("language_remove_local_file_info"), $this->object->key));
-            $rg->addOption($ro);
-            $ro = new ilRadioOption($this->lng->txt("language_merge_local_changes"), "merge");
-            $ro->setInfo(sprintf($this->lng->txt("language_merge_local_changes_info"), $this->object->key));
+        foreach ($this->getMaintainOptions() as $option => [$label, $info]) {
+            $ro = new ilRadioOption($label, $option);
+            $ro->setInfo($info);
             $rg->addOption($ro);
         }
-        $ro = new ilRadioOption($this->lng->txt("language_save_dist"), "save_dist");
-        $ro->setInfo(sprintf($this->lng->txt("language_save_dist_info"), $this->object->key));
-        $rg->addOption($ro);
         $rg->setValue($this->getSession()["maintain"] ?? "load");
         $form->addItem($rg);
 
-        $this->tpl->setContent($form->getHTML());
+        $html = $form->getHTML();
+        $token = $this->getMaintainToken();
+        $option = $this->getPendingMaintainOption($token);
+        if ($option !== null) {
+            $html .= $this->ui_renderer->render($this->buildMaintainConfirmModal($option, $token));
+        }
+        $this->tpl->setContent($html);
     }
 
+    /**
+     * Options offered in this mode: option => [label, info].
+     *
+     * @return array<string, array{0: string, 1: string}>
+     */
+    private function getMaintainOptions(): array
+    {
+        $keys = ['load' => 'language_load_local_changes', 'clear' => 'language_clear_local_changes'];
+        if ($this->langmode) {
+            $keys['delete_added'] = 'language_delete_local_additions';
+            $keys['remove_local_file'] = 'language_remove_local_file';
+            $keys['merge'] = 'language_merge_local_changes';
+        }
+        $keys['save_dist'] = 'language_save_dist';
+
+        return array_map(
+            fn(string $key): array => [
+                $this->lng->txt($key),
+                sprintf($this->lng->txt($key . '_info'), $this->object->key),
+            ],
+            $keys
+        );
+    }
+
+    private function buildMaintainConfirmModal(string $option, string $token): \ILIAS\UI\Component\Modal\Interruptive
+    {
+        [$label, $info] = $this->getMaintainOptions()[$option];
+        $this->ctrl->setParameter($this, self::MAINTAIN_TOKEN_PARAMETER, $token);
+        $form_action = $this->ctrl->getFormAction($this, 'maintainConfirmed');
+        $this->ctrl->clearParameterByClass(self::class, self::MAINTAIN_TOKEN_PARAMETER);
+
+        // label and info are trusted language texts, the info may contain markup
+        $modal = $this->ui_factory->modal()->interruptive(
+            $this->lng->txt('confirm'),
+            '<b>' . $label . '</b><br />' . $info,
+            $form_action
+        )->withAffectedItems([
+            $this->ui_factory->modal()->interruptiveItem()->standard(
+                (string) $this->object->getId(),
+                $this->lng->txt('meta_l_' . $this->object->key)
+            ),
+        ])->withActionButtonLabel($this->lng->txt('language_process_maintenance'));
+
+        return $modal->withOnLoad($modal->getShowSignal());
+    }
+
+    /** Destructive options are only stored here and run by maintainConfirmedObject() after the confirmation. */
     public function maintainExecuteObject(): void
     {
-        $post_maintain = $this->http->request()->getParsedBody()['maintain'] ?? "";
-        if (isset($post_maintain)) {
-            $tmp["maintain"] = ilUtil::stripSlashes($post_maintain);
-            ilSession::set("lang_ext_maintenance", $tmp);
-        }
-
+        $option = (string) ($this->http->request()->getParsedBody()['maintain'] ?? '');
         // developer-mode actions are also refused when sent directly
-        if (in_array($post_maintain, ['delete_added', 'merge', 'remove_local_file'], true) && !$this->langmode) {
+        if (in_array($option, ['delete_added', 'merge', 'remove_local_file'], true) && !$this->langmode) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirect($this, "maintain");
             return;
         }
+        if (!array_key_exists($option, $this->getMaintainOptions())) {
+            $this->ctrl->redirect($this, 'maintain');
+            return;
+        }
+        ilSession::set('lang_ext_maintenance', ['maintain' => $option]);
 
-        switch ($post_maintain) {
+        if (in_array($option, self::MAINTAIN_WITHOUT_CONFIRMATION, true)) {
+            $this->executeMaintainOption($option);
+            $this->ctrl->redirect($this, 'maintain');
+            return;
+        }
+
+        $token = bin2hex(random_bytes(8));
+        ilSession::set(self::MAINTAIN_PENDING_SESSION_KEY, [
+            'token' => $token,
+            'obj_id' => $this->object->getId(),
+            'option' => $option,
+        ]);
+        $this->ctrl->setParameter($this, self::MAINTAIN_TOKEN_PARAMETER, $token);
+        $this->ctrl->redirect($this, 'maintain');
+    }
+
+    public function maintainConfirmedObject(): void
+    {
+        $option = $this->getPendingMaintainOption($this->getMaintainToken());
+        // one-time: a reload or a second submit does not run the option again
+        ilSession::clear(self::MAINTAIN_PENDING_SESSION_KEY);
+        if ($option === null) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('action_aborted'), true);
+            $this->ctrl->redirect($this, 'maintain');
+            return;
+        }
+
+        $this->executeMaintainOption($option);
+        $this->ctrl->redirect($this, 'maintain');
+    }
+
+    private function getMaintainToken(): string
+    {
+        if (!$this->request_wrapper->has(self::MAINTAIN_TOKEN_PARAMETER)) {
+            return '';
+        }
+
+        return $this->request_wrapper->retrieve(
+            self::MAINTAIN_TOKEN_PARAMETER,
+            $this->refinery->byTrying([$this->refinery->kindlyTo()->string(), $this->refinery->always('')])
+        );
+    }
+
+    /** The option stored by maintainExecuteObject() for this token and language, if it is still offered. */
+    private function getPendingMaintainOption(string $token): ?string
+    {
+        $pending = ilSession::get(self::MAINTAIN_PENDING_SESSION_KEY);
+        if ($token === ''
+            || !is_array($pending)
+            || !hash_equals((string) ($pending['token'] ?? ''), $token)
+            || ($pending['obj_id'] ?? null) !== $this->object->getId()
+        ) {
+            return null;
+        }
+        $option = (string) ($pending['option'] ?? '');
+
+        return array_key_exists($option, $this->getMaintainOptions()) ? $option : null;
+    }
+
+    private function executeMaintainOption(string $option): void
+    {
+        switch ($option) {
             // save the global language file for merge after
             case "save_dist":
                 // save a copy of the distributed language file
@@ -1137,8 +1240,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
                 }
                 break;
         }
-
-        $this->ctrl->redirect($this, "maintain");
     }
 
     /**
@@ -1279,7 +1380,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
             $this->tabs_gui->activateTab(match ($cmd) {
                 'import', 'upload' => 'import',
                 'export', 'download' => 'export',
-                'maintain', 'maintainExecute' => 'maintain',
+                'maintain', 'maintainExecute', 'maintainConfirmed' => 'maintain',
                 'settings', 'saveSettings' => 'settings',
                 'statistics' => 'statistics',
                 default => 'edit',
