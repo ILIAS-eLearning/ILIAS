@@ -90,7 +90,7 @@ class LSChoicePageBuilder
 
         return $this->ui_factory->card()->repositoryObject(
             htmlspecialchars($item->getTitle()),
-            $this->getTileImage($item)->withAction($start_url)
+            $this->getTileImage($item)
         )->withObjectIcon(
             $this->getObjectIcon($item)
         )->withTitleAction(

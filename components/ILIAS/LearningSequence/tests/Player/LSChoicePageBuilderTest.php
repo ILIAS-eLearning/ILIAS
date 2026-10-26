@@ -144,14 +144,14 @@ class LSChoicePageBuilderTest extends TestCase
         $this->assertEquals('first', $card->getImage()->getAlt());
     }
 
-    public function testCardLinksTheTitleAndTheImage(): void
+    public function testCardLinksTheTitleButNotTheImage(): void
     {
         $card = $this->getBuilder()->buildCard($this->getItem('first', ''));
         $this->assertInstanceOf(CImpl\Card\RepositoryObject::class, $card);
 
         $this->assertEquals('first', $card->getTitle());
         $this->assertEquals($this->getStartUrl(), $card->getTitleAction());
-        $this->assertEquals($this->getStartUrl(), $card->getImage()->getAction());
+        $this->assertEmpty($card->getImage()->getAction());
     }
 
     public function testCardShowsTheObjectIcon(): void
