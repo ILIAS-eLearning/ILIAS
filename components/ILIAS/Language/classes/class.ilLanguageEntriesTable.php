@@ -31,10 +31,12 @@ use ILIAS\UI\URLBuilderToken;
  */
 class ilLanguageEntriesTable implements DataTable\DataRetrieval
 {
-    /** Preset of the module filter, also used while the filter is deactivated. */
     public const string DEFAULT_MODULE = 'administration';
 
-    /** Per-request caches, otherwise each table render repeats the same queries and file reads. */
+    /** Module used while the filter is deactivated, kept equal to the filter preset. */
+    private string $default_module = self::DEFAULT_MODULE;
+
+    /** Per-request caches, key-less because $filter_data does not change within a request. */
     private ?array $filtered_entries_cache = null;
     private ?array $conflicts_check_cache = null;
     private ?array $remarks_cache = null;
@@ -50,6 +52,11 @@ class ilLanguageEntriesTable implements DataTable\DataRetrieval
         protected URLBuilderToken $row_id_token,
         protected bool $langmode
     ) {
+    }
+
+    public function setDefaultModule(string $module): void
+    {
+        $this->default_module = $module;
     }
 
     /** Also the filter id and the view-control session key, separate for page translation and administration. */
@@ -251,7 +258,6 @@ class ilLanguageEntriesTable implements DataTable\DataRetrieval
     /** module#:#topic => value for the current filter. */
     private function getFilteredEntries(mixed $filter_data): array
     {
-        // key-less cache: $filter_data does not change within a request
         if ($this->filtered_entries_cache !== null) {
             return $this->filtered_entries_cache;
         }
@@ -408,7 +414,6 @@ class ilLanguageEntriesTable implements DataTable\DataRetrieval
     /** Shipped values (global file, .po of PO modules) when compared with the edited language itself, else the DB values. */
     private function getCompareContent(mixed $filter_data, array $modules, array $topics): array
     {
-        // key-less cache: $filter_data does not change within a request
         if ($this->compare_content_cache !== null) {
             return $this->compare_content_cache;
         }
@@ -434,7 +439,7 @@ class ilLanguageEntriesTable implements DataTable\DataRetrieval
             return [ilObjLanguageAccess::_getSavedModules(), ilObjLanguageAccess::_getSavedTopics()];
         }
 
-        $filter_module = (string) $this->filterValue($filter_data, 'module', self::DEFAULT_MODULE);
+        $filter_module = (string) $this->filterValue($filter_data, 'module', $this->default_module);
         $filter_module = $filter_module === 'all' ? '' : $filter_module;
         $filter_modules = $filter_module !== '' ? [$filter_module] : [];
 

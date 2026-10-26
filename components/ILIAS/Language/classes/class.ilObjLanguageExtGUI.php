@@ -288,9 +288,14 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
                 // KS renders option texts unescaped, the key stays raw for isClientSideValueOk()
                 $module_options[$module] = htmlspecialchars($module, ENT_QUOTES, 'UTF-8');
             }
+            // a preset missing from the options is rejected by KS
+            $default_module = isset($module_options[ilLanguageEntriesTable::DEFAULT_MODULE])
+                ? ilLanguageEntriesTable::DEFAULT_MODULE
+                : 'all';
+            $this->entries_table->setDefaultModule($default_module);
             $fields['module'] = $field_factory
                 ->select(ucfirst($this->lng->txt('module')), $module_options)
-                ->withValue(ilLanguageEntriesTable::DEFAULT_MODULE);
+                ->withValue($default_module);
 
             $fields['identifier'] = $field_factory->text(ucfirst($this->lng->txt('identifier')));
 

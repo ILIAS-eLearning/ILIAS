@@ -1056,6 +1056,16 @@ class ilObjLanguageExtGUITest extends TestCase
         self::assertSame(ilLanguageEntriesTable::DEFAULT_MODULE, $filter->getInputs()['module']->getValue());
     }
 
+    public function testTheModuleFilterPresetsAllModulesIfTheLanguageLacksTheDefaultModule(): void
+    {
+        $gui = $this->createGuiForEditModal(false, [], modules: ['a<b', 'common']);
+        $this->edit_table->expects($this->once())->method('setDefaultModule')->with('all');
+
+        $filter = $this->invokeProtectedMethod($gui, 'initFilter');
+
+        self::assertSame('all', $filter->getInputs()['module']->getValue());
+    }
+
     public function testSaveEditedEntriesObjectRefusesAnEntryCountThatDiffersFromTheSelection(): void
     {
         [$gui] = $this->createGuiForSave(
