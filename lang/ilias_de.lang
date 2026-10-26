@@ -16156,6 +16156,7 @@ style#:#skin_version_description#:#Die Skin-Version wird genutzt um die Styles, 
 style#:#sound_dir#:#Audio-Ordner
 style#:#sound_dir_description#:#Ordner für das Speichern von Tönen vom betreffenden Skin. Dieser Ordner kann mit anderen Styles und Sub-Styles geteilt werden.
 style#:#sty_acopy#:#Kopie
+style#:#sty_activate#:#Aktivieren
 style#:#sty_add_assignment#:#Zuordnung hinzufügen
 style#:#sty_add_characteristic#:#Neuen Style hinzufügen
 style#:#sty_add_color#:#Farbe hinzufügen
@@ -16226,6 +16227,7 @@ style#:#sty_cursor#:#Mauszeiger
 style#:#sty_custom#:#Weitere CSS-Regeln
 style#:#sty_custom_par#:#Zusatzparameter
 style#:#sty_custom_par_info#:#Definieren Sie Zusatzparameter im Format "Parameter: Wert".
+style#:#sty_deactivate#:#Deaktivieren
 style#:#sty_default#:#Standard
 style#:#sty_default_style#:#Standard-Stylesheet
 style#:#sty_del_template#:#Templates und Klassen löschen

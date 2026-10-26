@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\HTTP\Services as HttpServices;
 use ILIAS\UI\Implementation\Crawler\Entry\ComponentEntries as Entries;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
@@ -54,6 +55,7 @@ class ilSystemStyleMainGUI
     protected FileUpload $upload;
     protected ilTree $tree;
     protected ilObjUser $user;
+    protected HttpServices $http;
     protected ilSystemStyleMessageStack $message_stack;
 
     public function __construct()
@@ -82,6 +84,7 @@ class ilSystemStyleMainGUI
         $this->tree = $DIC->repositoryTree();
         $this->skin_factory = new ilSkinFactory($this->lng);
         $this->user = $DIC->user();
+        $this->http = $DIC->http();
 
         $this->message_stack = new ilSystemStyleMessageStack($this->tpl);
         $this->ref_id = $this->request_wrapper->query()->retrieve('ref_id', $this->refinery->kindlyTo()->string());
@@ -204,6 +207,8 @@ class ilSystemStyleMainGUI
             $this->upload,
             $this->tabs,
             $this->help,
+            $this->request,
+            $this->http,
             $skin_id,
             $style_id,
             $this->ref_id,

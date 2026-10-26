@@ -21,14 +21,18 @@ declare(strict_types=1);
 require_once('vendor/composer/vendor/autoload.php');
 include_once('./components/ILIAS/UI/tests/UITestHelper.php');
 
+use ILIAS\HTTP\Services as HttpServices;
 use ILIAS\HTTP\Wrapper\WrapperFactory;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\Tests\Refinery\ilLanguageMock;
+use Psr\Http\Message\ServerRequestInterface;
 
 class ilSystemStyleOverviewGUITest extends ilSystemStyleBaseFS
 {
+    use UITestHelper;
+
     protected ilSystemStyleOverviewGUI $overview_gui;
 
     protected ilCtrl $ctrl;
@@ -36,7 +40,6 @@ class ilSystemStyleOverviewGUITest extends ilSystemStyleBaseFS
     protected function setUp(): void
     {
         parent::setUp();
-        $ui_helper = new UITestHelper();
 
         $this->ctrl = $this->getMockBuilder(ilCtrl::class)->disableOriginalConstructor()->onlyMethods([
             'getFormAction',
@@ -44,21 +47,19 @@ class ilSystemStyleOverviewGUITest extends ilSystemStyleBaseFS
         ])->getMock();
 
         $lng = new ilLanguageMock();
-        $tpl = $ui_helper->mainTemplate();
-        $ui_factory = $ui_helper->factory();
-        $renderer = $ui_helper->renderer();
-        $request = $this->getMockBuilder(WrapperFactory::class)->disableOriginalConstructor()->onlyMethods([
-        ])->getMock();
+        $tpl = $this->mainTemplate();
+        $ui_factory = $this->factory();
+        $renderer = $this->renderer();
+        $request_wrapper = $this->getMockBuilder(WrapperFactory::class)->disableOriginalConstructor()->getMock();
 
-        $toolbar = $this->getMockBuilder(ilToolbarGUI::class)->disableOriginalConstructor()->onlyMethods([])->getMock();
-        $tabs = $this->getMockBuilder(ilTabsGUI::class)->disableOriginalConstructor()->onlyMethods([])->getMock();
+        $toolbar = $this->getMockBuilder(ilToolbarGUI::class)->disableOriginalConstructor()->getMock();
+        $tabs = $this->getMockBuilder(ilTabsGUI::class)->disableOriginalConstructor()->getMock();
         $data_factory = new DataFactory();
         $refinery = new Refinery($data_factory, $lng);
 
         $factory = new ilSkinFactory($this->lng, $this->system_style_config);
-        $help = $this->getMockBuilder(ilHelpGUI::class)->disableOriginalConstructor()->onlyMethods([
-        ])->getMock();
-        $upload = $this->getMockBuilder(FileUpload::class)->disableOriginalConstructor()->onlyMethods([])->getMock();
+        $help = $this->getMockBuilder(ilHelpGUI::class)->disableOriginalConstructor()->getMock();
+        $upload = $this->getMockBuilder(FileUpload::class)->disableOriginalConstructor()->getMock();
 
         $this->overview_gui = new ilSystemStyleOverviewGUI(
             $this->ctrl,
@@ -66,13 +67,15 @@ class ilSystemStyleOverviewGUITest extends ilSystemStyleBaseFS
             $tpl,
             $ui_factory,
             $renderer,
-            $request,
+            $request_wrapper,
             $toolbar,
             $refinery,
             $factory,
             $upload,
             $tabs,
             $help,
+            $this->getMockBuilder(ServerRequestInterface::class)->getMock(),
+            $this->getMockBuilder(HttpServices::class)->disableOriginalConstructor()->getMock(),
             $this->container->getSkin()->getId(),
             $this->style->getId(),
             '1',
