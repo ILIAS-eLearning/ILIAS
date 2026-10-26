@@ -656,8 +656,8 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
 
         try {
             $data = $this->buildEditEntriesModal($names, '', false)->withRequest($this->request)->getData();
-        } catch (InvalidArgumentException) {
-            // KS rejects missing (truncated) field values instead of reporting them
+        } catch (InvalidArgumentException|TypeError) {
+            // KS rejects missing (truncated) or manipulated field values instead of reporting them
             $data = null;
         }
 
@@ -713,6 +713,23 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
 
         $this->setSuccessOrOverlayWarning($this->lng->txt('language_variables_saved'), $modules_with_unwritten_overlay);
         $this->ctrl->redirect($this, 'view');
+    }
+
+    /**
+     * The form with the request and its data: null if KS marks an input as invalid, false for a manipulated request.
+     * KS throws for a value outside the options and Radio even a TypeError for an array, which must be no error page.
+     *
+     * @return array{0: \ILIAS\UI\Component\Input\Container\Form\Standard, 1: array|null|false}
+     */
+    private function readForm(\ILIAS\UI\Component\Input\Container\Form\Standard $form): array
+    {
+        try {
+            $with_request = $form->withRequest($this->http->request());
+
+            return [$with_request, $with_request->getData()];
+        } catch (InvalidArgumentException|TypeError) {
+            return [$form, false];
+        }
     }
 
     private function sendAsync(UIComponent $component): void
@@ -775,13 +792,10 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
     */
     public function uploadObject(): void
     {
-        try {
-            $form = $this->buildImportForm()->withRequest($this->http->request());
-            $data = $form->getData();
-        } catch (InvalidArgumentException) {
-            // KS rejects a mode that is not one of the options
+        [$form, $data] = $this->readForm($this->buildImportForm());
+        if ($data === false) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
-            $this->tpl->setContent($this->ui_renderer->render($this->buildImportForm()));
+            $this->tpl->setContent($this->ui_renderer->render($form));
             return;
         }
         $handler = $this->getImportUploadHandler();
@@ -1080,14 +1094,8 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
             $this->exportObject();
             return;
         }
-        try {
-            $form = $this->buildExportForm()->withRequest($this->http->request());
-            $scope = (string) ($form->getData()['scope'] ?? '');
-        } catch (InvalidArgumentException) {
-            // KS rejects a value that is not one of the options
-            $form = $this->buildExportForm();
-            $scope = '';
-        }
+        [$form, $data] = $this->readForm($this->buildExportForm());
+        $scope = (string) ($data['scope'] ?? '');
         if (!in_array($scope, $this->getExportScopes(), true)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
             $this->exportObject($form);
@@ -1210,14 +1218,8 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
     /** Destructive options are only stored here and run by maintainConfirmedObject() after the confirmation. */
     public function maintainExecuteObject(): void
     {
-        try {
-            $form = $this->buildMaintainForm()->withRequest($this->http->request());
-            $option = (string) ($form->getData()['maintain'] ?? '');
-        } catch (InvalidArgumentException) {
-            // KS rejects a value that is not one of the options
-            $form = $this->buildMaintainForm();
-            $option = '';
-        }
+        [$form, $data] = $this->readForm($this->buildMaintainForm());
+        $option = (string) ($data['maintain'] ?? '');
         // also refuses the developer-mode options outside langmode, they are not offered there
         if (!array_key_exists($option, $this->getMaintainOptions())) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
@@ -1435,8 +1437,13 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
     {
         $ilUser = $this->user;
 
-        // a checkbox form is never invalid, an unchecked box reads as false
-        $data = $this->buildSettingsForm()->withRequest($this->http->request())->getData();
+        // an unchecked box reads as false
+        [, $data] = $this->readForm($this->buildSettingsForm());
+        if (!is_array($data)) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
+            $this->settingsObject();
+            return;
+        }
         $enabled = (bool) ($data['translation'] ?? false);
 
         $result = $this->set_language_translation_enabled->maybePerformAs(
@@ -1711,15 +1718,8 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
             return;
         }
 
-        try {
-            $form = $this->buildAddNewEntryForm($identifier)->withRequest($this->http->request());
-            $data = $form->getData();
-        } catch (InvalidArgumentException) {
-            // KS rejects a module that is not one of the options
-            $form = null;
-            $data = null;
-        }
-        if ($data === null) {
+        [$form, $data] = $this->readForm($this->buildAddNewEntryForm($identifier));
+        if (!is_array($data)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
             $this->addNewEntryObject($form);
             return;
