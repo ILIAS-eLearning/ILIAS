@@ -90,6 +90,17 @@ existing ILIAS installations. If you don't have access to the corresponding issu
 in our internal security tracker please give access to the corresponding patch 
 files to the issue manager through a secure channel.
 
+### Form of report
+
+Please note that because of our limited time and resources we employ the following requirements on emails you send:
+
+* Each email you send must contain only one security issue. If you want to submit multiple security issues, please send an email for each issue separately. We may ask you to resend each issue as a separate email if you send us an email containing several issues.
+* Emails containing generalized bug reports (e.g. reports created automatically through pen-testing systems) should not be send directly to us without further information. Please review them beforehand and explain us the security issue you want to report (as explained in [Reporting a Security Issue](#reporting-a-security-issue) point 1.), the generalized report is great as additional information but should not be the only information we get. We may ask you to create a new report if this is has not beed met.
+
+### Email Encryption
+
+To encrypt your email to security@ilias.de, please use the following PGP key: https://docu.ilias.de/go/file/18565 (fingerprint: 09A2 88B4 CDD7 AF59 9716 0A54 10B3 A0F9 B020 B44D)
+
 [//]: # (END reporting)
 
 ## Addressing a Security Issue
