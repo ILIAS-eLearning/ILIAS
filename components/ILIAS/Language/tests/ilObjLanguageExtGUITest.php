@@ -1884,13 +1884,19 @@ class ilObjLanguageExtGUITest extends TestCase
     }
 
     /** @param array<string, mixed> $data */
-    private function givenPending(string $session_key, array $data, string $token = 'tok', int $obj_id = 0): void
-    {
-        $_SESSION[$session_key] = ['token' => $token, 'obj_id' => $obj_id] + $data;
+    /** @param bool $show true: stored right before, the page shows the confirmation once */
+    private function givenPending(
+        string $session_key,
+        array $data,
+        string $token = 'tok',
+        int $obj_id = 0,
+        bool $show = false
+    ): void {
+        $_SESSION[$session_key] = ['token' => $token, 'obj_id' => $obj_id, 'show' => $show] + $data;
     }
 
     #[DataProvider('destructiveMaintainOptions')]
-    public function testMaintainExecuteOnlyStoresADestructiveOptionAndRedirectsWithItsToken(
+    public function testMaintainExecuteOnlyStoresADestructiveOptionAndRedirectsWithoutItsToken(
         string $option,
         string $langmode
     ): void {
@@ -1904,7 +1910,8 @@ class ilObjLanguageExtGUITest extends TestCase
         self::assertSame($option, $pending['option']);
         self::assertSame(0, $pending['obj_id']);
         self::assertMatchesRegularExpression('/^[0-9a-f]{16}$/', $pending['token']);
-        self::assertSame([['maintain', [self::MAINTAIN_TOKEN => $pending['token']]]], $ctx->redirects);
+        self::assertTrue($pending['show']);
+        self::assertSame([['maintain', []]], $ctx->redirects);
         self::assertSame([], $ctx->messages);
     }
 
@@ -2033,10 +2040,10 @@ class ilObjLanguageExtGUITest extends TestCase
         self::assertSame([['failure', 'action_aborted']], $ctx->messages);
     }
 
-    public function testMaintainObjectShowsFormAndConfirmationModalForAValidToken(): void
+    public function testMaintainObjectShowsFormAndConfirmationModalOnceRightAfterTheVormerkung(): void
     {
-        [$gui, $ctx] = $this->createGuiForForms('1', [], [self::MAINTAIN_TOKEN => 'tok']);
-        $this->givenPending(self::MAINTAIN_PENDING, ['option' => 'merge']);
+        [$gui, $ctx] = $this->createGuiForForms('1');
+        $this->givenPending(self::MAINTAIN_PENDING, ['option' => 'merge'], show: true);
 
         $gui->maintainObject();
 
@@ -2050,12 +2057,18 @@ class ilObjLanguageExtGUITest extends TestCase
         self::assertSame('html', $ctx->contents[0]);
         // the token must not leak into the other links of the page
         self::assertArrayNotHasKey(self::MAINTAIN_TOKEN, $ctx->params);
-        self::assertArrayHasKey(self::MAINTAIN_PENDING, $_SESSION, 'the Vormerkung stays until it is confirmed');
+        self::assertFalse($_SESSION[self::MAINTAIN_PENDING]['show'], 'the Vormerkung stays until it is confirmed');
+
+        // reload, back or cancel: only the form, the Vormerkung is gone
+        $gui->maintainObject();
+        self::assertCount(1, $ctx->rendered[1]);
+        self::assertArrayNotHasKey(self::MAINTAIN_PENDING, $_SESSION);
     }
 
-    public function testMaintainObjectWithoutAValidTokenShowsOnlyTheFormAndDiscardsTheVormerkung(): void
+    /** A token in the URL never opens the confirmation, only the one-time marker of the Vormerkung does. */
+    public function testMaintainObjectWithoutTheShowMarkerShowsOnlyTheFormAndDiscardsTheVormerkung(): void
     {
-        foreach ([null, 'other'] as $token) {
+        foreach ([null, 'tok'] as $token) {
             [$gui, $ctx] = $this->createGuiForForms('1', [], $token === null ? [] : [self::MAINTAIN_TOKEN => $token]);
             $this->givenPending(self::MAINTAIN_PENDING, ['option' => 'merge']);
 
@@ -2117,7 +2130,8 @@ class ilObjLanguageExtGUITest extends TestCase
         self::assertSame($mode, $pending['mode']);
         self::assertSame('up1', $pending['upload']);
         self::assertSame(0, $pending['obj_id']);
-        self::assertSame([['import', [self::IMPORT_TOKEN => $pending['token']]]], $ctx->redirects);
+        self::assertTrue($pending['show']);
+        self::assertSame([['import', []]], $ctx->redirects);
         self::assertNotContains('up1', $ctx->handler->discarded);
         self::assertSame([['up1']], $ctx->handler->discard_all_calls);
         self::assertSame([], $ctx->handler->local_files);
@@ -2241,10 +2255,10 @@ class ilObjLanguageExtGUITest extends TestCase
         self::assertSame([['import', []]], $ctx->redirects);
     }
 
-    public function testImportObjectWithATokenOpensTheModalWithTheEscapedFileNameAndKeepsOnlyThatUpload(): void
+    public function testImportObjectRightAfterTheVormerkungOpensTheModalOnceWithTheEscapedFileNameAndKeepsOnlyThatUpload(): void
     {
-        [$gui, $ctx] = $this->createGuiForForms('1', [], [self::IMPORT_TOKEN => 'tok'], '<img src=x onerror=alert(1)>.lang');
-        $this->givenPending(self::IMPORT_PENDING, ['mode' => 'replace', 'upload' => 'up1']);
+        [$gui, $ctx] = $this->createGuiForForms('1', [], [], '<img src=x onerror=alert(1)>.lang');
+        $this->givenPending(self::IMPORT_PENDING, ['mode' => 'replace', 'upload' => 'up1'], show: true);
 
         $gui->importObject();
 
@@ -2256,12 +2270,19 @@ class ilObjLanguageExtGUITest extends TestCase
         self::assertStringNotContainsString('<img', $modal->getMessage());
         self::assertStringContainsString('language_mode_existing_replace', $modal->getMessage());
         self::assertSame([['up1']], $ctx->handler->discard_all_calls);
-        self::assertArrayHasKey(self::IMPORT_PENDING, $_SESSION);
+        self::assertFalse($_SESSION[self::IMPORT_PENDING]['show']);
+
+        // reload, back or cancel: only the form, Vormerkung and upload are gone
+        $gui->importObject();
+        self::assertCount(1, $ctx->rendered[1]);
+        self::assertSame(['up1'], $ctx->handler->discarded);
+        self::assertArrayNotHasKey(self::IMPORT_PENDING, $_SESSION);
     }
 
-    public function testImportObjectWithoutAValidTokenShowsOnlyTheFormAndCleansUp(): void
+    /** A token in the URL never opens the confirmation, only the one-time marker of the Vormerkung does. */
+    public function testImportObjectWithoutTheShowMarkerShowsOnlyTheFormAndCleansUp(): void
     {
-        foreach ([null, 'other'] as $token) {
+        foreach ([null, 'tok'] as $token) {
             [$gui, $ctx] = $this->createGuiForForms('1', [], $token === null ? [] : [self::IMPORT_TOKEN => $token]);
             $this->givenPending(self::IMPORT_PENDING, ['mode' => 'replace', 'upload' => 'up1']);
 

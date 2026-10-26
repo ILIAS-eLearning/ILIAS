@@ -756,15 +756,15 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         $this->http->close();
     }
 
-    /** Shows the import form; with the token of a stored "replace"/"delete" import, the confirmation opens. */
+    /** Shows the import form; right after a stored "replace"/"delete" import, the confirmation opens once. */
     public function importObject(): void
     {
         $components = [$this->buildImportForm()];
 
-        $token = $this->getToken(self::IMPORT_TOKEN_PARAMETER);
-        $pending = $this->getPendingImport($token);
+        $token = $this->takePendingToShow(self::IMPORT_PENDING_SESSION_KEY);
+        $pending = $token === null ? null : $this->getPendingImport($token);
         if ($pending === null) {
-            // a cancelled or abandoned confirmation, uploads left over from it
+            // confirmation already shown (reload, back, cancel) or abandoned, uploads left over from it
             $this->discardPendingImport();
             $this->getImportUploadHandler()->discardAll();
         } else {
@@ -837,11 +837,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         }
 
         // only the identifier of an upload of this session is stored, never a path
-        $this->storePending(
-            self::IMPORT_PENDING_SESSION_KEY,
-            self::IMPORT_TOKEN_PARAMETER,
-            ['mode' => $mode, 'upload' => $identifier]
-        );
+        $this->storePending(self::IMPORT_PENDING_SESSION_KEY, ['mode' => $mode, 'upload' => $identifier]);
         $this->ctrl->redirect($this, 'import');
     }
 
@@ -930,12 +926,30 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         ]);
     }
 
-    /** Stores a pending action for this language in the session and puts its one-time token into the URL. */
-    private function storePending(string $session_key, string $token_parameter, array $data): void
+    /** The next page build shows the confirmation once, the token only goes into the modal's form action. */
+    private function storePending(string $session_key, array $data): void
     {
-        $token = bin2hex(random_bytes(8));
-        ilSession::set($session_key, ['token' => $token, 'obj_id' => $this->object->getId()] + $data);
-        $this->ctrl->setParameter($this, $token_parameter, $token);
+        ilSession::set(
+            $session_key,
+            ['token' => bin2hex(random_bytes(8)), 'obj_id' => $this->object->getId(), 'show' => true] + $data
+        );
+    }
+
+    /** The token of a pending action of this language whose confirmation is still to be shown; marks it shown. */
+    private function takePendingToShow(string $session_key): ?string
+    {
+        $pending = ilSession::get($session_key);
+        if (!is_array($pending)
+            || ($pending['show'] ?? false) !== true
+            || ($pending['obj_id'] ?? null) !== $this->object->getId()
+            || !is_string($pending['token'] ?? null)
+        ) {
+            return null;
+        }
+        $pending['show'] = false;
+        ilSession::set($session_key, $pending);
+
+        return $pending['token'];
     }
 
     private function getPending(string $session_key, string $token): ?array
@@ -1133,14 +1147,14 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         ilUtil::deliverData($local_file_obj->build(), $filename);
     }
 
-    /** Shows the maintenance form; with the token of a stored destructive option, the confirmation opens. */
+    /** Shows the maintenance form; right after a stored destructive option, the confirmation opens once. */
     public function maintainObject(?\ILIAS\UI\Component\Input\Container\Form\Standard $form = null): void
     {
         $components = [$form ?? $this->buildMaintainForm()];
-        $token = $this->getToken(self::MAINTAIN_TOKEN_PARAMETER);
-        $option = $this->getPendingMaintainOption($token);
+        $token = $this->takePendingToShow(self::MAINTAIN_PENDING_SESSION_KEY);
+        $option = $token === null ? null : $this->getPendingMaintainOption($token);
         if ($option === null) {
-            // a cancelled or abandoned confirmation
+            // confirmation already shown (reload, back, cancel) or abandoned
             ilSession::clear(self::MAINTAIN_PENDING_SESSION_KEY);
         } else {
             $modal = $this->buildMaintainConfirmModal($option, $token);
@@ -1225,11 +1239,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
             return;
         }
 
-        $this->storePending(
-            self::MAINTAIN_PENDING_SESSION_KEY,
-            self::MAINTAIN_TOKEN_PARAMETER,
-            ['option' => $option]
-        );
+        $this->storePending(self::MAINTAIN_PENDING_SESSION_KEY, ['option' => $option]);
         $this->ctrl->redirect($this, 'maintain');
     }
 

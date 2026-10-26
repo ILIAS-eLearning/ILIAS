@@ -47,6 +47,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
 
     private const string CMD_TABLE_ACTION = 'executeTableAction';
     private const string DETECTION_PARAMETER = 'lang_detection_enable';
+    private const string DETECTION_CONFIRM_SESSION_KEY = 'lang_detection_confirm';
 
     protected ilLanguageFolderTable $languageFolderTable;
     protected ILIAS\Data\Factory $df;
@@ -59,8 +60,6 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
     private readonly RemoveLocalLanguageChanges $remove_local_language_changes;
     private readonly SetLanguageDetectionEnabled $set_language_detection_enabled;
     private readonly int $current_user_id;
-    /** Set by confirmLanguageDetectionObject(): the confirmation modal to open on load */
-    private ?bool $confirm_detection = null;
 
     /**
      * Constructor
@@ -127,6 +126,9 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
         global $DIC;
 
         $table = $this->languageFolderTable->getTable();
+        // set by confirmLanguageDetectionObject(), shown only once so a reload does not reopen the modal
+        $confirm_detection = ilSession::get(self::DETECTION_CONFIRM_SESSION_KEY);
+        ilSession::clear(self::DETECTION_CONFIRM_SESSION_KEY);
 
         if ($this->checkPermissionBool("write")) {
             // refresh
@@ -176,8 +178,8 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
                 $this->ctrl->getFormActionByClass(self::class, "disableLanguageDetection")
             )
                                           ->withActionButtonLabel($this->lng->txt('ok'));
-            if ($this->confirm_detection !== null) {
-                if ($this->confirm_detection) {
+            if (is_bool($confirm_detection)) {
+                if ($confirm_detection) {
                     $modal_on = $modal_on->withOnLoad($modal_on->getShowSignal());
                 } else {
                     $modal_off = $modal_off->withOnLoad($modal_off->getShowSignal());
@@ -1006,12 +1008,15 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
         return $ids;
     }
 
-    /** Read-only: shows the list with the confirmation modal open, only its POST switches the setting. */
+    /** Switches nothing: the next list view opens the confirmation modal once, only its POST switches the setting. */
     protected function confirmLanguageDetectionObject(): void
     {
-        $this->confirm_detection = $this->request_wrapper->has(self::DETECTION_PARAMETER)
-            && $this->request_wrapper->retrieve(self::DETECTION_PARAMETER, $this->refinery->kindlyTo()->bool());
-        $this->viewObject();
+        ilSession::set(
+            self::DETECTION_CONFIRM_SESSION_KEY,
+            $this->request_wrapper->has(self::DETECTION_PARAMETER)
+            && $this->request_wrapper->retrieve(self::DETECTION_PARAMETER, $this->refinery->kindlyTo()->bool())
+        );
+        $this->ctrl->redirect($this, 'view');
     }
 
     private function getConfirmDetectionUrl(bool $enable): string
@@ -1055,9 +1060,8 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
             return;
         }
 
-        // rendered directly with a non-persisted message, no redirect (unlike installObject() & Co.)
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt("saved_successfully"));
-        $this->viewObject();
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("saved_successfully"), true);
+        $this->ctrl->redirect($this, 'view');
     }
 
     /**
