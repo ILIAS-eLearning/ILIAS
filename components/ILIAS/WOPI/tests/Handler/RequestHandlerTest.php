@@ -37,9 +37,9 @@ use ILIAS\WOPI\Lock\LockRepository;
 use ILIAS\WOPI\Lock\LockService;
 use ILIAS\WOPI\Discovery\ProofKey;
 use ILIAS\WOPI\Discovery\ProofKeys;
-use GuzzleHttp\Psr7\ServerRequest;
-use GuzzleHttp\Psr7\Response;
+use ILIAS\HTTP\Message\MessageFactoryImpl;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 final class RequestHandlerTest extends TestCase
 {
@@ -180,14 +180,22 @@ final class RequestHandlerTest extends TestCase
         if ($token !== null) {
             $url .= '?access_token=' . rawurlencode($token);
         }
-        $request = new ServerRequest($method, $url, $headers, $body);
-        if ($token !== null) {
-            $request = $request->withQueryParams(['access_token' => $token]);
-        }
+        $messages = new MessageFactoryImpl();
+        $message = $messages->request($method, $url, $headers, $body);
+        $request = $this->createStub(ServerRequestInterface::class);
+        $request->method('getMethod')->willReturn($message->getMethod());
+        $request->method('getUri')->willReturn($message->getUri());
+        $request->method('getBody')->willReturn($message->getBody());
+        $request->method('getHeader')->willReturnCallback(
+            static fn(string $name): array => $message->getHeader($name)
+        );
+        $request->method('getQueryParams')->willReturn(
+            $token === null ? [] : ['access_token' => $token]
+        );
 
         $http = $this->createStub(GlobalHttpState::class);
         $http->method('request')->willReturn($request);
-        $http->method('response')->willReturn(new Response());
+        $http->method('response')->willReturn($messages->response());
 
         $irss = $this->createStub(\ILIAS\ResourceStorage\Services::class);
         $irss->method('manage')->willReturn($this->manager);
