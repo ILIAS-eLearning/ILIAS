@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\Language\Activities\InstallLanguage;
 use ILIAS\Language\Activities\UpdateLanguage;
+use ILIAS\Language\Activities\SetLanguageDetectionEnabled;
 use ILIAS\Language\Activities\UninstallLanguage;
 use ILIAS\Language\Activities\RemoveLocalLanguageChanges;
 use ILIAS\Data\Result\Ok as ResultOk;
@@ -328,6 +329,8 @@ class ilObjLanguageFolderGUITest extends TestCase
             $gui->getUnsafeGetCommands()
         );
         $this->assertSame([], $gui->getSafePostCommands());
+        // read-only: must stay reachable by the plain GET links of the toggle
+        $this->assertNotContains('confirmLanguageDetection', $gui->getUnsafeGetCommands());
     }
 
     /**
@@ -419,6 +422,268 @@ class ilObjLanguageFolderGUITest extends TestCase
         $gui->expects($this->never())->method('checkLanguageObject');
 
         $this->invokeTableAction($gui);
+    }
+
+    private function stubHttpWithMethod(string $method): \ILIAS\HTTP\Services&\PHPUnit\Framework\MockObject\Stub
+    {
+        $request = $this->createStub(\Psr\Http\Message\ServerRequestInterface::class);
+        $request->method('getMethod')->willReturn($method);
+        $http = $this->createStub(\ILIAS\HTTP\Services::class);
+        $http->method('request')->willReturn($request);
+
+        return $http;
+    }
+
+    #[\PHPUnit\Framework\Attributes\DataProvider('detectionSwitchCommandsAndMethods')]
+    public function testLanguageDetectionIsOnlySwitchedByPostAndOtherwiseOnlyTheViewIsShown(
+        string $cmd,
+        string $method,
+        bool $must_switch
+    ): void {
+        $switch_method = $cmd . 'Object';
+        $gui = $this->createDispatchGui($cmd, null, ['viewObject', 'enableLanguageDetectionObject', 'disableLanguageDetectionObject']);
+        (new ReflectionProperty(ilObjLanguageFolderGUI::class, 'http'))->setValue($gui, $this->stubHttpWithMethod($method));
+
+        $other = $cmd === 'enableLanguageDetection' ? 'disableLanguageDetectionObject' : 'enableLanguageDetectionObject';
+        $gui->expects($must_switch ? $this->once() : $this->never())->method($switch_method);
+        $gui->expects($this->never())->method($other);
+        $gui->expects($must_switch ? $this->never() : $this->once())->method('viewObject');
+
+        $gui->executeCommand();
+    }
+
+    /** @return array<string, array{string, string, bool}> */
+    public static function detectionSwitchCommandsAndMethods(): array
+    {
+        return [
+            'enable by GET' => ['enableLanguageDetection', 'GET', false],
+            'disable by GET' => ['disableLanguageDetection', 'GET', false],
+            'enable by HEAD' => ['enableLanguageDetection', 'HEAD', false],
+            'enable by POST' => ['enableLanguageDetection', 'POST', true],
+            'disable by POST' => ['disableLanguageDetection', 'POST', true],
+        ];
+    }
+
+    #[\PHPUnit\Framework\Attributes\DataProvider('confirmParameterValues')]
+    public function testConfirmLanguageDetectionIsReadOnlyAndRendersTheViewWithTheRequestedModal(
+        ?string $parameter,
+        bool $expected_confirm_state
+    ): void {
+        $gui = $this->createDispatchGui('confirmLanguageDetection', null, ['viewObject', 'enableLanguageDetectionObject', 'disableLanguageDetectionObject']);
+        (new ReflectionProperty(ilObjLanguageFolderGUI::class, 'http'))->setValue($gui, $this->stubHttpWithMethod('GET'));
+
+        $request_wrapper = $this->createStub(\ILIAS\HTTP\Wrapper\RequestWrapper::class);
+        $request_wrapper->method('has')->willReturnCallback(
+            static fn(string $name): bool => $name === 'lang_detection_enable' && $parameter !== null
+        );
+        $request_wrapper->method('retrieve')->willReturnCallback(
+            static fn(string $name, \ILIAS\Refinery\Transformation $trafo): mixed => $trafo->transform($parameter)
+        );
+        $refinery = new \ILIAS\Refinery\Factory(new \ILIAS\Data\Factory(), $this->createStub(ilLanguage::class));
+        $this->inject($gui, 'request_wrapper', $request_wrapper);
+        $this->inject($gui, 'refinery', $refinery);
+
+        $set_language_detection_enabled = $this->createMock(SetLanguageDetectionEnabled::class);
+        $set_language_detection_enabled->expects($this->never())->method('maybePerformAs');
+        $this->inject($gui, 'set_language_detection_enabled', $set_language_detection_enabled);
+        $settings = $this->createMock(ilSetting::class);
+        $settings->expects($this->never())->method('set');
+        $this->inject($gui, 'settings', $settings);
+
+        $confirm_state_while_rendering = 'view not rendered';
+        $gui->expects($this->never())->method('enableLanguageDetectionObject');
+        $gui->expects($this->never())->method('disableLanguageDetectionObject');
+        $gui->expects($this->once())->method('viewObject')->willReturnCallback(
+            function () use ($gui, &$confirm_state_while_rendering): void {
+                $confirm_state_while_rendering = (new ReflectionProperty(ilObjLanguageFolderGUI::class, 'confirm_detection'))->getValue($gui);
+            }
+        );
+
+        $gui->executeCommand();
+
+        $this->assertSame($expected_confirm_state, $confirm_state_while_rendering);
+    }
+
+    /** @return array<string, array{?string, bool}> */
+    public static function confirmParameterValues(): array
+    {
+        return [
+            'enable' => ['1', true],
+            'disable' => ['0', false],
+            'parameter missing never enables' => [null, false],
+        ];
+    }
+
+    /**
+     * @return array{0: ilObjLanguageFolderGUI&\PHPUnit\Framework\MockObject\MockObject, 1: object}
+     *   the GUI and a recorder: ->toolbar (components), ->toggle (args), ->modals (title => action), ->modal_state (spl id => [title, on_load])
+     */
+    private function createViewGuiRecordingTheToolbar(?bool $confirm_detection, bool $detection_on): array
+    {
+        // another test may have left the translation runtime without a build: its problem is logged, keep that off the output
+        $logger_factory = $this->createStub(ilLoggerFactory::class);
+        $logger_factory->method('getComponentLogger')->willReturn($this->createStub(ilLogger::class));
+        $dic = new \ILIAS\DI\Container();
+        $dic['ilLoggerFactory'] = static fn() => $logger_factory;
+
+        $record = new stdClass();
+        $record->toolbar = [];
+        $record->toggle = null;
+        $record->modals = [];
+        $record->modal_state = [];
+
+        $signal = $this->createStub(\ILIAS\UI\Component\Signal::class);
+        $modal_factory = $this->createMock(\ILIAS\UI\Component\Modal\Factory::class);
+        $modal_factory->method('interruptive')->willReturnCallback(
+            function (string $title, string $message, string $action) use ($record, $signal): \ILIAS\UI\Component\Modal\Interruptive {
+                $record->modals[$title] = $action;
+                $build = function (bool $on_load) use ($title, $record, $signal, &$build): \ILIAS\UI\Component\Modal\Interruptive {
+                    $modal = $this->createMock(\ILIAS\UI\Component\Modal\Interruptive::class);
+                    $record->modal_state[spl_object_id($modal)] = ['title' => $title, 'on_load' => $on_load];
+                    $modal->method('getShowSignal')->willReturn($signal);
+                    $modal->method('withActionButtonLabel')->willReturnSelf();
+                    $modal->method('withOnLoad')->willReturnCallback(
+                        static fn() => $build(true)
+                    );
+
+                    return $modal;
+                };
+
+                return $build(false);
+            }
+        );
+
+        $toggle = $this->createMock(\ILIAS\UI\Component\Button\Toggle::class);
+        $toggle->method('withAriaLabel')->willReturnSelf();
+        $standard = $this->createStub(\ILIAS\UI\Component\Button\Standard::class);
+        $standard->method('withOnClick')->willReturnSelf();
+        $button_factory = $this->createMock(\ILIAS\UI\Component\Button\Factory::class);
+        $button_factory->method('standard')->willReturn($standard);
+        $button_factory->method('toggle')->willReturnCallback(
+            function (string $label, $on, $off, bool $is_on) use ($record, $toggle) {
+                $record->toggle = ['on' => $on, 'off' => $off, 'is_on' => $is_on];
+
+                return $toggle;
+            }
+        );
+        $ui_factory = $this->createStub(\ILIAS\UI\Factory::class);
+        $ui_factory->method('modal')->willReturn($modal_factory);
+        $ui_factory->method('button')->willReturn($button_factory);
+
+        $toolbar = $this->createMock(ilToolbarGUI::class);
+        $toolbar->method('addComponent')->willReturnCallback(
+            function ($component) use ($record): void {
+                $record->toolbar[] = $component;
+            }
+        );
+
+        // minimal stateful ilCtrl: the link carries the parameter that was set at the time of the call
+        $parameters = [];
+        $ctrl = $this->createStub(ilCtrl::class);
+        $ctrl->method('setParameter')->willReturnCallback(
+            function (object $gui, string $name, $value) use (&$parameters): void {
+                $parameters[$name] = $value;
+            }
+        );
+        $ctrl->method('clearParameterByClass')->willReturnCallback(
+            function (string $class, string $name) use (&$parameters): void {
+                unset($parameters[$name]);
+            }
+        );
+        $ctrl->method('getLinkTarget')->willReturnCallback(
+            function (object $gui, string $cmd) use (&$parameters): string {
+                return 'link:' . $cmd . '?' . http_build_query($parameters);
+            }
+        );
+        $ctrl->method('getFormActionByClass')->willReturnCallback(
+            static fn(string $class, string $cmd): string => 'form:' . $cmd
+        );
+
+        $table = $this->createStub(\ILIAS\UI\Component\Table\Data::class);
+        $table->method('withRequest')->willReturnSelf();
+        $folder_table = $this->createStub(ilLanguageFolderTable::class);
+        $folder_table->method('getTable')->willReturn($table);
+
+        $settings = $this->createStub(ilSetting::class);
+        $settings->method('get')->willReturnCallback(
+            static fn(string $key): string => $key === 'lang_detection' && $detection_on ? '1' : ''
+        );
+
+        $ini = $this->createStub(ilIniFile::class);
+        $ini->method('variableExists')->willReturn(false);
+        $GLOBALS['DIC'] = $dic;
+        $GLOBALS['DIC']['ilClientIniFile'] = $ini;
+
+        $gui = $this->getMockBuilder(ilObjLanguageFolderGUI::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['checkPermissionBool', 'confirmRefreshObject', 'buildConfirmModal', 'getUrl'])
+            ->getMock();
+        $gui->method('checkPermissionBool')->willReturn(true);
+        $gui->method('confirmRefreshObject')->willReturn([]);
+        $gui->method('getUrl')->willReturn('url');
+        $gui->method('buildConfirmModal')->willReturn($this->createStub(\ILIAS\UI\Component\Modal\Interruptive::class));
+
+        $ui_renderer = $this->createStub(\ILIAS\UI\Renderer::class);
+        $ui_renderer->method('render')->willReturn('');
+        foreach ([
+            'lng' => $this->createLanguageMockReturningTopicAsIs(),
+            'ctrl' => $ctrl,
+            'ui_factory' => $ui_factory,
+            'ui_renderer' => $ui_renderer,
+            'toolbar' => $toolbar,
+            'tpl' => $this->createStub(ilGlobalTemplateInterface::class),
+            'settings' => $settings,
+            'request' => $this->createStub(\Psr\Http\Message\ServerRequestInterface::class),
+            'languageFolderTable' => $folder_table,
+            'confirm_detection' => $confirm_detection,
+        ] as $name => $value) {
+            (new ReflectionProperty(ilObjLanguageFolderGUI::class, $name))->setValue($gui, $value);
+        }
+
+        return [$gui, $record];
+    }
+
+    #[\PHPUnit\Framework\Attributes\DataProvider('viewDetectionStates')]
+    public function testViewObjectBuildsTheToggleFromConfirmUrlsAndOpensOnlyTheRequestedModal(
+        ?bool $confirm_detection,
+        bool $detection_on,
+        ?string $modal_with_on_load
+    ): void {
+        [$gui, $record] = $this->createViewGuiRecordingTheToolbar($confirm_detection, $detection_on);
+
+        $gui->viewObject();
+
+        $this->assertNotNull($record->toggle, 'toggle must be built and added');
+        $this->assertSame('link:confirmLanguageDetection?lang_detection_enable=1', $record->toggle['on']);
+        $this->assertSame('link:confirmLanguageDetection?lang_detection_enable=0', $record->toggle['off']);
+        $this->assertSame($detection_on, $record->toggle['is_on']);
+
+        $this->assertSame('form:enableLanguageDetection', $record->modals['ON']);
+        $this->assertSame('form:disableLanguageDetection', $record->modals['OFF']);
+
+        // judged on the modals that actually reached the toolbar
+        $on_load_by_title = [];
+        foreach ($record->toolbar as $component) {
+            $state = $record->modal_state[spl_object_id($component)] ?? null;
+            if ($state !== null && isset($record->modals[$state['title']])) {
+                $on_load_by_title[$state['title']] = $state['on_load'];
+            }
+        }
+        $this->assertSame(
+            ['ON' => $modal_with_on_load === 'ON', 'OFF' => $modal_with_on_load === 'OFF'],
+            $on_load_by_title
+        );
+    }
+
+    /** @return array<string, array{?bool, bool, ?string}> */
+    public static function viewDetectionStates(): array
+    {
+        return [
+            'plain view, detection off' => [null, false, null],
+            'plain view, detection on' => [null, true, null],
+            'confirm enable' => [true, false, 'ON'],
+            'confirm disable' => [false, true, 'OFF'],
+        ];
     }
 
     private function invokeTableAction(ilObjLanguageFolderGUI $gui): void
