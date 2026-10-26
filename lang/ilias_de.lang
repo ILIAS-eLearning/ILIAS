@@ -8725,7 +8725,7 @@ dcl#:#dcl_field_visible#:#Sichtbar
 dcl#:#dcl_fieldtitle#:#Feldtitel
 dcl#:#dcl_file#:#Datei-Upload
 dcl#:#dcl_file_desc#:#Möglichkeit zum Hochladen einer Datei. Die hochgeladene Datei kann direkt aus der Datensammlung heruntergeladen werden.
-dcl#:#dcl_file_format_description#:#Die Import-Datei muss im Excel-Format .xlsx vorliegen, mit den zu importierenden Daten im ersten Tabellenblatt. In der ersten Zeile müssen die exakten Titel der Felder stehen, in den folgenden Zeilen die Werte der zu importierenden Einträge. Es wird empfohlen, jeden Import zuerst zu simulieren. Für den Import von mehrfachen Einträgen bei Auswahl- und Referenzfeldern werden Semikolon und/oder Komma als Trenner akzeptiert.
+dcl#:#dcl_file_format_description#:#Es wird empfohlen, die Importvorlage für ein korrektes Format zu nutzen und jeden Import zuerst zu simulieren.
 dcl#:#dcl_file_not_readable#:#Die Datei konnte nicht gelesen werden. Bitte verwenden Sie das .xlsx-Dateiformat.
 dcl#:#dcl_filter#:#Im Filter verfügbar
 dcl#:#dcl_filter_changeable#:#Filter änderbar
@@ -8743,8 +8743,10 @@ dcl#:#dcl_import#:#Datensammlung importieren
 dcl#:#dcl_import_enabled#:#Daten in Tabelle importieren
 dcl#:#dcl_import_enabled_desc#:#Es können per Excel Daten in die Tabelle importiert werden.
 dcl#:#dcl_import_records .xls#:#Excel-Import
+dcl#:#dcl_import_report#:#Bericht: Anzahl importierter Datensätze %s
+dcl#:#dcl_import_simulation_success#:#Importsimulation abgeschlossen.
+dcl#:#dcl_import_success#:#Import abgeschlossen.
 dcl#:#dcl_import_template_no_fields#:#Legen Sie zuerst Felder mit Titeln für diese Tabelle an, bevor Sie eine Importvorlage herunterladen können.
-dcl#:#dcl_import_terminated#:#Der Import ist abgeschlossen. Anzahl importierter Datensätze
 dcl#:#dcl_in_export#:#Exportierbar
 dcl#:#dcl_invalid_regex_config#:#Der reguläre Ausdruck, der für dieses Feld konfiguriert ist, ist ungültig. Überprüfen Sie die Einstellungen dieses Feldes, um das Problem zu beheben.
 dcl#:#dcl_last_edit_by#:#Zuletzt geändert von
@@ -8860,7 +8862,7 @@ dcl#:#dcl_selection_type_combobox#:#Einfachauswahl aus Auswahlmenü
 dcl#:#dcl_selection_type_multi#:#Mehrfachauswahl aus Liste
 dcl#:#dcl_selection_type_single#:#Einfachauswahl aus Liste
 dcl#:#dcl_simulate_import#:#Import simulieren
-dcl#:#dcl_simulate_import_info#:#Hierbei werden keine Datensätze angelegt, sondern nur Feedback zu Fehlern in der Import-Datei gegeben. Dadurch können Sie fehlerhafte Imports vermeiden.
+dcl#:#dcl_simulate_import_info#:#Import wird simuliert. Es werden keine Einträge erstellt.
 dcl#:#dcl_skipped_delete_records#:#%s Datensätze wurden aufgrund der Rechteeinstellungen nicht gelöscht
 dcl#:#dcl_status#:#Dein Status
 dcl#:#dcl_std_field_not_importable#:# - Standardfelder sind nicht importierbar.
@@ -8933,6 +8935,7 @@ dcl#:#enable_visible#:#Sichtbarkeit aktivieren
 dcl#:#entry_of#:#Eintrag %1$d von %2$d
 dcl#:#fieldtitle_allow_chars#:#Nicht erlaubte Zeichen: %s
 dcl#:#fileupload_not_migrated#:#Die Datei wurde noch nicht migriert und kann deshalb nicht angezeigt werden. Bitte wenden Sie sich an Ihre Systemadministration.
+dcl#:#import_file_info#:#Nutze Komma in der Import-Datei als Trenner beim Import von Mehrfachauswahlen.
 dcl#:#role_limitation#:#Rollenbasierter Zugriff
 dcl#:#roles#:#Rollen mit Zugriff
 dcl#:#roles_desc#:#Wählen sie zugriffsberechtigte Rollen für die Ansicht.

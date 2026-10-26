@@ -8723,7 +8723,7 @@ dcl#:#dcl_field_visible#:#Visible
 dcl#:#dcl_fieldtitle#:#Field Title
 dcl#:#dcl_file#:#File Upload
 dcl#:#dcl_file_desc#:#Allow the upload of a file which can then be downloaded directly from the data collection.
-dcl#:#dcl_file_format_description#:#The file needs to be an excel .XLSX file with the data you want to import on the first sheet. The first row needs to contain the exact names of the fields (case sensitive) which you want to import, and the following rows, the values. It is strongly recommended that you simulate your import first. When importing reference or selection fields with multiple entries, commas and/or semicolons can be used as delimiters.
+dcl#:#dcl_file_format_description#:#It is strongly recommended to use the import template for the correct format and to run a simulation before import.
 dcl#:#dcl_file_not_readable#:#The file could not be read. Please make sure that the file you upload is an XLSX file.
 dcl#:#dcl_filter#:#Available in Filter
 dcl#:#dcl_filter_changeable#:#Filter Changeable
@@ -8740,8 +8740,10 @@ dcl#:#dcl_ilias_reference_link#:#Link to Selected Object
 dcl#:#dcl_import_enabled#:#Import Data Into Table
 dcl#:#dcl_import_enabled_desc#:#Data can be imported into the table via an Excel file.
 dcl#:#dcl_import_records .xls#:#Excel Import
+dcl#:#dcl_import_report#:#Report: Entries added %s
+dcl#:#dcl_import_simulation_success#:#Import simulation finished.
+dcl#:#dcl_import_success#:#Import finished.
 dcl#:#dcl_import_template_no_fields#:#Create fields with titles for this table before you can download an import template.
-dcl#:#dcl_import_terminated#:#Import completed. Entries added
 dcl#:#dcl_in_export#:#Exportable
 dcl#:#dcl_invalid_regex_config#:#The regular expression configured for this field is invalid. Check the settings of the field to solve the problem.
 dcl#:#dcl_last_edit_by#:#Last Edited By
@@ -8841,7 +8843,7 @@ dcl#:#dcl_selection_type_combobox#:#Single selection from drop-down menu
 dcl#:#dcl_selection_type_multi#:#Multiple selections from list
 dcl#:#dcl_selection_type_single#:#Single selection from list
 dcl#:#dcl_simulate_import#:#Simulate Import
-dcl#:#dcl_simulate_import_info#:#Simulating the import will not make any entries into the data collection, but rather give you feedback regarding any problems with the import file, thus helping you to avoid corrupted entries.
+dcl#:#dcl_simulate_import_info#:#Simulate the import. No entries are created.
 dcl#:#dcl_skipped_delete_records#:#%s Entries were not deleted due to permission settings.
 dcl#:#dcl_status#:#Your Status
 dcl#:#dcl_std_field_not_importable#:# - Standard fields are not importable.
@@ -8908,6 +8910,7 @@ dcl#:#enable_visible#:#Enable Visible
 dcl#:#entry_of#:#Entry %1$d of %2$d
 dcl#:#fieldtitle_allow_chars#:#Characters not permitted: %s
 dcl#:#fileupload_not_migrated#:#File has not been migrated yet and cannot therefore be displayed. Please contact your technical support.
+dcl#:#import_file_info#:#Use commas as delimiter in the import file when importing multiple selections.
 dcl#:#role_limitation#:#Role-Based Access
 dcl#:#roles#:#Roles With Access
 dcl#:#roles_desc#:#Only the roles selected above will have access to this view.
