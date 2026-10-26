@@ -22,6 +22,7 @@ namespace ILIAS\Glossary\Presentation;
 
 use ILIAS\Glossary\InternalGUIService;
 use ILIAS\Glossary\InternalDomainService;
+use ILIAS\Glossary\Presentation\Permission\GlossaryPresentationCmdPermission;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -45,6 +46,24 @@ class GUIService
             $this->gui_service->http(),
             $this->domain_service->refinery(),
             $query_params
+        );
+    }
+
+    public function cmdPerm(
+        \ilLanguage $lng,
+        \ilAccessHandler $access,
+        \ilGlobalTemplateInterface $tpl,
+        \ilCtrlInterface $ctrl,
+        \ilObjGlossary $glossary,
+        ?PresentationGUIRequest $request = null
+    ): GlossaryPresentationCmdPermission {
+        return new GlossaryPresentationCmdPermission(
+            $lng,
+            $access,
+            $tpl,
+            $ctrl,
+            $glossary,
+            $request
         );
     }
 

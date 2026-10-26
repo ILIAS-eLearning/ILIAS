@@ -249,6 +249,11 @@ class ilGlossaryFlashcardBoxGUI
 
     protected function getDefinitionPage(): string
     {
+        $this->ctrl->setParameterByClass(
+            ilGlossaryPresentationGUI::class,
+            "pg_id",
+            $this->current_term?->getTermId()
+        );
         $page_gui = new ilGlossaryDefPageGUI($this->current_term?->getTermId());
         return $page_gui->showPage();
     }
