@@ -23,19 +23,20 @@ class ilDclContentImporter
     //const SOAP_FUNCTION_NAME = 'exportDataCollectionContent';
 
     public const EXPORT_EXCEL = 'xlsx';
+    public const array SUPPORTED_IMPORT_DATATYPES = [
+        ilDclDatatype::INPUTFORMAT_BOOLEAN,
+        ilDclDatatype::INPUTFORMAT_NUMBER,
+        ilDclDatatype::INPUTFORMAT_REFERENCE,
+        ilDclDatatype::INPUTFORMAT_TEXT,
+        ilDclDatatype::INPUTFORMAT_DATE,
+        ilDclDatatype::INPUTFORMAT_TEXT_SELECTION,
+        ilDclDatatype::INPUTFORMAT_DATE_SELECTION,
+        ilDclDatatype::INPUTFORMAT_DATETIME,
+        ilDclDatatype::INPUTFORMAT_DATETIME_SELECTION,
+    ];
+
     protected int $max_imports = 100;
-    protected array $supported_import_datatypes
-        = [
-            ilDclDatatype::INPUTFORMAT_BOOLEAN,
-            ilDclDatatype::INPUTFORMAT_NUMBER,
-            ilDclDatatype::INPUTFORMAT_REFERENCE,
-            ilDclDatatype::INPUTFORMAT_TEXT,
-            ilDclDatatype::INPUTFORMAT_DATE,
-            ilDclDatatype::INPUTFORMAT_TEXT_SELECTION,
-            ilDclDatatype::INPUTFORMAT_DATE_SELECTION,
-            ilDclDatatype::INPUTFORMAT_DATETIME,
-            ilDclDatatype::INPUTFORMAT_DATETIME_SELECTION,
-        ];
+
     protected array $warnings;
     /**
      * Ref-ID of DataCollection
@@ -176,9 +177,30 @@ class ilDclContentImporter
         return ['line' => (max($i - 2, 0)), 'warnings' => $this->warnings];
     }
 
+    public function sendImportTemplate(): void
+    {
+        $adapter = new ilExcel();
+        $exporter = new ilDclContentExporter($this->ref_id, $this->table_id);
+
+        foreach ($this->tables as $table) {
+            $adapter->addSheet($table->getTitle());
+            $row = 1;
+            $col = 0;
+            foreach ($table->getRecordFields() as $field) {
+                if (in_array($field->getDatatypeId(), $this::SUPPORTED_IMPORT_DATATYPES, true)) {
+                    $field->fillHeaderExcel($adapter, $row, $col);
+                }
+            }
+        }
+
+        $basename = $this->tables[0]->getTitle() . '_import_template';
+        $filename = $exporter->sanitizeFilename($basename);
+        $adapter->sendToClient($filename);
+    }
+
     protected function checkImportType(ilDclBaseFieldModel $field): bool
     {
-        if (in_array($field->getDatatypeId(), $this->supported_import_datatypes)) {
+        if (in_array($field->getDatatypeId(), $this::SUPPORTED_IMPORT_DATATYPES)) {
             return true;
         } else {
             $this->warnings[] = $field->getTitle() . ": " . $this->lng->txt("dcl_not_supported_in_import");

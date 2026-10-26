@@ -8699,6 +8699,7 @@ dcl#:#dcl_detailed_view#:#Einzelansicht
 dcl#:#dcl_display_action_menu#:#Kopieren
 dcl#:#dcl_display_action_menu_desc#:#Das Objekt kann von dem Eintrag aus kopiert werden.
 dcl#:#dcl_display_record_alt#:#Diesen Eintrag anzeigen
+dcl#:#dcl_download_import_template#:#Importvorlage herunterladen
 dcl#:#dcl_duplicate_non_unique_entries_exist#:#Diese Regel ist nicht vereinbar mit den bereits vorhandenen Einträgen.
 dcl#:#dcl_edit#:#Einstellungen der Datensammlung
 dcl#:#dcl_edit_entry_rules#:#Eintragsbearbeitung
@@ -8741,6 +8742,7 @@ dcl#:#dcl_import#:#Datensammlung importieren
 dcl#:#dcl_import_enabled#:#Daten in Tabelle importieren
 dcl#:#dcl_import_enabled_desc#:#Es können per Excel Daten in die Tabelle importiert werden.
 dcl#:#dcl_import_records .xls#:#Excel-Import
+dcl#:#dcl_import_template_no_fields#:#Legen Sie zuerst Felder mit Titeln für diese Tabelle an, bevor Sie eine Importvorlage herunterladen können.
 dcl#:#dcl_import_terminated#:#Der Import ist abgeschlossen. Anzahl importierter Datensätze
 dcl#:#dcl_in_export#:#Exportierbar
 dcl#:#dcl_invalid_regex_config#:#Der reguläre Ausdruck, der für dieses Feld konfiguriert ist, ist ungültig. Überprüfen Sie die Einstellungen dieses Feldes, um das Problem zu beheben.
@@ -8857,7 +8859,7 @@ dcl#:#dcl_selection_type_combobox#:#Einfachauswahl aus Auswahlmenü
 dcl#:#dcl_selection_type_multi#:#Mehrfachauswahl aus Liste
 dcl#:#dcl_selection_type_single#:#Einfachauswahl aus Liste
 dcl#:#dcl_simulate_import#:#Import simulieren
-dcl#:#dcl_simulate_info#:#Hierbei werden keine Datensätze angelegt, sondern nur Feedback zu Fehlern in der Import-Datei gegeben. Dadurch können Sie fehlerhafte Imports vermeiden.
+dcl#:#dcl_simulate_import_info#:#Hierbei werden keine Datensätze angelegt, sondern nur Feedback zu Fehlern in der Import-Datei gegeben. Dadurch können Sie fehlerhafte Imports vermeiden.
 dcl#:#dcl_skipped_delete_records#:#%s Datensätze wurden aufgrund der Rechteeinstellungen nicht gelöscht
 dcl#:#dcl_status#:#Dein Status
 dcl#:#dcl_std_field_not_importable#:# - Standardfelder sind nicht importierbar.
