@@ -1113,33 +1113,37 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         ilUtil::deliverData($local_file_obj->build(), $filename);
     }
 
-    /**
-    * Process the language maintenance
-    */
-    public function maintainObject(): void
+    /** Shows the maintenance form; with the token of a stored destructive option, the confirmation opens. */
+    public function maintainObject(?\ILIAS\UI\Component\Input\Container\Form\Standard $form = null): void
     {
-        $form = new ilPropertyFormGUI();
-        $form->setFormAction($this->ctrl->getFormAction($this));
-        $form->setTitle($this->lng->txt("language_maintenance"));
-        $form->setPreventDoubleSubmission(false);
-        $form->addCommandButton("maintainExecute", $this->lng->txt("language_process_maintenance"));
-
-        $rg = new ilRadioGroupInputGUI($this->lng->txt("language_maintain_local_changes"), "maintain");
-        foreach ($this->getMaintainOptions() as $option => [$label, $info]) {
-            $ro = new ilRadioOption($label, $option);
-            $ro->setInfo($info);
-            $rg->addOption($ro);
-        }
-        $rg->setValue($this->getSession()["maintain"] ?? "load");
-        $form->addItem($rg);
-
-        $html = $form->getHTML();
+        $components = [$form ?? $this->buildMaintainForm()];
         $token = $this->getMaintainToken();
         $option = $this->getPendingMaintainOption($token);
-        if ($option !== null) {
-            $html .= $this->ui_renderer->render($this->buildMaintainConfirmModal($option, $token));
+        if ($option === null) {
+            // a cancelled or abandoned confirmation
+            ilSession::clear(self::MAINTAIN_PENDING_SESSION_KEY);
+        } else {
+            $modal = $this->buildMaintainConfirmModal($option, $token);
+            $components[] = $modal->withOnLoad($modal->getShowSignal());
         }
-        $this->tpl->setContent($html);
+        $this->tpl->setContent($this->ui_renderer->render($components));
+    }
+
+    private function buildMaintainForm(): \ILIAS\UI\Component\Input\Container\Form\Standard
+    {
+        $options = $this->getMaintainOptions();
+        $radio = $this->ui_factory->input()->field()
+            ->radio($this->lng->txt('language_maintain_local_changes'))
+            ->withRequired(true);
+        foreach ($options as $option => [$label, $info]) {
+            $radio = $radio->withOption($option, $label, $info);
+        }
+        $preset = $this->getSession()['maintain'] ?? 'load';
+
+        return $this->ui_factory->input()->container()->form()->standard(
+            $this->ctrl->getFormAction($this, 'maintainExecute'),
+            ['maintain' => $radio->withValue(array_key_exists($preset, $options) ? $preset : 'load')]
+        )->withSubmitLabel($this->lng->txt('language_process_maintenance'));
     }
 
     /**
@@ -1166,6 +1170,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         );
     }
 
+    /** Interruptive Modal like the import: a Prompt cannot be opened on load. */
     private function buildMaintainConfirmModal(string $option, string $token): \ILIAS\UI\Component\Modal\Interruptive
     {
         [$label, $info] = $this->getMaintainOptions()[$option];
@@ -1174,8 +1179,8 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         $this->ctrl->clearParameterByClass(self::class, self::MAINTAIN_TOKEN_PARAMETER);
 
         // label and info are trusted language texts, the info may contain markup
-        $modal = $this->ui_factory->modal()->interruptive(
-            $this->lng->txt('confirm'),
+        return $this->ui_factory->modal()->interruptive(
+            $this->lng->txt('language_maintenance'),
             '<b>' . $label . '</b><br />' . $info,
             $form_action
         )->withAffectedItems([
@@ -1184,22 +1189,23 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
                 $this->lng->txt('meta_l_' . $this->object->key)
             ),
         ])->withActionButtonLabel($this->lng->txt('language_process_maintenance'));
-
-        return $modal->withOnLoad($modal->getShowSignal());
     }
 
     /** Destructive options are only stored here and run by maintainConfirmedObject() after the confirmation. */
     public function maintainExecuteObject(): void
     {
-        $option = (string) ($this->http->request()->getParsedBody()['maintain'] ?? '');
-        // developer-mode actions are also refused when sent directly
-        if (in_array($option, ['delete_added', 'merge', 'remove_local_file'], true) && !$this->langmode) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
-            $this->ctrl->redirect($this, "maintain");
-            return;
+        try {
+            $form = $this->buildMaintainForm()->withRequest($this->http->request());
+            $option = (string) ($form->getData()['maintain'] ?? '');
+        } catch (InvalidArgumentException) {
+            // KS rejects a value that is not one of the options
+            $form = $this->buildMaintainForm();
+            $option = '';
         }
+        // also refuses the developer-mode options outside langmode, they are not offered there
         if (!array_key_exists($option, $this->getMaintainOptions())) {
-            $this->ctrl->redirect($this, 'maintain');
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
+            $this->maintainObject($form);
             return;
         }
         ilSession::set('lang_ext_maintenance', ['maintain' => $option]);
@@ -1227,11 +1233,9 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         ilSession::clear(self::MAINTAIN_PENDING_SESSION_KEY);
         if ($option === null) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('action_aborted'), true);
-            $this->ctrl->redirect($this, 'maintain');
-            return;
+        } else {
+            $this->executeMaintainOption($option);
         }
-
-        $this->executeMaintainOption($option);
         $this->ctrl->redirect($this, 'maintain');
     }
 
