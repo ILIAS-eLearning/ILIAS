@@ -32,7 +32,7 @@ class TransferRendererFactory extends DefaultRendererFactory
 
     public function getRendererInContext(Component $component, array $contexts): ComponentRenderer
     {
-        if (in_array(self::FOOTER_CONTEXT, $contexts, true)) {
+        if ($this->context_matcher->isDescendantOfAny($contexts, [self::FOOTER_CONTEXT])) {
             return new FooterContextRenderer(
                 $this->ui_factory,
                 $this->tpl_factory,

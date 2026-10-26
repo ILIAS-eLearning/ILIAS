@@ -28,12 +28,16 @@ use ILIAS\UI\Component\Component;
  */
 class MenuRendererFactory extends DefaultRendererFactory
 {
+    /** @var string[] */
+    protected const array TREE_SELECT_CONTEXTS = [
+        'TreeSelectFieldInput',
+        'TreeMultiSelectFieldInput',
+    ];
+
     public function getRendererInContext(Component $component, array $contexts): ComponentRenderer
     {
-        if (in_array('TreeSelectFieldInput', $contexts, true) ||
-            in_array('TreeMultiSelectFieldInput', $contexts, true)
-        ) {
-            return new FieldContextRenderer(
+        if ($this->context_matcher->isDirectDescendantOfAny($contexts, self::TREE_SELECT_CONTEXTS)) {
+            return new TreeSelectContextRenderer(
                 $this->ui_factory,
                 $this->tpl_factory,
                 $this->lng,
@@ -45,7 +49,6 @@ class MenuRendererFactory extends DefaultRendererFactory
                 $this->refinery,
             );
         }
-
         return parent::getRendererInContext($component, $contexts);
     }
 }

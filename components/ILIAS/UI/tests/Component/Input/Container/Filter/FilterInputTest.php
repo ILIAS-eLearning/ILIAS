@@ -261,7 +261,7 @@ class FilterInputTest extends ILIAS_UI_TestBase
         $duration = $if->duration('label', 'byline');
         $datetime = $if->dateTime('label', 'byline'); // byline will not be rendered in this context
         $filter = $f->standard("#", "#", "#", "#", "#", "#", [], [], false, false);
-        $dr = $this->getDefaultRenderer(null, [], [$filter, $duration, $datetime]);
+        $dr = $this->getDefaultRenderer(null, [], [$filter, $duration]);
         $html = $this->brutallyTrimHTML($dr->render($datetime));
 
         $expected = $this->brutallyTrimHTML('

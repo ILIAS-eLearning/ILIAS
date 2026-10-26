@@ -25,9 +25,12 @@ use ILIAS\UI\Component;
 
 class MessageBoxRendererFactory extends Render\DefaultRendererFactory
 {
-    public function getRendererInContext(Component\Component $component, array $contexts): Render\AbstractComponentRenderer
+    /** @var string[] */
+    protected const array PROMPT_STATE_CONTEXT = ['StateStatePrompt'];
+
+    public function getRendererInContext(Component\Component $component, array $contexts): Render\ComponentRenderer
     {
-        if (in_array('StateStatePrompt', $contexts)) {
+        if ($this->context_matcher->isDirectDescendantOf($contexts, self::PROMPT_STATE_CONTEXT)) {
             return new PromptContextRenderer(
                 $this->ui_factory,
                 $this->tpl_factory,
@@ -40,16 +43,6 @@ class MessageBoxRendererFactory extends Render\DefaultRendererFactory
                 $this->refinery,
             );
         }
-        return new Renderer(
-            $this->ui_factory,
-            $this->tpl_factory,
-            $this->lng,
-            $this->js_binding,
-            $this->image_path_resolver,
-            $this->data_factory,
-            $this->help_text_retriever,
-            $this->upload_limit_resolver,
-            $this->refinery,
-        );
+        return parent::getRendererInContext($component, $contexts);
     }
 }

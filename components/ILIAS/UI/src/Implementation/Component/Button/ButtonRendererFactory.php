@@ -44,7 +44,7 @@ class ButtonRendererFactory extends DefaultRendererFactory
 
     public function getRendererInContext(Component $component, array $contexts): ComponentRenderer
     {
-        if ($this->isIndirectInputContainerContext($contexts)) {
+        if ($this->context_matcher->isIndirectDescendantOfAny($contexts, self::USE_FORM_CONTEXT_RENDERER_FOR_INDIRECT_DESCENDANTS_OF)) {
             return new IndirectInputContainerContextRenderer(
                 $this->ui_factory,
                 $this->tpl_factory,
@@ -58,25 +58,5 @@ class ButtonRendererFactory extends DefaultRendererFactory
             );
         }
         return parent::getRendererInContext($component, $contexts);
-    }
-
-    /**
-     * @param string[] $contexts_asc canonical names (first to last)
-     */
-    protected function isIndirectInputContainerContext(array $contexts_asc): bool
-    {
-        // ensure minimum context size allowing indirect descendants
-        $context_size = count($contexts_asc);
-        if (3 > $context_size) {
-            return false;
-        }
-        // check if button is direct descendant
-        $direct_ancestor = $contexts_asc[$context_size - 2];
-        if (in_array($direct_ancestor, self::USE_FORM_CONTEXT_RENDERER_FOR_INDIRECT_DESCENDANTS_OF, true)) {
-            return false;
-        }
-        // check if button is indirect descendant
-        $indirect_ancestors = array_splice($contexts_asc, 0, -2);
-        return (0 < count(array_intersect($indirect_ancestors, self::USE_FORM_CONTEXT_RENDERER_FOR_INDIRECT_DESCENDANTS_OF)));
     }
 }

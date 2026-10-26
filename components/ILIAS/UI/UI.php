@@ -499,6 +499,7 @@ class UI implements Component\Component
                     $internal[UI\Implementation\Render\ResourceRegistry::class],
                     new UI\Implementation\Render\FSLoader(
                         new UI\Implementation\Render\DefaultRendererFactory(
+                            $internal[UI\Implementation\Render\ContextMatcher::class],
                             $use[UI\Implementation\FactoryInternal::class],
                             $internal[UI\Implementation\Render\TemplateFactory::class],
                             $use[Language\Language::class],
@@ -510,6 +511,7 @@ class UI implements Component\Component
                             $pull[Refinery\Factory::class],
                         ),
                         new UI\Implementation\Component\Button\ButtonRendererFactory(
+                            $internal[UI\Implementation\Render\ContextMatcher::class],
                             $use[UI\Implementation\FactoryInternal::class],
                             $internal[UI\Implementation\Render\TemplateFactory::class],
                             $use[Language\Language::class],
@@ -521,6 +523,7 @@ class UI implements Component\Component
                             $pull[Refinery\Factory::class],
                         ),
                         new UI\Implementation\Component\Input\Field\FieldRendererFactory(
+                            $internal[UI\Implementation\Render\ContextMatcher::class],
                             $use[UI\Implementation\FactoryInternal::class],
                             $internal[UI\Implementation\Render\TemplateFactory::class],
                             $use[Language\Language::class],
@@ -532,6 +535,7 @@ class UI implements Component\Component
                             $pull[Refinery\Factory::class],
                         ),
                         new UI\Implementation\Component\MessageBox\MessageBoxRendererFactory(
+                            $internal[UI\Implementation\Render\ContextMatcher::class],
                             $use[UI\Implementation\FactoryInternal::class],
                             $internal[UI\Implementation\Render\TemplateFactory::class],
                             $use[Language\Language::class],
@@ -543,6 +547,7 @@ class UI implements Component\Component
                             $pull[Refinery\Factory::class],
                         ),
                         new UI\Implementation\Component\Input\Container\Form\FormRendererFactory(
+                            $internal[UI\Implementation\Render\ContextMatcher::class],
                             $use[UI\Implementation\FactoryInternal::class],
                             $internal[UI\Implementation\Render\TemplateFactory::class],
                             $use[Language\Language::class],
@@ -554,6 +559,7 @@ class UI implements Component\Component
                             $pull[Refinery\Factory::class],
                         ),
                         new UI\Implementation\Component\Menu\MenuRendererFactory(
+                            $internal[UI\Implementation\Render\ContextMatcher::class],
                             $use[UI\Implementation\FactoryInternal::class],
                             $internal[UI\Implementation\Render\TemplateFactory::class],
                             $use[Language\Language::class],
@@ -565,6 +571,7 @@ class UI implements Component\Component
                             $pull[Refinery\Factory::class],
                         ),
                         new UI\Implementation\Component\Listing\ListingRendererFactory(
+                            $internal[UI\Implementation\Render\ContextMatcher::class],
                             $use[UI\Implementation\FactoryInternal::class],
                             $internal[UI\Implementation\Render\TemplateFactory::class],
                             $use[Language\Language::class],
@@ -576,6 +583,7 @@ class UI implements Component\Component
                             $pull[Refinery\Factory::class],
                         ),
                         new UI\Implementation\Component\Transfer\TransferRendererFactory(
+                            $internal[UI\Implementation\Render\ContextMatcher::class],
                             $use[UI\Implementation\FactoryInternal::class],
                             $internal[UI\Implementation\Render\TemplateFactory::class],
                             $use[Language\Language::class],
@@ -589,6 +597,8 @@ class UI implements Component\Component
                     )
                 )
             );
+        $internal[UI\Implementation\Render\ContextMatcher::class] = static fn() =>
+            new UI\Implementation\Render\ContextMatcher();
         $internal[UI\Implementation\Render\JavaScriptBinding::class] = static fn() =>
             new UI\Implementation\Render\ilJavaScriptBinding(
                 $use[UICore\GlobalTemplate::class],

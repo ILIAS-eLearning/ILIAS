@@ -32,7 +32,7 @@ use ILIAS\UI\Implementation\Render\Template;
  *
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
-class FieldContextRenderer extends Renderer
+class TreeSelectContextRenderer extends Renderer
 {
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
