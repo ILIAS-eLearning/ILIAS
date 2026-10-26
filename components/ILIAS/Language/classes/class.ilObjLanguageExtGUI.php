@@ -903,7 +903,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         $file_name = (string) $this->getImportUploadHandler()->getFileName($identifier);
 
         // label and info are trusted language texts, the info may contain markup
-        return $this->buildConfirmModal(
+        return $this->buildTokenConfirmModal(
             $this->lng->txt('language_import_file'),
             '<b>' . $this->lng->txt($key) . '</b><br />' . $this->lng->txt($key . '_info') . '<br />'
             . $this->lng->txt('file') . ': ' . htmlspecialchars($file_name, ENT_QUOTES, 'UTF-8'),
@@ -914,7 +914,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
     }
 
     /** Interruptive modal for the language of this object, posting to the confirmation command with the token. */
-    private function buildConfirmModal(
+    private function buildTokenConfirmModal(
         string $title,
         string $message,
         string $confirm_cmd,
@@ -1205,7 +1205,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         [$label, $info] = $this->getMaintainOptions()[$option];
 
         // label and info are trusted language texts, the info may contain markup
-        return $this->buildConfirmModal(
+        return $this->buildTokenConfirmModal(
             $this->lng->txt('language_maintenance'),
             '<b>' . $label . '</b><br />' . $info,
             'maintainConfirmed',
