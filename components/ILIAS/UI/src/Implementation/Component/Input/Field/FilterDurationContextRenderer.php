@@ -28,7 +28,7 @@ use ILIAS\UI\Implementation\Render\Template;
  * Class DateTimeContextRenderer
  * @package ILIAS\UI\Implementation\Component\Input
  */
-class DateTimeFilterContextRenderer extends FilterContextRenderer
+class FilterDurationContextRenderer extends FilterContextRenderer
 {
     protected function wrapInFormContext(
         FormInput $component,

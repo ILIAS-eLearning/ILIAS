@@ -317,12 +317,16 @@ class InitUIFramework
                 $c["lng"],
             );
         };
+        $c["ui.context_matcher"] = function ($c) {
+            return new ILIAS\UI\Implementation\Render\ContextMatcher();
+        };
         $c["ui.component_renderer_loader"] = function ($c) {
             return new ILIAS\UI\Implementation\Render\LoaderCachingWrapper(
                 new ILIAS\UI\Implementation\Render\LoaderResourceRegistryWrapper(
                     $c["ui.resource_registry"],
                     new ILIAS\UI\Implementation\Render\FSLoader(
                         new ILIAS\UI\Implementation\Render\DefaultRendererFactory(
+                            $c["ui.context_matcher"],
                             $c["ui.factory"],
                             $c["ui.template_factory"],
                             $c["lng"],
@@ -334,6 +338,7 @@ class InitUIFramework
                             $c["refinery"],
                         ),
                         new ILIAS\UI\Implementation\Component\Button\ButtonRendererFactory(
+                            $c["ui.context_matcher"],
                             $c["ui.factory"],
                             $c["ui.template_factory"],
                             $c["lng"],
@@ -345,6 +350,7 @@ class InitUIFramework
                             $c["refinery"],
                         ),
                         new ILIAS\UI\Implementation\Component\Input\Field\FieldRendererFactory(
+                            $c["ui.context_matcher"],
                             $c["ui.factory"],
                             $c["ui.template_factory"],
                             $c["lng"],
@@ -356,6 +362,7 @@ class InitUIFramework
                             $c["refinery"],
                         ),
                         new ILIAS\UI\Implementation\Component\MessageBox\MessageBoxRendererFactory(
+                            $c["ui.context_matcher"],
                             $c["ui.factory"],
                             $c["ui.template_factory"],
                             $c["lng"],
@@ -367,6 +374,7 @@ class InitUIFramework
                             $c["refinery"],
                         ),
                         new ILIAS\UI\Implementation\Component\Input\Container\Form\FormRendererFactory(
+                            $c["ui.context_matcher"],
                             $c["ui.factory"],
                             $c["ui.template_factory"],
                             $c["lng"],
@@ -378,6 +386,7 @@ class InitUIFramework
                             $c["refinery"],
                         ),
                         new ILIAS\UI\Implementation\Component\Menu\MenuRendererFactory(
+                            $c["ui.context_matcher"],
                             $c["ui.factory"],
                             $c["ui.template_factory"],
                             $c["lng"],
@@ -389,6 +398,7 @@ class InitUIFramework
                             $c["refinery"],
                         ),
                         new ILIAS\UI\Implementation\Component\Listing\ListingRendererFactory(
+                            $c["ui.context_matcher"],
                             $c["ui.factory"],
                             $c["ui.template_factory"],
                             $c["lng"],
@@ -400,6 +410,7 @@ class InitUIFramework
                             $c["refinery"],
                         ),
                         new ILIAS\UI\Implementation\Component\Transfer\TransferRendererFactory(
+                            $c["ui.context_matcher"],
                             $c["ui.factory"],
                             $c["ui.template_factory"],
                             $c["lng"],

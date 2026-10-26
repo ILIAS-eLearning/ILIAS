@@ -25,16 +25,15 @@ use ILIAS\UI\Component;
 
 class FormRendererFactory extends Render\DefaultRendererFactory
 {
-    public const FORM_CONTEXTS_WITHOUT_BUTTONS = [
+    /** @var string[] */
+    public const array FORM_CONTEXTS_WITHOUT_BUTTONS = [
         'StateStatePrompt',
         'RoundTripModal',
     ];
 
-    public function getRendererInContext(Component\Component $component, array $contexts): Render\AbstractComponentRenderer
+    public function getRendererInContext(Component\Component $component, array $contexts): Render\ComponentRenderer
     {
-        $has_context_without_buttons = array_intersect(self::FORM_CONTEXTS_WITHOUT_BUTTONS, $contexts);
-
-        if (! empty($has_context_without_buttons)) {
+        if ($this->context_matcher->isDescendantOfAny($contexts, self::FORM_CONTEXTS_WITHOUT_BUTTONS)) {
             return new FormWithoutSubmitButtonsContextRenderer(
                 $this->ui_factory,
                 $this->tpl_factory,
@@ -47,16 +46,6 @@ class FormRendererFactory extends Render\DefaultRendererFactory
                 $this->refinery,
             );
         }
-        return new Renderer(
-            $this->ui_factory,
-            $this->tpl_factory,
-            $this->lng,
-            $this->js_binding,
-            $this->image_path_resolver,
-            $this->data_factory,
-            $this->help_text_retriever,
-            $this->upload_limit_resolver,
-            $this->refinery,
-        );
+        return parent::getRendererInContext($component, $contexts);
     }
 }
