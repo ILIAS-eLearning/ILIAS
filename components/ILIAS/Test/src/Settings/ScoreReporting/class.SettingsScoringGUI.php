@@ -184,10 +184,13 @@ class SettingsScoringGUI extends TestSettingsGUI
      */
     private function getRelayedRequest(): Request
     {
+        $relayed_settings = $this->request->getParsedBody()[self::F_CONFIRM_SETTINGS] ?? null;
+        if (!is_string($relayed_settings)) {
+            return $this->request->withParsedBody([]);
+        }
+
         $relayed_body = json_decode(
-            base64_decode(
-                (string) ($this->request->getParsedBody()[self::F_CONFIRM_SETTINGS] ?? '')
-            ),
+            base64_decode($relayed_settings),
             true,
             512,
             JSON_THROW_ON_ERROR
