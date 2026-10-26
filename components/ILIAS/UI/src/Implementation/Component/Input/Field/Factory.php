@@ -179,6 +179,11 @@ class Factory implements I\Factory
         return new Hidden($this->data_factory, $this->refinery);
     }
 
+    public function hiddenList(): HiddenList
+    {
+        return new HiddenList($this->lng, $this->data_factory, $this->refinery, $this->hidden());
+    }
+
     public function colorSelect(string $label, ?string $byline = null): ColorSelect
     {
         return new ColorSelect($this->data_factory, $this->refinery, $label, $byline);
