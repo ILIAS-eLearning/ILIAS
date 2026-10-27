@@ -29,12 +29,6 @@ use ILIAS\BackgroundTasks\Types\Type;
 use ILIAS\BackgroundTasks\Value;
 use ILIAS\Filesystem\Util\LegacyPathHelper;
 
-/**
- * Description of class class
- *
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
- *
- */
 class DownloadZipInteraction extends AbstractUserInteraction
 {
     public const OPTION_DOWNLOAD = 'download';

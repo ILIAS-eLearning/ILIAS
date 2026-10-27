@@ -26,10 +26,6 @@ use ILIAS\BackgroundTasks\Types\SingleType;
 use ILIAS\BackgroundTasks\Types\Type;
 use ILIAS\BackgroundTasks\Value;
 
-/**
- * @author Lukas Zehnder <lz@studer-raimann.ch>
- * @author Fabian Schmid <fs@studer-raimann.ch>
- */
 class SumOfFileSizesTooLargeInteraction extends AbstractUserInteraction
 {
     /**

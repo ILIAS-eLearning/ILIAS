@@ -26,12 +26,6 @@ use ILIAS\BackgroundTasks\Types\Type;
 use ILIAS\BackgroundTasks\Value;
 use ILIAS\components\File\Settings\General;
 
-/**
- * Description of class class
- *
- * @author Lukas Zehnder <lz@studer-raimann.ch>
- *
- */
 class CheckSumOfFileSizesJob extends AbstractJob
 {
     private readonly ?\ilLogger $logger;
@@ -130,7 +124,6 @@ class CheckSumOfFileSizesJob extends AbstractJob
                 continue;
             }
 
-            // we are only interested in folders and files
             switch (\ilObject::_lookupType($ref_id, true)) {
                 case "fold":
                     // get child objects

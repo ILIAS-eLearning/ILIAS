@@ -25,12 +25,6 @@ use ILIAS\BackgroundTasks\Types\SingleType;
 use ILIAS\BackgroundTasks\Types\Type;
 use ILIAS\BackgroundTasks\Value;
 
-/**
- * Description of class class
- *
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
- *
- */
 class CopyFilesToTempDirectoryJob extends AbstractJob
 {
     private ?\ilLogger $logger;
@@ -131,9 +125,6 @@ class CopyFilesToTempDirectoryJob extends AbstractJob
     }
 
 
-    /**
-     * Copy files
-     */
     protected function copyFiles(string $tmpdir, CopyDefinition $definition): void
     {
         foreach ($definition->getCopyDefinitions() as $copy_task) {

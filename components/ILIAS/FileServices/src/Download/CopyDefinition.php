@@ -22,10 +22,6 @@ use ILIAS\BackgroundTasks\Implementation\Values\AbstractValue;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\BooleanValue;
 use ILIAS\BackgroundTasks\Value;
 
-/**
- * Description of class class
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
- */
 class CopyDefinition extends AbstractValue
 {
     public const COPY_SOURCE_DIR = 'source';
