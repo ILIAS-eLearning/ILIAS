@@ -27,7 +27,8 @@ use ILIAS\HTTP\GlobalHttpState;
 
 /**
  * @author       Stefan Meyer <meyer@leifos.com>
- * @ilCtrl_Calls ilAdvancedMDSettingsGUI: ilPropertyFormGUI
+ * @ilCtrl_Calls ilAdvancedMDSettingsGUI: ilPropertyFormGUI, ilAdvancedMDRecordTranslationGUI
+ * @ilCtrl_Calls ilAdvancedMDSettingsGUI: ilAdvancedMDFieldDefinitionGUI
  * @ingroup      ServicesAdvancedMetaData
  */
 class ilAdvancedMDSettingsGUI
