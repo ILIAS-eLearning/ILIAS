@@ -28,9 +28,7 @@ use ilProxySettings;
 use ilCurlConnection;
 use RuntimeException;
 use ILIAS\DI\Container;
-use ILIAS\Setup\Objective;
 use ILIAS\Setup\Environment;
-use ilCurlConnectionException;
 use ILIAS\Setup\CLI\IOWrapper;
 use ilIniFilesPopulatedObjective;
 use ilDatabaseInitializedObjective;
@@ -67,9 +65,6 @@ class BackgoundWorkerObjective extends AdminConfirmedObjective
         return true;
     }
 
-    /**
-     * @return Objective[]
-     */
     public function getPreconditions(Environment $environment): array
     {
         return [
@@ -80,9 +75,6 @@ class BackgoundWorkerObjective extends AdminConfirmedObjective
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
     public function isApplicable(Environment $environment): bool
     {
         $ini = $environment->getResource(Environment::RESOURCE_ILIAS_INI);
@@ -193,9 +185,6 @@ class BackgoundWorkerObjective extends AdminConfirmedObjective
         $this->io->error($text);
     }
 
-    /**
-     * @throws ilCurlConnectionException
-     */
     private function getCurlConnection(ilSetting $settings, string $url): ilCurlConnection
     {
         $curl = new ilCurlConnection(
