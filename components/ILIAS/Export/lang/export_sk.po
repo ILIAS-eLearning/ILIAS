@@ -1,0 +1,69 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sk\n"
+"Language-Team: Slovak\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: export\n"
+
+#, fuzzy
+msgid "exp_file"
+msgstr "File Name"
+
+#, fuzzy
+msgid "exp_public_access"
+msgstr "Public Access"
+
+#, fuzzy
+msgid "exp_size"
+msgstr "File Size (MB)"
+
+#, fuzzy
+msgid "exp_timestamp"
+msgstr "Creation Date"
+
+#, fuzzy
+msgid "exp_toggle_public_access"
+msgstr "Toggle Public Access"
+
+#, fuzzy
+msgid "exp_type"
+msgstr "Type"
+
+msgid "export_create_new_file"
+msgstr "Vytvořit nový exportní soubor"
+
+msgid "export_existing"
+msgstr "Použít znovu"
+
+msgid "export_export_date"
+msgstr "Export termínu"
+
+#, fuzzy
+msgid "export_info_public_access"
+msgstr "Public Access Export"
+
+#, fuzzy
+msgid "export_info_public_access_download"
+msgstr "Download"
+
+msgid "export_last_export"
+msgstr "Poslední export"
+
+msgid "export_last_export_file"
+msgstr "Použít poslední exportní soubor"
+
+msgid "export_omit_resource"
+msgstr "Vynechat zdroj"
+
+msgid "export_save_selection"
+msgstr "Spustit Export"
+
+msgid "export_select_resources"
+msgstr "Vybrat zdroj"
+
+#, fuzzy
+msgid "no_file"
+msgstr "No file"

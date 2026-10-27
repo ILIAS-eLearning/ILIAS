@@ -9239,51 +9239,6 @@ exc#:#submissions_only#:#Endast skatter
 exc#:#text_assignment#:#Text Övning Enhet
 excv#:#excv_create#:#Skapa träningscertifikat
 excv#:#excv_create_info#:#Välj en övning för vilken du behöver ett certifikat
-exp#:#exp_create_file#:#Skapa exportfil
-exp#:#exp_error_disabled#:#Exporten av containerobjekt är avaktiverad. Om du har några frågor, vänligen kontakta den tekniska supporten.
-exp#:#exp_error_too_many_objects#:#Exporten överskrider det maximalt tillåtna antalet objekt (%1). Välj ett mindre antal objekt.
-exp#:#exp_export_dropdown#:#Export###29 10 2025 new variable
-exp#:#exp_export_files#:#Exportera filer
-exp#:#exp_export_single_option#:#Export %s###29 10 2025 new variable
-exp#:#exp_file_created#:#En exportfil har skapats.
-exp#:#exp_format_dropdown-csv#:#as CSV###29 10 2025 new variable
-exp#:#exp_format_dropdown-html#:#as HTML###29 10 2025 new variable
-exp#:#exp_format_dropdown-xls#:#as XLS###29 10 2025 new variable
-exp#:#exp_format_dropdown-xml#:#as XML###29 10 2025 new variable
-exp#:#exp_html#:#HTML###28 10 2024 new variable
-exp#:#exp_import_validation_err_no_matching_xsd#:#No valid schema file for version %s exists.###26 08 2024 new variable
-exp#:#exp_not_public_access_status#:#Not published###29 10 2025 new variable
-exp#:#exp_print_pdf#:#Print/PDF
-exp#:#exp_print_pdf_info#:#För att skapa en PDF, välj "Spara som PDF" som destination i utskriftsvyn.
-exp#:#exp_public_access_status#:#Available in ‘Info’-tab###29 10 2025 new variable
-exp#:#exp_really_delete#:#Vill du verkligen ta bort dessa exportfiler?
-exp#:#exp_show_print_view#:#Visa utskriftsvy
-exp#:#exp_xml#:#XML
-exp#:#export_created#:#En ny exportfil har skapats.
-exp#:#export_files_deleted#:#The selected export files have been deleted.###26 08 2024 new variable
-exp#:#export_options#:#Export Options###28 10 2024 new variable
-exp#:#export_type#:#Export Type###28 10 2024 new variable
-export#:#exp_file#:#File Name###28 10 2024 new variable
-export#:#exp_public_access#:#Public Access###28 10 2024 new variable
-export#:#exp_size#:#File Size (MB)###28 10 2024 new variable
-export#:#exp_timestamp#:#Creation Date###28 10 2024 new variable
-export#:#exp_toggle_public_access#:#Toggle Public Access###28 10 2024 new variable
-export#:#exp_type#:#Type###28 10 2024 new variable
-export#:#export_create#:#Skapa ny
-export#:#export_create_new_file#:#Skapa ny exportfil
-export#:#export_existing#:#Återanvändning
-export#:#export_export_date#:#Exportdatum
-export#:#export_info_public_access#:#Public Access Export###28 10 2024 new variable
-export#:#export_info_public_access_download#:#Download###28 10 2024 new variable
-export#:#export_last_export#:#Senaste export
-export#:#export_last_export_file#:#Använd den senaste exportfilen
-export#:#export_last_file#:#Sista filen
-export#:#export_omit#:#Uppdrag
-export#:#export_omit_resource#:#Omit objekt
-export#:#export_resource#:#Resurs
-export#:#export_save_selection#:#Starta export
-export#:#export_select_resources#:#Välj objekt
-export#:#no_file#:#Ingen fil
 file#:#add_icon#:#Add Icon###21 11 2023 new variable
 file#:#amount_of_downloads#:#Downloads###21 11 2023 new variable
 file#:#amount_of_downloads_since#:#%d times since %s###21 11 2023 new variable

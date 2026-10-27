@@ -9304,47 +9304,6 @@ exc#:#submissions_only#:#Submissions Only
 exc#:#text_assignment#:#Text Assignment
 excv#:#excv_create#:#Create Exercise Certificate
 excv#:#excv_create_info#:#Select a completed exercise to generate a certificate for it.
-exp#:#exp_create_file#:#Create Export File
-exp#:#exp_error_disabled#:#The export feature is disabled for containers. You may contact your system administrator.
-exp#:#exp_error_too_many_objects#:#The export exceeds the maximum number of allowerd objects (%1). Please select a lower number of objects.
-exp#:#exp_export_dropdown#:#Export
-exp#:#exp_export_files#:#Export Files
-exp#:#exp_export_single_option#:#Export %s
-exp#:#exp_file_created#:#The export file has been created.
-exp#:#exp_format_dropdown-csv#:#as CSV
-exp#:#exp_format_dropdown-html#:#as HTML
-exp#:#exp_format_dropdown-xls#:#as XLS
-exp#:#exp_format_dropdown-xml#:#as XML
-exp#:#exp_html#:#HTML
-exp#:#exp_import_validation_err_no_matching_xsd#:#No valid schema file for version %s exists.
-exp#:#exp_not_public_access_status#:#Not published
-exp#:#exp_print_pdf#:#Print/PDF
-exp#:#exp_print_pdf_info#:#To create a PDF please select "Print to PDF" in the print modal that appears after clicking on ‘Print View’.
-exp#:#exp_public_access_status#:#Available in ‘Info’-tab
-exp#:#exp_really_delete#:#Are you sure you want to delete the following export file(s)?
-exp#:#exp_show_print_view#:#Show Print View
-exp#:#exp_xml#:#XML
-exp#:#export_created#:#A new export file has been created.
-exp#:#export_files_deleted#:#The selected export files have been deleted.
-exp#:#export_options#:#Export Options
-exp#:#export_type#:#Export Type
-export#:#exp_file#:#File Name
-export#:#exp_public_access#:#Public Access
-export#:#exp_size#:#File Size (MB)
-export#:#exp_timestamp#:#Creation Date
-export#:#exp_toggle_public_access#:#Toggle Public Access
-export#:#exp_type#:#Type
-export#:#export_create_new_file#:#Create New Export File
-export#:#export_existing#:#Reuse
-export#:#export_export_date#:#Export Date
-export#:#export_info_public_access#:#Public Export
-export#:#export_info_public_access_download#:#Download
-export#:#export_last_export#:#Last Export
-export#:#export_last_export_file#:#Use Last Export File
-export#:#export_omit_resource#:#Omit Resource
-export#:#export_save_selection#:#Start Export
-export#:#export_select_resources#:#Select Resources
-export#:#no_file#:#No file
 file#:#add_icon#:#Add Icon
 file#:#amount_of_downloads#:#Downloads
 file#:#amount_of_downloads_since#:#%d times since %s

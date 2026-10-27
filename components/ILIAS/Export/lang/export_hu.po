@@ -1,0 +1,60 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: export\n"
+
+msgid "exp_file"
+msgstr "Fáj neve"
+
+msgid "exp_public_access"
+msgstr "Elérhető az ‘Információó’ lapon"
+
+msgid "exp_size"
+msgstr "Fájl mérete (MB)"
+
+msgid "exp_timestamp"
+msgstr "Létrehozás dátuma"
+
+msgid "exp_toggle_public_access"
+msgstr "Nyilvános elérés módosítása"
+
+msgid "exp_type"
+msgstr "Típus"
+
+msgid "export_create_new_file"
+msgstr "Új exportfájl létrehozása"
+
+msgid "export_existing"
+msgstr "Újrafelhasználás"
+
+msgid "export_export_date"
+msgstr "Exportálási dátum"
+
+msgid "export_info_public_access"
+msgstr "Exportálás nyilvános elérése"
+
+msgid "export_info_public_access_download"
+msgstr "Letöltés"
+
+msgid "export_last_export"
+msgstr "Utolsó exportálás"
+
+msgid "export_last_export_file"
+msgstr "Utolsó exportfájl használata"
+
+msgid "export_omit_resource"
+msgstr "Forrás kihagyása"
+
+msgid "export_save_selection"
+msgstr "Export indítása"
+
+msgid "export_select_resources"
+msgstr "Források kiválasztása"
+
+msgid "no_file"
+msgstr "Nincs fájl"

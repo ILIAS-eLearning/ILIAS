@@ -1,0 +1,60 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: export\n"
+
+msgid "exp_file"
+msgstr "Nombre del archivo"
+
+msgid "exp_public_access"
+msgstr "Disponible en la pestaña 'Información'"
+
+msgid "exp_size"
+msgstr "Tamaño del archivo (MB)"
+
+msgid "exp_timestamp"
+msgstr "Fecha de creación"
+
+msgid "exp_toggle_public_access"
+msgstr "Alternar acceso público"
+
+msgid "exp_type"
+msgstr "Tipo"
+
+msgid "export_create_new_file"
+msgstr "Crear nuevo archivo de exportación"
+
+msgid "export_existing"
+msgstr "Reutilizar"
+
+msgid "export_export_date"
+msgstr "Fecha de exportación"
+
+msgid "export_info_public_access"
+msgstr "Exportación pública"
+
+msgid "export_info_public_access_download"
+msgstr "Descargar"
+
+msgid "export_last_export"
+msgstr "Última exportación"
+
+msgid "export_last_export_file"
+msgstr "Usar el último archivo de exportación"
+
+msgid "export_omit_resource"
+msgstr "Omitir recurso"
+
+msgid "export_save_selection"
+msgstr "Iniciar exportación"
+
+msgid "export_select_resources"
+msgstr "Seleccionar recursos"
+
+msgid "no_file"
+msgstr "Ningún archivo"

@@ -9241,51 +9241,6 @@ exc#:#submissions_only#:#Solo invii
 exc#:#text_assignment#:#Assegnazione del testo
 excv#:#excv_create#:#Crea verifica esercizio
 excv#:#excv_create_info#:#Seleziona un esercizio completato per generare una verifica per esso
-exp#:#exp_create_file#:#Crea file di export
-exp#:#exp_error_disabled#:#L'esportazione di oggetti container è disattivata. In caso di domande contatti il supporto tecnico.
-exp#:#exp_error_too_many_objects#:#L'esportazione supera il massimale di oggetti consentiti (%1). Per favore scelga un numero inferiore di oggetti.
-exp#:#exp_export_dropdown#:#Export###28 11 2025 new variable
-exp#:#exp_export_files#:#File di export
-exp#:#exp_export_single_option#:#Export %s###28 11 2025 new variable
-exp#:#exp_file_created#:#Il file esportato è stato creato.
-exp#:#exp_format_dropdown-csv#:#as CSV###28 11 2025 new variable
-exp#:#exp_format_dropdown-html#:#as HTML###28 11 2025 new variable
-exp#:#exp_format_dropdown-xls#:#as XLS###28 11 2025 new variable
-exp#:#exp_format_dropdown-xml#:#as XML###28 11 2025 new variable
-exp#:#exp_html#:#HTML
-exp#:#exp_import_validation_err_no_matching_xsd#:#No valid schema file for version %s exists.###30 04 2024 new variable
-exp#:#exp_not_public_access_status#:#Not published###28 11 2025 new variable
-exp#:#exp_print_pdf#:#Print/PDF###31 03 2023 new variable
-exp#:#exp_print_pdf_info#:#To create a PDF please use the "Print to PDF" target as soon as the print view is presented.###31 03 2023 new variable
-exp#:#exp_public_access_status#:#Available in ‘Info’-tab###28 11 2025 new variable
-exp#:#exp_really_delete#:#Vuoi veramente cancellare questi file di export?
-exp#:#exp_show_print_view#:#Show Print View###31 03 2023 new variable
-exp#:#exp_xml#:#XML
-exp#:#export_created#:#Un nuovo file di export e'stato creato
-exp#:#export_files_deleted#:#The selected export files have been deleted.###18 06 2024 new variable
-exp#:#export_options#:#Export Options###28 11 2025 new variable
-exp#:#export_type#:#Export Type###28 11 2025 new variable
-export#:#exp_file#:#File Name###28 11 2025 new variable
-export#:#exp_public_access#:#Public Access###28 11 2025 new variable
-export#:#exp_size#:#File Size (MB)###28 11 2025 new variable
-export#:#exp_timestamp#:#Creation Date###28 11 2025 new variable
-export#:#exp_toggle_public_access#:#Toggle Public Access###28 11 2025 new variable
-export#:#exp_type#:#Type###28 11 2025 new variable
-export#:#export_create#:#Crea
-export#:#export_create_new_file#:#Crea Nuovo File di Esportazione
-export#:#export_existing#:#Riutilizza
-export#:#export_export_date#:#Data di Esportazione
-export#:#export_info_public_access#:#Public Access Export###28 11 2025 new variable
-export#:#export_info_public_access_download#:#Download###28 11 2025 new variable
-export#:#export_last_export#:#Ultima esportazione
-export#:#export_last_export_file#:#Usa Data dell'Ultima Esportazione
-export#:#export_last_file#:#Ultlimo File
-export#:#export_omit#:#Ometti
-export#:#export_omit_resource#:#Ometti Risorsa
-export#:#export_resource#:#Risorsa
-export#:#export_save_selection#:#Inizia Export
-export#:#export_select_resources#:#Seleziona Risorsa
-export#:#no_file#:#Nessun file
 file#:#add_icon#:#Add Icon###30 04 2024 new variable
 file#:#amount_of_downloads#:#Downloads###30 04 2024 new variable
 file#:#amount_of_downloads_since#:#%d times since %s###30 04 2024 new variable

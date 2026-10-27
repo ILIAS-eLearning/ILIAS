@@ -9245,51 +9245,6 @@ exc#:#submissions_only#:#提出のみ
 exc#:#text_assignment#:#テキスト割当て
 excv#:#excv_create#:#演習問題証明書の作成
 excv#:#excv_create_info#:#証明書を作成するには完了した演習問題を選択します
-exp#:#exp_create_file#:#エクスポートファイルを作成
-exp#:#exp_error_disabled#:#コンテナのエクスポート機能は使用できません。システム管理者へ相談できます。
-exp#:#exp_error_too_many_objects#:#エクスポートは許容オブジェクト最大数 (%1)を超えています。もっと少ないオブジェクト数を選択して下さい。
-exp#:#exp_export_dropdown#:#エクスポート
-exp#:#exp_export_files#:#エクスポートファイル
-exp#:#exp_export_single_option#:#エクスポート %
-exp#:#exp_file_created#:#エクスポートファイルが作成されました。
-exp#:#exp_format_dropdown-csv#:#HTML形式
-exp#:#exp_format_dropdown-html#:#XLS形式
-exp#:#exp_format_dropdown-xls#:#XML形式
-exp#:#exp_format_dropdown-xml#:#HTML
-exp#:#exp_html#:#HTML
-exp#:#exp_import_validation_err_no_matching_xsd#:#バージョン %s には有効なスキーマファイルがありません。
-exp#:#exp_not_public_access_status#:#未公開
-exp#:#exp_print_pdf#:#印刷/PDF
-exp#:#exp_print_pdf_info#:#PDFを作成するには印刷ビューが表示されている間に"PDFで印刷" のターゲットを使用してください。
-exp#:#exp_public_access_status#:#'Info'-タブの属性
-exp#:#exp_really_delete#:#本当にこのエクスポートファイルを削除しますか?
-exp#:#exp_show_print_view#:#印刷View表示
-exp#:#exp_xml#:#XML
-exp#:#export_created#:#新しいエクスポートファイルが作成されました。
-exp#:#export_files_deleted#:#選択のエクスポートファイルは削除されました。
-exp#:#export_options#:#エクスポートオプション
-exp#:#export_type#:#エクスポートタイプ
-export#:#exp_file#:#ファイル名
-export#:#exp_public_access#:#公開アクセス
-export#:#exp_size#:#ファイルサイズ(MB)
-export#:#exp_timestamp#:#作成日
-export#:#exp_toggle_public_access#:#公開アクセスを切り替え
-export#:#exp_type#:#タイプ
-export#:#export_create#:#作成
-export#:#export_create_new_file#:#新規エクスポート ファイルを作成
-export#:#export_existing#:#再利用
-export#:#export_export_date#:#エクスポート日
-export#:#export_info_public_access#:#公開アクセスエクスポート
-export#:#export_info_public_access_download#:#ダウンロード
-export#:#export_last_export#:#最終エクスポート
-export#:#export_last_export_file#:#最終のエクスポート ファイルを使用
-export#:#export_last_file#:#最終ファイル
-export#:#export_omit#:#省略
-export#:#export_omit_resource#:#リソースを省略
-export#:#export_resource#:#リソース
-export#:#export_save_selection#:#エクスポート開始
-export#:#export_select_resources#:#リソースを選択
-export#:#no_file#:#No file
 file#:#add_icon#:#アイコンを追加
 file#:#amount_of_downloads#:#ダウンロード
 file#:#amount_of_downloads_since#:# % 以降新 %d 回有効化

@@ -1,0 +1,69 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: tr\n"
+"Language-Team: Turkish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: export\n"
+
+#, fuzzy
+msgid "exp_file"
+msgstr "File Name"
+
+#, fuzzy
+msgid "exp_public_access"
+msgstr "Public Access"
+
+#, fuzzy
+msgid "exp_size"
+msgstr "File Size (MB)"
+
+#, fuzzy
+msgid "exp_timestamp"
+msgstr "Creation Date"
+
+#, fuzzy
+msgid "exp_toggle_public_access"
+msgstr "Toggle Public Access"
+
+#, fuzzy
+msgid "exp_type"
+msgstr "Type"
+
+msgid "export_create_new_file"
+msgstr "Yeni Dışa Aktarma Dosyası Oluştur"
+
+msgid "export_existing"
+msgstr "Yeniden"
+
+msgid "export_export_date"
+msgstr "Verme Tarihi"
+
+#, fuzzy
+msgid "export_info_public_access"
+msgstr "Public Access Export"
+
+#, fuzzy
+msgid "export_info_public_access_download"
+msgstr "Download"
+
+msgid "export_last_export"
+msgstr "Son Dışa Aktarma"
+
+msgid "export_last_export_file"
+msgstr "kullanımlar Son Verme Dosyası"
+
+msgid "export_omit_resource"
+msgstr "Kaynak Gözardı"
+
+msgid "export_save_selection"
+msgstr "Dışarı Aktarıma Başla"
+
+msgid "export_select_resources"
+msgstr "Seç Kaynakları"
+
+#, fuzzy
+msgid "no_file"
+msgstr "No file"
