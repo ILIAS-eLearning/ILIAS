@@ -333,6 +333,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
             case "ilassgenfeedbackpagegui":
                 $page_gui = new ilAssGenFeedbackPageGUI($this->requested_pg_id);
+                $page_gui->setEnableEditing(false);
                 //$this->basicPageGuiInit($page_gui);
                 $ret = $ilCtrl->forwardCommand($page_gui);
                 break;
@@ -1216,6 +1217,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
     public function basicPageGuiInit(\ilPageObjectGUI $a_page_gui): void
     {
+        $a_page_gui->setEnableEditing(false);
         $a_page_gui->setStyleId(
             $this->content_style_domain->getEffectiveStyleId()
         );
@@ -1229,8 +1231,11 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         }
         if (!$this->offlineMode()) {
             $this->ctrl->setParameter($this, "obj_id", $this->getCurrentPageId());        // see #22403
+            $this->ctrl->setParameterByClass(ilLMPageGUI::class, "obj_id", $this->getCurrentPageId());        // see #22403
+        } else {
+            // only offline
+            $a_page_gui->setFileDownloadLink($this->linker->getLink("downloadFile"));
         }
-        $a_page_gui->setFileDownloadLink($this->linker->getLink("downloadFile"));
         $a_page_gui->setSourcecodeDownloadScript($this->linker->getLink(
             "sourcecodeDownload",
             $this->getCurrentPageId()

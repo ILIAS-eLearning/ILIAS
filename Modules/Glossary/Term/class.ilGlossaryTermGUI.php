@@ -301,7 +301,6 @@ class ilGlossaryTermGUI
         if ($a_offline) {
             $page_gui->setFullscreenLink("fullscreen.html");	// id is set by xslt
         }
-        $page_gui->setFileDownloadLink("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;cmd=downloadFile&amp;ref_id=" . $this->ref_id);
 
         if (!$a_offline) {
             $page_gui->setOutputMode($a_outputmode);

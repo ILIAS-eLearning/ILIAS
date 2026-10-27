@@ -151,7 +151,6 @@ class ilTermDefinitionEditorGUI
                 $page_gui->setPageBackTitle($this->lng->txt("cont_definition"));
                 $page_gui->setLinkParams("ref_id=" . $this->request->getRefId());
                 $page_gui->setHeader($this->term->getTerm());
-                $page_gui->setFileDownloadLink("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;cmd=downloadFile&amp;ref_id=" . $this->request->getRefId());
                 $page_gui->setPresentationTitle($this->term->getTerm());
                 $ret = $this->ctrl->forwardCommand($page_gui);
                 if ($ret != "") {

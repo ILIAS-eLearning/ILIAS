@@ -63,6 +63,7 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
     protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
     protected \ILIAS\UI\Factory $ui_fac;
     protected \ILIAS\UI\Renderer $ui_ren;
+    protected \ILIAS\Glossary\Presentation\Permission\GlossaryPresentationCmdPermission $cmd_perm;
 
     public function __construct(
         string $export_format = "",
@@ -100,6 +101,14 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
         $this->initByRequest();
         $this->xsl = $DIC->copage()->internal()->domain()->xsl();
         $this->tax_manager = $domain->taxonomy($this->glossary);
+        $this->cmd_perm = $this->gui->presentation()->cmdPerm(
+            $this->lng,
+            $this->access,
+            $this->tpl,
+            $this->ctrl,
+            $this->glossary,
+            $this->gui->presentation()->request()
+        );
     }
 
     /**
@@ -190,21 +199,11 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
     public function executeCommand(): void
     {
         $lng = $this->lng;
-        $ilAccess = $this->access;
-
         $lng->loadLanguageModule("content");
 
         $next_class = $this->ctrl->getNextClass($this);
-        if ($this->glossary->isActiveFlashcards()) {
-            $cmd = $this->ctrl->getCmd("showFlashcards");
-        } else {
-            $cmd = $this->ctrl->getCmd("listTerms");
-        }
-
-        // check write permission
-        if (!$ilAccess->checkAccess("read", "", $this->requested_ref_id) &&
-            !($ilAccess->checkAccess("visible", "", $this->requested_ref_id) &&
-                ($cmd == "infoScreen" || strtolower($next_class) == "ilinfoscreengui"))) {
+        $cmd = $this->cmd_perm->getPermittedCommand();
+        if ($cmd === "") {
             throw new ilPermissionException($lng->txt("permission_denied"));
         }
 
@@ -227,28 +226,28 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
                 $this->showTaxonomy();
                 $full_gui = $this->gui->presentation()
                                 ->PresentationFullGUI($this, $this->glossary, $this->offlineMode(), $this->tax_node);
-                $this->ctrl->forwardCommand($full_gui);
+                $this->cmd_perm->forwardPermitted($this, $full_gui);
                 break;
 
             case "ilpresentationlisttablegui":
                 $prtab = $this->getPresentationTable();
-                $this->ctrl->forwardCommand($prtab);
+                $this->cmd_perm->forwardPermitted($this, $prtab);
                 return;
 
             case "ilglossarydefpagegui":
                 $page_gui = new ilGlossaryDefPageGUI($this->requested_def_page_id);
                 $this->basicPageGuiInit($page_gui);
-                $this->ctrl->forwardCommand($page_gui);
+                $this->cmd_perm->forwardPermitted($this, $page_gui);
                 break;
 
             case "ilglossaryflashcardgui":
                 $flash_gui = new ilGlossaryFlashcardGUI();
-                $this->ctrl->forwardCommand($flash_gui);
+                $this->cmd_perm->forwardPermitted($this, $flash_gui);
                 break;
 
             case "ilglossaryflashcardboxgui":
                 $flash_box_gui = new ilGlossaryFlashcardBoxGUI();
-                $this->ctrl->forwardCommand($flash_box_gui);
+                $this->cmd_perm->forwardPermitted($this, $flash_box_gui);
                 break;
 
             default:
@@ -276,6 +275,7 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
     public function basicPageGuiInit(
         \ilPageObjectGUI $a_page_gui
     ): void {
+        $a_page_gui->setEnableEditing(false);
         $a_page_gui->setStyleId($this->content_style_domain->getEffectiveStyleId());
         if (!$this->offlineMode()) {
             $a_page_gui->setOutputMode("presentation");
@@ -286,9 +286,8 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
             $this->fill_on_load_code = false;
         }
         if (!$this->offlineMode()) {
-            $this->ctrl->setParameter($this, "pg_id", $a_page_gui->getId());
+            $this->ctrl->setParameterByClass(ilGlossaryDefPageGUI::class, "pg_id", $a_page_gui->getId());
         }
-        $a_page_gui->setFileDownloadLink($this->getLink($this->requested_ref_id, "downloadFile"));
         $a_page_gui->setFullscreenLink($this->getLink($this->requested_ref_id, "fullscreen"));
     }
 
@@ -853,21 +852,6 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
         $gloss_loc->display();
     }
 
-    public function downloadFile(): void
-    {
-        $ilAccess = $this->access;
-        $lng = $this->lng;
-
-        if (!$ilAccess->checkAccess("read", "", $this->requested_ref_id)) {
-            throw new ilPermissionException($lng->txt("permission_denied"));
-        }
-
-        $file = explode("_", $this->requested_file_id);
-        $fileObj = new ilObjFile($file[count($file) - 1], false);
-        $fileObj->sendFile();
-        exit;
-    }
-
     public function setTabs(): void
     {
         $this->getTabs();
@@ -1188,7 +1172,7 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
             return $this->tpl->get();
         } else {
             // forward the command
-            $this->ctrl->forwardCommand($info);
+            $this->cmd_perm->forwardPermitted($this, $info);
         }
         return "";
     }
