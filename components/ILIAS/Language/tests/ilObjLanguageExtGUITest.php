@@ -1574,8 +1574,11 @@ class ilObjLanguageExtGUITest extends TestCase
     /**
      * @return ilObjLanguageExtGUI&MockObject
      */
-    private function createGuiForResetRange(bool $reset_offset_present, bool $reset_offset_value): ilObjLanguageExtGUI
-    {
+    private function createGuiForResetRange(
+        bool $reset_offset_present,
+        bool $reset_offset_value,
+        \ILIAS\UI\Storage $ui_storage
+    ): ilObjLanguageExtGUI {
         $gui = $this->getMockBuilder(ilObjLanguageExtGUI::class)
             ->disableOriginalConstructor()
             ->onlyMethods([])
@@ -1592,32 +1595,39 @@ class ilObjLanguageExtGUITest extends TestCase
             new \ILIAS\Data\Factory(),
             $this->createMock(\ILIAS\Language\Language::class)
         ));
+        $this->inject($gui, 'ui_storage', $ui_storage);
 
         return $gui;
     }
 
-    public function testResetEntriesTableRangeIfRequestedClearsTheTableSessionKeyInPageTranslationModeWhenResetOffsetIsTrue(): void
+    private function createUiStorage(array $values): \ILIAS\UI\Storage
     {
-        $this->stubGlobalDicIsPageTranslation(true);
-        $session_key = \ILIAS\UI\Implementation\Component\Table\Data::STORAGE_ID_PREFIX . 'lang_ext_entries_trans';
-        $_SESSION[$session_key] = ['some' => 'stale view-control state'];
-
-        $gui = $this->createGuiForResetRange(reset_offset_present: true, reset_offset_value: true);
-        $this->invokeProtectedMethod($gui, 'resetEntriesTableRangeIfRequested');
-
-        self::assertArrayNotHasKey($session_key, $_SESSION);
+        return new class ($values) extends \ArrayObject implements \ILIAS\UI\Storage {
+        };
     }
 
-    public function testResetEntriesTableRangeIfRequestedLeavesTheSessionKeyUntouchedWhenResetOffsetIsAbsent(): void
+    public function testResetEntriesTableRangeIfRequestedClearsTheTableStorageKeyInPageTranslationModeWhenResetOffsetIsTrue(): void
     {
         $this->stubGlobalDicIsPageTranslation(true);
-        $session_key = \ILIAS\UI\Implementation\Component\Table\Data::STORAGE_ID_PREFIX . 'lang_ext_entries_trans';
-        $_SESSION[$session_key] = ['some' => 'state that must survive'];
+        $storage_key = \ILIAS\UI\Implementation\Component\Table\Data::STORAGE_ID_PREFIX . 'lang_ext_entries_trans';
+        $ui_storage = $this->createUiStorage([$storage_key => ['some' => 'stale view-control state']]);
 
-        $gui = $this->createGuiForResetRange(reset_offset_present: false, reset_offset_value: false);
+        $gui = $this->createGuiForResetRange(reset_offset_present: true, reset_offset_value: true, ui_storage: $ui_storage);
         $this->invokeProtectedMethod($gui, 'resetEntriesTableRangeIfRequested');
 
-        self::assertSame(['some' => 'state that must survive'], $_SESSION[$session_key]);
+        self::assertArrayNotHasKey($storage_key, $ui_storage);
+    }
+
+    public function testResetEntriesTableRangeIfRequestedLeavesTheStorageKeyUntouchedWhenResetOffsetIsAbsent(): void
+    {
+        $this->stubGlobalDicIsPageTranslation(true);
+        $storage_key = \ILIAS\UI\Implementation\Component\Table\Data::STORAGE_ID_PREFIX . 'lang_ext_entries_trans';
+        $ui_storage = $this->createUiStorage([$storage_key => ['some' => 'state that must survive']]);
+
+        $gui = $this->createGuiForResetRange(reset_offset_present: false, reset_offset_value: false, ui_storage: $ui_storage);
+        $this->invokeProtectedMethod($gui, 'resetEntriesTableRangeIfRequested');
+
+        self::assertSame(['some' => 'state that must survive'], $ui_storage[$storage_key]);
     }
 
     /** request_wrapper stays unset on purpose: a dropped early return fails with an uninitialized property. */
