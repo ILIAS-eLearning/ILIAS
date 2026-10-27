@@ -16,13 +16,16 @@
  *
  *********************************************************************/
 
+namespace ILIAS\BackgroundTasks\Setup;
+
 use ILIAS\Setup\Objective;
 use ILIAS\Setup\Environment;
 use ILIAS\Setup\UnachievableException;
+use ilIniFilesLoadedObjective;
 
-class ilBackgroundTasksConfigStoredObjective implements Objective
+class ConfigStoredObjective implements Objective
 {
-    public function __construct(protected ilBackgroundTasksSetupConfig $config)
+    public function __construct(protected SetupConfig $config)
     {
     }
 
@@ -59,7 +62,7 @@ class ilBackgroundTasksConfigStoredObjective implements Objective
             $ini->addGroup("background_tasks");
         }
 
-        if ($this->config->getType() === \ilBackgroundTasksSetupConfig::TYPE_ASYNCHRONOUS) {
+        if ($this->config->getType() === SetupConfig::TYPE_ASYNCHRONOUS) {
             $io = $environment->getResource(Environment::RESOURCE_ADMIN_INTERACTION);
             /** @var Setup\CLI\IOWrapper $io */
             $io->inform('Asynchronous background tasks need SOAP administration to be enabled. Make sure to enable it in your configuarion.');

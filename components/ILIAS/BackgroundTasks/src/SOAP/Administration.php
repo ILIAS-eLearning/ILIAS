@@ -16,12 +16,12 @@
  *
  *********************************************************************/
 
-/** @noRector */
-require_once __DIR__ . "/../../../../vendor/composer/vendor/autoload.php";
+namespace ILIAS\BackgroundTasks\SOAP;
 
 use ILIAS\BackgroundTasks\Implementation\TaskManager\AsyncTaskManager;
+use ilSoapAdministration;
 
-class ilSoapBackgroundTasksAdministration extends ilSoapAdministration
+class Administration extends ilSoapAdministration
 {
     public function __construct(bool $use_nusoap = true)
     {
@@ -29,7 +29,7 @@ class ilSoapBackgroundTasksAdministration extends ilSoapAdministration
     }
 
     /**
-     * @return bool|soap_fault|SoapFault|null
+     * @return bool|\soap_fault|\SoapFault|null
      */
     public function runAsync(string $sid)
     {

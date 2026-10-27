@@ -16,9 +16,11 @@
  *
  *********************************************************************/
 
+namespace ILIAS\BackgroundTasks\Setup;
+
 use ILIAS\Setup\Config;
 
-class ilBackgroundTasksSetupConfig implements Config
+class SetupConfig implements Config
 {
     public const TYPE_SYNCHRONOUS = "sync";
     public const TYPE_ASYNCHRONOUS = "async";
