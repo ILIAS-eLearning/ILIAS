@@ -23,8 +23,6 @@ namespace ILIAS\UI\Implementation\Component\Listing\Entity;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
-use ILIAS\UI\Implementation\Render\ResourceRegistry;
-use ILIAS\UI\Implementation\Render\Template;
 
 class Renderer extends AbstractComponentRenderer
 {
@@ -34,17 +32,17 @@ class Renderer extends AbstractComponentRenderer
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
         if ($component instanceof Standard) {
-            return $this->renderEntityListingStandard($component, $default_renderer);
+            return $this->renderStandardEntityList($component, $default_renderer);
         }
         if ($component instanceof Grid) {
-            return $this->renderEntityListingGrid($component, $default_renderer);
+            return $this->renderGridEntityList($component, $default_renderer);
         }
         $this->cannotHandleComponent($component);
     }
 
-    protected function renderEntityListingStandard(EntityListing $component, RendererInterface $default_renderer): string
+    protected function renderStandardEntityList(Standard $component, RendererInterface $default_renderer): string
     {
-        $tpl = $this->getTemplate('tpl.entitylisting.html', true, true);
+        $tpl = $this->getTemplate('tpl.entity_standard.html', true, true);
 
         foreach ($component->getEntities(
             $this->getUIFactory()
@@ -55,9 +53,10 @@ class Renderer extends AbstractComponentRenderer
         }
         return $tpl->get();
     }
-    protected function renderEntityListingGrid(EntityListing $component, RendererInterface $default_renderer): string
+
+    protected function renderGridEntityList(Grid $component, RendererInterface $default_renderer): string
     {
-        $tpl = $this->getTemplate('tpl.entitylistinggrid.html', true, true);
+        $tpl = $this->getTemplate('tpl.entity_grid.html', true, true);
 
         foreach ($component->getEntities(
             $this->getUIFactory(),

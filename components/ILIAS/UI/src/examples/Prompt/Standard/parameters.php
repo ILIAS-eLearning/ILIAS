@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Prompt\Standard;
 
-use ILIAS\UI\Component\Prompt\PromptContent;
 use ILIAS\UI\URLBuilder;
 
 /**
@@ -97,8 +96,8 @@ function parameters()
                         ->buildURI()->__toString();
                 $back = $factory->button()->standard('back', '#')->withOnLoadCode(
                     fn($id) => "$('#$id').on('click', (e)=> {
-                        let promptId = e.target.closest('.il-prompt').id;
-                        il.UI.prompt.get(promptId).show('$back_uri');
+                        let promptId = e.target.closest('.c-prompt').id;
+                        il.UI.Prompt.get(promptId).loadState('$back_uri');
                     });"
                 );
                 $prompt_content = $factory->messageBox()->info((string) $amount)
