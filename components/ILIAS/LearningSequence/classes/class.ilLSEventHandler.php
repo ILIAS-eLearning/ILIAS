@@ -97,7 +97,7 @@ class ilLSEventHandler
             && $this->getParentLSOInfo($origin_obj->getRefId())
         ) {
             $new_lso = $this->getInstanceByRefId(
-                (int)$this->getParentLSOInfo($new_obj->getRefId())['ref_id']
+                (int) $this->getParentLSOInfo($new_obj->getRefId())['ref_id']
             );
             $post_condition_db = $new_lso->getDI()['db.postconditions'];
             $post_condition = current($post_condition_db->select([$origin_obj->getRefId()]))
@@ -111,7 +111,7 @@ class ilLSEventHandler
      */
     protected function getParentLSOInfo(int $child_ref_id): ?array
     {
-        if($child_ref_id === 0) {
+        if ($child_ref_id === 0) {
             return null;
         }
 

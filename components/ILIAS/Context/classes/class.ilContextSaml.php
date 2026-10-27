@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 class ilContextSaml implements ilContextTemplate
 {
@@ -72,6 +72,14 @@ class ilContextSaml implements ilContextTemplate
 
     public static function modifyHttpPath(string $httpPath): string
     {
+        try {
+            $uri = new \ILIAS\Data\URI($httpPath);
+            if ($uri->getPath() === 'module.php' || str_starts_with($uri->getPath(), 'module.php/')) {
+                return (string) $uri->withPath(null);
+            }
+        } catch (\Throwable) {
+            return $httpPath;
+        }
         return $httpPath;
     }
 }
