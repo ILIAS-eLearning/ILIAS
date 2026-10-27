@@ -1,0 +1,747 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: lso\n"
+
+msgid "abstract"
+msgstr "Einleitung"
+
+msgid "abstract_img"
+msgstr "Bild für die Einleitungsseite"
+
+msgid "add_condition"
+msgstr "Bedingung hinzufügen"
+
+msgid "always"
+msgstr "Immer"
+
+msgid "avail_time_period"
+msgstr "Zeitraum"
+
+msgid "completed_steps"
+msgstr "Bestandene Schritte"
+
+msgid "condition_already_exists"
+msgstr "Bedingung existiert bereits für dieses Objekt."
+
+msgid "condition_learning_progress"
+msgstr "Gemäß Lernfortschritt"
+
+msgid "condition_name"
+msgstr "Name"
+
+msgid "condition_points"
+msgstr "Punkte"
+
+msgid "condition_subtype"
+msgstr "Subtyp"
+
+msgid "condition_targets"
+msgstr "Zielobjekt(e)"
+
+msgid "condition_type"
+msgstr "Typ"
+
+msgid "conditions"
+msgstr "Bedingungen"
+
+msgid "conditions_deleted"
+msgstr "Bedingung erfolgreich gelöscht"
+
+msgid "cont_ed_insert_lsolearningmap"
+msgstr "Learning Map einfügen"
+
+msgid "cont_ed_insert_lsostartbutton"
+msgstr "„Start”-Button einfügen"
+
+msgid "curriculum"
+msgstr "Inhalt"
+
+msgid "delete_condition"
+msgstr "Bedingung entfernen"
+
+msgid "delete_condition_no_selection"
+msgstr "Bitte wählen Sie Bedingungen, die gelöscht werden sollen."
+
+msgid "delete_condition_verify"
+msgstr "Möchten Sie diese Bedingungen wirklich löschen?"
+
+msgid "delete_confirmation"
+msgstr "Möchten Sie folgende Objekte wirklich löschen?"
+
+msgid "entries_deleted"
+msgstr "Einträge wurden erfolgreich gelöscht."
+
+msgid "entries_updated"
+msgstr "Einträge gespeichert"
+
+msgid "extro"
+msgstr "Abschlussseite"
+
+msgid "extro_img"
+msgstr "Bild für die Abschlussseite"
+
+msgid "failed"
+msgstr "Durchgefallen"
+
+msgid "finished"
+msgstr "Abgeschlossen"
+
+msgid "first_access"
+msgstr "Erster Zugriff"
+
+msgid "input_condition"
+msgstr "Eingangsbedingung"
+
+msgid "input_conditions"
+msgstr "Eingangsbedingungen"
+
+msgid "last_visited_step"
+msgstr "Zuletzt besuchter Schritt"
+
+msgid "learner_view"
+msgstr "Übersicht"
+
+msgid "learning_map"
+msgstr "Lernkarte"
+
+msgid "learning_progress_completed"
+msgstr "Abgeschlossen"
+
+msgid "learning_progress_in_progress"
+msgstr "In Bearbeitung"
+
+msgid "learning_progress_input"
+msgstr "Lernfortschritt"
+
+msgid "learning_progress_not_attempted"
+msgstr "Nicht begonnen"
+
+msgid "learning_progress_output"
+msgstr "Lernfortschritt"
+
+msgid "logic_gate"
+msgstr "Logik Gatter"
+
+msgid "logic_gate_and"
+msgstr "UND"
+
+msgid "logic_gate_and_byline"
+msgstr "Alle ausgewählten Objekte müssen absolviert werden."
+
+msgid "logic_gate_not"
+msgstr "NICHT"
+
+msgid "logic_gate_not_byline"
+msgstr "Keines der ausgewählten Objekte darf absolviert sein."
+
+msgid "logic_gate_or"
+msgstr "ODER"
+
+msgid "logic_gate_or_byline"
+msgstr "Mindestens eines der ausgewählten Objekte muss absolviert werden."
+
+msgid "lp_not_relevant_post_cond"
+msgstr "für Fortfahren aktuell nicht maßgeblich"
+
+msgid "lso_activation_online_info"
+msgstr "Nur wenn die Lernsequenz online geschaltet ist, können Personen beitreten und Mitglieder auf die Lernsequenz zugreifen. Wenn nicht, ist die Lernsequenz nur für Administration und Rollen mit dem Recht „Einstellungen bearbeiten“ verfügbar."
+
+msgid "lso_adaptive_dead_end"
+msgstr "Sackgasse"
+
+msgid "lso_adaptive_end"
+msgstr "Ende"
+
+msgid "lso_adaptive_entry_point"
+msgstr "Einstiegspunkt"
+
+msgid "lso_adaptive_information"
+msgstr "Informationen"
+
+msgid "lso_adaptive_misconfigured"
+msgstr "Fehlkonfiguration"
+
+msgid "lso_adaptive_misconfigured_info"
+msgstr "Die Eingangsbedingungen dieses Objekts widersprechen sich. Lernende können es unter Umständen nicht aufrufen."
+
+msgid "lso_adaptive_missing_boundaries_online"
+msgstr "Da kein Start- oder Endobjekt ausgewählt wurde, kann die Lernsequenz nicht online geschaltet werden."
+
+msgid "lso_adaptive_missing_end_object"
+msgstr "Um die Lernsequenz zu beenden, wird ein End Objekt benötigt."
+
+msgid "lso_adaptive_missing_start_object"
+msgstr "Um die Lernsequenz zu starten, wird ein Start Objekt benötigt."
+
+msgid "lso_adaptive_next_object"
+msgstr "Nächstes Objekt"
+
+msgid "lso_adaptive_offline"
+msgstr "Offline"
+
+msgid "lso_adaptive_offline_due_to_missing_boundaries"
+msgstr "Weil es kein Start-/Endobjekt mehr gibt, wurde die Lernsequenz offline geschaltet."
+
+msgid "lso_adaptive_previous_object"
+msgstr "Vorheriges Objekt"
+
+msgid "lso_adaptive_start"
+msgstr "Start"
+
+msgid "lso_adaptive_start_end_not_same"
+msgstr "Ein Objekt kann nicht gleichzeitig Start- und Endobjekt sein."
+
+msgid "lso_at_least_one_admin"
+msgstr "Dieser Lernsequenz muss mindestens eine Person mit der Rolle „Lernsequenzadministration“ zugeordnet sein."
+
+msgid "lso_choice_page_headline"
+msgstr "Welches Objekt möchten Sie als Nächstes bearbeiten?"
+
+msgid "lso_choice_page_start_label"
+msgstr "Objekt starten"
+
+msgid "lso_condition_simple_choice_target"
+msgstr "Einzelnes Objekt auswählen"
+
+msgid "lso_condition_simple_multi_target"
+msgstr "Mehrere Objekte auswählen"
+
+msgid "lso_condition_unknown_type"
+msgstr "Unbekannter Bedingungstyp"
+
+msgid "lso_edit_permission"
+msgstr "Rechteeinstellungen ändern"
+
+msgid "lso_exception_additional_form_no_override"
+msgstr "%s definiert ein zusätzliches Konfigurationsformular, überschreibt aber applyAdditionalFormData() nicht."
+
+msgid "lso_exception_at_least_one_object"
+msgstr "Mindestens ein Objekt muss ausgewählt werden."
+
+msgid "lso_exception_condition_ambiguous"
+msgstr "Bedingungssuche ist mehrdeutig."
+
+msgid "lso_exception_condition_not_exists"
+msgstr "Bedingung existiert nicht."
+
+msgid "lso_exception_logic_gate_condition_id_not_set"
+msgstr "Logik-Gatter condition_id ist nicht gesetzt."
+
+msgid "lso_exception_logic_gate_subtype_not_stored"
+msgstr "Logik-Gatter-Subtyp ist nicht gespeichert."
+
+msgid "lso_exception_lp_condition_ambiguous"
+msgstr "Lernfortschritts-Bedingungssuche ist mehrdeutig."
+
+msgid "lso_exception_lp_target_ref_id_not_set"
+msgstr "Ziel-Ref-ID des Lernfortschritts ist nicht gesetzt."
+
+msgid "lso_exception_lp_target_ref_id_not_stored"
+msgstr "Ziel-Ref-ID des Lernfortschritts ist nicht gespeichert."
+
+msgid "lso_exception_object_ids_invalid"
+msgstr "Objekt-IDs sind ungültig."
+
+msgid "lso_exception_object_ids_not_stored"
+msgstr "Objekt-IDs sind nicht gespeichert."
+
+msgid "lso_exception_points_invalid"
+msgstr "Punkte sind ungültig."
+
+msgid "lso_exception_points_negative"
+msgstr "Punkte dürfen nicht negativ sein."
+
+msgid "lso_exception_subset_exceeds_objects"
+msgstr "Anzahl der Objekte darf die Anzahl der ausgewählten Objekte nicht überschreiten."
+
+msgid "lso_exception_subset_invalid"
+msgstr "Anzahl der Objekte ist ungültig."
+
+msgid "lso_exception_subset_negative"
+msgstr "Anzahl der Objekte darf nicht negativ sein."
+
+msgid "lso_header_delete_members"
+msgstr "Sie möchten folgende Mitglieder aus der Lernsequenz austragen?"
+
+msgid "lso_header_edit_members"
+msgstr "Mitglieder bearbeiten"
+
+msgid "lso_intropages_deprecationhint"
+msgstr "Sie können die Einleitungs- und Abschlussseite unter „Inhalt“ editieren."
+
+msgid "lso_learning_map_blocked"
+msgstr "Nicht verfügbar"
+
+msgid "lso_learning_map_current"
+msgstr "Aktuelle Position"
+
+msgid "lso_learning_map_done"
+msgstr "Erledigt"
+
+msgid "lso_learning_map_empty"
+msgstr "Für diese Lernsequenz können noch keine Wege dargestellt werden. Es fehlen Objekte oder ein Start-Objekt."
+
+msgid "lso_learning_map_fit"
+msgstr "Ansicht einpassen"
+
+msgid "lso_learning_map_focus_current"
+msgstr "Zu meiner Position springen"
+
+msgid "lso_learning_map_node_blocked"
+msgstr "Objekt nicht verfügbar"
+
+msgid "lso_learning_map_node_open"
+msgstr "Objekt verfügbar"
+
+msgid "lso_learning_map_open"
+msgstr "Verfügbar"
+
+msgid "lso_learning_map_open_object"
+msgstr "Öffnen"
+
+msgid "lso_learning_map_path"
+msgstr "Bisheriger Pfad"
+
+msgid "lso_learning_map_reset_zoom"
+msgstr "Originalgröße, 100 Prozent"
+
+msgid "lso_learning_map_reset_zoom_label"
+msgstr "100 %"
+
+msgid "lso_learning_map_sr_at_current"
+msgstr "Ansicht bei Ihrer aktuellen Position: %s."
+
+msgid "lso_learning_map_sr_blocked_way"
+msgstr "%s (dieser Weg ist zurzeit nicht verfügbar)"
+
+msgid "lso_learning_map_sr_current"
+msgstr "Ihre aktuelle Position"
+
+msgid "lso_learning_map_sr_end"
+msgstr "Ende der Lernsequenz"
+
+msgid "lso_learning_map_sr_fitted"
+msgstr "Ansicht eingepasst."
+
+msgid "lso_learning_map_sr_leads_to"
+msgstr "Führt zu: %s."
+
+msgid "lso_learning_map_sr_leads_to_none"
+msgstr "Führt zu keinem weiteren Objekt."
+
+msgid "lso_learning_map_sr_no_current"
+msgstr "Es ist keine aktuelle Position bekannt."
+
+msgid "lso_learning_map_sr_start"
+msgstr "Beginn der Lernsequenz"
+
+msgid "lso_learning_map_sr_state_blocked"
+msgstr "Status: nicht verfügbar"
+
+msgid "lso_learning_map_sr_state_done"
+msgstr "Status: erledigt"
+
+msgid "lso_learning_map_sr_state_open"
+msgstr "Status: verfügbar"
+
+msgid "lso_learning_map_sr_step"
+msgstr "Objekt %1$s von %2$s"
+
+msgid "lso_learning_map_sr_summary"
+msgstr "Lernkarte mit %s Objekten."
+
+msgid "lso_learning_map_sr_summary_current"
+msgstr "Ihre aktuelle Position: %s."
+
+msgid "lso_learning_map_sr_summary_end"
+msgstr "Ende: %s."
+
+msgid "lso_learning_map_sr_summary_start"
+msgstr "Beginn: %s."
+
+msgid "lso_learning_map_sr_zoom"
+msgstr "Zoom %s Prozent."
+
+msgid "lso_learning_map_viewport"
+msgstr "Lernkarte: Darstellung der Objekte und ihrer Reihenfolge"
+
+msgid "lso_learning_map_zoom_in"
+msgstr "Vergrößern"
+
+msgid "lso_learning_map_zoom_in_symbol"
+msgstr "+"
+
+msgid "lso_learning_map_zoom_out"
+msgstr "Verkleinern"
+
+msgid "lso_learning_map_zoom_out_symbol"
+msgstr "–"
+
+msgid "lso_legacy_info"
+msgstr "Das Objekt öffnet sich in einem neuen Tab Ihres Browsers. Bitte kommen Sie nach Bearbeitung des Inhalts in diesen Tab zurück. Laden Sie die Seite neu, wenn sie den Inhalt bearbeitet haben, aber die „Weiter“-Schaltfläche weiterhin deaktiviert bleibt."
+
+msgid "lso_logic_gate_input_not_start_reference"
+msgstr "Ein NOT-Logikgatter darf das Startobjekt nicht referenzieren."
+
+msgid "lso_mail_admission_new_bod"
+msgstr "Sie sind in die Lernsequenz „%s“ als Mitglied aufgenommen worden."
+
+msgid "lso_mail_admission_new_sub"
+msgstr "Mitgliedschaft in der Lernsequenz „%s“"
+
+msgid "lso_mail_dismiss_bod"
+msgstr "Ihre Mitgliedschaft in der Lernsequenz „%s“ wurde beendet."
+
+msgid "lso_mail_dismiss_sub"
+msgstr "Mitgliedschaft in der Lernsequenz „%s“ beendet"
+
+msgid "lso_mail_notification_reg_bod"
+msgstr "%s hat einen Aufnahmeantrag für die Lernsequenz „%s“ gestellt."
+
+msgid "lso_mail_notification_reg_req_bod"
+msgstr "%s hat einen Aufnahmeantrag für die Lernsequenz „%s“ gestellt."
+
+msgid "lso_mail_notification_reg_req_bod2"
+msgstr "Um den Benutzer zur Lernsequenz zuzulassen oder den Antrag abzuweisen, müssen Sie die Mitgliederverwaltung aufrufen. Wählen Sie dazu bitte folgenden Link:"
+
+msgid "lso_mail_notification_reg_req_sub"
+msgstr "Aufnahmeantrag für Lernsequenz „%s“"
+
+msgid "lso_mail_notification_reg_sub"
+msgstr "Neue Mitgliedschaft in Lernsequenz „%s“"
+
+msgid "lso_mail_notification_unsub_bod"
+msgstr "„%s“ ist aus der Lernsequenz „%s“ ausgetreten."
+
+msgid "lso_mail_notification_unsub_bod2"
+msgstr "Eventuell stehen Personen auf der Warteliste dieser Lernsequenz. Um die Liste anzuzeigen, rufen Sie bitte folgenden Link auf:"
+
+msgid "lso_mail_notification_unsub_sub"
+msgstr "Austritt aus der Lernsequenz „%s“"
+
+msgid "lso_mail_permanent_link"
+msgstr "Wählen Sie den folgenden Link, um auf den Inhalt der Lernsequenz zuzugreifen:"
+
+msgid "lso_mail_status_bod"
+msgstr "Ihr Status in Lernsequenz „%s“ wurde geändert."
+
+msgid "lso_mail_status_sub"
+msgstr "Status in Lernsequenz „%s“"
+
+msgid "lso_mail_sub_acc_bod"
+msgstr "Sie sind in die Lernsequenz „%s“ aufgenommen worden."
+
+msgid "lso_mail_sub_acc_sub"
+msgstr "Aufnahme in Lernsequenz „%s“"
+
+msgid "lso_mail_sub_dec_bod"
+msgstr "Ihr Aufnahmeantrag für die Lernsequenz „%s“ ist abgelehnt worden."
+
+msgid "lso_mail_sub_dec_sub"
+msgstr "Ablehnung des Aufnahmeantrags für Lernsequenz „%s“"
+
+msgid "lso_mail_subscribe_member_bod"
+msgstr "wir freuen uns Ihnen mitteilen zu dürfen, dass Ihre Aufnahme in die Lernsequenz „%s“ erfolgt ist."
+
+msgid "lso_mail_subscribe_member_sub"
+msgstr "Ihre Anmeldung für Lernsequenz „%s“"
+
+msgid "lso_mail_unsubscribe_member_bod"
+msgstr "wir bestätigen Ihre Abmeldung von der Lernsequenz „%s“."
+
+msgid "lso_mail_unsubscribe_member_sub"
+msgstr "Ihre Abmeldung von der Lernsequenz „%s“"
+
+msgid "lso_mail_wl_bod"
+msgstr "Sie sind auf die Warteliste der Lernsequenz „%s“ gesetzt worden und haben die Position %s auf der Warteliste.  Sie werden per Mail benachrichtigt, sobald Ihr Aufnahmeantrag angenommen bzw. abgelehnt wurde."
+
+msgid "lso_mail_wl_sub"
+msgstr "Ihre Anmeldung für Lernsequenz „%s“"
+
+msgid "lso_mainbar_button_label_curriculum"
+msgstr "Lernsequenz"
+
+msgid "lso_mainbar_button_label_toc"
+msgstr "Inhalte"
+
+msgid "lso_mem_tbl_header"
+msgstr "Mitglieder"
+
+msgid "lso_member_administration"
+msgstr "Verwalten"
+
+msgid "lso_members_deleted"
+msgstr "Die ausgewählten Mitglieder sind aus der Lernsequenz ausgetragen worden."
+
+msgid "lso_members_gallery"
+msgstr "Galerie"
+
+msgid "lso_members_print_title"
+msgstr "Lernsequenzmitglieder"
+
+msgid "lso_min_one_admin"
+msgstr "Dieser Lernsequenz muss mindestens ein Konto mit der Rolle „Lernsequenzadministration“ zugeordnet sein."
+
+msgid "lso_mode"
+msgstr "Lernmodus"
+
+msgid "lso_mode_adaptive"
+msgstr "Adaptiver Modus (Adaptive Mode)"
+
+msgid "lso_mode_adaptive_info"
+msgstr "Der Lernpfad passt sich dynamisch an den Fortschritt oder das Vorwissen an."
+
+msgid "lso_mode_byline"
+msgstr "Bestimmt, ob die Inhalte starr nacheinander oder dynamisch basierend auf Nutzerinteraktionen (Adaptivität) angeboten werden."
+
+msgid "lso_mode_info"
+msgstr "Wählen Sie aus, wie die Lernsequenz gesteuert werden soll."
+
+msgid "lso_mode_linear"
+msgstr "Linearer Modus (Sequential Mode)"
+
+msgid "lso_mode_linear_info"
+msgstr "Inhalte werden in einer festen, vorgegebenen Reihenfolge nacheinander bearbeitet."
+
+msgid "lso_msg_choose_one_object"
+msgstr "Bitte wählen Sie ein Objekt aus."
+
+msgid "lso_msg_member_assigned"
+msgstr "Benutzer wurde(n) in die Lernsequenz aufgenommen"
+
+msgid "lso_multidownload_not_available"
+msgstr "Das Herunterladen verschiedener Objekte ist für Lernsequenz-Objekte derzeit nicht verfügbar."
+
+msgid "lso_new_status"
+msgstr "Ihr neuer Status:"
+
+msgid "lso_notification"
+msgstr "Benachrichtigung"
+
+msgid "lso_notification_explanation_admin"
+msgstr "Sie erhalten diese Mail, da für Sie als Lernsequenzbetreuung die Benachrichtigungen aktiviert sind."
+
+msgid "lso_notify_off"
+msgstr "Benachrichtigungen über Neuanmeldungen deaktiviert"
+
+msgid "lso_notify_on"
+msgstr "Benachrichtigungen über Neuanmeldungen aktiviert"
+
+msgid "lso_player_abstract"
+msgstr "Zur Einleitung"
+
+msgid "lso_player_dead_end_line_1"
+msgstr "Hey, hier ist der Pfad zu Ende."
+
+msgid "lso_player_dead_end_line_2"
+msgstr "Schaue in die Map, um deinen"
+
+msgid "lso_player_dead_end_line_3"
+msgstr "Weg fortzusetzen."
+
+msgid "lso_player_dead_end_title"
+msgstr "Pfad zu Ende"
+
+msgid "lso_player_extro"
+msgstr "Zur Abschlussseite"
+
+msgid "lso_player_finish"
+msgstr "Beenden"
+
+msgid "lso_player_next"
+msgstr "Weiter"
+
+msgid "lso_player_next_object_blocked"
+msgstr "Um das nächste Objekt zu beginnen, muss eine Bedingung erfüllt sein."
+
+msgid "lso_player_noitems"
+msgstr "Keine verfügbaren Inhalte in der Lernsequenz"
+
+msgid "lso_player_previous"
+msgstr "Zurück"
+
+msgid "lso_player_resume"
+msgstr "Lernsequenz wieder aufnehmen"
+
+msgid "lso_player_review"
+msgstr "Lernsequenz überarbeiten"
+
+msgid "lso_player_start"
+msgstr "Lernsequenz starten"
+
+msgid "lso_player_suspend"
+msgstr "Unterbrechen"
+
+msgid "lso_player_viewmodelabel"
+msgstr "Bearbeitung der Lernsequenz"
+
+msgid "lso_points_input_missing_output_on_object"
+msgstr "Dieses Objekt wird von einer Punkte-Input-Condition referenziert, hat aber keine Punkte-Output-Condition."
+
+msgid "lso_points_input_points_must_be_greater_zero"
+msgstr "Die Punkte müssen größer 0 sein."
+
+msgid "lso_points_input_source_without_points_output"
+msgstr "Für folgende referenzierte Objekte ist keine Punktevergabe gesetzt: %s. In dieser Punkte-Bedingung werden sie mit 0 Punkten berücksichtigt."
+
+msgid "lso_points_input_source_without_points_output_table"
+msgstr "Folgende Objekte werden in Punkte-Input-Conditions referenziert, haben aber keine Punktevergabe gesetzt: %s. In diesen Punkte-Bedingungen werden sie mit 0 Punkten berücksichtigt."
+
+msgid "lso_points_input_unreachable_threshold"
+msgstr "Die erforderliche Punktzahl kann mit den derzeit konfigurierten Punktevergaben nicht erreicht werden."
+
+msgid "lso_print_list"
+msgstr "Liste erstellen"
+
+msgid "lso_read"
+msgstr "Lesezugriff auf Learning Sequence"
+
+msgid "lso_search_users"
+msgstr "Benutzer suchen"
+
+msgid "lso_settings_availability"
+msgstr "Verfügbarkeit"
+
+msgid "lso_settings_extro"
+msgstr "Abschlussseite bearbeiten"
+
+msgid "lso_settings_intro"
+msgstr "Einleitungsseite bearbeiten"
+
+msgid "lso_settings_old_extro"
+msgstr "Alte Abschlussseite ansehen"
+
+msgid "lso_settings_old_intro"
+msgstr "Alte Einleitungsseite ansehen"
+
+msgid "lso_show_members_info"
+msgstr "Galerie für Benutzer sichtbar"
+
+msgid "lso_start_item"
+msgstr "%s öffnen"
+
+msgid "lso_static_input_configuration_conflict_detail"
+msgstr "Dieses Objekt hat eine statische Fehlkonfiguration in seinen Input-Conditions."
+
+msgid "lso_static_input_configuration_contradictory_constraints"
+msgstr "Die Input-Conditions auf diesem Objekt widersprechen sich."
+
+msgid "lso_static_input_configuration_missing_references"
+msgstr "Diese Input-Condition referenziert Objekte, die nicht Teil dieser Lernsequenz sind."
+
+msgid "lso_static_input_configuration_referenced_by_objects"
+msgstr "Referenziert von Objekten"
+
+msgid "lso_static_input_configuration_referenced_objects"
+msgstr "Referenzierte Objekte"
+
+msgid "lso_subset_msg_choose_at_least_one"
+msgstr "Bitte wählen Sie mindestens ein Objekt aus."
+
+msgid "lso_toast_completed_desc"
+msgstr "Sie haben diese Lernsequenz abgeschlossen. Natürlich können Sie den Inhalt noch weiter durchsehen."
+
+msgid "lso_toast_completed_title"
+msgstr "Herzlichen Glückwunsch"
+
+msgid "lso_users_already_assigned"
+msgstr "Ein Benutzer ist bereits Mitglied dieser Lernsequenz"
+
+msgid "mail_lso_roles"
+msgstr "alle Personen mit folgenden lokalen Rollen. Label is now generalised for all components that support ‘mail to members‘"
+
+msgid "manage"
+msgstr "Verwalten"
+
+msgid "manage_conditions"
+msgstr "Bedingungen für %s bearbeiten"
+
+msgid "manage_content_maintab"
+msgstr "Inhalt"
+
+msgid "members_gallery"
+msgstr "Galerie"
+
+msgid "no_conditions"
+msgstr "(keine)"
+
+msgid "no_entries_selected_for_delete"
+msgstr "Es muss mindestens ein Listeneintrag ausgewählt werden."
+
+msgid "not_finished"
+msgstr "Nicht Abgeschlossen"
+
+msgid "notification_lso_completed_title"
+msgstr "Sie haben die Lernsequenz %s abgeschlossen."
+
+msgid "output_condition"
+msgstr "Ausgangsbedingung"
+
+msgid "output_conditions"
+msgstr "Ausgangsbedingungen"
+
+msgid "points_input"
+msgstr "Erforderliche Punkte"
+
+msgid "points_input_byline"
+msgstr "Mindestanzahl an Punkten, die der Nutzer besitzen muss, um dieses Objekt starten zu können."
+
+msgid "points_output"
+msgstr "Erzielte Punkte"
+
+msgid "points_output_byline"
+msgstr "Anzahl der Punkte, die dem Nutzer nach erfolgreichem Absolvieren dieses Objekts gutgeschrieben werden."
+
+msgid "set_end_object"
+msgstr "Als Zielpunkt festlegen"
+
+msgid "set_start_object"
+msgstr "Als Startpunkt festlegen"
+
+msgid "show_summary"
+msgstr "Info"
+
+msgid "subset"
+msgstr "Teilmenge"
+
+msgid "subset_amount"
+msgstr "Zu erfüllende Mindestanzahl"
+
+msgid "subset_amount_byline"
+msgstr "Anzahl der Objekte, die erfolgreich absolviert werden müssen, um dieses Objekt zu starten."
+
+msgid "table_actions"
+msgstr "Aktionen"
+
+msgid "table_lp_settings"
+msgstr "Lernfortschrittseinstellungen"
+
+msgid "table_may_proceed"
+msgstr "Benutzer darf fortfahren"
+
+msgid "table_online"
+msgstr "Online"
+
+msgid "table_position"
+msgstr "Position"
+
+msgid "table_sequence_content"
+msgstr "Inhaltsverwaltung"
+
+msgid "table_title"
+msgstr "Titel"
+
+msgid "unparticipate"
+msgstr "Mitgliedschaft in der Lernsequenz beenden"
+
+msgid "unset_end_object"
+msgstr "Als Zielpunkt entfernen"
+
+msgid "unset_start_object"
+msgstr "Als Startpunkt entfernen"

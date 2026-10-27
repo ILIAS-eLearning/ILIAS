@@ -1,0 +1,747 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"Language-Team: English\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: lso\n"
+
+msgid "abstract"
+msgstr "Abstract"
+
+msgid "abstract_img"
+msgstr "Image for Abstract"
+
+msgid "add_condition"
+msgstr "Add Condition"
+
+msgid "always"
+msgstr "Always"
+
+msgid "avail_time_period"
+msgstr "Period"
+
+msgid "completed_steps"
+msgstr "Passed Steps"
+
+msgid "condition_already_exists"
+msgstr "Condition already exists for this object."
+
+msgid "condition_learning_progress"
+msgstr "Based on Learning Progress"
+
+msgid "condition_name"
+msgstr "Name"
+
+msgid "condition_points"
+msgstr "Points"
+
+msgid "condition_subtype"
+msgstr "Subtype"
+
+msgid "condition_targets"
+msgstr "Target(s)"
+
+msgid "condition_type"
+msgstr "Type"
+
+msgid "conditions"
+msgstr "Conditions"
+
+msgid "conditions_deleted"
+msgstr "Condition successfully deleted"
+
+msgid "cont_ed_insert_lsolearningmap"
+msgstr "Insert Learning Sequence Learning Map"
+
+msgid "cont_ed_insert_lsostartbutton"
+msgstr "Insert Learning Sequence Start Button"
+
+msgid "curriculum"
+msgstr "Content"
+
+msgid "delete_condition"
+msgstr "Remove Condition"
+
+msgid "delete_condition_no_selection"
+msgstr "Please choose at least one condition to delete."
+
+msgid "delete_condition_verify"
+msgstr "Do you really want to delete the selected conditions?"
+
+msgid "delete_confirmation"
+msgstr "Are you sure you want to delete this objects?"
+
+msgid "entries_deleted"
+msgstr "Successfully deleted entries."
+
+msgid "entries_updated"
+msgstr "Entries saved"
+
+msgid "extro"
+msgstr "Exit Page"
+
+msgid "extro_img"
+msgstr "Image for Exit Page"
+
+msgid "failed"
+msgstr "Failed"
+
+msgid "finished"
+msgstr "Finished"
+
+msgid "first_access"
+msgstr "First Access"
+
+msgid "input_condition"
+msgstr "Input Condition"
+
+msgid "input_conditions"
+msgstr "Input Conditions"
+
+msgid "last_visited_step"
+msgstr "Last Visited Step"
+
+msgid "learner_view"
+msgstr "Overview"
+
+msgid "learning_map"
+msgstr "Learning Map"
+
+msgid "learning_progress_completed"
+msgstr "Completed"
+
+msgid "learning_progress_in_progress"
+msgstr "In progress"
+
+msgid "learning_progress_input"
+msgstr "Learning Progress"
+
+msgid "learning_progress_not_attempted"
+msgstr "Not attempted"
+
+msgid "learning_progress_output"
+msgstr "Learning Progress"
+
+msgid "logic_gate"
+msgstr "Logic Gate"
+
+msgid "logic_gate_and"
+msgstr "AND"
+
+msgid "logic_gate_and_byline"
+msgstr "All selected objects must be completed."
+
+msgid "logic_gate_not"
+msgstr "NOT"
+
+msgid "logic_gate_not_byline"
+msgstr "None of the selected objects may be completed."
+
+msgid "logic_gate_or"
+msgstr "OR"
+
+msgid "logic_gate_or_byline"
+msgstr "At least one of the selected objects must be completed."
+
+msgid "lp_not_relevant_post_cond"
+msgstr "currently not relevant for continuation"
+
+msgid "lso_activation_online_info"
+msgstr "Set the Learning Sequence online to make it visible and available for Learning Sequence members. If not, only administrators and tutors will have access to it."
+
+msgid "lso_adaptive_dead_end"
+msgstr "Dead End"
+
+msgid "lso_adaptive_end"
+msgstr "End"
+
+msgid "lso_adaptive_entry_point"
+msgstr "Entry Point"
+
+msgid "lso_adaptive_information"
+msgstr "Information"
+
+msgid "lso_adaptive_misconfigured"
+msgstr "Misconfigured"
+
+msgid "lso_adaptive_misconfigured_info"
+msgstr "The input conditions of this object contradict each other. Learners may not be able to access it."
+
+msgid "lso_adaptive_missing_boundaries_online"
+msgstr "The Learning Sequence cannot be set online because no start or end object has been selected."
+
+msgid "lso_adaptive_missing_end_object"
+msgstr "To end the learning sequence, an end object is required."
+
+msgid "lso_adaptive_missing_start_object"
+msgstr "To start the learning sequence, a start object is required."
+
+msgid "lso_adaptive_next_object"
+msgstr "Next Object"
+
+msgid "lso_adaptive_offline"
+msgstr "Offline"
+
+msgid "lso_adaptive_offline_due_to_missing_boundaries"
+msgstr "The Learning Sequence was taken offline because it no longer has a start or end object."
+
+msgid "lso_adaptive_previous_object"
+msgstr "Previous Object"
+
+msgid "lso_adaptive_start"
+msgstr "Start"
+
+msgid "lso_adaptive_start_end_not_same"
+msgstr "An object cannot be the start and end object at the same time."
+
+msgid "lso_at_least_one_admin"
+msgstr "There has to be at least one learning sequence administrator."
+
+msgid "lso_choice_page_headline"
+msgstr "Which object would you like to edit next?"
+
+msgid "lso_choice_page_start_label"
+msgstr "Start object"
+
+msgid "lso_condition_simple_choice_target"
+msgstr "Select Single Object"
+
+msgid "lso_condition_simple_multi_target"
+msgstr "Select Multiple Objects"
+
+msgid "lso_condition_unknown_type"
+msgstr "Unknown Condition Type"
+
+msgid "lso_edit_permission"
+msgstr "User can change permission settings"
+
+msgid "lso_exception_additional_form_no_override"
+msgstr "%s defines an additional configuration form but does not override applyAdditionalFormData()."
+
+msgid "lso_exception_at_least_one_object"
+msgstr "At least one object must be selected."
+
+msgid "lso_exception_condition_ambiguous"
+msgstr "Condition lookup is ambiguous."
+
+msgid "lso_exception_condition_not_exists"
+msgstr "Condition does not exist."
+
+msgid "lso_exception_logic_gate_condition_id_not_set"
+msgstr "Logic gate condition_id is not set."
+
+msgid "lso_exception_logic_gate_subtype_not_stored"
+msgstr "Logic gate subtype is not stored."
+
+msgid "lso_exception_lp_condition_ambiguous"
+msgstr "Learning progress condition lookup is ambiguous."
+
+msgid "lso_exception_lp_target_ref_id_not_set"
+msgstr "Learning progress target ref id is not set."
+
+msgid "lso_exception_lp_target_ref_id_not_stored"
+msgstr "Learning progress target ref id is not stored."
+
+msgid "lso_exception_object_ids_invalid"
+msgstr "Object ids are invalid."
+
+msgid "lso_exception_object_ids_not_stored"
+msgstr "Object ids are not stored."
+
+msgid "lso_exception_points_invalid"
+msgstr "Points are invalid."
+
+msgid "lso_exception_points_negative"
+msgstr "Points must not be negative."
+
+msgid "lso_exception_subset_exceeds_objects"
+msgstr "Subset must not exceed the number of selected objects."
+
+msgid "lso_exception_subset_invalid"
+msgstr "Subset is invalid."
+
+msgid "lso_exception_subset_negative"
+msgstr "Subset must not be negative."
+
+msgid "lso_header_delete_members"
+msgstr "Would you like to remove the following members from this learning sequence?"
+
+msgid "lso_header_edit_members"
+msgstr "Edit Members"
+
+msgid "lso_intropages_deprecationhint"
+msgstr "You can edit the abstract and exit page in the tab \"Content\"."
+
+msgid "lso_learning_map_blocked"
+msgstr "Not available"
+
+msgid "lso_learning_map_current"
+msgstr "Current position"
+
+msgid "lso_learning_map_done"
+msgstr "Completed"
+
+msgid "lso_learning_map_empty"
+msgstr "No paths can be displayed for this Learning Sequence yet. Objects or a start object are missing."
+
+msgid "lso_learning_map_fit"
+msgstr "Fit view"
+
+msgid "lso_learning_map_focus_current"
+msgstr "Go to my position"
+
+msgid "lso_learning_map_node_blocked"
+msgstr "Object not available"
+
+msgid "lso_learning_map_node_open"
+msgstr "Object available"
+
+msgid "lso_learning_map_open"
+msgstr "Available"
+
+msgid "lso_learning_map_open_object"
+msgstr "Open"
+
+msgid "lso_learning_map_path"
+msgstr "Previous path"
+
+msgid "lso_learning_map_reset_zoom"
+msgstr "Original size, 100 percent"
+
+msgid "lso_learning_map_reset_zoom_label"
+msgstr "100 %"
+
+msgid "lso_learning_map_sr_at_current"
+msgstr "View at your current position: %s."
+
+msgid "lso_learning_map_sr_blocked_way"
+msgstr "%s (this path is currently not available)"
+
+msgid "lso_learning_map_sr_current"
+msgstr "Your current position"
+
+msgid "lso_learning_map_sr_end"
+msgstr "End of the Learning Sequence"
+
+msgid "lso_learning_map_sr_fitted"
+msgstr "View fitted."
+
+msgid "lso_learning_map_sr_leads_to"
+msgstr "Leads to: %s."
+
+msgid "lso_learning_map_sr_leads_to_none"
+msgstr "Does not lead to another object."
+
+msgid "lso_learning_map_sr_no_current"
+msgstr "No current position is known."
+
+msgid "lso_learning_map_sr_start"
+msgstr "Start of the Learning Sequence"
+
+msgid "lso_learning_map_sr_state_blocked"
+msgstr "Status: not available"
+
+msgid "lso_learning_map_sr_state_done"
+msgstr "Status: completed"
+
+msgid "lso_learning_map_sr_state_open"
+msgstr "Status: available"
+
+msgid "lso_learning_map_sr_step"
+msgstr "Object %1$s of %2$s"
+
+msgid "lso_learning_map_sr_summary"
+msgstr "Learning map with %s objects."
+
+msgid "lso_learning_map_sr_summary_current"
+msgstr "Your current position: %s."
+
+msgid "lso_learning_map_sr_summary_end"
+msgstr "End: %s."
+
+msgid "lso_learning_map_sr_summary_start"
+msgstr "Start: %s."
+
+msgid "lso_learning_map_sr_zoom"
+msgstr "Zoom %s percent."
+
+msgid "lso_learning_map_viewport"
+msgstr "Learning map: display of objects and their order"
+
+msgid "lso_learning_map_zoom_in"
+msgstr "Zoom in"
+
+msgid "lso_learning_map_zoom_in_symbol"
+msgstr "+"
+
+msgid "lso_learning_map_zoom_out"
+msgstr "Zoom out"
+
+msgid "lso_learning_map_zoom_out_symbol"
+msgstr "–"
+
+msgid "lso_legacy_info"
+msgstr "The object will open in a new tab in your browser. Please return to this tab after processing/editing the contents. Reload the page if you have edited the content but the \"Next\" button remains disabled."
+
+msgid "lso_logic_gate_input_not_start_reference"
+msgstr "A NOT logic gate must not reference the start object."
+
+msgid "lso_mail_admission_new_bod"
+msgstr "we are pleased to announce your registration for the learning sequence \"%s\"."
+
+msgid "lso_mail_admission_new_sub"
+msgstr "Your registration for learning sequence \"%s\""
+
+msgid "lso_mail_dismiss_bod"
+msgstr "your membership in learning sequence \"%s\" has been terminated."
+
+msgid "lso_mail_dismiss_sub"
+msgstr "Membership terminated in learning sequence \"%s\""
+
+msgid "lso_mail_notification_reg_bod"
+msgstr "%s has registered for learning sequence \"%s\"."
+
+msgid "lso_mail_notification_reg_req_bod"
+msgstr "%s has requested membership for learning sequence \"%s\"."
+
+msgid "lso_mail_notification_reg_req_bod2"
+msgstr "To confirm this registration, go to:"
+
+msgid "lso_mail_notification_reg_req_sub"
+msgstr "Request to join learning sequence \"%s\""
+
+msgid "lso_mail_notification_reg_sub"
+msgstr "User registered for learning sequence \"%s\""
+
+msgid "lso_mail_notification_unsub_bod"
+msgstr "%s has cancelled his/her membership for the learning sequence \"%s\"."
+
+msgid "lso_mail_notification_unsub_bod2"
+msgstr "There might be other members on a waiting list of your learning sequence. You should check for the waiting list now. To view the members of your learning sequence, click here:"
+
+msgid "lso_mail_notification_unsub_sub"
+msgstr "User left learning sequence \"%s\""
+
+msgid "lso_mail_permanent_link"
+msgstr "Click on the following link to find all of the information you need regarding the learning sequence:"
+
+msgid "lso_mail_status_bod"
+msgstr "your status in learning sequence \"%s\" has been changed."
+
+msgid "lso_mail_status_sub"
+msgstr "Changed status in learning sequence \"%s\""
+
+msgid "lso_mail_sub_acc_bod"
+msgstr "we are pleased to confirm your registration for the learning sequence \"%s\"."
+
+msgid "lso_mail_sub_acc_sub"
+msgstr "Registration confirmed for \"%s\""
+
+msgid "lso_mail_sub_dec_bod"
+msgstr "we regret to say that your registration has been refused for learning sequence \"%s\"."
+
+msgid "lso_mail_sub_dec_sub"
+msgstr "Registration refused for learning sequence \"%s\""
+
+msgid "lso_mail_subscribe_member_bod"
+msgstr "we are pleased to confirm your registration for the learning sequence \"%s\"."
+
+msgid "lso_mail_subscribe_member_sub"
+msgstr "Your registration for learning sequence \"%s\""
+
+msgid "lso_mail_unsubscribe_member_bod"
+msgstr "we confirm your cancellation of membership in learning sequence %s. We hope that you find an opportunity to participate in another learning sequence."
+
+msgid "lso_mail_unsubscribe_member_sub"
+msgstr "Your cancellation of membership in learning sequence \"%s\""
+
+msgid "lso_mail_wl_bod"
+msgstr "you have been assigned to the waiting list of learning sequence \"%s\". You are assigned to position %s on the list.  You will receive a message from a learning sequence administrator when your request has been approved or rejected."
+
+msgid "lso_mail_wl_sub"
+msgstr "Your registration for learning sequence \"%s\""
+
+msgid "lso_mainbar_button_label_curriculum"
+msgstr "Learning Sequence"
+
+msgid "lso_mainbar_button_label_toc"
+msgstr "Content"
+
+msgid "lso_mem_tbl_header"
+msgstr "Learning Sequence Member"
+
+msgid "lso_member_administration"
+msgstr "Edit Participants"
+
+msgid "lso_members_deleted"
+msgstr "Selected members were successfully removed from learning sequence."
+
+msgid "lso_members_gallery"
+msgstr "Learning Sequence Members Gallery"
+
+msgid "lso_members_print_title"
+msgstr "Learning sequence members"
+
+msgid "lso_min_one_admin"
+msgstr "There has to be at least one administrator assigned to this learning sequence."
+
+msgid "lso_mode"
+msgstr "Learning Mode"
+
+msgid "lso_mode_adaptive"
+msgstr "Adaptive Mode"
+
+msgid "lso_mode_adaptive_info"
+msgstr "The learning path dynamically adapts to progress or prior knowledge."
+
+msgid "lso_mode_byline"
+msgstr "Determines whether the content is offered one after another in a fixed order or dynamically based on user interactions."
+
+msgid "lso_mode_info"
+msgstr "Choose how the Learning Sequence should be controlled."
+
+msgid "lso_mode_linear"
+msgstr "Linear Mode"
+
+msgid "lso_mode_linear_info"
+msgstr "Content is processed one after another in a fixed, predefined order."
+
+msgid "lso_msg_choose_one_object"
+msgstr "Please choose one object."
+
+msgid "lso_msg_member_assigned"
+msgstr "User(s) assigned as learning sequence member(s)"
+
+msgid "lso_multidownload_not_available"
+msgstr "Downloading multiple objects is currently not available for Learning Sequence Objects."
+
+msgid "lso_new_status"
+msgstr "Your new status is:"
+
+msgid "lso_notification"
+msgstr "Notification"
+
+msgid "lso_notification_explanation_admin"
+msgstr "You receive mail from ILIAS because you are learning sequence administrator with notification enabled."
+
+msgid "lso_notify_off"
+msgstr "Notification about new registrations disabled"
+
+msgid "lso_notify_on"
+msgstr "Notification about new registrations enabled"
+
+msgid "lso_player_abstract"
+msgstr "Show Abstract Info"
+
+msgid "lso_player_dead_end_line_1"
+msgstr "Hey, the path ends here."
+
+msgid "lso_player_dead_end_line_2"
+msgstr "Check the map to continue"
+
+msgid "lso_player_dead_end_line_3"
+msgstr "your path."
+
+msgid "lso_player_dead_end_title"
+msgstr "Path ended"
+
+msgid "lso_player_extro"
+msgstr "Show Final Page"
+
+msgid "lso_player_finish"
+msgstr "Finish"
+
+msgid "lso_player_next"
+msgstr "Next"
+
+msgid "lso_player_next_object_blocked"
+msgstr "To start the next object, a condition must be fulfilled."
+
+msgid "lso_player_noitems"
+msgstr "There are no available items in this Learning Sequence."
+
+msgid "lso_player_previous"
+msgstr "Previous"
+
+msgid "lso_player_resume"
+msgstr "Resume Learning Sequence"
+
+msgid "lso_player_review"
+msgstr "Review Learning Sequence"
+
+msgid "lso_player_start"
+msgstr "Start Learning Sequence"
+
+msgid "lso_player_suspend"
+msgstr "Suspend"
+
+msgid "lso_player_viewmodelabel"
+msgstr "Learning Sequence"
+
+msgid "lso_points_input_missing_output_on_object"
+msgstr "This object is referenced by a points input condition but does not define a points output condition."
+
+msgid "lso_points_input_points_must_be_greater_zero"
+msgstr "Points must be greater than 0."
+
+msgid "lso_points_input_source_without_points_output"
+msgstr "No points output is set for the following referenced objects: %s. They will count as 0 points in this points condition."
+
+msgid "lso_points_input_source_without_points_output_table"
+msgstr "The following objects are referenced by points input conditions but do not define a points output: %s. They will count as 0 points in these points conditions."
+
+msgid "lso_points_input_unreachable_threshold"
+msgstr "The required points cannot be reached with the currently configured points outputs."
+
+msgid "lso_print_list"
+msgstr "Generate list"
+
+msgid "lso_read"
+msgstr "User has read access to Learning Sequence"
+
+msgid "lso_search_users"
+msgstr "Look Up Users"
+
+msgid "lso_settings_availability"
+msgstr "Availability"
+
+msgid "lso_settings_extro"
+msgstr "Edit Exit Page"
+
+msgid "lso_settings_intro"
+msgstr "Edit Intro Page"
+
+msgid "lso_settings_old_extro"
+msgstr "View Old Exit Page"
+
+msgid "lso_settings_old_intro"
+msgstr "View Old Intro Page"
+
+msgid "lso_show_members_info"
+msgstr "Member Gallery available for users"
+
+msgid "lso_start_item"
+msgstr "Open %s"
+
+msgid "lso_static_input_configuration_conflict_detail"
+msgstr "This object has a static input-condition misconfiguration."
+
+msgid "lso_static_input_configuration_contradictory_constraints"
+msgstr "The input conditions on this object contradict each other."
+
+msgid "lso_static_input_configuration_missing_references"
+msgstr "This input condition references objects that are not part of this learning sequence."
+
+msgid "lso_static_input_configuration_referenced_by_objects"
+msgstr "Referenced by objects"
+
+msgid "lso_static_input_configuration_referenced_objects"
+msgstr "Referenced objects"
+
+msgid "lso_subset_msg_choose_at_least_one"
+msgstr "Please choose at least one object."
+
+msgid "lso_toast_completed_desc"
+msgstr "You have completed this Learning Sequence. You might still keep looking through the content."
+
+msgid "lso_toast_completed_title"
+msgstr "Congratulations"
+
+msgid "lso_users_already_assigned"
+msgstr "The user is already assigned to this learning sequence"
+
+msgid "mail_lso_roles"
+msgstr "Send mails to roles of learning sequence."
+
+msgid "manage"
+msgstr "Manage"
+
+msgid "manage_conditions"
+msgstr "Manage Conditions for %s"
+
+msgid "manage_content_maintab"
+msgstr "Content"
+
+msgid "members_gallery"
+msgstr "Member Gallery"
+
+msgid "no_conditions"
+msgstr "(none)"
+
+msgid "no_entries_selected_for_delete"
+msgstr "There has to be at least one entry selected."
+
+msgid "not_finished"
+msgstr "Not Finished"
+
+msgid "notification_lso_completed_title"
+msgstr "You completed the Learning Sequence %s."
+
+msgid "output_condition"
+msgstr "Output Condition"
+
+msgid "output_conditions"
+msgstr "Output Conditions"
+
+msgid "points_input"
+msgstr "Required Points"
+
+msgid "points_input_byline"
+msgstr "Minimum number of points required for the user to start this object."
+
+msgid "points_output"
+msgstr "Points Earned"
+
+msgid "points_output_byline"
+msgstr "Number of points awarded to the user upon successfully completing this object."
+
+msgid "set_end_object"
+msgstr "Set as End Point"
+
+msgid "set_start_object"
+msgstr "Set as Start Point"
+
+msgid "show_summary"
+msgstr "Info"
+
+msgid "subset"
+msgstr "Subset"
+
+msgid "subset_amount"
+msgstr "Required Subset Amount"
+
+msgid "subset_amount_byline"
+msgstr "Number of objects that must be completed to start this object."
+
+msgid "table_actions"
+msgstr "Actions"
+
+msgid "table_lp_settings"
+msgstr "Learning Progress Settings"
+
+msgid "table_may_proceed"
+msgstr "User may proceed"
+
+msgid "table_online"
+msgstr "Online"
+
+msgid "table_position"
+msgstr "Position"
+
+msgid "table_sequence_content"
+msgstr "Content Management"
+
+msgid "table_title"
+msgstr "Title"
+
+msgid "unparticipate"
+msgstr "Unsubscribe"
+
+msgid "unset_end_object"
+msgstr "Remove as End Point"
+
+msgid "unset_start_object"
+msgstr "Remove as Start Point"

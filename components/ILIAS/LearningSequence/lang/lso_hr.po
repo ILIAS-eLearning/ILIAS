@@ -1,0 +1,904 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hr\n"
+"Language-Team: Croatian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: lso\n"
+
+msgid "abstract"
+msgstr "Sažetak"
+
+msgid "abstract_img"
+msgstr "Slika za Sažetak"
+
+#, fuzzy
+msgid "add_condition"
+msgstr "Add Condition"
+
+#, fuzzy
+msgid "always"
+msgstr "Always"
+
+msgid "avail_time_period"
+msgstr "Razdoblje"
+
+msgid "completed_steps"
+msgstr "Prošli koraci"
+
+#, fuzzy
+msgid "condition_already_exists"
+msgstr "Condition already exists for this object."
+
+#, fuzzy
+msgid "condition_learning_progress"
+msgstr "Based on Learning Progress"
+
+#, fuzzy
+msgid "condition_name"
+msgstr "Name"
+
+#, fuzzy
+msgid "condition_points"
+msgstr "Points"
+
+#, fuzzy
+msgid "condition_subtype"
+msgstr "Subtype"
+
+#, fuzzy
+msgid "condition_targets"
+msgstr "Target(s)"
+
+#, fuzzy
+msgid "condition_type"
+msgstr "Type"
+
+#, fuzzy
+msgid "conditions"
+msgstr "Conditions"
+
+#, fuzzy
+msgid "conditions_deleted"
+msgstr "Condition successfully deleted"
+
+#, fuzzy
+msgid "cont_ed_insert_lsolearningmap"
+msgstr "Insert Learning Sequence Learning Map"
+
+#, fuzzy
+msgid "cont_ed_insert_lsostartbutton"
+msgstr "Insert Learning Sequence Start Button"
+
+msgid "curriculum"
+msgstr "Nastavni plan i program"
+
+#, fuzzy
+msgid "delete_condition"
+msgstr "Remove Condition"
+
+#, fuzzy
+msgid "delete_condition_no_selection"
+msgstr "Please choose at least one condition to delete."
+
+#, fuzzy
+msgid "delete_condition_verify"
+msgstr "Do you really want to delete the selected conditions?"
+
+msgid "delete_confirmation"
+msgstr "Jeste li sigurni da želite izbrisati ove objekte?"
+
+msgid "entries_deleted"
+msgstr "Uspješno izbrišite unose"
+
+msgid "entries_updated"
+msgstr "Unosi spremljeni"
+
+msgid "extro"
+msgstr "Izlazna stranica"
+
+msgid "extro_img"
+msgstr "Slika za izlaznu stranicu"
+
+msgid "failed"
+msgstr "Nije položio"
+
+msgid "finished"
+msgstr "Završeno"
+
+msgid "first_access"
+msgstr "Prvi pristup"
+
+#, fuzzy
+msgid "input_condition"
+msgstr "Input Condition"
+
+#, fuzzy
+msgid "input_conditions"
+msgstr "Input Conditions"
+
+msgid "last_visited_step"
+msgstr "Posljednji posjećen korak"
+
+msgid "learner_view"
+msgstr "Pregled"
+
+#, fuzzy
+msgid "learning_map"
+msgstr "Learning Map"
+
+#, fuzzy
+msgid "learning_progress_completed"
+msgstr "Completed"
+
+#, fuzzy
+msgid "learning_progress_in_progress"
+msgstr "In progress"
+
+#, fuzzy
+msgid "learning_progress_input"
+msgstr "Learning Progress"
+
+#, fuzzy
+msgid "learning_progress_not_attempted"
+msgstr "Not attempted"
+
+#, fuzzy
+msgid "learning_progress_output"
+msgstr "Learning Progress"
+
+#, fuzzy
+msgid "logic_gate"
+msgstr "Logic Gate"
+
+#, fuzzy
+msgid "logic_gate_and"
+msgstr "AND"
+
+#, fuzzy
+msgid "logic_gate_and_byline"
+msgstr "All selected objects must be completed."
+
+#, fuzzy
+msgid "logic_gate_not"
+msgstr "NOT"
+
+#, fuzzy
+msgid "logic_gate_not_byline"
+msgstr "None of the selected objects may be completed."
+
+#, fuzzy
+msgid "logic_gate_or"
+msgstr "OR"
+
+#, fuzzy
+msgid "logic_gate_or_byline"
+msgstr "At least one of the selected objects must be completed."
+
+#, fuzzy
+msgid "lp_not_relevant_post_cond"
+msgstr "currently not relevant for continuation"
+
+msgid "lso_activation_online_info"
+msgstr "Postavite sekvencu učenja na mreži kako bi bila vidljiva i dostupna članovima sekvence učenja. Ako ne, pristup će mu imati samo administratori i nastavnici."
+
+#, fuzzy
+msgid "lso_adaptive_dead_end"
+msgstr "Dead End"
+
+#, fuzzy
+msgid "lso_adaptive_end"
+msgstr "End"
+
+#, fuzzy
+msgid "lso_adaptive_entry_point"
+msgstr "Entry Point"
+
+#, fuzzy
+msgid "lso_adaptive_information"
+msgstr "Information"
+
+#, fuzzy
+msgid "lso_adaptive_misconfigured"
+msgstr "Misconfigured"
+
+#, fuzzy
+msgid "lso_adaptive_misconfigured_info"
+msgstr "The input conditions of this object contradict each other. Learners may not be able to access it."
+
+#, fuzzy
+msgid "lso_adaptive_missing_boundaries_online"
+msgstr "The Learning Sequence cannot be set online because no start or end object has been selected."
+
+#, fuzzy
+msgid "lso_adaptive_missing_end_object"
+msgstr "To end the learning sequence, an end object is required."
+
+#, fuzzy
+msgid "lso_adaptive_missing_start_object"
+msgstr "To start the learning sequence, a start object is required."
+
+#, fuzzy
+msgid "lso_adaptive_next_object"
+msgstr "Next Object"
+
+#, fuzzy
+msgid "lso_adaptive_offline"
+msgstr "Offline"
+
+#, fuzzy
+msgid "lso_adaptive_offline_due_to_missing_boundaries"
+msgstr "The Learning Sequence was taken offline because it no longer has a start or end object."
+
+#, fuzzy
+msgid "lso_adaptive_previous_object"
+msgstr "Previous Object"
+
+#, fuzzy
+msgid "lso_adaptive_start"
+msgstr "Start"
+
+#, fuzzy
+msgid "lso_adaptive_start_end_not_same"
+msgstr "An object cannot be the start and end object at the same time."
+
+msgid "lso_at_least_one_admin"
+msgstr "Mora postojati barem jedan administrator sekvence učenja."
+
+#, fuzzy
+msgid "lso_choice_page_headline"
+msgstr "Which object would you like to edit next?"
+
+#, fuzzy
+msgid "lso_choice_page_start_label"
+msgstr "Start object"
+
+#, fuzzy
+msgid "lso_condition_simple_choice_target"
+msgstr "Select Single Object"
+
+#, fuzzy
+msgid "lso_condition_simple_multi_target"
+msgstr "Select Multiple Objects"
+
+#, fuzzy
+msgid "lso_condition_unknown_type"
+msgstr "Unknown Condition Type"
+
+msgid "lso_edit_permission"
+msgstr "Korisnik može promijeniti postavke dopuštenja"
+
+#, fuzzy
+msgid "lso_exception_additional_form_no_override"
+msgstr "%s defines an additional configuration form but does not override applyAdditionalFormData()."
+
+#, fuzzy
+msgid "lso_exception_at_least_one_object"
+msgstr "At least one object must be selected."
+
+#, fuzzy
+msgid "lso_exception_condition_ambiguous"
+msgstr "Condition lookup is ambiguous."
+
+#, fuzzy
+msgid "lso_exception_condition_not_exists"
+msgstr "Condition does not exist."
+
+#, fuzzy
+msgid "lso_exception_logic_gate_condition_id_not_set"
+msgstr "Logic gate condition_id is not set."
+
+#, fuzzy
+msgid "lso_exception_logic_gate_subtype_not_stored"
+msgstr "Logic gate subtype is not stored."
+
+#, fuzzy
+msgid "lso_exception_lp_condition_ambiguous"
+msgstr "Learning progress condition lookup is ambiguous."
+
+#, fuzzy
+msgid "lso_exception_lp_target_ref_id_not_set"
+msgstr "Learning progress target ref id is not set."
+
+#, fuzzy
+msgid "lso_exception_lp_target_ref_id_not_stored"
+msgstr "Learning progress target ref id is not stored."
+
+#, fuzzy
+msgid "lso_exception_object_ids_invalid"
+msgstr "Object ids are invalid."
+
+#, fuzzy
+msgid "lso_exception_object_ids_not_stored"
+msgstr "Object ids are not stored."
+
+#, fuzzy
+msgid "lso_exception_points_invalid"
+msgstr "Points are invalid."
+
+#, fuzzy
+msgid "lso_exception_points_negative"
+msgstr "Points must not be negative."
+
+#, fuzzy
+msgid "lso_exception_subset_exceeds_objects"
+msgstr "Subset must not exceed the number of selected objects."
+
+#, fuzzy
+msgid "lso_exception_subset_invalid"
+msgstr "Subset is invalid."
+
+#, fuzzy
+msgid "lso_exception_subset_negative"
+msgstr "Subset must not be negative."
+
+msgid "lso_header_delete_members"
+msgstr "Želite li ukloniti sljedeće članove iz ove sekvence učenja?"
+
+msgid "lso_header_edit_members"
+msgstr "Uredi članove"
+
+#, fuzzy
+msgid "lso_intropages_deprecationhint"
+msgstr "You can edit the abstract and exit page in the tab \"Content\"."
+
+#, fuzzy
+msgid "lso_learning_map_blocked"
+msgstr "Not available"
+
+#, fuzzy
+msgid "lso_learning_map_current"
+msgstr "Current position"
+
+#, fuzzy
+msgid "lso_learning_map_done"
+msgstr "Completed"
+
+#, fuzzy
+msgid "lso_learning_map_empty"
+msgstr "No paths can be displayed for this Learning Sequence yet. Objects or a start object are missing."
+
+#, fuzzy
+msgid "lso_learning_map_fit"
+msgstr "Fit view"
+
+#, fuzzy
+msgid "lso_learning_map_focus_current"
+msgstr "Go to my position"
+
+#, fuzzy
+msgid "lso_learning_map_node_blocked"
+msgstr "Object not available"
+
+#, fuzzy
+msgid "lso_learning_map_node_open"
+msgstr "Object available"
+
+#, fuzzy
+msgid "lso_learning_map_open"
+msgstr "Available"
+
+#, fuzzy
+msgid "lso_learning_map_open_object"
+msgstr "Open"
+
+#, fuzzy
+msgid "lso_learning_map_path"
+msgstr "Previous path"
+
+#, fuzzy
+msgid "lso_learning_map_reset_zoom"
+msgstr "Original size, 100 percent"
+
+#, fuzzy
+msgid "lso_learning_map_reset_zoom_label"
+msgstr "100 %"
+
+#, fuzzy
+msgid "lso_learning_map_sr_at_current"
+msgstr "View at your current position: %s."
+
+#, fuzzy
+msgid "lso_learning_map_sr_blocked_way"
+msgstr "%s (this path is currently not available)"
+
+#, fuzzy
+msgid "lso_learning_map_sr_current"
+msgstr "Your current position"
+
+#, fuzzy
+msgid "lso_learning_map_sr_end"
+msgstr "End of the Learning Sequence"
+
+#, fuzzy
+msgid "lso_learning_map_sr_fitted"
+msgstr "View fitted."
+
+#, fuzzy
+msgid "lso_learning_map_sr_leads_to"
+msgstr "Leads to: %s."
+
+#, fuzzy
+msgid "lso_learning_map_sr_leads_to_none"
+msgstr "Does not lead to another object."
+
+#, fuzzy
+msgid "lso_learning_map_sr_no_current"
+msgstr "No current position is known."
+
+#, fuzzy
+msgid "lso_learning_map_sr_start"
+msgstr "Start of the Learning Sequence"
+
+#, fuzzy
+msgid "lso_learning_map_sr_state_blocked"
+msgstr "Status: not available"
+
+#, fuzzy
+msgid "lso_learning_map_sr_state_done"
+msgstr "Status: completed"
+
+#, fuzzy
+msgid "lso_learning_map_sr_state_open"
+msgstr "Status: available"
+
+#, fuzzy
+msgid "lso_learning_map_sr_step"
+msgstr "Object %1$s of %2$s"
+
+#, fuzzy
+msgid "lso_learning_map_sr_summary"
+msgstr "Learning map with %s objects."
+
+#, fuzzy
+msgid "lso_learning_map_sr_summary_current"
+msgstr "Your current position: %s."
+
+#, fuzzy
+msgid "lso_learning_map_sr_summary_end"
+msgstr "End: %s."
+
+#, fuzzy
+msgid "lso_learning_map_sr_summary_start"
+msgstr "Start: %s."
+
+#, fuzzy
+msgid "lso_learning_map_sr_zoom"
+msgstr "Zoom %s percent."
+
+#, fuzzy
+msgid "lso_learning_map_viewport"
+msgstr "Learning map: display of objects and their order"
+
+#, fuzzy
+msgid "lso_learning_map_zoom_in"
+msgstr "Zoom in"
+
+#, fuzzy
+msgid "lso_learning_map_zoom_in_symbol"
+msgstr "+"
+
+#, fuzzy
+msgid "lso_learning_map_zoom_out"
+msgstr "Zoom out"
+
+#, fuzzy
+msgid "lso_learning_map_zoom_out_symbol"
+msgstr "–"
+
+#, fuzzy
+msgid "lso_legacy_info"
+msgstr "The object will open in a new tab in your browser. Please return to this tab after processing/editing the contents. Reload the page if you have edited the content but the \"Next\" button remains disabled."
+
+#, fuzzy
+msgid "lso_logic_gate_input_not_start_reference"
+msgstr "A NOT logic gate must not reference the start object."
+
+msgid "lso_mail_admission_new_bod"
+msgstr "drago nam je što vas možemo obavijestiti da ste registrirani za sekvencu učenja \"%s\"."
+
+msgid "lso_mail_admission_new_sub"
+msgstr "Vaša registracija za sekvencu učenja \"%s\""
+
+msgid "lso_mail_dismiss_bod"
+msgstr "vaše članstvo u sekvenci učenja \"%s\" je završilo."
+
+msgid "lso_mail_dismiss_sub"
+msgstr "Članstvo je okončano u sekvenci učenja \"%s\""
+
+msgid "lso_mail_notification_reg_bod"
+msgstr "%s se registrirao za sekvencu učenja \"%s\"."
+
+msgid "lso_mail_notification_reg_req_bod"
+msgstr "%s je zatražio članstvo za sekvencu učenja \"%s\"."
+
+msgid "lso_mail_notification_reg_req_bod2"
+msgstr "Da biste potvrdili ovu registraciju, idite na:"
+
+msgid "lso_mail_notification_reg_req_sub"
+msgstr "zahtjev za pridruživanje sekvenci učenja \"%s\""
+
+msgid "lso_mail_notification_reg_sub"
+msgstr "Korisnik je registriran za sekvencu učenja \"%s\""
+
+msgid "lso_mail_notification_unsub_bod"
+msgstr "%s je otkazao svoje članstvo za sekvencu učenja \"%s\"."
+
+msgid "lso_mail_notification_unsub_bod2"
+msgstr "Na popisu čekanja vaše sekvence učenja mogu biti i drugi članovi.\\nTrebali biste odmah provjeriti popis čekanja.\\nDa biste vidjeli članove svoje sekvenceučenja, kliknite ovdje:"
+
+msgid "lso_mail_notification_unsub_sub"
+msgstr "Korisnik je napustio sekvencu učenja \"%s\""
+
+msgid "lso_mail_permanent_link"
+msgstr "Kliknite na sljedeću poveznicu kako biste pronašli sve potrebne informacije u vezi sa sekvencom učenja:"
+
+msgid "lso_mail_status_bod"
+msgstr "vaš status u sekvenci učenja \"%s\" je promijenjen."
+
+msgid "lso_mail_status_sub"
+msgstr "Promijenjen status u sekvenci učenja \"%s\""
+
+msgid "lso_mail_sub_acc_bod"
+msgstr "drago nam je što možemo potvrditi vašu registraciju za sekvencu učenja \"%s\"."
+
+msgid "lso_mail_sub_acc_sub"
+msgstr "Potvrđena registracija za \"%s\""
+
+msgid "lso_mail_sub_dec_bod"
+msgstr "nažalost vas moramo obavijestiti da je odbijena vaša registracija za sekvencu učenja \"%s\"."
+
+msgid "lso_mail_sub_dec_sub"
+msgstr "Odbijena registracija za sekvencu učenja \"%s\""
+
+msgid "lso_mail_subscribe_member_bod"
+msgstr "drago nam je što možemo potvrditi vašu registraciju za sekvencu učenja \"%s\"."
+
+msgid "lso_mail_subscribe_member_sub"
+msgstr "Vaša registracija za sekvencu učenja \"%s\""
+
+msgid "lso_mail_unsubscribe_member_bod"
+msgstr "potvrđujemo vaše otkazivanje članstva u sekvenci učenja %s.\\ nNadamo se da ćete pronaći priliku za sudjelovanje u drugoj sekvenci učenja."
+
+msgid "lso_mail_unsubscribe_member_sub"
+msgstr "Vaše otkazivanje članstva u sekvenci učenja \"%s\""
+
+msgid "lso_mail_wl_bod"
+msgstr "dodijeljeni ste listi čekanja za sekvencu učenja \"%s\".\\nDodijeljeni ste na mjesto %s na popisu.\\n\\nPrimit ćete poruku od administratora sekvence učenja kada vaš zahtjev bude odobren ili odbijen."
+
+msgid "lso_mail_wl_sub"
+msgstr "Vaša registracija za sekvencu učenja \"%s\""
+
+#, fuzzy
+msgid "lso_mainbar_button_label_curriculum"
+msgstr "Curriculum"
+
+#, fuzzy
+msgid "lso_mainbar_button_label_toc"
+msgstr "Content"
+
+msgid "lso_mem_tbl_header"
+msgstr "Sudionik sekvence učenja"
+
+msgid "lso_member_administration"
+msgstr "Uredi sudionike"
+
+msgid "lso_members_deleted"
+msgstr "Izbrisani članovi"
+
+msgid "lso_members_gallery"
+msgstr "Galerija članova sekvence učenja"
+
+msgid "lso_members_print_title"
+msgstr "Članovi sekvence učenja"
+
+msgid "lso_min_one_admin"
+msgstr "Ovoj sekvenci učenja mora biti dodijeljen barem jedan administrator."
+
+#, fuzzy
+msgid "lso_mode"
+msgstr "Learning Mode"
+
+#, fuzzy
+msgid "lso_mode_adaptive"
+msgstr "Adaptive Mode"
+
+#, fuzzy
+msgid "lso_mode_adaptive_info"
+msgstr "The learning path dynamically adapts to progress or prior knowledge."
+
+#, fuzzy
+msgid "lso_mode_byline"
+msgstr "Determines whether the content is offered one after another in a fixed order or dynamically based on user interactions."
+
+#, fuzzy
+msgid "lso_mode_info"
+msgstr "Choose how the Learning Sequence should be controlled."
+
+#, fuzzy
+msgid "lso_mode_linear"
+msgstr "Linear Mode"
+
+#, fuzzy
+msgid "lso_mode_linear_info"
+msgstr "Content is processed one after another in a fixed, predefined order."
+
+#, fuzzy
+msgid "lso_msg_choose_one_object"
+msgstr "Please choose one object."
+
+msgid "lso_msg_member_assigned"
+msgstr "Korisnik(-ci) dodijeljen(-i) kao član(-ovi) sekvence učenja"
+
+#, fuzzy
+msgid "lso_multidownload_not_available"
+msgstr "Downloading multiple objects is currently not available for Learning Sequence Objects."
+
+msgid "lso_new_status"
+msgstr "Vaš novi status je:"
+
+msgid "lso_notification"
+msgstr "Obavijest"
+
+msgid "lso_notification_explanation_admin"
+msgstr "Dobivate poštu od ILIAS-a jer ste administrator sekvence učenja s omogućenim obavijestima."
+
+msgid "lso_notify_off"
+msgstr "Obavijest o novim registracijama onemogućena"
+
+msgid "lso_notify_on"
+msgstr "Obavijest o novim registracijama omogućena"
+
+msgid "lso_player_abstract"
+msgstr "Prikaži sažetak informacija"
+
+#, fuzzy
+msgid "lso_player_dead_end_line_1"
+msgstr "Hey, the path ends here."
+
+#, fuzzy
+msgid "lso_player_dead_end_line_2"
+msgstr "Check the map to continue"
+
+#, fuzzy
+msgid "lso_player_dead_end_line_3"
+msgstr "your path."
+
+#, fuzzy
+msgid "lso_player_dead_end_title"
+msgstr "Path ended"
+
+msgid "lso_player_extro"
+msgstr "Prikaži završnu stranicu"
+
+msgid "lso_player_finish"
+msgstr "Završi"
+
+msgid "lso_player_next"
+msgstr "Sljedeći"
+
+#, fuzzy
+msgid "lso_player_next_object_blocked"
+msgstr "To start the next object, a condition must be fulfilled."
+
+#, fuzzy
+msgid "lso_player_noitems"
+msgstr "There are no available items in this Learning Sequence."
+
+msgid "lso_player_previous"
+msgstr "Prethodni"
+
+msgid "lso_player_resume"
+msgstr "Nastavi sekvencu učenja"
+
+msgid "lso_player_review"
+msgstr "Pregledaj sekvencu učenja"
+
+msgid "lso_player_start"
+msgstr "Započni sekvencu učenja"
+
+msgid "lso_player_suspend"
+msgstr "Obustavi"
+
+#, fuzzy
+msgid "lso_player_viewmodelabel"
+msgstr "Learning Sequence"
+
+#, fuzzy
+msgid "lso_points_input_missing_output_on_object"
+msgstr "This object is referenced by a points input condition but does not define a points output condition."
+
+#, fuzzy
+msgid "lso_points_input_points_must_be_greater_zero"
+msgstr "Points must be greater than 0."
+
+#, fuzzy
+msgid "lso_points_input_source_without_points_output"
+msgstr "No points output is set for the following referenced objects: %s. They will count as 0 points in this points condition."
+
+#, fuzzy
+msgid "lso_points_input_source_without_points_output_table"
+msgstr "The following objects are referenced by points input conditions but do not define a points output: %s. They will count as 0 points in these points conditions."
+
+#, fuzzy
+msgid "lso_points_input_unreachable_threshold"
+msgstr "The required points cannot be reached with the currently configured points outputs."
+
+msgid "lso_print_list"
+msgstr "Generiraj popis"
+
+msgid "lso_read"
+msgstr "Korisnik ima pristup za čitanje sekvence učenja"
+
+msgid "lso_search_users"
+msgstr "Pretraži korisnike"
+
+msgid "lso_settings_availability"
+msgstr "dostupnost"
+
+msgid "lso_settings_extro"
+msgstr "Postavke izlazne stranice"
+
+msgid "lso_settings_intro"
+msgstr "Postavke uvodne stranice"
+
+#, fuzzy
+msgid "lso_settings_old_extro"
+msgstr "View Old Exit Page"
+
+#, fuzzy
+msgid "lso_settings_old_intro"
+msgstr "View Old Intro Page"
+
+msgid "lso_show_members_info"
+msgstr "Galerija članova dostupna korisnicima"
+
+msgid "lso_start_item"
+msgstr "Početak"
+
+#, fuzzy
+msgid "lso_static_input_configuration_conflict_detail"
+msgstr "This object has a static input-condition misconfiguration."
+
+#, fuzzy
+msgid "lso_static_input_configuration_contradictory_constraints"
+msgstr "The input conditions on this object contradict each other."
+
+#, fuzzy
+msgid "lso_static_input_configuration_missing_references"
+msgstr "This input condition references objects that are not part of this learning sequence."
+
+#, fuzzy
+msgid "lso_static_input_configuration_referenced_by_objects"
+msgstr "Referenced by objects"
+
+#, fuzzy
+msgid "lso_static_input_configuration_referenced_objects"
+msgstr "Referenced objects"
+
+#, fuzzy
+msgid "lso_subset_msg_choose_at_least_one"
+msgstr "Please choose at least one object."
+
+#, fuzzy
+msgid "lso_toast_completed_desc"
+msgstr "You have completed this Learning Sequence. You might still keep looking through the content."
+
+#, fuzzy
+msgid "lso_toast_completed_title"
+msgstr "Congratulations"
+
+msgid "lso_users_already_assigned"
+msgstr "Korisnik je već dodijeljen ovoj sekvenci učenja"
+
+msgid "mail_lso_roles"
+msgstr "Šaljite mailove ulogama sekvence učenja."
+
+msgid "manage"
+msgstr "Upravljaj"
+
+#, fuzzy
+msgid "manage_conditions"
+msgstr "Manage Conditions for %s"
+
+msgid "manage_content_maintab"
+msgstr "Sadržaj"
+
+msgid "members_gallery"
+msgstr "Galerija članova"
+
+#, fuzzy
+msgid "no_conditions"
+msgstr "(none)"
+
+msgid "no_entries_selected_for_delete"
+msgstr "Mora biti izabran barem jedan unos."
+
+msgid "not_finished"
+msgstr "Nije završen"
+
+#, fuzzy
+msgid "notification_lso_completed_title"
+msgstr "You completed the Learning Sequence %s."
+
+#, fuzzy
+msgid "output_condition"
+msgstr "Output Condition"
+
+#, fuzzy
+msgid "output_conditions"
+msgstr "Output Conditions"
+
+#, fuzzy
+msgid "points_input"
+msgstr "Required Points"
+
+#, fuzzy
+msgid "points_input_byline"
+msgstr "Minimum number of points required for the user to start this object."
+
+#, fuzzy
+msgid "points_output"
+msgstr "Points Earned"
+
+#, fuzzy
+msgid "points_output_byline"
+msgstr "Number of points awarded to the user upon successfully completing this object."
+
+#, fuzzy
+msgid "set_end_object"
+msgstr "Set as End Point"
+
+#, fuzzy
+msgid "set_start_object"
+msgstr "Set as Start Point"
+
+msgid "show_summary"
+msgstr "Informacije"
+
+#, fuzzy
+msgid "subset"
+msgstr "Subset"
+
+#, fuzzy
+msgid "subset_amount"
+msgstr "Required Subset Amount"
+
+#, fuzzy
+msgid "subset_amount_byline"
+msgstr "Number of objects that must be completed to start this object."
+
+msgid "table_actions"
+msgstr "Akcije"
+
+#, fuzzy
+msgid "table_lp_settings"
+msgstr "Learning Progress Settings"
+
+msgid "table_may_proceed"
+msgstr "Korisnik može nastaviti"
+
+msgid "table_online"
+msgstr "Online"
+
+msgid "table_position"
+msgstr "Položaj"
+
+msgid "table_sequence_content"
+msgstr "Upravljanje sadržajem"
+
+msgid "table_title"
+msgstr "Naslov"
+
+msgid "unparticipate"
+msgstr "Otkaži pretplatu"
+
+#, fuzzy
+msgid "unset_end_object"
+msgstr "Remove as End Point"
+
+#, fuzzy
+msgid "unset_start_object"
+msgstr "Remove as Start Point"
