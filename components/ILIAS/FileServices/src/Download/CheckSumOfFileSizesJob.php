@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+namespace ILIAS\FileServices\Download;
+
 use ILIAS\BackgroundTasks\Observer;
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractJob;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\BooleanValue;
@@ -30,9 +32,9 @@ use ILIAS\components\File\Settings\General;
  * @author Lukas Zehnder <lz@studer-raimann.ch>
  *
  */
-class ilCheckSumOfFileSizesJob extends AbstractJob
+class CheckSumOfFileSizesJob extends AbstractJob
 {
-    private readonly ?ilLogger $logger;
+    private readonly ?\ilLogger $logger;
     protected \ilSetting $settings;
 
 
@@ -43,7 +45,7 @@ class ilCheckSumOfFileSizesJob extends AbstractJob
     {
         global $DIC;
         $this->logger = $DIC->logger()->cal();
-        $this->settings = new ilSetting("fold");
+        $this->settings = new \ilSetting("fold");
     }
 
 
@@ -54,7 +56,7 @@ class ilCheckSumOfFileSizesJob extends AbstractJob
     {
         return
             [
-                new SingleType(ilCopyDefinition::class),
+                new SingleType(CopyDefinition::class),
             ];
     }
 
@@ -64,7 +66,7 @@ class ilCheckSumOfFileSizesJob extends AbstractJob
      */
     public function getOutputType(): Type
     {
-        return new SingleType(ilCopyDefinition::class);
+        return new SingleType(CopyDefinition::class);
     }
 
 
@@ -129,7 +131,7 @@ class ilCheckSumOfFileSizesJob extends AbstractJob
             }
 
             // we are only interested in folders and files
-            switch (ilObject::_lookupType($ref_id, true)) {
+            switch (\ilObject::_lookupType($ref_id, true)) {
                 case "fold":
                     // get child objects
                     $subtree = $tree->getChildsByTypeFilter($ref_id, ["fold", "file"]);
@@ -143,7 +145,7 @@ class ilCheckSumOfFileSizesJob extends AbstractJob
                     break;
 
                 case "file":
-                    $a_file_size += ilObjFileAccess::_lookupFileSize($ref_id);
+                    $a_file_size += \ilObjFileAccess::_lookupFileSize($ref_id);
                     break;
             }
         }
@@ -163,7 +165,7 @@ class ilCheckSumOfFileSizesJob extends AbstractJob
         if (!$ilAccess->checkAccess("read", "", $ref_id)) {
             return false;
         }
-        return !ilObject::_isInTrash($ref_id);
+        return !\ilObject::_isInTrash($ref_id);
     }
 
 

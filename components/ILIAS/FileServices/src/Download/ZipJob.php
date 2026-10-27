@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+namespace ILIAS\FileServices\Download;
+
 use ILIAS\Filesystem\Util\Archive\Archives;
 use ILIAS\BackgroundTasks\Observer;
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractJob;
@@ -30,9 +32,9 @@ use ILIAS\BackgroundTasks\Value;
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  *
  */
-class ilZipJob extends AbstractJob
+class ZipJob extends AbstractJob
 {
-    private ?ilLogger $logger;
+    private ?\ilLogger $logger;
     private Archives $archives;
 
     /**
@@ -95,7 +97,7 @@ class ilZipJob extends AbstractJob
         stream_copy_to_stream($zip_stream->detach(), fopen($zip_name, 'wb')); // we currently have to write to disk
 
         // delete temp directory
-        ilFileUtils::delDir($tmpdir);
+        \ilFileUtils::delDir($tmpdir);
 
         $zip_file_name = new StringValue();
         $zip_file_name->setValue($zip_name);

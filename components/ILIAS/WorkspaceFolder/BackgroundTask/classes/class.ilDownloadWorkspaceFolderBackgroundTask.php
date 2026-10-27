@@ -18,6 +18,8 @@
 
 use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
+use ILIAS\FileServices\Download\DownloadZipInteraction;
+use ILIAS\FileServices\Download\ZipJob;
 
 /**
  * Background task for downloads
@@ -103,13 +105,13 @@ class ilDownloadWorkspaceFolderBackgroundTask
         $copy_job = $this->task_factory->createTask(ilCopyWorkspaceFilesToTempDirectoryJob::class, [$file_size_interaction]);
 
         // Zip it
-        $zip_job = $this->task_factory->createTask(ilZipJob::class, [$copy_job]);
+        $zip_job = $this->task_factory->createTask(ZipJob::class, [$copy_job]);
         $this->logger->debug('Moved files from source- to target-directory');
 
         // Download
         $download_name = new StringValue();
         $download_name->setValue($normalized_name . '.zip');
-        $download_interaction = $this->task_factory->createTask(ilDownloadZipInteraction::class, [$zip_job, $download_name]);
+        $download_interaction = $this->task_factory->createTask(DownloadZipInteraction::class, [$zip_job, $download_name]);
         $this->logger->debug('Created a download interaction with the following download name: ' . $download_name->getValue());
 
         // last task to bucket
