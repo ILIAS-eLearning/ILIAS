@@ -1,17 +1,22 @@
-<div class="il-prompt" id="{ID}">
+<div class="c-prompt" id="{ID}">
     <dialog aria-labelledby="{ID}_title">
-        <div class="il-prompt__header">
-            <form>
+        <div class="c-prompt__header">
+            <form class="c-prompt__close">
                 <button formmethod="dialog" class="close" aria-label="{CLOSE_LABEL}">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </form>
-            <span class="il-prompt__title" id="{ID}_title" >{TITLE}</span>
+            <span class="c-prompt__title" id="{ID}_title">{TITLE}</span>
         </div>
         <hr>
-        <div class="il-prompt__contents"></div>
+        <div class="c-prompt__contents"></div>
         <hr>
-        <div class="il-prompt__buttons"></div>
+        <div class="c-prompt__buttons">
+            <form class="c-prompt__close">
+                <button formmethod="dialog" class="btn btn-default" >{CLOSE_LABEL}</button>
+            </form>
+        </div>
+        <section class="c-prompt__scripts"></section>
     </dialog>
-    <section class="il-prompt__scripts"></section>
+    <template>{ERROR_MESSAGE_BOX}</template>
 </div>

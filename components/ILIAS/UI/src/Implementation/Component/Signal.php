@@ -44,6 +44,15 @@ class Signal implements \ILIAS\UI\Component\Signal
         return $this->id;
     }
 
+    public function withOptions(array $options): static
+    {
+        $clone = clone $this;
+        foreach ($options as $key => $value) {
+            $clone->addOption($key, $value);
+        }
+        return $clone;
+    }
+
     public function getOptions(): array
     {
         return $this->options;

@@ -47,11 +47,12 @@ export default class AsyncRenderer {
    * root element.
    *
    * @param {URL|string} url
+   * @param {RequestInit} [request={}]
    * @returns {Promise<DocumentFragment>}
    * @throws {Error} if the request with fetch() failed.
    */
-  loadContent(url) {
-    return fetch(url.toString())
+  loadContent(url, request = {}) {
+    return fetch(url.toString(), request)
       .then((response) => response.text())
       .then((html) => this.#createElements(html))
       .then((elements) => createDocumentFragment(this.#document, elements))

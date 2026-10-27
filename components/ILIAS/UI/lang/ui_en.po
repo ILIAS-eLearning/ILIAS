@@ -170,6 +170,9 @@ msgstr "Collapse All"
 msgid "presentation_table_expand"
 msgstr "Expand All"
 
+msgid "prompt_request_error"
+msgstr "Something went wrong when loading the contents of this dialogue. Please try again later or contact your system administrators."
+
 msgid "rating_average"
 msgstr "Others rated %s of 5"
 
