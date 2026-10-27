@@ -104,7 +104,6 @@ class ilDownloadWorkspaceFolderBackgroundTask
         // move files from source dir to target directory
         $copy_job = $this->task_factory->createTask(ilCopyWorkspaceFilesToTempDirectoryJob::class, [$file_size_interaction]);
 
-        // Zip it
         $zip_job = $this->task_factory->createTask(ZipJob::class, [$copy_job]);
         $this->logger->debug('Moved files from source- to target-directory');
 

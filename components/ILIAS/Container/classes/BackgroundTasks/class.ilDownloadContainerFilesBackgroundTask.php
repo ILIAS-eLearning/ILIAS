@@ -89,29 +89,23 @@ class ilDownloadContainerFilesBackgroundTask
         $bucket->setUserId($this->user_id);
         $this->logger->debug('Created bucket and set the following user id: ' . $this->user_id);
 
-        // Copy Definition
         $definition = new CopyDefinition();
         $normalized_name = ilFileUtils::getASCIIFilename($this->getBucketTitle());
         $definition->setTempDir($normalized_name);
         $definition->setObjectRefIds($this->object_ref_ids);
         $this->logger->debug('Created copy definition and added the following tempdir: ' . $normalized_name);
 
-        // Collect all files by the definition and prevent duplicates
         $collect_job = $this->task_factory->createTask(CollectFilesJob::class, [$definition, $this->initiated_by_folder_action]);
         $this->logger->debug('Collected files based on the following object ids: ');
         $this->logger->dump($this->object_ref_ids);
 
-        // Check the FileSize
         $file_size_job = $this->task_factory->createTask(CheckSumOfFileSizesJob::class, [$collect_job]);
 
-        // Show problems with file-limit
         $file_size_interaction = $this->task_factory->createTask(SumOfFileSizesTooLargeInteraction::class, [$file_size_job]);
         $this->logger->debug('Determined the sum of all file sizes');
 
-        // move files from source dir to target directory
         $copy_job = $this->task_factory->createTask(CopyFilesToTempDirectoryJob::class, [$file_size_interaction]);
 
-        // Zip it
         $zip_job = $this->task_factory->createTask(ZipJob::class, [$copy_job]);
         $this->logger->debug('Moved files from source- to target-directory');
 
