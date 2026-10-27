@@ -42,4 +42,49 @@ class ilAssQuestionTypeTest extends assBaseTestCase
     {
         $this->assertInstanceOf(ilAssQuestionType::class, $this->object);
     }
+
+    public function testCompleteMissingPluginNameFillsEmptyPluginNameFromTypeTag(): void
+    {
+        $result = ilAssQuestionType::completeMissingPluginName([
+            'plugin' => true,
+            'plugin_name' => '',
+            'type_tag' => 'assExamplePluginQuestion',
+        ]);
+
+        $this->assertSame('assExamplePluginQuestion', $result['plugin_name']);
+    }
+
+    public function testCompleteMissingPluginNameFillsNullPluginNameFromTypeTag(): void
+    {
+        $result = ilAssQuestionType::completeMissingPluginName([
+            'plugin' => true,
+            'plugin_name' => null,
+            'type_tag' => 'assExamplePluginQuestion',
+        ]);
+
+        $this->assertSame('assExamplePluginQuestion', $result['plugin_name']);
+    }
+
+    public function testCompleteMissingPluginNameKeepsExistingPluginName(): void
+    {
+        $result = ilAssQuestionType::completeMissingPluginName([
+            'plugin' => true,
+            'plugin_name' => 'ExampleQuestionPlugin',
+            'type_tag' => 'assExamplePluginQuestion',
+        ]);
+
+        $this->assertSame('ExampleQuestionPlugin', $result['plugin_name']);
+    }
+
+    public function testCompleteMissingPluginNameDoesNotTouchNonPluginData(): void
+    {
+        $result = ilAssQuestionType::completeMissingPluginName([
+            'plugin' => false,
+            'plugin_name' => null,
+            'type_tag' => 'assSingleChoice',
+        ]);
+
+        $this->assertNull($result['plugin_name']);
+        $this->assertSame('assSingleChoice', $result['type_tag']);
+    }
 }

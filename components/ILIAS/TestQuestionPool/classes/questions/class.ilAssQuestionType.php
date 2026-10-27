@@ -104,8 +104,8 @@ class ilAssQuestionType
     public static function completeMissingPluginName(array $question_type_data): array
     {
         if ($question_type_data['plugin']
-            && $question_type_data['plugin_name'] !== null
-            && $question_type_data['plugin_name'] !== '') {
+            && ($question_type_data['plugin_name'] === null
+                || $question_type_data['plugin_name'] === '')) {
             $question_type_data['plugin_name'] = $question_type_data['type_tag'];
         }
 
