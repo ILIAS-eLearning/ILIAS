@@ -157,6 +157,12 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("SUBHEADLINE", $subheadline);
         }
 
+        foreach ($component->getTags() as $tag) {
+            $tpl->setCurrentBlock("tag");
+            $tpl->setVariable("TAG", $default_renderer->render($tag));
+            $tpl->parseCurrentBlock();
+        }
+
         foreach ($component->getImportantFields() as $label => $value) {
             $tpl->setCurrentBlock("important_field");
             if (is_string($label)) {

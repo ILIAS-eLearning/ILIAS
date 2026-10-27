@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Init;
 
+use ILIAS\KeyValueStorage\Services as KeyValueStorage;
 use ILIAS\WebDAV\Environment;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\FileDelivery\FileDeliveryServices;
@@ -146,7 +147,8 @@ class AllModernComponents implements \ILIAS\Component\EntryPoint
         protected Logging\Logger\DefaultConfigLoggerFactoryInterface $default_config_logger_factory,
         protected Logging\Config\ConfigInterface $logging_config,
         protected ConditionTypes $lso_condition_types,
-        protected \ILIAS\LTI\View $lti_view
+        protected \ILIAS\LTI\View $lti_view,
+        protected KeyValueStorage $key_value_storage
     ) {
     }
 
@@ -260,6 +262,7 @@ class AllModernComponents implements \ILIAS\Component\EntryPoint
         $DIC['logging.config'] = fn(): Logging\Config\ConfigInterface => $this->logging_config;
         $DIC[ConditionTypes::class] = fn(): ConditionTypes => $this->lso_condition_types;
         $DIC['lti'] = fn(): \ILIAS\LTI\View => $this->lti_view;
+        $DIC[KeyValueStorage::class] = fn(): KeyValueStorage => $this->key_value_storage;
     }
 
     public function getName(): string

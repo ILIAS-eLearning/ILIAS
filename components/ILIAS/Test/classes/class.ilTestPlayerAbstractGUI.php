@@ -1389,7 +1389,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         $header_block_builder = new ilTestQuestionHeaderBlockBuilder($this->lng);
         $header_block_builder->setHeaderMode($this->object->getTitleOutput());
-        $header_block_builder->setQuestionTitle($question_gui->getObject()->getTitleForHTMLOutput());
+        $header_block_builder->setQuestionTitle($question_gui->getObject()->getTitle());
         $header_block_builder->setQuestionPoints($question_gui->getObject()->getPoints());
         $header_block_builder->setQuestionPosition($this->test_sequence->getPositionOfSequence($sequence_element));
         $header_block_builder->setQuestionCount($this->test_sequence->getUserQuestionCount());

@@ -1441,7 +1441,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $question = $question_gui->getObject();
                 $question->setObjId($this->object->getId());
                 $question_gui->setObject($question);
-                $title = $question_gui->getObject()->getTitleForHTMLOutput();
+                $title = $question_gui->getObject()->getTitle();
                 if (!$title) {
                     $title = $this->lng->txt('new') . ': ' . $this->questionrepository->getForQuestionId(
                         $question_gui->getObject()->getId()
@@ -1474,7 +1474,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $question = $question_gui->getObject();
                 $question->setObjId($this->object->getId());
                 $question_gui->setObject($question);
-                $title = $this->object->getTitle() . ': ' . $question_gui->getObject()->getTitleForHTMLOutput();
+                $title = $this->object->getTitle() . ': ' . $question_gui->getObject()->getTitle();
                 if (!$title) {
                     $title = $this->lng->txt('new') . ': ' . $this->questionrepository->getForQuestionId(
                         $question_gui->getObject()->getId()

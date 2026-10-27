@@ -184,7 +184,10 @@ class ilObjTaxonomyGUI extends ilObject2GUI
 
         // show toolbar
         $ilToolbar->setFormAction($ilCtrl->getFormAction($this));
-        $ilToolbar->addFormButton($lng->txt("tax_create_node"), "createTaxNode");
+        $ilToolbar->addButton(
+            $lng->txt("tax_create_node"),
+            $ilCtrl->getLinkTarget($this, "createTaxNode")
+        );
 
         $ilToolbar->setCloseFormTag(false);
 

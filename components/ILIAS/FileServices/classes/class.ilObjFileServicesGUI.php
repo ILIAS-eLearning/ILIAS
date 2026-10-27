@@ -88,6 +88,12 @@ class ilObjFileServicesGUI extends ilObject2GUI
 
     protected function hasUserPermissionTo(string $str): bool
     {
+        // the ref_id comes from the request, permissions on another administration node
+        // must not grant access to the file services
+        if (ilObject::_lookupType($this->ref_id, true) !== ilObjFileServices::TYPE_FILE_SERVICES) {
+            return false;
+        }
+
         return $this->access->checkAccess($str, '', $this->ref_id);
     }
 

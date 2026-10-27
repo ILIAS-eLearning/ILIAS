@@ -47,4 +47,33 @@ class Renderer
 
         return $this->ui_factory->legacy()->content($tpl->get());
     }
+
+    /**
+     * Markup for a preview of the file, e.g. inside a modal. It is turned into a viewer by
+     * the component of getPreviewInitialisation(), which must be rendered along with it.
+     */
+    public function getPreviewMarkup(string $id, string $title): string
+    {
+        $tpl = new \ilTemplate('tpl.wopi_preview.html', true, true, 'components/ILIAS/WOPI');
+        $tpl->setVariable('ID', htmlspecialchars($id, ENT_QUOTES));
+        $tpl->setVariable(
+            'EDITOR_URL',
+            htmlspecialchars((string) $this->embedded_application->getActionLauncherURL(), ENT_QUOTES)
+        );
+        $tpl->setVariable('TOKEN', htmlspecialchars($this->embedded_application->getToken(), ENT_QUOTES));
+        $tpl->setVariable('TTL', (string) ((time() + $this->embedded_application->getTTL()) * 1000)); // in milliseconds
+        $tpl->setVariable('TITLE', htmlspecialchars($title, ENT_QUOTES));
+
+        return $tpl->get();
+    }
+
+    public function getPreviewInitialisation(string $preview_id): Component
+    {
+        $code = 'il.WOPI.preview(' . json_encode($preview_id, JSON_THROW_ON_ERROR) . ');';
+
+        // the id of the bound component is not used, the preview has an id of its own
+        return $this->ui_factory->legacy()->content('')->withOnLoadCode(
+            static fn($id): string => $code
+        );
+    }
 }

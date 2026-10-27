@@ -27,6 +27,12 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\UI\Component\Modal\LightboxImagePage;
 use ILIAS\ResourceStorage\Flavour\Definition\FitToSquare;
 use ILIAS\Modules\File\Preview\SettingsFactory;
+use ILIAS\WOPI\Discovery\ActionDBRepository;
+use ILIAS\WOPI\Discovery\Action;
+use ILIAS\WOPI\Embed\EmbeddedApplication;
+use ILIAS\WOPI\Embed\Renderer as WOPIRenderer;
+use ILIAS\File\Capabilities\Permissions;
+use ILIAS\Data\URI;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -35,6 +41,7 @@ class ilObjFilePreviewRendererGUI implements ilCtrlBaseClassInterface
 {
     public const P_RID = "rid";
     public const CMD_GET_ASYNC_MODAL = 'getAsyncModal';
+    public const CMD_GET_ASYNC_WOPI_MODAL = 'getAsyncWopiModal';
 
     /**
      * @readonly
@@ -95,6 +102,8 @@ class ilObjFilePreviewRendererGUI implements ilCtrlBaseClassInterface
      * @readonly
      */
     private FlavourDefinition $fallback_flavour_definition;
+    private ActionDBRepository $action_repository;
+    private string $suffix = '';
 
     public function __construct(
         private readonly ?int $object_id = null
@@ -116,6 +125,7 @@ class ilObjFilePreviewRendererGUI implements ilCtrlBaseClassInterface
         $this->access = $DIC->access();
         $this->language = $DIC->language();
         $this->language->loadLanguageModule('file');
+        $this->action_repository = new ActionDBRepository($this->db);
 
         $rid_string = $this->resolveRidString($this->object_id);
 
@@ -131,7 +141,9 @@ class ilObjFilePreviewRendererGUI implements ilCtrlBaseClassInterface
         );
         // Resolve File Name
         if ($this->rid !== null) {
-            $this->file_name = $this->irss->manage()->getCurrentRevision($this->rid)->getTitle();
+            $revision = $this->irss->manage()->getCurrentRevision($this->rid);
+            $this->file_name = $revision->getTitle();
+            $this->suffix = $revision->getInformation()->getSuffix();
         }
     }
 
@@ -143,19 +155,45 @@ class ilObjFilePreviewRendererGUI implements ilCtrlBaseClassInterface
         if ($this->rid === null) {
             return false;
         }
-        if (
-            !$this->irss->flavours()->possible(
-                $this->rid,
-                $this->flavour_definition
-            )
-            && !$this->irss->flavours()->possible(
-                $this->rid,
-                $this->fallback_flavour_definition
-            )
-        ) {
+        // the viewer of the WOPI client shows the actual file and wins over preview images
+        if (!$this->hasWopiPreview() && !$this->hasImagePreview()) {
             return false;
         }
         return $this->isAccessGranted();
+    }
+
+    private function hasImagePreview(): bool
+    {
+        return $this->irss->flavours()->possible($this->rid, $this->flavour_definition)
+            || $this->irss->flavours()->possible($this->rid, $this->fallback_flavour_definition);
+    }
+
+    /**
+     * Files the WOPI client can view are shown with its viewer instead of preview images, as
+     * long as the user may see the content of the file - the same permission the content
+     * tab of a file object asks for. Everyone else gets the preview images, if there are any.
+     */
+    private function hasWopiPreview(): bool
+    {
+        return $this->object_id !== null
+            && $this->rid !== null
+            && $this->getWopiViewAction() !== null
+            && $this->hasPermission((int) $this->object_id, Permissions::VIEW_CONTENT);
+    }
+
+    private function getWopiViewAction(): ?Action
+    {
+        return $this->suffix === '' ? null : $this->action_repository->getViewActionForSuffix($this->suffix);
+    }
+
+    private function hasPermission(int $object_id, Permissions $permission): bool
+    {
+        foreach (ilObject::_getAllReferences($object_id) as $ref_id) {
+            if ($this->access->checkAccess($permission->value, '', $ref_id)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public function getTriggerComponents(bool $as_standard_button = false): array
@@ -166,10 +204,18 @@ class ilObjFilePreviewRendererGUI implements ilCtrlBaseClassInterface
 
         $this->ctrl->setParameterByClass(self::class, self::P_RID, $this->rid->serialize());
 
+        $command = self::CMD_GET_ASYNC_MODAL;
+        if ($this->hasWopiPreview()) {
+            $command = self::CMD_GET_ASYNC_WOPI_MODAL;
+            // the modal is loaded asynchronously, so the script must be part of the page
+            global $DIC;
+            $DIC->ui()->mainTemplate()->addJavaScript('assets/js/wopi.min.js');
+        }
+
         $modal = $this->ui_factory->modal()
                                   ->lightbox([])
                                   ->withAsyncRenderUrl(
-                                      $this->ctrl->getLinkTargetByClass(self::class, self::CMD_GET_ASYNC_MODAL)
+                                      $this->ctrl->getLinkTargetByClass(self::class, $command)
                                   );
 
         if (!$as_standard_button) {
@@ -198,7 +244,7 @@ class ilObjFilePreviewRendererGUI implements ilCtrlBaseClassInterface
     {
         $cmd = $this->ctrl->getCmd();
         match ($cmd) {
-            self::CMD_GET_ASYNC_MODAL => $this->{$cmd}(),
+            self::CMD_GET_ASYNC_MODAL, self::CMD_GET_ASYNC_WOPI_MODAL => $this->{$cmd}(),
             default => throw new InvalidArgumentException('Command not found: ' . $cmd),
         };
     }
@@ -243,6 +289,65 @@ class ilObjFilePreviewRendererGUI implements ilCtrlBaseClassInterface
             }
         }
         return false;
+    }
+
+    /**
+     * The asynchronous request only knows the resource, the file object is looked up by it
+     * instead of trusting an object id from the request.
+     */
+    private function resolveObjectIdForResource(): ?int
+    {
+        $row = $this->db->fetchObject(
+            $this->db->queryF(
+                'SELECT file_id FROM file_data WHERE rid = %s',
+                ['text'],
+                [$this->rid->serialize()]
+            )
+        );
+        return $row === null ? null : (int) $row->file_id;
+    }
+
+    private function getAsyncWopiModal(): void
+    {
+        $object_id = $this->object_id ?? $this->resolveObjectIdForResource();
+        $action = $this->getWopiViewAction();
+        if (
+            $object_id === null
+            || $action === null
+            || !$this->hasPermission($object_id, Permissions::VIEW_CONTENT)
+        ) {
+            throw new LogicException('User cannot see this resource');
+        }
+
+        $renderer = new WOPIRenderer(
+            new EmbeddedApplication(
+                $this->rid,
+                $action,
+                new ilObjFileStakeholder(),
+                new URI(ILIAS_HTTP_PATH),
+                true,
+                $this->language->getLangKey(),
+                $this->hasPermission($object_id, Permissions::EDIT_CONTENT)
+            )
+        );
+
+        $id = 'wopi_preview_' . bin2hex(random_bytes(8));
+        $title = sprintf($this->language->txt('preview_caption'), '', $this->file_name);
+        $modal = $this->ui_factory->modal()->lightbox(
+            $this->ui_factory->modal()->lightboxTextPage(
+                $renderer->getPreviewMarkup($id, $title),
+                $title
+            )
+        );
+
+        // Send response and end script
+        $response = $this->http->response()->withBody(
+            Streams::ofString(
+                $this->ui_renderer->renderAsync([$modal, $renderer->getPreviewInitialisation($id)])
+            )
+        );
+        $this->http->saveResponse($response);
+        $this->http->sendResponse();
     }
 
     private function getAsyncModal(): void

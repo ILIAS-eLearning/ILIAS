@@ -80,7 +80,7 @@ class Printer
             $question_gui = $this->test_obj->createQuestionGUI('', $question_id);
             $question_gui->setRenderPurpose(\assQuestionGUI::RENDER_PURPOSE_PREVIEW);
 
-            $this->question_header_builder->setQuestionTitle($question_gui->getObject()->getTitleForHTMLOutput());
+            $this->question_header_builder->setQuestionTitle($question_gui->getObject()->getTitle());
             $this->question_header_builder->setQuestionPoints($question_gui->getObject()->getMaximumPoints());
             $this->question_header_builder->setQuestionPosition($counter);
             $template->setVariable('QUESTION_HEADER', $this->question_header_builder->getHTML());

@@ -229,6 +229,7 @@ class SubmissionManager
         } else {
             $team_id = 0;
         }
+        $log_team_id = $this->getTeamIdForLog($user_id, $team_id);
         $success = $this->repo->addLocalFile(
             $this->assignment->getExerciseId(),
             $this->ass_id,
@@ -240,9 +241,9 @@ class SubmissionManager
             $this->stakeholder
         );
 
-        if ($success && $team_id > 0) {
+        if ($success && $log_team_id > 0) {
             $this->domain->team()->writeLog(
-                $team_id,
+                $log_team_id,
                 \ilExAssignmentTeam::TEAM_LOG_ADD_FILE,
                 $filename
             );
@@ -278,6 +279,7 @@ class SubmissionManager
         } else {
             $team_id = 0;
         }
+        $log_team_id = $this->getTeamIdForLog($user_id, $team_id);
         $success = $this->repo->addUpload(
             $this->assignment->getExerciseId(),
             $this->ass_id,
@@ -289,9 +291,9 @@ class SubmissionManager
             $this->stakeholder
         );
 
-        if ($success && $team_id > 0) {
+        if ($success && $log_team_id > 0) {
             $this->domain->team()->writeLog(
-                $team_id,
+                $log_team_id,
                 \ilExAssignmentTeam::TEAM_LOG_ADD_FILE,
                 $filename
             );
@@ -335,6 +337,7 @@ class SubmissionManager
         } else {
             $team_id = 0;
         }
+        $log_team_id = $this->getTeamIdForLog($user_id, $team_id);
         $filenames = $this->repo->addZipUpload(
             $this->assignment->getExerciseId(),
             $this->ass_id,
@@ -345,11 +348,10 @@ class SubmissionManager
             $this->stakeholder,
             $this->remainingFilesAllowed($user_id)
         );
-        $this->log->debug("99");
-        if ($team_id > 0) {
+        if ($log_team_id > 0) {
             foreach ($filenames as $filename) {
                 $this->domain->team()->writeLog(
-                    $team_id,
+                    $log_team_id,
                     \ilExAssignmentTeam::TEAM_LOG_ADD_FILE,
                     $filename
                 );
@@ -357,6 +359,15 @@ class SubmissionManager
         }
 
         return count($filenames) > 0;
+    }
+
+    protected function getTeamIdForLog(int $user_id, int $team_id): int
+    {
+        if ($team_id > 0 || !$this->type->usesTeams()) {
+            return $team_id;
+        }
+
+        return (int) ($this->team->getTeamForMember($this->ass_id, $user_id) ?? 0);
     }
 
     public function deliverFile(

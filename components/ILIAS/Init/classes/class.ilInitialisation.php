@@ -1452,7 +1452,6 @@ class ilInitialisation
                 $_GET['offset'] = (int) $_GET['offset'];        // old code
             }
 
-            $GLOBALS["DIC"]["lti"]->init();
             self::initKioskMode($GLOBALS["DIC"]);
         }
     }

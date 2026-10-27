@@ -26,6 +26,7 @@ use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Implementation\Component\Signal;
 use ILIAS\UI\Component\Button\Button;
+use ILIAS\UI\Component\Button\Tag;
 use ILIAS\UI\Component\Dropdown\Dropdown;
 use ILIAS\UI\Component\Layout\Alignment\Block;
 use ILIAS\UI\Component\Symbol\Symbol;
@@ -45,6 +46,10 @@ class PresentationRow implements T\PresentationRow
     protected Signal $toggle_signal;
     private ?string $headline = null;
     private ?string $subheadline = null;
+    /**
+     * @var Tag[]
+     */
+    private array $tags = [];
     private array $important_fields = [];
     private Block $content;
     private ?string $further_fields_headline = null;
@@ -143,6 +148,24 @@ class PresentationRow implements T\PresentationRow
     public function getSubheadline(): ?string
     {
         return $this->subheadline;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function withTags(Tag ...$tags): static
+    {
+        $clone = clone $this;
+        $clone->tags = $tags;
+        return $clone;
+    }
+
+    /**
+     * @return Tag[]
+     */
+    public function getTags(): array
+    {
+        return $this->tags;
     }
 
     /**

@@ -12457,6 +12457,9 @@ div.alert ul {
   margin-top: 0;
   cursor: pointer;
 }
+.il-table-presentation-row .il-table-presentation-row-header .il-table-presentation-row-header-tags {
+  margin-bottom: 9px;
+}
 @media screen and (max-width: 768px) {
   .il-table-presentation-row .il-table-presentation-row-header {
     order: 1;

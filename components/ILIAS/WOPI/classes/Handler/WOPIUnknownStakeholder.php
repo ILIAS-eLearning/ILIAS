@@ -21,7 +21,12 @@ declare(strict_types=1);
 namespace ILIAS\WOPI\Handler;
 
 use ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
+/**
+ * Only used to store a revision of a resource without any stakeholder. It never grants access
+ * to the resource, this is up to the stakeholders owning it.
+ */
 class WOPIUnknownStakeholder extends AbstractResourceStakeholder
 {
     public function getId(): string
@@ -32,6 +37,12 @@ class WOPIUnknownStakeholder extends AbstractResourceStakeholder
     public function getOwnerOfNewResources(): int
     {
         return $this->default_owner;
+    }
+
+    #[\Override]
+    public function canBeAccessedByCurrentUser(ResourceIdentification $identification): bool
+    {
+        return false;
     }
 
 }

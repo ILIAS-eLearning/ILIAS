@@ -1129,11 +1129,12 @@ assessment#:#qst_lifecycle_outdated#:#Outdated
 assessment#:#qst_lifecycle_rejected#:#Rejected
 assessment#:#qst_lifecycle_review#:#To be Reviewed
 assessment#:#qst_lifecycle_sharable#:#Sharable
-assessment#:#qst_nested_nested_answers_off#:#No indents, just order
-assessment#:#qst_nested_nested_answers_on#:#Use indents in anwers
+assessment#:#qst_nested_nested_answers_off#:#Désactivé : ordre séquentiel uniquement
+assessment#:#qst_nested_nested_answers_on#:#Activé : les éléments de réponse peuvent être imbriqués (ordre hiérarchique)
 assessment#:#qst_nr_of_tries#:#Nombre de tentatives
 assessment#:#qst_preview_reset_msg#:#L'aperàçu a été réinitialisé.
-assessment#:#qst_use_nested_answers#:#Nested answers
+assessment#:#qst_use_nested_answers#:#Réponses imbriquées
+assessment#:#qst_use_nested_answers_info#:#Après avoir sélectionné « Réponses imbriquées », vous devez enregistrer la question. Le nouveau sous-onglet « Imbrication » apparaît alors en haut de l'écran ; il vous permet d'organiser les éléments de réponse selon la hiérarchie de votre choix.
 assessment#:#que_contains_unused_var#:#Le texte de la question contient une variable qui n'est utilisée dans aucune formule de réponse.
 assessment#:#question_browse_area_info#:#Veuillez sélectionner un objet à partir duquel vous souhaitez importer des questions.
 assessment#:#question_complete_title#:#Complete###26 08 2024 new variable
@@ -1284,7 +1285,7 @@ assessment#:#suggested_solution#:#Contenu pour Récapitulation
 assessment#:#suggested_solution_added_successfully#:#Vous avez ajouté une ressource avec succès !
 assessment#:#sync_question_to_pool#:#Synchronize Question###26 08 2024 new variable
 assessment#:#ta_resulttable_vc_mode_aria#:#switch question mode###31 10 2023 new variable
-assessment#:#tab_nest_answers#:#Nesting
+assessment#:#tab_nest_answers#:#Imbrication
 assessment#:#tax_filter#:#Taxonomie
 assessment#:#tax_filter_notax#:#Question sans taxinomie associée
 assessment#:#taxonomy_node_title#:#Taxonomy Node Title###28 10 2024 new variable
@@ -12870,7 +12871,6 @@ news#:#news_hide_news_block#:#Cacher de Bloc d'Actualités
 news#:#news_hide_news_block_info#:#Cache le bloc d'actualités pour les apprenants. Seules les personnes ayant des droits en écriture verront le bloc.
 news#:#news_hide_news_date#:#Date de Début
 news#:#news_hide_news_per_date#:#Afficher les Actualités Après
-news#:#news_hide_news_per_date_info#:#Seules les actualités plus récentes seront affichées.
 news#:#news_inactive_private_feed_info#:#Votre flux de nouvelles privées est désactivé. Veuillez définir un mot de passe dans les paramètres.
 news#:#news_internal_news#:#Actualités internes
 news#:#news_keep_minimal_x_items#:#Garder au moins x éléments
@@ -12903,8 +12903,6 @@ news#:#news_period_1_month#:#Mois dernier
 news#:#news_period_1_week#:#Semaine dernière
 news#:#news_period_1_year#:#Année dernière
 news#:#news_period_x_days#:#%s derniers jours
-news#:#news_period_x_months#:#%s derniers mois
-news#:#news_period_x_weeks#:#%s dernières semaines
 news#:#news_public_feed#:#Flux RSS Dédié
 news#:#news_public_feed_info#:#Si actif, une URL du flux d'actualités (RSS) distincte pour cet article est créée.
 news#:#news_really_delete_news#:#Voulez-vous vraiment supprimer cet article de nouvelles?

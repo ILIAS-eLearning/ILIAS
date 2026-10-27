@@ -64,7 +64,7 @@ abstract class BaseCheck implements Check
 
     protected function hasWopiAction(CheckHelpers $helpers, string $suffix, ActionTarget ...$action): bool
     {
-        return $helpers->action_repository->hasActionForSuffix($suffix, $action);
+        return $helpers->action_repository->hasActionForSuffix($suffix, ...$action);
     }
 
     public function hasWopiEditAction(CheckHelpers $helpers, string $suffix): bool

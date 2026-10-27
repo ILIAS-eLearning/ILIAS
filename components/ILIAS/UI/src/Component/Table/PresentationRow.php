@@ -24,6 +24,7 @@ use ILIAS\UI\Component\Triggerable;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Button\Button;
+use ILIAS\UI\Component\Button\Tag;
 use ILIAS\UI\Component\Dropdown\Dropdown;
 use ILIAS\UI\Component\Layout\Alignment\Block;
 use ILIAS\UI\Component\Symbol\Symbol;
@@ -44,6 +45,12 @@ interface PresentationRow extends Component, Triggerable
      * Get a row like this with the given subheadline.
      */
     public function withSubheadline(string $subheadline): self;
+
+    /**
+     * Get a row like this with Tags. The Tags are shown below the headline
+     * in the collapsed and in the expanded row; they are not part of the headline.
+     */
+    public function withTags(Tag ...$tags): static;
 
     /**
      * Get a row like this with the record-fields and labels

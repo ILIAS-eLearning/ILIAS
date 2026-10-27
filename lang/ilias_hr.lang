@@ -12885,7 +12885,6 @@ news#:#news_hide_news_block#:#Hide News Block
 news#:#news_hide_news_block_info#:#Hide block in learner's view. The news block will only be visible for users with write permission.
 news#:#news_hide_news_date#:#Starting Date
 news#:#news_hide_news_per_date#:#Show News After
-news#:#news_hide_news_per_date_info#:#Only news that are newer than a certain date will be displayed.
 news#:#news_inactive_private_feed_info#:#Your private news feed is deactivated. Please set a password in the settings.
 news#:#news_internal_news#:#News
 news#:#news_keep_minimal_x_items#:#Keeping Older Items
@@ -12918,8 +12917,6 @@ news#:#news_period_1_month#:#Last Month
 news#:#news_period_1_week#:#Last Week
 news#:#news_period_1_year#:#Last Year
 news#:#news_period_x_days#:#Last %s Days
-news#:#news_period_x_months#:#Last %s Months
-news#:#news_period_x_weeks#:#Last %s Weeks
 news#:#news_public_feed#:#Extra RSS Feed
 news#:#news_public_feed_info#:#If this option is enabled, a separate RSS feed is provided for this Mediacast.
 news#:#news_really_delete_news#:#Do you really want to delete this news item?

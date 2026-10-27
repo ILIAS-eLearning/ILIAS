@@ -157,9 +157,9 @@ class ActionDBRepository implements ActionRepository
     {
         $actions = [];
         foreach ($action_target as $target) {
-            $actions += $this->getActionsForTarget($target);
+            $actions[] = $this->getActionsForTarget($target);
         }
-        return $actions;
+        return array_merge(...$actions);
     }
 
     public function getSupportedSuffixes(ActionTarget ...$action_target): array
@@ -173,6 +173,75 @@ class ActionDBRepository implements ActionRepository
             $suffixes[] = $row['ext'];
         }
         return $suffixes;
+    }
+
+    /**
+     * Templates such as dotx are left out unless asked for: the editnew action of a template
+     * creates a file with another extension (newext).
+     */
+    public function getCreatableSuffixes(bool $with_templates = false): array
+    {
+        $suffixes = array_keys($this->getCreatableFormats($with_templates));
+        sort($suffixes);
+
+        return $suffixes;
+    }
+
+    public function getCreatableFormats(bool $with_templates = false): array
+    {
+        $formats = [];
+        foreach ($this->getEditNewFormats() as $suffix => $format) {
+            if ($with_templates || !$format['template']) {
+                $formats[$suffix] = $format['app'];
+            }
+        }
+        uksort(
+            $formats,
+            static fn(string $a, string $b): int => strnatcasecmp($formats[$a] . ' ' . $a, $formats[$b] . ' ' . $b)
+        );
+
+        return $formats;
+    }
+
+    public function getTemplateSuffixes(): array
+    {
+        $suffixes = array_keys(
+            array_filter(
+                $this->getEditNewFormats(),
+                static fn(array $format): bool => $format['template']
+            )
+        );
+        sort($suffixes);
+
+        return $suffixes;
+    }
+
+    /**
+     * @return array<string, array{app: string, template: bool}> by lowercased extension; an
+     *         extension which is offered as a regular format as well is not a template
+     */
+    private function getEditNewFormats(): array
+    {
+        $query = 'SELECT a.ext, a.target_ext, p.name app_name FROM ' . self::TABLE_NAME . ' a'
+            . ' LEFT JOIN wopi_app p ON p.id = a.app_id'
+            . ' WHERE a.name = %s';
+        $result = $this->db->queryF($query, ['text'], [ActionTarget::EDIT_NEW->value]);
+
+        $formats = [];
+        while ($row = $this->db->fetchAssoc($result)) {
+            $suffix = strtolower((string) $row['ext']);
+            $target = empty($row['target_ext']) ? null : strtolower((string) $row['target_ext']);
+            $template = $target !== null && $target !== $suffix;
+            if (isset($formats[$suffix]) && ($template || !$formats[$suffix]['template'])) {
+                continue;
+            }
+            $formats[$suffix] = [
+                'app' => (string) ($row['app_name'] ?? ''),
+                'template' => $template,
+            ];
+        }
+
+        return $formats;
     }
 
     public function getActionsForApp(App $app): array
@@ -194,7 +263,7 @@ class ActionDBRepository implements ActionRepository
             (string) $row['ext'],
             new URI((string) $row['urlsrc']),
             empty($row['url_appendix']) ? null : (string) $row['url_appendix'],
-            empty($row['target_text']) ? null : (string) $row['target_text']
+            empty($row['target_ext']) ? null : (string) $row['target_ext']
         );
     }
 
@@ -222,12 +291,18 @@ class ActionDBRepository implements ActionRepository
         }
 
         // check for existing action to update them
-        $query = 'SELECT * FROM ' . self::TABLE_NAME . ' WHERE name = %s AND ext = %s AND target_ext = %s';
-        $result = $this->db->queryF(
-            $query,
-            ['text', 'text', 'text'],
-            [$action->getName(), $action->getExtension(), $action->getTargetExtension()]
-        );
+        // most actions have no target extension, "target_ext = NULL" would never match them
+        $query = 'SELECT * FROM ' . self::TABLE_NAME . ' WHERE name = %s AND ext = %s';
+        $types = ['text', 'text'];
+        $values = [$action->getName(), strtolower($action->getExtension())];
+        if ($action->getTargetExtension() === null) {
+            $query .= ' AND target_ext IS NULL';
+        } else {
+            $query .= ' AND target_ext = %s';
+            $types[] = 'text';
+            $values[] = $action->getTargetExtension();
+        }
+        $result = $this->db->queryF($query, $types, $values);
 
         if ($this->db->numRows($result) > 0) {
             $row = $this->db->fetchAssoc($result);

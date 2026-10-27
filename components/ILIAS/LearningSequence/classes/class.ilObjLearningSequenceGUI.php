@@ -259,6 +259,8 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         $cmd = $this->ctrl->getCmd();
         $tpl = $this->tpl;
 
+        $this->redirectForeignItemToRepository($next_class, $cmd);
+
         parent::prepareOutput();
         $this->addToNavigationHistory();
         //showRepTree is from containerGUI;
@@ -326,17 +328,6 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
                 $gui->setType('lso');
                 $this->ctrl->forwardCommand($gui);
                 break;
-            case 'ilobjindividualassessmentgui':
-                $struct = ['ilrepositorygui', 'ilobjindividualassessmentgui'];
-                if ($cmd === 'edit') {
-                    $struct[] = 'ilindividualassessmentsettingsgui';
-                }
-                $this->ctrl->redirectByClass($struct, $cmd);
-                // no break
-            case 'ilobjtestgui':
-                $struct = ['ilrepositorygui', 'ilobjtestgui'];
-                $this->ctrl->redirectByClass($struct, $cmd);
-                // no break
             case 'ilobjlearningsequencelppollinggui':
                 $gui = $this->object->getLocalDI()["gui.learner.lp"];
                 $this->ctrl->forwardCommand($gui);
@@ -915,6 +906,27 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
     protected function checkAccess(string $which): bool
     {
         return $this->access->checkAccess($which, "", $this->ref_id);
+    }
+
+    /**
+     * Links to items of the sequence may be routed through this class, while ref_id
+     * already points to the item. Redirect before any output is prepared, since
+     * $this->object is not a learning sequence then.
+     * Handles the @ilCtrl_Calls targets ilObjIndividualAssessmentGUI and ilObjTestGUI,
+     * which therefore have no case in executeCommand().
+     */
+    protected function redirectForeignItemToRepository(?string $next_class, ?string $cmd): void
+    {
+        $struct = match ($next_class) {
+            'ilobjindividualassessmentgui' => $cmd === 'edit'
+                ? ['ilrepositorygui', 'ilobjindividualassessmentgui', 'ilindividualassessmentsettingsgui']
+                : ['ilrepositorygui', 'ilobjindividualassessmentgui'],
+            'ilobjtestgui' => ['ilrepositorygui', 'ilobjtestgui'],
+            default => null,
+        };
+        if ($struct !== null) {
+            $this->ctrl->redirectByClass($struct, $cmd);
+        }
     }
 
     protected function guardForwardAccess(string|false $next_class): void

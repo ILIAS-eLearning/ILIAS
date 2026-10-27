@@ -31,6 +31,8 @@ use ILIAS\components\File\Settings\General;
 use ILIAS\Refinery\String\Group;
 use ILIAS\Data\Factory;
 use ILIAS\WOPI\Discovery\ActionDBRepository;
+use ILIAS\WOPI\Discovery\ActionTarget;
+use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\WOPI\Embed\EmbeddedApplication;
 use ILIAS\Data\URI;
 use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
@@ -62,6 +64,10 @@ class ilObjFileGUI extends ilObject2GUI
     public const PARAM_TITLE = 'title';
     public const PARAM_DESCRIPTION = 'description';
     public const PARAM_COPYRIGHT_ID = "copyright_id";
+    public const PARAM_CREATION_MODE = 'creation_mode';
+    public const PARAM_FILE_TYPE = 'file_type';
+    public const CREATION_MODE_UPLOAD = 'upload';
+    public const CREATION_MODE_EMPTY = 'empty';
 
     public const PARAM_UPLOAD_ORIGIN = 'origin';
     public const UPLOAD_ORIGIN_STANDARD = 'standard';
@@ -94,7 +100,11 @@ class ilObjFileGUI extends ilObject2GUI
     protected ServerRequestInterface $request;
     protected Factory $data_factory;
     private ActionDBRepository $action_repo;
+    private bool $create_wopi_templates;
     protected LOMServices $lom_services;
+    private CapabilityBuilder $capability_builder;
+    private ?int $created_node_id = null;
+    private ?int $created_object_id = null;
 
     /**
      * Constructor
@@ -121,9 +131,10 @@ class ilObjFileGUI extends ilObject2GUI
         $this->request = $DIC->http()->request();
         $this->data_factory = new Factory();
         $this->action_repo = new ActionDBRepository($DIC->database());
+        $this->create_wopi_templates = $DIC->settings()->get('create_templates', '0') === '1';
         $this->lom_services = $DIC->learningObjectMetadata();
 
-        $capability_builder = new CapabilityBuilder(
+        $this->capability_builder = new CapabilityBuilder(
             new ilObjFileInfoRepository(),
             $this->access,
             $this->ctrl,
@@ -138,7 +149,7 @@ class ilObjFileGUI extends ilObject2GUI
             ($a_id_type === self::WORKSPACE_NODE_ID) ? Context::CONTEXT_WORKSPACE : Context::CONTEXT_REPO
         );
 
-        $this->capabilities = $capability_builder->get($capability_context);
+        $this->capabilities = $this->capability_builder->get($capability_context);
     }
 
     protected function recordReadEvent(): void
@@ -307,7 +318,10 @@ class ilObjFileGUI extends ilObject2GUI
                 }
                 $action = match ($capability->getCapability()) {
                     Capabilities::VIEW_EXTERNAL => $this->action_repo->getViewActionForSuffix($suffix),
-                    Capabilities::EDIT_EXTERNAL => $this->action_repo->getEditActionForSuffix($suffix),
+                    // a file without content is opened with the editnew action of the WOPI client
+                    Capabilities::EDIT_EXTERNAL => ($this->hasEmptyContent()
+                        ? $this->action_repo->getActionForSuffix($suffix, ActionTarget::EDIT_NEW)
+                        : null) ?? $this->action_repo->getEditActionForSuffix($suffix),
                     default => null
                 };
 
@@ -437,12 +451,6 @@ class ilObjFileGUI extends ilObject2GUI
         return $this->initUploadForm();
     }
 
-    #[\Override]
-    protected function getCreationFormTitle(): string
-    {
-        return $this->lng->txt('upload_files');
-    }
-
     public function initUploadForm(): Standard
     {
         $this->getLanguage()->loadLanguageModule('file');
@@ -456,7 +464,7 @@ class ilObjFileGUI extends ilObject2GUI
         );
 
 
-        $inputs[self::PARAM_FILES] = $this->ui->factory()->input()->field()->file(
+        $file_input = $this->ui->factory()->input()->field()->file(
             $this->upload_handler,
             $this->lng->txt('upload_files'),
             null,
@@ -476,6 +484,39 @@ class ilObjFileGUI extends ilObject2GUI
             self::UPLOAD_MAX_FILES
         )->withRequired(true);
 
+        $creatable_formats = $this->getCreatableFormatLabels();
+        if ($creatable_formats === []) {
+            $inputs[self::PARAM_FILES] = $file_input;
+        } else {
+            $field = $this->ui->factory()->input()->field();
+            $inputs[self::PARAM_CREATION_MODE] = $field->switchableGroup(
+                [
+                    self::CREATION_MODE_UPLOAD => $field->group(
+                        [self::PARAM_FILES => $file_input],
+                        $this->lng->txt('upload_files')
+                    ),
+                    self::CREATION_MODE_EMPTY => $field->group(
+                        [
+                            self::PARAM_FILE_TYPE => $field->select(
+                                $this->lng->txt('file_type'),
+                                $creatable_formats
+                            )->withRequired(true),
+                            self::PARAM_TITLE => $field->text(
+                                $this->lng->txt('title')
+                            )->withRequired(true),
+                            self::PARAM_DESCRIPTION => $field->textarea(
+                                $this->lng->txt('description')
+                            )->withAdditionalTransformation(
+                                $this->getEmptyStringToNullTransformation()
+                            ),
+                        ],
+                        $this->lng->txt('file_create_empty_document')
+                    ),
+                ],
+                $this->lng->txt('file_creation_mode')
+            )->withValue(self::CREATION_MODE_UPLOAD);
+        }
+
         if ($this->lom_services->copyrightHelper()->isCopyrightSelectionActive()) {
             $inputs[self::PARAM_COPYRIGHT_ID] = $this->getCopyrightSelectionInput('set_license_for_all_files');
         }
@@ -483,7 +524,42 @@ class ilObjFileGUI extends ilObject2GUI
         return $this->ui->factory()->input()->container()->form()->standard(
             $this->ctrl->getFormActionByClass(self::class, self::CMD_UPLOAD_FILES),
             $inputs
-        )->withSubmitLabel($this->lng->txt('upload_files'));
+        )->withSubmitLabel($this->lng->txt('create'));
+    }
+
+    /**
+     * @return string[] suffixes the WOPI client can create a new, empty document for
+     */
+    protected function getCreatableSuffixes(): array
+    {
+        return $this->action_repo->getCreatableSuffixes($this->create_wopi_templates);
+    }
+
+    /**
+     * @return array<string, string> suffix => label such as "Excel (.xlsx)", sorted by the app
+     */
+    protected function getCreatableFormatLabels(): array
+    {
+        $labels = [];
+        foreach ($this->action_repo->getCreatableFormats($this->create_wopi_templates) as $suffix => $app) {
+            $labels[$suffix] = $app === '' ? '.' . $suffix : sprintf('%s (.%s)', $app, $suffix);
+        }
+
+        return $labels;
+    }
+
+    protected function hasEmptyContent(): bool
+    {
+        $rid = $this->storage->manage()->find($this->object->getResourceId());
+        if ($rid === null) {
+            return false;
+        }
+
+        return $this->storage->manage()
+                             ->getResource($rid)
+                             ->getCurrentRevisionIncludingDraft()
+                             ->getInformation()
+                             ->getSize() === 0;
     }
 
     /**
@@ -509,7 +585,14 @@ class ilObjFileGUI extends ilObject2GUI
             $form = $this->initUploadForm()->withRequest($this->request);
             $data = $form->getData();
         }
-        $files = $data[self::PARAM_FILES] ?? $data[0] ?? null;
+
+        [$creation_mode, $creation_data] = $data[self::PARAM_CREATION_MODE] ?? [self::CREATION_MODE_UPLOAD, $data];
+        if ($creation_mode === self::CREATION_MODE_EMPTY) {
+            $this->createEmptyDocument($creation_data, $data[self::PARAM_COPYRIGHT_ID] ?? null);
+            return;
+        }
+
+        $files = $creation_data[self::PARAM_FILES] ?? $data[0] ?? null;
 
         if (empty($files)) {
             $form = $this->initUploadForm()->withRequest($this->request);
@@ -571,12 +654,63 @@ class ilObjFileGUI extends ilObject2GUI
         $this->ctrl->redirectToURL($link);
     }
 
+    /**
+     * Creates a file object with an empty file of the chosen type and opens it in the
+     * WOPI client, which then fills it using its editnew action.
+     */
+    protected function createEmptyDocument(array $data, ?string $copyright_id): void
+    {
+        $suffix = (string) $data[self::PARAM_FILE_TYPE];
+        if (!in_array($suffix, $this->getCreatableSuffixes(), true)) {
+            $this->error->raiseError($this->lng->txt("permission_denied"), $this->error->MESSAGE);
+        }
+        $title = trim((string) $data[self::PARAM_TITLE]);
+
+        $rid = $this->storage->manage()->stream(
+            Streams::ofString(''),
+            $this->stakeholder,
+            $title . '.' . $suffix
+        );
+
+        $processor = new ilObjFileProcessor(
+            $this->stakeholder,
+            $this,
+            $this->storage,
+            $this->file_service_settings
+        );
+        $processor->process($rid, $title, $data[self::PARAM_DESCRIPTION] ?? null, $copyright_id);
+
+        // the creation parameters must not end up in the link to the editor
+        $this->ctrl->clearParameterByClass(self::class, 'new_type');
+        $this->ctrl->clearParameterByClass(self::class, self::PARAM_UPLOAD_ORIGIN);
+        $edit = $this->capability_builder->get(
+            new Context(
+                (int) $this->created_object_id,
+                (int) $this->created_node_id,
+                ($this->id_type === self::WORKSPACE_NODE_ID) ? Context::CONTEXT_WORKSPACE : Context::CONTEXT_REPO
+            )
+        )->get(Capabilities::EDIT_EXTERNAL);
+
+        if ($edit !== false && $edit->isUnlocked() && $edit->getUri() !== null) {
+            $this->ctrl->redirectToURL((string) $edit->getUri());
+        }
+
+        $this->ctrl->redirectToURL(
+            match ($this->id_type) {
+                self::WORKSPACE_NODE_ID => $this->ctrl->getLinkTargetByClass(ilObjWorkspaceRootFolderGUI::class),
+                default => ilLink::_getLink($this->requested_ref_id),
+            }
+        );
+    }
+
     #[\Override]
     public function putObjectInTree(ilObject $obj, ?int $parent_node_id = null): void
     {
         // this is needed to support multi fileuploads in personal and shared resources
         $backup_node_id = $this->node_id;
         parent::putObjectInTree($obj, $parent_node_id);
+        $this->created_node_id = $this->node_id;
+        $this->created_object_id = $obj->getId();
         $this->node_id = $backup_node_id;
     }
 

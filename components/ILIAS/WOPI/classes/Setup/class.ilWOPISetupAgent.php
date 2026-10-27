@@ -52,6 +52,7 @@ class ilWOPISetupAgent implements Agent
             true,
             new ilDatabaseUpdateStepsExecutedObjective(new ilWOPIDB90()),
             new ilDatabaseUpdateStepsExecutedObjective(new ilWOPIDB100()),
+            new ilDatabaseUpdateStepsExecutedObjective(new ilWOPIDB120()),
         );
     }
 

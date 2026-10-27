@@ -12884,7 +12884,6 @@ news#:#news_hide_news_block#:#隐藏新闻区块
 news#:#news_hide_news_block_info#:#在学习者的视图中隐藏区块。新闻区域将仅有具备写权限的用户才可见
 news#:#news_hide_news_date#:#开始时间
 news#:#news_hide_news_per_date#:#Show News After
-news#:#news_hide_news_per_date_info#:#只有比一个确定日期更新的新闻才会被显示。
 news#:#news_inactive_private_feed_info#:#Your private news feed is deactivated. Please set a password in the settings.###07 11 2014 new variable
 news#:#news_internal_news#:#内部新闻
 news#:#news_keep_minimal_x_items#:#保持至少x项目
@@ -12917,8 +12916,6 @@ news#:#news_period_1_month#:#Last Month上个月
 news#:#news_period_1_week#:#Last Week上周
 news#:#news_period_1_year#:#Last Year去年
 news#:#news_period_x_days#:#前 %s 天
-news#:#news_period_x_months#:#前 %s 月
-news#:#news_period_x_weeks#:#前 %s 周
 news#:#news_public_feed#:#额外的 Feed URL
 news#:#news_public_feed_info#:#如果启用此选项，一个已分离的此项的新闻feed url已被提供。
 news#:#news_really_delete_news#:#Do you really want to delete this news item?###25 10 2016 new variable

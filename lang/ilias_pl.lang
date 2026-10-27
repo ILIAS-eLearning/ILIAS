@@ -12885,7 +12885,6 @@ news#:#news_hide_news_block#:#Ukryj blok wiadomości
 news#:#news_hide_news_block_info#:#Ukryj blok w widoku uczącego się. Blok wiadomości będzie widoczny tylko dla użytkowników z prawami do zapisu.
 news#:#news_hide_news_date#:#Data startowa
 news#:#news_hide_news_per_date#:#Pokaż nowości od daty
-news#:#news_hide_news_per_date_info#:#Pokazywane są tylko nowości od określonego dnia.
 news#:#news_inactive_private_feed_info#:#Twój osobisty feed jest wyłączony. Nadaj hasło w ustawieniach.
 news#:#news_internal_news#:#Wewnętrzne wiadomości
 news#:#news_keep_minimal_x_items#:#Zastrzegaj starsze posty
@@ -12918,8 +12917,6 @@ news#:#news_period_1_month#:#Z ostatniego miesiąca
 news#:#news_period_1_week#:#Ostatni tydzień
 news#:#news_period_1_year#:#Ostatni rok
 news#:#news_period_x_days#:#Ostanie %s dni
-news#:#news_period_x_months#:#Ostatnie % miesiące
-news#:#news_period_x_weeks#:#Ostatnie %s tygodnie
 news#:#news_public_feed#:#Ekstra Feed URL
 news#:#news_public_feed_info#:#Jeśli ta opcja jest wybrana, to jest wyznaczony oddzielny feed url dla tej pozycji.
 news#:#news_really_delete_news#:#Czy naprawdę chcesz usunąć ten wpis?

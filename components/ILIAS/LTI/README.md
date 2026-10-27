@@ -46,6 +46,7 @@ LTI/
 │   └── Setup/                Setup agent and database update steps
 ├── resources/                Endpoints
 ├── src/                      What the component provides to the others through the bootstrap (ILIAS\LTI\View)
+│   └── View/                 What the LTI view needs of services not in the bootstrap yet, with their legacy proxies
 └── templates/default/        Templates of LTI 1.1 are prefixed with tpl.lti1p1_
 ```
 
@@ -59,9 +60,9 @@ LTI/
 * **LTIAdvantage/Common**: only what the Advantage platform and tool roles both use.
 * **Administration**: the administration node (`ilObjLTIAdministration*`). Its screens serve LTI 1.1 and LTI Advantage.
 * **Tool**: ILIAS as the tool a platform launches. celtic/lti checks a launch of either version by its
-  data, so the launch (`ilLTILaunchReceiver`, `ilLTIDataConnector`), the login (`ilAuthProviderLTI`), the
-  LTI view (`ilLTIViewGUI`, which `LTI.php` provides as `ILIAS\LTI\View` and Init passes to the legacy
-  environment as `$DIC['lti']`), the releases of objects (`ilLTIProviderObjectSettingGUI`, `ilLTIRelease`) and
+  data, so the launch (`ilLTILaunchReceiver`, `ilLTIDataConnector`), the login (`ilLTILoginGUI`,
+  `ilAuthProviderLTI`), the LTI view (`ilLTIViewGUI`, which `LTI.php` provides as `ILIAS\LTI\View` and Init
+  passes to the legacy environment as `$DIC['lti']`; `ilLTIViewLayoutProvider` shapes its pages), the releases of objects (`ilLTIProviderObjectSettingGUI`, `ilLTIRelease`) and
   the learning progress sent back (`ilLTIAppEventListener`, `ilLTICronOutcomeService`) are shared. Only
   what a version adds on top goes to LTI1p1 or LTIAdvantage. Several of these names are fixed by the core:
   `ilAuthProviderLTI`, `ilAuthFrontendCredentialsLTI`, `ilLTIProviderObjectSettingGUI`,
@@ -104,7 +105,7 @@ the endpoints:
   default tool of the library, with its PEM key or key set URL. A launch starts the OpenID Connect login at
   the tool, which gets the id_token from `ltiauth.php`; the login waits in the session and is used once.
   Tools often ask `ltiauth.php` with a POST from their own site, which does not carry a SameSite=Lax cookie,
-  so the page that starts the launch sends the session cookie again as SameSite=None, as `ilStartUpGUI`
+  so the page that starts the launch sends the session cookie again as SameSite=None, as `ilLTILoginGUI`
   does for LTI sessions. An embedded launch also offers the platform storage of LTI (`Platform::getStorageJS()`
   of celtic/lti in the page around the iframe), for tools that cannot keep a cookie inside an iframe.
   `ltitoken.php` checks the client assertion of a tool and issues access tokens for the Assignment and

@@ -67,9 +67,10 @@ class GetFileInfoResponse extends Response
 
         parent::__construct([
             self::BASE_FILE_NAME => $title,
-            self::VERSION => $revision->getVersionNumber(),
-            self::OWNER_ID => $revision->getOwnerId(),
-            self::USER_ID => $current_user_id,
+            self::VERSION => (string) $revision->getVersionNumber(),
+            // the WOPI specification asks for strings
+            self::OWNER_ID => (string) $revision->getOwnerId(),
+            self::USER_ID => (string) $current_user_id,
             self::SIZE => $revision->getInformation()->getSize(),
             self::SUPPORTS_CONTAINERS => false,
             self::SUPPORTS_DELETE_FILE => false,
@@ -81,15 +82,18 @@ class GetFileInfoResponse extends Response
             self::USER_CAN_NOT_WRITE_RELATIVE => true,
             self::POST_MESSAGE_ORIGIN => $origin,
             self::CLOSE_BUTTON_CLOSES_WINDOW => false,
-            self::CLOSE_URL => '#',
             // ILIAS has no handler for the UI_Edit message, so it must not announce one:
             // clients offer a way into edit mode when EditModePostMessage is true, and
             // that button would do nothing here.
             self::EDIT_MODE_POST_MESSAGE => false,
             self::EDIT_NOTIFICATION_POST_MESSAGE => true,
-            self::CLOSE_POST_MESSAGE => true,
-            self::SUPPORTS_LOCKS => false,
-            self::SUPPORTS_GET_LOCK => false,
+            // ILIAS closes the client itself (mode info of the editor page, the modal of the
+            // preview) and has no handler for the UI_Close message. Without CloseUrl and
+            // ClosePostMessage clients do not show a close button of their own.
+            self::CLOSE_POST_MESSAGE => false,
+            self::SUPPORTS_LOCKS => true,
+            self::SUPPORTS_GET_LOCK => true,
+            self::SUPPORTS_EXTENDED_LOCK_LENGTH => true,
             self::USER_CAN_RENAME => false
         ]);
     }

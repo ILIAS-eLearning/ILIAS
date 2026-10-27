@@ -28,6 +28,7 @@ use ILIAS\WOPI\Discovery\AppDBRepository;
 use ILIAS\WOPI\Discovery\ActionDBRepository;
 use ILIAS\WOPI\Discovery\ActionRepository;
 use ILIAS\WOPI\Discovery\AppRepository;
+use ILIAS\WOPI\Discovery\ProofKeyRepository;
 use ILIAS\WOPI\Discovery\ActionTarget;
 use ILIAS\WOPI\Discovery\Action;
 
@@ -36,11 +37,12 @@ use ILIAS\WOPI\Discovery\Action;
  *
  * @ilCtrl_isCalledBy ilWOPIAdministrationGUI: ilObjFileServicesGUI
  */
-class ilWOPIAdministrationGUI
+class ilWOPIAdministrationGUI implements ilCtrlSecurityInterface
 {
     public const CMD_DEFAULT = "index";
     public const CMD_STORE = "store";
     public const CMD_SHOW = 'show';
+    private const TEMPLATES = 'templates';
     private ilCtrlInterface $ctrl;
     private ilAccessHandler $access;
     private Services $http;
@@ -78,9 +80,19 @@ class ilWOPIAdministrationGUI
         $this->ui_renderer = $DIC->ui()->renderer();
     }
 
+    public function getUnsafeGetCommands(): array
+    {
+        return [self::CMD_STORE];
+    }
+
+    public function getSafePostCommands(): array
+    {
+        return [];
+    }
+
     public function executeCommand(): void
     {
-        if (!$this->access->checkAccess("read", "", $this->ref_id)) {
+        if (!$this->hasAccess("read")) {
             $this->maint_tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirectByClass(ilObjFileServicesGUI::class);
         }
@@ -92,6 +104,17 @@ class ilWOPIAdministrationGUI
             self::CMD_STORE => $this->store(),
             default => throw new ilException("command not found: " . $cmd),
         };
+    }
+
+    /**
+     * The ref_id comes from the request, permissions on another administration node must not
+     * grant access to the settings of WOPI.
+     */
+    private function hasAccess(string $permission): bool
+    {
+        return $this->ref_id !== null
+            && ilObject::_lookupType($this->ref_id, true) === ilObjFileServices::TYPE_FILE_SERVICES
+            && $this->access->checkAccess($permission, "", $this->ref_id);
     }
 
     private function index(): void
@@ -106,6 +129,8 @@ class ilWOPIAdministrationGUI
                         $this->ui_factory->listing()->descriptive([
                             $this->lng->txt('action_edit') => implode(", ", $supported_suffixes[ActionTarget::EDIT->value]),
                             $this->lng->txt('action_view') => implode(", ", $supported_suffixes[ActionTarget::VIEW->value]),
+                            $this->lng->txt('action_editnew') => implode(", ", $supported_suffixes[ActionTarget::EDIT_NEW->value]),
+                            $this->lng->txt('action_editnew_templates') => implode(", ", $supported_suffixes[self::TEMPLATES]),
                         ])
                     )
                 )
@@ -115,7 +140,7 @@ class ilWOPIAdministrationGUI
 
         $form = new ilWOPISettingsForm(
             $this->settings,
-            $this->access->checkAccess("write", "", $this->ref_id)
+            $this->hasAccess("write")
         );
 
         $this->maint_tpl->setContent(
@@ -134,6 +159,8 @@ class ilWOPIAdministrationGUI
         return [
             ActionTarget::EDIT->value => $this->action_repo->getSupportedSuffixes(ActionTarget::EDIT),
             ActionTarget::VIEW->value => $this->action_repo->getSupportedSuffixes(ActionTarget::VIEW),
+            ActionTarget::EDIT_NEW->value => $this->action_repo->getCreatableSuffixes(),
+            self::TEMPLATES => $this->action_repo->getTemplateSuffixes(),
         ];
     }
 
@@ -159,29 +186,29 @@ class ilWOPIAdministrationGUI
 
     private function store(): void
     {
-        if (!$this->access->checkAccess("write", "", $this->ref_id)) {
+        if (!$this->hasAccess("write")) {
             $this->maint_tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirect($this, self::CMD_DEFAULT);
         }
 
         $form = new ilWOPISettingsForm(
             $this->settings,
-            $this->access->checkAccess("write", "", $this->ref_id)
+            $this->hasAccess("write")
         );
 
-        if ($form->proceed($this->http->request())) {
-            global $DIC;
-
+        if ($this->http->request()->getMethod() === 'POST' && $form->proceed($this->http->request())) {
             $this->maint_tpl->setOnScreenMessage('success', $this->lng->txt("msg_wopi_settings_modified"), true);
 
             // Crawl
             $discovery_url = $this->settings->get("wopi_discovery_url");
             if ($discovery_url === null) {
                 $this->app_repo->clear($this->action_repo);
+                (new ProofKeyRepository($this->settings))->clear();
             } else {
                 $apps = $this->crawler->crawl(new URI($discovery_url));
                 if ($apps !== null) {
                     $this->app_repo->storeCollection($apps, $this->action_repo);
+                    (new ProofKeyRepository($this->settings))->store($this->crawler->getProofKeys());
                 }
             }
 

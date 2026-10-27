@@ -96,6 +96,25 @@ class PresentationTest extends TableTestBase
             array("ff1" => "fv1"),
             $row->withFurtherFields(array("ff1" => "fv1"))->getFurtherFields()
         );
+        $this->assertEquals([], $row->getTags());
+    }
+
+    public function testRowWithTags(): void
+    {
+        $f = $this->getTableFactory();
+        $pt = $f->presentation('title', [], function (): void {
+        });
+        $row = new PresentationRow($pt->getSignalGenerator(), 'table_id');
+        [$tag_1] = $this->getTagStub('1');
+        [$tag_2] = $this->getTagStub('2');
+
+        $row_with_tags = $row->withTags($tag_1, $tag_2);
+
+        $this->assertNotSame($row, $row_with_tags);
+        $this->assertEquals([], $row->getTags());
+        $this->assertSame([$tag_1, $tag_2], $row_with_tags->getTags());
+        $this->assertSame([$tag_1], $row_with_tags->withTags($tag_1)->getTags());
+        $this->assertEquals([], $row_with_tags->withTags()->getTags());
     }
 
     public function getUIFactory(): NoUIFactory
@@ -315,6 +334,132 @@ EXP;
             $this->brutallyTrimHTML($expected),
             $this->brutallyTrimHTML($this->brutallyTrimSignals($actual))
         );
+    }
+
+    public function testRenderingWithOneTag(): void
+    {
+        [$tag, $tag_html] = $this->getTagStub('1');
+        $mapping = function ($row, $record, $ui_factory, $environment) use ($tag) {
+            return $row
+                ->withHeadline($record['headline'])
+                ->withTags($tag)
+                ->withContent((new I\Component\Listing\Descriptive($record['content'])));
+        };
+
+        $expected_tags = <<<EXP
+<div class="il-table-presentation-row-header-tags l-bar__container">
+    <div class="l-bar__space-keeper">
+        <div class="l-bar__element">$tag_html</div>
+    </div>
+</div>
+EXP;
+
+        $r = $this->getDefaultRenderer(null, [$tag]);
+        $f = $this->getTableFactory();
+        $pt = $f->presentation('title', [], $mapping);
+        $actual = $r->render($pt->withData($this->getDummyData()));
+        $this->assertEquals(
+            $this->brutallyTrimHTML($this->getExpectedMinimalRowWithTags($expected_tags)),
+            $this->brutallyTrimHTML($this->brutallyTrimSignals($actual))
+        );
+    }
+
+    public function testRenderingWithMultipleTags(): void
+    {
+        [$tag_1, $tag_1_html] = $this->getTagStub('1');
+        [$tag_2, $tag_2_html] = $this->getTagStub('2');
+        [$tag_3, $tag_3_html] = $this->getTagStub('3');
+        $mapping = function ($row, $record, $ui_factory, $environment) use ($tag_1, $tag_2, $tag_3) {
+            return $row
+                ->withHeadline($record['headline'])
+                ->withTags($tag_1, $tag_2, $tag_3)
+                ->withContent((new I\Component\Listing\Descriptive($record['content'])));
+        };
+
+        $expected_tags = <<<EXP
+<div class="il-table-presentation-row-header-tags l-bar__container">
+    <div class="l-bar__space-keeper">
+        <div class="l-bar__element">$tag_1_html</div>
+        <div class="l-bar__element">$tag_2_html</div>
+        <div class="l-bar__element">$tag_3_html</div>
+    </div>
+</div>
+EXP;
+
+        $r = $this->getDefaultRenderer(null, [$tag_1, $tag_2, $tag_3]);
+        $f = $this->getTableFactory();
+        $pt = $f->presentation('title', [], $mapping);
+        $actual = $r->render($pt->withData($this->getDummyData()));
+        $this->assertEquals(
+            $this->brutallyTrimHTML($this->getExpectedMinimalRowWithTags($expected_tags)),
+            $this->brutallyTrimHTML($this->brutallyTrimSignals($actual))
+        );
+    }
+
+    /** @return array{0: C\Button\Tag, 1: string} */
+    protected function getTagStub(string $id): array
+    {
+        $stub = $this->createStub(C\Button\Tag::class);
+        $html = sha1(C\Button\Tag::class . $id);
+        $stub->method('getCanonicalName')->willReturn($html);
+        return [$stub, $html];
+    }
+
+    protected function getExpectedMinimalRowWithTags(string $expected_tags): string
+    {
+        return <<<EXP
+<div class="il-table-presentation" id="id_3">
+    <h3 class="ilHeader">title</h3>
+    <div class="il-table-presentation-viewcontrols">
+        <div class="l-bar__space-keeper l-bar__space-keeper--space-between">
+            <div class="l-bar__group">
+                <div class="l-bar__element">
+                    <button class="btn btn-default" id="id_1">presentation_table_expand</button>
+                    <button class="btn btn-default" id="id_2">presentation_table_collapse</button>
+                </div>
+            </div>
+            <div class="l-bar__group"></div>
+        </div>
+    </div>
+    <div class="il-table-presentation-data">
+        <div class="il-table-presentation-row row collapsed" id="id_4">
+            <div class="il-table-presentation-row-controls col-lg-auto col-sm-12">
+                <div class="il-table-presentation-row-controls-expander inline">
+                    <button class="btn btn-link" aria-label="expand_content" id="id_5"><span class="glyph" aria-hidden="true"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></span></button>
+                </div>
+                <div class="il-table-presentation-row-controls-collapser">
+                    <button class="btn btn-link" aria-label="collapse_content" id="id_6"><span class="glyph" aria-hidden="true"><span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span></span></button>
+                </div>
+            </div>
+            <div class="il-table-presentation-row-contents col-lg col-sm-12">
+                <div class="row">
+                    <div class="il-table-presentation-row-header col-lg col-sm-12">
+                        <h4 class="il-table-presentation-row-header-headline" onClick="$(document).trigger('il_signal...');">some title</h4>
+                        $expected_tags
+                        <div class="il-table-presentation-row-header-fields">
+                            <dl></dl>
+                            <button class="btn btn-link" id="id_7">presentation_table_more</button>
+                        </div>
+                    </div>
+                    <div class="il-table-presentation-actions col-lg-auto col-sm-12"></div>
+                    <div class="il-table-presentation-row-expanded col-lg-12 col-sm-12">
+                        <div class="row">
+                            <div class="il-table-presentation-desclist col-lg col-sm-12">
+                                <dl>
+                                    <dt>1st</dt>
+                                    <dd>first content</dd>
+                                    <dt>2nd</dt>
+                                    <dd>second content</dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+EXP;
     }
 
     public function testRenderEmptyTableEntry(): void

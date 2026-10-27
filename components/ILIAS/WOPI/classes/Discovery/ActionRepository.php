@@ -64,6 +64,21 @@ interface ActionRepository
 
     public function getSupportedSuffixes(ActionTarget ...$action_target): array;
 
+    /**
+     * @return string[] suffixes a new, empty document can be created for, sorted
+     */
+    public function getCreatableSuffixes(bool $with_templates = false): array;
+
+    /**
+     * @return array<string, string> suffix => name of the app creating it, sorted by the name
+     */
+    public function getCreatableFormats(bool $with_templates = false): array;
+
+    /**
+     * @return string[] suffixes of templates such as dotx a new document can be created for, sorted
+     */
+    public function getTemplateSuffixes(): array;
+
     public function clearSuperfluous(Action ...$actions): void;
 
     public function store(Action $action, App $for_app): void;

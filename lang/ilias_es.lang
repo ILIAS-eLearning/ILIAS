@@ -12946,7 +12946,6 @@ news#:#news_hide_news_block#:#Ocultar bloque de noticias
 news#:#news_hide_news_block_info#:#Ocultar el bloque en la vista del alumno. El bloque de noticias sólo será visible para los usuarios con permiso de escritura.
 news#:#news_hide_news_date#:#Fecha de inicio
 news#:#news_hide_news_per_date#:#Mostrar noticias después de
-news#:#news_hide_news_per_date_info#:#Sólo se mostrarán las noticias posteriores a una fecha determinada.
 news#:#news_inactive_private_feed_info#:#Su canal de noticias privado está desactivado. Por favor, establezca una contraseña en la configuración.
 news#:#news_internal_news#:#Noticias
 news#:#news_keep_minimal_x_items#:#Mantener elementos antiguos
@@ -12980,8 +12979,6 @@ news#:#news_period_1_month#:#Último mes
 news#:#news_period_1_week#:#Última semana
 news#:#news_period_1_year#:#Último año
 news#:#news_period_x_days#:#Últimos %s días
-news#:#news_period_x_months#:#Últimos %s meses
-news#:#news_period_x_weeks#:#Últimas %s semanas
 news#:#news_public_feed#:#Canal RSS adicional
 news#:#news_public_feed_info#:#Si esta opción está activada, se proporcionará un botón de canal RSS independiente.
 news#:#news_really_delete_news#:#¿Realmente desea eliminar esta noticia?

@@ -12885,7 +12885,6 @@ news#:#news_hide_news_block#:#Peida uudiste plokk
 news#:#news_hide_news_block_info#:#Peida plekk õppurite vaates. Uudiste plokk on nähtav vaid kirjutamisõigustega kasutajatele.
 news#:#news_hide_news_date#:#Algusaeg
 news#:#news_hide_news_per_date#:#Näita uudiseid pärast
-news#:#news_hide_news_per_date_info#:#Kuvatakse vaid uudised, mis on vanemad kui teatud kuupäev.
 news#:#news_inactive_private_feed_info#:#Your private news feed is deactivated. Please set a password in the settings.
 news#:#news_internal_news#:#Uudised
 news#:#news_keep_minimal_x_items#:#Keep at least x items
@@ -12918,8 +12917,6 @@ news#:#news_period_1_month#:#Eelmine kuu
 news#:#news_period_1_week#:#Eelmine nädal
 news#:#news_period_1_year#:#Eelmine aasta
 news#:#news_period_x_days#:#Viimased %s päeva
-news#:#news_period_x_months#:#Viimased %s kuud
-news#:#news_period_x_weeks#:#Viimased %s nädalat
 news#:#news_public_feed#:#Extra RSS voog
 news#:#news_public_feed_info#:#Antud valiku võimaldamisel luuakse selle meedialevi jaoks eraldi RSS voog.
 news#:#news_really_delete_news#:#Do you really want to delete this news item?###25 10 2016 new variable

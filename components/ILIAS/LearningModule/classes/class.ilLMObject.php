@@ -275,7 +275,7 @@ class ilLMObject
 
         $ilDB = $DIC->database();
 
-        $a_title = ilStr::substr($a_title, 0, 200);
+        $a_title = ilStr::subStr($a_title, 0, 200);
 
         $query = "UPDATE lm_data SET " .
             " title = " . $ilDB->quote($a_title, "text") .
@@ -372,13 +372,14 @@ class ilLMObject
     public function create(bool $a_upload = false): void
     {
         $ilDB = $this->db;
+        $title = ilStr::subStr($this->getTitle(), 0, 200);
 
         // insert object data
         $this->setId($ilDB->nextId("lm_data"));
         $query = "INSERT INTO lm_data (obj_id, title, type, layout, lm_id, import_id, short_title, create_date) " .
             "VALUES (" .
             $ilDB->quote($this->getId(), "integer") . "," .
-            $ilDB->quote($this->getTitle(), "text") . "," .
+            $ilDB->quote($title, "text") . "," .
             $ilDB->quote($this->getType(), "text") . ", " .
             $ilDB->quote($this->getLayout(), "text") . ", " .
             $ilDB->quote($this->getLMId(), "integer") . "," .
@@ -395,12 +396,13 @@ class ilLMObject
     public function update(): void
     {
         $ilDB = $this->db;
+        $title = ilStr::subStr($this->getTitle(), 0, 200);
 
         $this->updateMetaData();
 
         $query = "UPDATE lm_data SET " .
             " lm_id = " . $ilDB->quote($this->getLMId(), "integer") .
-            " ,title = " . $ilDB->quote($this->getTitle(), "text") .
+            " ,title = " . $ilDB->quote($title, "text") .
             " ,short_title = " . $ilDB->quote($this->getShortTitle(), "text") .
             " ,layout = " . $ilDB->quote($this->getLayout(), "text") .
             " WHERE obj_id = " . $ilDB->quote($this->getId(), "integer");

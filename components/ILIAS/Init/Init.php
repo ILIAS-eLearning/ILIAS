@@ -175,7 +175,8 @@ class Init implements Component\Component
                 $use[Logging\Logger\DefaultConfigLoggerFactoryInterface::class],
                 $use[Logging\Config\ConfigInterface::class],
                 $use[ConditionTypes::class],
-                $use[\ILIAS\LTI\View::class]
+                $use[\ILIAS\LTI\View::class],
+                $use[\ILIAS\KeyValueStorage\Services::class]
             );
     }
 }

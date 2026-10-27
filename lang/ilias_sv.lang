@@ -12885,7 +12885,6 @@ news#:#news_hide_news_block#:# Dölj blocket "Nyheter"
 news#:#news_hide_news_block_info#:#Dölj blocket i elevvyn. Blocket "Nyheter" kommer endast att vara synligt för användare med skrivbehörighet.
 news#:#news_hide_news_date#:#Startdatum
 news#:#news_hide_news_per_date#:#Visa nyheter från datum
-news#:#news_hide_news_per_date_info#:#Endast nyheter från ett visst datum visas.
 news#:#news_inactive_private_feed_info#:#Ditt privata nyhetsflöde är avaktiverat. Ange ett lösenord i inställningarna.
 news#:#news_internal_news#:#Nyheter
 news#:#news_keep_minimal_x_items#:#Håll kvar äldre poster
@@ -12918,8 +12917,6 @@ news#:#news_period_1_month#:#Förra månaden
 news#:#news_period_1_week#:#Förra veckan
 news#:#news_period_1_year#:#Förra året
 news#:#news_period_x_days#:#Senaste %s dagar
-news#:#news_period_x_months#:#Senaste %s månader
-news#:#news_period_x_weeks#:#Senaste %s veckor
 news#:#news_public_feed#:#Own webfeed
 news#:#news_public_feed_info#:#En RSS-ikon med en separat URL för webbflödet visas.
 news#:#news_really_delete_news#:#Bör detta inlägg verkligen raderas?
