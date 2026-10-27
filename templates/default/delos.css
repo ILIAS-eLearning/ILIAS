@@ -15973,15 +15973,13 @@ div#right_bottom_area iframe {
   float: none;
 }
 
+.ilLSOKioskModeContent {
+  --lso-player-dead-end-main-color: #4c6586;
+  --lso-player-dead-end-warning-color: #B54F00;
+  --lso-player-dead-end-border-color: #dddddd;
+}
 .ilLSOKioskModeContent .panel-primary .panel-heading {
   display: none;
-}
-
-.ilLSOKioskModeCurriculum {
-  background-color: #f9f9f9;
-}
-.ilLSOKioskModeCurriculum .il-workflow-container {
-  padding: 5px;
 }
 
 /* intro page */
@@ -19396,14 +19394,12 @@ p#copg-auto-save {
   padding: 3px;
 }
 
-.copg-new-content-placeholder,
-.copg-content-placeholder-lso-curriculum {
+.copg-new-content-placeholder {
   text-align: center;
   color: rgb(111.25, 111.25, 111.25);
   padding: 20px;
 }
-.copg-new-content-placeholder .icon,
-.copg-content-placeholder-lso-curriculum .icon {
+.copg-new-content-placeholder .icon {
   filter: invert(50%);
 }
 

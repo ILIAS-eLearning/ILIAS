@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
-class LearningSequence implements Component\Component
+class LearningSequence implements \ILIAS\Component\Component
 {
     public function init(
         array | \ArrayAccess &$define,
@@ -32,9 +32,56 @@ class LearningSequence implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
+        $define[] = \ILIAS\LearningSequence\Content\Condition\ConditionTypes::class;
+
+        $implement[\ILIAS\LearningSequence\Content\Condition\ConditionTypes::class] = static fn() =>
+            $internal[\ILIAS\LearningSequence\Content\Condition\ConditionTypeRegistry::class];
+
         $contribute[\ILIAS\Setup\Agent::class] = static fn() =>
             new \ilLearningSequenceSetupAgent(
-                $pull[\ILIAS\Refinery\Factory::class]
+                $pull[\ILIAS\Refinery\Factory::class],
+                $internal[\ILIAS\LearningSequence\Content\Condition\ConditionTypeRegistry::class]
+            );
+
+        $contribute[\ILIAS\LearningSequence\Content\Condition\ConditionType::class] = static fn() =>
+            new \ILIAS\LearningSequence\Content\Condition\ConditionTypeDefinition(
+                \ILIAS\LearningSequence\Content\Condition\InputCondition\PointsInputCondition\PointsInputCondition::class
+            );
+        $contribute[\ILIAS\LearningSequence\Content\Condition\ConditionType::class] = static fn() =>
+            new \ILIAS\LearningSequence\Content\Condition\ConditionTypeDefinition(
+                \ILIAS\LearningSequence\Content\Condition\InputCondition\SubsetInputCondition\SubsetInputCondition::class
+            );
+        $contribute[\ILIAS\LearningSequence\Content\Condition\ConditionType::class] = static fn() =>
+            new \ILIAS\LearningSequence\Content\Condition\ConditionTypeDefinition(
+                \ILIAS\LearningSequence\Content\Condition\InputCondition\LogicGateInputAwareCondition::class
+            );
+        $contribute[\ILIAS\LearningSequence\Content\Condition\ConditionType::class] = static fn() =>
+            new \ILIAS\LearningSequence\Content\Condition\ConditionTypeDefinition(
+                \ILIAS\LearningSequence\Content\Condition\InputCondition\LearningProgressInputConditions\LearningProgressInputAwareCondition::class
+            );
+        $contribute[\ILIAS\LearningSequence\Content\Condition\ConditionType::class] = static fn() =>
+            new \ILIAS\LearningSequence\Content\Condition\ConditionTypeDefinition(
+                \ILIAS\LearningSequence\Content\Condition\OutputCondition\AlwaysOutputCondition\AlwaysOutputCondition::class
+            );
+        $contribute[\ILIAS\LearningSequence\Content\Condition\ConditionType::class] = static fn() =>
+            new \ILIAS\LearningSequence\Content\Condition\ConditionTypeDefinition(
+                \ILIAS\LearningSequence\Content\Condition\OutputCondition\PointsOutputCondition\PointsOutputCondition::class
+            );
+        $contribute[\ILIAS\LearningSequence\Content\Condition\ConditionType::class] = static fn() =>
+            new \ILIAS\LearningSequence\Content\Condition\ConditionTypeDefinition(
+                \ILIAS\LearningSequence\Content\Condition\OutputCondition\LearningProgressOutputConditions\LearningProgressOutputAwareCondition::class
+            );
+
+        $contribute[\ILIAS\Component\Resource\PublicAsset::class] = fn() =>
+            new \ILIAS\Component\Resource\ComponentJS($this, "js/lso_learning_map.js");
+        $contribute[\ILIAS\Component\Resource\PublicAsset::class] = fn() =>
+            new \ILIAS\Component\Resource\ComponentCSS($this, "css/lso_learning_map.css");
+        $contribute[\ILIAS\Component\Resource\PublicAsset::class] = fn() =>
+            new \ILIAS\Component\Resource\ComponentCSS($this, "css/lso_player.css");
+
+        $internal[\ILIAS\LearningSequence\Content\Condition\ConditionTypeRegistry::class] = static fn() =>
+            new \ILIAS\LearningSequence\Content\Condition\ConditionTypeRegistry(
+                $seek[\ILIAS\LearningSequence\Content\Condition\ConditionType::class]
             );
     }
 }

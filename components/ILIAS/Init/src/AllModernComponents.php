@@ -39,6 +39,7 @@ use ILIAS\FileUpload\FileUpload as FileUploadInterface;
 use ILIAS\Environment\Configuration\Installation\IliasIni;
 use ILIAS\Environment\Configuration\Installation\ClientIni;
 use ILIAS\StaticURL\StaticURLServices;
+use ILIAS\LearningSequence\Content\Condition\ConditionTypes;
 use ILIAS\AccessControl\PublicInterface\Access;
 use ILIAS\AccessControl\PublicInterface\RBAC;
 use ILIAS\DI\RBACServices;
@@ -145,6 +146,7 @@ class AllModernComponents implements \ILIAS\Component\EntryPoint
         protected Logging\Logger\LoggerFactoryInterface $logger_factory,
         protected Logging\Logger\DefaultConfigLoggerFactoryInterface $default_config_logger_factory,
         protected Logging\Config\ConfigInterface $logging_config,
+        protected ConditionTypes $lso_condition_types,
         protected \ILIAS\LTI\View $lti_view,
         protected KeyValueStorage $key_value_storage
     ) {
@@ -258,6 +260,7 @@ class AllModernComponents implements \ILIAS\Component\EntryPoint
         $DIC['logging.factory'] = fn(): Logging\Logger\LoggerFactoryInterface => $this->logger_factory;
         $DIC['logging.defaultConfigFactory'] = fn(): Logging\Logger\DefaultConfigLoggerFactoryInterface => $this->default_config_logger_factory;
         $DIC['logging.config'] = fn(): Logging\Config\ConfigInterface => $this->logging_config;
+        $DIC[ConditionTypes::class] = fn(): ConditionTypes => $this->lso_condition_types;
         $DIC['lti'] = fn(): \ILIAS\LTI\View => $this->lti_view;
         $DIC[KeyValueStorage::class] = fn(): KeyValueStorage => $this->key_value_storage;
     }

@@ -1,0 +1,38 @@
+<!--
+  Markup of the learning map, filled by LSOLearningMapRenderer.
+  The layout and the drawing is done by assets/js/lso_learning_map.js, which
+  reads the graph from the json block at the end of the container.
+
+  Accessibility: the boxes are drawn into an ordered list in learning order
+  (see drawNodes()), the summary below is filled by the script and describes
+  the map as a whole; the drawn edges are decoration for the screen reader -
+  their information ("leads to ...") is part of every list entry.
+-->
+<div class="lso-learning-map{MAP_MODIFIER}" id="{MAP_ID}" data-lso-learning-map>
+    <div class="lso-learning-map__toolbar">{TOOLBAR}</div>
+    <div class="lso-learning-map__legend">
+        <!-- BEGIN legend_item -->
+        <span class="lso-learning-map__legend-item">
+            <i class="lso-learning-map__swatch lso-learning-map__swatch--{LEGEND_MODIFIER}" aria-hidden="true"></i>{LEGEND_LABEL}
+        </span>
+        <!-- END legend_item -->
+        <!-- BEGIN legend_glyph_item -->
+        <span class="lso-learning-map__legend-item lso-learning-map__legend-item--glyph"
+              data-lso-learning-map-legend-glyph="{LEGEND_GLYPH_KEY}">
+            <span class="lso-learning-map__glyph lso-learning-map__glyph--{LEGEND_GLYPH_KEY}">{LEGEND_GLYPH}</span>{LEGEND_GLYPH_LABEL}
+        </span>
+        <!-- END legend_glyph_item -->
+    </div>
+    <p class="lso-learning-map__summary lso-learning-map__sr-only" id="{MAP_ID}_summary"
+       data-lso-learning-map-summary></p>
+    <div class="lso-learning-map__viewport" tabindex="0" role="group"
+         aria-label="{VIEWPORT_LABEL}" aria-describedby="{MAP_ID}_summary">
+        <div class="lso-learning-map__canvas">
+            <svg class="lso-learning-map__edges" xmlns="http://www.w3.org/2000/svg"
+                 aria-hidden="true" focusable="false"></svg>
+            <ol class="lso-learning-map__nodes"></ol>
+        </div>
+    </div>
+    <p class="lso-learning-map__sr-only" aria-live="polite" data-lso-learning-map-live></p>
+    <script type="application/json" data-lso-learning-map-data>{MAP_DATA}</script>
+</div>

@@ -21,13 +21,16 @@ declare(strict_types=1);
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Component\Component;
-use ILIAS\UI\Component\Listing\Workflow\Workflow;
 use ILIAS\UI\Component\MainControls\Slate\Slate;
+use ILIAS\UI\Component\Button\Bulky;
+use ILIAS\UI\Component\Modal\RoundTrip;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
 use ILIAS\GlobalScreen\Scope\Layout\MetaContent\MetaContent;
 
 class ilKioskPageRenderer
 {
+    public const LEARNING_MAP_LABEL = 'learning_map';
+
     protected MetaContent $layout_meta_content;
     protected Factory $ui_factory;
     protected Renderer $ui_renderer;
@@ -57,16 +60,35 @@ class ilKioskPageRenderer
         $this->window_base_title = $window_base_title;
     }
 
-    public function buildCurriculumSlate(Workflow $curriculum): Slate
+    /**
+     * The learning map entry of the main bar. There used to be a slate here
+     * (holding the curriculum); now the entry is a plain button that opens the
+     * map in a modal - the modal has to be rendered along with the page.
+     *
+     * @return array{0: Bulky, 1: RoundTrip} the main bar entry and its modal
+     */
+    public function buildLearningMapEntry(string $map_html): array
     {
         $f = $this->ui_factory;
-        return $this->ui_factory->maincontrols()->slate()->legacy(
-            $this->lng->txt('lso_mainbar_button_label_curriculum'),
-            $f->symbol()->icon()->standard("lso", "Learning Sequence"),
-            $this->ui_factory->legacy()->content(
-                $this->ui_renderer->render($curriculum)
-            )
+        // one single modal for both operation modes: its size is set by the
+        // script of the map, which measures the map and writes the measures
+        // onto the dialog element (see sizeModal() in lso_learning_map.js).
+        // The wrapper is only the marker the script and the css look for.
+        $modal = $f->modal()->roundtrip(
+            $this->lng->txt(self::LEARNING_MAP_LABEL),
+            [
+                $f->legacy()->content(
+                    '<div class="lso-learning-map-modal">' . $map_html . '</div>'
+                )
+            ]
         );
+        $button = $f->button()->bulky(
+            $f->symbol()->icon()->standard('lso', $this->lng->txt(self::LEARNING_MAP_LABEL)),
+            $this->lng->txt(self::LEARNING_MAP_LABEL),
+            '#'
+        )->withOnClick($modal->getShowSignal());
+
+        return [$button, $modal];
     }
 
     public function buildToCSlate(LSTOCBuilder $toc, Icon $icon): Slate
@@ -123,10 +145,10 @@ class ilKioskPageRenderer
 
         $this->tpl->setVariable(
             "PLAYER_NAVIGATION",
-            $this->ui_renderer->render([
+            $this->ui_renderer->render(array_values(array_filter([
                 $control_builder->getPreviousControl(),
                 $control_builder->getNextControl()
-            ])
+            ])))
         );
 
         $controls = $control_builder->getControls();

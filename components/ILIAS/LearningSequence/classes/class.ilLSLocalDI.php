@@ -21,6 +21,13 @@ declare(strict_types=1);
 use Pimple\Container;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
+use ILIAS\LearningSequence\Player\LinearNavigator;
+use ILIAS\LearningSequence\Player\AdaptiveNavigator;
+use ILIAS\LearningSequence\LearningMap\LSOLearningMapPosition;
+use ILIAS\LearningSequence\LearningMap\LSOLearningMapDataBuilder;
+use ILIAS\LearningSequence\LearningMap\LSOLearningMapSequentialNavigator;
+use ILIAS\LearningSequence\LearningMap\LSOLearningMapSequentialPosition;
+use ILIAS\LearningSequence\Player\LSChoicePageBuilder;
 
 /**
  * @author   Nils Haagen <nils.haagen@concepts-and-training.de>
@@ -104,8 +111,8 @@ class ilLSLocalDI extends Container
                 $dic["ui.renderer"],
                 $c["roles"],
                 $lsdic["db.settings"]->getSettingsFor($c["obj.obj_id"]),
-                $c["player.curriculumbuilder"],
                 $c["player.launchlinksbuilder"],
+                $c["learneritems"],
                 $c["player"],
                 $intro,
                 $extro,
@@ -202,15 +209,6 @@ class ilLSLocalDI extends Container
             );
         };
 
-        $this["player.curriculumbuilder"] = function ($c) use ($dic): ilLSCurriculumBuilder {
-            return new ilLSCurriculumBuilder(
-                $c["learneritems"],
-                $dic["ui.factory"],
-                $dic["lng"],
-                ilLSPlayer::LSO_CMD_GOTO,
-                $c["player.urlbuilder"]
-            );
-        };
 
         $this["player.launchlinksbuilder"] = function ($c) use ($dic): ilLSLaunchlinksBuilder {
             $first_access = $c["learneritems"]->getFirstAccess();
@@ -228,19 +226,138 @@ class ilLSLocalDI extends Container
             );
         };
 
-        $this["player"] = function ($c) use ($dic, $lsdic): ilLSPlayer {
+        $this["player"] = function ($c) use ($dic, $lsdic, $object): ilLSPlayer {
+            $mode = $lsdic["db.settings"]->getSettingsFor($c["obj.obj_id"])->getMode();
+            $navigator = ($mode === ilLearningSequenceSettings::MODE_ADAPTIVE)
+                ? new AdaptiveNavigator($lsdic["conditions.factory"])
+                : new LinearNavigator();
+
+            $item_path = $lsdic["db.item_path"];
+            $boundaries = $lsdic["db.boundaries"];
+
+            // Position ("where is the learner in the LSO") and the reusable
+            // choice-page template are injected so that both can be reused
+            // (e.g. by the upcoming map view) independently of the player.
+            $position = new LSOLearningMapPosition(
+                $navigator,
+                $item_path,
+                $boundaries,
+                $c["obj.obj_id"],
+                $c["usr.id"],
+                $dic["ilDB"]
+            );
+            $choice_page_builder = new LSChoicePageBuilder(
+                $dic["ui.factory"],
+                $dic["lng"],
+                $dic["ilObjDataCache"],
+                $c["player.urlbuilder"],
+                ilLSPlayer::LSO_CMD_GOTO
+            );
+
+            // Resolved here, before the player renders the current object: the
+            // kiosk view of an ILIAS learning module changes the ilCtrl context,
+            // and the player url of the map could not be built afterwards.
+            $learning_map_data_builder = $c["learning_map.data_builder"];
+            $learning_map = static fn(): string
+                => $object->renderLearningMap($learning_map_data_builder, false);
+
             return new ilLSPlayer(
                 $c["learneritems"],
                 $c["player.controlbuilder"],
                 $c["player.urlbuilder"],
-                $c["player.curriculumbuilder"],
                 $c["player.viewfactory"],
                 $c["player.kioskrenderer"],
                 $dic["ui.factory"],
                 $lsdic["gs.current_context"],
                 $dic["refinery"],
                 $dic["lng"],
-                $dic["ilCtrl"]
+                $dic["ilCtrl"],
+                $navigator,
+                $mode,
+                $item_path,
+                $boundaries,
+                $c["obj.obj_id"],
+                $c["usr.id"],
+                $position,
+                $choice_page_builder,
+                $learning_map
+            );
+        };
+
+        // Learning map data layer: assembles the object graph plus per-learner state
+        // (LSOLearningMap/LSOLearningMapNode) reusing the position/navigator of the
+        // respective operation mode. Adaptive: condition graph (AdaptiveNavigator plus
+        // LSOLearningMapPosition with the configured start/end object). Sequential: the
+        // plain chain in the configured order (LSOLearningMapSequentialNavigator plus
+        // LSOLearningMapSequentialPosition, where first/last item are start/end).
+        $this["learning_map.data_builder"] = function ($c) use ($dic, $lsdic): LSOLearningMapDataBuilder {
+            $is_adaptive = $lsdic["db.settings"]->getSettingsFor($c["obj.obj_id"])->getMode()
+                === ilLearningSequenceSettings::MODE_ADAPTIVE;
+
+            $navigator = $is_adaptive
+                ? new AdaptiveNavigator($lsdic["conditions.factory"])
+                : new LSOLearningMapSequentialNavigator();
+            $item_path = $lsdic["db.item_path"];
+            $boundaries = $lsdic["db.boundaries"];
+
+            $lso_obj_id = $c["obj.obj_id"];
+            $ref_id = $c["obj.ref_id"];
+            $db = $dic["ilDB"];
+            $progress_db = $c["db.progress"];
+
+            // Position and learner items are user-specific, so we hand the
+            // builder two factories keyed by user_id instead of ready-made
+            // objects. This way build($mode, $usr_id) can produce the map of any
+            // learner (e.g. a future tutor view over all participants), while
+            // the default (current) user stays $c["usr.id"].
+            $position_factory = static function (int $usr_id) use ($is_adaptive, $navigator, $item_path, $boundaries, $lso_obj_id, $db): LSOLearningMapPosition {
+                // The sequential mode derives start and end from the order of
+                // the items, but still needs the visit log to determine when an
+                // "always" post-condition has actually been fulfilled.
+                if (!$is_adaptive) {
+                    return new LSOLearningMapSequentialPosition(
+                        $navigator,
+                        $item_path,
+                        $boundaries,
+                        $lso_obj_id,
+                        $usr_id,
+                        $db
+                    );
+                }
+                return new LSOLearningMapPosition(
+                    $navigator,
+                    $item_path,
+                    $boundaries,
+                    $lso_obj_id,
+                    $usr_id,
+                    $db
+                );
+            };
+            // In the sequential mode the map is the chain of the objects in their
+            // configured order, so the items are sorted by their order number.
+            $items_factory = static function (int $usr_id) use ($is_adaptive, $progress_db, $ref_id): array {
+                $items = $progress_db->getLearnerItems($usr_id, $ref_id);
+                if (!$is_adaptive) {
+                    usort(
+                        $items,
+                        static fn(LSLearnerItem $a, LSLearnerItem $b): int
+                            => $a->getOrderNumber() <=> $b->getOrderNumber()
+                    );
+                }
+                return $items;
+            };
+
+            return new LSOLearningMapDataBuilder(
+                $navigator,
+                $c["player.urlbuilder"],
+                // the map addresses one specific object, which is not
+                // necessarily a successor of the object worked on last
+                ilLSPlayer::LSO_CMD_JUMP,
+                $lso_obj_id,
+                $c["usr.id"],
+                $position_factory,
+                $items_factory,
+                !$is_adaptive
             );
         };
 

@@ -1,0 +1,30 @@
+.lso-player-dead-end {
+    padding-left: 56px;
+}
+
+.lso-player-dead-end__message {
+    margin: 0;
+}
+
+.lso-player-dead-end__illustration {
+    padding-top: 24px;
+    padding-left: 88px;
+}
+
+.lso-player-dead-end__illustration svg {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+.lso-player-dead-end__shape--main {
+    fill: var(--lso-player-dead-end-main-color, #4c6586);
+}
+
+.lso-player-dead-end__shape--warning {
+    fill: var(--lso-player-dead-end-warning-color, #b54f00);
+}
+
+.lso-player-dead-end__shape--border {
+    fill: var(--lso-player-dead-end-border-color, #dddddd);
+}

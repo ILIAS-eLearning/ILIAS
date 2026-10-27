@@ -1,0 +1,532 @@
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+/* ==========================================================================
+   Learning Map
+   --------------------------------------------------------------------------
+   Node/edge states at a glance (see mockups):
+     - default/open  : solid border, solid edge
+     - blocked       : dashed border, dashed edge + arrow ("gesperrt")
+     - done          : round green check badge in the node footer
+     - current       : blue focus ring around the node ("aktuelle Position")
+     - path          : blue edge for the path already walked ("bisheriger Pfad")
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Design tokens & root container
+   -------------------------------------------------------------------------- */
+.lso-learning-map {
+    --lso-learning-map-done: #5ead49;
+    --lso-learning-map-current: #31708f;
+    --lso-learning-map-blocked: #737373;
+    --lso-learning-map-edge: var(--lso-learning-map-border);
+    --lso-learning-map-border: #767676;
+    --lso-learning-map-node-width: 190px;
+    --lso-learning-map-node-height: 108px;
+
+    position: relative;
+
+    * {
+        user-select: none;
+    }
+}
+
+.lso-learning-map__sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* --------------------------------------------------------------------------
+   2. Toolbar & legend
+   -------------------------------------------------------------------------- */
+.lso-learning-map__toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .25rem;
+    margin-bottom: .5rem;
+}
+
+.lso-learning-map__legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-size: .85em;
+    margin-bottom: .5rem;
+}
+
+.lso-learning-map__legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+}
+
+.lso-learning-map__swatch {
+    display: inline-block;
+    width: 22px;
+    height: 0;
+    border-top-width: 3px;
+    border-top-style: solid;
+}
+
+.lso-learning-map__swatch--open {
+    border-top-color: var(--lso-learning-map-edge);
+}
+
+.lso-learning-map__swatch--blocked {
+    border-top-color: var(--lso-learning-map-blocked);
+    border-top-style: dashed;
+}
+
+.lso-learning-map__swatch--path {
+    border-top-color: var(--lso-learning-map-current);
+}
+
+.lso-learning-map__swatch--node_open {
+    height: 12px;
+    width: 12px;
+    border: 1px solid var(--lso-learning-map-border);
+    border-radius: 2px;
+    background: #fff;
+}
+
+.lso-learning-map__swatch--node_blocked {
+    height: 12px;
+    width: 12px;
+    border: 1px dashed var(--lso-learning-map-blocked);
+    border-radius: 2px;
+    background: #fff;
+}
+
+.lso-learning-map__swatch--done {
+    height: 12px;
+    width: 12px;
+    border: 2px solid var(--lso-learning-map-done);
+    border-radius: 2px;
+}
+
+.lso-learning-map__swatch--current {
+    height: 12px;
+    width: 12px;
+    border: 2px solid var(--lso-learning-map-current);
+    border-radius: 2px;
+    box-shadow: 0 0 0 3px rgba(49, 112, 143, .25);
+}
+
+/* --------------------------------------------------------------------------
+   3. Viewport & canvas (pan/zoom surface)
+   -------------------------------------------------------------------------- */
+.lso-learning-map__viewport {
+    position: relative;
+    overflow: hidden;
+    resize: vertical;
+    min-height: 280px;
+    max-height: 80vh;
+    border: 1px solid #d3d3d3;
+    background-color: #fbfbfb;
+    background-image: radial-gradient(#e3e3e3 1px, transparent 1px);
+    background-size: 22px 22px;
+    cursor: grab;
+}
+
+.lso-learning-map__viewport.is-panning {
+    cursor: grabbing;
+}
+
+.lso-learning-map__viewport:focus-visible {
+    outline: 2px solid #0078D7;
+    outline-offset: 2px;
+}
+
+.lso-learning-map--horizontal .lso-learning-map__viewport,
+.lso-learning-map-modal .lso-learning-map__viewport {
+    resize: none;
+    min-height: 0;
+}
+
+.lso-learning-map__canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform-origin: 0 0;
+    /* will-change: transform is toggled on/off in JS (see apply()) only
+       while actively panning/zooming. Leaving it on permanently forces
+       Chrome to keep the whole canvas — including node text — on a
+       composited GPU layer at rest, which renders text slightly blurred
+       and only briefly sharpens on repaint (e.g. on node hover). */
+}
+
+.lso-learning-map__canvas.is-transforming {
+    will-change: transform;
+}
+
+/* --------------------------------------------------------------------------
+   4. Edges (SVG connectors between nodes)
+   -------------------------------------------------------------------------- */
+.lso-learning-map__edges {
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: visible;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.lso-learning-map__edge {
+    fill: none;
+    stroke: var(--lso-learning-map-edge);
+    stroke-width: 1;
+    stroke-linejoin: miter;
+    stroke-linecap: butt;
+    shape-rendering: crispEdges;
+}
+
+.lso-learning-map__edge--blocked {
+    stroke: var(--lso-learning-map-blocked);
+    stroke-width: 1;
+    stroke-dasharray: 3 2;
+}
+
+.lso-learning-map__edge--path {
+    stroke: var(--lso-learning-map-current);
+    stroke-width: 2;
+}
+
+.lso-learning-map__arrow {
+    fill: var(--lso-learning-map-edge);
+}
+
+.lso-learning-map__arrow--blocked {
+    fill: var(--lso-learning-map-blocked);
+}
+
+.lso-learning-map__arrow--path {
+    fill: var(--lso-learning-map-current);
+}
+
+.lso-learning-map__edge-label {
+    font-size: 10px;
+    fill: #666;
+    paint-order: stroke;
+    stroke: #fbfbfb;
+    stroke-width: 3px;
+}
+
+/* --------------------------------------------------------------------------
+   5. Nodes
+   -------------------------------------------------------------------------- */
+.lso-learning-map__nodes {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.lso-learning-map__node {
+    position: absolute;
+    box-sizing: border-box;
+    width: var(--lso-learning-map-node-width);
+    height: var(--lso-learning-map-node-height);
+    border: 1px solid var(--lso-learning-map-border);
+    border-radius: 4px;
+    background: #fff;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .08);
+    transition: box-shadow .2s ease-in-out;
+}
+
+.lso-learning-map__node:hover,
+.lso-learning-map__node:focus-within {
+    z-index: 20;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .14);
+}
+
+.lso-learning-map__node-link-overlay:hover {
+    box-shadow: none;
+}
+
+.lso-learning-map__node {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.lso-learning-map__node-body {
+    position: absolute;
+    inset: 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: .3rem;
+    padding: .5rem .55rem;
+    overflow: hidden;
+    border-radius: inherit;
+}
+
+.lso-learning-map__node-link-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border-radius: inherit;
+}
+
+.lso-learning-map__node-link-overlay:hover {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .14);
+}
+
+.lso-learning-map__node-link-overlay:focus-visible {
+    outline: 2px solid var(--lso-learning-map-current);
+    outline-offset: 2px;
+}
+
+.lso-learning-map__node--done {
+}
+
+.lso-learning-map__node--current {
+    border-color: var(--lso-learning-map-current);
+    border-width: 2px;
+    box-shadow: 0 0 0 4px rgba(49, 112, 143, .22);
+}
+
+/* .lso-learning-map__node:hover (5. Nodes, above) sets its own box-shadow,
+   which — box-shadow does not stack across rules — would otherwise replace
+   the current-node ring above instead of adding to it, since :hover already
+   outranks a plain modifier class on specificity alone. The compound
+   selector here (class + modifier class + pseudo-class) outranks both, so
+   the ring survives hover/focus, layered under the hover elevation shadow. */
+.lso-learning-map__node.lso-learning-map__node--current:hover,
+.lso-learning-map__node.lso-learning-map__node--current:focus-within {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .14), 0 0 0 4px rgba(49, 112, 143, .22);
+}
+
+
+.lso-learning-map__node--blocked {
+    border-style: dashed;
+    border-color: var(--lso-learning-map-blocked);
+    border-width: 1.5px;
+    border-radius: 4px;
+}
+
+/* --------------------------------------------------------------------------
+   6. Node content (head/body/foot) & status glyphs
+   -------------------------------------------------------------------------- */
+.lso-learning-map__node-head {
+    display: flex;
+    align-items: center;
+    gap: .3rem;
+    min-width: 0;
+}
+
+.lso-learning-map__node-icon {
+    display: none;
+}
+
+.lso-learning-map__node-title {
+    font-weight: bold;
+    font-size: .82em;
+    line-height: 1.15;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin: 0;
+    padding: 0;
+}
+
+.lso-learning-map__node-desc {
+    font-size: .74em;
+    color: #555;
+    line-height: 1.2;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+.lso-learning-map__node--blocked .lso-learning-map__node-desc {
+    color: var(--lso-learning-map-blocked);
+}
+
+.lso-learning-map__node-foot {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: .25rem;
+    margin-top: auto;
+}
+
+.lso-learning-map__glyphs {
+    display: inline-flex;
+    align-items: center;
+    gap: .25rem;
+    margin-left: auto;
+    flex-shrink: 0;
+}
+
+.lso-learning-map__glyph {
+    font-size: .82em;
+    line-height: 1;
+    color: #444;
+}
+
+.lso-learning-map__glyph .glyph {
+    color: inherit;
+    cursor: default;
+}
+
+.lso-learning-map__glyph--done {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background-color: var(--lso-learning-map-done);
+    color: transparent;
+    overflow: hidden;
+}
+
+.lso-learning-map__glyph--done .glyph {
+    display: none;
+}
+
+.lso-learning-map__glyph--done::after {
+    content: "";
+    position: absolute;
+    width: 8px;
+    height: 4px;
+    border-left: 1.5px solid #fff;
+    border-bottom: 1.5px solid #fff;
+    transform: rotate(-45deg) translate(1px, -1px);
+}
+
+.lso-learning-map__glyph--open,
+.lso-learning-map__glyph--current,
+.lso-learning-map__glyph--blocked {
+    display: none;
+}
+
+.lso-learning-map__node[data-tooltip]::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 9px);
+    transform: translate(-50%, 4px);
+    width: max-content;
+    max-width: 220px;
+    padding: .3rem .55rem;
+    border-radius: 4px;
+    background: #2c2c2c;
+    color: #fff;
+    font-size: .72em;
+    font-weight: normal;
+    line-height: 1.3;
+    text-align: center;
+    white-space: normal;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .2);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .12s ease, transform .12s ease;
+}
+
+.lso-learning-map__node[data-tooltip]::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 100%;
+    transform: translate(-50%, 4px);
+    border: 5px solid transparent;
+    border-top-color: #2c2c2c;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .12s ease, transform .12s ease;
+}
+
+.lso-learning-map__node[data-tooltip]:hover::after,
+.lso-learning-map__node[data-tooltip]:hover::before,
+.lso-learning-map__node[data-tooltip]:focus-within::after,
+.lso-learning-map__node[data-tooltip]:focus-within::before {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lso-learning-map__node[data-tooltip]::after,
+    .lso-learning-map__node[data-tooltip]::before {
+        transition: none;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   7. Reduced motion & forced colors (accessibility overrides)
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+    .lso-learning-map *,
+    .lso-learning-map *::before,
+    .lso-learning-map *::after {
+        transition-duration: .001ms !important;
+        animation-duration: .001ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+@media (forced-colors: active) {
+    .lso-learning-map {
+        --lso-learning-map-done: CanvasText;
+        --lso-learning-map-current: Highlight;
+        --lso-learning-map-blocked: GrayText;
+        --lso-learning-map-edge: CanvasText;
+        --lso-learning-map-border: CanvasText;
+    }
+
+    .lso-learning-map__edge {
+        forced-color-adjust: none;
+        stroke: CanvasText;
+    }
+
+    .lso-learning-map__edge--blocked {
+        stroke: GrayText;
+    }
+
+    .lso-learning-map__edge--path {
+        stroke: Highlight;
+    }
+
+    .lso-learning-map__arrow {
+        forced-color-adjust: none;
+        fill: CanvasText;
+    }
+
+    .lso-learning-map__arrow--blocked {
+        fill: GrayText;
+    }
+
+    .lso-learning-map__arrow--path {
+        fill: Highlight;
+    }
+
+    .lso-learning-map__node {
+        border-width: 2px;
+    }
+}

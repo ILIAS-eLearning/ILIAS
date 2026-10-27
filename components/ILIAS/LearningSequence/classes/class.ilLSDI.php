@@ -20,6 +20,12 @@ declare(strict_types=1);
 
 use Pimple\Container;
 use ILIAS\GlobalScreen\ScreenContext\ScreenContext;
+use ILIAS\LearningSequence\Content\Adaptive\LSOAdaptiveBoundaries;
+use ILIAS\LearningSequence\Content\Adaptive\LSOItemPath;
+use ILIAS\LearningSequence\Content\Adaptive\LSOItemVisits;
+use ILIAS\LearningSequence\Content\Condition\ConditionFactory;
+use ILIAS\LearningSequence\Content\Condition\ConditionHandler;
+use ILIAS\LearningSequence\Content\Condition\ConditionTypes;
 
 class ilLSDI extends Container
 {
@@ -42,6 +48,37 @@ class ilLSDI extends Container
 
         $this["db.postconditions"] = function ($c) use ($dic): ilLSPostConditionDB {
             return new ilLSPostConditionDB($dic["ilDB"]);
+        };
+
+        $this["db.boundaries"] = function ($c) use ($dic): LSOAdaptiveBoundaries {
+            return new LSOAdaptiveBoundaries($dic["ilDB"]);
+        };
+
+        $this["db.item_path"] = function ($c) use ($dic): LSOItemPath {
+            return new LSOItemPath($dic["ilDB"]);
+        };
+
+        $this["db.item_visits"] = function ($c) use ($dic): LSOItemVisits {
+            return new LSOItemVisits($dic["ilDB"]);
+        };
+
+        $this["conditions.types"] = function ($c) use ($dic): ConditionTypes {
+            return $dic[ConditionTypes::class];
+        };
+
+        $this["conditions.factory"] = function ($c) use ($dic): ConditionFactory {
+            return new ConditionFactory(
+                $c["conditions.types"],
+                $dic["ilDB"]
+            );
+        };
+
+        $this["conditions.handler"] = function ($c) use ($dic): ConditionHandler {
+            return new ConditionHandler(
+                $dic["ilDB"],
+                $dic["lng"],
+                $c["conditions.factory"]
+            );
         };
 
         $this["gs.current_context"] = function ($c) use ($dic): ScreenContext {

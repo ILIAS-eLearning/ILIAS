@@ -82,6 +82,13 @@ class ilLSEventHandler
             $parent_lso_ref_id,
             $obj_ref_id
         );
+
+        // remove orphaned adaptive path entries pointing to the deleted object
+        $lso_obj_id = (int) \ilObject::_lookupObjId($parent_lso_ref_id);
+        $lso->getDI()["db.item_path"]->deleteForItemRefId($lso_obj_id, $obj_ref_id);
+
+        // remove orphaned visit-log entries pointing to the deleted object
+        $lso->getDI()["db.item_visits"]->deleteForItemRefId($lso_obj_id, $obj_ref_id);
     }
 
     public function handleParticipantDeletion(int $obj_id, int $usr_id): void
@@ -89,6 +96,12 @@ class ilLSEventHandler
         $lso = $this->getInstanceByObjId($obj_id);
         $db = $lso->getStateDB();
         $db->deleteFor($lso->getRefId(), [$usr_id]);
+
+        // reset the adaptive path of the removed participant
+        $lso->getDI()["db.item_path"]->reset($usr_id, $obj_id);
+
+        // reset the append-only visit log of the removed participant
+        $lso->getDI()["db.item_visits"]->reset($usr_id, $obj_id);
     }
 
     public function handleClonedObject(ilObject $new_obj, ilObject $origin_obj): void

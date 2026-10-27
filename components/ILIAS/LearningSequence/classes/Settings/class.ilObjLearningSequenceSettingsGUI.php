@@ -18,7 +18,6 @@
 
 declare(strict_types=1);
 
-use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 use ILIAS\ILIASObject\Properties\CoreProperties\TitleAndDescription;
 use ILIAS\ILIASObject\Properties\ObjectReferenceProperties\AvailabilityPeriod\AvailabilityPeriod;
 
@@ -30,6 +29,7 @@ class ilObjLearningSequenceSettingsGUI
     public const PROP_AVAIL_FROM = 'start';
     public const PROP_AVAIL_TO = 'end';
     public const PROP_GALLERY = 'gallery';
+    public const PROP_LSO_MODE = 'lso_mode';
 
     public const CMD_EDIT = "settings";
     public const CMD_SAVE = "update";
@@ -103,9 +103,6 @@ class ilObjLearningSequenceSettingsGUI
         ILIAS\UI\Component\Input\Factory $if
     ): array {
         $txt = fn($id) => $this->lng->txt($id);
-        $shift_trafo = $this->refinery->custom()->transformation(
-            static fn(array $v) => current($v)
-        );
         $date_format = $this->data_factory->dateFormat()->withTime24(
             $this->user->getDateFormat()
         );
@@ -113,17 +110,36 @@ class ilObjLearningSequenceSettingsGUI
         $ref_props = $lso->getObjectReferenceProperties();
         $settings = $lso->getLSSettings();
 
+        // LSO Mode
+        $lso_mode = $if->field()->radio($txt('lso_mode'), $txt('lso_mode_info'))
+            ->withOption(
+                (string) ilLearningSequenceSettings::MODE_LINEAR,
+                $txt('lso_mode_linear'),
+                $txt('lso_mode_linear_info')
+            )
+            ->withOption(
+                (string) ilLearningSequenceSettings::MODE_ADAPTIVE,
+                $txt('lso_mode_adaptive'),
+                $txt('lso_mode_adaptive_info')
+            )
+            ->withByline($txt('lso_mode_byline'))
+            ->withValue((string) $settings->getLSOMod())
+            ->withAdditionalTransformation(
+                $this->refinery->kindlyTo()->int()
+            );
+
         $formElements = [];
         $formElements['object'] = $if->field()->section(
             [
-                $props->getPropertyTitleAndDescription()->toForm(
+                'title_and_description' => $props->getPropertyTitleAndDescription()->toForm(
                     $this->lng,
                     $if->field(),
                     $this->refinery
-                )
+                ),
+                self::PROP_LSO_MODE => $lso_mode
             ],
             $txt('lso_edit')
-        )->withAdditionalTransformation($shift_trafo);
+        );
 
         $formElements['online'] = $if->field()->section(
             [
@@ -156,6 +172,7 @@ class ilObjLearningSequenceSettingsGUI
                     $this->refinery->always(false)
                 ])
             );
+
         // Metadata
         $custom_md = $if->field()->checkbox($this->lng->txt('obj_tool_setting_custom_metadata'))
             ->withValue((bool) ilContainer::_lookupContainerSetting(
@@ -229,7 +246,56 @@ class ilObjLearningSequenceSettingsGUI
         $obj_props = $lso->getObjectProperties();
         $ref_props = $lso->getObjectReferenceProperties();
 
-        $title_and_description = $data['object'] ?? null;
+        // --- Adaptive mode start/end object guards -----------------------
+        // An adaptive learning sequence requires a start AND an end object.
+        // Missing either one has consequences for the online state.
+        $old_mode = $lso->getLSSettings()->getMode();
+        $new_mode = (int) ($data['object'][self::PROP_LSO_MODE] ?? ilLearningSequenceSettings::MODE_LINEAR);
+
+        $online_property = $data['online']['online'] ?? $obj_props->getPropertyIsOnline()->withOffline();
+        $was_online = $obj_props->getPropertyIsOnline()->getIsOnline();
+        $wants_online = $online_property->getIsOnline();
+
+        $has_start_and_end = true;
+        if ($new_mode === ilLearningSequenceSettings::MODE_ADAPTIVE) {
+            $b = $lso->getDI()["db.boundaries"]->getBoundariesFor($lso->getId());
+            $has_start_and_end = ((int) $b['start_ref_id'] > 0 && (int) $b['end_ref_id'] > 0);
+        }
+
+        // Invariant for adaptive mode: the learning sequence may only be online
+        // if it has BOTH a start AND an end object. Missing either one (or both)
+        // forces it offline.
+        //
+        // When the user actively tries to switch the object online without a
+        // start and/or end object, abort the whole save with an error message.
+        if ($new_mode === ilLearningSequenceSettings::MODE_ADAPTIVE
+            && $wants_online
+            && !$was_online
+            && !$has_start_and_end
+        ) {
+            $this->tpl->setOnScreenMessage(
+                'failure',
+                $this->lng->txt('lso_adaptive_missing_boundaries_online'),
+                true
+            );
+            $this->ctrl->redirect($this);
+            return null;
+        }
+
+        // In every other case where the object would (stay) online in adaptive
+        // mode without a start and/or end object, force it offline and inform
+        // the user (e.g. when switching the mode TO adaptive, or when it was
+        // already online but a boundary is missing).
+        $forced_offline = false;
+        if ($new_mode === ilLearningSequenceSettings::MODE_ADAPTIVE
+            && $wants_online
+            && !$has_start_and_end
+        ) {
+            $online_property = $online_property->withOffline();
+            $forced_offline = true;
+        }
+
+        $title_and_description = $data['object']['title_and_description'] ?? null;
         if ($title_and_description instanceof TitleAndDescription) {
             $obj_props->storePropertyTitleAndDescription($title_and_description);
         }
@@ -240,9 +306,15 @@ class ilObjLearningSequenceSettingsGUI
             ($data['additional'][ilObjectServiceSettingsGUI::CUSTOM_METADATA] ?? false) ? '1' : '0'
         );
 
-        $obj_props->storePropertyIsOnline(
-            $data['online']['online'] ?? $obj_props->getPropertyIsOnline()->withOffline()
-        );
+        $obj_props->storePropertyIsOnline($online_property);
+
+        if ($forced_offline) {
+            $this->tpl->setOnScreenMessage(
+                'info',
+                $this->lng->txt('lso_adaptive_offline_due_to_missing_boundaries'),
+                true
+            );
+        }
 
         $availability_period = $data['online']['availability_period'] ?? null;
         if ($availability_period instanceof AvailabilityPeriod) {
@@ -257,7 +329,8 @@ class ilObjLearningSequenceSettingsGUI
         }
 
         $settings = $lso->getLSSettings()
-            ->withMembersGallery($data['additional'][self::PROP_GALLERY] ?? false);
+            ->withMembersGallery($data['additional'][self::PROP_GALLERY] ?? false)
+            ->withLSOMod((int) ($data['object'][self::PROP_LSO_MODE] ?? ilLearningSequenceSettings::MODE_LINEAR));
         $lso->updateSettings($settings);
 
         $obj_props->storePropertyTitleAndIconVisibility($data['common']['icon']);
