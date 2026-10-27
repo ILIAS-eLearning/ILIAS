@@ -100,7 +100,8 @@ class ilMailFolderGUI implements ilCtrlSecurityInterface
     public function getUnsafeGetCommands(): array
     {
         return [
-            self::CMD_TABLE_ACTION
+            self::CMD_TABLE_ACTION,
+            self::CMD_EMPTY_TRASH
         ];
     }
 
@@ -361,6 +362,15 @@ class ilMailFolderGUI implements ilCtrlSecurityInterface
 
     protected function emptyTrash(): void
     {
+        if ($this->http->request()->getMethod() !== 'POST') {
+            $this->tpl->setOnScreenMessage(
+                ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE,
+                $this->lng->txt('permission_denied'),
+                true
+            );
+            $this->redirectToFolder();
+        }
+
         $this->umail->deleteMailsOfFolder($this->mbox->getTrashFolder());
         $this->tpl->setOnScreenMessage(
             ilGlobalTemplateInterface::MESSAGE_TYPE_SUCCESS,
@@ -453,7 +463,7 @@ class ilMailFolderGUI implements ilCtrlSecurityInterface
             $components[] = $modal = $this->ui_factory->modal()->interruptive(
                 $this->lng->txt('mail_empty_trash'),
                 $this->lng->txt('mail_empty_trash_confirmation'),
-                $this->ctrl->getLinkTarget($this, self::CMD_EMPTY_TRASH)
+                $this->ctrl->getFormAction($this, self::CMD_EMPTY_TRASH)
             );
             $this->toolbar->addComponent(
                 $this->ui_factory->button()->standard(
