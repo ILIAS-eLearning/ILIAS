@@ -126,8 +126,8 @@ class ContentFactory implements ContentFactoryInterface
             if (!$disabled) {
                 $button = $button->withOnLoadCode(
                     fn($id) => "$('#$id').on('click', (e)=> {
-                        let promptId = e.target.closest('.il-prompt').id;
-                        il.UI.prompt.get(promptId).show('$link');
+                        let promptId = e.target.closest('.c-prompt').id;
+                        il.UI.Prompt.get(promptId).loadState('$link');
                     });"
                 );
             }
@@ -176,8 +176,8 @@ class ContentFactory implements ContentFactoryInterface
         $button = $this->ui_factory->button()->standard($this->presentation_utilities->txt('confirm'), '#');
         $button = $button->withOnLoadCode(
             fn($id) => "$('#$id').on('click', (e)=> {
-                        let promptId = e.target.closest('.il-prompt').id;
-                        il.UI.prompt.get(promptId).show('$action');
+                        let promptId = e.target.closest('.c-prompt').id;
+                        il.UI.Prompt.get(promptId).loadState('$action');
                     });"
         );
         return $this->ui_factory->prompt()->state()->show(
