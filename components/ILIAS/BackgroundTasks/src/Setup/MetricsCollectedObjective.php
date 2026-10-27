@@ -16,11 +16,14 @@
  *
  *********************************************************************/
 
+namespace ILIAS\BackgroundTasks\Setup;
+
 use ILIAS\Setup\Metrics\CollectedObjective;
 use ILIAS\Setup\Environment;
 use ILIAS\Setup\Metrics\Storage;
+use ilIniFilesLoadedObjective;
 
-class ilBackgroundTasksMetricsCollectedObjective extends CollectedObjective
+class MetricsCollectedObjective extends CollectedObjective
 {
     /**
      * @return \ilIniFilesLoadedObjective[]

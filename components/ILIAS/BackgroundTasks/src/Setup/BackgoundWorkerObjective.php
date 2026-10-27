@@ -37,7 +37,6 @@ use ilDatabaseInitializedObjective;
 use ilSettingsFactoryExistsObjective;
 use ILIAS\Setup\Objective\ClientIdReadObjective;
 use ILIAS\Setup\Objective\AdminConfirmedObjective;
-use ilBackgroundTasksSetupConfig;
 
 class BackgoundWorkerObjective extends AdminConfirmedObjective
 {
@@ -92,7 +91,7 @@ class BackgoundWorkerObjective extends AdminConfirmedObjective
             return false;
         }
 
-        return $ini->readVariable('background_tasks', 'concurrency') === ilBackgroundTasksSetupConfig::TYPE_ASYNCHRONOUS;
+        return $ini->readVariable('background_tasks', 'concurrency') === SetupConfig::TYPE_ASYNCHRONOUS;
     }
 
     public function achieve(Environment $environment): Environment

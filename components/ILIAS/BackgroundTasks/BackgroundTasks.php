@@ -38,8 +38,8 @@ class BackgroundTasks implements Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        $contribute[Agent::class] = static fn(): \ilBackgroundTasksSetupAgent =>
-            new \ilBackgroundTasksSetupAgent(
+        $contribute[Agent::class] = static fn(): Agent =>
+            new \ILIAS\BackgroundTasks\Setup\Agent(
                 $pull[Factory::class]
             );
         $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(

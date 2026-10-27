@@ -676,7 +676,7 @@ class ilSoapFunctions
      */
     public static function startBackgroundTaskWorker(string $sid)
     {
-        $soa = new ilSoapBackgroundTasksAdministration();
+        $soa = new \ILIAS\BackgroundTasks\SOAP\Administration();
         return $soa->runAsync($sid);
     }
 

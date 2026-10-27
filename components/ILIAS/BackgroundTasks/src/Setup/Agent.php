@@ -16,7 +16,8 @@
  *
  *********************************************************************/
 
-use ILIAS\Setup\Agent;
+namespace ILIAS\BackgroundTasks\Setup;
+
 use ILIAS\Setup\Agent\HasNoNamedObjective;
 use ILIAS\Refinery\Factory;
 use ILIAS\Refinery\Transformation;
@@ -25,10 +26,12 @@ use ILIAS\Setup\Objective;
 use ILIAS\Setup\Objective\NullObjective;
 use ILIAS\Setup\Metrics\Storage;
 use ILIAS\Setup\ObjectiveCollection;
-use ILIAS\BackgroundTasks\Setup\BackgoundWorkerObjective;
 use ILIAS\Setup\ObjectiveConstructor;
+use ilBackgroundTasksDBHotfixes10;
+use ilDatabaseUpdateStepsExecutedObjective;
+use ilDatabaseUpdateStepsMetricsCollectedObjective;
 
-class ilBackgroundTasksSetupAgent implements Agent
+class Agent implements \ILIAS\Setup\Agent
 {
     use HasNoNamedObjective;
 
@@ -49,8 +52,8 @@ class ilBackgroundTasksSetupAgent implements Agent
      */
     public function getArrayToConfigTransformation(): Transformation
     {
-        return $this->refinery->custom()->transformation(fn($data): \ilBackgroundTasksSetupConfig => new \ilBackgroundTasksSetupConfig(
-            $data["type"] ?? \ilBackgroundTasksSetupConfig::TYPE_SYNCHRONOUS,
+        return $this->refinery->custom()->transformation(fn($data): SetupConfig => new SetupConfig(
+            $data["type"] ?? SetupConfig::TYPE_SYNCHRONOUS,
             $data["max_number_of_concurrent_tasks"] ?? 1
         ));
     }
@@ -68,14 +71,14 @@ class ilBackgroundTasksSetupAgent implements Agent
      */
     public function getUpdateObjective(?Config $config = null): Objective
     {
-        if (!$config instanceof ilBackgroundTasksSetupConfig) {
+        if (!$config instanceof SetupConfig) {
             return new NullObjective();
         }
 
         return new ObjectiveCollection(
             'BackgroundTasks',
             true,
-            new ilBackgroundTasksConfigStoredObjective($config),
+            new ConfigStoredObjective($config),
             new ilDatabaseUpdateStepsExecutedObjective(new ilBackgroundTasksDBHotfixes10())
         );
     }
@@ -96,7 +99,7 @@ class ilBackgroundTasksSetupAgent implements Agent
         return new ObjectiveCollection(
             'Component BackgroundTasks',
             true,
-            new ilBackgroundTasksMetricsCollectedObjective($storage),
+            new MetricsCollectedObjective($storage),
             new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilBackgroundTasksDBHotfixes10())
         );
     }
