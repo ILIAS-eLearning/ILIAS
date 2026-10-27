@@ -1,0 +1,349 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: et\n"
+"Language-Team: Estonian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: news\n"
+
+#, fuzzy
+msgid "cron_news_delete_old"
+msgstr "Delete old News Items"
+
+#, fuzzy
+msgid "cron_news_delete_old_desc"
+msgstr "Deletes news items older than the configured threshold. MediaCast news items (context_obj_type mcst) are always excluded."
+
+#, fuzzy
+msgid "cron_news_delete_old_result"
+msgstr "%s news item(s) deleted."
+
+#, fuzzy
+msgid "cron_news_delete_old_scope"
+msgstr "Scope"
+
+#, fuzzy
+msgid "cron_news_delete_old_scope_auto"
+msgstr "Delete automatic news items"
+
+#, fuzzy
+msgid "cron_news_delete_old_scope_both"
+msgstr "Delete both automatic and manual news items"
+
+#, fuzzy
+msgid "cron_news_delete_old_scope_manual"
+msgstr "Delete manual news items"
+
+#, fuzzy
+msgid "cron_news_delete_old_threshold"
+msgstr "Threshold"
+
+#, fuzzy
+msgid "cron_news_delete_old_threshold_info"
+msgstr "All news items older than the specified period will be deleted. The creation date is used as the criterion. Comments or any attached media from manually created news items will also be permanently deleted."
+
+#, fuzzy
+msgid "lso_news_online_title"
+msgstr "A new learning sequence object is online!"
+
+#, fuzzy
+msgid "lso_news_online_txt"
+msgstr "A new object for your learning sequence was just published."
+
+#, fuzzy
+msgid "new_test_online"
+msgstr "The Test was set online."
+
+msgid "news_1_file_created"
+msgstr "1 fail on lisatud."
+
+msgid "news_1_file_updated"
+msgstr "1 fail on uuendatud."
+
+#, fuzzy
+msgid "news_1_postings"
+msgstr "One post has been added."
+
+msgid "news_add_news"
+msgstr "Lisa uudis(ed)"
+
+msgid "news_all_items"
+msgstr "Kõik objektid"
+
+msgid "news_allow_longer_periods"
+msgstr "Luba pikemad perioodid"
+
+msgid "news_allow_longer_periods_info"
+msgstr "Kasutajad võivad töölauale valida pikemad uudiste perioodid."
+
+msgid "news_allow_shorter_periods"
+msgstr "Luba lühemad perioodid"
+
+msgid "news_allow_shorter_periods_info"
+msgstr "Kasutajad võivad töölauale valida lühemad uudiste perioodid."
+
+msgid "news_attached_to"
+msgstr "Lisatud"
+
+msgid "news_block_information"
+msgstr "<b>Uudiste</b> plokk kuvab kõik uued elemendid, mis on seotud <b>Minu asjadega</b> isiklikul töölaual."
+
+msgid "news_cache"
+msgstr "Uudiste vahemälu (minutit)"
+
+msgid "news_cache_info"
+msgstr "Uuenda uudisteplokid iga x minut. '0' tähendab kogu aeg. Higher values improve performance, but news may link to non-accessible items."
+
+#, fuzzy
+msgid "news_co_period"
+msgstr "News Period for Container-Objects"
+
+#, fuzzy
+msgid "news_co_period_info"
+msgstr "Select the default period for which news is displayed in container-objects. This setting can be overridden for each object individually. Select a shorter period if you experience performance problems."
+
+#, fuzzy
+msgid "news_container_object_visibility_settings"
+msgstr "Visibility Settings of News in Container-Objects"
+
+#, fuzzy
+msgid "news_dashboard_visibility_settings"
+msgstr "Visibility Settings of News on Dashboard"
+
+msgid "news_default_visibility"
+msgstr "Juurdepääs vaikimisi"
+
+msgid "news_edit_news_settings"
+msgstr "Muuda seadeid"
+
+msgid "news_enable_internal_news"
+msgstr "Võimalda süsteemisisesed uudised"
+
+msgid "news_enable_internal_news_info"
+msgstr "Aktiveerib uudisteploki kategooriate, kursuste, gruppide ja teiste objektide jaoks. Kasutajad võivad tellida uudised ja need kuvatakse isiklikule töölauale."
+
+msgid "news_enable_internal_rss"
+msgstr "Võimalda RSS süsteemisiseste uudiste jaoks"
+
+msgid "news_enable_internal_rss_info"
+msgstr "Lubab avaldada uudisüksusi RSS kaudu. Need üksused on ligipääsetavad väljastpoolt süsteemi ilma autentimiseta.."
+
+msgid "news_enable_private_feed"
+msgstr "Võimalda privaatne uudisvoog"
+
+msgid "news_enable_private_feed_info"
+msgstr "Kui seadistus on aktiivne, on avalikud ja privaatsed uudised jälgitavad isikliku RSS voo kaudu väljastpoolt ILIASt. Autentimine salasõna abil."
+
+msgid "news_feed_url"
+msgstr "voo URL"
+
+msgid "news_feed_url_for"
+msgstr "voo URL '%s' jaoks"
+
+#, fuzzy
+msgid "news_general_settings"
+msgstr "General Settings of News"
+
+msgid "news_get_feed_info"
+msgstr "See on isikliku uudisvoo URL, mis sisaldab ainult neid uudised. The feed is not protected by any authentication procedure. Please do not share this URL with other people."
+
+msgid "news_get_feed_title"
+msgstr "isikliku voo URL"
+
+msgid "news_get_feed_url"
+msgstr "hangi rss voo URL"
+
+msgid "news_get_priv_feed_info"
+msgstr "This is a personal private news feed URL. The feed includes news that are declared as public and private by the author. This feed is protected by a password, which can be changed under \"Settings\". Please do not share this URL with other people. Please replace -password- in this URL with your Feed-Password."
+
+msgid "news_get_priv_feed_title"
+msgstr "Personal private Feed-URL"
+
+#, fuzzy
+msgid "news_hide_news_by_period"
+msgstr "Show news from the last week, month or year"
+
+msgid "news_hide_news_date"
+msgstr "Algusaeg"
+
+#, fuzzy
+msgid "news_hide_news_global"
+msgstr "Use global setting"
+
+#, fuzzy
+msgid "news_hide_news_mode"
+msgstr "Time-Based News Restriction"
+
+#, fuzzy
+msgid "news_hide_news_none"
+msgstr "Do not restrict news"
+
+msgid "news_hide_news_per_date"
+msgstr "Näita uudiseid pärast"
+
+msgid "news_inactive_private_feed_info"
+msgstr "Your private news feed is deactivated. Please set a password in the settings."
+
+msgid "news_internal_news"
+msgstr "Uudised"
+
+msgid "news_keep_minimal_x_items"
+msgstr "Keep at least x items"
+
+msgid "news_keep_minimal_x_items_info"
+msgstr "If set to a value > 0, this is the number of items that are kept in the feed, even if they are older than the default lifetime."
+
+#, fuzzy
+msgid "news_media"
+msgstr "Media File"
+
+#, fuzzy
+msgid "news_new_comments"
+msgstr "New comments"
+
+#, fuzzy
+msgid "news_new_reactions"
+msgstr "New reactions"
+
+#, fuzzy
+msgid "news_news_block"
+msgstr "News Block"
+
+msgid "news_news_item_content"
+msgstr "Tekst"
+
+msgid "news_news_item_def_visibility_public_info"
+msgstr "Current news are accessible in a public RSS webfeed. They should not contain confidential information."
+
+msgid "news_news_item_def_visibility_users_info"
+msgstr "Only authenticated users have access to current news."
+
+msgid "news_news_item_head"
+msgstr "Uudiste üksus"
+
+#, fuzzy
+msgid "news_news_item_no_content"
+msgstr "No Text"
+
+#, fuzzy
+msgid "news_news_item_post"
+msgstr "Post"
+
+msgid "news_news_item_title"
+msgstr "Pealkiri"
+
+msgid "news_news_item_visibility"
+msgstr "Ligipääs"
+
+msgid "news_news_item_visibility_info"
+msgstr "Avalikke uudiseid saab RSS abil ILIAsest väljaspool lugeda ilma autentimiseta. Ärge kaasake konfidentsiaalseid andmed."
+
+msgid "news_no_news_items"
+msgstr "Uudiseid pole."
+
+#, fuzzy
+msgid "news_not_available"
+msgstr "News Item Unavailable"
+
+msgid "news_notifications_public"
+msgstr "Avalikud märguanded"
+
+msgid "news_notifications_public_info"
+msgstr "If this option is enabled, notifications can be obtained by personal RSS feeds outside of ILIAS. Please note that this makes notifications accessible without authentification."
+
+msgid "news_nr_of_items"
+msgstr "Uudisüksuste maksimaalne arv objekti kohta"
+
+msgid "news_nr_of_items_info"
+msgstr "Andmebaasis hoitav uudisüksuste arv objekti kohta (nt. fail või õppemoodul). Pane tähele, et konteinerobjektid (nt kategooriad, kursused) võivad koondada rohkem üksusi, kuna töödeldakse ka alaobjektide uudised."
+
+#, fuzzy
+msgid "news_old_period"
+msgstr "Value for '%s': %s"
+
+msgid "news_pd_period"
+msgstr "Töölaua uudisteperiood"
+
+msgid "news_pd_period_info"
+msgstr "Määrab ajaperioodi, mille vältel uudised isiklikul töölaual on. Select lower values, if you experience any performance problems."
+
+msgid "news_period_1_month"
+msgstr "Eelmine kuu"
+
+msgid "news_period_1_week"
+msgstr "Eelmine nädal"
+
+msgid "news_period_1_year"
+msgstr "Eelmine aasta"
+
+msgid "news_period_x_days"
+msgstr "Viimased %s päeva"
+
+msgid "news_public_feed"
+msgstr "Extra RSS voog"
+
+msgid "news_public_feed_info"
+msgstr "Antud valiku võimaldamisel luuakse selle meedialevi jaoks eraldi RSS voog."
+
+#, fuzzy
+msgid "news_really_delete_news"
+msgstr "Do you really want to delete this news item?"
+
+msgid "news_rss"
+msgstr "RSS"
+
+msgid "news_rss_period"
+msgstr "RSS periood"
+
+msgid "news_rss_title_format"
+msgstr "RSS kirjete nimetuse formaat"
+
+msgid "news_rss_title_format_news_obj"
+msgstr "Uudise pealkiri (Object Title)"
+
+msgid "news_rss_title_format_obj_news"
+msgstr "Object Title - uudise pealkiri"
+
+msgid "news_settings"
+msgstr "Uudiste seaded"
+
+#, fuzzy
+msgid "news_sorry_not_accessible_anymore"
+msgstr "Sorry, this item is not accessible anymore."
+
+msgid "news_time_period"
+msgstr "Ajaperiood"
+
+#, fuzzy
+msgid "news_timline_add_entries_info"
+msgstr "No news available yet. Click \"Add\" to create news entries."
+
+#, fuzzy
+msgid "news_timline_no_entries"
+msgstr "No news have been found."
+
+msgid "news_visibility_public"
+msgstr "Avalik"
+
+msgid "news_visibility_users"
+msgstr "Sisseloginud kasutajad"
+
+msgid "news_x_files_created"
+msgstr "%s faili on lisatud."
+
+msgid "news_x_files_updated"
+msgstr "%s faili on uuendatud."
+
+msgid "news_x_postings"
+msgstr "%s postitust on lisatud."
+
+msgid "passwd_equals_ilpasswd"
+msgstr "Sisestage ILIAS-e paroolist erinev parool."
+
+msgid "priv_feed_disabled"
+msgstr "Isiklikud uudisvood keelatud."
+
+msgid "priv_feed_settings"
+msgstr "Isikliku uudisvoo seaded"

@@ -1,0 +1,350 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: nl\n"
+"Language-Team: Dutch\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: news\n"
+
+#, fuzzy
+msgid "cron_news_delete_old"
+msgstr "Delete old News Items"
+
+#, fuzzy
+msgid "cron_news_delete_old_desc"
+msgstr "Deletes news items older than the configured threshold. MediaCast news items (context_obj_type mcst) are always excluded."
+
+#, fuzzy
+msgid "cron_news_delete_old_result"
+msgstr "%s news item(s) deleted."
+
+#, fuzzy
+msgid "cron_news_delete_old_scope"
+msgstr "Scope"
+
+#, fuzzy
+msgid "cron_news_delete_old_scope_auto"
+msgstr "Delete automatic news items"
+
+#, fuzzy
+msgid "cron_news_delete_old_scope_both"
+msgstr "Delete both automatic and manual news items"
+
+#, fuzzy
+msgid "cron_news_delete_old_scope_manual"
+msgstr "Delete manual news items"
+
+#, fuzzy
+msgid "cron_news_delete_old_threshold"
+msgstr "Threshold"
+
+#, fuzzy
+msgid "cron_news_delete_old_threshold_info"
+msgstr "All news items older than the specified period will be deleted. The creation date is used as the criterion. Comments or any attached media from manually created news items will also be permanently deleted."
+
+#, fuzzy
+msgid "lso_news_online_title"
+msgstr "A new learning sequence object is online!"
+
+#, fuzzy
+msgid "lso_news_online_txt"
+msgstr "A new object for your learning sequence was just published."
+
+#, fuzzy
+msgid "new_test_online"
+msgstr "The Test was set online."
+
+msgid "news_1_file_created"
+msgstr "1 bestand is toegevoegd."
+
+msgid "news_1_file_updated"
+msgstr "1 File has been updated."
+
+#, fuzzy
+msgid "news_1_postings"
+msgstr "One post has been added."
+
+msgid "news_add_news"
+msgstr "Nieuws toevoegen"
+
+msgid "news_all_items"
+msgstr "Alle items"
+
+msgid "news_allow_longer_periods"
+msgstr "Allow Longer Periods"
+
+msgid "news_allow_longer_periods_info"
+msgstr "Users may select longer news periods on personal desktop."
+
+msgid "news_allow_shorter_periods"
+msgstr "Allow Shorter Periods"
+
+msgid "news_allow_shorter_periods_info"
+msgstr "Users may select shorter news periods on personal desktop."
+
+msgid "news_attached_to"
+msgstr "Gekoppeld aan"
+
+msgid "news_block_information"
+msgstr "Het <b>Nieuwsblok</b> geeft al het nieuws dat gerelateerd is aan <b>Persoonlijke Onderwerpen</b> dat je hebt geselecteerd in het persoonlijk scherm."
+
+msgid "news_cache"
+msgstr "News Cache (Minutes)"
+
+msgid "news_cache_info"
+msgstr "Update news blocks all x minutes. '0' means everytime. Higher values improve performance, but news may link to non-accessible items."
+
+#, fuzzy
+msgid "news_co_period"
+msgstr "News Period for Container-Objects"
+
+#, fuzzy
+msgid "news_co_period_info"
+msgstr "Select the default period for which news is displayed in container-objects. This setting can be overridden for each object individually. Select a shorter period if you experience performance problems."
+
+#, fuzzy
+msgid "news_container_object_visibility_settings"
+msgstr "Visibility Settings of News in Container-Objects"
+
+#, fuzzy
+msgid "news_dashboard_visibility_settings"
+msgstr "Visibility Settings of News on Dashboard"
+
+msgid "news_default_visibility"
+msgstr "Standaard toegang"
+
+msgid "news_edit_news_settings"
+msgstr "Wijzig instellingen"
+
+msgid "news_enable_internal_news"
+msgstr "Laat intern nieuws toe"
+
+msgid "news_enable_internal_news_info"
+msgstr "Inschakelen van nieuwsblokken voor categorieën, cursussen, groepen en andere objecten. De gebruikers kunnen inschrijven voor nieuws  en het nieuws wordt voorgesteld op het persoonlijk scherm"
+
+msgid "news_enable_internal_rss"
+msgstr "Laat RSS toe voor intern nieuws"
+
+msgid "news_enable_internal_rss_info"
+msgstr "Toestaan om nieuwsartikelen via RSS te publiceren. Deze items zullen buiten het systeem zonder authenticatie toegankelijk zijn."
+
+msgid "news_enable_private_feed"
+msgstr "Enable private Newsfeed"
+
+msgid "news_enable_private_feed_info"
+msgstr "Als deze optie is ingeschakeld, kan publiek en persoonlijk nieuws worden verkregen door persoonlijke RSS feeds buiten ILIAS. Authenticatie gebeurt via een wachtwoord."
+
+msgid "news_feed_url"
+msgstr "Feed URL"
+
+msgid "news_feed_url_for"
+msgstr "Feed URL voor '%s'"
+
+#, fuzzy
+msgid "news_general_settings"
+msgstr "General Settings of News"
+
+msgid "news_get_feed_info"
+msgstr "Dit is een persoonlijk nieuws feed URL. De feed omvat slechts nieuws dat openbaar door de auteur wordt verklaard. De feed  wordt niet beschermd door enige authenticatieprocedure. Gelieve deze URL niet te delen met andere mensen."
+
+msgid "news_get_feed_title"
+msgstr "Persoonlijk Feed URL"
+
+msgid "news_get_feed_url"
+msgstr "Krijg Feed URL"
+
+msgid "news_get_priv_feed_info"
+msgstr "This is a personal private news feed URL. The feed includes news that are declared as public and private by the author. This feed is protected by a password, which can be changed under \"Settings\". Please do not share this URL with other people. Please replace -password- in this URL with your Feed-Password."
+
+msgid "news_get_priv_feed_title"
+msgstr "Persoonlijke privé Feed-URL"
+
+#, fuzzy
+msgid "news_hide_news_by_period"
+msgstr "Show news from the last week, month or year"
+
+msgid "news_hide_news_date"
+msgstr "Starting Date"
+
+#, fuzzy
+msgid "news_hide_news_global"
+msgstr "Use global setting"
+
+#, fuzzy
+msgid "news_hide_news_mode"
+msgstr "Time-Based News Restriction"
+
+#, fuzzy
+msgid "news_hide_news_none"
+msgstr "Do not restrict news"
+
+msgid "news_hide_news_per_date"
+msgstr "Show News After"
+
+msgid "news_inactive_private_feed_info"
+msgstr "Je privé nieuws-feed is uitgeschakeld. Stel een wachtwoord in."
+
+msgid "news_internal_news"
+msgstr "Intern nieuws"
+
+msgid "news_keep_minimal_x_items"
+msgstr "Bewaar tenminste x items"
+
+msgid "news_keep_minimal_x_items_info"
+msgstr "Als groter dan 0 dan is dit het aantal items in de feed, zelfs als de items ouder zijn dan de standaard lifetime."
+
+#, fuzzy
+msgid "news_media"
+msgstr "Media File"
+
+#, fuzzy
+msgid "news_new_comments"
+msgstr "New comments"
+
+#, fuzzy
+msgid "news_new_reactions"
+msgstr "New reactions"
+
+#, fuzzy
+msgid "news_news_block"
+msgstr "News Block"
+
+msgid "news_news_item_content"
+msgstr "Tekst"
+
+msgid "news_news_item_def_visibility_public_info"
+msgstr "Huidig nieuws is toegankelijk in en openbare RSS feed. Let op dat het geen vertrouwelijke informatie bevat."
+
+msgid "news_news_item_def_visibility_users_info"
+msgstr "Alleen geauthentificeerde gebruikers hebben toegang tot huidig nieuws."
+
+msgid "news_news_item_head"
+msgstr "Nieuwsitem"
+
+#, fuzzy
+msgid "news_news_item_no_content"
+msgstr "No Text"
+
+#, fuzzy
+msgid "news_news_item_post"
+msgstr "Post"
+
+msgid "news_news_item_title"
+msgstr "Krantekop"
+
+msgid "news_news_item_visibility"
+msgstr "Toegang"
+
+msgid "news_news_item_visibility_info"
+msgstr "Het openbare nieuws kan zonder authenticatie buiten ILIAS via RSS worden betreden. Gelieve geen vertrouwelijke informatie toe te voegen."
+
+msgid "news_no_news_items"
+msgstr "Geen nieuws beschikbaat"
+
+#, fuzzy
+msgid "news_not_available"
+msgstr "News Item Unavailable"
+
+msgid "news_notifications_public"
+msgstr "Publieke berichten"
+
+msgid "news_notifications_public_info"
+msgstr "Als deze optie wordt toegelaten, kunnen de berichten door persoonlijks feed RSS buiten ILIAS worden verkregen. Gelieve op te merken dat dit berichten zonder authenticatie toegankelijk maakt."
+
+msgid "news_nr_of_items"
+msgstr "Maximum aantal nieuws atikelen per object"
+
+msgid "news_nr_of_items_info"
+msgstr "Aantal nieuws items dat bijgehouden wordt voor een object."
+
+#, fuzzy
+msgid "news_old_period"
+msgstr "Value for '%s': %s"
+
+msgid "news_pd_period"
+msgstr "Personal Desktop News Period"
+
+msgid "news_pd_period_info"
+msgstr "Defines the time period used for news on the personal desktop. Select lower values, if you experience any performance problems."
+
+msgid "news_period_1_month"
+msgstr "Laatste maand"
+
+msgid "news_period_1_week"
+msgstr "Laatste week"
+
+msgid "news_period_1_year"
+msgstr "Laatste jaar"
+
+msgid "news_period_x_days"
+msgstr "Laatste %s dagen"
+
+msgid "news_public_feed"
+msgstr "Extra Feed URL"
+
+msgid "news_public_feed_info"
+msgstr "Als deze optie is ingeschakeld, wordt een gescheiden nieuws feed URL voor dit item verstrekt."
+
+#, fuzzy
+msgid "news_really_delete_news"
+msgstr "Do you really want to delete this news item?"
+
+#, fuzzy
+msgid "news_rss"
+msgstr "RSS"
+
+msgid "news_rss_period"
+msgstr "RSS Period"
+
+msgid "news_rss_title_format"
+msgstr "Titel Formaat van RSS entries"
+
+msgid "news_rss_title_format_news_obj"
+msgstr "Nieuws kop (Object Titel)"
+
+msgid "news_rss_title_format_obj_news"
+msgstr "Object Titel - Nieuws kop"
+
+msgid "news_settings"
+msgstr "Nieuws instellingen"
+
+#, fuzzy
+msgid "news_sorry_not_accessible_anymore"
+msgstr "Sorry, this item is not accessible anymore."
+
+msgid "news_time_period"
+msgstr "Periode"
+
+#, fuzzy
+msgid "news_timline_add_entries_info"
+msgstr "No news available yet. Click \"Add\" to create news entries."
+
+#, fuzzy
+msgid "news_timline_no_entries"
+msgstr "No news have been found."
+
+msgid "news_visibility_public"
+msgstr "Publiek"
+
+msgid "news_visibility_users"
+msgstr "Aangemelde gebruikers"
+
+msgid "news_x_files_created"
+msgstr "%s Files have been added."
+
+msgid "news_x_files_updated"
+msgstr "%s Files have been updated."
+
+msgid "news_x_postings"
+msgstr "%s berichten zijn toegevoegd"
+
+msgid "passwd_equals_ilpasswd"
+msgstr "Gebruik een ander wachtwoord dan je ILIAS wachtwoord"
+
+msgid "priv_feed_disabled"
+msgstr "Privé newsfeed niet actief"
+
+msgid "priv_feed_settings"
+msgstr "Instellingen Privé news feed"

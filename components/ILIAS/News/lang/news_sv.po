@@ -1,0 +1,339 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: news\n"
+
+#, fuzzy
+msgid "cron_news_delete_old"
+msgstr "Delete old News Items"
+
+#, fuzzy
+msgid "cron_news_delete_old_desc"
+msgstr "Deletes news items older than the configured threshold. MediaCast news items (context_obj_type mcst) are always excluded."
+
+#, fuzzy
+msgid "cron_news_delete_old_result"
+msgstr "%s news item(s) deleted."
+
+#, fuzzy
+msgid "cron_news_delete_old_scope"
+msgstr "Scope"
+
+#, fuzzy
+msgid "cron_news_delete_old_scope_auto"
+msgstr "Delete automatic news items"
+
+#, fuzzy
+msgid "cron_news_delete_old_scope_both"
+msgstr "Delete both automatic and manual news items"
+
+#, fuzzy
+msgid "cron_news_delete_old_scope_manual"
+msgstr "Delete manual news items"
+
+#, fuzzy
+msgid "cron_news_delete_old_threshold"
+msgstr "Threshold"
+
+#, fuzzy
+msgid "cron_news_delete_old_threshold_info"
+msgstr "All news items older than the specified period will be deleted. The creation date is used as the criterion. Comments or any attached media from manually created news items will also be permanently deleted."
+
+msgid "lso_news_online_title"
+msgstr "Nytt inlärningssekvensobjekt är online!"
+
+msgid "lso_news_online_txt"
+msgstr "Ett nytt objekt för din inlärningssekvens har precis lagts online."
+
+msgid "new_test_online"
+msgstr "Testet har kopplats upp online."
+
+msgid "news_1_file_created"
+msgstr "En fil har lagts till."
+
+msgid "news_1_file_updated"
+msgstr "En fil har uppdaterats."
+
+#, fuzzy
+msgid "news_1_postings"
+msgstr "One post has been added."
+
+msgid "news_add_news"
+msgstr "Lägg till bidrag"
+
+msgid "news_all_items"
+msgstr "Nyheter om alla favoriter"
+
+msgid "news_allow_longer_periods"
+msgstr "Tillåt längre perioder"
+
+msgid "news_allow_longer_periods_info"
+msgstr "Användare kan välja längre nyhetsperioder för sina favoriter."
+
+msgid "news_allow_shorter_periods"
+msgstr "Tillåt kortare perioder"
+
+msgid "news_allow_shorter_periods_info"
+msgstr "Användare kan välja kortare nyhetsperioder för sina favoriter."
+
+msgid "news_attached_to"
+msgstr "Tilldelad till"
+
+msgid "news_block_information"
+msgstr "I blocket \"Nyheter\" visas alla <b>nyheter</b> om dina favoriter i kronologisk ordning."
+
+msgid "news_cache"
+msgstr "Cache för nyheter (minuter)"
+
+msgid "news_cache_info"
+msgstr "Uppdatera blocket \"Nyheter\" var x:e minut. 0' betyder när som helst. Värden större än noll ökar prestandan i motsvarande grad. I enskilda fall kan dock länkar hänvisa till objekt som inte längre är tillgängliga."
+
+#, fuzzy
+msgid "news_co_period"
+msgstr "News Period for Container-Objects"
+
+#, fuzzy
+msgid "news_co_period_info"
+msgstr "Select the default period for which news is displayed in container-objects. This setting can be overridden for each object individually. Select a shorter period if you experience performance problems."
+
+#, fuzzy
+msgid "news_container_object_visibility_settings"
+msgstr "Visibility Settings of News in Container-Objects"
+
+#, fuzzy
+msgid "news_dashboard_visibility_settings"
+msgstr "Visibility Settings of News on Dashboard"
+
+msgid "news_default_visibility"
+msgstr "Förvald åtkomst"
+
+msgid "news_edit_news_settings"
+msgstr "Inställningar"
+
+msgid "news_enable_internal_news"
+msgstr "Aktivera interna nyheter"
+
+msgid "news_enable_internal_news_info"
+msgstr "Aktiverar \"Nyheter\"-block för kategorier, kurser, grupper och andra objekt. Användare kan prenumerera på dessa nyheter och få dem på sin instrumentpanel."
+
+msgid "news_enable_internal_rss"
+msgstr "Aktivera RSS för interna nyheter"
+
+msgid "news_enable_internal_rss_info"
+msgstr "Tillåt publicering av nyheter via RSS. Dessa inlägg kan nås från utsidan utan autentisering."
+
+msgid "news_enable_private_feed"
+msgstr "Aktivera privat RSS-flöde"
+
+msgid "news_enable_private_feed_info"
+msgstr "Ger tillgång till privata och publika nyheter via RSS. Autentisering sker med hjälp av ett speciellt feed-lösenord."
+
+msgid "news_feed_url"
+msgstr "URL för flöde"
+
+msgid "news_feed_url_for"
+msgstr "Feed-URL för '%s'"
+
+#, fuzzy
+msgid "news_general_settings"
+msgstr "General Settings of News"
+
+msgid "news_get_feed_info"
+msgstr "Detta är adressen till ditt personliga nyhetsflöde. Detta nyhetsflöde innehåller alla nyheter som har definierats som offentliga av respektive författare. Detta nyhetsflöde är inte skyddat av någon autentiseringsåtgärd."
+
+msgid "news_get_feed_title"
+msgstr "URL till ditt personliga nyhetsflöde"
+
+msgid "news_get_feed_url"
+msgstr "Hämta URL för nyhetsflöde"
+
+msgid "news_get_priv_feed_info"
+msgstr "Detta är adressen till ditt privata nyhetsflöde. Förutom offentliga nyheter innehåller detta nyhetsflöde även nyheter som har definierats som privata av respektive författare. Detta nyhetsflöde skyddas av ett lösenord, som du kan ställa in under \"Inställ"
+
+msgid "news_get_priv_feed_title"
+msgstr "URL till ditt privata nyhetsflöde"
+
+#, fuzzy
+msgid "news_hide_news_by_period"
+msgstr "Show news from the last week, month or year"
+
+msgid "news_hide_news_date"
+msgstr "Startdatum"
+
+#, fuzzy
+msgid "news_hide_news_global"
+msgstr "Use global setting"
+
+#, fuzzy
+msgid "news_hide_news_mode"
+msgstr "Time-Based News Restriction"
+
+#, fuzzy
+msgid "news_hide_news_none"
+msgstr "Do not restrict news"
+
+msgid "news_hide_news_per_date"
+msgstr "Visa nyheter från datum"
+
+msgid "news_inactive_private_feed_info"
+msgstr "Ditt privata nyhetsflöde är avaktiverat. Ange ett lösenord i inställningarna."
+
+msgid "news_internal_news"
+msgstr "Nyheter"
+
+msgid "news_keep_minimal_x_items"
+msgstr "Håll kvar äldre poster"
+
+msgid "news_keep_minimal_x_items_info"
+msgstr "Antal poster som också görs tillgängliga i webbflödet efter den systemomfattande RSS-perioden."
+
+msgid "news_media"
+msgstr "Mediefil"
+
+msgid "news_new_comments"
+msgstr "Nya kommentarer"
+
+msgid "news_new_reactions"
+msgstr "Nya reaktioner"
+
+msgid "news_news_block"
+msgstr "News\" block"
+
+msgid "news_news_item_content"
+msgstr "Text"
+
+msgid "news_news_item_def_visibility_public_info"
+msgstr "News är tillgängliga i ett offentligt RSS-webbflöde. De bör inte innehålla konfidentiell information."
+
+msgid "news_news_item_def_visibility_users_info"
+msgstr "News är endast tillgängligt för autentiserade användare."
+
+msgid "news_news_item_head"
+msgstr "Bidrag"
+
+#, fuzzy
+msgid "news_news_item_no_content"
+msgstr "No Text"
+
+#, fuzzy
+msgid "news_news_item_post"
+msgstr "Post"
+
+msgid "news_news_item_title"
+msgstr "rubrik"
+
+msgid "news_news_item_visibility"
+msgstr "Tillgång"
+
+msgid "news_news_item_visibility_info"
+msgstr "Public news kan läsas från utsidan och utan registrering. De får inte innehålla konfidentiell information."
+
+msgid "news_no_news_items"
+msgstr "Det finns inga nyheter för dig."
+
+#, fuzzy
+msgid "news_not_available"
+msgstr "News Item Unavailable"
+
+msgid "news_notifications_public"
+msgstr "Öffentliga meddelanden"
+
+msgid "news_notifications_public_info"
+msgstr "Om detta alternativ är valt kan meddelanden även tas emot utanför ILIAS via det personliga nyhetsflödet. Observera att dessa meddelanden kan nås utan autentisering."
+
+msgid "news_nr_of_items"
+msgstr "Antal maximala nyheter per objekt"
+
+msgid "news_nr_of_items_info"
+msgstr "Antal nyheter som finns i databasen för ett objekt (t.ex. en fil eller en utbildningsmodul). Observera att containerobjekt som kategorier eller kurser kan innehålla fler nyheter, eftersom de också visar nyheterna för sina underobjekt."
+
+#, fuzzy
+msgid "news_old_period"
+msgstr "Value for '%s': %s"
+
+msgid "news_pd_period"
+msgstr "Tidsperiod för nyhetsvisning på instrumentpanelen"
+
+msgid "news_pd_period_info"
+msgstr "Tidsperiod som tas med i beräkningen för nyheter på instrumentpanelen. Vid prestandaproblem bör lägre värden väljas."
+
+msgid "news_period_1_month"
+msgstr "Förra månaden"
+
+msgid "news_period_1_week"
+msgstr "Förra veckan"
+
+msgid "news_period_1_year"
+msgstr "Förra året"
+
+msgid "news_period_x_days"
+msgstr "Senaste %s dagar"
+
+msgid "news_public_feed"
+msgstr "Own webfeed"
+
+msgid "news_public_feed_info"
+msgstr "En RSS-ikon med en separat URL för webbflödet visas."
+
+msgid "news_really_delete_news"
+msgstr "Bör detta inlägg verkligen raderas?"
+
+msgid "news_rss"
+msgstr "RSS"
+
+msgid "news_rss_period"
+msgstr "RSS period"
+
+msgid "news_rss_title_format"
+msgstr "RSS titelformat"
+
+msgid "news_rss_title_format_news_obj"
+msgstr "Meddelandets titel (objektets titel)"
+
+msgid "news_rss_title_format_obj_news"
+msgstr "Objektets titel - Meddelandets titel"
+
+msgid "news_settings"
+msgstr "Inställningar för interna nyheter"
+
+msgid "news_sorry_not_accessible_anymore"
+msgstr "Tyvärr, detta objekt är inte längre i din åtkomst."
+
+msgid "news_time_period"
+msgstr "Tidsspann"
+
+msgid "news_timline_add_entries_info"
+msgstr "Det finns för närvarande inga nyheter tillgängliga. Klicka på \"Lägg till inlägg\" för att skapa nyheter."
+
+#, fuzzy
+msgid "news_timline_no_entries"
+msgstr "No news have been found."
+
+msgid "news_visibility_public"
+msgstr "Offentlig"
+
+msgid "news_visibility_users"
+msgstr "Autentiserade användare"
+
+msgid "news_x_files_created"
+msgstr "%s filer har lagts till."
+
+msgid "news_x_files_updated"
+msgstr "%s-filer har uppdaterats."
+
+msgid "news_x_postings"
+msgstr "%s bidrag har lagts till."
+
+msgid "passwd_equals_ilpasswd"
+msgstr "Var god ange ett annat lösenord än ditt ILIAS-lösenord av säkerhetsskäl"
+
+msgid "priv_feed_disabled"
+msgstr "Privat nyhetsflöde har avaktiverats."
+
+msgid "priv_feed_settings"
+msgstr "Inställningar för privat nyhetsflöde"

@@ -1,0 +1,336 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: news\n"
+
+#, fuzzy
+msgid "cron_news_delete_old"
+msgstr "Delete old News Items"
+
+#, fuzzy
+msgid "cron_news_delete_old_desc"
+msgstr "Deletes news items older than the configured threshold. MediaCast news items (context_obj_type mcst) are always excluded."
+
+#, fuzzy
+msgid "cron_news_delete_old_result"
+msgstr "%s news item(s) deleted."
+
+#, fuzzy
+msgid "cron_news_delete_old_scope"
+msgstr "Scope"
+
+#, fuzzy
+msgid "cron_news_delete_old_scope_auto"
+msgstr "Delete automatic news items"
+
+#, fuzzy
+msgid "cron_news_delete_old_scope_both"
+msgstr "Delete both automatic and manual news items"
+
+#, fuzzy
+msgid "cron_news_delete_old_scope_manual"
+msgstr "Delete manual news items"
+
+#, fuzzy
+msgid "cron_news_delete_old_threshold"
+msgstr "Threshold"
+
+#, fuzzy
+msgid "cron_news_delete_old_threshold_info"
+msgstr "All news items older than the specified period will be deleted. The creation date is used as the criterion. Comments or any attached media from manually created news items will also be permanently deleted."
+
+msgid "lso_news_online_title"
+msgstr "新しい学習シーケンスオブジェクトはオンラインです!"
+
+msgid "lso_news_online_txt"
+msgstr "学習シーケンス用の新しいオブジェクトは公開されたばかりです。"
+
+msgid "new_test_online"
+msgstr "オンラインに設定されました。"
+
+msgid "news_1_file_created"
+msgstr "ファイルが1個追加されました。"
+
+msgid "news_1_file_updated"
+msgstr "ファイルが1個更新されました。"
+
+msgid "news_1_postings"
+msgstr "投稿が1個追加されました。"
+
+msgid "news_add_news"
+msgstr "ニュースを追加"
+
+msgid "news_all_items"
+msgstr "すべてのアイテム"
+
+msgid "news_allow_longer_periods"
+msgstr "長めの時間を許可"
+
+msgid "news_allow_longer_periods_info"
+msgstr "ユーザはパーソナルデスクトップで長めのニュース期間選択が可能です。"
+
+msgid "news_allow_shorter_periods"
+msgstr "短めの時間を許可"
+
+msgid "news_allow_shorter_periods_info"
+msgstr "ユーザはパーソナルデスクトップ上で短めのニュース期間選択が可能です。"
+
+msgid "news_attached_to"
+msgstr "添付"
+
+msgid "news_block_information"
+msgstr "<b>ニュース</b>ブロックは、パーソナルデスクトップ上で選択した<b>パーソナルアイテム</b>に関係する全てのニュースをリストします。"
+
+msgid "news_cache"
+msgstr "新規キャッシュ(分)"
+
+msgid "news_cache_info"
+msgstr "ニュースブロックをx分すべてアップデートします。 '0'は毎回を意味します。 値を上げるとパフォーマンスは上がりますが、ニュースが非アクセスアイテムへリンクされる事につながります。"
+
+#, fuzzy
+msgid "news_co_period"
+msgstr "News Period for Container-Objects"
+
+#, fuzzy
+msgid "news_co_period_info"
+msgstr "Select the default period for which news is displayed in container-objects. This setting can be overridden for each object individually. Select a shorter period if you experience performance problems."
+
+#, fuzzy
+msgid "news_container_object_visibility_settings"
+msgstr "Visibility Settings of News in Container-Objects"
+
+#, fuzzy
+msgid "news_dashboard_visibility_settings"
+msgstr "Visibility Settings of News on Dashboard"
+
+msgid "news_default_visibility"
+msgstr "アクセス初期設定"
+
+msgid "news_edit_news_settings"
+msgstr "編集設定"
+
+msgid "news_enable_internal_news"
+msgstr "内部ニュースを有効にする"
+
+msgid "news_enable_internal_news_info"
+msgstr "カテゴリ、グループその他オブジェクトのニュースブロックを使用可能にします。ユーザはニュース購読が可能であり、ニュースはパーソナルデスクトップ上に表示されます。"
+
+msgid "news_enable_internal_rss"
+msgstr "内部ニュースのRSSを有効にする"
+
+msgid "news_enable_internal_rss_info"
+msgstr "RSS経由のニュースアイテムの発行を許可します。これらのアイテムは認証なしで外部からアクセス可能です。"
+
+msgid "news_enable_private_feed"
+msgstr "プライベーRSSフィードを有効にする"
+
+msgid "news_enable_private_feed_info"
+msgstr "このオプションを有効にすると、パブリックとプライベートニュースはILIASの外部のパーソナルRSSフィードによって得ることができます。パスワードで認証されます。"
+
+msgid "news_feed_url"
+msgstr "URLをフィード"
+
+msgid "news_feed_url_for"
+msgstr " '%s'のURLをフィード"
+
+#, fuzzy
+msgid "news_general_settings"
+msgstr "General Settings of News"
+
+msgid "news_get_feed_info"
+msgstr "これはパーソナルニュースフィードURLです。フィードは作者が公開を宣言したニュースのみです。フィードには認証手段がありませんので、このURLを第三者間で共有しないでください。"
+
+msgid "news_get_feed_title"
+msgstr "パーソナルフィードURL"
+
+msgid "news_get_feed_url"
+msgstr "フィードURLを取得"
+
+msgid "news_get_priv_feed_info"
+msgstr "これはパーソナルプライベートニュースフィードURLです。フィードには作者のパブリックとプライベート宣言のニュースが含まれます。このフィードは\"設定\"の中にある変更可能なパスワードで保護されます。このURLを第三者と共有しないでください。フィードのパスワードでこのURLのパスワードを入れ替えてください。"
+
+msgid "news_get_priv_feed_title"
+msgstr "パーソナルプライベートフィードURL"
+
+#, fuzzy
+msgid "news_hide_news_by_period"
+msgstr "Show news from the last week, month or year"
+
+msgid "news_hide_news_date"
+msgstr "開始日"
+
+#, fuzzy
+msgid "news_hide_news_global"
+msgstr "Use global setting"
+
+#, fuzzy
+msgid "news_hide_news_mode"
+msgstr "Time-Based News Restriction"
+
+#, fuzzy
+msgid "news_hide_news_none"
+msgstr "Do not restrict news"
+
+msgid "news_hide_news_per_date"
+msgstr "以降のニュースを表示"
+
+msgid "news_inactive_private_feed_info"
+msgstr "プライベートニュースフィードは解除されます。設定しているパスワードをセットしてください。"
+
+msgid "news_internal_news"
+msgstr "ニュース"
+
+msgid "news_keep_minimal_x_items"
+msgstr "最低xアイテムを保持"
+
+msgid "news_keep_minimal_x_items_info"
+msgstr "値を>0に設定するとライフタイム初期値より古い場合でもよりこれがフィードに保持されるアイテム番号となります。"
+
+msgid "news_media"
+msgstr "メディアファイル"
+
+msgid "news_new_comments"
+msgstr "新しいコメント"
+
+msgid "news_new_reactions"
+msgstr "新しいリアクション"
+
+msgid "news_news_block"
+msgstr "新しいブロック"
+
+msgid "news_news_item_content"
+msgstr "テキスト"
+
+msgid "news_news_item_def_visibility_public_info"
+msgstr "現在のニュースはパブリックRSS Webフィード内でアクセスされます。秘密情報をコンテンツに含めてはいけません。"
+
+msgid "news_news_item_def_visibility_users_info"
+msgstr "認証済みユーザのみが現在のニュースへアクセスします。"
+
+msgid "news_news_item_head"
+msgstr "新しいアイテム"
+
+#, fuzzy
+msgid "news_news_item_no_content"
+msgstr "No Text"
+
+#, fuzzy
+msgid "news_news_item_post"
+msgstr "Post"
+
+msgid "news_news_item_title"
+msgstr "ヘッドライン"
+
+msgid "news_news_item_visibility"
+msgstr "アクセス"
+
+msgid "news_news_item_visibility_info"
+msgstr "パブリックニュースはRSS 経由でILIAS外部の認証なしにアクセスできます。 機密情報を含めないでください。"
+
+msgid "news_no_news_items"
+msgstr "ニュースはありません。"
+
+msgid "news_not_available"
+msgstr "利用できないニュース"
+
+msgid "news_notifications_public"
+msgstr "パブリック通知"
+
+msgid "news_notifications_public_info"
+msgstr "このオプションが有効になっていると、ILIAS外部のパーソナルRSSフィードで通知を得る事ができます。認証しなくても通知アクセスできるようになる事に注意願います。"
+
+msgid "news_nr_of_items"
+msgstr "オブジェクト当たりの最大ニュースアイテム数"
+
+msgid "news_nr_of_items_info"
+msgstr "データベースオブジェクト (例、ファイルまたはラーニングモジュール) を維持するニュースアイテム数です。サブオブジェクトのニュースを集計するために、コンテナオブジェクト(例、カテゴリやコース)はアイテム以上リストする可能性がある点に注意願います。"
+
+#, fuzzy
+msgid "news_old_period"
+msgstr "Value for '%s': %s"
+
+msgid "news_pd_period"
+msgstr "パーソナルデスクトップニュース間隔"
+
+msgid "news_pd_period_info"
+msgstr "パーソナルデスクトップ上のニュースに使用される間隔を定義します。支障がある場合は値を低くします。"
+
+msgid "news_period_1_month"
+msgstr "最近一ヶ月"
+
+msgid "news_period_1_week"
+msgstr "先週"
+
+msgid "news_period_1_year"
+msgstr "昨年"
+
+msgid "news_period_x_days"
+msgstr "過去%s日"
+
+msgid "news_public_feed"
+msgstr "外部RSSフィード"
+
+msgid "news_public_feed_info"
+msgstr "このオプションを有効にすると、別のRSS フィードがこのメディアキャスト用に提供されます。"
+
+msgid "news_really_delete_news"
+msgstr "この新しいアイテムを本当に削除しますか?"
+
+msgid "news_rss"
+msgstr "RSS"
+
+msgid "news_rss_period"
+msgstr "RSS間隔"
+
+msgid "news_rss_title_format"
+msgstr "RSSエントリーのタイトル形式"
+
+msgid "news_rss_title_format_news_obj"
+msgstr "ニュースヘッドライン (オブジェクトタイトル)"
+
+msgid "news_rss_title_format_obj_news"
+msgstr "オブジェクトタイトル - ニュースヘッドライン"
+
+msgid "news_settings"
+msgstr "ニュース設定"
+
+msgid "news_sorry_not_accessible_anymore"
+msgstr "恐れ入りますが、このアイテムにはもうアクセスできません。"
+
+msgid "news_time_period"
+msgstr "時間間隔"
+
+msgid "news_timline_add_entries_info"
+msgstr "新しいニュースはまだありません。新しいエントリーを作成するには\"追加\"をクリックします。"
+
+msgid "news_timline_no_entries"
+msgstr "新しいニュースはありませんでした。"
+
+msgid "news_visibility_public"
+msgstr "パブリック"
+
+msgid "news_visibility_users"
+msgstr "ログイン済のユーザ"
+
+msgid "news_x_files_created"
+msgstr "%s個ファイルが追加されました。"
+
+msgid "news_x_files_updated"
+msgstr "%s個ファイルが更新されました。"
+
+msgid "news_x_postings"
+msgstr "%s件投稿が追加されました。"
+
+msgid "passwd_equals_ilpasswd"
+msgstr "ILIAS-パスワードとは異なるパスワードを入力してください。"
+
+msgid "priv_feed_disabled"
+msgstr "プライベートニュースフィードが無効になりました。"
+
+msgid "priv_feed_settings"
+msgstr "プライベートニュースフィード"

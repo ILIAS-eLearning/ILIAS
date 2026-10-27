@@ -1,0 +1,339 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fr\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: news\n"
+
+#, fuzzy
+msgid "cron_news_delete_old"
+msgstr "Delete old News Items"
+
+#, fuzzy
+msgid "cron_news_delete_old_desc"
+msgstr "Deletes news items older than the configured threshold. MediaCast news items (context_obj_type mcst) are always excluded."
+
+#, fuzzy
+msgid "cron_news_delete_old_result"
+msgstr "%s news item(s) deleted."
+
+#, fuzzy
+msgid "cron_news_delete_old_scope"
+msgstr "Scope"
+
+#, fuzzy
+msgid "cron_news_delete_old_scope_auto"
+msgstr "Delete automatic news items"
+
+#, fuzzy
+msgid "cron_news_delete_old_scope_both"
+msgstr "Delete both automatic and manual news items"
+
+#, fuzzy
+msgid "cron_news_delete_old_scope_manual"
+msgstr "Delete manual news items"
+
+#, fuzzy
+msgid "cron_news_delete_old_threshold"
+msgstr "Threshold"
+
+#, fuzzy
+msgid "cron_news_delete_old_threshold_info"
+msgstr "All news items older than the specified period will be deleted. The creation date is used as the criterion. Comments or any attached media from manually created news items will also be permanently deleted."
+
+msgid "lso_news_online_title"
+msgstr "A new learning sequence object is online!"
+
+msgid "lso_news_online_txt"
+msgstr "A new object for your learning sequence was just published."
+
+msgid "new_test_online"
+msgstr "Le test a été mis en ligne."
+
+msgid "news_1_file_created"
+msgstr "1 fichier a été ajouté."
+
+msgid "news_1_file_updated"
+msgstr "1 fichier a été mis à jour."
+
+#, fuzzy
+msgid "news_1_postings"
+msgstr "One post has been added."
+
+msgid "news_add_news"
+msgstr "Ajouter article"
+
+msgid "news_all_items"
+msgstr "Actualités pour tous les favoris"
+
+msgid "news_allow_longer_periods"
+msgstr "Autoriser une Période plus Longue"
+
+msgid "news_allow_longer_periods_info"
+msgstr "Les utilisateurs peuvent choisir une période d'actualités plus longue sur leur bureau personnel."
+
+msgid "news_allow_shorter_periods"
+msgstr "Autoriser une Période plus Courte"
+
+msgid "news_allow_shorter_periods_info"
+msgstr "Les utilisateurs peuvent choisir une période d'actualités plus courte sur leur bureau personnel."
+
+msgid "news_attached_to"
+msgstr "Attaché à"
+
+msgid "news_block_information"
+msgstr "Le bloc <b>Actualités</b> affiche toutes les informations relatives aux objets figurant sur le Bureau Personnel."
+
+msgid "news_cache"
+msgstr "Cache des articles (Minutes)"
+
+msgid "news_cache_info"
+msgstr "Mettre à  jour les blocs des articles toutes les x minutes. '0' signifie continuellement. Des valeurs hautes augmentent la performance, mais les articles peuvent être liés à  des items inaccessibles."
+
+#, fuzzy
+msgid "news_co_period"
+msgstr "News Period for Container-Objects"
+
+#, fuzzy
+msgid "news_co_period_info"
+msgstr "Select the default period for which news is displayed in container-objects. This setting can be overridden for each object individually. Select a shorter period if you experience performance problems."
+
+#, fuzzy
+msgid "news_container_object_visibility_settings"
+msgstr "Visibility Settings of News in Container-Objects"
+
+#, fuzzy
+msgid "news_dashboard_visibility_settings"
+msgstr "Visibility Settings of News on Dashboard"
+
+msgid "news_default_visibility"
+msgstr "Accès par Défaut"
+
+msgid "news_edit_news_settings"
+msgstr "Modifier les Propriétés"
+
+msgid "news_enable_internal_news"
+msgstr "Activer les Actualités"
+
+msgid "news_enable_internal_news_info"
+msgstr "Activer les blocs d'actualités pour les catégories, les cours, les groupes et autres objets. Les utilisateurs peuvent s'abonner aux actualités et celles-ci sont affichées sur le bureau personnel."
+
+msgid "news_enable_internal_rss"
+msgstr "Activer les Flux RSS d'Actualités"
+
+msgid "news_enable_internal_rss_info"
+msgstr "Permet de publier les actualités sous forme de flux RSS. Les actualités sont alors accessibles en dehors du système sans authentification."
+
+msgid "news_enable_private_feed"
+msgstr "Activer les Flux d'Actualités Privés"
+
+msgid "news_enable_private_feed_info"
+msgstr "Si coché, les informations publiques et privées peuvent être obtenues par un flux RSS personnel en dehors d'Ilias. L'authentification est assuré par un mot de passe."
+
+msgid "news_feed_url"
+msgstr "URL du Flux RSS"
+
+msgid "news_feed_url_for"
+msgstr "URL du Flux RSS de '%s'"
+
+#, fuzzy
+msgid "news_general_settings"
+msgstr "General Settings of News"
+
+msgid "news_get_feed_info"
+msgstr "Ceci est l'URL de votre flux RSS personnel des actualités. Ce flux ne contient que les actualités déclarées comme publiques par l'auteur. Il n'est protégé par aucun mot de passe. Veuillez ne pas communiquer ce flux à d'autres personnes."
+
+msgid "news_get_feed_title"
+msgstr "URL du Flux RSS Personnel"
+
+msgid "news_get_feed_url"
+msgstr "URL du Flux RSS"
+
+msgid "news_get_priv_feed_info"
+msgstr "Ceci est l'URL de votre flux RSS personnel des actualités. Ce flux comporte des informations déclarées comme publiques ou privées par l'auteur. Il est protégé par un mot de passe qui peut être changé dans les \"Paramètres\". Veuillez ne pas communiquer ce flux à d'autres personnes. Veuillez remplacer \"password\" dans cette URL avec le mot de passe de votre flux RSS d'actualité."
+
+msgid "news_get_priv_feed_title"
+msgstr "Flux RSS personnel et privé"
+
+#, fuzzy
+msgid "news_hide_news_by_period"
+msgstr "Show news from the last week, month or year"
+
+msgid "news_hide_news_date"
+msgstr "Date de Début"
+
+#, fuzzy
+msgid "news_hide_news_global"
+msgstr "Use global setting"
+
+#, fuzzy
+msgid "news_hide_news_mode"
+msgstr "Time-Based News Restriction"
+
+#, fuzzy
+msgid "news_hide_news_none"
+msgstr "Do not restrict news"
+
+msgid "news_hide_news_per_date"
+msgstr "Afficher les Actualités Après"
+
+msgid "news_inactive_private_feed_info"
+msgstr "Votre flux de nouvelles privées est désactivé. Veuillez définir un mot de passe dans les paramètres."
+
+msgid "news_internal_news"
+msgstr "Actualités internes"
+
+msgid "news_keep_minimal_x_items"
+msgstr "Garder au moins x éléments"
+
+msgid "news_keep_minimal_x_items_info"
+msgstr "Lorsqu'une valeur > 0 est entrée, c'est le nombre d'éléments conservés dans le flux, même s'ils sont plus anciens que la durée de vie par défaut des éléments."
+
+msgid "news_media"
+msgstr "Media File"
+
+msgid "news_new_comments"
+msgstr "New comments"
+
+msgid "news_new_reactions"
+msgstr "New reactions"
+
+msgid "news_news_block"
+msgstr "News Block"
+
+msgid "news_news_item_content"
+msgstr "Texte"
+
+msgid "news_news_item_def_visibility_public_info"
+msgstr "Les actualités sont accessibles dans les flux RSS publics. Ne pas y inclure des informations confidentielles."
+
+msgid "news_news_item_def_visibility_users_info"
+msgstr "Seuls les utilisateurs authentifiés ont accès aux actualités."
+
+msgid "news_news_item_head"
+msgstr "Actualité"
+
+#, fuzzy
+msgid "news_news_item_no_content"
+msgstr "No Text"
+
+#, fuzzy
+msgid "news_news_item_post"
+msgstr "Post"
+
+msgid "news_news_item_title"
+msgstr "Titre"
+
+msgid "news_news_item_visibility"
+msgstr "Accès"
+
+msgid "news_news_item_visibility_info"
+msgstr "Les éléments publics peuvent être consultés sans authentification en dehors d'ILIAS via RSS."
+
+msgid "news_no_news_items"
+msgstr "Aucune actualité à afficher"
+
+#, fuzzy
+msgid "news_not_available"
+msgstr "News Item Unavailable"
+
+msgid "news_notifications_public"
+msgstr "Notifications Publiques"
+
+msgid "news_notifications_public_info"
+msgstr "Si actif, les notifications peuvent être obtenues par un flux personnel d'actualité (RSS) en dehors d'ILIAS. Veuillez noter que cela rend les notifications accessibles sans authentification."
+
+msgid "news_nr_of_items"
+msgstr "Nombre Maximum d'Actualités par Objet"
+
+msgid "news_nr_of_items_info"
+msgstr "Nombre d'actualités conservées en base de données pour chaque objet. Veuillez noter que les objets de type conteneurs (ex. catégories, cours) peuvent lister plus d'objets puisqu'ils agrègent des actualités d'objets fils."
+
+#, fuzzy
+msgid "news_old_period"
+msgstr "Value for '%s': %s"
+
+msgid "news_pd_period"
+msgstr "Ancienneté des Actualités sur le Bureau Personnel"
+
+msgid "news_pd_period_info"
+msgstr "Détermine l'ancienneté des actualités sur le bureau personnel. Choisissez des valeurs plus basses si vous rencontrez des problèmes de performance."
+
+msgid "news_period_1_month"
+msgstr "Mois dernier"
+
+msgid "news_period_1_week"
+msgstr "Semaine dernière"
+
+msgid "news_period_1_year"
+msgstr "Année dernière"
+
+msgid "news_period_x_days"
+msgstr "%s derniers jours"
+
+msgid "news_public_feed"
+msgstr "Flux RSS Dédié"
+
+msgid "news_public_feed_info"
+msgstr "Si actif, une URL du flux d'actualités (RSS) distincte pour cet article est créée."
+
+msgid "news_really_delete_news"
+msgstr "Voulez-vous vraiment supprimer cet article de nouvelles?"
+
+msgid "news_rss"
+msgstr "RSS"
+
+msgid "news_rss_period"
+msgstr "Ancienneté des Actualités"
+
+msgid "news_rss_title_format"
+msgstr "Format de titre des entrées RSS"
+
+msgid "news_rss_title_format_news_obj"
+msgstr "Manchette (Titre d'objet)"
+
+msgid "news_rss_title_format_obj_news"
+msgstr "Titre d'objet - Manchette"
+
+msgid "news_settings"
+msgstr "Paramétrage des Actualités"
+
+msgid "news_sorry_not_accessible_anymore"
+msgstr "Désolé, cet article n'est plus accessible."
+
+msgid "news_time_period"
+msgstr "Période"
+
+msgid "news_timline_add_entries_info"
+msgstr "Aucune nouvelle disponible pour le moment. Cliquer sur « Ajouter » pour créer de nouvelles entrées."
+
+#, fuzzy
+msgid "news_timline_no_entries"
+msgstr "No news have been found."
+
+msgid "news_visibility_public"
+msgstr "Public"
+
+msgid "news_visibility_users"
+msgstr "Utilisateurs Connectés"
+
+msgid "news_x_files_created"
+msgstr "%s fichiers ont été ajoutés."
+
+msgid "news_x_files_updated"
+msgstr "%s fichiers ont été mis à jour."
+
+msgid "news_x_postings"
+msgstr "%s articles ont été ajoutés."
+
+msgid "passwd_equals_ilpasswd"
+msgstr "Veuillez saisir un mot de passe différent de votre mot de passe ILIAS."
+
+msgid "priv_feed_disabled"
+msgstr "Flux RSS personnel d'actualités désactivé."
+
+msgid "priv_feed_settings"
+msgstr "Paramètres du flux RSS personnel d'actualités"

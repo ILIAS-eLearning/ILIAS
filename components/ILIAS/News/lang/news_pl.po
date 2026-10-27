@@ -1,0 +1,341 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pl\n"
+"Language-Team: Polish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: news\n"
+
+#, fuzzy
+msgid "cron_news_delete_old"
+msgstr "Delete old News Items"
+
+#, fuzzy
+msgid "cron_news_delete_old_desc"
+msgstr "Deletes news items older than the configured threshold. MediaCast news items (context_obj_type mcst) are always excluded."
+
+#, fuzzy
+msgid "cron_news_delete_old_result"
+msgstr "%s news item(s) deleted."
+
+#, fuzzy
+msgid "cron_news_delete_old_scope"
+msgstr "Scope"
+
+#, fuzzy
+msgid "cron_news_delete_old_scope_auto"
+msgstr "Delete automatic news items"
+
+#, fuzzy
+msgid "cron_news_delete_old_scope_both"
+msgstr "Delete both automatic and manual news items"
+
+#, fuzzy
+msgid "cron_news_delete_old_scope_manual"
+msgstr "Delete manual news items"
+
+#, fuzzy
+msgid "cron_news_delete_old_threshold"
+msgstr "Threshold"
+
+#, fuzzy
+msgid "cron_news_delete_old_threshold_info"
+msgstr "All news items older than the specified period will be deleted. The creation date is used as the criterion. Comments or any attached media from manually created news items will also be permanently deleted."
+
+#, fuzzy
+msgid "lso_news_online_title"
+msgstr "A new learning sequence object is online!"
+
+#, fuzzy
+msgid "lso_news_online_txt"
+msgstr "A new object for your learning sequence was just published."
+
+msgid "new_test_online"
+msgstr "Test został przełączony w tryb online."
+
+msgid "news_1_file_created"
+msgstr "1 plik został dodany."
+
+msgid "news_1_file_updated"
+msgstr "1 plik został zaktualizowany."
+
+#, fuzzy
+msgid "news_1_postings"
+msgstr "One post has been added."
+
+msgid "news_add_news"
+msgstr "Dodaj post"
+
+msgid "news_all_items"
+msgstr "Wszystkie pozycje"
+
+msgid "news_allow_longer_periods"
+msgstr "Zezwól na dłuższe okresy czasu"
+
+msgid "news_allow_longer_periods_info"
+msgstr "Użytkownicy mogą wybrać dłuższe okresy czasu dla nowości na osobistym pulpicie."
+
+msgid "news_allow_shorter_periods"
+msgstr "Zezwól na krótsze okresy czasu"
+
+msgid "news_allow_shorter_periods_info"
+msgstr "Użytkownicy mogą wybrać krótsze okresy czasu dla nowości na osobistym pulpicie."
+
+msgid "news_attached_to"
+msgstr "Przydzielono do"
+
+msgid "news_block_information"
+msgstr "Sekcja \"Nowości\" przedstawia wszystkie <b>nowości</b> dotyczące obiektów znajdujących się na osobistym pulpicie w bloku <b>Wybrane oferty/b> w porządku chronologicznym."
+
+msgid "news_cache"
+msgstr "Pamięć podręczna nowości (minuty)"
+
+msgid "news_cache_info"
+msgstr "Aktualizacja sekcji \"Nowości\" następuje co x minut. '0' oznacza w każdej chwili. Wartości większe niż zero odpowiednio zwiększają moc obliczeniową. W pojedynczych przypadkach linki mogą odsyłać do już niedostępnych obiektów."
+
+#, fuzzy
+msgid "news_co_period"
+msgstr "News Period for Container-Objects"
+
+#, fuzzy
+msgid "news_co_period_info"
+msgstr "Select the default period for which news is displayed in container-objects. This setting can be overridden for each object individually. Select a shorter period if you experience performance problems."
+
+#, fuzzy
+msgid "news_container_object_visibility_settings"
+msgstr "Visibility Settings of News in Container-Objects"
+
+#, fuzzy
+msgid "news_dashboard_visibility_settings"
+msgstr "Visibility Settings of News on Dashboard"
+
+msgid "news_default_visibility"
+msgstr "Dostęp domyślny"
+
+msgid "news_edit_news_settings"
+msgstr "Edytuj ustawienia"
+
+msgid "news_enable_internal_news"
+msgstr "Włącz wewnętrzne wiadomości"
+
+msgid "news_enable_internal_news_info"
+msgstr "Aktywuje bloki wiadomości dla kategorii, kursów, grup i innych obiektów. Użytkownicy mogą subskrybować wiadomości, a wiadomości są prezentowane na pulpicie osobistym."
+
+msgid "news_enable_internal_rss"
+msgstr "Włącz RSS dla wewnętrznych wiadomości"
+
+msgid "news_enable_internal_rss_info"
+msgstr "Zezwala na publikowanie wiadomości poprzez RSS. Ta pozycja jest aktywna poza systemem bez autoryzacji."
+
+msgid "news_enable_private_feed"
+msgstr "Włącz prywatne zasilanie wiadomościami"
+
+msgid "news_enable_private_feed_info"
+msgstr "Zezwala na dostęp do prywatnych i publicznych nowości poprzez RSS. Identyfikacja następuje na podstawie specjalnego hasła typu feed."
+
+msgid "news_feed_url"
+msgstr "Feed URL"
+
+msgid "news_feed_url_for"
+msgstr "Feed URL dla '%s'"
+
+#, fuzzy
+msgid "news_general_settings"
+msgstr "General Settings of News"
+
+msgid "news_get_feed_info"
+msgstr "To jest osobisty Feed URL wiadomości. Feed zawiera tylko wiadomości zadeklarowane jako publiczne przez autora. Feed nie jest zabezpieczony procedurą autoryzacji. Nie dziel się z innymi tym adresem URL."
+
+msgid "news_get_feed_title"
+msgstr "Osobisty feed URL"
+
+msgid "news_get_feed_url"
+msgstr "Pobierz feed URL"
+
+msgid "news_get_priv_feed_info"
+msgstr "To jest adres Twojego prywatnego obszaru NewsFeeds. Obszar Newsfeed zawiera nie tylko publiczne nowości, ale również takie, które zostały przez poszczególnych autorów określone jako prywatne. Ten obszar Newsfeed chroniony jest hasłem, które możesz ustawić w opcji \"Ustawienia\". Poniższe hasło URL zastąp hasłem typu feed."
+
+msgid "news_get_priv_feed_title"
+msgstr "URL Twojego prywatnego obszaru NewsFeed"
+
+#, fuzzy
+msgid "news_hide_news_by_period"
+msgstr "Show news from the last week, month or year"
+
+msgid "news_hide_news_date"
+msgstr "Data startowa"
+
+#, fuzzy
+msgid "news_hide_news_global"
+msgstr "Use global setting"
+
+#, fuzzy
+msgid "news_hide_news_mode"
+msgstr "Time-Based News Restriction"
+
+#, fuzzy
+msgid "news_hide_news_none"
+msgstr "Do not restrict news"
+
+msgid "news_hide_news_per_date"
+msgstr "Pokaż nowości od daty"
+
+msgid "news_inactive_private_feed_info"
+msgstr "Twój osobisty feed jest wyłączony. Nadaj hasło w ustawieniach."
+
+msgid "news_internal_news"
+msgstr "Wewnętrzne wiadomości"
+
+msgid "news_keep_minimal_x_items"
+msgstr "Zastrzegaj starsze posty"
+
+msgid "news_keep_minimal_x_items_info"
+msgstr "Liczba postów, które dostępne są w kanale internetowym poza okresem RSS ustawionym dla całego systemu."
+
+msgid "news_media"
+msgstr "Media File"
+
+msgid "news_new_comments"
+msgstr "New comments"
+
+msgid "news_new_reactions"
+msgstr "New reactions"
+
+msgid "news_news_block"
+msgstr "News Block"
+
+msgid "news_news_item_content"
+msgstr "Tekst"
+
+msgid "news_news_item_def_visibility_public_info"
+msgstr "Nowości dostępne są na publicznym kanale internetowym RSS. Nie umieszczaj w nich poufnych informacji."
+
+msgid "news_news_item_def_visibility_users_info"
+msgstr "Tylko zidentyfikowani użytkownicy mają dostęp do nowości."
+
+msgid "news_news_item_head"
+msgstr "Pozycja wiadomości"
+
+#, fuzzy
+msgid "news_news_item_no_content"
+msgstr "No Text"
+
+#, fuzzy
+msgid "news_news_item_post"
+msgstr "Post"
+
+msgid "news_news_item_title"
+msgstr "Nagłówek"
+
+msgid "news_news_item_visibility"
+msgstr "Dostęp"
+
+msgid "news_news_item_visibility_info"
+msgstr "Publiczne wiadomości mogą być dostępne poza systemem ILIAS bez autoryzacji poprzez RSS. Nie zawieraj w nich poufnych informacji."
+
+msgid "news_no_news_items"
+msgstr "Nie ma dostępnych wiadomości."
+
+#, fuzzy
+msgid "news_not_available"
+msgstr "News Item Unavailable"
+
+msgid "news_notifications_public"
+msgstr "Publiczne zawiadomienia"
+
+msgid "news_notifications_public_info"
+msgstr "Jeśli ta opcja jest wybrana, zawiadomienia mogą być otrzymywane poprzez osobiste RSS poza ILIAS. Oznacza to dostęp bez autoryzacji."
+
+msgid "news_nr_of_items"
+msgstr "Maksymalna ilość pozycji wiadomości na obiekt"
+
+msgid "news_nr_of_items_info"
+msgstr "Ilość pozycji wiadomości trzymana z obiektem (np. plik lub moduł nauczania) w bazie danych. Obiekty kontenery (np. kategorie, kursy) mogą mieć więcej pozycji, ponieważ agregują wiadomości podobiektów."
+
+#, fuzzy
+msgid "news_old_period"
+msgstr "Value for '%s': %s"
+
+msgid "news_pd_period"
+msgstr "Okres do wyświetlania nowości na osobistym pulpicie"
+
+msgid "news_pd_period_info"
+msgstr "Okres czasu dla nowości na pulpicie osobistym. W przypadku problemów z mocą obliczeniową należy wybrać niższe wartości."
+
+msgid "news_period_1_month"
+msgstr "Z ostatniego miesiąca"
+
+msgid "news_period_1_week"
+msgstr "Ostatni tydzień"
+
+msgid "news_period_1_year"
+msgstr "Ostatni rok"
+
+msgid "news_period_x_days"
+msgstr "Ostanie %s dni"
+
+msgid "news_public_feed"
+msgstr "Ekstra Feed URL"
+
+msgid "news_public_feed_info"
+msgstr "Jeśli ta opcja jest wybrana, to jest wyznaczony oddzielny feed url dla tej pozycji."
+
+msgid "news_really_delete_news"
+msgstr "Czy naprawdę chcesz usunąć ten wpis?"
+
+msgid "news_rss"
+msgstr "RSS"
+
+msgid "news_rss_period"
+msgstr "Okres czasu RSS"
+
+msgid "news_rss_title_format"
+msgstr "Format tytułu RSS"
+
+msgid "news_rss_title_format_news_obj"
+msgstr "Tytuł wiadomości (tytuł obiektu)"
+
+msgid "news_rss_title_format_obj_news"
+msgstr "Tytuł obiektu - tytuł wiadomości"
+
+msgid "news_settings"
+msgstr "Ustawienia wiadomości"
+
+msgid "news_sorry_not_accessible_anymore"
+msgstr "Przykro nam, ale nie masz już dostępu do tego obiektu."
+
+msgid "news_time_period"
+msgstr "Okres"
+
+msgid "news_timline_add_entries_info"
+msgstr "Aktualnie nie istnieją żadne nowości. Kliknij na przycisk \"Dodaj wpis\", utworzyć nowości."
+
+#, fuzzy
+msgid "news_timline_no_entries"
+msgstr "No news have been found."
+
+msgid "news_visibility_public"
+msgstr "Publiczny"
+
+msgid "news_visibility_users"
+msgstr "Zalogowani użytkownicy"
+
+msgid "news_x_files_created"
+msgstr "%s Pliki zostały dodane."
+
+msgid "news_x_files_updated"
+msgstr "Zaktualizowano %s plików."
+
+msgid "news_x_postings"
+msgstr "%s Posty zostały dodane."
+
+msgid "passwd_equals_ilpasswd"
+msgstr "Ze względów bezpieczeństwa podaj inne hasło niż hasło ILIAS."
+
+msgid "priv_feed_disabled"
+msgstr "Wyłączono prywatny obszar Newsfeed."
+
+msgid "priv_feed_settings"
+msgstr "Ustawienia prywatnego zasilania wiadomościami"
