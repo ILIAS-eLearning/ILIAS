@@ -122,7 +122,7 @@ followed by a domain-grouped read of every component with a file-storage signal.
 | soap | protocol/adapter layer (+ third-party nuSOAP) |
 | Repository | *provides* the Repository-level IRSS facade (`IRSSWrapper`) |
 | Group, Excel, Form, RTE | export/temp staging, framework upload plumbing, editor config |
-| BackgroundTasks_, Database, Logging, Html, Xml, Init, GlobalScreen, Search, Refinery, UI, UICore, UIComponent | infra/temp/cache/asset/read-only |
+| BackgroundTasks, Database, Logging, Html, Xml, Init, GlobalScreen, Search, Refinery, UI, UICore, UIComponent | infra/temp/cache/asset/read-only |
 | Migration | DB-update helper, never touches fs |
 
 ### INFRA (the storage stack itself)

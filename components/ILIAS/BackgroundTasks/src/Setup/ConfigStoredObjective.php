@@ -36,7 +36,7 @@ class ConfigStoredObjective implements Objective
 
     public function getLabel(): string
     {
-        return "Fill ini with settings for components/ILIAS/BackgroundTasks_";
+        return "Fill ini with settings for components/ILIAS/BackgroundTasks";
     }
 
     public function isNotable(): bool
