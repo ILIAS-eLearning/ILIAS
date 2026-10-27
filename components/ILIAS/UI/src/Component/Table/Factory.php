@@ -47,18 +47,18 @@ interface Factory
      *   composition: >
      *       The Presentation Table consists of a title, a slot for View Controls and
      *       Presentation Rows. The rows will be prefixed by an Expand Glyph and consist
-     *       of a headline, a subheadline and a choice of record-fields. The expanded row
-     *       will show a lists of further fields and, optionally, a button or dropdown
-     *       for actions. The table is visually represented as a wholeness and does not
-     *       decompose into several parts.
+     *       of a headline, a subheadline, Tags shown below the headline and a choice of
+     *       record-fields. The expanded row will show a lists of further fields and,
+     *       optionally, a button or dropdown for actions. The table is visually
+     *       represented as a wholeness and does not decompose into several parts.
      *
      *   effect: >
      *       Rows can be expanded and collapsed to show/hide more extensive and detailed
      *       information per record. A click on the Expand Glyph will enlarge the row
      *       vertically to show the complete record and exchange the Expand Glyph by a
      *       Collapse Glyph. Fields that were shown in the collapsed row will be hidden
-     *       except for headline and subheadline. The ordering among the records in the
-     *       table, the ordering of the fields in one row or the visible contents of the
+     *       except for headline, subheadline and Tags. The ordering among the records in
+     *       the table, the ordering of the fields in one row or the visible contents of the
      *       table itself can be adjusted with View Controls. In contrast to the accordions
      *       known from the page editor, it is possible to have multiple expanded rows in
      *       the table.
