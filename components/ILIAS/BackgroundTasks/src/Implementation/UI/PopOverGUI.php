@@ -16,13 +16,14 @@
  *
  *********************************************************************/
 
+namespace ILIAS\BackgroundTasks\Implementation\UI;
+
 use ILIAS\DI\Container;
 use ILIAS\UI\Component\Item\Notification;
 use ILIAS\BackgroundTasks\Task\UserInteraction\Option;
 use ILIAS\BackgroundTasks\Bucket;
 use ILIAS\BackgroundTasks\Implementation\Bucket\State;
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractTask;
-use ILIAS\BackgroundTasks\Implementation\UI\StateTranslator;
 use ILIAS\BackgroundTasks\Task\UserInteraction;
 use ILIAS\UI\Component\Button\Button;
 use ILIAS\UI\Component\Button\Shy;
@@ -30,12 +31,10 @@ use ILIAS\UI\Component\Legacy\Content;
 use ILIAS\BackgroundTasks\Task\Job;
 
 /**
- * Class ilBTPopOverGUI
- *
  * @author Oskar Truffer <ot@studer-raimann.ch>
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilBTPopOverGUI
+class PopOverGUI
 {
     use StateTranslator;
 
@@ -168,18 +167,18 @@ class ilBTPopOverGUI
         return array_map(
             function (Option $option) use ($ctrl, $factory, $observer, $persistence, $redirect_uri, $language): Shy {
                 $ctrl->setParameterByClass(
-                    ilBTControllerGUI::class,
-                    ilBTControllerGUI::FROM_URL,
-                    ilBTControllerGUI::hash("//{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}")
+                    ControllerGUI::class,
+                    ControllerGUI::FROM_URL,
+                    ControllerGUI::hash("//{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}")
                 );
                 $ctrl->setParameterByClass(
-                    ilBTControllerGUI::class,
-                    ilBTControllerGUI::SELECTED_OPTION,
+                    ControllerGUI::class,
+                    ControllerGUI::SELECTED_OPTION,
                     $option->getValue()
                 );
                 $ctrl->setParameterByClass(
-                    ilBTControllerGUI::class,
-                    ilBTControllerGUI::OBSERVER_ID,
+                    ControllerGUI::class,
+                    ControllerGUI::OBSERVER_ID,
                     $persistence->getBucketContainerId($observer)
                 );
                 $this->addFromUrlToNextRequest($redirect_uri);
@@ -187,7 +186,7 @@ class ilBTPopOverGUI
                 return $factory->button()
                     ->shy(
                         $language->txt($option->getLangVar()),
-                        $ctrl->getLinkTargetByClass([ilBTControllerGUI::class], ilBTControllerGUI::CMD_USER_INTERACTION)
+                        $ctrl->getLinkTargetByClass([ControllerGUI::class], ControllerGUI::CMD_USER_INTERACTION)
                     );
             },
             $options
@@ -227,20 +226,20 @@ class ilBTPopOverGUI
     {
         $ctrl = $this->dic->ctrl();
         $persistence = $this->dic->backgroundTasks()->persistence();
-        $ctrl->setParameterByClass(ilBTControllerGUI::class, ilBTControllerGUI::OBSERVER_ID, $persistence->getBucketContainerId($observer));
+        $ctrl->setParameterByClass(ControllerGUI::class, ControllerGUI::OBSERVER_ID, $persistence->getBucketContainerId($observer));
         $this->addFromUrlToNextRequest($redirect_uri);
-        $ctrl->setParameterByClass(ilBTControllerGUI::class, ilBTControllerGUI::IS_ASYNC, "true");
+        $ctrl->setParameterByClass(ControllerGUI::class, ControllerGUI::IS_ASYNC, "true");
 
         switch ($option->getValue()) {
             case AbstractTask::MAIN_ABORT:
-                $action = $ctrl->getLinkTargetByClass([ilBTControllerGUI::class], ilBTControllerGUI::CMD_ABORT);
+                $action = $ctrl->getLinkTargetByClass([ControllerGUI::class], ControllerGUI::CMD_ABORT);
                 break;
             case AbstractTask::MAIN_REMOVE:
-                $action = $ctrl->getLinkTargetByClass([ilBTControllerGUI::class], ilBTControllerGUI::CMD_REMOVE);
+                $action = $ctrl->getLinkTargetByClass([ControllerGUI::class], ControllerGUI::CMD_REMOVE);
                 break;
             default:
-                $ctrl->setParameterByClass(ilBTControllerGUI::class, ilBTControllerGUI::SELECTED_OPTION, $option->getValue());
-                $action = $ctrl->getLinkTargetByClass([ilBTControllerGUI::class], ilBTControllerGUI::CMD_USER_INTERACTION);
+                $ctrl->setParameterByClass(ControllerGUI::class, ControllerGUI::SELECTED_OPTION, $option->getValue());
+                $action = $ctrl->getLinkTargetByClass([ControllerGUI::class], ControllerGUI::CMD_USER_INTERACTION);
                 break;
         }
 
@@ -252,15 +251,15 @@ class ilBTPopOverGUI
     {
         $ctrl = $this->dic->ctrl();
         $persistence = $this->dic->backgroundTasks()->persistence();
-        $ctrl->setParameterByClass(ilBTControllerGUI::class, ilBTControllerGUI::OBSERVER_ID, $persistence->getBucketContainerId($observer));
+        $ctrl->setParameterByClass(ControllerGUI::class, ControllerGUI::OBSERVER_ID, $persistence->getBucketContainerId($observer));
 
-        return $ctrl->getLinkTargetByClass([ilBTControllerGUI::class], ilBTControllerGUI::CMD_GET_REPLACEMENT_ITEM);
+        return $ctrl->getLinkTargetByClass([ControllerGUI::class], ControllerGUI::CMD_GET_REPLACEMENT_ITEM);
     }
 
 
     private function addFromUrlToNextRequest(string $redirect_uri): void
     {
-        $this->dic->ctrl()->setParameterByClass(ilBTControllerGUI::class, ilBTControllerGUI::FROM_URL, ilBTControllerGUI::hash($redirect_uri));
+        $this->dic->ctrl()->setParameterByClass(ControllerGUI::class, ControllerGUI::FROM_URL, ControllerGUI::hash($redirect_uri));
     }
 
 
