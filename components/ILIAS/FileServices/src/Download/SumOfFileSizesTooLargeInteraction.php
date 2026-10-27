@@ -25,6 +25,7 @@ use ILIAS\BackgroundTasks\Task\UserInteraction\Option;
 use ILIAS\BackgroundTasks\Types\SingleType;
 use ILIAS\BackgroundTasks\Types\Type;
 use ILIAS\BackgroundTasks\Value;
+use ILIAS\Language\Language;
 
 class SumOfFileSizesTooLargeInteraction extends AbstractUserInteraction
 {
@@ -33,13 +34,9 @@ class SumOfFileSizesTooLargeInteraction extends AbstractUserInteraction
      */
     private const OPTION_OK = 'ok';
 
-    protected \ilLanguage $lng;
-
-    public function __construct()
-    {
-        global $DIC;
-        $this->lng = $DIC->language();
-        $this->lng->loadLanguageModule('background_tasks');
+    public function __construct(
+        protected readonly Language $lng
+    ) {
     }
 
     /**
@@ -84,6 +81,7 @@ class SumOfFileSizesTooLargeInteraction extends AbstractUserInteraction
     #[\Override]
     public function getMessage(array $input): string
     {
+        $this->lng->loadLanguageModule('background_tasks');
         return $this->lng->txt('ui_msg_files_violate_maxsize');
     }
 

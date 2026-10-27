@@ -28,18 +28,18 @@ use ILIAS\BackgroundTasks\Types\SingleType;
 use ILIAS\BackgroundTasks\Types\Type;
 use ILIAS\BackgroundTasks\Value;
 use ILIAS\Filesystem\Util\LegacyPathHelper;
+use ILIAS\Filesystem\FileSystems\FilesystemTemp;
+use ILIAS\Logging\Logger\LoggerInterface;
 
 class DownloadZipInteraction extends AbstractUserInteraction
 {
     public const OPTION_DOWNLOAD = 'download';
     public const OPTION_CANCEL = 'cancel';
-    private ?\ilLogger $logger;
 
-
-    public function __construct()
-    {
-        global $DIC;
-        $this->logger = $DIC->logger()->cal();
+    public function __construct(
+        private readonly LoggerInterface $logger,
+        private readonly FilesystemTemp $temp_filesystem
+    ) {
     }
 
 
@@ -90,7 +90,6 @@ class DownloadZipInteraction extends AbstractUserInteraction
      */
     public function interaction(array $input, Option $user_selected_option, Bucket $bucket): Value
     {
-        global $DIC;
         $zip_name = $input[1];
         $download_name = $input[0];
 
@@ -100,7 +99,7 @@ class DownloadZipInteraction extends AbstractUserInteraction
         if ($user_selected_option->getValue() !== self::OPTION_DOWNLOAD) {
             $this->logger->info('Download canceled');
             // delete zip file
-            $filesystem = $DIC->filesystem()->temp();
+            $filesystem = $this->temp_filesystem;
 
             try {
                 $path = LegacyPathHelper::createRelativePath($zip_name->getValue());
