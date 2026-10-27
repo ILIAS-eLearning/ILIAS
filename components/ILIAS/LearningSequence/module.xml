@@ -73,4 +73,7 @@
 		<event type="raise" id="addToWaitingList" />
 		<event type="raise" id="addSubscriber" />
 	</events>
+	<web_access_checker>
+		<secure_path path="LSO" checking-class="ilObjLearningSequenceAccess" />
+	</web_access_checker>
 </module>

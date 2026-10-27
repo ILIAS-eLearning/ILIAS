@@ -108,4 +108,24 @@ class ilObjLearningSequenceAccess extends ilObjectAccess
             $lng
         ];
     }
+
+    /**
+     * Abstract and extro images are stored as <type>_<obj_id>.<suffix>,
+     * see ilLearningSequenceFilesystem.
+     */
+    public function canBeDelivered(ilWACPath $ilWACPath): bool
+    {
+        $types = ilLearningSequenceFilesystem::IMG_ABSTRACT . '|' . ilLearningSequenceFilesystem::IMG_EXTRO;
+        if (!preg_match('/^(?:' . $types . ')_(\d+)\./', $ilWACPath->getFileName(), $results)) {
+            return false;
+        }
+
+        list(, $il_access) = $this->getDICDependencies();
+        foreach (ilObject::_getAllReferences((int) $results[1]) as $ref_id) {
+            if ($il_access->checkAccess('read', '', $ref_id)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
