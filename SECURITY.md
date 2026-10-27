@@ -95,7 +95,7 @@ files to the issue manager through a secure channel.
 Please note that because of our limited time and resources we employ the following requirements on emails you send:
 
 * Each email you send must contain only one security issue. If you want to submit multiple security issues, please send an email for each issue separately. We may ask you to resend each issue as a separate email if you send us an email containing several issues.
-* Emails containing generalized bug reports (e.g. reports created automatically through pen-testing systems) should not be send directly to us without further information. Please review them beforehand and explain us the security issue you want to report (as explained in [Reporting a Security Issue](#reporting-a-security-issue) point 1.), the generalized report is great as additional information but should not be the only information we get. We may ask you to create a new report if this is has not beed met.
+* Emails containing generalized bug reports (e.g. reports created automatically through pen-testing systems) should not be sent directly to us without further information. Please review them beforehand and explain us the security issue you want to report (as explained in [Reporting a Security Issue](#reporting-a-security-issue) point 1.), the generalized report is great as additional information but should not be the only information we get. We may ask you to create a new report if this requirement has not been met.
 
 ### Email Encryption
 
