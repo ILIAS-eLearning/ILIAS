@@ -227,9 +227,13 @@ class ilAttendanceList
             }
         }
 
-        foreach ($this->profile->getVisibleUserDefinedFields(
-            Context::buildFromObjectType($this->parent_obj->getType())
-        ) as $field) {
+        $parent_obj_type = $this->tree->checkForParentType($this->parent_obj->getRefId(), 'crs') ? 'crs' : '';
+        $parent_obj_type = $this->tree->checkForParentType($this->parent_obj->getRefId(), 'grp') ? 'grp' : $parent_obj_type;
+        $user_defined_fields = $parent_obj_type === ''
+            ? $this->profile->getAllUserDefinedFields()
+            : $this->profile->getVisibleUserDefinedFields(Context::buildFromObjectType($parent_obj_type));
+
+        foreach ($user_defined_fields as $field) {
             $profile_data = $this->profile->getDataForMultiple($user_ids);
             foreach ($profile_data as $user_id => $field) {
                 $a_res[$user_id]['udf_' . $field->getIdentifier()] = $profile_data->getAdditionalFieldByIdentifier(
