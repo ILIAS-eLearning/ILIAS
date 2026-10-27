@@ -58,6 +58,8 @@
       {
         "props": false
       }
-    ]
+    ],
+    // allow destructuring and declarations of simple objects on one line.
+    "object-curly-newline": 0
   }
 }
