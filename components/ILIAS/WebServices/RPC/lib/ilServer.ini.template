@@ -1,0 +1,16 @@
+[Server]
+IpAddress = 127.0.0.1
+Port = 11111
+IndexPath = /var/www/files/lucene
+LogFile = /var/www/logs/ilServer.log
+LogLevel = INFO 
+NumThreads = 2
+RamBufferSize = 256
+IndexMaxFileSizeMB = 500
+
+[Client1]
+ClientId = ACMECorp
+NicId = 0
+IliasMajorVersion = 12
+IliasIniPath = /var/www/html/ilias/ilias.ini.php
+

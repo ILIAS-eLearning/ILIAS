@@ -83,7 +83,7 @@ FontDirectory = /var/www/files/fonts
 [Client1]
 ClientId = ACMECorp
 NicId = 0
-IliasMajorVersion = 10
+IliasMajorVersion = 12
 IliasIniPath = /var/www/html/ilias/ilias.ini.php
 ```
 
