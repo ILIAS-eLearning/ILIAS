@@ -46,6 +46,7 @@ class ilContainerNewsSettingsGUI
     protected bool $has_block_forced = false;
     protected string $news_block_label = 'news_news_block';
     protected ?string $news_block_info = 'obj_tool_setting_news_info';
+    protected string $public_feed_info = 'news_public_feed_info_container';
 
     public function __construct(ilObjectGUI $a_parent_gui)
     {
@@ -123,7 +124,7 @@ class ilContainerNewsSettingsGUI
             if ($this->news_block_info !== null) {
                 $news->setInfo($this->lng->txt($this->news_block_info));
             }
-            ilNewsForContextBlockGUI::addToSettingsForm($news);
+            ilNewsForContextBlockGUI::addToSettingsForm($news, $this->public_feed_info);
             $form->addItem($news);
         }
 
@@ -388,6 +389,11 @@ class ilContainerNewsSettingsGUI
     public function setNewsBlockInfo(?string $lang_key): void
     {
         $this->news_block_info = $lang_key;
+    }
+
+    public function setPublicFeedInfo(string $lang_key): void
+    {
+        $this->public_feed_info = $lang_key;
     }
 
     public function getNewsBlockForced(): bool
