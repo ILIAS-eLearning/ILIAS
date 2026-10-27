@@ -24,22 +24,18 @@ use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\BooleanValue;
 use ILIAS\BackgroundTasks\Types\SingleType;
 use ILIAS\BackgroundTasks\Types\Type;
 use ILIAS\BackgroundTasks\Value;
-use ILIAS\components\File\Settings\General;
+use ILIAS\AccessControl\PublicInterface\Access;
+use ILIAS\FileServices\Legacy\RepositoryTreeProxy;
+use ILIAS\Logging\Logger\LoggerInterface;
 
 class CheckSumOfFileSizesJob extends AbstractJob
 {
-    private readonly ?\ilLogger $logger;
-    protected \ilSetting $settings;
-
-
-    /**
-     * Construct
-     */
-    public function __construct()
-    {
-        global $DIC;
-        $this->logger = $DIC->logger()->cal();
-        $this->settings = new \ilSetting("fold");
+    public function __construct(
+        private readonly LoggerInterface $logger,
+        private readonly Access $access,
+        private readonly RepositoryTreeProxy $tree,
+        private readonly DownloadLimit $download_limit
+    ) {
     }
 
 
@@ -84,11 +80,8 @@ class CheckSumOfFileSizesJob extends AbstractJob
         $definition = $input[0];
         $object_ref_ids = $definition->getObjectRefIds();
 
-        global $DIC;
-
         // get global limit (max sum of individual file-sizes) from file settings
-        $general = new General($DIC->database());
-        $size_limit = $general->getDownloadLimitinMB();
+        $size_limit = $this->download_limit->getDownloadLimitinMB();
         $size_limit_bytes = $size_limit * 1024 * 1024;
         $this->logger->debug('Global limit (max sum of all file-sizes) in file-settings: ' . $size_limit_bytes . ' bytes');
         // get sum of individual file-sizes
@@ -115,9 +108,6 @@ class CheckSumOfFileSizesJob extends AbstractJob
      */
     protected function calculateRecursive(array $a_ref_ids, int &$a_file_size): void
     {
-        global $DIC;
-        $tree = $DIC['tree'];
-
         // parse folders
         foreach ($a_ref_ids as $ref_id) {
             if (!$this->validateAccess($ref_id)) {
@@ -127,7 +117,7 @@ class CheckSumOfFileSizesJob extends AbstractJob
             switch (\ilObject::_lookupType($ref_id, true)) {
                 case "fold":
                     // get child objects
-                    $subtree = $tree->getChildsByTypeFilter($ref_id, ["fold", "file"]);
+                    $subtree = $this->tree->getChildsByTypeFilter($ref_id, ["fold", "file"]);
                     if (count($subtree) > 0) {
                         $child_ref_ids = [];
                         foreach ($subtree as $child) {
@@ -152,10 +142,7 @@ class CheckSumOfFileSizesJob extends AbstractJob
      */
     protected function validateAccess(int $ref_id): bool
     {
-        global $DIC;
-        $ilAccess = $DIC['ilAccess'];
-
-        if (!$ilAccess->checkAccess("read", "", $ref_id)) {
+        if (!$this->access->checkAccess("read", "", $ref_id)) {
             return false;
         }
         return !\ilObject::_isInTrash($ref_id);

@@ -24,24 +24,24 @@ use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\BooleanValue;
 use ILIAS\BackgroundTasks\Types\SingleType;
 use ILIAS\BackgroundTasks\Types\Type;
 use ILIAS\BackgroundTasks\Value;
+use ILIAS\AccessControl\PublicInterface\Access;
+use ILIAS\FileServices\Legacy\RepositoryTreeProxy;
+use ILIAS\Logging\Logger\LoggerInterface;
 
 class CollectFilesJob extends AbstractJob
 {
     use \ilObjFileSecureString;
 
-    private ?\ilLogger $logger;
     /**
      * @var array<string, int>
      */
     private static array $duplicate_count_by_target = [];
 
-    /**
-     * Construct
-     */
-    public function __construct()
-    {
-        global $DIC;
-        $this->logger = $DIC->logger()->cal();
+    public function __construct(
+        private readonly LoggerInterface $logger,
+        private readonly Access $access,
+        private readonly RepositoryTreeProxy $tree
+    ) {
     }
 
 
@@ -152,11 +152,7 @@ class CollectFilesJob extends AbstractJob
      */
     private function getFileDirs($a_ref_id, string $a_file_name, string $a_temp_dir): false|array
     {
-        global $DIC;
-
-        $user = $DIC->user();
-        $ilAccess = $DIC->access();
-        if ($ilAccess->checkAccessOfUser($user->getId(), "read", "", $a_ref_id)) {
+        if ($this->access->checkAccess("read", "", $a_ref_id)) {
             $file = new \ilObjFile($a_ref_id);
             $source_dir = $file->getFile();
 
@@ -209,11 +205,7 @@ class CollectFilesJob extends AbstractJob
      */
     private function recurseFolder($a_ref_id, string $a_folder_name, string $a_temp_dir, int|float $a_num_recursions, $a_initiated_by_folder_action): array
     {
-        global $DIC;
-
         $num_recursions = $a_num_recursions + 1;
-        $tree = $DIC->repositoryTree();
-        $ilAccess = $DIC->access();
         $files = [];
 
         // Avoid the duplication of the uppermost folder when the download is initiated via a folder's action drop-down
@@ -224,10 +216,10 @@ class CollectFilesJob extends AbstractJob
             $temp_dir = $a_temp_dir . '/' . \ilFileUtils::getASCIIFilename($a_folder_name);
         }
 
-        $subtree = $tree->getChildsByTypeFilter($a_ref_id, ["fold", "file"]);
+        $subtree = $this->tree->getChildsByTypeFilter($a_ref_id, ["fold", "file"]);
 
         foreach ($subtree as $child) {
-            if (!$ilAccess->checkAccess("read", "", $child["ref_id"])) {
+            if (!$this->access->checkAccess("read", "", $child["ref_id"])) {
                 continue;
             }
             if (\ilObject::_isInTrash($child["ref_id"])) {

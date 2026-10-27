@@ -18,10 +18,12 @@
 
 namespace ILIAS\components\File\Settings;
 
+use ILIAS\FileServices\Download\DownloadLimit;
+
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-class General
+class General implements DownloadLimit
 {
     public const MODULE_NAME = 'file_access';
     public const F_BG_LIMIT = 'bg_limit';

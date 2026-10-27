@@ -24,20 +24,15 @@ use ILIAS\BackgroundTasks\Observer;
 use ILIAS\BackgroundTasks\Types\SingleType;
 use ILIAS\BackgroundTasks\Types\Type;
 use ILIAS\BackgroundTasks\Value;
+use ILIAS\Logging\Logger\LoggerInterface;
 
 class CopyFilesToTempDirectoryJob extends AbstractJob
 {
-    private ?\ilLogger $logger;
     protected string $target_directory = '';
 
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        global $DIC;
-        $this->logger = $DIC->logger()->cal();
+    public function __construct(
+        private readonly LoggerInterface $logger
+    ) {
     }
 
 

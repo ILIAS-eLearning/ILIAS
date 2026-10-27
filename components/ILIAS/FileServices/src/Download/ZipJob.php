@@ -25,20 +25,14 @@ use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
 use ILIAS\BackgroundTasks\Types\SingleType;
 use ILIAS\BackgroundTasks\Types\Type;
 use ILIAS\BackgroundTasks\Value;
+use ILIAS\Logging\Logger\LoggerInterface;
 
 class ZipJob extends AbstractJob
 {
-    private ?\ilLogger $logger;
-    private Archives $archives;
-
-    /**
-     * Construct
-     */
-    public function __construct()
-    {
-        global $DIC;
-        $this->logger = $DIC->logger()->cal();
-        $this->archives = $DIC->archives();
+    public function __construct(
+        private readonly LoggerInterface $logger,
+        private readonly Archives $archives
+    ) {
     }
 
 
