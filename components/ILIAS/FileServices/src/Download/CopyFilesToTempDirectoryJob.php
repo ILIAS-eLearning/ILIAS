@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+namespace ILIAS\FileServices\Download;
+
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractJob;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
 use ILIAS\BackgroundTasks\Observer;
@@ -29,9 +31,9 @@ use ILIAS\BackgroundTasks\Value;
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  *
  */
-class ilCopyFilesToTempDirectoryJob extends AbstractJob
+class CopyFilesToTempDirectoryJob extends AbstractJob
 {
-    private ?ilLogger $logger;
+    private ?\ilLogger $logger;
     protected string $target_directory = '';
 
 
@@ -52,7 +54,7 @@ class ilCopyFilesToTempDirectoryJob extends AbstractJob
     {
         return
             [
-                new SingleType(ilCopyDefinition::class),
+                new SingleType(CopyDefinition::class),
             ];
     }
 
@@ -111,8 +113,8 @@ class ilCopyFilesToTempDirectoryJob extends AbstractJob
      */
     protected function createUniqueTempDirectory(): string
     {
-        $tmpdir = ilFileUtils::ilTempnam();
-        ilFileUtils::makeDirParents($tmpdir);
+        $tmpdir = \ilFileUtils::ilTempnam();
+        \ilFileUtils::makeDirParents($tmpdir);
         $this->logger->info('New temp directory: ' . $tmpdir);
 
         return $tmpdir;
@@ -122,7 +124,7 @@ class ilCopyFilesToTempDirectoryJob extends AbstractJob
     protected function createTargetDirectory(string $a_tmpdir): string
     {
         $final_dir = $a_tmpdir . "/" . $this->target_directory;
-        ilFileUtils::makeDirParents($final_dir);
+        \ilFileUtils::makeDirParents($final_dir);
         $this->logger->info('New final directory: ' . $final_dir);
 
         return $final_dir;
@@ -132,17 +134,17 @@ class ilCopyFilesToTempDirectoryJob extends AbstractJob
     /**
      * Copy files
      */
-    protected function copyFiles(string $tmpdir, ilCopyDefinition $definition): void
+    protected function copyFiles(string $tmpdir, CopyDefinition $definition): void
     {
         foreach ($definition->getCopyDefinitions() as $copy_task) {
-            $source_dir_or_file = $copy_task[ilCopyDefinition::COPY_SOURCE_DIR];
-            $target_dir_or_file = $copy_task[ilCopyDefinition::COPY_TARGET_DIR];
+            $source_dir_or_file = $copy_task[CopyDefinition::COPY_SOURCE_DIR];
+            $target_dir_or_file = $copy_task[CopyDefinition::COPY_TARGET_DIR];
             $absolute_path_of_target_dir_or_file = $tmpdir . '/' . $target_dir_or_file;
             $absolute_directory_of_target_dir_or_file = $tmpdir . '/' . dirname($target_dir_or_file);
 
             $this->logger->debug('Creating directory: ' . $tmpdir . '/' . dirname($target_dir_or_file));
 
-            ilFileUtils::makeDirParents(
+            \ilFileUtils::makeDirParents(
                 $absolute_directory_of_target_dir_or_file
             );
 

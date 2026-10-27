@@ -19,6 +19,13 @@
 use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
 use ILIAS\BackgroundTasks\Task\TaskFactory;
+use ILIAS\FileServices\Download\CheckSumOfFileSizesJob;
+use ILIAS\FileServices\Download\CollectFilesJob;
+use ILIAS\FileServices\Download\CopyDefinition;
+use ILIAS\FileServices\Download\CopyFilesToTempDirectoryJob;
+use ILIAS\FileServices\Download\DownloadZipInteraction;
+use ILIAS\FileServices\Download\SumOfFileSizesTooLargeInteraction;
+use ILIAS\FileServices\Download\ZipJob;
 
 /**
  * Class ilDownloadContainerFilesBackgroundTask
@@ -83,35 +90,35 @@ class ilDownloadContainerFilesBackgroundTask
         $this->logger->debug('Created bucket and set the following user id: ' . $this->user_id);
 
         // Copy Definition
-        $definition = new ilCopyDefinition();
+        $definition = new CopyDefinition();
         $normalized_name = ilFileUtils::getASCIIFilename($this->getBucketTitle());
         $definition->setTempDir($normalized_name);
         $definition->setObjectRefIds($this->object_ref_ids);
         $this->logger->debug('Created copy definition and added the following tempdir: ' . $normalized_name);
 
         // Collect all files by the definition and prevent duplicates
-        $collect_job = $this->task_factory->createTask(ilCollectFilesJob::class, [$definition, $this->initiated_by_folder_action]);
+        $collect_job = $this->task_factory->createTask(CollectFilesJob::class, [$definition, $this->initiated_by_folder_action]);
         $this->logger->debug('Collected files based on the following object ids: ');
         $this->logger->dump($this->object_ref_ids);
 
         // Check the FileSize
-        $file_size_job = $this->task_factory->createTask(ilCheckSumOfFileSizesJob::class, [$collect_job]);
+        $file_size_job = $this->task_factory->createTask(CheckSumOfFileSizesJob::class, [$collect_job]);
 
         // Show problems with file-limit
-        $file_size_interaction = $this->task_factory->createTask(ilSumOfFileSizesTooLargeInteraction::class, [$file_size_job]);
+        $file_size_interaction = $this->task_factory->createTask(SumOfFileSizesTooLargeInteraction::class, [$file_size_job]);
         $this->logger->debug('Determined the sum of all file sizes');
 
         // move files from source dir to target directory
-        $copy_job = $this->task_factory->createTask(ilCopyFilesToTempDirectoryJob::class, [$file_size_interaction]);
+        $copy_job = $this->task_factory->createTask(CopyFilesToTempDirectoryJob::class, [$file_size_interaction]);
 
         // Zip it
-        $zip_job = $this->task_factory->createTask(ilZipJob::class, [$copy_job]);
+        $zip_job = $this->task_factory->createTask(ZipJob::class, [$copy_job]);
         $this->logger->debug('Moved files from source- to target-directory');
 
         // Download
         $download_name = new StringValue();
         $download_name->setValue($normalized_name . '.zip');
-        $download_interaction = $this->task_factory->createTask(ilDownloadZipInteraction::class, [$zip_job, $download_name]);
+        $download_interaction = $this->task_factory->createTask(DownloadZipInteraction::class, [$zip_job, $download_name]);
         $this->logger->debug('Created a download interaction with the following download name: ' . $download_name->getValue());
 
         // last task to bucket

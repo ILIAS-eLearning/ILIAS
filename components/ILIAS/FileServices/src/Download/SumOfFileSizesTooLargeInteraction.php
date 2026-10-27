@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+namespace ILIAS\FileServices\Download;
+
 use ILIAS\BackgroundTasks\Bucket;
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractUserInteraction;
 use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionOption;
@@ -25,18 +27,17 @@ use ILIAS\BackgroundTasks\Types\Type;
 use ILIAS\BackgroundTasks\Value;
 
 /**
- * Class ilSumOfFileSizesTooLargeInteraction
  * @author Lukas Zehnder <lz@studer-raimann.ch>
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilSumOfFileSizesTooLargeInteraction extends AbstractUserInteraction
+class SumOfFileSizesTooLargeInteraction extends AbstractUserInteraction
 {
     /**
      * @var string
      */
     private const OPTION_OK = 'ok';
 
-    protected ilLanguage $lng;
+    protected \ilLanguage $lng;
 
     public function __construct()
     {
@@ -51,13 +52,13 @@ class ilSumOfFileSizesTooLargeInteraction extends AbstractUserInteraction
     public function getInputTypes(): array
     {
         return [
-            new SingleType(ilCopyDefinition::class),
+            new SingleType(CopyDefinition::class),
         ];
     }
 
     public function getOutputType(): Type
     {
-        return new SingleType(ilCopyDefinition::class);
+        return new SingleType(CopyDefinition::class);
     }
 
     #[\Override]
