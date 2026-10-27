@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Init;
 
 use ILIAS\KeyValueStorage\Services as KeyValueStorage;
+use ILIAS\BackgroundTasks\Registry\Registry as BackgroundTasksRegistry;
 use ILIAS\WebDAV\Environment;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\FileDelivery\FileDeliveryServices;
@@ -157,6 +158,7 @@ class AllModernComponents implements \ILIAS\Component\EntryPoint
         protected \ILIAS\Language\Activities\AddLanguageEntry $add_language_entry,
         protected \ILIAS\Language\Activities\SetLanguageDetectionEnabled $set_language_detection_enabled,
         protected \ILIAS\Language\Activities\SetLanguageTranslationEnabled $set_language_translation_enabled,
+        protected BackgroundTasksRegistry $background_tasks_registry
     ) {
     }
 
@@ -279,6 +281,7 @@ class AllModernComponents implements \ILIAS\Component\EntryPoint
         $DIC[\ILIAS\Language\Activities\AddLanguageEntry::class] = fn(): \ILIAS\Language\Activities\AddLanguageEntry => $this->add_language_entry;
         $DIC[\ILIAS\Language\Activities\SetLanguageDetectionEnabled::class] = fn(): \ILIAS\Language\Activities\SetLanguageDetectionEnabled => $this->set_language_detection_enabled;
         $DIC[\ILIAS\Language\Activities\SetLanguageTranslationEnabled::class] = fn(): \ILIAS\Language\Activities\SetLanguageTranslationEnabled => $this->set_language_translation_enabled;
+        $DIC['bt.registry'] = fn(): BackgroundTasksRegistry => $this->background_tasks_registry;
     }
 
     public function getName(): string
