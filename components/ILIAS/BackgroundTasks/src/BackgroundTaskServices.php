@@ -23,6 +23,7 @@ use ILIAS\BackgroundTasks\Task\TaskFactory;
 use ILIAS\BackgroundTasks\TaskManager;
 use ILIAS\DI\Container;
 use ILIAS\BackgroundTasks\Dependencies\Injector;
+use ILIAS\BackgroundTasks\Registry\Registry;
 
 /**
  * Class BackgroundTaskServices
@@ -53,5 +54,10 @@ class BackgroundTaskServices
     public function injector(): Injector
     {
         return $this->container['bt.injector'];
+    }
+
+    public function registry(): Registry
+    {
+        return $this->container['bt.registry'];
     }
 }
