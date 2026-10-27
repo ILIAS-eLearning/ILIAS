@@ -23,6 +23,9 @@ use ILIAS\HTTP\Wrapper\RequestWrapper;
 use ILIAS\Language\Activities\AddLanguageEntry;
 use ILIAS\Language\Activities\RemoveLocalLanguageChanges;
 use ILIAS\Language\Activities\SetLanguageTranslationEnabled;
+use ILIAS\KeyValueStorage\Services as KeyValueStorage;
+use ILIAS\Language\Tests\InMemoryKeyValueStorage;
+use ILIAS\Language\Tests\InMemoryKeyValueStore;
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\UI\URLBuilderToken;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -31,6 +34,8 @@ use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 
 require_once __DIR__ . '/../../UI/tests/UITestHelper.php';
+require_once __DIR__ . '/InMemoryKeyValueStore.php';
+require_once __DIR__ . '/InMemoryKeyValueStorage.php';
 
 class ilObjLanguageExtGUITest extends TestCase
 {
@@ -42,10 +47,18 @@ class ilObjLanguageExtGUITest extends TestCase
         tearDown as private tearDownGuiTestSupport;
     }
 
+    private InMemoryKeyValueStorage $key_value_storage;
+
     protected function setUp(): void
     {
         $this->setUpGuiTestSupport();
         $_SESSION = [];
+        $this->key_value_storage = new InMemoryKeyValueStorage();
+    }
+
+    private function maintenanceState(): InMemoryKeyValueStore
+    {
+        return $this->key_value_storage->session(['language', 'ext_maintenance']);
     }
 
     /** The real, static ilSession writes into $_SESSION. */
@@ -270,6 +283,7 @@ class ilObjLanguageExtGUITest extends TestCase
             $session_selections
         );
         $dic = $this->init();
+        $dic[KeyValueStorage::class] = $this->key_value_storage;
         $GLOBALS['DIC'] = $dic;
 
         $query_wrapper = $this->createMock(\ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper::class);
@@ -1672,6 +1686,7 @@ class ilObjLanguageExtGUITest extends TestCase
             fn(string $name, ?string $default = null): ?string => $this->settings_values[$name] ?? $default
         );
         $dic['ilSetting'] = $settings;
+        $dic[KeyValueStorage::class] = $this->key_value_storage;
         $GLOBALS['DIC'] = $dic;
         $ctx = new stdClass();
         $ctx->redirects = [];
@@ -2439,7 +2454,7 @@ class ilObjLanguageExtGUITest extends TestCase
         string $expected
     ): void {
         [$gui, $ctx] = $this->createGuiForForms($langmode);
-        $_SESSION['lang_ext_maintenance'] = $remembered === null ? [] : ['export' => ['scope' => $remembered]];
+        $this->maintenanceState()->values = $remembered === null ? [] : ['export_scope' => $remembered];
 
         $gui->exportObject();
 
@@ -2467,12 +2482,12 @@ class ilObjLanguageExtGUITest extends TestCase
         defined('ILIAS_VERSION') || define('ILIAS_VERSION', '10.0');
         [$gui, $ctx] = $this->createGuiForForms($langmode, $this->postFor('buildExportForm', $post));
         $ctx->object->expects($this->never())->method('getGlobalLanguageFile');
-        $_SESSION['lang_ext_maintenance'] = ['export' => ['scope' => 'local']];
+        $this->maintenanceState()->values = ['export_scope' => 'local'];
 
         $gui->downloadObject();
 
         self::assertSame([['failure', 'form_input_not_valid']], $ctx->messages);
-        self::assertSame('local', $_SESSION['lang_ext_maintenance']['export']['scope'], 'the remembered scope is kept');
+        self::assertSame(['export_scope' => 'local'], $this->maintenanceState()->values, 'the remembered scope is kept');
         self::assertCount(1, $ctx->contents, 'the form is shown again');
     }
 
@@ -2493,7 +2508,7 @@ class ilObjLanguageExtGUITest extends TestCase
 
         self::assertSame([], $ctx->messages);
         self::assertCount(1, $ctx->contents);
-        self::assertArrayNotHasKey('lang_ext_maintenance', $_SESSION);
+        self::assertSame([], $this->maintenanceState()->values);
     }
 
     /** @param list<string> $scopes */
@@ -2505,6 +2520,7 @@ class ilObjLanguageExtGUITest extends TestCase
             [$gui, $ctx] = $this->createGuiForForms($langmode, $this->postFor('buildExportForm', ['scope' => $scope]));
             $ctx->object->method('getGlobalLanguageFile')->willThrowException(new LogicException('delivery reached'));
             $_SESSION = [];
+            $this->maintenanceState()->clear();
 
             try {
                 $gui->downloadObject();
@@ -2514,8 +2530,153 @@ class ilObjLanguageExtGUITest extends TestCase
             }
 
             self::assertSame([], $ctx->messages, $scope);
-            self::assertSame($scope, ilSession::get('lang_ext_maintenance')['export']['scope'], $scope);
+            self::assertSame(['export_scope' => $scope], $this->maintenanceState()->values, $scope);
         }
+    }
+
+    /** @return array<string, array{mixed, string}> stored value, preselected import mode */
+    public static function importModePresets(): array
+    {
+        return [
+            'remembered replace' => ['replace', 'replace'],
+            'remembered delete' => ['delete', 'delete'],
+            'unknown remembered mode' => ['bogus', 'keepall'],
+            'nothing remembered' => [null, 'keepall'],
+            'array instead of a string' => [['replace'], 'keepall'],
+            'int instead of a string' => [5, 'keepall'],
+        ];
+    }
+
+    #[DataProvider('importModePresets')]
+    public function testTheImportFormPreselectsTheRememberedModeIfItIsOffered(mixed $stored, string $expected): void
+    {
+        [$gui] = $this->createGuiForForms();
+        $this->maintenanceState()->values = $stored === null ? [] : ['import_mode_existing' => $stored];
+
+        self::assertSame($expected, $this->invokeProtectedMethod($gui, 'buildImportForm')->getInputs()['mode']->getValue());
+    }
+
+    /** @return array<string, array{mixed, string}> stored value, preselected maintain option */
+    public static function maintainPresets(): array
+    {
+        return [
+            'remembered clear' => ['clear', 'clear'],
+            'remembered merge in langmode' => ['merge', 'merge'],
+            'unknown remembered option' => ['bogus', 'load'],
+            'nothing remembered' => [null, 'load'],
+            'array instead of a string' => [['clear'], 'load'],
+            'bool instead of a string' => [true, 'load'],
+        ];
+    }
+
+    #[DataProvider('maintainPresets')]
+    public function testTheMaintainFormPreselectsTheRememberedOptionIfItIsOffered(mixed $stored, string $expected): void
+    {
+        [$gui] = $this->createGuiForForms();
+        $this->maintenanceState()->values = $stored === null ? [] : ['maintain' => $stored];
+
+        self::assertSame($expected, $this->invokeProtectedMethod($gui, 'buildMaintainForm')->getInputs()['maintain']->getValue());
+    }
+
+    public function testTheMaintainFormDoesNotPreselectAnOptionOfLangmodeWithoutLangmode(): void
+    {
+        [$gui] = $this->createGuiForForms('0');
+        $this->maintenanceState()->values = ['maintain' => 'merge'];
+
+        self::assertSame('load', $this->invokeProtectedMethod($gui, 'buildMaintainForm')->getInputs()['maintain']->getValue());
+    }
+
+    /** @return array<string, array{string, string, string}> builder, input, default */
+    public static function presetBuilders(): array
+    {
+        return [
+            'import mode' => ['buildImportForm', 'mode', 'keepall'],
+            'export scope' => ['buildExportForm', 'scope', 'global'],
+            'maintain option' => ['buildMaintainForm', 'maintain', 'load'],
+        ];
+    }
+
+    #[DataProvider('presetBuilders')]
+    public function testAnUnreadableStoredPresetFallsBackToTheDefault(string $builder, string $input, string $default): void
+    {
+        [$gui] = $this->createGuiForForms();
+        $store = $this->createStub(\ILIAS\KeyValueStorage\Store::class);
+        $store->method('get')->willThrowException(new \ILIAS\KeyValueStorage\Exception\InvalidStoredValueException('not valid JSON'));
+        $storage = $this->createStub(KeyValueStorage::class);
+        $storage->method('session')->willReturn($store);
+        unset($GLOBALS['DIC'][KeyValueStorage::class]);
+        $GLOBALS['DIC'][KeyValueStorage::class] = $storage;
+
+        self::assertSame($default, $this->invokeProtectedMethod($gui, $builder)->getInputs()[$input]->getValue());
+    }
+
+    #[DataProvider('importModesWithoutConfirmation')]
+    public function testUploadObjectRemembersAValidImportModeForThePreselection(string $mode): void
+    {
+        [$gui] = $this->importGui(['file' => ['up1'], 'mode' => $mode]);
+
+        $gui->uploadObject();
+
+        self::assertSame(['import_mode_existing' => $mode], $this->maintenanceState()->values);
+    }
+
+    #[DataProvider('importModesWithConfirmation')]
+    public function testUploadObjectRemembersADestructiveImportModeAlreadyBeforeTheConfirmation(string $mode): void
+    {
+        [$gui] = $this->importGui(['file' => ['up1'], 'mode' => $mode]);
+
+        $gui->uploadObject();
+
+        self::assertSame(['import_mode_existing' => $mode], $this->maintenanceState()->values);
+    }
+
+    #[DataProvider('forgedImportModes')]
+    public function testUploadObjectKeepsTheRememberedImportModeForAnInvalidMode(mixed $mode): void
+    {
+        [$gui] = $this->importGui(['file' => ['up1']] + ($mode === null ? [] : ['mode' => $mode]));
+        $this->maintenanceState()->values = ['import_mode_existing' => 'delete'];
+
+        $gui->uploadObject();
+
+        self::assertSame(['import_mode_existing' => 'delete'], $this->maintenanceState()->values);
+    }
+
+    public function testUploadObjectKeepsTheRememberedImportModeForAnUploadOfAnotherSession(): void
+    {
+        [$gui] = $this->importGui(['file' => ['foreign'], 'mode' => 'replace']);
+        $this->maintenanceState()->values = ['import_mode_existing' => 'delete'];
+
+        $gui->uploadObject();
+
+        self::assertSame(['import_mode_existing' => 'delete'], $this->maintenanceState()->values);
+    }
+
+    #[DataProvider('destructiveMaintainOptions')]
+    public function testMaintainExecuteRemembersTheOptionAlreadyBeforeTheConfirmationWithoutTouchingOtherPresets(
+        string $option,
+        string $langmode
+    ): void {
+        [$gui] = $this->maintainGui($option, $langmode);
+        $this->maintenanceState()->values = ['export_scope' => 'local', 'import_mode_existing' => 'replace'];
+
+        $gui->maintainExecuteObject();
+
+        self::assertSame(
+            ['export_scope' => 'local', 'import_mode_existing' => 'replace', 'maintain' => $option],
+            $this->maintenanceState()->values
+        );
+    }
+
+    /** @param array<string, mixed> $values */
+    #[DataProvider('invalidMaintainSubmissions')]
+    public function testMaintainExecuteKeepsTheRememberedOptionForAnOptionThatIsNotOffered(array $values, string $langmode): void
+    {
+        [$gui] = $this->createGuiForForms($langmode, $this->postFor('buildMaintainForm', $values));
+        $this->maintenanceState()->values = ['maintain' => 'clear'];
+
+        $gui->maintainExecuteObject();
+
+        self::assertSame(['maintain' => 'clear'], $this->maintenanceState()->values);
     }
 
     public function testTheSettingsFormPreselectsTheStoredTranslationFlagOfThisLanguage(): void
@@ -2579,7 +2740,7 @@ class ilObjLanguageExtGUITest extends TestCase
      */
     private function newEntryGui(array $values, array $query = ['eid' => 'sometopic'], string $method = 'POST'): array
     {
-        $_SESSION['lang_ext_maintenance'] = [
+        $this->maintenanceState()->values = [
             'used_topics' => ['sometopic', 'other'],
             'used_modules' => ['common', 'user'],
         ];

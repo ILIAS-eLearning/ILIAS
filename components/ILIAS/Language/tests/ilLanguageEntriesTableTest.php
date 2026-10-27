@@ -28,11 +28,14 @@ use ILIAS\UI\Component\Table\DataRow;
 use ILIAS\HTTP\Services as HttpServices;
 use ILIAS\HTTP\Wrapper\WrapperFactory;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
+use ILIAS\KeyValueStorage\Services as KeyValueStorage;
+use ILIAS\Language\Tests\InMemoryKeyValueStorage;
 use ILIAS\Refinery\Factory as RefineryFactory;
-use ILIAS\Refinery\KindlyTo\Group as KindlyToGroup;
-use ILIAS\Refinery\Transformation;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
+
+require_once __DIR__ . '/InMemoryKeyValueStore.php';
+require_once __DIR__ . '/InMemoryKeyValueStorage.php';
 
 /** Static collaborators (ilObjLanguageAccess, ilObjLanguageExt::_getValues(), ilLanguageFile) are faked via DIC, session and a temp file. */
 class ilLanguageEntriesTableTest extends ilLanguageBaseTestCase
@@ -67,8 +70,6 @@ class ilLanguageEntriesTableTest extends ilLanguageBaseTestCase
             @rmdir($dir);
         }
         $this->temp_dirs_to_remove = [];
-
-        unset($_SESSION['lang_ext_maintenance']);
 
         parent::tearDown();
     }
@@ -152,11 +153,7 @@ class ilLanguageEntriesTableTest extends ilLanguageBaseTestCase
         $http = $this->createMock(HttpServices::class);
         $http->method('wrapper')->willReturn($wrapper_factory);
 
-        $transformation = $this->createMock(Transformation::class);
-        $kindly_to = $this->createMock(KindlyToGroup::class);
-        $kindly_to->method('string')->willReturn($transformation);
-        $refinery = $this->createMock(RefineryFactory::class);
-        $refinery->method('kindlyTo')->willReturn($kindly_to);
+        $refinery = new RefineryFactory(new \ILIAS\Data\Factory(), $this->createLng());
 
         $this->setGlobalVariable('http', $http);
         $this->setGlobalVariable('refinery', $refinery);
@@ -165,7 +162,9 @@ class ilLanguageEntriesTableTest extends ilLanguageBaseTestCase
 
     private function setSavedModulesAndTopics(array $modules, array $topics): void
     {
-        $_SESSION['lang_ext_maintenance'] = ['used_modules' => $modules, 'used_topics' => $topics];
+        $storage = new InMemoryKeyValueStorage();
+        $storage->session(['language', 'ext_maintenance'])->values = ['used_modules' => $modules, 'used_topics' => $topics];
+        $this->setGlobalVariable(KeyValueStorage::class, $storage);
     }
 
 

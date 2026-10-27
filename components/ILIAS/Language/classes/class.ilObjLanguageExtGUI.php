@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\KeyValueStorage\Exception\InvalidStoredValueException;
+use ILIAS\KeyValueStorage\Services as KeyValueStorage;
+use ILIAS\KeyValueStorage\Store;
 use ILIAS\Language\ComponentTranslation\PlainLogText;
 use ILIAS\Language\ComponentTranslation\DuplicateIdentifierMessage;
 use ILIAS\Language\ComponentTranslation\InvalidMarkupMessage;
@@ -68,6 +71,9 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
     private const array IMPORT_MODES = ['keepall', 'keepnew', 'replace', 'delete'];
     private const array IMPORT_WITHOUT_CONFIRMATION = ['keepall', 'keepnew'];
     private const int REMARK_MAX_LENGTH = 250;
+    private const string PRESET_IMPORT_MODE = 'import_mode_existing';
+    private const string PRESET_EXPORT_SCOPE = 'export_scope';
+    private const string PRESET_MAINTAIN = 'maintain';
     private const array VIEW_OF_UNSAFE_COMMAND = [
         'saveEditedEntries' => 'view',
         'upload' => 'import',
@@ -137,11 +143,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         // do all generic GUI initialisations
         parent::__construct($a_data, $this->id, false, true);
         $this->ctrl->setParameter($this, 'obj_id', $this->id);
-
-        // initialize the array to store session variables for extended language maintenance
-        if (!is_array($this->getSession())) {
-            ilSession::set("lang_ext_maintenance", array());
-        }
 
         // read the lang mode
         $this->langmode = $ilClientIniFile->readVariable("system", "LANGMODE");
@@ -747,7 +748,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
                 $this->lng->txt('language_mode_existing_' . $value . '_info')
             );
         }
-        $preset = $this->getSession()['import']['mode_existing'] ?? 'keepall';
+        $preset = $this->getSavedPreset(self::PRESET_IMPORT_MODE, 'keepall');
 
         return $this->ui_factory->input()->container()->form()->standard(
             $this->ctrl->getFormAction($this, 'upload'),
@@ -783,7 +784,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
             return;
         }
 
-        ilSession::set('lang_ext_maintenance', ['import' => ['mode_existing' => $mode]]);
+        $this->savePreset(self::PRESET_IMPORT_MODE, $mode);
         $this->discardPendingImport();
         $handler->discardAll([$identifier]);
 
@@ -1037,7 +1038,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
                 $this->lng->txt('language_scope_' . $scope . '_info')
             );
         }
-        $preset = $this->getSession()['export']['scope'] ?? 'global';
+        $preset = $this->getSavedPreset(self::PRESET_EXPORT_SCOPE, 'global');
 
         return $this->ui_factory->input()->container()->form()->standard(
             $this->ctrl->getFormAction($this, 'download'),
@@ -1066,8 +1067,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
             $this->exportObject($form);
             return;
         }
-        // save the selected scope
-        ilSession::set('lang_ext_maintenance', ['export' => ['scope' => $scope]]);
+        $this->savePreset(self::PRESET_EXPORT_SCOPE, $scope);
 
         $pos = strpos(ILIAS_VERSION, " ");
         $pos = $pos === false ? null : $pos;
@@ -1136,7 +1136,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         foreach ($options as $option => [$label, $info]) {
             $radio = $radio->withOption($option, $label, $info);
         }
-        $preset = $this->getSession()['maintain'] ?? 'load';
+        $preset = $this->getSavedPreset(self::PRESET_MAINTAIN, 'load');
 
         return $this->ui_factory->input()->container()->form()->standard(
             $this->ctrl->getFormAction($this, 'maintainExecute'),
@@ -1187,7 +1187,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
             $this->maintainObject($form);
             return;
         }
-        ilSession::set('lang_ext_maintenance', ['maintain' => $option]);
+        $this->savePreset(self::PRESET_MAINTAIN, $option);
 
         if (in_array($option, self::MAINTAIN_WITHOUT_CONFIRMATION, true)) {
             $this->executeMaintainOption($option);
@@ -1807,8 +1807,28 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
         );
     }
 
-    private function getSession(): array
+    /** $default if nothing, no string or an unreadable value is stored */
+    private function getSavedPreset(string $key, string $default): string
     {
-        return ilSession::get("lang_ext_maintenance") ?? [];
+        try {
+            return $this->presetStore()->get(
+                $key,
+                $this->refinery->byTrying([$this->refinery->to()->string(), $this->refinery->always($default)])
+            );
+        } catch (InvalidStoredValueException) {
+            return $default;
+        }
+    }
+
+    private function savePreset(string $key, string $value): void
+    {
+        $this->presetStore()->set($key, $value);
+    }
+
+    private function presetStore(): Store
+    {
+        global $DIC;
+
+        return $DIC[KeyValueStorage::class]->session(ilObjLanguageAccess::MAINTENANCE_NAMESPACE);
     }
 } // END class.ilObjLanguageExtGUI
