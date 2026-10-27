@@ -146,7 +146,7 @@ class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
     {
         $value = (string) $value;
         if ($this->getField()->getProperty(ilDclBaseFieldModel::PROP_URL)) {
-            $deserialize = json_decode($value, true);
+            $deserialize = json_decode($value, true) ?? ['title' => $value];
             return [
                 'title' => $deserialize['title'] ?? '',
                 'link' => $deserialize['link'] ?? '',
