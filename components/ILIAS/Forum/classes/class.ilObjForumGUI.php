@@ -620,6 +620,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 $news_set_gui->setPublicNotification(true);
                 $news_set_gui->setNewsBlockLabel('frm_latest_postings_block');
                 $news_set_gui->setNewsBlockInfo(null);
+                $news_set_gui->setPublicFeedInfo('news_public_feed_info_frm');
                 $this->ctrl->forwardCommand($news_set_gui);
                 break;
 

@@ -864,8 +864,10 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
     /**
      * Add inputs to the container news settings form to configure also the contextBlock options.
      */
-    public static function addToSettingsForm(ilFormPropertyGUI $a_input): void
-    {
+    public static function addToSettingsForm(
+        ilFormPropertyGUI $a_input,
+        string $public_feed_info
+    ): void {
         global $DIC;
 
         $lng = $DIC->language();
@@ -887,10 +889,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                 $lng->txt("news_public_feed"),
                 "notifications_public_feed"
             );
-            $is_forum = ilObject::_lookupType($std_request->getRefId(), true) === "frm";
-            $radio_rss->setInfo($lng->txt($is_forum
-                ? "news_public_feed_info_frm"
-                : "news_public_feed_info_container"));
+            $radio_rss->setInfo($lng->txt($public_feed_info));
             $radio_rss->setChecked((bool) $public_feed);
             $a_input->addSubItem($radio_rss);
         }
