@@ -571,6 +571,18 @@ class UI implements Component\Component
                             $internal[UI\Implementation\Component\Input\UploadLimitResolver::class],
                             $pull[Refinery\Factory::class],
                         ),
+                        new UI\Implementation\Component\Entity\EntityRendererFactory(
+                            $internal[UI\Implementation\Render\ContextMatcher::class],
+                            $use[UI\Implementation\FactoryInternal::class],
+                            $internal[UI\Implementation\Render\TemplateFactory::class],
+                            $use[Language\Language::class],
+                            $internal[UI\Implementation\Render\JavaScriptBinding::class],
+                            $use[UI\Implementation\Render\ImagePathResolver::class],
+                            $pull[Data\Factory::class],
+                            $use[UI\HelpTextRetriever::class],
+                            $internal[UI\Implementation\Component\Input\UploadLimitResolver::class],
+                            $pull[Refinery\Factory::class],
+                        ),
                         new UI\Implementation\Component\Listing\ListingRendererFactory(
                             $internal[UI\Implementation\Render\ContextMatcher::class],
                             $use[UI\Implementation\FactoryInternal::class],

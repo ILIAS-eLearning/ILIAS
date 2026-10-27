@@ -503,6 +503,18 @@ trait BaseUITestTrait
                         $this->getUploadLimitResolver(),
                         $this->getRefinery(),
                     ),
+                    new I\Entity\EntityRendererFactory(
+                        $real_context_matcher,
+                        $ui_factory,
+                        $tpl_factory,
+                        $lng,
+                        $js_binding,
+                        $image_path_resolver,
+                        $data_factory,
+                        $help_text_retriever,
+                        $this->getUploadLimitResolver(),
+                        $this->getRefinery(),
+                    ),
                     new I\Listing\ListingRendererFactory(
                         $real_context_matcher,
                         $ui_factory,

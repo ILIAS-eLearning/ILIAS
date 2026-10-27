@@ -20,13 +20,22 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Listing\Entity;
 
-use ILIAS\UI\Factory as UIFactory;
-use ILIAS\UI\Component\Entity\Entity;
+use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Entity\EntityRetrieval;
 
 /**
- * Listings will have to map records to Entities.
+ * This is what an Entity Listing looks like.
  */
-interface RecordToEntity
+interface Entity extends Component
 {
-    public function map(UIFactory $ui_factory, mixed $record): Entity;
+    /**
+     * Get an Entity Listing like this, but provide it with a subset of entities.
+     * If no subset is provided, the whole set will be rendered instead.
+     *
+     * This will invoke {@see EntityRetrieval::getEntitiesByIds()} instead of
+     * {@see EntityRetrieval::getEntities()}.
+     *
+     * @param array<string|int> $entity_ids
+     */
+    public function withSubset(array $entity_ids): static;
 }

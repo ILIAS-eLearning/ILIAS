@@ -20,9 +20,11 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Listing\Entity;
 
+use ILIAS\UI\Component\Prompt\IsPromptContent;
+
 /**
- * This is what a Standard EntityListings looks like
+ * This is what a Standard Entity Listing looks like.
  */
-interface Standard extends EntityListing
+interface Standard extends Entity, IsPromptContent
 {
 }
