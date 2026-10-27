@@ -1,0 +1,1358 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: dateplaner\n"
+
+msgid "Fr_long"
+msgstr "Venerdì"
+
+msgid "Fr_short"
+msgstr "Ve"
+
+msgid "Mo_long"
+msgstr "Lunedì"
+
+msgid "Mo_short"
+msgstr "Lu"
+
+msgid "Sa_long"
+msgstr "Sabato"
+
+msgid "Sa_short"
+msgstr "Sa"
+
+msgid "Su_long"
+msgstr "Domenica"
+
+msgid "Su_short"
+msgstr "Do"
+
+msgid "Text"
+msgstr "Testo"
+
+msgid "Th_long"
+msgstr "Giovedì"
+
+msgid "Th_short"
+msgstr "Gio"
+
+msgid "Tu_long"
+msgstr "Martedì"
+
+msgid "Tu_short"
+msgstr "Ma"
+
+msgid "We_long"
+msgstr "Mercoledì"
+
+msgid "We_short"
+msgstr "Me"
+
+msgid "add_appointment"
+msgstr "Aggiungi appuntamento"
+
+msgid "app_consultation_hours"
+msgstr "Gestione degli orari di ricevimento"
+
+msgid "app_day"
+msgstr "Vista giornaliera"
+
+msgid "app_month"
+msgstr "Vista mensile"
+
+msgid "app_week"
+msgstr "Vista settimanale"
+
+msgid "back_to_crs"
+msgstr "Vai al corso"
+
+msgid "back_to_grp"
+msgstr "Vai al gruppo"
+
+msgid "back_to_pd"
+msgstr "indietro"
+
+msgid "btn_ical"
+msgstr "iCal"
+
+msgid "c_date"
+msgstr "Crea evento"
+
+msgid "cal_add_appointment"
+msgstr "Crea un appuntamento"
+
+msgid "cal_add_calendar"
+msgstr "Aggiungi calendario"
+
+msgid "cal_add_category"
+msgstr "Crea un nuovo calendario"
+
+msgid "cal_add_milestone"
+msgstr "Aggiungi Milestone"
+
+msgid "cal_adm_notification_info"
+msgstr "Scegli questa opzione per inviare email opzionali ai partecipanti del gruppo/corso riguardo alla modifica di appuntamenti."
+
+msgid "cal_adm_notification_user_info"
+msgstr "Scegliere questa opzione per inviare notifiche mail opzionali agli utenti selezionati."
+
+msgid "cal_agenda"
+msgstr "Agenda"
+
+msgid "cal_all_day"
+msgstr "Tutto il giorno"
+
+msgid "cal_app_info"
+msgstr "Informazioni sull'appuntamento"
+
+msgid "cal_app_other_materials_num"
+msgstr "Vedi ulteriori materiali"
+
+#, fuzzy
+msgid "cal_appointment_notifications"
+msgstr "Notification"
+
+msgid "cal_appointments"
+msgstr "Appuntamento/i"
+
+msgid "cal_apps"
+msgstr "Numero di appuntamenti"
+
+msgid "cal_assigned_appointments"
+msgstr "Appuntamenti assegnati"
+
+msgid "cal_back_to_cal"
+msgstr "Torna al Calendario"
+
+msgid "cal_back_to_list"
+msgstr "Torna alla Lista"
+
+msgid "cal_back_to_search"
+msgstr "Torna alla Ricerca"
+
+msgid "cal_batch_file_downloads"
+msgstr "Elaborare gruppi di file dal calendario"
+
+msgid "cal_batch_file_downloads_info"
+msgstr "Pulsante di attivazione per scaricare tutti i file relativi alla visualizzazione calendario/appuntamento corrente."
+
+#, fuzzy
+msgid "cal_belongs_to"
+msgstr "Belongs to Calendar"
+
+msgid "cal_book_free"
+msgstr "disponibile"
+
+msgid "cal_booked_out"
+msgstr "prenotato"
+
+msgid "cal_booking_cancellation_body"
+msgstr "il tuo appuntamento con %s è stato cancellato."
+
+msgid "cal_booking_cancellation_subject"
+msgstr "L'appuntamento \"%s\" e' stato cancellato"
+
+msgid "cal_booking_cancellation_user"
+msgstr "Questa e' una copia dalla mail originale dell'utente:"
+
+msgid "cal_booking_confirmation_body"
+msgstr "Il tuo appuntamento con %s è stato fissato."
+
+msgid "cal_booking_confirmation_link"
+msgstr "Link all'appuntamento"
+
+msgid "cal_booking_confirmation_subject"
+msgstr "L'appuntamento \"%s\" e' stato fissato"
+
+msgid "cal_booking_confirmation_user"
+msgstr "Questa e' una copia dalla mail originale all'utente:"
+
+msgid "cal_booking_confirmed"
+msgstr "L'appuntamento e' stato fissato con successo."
+
+msgid "cal_booking_failed_info"
+msgstr "Questo appuntamento è occupato. Si prega di scegliere un altro appuntamento."
+
+#, fuzzy
+msgid "cal_booking_manager_confirmation_body"
+msgstr "%s has booked an appointment with %s."
+
+#, fuzzy
+msgid "cal_booking_owner_confirmation_body"
+msgstr "%s has booked an appointment with you."
+
+msgid "cal_cache"
+msgstr "Cache del Calendario"
+
+msgid "cal_cache_disabled"
+msgstr "Disabilitato"
+
+msgid "cal_cache_enabled"
+msgstr "Abilitato"
+
+msgid "cal_cache_info"
+msgstr "Se viene attivato il calendario degli appuntamenti sul personal Desktop e nel repository, verrà aggiornato solo ogni x-minuti."
+
+msgid "cal_cache_settings"
+msgstr "Cache"
+
+msgid "cal_cal_deleted"
+msgstr "I calendari sono stati eliminati"
+
+msgid "cal_cal_shared_with"
+msgstr "Il calendario è condiviso con questi utenti"
+
+msgid "cal_cal_sync_success"
+msgstr "Calendario sincronizzato con successo"
+
+msgid "cal_cal_synchronize"
+msgstr "Sincronizza calendario"
+
+msgid "cal_cal_type"
+msgstr "Tipo di calendario"
+
+msgid "cal_calendar_color"
+msgstr "Colore"
+
+msgid "cal_calendar_download"
+msgstr "Download Calendario"
+
+msgid "cal_calendar_name"
+msgstr "Nome del calendario"
+
+msgid "cal_calendar_subscription_modal_title"
+msgstr "Iscrizione al calendario"
+
+msgid "cal_cancel_booking"
+msgstr "Cancella la prenotazione"
+
+msgid "cal_cancel_booking_confirmed"
+msgstr "La prenotazione è stata cancellata con successo."
+
+msgid "cal_cancel_booking_info"
+msgstr "Per cortesia conferma la cancellazione di questo appuntamento."
+
+msgid "cal_category_selection"
+msgstr "Selezione del calendario"
+
+msgid "cal_cg_notification"
+msgstr "Notifica corso/gruppo"
+
+msgid "cal_cg_registration_info"
+msgstr "Offri agli utenti la possibilità di registrarsi agli appuntamenti di gruppo o di corso."
+
+msgid "cal_cg_registrations"
+msgstr "Registrazione per Appuntamenti di Corso o di Gruppo"
+
+msgid "cal_ch_add_grp"
+msgstr "Crea un nuovo gruppo di ricevimenti"
+
+msgid "cal_ch_add_sequence"
+msgstr "Aggiungi una sequenza di ricevimenti"
+
+msgid "cal_ch_app_bookings"
+msgstr "Prenotazioni"
+
+msgid "cal_ch_app_grp"
+msgstr "Gruppi di ricevimento"
+
+msgid "cal_ch_app_list"
+msgstr "Appuntamenti di ricevimento"
+
+msgid "cal_ch_assign_participants"
+msgstr "Assegna utenti"
+
+msgid "cal_ch_assigned_apps"
+msgstr "Numero di appuntamenti"
+
+msgid "cal_ch_book"
+msgstr "Prenota un orario di ricevimento"
+
+msgid "cal_ch_booking"
+msgstr "Prenotazione Risorse"
+
+#, fuzzy
+msgid "cal_ch_booking_col_comments"
+msgstr "Comments"
+
+#, fuzzy
+msgid "cal_ch_booking_comment"
+msgstr "Comment:"
+
+#, fuzzy
+msgid "cal_ch_booking_link"
+msgstr "Link to Consultation Hours:"
+
+msgid "cal_ch_booking_message_tbl"
+msgstr "Commento sulla registrazione"
+
+#, fuzzy
+msgid "cal_ch_booking_num_available"
+msgstr "Available Slots"
+
+#, fuzzy
+msgid "cal_ch_booking_num_free_short"
+msgstr "%s free"
+
+#, fuzzy
+msgid "cal_ch_booking_other_participants"
+msgstr "Other Participants:"
+
+msgid "cal_ch_booking_owner"
+msgstr "Proprietario"
+
+#, fuzzy
+msgid "cal_ch_booking_participants"
+msgstr "Participants"
+
+msgid "cal_ch_booking_reminder_body"
+msgstr "il tuo appuntamento con \"%s\" inizierà presto."
+
+msgid "cal_ch_booking_reminder_subject"
+msgstr "Promemoria per \"%s\""
+
+#, fuzzy
+msgid "cal_ch_booking_start"
+msgstr "Start"
+
+#, fuzzy
+msgid "cal_ch_booking_your_comment"
+msgstr "Your comment:"
+
+msgid "cal_ch_bookings"
+msgstr "Partecipanti"
+
+msgid "cal_ch_bookings_tbl"
+msgstr "Appuntamenti prenotati"
+
+msgid "cal_ch_cancel_booking"
+msgstr "Cancella la prenotazione"
+
+msgid "cal_ch_cancel_booking_info"
+msgstr "All'annullamento di una prenotazione sarà inviata un'e-mail di notifica agli utenti. Se non si desidera avvisare gli utenti, selezionare l'opzione \"Elimina prenotazione/i."
+
+msgid "cal_ch_cancel_booking_sure"
+msgstr "Vuoi davvero annullare i seguenti appuntamenti?"
+
+msgid "cal_ch_canceled_bookings"
+msgstr "Le prenotazioni selezionate sono state annullate."
+
+msgid "cal_ch_ch"
+msgstr "Orari di ricevimento"
+
+msgid "cal_ch_cron_reminder"
+msgstr "Invia promemoria orario di ricevimento"
+
+msgid "cal_ch_cron_reminder_days"
+msgstr "Numero dei giorni"
+
+msgid "cal_ch_cron_reminder_info"
+msgstr "Se attivato, gli utenti che hanno prenotato un appuntamento riceveranno un'e-mail di promemoria sui loro prossimi appuntamenti. Si prega di specificare con quanti giorni di anticipo devono essere inviati i solleciti."
+
+#, fuzzy
+msgid "cal_ch_current_booking_comment"
+msgstr "Comment"
+
+msgid "cal_ch_current_bookings"
+msgstr "Prenotazioni attuali"
+
+msgid "cal_ch_deadline"
+msgstr "Ultima registrazione"
+
+msgid "cal_ch_deadline_info"
+msgstr "Per cortesia specifica il numero di ore fino a quando la registrazione rimarrà bloccata."
+
+msgid "cal_ch_delete_app_booking_info"
+msgstr "I seguenti appuntamenti hanno già prenotazioni esistenti. Se elimini questi appuntamenti, gli utenti non riceveranno la notifica."
+
+msgid "cal_ch_delete_booking"
+msgstr "Elimina prenotazione"
+
+msgid "cal_ch_delete_booking_info"
+msgstr "All'eliminazione delle prenotazioni non verranno avvisati gli utenti via e-mail. Se si desidera avvisare gli utenti, selezionare l'opzione \"Annulla prenotazione\"."
+
+msgid "cal_ch_delete_booking_sure"
+msgstr "Vuoi davvero eliminare le seguenti prenotazioni?"
+
+msgid "cal_ch_deleted_bookings"
+msgstr "Le prenotazioni selezionate sono state annullate."
+
+msgid "cal_ch_duration"
+msgstr "Durata di un Appuntamento"
+
+msgid "cal_ch_export_apps"
+msgstr "Appuntamenti prenotati"
+
+msgid "cal_ch_field_ch"
+msgstr "Appuntamenti dei ricevimenti"
+
+msgid "cal_ch_form"
+msgstr "Abilita orari per il ricevimento"
+
+msgid "cal_ch_form_header"
+msgstr "Orari di ricevimento"
+
+msgid "cal_ch_form_info"
+msgstr "Questa opzione abilita la gestione dei ricevimenti personali nel calendario."
+
+#, fuzzy
+msgid "cal_ch_free_of_available"
+msgstr "%s of %s"
+
+msgid "cal_ch_grp_add_tbl"
+msgstr "Crea nuovo gruppo di ricevimento"
+
+msgid "cal_ch_grp_delete_sure"
+msgstr "Vuoi davvero eliminare i seguenti gruppi di ricevimento?"
+
+msgid "cal_ch_grp_header"
+msgstr "Gruppo di ricevimento"
+
+msgid "cal_ch_grp_multiple"
+msgstr "Prenotazioni per utente"
+
+msgid "cal_ch_grp_multiple_info"
+msgstr "Puoi indicare il numero massimo di ore di prenotazioni per l’utente per questo gruppo."
+
+msgid "cal_ch_grp_no_assignment"
+msgstr "-- Non assegnato --"
+
+msgid "cal_ch_grp_selection"
+msgstr "Assegnazione ai gruppi di ricevimento"
+
+msgid "cal_ch_grp_update_tbl"
+msgstr "Modifica Gruppo di ricevimento"
+
+msgid "cal_ch_grps"
+msgstr "Gruppi di ricevimento"
+
+msgid "cal_ch_manager"
+msgstr "Gestione delle ore di ricevimento"
+
+msgid "cal_ch_manager_info"
+msgstr "Login degli utenti che gestiranno gli orari di ricevimento."
+
+msgid "cal_ch_max_books"
+msgstr "Prenotazioni per utente"
+
+#, fuzzy
+msgid "cal_ch_minutes"
+msgstr "Duration (min)"
+
+msgid "cal_ch_multi_edit_sequence"
+msgstr "Modifica appuntamenti multipli"
+
+msgid "cal_ch_num_appointments"
+msgstr "Numero di Appuntamenti per ricevimento"
+
+msgid "cal_ch_num_appointments_info"
+msgstr "Si prega di definire il numero di appuntamenti in sequenza"
+
+msgid "cal_ch_num_bookings"
+msgstr "Prenotare un appuntamento"
+
+msgid "cal_ch_personal_book"
+msgstr "Prenotazione personale"
+
+msgid "cal_ch_personal_ch"
+msgstr "Orari di ricevimento personali"
+
+msgid "cal_ch_reject_booking"
+msgstr "Annulla prenotazione"
+
+#, fuzzy
+msgid "cal_ch_send_mail"
+msgstr "Send Mail"
+
+msgid "cal_ch_target_object"
+msgstr "Oggetto nel repository"
+
+msgid "cal_ch_target_object_info"
+msgstr "Gli orari di ricevimento sono visualizzati in corsi e gruppi in un piccolo blocco sulla destra. Per limitarlo a determinati corsi o gruppi, inserire il Ref-ID dell'oggetto in questione. Puoi trovarlo nell'URL dell'oggetto in questione. Inserisci più Ref-ID separati da virgole. Indipendentemente da ciò, gli orari d'ufficio possono apparire anche nei tuoi e-portfolio."
+
+msgid "cal_ch_unknown_repository_object"
+msgstr "L’id di riferimento dell’oggetto repository non è valido."
+
+msgid "cal_ch_unknown_user"
+msgstr "Il login inserito non corrisponde a nessun utente."
+
+msgid "cal_ch_user_assignment_failed_info"
+msgstr "I seguenti utenti non possono essere assegnati agli appuntamenti, poiché il numero massimo di prenotazioni viene superato."
+
+#, fuzzy
+msgid "cal_ch_vm_period_all"
+msgstr "All"
+
+#, fuzzy
+msgid "cal_ch_vm_period_past"
+msgstr "Past"
+
+#, fuzzy
+msgid "cal_ch_vm_period_upcoming"
+msgstr "Upcoming"
+
+#, fuzzy
+msgid "cal_ch_vm_status_all"
+msgstr "All"
+
+#, fuzzy
+msgid "cal_ch_vm_status_booked"
+msgstr "Booked Slots"
+
+#, fuzzy
+msgid "cal_ch_vm_status_open"
+msgstr "Open Slots"
+
+#, fuzzy
+msgid "cal_change_calendar_view"
+msgstr "Change Calendar View"
+
+msgid "cal_change_responsible_users"
+msgstr "Modifica utenti responsabili"
+
+msgid "cal_changed_events_header"
+msgstr "Appuntamenti modificati o nuovi"
+
+msgid "cal_confirm_booking"
+msgstr "Conferma la prenotazione del ricevimento"
+
+msgid "cal_confirm_booking_info"
+msgstr "Per cortesia conferma la prenotazione di questo ricevimento."
+
+msgid "cal_confirm_reg_info"
+msgstr "Per cortesia conferma la registrazione di questo appuntamento."
+
+msgid "cal_confirm_unreg_info"
+msgstr "Per cortesia conferma la cancellazione di questo appuntamento."
+
+msgid "cal_consultation_hours_for"
+msgstr "Orari di ricevimento per"
+
+msgid "cal_consultation_hours_for_user"
+msgstr "Ricevimento per %1"
+
+msgid "cal_contained_in"
+msgstr "Contenuto in"
+
+msgid "cal_create"
+msgstr "Crea"
+
+msgid "cal_created_appointment"
+msgstr "Un nuovo appuntamento e' stato creato."
+
+msgid "cal_created_milestone"
+msgstr "Aggiunta milestone."
+
+msgid "cal_created_milestone_resp_q"
+msgstr "Aggiunta milestone. Per cortesia seleziona gli utenti che devono rispettare tale milestone."
+
+#, fuzzy
+msgid "cal_cronjob_remote_description"
+msgstr "If activated, appointments of the calendar type \"Web calendar\" are automatically synchronised after the specified time interval."
+
+#, fuzzy
+msgid "cal_cronjob_remote_title"
+msgstr "External Calendar Synchronisation"
+
+msgid "cal_crs_info"
+msgstr "Informazione corso"
+
+msgid "cal_crs_new_notification_body"
+msgstr "un nuovo appuntamento è stato creato nel corso \"%s\"."
+
+msgid "cal_crs_new_notification_sub"
+msgstr "Nuovo appuntamento nel Corso \"%s\""
+
+msgid "cal_crs_notification_body"
+msgstr "e' stato cambiato un appuntamento nel corso \"%s\"."
+
+msgid "cal_crs_notification_sub"
+msgstr "Appuntamento modificato nel Corso \"%s\""
+
+msgid "cal_crs_timing_end"
+msgstr "Fine suggerita"
+
+msgid "cal_crs_timing_start"
+msgstr "Inizio Suggerito"
+
+msgid "cal_daily"
+msgstr "Giornaliero"
+
+#, fuzzy
+msgid "cal_date_and_time"
+msgstr "Date and Time"
+
+msgid "cal_date_booked"
+msgstr "prenotato"
+
+msgid "cal_date_format_info"
+msgstr "Per cortesia scegli un formato per l'input delle date."
+
+#, fuzzy
+msgid "cal_date_time_title"
+msgstr "Date and Time"
+
+msgid "cal_day_end"
+msgstr "Fine giorno"
+
+msgid "cal_day_of_month"
+msgstr "Giorno del mese"
+
+msgid "cal_day_overview"
+msgstr "Vista giornaliera"
+
+msgid "cal_day_s"
+msgstr "Giorno/i"
+
+msgid "cal_day_selection"
+msgstr "Seleziona giorno"
+
+msgid "cal_day_start"
+msgstr "Giorno iniziale"
+
+msgid "cal_day_week_view"
+msgstr "Impostazioni per la vista Giorno/Settimana"
+
+msgid "cal_deadline"
+msgstr "Scadenza"
+
+msgid "cal_def_date_format"
+msgstr "Formato predefinito per le date"
+
+msgid "cal_def_date_format_info"
+msgstr "Per cortesia scegli un formato per l'input delle date."
+
+msgid "cal_def_day_end"
+msgstr "Fine giorno predefinito"
+
+msgid "cal_def_day_start"
+msgstr "Inizio giorno predefinito"
+
+msgid "cal_def_show_weeks"
+msgstr "Mostra settimane predefinite"
+
+msgid "cal_def_time_format"
+msgstr "Format della data predefinito"
+
+msgid "cal_def_time_format_info"
+msgstr "Per favore scegli un formato per il tempo."
+
+msgid "cal_def_timezone"
+msgstr "Intervallo di tempo predefinito"
+
+msgid "cal_def_timezone_info"
+msgstr "Per favore scegli un periodo di tempo predefinito per la presentazione degli appuntamenti."
+
+msgid "cal_def_view"
+msgstr "Vista del calendario predefinita"
+
+msgid "cal_def_week_start"
+msgstr "Inizio settimana"
+
+msgid "cal_default_calendar"
+msgstr "Appuntamenti personali"
+
+msgid "cal_default_settings"
+msgstr "Impostazioni predefinite"
+
+msgid "cal_del_cal_sure"
+msgstr "Vuoi veramente cancellare il calendario selezionato?"
+
+msgid "cal_delete_app_sure"
+msgstr "Vuoi veramente cancellare l'appuntamento seguente?"
+
+#, fuzzy
+msgid "cal_delete_booking_info"
+msgstr "Please confirm the deletion of this booking"
+
+msgid "cal_delete_cal"
+msgstr "Elimina calendario"
+
+msgid "cal_delete_recurrence_rule"
+msgstr "Cancella la serie di appuntamenti"
+
+msgid "cal_delete_recurrences"
+msgstr "Cancella tutte le ripetizioni"
+
+msgid "cal_delete_single"
+msgstr "Cancella solo questo appuntamento"
+
+msgid "cal_deleted_app"
+msgstr "L'appuntamento selezionato è stato cancellato."
+
+msgid "cal_details"
+msgstr "Dettagli sull'appuntamento"
+
+msgid "cal_down_no_files"
+msgstr "Niente da scaricare, gli eventi elencati non contengono file."
+
+msgid "cal_download_all_files"
+msgstr "Scarica tutti i file"
+
+msgid "cal_download_files"
+msgstr "Scarica file"
+
+msgid "cal_download_files_started"
+msgstr "Il download dei file del calendario è iniziato"
+
+msgid "cal_dstart_dend_warn"
+msgstr "Per cortesia verifica i dati che hai inserito. L'inizio del giorno dovrebbe esser prima della fine del giorno."
+
+msgid "cal_duration"
+msgstr "Durata"
+
+#, fuzzy
+msgid "cal_duration_end"
+msgstr "End"
+
+#, fuzzy
+msgid "cal_duration_start"
+msgstr "Start"
+
+msgid "cal_edit_appointment"
+msgstr "Modifica l'appuntamento"
+
+msgid "cal_edit_category"
+msgstr "Modifica Calendario"
+
+msgid "cal_edit_milestone"
+msgstr "Modifica Milestone"
+
+msgid "cal_edit_recurrences"
+msgstr "Modifica tutti gli appuntamenti"
+
+msgid "cal_edit_single"
+msgstr "Modifica questo appuntamento"
+
+#, fuzzy
+msgid "cal_edit_single_or_all_info"
+msgstr "Do you want to edit only this appointment or all in its series?"
+
+msgid "cal_enable_group_milestones"
+msgstr "Abilita Milestones"
+
+msgid "cal_enable_group_milestones_desc"
+msgstr "Questa opzione abilita i milestones nella pianificazione a calendario."
+
+msgid "cal_err_invalid_notification_rcps"
+msgstr "L'elenco dei destinatari delle notifiche non è valido. Scegli solo nomi di account utente ILIAS o indirizzi e-mail validi."
+
+msgid "cal_every"
+msgstr "Ogni:"
+
+msgid "cal_exc_deadline"
+msgstr "Scadenza"
+
+msgid "cal_exc_info"
+msgstr "Informazioni sull'esercitazione"
+
+msgid "cal_exc_inst_files"
+msgstr "File di istruzioni"
+
+msgid "cal_exc_open"
+msgstr "Apri esercitazione"
+
+msgid "cal_exc_peer_review_deadline"
+msgstr "Scadenza feedback"
+
+msgid "cal_export_timezone"
+msgstr "Fuso orario per l'esportazione del calendario"
+
+msgid "cal_export_timezone_tz"
+msgstr "Utilizza fuso orario ILIAS"
+
+msgid "cal_export_timezone_utc"
+msgstr "Utilizza fuso orario UTC (compatibile con MS Outlook)"
+
+msgid "cal_fifth"
+msgstr "Quinto"
+
+msgid "cal_first"
+msgstr "Primo"
+
+msgid "cal_fourth"
+msgstr "Quarto"
+
+msgid "cal_fullday"
+msgstr "Giorno/Ora"
+
+msgid "cal_fullday_title"
+msgstr "Tutto il giorno"
+
+msgid "cal_global_settings"
+msgstr "Impostazioni globali"
+
+msgid "cal_grp_curr_crs"
+msgstr "Corso attuale"
+
+msgid "cal_grp_curr_crs_cons"
+msgstr "Ricevimento"
+
+msgid "cal_grp_curr_grp"
+msgstr "Gruppo attuale"
+
+msgid "cal_grp_info"
+msgstr "Informazioni del gruppo"
+
+msgid "cal_grp_new_notification_body"
+msgstr "un nuovo appuntamento è stato creato nel gruppo \"%s\"."
+
+msgid "cal_grp_new_notification_sub"
+msgstr "Nuovo appuntamento nel Gruppo \"%s\""
+
+msgid "cal_grp_notification_body"
+msgstr "e' stato cambiato un appuntamento del gruppo \"%s\"."
+
+msgid "cal_grp_notification_sub"
+msgstr "Appuntamento modificato nel Gruppo \"%s\""
+
+msgid "cal_grp_others"
+msgstr "Altro"
+
+msgid "cal_grp_personal"
+msgstr "Personale"
+
+msgid "cal_ical_infoscreen"
+msgstr "Sottoscrivere"
+
+msgid "cal_ical_url"
+msgstr "iCal-URL"
+
+#, fuzzy
+msgid "cal_ical_url_google"
+msgstr "iCal-URL for Google Calendar"
+
+msgid "cal_import_appointments"
+msgstr "Importa appuntamenti"
+
+msgid "cal_import_file"
+msgstr "Importa file"
+
+msgid "cal_import_file_info"
+msgstr "Scegli il file che contiene i tuoi appuntamenti sul calendario."
+
+msgid "cal_import_tbl"
+msgstr "Importa appuntamenti"
+
+msgid "cal_imported_success"
+msgstr "Sono stati importati %1$s appuntamenti"
+
+msgid "cal_in"
+msgstr "nel"
+
+msgid "cal_last"
+msgstr "Ultimo"
+
+msgid "cal_list"
+msgstr "Lista"
+
+msgid "cal_mail_notification_body"
+msgstr "Sei stato invitato a un appuntamento."
+
+msgid "cal_mail_notification_subject"
+msgstr "Invito appuntamento: \"%s\""
+
+msgid "cal_manage"
+msgstr "Gestione calendario"
+
+msgid "cal_materials"
+msgstr "Materiali"
+
+msgid "cal_milestone_settings"
+msgstr "Milestones"
+
+msgid "cal_month_overview"
+msgstr "Vista globale del mese"
+
+msgid "cal_month_s"
+msgstr "Mese/i"
+
+msgid "cal_month_selection"
+msgstr "Seleziona mese"
+
+msgid "cal_monthly"
+msgstr "Mensile"
+
+#, fuzzy
+msgid "cal_monthly_by_date"
+msgstr "Monthly by Date"
+
+#, fuzzy
+msgid "cal_monthly_by_day"
+msgstr "Monthly by Day"
+
+msgid "cal_ms_details"
+msgstr "Dettagli traguardo"
+
+msgid "cal_ms_users_responsible"
+msgstr "Utenti responsabili"
+
+msgid "cal_new_app"
+msgstr "Nuovo appuntamento"
+
+msgid "cal_new_ms"
+msgstr "Nuova Milestone"
+
+msgid "cal_no_ending"
+msgstr "Nessun data di fine"
+
+msgid "cal_no_events_block"
+msgstr "Non ci sono date disponibili per Lei."
+
+msgid "cal_no_events_info"
+msgstr "Nessun evento trovato per il periodo di tempo selezionato."
+
+msgid "cal_no_recurrence"
+msgstr "Nessuna ripetizione"
+
+msgid "cal_notification"
+msgstr "Notifica E-mail"
+
+msgid "cal_notification_crsgrp"
+msgstr "Notifica per partecipanti corso/gruppo"
+
+msgid "cal_notification_info"
+msgstr "Se abilitati, tutti gli appartenenti al corso/gruppo verra' notificato per email  questo appuntamento."
+
+msgid "cal_notification_users"
+msgstr "Notifica per utenti selezionati"
+
+msgid "cal_on"
+msgstr "Al:"
+
+msgid "cal_on_the"
+msgstr "Al:"
+
+msgid "cal_open_calendar"
+msgstr "Apri calendario"
+
+msgid "cal_origin"
+msgstr "Origine"
+
+msgid "cal_owner"
+msgstr "Proprietario"
+
+#, fuzzy
+msgid "cal_period"
+msgstr "Period"
+
+msgid "cal_rec_err_limit"
+msgstr "Per favore inserisci un numero valido di appuntamenti."
+
+msgid "cal_recurrence_confirm_deletion"
+msgstr "Selezionare se si desidera eliminare singoli appuntamenti o l'intera serie di appuntamenti."
+
+#, fuzzy
+msgid "cal_recurrence_count"
+msgstr "Number of Appointments"
+
+#, fuzzy
+msgid "cal_recurrence_day_interval"
+msgstr "Every x Day(s)"
+
+#, fuzzy
+msgid "cal_recurrence_end_date"
+msgstr "End Date"
+
+#, fuzzy
+msgid "cal_recurrence_end_date_info"
+msgstr "Last possible date for an appointment."
+
+#, fuzzy
+msgid "cal_recurrence_month_interval"
+msgstr "Every x Month(s)"
+
+#, fuzzy
+msgid "cal_recurrence_until"
+msgstr "Recurrence End"
+
+#, fuzzy
+msgid "cal_recurrence_until_count"
+msgstr "Fixed Number of Appointments"
+
+#, fuzzy
+msgid "cal_recurrence_until_end_date"
+msgstr "Repeat Until End Date"
+
+#, fuzzy
+msgid "cal_recurrence_week_interval"
+msgstr "Every x Week(s)"
+
+#, fuzzy
+msgid "cal_recurrence_year_interval"
+msgstr "Every x Year(s)"
+
+msgid "cal_recurrences"
+msgstr "Ripetizioni"
+
+msgid "cal_reg_register"
+msgstr "Accedi"
+
+msgid "cal_reg_registered"
+msgstr "Sei stato registrato per questo appuntamento."
+
+msgid "cal_reg_registered_users"
+msgstr "Utenti registrati"
+
+msgid "cal_reg_unregister"
+msgstr "Cancella la tua registrazione"
+
+msgid "cal_reg_unregistered"
+msgstr "Non sei stato registrato."
+
+msgid "cal_registrations"
+msgstr "Registrazioni di appuntamenti"
+
+msgid "cal_remote_url"
+msgstr "URL del calendario"
+
+msgid "cal_repeat_until"
+msgstr "Ripeti finchè"
+
+msgid "cal_repo_obj"
+msgstr "Oggetti dell'archivio"
+
+msgid "cal_responsible"
+msgstr "Responsabile"
+
+msgid "cal_save_responsible_users"
+msgstr "Memorizza Utenti Responsabili"
+
+msgid "cal_search"
+msgstr "Termine di ricerca"
+
+msgid "cal_search_info_share"
+msgstr "Per favore inserisci il nome dell'utente/ruolo desiderato per condividere il tuo calendario."
+
+msgid "cal_second"
+msgstr "Secondo"
+
+msgid "cal_server_tz"
+msgstr "Fuso orario del server"
+
+msgid "cal_sess_info"
+msgstr "Informazione di sessione"
+
+msgid "cal_setting_global_crs_act"
+msgstr "Sttivazione nei corsi"
+
+msgid "cal_setting_global_crs_act_info"
+msgstr "Se selezionato, il calendario è attivo nei corsi per impostazione predefinita. In ogni caso l'attivazione del calendario può essere abilitata/disabilitata nelle impostazioni del corso."
+
+msgid "cal_setting_global_crs_vis"
+msgstr "Mostra nei corsi"
+
+msgid "cal_setting_global_crs_vis_info"
+msgstr "Se consentito, il calendario viene mostrato nei corsi per impostazione predefinita. In ogni caso, la presentazione del calendario può essere consentita o meno nelle impostazioni del corso."
+
+msgid "cal_setting_global_grp_act"
+msgstr "Attivazione nei gruppi"
+
+msgid "cal_setting_global_grp_act_info"
+msgstr "Se selezionato, il calendario è attivo nei gruppi per impostazione predefinita. In ogni caso l'attivazione del calendario può essere abilitata/disabilitata nelle impostazioni del gruppo."
+
+msgid "cal_setting_global_grp_vis"
+msgstr "Mostra nei gruppi"
+
+msgid "cal_setting_global_grp_vis_info"
+msgstr "Se consentito, il calendario viene mostrato nei gruppi per impostazione predefinita. In ogni caso, la presentazione del calendario può essere consentita o meno nelle impostazioni del gruppo."
+
+msgid "cal_setting_global_vis_repos"
+msgstr "Calendario nel repository"
+
+msgid "cal_share"
+msgstr "Condividi calendario"
+
+msgid "cal_share_accept"
+msgstr "Accetta l'invito"
+
+msgid "cal_share_cal"
+msgstr "Condividi calendario (lettura)"
+
+msgid "cal_share_cal_editable"
+msgstr "Condividi calendario (Lettura e scrittura)"
+
+msgid "cal_share_decline"
+msgstr "Declina l'invito"
+
+msgid "cal_share_search_header"
+msgstr "Condividi calendario"
+
+msgid "cal_share_search_role_header"
+msgstr "Selezione del ruolo"
+
+msgid "cal_share_search_usr_header"
+msgstr "Selezione degli utenti"
+
+msgid "cal_shared_access_read_only"
+msgstr "Solo scrittura"
+
+msgid "cal_shared_access_read_write"
+msgstr "Lettura e scrittura"
+
+msgid "cal_shared_access_table_col"
+msgstr "Accesso"
+
+msgid "cal_shared_calendars"
+msgstr "Calendari condivisi (inviti)"
+
+msgid "cal_shared_header"
+msgstr "Calendari condivisi"
+
+msgid "cal_shared_selected_usr"
+msgstr "Il calendario è stato condiviso con gli utenti/ruoli selezionati."
+
+msgid "cal_show_weeks"
+msgstr "Mostra settimane"
+
+msgid "cal_show_weeks_info"
+msgstr "Attiva la colonna settimane nel blocco laterale del calendario. Gli utenti possono disattivare la colonna nelle loro impostazioni."
+
+msgid "cal_start"
+msgstr "Avvio"
+
+msgid "cal_subscription"
+msgstr "Sottoscrizione"
+
+msgid "cal_subscription_header"
+msgstr "Indirizzo Calendario"
+
+msgid "cal_subscription_info"
+msgstr "Per cortesia usa i seguenti indirizzi per accedere al tuo calendario da altre applicazioni. Puoi copiare e incollarle in ogni altro calendario che supporti il formato ical."
+
+msgid "cal_subscription_url"
+msgstr "URL calendario:"
+
+msgid "cal_sync_cache"
+msgstr "Cache del Calendario"
+
+msgid "cal_sync_cache_info"
+msgstr "Se vengono attivati, gli appuntamenti nuovi/modificati sono calcolati solo ogni x-minuti."
+
+msgid "cal_sync_disabled"
+msgstr "Disabilitato"
+
+msgid "cal_sync_enabled"
+msgstr "Abilitato"
+
+msgid "cal_table_categories"
+msgstr "Selezione del calendario"
+
+msgid "cal_task_completion"
+msgstr "Completamento attività"
+
+msgid "cal_third"
+msgstr "Terzo"
+
+msgid "cal_time_format_info"
+msgstr "Per favore scegli un formato per il tempo."
+
+msgid "cal_timezone_info"
+msgstr "Per favore scegli una città uguale al tuo fuso orario"
+
+msgid "cal_type_crs"
+msgstr "Calendario dei corsi"
+
+msgid "cal_type_exc"
+msgstr "Calendario delle esercitazioni"
+
+msgid "cal_type_grp"
+msgstr "Calendario di gruppo"
+
+msgid "cal_type_info"
+msgstr "Per favore scegli una tipologia di calendario. I \"calendari pubblici\" sono visibili per tutti gli utenti di ILIAS."
+
+msgid "cal_type_local"
+msgstr "Calendario locale"
+
+msgid "cal_type_personal"
+msgstr "Calendario privato"
+
+msgid "cal_type_remote"
+msgstr "Calendario web"
+
+msgid "cal_type_rl"
+msgstr "Posizione del calendario"
+
+msgid "cal_type_sess"
+msgstr "Calendario delle sessioni"
+
+msgid "cal_type_system"
+msgstr "Calendario pubblico"
+
+#, fuzzy
+msgid "cal_type_tals"
+msgstr "Talks"
+
+msgid "cal_unshare_cal"
+msgstr "Stop Condivisione"
+
+msgid "cal_unshared_selected_usr"
+msgstr "Smetti di condividere il calendario con gli utenti selezionati."
+
+msgid "cal_upcoming_events_header"
+msgstr "Prossimi Eventi"
+
+msgid "cal_user_date_format"
+msgstr "Formato di immissione della data"
+
+msgid "cal_user_notification"
+msgstr "Notifica utente"
+
+msgid "cal_user_notification_info"
+msgstr "Gli utenti selezionati verranno informati di questo appuntamento via e-mail. Inserisci i nomi utente o gli indirizzi email di ILIAS."
+
+msgid "cal_user_settings"
+msgstr "Impostazioni del calendario"
+
+msgid "cal_user_time_format"
+msgstr "Format di tempo"
+
+msgid "cal_user_timezone"
+msgstr "Intervallo di tempo"
+
+msgid "cal_usr_info"
+msgstr "Informazioni sull'appuntamento"
+
+msgid "cal_usr_show_weeks"
+msgstr "Mostra colonna settimana"
+
+msgid "cal_usr_show_weeks_info"
+msgstr "Attiva la colonna settimane nel blocco laterale del calendario."
+
+msgid "cal_webcal_sync"
+msgstr "Sincronizzazione calendario esterno"
+
+msgid "cal_webcal_sync_info"
+msgstr "Sincronizza automaticamente i calendari esterni ogni x minuti."
+
+msgid "cal_week_abbrev"
+msgstr "S"
+
+msgid "cal_week_month_view"
+msgstr "Impostazioni di visualizzazione settimanale/mensile"
+
+msgid "cal_week_overview"
+msgstr "Vista settimanale"
+
+msgid "cal_week_s"
+msgstr "Settimana/e"
+
+msgid "cal_week_selection"
+msgstr "Seleziona settimana"
+
+msgid "cal_week_start"
+msgstr "Start settimana"
+
+msgid "cal_weekday"
+msgstr "Giorno settimanale"
+
+msgid "cal_weekly"
+msgstr "Settimanale"
+
+msgid "cal_where"
+msgstr "Posizione"
+
+msgid "cal_year_s"
+msgstr "Anno/i"
+
+msgid "cal_yearly"
+msgstr "Annualmente"
+
+#, fuzzy
+msgid "cal_yearly_by_date"
+msgstr "Yearly by Date"
+
+#, fuzzy
+msgid "cal_yearly_by_day"
+msgstr "Yearly by Day"
+
+#, fuzzy
+msgid "consultation_hours_block_title"
+msgstr "Consultation Hours"
+
+msgid "crs_cal_activation_end"
+msgstr "Fino del corso"
+
+msgid "crs_cal_activation_start"
+msgstr "Inizio del corso"
+
+msgid "crs_cal_end"
+msgstr "Fine del corso"
+
+msgid "crs_cal_reg_end"
+msgstr "Fine della registrazione"
+
+msgid "crs_cal_reg_start"
+msgstr "Inizio della registrazione"
+
+msgid "crs_cal_start"
+msgstr "Inizio del corso"
+
+msgid "date_format"
+msgstr "M/G/A O:min (Mese/Giorno/Annoa4cifre Ore24:Minuti)"
+
+msgid "end_date"
+msgstr "Fine data"
+
+msgid "err_end_before_start"
+msgstr "L'ora d'inizio dell'appuntamento non può essere precedente all'ora di fine."
+
+msgid "err_missing_title"
+msgstr "Per favore inserisci il titolo all'appuntamento."
+
+msgid "free"
+msgstr "libero"
+
+msgid "grp_cal_end"
+msgstr "Fine del gruppo"
+
+msgid "grp_cal_reg_end"
+msgstr "Fine della registrazione"
+
+msgid "grp_cal_reg_start"
+msgstr "Inizio della registrazione"
+
+msgid "grp_cal_start"
+msgstr "Inizio del gruppo"
+
+msgid "ical_export"
+msgstr "Esportazione iCal"
+
+msgid "keep"
+msgstr "Tieni"
+
+msgid "keyword"
+msgstr "Parola chiave"
+
+msgid "more"
+msgstr "Altro"
+
+msgid "r_14"
+msgstr "Ogni 14 giorni"
+
+msgid "r_4_weeks"
+msgstr "Ogni 4 settimane"
+
+msgid "remote_pass_info"
+msgstr "Inserisci i dati del tuo account se l'accesso al webcalendar è protetto."
+
+msgid "to"
+msgstr "a:"
+
+msgid "today"
+msgstr "Oggi"
+
+msgid "week"
+msgstr "Settimana"
+
+msgid "wk_short"
+msgstr "Settimana"
+
+msgid "year"
+msgstr "Anno"

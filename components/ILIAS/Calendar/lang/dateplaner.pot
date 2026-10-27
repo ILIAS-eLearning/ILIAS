@@ -1,0 +1,1305 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: dateplaner\n"
+
+msgid "Fr_long"
+msgstr ""
+
+msgid "Fr_short"
+msgstr ""
+
+msgid "Mo_long"
+msgstr ""
+
+msgid "Mo_short"
+msgstr ""
+
+msgid "Sa_long"
+msgstr ""
+
+msgid "Sa_short"
+msgstr ""
+
+msgid "Su_long"
+msgstr ""
+
+msgid "Su_short"
+msgstr ""
+
+msgid "Text"
+msgstr ""
+
+msgid "Th_long"
+msgstr ""
+
+msgid "Th_short"
+msgstr ""
+
+msgid "Tu_long"
+msgstr ""
+
+msgid "Tu_short"
+msgstr ""
+
+msgid "We_long"
+msgstr ""
+
+msgid "We_short"
+msgstr ""
+
+msgid "add_appointment"
+msgstr ""
+
+msgid "app_consultation_hours"
+msgstr ""
+
+msgid "app_day"
+msgstr ""
+
+msgid "app_month"
+msgstr ""
+
+msgid "app_week"
+msgstr ""
+
+msgid "back_to_crs"
+msgstr ""
+
+msgid "back_to_grp"
+msgstr ""
+
+msgid "back_to_pd"
+msgstr ""
+
+msgid "btn_ical"
+msgstr ""
+
+msgid "c_date"
+msgstr ""
+
+msgid "cal_add_appointment"
+msgstr ""
+
+msgid "cal_add_calendar"
+msgstr ""
+
+msgid "cal_add_category"
+msgstr ""
+
+msgid "cal_add_milestone"
+msgstr ""
+
+msgid "cal_adm_notification_info"
+msgstr ""
+
+msgid "cal_adm_notification_user_info"
+msgstr ""
+
+msgid "cal_agenda"
+msgstr ""
+
+msgid "cal_all_day"
+msgstr ""
+
+msgid "cal_app_info"
+msgstr ""
+
+msgid "cal_app_other_materials_num"
+msgstr ""
+
+msgid "cal_appointment_notifications"
+msgstr ""
+
+msgid "cal_appointments"
+msgstr ""
+
+msgid "cal_apps"
+msgstr ""
+
+msgid "cal_assigned_appointments"
+msgstr ""
+
+msgid "cal_back_to_cal"
+msgstr ""
+
+msgid "cal_back_to_list"
+msgstr ""
+
+msgid "cal_back_to_search"
+msgstr ""
+
+msgid "cal_batch_file_downloads"
+msgstr ""
+
+msgid "cal_batch_file_downloads_info"
+msgstr ""
+
+msgid "cal_belongs_to"
+msgstr ""
+
+msgid "cal_book_free"
+msgstr ""
+
+msgid "cal_booked_out"
+msgstr ""
+
+msgid "cal_booking_cancellation_body"
+msgstr ""
+
+msgid "cal_booking_cancellation_subject"
+msgstr ""
+
+msgid "cal_booking_cancellation_user"
+msgstr ""
+
+msgid "cal_booking_confirmation_body"
+msgstr ""
+
+msgid "cal_booking_confirmation_link"
+msgstr ""
+
+msgid "cal_booking_confirmation_subject"
+msgstr ""
+
+msgid "cal_booking_confirmation_user"
+msgstr ""
+
+msgid "cal_booking_confirmed"
+msgstr ""
+
+msgid "cal_booking_failed_info"
+msgstr ""
+
+msgid "cal_booking_manager_confirmation_body"
+msgstr ""
+
+msgid "cal_booking_owner_confirmation_body"
+msgstr ""
+
+msgid "cal_cache"
+msgstr ""
+
+msgid "cal_cache_disabled"
+msgstr ""
+
+msgid "cal_cache_enabled"
+msgstr ""
+
+msgid "cal_cache_info"
+msgstr ""
+
+msgid "cal_cache_settings"
+msgstr ""
+
+msgid "cal_cal_deleted"
+msgstr ""
+
+msgid "cal_cal_shared_with"
+msgstr ""
+
+msgid "cal_cal_sync_success"
+msgstr ""
+
+msgid "cal_cal_synchronize"
+msgstr ""
+
+msgid "cal_cal_type"
+msgstr ""
+
+msgid "cal_calendar_color"
+msgstr ""
+
+msgid "cal_calendar_download"
+msgstr ""
+
+msgid "cal_calendar_name"
+msgstr ""
+
+msgid "cal_calendar_subscription_modal_title"
+msgstr ""
+
+msgid "cal_cancel_booking"
+msgstr ""
+
+msgid "cal_cancel_booking_confirmed"
+msgstr ""
+
+msgid "cal_cancel_booking_info"
+msgstr ""
+
+msgid "cal_category_selection"
+msgstr ""
+
+msgid "cal_cg_notification"
+msgstr ""
+
+msgid "cal_cg_registration_info"
+msgstr ""
+
+msgid "cal_cg_registrations"
+msgstr ""
+
+msgid "cal_ch_add_grp"
+msgstr ""
+
+msgid "cal_ch_add_sequence"
+msgstr ""
+
+msgid "cal_ch_app_bookings"
+msgstr ""
+
+msgid "cal_ch_app_grp"
+msgstr ""
+
+msgid "cal_ch_app_list"
+msgstr ""
+
+msgid "cal_ch_assign_participants"
+msgstr ""
+
+msgid "cal_ch_assigned_apps"
+msgstr ""
+
+msgid "cal_ch_book"
+msgstr ""
+
+msgid "cal_ch_booking"
+msgstr ""
+
+msgid "cal_ch_booking_col_comments"
+msgstr ""
+
+msgid "cal_ch_booking_comment"
+msgstr ""
+
+msgid "cal_ch_booking_link"
+msgstr ""
+
+msgid "cal_ch_booking_message_tbl"
+msgstr ""
+
+msgid "cal_ch_booking_num_available"
+msgstr ""
+
+msgid "cal_ch_booking_num_free_short"
+msgstr ""
+
+msgid "cal_ch_booking_other_participants"
+msgstr ""
+
+msgid "cal_ch_booking_owner"
+msgstr ""
+
+msgid "cal_ch_booking_participants"
+msgstr ""
+
+msgid "cal_ch_booking_reminder_body"
+msgstr ""
+
+msgid "cal_ch_booking_reminder_subject"
+msgstr ""
+
+msgid "cal_ch_booking_start"
+msgstr ""
+
+msgid "cal_ch_booking_your_comment"
+msgstr ""
+
+msgid "cal_ch_bookings"
+msgstr ""
+
+msgid "cal_ch_bookings_tbl"
+msgstr ""
+
+msgid "cal_ch_cancel_booking"
+msgstr ""
+
+msgid "cal_ch_cancel_booking_info"
+msgstr ""
+
+msgid "cal_ch_cancel_booking_sure"
+msgstr ""
+
+msgid "cal_ch_canceled_bookings"
+msgstr ""
+
+msgid "cal_ch_ch"
+msgstr ""
+
+msgid "cal_ch_cron_reminder"
+msgstr ""
+
+msgid "cal_ch_cron_reminder_days"
+msgstr ""
+
+msgid "cal_ch_cron_reminder_info"
+msgstr ""
+
+msgid "cal_ch_current_booking_comment"
+msgstr ""
+
+msgid "cal_ch_current_bookings"
+msgstr ""
+
+msgid "cal_ch_deadline"
+msgstr ""
+
+msgid "cal_ch_deadline_info"
+msgstr ""
+
+msgid "cal_ch_delete_app_booking_info"
+msgstr ""
+
+msgid "cal_ch_delete_booking"
+msgstr ""
+
+msgid "cal_ch_delete_booking_info"
+msgstr ""
+
+msgid "cal_ch_delete_booking_sure"
+msgstr ""
+
+msgid "cal_ch_deleted_bookings"
+msgstr ""
+
+msgid "cal_ch_duration"
+msgstr ""
+
+msgid "cal_ch_export_apps"
+msgstr ""
+
+msgid "cal_ch_field_ch"
+msgstr ""
+
+msgid "cal_ch_form"
+msgstr ""
+
+msgid "cal_ch_form_header"
+msgstr ""
+
+msgid "cal_ch_form_info"
+msgstr ""
+
+msgid "cal_ch_free_of_available"
+msgstr ""
+
+msgid "cal_ch_grp_add_tbl"
+msgstr ""
+
+msgid "cal_ch_grp_delete_sure"
+msgstr ""
+
+msgid "cal_ch_grp_header"
+msgstr ""
+
+msgid "cal_ch_grp_multiple"
+msgstr ""
+
+msgid "cal_ch_grp_multiple_info"
+msgstr ""
+
+msgid "cal_ch_grp_no_assignment"
+msgstr ""
+
+msgid "cal_ch_grp_selection"
+msgstr ""
+
+msgid "cal_ch_grp_update_tbl"
+msgstr ""
+
+msgid "cal_ch_grps"
+msgstr ""
+
+msgid "cal_ch_manager"
+msgstr ""
+
+msgid "cal_ch_manager_info"
+msgstr ""
+
+msgid "cal_ch_max_books"
+msgstr ""
+
+msgid "cal_ch_minutes"
+msgstr ""
+
+msgid "cal_ch_multi_edit_sequence"
+msgstr ""
+
+msgid "cal_ch_num_appointments"
+msgstr ""
+
+msgid "cal_ch_num_appointments_info"
+msgstr ""
+
+msgid "cal_ch_num_bookings"
+msgstr ""
+
+msgid "cal_ch_personal_book"
+msgstr ""
+
+msgid "cal_ch_personal_ch"
+msgstr ""
+
+msgid "cal_ch_reject_booking"
+msgstr ""
+
+msgid "cal_ch_send_mail"
+msgstr ""
+
+msgid "cal_ch_target_object"
+msgstr ""
+
+msgid "cal_ch_target_object_info"
+msgstr ""
+
+msgid "cal_ch_unknown_repository_object"
+msgstr ""
+
+msgid "cal_ch_unknown_user"
+msgstr ""
+
+msgid "cal_ch_user_assignment_failed_info"
+msgstr ""
+
+msgid "cal_ch_vm_period_all"
+msgstr ""
+
+msgid "cal_ch_vm_period_past"
+msgstr ""
+
+msgid "cal_ch_vm_period_upcoming"
+msgstr ""
+
+msgid "cal_ch_vm_status_all"
+msgstr ""
+
+msgid "cal_ch_vm_status_booked"
+msgstr ""
+
+msgid "cal_ch_vm_status_open"
+msgstr ""
+
+msgid "cal_change_calendar_view"
+msgstr ""
+
+msgid "cal_change_responsible_users"
+msgstr ""
+
+msgid "cal_changed_events_header"
+msgstr ""
+
+msgid "cal_confirm_booking"
+msgstr ""
+
+msgid "cal_confirm_booking_info"
+msgstr ""
+
+msgid "cal_confirm_reg_info"
+msgstr ""
+
+msgid "cal_confirm_unreg_info"
+msgstr ""
+
+msgid "cal_consultation_hours_for"
+msgstr ""
+
+msgid "cal_consultation_hours_for_user"
+msgstr ""
+
+msgid "cal_contained_in"
+msgstr ""
+
+msgid "cal_create"
+msgstr ""
+
+msgid "cal_created_appointment"
+msgstr ""
+
+msgid "cal_created_milestone"
+msgstr ""
+
+msgid "cal_created_milestone_resp_q"
+msgstr ""
+
+msgid "cal_cronjob_remote_description"
+msgstr ""
+
+msgid "cal_cronjob_remote_title"
+msgstr ""
+
+msgid "cal_crs_info"
+msgstr ""
+
+msgid "cal_crs_new_notification_body"
+msgstr ""
+
+msgid "cal_crs_new_notification_sub"
+msgstr ""
+
+msgid "cal_crs_notification_body"
+msgstr ""
+
+msgid "cal_crs_notification_sub"
+msgstr ""
+
+msgid "cal_crs_timing_end"
+msgstr ""
+
+msgid "cal_crs_timing_start"
+msgstr ""
+
+msgid "cal_daily"
+msgstr ""
+
+msgid "cal_date_and_time"
+msgstr ""
+
+msgid "cal_date_booked"
+msgstr ""
+
+msgid "cal_date_format_info"
+msgstr ""
+
+msgid "cal_date_time_title"
+msgstr ""
+
+msgid "cal_day_end"
+msgstr ""
+
+msgid "cal_day_of_month"
+msgstr ""
+
+msgid "cal_day_overview"
+msgstr ""
+
+msgid "cal_day_s"
+msgstr ""
+
+msgid "cal_day_selection"
+msgstr ""
+
+msgid "cal_day_start"
+msgstr ""
+
+msgid "cal_day_week_view"
+msgstr ""
+
+msgid "cal_deadline"
+msgstr ""
+
+msgid "cal_def_date_format"
+msgstr ""
+
+msgid "cal_def_date_format_info"
+msgstr ""
+
+msgid "cal_def_day_end"
+msgstr ""
+
+msgid "cal_def_day_start"
+msgstr ""
+
+msgid "cal_def_show_weeks"
+msgstr ""
+
+msgid "cal_def_time_format"
+msgstr ""
+
+msgid "cal_def_time_format_info"
+msgstr ""
+
+msgid "cal_def_timezone"
+msgstr ""
+
+msgid "cal_def_timezone_info"
+msgstr ""
+
+msgid "cal_def_view"
+msgstr ""
+
+msgid "cal_def_week_start"
+msgstr ""
+
+msgid "cal_default_calendar"
+msgstr ""
+
+msgid "cal_default_settings"
+msgstr ""
+
+msgid "cal_del_cal_sure"
+msgstr ""
+
+msgid "cal_delete_app_sure"
+msgstr ""
+
+msgid "cal_delete_booking_info"
+msgstr ""
+
+msgid "cal_delete_cal"
+msgstr ""
+
+msgid "cal_delete_recurrence_rule"
+msgstr ""
+
+msgid "cal_delete_recurrences"
+msgstr ""
+
+msgid "cal_delete_single"
+msgstr ""
+
+msgid "cal_deleted_app"
+msgstr ""
+
+msgid "cal_details"
+msgstr ""
+
+msgid "cal_down_no_files"
+msgstr ""
+
+msgid "cal_download_all_files"
+msgstr ""
+
+msgid "cal_download_files"
+msgstr ""
+
+msgid "cal_download_files_started"
+msgstr ""
+
+msgid "cal_dstart_dend_warn"
+msgstr ""
+
+msgid "cal_duration"
+msgstr ""
+
+msgid "cal_duration_end"
+msgstr ""
+
+msgid "cal_duration_start"
+msgstr ""
+
+msgid "cal_edit_appointment"
+msgstr ""
+
+msgid "cal_edit_category"
+msgstr ""
+
+msgid "cal_edit_milestone"
+msgstr ""
+
+msgid "cal_edit_recurrences"
+msgstr ""
+
+msgid "cal_edit_single"
+msgstr ""
+
+msgid "cal_edit_single_or_all_info"
+msgstr ""
+
+msgid "cal_enable_group_milestones"
+msgstr ""
+
+msgid "cal_enable_group_milestones_desc"
+msgstr ""
+
+msgid "cal_err_invalid_notification_rcps"
+msgstr ""
+
+msgid "cal_every"
+msgstr ""
+
+msgid "cal_exc_deadline"
+msgstr ""
+
+msgid "cal_exc_info"
+msgstr ""
+
+msgid "cal_exc_inst_files"
+msgstr ""
+
+msgid "cal_exc_open"
+msgstr ""
+
+msgid "cal_exc_peer_review_deadline"
+msgstr ""
+
+msgid "cal_export_timezone"
+msgstr ""
+
+msgid "cal_export_timezone_tz"
+msgstr ""
+
+msgid "cal_export_timezone_utc"
+msgstr ""
+
+msgid "cal_fifth"
+msgstr ""
+
+msgid "cal_first"
+msgstr ""
+
+msgid "cal_fourth"
+msgstr ""
+
+msgid "cal_fullday"
+msgstr ""
+
+msgid "cal_fullday_title"
+msgstr ""
+
+msgid "cal_global_settings"
+msgstr ""
+
+msgid "cal_grp_curr_crs"
+msgstr ""
+
+msgid "cal_grp_curr_crs_cons"
+msgstr ""
+
+msgid "cal_grp_curr_grp"
+msgstr ""
+
+msgid "cal_grp_info"
+msgstr ""
+
+msgid "cal_grp_new_notification_body"
+msgstr ""
+
+msgid "cal_grp_new_notification_sub"
+msgstr ""
+
+msgid "cal_grp_notification_body"
+msgstr ""
+
+msgid "cal_grp_notification_sub"
+msgstr ""
+
+msgid "cal_grp_others"
+msgstr ""
+
+msgid "cal_grp_personal"
+msgstr ""
+
+msgid "cal_ical_infoscreen"
+msgstr ""
+
+msgid "cal_ical_url"
+msgstr ""
+
+msgid "cal_ical_url_google"
+msgstr ""
+
+msgid "cal_import_appointments"
+msgstr ""
+
+msgid "cal_import_file"
+msgstr ""
+
+msgid "cal_import_file_info"
+msgstr ""
+
+msgid "cal_import_tbl"
+msgstr ""
+
+msgid "cal_imported_success"
+msgstr ""
+
+msgid "cal_in"
+msgstr ""
+
+msgid "cal_last"
+msgstr ""
+
+msgid "cal_list"
+msgstr ""
+
+msgid "cal_mail_notification_body"
+msgstr ""
+
+msgid "cal_mail_notification_subject"
+msgstr ""
+
+msgid "cal_manage"
+msgstr ""
+
+msgid "cal_materials"
+msgstr ""
+
+msgid "cal_milestone_settings"
+msgstr ""
+
+msgid "cal_month_overview"
+msgstr ""
+
+msgid "cal_month_s"
+msgstr ""
+
+msgid "cal_month_selection"
+msgstr ""
+
+msgid "cal_monthly"
+msgstr ""
+
+msgid "cal_monthly_by_date"
+msgstr ""
+
+msgid "cal_monthly_by_day"
+msgstr ""
+
+msgid "cal_ms_details"
+msgstr ""
+
+msgid "cal_ms_users_responsible"
+msgstr ""
+
+msgid "cal_new_app"
+msgstr ""
+
+msgid "cal_new_ms"
+msgstr ""
+
+msgid "cal_no_ending"
+msgstr ""
+
+msgid "cal_no_events_block"
+msgstr ""
+
+msgid "cal_no_events_info"
+msgstr ""
+
+msgid "cal_no_recurrence"
+msgstr ""
+
+msgid "cal_notification"
+msgstr ""
+
+msgid "cal_notification_crsgrp"
+msgstr ""
+
+msgid "cal_notification_info"
+msgstr ""
+
+msgid "cal_notification_users"
+msgstr ""
+
+msgid "cal_on"
+msgstr ""
+
+msgid "cal_on_the"
+msgstr ""
+
+msgid "cal_open_calendar"
+msgstr ""
+
+msgid "cal_origin"
+msgstr ""
+
+msgid "cal_owner"
+msgstr ""
+
+msgid "cal_period"
+msgstr ""
+
+msgid "cal_rec_err_limit"
+msgstr ""
+
+msgid "cal_recurrence_confirm_deletion"
+msgstr ""
+
+msgid "cal_recurrence_count"
+msgstr ""
+
+msgid "cal_recurrence_day_interval"
+msgstr ""
+
+msgid "cal_recurrence_end_date"
+msgstr ""
+
+msgid "cal_recurrence_end_date_info"
+msgstr ""
+
+msgid "cal_recurrence_month_interval"
+msgstr ""
+
+msgid "cal_recurrence_until"
+msgstr ""
+
+msgid "cal_recurrence_until_count"
+msgstr ""
+
+msgid "cal_recurrence_until_end_date"
+msgstr ""
+
+msgid "cal_recurrence_week_interval"
+msgstr ""
+
+msgid "cal_recurrence_year_interval"
+msgstr ""
+
+msgid "cal_recurrences"
+msgstr ""
+
+msgid "cal_reg_register"
+msgstr ""
+
+msgid "cal_reg_registered"
+msgstr ""
+
+msgid "cal_reg_registered_users"
+msgstr ""
+
+msgid "cal_reg_unregister"
+msgstr ""
+
+msgid "cal_reg_unregistered"
+msgstr ""
+
+msgid "cal_registrations"
+msgstr ""
+
+msgid "cal_remote_url"
+msgstr ""
+
+msgid "cal_repeat_until"
+msgstr ""
+
+msgid "cal_repo_obj"
+msgstr ""
+
+msgid "cal_responsible"
+msgstr ""
+
+msgid "cal_save_responsible_users"
+msgstr ""
+
+msgid "cal_search"
+msgstr ""
+
+msgid "cal_search_info_share"
+msgstr ""
+
+msgid "cal_second"
+msgstr ""
+
+msgid "cal_server_tz"
+msgstr ""
+
+msgid "cal_sess_info"
+msgstr ""
+
+msgid "cal_setting_global_crs_act"
+msgstr ""
+
+msgid "cal_setting_global_crs_act_info"
+msgstr ""
+
+msgid "cal_setting_global_crs_vis"
+msgstr ""
+
+msgid "cal_setting_global_crs_vis_info"
+msgstr ""
+
+msgid "cal_setting_global_grp_act"
+msgstr ""
+
+msgid "cal_setting_global_grp_act_info"
+msgstr ""
+
+msgid "cal_setting_global_grp_vis"
+msgstr ""
+
+msgid "cal_setting_global_grp_vis_info"
+msgstr ""
+
+msgid "cal_setting_global_vis_repos"
+msgstr ""
+
+msgid "cal_share"
+msgstr ""
+
+msgid "cal_share_accept"
+msgstr ""
+
+msgid "cal_share_cal"
+msgstr ""
+
+msgid "cal_share_cal_editable"
+msgstr ""
+
+msgid "cal_share_decline"
+msgstr ""
+
+msgid "cal_share_search_header"
+msgstr ""
+
+msgid "cal_share_search_role_header"
+msgstr ""
+
+msgid "cal_share_search_usr_header"
+msgstr ""
+
+msgid "cal_shared_access_read_only"
+msgstr ""
+
+msgid "cal_shared_access_read_write"
+msgstr ""
+
+msgid "cal_shared_access_table_col"
+msgstr ""
+
+msgid "cal_shared_calendars"
+msgstr ""
+
+msgid "cal_shared_header"
+msgstr ""
+
+msgid "cal_shared_selected_usr"
+msgstr ""
+
+msgid "cal_show_weeks"
+msgstr ""
+
+msgid "cal_show_weeks_info"
+msgstr ""
+
+msgid "cal_start"
+msgstr ""
+
+msgid "cal_subscription"
+msgstr ""
+
+msgid "cal_subscription_header"
+msgstr ""
+
+msgid "cal_subscription_info"
+msgstr ""
+
+msgid "cal_subscription_url"
+msgstr ""
+
+msgid "cal_sync_cache"
+msgstr ""
+
+msgid "cal_sync_cache_info"
+msgstr ""
+
+msgid "cal_sync_disabled"
+msgstr ""
+
+msgid "cal_sync_enabled"
+msgstr ""
+
+msgid "cal_table_categories"
+msgstr ""
+
+msgid "cal_task_completion"
+msgstr ""
+
+msgid "cal_third"
+msgstr ""
+
+msgid "cal_time_format_info"
+msgstr ""
+
+msgid "cal_timezone_info"
+msgstr ""
+
+msgid "cal_type_crs"
+msgstr ""
+
+msgid "cal_type_exc"
+msgstr ""
+
+msgid "cal_type_grp"
+msgstr ""
+
+msgid "cal_type_info"
+msgstr ""
+
+msgid "cal_type_local"
+msgstr ""
+
+msgid "cal_type_personal"
+msgstr ""
+
+msgid "cal_type_remote"
+msgstr ""
+
+msgid "cal_type_rl"
+msgstr ""
+
+msgid "cal_type_sess"
+msgstr ""
+
+msgid "cal_type_system"
+msgstr ""
+
+msgid "cal_type_tals"
+msgstr ""
+
+msgid "cal_unshare_cal"
+msgstr ""
+
+msgid "cal_unshared_selected_usr"
+msgstr ""
+
+msgid "cal_upcoming_events_header"
+msgstr ""
+
+msgid "cal_user_date_format"
+msgstr ""
+
+msgid "cal_user_notification"
+msgstr ""
+
+msgid "cal_user_notification_info"
+msgstr ""
+
+msgid "cal_user_settings"
+msgstr ""
+
+msgid "cal_user_time_format"
+msgstr ""
+
+msgid "cal_user_timezone"
+msgstr ""
+
+msgid "cal_usr_info"
+msgstr ""
+
+msgid "cal_usr_show_weeks"
+msgstr ""
+
+msgid "cal_usr_show_weeks_info"
+msgstr ""
+
+msgid "cal_webcal_sync"
+msgstr ""
+
+msgid "cal_webcal_sync_info"
+msgstr ""
+
+msgid "cal_week_abbrev"
+msgstr ""
+
+msgid "cal_week_month_view"
+msgstr ""
+
+msgid "cal_week_overview"
+msgstr ""
+
+msgid "cal_week_s"
+msgstr ""
+
+msgid "cal_week_selection"
+msgstr ""
+
+msgid "cal_week_start"
+msgstr ""
+
+msgid "cal_weekday"
+msgstr ""
+
+msgid "cal_weekly"
+msgstr ""
+
+msgid "cal_where"
+msgstr ""
+
+msgid "cal_year_s"
+msgstr ""
+
+msgid "cal_yearly"
+msgstr ""
+
+msgid "cal_yearly_by_date"
+msgstr ""
+
+msgid "cal_yearly_by_day"
+msgstr ""
+
+msgid "consultation_hours_block_title"
+msgstr ""
+
+msgid "crs_cal_activation_end"
+msgstr ""
+
+msgid "crs_cal_activation_start"
+msgstr ""
+
+msgid "crs_cal_end"
+msgstr ""
+
+msgid "crs_cal_reg_end"
+msgstr ""
+
+msgid "crs_cal_reg_start"
+msgstr ""
+
+msgid "crs_cal_start"
+msgstr ""
+
+msgid "date_format"
+msgstr ""
+
+msgid "end_date"
+msgstr ""
+
+msgid "err_end_before_start"
+msgstr ""
+
+msgid "err_missing_title"
+msgstr ""
+
+msgid "free"
+msgstr ""
+
+msgid "grp_cal_end"
+msgstr ""
+
+msgid "grp_cal_reg_end"
+msgstr ""
+
+msgid "grp_cal_reg_start"
+msgstr ""
+
+msgid "grp_cal_start"
+msgstr ""
+
+msgid "ical_export"
+msgstr ""
+
+msgid "keep"
+msgstr ""
+
+msgid "keyword"
+msgstr ""
+
+msgid "more"
+msgstr ""
+
+msgid "r_14"
+msgstr ""
+
+msgid "r_4_weeks"
+msgstr ""
+
+msgid "remote_pass_info"
+msgstr ""
+
+msgid "to"
+msgstr ""
+
+msgid "today"
+msgstr ""
+
+msgid "week"
+msgstr ""
+
+msgid "wk_short"
+msgstr ""
+
+msgid "year"
+msgstr ""

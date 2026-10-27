@@ -1,0 +1,1710 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: bg\n"
+"Language-Team: Bulgarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: dateplaner\n"
+
+msgid "Fr_long"
+msgstr "Петък"
+
+msgid "Fr_short"
+msgstr "Пет"
+
+msgid "Mo_long"
+msgstr "Понеделник"
+
+msgid "Mo_short"
+msgstr "Пон"
+
+msgid "Sa_long"
+msgstr "Събота"
+
+msgid "Sa_short"
+msgstr "Съб"
+
+msgid "Su_long"
+msgstr "Неделя"
+
+msgid "Su_short"
+msgstr "Нед"
+
+msgid "Text"
+msgstr "Текст"
+
+msgid "Th_long"
+msgstr "Четвъртък"
+
+msgid "Th_short"
+msgstr "Чет"
+
+msgid "Tu_long"
+msgstr "Вторник"
+
+msgid "Tu_short"
+msgstr "Вт"
+
+msgid "We_long"
+msgstr "Сряда"
+
+msgid "We_short"
+msgstr "Ср"
+
+#, fuzzy
+msgid "add_appointment"
+msgstr "Add Appointment"
+
+#, fuzzy
+msgid "app_consultation_hours"
+msgstr "Consultation Hours"
+
+msgid "app_day"
+msgstr "преглед на деня"
+
+msgid "app_month"
+msgstr "месечен преглед"
+
+msgid "app_week"
+msgstr "седмичен преглед"
+
+#, fuzzy
+msgid "back_to_crs"
+msgstr "Go to Course"
+
+#, fuzzy
+msgid "back_to_grp"
+msgstr "Go to Group"
+
+#, fuzzy
+msgid "back_to_pd"
+msgstr "Back to Personal Desktop"
+
+#, fuzzy
+msgid "btn_ical"
+msgstr "iCal"
+
+msgid "c_date"
+msgstr "Създаване на дата"
+
+#, fuzzy
+msgid "cal_add_appointment"
+msgstr "Create Appointment"
+
+#, fuzzy
+msgid "cal_add_calendar"
+msgstr "Add Calendar"
+
+#, fuzzy
+msgid "cal_add_category"
+msgstr "Create New Calendar"
+
+#, fuzzy
+msgid "cal_add_milestone"
+msgstr "Add Milestone"
+
+#, fuzzy
+msgid "cal_adm_notification_info"
+msgstr "Choose this option, to send optional mail notifications to course/group participants about changed appointments."
+
+#, fuzzy
+msgid "cal_adm_notification_user_info"
+msgstr "Choose this option, to send optional mail notifications to selected users."
+
+#, fuzzy
+msgid "cal_agenda"
+msgstr "Agenda"
+
+#, fuzzy
+msgid "cal_all_day"
+msgstr "All Day"
+
+#, fuzzy
+msgid "cal_app_info"
+msgstr "Appointment Information"
+
+#, fuzzy
+msgid "cal_app_other_materials_num"
+msgstr "View other materials"
+
+#, fuzzy
+msgid "cal_appointment_notifications"
+msgstr "Notification"
+
+#, fuzzy
+msgid "cal_appointments"
+msgstr "Appointment(s)"
+
+#, fuzzy
+msgid "cal_apps"
+msgstr "Number of Appointments"
+
+#, fuzzy
+msgid "cal_assigned_appointments"
+msgstr "Assigned Appointments"
+
+#, fuzzy
+msgid "cal_back_to_cal"
+msgstr "Back to Calendar"
+
+#, fuzzy
+msgid "cal_back_to_list"
+msgstr "Back to List"
+
+#, fuzzy
+msgid "cal_back_to_search"
+msgstr "Back to Search"
+
+#, fuzzy
+msgid "cal_batch_file_downloads"
+msgstr "Batch file downloads in Calendar"
+
+#, fuzzy
+msgid "cal_batch_file_downloads_info"
+msgstr "Activate button to download all files related to the current calendar/appointment view."
+
+#, fuzzy
+msgid "cal_belongs_to"
+msgstr "Belongs to Calendar"
+
+#, fuzzy
+msgid "cal_book_free"
+msgstr "available"
+
+#, fuzzy
+msgid "cal_booked_out"
+msgstr "booked up"
+
+#, fuzzy
+msgid "cal_booking_cancellation_body"
+msgstr "your appointment with %s has been cancelled."
+
+#, fuzzy
+msgid "cal_booking_cancellation_subject"
+msgstr "The appointment \"%s\" has been cancelled"
+
+#, fuzzy
+msgid "cal_booking_cancellation_user"
+msgstr "This is a copy from the original mail to user:"
+
+#, fuzzy
+msgid "cal_booking_confirmation_body"
+msgstr "your appointment with %s has been booked."
+
+#, fuzzy
+msgid "cal_booking_confirmation_link"
+msgstr "Link to the appointment:"
+
+#, fuzzy
+msgid "cal_booking_confirmation_subject"
+msgstr "The appointment \"%s\" has been booked"
+
+#, fuzzy
+msgid "cal_booking_confirmation_user"
+msgstr "This is a copy from the original mail to user:"
+
+#, fuzzy
+msgid "cal_booking_confirmed"
+msgstr "The appointment has been booked successfully."
+
+#, fuzzy
+msgid "cal_booking_failed_info"
+msgstr "This appointment is booked out. Please choose another appointment."
+
+#, fuzzy
+msgid "cal_booking_manager_confirmation_body"
+msgstr "%s has booked an appointment with %s."
+
+#, fuzzy
+msgid "cal_booking_owner_confirmation_body"
+msgstr "%s has booked an appointment with you."
+
+#, fuzzy
+msgid "cal_cache"
+msgstr "Kalender-Cache"
+
+#, fuzzy
+msgid "cal_cache_disabled"
+msgstr "Disabled"
+
+#, fuzzy
+msgid "cal_cache_enabled"
+msgstr "Enabled"
+
+#, fuzzy
+msgid "cal_cache_info"
+msgstr "If activated, calendar appointments on the personal desktop and in the repository are calculated only every x-minutes.  "
+
+#, fuzzy
+msgid "cal_cache_settings"
+msgstr "Cache"
+
+#, fuzzy
+msgid "cal_cal_deleted"
+msgstr "The calendars have been deleted"
+
+#, fuzzy
+msgid "cal_cal_shared_with"
+msgstr "Users calendar is shared with"
+
+#, fuzzy
+msgid "cal_cal_sync_success"
+msgstr "Successfully synchronised calendar"
+
+#, fuzzy
+msgid "cal_cal_synchronize"
+msgstr "Synchronise Calendar"
+
+#, fuzzy
+msgid "cal_cal_type"
+msgstr "Calendar Type"
+
+#, fuzzy
+msgid "cal_calendar_color"
+msgstr "Color"
+
+#, fuzzy
+msgid "cal_calendar_download"
+msgstr "Calendar Download"
+
+#, fuzzy
+msgid "cal_calendar_name"
+msgstr "Title"
+
+#, fuzzy
+msgid "cal_calendar_subscription_modal_title"
+msgstr "Calendar Subscription"
+
+#, fuzzy
+msgid "cal_cancel_booking"
+msgstr "Cancel Booking"
+
+#, fuzzy
+msgid "cal_cancel_booking_confirmed"
+msgstr "The booking has been cancelled successfully."
+
+#, fuzzy
+msgid "cal_cancel_booking_info"
+msgstr "Please confirm the cancellation of this booking."
+
+#, fuzzy
+msgid "cal_category_selection"
+msgstr "Calendar Selection"
+
+#, fuzzy
+msgid "cal_cg_notification"
+msgstr "Course/Group Notification"
+
+#, fuzzy
+msgid "cal_cg_registration_info"
+msgstr "Gives users the possibility to register to course and group appointments."
+
+#, fuzzy
+msgid "cal_cg_registrations"
+msgstr "Registration for Course/Group Appointments"
+
+#, fuzzy
+msgid "cal_ch_add_grp"
+msgstr "Create new Consultation Hour Group"
+
+#, fuzzy
+msgid "cal_ch_add_sequence"
+msgstr "Add Consultation Hours Sequence"
+
+#, fuzzy
+msgid "cal_ch_app_bookings"
+msgstr "Bookings"
+
+#, fuzzy
+msgid "cal_ch_app_grp"
+msgstr "Consultation Hour Groups"
+
+#, fuzzy
+msgid "cal_ch_app_list"
+msgstr "Consultation Hour Appointments"
+
+#, fuzzy
+msgid "cal_ch_assign_participants"
+msgstr "Assign Users"
+
+#, fuzzy
+msgid "cal_ch_assigned_apps"
+msgstr "Number of Appointments"
+
+#, fuzzy
+msgid "cal_ch_book"
+msgstr "Book Appointment"
+
+#, fuzzy
+msgid "cal_ch_booking"
+msgstr "Ressource Booking"
+
+#, fuzzy
+msgid "cal_ch_booking_col_comments"
+msgstr "Comments"
+
+#, fuzzy
+msgid "cal_ch_booking_comment"
+msgstr "Comment:"
+
+#, fuzzy
+msgid "cal_ch_booking_link"
+msgstr "Link to Consultation Hours:"
+
+#, fuzzy
+msgid "cal_ch_booking_message_tbl"
+msgstr "Comment"
+
+#, fuzzy
+msgid "cal_ch_booking_num_available"
+msgstr "Available Slots"
+
+#, fuzzy
+msgid "cal_ch_booking_num_free_short"
+msgstr "%s free"
+
+#, fuzzy
+msgid "cal_ch_booking_other_participants"
+msgstr "Other Participants:"
+
+#, fuzzy
+msgid "cal_ch_booking_owner"
+msgstr "Owner"
+
+#, fuzzy
+msgid "cal_ch_booking_participants"
+msgstr "Participants"
+
+#, fuzzy
+msgid "cal_ch_booking_reminder_body"
+msgstr "your appointment with \"%s\" starts soon."
+
+#, fuzzy
+msgid "cal_ch_booking_reminder_subject"
+msgstr "Reminder for \"%s\""
+
+#, fuzzy
+msgid "cal_ch_booking_start"
+msgstr "Start"
+
+#, fuzzy
+msgid "cal_ch_booking_your_comment"
+msgstr "Your comment:"
+
+#, fuzzy
+msgid "cal_ch_bookings"
+msgstr "Participants"
+
+#, fuzzy
+msgid "cal_ch_bookings_tbl"
+msgstr "Booked Appointments"
+
+#, fuzzy
+msgid "cal_ch_cancel_booking"
+msgstr "Cancel Booking"
+
+#, fuzzy
+msgid "cal_ch_cancel_booking_info"
+msgstr "\"Cancel Booking\" sends notification mails to the users. If you do not want to notify the users, choose the option \"Delete Booking\"."
+
+#, fuzzy
+msgid "cal_ch_cancel_booking_sure"
+msgstr "Do you really want to cancel the following bookings?"
+
+#, fuzzy
+msgid "cal_ch_canceled_bookings"
+msgstr "The selected bookings have been deleted."
+
+#, fuzzy
+msgid "cal_ch_ch"
+msgstr "Consultation Hours"
+
+#, fuzzy
+msgid "cal_ch_cron_reminder"
+msgstr "Send Consultation Hour Reminder"
+
+#, fuzzy
+msgid "cal_ch_cron_reminder_days"
+msgstr "Number of Days"
+
+#, fuzzy
+msgid "cal_ch_cron_reminder_info"
+msgstr "If enabled, notification mails about upcoming consultation hour events will be send."
+
+#, fuzzy
+msgid "cal_ch_current_booking_comment"
+msgstr "Comment"
+
+#, fuzzy
+msgid "cal_ch_current_bookings"
+msgstr "Current Bookings"
+
+#, fuzzy
+msgid "cal_ch_deadline"
+msgstr "Latest Registration"
+
+#, fuzzy
+msgid "cal_ch_deadline_info"
+msgstr "Please define the number of hours until the registration is blocked."
+
+#, fuzzy
+msgid "cal_ch_delete_app_booking_info"
+msgstr "The following appointments have existing bookings. If you delete these appointments, the users will not be notified."
+
+#, fuzzy
+msgid "cal_ch_delete_booking"
+msgstr "Delete Booking"
+
+#, fuzzy
+msgid "cal_ch_delete_booking_info"
+msgstr "\"Delete Booking\" will not notify users by email. If you want to notify users, please choose the action \"Cancele Booking\"."
+
+#, fuzzy
+msgid "cal_ch_delete_booking_sure"
+msgstr "Do you really want to delete the following bookings?"
+
+#, fuzzy
+msgid "cal_ch_deleted_bookings"
+msgstr "The selected bookings have been canceled."
+
+#, fuzzy
+msgid "cal_ch_duration"
+msgstr "Duration"
+
+#, fuzzy
+msgid "cal_ch_export_apps"
+msgstr "Booked Appointments"
+
+#, fuzzy
+msgid "cal_ch_field_ch"
+msgstr "Consultation Hour Appointments"
+
+#, fuzzy
+msgid "cal_ch_form"
+msgstr "Enable Consultation Hours"
+
+#, fuzzy
+msgid "cal_ch_form_header"
+msgstr "Consultation Hours"
+
+#, fuzzy
+msgid "cal_ch_form_info"
+msgstr "This option enables the managment of personal consultation hours in the calendar. "
+
+#, fuzzy
+msgid "cal_ch_free_of_available"
+msgstr "%s of %s"
+
+#, fuzzy
+msgid "cal_ch_grp_add_tbl"
+msgstr "Create new Consultation Hour Group"
+
+#, fuzzy
+msgid "cal_ch_grp_delete_sure"
+msgstr "Do you really want to delete the following consultation hour groups?"
+
+#, fuzzy
+msgid "cal_ch_grp_header"
+msgstr "Consultation Hour Group"
+
+#, fuzzy
+msgid "cal_ch_grp_multiple"
+msgstr "Bookings per User"
+
+#, fuzzy
+msgid "cal_ch_grp_multiple_info"
+msgstr "You can define the maximum number of bookings per user."
+
+#, fuzzy
+msgid "cal_ch_grp_no_assignment"
+msgstr "-- Not Assigned --"
+
+#, fuzzy
+msgid "cal_ch_grp_selection"
+msgstr "Assignment to Consultation Hour Groups"
+
+#, fuzzy
+msgid "cal_ch_grp_update_tbl"
+msgstr "Edit Consultation Hour Group"
+
+#, fuzzy
+msgid "cal_ch_grps"
+msgstr "Consultation Hour Groups"
+
+#, fuzzy
+msgid "cal_ch_manager"
+msgstr "Consultation Hour Manager"
+
+#, fuzzy
+msgid "cal_ch_manager_info"
+msgstr "Login of the user who will manage your consultation hours."
+
+#, fuzzy
+msgid "cal_ch_max_books"
+msgstr "Bookings per User"
+
+#, fuzzy
+msgid "cal_ch_minutes"
+msgstr "Duration (min)"
+
+#, fuzzy
+msgid "cal_ch_multi_edit_sequence"
+msgstr "Edit multiple appointments"
+
+#, fuzzy
+msgid "cal_ch_num_appointments"
+msgstr "Number of Appointments"
+
+#, fuzzy
+msgid "cal_ch_num_appointments_info"
+msgstr "Please define the number of sequent appointments."
+
+#, fuzzy
+msgid "cal_ch_num_bookings"
+msgstr "Booking per Appointment"
+
+#, fuzzy
+msgid "cal_ch_personal_book"
+msgstr "Personal Booking"
+
+#, fuzzy
+msgid "cal_ch_personal_ch"
+msgstr "Personal Consultation Hours"
+
+#, fuzzy
+msgid "cal_ch_reject_booking"
+msgstr "Cancel Booking"
+
+#, fuzzy
+msgid "cal_ch_send_mail"
+msgstr "Send Mail"
+
+#, fuzzy
+msgid "cal_ch_target_object"
+msgstr "Repository Object"
+
+#, fuzzy
+msgid "cal_ch_target_object_info"
+msgstr "Restrict appointments to given repository object."
+
+#, fuzzy
+msgid "cal_ch_unknown_repository_object"
+msgstr "The given repository object ref-id is not valid."
+
+#, fuzzy
+msgid "cal_ch_unknown_user"
+msgstr "The given login does not match any user."
+
+#, fuzzy
+msgid "cal_ch_user_assignment_failed_info"
+msgstr "The following users could not be assigned to appointments, since the maximum number of bookings is exceeded."
+
+#, fuzzy
+msgid "cal_ch_vm_period_all"
+msgstr "All"
+
+#, fuzzy
+msgid "cal_ch_vm_period_past"
+msgstr "Past"
+
+#, fuzzy
+msgid "cal_ch_vm_period_upcoming"
+msgstr "Upcoming"
+
+#, fuzzy
+msgid "cal_ch_vm_status_all"
+msgstr "All"
+
+#, fuzzy
+msgid "cal_ch_vm_status_booked"
+msgstr "Booked Slots"
+
+#, fuzzy
+msgid "cal_ch_vm_status_open"
+msgstr "Open Slots"
+
+#, fuzzy
+msgid "cal_change_calendar_view"
+msgstr "Change Calendar View"
+
+#, fuzzy
+msgid "cal_change_responsible_users"
+msgstr "Change Responsible Users"
+
+#, fuzzy
+msgid "cal_changed_events_header"
+msgstr "Changed Appointments "
+
+#, fuzzy
+msgid "cal_confirm_booking"
+msgstr "Confirm Booking"
+
+#, fuzzy
+msgid "cal_confirm_booking_info"
+msgstr "Please confirm the booking for this appointment."
+
+#, fuzzy
+msgid "cal_confirm_reg_info"
+msgstr "Please confirm the registration for this appointment."
+
+#, fuzzy
+msgid "cal_confirm_unreg_info"
+msgstr "Please confirm the cancellation of this registration."
+
+#, fuzzy
+msgid "cal_consultation_hours_for"
+msgstr "Consultation hours for"
+
+#, fuzzy
+msgid "cal_consultation_hours_for_user"
+msgstr "Consultation Hours for %1"
+
+#, fuzzy
+msgid "cal_contained_in"
+msgstr "Contained in"
+
+#, fuzzy
+msgid "cal_create"
+msgstr "Create"
+
+#, fuzzy
+msgid "cal_created_appointment"
+msgstr "Created new appointment."
+
+#, fuzzy
+msgid "cal_created_milestone"
+msgstr "Added milestone."
+
+#, fuzzy
+msgid "cal_created_milestone_resp_q"
+msgstr "Added milestone. Please select users that are responsible to meet the milestone."
+
+#, fuzzy
+msgid "cal_cronjob_remote_description"
+msgstr "If activated, appointments of the calendar type \"Web calendar\" are automatically synchronised after the specified time interval."
+
+#, fuzzy
+msgid "cal_cronjob_remote_title"
+msgstr "External Calendar Synchronisation"
+
+#, fuzzy
+msgid "cal_crs_info"
+msgstr "Course Information"
+
+#, fuzzy
+msgid "cal_crs_new_notification_body"
+msgstr "a new appointment has been created in course \"%s\"."
+
+#, fuzzy
+msgid "cal_crs_new_notification_sub"
+msgstr "New Appointment in Course \"%s\""
+
+#, fuzzy
+msgid "cal_crs_notification_body"
+msgstr "an appointment has been changed in course \"%s\"."
+
+#, fuzzy
+msgid "cal_crs_notification_sub"
+msgstr "Changed Appointment in Course \"%s\""
+
+#, fuzzy
+msgid "cal_crs_timing_end"
+msgstr "Suggested End"
+
+#, fuzzy
+msgid "cal_crs_timing_start"
+msgstr "Suggested Start"
+
+#, fuzzy
+msgid "cal_daily"
+msgstr "Daily"
+
+#, fuzzy
+msgid "cal_date_and_time"
+msgstr "Date and Time"
+
+#, fuzzy
+msgid "cal_date_booked"
+msgstr "booked"
+
+#, fuzzy
+msgid "cal_date_format_info"
+msgstr "Please choose a format for the input of dates."
+
+#, fuzzy
+msgid "cal_date_time_title"
+msgstr "Date and Time"
+
+#, fuzzy
+msgid "cal_day_end"
+msgstr "Day End"
+
+#, fuzzy
+msgid "cal_day_of_month"
+msgstr "Day of the month"
+
+#, fuzzy
+msgid "cal_day_overview"
+msgstr "Day Overview"
+
+#, fuzzy
+msgid "cal_day_s"
+msgstr "Day(s)"
+
+#, fuzzy
+msgid "cal_day_selection"
+msgstr "Select Day"
+
+#, fuzzy
+msgid "cal_day_start"
+msgstr "Day Start"
+
+#, fuzzy
+msgid "cal_day_week_view"
+msgstr "Day/Week View Settings"
+
+#, fuzzy
+msgid "cal_deadline"
+msgstr "Deadline"
+
+#, fuzzy
+msgid "cal_def_date_format"
+msgstr "Default Date Input Format"
+
+#, fuzzy
+msgid "cal_def_date_format_info"
+msgstr "Please choose a format for the input of dates."
+
+#, fuzzy
+msgid "cal_def_day_end"
+msgstr "Default Day End"
+
+#, fuzzy
+msgid "cal_def_day_start"
+msgstr "Default Day Start"
+
+#, fuzzy
+msgid "cal_def_show_weeks"
+msgstr "Default Show Weeks"
+
+#, fuzzy
+msgid "cal_def_time_format"
+msgstr "Default Time Format"
+
+#, fuzzy
+msgid "cal_def_time_format_info"
+msgstr "Please choose a format for the presentation of time."
+
+#, fuzzy
+msgid "cal_def_timezone"
+msgstr "Default Timezone"
+
+#, fuzzy
+msgid "cal_def_timezone_info"
+msgstr "Please choose a default timezone for the presentation of appointments."
+
+#, fuzzy
+msgid "cal_def_view"
+msgstr "Default Calendar View"
+
+#, fuzzy
+msgid "cal_def_week_start"
+msgstr "Week Start"
+
+#, fuzzy
+msgid "cal_default_calendar"
+msgstr "Personal Appointments"
+
+#, fuzzy
+msgid "cal_default_settings"
+msgstr "Default settings"
+
+#, fuzzy
+msgid "cal_del_cal_sure"
+msgstr "Do you really want to delete the chosen calendars?"
+
+#, fuzzy
+msgid "cal_delete_app_sure"
+msgstr "Do you really want to delete the following appointments?"
+
+#, fuzzy
+msgid "cal_delete_booking_info"
+msgstr "Please confirm the deletion of this booking"
+
+#, fuzzy
+msgid "cal_delete_cal"
+msgstr "Delete Calendar"
+
+#, fuzzy
+msgid "cal_delete_recurrence_rule"
+msgstr "Delete Series of Appoinments"
+
+#, fuzzy
+msgid "cal_delete_recurrences"
+msgstr "Delete all recurrences"
+
+#, fuzzy
+msgid "cal_delete_single"
+msgstr "Delete only this appointment"
+
+#, fuzzy
+msgid "cal_deleted_app"
+msgstr "The selected appointments have been deleted."
+
+#, fuzzy
+msgid "cal_details"
+msgstr "Appointment Details"
+
+#, fuzzy
+msgid "cal_down_no_files"
+msgstr "Nothing to download, the events listed do not contain files."
+
+#, fuzzy
+msgid "cal_download_all_files"
+msgstr "Download all Files"
+
+#, fuzzy
+msgid "cal_download_files"
+msgstr "Download Files"
+
+#, fuzzy
+msgid "cal_download_files_started"
+msgstr "Download of calendar files has started."
+
+#, fuzzy
+msgid "cal_dstart_dend_warn"
+msgstr "Please check your input. The start of a day should be before the end of the day."
+
+#, fuzzy
+msgid "cal_duration"
+msgstr "Duration"
+
+#, fuzzy
+msgid "cal_duration_end"
+msgstr "End"
+
+#, fuzzy
+msgid "cal_duration_start"
+msgstr "Start"
+
+#, fuzzy
+msgid "cal_edit_appointment"
+msgstr "Edit Appointment"
+
+#, fuzzy
+msgid "cal_edit_category"
+msgstr "Edit Calendar"
+
+#, fuzzy
+msgid "cal_edit_milestone"
+msgstr "Edit Milestone"
+
+#, fuzzy
+msgid "cal_edit_recurrences"
+msgstr "Edit all Appointments"
+
+#, fuzzy
+msgid "cal_edit_single"
+msgstr "Edit this Appointment"
+
+#, fuzzy
+msgid "cal_edit_single_or_all_info"
+msgstr "Do you want to edit only this appointment or all in its series?"
+
+#, fuzzy
+msgid "cal_enable_group_milestones"
+msgstr "Enable Milestones"
+
+#, fuzzy
+msgid "cal_enable_group_milestones_desc"
+msgstr "This option enables milestone planning in the calendar."
+
+#, fuzzy
+msgid "cal_err_invalid_notification_rcps"
+msgstr "The list of notification recipients is not valid. Please choose only ILIAS user account names or valid email addresses."
+
+#, fuzzy
+msgid "cal_every"
+msgstr "Every:"
+
+#, fuzzy
+msgid "cal_exc_deadline"
+msgstr "Deadline"
+
+#, fuzzy
+msgid "cal_exc_info"
+msgstr "Assignment Information"
+
+#, fuzzy
+msgid "cal_exc_inst_files"
+msgstr "Instruction Files"
+
+#, fuzzy
+msgid "cal_exc_open"
+msgstr "Open Assignment"
+
+#, fuzzy
+msgid "cal_exc_peer_review_deadline"
+msgstr "Feedback Deadline"
+
+#, fuzzy
+msgid "cal_export_timezone"
+msgstr "Timezone for Calendar Export"
+
+#, fuzzy
+msgid "cal_export_timezone_tz"
+msgstr "Use ILIAS-Timezone"
+
+#, fuzzy
+msgid "cal_export_timezone_utc"
+msgstr "Use Timezone UTC (compatible with MS Outlook)"
+
+#, fuzzy
+msgid "cal_fifth"
+msgstr "Fifth"
+
+#, fuzzy
+msgid "cal_first"
+msgstr "First"
+
+#, fuzzy
+msgid "cal_fourth"
+msgstr "Fourth"
+
+#, fuzzy
+msgid "cal_fullday"
+msgstr "Fullday"
+
+#, fuzzy
+msgid "cal_fullday_title"
+msgstr "No time specified"
+
+#, fuzzy
+msgid "cal_global_settings"
+msgstr "Global Settings"
+
+#, fuzzy
+msgid "cal_grp_curr_crs"
+msgstr "Current Course"
+
+#, fuzzy
+msgid "cal_grp_curr_crs_cons"
+msgstr "Consultation Hours"
+
+#, fuzzy
+msgid "cal_grp_curr_grp"
+msgstr "Current Group"
+
+#, fuzzy
+msgid "cal_grp_info"
+msgstr "Group Information"
+
+#, fuzzy
+msgid "cal_grp_new_notification_body"
+msgstr "a new appointment has been created in group \"%s\"."
+
+#, fuzzy
+msgid "cal_grp_new_notification_sub"
+msgstr "New Appointment in Group \"%s\""
+
+#, fuzzy
+msgid "cal_grp_notification_body"
+msgstr "an appointment has been changed in group \"%s\"."
+
+#, fuzzy
+msgid "cal_grp_notification_sub"
+msgstr "Changed Appointment in Group \"%s\""
+
+#, fuzzy
+msgid "cal_grp_others"
+msgstr "Others"
+
+#, fuzzy
+msgid "cal_grp_personal"
+msgstr "Personal"
+
+#, fuzzy
+msgid "cal_ical_infoscreen"
+msgstr "Subscribe"
+
+#, fuzzy
+msgid "cal_ical_url"
+msgstr "iCal-URL"
+
+#, fuzzy
+msgid "cal_ical_url_google"
+msgstr "iCal-URL for Google Calendar"
+
+#, fuzzy
+msgid "cal_import_appointments"
+msgstr "Import Appointments"
+
+#, fuzzy
+msgid "cal_import_file"
+msgstr "Import File"
+
+#, fuzzy
+msgid "cal_import_file_info"
+msgstr "Choose the file, that contains your calendar appointments."
+
+#, fuzzy
+msgid "cal_import_tbl"
+msgstr "Import Appointments"
+
+#, fuzzy
+msgid "cal_imported_success"
+msgstr "Imported %1$s appointments."
+
+#, fuzzy
+msgid "cal_in"
+msgstr "in"
+
+#, fuzzy
+msgid "cal_last"
+msgstr "Last"
+
+#, fuzzy
+msgid "cal_list"
+msgstr "List"
+
+#, fuzzy
+msgid "cal_mail_notification_body"
+msgstr "you have been invited to an appointment."
+
+#, fuzzy
+msgid "cal_mail_notification_subject"
+msgstr "Appointment Invitation: \"%s\""
+
+#, fuzzy
+msgid "cal_manage"
+msgstr "Manage"
+
+#, fuzzy
+msgid "cal_materials"
+msgstr "Materials"
+
+#, fuzzy
+msgid "cal_milestone_settings"
+msgstr "Milestones"
+
+#, fuzzy
+msgid "cal_month_overview"
+msgstr "Month Overview"
+
+#, fuzzy
+msgid "cal_month_s"
+msgstr "Month(s)"
+
+#, fuzzy
+msgid "cal_month_selection"
+msgstr "Select Month"
+
+#, fuzzy
+msgid "cal_monthly"
+msgstr "Monthly"
+
+#, fuzzy
+msgid "cal_monthly_by_date"
+msgstr "Monthly by Date"
+
+#, fuzzy
+msgid "cal_monthly_by_day"
+msgstr "Monthly by Day"
+
+#, fuzzy
+msgid "cal_ms_details"
+msgstr "Milestone Details"
+
+#, fuzzy
+msgid "cal_ms_users_responsible"
+msgstr "Users Responsible"
+
+#, fuzzy
+msgid "cal_new_app"
+msgstr "New Appointment"
+
+#, fuzzy
+msgid "cal_new_ms"
+msgstr "New Milestone"
+
+#, fuzzy
+msgid "cal_no_ending"
+msgstr "No End Date"
+
+#, fuzzy
+msgid "cal_no_events_block"
+msgstr "Es sind keine Termine für Sie vorhanden."
+
+#, fuzzy
+msgid "cal_no_events_info"
+msgstr "No events found for the selected time period."
+
+#, fuzzy
+msgid "cal_no_recurrence"
+msgstr "No Recurrence"
+
+#, fuzzy
+msgid "cal_notification"
+msgstr "Mail Notification"
+
+#, fuzzy
+msgid "cal_notification_crsgrp"
+msgstr "Notification for Course/Group Participants"
+
+#, fuzzy
+msgid "cal_notification_info"
+msgstr "If enabled, all course/group participants will be notified per mail about this appointment."
+
+#, fuzzy
+msgid "cal_notification_users"
+msgstr "Notification for Selected Users"
+
+#, fuzzy
+msgid "cal_on"
+msgstr "On:"
+
+#, fuzzy
+msgid "cal_on_the"
+msgstr "On the:"
+
+#, fuzzy
+msgid "cal_open_calendar"
+msgstr "Open Calendar"
+
+#, fuzzy
+msgid "cal_origin"
+msgstr "Origin"
+
+#, fuzzy
+msgid "cal_owner"
+msgstr "Owner"
+
+#, fuzzy
+msgid "cal_period"
+msgstr "Period"
+
+#, fuzzy
+msgid "cal_rec_err_limit"
+msgstr "Please enter a valid number of appointments."
+
+#, fuzzy
+msgid "cal_recurrence_confirm_deletion"
+msgstr "Please decide wether you want to delete single appointments or the complete series of appointments."
+
+#, fuzzy
+msgid "cal_recurrence_count"
+msgstr "Number of Appointments"
+
+#, fuzzy
+msgid "cal_recurrence_day_interval"
+msgstr "Every x Day(s)"
+
+#, fuzzy
+msgid "cal_recurrence_end_date"
+msgstr "End Date"
+
+#, fuzzy
+msgid "cal_recurrence_end_date_info"
+msgstr "Last possible date for an appointment."
+
+#, fuzzy
+msgid "cal_recurrence_month_interval"
+msgstr "Every x Month(s)"
+
+#, fuzzy
+msgid "cal_recurrence_until"
+msgstr "Recurrence End"
+
+#, fuzzy
+msgid "cal_recurrence_until_count"
+msgstr "Fixed Number of Appointments"
+
+#, fuzzy
+msgid "cal_recurrence_until_end_date"
+msgstr "Repeat Until End Date"
+
+#, fuzzy
+msgid "cal_recurrence_week_interval"
+msgstr "Every x Week(s)"
+
+#, fuzzy
+msgid "cal_recurrence_year_interval"
+msgstr "Every x Year(s)"
+
+#, fuzzy
+msgid "cal_recurrences"
+msgstr "Recurrences"
+
+#, fuzzy
+msgid "cal_reg_register"
+msgstr "Register"
+
+#, fuzzy
+msgid "cal_reg_registered"
+msgstr "You have been registered."
+
+#, fuzzy
+msgid "cal_reg_registered_users"
+msgstr "Registered Users"
+
+#, fuzzy
+msgid "cal_reg_unregister"
+msgstr "Unregister"
+
+#, fuzzy
+msgid "cal_reg_unregistered"
+msgstr "You have been unregistered."
+
+#, fuzzy
+msgid "cal_registrations"
+msgstr "Appointment Registrations"
+
+#, fuzzy
+msgid "cal_remote_url"
+msgstr "URL"
+
+#, fuzzy
+msgid "cal_repeat_until"
+msgstr "Repeat until"
+
+#, fuzzy
+msgid "cal_repo_obj"
+msgstr "Repository Objects"
+
+#, fuzzy
+msgid "cal_responsible"
+msgstr "Responsible"
+
+#, fuzzy
+msgid "cal_save_responsible_users"
+msgstr "Save Responsible Users"
+
+#, fuzzy
+msgid "cal_search"
+msgstr "Search Term"
+
+#, fuzzy
+msgid "cal_search_info_share"
+msgstr "Please enter the name of the desired user/role for sharing the calendar."
+
+#, fuzzy
+msgid "cal_second"
+msgstr "Second"
+
+#, fuzzy
+msgid "cal_server_tz"
+msgstr "Server Timezone"
+
+#, fuzzy
+msgid "cal_sess_info"
+msgstr "Session Information"
+
+#, fuzzy
+msgid "cal_setting_global_crs_act"
+msgstr "Activation in Courses"
+
+#, fuzzy
+msgid "cal_setting_global_crs_act_info"
+msgstr "If selected, the calendar is active in courses by default. In any case the calendar activation can be enabled/disabled in the course settings."
+
+#, fuzzy
+msgid "cal_setting_global_crs_vis"
+msgstr "Show in Courses"
+
+#, fuzzy
+msgid "cal_setting_global_crs_vis_info"
+msgstr "If enabled, the calendar is shown in shown in courses by default. In any case the calendar presentation can be enabled/disabled in the course settings."
+
+#, fuzzy
+msgid "cal_setting_global_grp_act"
+msgstr "Activation in Groups"
+
+#, fuzzy
+msgid "cal_setting_global_grp_act_info"
+msgstr "If selected, the calendar is active in groups by default. In any case the calendar activation can be enabled/disabled in the group settings."
+
+#, fuzzy
+msgid "cal_setting_global_grp_vis"
+msgstr "Show in Groups"
+
+#, fuzzy
+msgid "cal_setting_global_grp_vis_info"
+msgstr "If enabled, the calendar is shown in shown in groups by default. In any case the calendar presentation can be enabled/disabled in the group settings."
+
+#, fuzzy
+msgid "cal_setting_global_vis_repos"
+msgstr "Repository Calendar"
+
+#, fuzzy
+msgid "cal_share"
+msgstr "Share Calendar"
+
+#, fuzzy
+msgid "cal_share_accept"
+msgstr "Accept Invitation"
+
+#, fuzzy
+msgid "cal_share_cal"
+msgstr "Share calendar"
+
+#, fuzzy
+msgid "cal_share_cal_editable"
+msgstr "Share Calendar (Read and Write)"
+
+#, fuzzy
+msgid "cal_share_decline"
+msgstr "Decline Invitation"
+
+#, fuzzy
+msgid "cal_share_search_header"
+msgstr "Share Calendar"
+
+#, fuzzy
+msgid "cal_share_search_role_header"
+msgstr "Role Selection"
+
+#, fuzzy
+msgid "cal_share_search_usr_header"
+msgstr "User Selection"
+
+#, fuzzy
+msgid "cal_shared_access_read_only"
+msgstr "Read-only"
+
+#, fuzzy
+msgid "cal_shared_access_read_write"
+msgstr "Read and Write"
+
+#, fuzzy
+msgid "cal_shared_access_table_col"
+msgstr "Access"
+
+#, fuzzy
+msgid "cal_shared_calendars"
+msgstr "Shared Calendars (Invitations)"
+
+#, fuzzy
+msgid "cal_shared_header"
+msgstr "Shared Calendars"
+
+#, fuzzy
+msgid "cal_shared_selected_usr"
+msgstr "The calendar has been shared with the selected users/roles."
+
+#, fuzzy
+msgid "cal_show_weeks"
+msgstr "Show Weeks"
+
+#, fuzzy
+msgid "cal_show_weeks_info"
+msgstr "Activates weeks column in calendar side block. Users can deactivate the column in their settings."
+
+#, fuzzy
+msgid "cal_start"
+msgstr "Start"
+
+#, fuzzy
+msgid "cal_subscription"
+msgstr "Subscription"
+
+#, fuzzy
+msgid "cal_subscription_header"
+msgstr "Calendar Address"
+
+#, fuzzy
+msgid "cal_subscription_info"
+msgstr "Please use the following address to access your calendar from other applications. You can copy and paste this into any calendar product that supports the ical format."
+
+#, fuzzy
+msgid "cal_subscription_url"
+msgstr "Calendar URL:"
+
+#, fuzzy
+msgid "cal_sync_cache"
+msgstr "Calendar Cache"
+
+#, fuzzy
+msgid "cal_sync_cache_info"
+msgstr "If activated, new/modified calendar appointments are calculated only every x minutes."
+
+#, fuzzy
+msgid "cal_sync_disabled"
+msgstr "Disabled"
+
+#, fuzzy
+msgid "cal_sync_enabled"
+msgstr "Enabled"
+
+#, fuzzy
+msgid "cal_table_categories"
+msgstr "Calendar Selection"
+
+#, fuzzy
+msgid "cal_task_completion"
+msgstr "Task Completion"
+
+#, fuzzy
+msgid "cal_third"
+msgstr "Third"
+
+#, fuzzy
+msgid "cal_time_format_info"
+msgstr "Please choose a format for the presentation of time."
+
+#, fuzzy
+msgid "cal_timezone_info"
+msgstr "Please choose the nearest city in your timezone."
+
+#, fuzzy
+msgid "cal_type_crs"
+msgstr "Course Calendar"
+
+#, fuzzy
+msgid "cal_type_exc"
+msgstr "Exercise Calendar"
+
+#, fuzzy
+msgid "cal_type_grp"
+msgstr "Group Calendar"
+
+#, fuzzy
+msgid "cal_type_info"
+msgstr "Please choose one calendar type. \"Public Calendars\" are visible for all ILIAS users."
+
+#, fuzzy
+msgid "cal_type_local"
+msgstr "Local Calendar"
+
+#, fuzzy
+msgid "cal_type_personal"
+msgstr "Private Calendar"
+
+#, fuzzy
+msgid "cal_type_remote"
+msgstr "Web Calendar"
+
+#, fuzzy
+msgid "cal_type_rl"
+msgstr "Calendar Location"
+
+#, fuzzy
+msgid "cal_type_sess"
+msgstr "Session Calendar"
+
+#, fuzzy
+msgid "cal_type_system"
+msgstr "Public Calendar"
+
+#, fuzzy
+msgid "cal_type_tals"
+msgstr "Talks"
+
+#, fuzzy
+msgid "cal_unshare_cal"
+msgstr "Stop Sharing"
+
+#, fuzzy
+msgid "cal_unshared_selected_usr"
+msgstr "Stopped sharing the calendar with the selected users."
+
+#, fuzzy
+msgid "cal_upcoming_events_header"
+msgstr "Upcoming Events"
+
+#, fuzzy
+msgid "cal_user_date_format"
+msgstr "Date Input Format"
+
+#, fuzzy
+msgid "cal_user_notification"
+msgstr "User Notification"
+
+#, fuzzy
+msgid "cal_user_notification_info"
+msgstr "Selected users will be notified about this appointment by email. Please enter ILIAS user names or email addresses."
+
+#, fuzzy
+msgid "cal_user_settings"
+msgstr "Calendar Settings"
+
+#, fuzzy
+msgid "cal_user_time_format"
+msgstr "Time Format"
+
+#, fuzzy
+msgid "cal_user_timezone"
+msgstr "Timezone"
+
+#, fuzzy
+msgid "cal_usr_info"
+msgstr "Appointment Information"
+
+#, fuzzy
+msgid "cal_usr_show_weeks"
+msgstr "Show Week Column"
+
+#, fuzzy
+msgid "cal_usr_show_weeks_info"
+msgstr "Activates weeks column in calendar side block."
+
+#, fuzzy
+msgid "cal_webcal_sync"
+msgstr "External Calendar Synchronisation"
+
+#, fuzzy
+msgid "cal_webcal_sync_info"
+msgstr "Automatically synchronise external calendars every x minutes."
+
+#, fuzzy
+msgid "cal_week_abbrev"
+msgstr "W"
+
+#, fuzzy
+msgid "cal_week_month_view"
+msgstr "Week/Month View Settings"
+
+#, fuzzy
+msgid "cal_week_overview"
+msgstr "Week Overview"
+
+#, fuzzy
+msgid "cal_week_s"
+msgstr "Week(s)"
+
+#, fuzzy
+msgid "cal_week_selection"
+msgstr "Select Week"
+
+#, fuzzy
+msgid "cal_week_start"
+msgstr "Week Start"
+
+#, fuzzy
+msgid "cal_weekday"
+msgstr "Weekday"
+
+#, fuzzy
+msgid "cal_weekly"
+msgstr "Weekly"
+
+#, fuzzy
+msgid "cal_where"
+msgstr "Location"
+
+#, fuzzy
+msgid "cal_year_s"
+msgstr "Year(s)"
+
+#, fuzzy
+msgid "cal_yearly"
+msgstr "Yearly"
+
+#, fuzzy
+msgid "cal_yearly_by_date"
+msgstr "Yearly by Date"
+
+#, fuzzy
+msgid "cal_yearly_by_day"
+msgstr "Yearly by Day"
+
+#, fuzzy
+msgid "consultation_hours_block_title"
+msgstr "Consultation Hours"
+
+#, fuzzy
+msgid "crs_cal_activation_end"
+msgstr "Course End"
+
+#, fuzzy
+msgid "crs_cal_activation_start"
+msgstr "Course Start"
+
+#, fuzzy
+msgid "crs_cal_end"
+msgstr "Course ends"
+
+#, fuzzy
+msgid "crs_cal_reg_end"
+msgstr "Registration End"
+
+#, fuzzy
+msgid "crs_cal_reg_start"
+msgstr "Registration Start"
+
+#, fuzzy
+msgid "crs_cal_start"
+msgstr "Course starts"
+
+msgid "date_format"
+msgstr "м/д/Г Ч:м"
+
+msgid "end_date"
+msgstr "Крайна дата"
+
+#, fuzzy
+msgid "err_end_before_start"
+msgstr "The appointment must not start before the end."
+
+#, fuzzy
+msgid "err_missing_title"
+msgstr "Please enter an appointment title."
+
+msgid "free"
+msgstr "свободно"
+
+#, fuzzy
+msgid "grp_cal_end"
+msgstr "Group ends"
+
+#, fuzzy
+msgid "grp_cal_reg_end"
+msgstr "Registration End "
+
+#, fuzzy
+msgid "grp_cal_reg_start"
+msgstr "Registration Start"
+
+#, fuzzy
+msgid "grp_cal_start"
+msgstr "Group starts"
+
+#, fuzzy
+msgid "ical_export"
+msgstr "iCal Export"
+
+msgid "keep"
+msgstr "запазване"
+
+msgid "keyword"
+msgstr "Ключова дума"
+
+msgid "more"
+msgstr "още"
+
+msgid "r_14"
+msgstr "всеки 14 дни"
+
+msgid "r_4_weeks"
+msgstr "всеки 4 седмици"
+
+#, fuzzy
+msgid "remote_pass_info"
+msgstr "Please enter your account data if the access to the webcalendar ist protected."
+
+msgid "to"
+msgstr "до"
+
+msgid "today"
+msgstr "днес"
+
+msgid "week"
+msgstr "седмица"
+
+#, fuzzy
+msgid "wk_short"
+msgstr "WK"
+
+msgid "year"
+msgstr "година"

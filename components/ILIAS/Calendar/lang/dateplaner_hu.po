@@ -1,0 +1,1308 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: dateplaner\n"
+
+msgid "Fr_long"
+msgstr "Péntek"
+
+msgid "Fr_short"
+msgstr "P"
+
+msgid "Mo_long"
+msgstr "Hétfő"
+
+msgid "Mo_short"
+msgstr "H"
+
+msgid "Sa_long"
+msgstr "Szombat"
+
+msgid "Sa_short"
+msgstr "Szo"
+
+msgid "Su_long"
+msgstr "Vasárnap"
+
+msgid "Su_short"
+msgstr "V"
+
+msgid "Text"
+msgstr "Szöveg"
+
+msgid "Th_long"
+msgstr "Csütörtök"
+
+msgid "Th_short"
+msgstr "Cs"
+
+msgid "Tu_long"
+msgstr "Kedd"
+
+msgid "Tu_short"
+msgstr "K"
+
+msgid "We_long"
+msgstr "Szerda"
+
+msgid "We_short"
+msgstr "Sze"
+
+msgid "add_appointment"
+msgstr "Esemény létrehozása"
+
+msgid "app_consultation_hours"
+msgstr "Konzultációs időpontok"
+
+msgid "app_day"
+msgstr "Nap"
+
+msgid "app_month"
+msgstr "Hónap"
+
+msgid "app_week"
+msgstr "Hét"
+
+msgid "back_to_crs"
+msgstr "Ugrás a kurzushoz"
+
+msgid "back_to_grp"
+msgstr "Ugrás a csoporthoz"
+
+msgid "back_to_pd"
+msgstr "Vissza"
+
+msgid "btn_ical"
+msgstr "iCal"
+
+msgid "c_date"
+msgstr "Esemény létrehozása"
+
+msgid "cal_add_appointment"
+msgstr "Esemény létrehozása"
+
+msgid "cal_add_calendar"
+msgstr "Naptár létrehozása"
+
+msgid "cal_add_category"
+msgstr "Új naptár létrehozása"
+
+msgid "cal_add_milestone"
+msgstr "Mérföldkő létrehozása"
+
+msgid "cal_adm_notification_info"
+msgstr "Kurzus-/csoporttagok e-mail értesítést kérhetnek módosult naptáreseményekről."
+
+msgid "cal_adm_notification_user_info"
+msgstr "Naptáreseményről e-mail értesítést lehessen küldeni a kiválasztott felhasználóknak."
+
+msgid "cal_agenda"
+msgstr "Napirend"
+
+msgid "cal_all_day"
+msgstr "Teljes nap"
+
+msgid "cal_app_info"
+msgstr "Találkozóinformáció"
+
+msgid "cal_app_other_materials_num"
+msgstr "További segédanyagok megjelenítése"
+
+msgid "cal_appointment_notifications"
+msgstr "Értesítés"
+
+msgid "cal_appointments"
+msgstr "Esemény(ek)"
+
+msgid "cal_apps"
+msgstr "Események száma"
+
+msgid "cal_assigned_appointments"
+msgstr "Hozzárendelt események"
+
+msgid "cal_back_to_cal"
+msgstr "Vissza a naptárhoz"
+
+msgid "cal_back_to_list"
+msgstr "Vissza a listához"
+
+msgid "cal_back_to_search"
+msgstr "Vissza a kereséshez"
+
+msgid "cal_batch_file_downloads"
+msgstr "Naptárfájlok kötegelt letöltése"
+
+msgid "cal_batch_file_downloads_info"
+msgstr "A jelenlegi naptár/találkozó nézetéhez kapcsolódó összes fájl letöltését lehetővé vevő gomb megjelenítése."
+
+msgid "cal_belongs_to"
+msgstr "Naptárhoz tartozik"
+
+msgid "cal_book_free"
+msgstr "foglalható"
+
+msgid "cal_booked_out"
+msgstr "betelt"
+
+msgid "cal_booking_cancellation_body"
+msgstr "ezúton tájékoztatjuk, hogy időpontfoglalását a következővel töröltük: %s."
+
+msgid "cal_booking_cancellation_subject"
+msgstr "‘%s’ találkozóról időpontfoglalás-törlés"
+
+msgid "cal_booking_cancellation_user"
+msgstr "Ennek az e-mailnek az eredeti példányát az alábbi felhasználónak küldtük el:"
+
+msgid "cal_booking_confirmation_body"
+msgstr "ezúton tájékoztatjuk, hogy időpontfoglalását a következővel rögzítettük: %s."
+
+msgid "cal_booking_confirmation_link"
+msgstr "Link a találkozóra:"
+
+msgid "cal_booking_confirmation_subject"
+msgstr "‘%s’ találkozóra időpontfoglalás"
+
+msgid "cal_booking_confirmation_user"
+msgstr "Ennek az e-mailnek az eredeti példányát az alábbi felhasználónak küldtük el:"
+
+msgid "cal_booking_confirmed"
+msgstr "Az eseményre sikeresen jelentkezett."
+
+msgid "cal_booking_failed_info"
+msgstr "Az esemény betelt. Kérem, válasszon másikat."
+
+msgid "cal_booking_manager_confirmation_body"
+msgstr "%s időpontot foglalt %s felhasználóval."
+
+msgid "cal_booking_owner_confirmation_body"
+msgstr "%s időpontot foglalt velem."
+
+msgid "cal_cache"
+msgstr "Naptár gyorsítótárazása"
+
+msgid "cal_cache_disabled"
+msgstr "Letiltva"
+
+msgid "cal_cache_enabled"
+msgstr "Engedélyezett"
+
+msgid "cal_cache_info"
+msgstr "A személyes és a Tartalomtárban a naptárbejegyzések megjelenítése csak x percenként frissül."
+
+msgid "cal_cache_settings"
+msgstr "Gyorsítótárazás"
+
+msgid "cal_cal_deleted"
+msgstr "A naptárat sikeresen törölte"
+
+msgid "cal_cal_shared_with"
+msgstr "A felhasználók naptára meg van osztva velük:"
+
+msgid "cal_cal_sync_success"
+msgstr "Sikeresen szinkronizált naptár"
+
+msgid "cal_cal_synchronize"
+msgstr "Naptár szinkronizálása"
+
+msgid "cal_cal_type"
+msgstr "Naptár típusa"
+
+msgid "cal_calendar_color"
+msgstr "Szín"
+
+msgid "cal_calendar_download"
+msgstr "Naptárfájlok"
+
+msgid "cal_calendar_name"
+msgstr "Naptár neve"
+
+msgid "cal_calendar_subscription_modal_title"
+msgstr "Naptárelőfizetés"
+
+msgid "cal_cancel_booking"
+msgstr "Jelentkezés törlése"
+
+msgid "cal_cancel_booking_confirmed"
+msgstr "A jelentkezését az eseményre sikeresen törölte."
+
+msgid "cal_cancel_booking_info"
+msgstr "Erősítse meg ennek a jelentkezésének a törlését!"
+
+msgid "cal_category_selection"
+msgstr "Naptár kiválasztása"
+
+msgid "cal_cg_notification"
+msgstr "Kurzus/csoport értesítés"
+
+msgid "cal_cg_registration_info"
+msgstr "A felhasználók kurzus- és csoporteseményekre regisztrálhatnak."
+
+msgid "cal_cg_registrations"
+msgstr "Regisztráció kurzus-/csoporteseményekre"
+
+msgid "cal_ch_add_grp"
+msgstr "Új konzultációs időpontcsoport létrehozása"
+
+msgid "cal_ch_add_sequence"
+msgstr "Konzultációs időpontok létrehozása"
+
+msgid "cal_ch_app_bookings"
+msgstr "Foglalások"
+
+msgid "cal_ch_app_grp"
+msgstr "Konzultációs időpontcsoportok"
+
+msgid "cal_ch_app_list"
+msgstr "Konzultációs időpontok alkalmai"
+
+msgid "cal_ch_assign_participants"
+msgstr "Felhasználók hozzárendelése"
+
+msgid "cal_ch_assigned_apps"
+msgstr "Alkalmak száma"
+
+msgid "cal_ch_book"
+msgstr "Eseményen részvétel"
+
+msgid "cal_ch_booking"
+msgstr "Forrásfoglalás"
+
+msgid "cal_ch_booking_col_comments"
+msgstr "Megjegyzések"
+
+msgid "cal_ch_booking_comment"
+msgstr "Megjegyzés:"
+
+msgid "cal_ch_booking_link"
+msgstr "Fogadóóra linkje:"
+
+msgid "cal_ch_booking_message_tbl"
+msgstr "Megjegyzés"
+
+msgid "cal_ch_booking_num_available"
+msgstr "Elérhető helyek"
+
+msgid "cal_ch_booking_num_free_short"
+msgstr "%s szabad"
+
+msgid "cal_ch_booking_other_participants"
+msgstr "További részvevők:"
+
+msgid "cal_ch_booking_owner"
+msgstr "Tulajdonos"
+
+msgid "cal_ch_booking_participants"
+msgstr "Részvevők"
+
+msgid "cal_ch_booking_reminder_body"
+msgstr "ezúton értesítjük, hogy találkozója ‘%s’ személlyel hamarosan kezdődik."
+
+msgid "cal_ch_booking_reminder_subject"
+msgstr "‘%s’ részére emlékeztető"
+
+msgid "cal_ch_booking_start"
+msgstr "Indítás"
+
+msgid "cal_ch_booking_your_comment"
+msgstr "Megjegyéseim:"
+
+msgid "cal_ch_bookings"
+msgstr "Résztvevők"
+
+msgid "cal_ch_bookings_tbl"
+msgstr "Foglalat események"
+
+msgid "cal_ch_cancel_booking"
+msgstr "Jelentkezés törlése"
+
+msgid "cal_ch_cancel_booking_info"
+msgstr "A ‘Foglalás lemondása’ e-mailben értesíti a felhasználókat. Amennyiben szeretné, hogy a felhasználók ne kapjanak értesítést, használja a ‘Foglalás törlése’ lehetőséget."
+
+msgid "cal_ch_cancel_booking_sure"
+msgstr "Biztos, hogy lemondja a kiválasztott foglalásokat?"
+
+msgid "cal_ch_canceled_bookings"
+msgstr "A kiválasztott foglalásokat sikeresen lemondta."
+
+msgid "cal_ch_ch"
+msgstr "Konzultációs időpontok"
+
+msgid "cal_ch_cron_reminder"
+msgstr "Emlékeztető küldése konzultációs időpontról"
+
+msgid "cal_ch_cron_reminder_days"
+msgstr "Napok száma"
+
+msgid "cal_ch_cron_reminder_info"
+msgstr "A soron következő konzultációs időpontról értesítő levelet küldünk."
+
+msgid "cal_ch_current_booking_comment"
+msgstr "Megjegyzés"
+
+msgid "cal_ch_current_bookings"
+msgstr "Jelenlegi résztvevők"
+
+msgid "cal_ch_deadline"
+msgstr "Legkésőbbi időpont"
+
+msgid "cal_ch_deadline_info"
+msgstr "Adja meg, amikortól az időpontfoglalás már nem lehetséges."
+
+msgid "cal_ch_delete_app_booking_info"
+msgstr "Az alábbi eseményekhez van létező foglalás. A felhasználók nem kapnak értesítést, ha törli ezeket az eseményeket."
+
+msgid "cal_ch_delete_booking"
+msgstr "Foglalás törlése"
+
+msgid "cal_ch_delete_booking_info"
+msgstr "A ‘Foglalás törlése’ nem értesíti e-mailben a felhasználókat. Amennyiben szeretné, hogy a felhasználók értesítést kapjanak, használja a ‘Foglalás lemondása’ lehetőséget."
+
+msgid "cal_ch_delete_booking_sure"
+msgstr "Biztos, hogy törli a kiválasztott foglalásokat?"
+
+msgid "cal_ch_deleted_bookings"
+msgstr "A kiválasztott foglalásokat sikeresen törölte."
+
+msgid "cal_ch_duration"
+msgstr "Az egyes események időtartama"
+
+msgid "cal_ch_export_apps"
+msgstr "Lefoglalt események"
+
+msgid "cal_ch_field_ch"
+msgstr "Konzultációs időpont események"
+
+msgid "cal_ch_form"
+msgstr "Konzultációs időpontok engedélyezése"
+
+msgid "cal_ch_form_header"
+msgstr "Konzultációs időpontok"
+
+msgid "cal_ch_form_info"
+msgstr "Ez a beállítás lehetővé teszi a személyes konzultációs időpontok kezelését a naptárban."
+
+msgid "cal_ch_free_of_available"
+msgstr "%s / %s"
+
+msgid "cal_ch_grp_add_tbl"
+msgstr "Új konzultációs időpontcsoport létrehozása"
+
+msgid "cal_ch_grp_delete_sure"
+msgstr "Biztos, hogy törli az alábbi konzultációs időpontcsoportokat?"
+
+msgid "cal_ch_grp_header"
+msgstr "Konzultációs időpontcsoport"
+
+msgid "cal_ch_grp_multiple"
+msgstr "Felhasználónkénti foglalások"
+
+msgid "cal_ch_grp_multiple_info"
+msgstr "Megadhatja a Felhasználónkénti foglalások maximális számát."
+
+msgid "cal_ch_grp_no_assignment"
+msgstr "-- Nincs hozzárendelés --"
+
+msgid "cal_ch_grp_selection"
+msgstr "Konzultációs időpontcsoporthoz rendelés"
+
+msgid "cal_ch_grp_update_tbl"
+msgstr "Konzultációs időpontcsoport módosítása"
+
+msgid "cal_ch_grps"
+msgstr "Konzultációs időpontcsoportok"
+
+msgid "cal_ch_manager"
+msgstr "Konzultációs időpontok kezelése"
+
+msgid "cal_ch_manager_info"
+msgstr "Annak a felhasználóneve, aki az Ön konzultációs időpontjait kezelheti."
+
+msgid "cal_ch_max_books"
+msgstr "Felhasználónkénti foglalások"
+
+msgid "cal_ch_minutes"
+msgstr "Hossz (perc)"
+
+msgid "cal_ch_multi_edit_sequence"
+msgstr "Konzultációi időpontok módosítása"
+
+msgid "cal_ch_num_appointments"
+msgstr "Események száma"
+
+msgid "cal_ch_num_appointments_info"
+msgstr "Adja meg a találkák számát."
+
+msgid "cal_ch_num_bookings"
+msgstr "Foglalások száma"
+
+msgid "cal_ch_personal_book"
+msgstr "Személyes foglalások"
+
+msgid "cal_ch_personal_ch"
+msgstr "Személyes konzultációs időpontok"
+
+msgid "cal_ch_reject_booking"
+msgstr "Foglalás lemondása"
+
+msgid "cal_ch_send_mail"
+msgstr "E-mail küldése"
+
+msgid "cal_ch_target_object"
+msgstr "Tartalomtárbeli objektum"
+
+msgid "cal_ch_target_object_info"
+msgstr "A konzultációs órák a kurzus-/csoporttartalom mellett jelenik meg. Csak bizonyos kurzusokra/csoportokra korlátozni a megjelenítést úgy lehet, hogy azok Ref-ID-it vesszővel elválasztva felsorolja. A Ref-ID-t a böngésző címsorából tudja kiolvasni."
+
+msgid "cal_ch_unknown_repository_object"
+msgstr "Az adott Tartalomtárbeli objektum hivatkozási ID-je nem érvényes."
+
+msgid "cal_ch_unknown_user"
+msgstr "Az adott felhasználónév nem létezik."
+
+msgid "cal_ch_user_assignment_failed_info"
+msgstr "A kiválasztott eseményekhez az alábbi felhasználók hozzárendelése sikertelen, mert elérték a foglalások maximális számát."
+
+msgid "cal_ch_vm_period_all"
+msgstr "Összes"
+
+msgid "cal_ch_vm_period_past"
+msgstr "Elmúlt"
+
+msgid "cal_ch_vm_period_upcoming"
+msgstr "Közelgő"
+
+msgid "cal_ch_vm_status_all"
+msgstr "Összes"
+
+msgid "cal_ch_vm_status_booked"
+msgstr "Lefoglalt helyek"
+
+msgid "cal_ch_vm_status_open"
+msgstr "Nyitott helyek"
+
+msgid "cal_change_calendar_view"
+msgstr "Naptárnézet módosítása"
+
+msgid "cal_change_responsible_users"
+msgstr "Felelős felhasználók cseréje"
+
+msgid "cal_changed_events_header"
+msgstr "Új és megváltozott időpontok"
+
+msgid "cal_confirm_booking"
+msgstr "Jelentkezés megerősítése"
+
+msgid "cal_confirm_booking_info"
+msgstr "Erősítse meg jelentkezését erre az eseményre."
+
+msgid "cal_confirm_reg_info"
+msgstr "Erősítse meg foglalását erre az eseményre!"
+
+msgid "cal_confirm_unreg_info"
+msgstr "Erősítse meg részvételének lemondását!"
+
+msgid "cal_consultation_hours_for"
+msgstr "Konzultációs időpontok:"
+
+msgid "cal_consultation_hours_for_user"
+msgstr "%1 konzultációs időpontjai"
+
+msgid "cal_contained_in"
+msgstr "Tartalmazza ebben:"
+
+msgid "cal_create"
+msgstr "Létrehozás"
+
+msgid "cal_created_appointment"
+msgstr "Új esemény létrehozása."
+
+msgid "cal_created_milestone"
+msgstr "A mérföldkővet sikeresen hozzáadta."
+
+msgid "cal_created_milestone_resp_q"
+msgstr "A mérföldkővet sikeresen hozzáadta. Válassza ki a felhasználókat, akik felelősek a mérföldkő eléréséért."
+
+msgid "cal_cronjob_remote_description"
+msgstr "Ha bekapcsolja, a ‘Webnaptár’ típusú naptárak eseményei automatikusan szinkronizálódnak a meghatározott időintervallum után."
+
+msgid "cal_cronjob_remote_title"
+msgstr "Külső naptár szinkornizálása"
+
+msgid "cal_crs_info"
+msgstr "Kurzusinformáció"
+
+msgid "cal_crs_new_notification_body"
+msgstr "ezúton tájékoztatjuk, hogy ‘%s’ kurzusban új esemény jött létre."
+
+msgid "cal_crs_new_notification_sub"
+msgstr "‘%s’ kurzusban új esemény"
+
+msgid "cal_crs_notification_body"
+msgstr "ezúton tájékoztatjuk, hogy ‘%s’ kurzusban egy esemény megváltozott."
+
+msgid "cal_crs_notification_sub"
+msgstr "‘%s’ kurzusban esemény módosult"
+
+msgid "cal_crs_timing_end"
+msgstr "Javasolt befejezés"
+
+msgid "cal_crs_timing_start"
+msgstr "Javasolt kezdés"
+
+msgid "cal_daily"
+msgstr "Naponta"
+
+msgid "cal_date_and_time"
+msgstr "Dátum és idő"
+
+msgid "cal_date_booked"
+msgstr "foglalt"
+
+msgid "cal_date_format_info"
+msgstr "Válasszon formátumot a dátum beviteléhez."
+
+msgid "cal_date_time_title"
+msgstr "Dátum és idő"
+
+msgid "cal_day_end"
+msgstr "Záró időpont"
+
+msgid "cal_day_of_month"
+msgstr "A hónap napja"
+
+msgid "cal_day_overview"
+msgstr "Napi áttekintés"
+
+msgid "cal_day_s"
+msgstr "Nap"
+
+msgid "cal_day_selection"
+msgstr "Nap kiválasztása"
+
+msgid "cal_day_start"
+msgstr "Kezdő időpont"
+
+msgid "cal_day_week_view"
+msgstr "Napi/heti nézet beállításai"
+
+msgid "cal_deadline"
+msgstr "Határidő"
+
+msgid "cal_def_date_format"
+msgstr "Alapértelmezett dátumformátum"
+
+msgid "cal_def_date_format_info"
+msgstr "Válasszon formátumot a dátumok beviteléhez."
+
+msgid "cal_def_day_end"
+msgstr "Alapértelmezett záró időpont"
+
+msgid "cal_def_day_start"
+msgstr "Alapértelmezett kezdő időpont"
+
+msgid "cal_def_show_weeks"
+msgstr "Hetek megjelenítése"
+
+msgid "cal_def_time_format"
+msgstr "Alapértelmezett időformátum"
+
+msgid "cal_def_time_format_info"
+msgstr "Válasszon formátumot az idő beviteléhez és megjelenítéséhez."
+
+msgid "cal_def_timezone"
+msgstr "Alapértelmezett időzóna"
+
+msgid "cal_def_timezone_info"
+msgstr "Válassza ki az alapértelmezett időzónát az események megjelenítéséhez!"
+
+msgid "cal_def_view"
+msgstr "Alapértelmezett naptárnézet"
+
+msgid "cal_def_week_start"
+msgstr "Hét alapértelmezett kezdete"
+
+msgid "cal_default_calendar"
+msgstr "Személyes események"
+
+msgid "cal_default_settings"
+msgstr "Alapértelmezett beállítások"
+
+msgid "cal_del_cal_sure"
+msgstr "Biztos, hogy törli a kiválasztott naptára(ka)t?"
+
+msgid "cal_delete_app_sure"
+msgstr "Biztos, hogy törli az alábbi időponto(ka)t?"
+
+msgid "cal_delete_booking_info"
+msgstr "Kérem, erősítse meg ennek a foglalásnak a törlését."
+
+msgid "cal_delete_cal"
+msgstr "Naptár törlése"
+
+msgid "cal_delete_recurrence_rule"
+msgstr "Elfoglaltságsorozat törlése"
+
+msgid "cal_delete_recurrences"
+msgstr "Ismétlődések törlése"
+
+msgid "cal_delete_single"
+msgstr "Csak ennek az eseménynek a törlése"
+
+msgid "cal_deleted_app"
+msgstr "A kiválasztott időponto(ka)t sikeresen törölte."
+
+msgid "cal_details"
+msgstr "A találkozó részletei"
+
+msgid "cal_down_no_files"
+msgstr "Nincs mit letölteni, a felsorolt események egy fájlt sem tartalmaznak."
+
+msgid "cal_download_all_files"
+msgstr "Összes fájl letöltése"
+
+msgid "cal_download_files"
+msgstr "Fájlok letöltése"
+
+msgid "cal_download_files_started"
+msgstr "Az ILIAS az összes elérhető fájlból archívumot készít. Ezeket az archívumokat az Éresítési Központból (felső sorban lévő harang ikon) töltheti le."
+
+msgid "cal_dstart_dend_warn"
+msgstr "Ellenőrizze az adatokat! A kezdő dátum a záró dátuma előtt kell legyen."
+
+msgid "cal_duration"
+msgstr "Időtartam"
+
+msgid "cal_duration_end"
+msgstr "Vége"
+
+msgid "cal_duration_start"
+msgstr "Eleje"
+
+msgid "cal_edit_appointment"
+msgstr "Esemény módosítása"
+
+msgid "cal_edit_category"
+msgstr "Naptár módosítása"
+
+msgid "cal_edit_milestone"
+msgstr "Mérföldkő módosítása"
+
+msgid "cal_edit_recurrences"
+msgstr "Összes esemény módosítása"
+
+msgid "cal_edit_single"
+msgstr "Esemény módosítása"
+
+msgid "cal_edit_single_or_all_info"
+msgstr "Csak ezt az egy eseményt vagy az összeset módosítja?"
+
+msgid "cal_enable_group_milestones"
+msgstr "Mérföldkövek engedélyezése"
+
+msgid "cal_enable_group_milestones_desc"
+msgstr "Ez a beállítás engedélyezi a mérföldkőtervezést a naptárban."
+
+msgid "cal_err_invalid_notification_rcps"
+msgstr "Az értesítés címzettjeinek listája nem érvényes. Csak ILIAS felhasználóneveket vagy érvényes e-mail címet válasszon!"
+
+msgid "cal_every"
+msgstr "Minden:"
+
+msgid "cal_exc_deadline"
+msgstr "Határidő"
+
+msgid "cal_exc_info"
+msgstr "Hozzárendelés-információ"
+
+msgid "cal_exc_inst_files"
+msgstr "Utasításfájlok"
+
+msgid "cal_exc_open"
+msgstr "Találkozó megnyitása"
+
+msgid "cal_exc_peer_review_deadline"
+msgstr "Visszajelzés határideje"
+
+msgid "cal_export_timezone"
+msgstr "Időzóna a naptár exportáláshoz"
+
+msgid "cal_export_timezone_tz"
+msgstr "ILIAS-időzóna használata"
+
+msgid "cal_export_timezone_utc"
+msgstr "UTC-időzóna használata (MS Outlook kompatibilitáshoz)"
+
+msgid "cal_fifth"
+msgstr "Ötödik"
+
+msgid "cal_first"
+msgstr "Első"
+
+msgid "cal_fourth"
+msgstr "Negyedik"
+
+msgid "cal_fullday"
+msgstr "Dátum/időpont"
+
+msgid "cal_fullday_title"
+msgstr "Egész napos esemény"
+
+msgid "cal_global_settings"
+msgstr "Általános beállítások"
+
+msgid "cal_grp_curr_crs"
+msgstr "Jelenlegi kurzus"
+
+msgid "cal_grp_curr_crs_cons"
+msgstr "Konzultációs időpontok"
+
+msgid "cal_grp_curr_grp"
+msgstr "Jelenlegi csoport"
+
+msgid "cal_grp_info"
+msgstr "Csoportinformáció"
+
+msgid "cal_grp_new_notification_body"
+msgstr "ezúton tájékoztatjuk, hogy ‘%s’ csoportban új esemény jött létre."
+
+msgid "cal_grp_new_notification_sub"
+msgstr "‘%s’ csoportban új esemény"
+
+msgid "cal_grp_notification_body"
+msgstr "ezúton tájékoztatjuk, hogy ‘%s’ csoportban egy esemény megváltozott."
+
+msgid "cal_grp_notification_sub"
+msgstr "‘%s’ csoportban esemény módosult"
+
+msgid "cal_grp_others"
+msgstr "További"
+
+msgid "cal_grp_personal"
+msgstr "Személyes"
+
+msgid "cal_ical_infoscreen"
+msgstr "Feliratkozás"
+
+msgid "cal_ical_url"
+msgstr "iCal-URL"
+
+msgid "cal_ical_url_google"
+msgstr "Google Naptárra mutató iCal-URL"
+
+msgid "cal_import_appointments"
+msgstr "Események importja"
+
+msgid "cal_import_file"
+msgstr "Fájl importja"
+
+msgid "cal_import_file_info"
+msgstr "Válassza ki a naptárjának eseményeit tartalmazó fájlt."
+
+msgid "cal_import_tbl"
+msgstr "Események importja"
+
+msgid "cal_imported_success"
+msgstr "Importált %1$s esemény."
+
+msgid "cal_in"
+msgstr "&gt;"
+
+msgid "cal_last"
+msgstr "Utoljára"
+
+msgid "cal_list"
+msgstr "Lista"
+
+msgid "cal_mail_notification_body"
+msgstr "ezúton értesítjük, hogy Ön meghívót kapott egy eseményre."
+
+msgid "cal_mail_notification_subject"
+msgstr "Eseményre meghívás: ‘%s’"
+
+msgid "cal_manage"
+msgstr "Naptár"
+
+msgid "cal_materials"
+msgstr "Segédanyagok"
+
+msgid "cal_milestone_settings"
+msgstr "Mérföldkövek"
+
+msgid "cal_month_overview"
+msgstr "Havi áttekintés"
+
+msgid "cal_month_s"
+msgstr "Hónap"
+
+msgid "cal_month_selection"
+msgstr "Hónap kiválasztása"
+
+msgid "cal_monthly"
+msgstr "Havonta"
+
+msgid "cal_monthly_by_date"
+msgstr "Havonta dátum szerint"
+
+msgid "cal_monthly_by_day"
+msgstr "Havonta nap szerint"
+
+msgid "cal_ms_details"
+msgstr "Mérföldkőrészletek"
+
+msgid "cal_ms_users_responsible"
+msgstr "Felelős felhasználók"
+
+msgid "cal_new_app"
+msgstr "Új esemény"
+
+msgid "cal_new_ms"
+msgstr "Új mérföldkő"
+
+msgid "cal_no_ending"
+msgstr "Nincs záró dátum"
+
+msgid "cal_no_events_block"
+msgstr "Egy elérhető dátum sincs."
+
+msgid "cal_no_events_info"
+msgstr "Egy esemény sem található a megjelölt időszakban."
+
+msgid "cal_no_recurrence"
+msgstr "Nincsenek ismétlődések"
+
+msgid "cal_notification"
+msgstr "E-mail értesítés"
+
+msgid "cal_notification_crsgrp"
+msgstr "Értesítés kurzus-/csoportrésztvevőknek"
+
+msgid "cal_notification_info"
+msgstr "Minden kurzus-/csoporttagnak e-mail értesítést küldünk erről az eseményről."
+
+msgid "cal_notification_users"
+msgstr "Értesítés kiválasztott felhasználóknak"
+
+msgid "cal_on"
+msgstr "Ekkor:"
+
+msgid "cal_on_the"
+msgstr "Ekkor:"
+
+msgid "cal_open_calendar"
+msgstr "Naptár megnyitása"
+
+msgid "cal_origin"
+msgstr "Származás"
+
+msgid "cal_owner"
+msgstr "Tulajdonos"
+
+msgid "cal_period"
+msgstr "Időszak"
+
+msgid "cal_rec_err_limit"
+msgstr "Érvényes eseményszámot adjon meg!"
+
+msgid "cal_recurrence_confirm_deletion"
+msgstr "Kérem, válasszon, hogy egy foglaltságot vagy egy teljes foglaltságsorozatot töröl."
+
+msgid "cal_recurrence_count"
+msgstr "Foglalások száma"
+
+msgid "cal_recurrence_day_interval"
+msgstr "Minden x. nap"
+
+msgid "cal_recurrence_end_date"
+msgstr "Záró dátum"
+
+msgid "cal_recurrence_end_date_info"
+msgstr "Foglalás utolsó lehetséges napja"
+
+msgid "cal_recurrence_month_interval"
+msgstr "Minden x. hónap"
+
+msgid "cal_recurrence_until"
+msgstr "Ismétlődés vége"
+
+msgid "cal_recurrence_until_count"
+msgstr "Adott számú foglalás"
+
+msgid "cal_recurrence_until_end_date"
+msgstr "Ismétlődés a záró dátumig"
+
+msgid "cal_recurrence_week_interval"
+msgstr "Minden x. hét"
+
+msgid "cal_recurrence_year_interval"
+msgstr "Minden x. év"
+
+msgid "cal_recurrences"
+msgstr "Ismétlődés"
+
+msgid "cal_reg_register"
+msgstr "Részvétel"
+
+msgid "cal_reg_registered"
+msgstr "Ön regisztrált."
+
+msgid "cal_reg_registered_users"
+msgstr "Résztvevők"
+
+msgid "cal_reg_unregister"
+msgstr "Részvétel lemondása"
+
+msgid "cal_reg_unregistered"
+msgstr "Ön még nem regisztrált."
+
+msgid "cal_registrations"
+msgstr "Esemény regisztrációi"
+
+msgid "cal_remote_url"
+msgstr "URL"
+
+msgid "cal_repeat_until"
+msgstr "Ismétlés eddig"
+
+msgid "cal_repo_obj"
+msgstr "Objektumok"
+
+msgid "cal_responsible"
+msgstr "Felelős"
+
+msgid "cal_save_responsible_users"
+msgstr "Felelős felhasználók mentése"
+
+msgid "cal_search"
+msgstr "Keresőkifejezés"
+
+msgid "cal_search_info_share"
+msgstr "Adja meg a kívánt felhasználó/szerepkör nevét a naptár megosztásához."
+
+msgid "cal_second"
+msgstr "Második"
+
+msgid "cal_server_tz"
+msgstr "Szerver időzónája"
+
+msgid "cal_sess_info"
+msgstr "Munkamenetinformáció"
+
+msgid "cal_setting_global_crs_act"
+msgstr "Bekapcsolás kurzusokban"
+
+msgid "cal_setting_global_crs_act_info"
+msgstr "A naptár alapértelmezetten aktív a kurzusokban. A naptár bármikor ki-/bekapcsolható a kurzusbeállításokban."
+
+msgid "cal_setting_global_crs_vis"
+msgstr "Kurzusokban megjelenjen"
+
+msgid "cal_setting_global_crs_vis_info"
+msgstr "A naptár alapértelmezetten megjelenik a kurzusokban. A megjelenítése bármikor ki-/bekapcsolható a kurzusbeállításokban."
+
+msgid "cal_setting_global_grp_act"
+msgstr "Bekapcsolás csoportokban"
+
+msgid "cal_setting_global_grp_act_info"
+msgstr "A naptár alapértelmezetten aktív a csoportokban. A naptár bármikor ki-/bekapcsolható a csoportbeállításokban."
+
+msgid "cal_setting_global_grp_vis"
+msgstr "Csoportokban megjelenjen"
+
+msgid "cal_setting_global_grp_vis_info"
+msgstr "A naptár alapértelmezetten megjelenik a csoportokban. A megjelenítése bármikor ki-/bekapcsolható a csoportbeállításokban."
+
+msgid "cal_setting_global_vis_repos"
+msgstr "Tartalomtárbeli naptár"
+
+msgid "cal_share"
+msgstr "Naptár megosztása"
+
+msgid "cal_share_accept"
+msgstr "Elfogadott meghívások"
+
+msgid "cal_share_cal"
+msgstr "Naptár megosztása (csak olvasásra)"
+
+msgid "cal_share_cal_editable"
+msgstr "Naptár megosztása (olvasásra és írásra)"
+
+msgid "cal_share_decline"
+msgstr "Meghívás elutasítása"
+
+msgid "cal_share_search_header"
+msgstr "Naptár megosztása"
+
+msgid "cal_share_search_role_header"
+msgstr "Szerepkiválasztás"
+
+msgid "cal_share_search_usr_header"
+msgstr "Felhasználó-kiválasztás"
+
+msgid "cal_shared_access_read_only"
+msgstr "Írásvédett"
+
+msgid "cal_shared_access_read_write"
+msgstr "Olvasásható és írásható"
+
+msgid "cal_shared_access_table_col"
+msgstr "Hozzáférés"
+
+msgid "cal_shared_calendars"
+msgstr "Megosztott naptárak (meghívások)"
+
+msgid "cal_shared_header"
+msgstr "Megosztott naptárak"
+
+msgid "cal_shared_selected_usr"
+msgstr "A naptárt megosztotta a kiválasztott felhasználókkal/szerepkörökkel."
+
+msgid "cal_show_weeks"
+msgstr "Hetek megjelenítése"
+
+msgid "cal_show_weeks_info"
+msgstr "A hetek oszlopot bekapcsolja az oldalblokk naptárában."
+
+msgid "cal_start"
+msgstr "Kezdő időpont"
+
+msgid "cal_subscription"
+msgstr "Előfizetések"
+
+msgid "cal_subscription_header"
+msgstr "Naptár címe:"
+
+msgid "cal_subscription_info"
+msgstr "Használja az alábbi címet, hogy más alkalmazásokból is elérje naptárját. Bármely naptár-termékbe másolhatja és beillesztheti, amely támogatja az ical-formátumot."
+
+msgid "cal_subscription_url"
+msgstr "Naptár URL-je"
+
+msgid "cal_sync_cache"
+msgstr "Naptár gyorsítótárazása"
+
+msgid "cal_sync_cache_info"
+msgstr "Az új/módosított naptárbejegyzések csak x percenként frissülnek."
+
+msgid "cal_sync_disabled"
+msgstr "Letiltva"
+
+msgid "cal_sync_enabled"
+msgstr "Engedélyezve"
+
+msgid "cal_table_categories"
+msgstr "Naptár kiválasztása"
+
+msgid "cal_task_completion"
+msgstr "Feladat teljesítettsége"
+
+msgid "cal_third"
+msgstr "Harmadik"
+
+msgid "cal_time_format_info"
+msgstr "Válasszon formátumot az idő beviteléhez és megjelenítéséhez."
+
+msgid "cal_timezone_info"
+msgstr "Válassza ki a legközelebbi várost az időzónájában."
+
+msgid "cal_type_crs"
+msgstr "Kurzusnaptár"
+
+msgid "cal_type_exc"
+msgstr "Beadandó feladat naptára"
+
+msgid "cal_type_grp"
+msgstr "Csoportnaptár"
+
+msgid "cal_type_info"
+msgstr "Válasszon egy naptártípust. A ‘Nyilvános naptár’ minden ILIAS-felhasználó számára látható."
+
+msgid "cal_type_local"
+msgstr "Helyi naptár"
+
+msgid "cal_type_personal"
+msgstr "Privát naptár"
+
+msgid "cal_type_remote"
+msgstr "Webes naptár"
+
+msgid "cal_type_rl"
+msgstr "Naptár helye"
+
+msgid "cal_type_sess"
+msgstr "Eseménynaptár"
+
+msgid "cal_type_system"
+msgstr "Nyilvános naptár"
+
+msgid "cal_type_tals"
+msgstr "Megbeszélések"
+
+msgid "cal_unshare_cal"
+msgstr "Megosztás megállítása"
+
+msgid "cal_unshared_selected_usr"
+msgstr "Naptármegosztás befejezése a kiválasztott felhasználókkal."
+
+msgid "cal_upcoming_events_header"
+msgstr "Jövőbeli események"
+
+msgid "cal_user_date_format"
+msgstr "Dátumformátum"
+
+msgid "cal_user_notification"
+msgstr "Felhasználók értesítése"
+
+msgid "cal_user_notification_info"
+msgstr "A megadott felhasználóknak e-mail értesítést küldünk erről az eseményről. ILIAS felhasználóneveket vagy e-mail címeket adjon meg."
+
+msgid "cal_user_settings"
+msgstr "Naptárbeállítások"
+
+msgid "cal_user_time_format"
+msgstr "Időformátum"
+
+msgid "cal_user_timezone"
+msgstr "ILIAS-időzóna"
+
+msgid "cal_usr_info"
+msgstr "Találkozó információi"
+
+msgid "cal_usr_show_weeks"
+msgstr "Hetek oszlop megjelenítése"
+
+msgid "cal_usr_show_weeks_info"
+msgstr "Az oldalsó naptár blokkban aktiválja a hetek oszlopot."
+
+msgid "cal_webcal_sync"
+msgstr "Külső naptár szinkronizációja"
+
+msgid "cal_webcal_sync_info"
+msgstr "Automatikus szinkronizáció külső naptárakkal x óránként."
+
+msgid "cal_week_abbrev"
+msgstr "H"
+
+msgid "cal_week_month_view"
+msgstr "Heti/havi nézet beállításai"
+
+msgid "cal_week_overview"
+msgstr "Heti áttekintés"
+
+msgid "cal_week_s"
+msgstr "Hét"
+
+msgid "cal_week_selection"
+msgstr "Hét kiválasztása"
+
+msgid "cal_week_start"
+msgstr "Hét kezdete"
+
+msgid "cal_weekday"
+msgstr "Hétköznap"
+
+msgid "cal_weekly"
+msgstr "Hetente"
+
+msgid "cal_where"
+msgstr "Hely"
+
+msgid "cal_year_s"
+msgstr "Év"
+
+msgid "cal_yearly"
+msgstr "Évente"
+
+msgid "cal_yearly_by_date"
+msgstr "Évente dátum szerint"
+
+msgid "cal_yearly_by_day"
+msgstr "Évente nap szerint"
+
+msgid "consultation_hours_block_title"
+msgstr "Fogadóórák"
+
+msgid "crs_cal_activation_end"
+msgstr "Kurzus láthatóságának vége"
+
+msgid "crs_cal_activation_start"
+msgstr "Kurzus láthatóságának kezdete"
+
+msgid "crs_cal_end"
+msgstr "Kurzus záró időpontja"
+
+msgid "crs_cal_reg_end"
+msgstr "Regisztráció vége"
+
+msgid "crs_cal_reg_start"
+msgstr "Regisztráció kezdete"
+
+msgid "crs_cal_start"
+msgstr "Kurzus kezdő időpontja"
+
+msgid "date_format"
+msgstr "Y.m.d H:i"
+
+msgid "end_date"
+msgstr "Záró idő"
+
+msgid "err_end_before_start"
+msgstr "Az esemény nem kezdődhet a befejezése után."
+
+msgid "err_missing_title"
+msgstr "Adjon az eseménynek címet!"
+
+msgid "free"
+msgstr "szabad"
+
+msgid "grp_cal_end"
+msgstr "Csoport záró időpontja"
+
+msgid "grp_cal_reg_end"
+msgstr "Regisztráció vége"
+
+msgid "grp_cal_reg_start"
+msgstr "Regisztráció kezdete"
+
+msgid "grp_cal_start"
+msgstr "Csoport kezdő időpontja"
+
+msgid "ical_export"
+msgstr "iCal Export"
+
+msgid "keep"
+msgstr "megtartás"
+
+msgid "keyword"
+msgstr "Kulcsszó"
+
+msgid "more"
+msgstr "további"
+
+msgid "r_14"
+msgstr "minden 14. napon"
+
+msgid "r_4_weeks"
+msgstr "minden 14. héten"
+
+msgid "remote_pass_info"
+msgstr "Kérjük, adja meg felhasználói adatait, ha a hozzáférés a WebCalendar-hoz védett."
+
+msgid "to"
+msgstr "Meddig"
+
+msgid "today"
+msgstr "Ma"
+
+msgid "week"
+msgstr "Hét"
+
+msgid "wk_short"
+msgstr "Hét"
+
+msgid "year"
+msgstr "Év"

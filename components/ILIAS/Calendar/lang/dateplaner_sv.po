@@ -1,0 +1,1355 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: dateplaner\n"
+
+msgid "Fr_long"
+msgstr "Fredag"
+
+msgid "Fr_short"
+msgstr "Fr"
+
+msgid "Mo_long"
+msgstr "Måndag"
+
+msgid "Mo_short"
+msgstr "Mo"
+
+msgid "Sa_long"
+msgstr "Lördag"
+
+msgid "Sa_short"
+msgstr "Sa"
+
+msgid "Su_long"
+msgstr "Söndag"
+
+msgid "Su_short"
+msgstr "Så"
+
+msgid "Text"
+msgstr "Text"
+
+msgid "Th_long"
+msgstr "Torsdag"
+
+msgid "Th_short"
+msgstr "Do"
+
+msgid "Tu_long"
+msgstr "Tisdag"
+
+msgid "Tu_short"
+msgstr "Di"
+
+msgid "We_long"
+msgstr "Vardag"
+
+msgid "We_short"
+msgstr "Mi"
+
+msgid "add_appointment"
+msgstr "Lägg till möte"
+
+msgid "app_consultation_hours"
+msgstr "Hantering av kontorstid"
+
+msgid "app_day"
+msgstr "Tag"
+
+msgid "app_month"
+msgstr "Månad"
+
+msgid "app_week"
+msgstr "Vecka"
+
+msgid "back_to_crs"
+msgstr "Kursinnehåll"
+
+msgid "back_to_grp"
+msgstr "Gruppens innehåll"
+
+msgid "back_to_pd"
+msgstr "Tillbaka"
+
+msgid "btn_ical"
+msgstr "Prenumerera"
+
+msgid "c_date"
+msgstr " ersätta utnämning"
+
+msgid "cal_add_appointment"
+msgstr "Skapa möte"
+
+msgid "cal_add_calendar"
+msgstr "Skapa ny kalender"
+
+msgid "cal_add_category"
+msgstr "Skapa ny kalender"
+
+msgid "cal_add_milestone"
+msgstr "Lägg till Milstolpe"
+
+msgid "cal_adm_notification_info"
+msgstr "Välj denna inställning för att aktivera valfri e-postavisering för kurs- och gruppmöten."
+
+msgid "cal_adm_notification_user_info"
+msgstr "Välj denna inställning för att kunna skicka ett valfritt e-postmeddelande till enskilda, valbara användare."
+
+msgid "cal_agenda"
+msgstr "Agenda"
+
+msgid "cal_all_day"
+msgstr "FullDay"
+
+msgid "cal_app_info"
+msgstr "Information om kalenderdatum"
+
+msgid "cal_app_other_materials_num"
+msgstr "Visa mer material"
+
+#, fuzzy
+msgid "cal_appointment_notifications"
+msgstr "Notification"
+
+msgid "cal_appointments"
+msgstr "Datum"
+
+msgid "cal_apps"
+msgstr "Antal datum"
+
+msgid "cal_assigned_appointments"
+msgstr "Datum för denna kalender"
+
+msgid "cal_back_to_cal"
+msgstr "Tillbaka till kalendern"
+
+msgid "cal_back_to_list"
+msgstr "Tillbaka till listan"
+
+msgid "cal_back_to_search"
+msgstr "Tillbaka till sökningen"
+
+msgid "cal_batch_file_downloads"
+msgstr "Batchprocess för nedladdning av filer från kalender"
+
+msgid "cal_batch_file_downloads_info"
+msgstr "Tillåter nedladdning av alla filer till poster i den valda kalendervyn"
+
+#, fuzzy
+msgid "cal_belongs_to"
+msgstr "Belongs to Calendar"
+
+msgid "cal_book_free"
+msgstr "fri"
+
+msgid "cal_booked_out"
+msgstr "bokad ut"
+
+msgid "cal_booking_cancellation_body"
+msgstr "Ditt möte med %s är inställt."
+
+msgid "cal_booking_cancellation_subject"
+msgstr "Datum då \"%s\" avbröts"
+
+msgid "cal_booking_cancellation_user"
+msgstr "Detta är en kopia av mailet till användaren"
+
+msgid "cal_booking_confirmation_body"
+msgstr "Ditt möte med %s är bokat."
+
+msgid "cal_booking_confirmation_link"
+msgstr "Länk till utnämningen"
+
+msgid "cal_booking_confirmation_subject"
+msgstr "Tillfället \"%s\" bokades"
+
+msgid "cal_booking_confirmation_user"
+msgstr "Detta är en kopia av mailet till användaren"
+
+msgid "cal_booking_confirmed"
+msgstr "Mötet bokades framgångsrikt."
+
+msgid "cal_booking_failed_info"
+msgstr "Bokningen kunde inte göras eftersom datumet är fullbokat."
+
+#, fuzzy
+msgid "cal_booking_manager_confirmation_body"
+msgstr "%s has booked an appointment with %s."
+
+#, fuzzy
+msgid "cal_booking_owner_confirmation_body"
+msgstr "%s has booked an appointment with you."
+
+msgid "cal_cache"
+msgstr "Kalender cache"
+
+msgid "cal_cache_disabled"
+msgstr "Avstängd"
+
+msgid "cal_cache_enabled"
+msgstr "Kopplad på"
+
+msgid "cal_cache_info"
+msgstr "När den är aktiverad uppdateras kalenderdisplayen endast var x:e minut."
+
+msgid "cal_cache_settings"
+msgstr "Cache"
+
+msgid "cal_cal_deleted"
+msgstr "Kalendrarna har raderats."
+
+msgid "cal_cal_shared_with"
+msgstr "Användare med vilka kalendern delas"
+
+msgid "cal_cal_sync_success"
+msgstr "Kalenderdatumen har uppdaterats."
+
+msgid "cal_cal_synchronize"
+msgstr "Synkronisera kalender"
+
+msgid "cal_cal_type"
+msgstr "Typ av kalender"
+
+msgid "cal_calendar_color"
+msgstr "Färg"
+
+msgid "cal_calendar_download"
+msgstr "Kalenderfiler"
+
+msgid "cal_calendar_name"
+msgstr "Kalenderns namn"
+
+msgid "cal_calendar_subscription_modal_title"
+msgstr "Prenumerera på kalender"
+
+msgid "cal_cancel_booking"
+msgstr "Avboka bokning"
+
+msgid "cal_cancel_booking_confirmed"
+msgstr "Bokningen avbokades framgångsrikt."
+
+msgid "cal_cancel_booking_info"
+msgstr "Vänligen bekräfta avbokning av bokningen."
+
+msgid "cal_category_selection"
+msgstr "Urval av kalender"
+
+msgid "cal_cg_notification"
+msgstr "Kurs/Grupp Anmälan"
+
+msgid "cal_cg_registration_info"
+msgstr "När den är aktiverad kan användare registrera sig för kurs- och gruppmöten."
+
+msgid "cal_cg_registrations"
+msgstr "Anmälan till kurs/grupp datum"
+
+msgid "cal_ch_add_grp"
+msgstr "Skapa ny konsultgrupp"
+
+msgid "cal_ch_add_sequence"
+msgstr "Skapa nya konsultationsserier"
+
+msgid "cal_ch_app_bookings"
+msgstr "Bokningar"
+
+msgid "cal_ch_app_grp"
+msgstr "Talande grupper"
+
+msgid "cal_ch_app_list"
+msgstr "Talking hour möten"
+
+msgid "cal_ch_assign_participants"
+msgstr "Tilldela deltagare"
+
+msgid "cal_ch_assigned_apps"
+msgstr "Antal datum"
+
+msgid "cal_ch_book"
+msgstr "Boka en konsultation"
+
+msgid "cal_ch_booking"
+msgstr "Bokning av resurser"
+
+#, fuzzy
+msgid "cal_ch_booking_col_comments"
+msgstr "Comments"
+
+#, fuzzy
+msgid "cal_ch_booking_comment"
+msgstr "Comment:"
+
+#, fuzzy
+msgid "cal_ch_booking_link"
+msgstr "Link to Consultation Hours:"
+
+msgid "cal_ch_booking_message_tbl"
+msgstr "Kommentar till ansökan"
+
+#, fuzzy
+msgid "cal_ch_booking_num_available"
+msgstr "Available Slots"
+
+#, fuzzy
+msgid "cal_ch_booking_num_free_short"
+msgstr "%s free"
+
+#, fuzzy
+msgid "cal_ch_booking_other_participants"
+msgstr "Other Participants:"
+
+# Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
+msgid "cal_ch_booking_owner"
+msgstr "Speaking at"
+
+#, fuzzy
+msgid "cal_ch_booking_participants"
+msgstr "Participants"
+
+msgid "cal_ch_booking_reminder_body"
+msgstr "Ditt möte med \"%s\" kommer att äga rum om några dagar."
+
+msgid "cal_ch_booking_reminder_subject"
+msgstr "Datum påminnelse \"%s\""
+
+#, fuzzy
+msgid "cal_ch_booking_start"
+msgstr "Start"
+
+#, fuzzy
+msgid "cal_ch_booking_your_comment"
+msgstr "Your comment:"
+
+msgid "cal_ch_bookings"
+msgstr "Deltagare"
+
+msgid "cal_ch_bookings_tbl"
+msgstr "Bokade datum"
+
+msgid "cal_ch_cancel_booking"
+msgstr "Avboka bokning"
+
+msgid "cal_ch_cancel_booking_info"
+msgstr "Vid avbokning av tidsbokningar kommer deltagarna att informeras via e-post om avbokningen av tidsbokningarna. Om du inte vill att deltagarna ska informeras bör du välja alternativet Ta bort tidsbokning(ar)."
+
+msgid "cal_ch_cancel_booking_sure"
+msgstr "Är du säker på att du vill avboka de valda mötesbokningarna?"
+
+msgid "cal_ch_canceled_bookings"
+msgstr "De valda bokningarna har avbokats."
+
+msgid "cal_ch_ch"
+msgstr "Talking hour möten"
+
+msgid "cal_ch_cron_reminder"
+msgstr "Skicka meddelanden om samråd"
+
+msgid "cal_ch_cron_reminder_days"
+msgstr "Antal dagar"
+
+msgid "cal_ch_cron_reminder_info"
+msgstr "Om aktiverat kommer användare som har bokat en konsultationstid att få ett påminnelsemeddelande om kommande möten. Ange hur många dagar i förväg påminnelserna ska skickas."
+
+#, fuzzy
+msgid "cal_ch_current_booking_comment"
+msgstr "Comment"
+
+msgid "cal_ch_current_bookings"
+msgstr "Aktuella deltagare"
+
+msgid "cal_ch_deadline"
+msgstr "Senaste registrering"
+
+msgid "cal_ch_deadline_info"
+msgstr "Vänligen ange upp till hur många timmar före konsultationstiden som registrering ska vara möjlig."
+
+msgid "cal_ch_delete_app_booking_info"
+msgstr "Bokningar finns redan för följande datum. Om du tar bort dessa möten kommer deltagarna inte att informeras om borttagningen."
+
+msgid "cal_ch_delete_booking"
+msgstr "Ta bort tidsbokning"
+
+msgid "cal_ch_delete_booking_info"
+msgstr "Vid avbokning av tidsbokningar kommer deltagarna inte att informeras via e-post om avbokningen av tidsbokningarna. Om du vill att deltagarna ska informeras bör du välja alternativet Avboka tidsbokning(ar)."
+
+msgid "cal_ch_delete_booking_sure"
+msgstr "Är du säker på att du vill radera de valda tidsbokningarna?"
+
+msgid "cal_ch_deleted_bookings"
+msgstr "De valda bokningarna har tagits bort."
+
+msgid "cal_ch_duration"
+msgstr "Duration av ett möte"
+
+msgid "cal_ch_export_apps"
+msgstr "Bokade datum"
+
+msgid "cal_ch_field_ch"
+msgstr "Talking hour möten"
+
+msgid "cal_ch_form"
+msgstr "Aktivera hantering av konsultationstimmar"
+
+msgid "cal_ch_form_header"
+msgstr "Hantering av kontorstid"
+
+msgid "cal_ch_form_info"
+msgstr "Detta alternativ aktiverar hanteringen av kontorstider i kalendern."
+
+#, fuzzy
+msgid "cal_ch_free_of_available"
+msgstr "%s of %s"
+
+msgid "cal_ch_grp_add_tbl"
+msgstr "Skapa ny konsultgrupp"
+
+msgid "cal_ch_grp_delete_sure"
+msgstr "Är du säker på att du vill ta bort följande samrådsgrupper?"
+
+msgid "cal_ch_grp_header"
+msgstr "Talande grupp"
+
+msgid "cal_ch_grp_multiple"
+msgstr "Antal bokningar per deltagare"
+
+msgid "cal_ch_grp_multiple_info"
+msgstr "Du kan ställa in det maximala antalet bokningar per deltagare för denna mötesgrupp här."
+
+msgid "cal_ch_grp_no_assignment"
+msgstr "-- Inte tilldelad --."
+
+msgid "cal_ch_grp_selection"
+msgstr "Uppdrag till samrådsgrupper"
+
+msgid "cal_ch_grp_update_tbl"
+msgstr "Redigera samrådsgrupp"
+
+msgid "cal_ch_grps"
+msgstr "Talande grupper"
+
+msgid "cal_ch_manager"
+msgstr "Talande timme chef"
+
+msgid "cal_ch_manager_info"
+msgstr "Om du vill att dina kontorstider ska hanteras av en annan person måste du ange dennes inloggningsnamn här."
+
+msgid "cal_ch_max_books"
+msgstr "Antal bokningar per deltagare"
+
+#, fuzzy
+msgid "cal_ch_minutes"
+msgstr "Duration (min)"
+
+msgid "cal_ch_multi_edit_sequence"
+msgstr "Redigera möten"
+
+msgid "cal_ch_num_appointments"
+msgstr "Antal möten per konsultationstimme"
+
+msgid "cal_ch_num_appointments_info"
+msgstr "Bestäm hur många på varandra följande möten som ska genereras."
+
+msgid "cal_ch_num_bookings"
+msgstr "Registreringar per möte"
+
+msgid "cal_ch_personal_book"
+msgstr "Personliga bokningar"
+
+msgid "cal_ch_personal_ch"
+msgstr "Personliga konsultationsmöten"
+
+msgid "cal_ch_reject_booking"
+msgstr "Avboka tidsbokning"
+
+#, fuzzy
+msgid "cal_ch_send_mail"
+msgstr "Send Mail"
+
+msgid "cal_ch_target_object"
+msgstr "Objekt i tidningen"
+
+msgid "cal_ch_target_object_info"
+msgstr "Talartimmar visas i kurser och grupper i ett litet block till höger. För att begränsa detta till vissa kurser eller grupper, ange Ref ID för objektet i fråga. Du hittar detta i URL:en för motsvarande objekt. Ange flera Ref-ID kommaseparerade. Oavsett det"
+
+msgid "cal_ch_unknown_repository_object"
+msgstr "Den angivna identifieraren för objektet är inte giltig."
+
+msgid "cal_ch_unknown_user"
+msgstr "Det angivna inloggningsnamnet existerar inte."
+
+msgid "cal_ch_user_assignment_failed_info"
+msgstr "Följande användare kunde inte tilldelas ett möte eftersom det maximala antalet bokningar överskreds."
+
+#, fuzzy
+msgid "cal_ch_vm_period_all"
+msgstr "All"
+
+#, fuzzy
+msgid "cal_ch_vm_period_past"
+msgstr "Past"
+
+#, fuzzy
+msgid "cal_ch_vm_period_upcoming"
+msgstr "Upcoming"
+
+#, fuzzy
+msgid "cal_ch_vm_status_all"
+msgstr "All"
+
+#, fuzzy
+msgid "cal_ch_vm_status_booked"
+msgstr "Booked Slots"
+
+#, fuzzy
+msgid "cal_ch_vm_status_open"
+msgstr "Open Slots"
+
+msgid "cal_change_calendar_view"
+msgstr "Ändra kalendervy"
+
+msgid "cal_change_responsible_users"
+msgstr "Byt ut ansvariga medlemmar"
+
+msgid "cal_changed_events_header"
+msgstr "Nya och ändrade datum"
+
+msgid "cal_confirm_booking"
+msgstr "Boka en konsultation"
+
+msgid "cal_confirm_booking_info"
+msgstr "Vänligen bekräfta bokningen av konsultationen."
+
+msgid "cal_confirm_reg_info"
+msgstr "Vänligen bekräfta registreringen för detta möte."
+
+msgid "cal_confirm_unreg_info"
+msgstr "Vänligen bekräfta avbokningen av detta möte."
+
+msgid "cal_consultation_hours_for"
+msgstr "Samråd"
+
+msgid "cal_consultation_hours_for_user"
+msgstr "Konsultation %1"
+
+msgid "cal_contained_in"
+msgstr "Ingår i"
+
+msgid "cal_create"
+msgstr "Skapa"
+
+msgid "cal_created_appointment"
+msgstr "Ett nytt möte har skapats."
+
+msgid "cal_created_milestone"
+msgstr "Milstolpen har skapats."
+
+msgid "cal_created_milestone_resp_q"
+msgstr "Milstolpen har skapats. Vänligen välj de medlemmar som ska vara ansvariga för milstolpen."
+
+msgid "cal_cronjob_remote_description"
+msgstr "Om den är aktiverad synkroniseras möten i kalendertypen \"Webbkalender\" automatiskt efter det angivna tidsintervallet."
+
+msgid "cal_cronjob_remote_title"
+msgstr "Synkronisering av externa kalendrar"
+
+msgid "cal_crs_info"
+msgstr "Information om kursen"
+
+msgid "cal_crs_new_notification_body"
+msgstr "Ett nytt möte har skapats i kursen \"%s\"."
+
+msgid "cal_crs_new_notification_sub"
+msgstr "Nytt möte i kursen \"%s"
+
+msgid "cal_crs_notification_body"
+msgstr "Det skedde en ändring av datum i kursen \"%s\"."
+
+msgid "cal_crs_notification_sub"
+msgstr "Datum för ändring i kursen \"%s\""
+
+msgid "cal_crs_timing_end"
+msgstr "Redigering slut"
+
+msgid "cal_crs_timing_start"
+msgstr "Start av bearbetning"
+
+msgid "cal_daily"
+msgstr "Dagligen"
+
+#, fuzzy
+msgid "cal_date_and_time"
+msgstr "Date and Time"
+
+msgid "cal_date_booked"
+msgstr "bokad"
+
+msgid "cal_date_format_info"
+msgstr "Välj ett format för att ange ett datum."
+
+#, fuzzy
+msgid "cal_date_time_title"
+msgstr "Date and Time"
+
+msgid "cal_day_end"
+msgstr "Slut på dagen"
+
+msgid "cal_day_of_month"
+msgstr "Månadens dag"
+
+msgid "cal_day_overview"
+msgstr "Daglig översikt"
+
+msgid "cal_day_s"
+msgstr "Tagg(ar)"
+
+msgid "cal_day_selection"
+msgstr "Dagligt urval"
+
+msgid "cal_day_start"
+msgstr "Start på dagen"
+
+msgid "cal_day_week_view"
+msgstr "Inställningar Visa dag/vecka"
+
+msgid "cal_deadline"
+msgstr "Sista datum"
+
+msgid "cal_def_date_format"
+msgstr "Förvalt format för inmatning av datum"
+
+msgid "cal_def_date_format_info"
+msgstr "Välj ett format för att ange ett datum."
+
+msgid "cal_def_day_end"
+msgstr "Förvalt slut på dagen"
+
+msgid "cal_def_day_start"
+msgstr "Förvald start på dagen"
+
+msgid "cal_def_show_weeks"
+msgstr "Visa veckokolumn"
+
+msgid "cal_def_time_format"
+msgstr "Förvalt tidsformat"
+
+msgid "cal_def_time_format_info"
+msgstr "Välj ett format för inmatning och visning av tiden."
+
+msgid "cal_def_timezone"
+msgstr "Förvald tidszon"
+
+msgid "cal_def_timezone_info"
+msgstr "Välj en tidszon för att visa möten."
+
+msgid "cal_def_view"
+msgstr "Förvald kalendervy"
+
+msgid "cal_def_week_start"
+msgstr "Förvald start på veckan"
+
+msgid "cal_default_calendar"
+msgstr "Personliga möten"
+
+msgid "cal_default_settings"
+msgstr "standardvärden"
+
+msgid "cal_del_cal_sure"
+msgstr "Vill du verkligen radera de valda kalendrarna?"
+
+msgid "cal_delete_app_sure"
+msgstr "Är du säker på att du vill ta bort följande möten?"
+
+#, fuzzy
+msgid "cal_delete_booking_info"
+msgstr "Please confirm the deletion of this booking"
+
+msgid "cal_delete_cal"
+msgstr "Radera kalender"
+
+msgid "cal_delete_recurrence_rule"
+msgstr "Ta bort avtalsserier"
+
+msgid "cal_delete_recurrences"
+msgstr "Ta bort alla upprepningar"
+
+msgid "cal_delete_single"
+msgstr "Ta bort endast detta möte"
+
+msgid "cal_deleted_app"
+msgstr "De valda mötena har tagits bort."
+
+msgid "cal_details"
+msgstr "Datum detaljer"
+
+msgid "cal_down_no_files"
+msgstr "Inget att ladda ner, de listade evenemangen innehåller inga filer."
+
+msgid "cal_download_all_files"
+msgstr "Ladda ner alla filer"
+
+msgid "cal_download_files"
+msgstr "Ladda ner filer"
+
+msgid "cal_download_files_started"
+msgstr "Ett ZIP-arkiv med alla nedladdningsfiler skapas nu i bakgrunden. Du kan se status för dina bakgrundsprocesser längst upp till höger i meddelandecentret. Du kan också ladda ner ZIP-arkivet där."
+
+msgid "cal_dstart_dend_warn"
+msgstr "Vänligen kontrollera din post. Början av dagen måste vara före slutet av dagen."
+
+msgid "cal_duration"
+msgstr "Varaktighet"
+
+#, fuzzy
+msgid "cal_duration_end"
+msgstr "End"
+
+#, fuzzy
+msgid "cal_duration_start"
+msgstr "Start"
+
+msgid "cal_edit_appointment"
+msgstr "Redigera utnämning"
+
+msgid "cal_edit_category"
+msgstr "Redigera kalender"
+
+msgid "cal_edit_milestone"
+msgstr "Redigera milstolpe"
+
+msgid "cal_edit_recurrences"
+msgstr "Redigera alla möten"
+
+msgid "cal_edit_single"
+msgstr "Redigera detta möte"
+
+#, fuzzy
+msgid "cal_edit_single_or_all_info"
+msgstr "Do you want to edit only this appointment or all in its series?"
+
+msgid "cal_enable_group_milestones"
+msgstr "Aktivera milstolpar"
+
+msgid "cal_enable_group_milestones_desc"
+msgstr "Detta alternativ aktiverar hanteringen av milstolpar i kalendern (kurser och grupper)."
+
+msgid "cal_err_invalid_notification_rcps"
+msgstr "Vänligen korrigera din post. Ange endast ILIAS-inloggningsnamn eller giltiga e-postadresser."
+
+msgid "cal_every"
+msgstr "Alla"
+
+msgid "cal_exc_deadline"
+msgstr "Förfallodag"
+
+msgid "cal_exc_info"
+msgstr "Information om träningspass"
+
+msgid "cal_exc_inst_files"
+msgstr "Fil"
+
+msgid "cal_exc_open"
+msgstr "Öppen träningsenhet"
+
+msgid "cal_exc_peer_review_deadline"
+msgstr "Ge feedback tills"
+
+msgid "cal_export_timezone"
+msgstr "Tidszon för kalenderexport"
+
+msgid "cal_export_timezone_tz"
+msgstr "Använd ILIAS tidszon"
+
+msgid "cal_export_timezone_utc"
+msgstr "Använd UTC-tidszon (kompatibel med MS Outlook)"
+
+msgid "cal_fifth"
+msgstr "Femte"
+
+msgid "cal_first"
+msgstr "Första"
+
+msgid "cal_fourth"
+msgstr "Fjärde"
+
+msgid "cal_fullday"
+msgstr "Datum/Tid"
+
+msgid "cal_fullday_title"
+msgstr "Tillsättning hela dagen"
+
+msgid "cal_global_settings"
+msgstr "Globala inställningar"
+
+msgid "cal_grp_curr_crs"
+msgstr "Aktuell kurs"
+
+msgid "cal_grp_curr_crs_cons"
+msgstr "Talande timmar"
+
+msgid "cal_grp_curr_grp"
+msgstr "Aktuell grupp"
+
+msgid "cal_grp_info"
+msgstr "Information om gruppen"
+
+msgid "cal_grp_new_notification_body"
+msgstr "Ett nytt möte har skapats i gruppen \"%s\"."
+
+msgid "cal_grp_new_notification_sub"
+msgstr "Nytt möte i gruppen \"%s"
+
+msgid "cal_grp_notification_body"
+msgstr "En ändring av utnämningen gjordes i gruppen \"%s\"."
+
+msgid "cal_grp_notification_sub"
+msgstr "Datum för ändring i grupp \"%s"
+
+msgid "cal_grp_others"
+msgstr "Andra"
+
+msgid "cal_grp_personal"
+msgstr "Personlig"
+
+msgid "cal_ical_infoscreen"
+msgstr "Prenumerera"
+
+msgid "cal_ical_url"
+msgstr "iCal URL"
+
+#, fuzzy
+msgid "cal_ical_url_google"
+msgstr "iCal-URL for Google Calendar"
+
+msgid "cal_import_appointments"
+msgstr "Import utnämningar"
+
+msgid "cal_import_file"
+msgstr "Importera fil"
+
+msgid "cal_import_file_info"
+msgstr "Välj den fil som innehåller dina möten."
+
+msgid "cal_import_tbl"
+msgstr "Importera kalendertider"
+
+msgid "cal_imported_success"
+msgstr "Det importerades %1$s nya möten."
+
+msgid "cal_in"
+msgstr "im"
+
+msgid "cal_last"
+msgstr "Sista"
+
+msgid "cal_list"
+msgstr "Lista"
+
+msgid "cal_mail_notification_body"
+msgstr "Du har blivit inbjuden till ett möte."
+
+msgid "cal_mail_notification_subject"
+msgstr "Datum inbjudan"
+
+msgid "cal_manage"
+msgstr "Hantera kalender"
+
+msgid "cal_materials"
+msgstr "Material"
+
+msgid "cal_milestone_settings"
+msgstr "Milstolpar"
+
+msgid "cal_month_overview"
+msgstr "Månadsöversikt"
+
+msgid "cal_month_s"
+msgstr "Månad(er)"
+
+msgid "cal_month_selection"
+msgstr "Månad urval"
+
+msgid "cal_monthly"
+msgstr "Månadsvis"
+
+#, fuzzy
+msgid "cal_monthly_by_date"
+msgstr "Monthly by Date"
+
+#, fuzzy
+msgid "cal_monthly_by_day"
+msgstr "Monthly by Day"
+
+msgid "cal_ms_details"
+msgstr "Milstolpe detaljer"
+
+msgid "cal_ms_users_responsible"
+msgstr "Ansvarsfulla medlemmar"
+
+msgid "cal_new_app"
+msgstr "Ny utnämning"
+
+msgid "cal_new_ms"
+msgstr "Ny milstolpe"
+
+msgid "cal_no_ending"
+msgstr "Inget slutdatum"
+
+msgid "cal_no_events_block"
+msgstr "Det finns inga datum tillgängliga för dig."
+
+msgid "cal_no_events_info"
+msgstr "Det finns inga datum tillgängliga för dig under den angivna perioden."
+
+msgid "cal_no_recurrence"
+msgstr "Ingen upprepning"
+
+msgid "cal_notification"
+msgstr "Meddelande via e-post"
+
+msgid "cal_notification_crsgrp"
+msgstr "Notifiering för kurs-/gruppdeltagare"
+
+msgid "cal_notification_info"
+msgstr "Om aktiverat kommer alla kurs-/gruppdeltagare att informeras om datumändringen via e-post."
+
+msgid "cal_notification_users"
+msgstr "Notifiering för utvalda användare"
+
+msgid "cal_on"
+msgstr "Am"
+
+msgid "cal_on_the"
+msgstr "Am"
+
+msgid "cal_open_calendar"
+msgstr "Öppen kalender"
+
+msgid "cal_origin"
+msgstr "Ursprung"
+
+# Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
+msgid "cal_owner"
+msgstr "Owned by"
+
+msgid "cal_period"
+msgstr "Tidsperiod"
+
+msgid "cal_rec_err_limit"
+msgstr "Var god ange ett antal datum."
+
+msgid "cal_recurrence_confirm_deletion"
+msgstr "Välj om du vill radera enskilda möten eller hela serien av möten."
+
+#, fuzzy
+msgid "cal_recurrence_count"
+msgstr "Number of Appointments"
+
+#, fuzzy
+msgid "cal_recurrence_day_interval"
+msgstr "Every x Day(s)"
+
+#, fuzzy
+msgid "cal_recurrence_end_date"
+msgstr "End Date"
+
+#, fuzzy
+msgid "cal_recurrence_end_date_info"
+msgstr "Last possible date for an appointment."
+
+#, fuzzy
+msgid "cal_recurrence_month_interval"
+msgstr "Every x Month(s)"
+
+#, fuzzy
+msgid "cal_recurrence_until"
+msgstr "Recurrence End"
+
+#, fuzzy
+msgid "cal_recurrence_until_count"
+msgstr "Fixed Number of Appointments"
+
+#, fuzzy
+msgid "cal_recurrence_until_end_date"
+msgstr "Repeat Until End Date"
+
+#, fuzzy
+msgid "cal_recurrence_week_interval"
+msgstr "Every x Week(s)"
+
+#, fuzzy
+msgid "cal_recurrence_year_interval"
+msgstr "Every x Year(s)"
+
+msgid "cal_recurrences"
+msgstr "Upprepar"
+
+msgid "cal_reg_register"
+msgstr "Logga in"
+
+msgid "cal_reg_registered"
+msgstr "Du har registrerats för detta möte."
+
+msgid "cal_reg_registered_users"
+msgstr "Registrerade användare"
+
+msgid "cal_reg_unregister"
+msgstr "Logga ut"
+
+msgid "cal_reg_unregistered"
+msgstr "Du har blivit avregistrerad."
+
+msgid "cal_registrations"
+msgstr "Registrering av utnämningar"
+
+msgid "cal_remote_url"
+msgstr "URL för kalendern"
+
+msgid "cal_repeat_until"
+msgstr "Upprepa tills"
+
+msgid "cal_repo_obj"
+msgstr "Magasinobjekt"
+
+msgid "cal_responsible"
+msgstr "Ansvarsfull"
+
+msgid "cal_save_responsible_users"
+msgstr "Rädda ansvariga medlemmar"
+
+msgid "cal_search"
+msgstr "Sökord"
+
+msgid "cal_search_info_share"
+msgstr "Ange namnet på den person/roll du vill dela denna kalender med."
+
+msgid "cal_second"
+msgstr "Sekund"
+
+msgid "cal_server_tz"
+msgstr "Serverns tidszon"
+
+msgid "cal_sess_info"
+msgstr "Information om sessionen"
+
+msgid "cal_setting_global_crs_act"
+msgstr "Kurskalender"
+
+msgid "cal_setting_global_crs_act_info"
+msgstr "I nyskapade kurser är kalendern aktiverad som standard."
+
+msgid "cal_setting_global_crs_vis"
+msgstr "Kalenderplatta"
+
+msgid "cal_setting_global_crs_vis_info"
+msgstr "Kurskalendern visas som standard som ett block på fliken \"Innehåll\"."
+
+msgid "cal_setting_global_grp_act"
+msgstr "Gruppens kalender"
+
+msgid "cal_setting_global_grp_act_info"
+msgstr "I nybildade grupper är kalendern aktiverad som standard."
+
+msgid "cal_setting_global_grp_vis"
+msgstr "Kalenderplatta"
+
+msgid "cal_setting_global_grp_vis_info"
+msgstr "Gruppkalendern visas som standard som ett block på fliken \"Innehåll\"."
+
+msgid "cal_setting_global_vis_repos"
+msgstr "Visa i magasinobjekt"
+
+msgid "cal_share"
+msgstr "Släpp"
+
+msgid "cal_share_accept"
+msgstr "Acceptera inbjudan"
+
+msgid "cal_share_cal"
+msgstr "Dela kalender (läs åtkomst)"
+
+msgid "cal_share_cal_editable"
+msgstr "Dela kalender (läs- och skrivåtkomst)"
+
+msgid "cal_share_decline"
+msgstr "Avvisa inbjudan"
+
+msgid "cal_share_search_header"
+msgstr "Dela kalender"
+
+msgid "cal_share_search_role_header"
+msgstr "Val av roll"
+
+msgid "cal_share_search_usr_header"
+msgstr "Användarval"
+
+msgid "cal_shared_access_read_only"
+msgstr " Endast läsbehörighet"
+
+msgid "cal_shared_access_read_write"
+msgstr "Läs- och skrivåtkomst"
+
+msgid "cal_shared_access_table_col"
+msgstr "Tillgång"
+
+msgid "cal_shared_calendars"
+msgstr "Dela kalender (inbjudningar)"
+
+msgid "cal_shared_header"
+msgstr "Dela kalender för"
+
+msgid "cal_shared_selected_usr"
+msgstr "Kalendern har släppts för de valda användarna/rollerna."
+
+msgid "cal_show_weeks"
+msgstr "Visa veckokolumn"
+
+msgid "cal_show_weeks_info"
+msgstr "Visar veckorna i sidblocket \"Kalender\"."
+
+msgid "cal_start"
+msgstr "Start"
+
+msgid "cal_subscription"
+msgstr "Prenumerera"
+
+msgid "cal_subscription_header"
+msgstr "Kalenderadress"
+
+msgid "cal_subscription_info"
+msgstr "Använd någon av följande adresser för att komma åt din kalender från andra program. Du kan kopiera och klistra in den här adressen i vilken kalender som helst som stöder iCal-formatet. Google Kalender har inte stöd för iCal-filer som är större än 1 MB. N"
+
+msgid "cal_subscription_url"
+msgstr "URL för kalender"
+
+msgid "cal_sync_cache"
+msgstr "Utnämningscache"
+
+msgid "cal_sync_cache_info"
+msgstr "Om aktiverat uppdateras kalendermöten endast var x:e minut för synkronisering med externa kalendrar."
+
+msgid "cal_sync_disabled"
+msgstr "Avstängd"
+
+msgid "cal_sync_enabled"
+msgstr "Kopplad på"
+
+msgid "cal_table_categories"
+msgstr "Urval av kalender"
+
+msgid "cal_task_completion"
+msgstr "Komplettering"
+
+msgid "cal_third"
+msgstr "Tredjedelar"
+
+msgid "cal_time_format_info"
+msgstr "Välj ett format för inmatning och visning av tiden."
+
+msgid "cal_timezone_info"
+msgstr "Välj närmaste stad i din tidszon för att visa möten i ILIAS."
+
+msgid "cal_type_crs"
+msgstr "Kurskalender"
+
+msgid "cal_type_exc"
+msgstr "Träningskalender"
+
+msgid "cal_type_grp"
+msgstr "Gruppens kalender"
+
+msgid "cal_type_info"
+msgstr "Välj kalendertyp. \"Offentliga kalendrar\" är synliga för alla användare."
+
+msgid "cal_type_local"
+msgstr "Lokal kalender"
+
+msgid "cal_type_personal"
+msgstr "Privat kalender"
+
+msgid "cal_type_remote"
+msgstr "Webbkalender"
+
+msgid "cal_type_rl"
+msgstr "Platsen för kalendern"
+
+msgid "cal_type_sess"
+msgstr "Möteskalender"
+
+msgid "cal_type_system"
+msgstr "Publik kalender"
+
+msgid "cal_type_tals"
+msgstr "Talks"
+
+msgid "cal_unshare_cal"
+msgstr "End release"
+
+msgid "cal_unshared_selected_usr"
+msgstr "Frigivningen för de utvalda användarna/rollerna har avslutats."
+
+msgid "cal_upcoming_events_header"
+msgstr "Framtida datum"
+
+msgid "cal_user_date_format"
+msgstr "Datumformat för indata"
+
+msgid "cal_user_notification"
+msgstr "Individuell anmälan"
+
+msgid "cal_user_notification_info"
+msgstr "Ett e-postmeddelande med information om mötet kommer att skickas till de ILIAS-inloggningsnamn eller e-postadresser som anges här."
+
+msgid "cal_user_settings"
+msgstr "Inställningar för kalender"
+
+msgid "cal_user_time_format"
+msgstr "Tidsformat"
+
+msgid "cal_user_timezone"
+msgstr "ILIAS tidszon"
+
+msgid "cal_usr_info"
+msgstr "Information om mötet"
+
+msgid "cal_usr_show_weeks"
+msgstr "Visa veckokolumn"
+
+msgid "cal_usr_show_weeks_info"
+msgstr "Visar veckorna i sidblocket \"Kalender\"."
+
+msgid "cal_webcal_sync"
+msgstr "Synkronisering av externa kalendrar"
+
+msgid "cal_webcal_sync_info"
+msgstr "Om aktiverat synkroniseras externa kalendrar var x:e timme."
+
+msgid "cal_week_abbrev"
+msgstr "KW"
+
+msgid "cal_week_month_view"
+msgstr "Inställningar för vecka/månad"
+
+msgid "cal_week_overview"
+msgstr "Veckovis översikt"
+
+msgid "cal_week_s"
+msgstr "Vecka(r)"
+
+msgid "cal_week_selection"
+msgstr "Veckovis urval"
+
+msgid "cal_week_start"
+msgstr "Start på veckan"
+
+msgid "cal_weekday"
+msgstr "Veckodag"
+
+msgid "cal_weekly"
+msgstr "Veckovis"
+
+msgid "cal_where"
+msgstr "Plats"
+
+msgid "cal_year_s"
+msgstr "År"
+
+msgid "cal_yearly"
+msgstr "Årlig"
+
+#, fuzzy
+msgid "cal_yearly_by_date"
+msgstr "Yearly by Date"
+
+#, fuzzy
+msgid "cal_yearly_by_day"
+msgstr "Yearly by Day"
+
+#, fuzzy
+msgid "consultation_hours_block_title"
+msgstr "Consultation Hours"
+
+msgid "crs_cal_activation_end"
+msgstr "Kursens slut"
+
+msgid "crs_cal_activation_start"
+msgstr "Kursstart"
+
+msgid "crs_cal_end"
+msgstr "Kursen avslutas"
+
+msgid "crs_cal_reg_end"
+msgstr "Filing slut"
+
+msgid "crs_cal_reg_start"
+msgstr "Registrering börjar"
+
+msgid "crs_cal_start"
+msgstr "Kursen startar"
+
+msgid "date_format"
+msgstr "T.M.J H"
+
+msgid "end_date"
+msgstr "Datum slut"
+
+msgid "err_end_before_start"
+msgstr "Slutdatumet får inte vara före startdatumet."
+
+msgid "err_missing_title"
+msgstr "Vänligen ange en titel."
+
+msgid "free"
+msgstr "fri"
+
+msgid "grp_cal_end"
+msgstr "Gruppen avslutar"
+
+msgid "grp_cal_reg_end"
+msgstr "Slut på registrering"
+
+msgid "grp_cal_reg_start"
+msgstr "Start av registrering"
+
+msgid "grp_cal_start"
+msgstr "Gruppen startar"
+
+msgid "ical_export"
+msgstr "iCal export"
+
+msgid "keep"
+msgstr "unchanged"
+
+msgid "keyword"
+msgstr " nyckelord"
+
+msgid "more"
+msgstr "vidare"
+
+msgid "r_14"
+msgstr "Var 14:e dag"
+
+msgid "r_4_weeks"
+msgstr "Var 4:e vecka"
+
+msgid "remote_pass_info"
+msgstr "Vänligen ange tillträdesuppgifter i webbkalendern om tillträdet är skyddat."
+
+msgid "to"
+msgstr "till"
+
+msgid "today"
+msgstr "Idag"
+
+msgid "week"
+msgstr "Vecka"
+
+msgid "wk_short"
+msgstr "KW"
+
+msgid "year"
+msgstr "År"

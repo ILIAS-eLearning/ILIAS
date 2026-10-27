@@ -1,0 +1,1308 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: dateplaner\n"
+
+msgid "Fr_long"
+msgstr "Viernes"
+
+msgid "Fr_short"
+msgstr "Vi"
+
+msgid "Mo_long"
+msgstr "Lunes"
+
+msgid "Mo_short"
+msgstr "Lu"
+
+msgid "Sa_long"
+msgstr "Sábado"
+
+msgid "Sa_short"
+msgstr "Sá"
+
+msgid "Su_long"
+msgstr "Domingo"
+
+msgid "Su_short"
+msgstr "Do"
+
+msgid "Text"
+msgstr "Texto"
+
+msgid "Th_long"
+msgstr "Jueves"
+
+msgid "Th_short"
+msgstr "Ju"
+
+msgid "Tu_long"
+msgstr "Martes"
+
+msgid "Tu_short"
+msgstr "Ma"
+
+msgid "We_long"
+msgstr "Miércoles"
+
+msgid "We_short"
+msgstr "Mi"
+
+msgid "add_appointment"
+msgstr "Añadir Cita"
+
+msgid "app_consultation_hours"
+msgstr "Horario de tutoría"
+
+msgid "app_day"
+msgstr "Día"
+
+msgid "app_month"
+msgstr "Mes"
+
+msgid "app_week"
+msgstr "Semana"
+
+msgid "back_to_crs"
+msgstr "Ir al curso"
+
+msgid "back_to_grp"
+msgstr "Ir al grupo"
+
+msgid "back_to_pd"
+msgstr "Volver"
+
+msgid "btn_ical"
+msgstr "Suscribirse"
+
+msgid "c_date"
+msgstr "Crear evento"
+
+msgid "cal_add_appointment"
+msgstr "Crear cita"
+
+msgid "cal_add_calendar"
+msgstr "Añadir calendario"
+
+msgid "cal_add_category"
+msgstr "Crear nuevo calendario"
+
+msgid "cal_add_milestone"
+msgstr "Añadir hito"
+
+msgid "cal_adm_notification_info"
+msgstr "Elija esta opción para enviar notificaciones opcionales por correo electrónico a los participantes del curso/grupo sobre citas modificadas."
+
+msgid "cal_adm_notification_user_info"
+msgstr "Elija esta opción para enviar notificaciones opcionales por correo electrónico a los usuarios seleccionados."
+
+msgid "cal_agenda"
+msgstr "Agenda"
+
+msgid "cal_all_day"
+msgstr "Todo el día"
+
+msgid "cal_app_info"
+msgstr "Información de la cita"
+
+msgid "cal_app_other_materials_num"
+msgstr "Ver otros materiales"
+
+msgid "cal_appointment_notifications"
+msgstr "Notification"
+
+msgid "cal_appointments"
+msgstr "Cita(s)"
+
+msgid "cal_apps"
+msgstr "Número de citas"
+
+msgid "cal_assigned_appointments"
+msgstr "Citas asignadas"
+
+msgid "cal_back_to_cal"
+msgstr "Volver al calendario"
+
+msgid "cal_back_to_list"
+msgstr "Volver a la lista"
+
+msgid "cal_back_to_search"
+msgstr "Volver a la búsqueda"
+
+msgid "cal_batch_file_downloads"
+msgstr "Descarga por lotes de archivos del calendario"
+
+msgid "cal_batch_file_downloads_info"
+msgstr "Mostrar un botón en los calendarios para permitir que todos los archivos relacionados con la vista actual del calendario/cita se descarguen por lotes."
+
+msgid "cal_belongs_to"
+msgstr "Belongs to Calendar"
+
+msgid "cal_book_free"
+msgstr "disponible"
+
+msgid "cal_booked_out"
+msgstr "completo"
+
+msgid "cal_booking_cancellation_body"
+msgstr "su cita con %s ha sido cancelada."
+
+msgid "cal_booking_cancellation_subject"
+msgstr "La cita \"%s\" ha sido cancelada"
+
+msgid "cal_booking_cancellation_user"
+msgstr "Esta es una copia del correo original enviado al usuario:"
+
+msgid "cal_booking_confirmation_body"
+msgstr "Su cita con %s ha sido reservada."
+
+msgid "cal_booking_confirmation_link"
+msgstr "Enlace a la cita:"
+
+msgid "cal_booking_confirmation_subject"
+msgstr "La cita \"%s\" ha sido reservada"
+
+msgid "cal_booking_confirmation_user"
+msgstr "Esta es una copia del correo original enviado al usuario:"
+
+msgid "cal_booking_confirmed"
+msgstr "La cita se ha reservado correctamente."
+
+msgid "cal_booking_failed_info"
+msgstr "Esta cita está completa. Por favor, elija otra cita."
+
+msgid "cal_booking_manager_confirmation_body"
+msgstr "%s ha reservado una cita con %s."
+
+msgid "cal_booking_owner_confirmation_body"
+msgstr "%s ha reservado una cita con usted."
+
+msgid "cal_cache"
+msgstr "Caché del calendario"
+
+msgid "cal_cache_disabled"
+msgstr "Desactivado"
+
+msgid "cal_cache_enabled"
+msgstr "Habilitado"
+
+msgid "cal_cache_info"
+msgstr "Si se activa, las citas del calendario personal y las citas en el repositorio se calculan solo cada x-minutos."
+
+msgid "cal_cache_settings"
+msgstr "Caché"
+
+msgid "cal_cal_deleted"
+msgstr "Los calendarios han sido eliminados"
+
+msgid "cal_cal_shared_with"
+msgstr "Usuarios con los que se comparte el calendario"
+
+msgid "cal_cal_sync_success"
+msgstr "Calendario sincronizado con éxito"
+
+msgid "cal_cal_synchronize"
+msgstr "Sincronizar calendario"
+
+msgid "cal_cal_type"
+msgstr "Tipo de calendario"
+
+msgid "cal_calendar_color"
+msgstr "Color"
+
+msgid "cal_calendar_download"
+msgstr "Archivos de calendario"
+
+msgid "cal_calendar_name"
+msgstr "Nombre del calendario"
+
+msgid "cal_calendar_subscription_modal_title"
+msgstr "Suscripción al calendario"
+
+msgid "cal_cancel_booking"
+msgstr "Cancelar reserva"
+
+msgid "cal_cancel_booking_confirmed"
+msgstr "La reserva ha sido cancelada con éxito."
+
+msgid "cal_cancel_booking_info"
+msgstr "Por favor, confirme la cancelación de esta reserva."
+
+msgid "cal_category_selection"
+msgstr "Selección de calendario"
+
+msgid "cal_cg_notification"
+msgstr "Notificación de curso/grupo"
+
+msgid "cal_cg_registration_info"
+msgstr "Ofrece a los usuarios la posibilidad de inscribirse en citas de cursos y grupos."
+
+msgid "cal_cg_registrations"
+msgstr "Inscripción para citas de curso/grupo"
+
+msgid "cal_ch_add_grp"
+msgstr "Crear nuevo grupo de horas de consulta"
+
+msgid "cal_ch_add_sequence"
+msgstr "Añadir secuencia de horas de consulta"
+
+msgid "cal_ch_app_bookings"
+msgstr "Reservas"
+
+msgid "cal_ch_app_grp"
+msgstr "Grupos de horas de consulta"
+
+msgid "cal_ch_app_list"
+msgstr "Citas de horas de consulta"
+
+msgid "cal_ch_assign_participants"
+msgstr "Asignar usuarios"
+
+msgid "cal_ch_assigned_apps"
+msgstr "Número de citas"
+
+msgid "cal_ch_book"
+msgstr "Reservar cita"
+
+msgid "cal_ch_booking"
+msgstr "Reserva de recursos"
+
+msgid "cal_ch_booking_col_comments"
+msgstr "Comentarios"
+
+msgid "cal_ch_booking_comment"
+msgstr "Comentario:"
+
+msgid "cal_ch_booking_link"
+msgstr "Enlace a las horas de consulta:"
+
+msgid "cal_ch_booking_message_tbl"
+msgstr "Comentario"
+
+msgid "cal_ch_booking_num_available"
+msgstr "Plazas disponibles"
+
+msgid "cal_ch_booking_num_free_short"
+msgstr "%s libres"
+
+msgid "cal_ch_booking_other_participants"
+msgstr "Otros participantes:"
+
+msgid "cal_ch_booking_owner"
+msgstr "Propietario"
+
+msgid "cal_ch_booking_participants"
+msgstr "Participantes"
+
+msgid "cal_ch_booking_reminder_body"
+msgstr "su cita con \"%s\" comienza pronto."
+
+msgid "cal_ch_booking_reminder_subject"
+msgstr "Recordatorio para \"%s\""
+
+msgid "cal_ch_booking_start"
+msgstr "Inicio"
+
+msgid "cal_ch_booking_your_comment"
+msgstr "Su comentario:"
+
+msgid "cal_ch_bookings"
+msgstr "Participantes"
+
+msgid "cal_ch_bookings_tbl"
+msgstr "Citas reservadas"
+
+msgid "cal_ch_cancel_booking"
+msgstr "Cancelar reserva"
+
+msgid "cal_ch_cancel_booking_info"
+msgstr "‘Cancelar reserva’ envía correos electrónicos de notificación a los usuarios. Si no desea notificar a los usuarios, elija la opción ‘Eliminar reserva’."
+
+msgid "cal_ch_cancel_booking_sure"
+msgstr "¿Realmente desea cancelar las siguientes reservas?"
+
+msgid "cal_ch_canceled_bookings"
+msgstr "Las reservas seleccionadas han sido canceladas."
+
+msgid "cal_ch_ch"
+msgstr "Horas de consulta"
+
+msgid "cal_ch_cron_reminder"
+msgstr "Enviar recordatorio de horas de consulta"
+
+msgid "cal_ch_cron_reminder_days"
+msgstr "Número de días"
+
+msgid "cal_ch_cron_reminder_info"
+msgstr "Si se habilita, se enviarán correos electrónicos de notificación sobre los próximos eventos de horas de consulta."
+
+msgid "cal_ch_current_booking_comment"
+msgstr "Comentario"
+
+msgid "cal_ch_current_bookings"
+msgstr "Reservas actuales"
+
+msgid "cal_ch_deadline"
+msgstr "Fecha límite de registro"
+
+msgid "cal_ch_deadline_info"
+msgstr "Por favor, defina el número de horas hasta que el registro sea bloqueado."
+
+msgid "cal_ch_delete_app_booking_info"
+msgstr "Las siguientes citas tienen reservas existentes. Si elimina estas citas, los usuarios no serán notificados."
+
+msgid "cal_ch_delete_booking"
+msgstr "Eliminar reserva"
+
+msgid "cal_ch_delete_booking_info"
+msgstr "‘Eliminar reserva’ no notificará a los usuarios por correo electrónico. Si desea notificar a los usuarios, por favor elija la acción ‘Cancelar reserva’."
+
+msgid "cal_ch_delete_booking_sure"
+msgstr "¿Realmente desea eliminar las siguientes reservas?"
+
+msgid "cal_ch_deleted_bookings"
+msgstr "Las reservas seleccionadas han sido eliminadas."
+
+msgid "cal_ch_duration"
+msgstr "Duración de cada cita"
+
+msgid "cal_ch_export_apps"
+msgstr "Citas reservadas"
+
+msgid "cal_ch_field_ch"
+msgstr "Citas de horario de consulta"
+
+msgid "cal_ch_form"
+msgstr "Habilitar horarios de consulta"
+
+msgid "cal_ch_form_header"
+msgstr "Horarios de consulta"
+
+msgid "cal_ch_form_info"
+msgstr "Esta opción permite la gestión de horarios de consulta personales en el calendario."
+
+msgid "cal_ch_free_of_available"
+msgstr "%s de %s"
+
+msgid "cal_ch_grp_add_tbl"
+msgstr "Crear nuevo grupo de horarios de consulta"
+
+msgid "cal_ch_grp_delete_sure"
+msgstr "¿Realmente desea eliminar los siguientes grupos de horarios de consulta?"
+
+msgid "cal_ch_grp_header"
+msgstr "Grupo de horarios de consulta"
+
+msgid "cal_ch_grp_multiple"
+msgstr "Reservas por usuario"
+
+msgid "cal_ch_grp_multiple_info"
+msgstr "Puede definir el número máximo de reservas por usuario."
+
+msgid "cal_ch_grp_no_assignment"
+msgstr "-- Sin asignar --"
+
+msgid "cal_ch_grp_selection"
+msgstr "Asignación a grupos de horarios de consulta"
+
+msgid "cal_ch_grp_update_tbl"
+msgstr "Editar grupo de horarios de consulta"
+
+msgid "cal_ch_grps"
+msgstr "Grupos de horarios de consulta"
+
+msgid "cal_ch_manager"
+msgstr "Gestor de horarios de consulta"
+
+msgid "cal_ch_manager_info"
+msgstr "Nombre de usuario de la persona que gestionará sus horarios de consulta."
+
+msgid "cal_ch_max_books"
+msgstr "Reservas por usuario"
+
+msgid "cal_ch_minutes"
+msgstr "Duración (min)"
+
+msgid "cal_ch_multi_edit_sequence"
+msgstr "Editar múltiples citas"
+
+msgid "cal_ch_num_appointments"
+msgstr "Número de citas"
+
+msgid "cal_ch_num_appointments_info"
+msgstr "Por favor, defina el número de citas consecutivas."
+
+msgid "cal_ch_num_bookings"
+msgstr "Reserva por cita"
+
+msgid "cal_ch_personal_book"
+msgstr "Reservas personales"
+
+msgid "cal_ch_personal_ch"
+msgstr "Horarios de consulta personales"
+
+msgid "cal_ch_reject_booking"
+msgstr "Cancelar reserva"
+
+msgid "cal_ch_send_mail"
+msgstr "Enviar correo electrónico"
+
+msgid "cal_ch_target_object"
+msgstr "Objeto del Repositorio"
+
+msgid "cal_ch_target_object_info"
+msgstr "Las horas de consulta se mostrarán en un bloque a la derecha del contenido del curso / grupo. Para restringir la visualización de las horas de consulta a cursos o grupos específicos, introduzca el Ref-ID de dichos objetos. Encontrará el Ref-ID en la URL de los respectivos objetos. Añada más de un Ref-ID separado por comas. Independientemente de esto, las horas de consulta también pueden aparecer en sus carteras electrónicas (e-portfolios)."
+
+msgid "cal_ch_unknown_repository_object"
+msgstr "El ref-id del objeto del repositorio proporcionado no es válido."
+
+msgid "cal_ch_unknown_user"
+msgstr "El nombre de usuario proporcionado no coincide con ningún usuario."
+
+msgid "cal_ch_user_assignment_failed_info"
+msgstr "Los siguientes usuarios no pudieron ser asignados a las citas, ya que se ha superado el número máximo de reservas."
+
+msgid "cal_ch_vm_period_all"
+msgstr "Todos"
+
+msgid "cal_ch_vm_period_past"
+msgstr "Pasados"
+
+msgid "cal_ch_vm_period_upcoming"
+msgstr "Próximos"
+
+msgid "cal_ch_vm_status_all"
+msgstr "Todos"
+
+msgid "cal_ch_vm_status_booked"
+msgstr "Intervalos reservados"
+
+msgid "cal_ch_vm_status_open"
+msgstr "Intervalos abiertos"
+
+msgid "cal_change_calendar_view"
+msgstr "Cambiar vista del calendario"
+
+msgid "cal_change_responsible_users"
+msgstr "Cambiar usuarios responsables"
+
+msgid "cal_changed_events_header"
+msgstr "Citas nuevas y modificadas"
+
+msgid "cal_confirm_booking"
+msgstr "Confirmar reserva"
+
+msgid "cal_confirm_booking_info"
+msgstr "Por favor, confirme la reserva para esta cita."
+
+msgid "cal_confirm_reg_info"
+msgstr "Por favor, confirme la inscripción para esta cita."
+
+msgid "cal_confirm_unreg_info"
+msgstr "Por favor, confirme la cancelación de esta inscripción."
+
+msgid "cal_consultation_hours_for"
+msgstr "Horas de consulta para"
+
+msgid "cal_consultation_hours_for_user"
+msgstr "Horas de consulta para %1"
+
+msgid "cal_contained_in"
+msgstr "Contenido en"
+
+msgid "cal_create"
+msgstr "Crear"
+
+msgid "cal_created_appointment"
+msgstr "Se ha creado una nueva cita."
+
+msgid "cal_created_milestone"
+msgstr "Hito añadido."
+
+msgid "cal_created_milestone_resp_q"
+msgstr "Hito añadido. Por favor, seleccione los usuarios responsables de cumplir el hito."
+
+msgid "cal_cronjob_remote_description"
+msgstr "Si se activa, las citas del tipo de calendario \"Calendario web\" se sincronizarán automáticamente tras el intervalo de tiempo especificado."
+
+msgid "cal_cronjob_remote_title"
+msgstr "Sincronización de calendario externo"
+
+msgid "cal_crs_info"
+msgstr "Información del curso"
+
+msgid "cal_crs_new_notification_body"
+msgstr "se ha creado una nueva cita en el curso \"%s\"."
+
+msgid "cal_crs_new_notification_sub"
+msgstr "Nueva cita en el curso \"%s\""
+
+msgid "cal_crs_notification_body"
+msgstr "se ha modificado una cita en el curso \"%s\"."
+
+msgid "cal_crs_notification_sub"
+msgstr "Cita cambiada en el curso \"%s\""
+
+msgid "cal_crs_timing_end"
+msgstr "Fin sugerido"
+
+msgid "cal_crs_timing_start"
+msgstr "Inicio sugerido"
+
+msgid "cal_daily"
+msgstr "Diariamente"
+
+msgid "cal_date_and_time"
+msgstr "Date and Time"
+
+msgid "cal_date_booked"
+msgstr "reservado"
+
+msgid "cal_date_format_info"
+msgstr "Elija un formato para la introducción de fechas."
+
+msgid "cal_date_time_title"
+msgstr "Date and Time"
+
+msgid "cal_day_end"
+msgstr "Fin del día"
+
+msgid "cal_day_of_month"
+msgstr "Día del mes"
+
+msgid "cal_day_overview"
+msgstr "Vista diaria"
+
+msgid "cal_day_s"
+msgstr "Día(s)"
+
+msgid "cal_day_selection"
+msgstr "Seleccionar día"
+
+msgid "cal_day_start"
+msgstr "Inicio del día"
+
+msgid "cal_day_week_view"
+msgstr "Ajustes de vista Día/Semana"
+
+msgid "cal_deadline"
+msgstr "Fecha límite"
+
+msgid "cal_def_date_format"
+msgstr "Formato de fecha predeterminado"
+
+msgid "cal_def_date_format_info"
+msgstr "Elija un formato para la introducción de fechas."
+
+msgid "cal_def_day_end"
+msgstr "Fin del día predeterminado"
+
+msgid "cal_def_day_start"
+msgstr "Inicio del día predeterminado"
+
+msgid "cal_def_show_weeks"
+msgstr "Mostrar semanas"
+
+msgid "cal_def_time_format"
+msgstr "Formato de hora predeterminado"
+
+msgid "cal_def_time_format_info"
+msgstr "Elija un formato para la introducción y presentación de la hora."
+
+msgid "cal_def_timezone"
+msgstr "Zona horaria predeterminada"
+
+msgid "cal_def_timezone_info"
+msgstr "Elija una zona horaria predeterminada para la presentación de citas."
+
+msgid "cal_def_view"
+msgstr "Vista de calendario predeterminada"
+
+msgid "cal_def_week_start"
+msgstr "Inicio de semana predeterminado"
+
+msgid "cal_default_calendar"
+msgstr "Citas personales"
+
+msgid "cal_default_settings"
+msgstr "Ajustes predeterminados"
+
+msgid "cal_del_cal_sure"
+msgstr "¿Realmente desea eliminar los calendarios seleccionados?"
+
+msgid "cal_delete_app_sure"
+msgstr "¿Realmente desea eliminar las siguientes citas?"
+
+msgid "cal_delete_booking_info"
+msgstr "Por favor, confirme la eliminación de esta reserva"
+
+msgid "cal_delete_cal"
+msgstr "Eliminar calendario"
+
+msgid "cal_delete_recurrence_rule"
+msgstr "Eliminar serie de citas"
+
+msgid "cal_delete_recurrences"
+msgstr "Eliminar todas las recurrencias"
+
+msgid "cal_delete_single"
+msgstr "Eliminar solo esta cita"
+
+msgid "cal_deleted_app"
+msgstr "Las citas seleccionadas han sido eliminadas."
+
+msgid "cal_details"
+msgstr "Detalles de la cita"
+
+msgid "cal_down_no_files"
+msgstr "¡Nada para descargar! Los eventos listados no contienen ningún archivo."
+
+msgid "cal_download_all_files"
+msgstr "Descargar todos los archivos"
+
+msgid "cal_download_files"
+msgstr "Descargar archivos"
+
+msgid "cal_download_files_started"
+msgstr "Se está creando un archivo ZIP con todos los archivos de descarga en segundo plano. Puede ver el estado de sus procesos en segundo plano en la parte superior derecha, en el Centro de Notificaciones. También puede descargar el archivo ZIP allí."
+
+msgid "cal_dstart_dend_warn"
+msgstr "Por favor, compruebe su entrada. El inicio de un día debe ser antes del final del día."
+
+msgid "cal_duration"
+msgstr "Duración"
+
+msgid "cal_duration_end"
+msgstr "End"
+
+msgid "cal_duration_start"
+msgstr "Start"
+
+msgid "cal_edit_appointment"
+msgstr "Editar cita"
+
+msgid "cal_edit_category"
+msgstr "Editar calendario"
+
+msgid "cal_edit_milestone"
+msgstr "Editar hito"
+
+msgid "cal_edit_recurrences"
+msgstr "Editar todas las citas"
+
+msgid "cal_edit_single"
+msgstr "Editar esta cita"
+
+msgid "cal_edit_single_or_all_info"
+msgstr "¿Desea editar solo esta cita o todas las de su serie?"
+
+msgid "cal_enable_group_milestones"
+msgstr "Habilitar hitos"
+
+msgid "cal_enable_group_milestones_desc"
+msgstr "Esta opción habilita la planificación de hitos en el calendario."
+
+msgid "cal_err_invalid_notification_rcps"
+msgstr "La lista de destinatarios de la notificación no es válida. Por favor, elija solo nombres de cuentas de usuario de ILIAS o direcciones de correo electrónico válidas."
+
+msgid "cal_every"
+msgstr "Cada:"
+
+msgid "cal_exc_deadline"
+msgstr "Fecha límite"
+
+msgid "cal_exc_info"
+msgstr "Información de la tarea"
+
+msgid "cal_exc_inst_files"
+msgstr "Archivos de instrucciones"
+
+msgid "cal_exc_open"
+msgstr "Abrir tarea"
+
+msgid "cal_exc_peer_review_deadline"
+msgstr "Fecha límite de feedback"
+
+msgid "cal_export_timezone"
+msgstr "Zona horaria para la exportación del calendario"
+
+msgid "cal_export_timezone_tz"
+msgstr "Usar zona horaria de ILIAS"
+
+msgid "cal_export_timezone_utc"
+msgstr "Usar zona horaria UTC (compatible con MS Outlook)"
+
+msgid "cal_fifth"
+msgstr "Quinto"
+
+msgid "cal_first"
+msgstr "Primero"
+
+msgid "cal_fourth"
+msgstr "Cuarto"
+
+msgid "cal_fullday"
+msgstr "Fecha/Hora"
+
+msgid "cal_fullday_title"
+msgstr "Evento de todo el día"
+
+msgid "cal_global_settings"
+msgstr "Configuración Global"
+
+msgid "cal_grp_curr_crs"
+msgstr "Curso actual"
+
+msgid "cal_grp_curr_crs_cons"
+msgstr "Horario de tutorías"
+
+msgid "cal_grp_curr_grp"
+msgstr "Grupo actual"
+
+msgid "cal_grp_info"
+msgstr "Información del grupo"
+
+msgid "cal_grp_new_notification_body"
+msgstr "se ha creado una nueva cita en el grupo \"%s\"."
+
+msgid "cal_grp_new_notification_sub"
+msgstr "Nueva cita en el grupo \"%s\""
+
+msgid "cal_grp_notification_body"
+msgstr "se ha modificado una cita en el grupo \"%s\"."
+
+msgid "cal_grp_notification_sub"
+msgstr "Cita modificada en el grupo \"%s\""
+
+msgid "cal_grp_others"
+msgstr "Otros"
+
+msgid "cal_grp_personal"
+msgstr "Personal"
+
+msgid "cal_ical_infoscreen"
+msgstr "Suscribirse"
+
+msgid "cal_ical_url"
+msgstr "URL de iCal"
+
+msgid "cal_ical_url_google"
+msgstr "URL de iCal para Google Calendar"
+
+msgid "cal_import_appointments"
+msgstr "Importar citas"
+
+msgid "cal_import_file"
+msgstr "Importar archivo"
+
+msgid "cal_import_file_info"
+msgstr "Elija el archivo que contiene sus citas del calendario."
+
+msgid "cal_import_tbl"
+msgstr "Importar citas"
+
+msgid "cal_imported_success"
+msgstr "Importadas %1$s citas."
+
+msgid "cal_in"
+msgstr "en"
+
+msgid "cal_last"
+msgstr "Último"
+
+msgid "cal_list"
+msgstr "Lista"
+
+msgid "cal_mail_notification_body"
+msgstr "ha sido invitado a una cita."
+
+msgid "cal_mail_notification_subject"
+msgstr "Invitación a cita: \"%s\""
+
+msgid "cal_manage"
+msgstr "Gestionar calendarios"
+
+msgid "cal_materials"
+msgstr "Materiales"
+
+msgid "cal_milestone_settings"
+msgstr "Hitos"
+
+msgid "cal_month_overview"
+msgstr "Vista mensual"
+
+msgid "cal_month_s"
+msgstr "Mes(es)"
+
+msgid "cal_month_selection"
+msgstr "Seleccionar mes"
+
+msgid "cal_monthly"
+msgstr "Mensual"
+
+msgid "cal_monthly_by_date"
+msgstr "Monthly by Date"
+
+msgid "cal_monthly_by_day"
+msgstr "Monthly by Day"
+
+msgid "cal_ms_details"
+msgstr "Detalles del hito"
+
+msgid "cal_ms_users_responsible"
+msgstr "Usuarios responsables"
+
+msgid "cal_new_app"
+msgstr "Nueva cita"
+
+msgid "cal_new_ms"
+msgstr "Nuevo hito"
+
+msgid "cal_no_ending"
+msgstr "Sin fecha de finalización"
+
+msgid "cal_no_events_block"
+msgstr "No hay fechas disponibles para usted."
+
+msgid "cal_no_events_info"
+msgstr "No se han encontrado eventos para el período de tiempo seleccionado."
+
+msgid "cal_no_recurrence"
+msgstr "Sin recurrencia"
+
+msgid "cal_notification"
+msgstr "Notificación por correo"
+
+msgid "cal_notification_crsgrp"
+msgstr "Notificación para participantes del curso/grupo"
+
+msgid "cal_notification_info"
+msgstr "Si se habilita, todos los participantes del curso/grupo serán notificados por correo sobre esta cita."
+
+msgid "cal_notification_users"
+msgstr "Notificación para usuarios seleccionados"
+
+msgid "cal_on"
+msgstr "El:"
+
+msgid "cal_on_the"
+msgstr "El día:"
+
+msgid "cal_open_calendar"
+msgstr "Abrir calendario"
+
+msgid "cal_origin"
+msgstr "Origen"
+
+msgid "cal_owner"
+msgstr "Propietario"
+
+msgid "cal_period"
+msgstr "Período"
+
+msgid "cal_rec_err_limit"
+msgstr "Por favor, introduzca un número válido de citas."
+
+msgid "cal_recurrence_confirm_deletion"
+msgstr "Por favor, decida si desea eliminar citas individuales o la serie completa de citas."
+
+msgid "cal_recurrence_count"
+msgstr "Number of Appointments"
+
+msgid "cal_recurrence_day_interval"
+msgstr "Every x Day(s)"
+
+msgid "cal_recurrence_end_date"
+msgstr "End Date"
+
+msgid "cal_recurrence_end_date_info"
+msgstr "Last possible date for an appointment."
+
+msgid "cal_recurrence_month_interval"
+msgstr "Every x Month(s)"
+
+msgid "cal_recurrence_until"
+msgstr "Recurrence End"
+
+msgid "cal_recurrence_until_count"
+msgstr "Fixed Number of Appointments"
+
+msgid "cal_recurrence_until_end_date"
+msgstr "Repeat Until End Date"
+
+msgid "cal_recurrence_week_interval"
+msgstr "Every x Week(s)"
+
+msgid "cal_recurrence_year_interval"
+msgstr "Every x Year(s)"
+
+msgid "cal_recurrences"
+msgstr "Recurrencias"
+
+msgid "cal_reg_register"
+msgstr "Registrar"
+
+msgid "cal_reg_registered"
+msgstr "Usted ha sido registrado."
+
+msgid "cal_reg_registered_users"
+msgstr "Usuarios registrados"
+
+msgid "cal_reg_unregister"
+msgstr "Darse de baja"
+
+msgid "cal_reg_unregistered"
+msgstr "Su registro ha sido cancelado."
+
+msgid "cal_registrations"
+msgstr "Registros de citas"
+
+msgid "cal_remote_url"
+msgstr "URL"
+
+msgid "cal_repeat_until"
+msgstr "Repetir hasta"
+
+msgid "cal_repo_obj"
+msgstr "Objetos del repositorio"
+
+msgid "cal_responsible"
+msgstr "Responsable"
+
+msgid "cal_save_responsible_users"
+msgstr "Guardar usuarios responsables"
+
+msgid "cal_search"
+msgstr "Término de búsqueda"
+
+msgid "cal_search_info_share"
+msgstr "Por favor, introduzca el nombre del usuario/rol deseado para compartir el calendario."
+
+msgid "cal_second"
+msgstr "Segundo"
+
+msgid "cal_server_tz"
+msgstr "Zona horaria del servidor"
+
+msgid "cal_sess_info"
+msgstr "Información de la sesión"
+
+msgid "cal_setting_global_crs_act"
+msgstr "Activación en cursos"
+
+msgid "cal_setting_global_crs_act_info"
+msgstr "Si se selecciona, el calendario se activa en los cursos por defecto. En cualquier caso, la activación del calendario se puede habilitar/deshabilitar en los ajustes del curso."
+
+msgid "cal_setting_global_crs_vis"
+msgstr "Mostrar en cursos"
+
+msgid "cal_setting_global_crs_vis_info"
+msgstr "Si se habilita, se muestra por defecto un bloque de calendario en los cursos. En cualquier caso, el bloque de calendario se puede habilitar/deshabilitar en los ajustes del curso."
+
+msgid "cal_setting_global_grp_act"
+msgstr "Activación en grupos"
+
+msgid "cal_setting_global_grp_act_info"
+msgstr "Si se selecciona, el calendario se activa en los grupos por defecto. En cualquier caso, la activación del calendario se puede habilitar/deshabilitar en los ajustes del grupo."
+
+msgid "cal_setting_global_grp_vis"
+msgstr "Mostrar en grupos"
+
+msgid "cal_setting_global_grp_vis_info"
+msgstr "Si se habilita, se muestra por defecto un bloque de calendario en los grupos. En cualquier caso, el bloque de calendario se puede habilitar/deshabilitar en los ajustes del grupo."
+
+msgid "cal_setting_global_vis_repos"
+msgstr "Calendario del repositorio"
+
+msgid "cal_share"
+msgstr "Compartir"
+
+msgid "cal_share_accept"
+msgstr "Aceptar invitación"
+
+msgid "cal_share_cal"
+msgstr "Compartir calendario (Solo lectura)"
+
+msgid "cal_share_cal_editable"
+msgstr "Compartir calendario (Lectura y escritura)"
+
+msgid "cal_share_decline"
+msgstr "Rechazar invitación"
+
+msgid "cal_share_search_header"
+msgstr "Compartir calendario"
+
+msgid "cal_share_search_role_header"
+msgstr "Selección de Roles"
+
+msgid "cal_share_search_usr_header"
+msgstr "Selección de Usuarios"
+
+msgid "cal_shared_access_read_only"
+msgstr "Solo lectura"
+
+msgid "cal_shared_access_read_write"
+msgstr "Lectura y escritura"
+
+msgid "cal_shared_access_table_col"
+msgstr "Acceso"
+
+msgid "cal_shared_calendars"
+msgstr "Calendarios compartidos (Invitaciones)"
+
+msgid "cal_shared_header"
+msgstr "Calendarios compartidos"
+
+msgid "cal_shared_selected_usr"
+msgstr "El calendario ha sido compartido con los usuarios/roles seleccionados."
+
+msgid "cal_show_weeks"
+msgstr "Mostrar semanas"
+
+msgid "cal_show_weeks_info"
+msgstr "Mostrar la columna de 'semanas' en el bloque lateral del calendario."
+
+msgid "cal_start"
+msgstr "Inicio"
+
+msgid "cal_subscription"
+msgstr "Suscripción"
+
+msgid "cal_subscription_header"
+msgstr "Dirección del calendario"
+
+msgid "cal_subscription_info"
+msgstr "Por favor, utilice la siguiente dirección para acceder a su calendario desde otras aplicaciones. Puede copiar y pegar esto en cualquier producto de calendario que sea compatible con el formato ical."
+
+msgid "cal_subscription_url"
+msgstr "URL del calendario:"
+
+msgid "cal_sync_cache"
+msgstr "Caché del calendario"
+
+msgid "cal_sync_cache_info"
+msgstr "Si se activa, las citas nuevas/modificadas del calendario se calculan solo cada x minutos."
+
+msgid "cal_sync_disabled"
+msgstr "Desactivado"
+
+msgid "cal_sync_enabled"
+msgstr "Activado"
+
+msgid "cal_table_categories"
+msgstr "Selección de calendario"
+
+msgid "cal_task_completion"
+msgstr "Finalización de tarea"
+
+msgid "cal_third"
+msgstr "Tercero"
+
+msgid "cal_time_format_info"
+msgstr "Por favor, elija un formato para la entrada y presentación de la hora."
+
+msgid "cal_timezone_info"
+msgstr "Por favor, elija la ciudad más cercana en su zona horaria para asegurarse de que las citas dentro de ILIAS se muestren correctamente en su hora local."
+
+msgid "cal_type_crs"
+msgstr "Calendario de curso"
+
+msgid "cal_type_exc"
+msgstr "Calendario de ejercicio"
+
+msgid "cal_type_grp"
+msgstr "Calendario de grupo"
+
+msgid "cal_type_info"
+msgstr "Por favor, elija un tipo de calendario. Los 'Calendarios públicos' son visibles para todos los usuarios de ILIAS."
+
+msgid "cal_type_local"
+msgstr "Calendario local"
+
+msgid "cal_type_personal"
+msgstr "Calendario privado"
+
+msgid "cal_type_remote"
+msgstr "Calendario Web"
+
+msgid "cal_type_rl"
+msgstr "Ubicación del Calendario"
+
+msgid "cal_type_sess"
+msgstr "Calendario de Sesión"
+
+msgid "cal_type_system"
+msgstr "Calendario Público"
+
+msgid "cal_type_tals"
+msgstr "Charlas"
+
+msgid "cal_unshare_cal"
+msgstr "Dejar de Compartir"
+
+msgid "cal_unshared_selected_usr"
+msgstr "Se ha dejado de compartir el calendario con los usuarios seleccionados."
+
+msgid "cal_upcoming_events_header"
+msgstr "Próximos Eventos"
+
+msgid "cal_user_date_format"
+msgstr "Formato de Entrada de Fecha"
+
+msgid "cal_user_notification"
+msgstr "Notificación de Usuario"
+
+msgid "cal_user_notification_info"
+msgstr "Los usuarios seleccionados serán notificados sobre esta cita por correo electrónico. Por favor, introduzca los nombres de usuario de ILIAS o las direcciones de correo electrónico."
+
+msgid "cal_user_settings"
+msgstr "Ajustes del Calendario"
+
+msgid "cal_user_time_format"
+msgstr "Formato de Hora"
+
+msgid "cal_user_timezone"
+msgstr "Zona Horaria de ILIAS"
+
+msgid "cal_usr_info"
+msgstr "Información de la Cita"
+
+msgid "cal_usr_show_weeks"
+msgstr "Mostrar Columna de Semana"
+
+msgid "cal_usr_show_weeks_info"
+msgstr "Activa la columna de semanas en el bloque lateral del calendario."
+
+msgid "cal_webcal_sync"
+msgstr "Sincronización de Calendario Externo"
+
+msgid "cal_webcal_sync_info"
+msgstr "Sincronizar automáticamente los calendarios externos cada x horas."
+
+msgid "cal_week_abbrev"
+msgstr "Sem"
+
+msgid "cal_week_month_view"
+msgstr "Ajustes de Vista Semana/Mes"
+
+msgid "cal_week_overview"
+msgstr "Resumen de la Semana"
+
+msgid "cal_week_s"
+msgstr "Semana(s)"
+
+msgid "cal_week_selection"
+msgstr "Seleccionar Semana"
+
+msgid "cal_week_start"
+msgstr "Inicio de la Semana"
+
+msgid "cal_weekday"
+msgstr "Día de la semana"
+
+msgid "cal_weekly"
+msgstr "Semanalmente"
+
+msgid "cal_where"
+msgstr "Ubicación"
+
+msgid "cal_year_s"
+msgstr "Año(s)"
+
+msgid "cal_yearly"
+msgstr "Anual"
+
+msgid "cal_yearly_by_date"
+msgstr "Yearly by Date"
+
+msgid "cal_yearly_by_day"
+msgstr "Yearly by Day"
+
+msgid "consultation_hours_block_title"
+msgstr "Horario de consultas"
+
+msgid "crs_cal_activation_end"
+msgstr "Fin de disponibilidad de curso"
+
+msgid "crs_cal_activation_start"
+msgstr "Inicio de disponibilidad de curso"
+
+msgid "crs_cal_end"
+msgstr "Fin de curso"
+
+msgid "crs_cal_reg_end"
+msgstr "Fin de inscripción"
+
+msgid "crs_cal_reg_start"
+msgstr "Inicio de inscripción"
+
+msgid "crs_cal_start"
+msgstr "Inicio de curso"
+
+msgid "date_format"
+msgstr "d/m/Y H:i"
+
+msgid "end_date"
+msgstr "Fecha de fin"
+
+msgid "err_end_before_start"
+msgstr "La cita no puede empezar antes del final."
+
+msgid "err_missing_title"
+msgstr "Por favor, introduzca un título para la cita."
+
+msgid "free"
+msgstr "Libre"
+
+msgid "grp_cal_end"
+msgstr "Fin de grupo"
+
+msgid "grp_cal_reg_end"
+msgstr "Fin de inscripción"
+
+msgid "grp_cal_reg_start"
+msgstr "Inicio de inscripción"
+
+msgid "grp_cal_start"
+msgstr "Inicio de grupo"
+
+msgid "ical_export"
+msgstr "Exportar iCal"
+
+msgid "keep"
+msgstr "Mantener"
+
+msgid "keyword"
+msgstr "Palabra clave"
+
+msgid "more"
+msgstr "Más"
+
+msgid "r_14"
+msgstr "Cada 14 días"
+
+msgid "r_4_weeks"
+msgstr "Cada 4 semanas"
+
+msgid "remote_pass_info"
+msgstr "Por favor, introduzca los datos de su cuenta si el acceso al calendario web está protegido."
+
+msgid "to"
+msgstr "a"
+
+msgid "today"
+msgstr "Hoy"
+
+msgid "week"
+msgstr "Semana"
+
+msgid "wk_short"
+msgstr "Sem."
+
+msgid "year"
+msgstr "Año"

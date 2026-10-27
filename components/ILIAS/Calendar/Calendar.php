@@ -62,5 +62,9 @@ class Calendar implements Component\Component
             $this,
             'jscalendar'
         );
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'dateplaner'
+        );
     }
 }
