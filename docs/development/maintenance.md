@@ -420,22 +420,6 @@ Components are listed alphabetically by their folder name in `components/ILIAS/`
 [//]: # (END BackgroundTasks)
 
 
-[//]: # (BEGIN BackgroundTasks_)
-
-#### [BackgroundTasks_](https://github.com/ILIAS-eLearning/ILIAS/tree/trunk/components/ILIAS/BackgroundTasks_)
-
-*Belongs to:* [Background Tasks](https://docu.ilias.de/go/wiki/wpage_4383_1357)
-
-* Authority to Sign off on Conceptual Changes: [thojou](https://docu.ilias.de/go/usr/103745), [mjansen](https://docu.ilias.de/go/usr/8784)
-* Authority to Sign off on Code Changes: [thojou](https://docu.ilias.de/go/usr/103745), [mjansen](https://docu.ilias.de/go/usr/8784)
-* Authority to Curate Test Cases: MISSING
-* Authority to (De-)Assign Authorities: [thojou (Databay AG)](https://docu.ilias.de/go/usr/103745)
-* Assignee for Issues: [thojou](https://docu.ilias.de/go/usr/103745)
-* Assignee for Security Reports: [thojou](https://docu.ilias.de/go/usr/103745)
-
-[//]: # (END BackgroundTasks_)
-
-
 [//]: # (BEGIN Badge)
 
 #### [Badge](https://github.com/ILIAS-eLearning/ILIAS/tree/trunk/components/ILIAS/Badge)
