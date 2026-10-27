@@ -154,6 +154,11 @@ class ilGlossaryFlashcardBoxGUI
 
     public function showHidden(): void
     {
+        if ($this->current_term === null) {
+            $this->ctrl->redirectByClass("ilglossarypresentationgui", "showFlashcards");
+            return;
+        }
+
         $this->setFlashcardTitleAndDescription();
 
         if ($this->glossary->getFlashcardsMode() === "term") {
@@ -186,6 +191,11 @@ class ilGlossaryFlashcardBoxGUI
 
     public function showRevealed(): void
     {
+        if ($this->current_term === null) {
+            $this->ctrl->redirectByClass("ilglossarypresentationgui", "showFlashcards");
+            return;
+        }
+
         $this->setFlashcardTitleAndDescription();
 
         $flashcard = $this->ui_fac->panel()->standard(
@@ -249,6 +259,11 @@ class ilGlossaryFlashcardBoxGUI
 
     protected function getDefinitionPage(): string
     {
+        $this->ctrl->setParameterByClass(
+            ilGlossaryPresentationGUI::class,
+            "pg_id",
+            $this->current_term?->getTermId()
+        );
         $page_gui = new ilGlossaryDefPageGUI($this->current_term?->getTermId());
         return $page_gui->showPage();
     }
