@@ -21,6 +21,8 @@ declare(strict_types=1);
 namespace ILIAS;
 
 use ILIAS\Component\Component;
+use ILIAS\Component\Resource\PublicAsset;
+use ILIAS\Component\Resource\ComponentJS;
 use ILIAS\Setup\Agent;
 use ILIAS\Refinery\Factory;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
@@ -49,6 +51,11 @@ class BackgroundTasks implements Component
         $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
             $this,
             'background_tasks'
+        );
+
+        $contribute[PublicAsset::class] = fn(): ComponentJS => new ComponentJS(
+            $this,
+            "background_task_refresh.js"
         );
     }
 }

@@ -18,7 +18,7 @@
 
 namespace ILIAS\BackgroundTasks\Provider;
 
-use ilBTPopOverGUI;
+use ILIAS\BackgroundTasks\Implementation\UI\PopOverGUI;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationProvider;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
@@ -47,7 +47,7 @@ class BTNotificationProvider extends AbstractNotificationProvider implements Not
 
         $factory = $this->globalScreen()->notifications()->factory();
 
-        $item_source = new ilBTPopOverGUI($this->dic);
+        $item_source = new PopOverGUI($this->dic);
         $group = $factory->standardGroup($id('bg_task_bucket_group'))
             ->withTitle($this->txt('background_tasks'))
             ->addNotification(

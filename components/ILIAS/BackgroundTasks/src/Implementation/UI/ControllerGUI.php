@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+namespace ILIAS\BackgroundTasks\Implementation\UI;
+
 use ILIAS\HTTP\StatusCode;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\Data\URI;
@@ -25,14 +27,15 @@ use ILIAS\Filesystem\Stream\Stream;
 use ILIAS\HTTP\Response\ResponseHeader;
 use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionOption;
 use ILIAS\components\OrgUnit\ARHelper\DIC;
+use ilCtrlBaseClassInterface;
+use ilCtrlSecurityInterface;
+use ilUtil;
 
 /**
- * Class ilBTControllerGUI
- *
  * @author Oskar Truffer <ot@studer-raimann.ch>
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilBTControllerGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
+class ControllerGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 {
     use DIC;
     public const FROM_URL = 'from_url';
@@ -130,7 +133,7 @@ class ilBTControllerGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInter
 
         $this->enforceBucketBelongsToCurrentUser($bucket);
 
-        $item_source = new ilBTPopOverGUI($this->dic());
+        $item_source = new PopOverGUI($this->dic());
         $this->dic()->language()->loadLanguageModule('background_tasks');
         $item = $item_source->getItemForObserver($bucket);
 

@@ -21,8 +21,6 @@ declare(strict_types=1);
 namespace ILIAS;
 
 use ILIAS\Component\Component;
-use ILIAS\Component\Resource\PublicAsset;
-use ILIAS\Component\Resource\ComponentJS;
 
 class BackgroundTasks_ implements Component
 {
@@ -36,7 +34,5 @@ class BackgroundTasks_ implements Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        $contribute[PublicAsset::class] = fn(): ComponentJS =>
-            new ComponentJS($this, "background_task_refresh.js");
     }
 }
