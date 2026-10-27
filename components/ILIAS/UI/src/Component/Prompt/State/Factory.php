@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Prompt\State;
 
-use ILIAS\UI\Component;
+use ILIAS\UI\Component\Prompt\IsPromptContent;
 use ILIAS\Data\URI;
 
 interface Factory
@@ -45,12 +45,11 @@ interface Factory
      *   - The Prompt State is used for Prompts.
      *
      * ---
+     * @param \ILIAS\UI\Component\Prompt\IsPromptContent $primary_content
+     * @param \ILIAS\UI\Component\Prompt\IsPromptContent ...$secondary_content
      * @return \ILIAS\UI\Component\Prompt\State\State
      */
-    public function show(
-        \ILIAS\UI\Component\Prompt\IsPromptContent $primary_content,
-        \ILIAS\UI\Component\Prompt\IsPromptContent ...$secondary_content
-    ): State;
+    public function show(IsPromptContent $primary_content, IsPromptContent ...$secondary_content): State;
 
     /**
      * ---
@@ -90,6 +89,7 @@ interface Factory
      *   - The Redirect State is used for Prompts.
      *
      * ---
+     * @param \ILIAS\Data\URI $redirect
      * @return \ILIAS\UI\Component\Prompt\State\State
      */
     public function redirect(URI $redirect): State;

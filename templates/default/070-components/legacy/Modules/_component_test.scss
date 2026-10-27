@@ -177,7 +177,7 @@ $cons-scoring-bottom-fade-height: $il-padding-xxxlarge-vertical * 2;
       .solutionbox {
         width: auto;
       }
-  
+
       .ilc_answers.answers.ilAssClozeTest div input[type=text] {
         width: 100%;
       }
@@ -249,7 +249,7 @@ $cons-scoring-bottom-fade-height: $il-padding-xxxlarge-vertical * 2;
 // this is where the actual editing of the feedback takes place
 // suggestion for UI component: Guided Prompt or Guided Form, placing a form besides relevant content to be evaluated
 //
-.panel:has(.c-consecutive-scoring__answer) ~ .il-prompt > dialog[open] {
+.panel:has(.c-consecutive-scoring__answer) ~ .c-prompt > dialog[open] {
   display: grid;
   grid-template-areas: "answer btn"
                         "answer feedback";
@@ -266,7 +266,7 @@ $cons-scoring-bottom-fade-height: $il-padding-xxxlarge-vertical * 2;
     display: none;
   }
 
-  .il-prompt__header {
+  .c-prompt__header {
     grid-area: answer; // we are using the entire title as the left side
     position: relative; // so fade mixin is attached to the bottom
     form {
@@ -274,12 +274,12 @@ $cons-scoring-bottom-fade-height: $il-padding-xxxlarge-vertical * 2;
       display: none;
     }
 
-    .il-prompt__title {
+    .c-prompt__title {
       display: flex;
       flex-direction: column;
     }
 
-    .il-prompt__title,
+    .c-prompt__title,
     .c-consecutive-scoring_sanswer,
     .c-consecutive-scoring__answer__scroll-container {
       height: 100%; // fill modal completely
@@ -304,12 +304,12 @@ $cons-scoring-bottom-fade-height: $il-padding-xxxlarge-vertical * 2;
     }
   }
 
-  .il-prompt__contents {
+  .c-prompt__contents {
     grid-area: feedback;
     overflow: auto;
   }
 
-  .il-prompt__buttons {
+  .c-prompt__buttons {
     grid-area: btn;
     justify-self: end;
   }
@@ -386,7 +386,7 @@ $cons-scoring-bottom-fade-height: $il-padding-xxxlarge-vertical * 2;
 
 // Change layout of Markdown Form Field in Single View and in Prompt Modal
 .c-sequence__segment:has(.c-layout-alignment--horizontal-evenly .c-consecutive-scoring__answer),
-.panel:has(.c-consecutive-scoring__answer) ~ .il-prompt > dialog[open] .il-prompt__contents {
+.panel:has(.c-consecutive-scoring__answer) ~ .c-prompt > dialog[open] .c-prompt__contents {
   form {
     .c-input[data-il-ui-component="markdown-field-input"] {
       display: block;

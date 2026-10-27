@@ -33,7 +33,7 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        if ($component instanceof Component\Prompt\Prompt) {
+        if ($component instanceof Prompt) {
             return $this->renderPrompt($component, $default_renderer);
         }
 
@@ -49,18 +49,24 @@ class Renderer extends AbstractComponentRenderer
         $registry->register('assets/js/prompt.min.js');
     }
 
-    protected function renderPrompt(Component\Prompt\Prompt $component, RendererInterface $default_renderer): string
+    protected function renderPrompt(Prompt $component, RendererInterface $default_renderer): string
     {
         $tpl = $this->getTemplate('tpl.prompt.html', true, true);
+
+        $tpl->setVariable('TITLE', (string) $component->getTitle());
+        $tpl->setVariable('ERROR_MESSAGE_BOX', $default_renderer->render(
+            $this->getUIFactory()->messageBox()->failure($this->txt('prompt_request_error')),
+        ));
+
         $show_signal = $component->getShowSignal();
         $close_signal = $component->getCloseSignal();
         $url = $component->getAsyncUrl()->__toString();
         $component = $component->withAdditionalOnLoadCode(
-            fn($id) => "
-                il.UI.prompt.init('$id');
-                $(document).on('$show_signal', (e, data) => {il.UI.prompt.get('$id').show(data.options.url);})
-                $(document).on('$close_signal', () => {il.UI.prompt.get('$id').close();})
-            "
+            fn($id) => "(function() {
+                const prompt = il.UI.Prompt.createPrompt(document.getElementById('$id'));
+                $(document).on('$show_signal', (e, data) => { prompt.loadState(data.options.url); });
+                $(document).on('$close_signal', () => { prompt.close(); });
+            })();"
         );
         $id = $this->bindJavaScript($component);
 

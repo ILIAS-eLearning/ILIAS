@@ -170,6 +170,9 @@ msgstr "Alle minimieren"
 msgid "presentation_table_expand"
 msgstr "Alle zeigen"
 
+msgid "prompt_request_error"
+msgstr "Beim Laden vom Inhalt dieses Dialoges ist etwas schief gelaufen. Bitte versuchen Sie es später erneut oder kontaktieren Sie Ihren Support."
+
 msgid "rating_average"
 msgstr "Andere bewerteten mit %s von 5"
 

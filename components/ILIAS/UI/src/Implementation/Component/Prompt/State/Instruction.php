@@ -1,3 +1,5 @@
+<?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,9 +15,16 @@
  * https://github.com/ILIAS-eLearning
  */
 
-import il from 'il';
-import DOMParser from 'DOMParser';
-import PromptFactory from './prompt.factory';
+declare(strict_types=1);
 
-il.UI = il.UI || {};
-il.UI.prompt = new PromptFactory(DOMParser);
+namespace ILIAS\UI\Implementation\Component\Prompt\State;
+
+/**
+ * @author Thibeau Fuhrer <thibeau@sr.solutions>
+ */
+enum Instruction: string
+{
+    case SHOW = 'show';
+    case CLOSE = 'close';
+    case REDIRECT = 'redirect';
+}

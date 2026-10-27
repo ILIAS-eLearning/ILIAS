@@ -58,14 +58,20 @@ class FormWithoutSubmitButtonsContextRenderer extends Renderer
             static function (string $id) use ($component): string {
                 return "
                     // @TODO: we need to refactor the signal-management to prevent using jQuery here.
-                    $(document).on('{$component->getSubmitSignal()}', function () {
+                    $(document).on('{$component->getSubmitSignal()}', function (event, signal) {
                         let form = document.getElementById('$id');
                         if (!form instanceof HTMLFormElement) {
                             throw new Error(`Element '$id' is not an instance of HTMLFormElement.`);
                         }
-                        
-                        // @TODO: we should use the triggering button as an emitter here. When doing
-                        // so, please also change file.js processFormSubmissionHook().
+
+                        // handle additional submit buttons here for the moment...
+                        if (signal.options.formaction) {
+                            event.target.setAttribute('formaction', signal.options.formaction);
+                            event.target.setAttribute('form', '$id');
+                            form.requestSubmit(event.target);
+                            return;
+                        }
+
                         form.requestSubmit();
                     });
                 ";
