@@ -33,8 +33,9 @@ class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation
         $links = [];
         if ($field->hasProperty(ilDclBaseFieldModel::PROP_URL)) {
             $url = $value['link'];
+            $value = $value['title'];
             if ($url !== "") {
-                $value = $value['title'] ?: $this->shortenLink($url);
+                $value = $value ?: $this->shortenLink($url);
                 if ($link) {
                     if (substr($url, 0, 3) === 'www') {
                         $url = 'https://' . $url;
