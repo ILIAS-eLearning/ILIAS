@@ -36,6 +36,8 @@ class ilContainerNewsSettingsGUI
     protected bool $has_hide_by_date = false;
     protected bool $has_public_notification = false;
     protected bool $has_block_forced = false;
+    protected string $news_block_label = 'news_news_block';
+    protected ?string $news_block_info = 'obj_tool_setting_news_info';
 
     public function __construct(ilObjectGUI $a_parent_gui)
     {
@@ -95,17 +97,19 @@ class ilContainerNewsSettingsGUI
         //from crs/grp/cat settings - additional feature - news
 
         if ($this->setting->get('block_activated_news')) {
-            $label = $this->has_block_forced
-                ? 'frm_latest_postings_block'
-                : 'news_news_block';
-            $news = new ilCheckboxInputGUI($this->lng->txt($label), ilObjectServiceSettingsGUI::NEWS_VISIBILITY);
+            $news = new ilCheckboxInputGUI(
+                $this->lng->txt($this->news_block_label),
+                ilObjectServiceSettingsGUI::NEWS_VISIBILITY
+            );
             $news->setValue('1');
             if ($this->has_block_forced) {
                 $news->setChecked(true);
                 $news->setDisabled(true);
             } else {
                 $news->setChecked($this->object->getNewsBlockActivated());
-                $news->setInfo($this->lng->txt('obj_tool_setting_news_info'));
+            }
+            if ($this->news_block_info !== null) {
+                $news->setInfo($this->lng->txt($this->news_block_info));
             }
             ilNewsForContextBlockGUI::addToSettingsForm($news);
             $form->addItem($news);
@@ -298,6 +302,16 @@ class ilContainerNewsSettingsGUI
     public function setNewsBlockForced(bool $a_value): void
     {
         $this->has_block_forced = $a_value;
+    }
+
+    public function setNewsBlockLabel(string $lang_key): void
+    {
+        $this->news_block_label = $lang_key;
+    }
+
+    public function setNewsBlockInfo(?string $lang_key): void
+    {
+        $this->news_block_info = $lang_key;
     }
 
     public function getNewsBlockForced(): bool
