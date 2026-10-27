@@ -42,6 +42,7 @@ use ilObject;
 use ilObjectDefinition;
 use ilObjFileAccess;
 use ilTree;
+use ZipArchive;
 
 class Handler implements ilExportHandlerManagerInterface
 {
@@ -133,33 +134,40 @@ class Handler implements ilExportHandlerManagerInterface
             "set_" . $main_export_info->getSetNumber()
         );
         $repository = $this->export_handler->repository();
-        foreach ($container_export_info->getExportInfos() as $export_info) {
-            $stream = null;
-            $keys = $repository->key()->collection()
-                ->withElement($repository->key()->handler()->withObjectId($export_info->getTargetObjectId()));
-            $element = $export_info->getReuseExport()
-                ? $this->export_handler->repository()->handler()->getElements($keys)->newest()
-                : $this->createExport($user_id, $export_info, "");
-            $element = $element->getIRSS()->isContainerExport()
-                ? $this->createExport($user_id, $export_info, "")
-                : $element;
-            $stream = $element->getIRSSInfo()->getStream();
-            $zip_reader = new ZipReader($stream);
-            $zip_structure = $zip_reader->getStructure();
-            foreach ($zip_structure as $path_inside_zip => $item) {
-                if ($item['is_dir']) {
+        # Writing every file of every sub export into the container one by one rewrites the whole container
+        # archive each time, which makes the export time grow quadratically with its size. Therefore the
+        # sub exports are extracted into a temporary directory first and added to the container in one go.
+        $tmp_dir = ilFileUtils::ilTempnam();
+        $extracted_sub_exports = [];
+        try {
+            ilFileUtils::makeDirParents($tmp_dir);
+            foreach ($container_export_info->getExportInfos() as $export_info) {
+                $keys = $repository->key()->collection()
+                    ->withElement($repository->key()->handler()->withObjectId($export_info->getTargetObjectId()));
+                $element = $export_info->getReuseExport()
+                    ? $this->export_handler->repository()->handler()->getElements($keys)->newest()
+                    : $this->createExport($user_id, $export_info, "");
+                $element = $element->getIRSS()->isContainerExport()
+                    ? $this->createExport($user_id, $export_info, "")
+                    : $element;
+                $set_path = "set_" . $export_info->getSetNumber();
+                if ($this->extractExport($element, $tmp_dir . DIRECTORY_SEPARATOR . $set_path)) {
+                    $extracted_sub_exports[] = [$element, $set_path];
                     continue;
                 }
-                /**
-                 * @var \ILIAS\Filesystem\Stream\Stream $stream
-                 */
-                $stream = $zip_reader->getItem($path_inside_zip, $zip_structure)[0];
-                # Contents of the stream $stream are lost later (possible incompatible stream object), therefore a new
-                # stream with the content of $stream is created and passed on.
-                $main_element->getIRSS()->write(
-                    Streams::ofString($stream->getContents()),
-                    "set_" . $export_info->getSetNumber() . DIRECTORY_SEPARATOR . $path_inside_zip
-                );
+                $this->writeExportFileByFile($main_element, $element, $set_path);
+            }
+            if (
+                $extracted_sub_exports !== [] &&
+                !$main_element->getIRSS()->writeDirectory($tmp_dir, "")
+            ) {
+                foreach ($extracted_sub_exports as [$element, $set_path]) {
+                    $this->writeExportFileByFile($main_element, $element, $set_path);
+                }
+            }
+        } finally {
+            if (is_dir($tmp_dir)) {
+                ilFileUtils::delDir($tmp_dir);
             }
         }
         $container = $this->export_handler->part()->container()->handler()
@@ -170,6 +178,56 @@ class Handler implements ilExportHandlerManagerInterface
             "manifest.xml"
         );
         return $main_element;
+    }
+
+    /**
+     * Extracts the zip of an export into $target_dir. Returns false if this is not possible, the caller then
+     * falls back to writeExportFileByFile().
+     */
+    protected function extractExport(
+        ilExportHandlerRepositoryElementInterface $element,
+        string $target_dir
+    ): bool {
+        $zip_path = (string) $element->getIRSSInfo()->getStream()->getMetadata("uri");
+        if ($zip_path === "" || !is_file($zip_path)) {
+            return false;
+        }
+        ilFileUtils::makeDirParents($target_dir);
+        $zip = new ZipArchive();
+        if ($zip->open($zip_path) !== true) {
+            return false;
+        }
+        $extracted = $zip->extractTo($target_dir);
+        $zip->close();
+        return $extracted;
+    }
+
+    /**
+     * Adds the files of an export to the container one by one (slow for big containers, see
+     * createContainerExport()).
+     */
+    protected function writeExportFileByFile(
+        ilExportHandlerRepositoryElementInterface $main_element,
+        ilExportHandlerRepositoryElementInterface $element,
+        string $set_path
+    ): void {
+        $zip_reader = new ZipReader($element->getIRSSInfo()->getStream());
+        $zip_structure = $zip_reader->getStructure();
+        foreach ($zip_structure as $path_inside_zip => $item) {
+            if ($item['is_dir']) {
+                continue;
+            }
+            /**
+             * @var \ILIAS\Filesystem\Stream\Stream $stream
+             */
+            $stream = $zip_reader->getItem($path_inside_zip, $zip_structure)[0];
+            # Contents of the stream $stream are lost later (possible incompatible stream object), therefore a new
+            # stream with the content of $stream is created and passed on.
+            $main_element->getIRSS()->write(
+                Streams::ofString($stream->getContents()),
+                $set_path . DIRECTORY_SEPARATOR . $path_inside_zip
+            );
+        }
     }
 
     public function createExport(
