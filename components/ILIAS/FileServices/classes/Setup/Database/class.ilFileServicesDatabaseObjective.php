@@ -104,39 +104,6 @@ class ilFileServicesDatabaseObjective implements ilDatabaseUpdateSteps
     }
 
     /**
-     * Stored background task buckets reference their tasks and values by class name.
-     */
-    public function step_2(): void
-    {
-        $this->abortIfNotPrepared();
-
-        $moved_classes = [
-            'ilCopyDefinition' => 'ILIAS\FileServices\Download\CopyDefinition',
-            'ilCollectFilesJob' => 'ILIAS\FileServices\Download\CollectFilesJob',
-            'ilCheckSumOfFileSizesJob' => 'ILIAS\FileServices\Download\CheckSumOfFileSizesJob',
-            'ilCopyFilesToTempDirectoryJob' => 'ILIAS\FileServices\Download\CopyFilesToTempDirectoryJob',
-            'ilZipJob' => 'ILIAS\FileServices\Download\ZipJob',
-            'ilSumOfFileSizesTooLargeInteraction' => 'ILIAS\FileServices\Download\SumOfFileSizesTooLargeInteraction',
-            'ilDownloadZipInteraction' => 'ILIAS\FileServices\Download\DownloadZipInteraction',
-        ];
-
-        foreach (['il_bt_task', 'il_bt_value'] as $table) {
-            if (!$this->database->tableExists($table)) {
-                continue;
-            }
-            foreach (['class_name', 'type'] as $column) {
-                foreach ($moved_classes as $old_name => $new_name) {
-                    $this->database->manipulateF(
-                        "UPDATE $table SET $column = %s WHERE $column = %s",
-                        ['text', 'text'],
-                        [$new_name, $old_name]
-                    );
-                }
-            }
-        }
-    }
-
-    /**
      * @throws LogicException if the database update steps were not
      *                        yet prepared.
      */
