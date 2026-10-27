@@ -105,8 +105,8 @@ class PresentationTest extends TableTestBase
         $pt = $f->presentation('title', [], function (): void {
         });
         $row = new PresentationRow($pt->getSignalGenerator(), 'table_id');
-        $tag_1 = new I\Component\Button\Tag('tag 1', '#');
-        $tag_2 = new I\Component\Button\Tag('tag 2', '#');
+        [$tag_1] = $this->getTagStub('1');
+        [$tag_2] = $this->getTagStub('2');
 
         $row_with_tags = $row->withTags($tag_1, $tag_2);
 
@@ -338,22 +338,23 @@ EXP;
 
     public function testRenderingWithOneTag(): void
     {
-        $mapping = function ($row, $record, $ui_factory, $environment) {
+        [$tag, $tag_html] = $this->getTagStub('1');
+        $mapping = function ($row, $record, $ui_factory, $environment) use ($tag) {
             return $row
                 ->withHeadline($record['headline'])
-                ->withTags(new I\Component\Button\Tag('tag 1', '#'))
+                ->withTags($tag)
                 ->withContent((new I\Component\Listing\Descriptive($record['content'])));
         };
 
         $expected_tags = <<<EXP
 <div class="il-table-presentation-row-header-tags l-bar__container">
     <div class="l-bar__space-keeper">
-        <div class="l-bar__element"><button class="btn btn-tag btn-tag-relevance-veryhigh" data-action="#" id="id_8">tag 1</button></div>
+        <div class="l-bar__element">$tag_html</div>
     </div>
 </div>
 EXP;
 
-        $r = $this->getDefaultRenderer();
+        $r = $this->getDefaultRenderer(null, [$tag]);
         $f = $this->getTableFactory();
         $pt = $f->presentation('title', [], $mapping);
         $actual = $r->render($pt->withData($this->getDummyData()));
@@ -365,28 +366,27 @@ EXP;
 
     public function testRenderingWithMultipleTags(): void
     {
-        $mapping = function ($row, $record, $ui_factory, $environment) {
+        [$tag_1, $tag_1_html] = $this->getTagStub('1');
+        [$tag_2, $tag_2_html] = $this->getTagStub('2');
+        [$tag_3, $tag_3_html] = $this->getTagStub('3');
+        $mapping = function ($row, $record, $ui_factory, $environment) use ($tag_1, $tag_2, $tag_3) {
             return $row
                 ->withHeadline($record['headline'])
-                ->withTags(
-                    new I\Component\Button\Tag('tag 1', '#'),
-                    new I\Component\Button\Tag('tag 2', '#'),
-                    new I\Component\Button\Tag('tag 3', '#')
-                )
+                ->withTags($tag_1, $tag_2, $tag_3)
                 ->withContent((new I\Component\Listing\Descriptive($record['content'])));
         };
 
         $expected_tags = <<<EXP
 <div class="il-table-presentation-row-header-tags l-bar__container">
     <div class="l-bar__space-keeper">
-        <div class="l-bar__element"><button class="btn btn-tag btn-tag-relevance-veryhigh" data-action="#" id="id_8">tag 1</button></div>
-        <div class="l-bar__element"><button class="btn btn-tag btn-tag-relevance-veryhigh" data-action="#" id="id_9">tag 2</button></div>
-        <div class="l-bar__element"><button class="btn btn-tag btn-tag-relevance-veryhigh" data-action="#" id="id_10">tag 3</button></div>
+        <div class="l-bar__element">$tag_1_html</div>
+        <div class="l-bar__element">$tag_2_html</div>
+        <div class="l-bar__element">$tag_3_html</div>
     </div>
 </div>
 EXP;
 
-        $r = $this->getDefaultRenderer();
+        $r = $this->getDefaultRenderer(null, [$tag_1, $tag_2, $tag_3]);
         $f = $this->getTableFactory();
         $pt = $f->presentation('title', [], $mapping);
         $actual = $r->render($pt->withData($this->getDummyData()));
@@ -394,6 +394,15 @@ EXP;
             $this->brutallyTrimHTML($this->getExpectedMinimalRowWithTags($expected_tags)),
             $this->brutallyTrimHTML($this->brutallyTrimSignals($actual))
         );
+    }
+
+    /** @return array{0: C\Button\Tag, 1: string} */
+    protected function getTagStub(string $id): array
+    {
+        $stub = $this->createStub(C\Button\Tag::class);
+        $html = sha1(C\Button\Tag::class . $id);
+        $stub->method('getCanonicalName')->willReturn($html);
+        return [$stub, $html];
     }
 
     protected function getExpectedMinimalRowWithTags(string $expected_tags): string
