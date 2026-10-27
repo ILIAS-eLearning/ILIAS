@@ -7894,7 +7894,7 @@ crs#:#crs_timings_optional_on#:#Volitelný režim je aktivní.
 crs#:#crs_timings_optional_on_and_passed#:#Volitelný režim je aktivní a nelze jej změnit, protože uživatel je schválen.
 crs#:#crs_timings_optional_unchecked#:#Pro tohoto uživatele byl deaktivován volitelný režim
 crs#:#crs_timings_planed_info#:#Plánovaný čas editace
-crs#:#crs_timings_planed_start#:#Plánován
+crs#:#crs_timings_planned_start#:#Plánován
 crs#:#crs_timings_presetting#:#Cílový čas zapnut
 crs#:#crs_timings_short_active#:#Zapnuto
 crs#:#crs_timings_short_active_tt#:#Aktivovat časování

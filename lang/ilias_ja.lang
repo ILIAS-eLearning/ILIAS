@@ -7913,7 +7913,7 @@ crs#:#crs_timings_optional_on#:#オプションモードはアクティブです
 crs#:#crs_timings_optional_on_and_passed#:#オプションモードはアクティブでありユーザがパスしたので変更できません。
 crs#:#crs_timings_optional_unchecked#:#このユーザのオプションモードは非アクティブ化されました。
 crs#:#crs_timings_planed_info#:#編集時間が設定されました
-crs#:#crs_timings_planed_start#:#計画後の
+crs#:#crs_timings_planned_start#:#計画後の
 crs#:#crs_timings_presetting#:#時間目標を使用
 crs#:#crs_timings_short_active#:#有効化
 crs#:#crs_timings_short_active_tt#:#タイミングを有効化

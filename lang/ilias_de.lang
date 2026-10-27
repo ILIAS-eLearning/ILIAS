@@ -7967,7 +7967,7 @@ crs#:#crs_timings_optional_on#:#Der Freiwilligen-Modus ist aktiv.
 crs#:#crs_timings_optional_on_and_passed#:#Der Freiwilligen-Modus ist aktiv und kann nicht geändert werden, da der Nutzer den Status "Bestanden" hat.
 crs#:#crs_timings_optional_unchecked#:#Der Freiwilligen-Modus wurde für diesen Benutzer deaktiviert.
 crs#:#crs_timings_planed_info#:#Geplante Bearbeitungszeit
-crs#:#crs_timings_planed_start#:#Geplant
+crs#:#crs_timings_planned_start#:#Geplant
 crs#:#crs_timings_presetting#:#Lernplanung eingeschaltet
 crs#:#crs_timings_short_active#:#Lernplanung
 crs#:#crs_timings_short_active_tt#:#Lernplanung aktivieren
