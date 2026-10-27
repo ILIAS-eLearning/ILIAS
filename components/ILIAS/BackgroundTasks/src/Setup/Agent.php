@@ -39,17 +39,11 @@ class Agent implements \ILIAS\Setup\Agent
     {
     }
 
-    /**
-     * @inheritdoc
-     */
     public function hasConfig(): bool
     {
         return true;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getArrayToConfigTransformation(): Transformation
     {
         return $this->refinery->custom()->transformation(fn($data): SetupConfig => new SetupConfig(
@@ -58,17 +52,11 @@ class Agent implements \ILIAS\Setup\Agent
         ));
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getInstallObjective(?Config $config = null): Objective
     {
         return $this->getUpdateObjective($config);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getUpdateObjective(?Config $config = null): Objective
     {
         if (!$config instanceof SetupConfig) {
@@ -83,17 +71,11 @@ class Agent implements \ILIAS\Setup\Agent
         );
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getBuildObjective(): Objective
     {
         return new NullObjective();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getStatusObjective(Storage $storage): Objective
     {
         return new ObjectiveCollection(
@@ -114,9 +96,6 @@ class Agent implements \ILIAS\Setup\Agent
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getMigrations(): array
     {
         return [];

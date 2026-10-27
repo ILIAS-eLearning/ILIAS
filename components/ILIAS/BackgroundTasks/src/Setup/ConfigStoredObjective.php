@@ -44,9 +44,6 @@ class ConfigStoredObjective implements Objective
         return false;
     }
 
-    /**
-     * @return \ilIniFilesLoadedObjective[]
-     */
     public function getPreconditions(Environment $environment): array
     {
         return [
@@ -64,7 +61,6 @@ class ConfigStoredObjective implements Objective
 
         if ($this->config->getType() === SetupConfig::TYPE_ASYNCHRONOUS) {
             $io = $environment->getResource(Environment::RESOURCE_ADMIN_INTERACTION);
-            /** @var Setup\CLI\IOWrapper $io */
             $io->inform('Asynchronous background tasks need SOAP administration to be enabled. Make sure to enable it in your configuarion.');
         }
 
@@ -78,9 +74,6 @@ class ConfigStoredObjective implements Objective
         return $environment;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function isApplicable(Environment $environment): bool
     {
         $ini = $environment->getResource(Environment::RESOURCE_ILIAS_INI);

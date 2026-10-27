@@ -25,9 +25,6 @@ use ilIniFilesLoadedObjective;
 
 class MetricsCollectedObjective extends CollectedObjective
 {
-    /**
-     * @return \ilIniFilesLoadedObjective[]
-     */
     public function getTentativePreconditions(Environment $environment): array
     {
         return [
