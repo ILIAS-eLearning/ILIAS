@@ -113,8 +113,12 @@ Other web servers capable of processing PHP, such as Nginx or Apache2 with FCGI 
 
 **Required PHP Extensions:**
 ```
-gd, dom, xsl, pdo, pdo_mysql, curl, json, simplexml, libxml, xml, zip, imagick, mbstring
+gd, dom, xsl, pdo, pdo_mysql, curl, json, simplexml, libxml, xml, zip, imagick, mbstring, gettext
 ```
+
+ILIAS serves its translations through native gettext: the PHP extension `gettext` and the C library's
+`C.utf8` locale (glibc) MUST be available to the PHP of the web server as well as to the CLI. Without them
+the user interface shows identifiers (e.g. `-login-`) instead of texts.
 
 **Optional PHP Extensions:**
 

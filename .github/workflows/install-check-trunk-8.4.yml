@@ -34,7 +34,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: dom, curl, libxml, mbstring, zip, gd, json, readline, xsl, xml, mysql
+          extensions: dom, curl, libxml, mbstring, zip, gd, json, readline, xsl, xml, mysql, gettext
           tools: composer:v2
           coverage: none
 
