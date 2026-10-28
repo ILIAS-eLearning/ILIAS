@@ -237,11 +237,6 @@ class ilDclDetailedViewGUI
         $this->irss->consume()->download($identification)->overrideFileName($current_revision->getTitle())->run();
     }
 
-    public function doReplace(array $found): string
-    {
-        return $this->record_obj->getRecordFieldSingleHTML($this->currentField->getId(), $this->setOptions($found[1]));
-    }
-
     protected function renderComments(bool $edit = false): string
     {
         if (!$edit) {
@@ -249,15 +244,6 @@ class ilDclDetailedViewGUI
         } else {
             return $this->commentGUI->addNoteForm();
         }
-    }
-
-    private function setOptions(string $link_name): array
-    {
-        $options = [];
-        $options['link']['display'] = true;
-        $options['link']['name'] = $link_name;
-
-        return $options;
     }
 
     private function loadSession(): void
