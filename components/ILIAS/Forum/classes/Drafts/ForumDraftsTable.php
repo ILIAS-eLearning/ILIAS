@@ -173,16 +173,18 @@ class ForumDraftsTable implements DataRetrieval
 
     /**
      * @return array{
-     *     draft: \ILIAS\UI\Component\Table\Column\Link,
-     *     edited_on: \ILIAS\UI\Component\Table\Column\Text
+     *     draft: \ILIAS\UI\Component\Table\Column\Link|\ILIAS\UI\Component\Table\Column\Text,
+     *     edited_on: \ILIAS\UI\Component\Table\Column\Date
      * }
      */
     private function getColumns(): array
     {
+        $draft_column = $this->mayEdit
+            ? $this->ui_factory->table()->column()->link($this->lng->txt('drafts'))
+            : $this->ui_factory->table()->column()->text($this->lng->txt('drafts'));
+
         return [
-            'draft' => $this->ui_factory->table()->column()->link($this->lng->txt('drafts'))->withIsSortable(
-                false
-            )->withIsSortable(false),
+            'draft' => $draft_column->withIsSortable(false),
             'edited_on' => $this->ui_factory->table()->column()->date(
                 $this->lng->txt('edited_on'),
                 $this->user->getDateTimeFormat()
