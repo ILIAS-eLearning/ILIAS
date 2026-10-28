@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Handles general notification settings, see e.g.
@@ -70,7 +73,7 @@ class ilObjNotificationSettingsGUI
         $form = new ilPropertyFormGUI();
 
         $form->setFormAction($ctrl->getFormAction($this, 'save'));
-        $form->setTitle($lng->txt('obj_notification_settings'));
+        $form->setTitle($lng->txt('notifications'));
 
         $radio_grp = new ilRadioGroupInputGUI($lng->txt("obj_activation"), 'notification_type');
         $radio_grp->setValue('0');
@@ -96,8 +99,6 @@ class ilObjNotificationSettingsGUI
         }
 
         $form->addCommandButton("save", $lng->txt("save"));
-
-        $form->setTitle($this->lng->txt("notifications"));
 
         return $form;
     }
