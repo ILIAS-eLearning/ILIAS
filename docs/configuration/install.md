@@ -574,6 +574,15 @@ sudo -u www-data composer install --no-dev
 
 Complete the update of the base system by [updating the database](#update-the-database).
 
+**Upgrading to ILIAS 12:** Translations of core components are now shipped as gettext files (`.po`).
+`php cli/setup.php build` compiles them into `artifacts/language/`. `composer install` runs this build, and
+`php cli/setup.php update` runs it if needed. The build fails if the [gettext requirements](#install-webserver)
+are not met. The first `php cli/setup.php update` copies the local changes of the installed languages once from the
+database to the `lang/` directory of the client data directory (e.g. `/var/www/files/<client id>/lang/`).
+No migration is needed for this. The setup MUST run as the web server user (the owner of the client data
+directory), otherwise it prints a warning and the web server cannot replace the written files later.
+Language files of plugins are still installed into the database as before.
+
 As a last step, you should log in with a User using your custom skin. If everything
 works correctly, change back from Delos to your custom system style. If not, you probably
 will need to update your style to match the new release.
