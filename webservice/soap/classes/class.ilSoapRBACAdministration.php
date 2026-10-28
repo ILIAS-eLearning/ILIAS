@@ -519,43 +519,38 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 
         $rbacsystem = $DIC['rbacsystem'];
         $rbacreview = $DIC['rbacreview'];
-        $ilAccess = $DIC['ilAccess'];
 
-        if (!$tmp_obj = ilObjectFactory::getInstanceByRefId($ref_id, false)) {
-            return $this->raiseError(
-                'No valid ref id given. Please choose an existing reference id of an ILIAS object',
-                'Client'
-            );
+        $access = $DIC->access();
+        if (!$this->authorizeUserLookup($user_id, $ref_id)) {
+            return $this->raiseError('Check access failed.', 'Server');
         }
-
-        if (!$tmp_user = ilObjectFactory::getInstanceByObjId($user_id, false)) {
-            return $this->raiseError(
-                'No valid user id given.',
-                'Client'
-            );
-        }
-
-        if (ilObject::_isInTrash($ref_id)) {
-            return $this->raiseError("Parent with ID " . $ref_id . "has been deleted.", 'CLIENT_TARGET_DELETED');
+        $object = ilObjectFactory::getInstanceByRefId($ref_id, false);
+        $subject = ilObjectFactory::getInstanceByObjId($user_id, false);
+        if (
+            !$object instanceof ilObject
+            || !$subject instanceof ilObjUser
+            || ilObject::_isInTrash($ref_id)
+        ) {
+            return $this->raiseError('Check access failed.', 'Server');
         }
 
         // check visible for all upper tree entries
-        if (!$ilAccess->checkAccessOfUser($tmp_user->getId(), 'visible', '', $tmp_obj->getRefId())) {
+        if (!$access->checkAccessOfUser($subject->getId(), 'visible', '', $object->getRefId())) {
             return array();
         }
         $op_data = $rbacreview->getOperation(2);
         $ops_data[] = $op_data;
 
-        if (!$ilAccess->checkAccessOfUser($tmp_user->getId(), 'read', '', $tmp_obj->getRefId())) {
+        if (!$access->checkAccessOfUser($subject->getId(), 'read', '', $object->getRefId())) {
             return $ops_data;
         }
 
         $ops_data = array();
-        $ops = $rbacreview->getOperationsOnTypeString($tmp_obj->getType());
+        $ops = $rbacreview->getOperationsOnTypeString($object->getType());
         foreach ($ops as $ops_id) {
             $op_data = $rbacreview->getOperation($ops_id);
 
-            if ($rbacsystem->checkAccessOfUser($user_id, $op_data['operation'], $tmp_obj->getRefId())) {
+            if ($rbacsystem->checkAccessOfUser($subject->getId(), $op_data['operation'], $object->getRefId())) {
                 $ops_data[$ops_id] = $op_data;
             }
         }

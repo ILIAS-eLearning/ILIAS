@@ -166,6 +166,10 @@ class ilSoapObjectAdministration extends ilSoapAdministration
             return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
+        if (!$this->authorizeUserLookup($user_id, $a_ref_id)) {
+            return $this->raiseError('Check access failed.', 'Server');
+        }
+
         if (!$tmp_obj = ilObjectFactory::getInstanceByRefId($a_ref_id, false)) {
             return $this->raiseError('Cannot create object instance!', 'Server');
         }
@@ -203,6 +207,11 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         if (!$this->checkSession($sid)) {
             return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
+
+        if (!$this->authorizeUserLookup($user_id, ROOT_FOLDER_ID)) {
+            return $this->raiseError('Check access failed.', 'Server');
+        }
+
         if ($a_title === '') {
             return $this->raiseError(
                 'No valid query string given.',
@@ -240,13 +249,15 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         $objs = array();
         foreach ($res->getUniqueResults() as $entry) {
             if ($entry['type'] === 'role' || $entry['type'] === 'rolt') {
-                if ($tmp = ilObjectFactory::getInstanceByObjId($entry['obj_id'], false)) {
+                if ($this->canInspectRole($user_id, (int) $entry['obj_id']) &&
+                    ($tmp = ilObjectFactory::getInstanceByObjId($entry['obj_id'], false))) {
                     $objs[] = $tmp;
                 }
                 continue;
             }
             if (($tmp = ilObjectFactory::getInstanceByRefId($entry['ref_id'], false)) &&
-                $access->checkAccess("read", "", (int) $entry['ref_id'])) {
+                $access->checkAccess("read", "", (int) $entry['ref_id']) &&
+                $this->canInspectUser($user_id, (int) $entry['ref_id'])) {
                 $objs[] = $tmp;
             }
         }
@@ -279,6 +290,10 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
         if (!$this->checkSession($sid)) {
             return $this->raiseError($this->getMessage(), $this->getMessageCode());
+        }
+
+        if (!$this->authorizeUserLookup($user_id, ROOT_FOLDER_ID)) {
+            return $this->raiseError('Check access failed.', 'Server');
         }
 
         global $DIC;
@@ -328,7 +343,11 @@ class ilSoapObjectAdministration extends ilSoapAdministration
             $objs[ROOT_FOLDER_ID] = ilObjectFactory::getInstanceByRefId(ROOT_FOLDER_ID, false);
             foreach ($result_ids as $ref_id => $obj_id) {
                 $obj = ilObjectFactory::getInstanceByRefId($ref_id, false);
-                if ($obj instanceof ilObject && $access->checkAccess("read", "", (int) $ref_id)) {
+                if (
+                    $obj instanceof ilObject &&
+                    $access->checkAccess("read", "", (int) $ref_id) &&
+                    $this->canInspectUser($user_id, (int) $ref_id)
+                ) {
                     $objs[] = $obj;
                 }
             }
@@ -363,7 +382,11 @@ class ilSoapObjectAdministration extends ilSoapAdministration
             $objs = array();
             foreach ($res->getUniqueResults() as $entry) {
                 $obj = ilObjectFactory::getInstanceByRefId($entry['ref_id'], false);
-                if ($obj instanceof ilObject && $access->checkAccess("read", "", (int) $entry['ref_id'])) {
+                if (
+                    $obj instanceof ilObject &&
+                    $access->checkAccess("read", "", (int) $entry['ref_id']) &&
+                    $this->canInspectUser($user_id, (int) $entry['ref_id'])
+                ) {
                     $objs[] = $obj;
                 }
             }
@@ -408,6 +431,10 @@ class ilSoapObjectAdministration extends ilSoapAdministration
             return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
+        if (!$this->authorizeUserLookup($user_id, $ref_id)) {
+            return $this->raiseError('Check access failed.', 'Server');
+        }
+
         $all = false;
 
         global $DIC;
@@ -437,7 +464,8 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         foreach ($tree->getChilds($ref_id, 'title') as $child) {
             if ($all || in_array($child['type'], $types, true)) {
                 if (($tmp = ilObjectFactory::getInstanceByRefId($child['ref_id'], false)) &&
-                    $access->checkAccess("read", "", (int) $child['ref_id'])) {
+                    $access->checkAccess("read", "", (int) $child['ref_id']) &&
+                    $this->canInspectUser($user_id, (int) $child['ref_id'])) {
                     $objs[] = $tmp;
                 }
             }
@@ -470,6 +498,10 @@ class ilSoapObjectAdministration extends ilSoapAdministration
             return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
+        if (!$this->authorizeUserLookup($user_id, $ref_id)) {
+            return $this->raiseError('Check access failed.', 'Server');
+        }
+
         global $DIC;
 
         $tree = $DIC['tree'];
@@ -495,6 +527,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
                 !$objDefinition->isSystemObject($node['type']) &&
                 ($all || !in_array($node['type'], $filter, true)) &&
                 $access->checkAccess("read", "", (int) $node['ref_id']) &&
+                $this->canInspectUser($user_id, (int) $node['ref_id']) &&
                 ($tmp = ilObjectFactory::getInstanceByRefId($node['ref_id'], false))
             ) {
                 $nodes[] = $tmp;
@@ -1492,5 +1525,16 @@ class ilSoapObjectAdministration extends ilSoapAdministration
                 $items->update($new_ref_id);
             }
         }
+    }
+
+    protected function canInspectRole(?int $user_id, int $role_id): bool
+    {
+        global $DIC;
+
+        if (!$this->isForeignUser($user_id)) {
+            return true;
+        }
+        $role_folder_ref_id = $DIC['rbacreview']->getObjectReferenceOfRole($role_id);
+        return $role_folder_ref_id > 0 && $this->canInspectUser($user_id, $role_folder_ref_id);
     }
 }
