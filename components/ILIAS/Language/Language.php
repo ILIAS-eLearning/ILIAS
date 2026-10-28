@@ -24,6 +24,7 @@ use ILIAS\Language\ComponentTranslation\LanguageFileDirectoryManager;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\MainLanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\CustomizingLanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
 use ILIAS\Language\Activities\InstallLanguage;
 use ILIAS\Language\Activities\UpdateLanguage;
 use ILIAS\Language\Activities\UninstallLanguage;
@@ -34,6 +35,9 @@ use ILIAS\Language\Activities\SetLanguageTranslationEnabled;
 use ILIAS\Language\Activities\RepositoryProvider;
 use ILIAS\Language\Setup\InstalledLanguageDatabaseRepository;
 use ILIAS\Environment\Configuration\Installation\Directories;
+use ILIAS\Environment\Configuration\Installation\ClientIdProvider;
+use ILIAS\Language\ComponentTranslation\MigratedLanguageFilePaths;
+use ILIAS\Logging\Logger\LoggerFactoryInterface;
 
 class Language implements Component\Component
 {
@@ -76,12 +80,45 @@ class Language implements Component\Component
         $internal[Language\Setup\TranslationCache::class] = static fn() =>
             new Language\Setup\TranslationCacheLegacyProxy();
 
+        // $use must be read inside a container closure: the bootstrap only wires what is read there
+        $client_data_dir_resolver_of = static function (
+            Directories $directories,
+            ClientIdProvider $client_id_provider
+        ): \Closure {
+            return static function () use ($directories, $client_id_provider): ?string {
+                try {
+                    $client_id = $client_id_provider->getClientId()->toString();
+                } catch (\InvalidArgumentException) {
+                    // Missing or invalid client id: no overlay instead of a failing request.
+                    return null;
+                }
+                return MigratedLanguageFilePaths::fromDataDirAndClientId($directories->getDataDir(), $client_id);
+            };
+        };
+
         $runtime_setup_language = static fn(): \ilSetupLanguage =>
             new \ilSetupLanguage(
                 "en",
                 $internal[LanguageFileDirectoryManager::class],
                 $pull[\ILIAS\Database\Connection::class],
-                $internal[Language\Setup\TranslationCache::class]
+                $internal[Language\Setup\TranslationCache::class],
+                $use[LoggerFactoryInterface::class]->getLazy('lang'),
+                $client_data_dir_resolver_of($use[Directories::class], $use[ClientIdProvider::class])
+            );
+
+        $internal[Language\Activities\LanguageSettings::class] = static fn() =>
+            new Language\Activities\LanguageSettingsLegacyProxy();
+
+        // the runtime Activities route all legacy access through this provider
+        $internal[RepositoryProvider::class] = static fn() =>
+            new RepositoryProvider(
+                $internal[InstalledLanguageDatabaseRepository::class],
+                $pull[\ILIAS\Database\Connection::class],
+                $internal[Language\Activities\LanguageSettings::class],
+                $internal[LanguageFileDirectoryManager::class],
+                new Language\Setup\DirectoriesInstallationRoot($use[Directories::class]),
+                $client_data_dir_resolver_of($use[Directories::class], $use[ClientIdProvider::class]),
+                $use[LoggerFactoryInterface::class]->getLazy('lang'),
             );
 
         $internal[InstallLanguage::class] = static fn() =>
@@ -95,18 +132,8 @@ class Language implements Component\Component
             new UpdateLanguage(
                 $use[\ILIAS\AccessControl\PublicInterface\RBAC::class],
                 $runtime_setup_language(),
-                $internal[Language\LanguageFolder::class]
-            );
-
-        // runtime-only Activities route all legacy access through this provider
-        $internal[Language\Activities\LanguageSettings::class] = static fn() =>
-            new Language\Activities\LanguageSettingsLegacyProxy();
-
-        $internal[RepositoryProvider::class] = static fn() =>
-            new RepositoryProvider(
-                $internal[InstalledLanguageDatabaseRepository::class],
-                $pull[\ILIAS\Database\Connection::class],
-                $internal[Language\Activities\LanguageSettings::class],
+                $internal[Language\LanguageFolder::class],
+                $internal[RepositoryProvider::class],
             );
 
         $internal[UninstallLanguage::class] = static fn() =>
@@ -169,6 +196,7 @@ class Language implements Component\Component
                 $internal[\ilSetupLanguage::class],
                 // Setup checks no permissions, hence no RBAC.
                 InstallLanguage::forSetup($internal[\ilSetupLanguage::class]),
+                // no plugin language files re-applied: the plugin objectives do that in the Setup
                 UpdateLanguage::forSetup($internal[\ilSetupLanguage::class])
             );
 
@@ -190,5 +218,9 @@ class Language implements Component\Component
 
         $contribute[User\Settings\UserSettings::class] = fn() =>
             new Language\UserSettings\Settings();
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'lng'
+        );
     }
 }

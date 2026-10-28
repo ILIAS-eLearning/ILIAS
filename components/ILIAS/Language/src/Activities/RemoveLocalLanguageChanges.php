@@ -44,8 +44,10 @@ class RemoveLocalLanguageChanges extends LanguageActivity
             <<<'MARKDOWN'
 Removes all local changes of one or more already installed languages - both
 entries edited directly via the "adjust language variables" table and any
-override coming from a customizing/local language file - and reinstalls each
-language purely from the global/component language files.
+override coming from a customizing/local language file, locally added variables
+and remarks - and reinstalls each language purely from the global/component
+language files (for a module maintained in PO files: from its shipped .po, its
+overlay is removed); the language files of the active plugins are applied again.
 
 A language is left completely untouched, and reported separately, if it is
 not installed (or not a known language key at all), or if its underlying
@@ -88,6 +90,7 @@ MARKDOWN
                     ),
                     $f->string($text->simpleDocument('Language key of a not-installed language.'))
                 ),
+                'overlay_write_failed_language_keys' => $this->overlayWriteFailedOutputField($f),
             ]
         );
     }
@@ -116,6 +119,7 @@ MARKDOWN
         $removed_local_changes_language_keys = [];
         $invalid_language_file_keys = [];
         $not_installed_language_keys = [];
+        $overlay_write_failed_language_keys = [];
 
         // not transactional: a failure partway leaves the languages processed so far changed
         foreach ($language_keys as $language_key) {
@@ -131,19 +135,41 @@ MARKDOWN
                 continue;
             }
 
-            // removeLocalChanges() also validates the language file: false here means invalid
+            // removeLocalChanges() also validates the language file: null here means invalid
             // (not installed is excluded above)
-            if ($this->repository->removeLocalChanges($obj_id)) {
+            try {
+                $unwritten_overlay_modules = $this->repository->removeLocalChanges($obj_id);
+            } catch (\Throwable $t) {
+                // flush("all") and the rebuild are not one transaction: the language may be left incomplete
+                $this->repository->logWarning(sprintf(
+                    'Removing the local changes of language "%s" failed after its data was flushed - '
+                    . 'the language may be incomplete, run "php cli/setup.php update" (or "Update" in the '
+                    . 'language list) to rebuild it: %s',
+                    $language_key,
+                    $t->getMessage()
+                ));
+                throw $t;
+            }
+            if ($unwritten_overlay_modules !== null) {
                 $removed_local_changes_language_keys[] = $language_key;
+                if ($unwritten_overlay_modules !== []) {
+                    $overlay_write_failed_language_keys[] = $language_key;
+                }
             } else {
                 $invalid_language_file_keys[] = $language_key;
             }
+        }
+
+        // plugin language files are flushed with the rest, so re-apply them
+        if ($removed_local_changes_language_keys !== []) {
+            $this->repository->refreshPlugins($removed_local_changes_language_keys);
         }
 
         return [
             'removed_local_changes_language_keys' => $removed_local_changes_language_keys,
             'invalid_language_file_keys' => $invalid_language_file_keys,
             'not_installed_language_keys' => $not_installed_language_keys,
+            'overlay_write_failed_language_keys' => $overlay_write_failed_language_keys,
         ];
     }
 }

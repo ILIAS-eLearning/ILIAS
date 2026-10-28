@@ -1,0 +1,254 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: zh\n"
+"Language-Team: Chinese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: cmps\n"
+
+msgid "cmps_activate"
+msgstr "激活"
+
+msgid "cmps_active"
+msgstr "激活"
+
+msgid "cmps_add_new_rank"
+msgstr "在“添加新对象”列表中的位置"
+
+msgid "cmps_available"
+msgstr "有效的"
+
+#, fuzzy
+msgid "cmps_available_version"
+msgstr "Available Version"
+
+msgid "cmps_basic_files"
+msgstr "基本文件"
+
+msgid "cmps_class_file"
+msgstr "类文件"
+
+msgid "cmps_component"
+msgstr "组件"
+
+msgid "cmps_configure"
+msgstr "配置"
+
+#, fuzzy
+msgid "cmps_current_db_version"
+msgstr "Current DB-Version"
+
+msgid "cmps_current_version"
+msgstr "当前版本"
+
+msgid "cmps_database"
+msgstr "数据库"
+
+msgid "cmps_db_update"
+msgstr "数据库更新脚本"
+
+msgid "cmps_deactivate"
+msgstr "停用"
+
+#, fuzzy
+msgid "cmps_detailed_information"
+msgstr "Detailed Informationen"
+
+msgid "cmps_dir"
+msgstr "目录"
+
+#, fuzzy
+msgid "cmps_disable_creation"
+msgstr "Disable Creation"
+
+#, fuzzy
+msgid "cmps_enable_creation"
+msgstr "Enable Creation"
+
+msgid "cmps_file_version"
+msgstr "更新文件版本"
+
+msgid "cmps_group"
+msgstr "用户组"
+
+msgid "cmps_id"
+msgstr "ID"
+
+msgid "cmps_ilias_max_version"
+msgstr "Max. ILIAS 版本"
+
+msgid "cmps_ilias_min_version"
+msgstr "Min. ILIAS 版本"
+
+msgid "cmps_inactive"
+msgstr "不活跃的"
+
+#, fuzzy
+msgid "cmps_install"
+msgstr "Install"
+
+#, fuzzy
+msgid "cmps_is_active"
+msgstr "Activated"
+
+#, fuzzy
+msgid "cmps_is_installed"
+msgstr "Installed"
+
+msgid "cmps_lang_files"
+msgstr "语言文件"
+
+msgid "cmps_lang_prefix"
+msgstr "语言变量前缀"
+
+msgid "cmps_languages"
+msgstr "语言"
+
+msgid "cmps_main_dir"
+msgstr "主目录"
+
+msgid "cmps_missing"
+msgstr "缺失"
+
+msgid "cmps_module"
+msgstr "模块"
+
+#, fuzzy
+msgid "cmps_must_installed"
+msgstr "The component must be installed."
+
+msgid "cmps_name"
+msgstr "名字"
+
+#, fuzzy
+msgid "cmps_needs_matching_ilias_version"
+msgstr "This plugin does not work with your current ILIAS version."
+
+msgid "cmps_needs_newer_ilias_version"
+msgstr "这个插件版本仅运行在更新的ILIAS版本上。请升级ILIAS。"
+
+msgid "cmps_needs_newer_plugin_version"
+msgstr "这个ILIAS版本需要一个更新的插件版本。请升级插件。"
+
+msgid "cmps_needs_update"
+msgstr "需要更新。"
+
+msgid "cmps_needs_upgrade"
+msgstr "当前已安装的插件版本比先前安装的版本更老，请升级插件。"
+
+msgid "cmps_no_db_update_file_available"
+msgstr "没有可用的数据库升级脚本。"
+
+msgid "cmps_no_language_file_available"
+msgstr "没有可用的语言文件。"
+
+msgid "cmps_plugin"
+msgstr "插件"
+
+msgid "cmps_plugin_activated"
+msgstr "插件已激活"
+
+msgid "cmps_plugin_db_prefixes"
+msgstr "数据库表前缀"
+
+msgid "cmps_plugin_deactivated"
+msgstr "插件已停用"
+
+#, fuzzy
+msgid "cmps_plugin_deinstalled"
+msgstr "The plugin has been uninstalled"
+
+msgid "cmps_plugin_file"
+msgstr "插件文件"
+
+msgid "cmps_plugin_lang_prefixes"
+msgstr "插件语言前缀"
+
+msgid "cmps_plugin_slot"
+msgstr "插件插槽(Slot)"
+
+#, fuzzy
+msgid "cmps_plugin_uninstalled"
+msgstr "The plugin has been uninstalled."
+
+#, fuzzy
+msgid "cmps_plugin_updated"
+msgstr "The plugin has been updated"
+
+msgid "cmps_plugins"
+msgstr "插件"
+
+msgid "cmps_refresh"
+msgstr "刷新"
+
+#, fuzzy
+msgid "cmps_refresh_lng"
+msgstr "Refresh language"
+
+msgid "cmps_rep_object"
+msgstr "库对象类型"
+
+#, fuzzy
+msgid "cmps_repository_object_types"
+msgstr "Repository Object Types"
+
+msgid "cmps_responsible"
+msgstr "Responsible"
+
+#, fuzzy
+msgid "cmps_responsible_mail"
+msgstr "Mail (Responsible)"
+
+msgid "cmps_save_options"
+msgstr "保存选项"
+
+msgid "cmps_service"
+msgstr "服务"
+
+msgid "cmps_show_details"
+msgstr "细节展示"
+
+#, fuzzy
+msgid "cmps_slots"
+msgstr "Slots"
+
+msgid "cmps_status"
+msgstr "状态"
+
+#, fuzzy
+msgid "cmps_supports_cli_setup"
+msgstr "Supports CLI-Setup"
+
+#, fuzzy
+msgid "cmps_supports_export"
+msgstr "Supports export"
+
+#, fuzzy
+msgid "cmps_supports_learning_progress"
+msgstr "Supports learning progress"
+
+#, fuzzy
+msgid "cmps_uninstall"
+msgstr "Uninstall"
+
+#, fuzzy
+msgid "cmps_uninstall_confirm"
+msgstr "Are you sure you want to uninstall the plugin \"%s\"?"
+
+#, fuzzy
+msgid "cmps_uninstall_inactive_confirm"
+msgstr "The plugin \"%1$s\" can currently not be activated (\"%2$s\"). In this state plugins cannot be uninstalled completely. As only the core integration is reverted, plugin custom data may remain. Would you like to continue with the partial uninstall?"
+
+msgid "cmps_update"
+msgstr "更新"
+
+msgid "cmps_version"
+msgstr "版本"
+
+msgid "database_is_uptodate"
+msgstr "该数据库是当前数据库"
+
+msgid "no_changes"
+msgstr "没有变化"

@@ -20,7 +20,10 @@ declare(strict_types=1);
 
 namespace ILIAS\Language\Setup;
 
+use ILIAS\Language\ComponentTranslation\Catalog\TranslationCatalog;
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectoryManager;
+use ILIAS\Language\ComponentTranslation\MigratedLanguageFilePaths;
 
 class InstalledLanguageDatabaseRepository implements InstalledLanguageRepository
 {
@@ -153,7 +156,7 @@ class InstalledLanguageDatabaseRepository implements InstalledLanguageRepository
                     $d = dir($path);
                     chdir($path);
                     while ($entry = $d->read()) {
-                        if (is_file($entry) && (preg_match("~(^ilias_" . self::LANGUAGE_KEY_PATTERN . "\.lang" . preg_quote($directory->getSuffix(), "~") . "$)~", $entry))) {
+                        if (is_file($entry) && (preg_match("~(^ilias_" . self::LANGUAGE_KEY_PATTERN . "\.lang" . preg_quote($directory->getSuffix(), "~") . "\\z)~", $entry))) {
                             $lang_key = substr($entry, 6, 2);
                             $local_langs[] = $lang_key;
                         }
@@ -181,7 +184,7 @@ class InstalledLanguageDatabaseRepository implements InstalledLanguageRepository
                     $d = dir($path);
                     chdir($path);
                     while ($entry = $d->read()) {
-                        if (is_file($entry) && (preg_match("~(^ilias_" . self::LANGUAGE_KEY_PATTERN . "\.lang" . preg_quote($directory->getSuffix(), "~") . "$)~", $entry))) {
+                        if (is_file($entry) && (preg_match("~(^ilias_" . self::LANGUAGE_KEY_PATTERN . "\.lang" . preg_quote($directory->getSuffix(), "~") . "\\z)~", $entry))) {
                             $lang_key = substr($entry, 6, 2);
                             $installableLanguages[] = $lang_key;
                         }
@@ -232,11 +235,55 @@ class InstalledLanguageDatabaseRepository implements InstalledLanguageRepository
 
     public function checkLanguage(string $lang_key): bool
     {
-        foreach ($this->language_file_directory_manager->getAllDirectories() as $directory) {
+        return $this->checkLanguageIn($lang_key, $this->language_file_directory_manager->getAllDirectories());
+    }
+
+    /**
+     * checkLanguage() without the customizing/local directory: whether $lang_key can be rebuilt purely
+     * from its shipped files - "remove local changes" does not apply the customizing file, so an
+     * invalid one must not block it.
+     */
+    public function checkShippedLanguage(string $lang_key): bool
+    {
+        return $this->checkLanguageIn($lang_key, $this->language_file_directory_manager->getDirectories());
+    }
+
+    /**
+     * @param iterable<LanguageFileDirectory> $directories
+     */
+    private function checkLanguageIn(string $lang_key, iterable $directories): bool
+    {
+        foreach ($directories as $directory) {
             $required = $directory instanceof \ILIAS\Language\ComponentTranslation\MainLanguageFileDirectory;
             if (!$this->checkLanguageFile($lang_key, $directory, $required)) {
                 return false;
             }
+            if (!$this->checkShippedPoFile($lang_key, $directory)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * A migrated module's shipped `.po` is the only source of its shipped values: one that cannot be
+     * parsed makes the language invalid, so it is refused before its data is flushed, not halfway
+     * through the reinstall. A directory without a shipped `.po` for $lang_key is trivially valid.
+     */
+    private function checkShippedPoFile(string $lang_key, LanguageFileDirectory $directory): bool
+    {
+        if ($directory->isLocal() || $directory->getPrefix() === '') {
+            return true;
+        }
+        $shipped_po = MigratedLanguageFilePaths::shippedBasePath($this->installation_root->getPath(), $directory, $lang_key) . '.po';
+        if (!is_file($shipped_po)) {
+            return true;
+        }
+        try {
+            TranslationCatalog::fromPoFile($shipped_po);
+        } catch (\RuntimeException) {
+            return false;
         }
 
         return true;

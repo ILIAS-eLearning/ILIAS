@@ -1,0 +1,65 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: tos\n"
+
+#, fuzzy
+msgid "tos_accept_usr_agreement_anonymous"
+msgstr "Terms of Service"
+
+#, fuzzy
+msgid "tos_accept_usr_agreement_anonymous_intro"
+msgstr "Before you proceed to ILIAS you accept the following Terms of Service."
+
+msgid "tos_account_reg_not_possible"
+msgstr "Självregistrering är för närvarande inte möjlig eftersom inget användaravtal erbjuds i denna installation. Kontakta din <a href=\"%1$s\">systemadministratör för</a> mer information."
+
+#, fuzzy
+msgid "tos_agree_date"
+msgstr "ToS agreed on"
+
+msgid "tos_agreement"
+msgstr "Använda avtal"
+
+msgid "tos_disabled_no_docs_left"
+msgstr "Användaravtalen har inaktiverats eftersom alla dokument har raderats. Skapa minst ett dokument innan du återaktiverar användaravtalen."
+
+msgid "tos_last_reset_date"
+msgstr "Användaravtalen återställdes senast den %s. Återställ endast användaravtalen om de har ändrats under tiden och samtycke till detta ändrade avtal önskas."
+
+msgid "tos_never_reset"
+msgstr "Användaravtalen har ännu inte återställts. Återställ endast användaravtalen om de har ändrats under tiden och samtycke till detta ändrade avtal önskas."
+
+msgid "tos_no_documents_exist"
+msgstr "Det finns för närvarande inga tillgängliga dokument om användningsavtal."
+
+msgid "tos_no_documents_exist_cant_save"
+msgstr "Det finns för närvarande inga tillgängliga användaravtal. Vänligen skapa minst ett dokument för att aktivera tjänsten."
+
+#, fuzzy
+msgid "tos_reset_for_all_users"
+msgstr "Reset Terms of Service"
+
+msgid "tos_reset_successful"
+msgstr "Användaravtalen har återställts framgångsrikt."
+
+msgid "tos_status_desc"
+msgstr "Användare ombeds att underteckna användaravtalet innan de kan använda ILIAS."
+
+msgid "tos_status_enable"
+msgstr "Aktivera användningsavtal"
+
+msgid "tos_sure_reset_tos"
+msgstr "Är du säker på att användaravtalen för alla användare i systemet ska återställas? Detta gäller även de inloggningskonton som används för SOAP-webbtjänsterna, till exempel."
+
+msgid "tos_withdrawal_usr_deletion"
+msgstr "Radering av ILIAS-kontot efter återkallelse"
+
+#, fuzzy
+msgid "tos_withdrawal_usr_deletion_desc"
+msgstr "If a user withdraws their acceptance from  a previously accepted Terms of Service document, this will result in the deletion of the user’s account."

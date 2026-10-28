@@ -3314,79 +3314,6 @@ cmix#:#use_fetch_info#:#As long as the resource supports this option, you should
 cmix#:#xapi_statements_fetched_successfully#:#Results from Learning Record Store were fetched successfully###07 02 2020 new variable
 cmix#:#xapi_statements_last_fetch_date#:#Last fetch of Results:###07 02 2020 new variable
 cmix#:#xapi_statements_not_fetched_yet#:#Results from Learning Record Store are not fetched yet###07 02 2020 new variable
-cmps#:#cmps_activate#:#Aktivovat
-cmps#:#cmps_active#:#Aktivní
-cmps#:#cmps_add_new_rank#:#Pozice v seznamu "Přidat nový objekt"
-cmps#:#cmps_available#:#Dostupné
-cmps#:#cmps_available_version#:#Available Version###29 07 2022 new variable
-cmps#:#cmps_basic_files#:#Základní soubory
-cmps#:#cmps_class_file#:#Soubor třídy
-cmps#:#cmps_component#:#Komponenta
-cmps#:#cmps_configure#:#Konfigurovat
-cmps#:#cmps_current_db_version#:#Current DB-Version###29 07 2022 new variable
-cmps#:#cmps_current_version#:#Aktuální verze
-cmps#:#cmps_database#:#Databáze
-cmps#:#cmps_db_update#:#Skript aktualizace DB
-cmps#:#cmps_deactivate#:#Deaktivovat
-cmps#:#cmps_detailed_information#:#Detailed Informationen###29 07 2022 new variable
-cmps#:#cmps_dir#:#Adresář
-cmps#:#cmps_enable_creation#:#Zapnout tvorbu
-cmps#:#cmps_file_version#:#Verze akualizačního souboru
-cmps#:#cmps_group#:#Skupina
-cmps#:#cmps_id#:#ID
-cmps#:#cmps_ilias_max_version#:#Max. verze ILIAS
-cmps#:#cmps_ilias_min_version#:#Min. verze ILIAS
-cmps#:#cmps_inactive#:#Neaktivní
-cmps#:#cmps_install#:#Install
-cmps#:#cmps_is_active#:#Activated###29 07 2022 new variable
-cmps#:#cmps_is_installed#:#Installed###29 07 2022 new variable
-cmps#:#cmps_lang_files#:#Soubory jazyků
-cmps#:#cmps_lang_prefix#:#Označení jazykových proměnných
-cmps#:#cmps_languages#:#Jazyky
-cmps#:#cmps_main_dir#:#Hlavní adresář
-cmps#:#cmps_missing#:#Chybí
-cmps#:#cmps_module#:#Modul
-cmps#:#cmps_must_installed#:#Komponenta musí být instalována.
-cmps#:#cmps_name#:#Název
-cmps#:#cmps_needs_matching_ilias_version#:#This plugin does not work with your current ILIAS version.###29 07 2022 new variable
-cmps#:#cmps_needs_newer_ilias_version#:#Tato verze pluginu běží jen na novější verzi ILIAS. Aktualizujte prosím ILIAS.
-cmps#:#cmps_needs_newer_plugin_version#:#Tato verze ILIAS vyžaduje novější verzi zásuvného souboru. Aktualizujte prosím plugin.
-cmps#:#cmps_needs_update#:#Vyžaduje aktualizaci.
-cmps#:#cmps_needs_upgrade#:#Verze pluginu, kterou instalujete, je starší než nainstalovaná verze. Aktualizujte prosím plugin.
-cmps#:#cmps_no_db_update_file_available#:#Není dostupný žádný skript aktualizace DB.
-cmps#:#cmps_no_language_file_available#:#Žádný jazykový soubor není dostupný.
-cmps#:#cmps_plugin#:#Plugin
-cmps#:#cmps_plugin_activated#:#Plugin byl aktivován.
-cmps#:#cmps_plugin_db_prefixes#:#Označení tabulek DB
-cmps#:#cmps_plugin_deactivated#:#Plugin byl deaktivován.
-cmps#:#cmps_plugin_deinstalled#:#The plugin has been uninstalled###29 07 2022 new variable
-cmps#:#cmps_plugin_file#:#Soubor pluginu
-cmps#:#cmps_plugin_lang_prefixes#:#Označení jazykových pluginů
-cmps#:#cmps_plugin_slot#:#Slot pluginu
-cmps#:#cmps_plugin_uninstalled#:#Plugin byl odinstalován.
-cmps#:#cmps_plugin_updated#:#The plugin has been updated###29 07 2022 new variable
-cmps#:#cmps_plugins#:#Pluginy
-cmps#:#cmps_refresh#:#Obnovení
-cmps#:#cmps_refresh_lng#:#Refresh language###29 07 2022 new variable
-cmps#:#cmps_rep_object#:#Typ objektu úložiště
-cmps#:#cmps_repository_object_types#:#Typy objektů úložiště
-cmps#:#cmps_responsible#:#Zodpovědný
-cmps#:#cmps_responsible_mail#:#Mail (Responsible)###29 07 2022 new variable
-cmps#:#cmps_save_options#:#Uložit nastavení
-cmps#:#cmps_service#:#Služba
-cmps#:#cmps_show_details#:#Zobrazit detaily
-cmps#:#cmps_slots#:#Sloty
-cmps#:#cmps_status#:#Status
-cmps#:#cmps_supports_cli_setup#:#Supports CLI-Setup###29 07 2022 new variable
-cmps#:#cmps_supports_export#:#Supports export###29 07 2022 new variable
-cmps#:#cmps_supports_learning_progress#:#Supports learning progress###29 07 2022 new variable
-cmps#:#cmps_uninstall#:#Odinstalovat
-cmps#:#cmps_uninstall_confirm#:#Opravdu chcete odinstalovat plugin „%s“?
-cmps#:#cmps_uninstall_inactive_confirm#:#Plugin „%1$s“ nelze v současné době aktivovat („%2$s“). V tomto stavu nelze pluginy zcela odinstalovat. Vzhledem k tomu, že je vrácena pouze integrace jádra, mohou zůstat zachována vlastní data pluginu. Chcete pokračovat v částečném odinstalování?
-cmps#:#cmps_update#:#Akualizovat
-cmps#:#cmps_version#:#Verze
-cmps#:#database_is_uptodate#:#Tato databáze je aktuální.
-cmps#:#no_changes#:#Žádné změny
 cmxv#:#cmxv_create#:#Create Certificate for xAPI/cmi5 Object###07 02 2020 new variable
 cmxv#:#cmxv_create_info#:#Select a completed xAPI/cmi5 object to generate a certificate for it###07 02 2020 new variable
 cntr#:#cntr_add_new_item#:#Přidat novou položku
@@ -11014,11 +10941,6 @@ lm#:#lm_page_added#:#Page has been added.###26 08 2024 new variable
 lm#:#lm_page_type_lm#:#LM Page###29 07 2022 new variable
 lm#:#lm_pages_added#:#Pages have been added.###26 08 2024 new variable
 lm#:#lm_save_titles#:#Titulky byly uloženy.
-lng#:#language_detection#:#Language Detection###29 07 2022 new variable
-lng#:#lng_disable_language_detection#:#Vypnout detekci jazyka
-lng#:#lng_download_deprecated#:#Stáhnout seznam nepoužívaných
-lng#:#lng_enable_language_detection#:#Zapnout detekci jazyka
-lng#:#lng_switch_language_detection#:#Switch Language Detection###26 08 2024 new variable
 log#:#log_browser#:#Protokol konzoly prohlížeče
 log#:#log_browser_users#:#Protokol konzoly použití uživatelských jmen
 log#:#log_cache_#:#Ukládání do mezipaměti
@@ -13278,75 +13200,6 @@ pd#:#pd_upcoming#:#Nadcházející
 pd#:#pd_view_select_at_least_one#:#Musíte vybrat alespoň jedno zobrazení, také 'Vybrané položky' a/nebo 'Má členství'.
 pdesk#:#bookmark_moved_ok#:#Záložka byla přesunuta.
 pdesk#:#bookmark_select_target#:#Vyberte prosím cíl.
-poll#:#poll_absolute#:#Aktuální hlasy
-poll#:#poll_activation_online_info#:#Aktivujte toto nastavení ke zpřístupnění hlasování uživatelům.
-poll#:#poll_add#:#Přidat anketu
-poll#:#poll_anonymous_warning#:#Vaše jméno není ve výsledcích ankety viditelné.
-poll#:#poll_answer#:#Odpověď
-poll#:#poll_answer_selected_alt_text#:#Selected###26 08 2024 new variable
-poll#:#poll_answers#:#Možné odpovědi
-poll#:#poll_barchart#:#Sloupcový graf
-poll#:#poll_block_message_already_voted#:#V této anketě jste již hlasoval(a).
-poll#:#poll_block_message_no_answers#:#Tato anketa není kompletní.
-poll#:#poll_block_results_available_on#:#Tyto výsledky budou dostupné na %s.
-poll#:#poll_cannot_set_online_no_answers#:#The status cannot be changed to &quot;online&quot; because this poll has no question!###26 08 2024 new variable
-poll#:#poll_chart_votes#:#Votes###28 10 2024 new variable
-poll#:#poll_comments#:#Komentáře
-poll#:#poll_copy#:#Kopírovat anketu
-poll#:#poll_delete_votes#:#Smazat všechny hlasy
-poll#:#poll_delete_votes_sure#:#Skutečně chcete smazat všechny hlasy?
-poll#:#poll_edit#:#Upravit anketu
-poll#:#poll_edit_question#:#Edit Question###26 08 2024 new variable
-poll#:#poll_image#:#Obrázek
-poll#:#poll_import#:#Importovat anketu
-poll#:#poll_limit_not_below_answer_count#:#The answer limit must be below the number of possible answers.###26 08 2024 new variable
-poll#:#poll_limit_number_of_answers#:#Limit Number of Answers per Participant###26 08 2024 new variable
-poll#:#poll_max_number_of_answers#:#Maximální počet odpovědí na účastníka
-poll#:#poll_max_number_of_answers_info#:#You may choose up to %s answers.###26 08 2024 new variable
-poll#:#poll_mode#:#Režim
-poll#:#poll_mode_anonymous#:#Anonymní
-poll#:#poll_mode_anonymous_info#:#Nelze zpětně vysledovat, jak účastníci hlasovali.
-poll#:#poll_mode_personal#:#Osobní
-poll#:#poll_mode_personal_info#:#Seznam účastníků s jejich příslušnými hlasy je k dispozici při dostatečném povolení.
-poll#:#poll_new#:#Přidat novou anketu
-poll#:#poll_non_anonymous_warning#:#Vaše jméno a hlas jsou viditelné správcům ve výsledcích.
-poll#:#poll_notification_activated#:#Notification Activated###26 08 2024 new variable
-poll#:#poll_notification_deactivated#:#Notification Deactivated###26 08 2024 new variable
-poll#:#poll_notification_subscribe#:#Aktivovat oznámení
-poll#:#poll_notification_unsubscribe#:#Deaktivovat oznámení
-poll#:#poll_percentage#:#Aktuální procento
-poll#:#poll_population#:#%s Hlasů
-poll#:#poll_population_singular#:#1 Participant###26 08 2024 new variable
-poll#:#poll_question#:#Otázka
-poll#:#poll_result#:#Výsledky hlasování
-poll#:#poll_result_answers#:#Hlasy
-poll#:#poll_result_sorting#:#Třídění
-poll#:#poll_result_sorting_answers#:#V pořadí odpovědí
-poll#:#poll_result_sorting_votes#:#Podle počtu hlasů (sestupně)
-poll#:#poll_result_users#:#Účastníci
-poll#:#poll_show_results_as#:#Zobrazit výsledky jako
-poll#:#poll_sortorder#:#Pořadí
-poll#:#poll_stacked_chart#:#Stacked Chart###28 10 2024 new variable
-poll#:#poll_view_results#:#Zobrazit výsledky
-poll#:#poll_view_results_after_period#:#Po době určené k hlasování
-poll#:#poll_view_results_after_period_impossible#:#Doba hlasování není omezena.
-poll#:#poll_view_results_after_vote#:#Po hlasování
-poll#:#poll_view_results_always#:#Vždy
-poll#:#poll_view_results_never#:#Nikdy
-poll#:#poll_vote#:#Hlas
-poll#:#poll_vote_error_multi#:#Vyberte více než %s odpovědí.
-poll#:#poll_vote_error_multi_no_answer#:#Please select at least 1 answer.###26 08 2024 new variable
-poll#:#poll_vote_error_single#:#Vyberte prosím 1 odpověď.
-poll#:#poll_vote_notification_body#:#součástí následující ankety bylo hlasování.
-poll#:#poll_vote_notification_link#:#Odkaz na Anketu
-poll#:#poll_vote_notification_reason#:#Dostáváte tento e-mail, protože jste aktivovali upozornění na výše uvedenou anketu.
-poll#:#poll_vote_notification_subject#:#Anketa "%s": nové hlasování
-poll#:#poll_votes_no_edit#:#Tato anketa již obsahuje hlasy. Nemůžete tuto anketu upravovat, dokud tyto hlasy nesmažete.
-poll#:#poll_voting_period_and_results#:#Období hlasování a výsledky
-poll#:#poll_voting_period_ended_info#:#The voting period ended %s.###26 08 2024 new variable
-poll#:#poll_voting_period_full_info#:#Doba hlasování od %s do %s
-poll#:#poll_voting_period_info#:#Termín pro hlasování: %s
-poll#:#poll_voting_period_limited#:#Omezeno
 prg#:#access_ctr_by_orgu_position#:#Access control according to Organisational Unit Positions###07 02 2020 new variable
 prg#:#active_only#:#active users only###26 08 2024 new variable
 prg#:#add_automembership_source#:#Add Source###07 02 2020 new variable
@@ -17080,23 +16933,6 @@ tax#:#tax_tax_settings#:#Nastavení taxonomie
 tax#:#tax_taxonomy#:#Taxonomie
 tbl#:#tbl_export_csv#:#Exportovat .csv
 tbl#:#tbl_export_excel#:#Exportovat .xls
-tos#:#tos_accept_usr_agreement_anonymous#:#Terms of Service###26 08 2024 new variable
-tos#:#tos_accept_usr_agreement_anonymous_intro#:#Before you proceed to ILIAS you accept the following Terms of Service.###26 08 2024 new variable
-tos#:#tos_account_reg_not_possible#:#Vlastní registrace není možná kvůli chybějící uživatelské smlouvě. Další informace vám poskytne <a href="%1$s"> správce systému </a>.
-tos#:#tos_agree_date#:#ToS agreed on###26 08 2024 new variable
-tos#:#tos_agreement#:#Smluvní podmínky
-tos#:#tos_disabled_no_docs_left#:#Uživatelské smlouvy jsou nyní zakázány, protože všechny dokumenty byly vymazány. Před opětovným povolením uživatelských smluv vytvořte alespoň jeden dokument.
-tos#:#tos_last_reset_date#:#Podmínky služby byly resetovány na %s.
-tos#:#tos_never_reset#:#Podmínky služby nebyly dosud resetovány.
-tos#:#tos_no_documents_exist#:#V současné době neexistují žádné podmínky služeb pro žádný z nainstalovaných jazyků.
-tos#:#tos_no_documents_exist_cant_save#:#V současné době neexistují žádné podmínky služeb pro žádný z nainstalovaných jazyků. Přidejte alespoň jeden dokument pro každý z nainstalovaných jazyků.
-tos#:#tos_reset_for_all_users#:#Reset Terms of Service###26 08 2024 new variable
-tos#:#tos_reset_successful#:#Podmínky služby byly úspěšně resetovány.
-tos#:#tos_status_desc#:#Pokud jsou aktivováni, uživatelé jsou nuceni přijmout podmínky služby dříve, než jim je povoleno vstoupit do ILIAS.
-tos#:#tos_status_enable#:#Povolit
-tos#:#tos_sure_reset_tos#:#Opravdu chcete resetovat podmínky služby pro všechny uživatele v systému? To platí i pro ty účty, které se používají pro webové služby SOAP, chatový server nebo úkol cron.
-tos#:#tos_withdrawal_usr_deletion#:#Account Deletion Upon Withdrawal From Terms of Service###29 07 2022 new variable
-tos#:#tos_withdrawal_usr_deletion_desc#:#If a user withdraws their acceptance from  a previously accepted Terms of Service document, this will result in the deletion of the user’s account.###26 08 2024 new variable
 trac#:#cmix_lp_mode_deactivated#:#Learning Progress is Deactivated###07 02 2020 new variable
 trac#:#cmix_lp_mode_deactivated_info#:#The learning progress status is not displayed and does not influence parent objects.###07 02 2020 new variable
 trac#:#cmix_lp_mode_when_completed#:#Completed when 'completed'###07 02 2020 new variable

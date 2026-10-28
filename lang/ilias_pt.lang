@@ -3355,79 +3355,6 @@ cmix#:#use_fetch_info#:#As long as the resource supports this option, you should
 cmix#:#xapi_statements_fetched_successfully#:#Results from Learning Record Store were fetched successfully###07 02 2020 new variable
 cmix#:#xapi_statements_last_fetch_date#:#Last fetch of Results:###07 02 2020 new variable
 cmix#:#xapi_statements_not_fetched_yet#:#Results from Learning Record Store are not fetched yet###07 02 2020 new variable
-cmps#:#cmps_activate#:#Verifique o seu ficheiro de idioma
-cmps#:#cmps_active#:#Verificar todos os idiomas
-cmps#:#cmps_add_new_rank#:#Posição em lista Adicionar novos objetos
-cmps#:#cmps_available#:#Verificação do weblink
-cmps#:#cmps_available_version#:#Available Version###03 09 2026 new variable
-cmps#:#cmps_basic_files#:#Se estiver ativado, todos os links externos nos módulos de aprendizagem ILIAS serão verificados quanto á sua ativação.
-cmps#:#cmps_class_file#:#Verificar as contas de utilizador
-cmps#:#cmps_component#:#Se estiver ativado, todos os utilizadores cujas contas expiram serão informados por e-mail duas semanas antes. Além disso, todos os utilizadores que não confirmaram a sua conta depois de um registo com confirmação de e-mail serão apagados.
-cmps#:#cmps_configure#:#Configurar
-cmps#:#cmps_current_db_version#:#Current DB-Version###03 09 2026 new variable
-cmps#:#cmps_current_version#:#Verificar links de web
-cmps#:#cmps_database#:#Se estiver ativado, todos os weblinks serão verificados quanto à sua ativação.
-cmps#:#cmps_db_update#:#Mudar palavra-passe da pasta web
-cmps#:#cmps_deactivate#:#Mudar palavra-passe ILIAS
-cmps#:#cmps_detailed_information#:#Detailed Informationen###03 09 2026 new variable
-cmps#:#cmps_dir#:#Mudar palavra-passe
-cmps#:#cmps_enable_creation#:#Ativar criação
-cmps#:#cmps_file_version#:#Atualizar versão de ficheiro
-cmps#:#cmps_group#:#Selecione seu idioma
-cmps#:#cmps_id#:#ID
-cmps#:#cmps_ilias_max_version#:#Selecione apenas um idioma
-cmps#:#cmps_ilias_min_version#:#Acesso de leitura à administração da sala de chat
-cmps#:#cmps_inactive#:#A administração da sala de chat está visível
-cmps#:#cmps_install#:#Instalar
-cmps#:#cmps_is_active#:#Activated###03 09 2026 new variable
-cmps#:#cmps_is_installed#:#Installed###03 09 2026 new variable
-cmps#:#cmps_lang_files#:#Copiar sala de chat
-cmps#:#cmps_lang_prefix#:#Cidade, estado
-cmps#:#cmps_languages#:#Editar administração da sala de chat
-cmps#:#cmps_main_dir#:#Limpar
-cmps#:#cmps_missing#:#Limpar área de transferência
-cmps#:#cmps_module#:#Cliente
-cmps#:#cmps_must_installed#:#O componente tem de estar instalado.
-cmps#:#cmps_name#:#ID do cliente
-cmps#:#cmps_needs_matching_ilias_version#:#This plugin does not work with your current ILIAS version.###03 09 2026 new variable
-cmps#:#cmps_needs_newer_ilias_version#:#Esta versão de plugin apenas funciona em versões mais recentes de ILIAS. Atualize o ILIAS.
-cmps#:#cmps_needs_newer_plugin_version#:#Esta versão de ILIAS requer uma versão de plugin mais recente. Atualize o plugin.
-cmps#:#cmps_needs_update#:#IP do cliente
-cmps#:#cmps_needs_upgrade#:#A versão de plugin atualmente instalada é mais antiga do que a versão anteriormente instalada. Atualize o plugin.
-cmps#:#cmps_no_db_update_file_available#:#Nenhum script de atualização DB disponível.
-cmps#:#cmps_no_language_file_available#:#Nenhum ficheiro de idioma disponível.
-cmps#:#cmps_plugin#:#Plugin
-cmps#:#cmps_plugin_activated#:#O plugin foi ativado.
-cmps#:#cmps_plugin_db_prefixes#:#Fechar
-cmps#:#cmps_plugin_deactivated#:#O plugin foi desativado.
-cmps#:#cmps_plugin_deinstalled#:#The plugin has been uninstalled###03 09 2026 new variable
-cmps#:#cmps_plugin_file#:#(%s Novo)
-cmps#:#cmps_plugin_lang_prefixes#:#Colapsado
-cmps#:#cmps_plugin_slot#:#Colunas
-cmps#:#cmps_plugin_uninstalled#:#Separado por vírgulas
-cmps#:#cmps_plugin_updated#:#The plugin has been updated###03 09 2026 new variable
-cmps#:#cmps_plugins#:#Plugins
-cmps#:#cmps_refresh#:#Comentário
-cmps#:#cmps_refresh_lng#:#Refresh language###03 09 2026 new variable
-cmps#:#cmps_rep_object#:#Compor
-cmps#:#cmps_repository_object_types#:#Tipos de objeto do repositório
-cmps#:#cmps_responsible#:#Confirmar
-cmps#:#cmps_responsible_mail#:#Mail (Responsible)###03 09 2026 new variable
-cmps#:#cmps_save_options#:#Contacto
-cmps#:#cmps_service#:#Informação de contacto
-cmps#:#cmps_show_details#:#Contactar a Assistência Técnica
-cmps#:#cmps_slots#:#Slots
-cmps#:#cmps_status#:#Estado
-cmps#:#cmps_supports_cli_setup#:#Supports CLI-Setup###03 09 2026 new variable
-cmps#:#cmps_supports_export#:#Supports export###03 09 2026 new variable
-cmps#:#cmps_supports_learning_progress#:#Supports learning progress###03 09 2026 new variable
-cmps#:#cmps_uninstall#:#Desinstalar
-cmps#:#cmps_uninstall_confirm#:#Conteúdo
-cmps#:#cmps_uninstall_inactive_confirm#:#O plugin "%1$s" atualmente não pode ser ativado ("%2$s"). Neste estado, os plugins não podem ser desinstalados completamente. Como apenas a integração nuclear é revertida, os dados personalizados do plugin podem permanecer. Quer continuar com a desinstalação parcial?
-cmps#:#cmps_update#:#Atualizar
-cmps#:#cmps_version#:#Versão
-cmps#:#database_is_uptodate#:#Estilos de conteúdo
-cmps#:#no_changes#:#Contexto
 cmxv#:#cmxv_create#:#Create Certificate for xAPI/cmi5 Object###07 02 2020 new variable
 cmxv#:#cmxv_create_info#:#Select a completed xAPI/cmi5 object to generate a certificate for it###07 02 2020 new variable
 cntr#:#cntr_add_new_item#:#Aparecem popups de conteúdo quando o utilizador clica em partes interativas da imagem de fundo. Neste ecrã pode apenas definir os popups. O seu conteúdo pode ser editado no ecrã de edição da página.
@@ -11085,11 +11012,6 @@ lm#:#lm_page_added#:#Page has been added.###03 09 2026 new variable
 lm#:#lm_page_type_lm#:#LM Page###30 04 2021 new variable
 lm#:#lm_pages_added#:#Pages have been added.###03 09 2026 new variable
 lm#:#lm_save_titles#:#Títulos guardados.
-lng#:#language_detection#:#Language Detection###30 04 2021 new variable
-lng#:#lng_disable_language_detection#:#Desativar deteção de idioma
-lng#:#lng_download_deprecated#:#Descarregar lista obsoleta
-lng#:#lng_enable_language_detection#:#Ativar deteção de idioma
-lng#:#lng_switch_language_detection#:#Switch Language Detection###03 09 2026 new variable
 log#:#log_component_btn_reset#:#Repor definições
 log#:#log_component_col_component#:#Componente
 log#:#log_component_col_level#:#Nível log
@@ -13389,74 +13311,6 @@ pd#:#pd_upcoming#:#Futuros
 pd#:#pd_view_select_at_least_one#:#Este módulo de aprendizagem já foi exportado. Abra-o com o computador onde instalou o Firefox com o addon do leitor offline SCORM.
 pdesk#:#bookmark_moved_ok#:#Os favoritos foram movidos.
 pdesk#:#bookmark_select_target#:#Selecione destino.
-poll#:#poll_absolute#:#Votos atuais
-poll#:#poll_activation_online_info#:#A transferir dados de rastreio para ILIAS. Aguarde um momento.
-poll#:#poll_add#:#Adicionar sondagem
-poll#:#poll_anonymous_warning#:#O seu nome não está visível nos resultados da sondagem.
-poll#:#poll_answer#:#Resposta
-poll#:#poll_answer_selected_alt_text#:#Selected###03 09 2026 new variable
-poll#:#poll_answers#:#Possíveis respostas
-poll#:#poll_barchart#:#Gráfico de barras
-poll#:#poll_block_message_already_voted#:#Já votou nesta sondagem.
-poll#:#poll_block_message_no_answers#:#Esta sondagem está incompleta.
-poll#:#poll_block_results_available_on#:#Os resultados estão disponíveis em %s.
-poll#:#poll_cannot_set_online_no_answers#:#The status cannot be changed to &quot;online&quot; because this poll has no question!###03 09 2026 new variable
-poll#:#poll_chart_votes#:#Votes###03 09 2026 new variable
-poll#:#poll_comments#:#Comentários
-poll#:#poll_copy#:#Copiar sondagem
-poll#:#poll_delete_votes#:#Apagar todos os votos
-poll#:#poll_delete_votes_sure#:#Tem a certeza que quer apagar todos os votos?
-poll#:#poll_edit#:#Editar sondagem
-poll#:#poll_edit_question#:#Edit Question###03 09 2026 new variable
-poll#:#poll_image#:#Imagem
-poll#:#poll_limit_not_below_answer_count#:#The answer limit must be below the number of possible answers.###03 09 2026 new variable
-poll#:#poll_limit_number_of_answers#:#Limit Number of Answers per Participant###03 09 2026 new variable
-poll#:#poll_max_number_of_answers#:#Número máximo de respostas por participante
-poll#:#poll_max_number_of_answers_info#:#You may choose up to %s answers.###03 09 2026 new variable
-poll#:#poll_mode#:#Modo
-poll#:#poll_mode_anonymous#:#Anónimo
-poll#:#poll_mode_anonymous_info#:#Os votos não podem ser associados aos participantes.
-poll#:#poll_mode_personal#:#Pessoal
-poll#:#poll_mode_personal_info#:#Uma lista de participantes com os respetivos votos está disponível se tiver autorização suficiente.
-poll#:#poll_new#:#Adicionar nova sondagem
-poll#:#poll_non_anonymous_warning#:#O seu nome e voto estão visíveis aos administradores nos resultados.
-poll#:#poll_notification_activated#:#Notification Activated###03 09 2026 new variable
-poll#:#poll_notification_deactivated#:#Notification Deactivated###03 09 2026 new variable
-poll#:#poll_notification_subscribe#:#Ativar notificação
-poll#:#poll_notification_unsubscribe#:#Desativar notificação
-poll#:#poll_percentage#:#Percentagem atual
-poll#:#poll_population#:#A transferência dados de rastreio foi bem-sucedida.
-poll#:#poll_population_singular#:#1 Participant###03 09 2026 new variable
-poll#:#poll_question#:#Pergunta
-poll#:#poll_result#:#Importar dados de rastreio
-poll#:#poll_result_answers#:#Votos
-poll#:#poll_result_sorting#:#Ordenar
-poll#:#poll_result_sorting_answers#:#Pela ordem das respostas
-poll#:#poll_result_sorting_votes#:#Por número de votos (descendente)
-poll#:#poll_result_users#:#Participantes
-poll#:#poll_show_results_as#:#Mostrar resultados como
-poll#:#poll_sortorder#:#Ordem
-poll#:#poll_stacked_chart#:#Stacked Chart###03 09 2026 new variable
-poll#:#poll_view_results#:#Exibir resultados
-poll#:#poll_view_results_after_period#:#Exportar módulos de aprendizagem SCORM para uso offline
-poll#:#poll_view_results_after_period_impossible#:#O período de votação não está limitado.
-poll#:#poll_view_results_after_vote#:#Após o voto
-poll#:#poll_view_results_always#:#Sempre
-poll#:#poll_view_results_never#:#Nunca
-poll#:#poll_vote#:#Votar
-poll#:#poll_vote_error_multi#:#Não selecione mais do que %s respostas.
-poll#:#poll_vote_error_multi_no_answer#:#Please select at least 1 answer.###03 09 2026 new variable
-poll#:#poll_vote_error_single#:#Selecione 1 resposta.
-poll#:#poll_vote_notification_body#:#a seguinte sondagem recebeu um voto.
-poll#:#poll_vote_notification_link#:#Link para sondagem
-poll#:#poll_vote_notification_reason#:#As variáveis less foram atualizadas. Importante: Note que o caching pode impedir que as suas alterações sejam exibidas. Pode precisar de limpar o cache do seu navegador.
-poll#:#poll_vote_notification_subject#:#Sondagem "%s": novo voto
-poll#:#poll_votes_no_edit#:#Iniciar gestor offline SCORM
-poll#:#poll_voting_period_and_results#:#Período de votação e resultados
-poll#:#poll_voting_period_ended_info#:#The voting period ended %s.###03 09 2026 new variable
-poll#:#poll_voting_period_full_info#:#Período de votação de %s até %s
-poll#:#poll_voting_period_info#:#Prazo para votar: %s
-poll#:#poll_voting_period_limited#:#Todos os estilos selecionados são obrigatórios e não podem ser apagados.
 prg#:#access_ctr_by_orgu_position#:#Access control according to Organisational Unit Positions###07 02 2020 new variable
 prg#:#active_only#:#active users only###03 09 2026 new variable
 prg#:#add_automembership_source#:#Add Source###07 02 2020 new variable
@@ -17179,23 +17033,6 @@ tbl#:#tbl_template_created#:#A vista atual foi guardada.
 tbl#:#tbl_template_delete#:#Apagar vista guardada
 tbl#:#tbl_template_deleted#:#A vista atual foi apagada.
 tbl#:#tbl_templates#:#Visão
-tos#:#tos_accept_usr_agreement_anonymous#:#Terms of Service###03 09 2026 new variable
-tos#:#tos_accept_usr_agreement_anonymous_intro#:#Before you proceed to ILIAS you accept the following Terms of Service.###03 09 2026 new variable
-tos#:#tos_account_reg_not_possible#:#Não é possível registar-se a si próprio porque falta um acordo do utilizador. Entre em contacto com o administrador <a href="%1$s">do seu sistema</a> para mais informação.
-tos#:#tos_agree_date#:#ToS agreed on###03 09 2026 new variable
-tos#:#tos_agreement#:#Termos de serviço
-tos#:#tos_disabled_no_docs_left#:#Os acordos do utilizador estão agora desativados porque todos os documentos foram apagados. Crie pelo menos um documento antes de ativar novamente os acordos do utilizador.
-tos#:#tos_last_reset_date#:#Os termos de serviço foram repostos em %s.
-tos#:#tos_never_reset#:#Os termos de serviço ainda não foram repostos.
-tos#:#tos_no_documents_exist#:#Atualmente não há termos de serviço para qualquer idioma instalado.
-tos#:#tos_no_documents_exist_cant_save#:#Atualmente não há termos de serviço para qualquer idioma instalado. Adicione pelo menos um documento para qualquer idioma instalado.
-tos#:#tos_reset_for_all_users#:#Reset Terms of Service###03 09 2026 new variable
-tos#:#tos_reset_successful#:#Os termos de serviço foram repostos com sucesso.
-tos#:#tos_status_desc#:#Se estiver ativado, os utilizadores são forçados a aceitar os termos de serviço antes de poderem entrar em ILIAS.
-tos#:#tos_status_enable#:#Ativar
-tos#:#tos_sure_reset_tos#:#Are you sure you want to reset the terms of service for all users in system? This also applies to those accounts that are used for the SOAP webservices, the chat server, or the cron job.
-tos#:#tos_withdrawal_usr_deletion#:#Account Deletion on Terms Of Service Withdrawal###30 04 2021 new variable
-tos#:#tos_withdrawal_usr_deletion_desc#:#If a user withdraws their acceptance from  a previously accepted Terms of Service document, this will result in the deletion of the user’s account.###03 09 2026 new variable
 trac#:#cmix_lp_mode_deactivated#:#Learning Progress is Deactivated###07 02 2020 new variable
 trac#:#cmix_lp_mode_deactivated_info#:#The learning progress status is not displayed and does not influence parent objects.###07 02 2020 new variable
 trac#:#cmix_lp_mode_when_completed#:#Completed when 'completed'###07 02 2020 new variable

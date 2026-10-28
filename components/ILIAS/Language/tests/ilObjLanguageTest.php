@@ -48,4 +48,17 @@ class ilObjLanguageTest extends TestCase
             'language as invalid.'
         );
     }
+
+    public function testCheckOfTheShippedFileOnlyAsksTheRepositoryForTheShippedLanguage(): void
+    {
+        $repository = $this->createMock(\ILIAS\Language\Setup\InstalledLanguageDatabaseRepository::class);
+        $repository->expects($this->once())->method('checkShippedLanguage')->with('de')->willReturn(true);
+        $repository->expects($this->never())->method('checkLanguage');
+        $language = (new ReflectionClass(ilObjLanguage::class))->newInstanceWithoutConstructor();
+        $reflected = new ReflectionObject($language);
+        $reflected->getProperty('repository')->setValue($language, $repository);
+        $reflected->getProperty('key')->setValue($language, 'de');
+
+        $this->assertTrue($language->check(true));
+    }
 }

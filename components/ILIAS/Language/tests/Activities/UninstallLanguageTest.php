@@ -9,14 +9,17 @@
  * You should have received a copy of said license along with
  * the source code, too.
  *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
  *********************************************************************/
 
 declare(strict_types=1);
 
 namespace ILIAS\Language\Tests\Activities;
 
-use ILIAS\Language\Tests\Activities\ActivityWithPerformResultContractTestCase;
-use ILIAS\Language\Activities\AmbiguousLanguageTitleException;
 use ILIAS\Language\Activities\InvalidInputException;
 use ILIAS\Language\Activities\UninstallLanguage;
 use ILIAS\UI\Component\Input\Field\Text;
@@ -29,7 +32,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
  */
 class UninstallLanguageTest extends ActivityWithPerformResultContractTestCase
 {
-    use LanguageObjectRepositoryProvider;
+    use UninstallLanguageTestFixture;
 
     protected function createDefaultActivity(): UninstallLanguage
     {
@@ -45,7 +48,7 @@ class UninstallLanguageTest extends ActivityWithPerformResultContractTestCase
 
     public function testThrowableFromWithinPerformIsTurnedIntoAResultErrorByMaybePerformAs(): void
     {
-        $rbac = $this->createMock(\ilRbacSystem::class);
+        $rbac = $this->createStub(\ilRbacSystem::class);
         $rbac->method('checkAccessOfUser')->willReturn(true);
 
         $lng_objects = static fn(): array => [
@@ -61,170 +64,10 @@ class UninstallLanguageTest extends ActivityWithPerformResultContractTestCase
 
         $this->assertTrue($result->isError());
         $this->assertInstanceOf(\RuntimeException::class, $result->error());
-    }
-
-    public function testAmbiguousTitleRejectsTheRequestAndNeverCallsTheObjectFactoryForIt(): void
-    {
-        $lng_objects = static fn(): array => [
-            ['obj_id' => 1, 'title' => 'de'],
-            ['obj_id' => 2, 'title' => 'de'],
-        ];
-        $factory_calls = [];
-        $obj_language_factory = static function (int $id) use (&$factory_calls): never {
-            $factory_calls[] = $id;
-            throw new \LogicException('must never be called for an ambiguous title');
-        };
-
-        $activity = $this->createActivity($lng_objects, $obj_language_factory);
-
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessageMatches('/"de"/');
-
-        try {
-            $activity->perform(['language_keys' => 'de']);
-        } finally {
-            $this->assertSame([], $factory_calls);
-        }
-    }
-
-    /** The ambiguous title is embedded raw: escaping is RendersActivityErrors' job, doing it here would double-escape. */
-    public function testAmbiguousTitleExceptionMessageContainsTheRawUnescapedTitle(): void
-    {
-        $ambiguous_title = 'de';
-        $lng_objects = static fn(): array => [
-            ['obj_id' => 1, 'title' => $ambiguous_title],
-            ['obj_id' => 2, 'title' => $ambiguous_title],
-        ];
-        $obj_language_factory = static function (int $id): never {
-            throw new \LogicException('must never be called for an ambiguous title');
-        };
-
-        $activity = $this->createActivity($lng_objects, $obj_language_factory);
-
-        try {
-            $activity->perform(['language_keys' => $ambiguous_title]);
-            $this->fail('Expected an AmbiguousLanguageTitleException to be thrown.');
-        } catch (AmbiguousLanguageTitleException $e) {
-            $this->assertStringContainsString($ambiguous_title, $e->getMessage());
-            $this->assertStringNotContainsString('&lt;script&gt;', $e->getMessage());
-            $this->assertStringNotContainsString('&quot;', $e->getMessage());
-        }
-    }
-
-    /** Via maybePerformAs() the ambiguity surfaces as Result\Error and the object factory is never reached. */
-    public function testAmbiguousTitleViaMaybePerformAsReturnsResultErrorAndNeverCallsTheObjectFactory(): void
-    {
-        $rbac = $this->createMock(\ilRbacSystem::class);
-        $rbac->method('checkAccessOfUser')->willReturn(true);
-
-        $lng_objects = static fn(): array => [
-            ['obj_id' => 1, 'title' => 'de'],
-            ['obj_id' => 2, 'title' => 'de'],
-        ];
-        $factory_calls = [];
-        $obj_language_factory = static function (int $id) use (&$factory_calls): never {
-            $factory_calls[] = $id;
-            throw new \LogicException('must never be called for an ambiguous title');
-        };
-
-        $result = $this->createActivity($lng_objects, $obj_language_factory, $rbac)
-            ->maybePerformAs($this->createRealFieldsUiFactory()->input(), 6, ['language_keys' => 'de']);
-
-        $this->assertTrue($result->isError());
-        $this->assertInstanceOf(\RuntimeException::class, $result->error());
-        $this->assertSame([], $factory_calls);
-    }
-
-    /** An ambiguous title does not poison unrelated, unambiguous ones. */
-    public function testUnambiguousLanguageKeyStillWorksAlongsideAnAmbiguousOneInTheSameLngObjectsList(): void
-    {
-        $lng_objects = static fn(): array => [
-            ['obj_id' => 1, 'title' => 'de'],
-            ['obj_id' => 2, 'title' => 'de'],
-            ['obj_id' => 3, 'title' => 'fr'],
-        ];
-        $fr = new FakeLanguageObject(is_system_language: false, is_user_language: false, is_installed: true);
-        $obj_language_factory = static function (int $id) use ($fr): FakeLanguageObject {
-            if ($id === 3) {
-                return $fr;
-            }
-
-            throw new \LogicException('must never be called for the ambiguous "de" title');
-        };
-
-        $activity = $this->createActivity($lng_objects, $obj_language_factory);
-
-        $result = $activity->perform(['language_keys' => 'fr']);
-
-        $this->assertSame(['fr'], $result['uninstalled_language_keys']);
-        $this->assertSame(1, $fr->uninstallCallCount());
-    }
-
-    /** The ambiguity check covers all requested keys before any uninstall: 'de' must stay installed when 'fr' is ambiguous. */
-    public function testAnUnambiguousKeyBeforeAnAmbiguousOneIsNeverUninstalledOnceTheWholeRequestIsRejected(): void
-    {
-        $de = new FakeLanguageObject(is_system_language: false, is_user_language: false, is_installed: true);
-
-        $lng_objects = static fn(): array => [
-            ['obj_id' => 1, 'title' => 'de'],
-            ['obj_id' => 2, 'title' => 'fr'],
-            ['obj_id' => 3, 'title' => 'fr'],
-        ];
-        $factory_calls = [];
-        $obj_language_factory = static function (int $id) use (&$factory_calls, $de): FakeLanguageObject {
-            $factory_calls[] = $id;
-            if ($id === 1) {
-                return $de;
-            }
-
-            throw new \LogicException('must never be called for the ambiguous "fr" title');
-        };
-
-        $activity = $this->createActivity($lng_objects, $obj_language_factory);
-
-        try {
-            // 'de' first on purpose
-            $activity->perform(['language_keys' => 'de,fr']);
-            $this->fail('Expected an AmbiguousLanguageTitleException to be thrown.');
-        } catch (AmbiguousLanguageTitleException $e) {
-            $this->assertStringContainsString('"fr"', $e->getMessage());
-            // 'de' was never resolved, the check ran before the per-key loop
-            $this->assertSame([], $factory_calls);
-            $this->assertSame(0, $de->uninstallCallCount());
-        }
-    }
-
-    /** Same, end-to-end through maybePerformAs(). */
-    public function testMaybePerformAsNeverUninstallsAnUnambiguousKeyWhenAnotherRequestedKeyIsAmbiguous(): void
-    {
-        $rbac = $this->createMock(\ilRbacSystem::class);
-        $rbac->method('checkAccessOfUser')->willReturn(true);
-
-        $de = new FakeLanguageObject(is_system_language: false, is_user_language: false, is_installed: true);
-
-        $lng_objects = static fn(): array => [
-            ['obj_id' => 1, 'title' => 'de'],
-            ['obj_id' => 2, 'title' => 'fr'],
-            ['obj_id' => 3, 'title' => 'fr'],
-        ];
-        $obj_language_factory = static function (int $id) use ($de): FakeLanguageObject {
-            if ($id === 1) {
-                return $de;
-            }
-
-            throw new \LogicException('must never be called for the ambiguous "fr" title');
-        };
-
-        $result = $this->createActivity($lng_objects, $obj_language_factory, $rbac)
-            ->maybePerformAs($this->createRealFieldsUiFactory()->input(), 6, ['language_keys' => ['de', 'fr']]);
-
-        $this->assertTrue($result->isError());
-        $this->assertInstanceOf(AmbiguousLanguageTitleException::class, $result->error());
-        $this->assertSame(0, $de->uninstallCallCount());
     }
 
     /**
-     * @param array<string, array{system?: bool, user?: bool, installed?: bool, uninstall_return?: string}> $language_objects keyed by language key
+     * @param array<string, array{system?: bool, user?: bool, installed?: bool, uninstall_return?: string, unwritten_overlay_modules?: list<string>}> $language_objects keyed by language key
      * @return array{0: array<int, FakeLanguageObject>, 1: \Closure, 2: \Closure}
      *         [obj id => fake object, lng_objects closure, obj_language_factory closure]
      */
@@ -241,6 +84,7 @@ class UninstallLanguageTest extends ActivityWithPerformResultContractTestCase
                 is_user_language: $flags['user'] ?? false,
                 is_installed: $flags['installed'] ?? true,
                 uninstall_return_value: $flags['uninstall_return'] ?? 'uninstalled',
+                unwritten_overlay_modules: $flags['unwritten_overlay_modules'] ?? [],
             );
             $obj_id++;
         }
@@ -265,6 +109,7 @@ class UninstallLanguageTest extends ActivityWithPerformResultContractTestCase
         $this->assertSame([], $result['system_language_keys']);
         $this->assertSame([], $result['user_language_keys']);
         $this->assertSame([], $result['not_installed_language_keys']);
+        $this->assertSame([], $result['overlay_write_failed_language_keys']);
         $this->assertSame(1, $fakes[1]->uninstallCallCount());
     }
 
@@ -351,6 +196,34 @@ class UninstallLanguageTest extends ActivityWithPerformResultContractTestCase
         $this->assertSame(['de'], $result['not_installed_language_keys']);
         // uninstall() must still have been attempted
         $this->assertSame(1, $fakes[1]->uninstallCallCount());
+    }
+
+    /** A module whose PO/MO overlay could not be removed is reported in addition to the successful uninstall. */
+    public function testOverlayWriteFailureIsReportedAlongsideTheSuccessfulUninstall(): void
+    {
+        [$fakes, $lng_objects, $obj_language_factory] = $this->buildFakeLanguageWorld([
+            'de' => ['unwritten_overlay_modules' => ['pilot']],
+            'fr' => [],
+        ]);
+
+        $result = $this->createActivity($lng_objects, $obj_language_factory)->perform(['language_keys' => 'de,fr']);
+
+        $this->assertSame(['de', 'fr'], $result['uninstalled_language_keys']);
+        $this->assertSame(['de'], $result['overlay_write_failed_language_keys']);
+        $this->assertSame(1, $fakes[1]->uninstallCallCount());
+    }
+
+    /** A language the guards of uninstall() rejected has no overlay state to report. */
+    public function testNoOverlayWriteFailureIsReportedForALanguageUninstallRejected(): void
+    {
+        [, $lng_objects, $obj_language_factory] = $this->buildFakeLanguageWorld([
+            'de' => ['uninstall_return' => '', 'unwritten_overlay_modules' => ['pilot']],
+        ]);
+
+        $result = $this->createActivity($lng_objects, $obj_language_factory)->perform(['language_keys' => 'de']);
+
+        $this->assertSame(['de'], $result['not_installed_language_keys']);
+        $this->assertSame([], $result['overlay_write_failed_language_keys']);
     }
 
     /** A key without a "lng" object is not installed, and the object factory is never invoked for it. */
@@ -499,7 +372,7 @@ class UninstallLanguageTest extends ActivityWithPerformResultContractTestCase
 
     public function testPermissionGrantedPerformsAndReturnsOkResult(): void
     {
-        $rbac = $this->createMock(\ilRbacSystem::class);
+        $rbac = $this->createStub(\ilRbacSystem::class);
         $rbac->method('checkAccessOfUser')->willReturn(true);
 
         [$fakes, $lng_objects, $obj_language_factory] = $this->buildFakeLanguageWorld([
@@ -520,7 +393,7 @@ class UninstallLanguageTest extends ActivityWithPerformResultContractTestCase
     /** ilObjLanguageFolderGUI sends 'language_keys' as array of strings; the real grind() pipeline must join it. */
     public function testMaybePerformAsAcceptsAnArrayOfLanguageKeysAndUninstallsEachOne(): void
     {
-        $rbac = $this->createMock(\ilRbacSystem::class);
+        $rbac = $this->createStub(\ilRbacSystem::class);
         $rbac->method('checkAccessOfUser')->willReturn(true);
 
         [$fakes, $lng_objects, $obj_language_factory] = $this->buildFakeLanguageWorld([
@@ -535,63 +408,5 @@ class UninstallLanguageTest extends ActivityWithPerformResultContractTestCase
         $this->assertSame(['de', 'fr'], $result->value()['uninstalled_language_keys']);
         $this->assertSame(1, $fakes[1]->uninstallCallCount());
         $this->assertSame(1, $fakes[2]->uninstallCallCount());
-    }
-
-    private function createActivity(
-        \Closure $lng_objects,
-        \Closure $obj_language_factory,
-        ?\ilRbacSystem $rbac = null,
-    ): UninstallLanguage {
-        return new UninstallLanguage(
-            $this->rbacOf($rbac ?? $this->createMock(\ilRbacSystem::class)),
-            $this->languageFolder(),
-            $this->languageObjectProvider($lng_objects, $obj_language_factory)
-        );
-    }
-}
-
-/**
- * Stand-in for \ilObjLanguage (see above); counts uninstall() calls.
- */
-final class FakeLanguageObject
-{
-    private int $uninstall_calls = 0;
-
-    /**
-     * @param string $uninstall_return_value '' mimics uninstall() rejecting the call despite the outer guards
-     */
-    public function __construct(
-        private readonly bool $is_system_language,
-        private readonly bool $is_user_language,
-        private readonly bool $is_installed,
-        private readonly string $uninstall_return_value = 'uninstalled',
-    ) {
-    }
-
-    public function isSystemLanguage(): bool
-    {
-        return $this->is_system_language;
-    }
-
-    public function isUserLanguage(): bool
-    {
-        return $this->is_user_language;
-    }
-
-    public function isInstalled(): bool
-    {
-        return $this->is_installed;
-    }
-
-    public function uninstall(): string
-    {
-        $this->uninstall_calls++;
-
-        return $this->uninstall_return_value;
-    }
-
-    public function uninstallCallCount(): int
-    {
-        return $this->uninstall_calls;
     }
 }

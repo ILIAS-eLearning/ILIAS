@@ -3314,79 +3314,6 @@ cmix#:#use_fetch_info#:#Så länge resursen stöder det här alternativet bör d
 cmix#:#xapi_statements_fetched_successfully#:#Resultat från Learning Record Store har hämtats framgångsrikt.
 cmix#:#xapi_statements_last_fetch_date#:#Sista hämtning av resultat
 cmix#:#xapi_statements_not_fetched_yet#:#Resultaten från Learning Record Store har ännu inte hämtats.
-cmps#:#cmps_activate#:#Aktivera
-cmps#:#cmps_active#:#Aktiv
-cmps#:#cmps_add_new_rank#:#Position i urvalslistan för objekt som ska läggas till
-cmps#:#cmps_available#:#Tillgänglig
-cmps#:#cmps_available_version#:#Tillgänglig version
-cmps#:#cmps_basic_files#:#Basisfiler
-cmps#:#cmps_class_file#:# Klassfil
-cmps#:#cmps_component#:#Komponent
-cmps#:#cmps_configure#:#Konfigurera
-cmps#:#cmps_current_db_version#:#Aktuell DB-version
-cmps#:#cmps_current_version#:#Aktuell version
-cmps#:#cmps_database#:#Databas
-cmps#:#cmps_db_update#:#Script för uppdatering av databas
-cmps#:#cmps_deactivate#:#Avaktivera
-cmps#:#cmps_detailed_information#:#Detaljerad information
-cmps#:#cmps_dir#:#Directory
-cmps#:#cmps_enable_creation#:#Starta skapandet
-cmps#:#cmps_file_version#:#Uppdatera filversion
-cmps#:#cmps_group#:#Grupp
-cmps#:#cmps_id#:#ID
-cmps#:#cmps_ilias_max_version#:#Maximal ILIAS-version
-cmps#:#cmps_ilias_min_version#:#Minsta ILIAS-version
-cmps#:#cmps_inactive#:#Inaktiv
-cmps#:#cmps_install#:#Installera
-cmps#:#cmps_is_active#:#Aktiverad
-cmps#:#cmps_is_installed#:#Installerad
-cmps#:#cmps_lang_files#:#Språkfil
-cmps#:#cmps_lang_prefix#:#Prefix språkvariabel
-cmps#:#cmps_languages#:#Språk
-cmps#:#cmps_main_dir#:#Huvudkatalog
-cmps#:#cmps_missing#:#Saknad
-cmps#:#cmps_module#:#Modul
-cmps#:#cmps_must_installed#:#Komponenten måste vara installerad.
-cmps#:#cmps_name#:#Namn
-cmps#:#cmps_needs_matching_ilias_version#:#Detta plugin kan inte användas med den aktuella versionen av denna ILIAS-installation.
-cmps#:#cmps_needs_newer_ilias_version#:#Detta plugin kan endast användas med en nyare ILIAS-version. Vänligen uppdatera din ILIAS-version.
-cmps#:#cmps_needs_newer_plugin_version#:#Den här ILIAS-versionen kräver en nyare plugin-version. Vänligen uppdatera pluginet.
-cmps#:#cmps_needs_update#:#Uppdatering nödvändig
-cmps#:#cmps_needs_upgrade#:#Den nuvarande installerade plugin-versionen är äldre än den tidigare installerade. Vänligen installera det senaste pluginet.
-cmps#:#cmps_no_db_update_file_available#:#Inget skript för uppdatering av databas tillgängligt
-cmps#:#cmps_no_language_file_available#:#Ingen språkfil tillgänglig
-cmps#:#cmps_plugin#:#Plugin
-cmps#:#cmps_plugin_activated#:#Insticksprogrammet har aktiverats.
-cmps#:#cmps_plugin_db_prefixes#:#Prefixar databastabell
-cmps#:#cmps_plugin_deactivated#:#Insticksprogrammet har avaktiverats.
-cmps#:#cmps_plugin_deinstalled#:#Insticksprogrammet har avinstallerats
-cmps#:#cmps_plugin_file#:#Plugin-fil
-cmps#:#cmps_plugin_lang_prefixes#:#Plugin språk prefix
-cmps#:#cmps_plugin_slot#:#Plugin-plats
-cmps#:#cmps_plugin_uninstalled#:#Alla språk och databasposter relaterade till pluginet har tagits bort och pluginet har avaktiverats. Du kan nu ta bort katalogen och källkoden för insticksprogrammet från katalogen "Customizing" för att slutligen avinstallera insticksprogrammet.
-cmps#:#cmps_plugin_updated#:#Insticksprogrammet har uppdaterats
-cmps#:#cmps_plugins#:#Plugins
-cmps#:#cmps_refresh#:#Reload språk
-cmps#:#cmps_refresh_lng#:#Språk uppdaterat
-cmps#:#cmps_rep_object#:#Objekttyp i tidningen
-cmps#:#cmps_repository_object_types#:#Objekttyper i tidningen
-cmps#:#cmps_responsible#:#Ansvarsfull
-cmps#:#cmps_responsible_mail#:#Mail (ansvarig person)
-cmps#:#cmps_save_options#:#Spara
-cmps#:#cmps_service#:#Tjänst
-cmps#:#cmps_show_details#:#Visa detaljer
-cmps#:#cmps_slots#:#Slots
-cmps#:#cmps_status#:#Status
-cmps#:#cmps_supports_cli_setup#:#Stödjer CLI-installation
-cmps#:#cmps_supports_export#:#Stödd export
-cmps#:#cmps_supports_learning_progress#:#Stödjer framsteg i inlärningen
-cmps#:#cmps_uninstall#:#Avinstallera
-cmps#:#cmps_uninstall_confirm#:#Vill du verkligen avinstallera insticksprogrammet "%s" och ta bort alla tillhörande databasposter?
-cmps#:#cmps_uninstall_inactive_confirm#:#Insticksprogrammet "%1$s" kan för närvarande inte aktiveras ("%2$s"). I denna status kan plugins inte avinstalleras helt. Eftersom endast systemintegrationen tas bort kan data som ägs av plugin finnas kvar. Vill du fortsätta med den partiella avinstallat
-cmps#:#cmps_update#:#Uppdatera
-cmps#:#cmps_version#:#Version
-cmps#:#database_is_uptodate#:#Databasen är uppdaterad.
-cmps#:#no_changes#:#Inga förändringar
 cmxv#:#cmxv_create#:#Skapa certifikat för xAPI/cmi5-objekt
 cmxv#:#cmxv_create_info#:#Välj ett slutfört xAPI/cmi5-objekt för att generera ett certifikat för det.
 cntr#:#cntr_add_new_item#:#Lägg till nytt objekt
@@ -11014,11 +10941,6 @@ lm#:#lm_page_added#:#Page has been added.###21 11 2023 new variable
 lm#:#lm_page_type_lm#:#sida för utbildningsmodul
 lm#:#lm_pages_added#:#Pages have been added.###21 11 2023 new variable
 lm#:#lm_save_titles#:#Titlar har sparats.
-lng#:#language_detection#:#Automatisk taligenkänning
-lng#:#lng_disable_language_detection#:#Avaktivera automatisk taligenkänning
-lng#:#lng_download_deprecated#:#Ladda ner obsoleta poster
-lng#:#lng_enable_language_detection#:#Aktivera automatisk taligenkänning
-lng#:#lng_switch_language_detection#:#Switch Language Detection###26 08 2024 new variable
 log#:#log_browser#:#Browser Konsol Logg
 log#:#log_browser_users#:#Aktiverade användare för webbläsarlogg
 log#:#log_cache_#:#Caching
@@ -13278,75 +13200,6 @@ pd#:#pd_upcoming#:#Föregående
 pd#:#pd_view_select_at_least_one#:#Välj minst en vy, antingen "Utvalda erbjudanden" och/eller "Kurser och grupper".
 pdesk#:#bookmark_moved_ok#:#Bookmark har flyttats.
 pdesk#:#bookmark_select_target#:#Vänligen välj destination.
-poll#:#poll_absolute#:#Aktuella röster
-poll#:#poll_activation_online_info#:#Välj denna inställning för att göra röstning tillgänglig för användare.
-poll#:#poll_add#:#Skapa omröstning
-poll#:#poll_anonymous_warning#:#Ditt namn visas inte i röstningsresultaten.
-poll#:#poll_answer#:#Svar
-poll#:#poll_answer_selected_alt_text#:#Selected###26 08 2024 new variable
-poll#:#poll_answers#:#Möjliga svar
-poll#:#poll_barchart#:#Balkdiagram
-poll#:#poll_block_message_already_voted#:#Du har redan röstat.
-poll#:#poll_block_message_no_answers#:#Denna omröstning är inte slutförd.
-poll#:#poll_block_results_available_on#:#Resultaten kommer att publiceras på %s.
-poll#:#poll_cannot_set_online_no_answers#:#The status cannot be changed to &quot;online&quot; because this poll has no question!###21 11 2023 new variable
-poll#:#poll_chart_votes#:#Votes###28 10 2024 new variable
-poll#:#poll_comments#:#Kommentarer
-poll#:#poll_copy#:#Kopiera omröstning
-poll#:#poll_delete_votes#:#Radera alla röster
-poll#:#poll_delete_votes_sure#:#Är du säker på att du vill radera alla röster?
-poll#:#poll_edit#:#Redigera omröstning
-poll#:#poll_edit_question#:#Edit Question###21 11 2023 new variable
-poll#:#poll_image#:#Image
-poll#:#poll_import#:#Import omröstning
-poll#:#poll_limit_not_below_answer_count#:#The answer limit must be below the number of possible answers.###21 11 2023 new variable
-poll#:#poll_limit_number_of_answers#:#Limit Number of Answers per Participant###21 11 2023 new variable
-poll#:#poll_max_number_of_answers#:#Maximalt antal svar per deltagare
-poll#:#poll_max_number_of_answers_info#:#You may choose up to %s answers.###21 11 2023 new variable
-poll#:#poll_mode#:#Mode
-poll#:#poll_mode_anonymous#:#Anonym
-poll#:#poll_mode_anonymous_info#:#Avgivna Votes kan inte tilldelas deltagare.
-poll#:#poll_mode_personal#:#Personligt anpassad
-poll#:#poll_mode_personal_info#:#En lista över deltagare med avgivna röster är tillgänglig med tillräckliga rättigheter.
-poll#:#poll_new#:#Skapa ny omröstning
-poll#:#poll_non_anonymous_warning#:#Ditt namn och din röst syns i omröstningsresultaten för administratörer.
-poll#:#poll_notification_activated#:#Notification Activated###21 11 2023 new variable
-poll#:#poll_notification_deactivated#:#Notification Deactivated###21 11 2023 new variable
-poll#:#poll_notification_subscribe#:# Aktivera avisering
-poll#:#poll_notification_unsubscribe#:#Avaktivera avisering
-poll#:#poll_percentage#:#Aktuell andel
-poll#:#poll_population#:#%s deltagare
-poll#:#poll_population_singular#:#1 Participant###21 11 2023 new variable
-poll#:#poll_question#:#Fråga
-poll#:#poll_result#:#Röstningsresultat
-poll#:#poll_result_answers#:#Voices
-poll#:#poll_result_sorting#:#Sortering
-poll#:#poll_result_sorting_answers#:#I den ordning som svaren kommer
-poll#:#poll_result_sorting_votes#:#Efter antal röster (fallande)
-poll#:#poll_result_users#:#Deltagare
-poll#:#poll_show_results_as#:#Visa resultat som
-poll#:#poll_sortorder#:#Sortering
-poll#:#poll_stacked_chart#:#Stacked Chart###28 10 2024 new variable
-poll#:#poll_view_results#:#Visa resultat
-poll#:#poll_view_results_after_period#:#Efter omröstningsperiod
-poll#:#poll_view_results_after_period_impossible#:#Omröstningsperioden är inte tidsbegränsad.
-poll#:#poll_view_results_after_vote#:#Efter omröstning
-poll#:#poll_view_results_always#:#Alltid
-poll#:#poll_view_results_never#:#Aldrig
-poll#:#poll_vote#:#Rösta
-poll#:#poll_vote_error_multi#:# Välj högst %s svar.
-poll#:#poll_vote_error_multi_no_answer#:#Please select at least 1 answer.###21 11 2023 new variable
-poll#:#poll_vote_error_single#:#Välj ett svar.
-poll#:#poll_vote_notification_body#:#Följande omröstning har fått en röst
-poll#:#poll_vote_notification_link#:#Länk till omröstningen
-poll#:#poll_vote_notification_reason#:#Du får detta meddelande eftersom du har aktiverat meddelandefunktionen för ovanstående omröstning.
-poll#:#poll_vote_notification_subject#:#Röstning "%s"
-poll#:#poll_votes_no_edit#:#Denna omröstning innehåller redan röster. Den kan inte redigeras så länge du inte tar bort rösterna.
-poll#:#poll_voting_period_and_results#:#Röstningsperiod och resultat
-poll#:#poll_voting_period_ended_info#:#The voting period ended %s.###21 11 2023 new variable
-poll#:#poll_voting_period_full_info#:#Röstning från %s till %s
-poll#:#poll_voting_period_info#:#Slut på omröstningen
-poll#:#poll_voting_period_limited#:#Tidsbegränsad omröstningsperiod
 prg#:#access_ctr_by_orgu_position#:#Autorisationer baserade på positioner i organisatoriska enheter
 prg#:#active_only#:#Endast aktiv
 prg#:#add_automembership_source#:#Lägg till automatik
@@ -17080,23 +16933,6 @@ tax#:#tax_tax_settings#:#Taxonomiska inställningar
 tax#:#tax_taxonomy#:#Taxonomi
 tbl#:#tbl_export_csv#:#.CSV-export
 tbl#:#tbl_export_excel#:#Excel export
-tos#:#tos_accept_usr_agreement_anonymous#:#Terms of Service###26 08 2024 new variable
-tos#:#tos_accept_usr_agreement_anonymous_intro#:#Before you proceed to ILIAS you accept the following Terms of Service.###26 08 2024 new variable
-tos#:#tos_account_reg_not_possible#:#Självregistrering är för närvarande inte möjlig eftersom inget användaravtal erbjuds i denna installation. Kontakta din <a href="%1$s">systemadministratör för</a> mer information.
-tos#:#tos_agree_date#:#ToS agreed on###21 11 2023 new variable
-tos#:#tos_agreement#:#Använda avtal
-tos#:#tos_disabled_no_docs_left#:#Användaravtalen har inaktiverats eftersom alla dokument har raderats. Skapa minst ett dokument innan du återaktiverar användaravtalen.
-tos#:#tos_last_reset_date#:#Användaravtalen återställdes senast den %s. Återställ endast användaravtalen om de har ändrats under tiden och samtycke till detta ändrade avtal önskas.
-tos#:#tos_never_reset#:#Användaravtalen har ännu inte återställts. Återställ endast användaravtalen om de har ändrats under tiden och samtycke till detta ändrade avtal önskas.
-tos#:#tos_no_documents_exist#:#Det finns för närvarande inga tillgängliga dokument om användningsavtal.
-tos#:#tos_no_documents_exist_cant_save#:#Det finns för närvarande inga tillgängliga användaravtal. Vänligen skapa minst ett dokument för att aktivera tjänsten.
-tos#:#tos_reset_for_all_users#:#Reset Terms of Service###21 11 2023 new variable
-tos#:#tos_reset_successful#:#Användaravtalen har återställts framgångsrikt.
-tos#:#tos_status_desc#:#Användare ombeds att underteckna användaravtalet innan de kan använda ILIAS.
-tos#:#tos_status_enable#:#Aktivera användningsavtal
-tos#:#tos_sure_reset_tos#:#Är du säker på att användaravtalen för alla användare i systemet ska återställas? Detta gäller även de inloggningskonton som används för SOAP-webbtjänsterna, till exempel.
-tos#:#tos_withdrawal_usr_deletion#:#Radering av ILIAS-kontot efter återkallelse
-tos#:#tos_withdrawal_usr_deletion_desc#:#If a user withdraws their acceptance from  a previously accepted Terms of Service document, this will result in the deletion of the user’s account.###21 11 2023 new variable
 trac#:#cmix_lp_mode_deactivated#:#Learning progress är avaktiverad
 trac#:#cmix_lp_mode_deactivated_info#:#Inlärningsstatus visas inte och har inget inflytande på objekt på högre nivå.
 trac#:#cmix_lp_mode_when_completed#:#Completed när "completed".

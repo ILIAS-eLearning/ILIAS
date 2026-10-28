@@ -9,27 +9,33 @@
  * You should have received a copy of said license along with
  * the source code, too.
  *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
  *********************************************************************/
 
 declare(strict_types=1);
 
 namespace ILIAS\Language\Tests\Activities;
 
-use ILIAS\Language\Tests\Activities\ActivityWithPerformResultContractTestCase;
 use ILIAS\Language\Activities\InstallLanguage;
 use ILIAS\Language\Activities\InvalidInputException;
+use ILIAS\Language\Activities\InvalidLanguageFilesException;
 use ILIAS\UI\Component\Input\Field\Text;
 use ILIAS\UI\Component\Input\Field\Select;
-use ILIAS\UI\Component\Input\Factory as InputFactory;
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use ilSetupLanguage;
 
 class InstallLanguageTest extends ActivityWithPerformResultContractTestCase
 {
+    use InstallLanguageTestFixture;
+
     protected function createDefaultActivity(): InstallLanguage
     {
-        $setup_language = $this->createSetupLanguageMock(['de'], [], []);
+        $setup_language = $this->createSetupLanguageStub(['de'], [], []);
         $setup_language->method('checkLanguageForInstallation')->willReturn(true);
 
         return $this->createActivity($setup_language);
@@ -38,323 +44,6 @@ class InstallLanguageTest extends ActivityWithPerformResultContractTestCase
     protected function validPerformParameters(): array
     {
         return ['language_keys' => 'de', 'mode' => InstallLanguage::MODE_INSTALL];
-    }
-
-    public function testSingleNewLanguageIsInstalled(): void
-    {
-        $setup_language = $this->createSetupLanguageMock([], [], []);
-        $setup_language->expects($this->once())
-            ->method('checkLanguageForInstallation')
-            ->with('de')
-            ->willReturn(true);
-        $setup_language->expects($this->once())->method('flushLanguageForInstallation');
-        $setup_language->expects($this->once())->method('insertLanguageForInstallation');
-
-        $result = $this->createActivity($setup_language)->perform([
-            'language_keys' => ' de ',
-            'mode' => InstallLanguage::MODE_INSTALL,
-        ]);
-
-        $this->assertSame(['de'], $result['installed_language_keys']);
-        $this->assertSame([], $result['installed_with_local_language_keys']);
-        $this->assertSame([], $result['already_installed_language_keys']);
-        $this->assertSame([], $result['not_installed_language_keys']);
-        $this->assertSame([], $result['invalid_local_language_files']);
-    }
-
-    public function testMultipleLanguagesSeparatesNotInstalledFromAlreadyInstalledUnderInstallMode(): void
-    {
-        // Mode "install": 'de' is already installed and must be left
-        // completely alone (no validation, no write at all) - only the
-        // not-yet-installed 'fr' is actually installed.
-        $setup_language = $this->createSetupLanguageMock(
-            [
-                'de' => ['obj_id' => 1, 'status' => 'installed'],
-            ],
-            [],
-            ['de']
-        );
-        $setup_language->expects($this->once())
-            ->method('checkLanguageForInstallation')
-            ->with('fr')
-            ->willReturn(true);
-        $setup_language->expects($this->once())->method('flushLanguageForInstallation')->with('fr');
-        $setup_language->expects($this->once())->method('insertLanguageForInstallation')->with('fr');
-
-        $result = $this->createActivity($setup_language)->perform([
-            // Duplicate 'de' across the comma-separated string and the array
-            // must still be deduplicated exactly like before.
-            'language_keys' => [' de, fr ', 'de'],
-            'mode' => InstallLanguage::MODE_INSTALL,
-        ]);
-
-        $this->assertSame(['fr'], $result['installed_language_keys']);
-        $this->assertSame([], $result['installed_with_local_language_keys']);
-        $this->assertSame(['de'], $result['already_installed_language_keys']);
-        $this->assertSame([], $result['not_installed_language_keys']);
-        $this->assertSame([], $result['invalid_local_language_files']);
-    }
-
-    public function testNewLanguageWithCustomFileIsReportedAsInstalledWithLocalFile(): void
-    {
-        // classified by "has a customizing/local file", not "was newly installed"
-        $setup_language = $this->createSetupLanguageMock(
-            [],
-            ['de'],
-            []
-        );
-        $setup_language->expects($this->once())
-            ->method('checkLanguageForInstallation')
-            ->with('de')
-            ->willReturn(true);
-        $setup_language->expects($this->once())->method('flushLanguageForInstallation')->with('de');
-        $setup_language->expects($this->once())->method('insertLanguageForInstallation')->with('de');
-
-        $result = $this->createActivity($setup_language)->perform([
-            'language_keys' => 'de',
-            'mode' => InstallLanguage::MODE_INSTALL,
-        ]);
-
-        $this->assertSame([], $result['installed_language_keys']);
-        $this->assertSame(['de'], $result['installed_with_local_language_keys']);
-        $this->assertSame([], $result['already_installed_language_keys']);
-        $this->assertSame([], $result['not_installed_language_keys']);
-    }
-
-    /** Mode "install" on an installed language is a complete no-op: re-applying the local file is "install_local"'s job. */
-    public function testInstallModeIsNoOpForAlreadyInstalledLanguageEvenWithACustomFile(): void
-    {
-        $setup_language = $this->createSetupLanguageMock(
-            ['de' => ['obj_id' => 1, 'status' => 'installed']],
-            ['de'],
-            ['de']
-        );
-        $setup_language->expects($this->never())->method('checkLanguageForInstallation');
-        $setup_language->expects($this->never())->method('flushLanguageForInstallation');
-        $setup_language->expects($this->never())->method('insertLanguageForInstallation');
-        $setup_language->expects($this->never())->method('insertLanguageForApplyingLocalChanges');
-        $setup_language->expects($this->never())->method('registerInstalledLanguage');
-
-        $result = $this->createActivity($setup_language)->perform([
-            'language_keys' => 'de',
-            'mode' => InstallLanguage::MODE_INSTALL,
-        ]);
-
-        $this->assertSame([], $result['installed_language_keys']);
-        $this->assertSame([], $result['installed_with_local_language_keys']);
-        $this->assertSame(['de'], $result['already_installed_language_keys']);
-        $this->assertSame([], $result['not_installed_language_keys']);
-        $this->assertSame([], $result['invalid_local_language_files']);
-    }
-
-    public function testInstallLocalModeAppliesCustomFileToAlreadyInstalledLanguage(): void
-    {
-        $setup_language = $this->createSetupLanguageMock(
-            ['de' => ['obj_id' => 1, 'status' => 'installed']],
-            ['de'],
-            ['de']
-        );
-        $setup_language->expects($this->never())->method('checkLanguageForInstallation');
-        $setup_language->expects($this->never())->method('flushLanguageForInstallation');
-        $setup_language->expects($this->never())->method('insertLanguageForInstallation');
-        $setup_language->expects($this->once())
-            ->method('insertLanguageForApplyingLocalChanges')
-            ->with('de');
-        // object_data bookkeeping is delegated to ilSetupLanguage::registerInstalledLanguage() (see ilSetupLanguageTest)
-        $setup_language->expects($this->once())
-            ->method('registerInstalledLanguage')
-            ->with(
-                'de',
-                ['de' => ['obj_id' => 1, 'status' => 'installed']],
-                ['de']
-            );
-
-        $result = $this->createActivity($setup_language)->perform([
-            'language_keys' => 'de',
-            'mode' => InstallLanguage::MODE_INSTALL_LOCAL,
-        ]);
-
-        $this->assertSame([], $result['installed_language_keys']);
-        $this->assertSame(['de'], $result['installed_with_local_language_keys']);
-        $this->assertSame([], $result['already_installed_language_keys']);
-        $this->assertSame([], $result['not_installed_language_keys']);
-        $this->assertSame([], $result['invalid_local_language_files']);
-    }
-
-    /** "install_local" without a local file is reported as "already installed": nothing changed. */
-    public function testInstallLocalModeOnAlreadyInstalledLanguageWithoutCustomFileIsReportedAsAlreadyInstalled(): void
-    {
-        $setup_language = $this->createSetupLanguageMock(
-            ['de' => ['obj_id' => 1, 'status' => 'installed']],
-            [], // no customizing/local file exists for 'de'
-            ['de']
-        );
-        $setup_language->expects($this->never())->method('checkLanguageForInstallation');
-        $setup_language->expects($this->never())->method('flushLanguageForInstallation');
-        $setup_language->expects($this->never())->method('insertLanguageForInstallation');
-        $setup_language->expects($this->once())
-            ->method('insertLanguageForApplyingLocalChanges')
-            ->with('de');
-        $setup_language->expects($this->once())->method('registerInstalledLanguage');
-
-        $result = $this->createActivity($setup_language)->perform([
-            'language_keys' => 'de',
-            'mode' => InstallLanguage::MODE_INSTALL_LOCAL,
-        ]);
-
-        $this->assertSame([], $result['installed_language_keys']);
-        $this->assertSame([], $result['installed_with_local_language_keys']);
-        $this->assertSame(['de'], $result['already_installed_language_keys']);
-        $this->assertSame([], $result['not_installed_language_keys']);
-    }
-
-    /** "install_local" on a language that is not installed is a no-op. */
-    public function testInstallLocalModeOnNotInstalledLanguageIsCompleteNoOp(): void
-    {
-        $setup_language = $this->createSetupLanguageMock([], [], []);
-        $setup_language->expects($this->never())->method('checkLanguageForInstallation');
-        $setup_language->expects($this->never())->method('flushLanguageForInstallation');
-        $setup_language->expects($this->never())->method('insertLanguageForInstallation');
-        $setup_language->expects($this->never())->method('insertLanguageForApplyingLocalChanges');
-        $setup_language->expects($this->never())->method('registerInstalledLanguage');
-
-        $result = $this->createActivity($setup_language)->perform([
-            'language_keys' => 'de',
-            'mode' => InstallLanguage::MODE_INSTALL_LOCAL,
-        ]);
-
-        $this->assertSame([], $result['installed_language_keys']);
-        $this->assertSame([], $result['installed_with_local_language_keys']);
-        $this->assertSame([], $result['already_installed_language_keys']);
-        $this->assertSame(['de'], $result['not_installed_language_keys']);
-    }
-
-    /** If every language is a no-op, perform() must not read the available/local languages or scan local files. */
-    public function testAllRequestedLanguagesBeingNoOpsSkipsLanguageAndFileLookupsEntirely(): void
-    {
-        $setup_language = $this->createMock(ilSetupLanguage::class);
-        $setup_language->method('getInstalledLanguages')->willReturn(['de', 'en']);
-        $setup_language->expects($this->never())->method('getAvailableLanguagesForInstallation');
-        $setup_language->expects($this->never())->method('getLocalLanguages');
-        $setup_language->expects($this->never())->method('getInvalidLocalLanguageFiles');
-        $setup_language->expects($this->never())->method('checkLanguageForInstallation');
-        $setup_language->expects($this->never())->method('flushLanguageForInstallation');
-        $setup_language->expects($this->never())->method('insertLanguageForInstallation');
-        $setup_language->expects($this->never())->method('insertLanguageForApplyingLocalChanges');
-        $setup_language->expects($this->never())->method('registerInstalledLanguage');
-
-        $result = $this->createActivity($setup_language)->perform([
-            'language_keys' => ['de', 'en'],
-            'mode' => InstallLanguage::MODE_INSTALL,
-        ]);
-
-        $this->assertSame([], $result['installed_language_keys']);
-        $this->assertSame([], $result['installed_with_local_language_keys']);
-        $this->assertSame(['de', 'en'], $result['already_installed_language_keys']);
-        $this->assertSame([], $result['not_installed_language_keys']);
-        $this->assertSame([], $result['invalid_local_language_files']);
-    }
-
-    /** Every state in one request lands in its own bucket; only affected ones trigger a write (mode "install"). */
-    public function testBulkRequestUnderInstallModePartitionsEachKeyIntoTheCorrectBucket(): void
-    {
-        $setup_language = $this->createSetupLanguageMock(
-            ['de' => ['obj_id' => 1, 'status' => 'installed']],
-            ['fr'], // only 'fr' has a pending customizing/local file
-            ['de']
-        );
-        $setup_language->expects($this->exactly(2))
-            ->method('checkLanguageForInstallation')
-            ->willReturnMap([
-                ['en', true],
-                ['fr', true],
-            ]);
-        $setup_language->expects($this->exactly(2))->method('flushLanguageForInstallation');
-        $setup_language->expects($this->exactly(2))->method('insertLanguageForInstallation');
-        $setup_language->expects($this->never())->method('insertLanguageForApplyingLocalChanges');
-        $setup_language->expects($this->exactly(2))->method('registerInstalledLanguage');
-        $setup_language->expects($this->once())
-            ->method('getInvalidLocalLanguageFiles')
-            // the already-installed 'de' is untouched
-            ->with(['en', 'fr']);
-
-        $result = $this->createActivity($setup_language)->perform([
-            'language_keys' => ['de', 'en', 'fr'],
-            'mode' => InstallLanguage::MODE_INSTALL,
-        ]);
-
-        $this->assertSame(['en'], $result['installed_language_keys']);
-        $this->assertSame(['fr'], $result['installed_with_local_language_keys']);
-        $this->assertSame(['de'], $result['already_installed_language_keys']);
-        $this->assertSame([], $result['not_installed_language_keys']);
-    }
-
-    /** Mode "install_local": only insertLanguageForApplyingLocalChanges, only for already-installed keys. */
-    public function testBulkRequestUnderInstallLocalModePartitionsEachKeyIntoTheCorrectBucket(): void
-    {
-        $setup_language = $this->createSetupLanguageMock(
-            [
-                'de' => ['obj_id' => 1, 'status' => 'installed'],
-                'en' => ['obj_id' => 2, 'status' => 'installed'],
-            ],
-            ['de'], // only 'de' has a pending customizing/local file
-            ['de', 'en']
-        );
-        $setup_language->expects($this->never())->method('checkLanguageForInstallation');
-        $setup_language->expects($this->never())->method('flushLanguageForInstallation');
-        $setup_language->expects($this->never())->method('insertLanguageForInstallation');
-        $setup_language->expects($this->exactly(2))
-            ->method('insertLanguageForApplyingLocalChanges')
-            ->with($this->logicalOr('de', 'en'));
-        $setup_language->expects($this->exactly(2))->method('registerInstalledLanguage');
-        $setup_language->expects($this->once())
-            ->method('getInvalidLocalLanguageFiles')
-            // the not-installed 'fr' is left untouched
-            ->with(['de', 'en']);
-
-        $result = $this->createActivity($setup_language)->perform([
-            'language_keys' => ['de', 'en', 'fr'],
-            'mode' => InstallLanguage::MODE_INSTALL_LOCAL,
-        ]);
-
-        $this->assertSame([], $result['installed_language_keys']);
-        $this->assertSame(['de'], $result['installed_with_local_language_keys']);
-        $this->assertSame(['en'], $result['already_installed_language_keys']);
-        $this->assertSame(['fr'], $result['not_installed_language_keys']);
-    }
-
-    public function testInstallingNewLanguageDoesNotUpdateAlreadyInstalledLanguages(): void
-    {
-        $setup_language = $this->createSetupLanguageMock(
-            [
-                'en' => ['obj_id' => 1, 'status' => 'installed'],
-            ],
-            [],
-            ['en']
-        );
-        $setup_language->expects($this->once())
-            ->method('checkLanguageForInstallation')
-            ->with('de')
-            ->willReturn(true);
-        $setup_language->expects($this->once())->method('flushLanguageForInstallation');
-        $setup_language->expects($this->once())->method('insertLanguageForInstallation');
-        $setup_language->expects($this->once())
-            ->method('registerInstalledLanguage')
-            ->with(
-                'de',
-                ['en' => ['obj_id' => 1, 'status' => 'installed']],
-                []
-            );
-
-        $result = $this->createActivity($setup_language)->perform([
-            'language_keys' => 'de',
-            'mode' => InstallLanguage::MODE_INSTALL,
-        ]);
-
-        $this->assertSame(['de'], $result['installed_language_keys']);
-        $this->assertSame([], $result['installed_with_local_language_keys']);
-        $this->assertSame([], $result['already_installed_language_keys']);
-        $this->assertSame([], $result['invalid_local_language_files']);
     }
 
     public function testMalformedLocalLanguageFileDoesNotPreventStandardInstallation(): void
@@ -387,10 +76,12 @@ class InstallLanguageTest extends ActivityWithPerformResultContractTestCase
             ->method('checkLanguageForInstallation')
             ->with('xx')
             ->willReturn(false);
+        $setup_language->method('getInstallableLanguagesForInstallation')->willReturn(['xx']);
         $setup_language->expects($this->never())->method('flushLanguageForInstallation');
         $setup_language->expects($this->never())->method('insertLanguageForInstallation');
 
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(InvalidLanguageFilesException::class);
+        $this->expectExceptionCode(409);
         $this->createActivity($setup_language)->perform([
             'language_keys' => 'xx',
             'mode' => InstallLanguage::MODE_INSTALL,
@@ -406,21 +97,97 @@ class InstallLanguageTest extends ActivityWithPerformResultContractTestCase
                 ['de', true],
                 ['xx', false],
             ]);
+        $setup_language->method('getInstallableLanguagesForInstallation')->willReturn(['de', 'xx']);
         $setup_language->expects($this->never())->method('flushLanguageForInstallation');
         $setup_language->expects($this->never())->method('insertLanguageForInstallation');
 
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(InvalidLanguageFilesException::class);
+        $this->expectExceptionCode(409);
         $this->createActivity($setup_language)->perform([
             'language_keys' => 'de,xx',
             'mode' => InstallLanguage::MODE_INSTALL,
         ]);
     }
 
+    public function testUnknownLanguageIsRejectedAsInvalidInputWithoutMutation(): void
+    {
+        $setup_language = $this->createSetupLanguageMock([], [], []);
+        $setup_language->method('checkLanguageForInstallation')->willReturn(false);
+        $setup_language->method('getInstallableLanguagesForInstallation')->willReturn(['de']);
+        $setup_language->expects($this->never())->method('flushLanguageForInstallation');
+        $setup_language->expects($this->never())->method('insertLanguageForInstallation');
+
+        try {
+            $this->createActivity($setup_language)->perform([
+                'language_keys' => 'qq',
+                'mode' => InstallLanguage::MODE_INSTALL,
+            ]);
+            $this->fail('InvalidInputException expected');
+        } catch (InvalidInputException $e) {
+            $this->assertSame(400, $e->getCode());
+            $this->assertSame('Unknown languages: qq', $e->getMessage());
+        }
+    }
+
+    /** The unknown language decides: the caller has to fix its input first. Only unknown keys are named. */
+    public function testUnknownAndInvalidLanguagesTogetherAreRejectedAsInvalidInput(): void
+    {
+        $setup_language = $this->createSetupLanguageMock([], [], []);
+        $setup_language->method('checkLanguageForInstallation')->willReturnMap([
+            ['de', true],
+            ['xx', false],
+            ['qq', false],
+        ]);
+        $setup_language->method('getInstallableLanguagesForInstallation')->willReturn(['de', 'xx']);
+        $setup_language->expects($this->never())->method('flushLanguageForInstallation');
+        $setup_language->expects($this->never())->method('insertLanguageForInstallation');
+
+        try {
+            $this->createActivity($setup_language)->perform([
+                'language_keys' => 'de,xx,qq',
+                'mode' => InstallLanguage::MODE_INSTALL,
+            ]);
+            $this->fail('InvalidInputException expected');
+        } catch (InvalidInputException $e) {
+            $this->assertSame(400, $e->getCode());
+            $this->assertSame('Unknown languages: qq', $e->getMessage());
+        }
+    }
+
+    /**
+     * "install_local" merges the shipped files too: an invalid one of an installed language rejects the request (409)
+     * before anything is written, languages that are not installed are not checked.
+     */
+    public function testInstallLocalModeWithAnInvalidLanguageFileIsReportedAsActivityErrorWithoutWriting(): void
+    {
+        $setup_language = $this->createSetupLanguageMock([], [], ['de', 'fr']);
+        $setup_language->expects($this->exactly(2))
+            ->method('checkLanguageForInstallation')
+            ->willReturnMap([
+                ['de', false],
+                ['fr', true],
+            ]);
+        $setup_language->method('getInstallableLanguagesForInstallation')->willReturn(['fr']);
+        $setup_language->expects($this->never())->method('insertLanguageForApplyingLocalChanges');
+        $setup_language->expects($this->never())->method('registerInstalledLanguage');
+
+        try {
+            $this->createActivity($setup_language)->perform([
+                'language_keys' => 'de,fr,qq',
+                'mode' => InstallLanguage::MODE_INSTALL_LOCAL,
+            ]);
+            $this->fail('InvalidLanguageFilesException expected');
+        } catch (InvalidLanguageFilesException $e) {
+            $this->assertSame(409, $e->getCode());
+            $this->assertSame(['de'], $e->getLanguageKeys());
+        }
+    }
+
     public function testMissingModeParameterIsRejected(): void
     {
         $this->expectException(InvalidInputException::class);
 
-        $this->createActivity($this->createSetupLanguageMock([], [], []))->perform([
+        $this->createActivity($this->createSetupLanguageStub([], [], []))->perform([
             'language_keys' => 'de',
         ]);
     }
@@ -429,7 +196,7 @@ class InstallLanguageTest extends ActivityWithPerformResultContractTestCase
     {
         $this->expectException(InvalidInputException::class);
 
-        $this->createActivity($this->createSetupLanguageMock([], [], []))->perform([
+        $this->createActivity($this->createSetupLanguageStub([], [], []))->perform([
             'language_keys' => 'de',
             'mode' => 'foo',
         ]);
@@ -465,14 +232,14 @@ class InstallLanguageTest extends ActivityWithPerformResultContractTestCase
             self::callback(static fn(mixed $value): bool => is_string($value))
         )->willReturn($select);
 
-        $group = $this->createMock(\ILIAS\UI\Component\Input\Field\Section::class);
+        $group = $this->createStub(\ILIAS\UI\Component\Input\Field\Section::class);
         $field->expects($this->once())
             ->method('section')
             ->with(['language_keys' => $text, 'mode' => $select], $this->anything())
             ->willReturn($group);
 
         $activity = $this->createActivity(
-            $this->createSetupLanguageMock([], [], [])
+            $this->createSetupLanguageStub([], [], [])
         );
 
         $this->assertSame($group, $activity->getInputDescription($field));
@@ -511,7 +278,7 @@ class InstallLanguageTest extends ActivityWithPerformResultContractTestCase
     {
         $this->expectException(InvalidInputException::class);
 
-        $this->createActivity($this->createSetupLanguageMock([], [], []))->perform($parameters);
+        $this->createActivity($this->createSetupLanguageStub([], [], []))->perform($parameters);
     }
 
     /** Pins InvalidInputException, not just its parent \InvalidArgumentException. */
@@ -519,13 +286,13 @@ class InstallLanguageTest extends ActivityWithPerformResultContractTestCase
     {
         $this->expectException(InvalidInputException::class);
 
-        $this->createActivity($this->createSetupLanguageMock([], [], []))->perform('not-an-array');
+        $this->createActivity($this->createSetupLanguageStub([], [], []))->perform('not-an-array');
     }
 
     /** ilObjLanguageFolderGUI sends 'language_keys' as array of strings; the real grind() pipeline must join it. */
     public function testMaybePerformAsAcceptsAnArrayOfLanguageKeysAndInstallsEachOne(): void
     {
-        $rbac = $this->createMock(\ilRbacSystem::class);
+        $rbac = $this->createStub(\ilRbacSystem::class);
         $rbac->method('checkAccessOfUser')->willReturn(true);
 
         $setup_language = $this->createSetupLanguageMock([], [], []);
@@ -563,31 +330,5 @@ class InstallLanguageTest extends ActivityWithPerformResultContractTestCase
         )->maybePerformAs($this->createRealFieldsUiFactory()->input(), 6, ['language_keys' => 'de', 'mode' => InstallLanguage::MODE_INSTALL]);
 
         $this->assertTrue($result->isError());
-    }
-
-    private function createActivity(
-        ilSetupLanguage $setup_language,
-        ?\ilRbacSystem $rbac = null,
-    ): InstallLanguage {
-        return new InstallLanguage(
-            $this->rbacOf($rbac ?? $this->createMock(\ilRbacSystem::class)),
-            $setup_language,
-            $this->languageFolder()
-        );
-    }
-
-    private function createSetupLanguageMock(
-        array $available_languages,
-        array $local_language_keys,
-        array $installed_language_keys,
-        array $invalid_local_language_files = []
-    ): MockObject&ilSetupLanguage {
-        $setup_language = $this->createMock(ilSetupLanguage::class);
-        $setup_language->method('getAvailableLanguagesForInstallation')->willReturn($available_languages);
-        $setup_language->method('getLocalLanguages')->willReturn($local_language_keys);
-        $setup_language->method('getInstalledLanguages')->willReturn($installed_language_keys);
-        $setup_language->method('getInvalidLocalLanguageFiles')->willReturn($invalid_local_language_files);
-
-        return $setup_language;
     }
 }

@@ -22,7 +22,7 @@ use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Language\Activities\InstallLanguage;
 use ILIAS\Language\Activities\UpdateLanguage;
-use ILIAS\Setup\Objective\NullObjective;
+use ILIAS\Language\Setup\ShippedLanguageFilesCompiledObjective;
 
 class ilLanguageSetupAgentTest extends ilLanguageBaseTestCase
 {
@@ -33,8 +33,8 @@ class ilLanguageSetupAgentTest extends ilLanguageBaseTestCase
 
     protected function setUp(): void
     {
-        $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
-        $setup_language = $this->createMock(ilSetupLanguage::class);
+        $refinery = new Refinery($this->createStub(DataFactory::class), $this->createStub(\ilLanguage::class));
+        $setup_language = $this->createStub(ilSetupLanguage::class);
         $install_language = new InstallLanguage(
             $this->createStub(\ILIAS\AccessControl\PublicInterface\RBAC::class),
             $setup_language,
@@ -93,6 +93,6 @@ class ilLanguageSetupAgentTest extends ilLanguageBaseTestCase
     {
         $result = $this->obj->getBuildObjective();
 
-        $this->assertInstanceOf(NullObjective::class, $result);
+        $this->assertInstanceOf(ShippedLanguageFilesCompiledObjective::class, $result);
     }
 }

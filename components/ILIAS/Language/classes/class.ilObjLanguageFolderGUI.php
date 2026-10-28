@@ -18,6 +18,10 @@
 
 declare(strict_types=1);
 
+use ILIAS\Language\ComponentTranslation\MigratedTranslations;
+use ILIAS\Language\ComponentTranslation\NativeGettext;
+use ILIAS\Language\ComponentTranslation\DuplicateIdentifierMessage;
+use ILIAS\Language\ComponentTranslation\InvalidMarkupMessage;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
 use ILIAS\Language\Activities\InstallLanguage;
@@ -181,7 +185,56 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
             $this->toolbar->addComponent($toggleButton);
         }
 
-        $this->tpl->setContent($this->ui_renderer->render($table->withRequest($this->request)));
+        $this->tpl->setContent($this->ui_renderer->render([
+            ...$this->nativeGettextMessageBoxes(),
+            $table->withRequest($this->request)
+        ]));
+    }
+
+    /**
+     * Whether the migrated modules can be served through native gettext (see TranslationGettextRepository): a failure box
+     * for a problem concerning every migrated module (no gettext, no build), an info box for one concerning a single
+     * module, language or overlay, and one in a thread-safe PHP (the locale settings apply to every thread there).
+     * Paths are shown relative, the log has the full ones.
+     *
+     * @return list<\ILIAS\UI\Component\MessageBox\MessageBox>
+     */
+    private function nativeGettextMessageBoxes(): array
+    {
+        $boxes = [];
+        $problem = MigratedTranslations::getProblem(defined('CLIENT_DATA_DIR') ? (string) CLIENT_DATA_DIR : null);
+        if ($problem !== null && $problem['fatal']) {
+            $boxes[] = $this->ui_factory->messageBox()->failure(htmlspecialchars(str_replace(
+                '%s',
+                $problem['message'],
+                $this->textOrDefault(
+                    'lng_native_gettext_unavailable',
+                    'The modules maintained in PO files cannot be served, their texts are shown as "-identifier-": %s'
+                )
+            )));
+        } elseif ($problem !== null) {
+            $boxes[] = $this->ui_factory->messageBox()->info(htmlspecialchars(str_replace(
+                '%s',
+                $problem['message'],
+                $this->textOrDefault(
+                    'lng_native_gettext_problem',
+                    'A problem with the language files of the modules maintained in PO files: %s'
+                )
+            )));
+        }
+        if (NativeGettext::isThreadSafe()) {
+            $boxes[] = $this->ui_factory->messageBox()->info(htmlspecialchars($this->textOrDefault(
+                'lng_native_gettext_thread_safe',
+                'PHP runs thread-safe (ZTS): the locale settings for the language files of the modules maintained in PO files apply to every thread of the web server process.'
+            )));
+        }
+
+        return $boxes;
+    }
+
+    private function textOrDefault(string $identifier, string $default): string
+    {
+        return $this->lng->exists($identifier) ? $this->lng->txt($identifier) : $default;
     }
 
     protected function buildConfirmModal(array $ids, string $title, string $action, string $text, string $add_text = ''): ILIAS\UI\Implementation\Component\Modal\Interruptive
@@ -366,13 +419,25 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
             );
         }
 
+        $failure_messages = [];
         if (($invalid_local_language_files = $value['invalid_local_language_files']) !== []) {
-            $message = $this->lng->txt('local_language_files') . ': '
+            $failure_messages[] = $this->lng->txt('local_language_files') . ': '
                 . implode(', ', $invalid_local_language_files) . '. '
                 . $this->lng->txt('file_not_valid');
+        }
+        if (($overlay_write_failed = $value['overlay_write_failed_language_keys'] ?? []) !== []) {
+            $failure_messages[] = $this->overlayWriteFailedMessage($overlay_write_failed);
+        }
+        if (($invalid_markup = $value['invalid_markup_customizing_entries'] ?? []) !== []) {
+            $failure_messages[] = $this->invalidMarkupCustomizingMessage($invalid_markup);
+        }
+        if (($duplicates = $value['duplicate_customizing_entries'] ?? []) !== []) {
+            $failure_messages[] = $this->duplicateCustomizingMessage($duplicates);
+        }
+        if ($failure_messages !== []) {
             $this->tpl->setOnScreenMessage(
                 'failure',
-                $message,
+                implode('<br />', $failure_messages),
                 true
             );
         }
@@ -448,6 +513,10 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
             $this->tpl->setOnScreenMessage('info', implode('<br />', $info_messages), true);
         }
 
+        if (($overlay_write_failed = $value['overlay_write_failed_language_keys'] ?? []) !== []) {
+            $this->tpl->setOnScreenMessage('failure', $this->overlayWriteFailedMessage($overlay_write_failed), true);
+        }
+
         $this->ctrl->redirect($this, 'view');
     }
 
@@ -490,11 +559,6 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
         }
         $value = $result->value();
 
-        // Plugin language files are refreshed only for the languages whose
-        // local changes were actually removed - a requested-but-not-installed
-        // or invalid language (see below) has nothing to refresh.
-        ilObjLanguage::refreshPlugins($value['removed_local_changes_language_keys']);
-
         if (($lang_changed = $value['removed_local_changes_language_keys']) !== []) {
             $this->tpl->setOnScreenMessage(
                 'success',
@@ -504,12 +568,15 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
             );
         }
 
+        $failure_messages = [];
         if (($lang_invalid = $value['invalid_language_file_keys']) !== []) {
-            $this->tpl->setOnScreenMessage(
-                'failure',
-                $this->languageKeysToLocalizedList($lang_invalid) . ": " . $this->lng->txt("file_not_valid"),
-                true
-            );
+            $failure_messages[] = $this->languageKeysToLocalizedList($lang_invalid) . ": " . $this->lng->txt("file_not_valid");
+        }
+        if (($overlay_write_failed = $value['overlay_write_failed_language_keys'] ?? []) !== []) {
+            $failure_messages[] = $this->overlayWriteFailedMessage($overlay_write_failed);
+        }
+        if ($failure_messages !== []) {
+            $this->tpl->setOnScreenMessage('failure', implode('<br />', $failure_messages), true);
         }
 
         if (($lang_not_installed = $value['not_installed_language_keys']) !== []) {
@@ -568,11 +635,6 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
         }
         $value = $result->value();
 
-        // Plugin language files are refreshed only for the languages that
-        // were actually updated - a requested-but-not-installed language
-        // (see not_installed_language_keys below) has nothing to refresh.
-        ilObjLanguage::refreshPlugins($value['updated_language_keys']);
-
         if (($lang_updated = $value['updated_language_keys']) !== []) {
             $this->tpl->setOnScreenMessage(
                 'success',
@@ -591,7 +653,56 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
             );
         }
 
+        $failure_messages = [];
+        if (($overlay_write_failed = $value['overlay_write_failed_language_keys'] ?? []) !== []) {
+            $failure_messages[] = $this->overlayWriteFailedMessage($overlay_write_failed);
+        }
+        if (($invalid_markup = $value['invalid_markup_customizing_entries'] ?? []) !== []) {
+            $failure_messages[] = $this->invalidMarkupCustomizingMessage($invalid_markup);
+        }
+        if (($duplicates = $value['duplicate_customizing_entries'] ?? []) !== []) {
+            $failure_messages[] = $this->duplicateCustomizingMessage($duplicates);
+        }
+        if ($failure_messages !== []) {
+            $this->tpl->setOnScreenMessage('failure', implode('<br />', $failure_messages), true);
+        }
+
         $this->ctrl->redirect($this, 'view');
+    }
+
+    /**
+     * Customizing entries not applied because of disallowed markup, see InvalidMarkupMessage. The Activity output
+     * already names each entry with its markup ("<language>: <module>#:#<identifier>: <script>"), so they are listed as is.
+     *
+     * @param list<string> $entries
+     */
+    private function invalidMarkupCustomizingMessage(array $entries): string
+    {
+        return InvalidMarkupMessage::of($this->lng, $this->refinery, array_fill_keys($entries, []));
+    }
+
+    /**
+     * Customizing entries not applied as duplicates of another module: "lng_identifier_not_unique" with the escaped,
+     * shortened list of the Activity output.
+     *
+     * @param list<string> $entries
+     */
+    private function duplicateCustomizingMessage(array $entries): string
+    {
+        return DuplicateIdentifierMessage::of($this->lng, $this->refinery, $entries);
+    }
+
+    /**
+     * The database was written, but the PO/MO files of a PO module could not be (see LanguageActivity::overlayWriteFailedOutputField()).
+     *
+     * @param list<string> $lang_keys
+     */
+    private function overlayWriteFailedMessage(array $lang_keys): string
+    {
+        return sprintf(
+            $this->lng->txt('lng_po_overlay_not_written_languages'),
+            $this->languageKeysToLocalizedList($lang_keys)
+        );
     }
 
     /**

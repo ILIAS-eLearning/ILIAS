@@ -14,6 +14,9 @@
 * Extracted language-installation state access into `InstalledLanguageRepository` and
   `LanguageInstallationManager` (repository pattern), and language-file-directory resolution into
   `ILIAS\Language\ComponentTranslation\*` - see the README
+* Plural forms for modules maintained in PO files: `txt($a_topic, $n)`, `Plural-Forms` evaluated by
+  `ILIAS\Language\ComponentTranslation\PluralForms` (pilot modules `tos` and `poll`, see
+  [Translations Maintained in PO Files](README.md#translations-maintained-in-po-files))
 
 ## Short Term
 
@@ -27,6 +30,8 @@
 * Let the GUI classes get the Activities by dependency injection once ilCtrl allows it, and drop the
   Activities and the `LanguageFileDirectoryManager` from the legacy `$DIC` (`AllModernComponents`)
 * Build `lng` in the dependency graph instead of `ilInitialisation::initLanguage()`
+* Replace hand-made singular/plural key pairs by plural messages and `txt($a_topic, $n)` together
+  with the owning components (first proposal: `Poll`)
 
 ## Mid Term
 

@@ -21,6 +21,8 @@ declare(strict_types=1);
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectoryManager;
 use ILIAS\Language\ComponentTranslation\MainLanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\CustomizingLanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\MigratedLanguageFilePaths;
+use ILIAS\Language\ComponentTranslation\MigratedLanguageFileSync;
 use ILIAS\Language\Setup\InstalledLanguageRepository;
 use ILIAS\Language\Setup\InstalledLanguageDatabaseRepository;
 use ILIAS\Language\Setup\LanguageInstallationManager;
@@ -53,6 +55,8 @@ class ilObjLanguage extends ilObject
     private LanguageFileDirectoryManager $language_file_directory_manager;
     private InstalledLanguageRepository $repository;
     private LanguageInstallationManager $manager;
+    /** @var list<string> */
+    private array $modules_with_unwritten_overlay = [];
 
     /**
      * Constructor
@@ -98,7 +102,8 @@ class ilObjLanguage extends ilObject
             $this->absolute_path,
             $this->repository,
             null,
-            new TranslationCacheLegacyProxy()
+            new TranslationCacheLegacyProxy(),
+            fn(): ?string => MigratedLanguageFilePaths::resolveClientDataDir($this->absolute_path)
         );
     }
 
@@ -201,59 +206,6 @@ class ilObjLanguage extends ilObject
     }
 
     /**
-     * Check language object status, and return true if a local language file
-     * is installed.
-     *
-     * Return     true if local language is installed
-     */
-    public function isLocal(): bool
-    {
-        if (substr($this->getStatus(), 10) === "local") {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * install current language
-     *
-     * $scope empty (global) or "local"
-     * Return installed language key
-     */
-    public function install(string $scope = ""): string
-    {
-        if ($scope === "global") {
-            $scope = "";
-        }
-
-        if (!$this->isInstalled() || (!$this->isLocal() && !empty($scope))) {
-            if ($this->check($scope)) {
-                // lang-file is ok. Flush data in db and...
-                if (empty($scope)) {
-                    $this->flush("keep_local");
-                }
-
-                // ...re-insert data from lang-file
-                $this->insert($scope);
-
-                // update information in db-table about available/installed languages
-                $newDesc = '';
-                if (empty($scope)) {
-                    $newDesc = "installed";
-                } elseif ($scope === "local") {
-                    $newDesc = "installed_local";
-                }
-                $this->setDescription($newDesc);
-                $this->update();
-                return $this->getKey();
-            }
-        }
-        return "";
-    }
-
-
-    /**
      * uninstall current language
      *
      * Return uninstalled language key
@@ -262,6 +214,7 @@ class ilObjLanguage extends ilObject
     {
         if ((str_starts_with($this->status, "installed")) && ($this->key != $this->lang_default) && ($this->key != $this->lang_user)) {
             $this->flush();
+            $this->modules_with_unwritten_overlay = self::removeMigratedMoFiles($this->key);
             $this->setTitle($this->key);
             $this->setDescription("not_installed");
             $this->update();
@@ -270,6 +223,49 @@ class ilObjLanguage extends ilObject
             return $this->key;
         }
         return "";
+    }
+
+    /**
+     * Overlay counterpart to flush(): without it a migrated module's overlay of an uninstalled language
+     * would still be served, as ilLanguage::txtlng() does not check whether the language is installed.
+     * The overlay .po and .mo are derived per-instance state and are removed together; failures are
+     * logged per module and returned, the DB-side uninstall must not be blocked by them.
+     *
+     * @return list<string> the modules whose overlay could not be removed
+     */
+    private static function removeMigratedMoFiles(string $a_key): array
+    {
+        global $DIC;
+
+        // see ilLanguage::isInstalledLanguage()
+        ilLanguage::forgetInstalledLanguage($a_key);
+
+        if (!$DIC->offsetExists(LanguageFileDirectoryManager::class)) {
+            return [];
+        }
+
+        /** @var LanguageFileDirectoryManager $manager */
+        $manager = $DIC[LanguageFileDirectoryManager::class];
+        $client_data_dir = MigratedLanguageFilePaths::resolveClientDataDir(ILIAS_ABSOLUTE_PATH);
+        MigratedLanguageFileSync::forgetLocalChangesTakenOver($client_data_dir, $a_key);
+
+        $failed_modules = [];
+        foreach ($manager->getDirectories() as $directory) {
+            $module = $directory->getPrefix();
+            try {
+                MigratedLanguageFileSync::removeOverlay($manager, $a_key, $module, $client_data_dir);
+            } catch (\Throwable $t) {
+                $DIC->logger()->forComponent('lang')->warning(sprintf(
+                    'Could not remove migrated overlay file for module "%s", language "%s": %s',
+                    $module,
+                    $a_key,
+                    $t->getMessage()
+                ));
+                $failed_modules[] = $module;
+            }
+        }
+
+        return $failed_modules;
     }
 
 
@@ -292,29 +288,6 @@ class ilObjLanguage extends ilObject
 
         return false;
     }
-
-    /**
-     * Refresh all installed languages.
-     *
-     * @deprecated no caller left in the core (ilObjLanguageFolderGUI::refreshObject() was unreachable and removed;
-     * refreshSelectedObject() uses \ILIAS\Language\Activities\UpdateLanguage). Kept as public API for external code.
-     */
-    public static function refreshAll(): void
-    {
-        $languages = ilObject::_getObjectsByType("lng");
-        $refreshed = array();
-
-        foreach ($languages as $lang) {
-            $langObj = new ilObjLanguage($lang["obj_id"], false);
-            if ($langObj->refresh()) {
-                $refreshed[] = $langObj->getKey();
-            }
-            unset($langObj);
-        }
-
-        self::refreshPlugins($refreshed);
-    }
-
 
     /**
      * Refresh languages of activated plugins
@@ -374,6 +347,10 @@ class ilObjLanguage extends ilObject
 
     /**
     * get locally changed language entries
+    *
+    * Reads lng_data only, not merged with the overlay (unlike _getLastLocalChange()): correct only while lng_data
+    * is dual-written for migrated modules (see replaceLangModule()).
+    *
     * $a_min_date    minimum change date "yyyy-mm-dd hh:mm:ss"
     * $a_max_date    maximum change date "yyyy-mm-dd hh:mm:ss"
     * Return array       [module][identifier] => value
@@ -424,16 +401,78 @@ class ilObjLanguage extends ilObject
         );
         $result = $ilDB->query($q);
 
-        if ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
-            return (string) $row["last_change"];
-        } else {
-            return "";
+        $db_last_change = null;
+        if (($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) && $row["last_change"] !== null) {
+            $db_last_change = (string) $row["last_change"];
         }
+
+        // a migrated module's overlay .po can carry a local_change lng_data never sees; the more recent one wins
+        $po_last_change = self::_getLastMigratedLocalChange($a_key);
+
+        return match (true) {
+            $db_last_change === null && $po_last_change === null => "",
+            $db_last_change === null => $po_last_change,
+            $po_last_change === null => $db_last_change,
+            default => max($db_last_change, $po_last_change),
+        };
+    }
+
+    /**
+     * Overlay equivalent of MAX(lng_data.local_change).
+     *
+     * $a_key          language key
+     * Return   ?string      most recent local_change in "Y-m-d H:i:s" (DB format), or null if no
+     *                       migrated module has any local_change for this language
+     */
+    private static function _getLastMigratedLocalChange(string $a_key): ?string
+    {
+        global $DIC;
+
+        if (!$DIC->offsetExists(LanguageFileDirectoryManager::class)) {
+            return null;
+        }
+
+        /** @var LanguageFileDirectoryManager $manager */
+        $manager = $DIC[LanguageFileDirectoryManager::class];
+        $client_data_dir = MigratedLanguageFilePaths::resolveClientDataDir(ILIAS_ABSOLUTE_PATH);
+
+        $last_change = null;
+        foreach (MigratedLanguageFileSync::getMigratedModules($manager, $a_key, $client_data_dir) as $module) {
+            try {
+                // only the overlay carries local changes; an unreadable shipped .po (plural rule) does not stop reading it
+                $translations = MigratedLanguageFileSync::loadLocalChanges(
+                    $manager,
+                    $a_key,
+                    $module,
+                    $client_data_dir
+                ) ?? [];
+            } catch (\Throwable $t) {
+                $DIC->logger()->forComponent('lang')->warning(sprintf(
+                    'Could not read migrated language file for module "%s", language "%s": %s',
+                    $module,
+                    $a_key,
+                    $t->getMessage()
+                ));
+                continue;
+            }
+            foreach ($translations as $entry) {
+                $change = $entry['local_change_date'];
+                if ($change !== null && ($last_change === null || $change > $last_change)) {
+                    $last_change = $change;
+                }
+            }
+        }
+
+        return $last_change;
     }
 
 
     /**
      * Get the local changes of a language module
+     *
+     * Reads lng_data only, same caveat as getLocalChanges(). Used by ilPluginLanguage::updateLanguages() to preserve
+     * local changes across an update.
+     *
      * $a_key          Language key
      * $a_module       Module key
      * Return array    identifier => value
@@ -458,14 +497,22 @@ class ilObjLanguage extends ilObject
 
 
     /**
-     * insert language data from file into database
-     *
-     * @deprecated $scope has no effect: LanguageInstallationManager::insertLanguageForInstallation() always processes
-     * every directory, including customizing, in one idempotent pass. No caller in the core passes it; kept for external code.
+     * insert language data from file into database, customizing included
      */
-    public function insert(string $scope = ""): void
+    public function insert(): void
     {
-        $this->manager->insertLanguageForInstallation($this->key);
+        $this->modules_with_unwritten_overlay = $this->manager->insertLanguageForInstallation($this->key);
+    }
+
+    /**
+     * Modules whose PO/MO overlay could not be written or removed by the last operation (the database was written
+     * regardless).
+     *
+     * @return list<string>
+     */
+    public function getModulesWithUnwrittenOverlay(): array
+    {
+        return $this->modules_with_unwritten_overlay;
     }
 
     /**
@@ -476,12 +523,13 @@ class ilObjLanguage extends ilObject
      */
     public function removeLocalChanges(): bool
     {
-        if (!$this->isInstalled() || !$this->check()) {
+        // The customizing file is not applied here - an invalid one must not block the reset
+        if (!$this->isInstalled() || !$this->check(true)) {
             return false;
         }
 
         $this->flush("all");
-        $this->manager->insertLanguageForRemovingLocalChanges($this->key);
+        $this->modules_with_unwritten_overlay = $this->manager->insertLanguageForRemovingLocalChanges($this->key);
         $this->setTitle($this->getKey());
         $this->setDescription("installed");
         $this->update();
@@ -490,10 +538,44 @@ class ilObjLanguage extends ilObject
     }
 
     /**
-    * Replace language module array
-    */
-    final public static function replaceLangModule(string $a_key, string $a_module, array $a_array): void
-    {
+     * Replace language module array
+     *
+     * Central write path for module data (admin GUI edits, local-change delete, plugin update): rewrites the
+     * lng_modules row and dual-writes the same content into the overlay of a migrated module (see
+     * syncMigratedLanguageFile()). lng_data/lng_modules stay the rollback-safe source of truth while the PO/MO pilot runs.
+     *
+     * Final: the signature only carries identifier => value, no per-entry reason text (unlike replaceLangEntry()'s
+     * $a_remarks); do not widen it.
+     *
+     * @param bool $refresh_original_from_shipped forwarded to MigratedLanguageFileSync::sync(); `true` only where
+     *        $a_array reflects the current SHIPPED content (module reset, plugin language file re-applied)
+     * @return bool `false` if the database was written but the overlay of a module maintained in PO files could not be
+     */
+    final public static function replaceLangModule(
+        string $a_key,
+        string $a_module,
+        array $a_array,
+        bool $refresh_original_from_shipped = false
+    ): bool {
+        global $DIC;
+
+        // DB write and overlay sync form one unit under the lock, also against a caller's read of the current content (see ilObjLanguageExt::_saveValues())
+        return MigratedLanguageFileSync::withOverlayLock(
+            $DIC->offsetExists(LanguageFileDirectoryManager::class) ? $DIC[LanguageFileDirectoryManager::class] : null,
+            $a_key,
+            $a_module,
+            MigratedLanguageFilePaths::resolveClientDataDir(ILIAS_ABSOLUTE_PATH),
+            static fn(): bool => self::writeLangModule($a_key, $a_module, $a_array, $refresh_original_from_shipped),
+            ILIAS_ABSOLUTE_PATH
+        );
+    }
+
+    private static function writeLangModule(
+        string $a_key,
+        string $a_module,
+        array $a_array,
+        bool $refresh_original_from_shipped
+    ): bool {
         global $DIC;
         $ilDB = $DIC->database();
 
@@ -510,10 +592,20 @@ class ilObjLanguage extends ilObject
             "(%s,%s,%s)", $ilDB->quote($a_key, "text"),
             $ilDB->quote($a_module, "text"),
             $ilDB->quote(serialize($a_array), "clob")));*/
+        // a migrated module's shipped values as the build serves them; $a_array stays unprocessed for the overlay sync
+        $db_array = $DIC->offsetExists(LanguageFileDirectoryManager::class)
+            ? MigratedLanguageFileSync::databaseValuesOf(
+                $DIC[LanguageFileDirectoryManager::class],
+                ILIAS_ABSOLUTE_PATH,
+                $a_key,
+                $a_module,
+                $a_array
+            )
+            : $a_array;
         $ilDB->insert("lng_modules", array(
             "lang_key" => array("text", $a_key),
             "module" => array("text", $a_module),
-            "lang_array" => array("clob", serialize($a_array))
+            "lang_array" => array("clob", serialize($db_array))
             ));
 
         // check if the module is correctly saved
@@ -527,14 +619,58 @@ class ilObjLanguage extends ilObject
 
         $unserialied = unserialize($row["lang_array"], ["allowed_classes" => false]);
         if (!is_array($unserialied)) {
+            $escape = $DIC->refinery()->encode()->htmlSpecialCharsAsEntities();
             $DIC->ui()->mainTemplate()->setOnScreenMessage(
                 'failure',
-                "Data for module '" . $a_module . "' of  language '" . $a_key . "' is not correctly saved. " .
+                "Data for module '" . $escape->transform($a_module) . "' of  language '" . $escape->transform($a_key) . "' is not correctly saved. " .
                 "Please check the collation of your database tables lng_data and lng_modules. It must be utf8_unicode_ci.",
                 true
             );
+            // redirectByClass() exits inside the overlay lock callback: the flock() is released at request end, acceptable here
             $DIC->ctrl()->redirectByClass(ilobjlanguagefoldergui::class, 'view');
         }
+
+        return self::syncMigratedLanguageFile($a_key, $a_module, $a_array, $refresh_original_from_shipped);
+    }
+
+    /**
+     * Mirrors the complete $a_array into the overlay with "replace" semantics (entries no longer in it are removed).
+     * No-op for a module that is not migrated for $a_key. Failures are logged and signalled by `false`, not thrown:
+     * the DB write already succeeded and must not be undone (e.g. data directory not writable).
+     */
+    private static function syncMigratedLanguageFile(
+        string $a_key,
+        string $a_module,
+        array $a_array,
+        bool $refresh_original_from_shipped = false
+    ): bool {
+        global $DIC;
+
+        if (!$DIC->offsetExists(LanguageFileDirectoryManager::class)) {
+            return true;
+        }
+
+        try {
+            MigratedLanguageFileSync::sync(
+                $DIC[LanguageFileDirectoryManager::class],
+                ILIAS_ABSOLUTE_PATH,
+                $a_key,
+                $a_module,
+                $a_array,
+                MigratedLanguageFilePaths::resolveClientDataDir(ILIAS_ABSOLUTE_PATH),
+                $refresh_original_from_shipped
+            );
+        } catch (\Throwable $t) {
+            $DIC->logger()->forComponent('lang')->warning(sprintf(
+                'Could not sync migrated language file for module "%s", language "%s": %s',
+                $a_module,
+                $a_key,
+                $t->getMessage()
+            ));
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -555,7 +691,7 @@ class ilObjLanguage extends ilObject
         // ilGlobalCache::flushAll();
 
         if (is_string($a_remarks) && $a_remarks !== '') {
-            $a_remarks = substr($a_remarks, 0, 250);
+            $a_remarks = mb_substr($a_remarks, 0, 250);
         }
 
         if ($a_remarks === '') {
@@ -599,7 +735,7 @@ class ilObjLanguage extends ilObject
         $ilDB = $DIC->database();
 
         if (is_string($a_remarks) && $a_remarks !== '') {
-            $a_remarks = substr($a_remarks, 0, 250);
+            $a_remarks = mb_substr($a_remarks, 0, 250);
         }
 
         if ($a_remarks === '') {
@@ -702,15 +838,14 @@ class ilObjLanguage extends ilObject
      * header, and each lang-entry consists of exactly three elements
      * (module, identifier, value).
      *
-     * $scope  empty/"global" (all managed directories) or "local"
-     *         (customizing directory only)
+     * $shipped_only  all but the customizing directory (see removeLocalChanges())
      *
      * Delegates to InstalledLanguageRepository; callers (e.g. ilObjLanguageFolderGUI) turn a `false` into user feedback.
      */
-    public function check(string $scope = ""): bool
+    public function check(bool $shipped_only = false): bool
     {
-        if ($scope === "local") {
-            return $this->repository->checkLocalLanguageFile($this->key);
+        if ($shipped_only && $this->repository instanceof InstalledLanguageDatabaseRepository) {
+            return $this->repository->checkShippedLanguage($this->key);
         }
 
         return $this->repository->checkLanguage($this->key);

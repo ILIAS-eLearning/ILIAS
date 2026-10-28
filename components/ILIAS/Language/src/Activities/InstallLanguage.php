@@ -66,6 +66,9 @@ installed language completely untouched. Mode "install_local" instead
 (re-)applies only the customizing/local file on top of an already installed
 language, without touching its base data, and leaves a not-yet-installed
 language completely untouched.
+
+In both modes, invalid language files (including a shipped `.po`) reject the
+request as a whole before anything is written.
 MARKDOWN
         );
     }
@@ -135,6 +138,9 @@ MARKDOWN
                     $text->simpleDocument('Local language files with an invalid file name.'),
                     $f->string($text->simpleDocument('File name of an invalid local language file.'))
                 ),
+                'overlay_write_failed_language_keys' => $this->overlayWriteFailedOutputField($f),
+                'invalid_markup_customizing_entries' => $this->invalidMarkupCustomizingOutputField($f),
+                'duplicate_customizing_entries' => $this->duplicateCustomizingOutputField($f),
             ]
         );
     }
@@ -171,21 +177,29 @@ MARKDOWN
         }
 
         $error_language_keys = [];
-        foreach ($to_fully_install as $language_key) {
+        // "install_local" merges the shipped .po as well, so an invalid one is refused before writing too
+        foreach (array_merge($to_fully_install, $to_apply_local_changes) as $language_key) {
             if (!$this->setup_language->checkLanguageForInstallation($language_key)) {
                 $error_language_keys[] = $language_key;
             }
         }
 
         if ($error_language_keys !== []) {
-            throw new \RuntimeException(
-                'Invalid language files: ' . implode(', ', $error_language_keys)
-            );
+            // a language without a language file is the caller's mistake, an invalid file the server's
+            $unknown_language_keys = array_values(array_diff(
+                array_intersect($error_language_keys, $to_fully_install),
+                $this->setup_language->getInstallableLanguagesForInstallation()
+            ));
+            if ($unknown_language_keys !== []) {
+                throw new InvalidInputException('Unknown languages: ' . implode(', ', $unknown_language_keys));
+            }
+            throw new InvalidLanguageFilesException($error_language_keys);
         }
 
         $installed_language_keys = [];
         $installed_with_local_language_keys = [];
         $invalid_local_language_files = [];
+        $overlay_write_failed_language_keys = [];
 
         $affected_language_keys = array_merge($to_fully_install, $to_apply_local_changes);
         if ($affected_language_keys !== []) {
@@ -197,7 +211,9 @@ MARKDOWN
 
             foreach ($to_fully_install as $language_key) {
                 $this->setup_language->flushLanguageForInstallation($language_key);
-                $this->setup_language->insertLanguageForInstallation($language_key);
+                if ($this->setup_language->insertLanguageForInstallation($language_key) !== []) {
+                    $overlay_write_failed_language_keys[] = $language_key;
+                }
                 $this->setup_language->registerInstalledLanguage($language_key, $db_languages, $local_language_keys);
 
                 if (in_array($language_key, $local_language_keys, true)) {
@@ -208,7 +224,9 @@ MARKDOWN
             }
 
             foreach ($to_apply_local_changes as $language_key) {
-                $this->setup_language->insertLanguageForApplyingLocalChanges($language_key);
+                if ($this->setup_language->insertLanguageForApplyingLocalChanges($language_key) !== []) {
+                    $overlay_write_failed_language_keys[] = $language_key;
+                }
                 $this->setup_language->registerInstalledLanguage($language_key, $db_languages, $local_language_keys);
 
                 if (in_array($language_key, $local_language_keys, true)) {
@@ -226,6 +244,15 @@ MARKDOWN
             'already_installed_language_keys' => $already_installed_no_op,
             'not_installed_language_keys' => $not_installed_no_op,
             'invalid_local_language_files' => $invalid_local_language_files,
+            'overlay_write_failed_language_keys' => $overlay_write_failed_language_keys,
+            'invalid_markup_customizing_entries' => $this->invalidMarkupCustomizingEntries(
+                $this->setup_language->getSkippedInvalidMarkupEntries(),
+                $affected_language_keys
+            ),
+            'duplicate_customizing_entries' => $this->duplicateCustomizingEntries(
+                $this->setup_language->getSkippedDuplicateEntries(),
+                $affected_language_keys
+            ),
         ];
     }
 

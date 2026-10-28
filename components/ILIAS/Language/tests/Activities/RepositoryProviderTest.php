@@ -23,68 +23,70 @@ namespace ILIAS\Language\Tests\Activities;
 
 use ILIAS\Language\Activities\LanguageSettings;
 use ILIAS\Language\Activities\RepositoryProvider;
+use ILIAS\Language\ComponentTranslation\Catalog\TranslationCatalog;
+use ILIAS\Language\ComponentTranslation\Catalog\TranslationEntry;
+use ILIAS\Language\ComponentTranslation\CustomizingLanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectoryManager;
+use ILIAS\Language\Setup\FixedInstallationRoot;
 use ILIAS\Language\Setup\InstalledLanguageRepository;
+use ILIAS\Logging\Logger\LoggerInterface;
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\TestCase;
 
 /**
- * Only what runs without the legacy container: the installed languages, the settings behind an injected Setting and
- * the lookup half of updateModuleCache(). Writes through \ilObjLanguage are covered by the Activity tests only
- * as calls on a mocked provider.
+ * Only what runs without the legacy container: the installed languages, the settings behind an injected LanguageSettings,
+ * the lookup of the module content and the plural check against shipped `.po` files. The writes through
+ * \ilObjLanguage are covered by the Activity tests as calls on a mocked provider.
  */
-class RepositoryProviderTest extends TestCase
+class RepositoryProviderTest extends \ilLanguageBaseTestCase
 {
     public function testGetInstalledLanguagesDelegatesToTheRepository(): void
     {
         $installed = $this->createMock(InstalledLanguageRepository::class);
         $installed->expects($this->once())->method('getInstalledLanguages')->willReturn(['de', 'en']);
 
-        $provider = new RepositoryProvider($installed, $this->createMock(\ilDBInterface::class), $this->createMock(LanguageSettings::class));
+        $provider = $this->provider($installed);
 
         $this->assertSame(['de', 'en'], $provider->getInstalledLanguages());
     }
 
     /** @return array<string, array{0: ?array<string, mixed>}> */
-    public static function unusableCacheRowProvider(): array
+    public static function unusableLngModulesRows(): array
     {
         return [
-            'no lng_modules row' => [null],
-            'lang_array is NULL' => [['lang_array' => null]],
+            'no row' => [null],
+            // unserialize(null) would throw a \TypeError under strict_types
+            'lang_array is null' => [['lang_array' => null]],
             'lang_array is not a string' => [['lang_array' => 42]],
-            'lang_array decodes to a scalar' => [['lang_array' => serialize('not-an-array')]],
-            'lang_array is broken serialize' => [['lang_array' => 'a:1:{broken']],
+            'lang_array decodes to a non-array' => [['lang_array' => serialize('not-an-array')]],
             'lang_array is an object (allowed_classes false)' => [['lang_array' => serialize(new \ArrayObject(['x' => 'y']))]],
         ];
     }
 
     /**
-     * Each of these ends before the write to \ilObjLanguage::replaceLangModule(), which needs the legacy container:
-     * reaching it would fail with an Error instead of returning.
+     * A module that is not maintained in PO files without a usable lng_modules row yields null: the module name is
+     * free input, so lng_data must not be used to create a row for an arbitrary one.
      *
-     * @param ?array<string, mixed> $row
+     * @param ?array<string, mixed> $lng_modules_row
      */
-    #[DataProvider('unusableCacheRowProvider')]
-    public function testUpdateModuleCacheLeavesAMissingOrBrokenCacheAlone(?array $row): void
+    #[DataProvider('unusableLngModulesRows')]
+    public function testCurrentModuleEntriesIsNullWithoutAUsableLngModulesRowForAModuleNotMaintainedInPoFiles(?array $lng_modules_row): void
     {
-        $statement = $this->createMock(\ilDBStatement::class);
-        $db = $this->createMock(\ilDBInterface::class);
-        $db->method('quote')->willReturnCallback(static fn(mixed $value, string $type): string => "'" . $value . "'");
-        $db->method('query')->willReturn($statement);
-        $db->method('fetchAssoc')->willReturn($row);
+        $db = $this->dbFetching($lng_modules_row, [['identifier' => 'new_topic', 'value' => 'Hallo']]);
 
-        // unserialize() reports broken input as a notice, which is not what this test is about
-        set_error_handler(static fn(): bool => true, E_NOTICE | E_WARNING);
-        try {
-            (new RepositoryProvider($this->createMock(InstalledLanguageRepository::class), $db, $this->createMock(LanguageSettings::class)))
-                ->updateModuleCache('de', 'common', 'topic', 'value');
-        } finally {
-            restore_error_handler();
-        }
-
-        $this->addToAssertionCount(1);
+        $this->assertNull($this->currentModuleEntries($this->provider(db: $db)));
     }
 
-    public function testUpdateModuleCacheQuotesLanguageKeyAndModuleIntoTheQuery(): void
+    public function testCurrentModuleEntriesIsTheUsableLngModulesRow(): void
+    {
+        $db = $this->dbFetching(['lang_array' => serialize(['existing' => 'Bestehend'])], [['identifier' => 'ignored', 'value' => 'x']]);
+
+        $this->assertSame(
+            ['existing' => 'Bestehend'],
+            $this->currentModuleEntries($this->provider(db: $db))
+        );
+    }
+
+    public function testCurrentModuleEntriesQuotesLanguageKeyAndModuleIntoTheQuery(): void
     {
         $db = $this->createMock(\ilDBInterface::class);
         $db->expects($this->exactly(2))->method('quote')->willReturnCallback(
@@ -95,8 +97,294 @@ class RepositoryProviderTest extends TestCase
         );
         $db->method('fetchAssoc')->willReturn(null);
 
-        (new RepositoryProvider($this->createMock(InstalledLanguageRepository::class), $db, $this->createMock(LanguageSettings::class)))
-            ->updateModuleCache('de', "co'mmon", 'topic', 'value');
+        (new \ReflectionMethod(RepositoryProvider::class, 'currentModuleEntries'))
+            ->invoke($this->provider(db: $db), 'de', "co'mmon", null);
+    }
+
+    /**
+     * A module not maintained in PO files without a usable lng_modules row is left alone: lng_data holds the entry,
+     * nothing is written and the call reports success.
+     *
+     * @param ?array<string, mixed> $lng_modules_row
+     */
+    #[DataProvider('unusableLngModulesRows')]
+    public function testUpdateModuleCacheLeavesTheCacheOfAModuleNotMaintainedInPoFilesAlone(?array $lng_modules_row): void
+    {
+        $db = $this->dbFetching($lng_modules_row, [['identifier' => 'new_topic', 'value' => 'Hallo']]);
+
+        $this->assertTrue($this->provider(db: $db)->updateModuleCache('de', 'common', 'new_topic', 'Hallo', 'author'));
+    }
+
+    /** The client data directory of the overlays is asked from the injected resolver, once per update. */
+    public function testUpdateModuleCacheAsksTheInjectedResolverForTheClientDataDir(): void
+    {
+        $asked = 0;
+        $provider = $this->provider(
+            db: $this->dbFetching(null, []),
+            client_data_dir_resolver: static function () use (&$asked): ?string {
+                $asked++;
+                return null;
+            }
+        );
+
+        $this->assertTrue($provider->updateModuleCache('de', 'common', 'new_topic', 'Hallo'));
+        $this->assertSame(1, $asked);
+    }
+
+    /**
+     * For a module maintained in PO files the content is the shipped `.po` plus overlay, never the database rows:
+     * the rows differ here on purpose.
+     */
+    public function testCurrentModuleEntriesOfAModuleMaintainedInPoFilesComeFromTheShippedPoNeverFromTheDatabase(): void
+    {
+        $fixture_dir = $this->shippedPoDirectory('common', ['existing' => 'Veraltet']);
+        try {
+            $db = $this->dbFetching(
+                ['lang_array' => serialize(['existing' => 'aus lng_modules'])],
+                [['identifier' => 'existing', 'value' => 'aus lng_data']]
+            );
+            $provider = $this->provider(db: $db, manager: $this->managerFor($fixture_dir, 'common'));
+
+            $this->assertSame(['existing' => 'Veraltet'], $this->currentModuleEntries($provider));
+        } finally {
+            \MigratedPoFixture::removeDirectory($fixture_dir);
+        }
+    }
+
+    /** The lookup reads strictly: an unreadable overlay must not silently fall back to the shipped values. */
+    public function testAnUnreadableOverlayMakesTheLookupFailInsteadOfFallingBack(): void
+    {
+        $fixture_dir = $this->shippedPoDirectory('common', ['existing' => 'Veraltet']);
+        $client_data_dir = sys_get_temp_dir() . '/ilias_provider_test_' . bin2hex(random_bytes(4));
+        $overlay_dir = $client_data_dir . '/lang/common/de';
+        mkdir($overlay_dir, 0775, true);
+        file_put_contents($overlay_dir . '/common_de.po', "msgid \"kaputt\n");
+
+        try {
+            $provider = $this->provider(db: $this->dbNeverQueried(), manager: $this->managerFor($fixture_dir, 'common'));
+
+            $this->expectException(\RuntimeException::class);
+            $this->currentModuleEntries($provider, $client_data_dir);
+        } finally {
+            \MigratedPoFixture::removeDirectory($fixture_dir);
+            \MigratedPoFixture::removeDirectory($client_data_dir);
+        }
+    }
+
+    /** An unreadable shipped `.po` aborts the add for this module: nothing is written, the overlay counts as unwritten. */
+    public function testUpdateModuleCacheReportsAnUnreadableShippedPoAndReturnsFalse(): void
+    {
+        $this->expectErrorLog();
+        $fixture_dir = __DIR__ . '/tmp-provider-fixtures-' . bin2hex(random_bytes(4));
+        mkdir($fixture_dir, 0775, true);
+        file_put_contents($fixture_dir . '/common_de.po', "msgid \"kaputt\n");
+
+        try {
+            $provider = $this->provider(
+                db: $this->dbNeverQueried(),
+                manager: $this->managerFor($fixture_dir, 'common')
+            );
+
+            $this->assertFalse($provider->updateModuleCache('de', 'common', 'new_topic', 'Hallo', 'author'));
+            $this->assertStringContainsString(
+                'cannot be read, the new entry is not added',
+                (string) file_get_contents((string) ini_get('error_log'))
+            );
+        } finally {
+            \MigratedPoFixture::removeDirectory($fixture_dir);
+        }
+    }
+
+    /** @return array<string, array{0: bool, 1: bool}> */
+    public static function unreadableContentCases(): array
+    {
+        return [
+            'readable shipped po and no overlay' => [false, false],
+            'unreadable shipped po' => [true, false],
+            'unreadable overlay' => [false, true],
+        ];
+    }
+
+    /** A module maintained in PO files with an unreadable shipped `.po` or overlay must not be written; it is reported. */
+    #[DataProvider('unreadableContentCases')]
+    public function testHasUnreadableContentIsTrueAndReportedOnlyForAnUnreadablePoOrOverlay(bool $broken_po, bool $broken_overlay): void
+    {
+        if ($broken_po || $broken_overlay) {
+            $this->expectErrorLog();
+        }
+        $fixture_dir = $this->shippedPoDirectory('common', ['existing' => 'Veraltet']);
+        $client_data_dir = sys_get_temp_dir() . '/ilias_provider_test_' . bin2hex(random_bytes(4));
+        if ($broken_po) {
+            file_put_contents($fixture_dir . '/common_de.po', "msgid \"kaputt\n");
+        }
+        if ($broken_overlay) {
+            mkdir($client_data_dir . '/lang/common/de', 0775, true);
+            file_put_contents($client_data_dir . '/lang/common/de/common_de.po', "msgid \"kaputt\n");
+        }
+
+        try {
+            $provider = $this->provider(
+                manager: $this->managerFor($fixture_dir, 'common'),
+                client_data_dir_resolver: static fn(): string => $client_data_dir
+            );
+
+            $unreadable = $broken_po || $broken_overlay;
+            $this->assertSame($unreadable, $provider->hasUnreadableContent('de', 'common'));
+            $log_file = (string) ini_get('error_log');
+            $logged = is_file($log_file) ? (string) file_get_contents($log_file) : '';
+            $this->assertSame($unreadable, str_contains($logged, 'cannot be read, the new entry is not added'));
+        } finally {
+            \MigratedPoFixture::removeDirectory($fixture_dir);
+            \MigratedPoFixture::removeDirectory($client_data_dir);
+        }
+    }
+
+    public function testHasUnreadableContentIsFalseForAModuleNotMaintainedInPoFiles(): void
+    {
+        $this->assertFalse($this->provider()->hasUnreadableContent('de', 'common'));
+    }
+
+    /**
+     * A form missing from a shipped plural message (here "item [2]" of a message with two forms) is reported with
+     * its language; an existing form, another module's identifier or a language without shipped `.po` is not.
+     */
+    public function testLanguagesWithoutPluralFormListsOnlyLanguagesWhoseShippedMessageLacksTheForm(): void
+    {
+        $fixture_dir = __DIR__ . '/tmp-provider-plural-' . bin2hex(random_bytes(4));
+        mkdir($fixture_dir, 0775, true);
+        $catalog = new TranslationCatalog();
+        $catalog->setHeader('Plural-Forms', 'nplurals=2; plural=(n != 1);');
+        $entry = new TranslationEntry('poll', 'item');
+        $entry->setPlural('items', ['Eintrag', 'Einträge']);
+        $catalog->add($entry);
+        \MigratedPoFixture::writePo($fixture_dir . '/poll_de.po', $catalog);
+
+        try {
+            $provider = $this->provider(manager: $this->managerFor($fixture_dir, 'poll'));
+
+            $this->assertSame(['de'], $provider->languagesWithoutPluralForm('poll', 'item [2]', ['de', 'fr']));
+            $this->assertSame([], $provider->languagesWithoutPluralForm('poll', 'item [1]', ['de']));
+            $this->assertSame([], $provider->languagesWithoutPluralForm('poll', 'item', ['de']));
+            $this->assertSame([], $provider->languagesWithoutPluralForm('other', 'item [2]', ['de']));
+        } finally {
+            \MigratedPoFixture::removeDirectory($fixture_dir);
+        }
+    }
+
+    public function testLanguagesWithoutPluralFormIsEmptyWhenNoModuleIsMaintainedInPoFiles(): void
+    {
+        $this->assertSame([], $this->provider()->languagesWithoutPluralForm('poll', 'item [2]', ['de']));
+    }
+
+    // lng_data answers case-insensitively, so the rows include the other spellings
+    public function testFindDuplicatesOfListsOtherModulesAndOtherSpellings(): void
+    {
+        $db = $this->dbFetching(null, [
+            ['module' => 'mme', 'identifier' => 'login'],
+            ['module' => 'common', 'identifier' => 'Login'],
+            ['module' => 'mme', 'identifier' => 'login'],
+        ]);
+
+        $this->assertSame(['common: Login', 'mme: login'], $this->provider(db: $db)->findDuplicatesOf('common', 'login'));
+    }
+
+    public function testFindDuplicatesOfAcceptsAnOldCollisionOnceTheModuleHoldsTheIdentifierInThisSpelling(): void
+    {
+        $db = $this->dbFetching(null, [
+            ['module' => 'mme', 'identifier' => 'login'],
+            ['module' => 'COMMON', 'identifier' => 'login'],
+        ]);
+
+        $this->assertSame([], $this->provider(db: $db)->findDuplicatesOf('common', 'login'));
+    }
+
+    public function testFindDuplicatesOfAcceptsAFormKeyWhenTheModuleHoldsItsPluralMessage(): void
+    {
+        $db = $this->dbFetching(null, [['module' => 'mme', 'identifier' => 'item'], ['module' => 'poll', 'identifier' => 'item']]);
+
+        $this->assertSame([], $this->provider(db: $db)->findDuplicatesOf('poll', 'item [2]'));
+    }
+
+    public function testFilterAddableOffersATopicIfAtLeastOneChosenModuleAcceptsIt(): void
+    {
+        $rows = [
+            'free' => [],
+            'taken' => [['module' => 'mme', 'identifier' => 'taken']],
+            'old' => [['module' => 'mme', 'identifier' => 'old'], ['module' => 'common', 'identifier' => 'old']],
+        ];
+        $current = [];
+        $db = $this->createStub(\ilDBInterface::class);
+        $db->method('in')->willReturnCallback(static function (string $field, array $values) use (&$current, $rows): string {
+            $current = $rows[$values[0]];
+            return '';
+        });
+        $db->method('fetchAssoc')->willReturnCallback(static function () use (&$current): ?array {
+            return array_shift($current);
+        });
+
+        $this->assertSame(['free', 'old'], RepositoryProvider::filterAddable($db, ['common'], ['free', 'taken', 'old']));
+        $this->assertSame(['free', 'taken', 'old'], RepositoryProvider::filterAddable($db, ['common', 'mme'], ['free', 'taken', 'old']));
+        $this->assertSame([], RepositoryProvider::filterAddable($db, [], ['free']));
+    }
+
+    public function testFilterAddableAcceptsANumericTopicGivenAsInt(): void
+    {
+        $db = $this->dbFetching(null, []);
+
+        $this->assertSame(['123'], RepositoryProvider::filterAddable($db, ['common'], [123]));
+    }
+
+    public function testFindDuplicatesOfAlsoLooksUpThePluralMessageOfAFormKey(): void
+    {
+        $db = $this->createMock(\ilDBInterface::class);
+        $db->expects($this->once())->method('in')
+            ->with('identifier', ['item [2]', 'item'], false, 'text')
+            ->willReturn('identifier IN (…)');
+        $db->method('query')->willReturn($this->createStub(\ilDBStatement::class));
+        $db->method('fetchAssoc')->willReturnOnConsecutiveCalls(['module' => 'poll', 'identifier' => 'item'], null);
+
+        $this->assertSame([], $this->provider(db: $db)->findDuplicatesOf('poll', 'item [2]'));
+    }
+
+    public function testLogWarningWritesThroughTheInjectedLogger(): void
+    {
+        $logger = $this->createMock(LoggerInterface::class);
+        $logger->expects($this->once())->method('warning')->with('the language may be incomplete');
+
+        $this->provider(logger: $logger)->logWarning('the language may be incomplete');
+    }
+
+    /** A failing logger must not replace the exception the warning is about: the message goes to error_log() instead. */
+    public function testLogWarningFallsBackToErrorLogWhenTheLoggerThrows(): void
+    {
+        $this->expectErrorLog();
+        $logger = $this->createStub(LoggerInterface::class);
+        $logger->method('warning')->willThrowException(new \LogicException('logger is down'));
+
+        $this->provider(logger: $logger)->logWarning('the language may be incomplete');
+
+        $file = (string) ini_get('error_log');
+        $this->assertStringContainsString('the language may be incomplete', (string) file_get_contents($file));
+    }
+
+    /** @return array<string, array{0: \Closure}> */
+    public static function dicWithoutComponentRepository(): array
+    {
+        return [
+            'DIC is an array' => [static fn(): array => []],
+            'container without component.repository' => [static fn(): \ILIAS\DI\Container => new \ILIAS\DI\Container()],
+        ];
+    }
+
+    /** Without a component repository (Setup) re-applying the plugin language files does nothing. */
+    #[DataProvider('dicWithoutComponentRepository')]
+    public function testRefreshPluginsDoesNothingWithoutAComponentRepository(\Closure $dic): void
+    {
+        $GLOBALS['DIC'] = $dic();
+
+        $this->provider()->refreshPlugins(['de']);
+
+        $this->addToAssertionCount(1);
     }
 
     public function testSettingsAreDelegatedToTheLanguageSettings(): void
@@ -106,13 +394,97 @@ class RepositoryProviderTest extends TestCase
         $settings->expects($this->once())->method('isPageTranslationEnabled')->with('fr')->willReturn(true);
         $settings->expects($this->once())->method('setPageTranslationEnabled')->with('de', false);
 
-        $provider = new RepositoryProvider(
-            $this->createMock(InstalledLanguageRepository::class),
-            $this->createMock(\ilDBInterface::class),
-            $settings
-        );
+        $provider = $this->provider(settings: $settings);
         $provider->setLanguageDetectionEnabled(true);
         $this->assertTrue($provider->isPageTranslationEnabled('fr'));
         $provider->setPageTranslationEnabled('de', false);
+    }
+
+    private function provider(
+        ?InstalledLanguageRepository $installed = null,
+        ?\ilDBInterface $db = null,
+        ?LanguageFileDirectoryManager $manager = null,
+        ?LanguageSettings $settings = null,
+        ?LoggerInterface $logger = null,
+        ?\Closure $client_data_dir_resolver = null
+    ): RepositoryProvider {
+        return new RepositoryProvider(
+            $installed ?? $this->createStub(InstalledLanguageRepository::class),
+            $db ?? $this->createStub(\ilDBInterface::class),
+            $settings ?? $this->createStub(LanguageSettings::class),
+            $manager ?? new LanguageFileDirectoryManager(new CustomizingLanguageFileDirectory()),
+            new FixedInstallationRoot($this->iliasRoot()),
+            $client_data_dir_resolver ?? static fn(): ?string => null,
+            $logger ?? $this->createStub(LoggerInterface::class)
+        );
+    }
+
+    /** The fixture directories (MigratedPoFixture::directory()) are relative to the installation root. */
+    private function iliasRoot(): string
+    {
+        return (string) realpath(__DIR__ . '/../../../../../');
+    }
+
+    /** The private lookup of the module content that updateModuleCache() adds the new entry to. */
+    private function currentModuleEntries(RepositoryProvider $provider, ?string $client_data_dir = null): ?array
+    {
+        return (new \ReflectionMethod(RepositoryProvider::class, 'currentModuleEntries'))
+            ->invoke($provider, 'de', 'common', $client_data_dir);
+    }
+
+    /**
+     * @param array<string, string> $entries
+     * @return string the fixture directory holding the shipped `common_de.po`; the caller removes it
+     */
+    private function shippedPoDirectory(string $module, array $entries): string
+    {
+        $fixture_dir = __DIR__ . '/tmp-provider-fixtures-' . bin2hex(random_bytes(4));
+        mkdir($fixture_dir, 0775, true);
+        \MigratedPoFixture::writePo($fixture_dir . '/' . $module . '_de.po', \MigratedPoFixture::catalog($module, $entries));
+
+        return $fixture_dir;
+    }
+
+    /** A manager whose only shipped directory is $fixture_dir, holding the `.po` files of $module. */
+    private function managerFor(string $fixture_dir, string $module): LanguageFileDirectoryManager
+    {
+        return new LanguageFileDirectoryManager(
+            new CustomizingLanguageFileDirectory(),
+            \MigratedPoFixture::directory($module, 'components/ILIAS/Language/tests/Activities/' . basename($fixture_dir) . '/')
+        );
+    }
+
+    /**
+     * @param ?array<string, mixed> $lng_modules_row
+     * @param list<array{identifier: string, value: string}> $lng_data_rows
+     */
+    /** A shipped module is never read from lng_modules or lng_data, not even as a fallback. */
+    private function dbNeverQueried(): \ilDBInterface
+    {
+        $db = $this->createMock(\ilDBInterface::class);
+        $db->expects($this->never())->method('query');
+
+        return $db;
+    }
+
+    private function dbFetching(?array $lng_modules_row, array $lng_data_rows): \ilDBInterface
+    {
+        $modules_statement = $this->createStub(\ilDBStatement::class);
+        $data_statement = $this->createStub(\ilDBStatement::class);
+
+        $db = $this->createStub(\ilDBInterface::class);
+        $db->method('quote')->willReturnCallback(static fn(mixed $value, string $type): string => "'" . (string) $value . "'");
+        $db->method('query')->willReturnCallback(
+            static fn(string $query): \ilDBStatement => str_contains($query, 'FROM lng_modules')
+                ? $modules_statement
+                : $data_statement
+        );
+        $db->method('fetchAssoc')->willReturnCallback(
+            static function (\ilDBStatement $statement) use ($modules_statement, $lng_modules_row, &$lng_data_rows): ?array {
+                return $statement === $modules_statement ? $lng_modules_row : array_shift($lng_data_rows);
+            }
+        );
+
+        return $db;
     }
 }

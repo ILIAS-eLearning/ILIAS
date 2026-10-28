@@ -94,6 +94,7 @@ MARKDOWN
                     ),
                     $f->string($text->simpleDocument('Language key of a not-installed language.'))
                 ),
+                'overlay_write_failed_language_keys' => $this->overlayWriteFailedOutputField($f),
             ]
         );
     }
@@ -123,6 +124,7 @@ MARKDOWN
         $system_language_keys = [];
         $user_language_keys = [];
         $not_installed_language_keys = [];
+        $overlay_write_failed_language_keys = [];
 
         // not transactional: a failure partway leaves the languages processed so far uninstalled
         foreach ($language_keys as $language_key) {
@@ -141,11 +143,17 @@ MARKDOWN
                 $user_language_keys[] = $language_key;
             } elseif (!$this->repository->isInstalled($obj_id)) {
                 $not_installed_language_keys[] = $language_key;
-            } elseif ($this->repository->uninstall($obj_id)) {
-                // uninstall() re-checks the guards: its result decides
-                $uninstalled_language_keys[] = $language_key;
             } else {
-                $not_installed_language_keys[] = $language_key;
+                // uninstall() re-checks the guards: its result decides
+                $unwritten_overlay_modules = $this->repository->uninstall($obj_id);
+                if ($unwritten_overlay_modules === null) {
+                    $not_installed_language_keys[] = $language_key;
+                    continue;
+                }
+                $uninstalled_language_keys[] = $language_key;
+                if ($unwritten_overlay_modules !== []) {
+                    $overlay_write_failed_language_keys[] = $language_key;
+                }
             }
         }
 
@@ -154,6 +162,7 @@ MARKDOWN
             'system_language_keys' => $system_language_keys,
             'user_language_keys' => $user_language_keys,
             'not_installed_language_keys' => $not_installed_language_keys,
+            'overlay_write_failed_language_keys' => $overlay_write_failed_language_keys,
         ];
     }
 }

@@ -898,7 +898,7 @@ class ilECSMappingSettingsGUI
             $assignment->enablePositionUpdate($form->getInput('position'));
             $assignment->update();
 
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved', "1"));
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'));
             $this->ctrl->redirect($this, 'dEditTree');
         }
 

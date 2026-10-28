@@ -20,9 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Language\Tests\Activities;
 
-use ILIAS\Language\Activities\RepositoryProvider;
 use ILIAS\Language\Tests\Activities\RealFieldsUiFactory;
-use PHPUnit\Framework\MockObject\MockObject;
 use ILIAS\Component\Activities\Activity;
 use ILIAS\Component\Activities\ActivityType;
 use ilLanguageBaseTestCase;
@@ -84,35 +82,5 @@ abstract class ActivityContractTestCase extends ilLanguageBaseTestCase
             $this->assertSame((string) $interface_parameter->getType(), (string) $own_parameter->getType());
             $this->assertSame($interface_parameter->allowsNull(), $own_parameter->allowsNull());
         }
-    }
-}
-
-/**
- * RepositoryProvider mock answering per obj_id from fake language objects (\ilObjLanguage needs $DIC).
- * The factory is only asked on access, so a throwing factory proves no object was reached.
- */
-trait LanguageObjectRepositoryProvider
-{
-    protected function languageObjectProvider(\Closure $lng_objects, \Closure $obj_language_factory): RepositoryProvider&MockObject
-    {
-        $provider = $this->createMock(RepositoryProvider::class);
-        $provider->method('listLanguageObjects')->willReturnCallback($lng_objects);
-        $provider->method('isSystemLanguage')->willReturnCallback(
-            static fn(int $id): bool => $obj_language_factory($id)->isSystemLanguage()
-        );
-        $provider->method('isUserLanguage')->willReturnCallback(
-            static fn(int $id): bool => $obj_language_factory($id)->isUserLanguage()
-        );
-        $provider->method('isInstalled')->willReturnCallback(
-            static fn(int $id): bool => $obj_language_factory($id)->isInstalled()
-        );
-        $provider->method('uninstall')->willReturnCallback(
-            static fn(int $id): bool => $obj_language_factory($id)->uninstall() !== ''
-        );
-        $provider->method('removeLocalChanges')->willReturnCallback(
-            static fn(int $id): bool => $obj_language_factory($id)->removeLocalChanges()
-        );
-
-        return $provider;
     }
 }

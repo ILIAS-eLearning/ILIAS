@@ -264,7 +264,7 @@ class ilSurveyEvaluationGUI
             $this->evaluation_manager->setAnonEvaluationAccess($this->request->getRefId());
             $this->evaluation();
         } else {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("svy_check_evaluation_wrong_key", "1"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("svy_check_evaluation_wrong_key"));
             $this->cancelEvaluationAccess();
         }
     }

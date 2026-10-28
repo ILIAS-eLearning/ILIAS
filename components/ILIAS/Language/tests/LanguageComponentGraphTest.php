@@ -27,6 +27,7 @@ use ILIAS\Language\Activities\AddLanguageEntry;
 use ILIAS\Language\Activities\RepositoryProvider;
 use ILIAS\Language\Activities\SetLanguageDetectionEnabled;
 use ILIAS\Language\Activities\SetLanguageTranslationEnabled;
+use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectoryManager;
 use ILIAS\Language\ComponentTranslation\MainLanguageFileDirectory;
@@ -66,6 +67,10 @@ class LanguageComponentGraphTest extends TestCase
         ];
         $use[\ILIAS\Environment\Configuration\Installation\Directories::class] ??= $this->createDirectories(
             (string) realpath(__DIR__ . '/../../../../')
+        );
+        $use[\ILIAS\Environment\Configuration\Installation\ClientIdProvider::class] ??= $this->createClientIdProvider('default');
+        $use[\ILIAS\Logging\Logger\LoggerFactoryInterface::class] ??= $this->createStub(
+            \ILIAS\Logging\Logger\LoggerFactoryInterface::class
         );
         $seek = [
             LanguageFileDirectory::class => [],
@@ -171,8 +176,15 @@ class LanguageComponentGraphTest extends TestCase
         $this->initComponent();
 
         $directories = $this->contributionsOf(LanguageFileDirectory::class);
-        self::assertCount(1, $directories);
-        self::assertInstanceOf(MainLanguageFileDirectory::class, $directories[0]);
+        $main = array_filter($directories, static fn(object $d): bool => $d instanceof MainLanguageFileDirectory);
+        self::assertCount(1, $main);
+        $modules = array_map(
+            static fn(ComponentLanguageFileDirectory $d): string => $d->getPrefix(),
+            array_filter($directories, static fn(object $d): bool => $d instanceof ComponentLanguageFileDirectory)
+        );
+        sort($modules);
+        self::assertSame(['lng'], $modules);
+        self::assertCount(count($main) + count($modules), $directories, 'only Main and component directories');
 
         $this->contributedSetupAgent();
 
@@ -196,6 +208,33 @@ class LanguageComponentGraphTest extends TestCase
         $user_settings = $this->contributionsOf(\ILIAS\User\Settings\UserSettings::class);
         self::assertCount(1, $user_settings);
         self::assertInstanceOf(UserSettingsSettings::class, $user_settings[0]);
+    }
+
+    public function testTheLngModuleIsContributedAsComponentLanguageFileDirectory(): void
+    {
+        $this->initComponent();
+
+        $lng = array_values(array_filter(
+            $this->contributionsOf(LanguageFileDirectory::class),
+            static fn(object $d): bool => $d instanceof ComponentLanguageFileDirectory && $d->getPrefix() === 'lng'
+        ));
+
+        self::assertCount(1, $lng, 'exactly one ComponentLanguageFileDirectory with prefix "lng" expected');
+        self::assertSame('components/ILIAS/Language/lang/', $lng[0]->getPath());
+    }
+
+    /** The Setup agent gets UpdateLanguage's Setup instance, not the GUI's: without provider it re-applies no plugin language files. */
+    public function testTheSetupAgentGetsTheSetupInstanceOfUpdateLanguage(): void
+    {
+        [, , , $contribute, , $provide] = $this->initComponent();
+        $agent = $contribute[\ILIAS\Setup\Agent::class . '_1'];
+
+        $update_language = (new ReflectionProperty(\ilLanguageSetupAgent::class, 'update_language'))->getValue($agent);
+        $repository = new ReflectionProperty(UpdateLanguage::class, 'repository');
+
+        self::assertNotSame($provide[UpdateLanguage::class], $update_language);
+        self::assertNull($repository->getValue($update_language));
+        self::assertInstanceOf(RepositoryProvider::class, $repository->getValue($provide[UpdateLanguage::class]));
     }
 
     public function testContributedActivitiesAreTheSameSingletonsAsTheProvidedInstances(): void
@@ -224,12 +263,66 @@ class LanguageComponentGraphTest extends TestCase
         );
     }
 
-    private function createDirectories(string $root): \ILIAS\Environment\Configuration\Installation\Directories
-    {
+    private function createDirectories(
+        string $root,
+        string $data_dir = '/nonexistent-ilias-data'
+    ): \ILIAS\Environment\Configuration\Installation\Directories {
         $directories = $this->createStub(\ILIAS\Environment\Configuration\Installation\Directories::class);
         $directories->method('getRoot')->willReturn($root);
+        $directories->method('getDataDir')->willReturn($data_dir);
 
         return $directories;
+    }
+
+    private function createClientIdProvider(string $client_id): \ILIAS\Environment\Configuration\Installation\ClientIdProvider
+    {
+        $provider = $this->createStub(\ILIAS\Environment\Configuration\Installation\ClientIdProvider::class);
+        $provider->method('getClientId')->willReturn(new \ILIAS\Data\ClientId($client_id));
+
+        return $provider;
+    }
+
+    public function testTheRuntimeClientDataDirComesFromDirectoriesAndTheClientId(): void
+    {
+        $data_dir = sys_get_temp_dir() . '/ilias_lang_graph_' . bin2hex(random_bytes(4));
+        mkdir($data_dir . '/myclient', 0775, true);
+        try {
+            [, , , , , $provide, , $internal] = $this->initComponent([
+                \ILIAS\Language\Language::class => $this->createStub(\ILIAS\Language\Language::class),
+                \ILIAS\AccessControl\PublicInterface\RBAC::class => $this->createStub(\ILIAS\AccessControl\PublicInterface\RBAC::class),
+                \ILIAS\Environment\Configuration\Installation\Directories::class => $this->createDirectories(
+                    (string) realpath(__DIR__ . '/../../../../'),
+                    $data_dir
+                ),
+                \ILIAS\Environment\Configuration\Installation\ClientIdProvider::class => $this->createClientIdProvider('myclient'),
+            ]);
+            $setup_language = self::readPrivateProperty($provide[InstallLanguage::class], 'setup_language');
+            $provider_resolver = self::readPrivateProperty($internal[RepositoryProvider::class], 'client_data_dir_resolver');
+
+            self::assertSame($data_dir . '/myclient', $setup_language->getClientDataDir());
+            self::assertSame($data_dir . '/myclient', $provider_resolver());
+        } finally {
+            rmdir($data_dir . '/myclient');
+            rmdir($data_dir);
+        }
+    }
+
+    public function testAnInvalidClientIdYieldsNoClientDataDir(): void
+    {
+        $client_id_provider = $this->createStub(\ILIAS\Environment\Configuration\Installation\ClientIdProvider::class);
+        $client_id_provider->method('getClientId')->willReturnCallback(
+            static fn(): \ILIAS\Data\ClientId => new \ILIAS\Data\ClientId('')
+        );
+        [, , , , , $provide, , $internal] = $this->initComponent([
+            \ILIAS\Language\Language::class => $this->createStub(\ILIAS\Language\Language::class),
+            \ILIAS\AccessControl\PublicInterface\RBAC::class => $this->createStub(\ILIAS\AccessControl\PublicInterface\RBAC::class),
+            \ILIAS\Environment\Configuration\Installation\ClientIdProvider::class => $client_id_provider,
+        ]);
+        $setup_language = self::readPrivateProperty($provide[InstallLanguage::class], 'setup_language');
+        $provider_resolver = self::readPrivateProperty($internal[RepositoryProvider::class], 'client_data_dir_resolver');
+
+        self::assertNull($setup_language->getClientDataDir());
+        self::assertNull($provider_resolver());
     }
 
     public function testRepositoryGetsTheRootFromDirectories(): void
@@ -296,8 +389,9 @@ class LanguageComponentGraphTest extends TestCase
         $this->resolveEverything($provide);
 
         self::assertSame([], $internal[InstalledLanguageDatabaseRepository::class]->getInstalledLanguages());
-        // the module cache update of the provider shared by the runtime Activities; only its lookup runs without a legacy container
-        $internal[RepositoryProvider::class]->updateModuleCache('de', 'common', 'x', 'y');
+        // the lookup behind the provider's updateModuleCache(); the update itself needs the legacy container
+        (new ReflectionMethod(RepositoryProvider::class, 'currentModuleEntries'))
+            ->invoke($internal[RepositoryProvider::class], 'de', 'common', null);
         self::assertSame($dic, $GLOBALS['DIC']);
     }
 
@@ -390,6 +484,39 @@ class LanguageComponentGraphTest extends TestCase
         $this->performReadOnly(
             self::readPrivateProperty($agent, $class === InstallLanguage::class ? 'install_language' : 'update_language')
         );
+    }
+
+    /** Activities write through an installation manager that invalidates the global language cache (a no-op without cache). */
+    public function testTheRuntimeInstallationManagerHasATranslationCacheThatIsSafeWithoutGlobalCache(): void
+    {
+        [, , , , , $provide] = $this->initComponent();
+        $setup_language = self::readPrivateProperty($provide[InstallLanguage::class], 'setup_language');
+        $manager = (new \ReflectionMethod($setup_language, 'manager'))->invoke($setup_language);
+
+        $translation_cache = self::readPrivateProperty($manager, 'translation_cache');
+
+        self::assertInstanceOf(\ILIAS\Language\Setup\TranslationCacheLegacyProxy::class, $translation_cache);
+        $translation_cache->invalidate('de');
+    }
+
+    public function testTheRuntimeInstallationManagerAndTheRepositoryProviderLogToTheLangLogger(): void
+    {
+        $logger = $this->createStub(\ILIAS\Logging\Logger\LoggerInterface::class);
+        $other_logger = $this->createStub(\ILIAS\Logging\Logger\LoggerInterface::class);
+        $logger_factory = $this->createStub(\ILIAS\Logging\Logger\LoggerFactoryInterface::class);
+        $logger_factory->method('getLazy')->willReturnCallback(
+            static fn(string $component_id) => $component_id === 'lang' ? $logger : $other_logger
+        );
+        [, , , , , $provide, , $internal] = $this->initComponent([
+            \ILIAS\Language\Language::class => $this->createStub(\ILIAS\Language\Language::class),
+            \ILIAS\AccessControl\PublicInterface\RBAC::class => $this->createStub(\ILIAS\AccessControl\PublicInterface\RBAC::class),
+            \ILIAS\Logging\Logger\LoggerFactoryInterface::class => $logger_factory,
+        ]);
+        $setup_language = self::readPrivateProperty($provide[InstallLanguage::class], 'setup_language');
+        $manager = (new \ReflectionMethod($setup_language, 'manager'))->invoke($setup_language);
+
+        self::assertSame($logger, self::readPrivateProperty($manager, 'logger'));
+        self::assertSame($logger, self::readPrivateProperty($internal[RepositoryProvider::class], 'logger'));
     }
 
     private static function readPrivateProperty(object $object, string $property): mixed

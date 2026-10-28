@@ -23,6 +23,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectoryManager;
 use ILIAS\Language\ComponentTranslation\MainLanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\CustomizingLanguageFileDirectory;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class ilSetupLanguageTest
@@ -37,6 +38,8 @@ class ilSetupLanguageTest extends ilLanguageBaseTestCase
     protected function setUp(): void
     {
         unset($GLOBALS['ilDB']);
+        // per process: two PHPUnit runs at once must not share (and delete) the same directory
+        $this->tempComponentDir .= '_' . getmypid();
         $this->newLangSetupDe = new ilSetupLanguage('de');
         $this->newLangSetupEs = new ilSetupLanguage('es');
 
@@ -197,6 +200,15 @@ class ilSetupLanguageTest extends ilLanguageBaseTestCase
 
         self::assertContainsOnlyString($setup_language->getLocalLanguages());
         self::assertTrue($setup_language->checkLanguageForInstallation('en'));
+    }
+
+    public function testInstallableLanguagesAreTheKeysWithAMainLanguageFile(): void
+    {
+        $installable = (new ilSetupLanguage('en'))->getInstallableLanguagesForInstallation();
+
+        $this->assertContains('en', $installable);
+        $this->assertContains('de', $installable);
+        $this->assertNotContains('qq', $installable);
     }
 
     /**
@@ -382,7 +394,7 @@ class ilSetupLanguageTest extends ilLanguageBaseTestCase
         );
     }
 
-    private function createDatabaseMock(): ilDBInterface
+    private function createDatabaseMock(): ilDBInterface&MockObject
     {
         $db = $this->createMock(ilDBInterface::class);
         $db->method('nextId')->willReturn(42);
@@ -401,7 +413,7 @@ class ilSetupLanguageTest extends ilLanguageBaseTestCase
         $db->expects($this->once())
             ->method('manipulate')
             ->with($this->logicalAnd(
-                $this->stringContains('INSERT INTO object_data'),
+                $this->stringContains(/** @lang text */ 'INSERT INTO object_data'),
                 $this->stringContains("'de'"),
                 $this->stringContains("'installed'")
             ))
@@ -440,5 +452,139 @@ class ilSetupLanguageTest extends ilLanguageBaseTestCase
             ['de' => ['obj_id' => 7, 'status' => 'not_installed']],
             []
         );
+    }
+
+    public function testWithoutInjectedDirectoriesOnlyTheDefaultDirectoriesAreUsed(): void
+    {
+        $setup_language = new ilSetupLanguage('de');
+
+        $this->assertTrue($setup_language->usesDefaultLanguageFileDirectories());
+        $this->assertSame(
+            [MainLanguageFileDirectory::class, CustomizingLanguageFileDirectory::class],
+            array_map(
+                static fn(LanguageFileDirectory $d): string => $d::class,
+                iterator_to_array($setup_language->getLanguageFileDirectoryManager()->getAllDirectories(), false)
+            )
+        );
+    }
+
+    /** The flag says who built the instance (component graph vs. plugin Setup objective), so even a manager with only the default directories counts as injected. */
+    public function testAnInjectedDirectoryManagerIsUsedAndReported(): void
+    {
+        $manager = new LanguageFileDirectoryManager(new CustomizingLanguageFileDirectory(), new MainLanguageFileDirectory());
+        $setup_language = new ilSetupLanguage('de', $manager);
+
+        $this->assertFalse($setup_language->usesDefaultLanguageFileDirectories());
+        $this->assertSame($manager, $setup_language->getLanguageFileDirectoryManager());
+    }
+
+    private function withManagerReporting(ilSetupLanguage $setup_language): void
+    {
+        $manager = $this->createStub(\ILIAS\Language\Setup\LanguageInstallationManager::class);
+        $manager->method('getOverlaysOfUnshippedModules')->willReturn(['de' => ['ghost']]);
+        $manager->method('getUnrecordedTakenOverModules')->willReturn(['de' => ['pilot']]);
+        (new ReflectionProperty(ilSetupLanguage::class, 'manager'))->setValue($setup_language, $manager);
+    }
+
+    public function testOverlaysOfUnshippedModulesAreOnlyReportedWithContributedDirectories(): void
+    {
+        $default = new ilSetupLanguage('de');
+        $this->withManagerReporting($default);
+        $injected = new ilSetupLanguage('de', new LanguageFileDirectoryManager(new CustomizingLanguageFileDirectory(), new MainLanguageFileDirectory()));
+        $this->withManagerReporting($injected);
+
+        $this->assertSame([], $default->getOverlaysOfUnshippedModules());
+        $this->assertSame(['de' => ['ghost']], $injected->getOverlaysOfUnshippedModules());
+        $this->assertSame(['de' => ['pilot']], $default->getUnrecordedTakenOverModules());
+        $this->assertSame(['de' => ['pilot']], $injected->getUnrecordedTakenOverModules());
+    }
+
+    public function testNothingIsReportedBeforeAManagerExists(): void
+    {
+        $setup_language = new ilSetupLanguage('de', new LanguageFileDirectoryManager(new CustomizingLanguageFileDirectory()));
+
+        $this->assertSame([], $setup_language->getOverlaysOfUnshippedModules());
+        $this->assertSame([], $setup_language->getUnrecordedTakenOverModules());
+    }
+
+    private function managerOf(ilSetupLanguage $setup_language): \ILIAS\Language\Setup\LanguageInstallationManager
+    {
+        $setup_language->setDbHandler($this->createStub(ilDBInterface::class));
+
+        return (new ReflectionMethod(ilSetupLanguage::class, 'manager'))->invoke($setup_language);
+    }
+
+    private function resolvedClientDataDir(ilSetupLanguage $setup_language): ?string
+    {
+        $manager = $this->managerOf($setup_language);
+        $resolver = (new ReflectionProperty(\ILIAS\Language\Setup\LanguageInstallationManager::class, 'client_data_dir_resolver'))
+            ->getValue($manager);
+
+        return $resolver();
+    }
+
+    /** setClientDataDir() overrides the resolution lazily, also after construction; null restores resolveClientDataDir(). */
+    public function testSetClientDataDirOverridesTheResolutionUntilResetWithNull(): void
+    {
+        $setup_language = new ilSetupLanguage('de');
+        $default = \ILIAS\Language\ComponentTranslation\MigratedLanguageFilePaths::resolveClientDataDir(
+            (string) realpath(__DIR__ . '/../../../../')
+        );
+
+        $setup_language->setClientDataDir('/from/the/setup/environment');
+        $this->assertSame('/from/the/setup/environment', $this->resolvedClientDataDir($setup_language));
+
+        $setup_language->setClientDataDir(null);
+        $this->assertSame($default, $this->resolvedClientDataDir($setup_language));
+    }
+
+    /** CLI Setup has no global cache: the translation cache must be a silent no-op. */
+    public function testTheTranslationCacheIsANoOpWithoutGlobalCache(): void
+    {
+        $setup_language = new ilSetupLanguage('de');
+        $manager = $this->managerOf($setup_language);
+        $translation_cache = (new ReflectionProperty(\ILIAS\Language\Setup\LanguageInstallationManager::class, 'translation_cache'))
+            ->getValue($manager);
+
+        $this->assertInstanceOf(\ILIAS\Language\Setup\NullTranslationCache::class, $translation_cache);
+        $translation_cache->invalidate('de');
+    }
+
+    public function testGetClientDataDirReturnsTheSetDirectoryOrTheDefaultResolution(): void
+    {
+        $setup_language = new ilSetupLanguage('de');
+        $default = \ILIAS\Language\ComponentTranslation\MigratedLanguageFilePaths::resolveClientDataDir(
+            (string) realpath(__DIR__ . '/../../../../')
+        );
+
+        $this->assertSame($default, $setup_language->getClientDataDir());
+        $setup_language->setClientDataDir('/from/the/setup/environment');
+        $this->assertSame('/from/the/setup/environment', $setup_language->getClientDataDir());
+    }
+
+    public function testFindUnwritableOverlayDirectoriesChecksTheSetClientDataDir(): void
+    {
+        $fixture = 'tmp-setup-unwritable-' . bin2hex(random_bytes(4));
+        $client_data_dir = sys_get_temp_dir() . '/ilias_setup_unwritable_' . bin2hex(random_bytes(4));
+        MigratedPoFixture::writePo(__DIR__ . '/' . $fixture . '/stest_de.po', MigratedPoFixture::catalog('stest', ['a' => 'b']));
+        mkdir($client_data_dir);
+        file_put_contents($client_data_dir . '/lang', 'not a directory');
+
+        try {
+            $setup_language = new ilSetupLanguage('de', new \ILIAS\Language\ComponentTranslation\LanguageFileDirectoryManager(
+                new \ILIAS\Language\ComponentTranslation\CustomizingLanguageFileDirectory(),
+                MigratedPoFixture::directory('stest', 'components/ILIAS/Language/tests/' . $fixture . '/')
+            ));
+            $setup_language->setClientDataDir($client_data_dir);
+
+            $this->assertSame(
+                [$client_data_dir . '/lang/stest/de'],
+                $setup_language->findUnwritableOverlayDirectories(['de'])
+            );
+            $this->assertSame([], $setup_language->findUnwritableOverlayDirectories(['en']));
+        } finally {
+            MigratedPoFixture::removeDirectory(__DIR__ . '/' . $fixture);
+            MigratedPoFixture::removeDirectory($client_data_dir);
+        }
     }
 }

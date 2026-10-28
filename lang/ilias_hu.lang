@@ -3373,79 +3373,6 @@ cmix#:#use_fetch_info#:#Mindaddig, amíg az erőforrás támogatja ezt a beáll�
 cmix#:#xapi_statements_fetched_successfully#:#Results from Learning Record Store were fetched successfully
 cmix#:#xapi_statements_last_fetch_date#:#Last fetch of Results:
 cmix#:#xapi_statements_not_fetched_yet#:#Results from Learning Record Store are not fetched yet
-cmps#:#cmps_activate#:#Aktiválás
-cmps#:#cmps_active#:#Aktív
-cmps#:#cmps_add_new_rank#:#Pozíció az Új objektum létrehozása listában
-cmps#:#cmps_available#:#Elérhető
-cmps#:#cmps_available_version#:#Elérhető verzió
-cmps#:#cmps_basic_files#:#Alapfájlok
-cmps#:#cmps_class_file#:#Osztályfájl
-cmps#:#cmps_component#:#Komponens
-cmps#:#cmps_configure#:#Konfigurálás
-cmps#:#cmps_current_db_version#:#Jelenlegi adatbázis-verzió
-cmps#:#cmps_current_version#:#Jelenlegi verzió
-cmps#:#cmps_database#:#Adatbázis
-cmps#:#cmps_db_update#:#Adatbázis-frissítési szkript
-cmps#:#cmps_deactivate#:#Deaktiválás
-cmps#:#cmps_detailed_information#:#Részletes információ
-cmps#:#cmps_dir#:#Mappa
-cmps#:#cmps_enable_creation#:#Létrehozás engedélyezése
-cmps#:#cmps_file_version#:#Frissítési fájlverzió
-cmps#:#cmps_group#:#Csoport
-cmps#:#cmps_id#:#Azonosító
-cmps#:#cmps_ilias_max_version#:#Maximum ILIAS-verzió
-cmps#:#cmps_ilias_min_version#:#Minimum ILIAS-verzió
-cmps#:#cmps_inactive#:#Inaktív
-cmps#:#cmps_install#:#Telepítés
-cmps#:#cmps_is_active#:#Aktivált
-cmps#:#cmps_is_installed#:#Telepített
-cmps#:#cmps_lang_files#:#Nyelvi fájlok
-cmps#:#cmps_lang_prefix#:#Nyelvi változó előtag
-cmps#:#cmps_languages#:#Nyelvek
-cmps#:#cmps_main_dir#:#Főmappa
-cmps#:#cmps_missing#:#Hiányzik
-cmps#:#cmps_module#:#Modul
-cmps#:#cmps_must_installed#:#A komponenst telepíteni kell.
-cmps#:#cmps_name#:#Név
-cmps#:#cmps_needs_matching_ilias_version#:#Ez a bővítmény nem működik ezen az ILIAS verzión.
-cmps#:#cmps_needs_newer_ilias_version#:#Ez a bővítményverzió csak újabb ILIAS-verziókon fut. Frissítse az ILIAS-t!
-cmps#:#cmps_needs_newer_plugin_version#:#Ehhez az ILIAS-verzióhoz újabb bővítményverzió szükséges. Frissítse a bővítményt!
-cmps#:#cmps_needs_update#:#Frissítés szükséges.
-cmps#:#cmps_needs_upgrade#:#A jelenleg telepített bővítmény verziója régebbi, mint egy korábban telepítetté. Frissítse a bővítményt!
-cmps#:#cmps_no_db_update_file_available#:#Nem érhető el az adatbázis-frissítő szkript.
-cmps#:#cmps_no_language_file_available#:#Nem érhető el a nyelvi fájl.
-cmps#:#cmps_plugin#:#Bővítmény
-cmps#:#cmps_plugin_activated#:#A bővítményt bekapcsolta.
-cmps#:#cmps_plugin_db_prefixes#:#Adatbázistábla előtag
-cmps#:#cmps_plugin_deactivated#:#A bővítményt kikapcsolta.
-cmps#:#cmps_plugin_deinstalled#:#A bővítményt eltávolította.
-cmps#:#cmps_plugin_file#:#Bővítmény fájl
-cmps#:#cmps_plugin_lang_prefixes#:#Bővítmény nyelvi előtagok
-cmps#:#cmps_plugin_slot#:#Bővítmény csatlakozás
-cmps#:#cmps_plugin_uninstalled#:#Az összes nyelvi- és adatbázis-bejegyzést sikeresen eltávolította, és a bővítményt inaktiválta. Most már biztonságosan letávolíthatja a bővítmény - ‘Customizing’ mappa alatt található - fájljait/mappáit.
-cmps#:#cmps_plugin_updated#:#A bővítményt frissítette
-cmps#:#cmps_plugins#:#Bővítmények
-cmps#:#cmps_refresh#:#Frissítés
-cmps#:#cmps_refresh_lng#:#Nyelv frissítés
-cmps#:#cmps_rep_object#:#Tartalomtárban lévő objektumtípus
-cmps#:#cmps_repository_object_types#:#ILIAS-objektum típusok
-cmps#:#cmps_responsible#:#Felelős
-cmps#:#cmps_responsible_mail#:#E-mail cím (Felelős)
-cmps#:#cmps_save_options#:#Mentés
-cmps#:#cmps_service#:#Szolgáltatás
-cmps#:#cmps_show_details#:#Részletek megjelenítése
-cmps#:#cmps_slots#:#Foglalatok
-cmps#:#cmps_status#:#Állapot
-cmps#:#cmps_supports_cli_setup#:#Parancssori telepítés támogatása
-cmps#:#cmps_supports_export#:#Exportálás támogatása
-cmps#:#cmps_supports_learning_progress#:#Tanulási haladás támogatása
-cmps#:#cmps_uninstall#:#Eltávolítás
-cmps#:#cmps_uninstall_confirm#:#Biztos, hogy eltávolítja a következő ‘%s’ bővítményt annak összes adatbázis-bejegyzésével együtt?
-cmps#:#cmps_uninstall_inactive_confirm#:#‘%1$s’ bővítmény jelenleg nem aktiválható (‘%2$s’), így nem távolítható el teljesen, néhány adata a rendszerben marad. Biztos, hogy folytatja a részleges eltávolítást?
-cmps#:#cmps_update#:#Frissítés
-cmps#:#cmps_version#:#Verzió
-cmps#:#database_is_uptodate#:#Az adatbázis naprakész.
-cmps#:#no_changes#:#Nincsenek változások
 cmxv#:#cmxv_create#:#Tanúsítvány létrehozása a xAPI/cmi5-objektumhoz
 cmxv#:#cmxv_create_info#:#Válassza ki a teljesített xAPI/cmi5-objektumot, melyhez tanúsítványt kíván generálni
 cntr#:#cntr_add_new_item#:#Új objektum létrehozása
@@ -11090,11 +11017,6 @@ lm#:#lm_page_added#:#Az oldalt sikeresen hozzáadta.
 lm#:#lm_page_type_lm#:#Tananyagoldal
 lm#:#lm_pages_added#:#Az oldalakat sikeresen hozzáadta.
 lm#:#lm_save_titles#:#A címeket sikeresen mentette.
-lng#:#language_detection#:#Nyelvfelismerés
-lng#:#lng_disable_language_detection#:#Nyelvfelismerés tiltása
-lng#:#lng_download_deprecated#:#Elavultak listájának letöltése
-lng#:#lng_enable_language_detection#:#Nyelvfelismerés engedélyezése
-lng#:#lng_switch_language_detection#:#Nyelvfelismerés váltása
 log#:#log_browser#:#Böngésző konzolnaplózása
 log#:#log_browser_users#:#Felhasználónevek használata a konzolnaplózásban
 log#:#log_cache_#:#Gyorsítótárazás
@@ -13357,75 +13279,6 @@ pd#:#pd_upcoming#:#Jövőbeli
 pd#:#pd_view_select_at_least_one#:#Legalább egy nézetet ki kell választania vagy a ‘Kigyűjtött objektumok’ és/vagy a ‘Tagságaim’ közül.
 pdesk#:#bookmark_moved_ok#:#A könyvjelző áthelyeződött.
 pdesk#:#bookmark_select_target#:#Válasszon célt
-poll#:#poll_absolute#:#Szavazatok száma
-poll#:#poll_activation_online_info#:#Kapcsolja be, hogy a szavazást elérhessék a felhasználók.
-poll#:#poll_add#:#Szavazás létrehozása
-poll#:#poll_anonymous_warning#:#Ez egy névtelen szavazás. A szavazatát rögzítjük, de a neve nem fog megjelenni a szavazás eredményében.
-poll#:#poll_answer#:#Válasz
-poll#:#poll_answer_selected_alt_text#:#Kiválasztott
-poll#:#poll_answers#:#Lehetséges válaszok
-poll#:#poll_barchart#:#Oszlopdiagram
-poll#:#poll_block_message_already_voted#:#Már szavazott ebben a szavazásban.
-poll#:#poll_block_message_no_answers#:#Ez a szavazás még nem készült el teljesen.
-poll#:#poll_block_results_available_on#:#Az eredmény elérhető ettől: %s.
-poll#:#poll_cannot_set_online_no_answers#:#Az állapot nem módosítható &quot;online&quot;-ra, mert egy kérdés sincs még a szavazásban!
-poll#:#poll_chart_votes#:#Szavazatok
-poll#:#poll_comments#:#Nyilvános megjegyzések
-poll#:#poll_copy#:#Szavazás másolása
-poll#:#poll_delete_votes#:#Összes leadott szavazat törlése
-poll#:#poll_delete_votes_sure#:#Biztos, hogy törli az összes szavazatot?
-poll#:#poll_edit#:#Szavazás módosítása
-poll#:#poll_edit_question#:#Kérdés módosítása
-poll#:#poll_image#:#Kép
-poll#:#poll_import#:#Szavazás importálása
-poll#:#poll_limit_not_below_answer_count#:#A válaszok megengedett maximális száma kevesebb kell, hogy legyen, mint a válaszlehetősége száma.
-poll#:#poll_limit_number_of_answers#:#Résztvevőkénti válaszok számának korlátozása
-poll#:#poll_max_number_of_answers#:#Részvevőnkénti válaszok maximális száma
-poll#:#poll_max_number_of_answers_info#:#Maximálisan %s választ adhat.
-poll#:#poll_mode#:#Mód
-poll#:#poll_mode_anonymous#:#Névtelen
-poll#:#poll_mode_anonymous_info#:#A szavazás résztvevőinek neve nem jelenik meg az ‘Eredmények’ lapon. Kérjük, vegye figyelembe: a résztvevők felhasználói azonosítóit azonban rögzítjük az adatbázisban.
-poll#:#poll_mode_personal#:#Nevesített
-poll#:#poll_mode_personal_info#:#A szavazás résztvevőinek nevei és válaszai az ‘Eredmények’ lapon szerepelnek. Az ehhez a laphoz hozzáféréssel rendelkező felhasználók ellenőrizhetik, hogy ki melyik választ adta.
-poll#:#poll_new#:#Új szavazás létrehozása
-poll#:#poll_non_anonymous_warning#:#A szavazás szerkesztői megtekintheti a szavazók neveit.
-poll#:#poll_notification_activated#:#Értesítések bekapcsolva
-poll#:#poll_notification_deactivated#:#Értesítések kikapcsolva
-poll#:#poll_notification_subscribe#:#Értesítés bekapcsolása
-poll#:#poll_notification_unsubscribe#:#Értesítés kikapcsolása
-poll#:#poll_percentage#:#Szavazatok aránya
-poll#:#poll_population#:#%s leadott szavazat
-poll#:#poll_population_singular#:#1 leadott szavazat
-poll#:#poll_question#:#Kérdés
-poll#:#poll_result#:#Végeredmények
-poll#:#poll_result_answers#:#Szavazatok
-poll#:#poll_result_sorting#:#Rendezés
-poll#:#poll_result_sorting_answers#:#Lehetséges válaszok sorrendjében
-poll#:#poll_result_sorting_votes#:#Szavazatok száma szerint ↓
-poll#:#poll_result_users#:#Résztvevők
-poll#:#poll_show_results_as#:#Eredmények formátuma
-poll#:#poll_sortorder#:#Sorrend
-poll#:#poll_stacked_chart#:#Halmozott diagram
-poll#:#poll_view_results#:#Eredmények megjelenítése
-poll#:#poll_view_results_after_period#:#Szavazási időszak után
-poll#:#poll_view_results_after_period_impossible#:#Ahhoz, hogy az eredmények csak a szavazási időszak végén jelenjenek meg, a fenti dátumok megadásával a szavazási időszakot korlátoznia kell.
-poll#:#poll_view_results_after_vote#:#Szavazás után
-poll#:#poll_view_results_always#:#Mindig
-poll#:#poll_view_results_never#:#Soha
-poll#:#poll_vote#:#Szavazás
-poll#:#poll_vote_error_multi#:#Ne válasszon többet, mint %s.
-poll#:#poll_vote_error_multi_no_answer#:#Legalább 1 választ jelöljön meg.
-poll#:#poll_vote_error_single#:#Egyet válassz.
-poll#:#poll_vote_notification_body#:#ezúton tájékoztatjuk, hogy új szavazat érkezett.
-poll#:#poll_vote_notification_link#:#Link a Szavazásra
-poll#:#poll_vote_notification_reason#:#Ezt a levelet azért kapta, mert fent említett szavazásnál beállította, hogy kér értesítést.
-poll#:#poll_vote_notification_subject#:#‘%s’ szavazás: új szavazat
-poll#:#poll_votes_no_edit#:#Ez a szavazás már tartalmaz szavazatokat. A szavazás nem módosítható, míg nem törli a szavazatokat.
-poll#:#poll_voting_period_and_results#:#Szavazási időszak és eredmények
-poll#:#poll_voting_period_ended_info#:#A szavazási időszak véget ért %s.
-poll#:#poll_voting_period_full_info#:#Szavazási időszak: %s → %s
-poll#:#poll_voting_period_info#:#Szavazás határideje: %s
-poll#:#poll_voting_period_limited#:#Korlátozott
 prg#:#access_ctr_by_orgu_position#:#Hozzáférés-kezelés szervezeti egység pozíciói alapján
 prg#:#active_only#:#csak aktív felhasználók
 prg#:#add_automembership_source#:#Forrása hozzáadása
@@ -17145,23 +16998,6 @@ tbl#:#tbl_template_created#:#Ezt a nézetet sikeresen mentette.
 tbl#:#tbl_template_delete#:#Mentett nézet törlése
 tbl#:#tbl_template_deleted#:#A mentett nézetet sikeresen törölte.
 tbl#:#tbl_templates#:#Nézet
-tos#:#tos_accept_usr_agreement_anonymous#:#Szolgáltatási feltételek
-tos#:#tos_accept_usr_agreement_anonymous_intro#:#Mielőtt továbblép az ILIAS-hoz, elfogadja az alábbi Szolgáltatási feltételeket
-tos#:#tos_account_reg_not_possible#:#Nem regisztrálhatja saját magát, mert hiányzik a Szolgáltatási feltételek. További információkért vegye fel a kapcsolatot a <a href="%1$s">rendszerüzemeltetőkkel</a>.
-tos#:#tos_agree_date#:#Elfogadás időpontja
-tos#:#tos_agreement#:#Szolgáltatási feltételek
-tos#:#tos_disabled_no_docs_left#:#A felhasználási feltételeket kikapcsoltuk, mert az összes dokumentumot letörölték. Legalább egy dokumentumot hozzon létre a felhasználási feltételek újbóli bekapcsolása előtt.
-tos#:#tos_last_reset_date#:#A szolgáltatási feltételek alapértékre állítva: %s.
-tos#:#tos_never_reset#:#A Szolgáltatási feltételeket még sosem állították még alapértékre.
-tos#:#tos_no_documents_exist#:#Jelenleg egy telepített nyelvhez sincs szolgáltatási feltétel.
-tos#:#tos_no_documents_exist_cant_save#:#Jelenleg egy telepített nyelvhez sincs szolgáltatási feltétel. Kérem, legalább egy nyelvhez hozzon létre.
-tos#:#tos_reset_for_all_users#:#Szolgáltatási feltételek elfogadásainak törlése
-tos#:#tos_reset_successful#:#Szolgáltatási feltételek elfogadásait sikeresen törölte.
-tos#:#tos_status_desc#:#A felhasználóknak az ILAS-ba belépés előtt el kell fogadniuk a Szolgáltatási feltételeket.
-tos#:#tos_status_enable#:#Engedélyezés
-tos#:#tos_sure_reset_tos#:#Biztos, hogy törli az összes felhasználó Szolgáltatási feltételeit? Ez azokra a fiókokra is hatással van, melyeket SOAP webszolgáltatások, a csevegőszerver, vagy az ütemezett feladatok használnak.
-tos#:#tos_withdrawal_usr_deletion#:#ILIAS-fiók törlése a Szolgáltatási feltételek elutasítás esetén
-tos#:#tos_withdrawal_usr_deletion_desc#:#Ha egy felhasználó visszavonja egy korábbi Szolgáltatási feltételek elfogadását, az ILIAS-fiókja törlését vonja maga után.
 trac#:#cmix_lp_mode_deactivated#:#A tanulási haladás ki van kapcsolva
 trac#:#cmix_lp_mode_deactivated_info#:#A tanulási haladás állapota nem jelenik meg és nincs hatással a szülőobjektumokra.
 trac#:#cmix_lp_mode_when_completed#:#Sikeresen teljesített amikor ‘befejezte’

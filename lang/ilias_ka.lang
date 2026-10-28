@@ -3314,79 +3314,6 @@ cmix#:#use_fetch_info#:#As long as the resource supports this option, you should
 cmix#:#xapi_statements_fetched_successfully#:#Results from Learning Record Store were fetched successfully###07 02 2020 new variable
 cmix#:#xapi_statements_last_fetch_date#:#Last fetch of Results:###07 02 2020 new variable
 cmix#:#xapi_statements_not_fetched_yet#:#Results from Learning Record Store are not fetched yet###07 02 2020 new variable
-cmps#:#cmps_activate#:#გააქტიურება
-cmps#:#cmps_active#:#აქტიური
-cmps#:#cmps_add_new_rank#:#ადგილი ახალი ობოექტის დამატების სიაში
-cmps#:#cmps_available#:#შესაძლებელია
-cmps#:#cmps_available_version#:#Available Version###29 07 2022 new variable
-cmps#:#cmps_basic_files#:#ძირითადი ფაილები
-cmps#:#cmps_class_file#:#კლასის ფაილი
-cmps#:#cmps_component#:#კომპონენტი
-cmps#:#cmps_configure#:#კონფიგურაცია
-cmps#:#cmps_current_db_version#:#Current DB-Version###29 07 2022 new variable
-cmps#:#cmps_current_version#:#მიმდინარე ვერსია
-cmps#:#cmps_database#:#მონაცემთა ბაზა
-cmps#:#cmps_db_update#:#დი ბი განახლების ხელნაწერი
-cmps#:#cmps_deactivate#:#დეაქტივაცია
-cmps#:#cmps_detailed_information#:#Detailed Informationen###29 07 2022 new variable
-cmps#:#cmps_dir#:#მიმართულება
-cmps#:#cmps_enable_creation#:#Enable Creation###24 10 2013 new variable
-cmps#:#cmps_file_version#:#ფაილის ვერსიის განახლება
-cmps#:#cmps_group#:#ჯგუფი
-cmps#:#cmps_id#:#აი დი
-cmps#:#cmps_ilias_max_version#:#მაქსიმალური . ილიასის ვერსია
-cmps#:#cmps_ilias_min_version#:#მინ. ილიასის ვერსია
-cmps#:#cmps_inactive#:#არააქტიური
-cmps#:#cmps_install#:#Install###10 11 2018 new variable
-cmps#:#cmps_is_active#:#Activated###29 07 2022 new variable
-cmps#:#cmps_is_installed#:#Installed###29 07 2022 new variable
-cmps#:#cmps_lang_files#:#ენის ფაილები
-cmps#:#cmps_lang_prefix#:#ენის ცვლადების თავსართი
-cmps#:#cmps_languages#:#ენები
-cmps#:#cmps_main_dir#:#მთავარი მიმართულება
-cmps#:#cmps_missing#:#დაკარგულია
-cmps#:#cmps_module#:#მოდული
-cmps#:#cmps_must_installed#:#The component must be installed.###10 11 2018 new variable
-cmps#:#cmps_name#:#სახელი
-cmps#:#cmps_needs_matching_ilias_version#:#This plugin does not work with your current ILIAS version.###29 07 2022 new variable
-cmps#:#cmps_needs_newer_ilias_version#:#ეს პროგრამული გაფართოვების ვერსია მოქმედებს მხოლოდ უახლეს ილიასის ვერსიაზე. გთხოვთ განაახლოთ ილიასი
-cmps#:#cmps_needs_newer_plugin_version#:#ილიასის ამ ვერსიას სჭირდება უფრო ახალი პროგრამული გაფართოვების ვერსია. გთხოვთ განაახლოთ პროგრამული გაფართოების
-cmps#:#cmps_needs_update#:#საჭიროა განახლება
-cmps#:#cmps_needs_upgrade#:#პროგრამული გაფართოების ვერსია რომელიც ახლა დააინსტალირეთ უფრო ძველია ვიდრე წინა პროგრამული გაფართოვებისს ვერსია. გთხოვთ განაახლოთ პროგრამული გაფართოების
-cmps#:#cmps_no_db_update_file_available#:#დი ბის განახლება შეუძლებელია
-cmps#:#cmps_no_language_file_available#:#ენის ფაილები არ არის ხელმისსაწვდომი
-cmps#:#cmps_plugin#:#პროგრამული გაფართოვება
-cmps#:#cmps_plugin_activated#:#პროგრამული გაფართოვება გააქტიურებულია
-cmps#:#cmps_plugin_db_prefixes#:#დი ბის მაგიდის თავსართები
-cmps#:#cmps_plugin_deactivated#:#პროგრამული გაფართოვება არააქტიურია
-cmps#:#cmps_plugin_deinstalled#:#The plugin has been uninstalled###29 07 2022 new variable
-cmps#:#cmps_plugin_file#:#პროგრამული გაფართოვების ფაილი
-cmps#:#cmps_plugin_lang_prefixes#:#ენის თავსართების პროგრამული გაფართოვება
-cmps#:#cmps_plugin_slot#:#პროგრამული გაფართოვების კვალი
-cmps#:#cmps_plugin_uninstalled#:#The plugin has been uninstalled.###30 08 2015 new variable
-cmps#:#cmps_plugin_updated#:#The plugin has been updated###29 07 2022 new variable
-cmps#:#cmps_plugins#:#ჩანართები
-cmps#:#cmps_refresh#:#განახლება
-cmps#:#cmps_refresh_lng#:#Refresh language###29 07 2022 new variable
-cmps#:#cmps_rep_object#:#სასაწყობე ობიექტების სახეობა
-cmps#:#cmps_repository_object_types#:#Repository Object Types###30 12 2013 new variable
-cmps#:#cmps_responsible#:#პასუხისმგებელი
-cmps#:#cmps_responsible_mail#:#Mail (Responsible)###29 07 2022 new variable
-cmps#:#cmps_save_options#:#პარამეტრების შენახვა
-cmps#:#cmps_service#:#სერვისი
-cmps#:#cmps_show_details#:#დეტალების ჩვენება
-cmps#:#cmps_slots#:#Slots###24 10 2013 new variable
-cmps#:#cmps_status#:#სტატუსი
-cmps#:#cmps_supports_cli_setup#:#Supports CLI-Setup###29 07 2022 new variable
-cmps#:#cmps_supports_export#:#Supports export###29 07 2022 new variable
-cmps#:#cmps_supports_learning_progress#:#Supports learning progress###29 07 2022 new variable
-cmps#:#cmps_uninstall#:#Uninstall###30 08 2015 new variable
-cmps#:#cmps_uninstall_confirm#:#Are you sure you want to uninstall the plugin "%s"?###30 08 2015 new variable
-cmps#:#cmps_uninstall_inactive_confirm#:#The plugin "%1$s" can currently not be activated ("%2$s"). In this state plugins cannot be uninstalled completely. As only the core integration is reverted, plugin custom data may remain. Would you like to continue with the partial uninstall?###23 12 2015 new variable
-cmps#:#cmps_update#:#განახლება
-cmps#:#cmps_version#:#ვერსია
-cmps#:#database_is_uptodate#:#მონაცემთა ბაზა განახლებულია
-cmps#:#no_changes#:#ცვლილებები არ არის
 cmxv#:#cmxv_create#:#Create Certificate for xAPI/cmi5 Object###07 02 2020 new variable
 cmxv#:#cmxv_create_info#:#Select a completed xAPI/cmi5 object to generate a certificate for it###07 02 2020 new variable
 cntr#:#cntr_add_new_item#:#ახალი პუნქტის დამატება
@@ -11014,11 +10941,6 @@ lm#:#lm_page_added#:#Page has been added.###26 08 2024 new variable
 lm#:#lm_page_type_lm#:#LM Page###29 07 2022 new variable
 lm#:#lm_pages_added#:#Pages have been added.###26 08 2024 new variable
 lm#:#lm_save_titles#:#Titles saved.###23 10 2017 new variable
-lng#:#language_detection#:#Language Detection###29 07 2022 new variable
-lng#:#lng_disable_language_detection#:#Disable Language Detection###30 08 2015 new variable
-lng#:#lng_download_deprecated#:#Download Deprecated List###07 02 2017 new variable
-lng#:#lng_enable_language_detection#:#Enable Language Detection###30 08 2015 new variable
-lng#:#lng_switch_language_detection#:#Switch Language Detection###26 08 2024 new variable
 log#:#log_browser#:#Browser Console Log###30 08 2015 new variable
 log#:#log_browser_users#:#Usernames Using Console Log###30 08 2015 new variable
 log#:#log_cache_#:#Caching###30 08 2015 new variable
@@ -13278,75 +13200,6 @@ pd#:#pd_upcoming#:#Upcoming###31 08 2017 new variable
 pd#:#pd_view_select_at_least_one#:#თქვენ უნდა მონიშნოთ სულ მცირე ერთი ხედვა, ან "მინიშნული ნივთები" ან "ჩემი წევრობა"
 pdesk#:#bookmark_moved_ok#:#Bookmark has been moved.
 pdesk#:#bookmark_select_target#:#Please select target.
-poll#:#poll_absolute#:#Current Votes
-poll#:#poll_activation_online_info#:#Activate this setting to make the poll accessible to users.
-poll#:#poll_add#:#Add Poll
-poll#:#poll_anonymous_warning#:#Your name is not visible in the poll results.###26 09 2014 new variable
-poll#:#poll_answer#:#Answer
-poll#:#poll_answer_selected_alt_text#:#Selected###26 08 2024 new variable
-poll#:#poll_answers#:#Possible Answers
-poll#:#poll_barchart#:#Bar Chart###26 09 2014 new variable
-poll#:#poll_block_message_already_voted#:#You already voted in this poll.
-poll#:#poll_block_message_no_answers#:#This poll is incomplete.
-poll#:#poll_block_results_available_on#:#The results will be available on %s.
-poll#:#poll_cannot_set_online_no_answers#:#The status cannot be changed to &quot;online&quot; because this poll has no question!###26 08 2024 new variable
-poll#:#poll_chart_votes#:#Votes###28 10 2024 new variable
-poll#:#poll_comments#:#Comments###26 09 2014 new variable
-poll#:#poll_copy#:#Copy Poll
-poll#:#poll_delete_votes#:#Delete All Votes
-poll#:#poll_delete_votes_sure#:#Are you sure you want to delete all votes?
-poll#:#poll_edit#:#Edit Poll
-poll#:#poll_edit_question#:#Edit Question###26 08 2024 new variable
-poll#:#poll_image#:#Image
-poll#:#poll_import#:#Import Poll
-poll#:#poll_limit_not_below_answer_count#:#The answer limit must be below the number of possible answers.###26 08 2024 new variable
-poll#:#poll_limit_number_of_answers#:#Limit Number of Answers per Participant###26 08 2024 new variable
-poll#:#poll_max_number_of_answers#:#Maximum Number Of Answers per Participant###26 09 2014 new variable
-poll#:#poll_max_number_of_answers_info#:#You may choose up to %s answers.###26 08 2024 new variable
-poll#:#poll_mode#:#Mode###26 09 2014 new variable
-poll#:#poll_mode_anonymous#:#Anonymous###26 09 2014 new variable
-poll#:#poll_mode_anonymous_info#:#Votes cannot be traced back to participants.###26 09 2014 new variable
-poll#:#poll_mode_personal#:#Personal###26 09 2014 new variable
-poll#:#poll_mode_personal_info#:#A list of participants with their respective votes is available when having sufficient permission.###26 09 2014 new variable
-poll#:#poll_new#:#Add New Poll
-poll#:#poll_non_anonymous_warning#:#Your name and vote are visible for administrators in the results.###26 09 2014 new variable
-poll#:#poll_notification_activated#:#Notification Activated###26 08 2024 new variable
-poll#:#poll_notification_deactivated#:#Notification Deactivated###26 08 2024 new variable
-poll#:#poll_notification_subscribe#:#Activate Notification###26 09 2014 new variable
-poll#:#poll_notification_unsubscribe#:#Deactivate Notification###26 09 2014 new variable
-poll#:#poll_percentage#:#Current Percentage
-poll#:#poll_population#:#%s Votes
-poll#:#poll_population_singular#:#1 Participant###26 08 2024 new variable
-poll#:#poll_question#:#Question
-poll#:#poll_result#:#Voting Result
-poll#:#poll_result_answers#:#Votes###26 09 2014 new variable
-poll#:#poll_result_sorting#:#Sorting###26 09 2014 new variable
-poll#:#poll_result_sorting_answers#:#In the order of the answers###26 09 2014 new variable
-poll#:#poll_result_sorting_votes#:#By number of votes (descending)###26 09 2014 new variable
-poll#:#poll_result_users#:#Participants###26 09 2014 new variable
-poll#:#poll_show_results_as#:#Show Results as###26 09 2014 new variable
-poll#:#poll_sortorder#:#Order
-poll#:#poll_stacked_chart#:#Stacked Chart###28 10 2024 new variable
-poll#:#poll_view_results#:#Display Results
-poll#:#poll_view_results_after_period#:#After Voting Period
-poll#:#poll_view_results_after_period_impossible#:#The voting period is not limited.###27 01 2015 new variable
-poll#:#poll_view_results_after_vote#:#After Vote
-poll#:#poll_view_results_always#:#Always
-poll#:#poll_view_results_never#:#Never
-poll#:#poll_vote#:#Vote
-poll#:#poll_vote_error_multi#:#Please select no more than %s answers.###26 09 2014 new variable
-poll#:#poll_vote_error_multi_no_answer#:#Please select at least 1 answer.###26 08 2024 new variable
-poll#:#poll_vote_error_single#:#Please select 1 answer.###26 09 2014 new variable
-poll#:#poll_vote_notification_body#:#the following poll has received a vote.###26 09 2014 new variable
-poll#:#poll_vote_notification_link#:#Link to Poll###26 09 2014 new variable
-poll#:#poll_vote_notification_reason#:#You are receiving this email because you activated notifications for the poll mentioned above.###26 09 2014 new variable
-poll#:#poll_vote_notification_subject#:#Poll "%s": new vote###26 09 2014 new variable
-poll#:#poll_votes_no_edit#:#This poll already contains votes. You cannot edit the poll until you delete these votes.
-poll#:#poll_voting_period_and_results#:#Voting Period and Results
-poll#:#poll_voting_period_ended_info#:#The voting period ended %s.###26 08 2024 new variable
-poll#:#poll_voting_period_full_info#:#Voting period from %s to %s###10 11 2018 new variable
-poll#:#poll_voting_period_info#:#Deadline for Voting: %s###24 10 2013 new variable
-poll#:#poll_voting_period_limited#:#Limited
 prg#:#access_ctr_by_orgu_position#:#Access control according to Organisational Unit Positions###07 02 2020 new variable
 prg#:#active_only#:#active users only###26 08 2024 new variable
 prg#:#add_automembership_source#:#Add Source###07 02 2020 new variable
@@ -17080,23 +16933,6 @@ tax#:#tax_tax_settings#:#Taxonomy Settings###31 08 2017 new variable
 tax#:#tax_taxonomy#:#Taxonomy
 tbl#:#tbl_export_csv#:#ექსპორტი .csv
 tbl#:#tbl_export_excel#:#ექსპორტი .xls
-tos#:#tos_accept_usr_agreement_anonymous#:#Terms of Service###26 08 2024 new variable
-tos#:#tos_accept_usr_agreement_anonymous_intro#:#Before you proceed to ILIAS you accept the following Terms of Service.###26 08 2024 new variable
-tos#:#tos_account_reg_not_possible#:#A self registration is not possible because of a missing user agreement. Please contact your <a href="%1$s">system administrator</a> for further information.###10 11 2018 new variable
-tos#:#tos_agree_date#:#ToS agreed on###26 08 2024 new variable
-tos#:#tos_agreement#:#Terms of Service###24 10 2013 new variable
-tos#:#tos_disabled_no_docs_left#:#The user agreements are now disabled, because all documents have been deleted. Please create at least one document before enabling the user agreements again.###10 11 2018 new variable
-tos#:#tos_last_reset_date#:#The terms of service have been reset on %s.###24 10 2013 new variable
-tos#:#tos_never_reset#:#The terms of service have not been reset, yet.###10 11 2018 new variable
-tos#:#tos_no_documents_exist#:#Currently there are no terms of service for any of the installed languages.###10 02 2014 new variable
-tos#:#tos_no_documents_exist_cant_save#:#Currently there are no terms of service for any of the installed languages. Please add at least one document for any of the installed languages.###20 07 2014 new variable
-tos#:#tos_reset_for_all_users#:#Reset Terms of Service###26 08 2024 new variable
-tos#:#tos_reset_successful#:#The terms of service have been reset successfully.###10 11 2018 new variable
-tos#:#tos_status_desc#:#If activated, users are forced to accept the terms of service before they can enter ILIAS.###24 10 2013 new variable
-tos#:#tos_status_enable#:#Enable###24 10 2013 new variable
-tos#:#tos_sure_reset_tos#:#Are you sure you want to reset the terms of service for all users in system? This also applies to those accounts that are used for the SOAP webservices, the chat server, or the cron job.###24 10 2013 new variable
-tos#:#tos_withdrawal_usr_deletion#:#Account Deletion Upon Withdrawal From Terms of Service###29 07 2022 new variable
-tos#:#tos_withdrawal_usr_deletion_desc#:#If a user withdraws their acceptance from  a previously accepted Terms of Service document, this will result in the deletion of the user’s account.###26 08 2024 new variable
 trac#:#cmix_lp_mode_deactivated#:#Learning Progress is Deactivated###07 02 2020 new variable
 trac#:#cmix_lp_mode_deactivated_info#:#The learning progress status is not displayed and does not influence parent objects.###07 02 2020 new variable
 trac#:#cmix_lp_mode_when_completed#:#Completed when 'completed'###07 02 2020 new variable

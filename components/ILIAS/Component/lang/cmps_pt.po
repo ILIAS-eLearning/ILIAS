@@ -1,0 +1,245 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: cmps\n"
+
+msgid "cmps_activate"
+msgstr "Verifique o seu ficheiro de idioma"
+
+msgid "cmps_active"
+msgstr "Verificar todos os idiomas"
+
+msgid "cmps_add_new_rank"
+msgstr "Posição em lista Adicionar novos objetos"
+
+msgid "cmps_available"
+msgstr "Verificação do weblink"
+
+#, fuzzy
+msgid "cmps_available_version"
+msgstr "Available Version"
+
+msgid "cmps_basic_files"
+msgstr "Se estiver ativado, todos os links externos nos módulos de aprendizagem ILIAS serão verificados quanto á sua ativação."
+
+msgid "cmps_class_file"
+msgstr "Verificar as contas de utilizador"
+
+msgid "cmps_component"
+msgstr "Se estiver ativado, todos os utilizadores cujas contas expiram serão informados por e-mail duas semanas antes. Além disso, todos os utilizadores que não confirmaram a sua conta depois de um registo com confirmação de e-mail serão apagados."
+
+msgid "cmps_configure"
+msgstr "Configurar"
+
+#, fuzzy
+msgid "cmps_current_db_version"
+msgstr "Current DB-Version"
+
+msgid "cmps_current_version"
+msgstr "Verificar links de web"
+
+msgid "cmps_database"
+msgstr "Se estiver ativado, todos os weblinks serão verificados quanto à sua ativação."
+
+msgid "cmps_db_update"
+msgstr "Mudar palavra-passe da pasta web"
+
+msgid "cmps_deactivate"
+msgstr "Mudar palavra-passe ILIAS"
+
+#, fuzzy
+msgid "cmps_detailed_information"
+msgstr "Detailed Informationen"
+
+msgid "cmps_dir"
+msgstr "Mudar palavra-passe"
+
+#, fuzzy
+msgid "cmps_disable_creation"
+msgstr "Disable Creation"
+
+msgid "cmps_enable_creation"
+msgstr "Ativar criação"
+
+msgid "cmps_file_version"
+msgstr "Atualizar versão de ficheiro"
+
+msgid "cmps_group"
+msgstr "Selecione seu idioma"
+
+msgid "cmps_id"
+msgstr "ID"
+
+msgid "cmps_ilias_max_version"
+msgstr "Selecione apenas um idioma"
+
+msgid "cmps_ilias_min_version"
+msgstr "Acesso de leitura à administração da sala de chat"
+
+msgid "cmps_inactive"
+msgstr "A administração da sala de chat está visível"
+
+msgid "cmps_install"
+msgstr "Instalar"
+
+#, fuzzy
+msgid "cmps_is_active"
+msgstr "Activated"
+
+#, fuzzy
+msgid "cmps_is_installed"
+msgstr "Installed"
+
+msgid "cmps_lang_files"
+msgstr "Copiar sala de chat"
+
+msgid "cmps_lang_prefix"
+msgstr "Cidade, estado"
+
+msgid "cmps_languages"
+msgstr "Editar administração da sala de chat"
+
+msgid "cmps_main_dir"
+msgstr "Limpar"
+
+msgid "cmps_missing"
+msgstr "Limpar área de transferência"
+
+msgid "cmps_module"
+msgstr "Cliente"
+
+msgid "cmps_must_installed"
+msgstr "O componente tem de estar instalado."
+
+msgid "cmps_name"
+msgstr "ID do cliente"
+
+#, fuzzy
+msgid "cmps_needs_matching_ilias_version"
+msgstr "This plugin does not work with your current ILIAS version."
+
+msgid "cmps_needs_newer_ilias_version"
+msgstr "Esta versão de plugin apenas funciona em versões mais recentes de ILIAS. Atualize o ILIAS."
+
+msgid "cmps_needs_newer_plugin_version"
+msgstr "Esta versão de ILIAS requer uma versão de plugin mais recente. Atualize o plugin."
+
+msgid "cmps_needs_update"
+msgstr "IP do cliente"
+
+msgid "cmps_needs_upgrade"
+msgstr "A versão de plugin atualmente instalada é mais antiga do que a versão anteriormente instalada. Atualize o plugin."
+
+msgid "cmps_no_db_update_file_available"
+msgstr "Nenhum script de atualização DB disponível."
+
+msgid "cmps_no_language_file_available"
+msgstr "Nenhum ficheiro de idioma disponível."
+
+msgid "cmps_plugin"
+msgstr "Plugin"
+
+msgid "cmps_plugin_activated"
+msgstr "O plugin foi ativado."
+
+msgid "cmps_plugin_db_prefixes"
+msgstr "Fechar"
+
+msgid "cmps_plugin_deactivated"
+msgstr "O plugin foi desativado."
+
+#, fuzzy
+msgid "cmps_plugin_deinstalled"
+msgstr "The plugin has been uninstalled"
+
+msgid "cmps_plugin_file"
+msgstr "(%s Novo)"
+
+msgid "cmps_plugin_lang_prefixes"
+msgstr "Colapsado"
+
+msgid "cmps_plugin_slot"
+msgstr "Colunas"
+
+msgid "cmps_plugin_uninstalled"
+msgstr "Separado por vírgulas"
+
+#, fuzzy
+msgid "cmps_plugin_updated"
+msgstr "The plugin has been updated"
+
+msgid "cmps_plugins"
+msgstr "Plugins"
+
+msgid "cmps_refresh"
+msgstr "Comentário"
+
+#, fuzzy
+msgid "cmps_refresh_lng"
+msgstr "Refresh language"
+
+msgid "cmps_rep_object"
+msgstr "Compor"
+
+msgid "cmps_repository_object_types"
+msgstr "Tipos de objeto do repositório"
+
+msgid "cmps_responsible"
+msgstr "Confirmar"
+
+#, fuzzy
+msgid "cmps_responsible_mail"
+msgstr "Mail (Responsible)"
+
+msgid "cmps_save_options"
+msgstr "Contacto"
+
+msgid "cmps_service"
+msgstr "Informação de contacto"
+
+msgid "cmps_show_details"
+msgstr "Contactar a Assistência Técnica"
+
+msgid "cmps_slots"
+msgstr "Slots"
+
+msgid "cmps_status"
+msgstr "Estado"
+
+#, fuzzy
+msgid "cmps_supports_cli_setup"
+msgstr "Supports CLI-Setup"
+
+#, fuzzy
+msgid "cmps_supports_export"
+msgstr "Supports export"
+
+#, fuzzy
+msgid "cmps_supports_learning_progress"
+msgstr "Supports learning progress"
+
+msgid "cmps_uninstall"
+msgstr "Desinstalar"
+
+msgid "cmps_uninstall_confirm"
+msgstr "Conteúdo"
+
+msgid "cmps_uninstall_inactive_confirm"
+msgstr "O plugin \"%1$s\" atualmente não pode ser ativado (\"%2$s\"). Neste estado, os plugins não podem ser desinstalados completamente. Como apenas a integração nuclear é revertida, os dados personalizados do plugin podem permanecer. Quer continuar com a desinstalação parcial?"
+
+msgid "cmps_update"
+msgstr "Atualizar"
+
+msgid "cmps_version"
+msgstr "Versão"
+
+msgid "database_is_uptodate"
+msgstr "Estilos de conteúdo"
+
+msgid "no_changes"
+msgstr "Contexto"

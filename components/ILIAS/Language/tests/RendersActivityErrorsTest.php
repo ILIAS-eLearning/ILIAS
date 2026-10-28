@@ -23,6 +23,7 @@ namespace ILIAS\Language;
 use ILIAS\Language\Activities\AmbiguousLanguageTitleException;
 use ILIAS\Language\Activities\Failure;
 use ILIAS\Language\Activities\InvalidInputException;
+use ILIAS\Language\Activities\InvalidLanguageFilesException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
@@ -38,7 +39,7 @@ class RendersActivityErrorsTest extends TestCase
 
     private function languageMockReturningTopicAsIs(): \ilLanguage
     {
-        $lng = $this->createMock(\ilLanguage::class);
+        $lng = $this->createStub(\ilLanguage::class);
         $lng->method('txt')->willReturnArgument(0);
 
         return $lng;
@@ -86,6 +87,33 @@ class RendersActivityErrorsTest extends TestCase
             ->callActivityErrorMessage($error);
 
         $this->assertSame($expected, $message);
+    }
+
+    public function testInvalidLanguageFilesShowTheTranslatedMessageWithEscapedKeysAndAreNeverLogged(): void
+    {
+        $logger = $this->createMock(\ilLogger::class);
+        $logger->expects($this->never())->method('error');
+        $lng = $this->createStub(\ilLanguage::class);
+        $lng->method('txt')->willReturnCallback(
+            static fn(string $topic): string => $topic === 'lng_invalid_language_files' ? 'Invalid: %s' : $topic
+        );
+
+        $message = $this->host($logger, $lng)->callActivityErrorMessage(
+            new InvalidLanguageFilesException(['de', '<b>"x"</b>'])
+        );
+
+        $this->assertSame('Invalid: de, &lt;b&gt;&quot;x&quot;&lt;/b&gt;', $message);
+    }
+
+    public function testInvalidLanguageFilesExceptionIsAConflictCarryingTheKeys(): void
+    {
+        $previous = new \RuntimeException('cause');
+        $error = new InvalidLanguageFilesException(['de', 'fr'], $previous);
+
+        $this->assertSame(409, $error->getCode());
+        $this->assertSame(['de', 'fr'], $error->getLanguageKeys());
+        $this->assertSame('Invalid language files: de, fr', $error->getMessage());
+        $this->assertSame($previous, $error->getPrevious());
     }
 
     /** Without ENT_SUBSTITUTE invalid UTF-8 made htmlspecialchars() return an empty string for the whole message. */
@@ -220,7 +248,7 @@ class RendersActivityErrorsTest extends TestCase
         $outer = new \RuntimeException('database operation failed', 0, $middle);
 
         $logged = [];
-        $logger = $this->createMock(\ilLogger::class);
+        $logger = $this->createStub(\ilLogger::class);
         $logger->method('error')->willReturnCallback(
             static function (string $message) use (&$logged): void {
                 $logged[] = $message;

@@ -3324,79 +3324,6 @@ cmix#:#use_fetch_info#:#Siempre que el recurso admita esta opción, debería uti
 cmix#:#xapi_statements_fetched_successfully#:#Los resultados del Learning Record Store se han obtenido correctamente
 cmix#:#xapi_statements_last_fetch_date#:#Última obtención de resultados:
 cmix#:#xapi_statements_not_fetched_yet#:#Aún no se han obtenido los resultados del Learning Record Store
-cmps#:#cmps_activate#:#Activar
-cmps#:#cmps_active#:#Activo
-cmps#:#cmps_add_new_rank#:#Posición en la lista de Añadir-Nuevo-Objeto
-cmps#:#cmps_available#:#Disponible
-cmps#:#cmps_available_version#:#Versión disponible
-cmps#:#cmps_basic_files#:#Archivos básicos
-cmps#:#cmps_class_file#:#Archivo de clase
-cmps#:#cmps_component#:#Componente
-cmps#:#cmps_configure#:#Configurar
-cmps#:#cmps_current_db_version#:#Versión actual de BD
-cmps#:#cmps_current_version#:#Versión actual
-cmps#:#cmps_database#:#Base de datos
-cmps#:#cmps_db_update#:#Script de actualización de BD
-cmps#:#cmps_deactivate#:#Desactivar
-cmps#:#cmps_detailed_information#:#Información detallada
-cmps#:#cmps_dir#:#Directorio
-cmps#:#cmps_enable_creation#:#Habilitar creación
-cmps#:#cmps_file_version#:#Actualizar versión de archivo
-cmps#:#cmps_group#:#Grupo
-cmps#:#cmps_id#:#ID
-cmps#:#cmps_ilias_max_version#:#Versión máx. de ILIAS
-cmps#:#cmps_ilias_min_version#:#Versión mín. de ILIAS
-cmps#:#cmps_inactive#:#Inactivo
-cmps#:#cmps_install#:#Instalar
-cmps#:#cmps_is_active#:#Activado
-cmps#:#cmps_is_installed#:#Instalado
-cmps#:#cmps_lang_files#:#Archivos de idioma
-cmps#:#cmps_lang_prefix#:#Prefijo de variables de idioma
-cmps#:#cmps_languages#:#Idiomas
-cmps#:#cmps_main_dir#:#Directorio principal
-cmps#:#cmps_missing#:#Faltante
-cmps#:#cmps_module#:#Módulo
-cmps#:#cmps_must_installed#:#El componente debe estar instalado.
-cmps#:#cmps_name#:#Nombre
-cmps#:#cmps_needs_matching_ilias_version#:#Este complemento no funciona con su versión actual de ILIAS.
-cmps#:#cmps_needs_newer_ilias_version#:#Esta versión del complemento solo funciona en versiones más recientes de ILIAS. Por favor, actualice ILIAS.
-cmps#:#cmps_needs_newer_plugin_version#:#Esta versión de ILIAS necesita una versión más reciente del complemento. Por favor, actualice el complemento.
-cmps#:#cmps_needs_update#:#Necesita actualización.
-cmps#:#cmps_needs_upgrade#:#La versión del complemento instalada actualmente es más antigua que una versión instalada previamente. Por favor, actualice el complemento.
-cmps#:#cmps_no_db_update_file_available#:#No hay ningún script de actualización de base de datos disponible.
-cmps#:#cmps_no_language_file_available#:#No hay ningún archivo de idioma disponible.
-cmps#:#cmps_plugin#:#Complemento (Plugin)
-cmps#:#cmps_plugin_activated#:#El complemento ha sido activado.
-cmps#:#cmps_plugin_db_prefixes#:#Prefijos de tablas de BD
-cmps#:#cmps_plugin_deactivated#:#El complemento ha sido desactivado.
-cmps#:#cmps_plugin_deinstalled#:#El complemento ha sido desinstalado
-cmps#:#cmps_plugin_file#:#Archivo del complemento
-cmps#:#cmps_plugin_lang_prefixes#:#Prefijos de idioma del complemento
-cmps#:#cmps_plugin_slot#:#Ubicación (Slot) del complemento
-cmps#:#cmps_plugin_uninstalled#:#Todas las entradas relacionadas con el idioma y la base de datos han sido eliminadas y el complemento se ha configurado como inactivo. Ahora puede eliminar el directorio y el código fuente del complemento en el directorio 'Customizing' para desinstalar el complemento definitivamente.
-cmps#:#cmps_plugin_updated#:#El complemento ha sido actualizado
-cmps#:#cmps_plugins#:#Complementos (Plugins)
-cmps#:#cmps_refresh#:#Actualizar idiomas
-cmps#:#cmps_refresh_lng#:#Actualizar idioma
-cmps#:#cmps_rep_object#:#Tipo de objeto de repositorio
-cmps#:#cmps_repository_object_types#:#Tipos de objetos de repositorio
-cmps#:#cmps_responsible#:#Responsable
-cmps#:#cmps_responsible_mail#:#Correo electrónico (Responsable)
-cmps#:#cmps_save_options#:#Guardar
-cmps#:#cmps_service#:#Servicio
-cmps#:#cmps_show_details#:#Mostrar detalles
-cmps#:#cmps_slots#:#Ubicaciones (Slots)
-cmps#:#cmps_status#:#Estado
-cmps#:#cmps_supports_cli_setup#:#Soporta configuración por CLI
-cmps#:#cmps_supports_export#:#Soporta exportación
-cmps#:#cmps_supports_learning_progress#:#Soporta progreso de aprendizaje
-cmps#:#cmps_uninstall#:#Desinstalar
-cmps#:#cmps_uninstall_confirm#:#¿Está seguro de que desea desinstalar el complemento "%s" y eliminar todas las entradas de la base de datos relacionadas?
-cmps#:#cmps_uninstall_inactive_confirm#:#El complemento "%1$s" actualmente no puede activarse ("%2$s"). En este estado, los complementos no pueden desinstalarse completamente. Dado que solo se revierte la integración del núcleo, los datos personalizados del complemento pueden permanecer. ¿Desea continuar con la desinstalación parcial?
-cmps#:#cmps_update#:#Actualizar
-cmps#:#cmps_version#:#Versión
-cmps#:#database_is_uptodate#:#La base de datos está actualizada.
-cmps#:#no_changes#:#Sin cambios
 cmxv#:#cmxv_create#:#Crear certificado para objeto xAPI/cmi5
 cmxv#:#cmxv_create_info#:#Seleccione un objeto xAPI/cmi5 finalizado para generar un certificado para el mismo
 cntr#:#cntr_add_new_item#:#Añadir nuevo objeto
@@ -11067,11 +10994,6 @@ lm#:#lm_page_added#:#La página ha sido añadida.
 lm#:#lm_page_type_lm#:#Página de ML
 lm#:#lm_pages_added#:#Las páginas han sido añadidas.
 lm#:#lm_save_titles#:#Títulos guardados.
-lng#:#language_detection#:#Detección de idioma
-lng#:#lng_disable_language_detection#:#Desactivar detección de idioma
-lng#:#lng_download_deprecated#:#Descargar lista de obsoletos
-lng#:#lng_enable_language_detection#:#Activar detección de idioma
-lng#:#lng_switch_language_detection#:#Cambiar detección de idioma
 log#:#log_browser#:#Registro de consola del navegador
 log#:#log_browser_users#:#Nombres de usuario utilizando el registro de consola
 log#:#log_cache_#:#Almacenamiento en caché
@@ -13343,75 +13265,6 @@ pd#:#pd_upcoming#:#Próximamente
 pd#:#pd_view_select_at_least_one#:#Debe seleccionar al menos una vista, ya sea 'Elementos seleccionados' y/o 'Mis membresías'.
 pdesk#:#bookmark_moved_ok#:#El marcador ha sido movido.
 pdesk#:#bookmark_select_target#:#Por favor, seleccione el destino.
-poll#:#poll_absolute#:#Votos actuales
-poll#:#poll_activation_online_info#:#Active esta configuración para que la encuesta sea accesible a los usuarios.
-poll#:#poll_add#:#Añadir encuesta
-poll#:#poll_anonymous_warning#:#Los votos individuales se registran, pero su nombre no se mostrará en los resultados de la encuesta.
-poll#:#poll_answer#:#Respuesta
-poll#:#poll_answer_selected_alt_text#:#Seleccionado
-poll#:#poll_answers#:#Respuestas posibles
-poll#:#poll_barchart#:#Gráfico de barras
-poll#:#poll_block_message_already_voted#:#Ya ha votado en esta encuesta.
-poll#:#poll_block_message_no_answers#:#Esta encuesta está incompleta.
-poll#:#poll_block_results_available_on#:#Los resultados estarán disponibles el %s.
-poll#:#poll_cannot_set_online_no_answers#:#¡El estado no se puede cambiar a &quot;en línea&quot; porque esta encuesta no tiene pregunta!
-poll#:#poll_chart_votes#:#Votos
-poll#:#poll_comments#:#Comentarios
-poll#:#poll_copy#:#Copiar Encuesta
-poll#:#poll_delete_votes#:#Eliminar Votos de Todos los Usuarios
-poll#:#poll_delete_votes_sure#:#¿Está seguro de que desea eliminar los votos de todos los usuarios que participaron en esta encuesta?
-poll#:#poll_edit#:#Editar Encuesta
-poll#:#poll_edit_question#:#Editar Pregunta
-poll#:#poll_image#:#Imagen
-poll#:#poll_import#:#Importar Encuesta
-poll#:#poll_limit_not_below_answer_count#:#El límite de respuestas debe ser inferior al número de respuestas posibles.
-poll#:#poll_limit_number_of_answers#:#Limitar Número de Respuestas por Participante
-poll#:#poll_max_number_of_answers#:#Máx. Respuestas
-poll#:#poll_max_number_of_answers_info#:#Puede elegir hasta %s respuestas.
-poll#:#poll_mode#:#Modo
-poll#:#poll_mode_anonymous#:#Sin Nombres / Anónimo
-poll#:#poll_mode_anonymous_info#:#Los nombres de los participantes de la encuesta no se muestran en la pestaña 'Resultados'. Tenga en cuenta: los ID de usuario de los participantes, sin embargo, se registran en la base de datos.
-poll#:#poll_mode_personal#:#Con Nombres
-poll#:#poll_mode_personal_info#:#En la pestaña 'Resultados' se enumeran los nombres de los participantes y sus respectivas respuestas. Los usuarios con acceso a esta pestaña pueden inspeccionar quién ha dado cada respuesta.
-poll#:#poll_new#:#Añadir Nueva Encuesta
-poll#:#poll_non_anonymous_warning#:#Su nombre y voto son visibles para los administradores en los resultados.
-poll#:#poll_notification_activated#:#Notificación Activada
-poll#:#poll_notification_deactivated#:#Notificación Desactivada
-poll#:#poll_notification_subscribe#:#Activar Notificación
-poll#:#poll_notification_unsubscribe#:#Desactivar Notificación
-poll#:#poll_percentage#:#Porcentaje Actual
-poll#:#poll_population#:#%s Participantes
-poll#:#poll_population_singular#:#1 Participante
-poll#:#poll_question#:#Pregunta
-poll#:#poll_result#:#Resultados
-poll#:#poll_result_answers#:#Votos
-poll#:#poll_result_sorting#:#Ordenación
-poll#:#poll_result_sorting_answers#:#En el orden de las respuestas
-poll#:#poll_result_sorting_votes#:#Por número de votos (descendente)
-poll#:#poll_result_users#:#Participantes
-poll#:#poll_show_results_as#:#Mostrar resultados como
-poll#:#poll_sortorder#:#Orden
-poll#:#poll_stacked_chart#:#Gráfico apilado
-poll#:#poll_view_results#:#Mostrar resultados
-poll#:#poll_view_results_after_period#:#Después del periodo de votación
-poll#:#poll_view_results_after_period_impossible#:#El periodo de votación no está limitado.
-poll#:#poll_view_results_after_vote#:#Después de votar
-poll#:#poll_view_results_always#:#Siempre
-poll#:#poll_view_results_never#:#Nunca
-poll#:#poll_vote#:#Votar
-poll#:#poll_vote_error_multi#:#Por favor, seleccione no más de %s respuestas.
-poll#:#poll_vote_error_multi_no_answer#:#Por favor, seleccione al menos 1 respuesta.
-poll#:#poll_vote_error_single#:#Por favor, seleccione 1 respuesta.
-poll#:#poll_vote_notification_body#:#la siguiente encuesta ha recibido un voto.
-poll#:#poll_vote_notification_link#:#Enlace a la encuesta
-poll#:#poll_vote_notification_reason#:#Usted recibe este correo electrónico porque activó las notificaciones para la encuesta mencionada anteriormente.
-poll#:#poll_vote_notification_subject#:#Encuesta "%s": nuevo voto
-poll#:#poll_votes_no_edit#:#Esta encuesta ya contiene votos. No puede editar la encuesta hasta que elimine estos votos.
-poll#:#poll_voting_period_and_results#:#Periodo de votación y resultados
-poll#:#poll_voting_period_ended_info#:#El periodo de votación terminó el %s.
-poll#:#poll_voting_period_full_info#:#Periodo de votación del %s al %s
-poll#:#poll_voting_period_info#:#La fecha límite para votar es el %s.
-poll#:#poll_voting_period_limited#:#Periodo de votación limitado
 prg#:#access_ctr_by_orgu_position#:#Control de acceso según los puestos de la unidad organizativa
 prg#:#active_only#:#solo usuarios activos
 prg#:#add_automembership_source#:#Añadir fuente
@@ -17150,23 +17003,6 @@ tax#:#tax_tax_settings#:#Ajustes de taxonomía
 tax#:#tax_taxonomy#:#Taxonomía
 tbl#:#tbl_export_csv#:#Exportar CSV
 tbl#:#tbl_export_excel#:#Exportar Excel
-tos#:#tos_accept_usr_agreement_anonymous#:#Condiciones del servicio
-tos#:#tos_accept_usr_agreement_anonymous_intro#:#Antes de continuar a ILIAS, debe aceptar las siguientes Condiciones del servicio.
-tos#:#tos_account_reg_not_possible#:#El registro autónomo no es posible actualmente porque no hay un acuerdo de Condiciones del servicio disponible. Por favor, contacte con su <a href="%1$s">administrador del sistema</a> para más información.
-tos#:#tos_agree_date#:#Condiciones aceptadas el
-tos#:#tos_agreement#:#Condiciones del servicio
-tos#:#tos_disabled_no_docs_left#:#Los documentos de Condiciones del servicio ya no pueden mostrarse porque todos han sido eliminados. Ya no se requerirá a los usuarios aceptar un documento de Condiciones al registrar una cuenta. Por favor, cree al menos un documento antes de volver a marcar la casilla 'Mostrar Condiciones del servicio'.
-tos#:#tos_last_reset_date#:#Las Condiciones del Servicio se restablecieron el %s. Solo restablezca las Condiciones del Servicio si se han realizado cambios en los documentos de los TyC y requiere que todos los usuarios acepten los nuevos términos.
-tos#:#tos_never_reset#:#Las Condiciones del Servicio aún no se han restablecido. Solo restablezca las Condiciones del Servicio si se han realizado cambios en los documentos de los TyC y requiere que todos los usuarios acepten los nuevos términos.
-tos#:#tos_no_documents_exist#:#Actualmente no hay documentos de Condiciones del Servicio disponibles.
-tos#:#tos_no_documents_exist_cant_save#:#Actualmente no hay documentos de Condiciones del Servicio disponibles. Por favor, añada al menos un documento para activar este servicio.
-tos#:#tos_reset_for_all_users#:#Restablecer Condiciones del Servicio
-tos#:#tos_reset_successful#:#Condiciones del Servicio restablecidas con éxito.
-tos#:#tos_status_desc#:#Muestra los documentos de Condiciones del Servicio pertinentes basados en el idioma al final del formulario de registro para nuevos usuarios y, si procede, en el primer inicio de sesión del usuario. Los usuarios deben aceptar las Condiciones del Servicio antes de poder entrar en ILIAS.
-tos#:#tos_status_enable#:#Mostrar Condiciones del Servicio
-tos#:#tos_sure_reset_tos#:#¿Está seguro de que desea restablecer las Condiciones del Servicio para todos los usuarios del sistema? Esto también se aplica, por ejemplo, a aquellas cuentas que se utilizan para los servicios web SOAP.
-tos#:#tos_withdrawal_usr_deletion#:#Eliminación de la cuenta al retirar los TyC
-tos#:#tos_withdrawal_usr_deletion_desc#:#Si un usuario retira su aceptación de un documento de Condiciones del Servicio aceptado previamente, esto resultará en la eliminación de la cuenta del usuario.
 trac#:#cmix_lp_mode_deactivated#:#El progreso de aprendizaje está desactivado
 trac#:#cmix_lp_mode_deactivated_info#:#El estado del progreso de aprendizaje no se muestra y no influye en los objetos superiores.
 trac#:#cmix_lp_mode_when_completed#:#Completado cuando esté 'completado'

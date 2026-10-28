@@ -30,10 +30,12 @@ class UpdateLanguage extends LanguageActivity
 {
     use DeclaresLanguageKeysOnlyInput;
 
+    /** @param RepositoryProvider|null $repository null in the Setup, whose plugin objectives apply the plugin language files */
     public function __construct(
         ?RBAC $rbac,
         private readonly \ilSetupLanguage $setup_language,
         LanguageFolder $language_folder,
+        private readonly ?RepositoryProvider $repository = null,
     ) {
         parent::__construct($rbac, $language_folder);
     }
@@ -54,8 +56,9 @@ class UpdateLanguage extends LanguageActivity
             <<<'MARKDOWN'
 Refreshes one or more already installed languages, re-seeding their base
 data (plus a customizing/local file if one exists) from the current
-language files. A language that is not installed is left completely
-untouched - use InstallLanguage to install it first.
+language files; the language files of the active plugins are applied again.
+A language that is not installed is left completely untouched - use
+InstallLanguage to install it first.
 MARKDOWN
         );
     }
@@ -87,6 +90,9 @@ MARKDOWN
                     ),
                     $f->string($text->simpleDocument('Language key of a not-yet-installed language.'))
                 ),
+                'overlay_write_failed_language_keys' => $this->overlayWriteFailedOutputField($f),
+                'invalid_markup_customizing_entries' => $this->invalidMarkupCustomizingOutputField($f),
+                'duplicate_customizing_entries' => $this->duplicateCustomizingOutputField($f),
             ]
         );
     }
@@ -120,25 +126,38 @@ MARKDOWN
         }
 
         if ($error_language_keys !== []) {
-            throw new \RuntimeException(
-                'Invalid language files: ' . implode(', ', $error_language_keys)
-            );
+            throw new InvalidLanguageFilesException($error_language_keys);
         }
 
+        $overlay_write_failed_language_keys = [];
         if ($to_update !== []) {
             $db_languages = $this->setup_language->getAvailableLanguagesForInstallation();
             $local_language_keys = $this->setup_language->getLocalLanguages();
 
             foreach ($to_update as $language_key) {
                 $this->setup_language->flushLanguageForInstallation($language_key);
-                $this->setup_language->insertLanguageForInstallation($language_key);
+                if ($this->setup_language->insertLanguageForInstallation($language_key) !== []) {
+                    $overlay_write_failed_language_keys[] = $language_key;
+                }
                 $this->setup_language->registerInstalledLanguage($language_key, $db_languages, $local_language_keys);
             }
+
+            // plugin language files are flushed with the rest, so re-apply them
+            $this->repository?->refreshPlugins($to_update);
         }
 
         return [
             'updated_language_keys' => $to_update,
             'not_installed_language_keys' => $not_installed_no_op,
+            'overlay_write_failed_language_keys' => $overlay_write_failed_language_keys,
+            'invalid_markup_customizing_entries' => $this->invalidMarkupCustomizingEntries(
+                $this->setup_language->getSkippedInvalidMarkupEntries(),
+                $to_update
+            ),
+            'duplicate_customizing_entries' => $this->duplicateCustomizingEntries(
+                $this->setup_language->getSkippedDuplicateEntries(),
+                $to_update
+            ),
         ];
     }
 }

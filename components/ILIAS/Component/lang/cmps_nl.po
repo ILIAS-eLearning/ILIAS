@@ -1,0 +1,251 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: nl\n"
+"Language-Team: Dutch\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: cmps\n"
+
+msgid "cmps_activate"
+msgstr "Inschakelen"
+
+msgid "cmps_active"
+msgstr "Actief"
+
+msgid "cmps_add_new_rank"
+msgstr "Position in Add-New-Object List"
+
+msgid "cmps_available"
+msgstr "Beschikbaar"
+
+#, fuzzy
+msgid "cmps_available_version"
+msgstr "Available Version"
+
+msgid "cmps_basic_files"
+msgstr "Standaard bestanden"
+
+msgid "cmps_class_file"
+msgstr "Class File"
+
+msgid "cmps_component"
+msgstr "Component"
+
+msgid "cmps_configure"
+msgstr "Configureren"
+
+#, fuzzy
+msgid "cmps_current_db_version"
+msgstr "Current DB-Version"
+
+msgid "cmps_current_version"
+msgstr "Huidige versie"
+
+msgid "cmps_database"
+msgstr "Database"
+
+msgid "cmps_db_update"
+msgstr "DB Update Script"
+
+msgid "cmps_deactivate"
+msgstr "Uitschakelen"
+
+#, fuzzy
+msgid "cmps_detailed_information"
+msgstr "Detailed Informationen"
+
+msgid "cmps_dir"
+msgstr "Folder"
+
+#, fuzzy
+msgid "cmps_disable_creation"
+msgstr "Disable Creation"
+
+msgid "cmps_enable_creation"
+msgstr "Aanmaken toestaan"
+
+msgid "cmps_file_version"
+msgstr "Update File Version"
+
+msgid "cmps_group"
+msgstr "Groep"
+
+msgid "cmps_id"
+msgstr "ID"
+
+msgid "cmps_ilias_max_version"
+msgstr "Max. ILIAS Versie"
+
+msgid "cmps_ilias_min_version"
+msgstr "Min. ILIAS Versie"
+
+msgid "cmps_inactive"
+msgstr "Inactief"
+
+#, fuzzy
+msgid "cmps_install"
+msgstr "Install"
+
+#, fuzzy
+msgid "cmps_is_active"
+msgstr "Activated"
+
+#, fuzzy
+msgid "cmps_is_installed"
+msgstr "Installed"
+
+msgid "cmps_lang_files"
+msgstr "Taalbestanden"
+
+msgid "cmps_lang_prefix"
+msgstr "Prefix taalvariabelen"
+
+msgid "cmps_languages"
+msgstr "Talen"
+
+msgid "cmps_main_dir"
+msgstr "Hoofdfolder"
+
+msgid "cmps_missing"
+msgstr "Niet aanwezig"
+
+msgid "cmps_module"
+msgstr "Module"
+
+#, fuzzy
+msgid "cmps_must_installed"
+msgstr "The component must be installed."
+
+msgid "cmps_name"
+msgstr "Naam"
+
+#, fuzzy
+msgid "cmps_needs_matching_ilias_version"
+msgstr "This plugin does not work with your current ILIAS version."
+
+msgid "cmps_needs_newer_ilias_version"
+msgstr "This plugin version only runs on newer ILIAS versions. Please upgrade ILIAS."
+
+msgid "cmps_needs_newer_plugin_version"
+msgstr "This ILIAS version needs a newer plugin version. Please upgrade the plugin."
+
+msgid "cmps_needs_update"
+msgstr "Wijziging nodig."
+
+msgid "cmps_needs_upgrade"
+msgstr "The plugin version currently installed is older than a previously installed version. Please upgrade the plugin."
+
+msgid "cmps_no_db_update_file_available"
+msgstr "No DB update script available."
+
+msgid "cmps_no_language_file_available"
+msgstr "No language file available."
+
+msgid "cmps_plugin"
+msgstr "Plugin"
+
+msgid "cmps_plugin_activated"
+msgstr "The plugin has been activated."
+
+msgid "cmps_plugin_db_prefixes"
+msgstr "DB Table Prefixes"
+
+msgid "cmps_plugin_deactivated"
+msgstr "The plugin has been deactivated."
+
+#, fuzzy
+msgid "cmps_plugin_deinstalled"
+msgstr "The plugin has been uninstalled"
+
+msgid "cmps_plugin_file"
+msgstr "Plugin File"
+
+msgid "cmps_plugin_lang_prefixes"
+msgstr "Plugin Language Prefixes"
+
+msgid "cmps_plugin_slot"
+msgstr "Plugin Slot"
+
+#, fuzzy
+msgid "cmps_plugin_uninstalled"
+msgstr "The plugin has been uninstalled."
+
+#, fuzzy
+msgid "cmps_plugin_updated"
+msgstr "The plugin has been updated"
+
+msgid "cmps_plugins"
+msgstr "Plugins"
+
+msgid "cmps_refresh"
+msgstr "Verversen"
+
+#, fuzzy
+msgid "cmps_refresh_lng"
+msgstr "Refresh language"
+
+msgid "cmps_rep_object"
+msgstr "Studiecentrum Object Type"
+
+msgid "cmps_repository_object_types"
+msgstr "Studiecentrum objecttypes"
+
+msgid "cmps_responsible"
+msgstr "Verantwoordelijk"
+
+#, fuzzy
+msgid "cmps_responsible_mail"
+msgstr "Mail (Responsible)"
+
+msgid "cmps_save_options"
+msgstr "Opties opslaan"
+
+msgid "cmps_service"
+msgstr "Service"
+
+msgid "cmps_show_details"
+msgstr "Tonen Details"
+
+msgid "cmps_slots"
+msgstr "Openingen"
+
+msgid "cmps_status"
+msgstr "Status"
+
+#, fuzzy
+msgid "cmps_supports_cli_setup"
+msgstr "Supports CLI-Setup"
+
+#, fuzzy
+msgid "cmps_supports_export"
+msgstr "Supports export"
+
+#, fuzzy
+msgid "cmps_supports_learning_progress"
+msgstr "Supports learning progress"
+
+#, fuzzy
+msgid "cmps_uninstall"
+msgstr "Uninstall"
+
+#, fuzzy
+msgid "cmps_uninstall_confirm"
+msgstr "Are you sure you want to uninstall the plugin \"%s\"?"
+
+#, fuzzy
+msgid "cmps_uninstall_inactive_confirm"
+msgstr "The plugin \"%1$s\" can currently not be activated (\"%2$s\"). In this state plugins cannot be uninstalled completely. As only the core integration is reverted, plugin custom data may remain. Would you like to continue with the partial uninstall?"
+
+msgid "cmps_update"
+msgstr "Update"
+
+msgid "cmps_version"
+msgstr "Version"
+
+msgid "database_is_uptodate"
+msgstr "De database is bijgewerkt"
+
+msgid "no_changes"
+msgstr "Geen veranderingen"

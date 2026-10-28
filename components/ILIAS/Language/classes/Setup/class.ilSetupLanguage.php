@@ -19,15 +19,18 @@
 declare(strict_types=1);
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectoryManager;
-use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\MainLanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\CustomizingLanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\MigratedLanguageFilePaths;
+use ILIAS\Language\ComponentTranslation\MigratedLanguageFileSync;
+use ILIAS\Language\LanguageIdentifier;
 use ILIAS\Language\Setup\InstalledLanguageRepository;
 use ILIAS\Language\Setup\InstalledLanguageDatabaseRepository;
 use ILIAS\Language\Setup\LanguageInstallationManager;
 use ILIAS\Language\Setup\TranslationCache;
 use ILIAS\Language\Setup\NullTranslationCache;
 use ILIAS\Language\Setup\FixedInstallationRoot;
+use ILIAS\Logging\Logger\LoggerInterface;
 
 /**
  * language handling for setup
@@ -56,19 +59,30 @@ class ilSetupLanguage extends ilLanguage
     public string $separator = "#:#";
     public string $comment_separator = "###";
     protected ?ilDBInterface $db = null;
+    private ?string $client_data_dir = null;
+    private readonly bool $uses_default_language_file_directories;
+    private readonly LanguageFileDirectoryManager $language_file_directory_manager;
+    private ?LanguageInstallationManager $manager = null;
+    private ?ilDBInterface $manager_db = null;
 
     /**
-     * $connection is the ILIAS\Database\Connection; callers outside the
-     * component graph pass none.
+     * @param LanguageFileDirectoryManager|null $language_file_directory_manager directories contributed through the
+     *        component graph; without it only main lang/ and customizing are known (usesDefaultLanguageFileDirectories())
+     * @param ilDBInterface|null $connection none for callers outside the component graph
+     * @param LoggerInterface|null $logger for the installation manager's warnings; none in the Setup (PHP error log then)
+     * @param (\Closure():?string)|null $client_data_dir_resolver without it, MigratedLanguageFilePaths::resolveClientDataDir() is used
      */
     public function __construct(
         string $a_lang_key,
-        private ?LanguageFileDirectoryManager $language_file_directory_manager = null,
+        ?LanguageFileDirectoryManager $language_file_directory_manager = null,
         private readonly ?ilDBInterface $connection = null,
         private readonly TranslationCache $translation_cache = new NullTranslationCache(),
+        private readonly ?LoggerInterface $logger = null,
+        private readonly ?\Closure $client_data_dir_resolver = null,
     ) {
         $this->lang_key = $a_lang_key ?: $this->lang_default;
         $this->absolute_path = (string) realpath(__DIR__ . "/../../../../../");
+        $this->uses_default_language_file_directories = $language_file_directory_manager === null;
         $this->language_file_directory_manager = $language_file_directory_manager ?? new LanguageFileDirectoryManager(
             new CustomizingLanguageFileDirectory(),
             new MainLanguageFileDirectory()
@@ -98,16 +112,60 @@ class ilSetupLanguage extends ilLanguage
         );
     }
 
+    /**
+     * Kept across calls because the manager collects getSkippedInvalidMarkupEntries() over a run;
+     * rebuilt only when db() changes.
+     */
     private function manager(): LanguageInstallationManager
     {
-        return new LanguageInstallationManager(
-            $this->db() ?? throw new LogicException("No database available for " . self::class . "."),
-            $this->language_file_directory_manager,
-            $this->absolute_path,
-            $this->repository(),
-            null,
-            $this->translation_cache
-        );
+        $db = $this->db() ?? throw new LogicException("No database available for " . self::class . ".");
+        if ($this->manager === null || $this->manager_db !== $db) {
+            $this->manager_db = $db;
+            $this->manager = new LanguageInstallationManager(
+                $db,
+                $this->language_file_directory_manager,
+                $this->absolute_path,
+                $this->repository(),
+                null,
+                $this->translation_cache,
+                fn(): ?string => $this->getClientDataDir(),
+                $this->logger
+            );
+        }
+        return $this->manager;
+    }
+
+    /**
+     * `null` resets to the resolver of the constructor.
+     */
+    public function setClientDataDir(?string $client_data_dir): void
+    {
+        $this->client_data_dir = $client_data_dir;
+    }
+
+    public function getClientDataDir(): ?string
+    {
+        if ($this->client_data_dir !== null) {
+            return $this->client_data_dir;
+        }
+        if ($this->client_data_dir_resolver !== null) {
+            return ($this->client_data_dir_resolver)();
+        }
+        return MigratedLanguageFilePaths::resolveClientDataDir($this->absolute_path);
+    }
+
+    /**
+     * Such an instance (e.g. `new ilSetupLanguage('en')` in plugin Setup Objectives) must not refresh an
+     * installed language: that would drop the lng_data rows of every component-contributed module.
+     */
+    public function usesDefaultLanguageFileDirectories(): bool
+    {
+        return $this->uses_default_language_file_directories;
+    }
+
+    public function getLanguageFileDirectoryManager(): LanguageFileDirectoryManager
+    {
+        return $this->language_file_directory_manager;
     }
 
     /**
@@ -115,12 +173,18 @@ class ilSetupLanguage extends ilLanguage
      *
      * if the topic is not in the list, the topic itself with "-" will be returned
      *
-     * $a_topic    topic
+     * $a_topic    topic; the module of a LanguageIdentifier and $n have no effect for it in Setup
      */
-    public function txt(string $a_topic, string $a_default_lang_fallback_mod = ''): string
+    public function txt(string|LanguageIdentifier $a_topic, ?int $n = null): string
     {
+        /** @var ilLogger $log */
         global $log;
 
+        if ($a_topic instanceof LanguageIdentifier) {
+            $a_topic = (string) $a_topic->value;
+        } elseif ($n !== null) {
+            return parent::txt($a_topic, $n);
+        }
         if (empty($a_topic)) {
             return "";
         }
@@ -178,6 +242,14 @@ class ilSetupLanguage extends ilLanguage
         return $this->repository()->getAvailableLanguages();
     }
 
+    /**
+     * @return list<string> the keys with a main language file
+     */
+    public function getInstallableLanguagesForInstallation(): array
+    {
+        return array_values($this->repository()->getInstallableLanguages());
+    }
+
     public function checkLanguageForInstallation(string $lang_key): bool
     {
         return $this->repository()->checkLanguage($lang_key);
@@ -201,17 +273,99 @@ class ilSetupLanguage extends ilLanguage
         $this->manager()->flushLanguageForUninstallation($lang_key);
     }
 
-    public function insertLanguageForInstallation(string $lang_key): void
+    /**
+     * @return array<string, array<string, list<string>>>
+     */
+    public function getSkippedInvalidMarkupEntries(): array
     {
-        $this->manager()->insertLanguageForInstallation($lang_key);
+        return $this->manager?->getSkippedInvalidMarkupEntries() ?? [];
+    }
+
+    /**
+     * @return array<string, array<string, list<string>>> see LanguageInstallationManager::getSkippedDuplicateEntries()
+     */
+    public function getSkippedDuplicateEntries(): array
+    {
+        return $this->manager?->getSkippedDuplicateEntries() ?? [];
+    }
+
+    /**
+     * @return array<string, list<string>> see LanguageInstallationManager::getSkippedUnreadableOverlays()
+     */
+    public function getSkippedUnreadableOverlays(): array
+    {
+        return $this->manager?->getSkippedUnreadableOverlays() ?? [];
+    }
+
+    /**
+     * @return array<string, list<string>>
+     */
+    public function getOverlaysOfUnshippedModules(): array
+    {
+        // without the contributed directories every overlay looks unshipped
+        if ($this->uses_default_language_file_directories) {
+            return [];
+        }
+
+        return $this->manager?->getOverlaysOfUnshippedModules() ?? [];
+    }
+
+    /**
+     * @return array<string, list<string>>
+     */
+    public function getUnrecordedTakenOverModules(): array
+    {
+        return $this->manager?->getUnrecordedTakenOverModules() ?? [];
+    }
+
+    /**
+     * @return list<string> the migrated modules whose overlay could not be written
+     */
+    public function insertLanguageForInstallation(string $lang_key): array
+    {
+        return $this->manager()->insertLanguageForInstallation($lang_key);
     }
 
     /**
      * See LanguageInstallationManager::insertLanguageForApplyingLocalChanges().
+     *
+     * @return list<string> see insertLanguageForInstallation()
      */
-    public function insertLanguageForApplyingLocalChanges(string $lang_key): void
+    public function insertLanguageForApplyingLocalChanges(string $lang_key): array
     {
-        $this->manager()->insertLanguageForApplyingLocalChanges($lang_key);
+        return $this->manager()->insertLanguageForApplyingLocalChanges($lang_key);
+    }
+
+    /**
+     * File-based, needs no database (unlike manager()).
+     *
+     * @param list<string> $lang_keys
+     * @param int|null $for_user_id evaluate the writability for this user instead of the current process
+     * @return list<string>
+     */
+    public function findUnwritableOverlayDirectories(array $lang_keys, ?int $for_user_id = null): array
+    {
+        return MigratedLanguageFileSync::findUnwritableOverlayDirectories(
+            $this->language_file_directory_manager,
+            $this->absolute_path,
+            $lang_keys,
+            $this->getClientDataDir(),
+            $for_user_id
+        );
+    }
+
+    /**
+     * File-based, needs no database.
+     *
+     * @param list<string> $lang_keys
+     */
+    public function hasMigratedModules(array $lang_keys): bool
+    {
+        return MigratedLanguageFileSync::hasShippedModules(
+            $this->language_file_directory_manager,
+            $this->absolute_path,
+            $lang_keys
+        );
     }
 
     /**

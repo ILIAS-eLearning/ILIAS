@@ -3314,79 +3314,6 @@ cmix#:#use_fetch_info#:#As long as the resource supports this option, you should
 cmix#:#xapi_statements_fetched_successfully#:#Results from Learning Record Store were fetched successfully###07 02 2020 new variable
 cmix#:#xapi_statements_last_fetch_date#:#Last fetch of Results:###07 02 2020 new variable
 cmix#:#xapi_statements_not_fetched_yet#:#Results from Learning Record Store are not fetched yet###07 02 2020 new variable
-cmps#:#cmps_activate#:#Aktywuj
-cmps#:#cmps_active#:#Aktywny
-cmps#:#cmps_add_new_rank#:#Jesteś w liście wyboru dla obiektów, które należy dodać
-cmps#:#cmps_available#:#Dostępne
-cmps#:#cmps_available_version#:#Available Version###29 07 2022 new variable
-cmps#:#cmps_basic_files#:#Pliki podstawowe
-cmps#:#cmps_class_file#:#Pliki klas
-cmps#:#cmps_component#:#Elementy
-cmps#:#cmps_configure#:#Konfiguruj
-cmps#:#cmps_current_db_version#:#Current DB-Version###29 07 2022 new variable
-cmps#:#cmps_current_version#:#Aktualna wersja
-cmps#:#cmps_database#:#Baza danych
-cmps#:#cmps_db_update#:#Skrypt do aktualizacji bazy danych
-cmps#:#cmps_deactivate#:#Deaktywuj
-cmps#:#cmps_detailed_information#:#Detailed Informationen###29 07 2022 new variable
-cmps#:#cmps_dir#:#Indeks
-cmps#:#cmps_enable_creation#:#Włącz tworzenie
-cmps#:#cmps_file_version#:#Zaktualizuj wersję pliku
-cmps#:#cmps_group#:#Grupa
-cmps#:#cmps_id#:#ID
-cmps#:#cmps_ilias_max_version#:#Maksymalna wersja ILIAS
-cmps#:#cmps_ilias_min_version#:#Minimalna wersja ILIAS
-cmps#:#cmps_inactive#:#Nieaktywny
-cmps#:#cmps_install#:#Instaluj
-cmps#:#cmps_is_active#:#Activated###29 07 2022 new variable
-cmps#:#cmps_is_installed#:#Installed###29 07 2022 new variable
-cmps#:#cmps_lang_files#:#Plik językowy
-cmps#:#cmps_lang_prefix#:#Prefiks dla zmiennej języków
-cmps#:#cmps_languages#:#Języki
-cmps#:#cmps_main_dir#:#Indeks główny
-cmps#:#cmps_missing#:#Brak
-cmps#:#cmps_module#:#Moduł
-cmps#:#cmps_must_installed#:#Należy zainstalować element.
-cmps#:#cmps_name#:#Nazwa
-cmps#:#cmps_needs_matching_ilias_version#:#This plugin does not work with your current ILIAS version.###29 07 2022 new variable
-cmps#:#cmps_needs_newer_ilias_version#:#Tej wtyczki można używać wyłącznie z nowszą wersją ILIAS. Zaktualizuj swoją wersję ILIAS.
-cmps#:#cmps_needs_newer_plugin_version#:#Ta wersja ILIAS potrzebują nowszą wersję wtyczki. Zaktualizuj wtyczkę.
-cmps#:#cmps_needs_update#:#Konieczna jest aktualizacja
-cmps#:#cmps_needs_upgrade#:#Aktualnie zainstalowana wtyczka jest starsza niż poprzednia wersja. Zainstaluj aktualną wersję wtyczki.
-cmps#:#cmps_no_db_update_file_available#:#Skrypt dla aktualizacji bazy danych nie jest dostępny
-cmps#:#cmps_no_language_file_available#:#Brak dostępnego pliku językowego
-cmps#:#cmps_plugin#:#Wtyczka
-cmps#:#cmps_plugin_activated#:#Włączono wtyczkę.
-cmps#:#cmps_plugin_db_prefixes#:#Prefiksy dla tabeli bazy danych
-cmps#:#cmps_plugin_deactivated#:#Wyłączono wtyczkę.
-cmps#:#cmps_plugin_deinstalled#:#The plugin has been uninstalled###29 07 2022 new variable
-cmps#:#cmps_plugin_file#:#Plik wtyczki
-cmps#:#cmps_plugin_lang_prefixes#:#Prefiksy językowe wtyczki
-cmps#:#cmps_plugin_slot#:#Interfejs wtyczki
-cmps#:#cmps_plugin_uninstalled#:#Wszystkie wpisy językowe i w bazie danych, które odnoszą się do wtyczki, zostały usunięte, a wtyczka odinstalowana. Teraz możesz usunąć indeks i kod źródłowy wtyczki z indeksu ‘Customizing’, aby ostatecznie odinstalować wtyczkę.
-cmps#:#cmps_plugin_updated#:#The plugin has been updated###29 07 2022 new variable
-cmps#:#cmps_plugins#:#Wtyczki
-cmps#:#cmps_refresh#:#Ponownie załaduj język
-cmps#:#cmps_refresh_lng#:#Refresh language###29 07 2022 new variable
-cmps#:#cmps_rep_object#:#Typ obiektu w dostępnych zasobach
-cmps#:#cmps_repository_object_types#:#Typy obiektów w dostępnych zasobach
-cmps#:#cmps_responsible#:#Odpowiedzialny
-cmps#:#cmps_responsible_mail#:#Mail (Responsible)###29 07 2022 new variable
-cmps#:#cmps_save_options#:#Zapisz
-cmps#:#cmps_service#:#Serwis
-cmps#:#cmps_show_details#:#Pokaż szczegóły
-cmps#:#cmps_slots#:#Sloty
-cmps#:#cmps_status#:#Status
-cmps#:#cmps_supports_cli_setup#:#Supports CLI-Setup###29 07 2022 new variable
-cmps#:#cmps_supports_export#:#Supports export###29 07 2022 new variable
-cmps#:#cmps_supports_learning_progress#:#Supports learning progress###29 07 2022 new variable
-cmps#:#cmps_uninstall#:#Odinstaluj
-cmps#:#cmps_uninstall_confirm#:#Czy naprawdę chcesz odinstalować wtyczkę "%s" i usunąć wszystkie przydzielone wpisy w bazie danych?
-cmps#:#cmps_uninstall_inactive_confirm#:#Aktualnie nie można aktywować wtyczki "%1$s" ("%2$s"). Ten status nie pozwala na całkowite odinstalowanie wtyczek. Ponieważ usuwana jest wyłącznie integracja systemowa, istnieje możliwość, że zostaną zachowane niektóre dane wtyczek. Czy chcesz kontynuować częściowe odinstalowanie?
-cmps#:#cmps_update#:#Zaktualizuj
-cmps#:#cmps_version#:#Wersja
-cmps#:#database_is_uptodate#:#Baza danych jest aktualna.
-cmps#:#no_changes#:#Brak zmian
 cmxv#:#cmxv_create#:#Create Certificate for xAPI/cmi5 Object###07 02 2020 new variable
 cmxv#:#cmxv_create_info#:#Select a completed xAPI/cmi5 object to generate a certificate for it###07 02 2020 new variable
 cntr#:#cntr_add_new_item#:#Dodaj nowy obiekt
@@ -11014,11 +10941,6 @@ lm#:#lm_page_added#:#Page has been added.###26 08 2024 new variable
 lm#:#lm_page_type_lm#:#LM Page###29 07 2022 new variable
 lm#:#lm_pages_added#:#Pages have been added.###26 08 2024 new variable
 lm#:#lm_save_titles#:#Zapisano nazwę.
-lng#:#language_detection#:#Language Detection###29 07 2022 new variable
-lng#:#lng_disable_language_detection#:#Wyłącz funkcję automatycznego rozpoznawania języka
-lng#:#lng_download_deprecated#:#Pobierz starsze wpisy
-lng#:#lng_enable_language_detection#:#Aktywuj funkcję automatycznego rozpoznawania języka
-lng#:#lng_switch_language_detection#:#Switch Language Detection###26 08 2024 new variable
 log#:#log_browser#:#Log konsoli przeglądarki
 log#:#log_browser_users#:#Aktywni użytkownicy dla logu przeglądarki
 log#:#log_cache_#:#Pamięć podręczna
@@ -13278,75 +13200,6 @@ pd#:#pd_upcoming#:#Planowane
 pd#:#pd_view_select_at_least_one#:#Musisz wybrać co najmniej jeden widok, albo 'Wybrane elementy' i/lub 'Moje członkostwo'.
 pdesk#:#bookmark_moved_ok#:#Przesunięto zakładkę.
 pdesk#:#bookmark_select_target#:#Wybierz element docelowy.
-poll#:#poll_absolute#:#Aktualne głosy
-poll#:#poll_activation_online_info#:#Wybierz to ustawienie, aby udostępnić głosowanie użytkownikom.
-poll#:#poll_add#:#Utwórz głosowanie
-poll#:#poll_anonymous_warning#:#Twoja nazwa nie jest wyświetlana w wynikach głosowania.
-poll#:#poll_answer#:#Odpowiedź
-poll#:#poll_answer_selected_alt_text#:#Selected###26 08 2024 new variable
-poll#:#poll_answers#:#Możliwe odpowiedzi
-poll#:#poll_barchart#:#Wykres słupkowy
-poll#:#poll_block_message_already_voted#:#Już zagłosowałeś.
-poll#:#poll_block_message_no_answers#:#To głosowanie nie jest kompletne.
-poll#:#poll_block_results_available_on#:#Wyniki opublikowano w dniu %s.
-poll#:#poll_cannot_set_online_no_answers#:#The status cannot be changed to &quot;online&quot; because this poll has no question!###26 08 2024 new variable
-poll#:#poll_chart_votes#:#Votes###28 10 2024 new variable
-poll#:#poll_comments#:#Komentarze
-poll#:#poll_copy#:#Kopiuj głosowanie
-poll#:#poll_delete_votes#:#Usuń wszystkie głosy
-poll#:#poll_delete_votes_sure#:#Jesteś pewien, że chcesz usunąć wszystkie głosy?
-poll#:#poll_edit#:#Edytuj głosowanie
-poll#:#poll_edit_question#:#Edit Question###26 08 2024 new variable
-poll#:#poll_image#:#Obraz
-poll#:#poll_import#:#Importuj głosowanie
-poll#:#poll_limit_not_below_answer_count#:#The answer limit must be below the number of possible answers.###26 08 2024 new variable
-poll#:#poll_limit_number_of_answers#:#Limit Number of Answers per Participant###26 08 2024 new variable
-poll#:#poll_max_number_of_answers#:#Maksymalna liczba odpowiedzi na każdego uczestnika
-poll#:#poll_max_number_of_answers_info#:#You may choose up to %s answers.###26 08 2024 new variable
-poll#:#poll_mode#:#Tryb
-poll#:#poll_mode_anonymous#:#Anonim
-poll#:#poll_mode_anonymous_info#:#Oddanych głosów nie można przydzielić do uczestników.
-poll#:#poll_mode_personal#:#Spersonalizowane
-poll#:#poll_mode_personal_info#:#Lista uczestników, którzy oddali głosy, dostępna jest w wystarczającymi uprawnieniami.
-poll#:#poll_new#:#Utwórz nowe głosowanie
-poll#:#poll_non_anonymous_warning#:#Twoja nazwa i oddany głos widoczne są w wynikach głosowania dla administratorów.
-poll#:#poll_notification_activated#:#Notification Activated###26 08 2024 new variable
-poll#:#poll_notification_deactivated#:#Notification Deactivated###26 08 2024 new variable
-poll#:#poll_notification_subscribe#:#Aktywowanie powiadamiania
-poll#:#poll_notification_unsubscribe#:#Deaktywowanie powiadamiania
-poll#:#poll_percentage#:#Aktualna zawartość
-poll#:#poll_population#:#%s uczestników
-poll#:#poll_population_singular#:#1 Participant###26 08 2024 new variable
-poll#:#poll_question#:#Pytanie
-poll#:#poll_result#:#Wyniki głosowania
-poll#:#poll_result_answers#:#Głosy
-poll#:#poll_result_sorting#:#Sortowanie
-poll#:#poll_result_sorting_answers#:#W kolejności odpowiedzi
-poll#:#poll_result_sorting_votes#:#Wg liczby głosów (malejąco)
-poll#:#poll_result_users#:#Uczestnicy
-poll#:#poll_show_results_as#:#Pokaż wyniki jako
-poll#:#poll_sortorder#:#Sortowanie
-poll#:#poll_stacked_chart#:#Stacked Chart###28 10 2024 new variable
-poll#:#poll_view_results#:#Pokaż wyniki
-poll#:#poll_view_results_after_period#:#Po okresie głosowania
-poll#:#poll_view_results_after_period_impossible#:#Okres głosowania nie jest ograniczony czasowo.
-poll#:#poll_view_results_after_vote#:#Po oddaniu głosu
-poll#:#poll_view_results_always#:#Zawsze
-poll#:#poll_view_results_never#:#Nigdy
-poll#:#poll_vote#:#Głosuj
-poll#:#poll_vote_error_multi#:#Wybierz maksymalnie %s odpowiedzi.
-poll#:#poll_vote_error_multi_no_answer#:#Please select at least 1 answer.###26 08 2024 new variable
-poll#:#poll_vote_error_single#:#Wybierz odpowiedź.
-poll#:#poll_vote_notification_body#:#w poniższym głosowaniu oddano jeden głos
-poll#:#poll_vote_notification_link#:#Link do głosowania
-poll#:#poll_vote_notification_reason#:#Otrzymałeś tę wiadomość, ponieważ aktywowałeś funkcję powiadamiania dla powyżej wymienionego głosowania.
-poll#:#poll_vote_notification_subject#:#Głosowanie "%s": nowy głos
-poll#:#poll_votes_no_edit#:#To głosowanie zawiera już głosy. Nie można go edytować do momentu usunięcia głosów.
-poll#:#poll_voting_period_and_results#:#Okres głosowania i wyniki
-poll#:#poll_voting_period_ended_info#:#The voting period ended %s.###26 08 2024 new variable
-poll#:#poll_voting_period_full_info#:#Głosowanie od %s do %s
-poll#:#poll_voting_period_info#:#Koniec głosowania: %s
-poll#:#poll_voting_period_limited#:#Czasowo ograniczony okres głosowania
 prg#:#access_ctr_by_orgu_position#:#Access control according to Organisational Unit Positions###07 02 2020 new variable
 prg#:#active_only#:#active users only###26 08 2024 new variable
 prg#:#add_automembership_source#:#Add Source###07 02 2020 new variable
@@ -17080,23 +16933,6 @@ tax#:#tax_tax_settings#:#Ustawienia dotyczące klasyfikacji
 tax#:#tax_taxonomy#:#Klasyfikacja
 tbl#:#tbl_export_csv#:#Eksportuj do .csv
 tbl#:#tbl_export_excel#:#Eksportuj do .xls
-tos#:#tos_accept_usr_agreement_anonymous#:#Terms of Service###26 08 2024 new variable
-tos#:#tos_accept_usr_agreement_anonymous_intro#:#Before you proceed to ILIAS you accept the following Terms of Service.###26 08 2024 new variable
-tos#:#tos_account_reg_not_possible#:#A self registration is not possible because of a missing user agreement. Please contact your <a href="%1$s">system administrator</a> for further information.
-tos#:#tos_agree_date#:#ToS agreed on###26 08 2024 new variable
-tos#:#tos_agreement#:#Zasady użytkowania
-tos#:#tos_disabled_no_docs_left#:#The user agreements are now disabled, because all documents have been deleted. Please create at least one document before enabling the user agreements again.
-tos#:#tos_last_reset_date#:#Zasady użytkowania zostały po raz ostatni resetowane w dniu %s.
-tos#:#tos_never_reset#:#The terms of service have not been reset, yet.
-tos#:#tos_no_documents_exist#:#Aktualnie brak zasad użytkowania dostępnych w zapisanych językach.
-tos#:#tos_no_documents_exist_cant_save#:#Aktualnie brak zasad użytkowania dostępnych w zapisanych językach. Dlatego nie możesz aktywować tej usługi.
-tos#:#tos_reset_for_all_users#:#Reset Terms of Service###26 08 2024 new variable
-tos#:#tos_reset_successful#:#The terms of service have been reset successfully.
-tos#:#tos_status_desc#:#Jeśli ta opcja jest aktywna, użytkownicy przed korzystaniem z ILIAS proszeni są o podpisanie zasad użytkowania.
-tos#:#tos_status_enable#:#Aktywuj
-tos#:#tos_sure_reset_tos#:#Jesteś pewien, że zasady użytkowania mają zostać zresetowane w systemie dla wszystkich użytkowników? Dotyczy to również tych kont użytkowników, które są ewentualnie wykorzystywane do usług sieciowych SOAP, serwerów czatowych i zadań Cron.
-tos#:#tos_withdrawal_usr_deletion#:#Account Deletion Upon Withdrawal From Terms of Service###29 07 2022 new variable
-tos#:#tos_withdrawal_usr_deletion_desc#:#If a user withdraws their acceptance from  a previously accepted Terms of Service document, this will result in the deletion of the user’s account.###26 08 2024 new variable
 trac#:#cmix_lp_mode_deactivated#:#Learning Progress is Deactivated###07 02 2020 new variable
 trac#:#cmix_lp_mode_deactivated_info#:#The learning progress status is not displayed and does not influence parent objects.###07 02 2020 new variable
 trac#:#cmix_lp_mode_when_completed#:#Completed when 'completed'###07 02 2020 new variable
