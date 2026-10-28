@@ -69,6 +69,24 @@ class Handler implements ilExportHandlerRepositoryElementIRSSWrapperInterface
         return $success;
     }
 
+    public function writeDirectory(
+        string $local_directory,
+        string $path_in_container
+    ): bool {
+        if (!isset($this->resource_identification_serialized)) {
+            return false;
+        }
+        $success = $this->irss->manageContainer()->addDirectoryToContainer(
+            $this->getResourceId(),
+            $local_directory,
+            $path_in_container
+        );
+        if ($success) {
+            $this->removeTmpFile();
+        }
+        return $success;
+    }
+
     public function addResourceToContainerByResourceId(
         ResourceIdentification $resource_identification,
         string $path_in_container

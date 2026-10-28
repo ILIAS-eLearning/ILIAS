@@ -40,6 +40,16 @@ interface HandlerInterface
         string $path_in_container
     ): bool;
 
+    /**
+     * Adds all files below $local_directory to the container in one go, keeping their relative paths
+     * below $path_in_container. The container archive is rewritten only once, whereas every call of
+     * write() rewrites it completely.
+     */
+    public function writeDirectory(
+        string $local_directory,
+        string $path_in_container
+    ): bool;
+
     public function addResourceToContainerByResourceId(
         ResourceIdentification $resource_identification,
         string $path_in_container
