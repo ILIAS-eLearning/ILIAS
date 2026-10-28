@@ -266,16 +266,22 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 
     protected function afterUpdate(): void
     {
-        // check if template is changed
-        $current_tpl_id = ilDidacticTemplateObjSettings::lookupTemplateId(
-            $this->object->getRefId()
-        );
-        $new_tpl_id = $this->getDidacticTemplateVar('dtpl');
+        // the type field is only part of the settings form if a didactic template is available here,
+        // getDidacticTemplateVar() must not be used: it evaluates the creation form and returns 0 when editing
+        if ($this->post_wrapper->has('didactic_type')) {
+            $current_tpl_id = ilDidacticTemplateObjSettings::lookupTemplateId(
+                $this->object->getRefId()
+            );
+            $new_tpl_id = $this->parseDidacticTemplateVar(
+                $this->post_wrapper->retrieve('didactic_type', $this->refinery->kindlyTo()->string()),
+                'dtpl'
+            );
 
-        if ($new_tpl_id !== $current_tpl_id) {
-            // redirect to didactic template confirmation
-            $this->ctrl->redirect(ilDidacticTemplateGUI::class, "confirmTemplateSwitch");
-            return;
+            if ($new_tpl_id !== $current_tpl_id) {
+                // redirect to didactic template confirmation
+                $this->ctrl->redirect(ilDidacticTemplateGUI::class, "confirmTemplateSwitch");
+                return;
+            }
         }
         parent::afterUpdate();
     }
