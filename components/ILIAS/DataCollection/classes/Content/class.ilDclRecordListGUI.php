@@ -21,7 +21,8 @@ declare(strict_types=1);
 use ILIAS\FileUpload\MimeType;
 use ILIAS\ResourceStorage\Services;
 use ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder;
-use ILIAS\UI\Component\Input\Container\Form\Standard;
+use ILIAS\UI\Component\Input\Container\Form\Standard as Form;
+use ILIAS\UI\Component\Panel\Standard as Panel;
 
 /**
  * @ilCtrl_Calls ilDclRecordListGUI: ilDataCollectionUploadHandlerGUI
@@ -209,7 +210,7 @@ class ilDclRecordListGUI
         $this->tpl->setContent($desc . $list->getHTML());
     }
 
-    public function showImportExcel(?Standard $form = null): void
+    public function showImportExcel(?Form $form = null, ?Panel $report = null): void
     {
         $this->denyImportAccessUnlessGranted();
 
@@ -220,17 +221,17 @@ class ilDclRecordListGUI
         $this->tabs->addTab('import', $this->lng->txt('import'), $this->ctrl->getLinkTarget($this, self::CMD_SHOW_IMPORT_EXCEL));
         $this->tabs->activateTab('import');
 
-        if (!$form) {
-            $form = $this->initImportForm();
-        }
-
-        $message_box = $this->ui_factory->messageBox()->info($this->lng->txt('dcl_file_format_description'))
+        $content[] = $this->ui_factory->messageBox()->info($this->lng->txt('dcl_file_format_description'))
             ->withButtons([$this->ui_factory->button()->standard(
                 $this->lng->txt('dcl_download_import_template'),
                 $this->ctrl->getLinkTarget($this, self::CMD_DOWNLOAD_IMPORT_TEMPLATE)
             )]);
+        $content[] = $form ?? $this->initImportForm();
+        if ($report !== null) {
+            $content[] = $report;
+        }
 
-        $this->tpl->setContent($this->renderer->render([$message_box]) . $this->renderer->render($form));
+        $this->tpl->setContent($this->renderer->render($content));
     }
 
     public function downloadImportTemplate(): void
@@ -240,14 +241,16 @@ class ilDclRecordListGUI
         new ilDclContentImporter($this->parent_obj->object->getRefId(), $this->table_id)->sendImportTemplate();
     }
 
-    public function initImportForm(): Standard
+    public function initImportForm(): Form
     {
         return $this->ui_factory->input()->container()->form()->standard(
             $this->ctrl->getFormAction($this, 'importExcel'),
             [
-                'import_file' => $this->ui_factory->input()->field()->file(new ilDataCollectionUploadHandlerGUI(), $this->lng->txt('import_file'))
-                    ->withAcceptedMimeTypes([MimeType::APPLICATION__VND_OPENXMLFORMATS_OFFICEDOCUMENT_SPREADSHEETML_SHEET])
-                    ->withRequired(true),
+                'import_file' => $this->ui_factory->input()->field()->file(
+                    new ilDataCollectionUploadHandlerGUI(),
+                    $this->lng->txt('import_file'),
+                    $this->lng->txt('import_file_info')
+                )->withAcceptedMimeTypes([MimeType::APPLICATION__VND_OPENXMLFORMATS_OFFICEDOCUMENT_SPREADSHEETML_SHEET])->withRequired(true),
                 'simulate' => $this->ui_factory->input()->field()->checkbox($this->lng->txt('dcl_simulate_import'), $this->lng->txt('dcl_simulate_import_info'))
             ]
         )->withSubmitLabel($this->lng->txt('import'));
@@ -263,8 +266,9 @@ class ilDclRecordListGUI
         }
         $form = $this->initImportForm()->withRequest($this->http->request());
         $data = $form->getData();
+
         if ($data !== null) {
-            $this->importRecords($data['import_file'][0], $data['simulate']);
+            $this->showImportExcel($this->initImportForm(), $this->importRecords($data['import_file'][0], $data['simulate']));
         } else {
             $this->showImportExcel($form);
         }
@@ -289,28 +293,22 @@ class ilDclRecordListGUI
         return false;
     }
 
-    private function importRecords(string $rid, bool $simulate = false): void
+    private function importRecords(string $rid, bool $simulate = false): ?Panel
     {
         $identification = $this->irss->manage()->find($rid);
         $result = new ilDclContentImporter($this->parent_obj->object->getRefId(), $this->table_id)
             ->import($this->irss->consume()->stream($identification)->getStream()->getMetadata('uri'), $simulate);
         $this->irss->manage()->remove($identification, $this->stakeholder);
-        $this->endImport($result['line'], $result['warnings']);
-    }
 
-    public function endImport(int $i, array $warnings): void
-    {
-        $output = new ilTemplate("tpl.dcl_import_terminated.html", true, true, "components/ILIAS/DataCollection");
-        $output->setVariable("IMPORT_TERMINATED", $this->lng->txt("dcl_import_terminated") . ": " . $i);
-        foreach ($warnings as $warning) {
-            $output->setCurrentBlock("warnings");
-            $output->setVariable("WARNING", $warning);
-            $output->parseCurrentBlock();
-        }
+        $this->tpl->setOnScreenMessage(
+            $this->tpl::MESSAGE_TYPE_SUCCESS,
+            $this->lng->txt($simulate ? 'dcl_import_simulation_success' : 'dcl_import_success')
+        );
 
-        $output->setVariable("BACK_LINK", $this->ctrl->getLinkTargetByClass(ilDclRecordListGUI::class, "listRecords"));
-        $output->setVariable("BACK", $this->lng->txt("back"));
-        $this->tpl->setContent($output->get());
+        return $this->ui_factory->panel()->standard(
+            sprintf($this->lng->txt('dcl_import_report'), $result['line']),
+            $this->ui_factory->listing()->unordered($result['warnings'])
+        );
     }
 
     protected function applyFilter(): void
