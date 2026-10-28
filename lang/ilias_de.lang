@@ -14359,8 +14359,8 @@ rbac#:#blog_write#:#Blog bearbeiten
 rbac#:#book_copy#:#Buchungspool kopieren
 rbac#:#book_delete#:#Buchungspool löschen oder verschieben
 rbac#:#book_edit_permission#:#Rechteeinstellungen für Buchungspool ändern
-rbac#:#book_manage_all_reservations#:#Person kann alle Reservierungen verwalten
-rbac#:#book_manage_own_reservations#:#Person kann die eigenen Reservierungen verwalten
+rbac#:#book_manage_all_reservations#:#Person kann alle Buchungen verwalten
+rbac#:#book_manage_own_reservations#:#Person kann die eigenen Buchungen verwalten
 rbac#:#book_read#:#Buchungen in Buchungspool durchführen
 rbac#:#book_visible#:#Buchungspool ist sichtbar
 rbac#:#book_write#:#Angebote anlegen und Einstellungen des Buchungspools bearbeiten
