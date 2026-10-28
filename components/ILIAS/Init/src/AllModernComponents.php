@@ -281,7 +281,7 @@ class AllModernComponents implements \ILIAS\Component\EntryPoint
         $DIC[\ILIAS\Language\Activities\AddLanguageEntry::class] = fn(): \ILIAS\Language\Activities\AddLanguageEntry => $this->add_language_entry;
         $DIC[\ILIAS\Language\Activities\SetLanguageDetectionEnabled::class] = fn(): \ILIAS\Language\Activities\SetLanguageDetectionEnabled => $this->set_language_detection_enabled;
         $DIC[\ILIAS\Language\Activities\SetLanguageTranslationEnabled::class] = fn(): \ILIAS\Language\Activities\SetLanguageTranslationEnabled => $this->set_language_translation_enabled;
-        $DIC['bt.registry'] = fn(): BackgroundTasksRegistry => $this->background_tasks_registry;
+        $DIC[BackgroundTasksRegistry::class] = fn(): BackgroundTasksRegistry => $this->background_tasks_registry;
     }
 
     public function getName(): string

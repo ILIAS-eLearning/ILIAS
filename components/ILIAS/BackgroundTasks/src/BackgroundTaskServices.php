@@ -58,6 +58,6 @@ class BackgroundTaskServices
 
     public function registry(): Registry
     {
-        return $this->container['bt.registry'];
+        return $this->container[Registry::class];
     }
 }
