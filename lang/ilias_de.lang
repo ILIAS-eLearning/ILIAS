@@ -2644,7 +2644,7 @@ book#:#book_pref_book_cron_info#:#Automatische Zuweisung von Buchungen auf der G
 book#:#book_pref_deadline#:#Deadline
 book#:#book_pref_deadline_info#:#Bis zu diesem Zeitpunkt können Präferenzen abgegeben werden.
 book#:#book_pref_overview#:#Übersicht
-book#:#book_preference_info#:#Bitte wählen Sie %1 Präferenzen bis %2. Nach der Frist werden die Angebote automatisch zugeordnet. Die Präferenzen aller Personen werden nach Möglichkeit berücksichtigt.
+book#:#book_preference_info#:#Bitte wählen Sie %1 Präferenzen bis %2. Nach der Frist werden die Angebote automatisch zugeordnet. Die Präferenzen aller Beteiligten werden nach Möglichkeit berücksichtigt.
 book#:#book_preferences#:#Präferenzen
 book#:#book_preferences_saved#:#Die Präferenzen wurden gespeichert.
 book#:#book_present_bookings#:#Aktuelle und zukünftige Buchungen
@@ -14359,8 +14359,8 @@ rbac#:#blog_write#:#Blog bearbeiten
 rbac#:#book_copy#:#Buchungspool kopieren
 rbac#:#book_delete#:#Buchungspool löschen oder verschieben
 rbac#:#book_edit_permission#:#Rechteeinstellungen für Buchungspool ändern
-rbac#:#book_manage_all_reservations#:#Person kann alle Buchungen verwalten
-rbac#:#book_manage_own_reservations#:#Person kann die eigenen Buchungen verwalten
+rbac#:#book_manage_all_reservations#:#Benutzer kann alle Buchungen verwalten
+rbac#:#book_manage_own_reservations#:#Benutzer kann die eigenen Buchungen verwalten
 rbac#:#book_read#:#Buchungen in Buchungspool durchführen
 rbac#:#book_visible#:#Buchungspool ist sichtbar
 rbac#:#book_write#:#Angebote anlegen und Einstellungen des Buchungspools bearbeiten
