@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+
 class DataCollection implements Component\Component
 {
     public function init(
@@ -40,5 +43,9 @@ class DataCollection implements Component\Component
             new Component\Resource\ComponentJS($this, "datacollection.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "generic_multi_line_input.js");
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'dcl'
+        );
     }
 }

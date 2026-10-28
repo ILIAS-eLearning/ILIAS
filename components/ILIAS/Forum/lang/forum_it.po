@@ -1,0 +1,750 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: forum\n"
+
+msgid "activate_new_posts"
+msgstr "Attiva i Posts"
+
+msgid "activate_only_current"
+msgstr "Attiva corrente"
+
+msgid "activate_post"
+msgstr "Attivare"
+
+msgid "activate_post_txt"
+msgstr "Vuoi veramente attivare il post corente e, se possibile, tutti i post di risposta? Per favore, nota bene che tutti i post relazionati sarrnno anch'essi attivati."
+
+msgid "add_new_answer"
+msgstr "Aggiungi post"
+
+msgid "add_re_to_subject"
+msgstr "Aggiungi 'Re: ' all' oggetto sulla risposta"
+
+msgid "adm_autosave_drafts"
+msgstr "Salva automaticamente le bozze"
+
+msgid "adm_autosave_drafts_desc"
+msgstr "Se attivate, le bozze vengono salvate automaticamente durante la modifica."
+
+msgid "adm_autosave_ival"
+msgstr "Intervallo"
+
+msgid "adm_save_drafts"
+msgstr "Salva bozze"
+
+msgid "adm_save_drafts_desc"
+msgstr "Se consentito, gli utenti registrati hanno la possibilità di salvare le pubblicazioni del forum come bozza."
+
+msgid "allow_file_upload_desc"
+msgstr "Se consentito, gli utenti possono allegare file nei loro messaggi."
+
+msgid "ascending_order"
+msgstr "Ultimi post in basso"
+
+msgid "autosave_draft_info"
+msgstr "<span class=\"asterisk\">Questa bozza verrà salvata automaticamente ogni %s secondi.</span>"
+
+msgid "autosave_post_draft_info"
+msgstr "<span class=\"asterisk\">Questo post verrà salvato automaticamente come bozza ogni %s secondi.</span>"
+
+msgid "close_topics"
+msgstr "Chiudi"
+
+msgid "content_censored_post"
+msgstr "Contenuto dei messaggi censurati:"
+
+msgid "content_deleted_post"
+msgstr "Contenuto dei messaggi eliminati:"
+
+msgid "content_deleted_thread"
+msgstr "Contenuto delle conversazioni eliminate:"
+
+msgid "content_post_updated"
+msgstr "Contenuto dei messaggi modificati:"
+
+msgid "deletePosting"
+msgstr "Delete Posting"
+
+msgid "deletePostingDraft"
+msgstr "Delete Draft"
+
+msgid "delete_draft_successfully"
+msgstr "La bozza è stata eliminata con successo."
+
+msgid "delete_drafts_successfully"
+msgstr "Le bozze sono state eliminate correttamente."
+
+#, fuzzy
+msgid "delete_thread"
+msgstr "Delete Thread"
+
+msgid "descending_order"
+msgstr "Ultimi post in alto"
+
+msgid "edit_thread_draft"
+msgstr "Modifica bozza di conversazione"
+
+msgid "empty_subject"
+msgstr "Sulla risposta l'utente deve inserire un nuovo titolo."
+
+#, fuzzy
+msgid "empty_thread"
+msgstr "Empty Thread"
+
+msgid "enable_send_attachments"
+msgstr "Invia allegati con notifiche del forum"
+
+msgid "enable_send_attachments_desc"
+msgstr "Si prega di notare che i file allegati devono essere archiviati separatamente per ogni utente notificato. Ciò può causare un elevato utilizzo dello spazio su disco del server."
+
+msgid "enable_thread_ratings"
+msgstr "Classificazione conversazione"
+
+msgid "enable_thread_ratings_info"
+msgstr "Se attiva, gli utenti possono classificare le conversazioni."
+
+msgid "enter_new_subject"
+msgstr "Per favore, inserisci un nuovo oggetto"
+
+#, fuzzy
+msgid "error_no_target_selected"
+msgstr "Please select a forum."
+
+msgid "error_reading_file"
+msgstr "C’è stato un errore nella lettura del file"
+
+msgid "error_same_thread_ids"
+msgstr "Le conversazioni di origine e di destinazione devono essere diverse."
+
+msgid "file_upload_allowed"
+msgstr "Consenti allegati"
+
+msgid "file_upload_allowed_fora"
+msgstr "Allegati"
+
+msgid "file_upload_allowed_fora_desc"
+msgstr "Se selezionato \"Consenti allegati nei forum selezionati \", i moderatori del forum possono consentire individualmente di allegare file alle registrazioni nelle impostazioni di ciascun forum. Nei nuovi forum il caricamento degli allegati sarà disabilitato per impostazione predefinita."
+
+msgid "file_upload_option_allow"
+msgstr "Consenti allegati in tutti i forum"
+
+#, fuzzy
+msgid "file_upload_option_allow_info"
+msgstr "Files can be attached to posts in all forums."
+
+msgid "file_upload_option_disallow"
+msgstr "Consenti allegati nei forum selezionati"
+
+msgid "fmr_copy_threads_info"
+msgstr "Hai la possibilità di copiare singole frasi chiave. Solo l'inizio della frase chiave sarà duplicato."
+
+msgid "forum_add_quote"
+msgstr "Aggiungi citazione"
+
+msgid "forums_all_threads_marked_read"
+msgstr "Tutti gli argomenti sono stati indicati come letti"
+
+msgid "forums_attachments"
+msgstr "Allegati"
+
+msgid "forums_attachments_add"
+msgstr "Aggiungi allegato"
+
+msgid "forums_censor_comment"
+msgstr "Commento del moderatore"
+
+msgid "forums_count_art"
+msgstr "Numero di articoli"
+
+msgid "forums_created_by"
+msgstr "Creato da"
+
+msgid "forums_delete_file"
+msgstr "Cancella l'allegato"
+
+msgid "forums_disable_notification"
+msgstr "Disabilita la notifica"
+
+msgid "forums_download_attachment"
+msgstr "Download dell'allegato"
+
+msgid "forums_edit_draft"
+msgstr "Modifica bozza"
+
+msgid "forums_edit_post"
+msgstr "Modifica messaggio"
+
+msgid "forums_enable_notification"
+msgstr "Abilita la notifica"
+
+#, fuzzy
+msgid "forums_forum_notification"
+msgstr "Send Forum Notifications"
+
+#, fuzzy
+msgid "forums_forum_notification_desc"
+msgstr "If enabled, all users, who want to be informed about new posts in specified forum threads, will get notifications by mail."
+
+msgid "forums_forum_notification_disabled"
+msgstr "Non sarete piu'informati di nuovi messaggi in questo forum."
+
+msgid "forums_info_censor2_post"
+msgstr "Sei sicuro di voler continuare a nascondere questo messaggio?"
+
+msgid "forums_info_censor_post"
+msgstr "Sei sicuro di voler nascondere questo messaggio?"
+
+msgid "forums_info_delete_draft"
+msgstr "Sei sicuro di voler eliminare questa bozza?"
+
+msgid "forums_info_delete_post"
+msgstr "Sei sicuro di voler eliminare questo messaggio comprese tutte le risposte?"
+
+msgid "forums_mark_read"
+msgstr "Segna come letto"
+
+msgid "forums_new_thread"
+msgstr "Nuovo argomento"
+
+msgid "forums_no_posts_available"
+msgstr "Questo topic non ha ancora posts o il moderatore ha disattivato il primo."
+
+msgid "forums_notification_disabled"
+msgstr "Notifica disabilitata"
+
+msgid "forums_notification_enabled"
+msgstr "Notifica abilitata"
+
+msgid "forums_notification_intro"
+msgstr "Questa eMail ti e' stata inviata automaticamente dall'installazione di ILIAS %s, %s"
+
+msgid "forums_notification_show_frm"
+msgstr "Mostra forum: %s"
+
+msgid "forums_notification_show_post"
+msgstr "Mostra messaggio: %s"
+
+msgid "forums_post_activation_mail"
+msgstr "A meno che il seguente post non è attivato, non è visibile per gli altri utenti del forum. Ricevi questa email perché sei assegnato come moderatore e hai l'autorizzazione per attivare questo intervento."
+
+msgid "forums_post_deleted"
+msgstr "Il messaggio e' stato cancellato"
+
+msgid "forums_post_modified"
+msgstr "Il messaggio e' stato modificato"
+
+msgid "forums_post_needs_to_be_activated"
+msgstr "Un nuovo articolo è stato creato ma deve essere attivato dal moderatore."
+
+msgid "forums_post_new_entry"
+msgstr "Il messaggio e' stato inserito"
+
+msgid "forums_post_was_activated"
+msgstr "Il post e' stato attivato."
+
+msgid "forums_posts"
+msgstr "Tutti i messaggi"
+
+msgid "forums_posts_not_available"
+msgstr "Messaggi non disponibili"
+
+msgid "forums_print_thread"
+msgstr "Stampa questo argomento"
+
+msgid "forums_subject"
+msgstr "Oggetto"
+
+msgid "forums_the_post"
+msgstr "Messaggio"
+
+msgid "forums_thread"
+msgstr "Argomento"
+
+msgid "forums_thread_create_from"
+msgstr "Creato da"
+
+msgid "forums_thread_deleted"
+msgstr "La conversazione selezionata comprende tutti i messaggi che sono stati eliminati."
+
+msgid "forums_thread_drafts_deleted"
+msgstr "La conversazione selezionata comprende tutte le registrazioni e le bozze selezionate."
+
+msgid "forums_thread_marked"
+msgstr "Questo argomento e' stato segnato come letto."
+
+msgid "forums_thread_new_entry"
+msgstr "Un nuovo argomento e' stato creato"
+
+msgid "forums_threads_deleted"
+msgstr "Le conversazioni selezionate comprendono tutti i messaggi che sono stati eliminati."
+
+msgid "forums_threads_drafts_deleted"
+msgstr "Le conversazioni selezionate comprendono tutte le registrazioni e le bozze selezionate."
+
+msgid "forums_your_reply"
+msgstr "tua risposta"
+
+msgid "frm_action_not_possible_parent_deleted"
+msgstr "Azione impossibile, la pubblicazione principale è stata eliminata."
+
+msgid "frm_action_not_possible_thr_closed"
+msgstr "Azione impossibile, il thread è stato chiuso."
+
+msgid "frm_action_not_possible_thr_deleted"
+msgstr "Azione impossibile, il thread è stato eliminato."
+
+#, fuzzy
+msgid "frm_activation_online_info"
+msgstr "Set the forum online to make it visible and available to other users. If not, only administrators will have access to it."
+
+#, fuzzy
+msgid "frm_adm_sec_default_settings"
+msgstr "Default Object Settings"
+
+#, fuzzy
+msgid "frm_adm_sec_drafts"
+msgstr "Drafts"
+
+#, fuzzy
+msgid "frm_adm_sec_features"
+msgstr "Forum Features"
+
+#, fuzzy
+msgid "frm_adm_sec_notifications"
+msgstr "Notifications"
+
+#, fuzzy
+msgid "frm_all_threads"
+msgstr "All Threads"
+
+msgid "frm_anonymous_posting"
+msgstr "Messaggi anonimi"
+
+msgid "frm_anonymous_posting_desc"
+msgstr "Se selezionato sara'; consentito inserire messaggi anonimi all';interno di questo forum."
+
+msgid "frm_at_least_one_moderator"
+msgstr "Deve esserci almeno un amministratore."
+
+msgid "frm_censorship"
+msgstr "Censore"
+
+msgid "frm_censorship_applied"
+msgstr "La censura è stata applicata con successo."
+
+msgid "frm_censorship_revoked"
+msgstr "La censura è stata revocata con successo."
+
+msgid "frm_copy"
+msgstr "Copia Forum"
+
+msgid "frm_default_view"
+msgstr "Vista predefinita"
+
+msgid "frm_edit_title"
+msgstr "Edita Titolo"
+
+#, fuzzy
+msgid "frm_enable_print_option"
+msgstr "Enable print option"
+
+#, fuzzy
+msgid "frm_enable_print_option_desc"
+msgstr "If disabled, nobody is able to select the print option in Forum."
+
+#, fuzzy
+msgid "frm_forum_push_notification_info"
+msgstr "Forum notifications are sent as push notifications instead of e-mail. If the push notification cannot be delivered, an e-mail will be sent instead."
+
+msgid "frm_mark_as_read"
+msgstr "Segna come letto"
+
+msgid "frm_mark_as_unread"
+msgstr "Segna come non letto"
+
+msgid "frm_max_notification_age"
+msgstr "Periodo massimo di notifica"
+
+msgid "frm_max_notification_age_info"
+msgstr "Si prega di definire il periodo massimo dei messaggi per inviare le notifiche. Si consiglia di scegliere un valore più alto rispetto all'intervallo programmato."
+
+msgid "frm_max_notification_age_unit"
+msgstr "Giorno/i"
+
+msgid "frm_merge_src"
+msgstr "Conversazione selezionata: %s"
+
+msgid "frm_merge_target"
+msgstr "Destinazione: %s"
+
+msgid "frm_moderator_f"
+msgstr "Moderatore"
+
+msgid "frm_moderator_m"
+msgstr "Moderatore"
+
+msgid "frm_moderator_n"
+msgstr "Moderation"
+
+msgid "frm_moderator_role_added_successfully"
+msgstr "Il Ruolo Moderatore è stato aggiunto."
+
+msgid "frm_moderators"
+msgstr "Moderatori"
+
+msgid "frm_moderators_detached_role_successfully"
+msgstr "Il ruolo di moderatore è stato rimosso per tutti gli utenti selezionati."
+
+msgid "frm_moderators_not_exist_yet"
+msgstr "Per favore seleziona un moderatore."
+
+msgid "frm_moderators_select_at_least_one"
+msgstr "Per favore, seleziona almeno un moderatore."
+
+msgid "frm_moderators_select_one"
+msgstr "Per favore, seleziona almeno un utente"
+
+msgid "frm_move_invalid_file_type"
+msgstr "Il thread \"%s\" ha un tipo di file non supportato allegato. Rimuovere il file o contattare l'amministratore del sistema per aggiungere questo tipo di file alla whitelist del tipo di file."
+
+msgid "frm_noti_message"
+msgstr "Messaggio:"
+
+msgid "frm_noti_new_post"
+msgstr "un nuovo messaggio è stato creato nel forum \"%1$s\"."
+
+#, fuzzy
+msgid "frm_noti_obj_crs"
+msgstr "course"
+
+#, fuzzy
+msgid "frm_noti_obj_grp"
+msgstr "group"
+
+msgid "frm_noti_subject_act_post"
+msgstr "Messaggio attivato nel forum \"%1$s\", conversazione \"%2$s\""
+
+msgid "frm_noti_subject_answ_post"
+msgstr "Messaggio risposto nel forum \"%1$s\", conversazione \"%2$s\""
+
+msgid "frm_noti_subject_cens_post"
+msgstr "Messaggio censurato nel forum \"%1$s\", conversazione \"%2$s\""
+
+msgid "frm_noti_subject_del_post"
+msgstr "Messaggio eliminato nel forum \"%1$s\", conversazione \"%2$s\""
+
+msgid "frm_noti_subject_del_thread"
+msgstr "Conversazione \"%2$s\" eliminata nel forum \"%1$s\""
+
+msgid "frm_noti_subject_new_post"
+msgstr "Nuovo messaggio nel forum \"%1$s\", conversazione \"%2$s\""
+
+msgid "frm_noti_subject_uncens_post"
+msgstr "Messaggio senza censura nel forum \"%1$s\", conversazione \"%2$s\""
+
+msgid "frm_noti_subject_upt_post"
+msgstr "Messaggio modificato nel forum \"%1$s\", conversazione \"%2$s\""
+
+msgid "frm_notification_activated"
+msgstr "Notifica Attivata"
+
+#, fuzzy
+msgid "frm_notification_bg_task_title"
+msgstr "Forum notification delivery"
+
+msgid "frm_notification_deactivated"
+msgstr "Notifica Disattivata"
+
+msgid "frm_post_not_activated_yet"
+msgstr "Non ancora attivato."
+
+msgid "frm_posts"
+msgstr "Forum Posts"
+
+msgid "frm_pseudonym"
+msgstr "Pseudonimo"
+
+msgid "frm_purifier_not_implemented_for_type_x"
+msgstr "Filtro per tipo %s non ancora implementato."
+
+msgid "frm_rating"
+msgstr "Classificazione"
+
+msgid "frm_revoke_censorship"
+msgstr "Revoca censura"
+
+msgid "frm_search"
+msgstr "Cerca"
+
+msgid "frm_selected_merge_src"
+msgstr "Selezionare una conversazione per unire: %s"
+
+msgid "frm_settings_form_header"
+msgstr "Impostazioni del forum"
+
+msgid "frm_settings_mod_functions_header"
+msgstr "Funzioni del moderatore"
+
+msgid "frm_settings_privacy_header"
+msgstr "Privacy"
+
+msgid "frm_settings_user_functions_header"
+msgstr "Funzioni utente"
+
+msgid "frm_statistics"
+msgstr "Statistiche"
+
+msgid "frm_statistics_disabled_for_participants"
+msgstr "Le statistiche sono disabilitate per i membri del forum."
+
+msgid "frm_statistics_enabled"
+msgstr "Abilita le statistiche"
+
+msgid "frm_statistics_enabled_desc"
+msgstr "Abilita le statistiche dei post a tutti i partecipanti"
+
+msgid "frm_statistics_ranking"
+msgstr "Classifica"
+
+msgid "frm_subject_setting"
+msgstr "Impostazioni Oggetto"
+
+msgid "frm_sure_delete_threads"
+msgstr "Sei sicuro di voler eliminare le seguenti discussioni?"
+
+msgid "frm_sure_merge_threads"
+msgstr "Sei sicuro di voler unire questi thread? Attenzione: questa azione non può essere annullata! Alla fine ILIAS scambia il thread di origine e di destinazione se il primo post del thread di origine viene creato prima del primo post del thread di destinazione."
+
+msgid "frm_task_publishing_draft_title"
+msgstr "Publishing of Draft \"%s\""
+
+msgid "frm_wizard_page"
+msgstr "Copia Forum (Passo 2/2)"
+
+msgid "is_read"
+msgstr "segna come letto"
+
+msgid "make_topics_non_sticky"
+msgstr "Crea Topics Non-Sticky"
+
+msgid "make_topics_sticky"
+msgstr "Crea Topics Sticky"
+
+msgid "mark_moderator_posts"
+msgstr "Segna i post del moderatore"
+
+msgid "mark_moderator_posts_desc"
+msgstr "Se attivato i messaggi dei moderatori saranno evidenziati"
+
+msgid "merge"
+msgstr "Unisci"
+
+msgid "merge_posts_into_thread"
+msgstr "Unire le registrazioni in altre conversazioni"
+
+msgid "merged_threads_successfully"
+msgstr "Le conversazioni selezionate sono state unite con successo"
+
+msgid "move_chosen_topics"
+msgstr "Muovi i topics selezionati."
+
+msgid "move_thread_to_forum"
+msgstr "Sposta conversazione in altri forum"
+
+msgid "new_post"
+msgstr "Nuovo messaggio"
+
+#, fuzzy
+msgid "new_thread_with_post"
+msgstr "New Thread with Posting"
+
+msgid "no_forum_selected"
+msgstr "Non è selezionato nessun forum dove spostare i topics selezionati."
+
+msgid "not_allowed_to_merge_into_another_forum"
+msgstr "Non è possibile unire le conversazioni di diversi forum."
+
+#, fuzzy
+msgid "notification_settings"
+msgstr "Notification Settings"
+
+#, fuzzy
+msgid "notify_censored"
+msgstr "Censored Posts"
+
+#, fuzzy
+msgid "notify_modified"
+msgstr "Modified Posts"
+
+#, fuzzy
+msgid "notify_post_deleted"
+msgstr "Deleted Posts"
+
+#, fuzzy
+msgid "notify_thread_deleted"
+msgstr "Deleted Threads"
+
+#, fuzzy
+msgid "notify_uncensored"
+msgstr "Uncensored Posts"
+
+msgid "number_of_threads"
+msgstr "Numero di discussioni visualizzate per pagina"
+
+msgid "please_choose_target"
+msgstr "Si prega di scegliere una conversazione come destinazione di unione."
+
+msgid "post_activation_desc"
+msgstr "Se abilitato, il moderatore dovrà attivare i nuovi post."
+
+msgid "post_censored_by"
+msgstr "messaggio censurato nel forum \"%2$s\", tramite\"%1$s\":"
+
+msgid "post_censored_comment_by_moderator"
+msgstr "Post Censurato, Commento del Moderatore"
+
+msgid "post_deleted_by"
+msgstr "i seguenti messaggi del forum \"%2$s\" sono stati eliminati da \"%1$s\":"
+
+#, fuzzy
+msgid "post_draft_info"
+msgstr "This posting draft is only visible for you."
+
+msgid "post_reply"
+msgstr "Re:"
+
+msgid "post_reply_count"
+msgstr "Re(%s):"
+
+msgid "post_uncensored_by"
+msgstr "un messaggio è stato censurato tramite \"%1$s\""
+
+msgid "post_updated_by"
+msgstr "messaggio successivamente modificato nel forum tramite \"%1$s\": \"%2$s\""
+
+msgid "preset_subject"
+msgstr "Imposta oggetto sulla risposta"
+
+msgid "publish"
+msgstr "Pubblica"
+
+#, fuzzy
+msgid "relevance"
+msgstr "Relevance"
+
+msgid "reopen_topics"
+msgstr "Riaprire"
+
+msgid "reply_to_postings"
+msgstr "Rispondi"
+
+#, fuzzy
+msgid "reset_limited_view"
+msgstr "Limited view on this post an all posts below it."
+
+#, fuzzy
+msgid "reset_limited_view_button"
+msgstr "Show entire thread"
+
+#, fuzzy
+msgid "reset_limited_view_info"
+msgstr "Limited view on this post and all posts below it."
+
+msgid "restore"
+msgstr "Ripristina"
+
+msgid "restore_draft_from_autosave"
+msgstr "Ripristina bozza"
+
+msgid "save_draft_successfully"
+msgstr "La bozza è stata salvata con successo."
+
+msgid "sel_threads_already_sticky"
+msgstr "Almeno una delle conversazioni selezionate è già permanente"
+
+msgid "sel_threads_already_unsticky"
+msgstr "Almeno uno dei thread selezionati è già non evidenziato"
+
+msgid "sel_threads_make_sticky"
+msgstr "Le conversazioni selezionate sono state segnate come permanenti"
+
+msgid "sel_threads_make_unsticky"
+msgstr "Le conversazioni selezionate non sono segnate ancora come permanenti"
+
+msgid "select_at_least_one_thread"
+msgstr "Per favore, seleziona almeno un topic."
+
+msgid "select_max_one_thread"
+msgstr "Per favore seleziona solo una discussione!"
+
+msgid "selected_threads_closed"
+msgstr "Le conversazioni selezionate sono state chiuse"
+
+msgid "selected_threads_reopened"
+msgstr "Le conversazioni selezionate sono state riaperte"
+
+msgid "sort_by_date"
+msgstr "Ordina per data"
+
+#, fuzzy
+msgid "sort_by_date_desc"
+msgstr "The thread is presented in a flat view. The postings are shown in chronological order of creation."
+
+msgid "sort_by_posts"
+msgstr "Ordina per post"
+
+#, fuzzy
+msgid "sort_by_posts_desc"
+msgstr "The thread is presented in a tree view. Replies to posts are shown in the order in which they relate to each other."
+
+msgid "sorting"
+msgstr "Ordinamento"
+
+msgid "sticky"
+msgstr "Incolla"
+
+msgid "sure_delete_drafts"
+msgstr "Sei sicuro di voler eliminare le bozze selezionate?"
+
+msgid "switch_threads_for_merge"
+msgstr "La conversazione selezionata è più datata rispetto a quella di destinazione. Per assicurarsi un’unione riuscita, la conversazione di origine e di destinazione verranno spostate."
+
+#, fuzzy
+msgid "target_select"
+msgstr "Select posting for limited view"
+
+#, fuzzy
+msgid "thema"
+msgstr "Threads"
+
+msgid "thread"
+msgstr "Argomento"
+
+msgid "thread_deleted_by"
+msgstr "le seguenti conversazioni del forum \"%2$s\" sono state eliminate da \"%1$s\":"
+
+#, fuzzy
+msgid "thread_overview"
+msgstr "Thread-Overview"
+
+msgid "threads_moved_successfully"
+msgstr "I topics selezionati sono stati spostati ad un altro forum, con esito positivo."
+
+#, fuzzy
+msgid "top_thema"
+msgstr "Top-Threads"
+
+msgid "topic_close"
+msgstr "Chiuso"
+
+msgid "topics_please_select_one_action"
+msgstr "Per favore seleziona un'azione"
+
+msgid "user_decides_notification"
+msgstr "Ogni utente decide sulle notifiche."

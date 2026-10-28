@@ -1,0 +1,1773 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sl\n"
+"Language-Team: Slovenian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=4; plural=(n % 100 == 1) ? 0 : ((n % 100 == 2) ? 1 : ((n % 100 == 3 || n % 100 == 4) ? 2 : 3));\n"
+"X-Domain: survey\n"
+
+msgid "SurveyMatrixQuestion"
+msgstr "Matrično vprašanje"
+
+msgid "SurveyMetricQuestion"
+msgstr "Metrično vprašanje"
+
+msgid "SurveyMultipleChoiceQuestion"
+msgstr "Vprašanje z več možnimi odgovori"
+
+msgid "SurveySingleChoiceQuestion"
+msgstr "Vprašanje z enim možnim odgovorom"
+
+msgid "SurveyTextQuestion"
+msgstr "Vnesi poljubno besedilo"
+
+msgid "add_heading"
+msgstr "Dodaj napis"
+
+msgid "already_completed_survey"
+msgstr "Anketo ste že izpolnili! Ankete ne morete izpolniti znova."
+
+msgid "anonymization"
+msgstr "Anonimizacija"
+
+msgid "anonymize_anonymous_introduction"
+msgstr "Za dostop do ankete morate uporabiti 5-mestno kodo ankete, ki jo lahko dobite od odgovorne osebe za to anketo.<br/>Vnesite jo v zgornje polje z besedilom."
+
+msgid "answer"
+msgstr "Odgovor"
+
+msgid "arithmetic_mean"
+msgstr "Aritmetična sredina"
+
+msgid "browse_for_questions"
+msgstr "Dodaj iz skupine"
+
+msgid "cancel_survey"
+msgstr "Prekini anketo"
+
+msgid "cannot_read_survey"
+msgstr "Nimate ustreznih pravic za dostop do podatkov o anketi!"
+
+msgid "cannot_switch_to_online_no_questions"
+msgstr "Statusa ni mogoče spremeniti v &quot;online (aktivirano)&quot; ker v anketo še niso bila dodana vprašanja!"
+
+msgid "cant_send_email_smtp_disabled"
+msgstr "Pošiljanje zunanje e-pošte je trenutno globalno onemogočeno."
+
+msgid "category"
+msgstr "Odgovor"
+
+msgid "category_nr_selected"
+msgstr "Število izbir"
+
+msgid "chart"
+msgstr "Diagram"
+
+msgid "codes"
+msgstr "Koda za dostop"
+
+msgid "codes_created"
+msgstr "Koda za dostop je ustvarjena"
+
+msgid "codes_deleted"
+msgstr "Koda za dostop je izbrisana"
+
+msgid "combobox"
+msgstr "Kombinirano polje"
+
+msgid "concatenation"
+msgstr "Povezava"
+
+msgid "confirm_delete_all_user_data"
+msgstr "Ali ste prepričani, da želite izbrisati vse uporabniške podatke ankete?"
+
+msgid "confirm_delete_single_user_data"
+msgstr "Ali ste prepričani, da želite izbrisati te udeležence? To bo izbrisalo vse podatke o anketi za izbrane uporabnike."
+
+msgid "confirm_remove_heading"
+msgstr "Ali ste prepričani, da želite odstraniti napis?"
+
+msgid "confirm_sync_questions"
+msgstr "Vprašanje, ki ste ga spremenili, je bilo z vstavljanjem v anketo ustvarjeno kot kopija originala. Ali želite spremembe zdaj uporabiti tudi za prvotno vprašanje?"
+
+msgid "conjunction_and"
+msgstr "če je izpolnjen vsak pogoj"
+
+msgid "conjunction_and_title"
+msgstr "Izpolni vsakega od naslednjih pogojev"
+
+msgid "conjunction_or"
+msgstr "če je izpolnjen en pogoj"
+
+msgid "conjunction_or_title"
+msgstr "Izpolni enega od naslednjih pogojev"
+
+msgid "constraint_add"
+msgstr "Dodaj pravilo razvejanja"
+
+msgid "constraint_fulfilled"
+msgstr "Prikaži stran"
+
+msgid "constraints"
+msgstr "Pravila razvejanja"
+
+msgid "constraints_first_question_description"
+msgstr "Prvi vnos ne more imeti pravila razvejanja, ker pred njim ni nobenega vnosa."
+
+msgid "constraints_introduction"
+msgstr "Pravila razvejanja lahko dodate za posamezno vprašanje ali za blok z več vprašanji. Odvisno od izbranega odgovora pri predhodnem vprašanju se kot naslednje prikaže določeno vprašanje. Na podlagi pravil razvejanja anketa v odvisnosti od odgovora postavi ustrezno vprašanje in se tako izogne neustreznim vprašanjem. Za prvo vprašanje oz. prvi blok vprašanj ni mogoče določiti pravila razvejanja."
+
+msgid "constraints_list_of_entities"
+msgstr "Razpoložljive zanke za pravila razvejanja"
+
+msgid "constraints_no_nonessay_available"
+msgstr "Ni predhodnih vprašanj, ki bi lahko bila uporabljena za pripravo pravil razvejanja. Naslednji tipi vprašanj so podprti: metrično vprašanje, vprašanje z enim mogočim odgovorom in vprašanje z več mogočimi odgovori."
+
+msgid "constraints_no_questions_or_questionblocks_selected"
+msgstr "Izberite vsaj eno vprašanje ali blok vprašanj!"
+
+msgid "contains"
+msgstr "Vsebuje"
+
+msgid "continue"
+msgstr "Naprej >>"
+
+msgid "create_new"
+msgstr "Ustvari novo"
+
+msgid "dc_agree"
+msgstr "strinjam se"
+
+msgid "dc_always"
+msgstr "vedno"
+
+msgid "dc_definitelyfalse"
+msgstr "nedvomno narobe"
+
+msgid "dc_definitelytrue"
+msgstr "nedvomno drži"
+
+msgid "dc_desired"
+msgstr "zaželeno"
+
+msgid "dc_disagree"
+msgstr "ne strinjam se"
+
+msgid "dc_fair"
+msgstr "primerno"
+
+msgid "dc_false"
+msgstr "narobe"
+
+msgid "dc_good"
+msgstr "dobro"
+
+msgid "dc_manytimes"
+msgstr "pogosto"
+
+msgid "dc_morenegative"
+msgstr "bolj negativno"
+
+msgid "dc_morepositive"
+msgstr "bolj pozitivno"
+
+msgid "dc_mostcertainly"
+msgstr "absolutno prepričan"
+
+msgid "dc_mostcertainlynot"
+msgstr "absolutno negotov"
+
+msgid "dc_must"
+msgstr "mora"
+
+msgid "dc_mustnot"
+msgstr "ne sme"
+
+msgid "dc_neutral"
+msgstr "nevtralen"
+
+msgid "dc_never"
+msgstr "nikoli"
+
+msgid "dc_no"
+msgstr "ne"
+
+msgid "dc_notacceptable"
+msgstr "nesprejemljivo"
+
+msgid "dc_poor"
+msgstr "nezadostno"
+
+msgid "dc_rarely"
+msgstr "redko"
+
+msgid "dc_should"
+msgstr "bi moral"
+
+msgid "dc_shouldnot"
+msgstr "ne bi smel"
+
+msgid "dc_sometimes"
+msgstr "včasih"
+
+msgid "dc_stronglyagree"
+msgstr "absolutno se strinjam"
+
+msgid "dc_stronglydesired"
+msgstr "absolutno zaželeno"
+
+msgid "dc_stronglydisagree"
+msgstr "absolutno se ne strinjam"
+
+msgid "dc_stronglyundesired"
+msgstr "absolutno nezaželeno"
+
+msgid "dc_true"
+msgstr "drži"
+
+msgid "dc_undecided"
+msgstr "neodločen"
+
+msgid "dc_undesired"
+msgstr "nezaželeno"
+
+msgid "dc_varying"
+msgstr "različno"
+
+msgid "dc_verygood"
+msgstr "zelo dobro"
+
+msgid "dc_yes"
+msgstr "da"
+
+msgid "default_codes_mail_message"
+msgstr "Vaša koda za dostop do ankete je [code]. Do ankete lahko kadarkoli dostopate na naslovu URL [url]."
+
+msgid "default_codes_mail_subject"
+msgstr "Vaša koda za dostop do ankete %s"
+
+msgid "define_questionblock"
+msgstr "Določi blok vprašanj"
+
+msgid "delete_saved_message"
+msgstr "Izbriši besedilo sporočila"
+
+msgid "display_all_available"
+msgstr "Prikaz vseh razpoložljivih"
+
+msgid "duplicate"
+msgstr "Kopiraj"
+
+msgid "edit_heading"
+msgstr "Uredi napis"
+
+msgid "end_date"
+msgstr "Končni datum"
+
+msgid "end_date_reached"
+msgstr "Ankete ne morete več začeti. Zadnji dopustni datum je bil prekoračen!"
+
+msgid "enter_anonymous_id"
+msgstr "Koda za dostop"
+
+msgid "enter_valid_number_of_codes"
+msgstr "Vnesite veljavno številko za ustvarjanje kod za dostop!"
+
+msgid "err_external_rcp_no_email"
+msgstr "Podatki za uvoz morajo vsebovati vsaj en stolpec 'e-pošta', tj. eno vrstico z naslovom 'e-pošta' in nadaljnje vrstice s posameznimi e-poštnimi naslovi."
+
+msgid "err_external_rcp_no_email_column"
+msgstr "Podatki za uvoz morajo vsebovati vsaj en stolpec 'e-pošta', tj. eno vrstico z naslovom 'e-pošta' in nadaljnje vrstice s posameznimi e-poštnimi naslovi."
+
+msgid "err_maxvaluegeminvalue"
+msgstr "Maksimalna vrednost mora biti večja ali enaka minimalni vrednosti in manjša ali enaka maksimalnemu številu odgovorov."
+
+msgid "err_minvalueganswers"
+msgstr "Minimalna vrednost ne sme biti večja od maksimalnega števila odgovorov."
+
+msgid "err_no_exact_answers"
+msgstr "Izberite točno %s odgovor/-ov."
+
+msgid "err_no_max_answers"
+msgstr "Izberite največ %s odgovorov."
+
+msgid "err_no_min_answers"
+msgstr "Izberite vsaj %s odgovor/-ov."
+
+msgid "error_retrieving_anonymous_survey"
+msgstr "Sistem ni mogel najti vaših podatkov o anketi pod kodo za dostop %s. Preverite kodo za dostop!"
+
+msgid "error_save_code"
+msgstr "Vrednosti niso bile pravilno shranjene. <b>E-pošta: '%s' ni veljavna.</b>. Ime: '%s', priimek: '%s'.<br>"
+
+msgid "evaluation"
+msgstr "Statistika"
+
+msgid "evaluation_access"
+msgstr "Dostop udeležencev do rezultatov"
+
+msgid "evaluation_access_all"
+msgstr "Vsi registrirani uporabniki ILIAS imajo dostop do rezultatov"
+
+msgid "evaluation_access_info"
+msgstr "Imate dostop do rezultatov ankete"
+
+msgid "evaluation_access_off"
+msgstr "Udeleženci nimajo dostopa do rezultatov"
+
+msgid "evaluation_access_participants"
+msgstr "Vsi udeleženci ankete imajo dostop do rezultatov"
+
+msgid "existing_constraints"
+msgstr "Obstoječa pravila razvejanja"
+
+msgid "exp_type_csv"
+msgstr "Vrednosti, ločene z vejico (CSV)"
+
+msgid "exp_type_excel"
+msgstr "Microsoft Excel"
+
+msgid "export_all_survey_codes"
+msgstr "Izvozi vse kode za dostop"
+
+msgid "export_label_only"
+msgstr "Izvozi samo oznake"
+
+msgid "export_title_label"
+msgstr "Izvozi naslove in oznake"
+
+msgid "export_title_only"
+msgstr "Izvozi samo naslove"
+
+msgid "external_recipients_imported"
+msgstr "Nobeni zunanji prejemniki niso bili uvoženi."
+
+msgid "externalmails"
+msgstr "Datoteka za uvoz"
+
+msgid "externalmails_info"
+msgstr "Datoteka za uvoz mora biti datoteka CSV. Stolpci morajo biti ločeni s podpičjem. Prva vrstica mora vsebovati naslove stolpcev. Datoteka mora vsebovati vsaj en stolpec z naslovom 'e-pošta' za zunanje prejemnike."
+
+msgid "externaltext"
+msgstr "Uvozi besedilo"
+
+msgid "externaltext_info"
+msgstr "Uvoženo besedilo mora biti razvrščeno v vrstice in stolpce. Stolpci morajo biti ločeni s podpičjem. Prva vrstica vsebuje naslove stolpcev. Besedilo mora vsebovati vsaj en vnos za e-poštni naslov posameznega prejemnika."
+
+msgid "filter_all_question_types"
+msgstr "Vsi tipi vprašanj"
+
+msgid "filter_all_questionpools"
+msgstr "Vse skupine vprašanj"
+
+msgid "finished_mail_subject"
+msgstr "Anketa \"%s\" je zaključena"
+
+msgid "freetext_answers"
+msgstr "Poljubni odgovori"
+
+msgid "geometric_mean"
+msgstr "Geometrijska sredina"
+
+msgid "given_answers"
+msgstr "Oddani odgovori"
+
+msgid "glossary_term"
+msgstr "Pojem iz glosarja"
+
+msgid "harmonic_mean"
+msgstr "Harmonična sredina"
+
+msgid "heading"
+msgstr "Napis"
+
+msgid "horizontal"
+msgstr "vodoravno"
+
+msgid "import_error_closing_file"
+msgstr "Napaka pri zapiranju datoteke za uvoz!"
+
+msgid "import_error_opening_file"
+msgstr "Napaka pri odpiranju datoteke za uvoz!"
+
+msgid "import_from_file"
+msgstr "Uvoz uporabniških podatkov iz datoteke"
+
+msgid "import_from_text"
+msgstr "Uvoz uporabniških podatkov iz besedila"
+
+msgid "import_no_file_selected"
+msgstr "Nobena datoteka ni izbrana!"
+
+msgid "import_question"
+msgstr "Uvozi vprašanje/-a"
+
+msgid "import_wrong_file_type"
+msgstr "Napačen tip datoteke!"
+
+msgid "insert_after"
+msgstr "Vstavi za"
+
+msgid "insert_before"
+msgstr "Vstavi pred"
+
+msgid "insert_missing_question"
+msgstr "Izberite vsaj eno vprašanje, ki ga želite vključiti v anketo!"
+
+msgid "insert_missing_questionblock"
+msgstr "Izberite vsaj en blok vprašanj, ki ga želite vključiti v anketo!"
+
+msgid "insert_saved_message"
+msgstr "Vstavi besedilo sporočila"
+
+msgid "internal_link"
+msgstr "Notranja referenca"
+
+msgid "introduction"
+msgstr "Uvod"
+
+msgid "invited_users"
+msgstr "Izbrani uporabnik"
+
+msgid "label"
+msgstr "Oznaka"
+
+msgid "label_info"
+msgstr "Alternativna oznaka za nadaljnjo obdelavo podatkov o vprašanjih (npr. v SPSS)"
+
+msgid "language_changed"
+msgstr "Jezik je spremenjen"
+
+msgid "layout"
+msgstr "Postavitev"
+
+msgid "lower_limit"
+msgstr "Spodnja meja"
+
+msgid "mail_import_example2"
+msgstr "ralfkoenig@domain.tld;Ralf;König"
+
+msgid "mail_import_example3"
+msgstr "ugoldschmidt@domain.tld;Ute;Goldschmidt"
+
+msgid "mail_sent_short"
+msgstr "Poslano"
+
+msgid "mail_survey_codes"
+msgstr "Pošlji kodo za dostop in sporočilo"
+
+msgid "mailaddresses"
+msgstr "Naslovi prejemnikov"
+
+msgid "mailaddresses_info"
+msgstr "Tukaj vnesite z vejicami ločen seznam prejemnikov, ki bodo prejeli sporočilo o zaključenih anketah."
+
+msgid "mailnotification"
+msgstr "Posamezna e-pošta za vsako zaključeno anketo"
+
+msgid "mailparticipantdata"
+msgstr "Dodatni podatki o udeležencu"
+
+msgid "mailparticipantdata_info"
+msgstr "Dodajte uvodno besedilo, ki bo vstavljeno v e-pošto pred podatki o rezultatih udeleženca."
+
+msgid "mailparticipantdata_placeholder"
+msgstr " Ta rezervirana mesta se bodo nadomestila z ustreznimi uporabniškimi podatki, ko bo 'Varstvo podatkov' nastavljeno na 'Z imenom'."
+
+msgid "maintenance"
+msgstr "Udeleženec"
+
+msgid "matrix_appearance"
+msgstr "Prikaz"
+
+msgid "matrix_bipolar_adjectives"
+msgstr "Pol in nasprotni pol"
+
+msgid "matrix_bipolar_adjectives_description"
+msgstr "Za natančnejši opis skale stolpca lahko uporabite vrednostni par s polom in nasprotnim polom"
+
+msgid "matrix_column_separators"
+msgstr "Ločilo stolpcev"
+
+msgid "matrix_column_separators_description"
+msgstr "Izberite kontrolni okvirček, če želite pri izdaji matričnega vprašanja imeti ločila (tanke črte) med stolpci."
+
+msgid "matrix_column_settings"
+msgstr "Lastnosti stolpcev"
+
+msgid "matrix_columns"
+msgstr "Matrični stolpci"
+
+msgid "matrix_left_pole"
+msgstr "Levi pol"
+
+msgid "matrix_neutral_answer"
+msgstr "Besedilo za nevtralni stolpec (\"Ni določeno\", \"Ne vem«, \"Ni podatka\" itd.)"
+
+msgid "matrix_neutral_column_separator"
+msgstr "Ločilo za nevtralni stolpec"
+
+msgid "matrix_neutral_column_separator_description"
+msgstr "Izberite kontrolni okvirček, če želite pri izdaji matričnega vprašanja imeti ločila (debele črte) med nevtralnim stolpcem in ostalimi stolpci."
+
+msgid "matrix_question_checkbox_not_checked"
+msgstr "V vsaki vrstici označite vsaj en kontrolni okvirček!"
+
+msgid "matrix_question_radio_button_not_checked"
+msgstr "V vsaki vrstici izberite gumb za možnosti!"
+
+msgid "matrix_right_pole"
+msgstr "Desni pol"
+
+msgid "matrix_row_separators"
+msgstr "Ločila vrstic"
+
+msgid "matrix_row_separators_description"
+msgstr "Izberite kontrolni okvirček, če želite pri izdaji matričnega vprašanja imeti ločila (tanke črte) med vrsticami."
+
+msgid "matrix_rows"
+msgstr "Matrične vrstice"
+
+msgid "matrix_standard_answers"
+msgstr "Besedilo stolpca"
+
+msgid "matrix_subtype_mr"
+msgstr "Potrditvena polja (več odgovorov)"
+
+msgid "matrix_subtype_sr"
+msgstr "Gumbi radia (en odgovor)"
+
+msgid "maxchars"
+msgstr "Maksimalno število dovoljenih znakov"
+
+msgid "maximum"
+msgstr "Maksimalna vrednost"
+
+msgid "median"
+msgstr "Mediana"
+
+msgid "median_between"
+msgstr "med"
+
+msgid "menuback"
+msgstr "Nazaj"
+
+msgid "menubacktosurvey"
+msgstr "Nazaj na anketo"
+
+msgid "message_content_info"
+msgstr "Vnesite besedilo sporočila za pošiljanje kode za dostop. Uporabite lahko rezervirana mesta [kode] (koda za dostop), [url] (URL te ankete) in rezervirana mesta, ki ste jih uporabili v podatkih za uvoz prejemnikov e-pošte: %s. Rezervirana mesta bodo zamenjana z uvoženimi podatki udeleženca."
+
+msgid "metric_question_floating_point"
+msgstr "Vnesena vrednost je številka s premično vejico. Številke s premično vejico niso dovoljene za ta tip vprašanj!"
+
+msgid "metric_question_not_a_value"
+msgstr "Vnesena vrednost ni številska vrednost!"
+
+msgid "metric_question_out_of_bounds"
+msgstr "Vrednost, ki ste jo vnesli, ni med minimalno in maksimalno vrednostjo!"
+
+msgid "metric_subtype_description_interval"
+msgstr "Značilnost je intervalno skalirana, če izpolnjuje zgolj določene lastnosti kvantitativne značilnosti. Zlasti morajo intervali (razlike) omogočati smiselno interpretacijo. Pojem se uporablja zgolj za razlikovanje od značilnosti, katerih poudarki imajo tudi nadaljnje lastnosti. Pomembno je poudariti, da ničelna točka lestvic, ki se uporabljajo za merjenje intervalno skalirane značilnosti, ni nujno naravno število. Primeri za intervalno skalirane značilnosti so npr. leta v koledarjih ali temperatura po Celzijevi lestvici."
+
+msgid "metric_subtype_description_ratioabsolute"
+msgstr "Kvantitativna značilnost pomeni absolutno skalirano značilnost, če se za njeno merjenje uporablja ena sama smiselna lestvica. To ima enak pomen kot dejstvo, da za značilnost pride v poštev ena sama smiselna enota, kot npr. število otrok v družini. Tudi značilnosti, katerih poudarki so bili merjeni v odstotkih, so absolutno skalirane (npr. verjetnosti)."
+
+msgid "metric_subtype_description_rationonabsolute"
+msgstr "Kvantitativna značilnost je relativno skalirana, če imajo lestvice, uporabljene za merjenje, skupno naravno ničelno točko. Razmerjem (količniki) med poudarki značilnosti relativno skalirane značilnosti se lahko dodeli smiselni pomen. Naravna ničelna točka namreč zagotavlja, da so razmerja med seboj ustreznih poudarkov, ki so bili merjeni po različnih lestvicah (tj. v drugih enotah), vedno enaki. Večina navedenih fizikalnih količin (hitrost v m/s ali km/h) je relativno skaliranih."
+
+msgid "minimum"
+msgstr "Minimalna vrednost"
+
+msgid "mode"
+msgstr "Najpogostejša izbira"
+
+msgid "mode_nr_of_selections"
+msgstr "Število izbir"
+
+msgid "mode_text"
+msgstr "Najpogostejša izbira (besedilo)"
+
+msgid "msg_duplicate_scale"
+msgstr "Vnesite edinstvene vrednosti lestvice."
+
+msgid "msg_enter_value_for_valid_constraint"
+msgstr "Vnesite vrednost, da ustvarite veljavno pravilo razvejanja."
+
+msgid "msg_input_only_positive_numbers"
+msgstr "Za vrednost lestvice vnesite številke večje od 0."
+
+msgid "msg_max_nr_answers"
+msgstr "Izberite največ %s odgovorov."
+
+msgid "msg_message_deleted"
+msgstr "Besedilo sporočila je izbrisano"
+
+msgid "msg_message_inserted"
+msgstr "Besedilo sporočila je vstavljeno"
+
+msgid "msg_min_max_exact_answers"
+msgstr "Izberite natančno %s odgovor/-ov."
+
+msgid "msg_min_max_nr_answers"
+msgstr "Izberite najmanj %s in največ %s odgovorov."
+
+msgid "msg_min_nr_answers"
+msgstr "Izberite najmanj %s odgovor/-ov."
+
+msgid "msg_no_message_deleted"
+msgstr "Izberite shranjeno besedilo sporočila za brisanje"
+
+msgid "msg_no_message_inserted"
+msgstr "Izberite besedilo sporočila za vstavljanje"
+
+msgid "new_survey_codes"
+msgstr "nova koda za dostop do ankete"
+
+msgid "no_question_selected_for_copy_to_pool"
+msgstr "Izberite vsaj eno vprašanje, ki še ni dodeljeno skupini vprašanj."
+
+msgid "no_question_selected_for_move"
+msgstr "Izberite vsaj eno vprašanje, da ga premaknete!"
+
+msgid "no_question_selected_for_removal"
+msgstr "Izberite vsaj eno vprašanje in/ali blok vprašanj, da ga odstranite!"
+
+msgid "no_target_selected_for_move"
+msgstr "Izbrati morate ciljni položaj!"
+
+msgid "non_ratio"
+msgstr "Intervalna skala"
+
+msgid "not_sent_only"
+msgstr "Pošlji samo novim prejemnikom (ki do zdaj še niso prejeli e-pošte)"
+
+msgid "not_used"
+msgstr "še ni uporabljeno"
+
+msgid "nr_max_answers"
+msgstr "Maksimum"
+
+msgid "nr_min_answers"
+msgstr "Minimum"
+
+msgid "obligatory"
+msgstr "obvezno"
+
+msgid "off"
+msgstr "Izklopljeno"
+
+msgid "on"
+msgstr "Za"
+
+msgid "or"
+msgstr "ali"
+
+msgid "orientation"
+msgstr "Poravnava"
+
+msgid "other_answer"
+msgstr "Drug odgovor"
+
+msgid "other_answer_label"
+msgstr "Oznaka dodatnega odgovora (neobvezno)"
+
+msgid "outro"
+msgstr "Zaključna opomba"
+
+msgid "please_enter_mail_url"
+msgstr "Uporabite rezervirano mesto za URL [url]."
+
+msgid "qpl_confirm_delete_questions"
+msgstr "Ali ste prepričani, da želite izbrisati naslednje/-a vprašanje/-a?"
+
+msgid "qpl_define_questionblock_select_missing"
+msgstr "Izberite vsaj dve vprašanji, če želite določiti skupino vprašanj!"
+
+msgid "qpl_delete_select_none"
+msgstr "Izberite vsaj eno vprašanje, da ga izbrišete!"
+
+msgid "qpl_export_select_none"
+msgstr "Izberite vsaj eno vprašanje, ki ga želite izvoziti!"
+
+msgid "qpl_questions_deleted"
+msgstr "Vprašanje/-a je/so izbrisano/-a."
+
+msgid "qpl_unfold_select_none"
+msgstr "Izberite vsaj en blok vprašanj, če želite rešiti blok vprašanj!"
+
+msgid "question_changed_in_survey_only"
+msgstr "Vprašanje je bilo spremenjeno samo v anketi"
+
+msgid "question_mr_no_other_answer"
+msgstr "Vnesite besedilo za prost odgovor"
+
+msgid "question_mr_no_other_answer_checked"
+msgstr "Ko vnašate besedilo odgovora, morate izbrati kontrolni okvirček"
+
+msgid "question_mr_not_checked"
+msgstr "Izberite vsaj enega od ponujenih odgovorov!"
+
+msgid "question_not_checked"
+msgstr "Izbrati morate enega od ponujenih odgovorov!"
+
+msgid "question_obligatory"
+msgstr "To vprašanje je obvezno!"
+
+msgid "question_sr_no_other_answer_checked"
+msgstr "Ko vnašate besedilo odgovora, morate izbrati izbirno polje"
+
+msgid "question_type"
+msgstr "Tip vprašanja"
+
+msgid "questionblock"
+msgstr "Blok vprašanj"
+
+msgid "questionblock_inserted"
+msgstr "Blok vprašanj je vstavljen"
+
+msgid "questionblocks"
+msgstr "Bloki vprašanj"
+
+msgid "questionblocks_inserted"
+msgstr "Bloki vprašanj so vstavljeni"
+
+msgid "questions"
+msgstr "Vprašanja"
+
+msgid "questions_inserted"
+msgstr "Vstavljeno/-a vprašanje/-a!"
+
+msgid "questions_removed"
+msgstr "Vprašanje/-a in/ali bloki vprašanj je bilo/so bili odstranjeno/-i!"
+
+msgid "questiontype"
+msgstr "Tip vprašanja"
+
+msgid "ratio_absolute"
+msgstr "Absolutno skalirano"
+
+msgid "ratio_non_absolute"
+msgstr "Relativno skalirano"
+
+msgid "recipients"
+msgstr "Prejemnik"
+
+msgid "remove_question"
+msgstr "Odstrani"
+
+msgid "remove_questions"
+msgstr "Ali ste prepričani, da želite naslednje/-a vprašanje/-a in/ali bloke vprašanj odstraniti iz ankete?"
+
+msgid "results"
+msgstr "Rezultati"
+
+msgid "resume_survey"
+msgstr "Nadaljuj z anketo"
+
+msgid "row_text"
+msgstr "Vrstica"
+
+msgid "save_obligatory_state"
+msgstr "obvezno-shrani status in razvrstitev"
+
+msgid "save_reuse_message"
+msgstr "Shrani besedilo sporočila za nadaljnjo uporabo"
+
+msgid "save_reuse_title"
+msgstr "Naslov vsebine sporočila"
+
+msgid "saved_messages"
+msgstr "Razpoložljiva besedila sporočila"
+
+msgid "scale"
+msgstr "Scale"
+
+msgid "search_groups"
+msgstr "Skupine"
+
+msgid "search_term"
+msgstr "Iskalni pojem/pojmi"
+
+msgid "select_option"
+msgstr "--- Izberite odgovor ---"
+
+msgid "select_prior_question"
+msgstr "Izberi prejšnje vprašanje"
+
+msgid "select_relation"
+msgstr "Izberi razmerje"
+
+msgid "select_target_position_for_move_question"
+msgstr "Izberite ciljni položaj za premikanje vprašanj in pritisnite enega od gumbov za vstavljanje!"
+
+msgid "select_value"
+msgstr "Določi vrednost"
+
+msgid "selection"
+msgstr "Izbira"
+
+msgid "send_to_all"
+msgstr "Vsem vnesenim zunanjim prejemnikom kod za dostop"
+
+msgid "send_to_answered"
+msgstr "Vsem prejemnikom, ki so že zaključili anketo"
+
+msgid "send_to_unanswered"
+msgstr "Vsem prejemnikom, ki še niso zaključili ankete (opomnik)"
+
+msgid "show_questiontext"
+msgstr "Prikaži besedilo vprašanja"
+
+msgid "show_questiontext_description"
+msgstr "Če je ta kontrolni okvirček aktiviran, se za vsako vprašanje znotraj bloka vprašanj prikaže besedilo vprašanja (privzeto). Če ta kontrolni okvirček ni aktiviran, se besedila vprašanj ne prikažejo, ampak so ponujeni samo odgovori. To je lahko smiselno, če ponudite več vprašanj z identičnimi besedili v enem bloku vprašanj."
+
+msgid "skipped"
+msgstr "preskočeno"
+
+msgid "spl_copy_insert_clipboard"
+msgstr "Izbrana vprašanja so bila kopirana v odložišče"
+
+msgid "spl_copy_select_none"
+msgstr "Izberite vsaj eno vprašanje za kopiranje"
+
+msgid "spl_move_insert_clipboard"
+msgstr "Izbrana vprašanja so bila označena za premikanje"
+
+msgid "spl_move_same_pool"
+msgstr "Vprašanj ne morete premikati znotraj iste skupine vprašanj"
+
+msgid "spl_move_select_none"
+msgstr "Izberite vsaj eno vprašanje za premikanje"
+
+msgid "spl_online_property"
+msgstr "Online"
+
+msgid "spl_paste_no_objects"
+msgstr "V odložišču ni nobenih vprašanj. Uporabite gumb za kopiranje ali premikanje."
+
+msgid "spl_paste_success"
+msgstr "Vprašanje/-a je/so vstavljeno/-a"
+
+msgid "spl_save_obligatory_state"
+msgstr "obvezno shrani status"
+
+msgid "start_date"
+msgstr "Začetni datum"
+
+msgid "start_date_not_reached"
+msgstr "Z anketo lahko začnete šele na začetni datum!"
+
+msgid "start_survey"
+msgstr "Začni anketo"
+
+msgid "subtype"
+msgstr "Podtip"
+
+msgid "survey_360_add_external_rater"
+msgstr "Dodaj zunanjega dajalca povratnih informacij"
+
+msgid "survey_360_add_self_appraisee"
+msgstr "Dodajte sebe kot prejemnika povratnih informacij"
+
+msgid "survey_360_appraisee"
+msgstr "Prejemnik povratnih informacij"
+
+msgid "survey_360_appraisee_close_action"
+msgstr "Zapri anketo za dajalce povratnih informacij"
+
+msgid "survey_360_appraisee_close_action_info"
+msgstr "To vam bo omogočilo dostop do statistike."
+
+msgid "survey_360_appraisee_close_action_info_skill"
+msgstr "To vam bo omogočilo dostop do statistike in vaše ravni kompetenz bodo posodobljene."
+
+msgid "survey_360_appraisee_close_action_status"
+msgstr "Anketa je bila zaključena dne %s."
+
+msgid "survey_360_appraisee_close_action_success"
+msgstr "360-stopinjsko anketo ste zaprli za dajalce povratnih informacij."
+
+msgid "survey_360_appraisee_close_action_success_admin"
+msgstr "360-stopinjske ankete prejemnikov povratnih informacij so bile zaprte."
+
+msgid "survey_360_appraisee_close_table"
+msgstr "Zaprto dne"
+
+msgid "survey_360_appraisee_is_closed"
+msgstr "Prejemnik povratnih informacij je zaprl anketo."
+
+msgid "survey_360_appraisees"
+msgstr "Prejemnik povratnih informacij"
+
+msgid "survey_360_edit_raters"
+msgstr "Upravljaj dajalce povratnih informacij"
+
+msgid "survey_360_mode"
+msgstr "Povratne informacije 360 stopinj"
+
+msgid "survey_360_mode_info"
+msgstr "Za ocenjevanje oseb s strani kolegov"
+
+msgid "survey_360_no_appraisees"
+msgstr "Trenutno ne morete oddati povratne informacije."
+
+#, fuzzy
+msgid "survey_360_rate_other_appraisee"
+msgstr "Rate Appraisee"
+
+msgid "survey_360_rater_finished"
+msgstr "Anketa je zaključena"
+
+msgid "survey_360_rater_mail_sent"
+msgstr "E-pošta je poslana"
+
+msgid "survey_360_rater_message_content_anonymous"
+msgstr "Vsebina (anonimno)"
+
+msgid "survey_360_rater_message_content_anonymous_default"
+msgstr "Vaša koda za dostop je [code]. Anketo lahko začnete v svojem spletnem brskalniku na naslednjem URL [url] naslovu."
+
+msgid "survey_360_rater_message_content_registered"
+msgstr "Vsebina (registrirani uporabniki)"
+
+msgid "survey_360_rater_message_content_registered_default"
+msgstr "Anketo lahko začnete v svojem spletnem brskalniku na naslednjem URL [url] naslovu."
+
+msgid "survey_360_rater_subject_default"
+msgstr "Kot dajalec povratnih informacij ste bili povabljeni v 360-stopinjsko anketo."
+
+msgid "survey_360_raters"
+msgstr "Dajalci povratnih informacij"
+
+msgid "survey_360_raters_finished"
+msgstr "Zaključene povratne informacije"
+
+msgid "survey_360_remove_appraisees"
+msgstr "Odstrani prejemnika povratnih informacij"
+
+msgid "survey_360_results"
+msgstr "Prejemniki povratnih informacij imajo vpogled v odgovore"
+
+msgid "survey_360_results_all"
+msgstr "Vse povratne informacije"
+
+msgid "survey_360_results_all_info"
+msgstr "Vsi prejemniki povratnih informacij iz 360-stopinjske ankete lahko vidijo vse povratne informacije, ki so jih dajalci povratnih informacij dali njim in vsem drugim prejemnikom povratnih informacij."
+
+msgid "survey_360_results_none"
+msgstr "Ni dostopa"
+
+msgid "survey_360_results_none_info"
+msgstr "Prejemniki povratnih informacij nimajo vpogleda v odgovore, ki so jih izbrali dajalci povratnih informacij."
+
+msgid "survey_360_results_own"
+msgstr "Samo lastni dajalci povratnih informacij"
+
+msgid "survey_360_results_own_info"
+msgstr "Prejemnik povratnih informacij osebe lahko vidijo samo odgovore, ki so jih dajalci povratnih informacij izbrali za njih osebno."
+
+msgid "survey_360_select_appraisee"
+msgstr "Izberi"
+
+msgid "survey_360_self_appraisee"
+msgstr "Odprte 360-stopinjske povratne informacije"
+
+msgid "survey_360_self_appraisee_info"
+msgstr "Vsem uporabnikom se prikaže povezava v zavihku \"Info\". Preko te povezave se lahko sami dodajo kot prejemniki povratnih informacij za to anketo."
+
+msgid "survey_360_self_evaluation"
+msgstr "Samoocenjevanje"
+
+msgid "survey_360_self_evaluation_info"
+msgstr "Prejemniki povratnih informacij se lahko na podlagi vprašanj ocenijo sami."
+
+msgid "survey_360_self_raters"
+msgstr "Izberi dajalce povratnih informacij"
+
+msgid "survey_360_self_raters_info"
+msgstr "Prejemniki povratnih informacij sami izberejo osebe, ki naj jim posredujejo povratne informacije. Izbrane osebe same tudi povabijo."
+
+msgid "survey_360_sure_appraisee_close"
+msgstr "Ali res želite zapreti anketo za vse dajalce povratnih informacij?"
+
+msgid "survey_360_sure_appraisee_close_admin"
+msgstr "Ali res želite zapreti anketo za naslednje prejemnike povratnih informacij?"
+
+msgid "survey_360_sure_delete_appraises"
+msgstr "Ali res želite odstraniti naslednje ocenjevane osebe?"
+
+msgid "survey_360_sure_delete_raters"
+msgstr "Ali res želite odstraniti naslednje dajalce povratnih informacij za %s?"
+
+msgid "survey_access_code"
+msgstr "Avtentikacija s kodo za dostop"
+
+msgid "survey_access_codes_info"
+msgstr "Uporabniki dobijo dostop do ankete z vnosom kode za dostop v zavihku 'Info'.  Te kode za dostop se ustvarijo v istoimenskem podzavihku zavihku 'Udeleženec'."
+
+msgid "survey_activate_skill_service"
+msgstr "Aktiviraj kompetenčno podporo"
+
+msgid "survey_activate_skill_service_info"
+msgstr "Prikazal se bo nadaljnji zavihek 'Kompetence'. Tukaj so najprej vprašanjem dodeljene kompetence in nato se nastavijo mejne vrednosti za doseganje določene ravni kompetenc."
+
+msgid "survey_add_new_question"
+msgstr "Ustvari vprašanje"
+
+msgid "survey_assign_competence"
+msgstr "Dodeli kompetenco"
+
+msgid "survey_auto_block_title"
+msgstr "Naslov strani"
+
+msgid "survey_available_question_pools"
+msgstr "Razpoložljive skupine"
+
+msgid "survey_calc_skills"
+msgstr "Določi ravni kompetenc"
+
+#, fuzzy
+msgid "survey_calculate_sum_score"
+msgstr "Calculate Sum Score"
+
+#, fuzzy
+msgid "survey_calculate_sum_score_info"
+msgstr "Calculates the sum of all scale values for single choice, multiple choice and matrix questions for each participant. Caution: If participants skip these kind of questions, the whole sum score will not be calculated anymore."
+
+msgid "survey_cancel_preview"
+msgstr "Prekini predogled"
+
+msgid "survey_cannot_preview_survey"
+msgstr "Predogled ni na voljo"
+
+msgid "survey_code"
+msgstr "Koda za dostop"
+
+msgid "survey_code_delete_sure"
+msgstr "Ali res želite izbrisati naslednje kode za dostop?"
+
+msgid "survey_code_url"
+msgstr "URL za neposredni dostop"
+
+msgid "survey_code_url_name"
+msgstr "URL <small>(za kopiranje URL uporabite desni gumb miške)</small>"
+
+msgid "survey_code_used"
+msgstr "Koda za dostop je bila ..."
+
+msgid "survey_codes_lang"
+msgstr "Predizbor uporabniškega jezika v URL"
+
+msgid "survey_codes_no_anonymization"
+msgstr "Ustvariti morate anonimno anketo s kodami za dostop, da lahko ustvarite kode za dostop!"
+
+msgid "survey_competences"
+msgstr "Kompetence"
+
+msgid "survey_constraint_deleted"
+msgstr "Pravilo je bilo izbrisano."
+
+msgid "survey_copy_questions_to_pool"
+msgstr "Dodaj v skupino vprašanj"
+
+msgid "survey_copy_select_questionpool"
+msgstr "Skupina vprašanj, v katero naj se odlagajo vprašanja"
+
+msgid "survey_copy_to_questionpool_success"
+msgstr "Vprašanja so bila uspešno kopirana v skupino vprašanj."
+
+msgid "survey_delete_heading"
+msgstr "Odstrani napis"
+
+msgid "survey_edit_heading"
+msgstr "Uredi napis"
+
+msgid "survey_edit_settings"
+msgstr "Uredi nastavitve"
+
+msgid "survey_error_insert_incomplete_question"
+msgstr "V anketo ste poskušali dodati nepopolno vprašanje. Vprašanje ni bilo dodano."
+
+msgid "survey_execution_exit"
+msgstr "Nazaj na magazin"
+
+#, fuzzy
+msgid "survey_execution_exit_360"
+msgstr "Back"
+
+msgid "survey_execution_sure_finish"
+msgstr "Ali res želite zaključiti anketo? Po tem odgovorov ne boste mogli več popravljati."
+
+msgid "survey_finish"
+msgstr "Zaključi anketo >>"
+
+msgid "survey_finished"
+msgstr "Anketa je zaključena. Hvala za sodelovanje!"
+
+msgid "survey_has_datasets_warning"
+msgstr "Anketa že vsebuje podatkovne zapise udeleženca. Vprašanja lahko ponovno urejate šele, ko izbrišete vse podatkovne zapise udeleženca."
+
+msgid "survey_has_datasets_warning_page_view"
+msgstr "Anketa že vsebuje podatkovne zapise udeleženca. Vprašanja lahko ponovno urejate šele, ko izbrišete vse podatkovne zapise udeleženca."
+
+msgid "survey_has_datasets_warning_page_view_link"
+msgstr "Uredi podatkovne zapise udeleženca"
+
+msgid "survey_introduction_info"
+msgstr "To besedilo se trajno prikazuje v zavihku 'Info'."
+
+msgid "survey_is_offline"
+msgstr "Ne morete začeti z anketo! Anketa je brez spletne povezave (ni aktivirana)."
+
+msgid "survey_next"
+msgstr "Naprej >>"
+
+msgid "survey_not_available"
+msgstr "ni relevantno"
+
+msgid "survey_notification_finished_introduction"
+msgstr "naslednji udeleženec je zaključil anketo."
+
+msgid "survey_notification_finished_reason"
+msgstr "To sporočilo ste prejeli, ker ste omoočili funkcijo obveščanja za zgoraj omenjeno anketo."
+
+msgid "survey_notification_target_group"
+msgstr "Ciljna skupina"
+
+msgid "survey_notification_target_group_invited"
+msgstr "All users manually invited to the survey"
+
+msgid "survey_notification_target_group_invited_info"
+msgstr "Aktualno število prejemnikov: %s"
+
+msgid "survey_notification_target_group_parent_course"
+msgstr "Vsi udeleženci nadrejenega tečaja/skupine, ki še niso zaključili ankete"
+
+msgid "survey_notification_target_group_parent_course_inactive"
+msgstr "Ni nobenega nadrejenega tečaja/skupine – opomnik ni mogoč!"
+
+msgid "survey_notification_tutor_body"
+msgstr "naslednjo anketo so zaključili vsi udeleženci<br /><br />"
+
+msgid "survey_notification_tutor_link"
+msgstr "Povezava do ankete"
+
+msgid "survey_notification_tutor_recipients"
+msgstr "Mentorji (uporabniška imena)"
+
+msgid "survey_notification_tutor_recipients_invalid"
+msgstr "Navedite uporabnike s pravico za pisanje."
+
+msgid "survey_notification_tutor_salutation"
+msgstr "Pozdravljeni %s,"
+
+msgid "survey_notification_tutor_setting"
+msgstr "E-pošta, ko so vsi udeleženci zaključili"
+
+msgid "survey_notification_tutor_subject"
+msgstr "Vsi udeleženci so zaključili anketo \"% s\""
+
+msgid "survey_order"
+msgstr "Razvrstitev"
+
+msgid "survey_previous"
+msgstr "<< Nazaj"
+
+msgid "survey_question_editor"
+msgstr "Pogled seznama"
+
+msgid "survey_question_obligatory"
+msgstr "(To vprašanje je obvezno. Nanj morate odgovoriti!)"
+
+msgid "survey_question_pool"
+msgstr "Skupina vprašanj"
+
+msgid "survey_question_pool_title"
+msgstr "Naslov skupine"
+
+msgid "survey_question_title"
+msgstr "Naslov vprašanja"
+
+msgid "survey_questions"
+msgstr "Vprašanja"
+
+msgid "survey_questions_to_clipboard_copy"
+msgstr "Vprašanja so bila kopirana v odložišče. Izberite cilj ali izpraznite odložišče."
+
+msgid "survey_reached_level"
+msgstr "Dosežena raven"
+
+msgid "survey_reminder_body"
+msgstr "naslednje ankete še niste zaključili"
+
+msgid "survey_reminder_cron"
+msgstr "Remind users to participate / Send results to tutors"
+
+msgid "survey_reminder_cron_info"
+msgstr "Če je aktivirano, bodo uporabniki opomnjeni na udeležbo v anketah."
+
+msgid "survey_reminder_end"
+msgstr "Konec"
+
+msgid "survey_reminder_frequency"
+msgstr "Pogostost opomnika"
+
+msgid "survey_reminder_frequency_days"
+msgstr "Dnevi"
+
+msgid "survey_reminder_link"
+msgstr "URL"
+
+msgid "survey_reminder_salutation"
+msgstr "Pozdravljeni %s,"
+
+msgid "survey_reminder_setting"
+msgstr "Opomni uporabnike na udeležbo"
+
+msgid "survey_reminder_start"
+msgstr "Začetek"
+
+msgid "survey_reminder_subject"
+msgstr "Anketa \"%s\" še ni bila urejena"
+
+msgid "survey_remove_competence"
+msgstr "Odstrani kompetenco"
+
+msgid "survey_results_anonymization"
+msgstr "Varstvo podatkov"
+
+msgid "survey_results_anonymized"
+msgstr "Brez imen / Anonimna anketa"
+
+msgid "survey_results_anonymized_info"
+msgstr "V zavihku 'Rezultati' se imena udeležencev nadomestijo s kodami. Uporabniki, ki imajo dostop do tega zavihka, ne morejo povezati odgovorov z imeni, ampak samo z uporabnikom 'iTXaF' (primer)."
+
+msgid "survey_results_finished"
+msgstr "Anketa je zaključena"
+
+msgid "survey_results_not_started"
+msgstr "Anketa se ni začela"
+
+msgid "survey_results_personalized"
+msgstr "Z imeni"
+
+msgid "survey_results_personalized_info"
+msgstr "V zavihku 'Rezultati' so prikazana imena udeležencev in njihovi odgovori. Vsi uporabniki, ki imajo dostop do tega zavihka, lahko vidijo, kdo je dal kateri odgovor."
+
+msgid "survey_results_started"
+msgstr "Anketa se je začela"
+
+msgid "survey_show_blocktitle"
+msgstr "Prikaži naslov bloka"
+
+msgid "survey_show_blocktitle_description"
+msgstr "Če je ta kontrolni okvirček aktiviran, bo v anketi prikazan naslov bloka."
+
+msgid "survey_skill"
+msgstr "Kompetenca"
+
+msgid "survey_skill_assign"
+msgstr "Dodelitev vprašanj kompetencam"
+
+msgid "survey_skill_level"
+msgstr "Raven kompetenc"
+
+msgid "survey_skill_max_scale_points"
+msgstr "Maks. točke na lestvici"
+
+msgid "survey_skill_nr_q"
+msgstr "Število vprašanj"
+
+msgid "survey_skill_thresholds"
+msgstr "Mejna vrednost kompetenc"
+
+msgid "survey_start"
+msgstr "<< Na začetno stran"
+
+msgid "survey_sum_of_means"
+msgstr "Vsota aritmetične sredine vprašanja"
+
+msgid "survey_sure_delete_constraint"
+msgstr "Ali res želite izbrisati pravilo razvejanja \"%1$s\" vprašanja \"%2$s\"?"
+
+msgid "survey_sure_delete_questions"
+msgstr "Ali res želite izbrisati naslednja vprašanja oz. naslove?"
+
+msgid "survey_sync_insufficient_permissions"
+msgstr "Ni dovolj pogojev."
+
+msgid "survey_sync_question_copies"
+msgstr "Sinhroniziraj kopije vprašanj"
+
+msgid "survey_sync_question_copies_info"
+msgstr "Vsa izbrana vprašanja bodo zamenjana aktualno različico vprašanja v skupini."
+
+msgid "survey_sync_success"
+msgstr "Izbrana vprašanja so bila posodobljena."
+
+msgid "survey_up_to_x_points"
+msgstr "Do x točk"
+
+msgid "survey_use_start_button"
+msgstr "Anketo lahko začnete samo preko gumba \"Začni anketo\"!"
+
+msgid "svy_activation_limited_visibility_info"
+msgstr "Izven navedenega obdobja bo prikazan samo naslov ankete, dostop do vprašanj ni možen."
+
+msgid "svy_activation_online_info"
+msgstr "Le če je anketa na spletu, lahko uporabniki v njej sodelujejo."
+
+#, fuzzy
+msgid "svy_add_internal_user"
+msgstr "Add User"
+
+#, fuzzy
+msgid "svy_add_internal_user_info"
+msgstr "The rater has a registered user on this platform."
+
+#, fuzzy
+msgid "svy_add_rater"
+msgstr "Add Rater"
+
+#, fuzzy
+msgid "svy_all_raters"
+msgstr "All Raters"
+
+msgid "svy_all_survey_competences"
+msgstr "Vse kompetence ankete"
+
+msgid "svy_all_user_data_deleted"
+msgstr "Vsi uporabniški podatki ankete so bili izbrisani!"
+
+msgid "svy_analysis"
+msgstr "Analiza"
+
+msgid "svy_anonymous_participants"
+msgstr "Seznam udeležencev"
+
+msgid "svy_anonymous_participants_info"
+msgstr "Če je aktivirano, se lahko pri anonimnih anketah ustvari seznam udeležencev."
+
+msgid "svy_anonymous_participants_min"
+msgstr "Minimalno število udeležencev"
+
+msgid "svy_anonymous_participants_min_info"
+msgstr "Seznam bo prikazan šele, ko bo doseženo to število udeležencev."
+
+msgid "svy_anonymous_participants_svy"
+msgstr "Seznam udeležencev"
+
+msgid "svy_anonymous_participants_svy_info"
+msgstr "Če je aktivirano, je seznam udeležencev na voljo po končnem datumu."
+
+msgid "svy_answer_too_long"
+msgstr "Vaš odgovor je predolg (%s znakov). Skrajšajte svoj odgovor."
+
+#, fuzzy
+msgid "svy_app_see_rater_info"
+msgstr "Appraisees can access rater information in the results screens, including names and e-mail addresses, if entered before when adding raters."
+
+msgid "svy_appraisses_cannot_be_raters"
+msgstr "Uporabniki sami se ne morejo dodati kot dajalci povratnih informacij. Namesto tega uporabite možnost \"Samoocenjevanje\" v nastavitvah ankete."
+
+msgid "svy_back"
+msgstr "Nazaj"
+
+msgid "svy_categories"
+msgstr "Odgovori"
+
+msgid "svy_check_evaluation_access_introduction"
+msgstr "Ker je ta ocena na voljo samo udeležencem ankete, morate za odpiranje ocene vnesti svojo kodo za dostop."
+
+msgid "svy_check_evaluation_authentication_needed"
+msgstr "Potrebna je avtentikacija"
+
+msgid "svy_check_evaluation_wrong_key"
+msgstr "Vnesli ste napačno kodo za dostop do ankete ali niste sodelovali v anketi. Zato je bil vaš dostop do ocene zavrnjen."
+
+#, fuzzy
+msgid "svy_compress_view"
+msgstr "Compressed View"
+
+#, fuzzy
+msgid "svy_compress_view_info"
+msgstr "If activated, all single choice questions with similar scales will be presented matrix-like."
+
+msgid "svy_copy"
+msgstr "Kopiraj anketo"
+
+msgid "svy_create_question"
+msgstr "Ustvari vprašanje"
+
+msgid "svy_delete_all_user_data"
+msgstr "Izbriši vse uporabniške podatke"
+
+#, fuzzy
+msgid "svy_dont_send"
+msgstr "Don't send a message"
+
+msgid "svy_eval_captions"
+msgstr "Indikator"
+
+msgid "svy_eval_captions_abs"
+msgstr "Število"
+
+msgid "svy_eval_captions_abs_perc"
+msgstr "Število in odstotek"
+
+msgid "svy_eval_captions_perc"
+msgstr "Odstotek"
+
+msgid "svy_eval_competences"
+msgstr "Rezultati kompetenc"
+
+msgid "svy_eval_cumulated"
+msgstr "Pregled"
+
+msgid "svy_eval_detail"
+msgstr "Podrobni rezultati"
+
+msgid "svy_eval_skipped_value"
+msgstr "Rezultati: \"preskočeno\""
+
+msgid "svy_eval_skipped_value_custom"
+msgstr "Uporabi prilagojeno vrednost"
+
+msgid "svy_eval_skipped_value_custom_info"
+msgstr "Vnesite vrednost (ali pustite prazno), ki bo uporabljena za preskočene odgovore"
+
+msgid "svy_eval_skipped_value_custom_value"
+msgstr "Vrednost"
+
+msgid "svy_eval_skipped_value_lng"
+msgstr "Prevzemi vrednost iz jezikovne datoteke"
+
+msgid "svy_eval_skipped_value_lng_info"
+msgstr "Aktualna vrednost: \"%s\""
+
+msgid "svy_eval_user"
+msgstr "Na udeleženca"
+
+msgid "svy_eval_view"
+msgstr "Prikaz"
+
+msgid "svy_eval_view_charts"
+msgstr "Grafika"
+
+msgid "svy_eval_view_tables"
+msgstr "Tabela"
+
+msgid "svy_eval_view_tables_charts"
+msgstr "Tabela in grafika"
+
+msgid "svy_evaluation_access_all_info"
+msgstr "Vsi registrirani uporabniki, ki imajo dostop do ankete, lahko vidijo tudi rezultate te ankete."
+
+msgid "svy_evaluation_access_off_info"
+msgstr "Dostop do rezultatov ankete imajo samo uporabniki, ki lahko urejajo anketo (pravica 'Uredi nastavitve')."
+
+msgid "svy_evaluation_access_participants_info"
+msgstr "Vsi uporabniki, ki so sodelovali v anketi, si lahko po zaključeni anketi ogledajo njene rezultate."
+
+msgid "svy_export_files"
+msgstr "Izvozi datoteke"
+
+msgid "svy_export_format"
+msgstr "Izvozi ankete kot"
+
+msgid "svy_export_pdf"
+msgstr "Export PDF"
+
+#, fuzzy
+msgid "svy_ext_rater_firstname"
+msgstr "First name of external rater"
+
+#, fuzzy
+msgid "svy_ext_rater_lastname"
+msgstr "Last name of external rater"
+
+#, fuzzy
+msgid "svy_external_rater"
+msgstr "Add External Rater"
+
+#, fuzzy
+msgid "svy_external_rater_info"
+msgstr "The rater is not registered on this platform."
+
+msgid "svy_fraction_of_selections"
+msgstr "Delež skupno izbranih možnosti odgovora"
+
+msgid "svy_gap_analysis"
+msgstr "Analiza praznine"
+
+msgid "svy_general_properties"
+msgstr "Splošne nastavitve"
+
+msgid "svy_import_codes"
+msgstr "Uvozi kodo"
+
+msgid "svy_import_codes_info"
+msgstr "Za ta uvoz je potrebna datoteka za izvoz \"%s\"."
+
+#, fuzzy
+msgid "svy_ind_feedb_info"
+msgstr "Users get distinct evaluations by others."
+
+#, fuzzy
+msgid "svy_ind_feedb_mode"
+msgstr "Individual Feedback"
+
+msgid "svy_mail_confirmation_subject"
+msgstr "Anketa \"%s\" - vaša potrditev udeležbe"
+
+#, fuzzy
+msgid "svy_mail_context_rater_invitation_info"
+msgstr "Invite raters to participate in a survey."
+
+#, fuzzy
+msgid "svy_mail_context_rater_invitation_survey_title"
+msgstr "Survey Title"
+
+#, fuzzy
+msgid "svy_mail_context_rater_invitation_title"
+msgstr "Survey: Rater Invitation"
+
+msgid "svy_mail_context_reminder_info"
+msgstr "Opomni uporabnike na udeležbo v anketi"
+
+msgid "svy_mail_context_reminder_survey_title"
+msgstr "Naslov ankete"
+
+msgid "svy_mail_context_reminder_title"
+msgstr "Anketa: Opomnik za udeležbo"
+
+msgid "svy_mail_own_results_body"
+msgstr "Udeležili ste se naslednje ankete:"
+
+msgid "svy_mail_own_results_subject"
+msgstr "Anketa \"%s\" - vaši odgovori"
+
+msgid "svy_mail_send_confirmation"
+msgstr "Pošlji potrdilo o udeležbi"
+
+msgid "svy_matrix_layout_percentages_sum_invalid"
+msgstr "Vsota nastavitev stolpcev ne dosega 100%."
+
+#, fuzzy
+msgid "svy_max_sum_score"
+msgstr "Maximum Sum Score"
+
+msgid "svy_neutral_answer"
+msgstr "Besedilo za nevtralni odgovor (\"Ni določeno\", \"Ne vem\", \"Ni podatka\" itd.)"
+
+#, fuzzy
+msgid "svy_no_appraisees_found"
+msgstr "No appraisees with feedbacks found."
+
+msgid "svy_notification_tutor_results"
+msgstr "One E-Mail including Survey Results"
+
+msgid "svy_notification_tutor_results_alert"
+msgstr "This requires an end date."
+
+msgid "svy_notification_tutor_results_info"
+msgstr "After reaching the end data a cron job will send an email with the detailed survey results attached to it."
+
+#, fuzzy
+msgid "svy_only_max_one_external_rater"
+msgstr "Please select only one external rater."
+
+msgid "svy_page_error"
+msgstr "Pri odgovoru na to vprašanje je prišlo do napake. Sporočilo o napaki najdete pri ustreznem vprašanju!"
+
+msgid "svy_page_errors"
+msgstr "Pri odgovoru na več vprašanj je prišlo do napak. Sporočila o napaki najdete pri ustreznih vprašanjih!"
+
+msgid "svy_participant"
+msgstr "Udeleženec"
+
+#, fuzzy
+msgid "svy_participants"
+msgstr "Participants"
+
+msgid "svy_participation"
+msgstr "Udeležba"
+
+#, fuzzy
+msgid "svy_please_select_unused_codes"
+msgstr "Please select at least one unused code."
+
+msgid "svy_print_hide_labels"
+msgstr "Skrij oznake"
+
+msgid "svy_print_show_labels"
+msgstr "Prikaži oznake"
+
+#, fuzzy
+msgid "svy_privacy_info"
+msgstr "Privacy"
+
+#, fuzzy
+msgid "svy_rater"
+msgstr "Rater"
+
+#, fuzzy
+msgid "svy_rater_see_app_info"
+msgstr "The names of appraisees will be presented to raters to enable them evaluating the questions."
+
+msgid "svy_reminder_mail_template"
+msgstr "Predloga za e-pošto"
+
+msgid "svy_reminder_mail_template_none"
+msgstr "Ne uporabi predloge"
+
+msgid "svy_result_mail_notification_info"
+msgstr "Po zaključeni anketi bodo odgovori udeleženca poslani vnesenim prejemnikom."
+
+msgid "svy_results"
+msgstr "Rezultati"
+
+msgid "svy_results_mail_confirm"
+msgstr "Udeleženec si lahko pošlje potrdilo o udeležbi"
+
+msgid "svy_results_mail_confirm_info"
+msgstr "Udeleženci si lahko po zaključeni anketi po e-pošti pošljejo potrdilo o udeležbi."
+
+msgid "svy_results_mail_own"
+msgstr "Priloži lastne odgovore"
+
+msgid "svy_results_mail_own_info"
+msgstr "Lastni odgovori bodo priloženi potrdilu o udeležbi."
+
+#, fuzzy
+msgid "svy_save_and_continue"
+msgstr "Save and Continue"
+
+msgid "svy_save_sync"
+msgstr "Posodobi shranjevanje in kopije"
+
+#, fuzzy
+msgid "svy_search_user"
+msgstr "Search User"
+
+#, fuzzy
+msgid "svy_search_user_info"
+msgstr "Search for users or roles and pick participants."
+
+msgid "svy_search_users"
+msgstr "Išči uporabnika"
+
+#, fuzzy
+msgid "svy_select_rater"
+msgstr "Select Rater"
+
+msgid "svy_selected_user_data_deleted"
+msgstr "Podatkovni zapisi ankete izbranih uporabnikov so bili uspešno izbrisani."
+
+msgid "svy_self_ev_access_results_all"
+msgstr "Dostop do samoocenjevanja vseh udeležencev"
+
+msgid "svy_self_ev_access_results_none"
+msgstr "Ni dostopa do rezultatov"
+
+msgid "svy_self_ev_access_results_own"
+msgstr "Dostop do samoocenjevanja"
+
+msgid "svy_self_ev_info"
+msgstr "Uporabi za samoocenjevanje"
+
+msgid "svy_self_ev_mode"
+msgstr "Samo samoocenjevanje"
+
+msgid "svy_settings_section_access"
+msgstr "Upravljanje ankete: Dostop"
+
+msgid "svy_settings_section_before_start"
+msgstr "Informacije pred začetkom ankete"
+
+msgid "svy_settings_section_finishing"
+msgstr "Zaključi anketo"
+
+msgid "svy_settings_section_question_behaviour"
+msgstr "Upravljanje ankete: Obnašanje vprašanja"
+
+msgid "svy_settings_section_reminders"
+msgstr "Opomniki"
+
+msgid "svy_show_questiontitles"
+msgstr "Prikaz naslova vprašanj"
+
+msgid "svy_skl_comp_assignm_not_supported"
+msgstr "Dodelitev kompetenc za ta tip vprašanja ni mogoča."
+
+#, fuzzy
+msgid "svy_sum_score"
+msgstr "Sum Score"
+
+#, fuzzy
+msgid "svy_type_of_rater"
+msgstr "Type of Rater"
+
+msgid "svy_view_own_results"
+msgstr "Poglej lastne odgovore"
+
+#, fuzzy
+msgid "svy_wrong_or_expired_code"
+msgstr "Sorry, you entered an invalid or expired code."
+
+msgid "text_maximum_chars_allowed"
+msgstr "Ne vnesite več kot največ %s znakov. Vsi znaki, ki presegajo to število, bodo samodejno izbrisani."
+
+msgid "text_question_not_filled_out"
+msgstr "Izpolniti morate vsa polja za odgovor!"
+
+msgid "unfold"
+msgstr "Reši blok vprašanj"
+
+msgid "upper_limit"
+msgstr "Zgornja meja"
+
+msgid "use_anonymous_id"
+msgstr "Prikaži kodo za dostop"
+
+msgid "use_anonymous_id_desc"
+msgstr "Pri anonimnih anketah se bo namesto uporabniškega imena prikazala koda za dostop. Če ta možnost ni izbrana, bo namesto tega prikazana veriga znakov \"Neznano\"."
+
+msgid "use_browser_print_function"
+msgstr "Uporabite funkcijo tiskanja v vašem spletnem brskalniku."
+
+msgid "use_min_answers"
+msgstr "Število odgovorov"
+
+msgid "use_min_answers_option"
+msgstr "Določi število odgovorov, ki so možni za izbiro"
+
+msgid "use_other_answer"
+msgstr "Poljubno besedilo"
+
+msgid "used"
+msgstr "uporabljeno"
+
+msgid "users_answered"
+msgstr "Odgovorjeno"
+
+msgid "users_invited"
+msgstr "%s uporabnikov je bilo povabljenih"
+
+msgid "users_skipped"
+msgstr "Preskočeno"
+
+msgid "values"
+msgstr "Vrednosti"
+
+msgid "vertical"
+msgstr "navpično"
+
+msgid "warning_question_not_complete"
+msgstr "Vprašanje ni popolno!"
+
+msgid "workingtime"
+msgstr "Čas urejanja"

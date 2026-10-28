@@ -51,5 +51,9 @@ class CmiXapi implements Component\Component
             $this,
             'cmxv'
         );
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'cmix'
+        );
     }
 }

@@ -1,0 +1,2758 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: zh\n"
+"Language-Team: Chinese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: meta\n"
+
+#, fuzzy
+msgid "adt_error_max_length"
+msgstr "Please enter a shorter text."
+
+#, fuzzy
+msgid "md_adn_int_error_no_default"
+msgstr "Please select on activated language as \"Default-Language\"."
+
+msgid "md_adv_active"
+msgstr "激活"
+
+msgid "md_adv_added_new_record"
+msgstr "已添加新的数据集"
+
+#, fuzzy
+msgid "md_adv_col_presentation_ordering"
+msgstr "Position"
+
+#, fuzzy
+msgid "md_adv_confirm_definition"
+msgstr "Please confirm the new definition settings."
+
+#, fuzzy
+msgid "md_adv_confirm_definition_select_option"
+msgstr "Deleted Option"
+
+#, fuzzy
+msgid "md_adv_confirm_definition_select_option_all"
+msgstr "Handle all existing entries the same"
+
+#, fuzzy
+msgid "md_adv_confirm_definition_select_option_all_action"
+msgstr "New Value"
+
+#, fuzzy
+msgid "md_adv_confirm_definition_select_option_overwrite"
+msgstr "Set value to"
+
+#, fuzzy
+msgid "md_adv_confirm_definition_select_option_remove"
+msgstr "Remove value"
+
+#, fuzzy
+msgid "md_adv_confirm_definition_select_option_single"
+msgstr "Decide for each existing entry"
+
+#, fuzzy
+msgid "md_adv_confirm_definition_select_section"
+msgstr "Migration of the deleted options"
+
+msgid "md_adv_create_field"
+msgstr "添加字段"
+
+msgid "md_adv_create_record"
+msgstr "添加新的数据集"
+
+msgid "md_adv_delete_fields_sure"
+msgstr "您真的想删除以下字段定义？"
+
+msgid "md_adv_delete_files_sure"
+msgstr "您真的想删除以下导出文件？"
+
+msgid "md_adv_delete_record_sure"
+msgstr "您真的想删除以下数据集？"
+
+#, fuzzy
+msgid "md_adv_deleted_fields"
+msgstr "The fields have been deleted."
+
+msgid "md_adv_deleted_files"
+msgstr "已删除导出文件"
+
+msgid "md_adv_deleted_records"
+msgstr "已删除数据集"
+
+msgid "md_adv_desc_show"
+msgstr "显示描述信息"
+
+#, fuzzy
+msgid "md_adv_edit_complex_option"
+msgstr "Edit Option Properties"
+
+msgid "md_adv_edit_field"
+msgstr "编辑字段"
+
+msgid "md_adv_edit_record"
+msgstr "编辑数据集"
+
+msgid "md_adv_field_fields"
+msgstr "字段"
+
+#, fuzzy
+msgid "md_adv_field_filter_warning"
+msgstr "The field types %s are currently not supported as table filters."
+
+#, fuzzy
+msgid "md_adv_field_list"
+msgstr "Fields"
+
+msgid "md_adv_field_names"
+msgstr "字段名"
+
+msgid "md_adv_field_table"
+msgstr "编辑字段"
+
+msgid "md_adv_fields_show"
+msgstr "显示字段名"
+
+msgid "md_adv_file_list"
+msgstr "导出文件"
+
+msgid "md_adv_import_record"
+msgstr "导入元数据集"
+
+#, fuzzy
+msgid "md_adv_int_current"
+msgstr "Current Language:"
+
+#, fuzzy
+msgid "md_adv_int_default"
+msgstr "Default Language:"
+
+#, fuzzy
+msgid "md_adv_int_translation_info"
+msgstr "Translation:"
+
+msgid "md_adv_no_fields"
+msgstr "没有字段定义"
+
+#, fuzzy
+msgid "md_adv_number_decimals"
+msgstr "Decimals"
+
+#, fuzzy
+msgid "md_adv_number_max"
+msgstr "Maximum Value"
+
+#, fuzzy
+msgid "md_adv_number_min"
+msgstr "Minimum Value"
+
+#, fuzzy
+msgid "md_adv_number_suffix"
+msgstr "Suffix"
+
+#, fuzzy
+msgid "md_adv_presentation"
+msgstr "Presentation"
+
+#, fuzzy
+msgid "md_adv_record_activate_languages"
+msgstr "Activate Languages"
+
+msgid "md_adv_record_list"
+msgstr "数据集"
+
+#, fuzzy
+msgid "md_adv_record_lng_table"
+msgstr "Language Managment"
+
+#, fuzzy
+msgid "md_adv_record_lng_table_active"
+msgstr "Active"
+
+#, fuzzy
+msgid "md_adv_record_lng_table_default"
+msgstr "Default"
+
+#, fuzzy
+msgid "md_adv_record_lng_table_inst"
+msgstr "Installed"
+
+#, fuzzy
+msgid "md_adv_record_lng_table_lng"
+msgstr "Language"
+
+msgid "md_adv_records"
+msgstr "已包含的数据集"
+
+msgid "md_adv_records_exported"
+msgstr "一个新的导出文件已经创建。"
+
+#, fuzzy
+msgid "md_adv_scope"
+msgstr "Scope"
+
+#, fuzzy
+msgid "md_adv_scope_info"
+msgstr "Usage of this custom metadata set will be limited to selected parts of the repository."
+
+#, fuzzy
+msgid "md_adv_scope_list_header"
+msgstr "Limited to:"
+
+#, fuzzy
+msgid "md_adv_scope_objects"
+msgstr "Data Set Effective From"
+
+msgid "md_adv_searchable"
+msgstr "可搜索"
+
+msgid "md_adv_select_one_file"
+msgstr "请选择一个文件。"
+
+msgid "md_adv_show"
+msgstr "显示"
+
+msgid "md_adv_substitution_table"
+msgstr "代用 (呈现在知识库/个人桌面)"
+
+#, fuzzy
+msgid "md_adv_text_max_length"
+msgstr "Maximum Length"
+
+#, fuzzy
+msgid "md_adv_text_multi"
+msgstr "Multiline"
+
+#, fuzzy
+msgid "md_adv_text_multi_val"
+msgstr "Multilingual Values"
+
+#, fuzzy
+msgid "md_adv_text_multi_val_info"
+msgstr "Allow multilingual field values for this data field. Deactivating this option is recommended for texts that do not need translating, such as personal names."
+
+msgid "md_advanced"
+msgstr "高级元数据"
+
+#, fuzzy
+msgid "md_aria_language_selection"
+msgstr "Language Selection"
+
+msgid "md_copyright"
+msgstr "版权"
+
+msgid "md_copyright_add"
+msgstr "添加版权预设定置"
+
+#, fuzzy
+msgid "md_copyright_admin_tab"
+msgstr "Copyright & OER"
+
+#, fuzzy
+msgid "md_copyright_alt_text"
+msgstr "Text Representation"
+
+#, fuzzy
+msgid "md_copyright_alt_text_info"
+msgstr "Used for image ‘alt’ attribute"
+
+#, fuzzy
+msgid "md_copyright_default"
+msgstr "Default"
+
+msgid "md_copyright_edit"
+msgstr "编辑版权预设置"
+
+msgid "md_copyright_enable_info"
+msgstr "选择这个选项提供一个预定义版权选项"
+
+msgid "md_copyright_enabled"
+msgstr "启用版权选择"
+
+#, fuzzy
+msgid "md_copyright_full_name"
+msgstr "Full Name"
+
+#, fuzzy
+msgid "md_copyright_image"
+msgstr "Image"
+
+#, fuzzy
+msgid "md_copyright_image_file"
+msgstr "File"
+
+#, fuzzy
+msgid "md_copyright_image_is_file"
+msgstr "Upload File"
+
+#, fuzzy
+msgid "md_copyright_image_is_link"
+msgstr "Enter URL"
+
+#, fuzzy
+msgid "md_copyright_image_link"
+msgstr "URL"
+
+#, fuzzy
+msgid "md_copyright_link"
+msgstr "URL"
+
+#, fuzzy
+msgid "md_copyright_link_info"
+msgstr "Link to the licence"
+
+msgid "md_copyright_preview"
+msgstr "版权 (预览)"
+
+msgid "md_copyright_selection"
+msgstr "版权预设置"
+
+msgid "md_copyright_value"
+msgstr "版权"
+
+msgid "md_copyrights_deleted"
+msgstr "已删除版权"
+
+msgid "md_days"
+msgstr "天:"
+
+msgid "md_delete_cp_sure"
+msgstr "您真的要删除以下条目吗？"
+
+msgid "md_delimiter"
+msgstr "分隔符"
+
+msgid "md_delimiter_info"
+msgstr "分隔符用于分隔关键字和作者的快速编辑屏幕。默认是“,”。"
+
+#, fuzzy
+msgid "md_editor_custom_input"
+msgstr "Custom"
+
+#, fuzzy
+msgid "md_editor_from_vocab_input"
+msgstr "From Vocabulary"
+
+#, fuzzy
+msgid "md_editor_value"
+msgstr "Value"
+
+msgid "md_fields"
+msgstr "字段"
+
+#, fuzzy
+msgid "md_import_file_vocab"
+msgstr "Import File"
+
+#, fuzzy
+msgid "md_import_vocab"
+msgstr "Import"
+
+#, fuzzy
+msgid "md_import_vocab_modal"
+msgstr "Import From File"
+
+msgid "md_months"
+msgstr "Month:月份"
+
+#, fuzzy
+msgid "md_oai_contact_mail"
+msgstr "Contact E-Mail"
+
+#, fuzzy
+msgid "md_oai_identifier_prefix"
+msgstr "OAI Prefix"
+
+#, fuzzy
+msgid "md_oai_identifier_prefix_info"
+msgstr "This prefix is used as a namespace in the identifiers of returned OER records."
+
+#, fuzzy
+msgid "md_oai_pmh_enabled"
+msgstr "Allow Querying via OAI-PMH Interface"
+
+#, fuzzy
+msgid "md_oai_pmh_enabled_info"
+msgstr "If enabled, harvested OER can be queried by external interested parties, e.g. OER referatories."
+
+#, fuzzy
+msgid "md_oai_repository_name"
+msgstr "Repository Name"
+
+#, fuzzy
+msgid "md_oai_repository_name_info"
+msgstr "This is returned as the name of this ILIAS installation when queried."
+
+msgid "md_obj_types"
+msgstr "已分配对象"
+
+#, fuzzy
+msgid "md_publishing"
+msgstr "Publishing"
+
+#, fuzzy
+msgid "md_publishing_action_accept"
+msgstr "Accept for Publishing"
+
+#, fuzzy
+msgid "md_publishing_action_block"
+msgstr "Block From Publishing"
+
+#, fuzzy
+msgid "md_publishing_action_publish"
+msgstr "Publish"
+
+#, fuzzy
+msgid "md_publishing_action_reject"
+msgstr "Reject"
+
+#, fuzzy
+msgid "md_publishing_action_submit"
+msgstr "Submit for Publishing"
+
+#, fuzzy
+msgid "md_publishing_action_unblock"
+msgstr "Unblock"
+
+#, fuzzy
+msgid "md_publishing_action_withdraw"
+msgstr "Withdraw"
+
+#, fuzzy
+msgid "md_publishing_center_title"
+msgstr "OER Publishing"
+
+#, fuzzy
+msgid "md_publishing_confirmation_accept"
+msgstr "Accept for Publishing"
+
+#, fuzzy
+msgid "md_publishing_confirmation_info_accept"
+msgstr "Are you sure you want to publish this object?"
+
+#, fuzzy
+msgid "md_publishing_confirmation_info_reject"
+msgstr "Are you sure you want to reject this object for publishing?"
+
+#, fuzzy
+msgid "md_publishing_confirmation_info_withdraw"
+msgstr "Are you sure you want to withdraw this object from publishing?"
+
+#, fuzzy
+msgid "md_publishing_confirmation_reject"
+msgstr "Reject for Publishing"
+
+#, fuzzy
+msgid "md_publishing_confirmation_withdraw"
+msgstr "Withdraw From Publishing"
+
+#, fuzzy
+msgid "md_publishing_control_center"
+msgstr "OER Publishing"
+
+#, fuzzy
+msgid "md_publishing_current_status"
+msgstr "Publishing this object as OER: <strong>%s</strong>"
+
+#, fuzzy
+msgid "md_publishing_info_blocked"
+msgstr "This object is blocked from being automatically published."
+
+#, fuzzy
+msgid "md_publishing_info_published"
+msgstr "This object has been published as an Open Educational Resource."
+
+#, fuzzy
+msgid "md_publishing_info_under_review"
+msgstr "This object was submitted for publishing, and is currently being reviewed by the editorial team."
+
+#, fuzzy
+msgid "md_publishing_info_unpublished"
+msgstr "This object can be published as an Open Educational Resource."
+
+#, fuzzy
+msgid "md_publishing_info_wrong_copyright"
+msgstr "To publish this object as an Open Educational Resource, please close this dialog and select an eligible licence:%s"
+
+#, fuzzy
+msgid "md_publishing_last_reference_info"
+msgstr "Please note that this object will not be removed, because there are no other references to it in the repository."
+
+#, fuzzy
+msgid "md_publishing_status_blocked"
+msgstr "Blocked"
+
+#, fuzzy
+msgid "md_publishing_status_published"
+msgstr "Published"
+
+#, fuzzy
+msgid "md_publishing_status_under_review"
+msgstr "Under Review"
+
+#, fuzzy
+msgid "md_publishing_status_unpublished"
+msgstr "Unpublished"
+
+#, fuzzy
+msgid "md_publishing_success_accept"
+msgstr "Object successfully published."
+
+#, fuzzy
+msgid "md_publishing_success_block"
+msgstr "Object successfully blocked from publishing."
+
+#, fuzzy
+msgid "md_publishing_success_publish"
+msgstr "Object successfully published."
+
+#, fuzzy
+msgid "md_publishing_success_reject"
+msgstr "Object successfully rejected."
+
+#, fuzzy
+msgid "md_publishing_success_submit"
+msgstr "Object successfully submitted for review."
+
+#, fuzzy
+msgid "md_publishing_success_unblock"
+msgstr "Object successfully unblocked."
+
+#, fuzzy
+msgid "md_publishing_success_withdraw"
+msgstr "Object successfully withdrawn."
+
+#, fuzzy
+msgid "md_publishing_workflow"
+msgstr "Publishing Workflow"
+
+#, fuzzy
+msgid "md_publishing_workflow_automatic"
+msgstr "Automatic"
+
+#, fuzzy
+msgid "md_publishing_workflow_automatic_info"
+msgstr "Eligible objects are automatically published by the OER Harvester cron job."
+
+#, fuzzy
+msgid "md_publishing_workflow_manual"
+msgstr "Manual"
+
+#, fuzzy
+msgid "md_publishing_workflow_manual_info"
+msgstr "Add an option to the LOM of objects to publish them with the click of a button."
+
+#, fuzzy
+msgid "md_publishing_workflow_mode"
+msgstr "Enable Publishing"
+
+#, fuzzy
+msgid "md_publishing_workflow_mode_info"
+msgstr "When an object is published, it is added to a predefined category and an export file is generated for it. Additionally, a record is compiled that (if activated) can be read out via an OAI-PMH interface."
+
+msgid "md_record_export_table"
+msgstr "导出文件"
+
+msgid "md_record_list_table"
+msgstr "高级元数据集"
+
+msgid "md_separated_by"
+msgstr "由 %s 分隔"
+
+#, fuzzy
+msgid "md_settings"
+msgstr "Settings"
+
+#, fuzzy
+msgid "md_settings_harvester"
+msgstr "OER Harvester"
+
+#, fuzzy
+msgid "md_settings_licence"
+msgstr "Terms of Usage"
+
+#, fuzzy
+msgid "md_settings_publishing"
+msgstr "Querying by Repositories"
+
+msgid "md_time"
+msgstr "Time:时间"
+
+#, fuzzy
+msgid "md_unknown_vocabulary_flag"
+msgstr "(unknown vocabulary)"
+
+msgid "md_used"
+msgstr "用法"
+
+#, fuzzy
+msgid "md_vocab_activate_action"
+msgstr "Activate"
+
+#, fuzzy
+msgid "md_vocab_active_column"
+msgstr "Active"
+
+#, fuzzy
+msgid "md_vocab_all_values_title"
+msgstr "Values for %s (%s)"
+
+#, fuzzy
+msgid "md_vocab_allow_custom_input_action"
+msgstr "Allow Custom Input"
+
+#, fuzzy
+msgid "md_vocab_custom_input_column"
+msgstr "Custom Input Allowed"
+
+#, fuzzy
+msgid "md_vocab_deactivate_action"
+msgstr "Deactivate"
+
+#, fuzzy
+msgid "md_vocab_delete_action"
+msgstr "Delete"
+
+#, fuzzy
+msgid "md_vocab_delete_confirmation_text"
+msgstr "Are you sure you want to delete the vocabulary for %s (%s) with the following values?"
+
+#, fuzzy
+msgid "md_vocab_delete_confirmation_title"
+msgstr "Delete Vocabulary"
+
+#, fuzzy
+msgid "md_vocab_deletion_successful"
+msgstr "Vocabulary successfully deleted."
+
+#, fuzzy
+msgid "md_vocab_disallow_custom_input_action"
+msgstr "Disallow Custom Input"
+
+#, fuzzy
+msgid "md_vocab_element_column"
+msgstr "Element"
+
+#, fuzzy
+msgid "md_vocab_element_with_condition"
+msgstr "%s where %s is %s"
+
+#, fuzzy
+msgid "md_vocab_import_invalid"
+msgstr "The import file is invalid:<br/>%s"
+
+#, fuzzy
+msgid "md_vocab_import_successful"
+msgstr "Vocabulary successfully imported."
+
+#, fuzzy
+msgid "md_vocab_import_upload_failed"
+msgstr "Upload of the import file failed."
+
+#, fuzzy
+msgid "md_vocab_preview_column"
+msgstr "Preview"
+
+#, fuzzy
+msgid "md_vocab_show_all_action"
+msgstr "Show All Values"
+
+#, fuzzy
+msgid "md_vocab_source_column"
+msgstr "Source"
+
+#, fuzzy
+msgid "md_vocab_table_title"
+msgstr "Vocabularies"
+
+#, fuzzy
+msgid "md_vocab_type_column"
+msgstr "Type"
+
+#, fuzzy
+msgid "md_vocab_type_controlled_string"
+msgstr "Controlled Text"
+
+#, fuzzy
+msgid "md_vocab_type_controlled_vocab_value"
+msgstr "Controlled Selection"
+
+#, fuzzy
+msgid "md_vocab_type_copyright"
+msgstr "Copyright"
+
+#, fuzzy
+msgid "md_vocab_type_standard"
+msgstr "Standard"
+
+#, fuzzy
+msgid "md_vocab_update_successful"
+msgstr "Vocabulary successfully updated."
+
+#, fuzzy
+msgid "md_vocabularies_config"
+msgstr "LOM Vocabularies"
+
+#, fuzzy
+msgid "meta_1"
+msgstr "1"
+
+#, fuzzy
+msgid "meta_2"
+msgstr "2"
+
+#, fuzzy
+msgid "meta_3"
+msgstr "3"
+
+#, fuzzy
+msgid "meta_4"
+msgstr "4"
+
+msgid "meta_accessibility_restrictions"
+msgstr "访问限制"
+
+msgid "meta_active"
+msgstr "当前的"
+
+msgid "meta_add"
+msgstr "增加"
+
+#, fuzzy
+msgid "meta_add_element"
+msgstr "Add %s"
+
+#, fuzzy
+msgid "meta_add_element_success"
+msgstr "Element added successfully"
+
+#, fuzzy
+msgid "meta_advmd_add_field"
+msgstr "Add New Field"
+
+#, fuzzy
+msgid "meta_advmd_select_delete_option"
+msgstr "Delete This Entry"
+
+#, fuzzy
+msgid "meta_advmd_select_first_position_identifier"
+msgstr "First"
+
+#, fuzzy
+msgid "meta_advmd_select_new_option"
+msgstr "Add New Entry"
+
+#, fuzzy
+msgid "meta_advmd_select_option_position"
+msgstr "Position"
+
+#, fuzzy
+msgid "meta_advmd_select_option_value"
+msgstr "Value"
+
+#, fuzzy
+msgid "meta_advmd_select_options"
+msgstr "Entries"
+
+#, fuzzy
+msgid "meta_advmd_select_options_edit"
+msgstr "Edit Entries"
+
+#, fuzzy
+msgid "meta_advmd_select_position_identifier"
+msgstr "After %s"
+
+#, fuzzy
+msgid "meta_aggregation_level"
+msgstr "Aggregation Level"
+
+#, fuzzy
+msgid "meta_amaya"
+msgstr "Amaya"
+
+msgid "meta_annotation"
+msgstr "评注"
+
+#, fuzzy
+msgid "meta_annotation_plural"
+msgstr "Annotations"
+
+#, fuzzy
+msgid "meta_any"
+msgstr "Any"
+
+msgid "meta_atomic"
+msgstr "微小的"
+
+msgid "meta_author"
+msgstr "作者"
+
+#, fuzzy
+msgid "meta_authors"
+msgstr "Authors"
+
+msgid "meta_browser"
+msgstr "浏览器"
+
+#, fuzzy
+msgid "meta_button_to_full_editor_label"
+msgstr "Edit the Full Learning Object Metadata"
+
+msgid "meta_c_AD"
+msgstr "安道尔"
+
+msgid "meta_c_AE"
+msgstr "阿联酋"
+
+msgid "meta_c_AF"
+msgstr "阿富汗"
+
+msgid "meta_c_AG"
+msgstr "安提瓜与巴布达"
+
+msgid "meta_c_AI"
+msgstr "安圭拉"
+
+msgid "meta_c_AL"
+msgstr "阿尔巴尼亚"
+
+msgid "meta_c_AM"
+msgstr "亚美尼亚"
+
+msgid "meta_c_AN"
+msgstr "荷兰属安的列斯群岛"
+
+msgid "meta_c_AO"
+msgstr "安哥拉"
+
+msgid "meta_c_AQ"
+msgstr "南极洲"
+
+msgid "meta_c_AR"
+msgstr "阿根廷"
+
+msgid "meta_c_AS"
+msgstr " 美洲萨摩亚群岛"
+
+msgid "meta_c_AT"
+msgstr "奥地利"
+
+msgid "meta_c_AU"
+msgstr "澳大利亚"
+
+msgid "meta_c_AW"
+msgstr "阿鲁巴"
+
+msgid "meta_c_AX"
+msgstr "奥兰群岛"
+
+msgid "meta_c_AZ"
+msgstr "阿塞拜疆"
+
+msgid "meta_c_BA"
+msgstr "波斯尼亚与黑塞哥维纳"
+
+msgid "meta_c_BB"
+msgstr "巴巴多斯"
+
+msgid "meta_c_BD"
+msgstr "孟加拉"
+
+msgid "meta_c_BE"
+msgstr "比利时"
+
+msgid "meta_c_BF"
+msgstr "布基纳法索"
+
+msgid "meta_c_BG"
+msgstr "保加利亚"
+
+msgid "meta_c_BH"
+msgstr "巴林"
+
+msgid "meta_c_BI"
+msgstr "布隆迪"
+
+msgid "meta_c_BJ"
+msgstr "贝宁"
+
+msgid "meta_c_BL"
+msgstr "圣巴泰勒米"
+
+msgid "meta_c_BM"
+msgstr "百慕大"
+
+msgid "meta_c_BN"
+msgstr "文莱 莱达鲁萨兰国"
+
+msgid "meta_c_BO"
+msgstr "玻利维亚"
+
+msgid "meta_c_BR"
+msgstr "巴西"
+
+msgid "meta_c_BS"
+msgstr "巴哈马群岛"
+
+msgid "meta_c_BT"
+msgstr "不丹"
+
+msgid "meta_c_BV"
+msgstr " 布维岛"
+
+msgid "meta_c_BW"
+msgstr "博茨瓦纳"
+
+msgid "meta_c_BY"
+msgstr "白俄罗斯"
+
+msgid "meta_c_BZ"
+msgstr "伯利兹"
+
+msgid "meta_c_CA"
+msgstr "加拿大"
+
+msgid "meta_c_CC"
+msgstr "科科斯 (Keeling) 群岛"
+
+msgid "meta_c_CF"
+msgstr "中非共和国"
+
+msgid "meta_c_CG"
+msgstr "刚果"
+
+msgid "meta_c_CH"
+msgstr "瑞士"
+
+msgid "meta_c_CI"
+msgstr "科特迪瓦"
+
+msgid "meta_c_CK"
+msgstr "库克群岛"
+
+msgid "meta_c_CL"
+msgstr "智利"
+
+msgid "meta_c_CM"
+msgstr "喀麦隆"
+
+msgid "meta_c_CN"
+msgstr "中国"
+
+msgid "meta_c_CO"
+msgstr "哥伦比亚"
+
+msgid "meta_c_CR"
+msgstr "哥斯达黎加"
+
+msgid "meta_c_CU"
+msgstr "古巴"
+
+msgid "meta_c_CV"
+msgstr "佛得角"
+
+msgid "meta_c_CX"
+msgstr "圣诞岛"
+
+msgid "meta_c_CY"
+msgstr "塞浦路斯"
+
+msgid "meta_c_CZ"
+msgstr "捷克共和国"
+
+msgid "meta_c_DE"
+msgstr "德国"
+
+msgid "meta_c_DJ"
+msgstr "吉布提"
+
+msgid "meta_c_DK"
+msgstr "丹麦"
+
+msgid "meta_c_DM"
+msgstr "多米尼加"
+
+msgid "meta_c_DO"
+msgstr "多米尼加共和国"
+
+msgid "meta_c_DZ"
+msgstr "阿尔及利"
+
+msgid "meta_c_EC"
+msgstr "厄瓜多尔"
+
+msgid "meta_c_EE"
+msgstr "爱沙尼亚"
+
+msgid "meta_c_EG"
+msgstr "埃及"
+
+msgid "meta_c_EH"
+msgstr "西撒哈拉"
+
+msgid "meta_c_ER"
+msgstr "厄立特里亚"
+
+msgid "meta_c_ES"
+msgstr "西班牙"
+
+msgid "meta_c_ET"
+msgstr "埃塞俄比亚"
+
+msgid "meta_c_FI"
+msgstr "芬兰"
+
+msgid "meta_c_FJ"
+msgstr "斐济"
+
+msgid "meta_c_FK"
+msgstr "福克兰群岛"
+
+msgid "meta_c_FM"
+msgstr "密克罗尼西亚"
+
+msgid "meta_c_FO"
+msgstr "法罗群岛"
+
+msgid "meta_c_FR"
+msgstr "法国"
+
+msgid "meta_c_FX"
+msgstr "法国, Metropolitan"
+
+msgid "meta_c_GA"
+msgstr "加蓬"
+
+msgid "meta_c_GB"
+msgstr "英国"
+
+msgid "meta_c_GD"
+msgstr "格林纳达"
+
+msgid "meta_c_GE"
+msgstr "格鲁吉亚"
+
+msgid "meta_c_GF"
+msgstr "法属圭亚那"
+
+msgid "meta_c_GG"
+msgstr "格恩西岛"
+
+msgid "meta_c_GH"
+msgstr "加纳"
+
+msgid "meta_c_GI"
+msgstr "直布罗陀"
+
+msgid "meta_c_GL"
+msgstr "格陵兰岛"
+
+msgid "meta_c_GM"
+msgstr "冈比亚"
+
+msgid "meta_c_GN"
+msgstr "几内亚"
+
+msgid "meta_c_GP"
+msgstr "瓜德罗普岛"
+
+msgid "meta_c_GQ"
+msgstr "赤道几内亚"
+
+msgid "meta_c_GR"
+msgstr "希腊"
+
+msgid "meta_c_GS"
+msgstr "南佐治亚与南三维治群岛"
+
+msgid "meta_c_GT"
+msgstr "危地马拉"
+
+msgid "meta_c_GU"
+msgstr "关岛"
+
+msgid "meta_c_GW"
+msgstr "几内亚比绍共和国"
+
+msgid "meta_c_GY"
+msgstr "圭亚那"
+
+msgid "meta_c_HK"
+msgstr "香港"
+
+msgid "meta_c_HM"
+msgstr "赫德岛和麦克唐纳群岛"
+
+msgid "meta_c_HN"
+msgstr "洪都拉斯"
+
+msgid "meta_c_HR"
+msgstr "克罗地亚"
+
+msgid "meta_c_HT"
+msgstr "海地"
+
+msgid "meta_c_HU"
+msgstr "匈牙利"
+
+msgid "meta_c_ID"
+msgstr "印度尼西亚"
+
+msgid "meta_c_IE"
+msgstr "爱尔兰"
+
+msgid "meta_c_IL"
+msgstr "以色列"
+
+msgid "meta_c_IM"
+msgstr "马恩岛"
+
+msgid "meta_c_IN"
+msgstr "印度尼西亚"
+
+msgid "meta_c_IO"
+msgstr "英属印度洋领土"
+
+msgid "meta_c_IQ"
+msgstr "伊拉克"
+
+msgid "meta_c_IR"
+msgstr "伊朗"
+
+msgid "meta_c_IS"
+msgstr "冰岛"
+
+msgid "meta_c_IT"
+msgstr "意大利"
+
+msgid "meta_c_JE"
+msgstr "泽西岛"
+
+msgid "meta_c_JM"
+msgstr "牙买加"
+
+msgid "meta_c_JO"
+msgstr "约旦"
+
+msgid "meta_c_JP"
+msgstr "日本"
+
+msgid "meta_c_KE"
+msgstr "肯尼亚"
+
+msgid "meta_c_KG"
+msgstr "吉尔吉斯斯坦"
+
+msgid "meta_c_KH"
+msgstr "柬埔寨"
+
+msgid "meta_c_KI"
+msgstr "基里巴斯"
+
+msgid "meta_c_KM"
+msgstr "科摩罗"
+
+msgid "meta_c_KN"
+msgstr "圣基茨和尼维斯"
+
+msgid "meta_c_KP"
+msgstr "朝鲜"
+
+msgid "meta_c_KR"
+msgstr "南朝鲜"
+
+msgid "meta_c_KW"
+msgstr "科威特"
+
+msgid "meta_c_KY"
+msgstr "凯门群岛"
+
+msgid "meta_c_KZ"
+msgstr "哈萨克斯坦"
+
+msgid "meta_c_LA"
+msgstr "老挝人民共和国"
+
+msgid "meta_c_LB"
+msgstr "黎巴嫩"
+
+msgid "meta_c_LC"
+msgstr "圣卢西亚岛"
+
+msgid "meta_c_LI"
+msgstr "列支敦士登"
+
+msgid "meta_c_LK"
+msgstr "斯里兰卡"
+
+msgid "meta_c_LR"
+msgstr "利比里亚"
+
+msgid "meta_c_LS"
+msgstr "莱索托"
+
+msgid "meta_c_LT"
+msgstr "立陶宛"
+
+msgid "meta_c_LU"
+msgstr "卢森堡"
+
+msgid "meta_c_LV"
+msgstr "拉脱维亚"
+
+msgid "meta_c_LY"
+msgstr "利比亚"
+
+msgid "meta_c_MA"
+msgstr "摩洛哥"
+
+msgid "meta_c_MC"
+msgstr "摩纳哥"
+
+msgid "meta_c_MD"
+msgstr "摩尔多瓦"
+
+msgid "meta_c_ME"
+msgstr "黑山共和国"
+
+msgid "meta_c_MF"
+msgstr "圣马丁岛"
+
+msgid "meta_c_MG"
+msgstr "马达加斯加"
+
+msgid "meta_c_MH"
+msgstr "马绍尔群岛"
+
+msgid "meta_c_MK"
+msgstr "马其顿"
+
+msgid "meta_c_ML"
+msgstr "马里"
+
+msgid "meta_c_MM"
+msgstr "缅甸"
+
+msgid "meta_c_MN"
+msgstr "蒙古"
+
+msgid "meta_c_MO"
+msgstr "澳门"
+
+msgid "meta_c_MP"
+msgstr "北马里亚纳群岛"
+
+msgid "meta_c_MQ"
+msgstr "马提尼克岛"
+
+msgid "meta_c_MR"
+msgstr "毛利塔尼亚"
+
+msgid "meta_c_MS"
+msgstr "蒙特塞拉特岛"
+
+msgid "meta_c_MT"
+msgstr "马耳他"
+
+msgid "meta_c_MU"
+msgstr "毛里求斯"
+
+msgid "meta_c_MV"
+msgstr "马尔代夫"
+
+msgid "meta_c_MW"
+msgstr "马拉维"
+
+msgid "meta_c_MX"
+msgstr "墨西哥"
+
+msgid "meta_c_MY"
+msgstr "马来西亚"
+
+msgid "meta_c_MZ"
+msgstr "莫桑比克"
+
+msgid "meta_c_NA"
+msgstr "纳米比亚"
+
+msgid "meta_c_NC"
+msgstr "新卡列多尼亚"
+
+msgid "meta_c_NE"
+msgstr "尼日尔"
+
+msgid "meta_c_NF"
+msgstr "诺福克岛"
+
+msgid "meta_c_NG"
+msgstr "尼日利亚"
+
+msgid "meta_c_NI"
+msgstr "尼加拉瓜"
+
+msgid "meta_c_NL"
+msgstr "荷兰"
+
+msgid "meta_c_NO"
+msgstr "挪威"
+
+msgid "meta_c_NP"
+msgstr "尼泊尔"
+
+msgid "meta_c_NR"
+msgstr "瑙鲁"
+
+msgid "meta_c_NU"
+msgstr "纽埃岛"
+
+msgid "meta_c_NZ"
+msgstr "新西兰"
+
+msgid "meta_c_OM"
+msgstr "阿曼"
+
+msgid "meta_c_PA"
+msgstr "巴拿马"
+
+msgid "meta_c_PE"
+msgstr "秘鲁"
+
+msgid "meta_c_PF"
+msgstr "法属玻里尼西亚"
+
+msgid "meta_c_PG"
+msgstr "巴布亚新几内亚"
+
+msgid "meta_c_PH"
+msgstr "菲律宾"
+
+msgid "meta_c_PK"
+msgstr "巴基斯坦"
+
+msgid "meta_c_PL"
+msgstr "波兰"
+
+msgid "meta_c_PM"
+msgstr "圣皮埃尔与密克隆岛"
+
+msgid "meta_c_PN"
+msgstr "皮特凯恩"
+
+msgid "meta_c_PR"
+msgstr "波多黎各"
+
+msgid "meta_c_PS"
+msgstr "巴勒斯坦"
+
+msgid "meta_c_PT"
+msgstr "葡萄牙"
+
+msgid "meta_c_PW"
+msgstr "帕劳群岛"
+
+msgid "meta_c_PY"
+msgstr "巴拉圭"
+
+msgid "meta_c_QA"
+msgstr "卡塔尔"
+
+msgid "meta_c_RE"
+msgstr "留尼旺岛"
+
+msgid "meta_c_RO"
+msgstr "罗马尼亚"
+
+msgid "meta_c_RS"
+msgstr "塞尔维亚"
+
+msgid "meta_c_RU"
+msgstr "俄罗斯联邦"
+
+msgid "meta_c_RW"
+msgstr "卢旺达"
+
+msgid "meta_c_SA"
+msgstr "沙特"
+
+msgid "meta_c_SB"
+msgstr "所罗门群岛"
+
+msgid "meta_c_SC"
+msgstr "塞舌尔"
+
+msgid "meta_c_SD"
+msgstr "苏丹"
+
+msgid "meta_c_SE"
+msgstr "瑞典"
+
+msgid "meta_c_SG"
+msgstr "新加坡"
+
+msgid "meta_c_SH"
+msgstr "圣海伦娜"
+
+msgid "meta_c_SI"
+msgstr "斯洛文尼亚"
+
+msgid "meta_c_SJ"
+msgstr "斯瓦尔巴特与Jan Maye群岛"
+
+msgid "meta_c_SK"
+msgstr "斯洛伐克"
+
+msgid "meta_c_SL"
+msgstr "塞拉利昂"
+
+msgid "meta_c_SM"
+msgstr "圣马力诺"
+
+msgid "meta_c_SN"
+msgstr "塞内加尔"
+
+msgid "meta_c_SO"
+msgstr "索马里"
+
+msgid "meta_c_SR"
+msgstr "苏里南"
+
+msgid "meta_c_ST"
+msgstr "圣多美和普林西比"
+
+msgid "meta_c_SV"
+msgstr "萨尔瓦多"
+
+msgid "meta_c_SY"
+msgstr "叙利亚"
+
+msgid "meta_c_SZ"
+msgstr "瑞士"
+
+msgid "meta_c_TC"
+msgstr "土耳其与科科斯群岛"
+
+msgid "meta_c_TD"
+msgstr "乍得"
+
+msgid "meta_c_TF"
+msgstr "法属南部领地"
+
+msgid "meta_c_TG"
+msgstr "多哥"
+
+msgid "meta_c_TH"
+msgstr "泰国"
+
+msgid "meta_c_TJ"
+msgstr "塔吉克斯坦"
+
+msgid "meta_c_TK"
+msgstr "托克劳"
+
+msgid "meta_c_TL"
+msgstr "东帝汶民主共和国"
+
+msgid "meta_c_TM"
+msgstr "土库曼斯坦共和国"
+
+msgid "meta_c_TN"
+msgstr "突尼斯"
+
+msgid "meta_c_TO"
+msgstr "汤加"
+
+msgid "meta_c_TR"
+msgstr "土耳其"
+
+msgid "meta_c_TT"
+msgstr "特立尼达和多巴哥"
+
+msgid "meta_c_TV"
+msgstr "图瓦卢"
+
+msgid "meta_c_TW"
+msgstr "中国台湾"
+
+msgid "meta_c_TZ"
+msgstr "坦桑尼亚"
+
+msgid "meta_c_UA"
+msgstr "乌克兰"
+
+msgid "meta_c_UG"
+msgstr "乌干达"
+
+msgid "meta_c_UM"
+msgstr "美国边远小岛屿"
+
+msgid "meta_c_US"
+msgstr "美国"
+
+msgid "meta_c_UY"
+msgstr "乌拉圭"
+
+msgid "meta_c_UZ"
+msgstr "乌兹别克斯坦"
+
+msgid "meta_c_VA"
+msgstr "梵蒂冈"
+
+msgid "meta_c_VC"
+msgstr "圣文森特和格林纳丁斯"
+
+msgid "meta_c_VE"
+msgstr "委内瑞拉"
+
+msgid "meta_c_VG"
+msgstr "英属维尔京群岛"
+
+msgid "meta_c_VI"
+msgstr "美属维尔京群岛"
+
+msgid "meta_c_VN"
+msgstr "越南"
+
+msgid "meta_c_VU"
+msgstr "瓦努阿图"
+
+msgid "meta_c_WF"
+msgstr "瓦利斯和富图纳群岛"
+
+msgid "meta_c_WS"
+msgstr "萨摩亚群岛"
+
+#, fuzzy
+msgid "meta_c_XK"
+msgstr "Kosovo"
+
+msgid "meta_c_YE"
+msgstr "也门"
+
+msgid "meta_c_YT"
+msgstr "马约特岛"
+
+msgid "meta_c_ZA"
+msgstr "南非"
+
+msgid "meta_c_ZM"
+msgstr "赞比亚"
+
+msgid "meta_c_ZW"
+msgstr "津巴布韦"
+
+msgid "meta_catalog"
+msgstr "目录"
+
+msgid "meta_classification"
+msgstr "分类"
+
+#, fuzzy
+msgid "meta_classification_plural"
+msgstr "Classifications"
+
+msgid "meta_collection"
+msgstr "收藏"
+
+msgid "meta_competency"
+msgstr "能力"
+
+msgid "meta_contentprovider"
+msgstr "内容提供者"
+
+msgid "meta_context"
+msgstr "上下文"
+
+#, fuzzy
+msgid "meta_context_plural"
+msgstr "Contexts"
+
+msgid "meta_contribute"
+msgstr "贡献"
+
+#, fuzzy
+msgid "meta_contribute_plural"
+msgstr "Contribute"
+
+msgid "meta_copyright"
+msgstr "版权"
+
+msgid "meta_copyright_and_other_restrictions"
+msgstr "版权及其它限制"
+
+#, fuzzy
+msgid "meta_copyright_change_info"
+msgstr "You are going to change the licence assigned to this content. This should only be done in accordance with the copyright owner. Please continue only if the new licence is not more restrictive than the one used before."
+
+#, fuzzy
+msgid "meta_copyright_change_oer_info"
+msgstr "The copyright licence you have selected makes this object eligible to be harvested as an Open Educational Resource. If you continue, it might be listed as such along with an export file, and it might get published beyond this platform."
+
+#, fuzzy
+msgid "meta_copyright_change_warning_title"
+msgstr "Modification of Copyright Settings"
+
+#, fuzzy
+msgid "meta_copyright_in_use"
+msgstr "In use"
+
+#, fuzzy
+msgid "meta_copyright_outdated"
+msgstr "Outdated"
+
+#, fuzzy
+msgid "meta_copyright_outdated_error"
+msgstr "The chosen copyright is outdated and no longer in use."
+
+#, fuzzy
+msgid "meta_copyright_show_usages"
+msgstr "Show usages"
+
+#, fuzzy
+msgid "meta_copyright_status"
+msgstr "Status"
+
+#, fuzzy
+msgid "meta_copyright_sub_items"
+msgstr "Sub Items"
+
+#, fuzzy
+msgid "meta_copyright_usage"
+msgstr "Usage"
+
+msgid "meta_cost"
+msgstr "花费"
+
+msgid "meta_coverage"
+msgstr "范围"
+
+#, fuzzy
+msgid "meta_coverage_plural"
+msgstr "Coverage"
+
+msgid "meta_cp_own"
+msgstr "自有版权信息："
+
+msgid "meta_creator"
+msgstr "创建者"
+
+msgid "meta_current_value"
+msgstr "当前值"
+
+msgid "meta_date"
+msgstr "日期"
+
+#, fuzzy
+msgid "meta_date_time"
+msgstr "Date"
+
+msgid "meta_delete"
+msgstr "删除"
+
+#, fuzzy
+msgid "meta_delete_confirm"
+msgstr "Are you sure you want to delete this element and its content?"
+
+#, fuzzy
+msgid "meta_delete_element"
+msgstr "Delete %s"
+
+#, fuzzy
+msgid "meta_delete_element_success"
+msgstr "Element deleted successfully"
+
+#, fuzzy
+msgid "meta_delete_this_element"
+msgstr "Delete This Element"
+
+msgid "meta_description"
+msgstr "描述"
+
+#, fuzzy
+msgid "meta_description_plural"
+msgstr "Descriptions"
+
+msgid "meta_diagramm"
+msgstr "图表"
+
+msgid "meta_difficult"
+msgstr "困难"
+
+msgid "meta_difficulty"
+msgstr "难点"
+
+#, fuzzy
+msgid "meta_discipline"
+msgstr "Discipline"
+
+msgid "meta_draft"
+msgstr "草稿"
+
+msgid "meta_duration"
+msgstr "持续时间"
+
+msgid "meta_easy"
+msgstr "容易的"
+
+#, fuzzy
+msgid "meta_edit_element"
+msgstr "Edit %s"
+
+#, fuzzy
+msgid "meta_edit_element_success"
+msgstr "Element edited successfully"
+
+msgid "meta_editor"
+msgstr "编辑"
+
+msgid "meta_education"
+msgstr "教育"
+
+msgid "meta_educational"
+msgstr "教育"
+
+msgid "meta_educational_level"
+msgstr "教育水平"
+
+msgid "meta_educational_objective"
+msgstr "教育目标"
+
+#, fuzzy
+msgid "meta_educational_plural"
+msgstr "Educational"
+
+msgid "meta_educationalvalidator"
+msgstr "教育验证器(Educational validator)"
+
+msgid "meta_entity"
+msgstr "实体"
+
+#, fuzzy
+msgid "meta_entity_plural"
+msgstr "Entities"
+
+msgid "meta_entry"
+msgstr "条目"
+
+#, fuzzy
+msgid "meta_error_empty_input"
+msgstr "Please make sure that at least one of the following input fields is not empty."
+
+msgid "meta_exam"
+msgstr "测验"
+
+msgid "meta_exercise"
+msgstr "练习"
+
+msgid "meta_experiment"
+msgstr "实验"
+
+msgid "meta_expositive"
+msgstr "说明的"
+
+msgid "meta_figure"
+msgstr "图形"
+
+msgid "meta_final"
+msgstr "期末考试"
+
+#, fuzzy
+msgid "meta_first_author"
+msgstr "First Author"
+
+msgid "meta_format"
+msgstr "格式"
+
+#, fuzzy
+msgid "meta_format_plural"
+msgstr "Formats"
+
+#, fuzzy
+msgid "meta_full_editor_navigation_info"
+msgstr "To navigate and edit this metadata set, use the ‘LOM’-tree in the ‘Tools’ entry of the main menu."
+
+msgid "meta_general"
+msgstr "综合的"
+
+#, fuzzy
+msgid "meta_global"
+msgstr "Global"
+
+msgid "meta_graph"
+msgstr "图表"
+
+msgid "meta_graphicaldesigner"
+msgstr "美术设计员"
+
+msgid "meta_has_format"
+msgstr "具有格式"
+
+msgid "meta_has_part"
+msgstr "具有部分"
+
+msgid "meta_has_version"
+msgstr "具有版本"
+
+msgid "meta_hierarchical"
+msgstr "分等级的"
+
+msgid "meta_high"
+msgstr "高的"
+
+msgid "meta_higher_education"
+msgstr "高等教育"
+
+msgid "meta_id"
+msgstr "身份"
+
+msgid "meta_idea"
+msgstr "主意"
+
+msgid "meta_identifier"
+msgstr "标识符"
+
+#, fuzzy
+msgid "meta_identifier_plural"
+msgstr "Identifiers"
+
+msgid "meta_index"
+msgstr "索引"
+
+#, fuzzy
+msgid "meta_info_licence_section"
+msgstr "Licence and Use"
+
+#, fuzzy
+msgid "meta_info_only_repository_objects"
+msgstr "Only repository objects are listed below (and no media objects or LM pages)."
+
+msgid "meta_initiator"
+msgstr "创始者"
+
+msgid "meta_installation_remarks"
+msgstr "安装注释"
+
+msgid "meta_instructionaldesigner"
+msgstr "指导设计者"
+
+msgid "meta_intended_end_user_role"
+msgstr "预期最终用户角色"
+
+#, fuzzy
+msgid "meta_intended_end_user_role_plural"
+msgstr "Intended End User Roles"
+
+msgid "meta_interactivity_level"
+msgstr "交互水平"
+
+msgid "meta_interactivity_type"
+msgstr "交互类型"
+
+msgid "meta_is_based_on"
+msgstr "基于"
+
+msgid "meta_is_basis_for"
+msgstr "基础为"
+
+msgid "meta_is_format_of"
+msgstr "格式为"
+
+msgid "meta_is_part_of"
+msgstr "部分为"
+
+msgid "meta_is_referenced_by"
+msgstr "参考于"
+
+msgid "meta_is_required_by"
+msgstr "被参考"
+
+msgid "meta_is_version_of"
+msgstr "版本"
+
+msgid "meta_keyword"
+msgstr "关键字"
+
+#, fuzzy
+msgid "meta_keyword_plural"
+msgstr "Keywords"
+
+msgid "meta_kind"
+msgstr "种类"
+
+msgid "meta_l_aa"
+msgstr "遥远地"
+
+msgid "meta_l_ab"
+msgstr "阿布哈西亚语"
+
+msgid "meta_l_af"
+msgstr "阿富汗语"
+
+msgid "meta_l_am"
+msgstr "阿姆哈拉语"
+
+msgid "meta_l_ar"
+msgstr "阿拉伯语"
+
+msgid "meta_l_as"
+msgstr "阿萨姆语"
+
+msgid "meta_l_ay"
+msgstr "艾马拉语"
+
+msgid "meta_l_az"
+msgstr "阿塞拜疆语"
+
+msgid "meta_l_ba"
+msgstr "巴什基尔语"
+
+msgid "meta_l_be"
+msgstr "白俄罗斯语"
+
+msgid "meta_l_bg"
+msgstr "保加利亚语"
+
+msgid "meta_l_bh"
+msgstr "比哈尔语"
+
+msgid "meta_l_bi"
+msgstr "比斯拉马语"
+
+msgid "meta_l_bn"
+msgstr " 孟加拉语"
+
+msgid "meta_l_bo"
+msgstr "藏语"
+
+msgid "meta_l_br"
+msgstr "布列塔尼语"
+
+msgid "meta_l_ca"
+msgstr "加泰罗尼亚语"
+
+msgid "meta_l_co"
+msgstr "科西嘉方言"
+
+msgid "meta_l_cs"
+msgstr "捷克语"
+
+msgid "meta_l_cy"
+msgstr "威尔士语"
+
+msgid "meta_l_da"
+msgstr "丹麦语"
+
+msgid "meta_l_de"
+msgstr "德语"
+
+msgid "meta_l_dz"
+msgstr "不丹语"
+
+msgid "meta_l_el"
+msgstr "希腊语"
+
+msgid "meta_l_en"
+msgstr "英语"
+
+msgid "meta_l_eo"
+msgstr "世界语"
+
+msgid "meta_l_es"
+msgstr "西班牙语"
+
+msgid "meta_l_et"
+msgstr "爱沙尼亚语"
+
+msgid "meta_l_eu"
+msgstr "巴斯克语波斯语"
+
+msgid "meta_l_fa"
+msgstr "波斯语"
+
+msgid "meta_l_fi"
+msgstr "芬兰语"
+
+msgid "meta_l_fj"
+msgstr "斐济语"
+
+msgid "meta_l_fo"
+msgstr "法罗语"
+
+msgid "meta_l_fr"
+msgstr "法语"
+
+msgid "meta_l_fy"
+msgstr "弗里西语"
+
+msgid "meta_l_ga"
+msgstr "爱尔兰语"
+
+msgid "meta_l_gd"
+msgstr "苏格兰盖尔语"
+
+msgid "meta_l_gl"
+msgstr "加利西亚语"
+
+msgid "meta_l_gn"
+msgstr "瓜拉尼语"
+
+msgid "meta_l_gu"
+msgstr "古吉拉特语"
+
+msgid "meta_l_ha"
+msgstr "豪萨语"
+
+msgid "meta_l_he"
+msgstr "希伯来语"
+
+msgid "meta_l_hi"
+msgstr "印地语"
+
+msgid "meta_l_hr"
+msgstr "克罗地亚语"
+
+msgid "meta_l_hu"
+msgstr "匈牙利语"
+
+msgid "meta_l_hy"
+msgstr "亚美尼亚语"
+
+msgid "meta_l_ia"
+msgstr "拉丁国际语"
+
+msgid "meta_l_id"
+msgstr "印度尼西亚语"
+
+msgid "meta_l_ie"
+msgstr "国际语"
+
+msgid "meta_l_ik"
+msgstr "伊努帕克语"
+
+msgid "meta_l_is"
+msgstr "冰岛语"
+
+msgid "meta_l_it"
+msgstr "意大利语"
+
+msgid "meta_l_iu"
+msgstr "因纽特语"
+
+msgid "meta_l_ja"
+msgstr "日语"
+
+msgid "meta_l_jv"
+msgstr "爪哇语"
+
+msgid "meta_l_ka"
+msgstr "格鲁吉亚语"
+
+msgid "meta_l_kk"
+msgstr "哈萨克语"
+
+msgid "meta_l_kl"
+msgstr "格陵兰语"
+
+msgid "meta_l_km"
+msgstr "高棉语"
+
+msgid "meta_l_kn"
+msgstr "卡纳达语"
+
+msgid "meta_l_ko"
+msgstr "朝鲜语"
+
+msgid "meta_l_ks"
+msgstr "克什米尔语"
+
+msgid "meta_l_ku"
+msgstr "库尔德语"
+
+msgid "meta_l_ky"
+msgstr "吉尔吉斯语"
+
+msgid "meta_l_la"
+msgstr "拉丁语"
+
+msgid "meta_l_ln"
+msgstr "林格拉语"
+
+msgid "meta_l_lo"
+msgstr "老挝语"
+
+msgid "meta_l_lt"
+msgstr "立陶宛语"
+
+msgid "meta_l_lv"
+msgstr "拉脱维亚语；列托语"
+
+msgid "meta_l_mg"
+msgstr "马尔加什斯加语"
+
+msgid "meta_l_mi"
+msgstr "毛利语"
+
+msgid "meta_l_mk"
+msgstr "马其顿语"
+
+msgid "meta_l_ml"
+msgstr "马拉雅拉姆语"
+
+msgid "meta_l_mn"
+msgstr "蒙古语"
+
+msgid "meta_l_mo"
+msgstr "摩尔达维亚语"
+
+msgid "meta_l_mr"
+msgstr "马拉地语"
+
+msgid "meta_l_ms"
+msgstr "马来语"
+
+msgid "meta_l_mt"
+msgstr "马耳他语"
+
+msgid "meta_l_my"
+msgstr "缅甸语"
+
+msgid "meta_l_na"
+msgstr "瑙鲁语"
+
+msgid "meta_l_ne"
+msgstr "尼泊尔语"
+
+msgid "meta_l_nl"
+msgstr "荷兰语"
+
+msgid "meta_l_no"
+msgstr "挪威语"
+
+msgid "meta_l_oc"
+msgstr "奥克语"
+
+msgid "meta_l_om"
+msgstr "阿凡（奥罗莫）语"
+
+msgid "meta_l_or"
+msgstr "奥里亚语"
+
+msgid "meta_l_pa"
+msgstr "旁遮普语"
+
+msgid "meta_l_pl"
+msgstr "波兰语"
+
+msgid "meta_l_ps"
+msgstr "普什图语"
+
+msgid "meta_l_pt"
+msgstr "葡萄牙语"
+
+msgid "meta_l_qu"
+msgstr "奇楚亚语"
+
+msgid "meta_l_rm"
+msgstr "里托罗曼斯文"
+
+msgid "meta_l_rn"
+msgstr "库伦迪语"
+
+msgid "meta_l_ro"
+msgstr "罗马尼亚语"
+
+msgid "meta_l_ru"
+msgstr "俄罗斯语"
+
+msgid "meta_l_rw"
+msgstr "基尼亚卢旺达语"
+
+msgid "meta_l_sa"
+msgstr "梵文"
+
+msgid "meta_l_sd"
+msgstr "信德语"
+
+msgid "meta_l_sg"
+msgstr "桑侯语"
+
+msgid "meta_l_sh"
+msgstr "塞尔维亚 - 克罗地亚语"
+
+msgid "meta_l_si"
+msgstr "僧伽罗语"
+
+msgid "meta_l_sk"
+msgstr "斯洛伐克语"
+
+msgid "meta_l_sl"
+msgstr "斯洛文尼亚语"
+
+msgid "meta_l_sm"
+msgstr "萨摩亚语"
+
+msgid "meta_l_sn"
+msgstr "修纳语"
+
+msgid "meta_l_so"
+msgstr "索马里语"
+
+msgid "meta_l_sq"
+msgstr "阿尔巴尼亚语"
+
+msgid "meta_l_sr"
+msgstr "塞尔维亚语"
+
+msgid "meta_l_ss"
+msgstr "史瓦济语"
+
+msgid "meta_l_st"
+msgstr "塞索托语"
+
+msgid "meta_l_su"
+msgstr "巽他人语"
+
+msgid "meta_l_sv"
+msgstr "瑞典语"
+
+msgid "meta_l_sw"
+msgstr "斯瓦希里语"
+
+msgid "meta_l_ta"
+msgstr "泰米尔语"
+
+msgid "meta_l_te"
+msgstr "泰卢固语"
+
+msgid "meta_l_tg"
+msgstr "塔吉克语"
+
+msgid "meta_l_th"
+msgstr "泰语"
+
+msgid "meta_l_ti"
+msgstr "蒂格里亚语"
+
+msgid "meta_l_tk"
+msgstr "土库曼语"
+
+msgid "meta_l_tl"
+msgstr "塔加拉语"
+
+msgid "meta_l_tn"
+msgstr "茨瓦纳语"
+
+msgid "meta_l_to"
+msgstr "汤加语"
+
+msgid "meta_l_tr"
+msgstr "土耳其语"
+
+msgid "meta_l_ts"
+msgstr "特松加语"
+
+msgid "meta_l_tt"
+msgstr "鞑靼语"
+
+msgid "meta_l_tw"
+msgstr "特维语"
+
+msgid "meta_l_ug"
+msgstr "维吾尔语"
+
+msgid "meta_l_uk"
+msgstr "乌克兰语"
+
+msgid "meta_l_ur"
+msgstr "乌尔都语"
+
+msgid "meta_l_uz"
+msgstr "乌兹别克语"
+
+msgid "meta_l_vi"
+msgstr "越南语"
+
+msgid "meta_l_vo"
+msgstr "沃拉普克语"
+
+msgid "meta_l_wo"
+msgstr "沃洛夫语"
+
+msgid "meta_l_xh"
+msgstr "科萨语"
+
+#, fuzzy
+msgid "meta_l_xx"
+msgstr "none"
+
+msgid "meta_l_yi"
+msgstr "意第绪语"
+
+msgid "meta_l_yo"
+msgstr "约鲁巴语"
+
+msgid "meta_l_za"
+msgstr "壮语"
+
+msgid "meta_l_zh"
+msgstr "汉语"
+
+msgid "meta_l_zu"
+msgstr "祖鲁语"
+
+msgid "meta_language"
+msgstr "语言"
+
+#, fuzzy
+msgid "meta_language_plural"
+msgstr "Languages"
+
+msgid "meta_learner"
+msgstr "学习者"
+
+msgid "meta_learning_resource_type"
+msgstr "学习资源类型"
+
+#, fuzzy
+msgid "meta_learning_resource_type_plural"
+msgstr "Learning Resource Types"
+
+msgid "meta_lecture"
+msgstr "演讲"
+
+msgid "meta_lifecycle"
+msgstr "生命周期"
+
+msgid "meta_linear"
+msgstr "线性的"
+
+#, fuzzy
+msgid "meta_local"
+msgstr "Local"
+
+msgid "meta_location"
+msgstr "地点"
+
+#, fuzzy
+msgid "meta_location_plural"
+msgstr "Locations"
+
+#, fuzzy
+msgid "meta_lom"
+msgstr "Learning Object Metadata"
+
+#, fuzzy
+msgid "meta_lom_short"
+msgstr "LOM"
+
+msgid "meta_low"
+msgstr "低的"
+
+#, fuzzy
+msgid "meta_macos"
+msgstr "MAC-OS"
+
+msgid "meta_manager"
+msgstr "管理员"
+
+msgid "meta_maximum_version"
+msgstr "最高版本"
+
+msgid "meta_medium"
+msgstr "中等的"
+
+msgid "meta_meta_metadata"
+msgstr "元－元数据"
+
+msgid "meta_metadatascheme"
+msgstr "元数据配置"
+
+#, fuzzy
+msgid "meta_metadatascheme_plural"
+msgstr "Metadata Schemas"
+
+msgid "meta_minimum_version"
+msgstr "中级版本"
+
+msgid "meta_mixed"
+msgstr "混合的"
+
+#, fuzzy
+msgid "meta_ms-internet_explorer"
+msgstr "MS-Internet Explorer"
+
+#, fuzzy
+msgid "meta_ms-windows"
+msgstr "MS-Windows"
+
+#, fuzzy
+msgid "meta_multi-os"
+msgstr "Multi-OS"
+
+msgid "meta_name"
+msgstr "名称"
+
+msgid "meta_narrative_text"
+msgstr "叙述文本"
+
+#, fuzzy
+msgid "meta_netscape_communicator"
+msgstr "Netscape Communicator"
+
+msgid "meta_networked"
+msgstr "联网的"
+
+msgid "meta_new_element"
+msgstr "新元素"
+
+msgid "meta_no"
+msgstr "无"
+
+#, fuzzy
+msgid "meta_none"
+msgstr "None"
+
+#, fuzzy
+msgid "meta_obj_type_active"
+msgstr "Dataset offered"
+
+#, fuzzy
+msgid "meta_obj_type_inactive"
+msgstr "Not Used"
+
+#, fuzzy
+msgid "meta_obj_type_mandatory"
+msgstr "Mandatory"
+
+#, fuzzy
+msgid "meta_obj_type_optional"
+msgstr "Optional"
+
+#, fuzzy
+msgid "meta_oer_copyright_selection"
+msgstr "Lizenzauswahl"
+
+#, fuzzy
+msgid "meta_oer_copyright_selection_info"
+msgstr "Nur Objekte, die unter den/der ausgewählten Lizenz veröffentlicht sind, werden in die OER-Kategorie verknüpft."
+
+#, fuzzy
+msgid "meta_oer_editorial_category"
+msgstr "Editorial Category"
+
+#, fuzzy
+msgid "meta_oer_editorial_step_info"
+msgstr "Add a step in the publishing workflow where objects can be checked by an editorial team before being published. Objects are first submitted to the Editorial Category. Only after being accepted are they moved to the category for published OER content, and records for the OAI-PMH interface are compiled."
+
+#, fuzzy
+msgid "meta_oer_editorial_step_toggle"
+msgstr "Enable Editorial Step"
+
+#, fuzzy
+msgid "meta_oer_exposed_source"
+msgstr "Category for Published OER Content"
+
+#, fuzzy
+msgid "meta_oer_harvested_licences"
+msgstr "Licences for Harvesting"
+
+#, fuzzy
+msgid "meta_oer_harvested_types"
+msgstr "Types of Objects to be Harvested"
+
+#, fuzzy
+msgid "meta_oer_harvester"
+msgstr "OER Harvester"
+
+#, fuzzy
+msgid "meta_oer_harvester_desc"
+msgstr "OER Harvester"
+
+#, fuzzy
+msgid "meta_oer_object_type_selection"
+msgstr "Harvested Object Types"
+
+#, fuzzy
+msgid "meta_opera"
+msgstr "Opera"
+
+msgid "meta_operating_system"
+msgstr "操作系统"
+
+msgid "meta_or_composite"
+msgstr "或合成"
+
+#, fuzzy
+msgid "meta_or_composite_plural"
+msgstr "Or Composites"
+
+#, fuzzy
+msgid "meta_order"
+msgstr "Order"
+
+msgid "meta_other"
+msgstr "其它"
+
+msgid "meta_other_plattform_requirements"
+msgstr "其它平台要求"
+
+#, fuzzy
+msgid "meta_pc-dos"
+msgstr "PC-DOS"
+
+msgid "meta_pointofcontact"
+msgstr "联络点"
+
+msgid "meta_prerequisite"
+msgstr "先决条件"
+
+msgid "meta_problem_statement"
+msgstr "问题陈述"
+
+msgid "meta_publisher"
+msgstr "出版者"
+
+#, fuzzy
+msgid "meta_publishing_config_cp"
+msgstr "Copyright Selection: <strong>%s</strong>"
+
+#, fuzzy
+msgid "meta_publishing_config_cron_job_admin"
+msgstr "Cron Job Administration"
+
+#, fuzzy
+msgid "meta_publishing_config_disabled"
+msgstr "Disabled"
+
+#, fuzzy
+msgid "meta_publishing_config_enabled"
+msgstr "Enabled"
+
+#, fuzzy
+msgid "meta_publishing_config_harvester"
+msgstr "OER Harvester: <strong>%s</strong>"
+
+#, fuzzy
+msgid "meta_publishing_config_status"
+msgstr "For publishing to function, copyright selection and the OER Harvester cron job have to be enabled."
+
+msgid "meta_purpose"
+msgstr "用途"
+
+msgid "meta_questionnaire"
+msgstr "调查表"
+
+msgid "meta_references"
+msgstr "参考"
+
+msgid "meta_relation"
+msgstr "关系"
+
+#, fuzzy
+msgid "meta_relation_plural"
+msgstr "Relations"
+
+msgid "meta_requirement"
+msgstr "要求"
+
+#, fuzzy
+msgid "meta_requirement_plural"
+msgstr "Requirements"
+
+msgid "meta_requires"
+msgstr "要求"
+
+msgid "meta_resource"
+msgstr "资源"
+
+msgid "meta_revised"
+msgstr "修订"
+
+msgid "meta_rights"
+msgstr "权限"
+
+msgid "meta_role"
+msgstr "角色"
+
+#, fuzzy
+msgid "meta_save_order"
+msgstr "Save Order"
+
+msgid "meta_school"
+msgstr "学校"
+
+msgid "meta_scriptwriter"
+msgstr "编剧"
+
+#, fuzzy
+msgid "meta_second_author"
+msgstr "Second Author"
+
+#, fuzzy
+msgid "meta_section"
+msgstr "Section"
+
+msgid "meta_security_level"
+msgstr "安全登记"
+
+msgid "meta_self_assessment"
+msgstr "自我评价"
+
+msgid "meta_semantic_density"
+msgstr "语义密度"
+
+msgid "meta_simulation"
+msgstr "模拟"
+
+msgid "meta_size"
+msgstr "大小"
+
+msgid "meta_skill_level"
+msgstr "技能水平"
+
+msgid "meta_slide"
+msgstr "幻灯"
+
+msgid "meta_source"
+msgstr "源"
+
+msgid "meta_status"
+msgstr "状况"
+
+#, fuzzy
+msgid "meta_string"
+msgstr "Text"
+
+msgid "meta_structure"
+msgstr "结构"
+
+#, fuzzy
+msgid "meta_tab_advmd"
+msgstr "Custom Metadata"
+
+#, fuzzy
+msgid "meta_tab_advmd_def"
+msgstr "Custom Metadata Definition"
+
+#, fuzzy
+msgid "meta_tab_lom"
+msgstr "LOM"
+
+msgid "meta_table"
+msgstr "表格"
+
+msgid "meta_taxon"
+msgstr "分类"
+
+msgid "meta_taxon_path"
+msgstr "分类路径"
+
+#, fuzzy
+msgid "meta_taxon_path_plural"
+msgstr "Taxon Paths"
+
+#, fuzzy
+msgid "meta_taxon_plural"
+msgstr "Taxons"
+
+msgid "meta_teacher"
+msgstr "教师"
+
+msgid "meta_technical"
+msgstr "技术的"
+
+msgid "meta_technicalimplementer"
+msgstr "技术制订人"
+
+msgid "meta_technicalvalidator"
+msgstr "技术检验者"
+
+msgid "meta_terminator"
+msgstr "终结者"
+
+#, fuzzy
+msgid "meta_third_author"
+msgstr "Third Author"
+
+msgid "meta_title"
+msgstr "标题"
+
+msgid "meta_training"
+msgstr "训练"
+
+msgid "meta_type"
+msgstr "类型"
+
+msgid "meta_typical_age_range"
+msgstr "典型年龄范围"
+
+#, fuzzy
+msgid "meta_typical_age_range_plural"
+msgstr "Typical Age Ranges"
+
+msgid "meta_typical_learning_time"
+msgstr "典型学习时间"
+
+msgid "meta_unavailable"
+msgstr "不可用"
+
+#, fuzzy
+msgid "meta_unix"
+msgstr "Unix"
+
+msgid "meta_unknown"
+msgstr "未知"
+
+msgid "meta_validator"
+msgstr "检验者"
+
+msgid "meta_value"
+msgstr "值"
+
+msgid "meta_version"
+msgstr "版本"
+
+msgid "meta_very_difficult"
+msgstr "很难"
+
+msgid "meta_very_easy"
+msgstr "很容易"
+
+msgid "meta_very_high"
+msgstr "很高"
+
+msgid "meta_very_low"
+msgstr "很低"
+
+msgid "meta_yes"
+msgstr "是"
+
+#, fuzzy
+msgid "udf_type_address"
+msgstr "Address"
+
+#, fuzzy
+msgid "udf_type_externallink"
+msgstr "External Link"
+
+#, fuzzy
+msgid "udf_type_float"
+msgstr "Float"
+
+#, fuzzy
+msgid "udf_type_integer"
+msgstr "Integer"
+
+#, fuzzy
+msgid "udf_type_internallink"
+msgstr "Internal Link"
+
+#, fuzzy
+msgid "udf_type_location"
+msgstr "Location"
+
+#, fuzzy
+msgid "udf_type_selectmulti"
+msgstr "Selection List (Checkboxes)"

@@ -1,0 +1,918 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sl\n"
+"Language-Team: Slovenian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=4; plural=(n % 100 == 1) ? 0 : ((n % 100 == 2) ? 1 : ((n % 100 == 3 || n % 100 == 4) ? 2 : 3));\n"
+"X-Domain: dcl\n"
+
+msgid "add_value"
+msgstr "Dodaj nov vnos"
+
+msgid "dcl_activate_notification"
+msgstr "Obveščanje"
+
+msgid "dcl_add"
+msgstr "Ustvari zbirko podatkov"
+
+msgid "dcl_add_new_field"
+msgstr "Dodaj polje"
+
+msgid "dcl_add_new_record"
+msgstr "Dodaj vnos"
+
+msgid "dcl_add_new_table"
+msgstr "Dodaj novo tabelo"
+
+msgid "dcl_add_new_view"
+msgstr "Dodaj nov pogled"
+
+msgid "dcl_add_perm"
+msgstr "Dodaj nov vnos"
+
+msgid "dcl_add_perm_desc"
+msgstr "Uporabniki lahko ustvarijo vnose v tej tabeli."
+
+msgid "dcl_all_entries"
+msgstr "Vsi vnosi"
+
+msgid "dcl_any"
+msgstr "Vsi"
+
+msgid "dcl_asc"
+msgstr "Naraščajoči vrstni red (ASC)"
+
+msgid "dcl_boolean"
+msgstr "Potrditveno polje"
+
+msgid "dcl_boolean_desc"
+msgstr "Izbirno polje za \"pravilno\" ali \"ni pravilno\""
+
+msgid "dcl_cant_delete_last_table"
+msgstr "Te tabele ne morete popolnoma izbrisati, ker je edina tabela v tej zbirki podatkov. Namesto tega sta bili uspešno odstranjeni vsebina in struktura."
+
+msgid "dcl_change_notification_dcl_delete_record"
+msgstr "Naslednji vnos je bil izbrisan"
+
+msgid "dcl_change_notification_dcl_new_record"
+msgstr "Naslednji vnos je bil ustvarjen"
+
+msgid "dcl_change_notification_dcl_update_record"
+msgstr "Naslednji vnos je bil posodobljen"
+
+msgid "dcl_change_notification_link"
+msgstr "Pojdi na zbirko podatkov"
+
+msgid "dcl_change_notification_subject"
+msgstr "Zbirka podatkov \"%s\" je bila urejena."
+
+msgid "dcl_changed_by"
+msgstr "Zadnjič spremenil"
+
+msgid "dcl_checked"
+msgstr "Izbrano"
+
+msgid "dcl_comments"
+msgstr "Komentarji"
+
+msgid "dcl_comments_desc"
+msgstr "Prikaže število komentarjev na vnos."
+
+msgid "dcl_confirm_delete_field"
+msgstr "Ali res želite izbrisati to polje?"
+
+msgid "dcl_confirm_delete_fields"
+msgstr "Ali res želite izbrisati ta polja?"
+
+msgid "dcl_confirm_delete_record"
+msgstr "Ali res želite izbrisati ta vnos?"
+
+msgid "dcl_confirm_delete_records"
+msgstr "Ali ste prepričani, da želite izbrisati naslednje podatkovne zapise?"
+
+msgid "dcl_confirm_delete_table"
+msgstr "Ali res želite izbrisati to tabelo vključno z vsebino in strukturo?"
+
+msgid "dcl_confirm_storing_records"
+msgstr "Preverite podatke, preden jih shranite."
+
+msgid "dcl_confirm_storing_records_no_permission"
+msgstr "Za ponovno urejanje podatkovnega zapisa nimate pravic."
+
+msgid "dcl_copy"
+msgstr "Kopiraj zbirko podatkov"
+
+#, fuzzy
+msgid "dcl_copy_field"
+msgstr "Copy"
+
+#, fuzzy
+msgid "dcl_copy_field_desc"
+msgstr "Field to copy options stored in a different field of a table."
+
+#, fuzzy
+msgid "dcl_copy_title"
+msgstr "Copy of table and field"
+
+msgid "dcl_create_date"
+msgstr "Datum nastanka"
+
+#, fuzzy
+msgid "dcl_create_entry_rules"
+msgstr "Entry Creation"
+
+msgid "dcl_create_field"
+msgstr "Dodaj polje"
+
+msgid "dcl_create_fields"
+msgstr "V zavihku \"Tabele\" kliknite na tabelo in s pomočjo gumba \"Dodaj polje\" ustvarite novo polje."
+
+msgid "dcl_creation_date"
+msgstr "Datum nastanka"
+
+msgid "dcl_creation_date_description"
+msgstr "Datum nastanka tega vnosa."
+
+msgid "dcl_datatype"
+msgstr "Tip podatkov"
+
+#, fuzzy
+msgid "dcl_date"
+msgstr "Date Entry"
+
+#, fuzzy
+msgid "dcl_date_desc"
+msgstr "Users can enter a date of their choice or select one using a calendar."
+
+msgid "dcl_date_selection"
+msgstr "Izbirni meni za datum"
+
+msgid "dcl_date_selection_desc"
+msgstr "Zagotovitev izbirnih možnosti (datum)"
+
+msgid "dcl_datetime"
+msgstr "Vnos datuma"
+
+msgid "dcl_datetime_desc"
+msgstr "Vnos datuma prek izbirnega menija ali koledarja"
+
+#, fuzzy
+msgid "dcl_datetime_selection"
+msgstr "Datetime Selection"
+
+#, fuzzy
+msgid "dcl_datetime_selection_desc"
+msgstr "Allow a date and time to be chosen from among a predefined selection of datetime options."
+
+msgid "dcl_default_sort_field"
+msgstr "Razvrstitev"
+
+msgid "dcl_default_sort_field_order"
+msgstr "Smer razvrstitve"
+
+#, fuzzy
+msgid "dcl_default_sort_field_order_desc"
+msgstr "Arrange the order of the entries in the table based on this field."
+
+msgid "dcl_delete_fields"
+msgstr "Izbriši polja"
+
+#, fuzzy
+msgid "dcl_delete_fields_no_selection"
+msgstr "Please select at least one field to delete"
+
+msgid "dcl_delete_perm"
+msgstr "Izbriši vnose"
+
+msgid "dcl_delete_records"
+msgstr "Izbriši podatkovne zapise"
+
+#, fuzzy
+msgid "dcl_deleted_entries"
+msgstr "Deleted Entries"
+
+msgid "dcl_deleted_records"
+msgstr "Izbrisanih je bilo %s podatkovnih zapisov"
+
+#, fuzzy
+msgid "dcl_deprecated_copy"
+msgstr "(Deprecated)"
+
+msgid "dcl_desc"
+msgstr "Padajoči vrstni red (DESC)"
+
+msgid "dcl_description"
+msgstr "Opis"
+
+msgid "dcl_detailed_view"
+msgstr "Podroben pogled"
+
+msgid "dcl_display_action_menu"
+msgstr "Kopiraj"
+
+#, fuzzy
+msgid "dcl_display_action_menu_desc"
+msgstr "The object can be copied from the entry."
+
+msgid "dcl_display_record_alt"
+msgstr "Prikaži ta vnos"
+
+#, fuzzy
+msgid "dcl_download_import_template"
+msgstr "Download Import Template"
+
+#, fuzzy
+msgid "dcl_duplicate_non_unique_entries_exist"
+msgstr "This may also concern existing records."
+
+msgid "dcl_edit"
+msgstr "Uredi zbirko podatkov"
+
+#, fuzzy
+msgid "dcl_edit_entry_rules"
+msgstr "Entry Editing"
+
+msgid "dcl_edit_field"
+msgstr "Uredi polje"
+
+msgid "dcl_edit_perm"
+msgstr "Uredi vnose"
+
+msgid "dcl_edit_table"
+msgstr "Nastavitve tabele"
+
+#, fuzzy
+msgid "dcl_edit_view"
+msgstr "Edit Settings of View \"%s\""
+
+msgid "dcl_editable_in_table_gui"
+msgstr "Vnos lahko ocenite samo v pogledu tabele."
+
+msgid "dcl_err_formula_field_not_found"
+msgstr "Polje z naslovom '%s' ne obstaja"
+
+msgid "dcl_error_parsing_expression"
+msgstr "Napaka pri oceni izraza"
+
+msgid "dcl_export_enabled"
+msgstr "Izvozi tabelo"
+
+msgid "dcl_export_enabled_desc"
+msgstr "Vsi uporabniki lahko sami izvozijo podatke iz tabele. Za to mora biti v pogledu \"Polja izbrane tabele\" za vsako polje posebej izbrana možnost izvoza."
+
+msgid "dcl_field_datatype"
+msgstr "Polje tipa podatkov"
+
+msgid "dcl_field_description"
+msgstr "Opis"
+
+#, fuzzy
+msgid "dcl_field_description_desc"
+msgstr "The description will be shown below the input field when making a new entry."
+
+msgid "dcl_field_title_change_warning"
+msgstr "Spremenili ste naslov polja, zato rezervirana mesta v predlogi strani morda ne delujejo več in jih boste po potrebi morali ročno prilagoditi."
+
+msgid "dcl_field_title_unique"
+msgstr "Polje s tem naslovom že obstaja. Naslov mora biti edinstven."
+
+msgid "dcl_field_visible"
+msgstr "Vidno"
+
+msgid "dcl_fieldtitle"
+msgstr "Naslov polja"
+
+#, fuzzy
+msgid "dcl_file"
+msgstr "Fileupload"
+
+#, fuzzy
+msgid "dcl_file_desc"
+msgstr "Field to upload arbitrary files. They can be downloaded with a link."
+
+msgid "dcl_file_format_description"
+msgstr "Datoteka za uvoz mora biti v obliki Excel .XLSX, podatki, ki jih želite uvoziti, pa na prvem listu. V prvi vrstici morajo biti točni naslovi polj (vključno z velikimi črkami), v naslednjih vrsticah pa vrednosti vnosov podatkovnih zapisov, ki jih želite uvoziti. Priporočljivo je, da najprej izvedete simulacijo vsakega uvoza. Pri uvozu večkratnih vnosov v poljih z izbirnim menijem in referenčnih poljih za ločevanje uporabite podpičje in/ali vejico."
+
+msgid "dcl_file_not_readable"
+msgstr "Datoteke ni bilo mogoče prebrati. Uporabite obliko datoteke .xlsx."
+
+msgid "dcl_filter"
+msgstr "Na voljo v filtru"
+
+msgid "dcl_filter_changeable"
+msgstr "Spremenljiv filter"
+
+msgid "dcl_formula"
+msgstr "Formula"
+
+msgid "dcl_formula_desc"
+msgstr "Podobno kot pri računskih tabelah lahko s pomočjo formule združite ali izračunate več vnosov."
+
+msgid "dcl_formula_detail_desc"
+msgstr "Vnosi v tem polju se generirajo samodejno. Tukaj ne morete izvesti vnosa."
+
+msgid "dcl_height"
+msgstr "Višina"
+
+#, fuzzy
+msgid "dcl_height_desc"
+msgstr "The height of the file will be reduced to this value during upload."
+
+msgid "dcl_id"
+msgstr "ID"
+
+msgid "dcl_id_description"
+msgstr "Notranja ID."
+
+msgid "dcl_ilias_reference"
+msgstr "Objekt v magazinu"
+
+msgid "dcl_ilias_reference_desc"
+msgstr "Iskalno polje za izbiro in povezavo objekta v ILIAS-u."
+
+msgid "dcl_ilias_reference_link"
+msgstr "Prikaži kot povezavo v pogledu tabele"
+
+msgid "dcl_import_enabled"
+msgstr "Uvozi tabelo"
+
+msgid "dcl_import_enabled_desc"
+msgstr "Vsi uporabniki lahko sami uvozijo podatke v tabele, če imajo potrebne pravice za pisanje."
+
+msgid "dcl_import_records .xls"
+msgstr "Uvoz Excel"
+
+#, fuzzy
+msgid "dcl_import_template_no_fields"
+msgstr "Create fields with titles for this table before you can download an import template."
+
+msgid "dcl_import_terminated"
+msgstr "Uvoz je zaključen. Število uvoženih podatkovnih zapisov"
+
+msgid "dcl_in_export"
+msgstr "Možno izvoziti"
+
+msgid "dcl_invalid_regex_config"
+msgstr "Regularni izraz, konfiguriran za to polje, ni veljaven. Preverite nastavitve tega polja, da odpravite težavo."
+
+msgid "dcl_last_edit_by"
+msgstr "Nazadnje spremenil"
+
+msgid "dcl_last_edited_by"
+msgstr "Nazadnje spremenil"
+
+msgid "dcl_last_edited_by_description"
+msgstr "Uporabnik, ki je nazadnje spremenil ta vnos."
+
+msgid "dcl_last_update"
+msgstr "Zadnja sprememba"
+
+msgid "dcl_last_update_description"
+msgstr "Datum zadnje spremembe tega vnosa."
+
+msgid "dcl_learning_progress"
+msgstr "Prikaži učni napredek"
+
+#, fuzzy
+msgid "dcl_learning_progress_desc"
+msgstr "Show each user their own learning progress for the selected object."
+
+msgid "dcl_legend_placeholders"
+msgstr "Rezervirano mesto"
+
+msgid "dcl_length"
+msgstr "Dolžina"
+
+msgid "dcl_length_info"
+msgstr "Maksimalno število znakov, ki jih lahko vnese uporabnik. Za več kot 200 znakov aktivirajte možnost \"Večvrstično polje za vnos besedila\"."
+
+msgid "dcl_limit_end"
+msgstr "Konec"
+
+msgid "dcl_limit_start"
+msgstr "Začetek"
+
+msgid "dcl_limited"
+msgstr "Časovno omejeno urejanje"
+
+msgid "dcl_limited_desc"
+msgstr "Uporabniki lahko dodajajo, urejajo in brišejo vnose samo do določenega datuma."
+
+msgid "dcl_link_detail_page"
+msgstr "Povezava na stran s podrobnostmi"
+
+#, fuzzy
+msgid "dcl_link_detail_page_desc"
+msgstr "Additionally, a detailed view template must have been created and activated within the tab ‘Detailed View’."
+
+msgid "dcl_list_fields"
+msgstr "Polja"
+
+msgid "dcl_list_visibility_and_filter"
+msgstr "Vidnost in filtri"
+
+msgid "dcl_manage"
+msgstr "Upravljaj"
+
+msgid "dcl_max_digits"
+msgstr "Maksimalno število števk"
+
+msgid "dcl_max_import"
+msgstr "Maksimalno število uvoženih podatkovnih zapisov je bilo preseženo."
+
+msgid "dcl_max_text_length"
+msgstr "Maksimalna dolžina"
+
+msgid "dcl_mob"
+msgstr "Medijski objekt"
+
+msgid "dcl_mob_desc"
+msgstr "Možnosti za nalaganje slikovnih, zvočnih ali video datotek, ki bodo neposredno prikazane v zbirki podatkov. Dovoljeni tipi datotek: %s"
+
+msgid "dcl_msg_field_modified"
+msgstr "Polje je bilo posodobljeno"
+
+msgid "dcl_msg_fields_deleted"
+msgstr "Izbrisana polja"
+
+msgid "dcl_msg_mc_to_sc_confirmation"
+msgstr "Preklop med večkratno izbiro na posamezno izbiro lahko pri obstoječih podatkovnih zapisih povzroči izgubo podatkov. Ali ste prepričani, da želite nadaljevati?"
+
+msgid "dcl_msg_no_perm_edit"
+msgstr "Nimate dovoljenja za urejanje tega vnosa"
+
+msgid "dcl_msg_no_perm_view"
+msgstr "Nimate dovoljenja za ogled tega vnosa"
+
+msgid "dcl_msg_table_created"
+msgstr "Tabela je ustvarjena"
+
+msgid "dcl_msg_table_edited"
+msgstr "Nastavitve tabele so bile shranjene."
+
+msgid "dcl_msg_tableview_created"
+msgstr "Pogled je dodan"
+
+msgid "dcl_msg_tableview_deleted"
+msgstr "Pogled je izbrisan"
+
+msgid "dcl_msg_tableview_updated"
+msgstr "Pogled je posodobljen"
+
+msgid "dcl_msg_tableviews_delete_all"
+msgstr "Brisanje ni mogoče: Obstajati mora vsaj en pogled"
+
+msgid "dcl_multiple_selection"
+msgstr "Večkratna izbira"
+
+msgid "dcl_new"
+msgstr "Ustvari novo zbirko podatkov"
+
+#, fuzzy
+msgid "dcl_new_entries"
+msgstr "New Entries"
+
+msgid "dcl_new_field"
+msgstr "Novo polje"
+
+msgid "dcl_new_table"
+msgstr "Nova tabela"
+
+#, fuzzy
+msgid "dcl_new_view"
+msgstr "New View"
+
+#, fuzzy
+msgid "dcl_no_entries"
+msgstr "Action not permitted"
+
+msgid "dcl_no_entry"
+msgstr "No entry"
+
+#, fuzzy
+msgid "dcl_no_export_async_config"
+msgstr "No SOAP Configuration for asyncronous exports available."
+
+msgid "dcl_no_export_data_available"
+msgstr "Ni razpoložljivih podatkov ali polj za izvoz."
+
+msgid "dcl_no_fields_yet"
+msgstr "Za to tabelo še niso bila ustvarjena polja, zato ne morete vstaviti vnosov."
+
+msgid "dcl_no_search_results_found_for"
+msgstr "Najden ni bil noben modul z:"
+
+msgid "dcl_no_such_reference"
+msgstr "Naslednja vrednost ni na voljo v referenčni tabeli:"
+
+#, fuzzy
+msgid "dcl_no_table_found"
+msgstr "No table found."
+
+#, fuzzy
+msgid "dcl_no_tableview_found"
+msgstr "No visible tableview found!"
+
+msgid "dcl_not_checked"
+msgstr "Ni izbrano"
+
+msgid "dcl_not_supported_in_import"
+msgstr "Ta tip polja ni podprt za uvoz."
+
+#, fuzzy
+msgid "dcl_notification_activate"
+msgstr "Activate Notification for Data Collection"
+
+msgid "dcl_notification_activated"
+msgstr "Obveščanje je aktivirano"
+
+#, fuzzy
+msgid "dcl_notification_deactivate"
+msgstr "Deactivate Notification for Data Collection"
+
+msgid "dcl_notification_deactivated"
+msgstr "Obveščanje je onemogočeno"
+
+msgid "dcl_notification_info"
+msgstr "Aktivira individualno funkcijo obveščanja za uporabnike."
+
+#, fuzzy
+msgid "dcl_notification_settings"
+msgstr "Notification Settings"
+
+msgid "dcl_noturl_exception"
+msgstr "Vnesite povezavo (začenši s http:// ali www.) ali e-poštni naslov."
+
+msgid "dcl_number"
+msgstr "Cela števila"
+
+msgid "dcl_number_desc"
+msgstr "Vnosno polje za cela števila (maksimalno 9 števk). Ulomki in decimalna števila niso dovoljeni."
+
+msgid "dcl_online_info"
+msgstr "Samo če je zbirka podatkov na spletu, jo uporabniki lahko vidijo in uporabljajo."
+
+#, fuzzy
+msgid "dcl_open_detail_view"
+msgstr "Open detail view"
+
+#, fuzzy
+msgid "dcl_open_url"
+msgstr "Open link"
+
+msgid "dcl_order"
+msgstr "Razvrstitev"
+
+#, fuzzy
+msgid "dcl_origin_not_found"
+msgstr "Origin field was not found!"
+
+msgid "dcl_own_entries"
+msgstr "Samo lastni vnosi"
+
+msgid "dcl_owner"
+msgstr "Imetnik"
+
+msgid "dcl_owner_description"
+msgstr "Imetnik tega vnosa."
+
+msgid "dcl_owner_name"
+msgstr "Imetnik (ime)"
+
+msgid "dcl_page_type_dclf"
+msgstr "Details View"
+
+#, fuzzy
+msgid "dcl_placeholder_info"
+msgstr "To use data from the data collection in this view, please use the corresponding placeholders. These are available in the page element 'Text' and 'Data Table'."
+
+msgid "dcl_please_select"
+msgstr "--- Izberite ---"
+
+msgid "dcl_prop_expression"
+msgstr "Izraz"
+
+msgid "dcl_prop_expression_info"
+msgstr "Veljavni operaterji: <b>%s</b><br>Podprte funkcije: <b>%s</b><br>Uporabite oklepaje <b>\"(\", \")\"</b> za združevanje izrazov.<br>Nize znakov in rezervirana mesta združite z &: <b>\"Rezultat je \" & [[Int 1]] * [[Int 2]]</b><br>Uporaba funkcij: <b>SUM([[Int 1]];[[Int 2]])</b><br><br>Veljavna polja (kliknite na naslov, da vstavite v izraz kot rezervirano mesto):<br>%s"
+
+msgid "dcl_rating"
+msgstr "Ocena"
+
+msgid "dcl_rating_desc"
+msgstr "Uporabniki lahko vnose ocenijo z največ petimi zvezdicami."
+
+msgid "dcl_record"
+msgstr "Vnos"
+
+msgid "dcl_record_deleted"
+msgstr "Vnos je izbrisan"
+
+#, fuzzy
+msgid "dcl_record_settings"
+msgstr "Record Settings"
+
+msgid "dcl_reference"
+msgstr "Referenca"
+
+msgid "dcl_reference_desc"
+msgstr "Zagotovitev izbirnih možnosti, ki so shranjene v drugem polju tabele"
+
+msgid "dcl_reference_link"
+msgstr "Prikaži kot povezavo do referenčnega vnosa"
+
+msgid "dcl_reference_link_info"
+msgstr "Predloga strani za podroben pogled mora biti aktivirana v referenčni tabeli"
+
+msgid "dcl_reference_title"
+msgstr "Referenca za tabelo in polje"
+
+#, fuzzy
+msgid "dcl_reference_title_desc"
+msgstr "The data entries of the selected field will be the selectable options in this field."
+
+msgid "dcl_regex"
+msgstr "Regularni izraz"
+
+msgid "dcl_regex_info"
+msgstr "Vnos brez ločila"
+
+msgid "dcl_row_not_found"
+msgstr " - This field couldn't be found in the table."
+
+msgid "dcl_save_confirmation"
+msgstr "Potrditev shranjevanja"
+
+msgid "dcl_save_confirmation_desc"
+msgstr "Uporabniki morajo potrditi nove vnose v bazo podatkov"
+
+msgid "dcl_selection_options"
+msgstr "Možnosti"
+
+msgid "dcl_selection_type"
+msgstr "Tip"
+
+msgid "dcl_selection_type_combobox"
+msgstr "Combobox (spustni seznam)"
+
+msgid "dcl_selection_type_multi"
+msgstr "Večkratna izbira"
+
+msgid "dcl_selection_type_single"
+msgstr "Enkratna izbira"
+
+msgid "dcl_simulate_import"
+msgstr "Simuliraj uvoz"
+
+#, fuzzy
+msgid "dcl_simulate_import_info"
+msgstr "Simulating the import will not make any entries into the data collection, but rather give you feedback regarding any problems with the import file, thus helping you to avoid corrupted entries."
+
+msgid "dcl_skipped_delete_records"
+msgstr "%s podatkovnih zapisov ni bilo izbrisanih zaradi nastavitev pravic"
+
+msgid "dcl_status"
+msgstr "Tvoj status"
+
+msgid "dcl_std_field_not_importable"
+msgstr " - Privzetih polj ni mogoče uvoziti."
+
+msgid "dcl_std_filter"
+msgstr "Prednastavitev filtra"
+
+msgid "dcl_supported_filetypes"
+msgstr "Dovoljene končnice datotek"
+
+msgid "dcl_supported_filetypes_desc"
+msgstr "Tukaj lahko vnesete končnice datotek, ločene z vejicami. Na primer: pdf, docx"
+
+msgid "dcl_table"
+msgstr "Tabela"
+
+msgid "dcl_table_id"
+msgstr "ID tabele"
+
+#, fuzzy
+msgid "dcl_table_settings"
+msgstr "Table Settings."
+
+msgid "dcl_table_settings_saved"
+msgstr "Nastavitve tabele so bile shranjene."
+
+msgid "dcl_table_title_not_matching"
+msgstr "Naslova Excelovega delovnega lista in tabele v zbirki podatkov se ne ujemata. Preimenujte delovni list, da boste lahko uspešno izvedli uvoz."
+
+msgid "dcl_table_title_unique"
+msgstr "Tabela s tem naslovom že obstaja. Naslov mora biti edinstven."
+
+msgid "dcl_tables"
+msgstr "Tabele"
+
+msgid "dcl_tableview"
+msgstr "Pogled"
+
+msgid "dcl_tableview_add"
+msgstr "Dodaj nov pogled"
+
+msgid "dcl_tableview_confirm_delete"
+msgstr "Ali ste prepričani, da želite izbrisati naslednji pogled?"
+
+#, fuzzy
+msgid "dcl_tableview_copy"
+msgstr "View successfully copied"
+
+#, fuzzy
+msgid "dcl_tableview_default_value"
+msgstr "Default Value"
+
+#, fuzzy
+msgid "dcl_tableview_default_value_fail"
+msgstr "Some numeric default values couldn't be saved because they contained letters. Please try again."
+
+#, fuzzy
+msgid "dcl_tableview_field_access"
+msgstr "Field Access"
+
+msgid "dcl_tableview_fieldsettings"
+msgstr "Nastavitve, specifične za polje"
+
+#, fuzzy
+msgid "dcl_tableview_fieldtitle"
+msgstr "Field Title"
+
+#, fuzzy
+msgid "dcl_tableview_locked_visible"
+msgstr "Locked & Visible"
+
+#, fuzzy
+msgid "dcl_tableview_not_visible"
+msgstr "Not Visible"
+
+#, fuzzy
+msgid "dcl_tableview_required"
+msgstr "Required"
+
+#, fuzzy
+msgid "dcl_tableview_required_visible"
+msgstr "Required & Visible"
+
+#, fuzzy
+msgid "dcl_tableview_visible"
+msgstr "Visible"
+
+msgid "dcl_tableviews"
+msgstr "Pogledi"
+
+#, fuzzy
+msgid "dcl_tableviews_of_X"
+msgstr "Views of table %s"
+
+msgid "dcl_text"
+msgstr "Vnos besedila"
+
+msgid "dcl_text_desc"
+msgstr "Polje za vnos besedila, povezav ali e-poštnih naslovov."
+
+msgid "dcl_text_email_detail_desc"
+msgstr "Vnesite veljaven e-poštni naslov ali URL."
+
+msgid "dcl_text_email_title"
+msgstr "Naslov"
+
+msgid "dcl_text_email_title_info"
+msgstr "Naslov za URL ali e-poštni naslov (izbirno)."
+
+msgid "dcl_text_selection"
+msgstr "Izbirni meni besedilo"
+
+msgid "dcl_text_selection_desc"
+msgstr "Zagotovitev izbirnih možnosti (besedilo)"
+
+#, fuzzy
+msgid "dcl_title_standard"
+msgstr "Standard"
+
+msgid "dcl_unique"
+msgstr "Prepreči enake vnose"
+
+msgid "dcl_unique_desc"
+msgstr "V tem polju je dovoljen samo en identičen vnos."
+
+msgid "dcl_unique_exception"
+msgstr "Vneseno vrednost že uporablja drug vnos."
+
+#, fuzzy
+msgid "dcl_unknown"
+msgstr "Unkown"
+
+msgid "dcl_unknown_exception"
+msgstr "Vnesena vrednost ni veljavna."
+
+#, fuzzy
+msgid "dcl_unknown_plugin"
+msgstr "Unknown plugin type"
+
+msgid "dcl_update_field"
+msgstr "Posodobi polje"
+
+msgid "dcl_update_record"
+msgstr "Posodobi vnos"
+
+#, fuzzy
+msgid "dcl_updated_entries"
+msgstr "Updated Entries"
+
+msgid "dcl_url"
+msgstr "URL ali e-pošta"
+
+msgid "dcl_view_own_records_perm"
+msgstr "Prikaži samo lastne vnose"
+
+#, fuzzy
+msgid "dcl_view_own_records_perm_desc"
+msgstr "The entries of other users are not visible."
+
+msgid "dcl_view_viewdefinition"
+msgstr "Predloga strani"
+
+msgid "dcl_visible"
+msgstr "Vidno vsem uporabnikom"
+
+msgid "dcl_visible_desc"
+msgstr "Uporabniki imajo dostop do te tabele."
+
+msgid "dcl_width"
+msgstr "Širina"
+
+#, fuzzy
+msgid "dcl_width_desc"
+msgstr "The width of the file will be reduced to this value during upload."
+
+msgid "dcl_wrong_input_type"
+msgstr "Vneseno besedilo se ne ujema s tipom tega polja (napačna vrsta)."
+
+msgid "dcl_wrong_length"
+msgstr "Vneseno besedilo je predolgo."
+
+msgid "dcl_wrong_regex"
+msgstr "Vneseno besedilo se ne ujema s specifikacijo tega polja (regularni izraz)."
+
+#, fuzzy
+msgid "dcl_xls_async_export"
+msgstr "Asynchronous XLSX-Export"
+
+#, fuzzy
+msgid "disable_comments"
+msgstr "Disable comments"
+
+#, fuzzy
+msgid "disable_visible"
+msgstr "Disable visible"
+
+#, fuzzy
+msgid "duplicate_entries_exist"
+msgstr "The existing records already contain duplicated entries."
+
+#, fuzzy
+msgid "enable_comments"
+msgstr "Enable comments"
+
+#, fuzzy
+msgid "enable_visible"
+msgstr "Enable visible"
+
+#, fuzzy
+msgid "entry_of"
+msgstr "Entry %1$d of %2$d"
+
+msgid "fieldtitle_allow_chars"
+msgstr "Nedovoljeni znaki: %s"
+
+#, fuzzy
+msgid "fileupload_not_migrated"
+msgstr "File has not yet been migration and cannot be displayed. Please contact your System-Administrator."
+
+#, fuzzy
+msgid "role_limitation"
+msgstr "Role-based View Limitation"
+
+#, fuzzy
+msgid "roles"
+msgstr "Roles with Access"
+
+#, fuzzy
+msgid "roles_desc"
+msgstr "Define wich roles have access to the view."
+
+#, fuzzy
+msgid "set_as_default"
+msgstr "Set as default"
+
+#, fuzzy
+msgid "table_not_found"
+msgstr "Table not found!"
+
+#, fuzzy
+msgid "tableview_not_found"
+msgstr "Table view not found!"

@@ -1,0 +1,714 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: forum\n"
+
+msgid "activate_new_posts"
+msgstr "Neue Beiträge freischalten"
+
+msgid "activate_only_current"
+msgstr "Beitrag freischalten"
+
+msgid "activate_post"
+msgstr "Freischalten"
+
+msgid "activate_post_txt"
+msgstr "Möchten Sie diesen Beitrag freischalten?"
+
+msgid "add_new_answer"
+msgstr "Neuer Beitrag"
+
+msgid "add_re_to_subject"
+msgstr "Titel des Beitrags wird für Antwort mit vorangestelltem „Re:“ automatisch übernommen."
+
+msgid "adm_autosave_drafts"
+msgstr "Entwürfe automatisch speichern"
+
+msgid "adm_autosave_drafts_desc"
+msgstr "Wenn aktiviert, werden Entwürfe während des Editierens automatisch gespeichert."
+
+msgid "adm_autosave_ival"
+msgstr "Speicherintervall"
+
+msgid "adm_save_drafts"
+msgstr "Entwürfe aktivieren"
+
+msgid "adm_save_drafts_desc"
+msgstr "Wenn aktiviert, können angemeldete Benutzer Beiträge in Foren als Entwurf speichern"
+
+msgid "allow_file_upload_desc"
+msgstr "Wenn aktiviert, können in diesem Forum Dateien an Forenbeiträge angehängt werden."
+
+msgid "ascending_order"
+msgstr "Neueste Beiträge unten"
+
+msgid "autosave_draft_info"
+msgstr "<span class=\"asterisk\">Dieser Entwurf wird alle %s Sekunden automatisch gespeichert.<span/>"
+
+msgid "autosave_post_draft_info"
+msgstr "<span class=\"asterisk\">Dieser Beitrag wird alle %s Sekunden automatisch als Entwurf gespeichert.<span/>"
+
+msgid "close_topics"
+msgstr "Schließen"
+
+msgid "content_censored_post"
+msgstr "Inhalt des zensierten Beitrags:"
+
+msgid "content_deleted_post"
+msgstr "Inhalt des gelöschten Beitrags:"
+
+msgid "content_deleted_thread"
+msgstr "Inhalt des gelöschten Themas:"
+
+msgid "content_post_updated"
+msgstr "Inhalt des geänderten Beitrags:"
+
+msgid "deletePosting"
+msgstr "Beitrag löschen"
+
+msgid "deletePostingDraft"
+msgstr "Beitragsentwurf löschen"
+
+msgid "delete_draft_successfully"
+msgstr "Der Entwurf wurde erfolgreich gelöscht."
+
+msgid "delete_drafts_successfully"
+msgstr "Die Entwürfe wurden erfolgreich gelöscht."
+
+msgid "delete_thread"
+msgstr "Thema löschen"
+
+msgid "descending_order"
+msgstr "Neueste Beiträge oben"
+
+msgid "edit_thread_draft"
+msgstr "Themenentwurf bearbeiten"
+
+msgid "empty_subject"
+msgstr "Benutzer müssen Titel selbst angeben."
+
+msgid "empty_thread"
+msgstr "Leeres Thema"
+
+msgid "enable_send_attachments"
+msgstr "Dateien an Foren-Benachrichtigungen anhängen"
+
+msgid "enable_send_attachments_desc"
+msgstr "Bitte beachten Sie, dass Datei-Anhänge für jeden benachrichtigten Benutzer separat gespeichert werden müssen, sofern die Zustellung auch als interne Nachricht erfolgt. Dies kann eine sehr hohe Belegung des Festplattenspeichers auf dem Server hervorrufen."
+
+msgid "enable_thread_ratings"
+msgstr "Themen bewerten"
+
+msgid "enable_thread_ratings_info"
+msgstr "Themen dieses Forums können von Benutzern bewertet werden."
+
+msgid "enter_new_subject"
+msgstr "Bitte geben Sie einen neuen Beitragstitel ein"
+
+msgid "error_no_target_selected"
+msgstr "Bitte wählen Sie ein Forum."
+
+msgid "error_reading_file"
+msgstr "Beim Lesen der Datei ist ein Fehler aufgetreten"
+
+msgid "error_same_thread_ids"
+msgstr "Es müssen zwei verschiedene Themen ausgewählt werden."
+
+msgid "file_upload_allowed"
+msgstr "Dateien anhängen"
+
+msgid "file_upload_allowed_fora"
+msgstr "Dateien anhängen"
+
+msgid "file_upload_allowed_fora_desc"
+msgstr "Anhängen von Dateien muss in jedem Forum aktiviert werden. Bei neuen Foren wird das Anhängen von Dateien standardmäßig deaktiviert."
+
+msgid "file_upload_option_allow"
+msgstr "Anhängen von Dateien in allen Foren erlauben"
+
+msgid "file_upload_option_allow_info"
+msgstr "In allen Foren können Dateien an Beiträge angehängt werden."
+
+msgid "file_upload_option_disallow"
+msgstr "Anhängen von Dateien in ausgewählten Foren erlauben"
+
+msgid "fmr_copy_threads_info"
+msgstr "Sie können hier Themen auswählen, die kopiert werden sollen. Es werden nur die Anfangsbeiträge, nicht deren Antworten kopiert."
+
+msgid "forum_add_quote"
+msgstr "Zitieren"
+
+msgid "forums_all_threads_marked_read"
+msgstr "Alle Themen wurden als gelesen markiert."
+
+msgid "forums_attachments"
+msgstr "Dateianhänge"
+
+msgid "forums_attachments_add"
+msgstr "Datei anhängen"
+
+msgid "forums_censor_comment"
+msgstr "Bemerkung der Moderation"
+
+msgid "forums_count_art"
+msgstr "Anzahl Beiträge"
+
+msgid "forums_created_by"
+msgstr "Angelegt von"
+
+msgid "forums_delete_file"
+msgstr "Dateianhang löschen"
+
+msgid "forums_disable_notification"
+msgstr "Benachrichtigung für dieses Thema beenden"
+
+msgid "forums_download_attachment"
+msgstr "Datei herunterladen"
+
+msgid "forums_edit_draft"
+msgstr "Entwurf bearbeiten"
+
+msgid "forums_edit_post"
+msgstr "Beitrag bearbeiten"
+
+msgid "forums_enable_notification"
+msgstr "Benachrichtigung für dieses Thema starten"
+
+msgid "forums_forum_notification"
+msgstr "Foren-Benachrichtigungen versenden"
+
+msgid "forums_forum_notification_desc"
+msgstr "Wenn aktiviert, sendet ILIAS Mails an die Benutzer, die bei ausgewählten Foren-Themen über neue Beiträge benachrichtigt werden wollen."
+
+msgid "forums_forum_notification_disabled"
+msgstr "Sie werden nicht mehr über neue Beiträge in diesem Forum benachrichtigt."
+
+msgid "forums_info_censor2_post"
+msgstr "Sind Sie sicher, dass die Zensur für diesen Beitrag aufgehoben werden soll?"
+
+msgid "forums_info_censor_post"
+msgstr "Geben Sie eine Begründung für die Zensur an."
+
+msgid "forums_info_delete_draft"
+msgstr "Sind Sie sicher, dass Sie diesen Entwurf löschen möchten?"
+
+msgid "forums_info_delete_post"
+msgstr "Sind Sie sicher, dass dieser Beitrag inklusive aller darauf folgenden Beiträge gelöscht werden soll?"
+
+msgid "forums_mark_read"
+msgstr "Alle auf gelesen setzen"
+
+msgid "forums_new_thread"
+msgstr "Neues Thema"
+
+msgid "forums_no_posts_available"
+msgstr "Dieses Thema hat noch keine Beiträge."
+
+msgid "forums_notification_disabled"
+msgstr "Benachrichtigung inaktiv"
+
+msgid "forums_notification_enabled"
+msgstr "Benachrichtigung aktiv"
+
+msgid "forums_notification_intro"
+msgstr "Diese E-Mail wurde von der ILIAS-Installation %s, %s automatisch an Sie versandt."
+
+msgid "forums_notification_show_frm"
+msgstr "Zum Forum gehen: %s"
+
+msgid "forums_notification_show_post"
+msgstr "Zum Beitrag gehen: %s"
+
+msgid "forums_post_activation_mail"
+msgstr "In einem von Ihnen moderierten Forum wurde der nachfolgende Eintrag erstellt. Der Beitrag bleibt solange unsichtbar, bis Sie ihn freischalten."
+
+msgid "forums_post_deleted"
+msgstr "Beitrag wurde gelöscht"
+
+msgid "forums_post_modified"
+msgstr "Beitrag wurde bearbeitet"
+
+msgid "forums_post_needs_to_be_activated"
+msgstr "Der Beitrag wurde erstellt, muss aber von der Moderation freigeschaltet werden."
+
+msgid "forums_post_new_entry"
+msgstr "Neuer Beitrag wurde eingetragen."
+
+msgid "forums_post_was_activated"
+msgstr "Der Beitrag wurde freigeschaltet."
+
+msgid "forums_posts"
+msgstr "Alle Beiträge"
+
+msgid "forums_posts_not_available"
+msgstr "Keine Beiträge verfügbar"
+
+msgid "forums_print_thread"
+msgstr "Thema drucken"
+
+msgid "forums_subject"
+msgstr "Titel"
+
+msgid "forums_the_post"
+msgstr "Beitrag"
+
+msgid "forums_thread"
+msgstr "Thema"
+
+msgid "forums_thread_create_from"
+msgstr "Erstellt von"
+
+msgid "forums_thread_deleted"
+msgstr "Das gewählte Thema einschließlich aller dazugehörigen Beiträge wurde gelöscht."
+
+msgid "forums_thread_drafts_deleted"
+msgstr "Das gewählte Thema einschließlich aller dazugehörigen Beiträge und evtl. Beitragsentwürfe wurde gelöscht."
+
+msgid "forums_thread_marked"
+msgstr "Alle Beiträge wurden als gelesen markiert."
+
+msgid "forums_thread_new_entry"
+msgstr "Neues Thema wurde eingetragen"
+
+msgid "forums_threads_deleted"
+msgstr "Die gewählten Themen einschließlich aller dazugehörigen Beiträge wurden gelöscht."
+
+msgid "forums_threads_drafts_deleted"
+msgstr "Die gewählten Themen einschließlich aller dazugehörigen Beiträge und evtl. Beitragsentwürfe wurden gelöscht."
+
+msgid "forums_your_reply"
+msgstr "Ihr Beitrag"
+
+msgid "frm_action_not_possible_parent_deleted"
+msgstr "Die Aktion kann nicht durchgeführt werden, der Referenzbeitrag wurde gelöscht."
+
+msgid "frm_action_not_possible_thr_closed"
+msgstr "Die Aktion kann nicht durchgeführt werden, das Thema wurde geschlossen."
+
+msgid "frm_action_not_possible_thr_deleted"
+msgstr "Die Aktion kann nicht durchgeführt werden, das Thema wurde gelöscht."
+
+msgid "frm_activation_online_info"
+msgstr "Forum ist veröffentlicht und kann von allen Personen mit dem Recht „Lesezugriff“ genutzt werden. Andernfalls ist das Objekt nur für Personen mit dem Recht „Einstellungen bearbeiten“ verfügbar."
+
+msgid "frm_adm_sec_default_settings"
+msgstr "Standard Objekt-Einstellungen"
+
+msgid "frm_adm_sec_drafts"
+msgstr "Entwürfe"
+
+msgid "frm_adm_sec_features"
+msgstr "Foren-Funktionalitäten"
+
+msgid "frm_adm_sec_notifications"
+msgstr "Benachrichtigungen"
+
+msgid "frm_all_threads"
+msgstr "Alle Themen"
+
+msgid "frm_anonymous_posting"
+msgstr "Mit Pseudonym schreiben"
+
+msgid "frm_anonymous_posting_desc"
+msgstr "Beiträge können unter beliebigem Namen geschrieben werden. Ist die Option „Beiträge der Moderation markieren“ aktiviert, kann die Moderation kein Pseudonym verwenden."
+
+msgid "frm_at_least_one_moderator"
+msgstr "Es muss mindestens eine Person für die Moderation zuständig sein."
+
+msgid "frm_censorship"
+msgstr "Zensieren"
+
+msgid "frm_censorship_applied"
+msgstr "Der Beitrag wurde erfolgreich zensiert."
+
+msgid "frm_censorship_revoked"
+msgstr "Die Zensur für den Beitrag wurde aufgehoben."
+
+msgid "frm_copy"
+msgstr "Forum kopieren"
+
+msgid "frm_default_view"
+msgstr "Standardansicht"
+
+msgid "frm_edit_title"
+msgstr "Titel bearbeiten"
+
+msgid "frm_enable_print_option"
+msgstr "Druckoption aktivieren"
+
+msgid "frm_enable_print_option_desc"
+msgstr "Wenn diese Funktion deaktiviert ist, kann niemand die Druckoption im Forum auswählen."
+
+msgid "frm_forum_push_notification_info"
+msgstr "Foren-Benachrichtigungen werden als Push-Benachrichtigungen statt per E-Mail versendet. Wenn die Push-Benachrichtigung nicht zugestellt werden kann, wird stattdessen eine E-Mail versendet."
+
+msgid "frm_mark_as_read"
+msgstr "Als gelesen markieren"
+
+msgid "frm_mark_as_unread"
+msgstr "Als ungelesen markieren"
+
+msgid "frm_max_notification_age"
+msgstr "Schwellenwert für Benachrichtigungen"
+
+msgid "frm_max_notification_age_info"
+msgstr "Bitte geben Sie hier das maximale Alter der Postings an, die für Benachrichtigungen berücksichtigt werden sollen. Der eingetragene Wert sollte größer sein als das gewählte Intervall im Zeitplan."
+
+msgid "frm_max_notification_age_unit"
+msgstr "Tag(e)"
+
+msgid "frm_merge_src"
+msgstr "Ausgewähltes Thema: %s"
+
+msgid "frm_merge_target"
+msgstr "Ziel: %s"
+
+msgid "frm_moderator_f"
+msgstr "Moderatorin"
+
+msgid "frm_moderator_m"
+msgstr "Moderator"
+
+msgid "frm_moderator_n"
+msgstr "Moderation"
+
+msgid "frm_moderator_role_added_successfully"
+msgstr "Die Person hat jetzt das Recht zu moderieren."
+
+msgid "frm_moderators"
+msgstr "Moderation"
+
+msgid "frm_moderators_detached_role_successfully"
+msgstr "Das Recht zu moderieren, wurde den ausgewählten Personen entzogen."
+
+msgid "frm_moderators_not_exist_yet"
+msgstr "Bitte fügen Sie eine Person für die Moderation hinzu."
+
+msgid "frm_moderators_select_at_least_one"
+msgstr "Bitte wählen Sie mindestens eine Person aus."
+
+msgid "frm_moderators_select_one"
+msgstr "Bitte wählen Sie einen Benutzer für die Moderation."
+
+msgid "frm_move_invalid_file_type"
+msgstr "Das ausgewählte Thema „%s“ enthält einen Dateianhang mit nicht erlaubtem Dateityp. Entfernen Sie diese Datei oder kontaktieren Sie die technische Betreuung, um den Dateitypen zur Positivliste hinzuzufügen. Dies erfolgt unter Administration » Systemeinstellungen und Wartung » Datei-Services."
+
+msgid "frm_noti_message"
+msgstr "Nachricht:"
+
+msgid "frm_noti_new_post"
+msgstr "Es gibt einen neuen Beitrag im Forum \"%1$s\"."
+
+msgid "frm_noti_obj_crs"
+msgstr "Kurs"
+
+msgid "frm_noti_obj_grp"
+msgstr "Gruppe"
+
+msgid "frm_noti_subject_act_post"
+msgstr "Beitrag im Forum \"%1$s%2$s zum Thema \"%3$s\" freischalten"
+
+msgid "frm_noti_subject_answ_post"
+msgstr "Beitrag im Forum \"%1$s%2$s zum Thema \"%3$s\" beantwortet"
+
+msgid "frm_noti_subject_cens_post"
+msgstr "Beitrag im Forum \"%1$s%2$s zum Thema \"%3$s\" zensiert"
+
+msgid "frm_noti_subject_del_post"
+msgstr "Beitrag im Forum \"%1$s\"%2$s zum Thema \"%3$s\" gelöscht"
+
+msgid "frm_noti_subject_del_thread"
+msgstr "Thema \"%3$s\" im Forum \"%1$s\"%2$s gelöscht"
+
+msgid "frm_noti_subject_new_post"
+msgstr "Neuer Beitrag im Forum \"%1$s\"%2$s zum Thema \"%3$s\""
+
+msgid "frm_noti_subject_uncens_post"
+msgstr "Zensur aufgehoben für einen Beitrag im Forum \"%1$s\"%2$s zum Thema \"%3$s\""
+
+msgid "frm_noti_subject_upt_post"
+msgstr "Beitrag im Forum \"%1$s\"%2$s zum Thema \"%3$s\" geändert"
+
+msgid "frm_notification_activated"
+msgstr "Benachrichtigung aktiviert"
+
+msgid "frm_notification_bg_task_title"
+msgstr "Foren-Benachrichtigungen"
+
+msgid "frm_notification_deactivated"
+msgstr "Benachrichtigung deaktiviert"
+
+msgid "frm_post_not_activated_yet"
+msgstr "Der Beitrag wurde noch nicht freigeschaltet."
+
+msgid "frm_posts"
+msgstr "Forenbeiträge"
+
+msgid "frm_pseudonym"
+msgstr "Pseudonym"
+
+msgid "frm_purifier_not_implemented_for_type_x"
+msgstr "Es ist noch kein Reiniger für den Typ %s implementiert."
+
+msgid "frm_rating"
+msgstr "Bewertung"
+
+msgid "frm_revoke_censorship"
+msgstr "Zensur aufheben"
+
+msgid "frm_search"
+msgstr "Suche"
+
+msgid "frm_selected_merge_src"
+msgstr "Gewähltes Thema für die Zusammenführung: %s"
+
+msgid "frm_settings_form_header"
+msgstr "Einstellungen des Forums"
+
+msgid "frm_settings_mod_functions_header"
+msgstr "Moderation"
+
+msgid "frm_settings_privacy_header"
+msgstr "Datenschutz"
+
+msgid "frm_settings_user_functions_header"
+msgstr "Beiträge und Themen"
+
+msgid "frm_statistics"
+msgstr "Statistik"
+
+msgid "frm_statistics_disabled_for_participants"
+msgstr "Die Statistik ist für normale Forennutzer nicht sichtbar."
+
+msgid "frm_statistics_enabled"
+msgstr "Statistik anzeigen"
+
+msgid "frm_statistics_enabled_desc"
+msgstr "Alle können im Reiter „Statistik“ sehen, wer wie viele Beiträge geschrieben hat."
+
+msgid "frm_statistics_ranking"
+msgstr "Anzahl der öffentl. Beiträge"
+
+msgid "frm_subject_setting"
+msgstr "Vorgabe Beitragstitel"
+
+msgid "frm_sure_delete_threads"
+msgstr "Sind Sie sicher, dass das folgendende Thema gelöscht werden soll?"
+
+msgid "frm_sure_merge_threads"
+msgstr "Sind Sie sicher, dass Sie diese beiden Themen zu einem Thema zusammenführen wollen? Achtung: Diese Aktion kann nicht rückgängig gemacht werden."
+
+msgid "frm_task_publishing_draft_title"
+msgstr "Veröffentlichen des Entwurfs „%s“"
+
+msgid "frm_wizard_page"
+msgstr "Forum kopieren (Schritt 2/2)"
+
+msgid "is_read"
+msgstr "Gelesen"
+
+msgid "make_topics_non_sticky"
+msgstr "\"Top-Thema\"-Einstufung aufheben"
+
+msgid "make_topics_sticky"
+msgstr "Thema zu \"Top-Thema\" machen"
+
+msgid "mark_moderator_posts"
+msgstr "Beiträge der Moderation markieren"
+
+msgid "mark_moderator_posts_desc"
+msgstr "Beiträge der Moderation werden farblich hervorgehoben."
+
+msgid "merge"
+msgstr "Zusammenführen"
+
+msgid "merge_posts_into_thread"
+msgstr "Verschmelze Posts mit anderem Thema"
+
+msgid "merged_threads_successfully"
+msgstr "Die selektierten Themen wurden erfolgreich zusammengeführt"
+
+msgid "move_chosen_topics"
+msgstr "Bitte wählen Sie das Zielforum für das Thema \"%s\""
+
+msgid "move_thread_to_forum"
+msgstr "Verschiebe Thema in ein anderes Forum"
+
+msgid "new_post"
+msgstr "Neuer Beitrag"
+
+msgid "new_thread_with_post"
+msgstr "Neues Thema mit Beitrag"
+
+msgid "no_forum_selected"
+msgstr "Kein Forum für die Verschiebeaktion ausgewählt!"
+
+msgid "not_allowed_to_merge_into_another_forum"
+msgstr "Es ist nicht möglich Themen verschiedener Foren zusammenzuführen."
+
+msgid "notification_settings"
+msgstr "Benachrichtigungseinstellungen"
+
+msgid "notify_censored"
+msgstr "Zensierte Beiträge"
+
+msgid "notify_modified"
+msgstr "Geänderte Beiträge"
+
+msgid "notify_post_deleted"
+msgstr "Gelöschte Beiträge"
+
+msgid "notify_thread_deleted"
+msgstr "Gelöschte Themen"
+
+msgid "notify_uncensored"
+msgstr "Unzensierte Beiträge"
+
+msgid "number_of_threads"
+msgstr "Anzahl dargestellter Themen pro Seite"
+
+msgid "please_choose_target"
+msgstr "Bitte wählen Sie ein Thema als Ziel der Zusammenführung."
+
+msgid "post_activation_desc"
+msgstr "Alle Beiträge müssen durch die Moderation freigeschaltet werden."
+
+msgid "post_censored_by"
+msgstr "folgender Beitrag im Forum \"%2$s\" wurde von \"%1$s\" zensiert:"
+
+msgid "post_censored_comment_by_moderator"
+msgstr "Beitrag zensiert! Bemerkung der Moderation"
+
+msgid "post_deleted_by"
+msgstr "folgender Beitrag im Forum \"%2$s\" wurde von \"%1$s\" gelöscht:"
+
+msgid "post_draft_info"
+msgstr "Der Inhalt dieses Beitrags ist als Entwurf nur für Sie sichtbar."
+
+msgid "post_reply"
+msgstr "Re:"
+
+msgid "post_reply_count"
+msgstr "Re (%s):"
+
+msgid "post_uncensored_by"
+msgstr "für folgenden Beitrag wurde die Zensur von \"%1$s\" aufgehoben:"
+
+msgid "post_updated_by"
+msgstr "folgender Beitrag im Forum \"%2$s\" wurde von \"%1$s\" geändert"
+
+msgid "preset_subject"
+msgstr "Titel des Beitrags wird für Antwort automatisch übernommen."
+
+msgid "publish"
+msgstr "Veröffentlichen"
+
+msgid "relevance"
+msgstr "Relevanz"
+
+msgid "reopen_topics"
+msgstr "Thema wiedereröffnen"
+
+msgid "reply_to_postings"
+msgstr "Antworten"
+
+msgid "reset_limited_view"
+msgstr "Begrenzte Ansicht auf diesen Beitrag und alle darunter liegenden Beiträge"
+
+msgid "reset_limited_view_button"
+msgstr "Gesamten Thread anzeigen"
+
+msgid "reset_limited_view_info"
+msgstr "Begrenzte Ansicht auf diesen Beitrag und alle darunter liegenden Beiträge"
+
+msgid "restore"
+msgstr "Wiederherstellen"
+
+msgid "restore_draft_from_autosave"
+msgstr "Entwurf wiederherstellen"
+
+msgid "save_draft_successfully"
+msgstr "Der Entwurf wurde erfolgreich gespeichert."
+
+msgid "sel_threads_already_sticky"
+msgstr "Mindestens eins der gewählten Themen ist bereits als Top-Thema markiert."
+
+msgid "sel_threads_already_unsticky"
+msgstr "Mindestens eins der gewählten Themen ist bereits kein Top-Thema mehr."
+
+msgid "sel_threads_make_sticky"
+msgstr "Das Thema wurde als Top-Thema markiert."
+
+msgid "sel_threads_make_unsticky"
+msgstr "Das Thema wird nicht mehr als Top-Thema markiert."
+
+msgid "select_at_least_one_thread"
+msgstr "Es muss mindestens ein Thema gewählt werden."
+
+msgid "select_max_one_thread"
+msgstr "Bitte wählen Sie nur ein Thema aus!"
+
+msgid "selected_threads_closed"
+msgstr "Das Thema wurde geschlossen."
+
+msgid "selected_threads_reopened"
+msgstr "Das Thema wurde wiedereröffnet."
+
+msgid "sort_by_date"
+msgstr "Nach Datum sortieren"
+
+msgid "sort_by_date_desc"
+msgstr "Das Thema wird in flacher Ansicht präsentiert. Die Beiträge werden in der zeitlichen Reihenfolge der Erstellung gezeigt."
+
+msgid "sort_by_posts"
+msgstr "Nach Beiträgen sortieren"
+
+msgid "sort_by_posts_desc"
+msgstr "Das Thema wird in einer Baumansicht präsentiert. Antworten auf Beiträge werden in der Reihenfolge gezeigt, in der sie sich aufeinander beziehen."
+
+msgid "sorting"
+msgstr "Sortierung"
+
+msgid "sticky"
+msgstr "'Top-Thema'"
+
+msgid "sure_delete_drafts"
+msgstr "Sind Sie sicher, dass Sie die gewählten Entwürfe löschen möchten?"
+
+msgid "switch_threads_for_merge"
+msgstr "Das ausgewählte Thema ist älter als das Zielthema. Um eine sinnvolle Zusammenführung zu schaffen, werden Quell- und Zielthema getauscht."
+
+msgid "target_select"
+msgstr "Beitrag für begrenzte Ansicht auswählen"
+
+msgid "thema"
+msgstr "Themen"
+
+msgid "thread"
+msgstr "Thema"
+
+msgid "thread_deleted_by"
+msgstr "folgendes Thema im Forum \"%2$s\" wurde von \"%1$s\" gelöscht:"
+
+msgid "thread_overview"
+msgstr "Themenübersicht"
+
+msgid "threads_moved_successfully"
+msgstr "Das gewählte Thema wurde erfolgreich in ein anderes Forum verschoben."
+
+msgid "top_thema"
+msgstr "Top-Themen"
+
+msgid "topic_close"
+msgstr "geschlossen"
+
+msgid "topics_please_select_one_action"
+msgstr "Bitte wählen Sie eine Aktion aus."
+
+msgid "user_decides_notification"
+msgstr "Mitglieder müssen Benachrichtigungen selbst aktivieren."

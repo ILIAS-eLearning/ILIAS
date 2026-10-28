@@ -1,0 +1,430 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: search\n"
+
+msgid "add_members_header"
+msgstr "Adicionar membros"
+
+msgid "append_results"
+msgstr "Anexar resultados"
+
+msgid "btn_search"
+msgstr "Pesquisa"
+
+msgid "last_search_result"
+msgstr "Último resultado de pesquisa"
+
+msgid "lucene_and"
+msgstr "E"
+
+msgid "lucene_cpu"
+msgstr "Número máximo de tópicos"
+
+msgid "lucene_create_ini"
+msgstr "Criar ficheiro de configuração"
+
+msgid "lucene_default_operator"
+msgstr "Operador padrão"
+
+msgid "lucene_default_operator_info"
+msgstr "Please choose the default operator for boolean queries. In default mode (\"AND\") terms are considered to be in conjunction. In \"OR\" mode terms without any modifiers are considered optional."
+
+msgid "lucene_download_ini"
+msgstr "Descarregar ficheiro de configuração"
+
+msgid "lucene_err_ampersand"
+msgstr "As questões que contêm os caracteres especiais && devem estar no formato: termo1 && termo2."
+
+msgid "lucene_err_and_or_not"
+msgstr "As questões que contêm E/OU/NÃO devem estar no formato: termo1 E|OU|NÃO|E NÃO termo2."
+
+msgid "lucene_err_asterisk"
+msgstr "O caractere asterisco (*) tem de ser precedido pelo menos por um alfabeto ou número."
+
+msgid "lucene_err_caret"
+msgstr "O caractere (^) tem de ser precedido por caracteres alfanuméricos e seguido de números."
+
+msgid "lucene_err_colon"
+msgstr "As declarações de campo (:) devem ser precedidas pelo menos por um alfabeto ou número e seguido por pelo menos um alfabeto ou número."
+
+msgid "lucene_err_exclamation_mark"
+msgstr "As questões que contêm o caractere especial (!) devem estar no formato: termo1 ! termo2."
+
+msgid "lucene_err_parenthesis_empty"
+msgstr "Os parênteses têm de conter pelo menos um caractere."
+
+msgid "lucene_err_parenthesis_not_closed"
+msgstr "Os parênteses devem ser fechados."
+
+msgid "lucene_err_plus_minus"
+msgstr "Os modificadores (+) e (-) devem ser seguidos pelo menos por um alfabeto ou número."
+
+msgid "lucene_err_question_mark"
+msgstr "O ponto de interrogação (*) tem de ser precedido pelo menos por um alfabeto ou número."
+
+msgid "lucene_err_quotes"
+msgstr "Feche todas as aspas (\")."
+
+msgid "lucene_err_quotes_not_empty"
+msgstr "As aspas (\") devem conter pelo menos um caractere."
+
+msgid "lucene_general_settings"
+msgstr "Definições gerais"
+
+msgid "lucene_host"
+msgstr "Host"
+
+msgid "lucene_host_info"
+msgstr "Insira o hostname ou IP do servidor para o servidor Java."
+
+msgid "lucene_index_path"
+msgstr "Diretório para ficheiros Index"
+
+msgid "lucene_index_path_info"
+msgstr "Insira um nome de diretório para guardar ficheiros Index."
+
+msgid "lucene_last_index_time"
+msgstr "Última geração Index"
+
+msgid "lucene_last_index_time_info"
+msgstr "Modifique esta definição apenas se tiver instalado um backup do Index."
+
+msgid "lucene_level"
+msgstr "Nível log"
+
+msgid "lucene_log"
+msgstr "Caminho para ficheiro log"
+
+msgid "lucene_log_info"
+msgstr "The file will be created automatically."
+
+msgid "lucene_max_fs"
+msgstr "Maximum Filesize (in MB)"
+
+msgid "lucene_max_fs_info"
+msgstr "Define o limite do tamanho dos ficheiros. Ficheiros maiores não irão incluir o index."
+
+msgid "lucene_num_frag_info"
+msgstr "Escolha o número máximo de fragmentos de texto destacados."
+
+msgid "lucene_num_fragments"
+msgstr "Número de fragmentos de texto"
+
+msgid "lucene_offline_filter"
+msgstr "Offline-Status"
+
+msgid "lucene_or"
+msgstr "OU"
+
+msgid "lucene_port"
+msgstr "Porta"
+
+msgid "lucene_prefix_wildcard"
+msgstr "Questões de variável de prefixo"
+
+msgid "lucene_prefix_wildcard_info"
+msgstr "If enabled, prefix wildcard queries (*LIAS finds ILIAS) are supported."
+
+#, fuzzy
+msgid "lucene_settings_index_section"
+msgstr "Index Backup"
+
+msgid "lucene_settings_tab"
+msgstr "Lucene"
+
+#, fuzzy
+msgid "lucene_settings_text_section"
+msgstr "Presentation of Search Results"
+
+msgid "lucene_settings_title"
+msgstr "Definições Lucene"
+
+msgid "lucene_size_frag_info"
+msgstr "Please choose the maximum size of highlighted test fragments."
+
+msgid "lucene_size_fragments"
+msgstr "Tamanho de fragmentos de texto"
+
+msgid "lucene_tbl_create_ini"
+msgstr "Criar ficheiro ini do servidor Java"
+
+msgid "search_add_members_from_container_crs"
+msgstr "Adicionar utilizadores do curso atual"
+
+msgid "search_add_members_from_container_grp"
+msgstr "Adicionar utilizadores do grupo atual"
+
+msgid "search_any"
+msgstr "-- Qualquer --"
+
+#, fuzzy
+msgid "search_area_filter"
+msgstr "Scope"
+
+msgid "search_area_info"
+msgstr "Selecione uma área onde a pesquisa deve começar."
+
+msgid "search_auto_complete_length"
+msgstr "Número de entradas automáticas da lista completa"
+
+#, fuzzy
+msgid "search_auto_complete_length_info"
+msgstr "Choose ‘0‘ to switch off the auto-complete list."
+
+msgid "search_cdate_filter"
+msgstr "Filtrar por data de criação"
+
+msgid "search_cdate_filter_info"
+msgstr "Se estiver ativado, a pesquisa de objeto pode ser filtrada por um filtro de dados de criação opcional."
+
+msgid "search_content"
+msgstr "Conteúdo da Página"
+
+#, fuzzy
+msgid "search_copyright"
+msgstr "Copyright"
+
+msgid "search_created_after"
+msgstr "Objetos criados após"
+
+msgid "search_created_before"
+msgstr "Objetos criados antes..."
+
+msgid "search_created_on"
+msgstr "Objetos criados em..."
+
+msgid "search_crs_title"
+msgstr "Nome do curso"
+
+#, fuzzy
+msgid "search_detailed_results_title"
+msgstr "Detailed results in %s"
+
+msgid "search_details_info"
+msgstr "Detail search. Please select one or more objects above."
+
+msgid "search_direct"
+msgstr "Pesquisa direta"
+
+msgid "search_err_user_not_exist"
+msgstr "Não existe um utilizador com esse nome de login."
+
+msgid "search_fast_info"
+msgstr "Pesquisar títulos, descrições e palavras-chave em todos os tipos de objetos"
+
+#, fuzzy
+msgid "search_field"
+msgstr "Search Input Field"
+
+#, fuzzy
+msgid "search_field_perform"
+msgstr "Perform Search"
+
+msgid "search_filter_by_type"
+msgstr "Filtrar por tipo"
+
+msgid "search_filter_cd"
+msgstr "Filtrar por data de criação"
+
+#, fuzzy
+msgid "search_filter_settings_section"
+msgstr "Filters for the Search Results"
+
+msgid "search_for_crs_members"
+msgstr "Pesquisar membros de curso"
+
+msgid "search_for_grp_members"
+msgstr "Pesquisar membros de grupo"
+
+#, fuzzy
+msgid "search_for_orgu_members"
+msgstr "Search for Organisational Units"
+
+#, fuzzy
+msgid "search_for_orgu_members_recursive"
+msgstr "Include Subunits?"
+
+msgid "search_for_role_members"
+msgstr "Pesquisar membros de função"
+
+msgid "search_for_users"
+msgstr "Pesquisar utilizadores"
+
+msgid "search_grp_title"
+msgstr "Nome do grupo"
+
+msgid "search_item_filter_form"
+msgstr "Pesquisar por tipo"
+
+msgid "search_item_filter_form_info"
+msgstr "If enabled, a search can be restricted to the chosen item types."
+
+#. Needs to be adapted to new content of German lang file.
+msgid "search_like_info"
+msgstr "Escolha esta opção para obter os melhores resultados."
+
+msgid "search_limit_reached"
+msgstr "A sua pesquisa produziu mais de %s entradas. Pode restringir os termos de pesquisa para receber resultados mais detalhados."
+
+msgid "search_lucene"
+msgstr "Pesquisa Lucene"
+
+msgid "search_mime_excel"
+msgstr "Ficheiros Excel"
+
+msgid "search_mime_filter_form"
+msgstr "Tipo de filtro mime"
+
+msgid "search_mime_filter_form_info"
+msgstr "A pesquisa pode ser restringida aos tipos de mime escolhidos."
+
+msgid "search_mime_image"
+msgstr "Imagens"
+
+msgid "search_mime_pdf"
+msgstr "Ficheiros PDF"
+
+msgid "search_mime_powerpoint"
+msgstr "Ficheiros Powerpoint"
+
+msgid "search_mime_word"
+msgstr "Ficheiros Word"
+
+msgid "search_minimum_info"
+msgstr "A sua pesquisa tem de ter pelo menos %s caracteres"
+
+msgid "search_minimum_three"
+msgstr "A sua procura tem de ter pelo menos três caracteres"
+
+msgid "search_newer_than"
+msgstr "Objetos mais recentes do que"
+
+msgid "search_no_connection_lucene"
+msgstr "Não pode ligar ao servidor Lucene."
+
+#, fuzzy
+msgid "search_no_further_match"
+msgstr "No further matches found."
+
+msgid "search_no_match"
+msgstr "A sua procura não coincidiu com nenhuns resultados"
+
+msgid "search_no_match_hint"
+msgstr "Your search - <b>%s</b> - did not match any documents.<br /><br />Suggestions:<br />Make sure all words are spelled correctly.<br />Try different keywords.<br />Try more general keywords.<br />Try fewer keywords."
+
+msgid "search_no_selection"
+msgstr "Você não fez nenhuma selecção."
+
+msgid "search_off"
+msgstr "Desligado"
+
+#, fuzzy
+msgid "search_readme_file"
+msgstr "Readme File"
+
+#, fuzzy
+msgid "search_results_show_subitems"
+msgstr "See detailed results"
+
+#, fuzzy
+msgid "search_results_too_many_subitems"
+msgstr "More results are available, please make your search terms more precise."
+
+msgid "search_role_title"
+msgstr "Nome de função"
+
+msgid "search_select_search_area"
+msgstr "Selecionar área de pesquisa"
+
+#, fuzzy
+msgid "search_server_further_information"
+msgstr "You can find further information about the Lucene server configuration in the readme file."
+
+msgid "search_show_inactive_user"
+msgstr "Mostrar utilizadores inativos"
+
+msgid "search_show_inactive_user_info"
+msgstr "If enabled, the user search will show inactive users."
+
+msgid "search_show_limited_user"
+msgstr "Show Limited Users"
+
+msgid "search_show_limited_user_info"
+msgstr "If enabled, the user search will show users with limited access and outside their allowed time period."
+
+#, fuzzy
+msgid "search_sort_by"
+msgstr "Sortation:"
+
+#, fuzzy
+msgid "search_sort_creation_date_asc"
+msgstr "Oldest"
+
+#, fuzzy
+msgid "search_sort_creation_date_desc"
+msgstr "Latest"
+
+#, fuzzy
+msgid "search_sort_relevance"
+msgstr "By Relevance"
+
+#, fuzzy
+msgid "search_sort_title_asc"
+msgstr "Alphabetically: A-Z"
+
+#, fuzzy
+msgid "search_sort_title_desc"
+msgstr "Alphabetically: Z-A"
+
+#, fuzzy
+msgid "search_tab_content"
+msgstr "Content"
+
+#, fuzzy
+msgid "search_tab_user"
+msgstr "Users"
+
+msgid "search_term_combination"
+msgstr "Combinação"
+
+msgid "search_title_description"
+msgstr "Título/descrição"
+
+msgid "search_tst_svy"
+msgstr "Testes/inquéritos"
+
+msgid "search_type"
+msgstr "Search type"
+
+msgid "search_user"
+msgstr "Utilizadores"
+
+msgid "search_user_extended"
+msgstr "Pesquisa expandida de utilizador"
+
+msgid "search_user_search_form"
+msgstr "User Search"
+
+msgid "search_user_search_info_form"
+msgstr "If enabled, users data will be indexed and is searchable."
+
+#, fuzzy
+msgid "seas_search_type"
+msgstr "Type"
+
+#, fuzzy
+msgid "select_orgu"
+msgstr "Select Organisational Units"
+
+msgid "until"
+msgstr "até"
+
+#, fuzzy
+msgid "user_search_settings_section"
+msgstr "User Search in 'Member'-tabs"

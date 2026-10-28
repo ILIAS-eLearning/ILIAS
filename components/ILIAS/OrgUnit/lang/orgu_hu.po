@@ -1,0 +1,360 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: orgu\n"
+
+msgid "Staff"
+msgstr "Személyi állomány"
+
+msgid "add_position"
+msgstr "Pozíció hozzáadása"
+
+msgid "authorities"
+msgstr "Utasítási jogkörök"
+
+msgid "authority"
+msgstr "Utasítási jogkör"
+
+msgid "backto_staff"
+msgstr "Vissza a személyi állományhoz"
+
+msgid "change_to_employee"
+msgstr "Legyen beosztott"
+
+msgid "change_to_superior"
+msgstr "Legyen felettes"
+
+msgid "confirm_deletion_and_assign"
+msgstr "Törlés és felhasználók hozzárendelése"
+
+msgid "confirm_deletion_button"
+msgstr "Törlés"
+
+msgid "deassign_user_successful"
+msgstr "Felhasználót sikeresen eltávolította a csoportból."
+
+msgid "edit_translations"
+msgstr "Cím és leírás"
+
+msgid "employee"
+msgstr "Beosztott"
+
+msgid "ext_id"
+msgstr "External-ID"
+
+msgid "ext_id_updated"
+msgstr "Az external-ID sikeresen frissült."
+
+msgid "form_title_org_default_permissions_update"
+msgstr "Alapértelmezett jogosultságok"
+
+msgid "import_failed"
+msgstr "Importálás sikertelen. Győződjön meg róla, hogy a fájl xml formátumú és érvényes a struktúrája."
+
+msgid "import_successful"
+msgstr "Az import sikeresen véget ért. Létrejött: %s, módosult: %s, törlődött: %s."
+
+msgid "import_terminated_with_errors"
+msgstr "Az import hibákkal futott le."
+
+msgid "import_terminated_with_warnings"
+msgstr "Az import figyelmeztetésekkel futott le."
+
+msgid "import_xml_file"
+msgstr "Importálás dátuma"
+
+msgid "local_other_roles"
+msgstr "%s egyéb szerepei"
+
+msgid "local_staff"
+msgstr "%s emberei"
+
+msgid "msg_assignment_to_employee_done"
+msgstr "A ‘Beosztott’ szerepkörhöz a hozzárendelés sikeres"
+
+msgid "msg_confirm_d_ua"
+msgstr "Biztos, hogy hozzárendeli ezeket a személyeket szervezeti egységeik ‘Beosztott’ pozíciójához?"
+
+msgid "msg_confirm_deletion"
+msgstr "Biztos, hogy törli az alábbi pozíciókat?"
+
+msgid "msg_confirm_remove_user"
+msgstr "Biztos, hogy eltávolítja az alábbi felhasználót a(z) ‘%s’ pozíciójából?"
+
+msgid "msg_deleted"
+msgstr "Törölt"
+
+msgid "msg_position_created"
+msgstr "A pozíciót sikeresen létrehozta."
+
+msgid "msg_position_delete_fail"
+msgstr "A pozíció nem található."
+
+msgid "msg_position_updated"
+msgstr "A pozíciót sikeresen módosította."
+
+msgid "msg_success_permission_saved"
+msgstr "A jogosultságokat sikeresen mentette."
+
+msgid "no_assignment"
+msgstr "Ellenőrizze az XML-Fájlt. Egy Szolgáltatási feltétel sincs."
+
+msgid "no_orgunit"
+msgstr "Ellenőrizze az XML-Fájlt. Nincs Szervezeti egység."
+
+msgid "no_roles"
+msgstr "Nincsenek további szerepkörök ezen a ponton."
+
+msgid "not_movable_to_subtree"
+msgstr "Szervezeti egység nem mozgatható saját részfájába, mert az hurkot hozna létre."
+
+msgid "org_op_access_enrolments"
+msgstr "Kurzustagságok megtekintése"
+
+msgid "org_op_access_results"
+msgstr "Hozzáférés az eredményekhez"
+
+msgid "org_op_create_employee_talk"
+msgstr "Create talk appointments / edit talk appointments that you have created yourself"
+
+msgid "org_op_edit_employee_talk"
+msgstr "Edit Talk appointments"
+
+msgid "org_op_edit_individual_plan"
+msgstr "Egyedi terv módosítása"
+
+msgid "org_op_edit_submissions_grades"
+msgstr "Más felhasználók beküldésének módosítása"
+
+msgid "org_op_manage_members"
+msgstr "Tagok kezelése"
+
+msgid "org_op_read_employee_talk"
+msgstr "Read access talk appointments"
+
+msgid "org_op_read_learning_progress"
+msgstr "Más felhasználók tanulási haladásának megtekintése"
+
+msgid "org_op_view_certificates"
+msgstr "Más felhasználók tanúsítványainak megtekintése"
+
+msgid "org_op_view_competences"
+msgstr "Más felhasználók kompetenciáinak megtekintése"
+
+msgid "org_op_view_individual_plan"
+msgstr "Egyedi terv megtekintése"
+
+msgid "org_op_view_members"
+msgstr "Tagok megtekintése"
+
+msgid "org_op_write_learning_progress"
+msgstr "Más felhasználók tanulási haladásának módosítása"
+
+msgid "org_unit_not_found"
+msgstr "Szervezeti egység nem található."
+
+msgid "orgu_add"
+msgstr "Szervezeti egység hozzáadása"
+
+msgid "orgu_adv_settings"
+msgstr "További beállítások"
+
+msgid "orgu_already_deleted"
+msgstr "Az objektumot már korábban törölték."
+
+msgid "orgu_enable_my_staff"
+msgstr "Főmenü-bejegyzés bekapcsolása"
+
+msgid "orgu_enable_my_staff_info"
+msgstr "Megjelenik egy főmenübejegyzés, amely tartalmazhat személyzeti listát, kurzustagságokat, tanúsítványokat, kompetenciákat, megbeszélgetéseket."
+
+msgid "orgu_global_set_form"
+msgstr "Globális szervezeti egység beállításai"
+
+msgid "orgu_global_set_positions"
+msgstr "Objektumtípusonkénti pozíciók bekapcsolása"
+
+msgid "orgu_global_set_positions_type_active"
+msgstr "Pozíciók ebben:"
+
+msgid "orgu_global_set_type_changeable"
+msgstr "Módosíthatóság"
+
+msgid "orgu_global_set_type_changeable_no"
+msgstr "Nem módosítható"
+
+msgid "orgu_global_set_type_changeable_object"
+msgstr "Objektum szinten módosítható"
+
+msgid "orgu_global_set_type_default"
+msgstr "Alapértelmezett beállítás"
+
+msgid "orgu_global_set_type_default_info"
+msgstr "A nem konfigurált objektumok alapértelmezettségét meghatározza meg"
+
+msgid "orgu_import"
+msgstr "Szervezeti egység importálása"
+
+msgid "orgu_new"
+msgstr "Új Szervezeti egység"
+
+msgid "orgu_orgu_type"
+msgstr "Szervezeti egységtípus"
+
+msgid "orgu_settings"
+msgstr "Szervezeti egység beállításai"
+
+msgid "orgu_staff"
+msgstr "Személyi állomány"
+
+msgid "orgu_staff_deassign"
+msgstr "Biztos, hogy eltávolítja a felhasználókat a mintából?"
+
+msgid "orgu_type"
+msgstr "Szervezeti egységtípus"
+
+msgid "orgu_type_add"
+msgstr "Szervezeti egységtípus létrehozása"
+
+msgid "orgu_type_assign_amd_sets"
+msgstr "Egyénimetaadata-készletek hozzárendelése"
+
+msgid "orgu_type_available_amd_sets"
+msgstr "Elérhető egyénimetaadat-készletek"
+
+msgid "orgu_type_custom_icon"
+msgstr "Szervezeti egységtípus egyéni ikonja"
+
+msgid "orgu_type_custom_icon_info"
+msgstr "Az összes olyan Szervezeti egységnél, melyhez ezt a típust rendeli, a fában és fejlécében ez az ikon jelenik meg."
+
+msgid "orgu_type_edit"
+msgstr "Szervezeti egységtípus módosítása"
+
+msgid "orgu_type_msg_assign_amd_prevented"
+msgstr "AMDRecord a következő bővítmények miatt nem rendelhető hozzá: %s"
+
+msgid "orgu_type_msg_deassign_amd_prevented"
+msgstr "AMDRecord hozzárendelése a következő bővítmények miatt nem távolítható el: %s"
+
+msgid "orgu_type_msg_deleted"
+msgstr "Törölt szervezeti egységtípus"
+
+msgid "orgu_type_msg_deletion_prevented"
+msgstr "Az objektum a következő bővítmények miatt nem törölhető: %s"
+
+msgid "orgu_type_msg_error_custom_icon"
+msgstr "Egyéni ikon beállítása sikertelen"
+
+msgid "orgu_type_msg_missing_title"
+msgstr "Alapértelmezett nyelven címének megadása kötelező"
+
+msgid "orgu_type_msg_missing_title_default_language"
+msgstr "Alapértelmezett nyelv és annak címének megadása kötelező"
+
+msgid "orgu_type_msg_setting_default_lang_prevented"
+msgstr "‘%s’ alapértelmezett nyelvek történő beállítása a következő bővítmények miatt nem lehetséges: %s"
+
+msgid "orgu_type_msg_setting_member_prevented"
+msgstr "‘%s’ beállításai a következő bővítmények miatt nem törölhető: %s"
+
+msgid "orgu_type_msg_unable_delete"
+msgstr "A típus nem törölhető, mert a következő szervezeti egységekhez hozzá van rendelve: %s"
+
+msgid "orgu_type_msg_updating_prevented"
+msgstr "Az objektum a következő bővítmények miatt nem frissíthető: %s"
+
+msgid "orgu_types"
+msgstr "Típusok"
+
+msgid "orgunit_position_permissions_not_active_for"
+msgstr "Nem írhatja felül a típus pozíciófüggő jogosultságait:"
+
+msgid "ou_external_id_exists"
+msgstr "Ilyen External-ID-vel már létezik egység a rendszerben."
+
+msgid "ou_id_not_valid"
+msgstr "Import-ID nem található."
+
+msgid "ou_more_than_one_match_found"
+msgstr "Több, mint egy egyezést találtunk."
+
+msgid "ou_parent_id_not_valid"
+msgstr "Az ou_parent_id nem található."
+
+msgid "over"
+msgstr "Felette"
+
+msgid "over_-1"
+msgstr "Mindenki"
+
+msgid "placeholder"
+msgstr "…"
+
+msgid "positions"
+msgstr "Pozíciók"
+
+msgid "rec_staff"
+msgstr "%s emberei rekurzívan"
+
+msgid "remove_successful"
+msgstr "A felhasználót sikeresen eltávolította."
+
+msgid "remove_user"
+msgstr "Eltávolítás"
+
+msgid "scope"
+msgstr "Itt:"
+
+msgid "scope_1"
+msgstr "Ugyanazon szervezeti egység"
+
+msgid "scope_2"
+msgstr "Ugyanazon és alárendelt szervezeti egységek"
+
+msgid "scope_3"
+msgstr "Összes szervezeti egység"
+
+msgid "show_learning_progress"
+msgstr "Tanulási haladás megjelenítése"
+
+msgid "simple_import"
+msgstr "Egyszerű XML import"
+
+msgid "simple_user_import"
+msgstr "XML felhasználó hozzárendelés"
+
+msgid "simple_xls"
+msgstr "Egyszerű Excel export"
+
+msgid "simple_xml"
+msgstr "Egyszerű XML export"
+
+msgid "superior"
+msgstr "Felettes"
+
+msgid "user_assignments"
+msgstr "Felhasználó hozzárendelései"
+
+msgid "user_assignments_recursive"
+msgstr "Felhasználó hozzárendelési részfája"
+
+msgid "user_changed_successful"
+msgstr "Változtatás sikeresen megtörtént."
+
+msgid "user_import_successful"
+msgstr "Az importálás sikeresen megszakítva. Hozzárendelve: %s, eltávolítva: %s."
+
+msgid "users_successfuly_added"
+msgstr "Felhasználó sikeresen hozzáadva."
+
+msgid "view_learning_progress"
+msgstr "Tanulási haladás megjelenítése"
+
+msgid "view_learning_progress_rec"
+msgstr "Tanulási haladás rekurzív megjelenítése"

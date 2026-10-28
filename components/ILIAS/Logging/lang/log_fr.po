@@ -1,0 +1,56 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fr\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: log\n"
+
+msgid "log_component_btn_reset"
+msgstr "Réinitialiser les paramètres"
+
+msgid "log_component_col_component"
+msgstr "Composant"
+
+msgid "log_component_col_level"
+msgstr "Niveau du journal"
+
+#, fuzzy
+msgid "log_component_unknown"
+msgstr "Unknown (%s)"
+
+msgid "log_components"
+msgstr "Komponenten"
+
+msgid "log_level_alert"
+msgstr "ALERTE"
+
+msgid "log_level_critical"
+msgstr "CRITIQUE"
+
+msgid "log_level_debug"
+msgstr "DÉBOGAGE"
+
+#, fuzzy
+msgid "log_level_default"
+msgstr "Default (%s)"
+
+msgid "log_level_emergency"
+msgstr "URGENCE"
+
+msgid "log_level_error"
+msgstr "ERREUR"
+
+msgid "log_level_info"
+msgstr "INFO"
+
+msgid "log_level_notice"
+msgstr "NOTIFICATION"
+
+msgid "log_level_off"
+msgstr "Désactivé"
+
+msgid "log_level_warning"
+msgstr "AVERTISSEMENT"

@@ -1,0 +1,2152 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: uk\n"
+"Language-Team: Ukrainian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: survey\n"
+
+#, fuzzy
+msgid "SurveyMatrixQuestion"
+msgstr "Matrix Question"
+
+#, fuzzy
+msgid "SurveyMetricQuestion"
+msgstr "Metric Question"
+
+#, fuzzy
+msgid "SurveyMultipleChoiceQuestion"
+msgstr "Multiple Choice Question (Multiple Response)"
+
+#, fuzzy
+msgid "SurveySingleChoiceQuestion"
+msgstr "Multiple Choice Question (Single Response)"
+
+#, fuzzy
+msgid "SurveyTextQuestion"
+msgstr "Essay"
+
+msgid "add_heading"
+msgstr "Додати заголовок"
+
+# 28 Feb 2006 content changed
+msgid "already_completed_survey"
+msgstr "Ви вдало завершили опитування! Ви не можете пройти опитування знову."
+
+#, fuzzy
+msgid "anonymization"
+msgstr "Anonymization"
+
+msgid "anonymize_anonymous_introduction"
+msgstr "Це опитування анонімізує усі дані користувача. Для надання вам доступу до опитування, ви маєте використати 32 символи, які ви маєте отримати з власника/підтримувача цього опитування<br />Будь ласка введіть їх в текстове поле внизу."
+
+msgid "answer"
+msgstr "Відповідь"
+
+msgid "arithmetic_mean"
+msgstr "Арифметика означає"
+
+msgid "browse_for_questions"
+msgstr "Огляд питань"
+
+#, fuzzy
+msgid "cancel_survey"
+msgstr "Suspend the Survey"
+
+msgid "cannot_read_survey"
+msgstr "Ви не володієте достатніми правами для читання даних опитування!"
+
+# 04 Nov 2005 content changed
+msgid "cannot_switch_to_online_no_questions"
+msgstr "Статус не може бути змінений на &quot;онлайн&quot; тому що немає питань в тесті!"
+
+#, fuzzy
+msgid "cant_send_email_smtp_disabled"
+msgstr "Sending external mails is not available. This option is deactivated globally."
+
+# 03 Nov 2005 content changed
+msgid "category"
+msgstr "Категорія"
+
+# 03 Nov 2005 content changed
+msgid "category_nr_selected"
+msgstr "Кількість користувачів що вибрали цю категорію"
+
+msgid "chart"
+msgstr "Карта"
+
+msgid "codes"
+msgstr "Коди доступу"
+
+#, fuzzy
+msgid "codes_created"
+msgstr "Code(s) created"
+
+#, fuzzy
+msgid "codes_deleted"
+msgstr "Code(s) deleted"
+
+msgid "combobox"
+msgstr "Combobox"
+
+msgid "concatenation"
+msgstr "Об'эднання"
+
+msgid "confirm_delete_all_user_data"
+msgstr "Ви впевнені що ви бажаєте видалити усі дані користувачів по опитуванню?"
+
+#, fuzzy
+msgid "confirm_delete_single_user_data"
+msgstr "Are you sure you want to delete the survey data of the selected users?"
+
+msgid "confirm_remove_heading"
+msgstr "Ви впевнені що ви бажаєте видалити заголовок?"
+
+msgid "confirm_sync_questions"
+msgstr "Питання що ви змінили це копія яка була створена для використання з активним опитуванням. Чи бажаєе ви змінити оригінальне питання також?"
+
+#, fuzzy
+msgid "conjunction_and"
+msgstr "if each constraint is fulfilled"
+
+#, fuzzy
+msgid "conjunction_and_title"
+msgstr "Fulfill each of the following constraints"
+
+#, fuzzy
+msgid "conjunction_or"
+msgstr "if one constraint is fulfilled"
+
+#, fuzzy
+msgid "conjunction_or_title"
+msgstr "Fulfill one of the following constraints"
+
+#, fuzzy
+msgid "constraint_add"
+msgstr "Add precondition"
+
+#, fuzzy
+msgid "constraint_fulfilled"
+msgstr "Show page"
+
+# 03 Nov 2005 content changed
+msgid "constraints"
+msgstr "Обмеження"
+
+#, fuzzy
+msgid "constraints_first_question_description"
+msgstr "The first entity could not have any preconditions because there are no previous questions."
+
+#, fuzzy
+msgid "constraints_introduction"
+msgstr "For every entity (a single question or a question block with multiple questions) one or more preconditions could be defined. These preconditions will be derived from the answers of the survey participants of questions which occur earlier in the test."
+
+#, fuzzy
+msgid "constraints_list_of_entities"
+msgstr "Available survey entities for preconditions"
+
+#, fuzzy
+msgid "constraints_no_nonessay_available"
+msgstr "There are no previous questions or only essay questions available to calculate preconditions (essay questions are not valid to calculate preconditions)"
+
+#, fuzzy
+msgid "constraints_no_questions_or_questionblocks_selected"
+msgstr "Please select at least one question or questionblock!"
+
+msgid "contains"
+msgstr "Містить"
+
+msgid "continue"
+msgstr "Продовжити >>"
+
+msgid "create_new"
+msgstr "Створити новий"
+
+msgid "dc_agree"
+msgstr "погоджуватись"
+
+msgid "dc_always"
+msgstr "завджи"
+
+msgid "dc_definitelyfalse"
+msgstr "безперечно невірно"
+
+msgid "dc_definitelytrue"
+msgstr "безперечно вірно"
+
+msgid "dc_desired"
+msgstr "бажаний"
+
+msgid "dc_disagree"
+msgstr "не погоджуюсь"
+
+msgid "dc_fair"
+msgstr "чесний"
+
+msgid "dc_false"
+msgstr "неправда"
+
+msgid "dc_good"
+msgstr "добре"
+
+msgid "dc_manytimes"
+msgstr "багато часу"
+
+msgid "dc_morenegative"
+msgstr "більш негативний"
+
+msgid "dc_morepositive"
+msgstr "більш позитивний"
+
+msgid "dc_mostcertainly"
+msgstr "більш безперечно"
+
+msgid "dc_mostcertainlynot"
+msgstr "більш не безперечно"
+
+msgid "dc_must"
+msgstr "повинен"
+
+msgid "dc_mustnot"
+msgstr "не повинен"
+
+msgid "dc_neutral"
+msgstr "нейтральний"
+
+msgid "dc_never"
+msgstr "ніколи"
+
+msgid "dc_no"
+msgstr "ні"
+
+msgid "dc_notacceptable"
+msgstr "не прийнятний"
+
+msgid "dc_poor"
+msgstr "бідний"
+
+msgid "dc_rarely"
+msgstr "рідко"
+
+msgid "dc_should"
+msgstr "повинен"
+
+msgid "dc_shouldnot"
+msgstr "не повинен"
+
+msgid "dc_sometimes"
+msgstr "іноді"
+
+msgid "dc_stronglyagree"
+msgstr "цілком згоден"
+
+msgid "dc_stronglydesired"
+msgstr "цілком бажаний"
+
+msgid "dc_stronglydisagree"
+msgstr "цілком незгоден"
+
+msgid "dc_stronglyundesired"
+msgstr "цілком небажаний"
+
+msgid "dc_true"
+msgstr "істина"
+
+msgid "dc_undecided"
+msgstr "невирішений"
+
+msgid "dc_undesired"
+msgstr "небажаний"
+
+msgid "dc_varying"
+msgstr "мінливий"
+
+msgid "dc_verygood"
+msgstr "даже добре"
+
+msgid "dc_yes"
+msgstr "так"
+
+#, fuzzy
+msgid "default_codes_mail_message"
+msgstr "Your survey access code is [code]. You can start the survey in your web browser using the URL [url]"
+
+#, fuzzy
+msgid "default_codes_mail_subject"
+msgstr "Your access code for %s"
+
+msgid "define_questionblock"
+msgstr "Визначити блок питань"
+
+#, fuzzy
+msgid "delete_saved_message"
+msgstr "Delete Messagetext"
+
+msgid "display_all_available"
+msgstr "Показати усі доступні"
+
+msgid "duplicate"
+msgstr "Робити копію"
+
+msgid "edit_heading"
+msgstr "Редагувати заголовок"
+
+msgid "end_date"
+msgstr "Кінцева дата"
+
+msgid "end_date_reached"
+msgstr "Ви не можете почати опитування. Досягнута кінцева дата!"
+
+msgid "enter_anonymous_id"
+msgstr "Код доступу до опитування"
+
+msgid "enter_valid_number_of_codes"
+msgstr "Будь ласка введіть коректний номер щоб сгенерувати коди доступу к опитуванню!"
+
+#, fuzzy
+msgid "err_external_rcp_no_email"
+msgstr "The import data must at least contain an 'email' field"
+
+#, fuzzy
+msgid "err_external_rcp_no_email_column"
+msgstr "The import data must at least contain a column 'email' with the title 'email' in the first row and the email addresses in the following rows"
+
+#, fuzzy
+msgid "err_maxvaluegeminvalue"
+msgstr "The maximum value must be greater than the minimum value and less or equal than the maximum number of answers."
+
+#, fuzzy
+msgid "err_minvalueganswers"
+msgstr "The minimum must be less or equal than the maximum number of answers."
+
+#, fuzzy
+msgid "err_no_exact_answers"
+msgstr "Please check exactly %s answers."
+
+#, fuzzy
+msgid "err_no_max_answers"
+msgstr "Please check at most %s answers."
+
+#, fuzzy
+msgid "err_no_min_answers"
+msgstr "Please check at least %s answers."
+
+msgid "error_retrieving_anonymous_survey"
+msgstr "Система не дані вашого опитування по коду опитування %s. Будь ласка перевірте код опитування що ви ввели!"
+
+#, fuzzy
+msgid "error_save_code"
+msgstr "Value not saved properly. <b>The E- mail: '%s' is not valid</b>. First name: '%s', Last name: '%s'.<br>"
+
+msgid "evaluation"
+msgstr "Оцінка"
+
+msgid "evaluation_access"
+msgstr "Доступ до оцінювання"
+
+#, fuzzy
+msgid "evaluation_access_all"
+msgstr "Evaluation access for all users"
+
+#, fuzzy
+msgid "evaluation_access_info"
+msgstr "You have access to the survey evaluation"
+
+#, fuzzy
+msgid "evaluation_access_off"
+msgstr "Off"
+
+#, fuzzy
+msgid "evaluation_access_participants"
+msgstr "Evaluation access for survey participants"
+
+#, fuzzy
+msgid "existing_constraints"
+msgstr "Existing preconditions"
+
+#, fuzzy
+msgid "exp_type_csv"
+msgstr "Comma separated value (CSV)"
+
+#, fuzzy
+msgid "exp_type_excel"
+msgstr "Microsoft Excel"
+
+#, fuzzy
+msgid "export_all_survey_codes"
+msgstr "Export all Access Codes"
+
+#, fuzzy
+msgid "export_label_only"
+msgstr "Export label only"
+
+#, fuzzy
+msgid "export_title_label"
+msgstr "Export title and label"
+
+#, fuzzy
+msgid "export_title_only"
+msgstr "Export title only"
+
+#, fuzzy
+msgid "external_recipients_imported"
+msgstr "External recipients have been imported."
+
+#, fuzzy
+msgid "externalmails"
+msgstr "Import file"
+
+#, fuzzy
+msgid "externalmails_info"
+msgstr "The import file must be a CSV file, columns separated by a semicolon. The first row contains the column titles. The file must at least contain an 'email' column containing the recipient email."
+
+#, fuzzy
+msgid "externaltext"
+msgstr "Import text"
+
+#, fuzzy
+msgid "externaltext_info"
+msgstr "The import text must be arranged in rows and columns, columns separated by a semicolon. The first row contains the column titles. The text must at least contain an 'email' column containing the recipient email."
+
+msgid "filter_all_question_types"
+msgstr "Усі типи питання"
+
+# 09 Aug 2005 content changed
+msgid "filter_all_questionpools"
+msgstr "Усі банки питань"
+
+#, fuzzy
+msgid "finished_mail_subject"
+msgstr "The survey was finished"
+
+#, fuzzy
+msgid "freetext_answers"
+msgstr "Open Answers"
+
+msgid "geometric_mean"
+msgstr "Геометричний означає"
+
+msgid "given_answers"
+msgstr "Дані відповіді"
+
+msgid "glossary_term"
+msgstr "Термін глосарію"
+
+msgid "harmonic_mean"
+msgstr "Гармонійний означає"
+
+msgid "heading"
+msgstr "Заголовок"
+
+msgid "horizontal"
+msgstr "горизонтальний"
+
+#, fuzzy
+msgid "import_error_closing_file"
+msgstr "Error closing the import file!"
+
+#, fuzzy
+msgid "import_error_opening_file"
+msgstr "Error opening the import file!"
+
+#, fuzzy
+msgid "import_from_file"
+msgstr "Import from a file"
+
+#, fuzzy
+msgid "import_from_text"
+msgstr "Import from a text"
+
+#, fuzzy
+msgid "import_no_file_selected"
+msgstr "No file selected!"
+
+msgid "import_question"
+msgstr "Імпортувати питання"
+
+#, fuzzy
+msgid "import_wrong_file_type"
+msgstr "Wrong file type!"
+
+msgid "insert_after"
+msgstr "Вставити після"
+
+msgid "insert_before"
+msgstr "Вставити перед"
+
+msgid "insert_missing_question"
+msgstr "Будь ласка виберіть принаймні одне питання щоб вставити його в опитування!"
+
+msgid "insert_missing_questionblock"
+msgstr "Будь ласка виберіть принаймні один блок питань щоб вставити його в опитування!"
+
+#, fuzzy
+msgid "insert_saved_message"
+msgstr "Insert Messagetext"
+
+#, fuzzy
+msgid "internal_link"
+msgstr "Internal Link"
+
+msgid "introduction"
+msgstr "Вступ"
+
+msgid "invited_users"
+msgstr "Запрошені користувачі"
+
+#, fuzzy
+msgid "label"
+msgstr "Label"
+
+#, fuzzy
+msgid "label_info"
+msgstr "Alternative identifier for further data processing (e.g. in SPSS)"
+
+#, fuzzy
+msgid "language_changed"
+msgstr "Language changed"
+
+#, fuzzy
+msgid "layout"
+msgstr "Layout"
+
+msgid "lower_limit"
+msgstr "Нижній ліміт"
+
+#, fuzzy
+msgid "mail_import_example2"
+msgstr "sandraowen@domain.tld;Sandra;Owen"
+
+#, fuzzy
+msgid "mail_import_example3"
+msgstr "kennethbirt@domain.tld;Kenneth;Birt"
+
+#, fuzzy
+msgid "mail_sent_short"
+msgstr "Sent"
+
+#, fuzzy
+msgid "mail_survey_codes"
+msgstr "Mail access codes"
+
+#, fuzzy
+msgid "mailaddresses"
+msgstr "Recipient addresses"
+
+#, fuzzy
+msgid "mailaddresses_info"
+msgstr "Enter a comma separated list of recipients who will receive a notification on finished surveys."
+
+#, fuzzy
+msgid "mailnotification"
+msgstr "Email notification"
+
+#, fuzzy
+msgid "mailparticipantdata"
+msgstr "Additional participant data"
+
+#, fuzzy
+msgid "mailparticipantdata_info"
+msgstr "Add an introduction to the notification mail. You may use placeholders for participant related data like [matriculation], [email], [firstname]. The placeholders will be replaced with real user data in personalized surveys."
+
+#, fuzzy
+msgid "mailparticipantdata_placeholder"
+msgstr "The following placeholders will be replaced with real user data in personalized surveys:"
+
+msgid "maintenance"
+msgstr "Підтримка"
+
+#, fuzzy
+msgid "matrix_appearance"
+msgstr "Appearance"
+
+#, fuzzy
+msgid "matrix_bipolar_adjectives"
+msgstr "Bipolar Adjectives"
+
+#, fuzzy
+msgid "matrix_bipolar_adjectives_description"
+msgstr "You may use a pair of bipolar adjectives to scale the column responses to words, short phrases, or texts"
+
+#, fuzzy
+msgid "matrix_column_separators"
+msgstr "Column Separators"
+
+#, fuzzy
+msgid "matrix_column_separators_description"
+msgstr "Select the check box if you want to have separators (thin lines) between the columns in the output of the Matrix Question"
+
+#, fuzzy
+msgid "matrix_column_settings"
+msgstr "Matrix Column Settings"
+
+#, fuzzy
+msgid "matrix_columns"
+msgstr "Matrix Columns"
+
+#, fuzzy
+msgid "matrix_left_pole"
+msgstr "Left Pole"
+
+#, fuzzy
+msgid "matrix_neutral_answer"
+msgstr "Text for a Neutral Column (\"Not Specified\", \"I don't know\" etc.)"
+
+#, fuzzy
+msgid "matrix_neutral_column_separator"
+msgstr "Neutral Column Separator"
+
+#, fuzzy
+msgid "matrix_neutral_column_separator_description"
+msgstr "Select the check box if you want to have a separator (thick line) between the neutral column and the other columns in the output of the Matrix Question"
+
+#, fuzzy
+msgid "matrix_question_checkbox_not_checked"
+msgstr "Please check at least one check box in every row!"
+
+#, fuzzy
+msgid "matrix_question_radio_button_not_checked"
+msgstr "Please select an option button for every row!"
+
+#, fuzzy
+msgid "matrix_right_pole"
+msgstr "Right Pole"
+
+#, fuzzy
+msgid "matrix_row_separators"
+msgstr "Row Separators"
+
+#, fuzzy
+msgid "matrix_row_separators_description"
+msgstr "Select the check box if you want to have separators (thin lines) between the rows in the output of the Matrix Question"
+
+#, fuzzy
+msgid "matrix_rows"
+msgstr "Matrix Rows"
+
+#, fuzzy
+msgid "matrix_standard_answers"
+msgstr "Column Text"
+
+#, fuzzy
+msgid "matrix_subtype_mr"
+msgstr "Check Boxes (Multiple Response)"
+
+#, fuzzy
+msgid "matrix_subtype_sr"
+msgstr "Option Buttons (Single Response)"
+
+msgid "maxchars"
+msgstr "Максимальна кількість символів"
+
+msgid "maximum"
+msgstr "Максимальне значення"
+
+msgid "median"
+msgstr "Середній"
+
+msgid "median_between"
+msgstr "поміж"
+
+msgid "menuback"
+msgstr "Назад"
+
+msgid "menubacktosurvey"
+msgstr "Назад до опитування"
+
+#, fuzzy
+msgid "message_content_info"
+msgstr "Enter the mail message for the notification mail containing the survey codes for the participants. You may use the placeholders [code] (the access code), [url] (the URL to this survey), and participant related data depending on your import fields: %s. The placeholders will be replaced with the imported user data in the mail."
+
+msgid "metric_question_floating_point"
+msgstr "Значення що ви ввели є дійсне число. Дійсні числа не дозволені для цього типу питання!"
+
+msgid "metric_question_not_a_value"
+msgstr "Значення що ви ввели не є числовим значенням!"
+
+msgid "metric_question_out_of_bounds"
+msgstr "Значення що ви ввели не знаходиться між мінімальним та максимальним значенням!"
+
+#, fuzzy
+msgid "metric_subtype_description_interval"
+msgstr "Equivalent intervals between measurements allow a meaningful comparison between arbitrary pairs of measurements. The zero point on the scale is arbitrary, so negative values can be used. Examples of interval values are the year date in many calendars or the temperature in Celsius scale."
+
+#, fuzzy
+msgid "metric_subtype_description_ratioabsolute"
+msgstr "The ratio absolute measurement uses natural numbers additional to the non-arbitrary zero point for example the number of children in a family or probability."
+
+#, fuzzy
+msgid "metric_subtype_description_rationonabsolute"
+msgstr "In addition to the interval measurement there are also meaningful ratios between arbitrary pairs of numbers. The zero value on a ratio scale is non-arbitrary. Most physical quantities, such as length in centimeters or duration in seconds are measured on ratio scales."
+
+msgid "minimum"
+msgstr "Мінімальне значення"
+
+msgid "mode"
+msgstr "Максимальне вибране значення"
+
+msgid "mode_nr_of_selections"
+msgstr "Nr of selections"
+
+msgid "mode_text"
+msgstr "Найбільше вибране значення (Текст)"
+
+#, fuzzy
+msgid "msg_duplicate_scale"
+msgstr "Please enter unique scale values"
+
+#, fuzzy
+msgid "msg_enter_value_for_valid_constraint"
+msgstr "Please enter a value to create a valid precondition!"
+
+#, fuzzy
+msgid "msg_input_only_positive_numbers"
+msgstr "Please enter positive numbers in scale values."
+
+#, fuzzy
+msgid "msg_max_nr_answers"
+msgstr "Please select at most %s answers"
+
+#, fuzzy
+msgid "msg_message_deleted"
+msgstr "Messagetext deleted"
+
+#, fuzzy
+msgid "msg_message_inserted"
+msgstr "Messagetext inserted"
+
+#, fuzzy
+msgid "msg_min_max_exact_answers"
+msgstr "Please check exactly %s answers"
+
+#, fuzzy
+msgid "msg_min_max_nr_answers"
+msgstr "Please select at least %s and at most %s answers"
+
+#, fuzzy
+msgid "msg_min_nr_answers"
+msgstr "Please select at least %s answers"
+
+#, fuzzy
+msgid "msg_no_message_deleted"
+msgstr "Please select a saved messagetext"
+
+#, fuzzy
+msgid "msg_no_message_inserted"
+msgstr "Please select a messagetext"
+
+msgid "new_survey_codes"
+msgstr "новий код доступу к опитуванню"
+
+#, fuzzy
+msgid "no_question_selected_for_copy_to_pool"
+msgstr "Please select at least one question, which is not already linked to a question pool."
+
+msgid "no_question_selected_for_move"
+msgstr "Будь ласка перевірте принаймні одне питання щоб перемістити його!"
+
+msgid "no_question_selected_for_removal"
+msgstr "Будь ласка перевірти принаймні одне питання або блок питань щоб видалити його!"
+
+msgid "no_target_selected_for_move"
+msgstr "Ви маєте вибрати цільову позицію!"
+
+# 23 Apr 2006 content changed
+msgid "non_ratio"
+msgstr "Не-Відношення"
+
+#, fuzzy
+msgid "not_sent_only"
+msgstr "Only to new recipients (who did not receive a mail yet)"
+
+msgid "not_used"
+msgstr "не використаний"
+
+#, fuzzy
+msgid "nr_max_answers"
+msgstr "Maximum"
+
+#, fuzzy
+msgid "nr_min_answers"
+msgstr "Number"
+
+msgid "obligatory"
+msgstr "обов'язковий"
+
+msgid "off"
+msgstr "вимкнений"
+
+msgid "on"
+msgstr "вімкнутий"
+
+msgid "or"
+msgstr "або"
+
+msgid "orientation"
+msgstr "Орієнтація"
+
+#, fuzzy
+msgid "other_answer"
+msgstr "Other answer"
+
+#, fuzzy
+msgid "other_answer_label"
+msgstr "Label of other answer (optional)"
+
+#, fuzzy
+msgid "outro"
+msgstr "Final Statement"
+
+#, fuzzy
+msgid "please_enter_mail_url"
+msgstr "Please enter the access url placeholder [url]"
+
+msgid "qpl_confirm_delete_questions"
+msgstr "Ви впевнені що бажаєте видалити наступні питання?"
+
+msgid "qpl_define_questionblock_select_missing"
+msgstr "Будь ласка виберіть принаймні два питання якщо ви бажаєте визначити блок питань!"
+
+msgid "qpl_delete_select_none"
+msgstr "Будь ласка перевірте принаймні одне питання щоб видалити його!"
+
+msgid "qpl_export_select_none"
+msgstr "Будь ласка перевірте принаймні одне питання щоб експортувати його"
+
+msgid "qpl_questions_deleted"
+msgstr "Питання видалені."
+
+msgid "qpl_unfold_select_none"
+msgstr "Будь ласка виберіть принаймні один блок питань якщо ви бажаєте відкрити блоки питань!"
+
+#, fuzzy
+msgid "question_changed_in_survey_only"
+msgstr "Question was changed only in survey"
+
+#, fuzzy
+msgid "question_mr_no_other_answer"
+msgstr "Please enter a text for the other answer"
+
+#, fuzzy
+msgid "question_mr_no_other_answer_checked"
+msgstr "You need to select the checkbox if you enter a text for an answer"
+
+#, fuzzy
+msgid "question_mr_not_checked"
+msgstr "Please check at least one of the offered answers!"
+
+msgid "question_not_checked"
+msgstr "Будь ласка перевірте одну с запропонованих відповідей!"
+
+msgid "question_obligatory"
+msgstr "Питання є обов'язковим!"
+
+#, fuzzy
+msgid "question_sr_no_other_answer_checked"
+msgstr "You need to select the radio button if you enter a text for an answer"
+
+msgid "question_type"
+msgstr "Тип питання"
+
+msgid "questionblock"
+msgstr "Блок питань"
+
+#, fuzzy
+msgid "questionblock_inserted"
+msgstr "Question Block inserted"
+
+msgid "questionblocks"
+msgstr "Блоки питань"
+
+#, fuzzy
+msgid "questionblocks_inserted"
+msgstr "Question Blocks inserted"
+
+msgid "questions"
+msgstr "Питання"
+
+msgid "questions_inserted"
+msgstr "Питання вставлені!"
+
+msgid "questions_removed"
+msgstr "Питання та/або блоки питань видалені!"
+
+msgid "questiontype"
+msgstr "Тип питання"
+
+msgid "ratio_absolute"
+msgstr "Відношення-Абсолютне"
+
+msgid "ratio_non_absolute"
+msgstr "Відношення-Не-Абсолютне"
+
+#, fuzzy
+msgid "recipients"
+msgstr "Recipients"
+
+msgid "remove_question"
+msgstr "Видалити"
+
+# 04 Nov 2005 content changed
+msgid "remove_questions"
+msgstr "Ви впевнені що бажаєте видалити наступні питання та/або блоки питань з тесту?"
+
+#, fuzzy
+msgid "results"
+msgstr "Results"
+
+msgid "resume_survey"
+msgstr "Відновити опитування"
+
+#, fuzzy
+msgid "row_text"
+msgstr "Row Text"
+
+msgid "save_obligatory_state"
+msgstr "Зберегти обов'язкові стани"
+
+#, fuzzy
+msgid "save_reuse_message"
+msgstr "Save message text for later use"
+
+#, fuzzy
+msgid "save_reuse_title"
+msgstr "Message text title"
+
+#, fuzzy
+msgid "saved_messages"
+msgstr "Available messages"
+
+#, fuzzy
+msgid "scale"
+msgstr "Scale"
+
+# 23 Dec 2005 content changed
+msgid "search_groups"
+msgstr "Групи"
+
+msgid "search_term"
+msgstr "Шукати термін"
+
+msgid "select_option"
+msgstr "--- Будь ласка виберіть опцію ---"
+
+msgid "select_prior_question"
+msgstr "Виберіть попереднє питання"
+
+msgid "select_relation"
+msgstr "Виберіть відношення"
+
+msgid "select_target_position_for_move_question"
+msgstr "Будь ласка виберіть цільову позицію для переміщення питань та натисніть одну з кнопо к вставки!"
+
+msgid "select_value"
+msgstr "Виберіть значення"
+
+msgid "selection"
+msgstr "Вибір"
+
+#, fuzzy
+msgid "send_to_all"
+msgstr "To all recipients"
+
+#, fuzzy
+msgid "send_to_answered"
+msgstr "To all recipients who did finish the survey"
+
+#, fuzzy
+msgid "send_to_unanswered"
+msgstr "To all recipients who did not finish the survey"
+
+#, fuzzy
+msgid "show_questiontext"
+msgstr "Display the Question Text"
+
+#, fuzzy
+msgid "show_questiontext_description"
+msgstr "If this checkbox is selected, for every question in the question block the question text will be shown. If this checkbox is not selected, the question text of every question in the question block will be hidden."
+
+msgid "skipped"
+msgstr "пропущений"
+
+#, fuzzy
+msgid "spl_copy_insert_clipboard"
+msgstr "The selected question(s) are copied to the clipboard"
+
+#, fuzzy
+msgid "spl_copy_select_none"
+msgstr "Please check at least one question to copy it to the clipboard"
+
+#, fuzzy
+msgid "spl_move_insert_clipboard"
+msgstr "The selected question(s) are marked for moving"
+
+#, fuzzy
+msgid "spl_move_same_pool"
+msgstr "It has no effect to move questions from inside the same question pool."
+
+#, fuzzy
+msgid "spl_move_select_none"
+msgstr "Please check at least one question to select it for moving"
+
+#, fuzzy
+msgid "spl_online_property"
+msgstr "Online"
+
+#, fuzzy
+msgid "spl_paste_no_objects"
+msgstr "There are no questions in the clipboard. Please copy or move a question into the clipboard."
+
+#, fuzzy
+msgid "spl_paste_success"
+msgstr "The question(s) have been pasted into the question pool"
+
+#, fuzzy
+msgid "spl_save_obligatory_state"
+msgstr "Save Obligatory States"
+
+msgid "start_date"
+msgstr "Дата початку"
+
+msgid "start_date_not_reached"
+msgstr "Ви не можете почати опитування пока початкова дата не досягнута!"
+
+msgid "start_survey"
+msgstr "Почати опитування"
+
+msgid "subtype"
+msgstr "Підтип"
+
+#, fuzzy
+msgid "survey_360_add_external_rater"
+msgstr "Add External Rater"
+
+#, fuzzy
+msgid "survey_360_add_self_appraisee"
+msgstr "Add yourself as appraisee to this survey"
+
+#, fuzzy
+msgid "survey_360_appraisee"
+msgstr "Appraisee"
+
+#, fuzzy
+msgid "survey_360_appraisee_close_action"
+msgstr "Close Survey For Raters"
+
+#, fuzzy
+msgid "survey_360_appraisee_close_action_info"
+msgstr "This will give access to your statistics."
+
+#, fuzzy
+msgid "survey_360_appraisee_close_action_info_skill"
+msgstr "This will give access to your statistics and update your competence levels."
+
+#, fuzzy
+msgid "survey_360_appraisee_close_action_status"
+msgstr "Survey was closed on %s."
+
+#, fuzzy
+msgid "survey_360_appraisee_close_action_success"
+msgstr "You have closed your 360° survey for your raters."
+
+#, fuzzy
+msgid "survey_360_appraisee_close_action_success_admin"
+msgstr "The 360° surveys of the appraisees were closed for the raters."
+
+#, fuzzy
+msgid "survey_360_appraisee_close_table"
+msgstr "Closed on"
+
+#, fuzzy
+msgid "survey_360_appraisee_is_closed"
+msgstr "The appraisee has closed his survey."
+
+#, fuzzy
+msgid "survey_360_appraisees"
+msgstr "Appraisees"
+
+#, fuzzy
+msgid "survey_360_edit_raters"
+msgstr "Manage Raters"
+
+#, fuzzy
+msgid "survey_360_mode"
+msgstr "360° Feedback"
+
+#, fuzzy
+msgid "survey_360_mode_info"
+msgstr "Use for peer-reviewing of persons"
+
+#, fuzzy
+msgid "survey_360_no_appraisees"
+msgstr "There are currently no appraisees for you to rate."
+
+#, fuzzy
+msgid "survey_360_rate_other_appraisee"
+msgstr "Rate Appraisee"
+
+#, fuzzy
+msgid "survey_360_rater_finished"
+msgstr "Survey Finished"
+
+#, fuzzy
+msgid "survey_360_rater_mail_sent"
+msgstr "Mail sent"
+
+#, fuzzy
+msgid "survey_360_rater_message_content_anonymous"
+msgstr "Message Content (Anonymous)"
+
+#, fuzzy
+msgid "survey_360_rater_message_content_anonymous_default"
+msgstr "Your survey access code is [code]. You can start the survey in your web browser using the URL [url]."
+
+#, fuzzy
+msgid "survey_360_rater_message_content_registered"
+msgstr "Message Content (Registered)"
+
+#, fuzzy
+msgid "survey_360_rater_message_content_registered_default"
+msgstr "You can start the survey in your web browser using the URL [url]."
+
+#, fuzzy
+msgid "survey_360_rater_subject_default"
+msgstr "You have been invited as rater to a 360° survey."
+
+#, fuzzy
+msgid "survey_360_raters"
+msgstr "Raters"
+
+#, fuzzy
+msgid "survey_360_raters_finished"
+msgstr "Raters Finished"
+
+#, fuzzy
+msgid "survey_360_remove_appraisees"
+msgstr "Remove Appraisee(s)"
+
+#, fuzzy
+msgid "survey_360_results"
+msgstr "Access To Results For Appraisees"
+
+#, fuzzy
+msgid "survey_360_results_all"
+msgstr "To All Appraisees"
+
+#, fuzzy
+msgid "survey_360_results_all_info"
+msgstr "todo11"
+
+#, fuzzy
+msgid "survey_360_results_none"
+msgstr "None"
+
+#, fuzzy
+msgid "survey_360_results_none_info"
+msgstr "todo9"
+
+#, fuzzy
+msgid "survey_360_results_own"
+msgstr "To Own Raters"
+
+#, fuzzy
+msgid "survey_360_results_own_info"
+msgstr "todo10"
+
+#, fuzzy
+msgid "survey_360_select_appraisee"
+msgstr "Select"
+
+#, fuzzy
+msgid "survey_360_self_appraisee"
+msgstr "Users Can Add Themselves As Appraisees"
+
+#, fuzzy
+msgid "survey_360_self_appraisee_info"
+msgstr "todo8"
+
+#, fuzzy
+msgid "survey_360_self_evaluation"
+msgstr "Appraisees Can Rate Themselves"
+
+#, fuzzy
+msgid "survey_360_self_evaluation_info"
+msgstr "todo6"
+
+#, fuzzy
+msgid "survey_360_self_raters"
+msgstr "Appraisees Can Manage Their Raters"
+
+#, fuzzy
+msgid "survey_360_self_raters_info"
+msgstr "todo7"
+
+#, fuzzy
+msgid "survey_360_sure_appraisee_close"
+msgstr "Are you sure you want to close the survey for all of your raters?"
+
+#, fuzzy
+msgid "survey_360_sure_appraisee_close_admin"
+msgstr "Are you sure you want to close the surveys for the following appraisees?"
+
+#, fuzzy
+msgid "survey_360_sure_delete_appraises"
+msgstr "Are you sure you want to remove the following appraisees?"
+
+#, fuzzy
+msgid "survey_360_sure_delete_raters"
+msgstr "Are you sure you want to remove the following raters for %s?"
+
+#, fuzzy
+msgid "survey_access_code"
+msgstr "Authentication by Access Codes"
+
+#, fuzzy
+msgid "survey_access_codes_info"
+msgstr "Users get access to the survey by entering a code on the 'Info'-tab. These access codes are generated in a sub-tab 'Access Codes' in the tab 'Participants'."
+
+#, fuzzy
+msgid "survey_activate_skill_service"
+msgstr "Activate Competence Service"
+
+#, fuzzy
+msgid "survey_activate_skill_service_info"
+msgstr "todo12"
+
+#, fuzzy
+msgid "survey_add_new_question"
+msgstr "Add new Page"
+
+#, fuzzy
+msgid "survey_assign_competence"
+msgstr "Assign Competence"
+
+#, fuzzy
+msgid "survey_auto_block_title"
+msgstr "Page Header"
+
+#, fuzzy
+msgid "survey_available_question_pools"
+msgstr "Available Pools"
+
+#, fuzzy
+msgid "survey_calc_skills"
+msgstr "Determine Competence Levels"
+
+#, fuzzy
+msgid "survey_calculate_sum_score"
+msgstr "Calculate Sum Score"
+
+#, fuzzy
+msgid "survey_calculate_sum_score_info"
+msgstr "Calculates the sum of all scale values for single choice, multiple choice and matrix questions for each participant. Caution: If participants skip these kind of questions, the whole sum score will not be calculated anymore."
+
+#, fuzzy
+msgid "survey_cancel_preview"
+msgstr "Cancel Preview"
+
+#, fuzzy
+msgid "survey_cannot_preview_survey"
+msgstr "Preview not available"
+
+msgid "survey_code"
+msgstr "Код доступу до опитування"
+
+#, fuzzy
+msgid "survey_code_delete_sure"
+msgstr "Are you sure you want to delete the following access codes?"
+
+#, fuzzy
+msgid "survey_code_url"
+msgstr "URL for direct access"
+
+#, fuzzy
+msgid "survey_code_url_name"
+msgstr "URL (use right mouse button to copy URL)"
+
+msgid "survey_code_used"
+msgstr "Код був використаний"
+
+#, fuzzy
+msgid "survey_codes_lang"
+msgstr "Language of the survey"
+
+#, fuzzy
+msgid "survey_codes_no_anonymization"
+msgstr "You must create an anonymized survey with access codes to create new access codes!"
+
+#, fuzzy
+msgid "survey_competences"
+msgstr "Competences"
+
+#, fuzzy
+msgid "survey_constraint_deleted"
+msgstr "The routing rule has been deleted."
+
+#, fuzzy
+msgid "survey_copy_questions_to_pool"
+msgstr "Copy Questions To Pool"
+
+#, fuzzy
+msgid "survey_copy_select_questionpool"
+msgstr "Question pool to put the copies"
+
+#, fuzzy
+msgid "survey_copy_to_questionpool_success"
+msgstr "The questions were copied into the pool successfully."
+
+#, fuzzy
+msgid "survey_delete_heading"
+msgstr "Remove Heading"
+
+#, fuzzy
+msgid "survey_edit_heading"
+msgstr "Edit Heading"
+
+#, fuzzy
+msgid "survey_edit_settings"
+msgstr "Edit Settings"
+
+#, fuzzy
+msgid "survey_error_insert_incomplete_question"
+msgstr "You tried to add an incomplete question to the survey! The question was not added."
+
+#, fuzzy
+msgid "survey_execution_exit"
+msgstr "Back to repository"
+
+#, fuzzy
+msgid "survey_execution_exit_360"
+msgstr "Back"
+
+#, fuzzy
+msgid "survey_execution_sure_finish"
+msgstr "Are you sure you want to finish the survey? You will not be able to edit your answers afterwards."
+
+msgid "survey_finish"
+msgstr "зберегти за закінчити опитування >>>"
+
+# 28 Feb 2006 content changed
+msgid "survey_finished"
+msgstr "Опитування закінчене. Дякуємо за вашу участь!"
+
+#, fuzzy
+msgid "survey_has_datasets_warning"
+msgstr "The survey already contains datasets. You cannot edit the survey questions until you remove these datasets in the maintenance section."
+
+#, fuzzy
+msgid "survey_has_datasets_warning_page_view"
+msgstr "The survey already contains datasets. You cannot edit the survey questions until you remove these datasets."
+
+#, fuzzy
+msgid "survey_has_datasets_warning_page_view_link"
+msgstr "Edit Participants"
+
+#, fuzzy
+msgid "survey_introduction_info"
+msgstr "This message appears at the beginning of the survey."
+
+msgid "survey_is_offline"
+msgstr "Ви не можете почати опитування! Опитування зараз оффлайн."
+
+msgid "survey_next"
+msgstr "збрегти та наступна сторінка >>>"
+
+#, fuzzy
+msgid "survey_not_available"
+msgstr "n/a"
+
+#, fuzzy
+msgid "survey_notification_finished_introduction"
+msgstr "The following participant has finished the survey."
+
+#, fuzzy
+msgid "survey_notification_finished_reason"
+msgstr "You are receiving this email because you activated notifications for the survey mentioned above."
+
+#, fuzzy
+msgid "survey_notification_target_group"
+msgstr "Target Group"
+
+#, fuzzy
+msgid "survey_notification_target_group_invited"
+msgstr "All users who got the survey put on their Personal Desktop"
+
+#, fuzzy
+msgid "survey_notification_target_group_invited_info"
+msgstr "Currently invited users: %s"
+
+#, fuzzy
+msgid "survey_notification_target_group_parent_course"
+msgstr "All members of parent course/group"
+
+#, fuzzy
+msgid "survey_notification_target_group_parent_course_inactive"
+msgstr "No parent course/group given - no reminders will be sent!"
+
+#, fuzzy
+msgid "survey_notification_tutor_body"
+msgstr "The following survey has been finished by all participants"
+
+#, fuzzy
+msgid "survey_notification_tutor_link"
+msgstr "Link to Survey"
+
+#, fuzzy
+msgid "survey_notification_tutor_recipients"
+msgstr "Tutors (Login[s])"
+
+#, fuzzy
+msgid "survey_notification_tutor_recipients_invalid"
+msgstr "Please state users with write permission."
+
+#, fuzzy
+msgid "survey_notification_tutor_salutation"
+msgstr "Hello %s,"
+
+#, fuzzy
+msgid "survey_notification_tutor_setting"
+msgstr "Notify tutors when\tall participants have finished"
+
+#, fuzzy
+msgid "survey_notification_tutor_subject"
+msgstr "All participants have finished the survey \"%s\""
+
+#, fuzzy
+msgid "survey_order"
+msgstr "Sort Order"
+
+msgid "survey_previous"
+msgstr "<<< зберегти та попередня сторінка"
+
+#, fuzzy
+msgid "survey_question_editor"
+msgstr "Edit survey questions"
+
+msgid "survey_question_obligatory"
+msgstr "(Це питання є обов'язковим. Ви маєте відповісти на питання)"
+
+#, fuzzy
+msgid "survey_question_pool"
+msgstr "Question Pool"
+
+#, fuzzy
+msgid "survey_question_pool_title"
+msgstr "Pool Title"
+
+#, fuzzy
+msgid "survey_question_title"
+msgstr "Question Title"
+
+msgid "survey_questions"
+msgstr "Питання"
+
+#, fuzzy
+msgid "survey_questions_to_clipboard_copy"
+msgstr "Question(s) were copied to the clipboard. Please select a target or empty the clipboard. "
+
+#, fuzzy
+msgid "survey_reached_level"
+msgstr "Reached Level"
+
+#, fuzzy
+msgid "survey_reminder_body"
+msgstr "the following survey has not been finished by you yet"
+
+#, fuzzy
+msgid "survey_reminder_cron"
+msgstr "Remind users to participate"
+
+#, fuzzy
+msgid "survey_reminder_cron_info"
+msgstr "If activated, users will be reminded to participate in surveys."
+
+#, fuzzy
+msgid "survey_reminder_end"
+msgstr "End"
+
+#, fuzzy
+msgid "survey_reminder_frequency"
+msgstr "Frequency"
+
+#, fuzzy
+msgid "survey_reminder_frequency_days"
+msgstr "Days"
+
+#, fuzzy
+msgid "survey_reminder_link"
+msgstr "URL"
+
+#, fuzzy
+msgid "survey_reminder_salutation"
+msgstr "Hello %s,"
+
+#, fuzzy
+msgid "survey_reminder_setting"
+msgstr "Remind Users to Participate"
+
+#, fuzzy
+msgid "survey_reminder_start"
+msgstr "Start"
+
+#, fuzzy
+msgid "survey_reminder_subject"
+msgstr "Survey \"%s\" was not finished"
+
+#, fuzzy
+msgid "survey_remove_competence"
+msgstr "Remove Competence"
+
+#, fuzzy
+msgid "survey_results_anonymization"
+msgstr "Privacy"
+
+#, fuzzy
+msgid "survey_results_anonymized"
+msgstr "Without Names"
+
+#, fuzzy
+msgid "survey_results_anonymized_info"
+msgstr "In the tab 'Results' participants' names are replaced by codes. Users having acces to this tab cannot attribute answers to named participants but only to user \"iTXaF\" (example)."
+
+#, fuzzy
+msgid "survey_results_finished"
+msgstr "Survey finished"
+
+#, fuzzy
+msgid "survey_results_not_started"
+msgstr "Survey not started"
+
+#, fuzzy
+msgid "survey_results_personalized"
+msgstr "With Names"
+
+#, fuzzy
+msgid "survey_results_personalized_info"
+msgstr "In the tab 'Results' the names of the partcipants and their respective answers are listed. Users having access to this tab can inspect who has provided which answer."
+
+#, fuzzy
+msgid "survey_results_started"
+msgstr "Survey started"
+
+#, fuzzy
+msgid "survey_show_blocktitle"
+msgstr "Show Block Title"
+
+#, fuzzy
+msgid "survey_show_blocktitle_description"
+msgstr "If activated the block title will be shown in the survey."
+
+#, fuzzy
+msgid "survey_skill"
+msgstr "Competence"
+
+#, fuzzy
+msgid "survey_skill_assign"
+msgstr "Question/Competence Assignment"
+
+#, fuzzy
+msgid "survey_skill_level"
+msgstr "Competence Level"
+
+#, fuzzy
+msgid "survey_skill_max_scale_points"
+msgstr "Max. Scale Points"
+
+#, fuzzy
+msgid "survey_skill_nr_q"
+msgstr "Number of Questions"
+
+#, fuzzy
+msgid "survey_skill_thresholds"
+msgstr "Competence Thresholds"
+
+msgid "survey_start"
+msgstr "<<< зберегти та перейти до початкової сторінки"
+
+#, fuzzy
+msgid "survey_sum_of_means"
+msgstr "Sum of Arithm. Means per Question"
+
+#, fuzzy
+msgid "survey_sure_delete_constraint"
+msgstr "Are you sure you want to delete the routing rule \"%1$s\" for the question \"%2$s\"?"
+
+#, fuzzy
+msgid "survey_sure_delete_questions"
+msgstr "Are you sure that you want to delete the following questions or headings?"
+
+#, fuzzy
+msgid "survey_sync_insufficient_permissions"
+msgstr "Insufficient Permissions"
+
+#, fuzzy
+msgid "survey_sync_question_copies"
+msgstr "Sync Question Copies"
+
+#, fuzzy
+msgid "survey_sync_question_copies_info"
+msgstr "The selected questions will be replaced with the current pool version."
+
+#, fuzzy
+msgid "survey_sync_success"
+msgstr "The selected questions were updated."
+
+#, fuzzy
+msgid "survey_up_to_x_points"
+msgstr "Up to x points"
+
+#, fuzzy
+msgid "survey_use_start_button"
+msgstr "You must enter the survey using the start button!"
+
+#, fuzzy
+msgid "svy_activation_limited_visibility_info"
+msgstr "If chosen, the survey is visible even outside of the given availability."
+
+#, fuzzy
+msgid "svy_activation_online_info"
+msgstr "Activate this setting to make the survey accessible to users."
+
+#, fuzzy
+msgid "svy_add_internal_user"
+msgstr "Add User"
+
+#, fuzzy
+msgid "svy_add_internal_user_info"
+msgstr "The rater has a registered user on this platform."
+
+#, fuzzy
+msgid "svy_add_rater"
+msgstr "Add Rater"
+
+#, fuzzy
+msgid "svy_all_raters"
+msgstr "All Raters"
+
+#, fuzzy
+msgid "svy_all_survey_competences"
+msgstr "All Survey Competences"
+
+msgid "svy_all_user_data_deleted"
+msgstr "Усі дані користувача цього опитування були видалені!"
+
+#, fuzzy
+msgid "svy_analysis"
+msgstr "Analysis"
+
+#, fuzzy
+msgid "svy_anonymous_participants"
+msgstr "List of Participants"
+
+#, fuzzy
+msgid "svy_anonymous_participants_info"
+msgstr "If activated a list of participants can be enabled in anonymous surveys."
+
+#, fuzzy
+msgid "svy_anonymous_participants_min"
+msgstr "Minimum Number of Participants"
+
+#, fuzzy
+msgid "svy_anonymous_participants_min_info"
+msgstr "The list will only be available if there are at least the minimum number of participants."
+
+#, fuzzy
+msgid "svy_anonymous_participants_svy"
+msgstr "List of Participants"
+
+#, fuzzy
+msgid "svy_anonymous_participants_svy_info"
+msgstr "If activated a list of participants is available after the end date."
+
+#, fuzzy
+msgid "svy_answer_too_long"
+msgstr "Your current answer is too long (%s characters). Please shorten your answer."
+
+#, fuzzy
+msgid "svy_app_see_rater_info"
+msgstr "Appraisees can access rater information in the results screens, including names and e-mail addresses, if entered before when adding raters."
+
+#, fuzzy
+msgid "svy_appraisses_cannot_be_raters"
+msgstr "User cannot be added as rater. Use self evaluation option in the survey settings instead."
+
+#, fuzzy
+msgid "svy_back"
+msgstr "Back"
+
+#, fuzzy
+msgid "svy_categories"
+msgstr "Answers"
+
+#, fuzzy
+msgid "svy_check_evaluation_access_introduction"
+msgstr "Since this survey evaluation is only accessable by survey participants you need to enter your survey access code to open the evaluation."
+
+#, fuzzy
+msgid "svy_check_evaluation_authentication_needed"
+msgstr "Authentication needed"
+
+#, fuzzy
+msgid "svy_check_evaluation_wrong_key"
+msgstr "You entered a wrong survey access code or you have not participated the survey. Your access to the survey evaluation is denied."
+
+#, fuzzy
+msgid "svy_compress_view"
+msgstr "Compressed View"
+
+#, fuzzy
+msgid "svy_compress_view_info"
+msgstr "If activated, all single choice questions with similar scales will be presented matrix-like."
+
+#, fuzzy
+msgid "svy_copy"
+msgstr "Copy Survey"
+
+#, fuzzy
+msgid "svy_create_question"
+msgstr "Create Question"
+
+msgid "svy_delete_all_user_data"
+msgstr "Видалити усі дані користувача"
+
+#, fuzzy
+msgid "svy_dont_send"
+msgstr "Don't send a message"
+
+#, fuzzy
+msgid "svy_eval_captions"
+msgstr "Figures"
+
+#, fuzzy
+msgid "svy_eval_captions_abs"
+msgstr "Absolute"
+
+#, fuzzy
+msgid "svy_eval_captions_abs_perc"
+msgstr "Absolute and Percentage"
+
+#, fuzzy
+msgid "svy_eval_captions_perc"
+msgstr "Percentage"
+
+#, fuzzy
+msgid "svy_eval_competences"
+msgstr "Competence Results"
+
+msgid "svy_eval_cumulated"
+msgstr "Накопичені результати"
+
+msgid "svy_eval_detail"
+msgstr "Накопичені результати (деталі)"
+
+#, fuzzy
+msgid "svy_eval_skipped_value"
+msgstr "Results: \"skipped\""
+
+#, fuzzy
+msgid "svy_eval_skipped_value_custom"
+msgstr "Use custom value"
+
+#, fuzzy
+msgid "svy_eval_skipped_value_custom_info"
+msgstr "Define any (or empty) value to use for skipped answers"
+
+#, fuzzy
+msgid "svy_eval_skipped_value_custom_value"
+msgstr "Value"
+
+#, fuzzy
+msgid "svy_eval_skipped_value_lng"
+msgstr "Use language file entry"
+
+#, fuzzy
+msgid "svy_eval_skipped_value_lng_info"
+msgstr "Current value: \"%s\""
+
+msgid "svy_eval_user"
+msgstr "Особисті результати користувача"
+
+#, fuzzy
+msgid "svy_eval_view"
+msgstr "View"
+
+#, fuzzy
+msgid "svy_eval_view_charts"
+msgstr "Chart"
+
+#, fuzzy
+msgid "svy_eval_view_tables"
+msgstr "Table"
+
+#, fuzzy
+msgid "svy_eval_view_tables_charts"
+msgstr "Table and chart"
+
+#, fuzzy
+msgid "svy_evaluation_access_all_info"
+msgstr "All registered users that can access the survey can also look at the results of this survey. "
+
+#, fuzzy
+msgid "svy_evaluation_access_off_info"
+msgstr "Only Users that can edit the survey (write permission) have access to the survey's results."
+
+#, fuzzy
+msgid "svy_evaluation_access_participants_info"
+msgstr "All users that participated in the survey may choose to look at the results after finishing it. "
+
+msgid "svy_export_files"
+msgstr "Експортувати файли"
+
+#, fuzzy
+msgid "svy_export_format"
+msgstr "Export survey data as"
+
+#, fuzzy
+msgid "svy_export_pdf"
+msgstr "Export PDF"
+
+#, fuzzy
+msgid "svy_ext_rater_firstname"
+msgstr "First name of external rater"
+
+#, fuzzy
+msgid "svy_ext_rater_lastname"
+msgstr "Last name of external rater"
+
+#, fuzzy
+msgid "svy_external_rater"
+msgstr "Add External Rater"
+
+#, fuzzy
+msgid "svy_external_rater_info"
+msgstr "The rater is not registered on this platform."
+
+#, fuzzy
+msgid "svy_fraction_of_selections"
+msgstr "Fraction of selections"
+
+#, fuzzy
+msgid "svy_gap_analysis"
+msgstr "Gap Analysis"
+
+#, fuzzy
+msgid "svy_general_properties"
+msgstr "General Properties"
+
+#, fuzzy
+msgid "svy_import_codes"
+msgstr "Import Codes"
+
+#, fuzzy
+msgid "svy_import_codes_info"
+msgstr "This import requires a \"%s\" export file."
+
+#, fuzzy
+msgid "svy_ind_feedb_info"
+msgstr "Users get distinct evaluations by others."
+
+#, fuzzy
+msgid "svy_ind_feedb_mode"
+msgstr "Individual Feedback"
+
+#, fuzzy
+msgid "svy_mail_confirmation_subject"
+msgstr "Survey \"%s\" - Your participation confirmation"
+
+#, fuzzy
+msgid "svy_mail_context_rater_invitation_info"
+msgstr "Invite raters to participate in a survey."
+
+#, fuzzy
+msgid "svy_mail_context_rater_invitation_survey_title"
+msgstr "Survey Title"
+
+#, fuzzy
+msgid "svy_mail_context_rater_invitation_title"
+msgstr "Survey: Rater Invitation"
+
+#, fuzzy
+msgid "svy_mail_context_reminder_info"
+msgstr "Reminds users to participate in survey"
+
+#, fuzzy
+msgid "svy_mail_context_reminder_survey_title"
+msgstr "Survey Title"
+
+#, fuzzy
+msgid "svy_mail_context_reminder_title"
+msgstr "Survey Reminder"
+
+#, fuzzy
+msgid "svy_mail_own_results_body"
+msgstr "the following is a complete summary of your survey participation."
+
+#, fuzzy
+msgid "svy_mail_own_results_subject"
+msgstr "Survey \"%s\" - Your Answers"
+
+#, fuzzy
+msgid "svy_mail_send_confirmation"
+msgstr "Send Participation Confirmation"
+
+#, fuzzy
+msgid "svy_matrix_layout_percentages_sum_invalid"
+msgstr "The column settings do not sum up to 100%."
+
+#, fuzzy
+msgid "svy_max_sum_score"
+msgstr "Maximum Sum Score"
+
+#, fuzzy
+msgid "svy_neutral_answer"
+msgstr "Text for a Neutral Answer (\"Not Specified\", \"I don't know\" etc.)"
+
+#, fuzzy
+msgid "svy_no_appraisees_found"
+msgstr "No appraisees with feedbacks found."
+
+#, fuzzy
+msgid "svy_notification_tutor_results"
+msgstr "One E-Mail including Survey Results"
+
+#, fuzzy
+msgid "svy_notification_tutor_results_alert"
+msgstr "This requires an end date."
+
+#, fuzzy
+msgid "svy_notification_tutor_results_info"
+msgstr "After reaching the end data a cron job will send an email with the detailed survey results attached to it."
+
+#, fuzzy
+msgid "svy_only_max_one_external_rater"
+msgstr "Please select only one external rater."
+
+msgid "svy_page_error"
+msgstr "Вібулась помилка при відповіді на питання опитування. Будь ласка зверніться до питання щоб отримати більше інформації сточовно помилки!"
+
+msgid "svy_page_errors"
+msgstr "Відбулися помилки при відповідях на питання опитування. Будь ласка зверніться до питань щоб отримати більше інформації стосовно помилок!"
+
+#, fuzzy
+msgid "svy_participant"
+msgstr "Participant"
+
+#, fuzzy
+msgid "svy_participants"
+msgstr "Participants"
+
+#, fuzzy
+msgid "svy_participation"
+msgstr "Participation"
+
+#, fuzzy
+msgid "svy_please_select_unused_codes"
+msgstr "Please select at least one unused code."
+
+#, fuzzy
+msgid "svy_print_hide_labels"
+msgstr "Hide labels"
+
+#, fuzzy
+msgid "svy_print_show_labels"
+msgstr "Show labels"
+
+#, fuzzy
+msgid "svy_privacy_info"
+msgstr "Privacy"
+
+#, fuzzy
+msgid "svy_rater"
+msgstr "Rater"
+
+#, fuzzy
+msgid "svy_rater_see_app_info"
+msgstr "The names of appraisees will be presented to raters to enable them evaluating the questions."
+
+#, fuzzy
+msgid "svy_reminder_mail_template"
+msgstr "Mail Template"
+
+#, fuzzy
+msgid "svy_reminder_mail_template_none"
+msgstr "Do not use mail template"
+
+#, fuzzy
+msgid "svy_result_mail_notification_info"
+msgstr "On finishing the survey the answers of each participant will be sent to the defined recipients."
+
+#, fuzzy
+msgid "svy_results"
+msgstr "Results"
+
+#, fuzzy
+msgid "svy_results_mail_confirm"
+msgstr "Participants can request participation confirmation"
+
+#, fuzzy
+msgid "svy_results_mail_confirm_info"
+msgstr "Participants can request a mail with a confirmation of participation at the end of the survey."
+
+#, fuzzy
+msgid "svy_results_mail_own"
+msgstr "Participant can mail own answers"
+
+#, fuzzy
+msgid "svy_results_mail_own_info"
+msgstr "todo5"
+
+#, fuzzy
+msgid "svy_save_and_continue"
+msgstr "Save and Continue"
+
+#, fuzzy
+msgid "svy_save_sync"
+msgstr "Save and Sync Question Copies"
+
+#, fuzzy
+msgid "svy_search_user"
+msgstr "Search User"
+
+#, fuzzy
+msgid "svy_search_user_info"
+msgstr "Search for users or roles and pick participants."
+
+#, fuzzy
+msgid "svy_search_users"
+msgstr "Search for participants"
+
+#, fuzzy
+msgid "svy_select_rater"
+msgstr "Select Rater"
+
+#, fuzzy
+msgid "svy_selected_user_data_deleted"
+msgstr "The survey data of the selected user(s) was deleted successfully"
+
+#, fuzzy
+msgid "svy_self_ev_access_results_all"
+msgstr "Access to Self-Evaluations of All Participants"
+
+#, fuzzy
+msgid "svy_self_ev_access_results_none"
+msgstr "No Access to Results"
+
+#, fuzzy
+msgid "svy_self_ev_access_results_own"
+msgstr "Access to Own Self-Evaluations"
+
+#, fuzzy
+msgid "svy_self_ev_info"
+msgstr "Use for self evaluation."
+
+#, fuzzy
+msgid "svy_self_ev_mode"
+msgstr "Self-Evaluation Only"
+
+#, fuzzy
+msgid "svy_settings_section_access"
+msgstr "Administering the Survey: Access"
+
+#, fuzzy
+msgid "svy_settings_section_before_start"
+msgstr "Information before Start of Survey"
+
+#, fuzzy
+msgid "svy_settings_section_finishing"
+msgstr "Finishing the Survey"
+
+#, fuzzy
+msgid "svy_settings_section_question_behaviour"
+msgstr "Administering the Survey: Behaviour of the Question"
+
+#, fuzzy
+msgid "svy_settings_section_reminders"
+msgstr "Reminders"
+
+msgid "svy_show_questiontitles"
+msgstr "Показати назви питань в опитуванні"
+
+#, fuzzy
+msgid "svy_skl_comp_assignm_not_supported"
+msgstr "Competence assignment is not supported for this question type."
+
+#, fuzzy
+msgid "svy_sum_score"
+msgstr "Sum Score"
+
+#, fuzzy
+msgid "svy_type_of_rater"
+msgstr "Type of Rater"
+
+#, fuzzy
+msgid "svy_view_own_results"
+msgstr "View given answers"
+
+#, fuzzy
+msgid "svy_wrong_or_expired_code"
+msgstr "Sorry, you entered an invalid or expired code."
+
+msgid "text_maximum_chars_allowed"
+msgstr "Будь ласка не вводьте більше ніж максимум %s символів. Усі зайві символи будуть вирізані."
+
+msgid "text_question_not_filled_out"
+msgstr "Будь ласка заповніть поле відповіді!"
+
+msgid "unfold"
+msgstr "Розкрити"
+
+msgid "upper_limit"
+msgstr "Верхній ліміт"
+
+#, fuzzy
+msgid "use_anonymous_id"
+msgstr "Show survey code"
+
+#, fuzzy
+msgid "use_anonymous_id_desc"
+msgstr "If checked, the user name in anonymized surveys will be shown as the survey code, otherwise the text \"Anonymous\" will be shown."
+
+#, fuzzy
+msgid "use_browser_print_function"
+msgstr "Please use the print function of your web browser."
+
+#, fuzzy
+msgid "use_min_answers"
+msgstr "Answer selections"
+
+#, fuzzy
+msgid "use_min_answers_option"
+msgstr "Use minimum number of answer selections"
+
+#, fuzzy
+msgid "use_other_answer"
+msgstr "Open answer"
+
+msgid "used"
+msgstr "використаний"
+
+msgid "users_answered"
+msgstr "Користувачі що відповіли"
+
+#, fuzzy
+msgid "users_invited"
+msgstr "%s users have been invited"
+
+msgid "users_skipped"
+msgstr "Користувачі що пропустили"
+
+msgid "values"
+msgstr "Значення"
+
+msgid "vertical"
+msgstr "вертикальний"
+
+msgid "warning_question_not_complete"
+msgstr "Питання не закінчене!"
+
+#, fuzzy
+msgid "workingtime"
+msgstr "Working time"

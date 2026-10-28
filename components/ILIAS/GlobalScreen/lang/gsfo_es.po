@@ -1,0 +1,159 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: gsfo\n"
+
+msgid "accessibility"
+msgstr "Accesibilidad"
+
+msgid "confirm_delete"
+msgstr "¿Realmente desea eliminar los siguientes elementos?"
+
+msgid "confirm_reset"
+msgstr "Al restablecer el pie de página, todas las entradas volverán a su estado original. Todas las personalizaciones y entradas manuales se eliminarán. ¿Desea continuar?"
+
+msgid "entries_add"
+msgstr "Añadir entrada"
+
+msgid "entries_edit"
+msgstr "editar_entradas"
+
+msgid "entries_parent"
+msgstr "Seleccionar grupo"
+
+msgid "entries_select_parent"
+msgstr "Mover entrada al grupo"
+
+#, fuzzy
+msgid "entries_target_group"
+msgstr "Select target group"
+
+msgid "entry_action"
+msgstr "Enlace"
+
+msgid "entry_action_info"
+msgstr "Proporcione la URL completa incluyendo el protocolo (ej. https://www.ilias.de)"
+
+msgid "entry_activation_toggled"
+msgstr "Se ha conmutado la activación"
+
+msgid "entry_active"
+msgstr "Activo"
+
+msgid "entry_active_info"
+msgstr "Activar esta entrada"
+
+msgid "entry_add"
+msgstr "Añadir entrada"
+
+msgid "entry_delete"
+msgstr "Eliminar"
+
+msgid "entry_deleted"
+msgstr "Eliminado"
+
+#, fuzzy
+msgid "entry_deleted_failed"
+msgstr "Deletion not possible"
+
+msgid "entry_edit"
+msgstr "Editar"
+
+msgid "entry_external"
+msgstr "Abrir en una nueva pestaña"
+
+msgid "entry_move"
+msgstr "Mover"
+
+msgid "entry_moved"
+msgstr "La entrada ha sido movida"
+
+msgid "entry_title"
+msgstr "Título (Idioma predeterminado)"
+
+msgid "entry_toggle_activation"
+msgstr "(Des)activar"
+
+msgid "group_activation_toggled"
+msgstr "La activación se ha alternado"
+
+msgid "group_active"
+msgstr "Activo"
+
+msgid "group_active_info"
+msgstr "Activar este grupo"
+
+msgid "group_add"
+msgstr "Añadir grupo"
+
+msgid "group_delete"
+msgstr "Eliminar"
+
+msgid "group_deleted"
+msgstr "Eliminado"
+
+msgid "group_edit"
+msgstr "Editar grupo"
+
+msgid "group_edit_entries"
+msgstr "Editar entradas"
+
+msgid "group_items"
+msgstr "Elementos"
+
+msgid "group_not_empty"
+msgstr "Este grupo contiene entradas. Por favor, muévalas o elimínelas primero."
+
+msgid "group_title"
+msgstr "Título (Idioma predeterminado)"
+
+msgid "group_title_info"
+msgstr "Se pueden añadir traducciones adicionales con la acción \"Añadir traducción\" después de guardar el grupo."
+
+msgid "group_toggle_activation"
+msgstr "(Des)activar"
+
+msgid "group_translate"
+msgstr "Traducir"
+
+msgid "info_not_deletable_core"
+msgstr "Los elementos predeterminados no se pueden eliminar."
+
+msgid "info_not_deletable_not_empty"
+msgstr "Los grupos con entradas no se pueden eliminar."
+
+#, fuzzy
+msgid "item_moved"
+msgstr "Entry moved"
+
+msgid "legal_information"
+msgstr "Información legal"
+
+msgid "order_saved"
+msgstr "Orden guardado"
+
+msgid "permanent"
+msgstr "permanente"
+
+msgid "reset_footer"
+msgstr "Restablecer pie de página"
+
+msgid "reset_success"
+msgstr "El pie de página se ha restablecido correctamente"
+
+msgid "services"
+msgstr "Servicios"
+
+msgid "support"
+msgstr "Soporte"
+
+msgid "translate"
+msgstr "Traducir"
+
+msgid "translations"
+msgstr "Translations"

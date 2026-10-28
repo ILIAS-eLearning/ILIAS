@@ -1,0 +1,849 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: dcl\n"
+
+msgid "add_value"
+msgstr "Új bejegyzés hozzáadása"
+
+msgid "dcl_activate_notification"
+msgstr "Értesítés engedélyezése"
+
+msgid "dcl_add"
+msgstr "Adatgyűjtés létrehozása"
+
+msgid "dcl_add_new_field"
+msgstr "Új mező létrehozása"
+
+msgid "dcl_add_new_record"
+msgstr "Új bejegyzés létrehozása"
+
+msgid "dcl_add_new_table"
+msgstr "Új tábla létrehozása"
+
+msgid "dcl_add_new_view"
+msgstr "Új nézet létrehozása"
+
+msgid "dcl_add_perm"
+msgstr "Rekord felvétele"
+
+msgid "dcl_add_perm_desc"
+msgstr "A felhasználók bejegyzéseket hozhatnak létre ebben a táblázatban. Ha az adatok importálása ebbe a táblázatba engedélyezett, akkor egy Excel importálási funkció is elérhető lesz."
+
+msgid "dcl_all_entries"
+msgstr "Összes bejegyzés"
+
+msgid "dcl_any"
+msgstr "Bármi"
+
+msgid "dcl_asc"
+msgstr "Növekvő sorrend (↑)"
+
+msgid "dcl_boolean"
+msgstr "Jelölőnégyzet"
+
+msgid "dcl_boolean_desc"
+msgstr "‘Kipipált’/‘Nem kipipált’ jelölőnégyzet."
+
+msgid "dcl_cant_delete_last_table"
+msgstr "Nem távolíthatja el teljes egészében ezt a táblát, mert ez az adatgyűjtéshez egyetlen táblája. Tartalmát és szerkezetét viszont töröltük."
+
+msgid "dcl_change_notification_dcl_delete_record"
+msgstr "ezúton tájékoztatjuk, hogy az alábbi bejegyzést törölték"
+
+msgid "dcl_change_notification_dcl_new_record"
+msgstr "ezúton tájékoztatjuk, hogy az alábbi bejegyzés jött létre"
+
+msgid "dcl_change_notification_dcl_update_record"
+msgstr "ezúton tájékoztatjuk, hogy az alábbi bejegyzés megváltozott"
+
+msgid "dcl_change_notification_link"
+msgstr "URL"
+
+msgid "dcl_change_notification_subject"
+msgstr "‘%s’ adatgyűjtés megváltozott"
+
+msgid "dcl_changed_by"
+msgstr "Módosította"
+
+msgid "dcl_checked"
+msgstr "Kipipált"
+
+msgid "dcl_comments"
+msgstr "Megjegyzések"
+
+msgid "dcl_comments_desc"
+msgstr "Megjegyzések számának megjelenítése a bejegyzéshez."
+
+msgid "dcl_confirm_delete_field"
+msgstr "Biztos, hogy törli ezt a mezőt?"
+
+msgid "dcl_confirm_delete_fields"
+msgstr "Biztos, hogy törli ezeket a mezőket?"
+
+msgid "dcl_confirm_delete_record"
+msgstr "Biztos, hogy törli ezt a bejegyzést?"
+
+msgid "dcl_confirm_delete_records"
+msgstr "Biztos, hogy törli az alábbi bejegyzéseket?"
+
+msgid "dcl_confirm_delete_table"
+msgstr "Biztos, hogy törli a táblát annak tartalmával és szerkezetével?"
+
+msgid "dcl_confirm_storing_records"
+msgstr "Kérem, ellenőrizze és hagyja jóvá beírt adatát."
+
+msgid "dcl_confirm_storing_records_no_permission"
+msgstr "Nincs jogosultsága a bejegyzést utólag módosítani."
+
+msgid "dcl_copy"
+msgstr "Adatgyűjtés másolása"
+
+msgid "dcl_copy_field"
+msgstr "Másolás"
+
+msgid "dcl_copy_field_desc"
+msgstr "Mező a táblázat másik mezőjében tárolt lehetőségek másolásához."
+
+msgid "dcl_copy_title"
+msgstr "Tábla és mezők másolata"
+
+msgid "dcl_create_date"
+msgstr "Létrehozás dátuma"
+
+msgid "dcl_create_entry_rules"
+msgstr "Bejegyzés létrehozása"
+
+msgid "dcl_create_field"
+msgstr "Mező létrehozása"
+
+msgid "dcl_create_fields"
+msgstr "Kattintson egy táblára a ‘Táblák’ lap alatt, majd hozzon létre mezőket az ‘Új mező létrehozása’ gombbal."
+
+msgid "dcl_creation_date"
+msgstr "Létrehozás dátuma"
+
+msgid "dcl_creation_date_description"
+msgstr "A bejegyzés létrehozásának dátuma."
+
+msgid "dcl_datatype"
+msgstr "Adattípus"
+
+msgid "dcl_date"
+msgstr "Dátum"
+
+msgid "dcl_date_desc"
+msgstr "Dátum beviteli mező."
+
+msgid "dcl_date_selection"
+msgstr "Dátumválasztó"
+
+msgid "dcl_date_selection_desc"
+msgstr "Dátumlehetőségek választásának felkínálása."
+
+msgid "dcl_datetime"
+msgstr "Dátum"
+
+msgid "dcl_datetime_desc"
+msgstr "Dátum beviteli mező."
+
+msgid "dcl_datetime_selection"
+msgstr "Dátum/idő választó"
+
+msgid "dcl_datetime_selection_desc"
+msgstr "Lehetővé teszi a dátum és az időpont kiválasztását az előre meghatározott dátum/idő lehetőségek közül."
+
+msgid "dcl_default_sort_field"
+msgstr "Alapértelmezett rendezési mező"
+
+msgid "dcl_default_sort_field_order"
+msgstr "Alapértelmezett rendezési irány"
+
+msgid "dcl_default_sort_field_order_desc"
+msgstr "A táblázatot alapértelmezetten ezen mező alapján rendezzük."
+
+msgid "dcl_delete_fields"
+msgstr "Mezők törlése"
+
+msgid "dcl_delete_fields_no_selection"
+msgstr "Legalább egy törlendő mezőt válasszon ki"
+
+msgid "dcl_delete_perm"
+msgstr "A felhasználó törölhet rekordokat"
+
+msgid "dcl_delete_records"
+msgstr "Bejegyzések törlése"
+
+msgid "dcl_deleted_entries"
+msgstr "Törölt bejegyzések"
+
+msgid "dcl_deleted_records"
+msgstr "Sikeresen törölt %s bejegyzéseket"
+
+msgid "dcl_deprecated_copy"
+msgstr "(Elavult)"
+
+msgid "dcl_desc"
+msgstr "Csökkenő sorrend (↓)"
+
+msgid "dcl_description"
+msgstr "Mező leírása"
+
+msgid "dcl_detailed_view"
+msgstr "Részletes nézet"
+
+msgid "dcl_display_action_menu"
+msgstr "Másolás"
+
+msgid "dcl_display_action_menu_desc"
+msgstr "Az objektummásolható a bejegyzésből"
+
+msgid "dcl_display_record_alt"
+msgstr "Bejegyzés megjelenítése"
+
+#, fuzzy
+msgid "dcl_download_import_template"
+msgstr "Download Import Template"
+
+msgid "dcl_duplicate_non_unique_entries_exist"
+msgstr "A mezőben található néhány bejegyzés ismétlődik. Ahhoz, hogy a mező ‘Egyedi’ tulajdonságú legyen, a meglévő bejegyzéseknek is egyedieknek kell lenniük (azaz nem lehetnek azonosak). Kérjük, lépjen a ‘Tartalom’ lapra, és szerkessze a mezőben található bejegyzéseket úgy, hogy minden bejegyzés különböző legyen."
+
+msgid "dcl_edit"
+msgstr "Adatgyűjtés beállításai"
+
+msgid "dcl_edit_entry_rules"
+msgstr "Bejegyzés módosítása"
+
+msgid "dcl_edit_field"
+msgstr "Mező módosítása"
+
+msgid "dcl_edit_perm"
+msgstr "A felhasználó szerkeszthet rekordokat"
+
+msgid "dcl_edit_table"
+msgstr "Táblabeállítások módosítása"
+
+msgid "dcl_edit_view"
+msgstr "‘%s’ nézet beállításainak módosítása"
+
+msgid "dcl_editable_in_table_gui"
+msgstr "Táblanézetben szavazzon!"
+
+msgid "dcl_err_formula_field_not_found"
+msgstr "Nincs ‘%s’ nevű mező."
+
+msgid "dcl_error_parsing_expression"
+msgstr "Hiba a kifejezés elemezésekor"
+
+msgid "dcl_export_enabled"
+msgstr "Export használatának engedélyezése az összes felhasználó számára"
+
+msgid "dcl_export_enabled_desc"
+msgstr "Az összes felhasználó exportálhatja a táblázat adatait. Az exportálható tulajdonság a mezőknél külön-külön állítható."
+
+msgid "dcl_field_datatype"
+msgstr "Adattípus"
+
+msgid "dcl_field_description"
+msgstr "Leírás"
+
+msgid "dcl_field_description_desc"
+msgstr "A leírás a nyitó űrlapon, a mező alatt jelenik meg."
+
+msgid "dcl_field_title_change_warning"
+msgstr "Megváltoztatta a mező címét, ezért bizonyos körülmények között néhány helyőrző a meghatározási nézetben megtörhetett. Ezeket kézzel kell beállítani, ha szükséges."
+
+msgid "dcl_field_title_unique"
+msgstr "Ilyen mezőnév már létezik. A mezőnévnek egyedinek kell lennie."
+
+msgid "dcl_field_visible"
+msgstr "Látható"
+
+msgid "dcl_fieldtitle"
+msgstr "Mező címe"
+
+msgid "dcl_file"
+msgstr "Fájlfeltöltés"
+
+msgid "dcl_file_desc"
+msgstr "Fájlok feltöltésének mezője, melyek közvetlen az adatgyűjtésből letölthetők."
+
+msgid "dcl_file_format_description"
+msgstr "A fájl Excel (.xlsx) fájl legyen, első munkalapján az importálandó adatokkal. Az első sorban legyenek pontosan írva a mezőnevek (kis- és nagybetű megkülönböztetve), az alatta lévő sorokban az értékeik. Először ajánlott az importot szimulálni. Hivatkozás vagy kijelölt mezők többszörös kijelölésével történő importáláskor vesszőt, illetve pontosvesszőt használható elválasztójelként."
+
+msgid "dcl_file_not_readable"
+msgstr "A fájl nem olvasható. Győződjön meg róla, hogy Excel (.xlsx) fájlt tölt fel."
+
+msgid "dcl_filter"
+msgstr "Szűrőként használható"
+
+msgid "dcl_filter_changeable"
+msgstr "Szűrő módosítható"
+
+msgid "dcl_formula"
+msgstr "Képlet"
+
+msgid "dcl_formula_desc"
+msgstr "Képlet segítségével bejegyzések értékeit aggregálhatja."
+
+msgid "dcl_formula_detail_desc"
+msgstr "Automatikusan generált, nem módosítható bejegyzések."
+
+msgid "dcl_height"
+msgstr "Magasság"
+
+msgid "dcl_height_desc"
+msgstr "A fájlt átméretezzük a megadott magasságra"
+
+msgid "dcl_id"
+msgstr "ID"
+
+msgid "dcl_id_description"
+msgstr "A belső azonosító (internal-ID)."
+
+msgid "dcl_ilias_reference"
+msgstr "Link egy ILIAS objektumhoz"
+
+msgid "dcl_ilias_reference_desc"
+msgstr "Keresési mező ILIAS-ban lévő objektum kiválasztására."
+
+msgid "dcl_ilias_reference_link"
+msgstr "A kiválasztott objektumra mutató link"
+
+msgid "dcl_import_enabled"
+msgstr "Importálás engedélyezése az összes felhasználó számára"
+
+msgid "dcl_import_enabled_desc"
+msgstr "Bármelyik felhasználó adatokat importálhat a táblába, ha a szükséges írási jogosultsággal rendelkezik."
+
+msgid "dcl_import_records .xls"
+msgstr "Importálás Excel (.xlsx) fájlból"
+
+#, fuzzy
+msgid "dcl_import_template_no_fields"
+msgstr "Create fields with titles for this table before you can download an import template."
+
+msgid "dcl_import_terminated"
+msgstr "Az import véget ért. Rekordokat hozzáadtuk"
+
+msgid "dcl_in_export"
+msgstr "Exportálható"
+
+msgid "dcl_invalid_regex_config"
+msgstr "Ezen mezőre beállított reguláris kifejezés nem valid. Ellenőrizze a beállításokat a probléma elhárítása érdekében."
+
+msgid "dcl_last_edit_by"
+msgstr "Utoljára módosította"
+
+msgid "dcl_last_edited_by"
+msgstr "Utoljára módosította"
+
+msgid "dcl_last_edited_by_description"
+msgstr "Az a felhasználó, aki utoljára módosította a bejegyzést."
+
+msgid "dcl_last_update"
+msgstr "Utolsó módosítás dátuma"
+
+msgid "dcl_last_update_description"
+msgstr "Az a dátum, amikor a rekordot utoljára módosították."
+
+msgid "dcl_learning_progress"
+msgstr "Linkelt tananyag tanulási haladásának megjelenítése"
+
+msgid "dcl_learning_progress_desc"
+msgstr "A megtekintett linkelt tananyag tanulási haladását jeleníti meg"
+
+msgid "dcl_legend_placeholders"
+msgstr "Dzsókerelem"
+
+msgid "dcl_length"
+msgstr "Hosszúság"
+
+msgid "dcl_length_info"
+msgstr "A felhasználó által beírható karakterek maximális száma. 200 felett a bevitel többsorosként jelenik meg."
+
+msgid "dcl_limit_end"
+msgstr "Záró időpont"
+
+msgid "dcl_limit_start"
+msgstr "Kezdő időpont"
+
+msgid "dcl_limited"
+msgstr "Korlátozott létrehozási/szerkesztési/törlési időszak"
+
+msgid "dcl_limited_desc"
+msgstr "A felhasználók csak adott időszakban hozhatnak létre, módosíthat, törölhetnek bejegyzéseket."
+
+msgid "dcl_link_detail_page"
+msgstr "Link a nézetsablon oldalra"
+
+msgid "dcl_link_detail_page_desc"
+msgstr "Ezenkívül a részletes nézetet az ‘Egyedül’ lapon kell aktiválni és konfigurálni."
+
+msgid "dcl_list_fields"
+msgstr "Mezők"
+
+msgid "dcl_list_visibility_and_filter"
+msgstr "Áttekintés"
+
+msgid "dcl_manage"
+msgstr "Kezelése"
+
+msgid "dcl_max_digits"
+msgstr "Számjegyek maximális hossza"
+
+msgid "dcl_max_import"
+msgstr "Elértük a maximálisan importálható rekordok számát."
+
+msgid "dcl_max_text_length"
+msgstr "Maximális hossz: %s"
+
+msgid "dcl_mob"
+msgstr "Médiaobjektum"
+
+msgid "dcl_mob_desc"
+msgstr "Kép-, hang-, illetve videófájl feltöltési lehetőség. A fájl az adatgyűjtésben jelenik meg. Engedélyezett fájltípusok: %s"
+
+msgid "dcl_msg_field_modified"
+msgstr "Mezőt sikeresen módosította"
+
+msgid "dcl_msg_fields_deleted"
+msgstr "Törölt mezők"
+
+msgid "dcl_msg_mc_to_sc_confirmation"
+msgstr "Többszörös kiválasztásról egyszeres kiválasztásra váltás a már meglévő bejegyzésben adatvesztést okozhat. Biztos, hogy folytatja?"
+
+msgid "dcl_msg_no_perm_edit"
+msgstr "Nincs jogosultsága a bejegyzés szerkesztéséhez"
+
+msgid "dcl_msg_no_perm_view"
+msgstr "Nincs jogosultsága a bejegyzés megtekintéséhez"
+
+msgid "dcl_msg_table_created"
+msgstr "Sikeresen létrehozott egy táblát"
+
+msgid "dcl_msg_table_edited"
+msgstr "A táblabeállításokat sikeresen mentette."
+
+msgid "dcl_msg_tableview_created"
+msgstr "Nézetet sikeresen létrehozta"
+
+msgid "dcl_msg_tableview_deleted"
+msgstr "Nézetet sikeresen törölte"
+
+msgid "dcl_msg_tableview_updated"
+msgstr "Nézetet sikeresen módosította"
+
+msgid "dcl_msg_tableviews_delete_all"
+msgstr "Nem törölhető: legalább egy nézetnek maradni kell"
+
+msgid "dcl_multiple_selection"
+msgstr "Többszörös kiválasztás"
+
+msgid "dcl_new"
+msgstr "Új adatgyűjtés létrehozása"
+
+msgid "dcl_new_entries"
+msgstr "Új bejegyzések"
+
+msgid "dcl_new_field"
+msgstr "Új mező"
+
+msgid "dcl_new_table"
+msgstr "Új tábla"
+
+msgid "dcl_new_view"
+msgstr "Új nézet"
+
+msgid "dcl_no_entries"
+msgstr "A művelet nem engedélyezett"
+
+msgid "dcl_no_entry"
+msgstr "Egy bejegyzés sem található"
+
+msgid "dcl_no_export_async_config"
+msgstr "Nincs elérhető SOAP konfiguráció aszinkron exportálásokhoz."
+
+msgid "dcl_no_export_data_available"
+msgstr "Nincs exportálható mező, illetve bejegyzés."
+
+msgid "dcl_no_fields_yet"
+msgstr "Ez az adatkészlet még nem tartalmaz mezőket. A metaadatokat a különböző mezőtípusok egyikébe kell bevinni. A metaadatok megadásához hozzon létre legalább egy adatmezőt."
+
+msgid "dcl_no_search_results_found_for"
+msgstr "Egyetlen tananyagot sem sikerült találni ez alapján:"
+
+msgid "dcl_no_such_reference"
+msgstr "Az alábbi érték nem érhető el a referenciatáblában:"
+
+msgid "dcl_no_table_found"
+msgstr "Egy látható tábla se található!"
+
+msgid "dcl_no_tableview_found"
+msgstr "Egy látható táblanézet se található!"
+
+msgid "dcl_not_checked"
+msgstr "Nem kipipált"
+
+msgid "dcl_not_supported_in_import"
+msgstr "Ez a mezőtípus nem támogatott az importban."
+
+msgid "dcl_notification_activate"
+msgstr "Értesítések bekapcsolása adatgyűjtéshez"
+
+msgid "dcl_notification_activated"
+msgstr "Értesítés bekapcsolva"
+
+msgid "dcl_notification_deactivate"
+msgstr "Értesítések kikapcsolása adatgyűjtéshez"
+
+msgid "dcl_notification_deactivated"
+msgstr "Értesítés kikapcsolva"
+
+msgid "dcl_notification_info"
+msgstr "Minden felhasználó maga dönt az értesítésről"
+
+msgid "dcl_notification_settings"
+msgstr "Értesítési beállítások"
+
+msgid "dcl_noturl_exception"
+msgstr "Linket adjon meg (http://-rel vagy www.-tal kezdődőt) vagy e-mail címet."
+
+msgid "dcl_number"
+msgstr "Egész szám"
+
+msgid "dcl_number_desc"
+msgstr "Egész szám típusú beviteli mező (max. 9 számjegy). Közönséges és tizedes törtek nem engedélyezettek."
+
+msgid "dcl_online_info"
+msgstr "Az adatgyűjtést csak online állapotában használhatják a felhasználók."
+
+msgid "dcl_open_detail_view"
+msgstr "Részletes nézet megnyitása"
+
+msgid "dcl_open_url"
+msgstr "Link megnyitása"
+
+msgid "dcl_order"
+msgstr "Sorrend"
+
+msgid "dcl_origin_not_found"
+msgstr "Az eredeti mező nem található!"
+
+msgid "dcl_own_entries"
+msgstr "Csak a saját bejegyzéseim"
+
+msgid "dcl_owner"
+msgstr "Tulajdonos"
+
+msgid "dcl_owner_description"
+msgstr "Az a felhasználó, aki a bejegyzés tulajdonosa."
+
+msgid "dcl_owner_name"
+msgstr "Tulajdonos (név)"
+
+msgid "dcl_page_type_dclf"
+msgstr "Részletes nézet"
+
+msgid "dcl_placeholder_info"
+msgstr "TAz adatgyűjteményből származó adatok ebben a nézetben való használatához kérjük, használja a megfelelő helyőrzőket. Ezek a ‘Szöveg’ és az ‘Adattábla’ lapelemekben érhetők el."
+
+msgid "dcl_please_select"
+msgstr "--- Válasszon ---"
+
+msgid "dcl_prop_expression"
+msgstr "Kifejezés"
+
+msgid "dcl_prop_expression_info"
+msgstr "Használható operátorok: <b>%s</b><br />Használható függvények: <b>%s</b><br />Zárójeleket is használhat <b>‘(’, ‘)’</b> a számítások csoportosításához.<br /><br />Szöveget és mezőket is összefűzhet: <b>‘Az eredmény ‘ & [[Int 1]] * [[Int 2]]</b><br />Függvényeket is használhat: <b>SUM([[Int 1]];[[Int 2]])</b><br /><br />Az alábbi mezők használhatók fel a kifejezésben (kattintson a mező címére a kifejezésbe történő beemeléséhez):<br />%s</ br></br><b>(Az engedélyezett mezők logikai, szám, szöveg és dátum, amelyek címükben nem tartalmaznak képletérzékeny karaktereket)</b>"
+
+msgid "dcl_rating"
+msgstr "Értékelés"
+
+msgid "dcl_rating_desc"
+msgstr "A bejegyzések értékelhetők legfeljebb öt csillagig."
+
+msgid "dcl_record"
+msgstr "Bejegyzés"
+
+msgid "dcl_record_deleted"
+msgstr "Bejegyzést sikeresen törölte"
+
+msgid "dcl_record_settings"
+msgstr "Bejegyzés beállításai"
+
+msgid "dcl_reference"
+msgstr "Hivatkozás másik mezőre"
+
+msgid "dcl_reference_desc"
+msgstr "Másik mező vagy táblázat kiválasztási lehetőségét biztosítja."
+
+msgid "dcl_reference_link"
+msgstr "Link megjelenítése hivatkozott bejegyzésként"
+
+msgid "dcl_reference_link_info"
+msgstr "A részletes megjelenítést be kell kapcsolni a hivatkozott táblában"
+
+msgid "dcl_reference_title"
+msgstr "Hivatkozott mező"
+
+msgid "dcl_reference_title_desc"
+msgstr "A kiválasztott mezők rekordjai lesznek a célmező kiválasztható értékei."
+
+msgid "dcl_regex"
+msgstr "Reguláris kifejezés"
+
+msgid "dcl_regex_info"
+msgstr "(határolójel nélkül)"
+
+msgid "dcl_row_not_found"
+msgstr " - Ez a mező nem található a táblában."
+
+msgid "dcl_save_confirmation"
+msgstr "Mentés megerősítése"
+
+msgid "dcl_save_confirmation_desc"
+msgstr "Felhasználóknak jóvá kell hagyniuk minden új adatgyűjtemény bejegyzést."
+
+msgid "dcl_selection_options"
+msgstr "Lehetőségek"
+
+msgid "dcl_selection_type"
+msgstr "Formátum"
+
+msgid "dcl_selection_type_combobox"
+msgstr "Legördülő választék (combobox)"
+
+msgid "dcl_selection_type_multi"
+msgstr "Többszörös kiválasztás"
+
+msgid "dcl_selection_type_single"
+msgstr "Egyszeres kiválasztás"
+
+msgid "dcl_simulate_import"
+msgstr "Import szimulálása"
+
+#, fuzzy
+msgid "dcl_simulate_import_info"
+msgstr "Simulating the import will not make any entries into the data collection, but rather give you feedback regarding any problems with the import file, thus helping you to avoid corrupted entries."
+
+msgid "dcl_skipped_delete_records"
+msgstr "%s bejegyzések törlése sikertelen jogosultsági beállítások miatt"
+
+msgid "dcl_status"
+msgstr "Az Ön állapota"
+
+msgid "dcl_std_field_not_importable"
+msgstr " - Standard mezők nem importálhatók."
+
+msgid "dcl_std_filter"
+msgstr "Alapértelmezett szűrő"
+
+msgid "dcl_supported_filetypes"
+msgstr "Engedélyezett fájlkiterjesztések"
+
+msgid "dcl_supported_filetypes_desc"
+msgstr "Az engedélyezni kívánt fájlkiterjesztéseket vesszővel elválasztva adja meg. Például: pdf, docx"
+
+msgid "dcl_table"
+msgstr "Tábla"
+
+msgid "dcl_table_id"
+msgstr "Tábla-ID"
+
+msgid "dcl_table_settings"
+msgstr "Tábla beállításai."
+
+msgid "dcl_table_settings_saved"
+msgstr "A táblabeállításokat sikeresen mentette."
+
+msgid "dcl_table_title_not_matching"
+msgstr "Az Excel munkalap neve és az adatgyűjtés neve nem azonos, kérem, nevezze át a munkalapot."
+
+msgid "dcl_table_title_unique"
+msgstr "Ilyen táblanév már létezik. A táblanévnek egyedinek kell lennie."
+
+msgid "dcl_tables"
+msgstr "Táblák"
+
+msgid "dcl_tableview"
+msgstr "Nézet"
+
+msgid "dcl_tableview_add"
+msgstr "Új nézet létrehozása"
+
+msgid "dcl_tableview_confirm_delete"
+msgstr "Biztos, hogy törli az alábbi nézetet?"
+
+msgid "dcl_tableview_copy"
+msgstr "A nézetet sikeresen lemásolta"
+
+msgid "dcl_tableview_default_value"
+msgstr "Alapértelmezett nézet"
+
+msgid "dcl_tableview_default_value_fail"
+msgstr "Néhány érték nem menthető, mert betűt tartalmaz, így nem szám. Próbálja újra."
+
+msgid "dcl_tableview_field_access"
+msgstr "Mezőelérés"
+
+msgid "dcl_tableview_fieldsettings"
+msgstr "Mezőfüggő beállítások"
+
+msgid "dcl_tableview_fieldtitle"
+msgstr "Mezőcím"
+
+msgid "dcl_tableview_locked_visible"
+msgstr "Zárolt & látható"
+
+msgid "dcl_tableview_not_visible"
+msgstr "Nem látható"
+
+msgid "dcl_tableview_required"
+msgstr "Kötelező"
+
+msgid "dcl_tableview_required_visible"
+msgstr "Kötelező & látható"
+
+msgid "dcl_tableview_visible"
+msgstr "Látható"
+
+msgid "dcl_tableviews"
+msgstr "Nézetek"
+
+msgid "dcl_tableviews_of_X"
+msgstr "‘%s’ tábla nézetei"
+
+msgid "dcl_text"
+msgstr "Szöveg"
+
+msgid "dcl_text_desc"
+msgstr "Beviteli mező szöveg, link vagy e-mail cím tárolására."
+
+msgid "dcl_text_email_detail_desc"
+msgstr "Érvényes URL-t vagy e-mail címet adjon meg."
+
+msgid "dcl_text_email_title"
+msgstr "Cím"
+
+msgid "dcl_text_email_title_info"
+msgstr "Az alábbi URL-hez vagy e-mail címhez címke (nem kötelező)."
+
+msgid "dcl_text_selection"
+msgstr "Szövegválasztó"
+
+msgid "dcl_text_selection_desc"
+msgstr "Szöveglehetőségek választásának felkínálása."
+
+msgid "dcl_title_standard"
+msgstr "Standard"
+
+msgid "dcl_unique"
+msgstr "Egyedi"
+
+msgid "dcl_unique_desc"
+msgstr "Ebben a mezőben minden értéknek különböznie kell egymástól."
+
+msgid "dcl_unique_exception"
+msgstr "Az Ön által megadott értéket már másik bejegyzés tartalmazza."
+
+msgid "dcl_unknown"
+msgstr "Ismeretlen"
+
+msgid "dcl_unknown_exception"
+msgstr "Az Ön által megadott érték nem érvényes."
+
+msgid "dcl_unknown_plugin"
+msgstr "Ismeretlen bővítménytípus"
+
+msgid "dcl_update_field"
+msgstr "Mező frissítése"
+
+msgid "dcl_update_record"
+msgstr "Bejegyzés módosítása"
+
+msgid "dcl_updated_entries"
+msgstr "Módosított bejegyzések"
+
+msgid "dcl_url"
+msgstr "URL"
+
+msgid "dcl_view_own_records_perm"
+msgstr "Csak a saját bejegyzések megjelenítése"
+
+msgid "dcl_view_own_records_perm_desc"
+msgstr "A bejegyzés elrejtése a többi felhasználó elől."
+
+msgid "dcl_view_viewdefinition"
+msgstr "Nézetsablon"
+
+msgid "dcl_visible"
+msgstr "Az összes felhasználó láthatja"
+
+msgid "dcl_visible_desc"
+msgstr "Felhasználók a ‘Táblázat’ menüben hozzáférhetnek ehhez a táblázathoz."
+
+msgid "dcl_width"
+msgstr "Szélesség"
+
+msgid "dcl_width_desc"
+msgstr "A fájlt átméretezzük a megadott szélességűre."
+
+msgid "dcl_wrong_input_type"
+msgstr "Az Ön által megadott érték nem illeszkedik a specifikációhoz (rossz típus)."
+
+msgid "dcl_wrong_length"
+msgstr "Az Ön által megadott szöveg túl hosszú."
+
+msgid "dcl_wrong_regex"
+msgstr "Az Ön által megadott szöveg nem illeszkedik ennek a mezőnek a specifikációjához (reguláris kifejezéshez)."
+
+msgid "dcl_xls_async_export"
+msgstr "Aszinkron Excel (.xlsx) exportálás"
+
+msgid "disable_comments"
+msgstr "Megjegyzések kikapcsolása"
+
+msgid "disable_visible"
+msgstr "Láthatóság kikapcsolása"
+
+msgid "duplicate_entries_exist"
+msgstr "A meglévő rekordok már tartalmaznak ismétlődő bejegyzéseket."
+
+msgid "enable_comments"
+msgstr "Megjegyzések bekapcsolása"
+
+msgid "enable_visible"
+msgstr "Láthatóság bekapcsolása"
+
+msgid "entry_of"
+msgstr "%1$d / %2$d bejegyzés"
+
+msgid "fieldtitle_allow_chars"
+msgstr "Nem engedélyezett karakterek: %s"
+
+msgid "fileupload_not_migrated"
+msgstr "Ezt fájlt még nem migrálták, ezért nem jeleníthető meg. Kérem, keresse a rendszerüzemeltetőt."
+
+msgid "role_limitation"
+msgstr "Szerepköralapú megtekintéskorlátozás"
+
+msgid "roles"
+msgstr "Szerepkörök hozzáféréssel"
+
+msgid "roles_desc"
+msgstr "Határozza meg, hogy mely szerepkörök férhetnek hozzá a nézethez."
+
+msgid "set_as_default"
+msgstr "Beállításnak alapértelmezettnek"
+
+msgid "table_not_found"
+msgstr "A tábla nem található!"
+
+msgid "tableview_not_found"
+msgstr "A táblanézet nem található!"

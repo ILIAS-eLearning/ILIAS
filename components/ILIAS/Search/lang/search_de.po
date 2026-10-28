@@ -1,0 +1,403 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: search\n"
+
+msgid "add_members_header"
+msgstr "Benutzer hinzufügen"
+
+msgid "append_results"
+msgstr "Ergebnisse anhängen"
+
+msgid "btn_search"
+msgstr "Suchen"
+
+msgid "last_search_result"
+msgstr "Letztes Suchergebnis"
+
+msgid "lucene_and"
+msgstr "UND"
+
+msgid "lucene_cpu"
+msgstr "Anzahl Threads"
+
+msgid "lucene_create_ini"
+msgstr "Konfigurationsdatei erstellen"
+
+msgid "lucene_default_operator"
+msgstr "Verknüpfung von Suchbegriffen"
+
+msgid "lucene_default_operator_info"
+msgstr "Verhalten bei Eingabe mehrerer Suchbegriffe: Sollen in den Suchergebnissen immer alle Begriffe vorkommen (UND) oder genügt das Vorkommen eines der Suchbegriffe (ODER)?"
+
+msgid "lucene_download_ini"
+msgstr "Konfigurationsdatei herunterladen"
+
+msgid "lucene_err_ampersand"
+msgstr "Anfragen mit dem Spezialzeichen && müssen folgende Form haben: term1 && term2."
+
+msgid "lucene_err_and_or_not"
+msgstr "Anfragen mit AND/OR/NOT müssen folgende Form haben: term1 AND|OR|NOT|AND NOT term2."
+
+msgid "lucene_err_asterisk"
+msgstr "Dem Wildcard-Zeichen (*) muss mindestens ein Buchstabe oder eine Zahl vorausgehen."
+
+msgid "lucene_err_caret"
+msgstr "Dem Zirkumflex-Zeichen (^) muss ein alphanumerisches Zeichen vorausgehen und Zahlen folgen."
+
+msgid "lucene_err_colon"
+msgstr "Felddeklarationen (:) muss mindestens ein Buchstabe oder eine Nummer vorausgehen und mindestens ein Buchstabe oder eine Nummer folgen."
+
+msgid "lucene_err_exclamation_mark"
+msgstr "Anfragen mit dem Spezialzeichen ! müssen folgende Form haben: term1 ! term2."
+
+msgid "lucene_err_parenthesis_empty"
+msgstr "Klammern dürfen nicht leer sein."
+
+msgid "lucene_err_parenthesis_not_closed"
+msgstr "Klammern müssen geschlossen werden."
+
+msgid "lucene_err_plus_minus"
+msgstr " (+) und (-) muss mindestens ein Buchstabe oder eine Zahl nachfolgen."
+
+msgid "lucene_err_question_mark"
+msgstr "Dem Fragezeichen (?) muss mindestens ein Buchstabe oder eine Nummer vorausgehen."
+
+msgid "lucene_err_quotes"
+msgstr "Bitte schließen Sie all Anführungszeichen (\")."
+
+msgid "lucene_err_quotes_not_empty"
+msgstr "Anführungszeichen dürfen nicht leer sein."
+
+msgid "lucene_general_settings"
+msgstr "Allgemeine Einstellungen"
+
+msgid "lucene_host"
+msgstr "Host"
+
+msgid "lucene_host_info"
+msgstr "Bitte tragen Sie hier den Rechnernamen bzw. die IP-Adresse des Rechners ein, auf dem der Java-Server laufen soll."
+
+msgid "lucene_index_path"
+msgstr "Verzeichnis für Indexdateien"
+
+msgid "lucene_index_path_info"
+msgstr "Bitte geben Sie ein Verzeichnis an, in dem die Indexdateien der Lucene-suche abgelegt werden."
+
+msgid "lucene_last_index_time"
+msgstr "Letzte Indexerstellung"
+
+msgid "lucene_last_index_time_info"
+msgstr "Ändern Sie diese Einstellung nur, wenn Sie das Backup einer Lucene-Indexdatei eingespielt haben. Andernfalls können Änderungen die Indexierung beeinträchtigen."
+
+msgid "lucene_level"
+msgstr "Log-Level"
+
+msgid "lucene_log"
+msgstr "Pfad zur Logdatei"
+
+msgid "lucene_log_info"
+msgstr "Bitte tragen Sie hier den absoluten Pfad zu einer Datei ein, in die Log-Nachrichten geschrieben werden. Wenn die Datei noch nicht existiert, wird sie automatisch erzeugt."
+
+msgid "lucene_max_fs"
+msgstr "Maximale Dateigröße (in MB)"
+
+msgid "lucene_max_fs_info"
+msgstr "Definiert das Dateigrößenlimit, bis zu dem Dateien indexiert werden. Der Inhalt größerer Dateien wird nicht in den Index aufgenommen."
+
+msgid "lucene_num_frag_info"
+msgstr "Maximale Anzahl von Textabschnitten, die in den Suchergebnissen angezeigt werden und den Suchbegriff enthalten"
+
+msgid "lucene_num_fragments"
+msgstr "Anzahl Textabschnitte"
+
+msgid "lucene_offline_filter"
+msgstr "Online-Status"
+
+msgid "lucene_or"
+msgstr "ODER"
+
+msgid "lucene_port"
+msgstr "Port"
+
+msgid "lucene_prefix_wildcard"
+msgstr "Platzhalter am Wortbeginn"
+
+msgid "lucene_prefix_wildcard_info"
+msgstr "Erlaubt die Nutzung von Platzhaltern auch am Beginn eines Suchbegriffes: \"*LIAS\" findet \"ILIAS\""
+
+msgid "lucene_settings_index_section"
+msgstr "Index-Backup einspielen"
+
+msgid "lucene_settings_tab"
+msgstr "Lucene"
+
+msgid "lucene_settings_text_section"
+msgstr "Präsentation der Suchergebnisse"
+
+msgid "lucene_settings_title"
+msgstr "Volltextsuche mit Lucene"
+
+msgid "lucene_size_frag_info"
+msgstr "Maximale Anzahl der Zeichen je Textabschnitt, der zur Hervorhebung des Suchbegriffs ausgegeben wird"
+
+msgid "lucene_size_fragments"
+msgstr "Länge der Textabschnitte"
+
+msgid "lucene_tbl_create_ini"
+msgstr "Konfigurationsdatei für Java-Server erstellen"
+
+msgid "search_add_members_from_container_crs"
+msgstr "Benutzer aus aktuellem Kurs hinzufügen"
+
+msgid "search_add_members_from_container_grp"
+msgstr "Benutzer aus aktueller Gruppe hinzufügen"
+
+msgid "search_any"
+msgstr "-- Beliebig --"
+
+msgid "search_area_filter"
+msgstr "Suchbereich"
+
+msgid "search_area_info"
+msgstr "Bitte wählen Sie einen Bereich aus, innerhalb dem die Suche starten soll."
+
+msgid "search_auto_complete_length"
+msgstr "Anzahl der Einträge in Auto-Complete-Liste"
+
+msgid "search_auto_complete_length_info"
+msgstr "Wählen Sie „0“, um keine Auto-Complete-Liste anzubieten."
+
+msgid "search_cdate_filter"
+msgstr "Erstellungsdatum"
+
+msgid "search_cdate_filter_info"
+msgstr "In den Suchergebnissen erlaubt ein Filter die Eingabe eines Zeitraums."
+
+msgid "search_content"
+msgstr "Seiteninhalt"
+
+msgid "search_copyright"
+msgstr "Lizenz"
+
+msgid "search_created_after"
+msgstr "Objekte erstellt nach dem..."
+
+msgid "search_created_before"
+msgstr "Objekte erstellt vor dem..."
+
+msgid "search_created_on"
+msgstr "Objekte erstellt am..."
+
+msgid "search_crs_title"
+msgstr "Kursname"
+
+msgid "search_detailed_results_title"
+msgstr "Detaillierte Ergebnisse in %s"
+
+msgid "search_details_info"
+msgstr "Detailsuche in den unten ausgewählten Objekttypen"
+
+msgid "search_direct"
+msgstr "Nur Titel und Beschreibung durchsuchen"
+
+msgid "search_err_user_not_exist"
+msgstr "Es konnte kein entsprechender Benutzer gefunden werden."
+
+msgid "search_fast_info"
+msgstr "Suche nach Titeln, Beschreibungen und Schlagwörtern"
+
+msgid "search_field"
+msgstr "Sucheingabefeld"
+
+msgid "search_field_perform"
+msgstr "Sucheingabe absenden"
+
+msgid "search_filter_by_type"
+msgstr "Typfilter"
+
+msgid "search_filter_cd"
+msgstr "Filter nach Erstellungsdatum"
+
+msgid "search_filter_settings_section"
+msgstr "Filter der Suchergebnisse"
+
+msgid "search_for_crs_members"
+msgstr "Nach Kursen suchen"
+
+msgid "search_for_grp_members"
+msgstr "Nach Gruppen suchen"
+
+msgid "search_for_orgu_members"
+msgstr "Nach Organisationseinheiten suchen"
+
+msgid "search_for_orgu_members_recursive"
+msgstr "Darunterliegende einbeziehen?"
+
+msgid "search_for_role_members"
+msgstr "Nach Rollen suchen"
+
+msgid "search_for_users"
+msgstr "Nach Benutzern suchen"
+
+msgid "search_grp_title"
+msgstr "Gruppenname"
+
+msgid "search_item_filter_form"
+msgstr "Suche nach Typ"
+
+msgid "search_item_filter_form_info"
+msgstr "Im Suchfilter werden nur die ausgewählten Arten von Inhalten angeboten."
+
+#. Needs to be adapted to new content of German lang file.
+msgid "search_like_info"
+msgstr "Es wird nur in der ILIAS-Datenbank gesucht. Zusatzsoftware ist nicht notwendig. Der Inhalt von Dateien oder Metadaten wird nicht erfasst. Nur Treffer in Titel und Beschreibung werden als Suchergebnis angezeigt."
+
+msgid "search_limit_reached"
+msgstr "Ihre Suche ergab mehr als %s Treffer. Sie können die Abfrage weiter einschränken, um detailliertere Treffer zu erhalten."
+
+msgid "search_lucene"
+msgstr "Volltext durchsuchen (Lucene)"
+
+msgid "search_mime_excel"
+msgstr "Excel-Dateien"
+
+msgid "search_mime_filter_form"
+msgstr "Filtern nach Dateitypen"
+
+msgid "search_mime_filter_form_info"
+msgstr "Im Suchfilter werden die ausgewählten Dateitypen angeboten."
+
+msgid "search_mime_image"
+msgstr "Bilder"
+
+msgid "search_mime_pdf"
+msgstr "PDF-Dateien"
+
+msgid "search_mime_powerpoint"
+msgstr "Powerpoint-Dateien"
+
+msgid "search_mime_word"
+msgstr "Word-Dateien"
+
+msgid "search_minimum_info"
+msgstr "Die Suchbegriffe müssen mindestens %s Zeichen lang sein."
+
+msgid "search_minimum_three"
+msgstr "Die Suchbegriffe müssen mindestens 3 Zeichen lang sein."
+
+msgid "search_newer_than"
+msgstr "Objekte erstellt vor dem..."
+
+msgid "search_no_connection_lucene"
+msgstr "Es kann keine Verbindung zum Lucene-Server hergestellt werden."
+
+msgid "search_no_further_match"
+msgstr "Ihre Suche ergab keine weiteren Treffer."
+
+msgid "search_no_match"
+msgstr "Ihre Suche ergab keine Treffer."
+
+msgid "search_no_match_hint"
+msgstr "Es wurden keine Treffer für Ihre Suchanfrage nach <b>%s</b> gefunden.<br />Vorschläge:<br /><br />• Vergewissern Sie sich, dass alle Wörter richtig geschrieben sind.<br />• Probieren Sie andere Suchbegriffe.<br />• Probieren Sie allgemeinere Suchbegriffe.<br />• Probieren Sie weniger Suchbegriffe."
+
+msgid "search_no_selection"
+msgstr "Sie haben keine Auswahl getroffen."
+
+msgid "search_off"
+msgstr "Aus"
+
+msgid "search_readme_file"
+msgstr "Readme-Datei"
+
+msgid "search_results_show_subitems"
+msgstr "Detaillierte Ergebnisse anzeigen"
+
+msgid "search_results_too_many_subitems"
+msgstr "Mehr Ergebnisse sind vorhanden, bitte präzisieren Sie ihre Suche."
+
+msgid "search_role_title"
+msgstr "Rollenname"
+
+msgid "search_select_search_area"
+msgstr "Suchbereich ändern"
+
+msgid "search_server_further_information"
+msgstr "Weitere Informationen zur Konfiguration des Lucene-Servers finden Sie in der Readme-Datei."
+
+msgid "search_show_inactive_user"
+msgstr "Inaktive Konten anzeigen"
+
+msgid "search_show_inactive_user_info"
+msgstr "In der Personensuche werden auch inaktive Konten angezeigt."
+
+msgid "search_show_limited_user"
+msgstr "Zeitlich begrenzte Konten anzeigen"
+
+msgid "search_show_limited_user_info"
+msgstr "In der Personensuche werden auch Konten mit zeitlichem begrenztem Zugang angezeigt, die entweder noch nicht oder nicht mehr auf ILIAS zugreifen können."
+
+msgid "search_sort_by"
+msgstr "Sortierung:"
+
+msgid "search_sort_creation_date_asc"
+msgstr "Ältestes"
+
+msgid "search_sort_creation_date_desc"
+msgstr "Neuestes"
+
+msgid "search_sort_relevance"
+msgstr "Nach Relevanz"
+
+msgid "search_sort_title_asc"
+msgstr "Alphabetisch: A-Z"
+
+msgid "search_sort_title_desc"
+msgstr "Alphabetisch: Z-A"
+
+msgid "search_tab_content"
+msgstr "Inhalt"
+
+msgid "search_tab_user"
+msgstr "Personen"
+
+msgid "search_term_combination"
+msgstr "Kombination"
+
+msgid "search_title_description"
+msgstr "Titel / Beschreibung"
+
+msgid "search_tst_svy"
+msgstr "Tests/Umfragen"
+
+msgid "search_type"
+msgstr "Suchart"
+
+msgid "search_user"
+msgstr "Benutzer"
+
+msgid "search_user_extended"
+msgstr "Erweiterte Benutzersuche"
+
+msgid "search_user_search_form"
+msgstr "Systemweite Personensuche"
+
+msgid "search_user_search_info_form"
+msgstr "Anmeldekonten werden in der Suche gefunden. Die Lucene-Volltextsuche indexiert auch freigegebene Profildaten."
+
+msgid "seas_search_type"
+msgstr "Art der Suche"
+
+msgid "select_orgu"
+msgstr "Organisationseinheiten auswählen"
+
+msgid "until"
+msgstr "bis"
+
+msgid "user_search_settings_section"
+msgstr "Personensuche im Reiter „Mitglieder“"

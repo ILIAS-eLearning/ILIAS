@@ -1,0 +1,159 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: gsfo\n"
+
+msgid "accessibility"
+msgstr "アクセッシビリティ"
+
+msgid "confirm_delete"
+msgstr "次のアイテムを削除しますか?"
+
+msgid "confirm_reset"
+msgstr "フッターをリセットすると、すべての項目が元の状態に戻ります。カスタマイズや手動での入力はすべて削除されます。続行しますか？"
+
+msgid "entries_add"
+msgstr "エントリーを追加"
+
+msgid "entries_edit"
+msgstr "エントリー編集"
+
+msgid "entries_parent"
+msgstr "グルークを選択"
+
+msgid "entries_select_parent"
+msgstr "エントリをグループへ移動"
+
+#, fuzzy
+msgid "entries_target_group"
+msgstr "Select target group"
+
+msgid "entry_action"
+msgstr "リンク"
+
+msgid "entry_action_info"
+msgstr "プロトコルを含むフルURLを提供(例: https://www.ilias.de)"
+
+msgid "entry_activation_toggled"
+msgstr "アクティベーションが切り替えられました"
+
+msgid "entry_active"
+msgstr "アクティブ"
+
+msgid "entry_active_info"
+msgstr "このエントリーヲアクティブ化"
+
+msgid "entry_add"
+msgstr "エントリを追加"
+
+msgid "entry_delete"
+msgstr "削除"
+
+msgid "entry_deleted"
+msgstr "削除しました"
+
+#, fuzzy
+msgid "entry_deleted_failed"
+msgstr "Deletion not possible"
+
+msgid "entry_edit"
+msgstr "編集"
+
+msgid "entry_external"
+msgstr "新しいタブを開く"
+
+msgid "entry_move"
+msgstr "移動"
+
+msgid "entry_moved"
+msgstr "エントリは移動されました"
+
+msgid "entry_title"
+msgstr "タイトル(デフォルト言語)"
+
+msgid "entry_toggle_activation"
+msgstr "(De-)Activate"
+
+msgid "group_activation_toggled"
+msgstr "アクティベーションが切り替えられました。"
+
+msgid "group_active"
+msgstr "アクティブ化"
+
+msgid "group_active_info"
+msgstr "このグループをアクティブ"
+
+msgid "group_add"
+msgstr "グループを追加"
+
+msgid "group_delete"
+msgstr "削除"
+
+msgid "group_deleted"
+msgstr "削除しました"
+
+msgid "group_edit"
+msgstr "グループを編集"
+
+msgid "group_edit_entries"
+msgstr "エントリを編集"
+
+msgid "group_items"
+msgstr "アイテム"
+
+msgid "group_not_empty"
+msgstr "このグループにはエントリが含まれます。先にそれらを移動または削除してください。"
+
+msgid "group_title"
+msgstr "タイトル(デフォルト言語)"
+
+msgid "group_title_info"
+msgstr "グループを保存した後、\"翻訳を追加\"アクションで追加の翻訳を追加できます。"
+
+msgid "group_toggle_activation"
+msgstr "(De-)Activate"
+
+msgid "group_translate"
+msgstr "翻訳"
+
+msgid "info_not_deletable_core"
+msgstr "デフォルトアイテムは削除できません。"
+
+msgid "info_not_deletable_not_empty"
+msgstr "エントリの含まれるグループは削除できません。"
+
+#, fuzzy
+msgid "item_moved"
+msgstr "Entry moved"
+
+msgid "legal_information"
+msgstr "リーガル情報"
+
+msgid "order_saved"
+msgstr "順番を保存"
+
+msgid "permanent"
+msgstr "永久的に"
+
+msgid "reset_footer"
+msgstr "フッターをリセット"
+
+msgid "reset_success"
+msgstr "フッタは正しく削除されました。"
+
+msgid "services"
+msgstr "サービス"
+
+msgid "support"
+msgstr "サポート"
+
+msgid "translate"
+msgstr "翻訳する"
+
+msgid "translations"
+msgstr "翻訳"

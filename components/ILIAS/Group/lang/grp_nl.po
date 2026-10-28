@@ -1,0 +1,596 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: nl\n"
+"Language-Team: Dutch\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: grp\n"
+
+msgid "crs_add_grouping"
+msgstr "Toevoegen deelnamebeperking"
+
+msgid "crs_grouping_delete_sure"
+msgstr "Ben je zeker dat je deze lidmaatschapsbeperking wilt schrappen"
+
+msgid "crs_grouping_deleted"
+msgstr "Deelnamebeperking verwijderd"
+
+msgid "crs_grouping_select_one"
+msgstr "Kiezen van één deelnamebeperking"
+
+msgid "crs_grp_added_grouping"
+msgstr "Nieuwe deelnamebeperking toegevoegd."
+
+msgid "crs_grp_assign_crs"
+msgstr "Groepstoewijzing"
+
+msgid "crs_grp_no_courses_assigned"
+msgstr "Geen groepen toegewezen"
+
+msgid "events"
+msgstr "Sessies"
+
+msgid "grouping_change_assignment"
+msgstr "Verander toewijzing"
+
+msgid "grp_activate_notification"
+msgstr "Inschakelen berichtgeving"
+
+#, fuzzy
+msgid "grp_activation_online_info"
+msgstr "Set the group online to make it visible and available for group members. If not, only group administrators and roles with permission \"Edit Settings\" have access to it."
+
+#, fuzzy
+msgid "grp_add_to_group"
+msgstr "Add to Group"
+
+#, fuzzy
+msgid "grp_add_user"
+msgstr "Add User"
+
+#, fuzzy
+msgid "grp_add_user_to_group"
+msgstr "Add user to group"
+
+msgid "grp_added_to_list"
+msgstr "You have been assigned to the waiting list. You are assigned to position %s on the waiting list."
+
+msgid "grp_admins"
+msgstr "Beheerders"
+
+#, fuzzy
+msgid "grp_admission_link_failure_invalid_code"
+msgstr "Can't register: Link is invalid."
+
+#, fuzzy
+msgid "grp_admission_link_failure_membership_limited"
+msgstr "Can't register: Group membership is limited."
+
+#, fuzzy
+msgid "grp_admission_link_failure_registration_period"
+msgstr "Can't register: Group is out of registration period."
+
+#, fuzzy
+msgid "grp_admission_link_success_registration"
+msgstr "Successfully registered to group \"%s\"."
+
+msgid "grp_agree"
+msgstr "Acceptatie"
+
+msgid "grp_agreement_header"
+msgstr "Gebruiksovereenkomst"
+
+msgid "grp_agreement_required"
+msgstr "Je moet de gebruikersovereenkomst accepteren als je toegang wil hebben tot de groepsinhoud."
+
+msgid "grp_already_assigned"
+msgstr "Er is al een verzoek tot deelname aan deze groep."
+
+#, fuzzy
+msgid "grp_at_least_one_admin"
+msgstr "There has to be at least one group administrator."
+
+#, fuzzy
+msgid "grp_auto_notification"
+msgstr "Welcome-Mail For New Members"
+
+#, fuzzy
+msgid "grp_auto_notification_info"
+msgstr "New members get a mail notification when added to the group."
+
+msgid "grp_cancel_subscr_request"
+msgstr "Verwijderen deelnameverzoek"
+
+#, fuzzy
+msgid "grp_cancellation_end"
+msgstr "Cancellation Limit"
+
+#, fuzzy
+msgid "grp_cancellation_end_info"
+msgstr "From this date on particiants cannot unsubscribe anymore."
+
+#, fuzzy
+msgid "grp_cancellation_end_rbac_info"
+msgstr "The cancellation deadline was met on %s, a cancellation is not possible anymore."
+
+msgid "grp_cdf_edit_member"
+msgstr "Wijzigen groepsgerelateerde gebruikersgegevens"
+
+msgid "grp_cdf_tbl_last_edit"
+msgstr "Laatste Update (groep-specifieke gegevens)"
+
+msgid "grp_change_type"
+msgstr "Wijzigen groepstype"
+
+#, fuzzy
+msgid "grp_contact"
+msgstr "Contact"
+
+msgid "grp_copy"
+msgstr "Kopieer groep"
+
+#, fuzzy
+msgid "grp_create_and_add_user"
+msgstr "Create and Add User"
+
+#, fuzzy
+msgid "grp_create_new"
+msgstr "Create New Group"
+
+#, fuzzy
+msgid "grp_create_new_grp_in"
+msgstr "Create new group in '%1'."
+
+#, fuzzy
+msgid "grp_create_or_use_existing"
+msgstr "Do you want to add the user to an existing group or create a new group?"
+
+#, fuzzy
+msgid "grp_created_and_user_been_added"
+msgstr "Die Gruppe wurde erstellt und der Benutzer hinzugefügt."
+
+msgid "grp_custom_user_fields"
+msgstr "Groepeer bijeenhorende gebruikersgegevens"
+
+#, fuzzy
+msgid "grp_custom_user_fields_infobox"
+msgstr "Create additional data fields for group members to fill in when they join. You can show this information as an additional column in the \"Members\" tab."
+
+#, fuzzy
+msgid "grp_custom_user_fields_table_title"
+msgstr "Relevant User Data of This Group"
+
+msgid "grp_deactivate_notification"
+msgstr "Deactivate Notification"
+
+msgid "grp_enable_map"
+msgstr "Inschakelen kaartweergave"
+
+#, fuzzy
+msgid "grp_err_registration_limited"
+msgstr "please enter a valid start and end date for the registration"
+
+msgid "grp_general_informations"
+msgstr "Algemene informatie"
+
+msgid "grp_grp_info_reg"
+msgstr "You can only register to one of these groups:"
+
+#, fuzzy
+msgid "grp_grp_open"
+msgstr "Open Group"
+
+#, fuzzy
+msgid "grp_header_delete_members"
+msgstr "Would you like to remove the following members from this group?"
+
+msgid "grp_header_waiting_list"
+msgstr "Waiting List"
+
+msgid "grp_icon_settings"
+msgstr "Groepsicoon"
+
+msgid "grp_import"
+msgstr "Importeer Groep"
+
+msgid "grp_info_agree"
+msgstr "Ik accepteer dat bovenstaande gegevenstypen zichtbaar zijn voor groepsbeheerders."
+
+msgid "grp_info_agreement"
+msgstr "De volgende gegevens typen zijn zichtbaar voor groepsbeheerders:"
+
+msgid "grp_info_new_grp_type"
+msgstr "Nieuw Groep Type"
+
+msgid "grp_info_settings"
+msgstr "Groepsinformatie"
+
+msgid "grp_information"
+msgstr "Belangrijke informatie"
+
+msgid "grp_information_info"
+msgstr "Deze informatie zal worden getoond op de Info pagina and bij de groepsaanmelding."
+
+msgid "grp_join_request"
+msgstr "Versturen"
+
+#, fuzzy
+msgid "grp_lim_assigned"
+msgstr "Already assigned to associated group \"%s\"."
+
+msgid "grp_mail_admission_new_bod"
+msgstr "Hartelijk welkom bij groep \"%s\"."
+
+msgid "grp_mail_admission_new_sub"
+msgstr "Je aanmelding voor groep \"%s\""
+
+msgid "grp_mail_all"
+msgstr "Voor alle deelnemers"
+
+msgid "grp_mail_all_info"
+msgstr "Deelnemers en beheerder kunnen de functie \"E-mail naar deelnemers\" in het Deelnemers tabblad gebruiken."
+
+msgid "grp_mail_dismiss_bod"
+msgstr "Je deelname in groep \"%s\" is afgelopen."
+
+msgid "grp_mail_dismiss_sub"
+msgstr "Deelname in groep \"%s\" afgesloten"
+
+msgid "grp_mail_notification_reg_bod"
+msgstr "%s heeft zich aangemeld voor de groep \"%s\"."
+
+msgid "grp_mail_notification_reg_req_bod"
+msgstr "%s heeft om inschrijving verzocht in groep  \"%s\"."
+
+msgid "grp_mail_notification_reg_req_bod2"
+msgstr "Om deze inschrijving te bevestigen, ga naar:"
+
+msgid "grp_mail_notification_reg_req_sub"
+msgstr "Verzoek tot aanmelding tot groep  \"%s\""
+
+msgid "grp_mail_notification_reg_sub"
+msgstr "Gebruiker heeft zich aangemeld bij groep \"%s\"."
+
+msgid "grp_mail_notification_unsub_bod"
+msgstr "%s heeft zijn/haar deelname opgezegd voor de groep \"%s\"."
+
+msgid "grp_mail_notification_unsub_bod2"
+msgstr "There might be other members on a waiting list of your group.\\nYou should check for the waiting list now.\\nTo view the members of your group, click here:"
+
+msgid "grp_mail_notification_unsub_sub"
+msgstr "Gebruiker heeft groep \"%s\" verlaten."
+
+msgid "grp_mail_permanent_link"
+msgstr "Klik op de volgende koppeling om alle informatie te vinden over de groep"
+
+msgid "grp_mail_status_bod"
+msgstr "your status in group \"%s\" has been changed."
+
+msgid "grp_mail_status_sub"
+msgstr "Wijzigen status in groep  \"%s\""
+
+msgid "grp_mail_sub_acc_bod"
+msgstr "Hartelijk welkom bij groep \"%s\"."
+
+msgid "grp_mail_sub_acc_sub"
+msgstr "Inschrijving bevestigd voor \"%s\""
+
+msgid "grp_mail_sub_dec_bod"
+msgstr "Het spijt ons maar je inschrijving voor groep \"%s\" is geweigerd"
+
+msgid "grp_mail_sub_dec_sub"
+msgstr "Inschrijving geweigerd voor groep \"%s\""
+
+msgid "grp_mail_subscribe_member_bod"
+msgstr "Hartelijk welkom bij groep \"%s\"."
+
+msgid "grp_mail_subscribe_member_sub"
+msgstr "Je aanmelding voor groep \"%s\""
+
+msgid "grp_mail_tutors_only"
+msgstr "Alleen voor beheerders"
+
+msgid "grp_mail_tutors_only_info"
+msgstr "Alleen beheerders kunnen de functie \"E-mail naar deelnemers\" in het Deelnemers tabblad gebruiken."
+
+msgid "grp_mail_type"
+msgstr "E-mail naar deelnemers"
+
+msgid "grp_mail_unsubscribe_member_bod"
+msgstr "We bevestigen de annulering van je deelnameverzoek in groep \"%s\".\\nWe hopen dat je in de gelegenheid bent om in een andere groep deel te nemen."
+
+msgid "grp_mail_unsubscribe_member_sub"
+msgstr "De annulering van je deelname in groep \"%s\""
+
+msgid "grp_mail_wl_bod"
+msgstr "Je bent op de wachtrij geplaatst voor de groep \"%s\".\\nJe staat op positie %s in de rij.\\n\\n Je zult een bericht krijgen van de groepsbeheerder als je verzoek is goedgekeurd of niet."
+
+msgid "grp_mail_wl_sub"
+msgstr "Je aanmelding voor groep \"%s\"."
+
+msgid "grp_map_location"
+msgstr "Kaartlocatie"
+
+msgid "grp_map_settings"
+msgstr "Kaartinstellingen"
+
+#, fuzzy
+msgid "grp_max_and_min_members_invalid"
+msgstr "The minimum number must be smaller than the maximum number of members."
+
+#, fuzzy
+msgid "grp_mem_contacts"
+msgstr "Tutorial Support"
+
+#, fuzzy
+msgid "grp_mem_tbl_header"
+msgstr "Group Participants"
+
+#, fuzzy
+msgid "grp_member_administration"
+msgstr "Edit Participants"
+
+msgid "grp_members"
+msgstr "Deelnemers"
+
+#, fuzzy
+msgid "grp_members_deleted"
+msgstr "Deleted members"
+
+msgid "grp_members_map"
+msgstr "Groepsdeelnemers kaart"
+
+msgid "grp_members_print_title"
+msgstr "Groepdeelnamwers"
+
+#, fuzzy
+msgid "grp_min_one_admin"
+msgstr "There has to be at least one administrator assigned to this group."
+
+msgid "grp_missing_grp_type"
+msgstr "Kies een groepstype"
+
+msgid "grp_missing_password"
+msgstr "Type een groepswachtwoord"
+
+msgid "grp_new_status"
+msgstr "Your new status is:"
+
+#, fuzzy
+msgid "grp_next"
+msgstr "Next"
+
+#, fuzzy
+msgid "grp_no_perm_to_add_create_first"
+msgstr "You need to create a group first. Please select where to create a new group."
+
+msgid "grp_notification"
+msgstr "Bericht"
+
+msgid "grp_notification_activated"
+msgstr "Notification Activated"
+
+msgid "grp_notification_deactivated"
+msgstr "Berichtgeving uitgeschakeld"
+
+msgid "grp_notification_explanation_admin"
+msgstr "Je ontvangt deze e-mail van ILIAS omdat je een groepsbeheerder bent met actieve berichtgeving."
+
+msgid "grp_notification_salutation"
+msgstr "Beste groep deelnemer,"
+
+msgid "grp_notify_off"
+msgstr "Notification about new registrations disabled"
+
+msgid "grp_notify_on"
+msgstr "Notification about new registrations enabled"
+
+msgid "grp_pass_request"
+msgstr "Aanmelden met groepswachtwoord"
+
+#, fuzzy
+msgid "grp_period"
+msgstr "Period of Event"
+
+#, fuzzy
+msgid "grp_period_info"
+msgstr "Information about the start and end date of the event, which is supported by the group"
+
+msgid "grp_presentation_type"
+msgstr "Type presentatie"
+
+msgid "grp_print_list"
+msgstr "Genereer lijst"
+
+msgid "grp_public"
+msgstr "Publieke Groep"
+
+msgid "grp_public_info"
+msgstr "Groep is zichtbaar voor niet-deelnemers maar heeft speciale vereisten voor deelname."
+
+msgid "grp_reg_code"
+msgstr "Toegangscode"
+
+msgid "grp_reg_code_enabled_info"
+msgstr "Naast de gekozen registratie methode, staat deze optie toe dat gebruikers zich direct registreren via onderstaande link."
+
+msgid "grp_reg_code_link"
+msgstr "Koppeling naar aanmelding"
+
+msgid "grp_reg_deac_info_screen"
+msgstr "Toegang tot groep is uitgeschakeld"
+
+msgid "grp_reg_direct"
+msgstr "Rechtstreekse aanmelding"
+
+msgid "grp_reg_direct_info_screen"
+msgstr "Je kunt je rechtstreeks aanmelden bij deze groep"
+
+msgid "grp_reg_disabled"
+msgstr "Registreren is niet mogelijk"
+
+msgid "grp_reg_disabled_info"
+msgstr "Alleen groepsbeheerder kunnen deelnemers toevoegen aan de groep"
+
+msgid "grp_reg_limited"
+msgstr "Periode voor aanmelding"
+
+msgid "grp_reg_max_members_info"
+msgstr "Geef het maximaal toegestane aantal gebruikers voor deze groep op."
+
+msgid "grp_reg_no_selfreg"
+msgstr "Geen zelf-registratie"
+
+msgid "grp_reg_passwd_info_screen"
+msgstr "Als de groepsbeheerder je het juiste groepswachtwoord heeft gegeven, kun je je als deelnemer aanmelden bij deze groep."
+
+msgid "grp_reg_password_info"
+msgstr "Gebruikers moeten een geldig wachtwoord ingeven om in de groep te mogen"
+
+msgid "grp_reg_req_info_screen"
+msgstr "Je kunt een verzoek indienen voor deelname in deze groep. Je zult een bericht krijgen van de groepsbeheerder als je verzoek is goedgekeurd of niet."
+
+msgid "grp_reg_request"
+msgstr "Aanmelden"
+
+msgid "grp_reg_request_info"
+msgstr "Geinteresseerden kunnen een verzoek/bericht sturen naar de groepsbeheerder"
+
+msgid "grp_reg_subject"
+msgstr "Bericht"
+
+msgid "grp_registration_unlimited"
+msgstr "Onbeperkte aanmeldperiode"
+
+msgid "grp_role_status"
+msgstr "Rol / Status"
+
+msgid "grp_search_users"
+msgstr "Zoek gebruiker"
+
+msgid "grp_set_on_waiting_list"
+msgstr "Je kunt je aanmelden aan de wachtrij. Je zult een bericht krijgen van de groepsbeheerder als je verzoek is goedgekeurd of niet."
+
+msgid "grp_setting_header_presentation"
+msgstr "Groep Presentatie"
+
+msgid "grp_setting_header_registration"
+msgstr "Inschrijving"
+
+msgid "grp_settings"
+msgstr "Groepsinstellingen"
+
+#, fuzzy
+msgid "grp_show_members"
+msgstr "Show Members"
+
+#, fuzzy
+msgid "grp_show_members_info"
+msgstr "If activated, group members can access the members gallery."
+
+#, fuzzy
+msgid "grp_subscription_min_members_info"
+msgstr "Define the number of users that is minimally required for this group to be held at all. If this number is not met either after the date until which users can register or unsubscribe from the group a mail will be send to those group administrators or tutors that have activated the 'Notification' flag in the 'Members'-tab."
+
+#, fuzzy
+msgid "grp_sure_add_user_to_group"
+msgstr "Do you really want to add this user to the group?"
+
+#, fuzzy
+msgid "grp_sure_create_group_add_user"
+msgstr "Do you really want to create the group and add the user?"
+
+msgid "grp_typ"
+msgstr "Groep Type"
+
+msgid "grp_unsubscribe"
+msgstr "Unsubscrib"
+
+msgid "grp_update_subscr_request"
+msgstr "Wijzigen deelnameverzoek"
+
+#, fuzzy
+msgid "grp_use_existing"
+msgstr "Use Existing Group"
+
+msgid "grp_user_agreement"
+msgstr "Released Data Types"
+
+msgid "grp_user_agreement_info"
+msgstr "Zichtbare persoonlijke gegevens voor groepsbeheerders."
+
+#, fuzzy
+msgid "grp_user_already_in_group"
+msgstr "The selected user is already member of the group."
+
+#, fuzzy
+msgid "grp_user_been_added"
+msgstr "The user has been added to the group."
+
+msgid "grp_users_already_assigned"
+msgstr "De gebruiker is reeds toegewezen aan de groep."
+
+#, fuzzy
+msgid "grp_usr_agreement"
+msgstr "User Agreement"
+
+msgid "grp_view_info_by_type"
+msgstr "Dit beeld van de groep sorteert alle inhoud van de groep per type object"
+
+msgid "grp_view_info_simple"
+msgstr "Dit beeld van de groep toont de inhoud als lijst"
+
+msgid "grp_view_inherit"
+msgstr "Standard"
+
+msgid "grp_view_inherit_info"
+msgstr "The group presentation type is adapted from a parent course."
+
+msgid "grp_waiting_list"
+msgstr "Inschakelen wachtlijst"
+
+#, fuzzy
+msgid "grp_waiting_list_autofill"
+msgstr "With Auto-Fill"
+
+#, fuzzy
+msgid "grp_waiting_list_autofill_info"
+msgstr "Participants are recruited from the waiting list automatically on cancellations."
+
+msgid "grp_waiting_list_info"
+msgstr "Indien ingeschakeld en het maximale aantal gebruikers is bereikt, zal aanmelding in een wachtrij worden geplaatst."
+
+#, fuzzy
+msgid "grp_waiting_list_no_autofill"
+msgstr "Without Auto-Fill"
+
+msgid "grp_warn_grp_type_changed"
+msgstr "Wil je echt het type van deze groep wijzigen? Alle rechten zullen worden teruggezet op hun beginwaarde."
+
+msgid "grp_warn_no_max_set_on_waiting_list"
+msgstr "Het maximum  aantal toegelate aantal groepsdeelnemers is overschreden. Je kunt je aanmelden in de wachtrij. Je zult een bericht krijgen van de groepsbeheerder als je verzoek is goedgekeurd of niet."
+
+msgid "grp_warn_wl_set_on_waiting_list"
+msgstr "Sommige gebruikers staan al in de wachtrij. Je kunt je aanmelden in de wachtrij. Je zult een bericht krijgen van de groepsbeheerder als je verzoek is goedgekeurd of niet."
+
+msgid "grp_wrong_max_members"
+msgstr "Controleer het maximum aantal gebruikers."
+
+#, fuzzy
+msgid "grp_wrong_min_max_members"
+msgstr "Please check the minimum and maximum number of users."
+
+msgid "grp_wrong_reg_time_limit"
+msgstr "Controleer de begin- en eindtijden van registratie."
+
+msgid "reg_grp_max_members"
+msgstr "Maximale aantal gebruikers"
+
+msgid "reg_grp_max_members_short"
+msgstr "Aantal deelnemers"
+
+#, fuzzy
+msgid "reg_grp_min_members"
+msgstr "Minimum Number of Members"

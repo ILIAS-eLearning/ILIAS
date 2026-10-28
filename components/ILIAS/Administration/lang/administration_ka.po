@@ -1,0 +1,855 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ka\n"
+"Language-Team: Georgian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: administration\n"
+
+#, fuzzy
+msgid "adm_achievements"
+msgstr "Achievements"
+
+msgid "adm_adm_role_protect"
+msgstr "Protect Administrator Role"
+
+msgid "adm_adm_role_protect_info"
+msgstr "If enabled, only administrator are allowed to de/assign users from/to the administrator role."
+
+#, fuzzy
+msgid "adm_auth_login"
+msgstr "Authentication Login"
+
+#, fuzzy
+msgid "adm_auth_reg"
+msgstr "Authentication Registration"
+
+#, fuzzy
+msgid "adm_communication"
+msgstr "Communication"
+
+#, fuzzy
+msgid "adm_extending_ilias"
+msgstr "Extending ILIAS"
+
+#, fuzzy
+msgid "adm_external_setting_edit"
+msgstr "Edit Settings"
+
+msgid "adm_hide"
+msgstr "დამალვა"
+
+msgid "adm_hide_tabs"
+msgstr "ჩანართების დამალვა"
+
+#, fuzzy
+msgid "adm_https"
+msgstr "HTTPS"
+
+msgid "adm_imprint"
+msgstr "Imprint"
+
+msgid "adm_imprint_inactive"
+msgstr "The imprint is inactive and users are not able to access it."
+
+#, fuzzy
+msgid "adm_layout_and_navigation"
+msgstr "Layout and Navigation"
+
+#, fuzzy
+msgid "adm_legal_regulations"
+msgstr "Legal Regulations"
+
+msgid "adm_locale"
+msgstr "ლოკალი"
+
+msgid "adm_locale_info"
+msgstr "ადგილობრივი პარამეტრების გავლენა, მაგალითად სიებად დახარისხება. მაგალითად :  nl_NL ან de_DE. &quot;Locale&quot;-ები ჩამონათვალი შეიძლება გამოიყოს მძიმით."
+
+#, fuzzy
+msgid "adm_maintenance"
+msgstr "Maintenance"
+
+#, fuzzy
+msgid "adm_missing_entries"
+msgstr "Missing Entries"
+
+#, fuzzy
+msgid "adm_missing_entry_add"
+msgstr "Add New Entry"
+
+#, fuzzy
+msgid "adm_missing_entry_add_action"
+msgstr "Add"
+
+msgid "adm_nr_statements"
+msgstr "დასკვნების რაოდენობა"
+
+#, fuzzy
+msgid "adm_personal_workspace"
+msgstr "Personal Workspace"
+
+msgid "adm_predefined_settings"
+msgstr "წინასწარ განსაზრვრული პარამეტრები"
+
+#, fuzzy
+msgid "adm_pub_section_domain_filter"
+msgstr "Domain Filter"
+
+#, fuzzy
+msgid "adm_pub_section_domain_filter_info"
+msgstr "Domain filters granting anonymous access. Enter one ore more domains, which allow anonymous access. "
+
+msgid "adm_rep_shorten_description"
+msgstr "Shorten Descriptions"
+
+msgid "adm_rep_shorten_description_info"
+msgstr "If activated all descriptions in object lists will be shortened."
+
+msgid "adm_rep_shorten_description_length"
+msgstr "Max. number of characters"
+
+msgid "adm_rep_tree_all_types"
+msgstr "რესურსი ყველა სახეობა"
+
+msgid "adm_rep_tree_all_types_info"
+msgstr "რესურსების ყველა სახეობა ჩამოთვლილია ხეში"
+
+msgid "adm_rep_tree_limit_grp_crs"
+msgstr "ხის შეზღუდული შინაარსის ჩვენება კურსებსა და ჯგუფებში"
+
+msgid "adm_rep_tree_limit_grp_crs_info"
+msgstr "ეს დამოკიდებულია და ააქტიურებს \"ხის ჩარჩოს სინქრონიზაციის\" მახასიათებელს"
+
+msgid "adm_rep_tree_only_cntr"
+msgstr "მხოლოდ კონტეინერი"
+
+msgid "adm_rep_tree_only_cntr_info"
+msgstr "მხოლოდ კატეგორიები, კურსები და ჯგუფებია ჩამოთვლილი"
+
+msgid "adm_rep_tree_presentation"
+msgstr "საცავის ხის პრეზენტაცია"
+
+#, fuzzy
+msgid "adm_repository_and_objects"
+msgstr "Repository and Objects"
+
+#, fuzzy
+msgid "adm_search_and_find"
+msgstr "Search and Find"
+
+msgid "adm_show_comments_tagging_in_lists"
+msgstr "შენიშვნების, კომენტარების და ჩანართების ჩვენება ობიექტებს სიაში"
+
+#, fuzzy
+msgid "adm_show_comments_tagging_in_lists_tags"
+msgstr "Display tags instead of number"
+
+msgid "adm_table"
+msgstr "მაგიდა"
+
+#, fuzzy
+msgid "adm_user_administration"
+msgstr "User Administration"
+
+msgid "adm_user_starting_point"
+msgstr "Personal Starting Point"
+
+msgid "adm_user_starting_point_info"
+msgstr "Select the page or object which is shown after login."
+
+#, fuzzy
+msgid "adm_user_starting_point_inherit"
+msgstr "Use Standard-Settings"
+
+#, fuzzy
+msgid "adm_user_starting_point_inherit_info"
+msgstr "The settings that were made by the administrator of the platform as a whole will be used."
+
+#, fuzzy
+msgid "adm_user_starting_point_invalid_info"
+msgstr "This feature is currently not active."
+
+msgid "adm_user_starting_point_object"
+msgstr "Repository Object"
+
+msgid "adm_user_starting_point_personal"
+msgstr "Personal Setting"
+
+msgid "adm_user_starting_point_personal_info"
+msgstr "If activated users may select their starting page."
+
+msgid "adm_user_starting_point_ref_id"
+msgstr "Reference-Id"
+
+#, fuzzy
+msgid "adm_user_starting_point_ref_id_info"
+msgstr "Open the object that you would like to use as Personal Starting Point. Please copy the number directly following \"ref_id=\" in the browser bar into the textinput field."
+
+msgid "adm_value"
+msgstr "ღირებულება"
+
+msgid "allow_change_loginname"
+msgstr "პირად მონაცემებში შესვლის სახელების ცვლილების დაშვება"
+
+msgid "analysis_options"
+msgstr "ანალიზის პარამეტრები"
+
+msgid "analyze_data"
+msgstr "მონაცემთა მთლიანობის ანალიზი და შესწორება"
+
+msgid "analyzing_tree_structure"
+msgstr "ხის სტრუქტურის ანალიზი"
+
+msgid "apache_auth_authenticate_on_login_page"
+msgstr "სცადეთ აპაცჰე ავტორიზება შესვლის გვერდზე შესვლისას"
+
+msgid "apache_auth_domains"
+msgstr "დომეინების მიმართულებები დაშვებულია"
+
+msgid "apache_auth_domains_description"
+msgstr "//example.com and http"
+
+msgid "apache_auth_enable_override_login"
+msgstr "გადატვირთული სტანდარტული შესვლის გვერდი"
+
+msgid "apache_auth_indicator_name"
+msgstr "ინდიკატორი ველი წარმატებული ავტორიზებისთვის"
+
+msgid "apache_auth_indicator_value"
+msgstr "ინდიკატორი ღირებულება წარმატებული ავტორიზებისთვის"
+
+msgid "apache_auth_security"
+msgstr "უსაფრთხოების პარამეტრები"
+
+msgid "apache_auth_settings"
+msgstr "Apache"
+
+msgid "apache_auth_target_override_login"
+msgstr "სამიზნე url ჩვეულებრივი შესვლის გვერდისთვის"
+
+msgid "apache_auth_username_by_function"
+msgstr "მომხმარებლის სახელების ჩვეულებრივი ფუნქციით დანიშვნა"
+
+msgid "apache_auth_username_config"
+msgstr "მომხმარებლის სახელის დაყენება"
+
+msgid "apache_auth_username_config_type"
+msgstr "სახეობა"
+
+msgid "apache_auth_username_direct_mapping"
+msgstr "პირდაპირი დანიშვნა"
+
+msgid "apache_auth_username_direct_mapping_fieldname"
+msgstr "დანიშვნის ველი"
+
+msgid "apache_auth_username_extended_mapping"
+msgstr "გაფართოვებული დანიშვნა"
+
+msgid "apache_autocreate"
+msgstr "ანგარიშის შექმნის გააქტიურება"
+
+msgid "apache_default_role"
+msgstr "სტანდარტული მომხმარებლის პასუხისმგებლობა"
+
+msgid "apache_enable_auth"
+msgstr "Apache ავტორიზების მხარდაჭერის გააქტიურება"
+
+msgid "apache_enable_ldap"
+msgstr "LDAP მომხმარებლის დანიშვნის გააქტიურება"
+
+msgid "apache_enable_local"
+msgstr "ადგილობრივი მომხმარრებლის დანიშვნის გააქტიურება"
+
+msgid "apache_ldap_hint_ldap_must_be_configured"
+msgstr "LDAP უნდა იყოს დაყენებული ადმინისტრაციაში"
+
+msgid "apache_settings"
+msgstr "LDAP-ის ავტირიზების დაყენება"
+
+msgid "apache_settings_changed_success"
+msgstr "კონფიგურაცია შენახულია"
+
+msgid "auth_apache"
+msgstr "Apache"
+
+msgid "auth_auth_mode_determination"
+msgstr "ავტორიზების მეთოდის განსაზღვრა (შესასვლელად)"
+
+msgid "auth_automatic"
+msgstr "დაფიქსირებული თანმიმდევრობა"
+
+msgid "auth_by_user"
+msgstr "მომხმარებლის მიერ"
+
+msgid "auth_kind_determination"
+msgstr "განსაზღვრის სახეობა"
+
+#, fuzzy
+msgid "auth_mode_default_change_info"
+msgstr "Changing the default authentication method affects all user accounts configured to use the default authentication method. If the selected default method (e.g., Shibboleth, SAML, SOAP, ...) does not support or is not configured to allow fallback to local ILIAS authentication, affected users may no longer be able to log in. To avoid this, please ensure that local fallback authentication is activated in the configuration of the selected method, or that the authentication method stored for affected user accounts is manually changed."
+
+msgid "auth_mode_determination_info"
+msgstr "აირჩიეთ, მომხმარებელი ირჩევს ავტორიზების მეთოდს შესვლისას ეკრანზე  თუ მას ავტორიზების მეთოდების დაყენებული თანმიმდევრობა მართავს"
+
+msgid "clean"
+msgstr "გაასუფთავეთ"
+
+msgid "clean_desc"
+msgstr "წაშალეთ არასწორი მისამართები და ხის მასალები. ინიციალიზაცია გაუკეთეთ ნაპრალებს ხის სტრუქტურაში"
+
+msgid "cleaning"
+msgstr "გასუფთავება"
+
+msgid "cleaning_final"
+msgstr "საბოლოო გასუფთავება"
+
+msgid "course_export"
+msgstr "ჩანს კურსებში"
+
+msgid "done"
+msgstr "შესრულებულია"
+
+msgid "dump_tree"
+msgstr "ხის გადმოტვირთვა"
+
+msgid "dump_tree_desc"
+msgstr "ხის ანალიზის შესრულება,  ხის კვანძებისა და ანალიზის მონაცემების ამობეჭდვა"
+
+msgid "dumping_tree"
+msgstr "მიმდინარეობს ხის გადმოტვირთვა"
+
+msgid "found"
+msgstr "მოიძებნა"
+
+msgid "found_none"
+msgstr "არ მოიძებნა"
+
+#, fuzzy
+msgid "git_hash_short"
+msgstr "Commit Hash (short): %s"
+
+#, fuzzy
+msgid "git_last_commit"
+msgstr "Last Commit: %s"
+
+#, fuzzy
+msgid "git_revision"
+msgstr "Number: %s"
+
+msgid "group_export"
+msgstr "ხილვადია ჯგუფებში"
+
+msgid "history_loginname"
+msgstr "სისტემაში შესვლის სახელი ისტორია"
+
+msgid "initializing_gaps"
+msgstr "ხის ნაპრალების ინიციალიზაცია"
+
+msgid "language_all_modules"
+msgstr "ყველა მოდული"
+
+msgid "language_change_settings"
+msgstr "ენის პარამეტრების შეცვლა"
+
+msgid "language_clear_local_changes"
+msgstr "მონაცემთა ბაზაში ადგილობრივი ცვლილებების წაშლა"
+
+#, fuzzy
+msgid "language_clear_local_changes_info"
+msgstr "Reset the database entries of this language to the default entries defined in lang/ilias_%s.lang. All local changes or additions will be removed."
+
+msgid "language_cleared_local"
+msgstr "ადგილობრივი ცვლილებები წაიშალა მონაცემთა ბაზაში"
+
+msgid "language_compare"
+msgstr "შეადარეთ"
+
+msgid "language_default_entries"
+msgstr "(სტანდარტული შენატანები)"
+
+msgid "language_delete_local_additions"
+msgstr "მონაცემთა ბაზაში ადგილობრივი დამატებების წაშლა"
+
+#, fuzzy
+msgid "language_delete_local_additions_info"
+msgstr "Delete all entries that were locally added to the database."
+
+msgid "language_error_clear_local"
+msgstr "ადგილობრივი ცვლილებების წაშლა მონაცემთა ბაზაში ვერ მოხერხდა!"
+
+msgid "language_error_delete_local"
+msgstr "ადგილობრივი ენის ფაილის წაშლა შეუძლებელია!"
+
+msgid "language_error_local_missed"
+msgstr "ადგილობრივი ენის ფაილი არ არსებობს"
+
+msgid "language_error_read_local"
+msgstr "ადგილობრივი ენის ფაილი არ არსებობს ან არ იკითხება!"
+
+msgid "language_error_write_global"
+msgstr "გლობალური ენის ფაილის ჩაწერა შეუძლებელია!"
+
+msgid "language_export_file"
+msgstr "ენის ფაილის ეხპორტირება"
+
+msgid "language_file_imported"
+msgstr "ენის ფაილის %s იმპორტირება მოხდა"
+
+msgid "language_file_scope"
+msgstr "ენის ფაილის ფარგლები"
+
+msgid "language_former_file_description"
+msgstr "თქვენი ადგილობრივი ცვლილებეის ბოლოს შეტანილ ჩვლილებებტან შესადარებლად,Gგთხოვთ დააკოპიროთ წინა ILIAS -ის ვერსიაში არსებული ენის ფაილი ადგილობრივ ენის ფაილში. Mიმდინარე ენის ფაილი ავტომატურად შეინახება როდესაც თქვენ შეინახავთ ადგილობრივ ენის ფაილს &quot;შენარჩუნების&quot; ანგარიშზე"
+
+msgid "language_former_file_equal"
+msgstr "ფაილი <b>%s</b> იდენტურია მიმდინარე ენის ფაილთან"
+
+msgid "language_former_file_missing"
+msgstr "ფაილი <b>%s</b> არ იძებნება"
+
+msgid "language_import_file"
+msgstr "ენის ფაილიც იმპორტირება"
+
+msgid "language_load_local_changes"
+msgstr "ადგილობრივი ენის ფაილის მონაცემთა ბაზაში ჩატვირთვა"
+
+#, fuzzy
+msgid "language_load_local_changes_info"
+msgstr "Load the file lang/customizing/ilias_%s_lang.local to the database. New entries of this file are added to the database and existing entries are overwritten."
+
+msgid "language_loaded_local"
+msgstr "ადგილობრივი ენის ფაილი ჩაიტვირთა მონაცემთა ბაზაში"
+
+msgid "language_local_file_deleted"
+msgstr "ადგილობრივი ენის ფაილი წაიშალა!"
+
+msgid "language_maintain"
+msgstr "შენარჩუნება"
+
+msgid "language_maintain_local_changes"
+msgstr "ადგილობრივი ცვლილებების შენარჩუნება"
+
+msgid "language_maintenance"
+msgstr "ენის შენარჩუნება"
+
+msgid "language_merge_local_changes"
+msgstr "ადგილობრივი ცვლილებების გაერთიანება"
+
+#, fuzzy
+msgid "language_merge_local_changes_info"
+msgstr "Merge all local changes and additions alphabetically into the standard language file lang/ilias_%s.lang and, for the modules maintained in PO files, into their .po files in the lang/ directories of the components. The web server must have write permission on these files."
+
+msgid "language_merged_global"
+msgstr "ადგილობრივი ცვლილებები გაერთიანდა გლობალური ენის ფაილში"
+
+msgid "language_mode_existing"
+msgstr "არსებული მასალა"
+
+msgid "language_mode_existing_delete"
+msgstr "არსებული მასალის წაშლა"
+
+#, fuzzy
+msgid "language_mode_existing_delete_info"
+msgstr "Delete all entries in the database before importing the file.<br /> WARNING: The imported language file should be complete, otherwise there will be undefined language variables. If that happens, switch to the tab \"Maintain\" and choose \"Clear local changes in the database\"."
+
+msgid "language_mode_existing_keepall"
+msgstr "ყველა არსებული მასალის შენარჩუნება"
+
+#, fuzzy
+msgid "language_mode_existing_keepall_info"
+msgstr "Import only new entries that do not yet exist in the database."
+
+msgid "language_mode_existing_keepnew"
+msgstr "ყველა ცვლილების შენარჩუნება"
+
+#, fuzzy
+msgid "language_mode_existing_keepnew_info"
+msgstr "Import new entries and overwrite all entries that still have their default values. Keep those entries that are already changed in the database."
+
+msgid "language_mode_existing_replace"
+msgstr "არსებული მასალის შეცვლა/გადაადგილება"
+
+#, fuzzy
+msgid "language_mode_existing_replace_info"
+msgstr "Import new entries and replace all existing entries with the new values defined in the import file."
+
+msgid "language_note_translation"
+msgstr "გვერდის გადათარგმნის რეჟიმი გააქტიურებულია თითოეული ენისთვის ცალცალკე. დამატებით მომხარებელს  სჭირდება კითხვისა და წერის ნებართვა ენის საქაღალდეში."
+
+msgid "language_process_maintenance"
+msgstr "პროცესის შენარჩუნება"
+
+msgid "language_remove_local_file"
+msgstr "ადგილობრივი ენის ფაილის წაშლა"
+
+#, fuzzy
+msgid "language_remove_local_file_info"
+msgstr "Remove the file lang/customizing/ilias_%s_lang.local and change the language status from \"Installed With Local\" to \"Installed\". The changes in the database are not touched."
+
+#, fuzzy
+msgid "language_save_dist"
+msgstr "Backup the standard language file"
+
+#, fuzzy
+msgid "language_save_dist_failed"
+msgstr "The backup of the standard ILIAS language file could not be written."
+
+#, fuzzy
+msgid "language_save_dist_info"
+msgstr "Create a backup of the standard ILIAS language file in the ILIAS data directory. This helps after an ILIAS update to find conflicst of own changes with updated language variables."
+
+msgid "language_save_local_changes"
+msgstr "შეინახეთ ყველა ცვლილება ადგილობრივ ენის ფაილში"
+
+#, fuzzy
+msgid "language_save_local_changes_info"
+msgstr "Save all locally added or changed database entries to the file lang/customizing/ilias_%s_lang.local and set the language status to \"Installed With Local\". The web server must have write permission in this folder. Please note that this file is the same for all clients of this installation."
+
+#, fuzzy
+msgid "language_saved_dist"
+msgstr "The backup of the standard ILIAS language file is created."
+
+msgid "language_scope_added"
+msgstr "მხოლოდ ადგილობრივი დამატებები"
+
+#, fuzzy
+msgid "language_scope_added_info"
+msgstr "Export all entries that are locally added in the database. This can be used to backup additional development entries before local changes are deleted on the tab \"Maintain\"."
+
+msgid "language_scope_commented"
+msgstr "ენის მენეჯერის კომენტარებით"
+
+msgid "language_scope_conflicts"
+msgstr "ადგილობრივი და განახლებული ცვლილებები"
+
+msgid "language_scope_dbremarks"
+msgstr "Shows only entries with comments in database"
+
+msgid "language_scope_different"
+msgstr "განსხვავებულია შედარებული ენისაგან"
+
+msgid "language_scope_equal"
+msgstr "იგივეა შედარებულ ენასთან"
+
+msgid "language_scope_global"
+msgstr "ყველა მასალა"
+
+#, fuzzy
+msgid "language_scope_global_info"
+msgstr "Export all database entries of this language. This can be used for backup purposes."
+
+msgid "language_scope_local"
+msgstr "მხოლოდ ადგილობრივი ცვლილებები"
+
+#, fuzzy
+msgid "language_scope_local_info"
+msgstr "Export all entries that are locally added or changed in the database. This is similar to the saving of a local language file on the tab \"Maintain\"."
+
+msgid "language_scope_merged"
+msgstr "ადგილობრივი ცვლილებები გაერთიანებულია გლობალური ენის ფაილში"
+
+#, fuzzy
+msgid "language_scope_merged_info"
+msgstr "Export the standard ILIAS language file with all local changes merged in alphabetically by module and identifier. This can be used to update the global language file on the ILIAS SVN server."
+
+msgid "language_scope_unchanged"
+msgstr "მხოლოდ უცვლელი მასალები"
+
+#, fuzzy
+msgid "language_scope_unchanged_info"
+msgstr "Export all default language entries that are not changed in the database. This is the opposite to \"Local changes only\". Both together are a complete backup of the current language in the database."
+
+msgid "language_settings"
+msgstr "ენის პარამეტრები"
+
+msgid "language_statistics"
+msgstr "სტატისტიკა"
+
+#, fuzzy
+msgid "language_translation"
+msgstr "Page translation"
+
+msgid "language_translation_enabled"
+msgstr "ენის თარგმანი გააქტიურებულია"
+
+#, fuzzy
+msgid "language_variables_saved"
+msgstr "The changes to the language variables were saved successfully."
+
+msgid "log_scan"
+msgstr "ჩავტვირთოთ სკანირების შედეგები"
+
+msgid "log_scan_desc"
+msgstr "ჩავწეროთ სკანირების შედეგები &quot;scanlog.log&quot;-ში მომხმარებლის მონაცემთა განყოფილებაში"
+
+msgid "loginname_change_blocking_time"
+msgstr "დაბლოკვის დრო სისტემაში შესვლის სახელის შესაცვლელად"
+
+msgid "loginname_change_blocking_time_info"
+msgstr "ჩასვით პერიოდი წამებში რომელელსაც მომხმარებელი ელოდება სანამ მისი სისტემაში შესვლის სახელი შეიცვლება. თუ 0-ის შეყვანა გინდათ უბრალოდ გამოტოვეთ ეს ველი, მომხმარებელს შეუძლია შეცვალოს სისტემაში შესვლის სახელი ნებისმიერ დროს. შეიყვანეთ 3600 ერთი საათით, 86400 ერთი დღით ა.შ."
+
+msgid "loginname_change_blocking_time_invalidity_info"
+msgstr "შეიყვანეთ რიცხვითი ღირებულება"
+
+msgid "loginname_history_info"
+msgstr "თუ გააქტიურდა, სისტემაში შესვლის სახელი ჩაიწერება მონაცემთა ბაზაში. ეს ისტორია ხელმისაწვდომია მონაცემთა ბაზის ფანჯარაში &quot;შესვლის სახელის_ისტორია&quot;"
+
+msgid "nothing_to_purge"
+msgstr "არაფერია გასაწმენდი"
+
+msgid "nothing_to_remove"
+msgstr "არაფერია წასაშლელი"
+
+msgid "nothing_to_restore"
+msgstr "არაფერია აღსადგენი"
+
+msgid "obj_blga"
+msgstr "ბლოგი"
+
+msgid "obj_blga_desc"
+msgstr "გლობალური ბლოგის პარამეტრები"
+
+msgid "obj_chta_desc"
+msgstr "Chat Administration"
+
+#, fuzzy
+msgid "obj_excs"
+msgstr "Exercise"
+
+#, fuzzy
+msgid "obj_excs_desc"
+msgstr "Global Exercise Settings"
+
+#, fuzzy
+msgid "obj_gsfo"
+msgstr "Footer"
+
+#, fuzzy
+msgid "obj_gsfo_desc"
+msgstr "Administrate Footer Layout and Content"
+
+#, fuzzy
+msgid "obj_impr"
+msgstr "Legal Notice"
+
+#, fuzzy
+msgid "obj_impr_desc"
+msgstr "Deployment of Legal Notice"
+
+msgid "obj_mds"
+msgstr "მეტა მონაცემები"
+
+msgid "obj_mds_desc"
+msgstr "მეტა მონაცემების კონფიგურაცია და მეტა მონაცემების პარამეტრები"
+
+msgid "obj_otpl"
+msgstr "ობიექტების ნიმუშები"
+
+msgid "obj_otpl_desc"
+msgstr "ნიმუში ახალი ობიექტების შესაქმნელად"
+
+msgid "obj_prfa"
+msgstr "პორტფოლიო"
+
+msgid "obj_prfa_desc"
+msgstr "გლობალური პორტფოლიოს პარამეტრები"
+
+#, fuzzy
+msgid "obj_taxs"
+msgstr "Taxonomy"
+
+#, fuzzy
+msgid "obj_taxs_desc"
+msgstr "Global Taxonomy Settings"
+
+#, fuzzy
+msgid "org_op_edit_user_accounts"
+msgstr "Edit User Accounts"
+
+msgid "output_options"
+msgstr "შედეგის პარამეტრები"
+
+msgid "path_to_mkisofs"
+msgstr "მდებარეობა  mkisofs"
+
+#, fuzzy
+msgid "prg_export"
+msgstr "Visible in Study Programmes"
+
+msgid "purge_age_limit"
+msgstr "ასაკის ზღვარი"
+
+msgid "purge_age_limit_desc"
+msgstr "თუ ეს ველი შეიცავს რამე ღირებულებას, მხოლოდ ის ობიექტები რომლებიც გარკვეული დროის წინ წაიშალა გაიწმინდება"
+
+msgid "purge_count_limit"
+msgstr "გამოთვლის ზღვარი"
+
+msgid "purge_count_limit_desc"
+msgstr "თუ ეს ველი შეიცავს რამე ღირებულებას, მხოლოდ ობიექტების გარკვეული  რაოდენობა გაიწმინდება"
+
+msgid "purge_missing"
+msgstr "წავჭალოთ დაკარგული ობიექტები"
+
+msgid "purge_missing_desc"
+msgstr "ამოვიღოთ სისტემაში ნაპოვნი ყველა დაკარგული და ყველა დაშლილი ობიექტი"
+
+msgid "purge_trash"
+msgstr "გავწმინდოთ წაშლილი ობიქტები"
+
+msgid "purge_trash_desc"
+msgstr "წავჭალოთ ყველა ობიექტი სანაგვე ყუთში სისტემიდან"
+
+msgid "purge_type_limit"
+msgstr "ნაირსახეობის ზღვარი"
+
+msgid "purge_type_limit_desc"
+msgstr "თუ ეს ველი შეიცავს ღირებულებას, მხოლოდ გარკვეული ტიპის ობიექტები გაიწმინდება"
+
+msgid "purging"
+msgstr "გაწმენდა"
+
+msgid "purging_missing_objs"
+msgstr "დაკარგული ობიექტების წაშლა"
+
+msgid "purging_trash"
+msgstr "სანაგვე ყუთის გასუფთავება"
+
+msgid "purging_unbound_objs"
+msgstr "დაშლილი ობიექტების გაწმენდა"
+
+msgid "removing_invalid_childs"
+msgstr "ხეში არასწორი მასალის წაშლა"
+
+msgid "removing_invalid_refs"
+msgstr "არასწორი წყაროს, ინფორმაციის წაშლა"
+
+msgid "removing_invalid_rolfs"
+msgstr "არასწორი საქაღალდეების წაშლა"
+
+msgid "repair_options"
+msgstr "პარამეტრების შეკეთება"
+
+msgid "restore_missing"
+msgstr "დაკარგული ობიექტების აღდგენა"
+
+msgid "restore_missing_desc"
+msgstr "დაკარგული და დაშლილი ობიექტების აღდგენა აღდგენის საქაღალდეში"
+
+msgid "restore_trash"
+msgstr "წაშლილი ობიექტების აღდგენა"
+
+msgid "restore_trash_desc"
+msgstr "სანაგვე ყუთიდან ყველა ობიექტის აღდგენა აღდგენის ფოლდერში"
+
+msgid "restoring"
+msgstr "აღდგენა"
+
+msgid "restoring_missing_objs"
+msgstr "დაკარგული ობიექტების აღდგენა"
+
+msgid "restoring_trash"
+msgstr "სანაგვე ყუთის აღდგენა"
+
+msgid "restoring_unbound_objs"
+msgstr "დაშლილი ობიექტებისა და სუბობიექტების აღდგენა"
+
+msgid "reuse_of_loginnames_contained_in_history"
+msgstr "სისტემაში შესვლის სახელს ხელახლა ვერ გამოიყენებთ"
+
+msgid "reuse_of_loginnames_contained_in_history_info"
+msgstr "If activated, it is allowed to reuse any login name that is already saved in the history (even if it belongs to a deleted user)."
+
+msgid "scan"
+msgstr "სკანირება"
+
+msgid "scan_desc"
+msgstr "სკანირების სისტემა დამახინჯებული/არასწორი/დაკარგული/დაშლილი ობიექტებისთვის"
+
+msgid "scan_details"
+msgstr "სკანირების დეტალები"
+
+msgid "scan_modes"
+msgstr "სკანირების გამოყენებული სახეობა"
+
+msgid "scanning_system"
+msgstr "სისტემის სკანირება"
+
+msgid "searching_deleted_objs"
+msgstr "წაშლილი ობიექტების ძიება"
+
+msgid "searching_invalid_childs"
+msgstr "ხეში არასწორი მასალის ძიება"
+
+msgid "searching_invalid_refs"
+msgstr "არასწორი წყაროების/ინფორმაციის ძიება"
+
+msgid "searching_invalid_rolfs"
+msgstr "არასწორი საქაღალდეების ძიება"
+
+msgid "searching_missing_objs"
+msgstr "დაკარგული ობიექტების ძიება"
+
+msgid "searching_unbound_objs"
+msgstr "დაშლილი ობიქტების ძიება"
+
+msgid "skipped"
+msgstr "გამოტოვებული"
+
+msgid "start_scan"
+msgstr "დაწყება!"
+
+#, fuzzy
+msgid "svn_path"
+msgstr "Path: %s"
+
+#, fuzzy
+msgid "svn_revision_current"
+msgstr "Current Revision: %s"
+
+#, fuzzy
+msgid "svn_revision_last_change"
+msgstr "Last Changed Revision: %s"
+
+#, fuzzy
+msgid "svn_root"
+msgstr "Root: %s"
+
+msgid "system_check_no_owner"
+msgstr "Ownerless Objects"
+
+#, fuzzy
+msgid "system_folder_info"
+msgstr "Please choose an item from the administration main menu."
+
+msgid "systemcheck"
+msgstr "სისტემის შემოწმება"
+
+msgid "tree_corrupt"
+msgstr "ხე დამახინჯებულია! იხილეთ სკანირების გრაფა დეტალებისთვის."
+
+msgid "user_criteria"
+msgstr "მომხმარებლის უნიკალური კრიტერიუმი"
+
+msgid "user_criteria_desc"
+msgstr "უნიკალური მომხმარებლის კრიტერიუმი რომელიც გამოიყენება ტესტის შედეგების იმპორტისა და ექსპორტისთვის. Eეს საჭიროა  მსგავსი მომხმარებლების განსასაზღვრად ილიასის სხვადასხვა სისტემაში"
+
+msgid "usr_loginname_history_info"
+msgstr "მომხმარებელმა შეცვალა სისტემაში შესვლის სახელი ბოლოს %s. წინა შესვლის სახელი იყო: %s"
+
+#, fuzzy
+msgid "vc_information"
+msgstr "Version Control Information"
+
+#, fuzzy
+msgid "vc_information_not_determined"
+msgstr "ILIAS could not determine any version control information."
+
+msgid "view_last_log"
+msgstr "აჩვენეთ ბოლო სკანირების ფანჯარა"
+
+msgid "view_log"
+msgstr "ვაჩვენოთ დეტალები"

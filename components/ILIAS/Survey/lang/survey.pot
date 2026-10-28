@@ -1,0 +1,1734 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: survey\n"
+
+msgid "SurveyMatrixQuestion"
+msgstr ""
+
+msgid "SurveyMetricQuestion"
+msgstr ""
+
+msgid "SurveyMultipleChoiceQuestion"
+msgstr ""
+
+msgid "SurveySingleChoiceQuestion"
+msgstr ""
+
+msgid "SurveyTextQuestion"
+msgstr ""
+
+msgid "add_heading"
+msgstr ""
+
+msgid "already_completed_survey"
+msgstr ""
+
+msgid "anonymization"
+msgstr ""
+
+msgid "anonymize_anonymous_introduction"
+msgstr ""
+
+msgid "answer"
+msgstr ""
+
+msgid "arithmetic_mean"
+msgstr ""
+
+msgid "browse_for_questions"
+msgstr ""
+
+msgid "cancel_survey"
+msgstr ""
+
+msgid "cannot_read_survey"
+msgstr ""
+
+msgid "cannot_switch_to_online_no_questions"
+msgstr ""
+
+msgid "cant_send_email_smtp_disabled"
+msgstr ""
+
+msgid "category"
+msgstr ""
+
+msgid "category_nr_selected"
+msgstr ""
+
+msgid "chart"
+msgstr ""
+
+msgid "codes"
+msgstr ""
+
+msgid "codes_created"
+msgstr ""
+
+msgid "codes_deleted"
+msgstr ""
+
+msgid "combobox"
+msgstr ""
+
+msgid "concatenation"
+msgstr ""
+
+msgid "confirm_delete_all_user_data"
+msgstr ""
+
+msgid "confirm_delete_single_user_data"
+msgstr ""
+
+msgid "confirm_remove_heading"
+msgstr ""
+
+msgid "confirm_sync_questions"
+msgstr ""
+
+msgid "conjunction_and"
+msgstr ""
+
+msgid "conjunction_and_title"
+msgstr ""
+
+msgid "conjunction_or"
+msgstr ""
+
+msgid "conjunction_or_title"
+msgstr ""
+
+msgid "constraint_add"
+msgstr ""
+
+msgid "constraint_fulfilled"
+msgstr ""
+
+msgid "constraints"
+msgstr ""
+
+msgid "constraints_first_question_description"
+msgstr ""
+
+msgid "constraints_introduction"
+msgstr ""
+
+msgid "constraints_list_of_entities"
+msgstr ""
+
+msgid "constraints_no_nonessay_available"
+msgstr ""
+
+msgid "constraints_no_questions_or_questionblocks_selected"
+msgstr ""
+
+msgid "contains"
+msgstr ""
+
+msgid "continue"
+msgstr ""
+
+msgid "create_new"
+msgstr ""
+
+msgid "dc_agree"
+msgstr ""
+
+msgid "dc_always"
+msgstr ""
+
+msgid "dc_definitelyfalse"
+msgstr ""
+
+msgid "dc_definitelytrue"
+msgstr ""
+
+msgid "dc_desired"
+msgstr ""
+
+msgid "dc_disagree"
+msgstr ""
+
+msgid "dc_fair"
+msgstr ""
+
+msgid "dc_false"
+msgstr ""
+
+msgid "dc_good"
+msgstr ""
+
+msgid "dc_manytimes"
+msgstr ""
+
+msgid "dc_morenegative"
+msgstr ""
+
+msgid "dc_morepositive"
+msgstr ""
+
+msgid "dc_mostcertainly"
+msgstr ""
+
+msgid "dc_mostcertainlynot"
+msgstr ""
+
+msgid "dc_must"
+msgstr ""
+
+msgid "dc_mustnot"
+msgstr ""
+
+msgid "dc_neutral"
+msgstr ""
+
+msgid "dc_never"
+msgstr ""
+
+msgid "dc_no"
+msgstr ""
+
+msgid "dc_notacceptable"
+msgstr ""
+
+msgid "dc_poor"
+msgstr ""
+
+msgid "dc_rarely"
+msgstr ""
+
+msgid "dc_should"
+msgstr ""
+
+msgid "dc_shouldnot"
+msgstr ""
+
+msgid "dc_sometimes"
+msgstr ""
+
+msgid "dc_stronglyagree"
+msgstr ""
+
+msgid "dc_stronglydesired"
+msgstr ""
+
+msgid "dc_stronglydisagree"
+msgstr ""
+
+msgid "dc_stronglyundesired"
+msgstr ""
+
+msgid "dc_true"
+msgstr ""
+
+msgid "dc_undecided"
+msgstr ""
+
+msgid "dc_undesired"
+msgstr ""
+
+msgid "dc_varying"
+msgstr ""
+
+msgid "dc_verygood"
+msgstr ""
+
+msgid "dc_yes"
+msgstr ""
+
+msgid "default_codes_mail_message"
+msgstr ""
+
+msgid "default_codes_mail_subject"
+msgstr ""
+
+msgid "define_questionblock"
+msgstr ""
+
+msgid "delete_saved_message"
+msgstr ""
+
+msgid "display_all_available"
+msgstr ""
+
+msgid "duplicate"
+msgstr ""
+
+msgid "edit_heading"
+msgstr ""
+
+msgid "end_date"
+msgstr ""
+
+msgid "end_date_reached"
+msgstr ""
+
+msgid "enter_anonymous_id"
+msgstr ""
+
+msgid "enter_valid_number_of_codes"
+msgstr ""
+
+msgid "err_external_rcp_no_email"
+msgstr ""
+
+msgid "err_external_rcp_no_email_column"
+msgstr ""
+
+msgid "err_maxvaluegeminvalue"
+msgstr ""
+
+msgid "err_minvalueganswers"
+msgstr ""
+
+msgid "err_no_exact_answers"
+msgstr ""
+
+msgid "err_no_max_answers"
+msgstr ""
+
+msgid "err_no_min_answers"
+msgstr ""
+
+msgid "error_retrieving_anonymous_survey"
+msgstr ""
+
+msgid "error_save_code"
+msgstr ""
+
+msgid "evaluation"
+msgstr ""
+
+msgid "evaluation_access"
+msgstr ""
+
+msgid "evaluation_access_all"
+msgstr ""
+
+msgid "evaluation_access_info"
+msgstr ""
+
+msgid "evaluation_access_off"
+msgstr ""
+
+msgid "evaluation_access_participants"
+msgstr ""
+
+msgid "existing_constraints"
+msgstr ""
+
+msgid "exp_type_csv"
+msgstr ""
+
+msgid "exp_type_excel"
+msgstr ""
+
+msgid "export_all_survey_codes"
+msgstr ""
+
+msgid "export_label_only"
+msgstr ""
+
+msgid "export_title_label"
+msgstr ""
+
+msgid "export_title_only"
+msgstr ""
+
+msgid "external_recipients_imported"
+msgstr ""
+
+msgid "externalmails"
+msgstr ""
+
+msgid "externalmails_info"
+msgstr ""
+
+msgid "externaltext"
+msgstr ""
+
+msgid "externaltext_info"
+msgstr ""
+
+msgid "filter_all_question_types"
+msgstr ""
+
+msgid "filter_all_questionpools"
+msgstr ""
+
+msgid "finished_mail_subject"
+msgstr ""
+
+msgid "freetext_answers"
+msgstr ""
+
+msgid "geometric_mean"
+msgstr ""
+
+msgid "given_answers"
+msgstr ""
+
+msgid "glossary_term"
+msgstr ""
+
+msgid "harmonic_mean"
+msgstr ""
+
+msgid "heading"
+msgstr ""
+
+msgid "horizontal"
+msgstr ""
+
+msgid "import_error_closing_file"
+msgstr ""
+
+msgid "import_error_opening_file"
+msgstr ""
+
+msgid "import_from_file"
+msgstr ""
+
+msgid "import_from_text"
+msgstr ""
+
+msgid "import_no_file_selected"
+msgstr ""
+
+msgid "import_question"
+msgstr ""
+
+msgid "import_wrong_file_type"
+msgstr ""
+
+msgid "insert_after"
+msgstr ""
+
+msgid "insert_before"
+msgstr ""
+
+msgid "insert_missing_question"
+msgstr ""
+
+msgid "insert_missing_questionblock"
+msgstr ""
+
+msgid "insert_saved_message"
+msgstr ""
+
+msgid "internal_link"
+msgstr ""
+
+msgid "introduction"
+msgstr ""
+
+msgid "invited_users"
+msgstr ""
+
+msgid "label"
+msgstr ""
+
+msgid "label_info"
+msgstr ""
+
+msgid "language_changed"
+msgstr ""
+
+msgid "layout"
+msgstr ""
+
+msgid "lower_limit"
+msgstr ""
+
+msgid "mail_import_example2"
+msgstr ""
+
+msgid "mail_import_example3"
+msgstr ""
+
+msgid "mail_sent_short"
+msgstr ""
+
+msgid "mail_survey_codes"
+msgstr ""
+
+msgid "mailaddresses"
+msgstr ""
+
+msgid "mailaddresses_info"
+msgstr ""
+
+msgid "mailnotification"
+msgstr ""
+
+msgid "mailparticipantdata"
+msgstr ""
+
+msgid "mailparticipantdata_info"
+msgstr ""
+
+msgid "mailparticipantdata_placeholder"
+msgstr ""
+
+msgid "maintenance"
+msgstr ""
+
+msgid "matrix_appearance"
+msgstr ""
+
+msgid "matrix_bipolar_adjectives"
+msgstr ""
+
+msgid "matrix_bipolar_adjectives_description"
+msgstr ""
+
+msgid "matrix_column_separators"
+msgstr ""
+
+msgid "matrix_column_separators_description"
+msgstr ""
+
+msgid "matrix_column_settings"
+msgstr ""
+
+msgid "matrix_columns"
+msgstr ""
+
+msgid "matrix_left_pole"
+msgstr ""
+
+msgid "matrix_neutral_answer"
+msgstr ""
+
+msgid "matrix_neutral_column_separator"
+msgstr ""
+
+msgid "matrix_neutral_column_separator_description"
+msgstr ""
+
+msgid "matrix_question_checkbox_not_checked"
+msgstr ""
+
+msgid "matrix_question_radio_button_not_checked"
+msgstr ""
+
+msgid "matrix_right_pole"
+msgstr ""
+
+msgid "matrix_row_separators"
+msgstr ""
+
+msgid "matrix_row_separators_description"
+msgstr ""
+
+msgid "matrix_rows"
+msgstr ""
+
+msgid "matrix_standard_answers"
+msgstr ""
+
+msgid "matrix_subtype_mr"
+msgstr ""
+
+msgid "matrix_subtype_sr"
+msgstr ""
+
+msgid "maxchars"
+msgstr ""
+
+msgid "maximum"
+msgstr ""
+
+msgid "median"
+msgstr ""
+
+msgid "median_between"
+msgstr ""
+
+msgid "menuback"
+msgstr ""
+
+msgid "menubacktosurvey"
+msgstr ""
+
+msgid "message_content_info"
+msgstr ""
+
+msgid "metric_question_floating_point"
+msgstr ""
+
+msgid "metric_question_not_a_value"
+msgstr ""
+
+msgid "metric_question_out_of_bounds"
+msgstr ""
+
+msgid "metric_subtype_description_interval"
+msgstr ""
+
+msgid "metric_subtype_description_ratioabsolute"
+msgstr ""
+
+msgid "metric_subtype_description_rationonabsolute"
+msgstr ""
+
+msgid "minimum"
+msgstr ""
+
+msgid "mode"
+msgstr ""
+
+msgid "mode_nr_of_selections"
+msgstr ""
+
+msgid "mode_text"
+msgstr ""
+
+msgid "msg_duplicate_scale"
+msgstr ""
+
+msgid "msg_enter_value_for_valid_constraint"
+msgstr ""
+
+msgid "msg_input_only_positive_numbers"
+msgstr ""
+
+msgid "msg_max_nr_answers"
+msgstr ""
+
+msgid "msg_message_deleted"
+msgstr ""
+
+msgid "msg_message_inserted"
+msgstr ""
+
+msgid "msg_min_max_exact_answers"
+msgstr ""
+
+msgid "msg_min_max_nr_answers"
+msgstr ""
+
+msgid "msg_min_nr_answers"
+msgstr ""
+
+msgid "msg_no_message_deleted"
+msgstr ""
+
+msgid "msg_no_message_inserted"
+msgstr ""
+
+msgid "new_survey_codes"
+msgstr ""
+
+msgid "no_question_selected_for_copy_to_pool"
+msgstr ""
+
+msgid "no_question_selected_for_move"
+msgstr ""
+
+msgid "no_question_selected_for_removal"
+msgstr ""
+
+msgid "no_target_selected_for_move"
+msgstr ""
+
+msgid "non_ratio"
+msgstr ""
+
+msgid "not_sent_only"
+msgstr ""
+
+msgid "not_used"
+msgstr ""
+
+msgid "nr_max_answers"
+msgstr ""
+
+msgid "nr_min_answers"
+msgstr ""
+
+msgid "obligatory"
+msgstr ""
+
+msgid "off"
+msgstr ""
+
+msgid "on"
+msgstr ""
+
+msgid "or"
+msgstr ""
+
+msgid "orientation"
+msgstr ""
+
+msgid "other_answer"
+msgstr ""
+
+msgid "other_answer_label"
+msgstr ""
+
+msgid "outro"
+msgstr ""
+
+msgid "please_enter_mail_url"
+msgstr ""
+
+msgid "qpl_confirm_delete_questions"
+msgstr ""
+
+msgid "qpl_define_questionblock_select_missing"
+msgstr ""
+
+msgid "qpl_delete_select_none"
+msgstr ""
+
+msgid "qpl_export_select_none"
+msgstr ""
+
+msgid "qpl_questions_deleted"
+msgstr ""
+
+msgid "qpl_unfold_select_none"
+msgstr ""
+
+msgid "question_changed_in_survey_only"
+msgstr ""
+
+msgid "question_mr_no_other_answer"
+msgstr ""
+
+msgid "question_mr_no_other_answer_checked"
+msgstr ""
+
+msgid "question_mr_not_checked"
+msgstr ""
+
+msgid "question_not_checked"
+msgstr ""
+
+msgid "question_obligatory"
+msgstr ""
+
+msgid "question_sr_no_other_answer_checked"
+msgstr ""
+
+msgid "question_type"
+msgstr ""
+
+msgid "questionblock"
+msgstr ""
+
+msgid "questionblock_inserted"
+msgstr ""
+
+msgid "questionblocks"
+msgstr ""
+
+msgid "questionblocks_inserted"
+msgstr ""
+
+msgid "questions"
+msgstr ""
+
+msgid "questions_inserted"
+msgstr ""
+
+msgid "questions_removed"
+msgstr ""
+
+msgid "questiontype"
+msgstr ""
+
+msgid "ratio_absolute"
+msgstr ""
+
+msgid "ratio_non_absolute"
+msgstr ""
+
+msgid "recipients"
+msgstr ""
+
+msgid "remove_question"
+msgstr ""
+
+msgid "remove_questions"
+msgstr ""
+
+msgid "results"
+msgstr ""
+
+msgid "resume_survey"
+msgstr ""
+
+msgid "row_text"
+msgstr ""
+
+msgid "save_obligatory_state"
+msgstr ""
+
+msgid "save_reuse_message"
+msgstr ""
+
+msgid "save_reuse_title"
+msgstr ""
+
+msgid "saved_messages"
+msgstr ""
+
+msgid "scale"
+msgstr ""
+
+msgid "search_groups"
+msgstr ""
+
+msgid "search_term"
+msgstr ""
+
+msgid "select_option"
+msgstr ""
+
+msgid "select_prior_question"
+msgstr ""
+
+msgid "select_relation"
+msgstr ""
+
+msgid "select_target_position_for_move_question"
+msgstr ""
+
+msgid "select_value"
+msgstr ""
+
+msgid "selection"
+msgstr ""
+
+msgid "send_to_all"
+msgstr ""
+
+msgid "send_to_answered"
+msgstr ""
+
+msgid "send_to_unanswered"
+msgstr ""
+
+msgid "show_questiontext"
+msgstr ""
+
+msgid "show_questiontext_description"
+msgstr ""
+
+msgid "skipped"
+msgstr ""
+
+msgid "spl_copy_insert_clipboard"
+msgstr ""
+
+msgid "spl_copy_select_none"
+msgstr ""
+
+msgid "spl_move_insert_clipboard"
+msgstr ""
+
+msgid "spl_move_same_pool"
+msgstr ""
+
+msgid "spl_move_select_none"
+msgstr ""
+
+msgid "spl_online_property"
+msgstr ""
+
+msgid "spl_paste_no_objects"
+msgstr ""
+
+msgid "spl_paste_success"
+msgstr ""
+
+msgid "spl_save_obligatory_state"
+msgstr ""
+
+msgid "start_date"
+msgstr ""
+
+msgid "start_date_not_reached"
+msgstr ""
+
+msgid "start_survey"
+msgstr ""
+
+msgid "subtype"
+msgstr ""
+
+msgid "survey_360_add_external_rater"
+msgstr ""
+
+msgid "survey_360_add_self_appraisee"
+msgstr ""
+
+msgid "survey_360_appraisee"
+msgstr ""
+
+msgid "survey_360_appraisee_close_action"
+msgstr ""
+
+msgid "survey_360_appraisee_close_action_info"
+msgstr ""
+
+msgid "survey_360_appraisee_close_action_info_skill"
+msgstr ""
+
+msgid "survey_360_appraisee_close_action_status"
+msgstr ""
+
+msgid "survey_360_appraisee_close_action_success"
+msgstr ""
+
+msgid "survey_360_appraisee_close_action_success_admin"
+msgstr ""
+
+msgid "survey_360_appraisee_close_table"
+msgstr ""
+
+msgid "survey_360_appraisee_is_closed"
+msgstr ""
+
+msgid "survey_360_appraisees"
+msgstr ""
+
+msgid "survey_360_edit_raters"
+msgstr ""
+
+msgid "survey_360_mode"
+msgstr ""
+
+msgid "survey_360_mode_info"
+msgstr ""
+
+msgid "survey_360_no_appraisees"
+msgstr ""
+
+msgid "survey_360_rate_other_appraisee"
+msgstr ""
+
+msgid "survey_360_rater_finished"
+msgstr ""
+
+msgid "survey_360_rater_mail_sent"
+msgstr ""
+
+msgid "survey_360_rater_message_content_anonymous"
+msgstr ""
+
+msgid "survey_360_rater_message_content_anonymous_default"
+msgstr ""
+
+msgid "survey_360_rater_message_content_registered"
+msgstr ""
+
+msgid "survey_360_rater_message_content_registered_default"
+msgstr ""
+
+msgid "survey_360_rater_subject_default"
+msgstr ""
+
+msgid "survey_360_raters"
+msgstr ""
+
+msgid "survey_360_raters_finished"
+msgstr ""
+
+msgid "survey_360_remove_appraisees"
+msgstr ""
+
+msgid "survey_360_results"
+msgstr ""
+
+msgid "survey_360_results_all"
+msgstr ""
+
+msgid "survey_360_results_all_info"
+msgstr ""
+
+msgid "survey_360_results_none"
+msgstr ""
+
+msgid "survey_360_results_none_info"
+msgstr ""
+
+msgid "survey_360_results_own"
+msgstr ""
+
+msgid "survey_360_results_own_info"
+msgstr ""
+
+msgid "survey_360_select_appraisee"
+msgstr ""
+
+msgid "survey_360_self_appraisee"
+msgstr ""
+
+msgid "survey_360_self_appraisee_info"
+msgstr ""
+
+msgid "survey_360_self_evaluation"
+msgstr ""
+
+msgid "survey_360_self_evaluation_info"
+msgstr ""
+
+msgid "survey_360_self_raters"
+msgstr ""
+
+msgid "survey_360_self_raters_info"
+msgstr ""
+
+msgid "survey_360_sure_appraisee_close"
+msgstr ""
+
+msgid "survey_360_sure_appraisee_close_admin"
+msgstr ""
+
+msgid "survey_360_sure_delete_appraises"
+msgstr ""
+
+msgid "survey_360_sure_delete_raters"
+msgstr ""
+
+msgid "survey_access_code"
+msgstr ""
+
+msgid "survey_access_codes_info"
+msgstr ""
+
+msgid "survey_activate_skill_service"
+msgstr ""
+
+msgid "survey_activate_skill_service_info"
+msgstr ""
+
+msgid "survey_add_new_question"
+msgstr ""
+
+msgid "survey_assign_competence"
+msgstr ""
+
+msgid "survey_auto_block_title"
+msgstr ""
+
+msgid "survey_available_question_pools"
+msgstr ""
+
+msgid "survey_calc_skills"
+msgstr ""
+
+msgid "survey_calculate_sum_score"
+msgstr ""
+
+msgid "survey_calculate_sum_score_info"
+msgstr ""
+
+msgid "survey_cancel_preview"
+msgstr ""
+
+msgid "survey_cannot_preview_survey"
+msgstr ""
+
+msgid "survey_code"
+msgstr ""
+
+msgid "survey_code_delete_sure"
+msgstr ""
+
+msgid "survey_code_url"
+msgstr ""
+
+msgid "survey_code_url_name"
+msgstr ""
+
+msgid "survey_code_used"
+msgstr ""
+
+msgid "survey_codes_lang"
+msgstr ""
+
+msgid "survey_codes_no_anonymization"
+msgstr ""
+
+msgid "survey_competences"
+msgstr ""
+
+msgid "survey_constraint_deleted"
+msgstr ""
+
+msgid "survey_copy_questions_to_pool"
+msgstr ""
+
+msgid "survey_copy_select_questionpool"
+msgstr ""
+
+msgid "survey_copy_to_questionpool_success"
+msgstr ""
+
+msgid "survey_delete_heading"
+msgstr ""
+
+msgid "survey_edit_heading"
+msgstr ""
+
+msgid "survey_edit_settings"
+msgstr ""
+
+msgid "survey_error_insert_incomplete_question"
+msgstr ""
+
+msgid "survey_execution_exit"
+msgstr ""
+
+msgid "survey_execution_exit_360"
+msgstr ""
+
+msgid "survey_execution_sure_finish"
+msgstr ""
+
+msgid "survey_finish"
+msgstr ""
+
+msgid "survey_finished"
+msgstr ""
+
+msgid "survey_has_datasets_warning"
+msgstr ""
+
+msgid "survey_has_datasets_warning_page_view"
+msgstr ""
+
+msgid "survey_has_datasets_warning_page_view_link"
+msgstr ""
+
+msgid "survey_introduction_info"
+msgstr ""
+
+msgid "survey_is_offline"
+msgstr ""
+
+msgid "survey_next"
+msgstr ""
+
+msgid "survey_not_available"
+msgstr ""
+
+msgid "survey_notification_finished_introduction"
+msgstr ""
+
+msgid "survey_notification_finished_reason"
+msgstr ""
+
+msgid "survey_notification_target_group"
+msgstr ""
+
+msgid "survey_notification_target_group_invited"
+msgstr ""
+
+msgid "survey_notification_target_group_invited_info"
+msgstr ""
+
+msgid "survey_notification_target_group_parent_course"
+msgstr ""
+
+msgid "survey_notification_target_group_parent_course_inactive"
+msgstr ""
+
+msgid "survey_notification_tutor_body"
+msgstr ""
+
+msgid "survey_notification_tutor_link"
+msgstr ""
+
+msgid "survey_notification_tutor_recipients"
+msgstr ""
+
+msgid "survey_notification_tutor_recipients_invalid"
+msgstr ""
+
+msgid "survey_notification_tutor_salutation"
+msgstr ""
+
+msgid "survey_notification_tutor_setting"
+msgstr ""
+
+msgid "survey_notification_tutor_subject"
+msgstr ""
+
+msgid "survey_order"
+msgstr ""
+
+msgid "survey_previous"
+msgstr ""
+
+msgid "survey_question_editor"
+msgstr ""
+
+msgid "survey_question_obligatory"
+msgstr ""
+
+msgid "survey_question_pool"
+msgstr ""
+
+msgid "survey_question_pool_title"
+msgstr ""
+
+msgid "survey_question_title"
+msgstr ""
+
+msgid "survey_questions"
+msgstr ""
+
+msgid "survey_questions_to_clipboard_copy"
+msgstr ""
+
+msgid "survey_reached_level"
+msgstr ""
+
+msgid "survey_reminder_body"
+msgstr ""
+
+msgid "survey_reminder_cron"
+msgstr ""
+
+msgid "survey_reminder_cron_info"
+msgstr ""
+
+msgid "survey_reminder_end"
+msgstr ""
+
+msgid "survey_reminder_frequency"
+msgstr ""
+
+msgid "survey_reminder_frequency_days"
+msgstr ""
+
+msgid "survey_reminder_link"
+msgstr ""
+
+msgid "survey_reminder_salutation"
+msgstr ""
+
+msgid "survey_reminder_setting"
+msgstr ""
+
+msgid "survey_reminder_start"
+msgstr ""
+
+msgid "survey_reminder_subject"
+msgstr ""
+
+msgid "survey_remove_competence"
+msgstr ""
+
+msgid "survey_results_anonymization"
+msgstr ""
+
+msgid "survey_results_anonymized"
+msgstr ""
+
+msgid "survey_results_anonymized_info"
+msgstr ""
+
+msgid "survey_results_finished"
+msgstr ""
+
+msgid "survey_results_not_started"
+msgstr ""
+
+msgid "survey_results_personalized"
+msgstr ""
+
+msgid "survey_results_personalized_info"
+msgstr ""
+
+msgid "survey_results_started"
+msgstr ""
+
+msgid "survey_show_blocktitle"
+msgstr ""
+
+msgid "survey_show_blocktitle_description"
+msgstr ""
+
+msgid "survey_skill"
+msgstr ""
+
+msgid "survey_skill_assign"
+msgstr ""
+
+msgid "survey_skill_level"
+msgstr ""
+
+msgid "survey_skill_max_scale_points"
+msgstr ""
+
+msgid "survey_skill_nr_q"
+msgstr ""
+
+msgid "survey_skill_thresholds"
+msgstr ""
+
+msgid "survey_start"
+msgstr ""
+
+msgid "survey_sum_of_means"
+msgstr ""
+
+msgid "survey_sure_delete_constraint"
+msgstr ""
+
+msgid "survey_sure_delete_questions"
+msgstr ""
+
+msgid "survey_sync_insufficient_permissions"
+msgstr ""
+
+msgid "survey_sync_question_copies"
+msgstr ""
+
+msgid "survey_sync_question_copies_info"
+msgstr ""
+
+msgid "survey_sync_success"
+msgstr ""
+
+msgid "survey_up_to_x_points"
+msgstr ""
+
+msgid "survey_use_start_button"
+msgstr ""
+
+msgid "svy_activation_limited_visibility_info"
+msgstr ""
+
+msgid "svy_activation_online_info"
+msgstr ""
+
+msgid "svy_add_internal_user"
+msgstr ""
+
+msgid "svy_add_internal_user_info"
+msgstr ""
+
+msgid "svy_add_rater"
+msgstr ""
+
+msgid "svy_all_raters"
+msgstr ""
+
+msgid "svy_all_survey_competences"
+msgstr ""
+
+msgid "svy_all_user_data_deleted"
+msgstr ""
+
+msgid "svy_analysis"
+msgstr ""
+
+msgid "svy_anonymous_participants"
+msgstr ""
+
+msgid "svy_anonymous_participants_info"
+msgstr ""
+
+msgid "svy_anonymous_participants_min"
+msgstr ""
+
+msgid "svy_anonymous_participants_min_info"
+msgstr ""
+
+msgid "svy_anonymous_participants_svy"
+msgstr ""
+
+msgid "svy_anonymous_participants_svy_info"
+msgstr ""
+
+msgid "svy_answer_too_long"
+msgstr ""
+
+msgid "svy_app_see_rater_info"
+msgstr ""
+
+msgid "svy_appraisses_cannot_be_raters"
+msgstr ""
+
+msgid "svy_back"
+msgstr ""
+
+msgid "svy_categories"
+msgstr ""
+
+msgid "svy_check_evaluation_access_introduction"
+msgstr ""
+
+msgid "svy_check_evaluation_authentication_needed"
+msgstr ""
+
+msgid "svy_check_evaluation_wrong_key"
+msgstr ""
+
+msgid "svy_compress_view"
+msgstr ""
+
+msgid "svy_compress_view_info"
+msgstr ""
+
+msgid "svy_copy"
+msgstr ""
+
+msgid "svy_create_question"
+msgstr ""
+
+msgid "svy_delete_all_user_data"
+msgstr ""
+
+msgid "svy_dont_send"
+msgstr ""
+
+msgid "svy_eval_captions"
+msgstr ""
+
+msgid "svy_eval_captions_abs"
+msgstr ""
+
+msgid "svy_eval_captions_abs_perc"
+msgstr ""
+
+msgid "svy_eval_captions_perc"
+msgstr ""
+
+msgid "svy_eval_competences"
+msgstr ""
+
+msgid "svy_eval_cumulated"
+msgstr ""
+
+msgid "svy_eval_detail"
+msgstr ""
+
+msgid "svy_eval_skipped_value"
+msgstr ""
+
+msgid "svy_eval_skipped_value_custom"
+msgstr ""
+
+msgid "svy_eval_skipped_value_custom_info"
+msgstr ""
+
+msgid "svy_eval_skipped_value_custom_value"
+msgstr ""
+
+msgid "svy_eval_skipped_value_lng"
+msgstr ""
+
+msgid "svy_eval_skipped_value_lng_info"
+msgstr ""
+
+msgid "svy_eval_user"
+msgstr ""
+
+msgid "svy_eval_view"
+msgstr ""
+
+msgid "svy_eval_view_charts"
+msgstr ""
+
+msgid "svy_eval_view_tables"
+msgstr ""
+
+msgid "svy_eval_view_tables_charts"
+msgstr ""
+
+msgid "svy_evaluation_access_all_info"
+msgstr ""
+
+msgid "svy_evaluation_access_off_info"
+msgstr ""
+
+msgid "svy_evaluation_access_participants_info"
+msgstr ""
+
+msgid "svy_export_files"
+msgstr ""
+
+msgid "svy_export_format"
+msgstr ""
+
+msgid "svy_export_pdf"
+msgstr ""
+
+msgid "svy_ext_rater_firstname"
+msgstr ""
+
+msgid "svy_ext_rater_lastname"
+msgstr ""
+
+msgid "svy_external_rater"
+msgstr ""
+
+msgid "svy_external_rater_info"
+msgstr ""
+
+msgid "svy_fraction_of_selections"
+msgstr ""
+
+msgid "svy_gap_analysis"
+msgstr ""
+
+msgid "svy_general_properties"
+msgstr ""
+
+msgid "svy_import_codes"
+msgstr ""
+
+msgid "svy_import_codes_info"
+msgstr ""
+
+msgid "svy_ind_feedb_info"
+msgstr ""
+
+msgid "svy_ind_feedb_mode"
+msgstr ""
+
+msgid "svy_mail_confirmation_subject"
+msgstr ""
+
+msgid "svy_mail_context_rater_invitation_info"
+msgstr ""
+
+msgid "svy_mail_context_rater_invitation_survey_title"
+msgstr ""
+
+msgid "svy_mail_context_rater_invitation_title"
+msgstr ""
+
+msgid "svy_mail_context_reminder_info"
+msgstr ""
+
+msgid "svy_mail_context_reminder_survey_title"
+msgstr ""
+
+msgid "svy_mail_context_reminder_title"
+msgstr ""
+
+msgid "svy_mail_own_results_body"
+msgstr ""
+
+msgid "svy_mail_own_results_subject"
+msgstr ""
+
+msgid "svy_mail_send_confirmation"
+msgstr ""
+
+msgid "svy_matrix_layout_percentages_sum_invalid"
+msgstr ""
+
+msgid "svy_max_sum_score"
+msgstr ""
+
+msgid "svy_neutral_answer"
+msgstr ""
+
+msgid "svy_no_appraisees_found"
+msgstr ""
+
+msgid "svy_notification_tutor_results"
+msgstr ""
+
+msgid "svy_notification_tutor_results_alert"
+msgstr ""
+
+msgid "svy_notification_tutor_results_info"
+msgstr ""
+
+msgid "svy_only_max_one_external_rater"
+msgstr ""
+
+msgid "svy_page_error"
+msgstr ""
+
+msgid "svy_page_errors"
+msgstr ""
+
+msgid "svy_participant"
+msgstr ""
+
+msgid "svy_participants"
+msgstr ""
+
+msgid "svy_participation"
+msgstr ""
+
+msgid "svy_please_select_unused_codes"
+msgstr ""
+
+msgid "svy_print_hide_labels"
+msgstr ""
+
+msgid "svy_print_show_labels"
+msgstr ""
+
+msgid "svy_privacy_info"
+msgstr ""
+
+msgid "svy_rater"
+msgstr ""
+
+msgid "svy_rater_see_app_info"
+msgstr ""
+
+msgid "svy_reminder_mail_template"
+msgstr ""
+
+msgid "svy_reminder_mail_template_none"
+msgstr ""
+
+msgid "svy_result_mail_notification_info"
+msgstr ""
+
+msgid "svy_results"
+msgstr ""
+
+msgid "svy_results_mail_confirm"
+msgstr ""
+
+msgid "svy_results_mail_confirm_info"
+msgstr ""
+
+msgid "svy_results_mail_own"
+msgstr ""
+
+msgid "svy_results_mail_own_info"
+msgstr ""
+
+msgid "svy_save_and_continue"
+msgstr ""
+
+msgid "svy_save_sync"
+msgstr ""
+
+msgid "svy_search_user"
+msgstr ""
+
+msgid "svy_search_user_info"
+msgstr ""
+
+msgid "svy_search_users"
+msgstr ""
+
+msgid "svy_select_rater"
+msgstr ""
+
+msgid "svy_selected_user_data_deleted"
+msgstr ""
+
+msgid "svy_self_ev_access_results_all"
+msgstr ""
+
+msgid "svy_self_ev_access_results_none"
+msgstr ""
+
+msgid "svy_self_ev_access_results_own"
+msgstr ""
+
+msgid "svy_self_ev_info"
+msgstr ""
+
+msgid "svy_self_ev_mode"
+msgstr ""
+
+msgid "svy_settings_section_access"
+msgstr ""
+
+msgid "svy_settings_section_before_start"
+msgstr ""
+
+msgid "svy_settings_section_finishing"
+msgstr ""
+
+msgid "svy_settings_section_question_behaviour"
+msgstr ""
+
+msgid "svy_settings_section_reminders"
+msgstr ""
+
+msgid "svy_show_questiontitles"
+msgstr ""
+
+msgid "svy_skl_comp_assignm_not_supported"
+msgstr ""
+
+msgid "svy_sum_score"
+msgstr ""
+
+msgid "svy_type_of_rater"
+msgstr ""
+
+msgid "svy_view_own_results"
+msgstr ""
+
+msgid "svy_wrong_or_expired_code"
+msgstr ""
+
+msgid "text_maximum_chars_allowed"
+msgstr ""
+
+msgid "text_question_not_filled_out"
+msgstr ""
+
+msgid "unfold"
+msgstr ""
+
+msgid "upper_limit"
+msgstr ""
+
+msgid "use_anonymous_id"
+msgstr ""
+
+msgid "use_anonymous_id_desc"
+msgstr ""
+
+msgid "use_browser_print_function"
+msgstr ""
+
+msgid "use_min_answers"
+msgstr ""
+
+msgid "use_min_answers_option"
+msgstr ""
+
+msgid "use_other_answer"
+msgstr ""
+
+msgid "used"
+msgstr ""
+
+msgid "users_answered"
+msgstr ""
+
+msgid "users_invited"
+msgstr ""
+
+msgid "users_skipped"
+msgstr ""
+
+msgid "values"
+msgstr ""
+
+msgid "vertical"
+msgstr ""
+
+msgid "warning_question_not_complete"
+msgstr ""
+
+msgid "workingtime"
+msgstr ""

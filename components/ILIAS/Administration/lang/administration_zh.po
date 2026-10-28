@@ -1,0 +1,855 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: zh\n"
+"Language-Team: Chinese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: administration\n"
+
+#, fuzzy
+msgid "adm_achievements"
+msgstr "Achievements"
+
+msgid "adm_adm_role_protect"
+msgstr "保护管理员角色"
+
+msgid "adm_adm_role_protect_info"
+msgstr "如果启用，仅允许管理员 分配/取消分配 用户从/到 管理员角色。"
+
+#, fuzzy
+msgid "adm_auth_login"
+msgstr "Authentication Login"
+
+#, fuzzy
+msgid "adm_auth_reg"
+msgstr "Authentication Registration"
+
+#, fuzzy
+msgid "adm_communication"
+msgstr "Communication"
+
+#, fuzzy
+msgid "adm_extending_ilias"
+msgstr "Extending ILIAS"
+
+#, fuzzy
+msgid "adm_external_setting_edit"
+msgstr "Edit Settings"
+
+msgid "adm_hide"
+msgstr "隐藏"
+
+msgid "adm_hide_tabs"
+msgstr "隐藏选项卡"
+
+#, fuzzy
+msgid "adm_https"
+msgstr "HTTPS"
+
+msgid "adm_imprint"
+msgstr "版本说明(imprint)"
+
+msgid "adm_imprint_inactive"
+msgstr "版本说明(imprint)是不活跃的，用户不能访问它。"
+
+#, fuzzy
+msgid "adm_layout_and_navigation"
+msgstr "Layout and Navigation"
+
+#, fuzzy
+msgid "adm_legal_regulations"
+msgstr "Legal Regulations"
+
+msgid "adm_locale"
+msgstr "区域设置"
+
+msgid "adm_locale_info"
+msgstr "区域设置会影响诸如列表的排序。例如nl_NL或de_DE。多个语言环境可以用逗号分隔。第一个有效的语言环境将会被使用。"
+
+#, fuzzy
+msgid "adm_maintenance"
+msgstr "Maintenance"
+
+#, fuzzy
+msgid "adm_missing_entries"
+msgstr "Missing Entries"
+
+#, fuzzy
+msgid "adm_missing_entry_add"
+msgstr "Add New Entry"
+
+#, fuzzy
+msgid "adm_missing_entry_add_action"
+msgstr "Add"
+
+msgid "adm_nr_statements"
+msgstr "Statements数量"
+
+#, fuzzy
+msgid "adm_personal_workspace"
+msgstr "Personal Workspace"
+
+msgid "adm_predefined_settings"
+msgstr "预定义设置"
+
+#, fuzzy
+msgid "adm_pub_section_domain_filter"
+msgstr "Domain Filter"
+
+#, fuzzy
+msgid "adm_pub_section_domain_filter_info"
+msgstr "Domain filters granting anonymous access. Enter one ore more domains, which allow anonymous access. "
+
+msgid "adm_rep_shorten_description"
+msgstr "缩短描述"
+
+msgid "adm_rep_shorten_description_info"
+msgstr "如果激活，对象列表中的所有描述都将被缩短。"
+
+msgid "adm_rep_shorten_description_length"
+msgstr "最大字符数"
+
+msgid "adm_rep_tree_all_types"
+msgstr "所有资源类型"
+
+msgid "adm_rep_tree_all_types_info"
+msgstr "所有资源类型都已经列在树中。"
+
+msgid "adm_rep_tree_limit_grp_crs"
+msgstr "在课程和组中显示被限制的内容树。"
+
+msgid "adm_rep_tree_limit_grp_crs_info"
+msgstr "这依赖于自动激活\"同步树框架\"特性。"
+
+msgid "adm_rep_tree_only_cntr"
+msgstr "仅容器"
+
+msgid "adm_rep_tree_only_cntr_info"
+msgstr "仅列出类目、课程和组。"
+
+msgid "adm_rep_tree_presentation"
+msgstr "知识库树展示"
+
+#, fuzzy
+msgid "adm_repository_and_objects"
+msgstr "Repository and Objects"
+
+#, fuzzy
+msgid "adm_search_and_find"
+msgstr "Search and Find"
+
+msgid "adm_show_comments_tagging_in_lists"
+msgstr "显示笔记、评论和标签的数量"
+
+#, fuzzy
+msgid "adm_show_comments_tagging_in_lists_tags"
+msgstr "Display tags instead of number"
+
+msgid "adm_table"
+msgstr "表"
+
+#, fuzzy
+msgid "adm_user_administration"
+msgstr "User Administration"
+
+msgid "adm_user_starting_point"
+msgstr "个人起点"
+
+msgid "adm_user_starting_point_info"
+msgstr "选择登录之后要显示的页面或对象。"
+
+#, fuzzy
+msgid "adm_user_starting_point_inherit"
+msgstr "Use Standard-Settings"
+
+#, fuzzy
+msgid "adm_user_starting_point_inherit_info"
+msgstr "The settings that were made by the administrator of the platform as a whole will be used."
+
+#, fuzzy
+msgid "adm_user_starting_point_invalid_info"
+msgstr "This feature is currently not active."
+
+msgid "adm_user_starting_point_object"
+msgstr "知识库对象"
+
+msgid "adm_user_starting_point_personal"
+msgstr "个人设置"
+
+msgid "adm_user_starting_point_personal_info"
+msgstr "如果已激活，用户可以选择他们的开始页面。"
+
+msgid "adm_user_starting_point_ref_id"
+msgstr "参考的ID"
+
+#, fuzzy
+msgid "adm_user_starting_point_ref_id_info"
+msgstr "Open the object that you would like to use as Personal Starting Point. Please copy the number directly following \"ref_id=\" in the browser bar into the textinput field."
+
+msgid "adm_value"
+msgstr "值"
+
+msgid "allow_change_loginname"
+msgstr "允许在“个人资料(profile)”中更改登录名。"
+
+msgid "analysis_options"
+msgstr "分析选项"
+
+msgid "analyze_data"
+msgstr "分析数据完整性"
+
+msgid "analyzing_tree_structure"
+msgstr "正在分析树结构..."
+
+msgid "apache_auth_authenticate_on_login_page"
+msgstr "当进入登录页面时尝试Apache身份验证。"
+
+msgid "apache_auth_domains"
+msgstr "允许域名重定向"
+
+msgid "apache_auth_domains_description"
+msgstr "每行输入一个域名，以允许重定向到这个目标。<br/>如果ILIAS有超过一个以上的域名，请输入您想允许的所有目标。<br/>例如：example.com允许重定向到http://example.com 和 http://www.example.com，所有页面都被定向到这里。"
+
+msgid "apache_auth_enable_override_login"
+msgstr "覆盖默认登录页面"
+
+msgid "apache_auth_indicator_name"
+msgstr "成功验证身份的指示符字段"
+
+msgid "apache_auth_indicator_value"
+msgstr "成功验证身份的指示符值"
+
+msgid "apache_auth_security"
+msgstr "安全设置"
+
+msgid "apache_auth_settings"
+msgstr "Apache"
+
+msgid "apache_auth_target_override_login"
+msgstr "自定义登录页面的目标url"
+
+msgid "apache_auth_username_by_function"
+msgstr "通过自定义函数分配用户名"
+
+msgid "apache_auth_username_config"
+msgstr "用户名配置"
+
+msgid "apache_auth_username_config_type"
+msgstr "类型"
+
+msgid "apache_auth_username_direct_mapping"
+msgstr "直接分配"
+
+msgid "apache_auth_username_direct_mapping_fieldname"
+msgstr "分配字段"
+
+msgid "apache_auth_username_extended_mapping"
+msgstr "扩展分配"
+
+msgid "apache_autocreate"
+msgstr "启用账号生成"
+
+msgid "apache_default_role"
+msgstr "默认用户角色"
+
+msgid "apache_enable_auth"
+msgstr "启用Apache身份验证支持"
+
+msgid "apache_enable_ldap"
+msgstr "启用LDAP用户分配"
+
+msgid "apache_enable_local"
+msgstr "启用本地用户分配"
+
+msgid "apache_ldap_hint_ldap_must_be_configured"
+msgstr "LDAP必需在管理中配置"
+
+msgid "apache_settings"
+msgstr "配置LDAP身份验证"
+
+msgid "apache_settings_changed_success"
+msgstr "配置已保存"
+
+msgid "auth_apache"
+msgstr "Apache"
+
+msgid "auth_auth_mode_determination"
+msgstr "验证方法测定(为登录)"
+
+msgid "auth_automatic"
+msgstr "固定次序"
+
+msgid "auth_by_user"
+msgstr "由用户"
+
+msgid "auth_kind_determination"
+msgstr "测定的种类"
+
+#, fuzzy
+msgid "auth_mode_default_change_info"
+msgstr "Changing the default authentication method affects all user accounts configured to use the default authentication method. If the selected default method (e.g., Shibboleth, SAML, SOAP, ...) does not support or is not configured to allow fallback to local ILIAS authentication, affected users may no longer be able to log in. To avoid this, please ensure that local fallback authentication is activated in the configuration of the selected method, or that the authentication method stored for affected user accounts is manually changed."
+
+msgid "auth_mode_determination_info"
+msgstr "如果用户在登录屏幕上选择自己的身份验证方法或如果这是由一个固定的身份验证方法序列所管理"
+
+msgid "clean"
+msgstr "清理"
+
+msgid "clean_desc"
+msgstr "清除无效的引用与目录树入口。关闭目录树结构缺口"
+
+msgid "cleaning"
+msgstr "清除中。。。"
+
+msgid "cleaning_final"
+msgstr "最后清除。。。"
+
+msgid "course_export"
+msgstr "课程导出"
+
+msgid "done"
+msgstr "已完成"
+
+msgid "dump_tree"
+msgstr "转储树"
+
+msgid "dump_tree_desc"
+msgstr "执行树分析并打印所有树节点以及分析数据。"
+
+msgid "dumping_tree"
+msgstr "正在转储树..."
+
+msgid "found"
+msgstr "发现"
+
+msgid "found_none"
+msgstr "未发现"
+
+#, fuzzy
+msgid "git_hash_short"
+msgstr "Commit Hash (short): %s"
+
+#, fuzzy
+msgid "git_last_commit"
+msgstr "Last Commit: %s"
+
+#, fuzzy
+msgid "git_revision"
+msgstr "Number: %s"
+
+msgid "group_export"
+msgstr "组中可见"
+
+msgid "history_loginname"
+msgstr "登录名历史"
+
+msgid "initializing_gaps"
+msgstr "正在初始化树差异..."
+
+msgid "language_all_modules"
+msgstr "所有模块"
+
+msgid "language_change_settings"
+msgstr "更改语言设置"
+
+msgid "language_clear_local_changes"
+msgstr "清除数据库中的本地变更内容"
+
+#, fuzzy
+msgid "language_clear_local_changes_info"
+msgstr "Reset the database entries of this language to the default entries defined in lang/ilias_%s.lang. All local changes or additions will be removed."
+
+msgid "language_cleared_local"
+msgstr "数据库中的本地变更内容已经被清除。"
+
+msgid "language_compare"
+msgstr "比较:"
+
+msgid "language_default_entries"
+msgstr " (默认条目)"
+
+msgid "language_delete_local_additions"
+msgstr "在数据库中删除本地添加的內容"
+
+#, fuzzy
+msgid "language_delete_local_additions_info"
+msgstr "Delete all entries that were locally added to the database."
+
+msgid "language_error_clear_local"
+msgstr "无法清除数据库中的本地变更内容！"
+
+msgid "language_error_delete_local"
+msgstr "本地语言文件不能被删除！"
+
+msgid "language_error_local_missed"
+msgstr "本地语言文件不存在！"
+
+msgid "language_error_read_local"
+msgstr "本地语言文件不存在或不能读取！"
+
+msgid "language_error_write_global"
+msgstr "全局语言文件不可写!"
+
+msgid "language_export_file"
+msgstr "导出语言文件"
+
+msgid "language_file_imported"
+msgstr "语言文件 %s 已导入。"
+
+msgid "language_file_scope"
+msgstr "语言文件范围"
+
+msgid "language_former_file_description"
+msgstr "比较您的本地最后一次更新的变更，请复制前一次已安装的ILIAS版本的语言文件到本地语言文件的文件夹内。当您在“维护”选项卡上保存您的本地语言文件时将自动复制当前语言文件。"
+
+msgid "language_former_file_equal"
+msgstr "文件 <b>%s</b> 与当前语言文件相同。"
+
+msgid "language_former_file_missing"
+msgstr "文件 <b>%s</b> 缺失。"
+
+msgid "language_import_file"
+msgstr "导入语言文件"
+
+msgid "language_load_local_changes"
+msgstr "装载本地语言文件到数据库"
+
+#, fuzzy
+msgid "language_load_local_changes_info"
+msgstr "Load the file lang/customizing/ilias_%s_lang.local to the database. New entries of this file are added to the database and existing entries are overwritten."
+
+msgid "language_loaded_local"
+msgstr "本地语言文件已经装载到数据库中。"
+
+msgid "language_local_file_deleted"
+msgstr "本地语言文件被删除！"
+
+msgid "language_maintain"
+msgstr "维护"
+
+msgid "language_maintain_local_changes"
+msgstr "维护本地变更"
+
+msgid "language_maintenance"
+msgstr "语言维护"
+
+msgid "language_merge_local_changes"
+msgstr "合并本地更改到全局语言文件中"
+
+#, fuzzy
+msgid "language_merge_local_changes_info"
+msgstr "Merge all local changes and additions alphabetically into the standard language file lang/ilias_%s.lang and, for the modules maintained in PO files, into their .po files in the lang/ directories of the components. The web server must have write permission on these files."
+
+msgid "language_merged_global"
+msgstr "本地更改已经合并到全局语言文件中。"
+
+msgid "language_mode_existing"
+msgstr "现有的条目"
+
+msgid "language_mode_existing_delete"
+msgstr "删除现有的条目"
+
+#, fuzzy
+msgid "language_mode_existing_delete_info"
+msgstr "Delete all entries in the database before importing the file.<br /> WARNING: The imported language file should be complete, otherwise there will be undefined language variables. If that happens, switch to the tab \"Maintain\" and choose \"Clear local changes in the database\"."
+
+msgid "language_mode_existing_keepall"
+msgstr "保持所有现存条目"
+
+#, fuzzy
+msgid "language_mode_existing_keepall_info"
+msgstr "Import only new entries that do not yet exist in the database."
+
+msgid "language_mode_existing_keepnew"
+msgstr "保持所有本地变更"
+
+#, fuzzy
+msgid "language_mode_existing_keepnew_info"
+msgstr "Import new entries and overwrite all entries that still have their default values. Keep those entries that are already changed in the database."
+
+msgid "language_mode_existing_replace"
+msgstr "替换现有条目"
+
+#, fuzzy
+msgid "language_mode_existing_replace_info"
+msgstr "Import new entries and replace all existing entries with the new values defined in the import file."
+
+msgid "language_note_translation"
+msgstr "区分每种语言的页面翻译模式已经激活，另外用户需要语言文件夹的可视和可读权限。"
+
+msgid "language_process_maintenance"
+msgstr "处理维护"
+
+msgid "language_remove_local_file"
+msgstr "删除本地语言文件"
+
+#, fuzzy
+msgid "language_remove_local_file_info"
+msgstr "Remove the file lang/customizing/ilias_%s_lang.local and change the language status from \"Installed With Local\" to \"Installed\". The changes in the database are not touched."
+
+#, fuzzy
+msgid "language_save_dist"
+msgstr "Backup the standard language file"
+
+#, fuzzy
+msgid "language_save_dist_failed"
+msgstr "The backup of the standard ILIAS language file could not be written."
+
+#, fuzzy
+msgid "language_save_dist_info"
+msgstr "Create a backup of the standard ILIAS language file in the ILIAS data directory. This helps after an ILIAS update to find conflicst of own changes with updated language variables."
+
+msgid "language_save_local_changes"
+msgstr "保存所有变更到本地语言文件"
+
+#, fuzzy
+msgid "language_save_local_changes_info"
+msgstr "Save all locally added or changed database entries to the file lang/customizing/ilias_%s_lang.local and set the language status to \"Installed With Local\". The web server must have write permission in this folder. Please note that this file is the same for all clients of this installation."
+
+#, fuzzy
+msgid "language_saved_dist"
+msgstr "The backup of the standard ILIAS language file is created."
+
+msgid "language_scope_added"
+msgstr "仅本地添加"
+
+#, fuzzy
+msgid "language_scope_added_info"
+msgstr "Export all entries that are locally added in the database. This can be used to backup additional development entries before local changes are deleted on the tab \"Maintain\"."
+
+msgid "language_scope_commented"
+msgstr "来自语言管理者的点评"
+
+msgid "language_scope_conflicts"
+msgstr "本地和更新变化"
+
+msgid "language_scope_dbremarks"
+msgstr "仅显示数据库中的评论条目"
+
+msgid "language_scope_different"
+msgstr "从比较语言的差异"
+
+msgid "language_scope_equal"
+msgstr "等于比较的语言"
+
+msgid "language_scope_global"
+msgstr "所有条目"
+
+#, fuzzy
+msgid "language_scope_global_info"
+msgstr "Export all database entries of this language. This can be used for backup purposes."
+
+msgid "language_scope_local"
+msgstr "仅本地变更"
+
+#, fuzzy
+msgid "language_scope_local_info"
+msgstr "Export all entries that are locally added or changed in the database. This is similar to the saving of a local language file on the tab \"Maintain\"."
+
+msgid "language_scope_merged"
+msgstr "本地更改合并到全局语言文件中"
+
+#, fuzzy
+msgid "language_scope_merged_info"
+msgstr "Export the standard ILIAS language file with all local changes merged in alphabetically by module and identifier. This can be used to update the global language file on the ILIAS SVN server."
+
+msgid "language_scope_unchanged"
+msgstr "不变条目"
+
+#, fuzzy
+msgid "language_scope_unchanged_info"
+msgstr "Export all default language entries that are not changed in the database. This is the opposite to \"Local changes only\". Both together are a complete backup of the current language in the database."
+
+msgid "language_settings"
+msgstr "语言设置"
+
+msgid "language_statistics"
+msgstr "统计"
+
+#, fuzzy
+msgid "language_translation"
+msgstr "Page translation"
+
+msgid "language_translation_enabled"
+msgstr "启用页面翻译"
+
+#, fuzzy
+msgid "language_variables_saved"
+msgstr "The changes to the language variables were saved successfully."
+
+msgid "log_scan"
+msgstr "日志扫描结果"
+
+msgid "log_scan_desc"
+msgstr "往客户端数据目录中写入日志 “scanlog.log”"
+
+msgid "loginname_change_blocking_time"
+msgstr "更改登录名的截止时间"
+
+msgid "loginname_change_blocking_time_info"
+msgstr "插入一个以秒计算的时间段，这个时间段是一个用户再次更改登录名之前必需等待的时间。如果您输入0或什么都不填，用户在任意时刻都能更改登录名。1小时请输入3600，一天请输入86400。"
+
+msgid "loginname_change_blocking_time_invalidity_info"
+msgstr "请插入一个数字。"
+
+msgid "loginname_history_info"
+msgstr "如果激活，登录名更改将被记录到数据库中。这个历史记录可以在数据库表“loginname_history”中找到。"
+
+msgid "nothing_to_purge"
+msgstr "没有清除对象"
+
+msgid "nothing_to_remove"
+msgstr "没有清除对象"
+
+msgid "nothing_to_restore"
+msgstr "没有恢复对象"
+
+msgid "obj_blga"
+msgstr "博客"
+
+msgid "obj_blga_desc"
+msgstr "全局博客设置"
+
+msgid "obj_chta_desc"
+msgstr "聊天管理"
+
+#, fuzzy
+msgid "obj_excs"
+msgstr "Exercise"
+
+#, fuzzy
+msgid "obj_excs_desc"
+msgstr "Global Exercise Settings"
+
+#, fuzzy
+msgid "obj_gsfo"
+msgstr "Footer"
+
+#, fuzzy
+msgid "obj_gsfo_desc"
+msgstr "Administrate Footer Layout and Content"
+
+#, fuzzy
+msgid "obj_impr"
+msgstr "Legal Notice"
+
+#, fuzzy
+msgid "obj_impr_desc"
+msgstr "Deployment of Legal Notice"
+
+msgid "obj_mds"
+msgstr "元数据"
+
+msgid "obj_mds_desc"
+msgstr "配置元数据和高级元数据设置"
+
+msgid "obj_otpl"
+msgstr "对象模板"
+
+msgid "obj_otpl_desc"
+msgstr "创建新对象的模板"
+
+msgid "obj_prfa"
+msgstr "组合"
+
+msgid "obj_prfa_desc"
+msgstr "全局组合设置"
+
+#, fuzzy
+msgid "obj_taxs"
+msgstr "Taxonomy"
+
+#, fuzzy
+msgid "obj_taxs_desc"
+msgstr "Global Taxonomy Settings"
+
+#, fuzzy
+msgid "org_op_edit_user_accounts"
+msgstr "Edit User Accounts"
+
+msgid "output_options"
+msgstr "输出选项"
+
+msgid "path_to_mkisofs"
+msgstr "指向mkisofs的路径"
+
+#, fuzzy
+msgid "prg_export"
+msgstr "Visible in Study Programmes"
+
+msgid "purge_age_limit"
+msgstr "年龄限制"
+
+msgid "purge_age_limit_desc"
+msgstr "如果此域包含一个值，仅在指定天数被清除的对象将被删除。"
+
+msgid "purge_count_limit"
+msgstr "计数限制"
+
+msgid "purge_count_limit_desc"
+msgstr "如果此域包含一个值，只有指定数目的对象将被清除。"
+
+msgid "purge_missing"
+msgstr "清除丢失的对象"
+
+msgid "purge_missing_desc"
+msgstr "清除所有系统中发现的丢失的、未用的对象"
+
+msgid "purge_trash"
+msgstr "彻底删除对象"
+
+msgid "purge_trash_desc"
+msgstr "从系统中清空垃圾筒"
+
+msgid "purge_type_limit"
+msgstr "类型限制"
+
+msgid "purge_type_limit_desc"
+msgstr "如果此域包含一个值，只有指定类型的对象将被清除。"
+
+msgid "purging"
+msgstr "清除中。。。"
+
+msgid "purging_missing_objs"
+msgstr "清除丢失对象中。。。"
+
+msgid "purging_trash"
+msgstr "清除垃圾筒。。。"
+
+msgid "purging_unbound_objs"
+msgstr "清除无用的对象中。。。"
+
+msgid "removing_invalid_childs"
+msgstr "清除无效目录树入口。。。"
+
+msgid "removing_invalid_refs"
+msgstr "清除无效引用。。。"
+
+msgid "removing_invalid_rolfs"
+msgstr "正在移除失效的角色文件夹..."
+
+msgid "repair_options"
+msgstr "修复选项"
+
+msgid "restore_missing"
+msgstr "恢复丢失的对象"
+
+msgid "restore_missing_desc"
+msgstr "恢复丢失与未用的对象至“恢复目录”中"
+
+msgid "restore_trash"
+msgstr "恢复已删除对象"
+
+msgid "restore_trash_desc"
+msgstr "恢复垃圾筒中对象至“恢复目录”中"
+
+msgid "restoring"
+msgstr "恢复中"
+
+msgid "restoring_missing_objs"
+msgstr "恢复丢失对象中。。。"
+
+msgid "restoring_trash"
+msgstr "恢复垃圾筒中数据。。。"
+
+msgid "restoring_unbound_objs"
+msgstr "恢复未用对象及其子对象。。。"
+
+msgid "reuse_of_loginnames_contained_in_history"
+msgstr "没有重用登录名称"
+
+msgid "reuse_of_loginnames_contained_in_history_info"
+msgstr "如果激活，允许重用任何已保存在历史中的登录名(即使是已删除的用户)。"
+
+msgid "scan"
+msgstr "扫描"
+
+msgid "scan_desc"
+msgstr "扫描系统中已损坏/已失效/丢失的/未绑定的对象。"
+
+msgid "scan_details"
+msgstr "扫描细节"
+
+msgid "scan_modes"
+msgstr "扫描模式"
+
+msgid "scanning_system"
+msgstr "扫描系统中。。。"
+
+msgid "searching_deleted_objs"
+msgstr "搜索删除的对象。。。"
+
+msgid "searching_invalid_childs"
+msgstr "搜索无效的目录树入口。。。"
+
+msgid "searching_invalid_refs"
+msgstr "搜索无效的引用。。。"
+
+msgid "searching_invalid_rolfs"
+msgstr "搜索失效的角色文件夹..."
+
+msgid "searching_missing_objs"
+msgstr "搜索丢失的对象。。。"
+
+msgid "searching_unbound_objs"
+msgstr "搜索未用的对象。。。"
+
+msgid "skipped"
+msgstr "跳过"
+
+msgid "start_scan"
+msgstr "开始"
+
+#, fuzzy
+msgid "svn_path"
+msgstr "Path: %s"
+
+#, fuzzy
+msgid "svn_revision_current"
+msgstr "Current Revision: %s"
+
+#, fuzzy
+msgid "svn_revision_last_change"
+msgstr "Last Changed Revision: %s"
+
+#, fuzzy
+msgid "svn_root"
+msgstr "Root: %s"
+
+msgid "system_check_no_owner"
+msgstr "无主的对象"
+
+#, fuzzy
+msgid "system_folder_info"
+msgstr "Please choose an item from the administration main menu."
+
+msgid "systemcheck"
+msgstr "系统检查"
+
+msgid "tree_corrupt"
+msgstr "树已损坏！详情见扫描日志。"
+
+msgid "user_criteria"
+msgstr "唯一用户标准"
+
+msgid "user_criteria_desc"
+msgstr "唯一用户标准用于测试结果导入/导出。这需要识别不同ILIAS系统中的相同的用户。"
+
+msgid "usr_loginname_history_info"
+msgstr "用户上一次更改登录名是在 %s 。之前登录名是： %s。"
+
+#, fuzzy
+msgid "vc_information"
+msgstr "Version Control Information"
+
+#, fuzzy
+msgid "vc_information_not_determined"
+msgstr "ILIAS could not determine any version control information."
+
+msgid "view_last_log"
+msgstr "查看最后一次扫描日志"
+
+msgid "view_log"
+msgstr "查看详细"

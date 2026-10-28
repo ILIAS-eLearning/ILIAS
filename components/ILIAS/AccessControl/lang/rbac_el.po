@@ -1,0 +1,3483 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: el\n"
+"Language-Team: Greek\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: rbac\n"
+
+#, fuzzy
+msgid "accs_edit_permission"
+msgstr "Change permission settings"
+
+#, fuzzy
+msgid "accs_read"
+msgstr "Read access to Accessibility Settings"
+
+#, fuzzy
+msgid "accs_visible"
+msgstr "Accessibility Settings are visible"
+
+#, fuzzy
+msgid "accs_write"
+msgstr "Edit Accessibility Settings"
+
+#, fuzzy
+msgid "activate_wiki_protection"
+msgstr "Set Read-Only"
+
+#, fuzzy
+msgid "active_preconditions"
+msgstr "Active Preconditions"
+
+#, fuzzy
+msgid "add_consultation_hours"
+msgstr "Add Consultation Hours Calendar"
+
+#, fuzzy
+msgid "add_consume_provider"
+msgstr "Add Own LTI Provider Settings"
+
+#, fuzzy
+msgid "add_pages"
+msgstr "Add Pages"
+
+#, fuzzy
+msgid "add_reply"
+msgstr "Add Reply"
+
+#, fuzzy
+msgid "add_thread"
+msgstr "Add Thread"
+
+msgid "adm_edit_permission"
+msgstr "Αλλαγή ρυθμίσεων έγκρισης πρόσβασης"
+
+msgid "adm_read"
+msgstr "Πρόσβαση ανάγνωσης στις ρυθμίσεις συστήματος"
+
+msgid "adm_visible"
+msgstr "Οι Ρυθμίσεις Συστήματος είναι ορατές"
+
+msgid "adm_write"
+msgstr "Επεξεργασία βασικών ρυθμίσεων συστήματος"
+
+#, fuzzy
+msgid "adn_edit_permission"
+msgstr "User can change permissions of Administrative Notifications' administration."
+
+#, fuzzy
+msgid "adn_read"
+msgstr "User has read access to administration of Administrative Notifications."
+
+#, fuzzy
+msgid "adn_visible"
+msgstr "Administration of Administrative Notifications is visible."
+
+#, fuzzy
+msgid "adn_write"
+msgstr "User can add and edit Administrative Notifications."
+
+msgid "adopt_perm_from_template"
+msgstr "Ρυθμίσεις άδειας αντιγραφής"
+
+msgid "adve_edit_permission"
+msgstr "Ρυθμίσεις Αλλαγής Αδειών"
+
+msgid "adve_read"
+msgstr "Διαχείριση Πρόσβασης προχωρημένης επεξεργασίας"
+
+msgid "adve_visible"
+msgstr "Η διαχείριση προχωρημένης επεξεργασίας είναι ορατή"
+
+msgid "adve_write"
+msgstr "Διαχείριση προχωρημένης επεξεργασίας"
+
+#, fuzzy
+msgid "amend_grading"
+msgstr "Amend finalized grading"
+
+msgid "assf_edit_permission"
+msgstr "Αλλαγή ρυθμίσεων αδειών πρόσβασης"
+
+msgid "assf_read"
+msgstr "Διαχείριση προσπέλασης διαγωνίσματος & αξιολόγησης"
+
+msgid "assf_visible"
+msgstr "Η διαχείριση διαγωνίσματος & αξιολόγησης είναι ορατή"
+
+msgid "assf_write"
+msgstr "Επεξεργασία διαχείρισης διαγωνίσματος & αξιολόγησης"
+
+msgid "auth_edit_permission"
+msgstr "Αλλαγή ρυθμίσεων αδειών πρόσβασης"
+
+msgid "auth_read"
+msgstr "Ρυθμίσεις Εγκυρότητας Πρόσβασης"
+
+msgid "auth_visible"
+msgstr "Οι Ρυθμίσεις επικύρωσης είναι ορατές"
+
+msgid "auth_write"
+msgstr "Επεξεργασία ρυθμίσεων επικύρωσης"
+
+#, fuzzy
+msgid "awra_edit_permission"
+msgstr "User can change permission settings in ‘Who is online?’ administration"
+
+#, fuzzy
+msgid "awra_read"
+msgstr "User has read access to ‘Who is online?’ administration"
+
+#, fuzzy
+msgid "awra_visible"
+msgstr "‘Who is online?’ administration is visible"
+
+#, fuzzy
+msgid "awra_write"
+msgstr "Edit settings in ‘Who is online?’ administration"
+
+#, fuzzy
+msgid "bdga_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "bdga_read"
+msgstr "User can read badge administration content"
+
+#, fuzzy
+msgid "bdga_visible"
+msgstr "Badge administration is visible"
+
+#, fuzzy
+msgid "bdga_write"
+msgstr "User can edit badge administration settings"
+
+#, fuzzy
+msgid "bibl_copy"
+msgstr "User can copy bibliography"
+
+#, fuzzy
+msgid "bibl_delete"
+msgstr "User can move or delete bibliography"
+
+#, fuzzy
+msgid "bibl_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "bibl_read"
+msgstr "User can read bibliography content"
+
+#, fuzzy
+msgid "bibl_visible"
+msgstr "Bibliography is visible"
+
+#, fuzzy
+msgid "bibl_write"
+msgstr "User can edit bibliography settings"
+
+#, fuzzy
+msgid "bibs_copy"
+msgstr "User can copy bibliography"
+
+#, fuzzy
+msgid "bibs_delete"
+msgstr "User can delete library entries"
+
+#, fuzzy
+msgid "bibs_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "bibs_read"
+msgstr "User can read bibliography content"
+
+#, fuzzy
+msgid "bibs_visible"
+msgstr "Bibliography-Administration is visible"
+
+#, fuzzy
+msgid "bibs_write"
+msgstr "User can edit bibliography settings"
+
+#, fuzzy
+msgid "blga_edit_permission"
+msgstr "Change permission settings"
+
+#, fuzzy
+msgid "blga_read"
+msgstr "Read access to Blog Administration"
+
+#, fuzzy
+msgid "blga_visible"
+msgstr "Blog Administration is visible"
+
+#, fuzzy
+msgid "blga_write"
+msgstr "Edit Blog Administration"
+
+#, fuzzy
+msgid "blog_contribute"
+msgstr "User can contribute"
+
+#, fuzzy
+msgid "blog_copy"
+msgstr "User can copy blog"
+
+#, fuzzy
+msgid "blog_delete"
+msgstr "User can move or delete blog"
+
+#, fuzzy
+msgid "blog_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "blog_read"
+msgstr "User can read blog content"
+
+#, fuzzy
+msgid "blog_redact"
+msgstr "User can edit all postings"
+
+#, fuzzy
+msgid "blog_visible"
+msgstr "Blog is visible"
+
+#, fuzzy
+msgid "blog_write"
+msgstr "User can edit blog settings"
+
+#, fuzzy
+msgid "book_copy"
+msgstr "User can copy booking pool"
+
+#, fuzzy
+msgid "book_delete"
+msgstr "User can move or delete booking pool"
+
+#, fuzzy
+msgid "book_edit_permission"
+msgstr "Change permission settings"
+
+#, fuzzy
+msgid "book_manage_all_reservations"
+msgstr "User can manage all reservations"
+
+#, fuzzy
+msgid "book_manage_own_reservations"
+msgstr "User can manage own reservations"
+
+#, fuzzy
+msgid "book_read"
+msgstr "Read access to Booking Pool"
+
+#, fuzzy
+msgid "book_visible"
+msgstr "Booking Pool is visible"
+
+#, fuzzy
+msgid "book_write"
+msgstr "Edit Booking Pool"
+
+#, fuzzy
+msgid "cadm_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "cadm_read"
+msgstr "User has read access to user connection administration"
+
+#, fuzzy
+msgid "cadm_visible"
+msgstr "User connection administration is visible"
+
+#, fuzzy
+msgid "cadm_write"
+msgstr "User has write access to user connection administration"
+
+#, fuzzy
+msgid "cals_add_consultation_hours"
+msgstr "Add Consultation Hours Calendar"
+
+msgid "cals_edit_event"
+msgstr "Administrate Public Calendars"
+
+msgid "cals_edit_permission"
+msgstr "Change permission settings"
+
+msgid "cals_read"
+msgstr "Read access to Calendar settings"
+
+msgid "cals_visible"
+msgstr "Calendar settings are visible"
+
+msgid "cals_write"
+msgstr "Edit Calendar settings"
+
+#, fuzzy
+msgid "cat_administrate_users"
+msgstr "Administrate Local User Accounts"
+
+msgid "cat_cat_administrate_users"
+msgstr "Διαχείριση λογαριασμών τοπικών χρηστών"
+
+msgid "cat_copy"
+msgstr "Αντιγραφή Κατηγορίας"
+
+msgid "cat_delete"
+msgstr "Διαγραφή κατηγορίας"
+
+msgid "cat_edit_permission"
+msgstr "Ρυθμίσεις αλλαγής αδειών"
+
+msgid "cat_read"
+msgstr "Πρόσβαση μόνο για ανάγνωση στην κατηγορία"
+
+msgid "cat_read_users"
+msgstr "Πρόσβαση μόνο για ανάγνωση σε λογαριασμούς τοπικών χρηστών"
+
+msgid "cat_visible"
+msgstr "Η κατηγορία είναι ορατή"
+
+msgid "cat_write"
+msgstr "Επεξεργασία κατηγορίας"
+
+msgid "catr_copy"
+msgstr "Copy Category Reference"
+
+msgid "catr_delete"
+msgstr "Delete Category Reference"
+
+msgid "catr_edit_permission"
+msgstr "Change Permission Settings"
+
+msgid "catr_visible"
+msgstr "Category Reference is visible"
+
+msgid "catr_write"
+msgstr "Edit Category Reference"
+
+#, fuzzy
+msgid "cert_edit_permission"
+msgstr "Change permission settings"
+
+#, fuzzy
+msgid "cert_read"
+msgstr "Read access to Certificate Settings"
+
+#, fuzzy
+msgid "cert_visible"
+msgstr "Certificate Settings are visible"
+
+#, fuzzy
+msgid "cert_write"
+msgstr "Edit Certificate Settings"
+
+msgid "change_existing_object_type_desc"
+msgstr "Also change permissions of already existing objects of that type"
+
+msgid "change_existing_objects"
+msgstr "Τροποποίηση υπάρχοντων αντικειμένων"
+
+msgid "change_existing_objects_desc"
+msgstr "The permission settings of this role will be adpoted to ALL existing objects. If you want to change permissions only for specific object types please click the checkboxes to the right of the appropiate object type."
+
+msgid "change_existing_prefix"
+msgstr "Change existing"
+
+msgid "change_existing_prefix_single"
+msgstr "Change"
+
+msgid "change_existing_suffix"
+msgstr "&nbsp;"
+
+msgid "change_existing_suffix_single"
+msgstr "&nbsp;"
+
+#, fuzzy
+msgid "change_presentation"
+msgstr "Change Presentation"
+
+#, fuzzy
+msgid "chtr_delete"
+msgstr "User can move or delete course"
+
+#, fuzzy
+msgid "chtr_edit_permission"
+msgstr "Change Permissions"
+
+#, fuzzy
+msgid "chtr_moderate"
+msgstr "Moderate Chatroom"
+
+#, fuzzy
+msgid "chtr_read"
+msgstr "Read"
+
+#, fuzzy
+msgid "chtr_visible"
+msgstr "Visible"
+
+#, fuzzy
+msgid "chtr_write"
+msgstr "Write"
+
+#, fuzzy
+msgid "cmis_edit_permission"
+msgstr "User can change permission settings of xAPI/cmi5 administration."
+
+#, fuzzy
+msgid "cmis_read"
+msgstr "User has read access to xAPI/cmi5 administration."
+
+#, fuzzy
+msgid "cmis_visible"
+msgstr "Administration of xAPI/cmi5 is visible."
+
+#, fuzzy
+msgid "cmis_write"
+msgstr "User can edit settings of xAPI/cmi5 administration."
+
+#, fuzzy
+msgid "cmix_copy"
+msgstr "User can copy xAPI/cmi5 Object"
+
+#, fuzzy
+msgid "cmix_delete"
+msgstr "User can move or delete xAPI/cmi5 Object"
+
+#, fuzzy
+msgid "cmix_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+#, fuzzy
+msgid "cmix_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "cmix_read"
+msgstr "User can see xAPI/cmi5 Object"
+
+#, fuzzy
+msgid "cmix_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+#, fuzzy
+msgid "cmix_read_outcomes"
+msgstr "User can see learning experiences and ranking of other users"
+
+#, fuzzy
+msgid "cmix_visible"
+msgstr "xAPI/cmi5 Object is visible"
+
+#, fuzzy
+msgid "cmix_write"
+msgstr "User can edit settings of xAPI/cmi5 Object"
+
+#, fuzzy
+msgid "cmps_edit_permission"
+msgstr "Change permission settings"
+
+#, fuzzy
+msgid "cmps_read"
+msgstr "Read access to component settings"
+
+#, fuzzy
+msgid "cmps_visible"
+msgstr "Component settings are visible"
+
+#, fuzzy
+msgid "cmps_write"
+msgstr "Edit component settings"
+
+#, fuzzy
+msgid "coms_edit_permissions"
+msgstr "User can change permission settings of administration of Comments."
+
+#, fuzzy
+msgid "coms_read"
+msgstr "User has read access to administration of Comments."
+
+#, fuzzy
+msgid "coms_visible"
+msgstr "Administration of Comments is visible."
+
+#, fuzzy
+msgid "coms_write"
+msgstr "User can edit settings of administration of Comments."
+
+#, fuzzy
+msgid "condition_failed"
+msgstr "Failed"
+
+#, fuzzy
+msgid "condition_learning_progress"
+msgstr "Derive from Learning Progress"
+
+#, fuzzy
+msgid "condition_result_range_percentage"
+msgstr "Result Range"
+
+#, fuzzy
+msgid "contribute"
+msgstr "Contribute"
+
+#, fuzzy
+msgid "copa_copy"
+msgstr "Copy Content Page"
+
+#, fuzzy
+msgid "copa_delete"
+msgstr "User can move or delete Content Page"
+
+#, fuzzy
+msgid "copa_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+#, fuzzy
+msgid "copa_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "copa_read"
+msgstr "User can read Content Page"
+
+#, fuzzy
+msgid "copa_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+#, fuzzy
+msgid "copa_visible"
+msgstr "Content Page is visible"
+
+#, fuzzy
+msgid "copa_write"
+msgstr "User can edit Content Page"
+
+#, fuzzy
+msgid "cpad_edit_permissions"
+msgstr "User can change permission settings of administration of Content Pages."
+
+#, fuzzy
+msgid "cpad_read"
+msgstr "User has read access to administration of Content Pages."
+
+#, fuzzy
+msgid "cpad_visible"
+msgstr "Administration of Content Pages is visible."
+
+#, fuzzy
+msgid "cpad_write"
+msgstr "User can edit settings of administration of Content Pages."
+
+msgid "crs_copy"
+msgstr "Copy Course"
+
+msgid "crs_delete"
+msgstr "Διαγραφή μαθήματος"
+
+msgid "crs_edit_event"
+msgstr "Edit Calendar Events"
+
+msgid "crs_edit_learning_progress"
+msgstr "Επεξεργασία εκπαιδευτικής προόδου"
+
+msgid "crs_edit_permission"
+msgstr "Αλλαγή ρυθμίσεων αδειών πρόσβασης"
+
+#, fuzzy
+msgid "crs_grade"
+msgstr "Grade Members of Course"
+
+msgid "crs_join"
+msgstr "Εγγραφή στο μάθημα"
+
+msgid "crs_leave"
+msgstr "Διαγραφή από το μάθημα"
+
+#, fuzzy
+msgid "crs_manage_members"
+msgstr "Manage Members of Course"
+
+#, fuzzy
+msgid "crs_news_add_news"
+msgstr "Add and edit own news entries in course"
+
+msgid "crs_read"
+msgstr "Πρόσβαση ανάγνωσης στο μάθημα"
+
+#, fuzzy
+msgid "crs_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "crs_visible"
+msgstr "Το μάθημα είναι ορατό"
+
+msgid "crs_write"
+msgstr "Επεξεργασία Μαθήματος"
+
+msgid "crsr_copy"
+msgstr "Copy Course Reference"
+
+msgid "crsr_delete"
+msgstr "Delete Course Reference"
+
+#, fuzzy
+msgid "crsr_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+msgid "crsr_edit_permission"
+msgstr "Change Permission Settings"
+
+#, fuzzy
+msgid "crsr_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "crsr_visible"
+msgstr "Course Reference is visible"
+
+msgid "crsr_write"
+msgstr "Edit Course Reference"
+
+#, fuzzy
+msgid "crss_edit_permission"
+msgstr "User can change permission settings in Course administration"
+
+#, fuzzy
+msgid "crss_read"
+msgstr "User has read access to Course administration"
+
+#, fuzzy
+msgid "crss_visible"
+msgstr "Course administration is visible"
+
+#, fuzzy
+msgid "crss_write"
+msgstr "Edit settings in Course administration"
+
+#, fuzzy
+msgid "dcl_add_entry"
+msgstr "User can add/edit entries"
+
+#, fuzzy
+msgid "dcl_copy"
+msgstr "User can copy data collection"
+
+#, fuzzy
+msgid "dcl_delete"
+msgstr "User can move or delete data collection"
+
+#, fuzzy
+msgid "dcl_edit_content"
+msgstr "Edit entries"
+
+#, fuzzy
+msgid "dcl_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "dcl_read"
+msgstr "Read access to Data Collection"
+
+#, fuzzy
+msgid "dcl_visible"
+msgstr "Data Collection is visible"
+
+#, fuzzy
+msgid "dcl_write"
+msgstr "User can edit settings and content of data collection"
+
+#, fuzzy
+msgid "delete_files"
+msgstr "Delete Files"
+
+#, fuzzy
+msgid "delete_folders"
+msgstr "Delete Folders"
+
+#, fuzzy
+msgid "delete_wiki_pages"
+msgstr "Delete Pages"
+
+#, fuzzy
+msgid "dpro_edit_permission"
+msgstr "User can change permission settings in the Declaration of Data Protected administration"
+
+#, fuzzy
+msgid "dpro_read"
+msgstr "User has read access to the Declaration of Data Protection administration"
+
+#, fuzzy
+msgid "dpro_visible"
+msgstr "Declaration of Data Protection administration is visible"
+
+#, fuzzy
+msgid "dpro_write"
+msgstr "Edit settings in the Declaration of Data Protection"
+
+#, fuzzy
+msgid "dshs_change_presentation"
+msgstr "Change presentation of dashboard view"
+
+#, fuzzy
+msgid "dshs_edit_permission"
+msgstr "User can change permission settings of Dashboard administration"
+
+#, fuzzy
+msgid "dshs_read"
+msgstr "User has read access to Dashboard administration"
+
+#, fuzzy
+msgid "dshs_visible"
+msgstr "Dashboard administration is visible"
+
+#, fuzzy
+msgid "dshs_write"
+msgstr "Edit settings of Dashboard administration"
+
+#, fuzzy
+msgid "ecss_edit_permission"
+msgstr "User can edit permission settings of ECS administration"
+
+#, fuzzy
+msgid "ecss_read"
+msgstr "User can read general ECS settings"
+
+#, fuzzy
+msgid "ecss_visible"
+msgstr "ECS settings are visible "
+
+#, fuzzy
+msgid "ecss_write"
+msgstr "User can edit ECS settings"
+
+#, fuzzy
+msgid "edit_event"
+msgstr "Edit Calendar"
+
+#, fuzzy
+msgid "edit_file"
+msgstr "Edit File"
+
+#, fuzzy
+msgid "edit_in_online_editor"
+msgstr "Open in online editor"
+
+msgid "edit_learning_progress"
+msgstr "Επεξεργασία εκπαιδευτικής προόδου"
+
+#, fuzzy
+msgid "edit_members"
+msgstr "Manage members"
+
+#, fuzzy
+msgid "edit_permission"
+msgstr "Change Permissions"
+
+msgid "edit_roleassignment"
+msgstr "Επεξεργασία ανάθεσης ρόλων"
+
+#, fuzzy
+msgid "edit_submissions_grades"
+msgstr "Edit Submissions and Grades"
+
+#, fuzzy
+msgid "edit_userassignment"
+msgstr "Edit User Assignment"
+
+#, fuzzy
+msgid "edit_wiki_navigation"
+msgstr "Edit Navigation"
+
+msgid "exc_copy"
+msgstr "Copy Exercise"
+
+msgid "exc_delete"
+msgstr "Διαγραφή άσκησης"
+
+msgid "exc_edit_learning_progress"
+msgstr "Επεξεργασία Εκπαιδευτικής Προόδου"
+
+msgid "exc_edit_permission"
+msgstr "Αλλαγή ρυθμίσεων άδειας"
+
+#, fuzzy
+msgid "exc_edit_submissions_grades"
+msgstr "User can edit submissions and grades"
+
+msgid "exc_read"
+msgstr "Πρόσβαση σε άσκηση"
+
+#, fuzzy
+msgid "exc_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "exc_visible"
+msgstr "Η άσκηση είναι ορατή"
+
+msgid "exc_write"
+msgstr "Επεξεργασία άσκησης"
+
+#, fuzzy
+msgid "excs_edit_permission"
+msgstr "User can change permission settings in Exercise administration"
+
+#, fuzzy
+msgid "excs_read"
+msgstr "User has read access to Exercise administration"
+
+#, fuzzy
+msgid "excs_visible"
+msgstr "Exercise administration is visible"
+
+#, fuzzy
+msgid "excs_write"
+msgstr "Edit settings in Exercise administration"
+
+#, fuzzy
+msgid "export_member_data"
+msgstr "Access to User Data"
+
+#, fuzzy
+msgid "facs_edit_permission"
+msgstr "Change permission settings"
+
+#, fuzzy
+msgid "facs_read"
+msgstr "Read access to files & foldes settings"
+
+#, fuzzy
+msgid "facs_upload_blacklisted_files"
+msgstr "Upload indexed file types despite blacklist"
+
+#, fuzzy
+msgid "facs_visible"
+msgstr "Files & foldes settings are visible"
+
+#, fuzzy
+msgid "facs_write"
+msgstr "Edit files & foldes settings"
+
+#, fuzzy
+msgid "feed_copy"
+msgstr "User can copy webfeed"
+
+msgid "feed_delete"
+msgstr "Delete Web Feed"
+
+msgid "feed_edit_permission"
+msgstr "Change permission settings"
+
+msgid "feed_read"
+msgstr "Read access to Web Feed"
+
+msgid "feed_write"
+msgstr "Edit Web Feed"
+
+msgid "file_copy"
+msgstr "Copy File"
+
+msgid "file_delete"
+msgstr "Διαγραφή Αρχείου"
+
+#, fuzzy
+msgid "file_edit_file"
+msgstr "Allow to edit the file in an external editor, if available"
+
+#, fuzzy
+msgid "file_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+msgid "file_edit_permission"
+msgstr "Αλλαγή ρυθμίσεων αδειών"
+
+#, fuzzy
+msgid "file_file_view_content"
+msgstr "File content presented in browser (if WOPI is active)"
+
+#, fuzzy
+msgid "file_file_view_content_short"
+msgstr "Show Content"
+
+msgid "file_read"
+msgstr "Λήψη αρχείου"
+
+#, fuzzy
+msgid "file_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "file_visible"
+msgstr "Το αρχείο είναι ορατό"
+
+msgid "file_write"
+msgstr "Επεξεργασία αρχείου"
+
+#, fuzzy
+msgid "files_visible"
+msgstr "Files Visible"
+
+#, fuzzy
+msgid "fils_edit_permissions"
+msgstr "User can change permission settings of File Services administration."
+
+#, fuzzy
+msgid "fils_read"
+msgstr "User has read access to File Services administration."
+
+#, fuzzy
+msgid "fils_visible"
+msgstr "Administration of File Services is visible."
+
+#, fuzzy
+msgid "fils_write"
+msgstr "User can edit and configure File Services."
+
+msgid "filter_all_roles"
+msgstr "Εμφάνιση όλων των ρόλων του τρέχοντος περιεχομένου"
+
+msgid "filter_global_roles"
+msgstr "Εμφάνιση μόνο των καθολικών ρόλων"
+
+msgid "filter_local_roles"
+msgstr "Εμφάνιση μόνο των τοπικών ρόλων του τρέχοντος περιεχομένου"
+
+msgid "filter_local_roles_object"
+msgstr "Εμφάνιση μόνο των καθολικών ρόλων που ορίζονται σε αυτή τη θέση"
+
+msgid "filter_roles_local_policy"
+msgstr "Εμφάνιση μόνο των ρόλων που χρησιμοποιούν μια τοπική πολιτική σε αυτή τη θέση"
+
+#, fuzzy
+msgid "fld_create_poll"
+msgstr "Create Poll"
+
+msgid "fold_copy"
+msgstr "Copy Folder"
+
+msgid "fold_delete"
+msgstr "Διαγραφή φακέλου"
+
+msgid "fold_edit_learning_progress"
+msgstr "Επεξεργασία Εκπαιδευτικής Προόδου"
+
+msgid "fold_edit_permission"
+msgstr "Αλλαγή ρυθμίσεων άδειας"
+
+msgid "fold_read"
+msgstr "Πρόσβαση ανάγνωσης στο φάκελο"
+
+#, fuzzy
+msgid "fold_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "fold_visible"
+msgstr "Ο φάκελος είναι ορατός"
+
+msgid "fold_write"
+msgstr "Επεξεργασία φακέλου"
+
+#, fuzzy
+msgid "folders_create"
+msgstr "Create Folders"
+
+#, fuzzy
+msgid "folders_visible"
+msgstr "Folders Visible"
+
+#, fuzzy
+msgid "frm_add_reply"
+msgstr "Users can reply to a posting"
+
+msgid "frm_add_thread"
+msgstr "Add new topi"
+
+msgid "frm_copy"
+msgstr "Copy Forum"
+
+msgid "frm_delete"
+msgstr "Διαγραφή φόρουμ"
+
+#, fuzzy
+msgid "frm_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+msgid "frm_edit_permission"
+msgstr "Αλλαγή ρυθμίσεων άδειας"
+
+msgid "frm_moderate_frm"
+msgstr "Delete a post, censorship"
+
+msgid "frm_read"
+msgstr "Πρόσβαση ανάγνωσης στο φόρουμ"
+
+#, fuzzy
+msgid "frm_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "frm_visible"
+msgstr "Το φόρουμ είναι ορατό"
+
+msgid "frm_write"
+msgstr "Επεξεργασία φόρουμ"
+
+#, fuzzy
+msgid "frma_edit_permission"
+msgstr "Change permission settings"
+
+#, fuzzy
+msgid "frma_read"
+msgstr "Read access to Forum Administration"
+
+#, fuzzy
+msgid "frma_visible"
+msgstr "Forum Administration is visible"
+
+#, fuzzy
+msgid "frma_write"
+msgstr "Write access to Forum Administration"
+
+msgid "glo_copy"
+msgstr "Copy Glossary"
+
+msgid "glo_delete"
+msgstr "Διαγραφή γλωσσαρίου"
+
+#, fuzzy
+msgid "glo_edit_content"
+msgstr "User can edit content"
+
+msgid "glo_edit_permission"
+msgstr "Αλλαγή ρυθμίσεων άδειας"
+
+msgid "glo_read"
+msgstr "Πρόσβαση ανάγνωσης στο Γλωσσάρι"
+
+msgid "glo_visible"
+msgstr "Το γλωσσάριο είναι ορατό"
+
+msgid "glo_write"
+msgstr "Επεξεργασία γλωσσάριου"
+
+msgid "grp_copy"
+msgstr "Copy Group"
+
+msgid "grp_delete"
+msgstr "Διαγραφή ομάδας"
+
+msgid "grp_edit_event"
+msgstr "Edit Calendar Events"
+
+msgid "grp_edit_learning_progress"
+msgstr "Επεξεργασία Εκπαιδευτικής Προόδου"
+
+msgid "grp_edit_permission"
+msgstr "Αλλαγή ρυθμίσεων άδειας"
+
+#, fuzzy
+msgid "grp_grade"
+msgstr "Grade Members of Group"
+
+msgid "grp_join"
+msgstr "Ο χρήστης μπορεί να συμμετάσχει στην ομάδα"
+
+msgid "grp_leave"
+msgstr "Ο χρήστης μπορεί να φύγει από την ομάδα"
+
+#, fuzzy
+msgid "grp_manage_members"
+msgstr "Manage Members of Group"
+
+#, fuzzy
+msgid "grp_news_add_news"
+msgstr "Add and edit own news entries in group"
+
+msgid "grp_read"
+msgstr "Πρόσβαση ανάγνωσης στην ομάδα"
+
+#, fuzzy
+msgid "grp_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "grp_visible"
+msgstr "Η ομάδα είναι ορατή"
+
+msgid "grp_write"
+msgstr "Επεξεργασία ομάδας"
+
+#, fuzzy
+msgid "grpr_copy"
+msgstr "User can copy group reference"
+
+#, fuzzy
+msgid "grpr_delete"
+msgstr "User can move or delete group reference"
+
+#, fuzzy
+msgid "grpr_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "grpr_visible"
+msgstr "Group reference is visible"
+
+#, fuzzy
+msgid "grpr_write"
+msgstr "User can edit settings of group reference"
+
+#, fuzzy
+msgid "grps_edit_permission"
+msgstr "User can change permission settings in Group administration"
+
+#, fuzzy
+msgid "grps_read"
+msgstr "User has read access to Group administration"
+
+#, fuzzy
+msgid "grps_visible"
+msgstr "Group administration is visible"
+
+#, fuzzy
+msgid "grps_write"
+msgstr "Edit settings in Group administration"
+
+#, fuzzy
+msgid "hlps_edit_permission"
+msgstr "User can change permissions of Help System administration."
+
+#, fuzzy
+msgid "hlps_read"
+msgstr "User has read access to Help System administration."
+
+#, fuzzy
+msgid "hlps_visible"
+msgstr "Help System administration is visible."
+
+#, fuzzy
+msgid "hlps_write"
+msgstr "User can edit settings of Help System and upload new versions"
+
+msgid "htlm_copy"
+msgstr "Copy HTML Learning Module"
+
+msgid "htlm_delete"
+msgstr "Διαγραφή εκπαιδευτική μονάδας HTML"
+
+msgid "htlm_edit_learning_progress"
+msgstr "Πρόοδος επεξεργασίας εκπαίδευσης"
+
+msgid "htlm_edit_permission"
+msgstr "Αλλαγή ρυθμίσεων άδειας"
+
+msgid "htlm_read"
+msgstr "Ανάγνωση εκπαιδευτικής μονάδας HTML"
+
+#, fuzzy
+msgid "htlm_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "htlm_visible"
+msgstr "Η εκπαιδευτική μονάδα HTML είναι ορατή"
+
+msgid "htlm_write"
+msgstr "Επεξεργασία εκπαιδευτική μονάδας HTML"
+
+#, fuzzy
+msgid "iass_amend_grading"
+msgstr "Amend gradings in an Individual Assessment"
+
+#, fuzzy
+msgid "iass_copy"
+msgstr "Copy a Individual Assessment"
+
+#, fuzzy
+msgid "iass_delete"
+msgstr "Delete a Individual Assessment"
+
+#, fuzzy
+msgid "iass_edit_learning_progress"
+msgstr "Edit learning progress information of a Individual Assessment"
+
+#, fuzzy
+msgid "iass_edit_members"
+msgstr "Edit members of a Individual Assessment"
+
+#, fuzzy
+msgid "iass_edit_permission"
+msgstr "Edit permissions of a Individual Assessment"
+
+#, fuzzy
+msgid "iass_read"
+msgstr "Read content of a Individual Assessment"
+
+#, fuzzy
+msgid "iass_read_learning_progress"
+msgstr "View learning progress information of a Individual Assessment"
+
+#, fuzzy
+msgid "iass_visible"
+msgstr "Individual Assessment is visible"
+
+#, fuzzy
+msgid "iass_write"
+msgstr "Edit a Individual Assessment"
+
+#, fuzzy
+msgid "il_lti_global_role"
+msgstr "LTI User"
+
+#, fuzzy
+msgid "il_sess_participant"
+msgstr "Session Participant"
+
+#, fuzzy
+msgid "il_sess_status_closed"
+msgstr "Non-Participant Closed Session"
+
+#, fuzzy
+msgid "ilias_id"
+msgstr "ILIAS-ID"
+
+#, fuzzy
+msgid "impr_edit_permission"
+msgstr "User can change permission settings of Legal Notice administration"
+
+#, fuzzy
+msgid "impr_read"
+msgstr "User can read in Legal Notice administration"
+
+#, fuzzy
+msgid "impr_visible"
+msgstr "Administration of Legal Notice is visible"
+
+#, fuzzy
+msgid "impr_write"
+msgstr "User can edit content and settings of Legal Notice"
+
+msgid "info_user_view_changed"
+msgstr "Η προβολή του χρήστη άλλαξε"
+
+#, fuzzy
+msgid "internal_mail"
+msgstr "Internal Mail"
+
+#, fuzzy
+msgid "invite"
+msgstr "Inviting to survey"
+
+#, fuzzy
+msgid "itgr_copy"
+msgstr "User can copy item group"
+
+#, fuzzy
+msgid "itgr_delete"
+msgstr "User can move or delete item group"
+
+#, fuzzy
+msgid "itgr_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "itgr_read"
+msgstr "User can read item group"
+
+#, fuzzy
+msgid "itgr_visible"
+msgstr "Item group is visible"
+
+#, fuzzy
+msgid "itgr_write"
+msgstr "User can edit content and settings of item group"
+
+msgid "leave"
+msgstr "Αποχώρηση"
+
+#, fuzzy
+msgid "lhts_edit_permissions"
+msgstr "User can change permission settings of Learning History administration."
+
+#, fuzzy
+msgid "lhts_read"
+msgstr "User has read access to Learning History administration."
+
+#, fuzzy
+msgid "lhts_visible"
+msgstr "Administration of Learning History is visible."
+
+#, fuzzy
+msgid "lhts_write"
+msgstr "User can edit settings of Learning History administration."
+
+msgid "lm_copy"
+msgstr "Αντιγραφή του ILIAS Lernmodul"
+
+msgid "lm_delete"
+msgstr "Διαγραφή εκπαιδευτικής μονάδας ILIAS"
+
+msgid "lm_edit_learning_progress"
+msgstr "Επεξεργασία εκπαιδευτικής προόδου"
+
+msgid "lm_edit_permission"
+msgstr "Αλλαγή ρυθμίσεων άδειας"
+
+msgid "lm_read"
+msgstr "Πρόσβαση ανάγνωσης στην εκπαιδευτική μονάδα ILIAS"
+
+#, fuzzy
+msgid "lm_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "lm_visible"
+msgstr "Η εκπαιδευτική μονάδα ILIAS είναι ορατή"
+
+msgid "lm_write"
+msgstr "Επεξεργασία εκπαιδευτικής μονάδας ILIAS"
+
+msgid "lngf_edit_permission"
+msgstr "Αλλαγή ρυθμίσεων άδειας"
+
+msgid "lngf_read"
+msgstr "Πρόσβαση ανάγνωσης στις ρυθμίσεις γλώσσας"
+
+msgid "lngf_visible"
+msgstr "Οι ρυθμίσεις γλώσσας ειναι ορατές"
+
+msgid "lngf_write"
+msgstr "Write access, needed for extended language maintenance"
+
+#, fuzzy
+msgid "logs_edit_permission"
+msgstr "User can edit permission settings of Logging administration"
+
+#, fuzzy
+msgid "logs_read"
+msgstr "User can read general Logging settings"
+
+#, fuzzy
+msgid "logs_visible"
+msgstr "Logging settings are visible"
+
+#, fuzzy
+msgid "logs_write"
+msgstr "User can edit Logging settings"
+
+#, fuzzy
+msgid "lp_other_users"
+msgstr "See learning progress overview of other users"
+
+#, fuzzy
+msgid "lrss_edit_permission"
+msgstr "Change permission settings"
+
+#, fuzzy
+msgid "lrss_read"
+msgstr "Read access to Learning Resources Settings"
+
+#, fuzzy
+msgid "lrss_visible"
+msgstr "Learning Resources Settings are visible"
+
+#, fuzzy
+msgid "lrss_write"
+msgstr "Edit Learning Resources Settings"
+
+#, fuzzy
+msgid "lso_copy"
+msgstr "User can copy Learning Sequence"
+
+#, fuzzy
+msgid "lso_delete"
+msgstr "User can delete Learning Sequence"
+
+#, fuzzy
+msgid "lso_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+#, fuzzy
+msgid "lso_edit_permission"
+msgstr "User can change permission settings of Learning Sequence"
+
+#, fuzzy
+msgid "lso_lp_other_users"
+msgstr "User can view learning progress of other users"
+
+#, fuzzy
+msgid "lso_manage_members"
+msgstr "Manage members of Learning Sequence"
+
+#, fuzzy
+msgid "lso_participate"
+msgstr "User can subscribe to a Learning Sequence"
+
+#, fuzzy
+msgid "lso_read"
+msgstr "Users can access the Learning Sequence"
+
+#, fuzzy
+msgid "lso_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+#, fuzzy
+msgid "lso_unparticipate"
+msgstr "User can unsubscribe from a Learning Sequence"
+
+#, fuzzy
+msgid "lso_visible"
+msgstr "Learning Sequence is visible"
+
+#, fuzzy
+msgid "lso_write"
+msgstr "User can edit settings of Learning Sequence"
+
+#, fuzzy
+msgid "lsos_edit_permission"
+msgstr "User can change permission settings of Learning Sequences administration."
+
+#, fuzzy
+msgid "lsos_read"
+msgstr "User has read access to Learning Sequences administration."
+
+#, fuzzy
+msgid "lsos_visible"
+msgstr "Administration of Learning Sequences is visible."
+
+#, fuzzy
+msgid "lsos_write"
+msgstr "User can edit settings of Learning Sequences administration."
+
+#, fuzzy
+msgid "lti_copy"
+msgstr "User can copy LTI consumer"
+
+#, fuzzy
+msgid "lti_delete"
+msgstr "User can move or delete LTI consumer"
+
+#, fuzzy
+msgid "lti_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+#, fuzzy
+msgid "lti_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "lti_read"
+msgstr "User can see LTI consumer"
+
+#, fuzzy
+msgid "lti_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+#, fuzzy
+msgid "lti_read_outcomes"
+msgstr "User can see learning experiences and ranking of other users"
+
+#, fuzzy
+msgid "lti_visible"
+msgstr "LTI consumer is visible"
+
+#, fuzzy
+msgid "lti_write"
+msgstr "User can edit settings of LTI consumer"
+
+#, fuzzy
+msgid "ltis_add_consume_provider"
+msgstr "User can add own provider settings for LTI consumer"
+
+#, fuzzy
+msgid "ltis_edit_permission"
+msgstr "User can change permission settings in LTI administration"
+
+#, fuzzy
+msgid "ltis_read"
+msgstr "User has read access to LTI administration "
+
+#, fuzzy
+msgid "ltis_release_objects"
+msgstr "User can release Objects for LTI Consumer"
+
+#, fuzzy
+msgid "ltis_visible"
+msgstr "LTI administration is visible"
+
+#, fuzzy
+msgid "ltis_write"
+msgstr "User can edit settings in LTI administration"
+
+#, fuzzy
+msgid "mail_internal_mail"
+msgstr "User can use internal mail system (ILIAS)"
+
+#, fuzzy
+msgid "mail_mail_to_global_roles"
+msgstr "User may send Emails to global roles"
+
+msgid "mail_read"
+msgstr "Πρόσβαση ανάγνωσης στις ρυθμίσεις του mail"
+
+msgid "mail_smtp_mail"
+msgstr "Ο χρήστης μπορεί να στείλει γράμμα μέσω SMTP"
+
+#, fuzzy
+msgid "mail_to_global_roles"
+msgstr "Mail to Global Roles"
+
+msgid "mail_visible"
+msgstr "Οι ρυθμίσεις του mail είναι ορατές"
+
+msgid "mail_write"
+msgstr "Επεξεργασία ρυθμίσεων του mail"
+
+#, fuzzy
+msgid "manage_all_reservations"
+msgstr "Manage All Reservations"
+
+#, fuzzy
+msgid "manage_comp"
+msgstr "User can edit Competences"
+
+#, fuzzy
+msgid "manage_comp_temp"
+msgstr "User can edit Competence Templates"
+
+#, fuzzy
+msgid "manage_materials"
+msgstr "Manage Materials"
+
+#, fuzzy
+msgid "manage_own_reservations"
+msgstr "Manage Own Reservations"
+
+#, fuzzy
+msgid "manage_profiles"
+msgstr "User can edit Competence Profiles"
+
+msgid "mcst_copy"
+msgstr "Αντιγραφή Εκπομπής Μέσων"
+
+msgid "mcst_delete"
+msgstr "Διαγραφή Εκπομπής Μέσων"
+
+#, fuzzy
+msgid "mcst_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+msgid "mcst_edit_permission"
+msgstr "Αλλαγή Ρυθμίσεων Πρόσβασης"
+
+msgid "mcst_read"
+msgstr "Προσβαση ανάγνωσης στην Εκπομπή Μέσων"
+
+#, fuzzy
+msgid "mcst_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "mcst_visible"
+msgstr "Η Εκπομπή Μέσων είναι ορατή"
+
+msgid "mcst_write"
+msgstr "Επεξεργασία Εκπομπής Μέσων"
+
+#, fuzzy
+msgid "mcts_edit_permission"
+msgstr "Change permission settings"
+
+#, fuzzy
+msgid "mcts_read"
+msgstr "Read access to mediacast settings"
+
+#, fuzzy
+msgid "mcts_visible"
+msgstr "Mediacast settings are visible"
+
+#, fuzzy
+msgid "mcts_write"
+msgstr "Edit mediacast settings"
+
+msgid "mds_edit_permission"
+msgstr "Change permission settings"
+
+msgid "mds_read"
+msgstr "Read access to Metadata settings"
+
+msgid "mds_visible"
+msgstr "Metadata settings are visible"
+
+msgid "mds_write"
+msgstr "Edit Metadata setting"
+
+#, fuzzy
+msgid "mep_copy"
+msgstr "User can copy media pool"
+
+msgid "mep_delete"
+msgstr "Διαγραφή μνήμης πολυμέσων"
+
+msgid "mep_edit_permission"
+msgstr "Αλλαγή ρυθμίσεων άδειας"
+
+msgid "mep_read"
+msgstr "Ανάγνωση περιεχομένων μνήμης πολυμέσων"
+
+msgid "mep_visible"
+msgstr "Η μνήμη πολυμέσων είναι ορατή"
+
+msgid "mep_write"
+msgstr "Επεξεργασία περιεχομένων μνήμης πολυμέσων"
+
+#, fuzzy
+msgid "mme_edit_permission"
+msgstr "User can change permission settings of Main Menu administration"
+
+#, fuzzy
+msgid "mme_read"
+msgstr "User has read access to administration of Main Menu"
+
+#, fuzzy
+msgid "mme_visible"
+msgstr "Administration of Main Menu is visible"
+
+#, fuzzy
+msgid "mme_write"
+msgstr "User can edit settings of Main Menu administration"
+
+#, fuzzy
+msgid "mobs_edit_permission"
+msgstr "Change permission settings"
+
+#, fuzzy
+msgid "mobs_read"
+msgstr "Read access to Media Objects/Pools Settings"
+
+#, fuzzy
+msgid "mobs_visible"
+msgstr "Media Objects/Pools Settings are visible"
+
+#, fuzzy
+msgid "mobs_write"
+msgstr "Edit Media Objects/Pools Settings"
+
+#, fuzzy
+msgid "moderate"
+msgstr "Moderate"
+
+#, fuzzy
+msgid "moderate_frm"
+msgstr "Moderate"
+
+#, fuzzy
+msgid "msg_anonymous_cannot_be_assigned"
+msgstr "Anonymous cannot be assigned to a role."
+
+msgid "msg_no_roles_of_type"
+msgstr "Δεν υπάρχουν διαθέσιμοι ρόλοι με την επιλεγμένη ρύθμιση φίλτρου"
+
+#, fuzzy
+msgid "news_add_news"
+msgstr "Add News"
+
+#, fuzzy
+msgid "no_corresponding_roles"
+msgstr "No corresponding roles could be found."
+
+#, fuzzy
+msgid "nots_edit_permission"
+msgstr "User can change permission settings of Notes administration."
+
+#, fuzzy
+msgid "nots_read"
+msgstr "User has read access to Notes administration."
+
+#, fuzzy
+msgid "nots_visible"
+msgstr "Administration of Notes is visible."
+
+#, fuzzy
+msgid "nots_write"
+msgstr "User can edit settings of Notes administration."
+
+msgid "nwss_edit_permission"
+msgstr "Change permission settings"
+
+msgid "nwss_read"
+msgstr "Read access to News and Web Feeds Settings"
+
+msgid "nwss_visible"
+msgstr "News and Web Feeds Settings are visible"
+
+msgid "nwss_write"
+msgstr "Edit News and Web Feeds Settings"
+
+#, fuzzy
+msgid "obj_skee"
+msgstr "Competence Tree"
+
+#, fuzzy
+msgid "org_op_access_results"
+msgstr "Access Results of Subordinated Users"
+
+#, fuzzy
+msgid "org_op_edit_submissions_grades"
+msgstr "Edit submissions of other users"
+
+#, fuzzy
+msgid "org_op_manage_participants"
+msgstr "Manage Subordinated Participants"
+
+#, fuzzy
+msgid "org_op_score_participants"
+msgstr "Score Subordinated Participants"
+
+#, fuzzy
+msgid "org_op_view_certificates"
+msgstr "View certificates of subordinated users"
+
+#, fuzzy
+msgid "org_op_view_competences"
+msgstr "View competences of subordinated users"
+
+#, fuzzy
+msgid "org_op_write_learning_progress"
+msgstr "Set learning Progress of Subordinate Users"
+
+#, fuzzy
+msgid "orgu_cat_administrate_users"
+msgstr "User can create and administrate local user accounts in this Organisational Unit"
+
+#, fuzzy
+msgid "orgu_copy"
+msgstr "Copy Organisational Unit"
+
+#, fuzzy
+msgid "orgu_delete"
+msgstr "User can move or delete Organisational Unit"
+
+#, fuzzy
+msgid "orgu_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "orgu_read"
+msgstr "User has read access to Organisational Unit"
+
+#, fuzzy
+msgid "orgu_read_users"
+msgstr "User can read local user accounts created in this Organisational Unit"
+
+#, fuzzy
+msgid "orgu_view_learning_progress"
+msgstr "View Learning Progress"
+
+#, fuzzy
+msgid "orgu_view_learning_progress_rec"
+msgstr "View Learning Progress of Unit incl. Subunits"
+
+#, fuzzy
+msgid "orgu_visible"
+msgstr "Organisational Unit is visible"
+
+#, fuzzy
+msgid "orgu_write"
+msgstr "User can edit settings of Organisational Unit"
+
+#, fuzzy
+msgid "otpl_edit_permission"
+msgstr "Change Permission Settings"
+
+#, fuzzy
+msgid "otpl_read"
+msgstr "Read Access to Object Template Settings"
+
+#, fuzzy
+msgid "otpl_visible"
+msgstr "Object Template Settings are visible"
+
+#, fuzzy
+msgid "otpl_write"
+msgstr "Edit Object Template Settings"
+
+msgid "perm_class_create"
+msgstr "Δημιουργία νέων αντικειμένων"
+
+msgid "perm_class_create_desc"
+msgstr "Καθορίστε ποιοι τύποι αντικειμένων μπορούν να δημιουργηθούν κάτω από το τρέχων αντικείμενο."
+
+msgid "perm_class_object"
+msgstr "Ειδικές λειτουργίες"
+
+msgid "perm_class_object_desc"
+msgstr "Λειτουργίες ειδικές ανά αντικείμενο, διαθέσιμες μόνο για συγκεκριμένους τύπους αντικειμένων."
+
+#, fuzzy
+msgid "perm_global_role"
+msgstr "Global Role"
+
+msgid "perm_local_role"
+msgstr "Τοπικός ρόλος"
+
+msgid "perm_local_role_desc"
+msgstr "Αυτός ο ρόλος ορίζεται τοπικά για το τρέχον αντικείμενο και αντιστοιχεί σε μια τοπική πολιτική"
+
+#, fuzzy
+msgid "perm_protected_global_role"
+msgstr "Protected Global Role"
+
+#, fuzzy
+msgid "perm_protected_local_role"
+msgstr "Protected Local Role"
+
+#, fuzzy
+msgid "perm_role_path_info_created"
+msgstr "Created in %1$s \"%2$s\""
+
+#, fuzzy
+msgid "perm_role_path_info_inheritance"
+msgstr "using local policy from %1$s \"%2$s\""
+
+msgid "perm_use_local_policy"
+msgstr "Χρήση τοπικής πολιτικής"
+
+msgid "perm_use_local_policy_desc"
+msgstr "Αν η τοπική πολιτική είναι ενεργή, μπορείτε να ορίσετε διαφορετικές προκαθορισμένες ρυθμίσεις αδειών για το τρέχον αντικείμενο."
+
+#, fuzzy
+msgid "poll_copy"
+msgstr "User can copy poll"
+
+#, fuzzy
+msgid "poll_delete"
+msgstr "User can move or delete poll"
+
+#, fuzzy
+msgid "poll_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "poll_read"
+msgstr "User can participate at poll"
+
+#, fuzzy
+msgid "poll_visible"
+msgstr "Poll is visible"
+
+#, fuzzy
+msgid "poll_write"
+msgstr "User can edit poll settings and content"
+
+#, fuzzy
+msgid "positions_override_operations"
+msgstr "Override global Settings"
+
+#, fuzzy
+msgid "precondition_not_obligatory_alt"
+msgstr "Precondition is optional"
+
+#, fuzzy
+msgid "precondition_num_obligatory"
+msgstr "Number of Required Materials"
+
+#, fuzzy
+msgid "precondition_num_optional_info"
+msgstr "Please enter the minimum number of materials which is required for fullfilling this precondition."
+
+#, fuzzy
+msgid "precondition_number_of_required_materials_bigger_preconditions_number"
+msgstr "The number of required materials must be less than the total number of preconditions."
+
+#, fuzzy
+msgid "precondition_number_of_required_materials_lower_compulsory_items"
+msgstr "The number of required materials must be greater than the number of compulsory preconditions."
+
+#, fuzzy
+msgid "precondition_number_of_required_materials_lower_than_one"
+msgstr "The number of required materials must be at least 1."
+
+#, fuzzy
+msgid "precondition_obligatory"
+msgstr "Obligatory"
+
+#, fuzzy
+msgid "precondition_obligatory_alt"
+msgstr "Precondition must be fulfilled"
+
+#, fuzzy
+msgid "precondition_obligatory_info"
+msgstr "Obligatory preconditions must be fulfilled, for having access."
+
+#, fuzzy
+msgid "precondition_obligatory_settings"
+msgstr "Precondition Settings"
+
+#, fuzzy
+msgid "precondition_operator_range_err_min_max"
+msgstr "The minimum value must be less than the maximum value."
+
+#, fuzzy
+msgid "precondition_operator_range_max"
+msgstr "Maximum Percentage"
+
+#, fuzzy
+msgid "precondition_operator_range_min"
+msgstr "Minimum Percentage"
+
+#, fuzzy
+msgid "prfa_edit_permission"
+msgstr "Change permission settings"
+
+#, fuzzy
+msgid "prfa_read"
+msgstr "Read access to Portfolio Administration"
+
+#, fuzzy
+msgid "prfa_visible"
+msgstr "Portfolio Administration is visible"
+
+#, fuzzy
+msgid "prfa_write"
+msgstr "Edit Portfolio Administration"
+
+#, fuzzy
+msgid "prg_copy"
+msgstr "User can copy Study Programme"
+
+#, fuzzy
+msgid "prg_delete"
+msgstr "User can delete Study Programme"
+
+#, fuzzy
+msgid "prg_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "prg_manage_members"
+msgstr "Manage members of Study Programme"
+
+#, fuzzy
+msgid "prg_read"
+msgstr "User has read access to Study Programme"
+
+#, fuzzy
+msgid "prg_visible"
+msgstr "Study Programme is visible"
+
+#, fuzzy
+msgid "prg_write"
+msgstr "User can edit settings of Study Programme"
+
+#, fuzzy
+msgid "prgr_copy"
+msgstr "User can copy links to study programmes."
+
+#, fuzzy
+msgid "prgr_delete"
+msgstr "User can move or delete links to study programmes."
+
+#, fuzzy
+msgid "prgr_edit_permission"
+msgstr "User can change permission settings."
+
+#, fuzzy
+msgid "prgr_visible"
+msgstr "Links to study programmes are visible and can be used"
+
+#, fuzzy
+msgid "prgr_write"
+msgstr "User can edit settings of links to study programmes."
+
+#, fuzzy
+msgid "prgs_edit_permission"
+msgstr "Change permission settings in Study Programme administration"
+
+#, fuzzy
+msgid "prgs_read"
+msgstr "User has read access to Study Programme administration"
+
+#, fuzzy
+msgid "prgs_visible"
+msgstr "Study Programme administration is visible"
+
+#, fuzzy
+msgid "prgs_write"
+msgstr "Edit settings in Study Programme administration"
+
+#, fuzzy
+msgid "prss_edit_permission"
+msgstr "User can change permission settings of Personal Resources administration."
+
+#, fuzzy
+msgid "prss_read"
+msgstr "User has read access to Personal Resources administration."
+
+#, fuzzy
+msgid "prss_visible"
+msgstr "Administration of Personal Resources is visible."
+
+#, fuzzy
+msgid "prss_write"
+msgstr "User can edit settings of Personal Resources administration."
+
+#, fuzzy
+msgid "prtt_copy"
+msgstr "User can copy portfolio template"
+
+#, fuzzy
+msgid "prtt_delete"
+msgstr "User can move or delete portfolio template"
+
+#, fuzzy
+msgid "prtt_edit_permission"
+msgstr "User can change permission settings for portfolio template"
+
+#, fuzzy
+msgid "prtt_read"
+msgstr "User has read access to portfolio template"
+
+#, fuzzy
+msgid "prtt_visible"
+msgstr "Portfolio Template is visible"
+
+#, fuzzy
+msgid "prtt_write"
+msgstr "User can edit settings and content of portfolio template"
+
+msgid "ps_edit_permission"
+msgstr "Change Permission Settings"
+
+msgid "ps_export_member_data"
+msgstr "User may Export Member Data"
+
+msgid "ps_read"
+msgstr "Read Access to Privacy/Security Settings"
+
+msgid "ps_visible"
+msgstr "Privacy/Security Settings are Visible"
+
+msgid "ps_write"
+msgstr "Edit Privacy/Security"
+
+#, fuzzy
+msgid "push_desktop_items"
+msgstr "Recommend Content"
+
+#, fuzzy
+msgid "qpl_copy"
+msgstr "Copy Test Question Pool"
+
+msgid "qpl_delete"
+msgstr "Διαγραφή μνήμης ερωτήσεων για το διαγώνισμα"
+
+msgid "qpl_edit_permission"
+msgstr "Αλλαγή ρυθμίσεων άδειας"
+
+msgid "qpl_read"
+msgstr "Πρόσβαση ανάγνωσης στη μνήμη ερωτήσεων για το διαγώνισμα"
+
+msgid "qpl_visible"
+msgstr "Η μνήμη ερωτήσεων για το διαγώνισμα είναι ορατή"
+
+msgid "qpl_write"
+msgstr "Επεξεργασία μνήμης ερωτήσεων για το διαγώνισμα"
+
+#, fuzzy
+msgid "rbac_add_new_local_role"
+msgstr "Add New Local Role"
+
+#, fuzzy
+msgid "rbac_add_recommended_content"
+msgstr "Recommended Content"
+
+#, fuzzy
+msgid "rbac_add_recommended_content_info"
+msgstr "Adds the current object '%1' for all members of the role as recommended content."
+
+#, fuzzy
+msgid "rbac_admin_permissions"
+msgstr "Administration Permissions"
+
+#, fuzzy
+msgid "rbac_auto_global"
+msgstr "Auto generated global role"
+
+#, fuzzy
+msgid "rbac_auto_local"
+msgstr "Auto generated local role"
+
+#, fuzzy
+msgid "rbac_auto_rolt"
+msgstr "Auto generated role template"
+
+#, fuzzy
+msgid "rbac_back_to_overview"
+msgstr "Back to Role List"
+
+#, fuzzy
+msgid "rbac_cant_import_role_wrong_type"
+msgstr "Can't import a role from item %s into item %s."
+
+#, fuzzy
+msgid "rbac_change_existing_confirm_tbl"
+msgstr "Settings for \"Change Existing Objects\""
+
+#, fuzzy
+msgid "rbac_change_existing_objects_desc_new_role"
+msgstr "The permission settings of this role will be adpoted to ALL existing objects."
+
+#, fuzzy
+msgid "rbac_changes"
+msgstr "Changes"
+
+#, fuzzy
+msgid "rbac_choose_copy_targets"
+msgstr "Please enter a quer for selecting the target roles."
+
+#, fuzzy
+msgid "rbac_condition_delete_sure"
+msgstr "Are you sure you want to delete the following preconditions?"
+
+#, fuzzy
+msgid "rbac_context_global"
+msgstr "Global"
+
+#, fuzzy
+msgid "rbac_copy_behaviour"
+msgstr "Role Copy Settings"
+
+#, fuzzy
+msgid "rbac_copy_behaviour_info"
+msgstr "Transfer Permissions from: %s to: %s"
+
+#, fuzzy
+msgid "rbac_copy_finished"
+msgstr "Finished copying."
+
+#, fuzzy
+msgid "rbac_copy_multi_targets"
+msgstr "%s, %s and %s further Roles selected%s"
+
+#, fuzzy
+msgid "rbac_copy_no_targets"
+msgstr "At least one Role must be selected as Target"
+
+#, fuzzy
+msgid "rbac_copy_role"
+msgstr "Copy Role"
+
+#, fuzzy
+msgid "rbac_copy_role_add_perm"
+msgstr "Add Permissions"
+
+#, fuzzy
+msgid "rbac_copy_role_copy"
+msgstr "Copy Permissions"
+
+#, fuzzy
+msgid "rbac_copy_role_remove_perm"
+msgstr "Remove Permissions"
+
+#, fuzzy
+msgid "rbac_create_bibl"
+msgstr "Create Bibliography"
+
+#, fuzzy
+msgid "rbac_create_blog"
+msgstr "Create Blog"
+
+#, fuzzy
+msgid "rbac_create_book"
+msgstr "Create Booking Pool"
+
+msgid "rbac_create_cat"
+msgstr "Ο χρήστης μπορεί να δημιουργήσει κατηγορίες"
+
+#, fuzzy
+msgid "rbac_create_catr"
+msgstr "Create Category Reference"
+
+#, fuzzy
+msgid "rbac_create_chtr"
+msgstr "Create Chatroom"
+
+#, fuzzy
+msgid "rbac_create_cmix"
+msgstr "Create xAPI/cmi5 Object"
+
+#, fuzzy
+msgid "rbac_create_copa"
+msgstr "Create Content Page"
+
+#, fuzzy
+msgid "rbac_create_crs"
+msgstr "Create Course"
+
+#, fuzzy
+msgid "rbac_create_crsr"
+msgstr "Create Course Referenc"
+
+#, fuzzy
+msgid "rbac_create_dcl"
+msgstr "Create Data Collection"
+
+#, fuzzy
+msgid "rbac_create_exc"
+msgstr "Create Exercise"
+
+#, fuzzy
+msgid "rbac_create_file"
+msgstr "Upload File"
+
+msgid "rbac_create_fold"
+msgstr "Δημιουργία φακέλου"
+
+#, fuzzy
+msgid "rbac_create_frm"
+msgstr "Create Forum"
+
+#, fuzzy
+msgid "rbac_create_glo"
+msgstr "Create Glossary"
+
+#, fuzzy
+msgid "rbac_create_grp"
+msgstr "Create Group"
+
+#, fuzzy
+msgid "rbac_create_grpr"
+msgstr "Create Group Reference"
+
+#, fuzzy
+msgid "rbac_create_htlm"
+msgstr "Create HTML Learning Module"
+
+#, fuzzy
+msgid "rbac_create_iass"
+msgstr "Create Individual Assessment"
+
+#, fuzzy
+msgid "rbac_create_itgr"
+msgstr "Create Item Group"
+
+#, fuzzy
+msgid "rbac_create_lm"
+msgstr "Create ILIAS Learning Module"
+
+#, fuzzy
+msgid "rbac_create_lso"
+msgstr "Create Learning Sequence"
+
+#, fuzzy
+msgid "rbac_create_lti"
+msgstr "Create LTI Consumer"
+
+#, fuzzy
+msgid "rbac_create_mcst"
+msgstr "Create Mediacast"
+
+#, fuzzy
+msgid "rbac_create_mep"
+msgstr "Create Media Pool"
+
+#, fuzzy
+msgid "rbac_create_orgu"
+msgstr "Create Organisational Units"
+
+#, fuzzy
+msgid "rbac_create_poll"
+msgstr "Create Poll"
+
+#, fuzzy
+msgid "rbac_create_prg"
+msgstr "Create Study Programme"
+
+#, fuzzy
+msgid "rbac_create_prgr"
+msgstr "Create link to study programme"
+
+#, fuzzy
+msgid "rbac_create_prtt"
+msgstr "Create Portfolio Template"
+
+#, fuzzy
+msgid "rbac_create_qpl"
+msgstr "Create Question Pool Test"
+
+#, fuzzy
+msgid "rbac_create_rcrs"
+msgstr "Create Course-Link"
+
+#, fuzzy
+msgid "rbac_create_role"
+msgstr "Create new Role"
+
+#, fuzzy
+msgid "rbac_create_rolt"
+msgstr "Create new Role Template"
+
+#, fuzzy
+msgid "rbac_create_sahs"
+msgstr "Create SCORM/AICC Learning Module"
+
+msgid "rbac_create_sess"
+msgstr "Create Session"
+
+#, fuzzy
+msgid "rbac_create_skee"
+msgstr "Create Competence Tree"
+
+#, fuzzy
+msgid "rbac_create_spl"
+msgstr "Create Question Pool Survey"
+
+#, fuzzy
+msgid "rbac_create_svy"
+msgstr "Create Survey"
+
+#, fuzzy
+msgid "rbac_create_tst"
+msgstr "Create Test"
+
+#, fuzzy
+msgid "rbac_create_usr"
+msgstr "User is allowed to create user accounts"
+
+#, fuzzy
+msgid "rbac_create_webr"
+msgstr "Create Weblink"
+
+#, fuzzy
+msgid "rbac_create_wiki"
+msgstr "Create Wiki"
+
+#, fuzzy
+msgid "rbac_delete_local_policies"
+msgstr "Delete Local Policies"
+
+#, fuzzy
+msgid "rbac_delete_local_policies_info"
+msgstr "If activated, all local policies will be deleted. The object permissions will be rewritten and protected."
+
+#, fuzzy
+msgid "rbac_delete_role"
+msgstr "Delete Role"
+
+#, fuzzy
+msgid "rbac_edit_condition"
+msgstr "Edit Precondition"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_button"
+msgstr "Rechte anpassen"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_type"
+msgstr "Typ der Rechteanpassung"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_type_add"
+msgstr "Rechte hinzufügen"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_type_add_info"
+msgstr "Fügt MARKIERTE Rechte der ausgewählten globalen Rollenvorlage zu den lokalen Rechtevorgabe hinzu."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_type_clone"
+msgstr "Rechte kopieren"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_type_clone_info"
+msgstr "Alle Rechte der ausgewählten globalen Rollenvorlage überschreiben alle lokalen Rechtevorgaben."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_type_remove"
+msgstr "Rechte entfernen"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_adjust_type_remove_info"
+msgstr "Entfernt die MARKIERTEN Rechte der ausgewählten globalen Rollenvorlage aus den lokalen Rechtevorgaben."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_add_no"
+msgstr "Vorhandene Objekte NICHT anpassen"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_add_no_info"
+msgstr "Vorhandene lokale Rechtevorgaben entsprechend ergänzt, die vorhandenen Objekte werden nicht in ihren Rechten angepasst."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_add_yes"
+msgstr "Vorhandene Objekte nur um ausgewählte Rechte ergänzen"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_add_yes_info"
+msgstr "Vorhandene lokale Rechtevorgaben und die Rechteeinstellungen vorhandener Objekte werden entsprechend ergänzt."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_clone_no"
+msgstr "Vorhandene Objekte NICHT anpassen"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_clone_no_info"
+msgstr "Vorhandene lokale Rechtevorgaben werden überschrieben, die vorhandenen Objekte werden nicht in ihren Rechten angepasst."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_clone_yes"
+msgstr "Vorhandene Objekte ändern"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_clone_yes_info"
+msgstr "Vorhandene lokale Rechtevorgaben entsprechend überschreiben und IN GÄNZE mit allen gecheckten und ungecheckten Vorgaben auf vorhandene Objekte angewendet."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_remove_no"
+msgstr "Vorhandene Objekte NICHT anpassen"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_remove_no_info"
+msgstr "Markierte Rechte werden aus vorhandenen lokalen Rechtevorgaben entfernt, die vorhandenen Objekte werden nicht in ihren Rechten angepasst."
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_remove_yes"
+msgstr "Vorhandene Objekte nur um ausgewählte Rechte reduzieren"
+
+#, fuzzy
+msgid "rbac_form_copy_roles_ce_remove_yes_info"
+msgstr "Vorhandene lokale Rechtevorgaben und die Rechteeinstellungen vorhandener Objekte werden entsprechend reduziert."
+
+#, fuzzy
+msgid "rbac_global_rolt"
+msgstr "Global Role Template"
+
+#, fuzzy
+msgid "rbac_import_role"
+msgstr "Import Role"
+
+#, fuzzy
+msgid "rbac_info_only_position_access"
+msgstr "You are presented only with those members with a Position within your organisational unit. Members with other organisational Positions are not shown to you but may reside in this coures without being shown to you."
+
+#, fuzzy
+msgid "rbac_keep_local_policies"
+msgstr "Keep Local Policies"
+
+#, fuzzy
+msgid "rbac_keep_local_policies_info"
+msgstr "Choose this mode for keeping all local policies. The object permissions will be adapted to these policies and afterwards protected."
+
+#, fuzzy
+msgid "rbac_local_policies"
+msgstr "Local Policies"
+
+#, fuzzy
+msgid "rbac_local_policy"
+msgstr "Local Policy"
+
+#, fuzzy
+msgid "rbac_log"
+msgstr "Log"
+
+#, fuzzy
+msgid "rbac_log_change_owner"
+msgstr "Change Owner of Object"
+
+#, fuzzy
+msgid "rbac_log_changed_owner"
+msgstr "Changed Owner to"
+
+#, fuzzy
+msgid "rbac_log_copy_object"
+msgstr "Copy Object"
+
+#, fuzzy
+msgid "rbac_log_create_object"
+msgstr "Create Object"
+
+#, fuzzy
+msgid "rbac_log_edit_permissions"
+msgstr "Edit Permissions"
+
+#, fuzzy
+msgid "rbac_log_edit_template"
+msgstr "Edit Role Template"
+
+#, fuzzy
+msgid "rbac_log_edit_template_existing"
+msgstr "Use Role Template for Existing Objects"
+
+#, fuzzy
+msgid "rbac_log_inheritance_add"
+msgstr "Stopped Inheritance for \"%s\""
+
+#, fuzzy
+msgid "rbac_log_inheritance_rmv"
+msgstr "Allowed Inheritance for \"%s\""
+
+#, fuzzy
+msgid "rbac_log_link_object"
+msgstr "Link Object"
+
+#, fuzzy
+msgid "rbac_log_move_object"
+msgstr "Move Object"
+
+#, fuzzy
+msgid "rbac_log_operation_add"
+msgstr "Added Operation for \"%s\""
+
+#, fuzzy
+msgid "rbac_log_operation_rmv"
+msgstr "Removed Operation for \"%s\""
+
+#, fuzzy
+msgid "rbac_log_source_object"
+msgstr "Source object"
+
+#, fuzzy
+msgid "rbac_msg_user_already_assigned"
+msgstr "The chosen users are already assigned to this role."
+
+#, fuzzy
+msgid "rbac_not_change_existing_objects"
+msgstr "Do NOT change existing objects"
+
+#, fuzzy
+msgid "rbac_permissions"
+msgstr "Permissions"
+
+#, fuzzy
+msgid "rbac_precondition_condition"
+msgstr "Access requires having this status"
+
+#, fuzzy
+msgid "rbac_precondition_hide"
+msgstr "Hide Object"
+
+#, fuzzy
+msgid "rbac_precondition_hide_info"
+msgstr " This option allows to hide the object for users who currently have not fulfilled the preconditions. Therefore, all not accessible content is invisible."
+
+#, fuzzy
+msgid "rbac_precondition_minimum_optional"
+msgstr "At least 2 preconditions have to remain optional."
+
+#, fuzzy
+msgid "rbac_precondition_mode"
+msgstr "Mode"
+
+#, fuzzy
+msgid "rbac_precondition_mode_all"
+msgstr "All Preconditions"
+
+#, fuzzy
+msgid "rbac_precondition_mode_all_info"
+msgstr "All preconditions need to be fulfilled to give access."
+
+#, fuzzy
+msgid "rbac_precondition_mode_subset"
+msgstr "Subset of Preconditions"
+
+#, fuzzy
+msgid "rbac_precondition_mode_subset_info"
+msgstr "A subset of preconditions need to be fulfilled to give access. Some preconditions may still be set as obligatory."
+
+#, fuzzy
+msgid "rbac_precondition_save_obligatory"
+msgstr "Save Obligatory"
+
+#, fuzzy
+msgid "rbac_precondition_source"
+msgstr "Condition Trigger"
+
+#, fuzzy
+msgid "rbac_precondition_target"
+msgstr "Condition limits access to"
+
+#, fuzzy
+msgid "rbac_repository_permissions"
+msgstr "Repository Permissions"
+
+#, fuzzy
+msgid "rbac_role_delete_qst"
+msgstr "Are you sure you want to delete the following role?<br />All permissions granted by this role will be deleted permanently."
+
+#, fuzzy
+msgid "rbac_role_delete_self"
+msgstr "<strong>Attention:</strong> You are assigned to this role. If you continue this delete operation, you may loose access to some ILIAS materials.  "
+
+#, fuzzy
+msgid "rbac_role_exists_alert"
+msgstr "A role with the same name already exists in this context. Please choose another name."
+
+#, fuzzy
+msgid "rbac_role_imported"
+msgstr "The role has been imported."
+
+#, fuzzy
+msgid "rbac_role_rights_copy"
+msgstr "Copy Permissions"
+
+#, fuzzy
+msgid "rbac_role_rights_copy_change_existing"
+msgstr "Change Existing Objects"
+
+#, fuzzy
+msgid "rbac_role_rights_copy_empty"
+msgstr "None"
+
+#, fuzzy
+msgid "rbac_role_selection"
+msgstr "Role Type"
+
+#, fuzzy
+msgid "rbac_role_title"
+msgstr "Role Title"
+
+#, fuzzy
+msgid "rbac_select_copy_targets"
+msgstr "Please select the target roles"
+
+msgid "rbac_select_roles"
+msgstr "Role Selection"
+
+#, fuzzy
+msgid "rbac_ud_global"
+msgstr "User defined global role"
+
+#, fuzzy
+msgid "rbac_ud_local"
+msgstr "User defined local role"
+
+#, fuzzy
+msgid "rbac_ud_rolt"
+msgstr "User defined role template"
+
+#, fuzzy
+msgid "rbac_unprotected_delete_local_policies_info"
+msgstr "If activated, all local policies will be deleted. Permissions in courses and groups will be newly initialized."
+
+#, fuzzy
+msgid "rbac_unprotected_keep_local_policies_info"
+msgstr "Choose this mode to keep all local policies."
+
+#, fuzzy
+msgid "rbac_view_content"
+msgstr "View Content"
+
+#, fuzzy
+msgid "rcat_delete"
+msgstr "User can move or delete ECS Category"
+
+#, fuzzy
+msgid "rcat_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "rcat_read"
+msgstr "User can use ECS Category"
+
+#, fuzzy
+msgid "rcat_visible"
+msgstr "ECS Category is visible"
+
+#, fuzzy
+msgid "rcat_write"
+msgstr "User can edit settings of ECS Category"
+
+msgid "rcrs_delete"
+msgstr "Delete Course-Link"
+
+msgid "rcrs_edit_permission"
+msgstr "Change permission settings"
+
+msgid "rcrs_read"
+msgstr "Read access to Course-Link"
+
+msgid "rcrs_visible"
+msgstr "Course-Link is visible"
+
+msgid "rcrs_write"
+msgstr "Edit Course-Link"
+
+#, fuzzy
+msgid "read_all_accounts"
+msgstr "Read All Accounts"
+
+#, fuzzy
+msgid "read_comp"
+msgstr "User has read access to Competences and Competence Templates"
+
+#, fuzzy
+msgid "read_learning_progress"
+msgstr "View learning progress of other users"
+
+#, fuzzy
+msgid "read_outcomes"
+msgstr "View learning experiences of other users"
+
+#, fuzzy
+msgid "read_profiles"
+msgstr "User has read access to Competence Profiles"
+
+#, fuzzy
+msgid "read_results"
+msgstr "Survey Results"
+
+#, fuzzy
+msgid "read_users"
+msgstr "Read Access to Local User Accounts"
+
+msgid "recf_edit_permission"
+msgstr "Change permission settings"
+
+msgid "recf_read"
+msgstr "Read access to Restored Objects"
+
+msgid "recf_visible"
+msgstr "Restored Objects are visible"
+
+msgid "recf_write"
+msgstr "Edit Restored Objects"
+
+#, fuzzy
+msgid "redact"
+msgstr "Redact"
+
+#, fuzzy
+msgid "release_objects"
+msgstr "Release Objects"
+
+#, fuzzy
+msgid "reps_edit_permission"
+msgstr "User can change permission settings in Repository administration"
+
+#, fuzzy
+msgid "reps_read"
+msgstr "User has read access to Repository administration"
+
+#, fuzzy
+msgid "reps_visible"
+msgstr "Repository administration is visible"
+
+#, fuzzy
+msgid "reps_write"
+msgstr "Edit settings in Repository administration"
+
+#, fuzzy
+msgid "rfil_delete"
+msgstr "User can move or delete ECS File "
+
+#, fuzzy
+msgid "rfil_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "rfil_read"
+msgstr "User can use ECS File "
+
+#, fuzzy
+msgid "rfil_visible"
+msgstr "ECS File is visible"
+
+#, fuzzy
+msgid "rfil_write"
+msgstr "User can edit settings of ECS File"
+
+#, fuzzy
+msgid "rglo_delete"
+msgstr "User can move or delete ECS Glossary "
+
+#, fuzzy
+msgid "rglo_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "rglo_read"
+msgstr "User can use ECS Glossary "
+
+#, fuzzy
+msgid "rglo_visible"
+msgstr "ECS Glossary is visible"
+
+#, fuzzy
+msgid "rglo_write"
+msgstr "User can edit settings of ECS Glossary"
+
+#, fuzzy
+msgid "rgrp_delete"
+msgstr "User can move or delete ECS Group "
+
+#, fuzzy
+msgid "rgrp_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "rgrp_read"
+msgstr "User can use ECS Group "
+
+#, fuzzy
+msgid "rgrp_visible"
+msgstr "ECS Group is visible"
+
+#, fuzzy
+msgid "rgrp_write"
+msgstr "User can edit settings of ECS Group"
+
+#, fuzzy
+msgid "rlm_delete"
+msgstr "User can move or delete ECS Learning Module "
+
+#, fuzzy
+msgid "rlm_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "rlm_read"
+msgstr "User can use ECS Learning Module "
+
+#, fuzzy
+msgid "rlm_visible"
+msgstr "ECS Learning Module is visible"
+
+#, fuzzy
+msgid "rlm_write"
+msgstr "User can edit settings of ECS Learning Module"
+
+#, fuzzy
+msgid "role_block_role"
+msgstr "Block Role"
+
+#, fuzzy
+msgid "role_block_role_desc"
+msgstr "The access to this and all subordinated objects is will be revoked."
+
+#, fuzzy
+msgid "role_blocked"
+msgstr ": <i>Role will be blocked</i>"
+
+#, fuzzy
+msgid "role_confirm_block_role"
+msgstr "Save Role Status"
+
+#, fuzzy
+msgid "role_confirm_block_role_header"
+msgstr "Do you really want to block the chosen roles?"
+
+#, fuzzy
+msgid "role_confirm_block_role_info"
+msgstr "The following operations will be performed:<br /><br />- the role permissions of this and all subordinated objects will be blocked.<br />- the new permission settings will be protected."
+
+#, fuzzy
+msgid "role_confirm_unblock_role_info"
+msgstr "The following steps will be performed for the action \"Unblock Role\":<br /><br />- the local policy will be deleted."
+
+#, fuzzy
+msgid "role_unblocked"
+msgstr ": <i>Role will be unblocked</i>"
+
+msgid "root_edit_permission"
+msgstr "Αλλαγή ρυθμίσεων άδειας"
+
+msgid "root_read"
+msgstr "Πρόσβαση ανάγνωσης στο σύστημα ILIAS"
+
+msgid "root_visible"
+msgstr "Το σύστημα ILIAS είναι ορατό"
+
+msgid "root_write"
+msgstr "Επεξεργασία μεταδεδομένων του κόμβου ρίζας του συστήματος"
+
+#, fuzzy
+msgid "rtst_delete"
+msgstr "User can move or delete ECS Test"
+
+#, fuzzy
+msgid "rtst_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "rtst_read"
+msgstr "User can use ECS Test"
+
+#, fuzzy
+msgid "rtst_visible"
+msgstr "ECS Test is visible"
+
+#, fuzzy
+msgid "rtst_write"
+msgstr "User can edit settings of ECS Test"
+
+#, fuzzy
+msgid "rwik_delete"
+msgstr "User can move or delete ECS Wiki"
+
+#, fuzzy
+msgid "rwik_edit_permission"
+msgstr "User can change permission settings"
+
+#, fuzzy
+msgid "rwik_read"
+msgstr "User can use ECS Wiki"
+
+#, fuzzy
+msgid "rwik_visible"
+msgstr "ECS Wiki is visible"
+
+#, fuzzy
+msgid "rwik_write"
+msgstr "User can edit settings of ECS Wiki"
+
+#, fuzzy
+msgid "sahs_copy"
+msgstr "User can copy SCORM/AICC learning module"
+
+msgid "sahs_delete"
+msgstr "Διαγραφή εκπαιδευτικής μονάδας SCORM/AICC"
+
+msgid "sahs_edit_learning_progress"
+msgstr "Επεξεργασία εκπαιδευτικής προόδου"
+
+msgid "sahs_edit_permission"
+msgstr "Αλλαγή ρυθμίσεων άδειας"
+
+msgid "sahs_read"
+msgstr "Πρόσβαση μόνο για ανάγνωση στην εκπαιδευτική μονάδα SCORM/AICC"
+
+#, fuzzy
+msgid "sahs_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "sahs_visible"
+msgstr "Η εκπαιδευτική μονάδα SCORM/AICC είναι ορατή"
+
+msgid "sahs_write"
+msgstr "Επεξεργασία Εκπαιδευτικής Μονάδας SCORM/AICC"
+
+msgid "seas_edit_permission"
+msgstr "Αλλαγή ρυθμίσεων άδειας"
+
+msgid "seas_read"
+msgstr "Ανάγνωση ρυθμίσεων αναζήτησης"
+
+msgid "seas_search"
+msgstr "Επιτρέπεται η χρήση της αναζήτησης"
+
+msgid "seas_visible"
+msgstr "Οι ρυθμίσεις αναζήτησης είναι ορατές"
+
+msgid "seas_write"
+msgstr "Επεξεργασία ρυθμίσεων αναζήτησης"
+
+#, fuzzy
+msgid "sess_copy"
+msgstr "Copy Session"
+
+#, fuzzy
+msgid "sess_delete"
+msgstr "Delete Session"
+
+msgid "sess_edit_event"
+msgstr "Edit Calendar Events"
+
+#, fuzzy
+msgid "sess_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+#, fuzzy
+msgid "sess_edit_metadata"
+msgstr "Edit Metadata"
+
+msgid "sess_edit_permission"
+msgstr "Change Permission Settings"
+
+#, fuzzy
+msgid "sess_manage_materials"
+msgstr "Manage Session Materials"
+
+#, fuzzy
+msgid "sess_manage_members"
+msgstr "Manage Participants of a Session"
+
+msgid "sess_read"
+msgstr "Read access to Sessions"
+
+#, fuzzy
+msgid "sess_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "sess_visible"
+msgstr "Sessions are visible"
+
+msgid "sess_write"
+msgstr "Edit Sessions"
+
+#, fuzzy
+msgid "skee_copy"
+msgstr "User can copy Competence Tree (currently not available)"
+
+#, fuzzy
+msgid "skee_delete"
+msgstr "User can delete Competence Tree"
+
+#, fuzzy
+msgid "skee_edit_permission"
+msgstr "User can change permission settings of Competence Tree administration"
+
+#, fuzzy
+msgid "skee_manage_comp"
+msgstr "User can edit Competences in Competence Tree"
+
+#, fuzzy
+msgid "skee_manage_comp_temp"
+msgstr "User can edit Competence Templates in Competence Tree"
+
+#, fuzzy
+msgid "skee_manage_profiles"
+msgstr "User can edit Competence Profiles in Competence Tree"
+
+#, fuzzy
+msgid "skee_read"
+msgstr "User has read access to administration of Competence Tree"
+
+#, fuzzy
+msgid "skee_read_comp"
+msgstr "User has read access to Competences and Competence Templates in Competence Tree"
+
+#, fuzzy
+msgid "skee_read_profiles"
+msgstr "User has read access to Competence Profiles in Competence Tree"
+
+#, fuzzy
+msgid "skee_visible"
+msgstr "Competence Tree is visible"
+
+#, fuzzy
+msgid "skee_write"
+msgstr "User can edit settings of Competence Tree"
+
+#, fuzzy
+msgid "skmg_edit_permission"
+msgstr "Change permission settings"
+
+#, fuzzy
+msgid "skmg_read"
+msgstr "Read access to Skill Management"
+
+#, fuzzy
+msgid "skmg_visible"
+msgstr "Skill Management is visible"
+
+#, fuzzy
+msgid "skmg_write"
+msgstr "Edit Skill Management"
+
+#, fuzzy
+msgid "smtp_mail"
+msgstr "Send Mail"
+
+#, fuzzy
+msgid "spl_copy"
+msgstr "Copy Survey Question Pool"
+
+msgid "spl_delete"
+msgstr "Διαγραφή μνήμης ερωτήσεων για έρευνα"
+
+msgid "spl_edit_permission"
+msgstr "Αλλαγή ρυθμίσεων άδειας"
+
+msgid "spl_read"
+msgstr "Πρόσβαση ανάγνωσης στη μνήμη ερωτήσεων για έρευνα"
+
+msgid "spl_visible"
+msgstr "Η μνήμη ερωτήσεων για έρευνα είναι ορατή"
+
+msgid "spl_write"
+msgstr "Επεξεργασία μνήμης ερωτήσεων για έρευνα"
+
+#, fuzzy
+msgid "statistics_read"
+msgstr "View Statistics"
+
+#, fuzzy
+msgid "stus_edit_permission"
+msgstr "User can change permission settings in Shortlink administration"
+
+#, fuzzy
+msgid "stus_read"
+msgstr "User can see the Shortlink Administration"
+
+#, fuzzy
+msgid "stus_write"
+msgstr "User can edit Shortlinks"
+
+#, fuzzy
+msgid "sty_write_content"
+msgstr "Edit Content Styles"
+
+#, fuzzy
+msgid "sty_write_page_layout"
+msgstr "Edit Page Layouts"
+
+#, fuzzy
+msgid "sty_write_system"
+msgstr "Edit System Styles"
+
+msgid "stys_edit_permission"
+msgstr "Αλλαγή ρυθμίσεων άδειας"
+
+msgid "stys_read"
+msgstr "Πρόσβαση ανάγνωσης στις ρυθμίσεις στυλ"
+
+#, fuzzy
+msgid "stys_sty_write_content"
+msgstr "Edit Content Styles"
+
+#, fuzzy
+msgid "stys_sty_write_custom"
+msgstr "Edit Content Styles"
+
+#, fuzzy
+msgid "stys_sty_write_page_layout"
+msgstr "Edit Page Layouts"
+
+#, fuzzy
+msgid "stys_sty_write_system"
+msgstr "Edit System Styles"
+
+msgid "stys_visible"
+msgstr "Οι ρυθμίσεις στυλ είναι ορατές"
+
+msgid "svy_copy"
+msgstr "Copy Survey"
+
+msgid "svy_delete"
+msgstr "Διαγραφή έρευνας"
+
+#, fuzzy
+msgid "svy_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+msgid "svy_edit_permission"
+msgstr "Αλλαγή ρυθμίσεων άδειας"
+
+msgid "svy_invite"
+msgstr "Πρόσκληση χρηστών σε έρευνα"
+
+msgid "svy_read"
+msgstr "Πρόσβαση ανάγνωσης σε έρευνα"
+
+#, fuzzy
+msgid "svy_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+#, fuzzy
+msgid "svy_read_results"
+msgstr "User has access to survey results of others"
+
+msgid "svy_visible"
+msgstr "Η έρευνα είναι ορατή"
+
+msgid "svy_write"
+msgstr "Επεξεργασία έρευνας"
+
+#, fuzzy
+msgid "svyf_edit_permission"
+msgstr "Change permission settings"
+
+#, fuzzy
+msgid "svyf_read"
+msgstr "Read access to survey settings"
+
+#, fuzzy
+msgid "svyf_visible"
+msgstr "Survey settings are visible"
+
+#, fuzzy
+msgid "svyf_write"
+msgstr "Edit survey settings"
+
+#, fuzzy
+msgid "sysc_edit_permission"
+msgstr "User can change permissions of System Check."
+
+#, fuzzy
+msgid "sysc_read"
+msgstr "User has read access to System Check."
+
+#, fuzzy
+msgid "sysc_visible"
+msgstr "System Check is visible."
+
+#, fuzzy
+msgid "sysc_write"
+msgstr "User can execute System Check."
+
+msgid "tags_edit_permission"
+msgstr "Change permission settings"
+
+msgid "tags_read"
+msgstr "Read access to Tagging Settings"
+
+msgid "tags_visible"
+msgstr "Tagging Settings are visible"
+
+msgid "tags_write"
+msgstr "Edit Tagging Settings"
+
+#, fuzzy
+msgid "tala_edit_permission"
+msgstr "User can change permission settings in Talk Templates administration"
+
+#, fuzzy
+msgid "tala_read"
+msgstr "User has read access to Talk Templates administration"
+
+#, fuzzy
+msgid "tala_visible"
+msgstr "Talk Templates administration is visible"
+
+#, fuzzy
+msgid "tala_write"
+msgstr "User can create and edit Talk Templates"
+
+#, fuzzy
+msgid "taxs_edit_permission"
+msgstr "User can change permission settings in Taxonomy administration"
+
+#, fuzzy
+msgid "taxs_read"
+msgstr "User has read access to Taxonomy administration"
+
+#, fuzzy
+msgid "taxs_visible"
+msgstr "Taxonomy administration is visible"
+
+#, fuzzy
+msgid "taxs_write"
+msgstr "Edit settings in Taxonomy administration"
+
+#, fuzzy
+msgid "tos_edit_permission"
+msgstr "User can change permission settings in Terms of Service administration"
+
+#, fuzzy
+msgid "tos_read"
+msgstr "User has read access to Terms of Service administration"
+
+#, fuzzy
+msgid "tos_visible"
+msgstr "Terms of Service administration is visible"
+
+#, fuzzy
+msgid "tos_write"
+msgstr "Edit settings in Terms of Service administration"
+
+msgid "trac_delete"
+msgstr "Διαγραφή δεδομένων ιχνηλασίας"
+
+msgid "trac_edit_permission"
+msgstr "Αλλαγή ρυθμίσεων άδειας"
+
+#, fuzzy
+msgid "trac_lp_other_users"
+msgstr "See learning progress overview of other users"
+
+msgid "trac_read"
+msgstr "Ανάγνωση ιχνηλατημένων δεδομένων"
+
+msgid "trac_visible"
+msgstr "Η Ιχνηλάτιση χρηστών είναι ορατή"
+
+#, fuzzy
+msgid "trac_write"
+msgstr "Edit settings in Statistics and Learning Progress administration"
+
+msgid "tst_copy"
+msgstr "Copy Test"
+
+msgid "tst_delete"
+msgstr "Διαγραφή εξέτασης"
+
+msgid "tst_edit_learning_progress"
+msgstr "Επεξεργασία εκπαιδευτικής προόδου"
+
+msgid "tst_edit_permission"
+msgstr "Αλλαγή ρυθμίσεων άδειας"
+
+msgid "tst_read"
+msgstr "Πρόσβαση ανάγνωσης στην εξέταση"
+
+#, fuzzy
+msgid "tst_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+#, fuzzy
+msgid "tst_tst_history_read"
+msgstr "View History"
+
+#, fuzzy
+msgid "tst_tst_results"
+msgstr "User has access to test results"
+
+msgid "tst_visible"
+msgstr "Το διαγώνισμα είναι ορατό"
+
+msgid "tst_write"
+msgstr "Επεξεργασία διαγωνίσματος"
+
+#, fuzzy
+msgid "upload_blacklisted_files"
+msgstr "Bypass blacklist"
+
+msgid "usrf_delete"
+msgstr "Διαγραφή λογαριασμών χρήστη"
+
+msgid "usrf_edit_permission"
+msgstr "Αλλαγή πρόσβασης στους λογαριασμούς χρήστη"
+
+msgid "usrf_edit_roleassignment"
+msgstr "Αλλαγή ανάθεσης ρόλου των λογαριασμών χρηστών"
+
+msgid "usrf_push_desktop_items"
+msgstr ".Επιτρέπεται η μετακίνηση αντικειμένων στην προσωπική επιφάνεια εργασίας."
+
+msgid "usrf_read"
+msgstr "Πρόσβαση ανάγνωσης στους λογαριασμούς χρήστη"
+
+#, fuzzy
+msgid "usrf_read_all_accounts"
+msgstr "User can list all accounts in User administration"
+
+msgid "usrf_read_users"
+msgstr "Ανάθεση ρόλου για τοπικούς διαχειριστές"
+
+msgid "usrf_visible"
+msgstr "Οι λογαριασμοί χρηστών είναι ορατοί"
+
+msgid "usrf_write"
+msgstr "Επεξεργασία λογαριασμών χρηστών"
+
+#, fuzzy
+msgid "wbdv_edit_permission"
+msgstr "User can change permission settings of WebDAV administration."
+
+#, fuzzy
+msgid "wbdv_read"
+msgstr "User has read access to WebDAV administration."
+
+#, fuzzy
+msgid "wbdv_visible"
+msgstr "Administration of WebDAV is visible."
+
+#, fuzzy
+msgid "wbdv_write"
+msgstr "User can edit settings of WebDAV administration."
+
+#, fuzzy
+msgid "wbrs_edit_permission"
+msgstr "User can change permission settings in Weblink administration"
+
+#, fuzzy
+msgid "wbrs_read"
+msgstr "User has read access to Weblink administration"
+
+#, fuzzy
+msgid "wbrs_visible"
+msgstr "Weblink administration is visible"
+
+#, fuzzy
+msgid "wbrs_write"
+msgstr "Edit settings in Weblink administration"
+
+msgid "webr_copy"
+msgstr "Copy Web Resource"
+
+msgid "webr_delete"
+msgstr "Διαγραφή Πηγής Ιστού"
+
+msgid "webr_edit_permission"
+msgstr "Αλλαγή ρυθμίσεων άδειας"
+
+msgid "webr_read"
+msgstr "Πρόσβαση ανάγνωσης στην Πηγή Ιστού"
+
+msgid "webr_visible"
+msgstr "Η πηγή Ιστού είναι ορατή"
+
+msgid "webr_write"
+msgstr "Επεξεργασία Πηγής Ιστού"
+
+#, fuzzy
+msgid "wiki_activate_wiki_protection"
+msgstr "Set Wiki Pages to Read-Only"
+
+#, fuzzy
+msgid "wiki_add_pages"
+msgstr "User can create wiki pages"
+
+msgid "wiki_copy"
+msgstr "Copy Wiki"
+
+msgid "wiki_delete"
+msgstr "Delete Wiki"
+
+#, fuzzy
+msgid "wiki_delete_wiki_pages"
+msgstr "Delete Wiki Pages"
+
+msgid "wiki_edit_content"
+msgstr "Edit Wiki Pages"
+
+#, fuzzy
+msgid "wiki_edit_page_meta"
+msgstr "Edit Wiki Page Metadata"
+
+msgid "wiki_edit_permission"
+msgstr "Change permission settings"
+
+#, fuzzy
+msgid "wiki_edit_wiki_navigation"
+msgstr "Edit Wiki Navigation"
+
+#, fuzzy
+msgid "wiki_html_export"
+msgstr "Export HTML"
+
+msgid "wiki_read"
+msgstr "Read Wiki"
+
+#, fuzzy
+msgid "wiki_statistics_read"
+msgstr "View Statistics"
+
+msgid "wiki_visible"
+msgstr "Wiki is visible"
+
+#, fuzzy
+msgid "wiki_wiki_html_export"
+msgstr "Export Wiki as HTML"
+
+msgid "wiki_write"
+msgstr "Change Wiki Settings, Grade Learners"
+
+#, fuzzy
+msgid "wiks_edit_permission"
+msgstr "User can change permission settings in Wiki administration"
+
+#, fuzzy
+msgid "wiks_read"
+msgstr "User has read access to Wiki administration"
+
+#, fuzzy
+msgid "wiks_visible"
+msgstr "Wiki administration is visible"
+
+#, fuzzy
+msgid "wiks_write"
+msgstr "Edit settings in Wiki administration"
+
+#, fuzzy
+msgid "write"
+msgstr "Edit Settings"

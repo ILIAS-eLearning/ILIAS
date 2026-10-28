@@ -1,0 +1,56 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: log\n"
+
+msgid "log_component_btn_reset"
+msgstr "Beállítások alapértelmezettre állítása"
+
+msgid "log_component_col_component"
+msgstr "Komponens"
+
+msgid "log_component_col_level"
+msgstr "Naplózás szintje"
+
+#, fuzzy
+msgid "log_component_unknown"
+msgstr "Unknown (%s)"
+
+msgid "log_components"
+msgstr "Komponensek"
+
+msgid "log_level_alert"
+msgstr "RIASZTÁS"
+
+msgid "log_level_critical"
+msgstr "KRITIKUS"
+
+msgid "log_level_debug"
+msgstr "HIBAKERESÉS"
+
+#, fuzzy
+msgid "log_level_default"
+msgstr "Default (%s)"
+
+msgid "log_level_emergency"
+msgstr "SÜRGŐS"
+
+msgid "log_level_error"
+msgstr "HIBA"
+
+msgid "log_level_info"
+msgstr "INFORMACIÓ"
+
+msgid "log_level_notice"
+msgstr "MEGJEGYZÉS"
+
+msgid "log_level_off"
+msgstr "Kikapcsolva"
+
+msgid "log_level_warning"
+msgstr "FIGYELMETETÉS"

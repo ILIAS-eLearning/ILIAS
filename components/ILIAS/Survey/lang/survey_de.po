@@ -1,0 +1,1737 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: survey\n"
+
+msgid "SurveyMatrixQuestion"
+msgstr "Matrixfrage"
+
+msgid "SurveyMetricQuestion"
+msgstr "Metrische Frage"
+
+msgid "SurveyMultipleChoiceQuestion"
+msgstr "Multiple Choice Frage"
+
+msgid "SurveySingleChoiceQuestion"
+msgstr "Single Choice Frage"
+
+msgid "SurveyTextQuestion"
+msgstr "Freitext"
+
+msgid "add_heading"
+msgstr "Überschrift hinzufügen"
+
+msgid "already_completed_survey"
+msgstr "Sie haben die Umfrage bereits durchgeführt! Eine Umfrage kann kein zweites Mal durchgeführt werden."
+
+msgid "anonymization"
+msgstr "Anonymisierung"
+
+msgid "anonymize_anonymous_introduction"
+msgstr "Um Ihnen Zugang zu dieser Umfrage gewähren zu können, müssen Sie einen fünfstelligen Zugangscode verwenden, den Sie von der verantwortlichen Person für diese Umfrage erhalten."
+
+msgid "answer"
+msgstr "Antwort"
+
+msgid "arithmetic_mean"
+msgstr "Arithmetisches Mittel"
+
+msgid "browse_for_questions"
+msgstr "Aus Pool hinzufügen"
+
+msgid "cancel_survey"
+msgstr "Umfrage unterbrechen"
+
+msgid "cannot_read_survey"
+msgstr "Sie haben keine ausreichende Berechtigung, um auf die Umfragedaten zugreifen zu können."
+
+msgid "cannot_switch_to_online_no_questions"
+msgstr "DDer Status kann nicht auf „online (aktiviert)“ geändert werden, da der Umfrage noch keine Fragen hinzugefügt wurden!"
+
+msgid "cant_send_email_smtp_disabled"
+msgstr "Das Versenden von externen E-Mails ist zurzeit global deaktiviert."
+
+msgid "category"
+msgstr "Antwort"
+
+msgid "category_nr_selected"
+msgstr "Absolute Häufigkeit"
+
+msgid "chart"
+msgstr "Diagramm"
+
+msgid "codes"
+msgstr "Zugangsschlüssel"
+
+msgid "codes_created"
+msgstr "Zugangsschlüssel erzeugt"
+
+msgid "codes_deleted"
+msgstr "Zugangsschlüssel gelöscht"
+
+msgid "combobox"
+msgstr "Kombinationsfeld"
+
+msgid "concatenation"
+msgstr "Verkettung"
+
+msgid "confirm_delete_all_user_data"
+msgstr "Sind Sie sicher, dass Sie alle Datensätze und Ergebnisse der Umfrage löschen wollen? Dies wirkt sich sowohl auf die gegebenen Antworten als auch auf die Teilnahmeliste selbst aus."
+
+msgid "confirm_delete_single_user_data"
+msgstr "Sind Sie sicher, dass Sie die Datensätze und Antworten der ausgewählten Personen löschen wollen? Somit werden auch <b>alle</b> zugehörigen Daten gelöscht."
+
+msgid "confirm_remove_heading"
+msgstr "Sind Sie sicher, dass Sie die Überschrift entfernen wollen?"
+
+msgid "confirm_sync_questions"
+msgstr "Die geänderte Frage ist eine Kopie, welche für die Verwendung der aktuellen Umfrage erstellt wurde. Möchten Sie die Änderung ebenfalls auf die Ursprungsfrage anwenden?"
+
+msgid "conjunction_and"
+msgstr "wenn jede Bedingung erfüllt wird"
+
+msgid "conjunction_and_title"
+msgstr "Jede der folgenden Bedingungen erfüllen"
+
+msgid "conjunction_or"
+msgstr "wenn eine Bedingung erfüllt wird"
+
+msgid "conjunction_or_title"
+msgstr "Eine der folgenden Bedingungen erfüllen"
+
+msgid "constraint_add"
+msgstr "Verzweigungsregel hinzufügen"
+
+msgid "constraint_fulfilled"
+msgstr "Seite anzeigen"
+
+msgid "constraints"
+msgstr "Verzweigungsregel"
+
+msgid "constraints_first_question_description"
+msgstr "Der erste Eintrag kann keine Verzweigungsregel haben, da es keine vorherigen Einträge gibt."
+
+msgid "constraints_introduction"
+msgstr "Verzweigungsregeln können für einzelne Fragen als auch für einen Fragenblock hinzugefügt werden. In Abhängigkeit der gegebenen Antwort, werden teilnehmenden Personen bestimmte Fragen angezeigt, sodass irrelevante Fragen übersprungen werden können. Für die erste Frage als auch für einen Fragenblock kann keine Verzweigungsregel festgelegt werden."
+
+msgid "constraints_list_of_entities"
+msgstr "Fragen"
+
+msgid "constraints_no_nonessay_available"
+msgstr "Es gibt keine vorangegangenen Fragen, die zur Erstellung von Verzweigungsregeln verwendet werden können. Folgende Fragetypen werden unterstützt: Metrische Frage, Single Choice Frage und Multiple Choice Frage."
+
+msgid "constraints_no_questions_or_questionblocks_selected"
+msgstr "Bitte wählen Sie mindestens eine Frage oder einen Fragenblock aus!"
+
+msgid "contains"
+msgstr "Beinhaltet"
+
+msgid "continue"
+msgstr "Weiter →"
+
+msgid "create_new"
+msgstr "Erstelle neue"
+
+msgid "dc_agree"
+msgstr "einverstanden"
+
+msgid "dc_always"
+msgstr "immer"
+
+msgid "dc_definitelyfalse"
+msgstr "eindeutig falsch"
+
+msgid "dc_definitelytrue"
+msgstr "eindeutig wahr"
+
+msgid "dc_desired"
+msgstr "erwünscht"
+
+msgid "dc_disagree"
+msgstr "nicht einverstanden"
+
+msgid "dc_fair"
+msgstr "angemessen"
+
+msgid "dc_false"
+msgstr "falsch"
+
+msgid "dc_good"
+msgstr "gut"
+
+msgid "dc_manytimes"
+msgstr "häufig"
+
+msgid "dc_morenegative"
+msgstr "eher negativ"
+
+msgid "dc_morepositive"
+msgstr "eher positiv"
+
+msgid "dc_mostcertainly"
+msgstr "absolut sicher"
+
+msgid "dc_mostcertainlynot"
+msgstr "absolut unsicher"
+
+msgid "dc_must"
+msgstr "muss"
+
+msgid "dc_mustnot"
+msgstr "darf nicht"
+
+msgid "dc_neutral"
+msgstr "neutral"
+
+msgid "dc_never"
+msgstr "nie"
+
+msgid "dc_no"
+msgstr "nein"
+
+msgid "dc_notacceptable"
+msgstr "inakzeptabel"
+
+msgid "dc_poor"
+msgstr "dürftig"
+
+msgid "dc_rarely"
+msgstr "selten"
+
+msgid "dc_should"
+msgstr "sollte"
+
+msgid "dc_shouldnot"
+msgstr "sollte nicht"
+
+msgid "dc_sometimes"
+msgstr "manchmal"
+
+msgid "dc_stronglyagree"
+msgstr "absolut einverstanden"
+
+msgid "dc_stronglydesired"
+msgstr "absolut erwünscht"
+
+msgid "dc_stronglydisagree"
+msgstr "absolut nicht einverstanden"
+
+msgid "dc_stronglyundesired"
+msgstr "absolut nicht erwünscht"
+
+msgid "dc_true"
+msgstr "wahr"
+
+msgid "dc_undecided"
+msgstr "unentschlossen"
+
+msgid "dc_undesired"
+msgstr "unerwünscht"
+
+msgid "dc_varying"
+msgstr "unterschiedlich"
+
+msgid "dc_verygood"
+msgstr "sehr gut"
+
+msgid "dc_yes"
+msgstr "ja"
+
+msgid "default_codes_mail_message"
+msgstr "Ihr Zugangscode für die Umfrage lautet [code]. Sie können die Umfrage jederzeit unter der folgenden URL [url] erreichen."
+
+msgid "default_codes_mail_subject"
+msgstr "Ihr Zugangscode für die Umfrage %s"
+
+msgid "define_questionblock"
+msgstr "Fragenblock anlegen"
+
+msgid "delete_saved_message"
+msgstr "Textvorlage löschen"
+
+msgid "display_all_available"
+msgstr "Alle verfügbaren anzeigen"
+
+msgid "duplicate"
+msgstr "Kopieren"
+
+msgid "edit_heading"
+msgstr "Überschrift bearbeiten"
+
+msgid "end_date"
+msgstr "Enddatum"
+
+msgid "end_date_reached"
+msgstr "Sie können die Umfrage nicht mehr starten. Das letzte zulässige Datum wurde überschritten!"
+
+msgid "enter_anonymous_id"
+msgstr "Zugangsschlüssel"
+
+msgid "enter_valid_number_of_codes"
+msgstr "Bitte geben Sie eine gültige Zahl ein, um Zugangscodes zu generieren!"
+
+msgid "err_external_rcp_no_email"
+msgstr "Die Importdaten müssen mindestens eine Spalte „E-Mail“ enthalten, d. h. die Spaltenüberschrift „E-Mail“ in der ersten Zeile und die E-Mail-Adressen in den folgenden Zeilen."
+
+msgid "err_external_rcp_no_email_column"
+msgstr "Die Importdaten müssen mindestens eine Spalte „E-Mail“ enthalten, d. h. die Spaltenüberschrift „E-Mail“ in der ersten Zeile und die E-Mail-Adressen in den folgenden Zeilen."
+
+msgid "err_maxvaluegeminvalue"
+msgstr "Der Maximalwert muss gleich oder größer als der Minimalwert sein. Er darf nicht größer sein als die Gesamtzahl der möglichen Antworten."
+
+msgid "err_minvalueganswers"
+msgstr "Der Minimalwert darf nicht größer sein als die Gesamtzahl der möglichen Antworten."
+
+msgid "err_no_exact_answers"
+msgstr "Bitte wählen Sie genau %s Antwort(en) aus."
+
+msgid "err_no_max_answers"
+msgstr "Bitte wählen Sie höchstens %s Antworten aus."
+
+msgid "err_no_min_answers"
+msgstr "Bitte wählen Sie mindestens %s Antwort(en) aus."
+
+msgid "error_retrieving_anonymous_survey"
+msgstr "Das System konnte Ihre Umfragedaten unter dem Zugangsschlüssel %s nicht finden. Bitte überprüfen Sie den Zugangsschlüssel!"
+
+msgid "error_save_code"
+msgstr "Werte wurden nicht korrekt gespeichert. <b>Die E-Mail %s ist nicht gültig.</b>. Vorname: „%s“, Nachname: „%s“.<br>"
+
+msgid "evaluation"
+msgstr "Statistik"
+
+msgid "evaluation_access"
+msgstr "Zugriff auf Ergebnisse"
+
+msgid "evaluation_access_all"
+msgstr "Alle registrierten Personen"
+
+msgid "evaluation_access_info"
+msgstr "Sie haben Zugriff auf die Umfrageergebnisse"
+
+msgid "evaluation_access_off"
+msgstr "Kein Zugriff auf Ergebnisse"
+
+msgid "evaluation_access_participants"
+msgstr "Alle Befragten der Umfrage"
+
+msgid "existing_constraints"
+msgstr "Bestehende Verzweigungsregeln"
+
+msgid "exp_type_csv"
+msgstr "Durch Komma getrennte Werte (CSV)"
+
+msgid "exp_type_excel"
+msgstr "Microsoft Excel"
+
+msgid "export_all_survey_codes"
+msgstr "Alle Zugangsschlüssel exportieren"
+
+msgid "export_label_only"
+msgstr "Nur Label exportieren"
+
+msgid "export_title_label"
+msgstr "Titel und Label exportieren"
+
+msgid "export_title_only"
+msgstr "Nur Titel exportieren"
+
+msgid "external_recipients_imported"
+msgstr "Die Daten wurden importiert."
+
+msgid "externalmails"
+msgstr "Importdatei"
+
+msgid "externalmails_info"
+msgstr "Die Importdatei muss eine CSV-Datei sein, deren Spalten durch Semikolons getrennt sind. Die erste Zeile sollte die Spaltenüberschriften enthalten. Die Datei muss mindestens eine Spalte „E-Mail” mit den E-Mail-Adressen der vorgesehenen Empfänger enthalten. Auf diese Weise können Sie Umfrage-Zugangscodes an Personen senden, die kein ILIAS-Konto haben."
+
+msgid "externaltext"
+msgstr "Text importieren"
+
+msgid "externaltext_info"
+msgstr "Der importierte Text muss in Zeilen und Spalten angeordnet sein, wobei die Spalten durch ein Semikolon getrennt sind. Die erste Zeile sollte die Spaltenüberschriften enthalten. Die Datei muss mindestens eine Spalte „E-Mail” enthalten, in der die E-Mail-Adressen der vorgesehenen Empfänger aufgeführt sind. Auf diese Weise können Sie Umfrage-Zugangscodes an Personen senden, die kein ILIAS-Konto haben."
+
+msgid "filter_all_question_types"
+msgstr "Alle Fragetypen"
+
+msgid "filter_all_questionpools"
+msgstr "Alle Fragenpools"
+
+msgid "finished_mail_subject"
+msgstr "Die Umfrage „%s“ wurde beendet"
+
+msgid "freetext_answers"
+msgstr "Freitext-Antworten"
+
+msgid "geometric_mean"
+msgstr "Geometrisches Mittel"
+
+msgid "given_answers"
+msgstr "Abgegebene Antworten"
+
+msgid "glossary_term"
+msgstr "Glossarbegriff"
+
+msgid "harmonic_mean"
+msgstr "Harmonisches Mittel"
+
+msgid "heading"
+msgstr "Überschrift"
+
+msgid "horizontal"
+msgstr "Horizontal"
+
+msgid "import_error_closing_file"
+msgstr "Fehler beim Schließen der Importdatei!"
+
+msgid "import_error_opening_file"
+msgstr "Fehler beim Öffnen der Importdatei!"
+
+msgid "import_from_file"
+msgstr "Personendaten aus Datei importieren"
+
+msgid "import_from_text"
+msgstr "Personendaten aus Text importieren"
+
+msgid "import_no_file_selected"
+msgstr "Keine Datei ausgewählt!"
+
+msgid "import_question"
+msgstr "Fragen importieren"
+
+msgid "import_wrong_file_type"
+msgstr "Falscher Dateityp!"
+
+msgid "insert_after"
+msgstr "Einfügen hinter"
+
+msgid "insert_before"
+msgstr "Einfügen vor"
+
+msgid "insert_missing_question"
+msgstr "Bitte wählen Sie mindestens eine Frage aus, welche Sie in die Umfrage einfügen möchten."
+
+msgid "insert_missing_questionblock"
+msgstr "Bitte wählen Sie mindestens einen Fragenblock aus, den Sie in die Umfrage einfügen möchten."
+
+msgid "insert_saved_message"
+msgstr "Nachrichtentext einfügen"
+
+msgid "internal_link"
+msgstr "Interner Link"
+
+msgid "introduction"
+msgstr "Einleitung"
+
+msgid "invited_users"
+msgstr "Ausgewählte Benutzer"
+
+msgid "label"
+msgstr "Label"
+
+msgid "label_info"
+msgstr "Alternative Kennung für die weitere Datenverarbeitung (z.B. in SPSS)."
+
+msgid "language_changed"
+msgstr "Sprache geändert"
+
+msgid "layout"
+msgstr "Layout"
+
+msgid "lower_limit"
+msgstr "Untergrenze"
+
+msgid "mail_import_example2"
+msgstr "heinrichfaust@pudelskern.de, Heinrich; Faust"
+
+msgid "mail_import_example3"
+msgstr "emiliagalotti@dramaitalien.de, Emilia; Galotti"
+
+msgid "mail_sent_short"
+msgstr "Versendet"
+
+msgid "mail_survey_codes"
+msgstr "Zugangsschlüssel und Nachrichten versenden"
+
+msgid "mailaddresses"
+msgstr "Senden an"
+
+msgid "mailaddresses_info"
+msgstr "Tragen Sie kommagetrennte Anmeldenamen ein."
+
+msgid "mailnotification"
+msgstr "Einzelne E-Mail je beendeter Umfrage"
+
+msgid "mailparticipantdata"
+msgstr "Informationstext"
+
+msgid "mailparticipantdata_info"
+msgstr "Text, der vor den Ergebnissen der Umfrage in der Mail angezeigt wird"
+
+msgid "mailparticipantdata_placeholder"
+msgstr "Diese Platzhalter werden durch die entsprechenden Angaben ersetzt, wenn unten die Einstellung „Datenschutz“ auf „Mit Namen“ gesetzt ist (siehe den Abschnitt \"Ergebnisse\" weiter unten)."
+
+msgid "maintenance"
+msgstr "Befragte"
+
+msgid "matrix_appearance"
+msgstr "Darstellung"
+
+msgid "matrix_bipolar_adjectives"
+msgstr "Pol und Gegenpol"
+
+msgid "matrix_bipolar_adjectives_description"
+msgstr "Sie können ein Wertepaar mit einem Pol und einem Gegenpol verwenden, um die Spaltenskala genauer zu beschreiben"
+
+msgid "matrix_column_separators"
+msgstr "Spaltentrenner"
+
+msgid "matrix_column_separators_description"
+msgstr "Dünne Linien (Trenner) zwischen den Spalten hinzufügen."
+
+msgid "matrix_column_settings"
+msgstr "Matrix-Spalteneinstellungen"
+
+msgid "matrix_columns"
+msgstr "Matrixspalten"
+
+msgid "matrix_left_pole"
+msgstr "Linker Pol"
+
+msgid "matrix_neutral_answer"
+msgstr "Text für eine neutrale Spalte (\"Nicht definiert\", \"Ich weiß nicht\", \"Keine Angabe\" etc.)"
+
+msgid "matrix_neutral_column_separator"
+msgstr "Neutraler Spaltentrenner"
+
+msgid "matrix_neutral_column_separator_description"
+msgstr "Eine breite Linie (Trenner) zwischen der neutralen Spalte und den restlichen Spalten hinzufügen."
+
+msgid "matrix_question_checkbox_not_checked"
+msgstr "Bitte wählen Sie mindestens ein Kontrollkästchen in jeder Zeile aus."
+
+msgid "matrix_question_radio_button_not_checked"
+msgstr "Bitte wählen Sie in jeder Zeile eine Antwortoption aus."
+
+msgid "matrix_right_pole"
+msgstr "Rechter Pol"
+
+msgid "matrix_row_separators"
+msgstr "Zeilentrenner"
+
+msgid "matrix_row_separators_description"
+msgstr "Dünne Linien zwischen den Zeilen hinzufügen."
+
+msgid "matrix_rows"
+msgstr "Matrixzeilen"
+
+msgid "matrix_standard_answers"
+msgstr "Spaltentext"
+
+msgid "matrix_subtype_mr"
+msgstr "Kontrollkästchen (Mehrfachauswahl)"
+
+msgid "matrix_subtype_sr"
+msgstr "Optionsfelder (Einzahlauswahl)"
+
+msgid "maxchars"
+msgstr "Maximale Anzahl erlaubter Zeichen"
+
+msgid "maximum"
+msgstr "Maximalwert"
+
+msgid "median"
+msgstr "Median"
+
+msgid "median_between"
+msgstr "zwischen"
+
+msgid "menuback"
+msgstr "Zurück"
+
+msgid "menubacktosurvey"
+msgstr "Zurück zur Umfrage"
+
+msgid "message_content_info"
+msgstr "Geben Sie hier einen Nachrichteninhalt für die Benachrichtigungs-E-Mail der Umfragecodes oder die Erinnerungs-E-Mail ein, welche an die teilnehmenden Personen gesendet wird. Sie können den Platzhalter [code] für den Zugangscode, [url] für die URL dieser Umfrage und die in Ihren Importfeldern enthaltenen Teilnehmendendaten: %s verwenden. Die Platzhalter werden in allen versendeten E-Mails durch die entsprechenden Daten ersetzt."
+
+msgid "metric_question_floating_point"
+msgstr "Der angegebene Wert ist eine Fließkommazahl. Fließkommazahlen sind für diesen Fragetyp nicht erlaubt!"
+
+msgid "metric_question_not_a_value"
+msgstr "Der angegebene Wert ist kein nummerischer Wert!"
+
+msgid "metric_question_out_of_bounds"
+msgstr "Der von Ihnen eingegebene Wert liegt nicht zwischen dem Minimalwert und dem Maximalwert!"
+
+msgid "metric_subtype_description_interval"
+msgstr "Die Intervallskala verwendet Werte, die willkürlich, aber quantifizierbar sind. Der Nullpunkt auf der Skala ist willkürlich, sodass auch negative Werte verwendet werden können. Beispiele für Intervallwerte sind das Jahresdatum in vielen Kalendern oder die Temperatur in der Celsius-Skala."
+
+msgid "metric_subtype_description_ratioabsolute"
+msgstr "Die Absolutskala hat ebenfalls einen natürlichen Nullpunkt, verwendet jedoch natürliche Zahlen. Sie würde beispielsweise zur Messung der Anzahl der Kinder in einer Familie verwendet werden. Sie wird auch für Prozentmessungen verwendet, z.B. für in Prozent gemessene Wahrscheinlichkeiten."
+
+msgid "metric_subtype_description_rationonabsolute"
+msgstr "Wie die Intervallskala ermöglicht auch die Rationalskala den Vergleich von Werten, die im Wesentlichen willkürlich sind, aber einen natürlichen Nullpunkt haben. Die meisten physikalischen Größen, wie z. B. Länge in Zentimetern oder Dauer in Sekunden, werden auf Verhältnisskalen gemessen. Der natürliche Nullpunkt ermöglicht die Berechnung des Verhältnisses zwischen Werten, selbst wenn unterschiedliche Messskalen verwendet werden (z. B. km/h und m/h)."
+
+msgid "minimum"
+msgstr "Minimalwert"
+
+msgid "mode"
+msgstr "Meistgewählte Antwortoption"
+
+msgid "mode_nr_of_selections"
+msgstr "Anzahl der Auswahlen"
+
+msgid "mode_text"
+msgstr "Häufigste Auswahl (Text)"
+
+msgid "msg_duplicate_scale"
+msgstr "Bitte tragen Sie eindeutige Skalenwerte ein."
+
+msgid "msg_enter_value_for_valid_constraint"
+msgstr "Bitte geben Sie einen Wert ein, um eine gültige Verzweigungsregel zu erstellen."
+
+msgid "msg_input_only_positive_numbers"
+msgstr "Bitte geben Sie positive Zahlen (höher als 0) als Skalenwerte ein."
+
+msgid "msg_max_nr_answers"
+msgstr "Bitte wählen Sie höchstens %s Antworten."
+
+msgid "msg_message_deleted"
+msgstr "Nachrichtentext gelöscht"
+
+msgid "msg_message_inserted"
+msgstr "Nachrichtentext eingefügt"
+
+msgid "msg_min_max_exact_answers"
+msgstr "Bitte wählen Sie genau %s Antwort(en)."
+
+msgid "msg_min_max_nr_answers"
+msgstr "Bitte wählen Sie mindestens %s und höchstens %s Antworten."
+
+msgid "msg_min_nr_answers"
+msgstr "Bitte wählen Sie mindestens %s Antwort(en)."
+
+msgid "msg_no_message_deleted"
+msgstr "Bitte wählen Sie den Text, den Sie löschen möchten, aus dem Dropdown-Menü „Textvorlagen“ aus."
+
+msgid "msg_no_message_inserted"
+msgstr "Bitte wählen Sie aus dem Dropdown-Menü „Textvorlagen“ die Textvorlage aus, die Sie als Inhalt verwenden möchten."
+
+msgid "new_survey_codes"
+msgstr "Neue Umfrage-Zugangscodes"
+
+msgid "no_question_selected_for_copy_to_pool"
+msgstr "Bitte wählen Sie mindestens eine Frage aus, die nicht einem Fragenpool zugeordnet ist."
+
+msgid "no_question_selected_for_move"
+msgstr "Bitte wählen Sie mindestens eine Frage zum Verschieben aus!"
+
+msgid "no_question_selected_for_removal"
+msgstr "Bitte wählen Sie mindestens eine Frage oder einen Fragenblock aus, den Sie entfernen möchten."
+
+msgid "no_target_selected_for_move"
+msgstr "Sie müssen eine Zielposition auswählen!"
+
+msgid "non_ratio"
+msgstr "Intervallskala"
+
+msgid "not_sent_only"
+msgstr "Personen, die bislang noch keine Mail erhalten haben"
+
+msgid "not_used"
+msgstr "noch nicht verwendet"
+
+msgid "nr_max_answers"
+msgstr "Maximum"
+
+msgid "nr_min_answers"
+msgstr "Minimum"
+
+msgid "obligatory"
+msgstr "Obligatorisch"
+
+msgid "off"
+msgstr "Aus"
+
+msgid "on"
+msgstr "An"
+
+msgid "or"
+msgstr "oder"
+
+msgid "orientation"
+msgstr "Ausrichtung"
+
+msgid "other_answer"
+msgstr "Andere Antwort"
+
+msgid "other_answer_label"
+msgstr "Label der Zusatzantwort (optional)"
+
+msgid "outro"
+msgstr "Schlussbemerkungen"
+
+msgid "please_enter_mail_url"
+msgstr "Bitte fügen Sie den URL-Platzhalter [url] in Ihren Nachrichteninhalt ein."
+
+msgid "qpl_confirm_delete_questions"
+msgstr "Sind Sie sicher, dass Sie die folgenden Fragen löschen wollen?"
+
+msgid "qpl_define_questionblock_select_missing"
+msgstr "Bitte wählen Sie mindestens zwei Fragen aus, um einen Fragenblock anzulegen."
+
+msgid "qpl_delete_select_none"
+msgstr "Sie haben keine Frage zum Löschen ausgewählt. Bitte wählen Sie mindestens eine Frage aus, die Sie löschen möchten, und versuchen Sie es erneut."
+
+msgid "qpl_export_select_none"
+msgstr "Bitte wählen Sie mindestens eine Frage aus, die Sie exportieren wollen!"
+
+msgid "qpl_questions_deleted"
+msgstr "Frage(n) gelöscht."
+
+msgid "qpl_unfold_select_none"
+msgstr "Bitte wählen Sie mindestens einen Fragenblock aus, den Sie in individuelle Fragen auflösen möchten."
+
+msgid "question_changed_in_survey_only"
+msgstr "Die Frage wurde nur in der Umfrage verändert"
+
+msgid "question_mr_no_other_answer"
+msgstr "Bitte geben Sie einen Text für die freie Antwort ein"
+
+msgid "question_mr_no_other_answer_checked"
+msgstr "Sie müssen das Kontrollkästchen auswählen, wenn Sie einen Antworttext eintragen"
+
+msgid "question_mr_not_checked"
+msgstr "Bitte wählen Sie mindestens eine der Antworten aus."
+
+msgid "question_not_checked"
+msgstr "Bitte wählen Sie eine der Antworten aus."
+
+msgid "question_obligatory"
+msgstr "Diese Frage muss beantwortet werden!"
+
+msgid "question_sr_no_other_answer_checked"
+msgstr "Wenn Sie eine Textantwort eingeben möchten, müssen Sie das entsprechende Optionsfeld auswählen. Wenn Sie sich für eine andere Antwort entschieden haben, löschen Sie bitte den eingegebenen Text."
+
+msgid "question_type"
+msgstr "Fragetyp"
+
+msgid "questionblock"
+msgstr "Fragenblock"
+
+msgid "questionblock_inserted"
+msgstr "Fragenblock eingefügt"
+
+msgid "questionblocks"
+msgstr "Fragenblöcke"
+
+msgid "questionblocks_inserted"
+msgstr "Fragenblöcke eingefügt"
+
+msgid "questions"
+msgstr "Fragen"
+
+msgid "questions_inserted"
+msgstr "Frage(n) hinzugefügt."
+
+msgid "questions_removed"
+msgstr "Fragen und/oder Fragenblock entfernt!"
+
+msgid "questiontype"
+msgstr "Fragetyp"
+
+msgid "ratio_absolute"
+msgstr "Verhältnis (absolut)"
+
+msgid "ratio_non_absolute"
+msgstr "Verhältnis (nicht absolut)"
+
+msgid "recipients"
+msgstr "Senden an"
+
+msgid "remove_question"
+msgstr "Entfernen"
+
+msgid "remove_questions"
+msgstr "Sind Sie sicher, dass Sie die folgenden Fragen und/oder Fragenblöcke aus der Umfrage entfernen wollen?"
+
+msgid "results"
+msgstr "Ergebnisse"
+
+msgid "resume_survey"
+msgstr "Umfrage fortsetzen"
+
+msgid "row_text"
+msgstr "Zeilentext"
+
+msgid "save_obligatory_state"
+msgstr "„Obligatorisch“-Status und Sortierung speichern"
+
+msgid "save_reuse_message"
+msgstr "Nachrichteninhalt für weitere Verwendung speichern"
+
+msgid "save_reuse_title"
+msgstr "Titel für Textvorlage"
+
+msgid "saved_messages"
+msgstr "Textvorlagen"
+
+msgid "scale"
+msgstr "Skala"
+
+msgid "search_groups"
+msgstr "Gruppen"
+
+msgid "search_term"
+msgstr "Suchbegriff(e)"
+
+msgid "select_option"
+msgstr "--- Bitte wählen Sie eine Antwort aus ---"
+
+msgid "select_prior_question"
+msgstr "Eine vorherige Frage auswählen"
+
+msgid "select_relation"
+msgstr "Relation auswählen"
+
+msgid "select_target_position_for_move_question"
+msgstr "Bitte wählen Sie die Frage aus, die Sie in der Liste verschieben möchten. Sie können diese vor oder nach bestehenden Fragen einfügen."
+
+msgid "select_value"
+msgstr "Wert festlegen"
+
+msgid "selection"
+msgstr "Auswahl"
+
+msgid "send_to_all"
+msgstr "Alle E-Mail-Adressen, die mit einem Zugangscode verknüpft sind."
+
+msgid "send_to_answered"
+msgstr "Alle Personen, welche die Umfrage bereits beendet haben"
+
+msgid "send_to_unanswered"
+msgstr "Alle E-Mail-Adressen, die mit einem Zugangscode verknüpft sind und deren zugehörige teilnehmende Personen die Umfrage noch nicht abgeschlossen haben."
+
+msgid "show_questiontext"
+msgstr "Fragentexte anzeigen"
+
+msgid "show_questiontext_description"
+msgstr "Zeigen Sie den Fragetext jeder Frage im Fragenblock an. Wenn dieses Kontrollkästchen nicht aktiviert ist, werden die Fragentexte ausgeblendet und nur die Antwortoptionen angezeigt. Dies kann nützlich sein, wenn Sie Fragen mit identischen Fragentexten innerhalb eines Fragenblocks haben."
+
+msgid "skipped"
+msgstr "Übersprungen"
+
+msgid "spl_copy_insert_clipboard"
+msgstr "Die ausgewählten Fragen wurden in die Zwischenablage kopiert."
+
+msgid "spl_copy_select_none"
+msgstr "Bitte wählen Sie mindestens eine Frage zum Kopieren aus."
+
+msgid "spl_move_insert_clipboard"
+msgstr "Die ausgewählten Fragen wurden zum Verschieben markiert. Navigieren Sie bitte zu dem gewünschten Fragenpool und klicken Sie auf „Einfügen“."
+
+msgid "spl_move_same_pool"
+msgstr "Sie können Fragen nicht innerhalb desselben Fragenpools verschieben. Um Ihre Frage(n) zu verschieben, navigieren Sie bitte zu einem anderen Fragenpool und klicken Sie dort auf „Einfügen”."
+
+msgid "spl_move_select_none"
+msgstr "Bitte wählen Sie mindestens eine Frage zum Verschieben aus."
+
+msgid "spl_online_property"
+msgstr "Online"
+
+msgid "spl_paste_no_objects"
+msgstr "Es befinden sich keine Fragen in der Zwischenablage. Bitte kopieren oder verschieben Sie eine Frage in die Zwischenablage, um sie hier einfügen zu können."
+
+msgid "spl_paste_success"
+msgstr "Frage(n) erfolgreich in den Fragenpool eingefügt."
+
+msgid "spl_save_obligatory_state"
+msgstr "„Verpflichtend“-Status speichern"
+
+msgid "start_date"
+msgstr "Startdatum"
+
+msgid "start_date_not_reached"
+msgstr "Sie können die Umfrage erst starten, wenn das Startdatum erreicht ist!"
+
+msgid "start_survey"
+msgstr "Umfrage beginnen"
+
+msgid "subtype"
+msgstr "Untertyp"
+
+msgid "survey_360_add_external_rater"
+msgstr "Externen Feedback-Geber hinzufügen"
+
+msgid "survey_360_add_self_appraisee"
+msgstr "Fügen Sie sich selbst als zu Feedback-Nehmer hinzu"
+
+msgid "survey_360_appraisee"
+msgstr "Feedback-Nehmer"
+
+msgid "survey_360_appraisee_close_action"
+msgstr "Umfrage für Feedback-Geber schließen"
+
+msgid "survey_360_appraisee_close_action_info"
+msgstr "Wenn Sie die Umfrage für die Feedback-Geber schließen, erhalten Sie Zugriff auf Ihre Ergebnisse."
+
+msgid "survey_360_appraisee_close_action_info_skill"
+msgstr "Wenn Sie die Umfrage für die Feedback-Geber schließen, erhalten Sie Zugriff auf Ihre Ergebnisse und können Ihre Kompetenzstufen aktualisieren."
+
+msgid "survey_360_appraisee_close_action_status"
+msgstr "Umfrage wurde am %s geschlossen."
+
+msgid "survey_360_appraisee_close_action_success"
+msgstr "Sie haben Ihre 360°-Umfrage für Ihre Feedback-Geber geschlossen."
+
+msgid "survey_360_appraisee_close_action_success_admin"
+msgstr "Ausgewählte 360°-Umfragen für Feedback-Geber geschlossen."
+
+msgid "survey_360_appraisee_close_table"
+msgstr "Geschlossen am"
+
+msgid "survey_360_appraisee_is_closed"
+msgstr "Diese Umfrage wurde vom Feedback-Nehmer geschlossen."
+
+msgid "survey_360_appraisees"
+msgstr "Feedback-Nehmer"
+
+msgid "survey_360_edit_raters"
+msgstr "Feedback-Geber verwalten"
+
+msgid "survey_360_mode"
+msgstr "360°-Feedback"
+
+msgid "survey_360_mode_info"
+msgstr "Ermöglicht es Einzelpersonen, von mehreren Personen bewertet zu werden. Die Ergebnisse werden zusammengefasst."
+
+msgid "survey_360_no_appraisees"
+msgstr "Zur Zeit benötigen keine Feedback-Nehmer Ihre Bewertung"
+
+msgid "survey_360_rate_other_appraisee"
+msgstr "Feedback geben"
+
+msgid "survey_360_rater_finished"
+msgstr "Umfrage abgeschlossen"
+
+msgid "survey_360_rater_mail_sent"
+msgstr "Mail versendet"
+
+msgid "survey_360_rater_message_content_anonymous"
+msgstr "Inhalt (Anonym)"
+
+msgid "survey_360_rater_message_content_anonymous_default"
+msgstr "Ihr Zugangscode für die Umfrage lautet [Code]. Starten Sie die Umfrage über die URL [URL]."
+
+msgid "survey_360_rater_message_content_registered"
+msgstr "Inhalt (Registrierte Benutzer)"
+
+msgid "survey_360_rater_message_content_registered_default"
+msgstr "Sie können die Umfrage in Ihrem Web-Browser mit folgender URL starten: [url]."
+
+msgid "survey_360_rater_subject_default"
+msgstr "Sie wurden als Feedback-Geber zu einer 360°-Umfrage eingeladen."
+
+msgid "survey_360_raters"
+msgstr "Feedback-Geber"
+
+msgid "survey_360_raters_finished"
+msgstr "Bewertungen abgeschlossen"
+
+msgid "survey_360_remove_appraisees"
+msgstr "Feedback-Nehmer entfernen"
+
+msgid "survey_360_results"
+msgstr "Zugang zu Ergebnissen für Feedback-Nehmer"
+
+msgid "survey_360_results_all"
+msgstr "Alle Feedbacks"
+
+msgid "survey_360_results_all_info"
+msgstr "Alle Feedback-Geber innerhalb dieser 360°-Umfrage können alle Rückmeldungen einsehen. Dazu gehören nicht nur ihre eigenen Rückmeldungen, sondern auch die Rückmeldungen, die anderen Feedback-Nehmern gegeben wurden."
+
+msgid "survey_360_results_none"
+msgstr "Kein Zugang"
+
+msgid "survey_360_results_none_info"
+msgstr "Die Feedback-Nehmer haben keinen Zugriff auf das Feedback."
+
+msgid "survey_360_results_own"
+msgstr "Zugriff auf Feedback von eigenen Feedback-Gebern"
+
+msgid "survey_360_results_own_info"
+msgstr "Feedback-Nehmer können nur auf das Feedback zugreifen, das ihnen von ihren eigenen Feedback-Gebern gegeben wurde. Sie können nicht auf die Rückmeldungen zugreifen, die anderen Feedback-Nehmern gegeben wurden."
+
+msgid "survey_360_select_appraisee"
+msgstr "Auswählen"
+
+msgid "survey_360_self_appraisee"
+msgstr "Offenes Feedback"
+
+msgid "survey_360_self_appraisee_info"
+msgstr "Über den Reiter „Info“ der Umfrage können Sie einen Link zur Verfügung stellen, über den sie sich als Feedback-Nehmer hinzufügen und Feedback erhalten können."
+
+msgid "survey_360_self_evaluation"
+msgstr "Selbsteinschätzung"
+
+msgid "survey_360_self_evaluation_info"
+msgstr "Feedback-Nehmer können anhand der Fragen eine Selbsteinschätzung vornehmen."
+
+msgid "survey_360_self_raters"
+msgstr "Eigene Feedback-Geber auswählen"
+
+msgid "survey_360_self_raters_info"
+msgstr "Die Feedback-Nehmer wählen die Personen aus, die ihnen Feedback geben sollen, und laden sie selbstständig ein."
+
+msgid "survey_360_sure_appraisee_close"
+msgstr "Sind Sie sicher, dass Sie die Umfrage für alle Ihre Feedback-Geber schließen möchten?"
+
+msgid "survey_360_sure_appraisee_close_admin"
+msgstr "Sind Sie sicher, dass Sie die Umfragen für die folgenden Feedback-Nehmer schließen möchten?"
+
+msgid "survey_360_sure_delete_appraises"
+msgstr "Sind Sie sicher, dass Sie die folgenden Feedback-Nehmer entfernen möchten?"
+
+msgid "survey_360_sure_delete_raters"
+msgstr "Sind Sie sicher, dass Sie die folgenden Feedback-Geber für %s entfernen möchten?"
+
+msgid "survey_access_code"
+msgstr "Authentifizierung mit Zugangscode"
+
+msgid "survey_access_codes_info"
+msgstr "Registrierte Personen erhalten Zugriff auf die Umfrage, indem sie einen Code nach dem Starten der Umfrage eingeben. Diese Zugangscodes können in der Unterregisterkarte „Zugangscodes“ der Registerkarte „Befragten“ generiert werden."
+
+msgid "survey_activate_skill_service"
+msgstr "Kompetenz-Service aktivieren"
+
+msgid "survey_activate_skill_service_info"
+msgstr "Es wird ein weiterer Reiter „Kompetenzen“ eingeblendet. Anschließend können Schwellenwerte festgelegt werden, die erforderlich sind, um ein bestimmtes Kompetenzniveau zu erreichen."
+
+msgid "survey_add_new_question"
+msgstr "Frage erstellen"
+
+msgid "survey_assign_competence"
+msgstr "Kompetenz zuordnen"
+
+msgid "survey_auto_block_title"
+msgstr "Seitenüberschrift"
+
+msgid "survey_available_question_pools"
+msgstr "Verfügbare Pools"
+
+msgid "survey_calc_skills"
+msgstr "Kompetenzstufen bestimmen"
+
+msgid "survey_calculate_sum_score"
+msgstr "Skalenpunktesumme berechnen"
+
+msgid "survey_calculate_sum_score_info"
+msgstr "Berechnet die Summe aller Skalenwerte von Single Choice Fragen, Multiple Choice Fragen und Matrix Fragen pro Teilnehmenden. Achtung: Wenn solche Fragen übersprungen werden, wird die Gesamtpunktzahl nicht berechnet."
+
+msgid "survey_cancel_preview"
+msgstr "Vorschau abbrechen"
+
+msgid "survey_cannot_preview_survey"
+msgstr "Vorschau nicht verfügbar"
+
+msgid "survey_code"
+msgstr "Zugangscode"
+
+msgid "survey_code_delete_sure"
+msgstr "Möchten Sie die folgenden ungenutzten Zugangscodes wirklich löschen?"
+
+msgid "survey_code_url"
+msgstr "URL für direkten Zugriff"
+
+msgid "survey_code_url_name"
+msgstr "URL <small>(Benutzen Sie die rechte Maustaste, um die URL zu kopieren)</small>"
+
+msgid "survey_code_used"
+msgstr "Status"
+
+msgid "survey_codes_lang"
+msgstr "Vorauswahl Benutzersprache in URL"
+
+msgid "survey_codes_no_anonymization"
+msgstr "Sie müssen eine anonymisierte Umfrage mit Zugangscodes erstellen, um neue Zugangscodes zu generieren!"
+
+msgid "survey_competences"
+msgstr "Kompetenzen"
+
+msgid "survey_constraint_deleted"
+msgstr "Die Verzweigungsregel wurde gelöscht."
+
+msgid "survey_copy_questions_to_pool"
+msgstr "Zu Fragenpool hinzufügen"
+
+msgid "survey_copy_select_questionpool"
+msgstr "Fragenpool, in dem die Fragen abgelegt werden sollen"
+
+msgid "survey_copy_to_questionpool_success"
+msgstr "Frage(n) erfolgreich in den Fragenpool kopiert."
+
+msgid "survey_delete_heading"
+msgstr "Überschrift entfernen"
+
+msgid "survey_edit_heading"
+msgstr "Überschrift bearbeiten"
+
+msgid "survey_edit_settings"
+msgstr "Einstellungen bearbeiten"
+
+msgid "survey_error_insert_incomplete_question"
+msgstr "Sie haben versucht, eine unvollständige Frage zur Umfrage hinzuzufügen. Die Frage wurde nicht hinzugefügt."
+
+msgid "survey_execution_exit"
+msgstr "Zurück zum Magazin"
+
+msgid "survey_execution_exit_360"
+msgstr "Zurück"
+
+msgid "survey_execution_sure_finish"
+msgstr "Möchten Sie die Umfrage wirklich beenden? Danach können Sie Ihre Antworten nicht mehr bearbeiten."
+
+msgid "survey_finish"
+msgstr "Umfrage beenden →"
+
+msgid "survey_finished"
+msgstr "Die Umfrage ist beendet. Vielen Dank für Ihre Teilnahme!"
+
+msgid "survey_has_datasets_warning"
+msgstr "Diese Umfrage enthält bereits Datensätze. Sie können die Fragen erst synchronisieren, wenn Sie diese Datensätze über die Reiter „Befragten“ bzw. \"Feedback-Nehmer\" der Umfrage löschen. Dazu müssen Sie alle entfernen, die mit der Umfrage begonnen und dadurch einen Datensatz erstellt haben."
+
+msgid "survey_has_datasets_warning_page_view"
+msgstr "Diese Umfrage enthält bereits Datensätze. Sie können die Umfrage erst bearbeiten, wenn Sie diese Datensätze gelöscht haben. Dazu müssen Sie alle Personen entfernen, die mit der Umfrage begonnen und dadurch einen Datensatz erstellt haben."
+
+msgid "survey_has_datasets_warning_page_view_link"
+msgstr "Teilnehmende Personen bearbeiten"
+
+msgid "survey_introduction_info"
+msgstr "Dieser Text wird dauerhaft im Reiter „Info“ angezeigt."
+
+msgid "survey_is_offline"
+msgstr "Die Umfrage ist offline und kann somit nicht gestartet werden."
+
+msgid "survey_next"
+msgstr "Weiter →"
+
+msgid "survey_not_available"
+msgstr "n.a."
+
+msgid "survey_notification_finished_introduction"
+msgstr "Eine teilnehmende Person has die folgende Umfrage beendet:"
+
+msgid "survey_notification_finished_reason"
+msgstr "Sie erhalten diese Nachricht, da Sie die Benachrichtigungsfunktion für die oben genannte Umfrage aktiviert haben."
+
+msgid "survey_notification_target_group"
+msgstr "Zielgruppe"
+
+msgid "survey_notification_target_group_invited"
+msgstr "Alle registrierten Personen, denen die Umfrage als Aufgabe auf ihrem Dashboard hinzugefügt wurde"
+
+msgid "survey_notification_target_group_invited_info"
+msgstr "Aktuelle Anzahl: %s"
+
+msgid "survey_notification_target_group_parent_course"
+msgstr "Alle Mitglieder des übergeordneten Kurses oder der übergeordneten Gruppe"
+
+msgid "survey_notification_target_group_parent_course_inactive"
+msgstr "Wenn diese Umfrage nicht innerhalb eines Kurses oder einer Gruppe durchgeführt wird, werden keine Erinnerungen verschickt."
+
+msgid "survey_notification_tutor_body"
+msgstr "die folgende Umfrage ist von allen Befragten beendet worden"
+
+msgid "survey_notification_tutor_link"
+msgstr "Link zur Umfrage"
+
+msgid "survey_notification_tutor_recipients"
+msgstr "Mail senden an (Anmeldename)"
+
+msgid "survey_notification_tutor_recipients_invalid"
+msgstr "Bitte geben Sie den Anmeldenamen einer Person mit der Berechtigung „Einstellungen Bearbeiten“ an"
+
+msgid "survey_notification_tutor_salutation"
+msgstr "Hallo %s,"
+
+msgid "survey_notification_tutor_setting"
+msgstr "Eine E-Mail nachdem alle Befragten die Umfrage beendet haben"
+
+msgid "survey_notification_tutor_subject"
+msgstr "Alle Befragten haben die Umfrage „%s“ beendet"
+
+msgid "survey_order"
+msgstr "Sortierung"
+
+msgid "survey_previous"
+msgstr "← Zurück"
+
+msgid "survey_question_editor"
+msgstr "Listenansicht"
+
+msgid "survey_question_obligatory"
+msgstr "(Diese Frage ist eine Pflichtfrage. Sie muss beantwortet werden!)"
+
+msgid "survey_question_pool"
+msgstr "Fragenpool"
+
+msgid "survey_question_pool_title"
+msgstr "Pool-Titel"
+
+msgid "survey_question_title"
+msgstr "Fragetitel"
+
+msgid "survey_questions"
+msgstr "Fragen"
+
+msgid "survey_questions_to_clipboard_copy"
+msgstr "Es wurden Fragen in die Zwischenablage kopiert. Wählen Sie ein Ziel oder leeren Sie die Zwischenablage."
+
+msgid "survey_reached_level"
+msgstr "Erreichte Stufe"
+
+msgid "survey_reminder_body"
+msgstr "Bitte vergessen Sie nicht, an der folgenden Umfrage teilzunehmen."
+
+msgid "survey_reminder_cron"
+msgstr "Erinnerung für Umfragen"
+
+msgid "survey_reminder_cron_info"
+msgstr "Personen daran erinnern an Umfragen teilzunehmen."
+
+msgid "survey_reminder_end"
+msgstr "Ende"
+
+msgid "survey_reminder_frequency"
+msgstr "Häufigkeit der Erinnerung"
+
+msgid "survey_reminder_frequency_days"
+msgstr "Tage"
+
+msgid "survey_reminder_link"
+msgstr "URL"
+
+msgid "survey_reminder_salutation"
+msgstr "Hallo %s,"
+
+msgid "survey_reminder_setting"
+msgstr "Teilnahmeerinnerung"
+
+msgid "survey_reminder_start"
+msgstr "Beginn"
+
+msgid "survey_reminder_subject"
+msgstr "Umfrage „%s“ – Teilnahmeerinnerung"
+
+msgid "survey_remove_competence"
+msgstr "Kompetenz entfernen"
+
+msgid "survey_results_anonymization"
+msgstr "Datenschutz"
+
+msgid "survey_results_anonymized"
+msgstr "Ohne Namen / Anonyme Umfrage"
+
+msgid "survey_results_anonymized_info"
+msgstr "Die Befragten bleiben anonym. Je nach globalen Einstellungen werden Namen entweder durch die Bezeichnung „Anonym“ oder durch individuelle Codes ersetzt. Bei der Verwendung werden in dem Reiter „Ergebnisse“ keine persönlichen Daten angegeben, sodass dort eine Zuordnung der Antworten zu Personen nicht möglich ist."
+
+msgid "survey_results_finished"
+msgstr "Umfrage beendet"
+
+msgid "survey_results_not_started"
+msgstr "Umfrage nicht begonnen"
+
+msgid "survey_results_personalized"
+msgstr "Mit Namen"
+
+msgid "survey_results_personalized_info"
+msgstr "Die Namen der Befragten und ihre Antworten werden im Reiter „Ergebnisse“ aufgeführt. Personen mit uneingeschränktem Zugriff auf diesen Reiter können diese Daten einsehen. Bei einer geringen Teilnehmendenzahl können möglicherweise auch Benutzende mit eingeschränktem Zugriff auf den Reiter, Antworten bestimmten Teilnehmenden zuordnen."
+
+msgid "survey_results_started"
+msgstr "Umfrage begonnen"
+
+msgid "survey_show_blocktitle"
+msgstr "Blocküberschrift anzeigen"
+
+msgid "survey_show_blocktitle_description"
+msgstr "Zeigen Sie die Blocküberschrift in der Umfrage an."
+
+msgid "survey_skill"
+msgstr "Kompetenz"
+
+msgid "survey_skill_assign"
+msgstr "Fragen-Kompetenz-Zuordnung"
+
+msgid "survey_skill_level"
+msgstr "Kompetenzstufe"
+
+msgid "survey_skill_max_scale_points"
+msgstr "Maximale Skalenpunkte"
+
+msgid "survey_skill_nr_q"
+msgstr "Anzahl Fragen"
+
+msgid "survey_skill_thresholds"
+msgstr "Kompetenz-Schwellenwert"
+
+msgid "survey_start"
+msgstr "← Zur Startseite"
+
+msgid "survey_sum_of_means"
+msgstr "Summe des arithm. Mittels der Frage"
+
+msgid "survey_sure_delete_constraint"
+msgstr "Wollen Sie die Verzweigungsregel \"%1$s\" der Frage \"%2$s\" wirklich löschen?"
+
+msgid "survey_sure_delete_questions"
+msgstr "Wollen Sie wirklich die folgenden Fragen bzw. Überschriften löschen?"
+
+msgid "survey_sync_insufficient_permissions"
+msgstr "Keine ausreichende Berechtigungen."
+
+msgid "survey_sync_question_copies"
+msgstr "Fragenkopien synchronisieren"
+
+msgid "survey_sync_question_copies_info"
+msgstr "Alle ausgewählten Fragen werden auf den aktuellen Stand der Poolfrage gebracht."
+
+msgid "survey_sync_success"
+msgstr "Die ausgewählten Fragen wurden aktualisiert."
+
+msgid "survey_up_to_x_points"
+msgstr "Bis zu x Punkten"
+
+msgid "survey_use_start_button"
+msgstr "Die Umfrage kann ausschließlich durch durch den Button „Umfrage beginnen“ gestartet werden."
+
+msgid "svy_activation_limited_visibility_info"
+msgstr "Außerhalb des angegebenen Zeitraums wird nur der Titel der Umfrage angezeigt, die Fragen sind nicht zugänglich."
+
+msgid "svy_activation_online_info"
+msgstr "Nur wenn die Umfrage online ist, können Personen an dieser teilnehmen."
+
+msgid "svy_add_internal_user"
+msgstr "Feedback-Geber manuell hinzufügen"
+
+msgid "svy_add_internal_user_info"
+msgstr "Fügen Sie eine Person als Feedback-Geber hinzu, die bereits auf dieser Plattform registriert ist."
+
+msgid "svy_add_rater"
+msgstr "Feedback-Geber hinzufügen"
+
+msgid "svy_all_raters"
+msgstr "Alle Feedback-Geber"
+
+msgid "svy_all_survey_competences"
+msgstr "Alle Umfrage-Kompetenzen"
+
+msgid "svy_all_user_data_deleted"
+msgstr "Die Datensätze der Umfrage wurden gelöscht."
+
+msgid "svy_analysis"
+msgstr "Analyse"
+
+msgid "svy_anonymous_participants"
+msgstr "Teilnahmeliste"
+
+msgid "svy_anonymous_participants_info"
+msgstr "Fügen Sie eine Option hinzu, die nach Ablauf des Enddatums einer anonymen Umfrage, eine Teilnahmeliste verfügbar macht. Das Enddatum kann in dem Abschnitt „Umfrage-Verwaltung: Zugriff“ eingestellt werden."
+
+msgid "svy_anonymous_participants_min"
+msgstr "Mindestanzahl der befragten Personen"
+
+msgid "svy_anonymous_participants_min_info"
+msgstr "Die Teilnahmeliste wird nur dann zur Verfügung gestellt, wenn die Mindestteilnehmendenzahl an der Umfrage teilgenommen hat."
+
+msgid "svy_anonymous_participants_svy"
+msgstr "Teilnahmeliste"
+
+msgid "svy_anonymous_participants_svy_info"
+msgstr "Die Teilnahmeliste wird nach Ablauf des Enddatums (siehe oben „Umfrage-Verwaltung: Zugriff“) der Umfrage zur Verfügung gestellt. Die Liste kann im Reiter „Befragte“ aufgerufen werden."
+
+msgid "svy_answer_too_long"
+msgstr "Ihre Antwort ist zu lang (%s Zeichen). Bitte kürzen Sie ihre Antwort."
+
+msgid "svy_app_see_rater_info"
+msgstr "Feedback-Nehmer können über den Reiter „Ergebnisse“ auf die Informationen zu den Feedback-Gebern zugreifen, darunter Namen und E-Mail-Adressen, sofern diese Informationen beim Hinzufügen der Feedback-Geber ebenfalls eingegeben wurden."
+
+msgid "svy_appraisses_cannot_be_raters"
+msgstr "Benutzer können sich nicht selbst als Feedback-Geber zuordnen. Nutzen Sie stattdessen die Option \"Selbsteinschätzung\" in den Einstellungen der Umfrage."
+
+msgid "svy_back"
+msgstr "Zurück"
+
+msgid "svy_categories"
+msgstr "Antworten"
+
+msgid "svy_check_evaluation_access_introduction"
+msgstr "Da diese Umfrageauswertung nur für Umfrageteilnehmende zugänglich ist, müssen Sie Ihren Umfragezugangscode eingeben, um die Auswertung zu öffnen."
+
+msgid "svy_check_evaluation_authentication_needed"
+msgstr "Authentifizierung erforderlich"
+
+msgid "svy_check_evaluation_wrong_key"
+msgstr "Sie haben einen falschen Zugangscode für die Umfrage angegeben oder nicht an der Umfrage teilgenommen. Der Zugang zur Auswertung wurde Ihnen deshalb verwehrt."
+
+msgid "svy_compress_view"
+msgstr "Komprimierte Sicht"
+
+msgid "svy_compress_view_info"
+msgstr "Alle Single-Choice-Fragen, die dieselben Antwortskalen haben, werden in Form einer Matrixfrage dargestellt."
+
+msgid "svy_copy"
+msgstr "Umfrage kopieren"
+
+msgid "svy_create_question"
+msgstr "Frage erstellen"
+
+msgid "svy_delete_all_user_data"
+msgstr "Alle Datensätze löschen"
+
+msgid "svy_dont_send"
+msgstr "Keine Nachricht senden"
+
+msgid "svy_eval_captions"
+msgstr "Kennzahl"
+
+msgid "svy_eval_captions_abs"
+msgstr "Häufigkeit"
+
+msgid "svy_eval_captions_abs_perc"
+msgstr "Häufigkeit und Prozente"
+
+msgid "svy_eval_captions_perc"
+msgstr "Prozente"
+
+msgid "svy_eval_competences"
+msgstr "Kompetenz-Ergebnisse"
+
+msgid "svy_eval_cumulated"
+msgstr "Überblick"
+
+msgid "svy_eval_detail"
+msgstr "Detaillierte Ergebnisse"
+
+msgid "svy_eval_skipped_value"
+msgstr "Ergebnisse: \"Übersprungen\""
+
+msgid "svy_eval_skipped_value_custom"
+msgstr "Angepassten Wert verwenden"
+
+msgid "svy_eval_skipped_value_custom_info"
+msgstr "Geben Sie einen Wert ein um anzuzeigen, dass Fragen übersprungen wurden. Alternativ können Sie das Feld leer lassen, um für übersprungene Fragen eine Leerstelle anzuzeigen."
+
+msgid "svy_eval_skipped_value_custom_value"
+msgstr "Wert"
+
+msgid "svy_eval_skipped_value_lng"
+msgstr "Wert aus Sprachdatei übernehmen"
+
+msgid "svy_eval_skipped_value_lng_info"
+msgstr "Aktueller Wert: „%s“"
+
+msgid "svy_eval_user"
+msgstr "Pro Person"
+
+msgid "svy_eval_view"
+msgstr "Anzeige"
+
+msgid "svy_eval_view_charts"
+msgstr "Diagramm"
+
+msgid "svy_eval_view_tables"
+msgstr "Tabelle"
+
+msgid "svy_eval_view_tables_charts"
+msgstr "Tabelle und Diagramm"
+
+msgid "svy_evaluation_access_all_info"
+msgstr "Alle registrierten Personen, die Zugriff auf die Umfrage haben, können die Ergebnisse einsehen."
+
+msgid "svy_evaluation_access_off_info"
+msgstr "Nur Personen mit dem Recht „Einstellungen bearbeiten“ haben Zugriff auf die Ergebnisse der Umfrage."
+
+msgid "svy_evaluation_access_participants_info"
+msgstr "Alle Personen, welche die Umfrage abgeschlossen haben, können anschließend die Ergebnisse einsehen."
+
+msgid "svy_export_files"
+msgstr "Exportierte Dateien"
+
+msgid "svy_export_format"
+msgstr "Ergebnisse der Umfrage exportieren"
+
+msgid "svy_export_pdf"
+msgstr "PDF exportieren"
+
+msgid "svy_ext_rater_firstname"
+msgstr "Vorname des externen Feedback-Gebers"
+
+msgid "svy_ext_rater_lastname"
+msgstr "Nachname des externen Feedback-Gebers"
+
+msgid "svy_external_rater"
+msgstr "Externen Feedback-Geber hinzufügen"
+
+msgid "svy_external_rater_info"
+msgstr "Fügen Sie jemanden, die keine registrierte Person dieser Plattform ist, als Feedback-Geber hinzu."
+
+msgid "svy_fraction_of_selections"
+msgstr "Prozentualer Anteil an den Gesamtantworten"
+
+msgid "svy_gap_analysis"
+msgstr "Gap-Analyse"
+
+msgid "svy_general_properties"
+msgstr "Allgemeine Einstellungen"
+
+msgid "svy_import_codes"
+msgstr "Schlüssel importieren"
+
+msgid "svy_import_codes_info"
+msgstr "Dieser Import benötigt eine „%s“-Export-Datei."
+
+msgid "svy_ind_feedb_info"
+msgstr "Personen erhalten mehrere einzelne Evaluationen durch Feedback-Geber."
+
+msgid "svy_ind_feedb_mode"
+msgstr "Individuelles Feedback"
+
+msgid "svy_mail_confirmation_subject"
+msgstr "Umfrage „%s“ - Ihre Teilnahmebestätigung"
+
+msgid "svy_mail_context_rater_invitation_info"
+msgstr "Feedback-Geber zur Teilnahme in einer Umfrage einladen."
+
+msgid "svy_mail_context_rater_invitation_survey_title"
+msgstr "Titel der Umfrage"
+
+msgid "svy_mail_context_rater_invitation_title"
+msgstr "Umfrage: Feedback-Geber einladen"
+
+msgid "svy_mail_context_reminder_info"
+msgstr "Personen daran erinnern, an der Umfrage teilzunehmen"
+
+msgid "svy_mail_context_reminder_survey_title"
+msgstr "Umfragetitel"
+
+msgid "svy_mail_context_reminder_title"
+msgstr "Umfrage: Teilnahme-Erinnerung"
+
+msgid "svy_mail_own_results_body"
+msgstr "Sie haben an folgender Umfrage teilgenommen:"
+
+msgid "svy_mail_own_results_subject"
+msgstr "Umfrage „%s“ - Ihre Teilnahmebestätigung mit Antworten"
+
+msgid "svy_mail_send_confirmation"
+msgstr "Teilnahmebestätigung anfordern"
+
+msgid "svy_matrix_layout_percentages_sum_invalid"
+msgstr "Die Prozentzahl der Spaltenaufteilung muss zusammen 100% ergeben."
+
+msgid "svy_max_sum_score"
+msgstr "Maximale Gesamtpunktzahl"
+
+msgid "svy_neutral_answer"
+msgstr "Text für eine neutrale Antwort („Nicht definiert\", „Ich weiß nicht\", „Keine Angabe\" etc.)"
+
+msgid "svy_no_appraisees_found"
+msgstr "Es besteht weiterhin die Möglichkeit für ausgewählte Personen Feedback abzugeben. Sobald die Umfrage geschlossen wird, können die Kompetenzen angezeigt werden."
+
+msgid "svy_notification_tutor_results"
+msgstr "Eine E-Mail mit den Umfrageergebnissen"
+
+msgid "svy_notification_tutor_results_alert"
+msgstr "Diese Funktion erfordert ein Enddatum."
+
+msgid "svy_notification_tutor_results_info"
+msgstr "Nach dem Ablauf des Enddatum wird eine E-Mail mit den detailierten Umfrageergebnissen versendet."
+
+msgid "svy_only_max_one_external_rater"
+msgstr "Bitte wählen Sie nur einen externen Feedback-Geber aus."
+
+msgid "svy_page_error"
+msgstr "Beim Beantworten einer Frage ist ein Fehler aufgetreten. Die Fehlermeldung finden Sie bei der betroffenen Frage!"
+
+msgid "svy_page_errors"
+msgstr "Beim Beantworten mehrerer Fragen sind Fehler aufgetreten. Die Fehlermeldungen finden Sie bei den betroffenen Fragen!"
+
+msgid "svy_participant"
+msgstr "Befragte"
+
+msgid "svy_participants"
+msgstr "Befragte"
+
+msgid "svy_participation"
+msgstr "Teilnahme"
+
+msgid "svy_please_select_unused_codes"
+msgstr "Bitte wählen Sie zumindest einen ungenutzten Zugangscode aus."
+
+msgid "svy_print_hide_labels"
+msgstr "Labels ausblenden"
+
+msgid "svy_print_show_labels"
+msgstr "Labels anzeigen"
+
+msgid "svy_privacy_info"
+msgstr "Persönliche Daten"
+
+msgid "svy_rater"
+msgstr "Feedback-Geber"
+
+msgid "svy_rater_see_app_info"
+msgstr "Den Feedback-Gebern werden die Namen der Feedback-Nehmern angezeigt, damit die Fragen personenbezogen beantwortet werden können."
+
+msgid "svy_reminder_mail_template"
+msgstr "Mail-Vorlage"
+
+msgid "svy_reminder_mail_template_none"
+msgstr "Keine Vorlage verwenden"
+
+msgid "svy_result_mail_notification_info"
+msgstr "Nachdem eine Person die Umfrage beendet hat, werden ihre Ergebnisse per Mail an vorausgewählte Personen versendet."
+
+msgid "svy_results"
+msgstr "Ergebnisse"
+
+msgid "svy_results_mail_confirm"
+msgstr "Teilnahmebestätigung"
+
+msgid "svy_results_mail_confirm_info"
+msgstr "Nach Beendigung der Umfrage kann eine Teilnahmebestätigung angefordert werden."
+
+msgid "svy_results_mail_own"
+msgstr "Eigene Antworten mitsenden"
+
+msgid "svy_results_mail_own_info"
+msgstr "Die Antworten der teilnehmenden Person werden in ihrer Teilnahmebestätigungs-E-Mail aufgeführt."
+
+msgid "svy_save_and_continue"
+msgstr "Speichern und fortfahren"
+
+msgid "svy_save_sync"
+msgstr "Speichern und Kopien aktualisieren"
+
+msgid "svy_search_user"
+msgstr "Benutzer suchen"
+
+msgid "svy_search_user_info"
+msgstr "Benutzer oder Rollen suchen und Personen auswählen"
+
+msgid "svy_search_users"
+msgstr "Benutzer suchen"
+
+msgid "svy_select_rater"
+msgstr "Feedback-Geber auswählen"
+
+msgid "svy_selected_user_data_deleted"
+msgstr "Die ausgewählten Umfragedaten wurden erfolgreich gelöscht."
+
+msgid "svy_self_ev_access_results_all"
+msgstr "Zugriff auf Selbst-Evaluationen aller Befragten"
+
+msgid "svy_self_ev_access_results_none"
+msgstr "Kein Zugriff auf Ergebnisse"
+
+msgid "svy_self_ev_access_results_own"
+msgstr "Zugriff auf Selbst-Evaluationen"
+
+msgid "svy_self_ev_info"
+msgstr "Eine Umfrage, die zur Selbstbewertung verwendet werden kann."
+
+msgid "svy_self_ev_mode"
+msgstr "Selbst-Evaluation"
+
+msgid "svy_settings_section_access"
+msgstr "Umfrage-Verwaltung: Zugriff"
+
+msgid "svy_settings_section_before_start"
+msgstr "Informationen vor dem Umfragestart"
+
+msgid "svy_settings_section_finishing"
+msgstr "Umfrage beenden"
+
+msgid "svy_settings_section_question_behaviour"
+msgstr "Umfrage-Verwaltung: Verhalten der Frage"
+
+msgid "svy_settings_section_reminders"
+msgstr "Erinnerungen"
+
+msgid "svy_show_questiontitles"
+msgstr "Fragentitel anzeigen"
+
+msgid "svy_skl_comp_assignm_not_supported"
+msgstr "Die Zuordnung von Kompetenzen ist für diesen Fragetyp nicht möglich."
+
+msgid "svy_sum_score"
+msgstr "Gesamtpunktzahl"
+
+msgid "svy_type_of_rater"
+msgstr "Methode"
+
+msgid "svy_view_own_results"
+msgstr "Eigene Antworten einsehen"
+
+msgid "svy_wrong_or_expired_code"
+msgstr "Leider ist der von Ihnen eingegebene Code entweder ungültig oder abgelaufen. Bitte versuchen Sie es erneut. Sollte dies nicht funktionieren, wenden Sie sich bitte an die Person, die diese Umfrage durchführt."
+
+msgid "text_maximum_chars_allowed"
+msgstr "Bitte beschränken Sie Ihre Antwort auf maximal %s Zeichen. Wenn Sie diese Grenze überschreiten, wird Ihre Antwort nicht gespeichert und Sie werden aufgefordert, Ihre Antwort zu kürzen, um fortfahren zu können."
+
+msgid "text_question_not_filled_out"
+msgstr "Bitte tragen Sie Ihre Antwort in das dafür vorgesehene Feld ein."
+
+msgid "unfold"
+msgstr "Fragenblock auflösen"
+
+msgid "upper_limit"
+msgstr "Obergrenze"
+
+msgid "use_anonymous_id"
+msgstr "Zugangscode anzeigen"
+
+msgid "use_anonymous_id_desc"
+msgstr "Verwenden Sie in anonymisierten Umfragen die Zugangscodes der Befragten als Ersatz für deren Anmeldenamen. Wenn diese Option nicht aktiviert ist, wird anstelle der Anmeldenamen „Anonym“ angezeigt."
+
+msgid "use_browser_print_function"
+msgstr "Bitte verwenden Sie die Druckfunktion Ihres Webbrowsers"
+
+msgid "use_min_answers"
+msgstr "Anzahl der Antworten"
+
+msgid "use_min_answers_option"
+msgstr "Legen Sie eine Mindest- und/oder Höchstanzahl an Antworten fest, die ausgewählt werden müssen."
+
+msgid "use_other_answer"
+msgstr "Freitext"
+
+msgid "used"
+msgstr "verwendet"
+
+msgid "users_answered"
+msgstr "Beantwortet"
+
+msgid "users_invited"
+msgstr "Es wurden %s Personen eingeladen"
+
+msgid "users_skipped"
+msgstr "Übersprungen"
+
+msgid "values"
+msgstr "Werte"
+
+msgid "vertical"
+msgstr "Vertikal"
+
+msgid "warning_question_not_complete"
+msgstr "Die Frage ist unvollständig!"
+
+msgid "workingtime"
+msgstr "Bearbeitungsdauer"

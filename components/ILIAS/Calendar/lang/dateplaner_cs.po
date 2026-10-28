@@ -1,0 +1,1370 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: dateplaner\n"
+
+msgid "Fr_long"
+msgstr "Pátek"
+
+msgid "Fr_short"
+msgstr "Pá"
+
+msgid "Mo_long"
+msgstr "Pondělí"
+
+msgid "Mo_short"
+msgstr "Po"
+
+msgid "Sa_long"
+msgstr "Sobota"
+
+msgid "Sa_short"
+msgstr "So"
+
+msgid "Su_long"
+msgstr "Neděle"
+
+msgid "Su_short"
+msgstr "Ne"
+
+msgid "Text"
+msgstr "Text"
+
+msgid "Th_long"
+msgstr "Čtvrtek"
+
+msgid "Th_short"
+msgstr "Čt"
+
+msgid "Tu_long"
+msgstr "Úterý"
+
+msgid "Tu_short"
+msgstr "Út"
+
+msgid "We_long"
+msgstr "Středa"
+
+msgid "We_short"
+msgstr "St"
+
+msgid "add_appointment"
+msgstr "Přidat schůzku"
+
+msgid "app_consultation_hours"
+msgstr "Konzultační hodiny"
+
+msgid "app_day"
+msgstr "Zobrazení dne"
+
+msgid "app_month"
+msgstr "Zobrazení měsíce"
+
+msgid "app_week"
+msgstr "Zobrazení týdne"
+
+msgid "back_to_crs"
+msgstr "Přejít na kurz"
+
+msgid "back_to_grp"
+msgstr "Přejít na skupinu"
+
+msgid "back_to_pd"
+msgstr "Zpět do osobního počítače"
+
+msgid "btn_ical"
+msgstr "iCal"
+
+msgid "c_date"
+msgstr "Vytvořit událost"
+
+msgid "cal_add_appointment"
+msgstr "Vytvořit schůzku"
+
+msgid "cal_add_calendar"
+msgstr "Přidat kalendář"
+
+msgid "cal_add_category"
+msgstr "Vytvořit nový kalendář"
+
+msgid "cal_add_milestone"
+msgstr "Přidat mezník"
+
+msgid "cal_adm_notification_info"
+msgstr "Tuto volbu vyberte k zasílání vybraného upozornění emailem příslušníkům kurzu/skupiny o změněných schůzkách."
+
+msgid "cal_adm_notification_user_info"
+msgstr "Vyberte tuto volbu k volitelnému zaslání upozornění emailem vybraným uživatelům."
+
+msgid "cal_agenda"
+msgstr "Agenda"
+
+msgid "cal_all_day"
+msgstr "Všechny dny"
+
+msgid "cal_app_info"
+msgstr "Informace o schůzce"
+
+#, fuzzy
+msgid "cal_app_other_materials_num"
+msgstr "View other materials"
+
+#, fuzzy
+msgid "cal_appointment_notifications"
+msgstr "Notification"
+
+msgid "cal_appointments"
+msgstr "Schůzky"
+
+msgid "cal_apps"
+msgstr "Počet schůzek"
+
+msgid "cal_assigned_appointments"
+msgstr "Stanovené schůzky"
+
+msgid "cal_back_to_cal"
+msgstr "Zpět do kalendáře"
+
+msgid "cal_back_to_list"
+msgstr "Zpět na seznam"
+
+msgid "cal_back_to_search"
+msgstr "Zpět do hledání"
+
+msgid "cal_batch_file_downloads"
+msgstr "Stažení dávkového souboru v kalendáři"
+
+msgid "cal_batch_file_downloads_info"
+msgstr "Aktivujte tlačítko pro stažení všech souborů souvisejících se zobrazením aktuálního kalendáře/schůzky."
+
+#, fuzzy
+msgid "cal_belongs_to"
+msgstr "Belongs to Calendar"
+
+msgid "cal_book_free"
+msgstr "dostupné"
+
+msgid "cal_booked_out"
+msgstr "zamluveno"
+
+msgid "cal_booking_cancellation_body"
+msgstr "Vaše schůzka s %s byla zrušena."
+
+msgid "cal_booking_cancellation_subject"
+msgstr "Schůzka \"%s\" byla zrušena"
+
+msgid "cal_booking_cancellation_user"
+msgstr "Toto je kopie původního emailu uživateli:"
+
+msgid "cal_booking_confirmation_body"
+msgstr "Vaše schůzka s %s byla zamluvena."
+
+msgid "cal_booking_confirmation_link"
+msgstr "Odkaz na schůzku:"
+
+msgid "cal_booking_confirmation_subject"
+msgstr "Schůzka \"%s\" byla zamluvena."
+
+msgid "cal_booking_confirmation_user"
+msgstr "Toto je kopie původního emailu uživateli:"
+
+msgid "cal_booking_confirmed"
+msgstr "Schůzka byla zamluvena úspěšně."
+
+msgid "cal_booking_failed_info"
+msgstr "Tato schůzka byla zrušena. Vyberte prosím jinou schůzku."
+
+#, fuzzy
+msgid "cal_booking_manager_confirmation_body"
+msgstr "%s has booked an appointment with %s."
+
+#, fuzzy
+msgid "cal_booking_owner_confirmation_body"
+msgstr "%s has booked an appointment with you."
+
+msgid "cal_cache"
+msgstr "Vyrovnávací paměť kalendáře"
+
+msgid "cal_cache_disabled"
+msgstr "Vypnuto"
+
+msgid "cal_cache_enabled"
+msgstr "Zapnuto"
+
+msgid "cal_cache_info"
+msgstr "Je-li aktivováno, schůzky kalendáře na osobní pracovní ploše a v úložišti materiálů jsou přepočítávány každých x-minut."
+
+msgid "cal_cache_settings"
+msgstr "Vyrovnávací paměť"
+
+msgid "cal_cal_deleted"
+msgstr "Tyto kalendáře byly smazány."
+
+msgid "cal_cal_shared_with"
+msgstr "Kalendář uživatelů je sdílen s"
+
+msgid "cal_cal_sync_success"
+msgstr "Úspěšně synchronizovaný kalendář"
+
+msgid "cal_cal_synchronize"
+msgstr "Synchronizovat kalendář"
+
+msgid "cal_cal_type"
+msgstr "Typ kalendáře"
+
+msgid "cal_calendar_color"
+msgstr "Barva"
+
+msgid "cal_calendar_download"
+msgstr "Stažení kalendáře"
+
+msgid "cal_calendar_name"
+msgstr "Název kalendáře"
+
+msgid "cal_calendar_subscription_modal_title"
+msgstr "Předplatné kalendáře"
+
+msgid "cal_cancel_booking"
+msgstr "Zrušit rezervaci"
+
+msgid "cal_cancel_booking_confirmed"
+msgstr "Rezervace byla úspěšně zrušena."
+
+msgid "cal_cancel_booking_info"
+msgstr "Potvrďte prosím zrušení této rezervace."
+
+msgid "cal_category_selection"
+msgstr "Výběr kalendáře"
+
+msgid "cal_cg_notification"
+msgstr "Upozornění Kurz/Skupina"
+
+msgid "cal_cg_registration_info"
+msgstr "Poskytuje uživatelům možnost registrace na schůzky kurzu a skupiny."
+
+msgid "cal_cg_registrations"
+msgstr "Registrace na schůzky kurzu/skupiny"
+
+msgid "cal_ch_add_grp"
+msgstr "Vytvořit novou skupinu konzultačních hodin"
+
+msgid "cal_ch_add_sequence"
+msgstr "Přidat sekvenci konzultačních hodin"
+
+msgid "cal_ch_app_bookings"
+msgstr "Rezervace"
+
+msgid "cal_ch_app_grp"
+msgstr "Skupina konzultačních hodin"
+
+msgid "cal_ch_app_list"
+msgstr "Termíny konzultačních hodin"
+
+msgid "cal_ch_assign_participants"
+msgstr "Zařazení uživatelé"
+
+msgid "cal_ch_assigned_apps"
+msgstr "Počet schůzek"
+
+msgid "cal_ch_book"
+msgstr "Rezervovat schůzku"
+
+msgid "cal_ch_booking"
+msgstr "Zdroje rezervace"
+
+#, fuzzy
+msgid "cal_ch_booking_col_comments"
+msgstr "Comments"
+
+#, fuzzy
+msgid "cal_ch_booking_comment"
+msgstr "Comment:"
+
+#, fuzzy
+msgid "cal_ch_booking_link"
+msgstr "Link to Consultation Hours:"
+
+msgid "cal_ch_booking_message_tbl"
+msgstr "Komentář"
+
+#, fuzzy
+msgid "cal_ch_booking_num_available"
+msgstr "Available Slots"
+
+#, fuzzy
+msgid "cal_ch_booking_num_free_short"
+msgstr "%s free"
+
+#, fuzzy
+msgid "cal_ch_booking_other_participants"
+msgstr "Other Participants:"
+
+msgid "cal_ch_booking_owner"
+msgstr "Vlastník"
+
+#, fuzzy
+msgid "cal_ch_booking_participants"
+msgstr "Participants"
+
+msgid "cal_ch_booking_reminder_body"
+msgstr "Vaše schůzka s \"%s\" brzy začíná."
+
+msgid "cal_ch_booking_reminder_subject"
+msgstr "Připomenutí pro \"%s\""
+
+#, fuzzy
+msgid "cal_ch_booking_start"
+msgstr "Start"
+
+#, fuzzy
+msgid "cal_ch_booking_your_comment"
+msgstr "Your comment:"
+
+msgid "cal_ch_bookings"
+msgstr "Účastníci"
+
+msgid "cal_ch_bookings_tbl"
+msgstr "Rezervované schůzky"
+
+msgid "cal_ch_cancel_booking"
+msgstr "Zrušit rezervaci"
+
+msgid "cal_ch_cancel_booking_info"
+msgstr "Zrušit rezervaci zasílá upozornění uživatelům emailem. Pokud nechcete upozornit uživatele, použijte volbu \"Smazat rezervaci\"."
+
+msgid "cal_ch_cancel_booking_sure"
+msgstr "Skutečně chcete zrušit následující rezervace?"
+
+msgid "cal_ch_canceled_bookings"
+msgstr "Vybrané rezervace byly smazány."
+
+msgid "cal_ch_ch"
+msgstr "Konzultační hodiny"
+
+msgid "cal_ch_cron_reminder"
+msgstr "Zaslat připomínku na konzultační hodinu"
+
+msgid "cal_ch_cron_reminder_days"
+msgstr "Počet dnů"
+
+msgid "cal_ch_cron_reminder_info"
+msgstr "Pokud je zapnuto, budou zaslány emaily s upozorněním na nadcházející konzultační hodinu."
+
+#, fuzzy
+msgid "cal_ch_current_booking_comment"
+msgstr "Comment"
+
+msgid "cal_ch_current_bookings"
+msgstr "Aktuální rezervace"
+
+msgid "cal_ch_deadline"
+msgstr "Poslední registrace"
+
+msgid "cal_ch_deadline_info"
+msgstr "Definute prosím počet hodin, po které bude registrace zablokována."
+
+msgid "cal_ch_delete_app_booking_info"
+msgstr "Následující schůzky mají rezervace. Pokud tyto schůzky smažete, uživatelé nebudou upozorněni."
+
+msgid "cal_ch_delete_booking"
+msgstr "Smazat rezervaci"
+
+msgid "cal_ch_delete_booking_info"
+msgstr "Smazat rezervaci neupozorní uživatele emailem. Pokud chcete uživatele vyrozumět, použijte prosím volbu \"Zrušit rezervaci\"."
+
+msgid "cal_ch_delete_booking_sure"
+msgstr "Skutečně chcete smazat následující rezervace?"
+
+msgid "cal_ch_deleted_bookings"
+msgstr "Vybrané rezervace byly zrušeny."
+
+msgid "cal_ch_duration"
+msgstr "Trvání každé schůzky"
+
+msgid "cal_ch_export_apps"
+msgstr "Rezervované schůzky"
+
+msgid "cal_ch_field_ch"
+msgstr "Schůzky konzultačních hodin"
+
+msgid "cal_ch_form"
+msgstr "Zapnout konzultační hodiny"
+
+msgid "cal_ch_form_header"
+msgstr "Konzultační hodiny"
+
+msgid "cal_ch_form_info"
+msgstr "Tato volba zapíná správu osobních konzultačních hodin v kalendáři."
+
+#, fuzzy
+msgid "cal_ch_free_of_available"
+msgstr "%s of %s"
+
+msgid "cal_ch_grp_add_tbl"
+msgstr "Vytvořit novou skupinu konzultačních hodin"
+
+msgid "cal_ch_grp_delete_sure"
+msgstr "Skutečně chcete smazat následující skupinu konzultačních hodin?"
+
+msgid "cal_ch_grp_header"
+msgstr "Skupina konzultačních hodin"
+
+msgid "cal_ch_grp_multiple"
+msgstr "Rezervace dle uživatelů"
+
+msgid "cal_ch_grp_multiple_info"
+msgstr "Můžete definovat maximální počet rezervací podle uživatelů."
+
+msgid "cal_ch_grp_no_assignment"
+msgstr "-- Nepřiděleno --"
+
+msgid "cal_ch_grp_selection"
+msgstr "Přidělení skupiny konzultačních hodin"
+
+msgid "cal_ch_grp_update_tbl"
+msgstr "Upravit skupinu konzultačních hodin"
+
+msgid "cal_ch_grps"
+msgstr "Skupiny konzultačních hodin"
+
+msgid "cal_ch_manager"
+msgstr "Správce konzultačních hodin"
+
+msgid "cal_ch_manager_info"
+msgstr "Login uživatele, který bude řídit Vaše konzultační hodiny."
+
+msgid "cal_ch_max_books"
+msgstr "Rezervace dle uživatele"
+
+#, fuzzy
+msgid "cal_ch_minutes"
+msgstr "Duration (min)"
+
+msgid "cal_ch_multi_edit_sequence"
+msgstr "Upravit vícenásobné schůzky"
+
+msgid "cal_ch_num_appointments"
+msgstr "Počet schůzek"
+
+msgid "cal_ch_num_appointments_info"
+msgstr "Definujte prosím počet následujících schůzek."
+
+msgid "cal_ch_num_bookings"
+msgstr "Rezervace dle schůzky"
+
+msgid "cal_ch_personal_book"
+msgstr "Osobní rezervace"
+
+msgid "cal_ch_personal_ch"
+msgstr "Osobní konzultační hodiny"
+
+msgid "cal_ch_reject_booking"
+msgstr "Zrušit rezervaci"
+
+#, fuzzy
+msgid "cal_ch_send_mail"
+msgstr "Send Mail"
+
+msgid "cal_ch_target_object"
+msgstr "Objekt úložiště"
+
+msgid "cal_ch_target_object_info"
+msgstr "Omezit schůzky k danému objektu úložiště."
+
+msgid "cal_ch_unknown_repository_object"
+msgstr "Daný objekt úložiště ref-id není platný."
+
+msgid "cal_ch_unknown_user"
+msgstr "Daný login neodpovídá žádnému uživateli."
+
+msgid "cal_ch_user_assignment_failed_info"
+msgstr "Následující uživatelé nemohli být zařazeni na schůzky, neboť maximální počet razervací je překročen."
+
+#, fuzzy
+msgid "cal_ch_vm_period_all"
+msgstr "All"
+
+#, fuzzy
+msgid "cal_ch_vm_period_past"
+msgstr "Past"
+
+#, fuzzy
+msgid "cal_ch_vm_period_upcoming"
+msgstr "Upcoming"
+
+#, fuzzy
+msgid "cal_ch_vm_status_all"
+msgstr "All"
+
+#, fuzzy
+msgid "cal_ch_vm_status_booked"
+msgstr "Booked Slots"
+
+#, fuzzy
+msgid "cal_ch_vm_status_open"
+msgstr "Open Slots"
+
+#, fuzzy
+msgid "cal_change_calendar_view"
+msgstr "Change Calendar View"
+
+msgid "cal_change_responsible_users"
+msgstr "Změna odpovědných uživatelů"
+
+msgid "cal_changed_events_header"
+msgstr "Nové a změněné schůzky"
+
+msgid "cal_confirm_booking"
+msgstr "Potvrdit rezervaci"
+
+msgid "cal_confirm_booking_info"
+msgstr "Potvrďte prosím rezervaci na tuto schůzku."
+
+msgid "cal_confirm_reg_info"
+msgstr "Potvrďte prosím registraci na tuto schůzku."
+
+msgid "cal_confirm_unreg_info"
+msgstr "Potvrďte prosím zrušení této registrace."
+
+msgid "cal_consultation_hours_for"
+msgstr "Konzultační hodiny pro"
+
+msgid "cal_consultation_hours_for_user"
+msgstr "Konzultační hodiny pro %1"
+
+msgid "cal_contained_in"
+msgstr "Zahrnuto v"
+
+msgid "cal_create"
+msgstr "Vytvořit"
+
+msgid "cal_created_appointment"
+msgstr "Vytvořena nová schůzka."
+
+msgid "cal_created_milestone"
+msgstr "Milník přidán."
+
+msgid "cal_created_milestone_resp_q"
+msgstr "Přidaný milník. Vyberte prosím uživatele, kteří jsou určeni potkat tento milník."
+
+#, fuzzy
+msgid "cal_cronjob_remote_description"
+msgstr "If activated, appointments of the calendar type \"Web calendar\" are automatically synchronised after the specified time interval."
+
+#, fuzzy
+msgid "cal_cronjob_remote_title"
+msgstr "External Calendar Synchronisation"
+
+msgid "cal_crs_info"
+msgstr "Informace o kurzu"
+
+msgid "cal_crs_new_notification_body"
+msgstr "v kurzu \"%s\" byla vytvořena nová schůzka."
+
+msgid "cal_crs_new_notification_sub"
+msgstr "Nová schůzka v kurzu \"%s\""
+
+msgid "cal_crs_notification_body"
+msgstr "schůzka v kurzu \"%s\" byla změněna."
+
+msgid "cal_crs_notification_sub"
+msgstr "Změněna schůzka v kurzu \"%s\""
+
+msgid "cal_crs_timing_end"
+msgstr "Doporučený konec"
+
+msgid "cal_crs_timing_start"
+msgstr "Doporučený začátek"
+
+msgid "cal_daily"
+msgstr "Denně"
+
+#, fuzzy
+msgid "cal_date_and_time"
+msgstr "Date and Time"
+
+msgid "cal_date_booked"
+msgstr "rezervováno"
+
+msgid "cal_date_format_info"
+msgstr "Vyberte prosím formát vstupního data."
+
+#, fuzzy
+msgid "cal_date_time_title"
+msgstr "Date and Time"
+
+msgid "cal_day_end"
+msgstr "Konečný den"
+
+msgid "cal_day_of_month"
+msgstr "Dny v měsíci"
+
+msgid "cal_day_overview"
+msgstr "Přehled dne"
+
+msgid "cal_day_s"
+msgstr "Dny"
+
+msgid "cal_day_selection"
+msgstr "Vybrat den"
+
+msgid "cal_day_start"
+msgstr "Počáteční den"
+
+msgid "cal_day_week_view"
+msgstr "Nastavení zobrazení den/týden"
+
+msgid "cal_deadline"
+msgstr "Konečný termín"
+
+msgid "cal_def_date_format"
+msgstr "Výchozí formát vstupu dat"
+
+msgid "cal_def_date_format_info"
+msgstr "Vyberte prosím vstupní formát dat"
+
+msgid "cal_def_day_end"
+msgstr "Výchozí den ukončení"
+
+msgid "cal_def_day_start"
+msgstr "Výchozí den zahájení"
+
+msgid "cal_def_show_weeks"
+msgstr "Výchozí zobrazení týdnů"
+
+msgid "cal_def_time_format"
+msgstr "Výchozí formát času"
+
+msgid "cal_def_time_format_info"
+msgstr "Vyberte prosím formát pro vstup a zobrazení času."
+
+msgid "cal_def_timezone"
+msgstr "Výchozí časová zóna"
+
+msgid "cal_def_timezone_info"
+msgstr "Vyberte prosím výchozí časovou zónu pro zobrazení schůzek."
+
+#, fuzzy
+msgid "cal_def_view"
+msgstr "Default Calendar View"
+
+msgid "cal_def_week_start"
+msgstr "Týden začíná"
+
+msgid "cal_default_calendar"
+msgstr "Osobní schůzky"
+
+#, fuzzy
+msgid "cal_default_settings"
+msgstr "Default settings"
+
+msgid "cal_del_cal_sure"
+msgstr "Skutečně chcete smazat vybrané kalendáře?"
+
+msgid "cal_delete_app_sure"
+msgstr "Skutečně chcete smazat následující schůzky?"
+
+#, fuzzy
+msgid "cal_delete_booking_info"
+msgstr "Please confirm the deletion of this booking"
+
+msgid "cal_delete_cal"
+msgstr "Smazat kalendář"
+
+#, fuzzy
+msgid "cal_delete_recurrence_rule"
+msgstr "Delete Series of Appoinments"
+
+msgid "cal_delete_recurrences"
+msgstr "Smazat všechna opakování"
+
+msgid "cal_delete_single"
+msgstr "Smazat pouze tuto schůzku"
+
+msgid "cal_deleted_app"
+msgstr "Vybrané schůzky byly smazány."
+
+msgid "cal_details"
+msgstr "Detaily schůzky"
+
+msgid "cal_down_no_files"
+msgstr "Žádné položky ke stažení, uvedené události neobsahují soubory."
+
+msgid "cal_download_all_files"
+msgstr "Stáhnout všechny soubory"
+
+msgid "cal_download_files"
+msgstr "Stáhnout soubory"
+
+msgid "cal_download_files_started"
+msgstr "Bylo zahájeno stahování souborů kalendáře."
+
+msgid "cal_dstart_dend_warn"
+msgstr "Zkontrolujte prosím Váš vstup. Den začátku musí být před dnem konce."
+
+msgid "cal_duration"
+msgstr "Trvání"
+
+#, fuzzy
+msgid "cal_duration_end"
+msgstr "End"
+
+#, fuzzy
+msgid "cal_duration_start"
+msgstr "Start"
+
+msgid "cal_edit_appointment"
+msgstr "Upravit schůzku"
+
+msgid "cal_edit_category"
+msgstr "Upravit kalendář"
+
+msgid "cal_edit_milestone"
+msgstr "Upravit milník"
+
+msgid "cal_edit_recurrences"
+msgstr "Upravit všechny schůzky"
+
+msgid "cal_edit_single"
+msgstr "Upravit tuto schůzku"
+
+#, fuzzy
+msgid "cal_edit_single_or_all_info"
+msgstr "Do you want to edit only this appointment or all in its series?"
+
+msgid "cal_enable_group_milestones"
+msgstr "Zapnout milníky"
+
+msgid "cal_enable_group_milestones_desc"
+msgstr "Tato volba zapíná v kalendáři plánovací milníky."
+
+msgid "cal_err_invalid_notification_rcps"
+msgstr "Tento seznam příjemců upozornění není platný. Vyberte prosím jen přihlašovací jména uživatelů ILIAS, nebo platné emailové adresy."
+
+msgid "cal_every"
+msgstr "Každý:"
+
+msgid "cal_exc_deadline"
+msgstr "Konečný termín"
+
+msgid "cal_exc_info"
+msgstr "Informace o přiřazení"
+
+msgid "cal_exc_inst_files"
+msgstr "Soubory s pokyny"
+
+msgid "cal_exc_open"
+msgstr "Otevřít přiřazení"
+
+msgid "cal_exc_peer_review_deadline"
+msgstr "Konečný termín zpětné vazby"
+
+msgid "cal_export_timezone"
+msgstr "Časová zóna pro export kalendáře"
+
+msgid "cal_export_timezone_tz"
+msgstr "Použít časovou zónu ILIAS"
+
+msgid "cal_export_timezone_utc"
+msgstr "Použít časovou zónu UTC (kompatibilní s MS Outlook)"
+
+msgid "cal_fifth"
+msgstr "Pátý"
+
+msgid "cal_first"
+msgstr "První"
+
+msgid "cal_fourth"
+msgstr "Čtvrtý"
+
+msgid "cal_fullday"
+msgstr "Datum/čas"
+
+msgid "cal_fullday_title"
+msgstr "Celodenní událost"
+
+msgid "cal_global_settings"
+msgstr "Globální nastavení"
+
+msgid "cal_grp_curr_crs"
+msgstr "Aktuální kurz"
+
+msgid "cal_grp_curr_crs_cons"
+msgstr "Konzultační hodiny"
+
+msgid "cal_grp_curr_grp"
+msgstr "Aktuální skupina"
+
+msgid "cal_grp_info"
+msgstr "Informace o skupině"
+
+msgid "cal_grp_new_notification_body"
+msgstr "ve skupině \"%s\" byla vytvořena nová schůzka."
+
+msgid "cal_grp_new_notification_sub"
+msgstr "Nová schůzka ve skupině \"%s\""
+
+msgid "cal_grp_notification_body"
+msgstr "schůzka skupiny \"%s\" byla změněna."
+
+msgid "cal_grp_notification_sub"
+msgstr "Změna schůzky ve skupině \"%s\""
+
+msgid "cal_grp_others"
+msgstr "Ostatní"
+
+msgid "cal_grp_personal"
+msgstr "Osobní"
+
+msgid "cal_ical_infoscreen"
+msgstr "Předplatit si"
+
+msgid "cal_ical_url"
+msgstr "iCal-URL"
+
+#, fuzzy
+msgid "cal_ical_url_google"
+msgstr "iCal-URL for Google Calendar"
+
+msgid "cal_import_appointments"
+msgstr "Importovat schůzky"
+
+msgid "cal_import_file"
+msgstr "Importovat soubor"
+
+msgid "cal_import_file_info"
+msgstr "Vyberte tento soubor, který obsahuje Váš kalendář se schůzkami."
+
+msgid "cal_import_tbl"
+msgstr "Importovat schůzky"
+
+msgid "cal_imported_success"
+msgstr "Importováno %1$s schůzek."
+
+msgid "cal_in"
+msgstr "v"
+
+msgid "cal_last"
+msgstr "Poslední"
+
+msgid "cal_list"
+msgstr "List"
+
+msgid "cal_mail_notification_body"
+msgstr "byl(a) jste pozván(a) na schůzku."
+
+msgid "cal_mail_notification_subject"
+msgstr "Pozvání na schůzku: \"%s\""
+
+msgid "cal_manage"
+msgstr "Zařídit"
+
+#, fuzzy
+msgid "cal_materials"
+msgstr "Materials"
+
+msgid "cal_milestone_settings"
+msgstr "Milníky"
+
+msgid "cal_month_overview"
+msgstr "Měsíční přehled"
+
+msgid "cal_month_s"
+msgstr "Měsíc(e)"
+
+msgid "cal_month_selection"
+msgstr "Vybrat měsíc"
+
+msgid "cal_monthly"
+msgstr "Měsíčně"
+
+#, fuzzy
+msgid "cal_monthly_by_date"
+msgstr "Monthly by Date"
+
+#, fuzzy
+msgid "cal_monthly_by_day"
+msgstr "Monthly by Day"
+
+msgid "cal_ms_details"
+msgstr "Detaily mezníků"
+
+msgid "cal_ms_users_responsible"
+msgstr "Odpovědní uživatelé"
+
+msgid "cal_new_app"
+msgstr "Nová schůzka"
+
+msgid "cal_new_ms"
+msgstr "Nový mezník"
+
+msgid "cal_no_ending"
+msgstr "Chybí datum konce"
+
+#, fuzzy
+msgid "cal_no_events_block"
+msgstr "Es sind keine Termine für Sie vorhanden."
+
+msgid "cal_no_events_info"
+msgstr "Ve vybraném časovém období nebyly nalezeny žádné události."
+
+msgid "cal_no_recurrence"
+msgstr "Žádné opakování"
+
+msgid "cal_notification"
+msgstr "Upozornění e-mailem"
+
+msgid "cal_notification_crsgrp"
+msgstr "Upozornění pro účastníky Kurzu/Skupiny"
+
+msgid "cal_notification_info"
+msgstr "Je-li zapnuto, všichni přislušníci kurzu/skupiny budou o této schůzce upozorněni e-mailem."
+
+msgid "cal_notification_users"
+msgstr "Upozornění pro vybrané uživatele"
+
+msgid "cal_on"
+msgstr "Na:"
+
+msgid "cal_on_the"
+msgstr "Na:"
+
+msgid "cal_open_calendar"
+msgstr "Otevřít kalendář"
+
+msgid "cal_origin"
+msgstr "Původ"
+
+msgid "cal_owner"
+msgstr "Vlastník"
+
+#, fuzzy
+msgid "cal_period"
+msgstr "Period"
+
+msgid "cal_rec_err_limit"
+msgstr "Vložte prosím platný počet schůzek."
+
+#, fuzzy
+msgid "cal_recurrence_confirm_deletion"
+msgstr "Please decide wether you want to delete single appointments or the complete series of appointments."
+
+#, fuzzy
+msgid "cal_recurrence_count"
+msgstr "Number of Appointments"
+
+#, fuzzy
+msgid "cal_recurrence_day_interval"
+msgstr "Every x Day(s)"
+
+#, fuzzy
+msgid "cal_recurrence_end_date"
+msgstr "End Date"
+
+#, fuzzy
+msgid "cal_recurrence_end_date_info"
+msgstr "Last possible date for an appointment."
+
+#, fuzzy
+msgid "cal_recurrence_month_interval"
+msgstr "Every x Month(s)"
+
+#, fuzzy
+msgid "cal_recurrence_until"
+msgstr "Recurrence End"
+
+#, fuzzy
+msgid "cal_recurrence_until_count"
+msgstr "Fixed Number of Appointments"
+
+#, fuzzy
+msgid "cal_recurrence_until_end_date"
+msgstr "Repeat Until End Date"
+
+#, fuzzy
+msgid "cal_recurrence_week_interval"
+msgstr "Every x Week(s)"
+
+#, fuzzy
+msgid "cal_recurrence_year_interval"
+msgstr "Every x Year(s)"
+
+msgid "cal_recurrences"
+msgstr "Opakování"
+
+msgid "cal_reg_register"
+msgstr "Registrovat"
+
+msgid "cal_reg_registered"
+msgstr "Byl(a) jste zaregistrován(a)."
+
+msgid "cal_reg_registered_users"
+msgstr "Registrovaní uživatelé"
+
+msgid "cal_reg_unregister"
+msgstr "Zrušit registraci"
+
+msgid "cal_reg_unregistered"
+msgstr "Nebyl(a) jste zaregistrován(a)."
+
+msgid "cal_registrations"
+msgstr "Registrace na schůzku"
+
+msgid "cal_remote_url"
+msgstr "URL"
+
+msgid "cal_repeat_until"
+msgstr "Opakovat do"
+
+msgid "cal_repo_obj"
+msgstr "Objekty úložiště"
+
+msgid "cal_responsible"
+msgstr "Odpovědný"
+
+msgid "cal_save_responsible_users"
+msgstr "Uložit odpovědné uživatele"
+
+msgid "cal_search"
+msgstr "Hledat termín"
+
+msgid "cal_search_info_share"
+msgstr "Vložte prosím jméno požadovaného uživatele/role pro sdílení tohoto kalendáře."
+
+msgid "cal_second"
+msgstr "Druhý"
+
+msgid "cal_server_tz"
+msgstr "Časová zóna serveru"
+
+msgid "cal_sess_info"
+msgstr "Informace o relaci"
+
+#, fuzzy
+msgid "cal_setting_global_crs_act"
+msgstr "Activation in Courses"
+
+#, fuzzy
+msgid "cal_setting_global_crs_act_info"
+msgstr "If selected, the calendar is active in courses by default. In any case the calendar activation can be enabled/disabled in the course settings."
+
+msgid "cal_setting_global_crs_vis"
+msgstr "Zobrazit v kurzech"
+
+msgid "cal_setting_global_crs_vis_info"
+msgstr "Je-li zapnuto, kalendář je jako výchozí zobrazen v kurzech. V každém případě prezentace kalendáře může zapnuto/vypnuto v nastavení kurzu."
+
+#, fuzzy
+msgid "cal_setting_global_grp_act"
+msgstr "Activation in Groups"
+
+#, fuzzy
+msgid "cal_setting_global_grp_act_info"
+msgstr "If selected, the calendar is active in groups by default. In any case the calendar activation can be enabled/disabled in the group settings."
+
+msgid "cal_setting_global_grp_vis"
+msgstr "Zobrazit ve skupinách"
+
+msgid "cal_setting_global_grp_vis_info"
+msgstr "Je-li zapnuto, kalendář je jako výchozí zobrazen ve skupinách. V každém případě prezentace kalendáře může být zapnuto/vypnuta v nastavení skupin."
+
+msgid "cal_setting_global_vis_repos"
+msgstr "Kalendář úložiště"
+
+msgid "cal_share"
+msgstr "Sdílet kalendář"
+
+msgid "cal_share_accept"
+msgstr "Příjmout pozvání"
+
+msgid "cal_share_cal"
+msgstr "Sdílet kalendář"
+
+msgid "cal_share_cal_editable"
+msgstr "Sdílet kalendář (číst a psát)"
+
+msgid "cal_share_decline"
+msgstr "Zamítnout pozvání"
+
+msgid "cal_share_search_header"
+msgstr "Sdílet kalendář"
+
+msgid "cal_share_search_role_header"
+msgstr "Výběr role"
+
+msgid "cal_share_search_usr_header"
+msgstr "Výběr uživatele"
+
+msgid "cal_shared_access_read_only"
+msgstr "Jen číst"
+
+msgid "cal_shared_access_read_write"
+msgstr "Číst a psát"
+
+msgid "cal_shared_access_table_col"
+msgstr "Přístup"
+
+msgid "cal_shared_calendars"
+msgstr "Sdílený kalendář (Pozvánky)"
+
+msgid "cal_shared_header"
+msgstr "Sdílené kalendáře"
+
+msgid "cal_shared_selected_usr"
+msgstr "Kalendář je sdílen s vybranými uživateli/rolemi."
+
+msgid "cal_show_weeks"
+msgstr "Zobrazit týdny"
+
+msgid "cal_show_weeks_info"
+msgstr "Aktivuje sloupec týdnů v bočním bloku kalendáře. Uživatelé mohou ve svém nastavení deaktivovat sloupec."
+
+msgid "cal_start"
+msgstr "Začátek"
+
+msgid "cal_subscription"
+msgstr "Předplatné"
+
+msgid "cal_subscription_header"
+msgstr "Adresa kalendáře"
+
+msgid "cal_subscription_info"
+msgstr "Použijte prosím následující adresu k přístupu Vašeho kalendáře k jiným aplikacím. Můžete je kopírovat a vkládat do jiných kalendářních produktů, podporujících formát ical."
+
+msgid "cal_subscription_url"
+msgstr "URL kalendáře:"
+
+msgid "cal_sync_cache"
+msgstr "Vyrovnávací paměť kalendáře"
+
+msgid "cal_sync_cache_info"
+msgstr "Je-li aktivováno, nové/změněné schůzky kalendáře budou přepočítávány jen každé x minuty."
+
+msgid "cal_sync_disabled"
+msgstr "Vypnuto"
+
+msgid "cal_sync_enabled"
+msgstr "Zapnuto"
+
+msgid "cal_table_categories"
+msgstr "Výběr kalendáře"
+
+msgid "cal_task_completion"
+msgstr "Dokončení úkolu"
+
+msgid "cal_third"
+msgstr "Třetí"
+
+msgid "cal_time_format_info"
+msgstr "Vyberte prosím formát pro zobrazení času."
+
+msgid "cal_timezone_info"
+msgstr "Vyberte prosím nejbližší město Vaší časové zóny."
+
+msgid "cal_type_crs"
+msgstr "Kalendář kurzu"
+
+msgid "cal_type_exc"
+msgstr "Kalendář cvičení"
+
+msgid "cal_type_grp"
+msgstr "Kalendář skupiny"
+
+msgid "cal_type_info"
+msgstr "Vyberte prosím typ kalendáře. \"Veřejné kalendáře\" jsou viditelné všem uživatelům ILIAS."
+
+msgid "cal_type_local"
+msgstr "Lokální kalendář"
+
+msgid "cal_type_personal"
+msgstr "Soukromý kalendář"
+
+msgid "cal_type_remote"
+msgstr "Webový kalendář"
+
+msgid "cal_type_rl"
+msgstr "Umístění kalendáře"
+
+msgid "cal_type_sess"
+msgstr "Kalendář sezení"
+
+msgid "cal_type_system"
+msgstr "Veřejný kalendář"
+
+#, fuzzy
+msgid "cal_type_tals"
+msgstr "Talks"
+
+msgid "cal_unshare_cal"
+msgstr "Ukončit sdílení"
+
+msgid "cal_unshared_selected_usr"
+msgstr "Sdílení kalendářes vybranými uživateli bylo ukončeno."
+
+msgid "cal_upcoming_events_header"
+msgstr "Další události"
+
+msgid "cal_user_date_format"
+msgstr "Vstupní formát data"
+
+msgid "cal_user_notification"
+msgstr "Upozornění uživatele"
+
+msgid "cal_user_notification_info"
+msgstr "Vybraní uživatelé budou upozorněni o této schůzce emailem. Vložte prosím jména uživatelů ILIAS, anebo adresy emailů."
+
+msgid "cal_user_settings"
+msgstr "Nastavení kalendáře"
+
+msgid "cal_user_time_format"
+msgstr "Formát času"
+
+msgid "cal_user_timezone"
+msgstr "Časová zóna"
+
+#, fuzzy
+msgid "cal_usr_info"
+msgstr "Appointment Information"
+
+msgid "cal_usr_show_weeks"
+msgstr "Zobrazit sloupec týdne"
+
+msgid "cal_usr_show_weeks_info"
+msgstr "Aktivuje sloupec týdnů v bočním bloku kalendáře."
+
+msgid "cal_webcal_sync"
+msgstr "Synchronizace externího kalendáře"
+
+msgid "cal_webcal_sync_info"
+msgstr "Automaticky synchronizuje externí kalendář každých x minut."
+
+msgid "cal_week_abbrev"
+msgstr "P"
+
+msgid "cal_week_month_view"
+msgstr "Nastavení zobrazení týden/měsíc"
+
+msgid "cal_week_overview"
+msgstr "Týdenní přehled"
+
+msgid "cal_week_s"
+msgstr "Týden"
+
+msgid "cal_week_selection"
+msgstr "Vybrat týden"
+
+msgid "cal_week_start"
+msgstr "Týden začíná"
+
+msgid "cal_weekday"
+msgstr "Den v týdnu"
+
+msgid "cal_weekly"
+msgstr "Týdně"
+
+msgid "cal_where"
+msgstr "Místo"
+
+msgid "cal_year_s"
+msgstr "Rok(y)"
+
+msgid "cal_yearly"
+msgstr "Ročně"
+
+#, fuzzy
+msgid "cal_yearly_by_date"
+msgstr "Yearly by Date"
+
+#, fuzzy
+msgid "cal_yearly_by_day"
+msgstr "Yearly by Day"
+
+#, fuzzy
+msgid "consultation_hours_block_title"
+msgstr "Consultation Hours"
+
+msgid "crs_cal_activation_end"
+msgstr "Konec kurzu"
+
+msgid "crs_cal_activation_start"
+msgstr "Začátek kurzu"
+
+msgid "crs_cal_end"
+msgstr "Kurz končí"
+
+msgid "crs_cal_reg_end"
+msgstr "Registrace končí"
+
+msgid "crs_cal_reg_start"
+msgstr "Registrace začíná"
+
+msgid "crs_cal_start"
+msgstr "Kurz začíná"
+
+msgid "date_format"
+msgstr "m/d/R H:i"
+
+msgid "end_date"
+msgstr "Ukončení:"
+
+msgid "err_end_before_start"
+msgstr "Tato schůzka nesmí začínat před koncem."
+
+msgid "err_missing_title"
+msgstr "Vložte prosím název schůzky."
+
+msgid "free"
+msgstr "Volno"
+
+msgid "grp_cal_end"
+msgstr "Skupina končí"
+
+msgid "grp_cal_reg_end"
+msgstr "Registrace končí"
+
+msgid "grp_cal_reg_start"
+msgstr "Registrace začíná"
+
+msgid "grp_cal_start"
+msgstr "Skupina začíná"
+
+msgid "ical_export"
+msgstr "Export iCal"
+
+msgid "keep"
+msgstr "Beze změny"
+
+msgid "keyword"
+msgstr "Klíčové slovo"
+
+msgid "more"
+msgstr "Více"
+
+msgid "r_14"
+msgstr "Každých 14 dní"
+
+msgid "r_4_weeks"
+msgstr "Každé 4 týdny"
+
+msgid "remote_pass_info"
+msgstr "Pokud je chráněn přístup do webového kalendáře, zadejte údaje o svém účtu."
+
+msgid "to"
+msgstr "do"
+
+msgid "today"
+msgstr "Dnes"
+
+msgid "week"
+msgstr "Týden"
+
+msgid "wk_short"
+msgstr "Týd"
+
+msgid "year"
+msgstr "Rok"

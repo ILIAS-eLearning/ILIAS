@@ -1,0 +1,795 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: cmix\n"
+
+msgid "achieved_info"
+msgstr "Erfolgreich ein gewünschtes Ziel, Niveau oder Ergebnis durch Anstrengung, Geschicklichkeit oder Mut herbeiführen oder erreichen."
+
+msgid "achieved_label"
+msgstr "Statements mit dem Verb 'achieved'"
+
+msgid "activity_id"
+msgstr "Activity-ID"
+
+msgid "activity_id_info"
+msgstr "Diese ID wird benötigt, um die Daten aus dem LRS in ILIAS anzuzeigen. Sie erhalten diese ID von der Organisation, die diese Ressource anbietet."
+
+msgid "answered_info"
+msgstr "Auf eine Frage wurde geantwortet - wobei das Objekt im Allgemeinen eine Aktivität ist, die die Frage repräsentiert. Der Text der Antwort ist oft in der Antwort innerhalb des Ergebnisses enthalten."
+
+msgid "answered_label"
+msgstr "Statements mit dem Verb 'answered'"
+
+msgid "btn_change_registration"
+msgstr "Absenden"
+
+msgid "btn_create_lrs_type"
+msgstr "LRS-Typ hinzufügen"
+
+msgid "btn_create_registration"
+msgstr "Absenden"
+
+msgid "change_registration"
+msgstr "E-Mail-Adresse für die Registrierung"
+
+msgid "cmix_add"
+msgstr "xAPI/cmi5-Objekt anlegen"
+
+msgid "cmix_add_cmi5_lm"
+msgstr "cmi5 Lernmodul"
+
+msgid "cmix_add_cmi5_lm_info"
+msgstr "Diese Option sollte verwendet werden, wenn es sich bei den Inhalten um ein cmi5 konformes Lernmodul handelt. Verwandte Funktionen wie geeignete Berichte sind ohne weitere Konfigurationen verfügbar."
+
+msgid "cmix_add_lrs_type"
+msgstr "LRS-Typ"
+
+msgid "cmix_add_source"
+msgstr "Quelle"
+
+msgid "cmix_add_source_external_app"
+msgstr "Nicht von ILIAS gestartete Ressource"
+
+msgid "cmix_add_source_external_app_info"
+msgstr "Verwenden Sie diese Option für separat gestartete Ressourcen wie z.B. Apps oder Simulationen. Benutzer müssen durch Angabe ihrer verwendeten E-Mail-Adresse dem Abruf der Daten zustimmen."
+
+msgid "cmix_add_source_local_dir"
+msgstr "Lokales Verzeichnis"
+
+msgid "cmix_add_source_local_dir_info"
+msgstr "Verwenden Sie diese Option für Content-Pakete auf Ihrem lokalen Gerät."
+
+msgid "cmix_add_source_upload_dir"
+msgstr "Upload-Verzeichnis"
+
+msgid "cmix_add_source_upload_dir_info"
+msgstr "Verwenden Sie diese Option für Content-Pakete, die bereits in das ILIAS-Upload-Verzeichnis hochgeladen wurden, das auch für SCORM- und HTML-Pakete verwendet wird."
+
+msgid "cmix_add_source_upload_select"
+msgstr "--- Bitte wählen Sie ---"
+
+msgid "cmix_add_source_url"
+msgstr "URL der Ressource"
+
+msgid "cmix_add_source_url_info"
+msgstr "Verwenden Sie diese Option für eine externe Ressource."
+
+msgid "cmix_add_xapi_standard_object"
+msgstr "xAPI Standardobjekt"
+
+msgid "cmix_add_xapi_standard_object_info"
+msgstr "Verwenden Sie diese Option, um ein generisches Inhaltsmodul zu erhalten, das alle Funktionen wie z.B. verschiedene Berichte bietet. Diese Option bietet größtmögliche Flexibilität, erfordert aber eine komplexere Konfiguration."
+
+msgid "cmix_adlnetgov_expapi_verbs_answered"
+msgstr "Answered"
+
+msgid "cmix_adlnetgov_expapi_verbs_asked"
+msgstr "Asked"
+
+msgid "cmix_adlnetgov_expapi_verbs_attempted"
+msgstr "Attempted"
+
+msgid "cmix_adlnetgov_expapi_verbs_attended"
+msgstr "Attended"
+
+msgid "cmix_adlnetgov_expapi_verbs_commented"
+msgstr "Commented"
+
+msgid "cmix_adlnetgov_expapi_verbs_completed"
+msgstr "Completed"
+
+msgid "cmix_adlnetgov_expapi_verbs_exited"
+msgstr "Exited"
+
+msgid "cmix_adlnetgov_expapi_verbs_experienced"
+msgstr "Experienced"
+
+msgid "cmix_adlnetgov_expapi_verbs_failed"
+msgstr "Failed"
+
+msgid "cmix_adlnetgov_expapi_verbs_imported"
+msgstr "Imported"
+
+msgid "cmix_adlnetgov_expapi_verbs_initialized"
+msgstr "Initialized"
+
+msgid "cmix_adlnetgov_expapi_verbs_interacted"
+msgstr "Interacted"
+
+msgid "cmix_adlnetgov_expapi_verbs_launched"
+msgstr "Launched"
+
+msgid "cmix_adlnetgov_expapi_verbs_mastered"
+msgstr "Mastered"
+
+msgid "cmix_adlnetgov_expapi_verbs_passed"
+msgstr "Passed"
+
+msgid "cmix_adlnetgov_expapi_verbs_preferred"
+msgstr "Preferred"
+
+msgid "cmix_adlnetgov_expapi_verbs_progressed"
+msgstr "Progressed"
+
+msgid "cmix_adlnetgov_expapi_verbs_registered"
+msgstr "Registered"
+
+msgid "cmix_adlnetgov_expapi_verbs_responded"
+msgstr "Responded"
+
+msgid "cmix_adlnetgov_expapi_verbs_resumed"
+msgstr "Resumed"
+
+msgid "cmix_adlnetgov_expapi_verbs_scored"
+msgstr "Scored"
+
+msgid "cmix_adlnetgov_expapi_verbs_shared"
+msgstr "Shared"
+
+msgid "cmix_adlnetgov_expapi_verbs_suspended"
+msgstr "Suspended"
+
+msgid "cmix_adlnetgov_expapi_verbs_terminated"
+msgstr "Terminated"
+
+msgid "cmix_adlnetgov_expapi_verbs_voided"
+msgstr "Voided"
+
+msgid "cmix_all_verbs"
+msgstr "Alle Verben"
+
+msgid "cmix_copy"
+msgstr "xAPI/cmi5-Objekt kopieren"
+
+msgid "cmix_import"
+msgstr "xAPI/cmi5-Objekt importieren"
+
+msgid "cmix_indication_to_user"
+msgstr "Weitere Hinweise zu diesem LRS"
+
+msgid "cmix_info_external_lrs_info"
+msgstr "Dieser Learning Record Store (LRS) ist ein externer LRS. Ein externer LRS ist gekennzeichnet durch einen unzureichenden Einfluss des Betreibers der ILIAS-Installation auf den LRS. Dies ist z.B. der Fall, wenn es keine Rechte zum Löschen von Daten gibt."
+
+msgid "cmix_info_external_lrs_label"
+msgstr "Zusätzliche Informationen zu diesem LRS"
+
+msgid "cmix_info_privacy_section"
+msgstr "Info über personenbezogene Daten"
+
+msgid "cmix_info_privacy_section_launch"
+msgstr "Informationen über die beim Start übermittelten personenbezogenen Daten"
+
+msgid "cmix_lrs_type"
+msgstr "Learning Record Store (LRS)"
+
+msgid "cmix_new"
+msgstr "Neues xAPI/cmi5-Objekt anlegen"
+
+msgid "completed_info"
+msgstr "Die Aktivität wurde normal beendet oder abgeschlossen."
+
+msgid "completed_label"
+msgstr "Statements mit dem Verb 'completed'"
+
+msgid "conf_availability"
+msgstr "Verwendbarkeit"
+
+msgid "conf_availability_0"
+msgstr "nicht verwendbar / deaktiviert"
+
+msgid "conf_availability_0_info"
+msgstr "Bestehende xAPI/cmi5-Objekte, die diesen LRS-Typ verwenden, können nicht länger genutzt werden."
+
+msgid "conf_availability_1"
+msgstr "ausschließlich in bestehenden Objekten"
+
+msgid "conf_availability_1_info"
+msgstr "Dieser LRS-Typ wird beim Anlegen neuer xAPI/cmi5-Objekten angeboten. Bestehende xAPI/cmi5-Objekte, die diesen LRS nutzen, können weiter Daten schreiben und auslesen. Nutzen Sie diese Option, um später Daten im angebundenen LRS zu einen späteren Zeitpunkt löschen zu können."
+
+msgid "conf_availability_2"
+msgstr "in neuen und bestehenden Objekten"
+
+msgid "conf_availability_2_info"
+msgstr "Dieser LRS-Typ kann beim Anlegen neuer xAPI/cmi5-Objekten ausgewählt werden."
+
+msgid "conf_bypass_proxy"
+msgstr "Erkennung des Lernfortschritts"
+
+msgid "conf_bypass_proxy_disabled"
+msgstr "xAPI-Proxy, um sofort Daten zu erhalten."
+
+msgid "conf_bypass_proxy_enabled"
+msgstr "Cron-Job zur Abfrage des Learning Record Stores"
+
+msgid "conf_bypass_proxy_info"
+msgstr "In den meisten Fällen wird empfohlen, den xAPI-Proxy zu verwenden. Verwenden Sie den Cron-Job bei Einschränkungen hinsichtlich Ressourcen oder Server."
+
+msgid "conf_cronjob_neccessary"
+msgstr "Cron-Job notwendig für den Lernfortschritt"
+
+msgid "conf_cronjob_neccessary_info"
+msgstr "Durch Aktivieren dieser Option können die diesen LRS-Typ nutzenden xAPI-Objekte den xAPI-Proxy nicht nutzen, der zeitlich unmittelbar Daten zur Erkennung des Lernfortschritts liefert. Verwenden Sie nur den Cron-Job bei Einschränkungen hinsichtlich Ressourcen oder Server."
+
+msgid "conf_delete_data"
+msgstr "Daten im LRS löschen"
+
+msgid "conf_delete_data_info"
+msgstr "Löschen ist aktuell nur mit dem Learning Record Store (LRS) LearningLocker möglich. Nutzen Sie die Optionen zum Löschen der Benutzeridentifikation nur dann, wenn die Daten im LRS pseudonymisiert wurden."
+
+msgid "conf_delete_data_opt0"
+msgstr "nie"
+
+msgid "conf_delete_data_opt1"
+msgstr "nie - doch wenn Benutzer gelöscht und wenn xAPI/cmi-Objekte in den Papierkorb verschoben oder gelöscht werden, werden Daten durch Löschen der - Benutzeridentifikation für ILIAS nicht mehr zuordnenbar sein"
+
+msgid "conf_delete_data_opt11"
+msgstr "wenn Benutzer gelöscht und wenn xAPI/cmi-Objekte in den Papierkorb verschoben oder gelöscht werden"
+
+msgid "conf_delete_data_opt12"
+msgstr "zusätzlich wenn Benutzer aus Kursen oder Gruppen entfernt werden"
+
+msgid "conf_delete_data_opt2"
+msgstr "nie - doch zusätzlich wenn Benutzer aus Kursen oder Gruppen entfernt werden, werden Daten durch Löschen der Benutzeridentifikation für ILIAS nicht mehr zuordnenbar sein"
+
+msgid "conf_description"
+msgstr "Beschreibung"
+
+msgid "conf_external_lrs"
+msgstr "Externer LRS"
+
+msgid "conf_keep_lp"
+msgstr "Verschlechterung des Lernfortschritts vermeiden"
+
+msgid "conf_keep_lp_info"
+msgstr "Der Status 'bearbeitet' des ILIAS-Lernfortschritts wird eingefroren."
+
+msgid "conf_launch_mode"
+msgstr "Startmodus"
+
+msgid "conf_launch_mode_browse"
+msgstr "Nur Vorschau / Preview ('browse') ohne Speicherung des Lernfortschritts"
+
+msgid "conf_launch_mode_browse_info"
+msgstr "Diese Option soll es dem Benutzer ermöglichen, sich ohne Bewertung \"umzusehen\"."
+
+msgid "conf_launch_mode_normal"
+msgstr "Normal"
+
+msgid "conf_launch_mode_normal_info"
+msgstr "Daten bezogen auf den Lernerfolg sollen erfasst werden."
+
+msgid "conf_launch_mode_review"
+msgstr "Review-Modus ohne Speicherung des Lernfortschritts"
+
+msgid "conf_launch_mode_review_info"
+msgstr "Diese Option soll es dem Benutzer ermöglichen, bereits abgeschlossenes Material \"erneut zu besuchen / zu überprüfen\"."
+
+msgid "conf_lrs_endpoint"
+msgstr "Endpoint"
+
+msgid "conf_lrs_key"
+msgstr "Key / Login"
+
+msgid "conf_lrs_secret"
+msgstr "Secret / Passwort"
+
+msgid "conf_new_window"
+msgstr "Neues Fenster"
+
+msgid "conf_new_window_info"
+msgstr "Der Inhalt wird in einem neuen Fenster geöffnet. Beim Verlassen des Inhalts wird dieses Fenster geschlossen."
+
+msgid "conf_own_window"
+msgstr "Gleiches Fenster"
+
+msgid "conf_own_window_info"
+msgstr "Der Inhalt wird im gleichen Fenster geöffnet und ersetzt den ILIAS-Bildschirm. Beim Verlassen des Inhalts kehrt der Benutzer zu ILIAS zurück."
+
+msgid "conf_privacy_comment_default"
+msgstr "Anzeige an den Benutzer"
+
+msgid "conf_privacy_ident"
+msgstr "Schlüssel zur Identifikation einer Person"
+
+msgid "conf_privacy_ident_il_uuid_ext_account"
+msgstr "ID-externes-Konto@ILIAS-Plattform-ID.ilias"
+
+msgid "conf_privacy_ident_il_uuid_ext_account_info"
+msgstr "Die E-Mail-Adresse setzt sich zusammen aus der ID eines externen Kontos und einer eigens generierten Plattform-ID. Diese Option ermöglicht Rückschlüsse auf die Person."
+
+msgid "conf_privacy_ident_il_uuid_login"
+msgstr "ILIAS-Anmeldename@ILIAS-Plattform-ID.ilias"
+
+msgid "conf_privacy_ident_il_uuid_login_info"
+msgstr "Die E-Mail-Adresse setzt sich zusammen aus dem Anmeldenamen und einer eigens generierten Plattform-ID. Diese Option ermöglicht Rückschlüsse auf das ILIAS-Konto."
+
+msgid "conf_privacy_ident_il_uuid_random"
+msgstr "Zufalls-ID@ILIAS-Plattform-ID.ilias"
+
+msgid "conf_privacy_ident_il_uuid_random_info"
+msgstr "Pro ILIAS-Objekt und ILIAS-Konto wird eine Zufalls-ID erzeugt, die bei jedem Aufruf identisch bleibt. Die E-Mail-Adresse setzt sich zusammen aus der Zufalls-ID und einer eigens generierten Plattform-ID. Ohne Zugriff auf die ILIAS-Datenbank ermöglicht diese Option nur sehr eingeschränkte Rückschlüsse auf ein ILIAS-Konto, da auf Seiten des LRS oder der Ressource Objekt-übergreifende Nutzerprofile praktisch nicht erstellt werden können."
+
+msgid "conf_privacy_ident_il_uuid_sha256"
+msgstr "Hash@ILIAS-Plattform-ID.ilias"
+
+msgid "conf_privacy_ident_il_uuid_sha256_info"
+msgstr "Die E-Mail-Adresse setzt sich zusammen aus einem Hash-Wert und einer eigens generierten Plattform-ID. Ohne Zugriff auf die ILIAS-Datenbank ermöglicht diese Option keine direkten Rückschlüsse auf ein ILIAS-Konto."
+
+msgid "conf_privacy_ident_il_uuid_sha256url"
+msgstr "Hash@ILIAS-Domain"
+
+msgid "conf_privacy_ident_il_uuid_sha256url_info"
+msgstr "Die E-Mail-Adresse setzt sich zusammen aus einem Hash-Wert und einer ILIAS-Domain. Diese Option ist mit maximal 80 Zeichen deutlich kürzer als die mit ILIAS-Plattform-ID. Ohne Zugriff auf die ILIAS-Datenbank ermöglicht diese Option sind nur sehr eingeschränkte Rückschlüsse auf ein ILIAS-Konto."
+
+msgid "conf_privacy_ident_il_uuid_user_id"
+msgstr "ILIAS-Konto-ID@ILIAS-Plattform-ID.ilias"
+
+msgid "conf_privacy_ident_il_uuid_user_id_info"
+msgstr "Die E-Mail-Adresse setzt sich zusammen aus der numerischen ILIAS-Konto-ID und einer eigens generierten Plattform-ID. Diese Option ermöglicht Rückschlüsse auf das ILIAS-Konto."
+
+msgid "conf_privacy_ident_info"
+msgstr "Standard ist häufig die E-Mail-Adresse. Die eindeutige ILIAS-Plattform-ID lautet:"
+
+msgid "conf_privacy_ident_real_email"
+msgstr "Hinterlegte E-Mail-Adresse"
+
+msgid "conf_privacy_ident_real_email_info"
+msgstr "Diese Option ermöglicht Rückschlüsse auf das ILIAS-Konto. Achtung: eine E-Mail-Adresse kann von mehreren Benutzern verwendet werden!"
+
+msgid "conf_privacy_name"
+msgstr "Name"
+
+msgid "conf_privacy_name_firstname"
+msgstr "Vorname"
+
+msgid "conf_privacy_name_firstname_info"
+msgstr "Sendet den in ILIAS hinterlegten Vornamen der Person"
+
+msgid "conf_privacy_name_fullname"
+msgstr "Vollständiger Name"
+
+msgid "conf_privacy_name_fullname_info"
+msgstr "Sendet den in ILIAS hinterlegten Titel, Vor- und Nachnamen"
+
+msgid "conf_privacy_name_info"
+msgstr "Der Name wird an den LRS und die Ressource gesendet, um die Identifikation einer Person zu vereinfachen. Das Senden eines Namens ist in der Regel nicht erforderlich."
+
+msgid "conf_privacy_name_lastname"
+msgstr "Titel und Nachname"
+
+msgid "conf_privacy_name_lastname_info"
+msgstr "Sendet die in ILIAS hinterlegte Anrede und den Nachnamen der Person"
+
+msgid "conf_privacy_name_none"
+msgstr "Keiner"
+
+msgid "conf_privacy_name_none_info"
+msgstr "Sendet „-“ anstelle eines Namens."
+
+msgid "conf_privacy_setting_conf"
+msgstr "Konfigurationsoptionen"
+
+msgid "conf_privacy_setting_default"
+msgstr "Standardeinstellungen, änderbar für Objekte"
+
+msgid "conf_privacy_setting_force"
+msgstr "Die Einstellungen sind für Objekte nicht änderbar."
+
+msgid "conf_privacy_setting_info"
+msgstr "Konfigurationsoptionen für die Datenschutzeinstellungen"
+
+msgid "conf_remarks"
+msgstr "Interne Kommentare"
+
+msgid "conf_title"
+msgstr "Titel"
+
+msgid "conf_use_proxy"
+msgstr "xAPI-Proxy"
+
+msgid "conf_use_proxy_info"
+msgstr "Der xAPI-Proxy liefert in Echtzeit Daten zur Bestimmung des Lernfortschritts in ILIAS. Entsprechend der gewählten Optionen zum Datenschutz reduziert der Proxy personenbezogene Daten. Bei deaktiviertem xAPI-Proxy schreibt der Lerninhalt den Lernfortschritt direkt in den LRS. Dann müssen diese Daten auch direkt aus dem LRS herausgeholt werden. Für die Bestimmung des Lernfortschritts benötigt man dafür den Cron-Job „xAPI/cmi5-Ergebnisse holen“. Für cmi5-Objekte ist der xAPI-Proxy zwingend erforderlich und wird automatisch aktiviert."
+
+msgid "conf_use_proxy_info_cmi5"
+msgstr "Der xAPI-Proxy liefert in Echtzeit Daten zur Bestimmung des Lernfortschritts in ILIAS. Entsprechend der gewählten Optionen zum Datenschutz reduziert der Proxy personenbezogene Daten. Für cmi5-Objekte ist der xAPI-Proxy zwingend erforderlich."
+
+msgid "conf_use_proxy_info_xapi"
+msgstr "Der xAPI-Proxy liefert in Echtzeit Daten zur Bestimmung des Lernfortschritts in ILIAS. Entsprechend der gewählten Optionen zum Datenschutz reduziert der Proxy personenbezogene Daten. Bei deaktiviertem xAPI-Proxy schreibt der Lerninhalt den Lernfortschritt direkt in den LRS. Dann müssen diese Daten auch direkt aus dem LRS herausgeholt werden. Für die Bestimmung des Lernfortschritts benötigt man dafür den Cron-Job „xAPI/cmi5-Ergebnisse holen“."
+
+msgid "conf_user_ident"
+msgstr "Schlüssel zur Identifikation einer Person"
+
+msgid "conf_user_ident_il_uuid_ext_account"
+msgstr "ID-externes-Konto@ILIAS-Plattform-ID.ilias"
+
+msgid "conf_user_ident_il_uuid_ext_account_info"
+msgstr "Die E-Mail-Adresse setzt sich zusammen aus der ID eines externen Kontos und einer eigens generierten Plattform-ID. Diese Option ermöglicht Rückschlüsse auf die Person.zulassen."
+
+msgid "conf_user_ident_il_uuid_login"
+msgstr "ILIAS-Anmeldename@ILIAS-Plattform-ID.ilias"
+
+msgid "conf_user_ident_il_uuid_login_info"
+msgstr "Die E-Mail-Adresse setzt sich zusammen aus dem Anmeldenamen und einer eigens generierten Plattform-ID. Diese Option ermöglicht Rückschlüsse auf das ILIAS-Konto."
+
+msgid "conf_user_ident_il_uuid_random"
+msgstr "Zufalls-ID@ILIAS-Plattform-ID.ilias"
+
+msgid "conf_user_ident_il_uuid_random_info"
+msgstr "Pro ILIAS-Objekt und ILIAS-Konto wird eine Zufalls-ID erzeugt, die bei jedem Aufruf identisch bleibt. Die E-Mail-Adresse setzt sich zusammen aus der Zufalls-ID und einer eigens generierten Plattform-ID. Ohne Zugriff auf die ILIAS-Datenbank ermöglicht diese Option nur sehr eingeschränkte Rückschlüsse auf ein ILIAS-Konto, da auf Seiten des LRS oder der Ressource Objekt-übergreifende Nutzerprofile praktisch nicht erstellt werden können."
+
+msgid "conf_user_ident_il_uuid_user_id"
+msgstr "ILIAS-Konto-ID@ILIAS-Plattform-ID.ilias"
+
+msgid "conf_user_ident_il_uuid_user_id_info"
+msgstr "Die E-Mail-Adresse setzt sich zusammen aus der ID eines externen Kontos und einer eigens generierten Plattform-ID. Diese Option ermöglicht Rückschlüsse auf die Person."
+
+msgid "conf_user_ident_info"
+msgstr "Standard ist häufig die E-Mail-Adresse. Die eindeutige ILIAS-Plattform-ID lautet:"
+
+msgid "conf_user_ident_real_email"
+msgstr "Hinterlegte E-Mail-Adresse"
+
+msgid "conf_user_ident_real_email_info"
+msgstr "Diese Option ermöglicht Rückschlüsse auf das ILIAS-Konto. Achtung: eine E-Mail-Adresse kann von mehreren Benutzern verwendet werden!"
+
+msgid "conf_user_name"
+msgstr "Anmeldename"
+
+msgid "conf_user_name_firstname"
+msgstr "Vorname"
+
+msgid "conf_user_name_firstname_info"
+msgstr "Sendet den Vornamen"
+
+msgid "conf_user_name_fullname"
+msgstr "Vollständiger Name"
+
+msgid "conf_user_name_fullname_info"
+msgstr "Sendet Titel, Vorname und Nachname."
+
+msgid "conf_user_name_info"
+msgstr "Das Senden eines Anmeldenamens ist in der Regel nicht erforderlich."
+
+msgid "conf_user_name_lastname"
+msgstr "Titel und Nachname"
+
+msgid "conf_user_name_lastname_info"
+msgstr "Sendet Herr oder Frau (sofern nicht anders angegeben) und den Nachnamen."
+
+msgid "conf_user_name_none"
+msgstr "Keiner"
+
+msgid "conf_user_name_none_info"
+msgstr "Sendet '-' anstelle eines Namens"
+
+msgid "conf_user_registered_mail"
+msgstr "Registrierte E-Mail-Adresse"
+
+msgid "content_privacy_ident"
+msgstr "Identifikation der Person"
+
+msgid "content_privacy_name"
+msgstr "Anmeldename"
+
+msgid "create_lrs_type_form"
+msgstr "Neuer Learning Record Store Typ"
+
+msgid "create_registration"
+msgstr "Registrieren Sie Ihre E-Mail-Adresse"
+
+msgid "cron_xapi_del"
+msgstr "xAPI/cmi5-Daten im Learning Record Store löschen"
+
+msgid "cron_xapi_del_desc"
+msgstr "Daten werden gemäß den Einstellungen der xAPI/cmi5-Objekte gelöscht."
+
+msgid "cron_xapi_results_evaluation"
+msgstr "xAPI/cmi5-Ergebnisse holen"
+
+msgid "cron_xapi_results_evaluation_desc"
+msgstr "Fordert alle xAPI-Ergebnisse aus dem Learning Record Store für Objekte an, die den ILIAS xAPI-Proxy nicht unterstützen."
+
+msgid "description_info"
+msgstr "Die Beschreibung wird unterhalb des Titels angezeigt."
+
+msgid "download_certificate"
+msgstr "Zertifikat herunterladen"
+
+msgid "duration_info"
+msgstr "Die Zeitdauer kann z.B. für die Beantwortung einer Aufgabe erfasst werden. Die Zeitdauer 'duration' wird durch diese Option auf den Standardwert 0 Sekunden (PT00.000S) gesetzt."
+
+msgid "duration_label"
+msgstr "Zeitdauer 'duration'"
+
+msgid "edit_lrs_type_form"
+msgstr "LRS-Typ"
+
+msgid "failed_info"
+msgstr "Die Aktivität wurde nicht erfolgreich bestanden bis zu einem vorher festgelegten Grad an Zufriedenheit."
+
+msgid "failed_label"
+msgstr "Statements mit dem Verb 'failed'"
+
+msgid "fetch_xapi_statements"
+msgstr "Ergebnisse aus dem Learning Record Store holen"
+
+msgid "field_user_ident"
+msgstr "E-Mail-Adresse"
+
+msgid "field_user_ident_info"
+msgstr "Geben Sie die E-Mail-Adresse ein, die in der externen Anwendung verwendet wird, um Sie zu identifizieren."
+
+msgid "form_change_registration"
+msgstr "Registrierung"
+
+msgid "form_create_registration"
+msgstr "Registrierung"
+
+msgid "hide_data_info"
+msgstr "Mit dieser nur für den ILIAS-LRS-Proxy zur Verfügung stehenden Option werden bestimmte Daten in Statements mit unkenntlich gemachten Werten im Learning Record Store gespeichert."
+
+msgid "hide_data_label"
+msgstr "Daten schwärzen"
+
+msgid "highscore_achieved_ts"
+msgstr "Datum"
+
+msgid "highscore_achieved_ts_description"
+msgstr "Eine Spalte mit dem Datum wird in die Platzierungen aufgenommen."
+
+msgid "highscore_all_tables"
+msgstr "Eigener Rang und Bestenliste"
+
+msgid "highscore_all_tables_description"
+msgstr "Zeigt sowohl eine Tabelle mit der eigenen Platzierung als auch eine Tabelle mit den besten Platzierungen."
+
+msgid "highscore_description"
+msgstr "Die Namen anderer Benutzer können angezeigt werden, wenn das Recht 'Lernerfahrungen anderer Benutzer anzeigen' gesetzt ist."
+
+msgid "highscore_enabled"
+msgstr "Platzierungen"
+
+msgid "highscore_mode"
+msgstr "Modus"
+
+msgid "highscore_own_table"
+msgstr "Eigener Rang des Teilnehmers"
+
+msgid "highscore_own_table_description"
+msgstr "Teilnehmern wird eine Tabelle mit ihrem Rang innerhalb aller Platzierungen angezeigt."
+
+msgid "highscore_percentage"
+msgstr "Prozentsatz"
+
+msgid "highscore_percentage_description"
+msgstr "Eine Spalte mit der Punktzahl als Prozentsatz wird in die Platzierungen aufgenommen."
+
+msgid "highscore_score"
+msgstr "Punktzahl"
+
+msgid "highscore_score_description"
+msgstr "Eine Spalte mit der Punktzahl wird in die Platzierungen aufgenommen."
+
+msgid "highscore_top_num"
+msgstr "Länge der Bestenliste"
+
+msgid "highscore_top_num_description"
+msgstr "Bestimmt, wie viele Einträge in der Bestenliste angezeigt werden."
+
+msgid "highscore_top_num_unit"
+msgstr "Platzierungen"
+
+msgid "highscore_top_table"
+msgstr "Bestenliste"
+
+msgid "highscore_top_table_description"
+msgstr "Teilnehmern wird eine Tabelle mit den besten Platzierungen angezeigt."
+
+msgid "highscore_wtime"
+msgstr "Dauer"
+
+msgid "highscore_wtime_description"
+msgstr "Eine Spalte mit der Dauer wird in die Rangliste aufgenommen."
+
+msgid "info_availability"
+msgstr "Hiermit können Sie die Verfügbarkeit des LRS-Typs innerhalb des Magazins steuern. Alle Typen können auf „vorhandene zulassen” eingestellt werden, statt sie zu löschen."
+
+msgid "info_description"
+msgstr "Diese Beschreibung wird bei der Auswahl des LRS-Typs für neue Objekte angezeigt."
+
+msgid "info_external_lrs"
+msgstr "Bei einem externen Learning Record Store (LRS) wird dem Anwender ein Hinweis angezeigt. Ein externer LRS ist gekennzeichnet durch einen unzureichenden Einfluss auf den LRS und durch den Betreiber von ILIAS. Dies ist der Fall, wenn es keine Rechte zum Löschen gibt."
+
+msgid "info_lrs_endpoint"
+msgstr "URL des Endpoints ohne „/“ am Ende"
+
+msgid "info_lrs_key"
+msgstr "Key oder Anmeldename für den Zugriff von ILIAS auf den LRS"
+
+msgid "info_lrs_secret"
+msgstr "Gemeinsames Secret / Passwort"
+
+msgid "info_privacy_comment_default"
+msgstr "Bitte geben Sie bei Verwendung dieses LRS bei Bedarf einen zusätzlichen Hinweis auf die Datensicherheit an."
+
+msgid "info_remarks"
+msgstr "Hier können Sie Ihre Kommentare zu diesem LRS-Typ festhalten."
+
+msgid "info_title"
+msgstr "Dieser Titel wird bei der Auswahl des LRS-Typs für neue Objekte angezeigt."
+
+msgid "initialized_info"
+msgstr "Die Aktivität wurde erfolgreich begonnen."
+
+msgid "initialized_label"
+msgstr "Statements mit dem Verb 'initialized'"
+
+msgid "launch_options"
+msgstr "Optionen für den Start"
+
+msgid "launch_url"
+msgstr "URL der Ressource"
+
+msgid "launch_url_info"
+msgstr "Geben Sie hier die Internetadresse ein und fügen Sie http:// oder https:// hinzu. Optionen zum Datenschutz sind auch für externe Ressourcen relevant."
+
+msgid "log_options"
+msgstr "Optionen zur Anzeige der übertragenen Daten"
+
+msgid "lrs_authentication"
+msgstr "Authentifizierung"
+
+msgid "no_substatements_info"
+msgstr "Mit dieser Option, die nur für den ILIAS LRS-Proxy zur Verfügung steht, kann die Speicherung von untergeordneten Statements unterdrückt werden. Dies kann z.B. die Beantwortung einzelner Aufgaben in einem Test beeinflussen. Dem Content wird mitgeteilt, dass die Statements gespeichert worden wären."
+
+msgid "no_substatements_label"
+msgstr "Substatements nicht speichern"
+
+msgid "online_info"
+msgstr "Dadurch wird das Objekt für die Benutzer sichtbar und nutzbar."
+
+msgid "only_moveon_info"
+msgstr "Diese Option steht nur für den ILIAS-LRS-Proxy zur Verfügung! Es werden ausschließlich Statements mit definierten Verben im Learning Record Store gespeichert (WhiteList). <br />Der Ressource wird der Eindruck vermittelt, dass alle Statements vom LRS gespeichert worden sind. Das sichert in der Regel die Ablauffähigkeit, sollte jedoch mit der Organisation, welche diese Ressource anbietet, abgesprochen werden."
+
+msgid "only_moveon_label"
+msgstr "Nur Daten zum Lernerfolg speichern"
+
+msgid "passed_info"
+msgstr "Die Aktivität wurde bis zu einem vorher festgelegten Grad der Zufriedenheit erfolgreich bestanden."
+
+msgid "passed_label"
+msgstr "Statements mit dem Verb 'passed'"
+
+msgid "privacy_options"
+msgstr "Optionen zum Datenschutz"
+
+msgid "progressed_info"
+msgstr "Bezeichnet einen Wert, der angibt, wie weit eine Aktivität fortgeschritten ist oder sich jemand durch eine Aktivität bewegt hat."
+
+msgid "progressed_label"
+msgstr "Statements mit dem Verb 'progressed'"
+
+msgid "registration_saved_successfully"
+msgstr "Registrierung erfolgreich gespeichert"
+
+msgid "satisfied_info"
+msgstr "Zeigt an, dass die Kriterien des Objekts oder der Aktivität erfüllt wurden."
+
+msgid "satisfied_label"
+msgstr "Statements mit dem Verb 'satisfied'"
+
+msgid "sect_learning_progress_options"
+msgstr "Optionen für den Lernfortschritt"
+
+msgid "show_debug"
+msgstr "Lernerfahrungen anzeigen"
+
+msgid "show_debug_info"
+msgstr "Blendet Reiter „Lernerfahrungen“ ein und zeigt darin die persönlichen Lernerfahrungen. Die Lernerfahrungen aller Benutzer des Moduls werden angezeigt, wenn das Recht „Lernerfahrungen anderer Benutzer anzeigen“ gesetzt ist."
+
+msgid "tab_export"
+msgstr "Exportieren"
+
+msgid "tab_info"
+msgstr "Info"
+
+msgid "tab_lrs_types"
+msgstr "Learning Record Stores"
+
+msgid "tab_scoring"
+msgstr "Platzierungen"
+
+msgid "tab_settings"
+msgstr "Einstellungen"
+
+msgid "tab_statements"
+msgstr "Lernerfahrungen"
+
+msgid "tbl_action_raw_data"
+msgstr "Rohdaten anzeigen"
+
+msgid "tbl_lrs_type_availability"
+msgstr "Verwendbarkeit"
+
+msgid "tbl_lrs_type_title"
+msgstr "Titel"
+
+msgid "tbl_lrs_type_usages"
+msgstr "Anzahl der Nutzungen"
+
+msgid "tbl_lrs_types_header"
+msgstr "Verfügbare Learning Record Stores (LRS)"
+
+msgid "tbl_statements_actor"
+msgstr "Benutzer"
+
+msgid "tbl_statements_date"
+msgstr "Datum"
+
+msgid "tbl_statements_object"
+msgstr "Objekt"
+
+msgid "tbl_statements_verb"
+msgstr "Verb"
+
+msgid "terminated_info"
+msgstr "Die Aktivität wurde erfolgreich beendet."
+
+msgid "terminated_label"
+msgstr "Statements mit dem Verb 'terminated'"
+
+msgid "timestamp_info"
+msgstr "Der timestamp kennzeichnet den Zeitpunkt einer durch das Statement gekennzeichneten Aktion. Der timestamp wird durch diese Option auf den Standardwert 01.01.1970 (1970-01-01T00:00:00.000Z) gesetzt. Bitte beachten Sie, dass ein Learning Record Store gegebenenfalls selbstständig einen Wert für das Speicherdatum (stored) setzt, der mit dem timestamp nahezu identisch sein kann."
+
+msgid "timestamp_label"
+msgstr "Zeitstempel 'timestamp'"
+
+msgid "title_info"
+msgstr "Geben Sie dem Objekt einen Titel."
+
+msgid "type_cmi5"
+msgstr "cmi5 Lernmodul"
+
+msgid "type_generic"
+msgstr "xAPI Standardobjekt"
+
+msgid "use_fetch"
+msgstr "Autorisierung durch Fetch-URL"
+
+msgid "use_fetch_info"
+msgstr "Solange die Ressource diese Option unterstützt, sollten Sie diese Option verwenden um die Datensicherheit zu erhöhen."
+
+msgid "xapi_statements_fetched_successfully"
+msgstr "Ergebnisse aus dem Learning Record Store wurden erfolgreich abgerufen."
+
+msgid "xapi_statements_last_fetch_date"
+msgstr "Letzter Abruf von Ergebnissen:"
+
+msgid "xapi_statements_not_fetched_yet"
+msgstr "Ergebnisse aus dem Learning Record Store wurden noch nicht abgerufen."

@@ -1,0 +1,192 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: irss\n"
+
+msgid "action_download"
+msgstr "Herunterladen"
+
+msgid "action_goto"
+msgstr "Ressource öffnen"
+
+msgid "action_remove_resource"
+msgstr "Ressource löschen"
+
+msgid "action_remove_resource_msg"
+msgstr "Möchten Sie die folgende(n) Ressource(n) löschen?"
+
+msgid "action_remove_zip_path"
+msgstr "Pfad löschen"
+
+msgid "action_remove_zip_path_msg"
+msgstr "Möchten sie die folgenden Pfade löschen?"
+
+msgid "action_show_revisions"
+msgstr "Revisionen anzeigen"
+
+msgid "by_creation_date_asc"
+msgstr "Erstellungsdatum (aufsteigend)"
+
+msgid "by_creation_date_desc"
+msgstr "Erstellungsdatum (absteigend)"
+
+msgid "by_size_asc"
+msgstr "Dateigröße (aufsteigend)"
+
+msgid "by_size_desc"
+msgstr "Dateigröße (absteigend)"
+
+msgid "by_title_asc"
+msgstr "Titel (aufsteigend)"
+
+msgid "by_title_desc"
+msgstr "Titel (absteigend)"
+
+msgid "confidential"
+msgstr "Vertraulich"
+
+msgid "confidential_no_download"
+msgstr "Diese Ressource ist vertraulich und kann nur von ihrem Besitzer heruntergeladen werden."
+
+msgid "confidential_redacted"
+msgstr "[Vertraulich]"
+
+msgid "create_directory"
+msgstr "Verzeichnis erstellen"
+
+msgid "creation_date"
+msgstr "Erstellungsdatum (Diese Revision)"
+
+msgid "directory_name"
+msgstr "Verzeichnisname"
+
+msgid "directory_name_info"
+msgstr "Name des Verzeichnisses, welches an der aktuellen Stelle eingefügt werden soll."
+
+msgid "download_zip"
+msgstr "Alle Dateien als ZIP herunterladen"
+
+msgid "entries_target_group"
+msgstr "Ziel wählen"
+
+msgid "entry_deleted_failed"
+msgstr "Löschen nicht möglich"
+
+msgid "file_size"
+msgstr "Dateigröße (Diese Revision)"
+
+msgid "file_size_bigger_than"
+msgstr "Dateigröße > MB"
+
+msgid "full_size"
+msgstr "Ressourcengröße (Alle Revisionen)"
+
+msgid "home_directory"
+msgstr "Stammverzeichnis"
+
+msgid "item_moved"
+msgstr "Eintrag verschoben"
+
+msgid "max_revision"
+msgstr "Maximale Revision"
+
+msgid "msg_error_adding_directory"
+msgstr "Das Verzeichnis konnte nicht angelegt werden."
+
+msgid "msg_paths_deleted"
+msgstr "Pfad(e) gelöscht"
+
+msgid "msg_success_adding_directory"
+msgstr "Das Verzeichnis wurde erfolgreich angelegt."
+
+msgid "msg_upload"
+msgstr "Dateien zum Hinzufügen hier ablegen"
+
+msgid "no_parent_selected"
+msgstr "Kein Ziel gewählt"
+
+msgid "resource_id"
+msgstr "Resource ID"
+
+msgid "resource_no_stakeholder_uri"
+msgstr "Kein Stakeholder stellt einen Link zu der Nutzung dieser Resource zur Verfügung."
+
+msgid "resource_overview"
+msgstr "Ressourcen-Übersicht"
+
+msgid "revision"
+msgstr "Revision"
+
+msgid "revision_status"
+msgstr "Status"
+
+msgid "revision_status_10"
+msgstr "Veröffentlicht"
+
+msgid "revision_status_20"
+msgstr "Entwurf"
+
+msgid "revisions"
+msgstr "Verfügbare Revisionen"
+
+msgid "rid_deleted"
+msgstr "Datei entfernt"
+
+msgid "rids_appended"
+msgstr "Ressource(n) hinzugefügt"
+
+msgid "rids_appended_failed"
+msgstr "Keine Ressource(n) hinzugefügt"
+
+msgid "rids_deleted"
+msgstr "Ressource(n) gelöscht"
+
+msgid "rids_updated"
+msgstr "Ressource(n) aktualisiert"
+
+msgid "sorting"
+msgstr "Sortierung"
+
+msgid "sorting_1"
+msgstr "Titel (aufsteigend)"
+
+msgid "sorting_2"
+msgstr "Titel (absteigend)"
+
+msgid "sorting_3"
+msgstr "Dateigröße (aufsteigend)"
+
+msgid "sorting_4"
+msgstr "Dateigröße (absteigend)"
+
+msgid "sorting_5"
+msgstr "Erstellungsdatum (aufsteigend)"
+
+msgid "sorting_6"
+msgstr "Erstellungsdatum (absteigend)"
+
+msgid "stakeholders"
+msgstr "Ursprung"
+
+msgid "storage_id"
+msgstr "Storage ID"
+
+msgid "storage_info"
+msgstr "Storage Information"
+
+msgid "title_manage_container"
+msgstr "Dateien und Ordner verwalten"
+
+msgid "type"
+msgstr "Dateityp"
+
+msgid "upload_field_title"
+msgstr "Ausgewählte Dateien"
+
+msgid "upload_modal_title"
+msgstr "Dateien hinzufügen"

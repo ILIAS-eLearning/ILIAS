@@ -1,0 +1,205 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ru\n"
+"Language-Team: Russian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: gsfo\n"
+
+#, fuzzy
+msgid "accessibility"
+msgstr "Accessibility"
+
+#, fuzzy
+msgid "confirm_delete"
+msgstr "Do you really want to delete the following Item(s)?"
+
+#, fuzzy
+msgid "confirm_reset"
+msgstr "Resetting the footer will restore all entries to their original state. All customizations and manual entries will be deleted. Do you want to continue?"
+
+#, fuzzy
+msgid "entries_add"
+msgstr "Add Entry"
+
+#, fuzzy
+msgid "entries_edit"
+msgstr "entries_edit"
+
+#, fuzzy
+msgid "entries_parent"
+msgstr "Select Group"
+
+#, fuzzy
+msgid "entries_select_parent"
+msgstr "Move Entry to Group"
+
+#, fuzzy
+msgid "entries_target_group"
+msgstr "Select target group"
+
+#, fuzzy
+msgid "entry_action"
+msgstr "Link"
+
+#, fuzzy
+msgid "entry_action_info"
+msgstr "Provide the full URL including the protocol (e.g. https://www.ilias.de)"
+
+#, fuzzy
+msgid "entry_activation_toggled"
+msgstr "Activation has been toggled"
+
+#, fuzzy
+msgid "entry_active"
+msgstr "Active"
+
+#, fuzzy
+msgid "entry_active_info"
+msgstr "Activate this Entry"
+
+#, fuzzy
+msgid "entry_add"
+msgstr "Add Entry"
+
+#, fuzzy
+msgid "entry_delete"
+msgstr "Delete"
+
+#, fuzzy
+msgid "entry_deleted"
+msgstr "Deleted"
+
+#, fuzzy
+msgid "entry_deleted_failed"
+msgstr "Deletion not possible"
+
+#, fuzzy
+msgid "entry_edit"
+msgstr "Edit"
+
+#, fuzzy
+msgid "entry_external"
+msgstr "Open in new Tab"
+
+#, fuzzy
+msgid "entry_move"
+msgstr "Move"
+
+#, fuzzy
+msgid "entry_moved"
+msgstr "Entry has been moved"
+
+#, fuzzy
+msgid "entry_title"
+msgstr "Title (Default Language)"
+
+#, fuzzy
+msgid "entry_toggle_activation"
+msgstr "(De-)Activate"
+
+#, fuzzy
+msgid "group_activation_toggled"
+msgstr "Activation has been toggled"
+
+#, fuzzy
+msgid "group_active"
+msgstr "Active"
+
+#, fuzzy
+msgid "group_active_info"
+msgstr "Activate this Group"
+
+#, fuzzy
+msgid "group_add"
+msgstr "Add Group"
+
+#, fuzzy
+msgid "group_delete"
+msgstr "Delete"
+
+#, fuzzy
+msgid "group_deleted"
+msgstr "Deleted"
+
+#, fuzzy
+msgid "group_edit"
+msgstr "Edit Group"
+
+#, fuzzy
+msgid "group_edit_entries"
+msgstr "Edit Entries"
+
+#, fuzzy
+msgid "group_items"
+msgstr "Items"
+
+#, fuzzy
+msgid "group_not_empty"
+msgstr "This Group contains Entries. Please move or delete them first."
+
+#, fuzzy
+msgid "group_title"
+msgstr "Title (Default Language)"
+
+#, fuzzy
+msgid "group_title_info"
+msgstr "Additional Translations can be added with the Action \"Add Translation\" after saving the Group."
+
+#, fuzzy
+msgid "group_toggle_activation"
+msgstr "(De-)Activate"
+
+#, fuzzy
+msgid "group_translate"
+msgstr "Translate"
+
+#, fuzzy
+msgid "info_not_deletable_core"
+msgstr "Default Items cannot be deleted."
+
+#, fuzzy
+msgid "info_not_deletable_not_empty"
+msgstr "Groups with Entries cannot be deleted."
+
+#, fuzzy
+msgid "item_moved"
+msgstr "Entry moved"
+
+#, fuzzy
+msgid "legal_information"
+msgstr "Legal Information"
+
+#, fuzzy
+msgid "order_saved"
+msgstr "Order saved"
+
+#, fuzzy
+msgid "permanent"
+msgstr "permanent"
+
+#, fuzzy
+msgid "reset_footer"
+msgstr "Reset Footer"
+
+#, fuzzy
+msgid "reset_success"
+msgstr "Footer has been reset successfully"
+
+#, fuzzy
+msgid "services"
+msgstr "Services"
+
+#, fuzzy
+msgid "support"
+msgstr "Support"
+
+#, fuzzy
+msgid "translate"
+msgstr "Translate"
+
+#, fuzzy
+msgid "translations"
+msgstr "Translations"

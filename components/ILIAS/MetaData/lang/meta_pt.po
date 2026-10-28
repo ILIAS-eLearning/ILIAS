@@ -1,0 +1,2730 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: meta\n"
+
+msgid "adt_error_max_length"
+msgstr "Insira um texto mais curto."
+
+#, fuzzy
+msgid "md_adn_int_error_no_default"
+msgstr "Please select on activated language as \"Default-Language\"."
+
+msgid "md_adv_active"
+msgstr "Ativo"
+
+msgid "md_adv_added_new_record"
+msgstr "As definições gerais estão visíveis na administração."
+
+msgid "md_adv_col_presentation_ordering"
+msgstr "O utilizador pode editar definições gerais na administração."
+
+msgid "md_adv_confirm_definition"
+msgstr "Confirme as novas definições."
+
+msgid "md_adv_confirm_definition_select_option"
+msgstr "Opção apagada"
+
+msgid "md_adv_confirm_definition_select_option_all"
+msgstr "Tratar igualmente todas as entradas existentes"
+
+msgid "md_adv_confirm_definition_select_option_all_action"
+msgstr "Novo valor"
+
+msgid "md_adv_confirm_definition_select_option_overwrite"
+msgstr "Definir valor para"
+
+msgid "md_adv_confirm_definition_select_option_remove"
+msgstr "Remover valor"
+
+msgid "md_adv_confirm_definition_select_option_single"
+msgstr "Decidir para cada entrada existente"
+
+msgid "md_adv_confirm_definition_select_section"
+msgstr "Migração das opções apagadas"
+
+msgid "md_adv_create_field"
+msgstr "Copiar definições de permissões"
+
+msgid "md_adv_create_record"
+msgstr "O utilizador pode mudar definições de permissões da administração de edição"
+
+msgid "md_adv_delete_fields_sure"
+msgstr "Tem a certeza que quer apagar as seguintes definições de campo?"
+
+msgid "md_adv_delete_files_sure"
+msgstr "Tem a certeza que quer apagar os seguintes ficheiros e exportação?"
+
+msgid "md_adv_delete_record_sure"
+msgstr "A administração de edição está visível"
+
+msgid "md_adv_deleted_fields"
+msgstr "Os campos foram apagados."
+
+msgid "md_adv_deleted_files"
+msgstr "Ficheiros de exportação apagados."
+
+msgid "md_adv_deleted_records"
+msgstr "O utilizador tem acesso de leitura à administração de edição"
+
+msgid "md_adv_desc_show"
+msgstr "Mostrar descrição"
+
+#, fuzzy
+msgid "md_adv_edit_complex_option"
+msgstr "Edit Option Properties"
+
+msgid "md_adv_edit_field"
+msgstr "Editar campo"
+
+msgid "md_adv_edit_record"
+msgstr "O utilizador pode editar definições da administração de edição"
+
+msgid "md_adv_field_fields"
+msgstr "Campos"
+
+msgid "md_adv_field_filter_warning"
+msgstr "Os tipos de campos %s não são atualmente suportados como filtros de tabela."
+
+#, fuzzy
+msgid "md_adv_field_list"
+msgstr "Fields"
+
+msgid "md_adv_field_names"
+msgstr "Nomes do campo"
+
+msgid "md_adv_field_table"
+msgstr "Editar campos"
+
+msgid "md_adv_fields_show"
+msgstr "Mostrar nomes de campo"
+
+msgid "md_adv_file_list"
+msgstr "Exportar ficheiros"
+
+msgid "md_adv_import_record"
+msgstr "Importar conjunto de metadados"
+
+#, fuzzy
+msgid "md_adv_int_current"
+msgstr "Current Language:"
+
+#, fuzzy
+msgid "md_adv_int_default"
+msgstr "Default Language:"
+
+#, fuzzy
+msgid "md_adv_int_translation_info"
+msgstr "Translation:"
+
+msgid "md_adv_no_fields"
+msgstr "Nenhum campo definido"
+
+msgid "md_adv_number_decimals"
+msgstr "Decimais"
+
+msgid "md_adv_number_max"
+msgstr "Valor máximo"
+
+msgid "md_adv_number_min"
+msgstr "Valor mínimo"
+
+msgid "md_adv_number_suffix"
+msgstr "Sufixo"
+
+msgid "md_adv_presentation"
+msgstr "Apresentação"
+
+#, fuzzy
+msgid "md_adv_record_activate_languages"
+msgstr "Activate Languages"
+
+msgid "md_adv_record_list"
+msgstr "O utilizador tem acesso de leitura à administração de teste e avaliação"
+
+#, fuzzy
+msgid "md_adv_record_lng_table"
+msgstr "Language Managment"
+
+#, fuzzy
+msgid "md_adv_record_lng_table_active"
+msgstr "Active"
+
+#, fuzzy
+msgid "md_adv_record_lng_table_default"
+msgstr "Default"
+
+#, fuzzy
+msgid "md_adv_record_lng_table_inst"
+msgstr "Installed"
+
+#, fuzzy
+msgid "md_adv_record_lng_table_lng"
+msgstr "Language"
+
+msgid "md_adv_records"
+msgstr "O utilizador pode mudar definições de permissões da administração de teste e avaliação"
+
+msgid "md_adv_records_exported"
+msgstr "Foi criado um novo ficheiro de exportação."
+
+msgid "md_adv_scope"
+msgstr "Âmbito"
+
+#, fuzzy
+msgid "md_adv_scope_info"
+msgstr "Usage of this custom metadata set will be limited to selected parts of the repository."
+
+msgid "md_adv_scope_list_header"
+msgstr "Limitado a:"
+
+#, fuzzy
+msgid "md_adv_scope_objects"
+msgstr "Data Set Effective From"
+
+msgid "md_adv_searchable"
+msgstr "Pesquisável"
+
+msgid "md_adv_select_one_file"
+msgstr "Escolha apenas um ficheiro."
+
+msgid "md_adv_show"
+msgstr "Mostrar"
+
+msgid "md_adv_substitution_table"
+msgstr "A administração de teste e avaliação está visível"
+
+msgid "md_adv_text_max_length"
+msgstr "Comprimento máximo"
+
+msgid "md_adv_text_multi"
+msgstr "Multilinha"
+
+#, fuzzy
+msgid "md_adv_text_multi_val"
+msgstr "Multilingual Values"
+
+#, fuzzy
+msgid "md_adv_text_multi_val_info"
+msgstr "Allow multilingual field values for this data field. Deactivating this option is recommended for texts that do not need translating, such as personal names."
+
+msgid "md_advanced"
+msgstr "O utilizador tem acesso de leitura às definições gerais na administração."
+
+#, fuzzy
+msgid "md_aria_language_selection"
+msgstr "Language Selection"
+
+msgid "md_copyright"
+msgstr "Copyright"
+
+msgid "md_copyright_add"
+msgstr "Adicionar predefinição de Copyright"
+
+#, fuzzy
+msgid "md_copyright_admin_tab"
+msgstr "Copyright & OER"
+
+#, fuzzy
+msgid "md_copyright_alt_text"
+msgstr "Text Representation"
+
+#, fuzzy
+msgid "md_copyright_alt_text_info"
+msgstr "Used for image ‘alt’ attribute"
+
+#, fuzzy
+msgid "md_copyright_default"
+msgstr "Default"
+
+msgid "md_copyright_edit"
+msgstr "Editar predefinição de Copyright"
+
+msgid "md_copyright_enable_info"
+msgstr "O utilizador pode editar definições da administração de teste e avaliação"
+
+msgid "md_copyright_enabled"
+msgstr "Ativar seleção de Copyright"
+
+#, fuzzy
+msgid "md_copyright_full_name"
+msgstr "Full Name"
+
+#, fuzzy
+msgid "md_copyright_image"
+msgstr "Image"
+
+#, fuzzy
+msgid "md_copyright_image_file"
+msgstr "File"
+
+#, fuzzy
+msgid "md_copyright_image_is_file"
+msgstr "Upload File"
+
+#, fuzzy
+msgid "md_copyright_image_is_link"
+msgstr "Enter URL"
+
+#, fuzzy
+msgid "md_copyright_image_link"
+msgstr "URL"
+
+#, fuzzy
+msgid "md_copyright_link"
+msgstr "URL"
+
+#, fuzzy
+msgid "md_copyright_link_info"
+msgstr "Link to the licence"
+
+msgid "md_copyright_preview"
+msgstr "Copyright (pré-visualização)"
+
+msgid "md_copyright_selection"
+msgstr "O utilizador pode mudar definições de permissões da administração autenticação e registo"
+
+msgid "md_copyright_value"
+msgstr "Copyright"
+
+msgid "md_copyrights_deleted"
+msgstr "Copyright apagado"
+
+msgid "md_days"
+msgstr "Dias:"
+
+msgid "md_delete_cp_sure"
+msgstr "Tem a certeza que quer apagar as seguintes entradas?"
+
+msgid "md_delimiter"
+msgstr "Delimitador"
+
+msgid "md_delimiter_info"
+msgstr "O utilizador tem acesso de leitura à administração de autenticação e registo"
+
+#, fuzzy
+msgid "md_editor_custom_input"
+msgstr "Custom"
+
+#, fuzzy
+msgid "md_editor_from_vocab_input"
+msgstr "From Vocabulary"
+
+#, fuzzy
+msgid "md_editor_value"
+msgstr "Value"
+
+msgid "md_fields"
+msgstr "Campos"
+
+#, fuzzy
+msgid "md_import_file_vocab"
+msgstr "Import File"
+
+#, fuzzy
+msgid "md_import_vocab"
+msgstr "Import"
+
+#, fuzzy
+msgid "md_import_vocab_modal"
+msgstr "Import From File"
+
+msgid "md_months"
+msgstr "Mês:"
+
+#, fuzzy
+msgid "md_oai_contact_mail"
+msgstr "Contact e-mail of this organisation"
+
+#, fuzzy
+msgid "md_oai_identifier_prefix"
+msgstr "OAI Prefix"
+
+#, fuzzy
+msgid "md_oai_identifier_prefix_info"
+msgstr "This prefix is used as a namespace in the identifiers of returned OER records."
+
+#, fuzzy
+msgid "md_oai_pmh_enabled"
+msgstr "Allow Querying via OAI-PMH Interface"
+
+#, fuzzy
+msgid "md_oai_pmh_enabled_info"
+msgstr "If enabled, harvested OER can be queried by external interested parties, e.g. OER repositories."
+
+#, fuzzy
+msgid "md_oai_repository_name"
+msgstr "Repository Name"
+
+#, fuzzy
+msgid "md_oai_repository_name_info"
+msgstr "This is returned as the name of this ILIAS installation when queried."
+
+msgid "md_obj_types"
+msgstr "A administração de autenticação e registo está visível"
+
+#, fuzzy
+msgid "md_publishing"
+msgstr "Publishing"
+
+#, fuzzy
+msgid "md_publishing_action_accept"
+msgstr "Accept for Publishing"
+
+#, fuzzy
+msgid "md_publishing_action_block"
+msgstr "Block From Publishing"
+
+#, fuzzy
+msgid "md_publishing_action_publish"
+msgstr "Publish"
+
+#, fuzzy
+msgid "md_publishing_action_reject"
+msgstr "Reject"
+
+#, fuzzy
+msgid "md_publishing_action_submit"
+msgstr "Submit for Publishing"
+
+#, fuzzy
+msgid "md_publishing_action_unblock"
+msgstr "Unblock"
+
+#, fuzzy
+msgid "md_publishing_action_withdraw"
+msgstr "Withdraw"
+
+#, fuzzy
+msgid "md_publishing_center_title"
+msgstr "OER Publishing"
+
+#, fuzzy
+msgid "md_publishing_confirmation_accept"
+msgstr "Accept for Publishing"
+
+#, fuzzy
+msgid "md_publishing_confirmation_info_accept"
+msgstr "Are you sure you want to publish this object?"
+
+#, fuzzy
+msgid "md_publishing_confirmation_info_reject"
+msgstr "Are you sure you want to reject this object for publishing?"
+
+#, fuzzy
+msgid "md_publishing_confirmation_info_withdraw"
+msgstr "Are you sure you want to withdraw this object from publishing?"
+
+#, fuzzy
+msgid "md_publishing_confirmation_reject"
+msgstr "Reject for Publishing"
+
+#, fuzzy
+msgid "md_publishing_confirmation_withdraw"
+msgstr "Withdraw From Publishing"
+
+#, fuzzy
+msgid "md_publishing_control_center"
+msgstr "OER Publishing"
+
+#, fuzzy
+msgid "md_publishing_current_status"
+msgstr "Publishing this object as OER: <strong>%s</strong>"
+
+#, fuzzy
+msgid "md_publishing_info_blocked"
+msgstr "This object is blocked from being automatically published."
+
+#, fuzzy
+msgid "md_publishing_info_published"
+msgstr "This object has been published as an Open Educational Resource."
+
+#, fuzzy
+msgid "md_publishing_info_under_review"
+msgstr "This object was submitted for publishing, and is currently being reviewed by the editorial team."
+
+#, fuzzy
+msgid "md_publishing_info_unpublished"
+msgstr "This object can be published as an Open Educational Resource."
+
+#, fuzzy
+msgid "md_publishing_info_wrong_copyright"
+msgstr "To publish this object as an Open Educational Resource, please close this dialog and select an eligible licence:%s"
+
+#, fuzzy
+msgid "md_publishing_last_reference_info"
+msgstr "Please note that this object will not be removed, because there are no other references to it in the repository."
+
+#, fuzzy
+msgid "md_publishing_status_blocked"
+msgstr "Blocked"
+
+#, fuzzy
+msgid "md_publishing_status_published"
+msgstr "Published"
+
+#, fuzzy
+msgid "md_publishing_status_under_review"
+msgstr "Under Review"
+
+#, fuzzy
+msgid "md_publishing_status_unpublished"
+msgstr "Unpublished"
+
+#, fuzzy
+msgid "md_publishing_success_accept"
+msgstr "Object successfully published."
+
+#, fuzzy
+msgid "md_publishing_success_block"
+msgstr "Object successfully blocked from publishing."
+
+#, fuzzy
+msgid "md_publishing_success_publish"
+msgstr "Object successfully published."
+
+#, fuzzy
+msgid "md_publishing_success_reject"
+msgstr "Object successfully rejected."
+
+#, fuzzy
+msgid "md_publishing_success_submit"
+msgstr "Object successfully submitted for review."
+
+#, fuzzy
+msgid "md_publishing_success_unblock"
+msgstr "Object successfully unblocked."
+
+#, fuzzy
+msgid "md_publishing_success_withdraw"
+msgstr "Object successfully withdrawn."
+
+#, fuzzy
+msgid "md_publishing_workflow"
+msgstr "Publishing Workflow"
+
+#, fuzzy
+msgid "md_publishing_workflow_automatic"
+msgstr "Automatic"
+
+#, fuzzy
+msgid "md_publishing_workflow_automatic_info"
+msgstr "Eligible objects are automatically published by the OER Harvester cron job."
+
+#, fuzzy
+msgid "md_publishing_workflow_manual"
+msgstr "Manual"
+
+#, fuzzy
+msgid "md_publishing_workflow_manual_info"
+msgstr "Add an option to the LOM of objects to publish them with the click of a button."
+
+#, fuzzy
+msgid "md_publishing_workflow_mode"
+msgstr "Enable Publishing"
+
+#, fuzzy
+msgid "md_publishing_workflow_mode_info"
+msgstr "When an object is published, it is added to a predefined category and an export file is generated for it. Additionally, a record is compiled that (if activated) can be read out via an OAI-PMH interface."
+
+msgid "md_record_export_table"
+msgstr "Exportar ficheiros"
+
+msgid "md_record_list_table"
+msgstr "O utilizador pode editar definições para autenticação e registo"
+
+msgid "md_separated_by"
+msgstr "Separado por %s"
+
+#, fuzzy
+msgid "md_settings"
+msgstr "Settings"
+
+#, fuzzy
+msgid "md_settings_harvester"
+msgstr "OER Harvester"
+
+#, fuzzy
+msgid "md_settings_licence"
+msgstr "Terms of Usage"
+
+#, fuzzy
+msgid "md_settings_publishing"
+msgstr "Querying by Repositories"
+
+msgid "md_time"
+msgstr "Tempo:"
+
+#, fuzzy
+msgid "md_unknown_vocabulary_flag"
+msgstr "(unknown vocabulary)"
+
+msgid "md_used"
+msgstr "Uso"
+
+#, fuzzy
+msgid "md_vocab_activate_action"
+msgstr "Activate"
+
+#, fuzzy
+msgid "md_vocab_active_column"
+msgstr "Active"
+
+#, fuzzy
+msgid "md_vocab_all_values_title"
+msgstr "Values for %s (%s)"
+
+#, fuzzy
+msgid "md_vocab_allow_custom_input_action"
+msgstr "Allow Custom Input"
+
+#, fuzzy
+msgid "md_vocab_custom_input_column"
+msgstr "Custom Input Allowed"
+
+#, fuzzy
+msgid "md_vocab_deactivate_action"
+msgstr "Deactivate"
+
+#, fuzzy
+msgid "md_vocab_delete_action"
+msgstr "Delete"
+
+#, fuzzy
+msgid "md_vocab_delete_confirmation_text"
+msgstr "Are you sure you want to delete the vocabulary for %s (%s) with the following values?"
+
+#, fuzzy
+msgid "md_vocab_delete_confirmation_title"
+msgstr "Delete Vocabulary"
+
+#, fuzzy
+msgid "md_vocab_deletion_successful"
+msgstr "Vocabulary successfully deleted."
+
+#, fuzzy
+msgid "md_vocab_disallow_custom_input_action"
+msgstr "Disallow Custom Input"
+
+#, fuzzy
+msgid "md_vocab_element_column"
+msgstr "Element"
+
+#, fuzzy
+msgid "md_vocab_element_with_condition"
+msgstr "%s where %s is %s"
+
+#, fuzzy
+msgid "md_vocab_import_invalid"
+msgstr "The import file is invalid:<br/>%s"
+
+#, fuzzy
+msgid "md_vocab_import_successful"
+msgstr "Vocabulary successfully imported."
+
+#, fuzzy
+msgid "md_vocab_import_upload_failed"
+msgstr "Upload of the import file failed."
+
+#, fuzzy
+msgid "md_vocab_preview_column"
+msgstr "Preview"
+
+#, fuzzy
+msgid "md_vocab_show_all_action"
+msgstr "Show All Values"
+
+#, fuzzy
+msgid "md_vocab_source_column"
+msgstr "Source"
+
+#, fuzzy
+msgid "md_vocab_table_title"
+msgstr "Vocabularies"
+
+#, fuzzy
+msgid "md_vocab_type_column"
+msgstr "Type"
+
+#, fuzzy
+msgid "md_vocab_type_controlled_string"
+msgstr "Controlled Text"
+
+#, fuzzy
+msgid "md_vocab_type_controlled_vocab_value"
+msgstr "Controlled Selection"
+
+#, fuzzy
+msgid "md_vocab_type_copyright"
+msgstr "Copyright"
+
+#, fuzzy
+msgid "md_vocab_type_standard"
+msgstr "Standard"
+
+#, fuzzy
+msgid "md_vocab_update_successful"
+msgstr "Vocabulary successfully updated."
+
+#, fuzzy
+msgid "md_vocabularies_config"
+msgstr "LOM Vocabularies"
+
+#, fuzzy
+msgid "meta_1"
+msgstr "1"
+
+#, fuzzy
+msgid "meta_2"
+msgstr "2"
+
+#, fuzzy
+msgid "meta_3"
+msgstr "3"
+
+#, fuzzy
+msgid "meta_4"
+msgstr "4"
+
+msgid "meta_accessibility_restrictions"
+msgstr "Copiar bibliografia"
+
+msgid "meta_active"
+msgstr "O utilizador pode mudar definições de permissões da administração de blog"
+
+msgid "meta_add"
+msgstr "O utilizador tem acesso de leitura à administração de blog"
+
+#, fuzzy
+msgid "meta_add_element"
+msgstr "Add %s"
+
+#, fuzzy
+msgid "meta_add_element_success"
+msgstr "Element added successfully"
+
+#, fuzzy
+msgid "meta_advmd_add_field"
+msgstr "Add New Field"
+
+#, fuzzy
+msgid "meta_advmd_select_delete_option"
+msgstr "Delete This Entry"
+
+#, fuzzy
+msgid "meta_advmd_select_first_position_identifier"
+msgstr "First"
+
+#, fuzzy
+msgid "meta_advmd_select_new_option"
+msgstr "Add New Entry"
+
+#, fuzzy
+msgid "meta_advmd_select_option_position"
+msgstr "Position"
+
+#, fuzzy
+msgid "meta_advmd_select_option_value"
+msgstr "Value"
+
+msgid "meta_advmd_select_options"
+msgstr "Entradas"
+
+#, fuzzy
+msgid "meta_advmd_select_options_edit"
+msgstr "Edit Entries"
+
+#, fuzzy
+msgid "meta_advmd_select_position_identifier"
+msgstr "After ‘%s’"
+
+#, fuzzy
+msgid "meta_aggregation_level"
+msgstr "Aggregation Level"
+
+#, fuzzy
+msgid "meta_amaya"
+msgstr "Amaya"
+
+msgid "meta_annotation"
+msgstr "O utilizador pode editar definições na administração de blog"
+
+#, fuzzy
+msgid "meta_annotation_plural"
+msgstr "Annotations"
+
+#, fuzzy
+msgid "meta_any"
+msgstr "Any"
+
+msgid "meta_atomic"
+msgstr "O utilizador pode criar postings"
+
+msgid "meta_author"
+msgstr "O utilizador pode editar postings de outros contribuintes também."
+
+#, fuzzy
+msgid "meta_authors"
+msgstr "Authors"
+
+msgid "meta_browser"
+msgstr "Navegador"
+
+#, fuzzy
+msgid "meta_button_to_full_editor_label"
+msgstr "Edit the Full Learning Object Metadata"
+
+msgid "meta_c_AD"
+msgstr "Andorra"
+
+msgid "meta_c_AE"
+msgstr "O utilizador pode mover ou apagar a categoria"
+
+msgid "meta_c_AF"
+msgstr "O utilizador pode mudar as definições de permissões"
+
+msgid "meta_c_AG"
+msgstr "O utilizador tem acesso de leitura à categoria"
+
+msgid "meta_c_AI"
+msgstr "Anguila"
+
+msgid "meta_c_AL"
+msgstr "O utilizador pode ler contas de utilizador locais criadas nesta categoria"
+
+msgid "meta_c_AM"
+msgstr "A categoria está visível"
+
+msgid "meta_c_AN"
+msgstr "O utilizador pode editar definições da categoria e gerir o conteúdo"
+
+msgid "meta_c_AO"
+msgstr "Angola"
+
+msgid "meta_c_AQ"
+msgstr "O utilizador pode mudar definições de permissões da administração de certificados"
+
+msgid "meta_c_AR"
+msgstr "Argentina"
+
+msgid "meta_c_AS"
+msgstr "O utilizador tem acesso de leitura à administração de certificados"
+
+msgid "meta_c_AT"
+msgstr "A administração de certificados está visível"
+
+msgid "meta_c_AU"
+msgstr "O utilizador pode editar definições na administração de certificados"
+
+msgid "meta_c_AW"
+msgstr "Aruba"
+
+msgid "meta_c_AX"
+msgstr "Mudar objetos existentes"
+
+msgid "meta_c_AZ"
+msgstr "As definições de permissões desta função serão adotadas a TODOS os objetos existentes. Se quiser mudar permissões apenas para tipos específicos de objetos, assinale os quadrados do lado direito do tipo apropriado de objeto."
+
+msgid "meta_c_BA"
+msgstr "Isso vai também mudar as permissões de objetos já existentes desse tipo"
+
+msgid "meta_c_BB"
+msgstr "Barbados"
+
+msgid "meta_c_BD"
+msgstr "Bangladesh"
+
+msgid "meta_c_BE"
+msgstr "O utilizador pode mover ou apagar a sala de chat"
+
+msgid "meta_c_BF"
+msgstr "Burkina Faso"
+
+msgid "meta_c_BG"
+msgstr "O utilizador pode mudar definições de permissões para a sala de chat"
+
+msgid "meta_c_BH"
+msgstr "Barém"
+
+msgid "meta_c_BI"
+msgstr "Burundi"
+
+msgid "meta_c_BJ"
+msgstr "Benin"
+
+msgid "meta_c_BL"
+msgstr "São Bartolomeu"
+
+msgid "meta_c_BM"
+msgstr "Bermudas"
+
+msgid "meta_c_BN"
+msgstr "Brunei"
+
+msgid "meta_c_BO"
+msgstr "O utilizador pode moderar a discussão na sala de chat"
+
+msgid "meta_c_BR"
+msgstr "O utilizador pode juntar-se a e participar na sala de chat"
+
+msgid "meta_c_BS"
+msgstr "Bahamas"
+
+msgid "meta_c_BT"
+msgstr "A sala de chat está visível"
+
+msgid "meta_c_BV"
+msgstr "O utilizador pode editar definições da sala de chat e pode banir utilizadores"
+
+msgid "meta_c_BW"
+msgstr "O utilizador pode carregar ficheiros para o objeto da cloud"
+
+msgid "meta_c_BY"
+msgstr "Bielorrússia"
+
+msgid "meta_c_BZ"
+msgstr "Belize"
+
+msgid "meta_c_CA"
+msgstr "O utilizador pode mudar definições de permissões da administração de plugins, módulos e serviços"
+
+msgid "meta_c_CC"
+msgstr "O utilizador tem acesso de leitura à administração de plugins, módulos e serviços"
+
+msgid "meta_c_CF"
+msgstr "A administração das definições de plugins, módulos e serviços está visível"
+
+msgid "meta_c_CG"
+msgstr "Congo"
+
+msgid "meta_c_CH"
+msgstr "O utilizador pode editar definições de plugins, módulos e serviços"
+
+msgid "meta_c_CI"
+msgstr "O utilizador pode copiar o link do curso"
+
+msgid "meta_c_CK"
+msgstr "O utilizador pode mover ou apagar o link do curso"
+
+msgid "meta_c_CL"
+msgstr "Chile"
+
+msgid "meta_c_CM"
+msgstr "O utilizador pode mudar as definições de permissões"
+
+msgid "meta_c_CN"
+msgstr "China"
+
+msgid "meta_c_CO"
+msgstr "O link do curso está visível"
+
+msgid "meta_c_CR"
+msgstr "Costa Rica"
+
+msgid "meta_c_CU"
+msgstr "Cuba"
+
+msgid "meta_c_CV"
+msgstr "O utilizador pode editar definições do link do curso"
+
+msgid "meta_c_CX"
+msgstr "O utilizador pode copiar o curso"
+
+msgid "meta_c_CY"
+msgstr "O utilizador pode mover ou apagar o curso"
+
+msgid "meta_c_CZ"
+msgstr "O utilizador pode editar as definições do progresso de aprendizagem"
+
+msgid "meta_c_DE"
+msgstr "O utilizador pode mudar as definições de permissões"
+
+msgid "meta_c_DJ"
+msgstr "Jibuti"
+
+msgid "meta_c_DK"
+msgstr "O utilizador pode aderir ao curso"
+
+msgid "meta_c_DM"
+msgstr "Dominica"
+
+msgid "meta_c_DO"
+msgstr "O utilizador pode anular a subscrição do curso"
+
+msgid "meta_c_DZ"
+msgstr "O utilizador tem acesso de leitura ao curso"
+
+msgid "meta_c_EC"
+msgstr "O utilizador está visível"
+
+msgid "meta_c_EE"
+msgstr "O utilizador pode editar definições do curso e gerir o conteúdo"
+
+msgid "meta_c_EG"
+msgstr "Editar progresso de aprendizagem"
+
+msgid "meta_c_EH"
+msgstr "Mudar permissões"
+
+msgid "meta_c_ER"
+msgstr "O utilizador pode copiar o exercício"
+
+msgid "meta_c_ES"
+msgstr "O utilizador pode mover ou apagar o exercício"
+
+msgid "meta_c_ET"
+msgstr "O utilizador pode editar as definições do progresso de aprendizagem"
+
+msgid "meta_c_FI"
+msgstr "O utilizador pode mudar as definições de permissões"
+
+msgid "meta_c_FJ"
+msgstr "Fiji"
+
+msgid "meta_c_FK"
+msgstr "O utilizador pode participar no exercício"
+
+msgid "meta_c_FM"
+msgstr "O exercício está visível"
+
+msgid "meta_c_FO"
+msgstr "O utilizador pode editar definições e atribuições do exercício"
+
+msgid "meta_c_FR"
+msgstr "Aceder a dados do utilizador"
+
+msgid "meta_c_FX"
+msgstr "O utilizador pode mudar definições de permissões da administração do software de terceiros"
+
+msgid "meta_c_GA"
+msgstr "O utilizador tem acesso de leitura à administração do software de terceiros"
+
+msgid "meta_c_GB"
+msgstr "A administração do software de terceiros está visível"
+
+msgid "meta_c_GD"
+msgstr "O utilizador pode editar definições do software de terceiros"
+
+msgid "meta_c_GE"
+msgstr "O utilizador pode mudar definições de permissões da administração de ficheiros e pastas"
+
+msgid "meta_c_GF"
+msgstr "O utilizador tem acesso de leitura à administração de ficheiros e pastas"
+
+msgid "meta_c_GG"
+msgstr "Guernsey"
+
+msgid "meta_c_GH"
+msgstr "A administração de ficheiros e pastas está visível"
+
+msgid "meta_c_GI"
+msgstr "Gibraltar"
+
+msgid "meta_c_GL"
+msgstr "O utilizador pode editar definições na administração de ficheiros e pastas"
+
+msgid "meta_c_GM"
+msgstr "O utilizador pode mover ou apagar o web feed"
+
+msgid "meta_c_GN"
+msgstr "O utilizador pode mudar as definições de permissões"
+
+msgid "meta_c_GP"
+msgstr "O utilizador pode ler conteúdo do web feed"
+
+msgid "meta_c_GQ"
+msgstr "O utilizador pode editar as definições do web feed"
+
+msgid "meta_c_GR"
+msgstr "O utilizador pode copiar um ficheiro"
+
+msgid "meta_c_GS"
+msgstr "O utilizador pode mover ou apagar um ficheiro"
+
+msgid "meta_c_GT"
+msgstr "Guatemala"
+
+msgid "meta_c_GU"
+msgstr "Guam"
+
+msgid "meta_c_GW"
+msgstr "O utilizador pode mudar as definições de permissões"
+
+msgid "meta_c_GY"
+msgstr "O utilizador pode descarregar um ficheiro"
+
+msgid "meta_c_HK"
+msgstr "Hong Kong"
+
+msgid "meta_c_HM"
+msgstr "O utilizador pode editar definições de ficheiros e carregar uma nova versão do ficheiro"
+
+msgid "meta_c_HN"
+msgstr "Honduras"
+
+msgid "meta_c_HR"
+msgstr "O utilizador pode copiar uma pasta"
+
+msgid "meta_c_HT"
+msgstr "Haiti"
+
+msgid "meta_c_HU"
+msgstr "O utilizador pode mover ou apagar uma pasta"
+
+msgid "meta_c_ID"
+msgstr "O utilizador pode editar as definições do progresso de aprendizagem"
+
+msgid "meta_c_IE"
+msgstr "O utilizador pode mudar as definições de permissões"
+
+msgid "meta_c_IL"
+msgstr "Israel"
+
+msgid "meta_c_IM"
+msgstr "O utilizador tem acesso de leitura à pasta"
+
+msgid "meta_c_IN"
+msgstr "O utilizador pode editar definições de pastas e gerir conteúdo"
+
+msgid "meta_c_IO"
+msgstr "O utilizador pode mudar definições de permissões da administração de fórum"
+
+msgid "meta_c_IQ"
+msgstr "O utilizador tem acesso de leitura à administração de fórum"
+
+msgid "meta_c_IR"
+msgstr "O utilizador pode editar definições na administração de fórum"
+
+msgid "meta_c_IS"
+msgstr "O utilizador pode adicionar um novo tópico"
+
+msgid "meta_c_IT"
+msgstr "O utilizador pode copiar um fórum"
+
+msgid "meta_c_JE"
+msgstr "Jersey"
+
+msgid "meta_c_JM"
+msgstr "Jamaica"
+
+msgid "meta_c_JO"
+msgstr "O utilizador pode mover ou apagar um fórum"
+
+msgid "meta_c_JP"
+msgstr "O utilizador pode mudar as definições de permissões"
+
+msgid "meta_c_KE"
+msgstr "O utilizador por editar, censurar e apagar postings"
+
+msgid "meta_c_KG"
+msgstr "O utilizador pode ler o conteúdo do fórum"
+
+msgid "meta_c_KH"
+msgstr "O fórum está visível"
+
+msgid "meta_c_KI"
+msgstr "Quiribati"
+
+msgid "meta_c_KM"
+msgstr "Comoros"
+
+msgid "meta_c_KN"
+msgstr "O utilizador pode editar definições de fórum e moderadores"
+
+msgid "meta_c_KP"
+msgstr "O utilizador pode copiar um glossário"
+
+msgid "meta_c_KR"
+msgstr "O utilizador pode mover ou apagar um glossário"
+
+msgid "meta_c_KW"
+msgstr "Kuwait"
+
+msgid "meta_c_KY"
+msgstr "O utilizador pode mudar as definições de permissões"
+
+msgid "meta_c_KZ"
+msgstr "O utilizador pode ler o conteúdo do glossário"
+
+msgid "meta_c_LA"
+msgstr "O glossário está visível"
+
+msgid "meta_c_LB"
+msgstr "O utilizador pode editar conteúdo e definições do glossário"
+
+msgid "meta_c_LC"
+msgstr "O utilizador pode copiar o link do grupo"
+
+msgid "meta_c_LI"
+msgstr "Liechtenstein"
+
+msgid "meta_c_LK"
+msgstr "Sri Lanka"
+
+msgid "meta_c_LR"
+msgstr "O utilizador pode mover ou apagar o link do grupo"
+
+msgid "meta_c_LS"
+msgstr "O link do grupo está visível"
+
+msgid "meta_c_LT"
+msgstr "O utilizador pode editar definições do link do grupo"
+
+msgid "meta_c_LU"
+msgstr "O utilizador pode copiar um grupo"
+
+msgid "meta_c_LV"
+msgstr "O utilizador pode mover ou apagar um grupo"
+
+msgid "meta_c_LY"
+msgstr "O utilizador pode editar as definições do progresso de aprendizagem"
+
+msgid "meta_c_MA"
+msgstr "O utilizador pode mudar as definições de permissões"
+
+msgid "meta_c_MC"
+msgstr "O utilizador pode juntar-se a um grupo"
+
+msgid "meta_c_MD"
+msgstr "O utilizador pode anular a subscrição do grupo"
+
+msgid "meta_c_ME"
+msgstr "Montenegro"
+
+msgid "meta_c_MF"
+msgstr "O utilizador tem acesso de leitura ao grupo"
+
+msgid "meta_c_MG"
+msgstr "O grupo está visível"
+
+msgid "meta_c_MH"
+msgstr "O utilizador pode editar definições do grupo e gerir o conteúdo"
+
+msgid "meta_c_MK"
+msgstr "O utilizador pode copiar o módulo de aprendizagem HTML"
+
+msgid "meta_c_ML"
+msgstr "Mali"
+
+msgid "meta_c_MM"
+msgstr "O utilizador pode mover ou apagar o módulo de aprendizagem HTML"
+
+msgid "meta_c_MN"
+msgstr "O utilizador pode editar as definições do progresso de aprendizagem"
+
+msgid "meta_c_MO"
+msgstr "Macau"
+
+msgid "meta_c_MP"
+msgstr "O utilizador pode mudar as definições de permissões"
+
+msgid "meta_c_MQ"
+msgstr "Martinica"
+
+msgid "meta_c_MR"
+msgstr "O utilizador pode ler o módulo de aprendizagem HTML"
+
+msgid "meta_c_MS"
+msgstr "O utilizador pode editar o conteúdo e as definições do módulo de aprendizagem HTML"
+
+msgid "meta_c_MT"
+msgstr "Malta"
+
+msgid "meta_c_MU"
+msgstr "Maurícia"
+
+msgid "meta_c_MV"
+msgstr "Copiar uma avaliação individual"
+
+msgid "meta_c_MW"
+msgstr "Apagar uma avaliação individual"
+
+msgid "meta_c_MX"
+msgstr "Editar informação do progresso de aprendizagem de uma avaliação individual"
+
+msgid "meta_c_MY"
+msgstr "Editar membros de uma avaliação individual"
+
+msgid "meta_c_MZ"
+msgstr "Editar permissões de uma avaliação individual"
+
+msgid "meta_c_NA"
+msgstr "Ler conteúdo de uma avaliação individual"
+
+msgid "meta_c_NC"
+msgstr "Ver informação do progresso de aprendizagem de uma avaliação individual"
+
+msgid "meta_c_NE"
+msgstr "Níger"
+
+msgid "meta_c_NF"
+msgstr "Editar uma avaliação individual"
+
+msgid "meta_c_NG"
+msgstr "O utilizador pode ver itens num grupo de itens"
+
+msgid "meta_c_NI"
+msgstr "Cancelar a subscrição"
+
+msgid "meta_c_NL"
+msgstr "O utilizador pode copiar o módulo de aprendizagem ILIAS"
+
+msgid "meta_c_NO"
+msgstr "O utilizador pode mover ou apagar o módulo de aprendizagem ILIAS"
+
+msgid "meta_c_NP"
+msgstr "Nepal"
+
+msgid "meta_c_NR"
+msgstr "Nauru"
+
+msgid "meta_c_NU"
+msgstr "Niue"
+
+msgid "meta_c_NZ"
+msgstr "O utilizador pode editar as definições do progresso de aprendizagem"
+
+msgid "meta_c_OM"
+msgstr "Omã"
+
+msgid "meta_c_PA"
+msgstr "O utilizador pode mudar as definições de permissões"
+
+msgid "meta_c_PE"
+msgstr "Peru"
+
+msgid "meta_c_PF"
+msgstr "O utilizador pode ler o módulo de aprendizagem ILIAS"
+
+msgid "meta_c_PG"
+msgstr "O módulo de aprendizagem ILIAS está visível"
+
+msgid "meta_c_PH"
+msgstr "O utilizador pode editar o conteúdo e as definições do módulo de aprendizagem ILIAS"
+
+msgid "meta_c_PK"
+msgstr "O utilizador pode mudar definições de permissões da administração de idioma"
+
+msgid "meta_c_PL"
+msgstr "O utilizador tem acesso de leitura à administração de idioma"
+
+msgid "meta_c_PM"
+msgstr "A administração de idioma está visível"
+
+msgid "meta_c_PN"
+msgstr "Pitcairn"
+
+msgid "meta_c_PR"
+msgstr "O utilizador pode editar definições na administração de idioma e usar a manutenção expandida do idioma"
+
+msgid "meta_c_PS"
+msgstr "Territórios Palestinianos (ocupados)"
+
+msgid "meta_c_PT"
+msgstr "Portugal"
+
+msgid "meta_c_PW"
+msgstr "Palau"
+
+msgid "meta_c_PY"
+msgstr "O utilizador pode mudar definições de permissões da administração dos recursos de aprendizagem"
+
+msgid "meta_c_QA"
+msgstr "Catar"
+
+msgid "meta_c_RE"
+msgstr "Ler acesso à administração dos recursos de aprendizagem"
+
+msgid "meta_c_RO"
+msgstr "A administração dos recursos de aprendizagem está visível"
+
+msgid "meta_c_RS"
+msgstr "O utilizador pode editar definições dos recursos de aprendizagem na administração"
+
+msgid "meta_c_RU"
+msgstr "O utilizador pode enviar mails para funções globais"
+
+msgid "meta_c_RW"
+msgstr "O utilizador tem acesso de leitura à administração de mails"
+
+msgid "meta_c_SA"
+msgstr "O utilizador pode enviar e-mails por SMTP para endereços externos"
+
+msgid "meta_c_SB"
+msgstr "O utilizador pode enviar mensagens internas do sistema"
+
+msgid "meta_c_SC"
+msgstr "Mails globais"
+
+msgid "meta_c_SD"
+msgstr "A administração de mails está visível"
+
+msgid "meta_c_SE"
+msgstr "O utilizador pode editar definições na administração de mails"
+
+msgid "meta_c_SG"
+msgstr "O utilizador pode copiar mediacast"
+
+msgid "meta_c_SH"
+msgstr "Santa Helena"
+
+msgid "meta_c_SI"
+msgstr "O utilizador pode mover ou apagar mediacast"
+
+msgid "meta_c_SJ"
+msgstr "O utilizador pode mudar as definições de permissões"
+
+msgid "meta_c_SK"
+msgstr "O utilizador pode ler mediacast"
+
+msgid "meta_c_SL"
+msgstr "O utilizador pode editar conteúdo e definições de mediacast"
+
+msgid "meta_c_SM"
+msgstr "O utilizador pode mudar definições de permissões na administração de mediacast"
+
+msgid "meta_c_SN"
+msgstr "Senegal"
+
+msgid "meta_c_SO"
+msgstr "O utilizador tem acesso de leitura à administração de mediacast"
+
+msgid "meta_c_SR"
+msgstr "Suriname"
+
+msgid "meta_c_ST"
+msgstr "A administração de mediacast está visível"
+
+msgid "meta_c_SV"
+msgstr "El Salvador"
+
+msgid "meta_c_SY"
+msgstr "O utilizador pode editar definições na administração de mediacast"
+
+msgid "meta_c_SZ"
+msgstr "O utilizador pode mudar definições de permissões na administração de metadados"
+
+msgid "meta_c_TC"
+msgstr "O utilizador tem acesso de leitura à administração de metadados"
+
+msgid "meta_c_TD"
+msgstr "Chade"
+
+msgid "meta_c_TF"
+msgstr "A administração de metadados está visível"
+
+msgid "meta_c_TG"
+msgstr "Togo"
+
+msgid "meta_c_TH"
+msgstr "O utilizador pode editar definições na administração de metadados"
+
+msgid "meta_c_TJ"
+msgstr "O utilizador pode mover ou apagar bancos de media"
+
+msgid "meta_c_TK"
+msgstr "O utilizador pode mudar as definições de permissões"
+
+msgid "meta_c_TL"
+msgstr "Timor-Leste"
+
+msgid "meta_c_TM"
+msgstr "O utilizador tem acesso de leitura a banco de media e pode reutilizar os objeto de media"
+
+msgid "meta_c_TN"
+msgstr "O banco de media está visível"
+
+msgid "meta_c_TO"
+msgstr "Tonga"
+
+msgid "meta_c_TR"
+msgstr "O utilizador pode editar conteúdo e definições do banco de media"
+
+msgid "meta_c_TT"
+msgstr "O utilizador pode mudar definições de permissões na administração dos bancos de media/objetos"
+
+msgid "meta_c_TV"
+msgstr "Tuvalu"
+
+msgid "meta_c_TW"
+msgstr "Taiwan"
+
+msgid "meta_c_TZ"
+msgstr "O utilizador tem acesso de leitura à administração de bancos de media/objetos"
+
+msgid "meta_c_UA"
+msgstr "A administração de bancos de media/objetos está visível"
+
+msgid "meta_c_UG"
+msgstr "Uganda"
+
+msgid "meta_c_UM"
+msgstr "O utilizador pode editar definições na administração dos bancos de media/objetos"
+
+msgid "meta_c_US"
+msgstr "O utilizador pode mudar definições de permissões na administração de notícias e web feeds"
+
+msgid "meta_c_UY"
+msgstr "O utilizador tem acesso de leitura à administração de notícias e web feeds"
+
+msgid "meta_c_UZ"
+msgstr "A administração de notícias e web feeds está visível"
+
+msgid "meta_c_VA"
+msgstr "O utilizador pode editar definições na administração de notícias e web feeds"
+
+msgid "meta_c_VC"
+msgstr "O utilizador pode mudar definições de permissões na administração de modelos didáticos"
+
+msgid "meta_c_VE"
+msgstr "Venezuela"
+
+msgid "meta_c_VG"
+msgstr "O utilizador tem acesso de leitura à administração de modelos didáticos"
+
+msgid "meta_c_VI"
+msgstr "A administração de modelos didáticos está visível"
+
+msgid "meta_c_VN"
+msgstr "O utilizador pode editar definições de modelos didáticos"
+
+msgid "meta_c_VU"
+msgstr "Vanuatu"
+
+msgid "meta_c_WF"
+msgstr "O utilizador pode mudar definições de permissões da administração do computador pessoal"
+
+msgid "meta_c_WS"
+msgstr "Samoa"
+
+msgid "meta_c_XK"
+msgstr "Kosovo"
+
+msgid "meta_c_YE"
+msgstr "O utilizador tem acesso de leitura à administração do computador pessoal"
+
+msgid "meta_c_YT"
+msgstr "A administração do computador pessoal está visível"
+
+msgid "meta_c_ZA"
+msgstr "Editar definições da administração do computador pessoal"
+
+msgid "meta_c_ZM"
+msgstr "Criar novo objetos"
+
+msgid "meta_c_ZW"
+msgstr "Operações especiais"
+
+msgid "meta_catalog"
+msgstr "O utilizador pode mudar definições de permissões para bancos de reservas"
+
+msgid "meta_classification"
+msgstr "O utilizador pode reservar reservas/objetos no banco de reservas"
+
+#, fuzzy
+msgid "meta_classification_plural"
+msgstr "Classifications"
+
+msgid "meta_collection"
+msgstr "O utilizador pode editar definições e conteúdo do banco de reservas"
+
+msgid "meta_competency"
+msgstr "O utilizador pode oferecer e editar horas de consulta no calendário"
+
+msgid "meta_contentprovider"
+msgstr "Fornecedor de conteúdo"
+
+msgid "meta_context"
+msgstr "O utilizador pode cria e editar calendários públicos e eventos no ILIAS"
+
+#, fuzzy
+msgid "meta_context_plural"
+msgstr "Contexts"
+
+msgid "meta_contribute"
+msgstr "O utilizador pode mudar definições de permissões para a administração de calendário"
+
+#, fuzzy
+msgid "meta_contribute_plural"
+msgstr "Contribute"
+
+msgid "meta_copyright"
+msgstr "Copyright"
+
+msgid "meta_copyright_and_other_restrictions"
+msgstr "O utilizador tem acesso de leitura à administração de calendário"
+
+msgid "meta_copyright_change_info"
+msgstr "A administração de calendário está visível"
+
+#, fuzzy
+msgid "meta_copyright_change_oer_info"
+msgstr "The copyright licence you have selected makes this object eligible to be harvested as an Open Educational Resource. If you continue, it might be listed as such along with an export file, and it might get published beyond this platform."
+
+msgid "meta_copyright_change_warning_title"
+msgstr "O utilizador pode editar definições da administração de calendário"
+
+msgid "meta_copyright_in_use"
+msgstr "O utilizador pode copiar o link de categoria"
+
+msgid "meta_copyright_outdated"
+msgstr "O utilizador pode mover ou apagar o link de categoria"
+
+#, fuzzy
+msgid "meta_copyright_outdated_error"
+msgstr "The chosen copyright is outdated and no longer in use."
+
+msgid "meta_copyright_show_usages"
+msgstr "O utilizador pode mudar as definições de permissões"
+
+msgid "meta_copyright_status"
+msgstr "O link de categoria está visível"
+
+msgid "meta_copyright_sub_items"
+msgstr "O utilizador pode editar definições do link de categoria"
+
+msgid "meta_copyright_usage"
+msgstr "Administrar contas locais de utilizador"
+
+msgid "meta_cost"
+msgstr "O utilizador pode criar e administrar contas de utilizador locais nesta categoria"
+
+msgid "meta_coverage"
+msgstr "O utilizador pode copiar a categoria"
+
+#, fuzzy
+msgid "meta_coverage_plural"
+msgstr "Coverage"
+
+msgid "meta_cp_own"
+msgstr "Informação de Copyright própria:"
+
+msgid "meta_creator"
+msgstr "Criador"
+
+msgid "meta_current_value"
+msgstr "Valor atual"
+
+msgid "meta_date"
+msgstr "Operações específicas de objetos."
+
+#, fuzzy
+msgid "meta_date_time"
+msgstr "Date"
+
+msgid "meta_delete"
+msgstr "Função global"
+
+#, fuzzy
+msgid "meta_delete_confirm"
+msgstr "Are you sure you want to delete this element and its content?"
+
+#, fuzzy
+msgid "meta_delete_element"
+msgstr "Delete %s"
+
+#, fuzzy
+msgid "meta_delete_element_success"
+msgstr "Element deleted successfully"
+
+#, fuzzy
+msgid "meta_delete_this_element"
+msgstr "Delete This Element"
+
+msgid "meta_description"
+msgstr "Função local"
+
+#, fuzzy
+msgid "meta_description_plural"
+msgstr "Descriptions"
+
+msgid "meta_diagramm"
+msgstr "Função global protegida"
+
+msgid "meta_difficult"
+msgstr "Difícil"
+
+msgid "meta_difficulty"
+msgstr "Insira o número mínimo de materiais necessário para satisfazer este pré-requisito"
+
+#, fuzzy
+msgid "meta_discipline"
+msgstr "Discipline"
+
+msgid "meta_draft"
+msgstr "Obrigatório"
+
+msgid "meta_duration"
+msgstr "Pré-requisitos que têm de ser obrigatoriamente satisfeitos para se ter acesso."
+
+msgid "meta_easy"
+msgstr "O utilizador pode mudar definições de permissões da administração de portefólio"
+
+#, fuzzy
+msgid "meta_edit_element"
+msgstr "Edit %s"
+
+#, fuzzy
+msgid "meta_edit_element_success"
+msgstr "Element edited successfully"
+
+msgid "meta_editor"
+msgstr "Editor"
+
+msgid "meta_education"
+msgstr "Educação"
+
+msgid "meta_educational"
+msgstr "Educacional"
+
+msgid "meta_educational_level"
+msgstr "O utilizador tem acesso de leitura à administração de portefólio"
+
+msgid "meta_educational_objective"
+msgstr "O utilizador pode editar definições na administração de portefólio"
+
+#, fuzzy
+msgid "meta_educational_plural"
+msgstr "Educational"
+
+msgid "meta_educationalvalidator"
+msgstr "Validador educacional"
+
+msgid "meta_entity"
+msgstr "O utilizador pode mudar definições de permissões da administração de privacidade/segurança"
+
+#, fuzzy
+msgid "meta_entity_plural"
+msgstr "Entities"
+
+msgid "meta_entry"
+msgstr "O utilizador pode exportar dados dos membros em cursos e grupos"
+
+#, fuzzy
+msgid "meta_error_empty_input"
+msgstr "Please make sure that at least one of the following input fields is not empty."
+
+msgid "meta_exam"
+msgstr "O utilizador tem acesso de leitura à administração de privacidade/segurança"
+
+msgid "meta_exercise"
+msgstr "A administração de privacidade/segurança está visível"
+
+msgid "meta_experiment"
+msgstr "O utilizador pode editar definições na administração de privacidade/segurança"
+
+msgid "meta_expositive"
+msgstr "O utilizador pode copiar banco de perguntas para testes"
+
+msgid "meta_figure"
+msgstr "O utilizador pode mover ou apagar bancos de perguntas"
+
+msgid "meta_final"
+msgstr "Final"
+
+#, fuzzy
+msgid "meta_first_author"
+msgstr "First Author"
+
+msgid "meta_format"
+msgstr "O utilizador pode mudar as definições de permissões"
+
+#, fuzzy
+msgid "meta_format_plural"
+msgstr "Formats"
+
+#, fuzzy
+msgid "meta_full_editor_navigation_info"
+msgstr "To navigate and edit this metadata set, use the ‘LOM’-tree in the ‘Tools’ entry of the main menu."
+
+msgid "meta_general"
+msgstr "O utilizador pode ler perguntas do teste no banco e inseri-las nos testes"
+
+msgid "meta_global"
+msgstr "Global"
+
+msgid "meta_graph"
+msgstr "O banco de perguntas está visível"
+
+msgid "meta_graphicaldesigner"
+msgstr "Designer gráfico"
+
+msgid "meta_has_format"
+msgstr "O utilizador pode editar perguntas do teste e definições do banco de perguntas"
+
+msgid "meta_has_part"
+msgstr "Adicionar nova função local"
+
+msgid "meta_has_version"
+msgstr "Definições para ‘Mudar objetos existentes’"
+
+msgid "meta_hierarchical"
+msgstr "As definições de permissões desta função serão adotadas a TODOS os objetos existentes."
+
+msgid "meta_high"
+msgstr "Insira uma questão para selecionar as funções de destino."
+
+msgid "meta_higher_education"
+msgstr "Criar categorias"
+
+msgid "meta_id"
+msgstr "Id"
+
+msgid "meta_idea"
+msgstr "Criar link de categoria"
+
+msgid "meta_identifier"
+msgstr "Criar sala de chat"
+
+#, fuzzy
+msgid "meta_identifier_plural"
+msgstr "Identifiers"
+
+msgid "meta_index"
+msgstr "Criar objeto da Cloud"
+
+#, fuzzy
+msgid "meta_info_licence_section"
+msgstr "Licence and Use"
+
+msgid "meta_info_only_repository_objects"
+msgstr "Criar link de curso"
+
+msgid "meta_initiator"
+msgstr "Iniciador"
+
+msgid "meta_installation_remarks"
+msgstr "Criar pasta"
+
+msgid "meta_instructionaldesigner"
+msgstr "Criador de instruções"
+
+msgid "meta_intended_end_user_role"
+msgstr "Criar link de grupo"
+
+#, fuzzy
+msgid "meta_intended_end_user_role_plural"
+msgstr "Intended End User Roles"
+
+msgid "meta_interactivity_level"
+msgstr "Criar curso ECS"
+
+msgid "meta_interactivity_type"
+msgstr "Criar módulo de aprendizagem SCORM"
+
+msgid "meta_is_based_on"
+msgstr "Política local"
+
+msgid "meta_is_basis_for"
+msgstr "Tem de ser cumprido um subconjunto de pré-condições para dar acesso. Algumas pré-condições podem continuar a ser obrigatórias."
+
+msgid "meta_is_format_of"
+msgstr "Guardar obrigatório"
+
+msgid "meta_is_part_of"
+msgstr "Nenhum"
+
+msgid "meta_is_referenced_by"
+msgstr "O utilizador pode mover ou apagar o curso ECS"
+
+msgid "meta_is_required_by"
+msgstr "O utilizador pode mudar as definições de permissões"
+
+msgid "meta_is_version_of"
+msgstr "O utilizador pode usar o curso ECS"
+
+msgid "meta_keyword"
+msgstr "O curso ECS está visível"
+
+#, fuzzy
+msgid "meta_keyword_plural"
+msgstr "Keywords"
+
+msgid "meta_kind"
+msgstr "Tipo"
+
+msgid "meta_l_aa"
+msgstr "Afar"
+
+msgid "meta_l_ab"
+msgstr "Abkaziano"
+
+msgid "meta_l_af"
+msgstr "Africano"
+
+msgid "meta_l_am"
+msgstr "Amharico"
+
+# 14 Sep 2004 content changed
+msgid "meta_l_ar"
+msgstr "Arábe"
+
+msgid "meta_l_as"
+msgstr "Assamese"
+
+msgid "meta_l_ay"
+msgstr "Aimara"
+
+msgid "meta_l_az"
+msgstr "Azerbaijanes"
+
+msgid "meta_l_ba"
+msgstr "Bashkir"
+
+msgid "meta_l_be"
+msgstr "Bielorusso"
+
+# 14 Sep 2004 content changed
+msgid "meta_l_bg"
+msgstr "Búlgaro"
+
+msgid "meta_l_bh"
+msgstr "Bihari"
+
+msgid "meta_l_bi"
+msgstr "Bislama"
+
+msgid "meta_l_bn"
+msgstr "Bengali; Bangla"
+
+msgid "meta_l_bo"
+msgstr "Tibetano"
+
+msgid "meta_l_br"
+msgstr "Bretão"
+
+msgid "meta_l_ca"
+msgstr "Catalão"
+
+msgid "meta_l_co"
+msgstr "Corsicão"
+
+# 14 Sep 2004 content changed
+msgid "meta_l_cs"
+msgstr "Checo"
+
+msgid "meta_l_cy"
+msgstr "Welsh"
+
+# 14 Sep 2004 content changed
+msgid "meta_l_da"
+msgstr "Dinamarquês"
+
+# 14 Sep 2004 content changed
+msgid "meta_l_de"
+msgstr "Alemão"
+
+msgid "meta_l_dz"
+msgstr "Butanez"
+
+# 14 Sep 2004 content changed
+msgid "meta_l_el"
+msgstr "Grego"
+
+# 14 Sep 2004 content changed
+msgid "meta_l_en"
+msgstr "Inglês"
+
+msgid "meta_l_eo"
+msgstr "Esperanto"
+
+# 14 Sep 2004 content changed
+msgid "meta_l_es"
+msgstr "Espanhol"
+
+# 14 Sep 2004 content changed
+msgid "meta_l_et"
+msgstr "Estoniano"
+
+msgid "meta_l_eu"
+msgstr "Basco"
+
+msgid "meta_l_fa"
+msgstr "Persa (farsi)"
+
+msgid "meta_l_fi"
+msgstr "Finlandês"
+
+msgid "meta_l_fj"
+msgstr "Fiji"
+
+msgid "meta_l_fo"
+msgstr "Faroese"
+
+# 14 Sep 2004 content changed
+msgid "meta_l_fr"
+msgstr "Francês"
+
+msgid "meta_l_fy"
+msgstr "Frisian"
+
+msgid "meta_l_ga"
+msgstr "Irlândes"
+
+msgid "meta_l_gd"
+msgstr "Scots gaelic"
+
+msgid "meta_l_gl"
+msgstr "Galego"
+
+msgid "meta_l_gn"
+msgstr "Guarani"
+
+msgid "meta_l_gu"
+msgstr "Gujarati"
+
+msgid "meta_l_ha"
+msgstr "Hausa"
+
+msgid "meta_l_he"
+msgstr "Hebreu"
+
+msgid "meta_l_hi"
+msgstr "Hindi"
+
+msgid "meta_l_hr"
+msgstr "Croáta"
+
+# 14 Sep 2004 content changed
+msgid "meta_l_hu"
+msgstr "Húngaro"
+
+msgid "meta_l_hy"
+msgstr "Arménio"
+
+msgid "meta_l_ia"
+msgstr "Interlíngua"
+
+msgid "meta_l_id"
+msgstr "Indonésio"
+
+msgid "meta_l_ie"
+msgstr "Interlingue"
+
+msgid "meta_l_ik"
+msgstr "Inupiak"
+
+msgid "meta_l_is"
+msgstr "Islandês"
+
+# 14 Sep 2004 content changed
+msgid "meta_l_it"
+msgstr "Italiano"
+
+msgid "meta_l_iu"
+msgstr "Inuktitut"
+
+# 14 Sep 2004 content changed
+msgid "meta_l_ja"
+msgstr "Japonês"
+
+msgid "meta_l_jv"
+msgstr "Javanês"
+
+msgid "meta_l_ka"
+msgstr "Georgiano"
+
+msgid "meta_l_kk"
+msgstr "Kazakh"
+
+msgid "meta_l_kl"
+msgstr "Gronelandês"
+
+msgid "meta_l_km"
+msgstr "Cambodjiano"
+
+msgid "meta_l_kn"
+msgstr "Cannada"
+
+msgid "meta_l_ko"
+msgstr "Coreano"
+
+msgid "meta_l_ks"
+msgstr "Kashmiri"
+
+msgid "meta_l_ku"
+msgstr "Kurdish"
+
+msgid "meta_l_ky"
+msgstr "Kirghiz"
+
+msgid "meta_l_la"
+msgstr "Latin"
+
+msgid "meta_l_ln"
+msgstr "Lingala"
+
+msgid "meta_l_lo"
+msgstr "Laothian"
+
+# 14 Sep 2004 content changed
+msgid "meta_l_lt"
+msgstr "Lituano"
+
+msgid "meta_l_lv"
+msgstr "Latvian; Lettish"
+
+msgid "meta_l_mg"
+msgstr "Malagasy"
+
+msgid "meta_l_mi"
+msgstr "Maori"
+
+msgid "meta_l_mk"
+msgstr "Macedónio"
+
+msgid "meta_l_ml"
+msgstr "Malayalam"
+
+msgid "meta_l_mn"
+msgstr "Mongólio"
+
+msgid "meta_l_mo"
+msgstr "Moldávo"
+
+msgid "meta_l_mr"
+msgstr "Marathi"
+
+msgid "meta_l_ms"
+msgstr "Malay"
+
+msgid "meta_l_mt"
+msgstr "Maltese"
+
+msgid "meta_l_my"
+msgstr "Burmese"
+
+msgid "meta_l_na"
+msgstr "Nauru"
+
+msgid "meta_l_ne"
+msgstr "Nepali"
+
+# 14 Sep 2004 content changed
+msgid "meta_l_nl"
+msgstr "Holandês"
+
+msgid "meta_l_no"
+msgstr "Norueguês"
+
+msgid "meta_l_oc"
+msgstr "Occitan"
+
+msgid "meta_l_om"
+msgstr "Afan (oromo)"
+
+msgid "meta_l_or"
+msgstr "Oriya"
+
+msgid "meta_l_pa"
+msgstr "Punjabi"
+
+# 14 Sep 2004 content changed
+msgid "meta_l_pl"
+msgstr "Poláco"
+
+msgid "meta_l_ps"
+msgstr "Pashto;pushto"
+
+msgid "meta_l_pt"
+msgstr "Português"
+
+msgid "meta_l_qu"
+msgstr "Quechua"
+
+msgid "meta_l_rm"
+msgstr "Rhaeto-romance"
+
+msgid "meta_l_rn"
+msgstr "Kurundi"
+
+# 14 Sep 2004 content changed
+msgid "meta_l_ro"
+msgstr "Romeno"
+
+# 14 Sep 2004 content changed
+msgid "meta_l_ru"
+msgstr "Russo"
+
+msgid "meta_l_rw"
+msgstr "Kinyarwanda"
+
+msgid "meta_l_sa"
+msgstr "Sanskrit"
+
+msgid "meta_l_sd"
+msgstr "Sindhi"
+
+msgid "meta_l_sg"
+msgstr "Sangho"
+
+msgid "meta_l_sh"
+msgstr "Servo-croáta"
+
+msgid "meta_l_si"
+msgstr "Singhalese"
+
+# 14 Sep 2004 content changed
+msgid "meta_l_sk"
+msgstr "Eslováco"
+
+msgid "meta_l_sl"
+msgstr "Esloveno"
+
+msgid "meta_l_sm"
+msgstr "Samoan"
+
+msgid "meta_l_sn"
+msgstr "Shona"
+
+msgid "meta_l_so"
+msgstr "Somali"
+
+# 14 Sep 2004 content changed
+msgid "meta_l_sq"
+msgstr "Albanês"
+
+# 14 Sep 2004 content changed
+msgid "meta_l_sr"
+msgstr "Servio"
+
+msgid "meta_l_ss"
+msgstr "Siswati"
+
+msgid "meta_l_st"
+msgstr "Sesotho"
+
+msgid "meta_l_su"
+msgstr "Sundanês"
+
+msgid "meta_l_sv"
+msgstr "Suéco"
+
+msgid "meta_l_sw"
+msgstr "Swahili"
+
+msgid "meta_l_ta"
+msgstr "Tamil"
+
+msgid "meta_l_te"
+msgstr "Telugu"
+
+msgid "meta_l_tg"
+msgstr "Tajik"
+
+msgid "meta_l_th"
+msgstr "Thai"
+
+msgid "meta_l_ti"
+msgstr "Tigrinya"
+
+msgid "meta_l_tk"
+msgstr "Turkmen"
+
+msgid "meta_l_tl"
+msgstr "Tagalog"
+
+msgid "meta_l_tn"
+msgstr "Setswana"
+
+msgid "meta_l_to"
+msgstr "Tonga"
+
+# 14 Sep 2004 content changed
+msgid "meta_l_tr"
+msgstr "Turco"
+
+msgid "meta_l_ts"
+msgstr "Tsonga"
+
+msgid "meta_l_tt"
+msgstr "Tatar"
+
+msgid "meta_l_tw"
+msgstr "Twi"
+
+msgid "meta_l_ug"
+msgstr "Uigur"
+
+# 14 Sep 2004 content changed
+msgid "meta_l_uk"
+msgstr "Ucraniano"
+
+msgid "meta_l_ur"
+msgstr "Urdu"
+
+msgid "meta_l_uz"
+msgstr "Uzbek"
+
+# 14 Sep 2004 content changed
+msgid "meta_l_vi"
+msgstr "Vietnamês"
+
+msgid "meta_l_vo"
+msgstr "Volapuk"
+
+msgid "meta_l_wo"
+msgstr "Wolof"
+
+msgid "meta_l_xh"
+msgstr "Xhosa"
+
+#, fuzzy
+msgid "meta_l_xx"
+msgstr "none"
+
+msgid "meta_l_yi"
+msgstr "Yiddish"
+
+msgid "meta_l_yo"
+msgstr "Yoruba"
+
+msgid "meta_l_za"
+msgstr "Zhuang"
+
+# 14 Sep 2004 content changed
+msgid "meta_l_zh"
+msgstr "Chinês"
+
+msgid "meta_l_zu"
+msgstr "Zulu"
+
+msgid "meta_language"
+msgstr "Acesso de leitura para contas de utilizador"
+
+#, fuzzy
+msgid "meta_language_plural"
+msgstr "Languages"
+
+msgid "meta_learner"
+msgstr "O utilizador pode mudar definições de permissões da administração de objetos restaurados"
+
+msgid "meta_learning_resource_type"
+msgstr "O utilizador tem acesso de leitura à administração de objetos restaurados"
+
+#, fuzzy
+msgid "meta_learning_resource_type_plural"
+msgstr "Learning Resource Types"
+
+msgid "meta_lecture"
+msgstr "A administração de objetos restaurados está visível"
+
+msgid "meta_lifecycle"
+msgstr "Editar definições e restaurar objetos na administração de objetos restaurados"
+
+msgid "meta_linear"
+msgstr "Linear"
+
+msgid "meta_local"
+msgstr "Local"
+
+msgid "meta_location"
+msgstr "Bloquear função"
+
+#, fuzzy
+msgid "meta_location_plural"
+msgstr "Locations"
+
+#, fuzzy
+msgid "meta_lom"
+msgstr "Learning Object Metadata"
+
+#, fuzzy
+msgid "meta_lom_short"
+msgstr "LOM"
+
+msgid "meta_low"
+msgstr "Tem a certeza que quer mudar o estado de bloquear as funções escolhidas?"
+
+#, fuzzy
+msgid "meta_macos"
+msgstr "MAC-OS"
+
+msgid "meta_manager"
+msgstr "O utilizador tem acesso de leitura à administração de utilizadores"
+
+msgid "meta_maximum_version"
+msgstr "O utilizador tem acesso de leitura às contas de utilizador locais (administradores locais)"
+
+msgid "meta_medium"
+msgstr "A administração de utilizadores está visível"
+
+msgid "meta_meta_metadata"
+msgstr "O utilizador pode copiar um weblink"
+
+msgid "meta_metadatascheme"
+msgstr "Editar definições na administração de utilizadores"
+
+#, fuzzy
+msgid "meta_metadatascheme_plural"
+msgstr "Metadata Schemas"
+
+msgid "meta_minimum_version"
+msgstr "O utilizador pode mover ou apagar um weblink"
+
+msgid "meta_mixed"
+msgstr "O utilizador pode mudar as definições de permissões"
+
+#, fuzzy
+msgid "meta_ms-internet_explorer"
+msgstr "MS-Internet Explorer"
+
+#, fuzzy
+msgid "meta_ms-windows"
+msgstr "MS-Windows"
+
+#, fuzzy
+msgid "meta_multi-os"
+msgstr "Multi-OS"
+
+msgid "meta_name"
+msgstr "O utilizador pode ler e usar weblinks"
+
+msgid "meta_narrative_text"
+msgstr "O weblink está visível"
+
+#, fuzzy
+msgid "meta_netscape_communicator"
+msgstr "Netscape Communicator"
+
+msgid "meta_networked"
+msgstr "O utilizador pode editar definições de weblinks"
+
+msgid "meta_new_element"
+msgstr "O utilizador pode copiar um wiki"
+
+msgid "meta_no"
+msgstr "O utilizador pode mover ou apagar um wiki"
+
+#, fuzzy
+msgid "meta_none"
+msgstr "None"
+
+#, fuzzy
+msgid "meta_obj_type_active"
+msgstr "Dataset offered"
+
+msgid "meta_obj_type_inactive"
+msgstr "Escolha um nome para esta configuração de servidor"
+
+msgid "meta_obj_type_mandatory"
+msgstr "Função:"
+
+msgid "meta_obj_type_optional"
+msgstr "Sincronização de utilizador"
+
+msgid "meta_oer_copyright_selection"
+msgstr "Adicionar códigos"
+
+msgid "meta_oer_copyright_selection_info"
+msgstr "Exportar códigos"
+
+#, fuzzy
+msgid "meta_oer_editorial_category"
+msgstr "Editorial Category"
+
+#, fuzzy
+msgid "meta_oer_editorial_step_info"
+msgstr "Add a step in the publishing workflow where objects can be checked by an editorial team before being published. Objects are first submitted to the Editorial Category. Only after being accepted are they moved to the category for published OER content, and records for the OAI-PMH interface are compiled."
+
+#, fuzzy
+msgid "meta_oer_editorial_step_toggle"
+msgstr "Enable Editorial Step"
+
+#, fuzzy
+msgid "meta_oer_exposed_source"
+msgstr "Category for Published OER Content"
+
+#, fuzzy
+msgid "meta_oer_harvested_licences"
+msgstr "Licences for Harvesting"
+
+#, fuzzy
+msgid "meta_oer_harvested_types"
+msgstr "Types of Objects to be Harvested"
+
+msgid "meta_oer_harvester"
+msgstr "Número de códigos"
+
+msgid "meta_oer_harvester_desc"
+msgstr "Esta definição substitui quaisquer valores definidos em ‘Definições de registo’"
+
+#, fuzzy
+msgid "meta_oer_object_type_selection"
+msgstr "Harvested Object Types"
+
+#, fuzzy
+msgid "meta_opera"
+msgstr "Opera"
+
+msgid "meta_operating_system"
+msgstr "O código de registo fornecido está inválido ou já foi usado."
+
+msgid "meta_or_composite"
+msgstr "É obrigatório um código predefinido para o processo de registo."
+
+#, fuzzy
+msgid "meta_or_composite_plural"
+msgstr "Or Composites"
+
+msgid "meta_order"
+msgstr "Se tiver um código de registo, insira-o aqui."
+
+msgid "meta_other"
+msgstr "Não está selecionado nenhum código para exportação."
+
+msgid "meta_other_plattform_requirements"
+msgstr "Data de criação"
+
+#, fuzzy
+msgid "meta_pc-dos"
+msgstr "PC-DOS"
+
+msgid "meta_pointofcontact"
+msgstr "Atualmente não existe uma função valida para novas contas. Entre em contacto com o seu administrador."
+
+msgid "meta_prerequisite"
+msgstr "Registo com códigos"
+
+msgid "meta_problem_statement"
+msgstr "Este tipo permite o autrregistados utilizadores, mas requer um código válido."
+
+msgid "meta_publisher"
+msgstr "Todas as funções"
+
+#, fuzzy
+msgid "meta_publishing_config_cp"
+msgstr "Copyright Selection: <strong>%s</strong>"
+
+#, fuzzy
+msgid "meta_publishing_config_cron_job_admin"
+msgstr "Cron Job Administration"
+
+#, fuzzy
+msgid "meta_publishing_config_disabled"
+msgstr "Disabled"
+
+#, fuzzy
+msgid "meta_publishing_config_enabled"
+msgstr "Enabled"
+
+#, fuzzy
+msgid "meta_publishing_config_harvester"
+msgstr "OER Harvester: <strong>%s</strong>"
+
+#, fuzzy
+msgid "meta_publishing_config_status"
+msgstr "For publishing to function, copyright selection and the OER Harvester cron job have to be enabled."
+
+msgid "meta_purpose"
+msgstr "Aute ILIAS / Autorregisto"
+
+msgid "meta_questionnaire"
+msgstr "Códigos de registo"
+
+msgid "meta_references"
+msgstr "Definições de registo"
+
+msgid "meta_relation"
+msgstr "Data de utilização"
+
+#, fuzzy
+msgid "meta_relation_plural"
+msgstr "Relations"
+
+msgid "meta_requirement"
+msgstr "Editar novo mail da conta"
+
+#, fuzzy
+msgid "meta_requirement_plural"
+msgstr "Requirements"
+
+msgid "meta_requires"
+msgstr "Limite de acesso"
+
+msgid "meta_resource"
+msgstr "Após registo acesso para"
+
+msgid "meta_revised"
+msgstr "O acesso está limitado até"
+
+msgid "meta_rights"
+msgstr "Escolha para todas as funções um modo de limitação do acesso"
+
+msgid "meta_role"
+msgstr "Modo limite de acesso"
+
+msgid "meta_save_order"
+msgstr "O acesso está limitado por uma data fixa"
+
+msgid "meta_school"
+msgstr "Acesso limitado por período de tempo fixo após registo"
+
+msgid "meta_scriptwriter"
+msgstr "Autor do script"
+
+#, fuzzy
+msgid "meta_second_author"
+msgstr "Second Author"
+
+msgid "meta_section"
+msgstr "Secção"
+
+msgid "meta_security_level"
+msgstr "Sem limite de acesso"
+
+msgid "meta_self_assessment"
+msgstr "Acesso ilimitado"
+
+msgid "meta_semantic_density"
+msgstr "Uma ou mais funções têm um limite de acesso desatualizado!"
+
+msgid "meta_simulation"
+msgstr "Nova atribuição adicionada."
+
+msgid "meta_size"
+msgstr "Nova atribuição"
+
+msgid "meta_skill_level"
+msgstr "Domínios de endereço de e-mail permitidos"
+
+msgid "meta_slide"
+msgstr "Deslizar"
+
+msgid "meta_source"
+msgstr "Usar * como asterisco e ; como separador. Os códigos de registo substituem essas regras."
+
+msgid "meta_status"
+msgstr "Permitir códigos"
+
+#, fuzzy
+msgid "meta_string"
+msgstr "Text"
+
+msgid "meta_structure"
+msgstr "Os utilizadores estão também autorizados a registar-se via códigos."
+
+msgid "meta_tab_advmd"
+msgstr "Metadados personalizados"
+
+msgid "meta_tab_advmd_def"
+msgstr "Definição de metadados personalizados"
+
+msgid "meta_tab_lom"
+msgstr "LOM"
+
+msgid "meta_table"
+msgstr "Se estiver selecionado, qualquer novo registo de utilizador tem de ser aprovado por um administrador."
+
+msgid "meta_taxon"
+msgstr "Táxon"
+
+msgid "meta_taxon_path"
+msgstr "Deve definir no mínimo um utilizador que será notificado sobre os novos registos, se for escolhido o tipo de registo ‘Registo com aprovação’."
+
+#, fuzzy
+msgid "meta_taxon_path_plural"
+msgstr "Taxon Paths"
+
+#, fuzzy
+msgid "meta_taxon_plural"
+msgstr "Taxons"
+
+msgid "meta_teacher"
+msgstr "Funções disponíveis:"
+
+msgid "meta_technical"
+msgstr "Duração"
+
+msgid "meta_technicalimplementer"
+msgstr "Implementador técnico"
+
+msgid "meta_technicalvalidator"
+msgstr "Validador técnico"
+
+msgid "meta_terminator"
+msgstr "Terminador"
+
+#, fuzzy
+msgid "meta_third_author"
+msgstr "Third Author"
+
+msgid "meta_title"
+msgstr "O link de confirmação já não é válido. Registe-se novamente!"
+
+msgid "meta_training"
+msgstr "Insira a duração (segundos) dos links de confirmação. O valor recomendado é 1800 segundos."
+
+msgid "meta_type"
+msgstr "Não foi possível fazer corresponder nenhuma conta de utilizador a este link de confirmação."
+
+msgid "meta_typical_age_range"
+msgstr "Entregou com sucesso um pedido de conta a ILIAS. Vai receber um e-mail de confirmação nos próximos minutos. Confirme o seu registo clicando no link de confirmação neste mail.<br />Será redirecionado para o <a href=\"%s\" title=\"login screen\">ecrã de login</a> após 20 segundos."
+
+#, fuzzy
+msgid "meta_typical_age_range_plural"
+msgstr "Typical Age Ranges"
+
+msgid "meta_typical_learning_time"
+msgstr "Predefinição"
+
+msgid "meta_unavailable"
+msgstr "Atribuição(atribuições) apagada(s)."
+
+#, fuzzy
+msgid "meta_unix"
+msgstr "Unix"
+
+msgid "meta_unknown"
+msgstr "Desconhecido"
+
+msgid "meta_validator"
+msgstr "Validador"
+
+msgid "meta_value"
+msgstr "Registo direto"
+
+msgid "meta_version"
+msgstr "Se estiver selecionado, qualquer novo pedido de registo do utilizador será automaticamente aprovado."
+
+msgid "meta_very_difficult"
+msgstr "Nenhum registo possível"
+
+msgid "meta_very_easy"
+msgstr "Domínio"
+
+msgid "meta_very_high"
+msgstr "Atribuição automática de função"
+
+msgid "meta_very_low"
+msgstr "Os seguintes domínios de endereço de e-mail são válidos: %s"
+
+msgid "meta_yes"
+msgstr "Atribuição de funções por domínio"
+
+#, fuzzy
+msgid "udf_type_address"
+msgstr "Address"
+
+msgid "udf_type_externallink"
+msgstr "Link externo"
+
+msgid "udf_type_float"
+msgstr "Flutuar"
+
+msgid "udf_type_integer"
+msgstr "Inteiro"
+
+msgid "udf_type_internallink"
+msgstr "Link interno"
+
+msgid "udf_type_location"
+msgstr "Localização"
+
+msgid "udf_type_selectmulti"
+msgstr "Seleção da lista especificada"

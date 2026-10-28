@@ -1,0 +1,267 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: rep\n"
+
+msgid "btn_undelete_new_location"
+msgstr "Restaurar (nueva ubicación)"
+
+msgid "btn_undelete_origin_location"
+msgstr "Restaurar (misma ubicación)"
+
+msgid "rep_activation_access"
+msgstr "Acceso"
+
+msgid "rep_activation_access_ref_info"
+msgstr "Esta configuración solo afecta a esta referencia y no a ninguna otra en el repositorio."
+
+msgid "rep_activation_availability"
+msgstr "Disponibilidad"
+
+msgid "rep_activation_limited_end"
+msgstr "Fin"
+
+msgid "rep_activation_limited_start"
+msgstr "Inicio"
+
+msgid "rep_activation_limited_visibility"
+msgstr "Siempre visible"
+
+msgid "rep_activation_online"
+msgstr "En línea"
+
+msgid "rep_activation_online_object_info"
+msgstr "Esta configuración afecta a todas las referencias en el repositorio."
+
+msgid "rep_add_new_def_grp_assessment"
+msgstr "Evaluación"
+
+msgid "rep_add_new_def_grp_communication"
+msgstr "Comunicación"
+
+msgid "rep_add_new_def_grp_content"
+msgstr "Contenido"
+
+msgid "rep_add_new_def_grp_feedback"
+msgstr "Feedback y Evaluación"
+
+msgid "rep_add_new_def_grp_organisation"
+msgstr "Organización"
+
+msgid "rep_add_new_def_grp_templates"
+msgstr "Plantillas"
+
+msgid "rep_added_rec_content"
+msgstr "Se ha añadido el contenido recomendado."
+
+msgid "rep_allowed_types"
+msgstr "Tipos permitidos"
+
+msgid "rep_breadcr_crs"
+msgstr "La ruta de navegación comienza con el curso"
+
+msgid "rep_breadcr_crs_config"
+msgstr "Configuración"
+
+msgid "rep_breadcr_crs_overwrite"
+msgstr "La configuración se puede cambiar a nivel de curso"
+
+msgid "rep_breadcr_crs_overwrite_not"
+msgstr "La configuración no se puede cambiar a nivel de curso"
+
+msgid "rep_breadcr_crs_overwrite_settings"
+msgstr "Permitir excepciones"
+
+msgid "rep_breadcr_crs_overwrite_with_default"
+msgstr "La configuración se puede cambiar a nivel de curso, siendo esta la predeterminada"
+
+msgid "rep_configure"
+msgstr "Configurar"
+
+msgid "rep_crs_default_shortened"
+msgstr "Predeterminado: Rutas de navegación acortadas"
+
+msgid "rep_custom_icons"
+msgstr "Iconos personalizados"
+
+msgid "rep_default"
+msgstr "Predeterminado"
+
+msgid "rep_deleted_account"
+msgstr "Cuenta eliminada"
+
+msgid "rep_dependencies"
+msgstr "Dependencias"
+
+msgid "rep_dependency"
+msgstr "Dependencia"
+
+msgid "rep_dependent_object"
+msgstr "Recurso con dependencia"
+
+msgid "rep_export_limit_number"
+msgstr "Número de objetos"
+
+msgid "rep_export_limitation"
+msgstr "Limitación de exportación de contenedores"
+
+msgid "rep_export_limitation_disabled"
+msgstr "Exportación de contenedores desactivada"
+
+msgid "rep_export_limitation_info"
+msgstr "Limita el número de objetos para las exportaciones de contenedores (cursos, categorías, ...) en el repositorio."
+
+msgid "rep_export_limitation_limited"
+msgstr "Limitar exportación"
+
+msgid "rep_export_limitation_unlimited"
+msgstr "Exportación ilimitada"
+
+msgid "rep_failure_trashed_trash"
+msgstr "Ha seleccionado objetos que no pueden restaurarse a su ubicación original porque sus objetos superiores fueron eliminados. Por favor, desmarque el objeto correspondiente en la tabla o seleccione Restaurar en una ubicación nueva en su lugar."
+
+msgid "rep_fav_intro1"
+msgstr "Aún no ha seleccionado ningún favorito. Para ello, debe seguir dos pasos:"
+
+msgid "rep_fav_intro2"
+msgstr "Haga clic en '%s' y seleccione un objeto de aprendizaje entre las opciones disponibles, por ejemplo, un módulo de aprendizaje o un foro."
+
+msgid "rep_fav_intro3"
+msgstr "Cuando encuentre algo que le interese, puede añadirlo fácilmente a sus favoritos. En el menú <i>Acciones</i> del elemento deseado, seleccione «<i>Añadir a favoritos</i>»."
+
+msgid "rep_favourites"
+msgstr "Favoritos"
+
+msgid "rep_favourites_info"
+msgstr "Los usuarios pueden marcar elementos individuales del repositorio como favoritos. Las listas de favoritos se pueden activar y configurar en los ajustes del tablero y del menú."
+
+msgid "rep_input_not_empty"
+msgstr "Este campo no puede estar vacío, por favor proporcione un valor."
+
+msgid "rep_intro"
+msgstr "¡Bienvenido al Repositorio!"
+
+msgid "rep_intro1"
+msgstr "En esta área puede crear recursos de aprendizaje y trabajo para todos los usuarios. Todos los recursos se organizan en categorías. Las categorías pueden reflejar la estructura de su organización (por ejemplo, departamentos), una jerarquía de disciplinas o las clases de una escuela."
+
+msgid "rep_intro2"
+msgstr "Se necesitan tres pasos para construir una estructura inicial:"
+
+msgid "rep_intro3"
+msgstr "Haga clic en el botón <i>%s</i> junto a la lista de selección en la parte superior derecha."
+
+msgid "rep_intro4"
+msgstr "En el siguiente formulario, introduzca un título y una descripción, y haga clic en <i>%s</i>."
+
+msgid "rep_intro5"
+msgstr "Al hacer clic en el título de la categoría, entrará en su categoría."
+
+msgid "rep_intro6"
+msgstr "Tras ese procedimiento, podrá añadir cualquier recurso de aprendizaje o trabajo a su categoría."
+
+msgid "rep_mo_mem_dash"
+msgstr "Actualmente no es miembro de ningún curso o grupo."
+
+msgid "rep_multiple_reference_deletion_instruction"
+msgstr "Por favor, seleccione las que también deban ser eliminadas:"
+
+msgid "rep_multiple_reference_deletion_intro"
+msgstr "Existen más referencias para este objeto."
+
+msgid "rep_new_item_group_add"
+msgstr "Añadir agrupación"
+
+msgid "rep_new_item_group_delete_sure"
+msgstr "¿Está seguro de que desea eliminar las siguientes agrupaciones?"
+
+msgid "rep_new_item_group_edit"
+msgstr "Editar agrupación"
+
+msgid "rep_new_item_group_nr_subitems"
+msgstr "Número de objetos asignados"
+
+msgid "rep_new_item_group_other"
+msgstr "Otros"
+
+msgid "rep_new_item_group_unassigned"
+msgstr "No asignado"
+
+msgid "rep_new_item_group_unassigned_subitems"
+msgstr "Número de objetos no asignados: %s"
+
+msgid "rep_new_item_groups"
+msgstr "Agrupación"
+
+msgid "rep_new_item_menu"
+msgstr "Menú ‘Añadir nuevo elemento’"
+
+msgid "rep_no_last_visited_mess"
+msgstr "Aún no ha visitado ningún objeto en el Repositorio."
+
+msgid "rep_no_permission_to_delete"
+msgstr "No tiene permiso para eliminar"
+
+msgid "rep_object_lists"
+msgstr "Listas de objetos"
+
+msgid "rep_object_references_cannot_be_read"
+msgstr "Sin permisos para %s referencias más."
+
+msgid "rep_object_to_delete"
+msgstr "Para eliminar"
+
+msgid "rep_rec_content_removed"
+msgstr "El contenido recomendado ha sido eliminado."
+
+msgid "rep_recommended_content"
+msgstr "Contenido recomendado"
+
+msgid "rep_remove_rec_content"
+msgstr "¿Está seguro de que desea eliminar el siguiente contenido recomendado?"
+
+msgid "rep_target_location"
+msgstr "Ubicación de destino"
+
+msgid "rep_target_location_info"
+msgstr "Por favor, seleccione ahora el destino en el que deben restaurarse los objetos seleccionados."
+
+msgid "rep_time_based_availability"
+msgstr "Periodo de disponibilidad limitado"
+
+msgid "rep_time_based_availability_info"
+msgstr "Los elementos seleccionados solo serán visibles entre la fecha de inicio y la de fin."
+
+msgid "rep_time_period"
+msgstr "Periodo"
+
+msgid "rep_trash_deleted_by_unknown"
+msgstr "Desconocido"
+
+msgid "rep_trash_table_col_deleted_by"
+msgstr "Eliminado por"
+
+msgid "rep_trash_table_col_deleted_on"
+msgstr "Eliminado el"
+
+msgid "rep_trash_table_col_num_subs"
+msgstr "Número de subelementos"
+
+msgid "rep_trash_table_title"
+msgstr "Objetos eliminados a continuación:"
+
+msgid "rep_tree_limit"
+msgstr "Limitar elementos en el árbol"
+
+msgid "rep_tree_limit_info"
+msgstr "El número de objetos en el árbol del repositorio se limitará para mejorar el rendimiento."
+
+msgid "rep_tree_limit_number"
+msgstr "Número máximo"
+
+msgid "rep_tree_limit_number_info"
+msgstr "Número máximo de elementos hijos que se muestran inicialmente para un nodo expandido. Si hay más elementos hijos presentes, se muestra un campo de entrada de búsqueda para filtrar los elementos hijos por título."

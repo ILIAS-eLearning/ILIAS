@@ -1,0 +1,279 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: rep\n"
+
+msgid "btn_undelete_new_location"
+msgstr "Ripristino (nuova posizione)"
+
+msgid "btn_undelete_origin_location"
+msgstr "Ripristino (stessa posizione)"
+
+msgid "rep_activation_access"
+msgstr "Accesso"
+
+msgid "rep_activation_access_ref_info"
+msgstr "Questa impostazione influisce solo su questo e nessun altro riferimento nel repository."
+
+msgid "rep_activation_availability"
+msgstr "Disponibilità"
+
+msgid "rep_activation_limited_end"
+msgstr "Orario di fine"
+
+msgid "rep_activation_limited_start"
+msgstr "Orario di inizio"
+
+msgid "rep_activation_limited_visibility"
+msgstr "Sempre visibile"
+
+msgid "rep_activation_online"
+msgstr "Online"
+
+msgid "rep_activation_online_object_info"
+msgstr "Questa impostazione influisce su tutti i riferimenti nel repository."
+
+msgid "rep_add_new_def_grp_assessment"
+msgstr "Stima"
+
+msgid "rep_add_new_def_grp_communication"
+msgstr "Trasmissione di informazioni"
+
+msgid "rep_add_new_def_grp_content"
+msgstr "Contenuto"
+
+msgid "rep_add_new_def_grp_feedback"
+msgstr "Feedback e valutazione"
+
+msgid "rep_add_new_def_grp_organisation"
+msgstr "Organizzazione"
+
+msgid "rep_add_new_def_grp_templates"
+msgstr "Modelli"
+
+msgid "rep_added_rec_content"
+msgstr "Il contenuto raccomandato è stato aggiunto."
+
+#, fuzzy
+msgid "rep_allowed_types"
+msgstr "Allowed Types"
+
+msgid "rep_breadcr_crs"
+msgstr "Breadcrumb inizia con corso"
+
+#, fuzzy
+msgid "rep_breadcr_crs_config"
+msgstr "Configuration"
+
+msgid "rep_breadcr_crs_overwrite"
+msgstr "L'impostazione è modificabile a livello di corso"
+
+msgid "rep_breadcr_crs_overwrite_not"
+msgstr "L'impostazione non è modificabile a livello di corso"
+
+#, fuzzy
+msgid "rep_breadcr_crs_overwrite_settings"
+msgstr "Allow Exceptions"
+
+#, fuzzy
+msgid "rep_breadcr_crs_overwrite_with_default"
+msgstr "Setting is changeable on course level, with this as default"
+
+msgid "rep_configure"
+msgstr "Configura"
+
+#, fuzzy
+msgid "rep_crs_default_shortened"
+msgstr "Default: Breadcrumbs Shortened"
+
+msgid "rep_custom_icons"
+msgstr "Icone personalizzate"
+
+msgid "rep_default"
+msgstr "Predefinito"
+
+#, fuzzy
+msgid "rep_deleted_account"
+msgstr "Deleted Account"
+
+msgid "rep_dependencies"
+msgstr "Dipendenze"
+
+msgid "rep_dependency"
+msgstr "Dipendenza"
+
+msgid "rep_dependent_object"
+msgstr "Risorse con dipendenza"
+
+msgid "rep_export_limit_number"
+msgstr "Numero di oggetti"
+
+msgid "rep_export_limitation"
+msgstr "Limitazione all'esportazione di container"
+
+msgid "rep_export_limitation_disabled"
+msgstr "Esportazione del contenitore disabilitata"
+
+msgid "rep_export_limitation_info"
+msgstr "Limita il numero di oggetti per le esportazioni di contenitori (corsi, categorie, ...) nel repository."
+
+msgid "rep_export_limitation_limited"
+msgstr "Limite di esportazione"
+
+#, fuzzy
+msgid "rep_export_limitation_unlimited"
+msgstr "Unlimited Export"
+
+msgid "rep_failure_trashed_trash"
+msgstr "Hai selezionato degli oggetti che non possono essere ripristinati nella loro posizione originale, perché i loro oggetti genitori sono stati cancellati. Deseleziona il rispettivo oggetto nella tabella o seleziona invece la voce Ripristina in nuova posizione."
+
+msgid "rep_fav_intro1"
+msgstr "Al momento non hai selezionato nessun favorito. Per fare questo, è necessario fare due passi:"
+
+msgid "rep_fav_intro2"
+msgstr "Clicca su '%s' e seleziona un oggetto di apprendimento dall'offerta disponibile, per esempio un modulo di apprendimento o un forum."
+
+msgid "rep_fav_intro3"
+msgstr "Quando hai trovato qualcosa che ti interessa, puoi facilmente aggiungerlo ai tuoi preferiti. Seleziona l'opzione \"<i>Aggiungi ai preferiti</i>\" nel menu <i>Azioni</i> per l'oggetto desiderato."
+
+#, fuzzy
+msgid "rep_favourites"
+msgstr "Favourites"
+
+#, fuzzy
+msgid "rep_favourites_info"
+msgstr "Users can mark single repository items as favourites. Favourites lists can be activated and configured in the dashboard and menu settings."
+
+#, fuzzy
+msgid "rep_input_not_empty"
+msgstr "This field must not be empty, please provide a value."
+
+msgid "rep_intro"
+msgstr "Benvenuto nel Repository!"
+
+msgid "rep_intro1"
+msgstr "In quest'area puoi creare risorse didattiche e di lavoro per tutti gli Utenti. Tutte le risorse sono organizzate in Categorie. le Categorie possono riflettere la struttura della tua organizzazione, ad esempio uffici, dipartimenti, ecc., una gerarchia di discipline, o le classi di una scuola."
+
+msgid "rep_intro2"
+msgstr "Sono richiesti tre passi per costruire una struttura iniziale:"
+
+msgid "rep_intro3"
+msgstr "Clicca sul pulsante <i>%s</i> a lato della lista di selezione, in alto a destra."
+
+msgid "rep_intro4"
+msgstr "Nella seguente forma, inserisci un titolo e una descrizione e clicca su <i>%s</i>."
+
+msgid "rep_intro5"
+msgstr "Cliccando sul titolo della categoria, puoi entrare nella Categoria."
+
+msgid "rep_intro6"
+msgstr "Dopo questa procedura puoi aggiungere qualsiasi risorsa, didattica e di lavoro, alla tua categoria"
+
+msgid "rep_mo_mem_dash"
+msgstr "Non sei attualmente membro di un corso o di un gruppo."
+
+msgid "rep_multiple_reference_deletion_instruction"
+msgstr "Si prega di selezionare quello che dovrebbe essere eliminato:"
+
+msgid "rep_multiple_reference_deletion_intro"
+msgstr "Per questo oggetto esistono ulteriori riferimenti."
+
+msgid "rep_new_item_group_add"
+msgstr "Aggiungi Gruppo"
+
+msgid "rep_new_item_group_delete_sure"
+msgstr "Sei sicuro di voler eliminare i seguenti gruppi?"
+
+msgid "rep_new_item_group_edit"
+msgstr "Modifica raggruppamento"
+
+msgid "rep_new_item_group_nr_subitems"
+msgstr "Numero degli oggetti assegnati"
+
+msgid "rep_new_item_group_other"
+msgstr "Altro"
+
+msgid "rep_new_item_group_unassigned"
+msgstr "Non assegnato"
+
+msgid "rep_new_item_group_unassigned_subitems"
+msgstr "Numero degli oggetti non assegnati: %s"
+
+msgid "rep_new_item_groups"
+msgstr "Nuovi Item Group"
+
+msgid "rep_new_item_menu"
+msgstr "\"Menu\" Aggiungi nuovo elemento"
+
+msgid "rep_no_last_visited_mess"
+msgstr "Non hai ancora visitato nessuna risorsa."
+
+msgid "rep_no_permission_to_delete"
+msgstr "Nessuna autorizzazione per eliminare"
+
+msgid "rep_object_lists"
+msgstr "Liste oggetti"
+
+msgid "rep_object_references_cannot_be_read"
+msgstr "Nessuna autorizzazione per %s maggiori riferimenti."
+
+msgid "rep_object_to_delete"
+msgstr "Da eliminare"
+
+msgid "rep_rec_content_removed"
+msgstr "Il contenuto raccomandato è stato rimosso."
+
+msgid "rep_recommended_content"
+msgstr "Contenuto raccomandato"
+
+msgid "rep_remove_rec_content"
+msgstr "Sei sicuro di voler rimuovere il seguente contenuto raccomandato?"
+
+msgid "rep_target_location"
+msgstr "Posizione target"
+
+msgid "rep_target_location_info"
+msgstr "Seleziona ora la destinazione dove gli oggetti selezionati devono essere ripristinati."
+
+#, fuzzy
+msgid "rep_time_based_availability"
+msgstr "Limited Availability Period"
+
+#, fuzzy
+msgid "rep_time_based_availability_info"
+msgstr "The selected items will only be visible between the start and end date."
+
+msgid "rep_time_period"
+msgstr "Periodo"
+
+msgid "rep_trash_deleted_by_unknown"
+msgstr "Sconosciuto"
+
+msgid "rep_trash_table_col_deleted_by"
+msgstr "Cancellato da"
+
+msgid "rep_trash_table_col_deleted_on"
+msgstr "Cancellato il"
+
+msgid "rep_trash_table_col_num_subs"
+msgstr "Numero di sottoggetti"
+
+msgid "rep_trash_table_title"
+msgstr "Oggetti cancellati di seguito:"
+
+msgid "rep_tree_limit"
+msgstr "Limitare gli elementi nell'albero"
+
+msgid "rep_tree_limit_info"
+msgstr "Il numero di oggetti nell'albero del repository sarà limitato per migliorare le prestazioni."
+
+msgid "rep_tree_limit_number"
+msgstr "Numero massimo"
+
+msgid "rep_tree_limit_number_info"
+msgstr "Numero massimo di elementi figli che sono inizialmente mostrati per un nodo espanso. Se sono presenti più elementi figli, viene mostrato un campo di input di ricerca per filtrare gli elementi figli per titolo."

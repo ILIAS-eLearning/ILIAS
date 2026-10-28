@@ -1,0 +1,550 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sl\n"
+"Language-Team: Slovenian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=4; plural=(n % 100 == 1) ? 0 : ((n % 100 == 2) ? 1 : ((n % 100 == 3 || n % 100 == 4) ? 2 : 3));\n"
+"X-Domain: grp\n"
+
+msgid "crs_add_grouping"
+msgstr "Nova omejitev članstva"
+
+msgid "crs_grouping_delete_sure"
+msgstr "Ali ste prepričani, da želite odstraniti to omejitev članstva?"
+
+msgid "crs_grouping_deleted"
+msgstr "Omejitev članstva je bila izbrisana."
+
+msgid "crs_grouping_select_one"
+msgstr "Izberite."
+
+msgid "crs_grp_added_grouping"
+msgstr "Nova omejitev članstva je bila ustvarjena."
+
+msgid "crs_grp_assign_crs"
+msgstr "Dodelitev skupin"
+
+msgid "crs_grp_no_courses_assigned"
+msgstr "Nobena skupina ni dodeljena."
+
+msgid "events"
+msgstr "Seje"
+
+msgid "grouping_change_assignment"
+msgstr "Spremeni dodelitev"
+
+msgid "grp_activate_notification"
+msgstr "Aktiviraj obveščanje"
+
+#, fuzzy
+msgid "grp_activation_online_info"
+msgstr "Set the group online to make it visible and available for group members. If not, only group administrators and roles with permission \"Edit Settings\" have access to it."
+
+msgid "grp_add_to_group"
+msgstr "Dodaj v skupino"
+
+msgid "grp_add_user"
+msgstr "Dodaj uporabnika"
+
+msgid "grp_add_user_to_group"
+msgstr "Dodaj uporabnika v skupino"
+
+msgid "grp_added_to_list"
+msgstr "Uvrščeni ste na čakalni seznam skupine \"%s\".<br />Ste na mestu %s čakalnega seznama."
+
+msgid "grp_admins"
+msgstr "Administratorji"
+
+msgid "grp_admission_link_failure_invalid_code"
+msgstr "Pridružitev ni mogoča. Povezava ni veljavna."
+
+msgid "grp_admission_link_failure_membership_limited"
+msgstr "Pridružitev ni mogoča. Število članov skupine je omejeno."
+
+msgid "grp_admission_link_failure_registration_period"
+msgstr "Pridružitev ni mogoča. Skupina je izven obdobja dostopa."
+
+msgid "grp_admission_link_success_registration"
+msgstr "Uspešna prijava v skupino \"%s\"."
+
+msgid "grp_agree"
+msgstr "Soglasje"
+
+msgid "grp_agreement_header"
+msgstr "Pogoji uporabe"
+
+msgid "grp_agreement_required"
+msgstr "Do vsebine skupine lahko dostopate le, če se strinjate s pogoji uporabe."
+
+msgid "grp_already_assigned"
+msgstr "Za to skupino ste že oddali prošnjo za sprejem."
+
+msgid "grp_at_least_one_admin"
+msgstr "Ta skupina mora imeti vsaj enega administratorja."
+
+msgid "grp_auto_notification"
+msgstr "Welcome-Mail For New Members"
+
+msgid "grp_auto_notification_info"
+msgstr "New members get a mail notification when added to the group."
+
+msgid "grp_cancel_subscr_request"
+msgstr "Umakni prošnjo za članstvo"
+
+msgid "grp_cancellation_end"
+msgstr "Rok za stornacijo"
+
+msgid "grp_cancellation_end_info"
+msgstr "Samo do določenega datuma lahko člani sami prekinejo članstvo v skupini."
+
+msgid "grp_cancellation_end_rbac_info"
+msgstr "Rok za stornacijo je bil %s, izstop ni več mogoč."
+
+msgid "grp_cdf_edit_member"
+msgstr "Uredi uporabniške podatke, specifične za skupino"
+
+msgid "grp_cdf_tbl_last_edit"
+msgstr "Posodobljeno (podatki, specifični za skupino)"
+
+msgid "grp_change_type"
+msgstr "Spremeni vrsto skupine"
+
+msgid "grp_contact"
+msgstr "Podpora"
+
+msgid "grp_copy"
+msgstr "Kopiraj skupino"
+
+msgid "grp_create_and_add_user"
+msgstr "Ustvari in dodaj"
+
+msgid "grp_create_new"
+msgstr "Ustvari novo skupino"
+
+msgid "grp_create_new_grp_in"
+msgstr "Ustvari novo skupino v '%1'."
+
+msgid "grp_create_or_use_existing"
+msgstr "Ali želite dodati uporabnika v obstoječo skupino ali ustvariti novo skupino?"
+
+msgid "grp_created_and_user_been_added"
+msgstr "Skupina je bila ustvarjena in dodani uporabniki."
+
+msgid "grp_custom_user_fields"
+msgstr "Uporabniški podatki, specifični za skupino"
+
+#, fuzzy
+msgid "grp_custom_user_fields_infobox"
+msgstr "Create additional data fields for group members to fill in when they join. You can show this information as an additional column in the \"Members\" tab."
+
+#, fuzzy
+msgid "grp_custom_user_fields_table_title"
+msgstr "Relevant User Data of This Group"
+
+msgid "grp_deactivate_notification"
+msgstr "Onemogoči obveščanje"
+
+msgid "grp_enable_map"
+msgstr "Aktiviraj skupinski zemljevid"
+
+msgid "grp_err_registration_limited"
+msgstr "Vnesite veljaven začetni in končni datum registracije."
+
+msgid "grp_general_informations"
+msgstr "Splošne informacije"
+
+msgid "grp_grp_info_reg"
+msgstr "Za naslednje skupine velja omejitev članstva. Pridružite se lahko samo eni od teh skupin:"
+
+msgid "grp_grp_open"
+msgstr "Odpri skupino"
+
+msgid "grp_header_delete_members"
+msgstr "Ali želite naslednje člane odstraniti iz skupine?"
+
+msgid "grp_header_waiting_list"
+msgstr "Čakalni seznam"
+
+msgid "grp_icon_settings"
+msgstr "Ikona"
+
+msgid "grp_import"
+msgstr "Uvozi skupino"
+
+msgid "grp_info_agree"
+msgstr "Strinjam se, da so zgoraj navedeni podatki vidni administratorjem skupine."
+
+msgid "grp_info_agreement"
+msgstr "Administratorji skupine imajo vpogled v naslednje podatke:"
+
+msgid "grp_info_new_grp_type"
+msgstr "Nova vrsta skupine"
+
+msgid "grp_info_settings"
+msgstr "Informacije o skupini"
+
+msgid "grp_information"
+msgstr "Pomembne informacije"
+
+msgid "grp_information_info"
+msgstr "Tukaj navedene informacije bodo prikazane na strani z informacijami in pri prijavi v skupino."
+
+msgid "grp_join_request"
+msgstr "Odpošlji"
+
+msgid "grp_lim_assigned"
+msgstr "Že član skupine \"%s\"."
+
+msgid "grp_mail_admission_new_bod"
+msgstr "Sprejeti ste bili v skupino \"%s\" kot član."
+
+msgid "grp_mail_admission_new_sub"
+msgstr "Članstvo v skupini \"%s\""
+
+msgid "grp_mail_all"
+msgstr "Za vse člane"
+
+msgid "grp_mail_all_info"
+msgstr "Člani in administratorji lahko uporabljajo funkcijo \"Pošta za člane\" v zavihku \"Člani\"."
+
+msgid "grp_mail_dismiss_bod"
+msgstr "Vaše članstvo v skupini \"%s\" je bilo prekinjeno."
+
+msgid "grp_mail_dismiss_sub"
+msgstr "Članstvo v skupini \"%s\" je prekinjeno"
+
+msgid "grp_mail_notification_reg_bod"
+msgstr "%s se je pridružil/-a skupini \"%s\"."
+
+msgid "grp_mail_notification_reg_req_bod"
+msgstr "%s je oddal/-a prošnjo za sprejem v skupino \"%s\"."
+
+msgid "grp_mail_notification_reg_req_bod2"
+msgstr "Za dodajanje uporabnika v skupino ali zavrnitev prošnje morate dostopiti do upravljanja članov. Za to kliknite na naslednjo povezavo:"
+
+msgid "grp_mail_notification_reg_req_sub"
+msgstr "Prošnja za sprejem v skupino \"%s\""
+
+msgid "grp_mail_notification_reg_sub"
+msgstr "Novo članstvo v skupini \"%s\""
+
+msgid "grp_mail_notification_unsub_bod"
+msgstr "udeleženec/udeleženka \"%s\" je prekinil/-a članstvo v skupini \"%s\"."
+
+msgid "grp_mail_notification_unsub_bod2"
+msgstr "Morda so na čakalni seznam te skupine dodani udeleženci. Za prikaz seznama udeležencev kliknite na naslednjo povezavo:"
+
+msgid "grp_mail_notification_unsub_sub"
+msgstr "Izstop iz skupine \"%s\""
+
+msgid "grp_mail_permanent_link"
+msgstr "Za dostop do vsebine skupine kliknite na naslednjo povezavo:"
+
+msgid "grp_mail_status_bod"
+msgstr "Vaš status v skupini \"%s\" je bil spremenjen."
+
+msgid "grp_mail_status_sub"
+msgstr "Status v skupini \"%s\""
+
+msgid "grp_mail_sub_acc_bod"
+msgstr "Sprejeti ste bili v skupino \"%s\"."
+
+msgid "grp_mail_sub_acc_sub"
+msgstr "Sprejem v skupino \"%s\""
+
+msgid "grp_mail_sub_dec_bod"
+msgstr "Vaša prošnja za sprejem v skupino \"%s\" je bila zavrnjena."
+
+msgid "grp_mail_sub_dec_sub"
+msgstr "Zavrnitev prošnje za sprejem v skupino \"% s\""
+
+msgid "grp_mail_subscribe_member_bod"
+msgstr "z veseljem vam sporočamo, da ste bili sprejeti v skupino \"%s\"."
+
+msgid "grp_mail_subscribe_member_sub"
+msgstr "Vaša prijava za skupino \"%s\""
+
+msgid "grp_mail_tutors_only"
+msgstr "Samo za administratorje"
+
+msgid "grp_mail_tutors_only_info"
+msgstr "Samo administratorji lahko uporabljajo funkcijo \"E-pošta članom\" v zavihku \"Člani\"."
+
+msgid "grp_mail_type"
+msgstr "E-pošta članom"
+
+msgid "grp_mail_unsubscribe_member_bod"
+msgstr "potrjujemo vašo odjavo iz skupine \"%s\"."
+
+msgid "grp_mail_unsubscribe_member_sub"
+msgstr "Vaša odjava iz skupine \"%s\""
+
+msgid "grp_mail_wl_bod"
+msgstr "Uvrščeni ste bili na čakalni seznam za skupino \"%s\" in ste na mestu %s na čakalnem seznamu.  Ko bo vaša prošnja za sprejem odobrena oz. zavrnjena, boste obveščeni po e-pošti."
+
+msgid "grp_mail_wl_sub"
+msgstr "Vaša prijava za skupino \"%s\""
+
+msgid "grp_map_location"
+msgstr "Lokacija na skupinskem zemljevidu"
+
+msgid "grp_map_settings"
+msgstr "Nastavitve zemljevida"
+
+msgid "grp_max_and_min_members_invalid"
+msgstr "Minimalno število mora biti manjše od maksimalnega števila."
+
+msgid "grp_mem_contacts"
+msgstr "Podpora mentorja"
+
+msgid "grp_mem_tbl_header"
+msgstr "Udeleženec skupine"
+
+msgid "grp_member_administration"
+msgstr "Upravljanje udeleženca"
+
+msgid "grp_members"
+msgstr "Člani"
+
+msgid "grp_members_deleted"
+msgstr "Član/-i je bil/so bili izbrisan/-i iz skupine"
+
+msgid "grp_members_map"
+msgstr "Zemljevid članov skupine"
+
+msgid "grp_members_print_title"
+msgstr "Člani skupine"
+
+#, fuzzy
+msgid "grp_min_one_admin"
+msgstr "There has to be at least one administrator assigned to this group."
+
+msgid "grp_missing_grp_type"
+msgstr "Izberite vrsto skupine."
+
+msgid "grp_missing_password"
+msgstr "Vnesite geslo skupine."
+
+msgid "grp_new_status"
+msgstr "Vaš novi status:"
+
+msgid "grp_next"
+msgstr "Naprej"
+
+msgid "grp_no_perm_to_add_create_first"
+msgstr "Najprej morate ustvariti novo skupino. Izberite lokacijo, na kateri bo ustvarjena nova skupina."
+
+msgid "grp_notification"
+msgstr "Obveščanje"
+
+msgid "grp_notification_activated"
+msgstr "Obveščanje je aktivirano"
+
+msgid "grp_notification_deactivated"
+msgstr "Obveščanje je onemogočeno"
+
+msgid "grp_notification_explanation_admin"
+msgstr "To e-pošto ste prejeli, ker je za vas kot skrbnika skupine aktivirano obveščanje."
+
+msgid "grp_notification_salutation"
+msgstr "Spoštovana udeleženka skupine, spoštovani udeleženec skupine,"
+
+msgid "grp_notify_off"
+msgstr "Obveščanje o novih prijavah je onemogočeno"
+
+msgid "grp_notify_on"
+msgstr "Obveščanje o novih prijavah je aktivirano"
+
+msgid "grp_pass_request"
+msgstr "Pridružitev z geslom skupine"
+
+msgid "grp_period"
+msgstr "Obdobje dogodkov"
+
+msgid "grp_period_info"
+msgstr "Informacije o začetku in koncu dogodka, podprtega s strani skupine"
+
+msgid "grp_presentation_type"
+msgstr "Pogled"
+
+msgid "grp_print_list"
+msgstr "Ustvari seznam"
+
+msgid "grp_public"
+msgstr "Javna skupina"
+
+msgid "grp_public_info"
+msgstr "Skupina je vidna tudi nečlanom. Vendar veljajo posebna pravila za pridobitev članstva."
+
+msgid "grp_reg_code"
+msgstr "Pridružitev preko povezave"
+
+msgid "grp_reg_code_enabled_info"
+msgstr "Ta možnost omogoča neposredno pridružitev s klikom na povezavo, ne glede na izbran postopek pridružitve in pravice skupine."
+
+msgid "grp_reg_code_link"
+msgstr "Povezava za neposredno pridružitev"
+
+msgid "grp_reg_deac_info_screen"
+msgstr "Sprejem trenutno ni mogoč."
+
+msgid "grp_reg_direct"
+msgstr "Neposredna pridružitev"
+
+msgid "grp_reg_direct_info_screen"
+msgstr "Tej skupini se lahko pridružite neposredno."
+
+msgid "grp_reg_disabled"
+msgstr "Pridružitev trenutno ni mogoča."
+
+msgid "grp_reg_disabled_info"
+msgstr "Samo administratorji skupine lahko dodajajo uporabnike v skupino."
+
+msgid "grp_reg_limited"
+msgstr "Časovno omejena pridružitev"
+
+msgid "grp_reg_max_members_info"
+msgstr "Ko je doseženo maksimalno število članov, samostojna pridružitev ni več mogoča."
+
+msgid "grp_reg_no_selfreg"
+msgstr "Samostojna pridružitev ni mogoča"
+
+msgid "grp_reg_passwd_info_screen"
+msgstr "Če ste od administratorja skupine prejeli geslo skupine, se ji lahko pridružite."
+
+msgid "grp_reg_password_info"
+msgstr "Uporabniki morajo vnesti to geslo, da se pridružijo skupini."
+
+msgid "grp_reg_req_info_screen"
+msgstr "Lahko zaprosite za sprejem v to skupino. Takoj ko administrator skupine sprejme ali zavrne vašo prošnjo, boste obveščeni po e-pošti."
+
+msgid "grp_reg_request"
+msgstr "Pridružitev po potrditvi"
+
+msgid "grp_reg_request_info"
+msgstr "Pridružitev je mogoča samo, če jo potrdi adminisrator skupine."
+
+msgid "grp_reg_subject"
+msgstr "Sporočilo"
+
+msgid "grp_registration_unlimited"
+msgstr "Časovno neomejeno"
+
+msgid "grp_role_status"
+msgstr "Vloga/status"
+
+msgid "grp_search_users"
+msgstr "Išči uporabnika"
+
+msgid "grp_set_on_waiting_list"
+msgstr "Ko oddate prošnjo za sprejem, boste uvrščeni na čakalni seznam. S strani vodstva skupine boste obveščeni, ali je bila prošnja za sprejem odobrena ali zavrnjena."
+
+msgid "grp_setting_header_presentation"
+msgstr "Prikaz"
+
+msgid "grp_setting_header_registration"
+msgstr "Samostojna pridružitev s strani uporabnika"
+
+msgid "grp_settings"
+msgstr "Nastavitve skupine"
+
+msgid "grp_show_members"
+msgstr "Galerija članov"
+
+msgid "grp_show_members_info"
+msgstr "Vsi člani imajo v zavihku \"Člani\" vpogled v galerijo članov."
+
+msgid "grp_subscription_min_members_info"
+msgstr "Če zahtevano minimalno število članov ni doseženo, skupina ne more obstajati. Če do konca obdobja za pridružitev oz. najpoznejšega izstopa iz skupine ni doseženo minimalno število, ILIAS pošlje e-pošto vsem tistim administratorjem skupine, pri katerih je v zavihku 'Člani' aktivirana možnost 'Obveščanje'."
+
+msgid "grp_sure_add_user_to_group"
+msgstr "Ali res želite tega uporabnika dodati v skupino?"
+
+msgid "grp_sure_create_group_add_user"
+msgstr "Ali res želite ustvariti skupine in dodati uporabnike?"
+
+msgid "grp_typ"
+msgstr "Tip"
+
+msgid "grp_unsubscribe"
+msgstr "Prekini članstvo v skupini"
+
+msgid "grp_update_subscr_request"
+msgstr "Posodobi prošnjo za sprejem"
+
+msgid "grp_use_existing"
+msgstr "Uporabi obstoječo skupino"
+
+msgid "grp_user_agreement"
+msgstr "Odobreni podatki"
+
+msgid "grp_user_agreement_info"
+msgstr "Podatki odobreni za administratorje skupine"
+
+msgid "grp_user_already_in_group"
+msgstr "Izbrani uporabnik je že član skupine."
+
+msgid "grp_user_been_added"
+msgstr "Uporabnik je bil dodan v skupino."
+
+msgid "grp_users_already_assigned"
+msgstr "Uporabnik je že član te skupine."
+
+msgid "grp_usr_agreement"
+msgstr "Uporabniška pogodba"
+
+msgid "grp_view_info_by_type"
+msgstr "Vsi objekti določenega tipa bodo prikazani v ločenem seznamu."
+
+msgid "grp_view_info_simple"
+msgstr "Vsi objekti bodo prikazani v enem seznamu."
+
+msgid "grp_view_inherit"
+msgstr "Določeno s tečajem"
+
+msgid "grp_view_inherit_info"
+msgstr "Če se spremeni pogled nadrejenega tečaja, se spremeni tudi skupinski pogled."
+
+msgid "grp_waiting_list"
+msgstr "Čakalni seznam"
+
+msgid "grp_waiting_list_autofill"
+msgstr "S samodejnim pomikanjem navzgor"
+
+msgid "grp_waiting_list_autofill_info"
+msgstr "V primeru stornacije se udeleženci samodejno premaknejo na čakalnem seznamu.  Tega se ne sme uporabljati v povezavi s postopkom pridružitve \"Pridružitev po potrditvi\", saj se tako izogne potrditvi."
+
+msgid "grp_waiting_list_info"
+msgstr "Če je doseženo maksimalno število članov, se lahko nadaljnji uporabniki uvrstijo na čakalni seznam."
+
+msgid "grp_waiting_list_no_autofill"
+msgstr "Brez samodejnega pomikanja navzgor"
+
+msgid "grp_warn_grp_type_changed"
+msgstr "Ali ste prepričani, da želite spremeniti vrsto skupine? Vse nastavitve pravic za to skupino bodo prepisane in prilagojene novi vrsti skupine."
+
+msgid "grp_warn_no_max_set_on_waiting_list"
+msgstr "Doseženo je maksimalno število udeležencev. Lahko se uvrstite na čakalni seznam in ko se boste pomaknili navzgor, boste obveščeni po e-pošti."
+
+msgid "grp_warn_wl_set_on_waiting_list"
+msgstr "Na čakalnem seznamu so že uporabniki. Lahko pa se vpišete na čakalni seznam za to skupino in ko se boste pomaknili navzgor, boste obveščeni po e-pošti."
+
+msgid "grp_wrong_max_members"
+msgstr "Za čakalni seznam je potrebno maksimalno število članov."
+
+msgid "grp_wrong_min_max_members"
+msgstr "Preverite vnos za minimalno in maksimalno število udeležencev."
+
+msgid "grp_wrong_reg_time_limit"
+msgstr "Preverite vnos obdobja prijave."
+
+msgid "reg_grp_max_members"
+msgstr "Maksimalno število"
+
+msgid "reg_grp_max_members_short"
+msgstr "Omejeno število članov"
+
+msgid "reg_grp_min_members"
+msgstr "Minimalno število"

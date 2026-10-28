@@ -1,0 +1,906 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fr\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: dcl\n"
+
+msgid "add_value"
+msgstr "Add new value"
+
+msgid "dcl_activate_notification"
+msgstr "Activer Notification"
+
+msgid "dcl_add"
+msgstr "Créer Collection de Données"
+
+msgid "dcl_add_new_field"
+msgstr "Ajouter Nouveau Champ"
+
+msgid "dcl_add_new_record"
+msgstr "Ajouter Nouvel Enregistrement"
+
+msgid "dcl_add_new_table"
+msgstr "Ajouter Nouveau Tableau"
+
+msgid "dcl_add_new_view"
+msgstr "Ajouter une nouvelle vue"
+
+msgid "dcl_add_perm"
+msgstr "Permission \"Ajouter Entrée\""
+
+msgid "dcl_add_perm_desc"
+msgstr "Benutzer können Einträge in dieser Tabelle erstellen."
+
+msgid "dcl_all_entries"
+msgstr "Toutes les entrées"
+
+msgid "dcl_any"
+msgstr "Tous"
+
+msgid "dcl_asc"
+msgstr "Ordre Croissant (ASC)"
+
+msgid "dcl_boolean"
+msgstr "Booléen"
+
+msgid "dcl_boolean_desc"
+msgstr "Auswahlfeld für \"zutreffend\"/\"nicht zutreffend\""
+
+msgid "dcl_cant_delete_last_table"
+msgstr "Vous ne pouvez pas complètement retirer ce tableau car c’est le seul tableau de cette collecte de données. Au lieu de cela, son contenu et sa structure ont été retirés."
+
+msgid "dcl_change_notification_dcl_delete_record"
+msgstr "Le dossier de données suivant a été supprimé"
+
+msgid "dcl_change_notification_dcl_new_record"
+msgstr "l'enregistrement suivant a été créé"
+
+msgid "dcl_change_notification_dcl_update_record"
+msgstr "l'enregistrement suivant a été enregistré"
+
+msgid "dcl_change_notification_link"
+msgstr "URL"
+
+msgid "dcl_change_notification_subject"
+msgstr "La Collection de Données \"%s\" a été modifiée"
+
+msgid "dcl_changed_by"
+msgstr "Modifié par"
+
+msgid "dcl_checked"
+msgstr "Coché."
+
+msgid "dcl_comments"
+msgstr "Commentaires"
+
+msgid "dcl_comments_desc"
+msgstr "Affiche le nombre de commentaires pour une entrée."
+
+msgid "dcl_confirm_delete_field"
+msgstr "Voulez-vous vraiment supprimer ce champ ?"
+
+msgid "dcl_confirm_delete_fields"
+msgstr "Voulez-vous vraiment supprimer ces champs?"
+
+msgid "dcl_confirm_delete_record"
+msgstr "Supprimer cet enregistrement ?"
+
+msgid "dcl_confirm_delete_records"
+msgstr "àŠtes-vous sûr de vouloir supprimer les enregistrements suivants?"
+
+msgid "dcl_confirm_delete_table"
+msgstr "Voulez-vous vraiment supprimer ce tableau avec son contenu et sa structure ?"
+
+msgid "dcl_confirm_storing_records"
+msgstr "Veuillez valider et confirmer votre entrée."
+
+msgid "dcl_confirm_storing_records_no_permission"
+msgstr "Vous avez la permission de modifier le dossier par la suite."
+
+msgid "dcl_copy"
+msgstr "Copier Collection de Données"
+
+#, fuzzy
+msgid "dcl_copy_field"
+msgstr "Copy"
+
+#, fuzzy
+msgid "dcl_copy_field_desc"
+msgstr "Field to copy options stored in a different field of a table."
+
+#, fuzzy
+msgid "dcl_copy_title"
+msgstr "Copy of table and field"
+
+msgid "dcl_create_date"
+msgstr "Date de création"
+
+msgid "dcl_create_entry_rules"
+msgstr "Entry Creation"
+
+msgid "dcl_create_field"
+msgstr "Créer Champ"
+
+msgid "dcl_create_fields"
+msgstr "Veuillez créer au moins un champ dans l'onglet \" Liste des champs \"."
+
+msgid "dcl_creation_date"
+msgstr "Date de création"
+
+msgid "dcl_creation_date_description"
+msgstr "La date à laquelle l’entrée a été créée."
+
+msgid "dcl_datatype"
+msgstr "Type de Donnée"
+
+#, fuzzy
+msgid "dcl_date"
+msgstr "Date Entry"
+
+#, fuzzy
+msgid "dcl_date_desc"
+msgstr "Users can enter a date of their choice or select one using a calendar."
+
+msgid "dcl_date_selection"
+msgstr "Sélection de date"
+
+msgid "dcl_date_selection_desc"
+msgstr "Propose une sélection d’options de dates."
+
+msgid "dcl_datetime"
+msgstr "Date/Heure"
+
+msgid "dcl_datetime_desc"
+msgstr "Datumseingabe per Auswahlmenü oder Kalender"
+
+#, fuzzy
+msgid "dcl_datetime_selection"
+msgstr "Datetime Selection"
+
+#, fuzzy
+msgid "dcl_datetime_selection_desc"
+msgstr "Allow a date and time to be chosen from among a predefined selection of datetime options."
+
+msgid "dcl_default_sort_field"
+msgstr "Champ de triage par défaut"
+
+msgid "dcl_default_sort_field_order"
+msgstr "Ordre des champs de triage par défaut"
+
+#, fuzzy
+msgid "dcl_default_sort_field_order_desc"
+msgstr "Arrange the order of the entries in the table based on this field."
+
+msgid "dcl_delete_fields"
+msgstr "Supprimer champs"
+
+#, fuzzy
+msgid "dcl_delete_fields_no_selection"
+msgstr "Please select at least one field to delete"
+
+msgid "dcl_delete_perm"
+msgstr "Permission \"Supprimer Entrée\""
+
+msgid "dcl_delete_records"
+msgstr "Delete records"
+
+#, fuzzy
+msgid "dcl_deleted_entries"
+msgstr "Deleted Entries"
+
+msgid "dcl_deleted_records"
+msgstr "Successfully deleted %s records"
+
+#, fuzzy
+msgid "dcl_deprecated_copy"
+msgstr "(Deprecated)"
+
+msgid "dcl_desc"
+msgstr "Ordre décroissant (DECR)"
+
+msgid "dcl_description"
+msgstr "Description du Champ"
+
+msgid "dcl_detailed_view"
+msgstr "Vue détaillée"
+
+msgid "dcl_display_action_menu"
+msgstr "Activer la possibilité de copier ou lier le module référencé"
+
+#, fuzzy
+msgid "dcl_display_action_menu_desc"
+msgstr "The object can be copied from the entry."
+
+msgid "dcl_display_record_alt"
+msgstr "Afficher cette entrée"
+
+#, fuzzy
+msgid "dcl_download_import_template"
+msgstr "Download Import Template"
+
+#, fuzzy
+msgid "dcl_duplicate_non_unique_entries_exist"
+msgstr "This may also concern existing records."
+
+msgid "dcl_edit"
+msgstr "Editer Collection de Données"
+
+msgid "dcl_edit_entry_rules"
+msgstr "Entry Editing"
+
+msgid "dcl_edit_field"
+msgstr "Editer Champ"
+
+msgid "dcl_edit_perm"
+msgstr "Permission \"Editer Entrée\""
+
+msgid "dcl_edit_table"
+msgstr "Editer Paramètres du Tableau"
+
+#, fuzzy
+msgid "dcl_edit_view"
+msgstr "Edit Settings of View \"%s\""
+
+msgid "dcl_editable_in_table_gui"
+msgstr "Veuillez voter dans le tableau."
+
+msgid "dcl_err_formula_field_not_found"
+msgstr "Champ avec le titre «%s» introuvable"
+
+msgid "dcl_error_parsing_expression"
+msgstr "Expression d’analyse d’erreur"
+
+msgid "dcl_export_enabled"
+msgstr "Autoriser l'export pour tous les utilisateurs"
+
+msgid "dcl_export_enabled_desc"
+msgstr "Alle Benutzer können die Daten der Tabelle selber exportieren. Dazu müssen in der Übersicht \"Felder der ausgewählten Tabelle\" die Felder einzeln als exportierbar ausgewählt werden."
+
+msgid "dcl_field_datatype"
+msgstr "Type de Donnée du Champ"
+
+msgid "dcl_field_description"
+msgstr "Description"
+
+#, fuzzy
+msgid "dcl_field_description_desc"
+msgstr "The description will be shown below the input field when making a new entry."
+
+msgid "dcl_field_title_change_warning"
+msgstr "Vous avez changé le titre de ce champ, ce qui peut briser certaines références dans les vues. Le problème doit être vérifié et réglé manuellement."
+
+msgid "dcl_field_title_unique"
+msgstr "Un champs portant ce titre existe déjà. Le titre doit être unique."
+
+msgid "dcl_field_visible"
+msgstr "Visible"
+
+msgid "dcl_fieldtitle"
+msgstr "Titre du champ"
+
+#, fuzzy
+msgid "dcl_file"
+msgstr "Fileupload"
+
+#, fuzzy
+msgid "dcl_file_desc"
+msgstr "Field to upload arbitrary files. They can be downloaded with a link."
+
+msgid "dcl_file_format_description"
+msgstr "Le fichier doit être au format Excel .XSL et contenir les données à importer dans la première feuille. La première ligne doit contenir les noms exacts des champs (avec respect de la casse) à importer. Les lignes suivantes doivent contenir les valeurs. Il est fortement recommander d'effectuer une simulation d'import."
+
+msgid "dcl_file_not_readable"
+msgstr "Le fichier ne peut pas être lu. Assurez-vous de déposer un fichier XLS."
+
+msgid "dcl_filter"
+msgstr "Filtre"
+
+msgid "dcl_filter_changeable"
+msgstr "Filtre modifiable"
+
+msgid "dcl_formula"
+msgstr "Formule"
+
+msgid "dcl_formula_desc"
+msgstr "Ähnlich wie bei der Tabellenkalkulation können per Formel Einträge verbunden oder berechnet werden."
+
+msgid "dcl_formula_detail_desc"
+msgstr "Les entrées sont générées automatiquement, vous n'êtes pas en mesure d'éditer l'entrée."
+
+msgid "dcl_height"
+msgstr "Hauteur"
+
+#, fuzzy
+msgid "dcl_height_desc"
+msgstr "The height of the file will be reduced to this value during upload."
+
+msgid "dcl_id"
+msgstr "ID"
+
+msgid "dcl_id_description"
+msgstr "L’ID interne."
+
+msgid "dcl_ilias_reference"
+msgstr "Lien vers un module ILIAS"
+
+msgid "dcl_ilias_reference_desc"
+msgstr "Champ de recherche pour sélectionner un objet ILIAS."
+
+msgid "dcl_ilias_reference_link"
+msgstr "Montrer comme lien dans la vue de tableau"
+
+msgid "dcl_import_enabled"
+msgstr "Autoriser la fonction d’importation pour tous les utilisateurs"
+
+msgid "dcl_import_enabled_desc"
+msgstr "Tous les utilisateurs peuvent importer des données dans les tableaux à condition qu’ils disposent de l’accès d’écriture."
+
+msgid "dcl_import_records .xls"
+msgstr "Import .xls"
+
+#, fuzzy
+msgid "dcl_import_template_no_fields"
+msgstr "Create fields with titles for this table before you can download an import template."
+
+msgid "dcl_import_terminated"
+msgstr "Import terminé. Entrées ajoutées."
+
+msgid "dcl_in_export"
+msgstr "Dans Export"
+
+msgid "dcl_invalid_regex_config"
+msgstr "L’expression régulière configurée pour ce champ est invalide. Vérifiez les paramètres pour résoudre le problème."
+
+msgid "dcl_last_edit_by"
+msgstr "Dernière modification apportée par"
+
+msgid "dcl_last_edited_by"
+msgstr "Dernière édition par"
+
+msgid "dcl_last_edited_by_description"
+msgstr "L'utilisateur qui a édité cette dernière entrée."
+
+msgid "dcl_last_update"
+msgstr "Dernière Edition"
+
+msgid "dcl_last_update_description"
+msgstr "La date à laquelle l’entrée a été éditée pour la dernière fois."
+
+msgid "dcl_learning_progress"
+msgstr "Afficher la progression d'apprentissage des modules liés"
+
+#, fuzzy
+msgid "dcl_learning_progress_desc"
+msgstr "Show each user their own learning progress for the selected object."
+
+msgid "dcl_legend_placeholders"
+msgstr "Chaînes de Remplacement"
+
+msgid "dcl_length"
+msgstr "Taille"
+
+msgid "dcl_length_info"
+msgstr "(for more than 200 characters, use the additional option Textarea)"
+
+msgid "dcl_limit_end"
+msgstr "Fin"
+
+msgid "dcl_limit_start"
+msgstr "Début"
+
+msgid "dcl_limited"
+msgstr "Période d'Ajout / Edition / Suppression Limitée"
+
+msgid "dcl_limited_desc"
+msgstr "Benutzer können Einträge nur bis zum gewählten Datum hinzufügen, bearbeiten und löschen."
+
+msgid "dcl_link_detail_page"
+msgstr "Lier les entrées à une page détaillée"
+
+#, fuzzy
+msgid "dcl_link_detail_page_desc"
+msgstr "Additionally, a detailed view template must have been created and activated within the tab ‘Detailed View’."
+
+msgid "dcl_list_fields"
+msgstr "Champs"
+
+msgid "dcl_list_visibility_and_filter"
+msgstr "Visibility and filter"
+
+msgid "dcl_manage"
+msgstr "Gérer"
+
+msgid "dcl_max_digits"
+msgstr "Nombre maximum de chiffres"
+
+msgid "dcl_max_import"
+msgstr "Le nombre maximum d'entrées importées est atteint."
+
+msgid "dcl_max_text_length"
+msgstr "Taille Maximale"
+
+msgid "dcl_mob"
+msgstr "Image"
+
+msgid "dcl_mob_desc"
+msgstr "Möglichkeit zum Hochladen von Bild-, Audio- oder Video-Dateien, die direkt in der Datensammlung präsentiert werden. Erlaubte Dateitypen: %s"
+
+msgid "dcl_msg_field_modified"
+msgstr "Champ enregistré"
+
+msgid "dcl_msg_fields_deleted"
+msgstr "Champs supprimés"
+
+msgid "dcl_msg_mc_to_sc_confirmation"
+msgstr "Le passage d'une sélection multiple à une sélection unique peut entraîner une perte de données dans les entrées existantes. Êtes-vous sûr de vouloir continuer?"
+
+msgid "dcl_msg_no_perm_edit"
+msgstr "Aucune permission donnée pour modifier cette fiche"
+
+msgid "dcl_msg_no_perm_view"
+msgstr "No permission given to view this record"
+
+msgid "dcl_msg_table_created"
+msgstr "Tableau créé"
+
+msgid "dcl_msg_table_edited"
+msgstr "Paramètres du tableau enregistrés"
+
+msgid "dcl_msg_tableview_created"
+msgstr "Vues crées"
+
+msgid "dcl_msg_tableview_deleted"
+msgstr "Vue supprimée"
+
+msgid "dcl_msg_tableview_updated"
+msgstr "Vue mise à jour"
+
+msgid "dcl_msg_tableviews_delete_all"
+msgstr "N’a pas pu supprimer: Au moins une vue doit exister"
+
+msgid "dcl_multiple_selection"
+msgstr "Sélection Multiple"
+
+msgid "dcl_new"
+msgstr "Créer Nouvelle Collection de Données"
+
+#, fuzzy
+msgid "dcl_new_entries"
+msgstr "New Entries"
+
+msgid "dcl_new_field"
+msgstr "Nouveau Champ"
+
+msgid "dcl_new_table"
+msgstr "Nouveau Tableau"
+
+#, fuzzy
+msgid "dcl_new_view"
+msgstr "New View"
+
+#, fuzzy
+msgid "dcl_no_entries"
+msgstr "Action not permitted"
+
+msgid "dcl_no_entry"
+msgstr "No entry"
+
+#, fuzzy
+msgid "dcl_no_export_async_config"
+msgstr "No SOAP Configuration for asyncronous exports available."
+
+msgid "dcl_no_export_data_available"
+msgstr "Pas de données ou de champs disponibles pour l’exportation."
+
+msgid "dcl_no_fields_yet"
+msgstr "Aucun champ n'a été défini dans la table. Vous ne pouvez donc créer aucune entrée."
+
+msgid "dcl_no_search_results_found_for"
+msgstr "Aucune module n'a été trouvé pour"
+
+msgid "dcl_no_such_reference"
+msgstr "La valeur suivante n'est pas disponible dans la table de références :"
+
+#, fuzzy
+msgid "dcl_no_table_found"
+msgstr "No table found."
+
+#, fuzzy
+msgid "dcl_no_tableview_found"
+msgstr "No visible tableview found!"
+
+msgid "dcl_not_checked"
+msgstr "Non coché."
+
+msgid "dcl_not_supported_in_import"
+msgstr "Ce type de champ n'est pas supporté dans l'import."
+
+#, fuzzy
+msgid "dcl_notification_activate"
+msgstr "Activate Notification for Data Collection"
+
+msgid "dcl_notification_activated"
+msgstr "Notification Activée"
+
+#, fuzzy
+msgid "dcl_notification_deactivate"
+msgstr "Deactivate Notification for Data Collection"
+
+msgid "dcl_notification_deactivated"
+msgstr "Notification Désactivée"
+
+msgid "dcl_notification_info"
+msgstr "Chaque utilisateur décide à propos des notifications"
+
+#, fuzzy
+msgid "dcl_notification_settings"
+msgstr "Notification Settings"
+
+msgid "dcl_noturl_exception"
+msgstr "Vous devez entrer un lien (commençant par http://)"
+
+msgid "dcl_number"
+msgstr "Nombre entier"
+
+msgid "dcl_number_desc"
+msgstr "Champ pour les valeurs de nombre entier (max. 9 chiffres). Pas de décimales ou de fractions."
+
+msgid "dcl_online_info"
+msgstr "Les utilisateurs sont capables d’utiliser la collecte de données uniquement si celle-ci est en ligne."
+
+#, fuzzy
+msgid "dcl_open_detail_view"
+msgstr "Open detail view"
+
+#, fuzzy
+msgid "dcl_open_url"
+msgstr "Open link"
+
+msgid "dcl_order"
+msgstr "Ordre"
+
+#, fuzzy
+msgid "dcl_origin_not_found"
+msgstr "Origin field was not found!"
+
+msgid "dcl_own_entries"
+msgstr "Uniquement les entrées propres"
+
+msgid "dcl_owner"
+msgstr "Propriétaire"
+
+msgid "dcl_owner_description"
+msgstr "Le propriétaire de l’entrée."
+
+msgid "dcl_owner_name"
+msgstr "Propriétaire (nom)"
+
+msgid "dcl_page_type_dclf"
+msgstr "Details View"
+
+#, fuzzy
+msgid "dcl_placeholder_info"
+msgstr "To use data from the data collection in this view, please use the corresponding placeholders. These are available in the page element 'Text' and 'Data Table'."
+
+msgid "dcl_please_select"
+msgstr "--- Veuillez sélectionner ---"
+
+msgid "dcl_prop_expression"
+msgstr "Expression"
+
+msgid "dcl_prop_expression_info"
+msgstr "Supported operators: <b>%s</b><br>Supported functions: <b>%s</b><br>Use brackets <b>\"(\", \")\"</b> to group calculations.<br>Concatenate strings and placeholders with &: <b>\"The result is \" & [[Int 1]] * [[Int2]]</b><br>Using functions: <b>SUM([[Int 1]];[[Int 2]])</b><br><br>Available fields (click on title to copy field inside expression):<br>%s"
+
+msgid "dcl_rating"
+msgstr "Notation"
+
+msgid "dcl_rating_desc"
+msgstr "Benutzer können Einträge mit bis zu fünf Sternen bewerten."
+
+msgid "dcl_record"
+msgstr "Enregistrement"
+
+msgid "dcl_record_deleted"
+msgstr "Enregistrement supprimé"
+
+#, fuzzy
+msgid "dcl_record_settings"
+msgstr "Record Settings"
+
+msgid "dcl_reference"
+msgstr "Référence"
+
+msgid "dcl_reference_desc"
+msgstr "Bereitstellen von Auswahloptionen, die in einem anderen Feld einer Tabelle gepflegt werden"
+
+msgid "dcl_reference_link"
+msgstr "Afficher comme lien dans le tableau"
+
+msgid "dcl_reference_link_info"
+msgstr "La vue détaillée doit être active dans le tableau référencé"
+
+msgid "dcl_reference_title"
+msgstr "Referenz zu Tabelle und Feld"
+
+#, fuzzy
+msgid "dcl_reference_title_desc"
+msgstr "The data entries of the selected field will be the selectable options in this field."
+
+msgid "dcl_regex"
+msgstr "Expression Régulière (sans séparateur)"
+
+msgid "dcl_regex_info"
+msgstr "(sans délimiteur)"
+
+msgid "dcl_row_not_found"
+msgstr " - Ce champ n'existe pas dans la table."
+
+msgid "dcl_save_confirmation"
+msgstr "Sauvegarder la confirmation"
+
+msgid "dcl_save_confirmation_desc"
+msgstr "Les utilisateurs doivent confirmer une nouvelle entrée de collecte de données."
+
+msgid "dcl_selection_options"
+msgstr "Options"
+
+msgid "dcl_selection_type"
+msgstr "Type"
+
+msgid "dcl_selection_type_combobox"
+msgstr "Combobox (liste déroulante)"
+
+msgid "dcl_selection_type_multi"
+msgstr "Sélection multiple"
+
+msgid "dcl_selection_type_single"
+msgstr "Sélection unique"
+
+msgid "dcl_simulate_import"
+msgstr "Simuler Import"
+
+#, fuzzy
+msgid "dcl_simulate_import_info"
+msgstr "Simulating the import will not make any entries into the data collection, but rather give you feedback regarding any problems with the import file, thus helping you to avoid corrupted entries."
+
+msgid "dcl_skipped_delete_records"
+msgstr "%s records were not deleted due to permission settings"
+
+msgid "dcl_status"
+msgstr "Votre statut"
+
+msgid "dcl_std_field_not_importable"
+msgstr " - Les champs standard ne peuvent pas être importés."
+
+msgid "dcl_std_filter"
+msgstr "Filtre standard"
+
+msgid "dcl_supported_filetypes"
+msgstr "Extensions de fichiers autorisées"
+
+msgid "dcl_supported_filetypes_desc"
+msgstr "Vous pouvez définir les extensions autorisées séparées par des virgules. Par exemple: pdf, docx"
+
+msgid "dcl_table"
+msgstr "Tableau"
+
+msgid "dcl_table_id"
+msgstr "ID Tableau"
+
+#, fuzzy
+msgid "dcl_table_settings"
+msgstr "Table Settings."
+
+msgid "dcl_table_settings_saved"
+msgstr "Les paramètres du tableau ont été enregistrés."
+
+msgid "dcl_table_title_not_matching"
+msgstr "Les titres de la feuille Excel et le tableau de collecte de données ne correspondent pas. Renommez la feuille pour que l’importation réussisse."
+
+msgid "dcl_table_title_unique"
+msgstr "Un champs portant ce titre existe déjà. Le titre doit être unique."
+
+msgid "dcl_tables"
+msgstr "Tableaux"
+
+msgid "dcl_tableview"
+msgstr "Vue"
+
+msgid "dcl_tableview_add"
+msgstr "Ajouter une nouvelle vue"
+
+msgid "dcl_tableview_confirm_delete"
+msgstr "Voulez-vous vraiment supprimer la vue suivante?"
+
+msgid "dcl_tableview_copy"
+msgstr "View successfully copied"
+
+msgid "dcl_tableview_default_value"
+msgstr "Default Value"
+
+msgid "dcl_tableview_default_value_fail"
+msgstr "Some numeric default values couldn't be saved because they contained letters. Please try again."
+
+msgid "dcl_tableview_field_access"
+msgstr "Field Access"
+
+msgid "dcl_tableview_fieldsettings"
+msgstr "Paramètres spécifiques du champ"
+
+msgid "dcl_tableview_fieldtitle"
+msgstr "Field Title"
+
+msgid "dcl_tableview_locked_visible"
+msgstr "Locked & Visible"
+
+msgid "dcl_tableview_not_visible"
+msgstr "Not Visible"
+
+msgid "dcl_tableview_required"
+msgstr "Required"
+
+msgid "dcl_tableview_required_visible"
+msgstr "Required & Visible"
+
+msgid "dcl_tableview_visible"
+msgstr "Visible"
+
+msgid "dcl_tableviews"
+msgstr "Vues"
+
+#, fuzzy
+msgid "dcl_tableviews_of_X"
+msgstr "Views of table %s"
+
+msgid "dcl_text"
+msgstr "Texte"
+
+msgid "dcl_text_desc"
+msgstr "Eingabefeld für Text, Links oder E-Mail-Adressen"
+
+msgid "dcl_text_email_detail_desc"
+msgstr "Veuillez entrer une URL valide ou une adresse e-mail."
+
+msgid "dcl_text_email_title"
+msgstr "Titre"
+
+msgid "dcl_text_email_title_info"
+msgstr "Un titre pour l’adresse mail ou URL ci-dessus (en option)."
+
+msgid "dcl_text_selection"
+msgstr "Sélection de texte"
+
+msgid "dcl_text_selection_desc"
+msgstr "Propose une sélection d’options de textes."
+
+#, fuzzy
+msgid "dcl_title_standard"
+msgstr "Standard"
+
+msgid "dcl_unique"
+msgstr "Unique"
+
+msgid "dcl_unique_desc"
+msgstr "In dieses Feld kann ein gleichlautender Eintrag nur einmal vorgenommen werden."
+
+msgid "dcl_unique_exception"
+msgstr "La valeur que vous avez entrée est déjà utilisée dans un autre enregistrement."
+
+#, fuzzy
+msgid "dcl_unknown"
+msgstr "Unkown"
+
+msgid "dcl_unknown_exception"
+msgstr "La valeur que vous avez entrée n'est pas valide."
+
+#, fuzzy
+msgid "dcl_unknown_plugin"
+msgstr "Unknown plugin type"
+
+msgid "dcl_update_field"
+msgstr "Enregistrer Champ"
+
+msgid "dcl_update_record"
+msgstr "Enregistrer"
+
+#, fuzzy
+msgid "dcl_updated_entries"
+msgstr "Updated Entries"
+
+msgid "dcl_url"
+msgstr "URL"
+
+msgid "dcl_view_own_records_perm"
+msgstr "Voir uniquement les entrées propres"
+
+#, fuzzy
+msgid "dcl_view_own_records_perm_desc"
+msgstr "The entries of other users are not visible."
+
+msgid "dcl_view_viewdefinition"
+msgstr "Affichage"
+
+msgid "dcl_visible"
+msgstr "Visible par tous"
+
+msgid "dcl_visible_desc"
+msgstr "Benutzer können diese Tabelle über das Auswahlmenü \"Tabelle\" aufrufen."
+
+msgid "dcl_width"
+msgstr "Largeur"
+
+#, fuzzy
+msgid "dcl_width_desc"
+msgstr "The width of the file will be reduced to this value during upload."
+
+msgid "dcl_wrong_input_type"
+msgstr "La valeur que vous avez entrée ne correspondant pas aux contraintes (Mauvais Type)."
+
+msgid "dcl_wrong_length"
+msgstr "Le texte que vous avez entré est trop long."
+
+msgid "dcl_wrong_regex"
+msgstr "Le texte que vous avez entré ne correspondant pas aux contraintes de ce champ (Expression Régulière)."
+
+#, fuzzy
+msgid "dcl_xls_async_export"
+msgstr "Asynchronous XLSX-Export"
+
+#, fuzzy
+msgid "disable_comments"
+msgstr "Disable comments"
+
+#, fuzzy
+msgid "disable_visible"
+msgstr "Disable visible"
+
+#, fuzzy
+msgid "duplicate_entries_exist"
+msgstr "The existing records already contain duplicated entries."
+
+#, fuzzy
+msgid "enable_comments"
+msgstr "Enable comments"
+
+#, fuzzy
+msgid "enable_visible"
+msgstr "Enable visible"
+
+#, fuzzy
+msgid "entry_of"
+msgstr "Entry %1$d of %2$d"
+
+msgid "fieldtitle_allow_chars"
+msgstr "Caractères autorisés : %s"
+
+#, fuzzy
+msgid "fileupload_not_migrated"
+msgstr "File has not yet been migration and cannot be displayed. Please contact your System-Administrator."
+
+#, fuzzy
+msgid "role_limitation"
+msgstr "Role-based View Limitation"
+
+#, fuzzy
+msgid "roles"
+msgstr "Roles with Access"
+
+#, fuzzy
+msgid "roles_desc"
+msgstr "Define wich roles have access to the view."
+
+#, fuzzy
+msgid "set_as_default"
+msgstr "Set as default"
+
+#, fuzzy
+msgid "table_not_found"
+msgstr "Table not found!"
+
+#, fuzzy
+msgid "tableview_not_found"
+msgstr "Table view not found!"

@@ -1,0 +1,2875 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fr\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: rbac\n"
+
+msgid "accs_edit_permission"
+msgstr "Permissions d'administration modifiables"
+
+msgid "accs_read"
+msgstr "Panneau d'administration accessible"
+
+msgid "accs_visible"
+msgstr "Panneau d'administration visible"
+
+msgid "accs_write"
+msgstr "Administration autorisée"
+
+msgid "activate_wiki_protection"
+msgstr "Lecture seule"
+
+msgid "active_preconditions"
+msgstr "Préconditions Actives"
+
+msgid "add_consultation_hours"
+msgstr "Ajouter heures de consultation à  l'agenda"
+
+msgid "add_consume_provider"
+msgstr "Add Own LTI Provider Settings"
+
+#, fuzzy
+msgid "add_pages"
+msgstr "Add Pages"
+
+msgid "add_reply"
+msgstr "Ajouter Réponse"
+
+msgid "add_thread"
+msgstr "Ajouter sujet"
+
+msgid "adm_edit_permission"
+msgstr "Permissions d'administration modifiables"
+
+msgid "adm_read"
+msgstr "Panneau d'administration accessible"
+
+msgid "adm_visible"
+msgstr "Panneau d'administration visible"
+
+msgid "adm_write"
+msgstr "Administration autorisée"
+
+msgid "adn_edit_permission"
+msgstr "User can change permissions of Administrative Notifications' administration."
+
+msgid "adn_read"
+msgstr "User has read access to administration of Administrative Notifications."
+
+msgid "adn_visible"
+msgstr "Administration of Administrative Notifications is visible."
+
+msgid "adn_write"
+msgstr "User can add and edit Administrative Notifications."
+
+msgid "adopt_perm_from_template"
+msgstr "Copier Permissions"
+
+msgid "adve_edit_permission"
+msgstr "Permissions d'administration modifiables"
+
+msgid "adve_read"
+msgstr "Panneau d'administration accessible"
+
+msgid "adve_visible"
+msgstr "Panneau d'administration visible"
+
+msgid "adve_write"
+msgstr "Administration autorisée"
+
+msgid "amend_grading"
+msgstr "Modifier le classement final"
+
+msgid "assf_edit_permission"
+msgstr "Permissions d'administration modifiables"
+
+msgid "assf_read"
+msgstr "Panneau d'administration accessible"
+
+msgid "assf_visible"
+msgstr "Panneau d'administration visible"
+
+msgid "assf_write"
+msgstr "Administration autorisée"
+
+msgid "auth_edit_permission"
+msgstr "Permissions d'administration modifiables"
+
+msgid "auth_read"
+msgstr "Panneau d'administration accessible"
+
+msgid "auth_visible"
+msgstr "Panneau d'administration visible"
+
+msgid "auth_write"
+msgstr "Administration autorisée"
+
+msgid "awra_edit_permission"
+msgstr "L’utilisateur peut modifier les paramètres de permission dans l’administration «Qui est en ligne?»"
+
+msgid "awra_read"
+msgstr "L'utilisateur a un accès de lecture pour l’administration «Qui est en ligne?»"
+
+msgid "awra_visible"
+msgstr "Administration «Qui est en ligne?» est visible"
+
+msgid "awra_write"
+msgstr "Éditer les paramètres dans l’administration «Qui est en ligne?»"
+
+msgid "bdga_edit_permission"
+msgstr "L’utilisateur peut modifier les paramètres de permission"
+
+msgid "bdga_read"
+msgstr "L'utilisateur peut lire le contenu d’administration de badges"
+
+msgid "bdga_visible"
+msgstr "L’administration de badges est visible"
+
+msgid "bdga_write"
+msgstr "L’utilisateur peut éditer les paramètres d’administration de badges"
+
+msgid "bibl_copy"
+msgstr "L'utilisateur peut copier l'objet"
+
+msgid "bibl_delete"
+msgstr "L'utilisateur peut déplacer et supprimer l'objet"
+
+msgid "bibl_edit_permission"
+msgstr "Permissions d'administration modifiables"
+
+msgid "bibl_read"
+msgstr "L'utilisateur peut lire le contenu de Bibliographie"
+
+msgid "bibl_visible"
+msgstr "Bibliographie visible"
+
+msgid "bibl_write"
+msgstr "L'utilisateur peut modifier les paramètres de l'objet"
+
+msgid "bibs_copy"
+msgstr "L'utilisateur peut copier la bibliographie"
+
+msgid "bibs_delete"
+msgstr "L’utilisateur peut supprimer les entrées de bibliothèque"
+
+msgid "bibs_edit_permission"
+msgstr "L’utilisateur peut modifier les paramètres de permission"
+
+msgid "bibs_read"
+msgstr "L'utilisateur peut lire le contenu de la bibliographie"
+
+msgid "bibs_visible"
+msgstr "L’administration de bibliographie est visible"
+
+msgid "bibs_write"
+msgstr "L’utilisateur peut éditer les paramètres de bibliographie"
+
+msgid "blga_edit_permission"
+msgstr "Permissions d'administration modifiables"
+
+msgid "blga_read"
+msgstr "Panneau d'administration accessible"
+
+msgid "blga_visible"
+msgstr "Panneau d'administration visible"
+
+msgid "blga_write"
+msgstr "Administration autorisée"
+
+msgid "blog_contribute"
+msgstr "L'utilisateur peut contribuer"
+
+msgid "blog_copy"
+msgstr "L'utilisateur peut copier l'objet"
+
+msgid "blog_delete"
+msgstr "L'utilisateur peut déplacer et supprimer l'objet"
+
+msgid "blog_edit_permission"
+msgstr "L'utilisateur peut modifier les permissions de l'objet"
+
+msgid "blog_read"
+msgstr "L'utilisateur peut lire le blog"
+
+msgid "blog_redact"
+msgstr "User can edit all postings"
+
+msgid "blog_visible"
+msgstr "L'objet est visible"
+
+msgid "blog_write"
+msgstr "L'utilisateur peut modifier les paramètres de l'objet"
+
+msgid "book_copy"
+msgstr "L’utilisateur peut copier le pool de réservations"
+
+msgid "book_delete"
+msgstr "L'utilisateur peut déplacer et supprimer l'objet"
+
+msgid "book_edit_permission"
+msgstr "L'utilisateur peut modifier les permissions de l'objet"
+
+#, fuzzy
+msgid "book_manage_all_reservations"
+msgstr "User can manage all reservations"
+
+#, fuzzy
+msgid "book_manage_own_reservations"
+msgstr "User can manage own reservations"
+
+msgid "book_read"
+msgstr "L'utilisateur peut réserver des ressources/objets"
+
+msgid "book_visible"
+msgstr "L'objet est visible"
+
+msgid "book_write"
+msgstr "L'utilisateur peut modifier les paramètres et éditer le contenu de l'objet"
+
+msgid "cadm_edit_permission"
+msgstr "L’utilisateur peut modifier les paramètres de permission"
+
+msgid "cadm_read"
+msgstr "L’utilisateur a un accès de lecture pour l’administration de connexion d'utilisateur"
+
+msgid "cadm_visible"
+msgstr "L’administration de connexion d'utilisateur est visible"
+
+msgid "cadm_write"
+msgstr "L’utilisateur a un accès d’écriture pour l’administration de connexion d'utilisateur"
+
+msgid "cals_add_consultation_hours"
+msgstr "Ajouter heures de consultation à  l'agenda"
+
+msgid "cals_edit_event"
+msgstr "Gestion des agendas publics"
+
+msgid "cals_edit_permission"
+msgstr "Permissions d'administration modifiables"
+
+msgid "cals_read"
+msgstr "Lire les paramètres du calendrier"
+
+msgid "cals_visible"
+msgstr "Les paramètres de l'Agenda sont visibles"
+
+msgid "cals_write"
+msgstr "Modifier paramètres du calendrier"
+
+msgid "cat_administrate_users"
+msgstr "Administrer comptes locaux des utilisateurs"
+
+msgid "cat_cat_administrate_users"
+msgstr "L'utilisateur peut créer et administrer des comptes utilisateurs locaux"
+
+msgid "cat_copy"
+msgstr "L'utilisateur peut copier l'objet"
+
+msgid "cat_delete"
+msgstr "L'utilisateur peut déplacer et supprimer l'objet"
+
+msgid "cat_edit_permission"
+msgstr "L'utilisateur peut modifier les permissions de l'objet"
+
+msgid "cat_read"
+msgstr "L'utilisateur a accès à la catégorie"
+
+msgid "cat_read_users"
+msgstr "L'utilisateur a accès aux comptes utilisateurs locaux"
+
+msgid "cat_visible"
+msgstr "L'objet est visible"
+
+msgid "cat_write"
+msgstr "L'utilisateur peut modifier les paramètres et gérer le contenu de l'objet"
+
+msgid "catr_copy"
+msgstr "Copier référence de catégorie"
+
+msgid "catr_delete"
+msgstr "Supprimer référence de catégorie"
+
+msgid "catr_edit_permission"
+msgstr "L'utilisateur peut modifier les permissions de l'objet"
+
+msgid "catr_visible"
+msgstr "La référence de catégorie est visible"
+
+msgid "catr_write"
+msgstr "Modifier référence de catégorie"
+
+msgid "cert_edit_permission"
+msgstr "Permissions d'administration modifiables"
+
+msgid "cert_read"
+msgstr "Panneau d'administration accessible"
+
+msgid "cert_visible"
+msgstr "Panneau d'administration visible"
+
+msgid "cert_write"
+msgstr "Administration autorisée"
+
+msgid "change_existing_object_type_desc"
+msgstr "Modifier aussi les permissions des objets existants de ce type"
+
+msgid "change_existing_objects"
+msgstr "Modifier tous les Objets Existants"
+
+msgid "change_existing_objects_desc"
+msgstr "Les permissions seront appliqués à tous les objets existants. Si vous ne souhaitez modifier les permissions que de certains types d'objets, cochez les cases correspondantes."
+
+msgid "change_existing_prefix"
+msgstr "Modifier Objets Existants :"
+
+msgid "change_existing_prefix_single"
+msgstr "Modifier"
+
+msgid "change_existing_suffix"
+msgstr "&nbsp;"
+
+msgid "change_existing_suffix_single"
+msgstr "&nbsp;"
+
+msgid "change_presentation"
+msgstr "Change Presentation"
+
+msgid "chtr_delete"
+msgstr "L'utilisateur peut déplacer et supprimer l'objet"
+
+msgid "chtr_edit_permission"
+msgstr "L'utilisateur peut modifier les permissions de l'objet"
+
+msgid "chtr_moderate"
+msgstr "L'utilisateur peut modérer les discussions"
+
+msgid "chtr_read"
+msgstr "L'utilisateur peut rejoindre la discussion et y participer"
+
+msgid "chtr_visible"
+msgstr "L'objet est visible"
+
+msgid "chtr_write"
+msgstr "L'utilisateur peut modifier les paramètres du Chat et bannir des utilisateurs"
+
+#, fuzzy
+msgid "cmis_edit_permission"
+msgstr "User can change permission settings of xAPI/cmi5 administration."
+
+msgid "cmis_read"
+msgstr "User has read access to xAPI/cmi5 administration."
+
+msgid "cmis_visible"
+msgstr "Administration of xAPI/cmi5 is visible."
+
+msgid "cmis_write"
+msgstr "User can edit settings of xAPI/cmi5 administration."
+
+msgid "cmix_copy"
+msgstr "User can copy xAPI/cmi5 Object"
+
+msgid "cmix_delete"
+msgstr "User can move or delete xAPI/cmi5 Object"
+
+msgid "cmix_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+msgid "cmix_edit_permission"
+msgstr "User can change permission settings"
+
+msgid "cmix_read"
+msgstr "User can see xAPI/cmi5 Object"
+
+msgid "cmix_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "cmix_read_outcomes"
+msgstr "User can see learning experiences and ranking of other users"
+
+msgid "cmix_visible"
+msgstr "xAPI/cmi5 Object is visible"
+
+msgid "cmix_write"
+msgstr "User can edit settings of xAPI/cmi5 Object"
+
+msgid "cmps_edit_permission"
+msgstr "Permissions d'administration modifiables"
+
+msgid "cmps_read"
+msgstr "Accès aux paramètres de composant"
+
+msgid "cmps_visible"
+msgstr "Panneau d'administration visible"
+
+msgid "cmps_write"
+msgstr "Modifier paramètres du calendrier"
+
+msgid "coms_edit_permissions"
+msgstr "User can change permission settings of administration of Comments."
+
+msgid "coms_read"
+msgstr "User has read access to administration of Comments."
+
+msgid "coms_visible"
+msgstr "Administration of Comments is visible."
+
+msgid "coms_write"
+msgstr "User can edit settings of administration of Comments."
+
+msgid "condition_failed"
+msgstr "Échec"
+
+msgid "condition_learning_progress"
+msgstr "Selon la progression"
+
+#, fuzzy
+msgid "condition_result_range_percentage"
+msgstr "Result Range"
+
+msgid "contribute"
+msgstr "Contribuer"
+
+msgid "copa_copy"
+msgstr "Copy Content Page"
+
+msgid "copa_delete"
+msgstr "User can move or delete Content Page"
+
+msgid "copa_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+msgid "copa_edit_permission"
+msgstr "User can change permission settings"
+
+msgid "copa_read"
+msgstr "User can read Content Page"
+
+msgid "copa_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "copa_visible"
+msgstr "Content Page is visible"
+
+msgid "copa_write"
+msgstr "User can edit Content Page"
+
+msgid "cpad_edit_permissions"
+msgstr "User can change permission settings of administration of Content Pages."
+
+msgid "cpad_read"
+msgstr "User has read access to administration of Content Pages."
+
+msgid "cpad_visible"
+msgstr "Administration of Content Pages is visible."
+
+msgid "cpad_write"
+msgstr "User can edit settings of administration of Content Pages."
+
+msgid "crs_copy"
+msgstr "L'utilisateur peut copier l'objet"
+
+msgid "crs_delete"
+msgstr "L'utilisateur peut déplacer et supprimer l'objet"
+
+msgid "crs_edit_event"
+msgstr "Modifier évènements de l'agenda"
+
+msgid "crs_edit_learning_progress"
+msgstr "L'utilisateur peut voir la progression et modifer ses paramètres"
+
+msgid "crs_edit_permission"
+msgstr "L'utilisateur peut modifier les permissions de l'objet"
+
+msgid "crs_grade"
+msgstr "Noter les membres du cours"
+
+msgid "crs_join"
+msgstr "L'utilisateur peut s'inscrire"
+
+msgid "crs_leave"
+msgstr "L'utilisateur peut se désinscrire"
+
+msgid "crs_manage_members"
+msgstr "Gérer les membres du cours"
+
+msgid "crs_news_add_news"
+msgstr "Ajouter et éditer ses propres entrées de nouvelles dans le cours"
+
+msgid "crs_read"
+msgstr "L'utilisateur a accès au cours"
+
+msgid "crs_read_learning_progress"
+msgstr "L'utilisateur peut afficher les progrès d'apprentissage des autres utilisateurs"
+
+msgid "crs_visible"
+msgstr "L'objet est visible"
+
+msgid "crs_write"
+msgstr "L'utilisateur peut modifier les paramètres et gérer le contenu de l'objet"
+
+msgid "crsr_copy"
+msgstr "Copier référence de cours"
+
+msgid "crsr_delete"
+msgstr "Supprimer référence de cours"
+
+msgid "crsr_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+msgid "crsr_edit_permission"
+msgstr "L'utilisateur peut modifier les permissions de l'objet"
+
+msgid "crsr_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "crsr_visible"
+msgstr "La référence de cours est visible"
+
+msgid "crsr_write"
+msgstr "Modifier référence de cours"
+
+msgid "crss_edit_permission"
+msgstr "L'utilisateur peut modifier les permissions de l'objet"
+
+msgid "crss_read"
+msgstr "L'utilisateur a un accès en lecture à l'administration de l'objet"
+
+msgid "crss_visible"
+msgstr "L'administration de l'objet est visible"
+
+msgid "crss_write"
+msgstr "L'utilisateur peut modifier les paramètres de l'objet"
+
+msgid "dcl_add_entry"
+msgstr "L'utilisateur peut ajouter/éditer des entrées"
+
+msgid "dcl_copy"
+msgstr "L'utilisateur peut copier l'objet"
+
+msgid "dcl_delete"
+msgstr "L'utilisateur peut déplacer et supprimer l'objet"
+
+msgid "dcl_edit_content"
+msgstr "Éditer les entrées"
+
+msgid "dcl_edit_permission"
+msgstr "L'utilisateur peut modifier les permissions de l'objet"
+
+msgid "dcl_read"
+msgstr "L'utilisateur a accès à la collection de données"
+
+msgid "dcl_visible"
+msgstr "L'objet est visible"
+
+msgid "dcl_write"
+msgstr "L'utilisateur peut modifier les paramètres et éditer le contenu de l'objet"
+
+msgid "delete_files"
+msgstr "Supprimer Fichiers"
+
+msgid "delete_folders"
+msgstr "Supprimer Dossiers"
+
+msgid "delete_wiki_pages"
+msgstr "Supprimer les pages"
+
+#, fuzzy
+msgid "dpro_edit_permission"
+msgstr "User can change permission settings in the Declaration of Data Protected administration"
+
+#, fuzzy
+msgid "dpro_read"
+msgstr "User has read access to the Declaration of Data Protection administration"
+
+#, fuzzy
+msgid "dpro_visible"
+msgstr "Declaration of Data Protection administration is visible"
+
+#, fuzzy
+msgid "dpro_write"
+msgstr "Edit settings in the Declaration of Data Protection"
+
+msgid "dshs_change_presentation"
+msgstr "Change presentation of dashboard view"
+
+msgid "dshs_edit_permission"
+msgstr "User can change permission settings of Dashboard administration"
+
+msgid "dshs_read"
+msgstr "User has read access to Dashboard administration"
+
+msgid "dshs_visible"
+msgstr "Dashboard administration is visible"
+
+msgid "dshs_write"
+msgstr "Edit settings of Dashboard administration"
+
+msgid "ecss_edit_permission"
+msgstr "Permissions d'administration modifiables"
+
+msgid "ecss_read"
+msgstr "Panneau d'administration accessible"
+
+msgid "ecss_visible"
+msgstr "Paramètres ECS visibles"
+
+msgid "ecss_write"
+msgstr "L'utilisateur peut modifier les paramètres ECS"
+
+msgid "edit_event"
+msgstr "Modifier agenda"
+
+#, fuzzy
+msgid "edit_file"
+msgstr "Edit File"
+
+msgid "edit_in_online_editor"
+msgstr "Open in online editor"
+
+msgid "edit_learning_progress"
+msgstr "Modifier suivi"
+
+msgid "edit_members"
+msgstr "Gérer les membres"
+
+msgid "edit_permission"
+msgstr "Modifier permissions"
+
+msgid "edit_roleassignment"
+msgstr "Attribution de Rôles"
+
+msgid "edit_submissions_grades"
+msgstr "Éditer les soumissions et les notes"
+
+msgid "edit_userassignment"
+msgstr "Editer l'Assignation d'Utilisateurs"
+
+msgid "edit_wiki_navigation"
+msgstr "Modifier Navigation"
+
+msgid "exc_copy"
+msgstr "L'utilisateur peut copier l'objet"
+
+msgid "exc_delete"
+msgstr "L'utilisateur peut déplacer et supprimer l'objet"
+
+msgid "exc_edit_learning_progress"
+msgstr "L'utilisateur peut voir la progression et modifer ses paramètres"
+
+msgid "exc_edit_permission"
+msgstr "L'utilisateur peut modifier les permissions de l'objet"
+
+msgid "exc_edit_submissions_grades"
+msgstr "L’utilisateur peut éditer les soumissions et les notes"
+
+msgid "exc_read"
+msgstr "L'utilisateur peut participer à l'exercice"
+
+msgid "exc_read_learning_progress"
+msgstr "L'utilisateur peut afficher les progrès d'apprentissage des autres utilisateurs"
+
+msgid "exc_visible"
+msgstr "L'objet est visible"
+
+msgid "exc_write"
+msgstr "L'utilisateur peut modifier les paramètres et éditer le contenu de l'objet"
+
+msgid "excs_edit_permission"
+msgstr "L’utilisateur peut modifier les paramètres de permission dans l’administration des exercices"
+
+msgid "excs_read"
+msgstr "L’utilisateur a un accès de lecture pour l’administration des exercices"
+
+msgid "excs_visible"
+msgstr "L’administration des exercices est visible"
+
+msgid "excs_write"
+msgstr "Éditer les paramètres dans l’administration des exercices"
+
+msgid "export_member_data"
+msgstr "Accès aux données de l'utilisateur"
+
+msgid "facs_edit_permission"
+msgstr "Permissions d'administration modifiables"
+
+msgid "facs_read"
+msgstr "Lire les paramètres de fichiers et dossiers"
+
+msgid "facs_upload_blacklisted_files"
+msgstr "Upload indexed file types despite blacklist"
+
+msgid "facs_visible"
+msgstr "Les paramètres des fichiers et dossiers sont visibles"
+
+msgid "facs_write"
+msgstr "Modifier paramètres des fichiers et dossiers"
+
+msgid "feed_copy"
+msgstr "L’utilisateur peut copier le flux web"
+
+msgid "feed_delete"
+msgstr "L'utilisateur peut déplacer et supprimer l'objet"
+
+msgid "feed_edit_permission"
+msgstr "L'utilisateur peut modifier les permissions de l'objet"
+
+msgid "feed_read"
+msgstr "L'utilisateur peut lire le flux RSS"
+
+msgid "feed_write"
+msgstr "L'utilisateur peut modifier les paramètres de l'objet"
+
+msgid "file_copy"
+msgstr "L'utilisateur peut copier l'objet"
+
+msgid "file_delete"
+msgstr "L'utilisateur peut déplacer et supprimer l'objet"
+
+#, fuzzy
+msgid "file_edit_file"
+msgstr "Allow to edit the file in an external editor, if available"
+
+msgid "file_edit_learning_progress"
+msgstr "L’utilisateur peut éditer les paramètres de progression"
+
+msgid "file_edit_permission"
+msgstr "L'utilisateur peut modifier les permissions de l'objet"
+
+#, fuzzy
+msgid "file_file_view_content"
+msgstr "File content presented in browser (if WOPI is active)"
+
+#, fuzzy
+msgid "file_file_view_content_short"
+msgstr "Show Content"
+
+msgid "file_read"
+msgstr "L'utilisateur peut télécharger un fichier"
+
+msgid "file_read_learning_progress"
+msgstr "L’utilisateur peut voir la progression d’apprentissage d’autres utilisateurs"
+
+msgid "file_visible"
+msgstr "L'objet est visible"
+
+msgid "file_write"
+msgstr "L'utilisateur peut modifier les paramètres et déposer une nouvelle version du fichier"
+
+msgid "files_visible"
+msgstr "Fichiers Visibles"
+
+msgid "fils_edit_permissions"
+msgstr "User can change permission settings of File Services administration."
+
+msgid "fils_read"
+msgstr "User has read access to File Services administration."
+
+msgid "fils_visible"
+msgstr "Administration of File Services is visible."
+
+msgid "fils_write"
+msgstr "User can edit and configure File Services."
+
+msgid "filter_all_roles"
+msgstr "Afficher tous les rôles du contexte courant"
+
+msgid "filter_global_roles"
+msgstr "Afficher seulement les rôles globaux"
+
+msgid "filter_local_roles"
+msgstr "Afficher uniquement les rôles locaux du contexte courant"
+
+msgid "filter_local_roles_object"
+msgstr "Afficher seulement les rôles locaux définis à cette position"
+
+msgid "filter_roles_local_policy"
+msgstr "Afficher uniquement les rôles utilisant une politique locale à cette position"
+
+msgid "fld_create_poll"
+msgstr "Créer Vote"
+
+msgid "fold_copy"
+msgstr "L'utilisateur peut copier l'objet"
+
+msgid "fold_delete"
+msgstr "L'utilisateur peut déplacer et supprimer l'objet"
+
+msgid "fold_edit_learning_progress"
+msgstr "L'utilisateur peut voir la progression et modifer ses paramètres"
+
+msgid "fold_edit_permission"
+msgstr "L'utilisateur peut modifier les permissions de l'objet"
+
+msgid "fold_read"
+msgstr "L'utilisateur a accès au dossier"
+
+msgid "fold_read_learning_progress"
+msgstr "L'utilisateur peut afficher les progrès d'apprentissage des autres utilisateurs"
+
+msgid "fold_visible"
+msgstr "L'objet est visible"
+
+msgid "fold_write"
+msgstr "L'utilisateur peut modifier les paramètres et éditer le contenu de l'objet"
+
+msgid "folders_create"
+msgstr "Créer Dossiers"
+
+msgid "folders_visible"
+msgstr "Dossiers Visibles"
+
+msgid "frm_add_reply"
+msgstr "L'utilisateur peut répondre aux messages"
+
+msgid "frm_add_thread"
+msgstr "L'utilisateur peut ajouter de nouveaux sujets"
+
+msgid "frm_copy"
+msgstr "L'utilisateur peut copier l'objet"
+
+msgid "frm_delete"
+msgstr "L'utilisateur peut déplacer et supprimer l'objet"
+
+#, fuzzy
+msgid "frm_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+msgid "frm_edit_permission"
+msgstr "L'utilisateur peut modifier les permissions de l'objet"
+
+msgid "frm_moderate_frm"
+msgstr "L'utilisateur peut éditer, censurer et supprimer les messages"
+
+msgid "frm_read"
+msgstr "L'utilisateur peut lire le forum"
+
+#, fuzzy
+msgid "frm_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "frm_visible"
+msgstr "L'objet est visible"
+
+msgid "frm_write"
+msgstr "L'utilisateur peut modifier les paramètres et les modérateurs du forum"
+
+msgid "frma_edit_permission"
+msgstr "Permissions d'administration modifiables"
+
+msgid "frma_read"
+msgstr "Panneau d'administration accessible"
+
+msgid "frma_visible"
+msgstr "Panneau d'administration visible"
+
+msgid "frma_write"
+msgstr "Administration autorisée"
+
+msgid "glo_copy"
+msgstr "L'utilisateur peut copier l'objet"
+
+msgid "glo_delete"
+msgstr "L'utilisateur peut déplacer et supprimer l'objet"
+
+msgid "glo_edit_content"
+msgstr "L'utilisateur peut éditer les contenus"
+
+msgid "glo_edit_permission"
+msgstr "L'utilisateur peut modifier les permissions de l'objet"
+
+msgid "glo_read"
+msgstr "L'utilisateur peut lire le glossaire"
+
+msgid "glo_visible"
+msgstr "L'objet est visible"
+
+msgid "glo_write"
+msgstr "L'utilisateur peut modifier les paramètres et éditer le contenu de l'objet"
+
+msgid "grp_copy"
+msgstr "L'utilisateur peut copier l'objet"
+
+msgid "grp_delete"
+msgstr "L'utilisateur peut déplacer et supprimer l'objet"
+
+msgid "grp_edit_event"
+msgstr "Modifier événements du calendrier"
+
+msgid "grp_edit_learning_progress"
+msgstr "L'utilisateur peut voir la progression et modifer ses paramètres"
+
+msgid "grp_edit_permission"
+msgstr "L'utilisateur peut modifier les permissions de l'objet"
+
+msgid "grp_grade"
+msgstr "Noter les membres du groupe"
+
+msgid "grp_join"
+msgstr "L'utilisateur peut s'inscrire"
+
+msgid "grp_leave"
+msgstr "L'utilisateur peut se désinscrire"
+
+msgid "grp_manage_members"
+msgstr "Gérer les membres du groupe"
+
+msgid "grp_news_add_news"
+msgstr "Ajouter et éditer ses propres entrées dans un groupe"
+
+msgid "grp_read"
+msgstr "L'utilisateur a accès au groupe"
+
+msgid "grp_read_learning_progress"
+msgstr "L'utilisateur peut afficher les progrès d'apprentissage des autres utilisateurs"
+
+msgid "grp_visible"
+msgstr "L'objet est visible"
+
+msgid "grp_write"
+msgstr "L'utilisateur peut modifier les paramètres et éditer le contenu de l'objet"
+
+msgid "grpr_copy"
+msgstr "User can copy group reference"
+
+msgid "grpr_delete"
+msgstr "User can move or delete group reference"
+
+msgid "grpr_edit_permission"
+msgstr "L’utilisateur peut modifier les paramètres de permission"
+
+msgid "grpr_visible"
+msgstr "Group reference is visible"
+
+msgid "grpr_write"
+msgstr "User can edit settings of group reference"
+
+msgid "grps_edit_permission"
+msgstr "L'utilisateur peut modifier les permissions de l'objet"
+
+msgid "grps_read"
+msgstr "L'utilisateur a un accès en lecture à l'administration de l'objet"
+
+msgid "grps_visible"
+msgstr "L'administration de l'objet est visible"
+
+msgid "grps_write"
+msgstr "L'utilisateur peut modifier les paramètres de l'objet"
+
+msgid "hlps_edit_permission"
+msgstr "Permissions d'administration modifiables"
+
+msgid "hlps_read"
+msgstr "Panneau d'administration accessible"
+
+msgid "hlps_visible"
+msgstr "Panneau d'administration visible"
+
+msgid "hlps_write"
+msgstr "Administration autorisée"
+
+msgid "htlm_copy"
+msgstr "L'utilisateur peut copier l'objet"
+
+msgid "htlm_delete"
+msgstr "L'utilisateur peut déplacer et supprimer l'objet"
+
+msgid "htlm_edit_learning_progress"
+msgstr "L'utilisateur peut voir la progression et modifer ses paramètres"
+
+msgid "htlm_edit_permission"
+msgstr "L'utilisateur peut modifier les permissions de l'objet"
+
+msgid "htlm_read"
+msgstr "L'utilisateur peut lire le module HTML"
+
+msgid "htlm_read_learning_progress"
+msgstr "L'utilisateur peut afficher les progrès d'apprentissage des autres utilisateurs"
+
+msgid "htlm_visible"
+msgstr "L'objet est visible"
+
+msgid "htlm_write"
+msgstr "L'utilisateur peut modifier les paramètres et éditer le contenu de l'objet"
+
+msgid "iass_amend_grading"
+msgstr "Amend gradings in an Individual Assessment"
+
+msgid "iass_copy"
+msgstr "Copy a Individual Assessment"
+
+msgid "iass_delete"
+msgstr "Delete a Individual Assessment"
+
+msgid "iass_edit_learning_progress"
+msgstr "Edit learning progress information of a Individual Assessment"
+
+msgid "iass_edit_members"
+msgstr "Edit members of a Individual Assessment"
+
+msgid "iass_edit_permission"
+msgstr "Edit permissions of a Individual Assessment"
+
+msgid "iass_read"
+msgstr "Read content of a Individual Assessment"
+
+msgid "iass_read_learning_progress"
+msgstr "View learning progress information of a Individual Assessment"
+
+msgid "iass_visible"
+msgstr "L’évaluation individuelle est visible"
+
+msgid "iass_write"
+msgstr "Edit a Individual Assessment"
+
+msgid "il_lti_global_role"
+msgstr "LTI User"
+
+msgid "il_sess_participant"
+msgstr "Participant à la session"
+
+msgid "il_sess_status_closed"
+msgstr "Session fermée pour les non-participants"
+
+msgid "ilias_id"
+msgstr "ID ILIAS"
+
+#, fuzzy
+msgid "impr_edit_permission"
+msgstr "User can change permission settings of Legal Notice administration"
+
+#, fuzzy
+msgid "impr_read"
+msgstr "User can read in Legal Notice administration"
+
+#, fuzzy
+msgid "impr_visible"
+msgstr "Administration of Legal Notice is visible"
+
+#, fuzzy
+msgid "impr_write"
+msgstr "User can edit content and settings of Legal Notice"
+
+msgid "info_user_view_changed"
+msgstr "Vue utilisateur modifiée"
+
+msgid "internal_mail"
+msgstr "Messagerie"
+
+msgid "invite"
+msgstr "Inviter Participants"
+
+msgid "itgr_copy"
+msgstr "L'utilisateur peut copier l'objet"
+
+msgid "itgr_delete"
+msgstr "L'utilisateur peut déplacer et supprimer l'objet"
+
+msgid "itgr_edit_permission"
+msgstr "L'utilisateur peut modifier les permissions de l'objet"
+
+msgid "itgr_read"
+msgstr "L'utilisateur a accès au groupe d'objets"
+
+msgid "itgr_visible"
+msgstr "L'objet est visible"
+
+msgid "itgr_write"
+msgstr "L'utilisateur peut modifier les paramètres et éditer le contenu de l'objet"
+
+msgid "leave"
+msgstr "Se désinscrire"
+
+msgid "lhts_edit_permissions"
+msgstr "User can change permission settings of Learning History administration."
+
+msgid "lhts_read"
+msgstr "User has read access to Learning History administration."
+
+msgid "lhts_visible"
+msgstr "Administration of Learning History is visible."
+
+msgid "lhts_write"
+msgstr "User can edit settings of Learning History administration."
+
+msgid "lm_copy"
+msgstr "L'utilisateur peut copier l'objet"
+
+msgid "lm_delete"
+msgstr "L'utilisateur peut déplacer et supprimer l'objet"
+
+msgid "lm_edit_learning_progress"
+msgstr "L'utilisateur peut voir la progression et modifer ses paramètres"
+
+msgid "lm_edit_permission"
+msgstr "L'utilisateur peut modifier les permissions de l'objet"
+
+msgid "lm_read"
+msgstr "L'utilisateur peut lire le module ILIAS"
+
+msgid "lm_read_learning_progress"
+msgstr "L'utilisateur peut afficher les progrès d'apprentissage des autres utilisateurs"
+
+msgid "lm_visible"
+msgstr "L'objet est visible"
+
+msgid "lm_write"
+msgstr "L'utilisateur peut modifier les paramètres et éditer le contenu de l'objet"
+
+msgid "lngf_edit_permission"
+msgstr "Permissions d'administration modifiables"
+
+msgid "lngf_read"
+msgstr "Panneau d'administration accessible"
+
+msgid "lngf_visible"
+msgstr "Panneau d'administration visible"
+
+msgid "lngf_write"
+msgstr "Paramétrage et Utilisation de la Maintenance Etendue"
+
+msgid "logs_edit_permission"
+msgstr "L’utilisateur peut éditer les paramètres de permission de l'administration de connexion"
+
+msgid "logs_read"
+msgstr "L'utilisateur peut lire les paramètres de connexion généraux"
+
+msgid "logs_visible"
+msgstr "Les paramètres de connexion sont visibles"
+
+msgid "logs_write"
+msgstr "L’utilisateur peut éditer les paramètres de connexion"
+
+msgid "lp_other_users"
+msgstr "Voir la progression des autres utilisateurs"
+
+msgid "lrss_edit_permission"
+msgstr "Permissions d'administration modifiables"
+
+msgid "lrss_read"
+msgstr "Lire l'accès aux paramètres des ressources d'apprentissage"
+
+msgid "lrss_visible"
+msgstr "Panneau d'administration visible"
+
+msgid "lrss_write"
+msgstr "Administration autorisée"
+
+msgid "lso_copy"
+msgstr "User can copy Learning Sequence"
+
+msgid "lso_delete"
+msgstr "User can delete Learning Sequence"
+
+msgid "lso_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+msgid "lso_edit_permission"
+msgstr "User can change permission settings of Learning Sequence"
+
+msgid "lso_lp_other_users"
+msgstr "User can view learning progress of other users"
+
+msgid "lso_manage_members"
+msgstr "Manage members of Learning Sequence"
+
+msgid "lso_participate"
+msgstr "User can subscribe to a Learning Sequence"
+
+msgid "lso_read"
+msgstr "Users can access the Learning Sequence"
+
+msgid "lso_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "lso_unparticipate"
+msgstr "User can unsubscribe from a Learning Sequence"
+
+msgid "lso_visible"
+msgstr "Learning Sequence is visible"
+
+msgid "lso_write"
+msgstr "User can edit settings of Learning Sequence"
+
+#, fuzzy
+msgid "lsos_edit_permission"
+msgstr "User can change permission settings of Learning Sequences administration."
+
+msgid "lsos_read"
+msgstr "User has read access to Learning Sequences administration."
+
+msgid "lsos_visible"
+msgstr "Administration of Learning Sequences is visible."
+
+msgid "lsos_write"
+msgstr "User can edit settings of Learning Sequences administration."
+
+msgid "lti_copy"
+msgstr "User can copy LTI consumer"
+
+msgid "lti_delete"
+msgstr "User can move or delete LTI consumer"
+
+msgid "lti_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+msgid "lti_edit_permission"
+msgstr "User can change permission settings"
+
+msgid "lti_read"
+msgstr "User can see LTI consumer"
+
+msgid "lti_read_learning_progress"
+msgstr "User can view learning progress of other users"
+
+msgid "lti_read_outcomes"
+msgstr "User can see learning experiences and ranking of other users"
+
+msgid "lti_visible"
+msgstr "LTI consumer is visible"
+
+msgid "lti_write"
+msgstr "User can edit settings of LTI consumer"
+
+msgid "ltis_add_consume_provider"
+msgstr "User can add own provider settings for LTI consumer"
+
+msgid "ltis_edit_permission"
+msgstr "L’utilisateur peut modifier les paramètres de permission dans l’administration LTI"
+
+msgid "ltis_read"
+msgstr "L’utilisateur a un accès de lecture pour l’administration LTI"
+
+msgid "ltis_release_objects"
+msgstr "L’utilisateur peut relâcher les objets pour le consommateur LTI"
+
+msgid "ltis_visible"
+msgstr "L’administration LTI est visible"
+
+msgid "ltis_write"
+msgstr "L’utilisateur peut éditer les paramètres dans l'administration LTI"
+
+msgid "mail_internal_mail"
+msgstr "Utilisation de la messagerie interne"
+
+msgid "mail_mail_to_global_roles"
+msgstr "Envoi de messages aux rôles globaux"
+
+msgid "mail_read"
+msgstr "Panneau d'administration accessible"
+
+msgid "mail_smtp_mail"
+msgstr "Envoi de messages par SMTP"
+
+msgid "mail_to_global_roles"
+msgstr "Envoyer un message aux rôles globaux"
+
+msgid "mail_visible"
+msgstr "Panneau d'administration visible"
+
+msgid "mail_write"
+msgstr "Administration autorisée"
+
+#, fuzzy
+msgid "manage_all_reservations"
+msgstr "Manage All Reservations"
+
+#, fuzzy
+msgid "manage_comp"
+msgstr "User can edit Competences"
+
+#, fuzzy
+msgid "manage_comp_temp"
+msgstr "User can edit Competence Templates"
+
+msgid "manage_materials"
+msgstr "Manage Materials"
+
+#, fuzzy
+msgid "manage_own_reservations"
+msgstr "Manage Own Reservations"
+
+#, fuzzy
+msgid "manage_profiles"
+msgstr "User can edit Competence Profiles"
+
+msgid "mcst_copy"
+msgstr "L'utilisateur peut copier l'objet"
+
+msgid "mcst_delete"
+msgstr "L'utilisateur peut déplacer et supprimer l'objet"
+
+msgid "mcst_edit_learning_progress"
+msgstr "User can edit learning progress settings"
+
+msgid "mcst_edit_permission"
+msgstr "L'utilisateur peut modifier les permissions de l'objet"
+
+msgid "mcst_read"
+msgstr "L'utilisateur peut lire le mediacast"
+
+msgid "mcst_read_learning_progress"
+msgstr "L’utilisateur peut voir la progression d’apprentissage d’autres utilisateurs"
+
+msgid "mcst_visible"
+msgstr "L'objet est visible"
+
+msgid "mcst_write"
+msgstr "L'utilisateur peut modifier les paramètres et éditer le contenu de l'objet"
+
+msgid "mcts_edit_permission"
+msgstr "Permissions d'administration modifiables"
+
+msgid "mcts_read"
+msgstr "Lire les paramètres de médiacast"
+
+msgid "mcts_visible"
+msgstr "Les paramètres de médiacast sont visibles"
+
+msgid "mcts_write"
+msgstr "Modifier paramètres médiacast"
+
+msgid "mds_edit_permission"
+msgstr "Permissions d'administration modifiables"
+
+msgid "mds_read"
+msgstr "Lire les paramètres de métadonnées"
+
+msgid "mds_visible"
+msgstr "Les paramètres de Metadonnée sont visibles"
+
+msgid "mds_write"
+msgstr "Modifier paramètre médiacast"
+
+msgid "mep_copy"
+msgstr "L'utilisateur peut copier le pool média"
+
+msgid "mep_delete"
+msgstr "L'utilisateur peut déplacer et supprimer l'objet"
+
+msgid "mep_edit_permission"
+msgstr "L'utilisateur peut modifier les permissions de l'objet"
+
+msgid "mep_read"
+msgstr "L'utilisateur a accès à la galerie et peut réutiliser les médias"
+
+msgid "mep_visible"
+msgstr "L'objet est visible"
+
+msgid "mep_write"
+msgstr "L'utilisateur peut modifier les paramètres et éditer le contenu de l'objet"
+
+msgid "mme_edit_permission"
+msgstr "User can change permission settings of Main Menu administration"
+
+msgid "mme_read"
+msgstr "User has read access to administration of Main Menu"
+
+msgid "mme_visible"
+msgstr "Administration of Main Menu is visible"
+
+msgid "mme_write"
+msgstr "User can edit settings of Main Menu administration"
+
+msgid "mobs_edit_permission"
+msgstr "Permissions d'administration modifiables"
+
+msgid "mobs_read"
+msgstr "Panneau d'administration accessible"
+
+msgid "mobs_visible"
+msgstr "Panneau d'administration visible"
+
+msgid "mobs_write"
+msgstr "Administration autorisée"
+
+msgid "moderate"
+msgstr "Modérer"
+
+msgid "moderate_frm"
+msgstr "Modérer"
+
+#, fuzzy
+msgid "msg_anonymous_cannot_be_assigned"
+msgstr "Anonymous cannot be assigned to a role."
+
+msgid "msg_no_roles_of_type"
+msgstr "Aucun rôle disponible"
+
+msgid "news_add_news"
+msgstr "Ajouter les nouvelles"
+
+#, fuzzy
+msgid "no_corresponding_roles"
+msgstr "No corresponding roles could be found."
+
+#, fuzzy
+msgid "nots_edit_permission"
+msgstr "User can change permission settings of Notes administration."
+
+msgid "nots_read"
+msgstr "User has read access to Notes administration."
+
+msgid "nots_visible"
+msgstr "Administration of Notes is visible."
+
+msgid "nots_write"
+msgstr "User can edit settings of Notes administration."
+
+msgid "nwss_edit_permission"
+msgstr "Permissions d'administration modifiables"
+
+msgid "nwss_read"
+msgstr "Panneau d'administration accessible"
+
+msgid "nwss_visible"
+msgstr "Panneau d'administration visible"
+
+msgid "nwss_write"
+msgstr "Administration autorisée"
+
+#, fuzzy
+msgid "obj_skee"
+msgstr "Competence Tree"
+
+msgid "org_op_access_results"
+msgstr "Access Results of Subordinated Users"
+
+msgid "org_op_edit_submissions_grades"
+msgstr "Éditer les soumissions d’autres utilisateurs"
+
+msgid "org_op_manage_participants"
+msgstr "Manage Subordinated Participants"
+
+msgid "org_op_score_participants"
+msgstr "Score Subordinated Participants"
+
+msgid "org_op_view_certificates"
+msgstr "View certificates of subordinated users"
+
+msgid "org_op_view_competences"
+msgstr "View competences of subordinated users"
+
+msgid "org_op_write_learning_progress"
+msgstr "Définir la progression d’apprentissage des utilisateurs subalternes"
+
+msgid "orgu_cat_administrate_users"
+msgstr "L’utilisateur peut créer et administrer des comptes d’utilisateurs locaux dans cette unité organisationnelle"
+
+msgid "orgu_copy"
+msgstr "Copier Unité organisationnelle"
+
+msgid "orgu_delete"
+msgstr "L’utilisateur peut déplacer ou supprimer l’unité organisationnelle"
+
+msgid "orgu_edit_permission"
+msgstr "L’utilisateur peut modifier les paramètres de permission"
+
+msgid "orgu_read"
+msgstr "L'utilisateur a un accès de lecture pour l’unité organisationnelle"
+
+msgid "orgu_read_users"
+msgstr "L’utilisateur peut lire les comptes d’utilisateur locaux créés dans cette unité organisationnelle"
+
+msgid "orgu_view_learning_progress"
+msgstr "Voir la progression d’apprentissage"
+
+msgid "orgu_view_learning_progress_rec"
+msgstr "Voir la progression d’apprentissage de l’unité, y compris des sous-unités"
+
+msgid "orgu_visible"
+msgstr "L’unité organisationnelle est visible"
+
+msgid "orgu_write"
+msgstr "L’utilisateur peut éditer les paramètres de l’unité organisationnelle"
+
+msgid "otpl_edit_permission"
+msgstr "Permissions d'administration modifiables"
+
+msgid "otpl_read"
+msgstr "Panneau d'administration accessible"
+
+msgid "otpl_visible"
+msgstr "Panneau d'administration visible"
+
+msgid "otpl_write"
+msgstr "Administration autorisée"
+
+msgid "perm_class_create"
+msgstr "Créer de Nouveaux Objets"
+
+msgid "perm_class_create_desc"
+msgstr "Détermine quels types d'objets peuvent être créés dans le contexte courant."
+
+msgid "perm_class_object"
+msgstr "Opérations Spécifiques"
+
+msgid "perm_class_object_desc"
+msgstr "Opérations spécifiques à certains types d'objets."
+
+msgid "perm_global_role"
+msgstr "Rôle global"
+
+msgid "perm_local_role"
+msgstr "Rôle local"
+
+msgid "perm_local_role_desc"
+msgstr "Ce rôle est défini localement pour l'objet courant et correspond à une règle locale"
+
+msgid "perm_protected_global_role"
+msgstr "Rôle global protégé"
+
+msgid "perm_protected_local_role"
+msgstr "Protéger rôle local"
+
+msgid "perm_role_path_info_created"
+msgstr "Créé sur %1$s \"%2$s\""
+
+msgid "perm_role_path_info_inheritance"
+msgstr "Utilisant la police locale de %1$s \"%2$s\""
+
+msgid "perm_use_local_policy"
+msgstr "Utiliser règle locale"
+
+msgid "perm_use_local_policy_desc"
+msgstr "Si la règle locale est activée, vous pourrez définir une configuration des permissions par défaut différentes pour cet objet courant."
+
+msgid "poll_copy"
+msgstr "L'utilisateur peut copier l'objet"
+
+msgid "poll_delete"
+msgstr "L'utilisateur peut déplacer et supprimer l'objet"
+
+msgid "poll_edit_permission"
+msgstr "L'utilisateur peut modifier les permissions de l'objet"
+
+msgid "poll_read"
+msgstr "L'utilisateur peut participer au vote"
+
+msgid "poll_visible"
+msgstr "L'objet est visible"
+
+msgid "poll_write"
+msgstr "L'utilisateur peut modifier les paramètres et éditer le contenu de l'objet"
+
+msgid "positions_override_operations"
+msgstr "Ignorer les paramètres globaux"
+
+msgid "precondition_not_obligatory_alt"
+msgstr "La précondition est optionnelle"
+
+msgid "precondition_num_obligatory"
+msgstr "Nombre de Conditions Requises"
+
+msgid "precondition_num_optional_info"
+msgstr "Veuillez entrer un nombre minimum de préconditions à remplir pour permettre l'accès au cours."
+
+#, fuzzy
+msgid "precondition_number_of_required_materials_bigger_preconditions_number"
+msgstr "The number of required materials must be less than the total number of preconditions."
+
+#, fuzzy
+msgid "precondition_number_of_required_materials_lower_compulsory_items"
+msgstr "The number of required materials must be greater than the number of compulsory preconditions."
+
+#, fuzzy
+msgid "precondition_number_of_required_materials_lower_than_one"
+msgstr "The number of required materials must be at least 1."
+
+msgid "precondition_obligatory"
+msgstr "Obligatoire"
+
+msgid "precondition_obligatory_alt"
+msgstr "La précondition doit être remplie"
+
+msgid "precondition_obligatory_info"
+msgstr "Les préconditions obligatoires doivent être remplies pour avoir accès."
+
+msgid "precondition_obligatory_settings"
+msgstr "Paramétrage des Préconditions"
+
+#, fuzzy
+msgid "precondition_operator_range_err_min_max"
+msgstr "The minimum value must be less than the maximum value."
+
+#, fuzzy
+msgid "precondition_operator_range_max"
+msgstr "Maximum Percentage"
+
+#, fuzzy
+msgid "precondition_operator_range_min"
+msgstr "Minimum Percentage"
+
+msgid "prfa_edit_permission"
+msgstr "Permissions d'administration modifiables"
+
+msgid "prfa_read"
+msgstr "Panneau d'administration accessible"
+
+msgid "prfa_visible"
+msgstr "Panneau d'administration visible"
+
+msgid "prfa_write"
+msgstr "Administration autorisée"
+
+msgid "prg_copy"
+msgstr "L'utilisateur peut copier le Programme d'étude"
+
+msgid "prg_delete"
+msgstr "L’utilisateur peut supprimer le programme d’étude"
+
+msgid "prg_edit_permission"
+msgstr "L’utilisateur peut modifier les paramètres de permission"
+
+msgid "prg_manage_members"
+msgstr "Gérer les membres du programme d’étude"
+
+msgid "prg_read"
+msgstr "L’utilisateur a un accès de lecture au programme d’étude"
+
+msgid "prg_visible"
+msgstr "Le programme d’étude est visible"
+
+msgid "prg_write"
+msgstr "L’utilisateur peut éditer les paramètres du programme d’étude"
+
+msgid "prgr_copy"
+msgstr "User can copy links to study programmes"
+
+msgid "prgr_delete"
+msgstr "User can move or delete links to study programmes"
+
+msgid "prgr_edit_permission"
+msgstr "User can change permission settings"
+
+msgid "prgr_visible"
+msgstr "Links to study programmes are visible and can be used"
+
+msgid "prgr_write"
+msgstr "User can edit settings of links to study programmes"
+
+msgid "prgs_edit_permission"
+msgstr "Modifier les paramètres de permission dans l’administration du programme d’étude"
+
+msgid "prgs_read"
+msgstr "L’utilisateur a un accès de lecture pour l’administration du programme d’étude"
+
+msgid "prgs_visible"
+msgstr "L’administration du programme d’étude est visible"
+
+msgid "prgs_write"
+msgstr "Éditer les paramètres dans l’administration du programme d’étude"
+
+#, fuzzy
+msgid "prss_edit_permission"
+msgstr "User can change permission settings of Personal Resources administration."
+
+msgid "prss_read"
+msgstr "User has read access to Personal Resources administration."
+
+msgid "prss_visible"
+msgstr "Administration of Personal Resources is visible."
+
+msgid "prss_write"
+msgstr "User can edit settings of Personal Resources administration."
+
+msgid "prtt_copy"
+msgstr "L'utilisateur peut copier l'objet"
+
+msgid "prtt_delete"
+msgstr "L'utilisateur peut déplacer et supprimer l'objet"
+
+msgid "prtt_edit_permission"
+msgstr "Permissions d'administration modifiables"
+
+msgid "prtt_read"
+msgstr "Panneau d'administration accessible"
+
+msgid "prtt_visible"
+msgstr "Modèle de Portfolio visible"
+
+msgid "prtt_write"
+msgstr "L'utilisateur peut modifier les paramètres et le contenu du modèle de Portfolio"
+
+msgid "ps_edit_permission"
+msgstr "Permissions d'administration modifiables"
+
+msgid "ps_export_member_data"
+msgstr "Export des données utilisateurs dans les cours et groupes"
+
+msgid "ps_read"
+msgstr "Panneau d'administration accessible"
+
+msgid "ps_visible"
+msgstr "Panneau d'administration visible"
+
+msgid "ps_write"
+msgstr "Administration autorisée"
+
+msgid "push_desktop_items"
+msgstr "Recommend Content"
+
+msgid "qpl_copy"
+msgstr "L'utilisateur peut copier l'objet"
+
+msgid "qpl_delete"
+msgstr "L'utilisateur peut déplacer et supprimer l'objet"
+
+msgid "qpl_edit_permission"
+msgstr "L'utilisateur peut modifier les permissions de l'objet"
+
+msgid "qpl_read"
+msgstr "L'utilisateur a accès à la banque de questions et peut les insérer dans les tests"
+
+msgid "qpl_visible"
+msgstr "L'objet est visible"
+
+msgid "qpl_write"
+msgstr "L'utilisateur peut modifier les paramètres et éditer le contenu de l'objet"
+
+msgid "rbac_add_new_local_role"
+msgstr "Ajouter un nouveau rôle"
+
+msgid "rbac_add_recommended_content"
+msgstr "Recommended Content"
+
+msgid "rbac_add_recommended_content_info"
+msgstr "Adds the current object '%1' for all members of the role as recommended content."
+
+msgid "rbac_admin_permissions"
+msgstr "Permissions d'administration"
+
+msgid "rbac_auto_global"
+msgstr "Rôle global généré automatiquement"
+
+msgid "rbac_auto_local"
+msgstr "Rôle local généré automatiquement"
+
+msgid "rbac_auto_rolt"
+msgstr "Modèle de rôle auto-généré"
+
+msgid "rbac_back_to_overview"
+msgstr "Retour à la Liste des Rôles"
+
+msgid "rbac_cant_import_role_wrong_type"
+msgstr "Ne peut pas importer un rôle de l’article %s dans l’article %s."
+
+msgid "rbac_change_existing_confirm_tbl"
+msgstr "Paramètres pour \"Modifier les objets existants\""
+
+msgid "rbac_change_existing_objects_desc_new_role"
+msgstr "Les paramètres de permissions de ce rôle seront adoptés pour TOUS les objets existants."
+
+msgid "rbac_changes"
+msgstr "Modifications"
+
+msgid "rbac_choose_copy_targets"
+msgstr "Veuillez saisir une requête pour sélectionner les rôles cibles."
+
+msgid "rbac_condition_delete_sure"
+msgstr "Etes-vous sûr de vouloir supprimer les préconditions suivantes ?"
+
+msgid "rbac_context_global"
+msgstr "Global"
+
+msgid "rbac_copy_behaviour"
+msgstr "Paramètres de Copie de Rôle"
+
+#, fuzzy
+msgid "rbac_copy_behaviour_info"
+msgstr "Transfer Permissions from: %s to: %s"
+
+msgid "rbac_copy_finished"
+msgstr "Copie terminée."
+
+#, fuzzy
+msgid "rbac_copy_multi_targets"
+msgstr "%s, %s and %s further Roles selected%s"
+
+#, fuzzy
+msgid "rbac_copy_no_targets"
+msgstr "At least one Role must be selected as Target"
+
+msgid "rbac_copy_role"
+msgstr "Copier Rôle"
+
+msgid "rbac_copy_role_add_perm"
+msgstr "Ajouter Permissions"
+
+msgid "rbac_copy_role_copy"
+msgstr "Copier Permissions"
+
+msgid "rbac_copy_role_remove_perm"
+msgstr "Retirer Permissions"
+
+msgid "rbac_create_bibl"
+msgstr "Créer une Bibliographie"
+
+msgid "rbac_create_blog"
+msgstr "Créer un Blog"
+
+msgid "rbac_create_book"
+msgstr "Créer un Système de Réservation"
+
+msgid "rbac_create_cat"
+msgstr "L'utilisateur peut créer des catégories"
+
+msgid "rbac_create_catr"
+msgstr "Créer une Référence de Catégorie"
+
+msgid "rbac_create_chtr"
+msgstr "Créer une Salle de Chat"
+
+msgid "rbac_create_cmix"
+msgstr "Create xAPI/cmi5 Object"
+
+msgid "rbac_create_copa"
+msgstr "Create Content Page"
+
+msgid "rbac_create_crs"
+msgstr "Créer un Cours"
+
+msgid "rbac_create_crsr"
+msgstr "Créer une Référence de Cours"
+
+msgid "rbac_create_dcl"
+msgstr "Créer une Collection de Données"
+
+msgid "rbac_create_exc"
+msgstr "Créer un Exercice"
+
+msgid "rbac_create_file"
+msgstr "Déposer un Fichier"
+
+msgid "rbac_create_fold"
+msgstr "Créer un Dossier"
+
+msgid "rbac_create_frm"
+msgstr "Créer un Forum"
+
+msgid "rbac_create_glo"
+msgstr "Créer un Glossaire"
+
+msgid "rbac_create_grp"
+msgstr "Créer un Groupe"
+
+msgid "rbac_create_grpr"
+msgstr "Create Group Reference"
+
+msgid "rbac_create_htlm"
+msgstr "Créer un Module HTML"
+
+msgid "rbac_create_iass"
+msgstr "Créer une évaluation individuelle"
+
+msgid "rbac_create_itgr"
+msgstr "Créer un Groupe d'Objets"
+
+msgid "rbac_create_lm"
+msgstr "Créer un Module ILIAS"
+
+msgid "rbac_create_lso"
+msgstr "Create Learning Sequence"
+
+msgid "rbac_create_lti"
+msgstr "Create LTI Consumer"
+
+msgid "rbac_create_mcst"
+msgstr "Créer un Mediacast"
+
+msgid "rbac_create_mep"
+msgstr "Créer une Galerie de Médias"
+
+msgid "rbac_create_orgu"
+msgstr "Créer des unités organisationnelles"
+
+msgid "rbac_create_poll"
+msgstr "Créer un Vote"
+
+msgid "rbac_create_prg"
+msgstr "Créer un programme d’étude"
+
+msgid "rbac_create_prgr"
+msgstr "Create link to study programme"
+
+msgid "rbac_create_prtt"
+msgstr "Créer un Modèle de Portfolio"
+
+msgid "rbac_create_qpl"
+msgstr "Créer une Banque de Questions (Tests)"
+
+msgid "rbac_create_rcrs"
+msgstr "Créer un lien vers un Cours"
+
+msgid "rbac_create_role"
+msgstr "Créer Nouveau Rôle"
+
+msgid "rbac_create_rolt"
+msgstr "Créer Nouveau Modèle de Rôle"
+
+msgid "rbac_create_sahs"
+msgstr "Créer un Module SCORM/AICC"
+
+msgid "rbac_create_sess"
+msgstr "Créer une Session"
+
+#, fuzzy
+msgid "rbac_create_skee"
+msgstr "Create Competence Tree"
+
+msgid "rbac_create_spl"
+msgstr "Créer une Banque de Questions (Enquêtes)"
+
+msgid "rbac_create_svy"
+msgstr "Créer une Enquête"
+
+msgid "rbac_create_tst"
+msgstr "Créer un Test"
+
+msgid "rbac_create_usr"
+msgstr "L'utilisateur peut créer des comptes utilisateurs"
+
+msgid "rbac_create_webr"
+msgstr "Créer un Lien Web"
+
+msgid "rbac_create_wiki"
+msgstr "Créer un Wiki"
+
+msgid "rbac_delete_local_policies"
+msgstr "Supprimer polices locales"
+
+msgid "rbac_delete_local_policies_info"
+msgstr "Si actif, toutes les polices locales seront supprimées. Les permissions de l'objet seront réécrites et protégées."
+
+msgid "rbac_delete_role"
+msgstr "Supprimer un rôle"
+
+msgid "rbac_edit_condition"
+msgstr "Edité Précondition"
+
+msgid "rbac_form_copy_roles_adjust_button"
+msgstr "Rechte anpassen"
+
+msgid "rbac_form_copy_roles_adjust_type"
+msgstr "Typ der Rechteanpassung"
+
+msgid "rbac_form_copy_roles_adjust_type_add"
+msgstr "Rechte hinzufügen"
+
+msgid "rbac_form_copy_roles_adjust_type_add_info"
+msgstr "Fügt MARKIERTE Rechte der ausgewählten globalen Rollenvorlage zu den lokalen Rechtevorgabe hinzu."
+
+msgid "rbac_form_copy_roles_adjust_type_clone"
+msgstr "Rechte kopieren"
+
+msgid "rbac_form_copy_roles_adjust_type_clone_info"
+msgstr "Alle Rechte der ausgewählten globalen Rollenvorlage überschreiben alle lokalen Rechtevorgaben."
+
+msgid "rbac_form_copy_roles_adjust_type_remove"
+msgstr "Rechte entfernen"
+
+msgid "rbac_form_copy_roles_adjust_type_remove_info"
+msgstr "Entfernt die MARKIERTEN Rechte der ausgewählten globalen Rollenvorlage aus den lokalen Rechtevorgaben."
+
+msgid "rbac_form_copy_roles_ce_add_no"
+msgstr "Vorhandene Objekte NICHT anpassen"
+
+msgid "rbac_form_copy_roles_ce_add_no_info"
+msgstr "Vorhandene lokale Rechtevorgaben entsprechend ergänzt, die vorhandenen Objekte werden nicht in ihren Rechten angepasst."
+
+msgid "rbac_form_copy_roles_ce_add_yes"
+msgstr "Vorhandene Objekte nur um ausgewählte Rechte ergänzen"
+
+msgid "rbac_form_copy_roles_ce_add_yes_info"
+msgstr "Vorhandene lokale Rechtevorgaben und die Rechteeinstellungen vorhandener Objekte werden entsprechend ergänzt."
+
+msgid "rbac_form_copy_roles_ce_clone_no"
+msgstr "Vorhandene Objekte NICHT anpassen"
+
+msgid "rbac_form_copy_roles_ce_clone_no_info"
+msgstr "Vorhandene lokale Rechtevorgaben werden überschrieben, die vorhandenen Objekte werden nicht in ihren Rechten angepasst."
+
+msgid "rbac_form_copy_roles_ce_clone_yes"
+msgstr "Vorhandene Objekte ändern"
+
+msgid "rbac_form_copy_roles_ce_clone_yes_info"
+msgstr "Vorhandene lokale Rechtevorgaben entsprechend überschreiben und IN GÄNZE mit allen gecheckten und ungecheckten Vorgaben auf vorhandene Objekte angewendet."
+
+msgid "rbac_form_copy_roles_ce_remove_no"
+msgstr "Vorhandene Objekte NICHT anpassen"
+
+msgid "rbac_form_copy_roles_ce_remove_no_info"
+msgstr "Markierte Rechte werden aus vorhandenen lokalen Rechtevorgaben entfernt, die vorhandenen Objekte werden nicht in ihren Rechten angepasst."
+
+msgid "rbac_form_copy_roles_ce_remove_yes"
+msgstr "Vorhandene Objekte nur um ausgewählte Rechte reduzieren"
+
+msgid "rbac_form_copy_roles_ce_remove_yes_info"
+msgstr "Vorhandene lokale Rechtevorgaben und die Rechteeinstellungen vorhandener Objekte werden entsprechend reduziert."
+
+msgid "rbac_global_rolt"
+msgstr "Modèle de Rôle Global"
+
+msgid "rbac_import_role"
+msgstr "Importer Rôle"
+
+msgid "rbac_info_only_position_access"
+msgstr "Vous voyez uniquement les membres avec une position dans votre unité organisationnelle. Les membres avec d’autres positions organisationnelles ne sont pas affichés mais peuvent se trouver dans ce cours sans être affichés."
+
+msgid "rbac_keep_local_policies"
+msgstr "Conserver polices locales"
+
+msgid "rbac_keep_local_policies_info"
+msgstr "Choisissez ce mode pour préserver les politiques locales. Les permissions de l'objet seront adaptées à ces politiques puis protégées."
+
+msgid "rbac_local_policies"
+msgstr "Police locale"
+
+msgid "rbac_local_policy"
+msgstr "Utiliser règle locale (Supprimer l'héritage)"
+
+msgid "rbac_log"
+msgstr "Journal"
+
+msgid "rbac_log_change_owner"
+msgstr "Modifier le propriétaire de l'objet"
+
+msgid "rbac_log_changed_owner"
+msgstr "Propriétaire modifié sur"
+
+msgid "rbac_log_copy_object"
+msgstr "Copier objet"
+
+msgid "rbac_log_create_object"
+msgstr "Créer objet"
+
+msgid "rbac_log_edit_permissions"
+msgstr "Modifier permissions"
+
+msgid "rbac_log_edit_template"
+msgstr "Modifier template de rôle"
+
+msgid "rbac_log_edit_template_existing"
+msgstr "Utiliser template de rôle pour les objets existants"
+
+msgid "rbac_log_inheritance_add"
+msgstr "Héritage stoppé pour \"%s\""
+
+msgid "rbac_log_inheritance_rmv"
+msgstr "Héritage autorisé pour «%s»"
+
+msgid "rbac_log_link_object"
+msgstr "Lier objet"
+
+msgid "rbac_log_move_object"
+msgstr "Déplacer objet"
+
+msgid "rbac_log_operation_add"
+msgstr "Opération ajoutée pour \"%s\""
+
+msgid "rbac_log_operation_rmv"
+msgstr "Opération retirée pour «%s»"
+
+msgid "rbac_log_source_object"
+msgstr "Object source"
+
+msgid "rbac_msg_user_already_assigned"
+msgstr "Les utilisateurs choisis sont déjà  assignés à  ce rôle"
+
+msgid "rbac_not_change_existing_objects"
+msgstr "Ne PAS modifier les objets existants"
+
+msgid "rbac_permissions"
+msgstr "Permissions"
+
+#, fuzzy
+msgid "rbac_precondition_condition"
+msgstr "Access requires having this status"
+
+msgid "rbac_precondition_hide"
+msgstr "Masquer l’objet"
+
+msgid "rbac_precondition_hide_info"
+msgstr " Cette option permet de masquer l’objet pour les utilisateurs qui n’ont actuellement pas rempli les conditions préalables. Par conséquent, tout le contenu inaccessible est invisible."
+
+msgid "rbac_precondition_minimum_optional"
+msgstr "Au moins 2 préconditions doivent rester optionnelles."
+
+msgid "rbac_precondition_mode"
+msgstr "Mode"
+
+msgid "rbac_precondition_mode_all"
+msgstr "Toutes les Préconditions"
+
+msgid "rbac_precondition_mode_all_info"
+msgstr "Toutes les préconditions doivent être satisfaites pour permettre l'accès."
+
+msgid "rbac_precondition_mode_subset"
+msgstr "Ensemble de Préconditions"
+
+msgid "rbac_precondition_mode_subset_info"
+msgstr "Un ensemble de préconditions doit être rempli pour permettre l'accès. Certaines préconditions peuvent être rendues obligatoires."
+
+msgid "rbac_precondition_save_obligatory"
+msgstr "Enregistrer les Obligations"
+
+msgid "rbac_precondition_source"
+msgstr "Déclencheur"
+
+msgid "rbac_precondition_target"
+msgstr "La condition limite l'accès à"
+
+msgid "rbac_repository_permissions"
+msgstr "Permissions du Catalogue"
+
+msgid "rbac_role_delete_qst"
+msgstr "Etes vous certain de vouloir supprimer le rôle suivant ?<br />Toutes les permissions granted pour ce rôle seront supprimées de façon permanente."
+
+msgid "rbac_role_delete_self"
+msgstr "<strong>Attention:</strong>. Vous ètes assigné à  ce rôle. Si vous persistez, vous risquez de perdre certains accès à  des objets ou activités."
+
+msgid "rbac_role_exists_alert"
+msgstr "Un rôle avec un nom identique existe déjà  dans ce contexte. Veuillez choisir un autre nom."
+
+msgid "rbac_role_imported"
+msgstr "Le rôle a été importé."
+
+msgid "rbac_role_rights_copy"
+msgstr "Copier permissions"
+
+msgid "rbac_role_rights_copy_change_existing"
+msgstr "Modifier les objets existants"
+
+msgid "rbac_role_rights_copy_empty"
+msgstr "Aucun"
+
+msgid "rbac_role_selection"
+msgstr "Type de Rôle"
+
+msgid "rbac_role_title"
+msgstr "Titre du Rôle"
+
+msgid "rbac_select_copy_targets"
+msgstr "Veuillez sélectionner les rôles ciblés"
+
+msgid "rbac_select_roles"
+msgstr "Role Selection"
+
+msgid "rbac_ud_global"
+msgstr "Rôle global défini par l'utilisateur"
+
+msgid "rbac_ud_local"
+msgstr "Rôle local défini par l'utilisateur"
+
+msgid "rbac_ud_rolt"
+msgstr "Modèle de rôle défini par l'utilisateur"
+
+msgid "rbac_unprotected_delete_local_policies_info"
+msgstr "Si actif, toutes les polices locales seront supprimées. Les permissions des cours et groupes seront réinitialisées."
+
+msgid "rbac_unprotected_keep_local_policies_info"
+msgstr "Choisir ce mode pour conserver toutes les polices locales."
+
+#, fuzzy
+msgid "rbac_view_content"
+msgstr "View Content"
+
+msgid "rcat_delete"
+msgstr "L'utilisateur peut déplacer et supprimer l'objet"
+
+msgid "rcat_edit_permission"
+msgstr "L'utilisateur peut modifier les permissions de l'objet"
+
+msgid "rcat_read"
+msgstr "Utilisation des Catégories ECS"
+
+msgid "rcat_visible"
+msgstr "L'objet est visible"
+
+msgid "rcat_write"
+msgstr "L'utilisateur peut modifier les paramètres de l'objet"
+
+msgid "rcrs_delete"
+msgstr "Supprimer Course-Link"
+
+msgid "rcrs_edit_permission"
+msgstr "L'utilisateur peut modifier les permissions de l'objet"
+
+msgid "rcrs_read"
+msgstr "Lire le Course-Link"
+
+msgid "rcrs_visible"
+msgstr "Le cours-link est visible"
+
+msgid "rcrs_write"
+msgstr "Modifier Course-Link"
+
+#, fuzzy
+msgid "read_all_accounts"
+msgstr "Read All Accounts"
+
+#, fuzzy
+msgid "read_comp"
+msgstr "User has read access to Competences and Competence Templates"
+
+msgid "read_learning_progress"
+msgstr "Voir la progression d’apprentissage d’autres utilisateurs"
+
+msgid "read_outcomes"
+msgstr "View learning experiences of other users"
+
+#, fuzzy
+msgid "read_profiles"
+msgstr "User has read access to Competence Profiles"
+
+msgid "read_results"
+msgstr "Survey Results"
+
+msgid "read_users"
+msgstr "Lire les comptes utilisateurs locaux"
+
+msgid "recf_edit_permission"
+msgstr "Permissions d'administration modifiables"
+
+msgid "recf_read"
+msgstr "Lire les objects restaurés"
+
+msgid "recf_visible"
+msgstr "Les objets restaurés sont visibles"
+
+msgid "recf_write"
+msgstr "Modifier objets restaurés"
+
+msgid "redact"
+msgstr "Rédiger"
+
+msgid "release_objects"
+msgstr "Relâcher les objets"
+
+msgid "reps_edit_permission"
+msgstr "L'utilisateur peut modifier les permissions de l'objet"
+
+msgid "reps_read"
+msgstr "L'utilisateur a un accès en lecture à l'administration de l'objet"
+
+msgid "reps_visible"
+msgstr "L'administration de l'objet est visible"
+
+msgid "reps_write"
+msgstr "L'utilisateur peut modifier les paramètres de l'objet"
+
+msgid "rfil_delete"
+msgstr "L'utilisateur peut déplacer et supprimer l'objet"
+
+msgid "rfil_edit_permission"
+msgstr "L'utilisateur peut modifier les permissions de l'objet"
+
+msgid "rfil_read"
+msgstr "L'utilisateur peut utiliser l'objet"
+
+msgid "rfil_visible"
+msgstr "L'objet est visible"
+
+msgid "rfil_write"
+msgstr "L'utilisateur peut modifier les paramètres de l'objet"
+
+msgid "rglo_delete"
+msgstr "L'utilisateur peut déplacer et supprimer l'objet"
+
+msgid "rglo_edit_permission"
+msgstr "L'utilisateur peut modifier les permissions de l'objet"
+
+msgid "rglo_read"
+msgstr "L'utilisateur peut utiliser l'objet"
+
+msgid "rglo_visible"
+msgstr "L'objet est visible"
+
+msgid "rglo_write"
+msgstr "L'utilisateur peut modifier les paramètres de l'objet"
+
+msgid "rgrp_delete"
+msgstr "L'utilisateur peut déplacer et supprimer l'objet"
+
+msgid "rgrp_edit_permission"
+msgstr "L'utilisateur peut modifier les permissions de l'objet"
+
+msgid "rgrp_read"
+msgstr "L'utilisateur peut utiliser l'objet"
+
+msgid "rgrp_visible"
+msgstr "L'objet est visible"
+
+msgid "rgrp_write"
+msgstr "L'utilisateur peut modifier les paramètres de l'objet"
+
+msgid "rlm_delete"
+msgstr "L'utilisateur peut déplacer et supprimer l'objet"
+
+msgid "rlm_edit_permission"
+msgstr "L'utilisateur peut modifier les permissions de l'objet"
+
+msgid "rlm_read"
+msgstr "L'utilisateur peut utiliser l'objet"
+
+msgid "rlm_visible"
+msgstr "L'objet est visible"
+
+msgid "rlm_write"
+msgstr "L'utilisateur peut modifier les paramètres de l'objet"
+
+msgid "role_block_role"
+msgstr "Désactiver rôle (ne JAMAIS cocher cette case)"
+
+msgid "role_block_role_desc"
+msgstr "Les accès à  cet objet et ses objets contenus seront révoqués."
+
+msgid "role_blocked"
+msgstr ": <i>Rôle sera bloqué</i>"
+
+msgid "role_confirm_block_role"
+msgstr "Sauvegarder le statut de rôle"
+
+msgid "role_confirm_block_role_header"
+msgstr "Désirez vous désactiver les rôles sélectionnés ?"
+
+msgid "role_confirm_block_role_info"
+msgstr "Les opérations suivantes vont être effectuées : <br /><br />- les permissions de rôle de cet objet et de son contenu seront désactivés.<br />- les nouveaux paramètres de permisisons seront protégés."
+
+msgid "role_confirm_unblock_role_info"
+msgstr "Les étapes suivantes seront effectuées pour l’action «Débloquer le rôle»:<br /><br />- la politique locale sera supprimée."
+
+msgid "role_unblocked"
+msgstr ": <i>Le Rôle sera débloqué</i>"
+
+msgid "root_edit_permission"
+msgstr "L'utilisateur peut modifier les permissions de l'objet"
+
+msgid "root_read"
+msgstr "L'utilisateur a accès au <i>Catalogue</i>"
+
+msgid "root_visible"
+msgstr "L'objet est visible"
+
+msgid "root_write"
+msgstr "L'utilisateur peut modifier les paramètres et éditer le contenu de l'objet"
+
+msgid "rtst_delete"
+msgstr "L'utilisateur peut déplacer et supprimer l'objet"
+
+msgid "rtst_edit_permission"
+msgstr "L'utilisateur peut modifier les permissions de l'objet"
+
+msgid "rtst_read"
+msgstr "Utilisation des Tests ECS"
+
+msgid "rtst_visible"
+msgstr "L'objet est visible"
+
+msgid "rtst_write"
+msgstr "L'utilisateur peut modifier les paramètres de l'objet"
+
+msgid "rwik_delete"
+msgstr "L'utilisateur peut déplacer et supprimer l'objet"
+
+msgid "rwik_edit_permission"
+msgstr "L'utilisateur peut modifier les permissions de l'objet"
+
+msgid "rwik_read"
+msgstr "Utilisation des Wikis ECS"
+
+msgid "rwik_visible"
+msgstr "L'objet est visible"
+
+msgid "rwik_write"
+msgstr "L'utilisateur peut modifier les paramètres de l'objet"
+
+msgid "sahs_copy"
+msgstr "L'utilisateur peut copier l'objet"
+
+msgid "sahs_delete"
+msgstr "L'utilisateur peut déplacer et supprimer l'objet"
+
+msgid "sahs_edit_learning_progress"
+msgstr "L'utilisateur peut voir la progression et modifer ses paramètres"
+
+msgid "sahs_edit_permission"
+msgstr "L'utilisateur peut modifier les permissions de l'objet"
+
+msgid "sahs_read"
+msgstr "L'utilisateur peut lire le module SCORM/AICC"
+
+msgid "sahs_read_learning_progress"
+msgstr "L'utilisateur peut afficher les progrès d'apprentissage des autres utilisateurs"
+
+msgid "sahs_visible"
+msgstr "L'objet est visible"
+
+msgid "sahs_write"
+msgstr "L'utilisateur peut modifier les paramètres et éditer le contenu de l'objet"
+
+msgid "seas_edit_permission"
+msgstr "Permissions d'administration modifiables"
+
+msgid "seas_read"
+msgstr "Panneau d'administration accessible"
+
+msgid "seas_search"
+msgstr "Utilisation du moteur de recherche"
+
+msgid "seas_visible"
+msgstr "Panneau d'administration visible"
+
+msgid "seas_write"
+msgstr "Administration autorisée"
+
+msgid "sess_copy"
+msgstr "L'utilisateur peut copier l'objet"
+
+msgid "sess_delete"
+msgstr "Supprimer une session"
+
+msgid "sess_edit_event"
+msgstr "Modifier événements du calendrier"
+
+msgid "sess_edit_learning_progress"
+msgstr "L’utilisateur peut éditer les paramètres de progression"
+
+msgid "sess_edit_metadata"
+msgstr "Edit Metadata"
+
+msgid "sess_edit_permission"
+msgstr "L'utilisateur peut modifier les permissions de l'objet"
+
+msgid "sess_manage_materials"
+msgstr "Manage Session Materials"
+
+msgid "sess_manage_members"
+msgstr "Manage Participants of a Session"
+
+msgid "sess_read"
+msgstr "Lire l'activité session"
+
+msgid "sess_read_learning_progress"
+msgstr "L'utilisateur peut afficher les progrès d'apprentissage des autres utilisateurs"
+
+msgid "sess_visible"
+msgstr "Les sessions sont visibles"
+
+msgid "sess_write"
+msgstr "Modifier sessions"
+
+#, fuzzy
+msgid "skee_copy"
+msgstr "User can copy Competence Tree (currently not available)"
+
+#, fuzzy
+msgid "skee_delete"
+msgstr "User can delete Competence Tree"
+
+#, fuzzy
+msgid "skee_edit_permission"
+msgstr "User can change permission settings of Competence Tree administration"
+
+#, fuzzy
+msgid "skee_manage_comp"
+msgstr "User can edit Competences in Competence Tree"
+
+#, fuzzy
+msgid "skee_manage_comp_temp"
+msgstr "User can edit Competence Templates in Competence Tree"
+
+#, fuzzy
+msgid "skee_manage_profiles"
+msgstr "User can edit Competence Profiles in Competence Tree"
+
+#, fuzzy
+msgid "skee_read"
+msgstr "User has read access to administration of Competence Tree"
+
+#, fuzzy
+msgid "skee_read_comp"
+msgstr "User has read access to Competences and Competence Templates in Competence Tree"
+
+#, fuzzy
+msgid "skee_read_profiles"
+msgstr "User has read access to Competence Profiles in Competence Tree"
+
+#, fuzzy
+msgid "skee_visible"
+msgstr "Competence Tree is visible"
+
+#, fuzzy
+msgid "skee_write"
+msgstr "User can edit settings of Competence Tree"
+
+msgid "skmg_edit_permission"
+msgstr "Permissions d'administration modifiables"
+
+msgid "skmg_read"
+msgstr "Panneau d'administration accessible"
+
+msgid "skmg_visible"
+msgstr "Panneau d'administration visible"
+
+msgid "skmg_write"
+msgstr "Administration autorisée"
+
+msgid "smtp_mail"
+msgstr "Envoyer message"
+
+msgid "spl_copy"
+msgstr "L'utilisateur peut copier l'objet"
+
+msgid "spl_delete"
+msgstr "L'utilisateur peut déplacer et supprimer l'objet"
+
+msgid "spl_edit_permission"
+msgstr "L'utilisateur peut modifier les permissions de l'objet"
+
+msgid "spl_read"
+msgstr "L'utilisateur a accès à la banque de questions et peut les insérer dans les enquêtes"
+
+msgid "spl_visible"
+msgstr "L'objet est visible"
+
+msgid "spl_write"
+msgstr "L'utilisateur peut modifier les paramètres et éditer le contenu de l'objet"
+
+msgid "statistics_read"
+msgstr "Voir les statistiques"
+
+#, fuzzy
+msgid "stus_edit_permission"
+msgstr "User can change permission settings in Shortlink administration"
+
+#, fuzzy
+msgid "stus_read"
+msgstr "User can see the Shortlink Administration"
+
+#, fuzzy
+msgid "stus_write"
+msgstr "User can edit Shortlinks"
+
+msgid "sty_write_content"
+msgstr "Éditer les styles de contenu"
+
+msgid "sty_write_page_layout"
+msgstr "Éditer les mises en page"
+
+msgid "sty_write_system"
+msgstr "Éditer les styles de système"
+
+msgid "stys_edit_permission"
+msgstr "Permissions d'administration modifiables"
+
+msgid "stys_read"
+msgstr "Panneau d'administration accessible"
+
+msgid "stys_sty_write_content"
+msgstr "Éditer les styles de contenu"
+
+msgid "stys_sty_write_custom"
+msgstr "Éditer les styles de contenu"
+
+msgid "stys_sty_write_page_layout"
+msgstr "Éditer les mises en page"
+
+msgid "stys_sty_write_system"
+msgstr "Éditer les styles de système"
+
+msgid "stys_visible"
+msgstr "Panneau d'administration visible"
+
+msgid "svy_copy"
+msgstr "L'utilisateur peut copier l'objet"
+
+msgid "svy_delete"
+msgstr "L'utilisateur peut déplacer et supprimer l'objet"
+
+msgid "svy_edit_learning_progress"
+msgstr "L’utilisateur peut éditer les paramètres de progression"
+
+msgid "svy_edit_permission"
+msgstr "L'utilisateur peut modifier les permissions de l'objet"
+
+msgid "svy_invite"
+msgstr "L'utilisateur peut inviter des participants"
+
+msgid "svy_read"
+msgstr "L'utilisateur peut participer à l'enquête"
+
+msgid "svy_read_learning_progress"
+msgstr "L'utilisateur peut afficher les progrès d'apprentissage des autres utilisateurs"
+
+msgid "svy_read_results"
+msgstr "User has access to survey results of others"
+
+msgid "svy_visible"
+msgstr "L'objet est visible"
+
+msgid "svy_write"
+msgstr "L'utilisateur peut modifier les paramètres et éditer le contenu de l'objet"
+
+msgid "svyf_edit_permission"
+msgstr "Permissions d'administration modifiables"
+
+msgid "svyf_read"
+msgstr "Lire les paramètres d'enquête"
+
+msgid "svyf_visible"
+msgstr "Les paramètres d'enquête sont visibles"
+
+msgid "svyf_write"
+msgstr "Modifier paramètres d'enquête"
+
+msgid "sysc_edit_permission"
+msgstr "Permissions d'administration modifiables"
+
+msgid "sysc_read"
+msgstr "Panneau d'administration accessible"
+
+msgid "sysc_visible"
+msgstr "Vérification du Système visible"
+
+msgid "sysc_write"
+msgstr "L'utilisateur peut exécuter une vérification du système"
+
+msgid "tags_edit_permission"
+msgstr "Permissions d'administration modifiables"
+
+msgid "tags_read"
+msgstr "Panneau d'administration accessible"
+
+msgid "tags_visible"
+msgstr "Panneau d'administration visible"
+
+msgid "tags_write"
+msgstr "Administration autorisée"
+
+#, fuzzy
+msgid "tala_edit_permission"
+msgstr "User can change permission settings in Talk Templates administration"
+
+#, fuzzy
+msgid "tala_read"
+msgstr "User has read access to Talk Templates administration"
+
+#, fuzzy
+msgid "tala_visible"
+msgstr "Talk Templates administration is visible"
+
+#, fuzzy
+msgid "tala_write"
+msgstr "User can create and edit Talk Templates"
+
+msgid "taxs_edit_permission"
+msgstr "L'utilisateur peut modifier les paramètres de permission dans l'administration de la Taxonomie"
+
+msgid "taxs_read"
+msgstr "L'utilisateur a accès en lecture à  l'administration de la Taxonomie"
+
+msgid "taxs_visible"
+msgstr "L'administration de la Taxonomie est visible"
+
+msgid "taxs_write"
+msgstr "Éditer les paramètres dans l’administration de taxonomie"
+
+msgid "tos_edit_permission"
+msgstr "L'utilisateur peut modifier les permissions de l'objet"
+
+msgid "tos_read"
+msgstr "L'utilisateur a un accès en lecture à l'administration de l'objet"
+
+msgid "tos_visible"
+msgstr "L'administration de l'objet est visible"
+
+msgid "tos_write"
+msgstr "L'utilisateur peut modifier les paramètres de l'objet"
+
+msgid "trac_delete"
+msgstr "L'utilisateur peut supprimer les données de suivi"
+
+msgid "trac_edit_permission"
+msgstr "Permissions d'administration modifiables"
+
+msgid "trac_lp_other_users"
+msgstr "Voir la progression des autres utilisateurs"
+
+msgid "trac_read"
+msgstr "Panneau d'administration accessible"
+
+msgid "trac_visible"
+msgstr "Panneau d'administration visible"
+
+msgid "trac_write"
+msgstr "Administration autorisée"
+
+msgid "tst_copy"
+msgstr "L'utilisateur peut copier l'objet"
+
+msgid "tst_delete"
+msgstr "L'utilisateur peut déplacer et supprimer l'objet"
+
+msgid "tst_edit_learning_progress"
+msgstr "L'utilisateur peut voir la progression et modifer ses paramètres"
+
+msgid "tst_edit_permission"
+msgstr "L'utilisateur peut modifier les permissions de l'objet"
+
+msgid "tst_read"
+msgstr "L'utilisateur peut effectuer le test"
+
+msgid "tst_read_learning_progress"
+msgstr "L'utilisateur peut afficher les progrès d'apprentissage des autres utilisateurs"
+
+#, fuzzy
+msgid "tst_tst_history_read"
+msgstr "View History"
+
+msgid "tst_tst_results"
+msgstr "User has access to test results"
+
+msgid "tst_visible"
+msgstr "L'objet est visible"
+
+msgid "tst_write"
+msgstr "L'utilisateur peut modifier les paramètres et éditer le contenu de l'objet"
+
+msgid "upload_blacklisted_files"
+msgstr "Bypass blacklist"
+
+msgid "usrf_delete"
+msgstr "Suppression des comptes utilisateurs"
+
+msgid "usrf_edit_permission"
+msgstr "Permissions d'administration modifiables"
+
+msgid "usrf_edit_roleassignment"
+msgstr "Attribution de rôles à un compte utilisateur"
+
+msgid "usrf_push_desktop_items"
+msgstr "Ajout de raccourcis sur le bureau personnel des utilisateurs ayant un certain rôle"
+
+msgid "usrf_read"
+msgstr "Panneau d'administration accessible"
+
+#, fuzzy
+msgid "usrf_read_all_accounts"
+msgstr "User can list all accounts in User administration"
+
+msgid "usrf_read_users"
+msgstr "Panneau d'administration locale accessible"
+
+msgid "usrf_visible"
+msgstr "Panneau d'administration visible"
+
+msgid "usrf_write"
+msgstr "Administration autorisée"
+
+#, fuzzy
+msgid "wbdv_edit_permission"
+msgstr "User can change permission settings of WebDAV administration."
+
+msgid "wbdv_read"
+msgstr "User has read access to WebDAV administration."
+
+msgid "wbdv_visible"
+msgstr "Administration of WebDAV is visible."
+
+msgid "wbdv_write"
+msgstr "User can edit settings of WebDAV administration."
+
+msgid "wbrs_edit_permission"
+msgstr "L'utilisateur peut modifier les permissions de l'objet"
+
+msgid "wbrs_read"
+msgstr "L'utilisateur a un accès en lecture à l'administration de l'objet"
+
+msgid "wbrs_visible"
+msgstr "L'administration de l'objet est visible"
+
+msgid "wbrs_write"
+msgstr "L'utilisateur peut modifier les paramètres de l'objet"
+
+msgid "webr_copy"
+msgstr "L'utilisateur peut copier l'objet"
+
+msgid "webr_delete"
+msgstr "L'utilisateur peut déplacer et supprimer l'objet"
+
+msgid "webr_edit_permission"
+msgstr "L'utilisateur peut modifier les permissions de l'objet"
+
+msgid "webr_read"
+msgstr "L'utilisateur a accès aux liens Web"
+
+msgid "webr_visible"
+msgstr "L'objet est visible"
+
+msgid "webr_write"
+msgstr "L'utilisateur peut modifier les paramètres de l'objet"
+
+msgid "wiki_activate_wiki_protection"
+msgstr "Définir les pages Wiki en lecture seule"
+
+#, fuzzy
+msgid "wiki_add_pages"
+msgstr "User can create wiki pages"
+
+msgid "wiki_copy"
+msgstr "L'utilisateur peut copier l'objet"
+
+msgid "wiki_delete"
+msgstr "L'utilisateur peut déplacer et supprimer l'objet"
+
+msgid "wiki_delete_wiki_pages"
+msgstr "Supprimer pages Wiki"
+
+msgid "wiki_edit_content"
+msgstr "L'utilisateur peut créer et éditer des pages du Wiki"
+
+msgid "wiki_edit_page_meta"
+msgstr "Éditer le page Wiki des métadonnées"
+
+msgid "wiki_edit_permission"
+msgstr "L'utilisateur peut modifier les permissions de l'objet"
+
+msgid "wiki_edit_wiki_navigation"
+msgstr "Éditer la navigation wiki"
+
+msgid "wiki_html_export"
+msgstr "Exporter HTML"
+
+msgid "wiki_read"
+msgstr "L'utilisateur peut lire le Wiki"
+
+msgid "wiki_statistics_read"
+msgstr "Voir les statistiques"
+
+msgid "wiki_visible"
+msgstr "L'objet est visible"
+
+msgid "wiki_wiki_html_export"
+msgstr "Exporter Wiki en tant que"
+
+msgid "wiki_write"
+msgstr "L'utilisateur peut modifier les paramètres de l'objet"
+
+msgid "wiks_edit_permission"
+msgstr "L'utilisateur peut modifier les permissions de l'objet"
+
+msgid "wiks_read"
+msgstr "L'utilisateur a un accès en lecture à l'administration de l'objet"
+
+msgid "wiks_visible"
+msgstr "L'administration de l'objet est visible"
+
+msgid "wiks_write"
+msgstr "L'utilisateur peut modifier les paramètres de l'objet"
+
+msgid "write"
+msgstr "Modifier paramètres"

@@ -1,0 +1,273 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: rep\n"
+
+msgid "btn_undelete_new_location"
+msgstr "Restore (ny plats)"
+
+msgid "btn_undelete_origin_location"
+msgstr "Restore (ursprunglig plats)"
+
+msgid "rep_activation_access"
+msgstr "Tillgång"
+
+msgid "rep_activation_access_ref_info"
+msgstr "Denna inställning påverkar endast den aktuella referensen och ingen annan referens."
+
+msgid "rep_activation_availability"
+msgstr "Tillgänglighet"
+
+msgid "rep_activation_limited_end"
+msgstr "Slut"
+
+msgid "rep_activation_limited_start"
+msgstr "Start"
+
+msgid "rep_activation_limited_visibility"
+msgstr "Alltid synlig"
+
+msgid "rep_activation_online"
+msgstr "Online"
+
+msgid "rep_activation_online_object_info"
+msgstr "Den här inställningen påverkar alla referenser i magasinet."
+
+msgid "rep_add_new_def_grp_assessment"
+msgstr "Bedömning"
+
+msgid "rep_add_new_def_grp_communication"
+msgstr "Kommunikation"
+
+msgid "rep_add_new_def_grp_content"
+msgstr "Innehåll"
+
+msgid "rep_add_new_def_grp_feedback"
+msgstr "Återkoppling och utvärdering"
+
+msgid "rep_add_new_def_grp_organisation"
+msgstr "Organisation"
+
+msgid "rep_add_new_def_grp_templates"
+msgstr "Mallar"
+
+msgid "rep_added_rec_content"
+msgstr "Rekommenderat innehåll har lagts till."
+
+msgid "rep_allowed_types"
+msgstr "Tillåtna typer"
+
+msgid "rep_breadcr_crs"
+msgstr "Breadcrumb-navigering börjar med kurs"
+
+msgid "rep_breadcr_crs_config"
+msgstr "Konfiguration"
+
+msgid "rep_breadcr_crs_overwrite"
+msgstr "Breadcrumb-displayen kan konfigureras i kursen."
+
+msgid "rep_breadcr_crs_overwrite_not"
+msgstr "Breadcrumb-displayen kan inte konfigureras i kursen."
+
+#, fuzzy
+msgid "rep_breadcr_crs_overwrite_settings"
+msgstr "Allow Exceptions"
+
+#, fuzzy
+msgid "rep_breadcr_crs_overwrite_with_default"
+msgstr "Setting is changeable on course level, with this as default"
+
+msgid "rep_configure"
+msgstr "Konfigurera"
+
+msgid "rep_crs_default_shortened"
+msgstr "Standardinställning"
+
+msgid "rep_custom_icons"
+msgstr "Anpassade ikoner"
+
+msgid "rep_default"
+msgstr "standardvärde"
+
+#, fuzzy
+msgid "rep_deleted_account"
+msgstr "Deleted Account"
+
+msgid "rep_dependencies"
+msgstr "Beroenden"
+
+msgid "rep_dependency"
+msgstr "Beroende"
+
+msgid "rep_dependent_object"
+msgstr "Beroende objekt"
+
+msgid "rep_export_limit_number"
+msgstr "Antal objekt"
+
+msgid "rep_export_limitation"
+msgstr "Exportgräns för container"
+
+msgid "rep_export_limitation_disabled"
+msgstr "Container export avaktiverad"
+
+msgid "rep_export_limitation_info"
+msgstr "Begränsar antalet exporterade underobjekt vid export av behållare (kategorier, kurser, ...) i magasinet."
+
+msgid "rep_export_limitation_limited"
+msgstr "Begränsning"
+
+#, fuzzy
+msgid "rep_export_limitation_unlimited"
+msgstr "Unlimited Export"
+
+msgid "rep_failure_trashed_trash"
+msgstr "Du har valt objekt som inte längre kan återställas till sin ursprungliga plats eftersom det överordnade objektet har raderats. För dessa objekt kan du endast använda alternativet \"Återställ (ny plats)\"."
+
+msgid "rep_fav_intro1"
+msgstr "Du har för närvarande inte valt några favoriter. För att göra detta måste du vidta två åtgärder"
+
+msgid "rep_fav_intro2"
+msgstr "Klicka på \"%s\" och välj ett lärandeobjekt från det tillgängliga utbudet, t.ex. en lärmodul eller ett forum."
+
+msgid "rep_fav_intro3"
+msgstr "Om du har hittat något som intresserar dig kan du enkelt lägga till det i dina favoriter. Välj alternativet<i>\"Lägg till i favoriter</i>\" i <i>menyn Åtgärder</i> för det önskade objektet."
+
+msgid "rep_favourites"
+msgstr "Favoriter"
+
+msgid "rep_favourites_info"
+msgstr "Användare kan markera enskilda tidningsartiklar som favoriter. Favoritlistor kan aktiveras i instrumentpanelen och huvudmenyns konfiguration."
+
+#, fuzzy
+msgid "rep_input_not_empty"
+msgstr "This field must not be empty, please provide a value."
+
+msgid "rep_intro"
+msgstr "Välkommen till tidningen!"
+
+msgid "rep_intro1"
+msgstr "I det här avsnittet kan du skapa och tillgängliggöra utbildnings- och arbetsmaterial. Allt innehåll är organiserat i kategorier. Dessa kategorier kan till exempel återspegla organisationen på din institution (t.ex. avdelningar eller klasser). Kategorier"
+
+msgid "rep_intro2"
+msgstr "Du kan bygga en första struktur med tre steg"
+
+msgid "rep_intro3"
+msgstr "Klicka på <i> knappen %s</i> bredvid urvalslistan i det övre högra hörnet för att skapa en första kategori."
+
+msgid "rep_intro4"
+msgstr "I följande meny anger du en titel och en beskrivningstext för kategorin och klickar slutligen på <i>%s</i>."
+
+msgid "rep_intro5"
+msgstr "Om du klickar på titeln kommer du till din första kategori."
+
+msgid "rep_intro6"
+msgstr "Efter detta första steg kan du nu skapa ytterligare kategorier eller lägga till dina första läromedel i denna kategori."
+
+msgid "rep_mo_mem_dash"
+msgstr "Du är för närvarande inte medlem i en kurs eller grupp."
+
+msgid "rep_multiple_reference_deletion_instruction"
+msgstr "Välj ut de som också bör raderas"
+
+msgid "rep_multiple_reference_deletion_intro"
+msgstr "Det finns ytterligare referenser för detta objekt."
+
+msgid "rep_new_item_group_add"
+msgstr "Lägg till gruppering"
+
+msgid "rep_new_item_group_delete_sure"
+msgstr "Vill du verkligen ta bort följande grupperingar?"
+
+msgid "rep_new_item_group_edit"
+msgstr "Redovisa gruppering"
+
+msgid "rep_new_item_group_nr_subitems"
+msgstr "Antal tilldelade objekt"
+
+msgid "rep_new_item_group_other"
+msgstr "Mer"
+
+msgid "rep_new_item_group_unassigned"
+msgstr "Inte tilldelad"
+
+msgid "rep_new_item_group_unassigned_subitems"
+msgstr "Antal ej tilldelade objekt"
+
+msgid "rep_new_item_groups"
+msgstr "Grupperingar"
+
+msgid "rep_new_item_menu"
+msgstr "\"Lägg till nytt objekt\" meny"
+
+msgid "rep_no_last_visited_mess"
+msgstr "Du har ännu inte kallat på några objekt i magasinet."
+
+msgid "rep_no_permission_to_delete"
+msgstr "Ingen rätt att radera"
+
+msgid "rep_object_lists"
+msgstr "Objektlistor"
+
+msgid "rep_object_references_cannot_be_read"
+msgstr "Ingen rätt till %s ytterligare referenser."
+
+msgid "rep_object_to_delete"
+msgstr "Att radera"
+
+msgid "rep_rec_content_removed"
+msgstr "Rekommenderat innehåll har tagits bort."
+
+msgid "rep_recommended_content"
+msgstr "Rekommenderat innehåll"
+
+msgid "rep_remove_rec_content"
+msgstr "Bör följande rekommendationer verkligen tas bort? Motsvarande innehåll kommer att finnas kvar."
+
+msgid "rep_target_location"
+msgstr "Destination"
+
+msgid "rep_target_location_info"
+msgstr "Vänligen välj den destination där de utvalda objekten ska återställas."
+
+msgid "rep_time_based_availability"
+msgstr "Tidsbegränsad tillgänglighet"
+
+#, fuzzy
+msgid "rep_time_based_availability_info"
+msgstr "The selected items will only be visible between the start and end date."
+
+msgid "rep_time_period"
+msgstr "Tidsperiod"
+
+msgid "rep_trash_deleted_by_unknown"
+msgstr "Okänd"
+
+msgid "rep_trash_table_col_deleted_by"
+msgstr "Borttagen av"
+
+msgid "rep_trash_table_col_deleted_on"
+msgstr "Borttagen på"
+
+msgid "rep_trash_table_col_num_subs"
+msgstr "Antal underobjekt"
+
+msgid "rep_trash_table_title"
+msgstr " Borttagna objekt nedan"
+
+msgid "rep_tree_limit"
+msgstr "Begränsning av antalet poster i trädet"
+
+msgid "rep_tree_limit_info"
+msgstr "Visar endast ett begränsat antal element i trädet för att öka prestandan."
+
+msgid "rep_tree_limit_number"
+msgstr "Maximalt antal"
+
+msgid "rep_tree_limit_number_info"
+msgstr "Maximalt antal underordnade element som initialt visas för en nod. Om det finns fler underordnade element visas ett inmatningsfält för sökning där de underordnade elementen kan filtreras efter titel."

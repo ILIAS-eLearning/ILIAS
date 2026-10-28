@@ -1,0 +1,56 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: log\n"
+
+msgid "log_component_btn_reset"
+msgstr "Ripristina impostazioni"
+
+msgid "log_component_col_component"
+msgstr "Componente"
+
+msgid "log_component_col_level"
+msgstr "Livello registro"
+
+#, fuzzy
+msgid "log_component_unknown"
+msgstr "Unknown (%s)"
+
+msgid "log_components"
+msgstr "Componenti"
+
+msgid "log_level_alert"
+msgstr "ALLARME"
+
+msgid "log_level_critical"
+msgstr "CRITICO"
+
+msgid "log_level_debug"
+msgstr "DEBUG"
+
+#, fuzzy
+msgid "log_level_default"
+msgstr "Default (%s)"
+
+msgid "log_level_emergency"
+msgstr "EMERGENZA"
+
+msgid "log_level_error"
+msgstr "ERRORE"
+
+msgid "log_level_info"
+msgstr "INFO"
+
+msgid "log_level_notice"
+msgstr "AVVISO"
+
+msgid "log_level_off"
+msgstr "Disabilitato"
+
+msgid "log_level_warning"
+msgstr "ATTENZIONE"

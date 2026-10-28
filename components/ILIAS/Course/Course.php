@@ -47,5 +47,9 @@ class Course implements Component\Component
             $this,
             'crsv'
         );
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'crs'
+        );
     }
 }

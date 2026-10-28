@@ -1,0 +1,550 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: grp\n"
+
+msgid "crs_add_grouping"
+msgstr "Imposta una restrizione alle iscrizioni"
+
+msgid "crs_grouping_delete_sure"
+msgstr "Sei sicuro di voler cancellare questa restrizione alle iscrizioni?"
+
+msgid "crs_grouping_deleted"
+msgstr "La restrizione di iscrizione è stata rimossa."
+
+msgid "crs_grouping_select_one"
+msgstr "Seleziona un criterio di membership."
+
+msgid "crs_grp_added_grouping"
+msgstr "Una nuova restrizione alle iscrizioni è stata impostata."
+
+msgid "crs_grp_assign_crs"
+msgstr "Assegnazione al Gruppo"
+
+msgid "crs_grp_no_courses_assigned"
+msgstr "Nessun Gruppo Assegnato"
+
+msgid "events"
+msgstr "Sessioni"
+
+msgid "grouping_change_assignment"
+msgstr "Modifica Assegnazione"
+
+msgid "grp_activate_notification"
+msgstr "Attiva notifica"
+
+#, fuzzy
+msgid "grp_activation_online_info"
+msgstr "Set the group online to make it visible and available for group members. If not, only group administrators and roles with permission \"Edit Settings\" have access to it."
+
+msgid "grp_add_to_group"
+msgstr "Aggiungi al gruppo"
+
+msgid "grp_add_user"
+msgstr "Aggiungi utente"
+
+msgid "grp_add_user_to_group"
+msgstr "Aggiungi utenti al gruppo"
+
+msgid "grp_added_to_list"
+msgstr "Sei inserito nella lista d'attesa. Ti è stata assegnata  la posizione %s nella lista."
+
+msgid "grp_admins"
+msgstr "Amministratori"
+
+msgid "grp_admission_link_failure_invalid_code"
+msgstr "Impossibile registrarsi: Il link non è valido."
+
+msgid "grp_admission_link_failure_membership_limited"
+msgstr "Impossibile registrarsi: l'appartenenza al gruppo è limitata."
+
+msgid "grp_admission_link_failure_registration_period"
+msgstr "Impossibile registrarsi: il gruppo è fuori periodo di registrazione."
+
+msgid "grp_admission_link_success_registration"
+msgstr "Registrato correttamente al corso \"%s\"."
+
+msgid "grp_agree"
+msgstr "Accettazione"
+
+msgid "grp_agreement_header"
+msgstr "Accordo d'utilizzo"
+
+msgid "grp_agreement_required"
+msgstr "Devi accettare le condizioni d'uso, per accedere ai contenuti del gruppo."
+
+msgid "grp_already_assigned"
+msgstr "Hai gia'richiesto una iscrizione a questo gruppo."
+
+msgid "grp_at_least_one_admin"
+msgstr "Deve esserci almeno un amministratore del gruppo."
+
+msgid "grp_auto_notification"
+msgstr "E-mail di benvenuto per i nuovi partecipanti"
+
+msgid "grp_auto_notification_info"
+msgstr "Ricevono automaticamente notifiche e-mail, tali partecipanti che sono stati ammessi nel gruppo da un amministratore."
+
+msgid "grp_cancel_subscr_request"
+msgstr "Cancella l'iscrizione al gruppo"
+
+msgid "grp_cancellation_end"
+msgstr "Limite di cancellazione"
+
+msgid "grp_cancellation_end_info"
+msgstr "Da questa data in poi i partecipanti non potranno più annullare l'iscrizione."
+
+msgid "grp_cancellation_end_rbac_info"
+msgstr "La scadenza della cancellazione è stata soddisfatta su %s, non è più possibile una cancellazione."
+
+msgid "grp_cdf_edit_member"
+msgstr "Modifica dati utente relativi al gruppo"
+
+msgid "grp_cdf_tbl_last_edit"
+msgstr "Aggiornati (Dati specifici dei gruppi)"
+
+msgid "grp_change_type"
+msgstr "Modifica la tipologia del gruppo"
+
+msgid "grp_contact"
+msgstr "Assistenza"
+
+msgid "grp_copy"
+msgstr "Copia gruppo"
+
+msgid "grp_create_and_add_user"
+msgstr "Crea e aggiungi utente"
+
+msgid "grp_create_new"
+msgstr "Crea nuovo gruppo"
+
+msgid "grp_create_new_grp_in"
+msgstr "Crea nuovo gruppo in '%1'."
+
+msgid "grp_create_or_use_existing"
+msgstr "Si desidera aggiungere l'utente a un gruppo esistente o creare un nuovo gruppo?"
+
+msgid "grp_created_and_user_been_added"
+msgstr "Il gruppo è stato creato e l'utente è stato aggiunto."
+
+msgid "grp_custom_user_fields"
+msgstr "Dati utente rilevanti per il gruppo"
+
+#, fuzzy
+msgid "grp_custom_user_fields_infobox"
+msgstr "Create additional data fields for group members to fill in when they join. You can show this information as an additional column in the \"Members\" tab."
+
+#, fuzzy
+msgid "grp_custom_user_fields_table_title"
+msgstr "Relevant User Data of This Group"
+
+msgid "grp_deactivate_notification"
+msgstr "Disattiva la notifica"
+
+msgid "grp_enable_map"
+msgstr "Abilita la mappa del gruppo"
+
+msgid "grp_err_registration_limited"
+msgstr "si prega di digitare una data di inizio e fine valida per la registrazione"
+
+msgid "grp_general_informations"
+msgstr "Informazioni Generali"
+
+msgid "grp_grp_info_reg"
+msgstr "Puoi iscriverti solo ad uno dei seguenti gruppi:"
+
+msgid "grp_grp_open"
+msgstr "Apri gruppo"
+
+msgid "grp_header_delete_members"
+msgstr "Vorresti eliminare i seguenti membri da questo gruppo?"
+
+msgid "grp_header_waiting_list"
+msgstr "Lista d'attesa"
+
+msgid "grp_icon_settings"
+msgstr "Icona del gruppo"
+
+msgid "grp_import"
+msgstr "Importa Gruppo"
+
+msgid "grp_info_agree"
+msgstr "Accetto che le informazioni succitate siano visibili per gli amministratori del gruppo."
+
+msgid "grp_info_agreement"
+msgstr "I seguenti tipi di dato sono visibili agli amministratori del gruppo."
+
+msgid "grp_info_new_grp_type"
+msgstr "Nuovo tipo di gruppo"
+
+msgid "grp_info_settings"
+msgstr "Informazioni sul gruppo"
+
+msgid "grp_information"
+msgstr "Informazioni Importanti"
+
+msgid "grp_information_info"
+msgstr "Questa informazione sarà visualizzata nella pagina info e per nuove registrazioni."
+
+msgid "grp_join_request"
+msgstr "Invia"
+
+msgid "grp_lim_assigned"
+msgstr "Già assegnato al gruppo associato \"%s\"."
+
+msgid "grp_mail_admission_new_bod"
+msgstr "Siamo lieti di confermare la tua iscrizione al gruppo \"%s\"."
+
+msgid "grp_mail_admission_new_sub"
+msgstr "La tua iscrizione al gruppo \"%s\""
+
+msgid "grp_mail_all"
+msgstr "Per tutti i partecipanti"
+
+msgid "grp_mail_all_info"
+msgstr "I membri e gli amministratori possono utilizzare la funzione \"Invia ai membri\" nella scheda \"Membri\"."
+
+msgid "grp_mail_dismiss_bod"
+msgstr "La tua iscrizione al gruppo \"%s\" e'stata cancellata."
+
+msgid "grp_mail_dismiss_sub"
+msgstr "Iscrizione finita per il gruppo \"%s\""
+
+msgid "grp_mail_notification_reg_bod"
+msgstr "%s e' stato iscritto al gruppo \"%s\"."
+
+msgid "grp_mail_notification_reg_req_bod"
+msgstr "%s ha richiesto l'iscrizione al gruppo \"%s\"."
+
+msgid "grp_mail_notification_reg_req_bod2"
+msgstr "Per confermare l'iscrizione, vai a:"
+
+msgid "grp_mail_notification_reg_req_sub"
+msgstr "Richiesta di iscrizione al gruppo\"%s\""
+
+msgid "grp_mail_notification_reg_sub"
+msgstr "Utente registrato per il gruppo \"%s\""
+
+msgid "grp_mail_notification_unsub_bod"
+msgstr "%s ha cancellato la sua iscrizione al gruppo \"%s\"."
+
+msgid "grp_mail_notification_unsub_bod2"
+msgstr "Ci potrebbero essere altre iscrizioni in lista d'attesa. Per controllare la lista d'attesa, clicca qui:"
+
+msgid "grp_mail_notification_unsub_sub"
+msgstr "L'utente ha abbandonato il gruppo \"%s\""
+
+msgid "grp_mail_permanent_link"
+msgstr "clicca sul seguente link per trovare tutte le informazioni riguardanti il gruppo:"
+
+msgid "grp_mail_status_bod"
+msgstr "il tuo status nel gruppo \"%s\" e'stato cambiato."
+
+msgid "grp_mail_status_sub"
+msgstr "Status cambiato nel gruppo \"%s\""
+
+msgid "grp_mail_sub_acc_bod"
+msgstr "siamo lieti di confermare la tua iscrizione al gruppo \"%s\"."
+
+msgid "grp_mail_sub_acc_sub"
+msgstr "Tua registrazione al gruppo \"%s\""
+
+msgid "grp_mail_sub_dec_bod"
+msgstr "La tua richiesta di iscrizione al gruppo \"%s\" e'stata  rifiutata."
+
+msgid "grp_mail_sub_dec_sub"
+msgstr "Registrazione rifiutata per il gruppo \"%s\""
+
+msgid "grp_mail_subscribe_member_bod"
+msgstr "siamo lieti di confermare la tua iscrizione al gruppo \"%s\"."
+
+msgid "grp_mail_subscribe_member_sub"
+msgstr "Tua registrazione al gruppo \"%s\""
+
+msgid "grp_mail_tutors_only"
+msgstr "Solo per gli amministratori"
+
+msgid "grp_mail_tutors_only_info"
+msgstr "Solo gli amministratori possono utilizzare la funzione \"Invia ai membri\" nella scheda \"Membri\"."
+
+msgid "grp_mail_type"
+msgstr "Mail per i membri"
+
+msgid "grp_mail_unsubscribe_member_bod"
+msgstr "confermiamo la tua cancellazione come membro del gruppo %s.\\ Ci auguriamo avrai un’altra opportunità di partecipare a un altro gruppo."
+
+msgid "grp_mail_unsubscribe_member_sub"
+msgstr "La tua cancellazione come membro dal gruppo \"%s\""
+
+msgid "grp_mail_wl_bod"
+msgstr "sei stato assegnato alla lista di attesa del gruppo \"%s\".  Si è assegnato alla posizione %s sulla lista.     Riceverai un messaggio da un amministratore di gruppo quando la tua richiesta è stata approvata o respinta."
+
+msgid "grp_mail_wl_sub"
+msgstr "La tua registrazione per il gruppo \"%s\"."
+
+msgid "grp_map_location"
+msgstr "Posizione della mappa di gruppo"
+
+msgid "grp_map_settings"
+msgstr "Impostazioni della Mappa"
+
+msgid "grp_max_and_min_members_invalid"
+msgstr "Il numero minimo deve essere minore del numero massimo dei membri."
+
+msgid "grp_mem_contacts"
+msgstr "Manuale assistenza"
+
+msgid "grp_mem_tbl_header"
+msgstr "Partecipanti al gruppo"
+
+msgid "grp_member_administration"
+msgstr "Modifica partecipanti"
+
+msgid "grp_members"
+msgstr "Membri"
+
+msgid "grp_members_deleted"
+msgstr "Elimina membri"
+
+msgid "grp_members_map"
+msgstr "Mappa dei membri del gruppo"
+
+msgid "grp_members_print_title"
+msgstr "Membri del gruppo"
+
+#, fuzzy
+msgid "grp_min_one_admin"
+msgstr "There has to be at least one administrator assigned to this group."
+
+msgid "grp_missing_grp_type"
+msgstr "Si prega di scegliere un tipo di gruppo."
+
+msgid "grp_missing_password"
+msgstr "Si prega di inserire la password del gruppo."
+
+msgid "grp_new_status"
+msgstr "Il tuo nuovo stato è:"
+
+msgid "grp_next"
+msgstr "Successivo"
+
+msgid "grp_no_perm_to_add_create_first"
+msgstr "Devi prima creare in gruppo. Si prega di selezionare dove creare un nuovo gruppo."
+
+msgid "grp_notification"
+msgstr "Notifica"
+
+msgid "grp_notification_activated"
+msgstr "Notifica attivata"
+
+msgid "grp_notification_deactivated"
+msgstr "Notifica disattivata"
+
+msgid "grp_notification_explanation_admin"
+msgstr "Ricevi questa mail perché sei un amministratore di gruppo con la notifica abilitata."
+
+msgid "grp_notification_salutation"
+msgstr "Caro partecipante al gruppo,"
+
+msgid "grp_notify_off"
+msgstr "Notifica delle nuove registrazioni disattivata"
+
+msgid "grp_notify_on"
+msgstr "Notifica delle nuove registrazioni attivata"
+
+msgid "grp_pass_request"
+msgstr "Iscriviti con la password del gruppo"
+
+msgid "grp_period"
+msgstr "Periodo dell’evento"
+
+msgid "grp_period_info"
+msgstr "Informazioni sulla data di inizio e di fine dell'evento, supportata dal gruppo"
+
+msgid "grp_presentation_type"
+msgstr "Tipo di presentazione"
+
+msgid "grp_print_list"
+msgstr "Genera lista"
+
+msgid "grp_public"
+msgstr "Gruppo pubblico"
+
+msgid "grp_public_info"
+msgstr "Il gruppo è visibile ai non iscritti ma sono presenti delle restrizioni per l'iscrizione."
+
+msgid "grp_reg_code"
+msgstr "Codice di registrazione"
+
+msgid "grp_reg_code_enabled_info"
+msgstr "Se abilitato, è possibile una registrazione automatica utilizzando un collegamento di registrazione particolare."
+
+msgid "grp_reg_code_link"
+msgstr "Link di registrazione"
+
+msgid "grp_reg_deac_info_screen"
+msgstr "L'ammissione al gruppo è chiusa."
+
+msgid "grp_reg_direct"
+msgstr "Registrazione Diretta"
+
+msgid "grp_reg_direct_info_screen"
+msgstr "Puoi unirti direttamente a questo gruppo."
+
+msgid "grp_reg_disabled"
+msgstr "Nessuna registrazione possibile"
+
+msgid "grp_reg_disabled_info"
+msgstr "Solo gli amministratori del gruppo possono aggiungere utenti al gruppo."
+
+msgid "grp_reg_limited"
+msgstr "Periodo di registrazione"
+
+msgid "grp_reg_max_members_info"
+msgstr "Definisci il numero massimo di utenti che possono essere iscritti al gruppo."
+
+msgid "grp_reg_no_selfreg"
+msgstr "Nessuna iscrizione automatica"
+
+msgid "grp_reg_passwd_info_screen"
+msgstr "Se l'amministratore di un gruppo ti ha dato la password del gruppo, puoi iscriverti."
+
+msgid "grp_reg_password_info"
+msgstr "Gli utenti devono digitare la password corretta per unirsi al gruppo."
+
+msgid "grp_reg_req_info_screen"
+msgstr "Puoi richiedere l’iscrizione per questo gruppo. Riceverai un messaggio da un amministratore di gruppo quando la tua richiesta sarà ammessa o rifiutata."
+
+msgid "grp_reg_request"
+msgstr "Richiedi iscrizione"
+
+msgid "grp_reg_request_info"
+msgstr "Gli utenti interessati possono spedire un messaggio/richiesta all'amministratore del gruppo."
+
+msgid "grp_reg_subject"
+msgstr "Messaggio"
+
+msgid "grp_registration_unlimited"
+msgstr "Periodo di registrazione illimitato"
+
+msgid "grp_role_status"
+msgstr "Ruolo/Stato"
+
+msgid "grp_search_users"
+msgstr "Cerca utente"
+
+msgid "grp_set_on_waiting_list"
+msgstr "È possibile aggiungere la richiesta di iscrizione alla lista di attesa. Riceverai un messaggio da un amministratore di gruppo quando la tua richiesta è stata approvata o respinta."
+
+msgid "grp_setting_header_presentation"
+msgstr "Presentazione del gruppo"
+
+msgid "grp_setting_header_registration"
+msgstr "Registrazione del gruppo"
+
+msgid "grp_settings"
+msgstr "Impostazioni del gruppo"
+
+msgid "grp_show_members"
+msgstr "Mostra membri"
+
+msgid "grp_show_members_info"
+msgstr "Se attivata, i membri del gruppo possono accedere alla galleria dei membri."
+
+msgid "grp_subscription_min_members_info"
+msgstr "Definire il numero minimo di utenti richiesto per questo gruppo per essere tenuto a tutti. Se questo numero non viene rispettato nemmeno dopo la data utile per la registrazione o l’annullamento della registrazione al gruppo, verrà inviata una mail agli amministratori o ai tutor del gruppo che hanno attivato il contrassegno 'Notifica' nella scheda 'Membri'."
+
+msgid "grp_sure_add_user_to_group"
+msgstr "Vuoi davvero aggiungere questo utente al gruppo?"
+
+msgid "grp_sure_create_group_add_user"
+msgstr "Vuoi davvero creare il gruppo e aggiungere l’utente?"
+
+msgid "grp_typ"
+msgstr "Tipologia del gruppo"
+
+msgid "grp_unsubscribe"
+msgstr "Annulla l'iscrizione"
+
+msgid "grp_update_subscr_request"
+msgstr "Aggiorna richiesta d’iscrizione"
+
+msgid "grp_use_existing"
+msgstr "Utilizza gruppo esistente"
+
+msgid "grp_user_agreement"
+msgstr "Tipi di dati rilasciati"
+
+msgid "grp_user_agreement_info"
+msgstr "Dati personali visibili per amministratori di gruppo"
+
+msgid "grp_user_already_in_group"
+msgstr "Questo utente selezionato è ancora un membro del gruppo."
+
+msgid "grp_user_been_added"
+msgstr "L’utente è stato aggiunto al gruppo."
+
+msgid "grp_users_already_assigned"
+msgstr "L’utente è appena stato assegnato a questo gruppo."
+
+msgid "grp_usr_agreement"
+msgstr "Accordo con l’utente"
+
+msgid "grp_view_info_by_type"
+msgstr "Questa presentazione di contenuto raggruppa tutti gli elementi per tipo di risorsa."
+
+msgid "grp_view_info_simple"
+msgstr "Questa presentazione di contenuto elenca tutti gli elementi in un blocco."
+
+msgid "grp_view_inherit"
+msgstr "Stabilito dal corso"
+
+msgid "grp_view_inherit_info"
+msgstr "Il tipo di presentazione di gruppo è adattato da un corso per genitori."
+
+msgid "grp_waiting_list"
+msgstr "Abilita la lista di attesa"
+
+msgid "grp_waiting_list_autofill"
+msgstr "Con riempimento automatico"
+
+msgid "grp_waiting_list_autofill_info"
+msgstr "I partecipanti vengono reclutati automaticamente dalla lista di attesa in caso di cancellazione."
+
+msgid "grp_waiting_list_info"
+msgstr "Se abilitato, e il numero massimo degli utenti è maggiore, le nuove registrazioni saranno inserite nella lista d'attesa."
+
+msgid "grp_waiting_list_no_autofill"
+msgstr "Senza riempimento automatico"
+
+msgid "grp_warn_grp_type_changed"
+msgstr "Vuoi davvero modificare la tipologia del gruppo? Tutti i permessi saranno resettati."
+
+msgid "grp_warn_no_max_set_on_waiting_list"
+msgstr "È stato superato il numero massimo dei membri del gruppo. È possibile aggiungere la richiesta di partecipazione alla lista di attesa. Riceverai un messaggio da un amministratore di gruppo quando la tua richiesta sarà approvata o rifiutata."
+
+msgid "grp_warn_wl_set_on_waiting_list"
+msgstr "Alcuni utenti sono già assegnati alla lista di attesa. È possibile aggiungere la richiesta di partecipazione alla lista di attesa. Riceverai un messaggio da un amministratore di gruppo quando la tua richiesta sarà approvata o rifiutata."
+
+msgid "grp_wrong_max_members"
+msgstr "Si prega di verificare il numero massimo di utenti."
+
+msgid "grp_wrong_min_max_members"
+msgstr "Verifica il numero minimo e massimo di utenti."
+
+msgid "grp_wrong_reg_time_limit"
+msgstr "Si prega di controllare gli orari di inizio e fine della registrazione."
+
+msgid "reg_grp_max_members"
+msgstr "Numero massimo di iscritti"
+
+msgid "reg_grp_max_members_short"
+msgstr "Numero di membri"
+
+msgid "reg_grp_min_members"
+msgstr "Numero minimo di membri"

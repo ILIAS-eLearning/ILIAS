@@ -1,0 +1,621 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sk\n"
+"Language-Team: Slovak\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: grp\n"
+
+msgid "crs_add_grouping"
+msgstr "Přidat omezení členství"
+
+msgid "crs_grouping_delete_sure"
+msgstr "Skutečně chcete smazat toto omezení členství?"
+
+msgid "crs_grouping_deleted"
+msgstr "Smazat omezení členství."
+
+msgid "crs_grouping_select_one"
+msgstr "Označte prosím jedno omezení členství."
+
+msgid "crs_grp_added_grouping"
+msgstr "Nové omezení členství přidáno."
+
+msgid "crs_grp_assign_crs"
+msgstr "Zařazení skupin"
+
+msgid "crs_grp_no_courses_assigned"
+msgstr "Žádná zařazená skupina"
+
+#, fuzzy
+msgid "events"
+msgstr "Sessions"
+
+msgid "grouping_change_assignment"
+msgstr "Změnit zařazení"
+
+#, fuzzy
+msgid "grp_activate_notification"
+msgstr "Activate Notification"
+
+#, fuzzy
+msgid "grp_activation_online_info"
+msgstr "Set the group online to make it visible and available for group members. If not, only group administrators and roles with permission \"Edit Settings\" have access to it."
+
+#, fuzzy
+msgid "grp_add_to_group"
+msgstr "Add to Group"
+
+#, fuzzy
+msgid "grp_add_user"
+msgstr "Add User"
+
+#, fuzzy
+msgid "grp_add_user_to_group"
+msgstr "Add user to group"
+
+msgid "grp_added_to_list"
+msgstr "Byl(a) jste zařazen(a) na seznam čekatelů. Jste zařazen(a) v pořadí %s."
+
+msgid "grp_admins"
+msgstr "Správci"
+
+#, fuzzy
+msgid "grp_admission_link_failure_invalid_code"
+msgstr "Can't register: Link is invalid."
+
+#, fuzzy
+msgid "grp_admission_link_failure_membership_limited"
+msgstr "Can't registrate: Group membership is limited."
+
+#, fuzzy
+msgid "grp_admission_link_failure_registration_period"
+msgstr "Can't registrate: Group is out of registration period."
+
+#, fuzzy
+msgid "grp_admission_link_success_registration"
+msgstr "Successfully registrated to group \"%s\"."
+
+#, fuzzy
+msgid "grp_agree"
+msgstr "Přijetí"
+
+msgid "grp_agreement_header"
+msgstr "Uživatelské ujednání"
+
+msgid "grp_agreement_required"
+msgstr "Musíte akceptovat uživatelské ujednání, pokud chcete mít přístup k obsahu skupiny."
+
+msgid "grp_already_assigned"
+msgstr "Požadované členství ve skupině Vám bylo přiděleno."
+
+#, fuzzy
+msgid "grp_at_least_one_admin"
+msgstr "There has to be at least one group administrator."
+
+#, fuzzy
+msgid "grp_auto_notification"
+msgstr "Welcome-Mail For New Members"
+
+#, fuzzy
+msgid "grp_auto_notification_info"
+msgstr "New members get a mail notification when added to the group."
+
+msgid "grp_cancel_subscr_request"
+msgstr "Smazat požadavek členství"
+
+#, fuzzy
+msgid "grp_cancellation_end"
+msgstr "Cancellation Limit"
+
+#, fuzzy
+msgid "grp_cancellation_end_info"
+msgstr "From this date on particiants cannot unsubscribe anymore."
+
+#, fuzzy
+msgid "grp_cancellation_end_rbac_info"
+msgstr "The cancellation deadline was met on %s, a cancellation is not possible anymore."
+
+#, fuzzy
+msgid "grp_cdf_edit_member"
+msgstr "Edit Group Relevant User Data"
+
+#, fuzzy
+msgid "grp_cdf_tbl_last_edit"
+msgstr "Last Update (Group-specific Data)"
+
+msgid "grp_change_type"
+msgstr "Změnit typ skupiny"
+
+#, fuzzy
+msgid "grp_contact"
+msgstr "Contact"
+
+#, fuzzy
+msgid "grp_copy"
+msgstr "Copy Group"
+
+#, fuzzy
+msgid "grp_create_and_add_user"
+msgstr "Create and Add User"
+
+#, fuzzy
+msgid "grp_create_new"
+msgstr "Create New Group"
+
+#, fuzzy
+msgid "grp_create_new_grp_in"
+msgstr "Create new group in '%1'."
+
+#, fuzzy
+msgid "grp_create_or_use_existing"
+msgstr "Do you want to add the user to an existing group or create a new group?"
+
+#, fuzzy
+msgid "grp_created_and_user_been_added"
+msgstr "Die Gruppe wurde erstellt und der Benutzer hinzugefügt."
+
+msgid "grp_custom_user_fields"
+msgstr "Uživatelská data odpovídající skupině"
+
+#, fuzzy
+msgid "grp_custom_user_fields_infobox"
+msgstr "Create additional data fields for group members to fill in when they join. You can show this information as an additional column in the \"Members\" tab."
+
+#, fuzzy
+msgid "grp_custom_user_fields_table_title"
+msgstr "Relevant User Data of This Group"
+
+#, fuzzy
+msgid "grp_deactivate_notification"
+msgstr "Deactivate Notification"
+
+msgid "grp_enable_map"
+msgstr "Zapnout mapu skupiny"
+
+#, fuzzy
+msgid "grp_err_registration_limited"
+msgstr "please enter a valid start and end date for the registration"
+
+msgid "grp_general_informations"
+msgstr "Obecné informace"
+
+msgid "grp_grp_info_reg"
+msgstr "Můžete se zaregistrovat do jedné z těchto skupin:"
+
+#, fuzzy
+msgid "grp_grp_open"
+msgstr "Open Group"
+
+#, fuzzy
+msgid "grp_header_delete_members"
+msgstr "Would you like to remove the following members from this group?"
+
+msgid "grp_header_waiting_list"
+msgstr "Seznam čekatelů"
+
+msgid "grp_icon_settings"
+msgstr "Ikona skupiny"
+
+#, fuzzy
+msgid "grp_import"
+msgstr "Import Group"
+
+msgid "grp_info_agree"
+msgstr "Akceptuji, že typ dat uvedený výše je viditelný pro správce skupin."
+
+msgid "grp_info_agreement"
+msgstr "Následující typ dat je viditelný pro správce skupiny:"
+
+msgid "grp_info_new_grp_type"
+msgstr "Nový typ skupiny"
+
+msgid "grp_info_settings"
+msgstr "Informace skupiny"
+
+msgid "grp_information"
+msgstr "Důležité informace"
+
+msgid "grp_information_info"
+msgstr "Tato informace se zobrazí na info stránce a novým a pro nové registrace."
+
+msgid "grp_join_request"
+msgstr "Odeslat"
+
+#, fuzzy
+msgid "grp_lim_assigned"
+msgstr "Already assigned to associated group \"%s\"."
+
+msgid "grp_mail_admission_new_bod"
+msgstr "S potěšením Vám oznamujeme Vaši registraci ve skupině \"%s\"."
+
+msgid "grp_mail_admission_new_sub"
+msgstr "Vaše registrace ve skupině \"%s\""
+
+#, fuzzy
+msgid "grp_mail_all"
+msgstr "For all Participants"
+
+#, fuzzy
+msgid "grp_mail_all_info"
+msgstr "Members and administrators can use the feature \"Mail to Members\" in the \"Members\" tab."
+
+msgid "grp_mail_dismiss_bod"
+msgstr "Vaše členství ve skupině \"%s\" bylo ukončeno."
+
+msgid "grp_mail_dismiss_sub"
+msgstr "Členství ve skupině \"%s\" ukončeno"
+
+msgid "grp_mail_notification_reg_bod"
+msgstr "%s je registrován(a) ve skupině \"%s\"."
+
+msgid "grp_mail_notification_reg_req_bod"
+msgstr "%s požaduje členství ve skupině \"%s\"."
+
+msgid "grp_mail_notification_reg_req_bod2"
+msgstr "K potvrzení Vaší registrace vstupte na:"
+
+msgid "grp_mail_notification_reg_req_sub"
+msgstr "Požadavek připojení ke skupině \"%s\""
+
+msgid "grp_mail_notification_reg_sub"
+msgstr "Uživatel registrován ve skupině \"%s\""
+
+msgid "grp_mail_notification_unsub_bod"
+msgstr "%s bylo ukončeno jeho/její členství ve skupině \"%s\"."
+
+msgid "grp_mail_notification_unsub_bod2"
+msgstr "Na seznamu čekatelů Vaší skupiny mohou být další uživatelé.\\nMěl(a) by jste nyní zkontrolovat seznam čekatelů.\\nK zobrazení členů Vaší skupiny klepněte na:"
+
+msgid "grp_mail_notification_unsub_sub"
+msgstr "Uživatel opustil skupinu \"%s\""
+
+msgid "grp_mail_permanent_link"
+msgstr "Klepněte na nasledující odkaz k nalezení všech informací týkající se skupiny, které potřebujete:"
+
+msgid "grp_mail_status_bod"
+msgstr "Váš status ve skupině \"%s\" byl změněn."
+
+msgid "grp_mail_status_sub"
+msgstr "Změněn status ve skupině \"%s\""
+
+msgid "grp_mail_sub_acc_bod"
+msgstr "S potěšením potvrzujeme Vaši registraci ve skupině \"%s\"."
+
+msgid "grp_mail_sub_acc_sub"
+msgstr "Registrace potvrzena pro \"%s\""
+
+msgid "grp_mail_sub_dec_bod"
+msgstr "S lítostí Vám oznamujeme, že Vaše registrace ve skupině \"%s\" byla zamítnuta."
+
+msgid "grp_mail_sub_dec_sub"
+msgstr "Registrace ve skupině \"%s\" zamítnuta"
+
+msgid "grp_mail_subscribe_member_bod"
+msgstr "S potěšením potvrzujeme Vaši registraci ve skupině \"%s\"."
+
+msgid "grp_mail_subscribe_member_sub"
+msgstr "Vaše registrace ve skupině \"%s\""
+
+#, fuzzy
+msgid "grp_mail_tutors_only"
+msgstr "For Administrators only"
+
+#, fuzzy
+msgid "grp_mail_tutors_only_info"
+msgstr "Only administrators can use the feature \"Mail to Members\" in the \"Members\" tab."
+
+#, fuzzy
+msgid "grp_mail_type"
+msgstr "Mail to Members"
+
+msgid "grp_mail_unsubscribe_member_bod"
+msgstr "Potvrzujeme Vaše ukončení členství ve skupině %s.\\nDoufáme, že najdete příležitost zúčastnit se v jiné skupině."
+
+msgid "grp_mail_unsubscribe_member_sub"
+msgstr "Vaše ukončení členství ve skupině \"%s\""
+
+msgid "grp_mail_wl_bod"
+msgstr "you have been assigned to the waiting list of group \"%s\".\\nYou are assigned to position %s on the list.\\n\\n You will receive a message from a group administrator when your request has been approved or rejected."
+
+msgid "grp_mail_wl_sub"
+msgstr "Your registration for group \"%s\"."
+
+msgid "grp_map_location"
+msgstr "Umístění mapy skupiny"
+
+msgid "grp_map_settings"
+msgstr "Nastavení mapy"
+
+#, fuzzy
+msgid "grp_max_and_min_members_invalid"
+msgstr "The minimum number must be smaller than the maximum number of members."
+
+#, fuzzy
+msgid "grp_mem_contacts"
+msgstr "Tutorial Support"
+
+#, fuzzy
+msgid "grp_mem_tbl_header"
+msgstr "Group Participants"
+
+#, fuzzy
+msgid "grp_member_administration"
+msgstr "Edit Participants"
+
+msgid "grp_members"
+msgstr "Příslušníci"
+
+#, fuzzy
+msgid "grp_members_deleted"
+msgstr "Deleted members"
+
+msgid "grp_members_map"
+msgstr "Mapa členů skupiny"
+
+#, fuzzy
+msgid "grp_members_print_title"
+msgstr "Group Members"
+
+#, fuzzy
+msgid "grp_min_one_admin"
+msgstr "There has to be at least one administrator assigned to this group."
+
+msgid "grp_missing_grp_type"
+msgstr "Vyberte prosím typ skupiny."
+
+msgid "grp_missing_password"
+msgstr "Vložte prosím skupinové heslo."
+
+msgid "grp_new_status"
+msgstr "Váš nový status je:"
+
+#, fuzzy
+msgid "grp_next"
+msgstr "Next"
+
+#, fuzzy
+msgid "grp_no_perm_to_add_create_first"
+msgstr "You need to create a group first. Please select where to create a new group."
+
+msgid "grp_notification"
+msgstr "Oznámení"
+
+#, fuzzy
+msgid "grp_notification_activated"
+msgstr "Notification Activated"
+
+#, fuzzy
+msgid "grp_notification_deactivated"
+msgstr "Notification Deactivated"
+
+msgid "grp_notification_explanation_admin"
+msgstr "Tento e-mail jste obdržel(a) protože jste správce skupiny se zapnutým oznamováním."
+
+msgid "grp_notification_salutation"
+msgstr "Vážený účastníku skupiny,"
+
+msgid "grp_notify_off"
+msgstr "Uvědomování o nových registracích vypnuto."
+
+msgid "grp_notify_on"
+msgstr "Uvědomování o nových registracích zapnuto."
+
+msgid "grp_pass_request"
+msgstr "Připojení se skupinovým heslem"
+
+#, fuzzy
+msgid "grp_period"
+msgstr "Period of Event"
+
+#, fuzzy
+msgid "grp_period_info"
+msgstr "Information about the start and end date of the event, which is supported by the group"
+
+#, fuzzy
+msgid "grp_presentation_type"
+msgstr "Presentation Type"
+
+#, fuzzy
+msgid "grp_print_list"
+msgstr "Generate List"
+
+msgid "grp_public"
+msgstr "Veřejná skupina"
+
+msgid "grp_public_info"
+msgstr "Skupina je viditelná pro nečleny, avšak pro zařazení má zvláštní požadavky."
+
+msgid "grp_reg_code"
+msgstr "Registrační kód"
+
+msgid "grp_reg_code_enabled_info"
+msgstr "Je-li zapnuto, je možná automatická registrace s využitím zvláštního registračního odkazu."
+
+msgid "grp_reg_code_link"
+msgstr "Registrační odkaz"
+
+msgid "grp_reg_deac_info_screen"
+msgstr "Přijímání skupiny je uzavřeno."
+
+msgid "grp_reg_direct"
+msgstr "Přímá registrace"
+
+msgid "grp_reg_direct_info_screen"
+msgstr "K této skupině se můžete připojit přímo."
+
+msgid "grp_reg_disabled"
+msgstr "Registrace není možná"
+
+msgid "grp_reg_disabled_info"
+msgstr "Do této skupiny mohou uživatele přidávat pouze správci skupiny."
+
+msgid "grp_reg_limited"
+msgstr "Období registrace"
+
+msgid "grp_reg_max_members_info"
+msgstr "Definujte maximální počet uživatelů, který může být do skupiny zařazen."
+
+#, fuzzy
+msgid "grp_reg_no_selfreg"
+msgstr "No self-enrolment"
+
+msgid "grp_reg_passwd_info_screen"
+msgstr "Pokud správce skupiny Vám dal skupinové heslo, můžete se se připojit k této skupině."
+
+msgid "grp_reg_password_info"
+msgstr "K zařazení do skupiny uživatelé musí vložit správné heslo."
+
+msgid "grp_reg_req_info_screen"
+msgstr "Můžete požádat o členství v této skupině. Obdržíte zprávu od správce skupiny, zda Vaše žádost byla přijata, nebo zamítnuta."
+
+msgid "grp_reg_request"
+msgstr "Požadavek členství"
+
+msgid "grp_reg_request_info"
+msgstr "Zájemci mohou poslat žádost/zprávu správci skupiny."
+
+msgid "grp_reg_subject"
+msgstr "Hlášení"
+
+msgid "grp_registration_unlimited"
+msgstr "Neomezené období registrace"
+
+msgid "grp_role_status"
+msgstr "Role/Status"
+
+msgid "grp_search_users"
+msgstr "Hledat uživatele"
+
+msgid "grp_set_on_waiting_list"
+msgstr "Můžete zaslat žádost o zařazení na seznam čekatelů. Obdržíte zprávu od správce skupiny, zda Vaše žádost byla přijata, či zamítnuta."
+
+#, fuzzy
+msgid "grp_setting_header_presentation"
+msgstr "Group Presentation"
+
+#, fuzzy
+msgid "grp_setting_header_registration"
+msgstr "Group Registration"
+
+msgid "grp_settings"
+msgstr "Nastavení skupiny"
+
+#, fuzzy
+msgid "grp_show_members"
+msgstr "Show Members"
+
+#, fuzzy
+msgid "grp_show_members_info"
+msgstr "If activated, group members can access the members gallery."
+
+#, fuzzy
+msgid "grp_subscription_min_members_info"
+msgstr "Define the number of users that is minimally required for this group to be held at all. If this number is not met either after the date until which users can register or unsubscribe from the group a mail will be send to those group administrators or tutors that have activated the 'Notification' flag in the 'Members'-tab."
+
+#, fuzzy
+msgid "grp_sure_add_user_to_group"
+msgstr "Do you really want to add this user to the group?"
+
+#, fuzzy
+msgid "grp_sure_create_group_add_user"
+msgstr "Do you really want to create the group and add the user?"
+
+msgid "grp_typ"
+msgstr "Typ skupiny"
+
+msgid "grp_unsubscribe"
+msgstr "Nepřijmout"
+
+msgid "grp_update_subscr_request"
+msgstr "Aktualizovat požadavek členství"
+
+#, fuzzy
+msgid "grp_use_existing"
+msgstr "Use Existing Group"
+
+msgid "grp_user_agreement"
+msgstr "Uvolněný typ dat"
+
+msgid "grp_user_agreement_info"
+msgstr "Osobní údaje viditelné pro správce skupin"
+
+#, fuzzy
+msgid "grp_user_already_in_group"
+msgstr "The selected user is already member of the group."
+
+#, fuzzy
+msgid "grp_user_been_added"
+msgstr "The user has been added to the group."
+
+msgid "grp_users_already_assigned"
+msgstr "Tento uživatel byl již zařazen do této skupiny."
+
+#, fuzzy
+msgid "grp_usr_agreement"
+msgstr "User Agreement"
+
+#, fuzzy
+msgid "grp_view_info_by_type"
+msgstr "This content presentation groups all items by resource type."
+
+#, fuzzy
+msgid "grp_view_info_simple"
+msgstr "This content presentation lists all items in one block."
+
+#, fuzzy
+msgid "grp_view_inherit"
+msgstr "Standard"
+
+#, fuzzy
+msgid "grp_view_inherit_info"
+msgstr "The group presentation type is adapted from a parent course. "
+
+msgid "grp_waiting_list"
+msgstr "Zapnout seznam čekatelů"
+
+#, fuzzy
+msgid "grp_waiting_list_autofill"
+msgstr "With Auto-Fill"
+
+#, fuzzy
+msgid "grp_waiting_list_autofill_info"
+msgstr "Participants are recruited from the waiting list automatically on cancellations."
+
+msgid "grp_waiting_list_info"
+msgstr "Pokud je zapnuto a maximální počet uživatelů překročen, nové registrace budou umístěny na seznam čekatelů."
+
+#, fuzzy
+msgid "grp_waiting_list_no_autofill"
+msgstr "Without Auto-Fill"
+
+msgid "grp_warn_grp_type_changed"
+msgstr "Skutečně chcete změnit typ skupiny? Všechna nastavení oprávnění budou resetována."
+
+msgid "grp_warn_no_max_set_on_waiting_list"
+msgstr "Maximální počet členů skupiny byl již dosažen. Svůj požadavek o zařazení můžete přidat na seznam čekatelů. Později obdržíte zprávu od správce kurzu, zda Váš požadavek byl přijat nebo zamítnut."
+
+msgid "grp_warn_wl_set_on_waiting_list"
+msgstr "Na seznamu čekatelů jsou již zařazeni někteří uživatelé. Můžete přidat svůj požadavek o zařazení na seznam čekatelů. Později obdržíte zprávu od správce kurzu, zda Váš požadavek byl přijat nebo zamítnut."
+
+msgid "grp_wrong_max_members"
+msgstr "Zkontrolujte prosím maximální počet uživatelů."
+
+#, fuzzy
+msgid "grp_wrong_min_max_members"
+msgstr "Please check the minimum and maximum number of users."
+
+msgid "grp_wrong_reg_time_limit"
+msgstr "Zkontrolujte prosím počátek a konec registrace."
+
+msgid "reg_grp_max_members"
+msgstr "Maximální počet uživatelů"
+
+msgid "reg_grp_max_members_short"
+msgstr "Počet členů"
+
+#, fuzzy
+msgid "reg_grp_min_members"
+msgstr "Minimum Number of Members"

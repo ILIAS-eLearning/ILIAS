@@ -1,0 +1,792 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: cmix\n"
+
+msgid "achieved_info"
+msgstr ""
+
+msgid "achieved_label"
+msgstr ""
+
+msgid "activity_id"
+msgstr ""
+
+msgid "activity_id_info"
+msgstr ""
+
+msgid "answered_info"
+msgstr ""
+
+msgid "answered_label"
+msgstr ""
+
+msgid "btn_change_registration"
+msgstr ""
+
+msgid "btn_create_lrs_type"
+msgstr ""
+
+msgid "btn_create_registration"
+msgstr ""
+
+msgid "change_registration"
+msgstr ""
+
+msgid "cmix_add"
+msgstr ""
+
+msgid "cmix_add_cmi5_lm"
+msgstr ""
+
+msgid "cmix_add_cmi5_lm_info"
+msgstr ""
+
+msgid "cmix_add_lrs_type"
+msgstr ""
+
+msgid "cmix_add_source"
+msgstr ""
+
+msgid "cmix_add_source_external_app"
+msgstr ""
+
+msgid "cmix_add_source_external_app_info"
+msgstr ""
+
+msgid "cmix_add_source_local_dir"
+msgstr ""
+
+msgid "cmix_add_source_local_dir_info"
+msgstr ""
+
+msgid "cmix_add_source_upload_dir"
+msgstr ""
+
+msgid "cmix_add_source_upload_dir_info"
+msgstr ""
+
+msgid "cmix_add_source_upload_select"
+msgstr ""
+
+msgid "cmix_add_source_url"
+msgstr ""
+
+msgid "cmix_add_source_url_info"
+msgstr ""
+
+msgid "cmix_add_xapi_standard_object"
+msgstr ""
+
+msgid "cmix_add_xapi_standard_object_info"
+msgstr ""
+
+msgid "cmix_adlnetgov_expapi_verbs_answered"
+msgstr ""
+
+msgid "cmix_adlnetgov_expapi_verbs_asked"
+msgstr ""
+
+msgid "cmix_adlnetgov_expapi_verbs_attempted"
+msgstr ""
+
+msgid "cmix_adlnetgov_expapi_verbs_attended"
+msgstr ""
+
+msgid "cmix_adlnetgov_expapi_verbs_commented"
+msgstr ""
+
+msgid "cmix_adlnetgov_expapi_verbs_completed"
+msgstr ""
+
+msgid "cmix_adlnetgov_expapi_verbs_exited"
+msgstr ""
+
+msgid "cmix_adlnetgov_expapi_verbs_experienced"
+msgstr ""
+
+msgid "cmix_adlnetgov_expapi_verbs_failed"
+msgstr ""
+
+msgid "cmix_adlnetgov_expapi_verbs_imported"
+msgstr ""
+
+msgid "cmix_adlnetgov_expapi_verbs_initialized"
+msgstr ""
+
+msgid "cmix_adlnetgov_expapi_verbs_interacted"
+msgstr ""
+
+msgid "cmix_adlnetgov_expapi_verbs_launched"
+msgstr ""
+
+msgid "cmix_adlnetgov_expapi_verbs_mastered"
+msgstr ""
+
+msgid "cmix_adlnetgov_expapi_verbs_passed"
+msgstr ""
+
+msgid "cmix_adlnetgov_expapi_verbs_preferred"
+msgstr ""
+
+msgid "cmix_adlnetgov_expapi_verbs_progressed"
+msgstr ""
+
+msgid "cmix_adlnetgov_expapi_verbs_registered"
+msgstr ""
+
+msgid "cmix_adlnetgov_expapi_verbs_responded"
+msgstr ""
+
+msgid "cmix_adlnetgov_expapi_verbs_resumed"
+msgstr ""
+
+msgid "cmix_adlnetgov_expapi_verbs_scored"
+msgstr ""
+
+msgid "cmix_adlnetgov_expapi_verbs_shared"
+msgstr ""
+
+msgid "cmix_adlnetgov_expapi_verbs_suspended"
+msgstr ""
+
+msgid "cmix_adlnetgov_expapi_verbs_terminated"
+msgstr ""
+
+msgid "cmix_adlnetgov_expapi_verbs_voided"
+msgstr ""
+
+msgid "cmix_all_verbs"
+msgstr ""
+
+msgid "cmix_copy"
+msgstr ""
+
+msgid "cmix_import"
+msgstr ""
+
+msgid "cmix_indication_to_user"
+msgstr ""
+
+msgid "cmix_info_external_lrs_info"
+msgstr ""
+
+msgid "cmix_info_external_lrs_label"
+msgstr ""
+
+msgid "cmix_info_privacy_section"
+msgstr ""
+
+msgid "cmix_info_privacy_section_launch"
+msgstr ""
+
+msgid "cmix_lrs_type"
+msgstr ""
+
+msgid "cmix_new"
+msgstr ""
+
+msgid "completed_info"
+msgstr ""
+
+msgid "completed_label"
+msgstr ""
+
+msgid "conf_availability"
+msgstr ""
+
+msgid "conf_availability_0"
+msgstr ""
+
+msgid "conf_availability_0_info"
+msgstr ""
+
+msgid "conf_availability_1"
+msgstr ""
+
+msgid "conf_availability_1_info"
+msgstr ""
+
+msgid "conf_availability_2"
+msgstr ""
+
+msgid "conf_availability_2_info"
+msgstr ""
+
+msgid "conf_bypass_proxy"
+msgstr ""
+
+msgid "conf_bypass_proxy_disabled"
+msgstr ""
+
+msgid "conf_bypass_proxy_enabled"
+msgstr ""
+
+msgid "conf_bypass_proxy_info"
+msgstr ""
+
+msgid "conf_cronjob_neccessary"
+msgstr ""
+
+msgid "conf_cronjob_neccessary_info"
+msgstr ""
+
+msgid "conf_delete_data"
+msgstr ""
+
+msgid "conf_delete_data_info"
+msgstr ""
+
+msgid "conf_delete_data_opt0"
+msgstr ""
+
+msgid "conf_delete_data_opt1"
+msgstr ""
+
+msgid "conf_delete_data_opt11"
+msgstr ""
+
+msgid "conf_delete_data_opt12"
+msgstr ""
+
+msgid "conf_delete_data_opt2"
+msgstr ""
+
+msgid "conf_description"
+msgstr ""
+
+msgid "conf_external_lrs"
+msgstr ""
+
+msgid "conf_keep_lp"
+msgstr ""
+
+msgid "conf_keep_lp_info"
+msgstr ""
+
+msgid "conf_launch_mode"
+msgstr ""
+
+msgid "conf_launch_mode_browse"
+msgstr ""
+
+msgid "conf_launch_mode_browse_info"
+msgstr ""
+
+msgid "conf_launch_mode_normal"
+msgstr ""
+
+msgid "conf_launch_mode_normal_info"
+msgstr ""
+
+msgid "conf_launch_mode_review"
+msgstr ""
+
+msgid "conf_launch_mode_review_info"
+msgstr ""
+
+msgid "conf_lrs_endpoint"
+msgstr ""
+
+msgid "conf_lrs_key"
+msgstr ""
+
+msgid "conf_lrs_secret"
+msgstr ""
+
+msgid "conf_new_window"
+msgstr ""
+
+msgid "conf_new_window_info"
+msgstr ""
+
+msgid "conf_own_window"
+msgstr ""
+
+msgid "conf_own_window_info"
+msgstr ""
+
+msgid "conf_privacy_comment_default"
+msgstr ""
+
+msgid "conf_privacy_ident"
+msgstr ""
+
+msgid "conf_privacy_ident_il_uuid_ext_account"
+msgstr ""
+
+msgid "conf_privacy_ident_il_uuid_ext_account_info"
+msgstr ""
+
+msgid "conf_privacy_ident_il_uuid_login"
+msgstr ""
+
+msgid "conf_privacy_ident_il_uuid_login_info"
+msgstr ""
+
+msgid "conf_privacy_ident_il_uuid_random"
+msgstr ""
+
+msgid "conf_privacy_ident_il_uuid_random_info"
+msgstr ""
+
+msgid "conf_privacy_ident_il_uuid_sha256"
+msgstr ""
+
+msgid "conf_privacy_ident_il_uuid_sha256_info"
+msgstr ""
+
+msgid "conf_privacy_ident_il_uuid_sha256url"
+msgstr ""
+
+msgid "conf_privacy_ident_il_uuid_sha256url_info"
+msgstr ""
+
+msgid "conf_privacy_ident_il_uuid_user_id"
+msgstr ""
+
+msgid "conf_privacy_ident_il_uuid_user_id_info"
+msgstr ""
+
+msgid "conf_privacy_ident_info"
+msgstr ""
+
+msgid "conf_privacy_ident_real_email"
+msgstr ""
+
+msgid "conf_privacy_ident_real_email_info"
+msgstr ""
+
+msgid "conf_privacy_name"
+msgstr ""
+
+msgid "conf_privacy_name_firstname"
+msgstr ""
+
+msgid "conf_privacy_name_firstname_info"
+msgstr ""
+
+msgid "conf_privacy_name_fullname"
+msgstr ""
+
+msgid "conf_privacy_name_fullname_info"
+msgstr ""
+
+msgid "conf_privacy_name_info"
+msgstr ""
+
+msgid "conf_privacy_name_lastname"
+msgstr ""
+
+msgid "conf_privacy_name_lastname_info"
+msgstr ""
+
+msgid "conf_privacy_name_none"
+msgstr ""
+
+msgid "conf_privacy_name_none_info"
+msgstr ""
+
+msgid "conf_privacy_setting_conf"
+msgstr ""
+
+msgid "conf_privacy_setting_default"
+msgstr ""
+
+msgid "conf_privacy_setting_force"
+msgstr ""
+
+msgid "conf_privacy_setting_info"
+msgstr ""
+
+msgid "conf_remarks"
+msgstr ""
+
+msgid "conf_title"
+msgstr ""
+
+msgid "conf_use_proxy"
+msgstr ""
+
+msgid "conf_use_proxy_info"
+msgstr ""
+
+msgid "conf_use_proxy_info_cmi5"
+msgstr ""
+
+msgid "conf_use_proxy_info_xapi"
+msgstr ""
+
+msgid "conf_user_ident"
+msgstr ""
+
+msgid "conf_user_ident_il_uuid_ext_account"
+msgstr ""
+
+msgid "conf_user_ident_il_uuid_ext_account_info"
+msgstr ""
+
+msgid "conf_user_ident_il_uuid_login"
+msgstr ""
+
+msgid "conf_user_ident_il_uuid_login_info"
+msgstr ""
+
+msgid "conf_user_ident_il_uuid_random"
+msgstr ""
+
+msgid "conf_user_ident_il_uuid_random_info"
+msgstr ""
+
+msgid "conf_user_ident_il_uuid_user_id"
+msgstr ""
+
+msgid "conf_user_ident_il_uuid_user_id_info"
+msgstr ""
+
+msgid "conf_user_ident_info"
+msgstr ""
+
+msgid "conf_user_ident_real_email"
+msgstr ""
+
+msgid "conf_user_ident_real_email_info"
+msgstr ""
+
+msgid "conf_user_name"
+msgstr ""
+
+msgid "conf_user_name_firstname"
+msgstr ""
+
+msgid "conf_user_name_firstname_info"
+msgstr ""
+
+msgid "conf_user_name_fullname"
+msgstr ""
+
+msgid "conf_user_name_fullname_info"
+msgstr ""
+
+msgid "conf_user_name_info"
+msgstr ""
+
+msgid "conf_user_name_lastname"
+msgstr ""
+
+msgid "conf_user_name_lastname_info"
+msgstr ""
+
+msgid "conf_user_name_none"
+msgstr ""
+
+msgid "conf_user_name_none_info"
+msgstr ""
+
+msgid "conf_user_registered_mail"
+msgstr ""
+
+msgid "content_privacy_ident"
+msgstr ""
+
+msgid "content_privacy_name"
+msgstr ""
+
+msgid "create_lrs_type_form"
+msgstr ""
+
+msgid "create_registration"
+msgstr ""
+
+msgid "cron_xapi_del"
+msgstr ""
+
+msgid "cron_xapi_del_desc"
+msgstr ""
+
+msgid "cron_xapi_results_evaluation"
+msgstr ""
+
+msgid "cron_xapi_results_evaluation_desc"
+msgstr ""
+
+msgid "description_info"
+msgstr ""
+
+msgid "download_certificate"
+msgstr ""
+
+msgid "duration_info"
+msgstr ""
+
+msgid "duration_label"
+msgstr ""
+
+msgid "edit_lrs_type_form"
+msgstr ""
+
+msgid "failed_info"
+msgstr ""
+
+msgid "failed_label"
+msgstr ""
+
+msgid "fetch_xapi_statements"
+msgstr ""
+
+msgid "field_user_ident"
+msgstr ""
+
+msgid "field_user_ident_info"
+msgstr ""
+
+msgid "form_change_registration"
+msgstr ""
+
+msgid "form_create_registration"
+msgstr ""
+
+msgid "hide_data_info"
+msgstr ""
+
+msgid "hide_data_label"
+msgstr ""
+
+msgid "highscore_achieved_ts"
+msgstr ""
+
+msgid "highscore_achieved_ts_description"
+msgstr ""
+
+msgid "highscore_all_tables"
+msgstr ""
+
+msgid "highscore_all_tables_description"
+msgstr ""
+
+msgid "highscore_description"
+msgstr ""
+
+msgid "highscore_enabled"
+msgstr ""
+
+msgid "highscore_mode"
+msgstr ""
+
+msgid "highscore_own_table"
+msgstr ""
+
+msgid "highscore_own_table_description"
+msgstr ""
+
+msgid "highscore_percentage"
+msgstr ""
+
+msgid "highscore_percentage_description"
+msgstr ""
+
+msgid "highscore_score"
+msgstr ""
+
+msgid "highscore_score_description"
+msgstr ""
+
+msgid "highscore_top_num"
+msgstr ""
+
+msgid "highscore_top_num_description"
+msgstr ""
+
+msgid "highscore_top_num_unit"
+msgstr ""
+
+msgid "highscore_top_table"
+msgstr ""
+
+msgid "highscore_top_table_description"
+msgstr ""
+
+msgid "highscore_wtime"
+msgstr ""
+
+msgid "highscore_wtime_description"
+msgstr ""
+
+msgid "info_availability"
+msgstr ""
+
+msgid "info_description"
+msgstr ""
+
+msgid "info_external_lrs"
+msgstr ""
+
+msgid "info_lrs_endpoint"
+msgstr ""
+
+msgid "info_lrs_key"
+msgstr ""
+
+msgid "info_lrs_secret"
+msgstr ""
+
+msgid "info_privacy_comment_default"
+msgstr ""
+
+msgid "info_remarks"
+msgstr ""
+
+msgid "info_title"
+msgstr ""
+
+msgid "initialized_info"
+msgstr ""
+
+msgid "initialized_label"
+msgstr ""
+
+msgid "launch_options"
+msgstr ""
+
+msgid "launch_url"
+msgstr ""
+
+msgid "launch_url_info"
+msgstr ""
+
+msgid "log_options"
+msgstr ""
+
+msgid "lrs_authentication"
+msgstr ""
+
+msgid "no_substatements_info"
+msgstr ""
+
+msgid "no_substatements_label"
+msgstr ""
+
+msgid "online_info"
+msgstr ""
+
+msgid "only_moveon_info"
+msgstr ""
+
+msgid "only_moveon_label"
+msgstr ""
+
+msgid "passed_info"
+msgstr ""
+
+msgid "passed_label"
+msgstr ""
+
+msgid "privacy_options"
+msgstr ""
+
+msgid "progressed_info"
+msgstr ""
+
+msgid "progressed_label"
+msgstr ""
+
+msgid "registration_saved_successfully"
+msgstr ""
+
+msgid "satisfied_info"
+msgstr ""
+
+msgid "satisfied_label"
+msgstr ""
+
+msgid "sect_learning_progress_options"
+msgstr ""
+
+msgid "show_debug"
+msgstr ""
+
+msgid "show_debug_info"
+msgstr ""
+
+msgid "tab_export"
+msgstr ""
+
+msgid "tab_info"
+msgstr ""
+
+msgid "tab_lrs_types"
+msgstr ""
+
+msgid "tab_scoring"
+msgstr ""
+
+msgid "tab_settings"
+msgstr ""
+
+msgid "tab_statements"
+msgstr ""
+
+msgid "tbl_action_raw_data"
+msgstr ""
+
+msgid "tbl_lrs_type_availability"
+msgstr ""
+
+msgid "tbl_lrs_type_title"
+msgstr ""
+
+msgid "tbl_lrs_type_usages"
+msgstr ""
+
+msgid "tbl_lrs_types_header"
+msgstr ""
+
+msgid "tbl_statements_actor"
+msgstr ""
+
+msgid "tbl_statements_date"
+msgstr ""
+
+msgid "tbl_statements_object"
+msgstr ""
+
+msgid "tbl_statements_verb"
+msgstr ""
+
+msgid "terminated_info"
+msgstr ""
+
+msgid "terminated_label"
+msgstr ""
+
+msgid "timestamp_info"
+msgstr ""
+
+msgid "timestamp_label"
+msgstr ""
+
+msgid "title_info"
+msgstr ""
+
+msgid "type_cmi5"
+msgstr ""
+
+msgid "type_generic"
+msgstr ""
+
+msgid "use_fetch"
+msgstr ""
+
+msgid "use_fetch_info"
+msgstr ""
+
+msgid "xapi_statements_fetched_successfully"
+msgstr ""
+
+msgid "xapi_statements_last_fetch_date"
+msgstr ""
+
+msgid "xapi_statements_not_fetched_yet"
+msgstr ""

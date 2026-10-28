@@ -1,0 +1,2773 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: el\n"
+"Language-Team: Greek\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: meta\n"
+
+#, fuzzy
+msgid "adt_error_max_length"
+msgstr "Please enter a shorter text."
+
+#, fuzzy
+msgid "md_adn_int_error_no_default"
+msgstr "Please select on activated language as \"Default-Language\"."
+
+msgid "md_adv_active"
+msgstr "Active"
+
+msgid "md_adv_added_new_record"
+msgstr "Added new Dataset"
+
+#, fuzzy
+msgid "md_adv_col_presentation_ordering"
+msgstr "Position"
+
+#, fuzzy
+msgid "md_adv_confirm_definition"
+msgstr "Please confirm the new definition settings."
+
+#, fuzzy
+msgid "md_adv_confirm_definition_select_option"
+msgstr "Deleted Option"
+
+#, fuzzy
+msgid "md_adv_confirm_definition_select_option_all"
+msgstr "Handle all existing entries the same"
+
+#, fuzzy
+msgid "md_adv_confirm_definition_select_option_all_action"
+msgstr "New Value"
+
+#, fuzzy
+msgid "md_adv_confirm_definition_select_option_overwrite"
+msgstr "Set value to"
+
+#, fuzzy
+msgid "md_adv_confirm_definition_select_option_remove"
+msgstr "Remove value"
+
+#, fuzzy
+msgid "md_adv_confirm_definition_select_option_single"
+msgstr "Decide for each existing entry"
+
+#, fuzzy
+msgid "md_adv_confirm_definition_select_section"
+msgstr "Migration of the deleted options"
+
+msgid "md_adv_create_field"
+msgstr "Add Field"
+
+msgid "md_adv_create_record"
+msgstr "Add new Dataset"
+
+msgid "md_adv_delete_fields_sure"
+msgstr "Do you really want to delete the following field definitions?"
+
+msgid "md_adv_delete_files_sure"
+msgstr "Do you really want to delete the following export  files?"
+
+msgid "md_adv_delete_record_sure"
+msgstr "Do really want to delete the following datasets?"
+
+#, fuzzy
+msgid "md_adv_deleted_fields"
+msgstr "The fields have been deleted."
+
+msgid "md_adv_deleted_files"
+msgstr "Deleted export files."
+
+msgid "md_adv_deleted_records"
+msgstr "Deleted Dataset"
+
+msgid "md_adv_desc_show"
+msgstr "Show Description"
+
+#, fuzzy
+msgid "md_adv_edit_complex_option"
+msgstr "Edit Option Properties"
+
+msgid "md_adv_edit_field"
+msgstr "Edit Field"
+
+msgid "md_adv_edit_record"
+msgstr "Edit Dataset"
+
+msgid "md_adv_field_fields"
+msgstr "Fields"
+
+#, fuzzy
+msgid "md_adv_field_filter_warning"
+msgstr "The field types %s are currently not supported as table filters."
+
+#, fuzzy
+msgid "md_adv_field_list"
+msgstr "Fields"
+
+msgid "md_adv_field_names"
+msgstr "Field Names"
+
+msgid "md_adv_field_table"
+msgstr "Edit Fields"
+
+msgid "md_adv_fields_show"
+msgstr "Show Field Names"
+
+msgid "md_adv_file_list"
+msgstr "Export Files"
+
+msgid "md_adv_import_record"
+msgstr "Import Metadata Set"
+
+#, fuzzy
+msgid "md_adv_int_current"
+msgstr "Current Language:"
+
+#, fuzzy
+msgid "md_adv_int_default"
+msgstr "Default Language:"
+
+#, fuzzy
+msgid "md_adv_int_translation_info"
+msgstr "Translation:"
+
+msgid "md_adv_no_fields"
+msgstr "No Fields Defined"
+
+#, fuzzy
+msgid "md_adv_number_decimals"
+msgstr "Decimals"
+
+#, fuzzy
+msgid "md_adv_number_max"
+msgstr "Maximum Value"
+
+#, fuzzy
+msgid "md_adv_number_min"
+msgstr "Minimum Value"
+
+#, fuzzy
+msgid "md_adv_number_suffix"
+msgstr "Suffix"
+
+#, fuzzy
+msgid "md_adv_presentation"
+msgstr "Presentation"
+
+#, fuzzy
+msgid "md_adv_record_activate_languages"
+msgstr "Activate Languages"
+
+msgid "md_adv_record_list"
+msgstr "Datasets"
+
+#, fuzzy
+msgid "md_adv_record_lng_table"
+msgstr "Language Managment"
+
+#, fuzzy
+msgid "md_adv_record_lng_table_active"
+msgstr "Active"
+
+#, fuzzy
+msgid "md_adv_record_lng_table_default"
+msgstr "Default"
+
+#, fuzzy
+msgid "md_adv_record_lng_table_inst"
+msgstr "Installed"
+
+#, fuzzy
+msgid "md_adv_record_lng_table_lng"
+msgstr "Language"
+
+msgid "md_adv_records"
+msgstr "Included Datasets"
+
+msgid "md_adv_records_exported"
+msgstr "A new export file has been created."
+
+#, fuzzy
+msgid "md_adv_scope"
+msgstr "Scope"
+
+#, fuzzy
+msgid "md_adv_scope_info"
+msgstr "Usage of this custom metadata set will be limited to selected parts of the repository."
+
+#, fuzzy
+msgid "md_adv_scope_list_header"
+msgstr "Limited to:"
+
+#, fuzzy
+msgid "md_adv_scope_objects"
+msgstr "Data Set Effective From"
+
+msgid "md_adv_searchable"
+msgstr "Searchable"
+
+msgid "md_adv_select_one_file"
+msgstr "Please choose one file."
+
+msgid "md_adv_show"
+msgstr "Show"
+
+msgid "md_adv_substitution_table"
+msgstr "Substitutions (Presentation in the Repository/Personal Desktop)"
+
+#, fuzzy
+msgid "md_adv_text_max_length"
+msgstr "Maximum Length"
+
+#, fuzzy
+msgid "md_adv_text_multi"
+msgstr "Multiline"
+
+#, fuzzy
+msgid "md_adv_text_multi_val"
+msgstr "Multilingual Values"
+
+#, fuzzy
+msgid "md_adv_text_multi_val_info"
+msgstr "Allow multilingual field values for this data field. Deactivating this option is recommended for texts that do not need translating, such as personal names."
+
+msgid "md_advanced"
+msgstr "Advanced Metadata"
+
+#, fuzzy
+msgid "md_aria_language_selection"
+msgstr "Language Selection"
+
+msgid "md_copyright"
+msgstr "Copyright"
+
+msgid "md_copyright_add"
+msgstr "Add Copyright Presetting"
+
+#, fuzzy
+msgid "md_copyright_admin_tab"
+msgstr "Copyright & OER"
+
+#, fuzzy
+msgid "md_copyright_alt_text"
+msgstr "Text Representation"
+
+#, fuzzy
+msgid "md_copyright_alt_text_info"
+msgstr "Used for image ‘alt’ attribute"
+
+#, fuzzy
+msgid "md_copyright_default"
+msgstr "Default"
+
+msgid "md_copyright_edit"
+msgstr "Edit Copyright Presetting"
+
+msgid "md_copyright_enable_info"
+msgstr "Choose this option to offer a selection of predefined copyrights"
+
+msgid "md_copyright_enabled"
+msgstr "Enable Copyright Selection"
+
+#, fuzzy
+msgid "md_copyright_full_name"
+msgstr "Full Name"
+
+#, fuzzy
+msgid "md_copyright_image"
+msgstr "Image"
+
+#, fuzzy
+msgid "md_copyright_image_file"
+msgstr "File"
+
+#, fuzzy
+msgid "md_copyright_image_is_file"
+msgstr "Upload File"
+
+#, fuzzy
+msgid "md_copyright_image_is_link"
+msgstr "Enter URL"
+
+#, fuzzy
+msgid "md_copyright_image_link"
+msgstr "URL"
+
+#, fuzzy
+msgid "md_copyright_link"
+msgstr "URL"
+
+#, fuzzy
+msgid "md_copyright_link_info"
+msgstr "Link to the licence"
+
+msgid "md_copyright_preview"
+msgstr "Copyright (Preview)"
+
+msgid "md_copyright_selection"
+msgstr "Copyright Presettings"
+
+msgid "md_copyright_value"
+msgstr "Copyright"
+
+msgid "md_copyrights_deleted"
+msgstr "Deleted Copyright"
+
+msgid "md_days"
+msgstr "Ημέρες:"
+
+msgid "md_delete_cp_sure"
+msgstr "Do you really want to delete the following entries ?"
+
+#, fuzzy
+msgid "md_delimiter"
+msgstr "Delimiter"
+
+#, fuzzy
+msgid "md_delimiter_info"
+msgstr "The delimiter is used in the quick editing screen for keywords and authors separation. Default is ','."
+
+#, fuzzy
+msgid "md_editor_custom_input"
+msgstr "Custom"
+
+#, fuzzy
+msgid "md_editor_from_vocab_input"
+msgstr "From Vocabulary"
+
+#, fuzzy
+msgid "md_editor_value"
+msgstr "Value"
+
+msgid "md_fields"
+msgstr "Fields"
+
+#, fuzzy
+msgid "md_import_file_vocab"
+msgstr "Import File"
+
+#, fuzzy
+msgid "md_import_vocab"
+msgstr "Import"
+
+#, fuzzy
+msgid "md_import_vocab_modal"
+msgstr "Import From File"
+
+msgid "md_months"
+msgstr "Μήνας:"
+
+#, fuzzy
+msgid "md_oai_contact_mail"
+msgstr "Contact E-Mail"
+
+#, fuzzy
+msgid "md_oai_identifier_prefix"
+msgstr "OAI Prefix"
+
+#, fuzzy
+msgid "md_oai_identifier_prefix_info"
+msgstr "This prefix is used as a namespace in the identifiers of returned OER records."
+
+#, fuzzy
+msgid "md_oai_pmh_enabled"
+msgstr "Allow Querying via OAI-PMH Interface"
+
+#, fuzzy
+msgid "md_oai_pmh_enabled_info"
+msgstr "If enabled, harvested OER can be queried by external interested parties, e.g. OER referatories."
+
+#, fuzzy
+msgid "md_oai_repository_name"
+msgstr "Repository Name"
+
+#, fuzzy
+msgid "md_oai_repository_name_info"
+msgstr "This is returned as the name of this ILIAS installation when queried."
+
+msgid "md_obj_types"
+msgstr "Assigned Objekts"
+
+#, fuzzy
+msgid "md_publishing"
+msgstr "Publishing"
+
+#, fuzzy
+msgid "md_publishing_action_accept"
+msgstr "Accept for Publishing"
+
+#, fuzzy
+msgid "md_publishing_action_block"
+msgstr "Block From Publishing"
+
+#, fuzzy
+msgid "md_publishing_action_publish"
+msgstr "Publish"
+
+#, fuzzy
+msgid "md_publishing_action_reject"
+msgstr "Reject"
+
+#, fuzzy
+msgid "md_publishing_action_submit"
+msgstr "Submit for Publishing"
+
+#, fuzzy
+msgid "md_publishing_action_unblock"
+msgstr "Unblock"
+
+#, fuzzy
+msgid "md_publishing_action_withdraw"
+msgstr "Withdraw"
+
+#, fuzzy
+msgid "md_publishing_center_title"
+msgstr "OER Publishing"
+
+#, fuzzy
+msgid "md_publishing_confirmation_accept"
+msgstr "Accept for Publishing"
+
+#, fuzzy
+msgid "md_publishing_confirmation_info_accept"
+msgstr "Are you sure you want to publish this object?"
+
+#, fuzzy
+msgid "md_publishing_confirmation_info_reject"
+msgstr "Are you sure you want to reject this object for publishing?"
+
+#, fuzzy
+msgid "md_publishing_confirmation_info_withdraw"
+msgstr "Are you sure you want to withdraw this object from publishing?"
+
+#, fuzzy
+msgid "md_publishing_confirmation_reject"
+msgstr "Reject for Publishing"
+
+#, fuzzy
+msgid "md_publishing_confirmation_withdraw"
+msgstr "Withdraw From Publishing"
+
+#, fuzzy
+msgid "md_publishing_control_center"
+msgstr "OER Publishing"
+
+#, fuzzy
+msgid "md_publishing_current_status"
+msgstr "Publishing this object as OER: <strong>%s</strong>"
+
+#, fuzzy
+msgid "md_publishing_info_blocked"
+msgstr "This object is blocked from being automatically published."
+
+#, fuzzy
+msgid "md_publishing_info_published"
+msgstr "This object has been published as an Open Educational Resource."
+
+#, fuzzy
+msgid "md_publishing_info_under_review"
+msgstr "This object was submitted for publishing, and is currently being reviewed by the editorial team."
+
+#, fuzzy
+msgid "md_publishing_info_unpublished"
+msgstr "This object can be published as an Open Educational Resource."
+
+#, fuzzy
+msgid "md_publishing_info_wrong_copyright"
+msgstr "To publish this object as an Open Educational Resource, please close this dialog and select an eligible licence:%s"
+
+#, fuzzy
+msgid "md_publishing_last_reference_info"
+msgstr "Please note that this object will not be removed, because there are no other references to it in the repository."
+
+#, fuzzy
+msgid "md_publishing_status_blocked"
+msgstr "Blocked"
+
+#, fuzzy
+msgid "md_publishing_status_published"
+msgstr "Published"
+
+#, fuzzy
+msgid "md_publishing_status_under_review"
+msgstr "Under Review"
+
+#, fuzzy
+msgid "md_publishing_status_unpublished"
+msgstr "Unpublished"
+
+#, fuzzy
+msgid "md_publishing_success_accept"
+msgstr "Object successfully published."
+
+#, fuzzy
+msgid "md_publishing_success_block"
+msgstr "Object successfully blocked from publishing."
+
+#, fuzzy
+msgid "md_publishing_success_publish"
+msgstr "Object successfully published."
+
+#, fuzzy
+msgid "md_publishing_success_reject"
+msgstr "Object successfully rejected."
+
+#, fuzzy
+msgid "md_publishing_success_submit"
+msgstr "Object successfully submitted for review."
+
+#, fuzzy
+msgid "md_publishing_success_unblock"
+msgstr "Object successfully unblocked."
+
+#, fuzzy
+msgid "md_publishing_success_withdraw"
+msgstr "Object successfully withdrawn."
+
+#, fuzzy
+msgid "md_publishing_workflow"
+msgstr "Publishing Workflow"
+
+#, fuzzy
+msgid "md_publishing_workflow_automatic"
+msgstr "Automatic"
+
+#, fuzzy
+msgid "md_publishing_workflow_automatic_info"
+msgstr "Eligible objects are automatically published by the OER Harvester cron job."
+
+#, fuzzy
+msgid "md_publishing_workflow_manual"
+msgstr "Manual"
+
+#, fuzzy
+msgid "md_publishing_workflow_manual_info"
+msgstr "Add an option to the LOM of objects to publish them with the click of a button."
+
+#, fuzzy
+msgid "md_publishing_workflow_mode"
+msgstr "Enable Publishing"
+
+#, fuzzy
+msgid "md_publishing_workflow_mode_info"
+msgstr "When an object is published, it is added to a predefined category and an export file is generated for it. Additionally, a record is compiled that (if activated) can be read out via an OAI-PMH interface."
+
+msgid "md_record_export_table"
+msgstr "Export Files"
+
+msgid "md_record_list_table"
+msgstr "Advanced Metadata Sets"
+
+#, fuzzy
+msgid "md_separated_by"
+msgstr "Separated by %s"
+
+#, fuzzy
+msgid "md_settings"
+msgstr "Settings"
+
+#, fuzzy
+msgid "md_settings_harvester"
+msgstr "OER Harvester"
+
+#, fuzzy
+msgid "md_settings_licence"
+msgstr "Terms of Usage"
+
+#, fuzzy
+msgid "md_settings_publishing"
+msgstr "Querying by Repositories"
+
+msgid "md_time"
+msgstr "Ώρα:"
+
+#, fuzzy
+msgid "md_unknown_vocabulary_flag"
+msgstr "(unknown vocabulary)"
+
+msgid "md_used"
+msgstr "Usage"
+
+#, fuzzy
+msgid "md_vocab_activate_action"
+msgstr "Activate"
+
+#, fuzzy
+msgid "md_vocab_active_column"
+msgstr "Active"
+
+#, fuzzy
+msgid "md_vocab_all_values_title"
+msgstr "Values for %s (%s)"
+
+#, fuzzy
+msgid "md_vocab_allow_custom_input_action"
+msgstr "Allow Custom Input"
+
+#, fuzzy
+msgid "md_vocab_custom_input_column"
+msgstr "Custom Input Allowed"
+
+#, fuzzy
+msgid "md_vocab_deactivate_action"
+msgstr "Deactivate"
+
+#, fuzzy
+msgid "md_vocab_delete_action"
+msgstr "Delete"
+
+#, fuzzy
+msgid "md_vocab_delete_confirmation_text"
+msgstr "Are you sure you want to delete the vocabulary for %s (%s) with the following values?"
+
+#, fuzzy
+msgid "md_vocab_delete_confirmation_title"
+msgstr "Delete Vocabulary"
+
+#, fuzzy
+msgid "md_vocab_deletion_successful"
+msgstr "Vocabulary successfully deleted."
+
+#, fuzzy
+msgid "md_vocab_disallow_custom_input_action"
+msgstr "Disallow Custom Input"
+
+#, fuzzy
+msgid "md_vocab_element_column"
+msgstr "Element"
+
+#, fuzzy
+msgid "md_vocab_element_with_condition"
+msgstr "%s where %s is %s"
+
+#, fuzzy
+msgid "md_vocab_import_invalid"
+msgstr "The import file is invalid:<br/>%s"
+
+#, fuzzy
+msgid "md_vocab_import_successful"
+msgstr "Vocabulary successfully imported."
+
+#, fuzzy
+msgid "md_vocab_import_upload_failed"
+msgstr "Upload of the import file failed."
+
+#, fuzzy
+msgid "md_vocab_preview_column"
+msgstr "Preview"
+
+#, fuzzy
+msgid "md_vocab_show_all_action"
+msgstr "Show All Values"
+
+#, fuzzy
+msgid "md_vocab_source_column"
+msgstr "Source"
+
+#, fuzzy
+msgid "md_vocab_table_title"
+msgstr "Vocabularies"
+
+#, fuzzy
+msgid "md_vocab_type_column"
+msgstr "Type"
+
+#, fuzzy
+msgid "md_vocab_type_controlled_string"
+msgstr "Controlled Text"
+
+#, fuzzy
+msgid "md_vocab_type_controlled_vocab_value"
+msgstr "Controlled Selection"
+
+#, fuzzy
+msgid "md_vocab_type_copyright"
+msgstr "Copyright"
+
+#, fuzzy
+msgid "md_vocab_type_standard"
+msgstr "Standard"
+
+#, fuzzy
+msgid "md_vocab_update_successful"
+msgstr "Vocabulary successfully updated."
+
+#, fuzzy
+msgid "md_vocabularies_config"
+msgstr "LOM Vocabularies"
+
+#, fuzzy
+msgid "meta_1"
+msgstr "1"
+
+#, fuzzy
+msgid "meta_2"
+msgstr "2"
+
+#, fuzzy
+msgid "meta_3"
+msgstr "3"
+
+#, fuzzy
+msgid "meta_4"
+msgstr "4"
+
+msgid "meta_accessibility_restrictions"
+msgstr "Περιορισμοί Πρόσβασης"
+
+msgid "meta_active"
+msgstr "Ενεργό"
+
+msgid "meta_add"
+msgstr "Προσθήκη"
+
+#, fuzzy
+msgid "meta_add_element"
+msgstr "Add %s"
+
+#, fuzzy
+msgid "meta_add_element_success"
+msgstr "Element added successfully"
+
+#, fuzzy
+msgid "meta_advmd_add_field"
+msgstr "Add New Field"
+
+#, fuzzy
+msgid "meta_advmd_select_delete_option"
+msgstr "Delete This Entry"
+
+#, fuzzy
+msgid "meta_advmd_select_first_position_identifier"
+msgstr "First"
+
+#, fuzzy
+msgid "meta_advmd_select_new_option"
+msgstr "Add New Entry"
+
+#, fuzzy
+msgid "meta_advmd_select_option_position"
+msgstr "Position"
+
+#, fuzzy
+msgid "meta_advmd_select_option_value"
+msgstr "Value"
+
+#, fuzzy
+msgid "meta_advmd_select_options"
+msgstr "Entries"
+
+#, fuzzy
+msgid "meta_advmd_select_options_edit"
+msgstr "Edit Entries"
+
+#, fuzzy
+msgid "meta_advmd_select_position_identifier"
+msgstr "After %s"
+
+#, fuzzy
+msgid "meta_aggregation_level"
+msgstr "Aggregation Level"
+
+#, fuzzy
+msgid "meta_amaya"
+msgstr "Amaya"
+
+msgid "meta_annotation"
+msgstr "Σημείωση"
+
+#, fuzzy
+msgid "meta_annotation_plural"
+msgstr "Annotations"
+
+#, fuzzy
+msgid "meta_any"
+msgstr "Any"
+
+msgid "meta_atomic"
+msgstr "Ατομικό"
+
+msgid "meta_author"
+msgstr "Συγγραφέας"
+
+#, fuzzy
+msgid "meta_authors"
+msgstr "Authors"
+
+msgid "meta_browser"
+msgstr "Φυλλομετρητής"
+
+#, fuzzy
+msgid "meta_button_to_full_editor_label"
+msgstr "Edit the Full Learning Object Metadata"
+
+msgid "meta_c_AD"
+msgstr "Ανδόρες"
+
+msgid "meta_c_AE"
+msgstr "Ηνωμένα Αραβικά Εμιράτα"
+
+msgid "meta_c_AF"
+msgstr "Αφγανιστάν"
+
+msgid "meta_c_AG"
+msgstr "Αντίγκουα και Μπαρμπούντα"
+
+msgid "meta_c_AI"
+msgstr "Ανγκουίλα"
+
+msgid "meta_c_AL"
+msgstr "Αλβανία"
+
+msgid "meta_c_AM"
+msgstr "Αρμενία"
+
+msgid "meta_c_AN"
+msgstr "Ολλανδικές Αντίγιες"
+
+msgid "meta_c_AO"
+msgstr "Αγκόλα"
+
+msgid "meta_c_AQ"
+msgstr "Ανταρκτική"
+
+msgid "meta_c_AR"
+msgstr "Αργεντινή"
+
+msgid "meta_c_AS"
+msgstr "Αμερικανική Σαμόα"
+
+msgid "meta_c_AT"
+msgstr "Αυστρία"
+
+msgid "meta_c_AU"
+msgstr "Αυστραλία"
+
+msgid "meta_c_AW"
+msgstr "Αρούμπα"
+
+#, fuzzy
+msgid "meta_c_AX"
+msgstr "Åland Islands"
+
+msgid "meta_c_AZ"
+msgstr "Αζερμπαϊτζάν"
+
+msgid "meta_c_BA"
+msgstr "Βοσνία και Ερζεγοβίνη"
+
+msgid "meta_c_BB"
+msgstr "Μπαρμπέιντος"
+
+msgid "meta_c_BD"
+msgstr "Μπαγκλαντές"
+
+msgid "meta_c_BE"
+msgstr "Βέλγιο"
+
+msgid "meta_c_BF"
+msgstr "Μπουρκίνα Φάσο"
+
+msgid "meta_c_BG"
+msgstr "Βουλγαρία"
+
+msgid "meta_c_BH"
+msgstr "Μπαχρέιν"
+
+msgid "meta_c_BI"
+msgstr "Μπουρουντί"
+
+msgid "meta_c_BJ"
+msgstr "Μπένιν"
+
+#, fuzzy
+msgid "meta_c_BL"
+msgstr "Saint Barthélemy"
+
+msgid "meta_c_BM"
+msgstr "Βερμούδες"
+
+msgid "meta_c_BN"
+msgstr "Μπρουνέι Νταρουσαλάμ"
+
+msgid "meta_c_BO"
+msgstr "Βολιβία"
+
+msgid "meta_c_BR"
+msgstr "Βραζιλία"
+
+msgid "meta_c_BS"
+msgstr "Μπαχάμες"
+
+msgid "meta_c_BT"
+msgstr "Μπουτάν"
+
+msgid "meta_c_BV"
+msgstr "Νησί Μπουβέτ"
+
+msgid "meta_c_BW"
+msgstr "Μποτσβάνα"
+
+msgid "meta_c_BY"
+msgstr "Μπελαρούς"
+
+msgid "meta_c_BZ"
+msgstr "Μπελίζ"
+
+msgid "meta_c_CA"
+msgstr "Καναδάς"
+
+msgid "meta_c_CC"
+msgstr "Νησιά Κόκο"
+
+msgid "meta_c_CF"
+msgstr "Κεντρική Αφρικανική Δημοκρατία"
+
+msgid "meta_c_CG"
+msgstr "Κονγκό"
+
+msgid "meta_c_CH"
+msgstr "Ελβετία"
+
+msgid "meta_c_CI"
+msgstr "Κοτ ντ' Ιβουάρ"
+
+msgid "meta_c_CK"
+msgstr "Νησιά Κουκ"
+
+msgid "meta_c_CL"
+msgstr "Χιλή"
+
+msgid "meta_c_CM"
+msgstr "Καμερούν"
+
+msgid "meta_c_CN"
+msgstr "Κίνα"
+
+msgid "meta_c_CO"
+msgstr "Κολομβία"
+
+msgid "meta_c_CR"
+msgstr "Κόστα Ρίκα"
+
+msgid "meta_c_CU"
+msgstr "Κούβα"
+
+msgid "meta_c_CV"
+msgstr "Πράσινο Ακρωτήρι"
+
+msgid "meta_c_CX"
+msgstr "Νησί Χριστουγέννων"
+
+msgid "meta_c_CY"
+msgstr "Κύπρος"
+
+msgid "meta_c_CZ"
+msgstr "Τσέχικη Δημοκρατία"
+
+msgid "meta_c_DE"
+msgstr "Γερμανία"
+
+msgid "meta_c_DJ"
+msgstr "Ντιμπουτί"
+
+msgid "meta_c_DK"
+msgstr "Δανία"
+
+msgid "meta_c_DM"
+msgstr "Άγιος Δομίνικος"
+
+msgid "meta_c_DO"
+msgstr "Δομινικανή Δημοκρατία"
+
+msgid "meta_c_DZ"
+msgstr "Αλγερία"
+
+msgid "meta_c_EC"
+msgstr "Εκουαδόρ"
+
+msgid "meta_c_EE"
+msgstr "Εσθονία"
+
+msgid "meta_c_EG"
+msgstr "Αίγυπτος"
+
+msgid "meta_c_EH"
+msgstr "Δυτική Σαχάρα"
+
+msgid "meta_c_ER"
+msgstr "Ερυθραία"
+
+msgid "meta_c_ES"
+msgstr "Ισπανία"
+
+msgid "meta_c_ET"
+msgstr "Αιθιοπία"
+
+msgid "meta_c_FI"
+msgstr "Φινλανδία"
+
+msgid "meta_c_FJ"
+msgstr "Φίτζι"
+
+msgid "meta_c_FK"
+msgstr "Νησιά Φώλκλαντ"
+
+msgid "meta_c_FM"
+msgstr "Μικρονησία"
+
+msgid "meta_c_FO"
+msgstr "Νησιά Φαρόε"
+
+msgid "meta_c_FR"
+msgstr "Γαλλία"
+
+msgid "meta_c_FX"
+msgstr "Γαλλία, Μητρόπολη"
+
+msgid "meta_c_GA"
+msgstr "Γκαμπόν"
+
+msgid "meta_c_GB"
+msgstr "Ηνωμένο Βασίλειο"
+
+msgid "meta_c_GD"
+msgstr "Γρενάδα"
+
+msgid "meta_c_GE"
+msgstr "Γεωργία"
+
+msgid "meta_c_GF"
+msgstr "Γαλλική Γουινέα"
+
+#, fuzzy
+msgid "meta_c_GG"
+msgstr "Guernsey"
+
+msgid "meta_c_GH"
+msgstr "Γκάνα"
+
+msgid "meta_c_GI"
+msgstr "Γιβραλτάρ"
+
+msgid "meta_c_GL"
+msgstr "Γροιλανδία"
+
+msgid "meta_c_GM"
+msgstr "Γκάμπια"
+
+msgid "meta_c_GN"
+msgstr "Γουινέα"
+
+msgid "meta_c_GP"
+msgstr "Γουαδελούπη"
+
+msgid "meta_c_GQ"
+msgstr "Γουινέα Ισημερινού"
+
+msgid "meta_c_GR"
+msgstr "Ελλάδα"
+
+msgid "meta_c_GS"
+msgstr "Νότια Γεωργία και Νότια Νησιά Σάντουιτς"
+
+msgid "meta_c_GT"
+msgstr "Γουατεμάλα"
+
+msgid "meta_c_GU"
+msgstr "Γκουάμ"
+
+msgid "meta_c_GW"
+msgstr "Γουινέα - Μπισό"
+
+msgid "meta_c_GY"
+msgstr "Γουιάνα"
+
+#, fuzzy
+msgid "meta_c_HK"
+msgstr "Hong Kong"
+
+msgid "meta_c_HM"
+msgstr "HΧέρντ και Νησιά Μακ Ντόναλντ"
+
+msgid "meta_c_HN"
+msgstr "Ονδούρες"
+
+msgid "meta_c_HR"
+msgstr "Κροατία"
+
+msgid "meta_c_HT"
+msgstr "Αϊτή"
+
+msgid "meta_c_HU"
+msgstr "Ουγγαρία"
+
+msgid "meta_c_ID"
+msgstr "Ινδονησία"
+
+msgid "meta_c_IE"
+msgstr "Ιρλανδία"
+
+msgid "meta_c_IL"
+msgstr "Ισραήλ"
+
+#, fuzzy
+msgid "meta_c_IM"
+msgstr "Isle of Man"
+
+msgid "meta_c_IN"
+msgstr "Ινδία"
+
+msgid "meta_c_IO"
+msgstr "Βρετανική Περιοχή Ινδικού Ωκεανού"
+
+msgid "meta_c_IQ"
+msgstr "Ιράκ"
+
+msgid "meta_c_IR"
+msgstr "Ιράν"
+
+msgid "meta_c_IS"
+msgstr "Ισλανδία"
+
+msgid "meta_c_IT"
+msgstr "Ιταλία"
+
+#, fuzzy
+msgid "meta_c_JE"
+msgstr "Jersey"
+
+msgid "meta_c_JM"
+msgstr "Τζαμάικα"
+
+msgid "meta_c_JO"
+msgstr "Ιορδανία"
+
+msgid "meta_c_JP"
+msgstr "Ιαπωνία"
+
+msgid "meta_c_KE"
+msgstr "Κένια"
+
+msgid "meta_c_KG"
+msgstr "Κιργκιστάν"
+
+msgid "meta_c_KH"
+msgstr "Καμποδία"
+
+msgid "meta_c_KI"
+msgstr "Κιριμπάτι"
+
+msgid "meta_c_KM"
+msgstr "Κομόρος"
+
+msgid "meta_c_KN"
+msgstr "Άγιος Κίτιος και Νέβιος"
+
+msgid "meta_c_KP"
+msgstr "Βόρεια Κορέα (Λαϊκή Δημοκρατία της Κορέας)"
+
+msgid "meta_c_KR"
+msgstr "Νότια Κορέα (Δημοκρατία της Κορέας)"
+
+msgid "meta_c_KW"
+msgstr "Κουβέιτ"
+
+msgid "meta_c_KY"
+msgstr "Νησιά Καϊμάν"
+
+msgid "meta_c_KZ"
+msgstr "Καζακστάν"
+
+msgid "meta_c_LA"
+msgstr "Λαϊκή Δημοκρατία του Λάο"
+
+msgid "meta_c_LB"
+msgstr "Λίβανος"
+
+msgid "meta_c_LC"
+msgstr "Αγία Λουκία"
+
+msgid "meta_c_LI"
+msgstr "Λιχτενστάιν"
+
+msgid "meta_c_LK"
+msgstr "Σρι Λάνκα"
+
+msgid "meta_c_LR"
+msgstr "Λιβηρία"
+
+msgid "meta_c_LS"
+msgstr "Λέσοδο"
+
+msgid "meta_c_LT"
+msgstr "Λιθουανία"
+
+msgid "meta_c_LU"
+msgstr "Λουξεμβούργο"
+
+msgid "meta_c_LV"
+msgstr "Λετονία"
+
+msgid "meta_c_LY"
+msgstr "Λυβική Αραβική Γιαμαχιρίγια"
+
+msgid "meta_c_MA"
+msgstr "Μαρόκο"
+
+msgid "meta_c_MC"
+msgstr "Μόνακο"
+
+msgid "meta_c_MD"
+msgstr "Μολδαβία"
+
+#, fuzzy
+msgid "meta_c_ME"
+msgstr "Montenegro"
+
+#, fuzzy
+msgid "meta_c_MF"
+msgstr "Saint Martin (French part)"
+
+msgid "meta_c_MG"
+msgstr "Μαδαγασκάρη"
+
+msgid "meta_c_MH"
+msgstr "Νησιά Μάρσαλ"
+
+msgid "meta_c_MK"
+msgstr "ΠΓ?Μ"
+
+msgid "meta_c_ML"
+msgstr "Μαλί"
+
+msgid "meta_c_MM"
+msgstr "Μυανμάρη"
+
+msgid "meta_c_MN"
+msgstr "Μογγολία"
+
+msgid "meta_c_MO"
+msgstr "Μακάου"
+
+msgid "meta_c_MP"
+msgstr "Βόρεια Νησιά Μαριάνα"
+
+msgid "meta_c_MQ"
+msgstr "Μαρτινίκη"
+
+msgid "meta_c_MR"
+msgstr "Μαυριτανία"
+
+msgid "meta_c_MS"
+msgstr "Μοντσεράτ"
+
+msgid "meta_c_MT"
+msgstr "Μάλτα"
+
+msgid "meta_c_MU"
+msgstr "Μαυρίτιος"
+
+msgid "meta_c_MV"
+msgstr "Μαλδίβες"
+
+msgid "meta_c_MW"
+msgstr "Μαλάουι"
+
+msgid "meta_c_MX"
+msgstr "Μεξικό"
+
+msgid "meta_c_MY"
+msgstr "Μαλαισία"
+
+msgid "meta_c_MZ"
+msgstr "Μοζαμβίκη"
+
+msgid "meta_c_NA"
+msgstr "Ναμίμπια"
+
+msgid "meta_c_NC"
+msgstr "Νέα Καληδονία"
+
+msgid "meta_c_NE"
+msgstr "Νιγηρία"
+
+msgid "meta_c_NF"
+msgstr "Νησί Νόρφολκ"
+
+msgid "meta_c_NG"
+msgstr "#Νιγηρία"
+
+msgid "meta_c_NI"
+msgstr "Νικαράγουα"
+
+msgid "meta_c_NL"
+msgstr "Ολλανδία"
+
+msgid "meta_c_NO"
+msgstr "Νορβηγία"
+
+msgid "meta_c_NP"
+msgstr "Νεπάλ"
+
+msgid "meta_c_NR"
+msgstr "Ναουρού"
+
+msgid "meta_c_NU"
+msgstr "Νιούε"
+
+msgid "meta_c_NZ"
+msgstr "Νέα Ζηλανδία"
+
+msgid "meta_c_OM"
+msgstr "Ομάν"
+
+msgid "meta_c_PA"
+msgstr "Παναμάς"
+
+msgid "meta_c_PE"
+msgstr "Περού"
+
+msgid "meta_c_PF"
+msgstr "Γαλλική Πολυνησία"
+
+msgid "meta_c_PG"
+msgstr "Παπούα Νέας Γουινέας"
+
+msgid "meta_c_PH"
+msgstr "Φιλιππίνες"
+
+msgid "meta_c_PK"
+msgstr "Πακιστάν"
+
+msgid "meta_c_PL"
+msgstr "Πολωνία"
+
+msgid "meta_c_PM"
+msgstr "Άγιος Πέτρος και Μικελόν"
+
+msgid "meta_c_PN"
+msgstr "Πιτκαίρν"
+
+msgid "meta_c_PR"
+msgstr "Πουέρτο Ρίκο"
+
+#, fuzzy
+msgid "meta_c_PS"
+msgstr "Palestinian Territories (Occupied)"
+
+msgid "meta_c_PT"
+msgstr "Πορτογαλία"
+
+msgid "meta_c_PW"
+msgstr "Παλάου"
+
+msgid "meta_c_PY"
+msgstr "Παραγουάη"
+
+msgid "meta_c_QA"
+msgstr "Κατάρ"
+
+msgid "meta_c_RE"
+msgstr "Ρεγιούνιον"
+
+msgid "meta_c_RO"
+msgstr "Ρουμανία"
+
+#, fuzzy
+msgid "meta_c_RS"
+msgstr "Serbia"
+
+msgid "meta_c_RU"
+msgstr "Ομοσπονδία Ραν"
+
+msgid "meta_c_RW"
+msgstr "Ρουάντα"
+
+msgid "meta_c_SA"
+msgstr "Σαουδική Αραβία"
+
+msgid "meta_c_SB"
+msgstr "Νησιά του Σολομόντα"
+
+msgid "meta_c_SC"
+msgstr "Σεϊχέλες"
+
+msgid "meta_c_SD"
+msgstr "Σουδάν"
+
+msgid "meta_c_SE"
+msgstr "Σουηδία"
+
+msgid "meta_c_SG"
+msgstr "Σιγκαπούρη"
+
+msgid "meta_c_SH"
+msgstr "Αγία Ελένη"
+
+msgid "meta_c_SI"
+msgstr "Σλοβενία"
+
+msgid "meta_c_SJ"
+msgstr "Σβαλμπάρντ και Νήσος Ιάν Μέιεν"
+
+msgid "meta_c_SK"
+msgstr "Σλοβακία"
+
+msgid "meta_c_SL"
+msgstr "Σιέρα Λεόνε"
+
+msgid "meta_c_SM"
+msgstr "Άγιος Μαρίνος"
+
+msgid "meta_c_SN"
+msgstr "Σενεγάλη"
+
+msgid "meta_c_SO"
+msgstr "Σομαλία"
+
+msgid "meta_c_SR"
+msgstr "Σουρινάμε"
+
+msgid "meta_c_ST"
+msgstr "Σάο Τομ και Πρινσίπε"
+
+msgid "meta_c_SV"
+msgstr "Ελ Σαλβδόρ"
+
+msgid "meta_c_SY"
+msgstr "Συριακή Αραβική Δημοκρατία"
+
+msgid "meta_c_SZ"
+msgstr "Ζηλανδία"
+
+msgid "meta_c_TC"
+msgstr "Τούρκικα και Κάικα Νησιά"
+
+msgid "meta_c_TD"
+msgstr "Τσαντ"
+
+msgid "meta_c_TF"
+msgstr "Γαλλικές Νότιες Περιοχές"
+
+msgid "meta_c_TG"
+msgstr "Τόγκο"
+
+msgid "meta_c_TH"
+msgstr "Ταϊλάνδη"
+
+msgid "meta_c_TJ"
+msgstr "Ταζικιστάν"
+
+msgid "meta_c_TK"
+msgstr "Τοκελάου"
+
+#, fuzzy
+msgid "meta_c_TL"
+msgstr "Timor-Leste"
+
+msgid "meta_c_TM"
+msgstr "Τουρκμενιστάν"
+
+msgid "meta_c_TN"
+msgstr "Τυνησία"
+
+msgid "meta_c_TO"
+msgstr "Τόνγκα"
+
+msgid "meta_c_TR"
+msgstr "Τουρκία"
+
+msgid "meta_c_TT"
+msgstr "Τρινιδάδ και Τοβάχο"
+
+msgid "meta_c_TV"
+msgstr "Τουβαλού"
+
+msgid "meta_c_TW"
+msgstr "Ταϊβάν"
+
+msgid "meta_c_TZ"
+msgstr "Τανζανία"
+
+msgid "meta_c_UA"
+msgstr "Ουκρανία"
+
+msgid "meta_c_UG"
+msgstr "Ουγκάντα"
+
+msgid "meta_c_UM"
+msgstr "Αμερικανικά Μικρά Απομακρυσμένα Νησιά"
+
+msgid "meta_c_US"
+msgstr "Η.Π.Α"
+
+msgid "meta_c_UY"
+msgstr "Ουρουγουάη"
+
+msgid "meta_c_UZ"
+msgstr "Ουζμπεκιστάν"
+
+msgid "meta_c_VA"
+msgstr "Κράτος του Βατικανό"
+
+msgid "meta_c_VC"
+msgstr "Άγιος Βερίκιος και Γρεναδίνη"
+
+msgid "meta_c_VE"
+msgstr "Βενεζουέλα"
+
+msgid "meta_c_VG"
+msgstr "Παρθένοι Νήσοι (Βρετανία)"
+
+msgid "meta_c_VI"
+msgstr "Παρθένοι Νήσοι (US)"
+
+msgid "meta_c_VN"
+msgstr "Βιετνάμ"
+
+msgid "meta_c_VU"
+msgstr "Βανουάτου"
+
+msgid "meta_c_WF"
+msgstr "Ουαλίς και Νησιά Φουτούνα"
+
+msgid "meta_c_WS"
+msgstr "Σαμόα"
+
+#, fuzzy
+msgid "meta_c_XK"
+msgstr "Kosovo"
+
+msgid "meta_c_YE"
+msgstr "Υεμένη"
+
+msgid "meta_c_YT"
+msgstr "Μαγιότ"
+
+msgid "meta_c_ZA"
+msgstr "Νότια Αφρική"
+
+msgid "meta_c_ZM"
+msgstr "Ζάμπια"
+
+msgid "meta_c_ZW"
+msgstr "Ζιμπάμπουε"
+
+msgid "meta_catalog"
+msgstr "Κατάλογος"
+
+msgid "meta_classification"
+msgstr "Ταξινόμιση"
+
+#, fuzzy
+msgid "meta_classification_plural"
+msgstr "Classifications"
+
+msgid "meta_collection"
+msgstr "Συλλογή"
+
+msgid "meta_competency"
+msgstr "Αρμοδιότητα"
+
+msgid "meta_contentprovider"
+msgstr "Προμηθευτής περιεχομένου"
+
+msgid "meta_context"
+msgstr "Συμφραζόμενα"
+
+#, fuzzy
+msgid "meta_context_plural"
+msgstr "Contexts"
+
+msgid "meta_contribute"
+msgstr "Συνεισφορά"
+
+#, fuzzy
+msgid "meta_contribute_plural"
+msgstr "Contribute"
+
+msgid "meta_copyright"
+msgstr "Πνευματικά δικαιώματα"
+
+msgid "meta_copyright_and_other_restrictions"
+msgstr "Πνευματικά δικαιώματα και άλλοι περιορισμοί"
+
+#, fuzzy
+msgid "meta_copyright_change_info"
+msgstr "You are going to change the licence assigned to this content. This should only be done in accordance with the copyright owner. Please continue only if the new licence is not more restrictive than the one used before."
+
+#, fuzzy
+msgid "meta_copyright_change_oer_info"
+msgstr "The copyright licence you have selected makes this object eligible to be harvested as an Open Educational Resource. If you continue, it might be listed as such along with an export file, and it might get published beyond this platform."
+
+#, fuzzy
+msgid "meta_copyright_change_warning_title"
+msgstr "Modification of Copyright Settings"
+
+#, fuzzy
+msgid "meta_copyright_in_use"
+msgstr "In use"
+
+#, fuzzy
+msgid "meta_copyright_outdated"
+msgstr "Outdated"
+
+#, fuzzy
+msgid "meta_copyright_outdated_error"
+msgstr "The chosen copyright is outdated and no longer in use."
+
+#, fuzzy
+msgid "meta_copyright_show_usages"
+msgstr "Show usages"
+
+#, fuzzy
+msgid "meta_copyright_status"
+msgstr "Status"
+
+#, fuzzy
+msgid "meta_copyright_sub_items"
+msgstr "Sub Items"
+
+#, fuzzy
+msgid "meta_copyright_usage"
+msgstr "Usage"
+
+msgid "meta_cost"
+msgstr "Κόστος"
+
+msgid "meta_coverage"
+msgstr "Κάλυψη"
+
+#, fuzzy
+msgid "meta_coverage_plural"
+msgstr "Coverage"
+
+msgid "meta_cp_own"
+msgstr "Own Copyright Information:"
+
+msgid "meta_creator"
+msgstr "Δημιουργός"
+
+msgid "meta_current_value"
+msgstr "Τρέχουσα τιμή"
+
+msgid "meta_date"
+msgstr "Ημερομηνία"
+
+#, fuzzy
+msgid "meta_date_time"
+msgstr "Date"
+
+msgid "meta_delete"
+msgstr "Διαγραφή"
+
+#, fuzzy
+msgid "meta_delete_confirm"
+msgstr "Are you sure you want to delete this element and its content?"
+
+#, fuzzy
+msgid "meta_delete_element"
+msgstr "Delete %s"
+
+#, fuzzy
+msgid "meta_delete_element_success"
+msgstr "Element deleted successfully"
+
+#, fuzzy
+msgid "meta_delete_this_element"
+msgstr "Delete This Element"
+
+msgid "meta_description"
+msgstr "Περιγραφή"
+
+#, fuzzy
+msgid "meta_description_plural"
+msgstr "Descriptions"
+
+msgid "meta_diagramm"
+msgstr "Διάγραμμα"
+
+msgid "meta_difficult"
+msgstr "Δύσκολο"
+
+msgid "meta_difficulty"
+msgstr "Δυσκολία"
+
+#, fuzzy
+msgid "meta_discipline"
+msgstr "Discipline"
+
+msgid "meta_draft"
+msgstr "Πρόχειρο"
+
+msgid "meta_duration"
+msgstr "Διάρκεια"
+
+msgid "meta_easy"
+msgstr "Εύκολο"
+
+#, fuzzy
+msgid "meta_edit_element"
+msgstr "Edit %s"
+
+#, fuzzy
+msgid "meta_edit_element_success"
+msgstr "Element edited successfully"
+
+msgid "meta_editor"
+msgstr "Εκδότης"
+
+msgid "meta_education"
+msgstr "Εκπαίδευση"
+
+msgid "meta_educational"
+msgstr "Εκπαιδευτικό"
+
+msgid "meta_educational_level"
+msgstr "Εκπαιδευτικό επίπεδο"
+
+msgid "meta_educational_objective"
+msgstr "Εκπαιδευτικός στόχος"
+
+#, fuzzy
+msgid "meta_educational_plural"
+msgstr "Educational"
+
+msgid "meta_educationalvalidator"
+msgstr "Εκπαιδευτική επικύρωση"
+
+msgid "meta_entity"
+msgstr "Οντότητα"
+
+#, fuzzy
+msgid "meta_entity_plural"
+msgstr "Entities"
+
+msgid "meta_entry"
+msgstr "Εισαγωγή"
+
+#, fuzzy
+msgid "meta_error_empty_input"
+msgstr "Please make sure that at least one of the following input fields is not empty."
+
+msgid "meta_exam"
+msgstr "Εξέταση"
+
+msgid "meta_exercise"
+msgstr "Άσκηση"
+
+msgid "meta_experiment"
+msgstr "Πείραμα"
+
+msgid "meta_expositive"
+msgstr "Επεξηγηματικός"
+
+msgid "meta_figure"
+msgstr "Εικόνα"
+
+msgid "meta_final"
+msgstr "Τελικό"
+
+#, fuzzy
+msgid "meta_first_author"
+msgstr "First Author"
+
+msgid "meta_format"
+msgstr "Μορφοποίηση"
+
+#, fuzzy
+msgid "meta_format_plural"
+msgstr "Formats"
+
+#, fuzzy
+msgid "meta_full_editor_navigation_info"
+msgstr "To navigate and edit this metadata set, use the ‘LOM’-tree in the ‘Tools’ entry of the main menu."
+
+msgid "meta_general"
+msgstr "Γενικό"
+
+#, fuzzy
+msgid "meta_global"
+msgstr "Global"
+
+msgid "meta_graph"
+msgstr "Γράφημα"
+
+msgid "meta_graphicaldesigner"
+msgstr "Σχεδιαστής γραφικών"
+
+msgid "meta_has_format"
+msgstr "Έχει μορφοποιηθεί"
+
+msgid "meta_has_part"
+msgstr "Έχει μέρος"
+
+msgid "meta_has_version"
+msgstr "Έχει Έκδοση"
+
+msgid "meta_hierarchical"
+msgstr "Ιεραρχικό"
+
+msgid "meta_high"
+msgstr "Υψηλό"
+
+msgid "meta_higher_education"
+msgstr "Ανώτερη Εκπαίδευση"
+
+msgid "meta_id"
+msgstr "Ταυτότητα"
+
+msgid "meta_idea"
+msgstr "Ιδέα"
+
+msgid "meta_identifier"
+msgstr "Αναγνωριστικό"
+
+#, fuzzy
+msgid "meta_identifier_plural"
+msgstr "Identifiers"
+
+msgid "meta_index"
+msgstr "Ευρετήριο"
+
+#, fuzzy
+msgid "meta_info_licence_section"
+msgstr "Licence and Use"
+
+#, fuzzy
+msgid "meta_info_only_repository_objects"
+msgstr "Only repository objects are listed below (and no media objects or LM pages)."
+
+msgid "meta_initiator"
+msgstr "Ιδρυτής"
+
+msgid "meta_installation_remarks"
+msgstr "Παρατηρήσεις Εγκατάστασης"
+
+msgid "meta_instructionaldesigner"
+msgstr "Εκπαιδευτικός σχεδιασμός"
+
+msgid "meta_intended_end_user_role"
+msgstr "Σχεδιασμένο για ρόλο τελικού χρήστη"
+
+#, fuzzy
+msgid "meta_intended_end_user_role_plural"
+msgstr "Intended End User Roles"
+
+msgid "meta_interactivity_level"
+msgstr "Επίπεδο Αλληλεπίδρασης"
+
+msgid "meta_interactivity_type"
+msgstr "Τύπος Αλληλεπίδρασης"
+
+msgid "meta_is_based_on"
+msgstr "Είναι βασισμένο σε"
+
+msgid "meta_is_basis_for"
+msgstr "Είναι βάση για"
+
+msgid "meta_is_format_of"
+msgstr "Είναι μορφοποίηση από"
+
+msgid "meta_is_part_of"
+msgstr "Είναι μέρος από"
+
+msgid "meta_is_referenced_by"
+msgstr "Εόναι παραπομπή από"
+
+msgid "meta_is_required_by"
+msgstr "Ζητείται από"
+
+msgid "meta_is_version_of"
+msgstr "Είναι έκδοση από"
+
+msgid "meta_keyword"
+msgstr "Λέξη κλειδί"
+
+#, fuzzy
+msgid "meta_keyword_plural"
+msgstr "Keywords"
+
+msgid "meta_kind"
+msgstr "Είδος"
+
+msgid "meta_l_aa"
+msgstr "Afar"
+
+msgid "meta_l_ab"
+msgstr "Αμπχαζικά"
+
+msgid "meta_l_af"
+msgstr "Αφρικάαν"
+
+msgid "meta_l_am"
+msgstr "Amharic"
+
+msgid "meta_l_ar"
+msgstr "Αραβικά"
+
+msgid "meta_l_as"
+msgstr "Assamese"
+
+msgid "meta_l_ay"
+msgstr "Aymara"
+
+msgid "meta_l_az"
+msgstr "Αζερμπαϊτζανικά"
+
+msgid "meta_l_ba"
+msgstr "Bashkir"
+
+msgid "meta_l_be"
+msgstr "Λευκορωσσικά"
+
+msgid "meta_l_bg"
+msgstr "Βουλγαρικά"
+
+msgid "meta_l_bh"
+msgstr "Bihari"
+
+msgid "meta_l_bi"
+msgstr "Bislama"
+
+msgid "meta_l_bn"
+msgstr "Βεγκαλικά"
+
+msgid "meta_l_bo"
+msgstr "Θιβετιανά"
+
+msgid "meta_l_br"
+msgstr "Βρετανικά"
+
+msgid "meta_l_ca"
+msgstr "Καταλανικά"
+
+msgid "meta_l_co"
+msgstr "Κορσικιανά"
+
+msgid "meta_l_cs"
+msgstr "Τσέχικα"
+
+msgid "meta_l_cy"
+msgstr "Ουαλικά"
+
+msgid "meta_l_da"
+msgstr "Δανικά"
+
+msgid "meta_l_de"
+msgstr "Γερμανικά"
+
+msgid "meta_l_dz"
+msgstr "Διάλεκτος Μπουτάν"
+
+msgid "meta_l_el"
+msgstr "Ελληνικά"
+
+msgid "meta_l_en"
+msgstr "Αγγλικά"
+
+msgid "meta_l_eo"
+msgstr "Διάλεκτος Εσπεράντο"
+
+msgid "meta_l_es"
+msgstr "Ισπανικά"
+
+msgid "meta_l_et"
+msgstr "Εσθονικά"
+
+msgid "meta_l_eu"
+msgstr "Βασκικά"
+
+msgid "meta_l_fa"
+msgstr "Περσικά (φαρσί)"
+
+msgid "meta_l_fi"
+msgstr "Φινλανδικά"
+
+msgid "meta_l_fj"
+msgstr "Διάλεκτος νησιών Φίτζι"
+
+msgid "meta_l_fo"
+msgstr "Faroese"
+
+msgid "meta_l_fr"
+msgstr "Γαλλικά"
+
+msgid "meta_l_fy"
+msgstr "Frisian"
+
+msgid "meta_l_ga"
+msgstr "Ιρλανδικά"
+
+msgid "meta_l_gd"
+msgstr "Σκωτσέζικα"
+
+msgid "meta_l_gl"
+msgstr "Γαλατικά"
+
+msgid "meta_l_gn"
+msgstr "Guarani"
+
+msgid "meta_l_gu"
+msgstr "Gujarati"
+
+msgid "meta_l_ha"
+msgstr "Hausa"
+
+msgid "meta_l_he"
+msgstr "Εβραϊκά"
+
+msgid "meta_l_hi"
+msgstr "Ινδικά"
+
+msgid "meta_l_hr"
+msgstr "Κροατικά"
+
+msgid "meta_l_hu"
+msgstr "Ουγγρικά"
+
+msgid "meta_l_hy"
+msgstr "Αρμενικά"
+
+msgid "meta_l_ia"
+msgstr "Interlingua"
+
+msgid "meta_l_id"
+msgstr "Ινδονησιακά"
+
+msgid "meta_l_ie"
+msgstr "Interlingue"
+
+msgid "meta_l_ik"
+msgstr "Inupiak"
+
+msgid "meta_l_is"
+msgstr "Ισλανδικά"
+
+msgid "meta_l_it"
+msgstr "Ιταλικά"
+
+msgid "meta_l_iu"
+msgstr "Inuktitut"
+
+msgid "meta_l_ja"
+msgstr "Ιαπωνικά"
+
+msgid "meta_l_jv"
+msgstr "Ιάβας"
+
+msgid "meta_l_ka"
+msgstr "Γεωργιανά"
+
+msgid "meta_l_kk"
+msgstr "Kazakh"
+
+msgid "meta_l_kl"
+msgstr "Γροιλανδικά"
+
+msgid "meta_l_km"
+msgstr "Καμποτζιανά"
+
+msgid "meta_l_kn"
+msgstr "Καναδικά"
+
+msgid "meta_l_ko"
+msgstr "Κορεάτικα"
+
+msgid "meta_l_ks"
+msgstr "Κασμίρ"
+
+msgid "meta_l_ku"
+msgstr "Κουρδικά"
+
+msgid "meta_l_ky"
+msgstr "Κιργιζικά"
+
+msgid "meta_l_la"
+msgstr "Λατινικά"
+
+msgid "meta_l_ln"
+msgstr "Lingala"
+
+msgid "meta_l_lo"
+msgstr "Laothian"
+
+msgid "meta_l_lt"
+msgstr "Λιθουανικά"
+
+msgid "meta_l_lv"
+msgstr "Λετονικά"
+
+msgid "meta_l_mg"
+msgstr "Malagasy"
+
+msgid "meta_l_mi"
+msgstr "Μαορικά"
+
+msgid "meta_l_mk"
+msgstr "(Π.Γ.Δ.Μ. Σκόπια)-Μακεδονικά"
+
+msgid "meta_l_ml"
+msgstr "Malayalam"
+
+msgid "meta_l_mn"
+msgstr "Μογγολικά"
+
+msgid "meta_l_mo"
+msgstr "Μολδαβικά"
+
+msgid "meta_l_mr"
+msgstr "Marathi"
+
+msgid "meta_l_ms"
+msgstr "Διάλεκτος Μαλάουι"
+
+msgid "meta_l_mt"
+msgstr "Μάλτας"
+
+msgid "meta_l_my"
+msgstr "Βιρμανικά"
+
+msgid "meta_l_na"
+msgstr "Ναούρου"
+
+msgid "meta_l_ne"
+msgstr "Νεπαλικά"
+
+msgid "meta_l_nl"
+msgstr "Ολλανδικά"
+
+msgid "meta_l_no"
+msgstr "Νορβηγικά"
+
+msgid "meta_l_oc"
+msgstr "Occitan"
+
+msgid "meta_l_om"
+msgstr "Afan (oromo)"
+
+msgid "meta_l_or"
+msgstr "Oriya"
+
+msgid "meta_l_pa"
+msgstr "Πουντζάμπι"
+
+msgid "meta_l_pl"
+msgstr "Πολωνικά"
+
+msgid "meta_l_ps"
+msgstr "Pashto;pushto"
+
+msgid "meta_l_pt"
+msgstr "Πορτογαλικά"
+
+msgid "meta_l_qu"
+msgstr "Quechua"
+
+msgid "meta_l_rm"
+msgstr "Rhaeto-romance"
+
+msgid "meta_l_rn"
+msgstr "Κουρουντί"
+
+msgid "meta_l_ro"
+msgstr "Ρουμανικά"
+
+msgid "meta_l_ru"
+msgstr "Ρωσικά"
+
+msgid "meta_l_rw"
+msgstr "Kinyarwanda"
+
+msgid "meta_l_sa"
+msgstr "Σανσκριτικά"
+
+msgid "meta_l_sd"
+msgstr "Σιντί"
+
+msgid "meta_l_sg"
+msgstr "Σάνγκο"
+
+msgid "meta_l_sh"
+msgstr "Σερβοκροατικά"
+
+msgid "meta_l_si"
+msgstr "Σιγκαλέζικα"
+
+msgid "meta_l_sk"
+msgstr "Σλοβάκικα"
+
+msgid "meta_l_sl"
+msgstr "Σλοβένικα"
+
+msgid "meta_l_sm"
+msgstr "Σαμοϊκά"
+
+msgid "meta_l_sn"
+msgstr "Σόνα"
+
+msgid "meta_l_so"
+msgstr "Σομαλικά"
+
+msgid "meta_l_sq"
+msgstr "Αλβανικά"
+
+msgid "meta_l_sr"
+msgstr "Σέρβικα"
+
+msgid "meta_l_ss"
+msgstr "Σισβάτι"
+
+msgid "meta_l_st"
+msgstr "Σεσόδο"
+
+msgid "meta_l_su"
+msgstr "Σουδανικά"
+
+msgid "meta_l_sv"
+msgstr "Σουηδικά"
+
+msgid "meta_l_sw"
+msgstr "Σουαχίλι"
+
+msgid "meta_l_ta"
+msgstr "Ταμιλικά"
+
+msgid "meta_l_te"
+msgstr "Διάλεκτος Τελουγκού"
+
+msgid "meta_l_tg"
+msgstr "Τατζικιστανικά"
+
+msgid "meta_l_th"
+msgstr "Ταϊλανδικά"
+
+msgid "meta_l_ti"
+msgstr "Τιγκρινιακά"
+
+msgid "meta_l_tk"
+msgstr "Τουρκμενιστανικά"
+
+msgid "meta_l_tl"
+msgstr "Ταγκαλόπ"
+
+msgid "meta_l_tn"
+msgstr "Σετσβάνα"
+
+msgid "meta_l_to"
+msgstr "Τόγκα"
+
+msgid "meta_l_tr"
+msgstr "Τούρκικα"
+
+msgid "meta_l_ts"
+msgstr "Τσόγκα"
+
+msgid "meta_l_tt"
+msgstr "Ταταρικά"
+
+msgid "meta_l_tw"
+msgstr "Τουί"
+
+msgid "meta_l_ug"
+msgstr "Ουιγουρικά"
+
+msgid "meta_l_uk"
+msgstr "Ουκρανικά"
+
+msgid "meta_l_ur"
+msgstr "Ορδού"
+
+msgid "meta_l_uz"
+msgstr "Ουζμπεκικά"
+
+msgid "meta_l_vi"
+msgstr "Βιετναμέζικα"
+
+msgid "meta_l_vo"
+msgstr "Βολαπούκ"
+
+msgid "meta_l_wo"
+msgstr "Ουόλωφ"
+
+msgid "meta_l_xh"
+msgstr "Ξόζα"
+
+#, fuzzy
+msgid "meta_l_xx"
+msgstr "none"
+
+msgid "meta_l_yi"
+msgstr "Γίντις"
+
+msgid "meta_l_yo"
+msgstr "Γιορούμπα"
+
+msgid "meta_l_za"
+msgstr "Τσουάνγκ"
+
+msgid "meta_l_zh"
+msgstr "Κινέζικα"
+
+msgid "meta_l_zu"
+msgstr "Ζουλου"
+
+msgid "meta_language"
+msgstr "Γλώσσα"
+
+#, fuzzy
+msgid "meta_language_plural"
+msgstr "Languages"
+
+msgid "meta_learner"
+msgstr "Μαθητευόμενος"
+
+msgid "meta_learning_resource_type"
+msgstr "Τύπος εκπαιδευτικής πηγής"
+
+#, fuzzy
+msgid "meta_learning_resource_type_plural"
+msgstr "Learning Resource Types"
+
+msgid "meta_lecture"
+msgstr "Διάλεξη"
+
+msgid "meta_lifecycle"
+msgstr "Κύκλος Ζωής"
+
+msgid "meta_linear"
+msgstr "Γραμμικό"
+
+#, fuzzy
+msgid "meta_local"
+msgstr "Local"
+
+msgid "meta_location"
+msgstr "Τοποθεσία"
+
+#, fuzzy
+msgid "meta_location_plural"
+msgstr "Locations"
+
+#, fuzzy
+msgid "meta_lom"
+msgstr "Learning Object Metadata"
+
+#, fuzzy
+msgid "meta_lom_short"
+msgstr "LOM"
+
+msgid "meta_low"
+msgstr "Χαμηλό"
+
+#, fuzzy
+msgid "meta_macos"
+msgstr "MAC-OS"
+
+msgid "meta_manager"
+msgstr "Διευθυντής"
+
+msgid "meta_maximum_version"
+msgstr "Υψηλότερη Έκδοση"
+
+msgid "meta_medium"
+msgstr "Μέτριο"
+
+msgid "meta_meta_metadata"
+msgstr "Μετα-Μεταδεδομένα"
+
+msgid "meta_metadatascheme"
+msgstr "Σχήμα μεταδεδομένων"
+
+#, fuzzy
+msgid "meta_metadatascheme_plural"
+msgstr "Metadata Schemas"
+
+msgid "meta_minimum_version"
+msgstr "Ελάχιστη έκδοση"
+
+msgid "meta_mixed"
+msgstr "Ανάμεικτο"
+
+#, fuzzy
+msgid "meta_ms-internet_explorer"
+msgstr "MS-Internet Explorer"
+
+#, fuzzy
+msgid "meta_ms-windows"
+msgstr "MS-Windows"
+
+#, fuzzy
+msgid "meta_multi-os"
+msgstr "Multi-OS"
+
+msgid "meta_name"
+msgstr "Όνομα"
+
+msgid "meta_narrative_text"
+msgstr "Αφηγηματικό Κείμενο"
+
+#, fuzzy
+msgid "meta_netscape_communicator"
+msgstr "Netscape Communicator"
+
+msgid "meta_networked"
+msgstr "Δικτυωμένο"
+
+msgid "meta_new_element"
+msgstr "Νέο Στοιχείο"
+
+msgid "meta_no"
+msgstr "Όχι"
+
+#, fuzzy
+msgid "meta_none"
+msgstr "None"
+
+#, fuzzy
+msgid "meta_obj_type_active"
+msgstr "Dataset offered"
+
+#, fuzzy
+msgid "meta_obj_type_inactive"
+msgstr "Not Used"
+
+#, fuzzy
+msgid "meta_obj_type_mandatory"
+msgstr "Mandatory"
+
+#, fuzzy
+msgid "meta_obj_type_optional"
+msgstr "Optional"
+
+#, fuzzy
+msgid "meta_oer_copyright_selection"
+msgstr "Lizenzauswahl"
+
+#, fuzzy
+msgid "meta_oer_copyright_selection_info"
+msgstr "Nur Objekte, die unter den/der ausgewählten Lizenz veröffentlicht sind, werden in die OER-Kategorie verknüpft."
+
+#, fuzzy
+msgid "meta_oer_editorial_category"
+msgstr "Editorial Category"
+
+#, fuzzy
+msgid "meta_oer_editorial_step_info"
+msgstr "Add a step in the publishing workflow where objects can be checked by an editorial team before being published. Objects are first submitted to the Editorial Category. Only after being accepted are they moved to the category for published OER content, and records for the OAI-PMH interface are compiled."
+
+#, fuzzy
+msgid "meta_oer_editorial_step_toggle"
+msgstr "Enable Editorial Step"
+
+#, fuzzy
+msgid "meta_oer_exposed_source"
+msgstr "Category for Published OER Content"
+
+#, fuzzy
+msgid "meta_oer_harvested_licences"
+msgstr "Licences for Harvesting"
+
+#, fuzzy
+msgid "meta_oer_harvested_types"
+msgstr "Types of Objects to be Harvested"
+
+#, fuzzy
+msgid "meta_oer_harvester"
+msgstr "OER Harvester"
+
+#, fuzzy
+msgid "meta_oer_harvester_desc"
+msgstr "OER Harvester"
+
+#, fuzzy
+msgid "meta_oer_object_type_selection"
+msgstr "Harvested Object Types"
+
+#, fuzzy
+msgid "meta_opera"
+msgstr "Opera"
+
+msgid "meta_operating_system"
+msgstr "Λειτουργικό σύστημα"
+
+msgid "meta_or_composite"
+msgstr "ή σύνθετος"
+
+#, fuzzy
+msgid "meta_or_composite_plural"
+msgstr "Or Composites"
+
+#, fuzzy
+msgid "meta_order"
+msgstr "Order"
+
+msgid "meta_other"
+msgstr "Άλλο"
+
+msgid "meta_other_plattform_requirements"
+msgstr "Άλλες απαιτήσεις της Πλατφόρμας"
+
+#, fuzzy
+msgid "meta_pc-dos"
+msgstr "PC-DOS"
+
+#, fuzzy
+msgid "meta_pointofcontact"
+msgstr "Point of Contact"
+
+msgid "meta_prerequisite"
+msgstr "Προϋπόθεση"
+
+msgid "meta_problem_statement"
+msgstr "Δήλωση προβλήματος"
+
+msgid "meta_publisher"
+msgstr "Εκδότης"
+
+#, fuzzy
+msgid "meta_publishing_config_cp"
+msgstr "Copyright Selection: <strong>%s</strong>"
+
+#, fuzzy
+msgid "meta_publishing_config_cron_job_admin"
+msgstr "Cron Job Administration"
+
+#, fuzzy
+msgid "meta_publishing_config_disabled"
+msgstr "Disabled"
+
+#, fuzzy
+msgid "meta_publishing_config_enabled"
+msgstr "Enabled"
+
+#, fuzzy
+msgid "meta_publishing_config_harvester"
+msgstr "OER Harvester: <strong>%s</strong>"
+
+#, fuzzy
+msgid "meta_publishing_config_status"
+msgstr "For publishing to function, copyright selection and the OER Harvester cron job have to be enabled."
+
+msgid "meta_purpose"
+msgstr "Σκοπός"
+
+msgid "meta_questionnaire"
+msgstr "Ερωτηματολόγιο"
+
+msgid "meta_references"
+msgstr "Παραπομπές"
+
+msgid "meta_relation"
+msgstr "Σχέση"
+
+#, fuzzy
+msgid "meta_relation_plural"
+msgstr "Relations"
+
+msgid "meta_requirement"
+msgstr "Απαίτηση"
+
+#, fuzzy
+msgid "meta_requirement_plural"
+msgstr "Requirements"
+
+msgid "meta_requires"
+msgstr "Απαιτεί"
+
+msgid "meta_resource"
+msgstr "Πηγή"
+
+msgid "meta_revised"
+msgstr "Επανεξετάσιμος"
+
+msgid "meta_rights"
+msgstr "Δικαιώματα"
+
+msgid "meta_role"
+msgstr "Ρόλος"
+
+#, fuzzy
+msgid "meta_save_order"
+msgstr "Save Order"
+
+msgid "meta_school"
+msgstr "Σχολείο"
+
+msgid "meta_scriptwriter"
+msgstr "Σεναριογράφος"
+
+#, fuzzy
+msgid "meta_second_author"
+msgstr "Second Author"
+
+#, fuzzy
+msgid "meta_section"
+msgstr "Section"
+
+msgid "meta_security_level"
+msgstr "Επίπεδο ασφάλειας"
+
+msgid "meta_self_assessment"
+msgstr "Αυτο-εκτίμηση"
+
+msgid "meta_semantic_density"
+msgstr "Σημασιολογική Πυκνότητα"
+
+msgid "meta_simulation"
+msgstr "Προσομοίωση"
+
+msgid "meta_size"
+msgstr "Μέγεθος"
+
+msgid "meta_skill_level"
+msgstr "Επίπεδο Ικανότητας"
+
+msgid "meta_slide"
+msgstr "Διαφάνεια"
+
+msgid "meta_source"
+msgstr "Πηγή"
+
+msgid "meta_status"
+msgstr "Κατάσταση"
+
+#, fuzzy
+msgid "meta_string"
+msgstr "Text"
+
+msgid "meta_structure"
+msgstr "Δομή"
+
+#, fuzzy
+msgid "meta_tab_advmd"
+msgstr "Custom Metadata"
+
+#, fuzzy
+msgid "meta_tab_advmd_def"
+msgstr "Custom Metadata Definition"
+
+#, fuzzy
+msgid "meta_tab_lom"
+msgstr "LOM"
+
+msgid "meta_table"
+msgstr "Πίνακας"
+
+msgid "meta_taxon"
+msgstr "Ταξινόμηση"
+
+msgid "meta_taxon_path"
+msgstr "Διαδρομή Ταξινόμησης"
+
+#, fuzzy
+msgid "meta_taxon_path_plural"
+msgstr "Taxon Paths"
+
+#, fuzzy
+msgid "meta_taxon_plural"
+msgstr "Taxons"
+
+msgid "meta_teacher"
+msgstr "Δάσκαλος"
+
+msgid "meta_technical"
+msgstr "Τεχνικός"
+
+msgid "meta_technicalimplementer"
+msgstr "Τεχνική υλοποίηση"
+
+msgid "meta_technicalvalidator"
+msgstr "Τεχνική εγκυρότητα"
+
+msgid "meta_terminator"
+msgstr "Τερματικό"
+
+#, fuzzy
+msgid "meta_third_author"
+msgstr "Third Author"
+
+msgid "meta_title"
+msgstr "Τίτλος"
+
+msgid "meta_training"
+msgstr "Εκπαίδευση"
+
+msgid "meta_type"
+msgstr "Τύπος"
+
+msgid "meta_typical_age_range"
+msgstr "Τυπικό φάσμα ηλικιών"
+
+#, fuzzy
+msgid "meta_typical_age_range_plural"
+msgstr "Typical Age Ranges"
+
+msgid "meta_typical_learning_time"
+msgstr "Τυπικός χρόνος εκμάθησης"
+
+msgid "meta_unavailable"
+msgstr "Μη διαθέσιμο"
+
+#, fuzzy
+msgid "meta_unix"
+msgstr "Unix"
+
+msgid "meta_unknown"
+msgstr "Άγνωστο"
+
+msgid "meta_validator"
+msgstr "Επικυρωτής"
+
+msgid "meta_value"
+msgstr "Τιμή"
+
+msgid "meta_version"
+msgstr "Έκδοση"
+
+msgid "meta_very_difficult"
+msgstr "Πολύ δύσκολο"
+
+msgid "meta_very_easy"
+msgstr "Πολύ έυκολο"
+
+msgid "meta_very_high"
+msgstr "Πολύ υψηλό"
+
+msgid "meta_very_low"
+msgstr "Πολύ χαμηλό"
+
+msgid "meta_yes"
+msgstr "Ναι"
+
+#, fuzzy
+msgid "udf_type_address"
+msgstr "Address"
+
+#, fuzzy
+msgid "udf_type_externallink"
+msgstr "External Link"
+
+#, fuzzy
+msgid "udf_type_float"
+msgstr "Float"
+
+#, fuzzy
+msgid "udf_type_integer"
+msgstr "Integer"
+
+#, fuzzy
+msgid "udf_type_internallink"
+msgstr "Internal Link"
+
+#, fuzzy
+msgid "udf_type_location"
+msgstr "Location"
+
+#, fuzzy
+msgid "udf_type_selectmulti"
+msgstr "Selection List (Checkboxes)"

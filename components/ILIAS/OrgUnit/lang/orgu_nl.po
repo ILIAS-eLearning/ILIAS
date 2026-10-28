@@ -1,0 +1,411 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: nl\n"
+"Language-Team: Dutch\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: orgu\n"
+
+msgid "Staff"
+msgstr "Staf"
+
+#, fuzzy
+msgid "add_position"
+msgstr "Add Position"
+
+#, fuzzy
+msgid "authorities"
+msgstr "Authorities"
+
+#, fuzzy
+msgid "authority"
+msgstr "Authority"
+
+msgid "backto_staff"
+msgstr "Terug naar werknemers"
+
+msgid "change_to_employee"
+msgstr "Wijzig naar werknemer"
+
+msgid "change_to_superior"
+msgstr "Wijzig naar leidinggevende"
+
+#, fuzzy
+msgid "confirm_deletion_and_assign"
+msgstr "Delete and Assign Users"
+
+#, fuzzy
+msgid "confirm_deletion_button"
+msgstr "Delete"
+
+msgid "deassign_user_successful"
+msgstr "Gebruikers zijn verwijderd van deze rol."
+
+msgid "edit_translations"
+msgstr "Titel en Beschrijving"
+
+msgid "employee"
+msgstr "Werknemer"
+
+msgid "ext_id"
+msgstr "Extern ID"
+
+msgid "ext_id_updated"
+msgstr "Het externe ID is gewijzigd."
+
+#, fuzzy
+msgid "form_title_org_default_permissions_update"
+msgstr "Default Permissions"
+
+msgid "import_failed"
+msgstr "De import is mislukt. Verifieer dat het bestand een xml formaat heeft met een geldige structuur."
+
+msgid "import_successful"
+msgstr "De import is met succes beëindigd. Aangemaakt: %s, Gewijzigd/verplaats: %s, verwijderd: %s."
+
+msgid "import_terminated_with_errors"
+msgstr "De import is met fouten beëindigd, sommige organisatorische eenheden konden niet worden aangemaakt, gewijzigd of verwijderd."
+
+msgid "import_terminated_with_warnings"
+msgstr "De import is met waarschuwingen beëindigd"
+
+msgid "import_xml_file"
+msgstr "Importeren Gegevens"
+
+msgid "local_other_roles"
+msgstr "Extra rollen %s"
+
+msgid "local_staff"
+msgstr "Werknemers %s"
+
+#, fuzzy
+msgid "msg_assignment_to_employee_done"
+msgstr "Zuweisung zur Position Mitarbeiter durchgeführt"
+
+#, fuzzy
+msgid "msg_confirm_d_ua"
+msgstr "Would you like to assign these person to the position Employee of their respective Organisational Units?"
+
+#, fuzzy
+msgid "msg_confirm_deletion"
+msgstr "Would you really like to delete tho following Position?"
+
+#, fuzzy
+msgid "msg_confirm_remove_user"
+msgstr "Would you really like to remove the following User from the Position %s?"
+
+#, fuzzy
+msgid "msg_deleted"
+msgstr "Deleted"
+
+#, fuzzy
+msgid "msg_position_created"
+msgstr "Position created."
+
+#, fuzzy
+msgid "msg_position_delete_fail"
+msgstr "Position wurde nicht gefunden."
+
+#, fuzzy
+msgid "msg_position_updated"
+msgstr "Position updated."
+
+#, fuzzy
+msgid "msg_success_permission_saved"
+msgstr "Permissions saved."
+
+msgid "no_assignment"
+msgstr "Controleer je XML bestand. Er is geen gebruikerstoewijzing."
+
+msgid "no_orgunit"
+msgstr "Controleer je XML bestand. Er is geen Organisatorische Eenheid."
+
+msgid "no_roles"
+msgstr "Er zijn geen extra rollen."
+
+#, fuzzy
+msgid "not_movable_to_subtree"
+msgstr "An organisational unit cannot be moved into its own subtree. This would create a loop."
+
+#, fuzzy
+msgid "org_op_access_enrolments"
+msgstr "View Enrolments"
+
+#, fuzzy
+msgid "org_op_access_results"
+msgstr "Access Results"
+
+msgid "org_op_create_employee_talk"
+msgstr "Create talk appointments / edit talk appointments that you have created yourself"
+
+msgid "org_op_edit_employee_talk"
+msgstr "Edit Talk appointments"
+
+#, fuzzy
+msgid "org_op_edit_individual_plan"
+msgstr "Edit Individual Plan"
+
+#, fuzzy
+msgid "org_op_edit_submissions_grades"
+msgstr "Edit submissions of other users"
+
+#, fuzzy
+msgid "org_op_manage_members"
+msgstr "Manage Members"
+
+msgid "org_op_read_employee_talk"
+msgstr "Read access talk appointments"
+
+#, fuzzy
+msgid "org_op_read_learning_progress"
+msgstr "View learning progress of other users"
+
+#, fuzzy
+msgid "org_op_view_certificates"
+msgstr "View certificates of other users"
+
+#, fuzzy
+msgid "org_op_view_competences"
+msgstr "View competences of other users"
+
+#, fuzzy
+msgid "org_op_view_individual_plan"
+msgstr "View Individual Plan"
+
+#, fuzzy
+msgid "org_op_view_members"
+msgstr "View Members"
+
+#, fuzzy
+msgid "org_op_write_learning_progress"
+msgstr "Set learning progress of other users"
+
+msgid "org_unit_not_found"
+msgstr "Organisatorische Eenheid niet gevonden."
+
+msgid "orgu_add"
+msgstr "Toevoegen Organisatorische Eenheid"
+
+msgid "orgu_adv_settings"
+msgstr "Geavanceerde instellingen"
+
+msgid "orgu_already_deleted"
+msgstr "Het object was reeds verwijderd."
+
+#, fuzzy
+msgid "orgu_enable_my_staff"
+msgstr "Enable View ‘Staff’"
+
+#, fuzzy
+msgid "orgu_enable_my_staff_info"
+msgstr "The View ‘Staff’ shows the Learning Progress of the own Employees."
+
+#, fuzzy
+msgid "orgu_global_set_form"
+msgstr "Global Organisational Unit Settings"
+
+#, fuzzy
+msgid "orgu_global_set_positions"
+msgstr "Show User Data according to Organisational Unit Positions"
+
+#, fuzzy
+msgid "orgu_global_set_positions_type_active"
+msgstr "Active for:"
+
+#, fuzzy
+msgid "orgu_global_set_type_changeable"
+msgstr "Changeable"
+
+#, fuzzy
+msgid "orgu_global_set_type_changeable_no"
+msgstr "Setting is not changeable"
+
+#, fuzzy
+msgid "orgu_global_set_type_changeable_object"
+msgstr "Setting is changeable on object level"
+
+#, fuzzy
+msgid "orgu_global_set_type_default"
+msgstr "Default Setting"
+
+#, fuzzy
+msgid "orgu_global_set_type_default_info"
+msgstr "Define the default for unconfigured objects"
+
+msgid "orgu_import"
+msgstr "Importeren Organisatorische Eenheid"
+
+msgid "orgu_new"
+msgstr "Nieuwe Organisatorische Eenheid"
+
+msgid "orgu_orgu_type"
+msgstr "Organisatorische Eenheid Type"
+
+msgid "orgu_settings"
+msgstr "Organisatorische Eenheid Instellingen"
+
+msgid "orgu_staff"
+msgstr "Staf"
+
+msgid "orgu_staff_deassign"
+msgstr "Weet je zeker dat je deze gebruiker wilt verwijderen van deze rol?"
+
+msgid "orgu_type"
+msgstr "Organisatorische Eenheid Type"
+
+msgid "orgu_type_add"
+msgstr "Aanmaken Organisatorische Eenheid Type"
+
+msgid "orgu_type_assign_amd_sets"
+msgstr "Toewijzen sets geavanceerde metagegevens"
+
+msgid "orgu_type_available_amd_sets"
+msgstr "Beschikbare sets geavanceerde metagegevens"
+
+msgid "orgu_type_custom_icon"
+msgstr "Maatwerk icoon voor dit type Organisatorische Eenheid"
+
+msgid "orgu_type_custom_icon_info"
+msgstr "Alle Organisatorische Eenheden met dit type gebruiken de icoon in de boom en de kop."
+
+msgid "orgu_type_edit"
+msgstr "Aanmaken Organisatorische Eenheid Type"
+
+msgid "orgu_type_msg_assign_amd_prevented"
+msgstr "Toewijzen AMDRecord onmogelijk vanwege plugins: %s"
+
+msgid "orgu_type_msg_deassign_amd_prevented"
+msgstr "Afnemen AMDRecord onmogelijk vanwege plugins: %s"
+
+msgid "orgu_type_msg_deleted"
+msgstr "Verwijderde Organisatorische Eenheid Type"
+
+msgid "orgu_type_msg_deletion_prevented"
+msgstr "Verwijdering van objecten niet mogelijk vanwege plugins: %s"
+
+msgid "orgu_type_msg_error_custom_icon"
+msgstr "De maatwerk icoon kon niet worden opgeslagen"
+
+msgid "orgu_type_msg_missing_title"
+msgstr "Er moet een titel gegeven worden voor de standaardtaal"
+
+msgid "orgu_type_msg_missing_title_default_language"
+msgstr "Je moet een titel ingeven voor de standaardtaal"
+
+msgid "orgu_type_msg_setting_default_lang_prevented"
+msgstr "Instelling '%s' als standaardtaal onmogelijk vanwege plugins: %s"
+
+msgid "orgu_type_msg_setting_member_prevented"
+msgstr "Instelling '%s' onmogelijk vanwege plugins: %s"
+
+msgid "orgu_type_msg_unable_delete"
+msgstr "Type kan niet worden verwijderd omdat het nog is toegewezen aan de volgende organisatorische eenheden: %s"
+
+msgid "orgu_type_msg_updating_prevented"
+msgstr "Wijzigen van object onmogelijk vanwege plugins: %s"
+
+msgid "orgu_types"
+msgstr "Types"
+
+#, fuzzy
+msgid "orgunit_position_permissions_not_active_for"
+msgstr "You cannot override the position specific permissions for the type:"
+
+msgid "ou_external_id_exists"
+msgstr "Er bestaat reeds een eenheid met dit externe ID in het systeem of in de prullenbak."
+
+#, fuzzy
+msgid "ou_id_not_valid"
+msgstr "Import-ID not found."
+
+#, fuzzy
+msgid "ou_more_than_one_match_found"
+msgstr "More then one match found."
+
+msgid "ou_parent_id_not_valid"
+msgstr "Het ou_parent_id type is niet geldig. Geldig zijn: \"reference_id\" of \"external_id\"."
+
+#, fuzzy
+msgid "over"
+msgstr "Over"
+
+#, fuzzy
+msgid "over_-1"
+msgstr "Everyone"
+
+msgid "placeholder"
+msgstr "..."
+
+#, fuzzy
+msgid "positions"
+msgstr "Positions"
+
+msgid "rec_staff"
+msgstr "Werknemers %s recursief"
+
+#, fuzzy
+msgid "remove_successful"
+msgstr "User was removed successfully."
+
+#, fuzzy
+msgid "remove_user"
+msgstr "Remove"
+
+#, fuzzy
+msgid "scope"
+msgstr "In"
+
+#, fuzzy
+msgid "scope_1"
+msgstr "Same Organisational Unit"
+
+#, fuzzy
+msgid "scope_2"
+msgstr "Subsequent Organisational Units"
+
+#, fuzzy
+msgid "scope_3"
+msgstr "All Organisational Units"
+
+msgid "show_learning_progress"
+msgstr "Toon leervoortgang"
+
+msgid "simple_import"
+msgstr "Eenvoudige XML Import"
+
+msgid "simple_user_import"
+msgstr "XML Gebruikerstoewijzing"
+
+msgid "simple_xls"
+msgstr "Eenvoudige Excel Export"
+
+msgid "simple_xml"
+msgstr "Eenvoudige XML Export"
+
+msgid "superior"
+msgstr "Leidinggevende"
+
+#, fuzzy
+msgid "user_assignments"
+msgstr "User Assignments"
+
+#, fuzzy
+msgid "user_assignments_recursive"
+msgstr "User Assignments Subtree"
+
+msgid "user_changed_successful"
+msgstr "De gebruiker is gewijzigd."
+
+msgid "user_import_successful"
+msgstr "De import was succesvol. Toegewezen: %s, Verwijderd: %s."
+
+msgid "users_successfuly_added"
+msgstr "De gebruiker is toegevoegd."
+
+msgid "view_learning_progress"
+msgstr "Toon leervoortgang"
+
+msgid "view_learning_progress_rec"
+msgstr "Toon leervoortgang recursief"
