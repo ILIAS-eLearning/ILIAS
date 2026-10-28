@@ -42,7 +42,9 @@ class ilDashboardPageGUI extends ilPageObjectGUI
     public function afterConstructor(): void
     {
         $this->ctrl->setParameter($this, $this->getPageObject()->getParentType() . '_lang', $this->getLanguage());
-        $this->tpl->addCss(ilObjStyleSheet::getContentStylePath(ilObjStyleSheet::lookupObjectStyle($this->getId())));
+        $style_id = ilObjStyleSheet::lookupObjectStyle($this->getId());
+        $this->setStyleId($style_id);
+        $this->tpl->addCss(ilObjStyleSheet::getContentStylePath($style_id));
     }
 
     public function finishEditing(): void
