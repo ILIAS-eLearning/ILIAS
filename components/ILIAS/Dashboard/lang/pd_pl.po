@@ -1,0 +1,113 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pl\n"
+"Language-Team: Polish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: pd\n"
+
+msgid "block_show_chatviewer"
+msgstr "Pokaż aplikację Chatviewer"
+
+msgid "block_show_pdbookm"
+msgstr "Pokaż zakładki"
+
+msgid "block_show_pdcal"
+msgstr "Pokaż kalendarz"
+
+#, fuzzy
+msgid "block_show_pdfrmpostdraft"
+msgstr "Show Postings Drafts"
+
+msgid "block_show_pdmail"
+msgstr "Pokaż wiadomość mailową"
+
+msgid "block_show_pdnews"
+msgstr "Pokaż nowości"
+
+msgid "block_show_pdnotes"
+msgstr "Pokaż notatki"
+
+msgid "block_show_pdportf"
+msgstr "Pokaż portfolio"
+
+msgid "block_show_pdtag"
+msgstr "Pokaż tagi"
+
+#, fuzzy
+msgid "block_show_pdtasks"
+msgstr "Show Tasks"
+
+msgid "block_show_x"
+msgstr "Pokaż %s"
+
+msgid "pd_achievements"
+msgstr "Achievements"
+
+msgid "pd_bookmarks"
+msgstr "Zakładki"
+
+msgid "pd_download_last_export_file"
+msgstr "Pobierz aktualny plik eksportowy"
+
+msgid "pd_enable_comments"
+msgstr "Aktywuj komentarze"
+
+msgid "pd_enable_prtf"
+msgstr "Aktywuj portfolia"
+
+msgid "pd_enable_user_publish"
+msgstr "Aktywuj opublikowanie treści użytkowników"
+
+msgid "pd_enable_user_publish_info"
+msgstr "Ta opcja umożliwia użytkownikom globalne udostępnienie swojego profilu, treści z przestrzeni pracy oraz portfolia (w Internecie)."
+
+msgid "pd_ended"
+msgstr "Zakończone"
+
+msgid "pd_export_profile"
+msgstr "Eksportuj dane osobowe"
+
+msgid "pd_import_personal_data"
+msgstr "Importuj dane osobowe"
+
+msgid "pd_my_memberships_sort_default"
+msgstr "Domyślna opcja sortowania"
+
+#, fuzzy
+msgid "pd_not_dated"
+msgstr "Not Dated"
+
+msgid "pd_ongoing"
+msgstr "Aktualne"
+
+msgid "pd_personal_items_default_view"
+msgstr "Domyślny widok"
+
+msgid "pd_personal_items_default_view_info"
+msgstr "Tutaj wybierz standardowy widok dla wybranych ofert."
+
+#, fuzzy
+msgid "pd_presentation_mode_list"
+msgstr "Item List Presentation"
+
+#, fuzzy
+msgid "pd_presentation_mode_tile"
+msgstr "Tile Presentation"
+
+msgid "pd_private_calendars"
+msgstr "Prywatny kalendarz"
+
+msgid "pd_profile_data"
+msgstr "Dane profilu"
+
+msgid "pd_remove_multi_confirm"
+msgstr "Obiekty zostały usunięte."
+
+msgid "pd_upcoming"
+msgstr "Planowane"
+
+msgid "pd_view_select_at_least_one"
+msgstr "Musisz wybrać co najmniej jeden widok, albo 'Wybrane elementy' i/lub 'Moje członkostwo'."

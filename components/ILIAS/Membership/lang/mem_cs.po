@@ -1,0 +1,25 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: mem\n"
+
+#, fuzzy
+msgid "mem_period_without_time"
+msgstr "Without Time Indication"
+
+msgid "mem_print_view_form"
+msgstr "Výchozí nastavení pro zobrazení tisku"
+
+msgid "mem_settings_tab_print_view"
+msgstr "Nastavení zobrazení tisku"
+
+msgid "mem_settings_tab_settings"
+msgstr "Obecná nastavení"
+
+msgid "mmbr_gallery_user_actions"
+msgstr "Akce uživatele v galerii členů"

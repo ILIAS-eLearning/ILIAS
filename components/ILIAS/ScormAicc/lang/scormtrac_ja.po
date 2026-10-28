@@ -1,0 +1,261 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: scormtrac\n"
+
+msgid "LearningModuleId"
+msgstr "ラーニングモジュールのID"
+
+msgid "LearningModuleTitle"
+msgstr "ラーニングモジュールのタイトル"
+
+msgid "LearningModuleVersion"
+msgstr "ラーニングモジュールのバージョン"
+
+msgid "Percentage"
+msgstr "完了したSCOのパーセント"
+
+msgid "Status"
+msgstr "総合ステータス"
+
+msgid "audio_captioning"
+msgstr "字幕音声"
+
+msgid "audio_level"
+msgstr "音声レベル"
+
+msgid "c_entry"
+msgstr "エントリー"
+
+msgid "c_exit"
+msgstr "戻る"
+
+msgid "c_language"
+msgstr "言語"
+
+msgid "c_location"
+msgstr "ロケーション"
+
+msgid "c_max"
+msgstr "最高点"
+
+msgid "c_min"
+msgstr "最小点"
+
+msgid "c_mode"
+msgstr "モード"
+
+msgid "c_raw"
+msgstr "達成点"
+
+msgid "c_timestamp"
+msgstr "最終アクセス"
+
+msgid "c_type"
+msgstr "タイプ"
+
+msgid "completedSCOs"
+msgstr "完全終了したSCO数"
+
+msgid "completion_status"
+msgstr "完了"
+
+msgid "completion_threshold"
+msgstr "閾値"
+
+msgid "counter"
+msgstr "カウンター"
+
+msgid "counter_all"
+msgstr "全ユーザ"
+
+msgid "counter_correct"
+msgstr "正解結果のユーザ"
+
+msgid "counter_correct_percent"
+msgstr "正解結果のユーザのパーセント"
+
+msgid "counter_i_correct"
+msgstr "正解のインタラクション"
+
+msgid "counter_i_correct_percent"
+msgstr "正解のインタラクションパーセント"
+
+msgid "counter_i_incorrect"
+msgstr "間違いのインタラクション"
+
+msgid "counter_i_incorrect_percent"
+msgstr "間違いのインタラクションパーセント"
+
+msgid "counter_i_other"
+msgstr "正解でも間違いでもないインタラクション"
+
+msgid "counter_i_other_percent"
+msgstr "正解でも間違いでもないインタラクションのパーセント"
+
+msgid "counter_incorrect"
+msgstr "間違い結果のユーザ"
+
+msgid "counter_incorrect_percent"
+msgstr "間違い結果のユーザのパーセント"
+
+msgid "counter_other"
+msgstr "その他の結果ユーザ"
+
+msgid "counter_other_percent"
+msgstr "その他の結果のユーザのパーセント"
+
+msgid "cp_node_id"
+msgstr "章・SCOのID"
+
+msgid "credit"
+msgstr "クレジット"
+
+msgid "delivery_speed"
+msgstr "学習者選択表示時間"
+
+msgid "existingSCOs"
+msgstr "現在のSCO数"
+
+msgid "exportobjglobaltosystem"
+msgstr "システム(シーケンスに使用される)への目標グローバル別レポート"
+
+msgid "exportselectedcore"
+msgstr "章(SCO)別基本レポート"
+
+msgid "exportselectedinteractions"
+msgstr "インタラクション別基本レポート"
+
+msgid "exportselectedobjectives"
+msgstr "目標別レポート"
+
+msgid "exportselectedraw"
+msgstr "CMI (RAW)データ"
+
+msgid "exportselectedsuccess"
+msgstr "履修別基本レポート"
+
+msgid "identifierref"
+msgstr "SCO-識別子"
+
+msgid "interaction_description"
+msgstr "インタラクションの説明"
+
+msgid "interaction_id"
+msgstr "インタラクションのID"
+
+msgid "interaction_value"
+msgstr "インタラクションの結果"
+
+msgid "latency"
+msgstr "待機時間:分"
+
+msgid "latency_seconds"
+msgstr "待機時間:秒"
+
+msgid "launch_data"
+msgstr "着手データ: SCO開始時点のデータ"
+
+msgid "learner_response"
+msgstr "レスポンス"
+
+msgid "lesson_status"
+msgstr "学習ステータス"
+
+msgid "lm_id"
+msgstr "ラーニングモジュールのID"
+
+msgid "lm_title"
+msgstr "ラーニングモジュールのタイトル"
+
+msgid "lvalue"
+msgstr "キー"
+
+msgid "measure"
+msgstr "ステータス: 測定"
+
+msgid "ostatus"
+msgstr "目標のステータス"
+
+msgid "passedSCOs"
+msgstr "SCO実行数"
+
+msgid "progress_measure"
+msgstr "進捗管理"
+
+msgid "report"
+msgstr "レポート"
+
+msgid "result"
+msgstr "総計秒数(切り上げ)"
+
+msgid "roundedTotal_timeSeconds"
+msgstr "トータル秒数(切り上げ)"
+
+msgid "rvalue"
+msgstr "値"
+
+msgid "satisfied"
+msgstr "ステータス:良"
+
+msgid "scaled"
+msgstr "十進小数としてアーカイブされたスコア"
+
+msgid "scaled_passing_score"
+msgstr "十進小数として通過に必要なスコア"
+
+msgid "sco_id"
+msgstr "章(SCO)のID"
+
+msgid "sco_marked_for_learning_progress"
+msgstr "学習進捗用の関連"
+
+msgid "sco_title"
+msgstr "章タイトル(SCO)"
+
+msgid "scope"
+msgstr "範囲"
+
+msgid "session_time"
+msgstr "最終セッションの時間"
+
+msgid "session_time_seconds"
+msgstr "最終セッション時間秒数"
+
+msgid "startedSCOs"
+msgstr "開始したSCOの数"
+
+msgid "student_response"
+msgstr "レスポンス"
+
+msgid "success_status"
+msgstr "合否"
+
+msgid "suspend_data"
+msgstr "SCOの可変バッファ"
+
+msgid "total_time"
+msgstr "総時間"
+
+msgid "total_time_seconds"
+msgstr "総時間秒数"
+
+msgid "tracinteractionitem"
+msgstr "インタラクション単位の評価"
+
+msgid "tracinteractionuser"
+msgstr "ユーザ単位の評価"
+
+msgid "tracinteractionuseranswers"
+msgstr "ユーザのレスポンス"
+
+msgid "user_id"
+msgstr "ユーザID"
+
+msgid "weighting"
+msgstr "重み"

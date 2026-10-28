@@ -1,0 +1,261 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: scormtrac\n"
+
+msgid "LearningModuleId"
+msgstr "Id of the learning module"
+
+msgid "LearningModuleTitle"
+msgstr "Title of the learning module"
+
+msgid "LearningModuleVersion"
+msgstr "Version of the learning module"
+
+msgid "Percentage"
+msgstr "Percentagem de SCOs completados"
+
+msgid "Status"
+msgstr "estado total"
+
+msgid "audio_captioning"
+msgstr "cmi.learner_preference.audio_captioning"
+
+msgid "audio_level"
+msgstr "cmi.learner_preference.audio_level"
+
+msgid "c_entry"
+msgstr "cmi.entry"
+
+msgid "c_exit"
+msgstr "cmi.exit"
+
+msgid "c_language"
+msgstr "cmi.learner_preference.language"
+
+msgid "c_location"
+msgstr "cmi.location"
+
+msgid "c_max"
+msgstr "cmi.score.max"
+
+msgid "c_min"
+msgstr "cmi.score.min"
+
+msgid "c_mode"
+msgstr "cmi.mode"
+
+msgid "c_raw"
+msgstr "cmi.score.raw: achieved score"
+
+msgid "c_timestamp"
+msgstr "Último acesso"
+
+msgid "c_type"
+msgstr "cmi.interactions.n.type"
+
+msgid "completedSCOs"
+msgstr "Number of fully completed SCO"
+
+msgid "completion_status"
+msgstr "cmi.completion_status"
+
+msgid "completion_threshold"
+msgstr "cmi.completion_threshold"
+
+msgid "counter"
+msgstr "contador"
+
+msgid "counter_all"
+msgstr "todos os utilizadores"
+
+msgid "counter_correct"
+msgstr "utilizadores com resultado correto"
+
+msgid "counter_correct_percent"
+msgstr "Percentagem de utilizadores com resultado correto"
+
+msgid "counter_i_correct"
+msgstr "interações corretamente respondidas"
+
+msgid "counter_i_correct_percent"
+msgstr "Percentagem de interações corretamente respondidas"
+
+msgid "counter_i_incorrect"
+msgstr "interações incorretamente respondidas"
+
+msgid "counter_i_incorrect_percent"
+msgstr "Percentagem de interações incorretamente respondidas"
+
+msgid "counter_i_other"
+msgstr "interações respondidas nem correta nem incorretamente"
+
+msgid "counter_i_other_percent"
+msgstr "Percentagem de interações respondidas nem correta nem incorretamente"
+
+msgid "counter_incorrect"
+msgstr "utilizadores com resultado incorreto"
+
+msgid "counter_incorrect_percent"
+msgstr "Percentagem de utilizadores com resultado incorreto"
+
+msgid "counter_other"
+msgstr "utilizadores com outro resultado"
+
+msgid "counter_other_percent"
+msgstr "Percentagem de utilizadores com outro resultado"
+
+msgid "cp_node_id"
+msgstr "Id of the chapter (SCO)"
+
+msgid "credit"
+msgstr "cmi.credit"
+
+msgid "delivery_speed"
+msgstr "cmi.learner_preference.delivery_speed"
+
+msgid "existingSCOs"
+msgstr "Número de SCOs existentes"
+
+msgid "exportobjglobaltosystem"
+msgstr "Relatório para objetivos globais para sistema (usado por sequenciação)"
+
+msgid "exportselectedcore"
+msgstr "Relatório básico para capítulos (SCO)"
+
+msgid "exportselectedinteractions"
+msgstr "Basic report forinteractions"
+
+msgid "exportselectedobjectives"
+msgstr "Relatório para objetivos"
+
+msgid "exportselectedraw"
+msgstr "Dados CMI (RAW)"
+
+msgid "exportselectedsuccess"
+msgstr "Relatório básico para sucesso"
+
+msgid "identifierref"
+msgstr "Identificador SCO"
+
+msgid "interaction_description"
+msgstr "Decription of the interaction"
+
+msgid "interaction_id"
+msgstr "Id of the interaction"
+
+msgid "interaction_value"
+msgstr "result of the interaction"
+
+msgid "latency"
+msgstr "cmi.interactions.n.latency: time"
+
+msgid "latency_seconds"
+msgstr "cmi.interactions.n.latency: time in seconds"
+
+msgid "launch_data"
+msgstr "cmi.launch_data: data at start of the SCO"
+
+msgid "learner_response"
+msgstr "cmi.interactions.n.learner_response: Response"
+
+msgid "lesson_status"
+msgstr "lesson_status"
+
+msgid "lm_id"
+msgstr "Id do módulo de aprendizagem"
+
+msgid "lm_title"
+msgstr "Título do módulo de aprendizagem"
+
+msgid "lvalue"
+msgstr "Chave"
+
+msgid "measure"
+msgstr "Estado:medir"
+
+msgid "ostatus"
+msgstr "Estado do objetivo"
+
+msgid "passedSCOs"
+msgstr "Número de SCOs aprovados"
+
+msgid "progress_measure"
+msgstr "cmi.progress_measure"
+
+msgid "report"
+msgstr "Relatório"
+
+msgid "result"
+msgstr "cmi.interactions.n.result"
+
+msgid "roundedTotal_timeSeconds"
+msgstr "Tempo total em segundos (arredondado)"
+
+msgid "rvalue"
+msgstr "Valor"
+
+msgid "satisfied"
+msgstr "Estado: satisfeito"
+
+msgid "scaled"
+msgstr "cmi.score.scaled: score achieved as a decimal fraction"
+
+msgid "scaled_passing_score"
+msgstr "cmi.scaled_passing_score: score required to pass as a decimal fraction"
+
+msgid "sco_id"
+msgstr "Id of the chapter (SCO)"
+
+msgid "sco_marked_for_learning_progress"
+msgstr "relevante para o progresso de aprendizagem"
+
+msgid "sco_title"
+msgstr "title of the chapter (SCO)"
+
+msgid "scope"
+msgstr "âmbito"
+
+msgid "session_time"
+msgstr "cmi.session_time: time in the last session"
+
+msgid "session_time_seconds"
+msgstr "cmi.session_time: time in the last session in seconds"
+
+msgid "startedSCOs"
+msgstr "Number of SCOs been started"
+
+msgid "student_response"
+msgstr "student_response: Resposta"
+
+msgid "success_status"
+msgstr "cmi.success_status: success"
+
+msgid "suspend_data"
+msgstr "cmi.suspend_data: variable buffer of the SCO"
+
+msgid "total_time"
+msgstr "cmi.total_time: total time"
+
+msgid "total_time_seconds"
+msgstr "cmi.total_time: total time in seconds"
+
+msgid "tracinteractionitem"
+msgstr "Avaliação por interação"
+
+msgid "tracinteractionuser"
+msgstr "Avaliação por utilizador"
+
+msgid "tracinteractionuseranswers"
+msgstr "Respostas dos utilizadores"
+
+msgid "user_id"
+msgstr "ID de utilizador"
+
+msgid "weighting"
+msgstr "cmi.interactions.n.weighting"

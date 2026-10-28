@@ -1,0 +1,214 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: sahs\n"
+
+msgid "cont_insert_after_chap"
+msgstr "Elemek beszúrása a fejezet után"
+
+msgid "cont_insert_into_chap"
+msgstr "Elemek beszúrása a fejezetbe"
+
+msgid "sahs_add"
+msgstr "SCORM-tananyag létrehozása"
+
+#, fuzzy
+msgid "sahs_adopt_settings"
+msgstr "Adopt Settings"
+
+#, fuzzy
+msgid "sahs_adopt_settings_apply"
+msgstr "Adopt Settings"
+
+#, fuzzy
+msgid "sahs_adopt_settings_description"
+msgstr "Select another SCORM object to adopt compatible SCORM settings."
+
+#, fuzzy
+msgid "sahs_adopt_settings_invalid_source"
+msgstr "Please select a different SCORM object as source."
+
+#, fuzzy
+msgid "sahs_adopt_settings_source"
+msgstr "Source SCORM Object"
+
+#, fuzzy
+msgid "sahs_adopt_settings_source_info"
+msgstr "Only SCORM objects of the same subtype are selectable."
+
+#, fuzzy
+msgid "sahs_adopt_settings_source_no_write"
+msgstr "You need Edit Settings permission on the selected source object."
+
+#, fuzzy
+msgid "sahs_adopt_settings_source_required"
+msgstr "Please select a source SCORM object."
+
+#, fuzzy
+msgid "sahs_adopt_settings_subtype_mismatch"
+msgstr "Settings can only be adopted between SCORM objects of the same subtype."
+
+#, fuzzy
+msgid "sahs_adopt_settings_success"
+msgstr "SCORM settings were adopted successfully."
+
+#, fuzzy
+msgid "sahs_adopt_settings_title"
+msgstr "Adopt Settings"
+
+msgid "sahs_authoring_mode"
+msgstr "Szerzői mód"
+
+msgid "sahs_authoring_mode_info"
+msgstr "A SCORM zip csomagot az ILIAS SCORM szerkesztővel kell létrehozni, és SCORM 1.2/2004 csomagként kell exportálni."
+
+msgid "sahs_chapter"
+msgstr "Fejezet"
+
+msgid "sahs_choose_page_template"
+msgstr "Tartalomsablon választása"
+
+msgid "sahs_choose_pages_chap_scos_ass_only"
+msgstr "Vagy csak lapokat, vagy csak SCO-kat vagy csak asset-eket vagy csak fejezeteket válasszon!"
+
+msgid "sahs_choose_special_page"
+msgstr "Speciális lap választása"
+
+msgid "sahs_copy"
+msgstr "SCORM-tananyag másolása"
+
+msgid "sahs_desc_objectives"
+msgstr "Leírás/célok"
+
+#, fuzzy
+msgid "sahs_file_import_from_upload_dir_failed"
+msgstr "File from Upload-Directory not imported"
+
+#, fuzzy
+msgid "sahs_file_imported_from_upload_dir"
+msgstr "File imported from Upload-Directory"
+
+msgid "sahs_glo_info"
+msgstr "Kérem, vegye figyelembe, hogy belső linkelés a fogalomtár meghatározásaiban nem támogatott."
+
+msgid "sahs_hide_objectives_page"
+msgstr "Lap leírásának/céljainak elrejtése"
+
+msgid "sahs_hide_objectives_page_info"
+msgstr "A SCO leírás és célok lap megjelenjen-e."
+
+#, fuzzy
+msgid "sahs_import_from_upload_dir"
+msgstr "Import from Upload-Directory"
+
+#, fuzzy
+msgid "sahs_import_from_upload_dir_file_name"
+msgstr "Filename"
+
+#, fuzzy
+msgid "sahs_import_from_upload_dir_info"
+msgstr "Please select file for import"
+
+msgid "sahs_import_sequencing"
+msgstr "Sorrend importálása"
+
+msgid "sahs_import_sequencing_info"
+msgstr "Sorrend-információk importálása csomagból (sorrend szakértő mód)"
+
+msgid "sahs_insert_ass"
+msgstr "Asset beszúrása"
+
+msgid "sahs_insert_ass_from_clip"
+msgstr "Asset-ek beillesztése vágólapról"
+
+msgid "sahs_insert_ass_from_clip_inside_chap"
+msgstr "Asset beillesztése vágólapról (fejezeten belül)"
+
+msgid "sahs_insert_ass_inside_chap"
+msgstr "Asset beszúrása (fejezeten belül)"
+
+msgid "sahs_insert_chapter"
+msgstr "Fejezet beszúrása"
+
+msgid "sahs_insert_page"
+msgstr "Lap beszúrása"
+
+msgid "sahs_insert_pagelayout"
+msgstr "Sablonlap beszúrása"
+
+msgid "sahs_insert_sco"
+msgstr "SCO beszúrása"
+
+msgid "sahs_insert_sco_from_clip_inside_chap"
+msgstr "SCO-k beillesztése vágólapról (fejezeten belül)"
+
+msgid "sahs_insert_sco_inside_chap"
+msgstr "SCO beszúrása (fejezeten belül)"
+
+msgid "sahs_insert_special_page"
+msgstr "Speciális lap beszúrása"
+
+msgid "sahs_learning_objectives"
+msgstr "Tanulási célok"
+
+msgid "sahs_list_info"
+msgstr "Használjon *-ot felsorolásokhoz, vagy #-et számozott felsorolásokhoz."
+
+msgid "sahs_mail_context_lp"
+msgstr "SCORM-tananyag: SCORM tanulási folyamat"
+
+msgid "sahs_mail_context_lp_info"
+msgstr "Egy SCORM-tananyag tanulási haladás lapján lévő résztvevők e-mail címeire"
+
+msgid "sahs_new_asset"
+msgstr "Új asset"
+
+msgid "sahs_new_chapter"
+msgstr "Új fejezet"
+
+msgid "sahs_new_page"
+msgstr "Új lap"
+
+msgid "sahs_new_sco"
+msgstr "Új SCO"
+
+msgid "sahs_oa_no_scos"
+msgstr "A fejezetek még nem tartalmaznak SCO-kat."
+
+msgid "sahs_objectives"
+msgstr "Tanulási célok"
+
+msgid "sahs_objectives_alignment"
+msgstr "Tanulási célkitűzések elhelyezkedése"
+
+msgid "sahs_organization"
+msgstr "Szerkezet"
+
+msgid "sahs_page"
+msgstr "Lap"
+
+msgid "sahs_questions"
+msgstr "Kérdések"
+
+msgid "sahs_sco_objective"
+msgstr "Célok"
+
+msgid "sahs_sequencing"
+msgstr "Sorba rendezés"
+
+msgid "sahs_std_sequencing"
+msgstr "Standard sorrend"
+
+msgid "sahs_std_sequencing_info"
+msgstr "ILIAS standard sorrend viselkedés."
+
+msgid "sahs_unit"
+msgstr "SCO"
+
+msgid "scorm_create_export_file_html_one"
+msgstr "Exportfájl létrehozása (HTML, egy lap, áttekintőmód)"

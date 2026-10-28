@@ -1,0 +1,30 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: adm\n"
+
+msgid "adm_acc_ctrl_cpt_desc"
+msgstr "有効にするとアクセッシビリティコントロールコンセプト用のリンクはフッタ－内に表示されます。"
+
+msgid "adm_acc_ctrl_cpt_enable"
+msgstr "アクセッシビリティコントロールコンセプトを有効にする"
+
+msgid "adm_accessibility_contacts"
+msgstr "コンタクトのAccessibility Point"
+
+msgid "adm_accessibility_contacts_info"
+msgstr "フッターリンクのaccessibility issue報告用コンタクト。ログインアカウントのコンマ区切りリスト"
+
+msgid "adm_awrn_support_contacts_info"
+msgstr "全てのテクニカルサポートコンタクトが表示されます。ユーザは\"全般設定\" > \"コンタクト情報\" セクションのテクニカルサポートコンタクトとして定義されます。"
+
+msgid "adm_support_contacts"
+msgstr "テクニカルサポート"
+
+msgid "adm_support_contacts_info"
+msgstr "フッターリンクと\"誰がオンラインですか？\"ツール(有効にしている場合)に使用されるサポートコンタクト。ログインアカウントのコンマ区切りのリスト。"

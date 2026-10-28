@@ -1,0 +1,5497 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: nl\n"
+"Language-Team: Dutch\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: assessment\n"
+
+msgid "activate_logging"
+msgstr "Inschakelen Toets&Beoordeling logging"
+
+#, fuzzy
+msgid "activate_manual_scoring"
+msgstr "Enable Manual Scoring"
+
+#, fuzzy
+msgid "activate_manual_scoring_desc"
+msgstr "Enables manual Scoring for all question types."
+
+msgid "addSuggestedSolution"
+msgstr "Voeg voorgestelde oplossing toe"
+
+#, fuzzy
+msgid "add_answers"
+msgstr "Add Antworten "
+
+msgid "add_circle"
+msgstr "Voeg cirkel gebied toe"
+
+msgid "add_gap"
+msgstr "Voeg spatie toe"
+
+msgid "add_imagemap"
+msgstr "Importeer Afbeeldingen map"
+
+msgid "add_poly"
+msgstr "Voeg polygoon gebied toe"
+
+msgid "add_rect"
+msgstr "Voeg rechthoekig gebied toe"
+
+#, fuzzy
+msgid "add_users"
+msgstr "Add Users"
+
+msgid "additional_rating_info"
+msgstr "De gegeven waarden worden uitgedrukt als percentages. Let erop dat ze tezamen 100 zijn."
+
+msgid "advanced_rating"
+msgstr "Geavanceerde Beoordeling"
+
+msgid "advanced_rating_info"
+msgstr "De geavanceerde beoordeling is alleen beschikbaar als een eenheid is toegewzen aan een resultaat."
+
+msgid "all_available_question_pools"
+msgstr "Alle beschikbare vragenpools"
+
+msgid "all_participants"
+msgstr "Alle deelnemers"
+
+msgid "allow_images"
+msgstr "Afbeelding ondersteuning voor Antwoorden"
+
+msgid "allowedextensions"
+msgstr "Toegestane bestands extenties"
+
+msgid "allowedextensions_info"
+msgstr "Voer een comma seperated lijst in van toegestane lijst uitbreidingen als je de upload van een bepaalde set van lijst uitbreidingen wil beperken (e.g. doc,xls,odt)."
+
+#, fuzzy
+msgid "already_added_extra_time"
+msgstr "already added: %s min"
+
+msgid "analyze_errortext"
+msgstr "Analyse fouten tekst"
+
+msgid "answer"
+msgstr "Antwoord"
+
+msgid "answer_characters"
+msgstr "toegestane karakters, aantal karakters ingevoerd:"
+
+msgid "answer_image"
+msgstr "Antwoord afbeelding"
+
+msgid "answer_is_not_correct_but_positive"
+msgstr "Je hebt punten gekregen voor de oplossing maar ze is niet helemaal goed."
+
+msgid "answer_is_right"
+msgstr "Je oplossing is goed"
+
+msgid "answer_is_wrong"
+msgstr "Je oplossing is fout"
+
+#, fuzzy
+msgid "answer_of"
+msgstr "Answer of"
+
+#, fuzzy
+msgid "answer_options"
+msgstr "Answer Options: "
+
+#, fuzzy
+msgid "answer_question"
+msgstr "Answer Question"
+
+msgid "answer_text"
+msgstr "Tekst"
+
+msgid "answer_types"
+msgstr "Antwoord type"
+
+msgid "answered"
+msgstr "Beantwoord"
+
+msgid "answers_multiline"
+msgstr "Antwoorden over meerdere regels"
+
+msgid "answers_of"
+msgstr "Antwoorden van:"
+
+#, fuzzy
+msgid "answers_select"
+msgstr "Select"
+
+msgid "answers_singleline"
+msgstr "Antwoord in enkele regel"
+
+#, fuzzy
+msgid "answers_text_box"
+msgstr "Text"
+
+msgid "applet_attributes"
+msgstr "Applet attributen"
+
+msgid "applet_parameter"
+msgstr "Parameter"
+
+msgid "applet_parameters"
+msgstr "Applet Parameters"
+
+msgid "apply_def_settings_to_tst"
+msgstr "Instellingen toepassen"
+
+msgid "assClozeTest"
+msgstr "'Cloze' (ingebedde) vraag"
+
+msgid "assErrorText"
+msgstr "Fouten tekst"
+
+msgid "assFileUpload"
+msgstr "Bestandsupload Vraag"
+
+msgid "assFlashQuestion"
+msgstr "Flash vraag"
+
+msgid "assFormulaQuestion"
+msgstr "Formulevraag"
+
+msgid "assImagemapQuestion"
+msgstr "'Hotspot' vraag"
+
+msgid "assKprimChoice"
+msgstr "Multiple Choice Vraag (Kprim Antwoorden)"
+
+#, fuzzy
+msgid "assLongMenu"
+msgstr "Long Menu"
+
+msgid "assMatchingQuestion"
+msgstr "'Matching' vraag"
+
+msgid "assMultipleChoice"
+msgstr "Multiple-choice vragen (meerdere antwoorden)"
+
+msgid "assNumeric"
+msgstr "Numerieke vragen"
+
+msgid "assOrderingHorizontal"
+msgstr "Vraagvolgorde (Horizontaal)"
+
+msgid "assOrderingQuestion"
+msgstr "Vragen rangschikken"
+
+msgid "assQuestions"
+msgstr "Vragen"
+
+msgid "assSingleChoice"
+msgstr "Multiple-choice vragen (één antwoord)"
+
+msgid "assTextQuestion"
+msgstr "Open tekst vraag"
+
+msgid "assTextSubset"
+msgstr "Tekst subset vraag"
+
+#, fuzzy
+msgid "ass_cloze_fb_mode"
+msgstr "Feedback Mode"
+
+#, fuzzy
+msgid "ass_cloze_fb_mode_gap_answ"
+msgstr "Answer specific Feedback"
+
+#, fuzzy
+msgid "ass_cloze_fb_mode_gap_answ_info"
+msgstr "For every gap separate feedbacks can be configured for different answers."
+
+#, fuzzy
+msgid "ass_cloze_fb_mode_gap_qst"
+msgstr "Feedback per Gap"
+
+#, fuzzy
+msgid "ass_cloze_fb_mode_gap_qst_info"
+msgstr "For every gap a single feedback can be configured."
+
+#, fuzzy
+msgid "ass_cloze_gap_fb_gap_label"
+msgstr "Gap %s: <i>%s</i>"
+
+#, fuzzy
+msgid "ass_cloze_gap_fb_num_empty_label"
+msgstr "Gap %s - No Input"
+
+#, fuzzy
+msgid "ass_cloze_gap_fb_num_rangehit_label"
+msgstr "Gap %s - Range Hit"
+
+#, fuzzy
+msgid "ass_cloze_gap_fb_num_toohigh_label"
+msgstr "Gap %s - Value too High"
+
+#, fuzzy
+msgid "ass_cloze_gap_fb_num_toolow_label"
+msgstr "Gap %s - Value too Low"
+
+#, fuzzy
+msgid "ass_cloze_gap_fb_num_valuehit_label"
+msgstr "Gap %s - Value Hit"
+
+#, fuzzy
+msgid "ass_cloze_gap_fb_sel_empty_label"
+msgstr "Gap %s - No Selection"
+
+#, fuzzy
+msgid "ass_cloze_gap_fb_sel_opt_label"
+msgstr "Gap %s - Select Option: <i>%s</i>"
+
+#, fuzzy
+msgid "ass_cloze_gap_fb_txt_empty_label"
+msgstr "Gap %s - No Input"
+
+#, fuzzy
+msgid "ass_cloze_gap_fb_txt_match_label"
+msgstr "Gap %s - Given Answer: <i>%s</i>"
+
+#, fuzzy
+msgid "ass_cloze_gap_fb_txt_nomatch_label"
+msgstr "Gap %s - Wrong Answer"
+
+#, fuzzy
+msgid "ass_commented_questions_only"
+msgstr "Only Commented Questions"
+
+#, fuzzy
+msgid "ass_comments"
+msgstr "Comments"
+
+#, fuzzy
+msgid "ass_competence_respect_level_ordering"
+msgstr "Please note that the competence thresholds have to be defined in an ascending order according to the available levels."
+
+msgid "ass_completion_by_submission"
+msgstr "Completed by Submission"
+
+msgid "ass_completion_by_submission_info"
+msgstr "If enabled, the submission of at least one file causes the completion of this question by granting the maximum score for this question. The score could be manually changed later. Switching this setting does not effect already submitted solutions."
+
+#, fuzzy
+msgid "ass_create_export_file_with_results"
+msgstr "Create Test Export File (incl. Participant Results)"
+
+msgid "ass_create_export_test_archive"
+msgstr "Aanmaken van een Test Archive bestand"
+
+msgid "ass_create_question"
+msgstr "Vraag aanmaken"
+
+#, fuzzy
+msgid "ass_imap_hint"
+msgstr "Hint to be shown as Tooltip"
+
+#, fuzzy
+msgid "ass_imap_map_file_not_readable"
+msgstr "The uploaded image map could not be read."
+
+#, fuzzy
+msgid "ass_imap_no_map_found"
+msgstr "Could not find any form in the uploaded image map."
+
+#, fuzzy
+msgid "ass_lac_expression"
+msgstr "Expression"
+
+#, fuzzy
+msgid "ass_lac_show_legend_btn"
+msgstr "Show Legend"
+
+#, fuzzy
+msgid "ass_lac_unable_to_parse_condition"
+msgstr "The condition \"%s\" can not be validated."
+
+#, fuzzy
+msgid "ass_lac_validation_error"
+msgstr "Errors occured while validating the conditional expression(s)!"
+
+#, fuzzy
+msgid "ass_location"
+msgstr "Location"
+
+#, fuzzy
+msgid "ass_mc_sel_lim_exhausted_hint"
+msgstr "Please do not select more than %s of %s answers!"
+
+#, fuzzy
+msgid "ass_mc_sel_lim_hint"
+msgstr "Please select %s of %s answers!"
+
+#, fuzzy
+msgid "ass_mc_sel_lim_setting"
+msgstr "Answering Limitation"
+
+#, fuzzy
+msgid "ass_mc_sel_lim_setting_desc"
+msgstr "With this setting the number of answers choosable by the participants can be limited."
+
+#, fuzzy
+msgid "ass_process_lock"
+msgstr "Use Locking During Test Passes"
+
+#, fuzzy
+msgid "ass_process_lock_desc"
+msgstr "Without the use of any locking mechanism, race conditions are possible. This can lead to inconsistent test results."
+
+#, fuzzy
+msgid "ass_process_lock_mode"
+msgstr "Lock Mode during Test Pass"
+
+#, fuzzy
+msgid "ass_process_lock_mode_db"
+msgstr "Use Database Table Locks"
+
+#, fuzzy
+msgid "ass_process_lock_mode_db_desc"
+msgstr "This locking mechanism locks tables within the database. Concurrent processes for the same or other users in the same or in another test for the same or another question are waiting until the other process releases his locks."
+
+#, fuzzy
+msgid "ass_process_lock_mode_file"
+msgstr "Use Filesystem Locks"
+
+#, fuzzy
+msgid "ass_process_lock_mode_file_desc"
+msgstr "This locking mechanism requests locks on empty files in the filesystem. Concurrent processes for the same user and the same test/question are waiting until the other process releases his lock."
+
+msgid "ass_question"
+msgstr "Vraag"
+
+msgid "ass_size"
+msgstr "Grootte"
+
+#, fuzzy
+msgid "ass_skl_import_fails_remove_btn"
+msgstr "Remove this Hint"
+
+msgid "assessment_existing_pool"
+msgstr "Gebruik bestaande vragenpool"
+
+msgid "assessment_new_pool"
+msgstr "Maak nieuwe vragenpool"
+
+msgid "assessment_no_pool"
+msgstr "Gebruik geen vragenpool"
+
+msgid "assessment_pool_selection"
+msgstr "Selecteren van vragenpool"
+
+msgid "assessment_scoring_adjust"
+msgstr "Toestaan van correcties."
+
+msgid "assessment_scoring_adjust_desc"
+msgstr "Inschakelen van de correctiefunctie om wijzigingen aan toetsvragen toe te staan."
+
+#, fuzzy
+msgid "autocomplete_error"
+msgstr "Your autocomplete number is to large, you have answers which have less characters, so they would never be displayed."
+
+#, fuzzy
+msgid "autoparticipants_subtab"
+msgstr "Participants"
+
+msgid "autosave"
+msgstr "Automatisch opslaan"
+
+msgid "autosave_failed"
+msgstr "Automatisch opslaan niet gelukt"
+
+msgid "autosave_info"
+msgstr "Als aangevinkt, worden antwoorden periodiek opgeslagen zonder gebruikersinteractie om zo gegevensverlies te voorkomen (dit is niet van toepassing op geselecteerde vragen)."
+
+msgid "autosave_ival"
+msgstr "Interval"
+
+msgid "autosave_success"
+msgstr "Automatisch opslaan succesvol..."
+
+#, fuzzy
+msgid "autosavecontent"
+msgstr "Autosave Content"
+
+msgid "average_reached_points"
+msgstr "Gemiddeld behaalde punten"
+
+#, fuzzy
+msgid "back_to_objective_container"
+msgstr "Go to Course"
+
+#, fuzzy
+msgid "backtocallingpage"
+msgstr "Back to the question page"
+
+#, fuzzy
+msgid "backtocallingpool"
+msgstr "Back to the question pool"
+
+msgid "backtocallingtest"
+msgstr "Terug naar de toets"
+
+msgid "baseunit"
+msgstr "Basiseenheid"
+
+#, fuzzy
+msgid "broken_test"
+msgstr "Broken Test"
+
+#, fuzzy
+msgid "bulkedit_author"
+msgstr "Set Author"
+
+#, fuzzy
+msgid "bulkedit_lifecycle"
+msgstr "Set Lifecycle"
+
+#, fuzzy
+msgid "bulkedit_taxonomies"
+msgstr "Set Taxonomies"
+
+msgid "cancel_test"
+msgstr "Annuleer de toets"
+
+msgid "cannot_edit_marks"
+msgstr "De toets is al gestart door deelnemers. Je kunt enkel de punten aanpassen als de rapporteringsdatum ingeschakeld is en als de rapporteringsdatum nog niet bereikt is."
+
+msgid "cannot_edit_test"
+msgstr "Je hebt niet voldoende rechten om de toets aan te passen"
+
+msgid "cannot_execute_test"
+msgstr "Je hebt niet voldoende rechten om de toets te maken"
+
+msgid "cannot_export_archive"
+msgstr "Archive-Export cannot be created."
+
+msgid "cannot_read_questionpool"
+msgstr "Je hebt niet voldoende rechten om de vragenpool te lezen"
+
+msgid "cannot_save_metaobject"
+msgstr "Je hebt niet voldoende rechten om de meta gegevens op te slaan."
+
+msgid "cannot_switch_to_online_no_questions_andor_no_mark_steps"
+msgstr "\"De status kan niet worden gewijzigd naar &quot;online&quot; omdat er geen vragen en/of markeringen zijn in de toets!\""
+
+msgid "category"
+msgstr "Categorie"
+
+msgid "changeSuggestedSolution"
+msgstr "Wijzig de voorgestelde oplossing"
+
+msgid "change_adm_categories_not_allowed"
+msgstr "Je hebt geen rechten op deze categorie."
+
+msgid "checkbox_checked"
+msgstr "Geselecteerd"
+
+msgid "checkbox_unchecked"
+msgstr "Niet geselecteerd"
+
+msgid "circle"
+msgstr "Cirkel"
+
+msgid "circle_click_center"
+msgstr "Klik in het midden van het gewenst gebied."
+
+msgid "circle_click_circle"
+msgstr "Klik op een cirkelpunt van het gewenste gebied."
+
+#, fuzzy
+msgid "client_ip_range"
+msgstr "Client IP Range"
+
+msgid "clientip"
+msgstr " Klant IP"
+
+msgid "close_text_hint"
+msgstr "U kunt een invulruimte maken door [gap][/gap] te gebruiken op de gewenste positie. Klik op de 'Aanmaken invulruimtes' knop om een formulier toe te voegen voor ieder antwoord."
+
+#, fuzzy
+msgid "cloze_answer_text_info"
+msgstr "Spaces preceding or following the answer text will be deleted when the form is saved."
+
+msgid "cloze_fixed_textlength"
+msgstr "Tekst veldlengte"
+
+msgid "cloze_fixed_textlength_description"
+msgstr "Als je een waarde hoger dan 0 ingeeft, dan zullen alle tekst en numerieke velden een lengte krijgen van deze waarde."
+
+msgid "cloze_gap_size_info"
+msgstr "Als je een waarde groter dan 0 ingeeft, zal dit gap tekstveld worden aangemaakt met deze lengte. Als je geen waarde ingeeft, zal het gap tekstveld worden aangemaakt met de waarde van het globale vaste lengte."
+
+msgid "cloze_text"
+msgstr "Verhaspelde zin"
+
+msgid "cloze_textgap_case_insensitive"
+msgstr "Hoofdletter ongevoelig"
+
+msgid "cloze_textgap_case_sensitive"
+msgstr "Hoofdletter gevoelig"
+
+msgid "cloze_textgap_levenshtein_of"
+msgstr "Levenshtein afstand van %s"
+
+msgid "code"
+msgstr "Code"
+
+msgid "codebase"
+msgstr "Codebase"
+
+msgid "concatenation"
+msgstr "Aaneenschakeling"
+
+msgid "conf_delete_pass"
+msgstr "Deze poging echt verwijderen?"
+
+#, fuzzy
+msgid "confirm_log_deletion"
+msgstr "Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries."
+
+msgid "confirm_sync_questions"
+msgstr "De vraag die je hebt veranderd is een kopie die is gemaakt om te gebruiken in de actieve toets. Wil je de originele vraag ook aanpassen?"
+
+#, fuzzy
+msgid "contained_question_types"
+msgstr "Contained Question Types"
+
+msgid "coordinates"
+msgstr "Coördinaten"
+
+msgid "copy_and_link_to_questionpool"
+msgstr "Voeg toe aan vragenpool"
+
+msgid "copy_no_questions_selected"
+msgstr "Selecteer minimaal een vraag om te kopieeren."
+
+msgid "copy_questions_success"
+msgstr "De vra(a)g(en) zijn gekopieerd."
+
+#, fuzzy
+msgid "correct_answers"
+msgstr "Correct Answers "
+
+msgid "counter"
+msgstr "Teller"
+
+msgid "create_gaps"
+msgstr "Gaten aanmaken"
+
+msgid "create_new"
+msgstr "Aanmaken van een nieuwe"
+
+#, fuzzy
+msgid "created"
+msgstr "Created"
+
+msgid "customstyle"
+msgstr "Aangepaste Stijl"
+
+#, fuzzy
+msgid "dashboard_tab"
+msgstr "Dashboard"
+
+msgid "definition"
+msgstr "Definitie"
+
+msgid "definition_image"
+msgstr "Definitie afbeelding"
+
+msgid "definition_text"
+msgstr "Definitie Tekst"
+
+msgid "definitions"
+msgstr "Definities"
+
+msgid "deleteSuggestedSolution"
+msgstr "Verwijder deze gesuggereerde oplossing"
+
+msgid "delete_all_user_data_confirmation"
+msgstr "Weet je zeker dat je alle gebruikersgegevens van de toets wilt verwijderen"
+
+msgid "delete_image_header"
+msgstr "Verwijder afbeelding"
+
+msgid "delete_image_question"
+msgstr "Weet je er zeker van dat je de afbeelding wilt verwijderen"
+
+#, fuzzy
+msgid "delete_mark_confirmation"
+msgstr "Are you sure you want to delete the following mark?"
+
+#, fuzzy
+msgid "delete_participants_no_valid_participants_selected"
+msgstr "Test results already exist for the selected participant(s). They therefore cannot be removed."
+
+#, fuzzy
+msgid "delete_result_no_valid_participants_selected"
+msgstr "There are no test results for the selected participants, so they cannot be removed."
+
+msgid "delete_selected_user_data_confirmation"
+msgstr "Weet je zeker dat je de toetsgegevens van de geselecteerde gebruiker wilt verwijderen"
+
+msgid "delete_user_data"
+msgstr "Verwijder de toetsgegevens van de geselecteerde gebruiker"
+
+msgid "description_maxchars"
+msgstr "Als er geen maximum is bepaald dan is de antwoordlengte onbegrensd."
+
+msgid "detail_ending_time_reached"
+msgstr "Je hebt de eindtijd van de toets bereikt. De toets was  beschikbaar tot %s"
+
+msgid "detail_max_processing_time_reached"
+msgstr "Je hebt de maximale verwerkingstijd van de toets bereikt!"
+
+msgid "detail_starting_time_not_reached"
+msgstr "De starttijd van de toets is nog niet bereikt. De toets is beschikbaar vanaf %s"
+
+msgid "detailed_evaluation"
+msgstr "Gedetailleerde evaluatie"
+
+msgid "detailed_evaluation_for"
+msgstr "Gedetailleerde evaluatie voor %s"
+
+msgid "detailed_evaluation_missing_active_id"
+msgstr "Je moet de gedetailleerde evaluatie voor een geselecteerde deelnemer oproepen!"
+
+msgid "detailed_evaluation_show"
+msgstr "Toon gedetailleerde evaluatie"
+
+msgid "detailed_output_printview"
+msgstr "Gedetailleerde output met vragen"
+
+msgid "detailed_output_solutions"
+msgstr "Gedetailleerde output met vragen en oplossingen"
+
+msgid "direct_feedback"
+msgstr "Verifiëer de oplossing"
+
+#, fuzzy
+msgid "discard_answer"
+msgstr "Discard Answer"
+
+#, fuzzy
+msgid "discard_answer_confirmation"
+msgstr "Your answer will be finally and completly discarded. The question keeps as unanswered until you submit another answer.<br /><br />Would you really like to discard your answer?"
+
+msgid "dont_use_questionpool"
+msgstr "Niet toevoegen aan een vragenpool (alleen beschikbaar in deze toets)"
+
+#, fuzzy
+msgid "download_all_files"
+msgstr "Download All Files"
+
+msgid "duplicate"
+msgstr "Duplicaat"
+
+msgid "duplicate_matching_values_selected"
+msgstr "Je hebt minstens één dubbele waarde gekozen  !"
+
+msgid "duplicate_order_values_entered"
+msgstr "Je hebt minstens één dubbele sorteervolgorde aangegeven!"
+
+#, fuzzy
+msgid "edit_answer"
+msgstr "Edit Answer"
+
+#, fuzzy
+msgid "edit_concluding_remarks"
+msgstr "Edit Concluding Remarks"
+
+#, fuzzy
+msgid "edit_introduction"
+msgstr "Edit Introduction"
+
+msgid "edit_question"
+msgstr "Wijzigen vraag"
+
+#, fuzzy
+msgid "edit_score"
+msgstr "Edit Score"
+
+msgid "edit_test_questions"
+msgstr "Wijzig toets vragen"
+
+msgid "element_height"
+msgstr "Minimum Height"
+
+msgid "element_height_info"
+msgstr "This is the minimum height in pixels for term and definition/picture items during the toets output."
+
+msgid "enable_examview"
+msgstr "Tonen in vorm van examen"
+
+msgid "enable_examview_desc"
+msgstr "De toets zal worden gepresenteerd in de vorm van een examen."
+
+msgid "end_tag"
+msgstr "Eindlabel"
+
+msgid "enlarge"
+msgstr "Vergroot"
+
+msgid "enter_anonymous_code"
+msgstr "Voer anonieme toegangscode in"
+
+msgid "enter_enough_positive_points"
+msgstr "Het maximaal haalbare punten moet groter zijn dan 0! Voer voldoende positieve punten in voor de antwoorden"
+
+#, fuzzy
+msgid "enter_enough_positive_points_checked"
+msgstr "At least one answer needs to score. Please enter a positive score for the selection of an answer."
+
+msgid "enter_valid_values"
+msgstr "Geldige waarde invoeren. Karakters worden geëvalueerd als incorrect!"
+
+msgid "errFormulaQuestion"
+msgstr "Een Formula-vraag bavt incorrect informatie!!"
+
+msgid "errRecursionInResult"
+msgstr "De formule bevat een oneindige recursie."
+
+msgid "err_category_in_use"
+msgstr "Tenminste een categorie kon niet worden verwijderd. Een of meer eenheden van de categorie zijn in gebruikt."
+
+#, fuzzy
+msgid "err_divider_too_big"
+msgstr "The divider of one of the variables in this question is too big."
+
+#, fuzzy
+msgid "err_division"
+msgstr "The value you chose would make it impossible to generate a valid value for the variable."
+
+msgid "err_duplicate_results"
+msgstr "Je gebruikt een resultaatvariabele meerdere malen. Dit is niet toegestaan in de vraagtekst."
+
+msgid "err_no_formula"
+msgstr "Je moet een formule invoeren"
+
+msgid "err_no_numeric_value"
+msgstr "Voer een numeriek veld in."
+
+msgid "err_range"
+msgstr "Het maximumbereik met groter zijn dan het minimumbereik"
+
+msgid "err_rating_advanced_not_allowed"
+msgstr "Alleen eenvoudige beoordelingen zijn toegestaan omdat je meerdere eenheidsresultaten met een identieke basiseenheid gebruikt."
+
+msgid "err_unit_in_results"
+msgstr "De eenheid kan niet worden verwijderd. Het is in gebruik bij een of meer toetsvragen."
+
+msgid "err_unit_in_variables"
+msgstr "De eenheid kan niet worden verwijderd. Het is in gebruik bij één of meer toetsvragen."
+
+msgid "err_unit_is_baseunit"
+msgstr "De eenheid kan niet worden verwijderd. Het wordt gebruikt als basis voor andere eenheden."
+
+msgid "err_wrong_categoryname"
+msgstr "De categorie bestaat reeds."
+
+msgid "err_wrong_rating_advanced"
+msgstr "Controleer dat de toegevoegde geavanceerde beoordelingsinstelling gelijk is aan 100 percent"
+
+#, fuzzy
+msgid "error_creating_certificate_zip_empty"
+msgstr "No data for export."
+
+msgid "error_importing_question"
+msgstr "Er is een fout opgetreden bij het importeren van de vraag(vragen) uit het door jouw geselecteerde bestand!"
+
+msgid "error_open_image_file"
+msgstr "Fout bij het openen van een afbeelding!"
+
+msgid "error_random_question_generation"
+msgstr "Een fatale fout is opgetreden tijdens het genereren van je willekeurige vragen voor de toets. Gelieve de beheerder met de volgende informatie te contacteren: Het systeem kon geen actieve ID voor gebruiker  en voor de toets maken."
+
+msgid "errors"
+msgstr "Fouten"
+
+msgid "errors_section"
+msgstr "Fouten Data"
+
+msgid "errortext"
+msgstr "Fouttekst"
+
+msgid "errortext_info"
+msgstr "Vul de foutboodschap in"
+
+#, fuzzy
+msgid "essay_scoring_mode"
+msgstr "Scoring Mode"
+
+msgid "essay_scoring_mode_keyword_relation_all"
+msgstr "Automatic Scoring with Keywords on Finding ALL"
+
+msgid "essay_scoring_mode_keyword_relation_all_desc"
+msgstr "De punten worden automatisch toegekend, als alle sleutelwoorden worden gevonden."
+
+msgid "essay_scoring_mode_keyword_relation_any"
+msgstr "Automatic Scoring with Keywords on Finding ANY"
+
+#, fuzzy
+msgid "essay_scoring_mode_keyword_relation_any_desc"
+msgstr "For any found keyword the corresponding points are granted automatically."
+
+msgid "essay_scoring_mode_keyword_relation_one"
+msgstr "Automatic Scoring with Keywords on Finding ONE"
+
+msgid "essay_scoring_mode_keyword_relation_one_desc"
+msgstr "De punten worden automatisch toegekend, als minstens één sleutelwoord is gevonden."
+
+msgid "essay_scoring_mode_without_keywords"
+msgstr "Geen Automatische Scoring"
+
+msgid "essay_scoring_mode_without_keywords_desc"
+msgstr "No points are granted unless the tutor's manual scoring."
+
+msgid "eval_all_users"
+msgstr "Evaluatie voor alle gebruikers"
+
+msgid "eval_legend_link"
+msgstr "Raadpleeg de legende voor de betekenis van de symbolen in de kolomkoppen."
+
+#, fuzzy
+msgid "evaluated_users"
+msgstr "Evaluated Users"
+
+msgid "exam_id"
+msgstr "Examennummer:"
+
+#, fuzzy
+msgid "exam_id_label"
+msgstr "Exam Id"
+
+#, fuzzy
+msgid "exam_id_of_attempt"
+msgstr "ID of Attempt"
+
+msgid "examid_in_test_pass"
+msgstr "Tonen Examennummer"
+
+msgid "examid_in_test_pass_desc"
+msgstr "Laat het examennumer zien"
+
+msgid "examid_in_test_res"
+msgstr "Tonen Examennummer"
+
+msgid "examid_in_test_res_desc"
+msgstr "Tonen Examennummer"
+
+#, fuzzy
+msgid "exp_all_test_runs"
+msgstr "All test attempts"
+
+msgid "exp_eval_data"
+msgstr "Evaluatiegegevens exporteren als"
+
+#, fuzzy
+msgid "exp_grammar_as"
+msgstr "as"
+
+#, fuzzy
+msgid "exp_scored_test_attempt"
+msgstr "Scored Test Attempt"
+
+msgid "exp_type_certificate"
+msgstr "Certificaat (PDF)"
+
+msgid "exp_type_excel"
+msgstr "Microsoft Excel"
+
+msgid "expected_result_type"
+msgstr "Verwacht resultaat-type"
+
+#, fuzzy
+msgid "export_cert_failed_for_users_p"
+msgstr "No certificate file could be generated and added for the following %s accounts: %s. Please contact an administrator to check the log file."
+
+#, fuzzy
+msgid "export_cert_failed_for_users_s"
+msgstr "No certificate file could be generated and added to the archive for the following account: %s. Please contact an administrator to check the log file."
+
+#, fuzzy
+msgid "export_cert_ignored_for_users_p"
+msgstr "The following %s accounts did not achieve a certificate, or the certificate service is not enabled/activate: %s"
+
+#, fuzzy
+msgid "export_cert_ignored_for_users_s"
+msgstr "The following account did not achieve a certificate, or the certificate service is not enabled/activate: %s"
+
+#, fuzzy
+msgid "export_cert_no_users"
+msgstr "A certificate archive cannot be created due to missing test participants."
+
+#, fuzzy
+msgid "export_essay_qst_with_html"
+msgstr "Export Essay Question with HTML code"
+
+#, fuzzy
+msgid "export_essay_qst_with_html_desc"
+msgstr "If activated it is possible to export Essay Question with HTML to Excel."
+
+#, fuzzy
+msgid "export_legacy_logs"
+msgstr "Legacy Log-Daten exportieren"
+
+#, fuzzy
+msgid "extra_time_byline"
+msgstr "Put in extra time in minutes. Already entered extra time is added up."
+
+#, fuzzy
+msgid "extra_time_for_all_participants"
+msgstr "You are adding some extra time to all participants."
+
+#, fuzzy
+msgid "extra_time_for_selected_participants"
+msgstr "You are adding extra time to the selected participants."
+
+#, fuzzy
+msgid "extra_time_for_selected_participants_different"
+msgstr "You have selected participants with different additional times."
+
+#, fuzzy
+msgid "extra_time_for_single_participant"
+msgstr "Your are adding extra time to the following participant:"
+
+msgid "extratime"
+msgstr "Extra Tijd"
+
+#, fuzzy
+msgid "extratime_added"
+msgstr "The extra time has been added to the selected participants."
+
+msgid "factor"
+msgstr "Factor"
+
+msgid "failed_official"
+msgstr "mislukt"
+
+msgid "failed_short"
+msgstr "mislukt"
+
+msgid "false"
+msgstr "Fout"
+
+msgid "feedback_all"
+msgstr "Show answer specific feedback for all answers."
+
+msgid "feedback_answers"
+msgstr "Feedback voor elk antwoord van de vraag"
+
+msgid "feedback_checked"
+msgstr "Toon antwoord-specifieke feedback voor alle gekozen/geselecteerde antwoorden"
+
+msgid "feedback_complete_solution"
+msgstr "Juiste oplossing"
+
+#, fuzzy
+msgid "feedback_correct_kprim"
+msgstr "Show answer specific feedback for all correct answers (Correct answers are those, for that the positive option is to be chosen/selected)."
+
+#, fuzzy
+msgid "feedback_correct_sc_mc"
+msgstr "Show answer specific feedback for all correct answers (Correct answers are those, that lead to a positive score when chosen/selected)."
+
+msgid "feedback_generic"
+msgstr "Common Solution Feedback"
+
+msgid "feedback_incomplete_solution"
+msgstr "Minstens één antwoord is niet juist"
+
+msgid "feedback_setting"
+msgstr "Modus van antwoord-specifieke feedback"
+
+msgid "fileDownload"
+msgstr "Bestand download"
+
+msgid "file_uploads"
+msgstr "Bestand Uploads"
+
+msgid "fill_out_all_required_fields_add_answer"
+msgstr "Vul alle tekstvelden in voordat je een nieuwe antwoord toevoegt!"
+
+msgid "filter_all_question_types"
+msgstr "Alle vraagsoorten"
+
+msgid "filter_all_questionpools"
+msgstr "Alle vragenpoolen"
+
+msgid "filter_show_question_types"
+msgstr "Toon vraagsoorten"
+
+msgid "filter_show_questionpools"
+msgstr "Toon vragenpoolen"
+
+msgid "final_statement"
+msgstr "Eind verklaring"
+
+msgid "final_statement_show_desc"
+msgstr "Indien aangevinkt wordt de eindverklaring getoond direct na het afleggen van de toets, voordat de resultaten van de toets worden afgegeven.."
+
+#, fuzzy
+msgid "finalized_by"
+msgstr "Completed by"
+
+#, fuzzy
+msgid "finalized_evaluation"
+msgstr "Scoring completed"
+
+#, fuzzy
+msgid "finalized_on"
+msgstr "Completed at"
+
+#, fuzzy
+msgid "finish_all_user_passes"
+msgstr "Finish all test Passes"
+
+#, fuzzy
+msgid "finish_pass_for_all_users"
+msgstr "Are you sure you want to finish the test passes for all Users?"
+
+#, fuzzy
+msgid "finish_pass_for_multiple_users_in_processing_time"
+msgstr "You cannot finish the passes of all users together, because for at least one user the processing time is not over yet."
+
+#, fuzzy
+msgid "finish_pass_for_user_confirmation"
+msgstr "Are you sure you want to finish this test pass?"
+
+#, fuzzy
+msgid "finish_pass_for_user_in_processing_time"
+msgstr "WARNING: the processing time for this user is not over yet! You should only end the test run if there is a compelling reason (e.g. exclusion from the test)."
+
+msgid "finish_test"
+msgstr "Sla toets op en sluit toets af"
+
+#, fuzzy
+msgid "finish_test_all"
+msgstr "Are you sure you want to finish the test attempts for all users?"
+
+#, fuzzy
+msgid "finish_test_more_than_one_selected"
+msgstr "Only a single participant may be selected to finish the pass if the test allows only one pass."
+
+#, fuzzy
+msgid "finish_test_multiple"
+msgstr "Are you sure you want to finish the test attempts for the following participants?"
+
+#, fuzzy
+msgid "finish_test_no_valid_participants_selected"
+msgstr "There are no active test runs for the selected participants, so they cannot be completed."
+
+#, fuzzy
+msgid "finish_test_single"
+msgstr "Are you sure you want to finish the test attempt for the participant \"%s\"?"
+
+#, fuzzy
+msgid "finish_unfinished_passes"
+msgstr "Finish open Passes"
+
+#, fuzzy
+msgid "finish_unfinished_passes_desc"
+msgstr "Passes which have a Finishing time or a Duration limit configured will be closed by this cron job. "
+
+#, fuzzy
+msgid "finished_by_administrator"
+msgstr "Finished by Administrator"
+
+#, fuzzy
+msgid "finished_by_cronjob"
+msgstr "Finished by Cronjob"
+
+#, fuzzy
+msgid "finished_by_duration"
+msgstr "Finished by time limit"
+
+#, fuzzy
+msgid "finished_by_participant"
+msgstr "Finished by Participant"
+
+#, fuzzy
+msgid "finished_by_unknown"
+msgstr "Finished by Unknown"
+
+msgid "fixed_participants_hint"
+msgstr "Deze toets is slechts toegankelijk voor een reeks deelnemers die hieronder getoond worden. Je kunt deze instelling wijzigen door de checkbox in de subtab uit te schakelen."
+
+#, fuzzy
+msgid "fixedparticipants_subtab"
+msgstr "Manually Selected Participants"
+
+msgid "flashfile"
+msgstr "Flash bestand"
+
+msgid "for"
+msgstr "voor"
+
+msgid "forcejs"
+msgstr "Forceren JavaScript output voor toetsvragen"
+
+msgid "form_msg_area_missing_points"
+msgstr "Voer punten voor al de gebieden in."
+
+msgid "formula"
+msgstr "Formule"
+
+msgid "fq_formula_desc"
+msgstr "You may enter predefined variables ($v1 to $vn), defined results (e.g. $r1), braces for expressions, mathematical operators  + (addition), - (subtraction), * (multiplication), / (division), ^ (nth power), the constants 'pi' for pi and 'e‘ for euler's constant, as well as the functions 'sin', 'sinh', 'arcsin', 'asin', 'arcsinh', 'asinh', 'cos', 'cosh', 'arccos', 'acos', 'arccosh', 'acosh', 'tan', 'tanh', 'arctan', 'atan', 'arctanh', 'atanh', 'sqrt', 'abs', 'ln' and 'log'."
+
+msgid "fq_no_restriction_info"
+msgstr "Zowel decimalen als breuken worden geaccepteerd als input"
+
+msgid "fq_precision_info"
+msgstr "Gewenste aantal decimale plaatsen"
+
+msgid "fq_question_desc"
+msgstr "Je kunt variabelen definieren met $v1, $v2 ... $vn, resultaten door het gebruik van $r1, $r2 .... $rn op de gewenste positie in de vraagtekst. Klik op de knop \"Ontleed vraag\" om editforms voor variabelen en resultaten te openen."
+
+msgid "gap"
+msgstr "Gat"
+
+msgid "gap_combination"
+msgstr "Gap Combinatie"
+
+#, fuzzy
+msgid "gaps"
+msgstr "Gaps"
+
+msgid "glossary_term"
+msgstr "Verklarende term"
+
+#, fuzzy
+msgid "goto_first_question"
+msgstr "Show First Question"
+
+msgid "grading_mark_msg"
+msgstr "Je resultaat is: &quot;[mark]&quot;"
+
+msgid "grading_status_failed_msg"
+msgstr "Helaas, je bent <b>niet geslaagd</b> voor de toets."
+
+msgid "grading_status_passed_msg"
+msgstr "Gefeliciteerd, je bent <b>geslaagd</b> voor de toets."
+
+#, fuzzy
+msgid "hide_best_solution"
+msgstr "Hide best solution"
+
+msgid "identical_scoring"
+msgstr "Identieke Scoring"
+
+msgid "identical_scoring_desc"
+msgstr "Indien geselecteerd, openingen met identieke oplossingen worden geteld, zelfs als dezelfde oplossing twee of meerdere keren werd gegeven.Indien niet geselecteerd, wordt de eerst gegeven oplossing geteld."
+
+msgid "imagemap"
+msgstr "Afbeeldingen map"
+
+msgid "imap_line_color"
+msgstr "Lijnkleur afbeedlingsmap"
+
+msgid "import_question"
+msgstr "Importeren vraag(vragen)"
+
+#, fuzzy
+msgid "in_range"
+msgstr "Within range"
+
+#, fuzzy
+msgid "in_trash"
+msgstr "In Trash"
+
+msgid "info_answer_type_change"
+msgstr "De vraag bevat reeds plaatjes.U kunt het antwoordtype niet veranderen in meerregelige antwoorden"
+
+#, fuzzy
+msgid "info_text_upload"
+msgstr "Choose an answer file to upload"
+
+msgid "insert_after"
+msgstr "Voeg in na"
+
+msgid "insert_before"
+msgstr "Voeg in voor"
+
+msgid "insert_gap"
+msgstr "Insert Gap"
+
+#, fuzzy
+msgid "interaction_type"
+msgstr "Interaction Type"
+
+msgid "internal_links"
+msgstr "Interne links"
+
+msgid "intprecision"
+msgstr "Deelbaar door"
+
+msgid "intprecision_info"
+msgstr "\"Divisible by\" affects only the creation of variables, if the value for the precision is 0. In this case, you define for \"Divisible by\" an integer value, which must be divisible by with the created variable. A value of 10 thus generates only integers that are divisible by 10. A value of 5 produces integers that are divisible by 5, etc. For a precision of 0, \"Divisible by\" is a mandatory field and must contain a positive integer. The default value is 1 for any integers."
+
+#, fuzzy
+msgid "invalid_ip"
+msgstr "Invalid IP"
+
+#, fuzzy
+msgid "ip_range_byline"
+msgstr "Only IP addresses within the defined range can start the test. You can either use IPv4 OR IPv6 addresses."
+
+#, fuzzy
+msgid "ip_range_for_all_participants"
+msgstr "You are changing the IP Range of all participants"
+
+#, fuzzy
+msgid "ip_range_for_selected_participants"
+msgstr "You are changing the IP Range of the following participant."
+
+#, fuzzy
+msgid "ip_range_for_single_participant"
+msgstr "You are changing the IP Range of the selected participants."
+
+#, fuzzy
+msgid "ip_range_info"
+msgstr "Only clients with an IP in the provided range will be able to access the test."
+
+#, fuzzy
+msgid "ip_range_label"
+msgstr "IP Range"
+
+#, fuzzy
+msgid "ip_range_updated"
+msgstr "The IP-Range has been update for the selected participants."
+
+msgid "kiosk"
+msgstr "Kiosk Modus"
+
+msgid "kiosk_description"
+msgstr "Voer de toets uit in Kiosk Modus. Inhoud dat geen onderdeel is van de toets worden verborgen om te voorkomen dat  gebruikers de toets verlaten."
+
+msgid "kiosk_options"
+msgstr "Kiosk Modus Opties"
+
+msgid "kiosk_options_desc"
+msgstr "Selecteer of de toetstitel en/of de naam van de deelnemer bovenaan wordt getoond tijdens de toets in  de kiosk modus."
+
+msgid "kiosk_show_participant"
+msgstr "Toon naam van de deelnemer"
+
+msgid "kiosk_show_title"
+msgstr "Toon toetstitel"
+
+msgid "kprim_answers_info"
+msgstr "De multiple-choice vraag \"vier keer goed/fout beslissing' (type K', ook bekend als Kprim) geeft vier antwoorden voor een vraag of een niet incompleet statement. Een beslissing over de juistheid moet worden gemaakt voor alle vier de antwoorden. Het maximum aantal punten wordt alleen toegekend als alle beslissingen juist zijn."
+
+msgid "kprim_instruction_text"
+msgstr "Voor ieder statement moet je beslissen:  [%s] of [%s]"
+
+#, fuzzy
+msgid "lacex_assClozeTest_NumberOfResultExpression_d"
+msgstr "The fourth answer option is a select gap and the second option was selected"
+
+#, fuzzy
+msgid "lacex_assClozeTest_NumberOfResultExpression_e"
+msgstr "R[4] = +2+"
+
+#, fuzzy
+msgid "lacex_assClozeTest_NumericResultExpression_d"
+msgstr "The second answer option is a numeric gap and was answered with the numeric value 5"
+
+#, fuzzy
+msgid "lacex_assClozeTest_NumericResultExpression_e"
+msgstr "R[2] = #5"
+
+#, fuzzy
+msgid "lacex_assClozeTest_StringResultExpression_1_d"
+msgstr "The first answer option is a text gap and was answered with „Monday“"
+
+#, fuzzy
+msgid "lacex_assClozeTest_StringResultExpression_1_e"
+msgstr "R[1] = ~Monday~"
+
+#, fuzzy
+msgid "lacex_assClozeTest_StringResultExpression_2_d"
+msgstr "The fourth answer option is a select gap and the option labeled as „Green“ was selected"
+
+#, fuzzy
+msgid "lacex_assClozeTest_StringResultExpression_2_e"
+msgstr "R[4] = ~Green~"
+
+#, fuzzy
+msgid "lacex_assErrorText_ExclusiveResultExpression_d"
+msgstr "Exactly the answer options 1, 3 and 4 were chosen while answering the question"
+
+#, fuzzy
+msgid "lacex_assErrorText_ExclusiveResultExpression_e"
+msgstr "R = *1,3,4*"
+
+#, fuzzy
+msgid "lacex_assErrorText_NumberOfResultExpression_d"
+msgstr "While answering the question the second answer option was chosen"
+
+#, fuzzy
+msgid "lacex_assErrorText_NumberOfResultExpression_e"
+msgstr "R = +2+"
+
+#, fuzzy
+msgid "lacex_assFormulaQuestion_NumericResultExpression_d"
+msgstr "The first answer option was answered with the numeric value 3.14159"
+
+#, fuzzy
+msgid "lacex_assFormulaQuestion_NumericResultExpression_e"
+msgstr "R[1] = #3.14159"
+
+#, fuzzy
+msgid "lacex_assImagemapQuestion_ExclusiveResultExpression_d"
+msgstr "Exactly the answer options 1, 3 and 4 were chosen while answering the question"
+
+#, fuzzy
+msgid "lacex_assImagemapQuestion_ExclusiveResultExpression_e"
+msgstr "R = *1,3,4*"
+
+#, fuzzy
+msgid "lacex_assImagemapQuestion_NumberOfResultExpression_d"
+msgstr "While answering the question the second answer option was chosen"
+
+#, fuzzy
+msgid "lacex_assImagemapQuestion_NumberOfResultExpression_e"
+msgstr "R = +2+"
+
+#, fuzzy
+msgid "lacex_assMatchingQuestion_MatchingResultExpression_d"
+msgstr "The question's terms were assigned to defintions as follows: 1 => 2 and 2 => 3 and 3 => 1"
+
+#, fuzzy
+msgid "lacex_assMatchingQuestion_MatchingResultExpression_e"
+msgstr "R = ;1:2; & R = ;2:3; & R = ;3:1;"
+
+#, fuzzy
+msgid "lacex_assMultipleChoice_ExclusiveResultExpression_d"
+msgstr "Exactly the answer options 1, 3 and 4 were chosen while answering the question"
+
+#, fuzzy
+msgid "lacex_assMultipleChoice_ExclusiveResultExpression_e"
+msgstr "R = *1,3,4*"
+
+#, fuzzy
+msgid "lacex_assMultipleChoice_NumberOfResultExpression_d"
+msgstr "While answering the question the second answer option was chosen"
+
+#, fuzzy
+msgid "lacex_assMultipleChoice_NumberOfResultExpression_e"
+msgstr "R = +2+"
+
+#, fuzzy
+msgid "lacex_assNumeric_NumericResultExpression_d"
+msgstr "The question was answered with the numeric value 4.7"
+
+#, fuzzy
+msgid "lacex_assNumeric_NumericResultExpression_e"
+msgstr "R = #4.7"
+
+#, fuzzy
+msgid "lacex_assOrderingHorizontal_OrderingResultExpression_d"
+msgstr "The question's elements were ordered as follows: 2, 5, 1, 4, 3"
+
+#, fuzzy
+msgid "lacex_assOrderingHorizontal_OrderingResultExpression_e"
+msgstr "R = $2,5,1,4,3$"
+
+#, fuzzy
+msgid "lacex_assOrderingQuestion_OrderingResultExpression_d"
+msgstr "The question's elements were ordered as follows: 2, 5, 1, 4, 3"
+
+#, fuzzy
+msgid "lacex_assOrderingQuestion_OrderingResultExpression_e"
+msgstr "R = $2,5,1,4,3$"
+
+#, fuzzy
+msgid "lacex_assQuestion_EmptyAnswerExpression_d"
+msgstr "The question was not answered"
+
+#, fuzzy
+msgid "lacex_assQuestion_EmptyAnswerExpression_e"
+msgstr "R = ?"
+
+#, fuzzy
+msgid "lacex_assQuestion_PercentageResultExpression_d"
+msgstr "The questions answer result is equal to or greater than 75%"
+
+#, fuzzy
+msgid "lacex_assQuestion_PercentageResultExpression_e"
+msgstr "R >= %75%"
+
+#, fuzzy
+msgid "lacex_assSingleChoice_NumberOfResultExpression_d"
+msgstr "While answering the question the second answer option was chosen"
+
+#, fuzzy
+msgid "lacex_assSingleChoice_NumberOfResultExpression_e"
+msgstr "R = +2+"
+
+#, fuzzy
+msgid "lacex_assTextSubset_StringResultExpression_d"
+msgstr "For the second answer option the answer „sodium chloride“ was entered"
+
+#, fuzzy
+msgid "lacex_assTextSubset_StringResultExpression_e"
+msgstr "R[2] = ~sodium chloride~"
+
+#, fuzzy
+msgid "lacex_example_header"
+msgstr "Examples"
+
+#, fuzzy
+msgid "list_of_participants"
+msgstr "Participants"
+
+msgid "locked"
+msgstr "Gesloten"
+
+#, fuzzy
+msgid "log_deletion_not_allowed"
+msgstr "You don't have the necessary permissions to delete log entries."
+
+#, fuzzy
+msgid "log_entry_type"
+msgstr "Log Entry Type"
+
+#, fuzzy
+msgid "log_ip"
+msgstr "Log IP"
+
+#, fuzzy
+msgid "log_ip_info"
+msgstr "The IP of Participants is Logged for each interaction with a test. Disabling it does not delete existing IP records."
+
+#, fuzzy
+msgid "log_participant_data_delete_warning"
+msgstr "This test contains log data for participant interactions that will be deleted when changing the test to a test without names."
+
+msgid "log_text"
+msgstr "Log bericht"
+
+#, fuzzy
+msgid "log_user_solution_willingly_deleted"
+msgstr "User deleted the answer."
+
+msgid "logging_settings"
+msgstr "Registreren"
+
+#, fuzzy
+msgid "logs_answer_deleted"
+msgstr "Answer deleted"
+
+#, fuzzy
+msgid "logs_answer_submitted"
+msgstr "Answer Submitted"
+
+msgid "logs_deleted"
+msgstr "De logboekgegevens voor de geselecteerde toetsen zijn verwijderd"
+
+#, fuzzy
+msgid "logs_error_on_participant_interaction"
+msgstr "Error on Participant Interaction"
+
+#, fuzzy
+msgid "logs_error_on_question_administration_interaction"
+msgstr "Error on Question Administration Interaction"
+
+#, fuzzy
+msgid "logs_error_on_scoring_interaction"
+msgstr "Error on Scoring Interaction"
+
+#, fuzzy
+msgid "logs_error_on_test_administration_interaction"
+msgstr "Error on Test Administration Interaction"
+
+#, fuzzy
+msgid "logs_error_on_undefined_interaction"
+msgstr "Error on Undefined Interaction"
+
+#, fuzzy
+msgid "logs_extra_time_added"
+msgstr "Extra Time Added"
+
+#, fuzzy
+msgid "logs_main_settings_modified"
+msgstr "Main Settings Modified"
+
+#, fuzzy
+msgid "logs_mark_schema_modified"
+msgstr "Mark Schema Modified"
+
+#, fuzzy
+msgid "logs_mark_schema_reset"
+msgstr "Mark Schema Reset"
+
+#, fuzzy
+msgid "logs_new_test_created"
+msgstr "New Test Created"
+
+msgid "logs_output"
+msgstr "Logboekgegevens output"
+
+#, fuzzy
+msgid "logs_participant_data_removed"
+msgstr "Participant Data Removed"
+
+#, fuzzy
+msgid "logs_pi"
+msgstr "Participant Interaction"
+
+#, fuzzy
+msgid "logs_qai"
+msgstr "Question Administration Interaction"
+
+#, fuzzy
+msgid "logs_question_added"
+msgstr "Question Added"
+
+#, fuzzy
+msgid "logs_question_graded"
+msgstr "Question Graded"
+
+#, fuzzy
+msgid "logs_question_grading_reset"
+msgstr "Grading Reset"
+
+#, fuzzy
+msgid "logs_question_modified"
+msgstr "Question Modified"
+
+#, fuzzy
+msgid "logs_question_modified_in_corrections"
+msgstr "Question Modified in Corrections"
+
+#, fuzzy
+msgid "logs_question_moved"
+msgstr "Question Moved"
+
+#, fuzzy
+msgid "logs_question_removed"
+msgstr "Question Removed"
+
+#, fuzzy
+msgid "logs_question_removed_in_corrections"
+msgstr "Question Removed in Corrections"
+
+#, fuzzy
+msgid "logs_question_selection_criteria_modified"
+msgstr "Question Selection Criteria Modified"
+
+#, fuzzy
+msgid "logs_question_shown"
+msgstr "Question Shown"
+
+#, fuzzy
+msgid "logs_question_skipped"
+msgstr "Question Skipped"
+
+#, fuzzy
+msgid "logs_question_synchronisation_reset"
+msgstr "Question Synchronisation Reset"
+
+#, fuzzy
+msgid "logs_questions_synchronised"
+msgstr "Questions Synchonised"
+
+#, fuzzy
+msgid "logs_scoring_settings_modified"
+msgstr "Scoring Settings Modified"
+
+#, fuzzy
+msgid "logs_si"
+msgstr "Scoring Interaction"
+
+#, fuzzy
+msgid "logs_tai"
+msgstr "Test Administration Interaction"
+
+#, fuzzy
+msgid "logs_te"
+msgstr "Error"
+
+#, fuzzy
+msgid "logs_test_deleted"
+msgstr "Test Deleted"
+
+#, fuzzy
+msgid "logs_test_run_finished"
+msgstr "Test Run Finished"
+
+#, fuzzy
+msgid "logs_test_run_of_participant_closed"
+msgstr "Run of Participant Closed"
+
+#, fuzzy
+msgid "logs_test_run_started"
+msgstr "Test Run Started"
+
+#, fuzzy
+msgid "logs_wrong_test_password_provided"
+msgstr "Participant entered wrong test password."
+
+#, fuzzy
+msgid "longmenu"
+msgstr "Longmenu"
+
+#, fuzzy
+msgid "longmenu_answeroptions_differ"
+msgstr "This question does not work correctly, as there are not the same amount of gaps in the text as in the correction options."
+
+#, fuzzy
+msgid "longmenu_text"
+msgstr "Long Menu Text"
+
+#, fuzzy
+msgid "mainbar_button_label_questionlist"
+msgstr "Questionlist"
+
+msgid "maintenance"
+msgstr "Onderhoud"
+
+msgid "manscoring"
+msgstr "Handmatige score"
+
+msgid "manscoring_done"
+msgstr "Scorende Deelnemers"
+
+#, fuzzy
+msgid "manscoring_finalized"
+msgstr "The user's status has been set to 'Scoring Finalised'."
+
+#, fuzzy
+msgid "manscoring_finalized_removed"
+msgstr "The user's 'Scoring Finalised' status has been removed."
+
+msgid "manscoring_hint"
+msgstr "Je hebt minstens één vraag toegevoegd die het handmatig invullen kan vereisen. Om een geldige presentatie van de toets resultaten voor de deelnemers te waarborgen wordt sterk geadviseerd om de toegang tot de toets resultaten te beperken gebruik makend van een gespecificeerde datum en een tijd."
+
+msgid "manscoring_none"
+msgstr "Deelnemers zonder resultaat"
+
+msgid "manscoring_not_allowed"
+msgstr "Het handmatig indienen van de punten werd niet ingeschakeld voor dit vraagtype. Je mag deze tab niet gebruiken."
+
+msgid "manscoring_questions_not_found"
+msgstr "Deze toets bevat  geen vraagtypes die  manueel kunnen worden genoteerd."
+
+msgid "manscoring_results_pass"
+msgstr "Handmatig scorende Vragen voor Examen %s"
+
+#, fuzzy
+msgid "manual_editing"
+msgstr "Manual Editing"
+
+#, fuzzy
+msgid "manual_entry"
+msgstr "Manual Entry"
+
+msgid "mark_schema"
+msgstr "Cijferschema"
+
+msgid "mark_schema_invalid"
+msgstr "The mark schema does not validate. Please create a correct schema."
+
+msgid "matches"
+msgstr "overeenkomsten"
+
+msgid "matching_pairs"
+msgstr "Gematchte paren"
+
+msgid "matching_shuffle_definitions"
+msgstr "Enkel definities"
+
+msgid "matching_shuffle_terms"
+msgstr "Alleen termen"
+
+msgid "matching_shuffle_terms_definitions"
+msgstr "Beide (Termen en Definities)"
+
+msgid "matching_type"
+msgstr "'Matching' Vraag Subtype"
+
+msgid "material"
+msgstr "Materiaal"
+
+msgid "material_file"
+msgstr "Materiaal bestand"
+
+#, fuzzy
+msgid "max_ip_label"
+msgstr "Highest IP With Access"
+
+msgid "maxchars"
+msgstr "Maximum number of characters"
+
+msgid "maximum_nr_of_tries_reached"
+msgstr "Je hebt het maximum aantal pogingen voor deze toets bereikt. Je kunt de toets niet meer opnieuw maken."
+
+msgid "maximum_points"
+msgstr "Maximum behaalbare punten"
+
+msgid "maxsize"
+msgstr "Maximum file upload size"
+
+msgid "maxsize_info"
+msgstr "Vul in de maximale hoeveelheid bytes die wordt toegestaan voor bestand-uploads. Als je dit vak blanco laat, wordt de maximale grootte van deze installatie gekozen."
+
+#, fuzzy
+msgid "min_auto_complete"
+msgstr "Autocomplete"
+
+#, fuzzy
+msgid "min_ip_label"
+msgstr "Lowest IP With Access"
+
+msgid "min_percentage_ne_0"
+msgstr "Je moet een minimum percentage opgeven van ministens 0 procent! Het punten schema is niet opgeslaan"
+
+msgid "misc"
+msgstr "Misc Options"
+
+#, fuzzy
+msgid "mode_allatonce"
+msgstr "All"
+
+#, fuzzy
+msgid "mode_onebyone"
+msgstr "One by One"
+
+#, fuzzy
+msgid "mode_question"
+msgstr "Question oriented"
+
+#, fuzzy
+msgid "mode_user"
+msgstr "Participant oriented"
+
+msgid "msg_circle_added"
+msgstr "Cirkel toegevoegd"
+
+#, fuzzy
+msgid "msg_no_questions_selected"
+msgstr "No questions were selected."
+
+msgid "msg_number_of_terms_too_low"
+msgstr "Het aantal termen moet groter of gelijk zijn aan het aantal definities."
+
+msgid "msg_poly_added"
+msgstr "Polygon toegevoegd"
+
+msgid "msg_questions_moved"
+msgstr "Vragen verplaatst"
+
+msgid "msg_rect_added"
+msgstr "Rechthoek toegevoegd"
+
+#, fuzzy
+msgid "msg_score_settings_modified_and_recalc"
+msgstr "Your changes were saved and the results recalculated correspondingly."
+
+#, fuzzy
+msgid "msg_score_settings_not_modified"
+msgstr "Your changes were not saved."
+
+msgid "msg_selected_for_move"
+msgstr "Vragen geselecteerd om te worden verplaatst."
+
+msgid "new_category"
+msgstr "Nieuwe categorie"
+
+msgid "new_unit"
+msgstr "Nieuwe eenheid"
+
+msgid "next_question"
+msgstr "Sla op en ga naar volgende vraag"
+
+msgid "next_question_rows"
+msgstr "Vragen %d - %d van %d >>"
+
+#, fuzzy
+msgid "no_manual_feedback_export_info"
+msgstr "Manual feedbacks will not be exported."
+
+#, fuzzy
+msgid "no_passed_after_failed"
+msgstr "Failing marks cannot have a higher minimum level than any passing mark."
+
+msgid "no_passed_mark"
+msgstr "Je moet 1 punt op geslaagd zetten! Het punten schema is niet opgeslaan"
+
+msgid "no_question_selected_for_move"
+msgstr "Selecteer tenminste één vraag om te verplaatsen!"
+
+msgid "no_questions_available"
+msgstr "Er zijn geen vragen beschikbaar"
+
+msgid "no_result_type"
+msgstr "Selecteer Geen-resultaat type"
+
+msgid "no_selection"
+msgstr "--- Geen Keuze ---"
+
+msgid "no_selection_for_move"
+msgstr "Geen vragen geselecteerd om te verplaatsen."
+
+msgid "no_target_selected_for_move"
+msgstr "Je moet een doelpositie selecteren!"
+
+msgid "no_user_or_group_selected"
+msgstr "Aanvinken waar je naar zoekt (gebruikers, rollen,  groepen, enz.)!"
+
+#, fuzzy
+msgid "no_valid_participant_selection"
+msgstr "No valid Participants selected."
+
+#, fuzzy
+msgid "not_evaluated_users"
+msgstr "Not Yet Evaluated User"
+
+#, fuzzy
+msgid "not_started"
+msgstr "Not started yet"
+
+msgid "not_yet_accessed"
+msgstr "Nog niet toegangkelijk"
+
+msgid "nr_of_correct_answers"
+msgstr "Aantal verplichten antwoorden"
+
+msgid "number_of_answers"
+msgstr "Aantal antwoorden"
+
+msgid "numeric_gap"
+msgstr "Numerieke periode"
+
+#, fuzzy
+msgid "old_mark_default_not_applied"
+msgstr "The marks from your personal settings could not be applied as they use an old format. All other settings have been updated."
+
+msgid "option_label"
+msgstr "Optie Labels"
+
+msgid "option_label_adequate"
+msgstr "adequaat"
+
+msgid "option_label_adequate_or_not"
+msgstr "adequaat/ niet adequaat"
+
+msgid "option_label_applicable"
+msgstr "van toepassing"
+
+msgid "option_label_applicable_or_not"
+msgstr "van toepassing / niet van toepassing"
+
+msgid "option_label_custom"
+msgstr "Gebruikersgedefinieerde labels"
+
+msgid "option_label_custom_false"
+msgstr "Label voor \"NIET WAAR\""
+
+msgid "option_label_custom_true"
+msgstr "Label voor \"WAAR\""
+
+msgid "option_label_info"
+msgstr "De geconfigureerde zinnen zullen worden gebruikt als labels voor de opties geselecteerd door de deelnemer."
+
+msgid "option_label_minus"
+msgstr "-"
+
+msgid "option_label_not_adequate"
+msgstr "niet adequaat"
+
+msgid "option_label_not_applicable"
+msgstr "niet van toepassing"
+
+msgid "option_label_plus"
+msgstr "+"
+
+msgid "option_label_plus_minus"
+msgstr "+ / -"
+
+msgid "option_label_right"
+msgstr "goed"
+
+msgid "option_label_right_wrong"
+msgstr "goed / fout"
+
+msgid "option_label_wrong"
+msgstr "fout"
+
+msgid "oq_btn_define_pictures"
+msgstr "Verander naar afbeelding definitie aanzicht"
+
+msgid "oq_btn_define_terms"
+msgstr "Verander naar tekst definitie aanzicht"
+
+msgid "oq_btn_nest_pictures"
+msgstr "Verander naar afbeelding-nesting aanzicht"
+
+msgid "oq_btn_nest_terms"
+msgstr "Verander naar tekst-nesting aanzicht"
+
+msgid "oq_btn_use_order_pictures"
+msgstr "Gebruik antwoord afbeelding"
+
+msgid "oq_btn_use_order_terms"
+msgstr "Gebruik antwoord tekst"
+
+msgid "oq_header_ordering_elements"
+msgstr "Elementen ordenen"
+
+msgid "or"
+msgstr "of"
+
+#, fuzzy
+msgid "order"
+msgstr "Order"
+
+msgid "ordering_answer_sequence_info"
+msgstr "De volgorde van de antwoorden die je hebt bepaald, wordt beschouwd als de juiste volgorde."
+
+msgid "ordertext"
+msgstr "Tekstvolgorde"
+
+msgid "ordertext_info"
+msgstr "Voer de tekst in die horizontaal komt te staan. De tekst wordt gescheiden door spaties. Als je daarvoor iets anders wenst gebruik dan %s om je tekstonderdelen te scheiden."
+
+#, fuzzy
+msgid "out_of_range"
+msgstr "Out of range"
+
+msgid "output"
+msgstr "Output"
+
+msgid "output_mode"
+msgstr "Output modus"
+
+msgid "parseQuestion"
+msgstr "Vraag ontleden"
+
+msgid "part_received_a_of_b_points"
+msgstr "De deelnemer heeft %s van de mogelijke %s punten gehaald"
+
+msgid "participants"
+msgstr "Deelnemers"
+
+msgid "participants_invitation"
+msgstr "Nodig vaste deelnemers uit"
+
+msgid "participants_invitation_description"
+msgstr "Je kunt deze toets slechts voor een vaste groep gebruikers toegankelijk maken. Om deze functionaliteit toe te laten, gelieve bovengenoemde checkbox te controleren en op de 'opslaan' knop klikken."
+
+#, fuzzy
+msgid "participants_results_subtab"
+msgstr "All Participants"
+
+msgid "pass"
+msgstr "Geslaagd"
+
+msgid "pass_finished"
+msgstr "%s pas"
+
+msgid "passed_official"
+msgstr "Geslaagd"
+
+msgid "passed_only"
+msgstr "Enkel geslaagde toetsten"
+
+msgid "passed_short"
+msgstr "Geslaagd"
+
+#, fuzzy
+msgid "passed_status"
+msgstr "Passed Status"
+
+msgid "passes_finished"
+msgstr "%s gehaald"
+
+msgid "percentage"
+msgstr "Percentage"
+
+#, fuzzy
+msgid "percentage_points_achieved"
+msgstr "Reached Points"
+
+msgid "percentile"
+msgstr "Percentiel"
+
+#, fuzzy
+msgid "personal_settings_apply"
+msgstr "Apply Settings Template"
+
+#, fuzzy
+msgid "personal_settings_apply_changed_confirmation"
+msgstr "The current test settings will be overwritten with the settings from the selected template. This also overwrites the Selection of Test Questions. The process cannot be undone!"
+
+#, fuzzy
+msgid "personal_settings_apply_confirmation"
+msgstr "The current test settings will be overwritten with the settings from the selected template. This process cannot be undone!"
+
+#, fuzzy
+msgid "personal_settings_apply_description"
+msgstr "This template overrides all settings of test '%s'."
+
+#, fuzzy
+msgid "personal_settings_apply_not_possible"
+msgstr "ILIAS could not apply the selected template to this test! Maybe this test already contains participant data sets."
+
+#, fuzzy
+msgid "personal_settings_apply_success"
+msgstr "Personal Test Settings have been applied successfully."
+
+#, fuzzy
+msgid "personal_settings_author"
+msgstr "Created by"
+
+#, fuzzy
+msgid "personal_settings_create"
+msgstr "Add New Setting Template"
+
+#, fuzzy
+msgid "personal_settings_delete_confirmation"
+msgstr "The selected template(s) will be permanently deleted. This cannot be undone."
+
+#, fuzzy
+msgid "personal_settings_delete_success"
+msgstr "The selected template(s) have been deleted."
+
+#, fuzzy
+msgid "personal_settings_description"
+msgstr "Template Description"
+
+#, fuzzy
+msgid "personal_settings_explanation"
+msgstr "ILIAS will store the settings of the current test in a template. This template can be used to transfer the settings to another test."
+
+#, fuzzy
+msgid "personal_settings_export"
+msgstr "Export Settings Template"
+
+#, fuzzy
+msgid "personal_settings_import"
+msgstr "Import Setting Templates"
+
+#, fuzzy
+msgid "personal_settings_import_success"
+msgstr "The template was imported successfully."
+
+#, fuzzy
+msgid "personal_settings_invalid_selection"
+msgstr "Please select one template."
+
+#, fuzzy
+msgid "personal_settings_name"
+msgstr "Template Title"
+
+#, fuzzy
+msgid "personal_settings_required_author"
+msgstr "Please enter an author for your template."
+
+#, fuzzy
+msgid "personal_settings_required_title"
+msgstr "Please enter a title for your template."
+
+#, fuzzy
+msgid "personal_settings_save"
+msgstr "Save New Setting Template"
+
+#, fuzzy
+msgid "personal_settings_show"
+msgstr "Show Template Details"
+
+#, fuzzy
+msgid "personal_settings_templates_available"
+msgstr "Personal Test Settings Templates"
+
+#, fuzzy
+msgid "personal_settings_timestamp"
+msgstr "Creation Date"
+
+msgid "picture"
+msgstr "Afbeeldingen"
+
+msgid "point"
+msgstr "Punt"
+
+msgid "points"
+msgstr "Punten"
+
+msgid "points_checked"
+msgstr "Punten voor selecteren juiste antwoorden"
+
+#, fuzzy
+msgid "points_non_numeric_or_negative_msg"
+msgstr "Inputs for points only accept positive numeric values."
+
+msgid "points_short"
+msgstr "Ptn."
+
+msgid "points_unchecked"
+msgstr "Punten voor niet selecteren onjuiste antwoorden"
+
+msgid "points_wrong"
+msgstr "Verkeerde selectie"
+
+msgid "points_wrong_info"
+msgstr "Wijzig de punten voor alle selecties die niet in de lijst van gemarkeerde fouten staan."
+
+msgid "polygon"
+msgstr "Polygoon"
+
+msgid "polygon_click_next_or_save"
+msgstr "Klik op de volgende punt van de polygoon of sla het gebied op. (Het is niet noodzakelijk om weer op het startpunt van de polygoon te klikken!)"
+
+msgid "polygon_click_next_point"
+msgstr "Klik op de volgende punt van de polygoon"
+
+msgid "polygon_click_starting_point"
+msgstr "Klik op het startpunt van de polygoon"
+
+msgid "positive_numbers_required"
+msgstr "Je mag alleen positieve nummers ingeven."
+
+# fau: testNav
+msgid "postpone_question"
+msgstr "Move Question to the End"
+
+msgid "postponed"
+msgstr "Uitgesteld"
+
+msgid "precision"
+msgstr "Precisie"
+
+msgid "previous_question"
+msgstr "Sla op en ga naar vorige vraag"
+
+msgid "previous_question_rows"
+msgstr "<< Vragen %d - %d van %d"
+
+#, fuzzy
+msgid "print_answers"
+msgstr "Print Answers"
+
+msgid "qpl_assessment_no_assessment_of_questions"
+msgstr "Er is geen schatting beschikbaar voor de geselecteerde vraag. De vraag is nog nooit in een toets gebruikt"
+
+msgid "qpl_assessment_total_of_answers"
+msgstr "Totaal aantal antwoorden"
+
+msgid "qpl_assessment_total_of_right_answers"
+msgstr "Totaal percentage goede antwoorden (percentage van het  maximum aantal punten)"
+
+#, fuzzy
+msgid "qpl_bulk_save_add"
+msgstr "Add"
+
+#, fuzzy
+msgid "qpl_bulk_save_overwrite"
+msgstr "Overwrite"
+
+#, fuzzy
+msgid "qpl_bulkedit_success"
+msgstr "Modifications saved."
+
+#, fuzzy
+msgid "qpl_cancel_skill_assigns_update"
+msgstr "Cancel"
+
+msgid "qpl_confirm_delete_questions"
+msgstr "Weet je zeker dat je de volgende vraag(vragen) wilt verwijderen Als je een geblokkeerde vraag verwijderd, dan worden de resultaten van alle toetsen die deze geblokkeerde vraag bevatten, ook verwijderd."
+
+msgid "qpl_copy_insert_clipboard"
+msgstr "De geselecteerde vragen zijn gekopieerd naar het klembord"
+
+msgid "qpl_copy_select_none"
+msgstr "Selecteer minstens één  vraag om te kopiëren naar het klembord"
+
+msgid "qpl_delete_rbac_error"
+msgstr "Je hebt geen toegang om deze vraag te verwijderen!"
+
+msgid "qpl_delete_select_none"
+msgstr "Selecteer minstens één vraag voor verwijderen"
+
+msgid "qpl_export_excel"
+msgstr "Microsoft Excel bestand"
+
+msgid "qpl_export_select_none"
+msgstr "Selecteer minstens één vraag voor export"
+
+msgid "qpl_export_xml"
+msgstr "QTI XML bestand"
+
+msgid "qpl_form_general_settings"
+msgstr "Algemene Instellingen"
+
+msgid "qpl_imagemap_preview_missing"
+msgstr "ILIAS kan geen tijdelijk voorbeeld tonen. De originele afbeelding wordt in de plaats daarvan getoond. Dit betekent dat de webserver's ImageMagick tool niet goed geïnstalleerd is of de tijdelijke map geen schrijfrechten heeft. Neem hiervoor contact met de systeembeheerder."
+
+msgid "qpl_import_create_new_qpl"
+msgstr "Importeer de vragen in de vragenpool"
+
+msgid "qpl_import_no_items"
+msgstr "Fout: Het import bestand bevat geen vragen"
+
+msgid "qpl_import_non_ilias_files"
+msgstr "Error: Het import bestand bevat QTI files die niet gemaakt zijn door een ILIAS systeem. Contacteer de ILIAS beheerder om een import filter voor QTI bestanden te verkrijgen"
+
+#, fuzzy
+msgid "qpl_import_step_persist"
+msgstr "Import question pool"
+
+#, fuzzy
+msgid "qpl_import_step_select"
+msgstr "Select questions to import"
+
+msgid "qpl_import_verify_found_questions"
+msgstr "ILIAS heeft de volgende vraag gevonden in het import bestand. Selecteer de vragen die je wilt importeren"
+
+#, fuzzy
+msgid "qpl_lac_desc_brackets"
+msgstr "Brackets"
+
+#, fuzzy
+msgid "qpl_lac_desc_compare_answer_exist"
+msgstr "Compare if there is an Answer for a Question/Gap"
+
+#, fuzzy
+msgid "qpl_lac_desc_compare_with_answer_n"
+msgstr "Compare the Result with the n-th Answer of the Question"
+
+#, fuzzy
+msgid "qpl_lac_desc_compare_with_assignment"
+msgstr "Compare the Result with the Matching n:m"
+
+#, fuzzy
+msgid "qpl_lac_desc_compare_with_exact_sequence"
+msgstr "Compare the Result with exactly the Given Sequence"
+
+#, fuzzy
+msgid "qpl_lac_desc_compare_with_number"
+msgstr "Compare the Result with the Number n"
+
+#, fuzzy
+msgid "qpl_lac_desc_compare_with_quest_res"
+msgstr "Compare the Result with the Reached Points in Percent"
+
+#, fuzzy
+msgid "qpl_lac_desc_compare_with_sequence"
+msgstr "Compare the Result with the Answer Sequence ($a,..,z$)"
+
+#, fuzzy
+msgid "qpl_lac_desc_compare_with_text"
+msgstr "Compare the Result with the text TEXT"
+
+#, fuzzy
+msgid "qpl_lac_desc_logical_and"
+msgstr "Logical AND"
+
+#, fuzzy
+msgid "qpl_lac_desc_logical_or"
+msgstr "Logical OR"
+
+#, fuzzy
+msgid "qpl_lac_desc_negation"
+msgstr "Negation"
+
+#, fuzzy
+msgid "qpl_lac_desc_res_of_answ_m_of_cur_quest"
+msgstr "Result of m-th Answer of Current Question"
+
+#, fuzzy
+msgid "qpl_lac_desc_res_of_cur_quest"
+msgstr "Result of Current Question"
+
+#, fuzzy
+msgid "qpl_lac_legend_header_common"
+msgstr "Expression Logic"
+
+#, fuzzy
+msgid "qpl_lac_legend_header_quest_specific"
+msgstr "Question Specific Expressions"
+
+#, fuzzy
+msgid "qpl_lac_legend_label_operators"
+msgstr "Operators"
+
+msgid "qpl_maxchars_info_numeric_question"
+msgstr "Maximale lengte van numeriek antwoord; meer karakters dan dat je hier opgeeft kunnen niet worden ingegeven. De decimale komma telt mee als een karakter."
+
+msgid "qpl_move_insert_clipboard"
+msgstr "De geselecteerde vragen zijn gemarkeerd om te verwijderen"
+
+msgid "qpl_move_select_none"
+msgstr "Selecteer tenminste 1 vraag om te markeren voor verwijdering"
+
+#, fuzzy
+msgid "qpl_numeric_lower_needs_valid_lower_alert"
+msgstr "The lower bound needs to be valid numerical value lower than the upper bound."
+
+#, fuzzy
+msgid "qpl_numeric_upper_needs_valid_upper_alert"
+msgstr "The upper bound needs to be valid numerical value greater than the lower bound."
+
+msgid "qpl_paste_error"
+msgstr "Tenminste één vraag kon niet worden geplakt in de vragenpool. Een mogelijke reden: Je hebt geprobeerd om de vraag naar dezelfde pool te verplaatsen."
+
+msgid "qpl_paste_no_objects"
+msgstr "Er zijn geen vragen op het klembord. Kopiëer een vraag naar het klembord"
+
+msgid "qpl_paste_success"
+msgstr "De vragen zijn toegevoegd aan de vragenpool"
+
+msgid "qpl_qst_edit_form_taxonomy"
+msgstr "Taxonomy \"%s\""
+
+msgid "qpl_qst_edit_form_taxonomy_section"
+msgstr "Taxonomies"
+
+msgid "qpl_qst_inp_matching_mode"
+msgstr "Matching modus"
+
+msgid "qpl_qst_inp_matching_mode_all_on_all"
+msgstr "Eén of meer termen corresponderen met één of meer definities (n:n)"
+
+msgid "qpl_qst_inp_matching_mode_one_on_one"
+msgstr "Eén term correspondeert met één definitie"
+
+#, fuzzy
+msgid "qpl_qst_skl_assign_properties_modified"
+msgstr "The assignment's properties has been modified."
+
+#, fuzzy
+msgid "qpl_qst_skl_assign_synced_to_orig"
+msgstr "The competence assignments has been synchronised to the questions original."
+
+#, fuzzy
+msgid "qpl_qst_skl_assigns_updated"
+msgstr "The competence assignments has been updated."
+
+#, fuzzy
+msgid "qpl_qst_skl_selection_for_question_header"
+msgstr "Compence Assignments for Question: %s"
+
+#, fuzzy
+msgid "qpl_qst_skl_usg_numq_col"
+msgstr "Number of Questions in Pool adressing this competence"
+
+#, fuzzy
+msgid "qpl_qst_skl_usg_skill_col"
+msgstr "Competence"
+
+#, fuzzy
+msgid "qpl_qst_skl_usg_sklpnt_col"
+msgstr "Total Sum of Competence-Points per Competence"
+
+msgid "qpl_question_is_in_use"
+msgstr "De vraag, die je nu gaat wijzigen, bestaat al in %s toets(en). Als je deze vraag nu wijzigt, wijzig je niet de vraag/vragen in de toets(en), omdat het systeem een kopie van de vraag maakt als de vraag in een toets wordt opgenomen!"
+
+msgid "qpl_questions_deleted"
+msgstr "Vraag/vragen verwijderd."
+
+msgid "qpl_reset_preview"
+msgstr "Herstel beeld"
+
+#, fuzzy
+msgid "qpl_save_skill_assigns_update"
+msgstr "Save Competence Assignments"
+
+#, fuzzy
+msgid "qpl_settings_availability"
+msgstr "Availability"
+
+msgid "qpl_settings_general_form_prop_show_tax_desc"
+msgstr "When enabled, possibly created taxonomies are shown for filtering."
+
+msgid "qpl_settings_general_form_property_nav_taxonomy"
+msgstr "Taxonomy Filter as Navigation Tree"
+
+msgid "qpl_settings_general_form_property_nav_taxonomy_description"
+msgstr "When a taxonomy is selected, it well be presented as navigation tree instead of a table filter item."
+
+msgid "qpl_settings_general_form_property_opt_notax_selected"
+msgstr "Use No Navigation Tree Filter"
+
+msgid "qpl_settings_general_form_property_show_taxonomies"
+msgstr "Show Taxonomies"
+
+msgid "qpl_settings_subtab_general"
+msgstr "General Settings"
+
+msgid "qpl_settings_subtab_taxonomies"
+msgstr "Taxonomies"
+
+#, fuzzy
+msgid "qpl_skill_point_eval_by_quest_result"
+msgstr "Evaluation of Competence Points by Question Result"
+
+#, fuzzy
+msgid "qpl_skill_point_eval_by_solution_compare"
+msgstr "Evaluation of Competence Points by Solution Compare"
+
+#, fuzzy
+msgid "qpl_skill_point_eval_mode_quest_result"
+msgstr "Question Result"
+
+#, fuzzy
+msgid "qpl_skill_point_eval_mode_solution_compare"
+msgstr "Solution Compare"
+
+#, fuzzy
+msgid "qpl_skl_all_questions"
+msgstr "All questions"
+
+#, fuzzy
+msgid "qpl_skl_assigned_questions"
+msgstr "Questions with assignment"
+
+#, fuzzy
+msgid "qpl_skl_assignment_for_question"
+msgstr "Competence assignments for question „%s“"
+
+#, fuzzy
+msgid "qpl_skl_sub_tab_quest_assign"
+msgstr "Question/Competence Assignment"
+
+#, fuzzy
+msgid "qpl_skl_sub_tab_usages"
+msgstr "Assignment Frequency"
+
+#, fuzzy
+msgid "qpl_skl_unassigned_questions"
+msgstr "Questions without assignment"
+
+#, fuzzy
+msgid "qpl_skl_view_control_mode_aria:"
+msgstr "View control mode"
+
+#, fuzzy
+msgid "qpl_sync_quest_skl_assigns_confirmation"
+msgstr "The question was inserted from another repository object. Should the question's original be updated with the current config of competence assignments?"
+
+#, fuzzy
+msgid "qpl_tab_competences"
+msgstr "Competences"
+
+#, fuzzy
+msgid "qpl_taxonomy_tab_info_message"
+msgstr "Taxonomies in question pools can be used to filter the questions. After activating the function in the \"Settings\" tab, they are displayed in the filter in the \"Questions\" tab."
+
+#, fuzzy
+msgid "qst_error_text_too_long"
+msgstr "One or more text elements marked as erroneous are too long. The maximum size for a text element marked as erroneous is 150 characters:"
+
+#, fuzzy
+msgid "qst_essay_allready_written_words"
+msgstr "Already entered words:"
+
+#, fuzzy
+msgid "qst_essay_chars_remaining"
+msgstr "Remaining characters:"
+
+#, fuzzy
+msgid "qst_essay_wordcounter_enabled"
+msgstr "Count Words"
+
+#, fuzzy
+msgid "qst_essay_wordcounter_enabled_info"
+msgstr "The entered words are counted. The number of written words is shown to the participants below the text input field."
+
+#, fuzzy
+msgid "qst_essay_written_words"
+msgstr "Number of entered words:"
+
+#, fuzzy
+msgid "qst_lifecycle"
+msgstr "Lifecycle"
+
+#, fuzzy
+msgid "qst_lifecycle_draft"
+msgstr "Draft"
+
+#, fuzzy
+msgid "qst_lifecycle_filter_all"
+msgstr "All Lifecycles"
+
+#, fuzzy
+msgid "qst_lifecycle_final"
+msgstr "Final"
+
+#, fuzzy
+msgid "qst_lifecycle_outdated"
+msgstr "Outdated"
+
+#, fuzzy
+msgid "qst_lifecycle_rejected"
+msgstr "Rejected"
+
+#, fuzzy
+msgid "qst_lifecycle_review"
+msgstr "To be Reviewed"
+
+#, fuzzy
+msgid "qst_lifecycle_sharable"
+msgstr "Sharable"
+
+#, fuzzy
+msgid "qst_nested_nested_answers_off"
+msgstr "No indents, just order"
+
+#, fuzzy
+msgid "qst_nested_nested_answers_on"
+msgstr "Use indents in anwers"
+
+msgid "qst_nr_of_tries"
+msgstr "Aantal pogingen"
+
+msgid "qst_preview_reset_msg"
+msgstr "Het beeld was hersteld."
+
+#, fuzzy
+msgid "qst_use_nested_answers"
+msgstr "Nested answers"
+
+#, fuzzy
+msgid "qst_use_nested_answers_info"
+msgstr "After selecting 'Nested Answers', you will need to save the question. A new 'Nesting' subtab will then appear at the top of the screen, where you can arrange the answer elements into a hierarchy of your choice."
+
+msgid "que_contains_unused_var"
+msgstr "De vraagtekst bevat een variabele dat niet wordt gebruikt in een resultaatformule!"
+
+#, fuzzy
+msgid "question_browse_area_info"
+msgstr "Please select an object from which you want to import questions."
+
+#, fuzzy
+msgid "question_complete_title"
+msgstr "Complete"
+
+msgid "question_cumulated_statistics"
+msgstr "De gecumuleerde statistieken van de vraag"
+
+msgid "question_id"
+msgstr "Vraag ID"
+
+msgid "question_id_short"
+msgstr "ID"
+
+msgid "question_instances_title"
+msgstr "Deze vraag wordt gebruikt in de volgende toetsen"
+
+#, fuzzy
+msgid "question_is_part_of_running_test"
+msgstr "Question is part of a running test and may not be edited."
+
+msgid "question_marking"
+msgstr "Toon gemarkeerde vragen"
+
+msgid "question_marking_description"
+msgstr "Indien geselecteerd, kan iedere deelnemer elke vraag markeren van de toets."
+
+msgid "question_not_answered"
+msgstr "De vraag werd niet beantwoord"
+
+msgid "question_saved_for_upload"
+msgstr "De vraag werd automatisch opgeslagen om schrijfruimte te reserveren voor het te uploaden bestand. Als je de verwerking van deze vraag nu annuleert moet je de vraag zelf verwijderen uit de vragenpool, als je deze niet wilt bewaren!"
+
+msgid "question_summary"
+msgstr "Lijst van vragen"
+
+#, fuzzy
+msgid "question_summary_btn"
+msgstr "Processing Status"
+
+msgid "question_title"
+msgstr "Vraag titel"
+
+msgid "question_type"
+msgstr "Vraag type"
+
+#, fuzzy
+msgid "questionlist_cannot_be_altered"
+msgstr "The question list cannot be altered as the test already contains participant data sets."
+
+msgid "questionpool_not_entered"
+msgstr "Geef een naam voor de vragenpool!"
+
+#, fuzzy
+msgid "questionpool_not_selected"
+msgstr "Please select a question pool!"
+
+#, fuzzy
+msgid "questions"
+msgstr "Questions"
+
+msgid "questions_from"
+msgstr "vragen van"
+
+msgid "questions_per_page_view"
+msgstr "Paginabeeld"
+
+msgid "random_accept_sample"
+msgstr "Accepteer voorbeeld"
+
+msgid "random_another_sample"
+msgstr "Kies een ander voorbeeld"
+
+msgid "random_selection"
+msgstr "Willekeurige selectie"
+
+msgid "range"
+msgstr "Limiet"
+
+msgid "range_lower_limit"
+msgstr "Verlaag limit"
+
+msgid "range_max"
+msgstr "Bereik (Maximum)"
+
+msgid "range_min"
+msgstr "Bereik (Minimum)"
+
+msgid "range_upper_limit"
+msgstr "Verhoog limit"
+
+msgid "rated_sign"
+msgstr "Teken"
+
+msgid "rated_unit"
+msgstr "Eenheid"
+
+msgid "rated_value"
+msgstr "Beoordeling"
+
+msgid "rating"
+msgstr "Beoordeling"
+
+msgid "rating_sign"
+msgstr "Beoordelingsteken"
+
+msgid "rating_simple"
+msgstr "Eenvoudige beoordeling"
+
+msgid "rating_unit"
+msgstr "Beoordelingseenheid"
+
+msgid "rating_value"
+msgstr "Beoordelingsgetal"
+
+msgid "rectangle"
+msgstr "Rechthoek"
+
+msgid "rectangle_click_br_corner"
+msgstr "Klik op de hoek rechtsonder van het gewenste gebied."
+
+msgid "rectangle_click_tl_corner"
+msgstr "Klik op de hoek linksboven van het gewenste gebied."
+
+msgid "redirectAfterSave"
+msgstr "De maximale werktijd is bereikt en de laatste vraag is automatisch opgeslagen. In enkele seconden wordt je doorgeleid..."
+
+#, fuzzy
+msgid "redirect_after_finishing_rule"
+msgstr "Redirect"
+
+msgid "redirect_after_finishing_tst"
+msgstr "Verwijzing na voltooien van toets"
+
+msgid "redirect_after_finishing_tst_desc"
+msgstr "De deelnemer wordt, na voltooing van de toets, automatisch naar een bepaalde website geleid. Dat gebeurt alleen als de toets zodanig is geconfigureerd dat de deelnemer na het voltoooien van de toets het resultaat niet kan inzien."
+
+#, fuzzy
+msgid "redirect_always"
+msgstr "always to defined webpage"
+
+#, fuzzy
+msgid "redirect_always_to_logout"
+msgstr "Always to the logout screen"
+
+msgid "redirect_in_kiosk_mode"
+msgstr "Doorsturen alleen in kiosk modus"
+
+#, fuzzy
+msgid "redirect_url_invalid"
+msgstr "Please enter a valid url of the target webpage."
+
+#, fuzzy
+msgid "redirect_url_required_for_rule"
+msgstr "The url of the webpage is required when \"%s\" is selected."
+
+msgid "redirection_url"
+msgstr "Omleiden naar"
+
+msgid "region"
+msgstr "Regio"
+
+#, fuzzy
+msgid "remaining_duration"
+msgstr "Remaining Duration"
+
+msgid "remove_gap"
+msgstr "Verwijder Gap"
+
+msgid "remove_participants"
+msgstr "Verwijder als vaste deelnemer"
+
+msgid "remove_question"
+msgstr "Verwijder"
+
+#, fuzzy
+msgid "remove_selected_participants_confirmation"
+msgstr "Are you sure you want to remove the selected participants from the test?"
+
+#, fuzzy
+msgid "remove_selected_templates_confirmation"
+msgstr "Are you sure you want to permanently remove the selected personal test settings templates?"
+
+msgid "remove_solution"
+msgstr "Verwijder voorgestelde oplossing"
+
+msgid "res_contains_undef_res"
+msgstr "Een resultaatvariabele bevat een ongedefinieerd resultaat!"
+
+msgid "res_contains_undef_var"
+msgstr "Een resultaatformule bevat een ongedefinieerde variabele!"
+
+msgid "reset_definitions"
+msgstr "Reset Definition Positie"
+
+msgid "reset_pictures"
+msgstr "Herstel positionering van afbeeldingen"
+
+msgid "reset_terms"
+msgstr "Herstel positionering van termen"
+
+msgid "result"
+msgstr "Resultaat"
+
+msgid "result_co_frac"
+msgstr "Relatief priem fractie"
+
+msgid "result_co_frac_info"
+msgstr "Vereenvoudigde breuk bv: alleen 1/3 is een geldig resultaat"
+
+msgid "result_dec"
+msgstr "Decimaal"
+
+msgid "result_dec_info"
+msgstr "Geldige resultaten zijn bijvoorbeeld: 2,3 en 2.3"
+
+msgid "result_frac"
+msgstr "Fractie"
+
+msgid "result_frac_info"
+msgstr "bv: 1/3 en 2/6 zijn geldige resultaten"
+
+msgid "result_type_selection"
+msgstr "Resultaat-type Selectie"
+
+msgid "result_unit_info"
+msgstr "Let er op dat de geselecteerde eenheid ook geactiveerd mooet zijn in de \"beschikbare eenheden\"."
+
+msgid "result_units"
+msgstr "Beschikbare eenheden"
+
+msgid "result_units_info"
+msgstr "De geselecteerde eenheid wordt aangeboden aan de deelnemer als onderdeel van een antword. De deelnemer moet een eenheid kiezen."
+
+msgid "result_x"
+msgstr "Resultaat %s"
+
+msgid "results"
+msgstr "Resultaten"
+
+#, fuzzy
+msgid "results_tab"
+msgstr "Results"
+
+#, fuzzy
+msgid "resulttable_all"
+msgstr "All"
+
+#, fuzzy
+msgid "resulttable_correct"
+msgstr "Correct"
+
+#, fuzzy
+msgid "resulttable_incorrect"
+msgstr "Incorrect/Incomplete"
+
+#, fuzzy
+msgid "resulttable_vc_sort_iooa"
+msgstr "in order of appearance"
+
+#, fuzzy
+msgid "resulttable_vc_sort_posscore"
+msgstr "highest possible score first"
+
+msgid "review_view"
+msgstr "Review"
+
+#, fuzzy
+msgid "running"
+msgstr "Running"
+
+msgid "saveOrder"
+msgstr "Volgorde opslaan"
+
+msgid "saveOrderAndObligations"
+msgstr "Volgorde en verplichtingen opslaan"
+
+msgid "save_and_next"
+msgstr "Opslaan en doorgaan"
+
+# fau: testNav
+msgid "save_on_navigation"
+msgstr "Save on Navigation"
+
+# fau: testNav
+msgid "save_on_navigation_confirmation"
+msgstr "Your changed answers will be automatically saved when you navigate."
+
+# fau: testNav
+msgid "save_on_navigation_forced_feedback_hint"
+msgstr "Before you get feedback on your given answer."
+
+# fau: testNav
+msgid "save_on_navigation_locked_confirmation"
+msgstr "Your changed answers will be automatically saved and locked when you navigate."
+
+msgid "saved_adjustment"
+msgstr "Changes saved."
+
+#, fuzzy
+msgid "score_anon"
+msgstr "Score anonymously"
+
+msgid "score_partsol_enabled"
+msgstr "Scoren van gedeeltelijke oplossingen"
+
+msgid "score_partsol_enabled_info"
+msgstr "Normaal moet de deelnemer de vraag volledig correct beantwoorden om de punten te krijgen. Met deze optie krijgt de deelnemer de helft van het aantal punten als er gtenminste drie correct beslissingen zijn."
+
+#, fuzzy
+msgid "scored_by"
+msgstr "Scored BY"
+
+msgid "scored_pass"
+msgstr "score geslaagd"
+
+msgid "scoring"
+msgstr "Score en resultaat"
+
+msgid "scoringadjust"
+msgstr "Correcties"
+
+msgid "search_groups"
+msgstr "Zoek groepen"
+
+msgid "search_roles"
+msgstr "Zoek rollen"
+
+msgid "search_term"
+msgstr "Zoek begrippen"
+
+#, fuzzy
+msgid "select_at_least_one_feedback_type_and_trigger"
+msgstr "Please Select at least one type of feedback and a trigger."
+
+#, fuzzy
+msgid "select_at_least_one_lock_answer_type"
+msgstr "Please select at least one type of answer lock."
+
+msgid "select_gap"
+msgstr "Selecteer gaten"
+
+msgid "select_max_one_item"
+msgstr "Selecteer minstens 1 item"
+
+msgid "select_one_user"
+msgstr "Selecteer minstens 1 gebruiker"
+
+#, fuzzy
+msgid "select_question"
+msgstr "Select a Question"
+
+msgid "select_target_position_for_move_question"
+msgstr "Selecteer doelpositie om de vraag/vragen te verplaatsen en druk op één van de invoeg-buttons!"
+
+msgid "select_unit"
+msgstr "--- Selecteer eenheid ---"
+
+msgid "selected_category"
+msgstr "Geselecteerde Categorie: %s"
+
+msgid "selection"
+msgstr "Selectie"
+
+msgid "set_edit_mode"
+msgstr "Ga naar wijzig modus"
+
+msgid "set_filter"
+msgstr "Instellen filter"
+
+msgid "set_manscoring_done"
+msgstr "\"Markeer deze deelnemer als \"\"Scorende Deelnemer\"\"\""
+
+#, fuzzy
+msgid "set_manscoring_open"
+msgstr "Remove 'scoring complete' flag"
+
+msgid "set_manual_feedback"
+msgstr "Handmatige feedback geven"
+
+msgid "shape"
+msgstr "Vorm"
+
+msgid "showSuggestedSolution"
+msgstr "Voorgestelde oplossing"
+
+msgid "show_all_test_properties_on_info_page"
+msgstr "Toon de volledige informatiepagina"
+
+msgid "show_all_test_properties_on_info_page_byline"
+msgstr "Indien aangevinkt wordt de complete Toets informatie pagina getoond (inclusief de toets eigenschappen). Indien niet aangevinkt wordt alleen de inleidende tekst (indien aanwezig) en de vereiste eigenschappen getoond op de Toets Informatie Bladzijde."
+
+msgid "show_answer_overview"
+msgstr "Toon antwoordenoverzicht"
+
+#, fuzzy
+msgid "show_best_solution"
+msgstr "Show best solution"
+
+msgid "show_detailed_results"
+msgstr "Toon gedetailleerde resultaten voor gebruiker."
+
+msgid "show_examview_html"
+msgstr "Toon examenbeeld op de pagina waar toets wordt ingediend."
+
+#, fuzzy
+msgid "show_hide_best_solution"
+msgstr "Show or hide best solution"
+
+#, fuzzy
+msgid "show_old_concluding_remarks"
+msgstr "Show old conlcuding remarks"
+
+#, fuzzy
+msgid "show_old_introduction"
+msgstr "Show old introduction"
+
+msgid "show_pass_overview"
+msgstr "Toon gemarkeerde afgelopen toetsen"
+
+#, fuzzy
+msgid "show_results"
+msgstr "Show Results"
+
+msgid "show_user_answers"
+msgstr "Toon gebruikers gemarkeerde antwoorden."
+
+msgid "shuffle_answers"
+msgstr "Antwoorden mixen"
+
+#, fuzzy
+msgid "skip_question"
+msgstr "Do not Answer and Next"
+
+#, fuzzy
+msgid "solution"
+msgstr "Solution"
+
+msgid "solutionText"
+msgstr "Tekst"
+
+msgid "solution_contain_keywords"
+msgstr "Score is gebaseerd op het voorkomen van het volgende sleutelwoord:"
+
+msgid "solution_hint"
+msgstr "Hint"
+
+#, fuzzy
+msgid "solutions"
+msgstr "Solutions"
+
+msgid "start_tag"
+msgstr "Begin label"
+
+msgid "statistical_data"
+msgstr "Statische gegevens"
+
+msgid "statistics"
+msgstr "Statistieken"
+
+#, fuzzy
+msgid "status_of_attempt"
+msgstr "Status of Attempt"
+
+#, fuzzy
+msgid "submit_and_check"
+msgstr "Submit and Check Answer"
+
+#, fuzzy
+msgid "submit_answer"
+msgstr "Submit Answer"
+
+msgid "suggest_range"
+msgstr "Suggereer bereik"
+
+msgid "suggestedSolutionType"
+msgstr "voorgestelde oplossingstype"
+
+#, fuzzy
+msgid "suggested_solution"
+msgstr "Content for Recapitulation"
+
+msgid "suggested_solution_added_successfully"
+msgstr "Je hebt een voorgestelde suggestie ingesteld"
+
+#, fuzzy
+msgid "sync_question_to_pool"
+msgstr "Synchronize Question"
+
+#, fuzzy
+msgid "ta_resulttable_vc_mode_aria"
+msgstr "switch question mode"
+
+#, fuzzy
+msgid "tab_nest_answers"
+msgstr "Nesting"
+
+#, fuzzy
+msgid "tax_filter"
+msgstr "Taxonomy"
+
+#, fuzzy
+msgid "tax_filter_notax"
+msgstr "Questions without assigned Taxonomy"
+
+#, fuzzy
+msgid "taxonomy_node_title"
+msgstr "Taxonomy Node Title"
+
+#, fuzzy
+msgid "taxonomy_title"
+msgstr "Taxonomy Title"
+
+msgid "term"
+msgstr "Begrip"
+
+msgid "term_image"
+msgstr "Afbeelding"
+
+msgid "term_text"
+msgstr "Term Text"
+
+msgid "terms"
+msgstr "Termen"
+
+#, fuzzy
+msgid "test_attempts_finished"
+msgstr "The test pass has been finished for the selected participants."
+
+msgid "test_confirm_template_reset"
+msgstr "Weet je zeker dat je deze sjabloon niet meer wilt gebruiken?"
+
+msgid "test_delete_page"
+msgstr "Verwijder vraag"
+
+msgid "test_edit_settings"
+msgstr "Wijzig instellingen"
+
+msgid "test_enable_archiving"
+msgstr "Archivering inschakelen"
+
+msgid "test_has_datasets_warning_page_view"
+msgstr "De toets bevat al toetsgegevens. Je kunt de vragen niet wijzigen tot je de toetsgegevens hebt verwijderd."
+
+msgid "test_has_datasets_warning_page_view_link"
+msgstr "Wijzigen deelnemers"
+
+msgid "test_is_offline"
+msgstr "Je kunt deze toets niet starten! De toets is offline."
+
+msgid "test_jump_to"
+msgstr "Spring naar vraag"
+
+msgid "test_move_page"
+msgstr "Verplaats vraag"
+
+msgid "test_next_question"
+msgstr "Volgende vraag"
+
+msgid "test_prev_question"
+msgstr "Vorige Vraag"
+
+#, fuzzy
+msgid "test_question_set_type"
+msgstr "Selection of Test Questions"
+
+#, fuzzy
+msgid "test_question_set_type_fixed"
+msgstr "Use of a fixed set of questions"
+
+#, fuzzy
+msgid "test_question_set_type_fixed_info"
+msgstr "All testees see the same questions.<br>You can create questions directly in the test as well as reuse questions from a Question Pool. If you create new questions you can decide to save them in a Question Pool."
+
+#, fuzzy
+msgid "test_question_set_type_random"
+msgstr "Use of a random set of questions"
+
+#, fuzzy
+msgid "test_question_set_type_random_info"
+msgstr "Every testee will see an individually generated set of questions. The questions are drawn from one or more Question Pools."
+
+msgid "test_results"
+msgstr "Results Options"
+
+msgid "test_scoring"
+msgstr "Scoring Options"
+
+msgid "test_template_reset"
+msgstr "De sjabloon is verwijderd."
+
+#, fuzzy
+msgid "test_title"
+msgstr "Test Title"
+
+msgid "test_using_template"
+msgstr "Deze toets gebruikt het sjabloon %s. Als je geen sjabloon wilt gebruiken en toegang hebt tot alle instellingen, klik dan hier: %s."
+
+msgid "test_using_template_link"
+msgstr "Gebruik sjabloon niet meer"
+
+msgid "text_correct"
+msgstr "Juiste tekst"
+
+msgid "text_gap"
+msgstr "Open tekst antwoord"
+
+msgid "text_maximum_chars_allowed"
+msgstr "Gelieve niet meer dan het maximum aantal karakters in te voeren( %s karakters)."
+
+msgid "text_rating"
+msgstr "Methode voor tekstvergelijking"
+
+msgid "text_wrong"
+msgstr "Verkeerde tekst"
+
+msgid "textsize"
+msgstr "Tekst lengte"
+
+msgid "textsize_errortext_info"
+msgstr "Invoeren van de lettergroote van foutmeldingen, in  percenten, als je een andere groot wil dan 100%."
+
+msgid "textsize_info"
+msgstr "Invoeren van de lettergrootte van de order tekst in procenten als je een andere grootte wil dan 100%."
+
+msgid "thumb_size"
+msgstr "Grootte van Miniatuur"
+
+msgid "thumb_size_info"
+msgstr "De miniaturen van de afbeeldingen worden gemaakt met een maximum waarde hoogte en breedte rekening houdend met de aspect ratio."
+
+msgid "thumb_size_unit_pixel"
+msgstr "Pixel"
+
+msgid "time_format"
+msgstr "UU MM SS"
+
+msgid "timing"
+msgstr "Extra Tijd"
+
+msgid "tolerance"
+msgstr "Tolerantie (%)"
+
+msgid "tolerance_info"
+msgstr "The tolerance specifies an allowable percentage deviation from the result value. With a tolerance of 0, only the exact result value is evaluated to be correct."
+
+msgid "too_many_targets_selected_for_move"
+msgstr "Je moet precies 1 doelpositie selecteren!"
+
+msgid "toplist_by_score"
+msgstr "Hoogste scores gebaseerd op score"
+
+msgid "toplist_by_time"
+msgstr "Hoogste scores gebaseerd op tijd"
+
+msgid "toplist_col_achieved"
+msgstr "Datum"
+
+msgid "toplist_col_participant"
+msgstr "Deelnemer"
+
+msgid "toplist_col_percentage"
+msgstr "Percentage"
+
+msgid "toplist_col_rank"
+msgstr "Rank"
+
+msgid "toplist_col_score"
+msgstr "Score"
+
+msgid "toplist_col_wtime"
+msgstr "Werktijd"
+
+#, fuzzy
+msgid "total_attempts"
+msgstr "Total Attempts"
+
+#, fuzzy
+msgid "total_duration"
+msgstr "Total Duration"
+
+#, fuzzy
+msgid "total_max_points_cannot_be_negative"
+msgstr "The maximum amount of reachable points cannot be negative."
+
+msgid "true"
+msgstr "Waar"
+
+msgid "tst_access_code_created"
+msgstr "Om je permanente toegang te geven tot de toets resultaten en de mogelijkheid te bieden je toets later te hernemem, heeft ILIAS een toegangscode aangemaakt. Schrijf deze code op zodat je deze later kan gebruiken"
+
+msgid "tst_activate_skill_service"
+msgstr "Inschakelen van competenties"
+
+#, fuzzy
+msgid "tst_activate_skill_service_desc"
+msgstr "A new tab ‘Competences’ will be displayed. In this tab questions are assigned to competences, then thresholds are ascribed for reaching a specific level of a competence."
+
+#, fuzzy
+msgid "tst_activation_limited_visibility_info"
+msgstr "Before and after the period during which the test is available,  the test's title will be displayed, but participants won’t be able to take the test. Access, including to tests already in progress, will be prevented once the period of availability has ended."
+
+msgid "tst_activation_online_info"
+msgstr "Als offline kunnen alleen beheerders de toets zien en wijzigen."
+
+msgid "tst_add_quest_cont_edit_mode"
+msgstr "Edit-modus voor extra inhoud"
+
+msgid "tst_add_quest_cont_edit_mode_IPE"
+msgstr "Edit extra inhoud met behulp van de ILIAS pagina editor"
+
+#, fuzzy
+msgid "tst_add_quest_cont_edit_mode_IPE_info"
+msgstr "No formatting of text in question and answers. No use of LaTex either. But feedback and hints can be reused when question is embedded in ILIAS learning module."
+
+msgid "tst_add_quest_cont_edit_mode_RTE"
+msgstr "Standaard modus voor extra inghooud van vragen"
+
+#, fuzzy
+msgid "tst_add_quest_cont_edit_mode_RTE_info"
+msgstr "Allows text formatting of questions, answers, feedbacks and hints. But feedback and hints cannot be reused when question is embedded in ILIAS learning module."
+
+#, fuzzy
+msgid "tst_add_quest_cont_edit_mode_plain"
+msgstr "Use plain text"
+
+#, fuzzy
+msgid "tst_add_quest_cont_edit_mode_plain_info"
+msgstr "No formatting of text in question, answers and feedback."
+
+#, fuzzy
+msgid "tst_addit_passes_blocked_after_passed_msg"
+msgstr "You have passed the test. The test cannot be started again."
+
+msgid "tst_all_test_competences"
+msgstr "Alle toets Competenties"
+
+msgid "tst_all_user_data_deleted"
+msgstr "Alle gebruikersgegevens van deze toets zijn verwijderd!"
+
+#, fuzzy
+msgid "tst_already_passed_cannot_retake"
+msgstr "Test already passed. You cannot start the test again."
+
+msgid "tst_already_submitted"
+msgstr "De toets is al beeindigd en opgestuurd"
+
+msgid "tst_analysis"
+msgstr "Analyse"
+
+msgid "tst_anonymity"
+msgstr "Anonimiteit"
+
+msgid "tst_anonymity_anonymous_test"
+msgstr "Anonieme toets"
+
+msgid "tst_anonymity_no_anonymization"
+msgstr "Niet anonimiseren"
+
+#, fuzzy
+msgid "tst_answer_aggr_answer_header"
+msgstr "Answer"
+
+#, fuzzy
+msgid "tst_answer_aggr_frequency_header"
+msgstr "Frequency"
+
+msgid "tst_answer_details"
+msgstr "Antwoord details"
+
+#, fuzzy
+msgid "tst_answer_fixation"
+msgstr "Lock Answers"
+
+#, fuzzy
+msgid "tst_answer_fixation_handling"
+msgstr "Participant Answers"
+
+#, fuzzy
+msgid "tst_answer_fixation_none"
+msgstr "Do not Lock Participants Answers during Test Passes"
+
+#, fuzzy
+msgid "tst_answer_fixation_none_desc"
+msgstr "As long as a test pass was not finished, participants can change their answers at any time."
+
+#, fuzzy
+msgid "tst_answer_fixation_on_followup_question"
+msgstr "Lock Answers with the Presentation of Follow-Up Questions"
+
+#, fuzzy
+msgid "tst_answer_fixation_on_followup_question_desc"
+msgstr "Showing the follow-up question will lock participant answers for the previous question, participants cannot change these answers any longer."
+
+#, fuzzy
+msgid "tst_answer_fixation_on_instant_feedback"
+msgstr "Lock Answers with the Presentation of Feedback"
+
+#, fuzzy
+msgid "tst_answer_fixation_on_instant_feedback_desc"
+msgstr "After the feedback for a question is shown participant answers are locked, participants cannot change these answers any longer."
+
+#, fuzzy
+msgid "tst_answer_fixation_on_instantfb_or_followupqst"
+msgstr "Lock Answers with the Presentation of Feedback or Follow-Up Questions"
+
+#, fuzzy
+msgid "tst_answer_fixation_on_instantfb_or_followupqst_desc"
+msgstr "Participant Answers for a question will be locked either with the presentation of the questions's feedback or when the follow-up question is shown."
+
+# fau: testNav
+msgid "tst_answer_status_answered"
+msgstr "Answered"
+
+# fau: testNav
+msgid "tst_answer_status_editing"
+msgstr " (editing ... )"
+
+# fau: testNav
+msgid "tst_answer_status_not_answered"
+msgstr "Not answered"
+
+msgid "tst_answered_questions"
+msgstr "Beantwoorde vragen"
+
+#, fuzzy
+msgid "tst_answered_questions_of_total"
+msgstr "%s of %s"
+
+msgid "tst_answered_questions_test"
+msgstr "Vragen beantwoord in deze toets"
+
+#, fuzzy
+msgid "tst_attached_xls_file"
+msgstr "You find the test result for this participant in the attached Excel file."
+
+#, fuzzy
+msgid "tst_attempt"
+msgstr "Attempt"
+
+#, fuzzy
+msgid "tst_attempt_limit_message"
+msgstr "Your limit of test attempts is <b>%s</b>."
+
+msgid "tst_attempt_started"
+msgstr "Toets gestart"
+
+msgid "tst_back_to_pass_details"
+msgstr "Terug naar details van poging"
+
+msgid "tst_back_to_question_list"
+msgstr "Terug naar vragenlijst"
+
+msgid "tst_back_to_top"
+msgstr "Terug naar Top"
+
+#, fuzzy
+msgid "tst_back_to_virtual_pass"
+msgstr "Back to Questionoverview"
+
+msgid "tst_best_solution_is"
+msgstr "De beste oplossing is"
+
+#, fuzzy
+msgid "tst_block_passes_after_passed"
+msgstr "Block Additional Passes After Test is Passed"
+
+#, fuzzy
+msgid "tst_block_passes_after_passed_info"
+msgstr "After a participant has passed the test, no further test passes are allowed to the participant with this option."
+
+#, fuzzy
+msgid "tst_browse_for_qpl_questions"
+msgstr "Add from Pool"
+
+#, fuzzy
+msgid "tst_browse_for_tst_questions"
+msgstr "Add from Other Test"
+
+msgid "tst_btn_hide_best_solutions"
+msgstr "Verberg beste oplossing"
+
+msgid "tst_btn_rebuild_random_question_stage"
+msgstr "Synchroniseer vragen van pool"
+
+#, fuzzy
+msgid "tst_btn_reset_pool_sync"
+msgstr "Edit/Cancel Synchronisation"
+
+msgid "tst_btn_show_best_solutions"
+msgstr "Toon beste oplossing"
+
+msgid "tst_cannot_online_due_to_switched_quest_set_type_setting"
+msgstr "De toets kan niet online omdat de toetsinstelling is gewijzigd. Je moet opnieuw vragen instellen voor deze nieuwe modus voordat de toets weer online kan."
+
+msgid "tst_change_dyn_test_question_selection"
+msgstr "Change Current Question Selection"
+
+msgid "tst_change_points_for_question"
+msgstr "Wijzig de punten voor het antwoord"
+
+msgid "tst_change_quest_set_type_from_old_to_new_with_conflict"
+msgstr "Je staat op het punt om de toets-modus te wijzigen van <b>%s</b> naar <b>%s</b>. De toetsvragen zijn momenteel ingesteld volgens de huidige toetsmodus. <br />Deze instellling al verloren gaan."
+
+msgid "tst_change_workingtime"
+msgstr "Extra tijd toevoegen voor een deelnemers"
+
+#, fuzzy
+msgid "tst_comp_eval_mode"
+msgstr "Evaluation by"
+
+msgid "tst_comp_points"
+msgstr "Competentie punten"
+
+msgid "tst_competence"
+msgstr "Competentie"
+
+#, fuzzy
+msgid "tst_competence_tree"
+msgstr "Competence tree"
+
+#, fuzzy
+msgid "tst_conditions_checkbox_enabled"
+msgstr "Exam Conditions"
+
+#, fuzzy
+msgid "tst_conditions_checkbox_enabled_desc"
+msgstr "Participants must select a checkbox to start the test. Please use the introductory message to present the exam to the participants."
+
+msgid "tst_confirm_submit_answers"
+msgstr "Bevestig de oplossing."
+
+#, fuzzy
+msgid "tst_conflicting_setting"
+msgstr "This setting does conflict with another setting."
+
+msgid "tst_copy"
+msgstr "Kopieer toets"
+
+#, fuzzy
+msgid "tst_corr_add_as_answer_btn"
+msgstr "Add as Correct Answer"
+
+#, fuzzy
+msgid "tst_corr_answ_stat_tbl_header_answer"
+msgstr "Answer"
+
+#, fuzzy
+msgid "tst_corr_answ_stat_tbl_header_frequency"
+msgstr "Frequency"
+
+#, fuzzy
+msgid "tst_corrections_answers_tbl"
+msgstr "Statistics"
+
+#, fuzzy
+msgid "tst_corrections_answers_tbl_subindex"
+msgstr "Statistics for %s"
+
+#, fuzzy
+msgid "tst_corrections_incompatible_question_set_type"
+msgstr "Corrections are only possible if the test uses a fixed set of questions."
+
+#, fuzzy
+msgid "tst_corrections_manscore_reset_warning"
+msgstr "There are %s manual scorings that have been done for the question \"%s (ID: %s)\". All manual scorings will be reset when saving the question."
+
+#, fuzzy
+msgid "tst_corrections_qst_form"
+msgstr "Correction of Points"
+
+#, fuzzy
+msgid "tst_corrections_tab_question"
+msgstr "Question"
+
+#, fuzzy
+msgid "tst_corrections_tab_solution"
+msgstr "Solution"
+
+#, fuzzy
+msgid "tst_corrections_tab_statistics"
+msgstr "Statistics"
+
+msgid "tst_count_correct_solutions"
+msgstr "Tel enkel volledige oplossingen"
+
+#, fuzzy
+msgid "tst_count_correct_solutions_desc"
+msgstr "Participants score either the maximum number of points for a fully correct and complete answer or 0 points in every other case."
+
+msgid "tst_count_partial_solutions"
+msgstr "Tel alle oplossingen"
+
+#, fuzzy
+msgid "tst_count_partial_solutions_desc"
+msgstr "Points for correctly provided partial answers are added up: Participants can score points for incomplete or partly wrong answers."
+
+#, fuzzy
+msgid "tst_current_run_no_longer_valid"
+msgstr "Your current test run is no longer valid. <br>It was probably completed already or finished by a tutor."
+
+msgid "tst_delete_missing_mark"
+msgstr "Selecteer op zijn minst één markerings-stap om te verwijderen"
+
+#, fuzzy
+msgid "tst_derive_new_pool"
+msgstr "Derive New Question Pool"
+
+#, fuzzy
+msgid "tst_derive_new_pools"
+msgstr "Derive New Question Pools"
+
+#, fuzzy
+msgid "tst_dont_show_msg_again_in_current_session"
+msgstr "Don't show this message again in my current session."
+
+#, fuzzy
+msgid "tst_edit_competence_assign"
+msgstr "Edit Assignment Properties"
+
+msgid "tst_edit_scoring"
+msgstr "Wijzig Scores"
+
+#, fuzzy
+msgid "tst_enable_questionlist"
+msgstr "Show 'List of Questions’"
+
+#, fuzzy
+msgid "tst_enable_questionlist_description"
+msgstr "Participants can switch on a list of the test questions on the left of the actual question."
+
+msgid "tst_ending_time"
+msgstr "Eindtijd"
+
+#, fuzzy
+msgid "tst_ending_time_before_starting_time"
+msgstr "Please enter a date for the end of the test that is after the start date."
+
+msgid "tst_ending_time_desc"
+msgstr "Tijdstip waarop toets voltooid moet zijn en ILIAS de toets sluit; de deelnemers kunnen niet langer vragen beantwoorden."
+
+msgid "tst_enter_questionpool"
+msgstr "Geef een naam aan de vragenpool waar de vraag opgeslagen moet worden"
+
+msgid "tst_eval_question_points"
+msgstr "Resultaten voor examen %s"
+
+msgid "tst_eval_results_by_pass"
+msgstr "Gedetailleerde vraag resultaten"
+
+#, fuzzy
+msgid "tst_eval_results_by_pass_lo"
+msgstr "List of Answers for Attempt %s"
+
+#, fuzzy
+msgid "tst_eval_results_lo"
+msgstr "List of Answers"
+
+msgid "tst_eval_show_answer"
+msgstr "Toon antwoord"
+
+msgid "tst_eval_total_finished"
+msgstr "Totaal aantal gemaakte toetsen"
+
+msgid "tst_eval_total_finished_average_time"
+msgstr "Gemiddelde procestijd voor complete toetse"
+
+msgid "tst_eval_total_passed"
+msgstr "Totaal aantal geslaagde toetsen"
+
+msgid "tst_eval_total_passed_average_points"
+msgstr "Gemiddelde punten per toets"
+
+msgid "tst_eval_total_passed_average_time"
+msgstr "Gemiddelde tijd per toets"
+
+msgid "tst_eval_total_persons"
+msgstr "Totaal aantal deelnemers aan de toets"
+
+#, fuzzy
+msgid "tst_exam_access_code"
+msgstr "Access Code"
+
+#, fuzzy
+msgid "tst_exam_access_code_invalid_message"
+msgstr "The code you provided is invalid."
+
+#, fuzzy
+msgid "tst_exam_access_code_label"
+msgstr "Enter access code to continue your already started test."
+
+#, fuzzy
+msgid "tst_exam_conditions"
+msgstr "Exam Conditions"
+
+#, fuzzy
+msgid "tst_exam_conditions_label"
+msgstr "Check to accept the conditions."
+
+#, fuzzy
+msgid "tst_exam_conditions_not_checked_message"
+msgstr "You need to accept the exam conditions!"
+
+#, fuzzy
+msgid "tst_exam_ending_time_message"
+msgstr "The test cannot be started after %s."
+
+#, fuzzy
+msgid "tst_exam_modal_message_conditions"
+msgstr "Please confirm the conditions to start the test."
+
+#, fuzzy
+msgid "tst_exam_modal_message_conditions_and_password"
+msgstr "Please confirm the conditions and enter the password to start the test."
+
+#, fuzzy
+msgid "tst_exam_modal_message_password"
+msgstr "Please enter the password to start the test."
+
+#, fuzzy
+msgid "tst_exam_not_assigned_participant_disclaimer"
+msgstr "You cannot start this test, as you are not an assigned participant."
+
+#, fuzzy
+msgid "tst_exam_password"
+msgstr "Test Password"
+
+#, fuzzy
+msgid "tst_exam_password_invalid_message"
+msgstr "The given password is not valid!"
+
+#, fuzzy
+msgid "tst_exam_password_label"
+msgstr "Password"
+
+#, fuzzy
+msgid "tst_exam_required_fields_not_filled_message"
+msgstr "You need to fill out all required fields!"
+
+#, fuzzy
+msgid "tst_exam_start"
+msgstr "Start Test"
+
+#, fuzzy
+msgid "tst_exam_use_previous_answers"
+msgstr "Previous Answers"
+
+#, fuzzy
+msgid "tst_exam_use_previous_answers_label"
+msgstr "If enabled answers from previous tests will be prefilled."
+
+msgid "tst_extratime_added"
+msgstr "De doorlooptijd van de deelnemer is verhoogd met %s minuten."
+
+msgid "tst_extratime_info"
+msgstr "Als je de werktijd voor een deelnemer meerdere keren wilt verlengen, geef dan de totale hoeveelheid tijd op."
+
+msgid "tst_extratime_notavailable"
+msgstr "Extra tijd kan alleen worden toegevoegd aan toetsen met een enkele poging en een maximale doorlooptijd.."
+
+#, fuzzy
+msgid "tst_failed"
+msgstr "Failed"
+
+#, fuzzy
+msgid "tst_failed_imp_qst_skl_assign"
+msgstr "The question's assignments to the following competences could not be created. The accoring competences could not be identified within the local system."
+
+#, fuzzy
+msgid "tst_failed_imp_skl_thresholds"
+msgstr "The Import of thresholds for the following competences were skipped, because the according competences within the local system are configured with a different list of levels."
+
+#, fuzzy
+msgid "tst_feedback"
+msgstr "Feedback"
+
+#, fuzzy
+msgid "tst_feedback_is_given_inline"
+msgstr "The feedback will be displayed along with your answer."
+
+#, fuzzy
+msgid "tst_feedback_not_available_for_answer"
+msgstr "There is no feedback available for your answer."
+
+#, fuzzy
+msgid "tst_filter_lifecycle_enabled"
+msgstr "Use Lifecycle as Filter"
+
+#, fuzzy
+msgid "tst_filter_question_type"
+msgstr "Question Type"
+
+#, fuzzy
+msgid "tst_filter_question_type_enabled"
+msgstr "Use Question Type as Filter"
+
+msgid "tst_filter_tax_node"
+msgstr "Taxonomie knoop"
+
+msgid "tst_filter_taxonomy"
+msgstr "Filter Taxonomie"
+
+msgid "tst_final_information"
+msgstr "Voltooien van de toets: Informatie voor indiening"
+
+msgid "tst_finish_confirm_button"
+msgstr "Ja, Ik wil de toets beeïndigen"
+
+msgid "tst_finish_confirm_cancel_button"
+msgstr "Nee, ga terug naar de vorige vraag"
+
+msgid "tst_finish_confirmation_question"
+msgstr "Je wilt de toets beeïndigen en het maximum aantal toegelaten pogingen overschrijden. Je zult niet meer in staat zijn om deze toets aan te passen. Ben je zeker dat je deze toets wilt beeïndigen"
+
+#, fuzzy
+msgid "tst_finish_confirmation_question_no_attempts_left"
+msgstr "You are going to finish this test and reach the maximum number of allowed test attempts. You won’t be able to enter this test again to change your answers. Do you really want to finish the test?"
+
+msgid "tst_finished"
+msgstr "Klaar"
+
+msgid "tst_form_dynamic_question_set_config"
+msgstr "Doorgaan met vragenselectie"
+
+msgid "tst_gap_analysis"
+msgstr "Gap Analyse"
+
+msgid "tst_general_properties"
+msgstr "Algemene eigenschappen"
+
+msgid "tst_header_participant"
+msgstr "Resultaat:"
+
+#, fuzzy
+msgid "tst_header_participant_no_answer"
+msgstr "Question - not answered"
+
+msgid "tst_header_solution"
+msgstr "Correcte oplossing:"
+
+#, fuzzy
+msgid "tst_hide_info_tab"
+msgstr "Hide Info Tab"
+
+#, fuzzy
+msgid "tst_hide_info_tab_desc"
+msgstr "Hides the tab ‘Info’ of the test."
+
+#, fuzzy
+msgid "tst_hide_pagecontents"
+msgstr "Hide page content"
+
+#, fuzzy
+msgid "tst_hide_pagecontents_desc"
+msgstr "ILIAS content placed before and after the actual question text via the \"Edit Page\" button will not be displayed in the result views and print output."
+
+msgid "tst_imap_qst_mode"
+msgstr "Modus"
+
+msgid "tst_imap_qst_mode_mc"
+msgstr "Meervoudige keuze"
+
+msgid "tst_imap_qst_mode_sc"
+msgstr "Enkele keuze"
+
+msgid "tst_import_non_ilias_zip"
+msgstr "Fout: de bestandsnaam van de geüploaded importbestand komt niet overeen met het verwachte formaat."
+
+msgid "tst_import_verify_found_questions"
+msgstr "ILIAS heeft de volgende vragen gevonden in het import bestand. Selecteer de vragen die je wilt toevoegen"
+
+msgid "tst_inp_all_quest_points_equal_per_pool"
+msgstr "Vereist pools met homogeen-scorende vragen"
+
+msgid "tst_inp_all_quest_points_equal_per_pool_desc"
+msgstr "Als ingeschakeld worden alleen vragenpools met homogeen-scorende vragen aangeboden. Alle deelnemers kunnen zo een gelijke score behalen; de resutaten zijn dus oook beter vergelijkbaar. Deze toetsmodus wordt aanbevolen,"
+
+msgid "tst_inp_dyn_quest_set_quest_ordering_by_date_desc"
+msgstr "De volgorde waarin de vragen worden getoond hangt af van de laatste datum van wijziging van de vragen."
+
+msgid "tst_inp_dyn_quest_set_quest_ordering_by_tax_desc"
+msgstr "De volgorde waarin de vragen worden getoond hangt af van de toewijzing van de vragen in de taxonomie."
+
+msgid "tst_inp_no_available_tax_hint"
+msgstr "Geen beschikbare taxonomieën voor de geselecteerde vragenpool"
+
+msgid "tst_inp_quest_amount_cfg_mode"
+msgstr "Aantal vragen"
+
+msgid "tst_inp_quest_amount_cfg_mode_pool"
+msgstr "Aantal toetsvragen per geselecteerde vragenpool"
+
+msgid "tst_inp_quest_amount_cfg_mode_test"
+msgstr "Aantal vragen per toets"
+
+msgid "tst_inp_quest_amount_per_source_pool"
+msgstr "Aantal vragen"
+
+msgid "tst_inp_quest_amount_per_test"
+msgstr "Aantal vragen voor hele toets"
+
+msgid "tst_inp_source_pool_filter_tax"
+msgstr "Taxonomie Filter"
+
+msgid "tst_inp_source_pool_filter_tax_x"
+msgstr "Gebruik taxonomie \"%s\" als Filter"
+
+msgid "tst_inp_source_pool_label"
+msgstr "Bron vragenpool"
+
+msgid "tst_inp_source_pool_no_tax_filter"
+msgstr "Gebruik geen taxonomie filter"
+
+msgid "tst_input_dyn_quest_set_answer_status_filter_enabled"
+msgstr "Gebruik antwoord status filter"
+
+msgid "tst_input_dynamic_question_set_ordering_tax"
+msgstr "Taxonomie volgorde"
+
+msgid "tst_input_dynamic_question_set_ordering_tax_description"
+msgstr "De toetsvragen worden getoond volgende de toewijzing in de geselecteerde taxonomie."
+
+msgid "tst_input_dynamic_question_set_question_ordering"
+msgstr "Vraag volgorde"
+
+msgid "tst_input_dynamic_question_set_question_ordering_by_date"
+msgstr "Sorteer vragen volgens datum"
+
+msgid "tst_input_dynamic_question_set_question_ordering_by_tax"
+msgstr "Sorteer vfragen volgens taxonomie"
+
+msgid "tst_input_dynamic_question_set_source_questionpool"
+msgstr "Bron vragenpool"
+
+msgid "tst_input_dynamic_question_set_taxonomie_filter_enabled"
+msgstr "Gebruik taxonomie filter"
+
+#, fuzzy
+msgid "tst_insert_in_test"
+msgstr "Insert in Test"
+
+msgid "tst_insert_missing_question"
+msgstr "Selecteer op zijn minst één vraag als je deze in de toets wilt invoegen!"
+
+msgid "tst_insert_questions"
+msgstr "Weet je zeker, dat je de volgende vraag(vragen) aan de toets wilt toevoegen?"
+
+msgid "tst_instant_feedback"
+msgstr "Onmiddellijke feedback"
+
+msgid "tst_instant_feedback_answer_generic"
+msgstr "Toon algemene (\"Juist/Fout\") feedback"
+
+msgid "tst_instant_feedback_answer_generic_desc"
+msgstr "De generieke feedback toont een simpele \"goed\" of \"fout\" volgens de configuratie van de vraag."
+
+msgid "tst_instant_feedback_answer_specific"
+msgstr "Toon specifiek antwoord feedback"
+
+msgid "tst_instant_feedback_answer_specific_desc"
+msgstr "Als antwoord-specifieke feedback is geselecteerd zal de voorgedefieerde feedback worden getoond, afhankelijk van de antwoorden van de deelnemer (indien dit wordt ondersteund door het vragentype)."
+
+#, fuzzy
+msgid "tst_instant_feedback_contents"
+msgstr "Included Contents"
+
+#, fuzzy
+msgid "tst_instant_feedback_desc"
+msgstr "When questions are configured with feedback it is provided to participants during the test pass."
+
+msgid "tst_instant_feedback_results"
+msgstr "Toon resultaten (alleen punten)"
+
+msgid "tst_instant_feedback_results_desc"
+msgstr "Na het vragen van feedback zal ILIAS tonen hoeveel punten er zijn gehaald"
+
+msgid "tst_instant_feedback_solution"
+msgstr "Toon oplossingen"
+
+msgid "tst_instant_feedback_solution_desc"
+msgstr "Na het vragen van feedback zal ILIAS de juiste oplossing tonen."
+
+#, fuzzy
+msgid "tst_instant_feedback_trigger"
+msgstr "Feedback Trigger"
+
+#, fuzzy
+msgid "tst_instant_feedback_trigger_forced"
+msgstr "The Feedback is Triggered by Answering Questions"
+
+#, fuzzy
+msgid "tst_instant_feedback_trigger_forced_desc"
+msgstr "The presentation of feedback is forced to all participants with answering a question."
+
+#, fuzzy
+msgid "tst_instant_feedback_trigger_manual"
+msgstr "Participants can Trigger the Feedback Manually"
+
+#, fuzzy
+msgid "tst_instant_feedback_trigger_manual_desc"
+msgstr "The feedback is availble but will only be shown when a participant triggers the presentation manually."
+
+msgid "tst_introduction"
+msgstr "Introductie"
+
+#, fuzzy
+msgid "tst_introduction_desc"
+msgstr "Shows an introductory message on the tab ‘Info’ of the test. This text is accessible already before the test can be started."
+
+#, fuzzy
+msgid "tst_introduction_text"
+msgstr "Introductory Message"
+
+msgid "tst_invited_nobody"
+msgstr "Geen gebruikers, groepen of rollen zijn toegevoegd als vaste toetsdeelnemers"
+
+msgid "tst_invited_selected_users"
+msgstr "De geselecteerde gebruikers zijn toegevoegd als vaste toetsdeelnemers"
+
+#, fuzzy
+msgid "tst_launcher_button_label_passes_limit_reached"
+msgstr "You have reached the limit of possible test passes"
+
+#, fuzzy
+msgid "tst_launcher_status_message_conditions"
+msgstr "You will be asked for your approval of the exam conditions when you start the test."
+
+#, fuzzy
+msgid "tst_launcher_status_message_conditions_and_password"
+msgstr "You will be asked for the password and your approval of the exam conditions when you start the test."
+
+#, fuzzy
+msgid "tst_launcher_status_message_password"
+msgstr "You will be asked for the password when you start the test."
+
+msgid "tst_level"
+msgstr "Competentie niveau"
+
+msgid "tst_limit_nr_of_tries"
+msgstr "Maximale aantal toegestane toetspogingen"
+
+msgid "tst_link_only_unassigned"
+msgstr "Je heeft minstens 1 vraag geselecteerd die al is gekoppeld aan een vragenpool. Alleen niet toegewezen vragen kunnen worden toegevoegd aan een vragenpool."
+
+msgid "tst_list_answer_details"
+msgstr "Toon in lijst hieronder"
+
+msgid "tst_list_of_answers"
+msgstr "Lijst van antwoorden"
+
+msgid "tst_list_of_answers_show"
+msgstr "Toon lijst met antwoorden"
+
+msgid "tst_list_of_questions_end"
+msgstr "Toon de lijst van vragen alvorens een deelnemer de toets beëindigt"
+
+msgid "tst_list_of_questions_start"
+msgstr "Toon de lijst van vragen voorafgaand aan de eerste vraag"
+
+msgid "tst_list_of_questions_with_description"
+msgstr "Toon de vraag omschrijving in de lijst van vragen"
+
+#, fuzzy
+msgid "tst_man_scoring_answered_hide"
+msgstr "Hide answered questions"
+
+#, fuzzy
+msgid "tst_man_scoring_answered_only"
+msgstr "Show only answered questions"
+
+msgid "tst_man_scoring_by_part"
+msgstr "Beoordeling door deelnemer"
+
+msgid "tst_man_scoring_by_qst"
+msgstr "Beoordeling door vragen"
+
+#, fuzzy
+msgid "tst_man_scoring_finalized"
+msgstr "Show finalized gradings"
+
+#, fuzzy
+msgid "tst_man_scoring_finalized_hide"
+msgstr "Hide finalized gradings"
+
+#, fuzzy
+msgid "tst_man_scoring_finalized_only"
+msgstr "Show only finalized gradings"
+
+#, fuzzy
+msgid "tst_man_scoring_only_answered"
+msgstr "Only answered"
+
+#, fuzzy
+msgid "tst_man_scoring_questionselection"
+msgstr "Questions"
+
+#, fuzzy
+msgid "tst_man_scoring_users_scored"
+msgstr "Users Scored"
+
+#, fuzzy
+msgid "tst_man_scoring_userselection"
+msgstr "Participants"
+
+#, fuzzy
+msgid "tst_manage_competence_assigns"
+msgstr "Manage Competence Assignments"
+
+#, fuzzy
+msgid "tst_manage_competence_select_skills"
+msgstr "Select Competences"
+
+msgid "tst_manscoring_input_max_points_for_question"
+msgstr "Maximum punten voor vraag"
+
+#, fuzzy
+msgid "tst_manscoring_input_of_max"
+msgstr "of"
+
+msgid "tst_manscoring_input_question_and_user_solution"
+msgstr "Vraag en gebruikersoplossing"
+
+msgid "tst_manscoring_maxpoints_exceeded_input_alert"
+msgstr "Het maximum van %s punt(en) is overschreden!"
+
+#, fuzzy
+msgid "tst_manscoring_no_feedback"
+msgstr "No written feedback has been given yet."
+
+msgid "tst_manscoring_question_section_header"
+msgstr "Vraag: %s"
+
+msgid "tst_manscoring_user_notification"
+msgstr "Bericht sturen"
+
+msgid "tst_mark"
+msgstr "Cijfer"
+
+msgid "tst_mark_create_new_mark_step"
+msgstr "Aanmaken van een nieuwe nootstap"
+
+msgid "tst_mark_minimum_level"
+msgstr "Minimum niveau (in %"
+
+#, fuzzy
+msgid "tst_mark_minimum_level_invalid"
+msgstr "Minimum Level must be between 0 and 100."
+
+msgid "tst_mark_official_form"
+msgstr "Officiëel formulier"
+
+msgid "tst_mark_passed"
+msgstr "Geslaagd"
+
+msgid "tst_mark_reset_to_simple_mark_schema"
+msgstr "Een simpel nootschema aanmaken"
+
+#, fuzzy
+msgid "tst_mark_reset_to_simple_mark_schema_confirmation"
+msgstr "If you proceed the current mark schema set for this test will be replaced by a simple mark schema thus deleting all local changes."
+
+msgid "tst_mark_short_form"
+msgstr "Korte aanduiding"
+
+msgid "tst_max_comp_points"
+msgstr "Max. competentie-punten"
+
+msgid "tst_maximum_points"
+msgstr "Maximum aantal punten"
+
+# fau: testNav
+msgid "tst_mc_label_none_above"
+msgstr "None of the answers above"
+
+#, fuzzy
+msgid "tst_median_mark_panel"
+msgstr "Mark of Median"
+
+msgid "tst_msg_cannot_modify_dynamic_question_set_conf_due_to_part"
+msgstr "Continues question selection configuration cannot be modified due to existing participant data."
+
+msgid "tst_msg_cannot_modify_random_question_set_conf_due_to_part"
+msgstr "Configuratie vragenselectie kan niet worden gewijzigd omdat er reeds bestaande deelnemers zijn."
+
+msgid "tst_msg_dynamic_question_set_config_modified"
+msgstr "Configuratie vragenselectie is gewijzigd."
+
+msgid "tst_msg_rand_quest_set_change_quest_amount_here"
+msgstr "Je kunt het aantal vragen hier aanpassen: %s"
+
+msgid "tst_msg_rand_quest_set_incomplete_quest_amount_cfg"
+msgstr "Zonder een juist aantal vragen is het niet mogelijk om willekeurige toetspogingen voor deelnemers te genereren."
+
+#, fuzzy
+msgid "tst_msg_rand_quest_set_lost_pools"
+msgstr "The test's question selection configuration has been frozen, because the following question pools that are involved to the config are not available anymore:<br />%s"
+
+#, fuzzy
+msgid "tst_msg_rand_quest_set_lost_pools_link"
+msgstr "Open Selected Question Pools"
+
+msgid "tst_msg_rand_quest_set_no_pools_available"
+msgstr "Op dit moment is het niet mogelijk om nieuwe regels toe te voegen voor de vragenselectie, omdat er geen vragenpools beschikbaar zijn."
+
+msgid "tst_msg_rand_quest_set_no_src_pool_defs"
+msgstr "Zonder bron vragenpools op te geven is het niet mogelijk om willekeurige toetspogingen voor deelnemers te genereren."
+
+#, fuzzy
+msgid "tst_msg_rand_quest_set_not_sync"
+msgstr "The rules for a random selection of questions were newly created or changed. The questions from the pools have to be synchronized in the test before it can be used. This checks also if a random test is possible with the given set of rules."
+
+#, fuzzy
+msgid "tst_msg_rand_quest_set_pass_buildable"
+msgstr "A test with a random set of questions is possible with the current configuration."
+
+msgid "tst_msg_rand_quest_set_pass_not_buildable"
+msgstr "Het is niet mogelijk om willekeurige toetspogingen te genereren met de huidige instelling van vragenpools en aantal vragen."
+
+#, fuzzy
+msgid "tst_msg_rand_quest_set_rule_label"
+msgstr "Rule %s"
+
+#, fuzzy
+msgid "tst_msg_rand_quest_set_rule_not_satisfied_missing"
+msgstr "Rule %s requires %s questions, but there are only %s questions provided."
+
+#, fuzzy
+msgid "tst_msg_rand_quest_set_rule_not_satisfied_missing_shared"
+msgstr "Additionally from these questions there are %s questions also provided to the following other rules: %s"
+
+#, fuzzy
+msgid "tst_msg_rand_quest_set_rule_not_satisfied_reserved"
+msgstr "Rule %s requires %s questions and there are %s questions provided."
+
+#, fuzzy
+msgid "tst_msg_rand_quest_set_rule_not_satisfied_reserved_shared"
+msgstr "But there are only %s of the provided questions guaranteed available, because of intersections with the following other rules: %s"
+
+msgid "tst_msg_rand_quest_set_stage_pool_last_sync"
+msgstr "Het genereren van willekeurige toetspogingen is mogelijk met de huidige instellingen. <br />De laatste synchronisatie van de geselecteerde vragenpools vond plaats op: <b>%s</b>"
+
+msgid "tst_msg_random_qsc_modified_add_new_rule"
+msgstr "De configuratie van willekeurige vragen is ingesteld. Je kunt nu nieuwe regels toevoegen."
+
+msgid "tst_msg_random_question_set_config_modified"
+msgstr "De configuratie voor de willekeurige toets is gewijzigd."
+
+msgid "tst_msg_random_question_set_synced"
+msgstr "De vragen voor de huidige configuratie zijn met succes gesynchroniseerd."
+
+msgid "tst_msg_skl_lvl_thresholds_saved"
+msgstr "De competentiedrempel is opgeslagen."
+
+#, fuzzy
+msgid "tst_msg_skl_qst_assign_points_not_saved"
+msgstr "The competence points have not been saved. Please check your input."
+
+msgid "tst_msg_skl_qst_assign_points_saved"
+msgstr "De competentiepunten zijn opgeslagen."
+
+msgid "tst_msg_source_pool_definitions_deleted"
+msgstr "De vragenpool definitie is verwijderd."
+
+#, fuzzy
+msgid "tst_nav_next_locks_current_answer_confirm"
+msgstr "When you navigate to the next question your answer to the current question will be locked and cannot be changed any longer."
+
+#, fuzzy
+msgid "tst_nav_next_locks_current_answer_header"
+msgstr "Navigation to Next Question"
+
+#, fuzzy
+msgid "tst_nav_next_locks_empty_answer_confirm"
+msgstr "You did not answer the current question. An empty solution will be saved and locked as answer. This answer cannot be changed later on."
+
+#, fuzzy
+msgid "tst_nav_next_locks_empty_answer_header"
+msgstr "Navigation Without Answer"
+
+#, fuzzy
+msgid "tst_nav_while_edit_modal_cancel_btn"
+msgstr "Cancel"
+
+#, fuzzy
+msgid "tst_nav_while_edit_modal_header"
+msgstr "Decision about Answers"
+
+#, fuzzy
+msgid "tst_nav_while_edit_modal_nosave_btn"
+msgstr "Do Not Save"
+
+#, fuzzy
+msgid "tst_nav_while_edit_modal_save_btn"
+msgstr "Save"
+
+#, fuzzy
+msgid "tst_nav_while_edit_modal_text"
+msgstr "What to do with the answers you possibly entered for this question?"
+
+msgid "tst_no_evaluation_data"
+msgstr "Niemand is op dit ogenblik met de toets begonnen. Er zijn geen beschikbare evaluatiegegevens."
+
+msgid "tst_no_marks_defined"
+msgstr "Er zijn geen cijfers gedefiniëerd, maak ten minste een simpel cijfer schema aan!"
+
+msgid "tst_no_question_selected_for_moving_to_qpl"
+msgstr "Kies tenminste één vraag om toe te voegen aan de vragenpool!"
+
+msgid "tst_no_question_selected_for_removal"
+msgstr "Kies tenminste één vraag om te verwijderen!"
+
+msgid "tst_no_scorable_qst_available"
+msgstr "Er zijn geen vragen met beoordeling beschikbaar"
+
+#, fuzzy
+msgid "tst_non_avail_pool_msg_status_lost"
+msgstr "This question pool is not available anymore. Synchronizing questions from this pool is not possible any longer. You can derive a new question pool from the questions contained in this test."
+
+#, fuzzy
+msgid "tst_non_avail_pool_msg_status_trashed"
+msgstr "This question pool is trashed, when it gets removed from system permanently, the test is no longer able to synchronize questions from it."
+
+#, fuzzy
+msgid "tst_non_avail_pools_table"
+msgstr "Non Available Questionpools"
+
+#, fuzzy
+msgid "tst_non_available_pool_newly_derived"
+msgstr "The new question pool(s) has been derived successfully."
+
+msgid "tst_nonpool_questions_get_lost_warning"
+msgstr "<b>De huidige toetsmodus bevat vragen die niet onderdeel zijn van een vragenpool. Deze vragen zullen permanent worden verwijderd.</b>"
+
+#, fuzzy
+msgid "tst_notification_explanation_admin"
+msgstr "You receive this mail from ILIAS because you activated the notification."
+
+msgid "tst_notify_manscoring_done_body_msg_reason"
+msgstr "Je ontvangt dit bericht omdat je hebt deelgenomen aan deze toets."
+
+msgid "tst_notify_manscoring_done_body_msg_subject"
+msgstr "Handmatige Scoring voor toets \"%s\" omgesye;d"
+
+msgid "tst_notify_manscoring_done_body_msg_topic"
+msgstr "de handmatige score voor de volgende toets is vastgelegd."
+
+msgid "tst_nr_of_passes"
+msgstr "Aantal pogingen van de toets"
+
+msgid "tst_nr_of_tries"
+msgstr "Max. aantal keer proberen"
+
+msgid "tst_nr_of_tries_desc"
+msgstr "Maximale aantal pogingen"
+
+msgid "tst_num_all_questions"
+msgstr "Totaal aantal vragen"
+
+msgid "tst_num_correct_answered_questions"
+msgstr "Correct beantwoorde vragen"
+
+#, fuzzy
+msgid "tst_num_non_answered_questions_notseen"
+msgstr "Non Answered Questions (never seen)"
+
+#, fuzzy
+msgid "tst_num_non_answered_questions_skipped"
+msgstr "Non Answered Questions (skipped)"
+
+msgid "tst_num_questions"
+msgstr "Aantal vragen"
+
+msgid "tst_num_selected_questions"
+msgstr "Aantal geselecteerde vragen"
+
+msgid "tst_num_wrong_answered_questions"
+msgstr "Fout beantwoorde vragen"
+
+msgid "tst_objective_oriented_test_pass_without_questions"
+msgstr "De gestarte toets voor test \"%s\" bevat geen vragen."
+
+#, fuzzy
+msgid "tst_objective_progress_header"
+msgstr "Learning Objective Progress"
+
+#, fuzzy
+msgid "tst_objectives_progress_header"
+msgstr "Learning Objectives Progress"
+
+#, fuzzy
+msgid "tst_old_style_rnd_quest_set_broken"
+msgstr "This random test is in a irreparable state, because one or more connected question pools have been deleted. Therefor participants cannot take the test any longer."
+
+#, fuzzy
+msgid "tst_optional_questions_confirmation_fixed_test"
+msgstr "<b>Questions for already passed learning objectives are already answered.</b><br /><br />The next questions are assigned to already passed learning objectives. Your answers from previous test attempts will carry over.<br /><br />If you continue, you can revise your answers. Doing so may change your results in the related learning objectives.<br /><br />If you do not want to revise your answers, you may go back."
+
+#, fuzzy
+msgid "tst_optional_questions_confirmation_non_fixed_test"
+msgstr "<b>Question related to allready passed learning objectives are optional.</b><br /><br />You want to navigate to a question, that relates to an allready passed learning objective.<br />You can choose:<br /><br />I you proceed, you can work on these questions. Your answers from previous attempts were not adopted, since new random questions were selected for this attempt. With working on this questions you can also degrade your learning objective result.<br /><br />If you decide to not work on these questions, you can go back. In this case these questions won't be considered in the evaluation."
+
+#, fuzzy
+msgid "tst_out_of_time_message"
+msgstr "You have reached the maximum allowed processing time of the test!"
+
+msgid "tst_participant"
+msgstr "Deelnemer"
+
+msgid "tst_participant_fullname_pattern"
+msgstr "%2$s, %1$s"
+
+msgid "tst_participant_status"
+msgstr "Deelnemers Status"
+
+msgid "tst_participating_users"
+msgstr "Deelnemende gebruikers"
+
+msgid "tst_pass_best_pass"
+msgstr "Scoor de beste poging van de gebruiker"
+
+#, fuzzy
+msgid "tst_pass_best_pass_desc"
+msgstr "The pass in which a participant performed best will be scored. This setting does only apply when more than one test pass is possible."
+
+msgid "tst_pass_deletion"
+msgstr "Voorgaande pogingen"
+
+msgid "tst_pass_deletion_allowed"
+msgstr "Het verwijderen van de voorgaande poging is toegestaan."
+
+msgid "tst_pass_details"
+msgstr "Toon details"
+
+#, fuzzy
+msgid "tst_pass_details_header_lo_initial"
+msgstr "Initial Test Results for the Learning Objectives<br />%s - %s"
+
+#, fuzzy
+msgid "tst_pass_details_header_lo_qualifying"
+msgstr "Qualifying Test Results for the Learning Objectives<br />%s - %s"
+
+msgid "tst_pass_details_overview_table_title"
+msgstr "Gedetailleerd overzicht van poging"
+
+#, fuzzy
+msgid "tst_pass_finished"
+msgstr "Test attempt finished"
+
+#, fuzzy
+msgid "tst_pass_finished_on"
+msgstr "Test pass finished on"
+
+msgid "tst_pass_last_pass"
+msgstr "scoor de laatste poging van de gebruiker"
+
+#, fuzzy
+msgid "tst_pass_last_pass_desc"
+msgstr "The last pass of a participant will be scored."
+
+msgid "tst_pass_overview_for_participant"
+msgstr "Toetspogingen voor gebruiker: %s"
+
+#, fuzzy
+msgid "tst_pass_overview_header_lo_initial_all_objectives"
+msgstr "Initial Test Results<br />for the Learning Objectives within the Course %s"
+
+#, fuzzy
+msgid "tst_pass_overview_header_lo_initial_per_objective"
+msgstr "Initial Test Results<br />for the Learning Objectives %s within the Course %s"
+
+#, fuzzy
+msgid "tst_pass_overview_header_lo_qualifying_all_objectives"
+msgstr "Qualifying Test Results<br />for the Learning Objectives within the Course %s"
+
+#, fuzzy
+msgid "tst_pass_overview_header_lo_qualifying_per_objective"
+msgstr "Qualifying Test Results<br />for the Learning Objectives %s within the Course %s"
+
+msgid "tst_pass_scoring"
+msgstr "Meerdere pogingen scoren"
+
+#, fuzzy
+msgid "tst_pass_scoring_best"
+msgstr "Best Test Attempt"
+
+#, fuzzy
+msgid "tst_pass_scoring_last"
+msgstr "Last Test Attempt"
+
+#, fuzzy
+msgid "tst_pass_waiting_enabled"
+msgstr "Force Waiting Time between Passes"
+
+#, fuzzy
+msgid "tst_pass_waiting_info"
+msgstr "With this option additional passes can not be started before the defined time is lapsed relating to the last finished pass."
+
+#, fuzzy
+msgid "tst_pass_waiting_time"
+msgstr "Waiting Time"
+
+#, fuzzy
+msgid "tst_passed"
+msgstr "Passed"
+
+msgid "tst_passes"
+msgstr "Pogingen"
+
+msgid "tst_password"
+msgstr "Toets wachtwoord"
+
+msgid "tst_password_details"
+msgstr "Als je een wachtwoord toevoegt aan een toets, dan moeten alle gebruikers dit wachtwoord ingeven om de toets te kunnen starten"
+
+#, fuzzy
+msgid "tst_password_enter"
+msgstr "Enter Password"
+
+msgid "tst_password_entered_wrong_password"
+msgstr "Je kunt de toets niet starten omdat je het foute wachtwoord hebt opgegeven"
+
+msgid "tst_password_form"
+msgstr "Invoeren toets wachtwoord"
+
+msgid "tst_password_introduction"
+msgstr "De toets kan enkel gestart worden met het juiste wachtwoord. Type het wachtwoord om de toets te starten"
+
+msgid "tst_percent_solved"
+msgstr "Percentage gescoord"
+
+#, fuzzy
+msgid "tst_player_answer_saved_and_locked"
+msgstr "Answer is saved and locked and can no longer be changed"
+
+#, fuzzy
+msgid "tst_please_select_source_pool"
+msgstr "Please select a question pool."
+
+#, fuzzy
+msgid "tst_please_select_target_for_pool_derives"
+msgstr "Please select a target conatainer."
+
+msgid "tst_position"
+msgstr "Vragen %s van %s"
+
+#, fuzzy
+msgid "tst_position_without_total"
+msgstr "Question %s"
+
+msgid "tst_postpone"
+msgstr "Vragen uitstellen"
+
+#, fuzzy
+msgid "tst_postpone_off"
+msgstr "Not answered questions will not be postponed"
+
+#, fuzzy
+msgid "tst_postpone_off_desc"
+msgstr "Not answered questions will be kept at their position."
+
+#, fuzzy
+msgid "tst_postpone_on"
+msgstr "Not answered questions will be postponed"
+
+#, fuzzy
+msgid "tst_postpone_on_desc"
+msgstr "Not answered questions will be postponed to the end of the test."
+
+msgid "tst_presentation_properties"
+msgstr "Presentatie instellingen"
+
+#, fuzzy
+msgid "tst_presentation_settings_section"
+msgstr "Presentation"
+
+#, fuzzy
+msgid "tst_previous_access_code_not_available"
+msgstr "No previous code available!"
+
+#, fuzzy
+msgid "tst_proceed"
+msgstr "Proceed"
+
+msgid "tst_processing_time"
+msgstr "Max. toetsduur"
+
+msgid "tst_processing_time_desc"
+msgstr "De maximale toetsduur, deze begint op het moment dat een deelnemer een toets begint en eindigt na afloop van de opgegeven tijdsduur. Als deze optie wordt gebruikt moet ook de mogelijkheid om een toetst uit te schakelen worden uitgezet."
+
+#, fuzzy
+msgid "tst_processing_time_duration"
+msgstr "Maximum Duration of the Test"
+
+#, fuzzy
+msgid "tst_processing_time_duration_desc"
+msgstr "Maximum of time granted to take the test."
+
+#, fuzzy
+msgid "tst_qbt_filter_question_title"
+msgstr "Title of Question"
+
+#, fuzzy
+msgid "tst_qst_added_to_pool_p"
+msgstr "Successfully added the questions to the selected pool."
+
+#, fuzzy
+msgid "tst_qst_added_to_pool_s"
+msgstr "Successfully added the question to the selected pool."
+
+msgid "tst_qst_order"
+msgstr "Volgorde"
+
+#, fuzzy
+msgid "tst_qst_skl_cfg_in_pool_hint_dynquestset"
+msgstr "The Competence-Question-Assignment for tests with mode \"%s\" is to be done in the corresponding question pool:<br />%s<br /><br />The configuration of threshold values is to be done here in the test."
+
+#, fuzzy
+msgid "tst_qst_skl_cfg_in_pool_hint_rndquestset"
+msgstr "The Competence-Question-Assignment for tests with mode \"%s\" is to be done in the corresponding question pool(s):<br />%s<br /><br />The configuration of threshold values is to be done here in the test."
+
+msgid "tst_question"
+msgstr "Vraag"
+
+msgid "tst_question_amount"
+msgstr "Aantal vragen"
+
+msgid "tst_question_answer_status"
+msgstr "Status van antwoord"
+
+msgid "tst_question_answer_status_all_non_correct"
+msgstr "Alle vragen (behalve juist beantwoorde)"
+
+msgid "tst_question_answer_status_non_answered"
+msgstr "Niet beantwoorde vragen"
+
+msgid "tst_question_answer_status_wrong_answered"
+msgstr "Incorrrect beantwoorde vragen"
+
+msgid "tst_question_feedback_back_to_feedback_form"
+msgstr "Terug naar vraag"
+
+msgid "tst_question_feedback_edit_page"
+msgstr "Wijzigen inhoud"
+
+msgid "tst_question_mark"
+msgstr "Markeer deze vraag"
+
+msgid "tst_question_marked"
+msgstr "Je hebt de vraag gemarkeerd"
+
+msgid "tst_question_marker"
+msgstr "Markeer"
+
+msgid "tst_question_no"
+msgstr "Sorteervolgorde"
+
+msgid "tst_question_not_from_pool_info"
+msgstr "Geen Pool"
+
+# fau: testNav
+msgid "tst_question_not_marked"
+msgstr "Question is not Marked"
+
+msgid "tst_question_offer"
+msgstr "Accepteer je dit monster of wil je een andere?"
+
+msgid "tst_question_set_type"
+msgstr "Toets Modus"
+
+msgid "tst_question_set_type_dynamic"
+msgstr "Continue Toetsen"
+
+msgid "tst_question_set_type_dynamic_desc"
+msgstr "In deze modus wordt er een (1) vragenpool geselecteerd. De toets wordt afgelegd in een nooit beeindigende doorloop en de vragen worden individueel getoond tot alle vragen correct zijn bentwooord."
+
+msgid "tst_question_set_type_fixed"
+msgstr "Toets met vast aantal vragen"
+
+msgid "tst_question_set_type_fixed_desc"
+msgstr "In deze modus wordt een vast aantal vragen geselecteerd voor alle deelnemers. Afhankelijk van de toetsinstellingen kan de deelnemers een of meer pogingen doen."
+
+msgid "tst_question_set_type_random"
+msgstr "Toets met willekeurige vragen"
+
+msgid "tst_question_set_type_random_desc"
+msgstr "In deze modus worden een of meer vragenppools geselecteerd van waaruit een willekeurige set vragen wordt geselecteerd per deelnemer. Afhankelijk van de toetsiinstellingen kan de deelnemers een of meer pogingen doen."
+
+msgid "tst_question_title"
+msgstr "Titel"
+
+msgid "tst_question_type"
+msgstr "Vraagtype"
+
+msgid "tst_questions_inserted"
+msgstr "Vraag(vragen) ingevoegd!"
+
+msgid "tst_questions_removed"
+msgstr "Vraag(vragen) verwijderd!"
+
+msgid "tst_random_nr_of_questions"
+msgstr "Hoe veel vragen"
+
+msgid "tst_random_question_set_source_questionpool_summary_string"
+msgstr "%s (Pad: %s) [%s Vragen]"
+
+msgid "tst_random_select_questionpool"
+msgstr "Selecteer een vragenpool om een vraag te kiezen"
+
+msgid "tst_reached_points"
+msgstr "Gehaalde punten"
+
+#, fuzzy
+msgid "tst_reached_points_of_max"
+msgstr "%s of %s"
+
+msgid "tst_remove_mark"
+msgstr "Verwijder de markering"
+
+msgid "tst_remove_question"
+msgstr "Weet je zeker dat je de volgende vragen wilt verwijderen uit de toets?"
+
+msgid "tst_remove_questions"
+msgstr "Weet je zeker dat je de volgende vraag van de toets wilt verwijderen"
+
+msgid "tst_remove_questions_and_results"
+msgstr "Deze toets is al uitgevoerd door %s gebruikers. Het verwijderen van de vraag zal alle toetsgegevens van de gebruikers verwijderen. Ben je zeker dat je deze actie wilt uitvoeren"
+
+msgid "tst_report_after_date"
+msgstr "Na de score wordt de datum doorgegeven."
+
+msgid "tst_report_after_first_question"
+msgstr "Toon score wanneer de toets wordt gestart"
+
+#, fuzzy
+msgid "tst_report_after_passed"
+msgstr "Offer test results when the test has been passed"
+
+msgid "tst_report_after_test"
+msgstr "Rapporteer de score nadat de hele toets compleet is"
+
+msgid "tst_report_never"
+msgstr "Geen toets resultaten beschikbaar"
+
+#, fuzzy
+msgid "tst_reporting_date"
+msgstr "Date"
+
+msgid "tst_res_jump_to_participant_btn"
+msgstr "Spring"
+
+msgid "tst_res_jump_to_participant_hint_opt"
+msgstr "Spring naar deelnemer"
+
+#, fuzzy
+msgid "tst_res_lo_objectives_header"
+msgstr "Relevant Learning Objectives"
+
+#, fuzzy
+msgid "tst_res_lo_try_header"
+msgstr "Attempt"
+
+#, fuzzy
+msgid "tst_res_lo_try_n"
+msgstr "Attempt %s"
+
+#, fuzzy
+msgid "tst_res_tab_msg_no_lp_access"
+msgstr "You are currently not allowed to access your Learning Progress, as you are not allowed to see your test results."
+
+#, fuzzy
+msgid "tst_res_tab_msg_res_after_date"
+msgstr "You test results will be offered here on the following date: %s"
+
+#, fuzzy
+msgid "tst_res_tab_msg_res_after_date_no_res"
+msgstr "When you take the test your results will be offered here on the following date: %s"
+
+#, fuzzy
+msgid "tst_res_tab_msg_res_after_finish_test"
+msgstr "After finishing the test your results will be offered here."
+
+#, fuzzy
+msgid "tst_res_tab_msg_res_after_taking_test"
+msgstr "After taking the test your results will be offered here."
+
+#, fuzzy
+msgid "tst_res_tab_msg_res_after_test_passed"
+msgstr "After passing the test your results will be offered here."
+
+msgid "tst_reset_processing_time"
+msgstr "Reset de maximale doorlooptijd van iedere doorgelopen toets"
+
+msgid "tst_reset_processing_time_desc"
+msgstr "Indien aangevinkt, wordt maximale proces tijd terug gezet naar de bepaalde proces tijd nadat een toets is afgelegd. Dit werkt uitsluitend bij een toegestane maximale proces tijd en meervoudige afgelegde toetsen."
+
+msgid "tst_result"
+msgstr "toetsresult"
+
+#, fuzzy
+msgid "tst_result_pass"
+msgstr "Results of Test Pass"
+
+msgid "tst_result_user_name"
+msgstr "toets resultaten voor %s"
+
+msgid "tst_result_user_name_pass"
+msgstr "Resultaten van de pogingen %s voor %s"
+
+msgid "tst_results"
+msgstr "Toetsresultaten"
+
+msgid "tst_results_access_always"
+msgstr "Altijd"
+
+#, fuzzy
+msgid "tst_results_access_always_desc"
+msgstr "Participants can access their results on the ‘Info’-tab immediately after starting the test pass and while still taking the test. Additionally ILIAS will present them with their test results immediately after finishing  the test."
+
+msgid "tst_results_access_date"
+msgstr "Datum"
+
+#, fuzzy
+msgid "tst_results_access_date_desc"
+msgstr "Participants get access to their test results on the ‘Info’-tab after the defined date."
+
+#, fuzzy
+msgid "tst_results_access_enabled"
+msgstr "Access to Test Results"
+
+#, fuzzy
+msgid "tst_results_access_enabled_desc"
+msgstr "A button ‘Show Test Results’ will be displayed to participants on the ‘Info’-tab. Options in this and the following sections below configure what information is to be included into the report and when it will be accessible."
+
+msgid "tst_results_access_finished"
+msgstr "Nadat de toets is afgelegd"
+
+#, fuzzy
+msgid "tst_results_access_finished_desc"
+msgstr "ILIAS displays the test results after the test pass is finished. After finishing the test pass participants can access their test results on the ‘Info’-tab at any time."
+
+#, fuzzy
+msgid "tst_results_access_passed"
+msgstr "After Test has been Passed"
+
+#, fuzzy
+msgid "tst_results_access_passed_desc"
+msgstr "ILIAS displays the test results after the participant has passed the test. After passing the test participants can access their test results within the 'Results'-tab at any time."
+
+#, fuzzy
+msgid "tst_results_access_setting"
+msgstr "Point in Time"
+
+msgid "tst_results_aggregated"
+msgstr "Samengevoegde toets resultaten"
+
+msgid "tst_results_back_introduction"
+msgstr "Terug naar introductie"
+
+msgid "tst_results_back_overview"
+msgstr "Terug naar resultaat overzicht"
+
+#, fuzzy
+msgid "tst_results_details_options"
+msgstr "Further Details to be Included in Test Results"
+
+#, fuzzy
+msgid "tst_results_gamification"
+msgstr "Gamification"
+
+#, fuzzy
+msgid "tst_results_grading_opt_show_details"
+msgstr "Show detailed test results"
+
+#, fuzzy
+msgid "tst_results_grading_opt_show_details_desc"
+msgstr "In addition to the summary test result, a \"Detailed Results\" action is provided. The \"Detailed test results\" table shows the titles of the questions and the points achieved for each run. The content of the table can be further supplemented in the \"Further options\" section."
+
+msgid "tst_results_grading_opt_show_mark"
+msgstr "Toon alleen behaalde cijfer"
+
+#, fuzzy
+msgid "tst_results_grading_opt_show_mark_desc"
+msgstr "The resulting mark will be appended to the summary test result. Participants can access their test results on the ‘Info’-tab."
+
+msgid "tst_results_grading_opt_show_status"
+msgstr "Toon alleen Geslaagd/Niet geslaagd"
+
+#, fuzzy
+msgid "tst_results_grading_opt_show_status_desc"
+msgstr "Information on the ‘Passed’ / ‘Failed’ Status will be appended to the summary test result. Participants can access their test results on the ‘Info’-tab. <br />"
+
+msgid "tst_results_overview"
+msgstr "Overzicht van de toets resultaten"
+
+msgid "tst_results_print_best_solution"
+msgstr "Beste oplossing in toets resultaten"
+
+msgid "tst_results_print_best_solution_info"
+msgstr "Als ingeschakeld en toegankelijk voor de deelnemer, zal de beste oplossing verschijnen in de samengevoegde toetsresultaten."
+
+msgid "tst_resume_test"
+msgstr "Hervat toets"
+
+# fau: testNav
+msgid "tst_revert_changes"
+msgstr "Undo Editing"
+
+msgid "tst_rnd_quest_cfg_tab_general"
+msgstr "General Config"
+
+msgid "tst_rnd_quest_cfg_tab_pool"
+msgstr "Source Question Pools"
+
+msgid "tst_rnd_quest_set_cfg_general_form"
+msgstr "Random Question Selection Config"
+
+msgid "tst_rnd_quest_set_cfg_pool_form"
+msgstr "Source Question Pool Definition"
+
+msgid "tst_rnd_quest_set_tb_add_pool_btn"
+msgstr "Add New Source Question Pool Definition"
+
+msgid "tst_save_and_create_new_rule"
+msgstr "Opslaan en nieuwe regel toevoegen"
+
+# fau: testNav
+msgid "tst_save_and_proceed"
+msgstr "Save and Proceed"
+
+msgid "tst_save_comp_points"
+msgstr "Opslaan competentie-punten"
+
+msgid "tst_save_manscoring_failed"
+msgstr "Het opslaan van de handmatige score voor toetspoging %s is mislukt."
+
+msgid "tst_save_thresholds"
+msgstr "Opslaan drempels"
+
+#, fuzzy
+msgid "tst_saved_manscoring_by_question_successfully"
+msgstr "The manual scoring for the question %s for test pass %s has been saved successfully."
+
+msgid "tst_saved_manscoring_successfully"
+msgstr "De handmatige score voor toetspoging %s is opgeslagen."
+
+msgid "tst_score_cut_question"
+msgstr "Knip negatieve punten voor iedere vraag"
+
+#, fuzzy
+msgid "tst_score_cut_question_desc"
+msgstr "Participants may score negative results for a question that had negative points for assigned to individual answer options. This setting ensures that per question any negativ result is set to 0 points."
+
+msgid "tst_score_cut_test"
+msgstr "Knip negatieve punten voor alle vraag resultaten"
+
+#, fuzzy
+msgid "tst_score_cut_test_desc"
+msgstr "Participants might score negative points in questions. Scored points of all questions are added up. Only if the overall result of the test is negative this overall result will be set to 0 points. With this setting negative points carry a lot of weight."
+
+msgid "tst_score_cutting"
+msgstr "Knip negatieve punten"
+
+msgid "tst_search_users"
+msgstr "Toevoegen vaste deelnemers"
+
+msgid "tst_select_questionpool"
+msgstr "Selecteer een vragenpool om de gecreëerde vraag op te slaan!"
+
+msgid "tst_selected_user_data_deleted"
+msgstr "De toetsgegevens van de gebruiker zijn verwijderd"
+
+msgid "tst_sequence_properties"
+msgstr "Volgorde eigenschappen"
+
+#, fuzzy
+msgid "tst_set_offline_due_to_switched_question_set_type_setting"
+msgstr "The test has been set to offline, because the test mode setting has been changed. You have to set a new test mode relating question config before the test can be set to online again."
+
+#, fuzzy
+msgid "tst_settings_conflict_postpone_and_lock"
+msgstr "\"Unanswered questions will be enqueued\" cannot be used together with \"Lock Answers After Moving to Next Question\"."
+
+#, fuzzy
+msgid "tst_settings_conflict_shuffle_and_lock"
+msgstr "\"Shuffle Questions\" cannot be used together with \"Lock Answers After Moving to Next Question\"."
+
+#, fuzzy
+msgid "tst_settings_form_reload_needed"
+msgstr "The form needed to be reloaded to avoid data loss as the available settings have changed due to the removal of all results of participants."
+
+#, fuzzy
+msgid "tst_settings_header_additional"
+msgstr "Additional Features"
+
+msgid "tst_settings_header_execution"
+msgstr "Beheer de toets: Toegang"
+
+msgid "tst_settings_header_intro"
+msgstr "Informatie voor aanvang van de toets"
+
+msgid "tst_settings_header_test_run"
+msgstr "Beheer de toets: testrun"
+
+#, fuzzy
+msgid "tst_settings_not_found"
+msgstr "Missing Test Settings"
+
+#, fuzzy
+msgid "tst_settings_not_found_msg"
+msgstr "Test Settings could not found. This may be due to a missing migration step. Please contact your system administrator."
+
+msgid "tst_show_answer_sheet"
+msgstr "Toon antwoorden"
+
+msgid "tst_show_cancel"
+msgstr "Toon toetsopties"
+
+msgid "tst_show_cancel_description"
+msgstr "Indien aangevinkt, wordt een knop om de toets op te schorten getoond tijdens de maken van de toets"
+
+msgid "tst_show_comp_results"
+msgstr "Tonen competentieresultaten"
+
+msgid "tst_show_results"
+msgstr "Laat toetsresultaten zien"
+
+msgid "tst_show_side_list"
+msgstr "Tonen vragenlijst aan zijkant"
+
+msgid "tst_show_solution_answers_only"
+msgstr "Resultaten overzicht (alleen de antwoorden)"
+
+msgid "tst_show_solution_answers_only_desc"
+msgstr "Als geselecteerd zal de ILIAS inhoud die je rond een vraag hebt aangemaakt met behulp van de pagina editor niet worden getoond bij het afdrukken. Als je bezuinigt op papier, selecteer dan deze optie."
+
+#, fuzzy
+msgid "tst_show_solution_details_singlepage"
+msgstr "Scored Answers on single pages"
+
+#, fuzzy
+msgid "tst_show_solution_details_singlepage_desc"
+msgstr "Participants can access each question individually and see if their answers were correct and how many points they scored."
+
+msgid "tst_show_solution_feedback"
+msgstr "Toon antwoord feedback in toetsresultaten."
+
+msgid "tst_show_solution_feedback_desc"
+msgstr "Als geselecteerd zal antwoord-specifieke feedback worden getoond in de toetsresultaten naast de vragen."
+
+msgid "tst_show_solution_printview"
+msgstr "Afdrukweergave oplossing"
+
+msgid "tst_show_solution_printview_desc"
+msgstr "Als geselecteerd wordt een overzicht van alle vragen met antwoorden getoond. Deze lijst is beschikbaar op de Info pagina alsook op het einde van de toets voor de indiening."
+
+msgid "tst_show_solution_signature"
+msgstr "Handtekening plaatsaanduiding"
+
+msgid "tst_show_solution_signature_desc"
+msgstr "Als geselecteerd zal er ruimte voor een handtekening worden getoond bij het afdrukken."
+
+msgid "tst_show_solution_suggested"
+msgstr "Toon voorgestelde oplossing"
+
+msgid "tst_show_solution_suggested_desc"
+msgstr "Als geselecteers zal de gesugggereerde oplossing (als die bestaat) worden getoond in het overzzicht van de toetsresultaten."
+
+msgid "tst_show_summary"
+msgstr "Toon vraag samenvatting"
+
+msgid "tst_show_summary_description"
+msgstr "Biedt een samenvattingspagina met alle toetsvragen."
+
+msgid "tst_show_toplist"
+msgstr "Hoge scores tonen"
+
+msgid "tst_shuffle_questions"
+msgstr "Mix de vragen"
+
+msgid "tst_shuffle_questions_description"
+msgstr "Mix de volgorde van de vragen voor iedere gebruiker die de toets start"
+
+msgid "tst_signature"
+msgstr "Handtekening"
+
+msgid "tst_single_answer_details"
+msgstr "Toon enkelvoudig antwoord"
+
+#, fuzzy
+msgid "tst_skill_triggerings_num_req_answers"
+msgstr "Required Amount of Answers for Competence Triggers"
+
+#, fuzzy
+msgid "tst_skill_triggerings_num_req_answers_desc"
+msgstr "Competences aren't triggered before this amount of answered questions contributes to the competence level calculation."
+
+#, fuzzy
+msgid "tst_skill_triggerings_num_req_answers_not_reached_warn"
+msgstr "At least one of the competences addressed by this test is not triggered by the minimal required amount of questions.<br />The required amount of questions: %s"
+
+#, fuzzy
+msgid "tst_skl_level_thresholds_link"
+msgstr "Configure Competence-Thresholds"
+
+#, fuzzy
+msgid "tst_skl_level_thresholds_missing"
+msgstr "There are missing thresholds for the relevant competences!"
+
+msgid "tst_skl_sub_tab_thresholds"
+msgstr "Competentiedrempel"
+
+#, fuzzy
+msgid "tst_sol_comp_expressions"
+msgstr "Comparison Expressions"
+
+#, fuzzy
+msgid "tst_solution_compare_cfg"
+msgstr "Configuration for Solution Compare"
+
+msgid "tst_source_question_pool"
+msgstr "Source Question Pool"
+
+msgid "tst_src_quest_pool_def_list_table"
+msgstr "Source Question Pool Definitions"
+
+msgid "tst_start_dyn_test_with_cur_quest_sel"
+msgstr "Start test with Current Question Selection"
+
+msgid "tst_start_new_test_pass"
+msgstr "Start nieuwe toetspoging"
+
+msgid "tst_start_test"
+msgstr "Start de toets"
+
+msgid "tst_starting_time"
+msgstr "Starttijd"
+
+msgid "tst_starting_time_desc"
+msgstr "Tijdstip waarop toets kan worden gestart en deelnemers vragen kunnen beantwoorden."
+
+msgid "tst_stat_result_atimeofwork"
+msgstr "Gemiddelde werktijd"
+
+msgid "tst_stat_result_firstvisit"
+msgstr "Eerste bezoek"
+
+msgid "tst_stat_result_lastvisit"
+msgstr "Laatste bezoek"
+
+msgid "tst_stat_result_mark_median"
+msgstr "Mediaan"
+
+msgid "tst_stat_result_median"
+msgstr "Mediaan van de toets resultaten in punten"
+
+msgid "tst_stat_result_pworkedthrough"
+msgstr "Percentage van de totale al verwerkte werklast"
+
+msgid "tst_stat_result_qmax"
+msgstr "Totaaal aantal vragen"
+
+msgid "tst_stat_result_qworkedthrough"
+msgstr "Reeds verwerkte vragen"
+
+msgid "tst_stat_result_rank_median"
+msgstr "Aan de Mediaan toegekende rang"
+
+msgid "tst_stat_result_rank_participant"
+msgstr "Rang van de deelnemer"
+
+msgid "tst_stat_result_resultsmarks"
+msgstr "toets resultaten"
+
+msgid "tst_stat_result_resultspoints"
+msgstr "toets resultaten in punten"
+
+msgid "tst_stat_result_timeontask"
+msgstr "Verwerkingstijd"
+
+msgid "tst_stat_result_total_participants"
+msgstr "Totaal aantal deelnemers"
+
+#, fuzzy
+msgid "tst_stat_result_total_timeontask"
+msgstr "Total Time On Task (All Test Attempts)"
+
+msgid "tst_submit_results"
+msgstr "Ja, ik bevestig"
+
+msgid "tst_tab_competences"
+msgstr "Competenties"
+
+#, fuzzy
+msgid "tst_tab_results_objective_oriented"
+msgstr "Results by Learning Objectives"
+
+#, fuzzy
+msgid "tst_tab_results_pass_oriented"
+msgstr "Results by Attempts"
+
+#, fuzzy
+msgid "tst_tbl_col_answered_questions"
+msgstr "Answered Questions"
+
+#, fuzzy
+msgid "tst_tbl_col_final_mark"
+msgstr "Mark"
+
+#, fuzzy
+msgid "tst_tbl_col_finished_passes"
+msgstr "Finished Passes"
+
+#, fuzzy
+msgid "tst_tbl_col_finished_passes_num_of"
+msgstr "%s of %s"
+
+#, fuzzy
+msgid "tst_tbl_col_last_scored_access"
+msgstr "Last Scored Access"
+
+#, fuzzy
+msgid "tst_tbl_col_pass_finished"
+msgstr "Pass Finished"
+
+#, fuzzy
+msgid "tst_tbl_col_passed_status"
+msgstr "Grading"
+
+#, fuzzy
+msgid "tst_tbl_col_percent_result"
+msgstr "Percent Solved"
+
+#, fuzzy
+msgid "tst_tbl_col_reached_points"
+msgstr "Reached Points"
+
+#, fuzzy
+msgid "tst_tbl_col_scored_pass"
+msgstr "Scored Pass"
+
+#, fuzzy
+msgid "tst_tbl_col_started_passes"
+msgstr "Started Passes"
+
+#, fuzzy
+msgid "tst_tbl_invited_users"
+msgstr "Manually Selected Participants"
+
+#, fuzzy
+msgid "tst_tbl_participants"
+msgstr "Participants"
+
+#, fuzzy
+msgid "tst_tbl_results_grades"
+msgstr "Results and Grades"
+
+msgid "tst_test_result"
+msgstr "Toets Resultaten"
+
+msgid "tst_text_count_system"
+msgstr "Score systeem"
+
+msgid "tst_threshold"
+msgstr "Drempel"
+
+msgid "tst_time_already_spent"
+msgstr "Reeds benodige werktijd"
+
+msgid "tst_time_already_spent_left"
+msgstr "Je hebt %s over."
+
+#, fuzzy
+msgid "tst_time_limit_message"
+msgstr "You will have <b>%s minutes</b> to answer all questions."
+
+msgid "tst_title_output"
+msgstr "Toetstitel Output"
+
+msgid "tst_title_output_full"
+msgstr "Toon de toetstitel en de beschikbare punten"
+
+msgid "tst_title_output_hide_points"
+msgstr "Toon enkel de toets titels"
+
+#, fuzzy
+msgid "tst_title_output_info"
+msgstr "Set which combination of question titles and/or points available should be visible to participants while they are taking the test and within the test attempt overview (see below)."
+
+msgid "tst_title_output_no_title"
+msgstr "Toon niet de toetstitel en de beschikbare punten"
+
+#, fuzzy
+msgid "tst_title_output_only_points"
+msgstr "Only Available Points"
+
+msgid "tst_trigger_result_refreshing"
+msgstr "Results need to be recalculated. This may take a while."
+
+msgid "tst_type"
+msgstr "Toetstype"
+
+# fau: testNav
+msgid "tst_unchanged_answer_is_correct"
+msgstr "The preset answer is correct"
+
+# fau: testNav
+msgid "tst_unchanged_order_is_correct"
+msgstr "The preset order is correct"
+
+msgid "tst_use_previous_answers"
+msgstr "Gebruik vorige antwoorden"
+
+msgid "tst_use_previous_answers_description"
+msgstr "Indien aangevinkt, kan een deelnemer verkiezen om de vorige antwoorden te gebruiken aangezien de standaardwaarden passen toetsen, anders worden de vorige antwoorden voortaan getoond toets geen passen"
+
+msgid "tst_user_finished_test"
+msgstr "Gebruiker beëindigde toets (%s)"
+
+#, fuzzy
+msgid "tst_view_competence_assign"
+msgstr "View Assignment Properties"
+
+#, fuzzy
+msgid "tst_virtual_pass_header_lo_initial"
+msgstr "Initial Test Results for the Learning Objectives<br />%s"
+
+#, fuzzy
+msgid "tst_virtual_pass_header_lo_qualifying"
+msgstr "Qualifying Test Results for the Learning Objectives<br />%s"
+
+#, fuzzy
+msgid "tst_wf_info_answer_adopted_from_prev_pass"
+msgstr "Your answer from a previous attempt was adopted."
+
+#, fuzzy
+msgid "tst_wf_info_answer_not_adopted"
+msgstr "There was no answer from previous attempts adopted, so you have to workthru this question, because otherwise your learning objective result will be degraded."
+
+#, fuzzy
+msgid "tst_wf_info_optional_question"
+msgstr "This question relates to an allready passed learning objective."
+
+msgid "tst_your_answer_was"
+msgstr "Je antwoord was"
+
+msgid "tst_your_answers"
+msgstr "Dit zijn de antwoorden die je hebt gegeven op de volgende vragen"
+
+msgid "un_add_category"
+msgstr "Toevoegen Categorie"
+
+msgid "un_add_unit"
+msgstr "Toevoegen eenheid"
+
+msgid "un_cat_deletion_errors_f"
+msgstr "Sommige categorieën kunnen niet worden verwijderd:"
+
+msgid "un_cat_deletion_errors_f_s"
+msgstr "Kan categorie niet verwijderen:"
+
+msgid "un_cat_deletion_errors_p"
+msgstr "Sommige categorieën kunnen niet worden verwijderd:"
+
+msgid "un_cat_deletion_errors_p_s"
+msgstr "Categorie kon niet worden verwijdered:"
+
+msgid "un_category_not_exist"
+msgstr "De gekozen categorie bestaat niet."
+
+msgid "un_deleted_categories"
+msgstr "Verwijderd"
+
+msgid "un_deleted_categories_s"
+msgstr "Verwijderd"
+
+msgid "un_deleted_units"
+msgstr "Verwijderd"
+
+msgid "un_deleted_units_s"
+msgstr "Verwijderd"
+
+msgid "un_global_units"
+msgstr "Globale eenheden"
+
+msgid "un_local_units"
+msgstr "Lokale Eenheden"
+
+msgid "un_save_order"
+msgstr "Volgorde opslaan"
+
+msgid "un_sel_cat_sel_unit"
+msgstr "Geselecteerde Categorie: %s, Geselecteerde Eenheid: %s"
+
+msgid "un_sequence"
+msgstr "Volgorde"
+
+msgid "un_show_units"
+msgstr "Toon eenheden"
+
+msgid "un_sure_delete_categories"
+msgstr "Weet je zeker dat je de geselecteerde Categorieën wilt verwijderen?"
+
+msgid "un_sure_delete_categories_s"
+msgstr "Weet je zeker dat je de geselecteerde categorie wilt verwijderen?"
+
+msgid "un_sure_delete_units"
+msgstr "Weet je zeker dat je de geselecteerde eenheden wilt verwijderen?"
+
+msgid "un_sure_delete_units_s"
+msgstr "Weet je zeker dat je de geselecteerde eenheid wilt verwijderen?"
+
+msgid "un_unit_deletion_errors_f"
+msgstr "Sommige eenheden kunnen niet worden verwijderd:"
+
+msgid "un_unit_deletion_errors_f_s"
+msgstr "Eenheid kan niet worden verwijderd:"
+
+msgid "un_unit_deletion_errors_p"
+msgstr "Sommige eenheden kunnen niet worden verwijderd:"
+
+msgid "un_unit_deletion_errors_p_s"
+msgstr "Eenheid kan niet worden verwijderd:"
+
+msgid "un_units_of_category_x"
+msgstr "Categorie-eenheden: %s"
+
+#, fuzzy
+msgid "unfinished_passes"
+msgstr "Unfinished Passes"
+
+msgid "unit"
+msgstr "Eenheid"
+
+msgid "unit_placeholder"
+msgstr "** Nieuwe Eenheid **"
+
+msgid "units"
+msgstr "Eenheden"
+
+msgid "unlimited"
+msgstr "Ongelimiteerd"
+
+msgid "unlock"
+msgstr "Vrijmaken"
+
+#, fuzzy
+msgid "updated"
+msgstr "Updated"
+
+msgid "uploaded_material"
+msgstr "Upgeload materiaal"
+
+#, fuzzy
+msgid "use_previous_solution"
+msgstr "Use Previous Solution"
+
+#, fuzzy
+msgid "use_previous_solution_advice"
+msgstr "The shown solution for the question is your previously given one. You have to confirm the adoption of the solution, if you like to use it without any change. "
+
+#, fuzzy
+msgid "user_has_finished_a_test"
+msgstr "A participant has finished a test."
+
+#, fuzzy
+msgid "user_ip_outside_range"
+msgstr "You are not allowed to start the test from this IP address."
+
+msgid "user_not_invited"
+msgstr "Je wordt niet verondersteld dit examen af te leggen."
+
+#, fuzzy
+msgid "usr_manscoring_complete"
+msgstr "Marke as 'scored'"
+
+msgid "value_between_x_and_y"
+msgstr "De waarde moet tussen %s en %s liggen"
+
+msgid "values"
+msgstr "Values"
+
+#, fuzzy
+msgid "variable"
+msgstr "Variable"
+
+msgid "variable_x"
+msgstr "Variabele %s"
+
+msgid "variables"
+msgstr "Variabelen"
+
+#, fuzzy
+msgid "wait_for_next_pass_hint_msg"
+msgstr "Additional pass is possible on time: %s"
+
+msgid "warning_question_not_complete"
+msgstr "De vraag is niet compleet!"
+
+msgid "width"
+msgstr "Breedte"
+
+#, fuzzy
+msgid "with_solution"
+msgstr "Participants with solution"
+
+msgid "with_solutions_participants"
+msgstr "Deelnemers met oplossingen"
+
+#, fuzzy
+msgid "without_solution"
+msgstr "Participants without solution"
+
+msgid "without_solutions_participants"
+msgstr "Deelnemers zonder oplossingen"
+
+msgid "worked_through"
+msgstr "Geantwoord"
+
+msgid "working_time"
+msgstr "Werktijd"
+
+msgid "you_received_a_of_b_points"
+msgstr "Je ontving  %s van %s mogelijke aantal punten"
+
+#, fuzzy
+msgid "your_results"
+msgstr "Your Results"

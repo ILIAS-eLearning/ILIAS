@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+
 class ScormAicc implements Component\Component
 {
     public function init(
@@ -69,5 +72,17 @@ class ScormAicc implements Component\Component
                 return "components/ILIAS/ScormAicc/templates/default/dummy.html";
             }
         };
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'scormtrac'
+        );
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'scov'
+        );
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'sahs'
+        );
     }
 }

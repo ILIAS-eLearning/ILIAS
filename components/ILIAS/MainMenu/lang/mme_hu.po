@@ -1,0 +1,294 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: mme\n"
+
+msgid "add_languages"
+msgstr "Nyelv hozzáadása"
+
+msgid "additional_langs"
+msgstr "További nyelvek"
+
+msgid "button_save"
+msgstr "Mentés"
+
+msgid "component_not_active"
+msgstr "A komponens nincs aktiválva."
+
+msgid "confirm_move"
+msgstr "Biztos, hogy ezt az elemet a felső elemekhez mozgatja?"
+
+msgid "deactived_by_configuration"
+msgstr "Konfiguráció által kikapcsolva"
+
+msgid "edit_sub_tems"
+msgstr "Bejegyzések módosítása"
+
+msgid "err_uri_not_valid"
+msgstr "Valós URL-t adjon meg"
+
+msgid "field_external"
+msgstr "Külső link"
+
+msgid "field_external_info"
+msgstr "A link új ablakban nyílik meg."
+
+msgid "field_ref_id"
+msgstr "ILIAS Reference-ID"
+
+msgid "field_ref_id_info"
+msgstr "A kívánt ILIAS-objektum Reference-ID-je, amit az objektum URL-ben is megtalálható (…?ref_id=123)"
+
+msgid "field_url"
+msgstr "URL"
+
+msgid "field_url_info"
+msgstr "Link a kívánt weboldalra, elején http(s)://"
+
+msgid "flush"
+msgstr "Elveszett elemek törlése"
+
+msgid "item_must_be_always_active"
+msgstr "Az elemnek aktívnak kell lennie."
+
+msgid "item_updated"
+msgstr "Az elemet eltároljuk"
+
+msgid "main"
+msgstr "Főmenü"
+
+msgid "mm_translation_lang"
+msgstr "Nyelv"
+
+msgid "mm_translation_trans"
+msgstr "Fordítás"
+
+msgid "mme_lost_items"
+msgstr "Sehol sincs hozzárendelve"
+
+msgid "move_to_item"
+msgstr "Mozgatás az elemek közé"
+
+msgid "move_to_top_item"
+msgstr "Mozgatás a főelemek közé"
+
+msgid "msg_languages_added"
+msgstr "Hozzáadott nyelvek"
+
+msgid "msg_moved"
+msgstr "Az elemet sikeresen mozgatta"
+
+msgid "msg_not_changed"
+msgstr "A következő bejegyzéseket nem lehetett módosítani: %s"
+
+msgid "msg_not_moved"
+msgstr "Az elem mozgatása sikertelen, érvényes szülőt válasszon."
+
+msgid "msg_ref_id_not_callable"
+msgstr "Ez a referenciaazonosító nem használható a főmenüben. Csak a Tartalomtárba mutató használható."
+
+msgid "msg_restore_confirm"
+msgstr "Az összes egyéni elembeállítást és fordítást töröl, és az összes standard elem visszaáll annak alapértékére. Az összes személyre szabás elveszik."
+
+msgid "msg_restored"
+msgstr "A Főmenüt alapértékeit sikeresen visszaállította"
+
+msgid "msg_subitem_deleted"
+msgstr "Az elemet sikeresen törölte."
+
+msgid "msg_subitem_flushed"
+msgstr "Az elveszett elemeket sikeresen törölte."
+
+msgid "msg_success"
+msgstr "Sikeresen visszaállította."
+
+msgid "msg_topitem_deleted"
+msgstr "Az elemet sikeresen törölte."
+
+msgid "msg_translations_deleted"
+msgstr "A fordításokat sikeresen törölte"
+
+msgid "msg_translations_saved"
+msgstr "A fordítást sikeresen mentette"
+
+msgid "restore"
+msgstr "Főmenü alapértékeinek visszaállítása"
+
+msgid "select_parent"
+msgstr "Szülő választása"
+
+msgid "sub_actions"
+msgstr "Műveletek"
+
+msgid "sub_active"
+msgstr "Aktív"
+
+msgid "sub_active_byline"
+msgstr "Elem aktiválása az összes felhasználónak."
+
+msgid "sub_global_roles"
+msgstr "Globália szerepkörök"
+
+msgid "sub_icon"
+msgstr "Ikon"
+
+msgid "sub_icon_byline"
+msgstr "Egyéni ikon feltöltése ehhez az objektumhoz."
+
+msgid "sub_parent"
+msgstr "Főelem"
+
+msgid "sub_position"
+msgstr "Pozíció"
+
+msgid "sub_provider"
+msgstr "Szolgáltató"
+
+msgid "sub_role_based_visibility"
+msgstr "Szerepkörök láthatósága"
+
+msgid "sub_role_based_visibility_byline"
+msgstr "Válassza ki, mely globális szerepkörök tagjai láthatják ezt az objektumot. Ha nincs bekapcsolva, az objektum mindenkinek megjelenik."
+
+msgid "sub_status"
+msgstr "Állapot"
+
+msgid "sub_title"
+msgstr "Cím"
+
+msgid "sub_title_default"
+msgstr "Cím (alapértelmezett nyelven)"
+
+msgid "sub_title_default_byline"
+msgstr "További fordítások később a Műveletek / Fordítás alatt adhatók hozzá. Elválasztó esetén a címet célszerű üresen hagyni."
+
+msgid "sub_type"
+msgstr "Típus"
+
+msgid "sub_type_byline"
+msgstr "Az elemhez speciális típus beállítása további beállításokat igényelhet."
+
+msgid "subitem"
+msgstr "Alelemek"
+
+msgid "subitem_add"
+msgstr "Elem hozzáadása"
+
+msgid "subitem_confirm_delete"
+msgstr "Biztos, hogy törli az alábbi elemet?"
+
+msgid "subitem_delete"
+msgstr "Törlés"
+
+msgid "subitem_edit"
+msgstr "Módosítás"
+
+msgid "subitem_translate"
+msgstr "Fordítás"
+
+msgid "subtab_subitems"
+msgstr "Elemek"
+
+msgid "subtab_topitems"
+msgstr "Főelemek"
+
+msgid "tab_back"
+msgstr "Vissza"
+
+msgid "table_show_inactive"
+msgstr "Inaktív megjelenítése"
+
+msgid "topitem_actions"
+msgstr "Műveletek"
+
+msgid "topitem_active"
+msgstr "Aktív"
+
+msgid "topitem_active_byline"
+msgstr "Főelem aktiválása az összes felhasználónak."
+
+msgid "topitem_add"
+msgstr "Főelem hozzáadása"
+
+msgid "topitem_confirm_delete"
+msgstr "Biztos, hogy törli az alábbi elemet?"
+
+msgid "topitem_delete"
+msgstr "Törlés"
+
+msgid "topitem_edit"
+msgstr "Módosítás"
+
+msgid "topitem_icon"
+msgstr "Ikon"
+
+msgid "topitem_icon_byline"
+msgstr "Egyéni ikon feltöltése ehhez az objektumhoz."
+
+msgid "topitem_position"
+msgstr "Pozíciója"
+
+msgid "topitem_provider"
+msgstr "Szolgáltató"
+
+msgid "topitem_subentries"
+msgstr "Elemek"
+
+msgid "topitem_title"
+msgstr "Cím"
+
+msgid "topitem_title_default"
+msgstr "Cím (alapértelmezett nyelven)"
+
+msgid "topitem_title_default_byline"
+msgstr "További fordítások a Műveletek / Fordítás alatt adhatók hozzá."
+
+msgid "topitem_translate"
+msgstr "Fordítás"
+
+msgid "topitem_type"
+msgstr "Típus"
+
+msgid "topitem_type_byline"
+msgstr "A főelemek tartalmazhatják az elemeket vagy linkelhetnek rájuk."
+
+msgid "topitem_type_link"
+msgstr "Link"
+
+msgid "topitem_type_parent"
+msgstr "Főelem"
+
+msgid "type_complex"
+msgstr "Komplex"
+
+msgid "type_link"
+msgstr "Link"
+
+msgid "type_link_list"
+msgstr "Linklista"
+
+msgid "type_lost"
+msgstr "Elveszett"
+
+msgid "type_repository_link"
+msgstr "Tartalomtár-link"
+
+msgid "type_separator"
+msgstr "Elválasztó"
+
+msgid "type_separator_info"
+msgstr "Ennek az elemnek a címe egy szürke sávban fog megjelenni. Amennyiben nem ad meg címet, egy egyszerű vonal fog ott megjelenni."
+
+msgid "type_top_link_item"
+msgstr "Linkel"
+
+msgid "type_top_parent_item"
+msgstr "Tartalmazza"
+
+msgid "unable_to_render"
+msgstr "‘%s’ / ‘%s’ nem jeleníthető meg."

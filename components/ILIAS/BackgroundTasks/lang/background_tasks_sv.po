@@ -1,0 +1,45 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: background_tasks\n"
+
+msgid "abort"
+msgstr "Avbryt"
+
+msgid "background_tasks"
+msgstr "Bakgrundsuppgifter"
+
+msgid "background_tasks_running"
+msgstr "Bakgrundsuppgifter"
+
+msgid "completed"
+msgstr "Fullbordad"
+
+msgid "proceed_job"
+msgstr "Fortsättning"
+
+msgid "scheduled"
+msgstr "Planerad"
+
+msgid "task_might_be_failed"
+msgstr "Den här uppgiften har inte besvarats på ett tag, du kan stoppa den om det behövs."
+
+msgid "ui_msg_files_violate_maxsize"
+msgstr "Den totala nedladdningsstorleken överskrider den globala gränsen. Nedladdningen avbryts."
+
+msgid "ui_msg_no_files_found"
+msgstr "Inga filer hittades. Nedladdningen har avbrutits."
+
+msgid "ui_msg_num_files"
+msgstr "%s fil(er) har hittats, vill du fortsätta?"
+
+msgid "ui_msg_sum_file_sizes"
+msgstr "Den totala nedladdningsstorleken innan zip-mappen skapas är %s. Vill du fortsätta?"
+
+msgid "waiting"
+msgstr "Väntar"

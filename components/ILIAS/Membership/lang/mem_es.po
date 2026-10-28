@@ -1,0 +1,24 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: mem\n"
+
+msgid "mem_period_without_time"
+msgstr "Sin indicación de hora"
+
+msgid "mem_print_view_form"
+msgstr "Configuración predeterminada para la vista de impresión"
+
+msgid "mem_settings_tab_print_view"
+msgstr "Ajustes de la vista de impresión"
+
+msgid "mem_settings_tab_settings"
+msgstr "Ajustes generales"
+
+msgid "mmbr_gallery_user_actions"
+msgstr "Acciones de la galería de miembros"

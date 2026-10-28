@@ -1,0 +1,30 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: adm\n"
+
+msgid "adm_acc_ctrl_cpt_desc"
+msgstr "Se attivato, il collegamento per il concetto di controllo dell'accessibilità viene visualizzato nel piè di pagina."
+
+msgid "adm_acc_ctrl_cpt_enable"
+msgstr "Abilita il concetto di controllo dell'accessibilità"
+
+msgid "adm_accessibility_contacts"
+msgstr "Punto di contatto Accessibilità"
+
+msgid "adm_accessibility_contacts_info"
+msgstr "Contatti per segnalare problemi di accessibilità nel collegamento a piè di pagina. Elenco separato da virgole di accessi all'account."
+
+msgid "adm_awrn_support_contacts_info"
+msgstr "Sono elencati tutti i contatti supporto tecnico. Gli utenti sono definiti come contatti di supporto tecnico nella sezione \"Impostazioni generali\"> \"Informazione di contatto\"."
+
+msgid "adm_support_contacts"
+msgstr "Supporto tecnico"
+
+msgid "adm_support_contacts_info"
+msgstr "Contatti di supporto utilizzati nel collegamento a piè di pagina e (se attivato) nello strumento “Chi è online?”. Elenco di account di accesso separato da virgole."

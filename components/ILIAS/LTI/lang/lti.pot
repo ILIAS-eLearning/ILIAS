@@ -1,0 +1,841 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: lti\n"
+
+msgid "act_lti_for_obj_type"
+msgstr ""
+
+msgid "activity_id"
+msgstr ""
+
+msgid "activity_id_info"
+msgstr ""
+
+msgid "auth_lti"
+msgstr ""
+
+msgid "conf_privacy_ident"
+msgstr ""
+
+msgid "conf_privacy_ident_il_uuid_SHA256"
+msgstr ""
+
+msgid "conf_privacy_ident_il_uuid_SHA256_info"
+msgstr ""
+
+msgid "conf_privacy_ident_il_uuid_ext_account"
+msgstr ""
+
+msgid "conf_privacy_ident_il_uuid_ext_account_info"
+msgstr ""
+
+msgid "conf_privacy_ident_il_uuid_login"
+msgstr ""
+
+msgid "conf_privacy_ident_il_uuid_login_info"
+msgstr ""
+
+msgid "conf_privacy_ident_il_uuid_random"
+msgstr ""
+
+msgid "conf_privacy_ident_il_uuid_random_info"
+msgstr ""
+
+msgid "conf_privacy_ident_il_uuid_sha256url"
+msgstr ""
+
+msgid "conf_privacy_ident_il_uuid_sha256url_info"
+msgstr ""
+
+msgid "conf_privacy_ident_il_uuid_user_id"
+msgstr ""
+
+msgid "conf_privacy_ident_il_uuid_user_id_info"
+msgstr ""
+
+msgid "conf_privacy_ident_info"
+msgstr ""
+
+msgid "conf_privacy_ident_real_email"
+msgstr ""
+
+msgid "conf_privacy_ident_real_email_info"
+msgstr ""
+
+msgid "conf_privacy_name"
+msgstr ""
+
+msgid "conf_privacy_name_firstname"
+msgstr ""
+
+msgid "conf_privacy_name_firstname_info"
+msgstr ""
+
+msgid "conf_privacy_name_fullname"
+msgstr ""
+
+msgid "conf_privacy_name_fullname_info"
+msgstr ""
+
+msgid "conf_privacy_name_info"
+msgstr ""
+
+msgid "conf_privacy_name_lastname"
+msgstr ""
+
+msgid "conf_privacy_name_lastname_info"
+msgstr ""
+
+msgid "conf_privacy_name_none"
+msgstr ""
+
+msgid "conf_privacy_name_none_info"
+msgstr ""
+
+msgid "conf_user_name"
+msgstr ""
+
+msgid "consumers"
+msgstr ""
+
+msgid "description_info"
+msgstr ""
+
+msgid "gbl_roles_to_users"
+msgstr ""
+
+msgid "global_provider_subtab"
+msgstr ""
+
+msgid "grade_activity_progress_all"
+msgstr ""
+
+msgid "grade_activity_progress_completed"
+msgstr ""
+
+msgid "grade_activity_progress_initialized"
+msgstr ""
+
+msgid "grade_activity_progress_inprogress"
+msgstr ""
+
+msgid "grade_activity_progress_started"
+msgstr ""
+
+msgid "grade_activity_progress_submitted"
+msgstr ""
+
+msgid "grade_grading_progress_all"
+msgstr ""
+
+msgid "grade_grading_progress_failed"
+msgstr ""
+
+msgid "grade_grading_progress_fullygraded"
+msgstr ""
+
+msgid "grade_grading_progress_notready"
+msgstr ""
+
+msgid "grade_grading_progress_pending"
+msgstr ""
+
+msgid "grade_grading_progress_pendingmanual"
+msgstr ""
+
+msgid "highscore_achieved_ts"
+msgstr ""
+
+msgid "highscore_achieved_ts_description"
+msgstr ""
+
+msgid "highscore_all_tables"
+msgstr ""
+
+msgid "highscore_all_tables_description"
+msgstr ""
+
+msgid "highscore_description"
+msgstr ""
+
+msgid "highscore_enabled"
+msgstr ""
+
+msgid "highscore_mode"
+msgstr ""
+
+msgid "highscore_own_table"
+msgstr ""
+
+msgid "highscore_own_table_description"
+msgstr ""
+
+msgid "highscore_percentage"
+msgstr ""
+
+msgid "highscore_percentage_description"
+msgstr ""
+
+msgid "highscore_score"
+msgstr ""
+
+msgid "highscore_top_num"
+msgstr ""
+
+msgid "highscore_top_num_description"
+msgstr ""
+
+msgid "highscore_top_num_unit"
+msgstr ""
+
+msgid "highscore_top_table"
+msgstr ""
+
+msgid "highscore_top_table_description"
+msgstr ""
+
+msgid "highscore_wtime"
+msgstr ""
+
+msgid "highscore_wtime_description"
+msgstr ""
+
+msgid "launch_method"
+msgstr ""
+
+msgid "launch_method_embedded"
+msgstr ""
+
+msgid "launch_method_embedded_info"
+msgstr ""
+
+msgid "launch_method_new_win"
+msgstr ""
+
+msgid "launch_method_new_win_info"
+msgstr ""
+
+msgid "launch_method_own_win"
+msgstr ""
+
+msgid "launch_method_own_win_info"
+msgstr ""
+
+msgid "launched"
+msgstr ""
+
+msgid "learning_progress_options"
+msgstr ""
+
+msgid "lti13_hints"
+msgstr ""
+
+msgid "lti_13_authentication_url"
+msgstr ""
+
+msgid "lti_13_client_id"
+msgstr ""
+
+msgid "lti_13_deployment_id"
+msgstr ""
+
+msgid "lti_13_keyset_url"
+msgstr ""
+
+msgid "lti_13_platform_id"
+msgstr ""
+
+msgid "lti_13_token_url"
+msgstr ""
+
+msgid "lti_1p1_deprecated_info"
+msgstr ""
+
+msgid "lti_1p1_deprecated_link"
+msgstr ""
+
+msgid "lti_action_accept_provider_as_global"
+msgstr ""
+
+msgid "lti_action_reset_provider_to_user_scope"
+msgstr ""
+
+msgid "lti_add_global_provider"
+msgstr ""
+
+msgid "lti_add_own_provider"
+msgstr ""
+
+msgid "lti_admin"
+msgstr ""
+
+msgid "lti_at_least_one_not_acceptable_as_global"
+msgstr ""
+
+msgid "lti_at_least_one_not_resetable_to_usr_def"
+msgstr ""
+
+msgid "lti_at_least_one_prov_has_usages"
+msgstr ""
+
+msgid "lti_auth_failed_invalid_key"
+msgstr ""
+
+msgid "lti_con_content_item"
+msgstr ""
+
+msgid "lti_con_content_item_url"
+msgstr ""
+
+msgid "lti_con_grade_synchronization"
+msgstr ""
+
+msgid "lti_con_grade_synchronization_info"
+msgstr ""
+
+msgid "lti_con_initiate_login_url"
+msgstr ""
+
+msgid "lti_con_key_type"
+msgstr ""
+
+msgid "lti_con_key_type_jwk"
+msgstr ""
+
+msgid "lti_con_key_type_jwk_url"
+msgstr ""
+
+msgid "lti_con_key_type_rsa"
+msgstr ""
+
+msgid "lti_con_key_type_rsa_public_key"
+msgstr ""
+
+msgid "lti_con_key_type_rsa_public_key_info"
+msgstr ""
+
+msgid "lti_con_names_roles"
+msgstr ""
+
+msgid "lti_con_names_roles_info"
+msgstr ""
+
+msgid "lti_con_prov_always_learner"
+msgstr ""
+
+msgid "lti_con_prov_always_learner_info"
+msgstr ""
+
+msgid "lti_con_prov_authentication"
+msgstr ""
+
+msgid "lti_con_prov_availability"
+msgstr ""
+
+msgid "lti_con_prov_availability_create"
+msgstr ""
+
+msgid "lti_con_prov_availability_existing"
+msgstr ""
+
+msgid "lti_con_prov_availability_non"
+msgstr ""
+
+msgid "lti_con_prov_category"
+msgstr ""
+
+msgid "lti_con_prov_category_info"
+msgstr ""
+
+msgid "lti_con_prov_custom_params"
+msgstr ""
+
+msgid "lti_con_prov_custom_params_info"
+msgstr ""
+
+msgid "lti_con_prov_description"
+msgstr ""
+
+msgid "lti_con_prov_dyn_reg_params"
+msgstr ""
+
+msgid "lti_con_prov_dyn_reg_params_info"
+msgstr ""
+
+msgid "lti_con_prov_dyn_reg_url"
+msgstr ""
+
+msgid "lti_con_prov_dyn_reg_url_info"
+msgstr ""
+
+msgid "lti_con_prov_external_provider"
+msgstr ""
+
+msgid "lti_con_prov_external_provider_info"
+msgstr ""
+
+msgid "lti_con_prov_group_options"
+msgstr ""
+
+msgid "lti_con_prov_has_outcome_service"
+msgstr ""
+
+msgid "lti_con_prov_has_outcome_service_info"
+msgstr ""
+
+msgid "lti_con_prov_hints"
+msgstr ""
+
+msgid "lti_con_prov_inc_usr_pic"
+msgstr ""
+
+msgid "lti_con_prov_inc_usr_pic_info"
+msgstr ""
+
+msgid "lti_con_prov_instructor_email"
+msgstr ""
+
+msgid "lti_con_prov_instructor_email_info"
+msgstr ""
+
+msgid "lti_con_prov_instructor_name"
+msgstr ""
+
+msgid "lti_con_prov_instructor_name_info"
+msgstr ""
+
+msgid "lti_con_prov_key"
+msgstr ""
+
+msgid "lti_con_prov_keywords"
+msgstr ""
+
+msgid "lti_con_prov_keywords_info"
+msgstr ""
+
+msgid "lti_con_prov_launch_options"
+msgstr ""
+
+msgid "lti_con_prov_learning_progress_options"
+msgstr ""
+
+msgid "lti_con_prov_mastery_score_default"
+msgstr ""
+
+msgid "lti_con_prov_mastery_score_default_info"
+msgstr ""
+
+msgid "lti_con_prov_privacy_settings"
+msgstr ""
+
+msgid "lti_con_prov_provider_key_global"
+msgstr ""
+
+msgid "lti_con_prov_provider_key_global_info"
+msgstr ""
+
+msgid "lti_con_prov_remarks"
+msgstr ""
+
+msgid "lti_con_prov_secret"
+msgstr ""
+
+msgid "lti_con_prov_title"
+msgstr ""
+
+msgid "lti_con_prov_url"
+msgstr ""
+
+msgid "lti_con_prov_use_provider_id"
+msgstr ""
+
+msgid "lti_con_prov_use_provider_id_info"
+msgstr ""
+
+msgid "lti_con_prov_use_xapi"
+msgstr ""
+
+msgid "lti_con_prov_use_xapi_info"
+msgstr ""
+
+msgid "lti_con_prov_xapi_activity_id"
+msgstr ""
+
+msgid "lti_con_prov_xapi_activity_id_info"
+msgstr ""
+
+msgid "lti_con_prov_xapi_launch_key"
+msgstr ""
+
+msgid "lti_con_prov_xapi_launch_secret"
+msgstr ""
+
+msgid "lti_con_prov_xapi_launch_url"
+msgstr ""
+
+msgid "lti_con_prov_xapi_launch_url_info"
+msgstr ""
+
+msgid "lti_con_redirection_uris"
+msgstr ""
+
+msgid "lti_con_tool_url"
+msgstr ""
+
+msgid "lti_con_version"
+msgstr ""
+
+msgid "lti_con_version_1.3"
+msgstr ""
+
+msgid "lti_con_version_1.3_before_id"
+msgstr ""
+
+msgid "lti_confirm_delete_providers"
+msgstr ""
+
+msgid "lti_consumer"
+msgstr ""
+
+msgid "lti_consumer_created"
+msgstr ""
+
+msgid "lti_consumer_deleted"
+msgstr ""
+
+msgid "lti_consumer_set_active"
+msgstr ""
+
+msgid "lti_consumer_set_inactive"
+msgstr ""
+
+msgid "lti_consumer_updated"
+msgstr ""
+
+msgid "lti_consuming_tab"
+msgstr ""
+
+msgid "lti_create_consumer"
+msgstr ""
+
+msgid "lti_create_lti_user_role"
+msgstr ""
+
+msgid "lti_cron_title"
+msgstr ""
+
+msgid "lti_cron_title_desc"
+msgstr ""
+
+msgid "lti_custom_new"
+msgstr ""
+
+msgid "lti_deep_linking_expired"
+msgstr ""
+
+msgid "lti_deep_linking_failed"
+msgstr ""
+
+msgid "lti_deep_linking_no_content"
+msgstr ""
+
+msgid "lti_deep_linking_running"
+msgstr ""
+
+msgid "lti_deep_linking_select"
+msgstr ""
+
+msgid "lti_deep_linking_select_info"
+msgstr ""
+
+msgid "lti_deep_linking_submit"
+msgstr ""
+
+msgid "lti_deep_linking_url"
+msgstr ""
+
+msgid "lti_delete_provider"
+msgstr ""
+
+msgid "lti_dyn_reg_failed"
+msgstr ""
+
+msgid "lti_dyn_reg_finish"
+msgstr ""
+
+msgid "lti_dyn_reg_running"
+msgstr ""
+
+msgid "lti_dyn_reg_tool_done"
+msgstr ""
+
+msgid "lti_dyn_reg_tool_failed"
+msgstr ""
+
+msgid "lti_dyn_reg_tool_url"
+msgstr ""
+
+msgid "lti_dyn_reg_tool_url_after_save"
+msgstr ""
+
+msgid "lti_dyn_reg_tool_url_info"
+msgstr ""
+
+#. 04 12 2025
+msgid "lti_dynamic_registration"
+msgstr ""
+
+msgid "lti_edit_consumer"
+msgstr ""
+
+msgid "lti_exit"
+msgstr ""
+
+msgid "lti_exited"
+msgstr ""
+
+msgid "lti_exited_info"
+msgstr ""
+
+msgid "lti_form_provider_create"
+msgstr ""
+
+msgid "lti_form_provider_edit"
+msgstr ""
+
+msgid "lti_form_section_appearance"
+msgstr ""
+
+msgid "lti_info_external_provider_info"
+msgstr ""
+
+msgid "lti_info_external_provider_label"
+msgstr ""
+
+msgid "lti_info_learning_progress_section"
+msgstr ""
+
+msgid "lti_info_privacy_section"
+msgstr ""
+
+msgid "lti_launch_url"
+msgstr ""
+
+msgid "lti_member"
+msgstr ""
+
+msgid "lti_no_provider_selected"
+msgstr ""
+
+msgid "lti_object_consumer"
+msgstr ""
+
+msgid "lti_object_release_settings_form"
+msgstr ""
+
+msgid "lti_platform_names_roles_info"
+msgstr ""
+
+msgid "lti_platform_registration"
+msgstr ""
+
+msgid "lti_platform_registration_incomplete"
+msgstr ""
+
+msgid "lti_platform_registration_info"
+msgstr ""
+
+msgid "lti_platform_registration_taken"
+msgstr ""
+
+msgid "lti_provider"
+msgstr ""
+
+msgid "lti_provider_not_avail_msg"
+msgstr ""
+
+msgid "lti_provider_not_set_msg"
+msgstr ""
+
+msgid "lti_providing_tab"
+msgstr ""
+
+msgid "lti_released_objects"
+msgstr ""
+
+msgid "lti_select_provider"
+msgstr ""
+
+msgid "lti_settings"
+msgstr ""
+
+msgid "lti_settings_form"
+msgstr ""
+
+msgid "lti_success_accept_as_global"
+msgstr ""
+
+msgid "lti_success_delete_provider"
+msgstr ""
+
+msgid "lti_success_reset_to_usr_def"
+msgstr ""
+
+msgid "lti_tutor"
+msgstr ""
+
+msgid "lti_user_role_created"
+msgstr ""
+
+msgid "lti_user_role_info"
+msgstr ""
+
+msgid "lti_version_1p1_deprecated"
+msgstr ""
+
+msgid "lti_version_advantage"
+msgstr ""
+
+msgid "mastery_score"
+msgstr ""
+
+msgid "mastery_score_info"
+msgstr ""
+
+msgid "obj_tile_image_info"
+msgstr ""
+
+msgid "online_info"
+msgstr ""
+
+msgid "prefix"
+msgstr ""
+
+msgid "provider_info"
+msgstr ""
+
+msgid "settings_subtab"
+msgstr ""
+
+msgid "show_statements"
+msgstr ""
+
+msgid "show_statements_info"
+msgstr ""
+
+msgid "subtab_object_settings"
+msgstr ""
+
+msgid "subtab_provider_settings"
+msgstr ""
+
+msgid "tab_content"
+msgstr ""
+
+msgid "tab_grade_synchronization"
+msgstr ""
+
+msgid "tab_info"
+msgstr ""
+
+msgid "tab_scoring"
+msgstr ""
+
+msgid "tab_settings"
+msgstr ""
+
+msgid "tab_statements"
+msgstr ""
+
+msgid "tbl_grade_activity_progress"
+msgstr ""
+
+msgid "tbl_grade_actor"
+msgstr ""
+
+msgid "tbl_grade_date"
+msgstr ""
+
+msgid "tbl_grade_grading_progress"
+msgstr ""
+
+msgid "tbl_grade_period"
+msgstr ""
+
+msgid "tbl_grade_score"
+msgstr ""
+
+msgid "tbl_grade_stored"
+msgstr ""
+
+msgid "tbl_lti_prov_availability"
+msgstr ""
+
+msgid "tbl_lti_prov_category"
+msgstr ""
+
+msgid "tbl_lti_prov_description"
+msgstr ""
+
+msgid "tbl_lti_prov_internal"
+msgstr ""
+
+msgid "tbl_lti_prov_keyword"
+msgstr ""
+
+msgid "tbl_lti_prov_keywords"
+msgstr ""
+
+msgid "tbl_lti_prov_outcome"
+msgstr ""
+
+msgid "tbl_lti_prov_own_provider"
+msgstr ""
+
+msgid "tbl_lti_prov_provider_creator"
+msgstr ""
+
+msgid "tbl_lti_prov_title"
+msgstr ""
+
+msgid "tbl_lti_prov_usages"
+msgstr ""
+
+msgid "tbl_lti_prov_usages_trashed"
+msgstr ""
+
+msgid "tbl_lti_prov_usages_untrashed"
+msgstr ""
+
+msgid "tbl_lti_prov_used_by"
+msgstr ""
+
+msgid "tbl_lti_prov_with_key"
+msgstr ""
+
+msgid "tbl_provider_header"
+msgstr ""
+
+msgid "tbl_provider_usage_header"
+msgstr ""
+
+msgid "title_info"
+msgstr ""
+
+msgid "usage_subtab"
+msgstr ""
+
+msgid "use_xapi"
+msgstr ""
+
+msgid "use_xapi_info"
+msgstr ""
+
+msgid "user_lng"
+msgstr ""
+
+msgid "user_provider_subtab"
+msgstr ""

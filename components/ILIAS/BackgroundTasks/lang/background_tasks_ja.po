@@ -1,0 +1,45 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: background_tasks\n"
+
+msgid "abort"
+msgstr "強制終了"
+
+msgid "background_tasks"
+msgstr "バックグラウンドタスク"
+
+msgid "background_tasks_running"
+msgstr "バックグラウンドタスク"
+
+msgid "completed"
+msgstr "完了しました"
+
+msgid "proceed_job"
+msgstr "続行"
+
+msgid "scheduled"
+msgstr "予定"
+
+msgid "task_might_be_failed"
+msgstr "このタスクはしばらく応答がありません、必要であれば中止できます。"
+
+msgid "ui_msg_files_violate_maxsize"
+msgstr "合計ダウンロードサイズがグローバル制限値を超えています。ダウンロードを中止します。"
+
+msgid "ui_msg_no_files_found"
+msgstr "ファイルが見つかりません。ダウンロードを中止します。"
+
+msgid "ui_msg_num_files"
+msgstr "ダウンロード用に %s file(-s) が検出されました。継続しますか？"
+
+msgid "ui_msg_sum_file_sizes"
+msgstr "Zipフォルダー作成前の郷瑛ダウンロードサイズは %s です。継続しますか?"
+
+msgid "waiting"
+msgstr "待ち"

@@ -1,0 +1,21 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: noti\n"
+
+msgid "noti_activate_notification"
+msgstr "Se estiver ativado, a pesquisa do utilizador vai mostrar utilizadores inativos também."
+
+msgid "noti_deactivate_notification"
+msgstr "Mostrar utilizadores com acesso limitado"
+
+msgid "noti_notification_activated"
+msgstr "Se estiver ativado, a pesquisa do utilizador mostra também utilizadores com acesso limitado fora desse período de tempo autorizado."
+
+msgid "noti_notification_deactivated"
+msgstr "Tipo"

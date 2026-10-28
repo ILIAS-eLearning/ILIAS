@@ -1,0 +1,258 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: scormtrac\n"
+
+msgid "LearningModuleId"
+msgstr ""
+
+msgid "LearningModuleTitle"
+msgstr ""
+
+msgid "LearningModuleVersion"
+msgstr ""
+
+msgid "Percentage"
+msgstr ""
+
+msgid "Status"
+msgstr ""
+
+msgid "audio_captioning"
+msgstr ""
+
+msgid "audio_level"
+msgstr ""
+
+msgid "c_entry"
+msgstr ""
+
+msgid "c_exit"
+msgstr ""
+
+msgid "c_language"
+msgstr ""
+
+msgid "c_location"
+msgstr ""
+
+msgid "c_max"
+msgstr ""
+
+msgid "c_min"
+msgstr ""
+
+msgid "c_mode"
+msgstr ""
+
+msgid "c_raw"
+msgstr ""
+
+msgid "c_timestamp"
+msgstr ""
+
+msgid "c_type"
+msgstr ""
+
+msgid "completedSCOs"
+msgstr ""
+
+msgid "completion_status"
+msgstr ""
+
+msgid "completion_threshold"
+msgstr ""
+
+msgid "counter"
+msgstr ""
+
+msgid "counter_all"
+msgstr ""
+
+msgid "counter_correct"
+msgstr ""
+
+msgid "counter_correct_percent"
+msgstr ""
+
+msgid "counter_i_correct"
+msgstr ""
+
+msgid "counter_i_correct_percent"
+msgstr ""
+
+msgid "counter_i_incorrect"
+msgstr ""
+
+msgid "counter_i_incorrect_percent"
+msgstr ""
+
+msgid "counter_i_other"
+msgstr ""
+
+msgid "counter_i_other_percent"
+msgstr ""
+
+msgid "counter_incorrect"
+msgstr ""
+
+msgid "counter_incorrect_percent"
+msgstr ""
+
+msgid "counter_other"
+msgstr ""
+
+msgid "counter_other_percent"
+msgstr ""
+
+msgid "cp_node_id"
+msgstr ""
+
+msgid "credit"
+msgstr ""
+
+msgid "delivery_speed"
+msgstr ""
+
+msgid "existingSCOs"
+msgstr ""
+
+msgid "exportobjglobaltosystem"
+msgstr ""
+
+msgid "exportselectedcore"
+msgstr ""
+
+msgid "exportselectedinteractions"
+msgstr ""
+
+msgid "exportselectedobjectives"
+msgstr ""
+
+msgid "exportselectedraw"
+msgstr ""
+
+msgid "exportselectedsuccess"
+msgstr ""
+
+msgid "identifierref"
+msgstr ""
+
+msgid "interaction_description"
+msgstr ""
+
+msgid "interaction_id"
+msgstr ""
+
+msgid "interaction_value"
+msgstr ""
+
+msgid "latency"
+msgstr ""
+
+msgid "latency_seconds"
+msgstr ""
+
+msgid "launch_data"
+msgstr ""
+
+msgid "learner_response"
+msgstr ""
+
+msgid "lesson_status"
+msgstr ""
+
+msgid "lm_id"
+msgstr ""
+
+msgid "lm_title"
+msgstr ""
+
+msgid "lvalue"
+msgstr ""
+
+msgid "measure"
+msgstr ""
+
+msgid "ostatus"
+msgstr ""
+
+msgid "passedSCOs"
+msgstr ""
+
+msgid "progress_measure"
+msgstr ""
+
+msgid "report"
+msgstr ""
+
+msgid "result"
+msgstr ""
+
+msgid "roundedTotal_timeSeconds"
+msgstr ""
+
+msgid "rvalue"
+msgstr ""
+
+msgid "satisfied"
+msgstr ""
+
+msgid "scaled"
+msgstr ""
+
+msgid "scaled_passing_score"
+msgstr ""
+
+msgid "sco_id"
+msgstr ""
+
+msgid "sco_marked_for_learning_progress"
+msgstr ""
+
+msgid "sco_title"
+msgstr ""
+
+msgid "scope"
+msgstr ""
+
+msgid "session_time"
+msgstr ""
+
+msgid "session_time_seconds"
+msgstr ""
+
+msgid "startedSCOs"
+msgstr ""
+
+msgid "student_response"
+msgstr ""
+
+msgid "success_status"
+msgstr ""
+
+msgid "suspend_data"
+msgstr ""
+
+msgid "total_time"
+msgstr ""
+
+msgid "total_time_seconds"
+msgstr ""
+
+msgid "tracinteractionitem"
+msgstr ""
+
+msgid "tracinteractionuser"
+msgstr ""
+
+msgid "tracinteractionuseranswers"
+msgstr ""
+
+msgid "user_id"
+msgstr ""
+
+msgid "weighting"
+msgstr ""

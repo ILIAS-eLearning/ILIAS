@@ -1,0 +1,5140 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: assessment\n"
+
+msgid "activate_logging"
+msgstr "Aktivovat záznam Test a Hodnocení"
+
+#, fuzzy
+msgid "activate_manual_scoring"
+msgstr "Enable Manual Scoring"
+
+#, fuzzy
+msgid "activate_manual_scoring_desc"
+msgstr "Enables manual Scoring for all question types."
+
+msgid "addSuggestedSolution"
+msgstr "Přidat doporučené řešení"
+
+msgid "add_answers"
+msgstr "Přidat odpovědi"
+
+msgid "add_circle"
+msgstr "Přidat kruhovou plochu"
+
+msgid "add_gap"
+msgstr "Přidat textovou mezeru"
+
+msgid "add_imagemap"
+msgstr "Importovat mapu obrázku"
+
+msgid "add_poly"
+msgstr "Přidat plochu polygonu"
+
+msgid "add_rect"
+msgstr "Přidat trojúhelníkovou plochu"
+
+#, fuzzy
+msgid "add_users"
+msgstr "Add Users"
+
+msgid "additional_rating_info"
+msgstr "Povšimněte si, že zde uvedené hodnoty jsou vyjádřeny jako procenta a jejich součet musí být 100."
+
+msgid "advanced_rating"
+msgstr "Rozšířené hodnocení"
+
+msgid "advanced_rating_info"
+msgstr "Rozšířené hodnocení je dostupné jen když jednotka je přiřazena k výsledku."
+
+msgid "all_available_question_pools"
+msgstr "Všechny dostupné zásobníky otázek"
+
+msgid "all_participants"
+msgstr "Všichni účastníci"
+
+msgid "allow_images"
+msgstr "Obrázková podpora pro odpovědi"
+
+msgid "allowedextensions"
+msgstr "Povolené přípony souborů"
+
+msgid "allowedextensions_info"
+msgstr "Vložit seznam oddělený čárkami povolených přípon souborů (např. doc,xls,odt), pokud chcete omezit ukládání na danou sadu přípon."
+
+#, fuzzy
+msgid "already_added_extra_time"
+msgstr "already added: %s min"
+
+msgid "analyze_errortext"
+msgstr "Analyzovat chyby textu"
+
+msgid "answer"
+msgstr "Odpověď"
+
+msgid "answer_characters"
+msgstr " znaků povoleno, počet vložených znaků:"
+
+msgid "answer_image"
+msgstr "Obrázek odpovědi"
+
+msgid "answer_is_not_correct_but_positive"
+msgstr "Obdržel/a jste body za Vaše řešení, avšak toto řešení není nejlepší"
+
+msgid "answer_is_right"
+msgstr "Vaše řešení je správné"
+
+msgid "answer_is_wrong"
+msgstr "Vaše řešení je chybné"
+
+#, fuzzy
+msgid "answer_of"
+msgstr "Answer of"
+
+msgid "answer_options"
+msgstr "Možnosti odpovědi:"
+
+msgid "answer_question"
+msgstr "Odpovědět na otázku"
+
+msgid "answer_text"
+msgstr "Text odpovědi"
+
+msgid "answer_types"
+msgstr "Typy odpovědi"
+
+msgid "answered"
+msgstr "Zodpovězeno"
+
+msgid "answers_multiline"
+msgstr "Víceřádkové odpovědi"
+
+msgid "answers_of"
+msgstr "Odpovědi od:"
+
+msgid "answers_select"
+msgstr "Vybrat"
+
+msgid "answers_singleline"
+msgstr "Jednořádkové odpovědi"
+
+msgid "answers_text_box"
+msgstr "Text"
+
+msgid "applet_attributes"
+msgstr "Atributy apletu"
+
+msgid "applet_parameter"
+msgstr "Parametr"
+
+msgid "applet_parameters"
+msgstr "Parametry apletu"
+
+msgid "apply_def_settings_to_tst"
+msgstr "Aplikovat nastavení"
+
+msgid "assClozeTest"
+msgstr "Otázka s doplňováním textu"
+
+msgid "assErrorText"
+msgstr "Chybný text"
+
+msgid "assFileUpload"
+msgstr "Soubor uložených otázek"
+
+msgid "assFlashQuestion"
+msgstr "Flash otázka"
+
+msgid "assFormulaQuestion"
+msgstr "Otázka se vzorečkem"
+
+msgid "assImagemapQuestion"
+msgstr "Otázka s mapou citlivých bodů obrázku"
+
+msgid "assKprimChoice"
+msgstr "Otázka s vícenásobným výběrem (odpovědi Kprim)"
+
+msgid "assLongMenu"
+msgstr "Dlouhé menu"
+
+msgid "assMatchingQuestion"
+msgstr "Otázka s párováním odpovědí"
+
+msgid "assMultipleChoice"
+msgstr "Otázka s vícenásobným výběrem (více odpovědí)"
+
+msgid "assNumeric"
+msgstr "Numerická otázka"
+
+msgid "assOrderingHorizontal"
+msgstr "Otázka s uspořádáním (Horizontálně)"
+
+msgid "assOrderingQuestion"
+msgstr "Otázka s uspořádáním (Vertikálně)"
+
+msgid "assQuestions"
+msgstr "Otázky"
+
+msgid "assSingleChoice"
+msgstr "Otázka s vícenásobným výběrem (jedna odpověď)"
+
+msgid "assTextQuestion"
+msgstr "Otázka s pojednáním"
+
+msgid "assTextSubset"
+msgstr "Otázka s podskupinami textu"
+
+msgid "ass_cloze_fb_mode"
+msgstr "Režim zpětné vazby"
+
+msgid "ass_cloze_fb_mode_gap_answ"
+msgstr "Odpověď na určitou zpětnou vazbu"
+
+msgid "ass_cloze_fb_mode_gap_answ_info"
+msgstr "Pro každou mezeru lze konfigurovat samostatné zpětné vazby pro různé odpovědi."
+
+msgid "ass_cloze_fb_mode_gap_qst"
+msgstr "Zpětná vazba na mezeru"
+
+msgid "ass_cloze_fb_mode_gap_qst_info"
+msgstr "Pro každou mezeru lze konfigurovat jednu zpětnou vazbu."
+
+msgid "ass_cloze_gap_fb_gap_label"
+msgstr "Mezera %s: <i>%s</i>"
+
+msgid "ass_cloze_gap_fb_num_empty_label"
+msgstr "Mezera %s – Žádný vstup"
+
+msgid "ass_cloze_gap_fb_num_rangehit_label"
+msgstr "Mezera %s – Rozsah skóre"
+
+msgid "ass_cloze_gap_fb_num_toohigh_label"
+msgstr "Mezera %s – Příliš vysoká hodnota"
+
+msgid "ass_cloze_gap_fb_num_toolow_label"
+msgstr "Mezera %s – Příliš nízká hodnota"
+
+msgid "ass_cloze_gap_fb_num_valuehit_label"
+msgstr "Mezera %s – Hodnota skóre"
+
+msgid "ass_cloze_gap_fb_sel_empty_label"
+msgstr "Mezera %s – Žádný výběr"
+
+msgid "ass_cloze_gap_fb_sel_opt_label"
+msgstr "Mezera %s – Vybrat možnost: <i>%s</i>"
+
+msgid "ass_cloze_gap_fb_txt_empty_label"
+msgstr "Mezera %s – Žádný vstup"
+
+msgid "ass_cloze_gap_fb_txt_match_label"
+msgstr "Mezera %s – Zadaná odpověď: <i>%s</i>"
+
+msgid "ass_cloze_gap_fb_txt_nomatch_label"
+msgstr "Mezera %s – Nesprávná odpověď"
+
+msgid "ass_commented_questions_only"
+msgstr "Pouze komentované otázky"
+
+msgid "ass_comments"
+msgstr "Komentáře"
+
+msgid "ass_competence_respect_level_ordering"
+msgstr "Povšimněte si, že prahové hodnoty způsobilosti musí být definovány ve vzestupném pořadí podle dostupných úrovní."
+
+msgid "ass_completion_by_submission"
+msgstr "Splnit odevzdáním"
+
+msgid "ass_completion_by_submission_info"
+msgstr "Je-li zapnuto, odevzdání alespoň jednoho souboru způsobí splnění dané otázky s přidělením maximálního počtu bodů této otázky. Tento počet bodů může být později změněn manuálně. Změna tohoto nastavení nemá vliv na již odevzdaná řešení."
+
+msgid "ass_create_export_file_with_results"
+msgstr "Vytvořit exportní soubor testu (vč. výsledků účastníků)"
+
+msgid "ass_create_export_test_archive"
+msgstr "Vytvořit archivní soubor testu"
+
+msgid "ass_create_question"
+msgstr "Vytvořit otázku"
+
+msgid "ass_imap_hint"
+msgstr "Nápověda zobrazena jako nápovědná bublina"
+
+msgid "ass_imap_map_file_not_readable"
+msgstr "Nahranou obrazovou mapu nelze načíst."
+
+msgid "ass_imap_no_map_found"
+msgstr "V nahrané obrazové mapě nelze najít žádný formulář."
+
+msgid "ass_lac_expression"
+msgstr "Výraz"
+
+msgid "ass_lac_show_legend_btn"
+msgstr "Zobrazit legendu"
+
+msgid "ass_lac_unable_to_parse_condition"
+msgstr "Nelze potvrdit podmínku „%s“."
+
+msgid "ass_lac_validation_error"
+msgstr "Při potvrzování podmíněného výrazu(ů) se vyskytly chyby!"
+
+msgid "ass_location"
+msgstr "Umístění"
+
+msgid "ass_mc_sel_lim_exhausted_hint"
+msgstr "Nevybírejte více než %s z %s odpovědí!"
+
+msgid "ass_mc_sel_lim_hint"
+msgstr "Vyberte %s z %s odpovědí!"
+
+msgid "ass_mc_sel_lim_setting"
+msgstr "Omezení odpovědí"
+
+msgid "ass_mc_sel_lim_setting_desc"
+msgstr "Tímto nastavením lze omezit počet odpovědí, které si účastníci mohou vybrat."
+
+msgid "ass_process_lock"
+msgstr "Použít uzamčení během průchodů testem"
+
+msgid "ass_process_lock_desc"
+msgstr "Bez použití jakéhokoliv uzamykacího mechanismu jsou možné konflikty časování. To může vést k proměnlivým výsledkům testu."
+
+msgid "ass_process_lock_mode"
+msgstr "Režim uzamčení během průchodu testem"
+
+msgid "ass_process_lock_mode_db"
+msgstr "Použít zámky databázové tabulky"
+
+msgid "ass_process_lock_mode_db_desc"
+msgstr "Tento uzamykací mechanismus uzamkne tabulky v databázi. Souběžné procesy pro stejné nebo jiné uživatele ve stejném nebo v jiném testu pro stejnou nebo jinou otázku čekají, dokud jiný proces neuvolní své zámky."
+
+msgid "ass_process_lock_mode_file"
+msgstr "Použít zámky souborového systému"
+
+msgid "ass_process_lock_mode_file_desc"
+msgstr "Tento uzamykací mechanismus vyžaduje uzamčení prázdných souborů v souborovém systému. Souběžné procesy pro stejného uživatele a stejný test/otázku čekají, dokud jiný proces neuvolní svůj zámek."
+
+msgid "ass_question"
+msgstr "Otázka"
+
+msgid "ass_size"
+msgstr "Velikost"
+
+msgid "ass_skl_import_fails_remove_btn"
+msgstr "Odstranit tuto nápovědu"
+
+msgid "assessment_existing_pool"
+msgstr "Použít existující zásobník otázek"
+
+msgid "assessment_new_pool"
+msgstr "Vytvořit nový zásobník otázek"
+
+msgid "assessment_no_pool"
+msgstr "Nepoužívat zásobník otázek"
+
+msgid "assessment_pool_selection"
+msgstr "Výběr zásobníku"
+
+msgid "assessment_scoring_adjust"
+msgstr "Zapnout korektury"
+
+msgid "assessment_scoring_adjust_desc"
+msgstr "Zapíná možnost korektury, k umožnění modifikace otázky v testu."
+
+msgid "autocomplete_error"
+msgstr "Vaše číslo pro automatické dokončování je příliš velké, máte odpovědi, které mají méně znaků, takže se nikdy nezobrazí."
+
+msgid "autoparticipants_subtab"
+msgstr "Účastníci"
+
+msgid "autosave"
+msgstr "Automatické uložení"
+
+msgid "autosave_failed"
+msgstr "Automatické uložení selhalo!"
+
+msgid "autosave_info"
+msgstr "Je-li zaškrtnuto, odpovědi jsou v intervalech ukládány bez interakce uživatele k zabránění ztráty dat. (Aplikováno pouze na vybrané otázky.)"
+
+msgid "autosave_ival"
+msgstr "Interval"
+
+msgid "autosave_success"
+msgstr "Automatické uložení bylo úspěšné..."
+
+#, fuzzy
+msgid "autosavecontent"
+msgstr "Autosave Content"
+
+msgid "average_reached_points"
+msgstr "Průměrně dosažené body"
+
+msgid "back_to_objective_container"
+msgstr "Přejít na kurz"
+
+#, fuzzy
+msgid "backtocallingpage"
+msgstr "Back to the question page"
+
+#, fuzzy
+msgid "backtocallingpool"
+msgstr "Back to the question pool"
+
+msgid "backtocallingtest"
+msgstr "Zpět k vyvolávacímu testu"
+
+msgid "baseunit"
+msgstr "Základní jednotka"
+
+#, fuzzy
+msgid "broken_test"
+msgstr "Broken Test"
+
+#, fuzzy
+msgid "bulkedit_author"
+msgstr "Set Author"
+
+#, fuzzy
+msgid "bulkedit_lifecycle"
+msgstr "Set Lifecycle"
+
+#, fuzzy
+msgid "bulkedit_taxonomies"
+msgstr "Set Taxonomies"
+
+msgid "cancel_test"
+msgstr "Přerušit test"
+
+msgid "cannot_edit_marks"
+msgstr "Již jsou tu studenti, kteří test spustili. Známky můžete měnit pouze je-li zapnuto datum hlášení hodnocení a toto datum doposud nenastalo."
+
+msgid "cannot_edit_test"
+msgstr "Nemáte odpovídající oprávnění k úpravám testu!"
+
+msgid "cannot_execute_test"
+msgstr "Nemáte odpovídající oprávnění ke spuštění testu!"
+
+msgid "cannot_export_archive"
+msgstr "Archiv-Export nelze vytvořit."
+
+msgid "cannot_read_questionpool"
+msgstr "Nemáte odpovídající oprávnění ke čtení dat zásobníku otázek!"
+
+msgid "cannot_save_metaobject"
+msgstr "Nemáte odpovídající oprávnění k ukládání metadat!"
+
+msgid "cannot_switch_to_online_no_questions_andor_no_mark_steps"
+msgstr "Status nemůže být změněn na &quot;online&quot; neboť zde v tomto testu nejsou žádné otázky a/nebo známky!"
+
+msgid "category"
+msgstr "Kategorie"
+
+msgid "changeSuggestedSolution"
+msgstr "Změnit navrhované řešení"
+
+msgid "change_adm_categories_not_allowed"
+msgstr "Nemáte oprávnění týkající se této kategorie."
+
+msgid "checkbox_checked"
+msgstr "Zaškrtnuto"
+
+msgid "checkbox_unchecked"
+msgstr "Nezaškrtnuto"
+
+msgid "circle"
+msgstr "Kruh"
+
+msgid "circle_click_center"
+msgstr "Klepněte prosím na střed požadované plochy."
+
+msgid "circle_click_circle"
+msgstr "Klepněte prosím na okraj požadované plochy."
+
+#, fuzzy
+msgid "client_ip_range"
+msgstr "Client IP Range"
+
+msgid "clientip"
+msgstr "IP klienta"
+
+msgid "close_text_hint"
+msgstr "Můžete definovat mezeru vložením [gap][/gap] na Vámi vybranou další pozici. Stiskněte tlačítko 'Vytvořit mezery' k přidání editovatelného formuláře pro každou mezeru."
+
+#, fuzzy
+msgid "cloze_answer_text_info"
+msgstr "Spaces preceding or following the answer text will be deleted when the form is saved."
+
+msgid "cloze_fixed_textlength"
+msgstr "Délka textového pole"
+
+msgid "cloze_fixed_textlength_description"
+msgstr "Pokud vložíte hodnotu větší než 0, všechna textová pole textových i numerických mezer budou vytvářeny s pevnou délkou rovnou této hodnotě."
+
+msgid "cloze_gap_size_info"
+msgstr "Pokud zadáte hodnotu větší než 0, bude toto textové pole mezery vytvořeno s pevnou délkou této hodnoty. Pokud nezadáte hodnotu, bude textové pole mezery vytvořeno s hodnotou globální pevné délky."
+
+msgid "cloze_text"
+msgstr "Doplňovaný text"
+
+msgid "cloze_textgap_case_insensitive"
+msgstr "Nerozlišuje velká/malá písmena"
+
+msgid "cloze_textgap_case_sensitive"
+msgstr "Rozlišuje velká/malá písmena"
+
+msgid "cloze_textgap_levenshtein_of"
+msgstr "Vzdálenost Levenshtein %s"
+
+msgid "code"
+msgstr "Kód"
+
+msgid "codebase"
+msgstr "Databáze kódu"
+
+msgid "concatenation"
+msgstr "Sřetězení"
+
+msgid "conf_delete_pass"
+msgstr "Skutečně smazat průchod?"
+
+#, fuzzy
+msgid "confirm_log_deletion"
+msgstr "Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries."
+
+msgid "confirm_sync_questions"
+msgstr "Vámi změněné otázky jsou kopií vytvořenou pro použití v aktivním testu. Chcete změnit také původní otázky?"
+
+#, fuzzy
+msgid "contained_question_types"
+msgstr "Contained Question Types"
+
+msgid "coordinates"
+msgstr "Souřadnice"
+
+msgid "copy_and_link_to_questionpool"
+msgstr "Přidat do zásobníku otázek"
+
+msgid "copy_no_questions_selected"
+msgstr "Vyberte prosím alespoň jednu otázku ke zkopírování."
+
+msgid "copy_questions_success"
+msgstr "Otázky byly zkopírovány."
+
+msgid "correct_answers"
+msgstr "Správné odpovědi"
+
+msgid "counter"
+msgstr "Počitadlo"
+
+msgid "create_gaps"
+msgstr "Vytvořit mezery"
+
+msgid "create_new"
+msgstr "Vytvořit nový"
+
+#, fuzzy
+msgid "created"
+msgstr "Created"
+
+msgid "customstyle"
+msgstr "Volitelný styl"
+
+msgid "dashboard_tab"
+msgstr "Ovládací panel"
+
+msgid "definition"
+msgstr "Definice"
+
+msgid "definition_image"
+msgstr "Definice obrázku"
+
+msgid "definition_text"
+msgstr "Definice textu"
+
+msgid "definitions"
+msgstr "Definice"
+
+msgid "deleteSuggestedSolution"
+msgstr "Odstranit toho navrhované řešení"
+
+msgid "delete_all_user_data_confirmation"
+msgstr "Skutečně chcete smazat data testů všech uživatelů tohoto testu?"
+
+msgid "delete_image_header"
+msgstr "Smazat obrázek"
+
+msgid "delete_image_question"
+msgstr "Skutečně chcete smazat tento obrázek?"
+
+#, fuzzy
+msgid "delete_mark_confirmation"
+msgstr "Are you sure you want to delete the following mark?"
+
+#, fuzzy
+msgid "delete_participants_no_valid_participants_selected"
+msgstr "Test results already exist for the selected participant(s). They therefore cannot be removed."
+
+#, fuzzy
+msgid "delete_result_no_valid_participants_selected"
+msgstr "There are no test results for the selected participants, so they cannot be removed."
+
+msgid "delete_selected_user_data_confirmation"
+msgstr "Skutečně chcete smazat všechna data vybraných uživatelů tohoto testu?"
+
+msgid "delete_user_data"
+msgstr "Smazat data testů vybraných uživatelů"
+
+msgid "description_maxchars"
+msgstr "Nebude-li nic vloženo, maximální počet znaků pro tuto textovou odpověď je neomezen."
+
+msgid "detail_ending_time_reached"
+msgstr "Vyčerpal(a) jste čas na zpracování tohoto testu. Test není dostupný od %s"
+
+msgid "detail_max_processing_time_reached"
+msgstr "Vyčerpal(a) jste maximum povoleného času ke zpracování tohoto testu!"
+
+msgid "detail_starting_time_not_reached"
+msgstr "Test doposud nebyl aktivován. Tento test bude dostupný od %s"
+
+msgid "detailed_evaluation"
+msgstr "Podrobné hodnocení"
+
+msgid "detailed_evaluation_for"
+msgstr "Podrobné hodnocení pro %s"
+
+msgid "detailed_evaluation_missing_active_id"
+msgstr "Musíte zavolat podrobné hodnocení pro vybrané účastníky!"
+
+msgid "detailed_evaluation_show"
+msgstr "Zobrazit podrobné hodnocení"
+
+msgid "detailed_output_printview"
+msgstr "Podrobný výstup s náhledem tisku otázek"
+
+msgid "detailed_output_solutions"
+msgstr "Podrobný výstup s řešením otázek"
+
+msgid "direct_feedback"
+msgstr "Verifikovat Vaše řešení"
+
+msgid "discard_answer"
+msgstr "Zrušit odpověď"
+
+msgid "discard_answer_confirmation"
+msgstr "Vaše odpověď bude definitivně a úplně zrušena. Otázka zůstává jako nezodpovězená, dokud neodešlete jinou odpověď.<br /><br />Opravdu chcete zrušit odpověď?"
+
+msgid "dont_use_questionpool"
+msgstr "Nevkládat otázky do zásobníku otázek (dostupné jen v tomto testu)"
+
+#, fuzzy
+msgid "download_all_files"
+msgstr "Download All Files"
+
+msgid "duplicate"
+msgstr "Duplikovat"
+
+msgid "duplicate_matching_values_selected"
+msgstr "Vybral(a) jste duplikované identické hodnoty!"
+
+msgid "duplicate_order_values_entered"
+msgstr "Vložil(a) jste duplikované hodnoty pořadí!"
+
+msgid "edit_answer"
+msgstr "Upravit odpověď"
+
+#, fuzzy
+msgid "edit_concluding_remarks"
+msgstr "Edit Concluding Remarks"
+
+#, fuzzy
+msgid "edit_introduction"
+msgstr "Edit Introduction"
+
+msgid "edit_question"
+msgstr "Upravit otázku"
+
+#, fuzzy
+msgid "edit_score"
+msgstr "Edit Score"
+
+msgid "edit_test_questions"
+msgstr "Zobrazení seznamu"
+
+msgid "element_height"
+msgstr "Minimální výška"
+
+msgid "element_height_info"
+msgstr "Toto je minimální výška v pixelech pro položky pojmu a definice/obrázku během výstupu testu."
+
+msgid "enable_examview"
+msgstr "Zapnout zobrazení zkoušky"
+
+msgid "enable_examview_desc"
+msgstr "Zapíná zobrazení testu ve tvaru zkoušky na konci jeho průchodu před vlastním odesláním odpovědí."
+
+msgid "end_tag"
+msgstr "Znak konce"
+
+msgid "enlarge"
+msgstr "Zvětšit"
+
+msgid "enter_anonymous_code"
+msgstr "Vložte kód anonymního přístupu"
+
+msgid "enter_enough_positive_points"
+msgstr "Maxium dosažitelných bodů za otázku musí být větší, než 0! Vložte prosím odpovídající (nezáporné) body za tuto odpověď."
+
+#, fuzzy
+msgid "enter_enough_positive_points_checked"
+msgstr "At least one answer needs to score. Please enter a positive score for the selection of an answer."
+
+msgid "enter_valid_values"
+msgstr "Vložte prosím platnou hodnotu. Znaky budou vyhodnoceny jako chybné!"
+
+msgid "errFormulaQuestion"
+msgstr "Otázka se vzorcem obsahuje nekorektní informace!!"
+
+msgid "errRecursionInResult"
+msgstr "Vzorec obsahuje neurčitou rekurzi."
+
+msgid "err_category_in_use"
+msgstr "Nejméně jedna kategorie nemůže být smazána. Jedna nebo více jednotek je již v použití."
+
+#, fuzzy
+msgid "err_divider_too_big"
+msgstr "The divider of one of the variables in this question is too big."
+
+#, fuzzy
+msgid "err_division"
+msgstr "The value you chose would make it impossible to generate a valid value for the variable."
+
+msgid "err_duplicate_results"
+msgstr "Použil(a) jste více než jednu proměnnou výsledku. To textu otázky není povoleno."
+
+msgid "err_no_formula"
+msgstr "Musíte vložit vzorec"
+
+msgid "err_no_numeric_value"
+msgstr "Vložte prosím numerickou hodnotu."
+
+msgid "err_range"
+msgstr "Maximum rozsahu musí být větší než minimum rozsahu"
+
+msgid "err_rating_advanced_not_allowed"
+msgstr "Jiné hodnocení než jednoduché není povoleno protože nabízíte vícenásobné jednotky výsledku s identickou základní jednotkou."
+
+msgid "err_unit_in_results"
+msgstr "Tato jednotka nemůže být smazána. Je již použita v otázkách jednoho nebo více testů."
+
+msgid "err_unit_in_variables"
+msgstr "Tato jednotka nemůže být smazána. Je již použita v otázkách jednoho nebo více testů."
+
+msgid "err_unit_is_baseunit"
+msgstr "Tato jednotka nemůže být smazána. Je již použita jako základní jednotka pro jiné jednotky."
+
+msgid "err_wrong_categoryname"
+msgstr "Tato kategorie již existuje."
+
+msgid "err_wrong_rating_advanced"
+msgstr "Ujistěte se prosím, že dodatek nastavení rozšířeného hodnocení je roven 100 procentům."
+
+#, fuzzy
+msgid "error_creating_certificate_zip_empty"
+msgstr "No data for export."
+
+msgid "error_importing_question"
+msgstr "Nastala chyba importu otázek z vybraného souboru!"
+
+msgid "error_open_image_file"
+msgstr "Chyba při otevření souboru obrázku!"
+
+msgid "error_random_question_generation"
+msgstr "Během generování náhodných otázek k tomuto testu se vyskytla kritická chyba. Kontaktujte prosím správce systému s následujícími informacemi: Systém nemůže vytvořit aktivní ID pro uživatele ID %s a test ID %s."
+
+msgid "errors"
+msgstr "Chyby"
+
+msgid "errors_section"
+msgstr "Chyba dat"
+
+msgid "errortext"
+msgstr "Chyba textu"
+
+msgid "errortext_info"
+msgstr "Vložte prosím chybný text. K označení slova jako chyby vložte prosím znak křížku ("
+
+msgid "essay_scoring_mode"
+msgstr "Režim bodování"
+
+msgid "essay_scoring_mode_keyword_relation_all"
+msgstr "Automatické vyhodnocování s klíčovými slovy při nalezení VŠECH"
+
+msgid "essay_scoring_mode_keyword_relation_all_desc"
+msgstr "Body jsou přiděleny automaticky, jestliže všechna klíčová slova jsou nalezena."
+
+msgid "essay_scoring_mode_keyword_relation_any"
+msgstr "Automatické vyhodnocování s klíčovými slovy při nalezení KTERÉHOKOLIV"
+
+msgid "essay_scoring_mode_keyword_relation_any_desc"
+msgstr "Za každé nalezené klíčové slovo jsou automaticky uděleny odpovídající body."
+
+msgid "essay_scoring_mode_keyword_relation_one"
+msgstr "Automatické vyhodnocování s klíčovými slovy při nalezení JEDNOHO"
+
+msgid "essay_scoring_mode_keyword_relation_one_desc"
+msgstr "Body jsou přiděleny automaticky, jestliže je nalezeno nejméně jedno klíčové slovo."
+
+msgid "essay_scoring_mode_without_keywords"
+msgstr "Bez automatického vyhodnocování"
+
+msgid "essay_scoring_mode_without_keywords_desc"
+msgstr "Žádné body nejsou přiděleny jinak, než manuálním hodnocením lektora."
+
+msgid "eval_all_users"
+msgstr "Hodnocení pro všechny uživatele"
+
+msgid "eval_legend_link"
+msgstr "Uveďte prosím do vysvětlivky význam symbolů hlavičky sloupců."
+
+#, fuzzy
+msgid "evaluated_users"
+msgstr "Evaluated Users"
+
+msgid "exam_id"
+msgstr "Id zkoušky:"
+
+#, fuzzy
+msgid "exam_id_label"
+msgstr "Exam Id"
+
+#, fuzzy
+msgid "exam_id_of_attempt"
+msgstr "ID of Attempt"
+
+msgid "examid_in_test_pass"
+msgstr "Zobrazení ID průchodu testem"
+
+msgid "examid_in_test_pass_desc"
+msgstr "V testu se zobrazí ID průchodu testem. Pro každý průchod testem je vygenerováno nové ID."
+
+msgid "examid_in_test_res"
+msgstr "ILIAS ID průchodu testem"
+
+msgid "examid_in_test_res_desc"
+msgstr "ILIAS ID průchodu testem bude zahrnuto do výsledků testu."
+
+#, fuzzy
+msgid "exp_all_test_runs"
+msgstr "All test attempts"
+
+msgid "exp_eval_data"
+msgstr "Exportovat data hodnocení jako"
+
+#, fuzzy
+msgid "exp_grammar_as"
+msgstr "as"
+
+#, fuzzy
+msgid "exp_scored_test_attempt"
+msgstr "Scored Test Attempt"
+
+msgid "exp_type_certificate"
+msgstr "Certifikát (PDF)"
+
+msgid "exp_type_excel"
+msgstr "Microsoft Excel"
+
+msgid "expected_result_type"
+msgstr "Očekávaný typ výsledku"
+
+#, fuzzy
+msgid "export_cert_failed_for_users_p"
+msgstr "No certificate file could be generated and added for the following %s accounts: %s. Please contact an administrator to check the log file."
+
+#, fuzzy
+msgid "export_cert_failed_for_users_s"
+msgstr "No certificate file could be generated and added to the archive for the following account: %s. Please contact an administrator to check the log file."
+
+#, fuzzy
+msgid "export_cert_ignored_for_users_p"
+msgstr "The following %s accounts did not achieve a certificate, or the certificate service is not enabled/activate: %s"
+
+#, fuzzy
+msgid "export_cert_ignored_for_users_s"
+msgstr "The following account did not achieve a certificate, or the certificate service is not enabled/activate: %s"
+
+#, fuzzy
+msgid "export_cert_no_users"
+msgstr "A certificate archive cannot be created due to missing test participants."
+
+msgid "export_essay_qst_with_html"
+msgstr "Export otázky na kompozici pomocí kódu HTML"
+
+msgid "export_essay_qst_with_html_desc"
+msgstr "Pokud je aktivován, je možné exportovat otázku na kompozici s HTML do Excelu."
+
+#, fuzzy
+msgid "export_legacy_logs"
+msgstr "Legacy Log-Daten exportieren"
+
+#, fuzzy
+msgid "extra_time_byline"
+msgstr "Put in extra time in minutes. Already entered extra time is added up."
+
+#, fuzzy
+msgid "extra_time_for_all_participants"
+msgstr "You are adding some extra time to all participants."
+
+#, fuzzy
+msgid "extra_time_for_selected_participants"
+msgstr "You are adding extra time to the selected participants."
+
+#, fuzzy
+msgid "extra_time_for_selected_participants_different"
+msgstr "You have selected participants with different additional times."
+
+#, fuzzy
+msgid "extra_time_for_single_participant"
+msgstr "Your are adding extra time to the following participant:"
+
+msgid "extratime"
+msgstr "Zvláštní čas"
+
+#, fuzzy
+msgid "extratime_added"
+msgstr "The extra time has been added to the selected participants."
+
+msgid "factor"
+msgstr "Faktor"
+
+msgid "failed_official"
+msgstr "neuspěl(a)"
+
+msgid "failed_short"
+msgstr "neuspěl(a)"
+
+msgid "false"
+msgstr "Nepravda"
+
+msgid "feedback_all"
+msgstr "Zobrazit ohlas na odpověď pro všechny otázky."
+
+msgid "feedback_answers"
+msgstr "Ohlas pro každou odpověď na otázku"
+
+msgid "feedback_checked"
+msgstr "Zobrazit ohlas na otázku pro všechny vybrané odpovědi."
+
+msgid "feedback_complete_solution"
+msgstr "Správné řešení"
+
+msgid "feedback_correct_kprim"
+msgstr "Zobrazte ohlas na určitou odpověď pro všechny správné odpovědi (Správné odpovědi jsou ty, pro které má být vybrána/zvolena kladná možnost)."
+
+msgid "feedback_correct_sc_mc"
+msgstr "Zobrazte ohlas na určitou odpověď pro všechny správné odpovědi (Správné odpovědi jsou ty, které vedou ke kladnému skóre, když jsou vybrány/zvoleny)."
+
+msgid "feedback_generic"
+msgstr "Ohlas běžného řešení"
+
+msgid "feedback_incomplete_solution"
+msgstr "Nejméně jedna odpověď není správná"
+
+msgid "feedback_setting"
+msgstr "Mód odpovědi specifického ohlasu."
+
+msgid "fileDownload"
+msgstr "Stažení souboru"
+
+msgid "file_uploads"
+msgstr "Soubory uloženy"
+
+msgid "fill_out_all_required_fields_add_answer"
+msgstr "Vyplňte prosím všechna požadovaná pole před přidáním odpovědi!"
+
+msgid "filter_all_question_types"
+msgstr "Všechny typy otázek"
+
+msgid "filter_all_questionpools"
+msgstr "Všechny zásobníky otázek"
+
+msgid "filter_show_question_types"
+msgstr "Zobrazit typy otázek"
+
+msgid "filter_show_questionpools"
+msgstr "Zobrazit zásobníky otázek"
+
+msgid "final_statement"
+msgstr "Závěrečné sdělení"
+
+msgid "final_statement_show_desc"
+msgstr "Je-li vybráno, pak závěrečné sdělení bude zobrazeno přímo po ukončení testu, ještě před prezentací výsledků tohoto testu."
+
+#, fuzzy
+msgid "finalized_by"
+msgstr "Completed by"
+
+#, fuzzy
+msgid "finalized_evaluation"
+msgstr "Scoring completed"
+
+#, fuzzy
+msgid "finalized_on"
+msgstr "Completed at"
+
+msgid "finish_all_user_passes"
+msgstr "Ukončit všechny průchody testem"
+
+msgid "finish_pass_for_all_users"
+msgstr "Opravdu chcete ukončit průchody testem pro všechny uživatele?"
+
+#, fuzzy
+msgid "finish_pass_for_multiple_users_in_processing_time"
+msgstr "You cannot finish the passes of all users together, because for at least one user the processing time is not over yet."
+
+msgid "finish_pass_for_user_confirmation"
+msgstr "Opravdu chcete ukončit tento průchod testem?"
+
+#, fuzzy
+msgid "finish_pass_for_user_in_processing_time"
+msgstr "WARNING: the processing time for this user is not over yet! You should only end the test run if there is a compelling reason (e.g. exclusion from the test)."
+
+msgid "finish_test"
+msgstr "Ukončit test"
+
+#, fuzzy
+msgid "finish_test_all"
+msgstr "Are you sure you want to finish the test attempts for all users?"
+
+#, fuzzy
+msgid "finish_test_more_than_one_selected"
+msgstr "Only a single participant may be selected to finish the pass if the test allows only one pass."
+
+#, fuzzy
+msgid "finish_test_multiple"
+msgstr "Are you sure you want to finish the test attempts for the following participants?"
+
+#, fuzzy
+msgid "finish_test_no_valid_participants_selected"
+msgstr "There are no active test runs for the selected participants, so they cannot be completed."
+
+#, fuzzy
+msgid "finish_test_single"
+msgstr "Are you sure you want to finish the test attempt for the participant \"%s\"?"
+
+msgid "finish_unfinished_passes"
+msgstr "Ukončit otevřené průchody"
+
+msgid "finish_unfinished_passes_desc"
+msgstr "Průchody, které mají nastavený čas dokončení nebo limit trvání, budou uzavřeny touto cronovou úlohou."
+
+#, fuzzy
+msgid "finished_by_administrator"
+msgstr "Finished by Administrator"
+
+#, fuzzy
+msgid "finished_by_cronjob"
+msgstr "Finished by Cronjob"
+
+#, fuzzy
+msgid "finished_by_duration"
+msgstr "Finished by time limit"
+
+#, fuzzy
+msgid "finished_by_participant"
+msgstr "Finished by Participant"
+
+#, fuzzy
+msgid "finished_by_unknown"
+msgstr "Finished by Unknown"
+
+msgid "fixed_participants_hint"
+msgstr "Tento test je dostupný skupině stálých účastníků zobrazených níže. Toto nastavení můžete změnit deaktivací zaškrtávacího políčka stálých účastníků v tabulce %s."
+
+msgid "fixedparticipants_subtab"
+msgstr "Manuálně vybraní účastníci"
+
+msgid "flashfile"
+msgstr "Soubor Flash"
+
+msgid "for"
+msgstr "pro"
+
+msgid "forcejs"
+msgstr "Vynutit výstup JavaScript pro otázky testu"
+
+msgid "form_msg_area_missing_points"
+msgstr "Vložte prosím body pro všechny plochy."
+
+msgid "formula"
+msgstr "Vzorec"
+
+msgid "fq_formula_desc"
+msgstr "Můžete zadat předem definované proměnné ($v1 až $vn), definované výsledky (např. $r1), závorky pro výrazy, matematické operátory + (sčítání), - (odčítání), * (násobení), / (dělení), ^ (exponent), konstanty 'pi' pro pí a 'e‘ pro Eulerovu konstantu a také funkce 'sin', 'sinh', 'arcsin', 'asin', 'arcsinh', 'asinh', 'cos', 'cosh', 'arccos', 'acos', 'arccosh', 'acosh', 'tan', 'tanh', 'arctan', 'atan', 'arctanh', 'atanh', 'sqrt', 'abs', 'ln' a 'log'."
+
+msgid "fq_no_restriction_info"
+msgstr "Desetinná místa i zlomky jsou přijaty jako vstup."
+
+msgid "fq_precision_info"
+msgstr "Zadejte počet požadovaných desetinných míst."
+
+msgid "fq_question_desc"
+msgstr "Můžete určit proměnné vložením $v1, $v2 ... $vn, výsledky vložením $r1, $r2 .... $rn na požadované místo v textu otázky. Klepněte na tlačítko \"Rozbor otázky\" k vytvoření ediovaního formuláře pro proměnné a výsledky."
+
+msgid "gap"
+msgstr "Mezera"
+
+msgid "gap_combination"
+msgstr "Kombinace mezer"
+
+#, fuzzy
+msgid "gaps"
+msgstr "Gaps"
+
+msgid "glossary_term"
+msgstr "Pojem glosáře"
+
+#, fuzzy
+msgid "goto_first_question"
+msgstr "Show First Question"
+
+msgid "grading_mark_msg"
+msgstr "Vaše výsledná známka je: &quot;[mark]&quot;"
+
+msgid "grading_status_failed_msg"
+msgstr "Litujeme, v testu jste <b>neuspěl/a</b>."
+
+msgid "grading_status_passed_msg"
+msgstr "Gratulujeme, <b>složil/a</b> jste test."
+
+#, fuzzy
+msgid "hide_best_solution"
+msgstr "Hide best solution"
+
+msgid "identical_scoring"
+msgstr "Identické hodnocení"
+
+msgid "identical_scoring_desc"
+msgstr "Pokud je vybráno, mezery s identickým řešením budou ohodnoceny, dokonce i v případě, že stejné řešení bude použito dvakrát. Pokud není vybráno, pak bude ohodnocen pouze první výskyt stejného řešení."
+
+msgid "imagemap"
+msgstr "Mapa obrázku"
+
+msgid "imap_line_color"
+msgstr "Barva čáry mapy obrázku"
+
+msgid "import_question"
+msgstr "Import otázek"
+
+#, fuzzy
+msgid "in_range"
+msgstr "Within range"
+
+#, fuzzy
+msgid "in_trash"
+msgstr "In Trash"
+
+msgid "info_answer_type_change"
+msgstr "Tato otázka již obsahuje obrázky. Nemůžete změnit typ odpovědi na víceřádkové odpovědi."
+
+msgid "info_text_upload"
+msgstr "Vyberte soubor odpovědí, který chcete nahrát"
+
+msgid "insert_after"
+msgstr "Vložit za"
+
+msgid "insert_before"
+msgstr "Vložit před"
+
+msgid "insert_gap"
+msgstr "Vložit rezervované místo"
+
+#, fuzzy
+msgid "interaction_type"
+msgstr "Interaction Type"
+
+msgid "internal_links"
+msgstr "Interní odkazy"
+
+msgid "intprecision"
+msgstr "Dělitelné"
+
+msgid "intprecision_info"
+msgstr "Dělitelné ovlivňuje pouze vytvoření proměnných, pokud je hodnota pro přesnost 0. V tomto případě definujete pro „Dělitelné“ celočíselnou hodnotu, která musí být dělitelná vytvořenou proměnnou. Hodnota 10 tedy generuje pouze celá čísla, která jsou dělitelná 10. Hodnota 5 vytváří celá čísla, která jsou dělitelná 5, atd. Pro přesnost 0, je „Dělitelné“ povinné pole a musí obsahovat kladné celé číslo. Výchozí hodnota pro všechna celá čísla je 1."
+
+#, fuzzy
+msgid "invalid_ip"
+msgstr "Invalid IP"
+
+#, fuzzy
+msgid "ip_range_byline"
+msgstr "Only IP addresses within the defined range can start the test. You can either use IPv4 OR IPv6 addresses."
+
+#, fuzzy
+msgid "ip_range_for_all_participants"
+msgstr "You are changing the IP Range of all participants"
+
+#, fuzzy
+msgid "ip_range_for_selected_participants"
+msgstr "You are changing the IP Range of the following participant."
+
+#, fuzzy
+msgid "ip_range_for_single_participant"
+msgstr "You are changing the IP Range of the selected participants."
+
+#, fuzzy
+msgid "ip_range_info"
+msgstr "Only clients with an IP in the provided range will be able to access the test."
+
+#, fuzzy
+msgid "ip_range_label"
+msgstr "IP Range"
+
+#, fuzzy
+msgid "ip_range_updated"
+msgstr "The IP-Range has been update for the selected participants."
+
+msgid "kiosk"
+msgstr "Kioskový mód"
+
+msgid "kiosk_description"
+msgstr "Spustit test v kioskovém módu. Všechny obsažené prvky, které nejsou součástí testu budou skryty k zabránění uživatelům opustit tento test."
+
+msgid "kiosk_options"
+msgstr "Volby kioskového módu"
+
+msgid "kiosk_options_desc"
+msgstr "Zvolte zda název tohoto testu a/nebo jméno aktivního účastníka má být zobrazeno na začátku testu během kioskového módu."
+
+msgid "kiosk_show_participant"
+msgstr "Zobrazit jméno účastníka"
+
+msgid "kiosk_show_title"
+msgstr "Zobrazit název testu"
+
+msgid "kprim_answers_info"
+msgstr "Typ otázky s vícenásobným výběrem „čtyřikrát rozhodnutí správně/špatně (typ K, také známý jako Kprim) udává čtyři odpovědi nebo dodatky k otázce nebo neúplnému prohlášení. Rozhodnutí o správnosti musí být provedeno u všech čtyř odpovědí/dodatků. Maximální počet bodů je udělen pouze tehdy, pokud jsou všechny možnosti správné."
+
+msgid "kprim_instruction_text"
+msgstr "Musíte rozhodnout o každém výroku: [%s] nebo [%s]"
+
+msgid "lacex_assClozeTest_NumberOfResultExpression_d"
+msgstr "Čtvrtá možnost odpovědi je výběrová mezera a byla vybrána druhá možnost"
+
+msgid "lacex_assClozeTest_NumberOfResultExpression_e"
+msgstr "R[4] = +2+"
+
+msgid "lacex_assClozeTest_NumericResultExpression_d"
+msgstr "Druhá možnost odpovědi je číselná mezera a byla zodpovězena číselnou hodnotou 5"
+
+msgid "lacex_assClozeTest_NumericResultExpression_e"
+msgstr "5"
+
+msgid "lacex_assClozeTest_StringResultExpression_1_d"
+msgstr "První možnost odpovědi je textová mezera a byla zodpovězena „pondělí“"
+
+msgid "lacex_assClozeTest_StringResultExpression_1_e"
+msgstr "R[1] = ~Pondělí~"
+
+msgid "lacex_assClozeTest_StringResultExpression_2_d"
+msgstr "Čtvrtá možnost odpovědi je výběrová mezera a byla vybrána možnost označená jako „zelená“"
+
+msgid "lacex_assClozeTest_StringResultExpression_2_e"
+msgstr "R[4] = ~Zelená~"
+
+msgid "lacex_assErrorText_ExclusiveResultExpression_d"
+msgstr "Při odpovědi na otázky byly zcela správně vybrány možnosti odpovědi 1, 3 a 4"
+
+msgid "lacex_assErrorText_ExclusiveResultExpression_e"
+msgstr "R = *1,3,4*"
+
+msgid "lacex_assErrorText_NumberOfResultExpression_d"
+msgstr "Při zodpovězení otázky byla vybrána druhá možnost odpovědi"
+
+msgid "lacex_assErrorText_NumberOfResultExpression_e"
+msgstr "R = +2+"
+
+msgid "lacex_assFormulaQuestion_NumericResultExpression_d"
+msgstr "První možnost odpovědi byla zodpovězena číselnou hodnotou 3,14159"
+
+msgid "lacex_assFormulaQuestion_NumericResultExpression_e"
+msgstr "314.159"
+
+msgid "lacex_assImagemapQuestion_ExclusiveResultExpression_d"
+msgstr "Při odpovědi na otázky byly zcela správně vybrány možnosti odpovědi 1, 3 a 4"
+
+msgid "lacex_assImagemapQuestion_ExclusiveResultExpression_e"
+msgstr "R = *1,3,4*"
+
+msgid "lacex_assImagemapQuestion_NumberOfResultExpression_d"
+msgstr "Při zodpovězení otázky byla vybrána druhá možnost odpovědi"
+
+msgid "lacex_assImagemapQuestion_NumberOfResultExpression_e"
+msgstr "R = +2+"
+
+msgid "lacex_assMatchingQuestion_MatchingResultExpression_d"
+msgstr "Výrazy otázek byly definicím přiřazeny takto: 1 => 2 a 2 => 3 a 3 => 1"
+
+msgid "lacex_assMatchingQuestion_MatchingResultExpression_e"
+msgstr "R = ;1:2; a R = ;2:3; a R = ;3:1;"
+
+msgid "lacex_assMultipleChoice_ExclusiveResultExpression_d"
+msgstr "Při odpovědi na otázky byly zcela správně vybrány možnosti odpovědi 1, 3 a 4"
+
+msgid "lacex_assMultipleChoice_ExclusiveResultExpression_e"
+msgstr "R = *1,3,4*"
+
+msgid "lacex_assMultipleChoice_NumberOfResultExpression_d"
+msgstr "Při zodpovězení otázky byla vybrána druhá možnost odpovědi"
+
+msgid "lacex_assMultipleChoice_NumberOfResultExpression_e"
+msgstr "R = +2+"
+
+msgid "lacex_assNumeric_NumericResultExpression_d"
+msgstr "Otázka byla zodpovězena číselnou hodnotou 4,7"
+
+msgid "lacex_assNumeric_NumericResultExpression_e"
+msgstr "04. Jul"
+
+msgid "lacex_assOrderingHorizontal_OrderingResultExpression_d"
+msgstr "Prvky otázky byly uspořádány následovně: 2, 5, 1, 4, 3"
+
+msgid "lacex_assOrderingHorizontal_OrderingResultExpression_e"
+msgstr "R = $2,5,1,4,3$"
+
+msgid "lacex_assOrderingQuestion_OrderingResultExpression_d"
+msgstr "Prvky otázky byly uspořádány následovně: 2, 5, 1, 4, 3"
+
+msgid "lacex_assOrderingQuestion_OrderingResultExpression_e"
+msgstr "R = $2,5,1,4,3$"
+
+msgid "lacex_assQuestion_EmptyAnswerExpression_d"
+msgstr "Otázka nebyla zodpovězena"
+
+msgid "lacex_assQuestion_EmptyAnswerExpression_e"
+msgstr "R = ?"
+
+msgid "lacex_assQuestion_PercentageResultExpression_d"
+msgstr "Výsledek odpovědi na otázky je roven nebo vyšší než 75 %"
+
+msgid "lacex_assQuestion_PercentageResultExpression_e"
+msgstr "R >= %75%"
+
+msgid "lacex_assSingleChoice_NumberOfResultExpression_d"
+msgstr "Při zodpovězení otázky byla vybrána druhá možnost odpovědi"
+
+msgid "lacex_assSingleChoice_NumberOfResultExpression_e"
+msgstr "R = +2+"
+
+msgid "lacex_assTextSubset_StringResultExpression_d"
+msgstr "Pro druhou možnost odpovědi byla zadána odpověď „chlorid sodný“"
+
+msgid "lacex_assTextSubset_StringResultExpression_e"
+msgstr "R[2] = ~chlorid sodný~"
+
+msgid "lacex_example_header"
+msgstr "Příklady"
+
+#, fuzzy
+msgid "list_of_participants"
+msgstr "Participants"
+
+msgid "locked"
+msgstr "uzamčeno"
+
+#, fuzzy
+msgid "log_deletion_not_allowed"
+msgstr "You don't have the necessary permissions to delete log entries."
+
+#, fuzzy
+msgid "log_entry_type"
+msgstr "Log Entry Type"
+
+#, fuzzy
+msgid "log_ip"
+msgstr "Log IP"
+
+#, fuzzy
+msgid "log_ip_info"
+msgstr "The IP of Participants is Logged for each interaction with a test. Disabling it does not delete existing IP records."
+
+#, fuzzy
+msgid "log_participant_data_delete_warning"
+msgstr "This test contains log data for participant interactions that will be deleted when changing the test to a test without names."
+
+msgid "log_text"
+msgstr "Záznam zprávy"
+
+msgid "log_user_solution_willingly_deleted"
+msgstr "Uživatel smazal odpověď."
+
+msgid "logging_settings"
+msgstr "Záznam"
+
+#, fuzzy
+msgid "logs_answer_deleted"
+msgstr "Answer deleted"
+
+#, fuzzy
+msgid "logs_answer_submitted"
+msgstr "Answer Submitted"
+
+msgid "logs_deleted"
+msgstr "Data záznamu pro vybrané testy byly smazány"
+
+#, fuzzy
+msgid "logs_error_on_participant_interaction"
+msgstr "Error on Participant Interaction"
+
+#, fuzzy
+msgid "logs_error_on_question_administration_interaction"
+msgstr "Error on Question Administration Interaction"
+
+#, fuzzy
+msgid "logs_error_on_scoring_interaction"
+msgstr "Error on Scoring Interaction"
+
+#, fuzzy
+msgid "logs_error_on_test_administration_interaction"
+msgstr "Error on Test Administration Interaction"
+
+#, fuzzy
+msgid "logs_error_on_undefined_interaction"
+msgstr "Error on Undefined Interaction"
+
+#, fuzzy
+msgid "logs_extra_time_added"
+msgstr "Extra Time Added"
+
+#, fuzzy
+msgid "logs_main_settings_modified"
+msgstr "Main Settings Modified"
+
+#, fuzzy
+msgid "logs_mark_schema_modified"
+msgstr "Mark Schema Modified"
+
+#, fuzzy
+msgid "logs_mark_schema_reset"
+msgstr "Mark Schema Reset"
+
+#, fuzzy
+msgid "logs_new_test_created"
+msgstr "New Test Created"
+
+msgid "logs_output"
+msgstr "Záznam výstupních dat"
+
+#, fuzzy
+msgid "logs_participant_data_removed"
+msgstr "Participant Data Removed"
+
+#, fuzzy
+msgid "logs_pi"
+msgstr "Participant Interaction"
+
+#, fuzzy
+msgid "logs_qai"
+msgstr "Question Administration Interaction"
+
+#, fuzzy
+msgid "logs_question_added"
+msgstr "Question Added"
+
+#, fuzzy
+msgid "logs_question_graded"
+msgstr "Question Graded"
+
+#, fuzzy
+msgid "logs_question_grading_reset"
+msgstr "Grading Reset"
+
+#, fuzzy
+msgid "logs_question_modified"
+msgstr "Question Modified"
+
+#, fuzzy
+msgid "logs_question_modified_in_corrections"
+msgstr "Question Modified in Corrections"
+
+#, fuzzy
+msgid "logs_question_moved"
+msgstr "Question Moved"
+
+#, fuzzy
+msgid "logs_question_removed"
+msgstr "Question Removed"
+
+#, fuzzy
+msgid "logs_question_removed_in_corrections"
+msgstr "Question Removed in Corrections"
+
+#, fuzzy
+msgid "logs_question_selection_criteria_modified"
+msgstr "Question Selection Criteria Modified"
+
+#, fuzzy
+msgid "logs_question_shown"
+msgstr "Question Shown"
+
+#, fuzzy
+msgid "logs_question_skipped"
+msgstr "Question Skipped"
+
+#, fuzzy
+msgid "logs_question_synchronisation_reset"
+msgstr "Question Synchronisation Reset"
+
+#, fuzzy
+msgid "logs_questions_synchronised"
+msgstr "Questions Synchonised"
+
+#, fuzzy
+msgid "logs_scoring_settings_modified"
+msgstr "Scoring Settings Modified"
+
+#, fuzzy
+msgid "logs_si"
+msgstr "Scoring Interaction"
+
+#, fuzzy
+msgid "logs_tai"
+msgstr "Test Administration Interaction"
+
+#, fuzzy
+msgid "logs_te"
+msgstr "Error"
+
+#, fuzzy
+msgid "logs_test_deleted"
+msgstr "Test Deleted"
+
+#, fuzzy
+msgid "logs_test_run_finished"
+msgstr "Test Run Finished"
+
+#, fuzzy
+msgid "logs_test_run_of_participant_closed"
+msgstr "Run of Participant Closed"
+
+#, fuzzy
+msgid "logs_test_run_started"
+msgstr "Test Run Started"
+
+msgid "logs_wrong_test_password_provided"
+msgstr "Účastník zadal nesprávné heslo k testu."
+
+msgid "longmenu"
+msgstr "Dlouhé menu"
+
+#, fuzzy
+msgid "longmenu_answeroptions_differ"
+msgstr "This question does not work correctly, as there are not the same amount of gaps in the text as in the correction options."
+
+msgid "longmenu_text"
+msgstr "Text dlouhého menu"
+
+msgid "mainbar_button_label_questionlist"
+msgstr "Seznam otázek"
+
+msgid "maintenance"
+msgstr "Údržba"
+
+msgid "manscoring"
+msgstr "Manuální hodnocení"
+
+msgid "manscoring_done"
+msgstr "Vyhodnocení účastníci"
+
+#, fuzzy
+msgid "manscoring_finalized"
+msgstr "The user's status has been set to 'Scoring Finalised'."
+
+#, fuzzy
+msgid "manscoring_finalized_removed"
+msgstr "The user's 'Scoring Finalised' status has been removed."
+
+msgid "manscoring_hint"
+msgstr "Přidal(a) jste nejméně jednu otázku vyžadující manuální vyhodnocení. K zajištění platné reprezentace výsledků testu pro účastníky důrazně doporučujeme omezit přístup k výsledkům testu použitím specifikace data a času."
+
+msgid "manscoring_none"
+msgstr "Nehodnocení účastníci"
+
+msgid "manscoring_not_allowed"
+msgstr "Manuální hodnocení pro tento typ otázky nebylo aktivováno. Tuto tabulku nemůžete použít."
+
+msgid "manscoring_questions_not_found"
+msgstr "Tento průchod testem neobsahuje typ otázek, které by bylo nutné hodnotit manuálně."
+
+msgid "manscoring_results_pass"
+msgstr "Manuálně hodnotitelné otázky pro průchod %s"
+
+msgid "manual_editing"
+msgstr "Manuální editace"
+
+#, fuzzy
+msgid "manual_entry"
+msgstr "Manual Entry"
+
+msgid "mark_schema"
+msgstr "Schéma známkování"
+
+msgid "mark_schema_invalid"
+msgstr "Schéma známkování není platné. Vytvořte prosím správné schéma."
+
+msgid "matches"
+msgstr "patří k"
+
+msgid "matching_pairs"
+msgstr "Odpovídající dvojice"
+
+msgid "matching_shuffle_definitions"
+msgstr "Jen definice"
+
+msgid "matching_shuffle_terms"
+msgstr "Jen pojmy"
+
+msgid "matching_shuffle_terms_definitions"
+msgstr "Oba (Pojmy a definice)"
+
+msgid "matching_type"
+msgstr "Odpovídající podtyp otázky"
+
+msgid "material"
+msgstr "Materiál"
+
+msgid "material_file"
+msgstr "Soubor s materiálem"
+
+#, fuzzy
+msgid "max_ip_label"
+msgstr "Highest IP With Access"
+
+msgid "maxchars"
+msgstr "Maximální počet znaků"
+
+msgid "maximum_nr_of_tries_reached"
+msgstr "Dosáhl/a jste maximální počet pokusů pro tento test. Test již není pro Vás dostupný!"
+
+msgid "maximum_points"
+msgstr "Maxium dostupných bodů"
+
+msgid "maxsize"
+msgstr "Maximální velkost ukládaného souboru"
+
+msgid "maxsize_info"
+msgstr "Vložit maximální velikost v bytech, která je povolena pro ukládané soubory. Pokud necháte toto pole prázdné, bude namísto něj nastavena maximální velikost této instalace."
+
+msgid "min_auto_complete"
+msgstr "Automatické dokončování"
+
+#, fuzzy
+msgid "min_ip_label"
+msgstr "Lowest IP With Access"
+
+msgid "min_percentage_ne_0"
+msgstr "Musíte definovat minimální procento od specifikace 0 procent! Schéma známkování nebylo uloženo."
+
+msgid "misc"
+msgstr "Různé možnosti"
+
+#, fuzzy
+msgid "mode_allatonce"
+msgstr "All"
+
+#, fuzzy
+msgid "mode_onebyone"
+msgstr "One by One"
+
+#, fuzzy
+msgid "mode_question"
+msgstr "Question oriented"
+
+#, fuzzy
+msgid "mode_user"
+msgstr "Participant oriented"
+
+msgid "msg_circle_added"
+msgstr "Kruh přidán"
+
+#, fuzzy
+msgid "msg_no_questions_selected"
+msgstr "No questions were selected."
+
+msgid "msg_number_of_terms_too_low"
+msgstr "Počet výrazů musí být větší, nebo roven počtu definicí."
+
+msgid "msg_poly_added"
+msgstr "Polygon přidán"
+
+msgid "msg_questions_moved"
+msgstr "Otázky přesunuty"
+
+msgid "msg_rect_added"
+msgstr "Obdélník přidán"
+
+#, fuzzy
+msgid "msg_score_settings_modified_and_recalc"
+msgstr "Your changes were saved and the results recalculated correspondingly."
+
+#, fuzzy
+msgid "msg_score_settings_not_modified"
+msgstr "Your changes were not saved."
+
+msgid "msg_selected_for_move"
+msgstr "Otázky vybrány k přesunutí"
+
+msgid "new_category"
+msgstr "Nová kategorie jednotky"
+
+msgid "new_unit"
+msgstr "Nová jednotka"
+
+msgid "next_question"
+msgstr "Další"
+
+msgid "next_question_rows"
+msgstr "Otázky %d - %d z %d >>"
+
+#, fuzzy
+msgid "no_manual_feedback_export_info"
+msgstr "Manual feedbacks will not be exported."
+
+#, fuzzy
+msgid "no_passed_after_failed"
+msgstr "Failing marks cannot have a higher minimum level than any passing mark."
+
+msgid "no_passed_mark"
+msgstr "Musíte nastavit nejméně jednu známku k hodnocení PROSPĚL/A! Schéma hodnocení nebylo uloženo."
+
+msgid "no_question_selected_for_move"
+msgstr "Vyberte alespoň jednu otázku k přesunutí!"
+
+msgid "no_questions_available"
+msgstr "Nejsou dostupné žádné otázky!"
+
+msgid "no_result_type"
+msgstr "Vybrat typ žádný výsledek"
+
+msgid "no_selection"
+msgstr "--- Žádný výběr ---"
+
+msgid "no_selection_for_move"
+msgstr "Žádná vybraná otázka pro přesun"
+
+msgid "no_target_selected_for_move"
+msgstr "Musíte vybrat cílové umístění!"
+
+msgid "no_user_or_group_selected"
+msgstr "Nastavte volby pro vyhledávání (účastníků a/nebo skupin)!"
+
+#, fuzzy
+msgid "no_valid_participant_selection"
+msgstr "No valid Participants selected."
+
+#, fuzzy
+msgid "not_evaluated_users"
+msgstr "Not Yet Evaluated User"
+
+#, fuzzy
+msgid "not_started"
+msgstr "Not started yet"
+
+msgid "not_yet_accessed"
+msgstr "Dosud nenavštíveno"
+
+msgid "nr_of_correct_answers"
+msgstr "Počet požadovaných odpovědí"
+
+msgid "number_of_answers"
+msgstr "Počet odpovědí"
+
+msgid "numeric_gap"
+msgstr "Číselná mezera"
+
+#, fuzzy
+msgid "old_mark_default_not_applied"
+msgstr "The marks from your personal settings could not be applied as they use an old format. All other settings have been updated."
+
+msgid "option_label"
+msgstr "Štítky voleb"
+
+msgid "option_label_adequate"
+msgstr "dostatečné"
+
+msgid "option_label_adequate_or_not"
+msgstr "dostatečné / nedostatečné"
+
+msgid "option_label_applicable"
+msgstr "použitelné"
+
+msgid "option_label_applicable_or_not"
+msgstr "použitelné / nepoužitelné"
+
+msgid "option_label_custom"
+msgstr "Uživatelem definované štítky"
+
+msgid "option_label_custom_false"
+msgstr "Štítek pro „NEPRAVDA“"
+
+msgid "option_label_custom_true"
+msgstr "Štítek pro „PRAVDA“"
+
+msgid "option_label_info"
+msgstr "Konfigurované fráze budou použity jako štítky pro volby, které si účastník může vybrat."
+
+msgid "option_label_minus"
+msgstr "-"
+
+msgid "option_label_not_adequate"
+msgstr "nedostatečné"
+
+msgid "option_label_not_applicable"
+msgstr "nepoužitelné"
+
+msgid "option_label_plus"
+msgstr "+"
+
+msgid "option_label_plus_minus"
+msgstr "+ / -"
+
+msgid "option_label_right"
+msgstr "správně"
+
+msgid "option_label_right_wrong"
+msgstr "správně / špatně"
+
+msgid "option_label_wrong"
+msgstr "špatně"
+
+msgid "oq_btn_define_pictures"
+msgstr "Přepnout do zobrazení definice obrázku"
+
+msgid "oq_btn_define_terms"
+msgstr "Přepnout do zobrazení definice výrazu"
+
+msgid "oq_btn_nest_pictures"
+msgstr "Přepnout do zobrazení vnoření obrázku"
+
+msgid "oq_btn_nest_terms"
+msgstr "Přepnout do zobrazení vnoření výrazu"
+
+msgid "oq_btn_use_order_pictures"
+msgstr "Použít obrázky odpovědi"
+
+msgid "oq_btn_use_order_terms"
+msgstr "Použít výrazy odpovědi"
+
+msgid "oq_header_ordering_elements"
+msgstr "Prvky uspořádání"
+
+msgid "or"
+msgstr "nebo"
+
+#, fuzzy
+msgid "order"
+msgstr "Order"
+
+msgid "ordering_answer_sequence_info"
+msgstr "Sekvence odpovědi Vámi zde definovaná bude považována za sekvenci správného řešení."
+
+msgid "ordertext"
+msgstr "Řazení textu"
+
+msgid "ordertext_info"
+msgstr "Vložte prosím text, který má být řazen horizontálně. Řazený text bude oddělen pomocí značek mezer v textu. Pokud potřebujete jiné oddělení, můžete použít separátor %s k oddělení Vašich textových jednotek."
+
+msgid "out_of_range"
+msgstr "Mimo rozsah"
+
+msgid "output"
+msgstr "Výstup"
+
+msgid "output_mode"
+msgstr "Výstupní mód"
+
+msgid "parseQuestion"
+msgstr "Rozbor otázky"
+
+msgid "part_received_a_of_b_points"
+msgstr "Účastní obdržel %s z %s možných bodů"
+
+msgid "participants"
+msgstr "Účastníci"
+
+msgid "participants_invitation"
+msgstr "Pozvat určené účastníky"
+
+msgid "participants_invitation_description"
+msgstr "Tento test můžete zpřístupnit pouze určené skupině účastníků ILIAS. K zapnutí této funkce zaškrtněte prosím zaškrtávací pole nahoře a stiskněte tlačítko uložit."
+
+msgid "participants_results_subtab"
+msgstr "Všichni účastníci"
+
+msgid "pass"
+msgstr "Projít"
+
+msgid "pass_finished"
+msgstr "%s prošlo"
+
+msgid "passed_official"
+msgstr "Prospěl/a"
+
+msgid "passed_only"
+msgstr "Pouze prošlí testem"
+
+msgid "passed_short"
+msgstr "Prospěl/a"
+
+msgid "passed_status"
+msgstr "Status prospěl/a"
+
+msgid "passes_finished"
+msgstr "%s prochází"
+
+msgid "percentage"
+msgstr "Procenta"
+
+#, fuzzy
+msgid "percentage_points_achieved"
+msgstr "Reached Points"
+
+msgid "percentile"
+msgstr "Procentuálně"
+
+#, fuzzy
+msgid "personal_settings_apply"
+msgstr "Apply Settings Template"
+
+#, fuzzy
+msgid "personal_settings_apply_changed_confirmation"
+msgstr "The current test settings will be overwritten with the settings from the selected template. This also overwrites the Selection of Test Questions. The process cannot be undone!"
+
+#, fuzzy
+msgid "personal_settings_apply_confirmation"
+msgstr "The current test settings will be overwritten with the settings from the selected template. This process cannot be undone!"
+
+#, fuzzy
+msgid "personal_settings_apply_description"
+msgstr "This template overrides all settings of test '%s'."
+
+#, fuzzy
+msgid "personal_settings_apply_not_possible"
+msgstr "ILIAS could not apply the selected template to this test! Maybe this test already contains participant data sets."
+
+#, fuzzy
+msgid "personal_settings_apply_success"
+msgstr "Personal Test Settings have been applied successfully."
+
+#, fuzzy
+msgid "personal_settings_author"
+msgstr "Created by"
+
+#, fuzzy
+msgid "personal_settings_create"
+msgstr "Add New Setting Template"
+
+#, fuzzy
+msgid "personal_settings_delete_confirmation"
+msgstr "The selected template(s) will be permanently deleted. This cannot be undone."
+
+#, fuzzy
+msgid "personal_settings_delete_success"
+msgstr "The selected template(s) have been deleted."
+
+#, fuzzy
+msgid "personal_settings_description"
+msgstr "Template Description"
+
+#, fuzzy
+msgid "personal_settings_explanation"
+msgstr "ILIAS will store the settings of the current test in a template. This template can be used to transfer the settings to another test."
+
+#, fuzzy
+msgid "personal_settings_export"
+msgstr "Export Settings Template"
+
+#, fuzzy
+msgid "personal_settings_import"
+msgstr "Import Setting Templates"
+
+#, fuzzy
+msgid "personal_settings_import_success"
+msgstr "The template was imported successfully."
+
+#, fuzzy
+msgid "personal_settings_invalid_selection"
+msgstr "Please select one template."
+
+#, fuzzy
+msgid "personal_settings_name"
+msgstr "Template Title"
+
+#, fuzzy
+msgid "personal_settings_required_author"
+msgstr "Please enter an author for your template."
+
+#, fuzzy
+msgid "personal_settings_required_title"
+msgstr "Please enter a title for your template."
+
+#, fuzzy
+msgid "personal_settings_save"
+msgstr "Save New Setting Template"
+
+#, fuzzy
+msgid "personal_settings_show"
+msgstr "Show Template Details"
+
+#, fuzzy
+msgid "personal_settings_templates_available"
+msgstr "Personal Test Settings Templates"
+
+#, fuzzy
+msgid "personal_settings_timestamp"
+msgstr "Creation Date"
+
+msgid "picture"
+msgstr "Obrázek"
+
+msgid "point"
+msgstr "Bod"
+
+msgid "points"
+msgstr "Body"
+
+msgid "points_checked"
+msgstr "Body, když vybráno"
+
+#, fuzzy
+msgid "points_non_numeric_or_negative_msg"
+msgstr "Inputs for points only accept positive numeric values."
+
+msgid "points_short"
+msgstr "b."
+
+msgid "points_unchecked"
+msgstr "Body, když nevybráno"
+
+msgid "points_wrong"
+msgstr "Chybné výběry"
+
+msgid "points_wrong_info"
+msgstr "Vložte body pro všechny výběry, které nejsou v seznamu označených chyb."
+
+msgid "polygon"
+msgstr "Mnohoúhelník"
+
+msgid "polygon_click_next_or_save"
+msgstr "Klepněte prosím na další bod mnohoúhelníku, nebo plochu uložte. (K tomu je nutné znovu klepnout na počáteční bod tohoto mnohoúhelníku!)"
+
+msgid "polygon_click_next_point"
+msgstr "Klepněte prosím na další bod mnohoúhelníku."
+
+msgid "polygon_click_starting_point"
+msgstr "Klepněte prosím na výchozí bod mnohoúhelníku."
+
+msgid "positive_numbers_required"
+msgstr "Zadávejte pouze kladná čísla."
+
+msgid "postpone_question"
+msgstr "Přesunout otázku na konec"
+
+msgid "postponed"
+msgstr "odložené"
+
+msgid "precision"
+msgstr "Přesnost"
+
+msgid "previous_question"
+msgstr "Předchozí"
+
+msgid "previous_question_rows"
+msgstr "<< Otázky %d - %d z %d"
+
+#, fuzzy
+msgid "print_answers"
+msgstr "Print Answers"
+
+msgid "qpl_assessment_no_assessment_of_questions"
+msgstr "Pro vybranou otázku není dostupné žádné ohodnocení. Tato otázka nebyla nikdy použita v testu."
+
+msgid "qpl_assessment_total_of_answers"
+msgstr "Celkem odpovědí"
+
+msgid "qpl_assessment_total_of_right_answers"
+msgstr "Celkem procent správných odpovědí (procent z maxima bodů)"
+
+#, fuzzy
+msgid "qpl_bulk_save_add"
+msgstr "Add"
+
+#, fuzzy
+msgid "qpl_bulk_save_overwrite"
+msgstr "Overwrite"
+
+#, fuzzy
+msgid "qpl_bulkedit_success"
+msgstr "Modifications saved."
+
+msgid "qpl_cancel_skill_assigns_update"
+msgstr "Zrušit"
+
+msgid "qpl_confirm_delete_questions"
+msgstr "Jste si jist/a, že chcete smazat následující otázky?"
+
+msgid "qpl_copy_insert_clipboard"
+msgstr "Vybrané otázky jsou zkopírovány do schránky"
+
+msgid "qpl_copy_select_none"
+msgstr "Označte alespoň jednu otázku ke zkopírování do schránky"
+
+msgid "qpl_delete_rbac_error"
+msgstr "Nemáte oprávnění smazat tuto otázku!"
+
+msgid "qpl_delete_select_none"
+msgstr "Označte prosím alespoň jednu otázku ke smazání"
+
+msgid "qpl_export_excel"
+msgstr "Soubor Microsoft Excel"
+
+msgid "qpl_export_select_none"
+msgstr "Vyberte prosím alespoň jednu otázku k exportování"
+
+msgid "qpl_export_xml"
+msgstr "Soubor QTI XML"
+
+msgid "qpl_form_general_settings"
+msgstr "Obecná nastavení"
+
+msgid "qpl_imagemap_preview_missing"
+msgstr "ILIAS nemůže vytvořit dočasný náhled souboru obsahujícího rastrový obrázek. Namísto toho je zobrazen originální obrázek. To znamená, že také webový serverový nástroj ImageMagick není nakonfigurován správně nebo chybí právo zápisu do dočasného adresáře! Kontaktujte prosím svého správce systému."
+
+msgid "qpl_import_create_new_qpl"
+msgstr "Import otázek do nového zásobníku otázek"
+
+msgid "qpl_import_no_items"
+msgstr "Chyba: Importovaný soubor neobsahuje žádné otázky!"
+
+msgid "qpl_import_non_ilias_files"
+msgstr "Chyba: Importovaný soubor obstahuje QTI soubory, které nejsou vytvořeny systémem ILIAS. Kontaktujte prosím tým ILIAS ke získání importovacího filtru pro formát vašeho QTI souboru."
+
+#, fuzzy
+msgid "qpl_import_step_persist"
+msgstr "Import question pool"
+
+#, fuzzy
+msgid "qpl_import_step_select"
+msgstr "Select questions to import"
+
+msgid "qpl_import_verify_found_questions"
+msgstr "ILIAS nalezl v importovaném souboru následující otázky. Vyberte prosím ty otázky, které chcete importovat."
+
+msgid "qpl_lac_desc_brackets"
+msgstr "Závorky"
+
+msgid "qpl_lac_desc_compare_answer_exist"
+msgstr "Porovnejte, pokud je odpověď pro otázku/mezeru"
+
+msgid "qpl_lac_desc_compare_with_answer_n"
+msgstr "Porovnejte výsledek s n-tou odpovědí na otázku"
+
+msgid "qpl_lac_desc_compare_with_assignment"
+msgstr "Porovnejte výsledek s odpovídajícím n:m"
+
+msgid "qpl_lac_desc_compare_with_exact_sequence"
+msgstr "Porovnejte výsledek s přesně danou sekvencí"
+
+msgid "qpl_lac_desc_compare_with_number"
+msgstr "Porovnejte výsledek s číslem n"
+
+msgid "qpl_lac_desc_compare_with_quest_res"
+msgstr "Porovnejte výsledek s dosaženými body v procentech"
+
+msgid "qpl_lac_desc_compare_with_sequence"
+msgstr "Porovnejte výsledek se sekvencí odpovědi ($a,..,z$)"
+
+msgid "qpl_lac_desc_compare_with_text"
+msgstr "Porovnejte výsledek s textem TEXT"
+
+msgid "qpl_lac_desc_logical_and"
+msgstr "Logické A"
+
+msgid "qpl_lac_desc_logical_or"
+msgstr "Logické NEBO"
+
+msgid "qpl_lac_desc_negation"
+msgstr "Negace"
+
+msgid "qpl_lac_desc_res_of_answ_m_of_cur_quest"
+msgstr "Výsledek m-té odpovědi na aktuální otázku"
+
+msgid "qpl_lac_desc_res_of_cur_quest"
+msgstr "Výsledek aktuální otázky"
+
+msgid "qpl_lac_legend_header_common"
+msgstr "Logika výrazu"
+
+msgid "qpl_lac_legend_header_quest_specific"
+msgstr "Výrazy specifické pro otázku"
+
+msgid "qpl_lac_legend_label_operators"
+msgstr "Operátory"
+
+msgid "qpl_maxchars_info_numeric_question"
+msgstr "Pokud zadáte hodnotu, pole pro numerickou odpověď bude vytvořeno s pevnou délkou této hodnoty, takže není možné zadání více znaků, než je povoleno. Všimněte si, že pro číselné mezery se desetinný oddělovač počítá jako běžný znak."
+
+msgid "qpl_move_insert_clipboard"
+msgstr "Tyto vybrané otázky jsou označeny k přesunu"
+
+msgid "qpl_move_select_none"
+msgstr "Vyberte prosím alespoň jednu otázku k přesunu"
+
+msgid "qpl_numeric_lower_needs_valid_lower_alert"
+msgstr "Dolní mez musí být platná číselná hodnota nižší než horní mez."
+
+msgid "qpl_numeric_upper_needs_valid_upper_alert"
+msgstr "Horní mez musí být platná číselná hodnota větší než dolní mez."
+
+msgid "qpl_paste_error"
+msgstr "Nejméně jedna otázka nemohla být vložena do zásobníku otázek. Možný důvod: Pokusili jste se přesunout otázku do stejného zásobníku otázek."
+
+msgid "qpl_paste_no_objects"
+msgstr "Ve schránce nejsou žádné otázky. Zkopírujte prosím otázku do schránky."
+
+msgid "qpl_paste_success"
+msgstr "Otázky byly vloženy do zásobníku otázek"
+
+msgid "qpl_qst_edit_form_taxonomy"
+msgstr "Taxonomie \"%s\""
+
+msgid "qpl_qst_edit_form_taxonomy_section"
+msgstr "Taxonomie"
+
+msgid "qpl_qst_inp_matching_mode"
+msgstr "Režim párování"
+
+msgid "qpl_qst_inp_matching_mode_all_on_all"
+msgstr "Jeden nebo více výrazů se shoduje s jednou nebo více definicemi (n:n)"
+
+msgid "qpl_qst_inp_matching_mode_one_on_one"
+msgstr "Jeden výraz odpovídá jedné definici (1:1)"
+
+msgid "qpl_qst_skl_assign_properties_modified"
+msgstr "Vlastnosti přiřazení byly upraveny."
+
+msgid "qpl_qst_skl_assign_synced_to_orig"
+msgstr "Přiřazení způsobilosti byla synchronizována s původními otázkami."
+
+msgid "qpl_qst_skl_assigns_updated"
+msgstr "Přiřazení způsobilosti byla aktualizována."
+
+msgid "qpl_qst_skl_selection_for_question_header"
+msgstr "Přiřazení způsobilosti pro otázku: %s"
+
+msgid "qpl_qst_skl_usg_numq_col"
+msgstr "Počet otázek v zásobníku určených této způsobilosti"
+
+msgid "qpl_qst_skl_usg_skill_col"
+msgstr "Způsobilost"
+
+msgid "qpl_qst_skl_usg_sklpnt_col"
+msgstr "Celkový součet bodů způsobilosti podle způsobilosti"
+
+msgid "qpl_question_is_in_use"
+msgstr "Otázka, kterou upravujete, existuje v %s testech. Pokud tuto otázku změníte, NEZMĚNÍTE otázku(y) v testu(ech), protože systém vytváří kopii otázky, která je vložena do testu!"
+
+msgid "qpl_questions_deleted"
+msgstr "Otázky smazány."
+
+msgid "qpl_reset_preview"
+msgstr "Obnovit náhled"
+
+msgid "qpl_save_skill_assigns_update"
+msgstr "Uložit přiřazení způsobilosti"
+
+#, fuzzy
+msgid "qpl_settings_availability"
+msgstr "Availability"
+
+msgid "qpl_settings_general_form_prop_show_tax_desc"
+msgstr "Pokud je zapnuto, pro filtrování jsou zobrazeny možné vytvořené taxonomie."
+
+msgid "qpl_settings_general_form_property_nav_taxonomy"
+msgstr "Filtr taxonomie v navigačním stromu"
+
+msgid "qpl_settings_general_form_property_nav_taxonomy_description"
+msgstr "Pokud je vybrána taxonomie, pak bude dobře prezentována jako navigační strom namísto filtrování položek tabulky."
+
+msgid "qpl_settings_general_form_property_opt_notax_selected"
+msgstr "Použít filtr žádný navigační strom"
+
+msgid "qpl_settings_general_form_property_show_taxonomies"
+msgstr "Zobrazit taxonomie"
+
+msgid "qpl_settings_subtab_general"
+msgstr "Obecná nastavení"
+
+msgid "qpl_settings_subtab_taxonomies"
+msgstr "Taxonomie"
+
+msgid "qpl_skill_point_eval_by_quest_result"
+msgstr "Hodnocení bodů způsobilosti podle výsledku otázky"
+
+msgid "qpl_skill_point_eval_by_solution_compare"
+msgstr "Hodnocení bodů způsobilosti podle porovnání řešení"
+
+msgid "qpl_skill_point_eval_mode_quest_result"
+msgstr "Výsledek otázky"
+
+msgid "qpl_skill_point_eval_mode_solution_compare"
+msgstr "Porovnání řešení"
+
+#, fuzzy
+msgid "qpl_skl_all_questions"
+msgstr "All questions"
+
+#, fuzzy
+msgid "qpl_skl_assigned_questions"
+msgstr "Questions with assignment"
+
+#, fuzzy
+msgid "qpl_skl_assignment_for_question"
+msgstr "Competence assignments for question „%s“"
+
+msgid "qpl_skl_sub_tab_quest_assign"
+msgstr "Přiřazení otázky / způsobilosti"
+
+msgid "qpl_skl_sub_tab_usages"
+msgstr "Četnost přiřazení"
+
+#, fuzzy
+msgid "qpl_skl_unassigned_questions"
+msgstr "Questions without assignment"
+
+#, fuzzy
+msgid "qpl_skl_view_control_mode_aria:"
+msgstr "View control mode"
+
+msgid "qpl_sync_quest_skl_assigns_confirmation"
+msgstr "Otázka byla vložena z jiného objektu úložiště. Musí být originál otázky aktualizován o aktuální konfiguraci přiřazení způsobilosti?"
+
+msgid "qpl_tab_competences"
+msgstr "Způsobilosti"
+
+#, fuzzy
+msgid "qpl_taxonomy_tab_info_message"
+msgstr "Taxonomies in question pools can be used to filter the questions. After activating the function in the \"Settings\" tab, they are displayed in the filter in the \"Questions\" tab."
+
+#, fuzzy
+msgid "qst_error_text_too_long"
+msgstr "One or more text elements marked as erroneous are too long. The maximum size for a text element marked as erroneous is 150 characters:"
+
+#, fuzzy
+msgid "qst_essay_allready_written_words"
+msgstr "Already entered words:"
+
+#, fuzzy
+msgid "qst_essay_chars_remaining"
+msgstr "Remaining characters:"
+
+#, fuzzy
+msgid "qst_essay_wordcounter_enabled"
+msgstr "Count Words"
+
+#, fuzzy
+msgid "qst_essay_wordcounter_enabled_info"
+msgstr "The entered words are counted. The number of written words is shown to the participants below the text input field."
+
+#, fuzzy
+msgid "qst_essay_written_words"
+msgstr "Number of entered words:"
+
+#, fuzzy
+msgid "qst_lifecycle"
+msgstr "Lifecycle"
+
+#, fuzzy
+msgid "qst_lifecycle_draft"
+msgstr "Draft"
+
+#, fuzzy
+msgid "qst_lifecycle_filter_all"
+msgstr "All Lifecycles"
+
+#, fuzzy
+msgid "qst_lifecycle_final"
+msgstr "Final"
+
+#, fuzzy
+msgid "qst_lifecycle_outdated"
+msgstr "Outdated"
+
+#, fuzzy
+msgid "qst_lifecycle_rejected"
+msgstr "Rejected"
+
+#, fuzzy
+msgid "qst_lifecycle_review"
+msgstr "To be Reviewed"
+
+#, fuzzy
+msgid "qst_lifecycle_sharable"
+msgstr "Sharable"
+
+#, fuzzy
+msgid "qst_nested_nested_answers_off"
+msgstr "No indents, just order"
+
+#, fuzzy
+msgid "qst_nested_nested_answers_on"
+msgstr "Use indents in anwers"
+
+msgid "qst_nr_of_tries"
+msgstr "Počet pokusů"
+
+msgid "qst_preview_reset_msg"
+msgstr "Náhled byl obnoven."
+
+#, fuzzy
+msgid "qst_use_nested_answers"
+msgstr "Nested answers"
+
+#, fuzzy
+msgid "qst_use_nested_answers_info"
+msgstr "After selecting 'Nested Answers', you will need to save the question. A new 'Nesting' subtab will then appear at the top of the screen, where you can arrange the answer elements into a hierarchy of your choice."
+
+msgid "que_contains_unused_var"
+msgstr "Tato otázka obsahuje proměnnou, která není použita v žádném vzorci výsledku."
+
+msgid "question_browse_area_info"
+msgstr "Vyberte objekt, ze kterého chcete importovat otázky."
+
+#, fuzzy
+msgid "question_complete_title"
+msgstr "Complete"
+
+msgid "question_cumulated_statistics"
+msgstr "Souhrnné statistiky otázek"
+
+msgid "question_id"
+msgstr "ID otázky"
+
+msgid "question_id_short"
+msgstr "ID"
+
+msgid "question_instances_title"
+msgstr "Tato otázka je použita v následujících testech"
+
+#, fuzzy
+msgid "question_is_part_of_running_test"
+msgstr "Question is part of a running test and may not be edited."
+
+msgid "question_marking"
+msgstr "Zobrazit značkování otázek"
+
+msgid "question_marking_description"
+msgstr "Pokud je vybráno, každý účastník získá možnost označit každou otázku testu symbolem indikujícím, co má s otázkou být provedeno dále (např. zkusit znovu, zodpovězeno, nezodpovězeno, apod.) Značky jsou viditelné také v seznamu otázek (pokud jsou přístupné)."
+
+msgid "question_not_answered"
+msgstr "Otázka nebyla zodpovězena"
+
+msgid "question_saved_for_upload"
+msgstr "Tato otázka byla automaticky uložena pro rezervaci místa na disku k uložení odesílaného souboru. Pokud formulář zrušíte nyní, pamatujte, že musíte smazat tuto otázku také ze zásobníku otázek!"
+
+msgid "question_summary"
+msgstr "Seznam otázek"
+
+msgid "question_summary_btn"
+msgstr "Stav zpracování"
+
+msgid "question_title"
+msgstr "Název otázky"
+
+msgid "question_type"
+msgstr "Typ otázky"
+
+#, fuzzy
+msgid "questionlist_cannot_be_altered"
+msgstr "The question list cannot be altered as the test already contains participant data sets."
+
+msgid "questionpool_not_entered"
+msgstr "Vložte prosím název zásobníku otázek!"
+
+#, fuzzy
+msgid "questionpool_not_selected"
+msgstr "Please select a question pool!"
+
+msgid "questions"
+msgstr "Otázky"
+
+msgid "questions_from"
+msgstr "otázky z"
+
+msgid "questions_per_page_view"
+msgstr "Zobrazení stránky"
+
+msgid "random_accept_sample"
+msgstr "Akceptovat příklad"
+
+msgid "random_another_sample"
+msgstr "Vybrat jiný příklad"
+
+msgid "random_selection"
+msgstr "Náhodný výběr"
+
+msgid "range"
+msgstr "Rozmezí"
+
+msgid "range_lower_limit"
+msgstr "Spodní hranice"
+
+msgid "range_max"
+msgstr "Rozmezí (Maximum)"
+
+msgid "range_min"
+msgstr "Rozmezí (Minimum)"
+
+msgid "range_upper_limit"
+msgstr "Horní hranice"
+
+msgid "rated_sign"
+msgstr "Podpis"
+
+msgid "rated_unit"
+msgstr "Jednotka"
+
+msgid "rated_value"
+msgstr "Hodnota"
+
+msgid "rating"
+msgstr "Hodnocení"
+
+msgid "rating_sign"
+msgstr "Podpis hodnocení"
+
+msgid "rating_simple"
+msgstr "Jednoduché hodnocení"
+
+msgid "rating_unit"
+msgstr "Jednotka hodnocení"
+
+msgid "rating_value"
+msgstr "Hodnota hodnocení"
+
+msgid "rectangle"
+msgstr "Obdélník"
+
+msgid "rectangle_click_br_corner"
+msgstr "Klepněte prosím na pravý spodní roh požadované plochy."
+
+msgid "rectangle_click_tl_corner"
+msgstr "Klepněte prosím na levý horní roh požadované plochy."
+
+msgid "redirectAfterSave"
+msgstr "Byl dosažen maximální pracovní čas a Vaše poslední otázka bude automaticky uložena. V několika sekundách budete přesměrován(a)..."
+
+msgid "redirect_after_finishing_rule"
+msgstr "Přesměrovat"
+
+msgid "redirect_after_finishing_tst"
+msgstr "Přesměrovat po ukončení testu"
+
+msgid "redirect_after_finishing_tst_desc"
+msgstr "Po ukončení testu je každý účastník automaticky přesměrován na definovanou webovou stránku. To platí pouze v případě, že účastníci nemají přístup k výsledkům svých testů."
+
+msgid "redirect_always"
+msgstr "vždy na definovanou webovou stránku"
+
+#, fuzzy
+msgid "redirect_always_to_logout"
+msgstr "Always to the logout screen"
+
+msgid "redirect_in_kiosk_mode"
+msgstr "Přesměrovat jen v kioskovém módu"
+
+#, fuzzy
+msgid "redirect_url_invalid"
+msgstr "Please enter a valid url of the target webpage."
+
+#, fuzzy
+msgid "redirect_url_required_for_rule"
+msgstr "The url of the webpage is required when \"%s\" is selected."
+
+msgid "redirection_url"
+msgstr "Cíl přesměrování"
+
+msgid "region"
+msgstr "Oblast"
+
+#, fuzzy
+msgid "remaining_duration"
+msgstr "Remaining Duration"
+
+msgid "remove_gap"
+msgstr "Odstranit mezeru"
+
+msgid "remove_participants"
+msgstr "Odstranit jako fixního účastníka"
+
+msgid "remove_question"
+msgstr "Odstranit"
+
+#, fuzzy
+msgid "remove_selected_participants_confirmation"
+msgstr "Are you sure you want to remove the selected participants from the test?"
+
+#, fuzzy
+msgid "remove_selected_templates_confirmation"
+msgstr "Are you sure you want to permanently remove the selected personal test settings templates?"
+
+msgid "remove_solution"
+msgstr "Odstranit doporučené řešení"
+
+msgid "res_contains_undef_res"
+msgstr "Výsledkový vzorec obsahuje nedefinovaný výsledek!"
+
+msgid "res_contains_undef_var"
+msgstr "Výsledkový vzorec obsahuje nedefinovanou proměnnou!"
+
+msgid "reset_definitions"
+msgstr "Resetovat umístění definice"
+
+msgid "reset_pictures"
+msgstr "Resetovat umístění obrázku"
+
+msgid "reset_terms"
+msgstr "Resetovat umístění termínu"
+
+msgid "result"
+msgstr "Výsledek"
+
+msgid "result_co_frac"
+msgstr "Nesoudělný zlomek"
+
+msgid "result_co_frac_info"
+msgstr "Ukončeno bez zlomku tj.: jen 1/3 je správný výsledek"
+
+msgid "result_dec"
+msgstr "Desetinné"
+
+msgid "result_dec_info"
+msgstr "Platný výsledek tj.: 2,3 a 2.3"
+
+msgid "result_frac"
+msgstr "Zlomek"
+
+msgid "result_frac_info"
+msgstr "tj.: 1/3 a 2/6 jsou platné výsledky"
+
+msgid "result_type_selection"
+msgstr "Výběr typu výsledku"
+
+msgid "result_unit_info"
+msgstr "Povšimněte si, že vybraná jednotka výsledků musí být také aktivována v „dostupných jednotkách“."
+
+msgid "result_units"
+msgstr "Dostupné jednotky"
+
+msgid "result_units_info"
+msgstr "Vybrané jednotky jsou nabízeny studentovi jako součást odpovědi. Student musí vybrat jednu jednotku."
+
+msgid "result_x"
+msgstr "Výsledek %s"
+
+msgid "results"
+msgstr "Výsledky"
+
+msgid "results_tab"
+msgstr "Výsledky"
+
+#, fuzzy
+msgid "resulttable_all"
+msgstr "All"
+
+#, fuzzy
+msgid "resulttable_correct"
+msgstr "Correct"
+
+#, fuzzy
+msgid "resulttable_incorrect"
+msgstr "Incorrect/Incomplete"
+
+#, fuzzy
+msgid "resulttable_vc_sort_iooa"
+msgstr "in order of appearance"
+
+#, fuzzy
+msgid "resulttable_vc_sort_posscore"
+msgstr "highest possible score first"
+
+msgid "review_view"
+msgstr "Prohlédnout"
+
+#, fuzzy
+msgid "running"
+msgstr "Running"
+
+msgid "saveOrder"
+msgstr "Uložit pořadí"
+
+msgid "saveOrderAndObligations"
+msgstr "Uložit pořadí a závazky"
+
+msgid "save_and_next"
+msgstr "Uložit a pokračovat"
+
+msgid "save_on_navigation"
+msgstr "Uložit při navigaci"
+
+msgid "save_on_navigation_confirmation"
+msgstr "Vaše změněné odpovědi budou automaticky uloženy při navigaci."
+
+msgid "save_on_navigation_forced_feedback_hint"
+msgstr "Než dostanete zpětnou vazbu na zadanou odpověď."
+
+msgid "save_on_navigation_locked_confirmation"
+msgstr "Vaše změněné odpovědi budou automaticky uloženy a uzamčeny při navigaci."
+
+msgid "saved_adjustment"
+msgstr "Změny uloženy"
+
+#, fuzzy
+msgid "score_anon"
+msgstr "Score anonymously"
+
+msgid "score_partsol_enabled"
+msgstr "Bilance dílčích výsledků"
+
+msgid "score_partsol_enabled_info"
+msgstr "Obvykle musí účastník na otázku odpovědět zcela správně, aby získal konfigurované body. S touto možností dostane účastník polovinu konfigurovaných bodů při nejméně třech správných závěrech."
+
+#, fuzzy
+msgid "scored_by"
+msgstr "Scored BY"
+
+msgid "scored_pass"
+msgstr "Hodnocený průchod"
+
+msgid "scoring"
+msgstr "Hodnocení a výsledky"
+
+msgid "scoringadjust"
+msgstr "Opravy"
+
+msgid "search_groups"
+msgstr "Vyhledat skupiny"
+
+msgid "search_roles"
+msgstr "Vyhledat role"
+
+msgid "search_term"
+msgstr "Vyhledat termín"
+
+#, fuzzy
+msgid "select_at_least_one_feedback_type_and_trigger"
+msgstr "Please Select at least one type of feedback and a trigger."
+
+#, fuzzy
+msgid "select_at_least_one_lock_answer_type"
+msgstr "Please select at least one type of answer lock."
+
+msgid "select_gap"
+msgstr "Vybrat mezeru"
+
+msgid "select_max_one_item"
+msgstr "Vyberte prosím pouze jednu položku"
+
+msgid "select_one_user"
+msgstr "Vyberte prosím alespoň jednoho uživatele"
+
+#, fuzzy
+msgid "select_question"
+msgstr "Select a Question"
+
+msgid "select_target_position_for_move_question"
+msgstr "Vyberte prosím cílové umístění pro přesun otázek a stiskněte jedno z tlačítek vkládání!"
+
+msgid "select_unit"
+msgstr "--- Vybrané jednotky ---"
+
+msgid "selected_category"
+msgstr "Vybraná kategorie: %s"
+
+msgid "selection"
+msgstr "Výběr"
+
+msgid "set_edit_mode"
+msgstr "Nastavit mód editace"
+
+msgid "set_filter"
+msgstr "Nastavit filtr"
+
+msgid "set_manscoring_done"
+msgstr "Označit jako \"Bodovaný účastník\""
+
+#, fuzzy
+msgid "set_manscoring_open"
+msgstr "Remove 'scoring complete' flag"
+
+msgid "set_manual_feedback"
+msgstr "Manuální ohlas"
+
+msgid "shape"
+msgstr "Tvar"
+
+msgid "showSuggestedSolution"
+msgstr "Typ"
+
+msgid "show_all_test_properties_on_info_page"
+msgstr "Zobrazit úplnou stránku informací"
+
+msgid "show_all_test_properties_on_info_page_byline"
+msgstr "Pokud je vybráno, úplná stránka informací testu bude zobrazena (včetně vlastností test). Pokud není vybráno, bude zobrazen pouze úvodní text (je-li dostupný) a požadované vlastnosti budou zobrazeny na stránce informací testu."
+
+msgid "show_answer_overview"
+msgstr "Zobrazit přehled odpovědí"
+
+#, fuzzy
+msgid "show_best_solution"
+msgstr "Show best solution"
+
+msgid "show_detailed_results"
+msgstr "Zobrazit podrobné výsledky uživatele. (Známkovaný průchod)"
+
+msgid "show_examview_html"
+msgstr "Zobrazit přehled zkoušky ve stránce odevzdání testu"
+
+#, fuzzy
+msgid "show_hide_best_solution"
+msgstr "Show or hide best solution"
+
+#, fuzzy
+msgid "show_old_concluding_remarks"
+msgstr "Show old conlcuding remarks"
+
+#, fuzzy
+msgid "show_old_introduction"
+msgstr "Show old introduction"
+
+msgid "show_pass_overview"
+msgstr "Zobrazit přehled označených průchodů"
+
+#, fuzzy
+msgid "show_results"
+msgstr "Show Results"
+
+msgid "show_user_answers"
+msgstr "Zobrazit označené odpovědi uživatelů"
+
+msgid "shuffle_answers"
+msgstr "Zamíchat odpovědi"
+
+msgid "skip_question"
+msgstr "Neodpovídat a Další"
+
+#, fuzzy
+msgid "solution"
+msgstr "Solution"
+
+msgid "solutionText"
+msgstr "Text"
+
+msgid "solution_contain_keywords"
+msgstr "Body jsou přiděleny na základě výskytu následujících klíčových slov:"
+
+msgid "solution_hint"
+msgstr "Doporučené řešení"
+
+#, fuzzy
+msgid "solutions"
+msgstr "Solutions"
+
+msgid "start_tag"
+msgstr "Startovní značka"
+
+msgid "statistical_data"
+msgstr "Statistická data"
+
+msgid "statistics"
+msgstr "Statistiky"
+
+#, fuzzy
+msgid "status_of_attempt"
+msgstr "Status of Attempt"
+
+msgid "submit_and_check"
+msgstr "Odeslat a zkontrolovat odpověď"
+
+msgid "submit_answer"
+msgstr "Odeslat odpověď"
+
+msgid "suggest_range"
+msgstr "Doporučený rozsah"
+
+msgid "suggestedSolutionType"
+msgstr "Typ doporučeného řešení"
+
+msgid "suggested_solution"
+msgstr "Obsah pro rekapitulaci"
+
+msgid "suggested_solution_added_successfully"
+msgstr "Doporučené řešení jste nastavil/a úspěšně!"
+
+#, fuzzy
+msgid "sync_question_to_pool"
+msgstr "Synchronize Question"
+
+#, fuzzy
+msgid "ta_resulttable_vc_mode_aria"
+msgstr "switch question mode"
+
+#, fuzzy
+msgid "tab_nest_answers"
+msgstr "Nesting"
+
+#, fuzzy
+msgid "tax_filter"
+msgstr "Taxonomy"
+
+#, fuzzy
+msgid "tax_filter_notax"
+msgstr "Questions without assigned Taxonomy"
+
+#, fuzzy
+msgid "taxonomy_node_title"
+msgstr "Taxonomy Node Title"
+
+#, fuzzy
+msgid "taxonomy_title"
+msgstr "Taxonomy Title"
+
+msgid "term"
+msgstr "Pojem"
+
+msgid "term_image"
+msgstr "Obrázek pojmu"
+
+msgid "term_text"
+msgstr "Text pojmu"
+
+msgid "terms"
+msgstr "Pojmy"
+
+#, fuzzy
+msgid "test_attempts_finished"
+msgstr "The test pass has been finished for the selected participants."
+
+msgid "test_confirm_template_reset"
+msgstr "Skutečně chcete použít tuto šablonu kdykoli příště?"
+
+msgid "test_delete_page"
+msgstr "Smazat otázku"
+
+msgid "test_edit_settings"
+msgstr "Upravit nastavení"
+
+msgid "test_enable_archiving"
+msgstr "Zapnout archivaci"
+
+msgid "test_has_datasets_warning_page_view"
+msgstr "Test již obsahuje soubory dat. Bez smazání těchto dat nemůžete otázky testu editovat."
+
+msgid "test_has_datasets_warning_page_view_link"
+msgstr "Upravit účastníky"
+
+msgid "test_is_offline"
+msgstr "Tento test nemůžete spustit! Test je offline."
+
+msgid "test_jump_to"
+msgstr "Skok na otázku"
+
+msgid "test_move_page"
+msgstr "Přesun otázky"
+
+msgid "test_next_question"
+msgstr "Další otázka"
+
+msgid "test_prev_question"
+msgstr "Předchozí otázka"
+
+#, fuzzy
+msgid "test_question_set_type"
+msgstr "Selection of Test Questions"
+
+#, fuzzy
+msgid "test_question_set_type_fixed"
+msgstr "Use of a fixed set of questions"
+
+#, fuzzy
+msgid "test_question_set_type_fixed_info"
+msgstr "All testees see the same questions.<br>You can create questions directly in the test as well as reuse questions from a Question Pool. If you create new questions you can decide to save them in a Question Pool."
+
+#, fuzzy
+msgid "test_question_set_type_random"
+msgstr "Use of a random set of questions"
+
+#, fuzzy
+msgid "test_question_set_type_random_info"
+msgstr "Every testee will see an individually generated set of questions. The questions are drawn from one or more Question Pools."
+
+msgid "test_results"
+msgstr "Volby výsledků"
+
+msgid "test_scoring"
+msgstr "Volby hodnocení"
+
+msgid "test_template_reset"
+msgstr "Šablona byla odstraněna."
+
+#, fuzzy
+msgid "test_title"
+msgstr "Test Title"
+
+msgid "test_using_template"
+msgstr "Tento test používá šablonu %s. Pokud nechcete použít tuto šablonu a mít přístup ke všem nastavením, klepněte prosím zde: %s."
+
+msgid "test_using_template_link"
+msgstr "Nepoužívat šablonu nikdy více"
+
+msgid "text_correct"
+msgstr "Opravit text"
+
+msgid "text_gap"
+msgstr "Textová mezera"
+
+msgid "text_maximum_chars_allowed"
+msgstr "Nevkládejte prosím více než maximum z %s znaků. Další znaky budou odříznuty."
+
+msgid "text_rating"
+msgstr "Metoda porovnání textu"
+
+msgid "text_wrong"
+msgstr "Chybný text"
+
+msgid "textsize"
+msgstr "Šířka textu"
+
+msgid "textsize_errortext_info"
+msgstr "Vložte šířku chybného textu v procentech pokud chcete jinou šířku, než 100 procent."
+
+msgid "textsize_info"
+msgstr "Vložte šířku uspořádání textu v procentech, pokud chcete jinou velikost, než 100 procent."
+
+msgid "thumb_size"
+msgstr "Velikost miniatury"
+
+msgid "thumb_size_info"
+msgstr "Miniatura obrázku bude vytvořena s maximálními hodnotami dané výšky a šířky, poměr stran bude zachován."
+
+msgid "thumb_size_unit_pixel"
+msgstr "Pixel"
+
+msgid "time_format"
+msgstr "HH MM SS"
+
+msgid "timing"
+msgstr "Další čas"
+
+msgid "tolerance"
+msgstr "Tolerance (%)"
+
+msgid "tolerance_info"
+msgstr "Tolerance určuje přípustnou procentní odchylku od výsledné hodnoty. S tolerancí 0 je jako správná vyhodnocena pouze přesná výsledná hodnota."
+
+msgid "too_many_targets_selected_for_move"
+msgstr "Musíte vybrat přesně jedno cílové umístění!"
+
+msgid "toplist_by_score"
+msgstr "Nejvyšší výsledky podle hodnocení"
+
+msgid "toplist_by_time"
+msgstr "Nejvyšší výsledky podle pracovního času"
+
+msgid "toplist_col_achieved"
+msgstr "Datum"
+
+msgid "toplist_col_participant"
+msgstr "Účastník"
+
+msgid "toplist_col_percentage"
+msgstr "Procenta"
+
+msgid "toplist_col_rank"
+msgstr "Umístění"
+
+msgid "toplist_col_score"
+msgstr "Hodnocení"
+
+msgid "toplist_col_wtime"
+msgstr "Pracovní čas"
+
+#, fuzzy
+msgid "total_attempts"
+msgstr "Total Attempts"
+
+#, fuzzy
+msgid "total_duration"
+msgstr "Total Duration"
+
+#, fuzzy
+msgid "total_max_points_cannot_be_negative"
+msgstr "The maximum amount of reachable points cannot be negative."
+
+msgid "true"
+msgstr "Pravda"
+
+msgid "tst_access_code_created"
+msgstr "Byl vytvořen unikátní kód k Vašemu stálému přístupu k Vašim výsledkům testu, a který Vám umožňuje v testu pokračovat. Zapište si prosím tento kód pro další použití."
+
+msgid "tst_activate_skill_service"
+msgstr "Aktivujte službu způsobilosti"
+
+msgid "tst_activate_skill_service_desc"
+msgstr "Zobrazí se nová záložka 'Způsobilosti'. V této záložce jsou otázky přiřazeny způsobilostem, poté jsou připsány prahy pro dosažení určité úrovně způsobilosti."
+
+#, fuzzy
+msgid "tst_activation_limited_visibility_info"
+msgstr "Before and after the period during which the test is available,  the test's title will be displayed, but participants won’t be able to take the test. Access, including to tests already in progress, will be prevented once the period of availability has ended."
+
+msgid "tst_activation_online_info"
+msgstr "Je-li offline, pouze správci mohou vidět a upravovat tento test."
+
+msgid "tst_add_quest_cont_edit_mode"
+msgstr "Editační mód pro dodatečný obsah otázky"
+
+msgid "tst_add_quest_cont_edit_mode_IPE"
+msgstr "Editace dodatečného obsahu s Editorem objektů stránky"
+
+#, fuzzy
+msgid "tst_add_quest_cont_edit_mode_IPE_info"
+msgstr "No formatting of text in question and answers. No use of LaTex either. But feedback and hints can be reused when question is embedded in ILIAS learning module."
+
+msgid "tst_add_quest_cont_edit_mode_RTE"
+msgstr "Výchozí editační mód pro dodatečný obsah otázky"
+
+#, fuzzy
+msgid "tst_add_quest_cont_edit_mode_RTE_info"
+msgstr "Allows text formatting of questions, answers, feedbacks and hints. But feedback and hints cannot be reused when question is embedded in ILIAS learning module."
+
+#, fuzzy
+msgid "tst_add_quest_cont_edit_mode_plain"
+msgstr "Use plain text"
+
+#, fuzzy
+msgid "tst_add_quest_cont_edit_mode_plain_info"
+msgstr "No formatting of text in question, answers and feedback."
+
+#, fuzzy
+msgid "tst_addit_passes_blocked_after_passed_msg"
+msgstr "You have passed the test. The test cannot be started again."
+
+msgid "tst_all_test_competences"
+msgstr "Způsobilost ve všech testech"
+
+msgid "tst_all_user_data_deleted"
+msgstr "Všechna uživatelská data tohoto testu byly smazány!"
+
+#, fuzzy
+msgid "tst_already_passed_cannot_retake"
+msgstr "Test already passed. You cannot start the test again."
+
+msgid "tst_already_submitted"
+msgstr "Test byl již ukončen a odevzdán."
+
+msgid "tst_analysis"
+msgstr "Analýza"
+
+msgid "tst_anonymity"
+msgstr "Anonymita"
+
+msgid "tst_anonymity_anonymous_test"
+msgstr "Anonymní test"
+
+msgid "tst_anonymity_no_anonymization"
+msgstr "Žádná anonymizace"
+
+msgid "tst_answer_aggr_answer_header"
+msgstr "Odpověď"
+
+msgid "tst_answer_aggr_frequency_header"
+msgstr "Frekvence"
+
+msgid "tst_answer_details"
+msgstr "Podrobnosti odpovědi"
+
+#, fuzzy
+msgid "tst_answer_fixation"
+msgstr "Lock Answers"
+
+msgid "tst_answer_fixation_handling"
+msgstr "Odpovědi účastníků"
+
+msgid "tst_answer_fixation_none"
+msgstr "Nezamykejte odpovědi účastníků během průchodů testem"
+
+msgid "tst_answer_fixation_none_desc"
+msgstr "Dokud nebyl ukončen průchod testem, účastníci mohou kdykoliv změnit své odpovědi."
+
+msgid "tst_answer_fixation_on_followup_question"
+msgstr "Uzamčení odpovědí při prezentaci následných otázek"
+
+msgid "tst_answer_fixation_on_followup_question_desc"
+msgstr "Zobrazení následných otázek uzamkne odpovědi účastníků na předchozí otázku, účastníci již nemohou tyto odpovědi změnit."
+
+msgid "tst_answer_fixation_on_instant_feedback"
+msgstr "Uzamčení odpovědí při prezentaci zpětné vazby"
+
+msgid "tst_answer_fixation_on_instant_feedback_desc"
+msgstr "Po zobrazení zpětné vazby k otázce jsou uzamčeny odpovědi účastníků, účastníci již nemohou tyto odpovědi změnit."
+
+msgid "tst_answer_fixation_on_instantfb_or_followupqst"
+msgstr "Uzamčení odpovědí při prezentaci zpětné vazby nebo následných otázek"
+
+msgid "tst_answer_fixation_on_instantfb_or_followupqst_desc"
+msgstr "Odpovědi účastníků na otázku budou uzamčeny buď při prezentaci zpětné vazby otázek, nebo při zobrazení následné otázky."
+
+msgid "tst_answer_status_answered"
+msgstr "Zodpovězeno"
+
+msgid "tst_answer_status_editing"
+msgstr " (editace ... )"
+
+msgid "tst_answer_status_not_answered"
+msgstr "Nezodpovězeno"
+
+msgid "tst_answered_questions"
+msgstr "Zodpovězené otázky"
+
+msgid "tst_answered_questions_of_total"
+msgstr "%s z %s"
+
+msgid "tst_answered_questions_test"
+msgstr "Zodpovězené otázky v tomto testu"
+
+msgid "tst_attached_xls_file"
+msgstr "Výsledek testu tohoto účastníka najdete v přiloženém souboru aplikace Excel."
+
+msgid "tst_attempt"
+msgstr "Pokus"
+
+msgid "tst_attempt_limit_message"
+msgstr "Celkový počet pokusů pro tento test: <b>%s</b>."
+
+msgid "tst_attempt_started"
+msgstr "Test spuštěn"
+
+msgid "tst_back_to_pass_details"
+msgstr "Podrobnosti zpět na průchodu"
+
+msgid "tst_back_to_question_list"
+msgstr "Zpět na seznam otázek"
+
+msgid "tst_back_to_top"
+msgstr "Zpět nahoru"
+
+msgid "tst_back_to_virtual_pass"
+msgstr "Zpět na přehled otázek"
+
+msgid "tst_best_solution_is"
+msgstr "Nejlepší řešení je"
+
+#, fuzzy
+msgid "tst_block_passes_after_passed"
+msgstr "Block Additional Passes After Test is Passed"
+
+#, fuzzy
+msgid "tst_block_passes_after_passed_info"
+msgstr "After a participant has passed the test, no further test passes are allowed to the participant with this option."
+
+msgid "tst_browse_for_qpl_questions"
+msgstr "Přidat ze zásobníku"
+
+msgid "tst_browse_for_tst_questions"
+msgstr "Přidat z jiného testu"
+
+msgid "tst_btn_hide_best_solutions"
+msgstr "Skrýt nejlepší řešení"
+
+msgid "tst_btn_rebuild_random_question_stage"
+msgstr "Synchronizovat otázky ze zásobníku"
+
+#, fuzzy
+msgid "tst_btn_reset_pool_sync"
+msgstr "Edit/Cancel Synchronisation"
+
+msgid "tst_btn_show_best_solutions"
+msgstr "Zobrazit nejlepší řešení"
+
+msgid "tst_cannot_online_due_to_switched_quest_set_type_setting"
+msgstr "Tento test nemůže být nastaven online, protože nastavení módu testu bylo změněno. Musíte nastavit mód testu odpovídající konfiguraci otázky dříve než může být test nastaven online."
+
+msgid "tst_change_dyn_test_question_selection"
+msgstr "Změnit výběr aktuální otázky"
+
+msgid "tst_change_points_for_question"
+msgstr "Změnit body za odpověď"
+
+msgid "tst_change_quest_set_type_from_old_to_new_with_conflict"
+msgstr "Právě jste změnil(a) mód testu z  <b>%s</b> na <b>%s</b>, Ačkoli konfigurace otázky/zásobníku otázek závisí na aktuálním módu testu který již existuje.<br />Tato již existující konfigurace bude ztracena."
+
+msgid "tst_change_workingtime"
+msgstr "Přidat další čas pro účastníka"
+
+msgid "tst_comp_eval_mode"
+msgstr "Vyhodnocení podle"
+
+msgid "tst_comp_points"
+msgstr "Body způsobilosti"
+
+msgid "tst_competence"
+msgstr "Způsobilost"
+
+#, fuzzy
+msgid "tst_competence_tree"
+msgstr "Competence tree"
+
+#, fuzzy
+msgid "tst_conditions_checkbox_enabled"
+msgstr "Exam Conditions"
+
+#, fuzzy
+msgid "tst_conditions_checkbox_enabled_desc"
+msgstr "Participants must select a checkbox to start the test. Please use the introductory message to present the exam to the participants."
+
+msgid "tst_confirm_submit_answers"
+msgstr "Potvrďte prosím odevzdání vašich odpovědí. Po stisknutí tlačítka už nebudete moci Vaše odpovědi změnit."
+
+msgid "tst_conflicting_setting"
+msgstr "Toto nastavení je v rozporu s jiným nastavením."
+
+msgid "tst_copy"
+msgstr "Kopírovat test"
+
+msgid "tst_corr_add_as_answer_btn"
+msgstr "Přidat jako správnou odpověď"
+
+msgid "tst_corr_answ_stat_tbl_header_answer"
+msgstr "Odpověď"
+
+msgid "tst_corr_answ_stat_tbl_header_frequency"
+msgstr "Frekvence"
+
+msgid "tst_corrections_answers_tbl"
+msgstr "Statistika"
+
+msgid "tst_corrections_answers_tbl_subindex"
+msgstr "Statistika pro %s"
+
+#, fuzzy
+msgid "tst_corrections_incompatible_question_set_type"
+msgstr "Corrections are only possible if the test uses a fixed set of questions."
+
+msgid "tst_corrections_manscore_reset_warning"
+msgstr "Jsou %s manuální vyhodnocování, která byla provedena pro otázku „%s (ID: %s)“. Při ukládání otázky budou vymazána všechna manuální vyhodnocení."
+
+msgid "tst_corrections_qst_form"
+msgstr "Oprava bodů"
+
+msgid "tst_corrections_tab_question"
+msgstr "Otázka"
+
+msgid "tst_corrections_tab_solution"
+msgstr "Řešení"
+
+msgid "tst_corrections_tab_statistics"
+msgstr "Statistika"
+
+msgid "tst_count_correct_solutions"
+msgstr "Sčítat jen úplná řešení"
+
+msgid "tst_count_correct_solutions_desc"
+msgstr "Účastníci získají buď maximální počet bodů za úplně správnou a kompletní odpověď nebo 0 bodů v jakémkoliv jiném případě."
+
+msgid "tst_count_partial_solutions"
+msgstr "Sčítat částečná řešení"
+
+msgid "tst_count_partial_solutions_desc"
+msgstr "Body za správně zadané dílčí odpovědi se sčítají: Účastníci mohou získat body za neúplné nebo částečně špatné odpovědi."
+
+#, fuzzy
+msgid "tst_current_run_no_longer_valid"
+msgstr "Your current test run is no longer valid. <br>It was probably completed already or finished by a tutor."
+
+msgid "tst_delete_missing_mark"
+msgstr "Vyberte alespoň jednu známku kroku ke smazání"
+
+msgid "tst_derive_new_pool"
+msgstr "Odvodit nový zásobník otázek"
+
+msgid "tst_derive_new_pools"
+msgstr "Odvodit nové zásobníky otázek"
+
+msgid "tst_dont_show_msg_again_in_current_session"
+msgstr "Znovu nezobrazovat tuto zprávu v mé aktuální relaci."
+
+msgid "tst_edit_competence_assign"
+msgstr "Upravit vlastnosti přiřazení"
+
+msgid "tst_edit_scoring"
+msgstr "Upravit hodnocení"
+
+msgid "tst_enable_questionlist"
+msgstr "Zobrazit „Seznam otázek“"
+
+#, fuzzy
+msgid "tst_enable_questionlist_description"
+msgstr "Participants can switch on a list of the test questions on the left of the actual question."
+
+msgid "tst_ending_time"
+msgstr "Čas ukončení"
+
+#, fuzzy
+msgid "tst_ending_time_before_starting_time"
+msgstr "Please enter a date for the end of the test that is after the start date."
+
+msgid "tst_ending_time_desc"
+msgstr "Bod v čase, ve kterém bude ukončen test: Účastníci již neodpovídají na otázky, test je ukončen systémem ILIAS."
+
+msgid "tst_enter_questionpool"
+msgstr "Vložte prosím název zásobníku otázek, kam mají být nové otázky uloženy"
+
+msgid "tst_eval_question_points"
+msgstr "Výsledky otázek pro průchod %s"
+
+msgid "tst_eval_results_by_pass"
+msgstr "Seznam odpovědí pro průchod %s"
+
+msgid "tst_eval_results_by_pass_lo"
+msgstr "Seznam odpovědí pro pokus %s"
+
+msgid "tst_eval_results_lo"
+msgstr "Seznam odpovědí"
+
+msgid "tst_eval_show_answer"
+msgstr "Zobraz odpovědi"
+
+msgid "tst_eval_total_finished"
+msgstr "Úplně ukončené testy (uživatelé, kteří odevzdali test tlačítkem &quot;Ukončit test&quot;)"
+
+msgid "tst_eval_total_finished_average_time"
+msgstr "Průměrný čas zpracování ukončených testů"
+
+msgid "tst_eval_total_passed"
+msgstr "Celkem ukončených testů"
+
+msgid "tst_eval_total_passed_average_points"
+msgstr "Průměrné body ukončených testů"
+
+msgid "tst_eval_total_passed_average_time"
+msgstr "Průměrný čas zpracování všech ukončených testů"
+
+msgid "tst_eval_total_persons"
+msgstr "Celkový počet osob, které test začaly"
+
+#, fuzzy
+msgid "tst_exam_access_code"
+msgstr "Access Code"
+
+#, fuzzy
+msgid "tst_exam_access_code_invalid_message"
+msgstr "The code you provided is invalid."
+
+#, fuzzy
+msgid "tst_exam_access_code_label"
+msgstr "Enter access code to continue your already started test."
+
+#, fuzzy
+msgid "tst_exam_conditions"
+msgstr "Exam Conditions"
+
+#, fuzzy
+msgid "tst_exam_conditions_label"
+msgstr "Check to accept the conditions."
+
+#, fuzzy
+msgid "tst_exam_conditions_not_checked_message"
+msgstr "You need to accept the exam conditions!"
+
+#, fuzzy
+msgid "tst_exam_ending_time_message"
+msgstr "The test cannot be started after %s."
+
+#, fuzzy
+msgid "tst_exam_modal_message_conditions"
+msgstr "Please confirm the conditions to start the test."
+
+#, fuzzy
+msgid "tst_exam_modal_message_conditions_and_password"
+msgstr "Please confirm the conditions and enter the password to start the test."
+
+msgid "tst_exam_modal_message_password"
+msgstr "Zadejte heslo pro spuštění testu."
+
+#, fuzzy
+msgid "tst_exam_not_assigned_participant_disclaimer"
+msgstr "You cannot start this test, as you are not an assigned participant."
+
+msgid "tst_exam_password"
+msgstr "Slovo pro průchod testem"
+
+#, fuzzy
+msgid "tst_exam_password_invalid_message"
+msgstr "The given password is not valid!"
+
+msgid "tst_exam_password_label"
+msgstr "Heslo"
+
+#, fuzzy
+msgid "tst_exam_required_fields_not_filled_message"
+msgstr "You need to fill out all required fields!"
+
+msgid "tst_exam_start"
+msgstr "Spustit test"
+
+msgid "tst_exam_use_previous_answers"
+msgstr "Použít předchozí odpovědi"
+
+#, fuzzy
+msgid "tst_exam_use_previous_answers_label"
+msgstr "If enabled answers from previous tests will be prefilled."
+
+msgid "tst_extratime_added"
+msgstr "Pracovní čas účastníka byl zvýšen o %s minut."
+
+msgid "tst_extratime_info"
+msgstr "Pokud chcete pro stejného účastníka několikrát přidat pracovní čas, zadejte celkovou dobu, kterou chcete přidat."
+
+msgid "tst_extratime_notavailable"
+msgstr "Další čas může být přidán jen pro testy s jedním průchodem a maximálním časem pro zpracování."
+
+msgid "tst_failed"
+msgstr "Nepodařilo se"
+
+msgid "tst_failed_imp_qst_skl_assign"
+msgstr "Nemohla být vytvořena přiřazení otázek k následujícím způsobilostem. V lokálním systému nemohly být identifikovány příslušené způsobilosti."
+
+msgid "tst_failed_imp_skl_thresholds"
+msgstr "Byl přeskočen import prahových hodnot pro následující způsobilosti, protože v lokálním systému jsou konfigurovány příslušné kompetence s jiným seznamem úrovní."
+
+msgid "tst_feedback"
+msgstr "Zpětná vazba"
+
+#, fuzzy
+msgid "tst_feedback_is_given_inline"
+msgstr "The feedback will be displayed along with your answer."
+
+#, fuzzy
+msgid "tst_feedback_not_available_for_answer"
+msgstr "There is no feedback available for your answer."
+
+#, fuzzy
+msgid "tst_filter_lifecycle_enabled"
+msgstr "Use Lifecycle as Filter"
+
+msgid "tst_filter_question_type"
+msgstr "Typ otázky"
+
+msgid "tst_filter_question_type_enabled"
+msgstr "Použít typ otázky jako filtr"
+
+msgid "tst_filter_tax_node"
+msgstr "Uzel taxonomie"
+
+msgid "tst_filter_taxonomy"
+msgstr "Filtr taxonomir"
+
+msgid "tst_final_information"
+msgstr "Dokončení testu: Informace před odesláním"
+
+msgid "tst_finish_confirm_button"
+msgstr "Ano, chci tento test ukončit"
+
+msgid "tst_finish_confirm_cancel_button"
+msgstr "Ne, jít zpět na předchozí otázku"
+
+msgid "tst_finish_confirmation_question"
+msgstr "Hodláte ukončit tento test a dosáhl(a) jste maximálního počtu povolených průchodů testem. Nebudete již moci do tohoto testu vstoupit znovu a změnit své odpovědi. Upravdu chcete tento test ukončit?"
+
+msgid "tst_finish_confirmation_question_no_attempts_left"
+msgstr "Dokončíte tento test a dosáhnete maximálního počtu povolených pokusů. Nebudete se moci k tomuto testu znovu přihlásit a změnit své odpovědi. Opravdu chcete test dokončit?"
+
+msgid "tst_finished"
+msgstr "Ukončeno"
+
+msgid "tst_form_dynamic_question_set_config"
+msgstr "Pokračuje výběr otázek"
+
+msgid "tst_gap_analysis"
+msgstr "Analýza mezer"
+
+msgid "tst_general_properties"
+msgstr "Obecná nastavení"
+
+msgid "tst_header_participant"
+msgstr "Výsledek:"
+
+#, fuzzy
+msgid "tst_header_participant_no_answer"
+msgstr "Question - not answered"
+
+msgid "tst_header_solution"
+msgstr "Správné řešení:"
+
+#, fuzzy
+msgid "tst_hide_info_tab"
+msgstr "Hide Info Tab"
+
+#, fuzzy
+msgid "tst_hide_info_tab_desc"
+msgstr "Hides the tab ‘Info’ of the test."
+
+#, fuzzy
+msgid "tst_hide_pagecontents"
+msgstr "Hide page content"
+
+#, fuzzy
+msgid "tst_hide_pagecontents_desc"
+msgstr "ILIAS content placed before and after the actual question text via the \"Edit Page\" button will not be displayed in the result views and print output."
+
+msgid "tst_imap_qst_mode"
+msgstr "Mód"
+
+msgid "tst_imap_qst_mode_mc"
+msgstr "Vícenásobná volba"
+
+msgid "tst_imap_qst_mode_sc"
+msgstr "Jediná volba"
+
+msgid "tst_import_non_ilias_zip"
+msgstr "Chyba: Název souboru nahraného souboru importu neodpovídá očekávanému formátu."
+
+msgid "tst_import_verify_found_questions"
+msgstr "ILIAS nalezl v importovaném souboru testu následující otázky. Vyberte prosím otázky, které chcete z tohoto testu importovat."
+
+msgid "tst_inp_all_quest_points_equal_per_pool"
+msgstr "Vyžaduje zásobník s homogenním hodnocením otázek"
+
+msgid "tst_inp_all_quest_points_equal_per_pool_desc"
+msgstr "Je-li zapnuto, může být nabízen pouze zásobník otázek s homogenním hodnocením. Tento test bude mít stejný maximální počet bodů pro zúčastněné uživatele a tudíž výsledky testu budou lépe porovnatelné. Tento mód výběru je doporučován."
+
+msgid "tst_inp_dyn_quest_set_quest_ordering_by_date_desc"
+msgstr "Prezentace řazení otázek pro otázky založené na datu poslední editace otázek."
+
+msgid "tst_inp_dyn_quest_set_quest_ordering_by_tax_desc"
+msgstr "Prezentace řazení otázek pro otázky založené na zařazení otázky v taxonomii"
+
+msgid "tst_inp_no_available_tax_hint"
+msgstr "Žádné dostupné taxonomie pro vybraný zásobník otázek"
+
+msgid "tst_inp_quest_amount_cfg_mode"
+msgstr "Množství otázek"
+
+msgid "tst_inp_quest_amount_cfg_mode_pool"
+msgstr "Konfigurace množství otázek na vybraný zásobník otázek"
+
+msgid "tst_inp_quest_amount_cfg_mode_test"
+msgstr "Konfigurace množství otázek na test"
+
+msgid "tst_inp_quest_amount_per_source_pool"
+msgstr "Množství otázek"
+
+msgid "tst_inp_quest_amount_per_test"
+msgstr "Počet otázek pro celý test"
+
+msgid "tst_inp_source_pool_filter_tax"
+msgstr "Filtr taxonomie"
+
+msgid "tst_inp_source_pool_filter_tax_x"
+msgstr "Použít taxonomii \"%s\" jako filtr"
+
+msgid "tst_inp_source_pool_label"
+msgstr "Zdrojový zásobník otázek"
+
+msgid "tst_inp_source_pool_no_tax_filter"
+msgstr "Nepoužívat žádný filtr založený na taxonomii"
+
+msgid "tst_input_dyn_quest_set_answer_status_filter_enabled"
+msgstr "Poskytnout filtr stavu odpovědi"
+
+msgid "tst_input_dynamic_question_set_ordering_tax"
+msgstr "Taxonomie řazení"
+
+msgid "tst_input_dynamic_question_set_ordering_tax_description"
+msgstr "Otázky testu budou prezentovány v souladu s jejich zařazením ve vybrané taxonomie."
+
+msgid "tst_input_dynamic_question_set_question_ordering"
+msgstr "Řazení otázek"
+
+msgid "tst_input_dynamic_question_set_question_ordering_by_date"
+msgstr "Řazení otázek dle data"
+
+msgid "tst_input_dynamic_question_set_question_ordering_by_tax"
+msgstr "Řazení otázek dle taxonomie"
+
+msgid "tst_input_dynamic_question_set_source_questionpool"
+msgstr "Zdrojový zásobník otázek"
+
+msgid "tst_input_dynamic_question_set_taxonomie_filter_enabled"
+msgstr "Poskytnout filtr taxonomie"
+
+#, fuzzy
+msgid "tst_insert_in_test"
+msgstr "Insert in Test"
+
+msgid "tst_insert_missing_question"
+msgstr "Vyberte prosím alespoň jednu otázku ke vložení do tohoto testu!"
+
+msgid "tst_insert_questions"
+msgstr "Určitě chcete vložit následující otázky do testu?"
+
+msgid "tst_instant_feedback"
+msgstr "Okamžitý ohlas"
+
+msgid "tst_instant_feedback_answer_generic"
+msgstr "Zobrazit obecný (\"Správně/Chybně\") ohlas"
+
+msgid "tst_instant_feedback_answer_generic_desc"
+msgstr "Generická zpětná vazba vytiskne jednoduchou zpětnou vazbu „správně“ nebo „špatně“ podle konfigurace otázky."
+
+msgid "tst_instant_feedback_answer_specific"
+msgstr "Zobrazit odpovědi specifický ohlas"
+
+msgid "tst_instant_feedback_answer_specific_desc"
+msgstr "Je-li zvolena zpětná vazba specifická pro odpověď, zobrazí se předem definovaná zpětná vazba v závislosti na odpovědích účastníka (pokud je podporován typem otázky)."
+
+msgid "tst_instant_feedback_contents"
+msgstr "Zahrnutý obsah"
+
+msgid "tst_instant_feedback_desc"
+msgstr "Když jsou otázky konfigurovány se zpětnou vazbou, je účastníkům poskytnuta během průchodu testem."
+
+msgid "tst_instant_feedback_results"
+msgstr "Zobrazit výsledky (jen body)"
+
+msgid "tst_instant_feedback_results_desc"
+msgstr "Pokud jsou vybrány výsledky (v bodech), zobrazí se dosažené body."
+
+msgid "tst_instant_feedback_solution"
+msgstr "Zobrazit řešení"
+
+msgid "tst_instant_feedback_solution_desc"
+msgstr "Pokud jsou vybrána řešení, zobrazí se také správné řešení."
+
+msgid "tst_instant_feedback_trigger"
+msgstr "Spuštění zpětné vazby"
+
+msgid "tst_instant_feedback_trigger_forced"
+msgstr "Zpětná vazba je spuštěna odpovědí na otázky"
+
+msgid "tst_instant_feedback_trigger_forced_desc"
+msgstr "Prezentace zpětné vazby je pro všechny účastníky vynucena při odpovědi na otázku."
+
+msgid "tst_instant_feedback_trigger_manual"
+msgstr "Účastníci mohou manuálně spouštět zpětnou vazbu"
+
+msgid "tst_instant_feedback_trigger_manual_desc"
+msgstr "Zpětná vazba je dostupná, ale zobrazí se pouze tehdy, když účastník spustí prezentaci manuálně."
+
+msgid "tst_introduction"
+msgstr "Úvod"
+
+msgid "tst_introduction_desc"
+msgstr "Zobrazí úvodní zprávu v záložce testu 'Informace'. Tento text je přístupný již před spuštěním testu."
+
+msgid "tst_introduction_text"
+msgstr "Úvodní zpráva"
+
+msgid "tst_invited_nobody"
+msgstr "Žádní uživatelé, skupiny nebo role nejsou přidáni jako fixní účastníci testu"
+
+msgid "tst_invited_selected_users"
+msgstr "Vybraní účastníci byli přidáni jako fixní účastníci testu"
+
+#, fuzzy
+msgid "tst_launcher_button_label_passes_limit_reached"
+msgstr "You have reached the limit of possible test passes"
+
+#, fuzzy
+msgid "tst_launcher_status_message_conditions"
+msgstr "You will be asked for your approval of the exam conditions when you start the test."
+
+#, fuzzy
+msgid "tst_launcher_status_message_conditions_and_password"
+msgstr "You will be asked for the password and your approval of the exam conditions when you start the test."
+
+msgid "tst_launcher_status_message_password"
+msgstr "Při spuštění testu budete požádáni o heslo."
+
+msgid "tst_level"
+msgstr "Úroveň způsobilosti"
+
+msgid "tst_limit_nr_of_tries"
+msgstr "Maximální počet průchodů testem"
+
+msgid "tst_link_only_unassigned"
+msgstr "Máte vybránu nejméně jednu otázku, která je již přiřazena k zásobníku otázek. Do zásobníku otázek lze přidávat pouze nepřiřazené otázky."
+
+msgid "tst_list_answer_details"
+msgstr "Zobrazit v seznamu níže"
+
+msgid "tst_list_of_answers"
+msgstr "Seznam odpovědí"
+
+msgid "tst_list_of_answers_show"
+msgstr "Zobrazit seznam odpovědí"
+
+msgid "tst_list_of_questions_end"
+msgstr "Zobrazit seznam otázek před tím, než účastníci ukončí test"
+
+msgid "tst_list_of_questions_start"
+msgstr "Zobrazit seznam otázek před první otázkou"
+
+msgid "tst_list_of_questions_with_description"
+msgstr "Zobrazit popisy otázek v seznamu otázek"
+
+#, fuzzy
+msgid "tst_man_scoring_answered_hide"
+msgstr "Hide answered questions"
+
+#, fuzzy
+msgid "tst_man_scoring_answered_only"
+msgstr "Show only answered questions"
+
+msgid "tst_man_scoring_by_part"
+msgstr "Hodnocení podle účastníků"
+
+msgid "tst_man_scoring_by_qst"
+msgstr "Hodnocení podle otázek"
+
+#, fuzzy
+msgid "tst_man_scoring_finalized"
+msgstr "Show finalized gradings"
+
+#, fuzzy
+msgid "tst_man_scoring_finalized_hide"
+msgstr "Hide finalized gradings"
+
+#, fuzzy
+msgid "tst_man_scoring_finalized_only"
+msgstr "Show only finalized gradings"
+
+#, fuzzy
+msgid "tst_man_scoring_only_answered"
+msgstr "Only answered"
+
+#, fuzzy
+msgid "tst_man_scoring_questionselection"
+msgstr "Questions"
+
+#, fuzzy
+msgid "tst_man_scoring_users_scored"
+msgstr "Users Scored"
+
+#, fuzzy
+msgid "tst_man_scoring_userselection"
+msgstr "Participants"
+
+msgid "tst_manage_competence_assigns"
+msgstr "Spravovat přiřazení způsobilosti"
+
+#, fuzzy
+msgid "tst_manage_competence_select_skills"
+msgstr "Select Competences"
+
+msgid "tst_manscoring_input_max_points_for_question"
+msgstr "Maximální počet bodů pro otázku"
+
+#, fuzzy
+msgid "tst_manscoring_input_of_max"
+msgstr "of"
+
+msgid "tst_manscoring_input_question_and_user_solution"
+msgstr "Otázka a řešení uživatele"
+
+msgid "tst_manscoring_maxpoints_exceeded_input_alert"
+msgstr "Maximum  %s bodů je překročeno!"
+
+#, fuzzy
+msgid "tst_manscoring_no_feedback"
+msgstr "No written feedback has been given yet."
+
+msgid "tst_manscoring_question_section_header"
+msgstr "Otázka: %s"
+
+msgid "tst_manscoring_user_notification"
+msgstr "Zaslat upozornění"
+
+msgid "tst_mark"
+msgstr "Známka"
+
+msgid "tst_mark_create_new_mark_step"
+msgstr "Vytvořit nový známkovací stupeň"
+
+msgid "tst_mark_minimum_level"
+msgstr "Minimální hladina (v %)"
+
+#, fuzzy
+msgid "tst_mark_minimum_level_invalid"
+msgstr "Minimum Level must be between 0 and 100."
+
+msgid "tst_mark_official_form"
+msgstr "Oficiální tvar"
+
+msgid "tst_mark_passed"
+msgstr "Prošel"
+
+msgid "tst_mark_reset_to_simple_mark_schema"
+msgstr "Vytvořit jednoduché schéma známkování"
+
+#, fuzzy
+msgid "tst_mark_reset_to_simple_mark_schema_confirmation"
+msgstr "If you proceed the current mark schema set for this test will be replaced by a simple mark schema thus deleting all local changes."
+
+msgid "tst_mark_short_form"
+msgstr "Zkrácený tvar"
+
+msgid "tst_max_comp_points"
+msgstr "Max. Body způsobilosti"
+
+msgid "tst_maximum_points"
+msgstr "Maximum bodů"
+
+msgid "tst_mc_label_none_above"
+msgstr "Žádná z výše uvedených odpovědí"
+
+msgid "tst_median_mark_panel"
+msgstr "Značka mediánu"
+
+msgid "tst_msg_cannot_modify_dynamic_question_set_conf_due_to_part"
+msgstr "Další konfigurace výběru otázek nemůže být změněna díky existujícím datům účastníka."
+
+msgid "tst_msg_cannot_modify_random_question_set_conf_due_to_part"
+msgstr "Konfigurace náhodné sady otázek nemůže být změněna z důvodu stávajících dat účastníka."
+
+msgid "tst_msg_dynamic_question_set_config_modified"
+msgstr "Další konfigurace výběru otázek nemůže být změněna"
+
+msgid "tst_msg_rand_quest_set_change_quest_amount_here"
+msgstr "Zde můžete změnit počet otázek: %s"
+
+msgid "tst_msg_rand_quest_set_incomplete_quest_amount_cfg"
+msgstr "Bez správně definovaného množství otázek, není možné pro účastníky generování otázek testu s náhodným výběrem otázek."
+
+msgid "tst_msg_rand_quest_set_lost_pools"
+msgstr "Konfigurace výběru otázek testu byla zmrazena, protože již nejsou k dispozici následující zásobníky otázek, které jsou součástí konfigurace:<br />%s"
+
+msgid "tst_msg_rand_quest_set_lost_pools_link"
+msgstr "Otevřít vybrané zásobníky otázek"
+
+msgid "tst_msg_rand_quest_set_no_pools_available"
+msgstr "V současné době nemůžete přidat nová pravidla pro výběr otázek, protože nejsou k dispozici žádné zásobníky otázek."
+
+msgid "tst_msg_rand_quest_set_no_src_pool_defs"
+msgstr "Bez definovaného zdrojového zásobníku otázek, není možné pro účastníky generování testu s náhodným výběrem otázek."
+
+msgid "tst_msg_rand_quest_set_not_sync"
+msgstr "Pravidla pro náhodný výběr otázek byla nově vytvořena nebo změněna. Otázky ze zásobníků musí být v testu synchronizovány, než je lze použít. Také kontroluje, zda je možný náhodný test s daným souborem pravidel."
+
+msgid "tst_msg_rand_quest_set_pass_buildable"
+msgstr "S aktuální konfigurací je možný test s náhodnou sadou otázek."
+
+msgid "tst_msg_rand_quest_set_pass_not_buildable"
+msgstr "Generování testu s náhodným výběrem otázek pro účastníky není možné s aktuální konfigurací zdrojového zásobníku otázek a množstvím otázek."
+
+msgid "tst_msg_rand_quest_set_rule_label"
+msgstr "Pravidlo %s"
+
+msgid "tst_msg_rand_quest_set_rule_not_satisfied_missing"
+msgstr "Pravidlo %s vyžaduje %s otázek, ale k dispozici je pouze %s otázek."
+
+msgid "tst_msg_rand_quest_set_rule_not_satisfied_missing_shared"
+msgstr "Kromě těchto otázek je k dispozici také %s otázek pro následující další pravidla: %s"
+
+msgid "tst_msg_rand_quest_set_rule_not_satisfied_reserved"
+msgstr "Pravidlo %s vyžaduje %s otázek a k dispozici je %s otázek."
+
+msgid "tst_msg_rand_quest_set_rule_not_satisfied_reserved_shared"
+msgstr "K dispozici je však pouze %s zaručených otázek z důvodu průniků s dalšími následujícími pravidly: %s"
+
+msgid "tst_msg_rand_quest_set_stage_pool_last_sync"
+msgstr "Generování testu s náhodným výběrem otázek pro účastníky  je možné s aktuální konfigurací.<br />Okamžik poslední synchronizace vybraných zásobníků otázek byl: <b>%s</b>"
+
+msgid "tst_msg_random_qsc_modified_add_new_rule"
+msgstr "Konfigurace pro náhodnou sadu otázek byla úspěšně změněna. Nyní můžete přidat nové pravidlo."
+
+msgid "tst_msg_random_question_set_config_modified"
+msgstr "Konfigurace pro test s náhodným výběrem otázek byla úspěšně změněna."
+
+msgid "tst_msg_random_question_set_synced"
+msgstr "Otázky pro aktuální konfiguraci byly úspěšně synchronizovány."
+
+msgid "tst_msg_skl_lvl_thresholds_saved"
+msgstr "Byly uloženy prahové hodnoty způsobilosti."
+
+msgid "tst_msg_skl_qst_assign_points_not_saved"
+msgstr "Nebyly uloženy body způsobilosti. Zkontrolujte svůj vstup."
+
+msgid "tst_msg_skl_qst_assign_points_saved"
+msgstr "Byly uloženy body způsobilosti."
+
+msgid "tst_msg_source_pool_definitions_deleted"
+msgstr "Definice zdroje zásobníku otázek byla úspěšně smazána."
+
+msgid "tst_nav_next_locks_current_answer_confirm"
+msgstr "Když přejdete na další otázku, vaše odpověď na aktuální otázku bude uzamčena a již nebude možné ji změnit."
+
+msgid "tst_nav_next_locks_current_answer_header"
+msgstr "Navigace na další otázku"
+
+msgid "tst_nav_next_locks_empty_answer_confirm"
+msgstr "Neodpověděli jste na aktuální otázku. Prázdné řešení bude uloženo a uzamčeno jako odpověď. Tuto odpověď nelze později změnit."
+
+msgid "tst_nav_next_locks_empty_answer_header"
+msgstr "Navigace bez odpovědi"
+
+msgid "tst_nav_while_edit_modal_cancel_btn"
+msgstr "Zrušit"
+
+msgid "tst_nav_while_edit_modal_header"
+msgstr "Rozhodnutí o odpovědích"
+
+msgid "tst_nav_while_edit_modal_nosave_btn"
+msgstr "Neukládat"
+
+msgid "tst_nav_while_edit_modal_save_btn"
+msgstr "Uložit"
+
+msgid "tst_nav_while_edit_modal_text"
+msgstr "Co dělat s odpověďmi, které jste případně zadali pro tuto otázku?"
+
+msgid "tst_no_evaluation_data"
+msgstr "Žádná evaluační data nejsou k dispozici."
+
+msgid "tst_no_marks_defined"
+msgstr "Není definována žádná známka, vytvořte prosím alespoň jednoduché schéma známkování!"
+
+msgid "tst_no_question_selected_for_moving_to_qpl"
+msgstr "Vyberte alespoň jednu otázku, kterou chcete přidat do zásobníku otázek!"
+
+msgid "tst_no_question_selected_for_removal"
+msgstr "Vyberte prosím alespoň jednu otázku k vymazání!"
+
+msgid "tst_no_scorable_qst_available"
+msgstr "Žádná dostupná otázka k hodnocení"
+
+msgid "tst_non_avail_pool_msg_status_lost"
+msgstr "Tento zásobník otázek již není k dispozici. Již není možná synchronizace otázek z tohoto zásobníku. Můžete odvodit nový zásobník otázek z otázek obsažených v tomto testu."
+
+msgid "tst_non_avail_pool_msg_status_trashed"
+msgstr "Tento zásobník otázek je vyhozen, když je trvale odstraněn ze systému, test již není schopen synchronizovat z něho dotazy."
+
+msgid "tst_non_avail_pools_table"
+msgstr "Žádné zásobníky otázek k dispozici"
+
+msgid "tst_non_available_pool_newly_derived"
+msgstr "Byl úspěšně odvozen nový zásobník(y) otázek."
+
+msgid "tst_nonpool_questions_get_lost_warning"
+msgstr "<b>Aktuální mód testu zahrnuje otázky s její konfigurací, které nejsou zařazeny v žádném zásobníku otázek. Pokud změníte mód testu, tyto otázky budou navždy ztraceny</b>"
+
+msgid "tst_notification_explanation_admin"
+msgstr "Dostanete tento e-mail od ILIAS, protože jste aktivovali oznámení."
+
+msgid "tst_notify_manscoring_done_body_msg_reason"
+msgstr "Obdržel(a) jste toto upozornění, protože se účastníte tohoto testu."
+
+msgid "tst_notify_manscoring_done_body_msg_subject"
+msgstr "Manuální hodnocení testu \"%s\" odevzdáno"
+
+msgid "tst_notify_manscoring_done_body_msg_topic"
+msgstr "manuální hodnocení pro následující test bylo odevzdáno:"
+
+msgid "tst_nr_of_passes"
+msgstr "Počet průchodů testem"
+
+msgid "tst_nr_of_tries"
+msgstr "Max. počet pokusů"
+
+msgid "tst_nr_of_tries_desc"
+msgstr "Maximální počet průchodů, které může účastník absolvovat."
+
+msgid "tst_num_all_questions"
+msgstr "Počet všech otázek"
+
+msgid "tst_num_correct_answered_questions"
+msgstr "Správně zodpovězené otázky"
+
+msgid "tst_num_non_answered_questions_notseen"
+msgstr "Nezodpovězené otázky (nikdy neviděny)"
+
+msgid "tst_num_non_answered_questions_skipped"
+msgstr "Nezodpovězené otázky (přeskočeny)"
+
+msgid "tst_num_questions"
+msgstr "Počet otázek"
+
+msgid "tst_num_selected_questions"
+msgstr "Počet vybraných otázek"
+
+msgid "tst_num_wrong_answered_questions"
+msgstr "Špatně zodpovězené otázky"
+
+msgid "tst_objective_oriented_test_pass_without_questions"
+msgstr "Zahájený průchod pro test „%s“ neobsahuje žádné otázky."
+
+msgid "tst_objective_progress_header"
+msgstr "Postup cíle učení"
+
+msgid "tst_objectives_progress_header"
+msgstr "Postup cílů učení"
+
+msgid "tst_old_style_rnd_quest_set_broken"
+msgstr "Tento náhodný test je v nenapravitelném stavu, protože byl smazán jeden připojený zásobník otázek nebo více zásobníků. Proto již účastníci nemohou absolvovat test."
+
+#, fuzzy
+msgid "tst_optional_questions_confirmation_fixed_test"
+msgstr "<b>Questions for already passed learning objectives are already answered.</b><br /><br />The next questions are assigned to already passed learning objectives. Your answers from previous test attempts will carry over.<br /><br />If you continue, you can revise your answers. Doing so may change your results in the related learning objectives.<br /><br />If you do not want to revise your answers, you may go back."
+
+msgid "tst_optional_questions_confirmation_non_fixed_test"
+msgstr "<b>Otázky týkající se již splněných cílů učení jsou volitelné.</b><br /><br />Chcete přejít na otázku, která se týká již splněného cíle učení.<br />Můžete si vybrat:<br /><br /> pokračujete, můžete pokračovat v práci na těchto otázkách. Nebyly převzaty vaše odpovědi z předchozích pokusů, protože pro tento pokus byly vybrány nové náhodné otázky. Při pokračování v práci na těchto otázkách můžete také zhoršit výsledek cíle učení.<br /><br />Pokud se rozhodnete nepokračovat v práci na těchto otázkách, můžete se vrátit zpět. V tomto případě nebudou tyto otázky zohledněny při hodnocení."
+
+msgid "tst_out_of_time_message"
+msgstr "Čas vyhrazený pro vykonání tohoto testu vypršel."
+
+msgid "tst_participant"
+msgstr "Účastník"
+
+msgid "tst_participant_fullname_pattern"
+msgstr "%2$s, %1$s"
+
+msgid "tst_participant_status"
+msgstr "Účastníkův status"
+
+msgid "tst_participating_users"
+msgstr "Účastnící se uživatelé"
+
+msgid "tst_pass_best_pass"
+msgstr "Bodovat nejlepší průchod"
+
+msgid "tst_pass_best_pass_desc"
+msgstr "Bude hodnocen průchod, ve kterém účastník podal nejlepší výkon. Toto nastavení platí pouze v případě, že je možný více než jeden průchod testem."
+
+msgid "tst_pass_deletion"
+msgstr "Předchozí průchody"
+
+msgid "tst_pass_deletion_allowed"
+msgstr "Mazání předchozích průchodů je povoleno"
+
+msgid "tst_pass_details"
+msgstr "Detaily průchodu"
+
+msgid "tst_pass_details_header_lo_initial"
+msgstr "Výsledky počátečního testu pro cíle učení<br />%s - %s"
+
+msgid "tst_pass_details_header_lo_qualifying"
+msgstr "Výsledky kvalifikačního testu pro cíle učení<br />%s - %s"
+
+msgid "tst_pass_details_overview_table_title"
+msgstr "Podrobný přehled pro průchod %s"
+
+#, fuzzy
+msgid "tst_pass_finished"
+msgstr "Test attempt finished"
+
+msgid "tst_pass_finished_on"
+msgstr "Průchod testem dokončen"
+
+msgid "tst_pass_last_pass"
+msgstr "Bodovat poslední průchod"
+
+msgid "tst_pass_last_pass_desc"
+msgstr "Bude hodnocen poslední průchod účastníka."
+
+msgid "tst_pass_overview_for_participant"
+msgstr "Průchody testem účastníka: %s"
+
+msgid "tst_pass_overview_header_lo_initial_all_objectives"
+msgstr "Výsledky počátečního testu<br />pro cíle učení v rámci kurzu %s"
+
+msgid "tst_pass_overview_header_lo_initial_per_objective"
+msgstr "Výsledky počátečního testu<br />pro cíle učení %s v rámci kurzu %s"
+
+msgid "tst_pass_overview_header_lo_qualifying_all_objectives"
+msgstr "Výsledky kvalifikačního testu<br />pro cíle učení v rámci kurzu %s"
+
+msgid "tst_pass_overview_header_lo_qualifying_per_objective"
+msgstr "Výsledky kvalifikačního testu<br />pro cíle učení %s v rámci kurzu %s"
+
+msgid "tst_pass_scoring"
+msgstr "Hodnocení vícenásobného průchodu"
+
+#, fuzzy
+msgid "tst_pass_scoring_best"
+msgstr "Best Test Attempt"
+
+#, fuzzy
+msgid "tst_pass_scoring_last"
+msgstr "Last Test Attempt"
+
+msgid "tst_pass_waiting_enabled"
+msgstr "Vynucení čekací doby mezi průchody"
+
+msgid "tst_pass_waiting_info"
+msgstr "S touto možností není možné spustit další průchody dříve, než uplyne definovaný čas, týkající se posledního dokončeného průchodu."
+
+msgid "tst_pass_waiting_time"
+msgstr "Čekací doba"
+
+msgid "tst_passed"
+msgstr "Uspěl/a"
+
+msgid "tst_passes"
+msgstr "Testem prošlo"
+
+msgid "tst_password"
+msgstr "Heslo testu"
+
+msgid "tst_password_details"
+msgstr "Pokud nastavíte heslo testu, všichni účastníci s přístupem k testu musí toto heslo vložit při vstupu do testu."
+
+msgid "tst_password_enter"
+msgstr "Vložit heslo"
+
+msgid "tst_password_entered_wrong_password"
+msgstr "Nemůžete test začít, protože jste vložil/a nesprávné heslo testu!"
+
+msgid "tst_password_form"
+msgstr "Vložit heslo testu"
+
+msgid "tst_password_introduction"
+msgstr "Tento test je přístupný pouze s heslem. Vložte prosím heslo testu k jeho spuštění."
+
+msgid "tst_percent_solved"
+msgstr "Procent vyřešeno"
+
+#, fuzzy
+msgid "tst_player_answer_saved_and_locked"
+msgstr "Answer is saved and locked and can no longer be changed"
+
+#, fuzzy
+msgid "tst_please_select_source_pool"
+msgstr "Please select a question pool."
+
+msgid "tst_please_select_target_for_pool_derives"
+msgstr "Vyberte cílový kontejner."
+
+msgid "tst_position"
+msgstr "Otázka %s z %s"
+
+msgid "tst_position_without_total"
+msgstr "Otázka %s"
+
+msgid "tst_postpone"
+msgstr "Odložené otázky"
+
+msgid "tst_postpone_off"
+msgstr "Nezodpovězené otázky nebudou odloženy"
+
+msgid "tst_postpone_off_desc"
+msgstr "Nezodpovězené otázky budou ponechány na jejich pozici."
+
+msgid "tst_postpone_on"
+msgstr "Nezodpovězené otázky budou odloženy"
+
+msgid "tst_postpone_on_desc"
+msgstr "Nezodpovězené otázky budou odloženy na konec testu."
+
+msgid "tst_presentation_properties"
+msgstr "Nastavení prezentace"
+
+msgid "tst_presentation_settings_section"
+msgstr "Prezentace"
+
+#, fuzzy
+msgid "tst_previous_access_code_not_available"
+msgstr "No previous code available!"
+
+msgid "tst_proceed"
+msgstr "Pokračovat"
+
+msgid "tst_processing_time"
+msgstr "Max. čas zpracování"
+
+msgid "tst_processing_time_desc"
+msgstr "Maximum času na zpracování testu začíná okamžikem prvního startu uživatele a končí po vypršení vložené periody času. Je-li použita tato volba, možnost přerušit test by měla být deaktivována (viz \"Nastavení sekvence\") protože přerušení testu nezastavuje počitadlo maximální doby zpracování."
+
+msgid "tst_processing_time_duration"
+msgstr "Maximální doba trvání testu"
+
+msgid "tst_processing_time_duration_desc"
+msgstr "Maximální doba poskytnutá k provedení testu."
+
+msgid "tst_qbt_filter_question_title"
+msgstr "Nadpis otázky"
+
+msgid "tst_qst_added_to_pool_p"
+msgstr "Otázky byly úspěšně přidány do vybraného zásobníku."
+
+msgid "tst_qst_added_to_pool_s"
+msgstr "Otázka byla úspěšně přidána do vybraného zásobníku."
+
+msgid "tst_qst_order"
+msgstr "Pořadí"
+
+msgid "tst_qst_skl_cfg_in_pool_hint_dynquestset"
+msgstr "Přiřazení otázky způsobilosti pro testy s režimem „%s“ musí být provedeno v odpovídajícím zásobníku otázek:<br />%s<br /><br />Konfigurace prahových hodnot musí být provedena zde v testu."
+
+msgid "tst_qst_skl_cfg_in_pool_hint_rndquestset"
+msgstr "Přiřazení otázky způsobilosti pro testy s režimem „%s“ musí být provedeno v odpovídajícím zásobníku (zásobnících) otázek:<br />%s<br /><br />Konfigurace prahových hodnot musí být provedena zde v testu."
+
+msgid "tst_question"
+msgstr "Otázka"
+
+msgid "tst_question_amount"
+msgstr "Množství otázek"
+
+msgid "tst_question_answer_status"
+msgstr "Stav odpovědi"
+
+msgid "tst_question_answer_status_all_non_correct"
+msgstr "Všechny otázky (kromě správně zodpovězených)"
+
+msgid "tst_question_answer_status_non_answered"
+msgstr "Nezodpovězené otázky"
+
+msgid "tst_question_answer_status_wrong_answered"
+msgstr "Špatně zodpovězené otázky"
+
+msgid "tst_question_feedback_back_to_feedback_form"
+msgstr "Zpět na vyvolání otázky"
+
+msgid "tst_question_feedback_edit_page"
+msgstr "Upravit obsah"
+
+msgid "tst_question_mark"
+msgstr "Označit tuto otázku"
+
+msgid "tst_question_marked"
+msgstr "Označil(a) jste otázku"
+
+msgid "tst_question_marker"
+msgstr "Značka"
+
+msgid "tst_question_no"
+msgstr "Pořadí"
+
+msgid "tst_question_not_from_pool_info"
+msgstr "Žádný zásobník"
+
+msgid "tst_question_not_marked"
+msgstr "Otázka není označena"
+
+msgid "tst_question_offer"
+msgstr "Akceptujete tento příklad, nebo si přejete jiný?"
+
+msgid "tst_question_set_type"
+msgstr "Mód testu"
+
+msgid "tst_question_set_type_dynamic"
+msgstr "Pokračující testování"
+
+msgid "tst_question_set_type_dynamic_desc"
+msgstr "S tímto módem bude vybrán přesně jeden zásobník otázek. Test je vzat v nekonečném průchodu účastníka a otázky jsou vybírány individuálně a podle požadavků každého účastníka."
+
+msgid "tst_question_set_type_fixed"
+msgstr "Testování s pevnou sadou otázek"
+
+msgid "tst_question_set_type_fixed_desc"
+msgstr "S tímto módem bude pro všechny účastníky vybrána a použita pevná sada otázek. V závislosti na podrobné konfiguraci testu budou účastníci testem procházet jedním, nebo více průchody."
+
+msgid "tst_question_set_type_random"
+msgstr "Testování s náhodnou sadou otázek"
+
+msgid "tst_question_set_type_random_desc"
+msgstr "S tímto módem bude vybrán jeden nebo více zásobníků otázek z nichž bude vybrána pro každého účastníka náhodná sada otázek. V závislosti na podrobné konfiguraci testu budou účastníci testem procházet jedním, nebo více průchody."
+
+msgid "tst_question_title"
+msgstr "Název"
+
+msgid "tst_question_type"
+msgstr "Typ otázky"
+
+msgid "tst_questions_inserted"
+msgstr "Otázky vloženy!"
+
+msgid "tst_questions_removed"
+msgstr "Otázky odstraněny!"
+
+msgid "tst_random_nr_of_questions"
+msgstr "Kolik otázek?"
+
+msgid "tst_random_question_set_source_questionpool_summary_string"
+msgstr "%s (Cesta: %s) [%s Otázek]"
+
+msgid "tst_random_select_questionpool"
+msgstr "Vyberte zásobník otázek k volbě otázek z"
+
+msgid "tst_reached_points"
+msgstr "Dosažené body"
+
+msgid "tst_reached_points_of_max"
+msgstr "%s z %s"
+
+msgid "tst_remove_mark"
+msgstr "Smazat tuto známku"
+
+msgid "tst_remove_question"
+msgstr "Skutečně chcete z tohoto testu odstranit následující otázky?"
+
+msgid "tst_remove_questions"
+msgstr "Skutečně chcete z tohoto testu odstranit následující otázky?"
+
+msgid "tst_remove_questions_and_results"
+msgstr "Tento test byl již vykonán %s účastníky. Odstranění otázek z tohoto testu odstraní výsledky těchto účastníků. Skutečně chcete odstranit následující otázky z testut?"
+
+msgid "tst_report_after_date"
+msgstr "Po pevně stanoveném datu oznámení výsledků"
+
+msgid "tst_report_after_first_question"
+msgstr "Nabídnout výsledky testu po odstartování testu"
+
+msgid "tst_report_after_passed"
+msgstr "Nabídnout výsledky testu po složení testu"
+
+msgid "tst_report_after_test"
+msgstr "Nabídnout výsledky až po ukončení celého testu"
+
+msgid "tst_report_never"
+msgstr "Žádné dostupné výsledky testu"
+
+msgid "tst_reporting_date"
+msgstr "Datum"
+
+msgid "tst_res_jump_to_participant_btn"
+msgstr "Skok"
+
+msgid "tst_res_jump_to_participant_hint_opt"
+msgstr "Skok na účastníka"
+
+msgid "tst_res_lo_objectives_header"
+msgstr "Důležité cíle učení"
+
+msgid "tst_res_lo_try_header"
+msgstr "Pokus"
+
+msgid "tst_res_lo_try_n"
+msgstr "Pokus %s"
+
+#, fuzzy
+msgid "tst_res_tab_msg_no_lp_access"
+msgstr "You are currently not allowed to access your Learning Progress, as you are not allowed to see your test results."
+
+msgid "tst_res_tab_msg_res_after_date"
+msgstr "Výsledky testů vám zde budou předloženy v následujícím termínu: %s"
+
+msgid "tst_res_tab_msg_res_after_date_no_res"
+msgstr "Když absolvujete test, výsledky testů vám zde budou předloženy v následujícím termínu: %s"
+
+msgid "tst_res_tab_msg_res_after_finish_test"
+msgstr "Po dokončení testu vám zde budou předloženy výsledky."
+
+msgid "tst_res_tab_msg_res_after_taking_test"
+msgstr "Po absolvování testu vám zde budou předloženy výsledky."
+
+msgid "tst_res_tab_msg_res_after_test_passed"
+msgstr "Po složení testu vám zde budou předloženy výsledky."
+
+msgid "tst_reset_processing_time"
+msgstr "Resetovat maximální čas zpracování po každém průchodu testem"
+
+msgid "tst_reset_processing_time_desc"
+msgstr "Je-li vybráno, maximální čas na zpracování bude resetován zpět na definovanou hodnotu maximálního času zpracování po ukončení průchodu testem. Tato volba pracuje pouze s maximální dobou zpracování a vícenásobným průchodem testu."
+
+msgid "tst_result"
+msgstr "Výsledky testu"
+
+msgid "tst_result_pass"
+msgstr "Výsledky průchodu testem"
+
+msgid "tst_result_user_name"
+msgstr "Výsledky testu pro %s"
+
+msgid "tst_result_user_name_pass"
+msgstr "Výsledky průchodu testem %s pro %s"
+
+msgid "tst_results"
+msgstr "Výsledky testu"
+
+msgid "tst_results_access_always"
+msgstr "Vždy"
+
+msgid "tst_results_access_always_desc"
+msgstr "Účastníci mohou přistupovat ke svým výsledkům v záložce „Informace“ ihned po spuštění průchodu testem i během provádění testu. Kromě toho jim systém ILIAS předloží výsledky testů ihned po dokončení testu."
+
+msgid "tst_results_access_date"
+msgstr "Datum"
+
+msgid "tst_results_access_date_desc"
+msgstr "Po definovaném termínu získají účastníci přístup k výsledkům testů v záložce „Informace“."
+
+msgid "tst_results_access_enabled"
+msgstr "Přístup k výsledkům testu"
+
+msgid "tst_results_access_enabled_desc"
+msgstr "V záložce „Informace“ se účastníkům zobrazí tlačítko „Zobrazit výsledky testu“. Možnosti v této části a následujících částech konfigurují, jaké informace mají být zahrnuty do zprávy a kdy budou dostupné."
+
+msgid "tst_results_access_finished"
+msgstr "Po ukončení testu"
+
+msgid "tst_results_access_finished_desc"
+msgstr "Systém ILIAS zobrazí výsledky testu po dokončení průchodu testem. Po dokončení průchodu testem mohou účastníci kdykoliv přistupovat k výsledkům testu v záložce „Informace“."
+
+msgid "tst_results_access_passed"
+msgstr "Po úspěšném složení testu"
+
+msgid "tst_results_access_passed_desc"
+msgstr "Systém ILIAS zobrazí výsledky testu, když účastník úspěšně prošel testem. Po úspěšném složení testu mohou účastníci kdykoliv přistupovat k výsledkům testu v záložce „Výsledky“."
+
+msgid "tst_results_access_setting"
+msgstr "Časový bod"
+
+msgid "tst_results_aggregated"
+msgstr "Agregované výsledky testu"
+
+msgid "tst_results_back_introduction"
+msgstr "Zpět na úvod"
+
+msgid "tst_results_back_overview"
+msgstr "Zpět na přehled výsledků"
+
+msgid "tst_results_details_options"
+msgstr "Další podrobnosti, které mají být zahrnuty do výsledků testu"
+
+#, fuzzy
+msgid "tst_results_gamification"
+msgstr "Gamification"
+
+#, fuzzy
+msgid "tst_results_grading_opt_show_details"
+msgstr "Show detailed test results"
+
+#, fuzzy
+msgid "tst_results_grading_opt_show_details_desc"
+msgstr "In addition to the summary test result, a \"Detailed Results\" action is provided. The \"Detailed test results\" table shows the titles of the questions and the points achieved for each run. The content of the table can be further supplemented in the \"Further options\" section."
+
+msgid "tst_results_grading_opt_show_mark"
+msgstr "Zobrazit pouze výslednou známku"
+
+msgid "tst_results_grading_opt_show_mark_desc"
+msgstr "Výsledná známka bude připojena k souhrnnému výsledku testu. Účastníci mohou k výsledkům testu přistupovat v záložce „Informace“."
+
+msgid "tst_results_grading_opt_show_status"
+msgstr "Zobrazit pouze stav uspěl(a)/neuspěl(a)"
+
+msgid "tst_results_grading_opt_show_status_desc"
+msgstr "Informace o stavu „Uspěl/a“ / „Neuspěl/a“ budou připojeny k souhrnnému výsledku testu. Účastníci mohou k výsledkům testu přistupovat v záložce „Informace“. <br />"
+
+msgid "tst_results_overview"
+msgstr "Přehled průchodů výsledky testu"
+
+msgid "tst_results_print_best_solution"
+msgstr "Nejlepší řešení z výsledků testu"
+
+msgid "tst_results_print_best_solution_info"
+msgstr "Je-li aktivováno a dostupné uživatelům, nejlepší řešení se objeví v souhrnných výsledcích testu."
+
+msgid "tst_resume_test"
+msgstr "Pokračování testu"
+
+msgid "tst_revert_changes"
+msgstr "Vrátit úpravy"
+
+msgid "tst_rnd_quest_cfg_tab_general"
+msgstr "Obecná nastavení"
+
+msgid "tst_rnd_quest_cfg_tab_pool"
+msgstr "Zdrojový zásobník otázek"
+
+msgid "tst_rnd_quest_set_cfg_general_form"
+msgstr "Nastavení náhodného výběru otázek"
+
+msgid "tst_rnd_quest_set_cfg_pool_form"
+msgstr "Určení zdrojového zásobníku otázek"
+
+msgid "tst_rnd_quest_set_tb_add_pool_btn"
+msgstr "Přidat nové určení zdrojového zásobníku otázek"
+
+msgid "tst_save_and_create_new_rule"
+msgstr "Uložit a přidat nové pravidlo"
+
+msgid "tst_save_and_proceed"
+msgstr "Uložit a pokračovat"
+
+msgid "tst_save_comp_points"
+msgstr "Uložit body způsobilosti"
+
+msgid "tst_save_manscoring_failed"
+msgstr "Uložení manuálního hodnocení pro průchod testem %s selhalo."
+
+msgid "tst_save_thresholds"
+msgstr "Uložit prahy"
+
+msgid "tst_saved_manscoring_by_question_successfully"
+msgstr "Bylo úspěšně uloženo manuální hodnocení pro otázku %s pro úspěšné složení %s."
+
+msgid "tst_saved_manscoring_successfully"
+msgstr "Manuální hodnocení pro průchod testem %s bylo uloženo úspěšně."
+
+msgid "tst_score_cut_question"
+msgstr "Vynulovat záporné body otázek"
+
+msgid "tst_score_cut_question_desc"
+msgstr "Účastníci mohou získat záporné výsledky za otázku, která měla záporné body přiřazené jednotlivým možnostem odpovědi. Toto nastavení zajišťuje, že na otázku bude každý záporný výsledek nastaven na 0 bodů."
+
+msgid "tst_score_cut_test"
+msgstr "Vynulovat záporné body testu"
+
+msgid "tst_score_cut_test_desc"
+msgstr "Účastníci mohou v otázkách získat záporné body. Sčítá se počet bodů získaných za všechny otázky. Pouze pokud je celkový výsledek testu záporný, bude tento celkový výsledek nastaven na 0 bodů. S tímto nastavením mají záporné body velkou váhu."
+
+msgid "tst_score_cutting"
+msgstr "Vynulovat záporné body"
+
+msgid "tst_search_users"
+msgstr "Přidat fixní účastníky"
+
+msgid "tst_select_questionpool"
+msgstr "Vyberte prosím zásobník otázek k uložení vytvořené otázky"
+
+msgid "tst_selected_user_data_deleted"
+msgstr "Data testu vybraných uživatelů byla úspěšně vymazána"
+
+msgid "tst_sequence_properties"
+msgstr "Vlastnosti sekvence"
+
+msgid "tst_set_offline_due_to_switched_question_set_type_setting"
+msgstr "Tento test byl nastaven na offline, protože nastavení módu testu bylo změněno. Musíte nastavit nový mód testu ve vztahu k nastavení otázek před tím, než bude moci test být znovu nastaven na online."
+
+#, fuzzy
+msgid "tst_settings_conflict_postpone_and_lock"
+msgstr "\"Unanswered questions will be enqueued\" cannot be used together with \"Lock Answers After Moving to Next Question\"."
+
+#, fuzzy
+msgid "tst_settings_conflict_shuffle_and_lock"
+msgstr "\"Shuffle Questions\" cannot be used together with \"Lock Answers After Moving to Next Question\"."
+
+#, fuzzy
+msgid "tst_settings_form_reload_needed"
+msgstr "The form needed to be reloaded to avoid data loss as the available settings have changed due to the removal of all results of participants."
+
+#, fuzzy
+msgid "tst_settings_header_additional"
+msgstr "Additional Features"
+
+msgid "tst_settings_header_execution"
+msgstr "Správa testu: Přístup"
+
+msgid "tst_settings_header_intro"
+msgstr "Informace před zahájením testu"
+
+msgid "tst_settings_header_test_run"
+msgstr "Správa testu: Běh testu"
+
+#, fuzzy
+msgid "tst_settings_not_found"
+msgstr "Missing Test Settings"
+
+#, fuzzy
+msgid "tst_settings_not_found_msg"
+msgstr "Test Settings could not found. This may be due to a missing migration step. Please contact your system administrator."
+
+msgid "tst_show_answer_sheet"
+msgstr "Zobrazit odpovědi"
+
+msgid "tst_show_cancel"
+msgstr "Zobrazit volbu přerušení testu"
+
+msgid "tst_show_cancel_description"
+msgstr "Je-li vybráno, pak tlačítko k přerušení testu bude zobrazeno v průběhu vykonávání testu"
+
+msgid "tst_show_comp_results"
+msgstr "Zobrazit výsledky způsobilosti"
+
+msgid "tst_show_results"
+msgstr "Zobrazit výsledky testu"
+
+msgid "tst_show_side_list"
+msgstr "Zobrazit boční seznam otázek"
+
+msgid "tst_show_solution_answers_only"
+msgstr "Přehled výsledků (jen odpovědi)"
+
+msgid "tst_show_solution_answers_only_desc"
+msgstr "Je-li vybráno, obsah ILIAS, který umístíte kolem otázky pomocí stránky záložky „Upravit obsah“, nebude viditelný ve výtisku. Pokud chcete ušetřit místo na papíru, vyberte tuto možnost."
+
+#, fuzzy
+msgid "tst_show_solution_details_singlepage"
+msgstr "Scored Answers on single pages"
+
+#, fuzzy
+msgid "tst_show_solution_details_singlepage_desc"
+msgstr "Participants can access each question individually and see if their answers were correct and how many points they scored."
+
+msgid "tst_show_solution_feedback"
+msgstr "Zobrazit odpovědi-specifický ohlas ve výsledcích testu"
+
+msgid "tst_show_solution_feedback_desc"
+msgstr "Je-li vybráno, bude ve výsledcích testu vedle otázek zobrazena odpověď na určitou zpětnou vazbu."
+
+msgid "tst_show_solution_printview"
+msgstr "Zobrazit seznam odpovědí"
+
+msgid "tst_show_solution_printview_desc"
+msgstr "Je-li vybráno, je generován přehled všech otázek s odpověďmi účastníka. Tento seznam bude k dispozici na informační stránce a na konci testu před konečným odesláním."
+
+msgid "tst_show_solution_signature"
+msgstr "Zobrazit rezervované místo na podpis"
+
+msgid "tst_show_solution_signature_desc"
+msgstr "Je-li vybráno, bude pro výtisk zobrazeno rezervované místo pro podpis."
+
+msgid "tst_show_solution_suggested"
+msgstr "Zobrazit doporučené řešení"
+
+msgid "tst_show_solution_suggested_desc"
+msgstr "Je-li vybráno, v přehledu výsledků testu se zobrazí doporučená řešení otázek (pokud existují)."
+
+msgid "tst_show_summary"
+msgstr "Zobrazit seznam otázek"
+
+msgid "tst_show_summary_description"
+msgstr "Nabídnout dosažitelnost seznamu všech otázek testu jeho účastníkům v průběhu testu"
+
+msgid "tst_show_toplist"
+msgstr "Zobrazit nejlepší výsledky"
+
+msgid "tst_shuffle_questions"
+msgstr "Zamíchat otázky"
+
+msgid "tst_shuffle_questions_description"
+msgstr "Zamíchat sekvenci otázek pro každý průchod testem"
+
+msgid "tst_signature"
+msgstr "Podpis"
+
+msgid "tst_single_answer_details"
+msgstr "Zobrazit jednu odpověď"
+
+msgid "tst_skill_triggerings_num_req_answers"
+msgstr "Požadovaný počet odpovědí pro spouštěče způsobilosti"
+
+msgid "tst_skill_triggerings_num_req_answers_desc"
+msgstr "Způsobilosti nejsou spuštěny dříve, než tento počet zodpovězených otázek přispěje k výpočtu úrovně způsobilosti."
+
+msgid "tst_skill_triggerings_num_req_answers_not_reached_warn"
+msgstr "Nejméně jedna ze způsobilostí, kterou se zabývá tento test, není aktivována minimálním požadovaným počtem otázek.<br />Požadovaný počet otázek: %s"
+
+msgid "tst_skl_level_thresholds_link"
+msgstr "Konfigurace prahových hodnot způsobilosti"
+
+msgid "tst_skl_level_thresholds_missing"
+msgstr "Chybí prahové hodnoty pro příslušné způsobilosti!"
+
+msgid "tst_skl_sub_tab_thresholds"
+msgstr "Prahové hodnoty způsobilosti"
+
+msgid "tst_sol_comp_expressions"
+msgstr "Srovnávací výrazy"
+
+msgid "tst_solution_compare_cfg"
+msgstr "Konfigurace pro porovnání řešení"
+
+msgid "tst_source_question_pool"
+msgstr "Zdrojový zásobník otázek"
+
+msgid "tst_src_quest_pool_def_list_table"
+msgstr "Definice zdrojového zásobníku otázek"
+
+msgid "tst_start_dyn_test_with_cur_quest_sel"
+msgstr "Spustit test s aktuálním výběrem otázek"
+
+msgid "tst_start_new_test_pass"
+msgstr "Spustit nový průchod testem"
+
+msgid "tst_start_test"
+msgstr "Spustit test"
+
+msgid "tst_starting_time"
+msgstr "Čas spuštění"
+
+msgid "tst_starting_time_desc"
+msgstr "Časový bod, po kterém může být test spuštěn kliknutím na tlačítko „Start“, účastníci mohou odpovídat na otázky."
+
+msgid "tst_stat_result_atimeofwork"
+msgstr "Průměrný čas práce"
+
+msgid "tst_stat_result_firstvisit"
+msgstr "První návštěva"
+
+msgid "tst_stat_result_lastvisit"
+msgstr "Poslední návštěva"
+
+msgid "tst_stat_result_mark_median"
+msgstr "Známka mediánu"
+
+msgid "tst_stat_result_median"
+msgstr "Medián výsledku testu v bodech"
+
+msgid "tst_stat_result_pworkedthrough"
+msgstr "Procento celkových uložení prací"
+
+msgid "tst_stat_result_qmax"
+msgstr "Celkový počet otázek"
+
+msgid "tst_stat_result_qworkedthrough"
+msgstr "Zpracované otázky"
+
+msgid "tst_stat_result_rank_median"
+msgstr "Úroveň mediánu"
+
+msgid "tst_stat_result_rank_participant"
+msgstr "Úroveň účastníka"
+
+msgid "tst_stat_result_resultsmarks"
+msgstr "Výsledky testu ve známkách"
+
+msgid "tst_stat_result_resultspoints"
+msgstr "Výsledky testů v bodech"
+
+msgid "tst_stat_result_timeontask"
+msgstr "Doba práce"
+
+msgid "tst_stat_result_total_participants"
+msgstr "Celkový počet účastníků"
+
+#, fuzzy
+msgid "tst_stat_result_total_timeontask"
+msgstr "Total Time On Task (All Test Attempts)"
+
+msgid "tst_submit_results"
+msgstr "Ano, potvrzuji odeslání."
+
+msgid "tst_tab_competences"
+msgstr "Způsobilosti"
+
+msgid "tst_tab_results_objective_oriented"
+msgstr "Výsledky podle cílů učení"
+
+msgid "tst_tab_results_pass_oriented"
+msgstr "Výsledky podle pokusů"
+
+msgid "tst_tbl_col_answered_questions"
+msgstr "Zodpovězené otázky"
+
+msgid "tst_tbl_col_final_mark"
+msgstr "Známka"
+
+#, fuzzy
+msgid "tst_tbl_col_finished_passes"
+msgstr "Finished Passes"
+
+#, fuzzy
+msgid "tst_tbl_col_finished_passes_num_of"
+msgstr "%s of %s"
+
+#, fuzzy
+msgid "tst_tbl_col_last_scored_access"
+msgstr "Last Scored Access"
+
+#, fuzzy
+msgid "tst_tbl_col_pass_finished"
+msgstr "Pass Finished"
+
+msgid "tst_tbl_col_passed_status"
+msgstr "Klasifikace"
+
+msgid "tst_tbl_col_percent_result"
+msgstr "Procento vyřešených"
+
+msgid "tst_tbl_col_reached_points"
+msgstr "Dosažené body"
+
+msgid "tst_tbl_col_scored_pass"
+msgstr "Hodnocený průchod"
+
+#, fuzzy
+msgid "tst_tbl_col_started_passes"
+msgstr "Started Passes"
+
+msgid "tst_tbl_invited_users"
+msgstr "Manuálně vybraní účastníci"
+
+msgid "tst_tbl_participants"
+msgstr "Účastníci"
+
+msgid "tst_tbl_results_grades"
+msgstr "Výsledky a známky"
+
+msgid "tst_test_result"
+msgstr "Výsledek testu"
+
+msgid "tst_text_count_system"
+msgstr "Systém hodnocení"
+
+msgid "tst_threshold"
+msgstr "Prahové hodnoty"
+
+msgid "tst_time_already_spent"
+msgstr "Test již máte spuštěn %s. Maximální doba práce je %s"
+
+msgid "tst_time_already_spent_left"
+msgstr "Zbývá vám %s."
+
+msgid "tst_time_limit_message"
+msgstr "Na zodpovězení všech otázek budete mít <b>%s minut</b>."
+
+msgid "tst_title_output"
+msgstr "Výstup názvu otázky"
+
+msgid "tst_title_output_full"
+msgstr "Zobrazit název otázek a dostupné body"
+
+msgid "tst_title_output_hide_points"
+msgstr "Zobrazit pouze název otázek"
+
+#, fuzzy
+msgid "tst_title_output_info"
+msgstr "Set which combination of question titles and/or points available should be visible to participants while they are taking the test and within the test attempt overview (see below)."
+
+msgid "tst_title_output_no_title"
+msgstr "Nezobrazit název otázek a dosažitelné body"
+
+#, fuzzy
+msgid "tst_title_output_only_points"
+msgstr "Only Available Points"
+
+msgid "tst_trigger_result_refreshing"
+msgstr "Výsledek musí být přepočítán. To může chvíli trvat."
+
+msgid "tst_type"
+msgstr "Typ testu"
+
+msgid "tst_unchanged_answer_is_correct"
+msgstr "Předem nastavená odpověď je správná"
+
+msgid "tst_unchanged_order_is_correct"
+msgstr "Předem nastavené uspořádání je správné"
+
+msgid "tst_use_previous_answers"
+msgstr "Použít předchozí odpovědi"
+
+msgid "tst_use_previous_answers_description"
+msgstr "Pokud je vybráno, účastník může zvolit použití předchozích odpovědí jako výchozích hodnot v dalších průchodech testem, jinak předchozí odpovědi nebudou v dalších průchodech testem zobrazeny."
+
+msgid "tst_user_finished_test"
+msgstr "Uživatel ukončil test (%s)"
+
+msgid "tst_view_competence_assign"
+msgstr "Zobrazit vlastnosti přiřazení"
+
+msgid "tst_virtual_pass_header_lo_initial"
+msgstr "Výsledky počátečního testu pro cíle učení<br />%s"
+
+msgid "tst_virtual_pass_header_lo_qualifying"
+msgstr "Výsledky kvalifikačního testu pro cíle učení<br />%s"
+
+msgid "tst_wf_info_answer_adopted_from_prev_pass"
+msgstr "Byla převzata vaše odpověď z předchozího pokusu."
+
+msgid "tst_wf_info_answer_not_adopted"
+msgstr "Z předchozích pokusů nebyla převzata žádná odpověď, takže musíte projít tuto otázku, protože jinak se zhorší váš výsledek cíle učení."
+
+msgid "tst_wf_info_optional_question"
+msgstr "Tato otázka se týká již dosaženého cíle učení."
+
+msgid "tst_your_answer_was"
+msgstr "Vaše odpověď byla"
+
+msgid "tst_your_answers"
+msgstr "Toto jsou Vaše odpovědi dané na následující otázky."
+
+msgid "un_add_category"
+msgstr "Přidat kategorii"
+
+msgid "un_add_unit"
+msgstr "Přidat jednotku"
+
+msgid "un_cat_deletion_errors_f"
+msgstr "Nelze smazat určité kategorie:"
+
+msgid "un_cat_deletion_errors_f_s"
+msgstr "Nelze smazat kategorii:"
+
+msgid "un_cat_deletion_errors_p"
+msgstr "Nemohly být smazány určité kategorie:"
+
+msgid "un_cat_deletion_errors_p_s"
+msgstr "Nemohly být smazány kategorie:"
+
+msgid "un_category_not_exist"
+msgstr "Požadovaná kategorie neexistuje."
+
+msgid "un_deleted_categories"
+msgstr "Smazání proběhlo úspěšně"
+
+msgid "un_deleted_categories_s"
+msgstr "Smazání proběhlo úspěšně"
+
+msgid "un_deleted_units"
+msgstr "Smazání proběhlo úspěšně"
+
+msgid "un_deleted_units_s"
+msgstr "Smazání proběhlo úspěšně"
+
+msgid "un_global_units"
+msgstr "Globální jednotky"
+
+msgid "un_local_units"
+msgstr "Lokální jednotky"
+
+msgid "un_save_order"
+msgstr "Uložit pořadí"
+
+msgid "un_sel_cat_sel_unit"
+msgstr "Vybraná kategorie: %s, Vybraná jednotka: %s"
+
+msgid "un_sequence"
+msgstr "Sekvence"
+
+msgid "un_show_units"
+msgstr "Ukaž jednotky"
+
+msgid "un_sure_delete_categories"
+msgstr "Skutečně chcete smazat vybrané kategorie?"
+
+msgid "un_sure_delete_categories_s"
+msgstr "Skutečně chcete smazat vybranou kategorii?"
+
+msgid "un_sure_delete_units"
+msgstr "Skutečně chcete smazat vybrané jednotky?"
+
+msgid "un_sure_delete_units_s"
+msgstr "Skutečně chcete smazat vybranou jednotku?"
+
+msgid "un_unit_deletion_errors_f"
+msgstr "Nelze smazat určité jednotky:"
+
+msgid "un_unit_deletion_errors_f_s"
+msgstr "Nelze smazat jednotku:"
+
+msgid "un_unit_deletion_errors_p"
+msgstr "Nemohly být smazány určité jednotky:"
+
+msgid "un_unit_deletion_errors_p_s"
+msgstr "Nemohla být smazána jednotka:"
+
+msgid "un_units_of_category_x"
+msgstr "Jednotka kategorie: %s"
+
+msgid "unfinished_passes"
+msgstr "Nedokončené průchody"
+
+msgid "unit"
+msgstr "Jednotka"
+
+msgid "unit_placeholder"
+msgstr "** Nová jednotka **"
+
+msgid "units"
+msgstr "Jednotky"
+
+msgid "unlimited"
+msgstr "neomezený"
+
+msgid "unlock"
+msgstr "Odemknout"
+
+#, fuzzy
+msgid "updated"
+msgstr "Updated"
+
+msgid "uploaded_material"
+msgstr "Odeslaný materiál"
+
+msgid "use_previous_solution"
+msgstr "Použít předchozí řešení"
+
+msgid "use_previous_solution_advice"
+msgstr "Zobrazené řešení pro tuto otázku je vaše dříve uvedené řešení. Musíte potvrdit přijetí řešení, pokud ho chcete použít bez jakýchkoliv změn."
+
+msgid "user_has_finished_a_test"
+msgstr "Účastník dokončil test."
+
+#, fuzzy
+msgid "user_ip_outside_range"
+msgstr "You are not allowed to start the test from this IP address."
+
+msgid "user_not_invited"
+msgstr "K této zkoušce nejste připuštěn."
+
+#, fuzzy
+msgid "usr_manscoring_complete"
+msgstr "Marke as 'scored'"
+
+msgid "value_between_x_and_y"
+msgstr "Hodnota by měla být mezi %s až %s"
+
+msgid "values"
+msgstr "Hodnoty"
+
+#, fuzzy
+msgid "variable"
+msgstr "Variable"
+
+msgid "variable_x"
+msgstr "Proměnná %s"
+
+msgid "variables"
+msgstr "Proměnné"
+
+msgid "wait_for_next_pass_hint_msg"
+msgstr "Další průchod je možný v době: %s"
+
+msgid "warning_question_not_complete"
+msgstr "Tato otázka není kompletní!"
+
+msgid "width"
+msgstr "Šířka"
+
+#, fuzzy
+msgid "with_solution"
+msgstr "Participants with solution"
+
+msgid "with_solutions_participants"
+msgstr "Účastníci s řešením"
+
+#, fuzzy
+msgid "without_solution"
+msgstr "Participants without solution"
+
+msgid "without_solutions_participants"
+msgstr "Účastníci bez řešení"
+
+msgid "worked_through"
+msgstr "Zodpovězeno"
+
+msgid "working_time"
+msgstr "Doba práce"
+
+msgid "you_received_a_of_b_points"
+msgstr "Obdržel(a) jste %s z %s možných bodů"
+
+#, fuzzy
+msgid "your_results"
+msgstr "Your Results"

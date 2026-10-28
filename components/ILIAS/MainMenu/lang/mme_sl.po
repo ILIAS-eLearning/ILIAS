@@ -1,0 +1,312 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sl\n"
+"Language-Team: Slovenian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=4; plural=(n % 100 == 1) ? 0 : ((n % 100 == 2) ? 1 : ((n % 100 == 3 || n % 100 == 4) ? 2 : 3));\n"
+"X-Domain: mme\n"
+
+msgid "add_languages"
+msgstr "Dodaj jezik"
+
+msgid "additional_langs"
+msgstr "Dodatni jeziki"
+
+msgid "button_save"
+msgstr "Shrani"
+
+msgid "component_not_active"
+msgstr "Komponenta ni aktivirana."
+
+#, fuzzy
+msgid "confirm_move"
+msgstr "Would you like to move this item to Top Items?"
+
+#, fuzzy
+msgid "deactived_by_configuration"
+msgstr "Deactivated by configuration"
+
+#, fuzzy
+msgid "edit_sub_tems"
+msgstr "Edit Entries"
+
+msgid "err_uri_not_valid"
+msgstr "Please provide a valid URL"
+
+msgid "field_external"
+msgstr "Zunanja povezava"
+
+msgid "field_external_info"
+msgstr "Povezava bo odprta v novem oknu."
+
+msgid "field_ref_id"
+msgstr "ID reference ILIAS"
+
+msgid "field_ref_id_info"
+msgstr "ID reference želenega objekta ILIAS iz magazina, ID reference je mogoče najti v URL-ju objekta (...?ref_id=123)"
+
+msgid "field_url"
+msgstr "URL"
+
+msgid "field_url_info"
+msgstr "Povezava do želene spletne strani, začne se s http(s)://"
+
+msgid "flush"
+msgstr "Remove Lost Items"
+
+msgid "item_must_be_always_active"
+msgstr "Vnos mora biti aktiven."
+
+#, fuzzy
+msgid "item_updated"
+msgstr "Item stored"
+
+msgid "main"
+msgstr "Glavni meni"
+
+msgid "mm_translation_lang"
+msgstr "Jezik"
+
+msgid "mm_translation_trans"
+msgstr "Prevod"
+
+#, fuzzy
+msgid "mme_lost_items"
+msgstr "Nowhere assigned"
+
+#, fuzzy
+msgid "move_to_item"
+msgstr "Move to Items"
+
+#, fuzzy
+msgid "move_to_top_item"
+msgstr "Move to Top Items"
+
+msgid "msg_languages_added"
+msgstr "Jeziki so dodani"
+
+#, fuzzy
+msgid "msg_moved"
+msgstr "Item successfully moved"
+
+#, fuzzy
+msgid "msg_not_changed"
+msgstr "The following entries could not be changed: %s"
+
+#, fuzzy
+msgid "msg_not_moved"
+msgstr "Item could not be moved, please select a valid parent."
+
+#, fuzzy
+msgid "msg_ref_id_not_callable"
+msgstr "This reference ID cannot be used by Main-Menu. Only targets in the magazine are supported."
+
+msgid "msg_restore_confirm"
+msgstr "All Custom Items and Translations will be deleted, all Standard items will be reset to factory default. All customization will be lost."
+
+msgid "msg_restored"
+msgstr "Main Menu completely reset"
+
+msgid "msg_subitem_deleted"
+msgstr "Vnos je izbrisan."
+
+msgid "msg_subitem_flushed"
+msgstr "Lost Items removed."
+
+#, fuzzy
+msgid "msg_success"
+msgstr "Successfully stored"
+
+msgid "msg_topitem_deleted"
+msgstr "Vnos je izbrisan."
+
+msgid "msg_translations_deleted"
+msgstr "Prevodi so izbrisani."
+
+msgid "msg_translations_saved"
+msgstr "Prevodi so shranjeni"
+
+msgid "restore"
+msgstr "Reset Main Menu"
+
+#, fuzzy
+msgid "select_parent"
+msgstr "Select Parent"
+
+msgid "sub_actions"
+msgstr "Dejanja"
+
+msgid "sub_active"
+msgstr "Aktivno"
+
+msgid "sub_active_byline"
+msgstr "Aktiviraj ta vnos"
+
+#, fuzzy
+msgid "sub_global_roles"
+msgstr "Global Roles"
+
+msgid "sub_icon"
+msgstr "Icon"
+
+msgid "sub_icon_byline"
+msgstr "Upload a custom icon for this Item. Please note that the SVG-Icons will be inverted."
+
+msgid "sub_parent"
+msgstr "Glavni vnos"
+
+msgid "sub_position"
+msgstr "Položaj"
+
+msgid "sub_provider"
+msgstr "Ponudnik"
+
+#, fuzzy
+msgid "sub_role_based_visibility"
+msgstr "Visibility for roles"
+
+#, fuzzy
+msgid "sub_role_based_visibility_byline"
+msgstr "Choose global roles which can see this item. If not activated, the item is always shown."
+
+msgid "sub_status"
+msgstr "Status"
+
+msgid "sub_title"
+msgstr "Naslov"
+
+msgid "sub_title_default"
+msgstr "Naslov (privzeti jezik)"
+
+msgid "sub_title_default_byline"
+msgstr "Nadaljnje jezike lahko dodate prek povezave za dejanja \"Prevedi\"."
+
+msgid "sub_type"
+msgstr "Tip"
+
+msgid "sub_type_byline"
+msgstr "Izberi tip za ta vnos. Glede na tip so potrebni dodatni podatki."
+
+#, fuzzy
+msgid "subitem"
+msgstr "Subitem"
+
+msgid "subitem_add"
+msgstr "Dodaj vnos"
+
+msgid "subitem_confirm_delete"
+msgstr "Ali res želite izbrisati naslednji vnos?"
+
+msgid "subitem_delete"
+msgstr "Izbriši"
+
+msgid "subitem_edit"
+msgstr "Uredi"
+
+msgid "subitem_translate"
+msgstr "Prevedi"
+
+msgid "subtab_subitems"
+msgstr "Vnosi"
+
+msgid "subtab_topitems"
+msgstr "Glavni vnosi"
+
+msgid "tab_back"
+msgstr "Nazaj"
+
+msgid "table_show_inactive"
+msgstr "Prikaži neaktivne"
+
+msgid "topitem_actions"
+msgstr "Dejanja"
+
+msgid "topitem_active"
+msgstr "Aktivno"
+
+msgid "topitem_active_byline"
+msgstr "Aktiviraj ta glavni vnos"
+
+msgid "topitem_add"
+msgstr "Dodaj glavni vnos"
+
+msgid "topitem_confirm_delete"
+msgstr "Ali res želite izbrisati naslednji vnos?"
+
+msgid "topitem_delete"
+msgstr "Izbriši"
+
+msgid "topitem_edit"
+msgstr "Uredi"
+
+msgid "topitem_icon"
+msgstr "Icon"
+
+msgid "topitem_icon_byline"
+msgstr "Upload a custom icon for this Item. Please note that the SVG-Icons will be inverted."
+
+msgid "topitem_position"
+msgstr "Položaj"
+
+msgid "topitem_provider"
+msgstr "Ponudnik"
+
+msgid "topitem_subentries"
+msgstr "Vnosi"
+
+msgid "topitem_title"
+msgstr "Naslov"
+
+msgid "topitem_title_default"
+msgstr "Naslov (privzeti jezik)"
+
+msgid "topitem_title_default_byline"
+msgstr "Nadaljnje jezike lahko dodate prek povezave za dejanja \"Prevedi\"."
+
+msgid "topitem_translate"
+msgstr "Prevedi"
+
+msgid "topitem_type"
+msgstr "Tip"
+
+msgid "topitem_type_byline"
+msgstr "Glavni vnosi lahko vsebujejo nadaljnje vnose ali so naloženi kot neposredna povezava do strani."
+
+msgid "topitem_type_link"
+msgstr "Povezava"
+
+msgid "topitem_type_parent"
+msgstr "Glavni vnos"
+
+msgid "type_complex"
+msgstr "Kompleksno"
+
+msgid "type_link"
+msgstr "Povezava"
+
+msgid "type_link_list"
+msgstr "Seznam povezav"
+
+msgid "type_lost"
+msgstr "Izgubljeno"
+
+msgid "type_repository_link"
+msgstr "Povezava do magazina"
+
+msgid "type_separator"
+msgstr "Ločilo"
+
+msgid "type_separator_info"
+msgstr "Naslov ločila bo prikazan v sivem področju. Če ne vnesete nobenega naslova, se prikaže razmejitvena črta."
+
+msgid "type_top_link_item"
+msgstr "Povezava"
+
+msgid "type_top_parent_item"
+msgstr "Shramba"
+
+#, fuzzy
+msgid "unable_to_render"
+msgstr "Unable to show '%s' in '%s'."

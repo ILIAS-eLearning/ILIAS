@@ -1,0 +1,45 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: background_tasks\n"
+
+msgid "abort"
+msgstr "Abbrechen"
+
+msgid "background_tasks"
+msgstr "Background Tasks"
+
+msgid "background_tasks_running"
+msgstr "Background Tasks"
+
+msgid "completed"
+msgstr "Abgeschlossen"
+
+msgid "proceed_job"
+msgstr "Weiter"
+
+msgid "scheduled"
+msgstr "Geplant"
+
+msgid "task_might_be_failed"
+msgstr "Diese Aufgabe hat seit einiger Zeit nicht geantwortet, Sie können sie beenden, falls nötig."
+
+msgid "ui_msg_files_violate_maxsize"
+msgstr "Die Gesamtdownloadgröße überschreitet das globale Limit. Der Download wird abgebrochen."
+
+msgid "ui_msg_no_files_found"
+msgstr "Es wurden keine Dateien gefunden. Der Download wird abgebrochen."
+
+msgid "ui_msg_num_files"
+msgstr "%s Datei(-en) wurden gefunden, möchten Sie fortfahren?"
+
+msgid "ui_msg_sum_file_sizes"
+msgstr "Die Gesamtdownloadgröße vor Erstellung des Zip-Ordners beträgt %s. Möchten Sie fortfahren?"
+
+msgid "waiting"
+msgstr "Warten"

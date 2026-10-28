@@ -1,0 +1,633 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sr\n"
+"Language-Team: Serbian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: scormdebug\n"
+
+#, fuzzy
+msgid "API-call"
+msgstr "API-call"
+
+#, fuzzy
+msgid "Commit"
+msgstr "store data"
+
+#, fuzzy
+msgid "GetDiagnostic"
+msgstr "allows the LMS (!) to define additional diagnostic information"
+
+#, fuzzy
+msgid "GetErrorString"
+msgstr "retrieve a textual description of the current error state"
+
+#, fuzzy
+msgid "GetLastError"
+msgstr "request the error code for the current error state"
+
+#, fuzzy
+msgid "GetValue"
+msgstr "get data"
+
+#, fuzzy
+msgid "Initialize"
+msgstr "initialize API-communication"
+
+#, fuzzy
+msgid "SCO-name"
+msgstr "SCO-name"
+
+#, fuzzy
+msgid "SCO-title"
+msgstr "SCO-title"
+
+#, fuzzy
+msgid "SetValue"
+msgstr "send data"
+
+#, fuzzy
+msgid "Terminate"
+msgstr "store data and terminate API-communication"
+
+#, fuzzy
+msgid "adl.nav.request"
+msgstr "Navigation request to be processed immediately following Terminate()"
+
+#, fuzzy
+msgid "adl.nav.request_valid.choice"
+msgstr "Used by a SCO to determine if a Choice navigation request for a particular activity will succeed."
+
+#, fuzzy
+msgid "adl.nav.request_valid.continue"
+msgstr "Used by a SCO to determine if a Continue navigation request will succeed."
+
+#, fuzzy
+msgid "adl.nav.request_valid.previous"
+msgstr "Used by a SCO to determine if a Previous navigation request will succeed."
+
+#, fuzzy
+msgid "all_API-calls_shown"
+msgstr "All API-calls are currently shown."
+
+#, fuzzy
+msgid "cmi._version"
+msgstr "Represents the version of the data model"
+
+#, fuzzy
+msgid "cmi.comments_from_learner._children"
+msgstr "Listing of supported data model elements"
+
+#, fuzzy
+msgid "cmi.comments_from_learner._count"
+msgstr "Current number of learner comments"
+
+#, fuzzy
+msgid "cmi.comments_from_learner.n.comment"
+msgstr "Textual input"
+
+#, fuzzy
+msgid "cmi.comments_from_learner.n.location"
+msgstr "Point in the SCO to which the comment applies"
+
+#, fuzzy
+msgid "cmi.comments_from_learner.n.timestamp"
+msgstr "Point in time at which the comment was created or most recently changed"
+
+#, fuzzy
+msgid "cmi.comments_from_lms._children"
+msgstr "Listing of supported data model elements"
+
+#, fuzzy
+msgid "cmi.comments_from_lms._count"
+msgstr "Current number of comments from the LMS"
+
+#, fuzzy
+msgid "cmi.comments_from_lms.n.comment"
+msgstr "Comments or annotations associated with a SCO"
+
+#, fuzzy
+msgid "cmi.comments_from_lms.n.location"
+msgstr "Point in the SCO to which the comment applies"
+
+#, fuzzy
+msgid "cmi.comments_from_lms.n.timestamp"
+msgstr "Point in time at which the comment was created or most recently changed"
+
+#, fuzzy
+msgid "cmi.completion_status"
+msgstr "Indicates whether the learner has completed the SCO"
+
+#, fuzzy
+msgid "cmi.completion_threshold"
+msgstr "Used to determine whether the SCO should be considered complete"
+
+#, fuzzy
+msgid "cmi.credit"
+msgstr "Indicates whether the learner will be credited for performance in the SCO"
+
+#, fuzzy
+msgid "cmi.entry"
+msgstr "Asserts whether the learner has previously accessed the SCO"
+
+#, fuzzy
+msgid "cmi.exit"
+msgstr "Indicates how or why the learner left the SCO"
+
+#, fuzzy
+msgid "cmi.interactions._children"
+msgstr "Listing of supported data model elements"
+
+#, fuzzy
+msgid "cmi.interactions._count"
+msgstr "Current number of interactions being stored by the LMS"
+
+#, fuzzy
+msgid "cmi.interactions.n.correct_responses._count"
+msgstr "Current number of correct responses being stored by the LMS for this interaction"
+
+#, fuzzy
+msgid "cmi.interactions.n.correct_responses.n.pattern"
+msgstr "One correct response pattern for the interaction"
+
+#, fuzzy
+msgid "cmi.interactions.n.description"
+msgstr "Brief informative description of the interaction"
+
+#, fuzzy
+msgid "cmi.interactions.n.id"
+msgstr "Unique label for the interaction"
+
+#, fuzzy
+msgid "cmi.interactions.n.latency"
+msgstr "Time elapsed between the time the interaction was made available to the learner for response and the time of the first response"
+
+#, fuzzy
+msgid "cmi.interactions.n.learner_response"
+msgstr "Data generated when a learner responds to an interaction"
+
+#, fuzzy
+msgid "cmi.interactions.n.objectives._count"
+msgstr "Current number of objectives (i.e., objective identifiers) being stored by the LMS for this interaction"
+
+#, fuzzy
+msgid "cmi.interactions.n.objectives.n.id"
+msgstr "Label for objectives associated with the interaction"
+
+#, fuzzy
+msgid "cmi.interactions.n.result"
+msgstr "Judgment of the correctness of the learner response"
+
+#, fuzzy
+msgid "cmi.interactions.n.timestamp"
+msgstr "Point in time at which the interaction was first made available to the learner for learner interaction and response"
+
+#, fuzzy
+msgid "cmi.interactions.n.type"
+msgstr "Which type of interaction is recorded"
+
+#, fuzzy
+msgid "cmi.interactions.n.weighting"
+msgstr "Weight given to the interaction relative to other interactions"
+
+#, fuzzy
+msgid "cmi.launch_data"
+msgstr "Data provided to a SCO after launch, initialized from the dataFromLMS manifest element"
+
+#, fuzzy
+msgid "cmi.learner_id"
+msgstr "Identifies the learner on behalf of whom the SCO was launched"
+
+#, fuzzy
+msgid "cmi.learner_name"
+msgstr "Name provided for the learner by the LMS"
+
+#, fuzzy
+msgid "cmi.learner_preference._children"
+msgstr "Listing of supported data model elements"
+
+#, fuzzy
+msgid "cmi.learner_preference.audio_captioning"
+msgstr "Specifies whether captioning text corresponding to audio is displayed"
+
+#, fuzzy
+msgid "cmi.learner_preference.audio_level"
+msgstr "Specifies an intended change in perceived audio level"
+
+#, fuzzy
+msgid "cmi.learner_preference.delivery_speed"
+msgstr "The learner's preferred relative speed of content delivery"
+
+#, fuzzy
+msgid "cmi.learner_preference.language"
+msgstr "The learner's preferred language for SCOs with multilingual capability"
+
+#, fuzzy
+msgid "cmi.location"
+msgstr "The learner's current location in the SCO"
+
+#, fuzzy
+msgid "cmi.max_time_allowed"
+msgstr "Amount of accumulated time the learner is allowed to use a SCO"
+
+#, fuzzy
+msgid "cmi.mode"
+msgstr "Identifies one of three possible modes in which the SCO may be presented to the learner"
+
+#, fuzzy
+msgid "cmi.objectives._children"
+msgstr "Listing of supported data model elements"
+
+#, fuzzy
+msgid "cmi.objectives._count"
+msgstr "Current number of objectives being stored by the LMS"
+
+#, fuzzy
+msgid "cmi.objectives.n.completion_status"
+msgstr "Indicates whether the learner has completed the associated objective"
+
+#, fuzzy
+msgid "cmi.objectives.n.description"
+msgstr "Provides a brief informative description of the objective"
+
+#, fuzzy
+msgid "cmi.objectives.n.id"
+msgstr "Unique label for the objective"
+
+#, fuzzy
+msgid "cmi.objectives.n.progress_measure"
+msgstr "Measure of the progress the learner has made toward completing the objective"
+
+#, fuzzy
+msgid "cmi.objectives.n.score._children"
+msgstr "Listing of supported data model elements"
+
+#, fuzzy
+msgid "cmi.objectives.n.score.max"
+msgstr "Maximum value, for the objective, in the range for the raw score"
+
+#, fuzzy
+msgid "cmi.objectives.n.score.min"
+msgstr "Minimum value, for the objective, in the range for the raw score"
+
+#, fuzzy
+msgid "cmi.objectives.n.score.raw"
+msgstr "Number that reflects the performance of the learner, for the objective, relative to the range bounded by the values of min and max"
+
+#, fuzzy
+msgid "cmi.objectives.n.score.scaled"
+msgstr "Number that reflects the performance of the learner for the objective"
+
+#, fuzzy
+msgid "cmi.objectives.n.success_status"
+msgstr "Indicates whether the learner has mastered the objective"
+
+#, fuzzy
+msgid "cmi.progress_measure"
+msgstr "Measure of the progress the learner has made toward completing the SCO"
+
+#, fuzzy
+msgid "cmi.scaled_passing_score"
+msgstr "Scaled passing score required to master the SCO"
+
+#, fuzzy
+msgid "cmi.score._children"
+msgstr "Listing of supported data model elements"
+
+#, fuzzy
+msgid "cmi.score.max"
+msgstr "Maximum value in the range for the raw score"
+
+#, fuzzy
+msgid "cmi.score.min"
+msgstr "Minimum value in the range for the raw score"
+
+#, fuzzy
+msgid "cmi.score.raw"
+msgstr "Number that reflects the performance of the learner relative to the range bounded by the values of min and max"
+
+#, fuzzy
+msgid "cmi.score.scaled"
+msgstr "Number that reflects the performance of the learner"
+
+#, fuzzy
+msgid "cmi.session_time"
+msgstr "Amount of time that the learner has spent in the current learner session for this SCO"
+
+#, fuzzy
+msgid "cmi.success_status"
+msgstr "Indicates whether the learner has mastered the SCO"
+
+#, fuzzy
+msgid "cmi.suspend_data"
+msgstr "Provides space to store and retrieve data between learner sessions"
+
+#, fuzzy
+msgid "cmi.time_limit_action"
+msgstr "Indicates what the SCO should do when cmi.max_time_allowed is exceeded"
+
+#, fuzzy
+msgid "cmi.total_time"
+msgstr "Sum of all of the learner's session times accumulated in the current learner attempt"
+
+#, fuzzy
+msgid "completion_status_by_progress_measure"
+msgstr "Because there is a value for cmi.completion_threshold, the value for cmi.completion_status is evaluated by the LMS! This is done by comparing the value for cmi.completion_threshold with the value for cmi.progress_measure. The value for cmi.completion_status is currently:"
+
+#, fuzzy
+msgid "debugwindow_action"
+msgstr "Action"
+
+#, fuzzy
+msgid "debugwindow_cancel"
+msgstr "Cancel"
+
+#, fuzzy
+msgid "debugwindow_comment"
+msgstr "comment"
+
+#, fuzzy
+msgid "debugwindow_comment_enter"
+msgstr "Please enter your comment"
+
+#, fuzzy
+msgid "debugwindow_console"
+msgstr "Console"
+
+#, fuzzy
+msgid "debugwindow_date"
+msgstr "Date"
+
+#, fuzzy
+msgid "debugwindow_delete"
+msgstr "Delete"
+
+#, fuzzy
+msgid "debugwindow_delete_logfile"
+msgstr "Delete logfile"
+
+#, fuzzy
+msgid "debugwindow_download"
+msgstr "Download"
+
+#, fuzzy
+msgid "debugwindow_filename"
+msgstr "Filename"
+
+#, fuzzy
+msgid "debugwindow_logs"
+msgstr "Logs"
+
+#, fuzzy
+msgid "debugwindow_open"
+msgstr "Open"
+
+#, fuzzy
+msgid "debugwindow_start_recording"
+msgstr "Start Recording"
+
+#, fuzzy
+msgid "debugwindow_stop_recording"
+msgstr "Stop Recording"
+
+#, fuzzy
+msgid "debugwindow_submission_failed"
+msgstr "Submission failed"
+
+#, fuzzy
+msgid "debugwindow_submit"
+msgstr "Submit"
+
+#, fuzzy
+msgid "description_for"
+msgstr "description for"
+
+#, fuzzy
+msgid "error0"
+msgstr "No error"
+
+#, fuzzy
+msgid "error101"
+msgstr "General Exeption"
+
+#, fuzzy
+msgid "error102"
+msgstr "General Initialization Failure"
+
+#, fuzzy
+msgid "error103"
+msgstr "Already Initialized"
+
+#, fuzzy
+msgid "error104"
+msgstr "Content Instance Terminated"
+
+#, fuzzy
+msgid "error111"
+msgstr "General Termination Failure"
+
+#, fuzzy
+msgid "error112"
+msgstr "Termination Before Initialization"
+
+#, fuzzy
+msgid "error113"
+msgstr "Termination After Termination"
+
+#, fuzzy
+msgid "error122"
+msgstr "Retrieve Data Before Initialization"
+
+#, fuzzy
+msgid "error123"
+msgstr "Retrieve Data After Termination"
+
+#, fuzzy
+msgid "error132"
+msgstr "Store Data Before Initialization"
+
+#, fuzzy
+msgid "error133"
+msgstr "Store Data After Termination"
+
+#, fuzzy
+msgid "error142"
+msgstr "Commit Before Initialization"
+
+#, fuzzy
+msgid "error143"
+msgstr "Commit After Termination"
+
+#, fuzzy
+msgid "error201"
+msgstr "General Argument Error"
+
+#, fuzzy
+msgid "error301"
+msgstr "General Get Failure"
+
+#, fuzzy
+msgid "error351"
+msgstr "General Set Failure"
+
+#, fuzzy
+msgid "error391"
+msgstr "General Commit Failure"
+
+#, fuzzy
+msgid "error401"
+msgstr "Undefined Data Model Element"
+
+#, fuzzy
+msgid "error402"
+msgstr "Unimplemented Data Model Element"
+
+#, fuzzy
+msgid "error403"
+msgstr "Data Model Element Value Not Initialized"
+
+#, fuzzy
+msgid "error404"
+msgstr "Data Model Element Is Read Only"
+
+#, fuzzy
+msgid "error405"
+msgstr "Data Model Element Is Write Only"
+
+#, fuzzy
+msgid "error406"
+msgstr "Data Model Element Type Mismatch"
+
+#, fuzzy
+msgid "error407"
+msgstr "Data Model Element Value Out Of Range"
+
+#, fuzzy
+msgid "error408"
+msgstr "Data Model Dependency Not Established"
+
+#, fuzzy
+msgid "generated"
+msgstr "generated"
+
+#, fuzzy
+msgid "i_fuchsia"
+msgstr "fuchsia: likely a failure by ILIAS"
+
+#, fuzzy
+msgid "i_gray"
+msgstr "gray: error corrected by ILIAS"
+
+#, fuzzy
+msgid "i_green"
+msgstr "green: okay"
+
+#, fuzzy
+msgid "i_orange"
+msgstr "orange: attention please!"
+
+#, fuzzy
+msgid "i_red"
+msgstr "red: failure!"
+
+#, fuzzy
+msgid "id_learning_module"
+msgstr "Id of the learning module"
+
+#, fuzzy
+msgid "log_for"
+msgstr "Log for the learning module"
+
+#, fuzzy
+msgid "milliseconds"
+msgstr "milliseconds"
+
+#, fuzzy
+msgid "missing_API-calls"
+msgstr "These API-calls are missing:"
+
+#, fuzzy
+msgid "no_missing_API-calls"
+msgstr "Missing API-calls had not been recognized."
+
+#, fuzzy
+msgid "nr_session"
+msgstr "number of session"
+
+#, fuzzy
+msgid "only_important_API-Calls_shown"
+msgstr "Only important API-Calls are currently shown."
+
+#, fuzzy
+msgid "return_value"
+msgstr "return value"
+
+#, fuzzy
+msgid "scormdebug_disable_cache"
+msgstr "disable SCORM 2004 Browser-Cache"
+
+#, fuzzy
+msgid "scormdebug_disable_cache_info"
+msgstr "This prevents the storage of the SCORM 2004 javascript files in the browser cache. Please use this function in time before a new release!"
+
+#, fuzzy
+msgid "scormdebug_global_activate"
+msgstr "Enable SCORM 2004 test tool"
+
+#, fuzzy
+msgid "scormdebug_global_activate_info"
+msgstr "If enabled, the SCORM 2004 test tool can be activated for desired learning modules. If disabled, the test tool is deactivated for all learning modules."
+
+#, fuzzy
+msgid "sent_values_not_checked"
+msgstr "selected property: values sent by SCO are not fully checked"
+
+#, fuzzy
+msgid "show_all_API-calls"
+msgstr "Show all API-calls!"
+
+#, fuzzy
+msgid "show_only_important_API-calls"
+msgstr "Show only important API-calls!"
+
+#, fuzzy
+msgid "started"
+msgstr "started"
+
+#, fuzzy
+msgid "strange_API-Call"
+msgstr "strange API-Call"
+
+#, fuzzy
+msgid "strange_error"
+msgstr "strange error"
+
+#, fuzzy
+msgid "success_status_by_score_scaled"
+msgstr "Because there is a value for cmi.scaled_passing_score, the value for cmi.success_status is evaluated by the LMS! This is done by comparing the value for cmi.scaled_passing_score with the value for cmi.score.scaled. The value for cmi.success_status is currently:"
+
+#, fuzzy
+msgid "summary_csv"
+msgstr "Summary is generated as CSV-file to import for example in Excel"
+
+#, fuzzy
+msgid "summary_download"
+msgstr "You can klick to 'Logs' and download it when you start this tool again."
+
+#, fuzzy
+msgid "summary_for_SCO_with_test"
+msgstr "Summary for a SCO with a test"
+
+#, fuzzy
+msgid "summary_for_SCO_without_test"
+msgstr "Summary for a SCO without a test"
+
+#, fuzzy
+msgid "undefined_color"
+msgstr "undefined color"
+
+#, fuzzy
+msgid "unknown"
+msgstr "unknown"

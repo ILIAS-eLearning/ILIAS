@@ -1,0 +1,109 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sl\n"
+"Language-Team: Slovenian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=4; plural=(n % 100 == 1) ? 0 : ((n % 100 == 2) ? 1 : ((n % 100 == 3 || n % 100 == 4) ? 2 : 3));\n"
+"X-Domain: pd\n"
+
+msgid "block_show_chatviewer"
+msgstr "Prikaži brskalnik za klepet"
+
+msgid "block_show_pdbookm"
+msgstr "Prikaži zaznamke"
+
+msgid "block_show_pdcal"
+msgstr "Prikaži koledar"
+
+msgid "block_show_pdfrmpostdraft"
+msgstr "Prikaži osnutke objav"
+
+msgid "block_show_pdmail"
+msgstr "Prikaži pošto"
+
+msgid "block_show_pdnews"
+msgstr "Prikaži novosti"
+
+msgid "block_show_pdnotes"
+msgstr "Prikaži opombe"
+
+msgid "block_show_pdportf"
+msgstr "Prikaži portfelje"
+
+msgid "block_show_pdtag"
+msgstr "Prikaži oznake"
+
+msgid "block_show_pdtasks"
+msgstr "Show Tasks"
+
+msgid "block_show_x"
+msgstr "Prikaži %s"
+
+msgid "pd_achievements"
+msgstr "Učni dosežki"
+
+msgid "pd_bookmarks"
+msgstr "Zaznamki"
+
+msgid "pd_download_last_export_file"
+msgstr "Prenesi aktualno datoteko za izvoz"
+
+msgid "pd_enable_comments"
+msgstr "Aktiviraj komentarje"
+
+msgid "pd_enable_prtf"
+msgstr "Aktiviraj portfelje"
+
+msgid "pd_enable_user_publish"
+msgstr "Aktiviraj objavljanje uporabniške vsebine"
+
+msgid "pd_enable_user_publish_info"
+msgstr "Ta možnost uporabnikom omogoča, da svoj profil, vsebine delovnega okolja in portfelje naredijo globalno (na spletu) dostopne."
+
+msgid "pd_ended"
+msgstr "Zaključeno"
+
+msgid "pd_export_profile"
+msgstr "Izvozi osebne podatke"
+
+msgid "pd_import_personal_data"
+msgstr "Uvozi osebne podatke"
+
+msgid "pd_my_memberships_sort_default"
+msgstr "Privzeta razvrstitev"
+
+#, fuzzy
+msgid "pd_not_dated"
+msgstr "Not Dated"
+
+msgid "pd_ongoing"
+msgstr "Trenutno"
+
+msgid "pd_personal_items_default_view"
+msgstr "Privzeti pogled"
+
+msgid "pd_personal_items_default_view_info"
+msgstr "Tukaj izberite privzeti pogled za izbrane ponudbe."
+
+msgid "pd_presentation_mode_list"
+msgstr "Item List Presentation"
+
+msgid "pd_presentation_mode_tile"
+msgstr "Tile Presentation"
+
+msgid "pd_private_calendars"
+msgstr "Zasebni koledarji"
+
+msgid "pd_profile_data"
+msgstr "Podatki o profilu"
+
+msgid "pd_remove_multi_confirm"
+msgstr "Objekti so bili odstranjeni."
+
+msgid "pd_upcoming"
+msgstr "Predhodno"
+
+msgid "pd_view_select_at_least_one"
+msgstr "Izberite vsaj en pogled, ali 'Izbrane ponudbe' in/ali 'Tečaji in skupine'."

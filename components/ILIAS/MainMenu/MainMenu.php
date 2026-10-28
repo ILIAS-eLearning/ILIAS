@@ -21,6 +21,8 @@ declare(strict_types=1);
 namespace ILIAS;
 
 use ILIAS\Component\Component;
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
 
 class MainMenu implements Component
 {
@@ -35,5 +37,9 @@ class MainMenu implements Component
         array | \ArrayAccess &$internal,
     ): void {
         // ...
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'mme'
+        );
     }
 }

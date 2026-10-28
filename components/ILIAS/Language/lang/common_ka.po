@@ -1,0 +1,8460 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ka\n"
+"Language-Team: Georgian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: common\n"
+
+msgid "HH"
+msgstr "HH:MM"
+
+msgid "absolute_path"
+msgstr "აბსოლუტური მდებარეობა"
+
+#, fuzzy
+msgid "accept_usr_agreement_btn"
+msgstr "Accept"
+
+msgid "access"
+msgstr "შესვლა"
+
+msgid "accessFree"
+msgstr "შეზრუდული შესვლის მოხსნა"
+
+msgid "accessRestrict"
+msgstr "შეზღუდული შესვლის დაყენება"
+
+msgid "access_expired"
+msgstr "გამქრალი/ვადაგასული"
+
+msgid "access_free_granted"
+msgstr "დავაყენოთ აღნიშნული მომხმარებლები შეუზღუდავ შესვლაზე"
+
+msgid "access_from"
+msgstr "შესვლა (საიდან)"
+
+msgid "access_public"
+msgstr "სახალხო"
+
+msgid "access_restricted"
+msgstr "დავაყენოთ მონიშნული მომხმარებლები შეზრუდულ შესვლაზე"
+
+msgid "access_scope"
+msgstr "შესვლა (საიდან)"
+
+msgid "access_unlimited"
+msgstr "შეუზღუდავი"
+
+msgid "access_until"
+msgstr "სესვლა (სადამდე)"
+
+msgid "access_users"
+msgstr "მომხმარებლებში შესული"
+
+msgid "accesscount_registered_users"
+msgstr "წავიკითხოთ რიცხვებით ილიასის განსხვავებული მომხმარებლები"
+
+#, fuzzy
+msgid "accessibility_control_concept"
+msgstr "Accessibility Control Concept"
+
+#, fuzzy
+msgid "account"
+msgstr "My Account"
+
+msgid "account_expires_body"
+msgstr "თქვენი ანგარიში შეზღუდულია, მას ვადა გაუვა :"
+
+msgid "account_expires_subject"
+msgstr "(ილიასი) თქვენს ანგარიშს ვადა გასდის"
+
+msgid "action"
+msgstr "მოქმედება"
+
+msgid "action_aborted"
+msgstr "მოქმედება გაუქმდა"
+
+msgid "actions"
+msgstr "მოქმედებები"
+
+#, fuzzy
+msgid "actions_for"
+msgstr "Actions for %s"
+
+msgid "activate"
+msgstr "აქტიურად დაყენება"
+
+#, fuzzy
+msgid "activate_https"
+msgstr "HTTPS handling by ILIAS<br />(Login)"
+
+msgid "activate_tracking"
+msgstr "გააქტიურება"
+
+msgid "activation"
+msgstr "დროების რედაქტირება"
+
+msgid "active"
+msgstr "აქტიური"
+
+msgid "add"
+msgstr "დამატება"
+
+msgid "add_condition"
+msgstr "ახალი გაერთიანების შექმნა"
+
+msgid "add_entry"
+msgstr "Add/Edit entry"
+
+msgid "add_member"
+msgstr "წევრის დამატება"
+
+#, fuzzy
+msgid "add_member_role"
+msgstr "Add Member Role"
+
+msgid "add_new_user_defined_field"
+msgstr "ახალი საკუთარი ველის დამატება"
+
+msgid "add_note"
+msgstr "შენიშვნის დამატება"
+
+msgid "add_parameter"
+msgstr "ახალი პარამეტრი"
+
+#, fuzzy
+msgid "add_remove_edit_entries_of_main_menu"
+msgstr "Add, remove or edit entries of the main menu"
+
+#, fuzzy
+msgid "add_role"
+msgstr "Add Role"
+
+msgid "add_translation"
+msgstr "თარგმანის დამატება"
+
+msgid "add_user"
+msgstr "ადგილობრივი მომხმარებლის დამატება"
+
+msgid "add_user_defined_field"
+msgstr "ახალი ველის დამატება"
+
+msgid "added_new_condition"
+msgstr "ახალი ვითარების შექმნა"
+
+msgid "additional_info"
+msgstr "დამატებითი ინფორმაცია"
+
+msgid "address"
+msgstr "მისამართები"
+
+msgid "admin_force_noti"
+msgstr "შენიშვნები გააქტიურებულია"
+
+msgid "administrate_users"
+msgstr "ადგილობრივი მომხმარებლის ადმინისტრაცია"
+
+#, fuzzy
+msgid "administrate_users_headline"
+msgstr "Local ILIAS Accounts of this Category"
+
+msgid "administration"
+msgstr "ადმინისტრაცია"
+
+msgid "administrator"
+msgstr "ადმინისტრატორი"
+
+msgid "adopt"
+msgstr "შემოღება"
+
+msgid "advanced_editing_allow_html_tags"
+msgstr "დავუშვათ მონიშნული HTML ტექსტის რედაქტირებისთვის"
+
+msgid "advanced_editing_assessment_settings"
+msgstr "HTML სანიშნეების დაშვევა ილიასის ტესტებისა და შეფასების ინსტრუმენტისთვის"
+
+msgid "advanced_editing_frm_post_settings"
+msgstr "ფორუმის პოსტების პარამეტრები"
+
+msgid "advanced_editing_rep_page_editing"
+msgstr "საცავში შინაარსის რედაქტირების გააქტიურება"
+
+msgid "advanced_editing_rep_page_editing_desc"
+msgstr "ეს მახასიათებელი შესაძლებლობა გვაძლევს დავამატოტ ტექსტი /მედია კატეგორიაში, კურსში, ჯგუფში და ფოლდერის გვერდებზე. თუ არააქტიურია, არსებული შინაარსი დამალული იქნება"
+
+msgid "advanced_editing_required_tags"
+msgstr "შემდეგი HTML სანიშნი არის მოთხოვნილი ,,%s\""
+
+msgid "advanced_editing_survey_settings"
+msgstr "დაშვებული HTML სანიშნი ილიასის კვლევის ინსტრუმენტისთვის"
+
+msgid "adve_assessment_settings"
+msgstr "ტესტისა და შეფასების პარამეტრები"
+
+msgid "adve_frm_post_settings"
+msgstr "ფორუმის პოსტები"
+
+msgid "adve_general_settings"
+msgstr "ზოგადი პარამეტრები"
+
+msgid "adve_survey_settings"
+msgstr "კვლევის პარამეტრები"
+
+msgid "agree_date"
+msgstr "შეთანხმებული"
+
+#, fuzzy
+msgid "all"
+msgstr "All"
+
+msgid "all_global_roles"
+msgstr "გლობალური პასუხისმგებლობები"
+
+msgid "all_local_roles"
+msgstr "ადგილობრივი პასუხისმგებლობები"
+
+msgid "all_objects"
+msgstr "ყველა ობიექტი"
+
+msgid "all_roles"
+msgstr "ყველა პასუხისმგებლობა"
+
+msgid "all_topics"
+msgstr "ყველა საკითხი"
+
+msgid "all_users"
+msgstr "ყველა მომხმარებელი"
+
+msgid "allow_assign_users"
+msgstr "მომხმარებლის დავალების დაშვება ადგილობრივი ადმინისტრატორებისთვის"
+
+msgid "allow_override_alert"
+msgstr "წესები"
+
+msgid "allow_register"
+msgstr "ხელმისაწვდომია რეგისტრაციის ფორმაში ახალი მომხმარებლებისთვის"
+
+msgid "allow_user_toggle_noti"
+msgstr "წევრს შეუძლია შეტყობინების გაუქმება"
+
+msgid "already_delivered_files"
+msgstr "ხელმოწერილი ფაილები"
+
+msgid "and"
+msgstr "და"
+
+#, fuzzy
+msgid "angry"
+msgstr "Angry"
+
+msgid "anonymous"
+msgstr "ანონიმური"
+
+msgid "answers"
+msgstr "პასუხები"
+
+msgid "any_language"
+msgstr "ნებისმიერი ენა"
+
+msgid "apache_auth"
+msgstr "Apache Authentication"
+
+msgid "application_completed"
+msgstr "აპლიკაცია დასრულებულია"
+
+msgid "application_date"
+msgstr "აპლიკაციის თარიღი"
+
+msgid "applications"
+msgstr "აპლიკაციები"
+
+msgid "apply"
+msgstr "გამოყენება"
+
+msgid "apply_filter"
+msgstr "ფილტრის გამოყენება"
+
+msgid "appointment"
+msgstr "დანიშვნა"
+
+msgid "approve_date"
+msgstr "დამტკიცებულია"
+
+msgid "approve_recipient"
+msgstr "დამმტკიცებელის შესვლის აი დი"
+
+msgid "archive"
+msgstr "არქივი"
+
+msgid "archive_broken"
+msgstr "არქივი გატეხილია ან ცარიელი"
+
+msgid "are_you_sure"
+msgstr "დარწმუნებული ხართ?"
+
+msgid "assf_allowed_questiontypes"
+msgstr "შესაძლებელი კითხვების სახეობები"
+
+msgid "assf_allowed_questiontypes_desc"
+msgstr "ყველა შემოწმებული კითხვის სახეობა შესაძლებელი იქნება ილიასის ამ ინსტალაციაში. თუ არ გსურთ კონკრეტული კითხვის სახეობის შექმნის დაშვება ამ ინსტალაციაში თქვენ უნდა ამოშალოთ ეს მონიშვნა შემოწმების ყუთში"
+
+msgid "assf_questiontypes"
+msgstr "კითხვების პარამეტრები"
+
+msgid "assign"
+msgstr "დანიშვნა"
+
+msgid "assign_global_role"
+msgstr "გადავაბაროთ გლობალურ პასუხისმგებლობას"
+
+msgid "assign_local_role"
+msgstr "ადგილობრივი პასუხისმგებლობის დანიშვნა"
+
+msgid "assigned_members"
+msgstr "დანიშნული წევრები"
+
+msgid "assigned_roles"
+msgstr "დანიშნული პასუხისმგებლობები"
+
+msgid "associated_user"
+msgstr "დაკავშირებული მომხმარებელი"
+
+#, fuzzy
+msgid "astounded"
+msgstr "Astounded"
+
+msgid "at_least_one_style"
+msgstr "სულ მცირე ერთი მიმართულება უნდა დარჩეს აქტიური"
+
+msgid "attachment"
+msgstr "დანართი"
+
+msgid "attachments"
+msgstr "დანართები"
+
+msgid "attempts"
+msgstr "მცდელობები"
+
+msgid "auth_active_roles"
+msgstr "გლობალური პასუხისმგებლობები რეგისტრაციის ფორმაში"
+
+msgid "auth_allow_local"
+msgstr "ადგილობრივი ავტორიზების დაშვება"
+
+msgid "auth_configure"
+msgstr "კონფიგურაცია"
+
+msgid "auth_create_users"
+msgstr "არარსებული მომხმარებლების ავტომატურად შექმნა"
+
+msgid "auth_default"
+msgstr "პარამეტრი"
+
+msgid "auth_default_mode_changed_to"
+msgstr "ავტორიზების მდგომარეობა შეიცვალა"
+
+msgid "auth_ecs"
+msgstr "ი სი ეს"
+
+msgid "auth_ldap"
+msgstr "LDAP"
+
+msgid "auth_ldap_enable"
+msgstr "LDAP  მხარდაჭერის გააქტიურება"
+
+msgid "auth_ldap_migration"
+msgstr "ანგარიშის გადატანა"
+
+msgid "auth_ldap_migration_info"
+msgstr "გავააქტიუროთ ეს პარამეტრი რომ მივცეთ მომხმარებლებს შესაძლებლობა გადავიდნენ ილიასის ანგარიშიდან LDAP ავტორიზაციაში"
+
+msgid "auth_local"
+msgstr "ილიასის მონაცემთა ბაზა"
+
+msgid "auth_login_instructions"
+msgstr "შესვლის გვერდზე ნაჩვენები ახსნა"
+
+msgid "auth_mode"
+msgstr "ავტორიზების მდგომარეობა"
+
+msgid "auth_mode_not_changed"
+msgstr "არაფერია შეცვლილი"
+
+msgid "auth_mode_roles_changed"
+msgstr "ამ პასუხისმგებლობისთვის შეიცვალა ავტორიზების მდგომარეობა"
+
+msgid "auth_new_account_mail_desc"
+msgstr "ახალი ემაილის ანგარიშის გადაგზავნა მომხმარებლისთვის, თუ მომხმარბელი შექმნილია ავტომატურად. Pაროლი შეიქმნება თუ ,,ადგილობრივი ავტორიზების დაშვება\" გააქტიურებულია"
+
+msgid "auth_per_default"
+msgstr "თითოეულ შეუსრულებელ თითოეულ სტანდარტზეზე"
+
+msgid "auth_remark_non_local_auth"
+msgstr "როდესაც მონიშნულია ილიასის ბაზისგან განსხვავებული ავტორიზების მდგომარეობა, თქვენ შესაძლოა ვერ შეცვალოტ თქვენი შესვლის სახელი და პაროლი"
+
+msgid "auth_role_auth_mode"
+msgstr "ავტორიზების მდგომარეობა"
+
+#, fuzzy
+msgid "auth_saml"
+msgstr "SAML"
+
+msgid "auth_script"
+msgstr "საკუთარი"
+
+msgid "auth_select"
+msgstr "ავტორიზების მდგომარეობის შერჩევა"
+
+msgid "auth_selection"
+msgstr "შესვლის პარამეტრები"
+
+msgid "auth_settings"
+msgstr "ავტორიზების პარამეტრები"
+
+msgid "auth_shib"
+msgstr "შიბოლეტი"
+
+msgid "auth_shib_instructions"
+msgstr "დარწმუნდით იმაში რომ წამიკითხე მე-ს (შიბოლეტის კონფიგურაციის ახსნა ილიასისთვის) გაეცანით"
+
+msgid "auth_shib_not_configured"
+msgstr "შიბოლეტი არ არის ჯერ დაყენებული"
+
+msgid "auth_shibboleth"
+msgstr "შიბოლეტი"
+
+msgid "auth_soap"
+msgstr "ეს ოუ ეი პი"
+
+msgid "auth_soap_allow_local_desc"
+msgstr "ეს შესაძლებლობას აძლევს ეს ოუ ეი პის მომხმრებლებს რომ ავტორიზება გაიარონ თავიანტი ადგილობრივი ილიასის სახელითა და პარილით"
+
+msgid "auth_soap_auth"
+msgstr "ეს ოუ ეი პის ავტორიზების კონფიგურაცია"
+
+msgid "auth_soap_auth_desc"
+msgstr "ეს პარამეტრი უმკვლავდება მხოლოდ ეს ოუ ეი პის მომხმარებლის ავტორიზებას, და არა ილიასის ეს ოუ ეი პის ინტერფეისს"
+
+msgid "auth_soap_create_users_desc"
+msgstr "ავტომატურად შევქმნათ ილიასის ანგარიში, იმ მომხმარებლებისთვის ვინც წარმატებულად გაიარა ავტორიზება ეს ოუ ეი პის წინააღმდეგ ილიასის ანაგარიშის გარეშე"
+
+msgid "auth_soap_namespace"
+msgstr "სახელის სივრცე"
+
+msgid "auth_soap_namespace_desc"
+msgstr "როგორც ჭშDL შია განსაზღვრული. Uუნდა იყოს ზუსტად განსაზრვრული, თუ .ნეტ ეს ოუ ეი პი სტყილი გამოყენებულია"
+
+msgid "auth_soap_port_desc"
+msgstr "8080/dir/server.php"
+
+msgid "auth_soap_server_desc"
+msgstr "8080/dir/server.php"
+
+msgid "auth_soap_settings_saved"
+msgstr "ეს ოუ ეი პის ავტორიზების პარამეტრი შენახულია"
+
+msgid "auth_soap_uri_desc"
+msgstr "8080/dir/server.php"
+
+msgid "auth_soap_use_dotnet"
+msgstr "გამოიყენე .NEთ შOAP შტყლე"
+
+msgid "auth_soap_use_https"
+msgstr "გამოიყენე HთთPშ"
+
+msgid "auth_soap_user_default_role_desc"
+msgstr "ეს პასუხისმგებლობა დავალებული ავტომატურად შექმნილ ეს ოუ ეი პის მომხმარებლებზე"
+
+msgid "auth_user_default_role"
+msgstr "პასუხისმგებლობა"
+
+msgid "authenticate_ilias"
+msgstr "ილიასის მკვიდრი ავტორიზება"
+
+msgid "authentication_settings"
+msgstr "ავტორიზება"
+
+msgid "author"
+msgstr "ავტორი"
+
+msgid "authoring_mode"
+msgstr "ავტორის ნაწერის მდგომარეობა"
+
+msgid "authors"
+msgstr "ავტორები"
+
+#, fuzzy
+msgid "autocomplete_more"
+msgstr "more"
+
+msgid "available"
+msgstr "შესაძლებელი"
+
+#, fuzzy
+msgid "awra"
+msgstr "Who is online?"
+
+msgid "back"
+msgstr "უკან"
+
+#, fuzzy
+msgid "back_to_course"
+msgstr "Back to Course"
+
+msgid "back_to_crs_content"
+msgstr "უკან კურსის შინაარსთან"
+
+msgid "back_to_fold_content"
+msgstr "უკან ფოლდერის შინაარსთან"
+
+msgid "back_to_grp_content"
+msgstr "უკან ჯგუფის შინაარსთან"
+
+msgid "backto_lua"
+msgstr "უკან ადგილობრივი მომხმარებლის ადმინისტრაციაში"
+
+msgid "basedn"
+msgstr "ფუძე დი ენი"
+
+msgid "basic_settings"
+msgstr "ძირითადი პარამეტრები"
+
+msgid "before"
+msgstr "მანამდე"
+
+msgid "behind"
+msgstr "უკან"
+
+msgid "bib_data"
+msgstr "ბიბლიოგფრაფიული მონაცემები"
+
+#, fuzzy
+msgid "bibl_add"
+msgstr "Add Bibliography"
+
+msgid "birthday"
+msgstr "დაბადების დღე"
+
+msgid "bkm_import"
+msgstr "ნიშნულების გადმოტანა"
+
+msgid "bkm_import_ok"
+msgstr "ნიშნულების ნიშნულების ფოლდერში გადმოტანა წარმატებულად დასრულდა"
+
+msgid "bkm_sendmail"
+msgstr "დანართით გადაგზავნა"
+
+msgid "block"
+msgstr "დაბლოკვა, გაჩერება"
+
+msgid "bm"
+msgstr "ნიშნული"
+
+msgid "bm_add_to_ilias"
+msgstr "ილიასის ნიშნულები"
+
+msgid "bmf"
+msgstr "ფოლდერის მონიშვნა"
+
+msgid "bold"
+msgstr "მუქი"
+
+#, fuzzy
+msgid "bold_action"
+msgstr "Insert Bold - Click to insert bold text."
+
+msgid "bookings"
+msgstr "დაჯავშნები"
+
+msgid "bookmark_added"
+msgstr "ნიშნული შექმნილია"
+
+msgid "bookmark_folder_new"
+msgstr "ახალი ნიშნული ფოლდერი"
+
+msgid "bookmark_new"
+msgstr "ახალი ნიშნული"
+
+msgid "bookmark_target"
+msgstr "სამიზნე"
+
+msgid "bookmarks"
+msgstr "ნიშნულები"
+
+msgid "bookmarks_of"
+msgstr "ნიშნულები"
+
+#, fuzzy
+msgid "breadcrumb_navigation"
+msgstr "Breadcrumb Navigation"
+
+#, fuzzy
+msgid "breadcrumbs_aria_label"
+msgstr "Breadcrumbs"
+
+#, fuzzy
+msgid "briefcase"
+msgstr "Background Tasks"
+
+msgid "btn_add"
+msgstr "დამატება"
+
+msgid "btn_back"
+msgstr "უკან"
+
+msgid "btn_next"
+msgstr "გაგრძელება"
+
+msgid "btn_previous"
+msgstr "უკან"
+
+msgid "btn_remove_system"
+msgstr "სისტემიდან ამოშლა"
+
+msgid "btn_undelete"
+msgstr "განახლება"
+
+#, fuzzy
+msgid "buddy_allow_to_contact_me_no"
+msgstr "Doesn`t Receive Contact Requests"
+
+#, fuzzy
+msgid "buddy_allow_to_contact_me_yes"
+msgstr "Receives Contact Requests"
+
+#, fuzzy
+msgid "building_export_file"
+msgstr "Building Export File..."
+
+#, fuzzy
+msgid "bulletlist_action"
+msgstr "Insert Bulletpoint-List - Click to insert a bulletpoint-list."
+
+msgid "by"
+msgstr "მახლობლად"
+
+msgid "bytes"
+msgstr "ბაიტები"
+
+msgid "cal_from"
+msgstr "საიდან:"
+
+msgid "cal_until"
+msgstr "სადამდე:"
+
+msgid "calendar"
+msgstr "კალენდარი"
+
+msgid "cancel"
+msgstr "გათიშვა"
+
+#, fuzzy
+msgid "cancel_file_upload"
+msgstr "Do you really want to cancel all pending uploads?"
+
+msgid "cannot_find_xml"
+msgstr "ვერ პოულობს იქს ემ ელ ფაილს"
+
+msgid "cannot_uninstall_language_in_use"
+msgstr "თქვენ ვერ წაშლით ენას რომელიც ეხლა გამოყენებაშია"
+
+msgid "cannot_uninstall_systemlanguage"
+msgstr "თქვენ ვერ წაშლით სისტემის ენას"
+
+msgid "cannot_unzip_file"
+msgstr "ფაილი არ იხსნება"
+
+msgid "cant_deactivate_if_users_assigned"
+msgstr "თქვენ ვერ გააჩერებთ სტილს თუ მასზე მომხმარებლები არიან დანიშნულები"
+
+msgid "cat"
+msgstr "კატეგორია"
+
+msgid "cat_add"
+msgstr "კატეგორიის დამატება"
+
+msgid "cat_added"
+msgstr "კატეგორია დამატებულია"
+
+#, fuzzy
+msgid "cat_copy_threads_info"
+msgstr "Please decide which category items should be copied, linked or even omitted."
+
+msgid "cat_edit"
+msgstr "კატეგორიის რედაქტირება"
+
+msgid "cat_new"
+msgstr "ახალი კატეგორია"
+
+msgid "cat_wizard_page"
+msgstr "კატეგორიის ასლის გაკეთება"
+
+msgid "categories"
+msgstr "კატეგორიები"
+
+msgid "categories_imported"
+msgstr "კატეგორიის გადმოტანა დასრულდა"
+
+msgid "catr"
+msgstr "კატეგორიის წყარო"
+
+#, fuzzy
+msgid "catr_add"
+msgstr "Add Category Link"
+
+msgid "catr_edit_info"
+msgstr "გთხოვთ აირჩიოთ ერთი კატეგორია ახალი წყაროს შესაქმნელად"
+
+msgid "catr_new"
+msgstr "ახალი კატეგორიის წყაროს შექმნა"
+
+#, fuzzy
+msgid "catr_settings"
+msgstr "Category Link Settings"
+
+msgid "certificate"
+msgstr "სერთიფიკატი"
+
+#, fuzzy
+msgid "certificate_file_already_exists_error"
+msgstr "The certificate file already exists in the file system."
+
+#, fuzzy
+msgid "certificate_file_input_output_error"
+msgstr "The certificate file was found but couldn't be deleted because of internal errors. Please contact your administrator."
+
+#, fuzzy
+msgid "certificate_file_not_found_error"
+msgstr "The certificate file doesn't exist in the file system anymore. Die Zertikatsdatei wurde im Dateisystem nicht mehr gefunden."
+
+#, fuzzy
+msgid "certificate_persistent_option"
+msgstr "Certificates of Achievements"
+
+#, fuzzy
+msgid "certificate_selection"
+msgstr "Origin of Certificates"
+
+#, fuzzy
+msgid "certificate_workspace_option"
+msgstr "Certificates of Personal Resources"
+
+#, fuzzy
+msgid "certificates"
+msgstr "Certificates"
+
+msgid "change"
+msgstr "ცვლილება"
+
+msgid "change_assignment"
+msgstr "დავალებისის შეცვლა"
+
+msgid "change_header_title"
+msgstr "სათაურის დასახელების რედაქტირება"
+
+msgid "change_owner"
+msgstr "მფლობელის  შეცვლა"
+
+msgid "change_sort_direction"
+msgstr "დახარისხების მიმართულების შეცვლა"
+
+msgid "changeable"
+msgstr "ცვალებადი"
+
+msgid "changed_to"
+msgstr "შეიცვალა"
+
+msgid "changing_loginname_not_possible_info"
+msgstr "თქვენ შეცვალეთ შეცვლის სახელი ბოლოს ამ %s ზე. შემდეგი ცვლილება შეიძლება მოხდეს %s ზე."
+
+msgid "chapter"
+msgstr "თავი"
+
+msgid "characters"
+msgstr "ნიშნები"
+
+msgid "chat_enter_public_room"
+msgstr "საჯარო ჩატი"
+
+msgid "chat_enter_public_room_tooltip"
+msgstr "საჯარო ჩატში შესვლა"
+
+msgid "chat_users_active"
+msgstr "აქტიური მომხმარებლები"
+
+msgid "check"
+msgstr "შემოწმება"
+
+msgid "check_all"
+msgstr "ყველას შემოწმება"
+
+msgid "check_langfile"
+msgstr "გთხოვთ შეამოწმოთ თქვენი ენი ფაილი"
+
+msgid "check_languages"
+msgstr "ყველა ენის შემოწმება"
+
+msgid "check_link"
+msgstr "ვებ ლინკის შემოწმება"
+
+msgid "check_link_desc"
+msgstr "თუ გააქტიურებულია ყველა გარე ლინკი ილიასის სასწავლო მოდულებში შემოწმებული იქნება აქტიურობაზე"
+
+msgid "check_user_accounts"
+msgstr "მომხმარებელთა ანგარიშების წაშლა"
+
+msgid "check_user_accounts_desc"
+msgstr "თუ ................ დამატებით, ყველა მომხმარებელი ვინც არ დაადასტურა თავიანთი ანგარიში რეგისტრაციის შემდგე ემაილით წაიშლება"
+
+msgid "check_web_resources"
+msgstr "ვებ ლინკების შემოწმება"
+
+msgid "check_web_resources_desc"
+msgstr "თუ გააქტიურებულია ყველა ვებ ლინკი შემოწმბეული იქნება აქტიურია თუ არა"
+
+msgid "checked"
+msgstr "შემოწმებული"
+
+msgid "checked_files"
+msgstr "გადმოსატანი ფაილები"
+
+msgid "chg_ilias_and_webfolder_password"
+msgstr "ვებ ფოლდერის პაროლის შეცვლა"
+
+msgid "chg_ilias_password"
+msgstr "ილიასის პაროლის შეცვლა"
+
+msgid "chg_password"
+msgstr "პაროლის შეცვლა"
+
+msgid "choose_language"
+msgstr "თქვენი ენის შეცვლა"
+
+msgid "choose_only_one_language"
+msgstr "გთხოვთ აირჩიოთ მხოლოდ ერთი ენა"
+
+msgid "chown_warning"
+msgstr "ყურადღება, შესაძლოა ტქვენ დაკარგოთ ამ ობიექტზე დაშვების უფლება მფლობელის შეცვლი შემდეგ"
+
+msgid "chta_edit_permission"
+msgstr "Change Permission Settings"
+
+msgid "chta_read"
+msgstr "Read access to Chatroom Administration"
+
+msgid "chta_visible"
+msgstr "Chatroom Administration is visible"
+
+msgid "chta_write"
+msgstr "Edit Chatroom Administration"
+
+msgid "chtr_copy"
+msgstr "ჩატის ოთახის ასლი"
+
+#, fuzzy
+msgid "chtr_import"
+msgstr "Import Chatroom"
+
+msgid "city"
+msgstr "ქალაქი, ქვეყანა"
+
+msgid "cleaned_file"
+msgstr "ფაილი წაშლილია"
+
+msgid "cleaning_failed"
+msgstr "წაშლა არ განხორციელდა"
+
+msgid "clear"
+msgstr "წაშლა"
+
+msgid "clear_clipboard"
+msgstr "დაფის წაშლა"
+
+msgid "client"
+msgstr "მომხმარებელი"
+
+msgid "client_id"
+msgstr "მომხმარებლის აი დი"
+
+msgid "client_ip"
+msgstr "მომხმარებლის აი პი"
+
+#, fuzzy
+msgid "clientlist_available_clients"
+msgstr "Available Clients"
+
+#, fuzzy
+msgid "clientlist_clientlist"
+msgstr "Client List"
+
+#, fuzzy
+msgid "clientlist_installation_name"
+msgstr "Installation Name"
+
+#, fuzzy
+msgid "clientlist_login"
+msgstr "Login"
+
+#, fuzzy
+msgid "clientlist_login_page"
+msgstr "Login page"
+
+#, fuzzy
+msgid "clientlist_public_access"
+msgstr "Public Access"
+
+#, fuzzy
+msgid "clientlist_start_page"
+msgstr "Start page"
+
+msgid "clipboard"
+msgstr "დაფა"
+
+msgid "close"
+msgstr "დახურვა"
+
+#, fuzzy
+msgid "cmix"
+msgstr "Object xAPI/cmi5"
+
+msgid "cnt_new"
+msgstr "%s ახალი"
+
+msgid "collapse"
+msgstr "განადგურება"
+
+msgid "collapse_all"
+msgstr "ყველაფრის განადგურება"
+
+#, fuzzy
+msgid "collapse_content"
+msgstr "Collapse Content"
+
+msgid "collapsed"
+msgstr "განადგურებულია"
+
+#, fuzzy
+msgid "column_selection"
+msgstr "Column Selection"
+
+msgid "columns"
+msgstr "კოლონები"
+
+msgid "comma_separated"
+msgstr "მძიმეთი გამოყოფილი"
+
+msgid "comment"
+msgstr "კომენტარი"
+
+#, fuzzy
+msgid "comments"
+msgstr "Comments"
+
+msgid "compose"
+msgstr "შექმნა"
+
+#, fuzzy
+msgid "concurrent_uploads"
+msgstr "Number of concurrent uploads"
+
+#, fuzzy
+msgid "concurrent_uploads_info"
+msgstr "Defines the number of files that can be uploaded per upload process at the same time."
+
+msgid "cond_ref_handling"
+msgstr "ლინკის პარამეტრები"
+
+msgid "cond_ref_shared"
+msgstr "საერთო საწინდარი ყველა ლინკისთვის"
+
+msgid "cond_ref_unique"
+msgstr "ერთი საწინდარი ლინკებისთვის"
+
+msgid "condition"
+msgstr "მდგომარეობა"
+
+#, fuzzy
+msgid "condition_accredited_or_passed"
+msgstr "Accredited or Passed"
+
+msgid "condition_already_assigned"
+msgstr "ობიექტი უკვე დანიშნულია"
+
+msgid "condition_circle_created"
+msgstr "გაწევრიანება შეუძლებელია, რადგან ობიექტები ურთიერთდამოკიდებულია"
+
+msgid "condition_deleted"
+msgstr "მდგომარეობა წაშლილია"
+
+msgid "condition_finished"
+msgstr "დასრულებულია"
+
+msgid "condition_not_finished"
+msgstr "არ არის დასრულებული"
+
+msgid "condition_passed"
+msgstr "ჩაბარებული"
+
+msgid "condition_select_object"
+msgstr "გთხოვთ აირჩიოთ ერთი ობიექტი"
+
+msgid "conditions_updated"
+msgstr "მდგომარეობები შენახულია"
+
+#, fuzzy
+msgid "configuration"
+msgstr "Configuration"
+
+msgid "confirm"
+msgstr "დადასტურება"
+
+msgid "confirm_delete_parameter"
+msgstr "ნამდვილად გსურთ ამ პარამეტრის წაშლა?"
+
+msgid "confirmation"
+msgstr "დასტური"
+
+msgid "conflict_handling"
+msgstr "კონფლიქტის მოგვარება"
+
+msgid "cont_iim_content_popups_info"
+msgstr "შინაარსის ამომხტარი ფანჯარა გამოჩნდება, როცა მომხმარებელი დააკლიკებს სურათის ინტერაქტიულ ნაწილებს. Aამ ფანჯარაზე თქვენ განსაზღვრავთ მხოლოდ ამომხტარ ფანჯარებს. მათი შინაარსის რედაქტირება შესაძლებელია მთავარი გვერდის რედაქტირების ფანჯარაზე"
+
+msgid "cont_iim_create_info"
+msgstr "გთხოვთ ატვირთოთ მთავარი სურათი ინტერაქტიული სურათისთვის"
+
+msgid "cont_iim_overlay_info"
+msgstr "თარგების სურათები გამოიყენება სურათის ნაწილების გასახაზად როცა მაუსი შეეხება მათ. სურათების ატვირთვის შემდგეგ, თქვენ შეგიძლიათ მონიშნოთ ისინი \"გამოწვევის\" ჩანართში"
+
+msgid "contact"
+msgstr "კონტაქტი"
+
+msgid "contact_data"
+msgstr "საკონტაქტო ინფორმაცია"
+
+msgid "contact_sysadmin"
+msgstr "Contact Administration"
+
+msgid "container"
+msgstr "კონტეინერი"
+
+msgid "container_no_items"
+msgstr "მასალა არ არის ხელმისაწვდომი"
+
+msgid "content"
+msgstr "შემადგენლობა/შინაარსი"
+
+msgid "content_frame"
+msgstr "შემადგენლობის ჩარჩო"
+
+msgid "content_styles"
+msgstr "შემადგენლობის სტილი"
+
+msgid "context"
+msgstr "შინაარსი"
+
+msgid "continue"
+msgstr "continue"
+
+msgid "continue_work"
+msgstr "გაგრძელება"
+
+msgid "contra"
+msgstr "საპირისპირო"
+
+#, fuzzy
+msgid "copa"
+msgstr "Content Page"
+
+msgid "copy"
+msgstr "ასლი"
+
+msgid "copyChapter"
+msgstr "ასლი"
+
+msgid "copyPage"
+msgstr "ასლი"
+
+msgid "copy_all"
+msgstr "ყველას ასლის გაკეთება"
+
+msgid "copy_n_of_suffix"
+msgstr "ასლის გაკეთება %s"
+
+msgid "copy_of"
+msgstr "რაღაცის ასლი"
+
+msgid "copy_of_suffix"
+msgstr "ასლი"
+
+#, fuzzy
+msgid "copy_perma_link"
+msgstr "Copy link to clipboard"
+
+msgid "copy_selected_items"
+msgstr "ასლის გაკეთება"
+
+msgid "count"
+msgstr "დათვლა"
+
+#, fuzzy
+msgid "counter_novelty"
+msgstr "News"
+
+#, fuzzy
+msgid "counter_status"
+msgstr "Status"
+
+msgid "country"
+msgstr "ქვეყანა"
+
+msgid "country_free_text"
+msgstr "ქვყანა ( თავისუფალი ტექსტის შენატანი)"
+
+msgid "country_selection"
+msgstr "ქვეყანა ( მონიშვნის ქვემოთ დადება)"
+
+msgid "course"
+msgstr "კურსი"
+
+msgid "courses"
+msgstr "კურსები"
+
+msgid "create"
+msgstr "შექმნა"
+
+msgid "create_date"
+msgstr "შექმნილია"
+
+msgid "create_export_file"
+msgstr "გადასაგზავნი ფაილის შექმნა"
+
+msgid "create_stylesheet"
+msgstr "სტილის შექმნა"
+
+msgid "created"
+msgstr "შექმნის თარიღი"
+
+msgid "cron_forum_notification"
+msgstr "ფორუმის შეტყობინებების გაგზავნა"
+
+#, fuzzy
+msgid "cron_forum_notification_crob_desc"
+msgstr "If enabled, all users who have enabled forum notifications will get a daily mail about all new posts but no immediate notification for each submitted posting."
+
+#, fuzzy
+msgid "cron_forum_notification_disabled"
+msgstr "Can't be disabled when the Cron Job is active."
+
+#, fuzzy
+msgid "cron_jobs"
+msgstr "Cron Jobs"
+
+msgid "cron_lucene_index"
+msgstr "მნათი ძიების ინდექსის განახლება"
+
+msgid "cron_lucene_index_info"
+msgstr "თუ გააქტიურებულია, მნათი ძიების ინდექსი განახლდება. გთხოვთ დააყენოთ მნათი სერვერის ,,ადმინისტრაცია->ძიება\" -დან"
+
+msgid "cron_mail_notification"
+msgstr "ემაილით შეტყობინებების გადაგზავნა"
+
+#, fuzzy
+msgid "cron_mail_notification_cron"
+msgstr "regularly per cron job"
+
+msgid "cron_mail_notification_desc"
+msgstr "თუ გაააქტიურებულია, ყველა მომხმარებელს გაეგზავნება შეტყობინება. გთხოვთ გათიშოთ პარამეტრი ,,გლობალურად შევაჩეროთ გარე ემაილების გაგზავნა\" პირველ რიგში რომ გამოიყენოთ ეს ფუნქცია"
+
+msgid "cron_mail_notification_message"
+msgstr "ემაილის შეტყობინების გაგზავნა ემაილის შეტყობინებით"
+
+msgid "cron_mail_notification_message_info"
+msgstr "თუ გააქტიურებულია, ყველა მომხმარებელი მიიღებს სრულ შეტყობინებას გარე ემაილიდან"
+
+msgid "cron_mail_notification_never"
+msgstr "არასოდეს"
+
+#, fuzzy
+msgid "cron_users_without_login_del_create_date_thr"
+msgstr "Thresholt"
+
+#, fuzzy
+msgid "cron_users_without_login_del_create_date_thr_info"
+msgstr "All user accounts created before the defined threshold will be taken into consideration."
+
+#, fuzzy
+msgid "cron_users_without_login_del_role_whitelist"
+msgstr "Included Roles"
+
+#, fuzzy
+msgid "cron_users_without_login_del_role_whitelist_info"
+msgstr "The deletion will only processed for users assigned to at least one of the selected roles"
+
+msgid "cronjob_last_start"
+msgstr "cron job-ის ბოლო დაწყება"
+
+msgid "cronjob_last_start_unknown"
+msgstr "განუსაზღვრელი"
+
+msgid "crs"
+msgstr "კურსი"
+
+msgid "crs_activation_start_invalid"
+msgstr "დასაწყისი და დასასრული არ არის სწორი"
+
+msgid "crs_add"
+msgstr "კურსის დამატება"
+
+msgid "crs_added"
+msgstr "კურსი დამატებულია"
+
+msgid "crs_archives"
+msgstr "არქივები"
+
+msgid "crs_cancel_waiting_list"
+msgstr "ნამდვილად გსურთ თქვენი თავის ამოშლა კურსის %s მოლოდინის სიიდან?"
+
+#, fuzzy
+msgid "crs_copy_threads_info"
+msgstr "Please decide which course materials should be copied, linked or even omitted."
+
+msgid "crs_edit"
+msgstr "კურსის რედაქტირება"
+
+#, fuzzy
+msgid "crs_list_reg"
+msgstr "Registration"
+
+msgid "crs_list_reg_end"
+msgstr "Registration End"
+
+msgid "crs_list_reg_limit_full"
+msgstr "No places left"
+
+msgid "crs_list_reg_limit_places"
+msgstr "Free places"
+
+msgid "crs_list_reg_noreg"
+msgstr "No Registration Possible"
+
+msgid "crs_list_reg_period"
+msgstr "Registration Period"
+
+msgid "crs_list_reg_start"
+msgstr "Registration Begin"
+
+msgid "crs_member_not_passed"
+msgstr "არ არის ჩაბარებული"
+
+msgid "crs_member_passed"
+msgstr "ჩაბარებული"
+
+msgid "crs_members_gallery"
+msgstr "კურსის მონაწილეთა გალერეა"
+
+msgid "crs_new"
+msgstr "ახალი კურსი"
+
+msgid "crs_removed_from_waiting_list"
+msgstr "თქვენ გამოყოფილი ხართ კურსის მოლოდინის სიიდან %s"
+
+msgid "crs_status_blocked"
+msgstr "შესვლა არ არის დაშვებული"
+
+msgid "crs_status_pending"
+msgstr "რეგისტრაციის მოლოდინი"
+
+msgid "crs_subscribers_assigned"
+msgstr "დანიშნულია ახალი მომხმარებელი"
+
+msgid "crs_title"
+msgstr "კურსის დასახელება"
+
+msgid "crs_unsubscribe"
+msgstr "ხელმოწერაზე უარის თქმა"
+
+msgid "crs_wizard_page"
+msgstr "კურსის ასლის გაკეთება ( ნაბიჯი 2/2)"
+
+msgid "crsr"
+msgstr "კურსის წყარო"
+
+#, fuzzy
+msgid "crsr_add"
+msgstr "Add Course Link"
+
+msgid "crsr_edit_info"
+msgstr "გთხოვთ აირჩიოთ ერთი კურსი, ახალი წყაროს შესაქმნელად"
+
+msgid "crsr_new"
+msgstr "ახალი კურსის წყაროს რედაქტირება"
+
+#, fuzzy
+msgid "crsr_settings"
+msgstr "Course Link Settings"
+
+msgid "csv_export"
+msgstr "სი ეს ვის ექსპორტი"
+
+msgid "current_ip"
+msgstr "მიმდინარე აი პი"
+
+msgid "current_ip_alert"
+msgstr "შენიშვნა: თუ თქვენ შეიყვანთ არასწორ აი პის თქვენ არ გექნებათ სისტემაში შესვლის შესაძლებლობა ამ პროფილით"
+
+msgid "current_password"
+msgstr "მიმდინარე პაროლი"
+
+#, fuzzy
+msgid "current_user_avatar"
+msgstr "Your User Avatar"
+
+msgid "currently_used_disk_space"
+msgstr "ამჟამად გამოყენებულის დისკის სივრცე"
+
+#, fuzzy
+msgid "customize_page"
+msgstr "Customize Page"
+
+msgid "cut"
+msgstr "ამოჭრა"
+
+msgid "cutPage"
+msgstr "ამოჭრა"
+
+msgid "daily"
+msgstr "ყოველდღიური"
+
+msgid "database"
+msgstr "მონაცემთა ბაზა"
+
+msgid "database_version"
+msgstr "მიმდინარე მონაცემთა ბაზის ვერსია"
+
+msgid "dataset"
+msgstr "ნივთი"
+
+msgid "date"
+msgstr "თარიღი"
+
+#, fuzzy
+msgid "date_time"
+msgstr "Date and Time"
+
+msgid "dateplaner"
+msgstr "კალენდარი"
+
+msgid "day"
+msgstr "დღე"
+
+msgid "days"
+msgstr "დღეები"
+
+msgid "db_host"
+msgstr "მონაცემთა ბაზის მასპინძელი"
+
+msgid "db_name"
+msgstr "მონაცემთა ბაზის სახელი"
+
+msgid "db_need_update"
+msgstr "მონაცემთა ბაზა საჭიროებს განახლებას"
+
+msgid "db_pass"
+msgstr "მონაცემთა ბაზის პაროლი"
+
+msgid "db_type"
+msgstr "მონაცემთა ბაზის სახეობა"
+
+msgid "db_user"
+msgstr "მონაცემთა ბაზის მომხმარებელი"
+
+msgid "db_version"
+msgstr "მონაცემთა ბაზის ვერსია"
+
+msgid "dd_mm_yyyy"
+msgstr "DD.MM.YYYY"
+
+msgid "deactivate"
+msgstr "არააქტიურად დაყენება"
+
+msgid "decrease_attempts"
+msgstr "მცდელობები-1"
+
+msgid "def_repository_view"
+msgstr "საწყობის ხედვა"
+
+msgid "default"
+msgstr "შეუსრულებელი სტანდარტი"
+
+msgid "default_auth_mode"
+msgstr "ავტორიზების მეთოდი"
+
+msgid "default_auth_mode_info"
+msgstr "გთხოვთ აირჩიოთ ავტორიზების მეთოდი რომელიც არჩეული იყო შესვლის გვერდზე"
+
+msgid "default_language"
+msgstr "ენა"
+
+msgid "default_perm_settings"
+msgstr "დაშვება"
+
+msgid "default_role"
+msgstr "პასუხისმგებლობა"
+
+msgid "default_roles"
+msgstr "პასუხიმგებლობები"
+
+msgid "default_skin"
+msgstr "კანი"
+
+msgid "default_skin_style"
+msgstr "კანი/სტილი"
+
+msgid "default_style"
+msgstr "სტილი"
+
+msgid "defaults"
+msgstr "სტანდარტები"
+
+msgid "delete"
+msgstr "წაშლა"
+
+msgid "delete_existing_file"
+msgstr "არსებული ფაილის წაშლა"
+
+msgid "delete_inactivated_user_accounts"
+msgstr "Delete inactivated user accounts"
+
+msgid "delete_inactivated_user_accounts_desc"
+msgstr "If enabled, user accounts will be deleted depending on the date of inactivation."
+
+msgid "delete_inactivated_user_accounts_include_roles"
+msgstr "Included roles"
+
+msgid "delete_inactivated_user_accounts_include_roles_desc"
+msgstr "Defines the roles that will participate in the deletion."
+
+msgid "delete_inactivated_user_accounts_period"
+msgstr "Days past since the inactivation"
+
+msgid "delete_inactivated_user_accounts_period_desc"
+msgstr "Deletion will be executed if this period of time has past since the inactivation."
+
+msgid "delete_inactive_user_accounts"
+msgstr "მომხმარებლის ანგარიშების წაშლა"
+
+msgid "delete_inactive_user_accounts_desc"
+msgstr "თუ გააქტიურებულია, მომხმარებლის ანგარიშები წაიშლება ბოლოს შესვლის თარიღის მიხედვით"
+
+msgid "delete_inactive_user_accounts_include_roles"
+msgstr "ჩართული პასუხისმგებლობები"
+
+msgid "delete_inactive_user_accounts_include_roles_desc"
+msgstr "განსაზღვრავს პასუხისმგებლობებს რომლებიც მონაწილეობას მიიღებენ წაშლაში"
+
+msgid "delete_inactive_user_accounts_period"
+msgstr "გასული დღეები ბოლო შესვლის შემდეგ"
+
+msgid "delete_inactive_user_accounts_period_desc"
+msgstr "წაშლა მოხდება თუ ეს პერიოდია გასულია ბოლო შესვლის შემდეგ"
+
+msgid "delete_parameter"
+msgstr "პარამეტრის წაშლა"
+
+msgid "delete_selected_items"
+msgstr "წაშლა"
+
+msgid "deleted"
+msgstr "წაშლილი"
+
+msgid "deleted_user"
+msgstr "მომხმარებელი წაშლილია"
+
+msgid "deleted_users"
+msgstr "წაშლილი მომხმარებლები"
+
+#, fuzzy
+msgid "deletion_notification"
+msgstr "\"%s\" has canceled the attendance of session \"%s\"."
+
+msgid "deliver"
+msgstr "მიწოდება"
+
+#, fuzzy
+msgid "deny_usr_agreement"
+msgstr "Do Not Accept Terms of Service?"
+
+#, fuzzy
+msgid "deny_usr_agreement_btn"
+msgstr "Do Not Accept"
+
+msgid "department"
+msgstr "დეპარატამენტი"
+
+msgid "desc"
+msgstr "აღწერა"
+
+msgid "description"
+msgstr "აღწერილობა"
+
+msgid "desired_password"
+msgstr "სასურველი პაროლი"
+
+msgid "details"
+msgstr "დეტალები"
+
+#, fuzzy
+msgid "didactic_template"
+msgstr "Didactic Template"
+
+msgid "disable"
+msgstr "გაუქმება"
+
+msgid "disable_check"
+msgstr "შემოწმების უგულებელყოფა"
+
+msgid "disable_ext_lang_maint"
+msgstr "გაფართიებული შენარჩუნების გაუქმება"
+
+msgid "disable_hide_user_toggle"
+msgstr "წევრს უფლება აქვს დეაქტივაცია გააკეთოს"
+
+msgid "disabled"
+msgstr "გაუქმებული"
+
+#, fuzzy
+msgid "disclose"
+msgstr "Disclose"
+
+#, fuzzy
+msgid "dislike"
+msgstr "Dislike"
+
+msgid "domain"
+msgstr "დომენი"
+
+msgid "down"
+msgstr "დაბლა"
+
+msgid "download"
+msgstr "გადმოტვირთვა"
+
+msgid "download_all_returned_files"
+msgstr "ყველა დაბრუნებული ფაილის გადმოტვირთვა"
+
+#, fuzzy
+msgid "download_link"
+msgstr "Download Link"
+
+#, fuzzy
+msgid "download_multiple_objects"
+msgstr "Download Multiple Objects"
+
+#, fuzzy
+msgid "download_selected_items"
+msgstr "Download"
+
+msgid "downloading_settings"
+msgstr "გადმოტვირთვის პარამეტრები"
+
+#, fuzzy
+msgid "dpro_accept_usr_agreement"
+msgstr "Accept Declaration of Data Protection?"
+
+#, fuzzy
+msgid "dpro_accept_usr_agreement_intro"
+msgstr "There is a new Declaration of Data Protection. You need to accept it before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page."
+
+#, fuzzy
+msgid "dpro_agreed_on"
+msgstr "DoDP agreed to on"
+
+#, fuzzy
+msgid "dpro_force_accept_usr_agreement"
+msgstr "You must accept the Declaration of Data Protection!"
+
+#, fuzzy
+msgid "dpro_no_agreement_description"
+msgstr "There is currently no Declaration of Data Protection document available for this installation. Please contact the <a href=\"%1$s\">system administrator</a>."
+
+#, fuzzy
+msgid "dpro_refuse_acceptance"
+msgstr "Refuse to Accept the Declaration of Data Protection"
+
+#, fuzzy
+msgid "dpro_usr_agreement"
+msgstr "Declaration of Data Protection"
+
+#, fuzzy
+msgid "dpro_usr_agreement_footer_intro"
+msgstr "You have declared your consent to this Declaration of Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_description"
+msgstr "Withdraw your consent to our Declaration of Data Protection here."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_description_external"
+msgstr "Please return to your ILIAS installation and log in again to complete the process of withdrawing your consent to the Declaration of Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_description_internal"
+msgstr "Please log in again to complete the process of withdrawing your consent to the Declaration of Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_header"
+msgstr "Withdraw to Consent of Declaration of Data Protection"
+
+#, fuzzy
+msgid "dpro_withdraw_consent_info"
+msgstr "Withdraw your consent to our Declaration of Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_info_external"
+msgstr "Please contact the administrator of your authentication system and inform them of your intention to withdraw your consent to the Declaration of Data Protection."
+
+msgid "drafts"
+msgstr "მონახაზები"
+
+#, fuzzy
+msgid "drag_file_here"
+msgstr "Drag-and-drop your file here"
+
+#, fuzzy
+msgid "drag_files_here"
+msgstr "Drag-and-drop your files here"
+
+#, fuzzy
+msgid "drag_handle"
+msgstr "Draggable element"
+
+#, fuzzy
+msgid "drop_files_on_repo_obj_info"
+msgstr "Drop the files here to upload them into this object."
+
+msgid "edit"
+msgstr "რედაქტირება"
+
+msgid "edit_assignments"
+msgstr "Edit Assignments"
+
+msgid "edit_cat_settings"
+msgstr "კატეგორიის გაუმჯობესებული პარამეტრები"
+
+msgid "edit_content"
+msgstr "შინაარსის რედაქტირება"
+
+msgid "edit_grouping"
+msgstr "წევრობის შეზღუდვის რედაქტირება"
+
+#, fuzzy
+msgid "edit_metadata"
+msgstr "Edit Metadata"
+
+msgid "edit_operations"
+msgstr "ოპერაციების რედაქტირება"
+
+msgid "edit_page"
+msgstr "გვერდის რედაქტირება"
+
+msgid "edit_page_content"
+msgstr "გვერდის შინაარსის რედაქტირება"
+
+#, fuzzy
+msgid "edit_page_meta"
+msgstr "Edit Page Metadata"
+
+msgid "edit_properties"
+msgstr "მახასიათებლების რედაქტირება"
+
+msgid "edit_stylesheet"
+msgstr "სტილის რედაქტირება"
+
+#, fuzzy
+msgid "edited_on"
+msgstr "Edited on"
+
+msgid "editor"
+msgstr "რედაქტორი"
+
+msgid "email"
+msgstr "ემაილი"
+
+msgid "email_not_valid"
+msgstr "ემაილი რომელიც თქვენ მიუთითეთ არ არის სწორი"
+
+msgid "enable"
+msgstr "ჩართვა"
+
+msgid "enable_anonymous_fora"
+msgstr "ფსევდონიმით წერის დაშვება"
+
+msgid "enable_anonymous_fora_desc"
+msgstr "ეს პარამეტრი გაუქმებულია, მახასიათებელი \" ფსევდონიმით წერა\" არ არის შესაძლებელი ფორუმებში"
+
+msgid "enable_calendar"
+msgstr "კალენდარის ჩართვა"
+
+#, fuzzy
+msgid "enable_comments_export"
+msgstr "Enable Comments Export"
+
+msgid "enable_course_group_notifications"
+msgstr "ყოველდღიური ემაილი ჯგუფებისთვის და კურსის სიახლეებისთვის"
+
+msgid "enable_course_group_notifications_desc"
+msgstr "თუ გააქტიურებულია, მონაწილეებს შეუძლიათ ხელი მოაწერონ სიაახლეების ყოველდღიურ შეჯამებას"
+
+msgid "enable_custom_icons"
+msgstr "საკუთარი გამოსახულებების გააქტიურება"
+
+msgid "enable_custom_icons_info"
+msgstr "ეს შესაძლებლობას გვაძლევს განვსაზღვროთ საკუთარი გამოსახულებები კატეგორიებისთვის, კურსებისა და ჯგუფებისთვის. Kატეგორიების, კურსებისა და ჯგუფების მახასიათებლების განყოფილება გამოიტანს სურათის ატვირთვის ფანჯარას."
+
+#, fuzzy
+msgid "enable_dnd_upload"
+msgstr "Enable drag-and-drop upload"
+
+#, fuzzy
+msgid "enable_dnd_upload_info"
+msgstr "Files can be uploaded with drag-and-drop from the local computer if enabled."
+
+msgid "enable_download_folder"
+msgstr "ფოლდერების გადმოტვირთვის გააქტიურება"
+
+msgid "enable_download_folder_info"
+msgstr "შესაძლებლობას გვაძლევს გადმოვტვირთოთ"
+
+#, fuzzy
+msgid "enable_export_scorm_desc"
+msgstr "allow Export of User Data of SCORM-Learning Modules"
+
+msgid "enable_fora_statistics"
+msgstr "ფორუმში სტატისტიკის ჩართვა"
+
+msgid "enable_fora_statistics_desc"
+msgstr "თუ გათიშულია, არავის შეეძლება ფორუმუს სტატისტიკაში შესვლა"
+
+msgid "enable_hide_user_toggle"
+msgstr "ამ წევრს არ შეუძლია შეაჩეროს"
+
+#, fuzzy
+msgid "enable_multi_download"
+msgstr "«Download multiple objects» enabled"
+
+#, fuzzy
+msgid "enable_multi_download_info"
+msgstr "Enables that multiple folders/files can be selected to download them as zip archive."
+
+msgid "enable_password_assistance"
+msgstr "პაროლის დახმარების გააქტიურება"
+
+#, fuzzy
+msgid "enable_preview"
+msgstr "Enable Preview"
+
+#, fuzzy
+msgid "enable_preview_info"
+msgstr "Enable this option to display preview images on supported file types."
+
+#, fuzzy
+msgid "enable_repository_dnd_upload"
+msgstr "Enable in Repository"
+
+#, fuzzy
+msgid "enable_repository_dnd_upload_info"
+msgstr "Enables that files can be dragged from the computer directly onto an object in the repository to start uploading the files into this object."
+
+msgid "enable_sahs_protocol_data"
+msgstr "პროტოკოლის მონაცემების გააქტიურება"
+
+msgid "enable_sahs_protocol_data_desc"
+msgstr "პროტოკოლის მონაცემების ჩვენება (SCORM/AICC)"
+
+msgid "enable_search_engine"
+msgstr "ღია საზოგადოების სივრცე ინტერნეტ ძიების მექანიზმებისთვის ( გუგლი) <br/>თჰე Aპაცჰე მოდულე \"მოდ_რეწრიტე\" ის რექუირედ ფორ ტჰის ეხტენსიონ.  Pლეასე ტაკე ცარე ტჰატ ყოუ ჰავე აპპროპიატე პერმისსიონს ტო უსე .ჰტაცცესს ცონფიგურატიონს."
+
+msgid "enable_trash"
+msgstr "სანაგვე ყუთის გააქტიურება"
+
+msgid "enable_trash_info"
+msgstr "თუ გააქტიურებულია, წაშლილი ობიექტები გადავა სანაგვე ყუთში და მათი აღდგენა მოგვიანებით იქნება შესაძლებელი. როცა დეაქტივირებულია ეს პარამეტრი წაშლილი ობიექტები მთლიანად იშლება სისტემიდან!"
+
+msgid "enable_webdav"
+msgstr "ვებდავის ხელმისაწვდომობის გააქტიურება"
+
+msgid "enable_webdav_info"
+msgstr "შესაძლებლობა აძლევს ვებდავის მომხმარებლებს შევიდნენ საცავში როგორც ვებფოლდერი. Mომხმარებლებს შეუძლიათ ვებფოლდერების გახსნა ,, გახსენით ვებფოლდერი\" ის მოქმედების მეშვეობით საცავში, ან შემდეგი მისამართის გახსნით ვებდავის მომხმარბელში <ა ჰრეფ=\"%s1§ს\" ფოლდერ=\"%s1§ს\">%s1§ს</ა>"
+
+msgid "enabled"
+msgstr "ჩართულია"
+
+#, fuzzy
+msgid "enlarge"
+msgstr "Enlarge"
+
+msgid "enter_in_mb_desc"
+msgstr "ემ ბიში შეიყვანეთ ღირებულება"
+
+#, fuzzy
+msgid "enter_new_name"
+msgstr "Please enter a name"
+
+#, fuzzy
+msgid "entered_notification"
+msgstr "\"%s\" has joined the session \"%s\"."
+
+#, fuzzy
+msgid "entry_status"
+msgstr "Entry status"
+
+msgid "err_1_param"
+msgstr "მხოლოდ პირველი პარამეტრი!"
+
+msgid "err_2_param"
+msgstr "მხოლოდ მეორე პარამეტრი!"
+
+msgid "err_auth_apache_failed"
+msgstr "ავტორიზება ჩაიშალა. შესაძლოა თქვენ არ გაქვთ სწორი მომხმარებლის სერთიფიკატი ან თქვენი სმარტ ბარათი არ არის ჩასმული"
+
+msgid "err_auth_ldap_no_ilias_user"
+msgstr "შესვლა ვერ მოხერხდა. ELDAP ავტორიზება წარმატებულია, მაგრამ ილიასის კორესპონდენტი მომხმარებელი არ არსებობს. გთხოვთ დაუკავშირდეთ თქვენის სისტემის ადმინისტრატორს"
+
+msgid "err_auth_mode_inactive"
+msgstr "თქვენი ავტორიზების მეთოდი დეაქტივირებულია"
+
+msgid "err_auth_soap_no_ilias_user"
+msgstr "შესვლა ვერ განხორციელდა, ეს ოუ ეი პი ავტორიზება წარმატებულად დასრულდა მაგრამ ილიასის კორესპონდენტი მომხმარებლი არ არსებობს. გთხოვთ დაუკავშირდეთ თქვენი სისტემის ადმინისტრატორს."
+
+msgid "err_check_input"
+msgstr "ამ პარამეტრის შენახვა ვერ მოხერხდა. გთხოვთ შეამოწმოთ თქვენს მიერ შეტანილი მასალა"
+
+msgid "err_count_param"
+msgstr "მიზეზი: არასწორის პარამეტრის დათვლა"
+
+#, fuzzy
+msgid "err_disabled"
+msgstr "Account creation via Shibboleth has been disabled. Please contact the system administrator for further information."
+
+#, fuzzy
+msgid "err_double_entries"
+msgstr "Reason: Duplicate Entries"
+
+msgid "err_in_line"
+msgstr "შეცდომა ხაზში"
+
+msgid "err_inactive"
+msgstr "ეს ანგარიში არ არის გააქტიურებული. გთხოვთ დაუკავშირდეთ თქვენი სისტემის ადმინისტრატორს შესვლისთვის"
+
+#, fuzzy
+msgid "err_inactive_login_attempts"
+msgstr "Your user account has been deactivated due too many failed login attempts. Click 'Contact Technical Support' at the footer of this page to notify the administrator about the need to re-activate your account. "
+
+msgid "err_invalid_port"
+msgstr "პორტის არასწორი რიცხვი"
+
+msgid "err_no_cookies"
+msgstr "გთხოვთ გაააქტიუროთ სესიის ცოოკიეს თქვენს ბაუზერში"
+
+msgid "err_no_langfile_found"
+msgstr "ენის ფაილი არ მოიძებნა!"
+
+msgid "err_no_param"
+msgstr "პარამეტრი არ არის!"
+
+msgid "err_over_3_param"
+msgstr "3ზე მეტი პარამეტრი!"
+
+msgid "err_role_not_assignable"
+msgstr "თქვენ არ შეგიძლიათ მომხმარებლის ამ პასუხისმგებლობაზე ამ ადგილას დანიშვნა"
+
+msgid "err_session_expired"
+msgstr "თქვენი სესია დასრლდა"
+
+#, fuzzy
+msgid "err_valid_login_account_creation_disabled"
+msgstr "Authentication succeeded, but the creation of new user accounts is currently disabled. Please contact your system administrator."
+
+msgid "err_wrong_header"
+msgstr "მიზეზი: არასწორი სათაური"
+
+msgid "err_wrong_login"
+msgstr "არასწორის შესვლის სახელი და პაროლი"
+
+msgid "err_wrong_password"
+msgstr "არასწორის პაროლი"
+
+msgid "error"
+msgstr "შეცდომა"
+
+#, fuzzy
+msgid "error_empty_file_or_folder"
+msgstr "The file size is 0 bytes or it is a folder."
+
+#, fuzzy
+msgid "error_extraction_failed"
+msgstr "The extraction of the archive and its directories failed. Probably because you don't have the rights to create folders or categories within this object."
+
+msgid "error_parser"
+msgstr "სინტატიკური ანალიზის დაწყების შეცდომა"
+
+#, fuzzy
+msgid "error_upload_was_zero_bytes"
+msgstr "The upload failed as this is a folder, the file size is 0 bytes or the file was renamed meanwhile."
+
+msgid "etal_talks"
+msgstr "Talks"
+
+msgid "event_ass_materials_prop"
+msgstr "სესიის მასალები"
+
+msgid "event_assign_files"
+msgstr "ფაილის დანიშნულება"
+
+msgid "exc"
+msgstr "სავარჯიშო"
+
+msgid "exc_add"
+msgstr "სავარჯიშოს დამატება"
+
+msgid "exc_added"
+msgstr "სავარჯიშო დამატებულია"
+
+msgid "exc_date_not_valid"
+msgstr "თარიღი არ არის სწორი"
+
+msgid "exc_deassign_members"
+msgstr "მონაწილეთა ამოშლა"
+
+msgid "exc_download_files"
+msgstr "ჩამოტვირთული ფაილები"
+
+msgid "exc_edit"
+msgstr "ახალი სავარჯიშო შექმნილია"
+
+msgid "exc_edit_exercise"
+msgstr "სავარჯიშოს რედაქტირება"
+
+msgid "exc_edit_until"
+msgstr "რედაქტირება გავუკეთოთ"
+
+msgid "exc_exercise_sent"
+msgstr "სავარჯიშო გადაგზავნილია"
+
+msgid "exc_files"
+msgstr "ფაილები"
+
+msgid "exc_files_returned"
+msgstr "ჩაბარებული ფაილები"
+
+msgid "exc_instruction"
+msgstr "სამუშაო ინსტრუქციები"
+
+msgid "exc_last_submission"
+msgstr "ბოლო ჩაბარება"
+
+#, fuzzy
+msgid "exc_member_of_crs_grp"
+msgstr "Member in Course/Group"
+
+msgid "exc_members_already_assigned"
+msgstr "ამ სავარჯიშოზე უკვე არიან მომხმარებლები დანიშნული"
+
+msgid "exc_members_assigned"
+msgstr "დანისნული წევრები"
+
+msgid "exc_members_comments_saved"
+msgstr "არჩეული მომხმარებლის სავარჯიშოს კომენტარები შენახულია"
+
+msgid "exc_new"
+msgstr "ახალი სავარჯიშო"
+
+msgid "exc_next_deadline"
+msgstr "შემდეგი ბოლო ვადა"
+
+msgid "exc_obj"
+msgstr "სავარჯიშო"
+
+msgid "exc_save_changes"
+msgstr "შენახვა"
+
+msgid "exc_schedule"
+msgstr "განრიგი"
+
+msgid "exc_select_one_file"
+msgstr "გთხოვთ აირჩიოთ ზუსტად ერთი ფაილი"
+
+msgid "exc_sent"
+msgstr "სავარჯიშო გადაგზავნილია არჩეულ მომხმარებელთან"
+
+msgid "exc_sent_at"
+msgstr "გაგზავნილია <br/>%s"
+
+msgid "exc_status"
+msgstr "სტატუსი"
+
+msgid "exc_status_saved"
+msgstr "განახლებული სავარჯიშო"
+
+msgid "exc_submission"
+msgstr "ჩაბარება"
+
+msgid "exc_time_over_short"
+msgstr "დრო ამოიწურა"
+
+msgid "exc_time_to_send"
+msgstr "დარჩენილი სამუშაო დრო"
+
+msgid "exc_upload_error"
+msgstr "შეცდომა მოხდა ფაილის ატვირთვისას"
+
+msgid "excs"
+msgstr "სავარჯიშოები"
+
+msgid "execute"
+msgstr "შესრულება"
+
+msgid "exercise_time_over"
+msgstr "ამ სავარჯიშოს დასრულებისთვის განკუთვნილი დრო ამოიწურა. Fფაილის ჩაბარება შეუძლებელია!"
+
+msgid "expand"
+msgstr "გაფართოება"
+
+msgid "expand_all"
+msgstr "ყველას გაფართოება"
+
+#, fuzzy
+msgid "expand_content"
+msgstr "Expand Content"
+
+msgid "expanded"
+msgstr "გაფართოებული"
+
+msgid "export"
+msgstr "ექსპორტი"
+
+msgid "export_format"
+msgstr "ექსპორტის ფორმატი"
+
+msgid "export_html"
+msgstr "გადავაგზავნოთ როგორც HTML ფაილი"
+
+msgid "ext_cat_settings"
+msgstr "კატეგორიის გაუმჯობესებული პარამეტრების რედაქტირება"
+
+msgid "ext_link"
+msgstr "ლინკი"
+
+#, fuzzy
+msgid "extracting"
+msgstr "Extracting..."
+
+#, fuzzy
+msgid "eyeclosed"
+msgstr "Eye Closed - Click to hide the input's contents"
+
+#, fuzzy
+msgid "eyeopened"
+msgstr "Eye Open - Click to reveal the input's contents"
+
+msgid "failure_message"
+msgstr "მესიჯის ჩაშლა"
+
+msgid "fax"
+msgstr "ფაქსი"
+
+msgid "feed"
+msgstr "ვებ კვება ხილვადია"
+
+msgid "feedback"
+msgstr "უკუკავშირი"
+
+msgid "field_name"
+msgstr "ველის სახელი"
+
+msgid "field_type"
+msgstr "ველის სახეობა"
+
+msgid "file"
+msgstr "ფაილი"
+
+msgid "file_add"
+msgstr "ფაილის ატვირთვა"
+
+msgid "file_add_and_metadata"
+msgstr "ფაილის ატვირთვა და მეტა მონაცემების რედაქტირება"
+
+msgid "file_added"
+msgstr "ფაილი აიტვირთა"
+
+msgid "file_allowed_suffixes"
+msgstr "დავუშვათ ფაილის სახეობები"
+
+#, fuzzy
+msgid "file_confirm_delete_all_versions"
+msgstr "You selected all file versions. This will delete the whole file object. Do you want to continue?"
+
+#, fuzzy
+msgid "file_confirm_delete_versions"
+msgstr "Are you sure to delete the following file versions?"
+
+msgid "file_created"
+msgstr "ფაილი დამატებულია"
+
+msgid "file_edit"
+msgstr "ფაილის რედაქტირება და ახალი ვერსიის ატვირთვა"
+
+msgid "file_info"
+msgstr "ფაილის ინფორმაცია"
+
+msgid "file_is_infected"
+msgstr "ფაილი ინფიცირებული ვირუსით"
+
+#, fuzzy
+msgid "file_new"
+msgstr "New File"
+
+#, fuzzy
+msgid "file_no_valid_file_type"
+msgstr "This file type is not allowed."
+
+msgid "file_not_found"
+msgstr "ფაილი არ არის ნაპოვნი"
+
+#, fuzzy
+msgid "file_not_found_sec"
+msgstr "This file cannot be found in ILIAS or has been blocked due to security reasons."
+
+msgid "file_not_valid"
+msgstr "ფაილი არ არის სწორი"
+
+msgid "file_notice"
+msgstr "ატვირთვის მაქსიმალური ზომა"
+
+#, fuzzy
+msgid "file_objects"
+msgstr "File Objects"
+
+#, fuzzy
+msgid "file_rollback"
+msgstr "Make this the current version"
+
+#, fuzzy
+msgid "file_rollback_done"
+msgstr "File version %s is now the current version."
+
+#, fuzzy
+msgid "file_rollback_select_exact_one"
+msgstr "Only one file version can be selected to make it the current version."
+
+#, fuzzy
+msgid "file_some_invalid_file_types_removed"
+msgstr "Some file types are not allowed and have been removed."
+
+msgid "file_suffix_repl"
+msgstr "ფაილის ატვირთვის სუფიქსის გადაადგილება"
+
+msgid "file_suffix_repl_info"
+msgstr "ფაილის დაბოლოება ამ სუფიქსებით ( გამოყოფილი მძიმეებით) დარჩება სუფიქსებით ,,სექ\"  თუ ვებ სივრცეშია ატვირთული. Eს ხდება ...."
+
+#, fuzzy
+msgid "file_system_clean_temp_dir_cron"
+msgstr "Clean temp directory"
+
+#, fuzzy
+msgid "file_system_clean_temp_dir_cron_info"
+msgstr "This job cleans the ILIAS temp-directory of files, which are older than 10 days. This counteracts the accumulation of unused files and therefore prevents an increased use of disk space by the temp directory."
+
+msgid "file_updated"
+msgstr "ფაილი განახლებულია"
+
+msgid "file_upload_pending"
+msgstr "შეჩერებული ფაილი"
+
+msgid "file_valid"
+msgstr "ფაილის სწორია"
+
+msgid "file_version"
+msgstr "ფაილში მოცემული ვერსია"
+
+#, fuzzy
+msgid "file_version_create"
+msgstr "Initial version"
+
+#, fuzzy
+msgid "file_version_intermediate_version"
+msgstr "Intermediate Version"
+
+#, fuzzy
+msgid "file_version_new_version"
+msgstr "New version"
+
+#, fuzzy
+msgid "file_version_published_version"
+msgstr "Published Version"
+
+#, fuzzy
+msgid "file_version_replace"
+msgstr "All versions replaced"
+
+#, fuzzy
+msgid "file_version_rollback"
+msgstr "Rollback to version %s from %s"
+
+#, fuzzy
+msgid "file_versions_deleted"
+msgstr "The selected file versions were successfully deleted."
+
+msgid "filename"
+msgstr "ფაილის სახელი"
+
+msgid "filename_extension_missing"
+msgstr "ფაილის სახელის გაგრძელება დაკარგულია"
+
+msgid "filename_hidden_backup_file"
+msgstr "დამალული ჩამორჩენილი ფაილი"
+
+msgid "filename_hidden_unix_file"
+msgstr "დამალული უნიქს ფაილი"
+
+msgid "filename_interoperability"
+msgstr "ფუნქციონალური თავსებადობა"
+
+msgid "filename_special_characters"
+msgstr "მახასიათებლის გამო ეს ობიქტი არ არის ხილვადი ვებ ფოლდერებში"
+
+msgid "filename_special_filename"
+msgstr "ობიექტების სახელებით და .. არ არის ხილვადი ვებ ფოლდეებში"
+
+msgid "filename_visibility"
+msgstr "ხილვადობა"
+
+msgid "filename_windows_empty_extension"
+msgstr "მახასიათებლის გამო.. სახელის დაბოლოებაში ეს ობიექტი არ არის ხილვადი ვინდოუსის ვებ ფოლდერში"
+
+msgid "filename_windows_special_characters"
+msgstr "რომელიმე მახასიათებლის გამო  \\ / : * ? \" < > | ეს ობიქტი არ არის ხილვადი ვინდოუსის ვებფოლდერში"
+
+msgid "filename_windows_webdav_issue"
+msgstr "მახასიათებლის გამო"
+
+msgid "files"
+msgstr "ფაილები"
+
+msgid "filesize"
+msgstr "ფაილის ზომა"
+
+msgid "filetype"
+msgstr "ფაილის სახეობა"
+
+msgid "fill_out_all_required_fields"
+msgstr "გთხოვთ შეავსოთ ყველა საჭირო ველი"
+
+msgid "filter"
+msgstr "ფილტრი"
+
+msgid "filter_users_with_access"
+msgstr "მხოლოდ მომხმარებლებს შეუძლიათ შესვლა"
+
+msgid "filter_users_with_disk_usage"
+msgstr "მხოლოდ მომხმარებლებისთვის ვინც დისკის სივრცე გმოიყენა"
+
+msgid "filter_users_without_access"
+msgstr "მხოლოდ მომხმარებლები შესვლის დაშვების გარეშე"
+
+msgid "filter_users_without_disk_usage"
+msgstr "მხოლოდ მომხმარებლები ვინც არ გამოიყენა დისკის სივრცე"
+
+msgid "first"
+msgstr "პირველი"
+
+msgid "firstname"
+msgstr "სახელი"
+
+msgid "flatview"
+msgstr "განმარტების დამალვა"
+
+msgid "fold"
+msgstr "ფოლდერი"
+
+msgid "fold_add"
+msgstr "ფოლდერის დამატება"
+
+msgid "fold_added"
+msgstr "ფოლდერი დამატებულია"
+
+#, fuzzy
+msgid "fold_copy_threads_info"
+msgstr "Please decide which materials should be copied, linked or even omitted."
+
+msgid "fold_edit"
+msgstr "ფოლდერი რედაქტირება"
+
+msgid "fold_new"
+msgstr "ახალი ფოლდერი"
+
+#, fuzzy
+msgid "fold_wizard_page"
+msgstr "Copy Folder (Step 2/2)"
+
+msgid "folder"
+msgstr "ფოლდერი"
+
+msgid "folders"
+msgstr "ფოლდერები"
+
+msgid "follow_link_to_read_mails"
+msgstr "დააკლიკეთ შემდეგ ლინკს ემაილის წასაკითხად"
+
+msgid "forgot_password"
+msgstr "დაგავიწყდათ პაროლი?"
+
+msgid "forgot_username"
+msgstr "დაგავიწყდათ სახელი?"
+
+msgid "form_input_not_valid"
+msgstr "რაღაც მონაცემები არ არის სრული ან სწორი. გთხოვთ შეასწოროთ ფორმის შენატანი."
+
+msgid "forum"
+msgstr "ფორუმი"
+
+msgid "forum_direct_notification"
+msgstr "სწორი შეტყობინება"
+
+msgid "forum_notify_me"
+msgstr "შემატყობინეთ როდესაც პასუხი იქნება გაცემული"
+
+msgid "forum_post_replied"
+msgstr "თქვენი ფორუმის პოსტზე პასუხია"
+
+msgid "forums"
+msgstr "ფორუმები"
+
+msgid "forums_anonymized"
+msgstr "ფორუმი ანონიმურია"
+
+msgid "forums_anonymous"
+msgstr "ანონიმი"
+
+msgid "forums_articles"
+msgstr "სტატიები"
+
+#, fuzzy
+msgid "forums_closed"
+msgstr "closed"
+
+msgid "forums_disable_forum_notification"
+msgstr "ამ ფორუმის შეტყობინებების გათიშვა"
+
+msgid "forums_enable_forum_notification"
+msgstr "შეტყობინებების გააქტიურება ამ ფორუმში"
+
+msgid "forums_forum_notification_enabled"
+msgstr "თქვენ მოგივათ შეტყობინება ფორუმში ახალი მესიჯების შესახებ"
+
+msgid "forums_last_post"
+msgstr "ბოლო სტატია"
+
+#, fuzzy
+msgid "forums_last_posting_asc"
+msgstr "Last Post Ascending"
+
+#, fuzzy
+msgid "forums_last_posting_dsc"
+msgstr "Last Post Descending"
+
+msgid "forums_notification_settings"
+msgstr "ფორუმის შეტყობინებების პარამეტერები"
+
+#, fuzzy
+msgid "forums_rating_asc"
+msgstr "Rating Ascending"
+
+#, fuzzy
+msgid "forums_rating_dsc"
+msgstr "Rating Descending"
+
+#, fuzzy
+msgid "forums_thread_sorting_asc"
+msgstr "Thread Title A→Z"
+
+#, fuzzy
+msgid "forums_thread_sorting_dsc"
+msgstr "Thread Title Z→A"
+
+msgid "forums_threads"
+msgstr "თემები"
+
+msgid "forums_use_alias"
+msgstr "თქვენ შეგიძლიათ გამოიყენოთ ფსევდონიმი დაპოსტვისას. თუ ამ ველის ბლანკს გამოტოვებთ მაშინ თქვენი ნაწერი მონიშნული იქნება ანონიმურად"
+
+msgid "forums_your_name"
+msgstr "თქვენი სახელი"
+
+msgid "frm"
+msgstr "ფორუმი"
+
+msgid "frm_add"
+msgstr "ფორუმის დამატება"
+
+msgid "frm_added"
+msgstr "ფორუმი დამატებულია"
+
+msgid "frm_edit"
+msgstr "ფორუმის რედაქტირება"
+
+#, fuzzy
+msgid "frm_import"
+msgstr "Import Forum"
+
+msgid "frm_latest_postings"
+msgstr "ბოლო სტატია"
+
+#, fuzzy
+msgid "frm_latest_postings_block"
+msgstr "Latest Posts Block"
+
+msgid "frm_new"
+msgstr "ახალი ფორუმი"
+
+#, fuzzy
+msgid "frm_no_threads"
+msgstr "There are no threads available at the moment."
+
+msgid "from"
+msgstr "საიდან"
+
+msgid "fullname"
+msgstr "სახელი და გვარი"
+
+msgid "functions"
+msgstr "ფუნქციები"
+
+msgid "further_informations"
+msgstr "დამატებითი ინფორმაცია"
+
+msgid "gdf_add"
+msgstr "განსაზღვრების დამატება"
+
+msgid "gdf_new"
+msgstr "ახალი განსაზღვრება"
+
+msgid "gender"
+msgstr "სქესი"
+
+msgid "gender_f"
+msgstr "მდედრობითი"
+
+msgid "gender_m"
+msgstr "მამრობითი"
+
+#, fuzzy
+msgid "gender_n"
+msgstr "No salutation desired"
+
+#, fuzzy
+msgid "general"
+msgstr "General"
+
+msgid "general_settings"
+msgstr "ზოგადი პარამტრები"
+
+msgid "generate"
+msgstr "წარმოშობა"
+
+#, fuzzy
+msgid "ghostscript_not_configured"
+msgstr "Ghostscript is not configured. Please open the <a href=\"cli/setup.php?cmd=mastersettings\" target=\"_blank\">Setup</a> to configure it."
+
+msgid "glo"
+msgstr "ლექსიკონი"
+
+msgid "glo_add"
+msgstr "ლექსიკონის დამატება"
+
+msgid "glo_added"
+msgstr "ლექსიკონი დამტებულია"
+
+msgid "glo_import"
+msgstr "ლექსიკონის იმპორტი"
+
+msgid "glo_mode"
+msgstr "მდგომარეობა"
+
+msgid "glo_mode_desc"
+msgstr "ვირტუალური ლექსიკონი მუშაობს როგორც საკუთარი ლექსიკონი. Dამატებიტ ის შეიცავს დასახელებებს ყველა ლექსიკონიდან რომლებიც განთავსებულია იმავე დონეზე საცავში როგორც ვირტუალური ლექსიკონი შესაბამისად ყველა ლექსიკონიდან რომელიც განთავსებულია საცავში ვირტუალური ლექსიკონიდან."
+
+msgid "glo_mode_normal"
+msgstr "ნორმალური"
+
+msgid "glo_new"
+msgstr "ახალი ლექსიკონი"
+
+msgid "global"
+msgstr "გლობალური"
+
+msgid "global_default"
+msgstr "გლობალური შეუსრულებელი სტანდარტი"
+
+msgid "global_fixed"
+msgstr "გლობალურად დაყენებული"
+
+#, fuzzy
+msgid "global_role_assignment"
+msgstr "Globale Rollenzuweisung"
+
+msgid "global_settings"
+msgstr "გლობალური პარამეტრები"
+
+msgid "global_user"
+msgstr "გლობაური მომხმარებლები"
+
+msgid "glossaries"
+msgstr "ლექსიკონები"
+
+msgid "glossary"
+msgstr "ლექსიკონი"
+
+msgid "go"
+msgstr "წინ"
+
+#, fuzzy
+msgid "grade"
+msgstr "Grade"
+
+msgid "group"
+msgstr "ჯგუფი"
+
+msgid "group_members"
+msgstr "ჯგუფის წევრები"
+
+msgid "group_name"
+msgstr "ჯგუფის სახელი"
+
+msgid "group_new_registrations"
+msgstr "გაწევრიანების მოთხოვნები"
+
+msgid "group_password_registration_msg"
+msgstr "თუ იცით ჯგუფის პაროლი, ტქვენ შეგიძლიათ ჯგუფში გაწევრიანება. Gგთხოვთ დაუკავშირდეთ ჯგუფის ადმინისტრატორს თუ არ იციტ პაროლი"
+
+msgid "group_registration"
+msgstr "რეგისტრაცია"
+
+msgid "group_registration_mode"
+msgstr "რეგისტრაციის პროცედურა"
+
+msgid "group_registration_time"
+msgstr "რეგისტრაციის პერიოდი"
+
+msgid "group_req_direct"
+msgstr "პირდაპირ გაწევრიანება"
+
+msgid "group_req_registration_msg"
+msgstr "თქვენ შეგიძლიათ მოითხოვოტ ამ ჯგუფში წევრობა. თქვენ მიიღებთ მესიჯს ადმინისტრატორისაგან ვინც დაადასტურებს თქვენ მოთხოვნას ან უარყოფს მას"
+
+msgid "group_status"
+msgstr "ჯგუფი არის"
+
+msgid "groupings"
+msgstr "წევრობის შეზღუდვები"
+
+msgid "groupings_assigned_obj_crs"
+msgstr "დანიშნული კურსები"
+
+msgid "groupings_assigned_obj_grp"
+msgstr "დანიშნული ჯგუფები"
+
+#, fuzzy
+msgid "groupings_source"
+msgstr "Source"
+
+msgid "groups"
+msgstr "ჯგუფები"
+
+msgid "grp"
+msgstr "ჯგუფი"
+
+msgid "grp_add"
+msgstr "ჯგუფის დამატება"
+
+msgid "grp_added"
+msgstr "ჯგუფი დამატებულია"
+
+msgid "grp_btn_unsubscribe"
+msgstr "ჯგუფის ხელმოწერაზე უარის თქმა"
+
+msgid "grp_cancel_waiting_list"
+msgstr "ნამდვილად გსურთ თქვენი თავის ამოშლა კურსის %s მოლოდინის სიიდან?"
+
+msgid "grp_copy_threads_info"
+msgstr "გთხოვთ გადაწყვითოთ რომელი მასალის ასლის გაკეთება  შეკავშირება ან გამოტოვება გსურთ"
+
+msgid "grp_deleted_export_files"
+msgstr "მონიშნული ფაილები წაშლილია"
+
+msgid "grp_dismiss_member"
+msgstr "დარწმუნებული ხართ რომ ნამდვილად გსურთ მონიშნული წევრების ამოშლა ჯგუფიდან?"
+
+msgid "grp_dismiss_myself"
+msgstr "დარწმუნებული ხართ რომ ამ ჯგუფიდან გამოსვლა გსურთ?"
+
+msgid "grp_edit"
+msgstr "ჯგუფის რედაქტირება"
+
+msgid "grp_err_administrator_required"
+msgstr "წევრის ამოშლა ვერ მოხერხდა, სულ მცირე ერთი ადმინისტრატორია საჭირო თითო ჯგუფზე!"
+
+msgid "grp_header_edit_members"
+msgstr "წევრების რედაქტირება"
+
+#, fuzzy
+msgid "grp_list_members"
+msgstr "List members"
+
+#, fuzzy
+msgid "grp_list_reg"
+msgstr "Registration"
+
+msgid "grp_list_reg_end"
+msgstr "Registration End"
+
+msgid "grp_list_reg_limit_full"
+msgstr "No places left"
+
+msgid "grp_list_reg_limit_places"
+msgstr "Free places"
+
+msgid "grp_list_reg_noreg"
+msgstr "No Registration Possible"
+
+msgid "grp_list_reg_period"
+msgstr "Registration Period"
+
+msgid "grp_list_reg_start"
+msgstr "Registration Begin"
+
+msgid "grp_list_users"
+msgstr "ჩამოთვალეთ მომხმარებლები"
+
+msgid "grp_mem_change_status"
+msgstr "მონაწილის სტატუსის შეცვლა"
+
+msgid "grp_mem_send_mail"
+msgstr "გავუგზავნოთ მონაწილეს შეტყობინება"
+
+msgid "grp_members_gallery"
+msgstr "ჯგუფის წევრების გალერეა"
+
+msgid "grp_msg_applicants_assigned"
+msgstr "აპლიკანტები დანიშნულები არიან ჯგუფის წევრებად"
+
+msgid "grp_msg_member_assigned"
+msgstr "მომხმარებლები დანიშნული არიან ჯგუფის წევრებად"
+
+msgid "grp_msg_membership_annulled"
+msgstr "ჩაშლილი წევრობა"
+
+msgid "grp_new"
+msgstr "ახალი ჯგუფი"
+
+msgid "grp_registration"
+msgstr "ჯგუფში გაწევრიანება"
+
+msgid "grp_registration_completed"
+msgstr "თქვენ გაწევრიანდით ჯგუფში"
+
+msgid "grp_removed_from_waiting_list"
+msgstr "თქვენ მოხსნილი ხართ მოლოდინის სიიდან ,,%s \""
+
+msgid "grp_select_one_file"
+msgstr "გთხოვთ აირჩიოთ ერთი ფაილი"
+
+msgid "grp_wizard_page"
+msgstr "ჯგუფის ასლის გაკეთება (ნაბიჯი 2/2)"
+
+#, fuzzy
+msgid "grpr"
+msgstr "Group Reference"
+
+#, fuzzy
+msgid "grpr_add"
+msgstr "Add Group Link"
+
+#, fuzzy
+msgid "grpr_edit"
+msgstr "Edit Group Reference"
+
+#, fuzzy
+msgid "grpr_edit_info"
+msgstr "Please choose one group, for creating a new reference."
+
+#, fuzzy
+msgid "grpr_new"
+msgstr "Create Group Reference"
+
+#, fuzzy
+msgid "grpr_settings"
+msgstr "Group Link Settings"
+
+#, fuzzy
+msgid "header_action"
+msgstr "Insert Heading - Click to insert a heading."
+
+msgid "header_searchable"
+msgstr "მოძიებადი"
+
+msgid "header_title"
+msgstr "სათაურის დასახელება"
+
+msgid "header_visible_registration"
+msgstr "ხილვადია რეგისტრაციის დროს"
+
+msgid "header_zip"
+msgstr "ბევრი ფაილის ერთდროულად ატვირთვა როგორ ზიპ არქივი"
+
+msgid "height"
+msgstr "სიმაღლე"
+
+msgid "help"
+msgstr "დახმარება"
+
+msgid "hide"
+msgstr "დამალვა"
+
+#, fuzzy
+msgid "hide_all_details"
+msgstr "Hide all details"
+
+msgid "hide_details"
+msgstr "დეტალების დამალვა"
+
+msgid "hide_filter"
+msgstr "ფილტრის დამალვა"
+
+msgid "hide_own_online_status"
+msgstr "ჩემი ონლაინ სტატუსის დამალვა"
+
+#, fuzzy
+msgid "hide_visible_sections"
+msgstr "Hide More Information &raquo;"
+
+msgid "hint"
+msgstr "მინიშნება"
+
+msgid "history"
+msgstr "ისტორია"
+
+msgid "hobby"
+msgstr "ინტერესები/ჰობი"
+
+msgid "home"
+msgstr "საჯარო სივრცე"
+
+msgid "host"
+msgstr "მასპინძელი"
+
+msgid "hour"
+msgstr "საათი"
+
+msgid "hours"
+msgstr "საათები"
+
+msgid "htlm"
+msgstr "სასწავლო მოდული HTML"
+
+msgid "htlm_add"
+msgstr "HTML სასწავლო მოდულის დამატება"
+
+msgid "htlm_new"
+msgstr "ახალი HTML სასწავლო მოდული"
+
+msgid "http"
+msgstr "HTTP"
+
+msgid "http_not_possible"
+msgstr "ეს სერვერი არ უჭერს მხარს http მოთხოვნებს"
+
+msgid "http_path"
+msgstr "Http მდებარეობა"
+
+msgid "https_not_possible"
+msgstr "ეს სერვერი არ უჭერს მხარს HTTPS შეერთებებს"
+
+msgid "i2passwd"
+msgstr "ილიას 2 პაროლი"
+
+#, fuzzy
+msgid "iass_import"
+msgstr "Import Individual Assessment"
+
+#, fuzzy
+msgid "iass_new"
+msgstr "Create Individual Assessment"
+
+msgid "icon"
+msgstr "გამოსსახულება"
+
+msgid "icon_settings"
+msgstr "გამოსახულების პარამტრები"
+
+msgid "id"
+msgstr "აი დი"
+
+msgid "identifier"
+msgstr "იდენტიფიკატორი"
+
+msgid "if_no_title_then_filename"
+msgstr "ადგილის გამოტოვება ფაილის სახელის დასახელებად გამოსაყენებლად"
+
+msgid "ignore_on_conflict"
+msgstr "კონფლიქტის იგნორირება"
+
+msgid "ignore_required_fields"
+msgstr "Ignore required fields"
+
+msgid "ignore_required_fields_info"
+msgstr "If activated, you can submit this form without filling out all mandatory fields. The new user has to add the missing information on the personal profile after the next login."
+
+#, fuzzy
+msgid "il_astpl_loc_initial"
+msgstr "Initial Test"
+
+#, fuzzy
+msgid "il_astpl_loc_qualified"
+msgstr "Qualifying Test"
+
+msgid "il_blog_contributor"
+msgstr "Blog Contributor"
+
+#, fuzzy
+msgid "il_blog_editor"
+msgstr "Blog-Editor"
+
+msgid "il_chat_moderator"
+msgstr "ჩატის მოდერატორი"
+
+msgid "il_crs_admin"
+msgstr "კურსის ადმინისტრატორი"
+
+msgid "il_crs_member"
+msgstr "კურსის წევრი"
+
+msgid "il_crs_non_member"
+msgstr "კურსის არაწევრი"
+
+msgid "il_crs_tutor"
+msgstr "კურსის ხელმძღვანელი/წამყვანი"
+
+msgid "il_frm_moderator"
+msgstr "ფორუმის მოდერატორი"
+
+msgid "il_grp_admin"
+msgstr "ჯგუფის ადმინისტრატორი"
+
+msgid "il_grp_member"
+msgstr "ჯგუფის წევრი"
+
+msgid "il_grp_status_closed"
+msgstr "ჯგუფი დაკეტილია"
+
+msgid "il_grp_status_open"
+msgstr " ჯგუფი ღიაა"
+
+#, fuzzy
+msgid "il_iass_member"
+msgstr "Participant"
+
+#, fuzzy
+msgid "il_lso_admin"
+msgstr "Learning Sequence Admin"
+
+#, fuzzy
+msgid "il_lso_member"
+msgstr "Learning Sequence Member"
+
+#, fuzzy
+msgid "il_lti_instructor"
+msgstr "LTI Instructor"
+
+#, fuzzy
+msgid "il_lti_learner"
+msgstr "LTI Learner"
+
+#, fuzzy
+msgid "il_lti_user"
+msgstr "LTI User"
+
+#, fuzzy
+msgid "il_orgu_employee"
+msgstr "Employee"
+
+#, fuzzy
+msgid "il_orgu_superior"
+msgstr "Superior"
+
+msgid "ilias_version"
+msgstr "ილიასის ვერსია"
+
+msgid "image"
+msgstr "სურათი"
+
+msgid "import"
+msgstr "გადმოტანა"
+
+msgid "import_cat_localrol"
+msgstr "ადგილობრივი პასუხისმგებლობის ყოველი ახალი კატეგორიისთვის შექმნა"
+
+msgid "import_cat_table"
+msgstr "შემდეგი მაგიდა მოქმედებს მხოლოდ იმ შემთხვევაში თუ შემოწმების ყუთი დაყენებულია"
+
+msgid "import_categories"
+msgstr "კატეგორიების იმპორტი"
+
+msgid "import_failure_log"
+msgstr "გადმოტანის წარუმატებლობა"
+
+msgid "import_file"
+msgstr "ფაილის გადმოტანა"
+
+msgid "import_file_not_valid_here"
+msgstr "გადმოტანილი ფაილი არ არის სწორი"
+
+msgid "import_finished"
+msgstr "გადმოტანილი შეტყობინებების რიცხვი"
+
+msgid "import_lm"
+msgstr "ილიასის სასწავლო მოდულის გადმოტანა"
+
+msgid "import_qpl"
+msgstr "კითხვების ნაკადის ტესტის გადმოტანა"
+
+msgid "import_questions_into_qpl"
+msgstr "კითხვის კითხვების ნაკადში გადმოტანა"
+
+msgid "import_sahs"
+msgstr "SCORM/AICC სასწავლოშეკვრის გადმოტანა"
+
+#, fuzzy
+msgid "import_sahs_info"
+msgstr "To correct typos or images, use the option to replace individual files via the file directory. Upload a SCORM export from your authoring tool here and not an ILIAS export file. Make sure that your authoring tool has retained the IDs in the manifest file. Attention: Even popular authoring tools cannot do this. SCORM learning modules of certain authoring tools discard learner data obtained if you change the number of answer options of questions or insert new questions. Check in a test installation whether learning statuses that have already been achieved are possible when learning modules that have already been started are called up again."
+
+#, fuzzy
+msgid "import_sahs_new"
+msgstr "Import New Version of SCORM Package"
+
+msgid "import_svy"
+msgstr "კითხვარის გადმოტანა"
+
+msgid "import_tst"
+msgstr "ტესტის გადმოტანა"
+
+msgid "import_users"
+msgstr "მომხმარებლების გადმოტანა"
+
+msgid "import_warning_log"
+msgstr "გაფრთხილების გადმოტანა"
+
+msgid "important"
+msgstr "მნიშვნელოვანი"
+
+msgid "imported"
+msgstr "გადმოტანილი"
+
+msgid "imprint"
+msgstr "Imprint"
+
+msgid "in"
+msgstr "ში"
+
+msgid "in_use"
+msgstr "მომხმარებლის ენა"
+
+msgid "in_use_by"
+msgstr "გამოყენებაშია"
+
+msgid "inactive"
+msgstr "არააქტიური"
+
+msgid "inbox"
+msgstr "საფოსტო ყუთი"
+
+msgid "include_local"
+msgstr "ადგილობრივი ენის ფაილის ჩართვა ენის განახლების დროს"
+
+msgid "info"
+msgstr "ინფორმაცია"
+
+msgid "info_access_and_status_info"
+msgstr "შესვლა და სტატუსის ინფორმაცია"
+
+msgid "info_access_permissions"
+msgstr "შესვლის პარამეტრები"
+
+msgid "info_activate_sure"
+msgstr "დარწმუნებული ხართ რომ გსურთ შემდეგი მონაწილეების აქტიურ მდგომარეობაში გადაყვანა?"
+
+msgid "info_assign_sure"
+msgstr "დარწმუნებული ხართ რომ შემდეგი მომხმარებლების დანიშვნა გსურთ?"
+
+msgid "info_assigned"
+msgstr "დანიშნული"
+
+msgid "info_available_roles"
+msgstr "შესაძლებელი პასუხისმგებლობები"
+
+msgid "info_change_user_view"
+msgstr "მომხმარებლის შეცვლა"
+
+msgid "info_deactivate_sure"
+msgstr "დარწმუნებული ხართ რომ არ გსურთ შემდეგი მონაწილეების აქტიურ მდგომარეობაში გადაყვანა?"
+
+msgid "info_delete_sure"
+msgstr "დარწმუნებული ხართ რომ შემდეგი ნივთების წაშლა გსურთ?"
+
+msgid "info_delete_warning_no_trash"
+msgstr "(გაფრთხილება: მონიშნული ობიექტები სამუდამოდ წაიშლება სისტემიდან და შეიძლება აღარ აღდგეს!)"
+
+msgid "info_deleted"
+msgstr "ობიექტები წაიშალა"
+
+msgid "info_err_user_not_exist"
+msgstr "ამ სახელითა და პაროლით მომხმარებელი არ არსებობს"
+
+msgid "info_from_role"
+msgstr "ნაბოძებია პასუხისმგებლობით/მფლობელობით"
+
+msgid "info_is_member"
+msgstr "მომხმარევბელი არის წევრი"
+
+msgid "info_is_not_member"
+msgstr "მომხმარებელი არ არის წევრი"
+
+msgid "info_message"
+msgstr "ინფორმაციის შეტყობინება"
+
+msgid "info_not_assigned"
+msgstr "არ არის დანიშნული"
+
+msgid "info_owner_of_object"
+msgstr "ობიექტის მფლობელი"
+
+msgid "info_permission_origin"
+msgstr "თავდაპირველი მდგომარეობა"
+
+msgid "info_permission_source"
+msgstr "ეფექტური"
+
+msgid "info_remark_interrupted"
+msgstr "ამ ადგილზე პასუხისმგებლობა შეჩერებულია. Pამ სუხისმგებლობის შეცდომის დაშვების პარამეტრები მდებარეობს ამ ადგილზე"
+
+#, fuzzy
+msgid "info_remove_sure"
+msgstr "Are you sure that you want to remove the following item(s)?"
+
+msgid "info_short"
+msgstr "ინფორმაცია"
+
+msgid "info_status_info"
+msgstr "მომხმარებლის უფლებები/დაშვებები"
+
+msgid "info_view_of_user"
+msgstr "მომხმარებელი"
+
+msgid "inform_user_mail"
+msgstr "გავაგზავნოთ შეტყობინება რომ მომხმარებელს ინფორმაცია მიუვიდეს ცვლილებებთან დაკავშირებით"
+
+msgid "inline_file_extensions"
+msgstr "ვებ გააქტიურებული ფაილები"
+
+msgid "inline_file_extensions_info"
+msgstr "ფაილები ამ გაგრძელებებით გამოტანილია ბროუზერის ფანჯარაში <br/>Fორ ეხამპლე: <b>გიფ ჯპგ მპ3 პდფ პნგ</b><br/>  ყველა სხვა ფაილი შემოთავაზებული გადმოტვირთვისთვის"
+
+msgid "insert"
+msgstr "ჩასმა"
+
+msgid "insert_object_here"
+msgstr "ჩასვით ობიექტი აქ"
+
+msgid "inst_id"
+msgstr "აი დის ინსტალაცია"
+
+msgid "inst_info"
+msgstr "ინსტალაციის ინფორმაცია"
+
+msgid "inst_name"
+msgstr "ინსტალაციის სახელი"
+
+msgid "install"
+msgstr "დაყენება"
+
+msgid "install_local"
+msgstr "ადგილობრივად დაყენება"
+
+#, fuzzy
+msgid "installation_status"
+msgstr "Installation Status"
+
+msgid "installed"
+msgstr "დაყენებულია"
+
+msgid "installed_local"
+msgstr "ადგილობრივად დაყენება"
+
+msgid "instant_messengers"
+msgstr "სწრაფი მაცნეები"
+
+msgid "institution"
+msgstr "ინსტიტუტი"
+
+msgid "internal_local_roles_only"
+msgstr "ადგილობრივი პასუხიმგებლობები"
+
+msgid "invalid_visible_required_options_selected"
+msgstr "ყველა დაყენებული ველი უნდა იყოს ხილვადი ასევე რეგისტრაციაშიც"
+
+msgid "invisible_block"
+msgstr "უხილავი ბლოკი"
+
+msgid "invisible_block_mess"
+msgstr "თქვენ არ გაქვთ ამ ბლოკის ხილვის უფლება"
+
+msgid "ip_address"
+msgstr "აი პი მისამართი"
+
+msgid "is_already_your"
+msgstr "უკვე თქვენია"
+
+#, fuzzy
+msgid "italic_action"
+msgstr "Insert Italic - Click to insert italic text."
+
+msgid "item"
+msgstr "ნივთი"
+
+msgid "itgr_add"
+msgstr "Add Item Group"
+
+msgid "itgr_new"
+msgstr "New Item Group"
+
+msgid "java_server"
+msgstr "ჯავა სერვერი"
+
+msgid "java_server_host"
+msgstr "მასპინძელი"
+
+#. Needs to be adapted to new content of German lang file.
+msgid "java_server_info"
+msgstr "თუ გააქტიურებულია, შესაძლებელია PDF, HTML files and HTML-Learning მოდულების მოძებნა"
+
+msgid "java_server_port"
+msgstr "პორტი"
+
+msgid "java_server_readme"
+msgstr "დაყენების ინფორმაცია"
+
+msgid "join"
+msgstr "გაწევრიანება"
+
+msgid "join_session"
+msgstr "გაწევრიანება"
+
+msgid "kb"
+msgstr "კილო ბაიტი"
+
+msgid "keywords"
+msgstr "საკვანძო სიტყვები"
+
+#, fuzzy
+msgid "label_search_options"
+msgstr "Search Area"
+
+msgid "lang_dateformat"
+msgstr "წ-თ-დ"
+
+msgid "lang_path"
+msgstr "ენის მდებარეობა"
+
+msgid "lang_refresh_confirm_info"
+msgstr "გაგრძელებული ენის შენარჩუნება ამჟამად გააქტიურებულია. Eნების განახლება წაიკითხავს მხოლოდ გლობალური ენის ილიასის ფაილს და შესაძლოა ადგილობრივ ენის ფაილს ენის ცვლილების განყოფილებიდან. Gლობალური ენის ფაილები არ მოახდენს ზეგავლენას ხელით შეტანილ ცვლილებებზე. ადგილობრივი ფაილი გადააწერს ყველა ხელით შეტანილ ცვლილებას რომელიც  უფრო ძველია  ვიდრე ადგილობრივი ენის ფაილის შენახვის თარიღი"
+
+msgid "lang_refresh_confirm_selected"
+msgstr "ნამდვილად გსურთ მონიშნული ენის წაშლა?"
+
+msgid "lang_sep_decimal"
+msgstr "."
+
+msgid "lang_sep_thousand"
+msgstr ","
+
+msgid "lang_size_bytes"
+msgstr "ბაიტები"
+
+msgid "lang_size_gb"
+msgstr "გეგაბაიტი"
+
+msgid "lang_size_kb"
+msgstr "კილობაიტი"
+
+msgid "lang_size_mb"
+msgstr "მეგაბაიტი"
+
+msgid "lang_timeformat"
+msgstr "H:i:s"
+
+msgid "lang_timeformat_no_sec"
+msgstr "H:i"
+
+#, fuzzy
+msgid "lang_uninstall_changes"
+msgstr "Uninstall Local Changes"
+
+#, fuzzy
+msgid "lang_uninstall_changes_confirm"
+msgstr "Do you really want to clear all local changes of the selected languages and reset them to the default of the current ILIAS version?"
+
+#, fuzzy
+msgid "lang_uninstall_confirm"
+msgstr "Do you really want to uninstall the selected languages?"
+
+msgid "langfile_found"
+msgstr "ენის ფაილი ნაპოვნია"
+
+msgid "language"
+msgstr "ენა"
+
+msgid "language_not_installed"
+msgstr "არ არის დაინსტალირებული. გთხოვთ დააყენოთ ეს ენის ფაილი"
+
+msgid "languages"
+msgstr "ენები"
+
+msgid "languages_already_installed"
+msgstr "არჩეული ენები უკვე დაყენებულია"
+
+msgid "languages_already_uninstalled"
+msgstr "არჩეული ენები უკვე გადაყენებულია"
+
+msgid "languages_updated"
+msgstr "ყველა დაყენებული ენა განახლებულია"
+
+msgid "last_access"
+msgstr "ბოლო შემოსვლა"
+
+msgid "last_change"
+msgstr "ბოლო ცვლილება"
+
+msgid "last_edited_on"
+msgstr "ბოლოს რედაქტირებულია"
+
+msgid "last_login"
+msgstr "ბოლო შესვლა"
+
+msgid "last_refresh"
+msgstr "ბოლო განახლება"
+
+msgid "last_reminder"
+msgstr "ბოლო შეხსენება"
+
+msgid "last_update"
+msgstr "ბოლო განახლება"
+
+msgid "last_visited"
+msgstr "ბოლოს ნანახია"
+
+msgid "lastname"
+msgstr "ბოლო სახელი"
+
+#, fuzzy
+msgid "latex_edit_info"
+msgstr "You can enter LaTeX code in the delimiters <code>[tex]</code> and <code>[/tex]</code>."
+
+#, fuzzy
+msgid "laugh"
+msgstr "Laugh"
+
+msgid "launch"
+msgstr "განხორციელება"
+
+msgid "ldap"
+msgstr "LDAP"
+
+#, fuzzy
+msgid "ldap_basedn"
+msgstr "LDAP BaseDN"
+
+msgid "ldap_configure"
+msgstr "LDAP ავტორიზების დაყენება"
+
+msgid "ldap_port"
+msgstr "LDAP პორტი"
+
+msgid "ldap_read"
+msgstr "კითხვის დაშვებით შესვლა LDAP პარამეტრებში"
+
+msgid "ldap_server"
+msgstr "LDAP სერვერის ურლ მისამართი"
+
+msgid "ldap_tls"
+msgstr "LDAP TLS გამოყენება"
+
+msgid "ldap_version"
+msgstr "LDAP პროტოკოლის ვერსია"
+
+msgid "learning module"
+msgstr "სასწავლო მოდული"
+
+msgid "learning_progress"
+msgstr "სასწავლო პროგრესი"
+
+msgid "leave_waiting_list"
+msgstr "მოლოდინის სიის დატოვება"
+
+msgid "legend"
+msgstr "ლეგენდა"
+
+msgid "level"
+msgstr "დონე"
+
+msgid "link"
+msgstr "ლინკი"
+
+#, fuzzy
+msgid "link_action"
+msgstr "Insert Link - Click to insert a link."
+
+msgid "link_all"
+msgstr "ყველას დაკავშირება"
+
+msgid "link_check"
+msgstr "ვებლინკის შემოწმება"
+
+msgid "link_check_message_b"
+msgstr "თუ გააქტიურებულია, თქვენ შეგატყობინებენ არასწორი ლინკების შესახებ ემაილით"
+
+msgid "link_check_message_disabled"
+msgstr "შეტყობინება გაუქმებულია"
+
+msgid "link_check_message_enabled"
+msgstr "მესიჯი გააქტიურებულია"
+
+msgid "link_check_subject"
+msgstr "ილიასი ვებლინკის შემოწმება"
+
+msgid "link_checker_refreshed"
+msgstr "განახლებული ხედვა"
+
+msgid "link_selected_items"
+msgstr "ლინკი"
+
+msgid "links_add_param"
+msgstr "პარამეტრის დამატება"
+
+msgid "links_dyn_parameter"
+msgstr "დინამიური პარამეტრები"
+
+msgid "links_dynamic"
+msgstr "ვებლინკის დინამიური პარამეტრები"
+
+msgid "links_dynamic_info"
+msgstr "თუ გააქტიურებულია, შესაძლოა  ვებლინკებისთვის დინამიური პარამეტრების მიმატება <br/> მაგალითად ილიასის მომხმარებლის აი დი ან სახელი"
+
+msgid "links_existing_params"
+msgstr "არსებული პარამეტრები"
+
+msgid "links_name"
+msgstr "პარამეტრის სახელი"
+
+msgid "links_no_name_given"
+msgstr "გთხოვთ აირჩიოთ პარამეტრის სახელი"
+
+msgid "links_no_value_given"
+msgstr "გთხოვთ აირჩიოთ პარამეტრის ღირებულება"
+
+msgid "links_parameter_deleted"
+msgstr "პარამეტრი წაშლილია"
+
+msgid "links_select_one"
+msgstr "აირჩიეთ ერთი"
+
+msgid "links_session_id"
+msgstr "ილიასის სესიის აი დი"
+
+msgid "links_user_id"
+msgstr "ილიასის მომხმარებლის აი დი"
+
+msgid "links_user_name"
+msgstr "ილიასის სახელი"
+
+msgid "links_value"
+msgstr "პარამეტრის ღირებულება"
+
+msgid "list"
+msgstr "სია/ჩამონათვალი"
+
+msgid "list_of_questions"
+msgstr "კითვების ჩამონათვალი"
+
+#, fuzzy
+msgid "list_view"
+msgstr "List View"
+
+#, fuzzy
+msgid "listaction_learning_progress_settings"
+msgstr "Learning Progress Settings"
+
+msgid "lm"
+msgstr "სასწავლო მოდული ილიასი"
+
+msgid "lm_add"
+msgstr "ილიასის სასწავლო მოდულის დამატება"
+
+msgid "lm_added"
+msgstr "ილიასის სასწავლო მოდული დამატებულია"
+
+msgid "lm_new"
+msgstr "ახალი ილიასის სასწავლო მოდული"
+
+msgid "lm_type_scorm"
+msgstr "სკორმი 1,2"
+
+msgid "lm_type_scorm2004"
+msgstr "სკორმ 2004 3მე/4ე გამოცემა"
+
+#, fuzzy
+msgid "lm_type_scorm2004_info"
+msgstr "These are newer versions of SCORM with significantly enhanced functionality. The learning module is launched in an iFrame."
+
+#, fuzzy
+msgid "lm_type_scorm_info"
+msgstr "This is the most widely used version of SCORM. The learning module is launched in a frame."
+
+msgid "lng"
+msgstr "ენა"
+
+msgid "lngf"
+msgstr "ენები"
+
+msgid "lo"
+msgstr "სასწავლო ობიექტი"
+
+#, fuzzy
+msgid "loaded_preview_renderers"
+msgstr "Loaded Preview Renderers"
+
+msgid "local"
+msgstr "ადგილობრივი"
+
+msgid "local_language_file"
+msgstr "ადგილობრივი ენის ფაილი"
+
+msgid "local_language_files"
+msgstr "ადგილობრივი ენის ფაილები"
+
+msgid "local_languages_already_installed"
+msgstr "მონიშნული ენის ფაილები უკვე დაყენებულია"
+
+#, fuzzy
+msgid "local_role_assignment"
+msgstr "Lokale Rollenzuweisung"
+
+msgid "location"
+msgstr "ადგილმდეარეობა"
+
+msgid "locator"
+msgstr "ადგილმდებარეობა:"
+
+msgid "log_in"
+msgstr "შესვლა"
+
+#, fuzzy
+msgid "log_out"
+msgstr "Logout"
+
+msgid "logic_or"
+msgstr "ან"
+
+msgid "login"
+msgstr "შესვლა"
+
+msgid "login_as"
+msgstr "შესულია როგორც"
+
+msgid "login_data"
+msgstr "შესვლის თარიღი"
+
+msgid "login_exists"
+msgstr "ამ სახელით მომხმარებელი უკვე არსებობს! გთხოვთ აირჩიოთ სხვა"
+
+msgid "login_invalid"
+msgstr "არცეული შესვლის ინფორმაცია არასწორია! Mხოლოდ შემდეგი ნიშნებია დაშვებული ( მინიმუმ სამი ნიშანი) A-ძ ა-ზ 0-9 _.-+*@!§%s”"
+
+msgid "login_to_ilias"
+msgstr "ილიასში შესვლა"
+
+#, fuzzy
+msgid "login_to_ilias_via_login_form"
+msgstr "Login to ILIAS"
+
+#, fuzzy
+msgid "login_to_ilias_via_saml"
+msgstr "Login to ILIAS via SAML Authentification"
+
+msgid "login_to_ilias_via_shibboleth"
+msgstr "ილიასში შესვლა"
+
+msgid "loginname_already_exists"
+msgstr "შესვლის ეს სახელი უკვე არსებობს"
+
+msgid "loginname_settings"
+msgstr "შესვლის სახელის პარამეტრები"
+
+msgid "logout"
+msgstr "გამოსვლა"
+
+msgid "logout_text"
+msgstr "თქვენ გამოსული ხართ ილიასიდან. თქვენი სესია დახურულია"
+
+msgid "logs"
+msgstr "მონაცემები"
+
+#, fuzzy
+msgid "love"
+msgstr "Love"
+
+msgid "lres"
+msgstr "სასწავლო რესურსები"
+
+#, fuzzy
+msgid "lso_add"
+msgstr "Add Learning Sequence"
+
+#, fuzzy
+msgid "lso_admin_form_byline"
+msgstr "General Settings for Learning Sequences"
+
+#, fuzzy
+msgid "lso_admin_form_title"
+msgstr "Settings"
+
+#, fuzzy
+msgid "lso_admin_interval_byline"
+msgstr "Poll Learning Progress every x seconds. Be careful! A low value will increase server-requests and have an impact on overall system performance. Please choose highest value possible!"
+
+#, fuzzy
+msgid "lso_admin_interval_label"
+msgstr "Learning Progress Polling Interval (seconds)"
+
+#, fuzzy
+msgid "lso_copy_threads_info"
+msgstr "Please decide which elements of the Learning Sequence should be copied, linked or omitted."
+
+#, fuzzy
+msgid "lso_edit"
+msgstr "Edit Learning Sequence"
+
+#, fuzzy
+msgid "lso_import"
+msgstr "Import Learning Sequence"
+
+#, fuzzy
+msgid "lso_new"
+msgstr "New Learning Sequence"
+
+#, fuzzy
+msgid "lso_wizard_page"
+msgstr "Copy Learning Sequence (Step 2/2)"
+
+#, fuzzy
+msgid "lti"
+msgstr "LTI Tool (Consumer)"
+
+#, fuzzy
+msgid "lti_add"
+msgstr "Add LTI Tool (Consumer)"
+
+#, fuzzy
+msgid "lti_new"
+msgstr "New LTI Tool (Consumer)"
+
+#, fuzzy
+msgid "lti_outcome_info"
+msgstr "Sendet den Lernfortschrittstatus von LTI-Benutzern an LTI Tool Consumer."
+
+msgid "mail"
+msgstr "ემაილი"
+
+msgid "mail_addressbook"
+msgstr "კონტაქტები"
+
+msgid "mail_at_the_ilias_installation"
+msgstr "თქვენ მიირეთ %s1$ ახალი ემაილები ილიასის დაყენებაში %s2$"
+
+msgid "mail_attachment"
+msgstr "ემაილის დანართი"
+
+msgid "mail_b_inbox"
+msgstr "შეტყობინებების ყუთი"
+
+msgid "mail_c_trash"
+msgstr "სანაგვე"
+
+#, fuzzy
+msgid "mail_cron_scheduled_mails"
+msgstr "Send scheduled mails."
+
+#, fuzzy
+msgid "mail_cron_scheduled_mails_desc"
+msgstr "Sends scheduled user mails according to their defined delivery times"
+
+msgid "mail_d_drafts"
+msgstr "გაუგზავნელი შეტყობინებები"
+
+msgid "mail_delete_error"
+msgstr "შეცდომა წაშლის დროს"
+
+#, fuzzy
+msgid "mail_e_outbox"
+msgstr "Outbox"
+
+msgid "mail_e_sent"
+msgstr "გაგზავნილი"
+
+msgid "mail_edit_permission"
+msgstr "დაშვების პარამეტრების შეცვლა"
+
+#, fuzzy
+msgid "mail_f_sent"
+msgstr "Sent"
+
+msgid "mail_folders"
+msgstr "ემაილის ფოლდერები"
+
+msgid "mail_import_file"
+msgstr "ფაილის გადაგზავნა"
+
+msgid "mail_mails_of"
+msgstr "ემაილი"
+
+msgid "mail_maxsize_attach"
+msgstr "დანართის მაქსიმალური ზომა"
+
+msgid "mail_member"
+msgstr "Mail to Member"
+
+msgid "mail_members"
+msgstr "ემაილი წევრებს"
+
+#, fuzzy
+msgid "mail_message_scheduled"
+msgstr "Scheduled mail"
+
+#, fuzzy
+msgid "mail_message_scheduled_info"
+msgstr "Mails remain in the outbox until the scheduled sending time."
+
+msgid "mail_not_sent"
+msgstr "ემაილი არ არის გაგზავნილი"
+
+#, fuzzy
+msgid "mail_schedule_error_no_datetime"
+msgstr "To schedule a mail, a delivery date and time must be specified."
+
+#, fuzzy
+msgid "mail_schedule_error_past_datetime"
+msgstr "You cannot schedule emails in the past."
+
+#, fuzzy
+msgid "mail_schedule_scheduled_datetime"
+msgstr "Scheduled Send Time"
+
+#, fuzzy
+msgid "mail_scheduled"
+msgstr "Mail stored in outbox for later delivery."
+
+#, fuzzy
+msgid "mail_scheduled_edit_compose_info"
+msgstr "You are editing a scheduled mail. Sending is paused until you schedule the mail again."
+
+#, fuzzy
+msgid "mail_scheduled_edit_moved_info"
+msgstr "This scheduled mail was temporarily moved to drafts so it will not be sent while you are editing it. After scheduling again, it will reappear in the outbox."
+
+msgid "mail_search_no"
+msgstr "შენატანი არ არის ნაპოვნი"
+
+msgid "mail_select_one"
+msgstr "თქვენ უნდა აირჩიოთ ერთი მაილი"
+
+msgid "mail_send_error"
+msgstr "შეცდომა ემაილის გაგზავნისას"
+
+msgid "mail_sent"
+msgstr "ემაილი გაგზავნილია"
+
+msgid "mail_settings"
+msgstr "ემაილის პარამეტრები"
+
+msgid "mail_to_global_roles_not_allowed"
+msgstr "გლობალური პასუხისმგებლობებისთვის ემაილების გაგზავნა არ არის დაშვებული"
+
+msgid "mail_z_local"
+msgstr "ფოლდერების გამოყენება"
+
+msgid "mails"
+msgstr "ემაილები"
+
+msgid "mails_at_the_ilias_installation"
+msgstr "თქვენ მიირეთ %s1$ ახალი ემაილები ილიასის დაყენებაში %s2$"
+
+msgid "mails_pl"
+msgstr "ემაილები"
+
+msgid "main_menu"
+msgstr "ემაილის მენიუ"
+
+#, fuzzy
+msgid "mainbar_aria_label"
+msgstr "Mainbar"
+
+#, fuzzy
+msgid "mainbar_more_label"
+msgstr "More"
+
+#, fuzzy
+msgid "manage_members"
+msgstr "Manage Members"
+
+msgid "matriculation"
+msgstr "ჩარიცხულთა რაოდენობა"
+
+#, fuzzy
+msgid "max_previews_per_object"
+msgstr "Number of preview images per file"
+
+#, fuzzy
+msgid "max_previews_per_object_info"
+msgstr "Defines the maximum number of preview images that are created per file."
+
+msgid "mcst"
+msgstr "მედიაქასთი"
+
+msgid "mcst_add"
+msgstr "მედიაქასტის დამატება"
+
+msgid "mcst_new"
+msgstr "ახალი მედიაქასთი"
+
+msgid "mem_add_to_wl"
+msgstr "მოლოდინის სიაში დამატება"
+
+msgid "mem_alert_no_places"
+msgstr "თავისუფალი ადგილები არ არის ხელმისაწვდომი"
+
+#, fuzzy
+msgid "mem_cron_min_members"
+msgstr "Course/Group: Minimum Members Check"
+
+#, fuzzy
+msgid "mem_cron_min_members_info"
+msgstr "The administrators will be notified if the minimum number is not met."
+
+msgid "mem_end"
+msgstr "რეგისტრაცია მთავრდება :"
+
+msgid "mem_free_places"
+msgstr "თავისუფალი ადგილები"
+
+msgid "mem_max_users"
+msgstr "მომხმარებელთა მაქსიმუმი"
+
+#, fuzzy
+msgid "mem_min_users"
+msgstr "Minimum of Users"
+
+msgid "mem_participants"
+msgstr "მონაწილეები"
+
+msgid "mem_reg_expired"
+msgstr "რეგისტრაციის დრო ამოიწურა"
+
+msgid "mem_reg_not_started"
+msgstr "რეგისტრაცია ჯერ არ დაიწყო"
+
+msgid "mem_reg_period"
+msgstr "რეგისტრაციის პერიოდი"
+
+msgid "mem_reg_type"
+msgstr "რეგისტრაციის ტიპი"
+
+msgid "mem_start"
+msgstr "რეგისტრაცია დაიწყო:"
+
+msgid "mem_unlimited"
+msgstr "შეუზღუდავი"
+
+msgid "mem_view_activate"
+msgstr "წევრების ჩვენების ნახვა"
+
+msgid "mem_view_close"
+msgstr "წევრების ჩვენების ახლო ხედვა"
+
+msgid "mem_view_long"
+msgstr "წევრის ჩვენება"
+
+msgid "mem_waiting_list"
+msgstr "მომხმარებლები მოლოდინის სიაში"
+
+msgid "mem_waiting_list_position"
+msgstr "თქვენი ადგილი მოლოდინის სიაში"
+
+msgid "member"
+msgstr "წევრი"
+
+msgid "member_status"
+msgstr "წევრის სტატუსი"
+
+msgid "members"
+msgstr "წევრები"
+
+msgid "membership_leave"
+msgstr "დატოვება"
+
+msgid "mep"
+msgstr "მედია ნაკადი"
+
+msgid "mep_add"
+msgstr "მედია ნაკადის დამატება"
+
+msgid "mep_edit"
+msgstr "მედია ნაკადის პარამეტრების რედაქტირება"
+
+msgid "mep_new"
+msgstr "ახალი მედია ნაკადი"
+
+msgid "mep_not_insert_already_exist"
+msgstr "შემდეგი ნივთები არ არის ჩასმული"
+
+msgid "message"
+msgstr "შეტყობინება"
+
+msgid "message_content"
+msgstr "შეტყობინების შინაარსი"
+
+msgid "message_no_delivered_files"
+msgstr "თქვენ ჯერ არ ჩაგიბარებიათ ფაილები"
+
+msgid "meta_data"
+msgstr "მეტა მონაცემები"
+
+#, fuzzy
+msgid "metabar_aria_label"
+msgstr "Metabar"
+
+#, fuzzy
+msgid "mgs_objects_linked_to_the_following_folders_p"
+msgstr "The objects were linked to the following folder(s): %s"
+
+#, fuzzy
+msgid "mgs_objects_linked_to_the_following_folders_s"
+msgstr "The object was linked to the following folder(s): %s"
+
+msgid "migrate"
+msgstr "გადატანა"
+
+#, fuzzy
+msgid "minimize"
+msgstr "Minimize"
+
+msgid "minute"
+msgstr "წუთი"
+
+msgid "minutes"
+msgstr "წუთები"
+
+msgid "missing"
+msgstr "დაკარგვა"
+
+msgid "missing_perm"
+msgstr "დაკარგვის ნებართვა"
+
+msgid "missing_precondition"
+msgstr "დაკარგვის საწინდარი"
+
+#, fuzzy
+msgid "mm_achievements"
+msgstr "Achievements"
+
+#, fuzzy
+msgid "mm_administration"
+msgstr "Administration"
+
+#, fuzzy
+msgid "mm_badges"
+msgstr "Badges"
+
+#, fuzzy
+msgid "mm_calendar"
+msgstr "Calendar"
+
+#, fuzzy
+msgid "mm_certificates"
+msgstr "Certificates"
+
+#, fuzzy
+msgid "mm_comments"
+msgstr "Comments"
+
+#, fuzzy
+msgid "mm_communication"
+msgstr "Communication"
+
+#, fuzzy
+msgid "mm_contacts"
+msgstr "Contacts"
+
+#, fuzzy
+msgid "mm_dashboard"
+msgstr "Dashboard"
+
+#, fuzzy
+msgid "mm_enrolments"
+msgstr "Enrolments"
+
+#, fuzzy
+msgid "mm_favorites"
+msgstr "Favourites"
+
+#, fuzzy
+msgid "mm_learning_history"
+msgstr "Learning History"
+
+#, fuzzy
+msgid "mm_learning_progress"
+msgstr "Learning Progress"
+
+#, fuzzy
+msgid "mm_mail"
+msgstr "Mail"
+
+#, fuzzy
+msgid "mm_news"
+msgstr "News"
+
+#, fuzzy
+msgid "mm_notes"
+msgstr "Notes"
+
+#, fuzzy
+msgid "mm_organisation"
+msgstr "Organisation"
+
+#, fuzzy
+msgid "mm_personal_and_shared_r"
+msgstr "Personal and Shared Resources"
+
+#, fuzzy
+msgid "mm_personal_workspace"
+msgstr "Personal Workspace"
+
+#, fuzzy
+msgid "mm_portfolio"
+msgstr "Portfolio"
+
+#, fuzzy
+msgid "mm_private_chats"
+msgstr "Private Chats"
+
+#, fuzzy
+msgid "mm_repo_tree_view"
+msgstr "Tree View"
+
+#, fuzzy
+msgid "mm_repo_tree_view_act"
+msgstr "Activate Tree"
+
+#, fuzzy
+msgid "mm_repo_tree_view_deact"
+msgstr "Deactivate Tree"
+
+#, fuzzy
+msgid "mm_repository"
+msgstr "Repository"
+
+#, fuzzy
+msgid "mm_skills"
+msgstr "Competences"
+
+#, fuzzy
+msgid "mm_staff_list"
+msgstr "Staff List"
+
+#, fuzzy
+msgid "mm_tags"
+msgstr "Tags"
+
+#, fuzzy
+msgid "mm_task_derived_tasks"
+msgstr "Tasks"
+
+#, fuzzy
+msgid "mme_lost_item_reason"
+msgstr "Item is no longer provided."
+
+#, fuzzy
+msgid "mme_lost_item_title"
+msgstr "No assignment"
+
+msgid "mob"
+msgstr "მედია ობიექტი"
+
+msgid "moderators"
+msgstr "მოდერატორები"
+
+msgid "module"
+msgstr "მოდული"
+
+msgid "modules"
+msgstr "მოდულები"
+
+msgid "month"
+msgstr "თვე"
+
+msgid "month_01_long"
+msgstr "იანვარი"
+
+msgid "month_01_short"
+msgstr "იანვარი"
+
+msgid "month_02_long"
+msgstr "თებერვალი"
+
+msgid "month_02_short"
+msgstr "თებერვალი"
+
+msgid "month_03_long"
+msgstr "მარტი"
+
+msgid "month_03_short"
+msgstr "მარტი"
+
+msgid "month_04_long"
+msgstr "აპრილი"
+
+msgid "month_04_short"
+msgstr "აპრილი"
+
+msgid "month_05_long"
+msgstr "მაისი"
+
+msgid "month_05_short"
+msgstr "მაისი"
+
+msgid "month_06_long"
+msgstr "ივნისი"
+
+msgid "month_06_short"
+msgstr "ივნისი"
+
+msgid "month_07_long"
+msgstr "ივლისი"
+
+msgid "month_07_short"
+msgstr "ივლისი"
+
+msgid "month_08_long"
+msgstr "აგვისტო"
+
+msgid "month_08_short"
+msgstr "აგვისტო"
+
+msgid "month_09_long"
+msgstr "სექტემბერი"
+
+msgid "month_09_short"
+msgstr "სექტემბერი"
+
+msgid "month_10_long"
+msgstr "ოქტომბერი"
+
+msgid "month_10_short"
+msgstr "ოქტომბერი"
+
+msgid "month_11_long"
+msgstr "ნოემბერი"
+
+msgid "month_11_short"
+msgstr "ნოემბერი"
+
+msgid "month_12_long"
+msgstr "დეკემბერი"
+
+msgid "month_12_short"
+msgstr "დეკემბერი"
+
+msgid "monthly"
+msgstr "თვიურად"
+
+msgid "months"
+msgstr "თვეები"
+
+msgid "mount_webfolder"
+msgstr "გავხნათ როგორც ვებფოლდერი"
+
+msgid "move"
+msgstr "გადატანა"
+
+msgid "moveChapter"
+msgstr "გადატანა"
+
+msgid "movePage"
+msgstr "გადატანა"
+
+msgid "move_selected_items"
+msgstr "გადატანა"
+
+#, fuzzy
+msgid "msg_bt_download_started"
+msgstr "ILIAS is generating a ZIP archive of all available files. You can download them from the Notification Center (bell icon) on top right."
+
+msgid "msg_cancel"
+msgstr "მოქმედება გაუქმებულია"
+
+msgid "msg_clear_clipboard"
+msgstr "დაფა გასუფთავებულია"
+
+msgid "msg_cloned"
+msgstr "მონიშნული ობიექტების ასლი გაკეთებულია"
+
+msgid "msg_copy_clipboard"
+msgstr "ახლა, გთხოვთ აირჩიოთ სასურველი ადგილი, სადაც მონიშნული ობიექტების ასლი გაკეთდება და შემდეგ დააჭირეთ ღილაკს ,,ასლის ჩასმა\""
+
+#, fuzzy
+msgid "msg_copy_clipboard_container"
+msgstr "Now, please select the desired location, where the selected objects should be pasted into and click the button \"Continue\"."
+
+msgid "msg_copy_clipboard_source"
+msgstr "ახლა, გთხოვთ აირჩიოთ სასურველი კურსი, რომლის შინაარსის ასლის უნდა გაკეთდეს და დააჭიროთ ღილაკს \"შემდეგი\""
+
+msgid "msg_cut_clipboard"
+msgstr "ახლა, გთხოვთ აირჩიოთ სასურველი ადგილი, სადაც მონიშნული ობიქტების ასლი უნდა გაკეთდეს და დააჭირეთ ღილაკს ,,ასლის ჩასმა\""
+
+msgid "msg_cut_copied"
+msgstr "მონიშნული ობიექტები გადატანილია"
+
+msgid "msg_deleted_export_files"
+msgstr "წაშლილი ფაილების გადაგზავნა"
+
+msgid "msg_deleted_role"
+msgstr "პასუხისმგებლობა წაშლილია"
+
+msgid "msg_deleted_roles_rolts"
+msgstr "პასუხისმგებლობი&პასუხისმგებლობა წაშლილია"
+
+msgid "msg_failed"
+msgstr "სამწუხაროდ მოწმედება ვერ შესრულდა"
+
+msgid "msg_form_save_error"
+msgstr "ფორმის მონაცემები არ არის შენახული. გთხოვთ შეამოწმოთ შენატანის ველები ნებისმიერი შეცდომითი შეტყობინებისთვის."
+
+#, fuzzy
+msgid "msg_info_blacklisted"
+msgstr "The files cannot be uploaded due to security reasons."
+
+#, fuzzy
+msgid "msg_input_char_limit_max"
+msgstr "You have entered more characters than allowed."
+
+#, fuzzy
+msgid "msg_input_char_limit_min"
+msgstr "You have to enter the minimum of characters specified."
+
+msgid "msg_input_does_not_match_regexp"
+msgstr "გთხოვთ შეიყვანოთ სწორი ღირებულება"
+
+msgid "msg_input_is_required"
+msgstr "ეს შენატანი მოთხოვნილია. გთხოვთ შეიყვანოთ ღირებულება"
+
+#, fuzzy
+msgid "msg_invalid_value_css_rect_input"
+msgstr "The entered value is incorrect, do not use any plus or minus symbols in combination with the entered integer. Please check your input."
+
+msgid "msg_is_last_role"
+msgstr "თქვენ ამოშალეთ ბოლო გლობალური პასუხისმგებლობა შემდეგი მომხმარებლებისგან"
+
+msgid "msg_last_role_for_registration"
+msgstr "სულ მცირე ერთი პასუხისმგებლობაა შესაძლებელი  რეგისტრაციის ფორმაში ახალი მომხმარებლებისთვის. ამჟამად მხოლოდ ეს პასუხისმგებლობაა შესაძლებელი"
+
+#, fuzzy
+msgid "msg_link_clipboard_p"
+msgstr "Now, please select the desired location, where the selected objects should be linked to and click the button Paste."
+
+#, fuzzy
+msgid "msg_link_clipboard_s"
+msgstr "Now, please select the desired location, where the selected object should be linked to and click the button Paste."
+
+msgid "msg_linked"
+msgstr "მონიშნული ობიექტები დაკავშირებულია"
+
+msgid "msg_may_not_contain"
+msgstr "ეს ობიექტი შეიძლება არ შეიცავდეს ამ სახეობის ობიექტებს"
+
+msgid "msg_min_one_role"
+msgstr "თითოეულ მომხმარბელს უნდა ჰქონდეს სულ მცირე ერთი გლობალური პასუხისმგებლობა!"
+
+msgid "msg_multi_language_selected"
+msgstr "თქვენ აირჩიეთ იგივე ენა სხვადასხვა თარგმანისთვის!"
+
+msgid "msg_no_default_language"
+msgstr "შეცდომითი ენა არ არის განსაზღვრული. თქვენ უნდა განსაზღვროთ ერთი თარგმანი როგორც შეცდომითი თარგმანი"
+
+msgid "msg_no_delete_yourself"
+msgstr "თქვენ შეიძლება წაშალოთ თქვენიე ანგარიში"
+
+msgid "msg_no_file"
+msgstr "თქვენ არ გაქვთ არჩეული ფაილი"
+
+#, fuzzy
+msgid "msg_no_files_selected"
+msgstr "No files selected"
+
+msgid "msg_no_language_selected"
+msgstr "თარგმანი არ არის განსაზღვრული! თქვენ უნდა განსაზღვროთ ენა თითოეული თარგმანისთვის"
+
+msgid "msg_no_perm_assign_role_to_user"
+msgstr "თქვენ არ გაქვთ მომხმარებლის პასუხისმგებლობის შეცვლის უფლება"
+
+msgid "msg_no_perm_assign_user_to_role"
+msgstr "თქენ არ გაქვთ მომხმარებლის დავალების შეცვლის უფლება"
+
+msgid "msg_no_perm_copy"
+msgstr "თქვენ არ გაქვთ შემდეგი ობიექტების ახალი ასლის გაკეთების უფლება"
+
+msgid "msg_no_perm_create_rolt"
+msgstr "თქვენ არ გაქვთ პასუხისმგებლობების ნიმუშების დამატების უფლება"
+
+msgid "msg_no_perm_cut"
+msgstr "თქვენ არ გაქვთ შემდეგი ობიექტების ამოჭრის უფლება"
+
+msgid "msg_no_perm_delete"
+msgstr "თქვენ არ გაქვთ შემდეგი ობიექტების წაშლის უფლება"
+
+msgid "msg_no_perm_link"
+msgstr "თქვენ არ გაქვთ შემდეგი ობიექტების ლინკის შექმნის უფლება"
+
+msgid "msg_no_perm_modify_rolt"
+msgstr "თქვენ არ გაქვთ პასუხისმგებლობების ნიმუშების დაყენების უფლება"
+
+msgid "msg_no_perm_modify_user"
+msgstr "თქვენ არ გაქვთ მომხმარებელტა მონაცემების დაყენების უფლება"
+
+msgid "msg_no_perm_paste"
+msgstr "თქვენ არ გაქვთ შემდეგი ობიექტების ასლის ჩასმის უფლება"
+
+msgid "msg_no_perm_paste_object_in_folder"
+msgstr "თქვენ არ გაქვთ ობიექტის %s ფოლდერში %s ჩასმის უფლება"
+
+msgid "msg_no_perm_perm"
+msgstr "თქვენ არ გაქვთ დაშვების პარამეტრების რედაქტირების უფლება"
+
+msgid "msg_no_perm_read"
+msgstr "თქვენ არ გაქვთ ამ ნივთზე უფლება"
+
+msgid "msg_no_perm_read_item"
+msgstr "თქვენ არ გაქვთ ნივთზე უფლება"
+
+msgid "msg_no_perm_read_lm"
+msgstr "თქვენ არ გაქვთ ამ სასწავლო მოდულში კითხვის უფლება"
+
+#, fuzzy
+msgid "msg_no_perm_view_roles_of_user"
+msgstr "You have no permission to view the role assignment of this user"
+
+msgid "msg_no_perm_write"
+msgstr "თქვენ არ გაქვთ წერის უფლება"
+
+msgid "msg_no_search_result"
+msgstr "შენატანები ვერ მოიძებნა"
+
+msgid "msg_no_search_string"
+msgstr "გთხოვთ შეიყვანოთ თქვენი კითხვა"
+
+msgid "msg_no_title"
+msgstr "გთხოვთ შიყვანოთ დასახელება"
+
+msgid "msg_not_available_for_anon"
+msgstr "გვერდი რომელიც თქვენ აირჩიეთ ხელმისაწვდომია მხოლოდ დარეგისტრირებული მომხმარებლებისთვის"
+
+msgid "msg_not_in_itself"
+msgstr "ობიექტის ასლის ჩასმა იმავე ობიექტში შეუძლებელია"
+
+#, fuzzy
+msgid "msg_obj_already_deleted"
+msgstr "The object has already been deleted."
+
+msgid "msg_obj_created"
+msgstr "ობიექტი შექმნილია"
+
+msgid "msg_obj_exists"
+msgstr "ობიექტი უკვე არსებობს ფოლდერში"
+
+msgid "msg_obj_exists_in_folder"
+msgstr "ობიექტი %s უკვე არსებობს ამ ფოლდერში"
+
+msgid "msg_obj_may_not_contain_objects_of_type"
+msgstr "ობიექტი %s შესაძლოა არ შეიცავდეს ამ სახეობის ობიექტებს %s"
+
+msgid "msg_obj_modified"
+msgstr "ცვლილებები შენახულია"
+
+#, fuzzy
+msgid "msg_obj_no_download"
+msgstr "cannot be downloaded."
+
+msgid "msg_obj_no_link"
+msgstr "თქვენ არ გაქვთ დაკავშირების უფლება"
+
+#, fuzzy
+msgid "msg_obj_perm_download"
+msgstr "You do not have sufficient rights to download the following objects:"
+
+msgid "msg_paste_object_not_in_itself"
+msgstr "ობიექტების ასლის იმავე ობიექტში ჩასმა შეუძლებელია"
+
+msgid "msg_perm_adopted_from1"
+msgstr "დაშვების პარამეტრები შემოღებულია"
+
+msgid "msg_perm_adopted_from2"
+msgstr "პარამეტრები შენახულია"
+
+msgid "msg_perm_adopted_from_itself"
+msgstr "თქვენ არ შეგიძლიათ შემოიღოთ დაშვების პარამეტრები თვითონ მიმდინარე პასუხისმგებლობის ნიმუშისთვის"
+
+msgid "msg_removed"
+msgstr "ობიექტები ამოშლილია სისტემიდან"
+
+msgid "msg_role_reserved_prefix"
+msgstr "პრეფიქსი ,,ილ_\" არ შენახული ავტომატურად წარმოქმნილი პასუხისმგებლობებისთვის. გთხოვთ აირჩიოთ სხვა სახელი"
+
+msgid "msg_roleassignment_changed"
+msgstr "პასუხისმგებლობის დავალება შეცვლილია"
+
+msgid "msg_sysrole_not_deletable"
+msgstr "სისტემის პასუხისმგებლობა არ შეიძლება წაიშალოს"
+
+msgid "msg_sysrole_not_editable"
+msgstr "სისტემის პასუხისმგებლობის დაშვების პარამეტრების შეცვლა შეუძლებელია. სისტემის  პასუხისმგებლობა ანიჭებს ყველა მომხმარებელს შეუზღუდავ დაშვება ყველა ობიექტსა და ფუნქციაზე"
+
+#, fuzzy
+msgid "msg_to_many_files"
+msgstr "Too many files selected, allowed amount of files:"
+
+msgid "msg_trash_empty"
+msgstr "წაშლილი ობიექტები არ არის"
+
+msgid "msg_undeleted"
+msgstr "ობიექტები აღდგენილია"
+
+msgid "msg_unit_is_required"
+msgstr "ეს შენატანი მოითხოვს ნივთს. გთხოვთ შეიყვანოთ სწორი ღირებულება"
+
+#, fuzzy
+msgid "msg_unknown_value"
+msgstr "An unknown value has been passed."
+
+msgid "msg_user_last_role1"
+msgstr "შემდეგი მომხარებლები დანიშნული არიან მხოლოდ ამ პასუხისმგებლობაზე:"
+
+msgid "msg_user_last_role2"
+msgstr "გთხოვთ წაშალოთ მომხმარებლები ან დანიშნოთ ისინი სხვა პასუხისმგებლობაზე იმისათვის რომ წაშალოთ ეს პასუხისმგებლობა"
+
+msgid "msg_userassignment_changed"
+msgstr "თქვენი დავალება შეიცვალა"
+
+#, fuzzy
+msgid "msg_wrong_filetypes"
+msgstr "Allowed Files-Types:"
+
+msgid "msg_wrong_format"
+msgstr "ღირებულება რომელიც თქვენ შეიყვანეტ არ არის სწორ ფორმატში"
+
+msgid "my_bms"
+msgstr "სანიშნეები"
+
+#, fuzzy
+msgid "my_certificates"
+msgstr "My Certificates"
+
+#, fuzzy
+msgid "my_contacts"
+msgstr "My Contact"
+
+msgid "my_courses"
+msgstr "ჩემი კურსები"
+
+msgid "my_courses_groups"
+msgstr "ჩემი კურსები და ჯგუფები"
+
+#, fuzzy
+msgid "my_staff"
+msgstr "Staff"
+
+msgid "name"
+msgstr "სახელი"
+
+#, fuzzy
+msgid "nc_contact_requests_headline"
+msgstr "Contact Requests"
+
+#, fuzzy
+msgid "nc_contact_requests_number_p"
+msgstr "You have %s Contact Requests."
+
+#, fuzzy
+msgid "nc_contact_requests_number_s"
+msgstr "You have %s Contact Request."
+
+#, fuzzy
+msgid "nc_contact_requests_prop_time"
+msgstr "Time"
+
+msgid "never"
+msgstr "არასოდეს"
+
+msgid "new"
+msgstr "ახალი"
+
+msgid "new_language"
+msgstr "ახალი ენა"
+
+msgid "new_pass_equals_old_pass"
+msgstr "ახალი პაროლი უტოლდება ძველს"
+
+msgid "newline"
+msgstr "ახალი ხაზი"
+
+msgid "news"
+msgstr "სიახლეები"
+
+msgid "next"
+msgstr "შემდეგი"
+
+msgid "no"
+msgstr "არა"
+
+msgid "no_access_item"
+msgstr "თქვენ არ გაქვთ ამ ნივთზე დაშვება"
+
+msgid "no_access_item_public"
+msgstr "ამ ნივთისთვის საჭიროა შესული იყოთ და გქონდეთ შესაბამისი ნებართვა"
+
+#, fuzzy
+msgid "no_accessibility_control_concept_description"
+msgstr "There is currently no Accessibility Control Concept provided with this installation. Please contact the <a href=\"%1$s\">Accessibility Point of Contact</a>."
+
+msgid "no_checkbox"
+msgstr "გთხოვთ აირჩიოთ სულ მცირე ერთი ნივთი"
+
+msgid "no_condition_selected"
+msgstr "გთხოვთ აირჩიოთ ერთი წინაპირობა"
+
+msgid "no_date"
+msgstr "თარიღი არ არის"
+
+#, fuzzy
+msgid "no_gallery_users_available"
+msgstr "There are currently no users in the gallery."
+
+msgid "no_global_role_left"
+msgstr "ყველა მომხმარებელს უნდა ჰქონდეს პასუხისმგებლობა"
+
+msgid "no_import_file_found"
+msgstr "გადმოტანილი ფაილი ვერ მოიძებნა"
+
+msgid "no_items"
+msgstr "ნივთები არ არის"
+
+msgid "no_limit"
+msgstr "შეზღუდვა არ არის"
+
+msgid "no_mkisofs_configured"
+msgstr "თქვენ უნდა დააყენოთ"
+
+msgid "no_parent_access"
+msgstr "სუპერკოორდინირებული ობიექტი არ არსებობს"
+
+msgid "no_permission"
+msgstr "თქვენ არ გაქვთ საჭირო დაშვება"
+
+msgid "no_roles_user_can_be_assigned_to"
+msgstr "გლობალური პასუხისმგებლობა რომელზეც შეიძლება მომხმარებელი დაინიშნოს არ არის. Aმიტომ თქვენ არ გაქვთ მომხმარებლების დამატების უფლება"
+
+msgid "no_start_file"
+msgstr "დაწყების ფაილი არ არის"
+
+msgid "no_title"
+msgstr "დასახელება არ არის"
+
+msgid "no_users_selected"
+msgstr "გთხოვთ აირჩიოთ ერთი მომხმარებელი"
+
+msgid "no_xml_file_found_in_zip"
+msgstr "ექს ემ ელ ფაილი ზიპში ვერ მოიძებნა"
+
+#, fuzzy
+msgid "noc"
+msgstr "Notification Center"
+
+msgid "non_internal_local_roles_only"
+msgstr "ადგილობრივი პასუხისმგებლობები ( მხოლოდ განსაზღვრული მომხმარებელი)"
+
+msgid "none"
+msgstr "არცEერთი"
+
+msgid "normal"
+msgstr "ჩვეულებრივი"
+
+msgid "not_available"
+msgstr "არ არის ხელმისაწვდომი"
+
+msgid "not_implemented_yet"
+msgstr "არ არის შესრულებული"
+
+msgid "not_installed"
+msgstr "არ არის დაყენებული"
+
+msgid "not_logged_in"
+msgstr "თქვენ არ ხართ შესული"
+
+msgid "note"
+msgstr "შენიშვნა"
+
+msgid "notes"
+msgstr "შენიშვნები"
+
+msgid "notes_and_comments"
+msgstr "შენიშვნები და კომენტარები"
+
+msgid "notice"
+msgstr "შენიშვნა"
+
+msgid "notifications"
+msgstr "შენიშვნები"
+
+msgid "nr_following_sessions"
+msgstr "%s შემდეგი სესიები"
+
+#, fuzzy
+msgid "num_of_selected_files"
+msgstr "%s file(s) selected"
+
+msgid "num_users"
+msgstr "მომხმარებელთა რაოდენობა"
+
+#, fuzzy
+msgid "numberedlist_action"
+msgstr "Insert Numbered List - Click to insert a numbered list."
+
+msgid "obj"
+msgstr "ობიექტი"
+
+msgid "obj_accs"
+msgstr "ხელმისაწვდომობა"
+
+msgid "obj_accs_desc"
+msgstr "შესვლის მახასიათებლების პარამეტრები"
+
+msgid "obj_adm"
+msgstr "ადმინისტრაცია"
+
+msgid "obj_adm_desc"
+msgstr "მთავარი სისტემის პარამეტრები შეიცავს ყველა პანელს ილიასის დაყენები მართვისთვის"
+
+#, fuzzy
+msgid "obj_adma"
+msgstr "General Settings"
+
+#, fuzzy
+msgid "obj_adma_desc"
+msgstr "Important settings for the whole installation"
+
+#, fuzzy
+msgid "obj_adn"
+msgstr "Administrative Notifications"
+
+msgid "obj_adve"
+msgstr "გაუმჯობესებული რედაქტირება"
+
+msgid "obj_adve_desc"
+msgstr "ადმინისტრაციის პარამეტრები გაუმჯობესებული რედაქტირებისთვის როგორიც არის ჯავა ხელნაწერი მდიდარი ტექტსის რედაქტირება, ლატექსის მხარდაჭერა ა. შ."
+
+msgid "obj_ass"
+msgstr "აქტივი"
+
+msgid "obj_assf"
+msgstr "ტესტი და შეფასება"
+
+msgid "obj_assf_desc"
+msgstr "პლატფორმის პარამეტრები ტესტის და შეფასების ინსტრუმენტისთვის"
+
+msgid "obj_auth"
+msgstr "ავტორიზება და რეგისტრაცია"
+
+msgid "obj_auth_desc"
+msgstr "ავტორიზების მდგომარეობის დაყენება ( ადგილობრივი, LDAP, ...) ახალი ანგარიშის რეგისტრაციის პარამტერები"
+
+#, fuzzy
+msgid "obj_awra"
+msgstr "‘Who is online?’-Tool"
+
+#, fuzzy
+msgid "obj_awra_desc"
+msgstr "Manage ‘Who is online?’-Tool"
+
+#, fuzzy
+msgid "obj_bdga"
+msgstr "Badges"
+
+#, fuzzy
+msgid "obj_bdga_desc"
+msgstr "Administrate types, image templates and activity badges"
+
+#, fuzzy
+msgid "obj_bgtk"
+msgstr "Background Task"
+
+#, fuzzy
+msgid "obj_bibl"
+msgstr "Bibliography"
+
+#, fuzzy
+msgid "obj_bibs"
+msgstr "Bibliography"
+
+#, fuzzy
+msgid "obj_bibs_desc"
+msgstr "Bibliography Administration"
+
+msgid "obj_blog"
+msgstr "ბლოგი"
+
+msgid "obj_blog_duplicate"
+msgstr "Copy Blog"
+
+#, fuzzy
+msgid "obj_bnmk"
+msgstr "Benchmarking"
+
+#, fuzzy
+msgid "obj_bnmk_desc"
+msgstr "Recording and display of database query durations"
+
+msgid "obj_book"
+msgstr "დაჯავშნის ნაკადი"
+
+#, fuzzy
+msgid "obj_cadm"
+msgstr "Contacts"
+
+#, fuzzy
+msgid "obj_cadm_desc"
+msgstr "Contacts Administration"
+
+msgid "obj_cals"
+msgstr "კალენდარი"
+
+msgid "obj_cals_desc"
+msgstr "კალენდარის ზოგადი პარამეტრები"
+
+msgid "obj_cat"
+msgstr "კატეგორია"
+
+msgid "obj_cat_duplicate"
+msgstr "კატეგორიის ასლის გაკეთება"
+
+msgid "obj_catr"
+msgstr "კატეგორიის წყარო"
+
+msgid "obj_cert"
+msgstr "სერთიფიკატები"
+
+msgid "obj_cert_desc"
+msgstr "პარამეტრები სერთიფიკატისთვის"
+
+msgid "obj_chap"
+msgstr "თავი"
+
+msgid "obj_chta"
+msgstr "ჩატი"
+
+msgid "obj_chtr"
+msgstr "ჩატის ოთახი"
+
+#, fuzzy
+msgid "obj_chtr_duplicate"
+msgstr "Copy Chat Room"
+
+#, fuzzy
+msgid "obj_cmis"
+msgstr "xAPI/cmi5"
+
+#, fuzzy
+msgid "obj_cmis_desc"
+msgstr "Learning Record Store Types Configuration"
+
+#, fuzzy
+msgid "obj_cmix"
+msgstr "xAPI/cmi5"
+
+msgid "obj_cmps"
+msgstr "მოდულები, სერვისები და ჩანართები"
+
+msgid "obj_cmps_desc"
+msgstr "ზოგადი პარამეტრები საცავის მოდულებისთვის, სერვისებისთვის და ჩანართებისთვის"
+
+#, fuzzy
+msgid "obj_coms"
+msgstr "Comments"
+
+#, fuzzy
+msgid "obj_coms_desc"
+msgstr "Comments settings"
+
+#, fuzzy
+msgid "obj_copa"
+msgstr "Content Page"
+
+#, fuzzy
+msgid "obj_cpad"
+msgstr "Content Pages"
+
+#, fuzzy
+msgid "obj_cpad#_desc"
+msgstr "Content Page Administration"
+
+#, fuzzy
+msgid "obj_cpad_desc"
+msgstr "Content Page Administration"
+
+#, fuzzy
+msgid "obj_cron"
+msgstr "Cron Jobs"
+
+#, fuzzy
+msgid "obj_cron_desc"
+msgstr "List of all Cron Jobs"
+
+msgid "obj_crs"
+msgstr "კურსი"
+
+msgid "obj_crs_duplicate"
+msgstr "კურსის ასლის გაკეთება"
+
+msgid "obj_crsr"
+msgstr "კურსის წყარო"
+
+#, fuzzy
+msgid "obj_crss"
+msgstr "Course"
+
+#, fuzzy
+msgid "obj_crss_desc"
+msgstr "General settings for Courses"
+
+#, fuzzy
+msgid "obj_crsv"
+msgstr "Course Certificate"
+
+msgid "obj_dbk"
+msgstr "დიგილიბის წიგნი"
+
+msgid "obj_dcl"
+msgstr "Data Collection"
+
+msgid "obj_dcl_duplicate"
+msgstr "Copy Data Collection"
+
+#, fuzzy
+msgid "obj_dpro"
+msgstr "Declaration of Data Protection"
+
+#, fuzzy
+msgid "obj_dpro_desc"
+msgstr "Declaration of Data Protection Settings"
+
+#, fuzzy
+msgid "obj_dshs"
+msgstr "Dashboard"
+
+#, fuzzy
+msgid "obj_dshs_desc"
+msgstr "Dashboard settings"
+
+msgid "obj_ecss"
+msgstr "ECS"
+
+msgid "obj_ecss_desc"
+msgstr "General ECS Settings"
+
+msgid "obj_etal"
+msgstr "Employee Talk"
+
+msgid "obj_exc"
+msgstr "სავარჯიშო"
+
+#, fuzzy
+msgid "obj_exc_duplicate"
+msgstr "Copy Exercise"
+
+msgid "obj_excv"
+msgstr "Exercise Certificate"
+
+msgid "obj_facs"
+msgstr "ფაილები და ფოლდერები"
+
+msgid "obj_facs_desc"
+msgstr "ფაილსა და ფოლდერის ობიექტებში შესვლის დაყენება"
+
+msgid "obj_file"
+msgstr "ფაილი"
+
+#, fuzzy
+msgid "obj_file_duplicate"
+msgstr "Duplicate File"
+
+msgid "obj_file_inline"
+msgstr "სასწავლო მოდული ფაილი"
+
+#, fuzzy
+msgid "obj_fils"
+msgstr "File Services"
+
+#, fuzzy
+msgid "obj_fils_desc"
+msgstr "Configuration of File Service Settings."
+
+msgid "obj_fold"
+msgstr "ფოლდერი"
+
+#, fuzzy
+msgid "obj_fold_duplicate"
+msgstr "Copy Folder"
+
+msgid "obj_frm"
+msgstr "ფორუმი"
+
+msgid "obj_frm_duplicate"
+msgstr "ფორუმის ასლის გაკეთება"
+
+#, fuzzy
+msgid "obj_frma"
+msgstr "Forum"
+
+#, fuzzy
+msgid "obj_frma_desc"
+msgstr "Global Forum Settings"
+
+msgid "obj_glo"
+msgstr "ლექსიკონი"
+
+msgid "obj_glo_duplicate"
+msgstr "Copy Glossary"
+
+msgid "obj_grp"
+msgstr "ჯგუფი"
+
+msgid "obj_grp_duplicate"
+msgstr "ჯგუფის ასლის გაკეთება"
+
+#, fuzzy
+msgid "obj_grpr"
+msgstr "Group Reference"
+
+#, fuzzy
+msgid "obj_grps"
+msgstr "Group"
+
+#, fuzzy
+msgid "obj_grps_desc"
+msgstr "General settings for Groups"
+
+#, fuzzy
+msgid "obj_gsfo"
+msgstr "Footer"
+
+#, fuzzy
+msgid "obj_gsfo_desc"
+msgstr "Administrate Footer Layout and Content"
+
+msgid "obj_hlps"
+msgstr "Help System"
+
+msgid "obj_hlps_desc"
+msgstr "Settings for the online help"
+
+msgid "obj_htlm"
+msgstr "სასწავლო მოდული HთML"
+
+msgid "obj_htlm_duplicate"
+msgstr "Copy HTML Learning Module"
+
+#, fuzzy
+msgid "obj_iass"
+msgstr "Individual Assessment"
+
+#, fuzzy
+msgid "obj_iass_duplicate"
+msgstr "Copy Individual Assessment"
+
+#, fuzzy
+msgid "obj_iass_select"
+msgstr "-- Please select one individual assessment --"
+
+msgid "obj_itgr"
+msgstr "Item Group"
+
+msgid "obj_ldap_desc"
+msgstr "გლობალური LDAP პარამეტრების დაყენება"
+
+#, fuzzy
+msgid "obj_lhts"
+msgstr "Learning History"
+
+#, fuzzy
+msgid "obj_lhts_desc"
+msgstr "Learning history settings"
+
+msgid "obj_lm"
+msgstr "სასწავლო მოდული ილიასი"
+
+msgid "obj_lm_duplicate"
+msgstr "Copy Learning Module"
+
+msgid "obj_lng"
+msgstr "ენა"
+
+msgid "obj_lngf"
+msgstr "ენები"
+
+msgid "obj_lngf_desc"
+msgstr "თქვენი სისტემის ენების მართვა"
+
+#, fuzzy
+msgid "obj_logs"
+msgstr "Logging"
+
+#, fuzzy
+msgid "obj_logs_desc"
+msgstr "General Logging Settings"
+
+msgid "obj_lrss"
+msgstr "სასწავლო რესურსები"
+
+msgid "obj_lrss_desc"
+msgstr "სასწალო მოდულების ყველა სახეობის დაყენება"
+
+#, fuzzy
+msgid "obj_lso"
+msgstr "Learning Sequence"
+
+#, fuzzy
+msgid "obj_lso_duplicate"
+msgstr "Copy Learning Sequence"
+
+#, fuzzy
+msgid "obj_lsos"
+msgstr "Learning Sequences"
+
+#, fuzzy
+msgid "obj_lsos_desc"
+msgstr "General settings for Learning Sequences"
+
+#, fuzzy
+msgid "obj_lti"
+msgstr "LTI Consumer"
+
+#, fuzzy
+msgid "obj_ltis"
+msgstr "LTI"
+
+#, fuzzy
+msgid "obj_ltis_desc"
+msgstr "Learning Tools Interoperability"
+
+msgid "obj_mail"
+msgstr "ემაილი"
+
+msgid "obj_mail_desc"
+msgstr "გლობალური ემაილის პარამეტრები"
+
+#, fuzzy
+msgid "obj_mailr"
+msgstr "Read Mail"
+
+#, fuzzy
+msgid "obj_mailu"
+msgstr "Unread Mail"
+
+#, fuzzy
+msgid "obj_maps"
+msgstr "Maps"
+
+msgid "obj_mcst"
+msgstr "მედია ქასთი"
+
+msgid "obj_mcst_duplicate"
+msgstr "Copy Mediacast"
+
+msgid "obj_mcts"
+msgstr "მედიაქასთი"
+
+msgid "obj_mcts_desc"
+msgstr "მედია ქასთის ზოგადი პარამეტრები"
+
+msgid "obj_mep"
+msgstr "მედია ნაკადი"
+
+msgid "obj_mep_duplicate"
+msgstr "Copy Media Pool"
+
+#, fuzzy
+msgid "obj_mme"
+msgstr "Main Menu"
+
+msgid "obj_mob"
+msgstr "მედია ობიექტი"
+
+msgid "obj_mobs"
+msgstr "მედია ნაკადები/ობიექტები"
+
+msgid "obj_mobs_desc"
+msgstr "მედია ნაკადების და მედია ობიექტების პარამეტრები"
+
+msgid "obj_not_found"
+msgstr "ობიექტი არ არის ნაპოვნი"
+
+#, fuzzy
+msgid "obj_nota"
+msgstr "Notifications"
+
+#, fuzzy
+msgid "obj_nota_desc"
+msgstr "Notification Administration"
+
+#, fuzzy
+msgid "obj_nots"
+msgstr "Notes"
+
+#, fuzzy
+msgid "obj_nots_desc"
+msgstr "Notes settings"
+
+msgid "obj_nwss"
+msgstr "სიახლეები და ვებ სიახლეები"
+
+msgid "obj_nwss_desc"
+msgstr "შიდა სიახლეებისა და გარე ვებ სიახლეების პარამეტრები"
+
+msgid "obj_objf"
+msgstr "ობიექტის განსაზღვრებები"
+
+#, fuzzy
+msgid "obj_orgu"
+msgstr "Organisational Unit"
+
+#, fuzzy
+msgid "obj_orgu_description"
+msgstr "Creating and editing organisational structure"
+
+msgid "obj_page"
+msgstr "გვერდი"
+
+#, fuzzy
+msgid "obj_peac"
+msgstr "Accordion"
+
+#, fuzzy
+msgid "obj_peadl"
+msgstr "Advanced List"
+
+#, fuzzy
+msgid "obj_peadt"
+msgstr "Advanced Table"
+
+#, fuzzy
+msgid "obj_pecd"
+msgstr "Code"
+
+#, fuzzy
+msgid "obj_pech"
+msgstr "Consultation Hour"
+
+#, fuzzy
+msgid "obj_pecl"
+msgstr "Column Layout"
+
+#, fuzzy
+msgid "obj_peclp"
+msgstr "Clipboard"
+
+#, fuzzy
+msgid "obj_pecom"
+msgstr "Competences"
+
+#, fuzzy
+msgid "obj_pecrs"
+msgstr "Course"
+
+#, fuzzy
+msgid "obj_pecrt"
+msgstr "Certificate"
+
+#, fuzzy
+msgid "obj_pecs"
+msgstr "Content Snippet"
+
+#, fuzzy
+msgid "obj_pedt"
+msgstr "Data Table"
+
+#, fuzzy
+msgid "obj_pefl"
+msgstr "File List"
+
+#, fuzzy
+msgid "obj_peim"
+msgstr "interactive Media"
+
+#, fuzzy
+msgid "obj_pelh"
+msgstr "Learning History"
+
+#, fuzzy
+msgid "obj_pemed"
+msgstr "Image/Audio/Video"
+
+#, fuzzy
+msgid "obj_pemp"
+msgstr "Map"
+
+#, fuzzy
+msgid "obj_pepd"
+msgstr "Personal Data"
+
+#, fuzzy
+msgid "obj_pepe"
+msgstr "Plugin Element"
+
+#, fuzzy
+msgid "obj_pepl"
+msgstr "Page List"
+
+#, fuzzy
+msgid "obj_peplh"
+msgstr "Placeholder"
+
+#, fuzzy
+msgid "obj_pequ"
+msgstr "Questions"
+
+#, fuzzy
+msgid "obj_perl"
+msgstr "Ressource List"
+
+#, fuzzy
+msgid "obj_pesc"
+msgstr "Section"
+
+#, fuzzy
+msgid "obj_petmp"
+msgstr "Page Template"
+
+#, fuzzy
+msgid "obj_peusr"
+msgstr "User"
+
+msgid "obj_pg"
+msgstr "გვერდი"
+
+msgid "obj_poll"
+msgstr "Poll"
+
+msgid "obj_poll_dupliate:"
+msgstr "Copy Poll"
+
+msgid "obj_poll_duplicate"
+msgstr "Copy Poll"
+
+#, fuzzy
+msgid "obj_prg"
+msgstr "Study Programme"
+
+#, fuzzy
+msgid "obj_prg_duplicate"
+msgstr "Copy Study Programme"
+
+#, fuzzy
+msgid "obj_prg_select"
+msgstr "-- Please select one Study Programme --"
+
+#, fuzzy
+msgid "obj_prgr"
+msgstr "Link to Study Programme"
+
+#, fuzzy
+msgid "obj_prgrs"
+msgstr "Links to Study Programmes"
+
+#, fuzzy
+msgid "obj_prgs"
+msgstr "Study Programmes"
+
+#, fuzzy
+msgid "obj_prgs_desc"
+msgstr "Study Programme Administration"
+
+#, fuzzy
+msgid "obj_prss"
+msgstr "Personal Resources"
+
+#, fuzzy
+msgid "obj_prss_desc"
+msgstr "Personal resources settings"
+
+msgid "obj_prtf"
+msgstr "Portfolio"
+
+#, fuzzy
+msgid "obj_prtt"
+msgstr "Portfolio Template"
+
+#, fuzzy
+msgid "obj_prtt_duplicate"
+msgstr "Copy Portfolio Template"
+
+msgid "obj_ps"
+msgstr "საიდუმლო და უსაფრთხოება"
+
+msgid "obj_ps_desc"
+msgstr "გლობალური საიდუმლოსა და უსაფრთხოების პარამეტრების დაყენება"
+
+msgid "obj_qpl"
+msgstr "კითხვების ნაკადის ტესტი"
+
+msgid "obj_qpl_duplicate"
+msgstr "კითხვების ნაკადის ტესტის ასლის გაკეთება"
+
+msgid "obj_qpl_select"
+msgstr "აირჩიეთ მხოლოდ ერთი კითხვის ნაკადის ტესტი"
+
+msgid "obj_rcat"
+msgstr "ECS Category"
+
+msgid "obj_rcrs"
+msgstr "კურსი ლინკი"
+
+msgid "obj_recf"
+msgstr "აღდგენილი ობიექტები"
+
+msgid "obj_recf_desc"
+msgstr "შეიცავს აღდგენილ ობიექტებს სისტემის შემოწმებიდან"
+
+#, fuzzy
+msgid "obj_rep"
+msgstr "Repository"
+
+#, fuzzy
+msgid "obj_reps"
+msgstr "Repository"
+
+#, fuzzy
+msgid "obj_reps_desc"
+msgstr "General settings for the Repository"
+
+msgid "obj_rfil"
+msgstr "ECS File"
+
+msgid "obj_rglo"
+msgstr "ECS Glossary"
+
+msgid "obj_rgrp"
+msgstr "ECS Group"
+
+msgid "obj_rlm"
+msgstr "ECS Learning Module"
+
+msgid "obj_role"
+msgstr "პასუხისმგებლობა"
+
+msgid "obj_rolf"
+msgstr "პასუხისმგებლობები"
+
+msgid "obj_rolf_desc"
+msgstr "თქვენი პასუხისმგებლობების მართვა"
+
+msgid "obj_rolf_local"
+msgstr "ადგილობრივი პასუხისმგებლობები"
+
+msgid "obj_rolf_local_desc"
+msgstr "შეიცავს ობიექტების ადგილობრივ პასუხისმგებლობებს"
+
+msgid "obj_rolt"
+msgstr "პასუხისმგებლობის ნიმუში"
+
+msgid "obj_root"
+msgstr "ილიასის ფესვის მდგომარეობა"
+
+msgid "obj_rtst"
+msgstr "ECS Test"
+
+msgid "obj_rwik"
+msgstr "ECS Wiki"
+
+msgid "obj_sahs"
+msgstr "სასწავლო მოდული SCORM/AICC"
+
+msgid "obj_sahs_duplicate"
+msgstr "Copy Learning Module"
+
+msgid "obj_sco"
+msgstr "SCO"
+
+#, fuzzy
+msgid "obj_scov"
+msgstr "SCORM Certificate"
+
+msgid "obj_seas"
+msgstr "ძიება"
+
+msgid "obj_seas_desc"
+msgstr "ძიების პარამეტრების მართვა"
+
+#, fuzzy
+msgid "obj_serv"
+msgstr "Server"
+
+#, fuzzy
+msgid "obj_serv_desc"
+msgstr "Settings of the sever"
+
+msgid "obj_sess"
+msgstr "სესია"
+
+msgid "obj_sess_duplicate"
+msgstr "სესიის ასლის გაკეთება"
+
+msgid "obj_skmg"
+msgstr "კომპეტენციების მენეჯმენტი"
+
+msgid "obj_skmg_desc"
+msgstr "კომპეტენციებისა და კომპეტენციების კატეგორიების მართვა"
+
+msgid "obj_spl"
+msgstr "კითხვების ნაკადის კითხვარი"
+
+msgid "obj_st"
+msgstr "თავი"
+
+#, fuzzy
+msgid "obj_stus"
+msgstr "Shortlinks"
+
+#, fuzzy
+msgid "obj_stus_desc"
+msgstr "Global Shortlinks Settings"
+
+msgid "obj_sty"
+msgstr "სტილი"
+
+msgid "obj_stys"
+msgstr "სტილი და სქემა"
+
+msgid "obj_stys_desc"
+msgstr "სისტემის გარეკანისა და სტილის პარამეტრების მართვა"
+
+msgid "obj_svy"
+msgstr "კითხვარი"
+
+msgid "obj_svy_duplicate"
+msgstr "კითვარის ასლის გაკეთება"
+
+msgid "obj_svyf"
+msgstr "კითხვარი"
+
+msgid "obj_svyf_desc"
+msgstr "პლატფორმის პარამეტრები კითხვარის ინსტრუმენტისთვის"
+
+#, fuzzy
+msgid "obj_sysc"
+msgstr "System Check"
+
+#, fuzzy
+msgid "obj_sysc_desc"
+msgstr "System Check and Repair Tools"
+
+msgid "obj_tags"
+msgstr "მონიშვნა"
+
+msgid "obj_tags_desc"
+msgstr "პარამეტრები მონიშვნის მახასიათებლისთვის"
+
+msgid "obj_tala"
+msgstr "Talk Templates"
+
+msgid "obj_tala_desc"
+msgstr "Talk Templates"
+
+msgid "obj_tals"
+msgstr "Employee Talk Series"
+
+msgid "obj_talt"
+msgstr "Talk Template"
+
+#, fuzzy
+msgid "obj_task"
+msgstr "Task"
+
+msgid "obj_tax"
+msgstr "ტაქსონომია"
+
+msgid "obj_taxf"
+msgstr "ტაქსონომიები"
+
+msgid "obj_tool_setting_calendar"
+msgstr "Show Calendar"
+
+#, fuzzy
+msgid "obj_tool_setting_calendar_active"
+msgstr "Calendar"
+
+#, fuzzy
+msgid "obj_tool_setting_calendar_active_info"
+msgstr "A calendar is available."
+
+#, fuzzy
+msgid "obj_tool_setting_calendar_info"
+msgstr "The \"Calendar\" block will be displayed inside the \"Content\" tab."
+
+#, fuzzy
+msgid "obj_tool_setting_custom_metadata"
+msgstr "Custom Metadata"
+
+#, fuzzy
+msgid "obj_tool_setting_custom_metadata_info"
+msgstr "If activated metadata can be configured."
+
+msgid "obj_tool_setting_news"
+msgstr "Show News"
+
+#, fuzzy
+msgid "obj_tool_setting_news_info"
+msgstr "The \"News\" block will be displayed inside the \"Content\" tab."
+
+#, fuzzy
+msgid "obj_tos"
+msgstr "Terms of Service"
+
+#, fuzzy
+msgid "obj_tos_desc"
+msgstr "Terms of Service Settings"
+
+msgid "obj_trac"
+msgstr "სტატისტიკა და სასწავლო პროგრესი"
+
+msgid "obj_trac_desc"
+msgstr "სტატისტიკა და სასწავლო პროგრესის პარამეტრები და მიმოხილვა"
+
+msgid "obj_tst"
+msgstr "ტესტი"
+
+msgid "obj_tst_duplicate"
+msgstr "ტესტის ასლის გაკეთება"
+
+msgid "obj_tstv"
+msgstr "Test Certificate"
+
+msgid "obj_type"
+msgstr "ობიექტის სახეობა"
+
+msgid "obj_user"
+msgstr "მომხმარებელი"
+
+msgid "obj_usr"
+msgstr "მომხმარებელი"
+
+msgid "obj_usrf"
+msgstr "მომხმარებლების ანგარიშები"
+
+msgid "obj_usrf_desc"
+msgstr "მომხმარებელთა ანგარიშების მართვა"
+
+#, fuzzy
+msgid "obj_wbdv"
+msgstr "WebDAV"
+
+#, fuzzy
+msgid "obj_wbdv_desc"
+msgstr "Configuration of WebDAV Settings."
+
+#, fuzzy
+msgid "obj_wbrs"
+msgstr "Weblink"
+
+#, fuzzy
+msgid "obj_wbrs_desc"
+msgstr "General settings for Web Links"
+
+msgid "obj_webr"
+msgstr "ვებლინკი"
+
+msgid "obj_webr_duplicate"
+msgstr "ვებლინკის სიის ასლის გაკეთება"
+
+msgid "obj_wfld"
+msgstr "ფოლდერი"
+
+msgid "obj_wiki"
+msgstr "wiki"
+
+msgid "obj_wiki_duplicate"
+msgstr "Copy Wiki"
+
+#, fuzzy
+msgid "obj_wiks"
+msgstr "Wiki"
+
+#, fuzzy
+msgid "obj_wiks_desc"
+msgstr "Global Wiki Settings"
+
+msgid "object"
+msgstr "ობიექტი"
+
+msgid "object_added"
+msgstr "ობიექტი დამატებულია"
+
+msgid "object_copy_in_progress"
+msgstr "ასლის გაკეთება დაწყებულია"
+
+msgid "object_duplicated"
+msgstr "ობიექტის ასლი გაკეთებულია"
+
+msgid "object_id"
+msgstr "ობიექტის აი დი"
+
+msgid "object_imported"
+msgstr "ობიექტი გადმოტანილია"
+
+#, fuzzy
+msgid "object_list"
+msgstr "List of Objects"
+
+msgid "objects"
+msgstr "ობიექტები"
+
+msgid "objf"
+msgstr "ობიექტების განსაზღვრებები"
+
+#, fuzzy
+msgid "objs_bibl"
+msgstr "Bibliographies"
+
+msgid "objs_blog"
+msgstr "Blogs"
+
+msgid "objs_book"
+msgstr "დაჯავშნის ნაკადები"
+
+msgid "objs_cat"
+msgstr "კატეგორიები"
+
+msgid "objs_catr"
+msgstr "კატეგორიების წყაროები"
+
+msgid "objs_chtr"
+msgstr "ჩატის ოთახები"
+
+#, fuzzy
+msgid "objs_cmix"
+msgstr "Objects xAPI/cmi5"
+
+#, fuzzy
+msgid "objs_copa"
+msgstr "Content Pages"
+
+msgid "objs_crs"
+msgstr "კურსები"
+
+msgid "objs_crsr"
+msgstr "კურსის წყაროები"
+
+msgid "objs_dcl"
+msgstr "Data Collections"
+
+msgid "objs_etal"
+msgstr "Employee Talks"
+
+msgid "objs_exc"
+msgstr "სავარჯიშოები"
+
+msgid "objs_file"
+msgstr "ფაილები"
+
+msgid "objs_fold"
+msgstr "ფოლდერები"
+
+msgid "objs_frm"
+msgstr "ფორუმები"
+
+msgid "objs_glo"
+msgstr "ლექსიკონები"
+
+msgid "objs_grp"
+msgstr "ჯგუფები"
+
+#, fuzzy
+msgid "objs_grpr"
+msgstr "Group References"
+
+msgid "objs_htlm"
+msgstr "HTML სასწავლო მოდულები"
+
+#, fuzzy
+msgid "objs_iass"
+msgstr "Individual Assessments"
+
+msgid "objs_itgr"
+msgstr "Item Groups"
+
+msgid "objs_lm"
+msgstr "ილიასის სასწავლო მოდულები"
+
+msgid "objs_lres"
+msgstr "სასწავლო რესურსები"
+
+#, fuzzy
+msgid "objs_lso"
+msgstr "Learning Sequences"
+
+#, fuzzy
+msgid "objs_lti"
+msgstr "LTI Consumers"
+
+msgid "objs_mail"
+msgstr "ემაილი"
+
+msgid "objs_mcst"
+msgstr "მედიაქასთები"
+
+msgid "objs_mep"
+msgstr "მედია ნაკადები"
+
+#, fuzzy
+msgid "objs_orgu"
+msgstr "Organisational Unit"
+
+msgid "objs_poll"
+msgstr "Polls"
+
+#, fuzzy
+msgid "objs_prg"
+msgstr "Study Programmes"
+
+#, fuzzy
+msgid "objs_prgr"
+msgstr "Links to Study Programmes"
+
+#, fuzzy
+msgid "objs_prtf"
+msgstr "Portfolios"
+
+#, fuzzy
+msgid "objs_prtt"
+msgstr "Portfolio Templates"
+
+msgid "objs_qpl"
+msgstr "კითხვების ნაკადების ტესტი"
+
+msgid "objs_qst"
+msgstr "კითხვები"
+
+msgid "objs_rcat"
+msgstr "ECS Categories"
+
+msgid "objs_rcrs"
+msgstr "კურსები ლინკები"
+
+msgid "objs_rfil"
+msgstr "ECS Files"
+
+msgid "objs_rglo"
+msgstr "ECS Glossaries"
+
+msgid "objs_rgrp"
+msgstr "ECS Groups"
+
+msgid "objs_rlm"
+msgstr "ECS Learning Modules"
+
+msgid "objs_role"
+msgstr "პასუხისმგებლობები"
+
+#, fuzzy
+msgid "objs_rolf"
+msgstr "Role Folders"
+
+msgid "objs_rtst"
+msgstr "ECS Tests"
+
+msgid "objs_rwik"
+msgstr "ECS Wikis"
+
+msgid "objs_sahs"
+msgstr "SCORM/AICC სასწავლო მოდულები"
+
+msgid "objs_sess"
+msgstr "სესიები"
+
+#, fuzzy
+msgid "objs_skee"
+msgstr "Competence Trees"
+
+msgid "objs_spl"
+msgstr "კითხვების ნაკადების კითხვარი"
+
+msgid "objs_st"
+msgstr "თავები"
+
+msgid "objs_svy"
+msgstr "კითხვარები"
+
+msgid "objs_tala"
+msgstr "Talk Templates"
+
+msgid "objs_talt"
+msgstr "Talk Templates"
+
+msgid "objs_tst"
+msgstr "ტესტები"
+
+msgid "objs_webr"
+msgstr "ვებლინკები"
+
+msgid "objs_wiki"
+msgstr "wiki-ები"
+
+msgid "of"
+msgstr "შესახებ"
+
+msgid "offline"
+msgstr "არა-ონლაინ /კავშირს გარეთ"
+
+#, fuzzy
+msgid "offline_mode"
+msgstr "Offline-Mode"
+
+msgid "ok"
+msgstr "კარგია"
+
+msgid "old"
+msgstr "ძველი"
+
+msgid "omit"
+msgstr "გამოტოვება"
+
+msgid "omit_all"
+msgstr "ყველას გამოტოვება"
+
+msgid "on_waiting_list"
+msgstr "თქვენ ბრძანდებით მოლოდინის სიაში"
+
+msgid "online"
+msgstr "ონლაინ"
+
+msgid "online_time"
+msgstr "MM"
+
+#, fuzzy
+msgid "only_active"
+msgstr "Only Active"
+
+#, fuzzy
+msgid "only_inactive"
+msgstr "Only Inactive"
+
+#, fuzzy
+msgid "open"
+msgstr "Open"
+
+msgid "operation"
+msgstr "ოპერაცია"
+
+msgid "optimize"
+msgstr "ოპტიმიზაცია"
+
+msgid "option"
+msgstr "არჩევა"
+
+msgid "optional_filter_hint"
+msgstr "გთხოვთ გააქტიუროთ ერთერთი არჩევითი ფილტრებიდან"
+
+msgid "optional_filters"
+msgstr "არჩევის ფილტრები"
+
+msgid "options"
+msgstr "არჩევები"
+
+msgid "order_by"
+msgstr "დაწყობა"
+
+msgid "order_by_date"
+msgstr "თარიღის მიხედვით დაწყობა"
+
+#, fuzzy
+msgid "org_op_access_enrolments"
+msgstr "View Enrolment-Status"
+
+#, fuzzy
+msgid "org_op_manage_members"
+msgstr "Manage Subordinate Members"
+
+#, fuzzy
+msgid "org_op_read_learning_progress"
+msgstr "View Learning Progress of Subordinate Users"
+
+#, fuzzy
+msgid "org_permission_settings"
+msgstr "Permissions of Positions in Organisational Units"
+
+#, fuzzy
+msgid "org_units"
+msgstr "Organisational Units"
+
+msgid "organization"
+msgstr "პროვაიდერი"
+
+msgid "other"
+msgstr "სხვა"
+
+msgid "overview"
+msgstr "მიმოხილვა"
+
+msgid "overwrite"
+msgstr "გადაწერა"
+
+msgid "owner"
+msgstr "მფლობელი"
+
+msgid "owner_updated"
+msgstr "მფლობელი განახლებულია"
+
+msgid "page"
+msgstr "გვერდი"
+
+#, fuzzy
+msgid "page_count"
+msgstr "Page Count"
+
+msgid "page_layout"
+msgstr "გვერდის სქემა"
+
+msgid "page_layouts"
+msgstr "გვერდის სქემები"
+
+#, fuzzy
+msgid "pagination_label_x_of_y"
+msgstr "Page %1$d of %2$d"
+
+msgid "parameter"
+msgstr "პარამეტრი"
+
+msgid "parse"
+msgstr "გარჩევა"
+
+#, fuzzy
+msgid "participate"
+msgstr "Subscribe"
+
+msgid "passed"
+msgstr "ჩაბარებულია"
+
+msgid "passwd"
+msgstr "პაროლი"
+
+msgid "passwd_generation"
+msgstr "პაროლის წარმოქმნა"
+
+msgid "passwd_invalid"
+msgstr "ახალი პაროლი არასწორია! Mხოლოდ შემდეგი ნიშნებია დაშვებული ( მინიმუმ 6 ნიშანი) : A-ძ ა-ზ 0-9 _.-+?"
+
+msgid "passwd_not_match"
+msgstr "თქვენი შენატანი ახალ პაროლს არ ემთხვევა! გთხოვთ ხელახლა შეიყვანოთ ახალი პაროლი"
+
+msgid "passwd_wrong"
+msgstr "პაროლი რომელიც თქვენ სეიყვანეთ არ არის სწორი"
+
+msgid "password"
+msgstr "პაროლი"
+
+msgid "password_allow_chars"
+msgstr "დაშვებული გრაფიკები: %s"
+
+msgid "password_assistance_info"
+msgstr "თუ პაროლის დახმარება გააქტიურებულია, ლინკი ტექსტით \"დაგაიწყდათ პაროლი\" გამოჩნდება ილიასში შესვლის გვერდზე. Mმომხმარებელს შეუძლია გამოიყენოს ეს ლინკი ახალი პაროლის დასაყენბლად"
+
+msgid "password_change_on_first_login_demand"
+msgstr "თქვენი თავდაპირველი პაროლი უნდა შეიცვალოს სანამ ილიასის გამოყენებას დაიწყებთ"
+
+msgid "password_contains_invalid_chars"
+msgstr "პაროლი შეიცავს არასწორ ნიშნებს"
+
+#, fuzzy
+msgid "password_contains_parts_of_login_err"
+msgstr "The chosen password contains your username. Please insert a new password."
+
+msgid "password_empty"
+msgstr "პაროლი არ უნდა იყოს ცარიელი"
+
+msgid "password_expired"
+msgstr "თქვენი პაროლის ვადა ამოიწურა და უნდა შეიცვალოს, ბოლო ცვლილება მოხდა :%s დღის უკან"
+
+msgid "password_multiple_errors"
+msgstr "მრავალი კრიტერიუმი არ არის დაკმაყოფილებული"
+
+msgid "password_must_chars_and_numbers"
+msgstr "პაროლი უნდა შეიცავდეს ნიშნებსა და რიცხვებს"
+
+#, fuzzy
+msgid "password_must_contain_lcase_chars"
+msgstr "The password must contain at least %s lower case letters."
+
+#, fuzzy
+msgid "password_must_contain_ucase_chars"
+msgstr "The password must contain at least %s capital letters."
+
+msgid "password_must_special_chars"
+msgstr "პაროლი უნდა შეიცავდეს განსაკუთრებულ ნიშნებსა და ციფრებს"
+
+msgid "password_to_long"
+msgstr "პაროლი უნდა შეიცავდეს ნიშნების მაქსიმალურ ზომას"
+
+msgid "password_to_short"
+msgstr "პაროლი უნდა შეიცავდეს სულ მცირე %s ზომის ნიშნებს"
+
+msgid "paste"
+msgstr "ასლის ჩასმა"
+
+msgid "pasteChapter"
+msgstr "ასლის ჩასმა"
+
+msgid "pastePage"
+msgstr "ასლის ჩასმა"
+
+msgid "paste_clipboard_items"
+msgstr "ასლის ჩასმა"
+
+msgid "path"
+msgstr "მდებარეობა"
+
+msgid "path_not_set"
+msgstr "მდებარეობა არ არის დაყენებული"
+
+msgid "path_to_convert"
+msgstr "მდებარეობა კონვერტირებაში"
+
+msgid "path_to_htmldoc"
+msgstr "მდებარეობა  HTMLdoc"
+
+msgid "path_to_java"
+msgstr "მდებარეობა ჯავაში"
+
+msgid "path_to_unzip"
+msgstr "მდებარეობა ანზიპში"
+
+msgid "path_to_zip"
+msgstr "მდებარეობა ზიპში"
+
+msgid "pathes"
+msgstr "ბილიკები"
+
+msgid "pd_items_news"
+msgstr "პირადი ნივთების სიახლეების ჩართვა"
+
+msgid "pdf_export"
+msgstr "პე დე ეფ ექსპორტი"
+
+msgid "perm_settings"
+msgstr "დაშვებები"
+
+msgid "perma_link"
+msgstr "მუდმივი ლინკი"
+
+#, fuzzy
+msgid "perma_link_copied"
+msgstr "Link to this page has been copied to the clipboard."
+
+msgid "permission"
+msgstr "დაშვება"
+
+msgid "permission_denied"
+msgstr "დაშვება უარყოფილია"
+
+msgid "permission_settings"
+msgstr "ობიექტის დაშვების პარამეტრები"
+
+msgid "person_title"
+msgstr "დასახელება"
+
+msgid "personal_data"
+msgstr "პირადი მონაცემები"
+
+msgid "personal_picture"
+msgstr "პირადი სურათი"
+
+msgid "personal_profile"
+msgstr "პირადი მონაცემები & პროფილი"
+
+#, fuzzy
+msgid "personal_resources"
+msgstr "Personal Resources"
+
+msgid "personal_settings"
+msgstr "პარამეტრები"
+
+#, fuzzy
+msgid "personalise_date_time"
+msgstr "Personalise Date and Time Settings"
+
+msgid "persons"
+msgstr "ადამიანები"
+
+msgid "pg_add"
+msgstr "გვერდის დამატება"
+
+msgid "pg_new"
+msgstr "ახალი გვერდი"
+
+msgid "phone"
+msgstr "ტელეფონი"
+
+msgid "phone_home"
+msgstr "ტელეფონი, სახლი"
+
+msgid "phone_mobile"
+msgstr "ტელეფონი, მობილური"
+
+msgid "phone_office"
+msgstr "ტელეფონი, ოფისი"
+
+msgid "phrase"
+msgstr "ფრაზა"
+
+msgid "please_choose"
+msgstr "აირჩიეთ"
+
+msgid "please_enter_target"
+msgstr "გთხოვთ შეიყვანოთ სამიზნე"
+
+msgid "please_enter_title"
+msgstr "გთოვთ შეიყვანოთ დასახელება"
+
+msgid "please_select"
+msgstr "გთხოვთ აირჩიოთ"
+
+msgid "please_select_a_delivered_file_to_delete"
+msgstr "თქვენ უნდა აირჩიოთ სულ მცირე ერთი მომარაგებული ფაილი რომ წაშალოთ ის"
+
+msgid "please_select_a_delivered_file_to_download"
+msgstr "თქვენ უნდა აირჩიოთ სულ მცირე ერთი მომარაგებული ფაილი რომ ჩამოტვირთოთ ის"
+
+msgid "please_wait"
+msgstr "გთხოვთ დაელოდოთ"
+
+msgid "port"
+msgstr "პორტი"
+
+msgid "portfolio"
+msgstr "პორტფოლიო"
+
+msgid "pos_bottom"
+msgstr "გვერდი"
+
+msgid "pos_left"
+msgstr "მარცხენა"
+
+msgid "pos_right"
+msgstr "მარჯვენა"
+
+msgid "pos_top"
+msgstr "თავი"
+
+msgid "position"
+msgstr "მდგომარეობა"
+
+#, fuzzy
+msgid "position_permission_settings"
+msgstr "Orgunit-Specific Permissions"
+
+msgid "precondition"
+msgstr "საწინდარი"
+
+msgid "precondition_not_accessible"
+msgstr "თქვენ არ გაქვთ საკმარისი დაშვება რომ იხილოთ ამ ნივთის საწინდარი"
+
+msgid "precondition_required_itemlist"
+msgstr "Required Precondition"
+
+msgid "precondition_toggle"
+msgstr "Preconditions that need to be fulfilled to access this object"
+
+msgid "preconditions"
+msgstr "საწინდრები"
+
+msgid "preconditions_obligatory_hint"
+msgstr "თქვენ უნდა შასრულოთ შემდეგი წინაპირობები"
+
+msgid "preconditions_optional_hint"
+msgstr "გთხოვთ შეასრულოთ მინიმუმ შემდეგი წინაპირობების <b>%s</b>"
+
+msgid "predefined_template"
+msgstr "განსაზღვრული პასუხისმგებლობის ნიმუში"
+
+msgid "preferences"
+msgstr "წყაროები"
+
+#, fuzzy
+msgid "presentation_table_more"
+msgstr "more"
+
+#, fuzzy
+msgid "presenter"
+msgstr "Presenter"
+
+#, fuzzy
+msgid "preview"
+msgstr "Preview"
+
+#, fuzzy
+msgid "preview_create"
+msgstr "Create Preview"
+
+#, fuzzy
+msgid "preview_delete"
+msgstr "Delete Preview"
+
+#, fuzzy
+msgid "preview_image_size"
+msgstr "Size of Preview Images"
+
+msgid "preview_learner_info"
+msgstr "თუ გააქტიურებულია, კურსისა და ჯგუფის ადმინისტრატორს შეუძლია ნახოს შინაარსი როგორც მოსწავლემ"
+
+#, fuzzy
+msgid "preview_loading"
+msgstr "Loading Preview..."
+
+#, fuzzy
+msgid "preview_none"
+msgstr "Preview (not created yet)"
+
+#, fuzzy
+msgid "preview_not_possible"
+msgstr "Creation of Previews is currently not possible, please read the documentation in %s."
+
+#, fuzzy
+msgid "preview_renderers"
+msgstr "Preview Renderers"
+
+#, fuzzy
+msgid "preview_settings"
+msgstr "File Preview"
+
+#, fuzzy
+msgid "preview_show"
+msgstr "Show Preview"
+
+#, fuzzy
+msgid "preview_status_creating"
+msgstr "The preview gets created. This may take some time..."
+
+#, fuzzy
+msgid "preview_status_deleting"
+msgstr "The preview gets deleted..."
+
+#, fuzzy
+msgid "preview_status_failed"
+msgstr "Failed to create the preview."
+
+#, fuzzy
+msgid "preview_status_missing"
+msgstr "No preview exists for this file."
+
+#, fuzzy
+msgid "preview_status_pending"
+msgstr "The preview has not been created yet. Please try again later."
+
+msgid "previous"
+msgstr "წინა"
+
+#, fuzzy
+msgid "prg_copy_threads_info"
+msgstr "Please decide which Study Program elements should be copied, linked or even omitted."
+
+#, fuzzy
+msgid "prg_wizard_page"
+msgstr "Copy Study Program (Step 2/2)"
+
+#, fuzzy
+msgid "prgr_add"
+msgstr "Add Study Programme Link"
+
+#, fuzzy
+msgid "prgr_edit_info"
+msgstr "Please choose one Study Programme for creating a new link."
+
+#, fuzzy
+msgid "prgr_new"
+msgstr "Create Study Programme Link"
+
+#, fuzzy
+msgid "prgr_settings"
+msgstr "Settings of Study Programme Link"
+
+msgid "print"
+msgstr "ბეჭდვა"
+
+msgid "print_view"
+msgstr "ამობეჭდვის წინ ხედვა"
+
+msgid "private_notes"
+msgstr "პირადი შენიშვნები"
+
+msgid "pro"
+msgstr "პრო"
+
+msgid "proceed"
+msgstr "გაგრძელება"
+
+msgid "profile"
+msgstr "პროფილი"
+
+msgid "profile_changed"
+msgstr "ილიასის ე სწავლება- თქვენი პროფილი შეიცვალა"
+
+msgid "profile_incomplete"
+msgstr "თქვენი პროფილი არ არის სრული. გთხოვთ შეიყვანოთ ყველა საჭირო ინფორმაცია."
+
+msgid "profile_of"
+msgstr "პროფილი"
+
+msgid "properties"
+msgstr "პარამეტრები"
+
+msgid "proxy"
+msgstr "მინდობილობა"
+
+msgid "proxy_connectable"
+msgstr "შეერთება/ დაკავშირება განხორციელდა"
+
+msgid "proxy_host"
+msgstr "მასპინძელი"
+
+msgid "proxy_host_info"
+msgstr "გთხოვთ შეიყვანოთ მასპინძელი"
+
+msgid "proxy_not_connectable"
+msgstr "ილიასმა ვერ შეძლო განსაზღვრულ მინდობილობასთან დაკავშირება"
+
+msgid "proxy_port"
+msgstr "პორტი"
+
+msgid "proxy_port_info"
+msgstr "გთხოვთ შეიყვანოთ პორტი 0სა და 65535 შორის, მაგალითად 8080."
+
+msgid "proxy_port_numeric"
+msgstr "შეყვანილი პორტს აქვს რიცხვითი ღირებულება 0სა და 65535 შორის"
+
+#, fuzzy
+msgid "proxy_socket_error"
+msgstr "Socket Error: %s"
+
+msgid "proxy_status"
+msgstr "მინდობილობა"
+
+msgid "proxy_status_info"
+msgstr "მინდობილობის გამოსაყენებლად ილიასში (მაგალითად ვებ სიახლეებისა  ან ვებ ლინკების შესამოწმებლად) გთხოვთ გააქტიუროთ ზემოთ მოცემული შემოწმების ყუთი"
+
+#, fuzzy
+msgid "ps_export_scorm"
+msgstr "SCORM Tracking Data"
+
+#, fuzzy
+msgid "ps_password_lowercase_chars_num"
+msgstr "Lower Case Letters"
+
+#, fuzzy
+msgid "ps_password_lowercase_chars_num_info"
+msgstr "Please insert the number of lower case letters a password must contain. Enter 0 to disable this requirement."
+
+#, fuzzy
+msgid "ps_password_must_not_contain_loginame"
+msgstr "Prevent Username in Password"
+
+#, fuzzy
+msgid "ps_password_must_not_contain_loginame_info"
+msgstr "If activated, a password must not contain the username."
+
+#, fuzzy
+msgid "ps_password_uppercase_chars_num"
+msgstr "Capital Letters"
+
+#, fuzzy
+msgid "ps_password_uppercase_chars_num_info"
+msgstr "Please insert the number of capital letters a password must contain. Enter 0 to disable this requirement."
+
+msgid "pub_section"
+msgstr "საჯარო სივრცე"
+
+msgid "pub_section_info"
+msgstr "თუ გააქტიურებულია, სისტემის ნაწილები ( საცავში, სამუშაო სივრცე, მომხმარებლების პროფილები) შესაძლებელია გახდეს ხელმისაწვდომი ინტერნეტში ავტ"
+
+msgid "public"
+msgstr "საჯარო"
+
+msgid "public_notes"
+msgstr "საჯარო შენიშვნები"
+
+msgid "public_profile"
+msgstr "პროფილი"
+
+msgid "public_room"
+msgstr "საჯარო ოთახი"
+
+msgid "purpose"
+msgstr "მიზანი"
+
+msgid "qpl"
+msgstr "კითხვების ნაკადის ტესტი"
+
+msgid "qpl_add"
+msgstr "კითხვების ნაკადის ტესტის დამატება"
+
+msgid "qpl_new"
+msgstr "ახალი კითხვების ნაკადის ტესტი"
+
+msgid "query_data"
+msgstr "კითხვითი მონაცემები"
+
+msgid "question"
+msgstr "კითხვა"
+
+msgid "question_message"
+msgstr "კითხვა"
+
+msgid "quit"
+msgstr "დატოვება"
+
+msgid "quote"
+msgstr "ციტატა"
+
+msgid "read"
+msgstr "კითხვა"
+
+msgid "readcount_anonymous_users"
+msgstr "ანონიმური კითხვითი დაშვებების  რაოდენობა"
+
+msgid "readcount_users"
+msgstr "არანონიმური კითხვითი დაშვებების რაოდენობა"
+
+msgid "recipient"
+msgstr "მიმღები"
+
+msgid "reference_deleted"
+msgstr "მიზანი არ არის ხელმისაწვდომი"
+
+msgid "reference_of"
+msgstr "წყარო"
+
+msgid "referral_comment"
+msgstr "როგორ გაიგეთ ილიასის შესახებ"
+
+msgid "refresh"
+msgstr "განახლება"
+
+msgid "refresh_languages"
+msgstr "ყველა ენის განახლება"
+
+msgid "refuse"
+msgstr "უარყოფა"
+
+msgid "reg_account_confirmation_successful"
+msgstr "თქვენი მომხმარებლის ანგარიში გააქტიურებულია"
+
+#, fuzzy
+msgid "reg_delete_expired_pending_registrations"
+msgstr "Delete Expired Pending Registrations"
+
+#, fuzzy
+msgid "reg_delete_expired_pending_registrations_desc"
+msgstr "Deletes all ILIAS accounts that have not been confirmed after a registration with e-mail confirmation."
+
+msgid "reg_goto_parent_membership_info"
+msgstr "Only members can access the target object."
+
+msgid "reg_mail_body_2_confirmation"
+msgstr "ლინკი იმუშავებს მხოლოდ \"%s\"  ისთვის, შემდეგ თქვენ უნდა სცადოთ  ხელახლა"
+
+msgid "reg_mail_body_3_confirmation"
+msgstr "თუ ეს ემაილი არაფერს ნიშნავს თქვენთვის, მაშინ შესაძლებელია  ვინმე შესული იყო თქვენი ემეილის მისამართზე გამიზნულად ან შემთხვევით, ამიტომ გთხოვთ არ მიაქციოთ ყურადღება ამ ემაილს"
+
+msgid "reg_mail_body_forgot_password_info"
+msgstr "იმისათვის რომ მიიღოთ პაროლი, გთხოვთ გამოიყენოთ ფუნქცია \"დაგავიწყდათ პაროლი\" შესვლის მაგიდაზე რომ მოითხოვოთ ახალი პაროლი ამ ანგარიშისთვის"
+
+msgid "reg_mail_body_salutation"
+msgstr "გამარჯობა"
+
+msgid "reg_mail_body_text1"
+msgstr "მოგესალმებით ილიასის ე სწავლებაში"
+
+msgid "reg_mail_body_text2"
+msgstr "იმისათვის რომ შეხვიდეთ ილიასში გამოიყენეთ შემდეგი მონაცემები"
+
+msgid "reg_mail_body_text3"
+msgstr "დამატებითი პირადი ინფორმაცია"
+
+msgid "reg_mail_subject"
+msgstr "ილიასის ე სწავლება - თქვენი შესვლის მონაცემები"
+
+msgid "reg_mail_subject_confirmation"
+msgstr "ილიასის ე სწავლება- თქვენი დასტურის ლინკი"
+
+msgid "reg_passwd_via_mail"
+msgstr "თქვენი პაროლი გაიგზავნება ემაილზე რომელიც თქვენ მიიღეთ ქვემოთ"
+
+msgid "register"
+msgstr "რეგისტრაცია"
+
+#, fuzzy
+msgid "register_notification"
+msgstr "\"%s\" has applied for session \"%s\"."
+
+msgid "registered_since"
+msgstr "რეგისტრირებულია"
+
+msgid "registered_user"
+msgstr "დარეგისტრირებული მომხმარებელი"
+
+msgid "registered_users"
+msgstr "დარეგისტრირებული მომხმარებლები"
+
+msgid "registration"
+msgstr "ახალი ანგარიშის რეგისტრაცია"
+
+msgid "related_to"
+msgstr "ეხება"
+
+msgid "remove"
+msgstr "ამოშლა"
+
+msgid "remove_entries"
+msgstr "Remove Entries"
+
+msgid "remove_translation"
+msgstr "თარგმანის ამოშლა"
+
+msgid "rename"
+msgstr "სახელის შეცვლა"
+
+msgid "rename_file"
+msgstr "ფაილის სახელის შეცვლა"
+
+#, fuzzy
+msgid "renderer_supported_file_types"
+msgstr "Supported File Types"
+
+#, fuzzy
+msgid "renderer_supported_repo_types"
+msgstr "Supported ILIAS Objects"
+
+#, fuzzy
+msgid "renderer_type_builtin"
+msgstr "Built-in"
+
+msgid "rep_main_page"
+msgstr "სახლი"
+
+#, fuzzy
+msgid "rep_main_page_logo_alt"
+msgstr "Logo ILIAS - to the start page"
+
+msgid "repeat_scan"
+msgstr "ვირუსის განმეორებითი სკანირება"
+
+msgid "repeat_scan_failed"
+msgstr "განმეორებითი სკანირება ვერ განხორციელდა"
+
+msgid "repeat_scan_succeded"
+msgstr "გამეორებითი სკანირება დასრულდა"
+
+msgid "replace_file"
+msgstr "ფაილის ადგილის შეცვლა"
+
+msgid "reply"
+msgstr "პასუხი"
+
+#, fuzzy
+msgid "report_accessibility_issue"
+msgstr "Report Accessibility Issue"
+
+#, fuzzy
+msgid "report_accessibility_link"
+msgstr "Reported Link:"
+
+#, fuzzy
+msgid "report_accessibility_link_mailto"
+msgstr "Reported%20Link:"
+
+msgid "repository"
+msgstr "საცავი"
+
+msgid "repository_admin"
+msgstr "საცავის ნაგვის ყუთი და დაშვებები"
+
+msgid "repository_admin_desc"
+msgstr "საცავის ნივთებისთვის დაშვებების დაყენება, ობიექტების განახლება ან ამოშლა სისტემის ნაგვის ყუთიდან"
+
+msgid "require_email"
+msgstr "ემაილის მოთხოვნა"
+
+msgid "require_gender"
+msgstr "სქესის მოთხოვნა"
+
+msgid "require_hobby"
+msgstr "ჰობის მოთხვონა"
+
+msgid "require_matriculation"
+msgstr "ჩარიცხვების რაოდენობის მოთხოვნა"
+
+msgid "require_referral_comment"
+msgstr "მიმართულების კომენტარის მოთხოვნა"
+
+msgid "required_field"
+msgstr "მოთხოვნილი"
+
+msgid "res_links"
+msgstr "საცავის ლინკები"
+
+msgid "res_links_short"
+msgstr "ლინკები"
+
+msgid "reset"
+msgstr "განახლება"
+
+msgid "reset_filter"
+msgstr "ფილტრის განახლება"
+
+msgid "resources"
+msgstr "რესურსები"
+
+msgid "right"
+msgstr "უფლება"
+
+msgid "rights"
+msgstr "უფლებები"
+
+msgid "role"
+msgstr "პასუხისმგებლობა"
+
+msgid "role_add_user"
+msgstr "ადგილობრივი პასუხისმგებლობის დამატება"
+
+msgid "role_added"
+msgstr "პასუხისმგებლობა დამატებულია"
+
+msgid "role_assignment"
+msgstr "პასუხისმგებლობის დანიშვნა"
+
+msgid "role_assignment_updated"
+msgstr "პასუხისმგებლობის დანიშვნა განახლებულია"
+
+msgid "role_edit"
+msgstr "პასუხისმგებლობის რედაქტირება"
+
+msgid "role_mailto"
+msgstr "ემაილი ყველა დანიშნულ მომხმარებელს"
+
+msgid "role_new"
+msgstr "ახალი პასუხისმგებლობა"
+
+msgid "role_new_search"
+msgstr "ახალი ძიება"
+
+msgid "role_no_roles_selected"
+msgstr "გთხოვთ შეიყვანოთ პასუხისმგებლობა"
+
+msgid "role_protect_permissions"
+msgstr "დაშვებების დაცვა"
+
+msgid "role_protect_permissions_desc"
+msgstr "ობიექტების დაშვებების შეცვლა შეუძლებელია სისტემის ოპერაციებიდან. დამატებით მხოლოდ მაღალი დონის ადმინისტრატორს შეუძლია დაშვების შეცვლა"
+
+msgid "role_select_one_item"
+msgstr "გთხოვთ აირჩიოთ ერთი ობიექტი"
+
+msgid "role_sure_delete_desk_items"
+msgstr "დარწმუნებული ხართ რომ გსურთ შემდეგი დანიშვნის გაუქმება?"
+
+msgid "role_templates_only"
+msgstr "მხოლოდ პასუხისმგებლოებების ნიმუშები"
+
+msgid "roles"
+msgstr "პასუხისმგებლობები"
+
+msgid "roles_of_import_global"
+msgstr "გადმოტანილი ფაილის გლობალური პასუხისმგებლობების"
+
+msgid "roles_of_import_local"
+msgstr "გადმოტანილი ფაილის ადგილობრივი პასუხისმგებლობების"
+
+msgid "rolf"
+msgstr "პასუხისმგებლობები"
+
+msgid "rolf_added"
+msgstr "ფოლდერის პასუხისმგებლობა დამტებულია"
+
+msgid "rolf_create_role"
+msgstr "ახალი პასუხისმგებლობის განსაზღვრების შექმნა"
+
+msgid "rolf_create_rolt"
+msgstr "ახალი პასუხისმგებლობის განსაზღვრების ნიმუშის შექმნა"
+
+msgid "rolf_delete"
+msgstr "პასუხისმგებლობების/პასუხისმგებლობის ნიმუშების წაშლა"
+
+msgid "rolf_edit_permission"
+msgstr "დაშვების პარამეტრების შეცვლა"
+
+msgid "rolf_edit_userassignment"
+msgstr "მომხმარებლის პასუხისმგებლობების დანიშვნების შეცვლა"
+
+msgid "rolf_read"
+msgstr "კითხვითი დაშვება პასუხისმგებლობის ნიმუშზე"
+
+msgid "rolf_visible"
+msgstr "პასუხისმგებლობის/პასუხისმგებლობების ნიმუშები ხილვადია"
+
+msgid "rolf_write"
+msgstr "პასუხისმგებლობის/პასუხისმგებლობების ნიმუშების მცდარი დაშვების პარამეტრების რედაქტირება"
+
+msgid "rolt"
+msgstr "პასუხისმგებლობის ნიმუში"
+
+msgid "rolt_added"
+msgstr "პასუხისმგებლობის ნიმუში დამატებულია"
+
+msgid "rolt_edit"
+msgstr "პასუხისმგებლობის ნიმუშების რედაქტირება"
+
+msgid "rolt_new"
+msgstr "ახალი პასუხისმგებლობის ნიმუში"
+
+msgid "row"
+msgstr "რიგი"
+
+msgid "rows"
+msgstr "რიგები"
+
+#, fuzzy
+msgid "rpc_pdf_font"
+msgstr "Fonts"
+
+#, fuzzy
+msgid "rpc_pdf_font_info"
+msgstr "Additional fonts for the generation of PDF files. Other fonts than \"Helvetica\" and \"unifont\" must be installed on the ILIAS server."
+
+#, fuzzy
+msgid "rpc_pdf_generation"
+msgstr "PDF-Generation"
+
+#, fuzzy
+msgid "sad"
+msgstr "Sad"
+
+msgid "sahs"
+msgstr "სასწავლო მოდული შჩOღM/AIჩჩ"
+
+msgid "sahs_added"
+msgstr "SCORM/AICC სასწავლო მოდული დამატებულია"
+
+#, fuzzy
+msgid "sahs_export_file"
+msgstr "ILIAS exported SCORM archive file"
+
+#, fuzzy
+msgid "sahs_export_file_info"
+msgstr "Use this option for a ZIP file that was exported directly from ILIAS. The file typically has titles such as 1675257903__4105__sahs_132295.zip."
+
+msgid "sahs_insert_chap_from_clip"
+msgstr "დაფიდან თავების ჩასმა"
+
+msgid "sahs_insert_page_from_clip"
+msgstr "დაფიდან გვერდების ჩასმა"
+
+msgid "sahs_insert_sco_from_clip"
+msgstr "დაფიდან SCO ჩასმა"
+
+#, fuzzy
+msgid "sahs_new"
+msgstr "Create New Learning Module"
+
+msgid "salutation"
+msgstr "მილოცვა"
+
+msgid "salutation_f"
+msgstr "ქალბატონო/ბატონო"
+
+msgid "salutation_m"
+msgstr "ბატონო"
+
+#, fuzzy
+msgid "salutation_n"
+msgstr "No salutation desired"
+
+#, fuzzy
+msgid "saml_log_in"
+msgstr "Direct login"
+
+#, fuzzy
+msgid "saml_login_form_info_txt"
+msgstr "You can log in using the “Direct Login” button without having to enter your username or password."
+
+#, fuzzy
+msgid "saml_login_form_txt"
+msgstr "Login to ILIAS via SAML"
+
+msgid "save"
+msgstr "შენახვა"
+
+msgid "save_and_back"
+msgstr "შენახვა და უკან"
+
+msgid "save_message"
+msgstr "შეტყობინებების შენახვა"
+
+msgid "save_params_for_cron"
+msgstr "პარამეტრის შენახვა კრონჯობისთვის"
+
+msgid "save_refresh"
+msgstr "შენახვა და განახლება"
+
+msgid "save_return"
+msgstr "შენახვა და დაბრუნება"
+
+msgid "save_settings"
+msgstr "პარამეტრების შენახვა"
+
+msgid "save_user_related_data"
+msgstr "მომხმარებელთან დაკავშირებული შესვლის მონაცემების შენახვა"
+
+msgid "saved_successfully"
+msgstr "წარმატებულად შეინახა"
+
+msgid "saving"
+msgstr "შენახვა…"
+
+#, fuzzy
+msgid "scope"
+msgstr "Scope"
+
+msgid "scorm_create_export_file_html"
+msgstr "საექსპორტო ფაილის შექმნა (HTML)"
+
+msgid "scorm_create_export_file_pdf"
+msgstr "საექსპორტო ფაილის შექმნა (PDF)"
+
+msgid "scorm_create_export_file_scrom12"
+msgstr "საექპორტო ფაილის შექმნა (SCORM 1.2)"
+
+msgid "scorm_create_export_file_scrom2004"
+msgstr "საექსპორტო ფაილის შექმნა (SCORM 2004 მესამე გამოცემა)"
+
+msgid "scorm_create_export_file_scrom2004_4th"
+msgstr "საექსპორტო ფაილის შექმნა (SCORM 2004 მეოთხე გამოცემა)"
+
+#, fuzzy
+msgid "scorm_login_as_learner_id"
+msgstr "SCORM 2004: set ILIAS User Name as cmi.learner_id"
+
+#, fuzzy
+msgid "scorm_login_as_learner_id_info"
+msgstr "If enabled, the User Name instead of the User ID is set for cmi.learner_id."
+
+#, fuzzy
+msgid "scorm_lp_auto_activate"
+msgstr "default settings for learning progress"
+
+#, fuzzy
+msgid "scorm_lp_auto_activate_info"
+msgstr "If learning progress is activated in general, the settings for new SCORM learning modules are set to 'Collection of SCORM Items' and all SCOs are selected for learning progress determination. Adjustments are still possible for every SCORM learning module."
+
+msgid "scorm_new"
+msgstr "სკორმის სასწავლო მოდულის შექმნა (ავტორიზების მდგომარეობა)"
+
+#, fuzzy
+msgid "scorm_without_session"
+msgstr "SCORM 2004: enable storing data without session"
+
+#, fuzzy
+msgid "scorm_without_session_info"
+msgstr "This ensures the storage of SCORM learning data even if ILIAS session expired"
+
+msgid "search"
+msgstr "ძიება"
+
+msgid "search_active"
+msgstr "აქტიური მომხმარებლების ჩარტთვა"
+
+msgid "search_at_current_position"
+msgstr "At Current Position"
+
+msgid "search_engine"
+msgstr "ხელსაწყოების ძიება"
+
+msgid "search_for"
+msgstr "ძიება"
+
+msgid "search_globally"
+msgstr "Globally"
+
+msgid "search_in"
+msgstr "ძიება სად"
+
+msgid "search_inactive"
+msgstr "არააქტიური მომხმარებლების ჩართვა"
+
+msgid "search_new"
+msgstr "ახალი ძიება"
+
+msgid "search_result"
+msgstr "შედეგის ძიება"
+
+msgid "search_results"
+msgstr "ძიების შედეგები"
+
+msgid "search_user"
+msgstr "მომხმარებლის ძიება"
+
+#, fuzzy
+msgid "search_users"
+msgstr "Look Up Users"
+
+#, fuzzy
+msgid "seas_max_hits"
+msgstr "Max hits"
+
+msgid "seas_max_hits_info"
+msgstr "გთხოვთ შეიყვანოთ ძიების შედეგების მაქსიმალური რაოდენობა"
+
+msgid "seas_settings"
+msgstr "ძიების პარამეტრები"
+
+msgid "second"
+msgstr "წამი"
+
+#, fuzzy
+msgid "second_email"
+msgstr "Second Email"
+
+msgid "seconds"
+msgstr "წამები"
+
+msgid "sel_country"
+msgstr "ქვეყანა"
+
+msgid "select"
+msgstr "აირჩიეთ"
+
+msgid "select_all"
+msgstr "ყველას მონიშვნა"
+
+msgid "select_at_least_one_object"
+msgstr "გთხოვთ აირჩიოთ სულ მცირე ერთი ობიექტი"
+
+msgid "select_file"
+msgstr "აირჩიეთ ფაილი"
+
+#, fuzzy
+msgid "select_file_from_computer"
+msgstr "Select File"
+
+#, fuzzy
+msgid "select_files_from_computer"
+msgstr "Select the files from your computer"
+
+msgid "select_max_one_item"
+msgstr "გთხოვთ აირჩიოთ მხოლოდ ერთი ნივთი"
+
+msgid "select_object_to_link"
+msgstr "გთხოვთ აირჩიოთ ობიექტი რომლის დაკავშირებაც გსურთ"
+
+msgid "select_one"
+msgstr "გთხოვთ აირჩიოთ ერთი"
+
+#, fuzzy
+msgid "select_question_pool_info"
+msgstr "As long as the import file contains questions, these questions will be imported to the selected questionpool as well."
+
+msgid "select_questionpool"
+msgstr "ჩასვით კითხვები"
+
+msgid "selected"
+msgstr "მონიშნული"
+
+#, fuzzy
+msgid "selected_files"
+msgstr "Selected files"
+
+msgid "selected_items"
+msgstr "პირადი ნივთები"
+
+msgid "selected_items_back"
+msgstr "უკან პირად ნივთებში"
+
+msgid "selected_languages_updated"
+msgstr "მონიშნული ეები განახლდა ( თუ დაყენებულია)"
+
+msgid "send"
+msgstr "გაგზავნა"
+
+msgid "send_mail"
+msgstr "ემაილის გაგზავნა"
+
+msgid "sender"
+msgstr "გამგზავნელი"
+
+msgid "sent"
+msgstr "გაგზავნილი"
+
+msgid "sequence"
+msgstr "თანმიმდევრობა"
+
+msgid "sequences"
+msgstr "თანმიმდევრობები"
+
+msgid "server"
+msgstr "სერვერი"
+
+msgid "server_data"
+msgstr "სერვერის მონაცემები"
+
+msgid "server_disabled"
+msgstr "The Chat is Disabled"
+
+msgid "server_software"
+msgstr "სერვერის პროგრამა"
+
+msgid "sess"
+msgstr "სესია"
+
+msgid "sess_fixed_duration"
+msgstr "დაყენებული სესიის მიმდინარეობა"
+
+msgid "session_config"
+msgstr "სესიის პარამეტრები"
+
+msgid "session_config_maintenance_disabled"
+msgstr "მომხმარებლის მიერ შენარჩუნება არ არის ნებადართული"
+
+#, fuzzy
+msgid "session_mail_subject_deletion"
+msgstr "Deregistration of user \"%s\" from session \"%s\""
+
+#, fuzzy
+msgid "session_mail_subject_entered"
+msgstr "Joining of user \"%s\" in session \"%s\""
+
+#, fuzzy
+msgid "session_mail_subject_registered"
+msgstr "Registration of user \"%s\" for session \"%s\""
+
+msgid "session_reminder"
+msgstr "სესიის შეხსენება"
+
+msgid "session_reminder_alert"
+msgstr "Your session expires in %1$s at %2$s!\\n\\nChoose OK to continue your session.\\nIf you click Cancel you will not be reminded during the current browser session anymore.\\n\\nInstallation: %3$s."
+
+#, fuzzy
+msgid "session_reminder_default_lead_time_info"
+msgstr "Please specify how many minutes before the expiration of a session a reminder should be shown.<br / >The function is deactivated when the value is '%s'. The recommended value is %s.<br / >The current length of a session is %s."
+
+#, fuzzy
+msgid "session_reminder_input"
+msgstr "Session Reminder (in Minutes)"
+
+msgid "session_reminder_lead_time"
+msgstr "წამყვანი დრო"
+
+msgid "session_reminder_lead_time_info"
+msgstr "გთხოვთ დააზუსტოთ შეხსენების დრო წუთებში.  შეხსენაბა გამოიტანს გაფრთხილებას მხოლოდ მაშინ როდესაც მოკლე დრო იქნება დარჩენილი სესიის ამოწურვამდე. ღეკომენდებული ღირებულებაა 5 ( წუთი) <br/> მიმდინარე ხანგრძლივობა მომხმარებლის სესიისა არის %s"
+
+msgid "session_reminder_session_duration"
+msgstr "სესიის ხანგრძლივობა %s"
+
+msgid "set"
+msgstr "დაყენება"
+
+msgid "setSystemLanguage"
+msgstr "სისტემის ენის დაყენება"
+
+msgid "setUserLanguage"
+msgstr "მომხმარებლის ენი დაყენება"
+
+msgid "set_offline"
+msgstr "დაყენება კავშირის გარეშე"
+
+msgid "set_online"
+msgstr "დაყენება ონლაინ"
+
+#, fuzzy
+msgid "set_skin_does_not_exist"
+msgstr "Your selected skin does not exist anymore. You may change your style in the personal settings or contact your administrator. Current selection:"
+
+#, fuzzy
+msgid "set_style_does_not_exist"
+msgstr "Your selected system style does not exist anymore. You may change your style in the personal settings or contact your administrator. Current selection:"
+
+msgid "settings"
+msgstr "პარამეტრები"
+
+msgid "settings_for_all_members"
+msgstr "გლობალური პარამეტრი კურსის/ჯგუფის/ყველა მონაწილესთვის"
+
+msgid "settings_per_users"
+msgstr "პარამეტრები კურსის/ჯგუფის თითო წევრზე"
+
+#, fuzzy
+msgid "settings_presentation_header"
+msgstr "Presentation"
+
+msgid "settings_saved"
+msgstr "შენახული პარამეტრები"
+
+msgid "shib"
+msgstr "შიბოლეტი"
+
+msgid "shib_active"
+msgstr "შიბოლეტის მხარდაჭერის გააქტიურება"
+
+msgid "shib_city"
+msgstr "ქალიქის განსაზღვრება"
+
+msgid "shib_country"
+msgstr "ქვეყნის განსაზღვრება"
+
+msgid "shib_data_conv"
+msgstr "აბსოლუტური მდებარეობა მონაცემტა მანიპულაციისთვის ეი პი აი"
+
+msgid "shib_data_conv_warning"
+msgstr "მონაცემთა მანიპულაცია ეი პი აი ფაილი არ იკითხება"
+
+msgid "shib_department"
+msgstr "დეპარტამენტრის განსაზღვრება"
+
+msgid "shib_email"
+msgstr "ემაილის მისამართის განსაზღვრება"
+
+msgid "shib_federation_name"
+msgstr "შიბოლეტის ფედერაციის სახელი"
+
+msgid "shib_firstname"
+msgstr "სახელის განსაზღვრება"
+
+msgid "shib_gender"
+msgstr "სქესის განსაზღვრება ( უნდა იყოს \"კაცი\" ან \"ქალი\""
+
+msgid "shib_general_login_instructions"
+msgstr "იმისათვის რომ შეხვიდეთ %s, გთხოვთ დააკლიკოთ შესვლის ღილაკს და აირჩიოთ თქვენი ორგანიზაცია შემდეგი გვერდიდან <ბრ> თუ გაქვთ კითხვები ამასთან დაკავშირებით გთხოვთ ჰკითხოთ"
+
+msgid "shib_general_wayf_login_instructions"
+msgstr "იმ შემთხვევაში თქვენ არ ხართ დაკავშირებული მოცემულ ორგანიზაციებთან და გსურთ ამ სერვერის კურსში შესვლა, გთხოვთ დაუკავშირდეთ"
+
+msgid "shib_idp_list"
+msgstr "იდენტური მომწოდებლები სია დაამზადეთ რომ მისცეთ მომხმარებლეს აირჩიოს ილიასის შესვლის გვერდიდან.<ბრ> თითოეული მათგანი უნდა იყოს მძიმეთი გამოყოფილი მონაცემთა სტრუქტურა"
+
+msgid "shib_institution"
+msgstr "განსაზღვრება დაყენებისთვის"
+
+msgid "shib_invalid_home_organization"
+msgstr "გთხოვთ აირჩიოთ სწორი ორგანიზაცია!"
+
+msgid "shib_language"
+msgstr "ენის განსაზღვრება"
+
+msgid "shib_lastname"
+msgstr "გვარის განსაზღვრება"
+
+msgid "shib_login"
+msgstr "უნიკალური შიბოლეტის განსაზღვრება"
+
+msgid "shib_login_button"
+msgstr "შიბოლეტის შესვლის ღილაკის სურათის მდებარეობა რომელიც გამოიყენება იმისათვის მომხმარებელთა მიმართულება შეცვალოთ ჭAYF შიბოლეტის დაყენებაში განსაზღვრული"
+
+msgid "shib_login_embedded_wayf"
+msgstr "საკუთარი შესვლის სივრცის დიზაინი"
+
+msgid "shib_login_embedded_wayf_description"
+msgstr "ეს პარამეტრი არჩეულია, თქვენ შეგიძლიათ შეიყვანოთ HTML კოდი შესვლის ინტრუქციების ტექსტში ქვემოთ. Eეს შეიძლება გამოიყენოთ საკუთარი ჯავასკრიპტის WAYF/აღმოჩენის სერვისის ან შესვლის სივრცის საკუთარი-მკაცრი დიზაინის შესაქმნელად"
+
+msgid "shib_login_external_wayf"
+msgstr "გამოიყენეთ გარე WAYF სერვისი"
+
+msgid "shib_login_internal_wayf"
+msgstr "გამოიყენეთ ილიასის WAYF სერვისი"
+
+msgid "shib_login_type"
+msgstr "ორგანიზაციის არჩევა"
+
+msgid "shib_matriculation"
+msgstr "Attribute for Matriculation Number"
+
+msgid "shib_member_of"
+msgstr "თუ მე ვარ წევრი ..."
+
+msgid "shib_phone_home"
+msgstr "სახლის ტელეფონის განსაზღვრება"
+
+msgid "shib_phone_mobile"
+msgstr "მობილური ტელეფონის განსაზღვრება"
+
+msgid "shib_phone_office"
+msgstr "ოფისის ტელეფონის განსაზღვრება"
+
+msgid "shib_select_home_organization"
+msgstr "ავტორიზებისთვის %s გთხოვთ აირჩიოთ თქვენი ორგანიზაცია ქვემოთ მოცემული სიიდან"
+
+msgid "shib_settings_saved"
+msgstr "შიბოლეტის პარამეტრები შენახულია"
+
+msgid "shib_street"
+msgstr "ქუჩის განსაზღვრება"
+
+msgid "shib_title"
+msgstr "დასახელების განსაზღვრება"
+
+msgid "shib_update"
+msgstr "განაახლეთ შესვლის ეს ველი"
+
+msgid "shib_user_default_role"
+msgstr "მცდარი პასუხისმგებლობაა დანიშნული შიბოლეტის მომხმარებლებზე"
+
+msgid "shib_zipcode"
+msgstr "ზიპკოდის განსაზღვრება"
+
+msgid "short_inst_name"
+msgstr "მოკლე დასახელება"
+
+msgid "short_inst_name_info"
+msgstr "ეს დასახელება გამოჩნდება ბრაუზერის სათაურის დასახელების გრაფაში. თუ ღირებულებაა შეყვანილი, \"ილიასი\" გამოიყენება"
+
+msgid "show"
+msgstr "ჩვენება"
+
+#, fuzzy
+msgid "show_all_details"
+msgstr "Show all details"
+
+#, fuzzy
+msgid "show_content"
+msgstr "Show Content"
+
+msgid "show_details"
+msgstr "დეტალების ჩვენება"
+
+msgid "show_filter"
+msgstr "ფილტრის ჩვენება"
+
+#, fuzzy
+msgid "show_hidden_sections"
+msgstr "Show More Information &raquo;"
+
+#, fuzzy
+msgid "show_less"
+msgstr "Show less"
+
+msgid "show_list"
+msgstr "სიის ჩვენება"
+
+msgid "show_members"
+msgstr "წევრების ჩვენება"
+
+#, fuzzy
+msgid "show_more"
+msgstr "Show More"
+
+#, fuzzy
+msgid "show_preview"
+msgstr "Show Preview"
+
+msgid "show_users_online"
+msgstr "აქტიური მომხმარებლების ჩვენება"
+
+#, fuzzy
+msgid "show_who_is_online"
+msgstr "Show who is online"
+
+msgid "side_frame"
+msgstr "გვერდი ჩარჩო"
+
+msgid "signature"
+msgstr "ხელმოწერა"
+
+msgid "size"
+msgstr "ზომა"
+
+msgid "skills"
+msgstr "ჩემი კომპეტენციები"
+
+msgid "skin_style"
+msgstr "მცდარი კანი/სტილი"
+
+msgid "smtp"
+msgstr "ეს ემ თი პი"
+
+msgid "soap_connect_timeout"
+msgstr "Connection Timeout"
+
+msgid "soap_connect_timeout_info"
+msgstr "The maximum time in seconds until a connect attempt to the SOAP-Webservice is interrupted."
+
+msgid "soap_user_administration"
+msgstr "მართვა ეს ოუ ეი პის მეშვეობით"
+
+msgid "soap_user_administration_desc"
+msgstr "თუ გააქტიურებულია, ილიასის მართვა შესაძლებელია ეს ოუ ეი პის მეშვეობით"
+
+msgid "soap_wsdl_path"
+msgstr "ჭშDL მდებარეობა"
+
+msgid "soap_wsdl_path_info"
+msgstr "გთხოვთ შეიყვანოთ ბილის ილიასი დაბლ ეს დი ელ ფაილში რომელიც გამოიყენება ვებსერვისისთვის. თუ თქვენ გამოტოვებთ ამ ბლანკს, შემდეგი მდებარეობა გამოიყენება თითოეულ შეცდომაზე :%s"
+
+#, fuzzy
+msgid "sort"
+msgstr "Sort"
+
+#, fuzzy
+msgid "sort_ascending"
+msgstr "Sort Ascending"
+
+#, fuzzy
+msgid "sort_ascending_long"
+msgstr "Change Sort Direction to Ascending"
+
+msgid "sort_by_this_column"
+msgstr "კოლონების მიხედვით დახარისხება"
+
+#, fuzzy
+msgid "sort_descending"
+msgstr "Sort Descending"
+
+#, fuzzy
+msgid "sort_descending_long"
+msgstr "Change Sort Direction to Descending"
+
+msgid "sort_inherit_prefix"
+msgstr "სტანდარტი"
+
+#, fuzzy
+msgid "sorting_asc"
+msgstr "Ascending"
+
+#, fuzzy
+msgid "sorting_creation_header"
+msgstr "By Creation Date"
+
+#, fuzzy
+msgid "sorting_creation_info"
+msgstr "Content items are arranged automatically by their creation date."
+
+#, fuzzy
+msgid "sorting_desc"
+msgstr "Descendent"
+
+#, fuzzy
+msgid "sorting_direction"
+msgstr "Sorting Direction"
+
+msgid "sorting_header"
+msgstr "ნივთის შინაარსის მიხედვით დახარისხება"
+
+msgid "sorting_info_inherit"
+msgstr "დახარისხების მდგომარეობა მორგებულია მშობელ კურსზე"
+
+msgid "sorting_info_manual"
+msgstr "ეს მდგომარეობა გთავაზობთ ნივთების ხელით დახარისხების შესაძლებლობას"
+
+msgid "sorting_info_title"
+msgstr "გთხოვთ აირჩიოთ ეს მდგომარეობა ნივთების ავტომატურად სახელის მიხედვით დახარისხებისთვის"
+
+msgid "sorting_manual_header"
+msgstr "ხელით დახარისხება"
+
+msgid "sorting_save"
+msgstr "დახარისხების შენახვა"
+
+msgid "sorting_title_header"
+msgstr "დასახელების მიხედვით დახარისხება"
+
+msgid "spacer"
+msgstr "შუასადები"
+
+msgid "spl"
+msgstr "კითხვების ნაკადის კითხვარი"
+
+msgid "spl_add"
+msgstr "დაამატეთკითხვების ნაკადის კითხვარი"
+
+msgid "spl_import"
+msgstr "Import Question Pool Survey"
+
+msgid "spl_new"
+msgstr "ახალი კითხვების ნაკადის კითხვარი"
+
+msgid "ssl"
+msgstr "ეს ეს ელ ( ეიჩ თი თი პი ეს)"
+
+msgid "standard_fields"
+msgstr "სტანდარტული ველები"
+
+msgid "startpage"
+msgstr "ილიასის შესვლის გვერდი"
+
+msgid "stat_selected"
+msgstr "არჩეული"
+
+msgid "statistic"
+msgstr "სტატისტიკა"
+
+msgid "statistics"
+msgstr "სტატისტიკები"
+
+msgid "status"
+msgstr "სტატუსი"
+
+msgid "status_no_permission"
+msgstr "დაშვება არ არის მინიჭებული"
+
+msgid "step"
+msgstr "ნაბიჯი"
+
+msgid "street"
+msgstr "ქუჩა"
+
+msgid "structure"
+msgstr "სტრუქტურა"
+
+msgid "sty"
+msgstr "სტილი"
+
+msgid "sub_request_deleted"
+msgstr "წევრობის მოთხოვნა წაშლილია"
+
+msgid "sub_request_saved"
+msgstr "წევრობის მოთხოვნა შენახულია"
+
+msgid "subject"
+msgstr "სუბიექტი"
+
+msgid "submit"
+msgstr "წარმოდგენა"
+
+msgid "subobjects"
+msgstr "ქვეობიექტები"
+
+msgid "subscription"
+msgstr "ხელი მოწერა"
+
+msgid "subtabs"
+msgstr "ქვე კლავიში"
+
+msgid "success_message"
+msgstr "შეტყობინება წარმატებულია"
+
+msgid "summary"
+msgstr "შეჯამება"
+
+msgid "sure_delete_selected_users"
+msgstr "დარწმუნებული ხართ რომ ნამდვილად გსურთ მონიშნული მომხმარებლების წაშლა?"
+
+msgid "survey_defaults"
+msgstr "კითხვარების მცდარი პარამეტრები"
+
+msgid "survey_unlimited_invitation"
+msgstr "შეუზღუდავი მოწვევა"
+
+msgid "svy"
+msgstr "კითხვარი"
+
+msgid "svy_add"
+msgstr "კითხვარის დამატება"
+
+msgid "svy_finished"
+msgstr "თქვენ უნდა დაასრულოთ კითხვარი"
+
+msgid "svy_new"
+msgstr "ახალი კითხვარი"
+
+msgid "svy_not_finished"
+msgstr "კითხვარი არ არის დასრულებული ჯერ"
+
+msgid "svy_not_started"
+msgstr "თქვენ არ მიგიღიათ კითხვარში მონაწილეობა"
+
+msgid "svy_run"
+msgstr "მოთხოვნა/სვლა"
+
+msgid "svy_warning_survey_not_complete"
+msgstr "კითხვარი არ არის დასრულებული"
+
+#, fuzzy
+msgid "switch_language"
+msgstr "Switch Language"
+
+msgid "system"
+msgstr "სისტემა"
+
+msgid "system_check"
+msgstr "სისტემის შემოწმება"
+
+msgid "system_information"
+msgstr "სისტემის ინფორმაცია"
+
+msgid "system_language"
+msgstr "სისტემის ენა"
+
+msgid "system_styles"
+msgstr "სისტემის სტილები"
+
+msgid "systemcheck_cron"
+msgstr "სისტემის შემოწმება კრონ ჯობის მეშვეობით"
+
+msgid "systemcheck_cronform"
+msgstr "სისტემის კრონჯობით შემოწმების აქტივაცია"
+
+msgid "table_mail_import"
+msgstr "ემაილის გადმოტანა"
+
+msgid "tabs"
+msgstr "კლავიშები"
+
+msgid "tagging_my_tags"
+msgstr "ჩემი მონიშვნები"
+
+#, fuzzy
+msgid "tags"
+msgstr "Tags"
+
+msgid "take_over_structure"
+msgstr "სტრუქტურის შემოღება"
+
+msgid "take_over_structure_info"
+msgstr "თუ გააქტიურებულია, ზიპ ფაილის მიმართულებები დაიყოფა კატეგორიებად ან, თუ გამოიყენება ჯგუფებსა და კურსებში, ფოლდერებად"
+
+msgid "tals_etal"
+msgstr "Talk"
+
+msgid "talt_etal"
+msgstr "Talk"
+
+msgid "target"
+msgstr "მიზანი"
+
+msgid "tax"
+msgstr "ტაქსონომია"
+
+msgid "tax_add"
+msgstr "ტაქსონომიის დამატება"
+
+msgid "tax_new"
+msgstr "ახალი ტაქსონომია"
+
+msgid "term"
+msgstr "პერიოდი"
+
+msgid "test"
+msgstr "ტესტი"
+
+msgid "tests"
+msgstr "ტესტები"
+
+msgid "textbox"
+msgstr "ტექსტის Yყუთი"
+
+msgid "thread"
+msgstr "თემა"
+
+msgid "thumbnail"
+msgstr "ესკიზი"
+
+#, fuzzy
+msgid "tile_view"
+msgstr "Tile View"
+
+msgid "time"
+msgstr "დრო"
+
+msgid "time_limit"
+msgstr "შესვლა"
+
+msgid "time_limit_add_time_limit_for_selected"
+msgstr "გთხოვთ შეიყვანოთ პერიოდის დრო მონიშნული მომხმარებლებისთვის"
+
+msgid "time_limit_from"
+msgstr "საიდან ( დროის შეზღუდვა)"
+
+msgid "time_limit_message"
+msgstr "შეტყობინება ( დროის შეზღუდვა)"
+
+msgid "time_limit_no_users_selected"
+msgstr "გთხოვთ მონიშნოთ მომხმარებელი"
+
+msgid "time_limit_not_valid"
+msgstr "პერიოდი არ არის სწორი"
+
+msgid "time_limit_reached"
+msgstr "თქვენი ანგარიში არა არის აქტიური"
+
+msgid "time_limit_unlimited"
+msgstr "შეუზღუდავი ( დროის შეზღუდვა)"
+
+msgid "time_limit_until"
+msgstr "სადამდე ( დროის შეზღუდვა)"
+
+msgid "title"
+msgstr "დასახელება"
+
+msgid "title_required"
+msgstr "გთხოვთ შეიყვანოთ დასახელება"
+
+msgid "to"
+msgstr "ვის"
+
+msgid "to_client_list"
+msgstr "მომხმარებელთა მონიშვნა"
+
+msgid "today"
+msgstr "დღეს"
+
+msgid "toggleGlobalDefault"
+msgstr "გლობალური შეცდომის ჩართვა"
+
+msgid "toggleGlobalFixed"
+msgstr "ჩამრთველიგლობალურად დაყენებულია"
+
+#, fuzzy
+msgid "toggle_dropdown"
+msgstr "Toggle Dropdown"
+
+#. Don't translate this label to prevent rendering problems of the related Toggle Button!
+msgid "toggle_off"
+msgstr "OFF"
+
+#. Don't translate this label to prevent rendering problems of the related Toggle Button!
+msgid "toggle_on"
+msgstr "ON"
+
+msgid "tomorrow"
+msgstr "ხვალ"
+
+#, fuzzy
+msgid "toolbar_more_actions"
+msgstr "More Actions"
+
+#, fuzzy
+msgid "tools"
+msgstr "Tools"
+
+msgid "top_of_page"
+msgstr "Top of page"
+
+#, fuzzy
+msgid "tos_accept_usr_agreement"
+msgstr "Accept Terms of Service?"
+
+#, fuzzy
+msgid "tos_accept_usr_agreement_intro"
+msgstr "There are new terms of service. You need to accept them before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page."
+
+#, fuzzy
+msgid "tos_force_accept_usr_agreement"
+msgstr "You must accept the Terms of Service!"
+
+#, fuzzy
+msgid "tos_no_agreement_description"
+msgstr "There is currently no Terms of Service document available for this installation. Please contact the <a href=\"%1$s\">system administrator</a>."
+
+#, fuzzy
+msgid "tos_refuse_acceptance"
+msgstr "Refuse to Accept Terms of Service"
+
+#, fuzzy
+msgid "tos_usr_agreement"
+msgstr "Terms of Service"
+
+#, fuzzy
+msgid "tos_usr_agreement_footer_intro"
+msgstr "You have declared your consent to these terms of service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_description"
+msgstr "Withdraw your consent to our Terms of Service here."
+
+#, fuzzy
+msgid "tos_withdraw_consent_description_external"
+msgstr "Please return to your ILIAS installation and log in again to complete the process of withdrawing your consent to the Terms of Service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_description_internal"
+msgstr "Please log in again to complete the process of withdrawing your consent to the Terms of Service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_header"
+msgstr "Withdraw Terms of Service Consent"
+
+#, fuzzy
+msgid "tos_withdraw_consent_info"
+msgstr "Withdraw your consent to our Terms of Service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_info_external"
+msgstr "Please contact the administrator of your authentication system and inform them of your intention to withdraw your consent to the Terms of Service."
+
+msgid "total"
+msgstr "ჯამი"
+
+msgid "tracking_settings"
+msgstr "სასწავლო პროგრესის პარამეტრები"
+
+msgid "translation"
+msgstr "თარგმნა"
+
+msgid "trash"
+msgstr "ნაგვის ყუთი"
+
+msgid "tree"
+msgstr "ხე"
+
+msgid "tree_frame"
+msgstr "ხის ჩარჩო"
+
+msgid "treeview"
+msgstr "გვერდის ზოლის ჩვენება"
+
+msgid "tst"
+msgstr "ტესტი"
+
+msgid "tst_add"
+msgstr "ტესტის დამატება"
+
+msgid "tst_edit_questions"
+msgstr "კითხვების რედაქტირება"
+
+#, fuzzy
+msgid "tst_history_read"
+msgstr "View History"
+
+msgid "tst_new"
+msgstr "ახალი ტესტი"
+
+#, fuzzy
+msgid "tst_results"
+msgstr "Test Results"
+
+msgid "tst_run"
+msgstr "მოთხოვნა/სვლა"
+
+msgid "tst_user_not_invited"
+msgstr "თქვენ არ შეგიძლიათ ამ ტესტის აღება"
+
+msgid "tst_warning_test_not_complete"
+msgstr "ტესტი არ არის სრული"
+
+msgid "tutors"
+msgstr "მასწავლებლები"
+
+msgid "txt_registered"
+msgstr "თქვენ წარმატებულად დარეგისტრირდით ილიასში. გთხოვთ დააკლიკოთ ღილაკს ქვემოთ რომ შეხვიდეთ ილიასში თქვენი ახალი ანგარიშით"
+
+msgid "txt_registered_passw_gen"
+msgstr "თქვენ წარმატებულად დარეგისტრირდით ილიასში. თქვენ უნდა მიგეღოთ ემაილი თქვენ მიერ შექმნილი პაროლით მალევე"
+
+msgid "txt_submitted"
+msgstr "თქვენ წარმატებულად ჩააბარეთ მოთხოვნილი ანგარიში ილიასს. თქვენი ანგარიშის მოთხოვნა განიხილება სისტემის ადმინისტრატორების მიერ და უნდა გააქტიურდეს 48 საათის განმავლობაში. თქვენ არ შეგეძლებათ შესვლა სანამ ანგარიში არ გააქტიურდება"
+
+msgid "typ"
+msgstr "ობიექტის სახეობის განსაზღვრა"
+
+msgid "type"
+msgstr "სახეობა"
+
+msgid "udf_added_field"
+msgstr "ახალი ველი დამატება"
+
+msgid "udf_delete_sure"
+msgstr "დარწმუნებული ხართ რომ ნამდვილად გსურთ ამ ველისა და ასევე ყველა დანიშნული მომხმარებლის მონაცემების წაშლა"
+
+msgid "udf_duplicate_entries"
+msgstr "ეს ღირებულებები უნდა იყოს უნიკალური"
+
+msgid "udf_field_deleted"
+msgstr "წაშლილი ველი"
+
+msgid "udf_name_already_exists"
+msgstr "ეს ველი უკვე არსებობს. გთხოვთ აირჩიოთ სხვა სახელი"
+
+msgid "udf_required_requires_visib_reg"
+msgstr "როდესაც ველი დაყენებულია \" მოთხოვნილ\"ზე ის ასევე დაყენებული უნდა იყოს \" ხილვადი რეგისტრაციაში\" ზე"
+
+msgid "udf_type_date"
+msgstr "თარიღი"
+
+msgid "udf_type_datetime"
+msgstr "თარიღი და დრო"
+
+msgid "udf_type_select"
+msgstr "სიის მონიშვნა ( ქვემოთ ჩამოტანა)"
+
+msgid "udf_type_text"
+msgstr "ტექსტის ველი( ერთი ხაზი)"
+
+msgid "udf_type_textarea"
+msgstr "ტექსტის სივრცე (WYSIWYG)"
+
+msgid "udf_update_select_field"
+msgstr "ყუთის მონიშვნის რედაქტირება"
+
+msgid "udf_update_text_field"
+msgstr "ტექსტის ველი რედაქტირება"
+
+msgid "udf_update_wysiwyg_field"
+msgstr "ტექსტის სივრცის რედაქტირება (WYSIWYG) ველი"
+
+msgid "uid"
+msgstr "იუ აი დი"
+
+msgid "ums_create_new_account"
+msgstr "ახალი ანგარიშის შექმნა"
+
+msgid "ums_explanation"
+msgstr "თქვენი გარე ანგარიში არ არის დაკავშირებული ილიასთან. Mმაგრამ ილიასმა იპოვა მრავალი ანგარიში თქვენი ემაილის მისამართით. თუ ერთ ერთი ამ ანგარიშებიდან თქვენია , გთხოვთ შეხვიდეთ ილიასში თქვენი პაროლით"
+
+msgid "ums_explanation_2"
+msgstr "ეს არ არის თქვენი ანგარიში, გთხოვთ დააკლიკოთ \" ახალი ანგარიში შექმნა\" ს"
+
+msgid "ums_explanation_3"
+msgstr "თქვენი გარე ანგარიში არ არის დაკავშირებული ილიასთან. Mმაგრამ ილიასმა იპოვა მრავალი ანგარიში თქვენი ემაილის მისამართით. თუ ერთ ერთი ამ ანგარიშებიდან თქვენია , გთხოვთ შეხვიდეთ ილიასში თქვენი პაროლით"
+
+msgid "ums_explanation_4"
+msgstr "თუ არც ერთი ანგარიში თქვენი არ არის , გთხოვტ დააკლიკოთ \"ახალი ანგარიშის შექმნა\" ს"
+
+msgid "unambiguousness"
+msgstr "განმასხვავებელი მარკა"
+
+msgid "uncheck_all"
+msgstr "ყველას გადამოწმება"
+
+msgid "unchecked"
+msgstr "შეუმოწმებელი"
+
+msgid "uninstall"
+msgstr "გადაყენება"
+
+msgid "uninstalled"
+msgstr "გადაყენებულია"
+
+msgid "unknown"
+msgstr "უცნობი"
+
+#, fuzzy
+msgid "unparticipate"
+msgstr "Unsubscribe"
+
+msgid "unread"
+msgstr "წაუკითხავი"
+
+msgid "unzip"
+msgstr "ზიპის მოხსნა"
+
+msgid "up"
+msgstr "ზემოთ"
+
+msgid "update"
+msgstr "რედაქტირება"
+
+msgid "update_applied"
+msgstr "განახლება მორგებულია"
+
+msgid "update_language"
+msgstr "ენის განახლება"
+
+msgid "update_on_conflict"
+msgstr "კონფლიქტზე განახლება"
+
+#, fuzzy
+msgid "update_orgunits"
+msgstr "Update assigned organisational units"
+
+#, fuzzy
+msgid "update_orgunits_desc"
+msgstr "If enabled, the field 'Organisational Units' will be updated for all user accounts."
+
+msgid "upload"
+msgstr "ატვირთვა"
+
+msgid "upload_error_file_not_found"
+msgstr "ატვირთვის შეცდომა"
+
+#, fuzzy
+msgid "upload_ok"
+msgstr "The upload was successful"
+
+#, fuzzy
+msgid "upload_pending"
+msgstr "Pending"
+
+#, fuzzy
+msgid "upload_settings"
+msgstr "Uploading Settings"
+
+#, fuzzy
+msgid "upload_svg_rejection_message"
+msgstr "An uploaded SVG file contains possibily malicious code and cannot be processed."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_base64"
+msgstr "The file contains base64 encoded content."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_elements"
+msgstr "The file contains elements or attributes which are not allowed or known."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_foreign_object"
+msgstr "The file contains foreign objects."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_script"
+msgstr "The file contains script-Elements."
+
+msgid "uploaded_and_checked"
+msgstr "ფაილი ატვირთული და შემოწმებულია,შეგიძლიათ გადმოტანა დაიწყოთ"
+
+#, fuzzy
+msgid "uploading"
+msgstr "Uploading..."
+
+msgid "uri"
+msgstr "ურლ"
+
+msgid "url"
+msgstr "ურლ"
+
+msgid "url_not_found"
+msgstr "ფაილი ვერ მოიძებნა"
+
+msgid "use_customized_instructions"
+msgstr "გამოიყენეთ მორგებული ინსტრუქციები"
+
+msgid "use_default_instructions"
+msgstr "გამოიყენეთ მცდარი ინსტრუქციები"
+
+msgid "user"
+msgstr "მომხმარებელი"
+
+msgid "user_activated"
+msgstr "მომხმარებელი მიღებულია"
+
+msgid "user_added"
+msgstr "მომხმარებელი დამატებულია"
+
+msgid "user_assignment"
+msgstr "მომხმარებლის დანიშვნა"
+
+#, fuzzy
+msgid "user_avatar"
+msgstr "User Avatar"
+
+#, fuzzy
+msgid "user_avatar_of"
+msgstr "User Avatar of"
+
+msgid "user_cant_receive_mail"
+msgstr "მომხმარებელს არ აქვს უფლება ემაილი გამოიყენოს"
+
+msgid "user_comment"
+msgstr "მომხმარებლის კომენტარი"
+
+msgid "user_deactivated"
+msgstr "მომხმარებელი არ არის მიღებული"
+
+msgid "user_defined_fields"
+msgstr "საკუთარი ველები"
+
+msgid "user_defined_list"
+msgstr "მომხმარებლის საკუთარი მონაცემების ველები"
+
+msgid "user_deleted"
+msgstr "მომხმარებელი წაშლილია"
+
+msgid "user_detail"
+msgstr "დეტალური მონაცემები"
+
+msgid "user_ext_account"
+msgstr "გარე ანგარიში"
+
+msgid "user_ext_account_desc"
+msgstr "ანგარიში გამოყენებულია გარე ავტორიზებიშტვის (SOAP, LDAP or Radius authentication)"
+
+msgid "user_image"
+msgstr "მომხმარებლის სურათი"
+
+msgid "user_import_failed"
+msgstr "მომხმარებლის გადმოტანა არ განხორციელდა"
+
+msgid "user_imported"
+msgstr "მომხმარებლის გადმოტანა დასრულებულია"
+
+msgid "user_imported_with_warnings"
+msgstr "მომხმარებლის გფადმოტანა დასრულებულია გაფრთხილებებით"
+
+msgid "user_language"
+msgstr "მომხმარებლის ენა"
+
+#, fuzzy
+msgid "user_never_logged_in"
+msgstr "Delete user accounts without login"
+
+#, fuzzy
+msgid "user_never_logged_in_info"
+msgstr "All user accounts without login at all be deleted."
+
+#, fuzzy
+msgid "user_never_logged_in_info_threshold_err_num"
+msgstr "Only positive non decimal numbers are accepted."
+
+msgid "user_new_account_mail"
+msgstr "ახალი ანგარიშის ემაილი"
+
+msgid "user_new_account_mail_desc"
+msgstr "ემაილის შეტყობინება ახალ მომხმარებლებს"
+
+msgid "user_not_found"
+msgstr "მომხმარებელი არ მოიძებნა"
+
+#, fuzzy
+msgid "user_not_found_to_delete"
+msgstr "A user could not be found to delete."
+
+msgid "user_not_known"
+msgstr "გთხოვთ შეიყვანოთ სწორი მომხმარებლის სახელი"
+
+msgid "user_profile_other"
+msgstr "სხვა ინფორმაცია"
+
+msgid "user_send_new_account_mail"
+msgstr "ახალი ანგარიშის ემაილის გაგზავნა"
+
+msgid "user_status"
+msgstr "მომხმარებლის სტატუსი"
+
+msgid "user_toggle_noti"
+msgstr "მომხმარებელს არ შეუძლია შეტყობინებების დეაქტივაცია"
+
+msgid "userfolder_export_csv"
+msgstr "მძიმეთი გამოყოფილი ღირებულებები"
+
+msgid "userfolder_export_excel_x86"
+msgstr "Microsoft Excel"
+
+msgid "userfolder_export_file"
+msgstr "ფაილი"
+
+msgid "userfolder_export_file_size"
+msgstr "ფაილის ზომა"
+
+msgid "userfolder_export_files"
+msgstr "ფაილები"
+
+msgid "userfolder_export_xml"
+msgstr "ექს ემ ელ"
+
+msgid "username"
+msgstr "მომხმარებლის სახელი"
+
+#, fuzzy
+msgid "username_assistance"
+msgstr "Username Assistance"
+
+msgid "users"
+msgstr "მომხმარებლები"
+
+msgid "users_not_imported"
+msgstr "შემდეგი მომხმარებლები არ არსებობენ, მათე შეტყობინებების გადმოტანა შეუძლებელია"
+
+msgid "users_online"
+msgstr "აქტიური მომხმარებლები"
+
+msgid "usr"
+msgstr "მომხმარებელი"
+
+msgid "usr_account_inactive"
+msgstr "არააქტიური ანგარიში"
+
+msgid "usr_active_only"
+msgstr "მხოლოდ აქტიური მომხმარებლები"
+
+msgid "usr_add"
+msgstr "მომხმარებლის დამატება"
+
+msgid "usr_edit"
+msgstr "მომხმარებლის რედაქტირება"
+
+#, fuzzy
+msgid "usr_field_change_components_listening"
+msgstr "There is at least one component which is interested in the changed configuration. Would you like to confirm the changes with the consequences the component(s) announced below?"
+
+msgid "usr_filter_coursemember"
+msgstr "კურსის წევრი"
+
+msgid "usr_filter_groupmember"
+msgstr "ჯგუფის წევრი"
+
+msgid "usr_filter_lastlogin"
+msgstr "მომხმარებლის ბოლო შესვლა"
+
+msgid "usr_filter_role"
+msgstr "დანიშნული პასუხისმგებლობა"
+
+msgid "usr_inactive_only"
+msgstr "არააქტიური მომხმარებლები მხოლოდ"
+
+msgid "usr_limited_access_only"
+msgstr "მომხმარებლები შეზღუდული შესვლით მხოლოდ"
+
+#, fuzzy
+msgid "usr_name_undisclosed"
+msgstr "Undisclosed"
+
+msgid "usr_new"
+msgstr "ახალი მომხმარებელი"
+
+msgid "usr_settings_changeable_lua"
+msgstr "ცვალებადია ადგილობრივი მომხმარებლის ადმინისტრაციაში"
+
+msgid "usr_settings_explanation_profile"
+msgstr "შეამოწმეთ \"ხილვადია\" იმისათვის რომ აჩვენოთ ველები რეგისტრაციის ფორმაში და პირადი მონაცემები პირად მაგიდაზე. შეამოწმეთ \"ცვალებადი\" იმისათვის რომ მისცეთ მომხმარებლებს პირად მონაცემებში ღირებულების შეცვლის შესაძლებლობა. გთხოვთ გაითვალისწინინოთ რომ ხილვადი ველებში შესვლა ყოველთვის შესაძლებელია რეგისტრაციის ფორმაში. მოთხოვნილი ველები მოთხოვნილია რეგისტრაციის ფორმასა და პირად მონაცემებში. ყველა მონაცემი შესაძლოა შეიცვალოს  მომხმარებლის ადმინისტრაციაში ამ პარამეტრების დამოუკიდებლად."
+
+msgid "usr_settings_header_profile"
+msgstr "სტანდარტული მომხმარებლის მონაცემების ველები"
+
+msgid "usr_settings_saved"
+msgstr "გლობალური მომხმარებლის პარამეტრები წარმატებულად შეინახა"
+
+msgid "usr_settings_visib_lua"
+msgstr "ხილვადია ადგილობრივი მომხმარებლის ადმინისტრაციაში"
+
+msgid "usr_skin_style"
+msgstr "გარეკანი/სტილი"
+
+msgid "usr_without_courses"
+msgstr "მომხმარებლები კურსების დანიშვნების გარეშე"
+
+msgid "usrf"
+msgstr "მომხმარებელთა ანგარიშები"
+
+msgid "usrf_profile_link"
+msgstr "მომხმარებლის პროფილის ლინკი"
+
+msgid "usrimport_action_ignored"
+msgstr "იგნორირებული მოქმედება %s 1 $"
+
+msgid "usrimport_action_replaced"
+msgstr "ადგილ შეცვლილი მოქმედება %s 1 $ %s2 $ ით"
+
+msgid "usrimport_cant_delete"
+msgstr "ვერ ახორციელებს \" წაშლა\" მოქმედებას. ასეთი მომხმარებელი მონაცემთა ბაზაში არ არის"
+
+msgid "usrimport_cant_insert"
+msgstr "ვერ ახორციელებს \" ჩასმა\" მოქმედებას. ასეთი მომხმარებელი უკვე არსებობს მონაცემთა ბაზაში"
+
+msgid "usrimport_cant_update"
+msgstr "ვერ ახორციელებს \" განახლება\" მოქმედებას. ასეთი მომხმარებელი არ არსებობს მონაცემთა ბაზაში"
+
+msgid "usrimport_conflict_handling_info"
+msgstr "როცა \" კონფლიქტის იგნორირება\" მონიშნულია, ილიას იგნორს უკეთებს მოქმედებას ( მაგალითად \"ჩასმა\" მოქმედება არ განხორციელდება, თუ ასეთი მომხმარებელი შესვლის მონაცემთა ბაზაში უკვე არსებობს) როცა \" კონფლიქტზე განახლება\" არის მონიშნული, ილიასი განაახლებს მონაცემთა ბაზად თუ მოქმედების შესრულება ვერ ხორციელდება (მაგალითად \" ჩასმა\"  მოქმედებას ჩაენაცვლება \" განახლება\" მოქმედება თუ მომხმარებელი უკვე არსებობს მონაცემთა ბაზაში)"
+
+#, fuzzy
+msgid "usrimport_form_not_evaluabe"
+msgstr "The form data couldn't be read."
+
+msgid "usrimport_global_role_for_action_required"
+msgstr "სულ მცირე ერთი გლობალური პასუხისმგებლობა უნდა იყოს განსაზღვრული \"%s 1 $\" მოქმედება"
+
+msgid "usrimport_ignore_role"
+msgstr "პასუხისმგებლობის იგნორირება"
+
+msgid "usrimport_login_is_not_unique"
+msgstr "შესვლა არ არის უნიკალური"
+
+msgid "usrimport_no_insert_ext_account_exists"
+msgstr "ვერ ახორციელებს \" ჩასმა\" მოქმედებას. Gარე ანგარიში უკვე არსებობს"
+
+msgid "usrimport_no_update_ext_account_exists"
+msgstr "ვერ ახორციელებს \" განახლება\" მოქმედებას. Gარე ანგარიში უკვე არსებობს"
+
+msgid "usrimport_with_specified_role_not_permitted"
+msgstr "განსაზღვრული პასუხისმგებლობის გადმოტანა არ არის დაშვებული"
+
+#, fuzzy
+msgid "usrimport_wrong_file_count"
+msgstr "Too many files in import-folder. Please try again."
+
+#, fuzzy
+msgid "usrimport_xml_anonymous_or_root_not_allowed"
+msgstr "Neither the system-account nor the anonymous account can be changed through the import."
+
+msgid "usrimport_xml_attribute_missing"
+msgstr "განსაზღვრება ,,%s 2$\" ელემენტში ,,%s 1 $\" დაკარგულია"
+
+msgid "usrimport_xml_attribute_value_illegal"
+msgstr "ღირებულება ,, %s 3 $\" განსაზღვრების ,, %s2 $\" ელემენტში ,,%s1$\" არალეგალურია"
+
+msgid "usrimport_xml_attribute_value_inapplicable"
+msgstr "ღირებულება ,, %s3$\" განსაზღვრების ,,%s2$\"'' ელემენტში ,,%s1$\" არ არის შესატყვისი ,,%s4$\" მოქმედებისთვის"
+
+msgid "usrimport_xml_element_content_illegal"
+msgstr "შინაარსი ,,%s2$\" ელემენტის ,, %s1$\" არ არის ლეგალური"
+
+msgid "usrimport_xml_element_for_action_required"
+msgstr "ელემენტი ,,%s1$\" უნდა იყოს განსაზღვრული ,,%s1$\" მოქმედებისთვის"
+
+msgid "usrimport_xml_element_inapplicable"
+msgstr "ელემენტი ,,%s1$\" არ არის შესატყვისი  ,,%s2$\" მოქმედების"
+
+msgid "valid"
+msgstr "სწორი"
+
+msgid "validate"
+msgstr "დამტკიცება"
+
+msgid "value"
+msgstr "ღირებულება"
+
+msgid "vcard"
+msgstr "სავიზიტო ბარათი"
+
+msgid "vcard_download"
+msgstr "სავიზიტო ბარათის გადმოტვირთვა"
+
+msgid "verification_failed"
+msgstr "დამტხიცება არ განხორციელდა"
+
+msgid "verification_failure_log"
+msgstr "დამტკიცების ჩაშლი ჩანაწერი"
+
+msgid "verification_warning_log"
+msgstr "დამტკიცების გაფრთხილების ჩანაწერი"
+
+msgid "version"
+msgstr "ვერსია"
+
+msgid "versions"
+msgstr "ვერსიები"
+
+msgid "view"
+msgstr "ხედვა"
+
+msgid "view_content"
+msgstr "ახალი შინაარსი"
+
+#, fuzzy
+msgid "view_learning_progress"
+msgstr "View Learning Progress"
+
+#, fuzzy
+msgid "view_learning_progress_rec"
+msgstr "View Learning Progress of Unit incl. Subunits"
+
+msgid "visible"
+msgstr "ხილვადი"
+
+msgid "visible_registration"
+msgstr "ხილვადია რეგისტრაციაში"
+
+msgid "visitor"
+msgstr "მნახველი"
+
+msgid "visitors"
+msgstr "მნახველები"
+
+msgid "visits"
+msgstr "ვიზიტები"
+
+msgid "web_resources"
+msgstr "ვებ ლინკები"
+
+msgid "webdav"
+msgstr "ვებ დავი"
+
+#, fuzzy
+msgid "webdav_add_instructions_btn_label"
+msgstr "Add Mount Instructions Document"
+
+#, fuzzy
+msgid "webdav_chosen_language_already_used"
+msgstr "There already is another document associated with the chosen language"
+
+#, fuzzy
+msgid "webdav_doc_delete"
+msgstr "Delete WebDav Mount Instructions"
+
+#, fuzzy
+msgid "webdav_docs_mount_instructions"
+msgstr "Mount Instructions Documents"
+
+#, fuzzy
+msgid "webdav_duplicate_detected_title"
+msgstr "Following objects could not be displayed, because an object with the same Title is already being shown:"
+
+#, fuzzy
+msgid "webdav_forbidden_chars_title"
+msgstr "Following files cannot be displayed, because they contain one or more forbidden characters (\\<>/:*?\"|#):"
+
+#, fuzzy
+msgid "webdav_form_document"
+msgstr "Instructions Document"
+
+#, fuzzy
+msgid "webdav_form_document_info"
+msgstr "Upload a txt or an html file here. After the upload the file will be parsed and processed. For more information"
+
+#, fuzzy
+msgid "webdav_form_document_title"
+msgstr "Title"
+
+#, fuzzy
+msgid "webdav_form_document_title_info"
+msgstr "This title will be dislayed as the title of the modal when the Mount Instructions are opened"
+
+#, fuzzy
+msgid "webdav_form_edit_doc_head"
+msgstr "Edit Mount Instructions Document"
+
+#, fuzzy
+msgid "webdav_form_new_doc_head"
+msgstr "Create new Mount Instructions Document"
+
+#, fuzzy
+msgid "webdav_general_settings"
+msgstr "General Settings"
+
+#, fuzzy
+msgid "webdav_missing_lang"
+msgstr "There is no english version of the WebDAV Mount Instructions"
+
+#, fuzzy
+msgid "webdav_mount_instructions"
+msgstr "Mount Instructions"
+
+#, fuzzy
+msgid "webdav_problem_free_container"
+msgstr "There are no objects that cause problems in this container."
+
+#, fuzzy
+msgid "webdav_problem_info_duplicate"
+msgstr "There is a file with the same title as the info file."
+
+msgid "webdav_pwd_instruction"
+msgstr "საცავის, როგორც ვებფოლდერის გასახსნელად, ჩვენ გთავაზობთ ადგილობრივი პაროლის შექმნას. <br/> ეს პაროლი მოთხოვნილია მხოლოდ ვებფოლდერის ფუნქციებისთვის"
+
+msgid "webdav_pwd_instruction_success"
+msgstr "ახალი ადგილობრივი პაროლი შექმნილია. Aახლა თქვენ შეგიძლიათ საცავის როგორც ვებფოლდერის გახსნა"
+
+#, fuzzy
+msgid "webdav_sure_delete_documents_s"
+msgstr "Are you sure you want to delete the Mount Instructions with the following title:"
+
+#, fuzzy
+msgid "webdav_tbl_docs_head_title"
+msgstr "Dokument title"
+
+#, fuzzy
+msgid "webdav_tbl_docs_title"
+msgstr "List of uploaded WebDAV Mount Instructions"
+
+#, fuzzy
+msgid "webdav_upload_instructions"
+msgstr "Upload Instructions"
+
+msgid "webfolder_dir_info"
+msgstr "თქვენ აქ იმყოფებით იმიტომ რომ თქვენი ბრაუზერი ვერ ხსნის ვებფოლდერებს. კითხვა <a href=\"%s1$s\"> iნსტრუქციები ვებფოლდერების გასახსნელად </ა>"
+
+msgid "webfolder_index_of"
+msgstr "ინდექსი %s 1$"
+
+msgid "webfolder_instructions"
+msgstr "ვებფოლდერის ინსტრუქციები"
+
+#, fuzzy
+msgid "webfolder_instructions_info"
+msgstr "The web folder instructions are shown on browsers, which can not open a web folder directly. You can use HTML code, and the following placeholders: <b>[WEBFOLDER_TITLE]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI_KONQUEROR]</b>, <b>[WEBFOLDER_URI_NAUTILUS]</b>, <b>[ADMIN_MAIL]</b>, <b>[WINDOWS]</b>...<b>[/WINDOWS]</b>, <b>[MAC]</b>...<b>[/MAC]</b>, <b>[LINUX]</b>...<b>[/LINUX]</b>. Clear the field to get the default instructions."
+
+msgid "webfolder_instructions_text"
+msgstr "<br/><b>[WEBFOLDER_URI]</b><br/>and select 'Connect'.</li><li>Enter your login and password, and select 'OK'.</li></ol>[/MAC][LINUX]<h3>Instructions for Linux with Konqueror</h3><ol><li>Start the Konqueror browser</li><li>In the address field enter the following address"
+
+msgid "webfolder_instructions_titletext"
+msgstr "ვებფოლდერის გახსნა"
+
+#, fuzzy
+msgid "webfolder_mount_dir_with"
+msgstr "Open this page as a web folder with <a href=\"%1$s\">Internet Explorer 6</a>, <a href=\"%2$s\">Konqueror</a>, <a href=\"%3$s\">Nautilus</a>, <a href=\"%4$s\">other Browser</a>."
+
+msgid "webr"
+msgstr "ვებლინკი"
+
+msgid "webr_active"
+msgstr "აქტიური"
+
+msgid "webr_add"
+msgstr "ვებლინკის დამატება"
+
+msgid "webr_deleted_items"
+msgstr "წაშლილი ვებლინკები"
+
+msgid "webr_edit"
+msgstr "ვებლინკის რედაქტირება"
+
+msgid "webr_sure_delete_items"
+msgstr "ნამდვილად გსურთ შემდეგი ვებლინკების წაშლა?"
+
+msgid "webservices"
+msgstr "ვებსერვისები"
+
+msgid "week"
+msgstr "კვირა"
+
+msgid "weekly"
+msgstr "კვირეულად"
+
+msgid "weeks"
+msgstr "კვირები"
+
+msgid "welcome"
+msgstr "მოგესალმებით"
+
+msgid "width"
+msgstr "სიგანე"
+
+msgid "wiki"
+msgstr "wiki"
+
+msgid "wiki_add"
+msgstr "wikiს დამატება"
+
+msgid "wiki_new"
+msgstr "ახალი wiki"
+
+msgid "with"
+msgstr "თან"
+
+#, fuzzy
+msgid "withdraw_consent"
+msgstr "Withdraw Consent"
+
+#, fuzzy
+msgid "withdraw_consent_info_internal"
+msgstr "If you click on ‘Withdraw Consent’, your account will be deleted."
+
+#, fuzzy
+msgid "withdraw_usr_agreement"
+msgstr "Withdraw Consent"
+
+#, fuzzy
+msgid "withdrawal_complete"
+msgstr "Withdrawal of consent complete."
+
+#, fuzzy
+msgid "withdrawal_complete_deleted"
+msgstr "Withdrawal of consent complete, account deleted."
+
+#, fuzzy
+msgid "withdrawal_complete_redirect"
+msgstr "Withdrawal of consent complete. To have your account deleted, please contact your organisation."
+
+#, fuzzy
+msgid "withdrawal_mail_info"
+msgstr "The following email will be sent to an administrator after confirming the withdrawal of your consent:[BR][BR]"
+
+#, fuzzy
+msgid "withdrawal_mail_subject"
+msgstr "Withdrawal of Consent to Terms of Service"
+
+#, fuzzy
+msgid "withdrawal_mail_text"
+msgstr "Dear Sir/Madam,[BR][BR]I hereby withdraw my consent to your ILIAS installation’s Terms of Service. Please update/remove my account accordingly.[BR][BR]Name: %1$s[BR]Login: %2$s[BR]External Account: %3$s[BR][BR]Yours faithfully[BR]%1$s"
+
+#, fuzzy
+msgid "withdrawal_sure_account"
+msgstr "Are you sure you want to confirm the withdrawal of your consent?"
+
+#, fuzzy
+msgid "withdrawal_sure_account_deletion"
+msgstr "Are you sure you want to confirm the withdrawal of your consent? This will result in your user account being irrevocably deleted."
+
+#, fuzzy
+msgid "withdrawal_sure_account_deletion_no_consent_yet"
+msgstr "Are you sure that you do not want to accept the Terms of Service? This will result in your user account being irrevocably deleted."
+
+#, fuzzy
+msgid "withdrawal_sure_account_no_consent_yet"
+msgstr "Are you sure that you do not want to accept the Terms of Service?"
+
+msgid "wizard_search_list"
+msgstr "თქვენმა ძიებამ აჩვენა შემდეგი შედეგი. გთხოვთ აირჩიოთ ერთი"
+
+msgid "wizard_title_info"
+msgstr "გთხოვთ შეიყვანოთ იმ ობიქტის დასახელება რომლის დუბლირებაც გსურთ"
+
+msgid "write"
+msgstr "წერა"
+
+msgid "year"
+msgstr "წელიწადი"
+
+msgid "yearly"
+msgstr "წლიური"
+
+msgid "years"
+msgstr "წლები"
+
+msgid "yes"
+msgstr "დიახ"
+
+msgid "yesterday"
+msgstr "გუშინ"
+
+msgid "zip"
+msgstr "ზიპ კოდი"
+
+msgid "zip_structure_error"
+msgstr "არქივი შეიცავს იმავე ფაილის სახელებს. ატვირთვა გაუქმდა"
+
+msgid "zip_test_failed"
+msgstr "ზიპ ტესტირებული ფაილი. გთხოვთ დაუკავშირდეთ თქვენი ილიასის ადმინისტრატორს"
+
+msgid "zipcode"
+msgstr "ზიპ კოდი"

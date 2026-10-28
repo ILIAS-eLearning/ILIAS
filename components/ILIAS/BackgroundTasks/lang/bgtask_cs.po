@@ -1,0 +1,66 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: bgtask\n"
+
+msgid "bgtask_blocked"
+msgstr "Souběžné stahování"
+
+msgid "bgtask_blocked_cancel_new"
+msgstr "Zrušit nové stahování"
+
+msgid "bgtask_blocked_cancel_old"
+msgstr "Zrušit existující stahování"
+
+msgid "bgtask_blocked_info"
+msgstr "Pro vás je již zpracováno stahování."
+
+msgid "bgtask_cron_gc_desc"
+msgstr "Odstraní zastaralé soubory, které byly vytvořeny úlohami na pozadí."
+
+msgid "bgtask_cron_gc_title"
+msgstr "Uvolňování paměti úloh na pozadí"
+
+msgid "bgtask_download_long"
+msgstr "Zpracování stahování s %1$s soubory (%2$s) může chvíli trvat."
+
+msgid "bgtask_download_too_large"
+msgstr "Stahování překračuje limit velikosti %s."
+
+msgid "bgtask_empty_folder"
+msgstr "Aktuální výběr neobsahuje žádný obsah ke stažení."
+
+msgid "bgtask_failure"
+msgstr "Chyba"
+
+msgid "bgtask_processing"
+msgstr "Vytvoření stahování"
+
+msgid "bgtask_setting"
+msgstr "«Stahování na pozadí» povoleno"
+
+msgid "bgtask_setting_info"
+msgstr "Vytvoření ZIP archivu se provádí asynchronně a může být kdykoliv zrušeno."
+
+msgid "bgtask_setting_limit"
+msgstr "Globální limit"
+
+msgid "bgtask_setting_limit_info"
+msgstr "Stahování je možné pouze v případě, že součet velikostí souborů je pod touto hodnotou."
+
+msgid "bgtask_setting_threshold_count"
+msgstr "Minimální počet"
+
+msgid "bgtask_setting_threshold_count_info"
+msgstr "Pokud počet souborů překročí tuto hodnotu, stahování bude asynchronní."
+
+msgid "bgtask_setting_threshold_size"
+msgstr "Minimální velikost"
+
+msgid "bgtask_setting_threshold_size_info"
+msgstr "Pokud velikost souborů překročí tuto hodnotu, stahování bude asynchronní."

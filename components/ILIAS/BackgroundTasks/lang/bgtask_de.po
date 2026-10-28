@@ -1,0 +1,66 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: bgtask\n"
+
+msgid "bgtask_blocked"
+msgstr "Laufender Download"
+
+msgid "bgtask_blocked_cancel_new"
+msgstr "Neuen Download abbrechen"
+
+msgid "bgtask_blocked_cancel_old"
+msgstr "Laufenden Download abbrechen"
+
+msgid "bgtask_blocked_info"
+msgstr "Es wird bereits ein Download für Sie erzeugt."
+
+msgid "bgtask_cron_gc_desc"
+msgstr "Löscht nicht mehr benötigte durch Hintergrundprozesse erzeugte Dateien."
+
+msgid "bgtask_cron_gc_title"
+msgstr "Hintergrundaufgaben-Bereinigung"
+
+msgid "bgtask_download_long"
+msgstr "Die Erstellung des Downloads wird mit %1$s Dateien (%2$s) einige Zeit dauern."
+
+msgid "bgtask_download_too_large"
+msgstr "Der Download überschreitet das Limit von %s."
+
+msgid "bgtask_empty_folder"
+msgstr "Die Auswahl enthält keine Objekte, die heruntergeladen werden können."
+
+msgid "bgtask_failure"
+msgstr "Fehler"
+
+msgid "bgtask_processing"
+msgstr "Download erzeugen"
+
+msgid "bgtask_setting"
+msgstr "„Herunterladen im Hintergrund“ aktivieren"
+
+msgid "bgtask_setting_info"
+msgstr "Die Erstellung der ZIP-Datei erfolgt asynchron und kann jederzeit abgebrochen werden."
+
+msgid "bgtask_setting_limit"
+msgstr "Größenlimit Download-Paket"
+
+msgid "bgtask_setting_limit_info"
+msgstr "Der Download eines Ordners oder mehrerer Objekte ist nur möglich, wenn die Dateigrößen in Summe den eingegebenen Wert nicht überschreiten."
+
+msgid "bgtask_setting_threshold_count"
+msgstr "Mindestanzahl"
+
+msgid "bgtask_setting_threshold_count_info"
+msgstr "Ab diesem Wert erfolgt der Download asynchron."
+
+msgid "bgtask_setting_threshold_size"
+msgstr "Minimale Größe"
+
+msgid "bgtask_setting_threshold_size_info"
+msgstr "Ab dieser Größe erfolgt der Download asynchron."

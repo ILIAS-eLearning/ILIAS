@@ -1,0 +1,30 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"Language-Team: English\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: adm\n"
+
+msgid "adm_acc_ctrl_cpt_desc"
+msgstr "Display the link to your Accessibility document in the footer of your installation."
+
+msgid "adm_acc_ctrl_cpt_enable"
+msgstr "Accessibility Link in Footer"
+
+msgid "adm_accessibility_contacts"
+msgstr "Contact Point for Accessibility Issues"
+
+msgid "adm_accessibility_contacts_info"
+msgstr "Contacts for the ‘Report Accessibility Issue’ link in your installation’s footer. Comma-separated list of account usernames (logins)."
+
+msgid "adm_awrn_support_contacts_info"
+msgstr "All users assigned as contacts for technical support are listed. Users can be assigned to the list of technical support contacts in the administration section 'System Settings and Maintenance » General Settings', tab 'Contact Information'."
+
+msgid "adm_support_contacts"
+msgstr "Technical Support"
+
+msgid "adm_support_contacts_info"
+msgstr "Please enter the login names of the people who can be contacted with questions and technical problems here, separated by commas. They can be contacted by e-mail via the \"Contact technical support\" link in the ILIAS footer. If the \"Who is online?\" display is active, these people will also be displayed there as technical support."

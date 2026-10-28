@@ -1,0 +1,8330 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: nl\n"
+"Language-Team: Dutch\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: common\n"
+
+msgid "HH"
+msgstr "UU:MM"
+
+msgid "absolute_path"
+msgstr "Absoluut pad"
+
+#, fuzzy
+msgid "accept_usr_agreement_btn"
+msgstr "Accept"
+
+msgid "access"
+msgstr "Toegang"
+
+msgid "accessFree"
+msgstr "Uitzetten beperkte toegang"
+
+msgid "accessRestrict"
+msgstr "Aanzetten beperkte toegang"
+
+msgid "access_expired"
+msgstr "Verlopen"
+
+msgid "access_free_granted"
+msgstr "Stel de gebruiker(s) in op onbeperkte toegang"
+
+msgid "access_from"
+msgstr "Toegang (van)"
+
+msgid "access_public"
+msgstr "Publiek"
+
+msgid "access_restricted"
+msgstr "Set the selected user(s) to limited access"
+
+msgid "access_scope"
+msgstr "Toegang"
+
+msgid "access_unlimited"
+msgstr "Onbeperkt"
+
+msgid "access_until"
+msgstr "Toegang (tot)"
+
+msgid "access_users"
+msgstr "Aangemelde gebruikers"
+
+msgid "accesscount_registered_users"
+msgstr "Gelezen door aantal verschillende ILIAS gebruikers"
+
+#, fuzzy
+msgid "accessibility_control_concept"
+msgstr "Accessibility Control Concept"
+
+#, fuzzy
+msgid "account"
+msgstr "My Account"
+
+msgid "account_expires_body"
+msgstr "Toegang is gelimiteerd. Het loopt af op:"
+
+msgid "account_expires_subject"
+msgstr "[ILIAS] Je abonnement verloopt"
+
+msgid "action"
+msgstr "Actie"
+
+msgid "action_aborted"
+msgstr "Activiteit afgebroken"
+
+msgid "actions"
+msgstr "Acties"
+
+#, fuzzy
+msgid "actions_for"
+msgstr "Actions for %s"
+
+msgid "activate"
+msgstr "Inschakelen"
+
+msgid "activate_https"
+msgstr "Inschakelen HTTPS (Betalingen, Aanmelden)"
+
+msgid "activate_tracking"
+msgstr "Inschakelen voortgangscontrole"
+
+msgid "activation"
+msgstr "Timing en Voorwaarden"
+
+msgid "active"
+msgstr "Actief"
+
+msgid "add"
+msgstr "Toevoegen"
+
+msgid "add_condition"
+msgstr "Aanmaken van een nieuwe associatie"
+
+msgid "add_entry"
+msgstr "Aanmaken/Wijzigen record"
+
+msgid "add_member"
+msgstr "Deelnemer toevoegen"
+
+#, fuzzy
+msgid "add_member_role"
+msgstr "Add Member Role"
+
+msgid "add_new_user_defined_field"
+msgstr "Voeg nieuw veld toe"
+
+msgid "add_note"
+msgstr "Notitie toevoegen"
+
+msgid "add_parameter"
+msgstr "Nieuwe parameter"
+
+#, fuzzy
+msgid "add_remove_edit_entries_of_main_menu"
+msgstr "Add, remove or edit entries of the main menu"
+
+#, fuzzy
+msgid "add_role"
+msgstr "Add Role"
+
+msgid "add_translation"
+msgstr "Vertaling toevoegen"
+
+msgid "add_user"
+msgstr "Voeg lokale gebruiker toe"
+
+msgid "add_user_defined_field"
+msgstr "Voeg nieuw veld toe"
+
+msgid "added_new_condition"
+msgstr "Een nieuwe conditie is aangemaakt."
+
+msgid "additional_info"
+msgstr "Extra informatie"
+
+msgid "address"
+msgstr "Adres"
+
+msgid "admin_force_noti"
+msgstr "Berichtgeving ingeschakeld"
+
+msgid "administrate_users"
+msgstr "Lokale gebruikers-beheer"
+
+#, fuzzy
+msgid "administrate_users_headline"
+msgstr "Local ILIAS Accounts of this Category"
+
+msgid "administration"
+msgstr "Beheer"
+
+msgid "administrator"
+msgstr "Beheerder"
+
+msgid "adopt"
+msgstr "toevoegen"
+
+msgid "advanced_editing_allow_html_tags"
+msgstr "HTML tag voor tekst aanpassing toelaten"
+
+msgid "advanced_editing_assessment_settings"
+msgstr "HTML tags voor ILIAS Toets&Beoordeling"
+
+msgid "advanced_editing_frm_post_settings"
+msgstr "Forum Post Settings"
+
+msgid "advanced_editing_rep_page_editing"
+msgstr "Inschakelen Content Editing in Studiecentrum"
+
+msgid "advanced_editing_rep_page_editing_desc"
+msgstr "Hiermee kun je tekst en media toevoegen aan categorie, cursus, groep en map pagina's. Als dit niet aangevinkt is, zal de inhoud niet zichtbaar zijn."
+
+msgid "advanced_editing_required_tags"
+msgstr "De volgende HTML tags zijn vereist: %s"
+
+msgid "advanced_editing_survey_settings"
+msgstr "HTML tags voor ILIAS enquête tool"
+
+msgid "adve_assessment_settings"
+msgstr "Toets&Beoordeling instellingen"
+
+msgid "adve_frm_post_settings"
+msgstr "Forum Posts"
+
+msgid "adve_general_settings"
+msgstr "Algemene instellingen"
+
+msgid "adve_survey_settings"
+msgstr "Enquête instellingen"
+
+msgid "agree_date"
+msgstr "Agreed on"
+
+#, fuzzy
+msgid "all"
+msgstr "All"
+
+msgid "all_global_roles"
+msgstr "Globale rollen"
+
+msgid "all_local_roles"
+msgstr "Lokale rollen(allemaal)"
+
+msgid "all_objects"
+msgstr "Alle objecten"
+
+msgid "all_roles"
+msgstr "Alle rollen"
+
+msgid "all_topics"
+msgstr "Alle onderwerpen"
+
+msgid "all_users"
+msgstr "Alle gebruikers"
+
+msgid "allow_assign_users"
+msgstr "Sta gebruikerstoewijzing voor lokale beheerders toe."
+
+msgid "allow_override_alert"
+msgstr "Regels voor .htaccess zijn niet correct geinterpreteerd"
+
+msgid "allow_register"
+msgstr "Beschikbaar in registratieformulier voor nieuwe gebruikers"
+
+msgid "allow_user_toggle_noti"
+msgstr "Deelnemers mogen berichtgeving uitschakelen"
+
+msgid "already_delivered_files"
+msgstr "Already delivered files"
+
+msgid "and"
+msgstr "en"
+
+#, fuzzy
+msgid "angry"
+msgstr "Angry"
+
+msgid "anonymous"
+msgstr "Anoniem"
+
+msgid "answers"
+msgstr "Antwoorden"
+
+msgid "any_language"
+msgstr "Elke taal"
+
+msgid "apache_auth"
+msgstr "Apache Authentication"
+
+msgid "application_completed"
+msgstr "De aanmelding is compleet"
+
+msgid "application_date"
+msgstr "Applicatie datum"
+
+msgid "applications"
+msgstr "Aanmeldingen"
+
+msgid "apply"
+msgstr "Toepassen"
+
+msgid "apply_filter"
+msgstr "Filter toepassen"
+
+msgid "appointment"
+msgstr "Afspraak"
+
+msgid "approve_date"
+msgstr "Goedgekeurd op"
+
+msgid "approve_recipient"
+msgstr "login-ID van keurder"
+
+msgid "archive"
+msgstr "Archief"
+
+msgid "archive_broken"
+msgstr "Archive seems to be broken or empty."
+
+msgid "are_you_sure"
+msgstr "Ben je zeker?"
+
+msgid "assf_allowed_questiontypes"
+msgstr "Beschikbare vraagtypes"
+
+msgid "assf_allowed_questiontypes_desc"
+msgstr "Alle gecontroleerde vraagtypes zullen in deze installatie beschikbaar zijn. Als je niet de verwezenlijking van een bepaald vraagtype in deze installatie wilt toestaan, moet je de selectie in de bijbehorende checkbox verwijderen."
+
+msgid "assf_questiontypes"
+msgstr "Vraaginstellingen"
+
+msgid "assign"
+msgstr "Toewijzen"
+
+msgid "assign_global_role"
+msgstr "Toewijzen aan een globale rol"
+
+msgid "assign_local_role"
+msgstr "Toewijzen aan een lokale rol"
+
+msgid "assigned_members"
+msgstr "Toegekende deelnemers"
+
+msgid "assigned_roles"
+msgstr "Toegewezen rollen"
+
+msgid "associated_user"
+msgstr "geassocieerde gebruiker"
+
+#, fuzzy
+msgid "astounded"
+msgstr "Astounded"
+
+msgid "at_least_one_style"
+msgstr "Tenminste 1 stijl moet actief zijn"
+
+msgid "attachment"
+msgstr "Bijlage"
+
+msgid "attachments"
+msgstr "Bijlagen"
+
+msgid "attempts"
+msgstr "Pogingen"
+
+msgid "auth_active_roles"
+msgstr "Algemene rollen ingeschakeld voor registratie"
+
+msgid "auth_allow_local"
+msgstr "Sta lokale authenticatie toe"
+
+msgid "auth_configure"
+msgstr "configureer..."
+
+msgid "auth_create_users"
+msgstr "Creëer automatisch gebruikers"
+
+msgid "auth_default"
+msgstr "Standaard instellingen"
+
+msgid "auth_default_mode_changed_to"
+msgstr "Standaard authenticatie methode gewijzigd in"
+
+msgid "auth_ecs"
+msgstr "ECS"
+
+msgid "auth_ldap"
+msgstr "LDAP"
+
+msgid "auth_ldap_enable"
+msgstr "LDAP ondersteuning"
+
+msgid "auth_ldap_migration"
+msgstr "Account Migration"
+
+msgid "auth_ldap_migration_info"
+msgstr "Activate this option to give new users the possibility to migrate their existing ILIAS accounts to LDAP authentication."
+
+msgid "auth_local"
+msgstr "ILIAS database"
+
+msgid "auth_login_instructions"
+msgstr "instructie op login scherm"
+
+msgid "auth_mode"
+msgstr "Authenticatie modus"
+
+msgid "auth_mode_not_changed"
+msgstr "(Niets gewijzigd)"
+
+msgid "auth_mode_roles_changed"
+msgstr "Verander authenticatie methode voor deze rol"
+
+msgid "auth_new_account_mail_desc"
+msgstr "Stuur nieuwe account naar gebruiker als gebruiker automatisch aangemaakt is. Een wachtwoord zal enkel gegenereerd worden, als \"Sta lokale authenticatie toe\" ingeschakeld is."
+
+msgid "auth_per_default"
+msgstr "Standaard"
+
+msgid "auth_remark_non_local_auth"
+msgstr "Wanneer je een andere authenticatie modus kiest dan de standaard modus, kunnen gebruikersnamen en wachtwoorden niet meer gewijzigd worden en de optie om nieuwe gebruikers te registreren wordt uitgeschakeld."
+
+msgid "auth_role_auth_mode"
+msgstr "Authenticatie modus"
+
+#, fuzzy
+msgid "auth_saml"
+msgstr "SAML"
+
+msgid "auth_script"
+msgstr "Door gebruiker gedefinieerd"
+
+msgid "auth_select"
+msgstr "Selecteer audenticatie mode"
+
+msgid "auth_selection"
+msgstr "Aanmelden bij"
+
+msgid "auth_settings"
+msgstr " Authenticatie instellingen"
+
+msgid "auth_shib"
+msgstr "Shibboleth"
+
+msgid "auth_shib_instructions"
+msgstr "Lees eerst 'README' voor de instructies om Shibboleth te installeren voor ILIAS."
+
+msgid "auth_shib_not_configured"
+msgstr "Shibboleth is not configured yet"
+
+msgid "auth_shibboleth"
+msgstr "Shibboleth"
+
+msgid "auth_soap"
+msgstr "SOAP"
+
+msgid "auth_soap_allow_local_desc"
+msgstr "This allows SOAP users to authenticate with their local ILIAS username and a local password."
+
+msgid "auth_soap_auth"
+msgstr "Configure SOAP Authentication"
+
+msgid "auth_soap_auth_desc"
+msgstr "This settings deal only with SOAP based user authentication, not with the ILIAS SOAP interface."
+
+msgid "auth_soap_create_users_desc"
+msgstr "Creates automatically an ILIAS user account, for users that successfully authenticated against SOAP, without having an ILIAS account yet."
+
+msgid "auth_soap_namespace"
+msgstr "Namespace"
+
+msgid "auth_soap_namespace_desc"
+msgstr "As defined in WSDL. Must be specified, if .NET SOAP style is used."
+
+msgid "auth_soap_port_desc"
+msgstr "E.g. 8080 if the full SOAP server URI is http://auth.yourserver.com:8080/dir/server.php"
+
+msgid "auth_soap_server_desc"
+msgstr "E.g. auth.yourserver.com if the full SOAP server URI is http://auth.yourserver.com:8080/dir/server.php"
+
+msgid "auth_soap_settings_saved"
+msgstr "SOAP authentication settings saved"
+
+msgid "auth_soap_uri_desc"
+msgstr "Local URI, e.g. dir/server.php if the full SOAP server URI is http://auth.yourserver.com:8080/dir/server.php"
+
+msgid "auth_soap_use_dotnet"
+msgstr "Use .NET SOAP Style"
+
+msgid "auth_soap_use_https"
+msgstr "Use HTTPS"
+
+msgid "auth_soap_user_default_role_desc"
+msgstr "This role is assigned to automatically created SOAP users."
+
+msgid "auth_user_default_role"
+msgstr "Rol"
+
+msgid "authenticate_ilias"
+msgstr "Aanmelden in ILIAS"
+
+msgid "authentication_settings"
+msgstr "Authenticatie instellingen"
+
+msgid "author"
+msgstr "Auteur"
+
+msgid "authoring_mode"
+msgstr "Auteursmodus"
+
+msgid "authors"
+msgstr "Auteurs"
+
+msgid "autocomplete_more"
+msgstr "meer#"
+
+msgid "available"
+msgstr "Beschikbaar"
+
+#, fuzzy
+msgid "awra"
+msgstr "Who is online?"
+
+msgid "back"
+msgstr "Terug"
+
+#, fuzzy
+msgid "back_to_course"
+msgstr "Back to Course"
+
+msgid "back_to_crs_content"
+msgstr "Terug naar cursus inhoud"
+
+msgid "back_to_fold_content"
+msgstr "Terug naar map inhoud"
+
+msgid "back_to_grp_content"
+msgstr "Terug naar groep inhoud"
+
+msgid "backto_lua"
+msgstr "Terug naar Lokaal Gebruikersbeheer"
+
+msgid "basedn"
+msgstr "BaseDN"
+
+msgid "basic_settings"
+msgstr "Basis instellingen"
+
+msgid "before"
+msgstr "before"
+
+msgid "behind"
+msgstr "Behind"
+
+msgid "bib_data"
+msgstr "Bibliografische gegevens"
+
+#, fuzzy
+msgid "bibl_add"
+msgstr "Add Bibliography"
+
+msgid "birthday"
+msgstr "Geboortedatum"
+
+msgid "bkm_import"
+msgstr "Importeer favorieten"
+
+msgid "bkm_import_ok"
+msgstr "%d favoriet en %d favorietmap geimporteerd"
+
+msgid "bkm_sendmail"
+msgstr "Verstuur als bijlage"
+
+msgid "block"
+msgstr "Blok"
+
+msgid "bm"
+msgstr "Favoriet"
+
+msgid "bm_add_to_ilias"
+msgstr "Toevoegen aan ILIAS bladwijzers"
+
+msgid "bmf"
+msgstr "Favorietmap"
+
+msgid "bold"
+msgstr "Bold"
+
+#, fuzzy
+msgid "bold_action"
+msgstr "Insert Bold - Click to insert bold text."
+
+msgid "bookings"
+msgstr "Bestellingen"
+
+msgid "bookmark_added"
+msgstr "The Bookmark has been created."
+
+msgid "bookmark_folder_new"
+msgstr "Nieuwe bladwijzermap"
+
+msgid "bookmark_new"
+msgstr "Nieuwe bladwijzer"
+
+msgid "bookmark_target"
+msgstr "Locatie"
+
+msgid "bookmarks"
+msgstr "Bladwijzers"
+
+msgid "bookmarks_of"
+msgstr "Referenties van"
+
+msgid "breadcrumb_navigation"
+msgstr "Kruimelpad"
+
+#, fuzzy
+msgid "breadcrumbs_aria_label"
+msgstr "Breadcrumbs"
+
+#, fuzzy
+msgid "briefcase"
+msgstr "Background Tasks"
+
+msgid "btn_add"
+msgstr "Toevoegen"
+
+msgid "btn_back"
+msgstr "Terug"
+
+msgid "btn_next"
+msgstr "Volgende"
+
+msgid "btn_previous"
+msgstr "Terug"
+
+msgid "btn_remove_system"
+msgstr "Uit het systeem verwijderen"
+
+msgid "btn_undelete"
+msgstr "Herstellen"
+
+#, fuzzy
+msgid "buddy_allow_to_contact_me_no"
+msgstr "Doesn`t Receive Contact Requests"
+
+#, fuzzy
+msgid "buddy_allow_to_contact_me_yes"
+msgstr "Receives Contact Requests"
+
+#, fuzzy
+msgid "building_export_file"
+msgstr "Building Export File..."
+
+#, fuzzy
+msgid "bulletlist_action"
+msgstr "Insert Bulletpoint-List - Click to insert a bulletpoint-list."
+
+msgid "by"
+msgstr "Door"
+
+msgid "bytes"
+msgstr "Bytes"
+
+msgid "cal_from"
+msgstr "Van:"
+
+msgid "cal_until"
+msgstr "Tot:"
+
+msgid "calendar"
+msgstr "Agenda"
+
+msgid "cancel"
+msgstr "Annuleren"
+
+msgid "cancel_file_upload"
+msgstr "Wil je echt alle lopende uploads annuleren?"
+
+msgid "cannot_find_xml"
+msgstr "Kan XML-bestand niet vinden."
+
+msgid "cannot_uninstall_language_in_use"
+msgstr "Je kunt geen talen deïnstalleren die in gebruik zijn! changed"
+
+msgid "cannot_uninstall_systemlanguage"
+msgstr "Jekunt de systeemtaal niet deïnstalleren!"
+
+msgid "cannot_unzip_file"
+msgstr "Kan bestand niet uitpakken."
+
+msgid "cant_deactivate_if_users_assigned"
+msgstr "Je kunt geen stijl verwijderen als deze nog in gebruik is bij een gebruiker"
+
+msgid "cat"
+msgstr "Categorie"
+
+msgid "cat_add"
+msgstr "Categorie toevoegen"
+
+msgid "cat_added"
+msgstr "Categorie toegevoegd"
+
+msgid "cat_copy_threads_info"
+msgstr "Bepaal welke categorie items worden gekopieerd, gekoppeld of overgeslagen."
+
+msgid "cat_edit"
+msgstr "Wijzig categorie"
+
+msgid "cat_new"
+msgstr "Nieuwe categorie"
+
+msgid "cat_wizard_page"
+msgstr "Copy Category (Step 2/2)"
+
+msgid "categories"
+msgstr "Categorieën"
+
+msgid "categories_imported"
+msgstr "Categorie import gereed."
+
+msgid "catr"
+msgstr "Category Reference"
+
+#, fuzzy
+msgid "catr_add"
+msgstr "Add Category Link"
+
+msgid "catr_edit_info"
+msgstr "Kies één categorie om een nieuwe referentie aan te maken"
+
+msgid "catr_new"
+msgstr "Create new Category Reference"
+
+#, fuzzy
+msgid "catr_settings"
+msgstr "Category Link Settings"
+
+msgid "certificate"
+msgstr "Certificaat"
+
+#, fuzzy
+msgid "certificate_file_already_exists_error"
+msgstr "The certificate file already exists in the file system."
+
+#, fuzzy
+msgid "certificate_file_input_output_error"
+msgstr "The certificate file was found but couldn't be deleted because of internal errors. Please contact your administrator."
+
+#, fuzzy
+msgid "certificate_file_not_found_error"
+msgstr "The certificate file doesn't exist in the file system anymore. Die Zertikatsdatei wurde im Dateisystem nicht mehr gefunden."
+
+#, fuzzy
+msgid "certificate_persistent_option"
+msgstr "Certificates of Achievements"
+
+#, fuzzy
+msgid "certificate_selection"
+msgstr "Origin of Certificates"
+
+#, fuzzy
+msgid "certificate_workspace_option"
+msgstr "Certificates of Personal Resources"
+
+#, fuzzy
+msgid "certificates"
+msgstr "Certificates"
+
+msgid "change"
+msgstr "Wijzigen"
+
+msgid "change_assignment"
+msgstr "Toewijzing wijzigen"
+
+msgid "change_header_title"
+msgstr "Wijzig hoofdtitel"
+
+msgid "change_owner"
+msgstr "Van eigenaar veranderen"
+
+msgid "change_sort_direction"
+msgstr "Wijzigen sorteervolgorde"
+
+msgid "changeable"
+msgstr "Aanpasbaar"
+
+msgid "changed_to"
+msgstr "gewijzigd in"
+
+msgid "changing_loginname_not_possible_info"
+msgstr "You changed your login name at last at %s. The next change can be performed at %s."
+
+msgid "chapter"
+msgstr "Hoofdstuk"
+
+msgid "characters"
+msgstr "Karaters"
+
+msgid "chat_enter_public_room"
+msgstr "Publieke Chat"
+
+msgid "chat_enter_public_room_tooltip"
+msgstr "Meedoen met publieke char"
+
+msgid "chat_users_active"
+msgstr "Actieve gebruikers"
+
+msgid "check"
+msgstr "Controleer"
+
+msgid "check_all"
+msgstr "Selecteer alle"
+
+msgid "check_langfile"
+msgstr "Controleer je taalbestand"
+
+msgid "check_languages"
+msgstr "Talen controleren"
+
+msgid "check_link"
+msgstr "Link gecontroleerd"
+
+msgid "check_link_desc"
+msgstr "Indien geselecteerd worden alle externe linken in ILIAS gecontroleerd"
+
+msgid "check_user_accounts"
+msgstr "Controleer gebruikersaccount"
+
+msgid "check_user_accounts_desc"
+msgstr "If cron jobs are activated and this option is enabled, all users whose account expires will be informed by email."
+
+msgid "check_web_resources"
+msgstr "Controleer website(s)"
+
+msgid "check_web_resources_desc"
+msgstr "Indien geselecteerd worden alle webbronnen gecontroleerd"
+
+msgid "checked"
+msgstr "Aangeduid"
+
+msgid "checked_files"
+msgstr "Te importeren bestanden"
+
+msgid "chg_ilias_and_webfolder_password"
+msgstr "Verander ILIAS- en webfolder wachtwoord"
+
+msgid "chg_ilias_password"
+msgstr "Wijzig ILIAS wachtwoord"
+
+msgid "chg_password"
+msgstr "Wijzigen wachtwoord"
+
+msgid "choose_language"
+msgstr "Kies je taal"
+
+msgid "choose_only_one_language"
+msgstr "Slechts één taal kiezen"
+
+msgid "chown_warning"
+msgstr "Opgepast, je kunt toegangsrechten verliezen nadat je dit object verandert van eigenaar"
+
+msgid "chta_edit_permission"
+msgstr "Wijzigen van rechteninstellingen"
+
+msgid "chta_read"
+msgstr "Leestoegang tot chatroom instellingen"
+
+msgid "chta_visible"
+msgstr "Chatroom beheer is zichtbaar"
+
+msgid "chta_write"
+msgstr "Chatroom Beheer"
+
+msgid "chtr_copy"
+msgstr "Copy Chatroom"
+
+#, fuzzy
+msgid "chtr_import"
+msgstr "Import Chatroom"
+
+msgid "city"
+msgstr "Woonplaats"
+
+msgid "cleaned_file"
+msgstr "Bestand is clean"
+
+msgid "cleaning_failed"
+msgstr "Cleaning mislukt"
+
+msgid "clear"
+msgstr "Wissen"
+
+msgid "clear_clipboard"
+msgstr "Leeg klembord"
+
+msgid "client"
+msgstr "Client"
+
+msgid "client_id"
+msgstr "Cliënt-ID"
+
+msgid "client_ip"
+msgstr "Cliënt IP"
+
+#, fuzzy
+msgid "clientlist_available_clients"
+msgstr "Available Clients"
+
+#, fuzzy
+msgid "clientlist_clientlist"
+msgstr "Client List"
+
+#, fuzzy
+msgid "clientlist_installation_name"
+msgstr "Installation Name"
+
+#, fuzzy
+msgid "clientlist_login"
+msgstr "Login"
+
+#, fuzzy
+msgid "clientlist_login_page"
+msgstr "Login page"
+
+#, fuzzy
+msgid "clientlist_public_access"
+msgstr "Public Access"
+
+#, fuzzy
+msgid "clientlist_start_page"
+msgstr "Start page"
+
+msgid "clipboard"
+msgstr "Klembord"
+
+msgid "close"
+msgstr "Sluiten"
+
+#, fuzzy
+msgid "cmix"
+msgstr "Object xAPI/cmi5"
+
+msgid "cnt_new"
+msgstr "(%s Nieuw)"
+
+msgid "collapse"
+msgstr "Samenvoegen"
+
+msgid "collapse_all"
+msgstr "Alles inklappen"
+
+#, fuzzy
+msgid "collapse_content"
+msgstr "Collapse Content"
+
+msgid "collapsed"
+msgstr "Ingeklapt"
+
+#, fuzzy
+msgid "column_selection"
+msgstr "Column Selection"
+
+msgid "columns"
+msgstr "kolommen"
+
+msgid "comma_separated"
+msgstr "Door komma's gescheiden"
+
+msgid "comment"
+msgstr "Commentaar"
+
+#, fuzzy
+msgid "comments"
+msgstr "Comments"
+
+msgid "compose"
+msgstr "Samenstellen"
+
+msgid "concurrent_uploads"
+msgstr "Aantal tegelijktijdige uploads"
+
+msgid "concurrent_uploads_info"
+msgstr "Het aantal bestanden dat gelijktijdig kan worden geüpload per uploadproces."
+
+msgid "cond_ref_handling"
+msgstr "Link Settings"
+
+msgid "cond_ref_shared"
+msgstr "Shared Preconditions for all Links"
+
+msgid "cond_ref_unique"
+msgstr "Unique Preconditions for Links"
+
+msgid "condition"
+msgstr "Voorwaarde"
+
+#, fuzzy
+msgid "condition_accredited_or_passed"
+msgstr "Accredited or Passed"
+
+msgid "condition_already_assigned"
+msgstr "Object al toegewezen."
+
+msgid "condition_circle_created"
+msgstr "Deze associatie is niet mogelijk, daar de objekten van elkaar afhankelijk zouden worden."
+
+msgid "condition_deleted"
+msgstr "Voorwaarde verwijderd."
+
+msgid "condition_finished"
+msgstr "Beeïndigd"
+
+msgid "condition_not_finished"
+msgstr "Niet beeïndigd"
+
+msgid "condition_passed"
+msgstr "Geslaagd"
+
+msgid "condition_select_object"
+msgstr "Selecteer één object"
+
+msgid "conditions_updated"
+msgstr "Voorwaarden opgeslagen"
+
+#, fuzzy
+msgid "configuration"
+msgstr "Configuration"
+
+msgid "confirm"
+msgstr "Bevestigen"
+
+msgid "confirm_delete_parameter"
+msgstr "Do you really want to delete the parameter"
+
+msgid "confirmation"
+msgstr "Bevestiging"
+
+msgid "conflict_handling"
+msgstr "Conflict behandeling"
+
+msgid "cont_iim_content_popups_info"
+msgstr "Inhoud-popups worden getoond als de gebruiker op een interactief deel van de achtergrondafbeelding klikt. Op het huidige scherm definieer je alleen de popups. The inhoud ervan wordt bewerkt op het wijzig scherm van de pagina."
+
+msgid "cont_iim_create_info"
+msgstr "Uploaden van achtergrond afbeelding."
+
+msgid "cont_iim_overlay_info"
+msgstr "Overlay-afbeeldingen worden gebruikt om delen van de afbeelding te doen veranderen als de gebruiker met de muis erover beweegt. Nadat een afbeelding is geüpload kun je deze overlays definiëren in het \"Trigger\" tabblad."
+
+msgid "contact"
+msgstr "Contact"
+
+msgid "contact_data"
+msgstr "Contact informatie"
+
+msgid "contact_sysadmin"
+msgstr "Contact opnemen met beheerder"
+
+msgid "container"
+msgstr "Inhoud"
+
+msgid "container_no_items"
+msgstr "Geen materiaal beschikbaar"
+
+msgid "content"
+msgstr "Inhoud"
+
+msgid "content_frame"
+msgstr "Content Frame"
+
+msgid "content_styles"
+msgstr "Inhoudstijlen"
+
+msgid "context"
+msgstr "Context"
+
+msgid "continue"
+msgstr "continue"
+
+msgid "continue_work"
+msgstr "Doorgaan"
+
+msgid "contra"
+msgstr "Tegen"
+
+#, fuzzy
+msgid "copa"
+msgstr "Content Page"
+
+msgid "copy"
+msgstr "Kopiëren"
+
+msgid "copyChapter"
+msgstr "Kopie"
+
+msgid "copyPage"
+msgstr "Kopie"
+
+msgid "copy_all"
+msgstr "Kopieer alles"
+
+msgid "copy_n_of_suffix"
+msgstr "- Kopie (%1$s)"
+
+msgid "copy_of"
+msgstr "Kopie van"
+
+msgid "copy_of_suffix"
+msgstr "- Kopie"
+
+#, fuzzy
+msgid "copy_perma_link"
+msgstr "Copy link to clipboard"
+
+msgid "copy_selected_items"
+msgstr "Copy"
+
+msgid "count"
+msgstr "Aantal"
+
+#, fuzzy
+msgid "counter_novelty"
+msgstr "News"
+
+#, fuzzy
+msgid "counter_status"
+msgstr "Status"
+
+msgid "country"
+msgstr "Land"
+
+msgid "country_free_text"
+msgstr "Land (Free Text Input"
+
+msgid "country_selection"
+msgstr "Land (Drop Down Selection)"
+
+msgid "course"
+msgstr "Cursus"
+
+msgid "courses"
+msgstr "Cursussen"
+
+msgid "create"
+msgstr "Aanmaken"
+
+msgid "create_date"
+msgstr "Aangemaakt op"
+
+msgid "create_export_file"
+msgstr "Aanmaken van export bestand"
+
+msgid "create_stylesheet"
+msgstr "Aanmaken stijl"
+
+msgid "created"
+msgstr "Aanmaakdatum"
+
+msgid "cron_forum_notification"
+msgstr "Verzend forum berichten"
+
+msgid "cron_forum_notification_crob_desc"
+msgstr "Als ingeschakeld zullen alle gebruikers die forumberichtgeving hebben ingeschakeld, een dagelijkse e-mail ontvangen met alle berichten en niet een afzonderlijk bericht voor iedere geplaats bericht."
+
+#, fuzzy
+msgid "cron_forum_notification_disabled"
+msgstr "Can't be disabled when the Cron Job is active."
+
+msgid "cron_jobs"
+msgstr "Cron jobs"
+
+msgid "cron_lucene_index"
+msgstr "Update Lucene search index"
+
+msgid "cron_lucene_index_info"
+msgstr "Indien ingeschakeld, zal de Lucene index worden bijgewerkt. Configureer de Lucene index in Beheer --> Zoeken."
+
+msgid "cron_mail_notification"
+msgstr "Stuur mailberichten"
+
+msgid "cron_mail_notification_cron"
+msgstr "Regelmatig per cron job"
+
+msgid "cron_mail_notification_desc"
+msgstr "If enabled, all users, who want to be informed about new e-mail, will get notifications by external mail."
+
+msgid "cron_mail_notification_message"
+msgstr "Verzend berichten per e-mail"
+
+msgid "cron_mail_notification_message_info"
+msgstr "Indien ingeschakeld krijgen alle gebruikers notificaties met volledige e-mail message via externe e-mail"
+
+msgid "cron_mail_notification_never"
+msgstr "never"
+
+#, fuzzy
+msgid "cron_users_without_login_del_create_date_thr"
+msgstr "Thresholt"
+
+#, fuzzy
+msgid "cron_users_without_login_del_create_date_thr_info"
+msgstr "All user accounts created before the defined threshold will be taken into consideration."
+
+#, fuzzy
+msgid "cron_users_without_login_del_role_whitelist"
+msgstr "Included Roles"
+
+#, fuzzy
+msgid "cron_users_without_login_del_role_whitelist_info"
+msgstr "The deletion will only processed for users assigned to at least one of the selected roles"
+
+msgid "cronjob_last_start"
+msgstr "Laatste start van de Cron Job"
+
+msgid "cronjob_last_start_unknown"
+msgstr "Indeterminaat"
+
+msgid "crs"
+msgstr "Cursus"
+
+msgid "crs_activation_start_invalid"
+msgstr "The start and the end time is not valid."
+
+msgid "crs_add"
+msgstr "Cursus toevoegen"
+
+msgid "crs_added"
+msgstr "Cursus toegevoegd"
+
+msgid "crs_archives"
+msgstr "Archiveer"
+
+msgid "crs_cancel_waiting_list"
+msgstr "Do you really want to remove yourself from the waiting list of course \"%s\""
+
+msgid "crs_copy_threads_info"
+msgstr "Bepaal welke cursus materialen items worden gekopieerd, gekoppeld of overgeslagen."
+
+msgid "crs_edit"
+msgstr "Cursus wijzigen"
+
+#, fuzzy
+msgid "crs_list_reg"
+msgstr "Registration"
+
+msgid "crs_list_reg_end"
+msgstr "Einde inschrijving:"
+
+msgid "crs_list_reg_limit_full"
+msgstr "No places left"
+
+msgid "crs_list_reg_limit_places"
+msgstr "Vrije plaatsen"
+
+msgid "crs_list_reg_noreg"
+msgstr "Aanmelding is niet mogelijk"
+
+msgid "crs_list_reg_period"
+msgstr "Aanmeldingsperiode"
+
+msgid "crs_list_reg_start"
+msgstr "Begin inschrijving:"
+
+msgid "crs_member_not_passed"
+msgstr "Niet gehaald"
+
+msgid "crs_member_passed"
+msgstr "Geslaagd"
+
+msgid "crs_members_gallery"
+msgstr "Cursusdeelnemers"
+
+msgid "crs_new"
+msgstr "Nieuwe cursus"
+
+msgid "crs_removed_from_waiting_list"
+msgstr "You have been detached from the waiting list of course \"%s\"."
+
+msgid "crs_status_blocked"
+msgstr "[Toegang geweigerd]"
+
+msgid "crs_status_pending"
+msgstr "[Aanvraag wordt wijzigent]"
+
+msgid "crs_subscribers_assigned"
+msgstr "Toegewezen nieuwe gebruiker(s)"
+
+msgid "crs_title"
+msgstr "Course Title"
+
+msgid "crs_unsubscribe"
+msgstr "Afmelden"
+
+msgid "crs_wizard_page"
+msgstr "Kopieer cursus (Stap 2/2)"
+
+msgid "crsr"
+msgstr "Course Reference"
+
+#, fuzzy
+msgid "crsr_add"
+msgstr "Add Course Link"
+
+msgid "crsr_edit_info"
+msgstr "Kies één categorie om een nieuwe referentie aan te maken"
+
+msgid "crsr_new"
+msgstr "Create new Course Reference"
+
+#, fuzzy
+msgid "crsr_settings"
+msgstr "Course Link Settings"
+
+msgid "csv_export"
+msgstr "CSV-Export"
+
+msgid "current_ip"
+msgstr "Current IP:"
+
+msgid "current_ip_alert"
+msgstr "Opmerking: Als je een fout IP adres invoert, kun je geen toegang krijgen tot het systeem met dit profiel"
+
+msgid "current_password"
+msgstr "Huidig wachtwoord"
+
+#, fuzzy
+msgid "current_user_avatar"
+msgstr "Your User Avatar"
+
+msgid "currently_used_disk_space"
+msgstr "Huidig gebruikte schijf ruimte"
+
+#, fuzzy
+msgid "customize_page"
+msgstr "Customize Page"
+
+msgid "cut"
+msgstr "Knippen"
+
+msgid "cutPage"
+msgstr "Knippen"
+
+msgid "daily"
+msgstr "Dagelijks"
+
+msgid "database"
+msgstr "Database"
+
+msgid "database_version"
+msgstr "huidige databaseversie"
+
+msgid "dataset"
+msgstr "Item"
+
+msgid "date"
+msgstr "Datum"
+
+#, fuzzy
+msgid "date_time"
+msgstr "Date and Time"
+
+msgid "dateplaner"
+msgstr "Agenda"
+
+msgid "day"
+msgstr "Dag"
+
+msgid "days"
+msgstr "Dagen"
+
+msgid "db_host"
+msgstr "Database host"
+
+msgid "db_name"
+msgstr "Database naam"
+
+msgid "db_need_update"
+msgstr "Je database heeft een update nodig!"
+
+msgid "db_pass"
+msgstr "Database wachtwoord"
+
+msgid "db_type"
+msgstr "Database type"
+
+msgid "db_user"
+msgstr "Database gebruiker"
+
+msgid "db_version"
+msgstr "Database versie"
+
+msgid "dd_mm_yyyy"
+msgstr "DD.MM.YYYY"
+
+msgid "deactivate"
+msgstr "Uitschakelen"
+
+msgid "decrease_attempts"
+msgstr "Pogingen - 1"
+
+msgid "def_repository_view"
+msgstr "Standaard boomstructuur overzicht"
+
+msgid "default"
+msgstr "Standaard"
+
+msgid "default_auth_mode"
+msgstr "Default Authentication Method"
+
+msgid "default_auth_mode_info"
+msgstr "Kies de authenticatiemethode die is voorgeselecteerd op de login pagina"
+
+msgid "default_language"
+msgstr "Standaard taal"
+
+msgid "default_perm_settings"
+msgstr "Standaard rechten"
+
+msgid "default_role"
+msgstr "Standaard rol"
+
+msgid "default_roles"
+msgstr "Standaard rollen"
+
+msgid "default_skin"
+msgstr "Standaard gebruikersscherm"
+
+msgid "default_skin_style"
+msgstr "Standaard gebruikersscherm / Stijl"
+
+msgid "default_style"
+msgstr "Standaard stijl"
+
+msgid "defaults"
+msgstr "Standaard"
+
+msgid "delete"
+msgstr "Verwijderen"
+
+msgid "delete_existing_file"
+msgstr "Verwijder huidige afbeelding"
+
+msgid "delete_inactivated_user_accounts"
+msgstr "Delete inactivated user accounts"
+
+msgid "delete_inactivated_user_accounts_desc"
+msgstr "If enabled, user accounts will be deleted depending on the date of inactivation."
+
+msgid "delete_inactivated_user_accounts_include_roles"
+msgstr "Included roles"
+
+msgid "delete_inactivated_user_accounts_include_roles_desc"
+msgstr "Defines the roles that will participate in the deletion."
+
+msgid "delete_inactivated_user_accounts_period"
+msgstr "Days past since the inactivation"
+
+msgid "delete_inactivated_user_accounts_period_desc"
+msgstr "Deletion will be executed if this period of time has past since the inactivation."
+
+msgid "delete_inactive_user_accounts"
+msgstr "Verwijder gebruikers accounts"
+
+msgid "delete_inactive_user_accounts_desc"
+msgstr "Indien ingeschakeld, zullen gebruikers accounts worden verwijderd afhankelijk van de datum van de laatste login"
+
+msgid "delete_inactive_user_accounts_include_roles"
+msgstr "inclusieve rollen"
+
+msgid "delete_inactive_user_accounts_include_roles_desc"
+msgstr "Defines the roles that will participate in the deletion."
+
+msgid "delete_inactive_user_accounts_period"
+msgstr "Aantal dagen sinds de laatste login"
+
+msgid "delete_inactive_user_accounts_period_desc"
+msgstr "Verwijdering zal worden toegepast als deze tijdsperiode is verstreken sinds de laatste login"
+
+msgid "delete_parameter"
+msgstr "Delete Parameter"
+
+msgid "delete_selected_items"
+msgstr "Verwijderen"
+
+msgid "deleted"
+msgstr "Verwijderd"
+
+msgid "deleted_user"
+msgstr "De gebruiker is verwijderd"
+
+msgid "deleted_users"
+msgstr "Verwijderde gebruikers"
+
+#, fuzzy
+msgid "deletion_notification"
+msgstr "\"%s\" has canceled the attendance of session \"%s\"."
+
+msgid "deliver"
+msgstr "Oefeningen leveren"
+
+#, fuzzy
+msgid "deny_usr_agreement"
+msgstr "Do Not Accept Terms of Service?"
+
+#, fuzzy
+msgid "deny_usr_agreement_btn"
+msgstr "Do Not Accept"
+
+msgid "department"
+msgstr "Afdeling"
+
+msgid "desc"
+msgstr "Beschrijving"
+
+msgid "description"
+msgstr "Beschrijving"
+
+msgid "desired_password"
+msgstr "Nieuw wachtwoord"
+
+msgid "details"
+msgstr "Details"
+
+#, fuzzy
+msgid "didactic_template"
+msgstr "Didactic Template"
+
+msgid "disable"
+msgstr "uitschakelen"
+
+msgid "disable_check"
+msgstr "Controle uitschakelen"
+
+msgid "disable_ext_lang_maint"
+msgstr "Uitgebreid onderhoud uitschakelen"
+
+msgid "disable_hide_user_toggle"
+msgstr "Deelnemers mogen uitschakelen"
+
+msgid "disabled"
+msgstr "Uitgeschakeld"
+
+#, fuzzy
+msgid "disclose"
+msgstr "Disclose"
+
+#, fuzzy
+msgid "dislike"
+msgstr "Dislike"
+
+msgid "domain"
+msgstr "Domein"
+
+msgid "down"
+msgstr "Naar beneden"
+
+msgid "download"
+msgstr "Downloaden"
+
+msgid "download_all_returned_files"
+msgstr "Download alle bestanden"
+
+msgid "download_link"
+msgstr "Download Koppeling"
+
+msgid "download_multiple_objects"
+msgstr "Download Meerdere Objecten"
+
+msgid "download_selected_items"
+msgstr "Download"
+
+msgid "downloading_settings"
+msgstr "Downloading Settings"
+
+#, fuzzy
+msgid "dpro_accept_usr_agreement"
+msgstr "Accept Declaration of Data Protection?"
+
+#, fuzzy
+msgid "dpro_accept_usr_agreement_intro"
+msgstr "There is a new Declaration of Data Protection. You need to accept it before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page."
+
+#, fuzzy
+msgid "dpro_agreed_on"
+msgstr "DoDP agreed to on"
+
+#, fuzzy
+msgid "dpro_force_accept_usr_agreement"
+msgstr "You must accept the Declaration of Data Protection!"
+
+#, fuzzy
+msgid "dpro_no_agreement_description"
+msgstr "There is currently no Declaration of Data Protection document available for this installation. Please contact the <a href=\"%1$s\">system administrator</a>."
+
+#, fuzzy
+msgid "dpro_refuse_acceptance"
+msgstr "Refuse to Accept the Declaration of Data Protection"
+
+#, fuzzy
+msgid "dpro_usr_agreement"
+msgstr "Declaration of Data Protection"
+
+#, fuzzy
+msgid "dpro_usr_agreement_footer_intro"
+msgstr "You have declared your consent to this Declaration of Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_description"
+msgstr "Withdraw your consent to our Declaration of Data Protection here."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_description_external"
+msgstr "Please return to your ILIAS installation and log in again to complete the process of withdrawing your consent to the Declaration of Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_description_internal"
+msgstr "Please log in again to complete the process of withdrawing your consent to the Declaration of Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_header"
+msgstr "Withdraw to Consent of Declaration of Data Protection"
+
+#, fuzzy
+msgid "dpro_withdraw_consent_info"
+msgstr "Withdraw your consent to our Declaration of Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_info_external"
+msgstr "Please contact the administrator of your authentication system and inform them of your intention to withdraw your consent to the Declaration of Data Protection."
+
+msgid "drafts"
+msgstr "Klad"
+
+#, fuzzy
+msgid "drag_file_here"
+msgstr "Drag-and-drop your file here"
+
+msgid "drag_files_here"
+msgstr "Sleep je bestanden hier"
+
+#, fuzzy
+msgid "drag_handle"
+msgstr "Draggable element"
+
+msgid "drop_files_on_repo_obj_info"
+msgstr "Sleep de bestanden hier om ze te uploaden naar dit object."
+
+msgid "edit"
+msgstr "Wijzigen"
+
+msgid "edit_assignments"
+msgstr "Edit Assignments"
+
+msgid "edit_cat_settings"
+msgstr "Advanced Category Settings"
+
+msgid "edit_content"
+msgstr "Wijzigen inhoud"
+
+msgid "edit_grouping"
+msgstr "Wijzigen deelnamebeperking"
+
+#, fuzzy
+msgid "edit_metadata"
+msgstr "Edit Metadata"
+
+msgid "edit_operations"
+msgstr "Wijzig wijzigingen"
+
+msgid "edit_page"
+msgstr "Wijzigen pagina"
+
+msgid "edit_page_content"
+msgstr "Wijzig pagina inhoud"
+
+#, fuzzy
+msgid "edit_page_meta"
+msgstr "Edit Page Metadata"
+
+msgid "edit_properties"
+msgstr "Eigenschappen wijzigen"
+
+msgid "edit_stylesheet"
+msgstr "Wijzig stijl"
+
+msgid "edited_on"
+msgstr "Edited on"
+
+msgid "editor"
+msgstr "Auteur"
+
+msgid "email"
+msgstr "E-mail"
+
+msgid "email_not_valid"
+msgstr "Het e-mail-adres dat je invoerde is niet geldig!"
+
+msgid "enable"
+msgstr "Inschakelen"
+
+msgid "enable_anonymous_fora"
+msgstr "Anonieme berichten toestaan"
+
+msgid "enable_anonymous_fora_desc"
+msgstr "Als deze optie niet actief is, zal de optie \"Anonieme berichten toestaan\" niet getoond worden bij de forums."
+
+msgid "enable_calendar"
+msgstr "Agenda inschakelen"
+
+#, fuzzy
+msgid "enable_comments_export"
+msgstr "Enable Comments Export"
+
+msgid "enable_course_group_notifications"
+msgstr "Dagelijkse email voor groep- en cursusnieuws"
+
+msgid "enable_course_group_notifications_desc"
+msgstr "If enabled, Participants can subscribe to a daily summary of news."
+
+msgid "enable_custom_icons"
+msgstr "Tonen standaard iconen"
+
+msgid "enable_custom_icons_info"
+msgstr "Dit laat toe om standaard iconen in te stellen per categorie, cursus en groepen. De sectie eigenschappen van categorie, cursus en groep zal de mogelijkheid bieden om een afbeelding te uploaden"
+
+msgid "enable_dnd_upload"
+msgstr "Inschakelen van slepen (drag-and-drop) voor upload"
+
+msgid "enable_dnd_upload_info"
+msgstr "Indien ingeschakeld kunnen bestanden via de sleepfunctie worden geüpload vanaf de lokale computer."
+
+msgid "enable_download_folder"
+msgstr "Enable Downloading Folders"
+
+msgid "enable_download_folder_info"
+msgstr "Allows to download a folder including sub structures as a zip file."
+
+msgid "enable_export_scorm_desc"
+msgstr "Toestaan van het exporteren van gebruikersgegevens over SCORM leermodules"
+
+msgid "enable_fora_statistics"
+msgstr "Tonen statistieken in forum"
+
+msgid "enable_fora_statistics_desc"
+msgstr "Indien uitgeschakeld, heeft niemand toegang tot het forum"
+
+msgid "enable_hide_user_toggle"
+msgstr "Deelnemers mogen niet uitschakelen"
+
+msgid "enable_multi_download"
+msgstr "«Downloaden van meerdere objecten» toegestaan"
+
+msgid "enable_multi_download_info"
+msgstr "Laat toe dat meerdere mappen/bestanden worden geselecteerd om te downloaden  als zip bestand."
+
+msgid "enable_password_assistance"
+msgstr "Inschakelen wachtwoordhulp"
+
+msgid "enable_preview"
+msgstr "Inschakelen voorbeeldweergave"
+
+msgid "enable_preview_info"
+msgstr "Schakel deze optie in om voorbeeldweergaves van ondersteunde bestandstypes te tonen."
+
+msgid "enable_repository_dnd_upload"
+msgstr "Inschakelen in Studiecentrum"
+
+msgid "enable_repository_dnd_upload_info"
+msgstr "Inschakelen van de mogelijkheid om bestanden via de sleepfunctie vanaf de lokale computer te üploaden naar dit object."
+
+msgid "enable_sahs_protocol_data"
+msgstr "Inschakelen Protocol Data"
+
+msgid "enable_sahs_protocol_data_desc"
+msgstr "Tonen Protocol Data (SCORM/AICC)"
+
+msgid "enable_search_engine"
+msgstr "Open publieke omgeving voor Internet Zoekmachines (v.b. Google)."
+
+msgid "enable_trash"
+msgstr "Inschakelen prullenbak"
+
+msgid "enable_trash_info"
+msgstr "Indien ingeschakeld, worden verwijderde objecten verplaatst naar de prullenbak, en kunnen dus later hersteld worden. Indien je de prullenbak terug uitschakelt zullen alle objecten verwijderd worden van het systeem"
+
+msgid "enable_webdav"
+msgstr "Toestaan WebDAV toegang"
+
+msgid "enable_webdav_info"
+msgstr "Allows WebDAV clients to access the repository as a webfolder. Users can open webfolders using the \"open as webfolder\" action in the repository, or by entering the following address in a WebDAV client: <a href=\"%1$s\" folder=\"%1$s\">%1$s</a>"
+
+msgid "enabled"
+msgstr "Ingeschakeld"
+
+#, fuzzy
+msgid "enlarge"
+msgstr "Enlarge"
+
+msgid "enter_in_mb_desc"
+msgstr "Enter a value in MB."
+
+#, fuzzy
+msgid "enter_new_name"
+msgstr "Please enter a name"
+
+#, fuzzy
+msgid "entered_notification"
+msgstr "\"%s\" has joined the session \"%s\"."
+
+#, fuzzy
+msgid "entry_status"
+msgstr "Entry status"
+
+msgid "err_1_param"
+msgstr "Slechts 1 parameter!"
+
+msgid "err_2_param"
+msgstr "Slechts 2 parameters!"
+
+msgid "err_auth_apache_failed"
+msgstr "De authenticatie is mislukt. Misschien heb je geen geldig gebruikers certificaat of is je smartcard niet geïnstalleerd.."
+
+msgid "err_auth_ldap_no_ilias_user"
+msgstr "Login mislukt. LDAP authenticatie gelukt, maar deze gebruiker bestaat niet in ILIAS. Gelieve de systeembeheerder te contacteren."
+
+msgid "err_auth_mode_inactive"
+msgstr "Your authentication method is deactivated."
+
+msgid "err_auth_soap_no_ilias_user"
+msgstr "#Login mislukt. SOAP authenticatie succesvol, maar geen overeenkomstige ILIAS gebruiker gevonden. Gelieve de systeembeheerder te contacteren"
+
+msgid "err_check_input"
+msgstr "De instellingen konden niet worden bewaard. Gelieve de instellingen te controlleren."
+
+msgid "err_count_param"
+msgstr "Reden: Verkeerde aantal parameters"
+
+#, fuzzy
+msgid "err_disabled"
+msgstr "Account creation via Shibboleth has been disabled. Please contact the system administrator for further information."
+
+#, fuzzy
+msgid "err_double_entries"
+msgstr "Reason: Duplicate Entries"
+
+msgid "err_in_line"
+msgstr "Fout in regel"
+
+msgid "err_inactive"
+msgstr "Deze gebruikers is niet ingeschakeld. Voor toegang neem contact op met de systeembeheerder."
+
+#, fuzzy
+msgid "err_inactive_login_attempts"
+msgstr "Your user account has been deactivated due too many failed login attempts. Click 'Contact Technical Support' at the footer of this page to notify the administrator about the need to re-activate your account. "
+
+msgid "err_invalid_port"
+msgstr "Ongeldig poortnummer"
+
+msgid "err_no_cookies"
+msgstr "Gelieve cookies in te schakelen in Internet Browser"
+
+msgid "err_no_langfile_found"
+msgstr "Geen taalbestand gevonden!"
+
+msgid "err_no_param"
+msgstr "Geen parameter!"
+
+msgid "err_over_3_param"
+msgstr "Meer dan 3 parameters!"
+
+msgid "err_role_not_assignable"
+msgstr "U kunt geen gebruikers toewijzen aan deze rol op deze locatie"
+
+msgid "err_session_expired"
+msgstr "De sessie is verlopen!"
+
+#, fuzzy
+msgid "err_valid_login_account_creation_disabled"
+msgstr "Authentication succeeded, but the creation of new user accounts is currently disabled. Please contact your system administrator."
+
+msgid "err_wrong_header"
+msgstr "Reden: Verkeerde hoofding."
+
+msgid "err_wrong_login"
+msgstr "Foutief aangemeld"
+
+msgid "err_wrong_password"
+msgstr "Verkeerd wachtwoord"
+
+msgid "error"
+msgstr "Error"
+
+msgid "error_empty_file_or_folder"
+msgstr "De bestandsgrootte is 0 bytes of het is een map."
+
+msgid "error_extraction_failed"
+msgstr "Het uitpakken van het archiefbestand is mislukt omdat je geen rechten hebt om mappen of categorieën aan te maken binnen het huidige object."
+
+msgid "error_parser"
+msgstr "Fout bij het starten van de parser."
+
+msgid "error_upload_was_zero_bytes"
+msgstr "De upload is mislukt aangezien dit of een map is, of de bestandsgrootte was 0 bytes of het bestand was intussen hernoemd."
+
+msgid "etal_talks"
+msgstr "Talks"
+
+msgid "event_ass_materials_prop"
+msgstr "Sessie materialen"
+
+msgid "event_assign_files"
+msgstr "File Assignment"
+
+msgid "exc"
+msgstr "Oefening"
+
+msgid "exc_add"
+msgstr "Toevoegen oefening"
+
+msgid "exc_added"
+msgstr "Oefening toegevoegd"
+
+msgid "exc_date_not_valid"
+msgstr "De datum is niet geldig"
+
+msgid "exc_deassign_members"
+msgstr "Verwijderen deelnemer(s)"
+
+msgid "exc_download_files"
+msgstr "Download Bestanden"
+
+msgid "exc_edit"
+msgstr "Nieuwe oefening aangemaakt"
+
+msgid "exc_edit_exercise"
+msgstr "Wijzigen oefening"
+
+msgid "exc_edit_until"
+msgstr "Wijzigen tot"
+
+msgid "exc_exercise_sent"
+msgstr "Oefening verzonden"
+
+msgid "exc_files"
+msgstr "Bestanden"
+
+msgid "exc_files_returned"
+msgstr "Teruggekeerde bestanden"
+
+msgid "exc_instruction"
+msgstr "Werkinstructies"
+
+msgid "exc_last_submission"
+msgstr "Laatste oefening"
+
+#, fuzzy
+msgid "exc_member_of_crs_grp"
+msgstr "Member in Course/Group"
+
+msgid "exc_members_already_assigned"
+msgstr "Deze gebruikers zijn al aan deze oefening toegewezen"
+
+msgid "exc_members_assigned"
+msgstr "Deelnemers toegewezen"
+
+msgid "exc_members_comments_saved"
+msgstr "Het commentaar van de geselecteerde gebruiker over de oefening is bewaard"
+
+msgid "exc_new"
+msgstr "Nieuwe oefening"
+
+msgid "exc_next_deadline"
+msgstr "Volgende deadline"
+
+msgid "exc_obj"
+msgstr "Oefening"
+
+msgid "exc_save_changes"
+msgstr "Opslaan"
+
+msgid "exc_schedule"
+msgstr "Planning"
+
+msgid "exc_select_one_file"
+msgstr "Selecteer precies één bestand"
+
+msgid "exc_sent"
+msgstr "De oefening is naar de geselecteerde gebruikers verzonden"
+
+msgid "exc_sent_at"
+msgstr "Verzonden op <br />%s"
+
+msgid "exc_status"
+msgstr "Status"
+
+msgid "exc_status_saved"
+msgstr "Oefening bijgewerkt"
+
+msgid "exc_submission"
+msgstr "Oefening"
+
+msgid "exc_time_over_short"
+msgstr "Tijd is verstreken"
+
+msgid "exc_time_to_send"
+msgstr "Overgebleven werktijd"
+
+msgid "exc_upload_error"
+msgstr "Fout bij het uploaden van het bestand"
+
+msgid "excs"
+msgstr "Oefeningen"
+
+msgid "execute"
+msgstr "Uitvoeren"
+
+msgid "exercise_time_over"
+msgstr "Je hebt de eindtijd van de oefening bereikt. Je kunt niet langer bestanden afleveren"
+
+msgid "expand"
+msgstr "Uitbreiden"
+
+msgid "expand_all"
+msgstr "Alles uitklappen"
+
+#, fuzzy
+msgid "expand_content"
+msgstr "Expand Content"
+
+msgid "expanded"
+msgstr "Uitgeklapt"
+
+msgid "export"
+msgstr "Exporteren"
+
+msgid "export_format"
+msgstr "Export format"
+
+msgid "export_html"
+msgstr "Exporteren als HTML-bestand"
+
+msgid "ext_cat_settings"
+msgstr "Edit Advanced Category Settings"
+
+msgid "ext_link"
+msgstr "Link"
+
+msgid "extracting"
+msgstr "Bezig met uitpakken..."
+
+#, fuzzy
+msgid "eyeclosed"
+msgstr "Eye Closed - Click to hide the input's contents"
+
+#, fuzzy
+msgid "eyeopened"
+msgstr "Eye Open - Click to reveal the input's contents"
+
+msgid "failure_message"
+msgstr "Failure Message"
+
+msgid "fax"
+msgstr "Fax"
+
+msgid "feed"
+msgstr "Nieuws Feed"
+
+msgid "feedback"
+msgstr "Feedback"
+
+msgid "field_name"
+msgstr "Veld naam"
+
+msgid "field_type"
+msgstr "Veld type"
+
+msgid "file"
+msgstr "Bestand"
+
+msgid "file_add"
+msgstr "Upload bestand"
+
+msgid "file_add_and_metadata"
+msgstr "Upload bestand en pas meta gegevens aan"
+
+msgid "file_added"
+msgstr "Bestand geupload"
+
+msgid "file_allowed_suffixes"
+msgstr "Toegestane bestandstypes:"
+
+msgid "file_confirm_delete_all_versions"
+msgstr "Je hebt alle bestandsversies geselecteerd. Dit zal het bestandsobject volledig verwijderen. Wil je toch doorgaan?"
+
+msgid "file_confirm_delete_versions"
+msgstr "Weet je zeker dat je de volgende bestandsversies wilt verwijderen?"
+
+msgid "file_created"
+msgstr "Een nieuw bestand is toegevoegd."
+
+msgid "file_edit"
+msgstr "Wijzig bestand"
+
+msgid "file_info"
+msgstr "Bestands informatie"
+
+msgid "file_is_infected"
+msgstr "Het bestand is geïnfecteerd door een virus"
+
+#, fuzzy
+msgid "file_new"
+msgstr "New File"
+
+#, fuzzy
+msgid "file_no_valid_file_type"
+msgstr "This file type is not allowed."
+
+msgid "file_not_found"
+msgstr "Bestand niet gevonden"
+
+#, fuzzy
+msgid "file_not_found_sec"
+msgstr "This file cannot be found in ILIAS or has been blocked due to security reasons."
+
+msgid "file_not_valid"
+msgstr "Bestand niet geldig!"
+
+msgid "file_notice"
+msgstr "Let op de maximum bestandsgrootte van"
+
+#, fuzzy
+msgid "file_objects"
+msgstr "File Objects"
+
+msgid "file_rollback"
+msgstr "Maak dit de huidige versie"
+
+msgid "file_rollback_done"
+msgstr "Bestandsversie %s is nu de huidige versie."
+
+msgid "file_rollback_select_exact_one"
+msgstr "Slechts één bestandversie kan worden geselecteerd om het de huidige versie te maken."
+
+#, fuzzy
+msgid "file_some_invalid_file_types_removed"
+msgstr "Some file types are not allowed and have been removed."
+
+msgid "file_suffix_repl"
+msgstr "File Upload Suffix Replacement"
+
+msgid "file_suffix_repl_info"
+msgstr "Files ending with these suffixes (separated by comma) will be renamed with a suffix \".sec\" if uploaded into the webspace. This is done per default for the suffixes:"
+
+#, fuzzy
+msgid "file_system_clean_temp_dir_cron"
+msgstr "Clean temp directory"
+
+#, fuzzy
+msgid "file_system_clean_temp_dir_cron_info"
+msgstr "This job cleans the ILIAS temp-directory of files, which are older than 10 days. This counteracts the accumulation of unused files and therefore prevents an increased use of disk space by the temp directory."
+
+msgid "file_updated"
+msgstr "Bestand is geüpdate"
+
+msgid "file_upload_pending"
+msgstr "Pending file"
+
+msgid "file_valid"
+msgstr "Bestand is geldig!"
+
+msgid "file_version"
+msgstr "Versie is in bestand"
+
+msgid "file_version_create"
+msgstr "Initiële versie"
+
+#, fuzzy
+msgid "file_version_intermediate_version"
+msgstr "Intermediate Version"
+
+msgid "file_version_new_version"
+msgstr "Nieuwe versie"
+
+#, fuzzy
+msgid "file_version_published_version"
+msgstr "Published Version"
+
+msgid "file_version_replace"
+msgstr "Alles versies vervangen"
+
+#, fuzzy
+msgid "file_version_rollback"
+msgstr "Rollback to version %s from %s"
+
+msgid "file_versions_deleted"
+msgstr "De geselecteerde bestandsversies zijn verwijdered."
+
+msgid "filename"
+msgstr "Bestandsnaam"
+
+msgid "filename_extension_missing"
+msgstr "Filename extension missing"
+
+msgid "filename_hidden_backup_file"
+msgstr "Hidden backup file"
+
+msgid "filename_hidden_unix_file"
+msgstr "Hidden Unix file"
+
+msgid "filename_interoperability"
+msgstr "Interoperability"
+
+msgid "filename_special_characters"
+msgstr "/ is not allowed in filenames"
+
+msgid "filename_special_filename"
+msgstr ". en .. zijn gereserveerde bestandsnamen"
+
+msgid "filename_visibility"
+msgstr "Visibility"
+
+msgid "filename_windows_empty_extension"
+msgstr ". at the end of a filename is not allowed on Windows"
+
+msgid "filename_windows_special_characters"
+msgstr "\\/:*\"<>| are not allowed in Windows filenames"
+
+msgid "filename_windows_webdav_issue"
+msgstr "# wordt niet ondersteund in Windows webfolders"
+
+msgid "files"
+msgstr "Bestanden"
+
+msgid "filesize"
+msgstr "Bestandsgrootte"
+
+msgid "filetype"
+msgstr "Bestandstype"
+
+msgid "fill_out_all_required_fields"
+msgstr "Gelieve alle velden in te vullen"
+
+msgid "filter"
+msgstr "Filter:"
+
+msgid "filter_users_with_access"
+msgstr "Only users with access"
+
+msgid "filter_users_with_disk_usage"
+msgstr "Only users with disk space used"
+
+msgid "filter_users_without_access"
+msgstr "Only users without access"
+
+msgid "filter_users_without_disk_usage"
+msgstr "Only users with no disk space used"
+
+msgid "first"
+msgstr "First"
+
+msgid "firstname"
+msgstr "Voornaam"
+
+msgid "flatview"
+msgstr "Verbergen Boomstructuur"
+
+msgid "fold"
+msgstr "Map"
+
+msgid "fold_add"
+msgstr "Map toevoegen"
+
+msgid "fold_added"
+msgstr "Map toegevoegd"
+
+#, fuzzy
+msgid "fold_copy_threads_info"
+msgstr "Please decide which materials should be copied, linked or even omitted."
+
+msgid "fold_edit"
+msgstr "Wijzig Map"
+
+msgid "fold_new"
+msgstr "Nieuwe map"
+
+#, fuzzy
+msgid "fold_wizard_page"
+msgstr "Copy Folder (Step 2/2)"
+
+msgid "folder"
+msgstr "Map"
+
+msgid "folders"
+msgstr "Mappen"
+
+msgid "follow_link_to_read_mails"
+msgstr "Klik op de volgende link om deze e-mails te lezen:"
+
+msgid "forgot_password"
+msgstr "Wachtwoord vergeten"
+
+msgid "forgot_username"
+msgstr "Gebruikersnaam vergeten"
+
+msgid "form_input_not_valid"
+msgstr "Some data is incomplete or not valid. Please correct the form input."
+
+msgid "forum"
+msgstr "Forum"
+
+msgid "forum_direct_notification"
+msgstr "Directe berichtgeving"
+
+msgid "forum_notify_me"
+msgstr "Informeer mij wanneer een antwoord wordt ontvangen"
+
+msgid "forum_post_replied"
+msgstr "Je forum bijdrage is beantwoord."
+
+msgid "forums"
+msgstr "Forums"
+
+msgid "forums_anonymized"
+msgstr "Forum anoniem gemaakt"
+
+msgid "forums_anonymous"
+msgstr "Anoniem"
+
+msgid "forums_articles"
+msgstr "Berichten"
+
+#, fuzzy
+msgid "forums_closed"
+msgstr "closed"
+
+msgid "forums_disable_forum_notification"
+msgstr "Uitschakelen forumberichtgevingen"
+
+msgid "forums_enable_forum_notification"
+msgstr "Inschakelen meldingen van het forum"
+
+msgid "forums_forum_notification_enabled"
+msgstr "Je zult ingelicht worden wanneer er nieuwe berichten zijn op het forum."
+
+msgid "forums_last_post"
+msgstr "Laatste bericht"
+
+#, fuzzy
+msgid "forums_last_posting_asc"
+msgstr "Last Post Ascending"
+
+#, fuzzy
+msgid "forums_last_posting_dsc"
+msgstr "Last Post Descending"
+
+msgid "forums_notification_settings"
+msgstr "Instellingen van forum meldingen"
+
+#, fuzzy
+msgid "forums_rating_asc"
+msgstr "Rating Ascending"
+
+#, fuzzy
+msgid "forums_rating_dsc"
+msgstr "Rating Descending"
+
+#, fuzzy
+msgid "forums_thread_sorting_asc"
+msgstr "Thread Title A→Z"
+
+#, fuzzy
+msgid "forums_thread_sorting_dsc"
+msgstr "Thread Title Z→A"
+
+msgid "forums_threads"
+msgstr "Onderwerp"
+
+msgid "forums_use_alias"
+msgstr "Je kunt deze alias gebruiken voor je forumberichten. Als dit blanco blijft, zullen je forumberichten als anoniem worden weergegeven."
+
+msgid "forums_your_name"
+msgstr "Je naam"
+
+msgid "frm"
+msgstr "Forum"
+
+msgid "frm_add"
+msgstr "Forum toevoegen"
+
+msgid "frm_added"
+msgstr "Forum toegevoegd"
+
+msgid "frm_edit"
+msgstr "Forum wijzigen"
+
+msgid "frm_import"
+msgstr "Importeren Forum"
+
+msgid "frm_latest_postings"
+msgstr "Laatste bericht"
+
+#, fuzzy
+msgid "frm_latest_postings_block"
+msgstr "Latest Posts Block"
+
+msgid "frm_new"
+msgstr "Nieuw Forum"
+
+#, fuzzy
+msgid "frm_no_threads"
+msgstr "There are no threads available at the moment."
+
+msgid "from"
+msgstr "Van"
+
+msgid "fullname"
+msgstr "Volledige naam"
+
+msgid "functions"
+msgstr "Functies"
+
+msgid "further_informations"
+msgstr "Verdere informatie"
+
+msgid "gdf_add"
+msgstr "Definitie toevoegen"
+
+msgid "gdf_new"
+msgstr "Nieuwe definitie"
+
+msgid "gender"
+msgstr "Geslacht"
+
+msgid "gender_f"
+msgstr "Vrouwelijk"
+
+msgid "gender_m"
+msgstr "Mannelijk"
+
+#, fuzzy
+msgid "gender_n"
+msgstr "No salutation desired"
+
+#, fuzzy
+msgid "general"
+msgstr "General"
+
+msgid "general_settings"
+msgstr "Algemene instellingen"
+
+msgid "generate"
+msgstr "Genereer"
+
+msgid "ghostscript_not_configured"
+msgstr "Ghostscript is not configured. Please open the <a href=\"cli/setup.php?cmd=mastersettings\" target=\"_blank\">Setup</a> om het te configureren."
+
+msgid "glo"
+msgstr "Woordenlijst"
+
+msgid "glo_add"
+msgstr "woordenlijst toevoegen"
+
+msgid "glo_added"
+msgstr "woordenlijst toegevoegd"
+
+msgid "glo_import"
+msgstr "Importeren Woordenlijst"
+
+msgid "glo_mode"
+msgstr "Modus"
+
+msgid "glo_mode_desc"
+msgstr "Een virtuele woordenlijst werkt zoals een normale woordenlijst. Bijkomend bevat het alle termen van alle woordenlijsten op hetzelfde niveau in het Studiecentrum als de virtuele woordenlijst en alle onderliggende woordenlijsten."
+
+msgid "glo_mode_normal"
+msgstr "normaal"
+
+msgid "glo_new"
+msgstr "Nieuwe Woordenlijst"
+
+msgid "global"
+msgstr "Globaal"
+
+msgid "global_default"
+msgstr "Globaal standaard"
+
+msgid "global_fixed"
+msgstr "Globaal geregeld"
+
+#, fuzzy
+msgid "global_role_assignment"
+msgstr "Globale Rollenzuweisung"
+
+msgid "global_settings"
+msgstr "Globale instellingen"
+
+msgid "global_user"
+msgstr "Globale gebruikers"
+
+msgid "glossaries"
+msgstr "Verklarende Woordenlijst"
+
+msgid "glossary"
+msgstr "Woordenlijst"
+
+msgid "go"
+msgstr "Ga"
+
+#, fuzzy
+msgid "grade"
+msgstr "Grade"
+
+msgid "group"
+msgstr "Groep"
+
+msgid "group_members"
+msgstr "Groepsdeelnemers"
+
+msgid "group_name"
+msgstr "Groepsnaam"
+
+msgid "group_new_registrations"
+msgstr "Nieuwe aanmeldingen"
+
+msgid "group_password_registration_msg"
+msgstr "Om aan deze groep deel te nemen moet je het door de beheerder van deze groep aangemaakte wachtwoord invoeren.<br />Als dit wachtwoord correct is word je automatisch aan deze groep toegevoegd."
+
+msgid "group_registration"
+msgstr "Registratie"
+
+msgid "group_registration_mode"
+msgstr "Registratieprocedure"
+
+msgid "group_registration_time"
+msgstr "Periode voor aanmelding"
+
+msgid "group_req_direct"
+msgstr "Onmiddelijk toetreden"
+
+msgid "group_req_registration_msg"
+msgstr "Om tot deze groep toe te treden moet je je registreren. De betreffende groepsbeheerder zal je aan de groep toevoegen. Geef een reden voor je toetreding. Je ontvangt een bericht wanneer je aan de groep bent toegevoegd."
+
+msgid "group_status"
+msgstr "Groep is"
+
+msgid "groupings"
+msgstr "Deelnamebeperkingen"
+
+msgid "groupings_assigned_obj_crs"
+msgstr "Toegewezen cursus"
+
+msgid "groupings_assigned_obj_grp"
+msgstr "Toegewezen groepen"
+
+#, fuzzy
+msgid "groupings_source"
+msgstr "Source"
+
+msgid "groups"
+msgstr "Groepen"
+
+msgid "grp"
+msgstr "Groep"
+
+msgid "grp_add"
+msgstr "Toevoegen van een groep"
+
+msgid "grp_added"
+msgstr "Groep toegevoegd"
+
+msgid "grp_btn_unsubscribe"
+msgstr "Uitschrijven uit groep"
+
+msgid "grp_cancel_waiting_list"
+msgstr "Wil je je echt verwijderen van de wachtrij voor groep \"%s\""
+
+msgid "grp_copy_threads_info"
+msgstr "Gelieve te beslissen welk leermateriaal gekopieerd moet worden."
+
+msgid "grp_deleted_export_files"
+msgstr "Verwijder geselecteerde bestanden"
+
+msgid "grp_dismiss_member"
+msgstr "Ben je zeker dat je de volgende deelnemers van de groep wil verwijderen?"
+
+msgid "grp_dismiss_myself"
+msgstr "Ben je zeker dat je jezelf van de groep wilt verwijderen?"
+
+msgid "grp_edit"
+msgstr "Groep wijzigen"
+
+msgid "grp_err_administrator_required"
+msgstr "Deelnemer kan niet verwijderd worden, tenminste één beheerder per groep is verplicht !"
+
+msgid "grp_header_edit_members"
+msgstr "Wijzigen deelnemers"
+
+#, fuzzy
+msgid "grp_list_members"
+msgstr "List members"
+
+#, fuzzy
+msgid "grp_list_reg"
+msgstr "Registration"
+
+msgid "grp_list_reg_end"
+msgstr "Einde inschrijving:"
+
+msgid "grp_list_reg_limit_full"
+msgstr "No places left"
+
+msgid "grp_list_reg_limit_places"
+msgstr "Free places"
+
+msgid "grp_list_reg_noreg"
+msgstr "Aanmelding is niet mogelijk"
+
+msgid "grp_list_reg_period"
+msgstr "Aanmeldingsperiode"
+
+msgid "grp_list_reg_start"
+msgstr "Begin inschrijving:"
+
+msgid "grp_list_users"
+msgstr "Gebruikerslijst"
+
+msgid "grp_mem_change_status"
+msgstr "Wijzigen  deelnamestatus"
+
+msgid "grp_mem_send_mail"
+msgstr "Stuur deelnemer een bericht"
+
+msgid "grp_members_gallery"
+msgstr "Groepsdeelnemers"
+
+msgid "grp_msg_applicants_assigned"
+msgstr "Gebruiker(s) toegevoegd als groepsdeelnemers"
+
+msgid "grp_msg_member_assigned"
+msgstr "Gebruiker(s) toegevoegd als groepsdeelnemer"
+
+msgid "grp_msg_membership_annulled"
+msgstr "Deelname is geannuleerd"
+
+msgid "grp_new"
+msgstr "Nieuwe groep"
+
+msgid "grp_registration"
+msgstr "Aanmelden bij groeop"
+
+msgid "grp_registration_completed"
+msgstr "De aanmelding is klaar"
+
+msgid "grp_removed_from_waiting_list"
+msgstr "You have been detached from the waiting list of group \"%s\"."
+
+msgid "grp_select_one_file"
+msgstr "Gelieve een bestand te selecteren"
+
+msgid "grp_wizard_page"
+msgstr "Kopieër Groep (Stap 2/2)"
+
+#, fuzzy
+msgid "grpr"
+msgstr "Group Reference"
+
+#, fuzzy
+msgid "grpr_add"
+msgstr "Add Group Link"
+
+#, fuzzy
+msgid "grpr_edit"
+msgstr "Edit Group Reference"
+
+#, fuzzy
+msgid "grpr_edit_info"
+msgstr "Please choose one group, for creating a new reference."
+
+#, fuzzy
+msgid "grpr_new"
+msgstr "Create Group Reference"
+
+#, fuzzy
+msgid "grpr_settings"
+msgstr "Group Link Settings"
+
+#, fuzzy
+msgid "header_action"
+msgstr "Insert Heading - Click to insert a heading."
+
+msgid "header_searchable"
+msgstr "Zoekbaar"
+
+msgid "header_title"
+msgstr "Hoofdtitel"
+
+msgid "header_visible_registration"
+msgstr "Zichtbaar tijdens aanmelding"
+
+msgid "header_zip"
+msgstr "Upload Zip-Archive"
+
+msgid "height"
+msgstr "Hoogte"
+
+msgid "help"
+msgstr "Hulp"
+
+msgid "hide"
+msgstr "Verbergen"
+
+msgid "hide_all_details"
+msgstr "Verberg alle details"
+
+msgid "hide_details"
+msgstr "details verbergen"
+
+msgid "hide_filter"
+msgstr "Filter verbergen"
+
+msgid "hide_own_online_status"
+msgstr "Verberg mijn onlinestatus"
+
+msgid "hide_visible_sections"
+msgstr "Minder Informatie tonen &raquo;"
+
+msgid "hint"
+msgstr "Hint"
+
+msgid "history"
+msgstr "Geschiedenis"
+
+msgid "hobby"
+msgstr "Interessen/Hobby's"
+
+msgid "home"
+msgstr "Startscherm"
+
+msgid "host"
+msgstr "Host"
+
+msgid "hour"
+msgstr "Uur"
+
+msgid "hours"
+msgstr "Uren"
+
+msgid "htlm"
+msgstr "HTML Lesmodule"
+
+msgid "htlm_add"
+msgstr "Voeg HTML lesmodule toe"
+
+msgid "htlm_new"
+msgstr "Nieuwe HTML lesmodule"
+
+msgid "http"
+msgstr "HTTP"
+
+msgid "http_not_possible"
+msgstr "Deze server ondersteunt geen HTTP verbindingen."
+
+msgid "http_path"
+msgstr "HTTP-pad"
+
+msgid "https_not_possible"
+msgstr "Deze server ondersteunt geen HTTPS verbindingen."
+
+msgid "i2passwd"
+msgstr "ILIAS 2 wachtwoord"
+
+#, fuzzy
+msgid "iass_import"
+msgstr "Import Individual Assessment"
+
+#, fuzzy
+msgid "iass_new"
+msgstr "Create Individual Assessment"
+
+msgid "icon"
+msgstr "Icoon"
+
+msgid "icon_settings"
+msgstr "Icoon instellingen"
+
+msgid "id"
+msgstr "ID"
+
+msgid "identifier"
+msgstr "Identificatiecode"
+
+msgid "if_no_title_then_filename"
+msgstr "Laat leeg om de bestandsnaam te tonen"
+
+msgid "ignore_on_conflict"
+msgstr "Negeer conflict"
+
+msgid "ignore_required_fields"
+msgstr "Negeren verplichte velden"
+
+msgid "ignore_required_fields_info"
+msgstr "Indien ingeschakeld zullen verplichte velden, indien mogelijk, niet worden gevalideerd. De betrokken gebruiker zal zijn/haar persoonlijke profile moeten aanpassen na de eerstvolgende login."
+
+msgid "il_astpl_loc_initial"
+msgstr "Instaptoets"
+
+msgid "il_astpl_loc_qualified"
+msgstr "Kwalificatietoets"
+
+msgid "il_blog_contributor"
+msgstr "Blog Contributor"
+
+#, fuzzy
+msgid "il_blog_editor"
+msgstr "Blog-Editor"
+
+msgid "il_chat_moderator"
+msgstr "Chat moderator"
+
+msgid "il_crs_admin"
+msgstr "Beheerder"
+
+msgid "il_crs_member"
+msgstr "Deelnemer"
+
+msgid "il_crs_non_member"
+msgstr "Niet-lid bij cursus"
+
+msgid "il_crs_tutor"
+msgstr "Leerkracht"
+
+msgid "il_frm_moderator"
+msgstr "Moderator"
+
+msgid "il_grp_admin"
+msgstr "Beheerder"
+
+msgid "il_grp_member"
+msgstr "Deelnemer"
+
+msgid "il_grp_status_closed"
+msgstr "Group closed"
+
+msgid "il_grp_status_open"
+msgstr "Group open"
+
+#, fuzzy
+msgid "il_iass_member"
+msgstr "Participant"
+
+#, fuzzy
+msgid "il_lso_admin"
+msgstr "Learning Sequence Admin"
+
+#, fuzzy
+msgid "il_lso_member"
+msgstr "Learning Sequence Member"
+
+#, fuzzy
+msgid "il_lti_instructor"
+msgstr "LTI Instructor"
+
+#, fuzzy
+msgid "il_lti_learner"
+msgstr "LTI Learner"
+
+#, fuzzy
+msgid "il_lti_user"
+msgstr "LTI User"
+
+#, fuzzy
+msgid "il_orgu_employee"
+msgstr "Employee"
+
+#, fuzzy
+msgid "il_orgu_superior"
+msgstr "Superior"
+
+msgid "ilias_version"
+msgstr "ILIAS versie"
+
+msgid "image"
+msgstr "Afbeelding"
+
+msgid "import"
+msgstr "Importeren"
+
+msgid "import_cat_localrol"
+msgstr "Aanmaken van een lokal rol voor iedere nieuwe categorie"
+
+msgid "import_cat_table"
+msgstr "De volgende tabel is alleen zinvol als de checkbox is ingesteld."
+
+msgid "import_categories"
+msgstr "Importeer categorieën"
+
+msgid "import_failure_log"
+msgstr "Import log mislukt"
+
+msgid "import_file"
+msgstr "Importeren Bestand"
+
+msgid "import_file_not_valid_here"
+msgstr "Het te importeren bestand is niet geldig."
+
+msgid "import_finished"
+msgstr "Aantal geïmporteerde berichten."
+
+msgid "import_lm"
+msgstr "Importeren Lesmodule"
+
+msgid "import_qpl"
+msgstr "Importeer vragenpool (toets)"
+
+msgid "import_questions_into_qpl"
+msgstr "Importeer vragen in vragenpool"
+
+msgid "import_sahs"
+msgstr "Importeren SCORM/AICC Package"
+
+#, fuzzy
+msgid "import_sahs_info"
+msgstr "To correct typos or images, use the option to replace individual files via the file directory. Upload a SCORM export from your authoring tool here and not an ILIAS export file. Make sure that your authoring tool has retained the IDs in the manifest file. Attention: Even popular authoring tools cannot do this. SCORM learning modules of certain authoring tools discard learner data obtained if you change the number of answer options of questions or insert new questions. Check in a test installation whether learning statuses that have already been achieved are possible when learning modules that have already been started are called up again."
+
+#, fuzzy
+msgid "import_sahs_new"
+msgstr "Import New Version of SCORM Package"
+
+msgid "import_svy"
+msgstr "Importeer Enquête"
+
+msgid "import_tst"
+msgstr "Importeer Toets"
+
+msgid "import_users"
+msgstr "Importeren Gebruikers"
+
+msgid "import_warning_log"
+msgstr "Import log waarschuwing"
+
+msgid "important"
+msgstr "Belangrijk"
+
+msgid "imported"
+msgstr "Geïmporteerd"
+
+msgid "imprint"
+msgstr "Over ons"
+
+msgid "in"
+msgstr "in"
+
+msgid "in_use"
+msgstr "Gebruikerstaal"
+
+msgid "in_use_by"
+msgstr "In use by"
+
+msgid "inactive"
+msgstr "Inactieve"
+
+msgid "inbox"
+msgstr "Inbox"
+
+msgid "include_local"
+msgstr "include local"
+
+msgid "info"
+msgstr "Informatie"
+
+msgid "info_access_and_status_info"
+msgstr "Toegangs- en statusinformatie"
+
+msgid "info_access_permissions"
+msgstr "Toegangsrechten"
+
+msgid "info_activate_sure"
+msgstr "Weet je zeker dat je de volgende gebruiker(s) wilt goedkeuren als actieve gebruikers"
+
+msgid "info_assign_sure"
+msgstr "Ben je zeker dat je de volgende gebruiker(s) wil toewijzen)"
+
+msgid "info_assigned"
+msgstr "assigned"
+
+msgid "info_available_roles"
+msgstr "Beschikbare rollen"
+
+msgid "info_change_user_view"
+msgstr "Verander gebruikersnaam"
+
+msgid "info_deactivate_sure"
+msgstr "Weet je zeker dat je de volgende gebruiker(s) wilt afkeuren als actieve gebruikers"
+
+msgid "info_delete_sure"
+msgstr "Ben je zeker dat je het/de volgende object(en) wilt verwijderen)"
+
+msgid "info_delete_warning_no_trash"
+msgstr "(WAARSCHUWING: De geselecteerde objecten zullen worden verwijderd en kunnen nooit meer hersteld worden!)"
+
+msgid "info_deleted"
+msgstr "Object(en) verwijderd"
+
+msgid "info_err_user_not_exist"
+msgstr "Gebruiker met deze gebruikersID bestaat niet"
+
+msgid "info_from_role"
+msgstr "Verkregen rol"
+
+msgid "info_is_member"
+msgstr "Gebruiker is deelnemer"
+
+msgid "info_is_not_member"
+msgstr "Gebruiker is geen deelnemer"
+
+msgid "info_message"
+msgstr "Informatiebericht"
+
+msgid "info_not_assigned"
+msgstr "not assigned"
+
+msgid "info_owner_of_object"
+msgstr "Eigenaar van object"
+
+msgid "info_permission_origin"
+msgstr "Originele positie"
+
+msgid "info_permission_source"
+msgstr "Effectief van"
+
+msgid "info_remark_interrupted"
+msgstr "Rol is onderbroken in deze positie."
+
+#, fuzzy
+msgid "info_remove_sure"
+msgstr "Are you sure that you want to remove the following item(s)?"
+
+msgid "info_short"
+msgstr "Info"
+
+msgid "info_status_info"
+msgstr "Status informatie"
+
+msgid "info_view_of_user"
+msgstr "Gebruikersscherm"
+
+msgid "inform_user_mail"
+msgstr "Verzenden email om de gebruiker te informeren over de wijzigingen"
+
+msgid "inline_file_extensions"
+msgstr "Web-enabled files"
+
+msgid "inline_file_extensions_info"
+msgstr "Files with these extensions are displayed in the browser window.<br/>For example: <b>gif jpg mp3 pdf png</b><br/> All other files are offered for downloading."
+
+msgid "insert"
+msgstr "Invoegen"
+
+msgid "insert_object_here"
+msgstr "Voeg object hier toe"
+
+msgid "inst_id"
+msgstr "Installatie-ID"
+
+msgid "inst_info"
+msgstr "Installatie informatie"
+
+msgid "inst_name"
+msgstr "Naam installatie"
+
+msgid "install"
+msgstr "Installeren"
+
+msgid "install_local"
+msgstr "Lokaal installeren"
+
+#, fuzzy
+msgid "installation_status"
+msgstr "Installation Status"
+
+msgid "installed"
+msgstr "Geïnstalleerd"
+
+msgid "installed_local"
+msgstr "Lokaal geïnstalleerd"
+
+msgid "instant_messengers"
+msgstr "Chatprogramma's"
+
+msgid "institution"
+msgstr "Organisatie"
+
+msgid "internal_local_roles_only"
+msgstr "Lokale rollen(alleen automatisch gegenereerd)"
+
+msgid "invalid_visible_required_options_selected"
+msgstr "All fields set to required has to be set to visible in registration, too."
+
+msgid "invisible_block"
+msgstr "Onzichtbare blok"
+
+msgid "invisible_block_mess"
+msgstr "U heeft geen toelating om deze blok te zien"
+
+msgid "ip_address"
+msgstr "IP-adres"
+
+msgid "is_already_your"
+msgstr "is reeds je"
+
+#, fuzzy
+msgid "italic_action"
+msgstr "Insert Italic - Click to insert italic text."
+
+msgid "item"
+msgstr "Onderdeel"
+
+msgid "itgr_add"
+msgstr "Toevoegen Item Groep"
+
+msgid "itgr_new"
+msgstr "Nieuwe Item Groep"
+
+msgid "java_server"
+msgstr "Java-Server"
+
+msgid "java_server_host"
+msgstr "Host"
+
+#. Needs to be adapted to new content of German lang file.
+msgid "java_server_info"
+msgstr "Indien ingeschakeld, is het mogelijk om in PDF, HTML files and HTML-Learning modules te zoeken"
+
+msgid "java_server_port"
+msgstr "Poort"
+
+msgid "java_server_readme"
+msgstr "Setup informatie"
+
+msgid "join"
+msgstr "Aanmelden"
+
+msgid "join_session"
+msgstr "Aanmelden"
+
+msgid "kb"
+msgstr "KByte"
+
+msgid "keywords"
+msgstr "Sleutelwoorden"
+
+#, fuzzy
+msgid "label_search_options"
+msgstr "Search Area"
+
+msgid "lang_dateformat"
+msgstr "Y-m-d"
+
+msgid "lang_path"
+msgstr "Taalpad"
+
+msgid "lang_refresh_confirm_info"
+msgstr "Extended language maintenance is currently activated. Refreshing the languages loads all language data from the ILIAS language files into the database. Local changes (in the database) may be overwritten, if not exported before. This does not affect any \"*.lang.local\" files in the Customizing directory."
+
+msgid "lang_refresh_confirm_selected"
+msgstr "Do you really want to refresh the selected languages"
+
+msgid "lang_sep_decimal"
+msgstr ","
+
+msgid "lang_sep_thousand"
+msgstr "."
+
+msgid "lang_size_bytes"
+msgstr "bytes"
+
+msgid "lang_size_gb"
+msgstr "GB"
+
+msgid "lang_size_kb"
+msgstr "KB"
+
+msgid "lang_size_mb"
+msgstr "MB"
+
+msgid "lang_timeformat"
+msgstr "H:i:s"
+
+msgid "lang_timeformat_no_sec"
+msgstr "H:i"
+
+#, fuzzy
+msgid "lang_uninstall_changes"
+msgstr "Uninstall Local Changes"
+
+#, fuzzy
+msgid "lang_uninstall_changes_confirm"
+msgstr "Do you really want to clear all local changes of the selected languages and reset them to the default of the current ILIAS version?"
+
+#, fuzzy
+msgid "lang_uninstall_confirm"
+msgstr "Do you really want to uninstall the selected languages?"
+
+msgid "langfile_found"
+msgstr "Taalbestand gevonden"
+
+msgid "language"
+msgstr "Taal"
+
+msgid "language_not_installed"
+msgstr "is niet geïnstalleerd. Eerst de taal installeren"
+
+msgid "languages"
+msgstr "Talen"
+
+msgid "languages_already_installed"
+msgstr "taal geïnstalleerd"
+
+msgid "languages_already_uninstalled"
+msgstr "Selecteer al geïnstalleerde taal/talen"
+
+msgid "languages_updated"
+msgstr "Alle geïnstalleerde talen zijn bijgewerkt"
+
+msgid "last_access"
+msgstr "Laatste toegang"
+
+msgid "last_change"
+msgstr "Laatste wijziging"
+
+msgid "last_edited_on"
+msgstr "Laatst wijzigent"
+
+msgid "last_login"
+msgstr "Laatste login"
+
+msgid "last_refresh"
+msgstr "Laatste verversing"
+
+msgid "last_reminder"
+msgstr "Last reminder"
+
+msgid "last_update"
+msgstr "Laatste update"
+
+msgid "last_visited"
+msgstr "Laatste bezoek"
+
+msgid "lastname"
+msgstr "Achternaam"
+
+#, fuzzy
+msgid "latex_edit_info"
+msgstr "You can enter LaTeX code in the delimiters <code>[tex]</code> and <code>[/tex]</code>."
+
+#, fuzzy
+msgid "laugh"
+msgstr "Laugh"
+
+msgid "launch"
+msgstr "Start"
+
+msgid "ldap"
+msgstr "LDAP"
+
+msgid "ldap_basedn"
+msgstr "LDAP BaseDN"
+
+msgid "ldap_configure"
+msgstr "Configureer LDAP Authenticatie"
+
+msgid "ldap_port"
+msgstr "LDAP Port"
+
+msgid "ldap_read"
+msgstr "Leesrechten op LDAP-instellingen"
+
+msgid "ldap_server"
+msgstr "LDAP server URL"
+
+msgid "ldap_tls"
+msgstr "Gebruik LDAP TLS"
+
+msgid "ldap_version"
+msgstr "LDAP protocol versie"
+
+msgid "learning module"
+msgstr "Lesmodule"
+
+msgid "learning_progress"
+msgstr "Voortgang"
+
+msgid "leave_waiting_list"
+msgstr "Leave Waiting List"
+
+msgid "legend"
+msgstr "Legende"
+
+msgid "level"
+msgstr "Niveau"
+
+msgid "link"
+msgstr "Link"
+
+#, fuzzy
+msgid "link_action"
+msgstr "Insert Link - Click to insert a link."
+
+msgid "link_all"
+msgstr "Link alles"
+
+msgid "link_check"
+msgstr "Controleer koppelingen"
+
+msgid "link_check_message_b"
+msgstr "Indien ingeschakeld, zul je geïnformeerd worden over foute links in de leermodule"
+
+msgid "link_check_message_disabled"
+msgstr "Berichten uitgeschakeld"
+
+msgid "link_check_message_enabled"
+msgstr "Berichten ingeschakeld"
+
+msgid "link_check_subject"
+msgstr "[ILIAS] Link controle"
+
+msgid "link_checker_refreshed"
+msgstr "Vernieuw scherm"
+
+msgid "link_selected_items"
+msgstr "Koppelen"
+
+msgid "links_add_param"
+msgstr "Voeg parameter toe:"
+
+msgid "links_dyn_parameter"
+msgstr "Dynamische parameters"
+
+msgid "links_dynamic"
+msgstr "Dynamische Web Link parameters"
+
+msgid "links_dynamic_info"
+msgstr "Indien ingeschakeld, is het mogelijk om dynamische parameters met Web Links te koppelen."
+
+msgid "links_existing_params"
+msgstr "Bestaande parameters"
+
+msgid "links_name"
+msgstr "Parameter naam"
+
+msgid "links_no_name_given"
+msgstr "Gelieve een parameter naam te kiezen"
+
+msgid "links_no_value_given"
+msgstr "Gelieve een parameter waarde te kiezen"
+
+msgid "links_parameter_deleted"
+msgstr "Parameter verwijderd"
+
+msgid "links_select_one"
+msgstr "- Kies één -"
+
+msgid "links_session_id"
+msgstr "ILIAS sessie ID"
+
+msgid "links_user_id"
+msgstr "ILIAS gebruikersID"
+
+msgid "links_user_name"
+msgstr "ILIAS gebruikersnaam"
+
+msgid "links_value"
+msgstr "Parameter waarde"
+
+msgid "list"
+msgstr "List"
+
+msgid "list_of_questions"
+msgstr "Vragenlijst"
+
+#, fuzzy
+msgid "list_view"
+msgstr "List View"
+
+#, fuzzy
+msgid "listaction_learning_progress_settings"
+msgstr "Learning Progress Settings"
+
+msgid "lm"
+msgstr "Lesmodule"
+
+msgid "lm_add"
+msgstr "Lesmodule toevoegen"
+
+msgid "lm_added"
+msgstr "Toevoegen lesmodule"
+
+msgid "lm_new"
+msgstr "Nieuwe lesmodule"
+
+msgid "lm_type_scorm"
+msgstr "SCORM"
+
+msgid "lm_type_scorm2004"
+msgstr "SCORM 2004"
+
+#, fuzzy
+msgid "lm_type_scorm2004_info"
+msgstr "These are newer versions of SCORM with significantly enhanced functionality. The learning module is launched in an iFrame."
+
+#, fuzzy
+msgid "lm_type_scorm_info"
+msgstr "This is the most widely used version of SCORM. The learning module is launched in a frame."
+
+msgid "lng"
+msgstr "Taal"
+
+msgid "lngf"
+msgstr "Talen"
+
+msgid "lo"
+msgstr "Leerobject"
+
+msgid "loaded_preview_renderers"
+msgstr "Geladen voorbeeldweergaves"
+
+msgid "local"
+msgstr "Lokaal"
+
+msgid "local_language_file"
+msgstr "lokaal taalbestand"
+
+msgid "local_language_files"
+msgstr "lokale taalbestanden"
+
+msgid "local_languages_already_installed"
+msgstr "Geselecteerde taalbestanden bestaan reeds"
+
+#, fuzzy
+msgid "local_role_assignment"
+msgstr "Lokale Rollenzuweisung"
+
+msgid "location"
+msgstr "Locatie"
+
+msgid "locator"
+msgstr "Locatie:"
+
+msgid "log_in"
+msgstr "Login"
+
+#, fuzzy
+msgid "log_out"
+msgstr "Logout"
+
+msgid "logic_or"
+msgstr "of"
+
+msgid "login"
+msgstr "Gebruikersnaam"
+
+msgid "login_as"
+msgstr "Aangemeld als"
+
+msgid "login_data"
+msgstr "Logingegevens"
+
+msgid "login_exists"
+msgstr "Er is al een gebruiker met deze gebruikersnaam! Kies een andere."
+
+msgid "login_invalid"
+msgstr "De gekozen gebruikersnaam is niet geldig! Alleen de volgende tekens zijn toegestaan (minimaal 4 tekens): A-Z a-z 0-9 _.-+*@!$%~"
+
+msgid "login_to_ilias"
+msgstr "Aanmelden in ILIAS"
+
+#, fuzzy
+msgid "login_to_ilias_via_login_form"
+msgstr "Login to ILIAS"
+
+#, fuzzy
+msgid "login_to_ilias_via_saml"
+msgstr "Login to ILIAS via SAML Authentification"
+
+msgid "login_to_ilias_via_shibboleth"
+msgstr "Login to ILIAS via Shibboleth"
+
+msgid "loginname_already_exists"
+msgstr "Deze gebruikersnaam is al in gebruik."
+
+msgid "loginname_settings"
+msgstr "Instellingen gebruikersnaam"
+
+msgid "logout"
+msgstr "Afmelden"
+
+msgid "logout_text"
+msgstr "Je bent uitgelogd. Je sessie is gesloten."
+
+msgid "logs"
+msgstr "Log data"
+
+#, fuzzy
+msgid "love"
+msgstr "Love"
+
+msgid "lres"
+msgstr "Leerbronnen"
+
+#, fuzzy
+msgid "lso_add"
+msgstr "Add Learning Sequence"
+
+#, fuzzy
+msgid "lso_admin_form_byline"
+msgstr "General Settings for Learning Sequences"
+
+#, fuzzy
+msgid "lso_admin_form_title"
+msgstr "Settings"
+
+#, fuzzy
+msgid "lso_admin_interval_byline"
+msgstr "Poll Learning Progress every x seconds. Be careful! A low value will increase server-requests and have an impact on overall system performance. Please choose highest value possible!"
+
+#, fuzzy
+msgid "lso_admin_interval_label"
+msgstr "Learning Progress Polling Interval (seconds)"
+
+#, fuzzy
+msgid "lso_copy_threads_info"
+msgstr "Please decide which elements of the Learning Sequence should be copied, linked or omitted."
+
+#, fuzzy
+msgid "lso_edit"
+msgstr "Edit Learning Sequence"
+
+#, fuzzy
+msgid "lso_import"
+msgstr "Import Learning Sequence"
+
+#, fuzzy
+msgid "lso_new"
+msgstr "New Learning Sequence"
+
+#, fuzzy
+msgid "lso_wizard_page"
+msgstr "Copy Learning Sequence (Step 2/2)"
+
+#, fuzzy
+msgid "lti"
+msgstr "LTI Tool (Consumer)"
+
+#, fuzzy
+msgid "lti_add"
+msgstr "Add LTI Tool (Consumer)"
+
+#, fuzzy
+msgid "lti_new"
+msgstr "New LTI Tool (Consumer)"
+
+#, fuzzy
+msgid "lti_outcome_info"
+msgstr "Sendet den Lernfortschrittstatus von LTI-Benutzern an LTI Tool Consumer."
+
+msgid "mail"
+msgstr "E-mail"
+
+msgid "mail_addressbook"
+msgstr "Adresboek"
+
+msgid "mail_at_the_ilias_installation"
+msgstr "Je hebt %1$s nieuwe e-mails ontvangen op de ILIAS installatie %2$s"
+
+msgid "mail_attachment"
+msgstr "E-mail attachment"
+
+msgid "mail_b_inbox"
+msgstr "Inbox"
+
+msgid "mail_c_trash"
+msgstr "Prullenbak"
+
+#, fuzzy
+msgid "mail_cron_scheduled_mails"
+msgstr "Send scheduled mails."
+
+#, fuzzy
+msgid "mail_cron_scheduled_mails_desc"
+msgstr "Sends scheduled user mails according to their defined delivery times"
+
+msgid "mail_d_drafts"
+msgstr "Klad"
+
+msgid "mail_delete_error"
+msgstr "Fout bij verwijderen"
+
+#, fuzzy
+msgid "mail_e_outbox"
+msgstr "Outbox"
+
+msgid "mail_e_sent"
+msgstr "Verzonden"
+
+msgid "mail_edit_permission"
+msgstr "Wijzigen instellingen van de rechten"
+
+#, fuzzy
+msgid "mail_f_sent"
+msgstr "Sent"
+
+msgid "mail_folders"
+msgstr "Mappen"
+
+msgid "mail_import_file"
+msgstr "Bestand exporteren"
+
+msgid "mail_mails_of"
+msgstr "E-mail"
+
+msgid "mail_maxsize_attach"
+msgstr "Max. bijlagegrootte"
+
+msgid "mail_member"
+msgstr "E-mail deelnemer"
+
+msgid "mail_members"
+msgstr "E-mail naar deelnemers"
+
+#, fuzzy
+msgid "mail_message_scheduled"
+msgstr "Scheduled mail"
+
+#, fuzzy
+msgid "mail_message_scheduled_info"
+msgstr "Mails remain in the outbox until the scheduled sending time."
+
+msgid "mail_not_sent"
+msgstr "E-mail niet verzonden!"
+
+#, fuzzy
+msgid "mail_schedule_error_no_datetime"
+msgstr "To schedule a mail, a delivery date and time must be specified."
+
+#, fuzzy
+msgid "mail_schedule_error_past_datetime"
+msgstr "You cannot schedule emails in the past."
+
+#, fuzzy
+msgid "mail_schedule_scheduled_datetime"
+msgstr "Scheduled Send Time"
+
+#, fuzzy
+msgid "mail_scheduled"
+msgstr "Mail stored in outbox for later delivery."
+
+#, fuzzy
+msgid "mail_scheduled_edit_compose_info"
+msgstr "You are editing a scheduled mail. Sending is paused until you schedule the mail again."
+
+#, fuzzy
+msgid "mail_scheduled_edit_moved_info"
+msgstr "This scheduled mail was temporarily moved to drafts so it will not be sent while you are editing it. After scheduling again, it will reappear in the outbox."
+
+msgid "mail_search_no"
+msgstr "Geen gegevens gevonden"
+
+msgid "mail_select_one"
+msgstr "Je moet minstens 1 e-mail selecteren"
+
+msgid "mail_send_error"
+msgstr "Fout bij verzenden e-mail"
+
+msgid "mail_sent"
+msgstr "E-mail verzonden!"
+
+msgid "mail_settings"
+msgstr "E-mailinstellingen"
+
+msgid "mail_to_global_roles_not_allowed"
+msgstr "Het is niet toegestaan e-mails naar algemene rollen te zenden"
+
+msgid "mail_z_local"
+msgstr "Gebruikersmappen"
+
+msgid "mails"
+msgstr "E-mail"
+
+msgid "mails_at_the_ilias_installation"
+msgstr "Je hebt %1$s nieuwe e-mails op ILIAS installatie %2$s"
+
+msgid "mails_pl"
+msgstr "E-mail(s)"
+
+msgid "main_menu"
+msgstr "Main Menu"
+
+#, fuzzy
+msgid "mainbar_aria_label"
+msgstr "Mainbar"
+
+#, fuzzy
+msgid "mainbar_more_label"
+msgstr "More"
+
+#, fuzzy
+msgid "manage_members"
+msgstr "Manage Members"
+
+msgid "matriculation"
+msgstr "Inschrijvingsnummer"
+
+msgid "max_previews_per_object"
+msgstr "Aantal voorbeeldweergaves per bestand"
+
+msgid "max_previews_per_object_info"
+msgstr "Het maximale aantal voorbeeldweergaves dat per bestand wordt aangemaakt."
+
+msgid "mcst"
+msgstr "MediaCast"
+
+msgid "mcst_add"
+msgstr "Voeg MediaCast toe"
+
+msgid "mcst_new"
+msgstr "Nieuwe MediaCast"
+
+msgid "mem_add_to_wl"
+msgstr "Toevoegen aan wachtrij"
+
+msgid "mem_alert_no_places"
+msgstr "There are no free places available."
+
+#, fuzzy
+msgid "mem_cron_min_members"
+msgstr "Course/Group: Minimum Members Check"
+
+#, fuzzy
+msgid "mem_cron_min_members_info"
+msgstr "The administrators will be notified if the minimum number is not met."
+
+msgid "mem_end"
+msgstr "Einde inschrijving:"
+
+msgid "mem_free_places"
+msgstr "Free Places:"
+
+msgid "mem_max_users"
+msgstr "Maximum of Users:"
+
+#, fuzzy
+msgid "mem_min_users"
+msgstr "Minimum of Users"
+
+msgid "mem_participants"
+msgstr "Participants"
+
+msgid "mem_reg_expired"
+msgstr "De registratie tijd is verlopen"
+
+msgid "mem_reg_not_started"
+msgstr "De inschrijving is begonnen"
+
+msgid "mem_reg_period"
+msgstr "Registratieperiode"
+
+msgid "mem_reg_type"
+msgstr "Inschrrijvingstype"
+
+msgid "mem_start"
+msgstr "Begin inschrijving:"
+
+msgid "mem_unlimited"
+msgstr "Onbeperkt"
+
+msgid "mem_view_activate"
+msgstr "Inschakelen van gebruikersbeeld"
+
+msgid "mem_view_close"
+msgstr "Afsluiten gebruikersbeeld"
+
+msgid "mem_view_long"
+msgstr "Gebruikersbeeld"
+
+msgid "mem_waiting_list"
+msgstr "gebruikers in wachtrij:"
+
+msgid "mem_waiting_list_position"
+msgstr "Your Position on the Waiting List:"
+
+msgid "member"
+msgstr "Deelnemer"
+
+msgid "member_status"
+msgstr "Deelnemer Status:"
+
+msgid "members"
+msgstr "Deelnemers"
+
+msgid "membership_leave"
+msgstr "Leave"
+
+msgid "mep"
+msgstr "Mediapool;"
+
+msgid "mep_add"
+msgstr "Voeg Mediapool toe"
+
+msgid "mep_edit"
+msgstr "Wijzigen eigenschappen mediapool"
+
+msgid "mep_new"
+msgstr "Nieuwe mediapool"
+
+msgid "mep_not_insert_already_exist"
+msgstr "De volgende item zijn niet ingevoegd omdat ze reeds al in de mediapool zitten"
+
+msgid "message"
+msgstr "Bericht"
+
+msgid "message_content"
+msgstr "Bericht"
+
+msgid "message_no_delivered_files"
+msgstr "U hebt geen bestand afgeleverd"
+
+msgid "meta_data"
+msgstr "Metagegevens"
+
+#, fuzzy
+msgid "metabar_aria_label"
+msgstr "Metabar"
+
+#, fuzzy
+msgid "mgs_objects_linked_to_the_following_folders_p"
+msgstr "The objects were linked to the following folder(s): %s"
+
+#, fuzzy
+msgid "mgs_objects_linked_to_the_following_folders_s"
+msgstr "The object was linked to the following folder(s): %s"
+
+msgid "migrate"
+msgstr "Migreren"
+
+#, fuzzy
+msgid "minimize"
+msgstr "Minimize"
+
+msgid "minute"
+msgstr "Minuut"
+
+msgid "minutes"
+msgstr "Minuten"
+
+msgid "missing"
+msgstr "Ontbreekt"
+
+msgid "missing_perm"
+msgstr "Goedkeuring ontbreekt"
+
+msgid "missing_precondition"
+msgstr "Ontbrekende voorwaarden"
+
+#, fuzzy
+msgid "mm_achievements"
+msgstr "Achievements"
+
+#, fuzzy
+msgid "mm_administration"
+msgstr "Administration"
+
+#, fuzzy
+msgid "mm_badges"
+msgstr "Badges"
+
+#, fuzzy
+msgid "mm_calendar"
+msgstr "Calendar"
+
+#, fuzzy
+msgid "mm_certificates"
+msgstr "Certificates"
+
+#, fuzzy
+msgid "mm_comments"
+msgstr "Comments"
+
+#, fuzzy
+msgid "mm_communication"
+msgstr "Communication"
+
+#, fuzzy
+msgid "mm_contacts"
+msgstr "Contacts"
+
+#, fuzzy
+msgid "mm_dashboard"
+msgstr "Dashboard"
+
+#, fuzzy
+msgid "mm_enrolments"
+msgstr "Enrolments"
+
+#, fuzzy
+msgid "mm_favorites"
+msgstr "Favourites"
+
+#, fuzzy
+msgid "mm_learning_history"
+msgstr "Learning History"
+
+#, fuzzy
+msgid "mm_learning_progress"
+msgstr "Learning Progress"
+
+#, fuzzy
+msgid "mm_mail"
+msgstr "Mail"
+
+#, fuzzy
+msgid "mm_news"
+msgstr "News"
+
+#, fuzzy
+msgid "mm_notes"
+msgstr "Notes"
+
+#, fuzzy
+msgid "mm_organisation"
+msgstr "Organisation"
+
+#, fuzzy
+msgid "mm_personal_and_shared_r"
+msgstr "Personal and Shared Resources"
+
+#, fuzzy
+msgid "mm_personal_workspace"
+msgstr "Personal Workspace"
+
+#, fuzzy
+msgid "mm_portfolio"
+msgstr "Portfolio"
+
+#, fuzzy
+msgid "mm_private_chats"
+msgstr "Private Chats"
+
+#, fuzzy
+msgid "mm_repo_tree_view"
+msgstr "Tree View"
+
+#, fuzzy
+msgid "mm_repo_tree_view_act"
+msgstr "Activate Tree"
+
+#, fuzzy
+msgid "mm_repo_tree_view_deact"
+msgstr "Deactivate Tree"
+
+#, fuzzy
+msgid "mm_repository"
+msgstr "Repository"
+
+#, fuzzy
+msgid "mm_skills"
+msgstr "Competences"
+
+#, fuzzy
+msgid "mm_staff_list"
+msgstr "Staff List"
+
+#, fuzzy
+msgid "mm_tags"
+msgstr "Tags"
+
+#, fuzzy
+msgid "mm_task_derived_tasks"
+msgstr "Tasks"
+
+#, fuzzy
+msgid "mme_lost_item_reason"
+msgstr "Item is no longer provided."
+
+#, fuzzy
+msgid "mme_lost_item_title"
+msgstr "No assignment"
+
+msgid "mob"
+msgstr "Mediaobject"
+
+msgid "moderators"
+msgstr "Moderators"
+
+msgid "module"
+msgstr "Module"
+
+msgid "modules"
+msgstr "Modules"
+
+msgid "month"
+msgstr "Maand"
+
+msgid "month_01_long"
+msgstr "januari"
+
+msgid "month_01_short"
+msgstr "Jan"
+
+msgid "month_02_long"
+msgstr "februari"
+
+msgid "month_02_short"
+msgstr "Feb"
+
+msgid "month_03_long"
+msgstr "maart"
+
+msgid "month_03_short"
+msgstr "Mrt"
+
+msgid "month_04_long"
+msgstr "april"
+
+msgid "month_04_short"
+msgstr "Apr"
+
+msgid "month_05_long"
+msgstr "mei"
+
+msgid "month_05_short"
+msgstr "Mei"
+
+msgid "month_06_long"
+msgstr "juni"
+
+msgid "month_06_short"
+msgstr "Jun"
+
+msgid "month_07_long"
+msgstr "juli"
+
+msgid "month_07_short"
+msgstr "Jul"
+
+msgid "month_08_long"
+msgstr "augustus"
+
+msgid "month_08_short"
+msgstr "Aug"
+
+msgid "month_09_long"
+msgstr "september"
+
+msgid "month_09_short"
+msgstr "Sep"
+
+msgid "month_10_long"
+msgstr "oktober"
+
+msgid "month_10_short"
+msgstr "Okt"
+
+msgid "month_11_long"
+msgstr "november"
+
+msgid "month_11_short"
+msgstr "Nov"
+
+msgid "month_12_long"
+msgstr "december"
+
+msgid "month_12_short"
+msgstr "Dec"
+
+msgid "monthly"
+msgstr "maandelijks"
+
+msgid "months"
+msgstr "maanden"
+
+msgid "mount_webfolder"
+msgstr "Als webfolder openen"
+
+msgid "move"
+msgstr "Verplaatsen"
+
+msgid "moveChapter"
+msgstr "Verplaatsen"
+
+msgid "movePage"
+msgstr "Verplaatsen"
+
+msgid "move_selected_items"
+msgstr "Verplaatsen"
+
+#, fuzzy
+msgid "msg_bt_download_started"
+msgstr "ILIAS is generating a ZIP archive of all available files. You can download them from the Notification Center (bell icon) on top right."
+
+msgid "msg_cancel"
+msgstr "Activiteit gestopt"
+
+msgid "msg_clear_clipboard"
+msgstr "Klembord leeggemaakt"
+
+msgid "msg_cloned"
+msgstr "Geselecteerde object(en) gekopiëerd"
+
+msgid "msg_copy_clipboard"
+msgstr "Geselecteerde object(en) gekopiëerd naar klembord (Activiteit: Kopiëren)"
+
+#, fuzzy
+msgid "msg_copy_clipboard_container"
+msgstr "Now, please select the desired location, where the selected objects should be pasted into and click the button ‘Continue’."
+
+msgid "msg_copy_clipboard_source"
+msgstr "Selecteer nu de cursus waarvan je de inhoud wilt kopiëren en klik \"Volgende\"."
+
+msgid "msg_cut_clipboard"
+msgstr "Geselecteerde object(en) gekopiëerd naar Klembord (Activiteit: Knippen)"
+
+msgid "msg_cut_copied"
+msgstr "Geselecteerde object(en) verplaatst."
+
+msgid "msg_deleted_export_files"
+msgstr "Exportbestand(en) verwijderd"
+
+msgid "msg_deleted_role"
+msgstr "Rol gewist"
+
+msgid "msg_deleted_roles_rolts"
+msgstr "Rollen & rol-sjablonen gewist"
+
+msgid "msg_failed"
+msgstr "Activiteit is mislukt"
+
+msgid "msg_form_save_error"
+msgstr "The form data could not be saved. Please check the input fields for any error messages."
+
+#, fuzzy
+msgid "msg_info_blacklisted"
+msgstr "The files cannot be uploaded due to security reasons."
+
+#, fuzzy
+msgid "msg_input_char_limit_max"
+msgstr "You have entered more characters than allowed."
+
+#, fuzzy
+msgid "msg_input_char_limit_min"
+msgstr "You have to enter the minimum of characters specified."
+
+msgid "msg_input_does_not_match_regexp"
+msgstr "Please provide a valid value."
+
+msgid "msg_input_is_required"
+msgstr "Deze ingave is verplicht. Gelieve een waarde in te gegeven"
+
+#, fuzzy
+msgid "msg_invalid_value_css_rect_input"
+msgstr "The entered value is incorrect, do not use any plus or minus symbols in combination with the entered integer. Please check your input."
+
+msgid "msg_is_last_role"
+msgstr "U verwijderde de laatste globale rol van de volgende gebruikers"
+
+msgid "msg_last_role_for_registration"
+msgstr "Tenminste één rol moet beschikbaar zijn in het registratieformulier voor nieuwe gebruikers. Deze rol is momenteel de enige die beschikbaar is"
+
+#, fuzzy
+msgid "msg_link_clipboard_p"
+msgstr "Now, please select the desired location, where the selected objects should be linked to and click the button Paste."
+
+#, fuzzy
+msgid "msg_link_clipboard_s"
+msgstr "Now, please select the desired location, where the selected object should be linked to and click the button Paste."
+
+msgid "msg_linked"
+msgstr "Geselecteerde object(en) gelinked."
+
+msgid "msg_may_not_contain"
+msgstr "Dit object mag geen objecten van het volgende type bevatten:"
+
+msgid "msg_min_one_role"
+msgstr "Elke gebruiker moet op zijn minst één globale rol hebben!"
+
+msgid "msg_multi_language_selected"
+msgstr "U hebt dezelfde taal voor verschillende vertalingen gekozen!"
+
+msgid "msg_no_default_language"
+msgstr "Geen standaardtaal gespecificeerd! Je moet één standaardtaal definiëren."
+
+msgid "msg_no_delete_yourself"
+msgstr "Je kunt je eigen gebruikersaccount niet verwijderen."
+
+msgid "msg_no_file"
+msgstr "U hebt geen bestand gekozen"
+
+#, fuzzy
+msgid "msg_no_files_selected"
+msgstr "No files selected"
+
+msgid "msg_no_language_selected"
+msgstr "Geen taal gespecificeerd! Je moet een taal definiëren voor elke vertaling"
+
+msgid "msg_no_perm_assign_role_to_user"
+msgstr "Je hebt geen rechten om de rol-toewijzing van gebruikers te wijzigen"
+
+msgid "msg_no_perm_assign_user_to_role"
+msgstr "U hebt niet het recht om de gebruikers assignment te veranderen"
+
+msgid "msg_no_perm_copy"
+msgstr "U hebt geen toestemming voor het creëren van een kopie van het/de volgende object(en):#"
+
+msgid "msg_no_perm_create_rolt"
+msgstr "U hebt geen toestemming voor het toevoegen van rol-sjablonen"
+
+msgid "msg_no_perm_cut"
+msgstr "U hebt geen toestemming voor het knippen van het/de volgende object(en):"
+
+msgid "msg_no_perm_delete"
+msgstr "U hebt geen toestemming voor het verwijderen van het/de volgende object(en):"
+
+msgid "msg_no_perm_link"
+msgstr "U hebt geen toestemming voor het creëren van een link naar het/de volgende object(en):"
+
+msgid "msg_no_perm_modify_rolt"
+msgstr "U hebt geen toestemming voor het wijzigen van rol-sjablonen"
+
+msgid "msg_no_perm_modify_user"
+msgstr "U hebt geen rechten om gebruikersgegevens te wijzigen!"
+
+msgid "msg_no_perm_paste"
+msgstr "U hebt geen toestemming voor het plakken van het/de volgende object(en):"
+
+msgid "msg_no_perm_paste_object_in_folder"
+msgstr "You have no permission to paste the object %s in the folder %s."
+
+msgid "msg_no_perm_perm"
+msgstr "U hebt geen toestemming voor het wijzigen van de instellingen van rechten"
+
+msgid "msg_no_perm_read"
+msgstr "U hebt geen toestemming om het item te bekijken"
+
+msgid "msg_no_perm_read_item"
+msgstr "U hebt geen toestemming om het item te bekijken."
+
+msgid "msg_no_perm_read_lm"
+msgstr "U hebt geen rechten om deze lesmodule te lezen."
+
+#, fuzzy
+msgid "msg_no_perm_view_roles_of_user"
+msgstr "You have no permission to view the role assignment of this user"
+
+msgid "msg_no_perm_write"
+msgstr "U hebt geen toestemming voor schrijven"
+
+msgid "msg_no_search_result"
+msgstr "Geen gegevens gevonden"
+
+msgid "msg_no_search_string"
+msgstr "Voer je vraag in"
+
+msgid "msg_no_title"
+msgstr "Gelieve in titel in te geven."
+
+msgid "msg_not_available_for_anon"
+msgstr "De pagina die je hebt gekozen is alleen toegankelijk voor geregistreerde gebruikers"
+
+msgid "msg_not_in_itself"
+msgstr "Het is niet mogelijk het object in zichzelf te plakken"
+
+msgid "msg_obj_already_deleted"
+msgstr "Het object is reeds verwijderd."
+
+msgid "msg_obj_created"
+msgstr "Object gecreëerd."
+
+msgid "msg_obj_exists"
+msgstr "Dit object bestaat al in deze map"
+
+msgid "msg_obj_exists_in_folder"
+msgstr "The object %s already exists in the folder %s."
+
+msgid "msg_obj_may_not_contain_objects_of_type"
+msgstr "The object %s may not contain objects of type: %s."
+
+msgid "msg_obj_modified"
+msgstr "Wijzigingen opgeslagen."
+
+msgid "msg_obj_no_download"
+msgstr "Kan niet worden gedownload."
+
+msgid "msg_obj_no_link"
+msgstr "zijn niet toegestaan te worden gelinkt"
+
+msgid "msg_obj_perm_download"
+msgstr "Je hebt niet voldoende rechten om de volgende objecten te downloaden:"
+
+msgid "msg_paste_object_not_in_itself"
+msgstr "It's not possible to paste the object %s in itself."
+
+msgid "msg_perm_adopted_from1"
+msgstr "Instellingen van rechten overgenomen van"
+
+msgid "msg_perm_adopted_from2"
+msgstr "(Instellingen zijn opgeslagen!)"
+
+msgid "msg_perm_adopted_from_itself"
+msgstr "U kunt de instellingen van rechten niet overnemen van de huidige rol-sjabloon/sjablonen zelf."
+
+msgid "msg_removed"
+msgstr "Object(en) verwijdert van het systeem."
+
+msgid "msg_role_reserved_prefix"
+msgstr "De prefix 'il_' is gereserveerd voor het automatisch genereren van rollen. Kies een andere naam"
+
+msgid "msg_roleassignment_changed"
+msgstr "Roltoewijzing gewijzigd"
+
+msgid "msg_sysrole_not_deletable"
+msgstr "De systeem-rol kan niet worden verwijderd"
+
+msgid "msg_sysrole_not_editable"
+msgstr "The instellingen van de rechten van de systeem-rol kunnen niet gewijzigd worden. The systeem-rol geeft alle toegewijzen gebruikers ongelimiteerde toegang tot alle objecten en functies."
+
+#, fuzzy
+msgid "msg_to_many_files"
+msgstr "Too many files selected, allowed amount of files:"
+
+msgid "msg_trash_empty"
+msgstr "Er zijn geen verwijderde objecten"
+
+msgid "msg_undeleted"
+msgstr "Object(en) hersteld."
+
+msgid "msg_unit_is_required"
+msgstr "This input requires a unit. Please enter a correct value."
+
+#, fuzzy
+msgid "msg_unknown_value"
+msgstr "An unknown value has been passed."
+
+msgid "msg_user_last_role1"
+msgstr "De volgende gebruikers zijn alleen aan deze rol toegewezen:"
+
+msgid "msg_user_last_role2"
+msgstr "Verwijderen de gebruikers of wijs ze toe aan een andere rol om deze rol te kunnen verwijderen."
+
+msgid "msg_userassignment_changed"
+msgstr "Gebruikertoewijzing gewijzigd"
+
+#, fuzzy
+msgid "msg_wrong_filetypes"
+msgstr "Allowed Files-Types:"
+
+msgid "msg_wrong_format"
+msgstr "The value you entered is not a valid format."
+
+msgid "my_bms"
+msgstr "bladwijzers"
+
+#, fuzzy
+msgid "my_certificates"
+msgstr "My Certificates"
+
+#, fuzzy
+msgid "my_contacts"
+msgstr "My Contact"
+
+msgid "my_courses"
+msgstr "My Cursussen"
+
+msgid "my_courses_groups"
+msgstr "Mijn cursussen en groepen"
+
+#, fuzzy
+msgid "my_staff"
+msgstr "Staff"
+
+msgid "name"
+msgstr "Naam"
+
+#, fuzzy
+msgid "nc_contact_requests_headline"
+msgstr "Contact Requests"
+
+#, fuzzy
+msgid "nc_contact_requests_number_p"
+msgstr "You have %s Contact Requests."
+
+#, fuzzy
+msgid "nc_contact_requests_number_s"
+msgstr "You have %s Contact Request."
+
+#, fuzzy
+msgid "nc_contact_requests_prop_time"
+msgstr "Time"
+
+msgid "never"
+msgstr "Nooit"
+
+msgid "new"
+msgstr "Nieuw"
+
+msgid "new_language"
+msgstr "Nieuwe taal"
+
+msgid "new_pass_equals_old_pass"
+msgstr "Het nieuwe wachtwoord is gelijk aan het oude"
+
+msgid "newline"
+msgstr "Newline"
+
+msgid "news"
+msgstr "Nieuws"
+
+msgid "next"
+msgstr "Volgende"
+
+msgid "no"
+msgstr "Nee"
+
+msgid "no_access_item"
+msgstr "U hebt niet het recht om dit item te bekijken"
+
+msgid "no_access_item_public"
+msgstr "Dit item kan niet worden bekeken in de publieke afdeling"
+
+#, fuzzy
+msgid "no_accessibility_control_concept_description"
+msgstr "There is currently no Accessibility Control Concept provided with this installation. Please contact the <a href=\"%1$s\">Accessibility Point of Contact</a>."
+
+msgid "no_checkbox"
+msgstr "Geen keuze gemaakt!"
+
+msgid "no_condition_selected"
+msgstr "Gelieve een randvoorwaarde te selecteren"
+
+msgid "no_date"
+msgstr "Geen datum"
+
+#, fuzzy
+msgid "no_gallery_users_available"
+msgstr "There are currently no users in the gallery."
+
+msgid "no_global_role_left"
+msgstr "Elke gebruiker moet aan een globale rol toegewezen zijn."
+
+msgid "no_import_file_found"
+msgstr "Geen import bestand gevonden"
+
+msgid "no_items"
+msgstr "Geen onderdelen"
+
+msgid "no_limit"
+msgstr "Geen limit"
+
+msgid "no_mkisofs_configured"
+msgstr "You have to configure mkisofs utility in ILIAS setup to run ISO export"
+
+msgid "no_parent_access"
+msgstr "Geen toegang tot object"
+
+msgid "no_permission"
+msgstr "U hebt niet voldoende recht"
+
+msgid "no_roles_user_can_be_assigned_to"
+msgstr "Er zijn geen globale rollen die aan de gebruiker kunnen worden toegekend. Daarom is het niet toegestaan gebruikers toe te voegen."
+
+msgid "no_start_file"
+msgstr "Geen startbestand"
+
+msgid "no_title"
+msgstr "Geen titel"
+
+msgid "no_users_selected"
+msgstr "Selecteer één gebruiker"
+
+msgid "no_xml_file_found_in_zip"
+msgstr "XML bestand in zip bestand niet gevonden:"
+
+#, fuzzy
+msgid "noc"
+msgstr "Notification Center"
+
+msgid "non_internal_local_roles_only"
+msgstr "Lokale rollen(alleen zelf aangelegde)"
+
+msgid "none"
+msgstr "Geen enkele"
+
+msgid "normal"
+msgstr "Normaal"
+
+msgid "not_available"
+msgstr "Niet beschikbaar"
+
+msgid "not_implemented_yet"
+msgstr "Nog niet geïmplementeerd"
+
+msgid "not_installed"
+msgstr "Niet geïnstalleerd"
+
+msgid "not_logged_in"
+msgstr "U bent niet ingelogd"
+
+msgid "note"
+msgstr "Notitie"
+
+msgid "notes"
+msgstr "Aantekeningen"
+
+msgid "notes_and_comments"
+msgstr "Notities en commentaar"
+
+msgid "notice"
+msgstr "Notice"
+
+msgid "notifications"
+msgstr "Berichten"
+
+msgid "nr_following_sessions"
+msgstr "%1d volgende sessies"
+
+msgid "num_of_selected_files"
+msgstr "%s bestand(en) geselecteerd"
+
+msgid "num_users"
+msgstr "Aantal gebruikers"
+
+#, fuzzy
+msgid "numberedlist_action"
+msgstr "Insert Numbered List - Click to insert a numbered list."
+
+msgid "obj"
+msgstr "Object"
+
+msgid "obj_accs"
+msgstr "Toegankelijkheid"
+
+msgid "obj_accs_desc"
+msgstr "Instellingen voor accessibility features."
+
+msgid "obj_adm"
+msgstr "Beheer"
+
+msgid "obj_adm_desc"
+msgstr "Bevat alle functionaliteit voor het beheer van je ILIAS-installatie."
+
+#, fuzzy
+msgid "obj_adma"
+msgstr "General Settings"
+
+#, fuzzy
+msgid "obj_adma_desc"
+msgstr "Important settings for the whole installation"
+
+#, fuzzy
+msgid "obj_adn"
+msgstr "Administrative Notifications"
+
+msgid "obj_adve"
+msgstr "Editor"
+
+msgid "obj_adve_desc"
+msgstr "Beheerinstellingen voor ILIAS Editor, JavaScript gebaseerde Rich Text Editors, LaTeX ondersteuning enz."
+
+msgid "obj_ass"
+msgstr "Asset"
+
+msgid "obj_assf"
+msgstr "Toets&Beoordeling"
+
+msgid "obj_assf_desc"
+msgstr "Toets&Beoordeling log instellingen"
+
+msgid "obj_auth"
+msgstr "Authenticatie"
+
+msgid "obj_auth_desc"
+msgstr "Configureer je authenticatie-modus (local, LDAP, ...)"
+
+#, fuzzy
+msgid "obj_awra"
+msgstr "‘Who is online?’-Tool"
+
+#, fuzzy
+msgid "obj_awra_desc"
+msgstr "Manage ‘Who is online?’-Tool"
+
+#, fuzzy
+msgid "obj_bdga"
+msgstr "Badges"
+
+#, fuzzy
+msgid "obj_bdga_desc"
+msgstr "Administrate types, image templates and activity badges"
+
+#, fuzzy
+msgid "obj_bgtk"
+msgstr "Background Task"
+
+msgid "obj_bibl"
+msgstr "Boekenlijst"
+
+msgid "obj_bibs"
+msgstr "Boekenlijst"
+
+msgid "obj_bibs_desc"
+msgstr "Boekenlijst beheer"
+
+msgid "obj_blog"
+msgstr "Blog"
+
+msgid "obj_blog_duplicate"
+msgstr "Kopieer Blog"
+
+#, fuzzy
+msgid "obj_bnmk"
+msgstr "Benchmarking"
+
+#, fuzzy
+msgid "obj_bnmk_desc"
+msgstr "Recording and display of database query durations"
+
+msgid "obj_book"
+msgstr "Boekingscategorie"
+
+#, fuzzy
+msgid "obj_cadm"
+msgstr "Contacts"
+
+#, fuzzy
+msgid "obj_cadm_desc"
+msgstr "Contacts Administration"
+
+msgid "obj_cals"
+msgstr "Agenda"
+
+msgid "obj_cals_desc"
+msgstr "Algemene agenda-instellingen."
+
+msgid "obj_cat"
+msgstr "Categorie"
+
+msgid "obj_cat_duplicate"
+msgstr "Copy Category"
+
+msgid "obj_catr"
+msgstr "Categorie referentie"
+
+msgid "obj_cert"
+msgstr "Certificaten"
+
+msgid "obj_cert_desc"
+msgstr "Instellingen voor certificaten"
+
+msgid "obj_chap"
+msgstr "Hoofdstuk"
+
+msgid "obj_chta"
+msgstr "Chat"
+
+msgid "obj_chtr"
+msgstr "Chatroom"
+
+#, fuzzy
+msgid "obj_chtr_duplicate"
+msgstr "Copy Chat Room"
+
+#, fuzzy
+msgid "obj_cmis"
+msgstr "xAPI/cmi5"
+
+#, fuzzy
+msgid "obj_cmis_desc"
+msgstr "Learning Record Store Types Configuration"
+
+#, fuzzy
+msgid "obj_cmix"
+msgstr "xAPI/cmi5"
+
+msgid "obj_cmps"
+msgstr "Plugins"
+
+msgid "obj_cmps_desc"
+msgstr "Algemene instellingen voor studiecentrum voor plugins"
+
+#, fuzzy
+msgid "obj_coms"
+msgstr "Comments"
+
+#, fuzzy
+msgid "obj_coms_desc"
+msgstr "Comments settings"
+
+#, fuzzy
+msgid "obj_copa"
+msgstr "Content Page"
+
+#, fuzzy
+msgid "obj_cpad"
+msgstr "Content Pages"
+
+#, fuzzy
+msgid "obj_cpad#_desc"
+msgstr "Content Page Administration"
+
+#, fuzzy
+msgid "obj_cpad_desc"
+msgstr "Content Page Administration"
+
+#, fuzzy
+msgid "obj_cron"
+msgstr "Cron Jobs"
+
+#, fuzzy
+msgid "obj_cron_desc"
+msgstr "List of all Cron Jobs"
+
+msgid "obj_crs"
+msgstr "Cursus"
+
+msgid "obj_crs_duplicate"
+msgstr "Kopieer cursus"
+
+msgid "obj_crsr"
+msgstr "Cursus referentie"
+
+msgid "obj_crss"
+msgstr "Cursus"
+
+msgid "obj_crss_desc"
+msgstr "Algemene instellingen voor cursussen"
+
+msgid "obj_crsv"
+msgstr "Cursuscertificaat"
+
+msgid "obj_dbk"
+msgstr "Digilibboek"
+
+msgid "obj_dcl"
+msgstr "Gegevensverzameling"
+
+msgid "obj_dcl_duplicate"
+msgstr "Copy Data Collection"
+
+#, fuzzy
+msgid "obj_dpro"
+msgstr "Declaration of Data Protection"
+
+#, fuzzy
+msgid "obj_dpro_desc"
+msgstr "Declaration of Data Protection Settings"
+
+#, fuzzy
+msgid "obj_dshs"
+msgstr "Dashboard"
+
+#, fuzzy
+msgid "obj_dshs_desc"
+msgstr "Dashboard settings"
+
+msgid "obj_ecss"
+msgstr "ECS"
+
+msgid "obj_ecss_desc"
+msgstr "General ECS Settings"
+
+msgid "obj_etal"
+msgstr "Employee Talk"
+
+msgid "obj_exc"
+msgstr "Oefening"
+
+#, fuzzy
+msgid "obj_exc_duplicate"
+msgstr "Copy Exercise"
+
+msgid "obj_excv"
+msgstr "Exercise Certificate"
+
+msgid "obj_facs"
+msgstr "Bestandstoegang"
+
+msgid "obj_facs_desc"
+msgstr "Configure access to file objects."
+
+msgid "obj_file"
+msgstr "Bestand"
+
+#, fuzzy
+msgid "obj_file_duplicate"
+msgstr "Duplicate File"
+
+msgid "obj_file_inline"
+msgstr "Inline File"
+
+#, fuzzy
+msgid "obj_fils"
+msgstr "File Services"
+
+#, fuzzy
+msgid "obj_fils_desc"
+msgstr "Configuration of File Service Settings."
+
+msgid "obj_fold"
+msgstr "Map"
+
+#, fuzzy
+msgid "obj_fold_duplicate"
+msgstr "Copy Folder"
+
+msgid "obj_frm"
+msgstr "Forum"
+
+msgid "obj_frm_duplicate"
+msgstr "Kopieer forum"
+
+msgid "obj_frma"
+msgstr "Forum"
+
+msgid "obj_frma_desc"
+msgstr "Algemene Foruminstellingen"
+
+msgid "obj_glo"
+msgstr "Woordenlijst"
+
+msgid "obj_glo_duplicate"
+msgstr "kopiëren woordenlijst"
+
+msgid "obj_grp"
+msgstr "Groep"
+
+msgid "obj_grp_duplicate"
+msgstr "Kopieër Groep"
+
+#, fuzzy
+msgid "obj_grpr"
+msgstr "Group Reference"
+
+msgid "obj_grps"
+msgstr "Groep"
+
+msgid "obj_grps_desc"
+msgstr "Algemene instellingen voor groepen"
+
+#, fuzzy
+msgid "obj_gsfo"
+msgstr "Footer"
+
+#, fuzzy
+msgid "obj_gsfo_desc"
+msgstr "Administrate Footer Layout and Content"
+
+msgid "obj_hlps"
+msgstr "Help Systeem"
+
+msgid "obj_hlps_desc"
+msgstr "Settings for the online help"
+
+msgid "obj_htlm"
+msgstr "HTML lesmodule"
+
+msgid "obj_htlm_duplicate"
+msgstr "Copy HTML Learning Module"
+
+#, fuzzy
+msgid "obj_iass"
+msgstr "Individual Assessment"
+
+#, fuzzy
+msgid "obj_iass_duplicate"
+msgstr "Copy Individual Assessment"
+
+#, fuzzy
+msgid "obj_iass_select"
+msgstr "-- Please select one individual assessment --"
+
+msgid "obj_itgr"
+msgstr "Item Groep"
+
+msgid "obj_ldap_desc"
+msgstr "Configureer de globale LDAP-instellingen hier."
+
+#, fuzzy
+msgid "obj_lhts"
+msgstr "Learning History"
+
+#, fuzzy
+msgid "obj_lhts_desc"
+msgstr "Learning history settings"
+
+msgid "obj_lm"
+msgstr "ILIAS lesmodule"
+
+msgid "obj_lm_duplicate"
+msgstr "Copy Learning Module"
+
+msgid "obj_lng"
+msgstr "Taal"
+
+msgid "obj_lngf"
+msgstr "Talen"
+
+msgid "obj_lngf_desc"
+msgstr "Beheer de systeemtalen hier."
+
+#, fuzzy
+msgid "obj_logs"
+msgstr "Logging"
+
+#, fuzzy
+msgid "obj_logs_desc"
+msgstr "General Logging Settings"
+
+msgid "obj_lrss"
+msgstr "Leermiddelen"
+
+msgid "obj_lrss_desc"
+msgstr "Configureren van alle types leermodules."
+
+#, fuzzy
+msgid "obj_lso"
+msgstr "Learning Sequence"
+
+#, fuzzy
+msgid "obj_lso_duplicate"
+msgstr "Copy Learning Sequence"
+
+#, fuzzy
+msgid "obj_lsos"
+msgstr "Learning Sequences"
+
+#, fuzzy
+msgid "obj_lsos_desc"
+msgstr "General settings for Learning Sequences"
+
+#, fuzzy
+msgid "obj_lti"
+msgstr "LTI Consumer"
+
+#, fuzzy
+msgid "obj_ltis"
+msgstr "LTI"
+
+#, fuzzy
+msgid "obj_ltis_desc"
+msgstr "Learning Tools Interoperability"
+
+msgid "obj_mail"
+msgstr "E-mailinstellingen"
+
+msgid "obj_mail_desc"
+msgstr "Configureer de globale Mailinstellingen hier."
+
+#, fuzzy
+msgid "obj_mailr"
+msgstr "Read Mail"
+
+#, fuzzy
+msgid "obj_mailu"
+msgstr "Unread Mail"
+
+#, fuzzy
+msgid "obj_maps"
+msgstr "Maps"
+
+msgid "obj_mcst"
+msgstr "MediaCast"
+
+msgid "obj_mcst_duplicate"
+msgstr "Copy Mediacast"
+
+msgid "obj_mcts"
+msgstr "Mediacast"
+
+msgid "obj_mcts_desc"
+msgstr "General settings for mediacast."
+
+msgid "obj_mep"
+msgstr "Mediapool"
+
+msgid "obj_mep_duplicate"
+msgstr "Kopieer mediapool"
+
+#, fuzzy
+msgid "obj_mme"
+msgstr "Main Menu"
+
+msgid "obj_mob"
+msgstr "Mediaobject"
+
+msgid "obj_mobs"
+msgstr "Media Objects/Pools"
+
+msgid "obj_mobs_desc"
+msgstr "Instellingen voor media objecten en mediapoolen"
+
+msgid "obj_not_found"
+msgstr "Object niet gevonden"
+
+#, fuzzy
+msgid "obj_nota"
+msgstr "Notifications"
+
+#, fuzzy
+msgid "obj_nota_desc"
+msgstr "Notification Administration"
+
+#, fuzzy
+msgid "obj_nots"
+msgstr "Notes"
+
+#, fuzzy
+msgid "obj_nots_desc"
+msgstr "Notes settings"
+
+msgid "obj_nwss"
+msgstr "Nieuws en Web Feeds Instellingen"
+
+msgid "obj_nwss_desc"
+msgstr "Instellingen voor intern nieuws en externe web feeds."
+
+msgid "obj_objf"
+msgstr "Objectdefinities"
+
+msgid "obj_orgu"
+msgstr "Organisatorische Eenheid"
+
+#, fuzzy
+msgid "obj_orgu_description"
+msgstr "Creating and editing organisational structure"
+
+msgid "obj_page"
+msgstr "Page"
+
+#, fuzzy
+msgid "obj_peac"
+msgstr "Accordion"
+
+#, fuzzy
+msgid "obj_peadl"
+msgstr "Advanced List"
+
+#, fuzzy
+msgid "obj_peadt"
+msgstr "Advanced Table"
+
+#, fuzzy
+msgid "obj_pecd"
+msgstr "Code"
+
+#, fuzzy
+msgid "obj_pech"
+msgstr "Consultation Hour"
+
+#, fuzzy
+msgid "obj_pecl"
+msgstr "Column Layout"
+
+#, fuzzy
+msgid "obj_peclp"
+msgstr "Clipboard"
+
+#, fuzzy
+msgid "obj_pecom"
+msgstr "Competences"
+
+#, fuzzy
+msgid "obj_pecrs"
+msgstr "Course"
+
+#, fuzzy
+msgid "obj_pecrt"
+msgstr "Certificate"
+
+#, fuzzy
+msgid "obj_pecs"
+msgstr "Content Snippet"
+
+#, fuzzy
+msgid "obj_pedt"
+msgstr "Data Table"
+
+#, fuzzy
+msgid "obj_pefl"
+msgstr "File List"
+
+#, fuzzy
+msgid "obj_peim"
+msgstr "interactive Media"
+
+#, fuzzy
+msgid "obj_pelh"
+msgstr "Learning History"
+
+#, fuzzy
+msgid "obj_pemed"
+msgstr "Image/Audio/Video"
+
+#, fuzzy
+msgid "obj_pemp"
+msgstr "Map"
+
+#, fuzzy
+msgid "obj_pepd"
+msgstr "Personal Data"
+
+#, fuzzy
+msgid "obj_pepe"
+msgstr "Plugin Element"
+
+#, fuzzy
+msgid "obj_pepl"
+msgstr "Page List"
+
+#, fuzzy
+msgid "obj_peplh"
+msgstr "Placeholder"
+
+#, fuzzy
+msgid "obj_pequ"
+msgstr "Questions"
+
+#, fuzzy
+msgid "obj_perl"
+msgstr "Ressource List"
+
+#, fuzzy
+msgid "obj_pesc"
+msgstr "Section"
+
+#, fuzzy
+msgid "obj_petmp"
+msgstr "Page Template"
+
+#, fuzzy
+msgid "obj_peusr"
+msgstr "User"
+
+msgid "obj_pg"
+msgstr "Bladzijde"
+
+msgid "obj_poll"
+msgstr "Poll"
+
+msgid "obj_poll_dupliate:"
+msgstr "Copy Poll"
+
+msgid "obj_poll_duplicate"
+msgstr "Copy Poll"
+
+#, fuzzy
+msgid "obj_prg"
+msgstr "Study Programme"
+
+#, fuzzy
+msgid "obj_prg_duplicate"
+msgstr "Copy Study Programme"
+
+#, fuzzy
+msgid "obj_prg_select"
+msgstr "-- Please select one Study Programme --"
+
+#, fuzzy
+msgid "obj_prgr"
+msgstr "Link to Study Programme"
+
+#, fuzzy
+msgid "obj_prgrs"
+msgstr "Links to Study Programmes"
+
+#, fuzzy
+msgid "obj_prgs"
+msgstr "Study Programmes"
+
+#, fuzzy
+msgid "obj_prgs_desc"
+msgstr "Study Programme Administration"
+
+#, fuzzy
+msgid "obj_prss"
+msgstr "Personal Resources"
+
+#, fuzzy
+msgid "obj_prss_desc"
+msgstr "Personal resources settings"
+
+msgid "obj_prtf"
+msgstr "Portfolio"
+
+msgid "obj_prtt"
+msgstr "Portfolio Sjabloon"
+
+msgid "obj_prtt_duplicate"
+msgstr "Kopieer Portfolio Sjabloon"
+
+msgid "obj_ps"
+msgstr "Privacy en Veiligheid"
+
+msgid "obj_ps_desc"
+msgstr "Configureren globale privacy en veiligheidsinstellingen."
+
+msgid "obj_qpl"
+msgstr "Vragenpool (Toets)"
+
+msgid "obj_qpl_duplicate"
+msgstr "Kopieer vragenpool (Toets)"
+
+msgid "obj_qpl_select"
+msgstr "-- Kies één toets uit de vragengroep --"
+
+msgid "obj_rcat"
+msgstr "ECS Category"
+
+msgid "obj_rcrs"
+msgstr "Course-Link"
+
+msgid "obj_recf"
+msgstr "Herstelde objecten"
+
+msgid "obj_recf_desc"
+msgstr "Bevat herstelde objecten van systeemcontrole"
+
+#, fuzzy
+msgid "obj_rep"
+msgstr "Repository"
+
+msgid "obj_reps"
+msgstr "Studiecentrum"
+
+msgid "obj_reps_desc"
+msgstr "Algemene instellingen voor het studiecentrum"
+
+msgid "obj_rfil"
+msgstr "ECS File"
+
+msgid "obj_rglo"
+msgstr "ECS Woordenlijst"
+
+msgid "obj_rgrp"
+msgstr "ECS Groep"
+
+msgid "obj_rlm"
+msgstr "ECS Learning Module"
+
+msgid "obj_role"
+msgstr "Rol"
+
+msgid "obj_rolf"
+msgstr "Rollen"
+
+msgid "obj_rolf_desc"
+msgstr "Beheren rollen"
+
+msgid "obj_rolf_local"
+msgstr "Lokale rollen"
+
+msgid "obj_rolf_local_desc"
+msgstr "Bevat lokale rollen van objectnr."
+
+msgid "obj_rolt"
+msgstr "Rol-sjabloon"
+
+msgid "obj_root"
+msgstr "ILIAS Home pagina"
+
+msgid "obj_rtst"
+msgstr "ECS Toets"
+
+msgid "obj_rwik"
+msgstr "ECS Wiki"
+
+msgid "obj_sahs"
+msgstr "SCORM/AICC package"
+
+msgid "obj_sahs_duplicate"
+msgstr "Kopieer leermodule"
+
+msgid "obj_sco"
+msgstr "SCO"
+
+msgid "obj_scov"
+msgstr "SCORM Certificaat"
+
+msgid "obj_seas"
+msgstr "Zoeken"
+
+msgid "obj_seas_desc"
+msgstr "Beheer de zoekinstelling hier"
+
+#, fuzzy
+msgid "obj_serv"
+msgstr "Server"
+
+#, fuzzy
+msgid "obj_serv_desc"
+msgstr "Settings of the sever"
+
+msgid "obj_sess"
+msgstr "Sessie"
+
+msgid "obj_sess_duplicate"
+msgstr "Kopieer Sessie"
+
+msgid "obj_skmg"
+msgstr "Competentiebeheer"
+
+msgid "obj_skmg_desc"
+msgstr "Beheer van competenties en competentie categorieën"
+
+msgid "obj_spl"
+msgstr "Vragenpool (Enquête)"
+
+msgid "obj_st"
+msgstr "Hoofdstuk"
+
+#, fuzzy
+msgid "obj_stus"
+msgstr "Shortlinks"
+
+#, fuzzy
+msgid "obj_stus_desc"
+msgstr "Global Shortlinks Settings"
+
+msgid "obj_sty"
+msgstr "Stijl"
+
+msgid "obj_stys"
+msgstr "Stijlen"
+
+msgid "obj_stys_desc"
+msgstr "Systeemstijl instellingen"
+
+msgid "obj_svy"
+msgstr "Enquête"
+
+msgid "obj_svy_duplicate"
+msgstr "Kopieer vragenlijst"
+
+msgid "obj_svyf"
+msgstr "Enquête"
+
+msgid "obj_svyf_desc"
+msgstr "Instellingen voor het enquêtetool."
+
+msgid "obj_sysc"
+msgstr "Systeemcontrole"
+
+msgid "obj_sysc_desc"
+msgstr "Systeemcontrole en Reparaties##24 10 2013 new variable"
+
+msgid "obj_tags"
+msgstr "Labels"
+
+msgid "obj_tags_desc"
+msgstr "Instellingen voor label feature."
+
+msgid "obj_tala"
+msgstr "Talk Templates"
+
+msgid "obj_tala_desc"
+msgstr "Talk Templates"
+
+msgid "obj_tals"
+msgstr "Employee Talk Series"
+
+msgid "obj_talt"
+msgstr "Talk Template"
+
+#, fuzzy
+msgid "obj_task"
+msgstr "Task"
+
+msgid "obj_tax"
+msgstr "Taxonomie"
+
+msgid "obj_taxf"
+msgstr "Taxonomies"
+
+msgid "obj_tool_setting_calendar"
+msgstr "Tonen agenda"
+
+#, fuzzy
+msgid "obj_tool_setting_calendar_active"
+msgstr "Calendar"
+
+#, fuzzy
+msgid "obj_tool_setting_calendar_active_info"
+msgstr "A calendar is available."
+
+msgid "obj_tool_setting_calendar_info"
+msgstr "Het agenda-blok al worden getoond binnen het \"inhoud\" tabblad."
+
+#, fuzzy
+msgid "obj_tool_setting_custom_metadata"
+msgstr "Custom Metadata"
+
+#, fuzzy
+msgid "obj_tool_setting_custom_metadata_info"
+msgstr "If activated metadata can be configured."
+
+msgid "obj_tool_setting_news"
+msgstr "Tonen nieuws"
+
+msgid "obj_tool_setting_news_info"
+msgstr "Het nieuws-blok zal worden getoond binnen het \"inhoud\" tabblad."
+
+msgid "obj_tos"
+msgstr "Gebruikersovereenkomst"
+
+msgid "obj_tos_desc"
+msgstr "Instellingen gebruikersovereenkomst"
+
+msgid "obj_trac"
+msgstr "Gebruiker traceren"
+
+msgid "obj_trac_desc"
+msgstr "Gebruiker-toegang tot voortgang gegevens"
+
+msgid "obj_tst"
+msgstr "Toets"
+
+msgid "obj_tst_duplicate"
+msgstr "Kopieer toets"
+
+msgid "obj_tstv"
+msgstr "Toetscertificaat"
+
+msgid "obj_type"
+msgstr "Type object"
+
+msgid "obj_user"
+msgstr "Gebruiker"
+
+msgid "obj_usr"
+msgstr "Gebruiker"
+
+msgid "obj_usrf"
+msgstr "Gebruikers"
+
+msgid "obj_usrf_desc"
+msgstr "Beheren gebruikersaccounts."
+
+#, fuzzy
+msgid "obj_wbdv"
+msgstr "WebDAV"
+
+#, fuzzy
+msgid "obj_wbdv_desc"
+msgstr "Configuration of WebDAV Settings."
+
+msgid "obj_wbrs"
+msgstr "Weblink"
+
+msgid "obj_wbrs_desc"
+msgstr "Algemene instellingen voor web-links"
+
+msgid "obj_webr"
+msgstr "Website"
+
+msgid "obj_webr_duplicate"
+msgstr "Website kopiëren"
+
+msgid "obj_wfld"
+msgstr "Folder"
+
+msgid "obj_wiki"
+msgstr "Wiki"
+
+msgid "obj_wiki_duplicate"
+msgstr "Copy Wiki"
+
+msgid "obj_wiks"
+msgstr "Wiki"
+
+msgid "obj_wiks_desc"
+msgstr "Globale Wiki Instellingen"
+
+msgid "object"
+msgstr "Object"
+
+msgid "object_added"
+msgstr "Object toegevoegd"
+
+msgid "object_copy_in_progress"
+msgstr "Gestart met kopiëren"
+
+msgid "object_duplicated"
+msgstr "Object gedupliceerd"
+
+msgid "object_id"
+msgstr "Object-Id"
+
+msgid "object_imported"
+msgstr "Object geïmporteerd"
+
+#, fuzzy
+msgid "object_list"
+msgstr "List of Objects"
+
+msgid "objects"
+msgstr "Objecten"
+
+msgid "objf"
+msgstr "Objectdefinities"
+
+msgid "objs_bibl"
+msgstr "Boekenlijsten"
+
+msgid "objs_blog"
+msgstr "Blogs"
+
+msgid "objs_book"
+msgstr "boekingscategorie"
+
+msgid "objs_cat"
+msgstr "Categorieën"
+
+msgid "objs_catr"
+msgstr "Category References"
+
+msgid "objs_chtr"
+msgstr "Chatrooms"
+
+#, fuzzy
+msgid "objs_cmix"
+msgstr "Objects xAPI/cmi5"
+
+#, fuzzy
+msgid "objs_copa"
+msgstr "Content Pages"
+
+msgid "objs_crs"
+msgstr "Cursussen"
+
+msgid "objs_crsr"
+msgstr "Course References"
+
+msgid "objs_dcl"
+msgstr "Gegevensverzamelingen"
+
+msgid "objs_etal"
+msgstr "Employee Talks"
+
+msgid "objs_exc"
+msgstr "Oefeningen"
+
+msgid "objs_file"
+msgstr "Bestanden"
+
+msgid "objs_fold"
+msgstr "Mappen"
+
+msgid "objs_frm"
+msgstr "Forums"
+
+msgid "objs_glo"
+msgstr "Verklarende woordenlijsten"
+
+msgid "objs_grp"
+msgstr "Groepen"
+
+#, fuzzy
+msgid "objs_grpr"
+msgstr "Group References"
+
+msgid "objs_htlm"
+msgstr "HTML Lesmodules"
+
+#, fuzzy
+msgid "objs_iass"
+msgstr "Individual Assessments"
+
+msgid "objs_itgr"
+msgstr "Item Groepen"
+
+msgid "objs_lm"
+msgstr "lesmodules"
+
+msgid "objs_lres"
+msgstr "Leermiddelen"
+
+#, fuzzy
+msgid "objs_lso"
+msgstr "Learning Sequences"
+
+#, fuzzy
+msgid "objs_lti"
+msgstr "LTI Consumers"
+
+msgid "objs_mail"
+msgstr "E-mail"
+
+msgid "objs_mcst"
+msgstr "MediaCasts"
+
+msgid "objs_mep"
+msgstr "mediapoolen"
+
+msgid "objs_orgu"
+msgstr "Organisatorische Eenheid"
+
+msgid "objs_poll"
+msgstr "Polls"
+
+#, fuzzy
+msgid "objs_prg"
+msgstr "Study Programmes"
+
+#, fuzzy
+msgid "objs_prgr"
+msgstr "Links to Study Programmes"
+
+#, fuzzy
+msgid "objs_prtf"
+msgstr "Portfolios"
+
+msgid "objs_prtt"
+msgstr "Portfolio Sjablonen"
+
+msgid "objs_qpl"
+msgstr "vragenpools (toets)"
+
+msgid "objs_qst"
+msgstr "Vragen"
+
+msgid "objs_rcat"
+msgstr "ECS Categories"
+
+msgid "objs_rcrs"
+msgstr "Course-Links"
+
+msgid "objs_rfil"
+msgstr "ECS Files"
+
+msgid "objs_rglo"
+msgstr "ECS Glossaries"
+
+msgid "objs_rgrp"
+msgstr "ECS Groepen"
+
+msgid "objs_rlm"
+msgstr "ECS Learning Modules"
+
+msgid "objs_role"
+msgstr "Rollen"
+
+#, fuzzy
+msgid "objs_rolf"
+msgstr "Role Folders"
+
+msgid "objs_rtst"
+msgstr "ECS Toetsen"
+
+msgid "objs_rwik"
+msgstr "ECS Wikis"
+
+msgid "objs_sahs"
+msgstr "SCORM/AICC lesmodules"
+
+msgid "objs_sess"
+msgstr "Sessies"
+
+#, fuzzy
+msgid "objs_skee"
+msgstr "Competence Trees"
+
+msgid "objs_spl"
+msgstr "vragenpoolen (Enquête)"
+
+msgid "objs_st"
+msgstr "Hoofdstukken"
+
+msgid "objs_svy"
+msgstr "Enquêtes"
+
+msgid "objs_tala"
+msgstr "Talk Templates"
+
+msgid "objs_talt"
+msgstr "Talk Templates"
+
+msgid "objs_tst"
+msgstr "Toetsen"
+
+msgid "objs_webr"
+msgstr "Websites"
+
+msgid "objs_wiki"
+msgstr "Wiki's"
+
+msgid "of"
+msgstr "Van"
+
+msgid "offline"
+msgstr "offline"
+
+msgid "offline_mode"
+msgstr "Offline-Mode"
+
+msgid "ok"
+msgstr "OK"
+
+msgid "old"
+msgstr "Oud"
+
+msgid "omit"
+msgstr "Weglaten"
+
+msgid "omit_all"
+msgstr "Laat alles weg"
+
+msgid "on_waiting_list"
+msgstr "You are on the waiting list"
+
+msgid "online"
+msgstr "Online"
+
+msgid "online_time"
+msgstr "Tijd online (DD:UU:MM:SS)"
+
+#, fuzzy
+msgid "only_active"
+msgstr "Only Active"
+
+#, fuzzy
+msgid "only_inactive"
+msgstr "Only Inactive"
+
+#, fuzzy
+msgid "open"
+msgstr "Open"
+
+msgid "operation"
+msgstr "Operatie"
+
+msgid "optimize"
+msgstr "Optimaliseren"
+
+msgid "option"
+msgstr "Optie"
+
+msgid "optional_filter_hint"
+msgstr "Inschakelen een van de optionele filters."
+
+msgid "optional_filters"
+msgstr "Optionele Filters"
+
+msgid "options"
+msgstr "Opties"
+
+msgid "order_by"
+msgstr "In volgorde van"
+
+msgid "order_by_date"
+msgstr "Sorteer op datum"
+
+#, fuzzy
+msgid "org_op_access_enrolments"
+msgstr "View Enrolment-Status"
+
+#, fuzzy
+msgid "org_op_manage_members"
+msgstr "Manage Subordinate Members"
+
+#, fuzzy
+msgid "org_op_read_learning_progress"
+msgstr "View Learning Progress of Subordinate Users"
+
+#, fuzzy
+msgid "org_permission_settings"
+msgstr "Permissions of Positions in Organisational Units"
+
+#, fuzzy
+msgid "org_units"
+msgstr "Organisational Units"
+
+msgid "organization"
+msgstr "Provider"
+
+msgid "other"
+msgstr "Andere"
+
+msgid "overview"
+msgstr "Overzicht"
+
+msgid "overwrite"
+msgstr "Overschrijven"
+
+msgid "owner"
+msgstr "Eigenaar"
+
+msgid "owner_updated"
+msgstr "Eigenaar geupdate"
+
+msgid "page"
+msgstr "Bladzijde"
+
+#, fuzzy
+msgid "page_count"
+msgstr "Page Count"
+
+msgid "page_layout"
+msgstr "Page Layout"
+
+msgid "page_layouts"
+msgstr "Pagina layouts"
+
+#, fuzzy
+msgid "pagination_label_x_of_y"
+msgstr "Page %1$d of %2$d"
+
+msgid "parameter"
+msgstr "Parameter"
+
+msgid "parse"
+msgstr "Parsen"
+
+#, fuzzy
+msgid "participate"
+msgstr "Subscribe"
+
+msgid "passed"
+msgstr "Beëindigd"
+
+msgid "passwd"
+msgstr "Wachtwoord"
+
+msgid "passwd_generation"
+msgstr "Wachtwoord genereren"
+
+msgid "passwd_invalid"
+msgstr "Het nieuwe wachtwoord is ongeldig. Alleen de volgende karakters zijn toegestaan(minimaal 6 karakters): A-Z a-z 0-9 _.-+*@!$%~"
+
+msgid "passwd_not_match"
+msgstr "Je ingaven voor het nieuwe wachtwoord komen niet overeen! Geef je nieuwe wachtwoord opnieuw opnieuw in te geven."
+
+msgid "passwd_wrong"
+msgstr "Het opgegeven wachtwoord is fout!"
+
+msgid "password"
+msgstr "Wachtwoord"
+
+msgid "password_allow_chars"
+msgstr "Toegestane karakters: %s"
+
+msgid "password_assistance_info"
+msgstr "Indien wachtwoord ondersteuning ingeschakeld is, zal een link met de tekst 'Wachtwoord vergeten'  zichtbaar zijn op de loginpagina van ILIAS. Gebruiker kunnen deze link gebruiken om een nieuw wachtwoord in te stellen zonder de hulp van een beheerder."
+
+msgid "password_change_on_first_login_demand"
+msgstr "Je initiële wachtwoord moet worden veranderd voor dat je ILIAS diensten kunt gaan gebruiken"
+
+msgid "password_contains_invalid_chars"
+msgstr "Het wachtwoord bevat ongeldige karakters"
+
+msgid "password_contains_parts_of_login_err"
+msgstr "Je gekozen wachtwoord bevat je gebruikersnaam. Dit is niet toegestaan; geef een ander wachtwoord."
+
+msgid "password_empty"
+msgstr "Het wachtwoord mag niet leeg zijn"
+
+msgid "password_expired"
+msgstr "Your password is expired and have to be changed, because the last change was %s day(s) ago."
+
+msgid "password_multiple_errors"
+msgstr "Multiple criterias are not satisfied:"
+
+msgid "password_must_chars_and_numbers"
+msgstr "Het wachtwoord moet karakters en cijfers bevatten."
+
+msgid "password_must_contain_lcase_chars"
+msgstr "Het wachtwoord moet tenminste %s kleine letters bevatten."
+
+msgid "password_must_contain_ucase_chars"
+msgstr "Het wachtwoord moet tenminste %s hoofdletters bevatten."
+
+msgid "password_must_special_chars"
+msgstr "Het wachtwoord moet speciale karakters bevattwen"
+
+msgid "password_to_long"
+msgstr "Het wachtwoord moet minstens een lengte hebben van %s karakters"
+
+msgid "password_to_short"
+msgstr "Het wachtwoord moet minstens een lengte hebben van %s karakters"
+
+msgid "paste"
+msgstr "Plakken"
+
+msgid "pasteChapter"
+msgstr "Plakken"
+
+msgid "pastePage"
+msgstr "Plakken"
+
+msgid "paste_clipboard_items"
+msgstr "Plak items van klembord"
+
+msgid "path"
+msgstr "Pad"
+
+msgid "path_not_set"
+msgstr "Pad niet ingesteld"
+
+msgid "path_to_convert"
+msgstr "Pad naar Converteer"
+
+msgid "path_to_htmldoc"
+msgstr "Pad naar HTMLdoc"
+
+msgid "path_to_java"
+msgstr "Pad naar Java"
+
+msgid "path_to_unzip"
+msgstr "Pad naar Unzip"
+
+msgid "path_to_zip"
+msgstr "Pad naar Zip"
+
+msgid "pathes"
+msgstr "Paden"
+
+msgid "pd_items_news"
+msgstr "Voeg nieuws toe van persoonlijke items"
+
+msgid "pdf_export"
+msgstr "PDF Export"
+
+msgid "perm_settings"
+msgstr "Rechten"
+
+msgid "perma_link"
+msgstr "Permanente link"
+
+#, fuzzy
+msgid "perma_link_copied"
+msgstr "Link to this page has been copied to the clipboard."
+
+msgid "permission"
+msgstr "Recht"
+
+msgid "permission_denied"
+msgstr "Toegang geweigerd"
+
+msgid "permission_settings"
+msgstr "Instellingen van de rechten van het object"
+
+msgid "person_title"
+msgstr "Titel"
+
+msgid "personal_data"
+msgstr "Persoonlijke informatie"
+
+msgid "personal_picture"
+msgstr "Afbeelding"
+
+msgid "personal_profile"
+msgstr "Persoonlijk profiel"
+
+#, fuzzy
+msgid "personal_resources"
+msgstr "Personal Resources"
+
+msgid "personal_settings"
+msgstr "Instellingen"
+
+#, fuzzy
+msgid "personalise_date_time"
+msgstr "Personalise Date and Time Settings"
+
+msgid "persons"
+msgstr "Personen"
+
+msgid "pg_add"
+msgstr "Toevoegen van een pagina"
+
+msgid "pg_new"
+msgstr "Nieuwe pagina"
+
+msgid "phone"
+msgstr "Telefoon"
+
+msgid "phone_home"
+msgstr "Privé telefoon"
+
+msgid "phone_mobile"
+msgstr "Mobiele telefoon"
+
+msgid "phone_office"
+msgstr "Telefoon werk"
+
+msgid "phrase"
+msgstr "Vraag"
+
+msgid "please_choose"
+msgstr "-- Kies --"
+
+msgid "please_enter_target"
+msgstr "Voer een doel in"
+
+msgid "please_enter_title"
+msgstr "Voer een titel in"
+
+msgid "please_select"
+msgstr "-- Maak een keuze --"
+
+msgid "please_select_a_delivered_file_to_delete"
+msgstr "Je moet tenminste 1 afgeleverd bestand selecteren om te verwijderen"
+
+msgid "please_select_a_delivered_file_to_download"
+msgstr "Je moet tenminste 1 afgeleverd bestand selecteren om te downloaden"
+
+msgid "please_wait"
+msgstr "Geduld a.u.b..."
+
+msgid "port"
+msgstr "Poort"
+
+msgid "portfolio"
+msgstr "Portfolio"
+
+msgid "pos_bottom"
+msgstr "Bottom"
+
+msgid "pos_left"
+msgstr "Left"
+
+msgid "pos_right"
+msgstr "Right"
+
+msgid "pos_top"
+msgstr "Top"
+
+msgid "position"
+msgstr "Positie"
+
+#, fuzzy
+msgid "position_permission_settings"
+msgstr "Orgunit-Specific Permissions"
+
+msgid "precondition"
+msgstr "Voorwaarde"
+
+msgid "precondition_not_accessible"
+msgstr "Je hebt niet voldoende rechten om de randvoorwaarden van dit object te bekijken"
+
+msgid "precondition_required_itemlist"
+msgstr "Vereiste voorwaarde"
+
+msgid "precondition_toggle"
+msgstr "Voorwaarden waaraan voldaan moet worden om toegang te krijgen tot dit object"
+
+msgid "preconditions"
+msgstr "Randvoorwaarden"
+
+msgid "preconditions_obligatory_hint"
+msgstr "Je moet voldoen aan alle volgende voorwaarden."
+
+msgid "preconditions_optional_hint"
+msgstr "Je moet nog voldoen aan  <b>%s</b> van de volgende voorwaarden."
+
+msgid "predefined_template"
+msgstr "Vooraf ingestelde sjabloon rol"
+
+msgid "preferences"
+msgstr "Gebruiker's voorkeuren"
+
+#, fuzzy
+msgid "presentation_table_more"
+msgstr "more"
+
+#, fuzzy
+msgid "presenter"
+msgstr "Presenter"
+
+msgid "preview"
+msgstr "voorbeeldweergave"
+
+msgid "preview_create"
+msgstr "Aanmaken voorbeeldweergave"
+
+msgid "preview_delete"
+msgstr "Verwijderen voorbeeldweergave"
+
+#, fuzzy
+msgid "preview_image_size"
+msgstr "Size of Preview Images"
+
+msgid "preview_learner_info"
+msgstr "Indien ingeschakeld, hebben groep- en cursusbeheerders de mogelijkheid om inhoud te zien vanuit het perspectief van de deelnemer,"
+
+msgid "preview_loading"
+msgstr "Laden voorbeeldweergave..."
+
+msgid "preview_none"
+msgstr "Voorbeeldweergave (nog niet aangemaakt)"
+
+#, fuzzy
+msgid "preview_not_possible"
+msgstr "Creation of Previews is currently not possible, please read the documentation in %s."
+
+#, fuzzy
+msgid "preview_renderers"
+msgstr "Preview Renderers"
+
+msgid "preview_settings"
+msgstr "Bestand voorbeeldweergave"
+
+msgid "preview_show"
+msgstr "Toon voorbeeldweergave"
+
+msgid "preview_status_creating"
+msgstr "Voorbeeldweergave wordt aangemaakt. Dit kan even duren..."
+
+msgid "preview_status_deleting"
+msgstr "Voorbeeldweergave wordt verwijderd..."
+
+msgid "preview_status_failed"
+msgstr "Aanmaken van voorbeeldweergave is mislukt."
+
+msgid "preview_status_missing"
+msgstr "Er bestaat geen voorbeeldweergave voor dit bestand."
+
+msgid "preview_status_pending"
+msgstr "Voorbeeldweergave is not niet aangemaakt. Probeer later nog eens."
+
+msgid "previous"
+msgstr "Vorige"
+
+#, fuzzy
+msgid "prg_copy_threads_info"
+msgstr "Please decide which Study Program elements should be copied, linked or even omitted."
+
+#, fuzzy
+msgid "prg_wizard_page"
+msgstr "Copy Study Program (Step 2/2)"
+
+#, fuzzy
+msgid "prgr_add"
+msgstr "Add Study Programme Link"
+
+#, fuzzy
+msgid "prgr_edit_info"
+msgstr "Please choose one Study Programme for creating a new link."
+
+#, fuzzy
+msgid "prgr_new"
+msgstr "Create Study Programme Link"
+
+#, fuzzy
+msgid "prgr_settings"
+msgstr "Settings of Study Programme Link"
+
+msgid "print"
+msgstr "Afdrukken"
+
+msgid "print_view"
+msgstr "Afdrukvoorbeeld"
+
+msgid "private_notes"
+msgstr "Privé notities"
+
+msgid "pro"
+msgstr "Vóór"
+
+msgid "proceed"
+msgstr "Voortzetten"
+
+msgid "profile"
+msgstr "Profiel"
+
+msgid "profile_changed"
+msgstr "Je profiel is gewijzigd"
+
+msgid "profile_incomplete"
+msgstr "Je profiel is niet compleet. Gelieve alle verplichte velden in te vullen."
+
+msgid "profile_of"
+msgstr "Profiel van"
+
+msgid "properties"
+msgstr "Eigenschappen"
+
+msgid "proxy"
+msgstr "Proxy"
+
+msgid "proxy_connectable"
+msgstr "Connection established."
+
+msgid "proxy_host"
+msgstr "Host"
+
+msgid "proxy_host_info"
+msgstr "Please enter a host."
+
+msgid "proxy_not_connectable"
+msgstr "ILIAS could not build a connection to the defined proxy."
+
+msgid "proxy_port"
+msgstr "Port"
+
+msgid "proxy_port_info"
+msgstr "Please enter a port between 0 and 65535, e.g.8080."
+
+msgid "proxy_port_numeric"
+msgstr "The entered port has to be a numeric value between 0 and 65535"
+
+#, fuzzy
+msgid "proxy_socket_error"
+msgstr "Socket Error: %s"
+
+msgid "proxy_status"
+msgstr "Proxy"
+
+msgid "proxy_status_info"
+msgstr "To use a proxy in ILIAS (e.g. for web feeds or to check weblinks) please activate the checkbox above."
+
+msgid "ps_export_scorm"
+msgstr "SCORM Tracking Gegevens"
+
+msgid "ps_password_lowercase_chars_num"
+msgstr "Kleine letters"
+
+msgid "ps_password_lowercase_chars_num_info"
+msgstr "Het aantal kleine letters dat een wachtwoord moet bevatten. Invoeren van 0 zal deze eis uitschakelen."
+
+msgid "ps_password_must_not_contain_loginame"
+msgstr "Gebruikersnaam mag niet voorkomen in wachtwoord"
+
+msgid "ps_password_must_not_contain_loginame_info"
+msgstr "Als ingeschakeld mag een wachtwoord niet de gebruikersnaam bevatten."
+
+msgid "ps_password_uppercase_chars_num"
+msgstr "Hoofdletters"
+
+msgid "ps_password_uppercase_chars_num_info"
+msgstr "Het aantal hoofdletters dat een wachtwoord moet bevatten. Invoeren van 0 zal deze eis uitschakelen."
+
+msgid "pub_section"
+msgstr "Publieke sectie"
+
+msgid "pub_section_info"
+msgstr "Indien ingeschakeld, kunnen bepaalde delen van het systeem (bv Studiecentrum, gebruikersprofielen) openbaar worden gemaakt zonder authenticatie. De permissies van de rol \"Anoniem\" worden gebruikt om toegang tot deze onderdelen te definiëren."
+
+msgid "public"
+msgstr "publiek"
+
+msgid "public_notes"
+msgstr "Publieke notities"
+
+msgid "public_profile"
+msgstr "Publiek Profiel"
+
+msgid "public_room"
+msgstr "Publieke Room"
+
+msgid "purpose"
+msgstr "Voorstel"
+
+msgid "qpl"
+msgstr "vragenpool (Toets)"
+
+msgid "qpl_add"
+msgstr "Toevoegen vragenpool"
+
+msgid "qpl_new"
+msgstr "Nieuw vragenpool"
+
+msgid "query_data"
+msgstr "Gegevens opvragen"
+
+msgid "question"
+msgstr "Vraag"
+
+msgid "question_message"
+msgstr "Vraag"
+
+msgid "quit"
+msgstr "Afmelden"
+
+msgid "quote"
+msgstr "Citeren"
+
+msgid "read"
+msgstr "Lezen"
+
+msgid "readcount_anonymous_users"
+msgstr "Aantal anonieme leestoegangen"
+
+msgid "readcount_users"
+msgstr "Aantal niet-anonieme leestoegangen"
+
+msgid "recipient"
+msgstr "Ontvanger"
+
+msgid "reference_deleted"
+msgstr "Destination not available"
+
+msgid "reference_of"
+msgstr "Reference of:"
+
+msgid "referral_comment"
+msgstr "Hoe leerde je ons kennen?"
+
+msgid "refresh"
+msgstr "Verversen"
+
+msgid "refresh_languages"
+msgstr "Talen verversen"
+
+msgid "refuse"
+msgstr "Weiger"
+
+msgid "reg_account_confirmation_successful"
+msgstr "Je gebruikersaccount is actief."
+
+#, fuzzy
+msgid "reg_delete_expired_pending_registrations"
+msgstr "Delete Expired Pending Registrations"
+
+#, fuzzy
+msgid "reg_delete_expired_pending_registrations_desc"
+msgstr "Deletes all ILIAS accounts that have not been confirmed after a registration with e-mail confirmation."
+
+msgid "reg_goto_parent_membership_info"
+msgstr "Alleen deelnemers kunnen het doelobject benaderen"
+
+msgid "reg_mail_body_2_confirmation"
+msgstr "Deze link is geldig gedurende %s, hierna zul je je aanvraag opnieuw moeten starten."
+
+msgid "reg_mail_body_3_confirmation"
+msgstr "Als deze mail je niets zegt dan kan het zijn dat iemand anders per ongeluk of expres jouw email adres gebruikt heeft. In dat geval hoef je niets te doen, je email adres wordt automatisch uit ons systeem verwijderd."
+
+msgid "reg_mail_body_forgot_password_info"
+msgstr "Om je wachtwoord op te vragen, gebruik je de functie wachtwoord vergeten\" op het login scherm om een nieuw wachtwoord aan te vragen."
+
+msgid "reg_mail_body_salutation"
+msgstr "Hallo"
+
+msgid "reg_mail_body_text1"
+msgstr "Welkom bij ILIAS!"
+
+msgid "reg_mail_body_text2"
+msgstr "Om ILIAS te bereiken gebruik je volgende gegevens:<br />"
+
+msgid "reg_mail_body_text3"
+msgstr "Persoonlijke informatie:"
+
+msgid "reg_mail_subject"
+msgstr "Je toegangsgegevens"
+
+msgid "reg_mail_subject_confirmation"
+msgstr "Je bevestigingslink"
+
+msgid "reg_passwd_via_mail"
+msgstr "Je wachtwoord zal worden verzonden naar je e-mailadres."
+
+msgid "register"
+msgstr "Registreer"
+
+#, fuzzy
+msgid "register_notification"
+msgstr "\"%s\" has applied for session \"%s\"."
+
+msgid "registered_since"
+msgstr "Geregistreerd sinds"
+
+msgid "registered_user"
+msgstr "geregistreerde gebruiker"
+
+msgid "registered_users"
+msgstr "geregistreerde gebruikers"
+
+msgid "registration"
+msgstr "Nieuw account"
+
+msgid "related_to"
+msgstr "Verbonden met"
+
+msgid "remove"
+msgstr "Verwijderen"
+
+msgid "remove_entries"
+msgstr "Verwijder bezoeken aan objecten"
+
+msgid "remove_translation"
+msgstr "Verwijder vertaling"
+
+msgid "rename"
+msgstr "Geef een nieuwe naam"
+
+msgid "rename_file"
+msgstr "Geef bestand een nieuwe naam"
+
+msgid "renderer_supported_file_types"
+msgstr "Ondersteunde bestandstypes"
+
+msgid "renderer_supported_repo_types"
+msgstr "Ondersteunde ILIAS Objecten"
+
+msgid "renderer_type_builtin"
+msgstr "Ingebouwd"
+
+msgid "rep_main_page"
+msgstr "Home"
+
+#, fuzzy
+msgid "rep_main_page_logo_alt"
+msgstr "Logo ILIAS - to the start page"
+
+msgid "repeat_scan"
+msgstr "Herhaling virusscan..."
+
+msgid "repeat_scan_failed"
+msgstr "Herhaling virusscan mislukt."
+
+msgid "repeat_scan_succeded"
+msgstr "Herhaling virusscan gelukt."
+
+msgid "replace_file"
+msgstr "Verplaats bestand"
+
+msgid "reply"
+msgstr "Beantwoorden"
+
+#, fuzzy
+msgid "report_accessibility_issue"
+msgstr "Report Accessibility Issue"
+
+#, fuzzy
+msgid "report_accessibility_link"
+msgstr "Reported Link:"
+
+#, fuzzy
+msgid "report_accessibility_link_mailto"
+msgstr "Reported%20Link:"
+
+msgid "repository"
+msgstr "Studiecentrum"
+
+msgid "repository_admin"
+msgstr "Studiecentrum, prullenbak en rechten"
+
+msgid "repository_admin_desc"
+msgstr "Stel rechten voor Studiecentrum item, herstel en verwijder object van het systeem in."
+
+msgid "require_email"
+msgstr "Vereiste e-mail"
+
+msgid "require_gender"
+msgstr "Geslacht vereist"
+
+msgid "require_hobby"
+msgstr "Vereiste hobby"
+
+msgid "require_matriculation"
+msgstr "Inschrijvingsnummer verplicht"
+
+msgid "require_referral_comment"
+msgstr "Verwijzingscommentaar vereist"
+
+msgid "required_field"
+msgstr "Vereist"
+
+msgid "res_links"
+msgstr "Studiecentrum koppelingen"
+
+msgid "res_links_short"
+msgstr "Links"
+
+msgid "reset"
+msgstr "Herstellen"
+
+msgid "reset_filter"
+msgstr "Herstellen filter"
+
+msgid "resources"
+msgstr "Bronnen"
+
+msgid "right"
+msgstr "Recht"
+
+msgid "rights"
+msgstr "Rechten"
+
+msgid "role"
+msgstr "Rol"
+
+msgid "role_add_user"
+msgstr "Voeg gebruiker(s) toe aan rol"
+
+msgid "role_added"
+msgstr "Rol toegevoegd"
+
+msgid "role_assignment"
+msgstr "Rol-toewijzing"
+
+msgid "role_assignment_updated"
+msgstr "Rol-toewijzing is bijgewerkt.d"
+
+msgid "role_edit"
+msgstr "Wijzigen rol"
+
+msgid "role_mailto"
+msgstr "E-mail naar alle toegewezen gebruikers"
+
+msgid "role_new"
+msgstr "Nieuwe rol"
+
+msgid "role_new_search"
+msgstr "Nieuwe zoekopdracht"
+
+msgid "role_no_roles_selected"
+msgstr "Selecteer een rol"
+
+msgid "role_protect_permissions"
+msgstr "Beschermen rechten"
+
+msgid "role_protect_permissions_desc"
+msgstr "De objecttoestemmingen kunnen door systeemverrichtingen niet meer worden veranderd. Verder kan slechts de beheerder van hogere niveaus de toestemmingen veranderen."
+
+msgid "role_select_one_item"
+msgstr "Gelieve een object te selecteren"
+
+msgid "role_sure_delete_desk_items"
+msgstr "Ben je zeker dat je de volgende toewijzingen wilt verwijderen"
+
+msgid "role_templates_only"
+msgstr "Alleen rol-sjablonen"
+
+msgid "roles"
+msgstr "Rollen"
+
+msgid "roles_of_import_global"
+msgstr "Globale rollen van import-bestand"
+
+msgid "roles_of_import_local"
+msgstr "Lokale rollen van import-bestanden"
+
+msgid "rolf"
+msgstr "Rollen"
+
+msgid "rolf_added"
+msgstr "Rolmap toegevoegd"
+
+msgid "rolf_create_role"
+msgstr "Aanmaken van een nieuwe roldefinitie"
+
+msgid "rolf_create_rolt"
+msgstr "Aanmaken van een nieuwe roldefinitie-sjabloon"
+
+msgid "rolf_delete"
+msgstr "Verwijderen rol-sjabloon/sjablonen"
+
+msgid "rolf_edit_permission"
+msgstr "Wijzig instellingen van de rechten"
+
+msgid "rolf_edit_userassignment"
+msgstr "Wijzig gebruikerstoewijzing aan rollen"
+
+msgid "rolf_read"
+msgstr "Leesrechten op rol-sjabloon/sjablonen"
+
+msgid "rolf_visible"
+msgstr "Rol-sjabloon/sjablonen zijn zichtbaar"
+
+msgid "rolf_write"
+msgstr "Wijzigen standaard rechteninstellingen rol-sjabloon/sjablonen"
+
+msgid "rolt"
+msgstr "Rol-sjabloon"
+
+msgid "rolt_added"
+msgstr "Rol-sjabloon toegevoegd"
+
+msgid "rolt_edit"
+msgstr "Wijzigen rol-sjabloon"
+
+msgid "rolt_new"
+msgstr "Nieuwe rol-sjabloon"
+
+msgid "row"
+msgstr "Rij"
+
+msgid "rows"
+msgstr "Rijen"
+
+msgid "rpc_pdf_font"
+msgstr "Lettertypes"
+
+msgid "rpc_pdf_font_info"
+msgstr "Extra lettertypes voor het aanmaken van PDF bestanden. Andere lettertypes dan Helvetica en Unifont moeten op de ILIAS server worden geïnstalleerd."
+
+msgid "rpc_pdf_generation"
+msgstr "PDF-Generatie"
+
+#, fuzzy
+msgid "sad"
+msgstr "Sad"
+
+msgid "sahs"
+msgstr "SCORM/AICC lesmodule"
+
+msgid "sahs_added"
+msgstr "SCORM/AICC lesmodule toegevoegd"
+
+#, fuzzy
+msgid "sahs_export_file"
+msgstr "ILIAS exported SCORM archive file"
+
+#, fuzzy
+msgid "sahs_export_file_info"
+msgstr "Use this option for a ZIP file that was exported directly from ILIAS. The file typically has titles such as 1675257903__4105__sahs_132295.zip."
+
+msgid "sahs_insert_chap_from_clip"
+msgstr "Paste Chapters from Clipboard"
+
+msgid "sahs_insert_page_from_clip"
+msgstr "Paste Pages from Clipboard"
+
+msgid "sahs_insert_sco_from_clip"
+msgstr "Paste SCOs from Clipboard"
+
+#, fuzzy
+msgid "sahs_new"
+msgstr "Create New Learning Module"
+
+msgid "salutation"
+msgstr "Aanhef"
+
+msgid "salutation_f"
+msgstr "Jfr./Mevr."
+
+msgid "salutation_m"
+msgstr "Mr."
+
+#, fuzzy
+msgid "salutation_n"
+msgstr "No salutation desired"
+
+#, fuzzy
+msgid "saml_log_in"
+msgstr "Direct login"
+
+#, fuzzy
+msgid "saml_login_form_info_txt"
+msgstr "You can log in using the “Direct Login” button without having to enter your username or password."
+
+#, fuzzy
+msgid "saml_login_form_txt"
+msgstr "Login to ILIAS via SAML"
+
+msgid "save"
+msgstr "Opslaan"
+
+msgid "save_and_back"
+msgstr "Opslaan en terug"
+
+msgid "save_message"
+msgstr "Sla bericht op"
+
+msgid "save_params_for_cron"
+msgstr "Save Parameter for Cronjob"
+
+msgid "save_refresh"
+msgstr "Opslaan en vernieuwen"
+
+msgid "save_return"
+msgstr "Opslaan en terugkeren"
+
+msgid "save_settings"
+msgstr "Opslaan instellingen"
+
+msgid "save_user_related_data"
+msgstr "Sla toegangsgegevens van de gebruiker op"
+
+msgid "saved_successfully"
+msgstr "Succesvol opgeslagen"
+
+msgid "saving"
+msgstr "Aan het opslaan..."
+
+#, fuzzy
+msgid "scope"
+msgstr "Scope"
+
+msgid "scorm_create_export_file_html"
+msgstr "Aanmaken Exportbestand (HTML)"
+
+msgid "scorm_create_export_file_pdf"
+msgstr "Create Export File (PDF)"
+
+msgid "scorm_create_export_file_scrom12"
+msgstr "Aanmaken Exportbestand (SCORM 1.2)"
+
+msgid "scorm_create_export_file_scrom2004"
+msgstr "Aanmaken Exportbestand (SCORM 2004)"
+
+msgid "scorm_create_export_file_scrom2004_4th"
+msgstr "Aanmaken Exportbestand (SCORM 2004 4th Edition)"
+
+msgid "scorm_login_as_learner_id"
+msgstr "SCORM 2004: stel ILIAS gebruikersnaam in als cmi.learner_id"
+
+msgid "scorm_login_as_learner_id_info"
+msgstr "Als ingeschakeld zal de gebruikersnaam worden gebruikt voor cmi.learner_id en niet de User ID."
+
+#, fuzzy
+msgid "scorm_lp_auto_activate"
+msgstr "default settings for learning progress"
+
+#, fuzzy
+msgid "scorm_lp_auto_activate_info"
+msgstr "If learning progress is activated in general, the settings for new SCORM learning modules are set to ‘Collection of SCORM Items’ and all SCOs are selected for learning progress determination. Adjustments are still possible for every SCORM learning module."
+
+msgid "scorm_new"
+msgstr "New SCORM/AICC Learning Module"
+
+msgid "scorm_without_session"
+msgstr "SCORM 2004: opslag toestaan zonder sessie"
+
+msgid "scorm_without_session_info"
+msgstr "Dit voorziet erin dat gegevens worden opgeslagen, zelfs als de ILIAS sessie is verlopen"
+
+msgid "search"
+msgstr "Zoeken"
+
+msgid "search_active"
+msgstr "Voeg actieve gebruikers in"
+
+msgid "search_at_current_position"
+msgstr "At Current Position"
+
+msgid "search_engine"
+msgstr "Zoekmachines"
+
+msgid "search_for"
+msgstr "Zoeken naar"
+
+msgid "search_globally"
+msgstr "Globaal"
+
+msgid "search_in"
+msgstr "Zoeken in"
+
+msgid "search_inactive"
+msgstr "Inclusief inactieve gebruikers"
+
+msgid "search_new"
+msgstr "Nieuwe zoekopdracht"
+
+msgid "search_result"
+msgstr "Zoek resultaatd"
+
+msgid "search_results"
+msgstr "Zoekresultaten"
+
+msgid "search_user"
+msgstr "Zoek gebruiker"
+
+#, fuzzy
+msgid "search_users"
+msgstr "Look Up Users"
+
+msgid "seas_max_hits"
+msgstr "Max hits"
+
+msgid "seas_max_hits_info"
+msgstr "Gelieve een nummer in te voeren voor het maximum aantal gevonden resultaten."
+
+msgid "seas_settings"
+msgstr "Zoekinstellingen"
+
+msgid "second"
+msgstr "Seconde"
+
+#, fuzzy
+msgid "second_email"
+msgstr "Second Email"
+
+msgid "seconds"
+msgstr "Seconden"
+
+msgid "sel_country"
+msgstr "Selecteren land"
+
+msgid "select"
+msgstr "Selecteren"
+
+msgid "select_all"
+msgstr "Alles selecteren"
+
+msgid "select_at_least_one_object"
+msgstr "Kies minstens één object"
+
+msgid "select_file"
+msgstr "Selecteer bestand"
+
+#, fuzzy
+msgid "select_file_from_computer"
+msgstr "Select File"
+
+msgid "select_files_from_computer"
+msgstr "Selecteer de bestanden van je computer"
+
+msgid "select_max_one_item"
+msgstr "Gelieve enkel 1 item te selecteren"
+
+msgid "select_object_to_link"
+msgstr "Selecteer het object dat je wilt linken"
+
+msgid "select_one"
+msgstr "Gelieve één te selecteren"
+
+#, fuzzy
+msgid "select_question_pool_info"
+msgstr "As long as the import file contains questions, these questions will be imported to the selected questionpool as well."
+
+msgid "select_questionpool"
+msgstr "vragenpool voor toets"
+
+msgid "selected"
+msgstr "Geselecteerd"
+
+msgid "selected_files"
+msgstr "Geselecteerde bestanden"
+
+msgid "selected_items"
+msgstr "Persoonlijke onderdelen"
+
+msgid "selected_items_back"
+msgstr "Terug naar Persoonlijke Items"
+
+msgid "selected_languages_updated"
+msgstr "The selected languages have been updated (if installed):"
+
+msgid "send"
+msgstr "Verzenden"
+
+msgid "send_mail"
+msgstr "Verzend e-mail"
+
+msgid "sender"
+msgstr "Afzender"
+
+msgid "sent"
+msgstr "Verzonden"
+
+msgid "sequence"
+msgstr "Volgorde"
+
+msgid "sequences"
+msgstr "Sequences"
+
+msgid "server"
+msgstr "Server"
+
+msgid "server_data"
+msgstr "Servergegevens"
+
+msgid "server_disabled"
+msgstr "The Chat is Disabled"
+
+msgid "server_software"
+msgstr "Serversoftwared"
+
+msgid "sess"
+msgstr "Sessie"
+
+msgid "sess_fixed_duration"
+msgstr "Leg duur van een sessie vast"
+
+msgid "session_config"
+msgstr "Sessie Settings"
+
+msgid "session_config_maintenance_disabled"
+msgstr "Maintenance by client not allowed"
+
+#, fuzzy
+msgid "session_mail_subject_deletion"
+msgstr "Deregistration of user \"%s\" from session \"%s\""
+
+#, fuzzy
+msgid "session_mail_subject_entered"
+msgstr "Joining of user \"%s\" in session \"%s\""
+
+#, fuzzy
+msgid "session_mail_subject_registered"
+msgstr "Registration of user \"%s\" for session \"%s\""
+
+msgid "session_reminder"
+msgstr "Sessie herinnering"
+
+msgid "session_reminder_alert"
+msgstr "Je sessie loopt af in %1$s at %2$s!\\n\\nSelecteer OK om de sessie te behouden.\\nAls je op Cancel klikt zul je geen waarschuwingen meer ontvangen."
+
+#, fuzzy
+msgid "session_reminder_default_lead_time_info"
+msgstr "Please specify how many minutes before the expiration of a session a reminder should be shown.<br / >The function is deactivated when the value is '%s'. The recommended value is %s.<br / >The current length of a session is %s."
+
+#, fuzzy
+msgid "session_reminder_input"
+msgstr "Session Reminder (in Minutes)"
+
+msgid "session_reminder_lead_time"
+msgstr "Leadtime"
+
+msgid "session_reminder_lead_time_info"
+msgstr "Specificeer het aantal minuten voor het einde van de sessie dat je de sessie herinnering wilt tonen. Aanbevolen tijd is 5 minuten. De huidige instelling voor een sessie is"
+
+msgid "session_reminder_session_duration"
+msgstr "(Tijdsduur sessie: %s)."
+
+msgid "set"
+msgstr "Instellen"
+
+msgid "setSystemLanguage"
+msgstr "Systeemtaal instellen"
+
+msgid "setUserLanguage"
+msgstr "Gebruikerstaal instellen"
+
+msgid "set_offline"
+msgstr "Ga offline"
+
+msgid "set_online"
+msgstr "Ga online"
+
+#, fuzzy
+msgid "set_skin_does_not_exist"
+msgstr "Your selected skin does not exist anymore. You may change your style in the personal settings or contact your administrator. Current selection:"
+
+#, fuzzy
+msgid "set_style_does_not_exist"
+msgstr "Your selected system style does not exist anymore. You may change your style in the personal settings or contact your administrator. Current selection:"
+
+msgid "settings"
+msgstr "Instellingen"
+
+msgid "settings_for_all_members"
+msgstr "Algemene opzet voor alle cursus/groep deelnemers"
+
+msgid "settings_per_users"
+msgstr "Opzet per cursus/groep deelnemers"
+
+#, fuzzy
+msgid "settings_presentation_header"
+msgstr "Presentation"
+
+msgid "settings_saved"
+msgstr "Instellingen opgeslaan"
+
+msgid "shib"
+msgstr "Shibboleth"
+
+msgid "shib_active"
+msgstr "Inschakelen Shibboleth ondersteuning"
+
+msgid "shib_city"
+msgstr "Attribuut voor de stad"
+
+msgid "shib_country"
+msgstr "Attribuut voor gemeente"
+
+msgid "shib_data_conv"
+msgstr "Absoluut path naar de data-beheer API"
+
+msgid "shib_data_conv_warning"
+msgstr "The data manipulation API file you specified cannot be read"
+
+msgid "shib_department"
+msgstr "Attribuut voor departement"
+
+msgid "shib_email"
+msgstr "Attribuut voor e-mailadres"
+
+msgid "shib_federation_name"
+msgstr "Naam van de Shibboleth federatie"
+
+msgid "shib_firstname"
+msgstr "Attribuut voor voornaam"
+
+msgid "shib_gender"
+msgstr "Attribuut voor geslacht (moet 'm' or 'v' zijn)"
+
+msgid "shib_general_login_instructions"
+msgstr "Om aan te melden via %s, gelieve op de login knop te klikken en te kiezen voor jou organisatie"
+
+msgid "shib_general_wayf_login_instructions"
+msgstr "In case you are not associated with the given organizations and you need access to a course on this server, please contact the"
+
+msgid "shib_idp_list"
+msgstr "Provide a list of Identity Providers to let the user choose from on the ILIAS login page.<br>On each line there must be a comma-separated tuple for <strong>providerID of IdP</strong> (see the Shibboleth metadata file) and <strong>Name of IdP</strong> as it shall be displayed in the drow-down list.<br>As an optional third parameter you can add the <strong>location of a Shibboleth session initiator</strong> that shall be used in case your ILIAS installation is part of a multi federation setup."
+
+msgid "shib_institution"
+msgstr "Attribuut voor organisatie"
+
+msgid "shib_invalid_home_organization"
+msgstr "Gelieve een geldige organisatie te kiezen"
+
+msgid "shib_language"
+msgstr "Attribuut voor taal"
+
+msgid "shib_lastname"
+msgstr "Attribuut voor achternaam"
+
+msgid "shib_login"
+msgstr "Uniek Shibboleth attribuut"
+
+msgid "shib_login_button"
+msgstr "Pad naar Shibboleth login knop"
+
+msgid "shib_login_embedded_wayf"
+msgstr "Design custom login area"
+
+msgid "shib_login_embedded_wayf_description"
+msgstr "Als deze optie wordt gekozen, kun je zelf HTML code gebruiken in de login instructies hieronder. Dit kan bijvoorbeeld worden gebruikt om een eigen Javascript WAYF/Discovery Service in te sluiten, of om een maatwerk ontwerp te maken voor het login scherm."
+
+msgid "shib_login_external_wayf"
+msgstr "Gebruik externe WAYF service"
+
+msgid "shib_login_internal_wayf"
+msgstr "Gebruik ILIAS WAYF service"
+
+msgid "shib_login_type"
+msgstr "Organisatie selectie"
+
+msgid "shib_matriculation"
+msgstr "Attribute for Matriculation Number"
+
+msgid "shib_member_of"
+msgstr "Ik ben deelnemer in..."
+
+msgid "shib_phone_home"
+msgstr "Attribuut voor thuis telefoon"
+
+msgid "shib_phone_mobile"
+msgstr "Attribuut voor mobile telefoon"
+
+msgid "shib_phone_office"
+msgstr "Attribuut voor werk telefoon"
+
+msgid "shib_select_home_organization"
+msgstr "Voor authenticatie via %s, gelieve jouw organisatie te kiezen uit de lijst."
+
+msgid "shib_settings_saved"
+msgstr "De Shibboleth instellingen zijn bewaard"
+
+msgid "shib_street"
+msgstr "Attribuut voor straat"
+
+msgid "shib_title"
+msgstr "Attribuut voor titel"
+
+msgid "shib_update"
+msgstr "Update dit veld tijdens aanmelding"
+
+msgid "shib_user_default_role"
+msgstr "Standaard rol toegewezen aan Shibboleth gebruikers"
+
+msgid "shib_zipcode"
+msgstr "Attribuut voor postcode"
+
+msgid "short_inst_name"
+msgstr "Korte titel"
+
+msgid "short_inst_name_info"
+msgstr "Deze titel zal verschijnen in de titelbalk van de browser. Als er geen titel ingevoerd wordt, zal de titel ILIAS zijn."
+
+msgid "show"
+msgstr "Bekijken"
+
+msgid "show_all_details"
+msgstr "Toon alle details"
+
+#, fuzzy
+msgid "show_content"
+msgstr "Show Content"
+
+msgid "show_details"
+msgstr "Laat details zien"
+
+msgid "show_filter"
+msgstr "Filter tonen"
+
+msgid "show_hidden_sections"
+msgstr "Meer informatie tonen &raquo;"
+
+#, fuzzy
+msgid "show_less"
+msgstr "Show less"
+
+msgid "show_list"
+msgstr "Laat lijst zien"
+
+msgid "show_members"
+msgstr "Tonen deelnemers"
+
+#, fuzzy
+msgid "show_more"
+msgstr "Show More"
+
+#, fuzzy
+msgid "show_preview"
+msgstr "Show Preview"
+
+msgid "show_users_online"
+msgstr "Tonen van gebruikers"
+
+#, fuzzy
+msgid "show_who_is_online"
+msgstr "Show who is online"
+
+msgid "side_frame"
+msgstr "Side Frame"
+
+msgid "signature"
+msgstr "Handtekening"
+
+msgid "size"
+msgstr "Grootte"
+
+msgid "skills"
+msgstr "Mijn competenties"
+
+msgid "skin_style"
+msgstr "Standaard Skin / Stijl"
+
+msgid "smtp"
+msgstr "SMTP"
+
+msgid "soap_connect_timeout"
+msgstr "Connection Timeout"
+
+msgid "soap_connect_timeout_info"
+msgstr "The maximum time in seconds until a connect attempt to the SOAP-Webservice is interrupted."
+
+msgid "soap_user_administration"
+msgstr "Beheer via SOAP"
+
+msgid "soap_user_administration_desc"
+msgstr "Indien ingeschakeld, kan ILIAS worden beheerd via SOAP"
+
+msgid "soap_wsdl_path"
+msgstr "WSDL Path"
+
+msgid "soap_wsdl_path_info"
+msgstr "Please enter the path to the ilias wsdl file which should be used for the webservice. If you leave this field blank, the following path will be used per default:%s"
+
+#, fuzzy
+msgid "sort"
+msgstr "Sort"
+
+#, fuzzy
+msgid "sort_ascending"
+msgstr "Sort Ascending"
+
+#, fuzzy
+msgid "sort_ascending_long"
+msgstr "Change Sort Direction to Ascending"
+
+msgid "sort_by_this_column"
+msgstr "Sorteren op deze kolom"
+
+#, fuzzy
+msgid "sort_descending"
+msgstr "Sort Descending"
+
+#, fuzzy
+msgid "sort_descending_long"
+msgstr "Change Sort Direction to Descending"
+
+msgid "sort_inherit_prefix"
+msgstr "standaard"
+
+msgid "sorting_asc"
+msgstr "Oplopend"
+
+msgid "sorting_creation_header"
+msgstr "Per aanmaakdatum"
+
+msgid "sorting_creation_info"
+msgstr "Inhoud wordt automatisch gesorteerd per aanmaakdatum"
+
+msgid "sorting_desc"
+msgstr "Aflopend"
+
+msgid "sorting_direction"
+msgstr "Sorteervolgorde"
+
+msgid "sorting_header"
+msgstr "Sorteer cursus items"
+
+msgid "sorting_info_inherit"
+msgstr "De sorteer modus is over genomen van de parent cursus."
+
+msgid "sorting_info_manual"
+msgstr "Inhoud handmatig sorteren"
+
+msgid "sorting_info_title"
+msgstr "Sorteren op titel"
+
+msgid "sorting_manual_header"
+msgstr "Handmatig sorteren"
+
+msgid "sorting_save"
+msgstr "Sortering opslaan"
+
+msgid "sorting_title_header"
+msgstr "Sorteer op titel"
+
+msgid "spacer"
+msgstr "Spacer"
+
+msgid "spl"
+msgstr "vragenpool (Enquête)"
+
+msgid "spl_add"
+msgstr "Vragenpool toevoegen"
+
+msgid "spl_import"
+msgstr "Importeer vragenpool (Enquête)"
+
+msgid "spl_new"
+msgstr "Nieuw vragenpool"
+
+msgid "ssl"
+msgstr "SSL (HTTPS)"
+
+msgid "standard_fields"
+msgstr "Standard velden"
+
+msgid "startpage"
+msgstr "Startpagina"
+
+msgid "stat_selected"
+msgstr "Geselecteerd"
+
+msgid "statistic"
+msgstr "Statistiek"
+
+msgid "statistics"
+msgstr "Statistieken"
+
+msgid "status"
+msgstr "Status"
+
+msgid "status_no_permission"
+msgstr "Geen rechten"
+
+msgid "step"
+msgstr "Het ILIASsysteem is zichtbaar"
+
+msgid "street"
+msgstr "Straat"
+
+msgid "structure"
+msgstr "Indeling"
+
+msgid "sty"
+msgstr "Stijl"
+
+msgid "sub_request_deleted"
+msgstr "Verwijderd deelnameverzoek"
+
+msgid "sub_request_saved"
+msgstr "Opgeslagen deelnameverzoek"
+
+msgid "subject"
+msgstr "Onderwerp"
+
+msgid "submit"
+msgstr "Verzend"
+
+msgid "subobjects"
+msgstr "Sub-objecten"
+
+msgid "subscription"
+msgstr "Abonnement"
+
+msgid "subtabs"
+msgstr "SubTabs"
+
+msgid "success_message"
+msgstr "Succes bericht"
+
+msgid "summary"
+msgstr "Samenvatting"
+
+msgid "sure_delete_selected_users"
+msgstr "Ben je zeker dat je de volgende geselecteerde gebruiker(s) wilt verwijderen)"
+
+msgid "survey_defaults"
+msgstr "Standaard instellingen enquêtes."
+
+msgid "survey_unlimited_invitation"
+msgstr "Onbeperkte uitnodiging"
+
+msgid "svy"
+msgstr "Enquête"
+
+msgid "svy_add"
+msgstr "Voeg een enquête toe"
+
+msgid "svy_finished"
+msgstr "Completed"
+
+msgid "svy_new"
+msgstr "Nieuw enquête"
+
+msgid "svy_not_finished"
+msgstr "niet voltooid"
+
+msgid "svy_not_started"
+msgstr "niet gestart"
+
+msgid "svy_run"
+msgstr "Start"
+
+msgid "svy_warning_survey_not_complete"
+msgstr "The enquête is niet compleet"
+
+#, fuzzy
+msgid "switch_language"
+msgstr "Switch Language"
+
+msgid "system"
+msgstr "Systeem"
+
+msgid "system_check"
+msgstr "Systeemcontrole"
+
+msgid "system_information"
+msgstr "Systeeminformatie"
+
+msgid "system_language"
+msgstr "Systeemtaal"
+
+msgid "system_styles"
+msgstr "Systeemstijlen"
+
+msgid "systemcheck_cron"
+msgstr "Process System Check in Cronjob"
+
+msgid "systemcheck_cronform"
+msgstr "Activation of System Check in Cronjob"
+
+msgid "table_mail_import"
+msgstr "E-mailimport"
+
+msgid "tabs"
+msgstr "Tabs"
+
+msgid "tagging_my_tags"
+msgstr "Mijn Label Cloud"
+
+#, fuzzy
+msgid "tags"
+msgstr "Tags"
+
+msgid "take_over_structure"
+msgstr "Overnemen structuur"
+
+msgid "take_over_structure_info"
+msgstr "Als ingeschakeld zullen mappen in het zip bestand worden overgenomen als categorieën of mappen (indien in Groep of Cursus)."
+
+msgid "tals_etal"
+msgstr "Talk"
+
+msgid "talt_etal"
+msgstr "Talk"
+
+msgid "target"
+msgstr "Locatie"
+
+msgid "tax"
+msgstr "Taxonomie"
+
+msgid "tax_add"
+msgstr "Voeg een taxonomie toe"
+
+msgid "tax_new"
+msgstr "Nieuwe taxonomie"
+
+msgid "term"
+msgstr "Begrip"
+
+msgid "test"
+msgstr "Toets"
+
+msgid "tests"
+msgstr "Toetsen"
+
+msgid "textbox"
+msgstr "Tekstbox"
+
+msgid "thread"
+msgstr "Onderwerp"
+
+msgid "thumbnail"
+msgstr "Miniatuur"
+
+#, fuzzy
+msgid "tile_view"
+msgstr "Tile View"
+
+msgid "time"
+msgstr "Tijd"
+
+msgid "time_limit"
+msgstr "Toegang"
+
+msgid "time_limit_add_time_limit_for_selected"
+msgstr "Voer een periode in voor de geselecteerd gebruikers."
+
+msgid "time_limit_from"
+msgstr "Van (time limit)"
+
+msgid "time_limit_message"
+msgstr "Bericht (time limit)"
+
+msgid "time_limit_no_users_selected"
+msgstr "Selecteer een gebruiker."
+
+msgid "time_limit_not_valid"
+msgstr "De periode is niet geldig."
+
+msgid "time_limit_reached"
+msgstr "De toegangsperiode is verlopen."
+
+msgid "time_limit_unlimited"
+msgstr "Onbegrensd (time limit)"
+
+msgid "time_limit_until"
+msgstr "Tot (time limit)"
+
+msgid "title"
+msgstr "Titel"
+
+msgid "title_required"
+msgstr "Please insert a title"
+
+msgid "to"
+msgstr "Naar"
+
+msgid "to_client_list"
+msgstr "Naar klantselectie"
+
+msgid "today"
+msgstr "Vandaag"
+
+msgid "toggleGlobalDefault"
+msgstr "Toggle Global Default"
+
+msgid "toggleGlobalFixed"
+msgstr "Toggle Global Fixed"
+
+#, fuzzy
+msgid "toggle_dropdown"
+msgstr "Toggle Dropdown"
+
+#. Don't translate this label to prevent rendering problems of the related Toggle Button!
+msgid "toggle_off"
+msgstr "OFF"
+
+#. Don't translate this label to prevent rendering problems of the related Toggle Button!
+msgid "toggle_on"
+msgstr "ON"
+
+msgid "tomorrow"
+msgstr "Morgen"
+
+#, fuzzy
+msgid "toolbar_more_actions"
+msgstr "More Actions"
+
+#, fuzzy
+msgid "tools"
+msgstr "Tools"
+
+msgid "top_of_page"
+msgstr "Naar top van pagina"
+
+#, fuzzy
+msgid "tos_accept_usr_agreement"
+msgstr "Accept Terms of Service?"
+
+#, fuzzy
+msgid "tos_accept_usr_agreement_intro"
+msgstr "There are new terms of service. You need to accept them before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page."
+
+#, fuzzy
+msgid "tos_force_accept_usr_agreement"
+msgstr "You must accept the Terms of Service!"
+
+#, fuzzy
+msgid "tos_no_agreement_description"
+msgstr "There is currently no Terms of Service document available for this installation. Please contact the <a href=\"%1$s\">system administrator</a>."
+
+#, fuzzy
+msgid "tos_refuse_acceptance"
+msgstr "Refuse to Accept Terms of Service"
+
+#, fuzzy
+msgid "tos_usr_agreement"
+msgstr "Terms of Service"
+
+#, fuzzy
+msgid "tos_usr_agreement_footer_intro"
+msgstr "You have declared your consent to these terms of service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_description"
+msgstr "Withdraw your consent to our Terms of Service here."
+
+#, fuzzy
+msgid "tos_withdraw_consent_description_external"
+msgstr "Please return to your ILIAS installation and log in again to complete the process of withdrawing your consent to the Terms of Service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_description_internal"
+msgstr "Please log in again to complete the process of withdrawing your consent to the Terms of Service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_header"
+msgstr "Withdraw Terms of Service Consent"
+
+#, fuzzy
+msgid "tos_withdraw_consent_info"
+msgstr "Withdraw your consent to our Terms of Service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_info_external"
+msgstr "Please contact the administrator of your authentication system and inform them of your intention to withdraw your consent to the Terms of Service."
+
+msgid "total"
+msgstr "Totaal"
+
+msgid "tracking_settings"
+msgstr "Voortgangsinstellingen"
+
+msgid "translation"
+msgstr "Vertaling"
+
+msgid "trash"
+msgstr "Prullenbak"
+
+msgid "tree"
+msgstr "Boom"
+
+msgid "tree_frame"
+msgstr "structuur"
+
+msgid "treeview"
+msgstr "Tonen boomstructuur"
+
+msgid "tst"
+msgstr "Toets"
+
+msgid "tst_add"
+msgstr "Toevoegen toets"
+
+msgid "tst_edit_questions"
+msgstr "Wijzigen Vragen"
+
+#, fuzzy
+msgid "tst_history_read"
+msgstr "View History"
+
+msgid "tst_new"
+msgstr "Nieuwe toets"
+
+#, fuzzy
+msgid "tst_results"
+msgstr "Test Results"
+
+msgid "tst_run"
+msgstr "Start"
+
+msgid "tst_user_not_invited"
+msgstr "U wordt niet verondersteld dit examen af te leggen"
+
+msgid "tst_warning_test_not_complete"
+msgstr "The toets is niet compleet"
+
+msgid "tutors"
+msgstr "Tutors"
+
+msgid "txt_registered"
+msgstr "Je hebt je aangemeld bij ILIAS. Klik op de onderstaande button om in ILIAS in te loggen met je gebruikersaccount."
+
+msgid "txt_registered_passw_gen"
+msgstr "Je bent nu geregistreerd bij ILIAS. Je zal een e-mail ontvangen waarin automatisch een wachtwoord werd gegenereerd."
+
+msgid "txt_submitted"
+msgstr "Je hebt een aanvraag voor een ILIAS gebruikersaccount ILIAS gedaan. Je aanvraag zal door de systeembeheerder gecontroleerd worden en je account zal binnen 48 uur geactiveerd worden. Je kunt je niet aanmelden in ILIAS voordat je account actief is."
+
+msgid "typ"
+msgstr "Objecttype definitie"
+
+msgid "type"
+msgstr "Type"
+
+msgid "udf_added_field"
+msgstr "Veld toegevoegd"
+
+msgid "udf_delete_sure"
+msgstr "Ben je zeker dat je het veld wilt verwijderen en alle toegewezen gebruikersgegevens verwijderen"
+
+msgid "udf_duplicate_entries"
+msgstr "De waarden moeten uniek zijn"
+
+msgid "udf_field_deleted"
+msgstr "Veld verwijderd"
+
+msgid "udf_name_already_exists"
+msgstr "Dit veldnaam bestaat reeds.Gelieve een andere naam te kiezen"
+
+msgid "udf_required_requires_visib_reg"
+msgstr "Als veld op \"vereist\" staat, moet het ook \"zichtbaar\" zijn tijdens registratie."
+
+msgid "udf_type_date"
+msgstr "Date Field"
+
+msgid "udf_type_datetime"
+msgstr "Date and Time"
+
+msgid "udf_type_select"
+msgstr "Keuzebox"
+
+msgid "udf_type_text"
+msgstr "Text veld(optionele waarden)"
+
+msgid "udf_type_textarea"
+msgstr "Text Area (WYSIWYG)"
+
+msgid "udf_update_select_field"
+msgstr "Wijzig keuzebox"
+
+msgid "udf_update_text_field"
+msgstr "Wijzig textveld"
+
+msgid "udf_update_wysiwyg_field"
+msgstr "Edit Text Area (WYSIWYG) Field"
+
+msgid "uid"
+msgstr "UID"
+
+msgid "ums_create_new_account"
+msgstr "Maak een nieuwe account"
+
+msgid "ums_explanation"
+msgstr "Je externe account kon niet gekopieerd worden naar een ILIAS account."
+
+msgid "ums_explanation_2"
+msgstr "Als dit niet jouw account is, gelieve dan op 'Maak nieuwe account' te klikken."
+
+msgid "ums_explanation_3"
+msgstr "Je externe account kon niet gekopieerd worden naar een ILIAS account. Maar ILIAS vond meerdere accounts voor dit e-mailadres. Als een van deze accounts jouw account is, gelieve dan aan te melden met je ILIAS wachtwoord."
+
+msgid "ums_explanation_4"
+msgstr "Als dit niet jouw account is, gelieve dan op 'Maak nieuw account' te klikken."
+
+msgid "unambiguousness"
+msgstr "Herkenbaar"
+
+msgid "uncheck_all"
+msgstr "Selectie verwijderen"
+
+msgid "unchecked"
+msgstr "Niet aangeduid"
+
+msgid "uninstall"
+msgstr "Deïnstalleer"
+
+msgid "uninstalled"
+msgstr "Gedeïnstalleerd"
+
+msgid "unknown"
+msgstr "Onbekend"
+
+#, fuzzy
+msgid "unparticipate"
+msgstr "Unsubscribe"
+
+msgid "unread"
+msgstr "Markeren als ongelezen"
+
+msgid "unzip"
+msgstr "Unzip"
+
+msgid "up"
+msgstr "Omhoog"
+
+msgid "update"
+msgstr "Wijzig"
+
+msgid "update_applied"
+msgstr "Bijgewerkt"
+
+msgid "update_language"
+msgstr "Taal bijwerken"
+
+msgid "update_on_conflict"
+msgstr "Update on conflict"
+
+#, fuzzy
+msgid "update_orgunits"
+msgstr "Update assigned organisational units"
+
+#, fuzzy
+msgid "update_orgunits_desc"
+msgstr "If enabled, the field 'Organisational Units' will be updated for all user accounts."
+
+msgid "upload"
+msgstr "Uploaden"
+
+msgid "upload_error_file_not_found"
+msgstr "Upload error: Bestand niet gevonden"
+
+#, fuzzy
+msgid "upload_ok"
+msgstr "The upload was successful"
+
+msgid "upload_pending"
+msgstr "Lopende"
+
+msgid "upload_settings"
+msgstr "Uploaden instellingen"
+
+#, fuzzy
+msgid "upload_svg_rejection_message"
+msgstr "An uploaded SVG file contains possibily malicious code and cannot be processed."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_base64"
+msgstr "The file contains base64 encoded content."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_elements"
+msgstr "The file contains elements or attributes which are not allowed or known."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_foreign_object"
+msgstr "The file contains foreign objects."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_script"
+msgstr "The file contains script-Elements."
+
+msgid "uploaded_and_checked"
+msgstr "Het bestand werd geüpload en gecontroleerd, je kunt nu de import starten."
+
+msgid "uploading"
+msgstr "Bezig met uploaden..."
+
+msgid "uri"
+msgstr "URI"
+
+msgid "url"
+msgstr "URL"
+
+msgid "url_not_found"
+msgstr "Bestand niet gevonden"
+
+msgid "use_customized_instructions"
+msgstr "Use customized instructions:"
+
+msgid "use_default_instructions"
+msgstr "Use default instructions."
+
+msgid "user"
+msgstr "Gebruiker"
+
+msgid "user_activated"
+msgstr "Gebruiker is goedgekeurd"
+
+msgid "user_added"
+msgstr "Gebruiker toegevoegd"
+
+msgid "user_assignment"
+msgstr "Gebruikerstoewijzing"
+
+#, fuzzy
+msgid "user_avatar"
+msgstr "User Avatar"
+
+#, fuzzy
+msgid "user_avatar_of"
+msgstr "User Avatar of"
+
+msgid "user_cant_receive_mail"
+msgstr "Gebruikers heeft geen rechten om de mailserver te gebruiken"
+
+msgid "user_comment"
+msgstr "Gebruikers commentaar"
+
+msgid "user_deactivated"
+msgstr "Gebruiker is afgekeurd"
+
+msgid "user_defined_fields"
+msgstr "Gebruikers-gedefinieerde velden"
+
+msgid "user_defined_list"
+msgstr "Overzicht gebruikers-gedefinieerde velden"
+
+msgid "user_deleted"
+msgstr "Gebruiker gewist"
+
+msgid "user_detail"
+msgstr "Detail-gegevens"
+
+msgid "user_ext_account"
+msgstr "Externe Account"
+
+msgid "user_ext_account_desc"
+msgstr "Account gebruikt voor externe authenticatie. (SOAP authenticatie)"
+
+msgid "user_image"
+msgstr "Afbeelding gebruiker"
+
+msgid "user_import_failed"
+msgstr "Gebruikers import mislukt"
+
+msgid "user_imported"
+msgstr "Gebruikers import gereed"
+
+msgid "user_imported_with_warnings"
+msgstr "Gebruikers import gelukt met waarschuwingen"
+
+msgid "user_language"
+msgstr "Gebruikerstaal"
+
+#, fuzzy
+msgid "user_never_logged_in"
+msgstr "Delete user accounts without login"
+
+#, fuzzy
+msgid "user_never_logged_in_info"
+msgstr "All user accounts without login at all be deleted."
+
+#, fuzzy
+msgid "user_never_logged_in_info_threshold_err_num"
+msgstr "Only positive non decimal numbers are accepted."
+
+msgid "user_new_account_mail"
+msgstr "Nieuw Account E-mail"
+
+msgid "user_new_account_mail_desc"
+msgstr "Notificatie e-mail voor nieuwe gebruikers"
+
+msgid "user_not_found"
+msgstr "Gebruiker niet gevonden"
+
+#, fuzzy
+msgid "user_not_found_to_delete"
+msgstr "A user could not be found to delete."
+
+msgid "user_not_known"
+msgstr "Gelieve een geldige gebruikersnaam te geven"
+
+msgid "user_profile_other"
+msgstr "Andere informatie"
+
+msgid "user_send_new_account_mail"
+msgstr "Verzend nieuwe e-mail"
+
+msgid "user_status"
+msgstr "Status gebruiker"
+
+msgid "user_toggle_noti"
+msgstr "Het is de deelnemer is niet toegestaan om meldingen uit te schakelen"
+
+msgid "userfolder_export_csv"
+msgstr "Comma Separated Values"
+
+msgid "userfolder_export_excel_x86"
+msgstr "Microsoft Excel"
+
+msgid "userfolder_export_file"
+msgstr "Bestand"
+
+msgid "userfolder_export_file_size"
+msgstr "Bestandsgrootte"
+
+msgid "userfolder_export_files"
+msgstr "Bestanden"
+
+msgid "userfolder_export_xml"
+msgstr "XML"
+
+msgid "username"
+msgstr "Gebruikersnaam"
+
+#, fuzzy
+msgid "username_assistance"
+msgstr "Username Assistance"
+
+msgid "users"
+msgstr "Gebruikers"
+
+msgid "users_not_imported"
+msgstr "Het volgende aantal gebruikers bestaat niet, hun boodschappen kunnen niet geïmporteerd worden"
+
+msgid "users_online"
+msgstr "Gebruikers online"
+
+msgid "usr"
+msgstr "Gebruiker"
+
+msgid "usr_account_inactive"
+msgstr "Inactief account"
+
+msgid "usr_active_only"
+msgstr "Enkel actieve gebruikers"
+
+msgid "usr_add"
+msgstr "Toevoegen gebruiker"
+
+msgid "usr_edit"
+msgstr "Wijzigen gebruiker"
+
+#, fuzzy
+msgid "usr_field_change_components_listening"
+msgstr "There is at least one component which is interested in the changed configuration. Would you like to confirm the changes with the consequences the component(s) announced below?"
+
+msgid "usr_filter_coursemember"
+msgstr "Cursusdeelnemer"
+
+msgid "usr_filter_groupmember"
+msgstr "Groepdeelnemer"
+
+msgid "usr_filter_lastlogin"
+msgstr "Laatste login van gebruiker"
+
+msgid "usr_filter_role"
+msgstr "Assigned role"
+
+msgid "usr_inactive_only"
+msgstr "Enkele inactieve deelnemers"
+
+msgid "usr_limited_access_only"
+msgstr "Gebruikers met beperkte toegang"
+
+#, fuzzy
+msgid "usr_name_undisclosed"
+msgstr "Undisclosed"
+
+msgid "usr_new"
+msgstr "Nieuwe gebruiker"
+
+msgid "usr_settings_changeable_lua"
+msgstr "Kan gewijzigd worden in lokaal gebruikersbeheer"
+
+msgid "usr_settings_explanation_profile"
+msgstr "Controleer de aangeboden checkbox om de persoonlijke profiel instellingen uit te schakelen."
+
+msgid "usr_settings_header_profile"
+msgstr "Gebruikersprofiel instellingen"
+
+msgid "usr_settings_saved"
+msgstr "Algemene gebruikersinstellingen opgeslagen"
+
+msgid "usr_settings_visib_lua"
+msgstr "Zichtbaar in lokale-gebruikersbeheer"
+
+msgid "usr_skin_style"
+msgstr "Skin / Stijl"
+
+msgid "usr_without_courses"
+msgstr "Toegewezen gebruikers zonder cursussen"
+
+msgid "usrf"
+msgstr "Gebruiker"
+
+msgid "usrf_profile_link"
+msgstr "Link naar gebruikers profiel"
+
+msgid "usrimport_action_ignored"
+msgstr "Negeer actie %1$s."
+
+msgid "usrimport_action_replaced"
+msgstr "Vervang actie %1$s by %2$s."
+
+msgid "usrimport_cant_delete"
+msgstr "Kan actie \"Delete\" niet uitvoeren. Gebruiker niet gevonden in database"
+
+msgid "usrimport_cant_insert"
+msgstr "Kan actie \"Invoegen\" niet uitvoeren. Gebruiker zit reeds in database"
+
+msgid "usrimport_cant_update"
+msgstr "Kan actie \"Update\" niet uitvoeren. gebruiker niet gevonden in database"
+
+msgid "usrimport_conflict_handling_info"
+msgstr "Wanneer \"Negeer tijdens conflict\" is geselecteerd, negeert ILIAS de actie."
+
+#, fuzzy
+msgid "usrimport_form_not_evaluabe"
+msgstr "The form data couldn't be read."
+
+msgid "usrimport_global_role_for_action_required"
+msgstr "Tenminste één (1) globale rol moet gespecifieerd worden voor de \"%1$s\" action."
+
+msgid "usrimport_ignore_role"
+msgstr "Negeer rol"
+
+msgid "usrimport_login_is_not_unique"
+msgstr "Login is niet uniek"
+
+msgid "usrimport_no_insert_ext_account_exists"
+msgstr "Kan geen 'invoeg' actie uitvoeren. Externe gebruiker bestaat al."
+
+msgid "usrimport_no_update_ext_account_exists"
+msgstr "Kan geen 'update' actie uitvoeren. Externe gebruiker bestaat al."
+
+msgid "usrimport_with_specified_role_not_permitted"
+msgstr "Importeren met specifieke rol is niet toegelaten."
+
+#, fuzzy
+msgid "usrimport_wrong_file_count"
+msgstr "Too many files in import-folder. Please try again."
+
+#, fuzzy
+msgid "usrimport_xml_anonymous_or_root_not_allowed"
+msgstr "Neither the system-account nor the anonymous account can be changed through the import."
+
+msgid "usrimport_xml_attribute_missing"
+msgstr "Attribuut \"%2$s\" in element \"%1$s\" is niet aanwezig"
+
+msgid "usrimport_xml_attribute_value_illegal"
+msgstr "Waarde \"%3$s\" van attribuut \"%2$s\" in element \"%1$s\" is ongeldig"
+
+msgid "usrimport_xml_attribute_value_inapplicable"
+msgstr "Waarde \"%3$s\" van attribuut \"%2$s\" in element \"%1$s\" is ongeldig voor \"%4$s\" actie."
+
+msgid "usrimport_xml_element_content_illegal"
+msgstr "Inhoud \"%2$s\" van element \"%1$s\" is ongeldig."
+
+msgid "usrimport_xml_element_for_action_required"
+msgstr "Element \"%1$s\" moet gespecifieerd zijn voor \"%2$s\" actie."
+
+msgid "usrimport_xml_element_inapplicable"
+msgstr "Element \"%1$s\" is ongeldig voor \"%2$s\" actie."
+
+msgid "valid"
+msgstr "Valid"
+
+msgid "validate"
+msgstr "Valideren"
+
+msgid "value"
+msgstr "Waarde"
+
+msgid "vcard"
+msgstr "Visitekaart"
+
+msgid "vcard_download"
+msgstr "Download visitekaartje"
+
+msgid "verification_failed"
+msgstr "Verificatie mislukt"
+
+msgid "verification_failure_log"
+msgstr "Verificatie log mislukt"
+
+msgid "verification_warning_log"
+msgstr "Verificatie waarschuwingslog"
+
+msgid "version"
+msgstr "Versie"
+
+msgid "versions"
+msgstr "Versies"
+
+msgid "view"
+msgstr "Tonen"
+
+msgid "view_content"
+msgstr "Toon inhoud"
+
+#, fuzzy
+msgid "view_learning_progress"
+msgstr "View Learning Progress"
+
+#, fuzzy
+msgid "view_learning_progress_rec"
+msgstr "View Learning Progress of Unit incl. Subunits"
+
+msgid "visible"
+msgstr "Zichtbaar"
+
+msgid "visible_registration"
+msgstr "Zichtbaar bij registratie"
+
+msgid "visitor"
+msgstr "Bezoeker"
+
+msgid "visitors"
+msgstr "Bezoekers"
+
+msgid "visits"
+msgstr "Bezoeken"
+
+msgid "web_resources"
+msgstr "Websites"
+
+msgid "webdav"
+msgstr "WebDAV"
+
+#, fuzzy
+msgid "webdav_add_instructions_btn_label"
+msgstr "Add Mount Instructions Document"
+
+#, fuzzy
+msgid "webdav_chosen_language_already_used"
+msgstr "There already is another document associated with the chosen language"
+
+#, fuzzy
+msgid "webdav_doc_delete"
+msgstr "Delete WebDav Mount Instructions"
+
+#, fuzzy
+msgid "webdav_docs_mount_instructions"
+msgstr "Mount Instructions Documents"
+
+#, fuzzy
+msgid "webdav_duplicate_detected_title"
+msgstr "Following objects could not be displayed, because an object with the same Title is already being shown:"
+
+#, fuzzy
+msgid "webdav_forbidden_chars_title"
+msgstr "Following files cannot be displayed, because they contain one or more forbidden characters (\\<>/:*?\"|#):"
+
+#, fuzzy
+msgid "webdav_form_document"
+msgstr "Instructions Document"
+
+#, fuzzy
+msgid "webdav_form_document_info"
+msgstr "Upload a txt or an html file here. After the upload the file will be parsed and processed. For more information"
+
+#, fuzzy
+msgid "webdav_form_document_title"
+msgstr "Title"
+
+#, fuzzy
+msgid "webdav_form_document_title_info"
+msgstr "This title will be dislayed as the title of the modal when the Mount Instructions are opened"
+
+#, fuzzy
+msgid "webdav_form_edit_doc_head"
+msgstr "Edit Mount Instructions Document"
+
+#, fuzzy
+msgid "webdav_form_new_doc_head"
+msgstr "Create new Mount Instructions Document"
+
+#, fuzzy
+msgid "webdav_general_settings"
+msgstr "General Settings"
+
+#, fuzzy
+msgid "webdav_missing_lang"
+msgstr "There is no english version of the WebDAV Mount Instructions"
+
+#, fuzzy
+msgid "webdav_mount_instructions"
+msgstr "Mount Instructions"
+
+#, fuzzy
+msgid "webdav_problem_free_container"
+msgstr "There are no objects that cause problems in this container."
+
+#, fuzzy
+msgid "webdav_problem_info_duplicate"
+msgstr "There is a file with the same title as the info file."
+
+msgid "webdav_pwd_instruction"
+msgstr "Wij suggereren om een lokaal password te creëren om het Studiecentrum te openen als webfolder.<br />Dit password is alleen noodzakelijk voor webfolder functionaliteit."
+
+msgid "webdav_pwd_instruction_success"
+msgstr "Een  nieuw local password is aangemaakt. Je kunt nu het Studiecentrum openen als webfolder."
+
+#, fuzzy
+msgid "webdav_sure_delete_documents_s"
+msgstr "Are you sure you want to delete the Mount Instructions with the following title:"
+
+#, fuzzy
+msgid "webdav_tbl_docs_head_title"
+msgstr "Dokument title"
+
+#, fuzzy
+msgid "webdav_tbl_docs_title"
+msgstr "List of uploaded WebDAV Mount Instructions"
+
+#, fuzzy
+msgid "webdav_upload_instructions"
+msgstr "Upload Instructions"
+
+msgid "webfolder_dir_info"
+msgstr "You got here, because your browser can't open webfolders. Read the <a href=\"%1$s\">instructions for opening webfolders</a>."
+
+msgid "webfolder_index_of"
+msgstr "Index of %1$s"
+
+msgid "webfolder_instructions"
+msgstr "Webfolder instructions"
+
+msgid "webfolder_instructions_info"
+msgstr "The webfolder instructions are shown on browsers, which can not open a webfolder directly. You can use HTML code, and the following placeholders: <b>[WEBFOLDER_TITLE]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI_KONQUEROR]</b>, <b>[WEBFOLDER_URI_NAUTILUS]</b>, <b>[ADMIN_MAIL]</b>, <b>[WINDOWS]</b>...<b>[/WINDOWS]</b>, <b>[MAC]</b>...<b>[/MAC]</b>, <b>[LINUX]</b>...<b>[/LINUX]</b>. Clear the field to get the default instructions."
+
+msgid "webfolder_instructions_text"
+msgstr "<p>Volg de onderstaande instructies om <b>[WEBFOLDER_TITLE]</b> te openen als een webfolder:</p>[WINDOWS]<h3>Instructies voor Windows Vista</h3><ol><li>Druk op Windows+E om Windows Explorer te starten.</li><li>Klik op 'Add Network Place' in de toolbar.<br/>De 'Add a Network Place' wizard zal openen.</li><li>Volg de koppeling 'Connect to a website'.</li><li>Kies de 'Choose Another Network Location' optie en kies 'Next'.<li>In het 'Internet or Network Address' veld voer <br/><b>[WEBFOLDER_URI]</b><br/>in en kies vervolgens 'Next'.</li><li>Voer je gebruikersnaam en wachtwoord in en kies 'OK'.<br/>Herhaal deze stap tot je het volgende dialoogvenster krijgt.</li><li>Voer een naam voor de webfolder in en kies 'Next'.<li>Voer je gebruikersnaam en wachtwoord in en kies 'OK'.<br/>Herhaal deze stap tot je het volgende dialoogvenster krijgt.</li><li>Kies 'Finish'.</li><li>Je kunt nu de webfolder benaderen van het start menu 'Computer'.</li></ol><h3>Instructies voor Windows XP</h3><ol><li>Druk op Windows+E om Windows Explorer te starten.</li><li>Kies het menu  'Extras &gt; Add Network Place...'.<br/>De wizard 'Add a Network Place' zal openen.</li><li>Volg de koppeling 'Connect to a website ...'.<br/>Het assistenvenster zal openen.</li><li>Kies 'Next'.</li><li>Kies de 'Choose Another Network Location' optie en kies 'Next'.<li>In het 'Internet or Network Address' veld voer<br/><b>[WEBFOLDER_URI]</b><br/>in en kies 'Next'.</li><li>Voer je gebruikersnaam en wachtwoord in en kies 'OK'.<li>Voer een naam voor de webfolder in en kies 'Next'.<li>Voer je gebruikersnaam en wachtwoord in en kies 'OK'.</li><li>Kies 'Finish'.</li><li>Dit opent de webfolder. Je kunt de webfolder later benaderen via het start menu 'Network places'.</li></ol>[/WINDOWS][MAC]<h3>Instructies voor Mac OS X</h3><ol><li>Open Finder</li><li>Kies het menu 'Go &gt; Connect to Server...'<br/>Het 'Connect to Server' dialoogvenster zal openen.</li><li>Voer in het addresveld het volgende adres in:<br/><b>[WEBFOLDER_URI]</b><br/>en kies 'Connect'.</li><li>Voer je gebruikersnaam en wachtwoord in en kies 'OK'.</li></ol>[/MAC][LINUX]<h3>Instructies voor Linux met Konqueror</h3><ol><li>Start de Konqueror browser</li><li>Voer in het adresveld het volgende adres in:<br/><b>[WEBFOLDER_URI_KONQUEROR]</b></li><li>Druk op Enter.</li><li>Voer je gebruikersnaam en wachtwoord in en kies 'OK'.</li></ol><h3>Instructies voor Linux met Nautilus</h3><ol><li>Start de Nautilus browser</li><li>Voer in het adresveld het volgende adres in:<br/><b>[WEBFOLDER_URI_NAUTILUS]</b></li><li>Druk op Enter.</li><li>Voer je gebruikersnaam en wachtwoord in en kies 'OK'.</li></ol>[/LINUX]<p>Als het niet lukt om de webfolder te openen, neem dan contact op met <a href=\\\"mailto:[ADMIN_MAIL]\\\">[ADMIN_MAIL]</a>.</p>"
+
+msgid "webfolder_instructions_titletext"
+msgstr "Open as webfolder"
+
+msgid "webfolder_mount_dir_with"
+msgstr "Open this page as a Webfolder with <a href=\"%1$s\">Internet Explorer</a>, <a href=\"%2$s\">Konqueror</a>, <a href=\"%3$s\">other Browser</a>."
+
+msgid "webr"
+msgstr "Website"
+
+msgid "webr_active"
+msgstr "Actief"
+
+msgid "webr_add"
+msgstr "Website toevoegen"
+
+msgid "webr_deleted_items"
+msgstr "Website(s) verwijderen."
+
+msgid "webr_edit"
+msgstr "Website aanpassen"
+
+msgid "webr_sure_delete_items"
+msgstr "Ben je zeker dat je de volgende website(s) wil verwijderen"
+
+msgid "webservices"
+msgstr "Webservices"
+
+msgid "week"
+msgstr "Week"
+
+msgid "weekly"
+msgstr "Wekelijks"
+
+msgid "weeks"
+msgstr "weken"
+
+msgid "welcome"
+msgstr "Welkom"
+
+msgid "width"
+msgstr "Breedte"
+
+msgid "wiki"
+msgstr "Wiki"
+
+msgid "wiki_add"
+msgstr "Add Wiki"
+
+msgid "wiki_new"
+msgstr "New Wiki"
+
+msgid "with"
+msgstr "met"
+
+#, fuzzy
+msgid "withdraw_consent"
+msgstr "Withdraw Consent"
+
+#, fuzzy
+msgid "withdraw_consent_info_internal"
+msgstr "If you click on ‘Withdraw Consent’, your account will be deleted."
+
+#, fuzzy
+msgid "withdraw_usr_agreement"
+msgstr "Withdraw Consent"
+
+#, fuzzy
+msgid "withdrawal_complete"
+msgstr "Withdrawal of consent complete."
+
+#, fuzzy
+msgid "withdrawal_complete_deleted"
+msgstr "Withdrawal of consent complete, account deleted."
+
+#, fuzzy
+msgid "withdrawal_complete_redirect"
+msgstr "Withdrawal of consent complete. To have your account deleted, please contact your organisation."
+
+#, fuzzy
+msgid "withdrawal_mail_info"
+msgstr "The following email will be sent to an administrator after confirming the withdrawal of your consent:[BR][BR]"
+
+#, fuzzy
+msgid "withdrawal_mail_subject"
+msgstr "Withdrawal of Consent to Terms of Service"
+
+#, fuzzy
+msgid "withdrawal_mail_text"
+msgstr "Dear Sir/Madam,[BR][BR]I hereby withdraw my consent to your ILIAS installation’s Terms of Service. Please update/remove my account accordingly.[BR][BR]Name: %1$s[BR]Login: %2$s[BR]External Account: %3$s[BR][BR]Yours faithfully[BR]%1$s"
+
+#, fuzzy
+msgid "withdrawal_sure_account"
+msgstr "Are you sure you want to confirm the withdrawal of your consent?"
+
+#, fuzzy
+msgid "withdrawal_sure_account_deletion"
+msgstr "Are you sure you want to confirm the withdrawal of your consent? This will result in your user account being irrevocably deleted."
+
+#, fuzzy
+msgid "withdrawal_sure_account_deletion_no_consent_yet"
+msgstr "Are you sure that you do not want to accept the Terms of Service? This will result in your user account being irrevocably deleted."
+
+#, fuzzy
+msgid "withdrawal_sure_account_no_consent_yet"
+msgstr "Are you sure that you do not want to accept the Terms of Service?"
+
+msgid "wizard_search_list"
+msgstr "De zoekactie heeft volgende items gevonden. Gelieve één te selecteren"
+
+msgid "wizard_title_info"
+msgstr "Gelieve een titel te geven aan het object dat je wilt dupliceren."
+
+msgid "write"
+msgstr "Schrijven"
+
+msgid "year"
+msgstr "Jaar"
+
+msgid "yearly"
+msgstr "yearly"
+
+msgid "years"
+msgstr "Jaren"
+
+msgid "yes"
+msgstr "Ja"
+
+msgid "yesterday"
+msgstr "Gisteren"
+
+msgid "zip"
+msgstr "Postcode"
+
+msgid "zip_structure_error"
+msgstr "Archive contains same filenames. Upload aborted."
+
+msgid "zip_test_failed"
+msgstr "Zip-test faalt. Neem contact op met de ILIAS beheerder."
+
+msgid "zipcode"
+msgstr "Postcode"

@@ -1,0 +1,214 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: sahs\n"
+
+msgid "cont_insert_after_chap"
+msgstr "Insertar elementos después del capítulo"
+
+msgid "cont_insert_into_chap"
+msgstr "Insertar elementos dentro del capítulo"
+
+msgid "sahs_add"
+msgstr "Crear Módulo de Aprendizaje SCORM"
+
+#, fuzzy
+msgid "sahs_adopt_settings"
+msgstr "Adopt Settings"
+
+#, fuzzy
+msgid "sahs_adopt_settings_apply"
+msgstr "Adopt Settings"
+
+#, fuzzy
+msgid "sahs_adopt_settings_description"
+msgstr "Select another SCORM object to adopt compatible SCORM settings."
+
+#, fuzzy
+msgid "sahs_adopt_settings_invalid_source"
+msgstr "Please select a different SCORM object as source."
+
+#, fuzzy
+msgid "sahs_adopt_settings_source"
+msgstr "Source SCORM Object"
+
+#, fuzzy
+msgid "sahs_adopt_settings_source_info"
+msgstr "Only SCORM objects of the same subtype are selectable."
+
+#, fuzzy
+msgid "sahs_adopt_settings_source_no_write"
+msgstr "You need Edit Settings permission on the selected source object."
+
+#, fuzzy
+msgid "sahs_adopt_settings_source_required"
+msgstr "Please select a source SCORM object."
+
+#, fuzzy
+msgid "sahs_adopt_settings_subtype_mismatch"
+msgstr "Settings can only be adopted between SCORM objects of the same subtype."
+
+#, fuzzy
+msgid "sahs_adopt_settings_success"
+msgstr "SCORM settings were adopted successfully."
+
+#, fuzzy
+msgid "sahs_adopt_settings_title"
+msgstr "Adopt Settings"
+
+msgid "sahs_authoring_mode"
+msgstr "Modo de Autoría"
+
+msgid "sahs_authoring_mode_info"
+msgstr "El paquete ZIP de SCORM debe haber sido creado con el editor SCORM de ILIAS y debe haber sido exportado como un paquete SCORM 1.2/2004."
+
+msgid "sahs_chapter"
+msgstr "Capítulo"
+
+msgid "sahs_choose_page_template"
+msgstr "Elegir Plantilla de Página"
+
+msgid "sahs_choose_pages_chap_scos_ass_only"
+msgstr "Por favor, seleccione solo páginas, SCOs, activos (assets) o capítulos."
+
+msgid "sahs_choose_special_page"
+msgstr "Elegir Página Especial"
+
+msgid "sahs_copy"
+msgstr "Copiar Módulo de Aprendizaje SCORM"
+
+msgid "sahs_desc_objectives"
+msgstr "Descripción/Objetivos"
+
+#, fuzzy
+msgid "sahs_file_import_from_upload_dir_failed"
+msgstr "File from Upload-Directory not imported"
+
+#, fuzzy
+msgid "sahs_file_imported_from_upload_dir"
+msgstr "File imported from Upload-Directory"
+
+msgid "sahs_glo_info"
+msgstr "Tenga en cuenta que no se admiten enlaces internos en los términos del glosario."
+
+msgid "sahs_hide_objectives_page"
+msgstr "Ocultar Página de Descripción/Objetivos"
+
+msgid "sahs_hide_objectives_page_info"
+msgstr "Si se selecciona, la página de descripción y objetivos del SCO no se incluirá en la presentación."
+
+#, fuzzy
+msgid "sahs_import_from_upload_dir"
+msgstr "Import from Upload-Directory"
+
+#, fuzzy
+msgid "sahs_import_from_upload_dir_file_name"
+msgstr "Filename"
+
+#, fuzzy
+msgid "sahs_import_from_upload_dir_info"
+msgstr "Please select file for import"
+
+msgid "sahs_import_sequencing"
+msgstr "Importar Secuenciación"
+
+msgid "sahs_import_sequencing_info"
+msgstr "Importar información de secuenciación del paquete (Modo Experto de Secuenciación)."
+
+msgid "sahs_insert_ass"
+msgstr "Insertar Activo (Asset)"
+
+msgid "sahs_insert_ass_from_clip"
+msgstr "Pegar Activos del Portapapeles"
+
+msgid "sahs_insert_ass_from_clip_inside_chap"
+msgstr "Pegar Activos del Portapapeles (dentro del capítulo)"
+
+msgid "sahs_insert_ass_inside_chap"
+msgstr "Insertar Activo (dentro del capítulo)"
+
+msgid "sahs_insert_chapter"
+msgstr "Insertar capítulo"
+
+msgid "sahs_insert_page"
+msgstr "Insertar página"
+
+msgid "sahs_insert_pagelayout"
+msgstr "Insertar página de plantilla"
+
+msgid "sahs_insert_sco"
+msgstr "Insertar SCO"
+
+msgid "sahs_insert_sco_from_clip_inside_chap"
+msgstr "Pegar SCOs desde el portapapeles (dentro del capítulo)"
+
+msgid "sahs_insert_sco_inside_chap"
+msgstr "Insertar SCO (dentro del capítulo)"
+
+msgid "sahs_insert_special_page"
+msgstr "Insertar página especial"
+
+msgid "sahs_learning_objectives"
+msgstr "Objetivos de aprendizaje"
+
+msgid "sahs_list_info"
+msgstr "Use * al inicio para listas con viñetas o # para listas numeradas."
+
+msgid "sahs_mail_context_lp"
+msgstr "Módulo de aprendizaje SCORM: Progreso de aprendizaje"
+
+msgid "sahs_mail_context_lp_info"
+msgstr "Para los correos electrónicos de los participantes en las pantallas de progreso de aprendizaje de un módulo SCORM"
+
+msgid "sahs_new_asset"
+msgstr "Nuevo Asset"
+
+msgid "sahs_new_chapter"
+msgstr "Nuevo capítulo"
+
+msgid "sahs_new_page"
+msgstr "Nueva página"
+
+msgid "sahs_new_sco"
+msgstr "Nuevo SCO"
+
+msgid "sahs_oa_no_scos"
+msgstr "El capítulo no contiene ningún SCO todavía."
+
+msgid "sahs_objectives"
+msgstr "Objetivos de aprendizaje"
+
+msgid "sahs_objectives_alignment"
+msgstr "Alineación de los objetivos de aprendizaje"
+
+msgid "sahs_organization"
+msgstr "Organización"
+
+msgid "sahs_page"
+msgstr "Página"
+
+msgid "sahs_questions"
+msgstr "Preguntas"
+
+msgid "sahs_sco_objective"
+msgstr "Objetivos"
+
+msgid "sahs_sequencing"
+msgstr "Secuenciación"
+
+msgid "sahs_std_sequencing"
+msgstr "Secuenciación estándar"
+
+msgid "sahs_std_sequencing_info"
+msgstr "Utilizar el comportamiento de secuenciación estándar de ILIAS."
+
+msgid "sahs_unit"
+msgstr "SCO"
+
+msgid "scorm_create_export_file_html_one"
+msgstr "Crear archivo de exportación (HTML, una página, modo revisión)"

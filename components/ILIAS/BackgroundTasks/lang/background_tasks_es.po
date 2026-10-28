@@ -1,0 +1,45 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: background_tasks\n"
+
+msgid "abort"
+msgstr "Abortar"
+
+msgid "background_tasks"
+msgstr "Tareas en segundo plano"
+
+msgid "background_tasks_running"
+msgstr "Tareas en segundo plano"
+
+msgid "completed"
+msgstr "Completado"
+
+msgid "proceed_job"
+msgstr "Continuar"
+
+msgid "scheduled"
+msgstr "Programado"
+
+msgid "task_might_be_failed"
+msgstr "Esta tarea no ha respondido desde hace un tiempo, puedes finalizarla si es necesario."
+
+msgid "ui_msg_files_violate_maxsize"
+msgstr "El tamaño total de descarga supera el límite global. La descarga será cancelada."
+
+msgid "ui_msg_no_files_found"
+msgstr "No se han encontrado archivos. La descarga será cancelada."
+
+msgid "ui_msg_num_files"
+msgstr "Se detectaron %s archivo(s) para descargar, ¿deseas continuar?"
+
+msgid "ui_msg_sum_file_sizes"
+msgstr "El tamaño total de la descarga antes de crear la carpeta zip es %s. ¿Deseas continuar?"
+
+msgid "waiting"
+msgstr "En espera"

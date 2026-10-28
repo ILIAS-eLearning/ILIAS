@@ -1,0 +1,8179 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hr\n"
+"Language-Team: Croatian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: common\n"
+
+msgid "HH"
+msgstr "HH: MM"
+
+msgid "absolute_path"
+msgstr "Apsolutni put"
+
+#, fuzzy
+msgid "accept_usr_agreement_btn"
+msgstr "Accept"
+
+msgid "access"
+msgstr "Pristup"
+
+msgid "accessFree"
+msgstr "Uklonite datum 'Važi do'"
+
+msgid "accessRestrict"
+msgstr "Postavite datum 'Važi do'"
+
+msgid "access_expired"
+msgstr "istekao"
+
+msgid "access_free_granted"
+msgstr "Postavite odabrane korisnike na neograničeni pristup"
+
+msgid "access_from"
+msgstr "Pristup od"
+
+msgid "access_public"
+msgstr "Javno"
+
+msgid "access_restricted"
+msgstr "Postavi odabrane korisnike na ograničeni pristup"
+
+msgid "access_scope"
+msgstr "Pristup"
+
+msgid "access_unlimited"
+msgstr "Neograničen"
+
+msgid "access_until"
+msgstr "Vrijedi do"
+
+msgid "access_users"
+msgstr "Prijavljeni korisnici"
+
+msgid "accesscount_registered_users"
+msgstr "Čitano od određenog broja različitih korisnika ILIAS-a"
+
+#, fuzzy
+msgid "accessibility_control_concept"
+msgstr "Accessibility Control Concept"
+
+#, fuzzy
+msgid "account"
+msgstr "My Account"
+
+msgid "account_expires_body"
+msgstr "Vaš račun je vremenski ograničen, istječe u:"
+
+msgid "account_expires_subject"
+msgstr "Vaš račun istječe"
+
+msgid "action"
+msgstr "Akcija"
+
+msgid "action_aborted"
+msgstr "Akcija je prekinuta"
+
+msgid "actions"
+msgstr "Akcije"
+
+#, fuzzy
+msgid "actions_for"
+msgstr "Actions for %s"
+
+msgid "activate"
+msgstr "Aktiviraj"
+
+msgid "activate_https"
+msgstr "Aktiviranje HTTPS-a od strane ILIAS <br /> (Prijava)"
+
+msgid "activate_tracking"
+msgstr "Aktivacija"
+
+msgid "activation"
+msgstr "Uredi vremena"
+
+msgid "active"
+msgstr "Aktivan"
+
+msgid "add"
+msgstr "Dodaj"
+
+msgid "add_condition"
+msgstr "Dodaj preduvjet"
+
+msgid "add_entry"
+msgstr "Dodaj/uredi unos"
+
+msgid "add_member"
+msgstr "Dodaj člana"
+
+#, fuzzy
+msgid "add_member_role"
+msgstr "Add Member Role"
+
+msgid "add_new_user_defined_field"
+msgstr "Dodaj novo korisnički definirano polje"
+
+msgid "add_note"
+msgstr "Dodaj bilješku"
+
+msgid "add_parameter"
+msgstr "Novi parametar"
+
+msgid "add_remove_edit_entries_of_main_menu"
+msgstr "Dodaj, ukloni ili uredi unose u glavnom izborniku"
+
+#, fuzzy
+msgid "add_role"
+msgstr "Add Role"
+
+msgid "add_translation"
+msgstr "Dodaj prijevod"
+
+msgid "add_user"
+msgstr "Dodaj lokalnog korisnika"
+
+msgid "add_user_defined_field"
+msgstr "Dodaj novo polje"
+
+msgid "added_new_condition"
+msgstr "Kreiran je novi preduvjet."
+
+msgid "additional_info"
+msgstr "Dodatne informacije"
+
+msgid "address"
+msgstr "Adresa"
+
+msgid "admin_force_noti"
+msgstr "Obavijest aktivna"
+
+msgid "administrate_users"
+msgstr "Lokalna korisnička administracija"
+
+#, fuzzy
+msgid "administrate_users_headline"
+msgstr "Local ILIAS Accounts of this Category"
+
+msgid "administration"
+msgstr "Administracija"
+
+msgid "administrator"
+msgstr "Administrator"
+
+msgid "adopt"
+msgstr "Preuzmi"
+
+msgid "advanced_editing_allow_html_tags"
+msgstr "Omogući odabrane HTML oznake za uređivanje teksta"
+
+msgid "advanced_editing_assessment_settings"
+msgstr "Dopuštene HTML oznake za ILIAS-ov alat za ispitivanje i ocjenjivanje"
+
+msgid "advanced_editing_frm_post_settings"
+msgstr "Postavke objava na forumima"
+
+msgid "advanced_editing_rep_page_editing"
+msgstr "Omogućite uređivanje sadržaja u repozitoriju"
+
+msgid "advanced_editing_rep_page_editing_desc"
+msgstr "Ova značajka omogućuje dodavanje teksta/medija određenoj kategoriji, tečaju, skupini ili mape. Ako se deaktivira, postojeći će se sadržaj sakriti."
+
+msgid "advanced_editing_required_tags"
+msgstr "Potrebne su sljedeće HTML oznake: %s"
+
+msgid "advanced_editing_survey_settings"
+msgstr "Dopuštene HTML oznake za ILIAS-ov alat za ankete"
+
+msgid "adve_assessment_settings"
+msgstr "Postavke ispitivanja i ocjenjivanja"
+
+msgid "adve_frm_post_settings"
+msgstr "Objave na forumima"
+
+msgid "adve_general_settings"
+msgstr "Opće postavke"
+
+msgid "adve_survey_settings"
+msgstr "Postavke ankete"
+
+msgid "agree_date"
+msgstr "Suglasio se dana"
+
+msgid "all"
+msgstr "Svi"
+
+msgid "all_global_roles"
+msgstr "Globalne uloge"
+
+msgid "all_local_roles"
+msgstr "Lokalne uloge (sve)"
+
+msgid "all_objects"
+msgstr "Svi objekti"
+
+msgid "all_roles"
+msgstr "Sve uloge"
+
+msgid "all_topics"
+msgstr "Sve teme"
+
+msgid "all_users"
+msgstr "Svi korisnici"
+
+msgid "allow_assign_users"
+msgstr "Omogući dodjelu korisnika lokalnim administratorima."
+
+msgid "allow_override_alert"
+msgstr "Pravila za .htaccess nisu ispravno evaluirana."
+
+msgid "allow_register"
+msgstr "Dostupno u prijavnom obrascu za nove korisnike"
+
+msgid "allow_user_toggle_noti"
+msgstr "Član može deaktivirati obavijest"
+
+msgid "already_delivered_files"
+msgstr "Predane datoteke"
+
+msgid "and"
+msgstr "i"
+
+msgid "angry"
+msgstr "Ljut"
+
+msgid "anonymous"
+msgstr "Anonimno"
+
+msgid "answers"
+msgstr "Odgovori"
+
+msgid "any_language"
+msgstr "Bilo koji jezik"
+
+msgid "apache_auth"
+msgstr "Apache autentifikacija"
+
+msgid "application_completed"
+msgstr "Prijava je potpuna"
+
+msgid "application_date"
+msgstr "Datum prijave"
+
+msgid "applications"
+msgstr "Aplikacije"
+
+msgid "apply"
+msgstr "Preuzmi"
+
+msgid "apply_filter"
+msgstr "Primijeni filtar"
+
+msgid "appointment"
+msgstr "Ugovoreni sastanak"
+
+msgid "approve_date"
+msgstr "Odobreno dana"
+
+msgid "approve_recipient"
+msgstr "ID prijave odobravatelja"
+
+msgid "archive"
+msgstr "Arhiva"
+
+msgid "archive_broken"
+msgstr "Čini se da je arhiva neispravna ili prazna."
+
+msgid "are_you_sure"
+msgstr "Jesi li siguran?"
+
+msgid "assf_allowed_questiontypes"
+msgstr "Dostupni tipovi pitanja"
+
+msgid "assf_allowed_questiontypes_desc"
+msgstr "Svi odabrani tipovi pitanja bit će dostupni za ovu instalaciju ILIAS-a. Ako u ovoj instalaciji ne želite dopustiti kreiranje određenog tipa pitanja, morate ukloniti odabir u odgovarajućem potvrdnom okviru kod tog tipa pitanja."
+
+msgid "assf_questiontypes"
+msgstr "Postavke pitanja"
+
+msgid "assign"
+msgstr "Dodijeli"
+
+msgid "assign_global_role"
+msgstr "Dodijeli globalnoj ulozi"
+
+msgid "assign_local_role"
+msgstr "Dodijeli lokalnoj ulozi"
+
+msgid "assigned_members"
+msgstr "Dodijeljeni članovi"
+
+msgid "assigned_roles"
+msgstr "Dodijeljene uloge"
+
+msgid "associated_user"
+msgstr "pridruženi korisnik"
+
+msgid "astounded"
+msgstr "Zapanjen"
+
+msgid "at_least_one_style"
+msgstr "Barem jedan stil mora ostati aktiviran."
+
+msgid "attachment"
+msgstr "Prilog"
+
+msgid "attachments"
+msgstr "Prilozi"
+
+msgid "attempts"
+msgstr "Pokušaji"
+
+msgid "auth_active_roles"
+msgstr "Globalne uloge dostupne na obrascu za registraciju"
+
+msgid "auth_allow_local"
+msgstr "Dopusti lokalnu provjeru autentičnosti"
+
+msgid "auth_configure"
+msgstr "konfiguriraj..."
+
+msgid "auth_create_users"
+msgstr "Automatski izradi nepostojeće korisnike"
+
+msgid "auth_default"
+msgstr "Tvorničke postavke"
+
+msgid "auth_default_mode_changed_to"
+msgstr "Zadani način provjere autentičnosti promijenjen je u"
+
+msgid "auth_ecs"
+msgstr "ECS"
+
+msgid "auth_ldap"
+msgstr "LDAP"
+
+msgid "auth_ldap_enable"
+msgstr "Omogući LDAP podršku"
+
+msgid "auth_ldap_migration"
+msgstr "Migracija računa"
+
+msgid "auth_ldap_migration_info"
+msgstr "Aktiviraj ovu opciju da bi novi korisnici imali mogućnost migriranja svojih postojećih ILIAS računa na LDAP provjeru autentičnosti."
+
+msgid "auth_local"
+msgstr "ILIAS Auth"
+
+msgid "auth_login_instructions"
+msgstr "Upute prikazane na stranici za prijavu"
+
+msgid "auth_mode"
+msgstr "Način provjere autentičnosti"
+
+msgid "auth_mode_not_changed"
+msgstr "(Ništa se nije promijenilo)"
+
+msgid "auth_mode_roles_changed"
+msgstr "Promijenjen način provjere autentičnosti za ovu ulogu"
+
+msgid "auth_new_account_mail_desc"
+msgstr "Pošalji e-poštu novog računa korisniku ako se korisnik automatski generira. Lozinka će se generirati samo ako je aktivirana i opcija 'Dopusti lokalnu provjeru autentičnosti'."
+
+msgid "auth_per_default"
+msgstr "Prema zadanoj vrijednosti"
+
+msgid "auth_remark_non_local_auth"
+msgstr "Kada odabirete drugi način provjere autentičnosti osim baze podataka ILIAS, više nećete moći mijenjati korisničko ime i lozinku."
+
+msgid "auth_role_auth_mode"
+msgstr "Način provjere autentičnosti"
+
+msgid "auth_saml"
+msgstr "SAML"
+
+msgid "auth_script"
+msgstr "Prilagođen"
+
+msgid "auth_select"
+msgstr "Odaberi način provjere autentičnosti"
+
+msgid "auth_selection"
+msgstr "Mogućnosti prijave"
+
+msgid "auth_settings"
+msgstr "Postavke provjere autentičnosti"
+
+msgid "auth_shib"
+msgstr "Shibboleth"
+
+msgid "auth_shib_instructions"
+msgstr "Svakako pročitajte README radi uputa o tome kako konfigurirati Shibboleth podršku za ILIAS."
+
+msgid "auth_shib_not_configured"
+msgstr "Shibboleth još nije konfiguriran"
+
+msgid "auth_shibboleth"
+msgstr "Shibboleth"
+
+msgid "auth_soap"
+msgstr "SOAP"
+
+msgid "auth_soap_allow_local_desc"
+msgstr "Ovo omogućuje korisnicima SOAP-a provjeru autentičnosti s njihovim lokalnim korisničkim imenom ILIAS i lokalnom lozinkom."
+
+msgid "auth_soap_auth"
+msgstr "Konfiguriraj SOAP autentifikaciju"
+
+msgid "auth_soap_auth_desc"
+msgstr "Ove se postavke odnose samo na autentifikaciju korisnika zasnovanu na SOAP-u, a ne i sučelju ILIAS SOAP."
+
+msgid "auth_soap_create_users_desc"
+msgstr "Automatski kreira ILIAS korisnički račun za korisnike koji su uspješno provjerili autentičnost u SOAP-u, a koji još nemaju ILIAS račun."
+
+msgid "auth_soap_namespace"
+msgstr "Prostor za ime"
+
+msgid "auth_soap_namespace_desc"
+msgstr "Kako je definirano u WSDL-u. Mora se navesti ako se koristi .NET SOAP stil."
+
+msgid "auth_soap_port_desc"
+msgstr "Npr. 8080 ako je puni URI SOAP poslužitelja http://auth.yourserver.com:8080/dir/server.php"
+
+msgid "auth_soap_server_desc"
+msgstr "Npr. auth.yourserver.com ako je puni URI SOAP poslužitelja http://auth.yourserver.com:8080/dir/server.php"
+
+msgid "auth_soap_settings_saved"
+msgstr "Postavke za SOAP provjeru autentičnosti su spremljene"
+
+msgid "auth_soap_uri_desc"
+msgstr "Lokalni URI, npr. dir/server.php ako je puni URI SOAP poslužitelja http://auth.yourserver.com:8080/dir/server.php"
+
+msgid "auth_soap_use_dotnet"
+msgstr "Koristi .NET SOAP stil"
+
+msgid "auth_soap_use_https"
+msgstr "Koristi HTTPS"
+
+msgid "auth_soap_user_default_role_desc"
+msgstr "Ova je uloga dodijeljena automatski stvorenim SOAP korisnicima."
+
+msgid "auth_user_default_role"
+msgstr "Zadana uloga"
+
+msgid "authenticate_ilias"
+msgstr "Izvorna autentifikacija ILIAS-a"
+
+msgid "authentication_settings"
+msgstr "Autentifikacija"
+
+msgid "author"
+msgstr "Autor"
+
+msgid "authoring_mode"
+msgstr "Način rada za autore"
+
+msgid "authors"
+msgstr "Autori"
+
+msgid "autocomplete_more"
+msgstr "više"
+
+msgid "available"
+msgstr "Dostupno"
+
+#, fuzzy
+msgid "awra"
+msgstr "Who is online?"
+
+msgid "back"
+msgstr "Natrag"
+
+#, fuzzy
+msgid "back_to_course"
+msgstr "Back to Course"
+
+msgid "back_to_crs_content"
+msgstr "Natrag na sadržaj tečaja"
+
+msgid "back_to_fold_content"
+msgstr "Natrag na sadržaj mape"
+
+msgid "back_to_grp_content"
+msgstr "Natrag na sadržaj skupine"
+
+msgid "backto_lua"
+msgstr "Natrag na lokalno administriranje korisnika"
+
+msgid "basedn"
+msgstr "BaseDN"
+
+msgid "basic_settings"
+msgstr "Osnovne postavke"
+
+msgid "before"
+msgstr "prije"
+
+msgid "behind"
+msgstr "Iza"
+
+msgid "bib_data"
+msgstr "Bibliografski podaci"
+
+#, fuzzy
+msgid "bibl_add"
+msgstr "Add Bibliography"
+
+msgid "birthday"
+msgstr "Rođendan"
+
+msgid "bkm_import"
+msgstr "Uvoz oznaka"
+
+msgid "bkm_import_ok"
+msgstr "Uspješno su uvezene %d oznake i %d mape oznaka."
+
+msgid "bkm_sendmail"
+msgstr "Pošalji kao prilog"
+
+msgid "block"
+msgstr "Blok"
+
+msgid "bm"
+msgstr "Oznaka"
+
+msgid "bm_add_to_ilias"
+msgstr "Dodaj u oznake ILIAS"
+
+msgid "bmf"
+msgstr "Mapa oznaka"
+
+msgid "bold"
+msgstr "Masno otisnuto"
+
+#, fuzzy
+msgid "bold_action"
+msgstr "Insert Bold - Click to insert bold text."
+
+msgid "bookings"
+msgstr "Naruđžbe"
+
+msgid "bookmark_added"
+msgstr "Oznaka je kreirana."
+
+msgid "bookmark_folder_new"
+msgstr "Nova mapa oznaka"
+
+msgid "bookmark_new"
+msgstr "Nova oznaka"
+
+msgid "bookmark_target"
+msgstr "Cilj"
+
+msgid "bookmarks"
+msgstr "Oznake"
+
+msgid "bookmarks_of"
+msgstr "Oznake za"
+
+msgid "breadcrumb_navigation"
+msgstr "Breadcrumb navigacija"
+
+#, fuzzy
+msgid "breadcrumbs_aria_label"
+msgstr "Breadcrumbs"
+
+#, fuzzy
+msgid "briefcase"
+msgstr "Background Tasks"
+
+msgid "btn_add"
+msgstr "Dodaj"
+
+msgid "btn_back"
+msgstr "Natrag"
+
+msgid "btn_next"
+msgstr "Nastavi"
+
+msgid "btn_previous"
+msgstr "Natrag"
+
+msgid "btn_remove_system"
+msgstr "Ukloni iz sustava"
+
+msgid "btn_undelete"
+msgstr "Vrati"
+
+msgid "buddy_allow_to_contact_me_no"
+msgstr "Ne prima zahtjeve za kontakt"
+
+msgid "buddy_allow_to_contact_me_yes"
+msgstr "Prima zahtjeve za kontakt"
+
+msgid "building_export_file"
+msgstr "Izrada datoteke za izvoz ..."
+
+#, fuzzy
+msgid "bulletlist_action"
+msgstr "Insert Bulletpoint-List - Click to insert a bulletpoint-list."
+
+msgid "by"
+msgstr "Od"
+
+msgid "bytes"
+msgstr "Bajtovi"
+
+msgid "cal_from"
+msgstr "Od:"
+
+msgid "cal_until"
+msgstr "Do:"
+
+msgid "calendar"
+msgstr "Kalendar"
+
+msgid "cancel"
+msgstr "Otkaži"
+
+msgid "cancel_file_upload"
+msgstr "Želite li zaista prekinti učitavanje datotekana čekanju?"
+
+msgid "cannot_find_xml"
+msgstr "Ne mogu pronaći nijednu XML-datoteku."
+
+msgid "cannot_uninstall_language_in_use"
+msgstr "Ne možete deinstalirati jezik koji se trenutačno koristi!"
+
+msgid "cannot_uninstall_systemlanguage"
+msgstr "Ne možete deinstalirati jezik sustava!"
+
+msgid "cannot_unzip_file"
+msgstr "Datoteka se ne može raspakirati."
+
+msgid "cant_deactivate_if_users_assigned"
+msgstr "Ne možete deaktivirati stil ako  još uvijek postoje dodijeljeni korisnici."
+
+msgid "cat"
+msgstr "Kategorija"
+
+msgid "cat_add"
+msgstr "Dodaj kategoriju"
+
+msgid "cat_added"
+msgstr "Kategorija dodana"
+
+msgid "cat_copy_threads_info"
+msgstr "Odlučite koje stavke kategorije treba kopirati, povezati ili čak izostaviti."
+
+msgid "cat_edit"
+msgstr "Postavke kategorije"
+
+msgid "cat_new"
+msgstr "Nova kategorija"
+
+msgid "cat_wizard_page"
+msgstr "Kopiraj kategoriju (korak 2/2)"
+
+msgid "categories"
+msgstr "Kategorije"
+
+msgid "categories_imported"
+msgstr "Uvoz kategorije dovršen."
+
+msgid "catr"
+msgstr "Poveznica kategorije"
+
+#, fuzzy
+msgid "catr_add"
+msgstr "Add Category Link"
+
+msgid "catr_edit_info"
+msgstr "Odaberite jednu kategoriju za koju želite izraditi poveznicu."
+
+msgid "catr_new"
+msgstr "Izradite novu poveznicu kategorije"
+
+#, fuzzy
+msgid "catr_settings"
+msgstr "Category Link Settings"
+
+msgid "certificate"
+msgstr "Certifikat"
+
+msgid "certificate_file_already_exists_error"
+msgstr "Datoteka certifikata već postoji u datotečnom sustavu."
+
+msgid "certificate_file_input_output_error"
+msgstr "Datoteka certifikata je pronađena, ali se zbog internih pogrešaka ne može izbrisati. Molimo kontaktirajte svog administratora."
+
+msgid "certificate_file_not_found_error"
+msgstr "Datoteka certifikata više ne postoji u datotečnom sustavu."
+
+msgid "certificate_persistent_option"
+msgstr "Certifikati o postignućima"
+
+msgid "certificate_selection"
+msgstr "Porijeklo certifikata"
+
+msgid "certificate_workspace_option"
+msgstr "Certifikati o radnom prostoru"
+
+#, fuzzy
+msgid "certificates"
+msgstr "Certificates"
+
+msgid "change"
+msgstr "Promijeni"
+
+msgid "change_assignment"
+msgstr "Promijeni zadatak"
+
+msgid "change_header_title"
+msgstr "Uredi naslov zaglavlja"
+
+msgid "change_owner"
+msgstr "Promijeni vlasnika"
+
+msgid "change_sort_direction"
+msgstr "Promijeni smjer sortiranja"
+
+msgid "changeable"
+msgstr "Može se promijeniti u osobnim podacima i profilu"
+
+msgid "changed_to"
+msgstr "promijenio u"
+
+msgid "changing_loginname_not_possible_info"
+msgstr "Promijenili svoje korisničko ime dana %s. Sljedeća promjena moguća je tek dana %s."
+
+msgid "chapter"
+msgstr "Poglavlje"
+
+msgid "characters"
+msgstr "znakovi"
+
+msgid "chat_enter_public_room"
+msgstr "Javni razgovor"
+
+msgid "chat_enter_public_room_tooltip"
+msgstr "Uđite u javnu sobu za razgovor."
+
+msgid "chat_users_active"
+msgstr "Aktivni korisnici"
+
+msgid "check"
+msgstr "Provjeri"
+
+msgid "check_all"
+msgstr "Provjeri sve"
+
+msgid "check_langfile"
+msgstr "Molimo provjerite svoju jezičnu datoteku"
+
+msgid "check_languages"
+msgstr "Provjeri sve jezike"
+
+msgid "check_link"
+msgstr "Provjeri web poveznice"
+
+msgid "check_link_desc"
+msgstr "Ako je omogućeno, provjeravat će se jesu li vanjske poveznice u ILIAS modulima za učenje aktivne."
+
+msgid "check_user_accounts"
+msgstr "Provjeri korisničke račune"
+
+msgid "check_user_accounts_desc"
+msgstr "Ako je omogućeno, svi korisnici kojima račun ističe bit će obaviješteni e-poštom dva tjedna prije. Nadalje, svi korisnici koji nisu potvrdili svoj račun nakon registracije s e-poštom potvrde bit će izbrisani."
+
+msgid "check_web_resources"
+msgstr "Provjeri web poveznice"
+
+msgid "check_web_resources_desc"
+msgstr "Ako je omogućeno, sve će se web poveznice provjeriti jesu li aktivne."
+
+msgid "checked"
+msgstr "Provjereno"
+
+msgid "checked_files"
+msgstr "Datoteke koje se mogu uvesti"
+
+msgid "chg_ilias_and_webfolder_password"
+msgstr "Promijeni lozinku web mape"
+
+msgid "chg_ilias_password"
+msgstr "Promijeni ILIAS lozinku"
+
+msgid "chg_password"
+msgstr "Promijeni lozinku"
+
+msgid "choose_language"
+msgstr "Odaberi svoj jezik"
+
+msgid "choose_only_one_language"
+msgstr "Odaberi samo jedan jezik"
+
+msgid "chown_warning"
+msgstr "Pozor! Promjenom vlasnika možete izgubiti dozvole za pristup ovom objektu."
+
+msgid "chta_edit_permission"
+msgstr "Promijeni postavke prava"
+
+msgid "chta_read"
+msgstr "Pristup za čitanje administracije sobe za razgovor"
+
+msgid "chta_visible"
+msgstr "Administracija sobe za razgovor je vidljiva"
+
+msgid "chta_write"
+msgstr "Uredi administraciju sobe za razgovor"
+
+msgid "chtr_copy"
+msgstr "Kopiraj sobu za razgovor"
+
+msgid "chtr_import"
+msgstr "Uvezi sobu za razgovor"
+
+msgid "city"
+msgstr "Grad, država"
+
+msgid "cleaned_file"
+msgstr "Datoteka je očišćena."
+
+msgid "cleaning_failed"
+msgstr "Čišćenje nije uspjelo."
+
+msgid "clear"
+msgstr "Očisti"
+
+msgid "clear_clipboard"
+msgstr "Očisti međuspremnik"
+
+msgid "client"
+msgstr "Klijent"
+
+msgid "client_id"
+msgstr "ID mandanta"
+
+msgid "client_ip"
+msgstr "IP klijenta"
+
+msgid "clientlist_available_clients"
+msgstr "Dostupni mandanti"
+
+msgid "clientlist_clientlist"
+msgstr "Popis mandanata"
+
+msgid "clientlist_installation_name"
+msgstr "Naziv instalacije"
+
+msgid "clientlist_login"
+msgstr "Prijavi se"
+
+msgid "clientlist_login_page"
+msgstr "Stranica za prijavu"
+
+msgid "clientlist_public_access"
+msgstr "Javni pristup"
+
+msgid "clientlist_start_page"
+msgstr "Početna stranica"
+
+msgid "clipboard"
+msgstr "Međuspremnik"
+
+msgid "close"
+msgstr "Zatvori"
+
+#, fuzzy
+msgid "cmix"
+msgstr "Object xAPI/cmi5"
+
+msgid "cnt_new"
+msgstr "(%s novo)"
+
+msgid "collapse"
+msgstr "Sažmi"
+
+msgid "collapse_all"
+msgstr "Sažmi sve"
+
+#, fuzzy
+msgid "collapse_content"
+msgstr "Collapse Content"
+
+msgid "collapsed"
+msgstr "Sažeto"
+
+#, fuzzy
+msgid "column_selection"
+msgstr "Column Selection"
+
+msgid "columns"
+msgstr "Stupci"
+
+msgid "comma_separated"
+msgstr "Razdvojeno zarezom"
+
+msgid "comment"
+msgstr "Komentar"
+
+#, fuzzy
+msgid "comments"
+msgstr "Comments"
+
+msgid "compose"
+msgstr "Sastavi"
+
+msgid "concurrent_uploads"
+msgstr "Broj istodobnih učitavanja"
+
+msgid "concurrent_uploads_info"
+msgstr "Definira broj datoteka koje se mogu istovremeno učitati po postupku učitavanja."
+
+msgid "cond_ref_handling"
+msgstr "Postavke za poveznice"
+
+msgid "cond_ref_shared"
+msgstr "Zajednički preduvjeti za sve poveznice"
+
+msgid "cond_ref_unique"
+msgstr "Jedinstveni preduvjeti za poveznice"
+
+msgid "condition"
+msgstr "Uvjet"
+
+msgid "condition_accredited_or_passed"
+msgstr "Akreditirano ili položeno"
+
+msgid "condition_already_assigned"
+msgstr "Objekt je već dodijeljen."
+
+msgid "condition_circle_created"
+msgstr "Ovo povezivanje nije moguće, jer bi objekti bili međusobno ovisni."
+
+msgid "condition_deleted"
+msgstr "Uvjet izbrisan."
+
+msgid "condition_finished"
+msgstr "Završeno"
+
+msgid "condition_not_finished"
+msgstr "Nije završeno"
+
+msgid "condition_passed"
+msgstr "Prošao"
+
+msgid "condition_select_object"
+msgstr "Odaberite jedan objekt."
+
+msgid "conditions_updated"
+msgstr "Uvjeti spremljeni"
+
+#, fuzzy
+msgid "configuration"
+msgstr "Configuration"
+
+msgid "confirm"
+msgstr "Potvrdi"
+
+msgid "confirm_delete_parameter"
+msgstr "Želite li zaista izbrisati parametar?"
+
+msgid "confirmation"
+msgstr "Potvrda"
+
+msgid "conflict_handling"
+msgstr "Rješavanje sukoba"
+
+msgid "cont_iim_content_popups_info"
+msgstr "Skočni prozori sadržaja pojavljuju se kada korisnik klikne na interaktivne dijelove pozadinske slike. Na ovom zaslonu definirate samo skočne prozore. Njihov se sadržaj može uređivati na glavnoj stranici."
+
+msgid "cont_iim_create_info"
+msgstr "Učitajte pozadinsku sliku za interaktivnu sliku."
+
+msgid "cont_iim_overlay_info"
+msgstr "Prekrivne slike koriste se za izmjenu (npr. isticanje) dijelova pozadinske slike kada miš pređe preko njih. Nakon učitavanja slika, možete ih odabrati na kartici 'Okidači'."
+
+msgid "contact"
+msgstr "Kontakt"
+
+msgid "contact_data"
+msgstr "Podaci za kontakt"
+
+msgid "contact_sysadmin"
+msgstr "Obratite se tehničkoj podršci"
+
+msgid "container"
+msgstr "Spremnik"
+
+msgid "container_no_items"
+msgstr "Nema dostupnih materijala"
+
+msgid "content"
+msgstr "Sadržaj"
+
+msgid "content_frame"
+msgstr "Okvir sadržaja"
+
+msgid "content_styles"
+msgstr "Stilovi sadržaja"
+
+msgid "context"
+msgstr "Kontekst"
+
+msgid "continue"
+msgstr "dalje"
+
+msgid "continue_work"
+msgstr "Nastavi"
+
+msgid "contra"
+msgstr "Kontra"
+
+#, fuzzy
+msgid "copa"
+msgstr "Content Page"
+
+msgid "copy"
+msgstr "Kopiraj"
+
+msgid "copyChapter"
+msgstr "Kopiraj"
+
+msgid "copyPage"
+msgstr "Kopiraj"
+
+msgid "copy_all"
+msgstr "Kopiraj sve"
+
+msgid "copy_n_of_suffix"
+msgstr "- Kopija (%1$s)"
+
+msgid "copy_of"
+msgstr "Kopija"
+
+msgid "copy_of_suffix"
+msgstr "=- kopija"
+
+#, fuzzy
+msgid "copy_perma_link"
+msgstr "Copy link to clipboard"
+
+msgid "copy_selected_items"
+msgstr "Kopiraj"
+
+msgid "count"
+msgstr "Količina"
+
+#, fuzzy
+msgid "counter_novelty"
+msgstr "News"
+
+#, fuzzy
+msgid "counter_status"
+msgstr "Status"
+
+msgid "country"
+msgstr "Država (padajući izbor)"
+
+msgid "country_free_text"
+msgstr "Država (unos slobodnog teksta)"
+
+msgid "country_selection"
+msgstr "Država (padajući izbor)"
+
+msgid "course"
+msgstr "Tečaj"
+
+msgid "courses"
+msgstr "Tečajevi"
+
+msgid "create"
+msgstr "Izradi"
+
+msgid "create_date"
+msgstr "Izrađeno dana"
+
+msgid "create_export_file"
+msgstr "Kreiraj datoteku za izvoz"
+
+msgid "create_stylesheet"
+msgstr "Kreiraj stil"
+
+msgid "created"
+msgstr "Kreirano dana"
+
+msgid "cron_forum_notification"
+msgstr "Pošalji obavijesti s foruma"
+
+msgid "cron_forum_notification_crob_desc"
+msgstr "Ako je omogućeno, svi korisnici koji su omogućili obavijesti za određene forume ili teme foruma svakodnevno će od ILIAS-a dobivati e-poštu s obavijestima o svim novim ili promijenjenim objavama, ali bez neposredne obavijesti za svaku predanu objavu."
+
+#, fuzzy
+msgid "cron_forum_notification_disabled"
+msgstr "Can't be disabled when the Cron Job is active."
+
+msgid "cron_jobs"
+msgstr "Cron Jobs"
+
+msgid "cron_lucene_index"
+msgstr "Ažurirajte indeks pretraživanja Lucene"
+
+msgid "cron_lucene_index_info"
+msgstr "Ako je omogućeno, indeks pretraživanja lucena će se ažurirati. Molimo konfigurirajte prethodno poslužitelj lucene pod 'Administracija -> Pretraživanje'."
+
+msgid "cron_mail_notification"
+msgstr "Obavijesti o novoj pošti"
+
+msgid "cron_mail_notification_cron"
+msgstr "redovito po Cron-Jobu"
+
+msgid "cron_mail_notification_desc"
+msgstr "Ako je omogućeno, svi korisnici koji žele biti obaviješteni o novoj pošti, dobit će obavijesti vanjskom poštom. Da biste koristili ovu funkciju prvo omogućite opciju '%s'."
+
+msgid "cron_mail_notification_message"
+msgstr "Šalji obavijesti o pošti e-poštom"
+
+msgid "cron_mail_notification_message_info"
+msgstr "Ako je omogućeno, svi će korisnici vanjskom poštom dobivati obavijesti s cjelokupnim sadržajem pošte."
+
+msgid "cron_mail_notification_never"
+msgstr "nikada"
+
+#, fuzzy
+msgid "cron_users_without_login_del_create_date_thr"
+msgstr "Thresholt"
+
+#, fuzzy
+msgid "cron_users_without_login_del_create_date_thr_info"
+msgstr "All user accounts created before the defined threshold will be taken into consideration."
+
+#, fuzzy
+msgid "cron_users_without_login_del_role_whitelist"
+msgstr "Included Roles"
+
+#, fuzzy
+msgid "cron_users_without_login_del_role_whitelist_info"
+msgstr "Only users with one of the selected global roles will be deleted. Does a user have a role that is not selected, the user account remains."
+
+msgid "cronjob_last_start"
+msgstr "Posljednje pokretanje Cron-Joba"
+
+msgid "cronjob_last_start_unknown"
+msgstr "Nije se moglo odrediti"
+
+msgid "crs"
+msgstr "Tečaj"
+
+msgid "crs_activation_start_invalid"
+msgstr "Vrijeme početka i završetka nisi važeći."
+
+msgid "crs_add"
+msgstr "Dodaj tečaj"
+
+msgid "crs_added"
+msgstr "Tečaj dodan"
+
+msgid "crs_archives"
+msgstr "Arhiva"
+
+msgid "crs_cancel_waiting_list"
+msgstr "Želite li se zaista ukloniti s liste čekanja za tečaj \"%s\"?"
+
+msgid "crs_copy_threads_info"
+msgstr "Odaberite koji materijali tečaja želite kopirati, povezati ili izostaviti u postupku kopiranja."
+
+msgid "crs_edit"
+msgstr "Uredi tečaj"
+
+msgid "crs_list_reg"
+msgstr "Registracija"
+
+msgid "crs_list_reg_end"
+msgstr "Kraj registracije"
+
+msgid "crs_list_reg_limit_full"
+msgstr "Nema više slobnodnih mjesta"
+
+msgid "crs_list_reg_limit_places"
+msgstr "Slobodna mjesta"
+
+msgid "crs_list_reg_noreg"
+msgstr "Registracija nije moguća"
+
+msgid "crs_list_reg_period"
+msgstr "Razdoblje registracije"
+
+msgid "crs_list_reg_start"
+msgstr "Početak registracije"
+
+msgid "crs_member_not_passed"
+msgstr "Nije prošao"
+
+msgid "crs_member_passed"
+msgstr "Prošao"
+
+msgid "crs_members_gallery"
+msgstr "Galerija sudionika tečaja"
+
+msgid "crs_new"
+msgstr "Novi tečaj"
+
+msgid "crs_removed_from_waiting_list"
+msgstr "Izbrisani ste s liste čekanja za tečaj \"%s\"."
+
+msgid "crs_status_blocked"
+msgstr "[Pristup odbijen]"
+
+msgid "crs_status_pending"
+msgstr "[Čekanje na registraciju]"
+
+msgid "crs_subscribers_assigned"
+msgstr "Dodijeljeni novi korisnik(ici)"
+
+msgid "crs_title"
+msgstr "Naziv tečaja"
+
+msgid "crs_unsubscribe"
+msgstr "Odjavi se s tečaja"
+
+msgid "crs_wizard_page"
+msgstr "Kopiraj tečaj (korak 2/2)"
+
+msgid "crsr"
+msgstr "Poveznica na tečaj"
+
+#, fuzzy
+msgid "crsr_add"
+msgstr "Add Course Link"
+
+msgid "crsr_edit_info"
+msgstr "Odaberite jedan tečaj za kreiranje nove poveznice."
+
+msgid "crsr_new"
+msgstr "Izradi poveznicu na tečaj"
+
+#, fuzzy
+msgid "crsr_settings"
+msgstr "Course Link Settings"
+
+msgid "csv_export"
+msgstr "CSV-izvoz"
+
+msgid "current_ip"
+msgstr "Trenutačni IP:"
+
+msgid "current_ip_alert"
+msgstr "Napomena: ako unesete pogrešan IP, s ovim profilom više nećete moći pristupiti sustavu."
+
+msgid "current_password"
+msgstr "Trenutačna lozinka"
+
+#, fuzzy
+msgid "current_user_avatar"
+msgstr "Your User Avatar"
+
+msgid "currently_used_disk_space"
+msgstr "Trenutačno korišten prostor na disku"
+
+#, fuzzy
+msgid "customize_page"
+msgstr "Customize Page"
+
+msgid "cut"
+msgstr "Izreži"
+
+msgid "cutPage"
+msgstr "Izreži"
+
+msgid "daily"
+msgstr "dnevno"
+
+msgid "database"
+msgstr "Baza podataka"
+
+msgid "database_version"
+msgstr "Trenutačna verzija baze podataka"
+
+msgid "dataset"
+msgstr "Stavka"
+
+msgid "date"
+msgstr "Datum"
+
+#, fuzzy
+msgid "date_time"
+msgstr "Date and Time"
+
+msgid "dateplaner"
+msgstr "Kalendar"
+
+msgid "day"
+msgstr "Dan"
+
+msgid "days"
+msgstr "Dani"
+
+msgid "db_host"
+msgstr "Domaćin baze podataka"
+
+msgid "db_name"
+msgstr "Naziv baze podataka"
+
+msgid "db_need_update"
+msgstr "Bazu podataka treba ažurirati!"
+
+msgid "db_pass"
+msgstr "Lozinka baze podataka"
+
+msgid "db_type"
+msgstr "Tip baze podataka"
+
+msgid "db_user"
+msgstr "Korisnik baze podataka"
+
+msgid "db_version"
+msgstr "Verzija baze podataka"
+
+msgid "dd_mm_yyyy"
+msgstr "DD.MM.GGGG"
+
+msgid "deactivate"
+msgstr "Deaktiviraj"
+
+msgid "decrease_attempts"
+msgstr "Pokušaji - 1"
+
+msgid "def_repository_view"
+msgstr "Zadani prikaz repozitorija"
+
+msgid "default"
+msgstr "Zadano"
+
+msgid "default_auth_mode"
+msgstr "Zadana metoda autentifikacije"
+
+msgid "default_auth_mode_info"
+msgstr "Odaberite način provjere autentičnosti koji je unaprijed odabran na stranici za prijavu."
+
+msgid "default_language"
+msgstr "Zadani jezik"
+
+msgid "default_perm_settings"
+msgstr "Zadana prava"
+
+msgid "default_role"
+msgstr "Zadana uloga"
+
+msgid "default_roles"
+msgstr "Zadane uloge"
+
+msgid "default_skin"
+msgstr "Zadana korisnička površina"
+
+msgid "default_skin_style"
+msgstr "Zadana korisnička površina/stil"
+
+msgid "default_style"
+msgstr "Zadani stil"
+
+msgid "defaults"
+msgstr "Zadane postavke"
+
+msgid "delete"
+msgstr "Izbriši"
+
+msgid "delete_existing_file"
+msgstr "Izbriši postojeću datoteku"
+
+msgid "delete_inactivated_user_accounts"
+msgstr "Izbrišite neaktivne korisničke račune"
+
+msgid "delete_inactivated_user_accounts_desc"
+msgstr "Ako je omogućeno, korisnički računi bit će izbrisani %s dana nakon njihovog postavljana kao neaktivne."
+
+msgid "delete_inactivated_user_accounts_include_roles"
+msgstr "Uloge uzete u obzir"
+
+msgid "delete_inactivated_user_accounts_include_roles_desc"
+msgstr "Provjerit će se i izbrisati samo korisnički računi s jednom od označenih uloga, ako se prekorači maksimalni broj dana."
+
+msgid "delete_inactivated_user_accounts_period"
+msgstr "Dani prošli od postavljana kao neaktivan"
+
+msgid "delete_inactivated_user_accounts_period_desc"
+msgstr "Računi će se izbrisati ako je prošlo ovoliko dana od postavljanja kao neaktivan."
+
+msgid "delete_inactive_user_accounts"
+msgstr "Briši korisničke račune kod kojih je prošlo puno vremena od prošle prijave"
+
+msgid "delete_inactive_user_accounts_desc"
+msgstr "Ako je omogućeno, korisnički računi će se brisati ovisno o datumu njihove posljednje prijave."
+
+msgid "delete_inactive_user_accounts_include_roles"
+msgstr "Uloge uzete u obzir"
+
+msgid "delete_inactive_user_accounts_include_roles_desc"
+msgstr "Provjerit će se i izbrisati samo korisnički računi s jednom od označenih uloga, ako je prošao maksimalni broj dana."
+
+msgid "delete_inactive_user_accounts_period"
+msgstr "Dani prošli od posljednje prijave"
+
+msgid "delete_inactive_user_accounts_period_desc"
+msgstr "Svi korisnički računi bez prijave unutar definiranog broja dana automatski će se izbrisati."
+
+msgid "delete_parameter"
+msgstr "Izbriši parametar"
+
+msgid "delete_selected_items"
+msgstr "Izbriši"
+
+msgid "deleted"
+msgstr "Izbrisano"
+
+msgid "deleted_user"
+msgstr "Korisnik je izbrisan"
+
+msgid "deleted_users"
+msgstr "Izbrisani korisnici"
+
+#, fuzzy
+msgid "deletion_notification"
+msgstr "\"%s\" has canceled the attendance of session \"%s\"."
+
+msgid "deliver"
+msgstr "Isporuči"
+
+#, fuzzy
+msgid "deny_usr_agreement"
+msgstr "Do not accept terms of service?"
+
+#, fuzzy
+msgid "deny_usr_agreement_btn"
+msgstr "Not Accept"
+
+msgid "department"
+msgstr "Odjel"
+
+msgid "desc"
+msgstr "Opis"
+
+msgid "description"
+msgstr "Opis"
+
+msgid "desired_password"
+msgstr "Željena lozinka"
+
+msgid "details"
+msgstr "Pojedinosti"
+
+#, fuzzy
+msgid "didactic_template"
+msgstr "Didactic Template"
+
+msgid "disable"
+msgstr "onemogući"
+
+msgid "disable_check"
+msgstr "Onemogući provjeru"
+
+msgid "disable_ext_lang_maint"
+msgstr "Onemogući prošireno održavanje"
+
+msgid "disable_hide_user_toggle"
+msgstr "Član može deaktivirati"
+
+msgid "disabled"
+msgstr "Onemogućeno"
+
+#, fuzzy
+msgid "disclose"
+msgstr "Disclose"
+
+msgid "dislike"
+msgstr "Ne sviđa mi se"
+
+msgid "domain"
+msgstr "Domena"
+
+msgid "down"
+msgstr "Dolje"
+
+msgid "download"
+msgstr "Preuzimanje"
+
+msgid "download_all_returned_files"
+msgstr "Preuzmi sve prijave"
+
+msgid "download_link"
+msgstr "Poveznica za preuzimanje"
+
+msgid "download_multiple_objects"
+msgstr "Preuzmi više objekata"
+
+msgid "download_selected_items"
+msgstr "Preuzimanje datoteka"
+
+msgid "downloading_settings"
+msgstr "Postavke preuzimanja"
+
+#, fuzzy
+msgid "dpro_accept_usr_agreement"
+msgstr "Accept Declaration of Data Protection?"
+
+#, fuzzy
+msgid "dpro_accept_usr_agreement_intro"
+msgstr "There is a new Declaration of Data Protection. You need to accept it before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page."
+
+#, fuzzy
+msgid "dpro_agreed_on"
+msgstr "DoDP agreed to on"
+
+#, fuzzy
+msgid "dpro_force_accept_usr_agreement"
+msgstr "You must accept the Declaration of Data Protection!"
+
+#, fuzzy
+msgid "dpro_no_agreement_description"
+msgstr "There is currently no Declaration of Data Protection document available for this installation. Please contact the <a href=\"%1$s\">system administrator</a>."
+
+#, fuzzy
+msgid "dpro_refuse_acceptance"
+msgstr "Refuse to Accept the Declaration of Data Protection"
+
+#, fuzzy
+msgid "dpro_usr_agreement"
+msgstr "Declaration of Data Protection"
+
+#, fuzzy
+msgid "dpro_usr_agreement_footer_intro"
+msgstr "You have declared your consent to this Declaration of Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_description"
+msgstr "Withdraw your consent to our Declaration of Data Protection here."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_description_external"
+msgstr "Please return to your ILIAS installation and log in again to complete the process of withdrawing your consent to the Declaration of Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_description_internal"
+msgstr "Please log in again to complete the process of withdrawing your consent to the Declaration of Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_header"
+msgstr "Withdraw to Consent of Declaration of Data Protection"
+
+#, fuzzy
+msgid "dpro_withdraw_consent_info"
+msgstr "Withdraw your consent to our Declaration of Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_info_external"
+msgstr "Please contact the administrator of your authentication system and inform them of your intention to withdraw your consent to the Declaration of Data Protection."
+
+msgid "drafts"
+msgstr "Nacrti"
+
+msgid "drag_file_here"
+msgstr "Povucite i ispustite datoteku ovdje"
+
+msgid "drag_files_here"
+msgstr "Povucite i ispustite datoteke ovdje"
+
+#, fuzzy
+msgid "drag_handle"
+msgstr "Draggable element"
+
+msgid "drop_files_on_repo_obj_info"
+msgstr "Ovdje ispustite datoteke kako biste ih učitali u ovaj objekt."
+
+msgid "edit"
+msgstr "Uredi"
+
+msgid "edit_assignments"
+msgstr "Uredi zadatke"
+
+msgid "edit_cat_settings"
+msgstr "Napredne postavke kategorija"
+
+msgid "edit_content"
+msgstr "Uredi sadržaj"
+
+msgid "edit_grouping"
+msgstr "Uredi ograničenje članstva"
+
+msgid "edit_metadata"
+msgstr "Uredi metapodatke"
+
+msgid "edit_operations"
+msgstr "Uredi operacije"
+
+msgid "edit_page"
+msgstr "Uredi stranicu"
+
+msgid "edit_page_content"
+msgstr "Uredi sadržaj stranice"
+
+msgid "edit_page_meta"
+msgstr "Uredi metapodatke stranice"
+
+msgid "edit_properties"
+msgstr "Uredi svojstva"
+
+msgid "edit_stylesheet"
+msgstr "Uredi stil"
+
+msgid "edited_on"
+msgstr "Uređeno dana"
+
+msgid "editor"
+msgstr "Urednik"
+
+msgid "email"
+msgstr "E-pošta"
+
+msgid "email_not_valid"
+msgstr "Adresa e-pošte koju ste unijeli nije valjana!"
+
+msgid "enable"
+msgstr "Omogući"
+
+msgid "enable_anonymous_fora"
+msgstr "Dopusti objavljivanje pod pseudonimom"
+
+msgid "enable_anonymous_fora_desc"
+msgstr "Ako je ova opcija onemogućena, značajka 'Objave pod pseudonimom' više nije dostupna na forumima."
+
+msgid "enable_calendar"
+msgstr "Omogući kalendar"
+
+#, fuzzy
+msgid "enable_comments_export"
+msgstr "Enable Comments Export"
+
+msgid "enable_course_group_notifications"
+msgstr "Dnevna pošta s novostima o skupinama i tečajevima"
+
+msgid "enable_course_group_notifications_desc"
+msgstr "Ako je omogućeno, sudionici se mogu pretplatiti na dnevni sažetak vijesti."
+
+msgid "enable_custom_icons"
+msgstr "Omogući prilagođene ikone"
+
+msgid "enable_custom_icons_info"
+msgstr "To vam omogućuje definiranje prilagođenih ikona za objekte pojedinačnog spremnika i stranice sadržaja. Odjeljak svojstava ovih objekata osigurat će dijalog za učitavanje slike."
+
+msgid "enable_dnd_upload"
+msgstr "Omogući učitavanje povlačenjem i ispuštanjem"
+
+msgid "enable_dnd_upload_info"
+msgstr "Ako je omogućeno, datoteke se mogu prenijeti povlačenjem i ispuštanjem s lokalnog računala."
+
+msgid "enable_download_folder"
+msgstr "Omogućeno \"Radnja za preuzimanje mape\""
+
+msgid "enable_download_folder_info"
+msgstr "Omogućuje mogućnost preuzimanja unutar radnji padajućih mapa."
+
+msgid "enable_export_scorm_desc"
+msgstr "Prikaz osobnih podataka u zapisničkim podacima (SCORM)"
+
+msgid "enable_fora_statistics"
+msgstr "Omogući statistike foruma"
+
+msgid "enable_fora_statistics_desc"
+msgstr "Ako je onemogućeno, nitko neće moći pristupiti statistici foruma."
+
+msgid "enable_hide_user_toggle"
+msgstr "Član ne smije deaktivirati"
+
+msgid "enable_multi_download"
+msgstr "Omogućeno «Preuzimanje više objekata»"
+
+msgid "enable_multi_download_info"
+msgstr "Omogućuje odabir više mapa/datoteka za preuzimanje u zip arhivu."
+
+msgid "enable_password_assistance"
+msgstr "Omogući pomoć vezano za lozinku"
+
+msgid "enable_preview"
+msgstr "Omogući pregled"
+
+msgid "enable_preview_info"
+msgstr "Omogući ovu opciju za prikaz slika pregleda na podržanim vrstama datoteka."
+
+msgid "enable_repository_dnd_upload"
+msgstr "Omogući u repozitoriju"
+
+msgid "enable_repository_dnd_upload_info"
+msgstr "Omogućuje da se datoteke mogu povući s računala izravno na objekt u repozitoriju kako bi se učitale u taj objekt."
+
+msgid "enable_sahs_protocol_data"
+msgstr "Aktiviraj podatke zapisnika"
+
+msgid "enable_sahs_protocol_data_desc"
+msgstr "Prikaži podatke zapisnika (SCORM)"
+
+msgid "enable_search_engine"
+msgstr "Otvorite javno područje za internetske pretraživače (npr. Google). <br /> Za ovo je proširenje potreban modul Apache \"mod_rewrite\". Molimo pripazite da imate odgovarajuća dopuštenja za upotrebu .htaccess konfiguracija."
+
+msgid "enable_trash"
+msgstr "Omogući otpad"
+
+msgid "enable_trash_info"
+msgstr "Ako je omogućen, izbrisani se objekti premještaju u otpad i mogu se kasnije obnoviti. Pri deaktiviranju ove opcije izbrisani se objekti nepovratno uklanjaju iz sustava!"
+
+msgid "enable_webdav"
+msgstr "Omogući pristup WebDAV-u"
+
+msgid "enable_webdav_info"
+msgstr "Omogućuje WebDAV klijentima pristup repozitoriju preko web mape. Korisnici mogu otvoriti web mape pomoću akcije 'Otvori kao web mapa' u repozitoriju  ili unošenjem sljedeće adrese u WebDAV klijenta: <a href=\"%1$s\" folder=\"%1$s\">%1$s</a>"
+
+msgid "enabled"
+msgstr "Omogućeno"
+
+#, fuzzy
+msgid "enlarge"
+msgstr "Enlarge"
+
+msgid "enter_in_mb_desc"
+msgstr "Unesi vrijednost u MB."
+
+msgid "enter_new_name"
+msgstr "Unesi ime"
+
+#, fuzzy
+msgid "entered_notification"
+msgstr "\"%s\" has joined the session \"%s\"."
+
+msgid "entry_status"
+msgstr "Status unosa"
+
+msgid "err_1_param"
+msgstr "Samo 1 parametar!"
+
+msgid "err_2_param"
+msgstr "Samo 2 parametra!"
+
+msgid "err_auth_apache_failed"
+msgstr "Autentifikacija nije uspjela. Možda nemate valjani korisnički certifikat ili vaša pametna kartica nije umetnuta."
+
+msgid "err_auth_ldap_no_ilias_user"
+msgstr "Prijava nije uspjela. LDAP provjera autentičnosti uspješna, ali ne postoji odgovarajući ILIAS korisnik. Molimo kontaktirajte svog administratora sustava."
+
+msgid "err_auth_mode_inactive"
+msgstr "Vaš način autentifikacije je deaktiviran."
+
+msgid "err_auth_soap_no_ilias_user"
+msgstr "Prijava nije uspjela. SOAP provjera autentičnosti uspješna, ali ne postoji odgovarajući ILIAS korisnik. Molimo kontaktirajte svog administratora sustava."
+
+msgid "err_check_input"
+msgstr "Postavke se nisu mogle spremiti. Molimo provjerite svoj unos."
+
+msgid "err_count_param"
+msgstr "Razlog: pogrešan broj parametara"
+
+#, fuzzy
+msgid "err_disabled"
+msgstr "Account creation via Shibboleth has been disabled. Please contact the system administrator for further information."
+
+#, fuzzy
+msgid "err_double_entries"
+msgstr "Reason: Duplicate Entries"
+
+msgid "err_in_line"
+msgstr "Pogreška u retku"
+
+msgid "err_inactive"
+msgstr "Ovaj račun nije aktiviran. Za pristup kontaktirajte administratora sustava."
+
+msgid "err_inactive_login_attempts"
+msgstr "Vaš korisnički račun je deaktiviran zbog previše neuspjelih pokušaja prijave. Kliknite 'Kontaktiraj tehničku podršku' u podnožju ove stranice kako biste obavijestili administratora o potrebi ponovne aktivacije vašeg računa."
+
+msgid "err_invalid_port"
+msgstr "Nevažeći broj ulaza"
+
+msgid "err_no_cookies"
+msgstr "Molimo omogućite sesijske kolačiće u vašem pregledniku!"
+
+msgid "err_no_langfile_found"
+msgstr "Nije pronađena nijedna jezična datoteka!"
+
+msgid "err_no_param"
+msgstr "Nema parametra!"
+
+msgid "err_over_3_param"
+msgstr "Više od 3 parametra!"
+
+msgid "err_role_not_assignable"
+msgstr "Ovoj ulozi ovdje ne možete dodijeliti korisnike"
+
+msgid "err_session_expired"
+msgstr "Vaša sesija je istekla!"
+
+#, fuzzy
+msgid "err_valid_login_account_creation_disabled"
+msgstr "Authentication succeeded, but the creation of new user accounts is currently disabled. Please contact your system administrator."
+
+msgid "err_wrong_header"
+msgstr "Razlog: Pogrešno zaglavlje."
+
+msgid "err_wrong_login"
+msgstr "Pogrešna prijava ili lozinka"
+
+msgid "err_wrong_password"
+msgstr "Pogrešna lozinka"
+
+msgid "error"
+msgstr "Pogreška"
+
+msgid "error_empty_file_or_folder"
+msgstr "Veličina datoteke je 0 bajta ili se radi o mapi."
+
+msgid "error_extraction_failed"
+msgstr "Ekstrakcija arhive i njezinih direktorija nije uspjelo. Vjerojatno zato što nemate dopuštenje za kreiranje mapa ili kategorija unutar ovog objekta."
+
+msgid "error_parser"
+msgstr "Pogreška prilikom pokretanja parsera."
+
+msgid "error_upload_was_zero_bytes"
+msgstr "Učitavanje nije uspjelo jer je ovo ili mapa ili je veličina datoteke 0 bajta ili je premašena maksimalna veličina za učitavanje ili je datoteka u međuvremenu preimenovana."
+
+msgid "etal_talks"
+msgstr "Talks"
+
+msgid "event_ass_materials_prop"
+msgstr "Materijali za sesiju"
+
+msgid "event_assign_files"
+msgstr "Dodjela datoteke"
+
+msgid "exc"
+msgstr "Vježba"
+
+msgid "exc_add"
+msgstr "Dodaj vježbu"
+
+msgid "exc_added"
+msgstr "Vježba dodana"
+
+msgid "exc_date_not_valid"
+msgstr "Datum nije valjan"
+
+msgid "exc_deassign_members"
+msgstr "Ukloni sudionike"
+
+msgid "exc_download_files"
+msgstr "Preuzmi datoteke"
+
+msgid "exc_edit"
+msgstr "Kreirana je nova vježba"
+
+msgid "exc_edit_exercise"
+msgstr "Uredi vježbu"
+
+msgid "exc_edit_until"
+msgstr "Uredi do"
+
+msgid "exc_exercise_sent"
+msgstr "Vježba poslana"
+
+msgid "exc_files"
+msgstr "Datoteke"
+
+msgid "exc_files_returned"
+msgstr "Predani fajlovi"
+
+msgid "exc_instruction"
+msgstr "Upute za rad"
+
+msgid "exc_last_submission"
+msgstr "Posljednja predaja"
+
+#, fuzzy
+msgid "exc_member_of_crs_grp"
+msgstr "Member in Course/Group"
+
+msgid "exc_members_already_assigned"
+msgstr "Ti su korisnici već dodijeljeni zadatku."
+
+msgid "exc_members_assigned"
+msgstr "Članovi dodijeljeni"
+
+msgid "exc_members_comments_saved"
+msgstr "Komentari vježbe za odabranog korisnika su spremljeni"
+
+msgid "exc_new"
+msgstr "Nova vježba"
+
+msgid "exc_next_deadline"
+msgstr "Sljedeći rok"
+
+msgid "exc_obj"
+msgstr "Vježbaj"
+
+msgid "exc_save_changes"
+msgstr "Spremi"
+
+msgid "exc_schedule"
+msgstr "Raspored"
+
+msgid "exc_select_one_file"
+msgstr "Odaberite točno jednu datoteku."
+
+msgid "exc_sent"
+msgstr "Vježba je poslana odabranim korisnicima"
+
+msgid "exc_sent_at"
+msgstr "Poslano dana <br />% s"
+
+msgid "exc_status"
+msgstr "Status"
+
+msgid "exc_status_saved"
+msgstr "Vježba ažurirana"
+
+msgid "exc_submission"
+msgstr "Predaja"
+
+msgid "exc_time_over_short"
+msgstr "Vrijeme je isteklo."
+
+msgid "exc_time_to_send"
+msgstr "Preostalo vrijeme za obradu"
+
+msgid "exc_upload_error"
+msgstr "Pogreška pri učitavanju datoteke"
+
+msgid "excs"
+msgstr "Vježbe"
+
+msgid "execute"
+msgstr "Izvrši"
+
+msgid "exercise_time_over"
+msgstr "Vrijeme određeno za obradu ove vježbe je isteklo. Datoteke se više ne mogu slati!"
+
+msgid "expand"
+msgstr "Proširi"
+
+msgid "expand_all"
+msgstr "Proširi sve"
+
+#, fuzzy
+msgid "expand_content"
+msgstr "Expand Content"
+
+msgid "expanded"
+msgstr "Prošireno"
+
+msgid "export"
+msgstr "Izvoz"
+
+msgid "export_format"
+msgstr "Format za izvoz"
+
+msgid "export_html"
+msgstr "Izvezi kao HTML datoteku"
+
+msgid "ext_cat_settings"
+msgstr "Uredi napredne postavke kategorija"
+
+msgid "ext_link"
+msgstr "Poveznica"
+
+msgid "extracting"
+msgstr "Vađenje..."
+
+#, fuzzy
+msgid "eyeclosed"
+msgstr "Eye Closed - Click to hide the input's contents"
+
+#, fuzzy
+msgid "eyeopened"
+msgstr "Eye Open - Click to reveal the input's contents"
+
+msgid "failure_message"
+msgstr "Poruka o neuspjehu"
+
+msgid "fax"
+msgstr "Faks"
+
+msgid "feed"
+msgstr "Web Feed"
+
+msgid "feedback"
+msgstr "Povratne informacije"
+
+msgid "field_name"
+msgstr "Naziv polja"
+
+msgid "field_type"
+msgstr "Tip polja"
+
+msgid "file"
+msgstr "Datoteka"
+
+msgid "file_add"
+msgstr "Učiraj datoteku"
+
+msgid "file_add_and_metadata"
+msgstr "Učitaj datoteku i uredi metapodatke"
+
+msgid "file_added"
+msgstr "Datoteka je učitana"
+
+msgid "file_allowed_suffixes"
+msgstr "Dopuštent tipovi datoteka:"
+
+msgid "file_confirm_delete_all_versions"
+msgstr "Odabrali ste sve verzije datoteka. Zbog toga će se izbrisati cijeli objekt datoteke. Želite li nastaviti?"
+
+msgid "file_confirm_delete_versions"
+msgstr "Jeste li sigurni da žečite izbrisati sljedeće verzije datoteka?"
+
+msgid "file_created"
+msgstr "Datoteka je dodana."
+
+msgid "file_edit"
+msgstr "Uredi podatke o datoteci"
+
+msgid "file_info"
+msgstr "Podaci o datoteci"
+
+msgid "file_is_infected"
+msgstr "Datoteka je zaražena virusom."
+
+#, fuzzy
+msgid "file_new"
+msgstr "New File"
+
+msgid "file_no_valid_file_type"
+msgstr "Ova vrsta datoteke nije dopuštena."
+
+msgid "file_not_found"
+msgstr "Datoteka nije pronađena"
+
+#, fuzzy
+msgid "file_not_found_sec"
+msgstr "This file cannot be found in ILIAS or has been blocked due to security reasons."
+
+msgid "file_not_valid"
+msgstr "Datoteka nije važeća!"
+
+msgid "file_notice"
+msgstr "Maksimalna veličina prijenosa:"
+
+#, fuzzy
+msgid "file_objects"
+msgstr "File Objects"
+
+msgid "file_rollback"
+msgstr "Neka ovo bude trenutna verzija"
+
+msgid "file_rollback_done"
+msgstr "Verzija datoteke %s sada je trenutačna verzija."
+
+msgid "file_rollback_select_exact_one"
+msgstr "Može se odabrati samo jedna verzija datoteke koja će biti trenutačna verzija."
+
+msgid "file_some_invalid_file_types_removed"
+msgstr "Neke vrste datoteka nisu dopuštene i uklonjene su."
+
+msgid "file_suffix_repl"
+msgstr "Zamjena sufiksa učitanih datoteka"
+
+msgid "file_suffix_repl_info"
+msgstr "Unesite vrste datoteka sa sufiksom (odvojene zarezom) koji će se prenijeti u '.sec' prilikom prijenosa u web prostor kako bi se spriječilo izvršavanje ove datoteke. To se radi prema zadanim postavkama za ove sufikse:"
+
+#, fuzzy
+msgid "file_system_clean_temp_dir_cron"
+msgstr "Clean temp directory"
+
+#, fuzzy
+msgid "file_system_clean_temp_dir_cron_info"
+msgstr "This job cleans the ILIAS temp-directory of files, which are older than 10 days. This counteracts the accumulation of unused files and therefore prevents an increased use of disk space by the temp directory."
+
+msgid "file_updated"
+msgstr "Datoteka je ažurirana."
+
+msgid "file_upload_pending"
+msgstr "Datoteka na čekanju"
+
+msgid "file_valid"
+msgstr "Datoteka je valjana!"
+
+msgid "file_version"
+msgstr "Verzija dana u datoteci"
+
+msgid "file_version_create"
+msgstr "Početna verzija"
+
+#, fuzzy
+msgid "file_version_intermediate_version"
+msgstr "Intermediate Version"
+
+msgid "file_version_new_version"
+msgstr "Nova verzija"
+
+#, fuzzy
+msgid "file_version_published_version"
+msgstr "Published Version"
+
+msgid "file_version_replace"
+msgstr "Sve verzije su zamijenjene"
+
+msgid "file_version_rollback"
+msgstr "Vraćanje na verziju %s s %s"
+
+msgid "file_versions_deleted"
+msgstr "Odabrane verzije datoteka uspješno su izbrisane."
+
+msgid "filename"
+msgstr "Naziv datoteke"
+
+msgid "filename_extension_missing"
+msgstr "Nedostaje ekstenzija naziva datoteke"
+
+msgid "filename_hidden_backup_file"
+msgstr "Skrivena datoteka sigurnosne kopije"
+
+msgid "filename_hidden_unix_file"
+msgstr "Skrivena Unix datoteka"
+
+msgid "filename_interoperability"
+msgstr "Interoperabilnost"
+
+msgid "filename_special_characters"
+msgstr "Zbog karaktera / ovaj objekt nije vidljiv u web mapama"
+
+msgid "filename_special_filename"
+msgstr "Objekti naziva. i .. nisu vidljivi u web mapama"
+
+msgid "filename_visibility"
+msgstr "Vidljivost"
+
+msgid "filename_windows_empty_extension"
+msgstr "Zbog znaka . na kraju naziva ovaj objekt nije vidljiv u web mapama Windowsa"
+
+msgid "filename_windows_special_characters"
+msgstr "Zbog jednog od znakova \\ /: *? \"<> | ovaj objekt nije vidljiv u web mapama Windowsa"
+
+msgid "filename_windows_webdav_issue"
+msgstr "Zbog znaka # ovaj objekt nije vidljiv u web mapama Windowsa"
+
+msgid "files"
+msgstr "Datoteke"
+
+msgid "filesize"
+msgstr "Veličina datoteke"
+
+msgid "filetype"
+msgstr "Vrsta datoteke"
+
+msgid "fill_out_all_required_fields"
+msgstr "Molimo ispunite sva obavezna polja"
+
+msgid "filter"
+msgstr "Filtar"
+
+msgid "filter_users_with_access"
+msgstr "Samo korisnici s pristupom"
+
+msgid "filter_users_with_disk_usage"
+msgstr "Samo korisnici koji koriste prostor diska"
+
+msgid "filter_users_without_access"
+msgstr "Samo korisnici bez pristupa"
+
+msgid "filter_users_without_disk_usage"
+msgstr "Samo korisnici koji ne koriste prostor na disku"
+
+msgid "first"
+msgstr "Prvi"
+
+msgid "firstname"
+msgstr "Ime"
+
+msgid "flatview"
+msgstr "Sakrij bočnu traku"
+
+msgid "fold"
+msgstr "Mapa"
+
+msgid "fold_add"
+msgstr "Dodaj mapu"
+
+msgid "fold_added"
+msgstr "Mapa dodana"
+
+msgid "fold_copy_threads_info"
+msgstr "Odlučite koji se materijali trebaju kopirati, povezati ili čak izostaviti tijekom postupka kopiranja."
+
+msgid "fold_edit"
+msgstr "Uredi mapu"
+
+msgid "fold_new"
+msgstr "Nova mapa"
+
+msgid "fold_wizard_page"
+msgstr "Kopiraj mapu (korak 2/2)"
+
+msgid "folder"
+msgstr "Mapa"
+
+msgid "folders"
+msgstr "Mape"
+
+msgid "follow_link_to_read_mails"
+msgstr "Kliknite na sljedeću poveznicu kako biste pročitali ove mailove:"
+
+msgid "forgot_password"
+msgstr "Zaboravili ste zaporku?"
+
+msgid "forgot_username"
+msgstr "Zaboravili ste korisničko ime?"
+
+msgid "form_input_not_valid"
+msgstr "Neki su podaci nepotpuni ili nisu valjani. Ispravite unos."
+
+msgid "forum"
+msgstr "Forum"
+
+msgid "forum_direct_notification"
+msgstr "Obavijest"
+
+msgid "forum_notify_me"
+msgstr "Obavijesti me kad je dan izravan odgovor na ovu objavu. Obavijest o bilo kakvoj novoj objavi o ovoj temi ili forumu može se omogućiti u gornjem desnom izborniku akcija."
+
+msgid "forum_post_replied"
+msgstr "Odgovoreno je na vašu objavu u forumu."
+
+msgid "forums"
+msgstr "Forumi"
+
+msgid "forums_anonymized"
+msgstr "Forum anoniman"
+
+msgid "forums_anonymous"
+msgstr "anonim"
+
+msgid "forums_articles"
+msgstr "Članci"
+
+#, fuzzy
+msgid "forums_closed"
+msgstr "closed"
+
+msgid "forums_disable_forum_notification"
+msgstr "Onemogući obavijesti za ovaj forum"
+
+msgid "forums_enable_forum_notification"
+msgstr "Omogući Obavijest za ovaj forum"
+
+msgid "forums_forum_notification_enabled"
+msgstr "Bit ćete obaviješteni o novim porukama na ovom forumu."
+
+msgid "forums_last_post"
+msgstr "Najnoviji članak"
+
+#, fuzzy
+msgid "forums_last_posting_asc"
+msgstr "Last Post Ascending"
+
+#, fuzzy
+msgid "forums_last_posting_dsc"
+msgstr "Last Post Descending"
+
+msgid "forums_notification_settings"
+msgstr "Postavke za obavijesti foruma"
+
+#, fuzzy
+msgid "forums_rating_asc"
+msgstr "Rating Ascending"
+
+#, fuzzy
+msgid "forums_rating_dsc"
+msgstr "Rating Descending"
+
+#, fuzzy
+msgid "forums_thread_sorting_asc"
+msgstr "Thread Title A→Z"
+
+#, fuzzy
+msgid "forums_thread_sorting_dsc"
+msgstr "Thread Title Z→A"
+
+msgid "forums_threads"
+msgstr "Teme"
+
+msgid "forums_use_alias"
+msgstr "Za objavu možete koristiti pseudonim. Ako ovo polje ostavite prazno, vaša će objava biti označeno kao 'anonimno' napisana."
+
+msgid "forums_your_name"
+msgstr "Vaše ime"
+
+msgid "frm"
+msgstr "Forum"
+
+msgid "frm_add"
+msgstr "Dodaj forum"
+
+msgid "frm_added"
+msgstr "Forum dodan"
+
+msgid "frm_edit"
+msgstr "Uredi forum"
+
+msgid "frm_import"
+msgstr "Uvezi forum"
+
+msgid "frm_latest_postings"
+msgstr "Najnoviji članci"
+
+#, fuzzy
+msgid "frm_latest_postings_block"
+msgstr "Latest Posts Block"
+
+msgid "frm_new"
+msgstr "Novi forum"
+
+#, fuzzy
+msgid "frm_no_threads"
+msgstr "There are no threads available at the moment."
+
+msgid "from"
+msgstr "Od"
+
+msgid "fullname"
+msgstr "Puno ime"
+
+msgid "functions"
+msgstr "Funkcije"
+
+msgid "further_informations"
+msgstr "Daljnje informacije"
+
+msgid "gdf_add"
+msgstr "Dodaj definiciju"
+
+msgid "gdf_new"
+msgstr "Nova definicija"
+
+msgid "gender"
+msgstr "Oslovljavanje"
+
+msgid "gender_f"
+msgstr "Gđa"
+
+msgid "gender_m"
+msgstr "Gosp."
+
+msgid "gender_n"
+msgstr "Ne želi oslovljavanje"
+
+#, fuzzy
+msgid "general"
+msgstr "General"
+
+msgid "general_settings"
+msgstr "Opće postavke"
+
+msgid "generate"
+msgstr "Generiraj"
+
+msgid "ghostscript_not_configured"
+msgstr "Ghostscript nije konfiguriran. Otvorite <a href=\"cli/setup.php?cmd=mastersettings\" target=\"_blank\"> Setup</a> kao biste ga konfigurirali."
+
+msgid "glo"
+msgstr "Pojmovnik"
+
+msgid "glo_add"
+msgstr "Dodaj pojmovnik"
+
+msgid "glo_added"
+msgstr "Pojmovnik dodan"
+
+msgid "glo_import"
+msgstr "Uvezi pojmovnik"
+
+msgid "glo_mode"
+msgstr "Način rada"
+
+msgid "glo_mode_desc"
+msgstr "Virtualni pojmovnik funkcionira poput uobičajenog pojmovnika. Uz to sadrži i definicije svih pojmovnika koji se nalaze na istoj razini u repozitoriju poput virtualnog pojmovnika (razina), odnosno iz svih pojmovnika koji se nalaze na sljedećim nižim razinama u repozitoriju gledajući s aspekta virtualnog pojmovnika (podstablo)."
+
+msgid "glo_mode_normal"
+msgstr "normalan"
+
+msgid "glo_new"
+msgstr "Novi pojmovnik"
+
+msgid "global"
+msgstr "Globalno"
+
+msgid "global_default"
+msgstr "Globalni zadani"
+
+msgid "global_fixed"
+msgstr "Global fiksirano"
+
+#, fuzzy
+msgid "global_role_assignment"
+msgstr "Globale Rollenzuweisung"
+
+msgid "global_settings"
+msgstr "Globalne postavke"
+
+msgid "global_user"
+msgstr "Globalni korisnici"
+
+msgid "glossaries"
+msgstr "Rječnici"
+
+msgid "glossary"
+msgstr "Pojmovnik"
+
+msgid "go"
+msgstr "Kreni"
+
+msgid "grade"
+msgstr "Ocjena"
+
+msgid "group"
+msgstr "Skupina"
+
+msgid "group_members"
+msgstr "Članovi skupine"
+
+msgid "group_name"
+msgstr "Naziv skupine"
+
+msgid "group_new_registrations"
+msgstr "Zahtjevi za pridruživanje"
+
+msgid "group_password_registration_msg"
+msgstr "Ako znate lozinku skupine, možete joj se pridružiti. Ako ne znate lozinku, kontaktirajte administratora skupine."
+
+msgid "group_registration"
+msgstr "Registracija"
+
+msgid "group_registration_mode"
+msgstr "Postupak registracije"
+
+msgid "group_registration_time"
+msgstr "Razdoblje registracije"
+
+msgid "group_req_direct"
+msgstr "Pridruži se izravno"
+
+msgid "group_req_registration_msg"
+msgstr "Za pristup ovoj skupini morate zatražiti članstvo. U obrascu za poruke opišite zašto želite postati član. Bit ćete obaviješteni čim administrator prihvati ili odbije vaš zahtjev."
+
+msgid "group_status"
+msgstr "Skupina je"
+
+msgid "groupings"
+msgstr "Ograničenja članstva"
+
+msgid "groupings_assigned_obj_crs"
+msgstr "Dodijeljeni tečajevi"
+
+msgid "groupings_assigned_obj_grp"
+msgstr "Dodijeljene skupine"
+
+#, fuzzy
+msgid "groupings_source"
+msgstr "Source"
+
+msgid "groups"
+msgstr "Skupine"
+
+msgid "grp"
+msgstr "Skupina"
+
+msgid "grp_add"
+msgstr "Dodaj skupinu"
+
+msgid "grp_added"
+msgstr "Skupina je dodana"
+
+msgid "grp_btn_unsubscribe"
+msgstr "Otkaži članstvo u skupini"
+
+msgid "grp_cancel_waiting_list"
+msgstr "Želite li se zaista izbrisati s liste čekanja za skupinu \"%s\"?"
+
+msgid "grp_copy_threads_info"
+msgstr "Odlučite koji se materijali trebaju kopirati, povezati ili čak izostaviti tijekom postupka kopiranja."
+
+msgid "grp_deleted_export_files"
+msgstr "Izbrisane odabrane datoteke."
+
+msgid "grp_dismiss_member"
+msgstr "Jeste li sigurni da sljedeće članove želite ispisati iz skupine?"
+
+msgid "grp_dismiss_myself"
+msgstr "Jeste li sigurni da želite okončati članstvo u ovoj skupini?"
+
+msgid "grp_edit"
+msgstr "Uredi skupinu"
+
+msgid "grp_err_administrator_required"
+msgstr "Član se nije mogao ukloniti, potreban je barem jedan administrator po skupini!"
+
+msgid "grp_header_edit_members"
+msgstr "Uredi članove"
+
+#, fuzzy
+msgid "grp_list_members"
+msgstr "List members"
+
+msgid "grp_list_reg"
+msgstr "Registracija"
+
+msgid "grp_list_reg_end"
+msgstr "Kraj registracije"
+
+msgid "grp_list_reg_limit_full"
+msgstr "Nema slobodnih mjesta"
+
+msgid "grp_list_reg_limit_places"
+msgstr "Slobodna mjesta"
+
+msgid "grp_list_reg_noreg"
+msgstr "Registracija nije moguća"
+
+msgid "grp_list_reg_period"
+msgstr "Razdoblje registracije"
+
+msgid "grp_list_reg_start"
+msgstr "Početak registracije"
+
+msgid "grp_list_users"
+msgstr "Popis korisnika"
+
+msgid "grp_mem_change_status"
+msgstr "Promjena statusa sudionika"
+
+msgid "grp_mem_send_mail"
+msgstr "Pošalji poruku sudionicima"
+
+msgid "grp_members_gallery"
+msgstr "Galerija članova skupine"
+
+msgid "grp_msg_applicants_assigned"
+msgstr "Podnositelj(i) zahtjeva je(su) primljeni u skupinu"
+
+msgid "grp_msg_member_assigned"
+msgstr "Korisnik(ici) je(su) primljen(i) u skupinu"
+
+msgid "grp_msg_membership_annulled"
+msgstr "Članstvo je otkazano."
+
+msgid "grp_new"
+msgstr "Nova skupina"
+
+msgid "grp_registration"
+msgstr "Pridruži se skupini"
+
+msgid "grp_registration_completed"
+msgstr "Pridružili ste se skupini"
+
+msgid "grp_removed_from_waiting_list"
+msgstr "Izbrisani ste s liste čekanja za skupinu \"%s\"."
+
+msgid "grp_select_one_file"
+msgstr "Odaberi jednu datoteku."
+
+msgid "grp_wizard_page"
+msgstr "Skupina za kopiranje (korak 2/2)"
+
+msgid "grpr"
+msgstr "Poveznica skupine"
+
+#, fuzzy
+msgid "grpr_add"
+msgstr "Add Group Link"
+
+msgid "grpr_edit"
+msgstr "Uredi poveznicu skupine"
+
+msgid "grpr_edit_info"
+msgstr "Odaberi jednu skupinu za koju želite izraditi novu poveznicu."
+
+msgid "grpr_new"
+msgstr "Izradi poveznicu skupine"
+
+#, fuzzy
+msgid "grpr_settings"
+msgstr "Group Link Settings"
+
+#, fuzzy
+msgid "header_action"
+msgstr "Insert Heading - Click to insert a heading."
+
+msgid "header_searchable"
+msgstr "Može se pretraživati"
+
+msgid "header_title"
+msgstr "Naslov zaglavlja"
+
+msgid "header_visible_registration"
+msgstr "Vidljivo u Registraciji"
+
+msgid "header_zip"
+msgstr "Učitajte više datoteka u zip-arhivu"
+
+msgid "height"
+msgstr "Visina"
+
+msgid "help"
+msgstr "Pomoć"
+
+msgid "hide"
+msgstr "Sakrij"
+
+msgid "hide_all_details"
+msgstr "Sakrij sve detalje"
+
+msgid "hide_details"
+msgstr "Sakrij detalje"
+
+msgid "hide_filter"
+msgstr "Sakrij filtar"
+
+msgid "hide_own_online_status"
+msgstr "Sakrij moj mrežni status"
+
+msgid "hide_visible_sections"
+msgstr "Sakrij više informacija & raquo;"
+
+msgid "hint"
+msgstr "Savjet"
+
+msgid "history"
+msgstr "Povijest"
+
+msgid "hobby"
+msgstr "Interesi/hobiji"
+
+msgid "home"
+msgstr "Javno područje"
+
+msgid "host"
+msgstr "Domaćin"
+
+msgid "hour"
+msgstr "Sat"
+
+msgid "hours"
+msgstr "Sati"
+
+msgid "htlm"
+msgstr "Modul učenja HTML"
+
+msgid "htlm_add"
+msgstr "Dodajte HTML modul za učenje"
+
+msgid "htlm_new"
+msgstr "Novi HTML modul za učenje"
+
+msgid "http"
+msgstr "HTTP"
+
+msgid "http_not_possible"
+msgstr "Ovaj poslužitelj ne podržava http upite."
+
+msgid "http_path"
+msgstr "HTTP put"
+
+msgid "https_not_possible"
+msgstr "Ovaj poslužitelj ne podržava HTTPS veze."
+
+msgid "i2passwd"
+msgstr "Lozinka ILIAS 2"
+
+msgid "iass_import"
+msgstr "Uvezi pojedinačnu procjenu"
+
+msgid "iass_new"
+msgstr "Izradi individualnu procjenu"
+
+msgid "icon"
+msgstr "Ikona"
+
+msgid "icon_settings"
+msgstr "Prilagođene ikone"
+
+msgid "id"
+msgstr "ID"
+
+msgid "identifier"
+msgstr "Identifikator"
+
+msgid "if_no_title_then_filename"
+msgstr "Ostavite prazno kako biste kao naslov koristili naziv datoteke."
+
+msgid "ignore_on_conflict"
+msgstr "Zanemari u slučaju sukoba"
+
+msgid "ignore_required_fields"
+msgstr "Zanemari obavezna polja"
+
+msgid "ignore_required_fields_info"
+msgstr "Ako je aktivirano, možete poslati ovaj obrazac bez popunjavanja svih obaveznih polja. Nakon sljedeće prijave, novi korisnik mora dodati podatke koji nedostaju u osobnom profilu."
+
+msgid "il_astpl_loc_initial"
+msgstr "Početni test"
+
+msgid "il_astpl_loc_qualified"
+msgstr "Kvalifikacijski test"
+
+msgid "il_blog_contributor"
+msgstr "Autor bloga"
+
+msgid "il_blog_editor"
+msgstr "Urednik bloga"
+
+msgid "il_chat_moderator"
+msgstr "Moderator razgovora"
+
+msgid "il_crs_admin"
+msgstr "Administrator tečaja"
+
+msgid "il_crs_member"
+msgstr "Član tečaja"
+
+msgid "il_crs_non_member"
+msgstr "Nečlan tečaja"
+
+msgid "il_crs_tutor"
+msgstr "Mentor tečaja"
+
+msgid "il_frm_moderator"
+msgstr "Moderator foruma"
+
+msgid "il_grp_admin"
+msgstr "Administrator skupine"
+
+msgid "il_grp_member"
+msgstr "Član skupine"
+
+msgid "il_grp_status_closed"
+msgstr "Zatvorena skupina"
+
+msgid "il_grp_status_open"
+msgstr "Otvorena skupina"
+
+#, fuzzy
+msgid "il_iass_member"
+msgstr "Participant"
+
+msgid "il_lso_admin"
+msgstr "Administrator sekvence učenja"
+
+msgid "il_lso_member"
+msgstr "Član sekvence učenja"
+
+#, fuzzy
+msgid "il_lti_instructor"
+msgstr "LTI Instructor"
+
+#, fuzzy
+msgid "il_lti_learner"
+msgstr "LTI Learner"
+
+#, fuzzy
+msgid "il_lti_user"
+msgstr "LTI User"
+
+msgid "il_orgu_employee"
+msgstr "Zaposlenik"
+
+msgid "il_orgu_superior"
+msgstr "Nadređeni"
+
+msgid "ilias_version"
+msgstr "Vezija ILIAS-a"
+
+msgid "image"
+msgstr "Slika"
+
+msgid "import"
+msgstr "Uvoz"
+
+msgid "import_cat_localrol"
+msgstr "Kreiraj lokalnu ulogu za svaku novu kategoriju"
+
+msgid "import_cat_table"
+msgstr "Sljedeća je tablica značajna samo ako je aktiviran potvrdni okvir"
+
+msgid "import_categories"
+msgstr "Uvezi kategorije"
+
+msgid "import_failure_log"
+msgstr "Dnevnik pogrešaka pri uvozu"
+
+msgid "import_file"
+msgstr "Uvezi datoteku"
+
+msgid "import_file_not_valid_here"
+msgstr "Datoteka za uvoz nije važeća."
+
+msgid "import_finished"
+msgstr "Broj uvezenih poruka."
+
+msgid "import_lm"
+msgstr "Uvezi ILIAS modul za učenje"
+
+msgid "import_qpl"
+msgstr "Uvezi bazen pitanja za test"
+
+msgid "import_questions_into_qpl"
+msgstr "Uvezi pitanje(a) u bazen pitanja"
+
+msgid "import_sahs"
+msgstr "Uvezi SCORM paket"
+
+#, fuzzy
+msgid "import_sahs_info"
+msgstr "To correct typos or images, use the option to replace individual files via the file directory. Upload a SCORM export from your authoring tool here and not an ILIAS export file. Make sure that your authoring tool has retained the IDs in the manifest file. Attention: Even popular authoring tools cannot do this. SCORM learning modules of certain authoring tools discard learner data obtained if you change the number of answer options of questions or insert new questions. Check in a test installation whether learning statuses that have already been achieved are possible when learning modules that have already been started are called up again."
+
+#, fuzzy
+msgid "import_sahs_new"
+msgstr "Import New Version of SCORM Package"
+
+msgid "import_svy"
+msgstr "Uvezi anketu"
+
+msgid "import_tst"
+msgstr "Uvezi test"
+
+msgid "import_users"
+msgstr "Uvezi korisnika"
+
+msgid "import_warning_log"
+msgstr "Dnevnik upozorenja vezano za uvoz"
+
+msgid "important"
+msgstr "Važno"
+
+msgid "imported"
+msgstr "uvezeno"
+
+msgid "imprint"
+msgstr "Pravna obavijest"
+
+msgid "in"
+msgstr "u"
+
+msgid "in_use"
+msgstr "Korisnički jezik"
+
+msgid "in_use_by"
+msgstr "U upotrebi od strane"
+
+msgid "inactive"
+msgstr "Neaktivan"
+
+msgid "inbox"
+msgstr "Pristigla pošta"
+
+msgid "include_local"
+msgstr "prilikom ažuriranja jezika uključi datoteku prilagođenog jezika"
+
+msgid "info"
+msgstr "Informacija"
+
+msgid "info_access_and_status_info"
+msgstr "Informacije o pristupu i statusu"
+
+msgid "info_access_permissions"
+msgstr "Dopuštenja za pristup"
+
+msgid "info_activate_sure"
+msgstr "Jeste li sigurni da sljedeće korisnike želite odobriti kao aktivne korisnike?"
+
+msgid "info_assign_sure"
+msgstr "Jeste li sigurni da želite prihvatiti sljedećeg(e) korisnika(e)?"
+
+msgid "info_assigned"
+msgstr "dodijeljeno"
+
+msgid "info_available_roles"
+msgstr "Dostupne uloge"
+
+msgid "info_change_user_view"
+msgstr "Promijeni korisnika"
+
+msgid "info_deactivate_sure"
+msgstr "Jeste li sigurni da želite deaktivirati sljedeće korisnike?"
+
+msgid "info_delete_sure"
+msgstr "Jeste li sigurni da želite izbrisati sljedeće objekte?"
+
+msgid "info_delete_warning_no_trash"
+msgstr "(UPOZORENJE: Odabrani će se objekti nepovratno ukloniti iz sustava i ne mogu se više obnoviti!)"
+
+msgid "info_deleted"
+msgstr "Izbrisani objekt(i)"
+
+msgid "info_err_user_not_exist"
+msgstr "Korisnik s tim imenom za prijavu ili user_id ne postoji"
+
+msgid "info_from_role"
+msgstr "Odobreno ulogom/vlasništvom"
+
+msgid "info_is_member"
+msgstr "Korisnik je član"
+
+msgid "info_is_not_member"
+msgstr "Korisnik nije član"
+
+msgid "info_message"
+msgstr "Informativna poruka"
+
+msgid "info_not_assigned"
+msgstr "nije dodijeljeno"
+
+msgid "info_owner_of_object"
+msgstr "Vlasnik objekta"
+
+msgid "info_permission_origin"
+msgstr "Izvorni položaj"
+
+msgid "info_permission_source"
+msgstr "Na snazi od *"
+
+msgid "info_remark_interrupted"
+msgstr "Uloga je prekinuta na ovom položaju. Ovdje vrijede zadane postavke prava koja ta uloga ima."
+
+msgid "info_remove_sure"
+msgstr "Jeste li sigurni da želite ukloniti sljedeću(e) stavku(e)?"
+
+msgid "info_short"
+msgstr "Informacije"
+
+msgid "info_status_info"
+msgstr "Prava korisnika"
+
+msgid "info_view_of_user"
+msgstr "Korisnik"
+
+msgid "inform_user_mail"
+msgstr "Pošalji mail kako bi korisnika obavijestili o promjenama"
+
+msgid "inline_file_extensions"
+msgstr "Datoteke sposobne za web"
+
+msgid "inline_file_extensions_info"
+msgstr "Datoteke s ovim ekstenzijama prikazuju se u prozoru preglednika. <br/> Na primjer: <b> gif jpg mp3 pdf png</b> <br/> Sve ostale datoteke su ponuđene za preuzimanje."
+
+msgid "insert"
+msgstr "Umetni u trenutni položaj"
+
+msgid "insert_object_here"
+msgstr "Umetni u trenutačni položaj"
+
+msgid "inst_id"
+msgstr "ID instalacije"
+
+msgid "inst_info"
+msgstr "Informacije o instalaciji"
+
+msgid "inst_name"
+msgstr "Naziv instalacije"
+
+msgid "install"
+msgstr "Instaliraj"
+
+msgid "install_local"
+msgstr "Instaliraj s prilagođenom datotekom"
+
+#, fuzzy
+msgid "installation_status"
+msgstr "Installation Status"
+
+msgid "installed"
+msgstr "Instalirano"
+
+msgid "installed_local"
+msgstr "Instalirano s prilagođenom datotekom"
+
+msgid "instant_messengers"
+msgstr "Instant Messenger"
+
+msgid "institution"
+msgstr "Institucija"
+
+msgid "internal_local_roles_only"
+msgstr "Lokalne uloge (samo automatski generirane)"
+
+msgid "invalid_visible_required_options_selected"
+msgstr "Sva polja postavljena kao potrebna moraju biti vidljiva i prilikom registracije."
+
+msgid "invisible_block"
+msgstr "Nevidljivi blok"
+
+msgid "invisible_block_mess"
+msgstr "Nemate dozvolu za pregled ovog bloka."
+
+msgid "ip_address"
+msgstr "IP adresa"
+
+msgid "is_already_your"
+msgstr "već je vaš"
+
+#, fuzzy
+msgid "italic_action"
+msgstr "Insert Italic - Click to insert italic text."
+
+msgid "item"
+msgstr "Stavka"
+
+msgid "itgr_add"
+msgstr "Dodaj blok stavki"
+
+msgid "itgr_new"
+msgstr "Novi blok stavki"
+
+msgid "java_server"
+msgstr "Java poslužitelj"
+
+msgid "java_server_host"
+msgstr "Domaćin"
+
+#. Needs to be adapted to new content of German lang file.
+msgid "java_server_info"
+msgstr "Ako je aktivirano, moguće je pretraživanje u PDF-u, HTML datotekama i HTML modulima za učenje"
+
+msgid "java_server_port"
+msgstr "Ulaz"
+
+msgid "java_server_readme"
+msgstr "Informacije o postavljanju"
+
+msgid "join"
+msgstr "Pridruži se"
+
+msgid "join_session"
+msgstr "Sudjeluju"
+
+msgid "kb"
+msgstr "KByte"
+
+msgid "keywords"
+msgstr "Ključne riječi"
+
+#, fuzzy
+msgid "label_search_options"
+msgstr "Search Area"
+
+msgid "lang_dateformat"
+msgstr "G-m-d"
+
+msgid "lang_path"
+msgstr "Put jezične datoteke"
+
+msgid "lang_refresh_confirm_info"
+msgstr "ILIAS je pronašao promijenjene jezične varijable. Ažuriranjem jezika, u bazu podataka učitat će se sve datoteka sa standardnim jezikom i vjerojatno datoteka s prilagođenim jezikom. Standardna datoteka neće utjecati na vaše promjene. Prilagođena datoteka prepisat će vaše promjene starije od datuma datoteke."
+
+msgid "lang_refresh_confirm_selected"
+msgstr "Želite li stvarno ažurirati odabrane jezike?"
+
+msgid "lang_sep_decimal"
+msgstr "."
+
+msgid "lang_sep_thousand"
+msgstr ","
+
+msgid "lang_size_bytes"
+msgstr "bajtovi"
+
+msgid "lang_size_gb"
+msgstr "GB"
+
+msgid "lang_size_kb"
+msgstr "KB"
+
+msgid "lang_size_mb"
+msgstr "MB"
+
+msgid "lang_timeformat"
+msgstr "H:i:s"
+
+msgid "lang_timeformat_no_sec"
+msgstr "H:i"
+
+msgid "lang_uninstall_changes"
+msgstr "Deinstaliraj lokalne promjene"
+
+msgid "lang_uninstall_changes_confirm"
+msgstr "Želite li zaista izbrisati sve lokalne promjene odabranih jezika i vratiti ih na zadane postavke trenutačne verzije ILIAS-a?"
+
+msgid "lang_uninstall_confirm"
+msgstr "Želite li zaista deinstalirati odabrane jezike?"
+
+msgid "langfile_found"
+msgstr "Pronađena je jezična datoteka"
+
+msgid "language"
+msgstr "Jezik"
+
+msgid "language_not_installed"
+msgstr "nije instaliran. Prvo instalirajte taj jezik"
+
+msgid "languages"
+msgstr "Jezici"
+
+msgid "languages_already_installed"
+msgstr "Odabrani jezik(ci) već je(su) instaliran(i)"
+
+msgid "languages_already_uninstalled"
+msgstr "Odabrani jezik(ci) već je(su) deinstaliran(i)"
+
+msgid "languages_updated"
+msgstr "Svi instalirani jezici su ažurirani"
+
+msgid "last_access"
+msgstr "Posljednji pristup"
+
+msgid "last_change"
+msgstr "Posljednja promjena"
+
+msgid "last_edited_on"
+msgstr "Posljednje uređivanje dana"
+
+msgid "last_login"
+msgstr "Posljednja prijava"
+
+msgid "last_refresh"
+msgstr "Posljednje ažuriranje"
+
+msgid "last_reminder"
+msgstr "Posljednji podsjetnik"
+
+msgid "last_update"
+msgstr "Ažurirano"
+
+msgid "last_visited"
+msgstr "Posljednji posjet"
+
+msgid "lastname"
+msgstr "Prezime"
+
+#, fuzzy
+msgid "latex_edit_info"
+msgstr "You can enter LaTeX code in the delimiters <code>[tex]</code> and <code>[/tex]</code>."
+
+msgid "laugh"
+msgstr "Smijeh"
+
+msgid "launch"
+msgstr "Pokreni"
+
+msgid "ldap"
+msgstr "LDAP"
+
+msgid "ldap_basedn"
+msgstr "LDAP BaseDN"
+
+msgid "ldap_configure"
+msgstr "Konfiguriraj LDAP provjeru autentičnosti"
+
+msgid "ldap_port"
+msgstr "LDAP ulaz"
+
+msgid "ldap_read"
+msgstr "Pristup za čitanje postavkama LDAP-a"
+
+msgid "ldap_server"
+msgstr "URL LDAP poslužitelja"
+
+msgid "ldap_tls"
+msgstr "Koristite LDAP TLS"
+
+msgid "ldap_version"
+msgstr "Verzija LDAP protokola"
+
+msgid "learning module"
+msgstr "Modul učenja"
+
+msgid "learning_progress"
+msgstr "Napredak u učenju"
+
+msgid "leave_waiting_list"
+msgstr "Odjavi se s liste čekanja"
+
+msgid "legend"
+msgstr "Legenda"
+
+msgid "level"
+msgstr "Razina"
+
+msgid "link"
+msgstr "Poveži"
+
+#, fuzzy
+msgid "link_action"
+msgstr "Insert Link - Click to insert a link."
+
+msgid "link_all"
+msgstr "Poveži sve"
+
+msgid "link_check"
+msgstr "Provjera web poveznice"
+
+msgid "link_check_message_b"
+msgstr "Ako je omogućeno, o nevažećim poveznicama bit ćete obaviješteni poštom."
+
+msgid "link_check_message_disabled"
+msgstr "Poruke onemogućene"
+
+msgid "link_check_message_enabled"
+msgstr "Poruke omogućene"
+
+msgid "link_check_subject"
+msgstr "[ILIAS] Provjera web poveznice"
+
+msgid "link_checker_refreshed"
+msgstr "Ažurirani prikaz"
+
+msgid "link_selected_items"
+msgstr "Poveži"
+
+msgid "links_add_param"
+msgstr "Dodaj parametar:"
+
+msgid "links_dyn_parameter"
+msgstr "Dinamički parametri"
+
+msgid "links_dynamic"
+msgstr "Dinamički parametri web poveznice"
+
+msgid "links_dynamic_info"
+msgstr "Ako je omogućeno, web poveznicama mogu se dodati dinamički parametri. <br/> Npr. ILIAS korisnički ID ili korisničko ime."
+
+msgid "links_existing_params"
+msgstr "Postojeći parametri:"
+
+msgid "links_name"
+msgstr "Naziv parametra"
+
+msgid "links_no_name_given"
+msgstr "Odaberite naziv parametra."
+
+msgid "links_no_value_given"
+msgstr "Odaberite vrijednost parametra."
+
+msgid "links_parameter_deleted"
+msgstr "Parametar je izbrisan."
+
+msgid "links_select_one"
+msgstr "- Odaberi jedan -"
+
+msgid "links_session_id"
+msgstr "ID ILIAS sesije"
+
+msgid "links_user_id"
+msgstr "ILIAS korisnički ID"
+
+msgid "links_user_name"
+msgstr "ILIAS korisničko ime"
+
+msgid "links_value"
+msgstr "Vrijednost parametra"
+
+msgid "list"
+msgstr "Popis"
+
+msgid "list_of_questions"
+msgstr "Popis pitanja"
+
+#, fuzzy
+msgid "list_view"
+msgstr "List View"
+
+#, fuzzy
+msgid "listaction_learning_progress_settings"
+msgstr "Learning Progress Settings"
+
+msgid "lm"
+msgstr "ILIAS modul za učenje"
+
+msgid "lm_add"
+msgstr "Dodajte ILIAS modul za učenje"
+
+msgid "lm_added"
+msgstr "ILIAS modul za učenje"
+
+msgid "lm_new"
+msgstr "Novi ILIAS modul za učenje"
+
+msgid "lm_type_scorm"
+msgstr "SCORM 1.2"
+
+msgid "lm_type_scorm2004"
+msgstr "SCORM 2004. 3. / 4. izdanje"
+
+#, fuzzy
+msgid "lm_type_scorm2004_info"
+msgstr "These are newer versions of SCORM with significantly enhanced functionality. The learning module is launched in an iFrame."
+
+#, fuzzy
+msgid "lm_type_scorm_info"
+msgstr "This is the most widely used version of SCORM. The learning module is launched in a frame."
+
+msgid "lng"
+msgstr "Jezik"
+
+msgid "lngf"
+msgstr "Jezici"
+
+msgid "lo"
+msgstr "Predmet učenja"
+
+msgid "loaded_preview_renderers"
+msgstr "Učitani prikazivači pregleda"
+
+msgid "local"
+msgstr "Lokalno"
+
+msgid "local_language_file"
+msgstr "datoteka prilagođenog jezika"
+
+msgid "local_language_files"
+msgstr "datoteke prilagođenog jezika"
+
+msgid "local_languages_already_installed"
+msgstr "Odabrane datoteke prilagođenog jezika već su instalirane"
+
+#, fuzzy
+msgid "local_role_assignment"
+msgstr "Lokale Rollenzuweisung"
+
+msgid "location"
+msgstr "Lokacija"
+
+msgid "locator"
+msgstr "Lokacija:"
+
+msgid "log_in"
+msgstr "Prijava"
+
+#, fuzzy
+msgid "log_out"
+msgstr "Logout"
+
+msgid "logic_or"
+msgstr "ili"
+
+msgid "login"
+msgstr "Prijava korisničkim imenom"
+
+msgid "login_as"
+msgstr "prijavljen kao"
+
+msgid "login_data"
+msgstr "Podaci za prijavu"
+
+msgid "login_exists"
+msgstr "Već postoji korisnik s ovim korisničkim imenom za prijavu! Molimo odaberite drugo."
+
+msgid "login_invalid"
+msgstr "Odabrano korisničko ime za prijavu je nevažeće! Dopušteni su samo sljedeći znakovi (najmanje 3 znaka): A-Z a-z 0-9 _.-+*@!$%~"
+
+msgid "login_to_ilias"
+msgstr "Prijava u ILIAS"
+
+#, fuzzy
+msgid "login_to_ilias_via_login_form"
+msgstr "Login to ILIAS"
+
+msgid "login_to_ilias_via_saml"
+msgstr "Prijava u ILIAS putem SAML provjere autentičnosti"
+
+msgid "login_to_ilias_via_shibboleth"
+msgstr "Prijavite u ILIAS putem"
+
+msgid "loginname_already_exists"
+msgstr "Ovo korisničko ime za prijavu već postoji."
+
+msgid "loginname_settings"
+msgstr "Postavke korisničkog imena za prijavu"
+
+msgid "logout"
+msgstr "Odjava"
+
+msgid "logout_text"
+msgstr "Odjavili ste se iz ILIAS-a. Vaša je sesija zatvorena."
+
+msgid "logs"
+msgstr "Zapisnički podaci"
+
+msgid "love"
+msgstr "Ljubav"
+
+msgid "lres"
+msgstr "Resursi za učenje"
+
+msgid "lso_add"
+msgstr "Dodaj sekvencu učenja"
+
+#, fuzzy
+msgid "lso_admin_form_byline"
+msgstr "General Settings for Learning Sequences"
+
+#, fuzzy
+msgid "lso_admin_form_title"
+msgstr "Settings"
+
+#, fuzzy
+msgid "lso_admin_interval_byline"
+msgstr "Poll Learning Progress every x seconds. Be careful! A low value will increase server-requests and have an impact on overall system performance. Please choose highest value possible!"
+
+#, fuzzy
+msgid "lso_admin_interval_label"
+msgstr "Learning Progress Polling Interval (seconds)"
+
+msgid "lso_copy_threads_info"
+msgstr "Odaberite koje elemente sekvence učenja treba kopirati, povezati ili izostaviti."
+
+msgid "lso_edit"
+msgstr "Uredi sekvencu učenja"
+
+msgid "lso_import"
+msgstr "Uvezi sekvencu učenja"
+
+msgid "lso_new"
+msgstr "Nova sekvenca učenja"
+
+msgid "lso_wizard_page"
+msgstr "Kopiraj sekvencu učenja (korak 2/2)"
+
+#, fuzzy
+msgid "lti"
+msgstr "LTI Tool (Consumer)"
+
+#, fuzzy
+msgid "lti_add"
+msgstr "Add LTI Tool (Consumer)"
+
+#, fuzzy
+msgid "lti_new"
+msgstr "New LTI Tool (Consumer)"
+
+msgid "lti_outcome_info"
+msgstr "Pošaljite status napretka učenja za korisnike LTI-ja potrošaču LTI alata."
+
+msgid "mail"
+msgstr "E-pošra"
+
+msgid "mail_addressbook"
+msgstr "Kontakti"
+
+msgid "mail_at_the_ilias_installation"
+msgstr "Primili ste %1$s novu poštu na ILIAS-instalaciji %2$s"
+
+msgid "mail_attachment"
+msgstr "Privitak pošte"
+
+msgid "mail_b_inbox"
+msgstr "Pristigla pošta"
+
+msgid "mail_c_trash"
+msgstr "Otpad"
+
+#, fuzzy
+msgid "mail_cron_scheduled_mails"
+msgstr "Send scheduled mails."
+
+#, fuzzy
+msgid "mail_cron_scheduled_mails_desc"
+msgstr "Sends scheduled user mails according to their defined delivery times"
+
+msgid "mail_d_drafts"
+msgstr "Nacrti"
+
+msgid "mail_delete_error"
+msgstr "Pogreška prilikom brisanja"
+
+#, fuzzy
+msgid "mail_e_outbox"
+msgstr "Outbox"
+
+msgid "mail_e_sent"
+msgstr "Poslano"
+
+msgid "mail_edit_permission"
+msgstr "Korisnik može promijeniti postavke dopuštenja u administraciji pošte"
+
+#, fuzzy
+msgid "mail_f_sent"
+msgstr "Sent"
+
+msgid "mail_folders"
+msgstr "Mape pošte"
+
+msgid "mail_import_file"
+msgstr "Datoteka za izvoz"
+
+msgid "mail_mails_of"
+msgstr "E-pošta"
+
+msgid "mail_maxsize_attach"
+msgstr "Maks. veličina privitka"
+
+msgid "mail_member"
+msgstr "E-pošta članu"
+
+msgid "mail_members"
+msgstr "E-pošta članovima"
+
+#, fuzzy
+msgid "mail_message_scheduled"
+msgstr "Scheduled mail"
+
+#, fuzzy
+msgid "mail_message_scheduled_info"
+msgstr "Mails remain in the outbox until the scheduled sending time."
+
+msgid "mail_not_sent"
+msgstr "E-pošta nije poslana!"
+
+#, fuzzy
+msgid "mail_schedule_error_no_datetime"
+msgstr "To schedule a mail, a delivery date and time must be specified."
+
+#, fuzzy
+msgid "mail_schedule_error_past_datetime"
+msgstr "You cannot schedule emails in the past."
+
+#, fuzzy
+msgid "mail_schedule_scheduled_datetime"
+msgstr "Scheduled Send Time"
+
+#, fuzzy
+msgid "mail_scheduled"
+msgstr "Mail stored in outbox for later delivery."
+
+#, fuzzy
+msgid "mail_scheduled_edit_compose_info"
+msgstr "You are editing a scheduled mail. Sending is paused until you schedule the mail again."
+
+#, fuzzy
+msgid "mail_scheduled_edit_moved_info"
+msgstr "This scheduled mail was temporarily moved to drafts so it will not be sent while you are editing it. After scheduling again, it will reappear in the outbox."
+
+msgid "mail_search_no"
+msgstr "Nije pronađen nijedan unos."
+
+msgid "mail_select_one"
+msgstr "Morate odabrati jednu e-poštu"
+
+msgid "mail_send_error"
+msgstr "Pogreška prilikom slanja e-pošte"
+
+msgid "mail_sent"
+msgstr "E-pošta poslana!"
+
+msgid "mail_settings"
+msgstr "Postavke e-pošte"
+
+msgid "mail_to_global_roles_not_allowed"
+msgstr "%1$s (nije dopušteno slanje e-pošte globalnim ulogama)"
+
+msgid "mail_z_local"
+msgstr "Korisničke mape"
+
+msgid "mails"
+msgstr "E-pošte"
+
+msgid "mails_at_the_ilias_installation"
+msgstr "Primili ste %1$s novu poštu na ILIAS-instalaciji %2$s"
+
+msgid "mails_pl"
+msgstr "E-pošta(e)"
+
+msgid "main_menu"
+msgstr "Glavni izbornik"
+
+#, fuzzy
+msgid "mainbar_aria_label"
+msgstr "Mainbar"
+
+#, fuzzy
+msgid "mainbar_more_label"
+msgstr "More"
+
+msgid "manage_members"
+msgstr "Upravljanje članovima"
+
+msgid "matriculation"
+msgstr "Matični broj"
+
+msgid "max_previews_per_object"
+msgstr "Broj pregleda slika po datoteci"
+
+msgid "max_previews_per_object_info"
+msgstr "Definira maksimalni broj slika za pregled koje se kreiraju po datoteci."
+
+msgid "mcst"
+msgstr "Mediacast"
+
+msgid "mcst_add"
+msgstr "Dodaj Mediacast"
+
+msgid "mcst_new"
+msgstr "Novi Mediacast"
+
+msgid "mem_add_to_wl"
+msgstr "Dodaj na listu čekanja"
+
+msgid "mem_alert_no_places"
+msgstr "Nema slobodnih mjesta."
+
+msgid "mem_cron_min_members"
+msgstr "Tečaj/skupina: Provjera minimalnog broja sudionika"
+
+msgid "mem_cron_min_members_info"
+msgstr "Administratori će biti obaviješteni ako nije dosegnut minimalni broj."
+
+msgid "mem_end"
+msgstr "Kraj registracije:"
+
+msgid "mem_free_places"
+msgstr "Slobodna mjesta"
+
+msgid "mem_max_users"
+msgstr "Maksimalan broj korisnika:"
+
+msgid "mem_min_users"
+msgstr "Minimalan broj korisnika"
+
+msgid "mem_participants"
+msgstr "Sudionici"
+
+msgid "mem_reg_expired"
+msgstr "Vrijeme registracije je isteklo."
+
+msgid "mem_reg_not_started"
+msgstr "Registracija nije započela"
+
+msgid "mem_reg_period"
+msgstr "Razdoblje registracije"
+
+msgid "mem_reg_type"
+msgstr "Vrsta registracije"
+
+msgid "mem_start"
+msgstr "Početak registracije:"
+
+msgid "mem_unlimited"
+msgstr "Neograničeno"
+
+msgid "mem_view_activate"
+msgstr "Prikaži prikaz za članove"
+
+msgid "mem_view_close"
+msgstr "Zatvori prikaz za članove"
+
+msgid "mem_view_long"
+msgstr "Prikaz za članove"
+
+msgid "mem_waiting_list"
+msgstr "Korisnici na listi čekanja:"
+
+msgid "mem_waiting_list_position"
+msgstr "Vaše mjesto na listi čekanja:"
+
+msgid "member"
+msgstr "Član"
+
+msgid "member_status"
+msgstr "Status člana"
+
+msgid "members"
+msgstr "Članovi"
+
+msgid "membership_leave"
+msgstr "Odjavi"
+
+msgid "mep"
+msgstr "Bazen medija"
+
+msgid "mep_add"
+msgstr "Dodajte bazen medija"
+
+msgid "mep_edit"
+msgstr "Uredi svojstva bazena medija"
+
+msgid "mep_new"
+msgstr "Novi bazen medija"
+
+msgid "mep_not_insert_already_exist"
+msgstr "Sljedeće stavke nisu umetnute jer su već u bazenu medija:"
+
+msgid "message"
+msgstr "Poruka"
+
+msgid "message_content"
+msgstr "Sadržaj poruke"
+
+msgid "message_no_delivered_files"
+msgstr "Niste poslali nijednu datoteku."
+
+msgid "meta_data"
+msgstr "Metapodaci"
+
+#, fuzzy
+msgid "metabar_aria_label"
+msgstr "Metabar"
+
+msgid "mgs_objects_linked_to_the_following_folders_p"
+msgstr "Objekti su povezani sa sljedećom(im) mapom(ama)."
+
+msgid "mgs_objects_linked_to_the_following_folders_s"
+msgstr "Objekt je povezan sa  sljedećom(im) mapom(ama)."
+
+msgid "migrate"
+msgstr "Migriraj"
+
+#, fuzzy
+msgid "minimize"
+msgstr "Minimize"
+
+msgid "minute"
+msgstr "Minuta"
+
+msgid "minutes"
+msgstr "Minute"
+
+msgid "missing"
+msgstr "Nedostaje"
+
+msgid "missing_perm"
+msgstr "Nedostaje dozvola"
+
+msgid "missing_precondition"
+msgstr "Nedostaje preduvjet"
+
+#, fuzzy
+msgid "mm_achievements"
+msgstr "Achievements"
+
+#, fuzzy
+msgid "mm_administration"
+msgstr "Administration"
+
+#, fuzzy
+msgid "mm_badges"
+msgstr "Badges"
+
+#, fuzzy
+msgid "mm_calendar"
+msgstr "Calendar"
+
+#, fuzzy
+msgid "mm_certificates"
+msgstr "Certificates"
+
+#, fuzzy
+msgid "mm_comments"
+msgstr "Comments"
+
+#, fuzzy
+msgid "mm_communication"
+msgstr "Communication"
+
+#, fuzzy
+msgid "mm_contacts"
+msgstr "Contacts"
+
+#, fuzzy
+msgid "mm_dashboard"
+msgstr "Dashboard"
+
+#, fuzzy
+msgid "mm_enrolments"
+msgstr "Enrolments"
+
+#, fuzzy
+msgid "mm_favorites"
+msgstr "Favourites"
+
+#, fuzzy
+msgid "mm_learning_history"
+msgstr "Learning History"
+
+#, fuzzy
+msgid "mm_learning_progress"
+msgstr "Learning Progress"
+
+#, fuzzy
+msgid "mm_mail"
+msgstr "Mail"
+
+#, fuzzy
+msgid "mm_news"
+msgstr "News"
+
+#, fuzzy
+msgid "mm_notes"
+msgstr "Notes"
+
+#, fuzzy
+msgid "mm_organisation"
+msgstr "Organisation"
+
+#, fuzzy
+msgid "mm_personal_and_shared_r"
+msgstr "Personal and Shared Resources"
+
+#, fuzzy
+msgid "mm_personal_workspace"
+msgstr "Personal Workspace"
+
+#, fuzzy
+msgid "mm_portfolio"
+msgstr "Portfolio"
+
+#, fuzzy
+msgid "mm_private_chats"
+msgstr "Private Chats"
+
+#, fuzzy
+msgid "mm_repo_tree_view"
+msgstr "Tree View"
+
+#, fuzzy
+msgid "mm_repo_tree_view_act"
+msgstr "Activate Tree"
+
+#, fuzzy
+msgid "mm_repo_tree_view_deact"
+msgstr "Deactivate Tree"
+
+#, fuzzy
+msgid "mm_repository"
+msgstr "Repository"
+
+#, fuzzy
+msgid "mm_skills"
+msgstr "Competences"
+
+#, fuzzy
+msgid "mm_staff_list"
+msgstr "Staff List"
+
+#, fuzzy
+msgid "mm_tags"
+msgstr "Tags"
+
+#, fuzzy
+msgid "mm_task_derived_tasks"
+msgstr "Tasks"
+
+msgid "mme_lost_item_reason"
+msgstr "Stavka više nije dostupna."
+
+msgid "mme_lost_item_title"
+msgstr "Nema dodjele"
+
+msgid "mob"
+msgstr "Medijski objekt"
+
+msgid "moderators"
+msgstr "Moderatori"
+
+msgid "module"
+msgstr "modul"
+
+msgid "modules"
+msgstr "Moduli"
+
+msgid "month"
+msgstr "Mjesec"
+
+msgid "month_01_long"
+msgstr "Siječanj"
+
+msgid "month_01_short"
+msgstr "Sij"
+
+msgid "month_02_long"
+msgstr "Veljača"
+
+msgid "month_02_short"
+msgstr "Velj"
+
+msgid "month_03_long"
+msgstr "Ožujak"
+
+msgid "month_03_short"
+msgstr "Ož"
+
+msgid "month_04_long"
+msgstr "Travanj"
+
+msgid "month_04_short"
+msgstr "Tr"
+
+msgid "month_05_long"
+msgstr "Svibanj"
+
+msgid "month_05_short"
+msgstr "Svi"
+
+msgid "month_06_long"
+msgstr "Lipanj"
+
+msgid "month_06_short"
+msgstr "Lip"
+
+msgid "month_07_long"
+msgstr "Srpanj"
+
+msgid "month_07_short"
+msgstr "Srp"
+
+msgid "month_08_long"
+msgstr "Kolovoz"
+
+msgid "month_08_short"
+msgstr "Kol"
+
+msgid "month_09_long"
+msgstr "Rujan"
+
+msgid "month_09_short"
+msgstr "Ruj"
+
+msgid "month_10_long"
+msgstr "Listopad"
+
+msgid "month_10_short"
+msgstr "Lis"
+
+msgid "month_11_long"
+msgstr "Studeni"
+
+msgid "month_11_short"
+msgstr "Stu"
+
+msgid "month_12_long"
+msgstr "Prosinac"
+
+msgid "month_12_short"
+msgstr "Pro"
+
+msgid "monthly"
+msgstr "mjesečno"
+
+msgid "months"
+msgstr "Mjeseci"
+
+msgid "mount_webfolder"
+msgstr "Otvori kao web mapu"
+
+msgid "move"
+msgstr "Pomakni"
+
+msgid "moveChapter"
+msgstr "Pomakni"
+
+msgid "movePage"
+msgstr "Pomakni"
+
+msgid "move_selected_items"
+msgstr "Pomakni"
+
+#, fuzzy
+msgid "msg_bt_download_started"
+msgstr "ILIAS is generating a ZIP archive of all available files. You can download them from the Notification Center (bell icon) on top right."
+
+msgid "msg_cancel"
+msgstr "Radnja otkazana"
+
+msgid "msg_clear_clipboard"
+msgstr "Međuspremnik je očišćen"
+
+msgid "msg_cloned"
+msgstr "Odabrani objekt(i) je(su) kopiran(i)"
+
+msgid "msg_copy_clipboard"
+msgstr "Molimo odaberite sada željeno mjesto na koje trebate zalijepiti odabrane objekte i kliknite gumb ‘Zalijepi’."
+
+msgid "msg_copy_clipboard_container"
+msgstr "Molimo odaberite sada željeno mjesto, na koje treba zalijepiti odabrane objekte i kliknite gumb ‘Nastavi’."
+
+msgid "msg_copy_clipboard_source"
+msgstr "Molimo odaberite sada željeni tečaj ili skupinu čiji sadržaj treba kopirati i kliknite gumb ‘Nastavi’."
+
+msgid "msg_cut_clipboard"
+msgstr "Molimo odaberite sada željeno mjesto na koje treba zalijepiti odabrane objekte i kliknite gumb ‘Zalijepi’."
+
+msgid "msg_cut_copied"
+msgstr "Odabrani objekt(i) je(su) pomaknut(i)."
+
+msgid "msg_deleted_export_files"
+msgstr "Izvozna(e) datoteka(e) su izbrisane"
+
+msgid "msg_deleted_role"
+msgstr "Uloga je izbrisana"
+
+msgid "msg_deleted_roles_rolts"
+msgstr "Uloge i predlošci uloga su izbrisani"
+
+msgid "msg_failed"
+msgstr "Nažalost, akcija nije uspjela"
+
+msgid "msg_form_save_error"
+msgstr "Podaci iz obrasca nisu se mogli spremiti. Molimo provjerite u poljima za unos poruke o pogreškama."
+
+#, fuzzy
+msgid "msg_info_blacklisted"
+msgstr "The files cannot be uploaded due to security reasons."
+
+#, fuzzy
+msgid "msg_input_char_limit_max"
+msgstr "You have entered more characters than allowed."
+
+#, fuzzy
+msgid "msg_input_char_limit_min"
+msgstr "You have to enter the minimum of characters specified."
+
+msgid "msg_input_does_not_match_regexp"
+msgstr "Unesite valjanu vrijednost."
+
+msgid "msg_input_is_required"
+msgstr "Ovo se polje mora ispuniti. Molimo unesite vrijednost."
+
+#, fuzzy
+msgid "msg_invalid_value_css_rect_input"
+msgstr "The entered value is incorrect, do not use any plus or minus symbols in combination with the entered integer. Please check your input."
+
+msgid "msg_is_last_role"
+msgstr "Uklonili ste posljednju globalnu ulogu od sljedećih korisnika"
+
+msgid "msg_last_role_for_registration"
+msgstr "U obrascu za registraciju novih korisnika mora biti dostupna najmanje jedna uloga. Ova je uloga trenutačno jedina dostupna."
+
+msgid "msg_link_clipboard_p"
+msgstr "Molimo odaberite sada željeno mjesto s kojim bi se odabrani objekti trebali povezati i kliknite gumb Zalijepi."
+
+msgid "msg_link_clipboard_s"
+msgstr "Molimo odaberite sada željeno mjesto s kojim treba povezati odabrati objekt i kliknite gumb Zalijepi."
+
+msgid "msg_linked"
+msgstr "Odabrani objekt(i) je(su) povezan(i)."
+
+msgid "msg_may_not_contain"
+msgstr "Ovaj objekt ne smije sadržavati objekte sljedećg tipa:"
+
+msgid "msg_min_one_role"
+msgstr "Svaki korisnik mora imati barem jednu globalnu ulogu!"
+
+msgid "msg_multi_language_selected"
+msgstr "Odabrali ste isti jezik za različite prijevode!"
+
+msgid "msg_no_default_language"
+msgstr "Nije naveden zadani jezik! Morate definirati jedan prijevod kao zadani prijevod."
+
+msgid "msg_no_delete_yourself"
+msgstr "Ne možete izbrisati vlastiti korisnički račun."
+
+msgid "msg_no_file"
+msgstr "Niste odabrali datoteku ili je odabrana datoteka prevelika."
+
+#, fuzzy
+msgid "msg_no_files_selected"
+msgstr "No files selected"
+
+msgid "msg_no_language_selected"
+msgstr "Nije naveden jezik prijevoda! Morate definirati jezik za svaki prijevod"
+
+msgid "msg_no_perm_assign_role_to_user"
+msgstr "Nemate dopuštenje za promjenu dodjele uloge korisnika"
+
+msgid "msg_no_perm_assign_user_to_role"
+msgstr "Nemate dopuštenje za promjenu korisničke dodjele"
+
+msgid "msg_no_perm_copy"
+msgstr "Nemate dopuštenje za kopiranje sljedećih objekata:"
+
+msgid "msg_no_perm_create_rolt"
+msgstr "Nemate dopuštenje za dodavanje predložaka uloga"
+
+msgid "msg_no_perm_cut"
+msgstr "Nemate dopuštenje za izrezivanje sljedećih objekata:"
+
+msgid "msg_no_perm_delete"
+msgstr "Nemate dopuštenje za brisanje sljedećih objekata:"
+
+msgid "msg_no_perm_link"
+msgstr "Nemate dopuštenje za izradu poveznice za sljedeće objekte:"
+
+msgid "msg_no_perm_modify_rolt"
+msgstr "Nemate dopuštenje za izmjenu predložaka uloga"
+
+msgid "msg_no_perm_modify_user"
+msgstr "Nemate dopuštenje za izmjenu korisničkih podataka"
+
+msgid "msg_no_perm_paste"
+msgstr "Nemate dopuštenje za umetanje sljedećih objekata:"
+
+msgid "msg_no_perm_paste_object_in_folder"
+msgstr "Nemate dopuštenje za umetanje objekta %s u mapu %s."
+
+msgid "msg_no_perm_perm"
+msgstr "Nemate dopuštenje za pristup postavkama prava"
+
+msgid "msg_no_perm_read"
+msgstr "Nemate dozvolu za pristup ovom objektu."
+
+msgid "msg_no_perm_read_item"
+msgstr "Nemate dozvolu za pristup objektu."
+
+msgid "msg_no_perm_read_lm"
+msgstr "Nemate dopuštenje za čitanje ovog modula za učenje."
+
+#, fuzzy
+msgid "msg_no_perm_view_roles_of_user"
+msgstr "You have no permission to view the role assignment of this user"
+
+msgid "msg_no_perm_write"
+msgstr "Nemate dopuštenje za pisanje"
+
+msgid "msg_no_search_result"
+msgstr "Nije pronađen nijedan unos"
+
+msgid "msg_no_search_string"
+msgstr "Unesite upit"
+
+msgid "msg_no_title"
+msgstr "Unesite naslov."
+
+msgid "msg_not_available_for_anon"
+msgstr "Stranica koju ste odabrali dostupna je samo registriranim korisnicima"
+
+msgid "msg_not_in_itself"
+msgstr "Nije moguće objekt zalijepiti u samog sebe"
+
+msgid "msg_obj_already_deleted"
+msgstr "Objekt je već izbrisan."
+
+msgid "msg_obj_created"
+msgstr "Objekt je kreiran."
+
+msgid "msg_obj_exists"
+msgstr "Ovaj objekt već postoji u ovoj mapi"
+
+msgid "msg_obj_exists_in_folder"
+msgstr "Objekt %s već postoji u mapi %s."
+
+msgid "msg_obj_may_not_contain_objects_of_type"
+msgstr "Objekt %s ne može sadržavati objekte tipa: %s."
+
+msgid "msg_obj_modified"
+msgstr "Izmjene su spremljene."
+
+msgid "msg_obj_no_download"
+msgstr "nije moguće preuzeti."
+
+msgid "msg_obj_no_link"
+msgstr "Iz tehničkih razloga nije moguće povezati objekte spremnika poput kategorija, tečajeva, skupina ili mapa. Umjesto toga možete povezati nekoliko pojedinačnih objekata unutar takvog spremnika s drugim područjima ili koristite tipove objekta kao poveznica kategorije, poveznica tečaja ili poveznica skupine."
+
+msgid "msg_obj_perm_download"
+msgstr "Nemate dovoljna prava za preuzimanje sljedećih objekata:"
+
+msgid "msg_paste_object_not_in_itself"
+msgstr "Nije moguće objekt \"%s\" umetnuti u samog sebe."
+
+msgid "msg_perm_adopted_from1"
+msgstr "Postavke prava je preuzeo"
+
+msgid "msg_perm_adopted_from2"
+msgstr "(Postavke su spremljene!)"
+
+msgid "msg_perm_adopted_from_itself"
+msgstr "Ne možete preuzeti postavke prava od trenutačne uloga odn. predloška uloge."
+
+msgid "msg_removed"
+msgstr "Objekt(i) je(su) uklonjen(i) iz sustava."
+
+msgid "msg_role_reserved_prefix"
+msgstr "Prefiks 'il_' rezerviran je za automatski generirane uloge. Molimo odaberite drugo ime"
+
+msgid "msg_roleassignment_changed"
+msgstr "Dodijeljena uloga je promijenjena"
+
+msgid "msg_sysrole_not_deletable"
+msgstr "Uloga sustava ne može se izbrisati"
+
+msgid "msg_sysrole_not_editable"
+msgstr "Postavke prava za sustavnu ulogu ne smiju se mijenjati. Sustavna uloga omogućuje svim dodijeljenim korisnicima neograničen pristup svim objektima i funkcijama."
+
+#, fuzzy
+msgid "msg_to_many_files"
+msgstr "Too many files selected, allowed amount of files:"
+
+msgid "msg_trash_empty"
+msgstr "Nema izbrisanih objekata"
+
+msgid "msg_undeleted"
+msgstr "Objekt(i) je(su) obnovljen(i)."
+
+msgid "msg_unit_is_required"
+msgstr "Za ovaj unos potrebna je jedinica. Unesite ispravnu vrijednost."
+
+#, fuzzy
+msgid "msg_unknown_value"
+msgstr "An unknown value has been passed."
+
+msgid "msg_user_last_role1"
+msgstr "Sljedeći su korisnici dodijeljeni samo ovoj ulozi:"
+
+msgid "msg_user_last_role2"
+msgstr "Izbrišite korisnike ili im dodijelite neku drugu ulogu kako biste izbrisali ovu ulogu."
+
+msgid "msg_userassignment_changed"
+msgstr "Dodjela korisnika promijenjena"
+
+msgid "msg_wrong_filetypes"
+msgstr "Dopuštene vrste datoteka:"
+
+msgid "msg_wrong_format"
+msgstr "Vrijednost koju ste unijeli nije važeći format."
+
+msgid "my_bms"
+msgstr "Oznake"
+
+msgid "my_certificates"
+msgstr "Moji certifikati"
+
+msgid "my_contacts"
+msgstr "Moji kontakti"
+
+msgid "my_courses"
+msgstr "Moji tečajevi"
+
+msgid "my_courses_groups"
+msgstr "Tečajevi i skupine"
+
+msgid "my_staff"
+msgstr "Osoblje"
+
+msgid "name"
+msgstr "Ime"
+
+#, fuzzy
+msgid "nc_contact_requests_headline"
+msgstr "Contact Requests"
+
+#, fuzzy
+msgid "nc_contact_requests_number_p"
+msgstr "You have %s Contact Requests."
+
+#, fuzzy
+msgid "nc_contact_requests_number_s"
+msgstr "You have %s Contact Request."
+
+#, fuzzy
+msgid "nc_contact_requests_prop_time"
+msgstr "Time"
+
+msgid "never"
+msgstr "nikada"
+
+msgid "new"
+msgstr "Novi"
+
+msgid "new_language"
+msgstr "Novi jezik"
+
+msgid "new_pass_equals_old_pass"
+msgstr "Nova lozinka jednaka je staroj."
+
+msgid "newline"
+msgstr "Novi redak"
+
+msgid "news"
+msgstr "Novosti"
+
+msgid "next"
+msgstr "Dalje"
+
+msgid "no"
+msgstr "Ne"
+
+msgid "no_access_item"
+msgstr "Nemate dopuštenje za pristup ovoj stavci."
+
+msgid "no_access_item_public"
+msgstr "Kako biste pristupili ovoj stavci, morate biti prijavljeni i imati odgovarajuća dopuštenja."
+
+#, fuzzy
+msgid "no_accessibility_control_concept_description"
+msgstr "There is currently no Accessibility Control Concept provided with this installation. Please contact the <a href=\"%1$s\">Accessibility Point of Contact</a>."
+
+msgid "no_checkbox"
+msgstr "Niste odabrali nijednu stavku."
+
+msgid "no_condition_selected"
+msgstr "Molimo odaberite jedan preduvjet."
+
+msgid "no_date"
+msgstr "Nema datuma"
+
+msgid "no_gallery_users_available"
+msgstr "Trenutno u galeriji nema korisnika."
+
+msgid "no_global_role_left"
+msgstr "Svakom korisniku mora biti dodijeljena barem jedna uloga."
+
+msgid "no_import_file_found"
+msgstr "Nije pronađena nijedna datoteka za uvoz"
+
+msgid "no_items"
+msgstr "Ovaj je objekt prazan i ne sadrži stavke."
+
+msgid "no_limit"
+msgstr "Nema ograničenja"
+
+msgid "no_mkisofs_configured"
+msgstr "Morate konfigurirati uslužni program mkisofs u postavkama ILIAS-a kako biste pokrenuli ISO izvoz"
+
+msgid "no_parent_access"
+msgstr "Nema pristupa nadređenom objektu!"
+
+msgid "no_permission"
+msgstr "Nemate potrebno dopuštenje."
+
+msgid "no_roles_user_can_be_assigned_to"
+msgstr "Ne postoje globalne uloge kojima se korisnik može dodijeliti. Stoga vam nije dopušteno dodavanje korisnika."
+
+msgid "no_start_file"
+msgstr "Nema početne datoteke."
+
+msgid "no_title"
+msgstr "Bez naslova"
+
+msgid "no_users_selected"
+msgstr "Odaberite najmanje jednog korisnika."
+
+msgid "no_xml_file_found_in_zip"
+msgstr "U zip datoteci nije pronađena XML datoteka:"
+
+#, fuzzy
+msgid "noc"
+msgstr "Notification Center"
+
+msgid "non_internal_local_roles_only"
+msgstr "Lokalne uloge (samo korisnički definirane)"
+
+msgid "none"
+msgstr "Nijedna"
+
+msgid "normal"
+msgstr "Normalan"
+
+msgid "not_available"
+msgstr "Nije dostupno"
+
+msgid "not_implemented_yet"
+msgstr "Još nije implementirano"
+
+msgid "not_installed"
+msgstr "Nije instalirano"
+
+msgid "not_logged_in"
+msgstr "Niste prijavljeni"
+
+msgid "note"
+msgstr "Bilješka"
+
+msgid "notes"
+msgstr "Bilješke"
+
+msgid "notes_and_comments"
+msgstr "Bilješke i komentari"
+
+msgid "notice"
+msgstr "Napomena"
+
+msgid "notifications"
+msgstr "Obavijesti"
+
+msgid "nr_following_sessions"
+msgstr "Sljedeće sesije: %1d ..."
+
+msgid "num_of_selected_files"
+msgstr "Odabrane su %s datoteke"
+
+msgid "num_users"
+msgstr "Broj korisnika"
+
+#, fuzzy
+msgid "numberedlist_action"
+msgstr "Insert Numbered List - Click to insert a numbered list."
+
+msgid "obj"
+msgstr "Objekt"
+
+msgid "obj_accs"
+msgstr "Pristupačnost"
+
+msgid "obj_accs_desc"
+msgstr "Postavke za značajke pristupačnosti."
+
+msgid "obj_adm"
+msgstr "Administracija"
+
+msgid "obj_adm_desc"
+msgstr "Mapa glavnih postavki sustava koja sadrži sve alate za administriranje vaše ILIAS instalacije."
+
+#, fuzzy
+msgid "obj_adma"
+msgstr "General Settings"
+
+#, fuzzy
+msgid "obj_adma_desc"
+msgstr "Important settings for the whole installation"
+
+#, fuzzy
+msgid "obj_adn"
+msgstr "Administrative Notifications"
+
+msgid "obj_adve"
+msgstr "Uređivanje"
+
+msgid "obj_adve_desc"
+msgstr "Postavke administracije za urednika stranica ILIAS i TinyMCE."
+
+msgid "obj_ass"
+msgstr "Imovina"
+
+msgid "obj_assf"
+msgstr "Ispitivanje i ocjenjivanje"
+
+msgid "obj_assf_desc"
+msgstr "Postavke platforme alata za testiranje i ocjenjivanje"
+
+msgid "obj_auth"
+msgstr "Autentifikacija i registracija"
+
+msgid "obj_auth_desc"
+msgstr "Konfigurirajte ovdje način provjere autentičnosti (lokalno, LDAP, ...) i nove postavke registracije na račun."
+
+msgid "obj_awra"
+msgstr "Alat: ‘Tko je na mreži?’"
+
+msgid "obj_awra_desc"
+msgstr "Upravljanje alatom 'Tko je na mreži?'"
+
+msgid "obj_bdga"
+msgstr "Značke"
+
+msgid "obj_bdga_desc"
+msgstr "Administrirajte vrste, predloške slika i značke aktivnosti"
+
+#, fuzzy
+msgid "obj_bgtk"
+msgstr "Background Task"
+
+msgid "obj_bibl"
+msgstr "Bibliografija"
+
+msgid "obj_bibs"
+msgstr "Bibliografija"
+
+msgid "obj_bibs_desc"
+msgstr "Administracija bibliografije"
+
+msgid "obj_blog"
+msgstr "Blog"
+
+msgid "obj_blog_duplicate"
+msgstr "Kopiraj blog"
+
+#, fuzzy
+msgid "obj_bnmk"
+msgstr "Benchmarking"
+
+#, fuzzy
+msgid "obj_bnmk_desc"
+msgstr "Recording and display of database query durations"
+
+msgid "obj_book"
+msgstr "Bazen rezervacija"
+
+msgid "obj_cadm"
+msgstr "Kontakti"
+
+msgid "obj_cadm_desc"
+msgstr "Administracija kontakata"
+
+msgid "obj_cals"
+msgstr "Kalendar"
+
+msgid "obj_cals_desc"
+msgstr "Opće postavke kalendara."
+
+msgid "obj_cat"
+msgstr "Kategorija"
+
+msgid "obj_cat_duplicate"
+msgstr "Kopiraj kategoriju"
+
+msgid "obj_catr"
+msgstr "Link kategorije"
+
+msgid "obj_cert"
+msgstr "Certifikati"
+
+msgid "obj_cert_desc"
+msgstr "Postavke za certifikate"
+
+msgid "obj_chap"
+msgstr "Poglavlje"
+
+msgid "obj_chta"
+msgstr "Soba za razgovore"
+
+msgid "obj_chtr"
+msgstr "Soba za razgovore"
+
+#, fuzzy
+msgid "obj_chtr_duplicate"
+msgstr "Copy Chat Room"
+
+#, fuzzy
+msgid "obj_cmis"
+msgstr "xAPI/cmi5"
+
+#, fuzzy
+msgid "obj_cmis_desc"
+msgstr "Learning Record Store Types Configuration"
+
+#, fuzzy
+msgid "obj_cmix"
+msgstr "xAPI/cmi5"
+
+msgid "obj_cmps"
+msgstr "Dodaci"
+
+msgid "obj_cmps_desc"
+msgstr "Opće postavke za dodatke"
+
+#, fuzzy
+msgid "obj_coms"
+msgstr "Comments"
+
+#, fuzzy
+msgid "obj_coms_desc"
+msgstr "Comments settings"
+
+msgid "obj_copa"
+msgstr "Stranica sa sadržajem"
+
+#, fuzzy
+msgid "obj_cpad"
+msgstr "Content Pages"
+
+#, fuzzy
+msgid "obj_cpad#_desc"
+msgstr "Content Page Administration"
+
+#, fuzzy
+msgid "obj_cpad_desc"
+msgstr "Content Page Administration"
+
+#, fuzzy
+msgid "obj_cron"
+msgstr "Cron Jobs"
+
+#, fuzzy
+msgid "obj_cron_desc"
+msgstr "List of all Cron Jobs"
+
+msgid "obj_crs"
+msgstr "Tečaj"
+
+msgid "obj_crs_duplicate"
+msgstr "Kopiraj tečaj"
+
+msgid "obj_crsr"
+msgstr "Poveznica na tečaj"
+
+msgid "obj_crss"
+msgstr "Tečaj"
+
+msgid "obj_crss_desc"
+msgstr "Opće postavke za tečajeve"
+
+msgid "obj_crsv"
+msgstr "Certifikat za tečaj"
+
+msgid "obj_dbk"
+msgstr "Digilib knjiga"
+
+msgid "obj_dcl"
+msgstr "Zbirka podataka"
+
+msgid "obj_dcl_duplicate"
+msgstr "Kopiraj zbirku podataka"
+
+#, fuzzy
+msgid "obj_dpro"
+msgstr "Declaration of Data Protection"
+
+#, fuzzy
+msgid "obj_dpro_desc"
+msgstr "Declaration of Data Protection Settings"
+
+#, fuzzy
+msgid "obj_dshs"
+msgstr "Dashboard"
+
+#, fuzzy
+msgid "obj_dshs_desc"
+msgstr "Dashboard settings"
+
+msgid "obj_ecss"
+msgstr "ECS"
+
+msgid "obj_ecss_desc"
+msgstr "Opće postavke ECS-a"
+
+msgid "obj_etal"
+msgstr "Employee Talk"
+
+msgid "obj_exc"
+msgstr "Vježba"
+
+msgid "obj_exc_duplicate"
+msgstr "Kopiraj vježbu"
+
+msgid "obj_excv"
+msgstr "Certifikat za vježbu"
+
+msgid "obj_facs"
+msgstr "Datoteke"
+
+msgid "obj_facs_desc"
+msgstr "Postavke za datoteke i upravljanje datotekama"
+
+msgid "obj_file"
+msgstr "Datoteka"
+
+msgid "obj_file_duplicate"
+msgstr "Kopiraj datoteku"
+
+msgid "obj_file_inline"
+msgstr "Datoteka modula učenja"
+
+#, fuzzy
+msgid "obj_fils"
+msgstr "File Services"
+
+#, fuzzy
+msgid "obj_fils_desc"
+msgstr "Configuration of File Service Settings."
+
+msgid "obj_fold"
+msgstr "Mapa"
+
+msgid "obj_fold_duplicate"
+msgstr "Kopiraj mapu"
+
+msgid "obj_frm"
+msgstr "Forum"
+
+msgid "obj_frm_duplicate"
+msgstr "Kopiraj forum"
+
+msgid "obj_frma"
+msgstr "Forum"
+
+msgid "obj_frma_desc"
+msgstr "Postavke globalnog foruma"
+
+msgid "obj_glo"
+msgstr "Pojmovnik"
+
+msgid "obj_glo_duplicate"
+msgstr "Kopiraj pojmovnik"
+
+msgid "obj_grp"
+msgstr "Skupina"
+
+msgid "obj_grp_duplicate"
+msgstr "Kopiraj skupinu"
+
+msgid "obj_grpr"
+msgstr "Poveznica na skupinu"
+
+msgid "obj_grps"
+msgstr "Skupina"
+
+msgid "obj_grps_desc"
+msgstr "Opće postavke za skupinu"
+
+#, fuzzy
+msgid "obj_gsfo"
+msgstr "Footer"
+
+#, fuzzy
+msgid "obj_gsfo_desc"
+msgstr "Administrate Footer Layout and Content"
+
+msgid "obj_hlps"
+msgstr "Sustav pomoći"
+
+msgid "obj_hlps_desc"
+msgstr "Postavke za online pomoć"
+
+msgid "obj_htlm"
+msgstr "Modul učenja HTML"
+
+msgid "obj_htlm_duplicate"
+msgstr "Kopiraj HTML modul za učenja"
+
+msgid "obj_iass"
+msgstr "Individualna procjena"
+
+msgid "obj_iass_duplicate"
+msgstr "Kopiraj pojedinačnu procjenu"
+
+msgid "obj_iass_select"
+msgstr "- Odaberite jednu pojedinačnu procjenu -"
+
+msgid "obj_itgr"
+msgstr "Skupina stavki"
+
+msgid "obj_ldap_desc"
+msgstr "Ovdje konfigurirajte globalne postavke LDAP-a."
+
+#, fuzzy
+msgid "obj_lhts"
+msgstr "Learning History"
+
+#, fuzzy
+msgid "obj_lhts_desc"
+msgstr "Learning history settings"
+
+msgid "obj_lm"
+msgstr "Modul učenja ILIAS"
+
+msgid "obj_lm_duplicate"
+msgstr "Kopiraj modul za učenja"
+
+msgid "obj_lng"
+msgstr "Jezik"
+
+msgid "obj_lngf"
+msgstr "Jezici"
+
+msgid "obj_lngf_desc"
+msgstr "Ovdje upravljajte jezicima sustava."
+
+msgid "obj_logs"
+msgstr "Protokoliranje"
+
+msgid "obj_logs_desc"
+msgstr "Opće postavke zapisnika"
+
+msgid "obj_lrss"
+msgstr "Moduli učenja"
+
+msgid "obj_lrss_desc"
+msgstr "Konfiguriraj sve vrste modula učenja."
+
+msgid "obj_lso"
+msgstr "Sekvenca učenja"
+
+msgid "obj_lso_duplicate"
+msgstr "Kopiraj sekvencu učenja"
+
+#, fuzzy
+msgid "obj_lsos"
+msgstr "Learning Sequences"
+
+#, fuzzy
+msgid "obj_lsos_desc"
+msgstr "General settings for Learning Sequences"
+
+#, fuzzy
+msgid "obj_lti"
+msgstr "LTI Consumer"
+
+msgid "obj_ltis"
+msgstr "LTI"
+
+msgid "obj_ltis_desc"
+msgstr "Interoperabilnost alata za učenje"
+
+msgid "obj_mail"
+msgstr "E-pošta"
+
+msgid "obj_mail_desc"
+msgstr "Ovdje konfigurirajte globalne postavke e-pošte."
+
+#, fuzzy
+msgid "obj_mailr"
+msgstr "Read Mail"
+
+#, fuzzy
+msgid "obj_mailu"
+msgstr "Unread Mail"
+
+#, fuzzy
+msgid "obj_maps"
+msgstr "Maps"
+
+msgid "obj_mcst"
+msgstr "Mediacast"
+
+msgid "obj_mcst_duplicate"
+msgstr "Kopiraj Mediacast"
+
+msgid "obj_mcts"
+msgstr "Mediacast"
+
+msgid "obj_mcts_desc"
+msgstr "Opće postavke za mediacast."
+
+msgid "obj_mep"
+msgstr "Bazen medija"
+
+msgid "obj_mep_duplicate"
+msgstr "Kopiraj bazen medija"
+
+msgid "obj_mme"
+msgstr "Glavni izbornik"
+
+msgid "obj_mob"
+msgstr "Medijski objekt"
+
+msgid "obj_mobs"
+msgstr "Medijski objekti i bazeni"
+
+msgid "obj_mobs_desc"
+msgstr "Postavke za medijske objekte i bazene medija."
+
+msgid "obj_not_found"
+msgstr "Objekt nije pronađen"
+
+#, fuzzy
+msgid "obj_nota"
+msgstr "Notifications"
+
+#, fuzzy
+msgid "obj_nota_desc"
+msgstr "Notification Administration"
+
+#, fuzzy
+msgid "obj_nots"
+msgstr "Notes"
+
+#, fuzzy
+msgid "obj_nots_desc"
+msgstr "Notes settings"
+
+msgid "obj_nwss"
+msgstr "Vijesti i web sažeci"
+
+msgid "obj_nwss_desc"
+msgstr "Postavke za interne vijesti i vanjske web sažetke."
+
+msgid "obj_objf"
+msgstr "Definicije objekata"
+
+msgid "obj_orgu"
+msgstr "Organizacijska jedinica"
+
+msgid "obj_orgu_description"
+msgstr "Stvaranje i upravljanje organizacijskom strukturom"
+
+msgid "obj_page"
+msgstr "Stranica"
+
+#, fuzzy
+msgid "obj_peac"
+msgstr "Accordion"
+
+#, fuzzy
+msgid "obj_peadl"
+msgstr "Advanced List"
+
+#, fuzzy
+msgid "obj_peadt"
+msgstr "Advanced Table"
+
+#, fuzzy
+msgid "obj_pecd"
+msgstr "Code"
+
+#, fuzzy
+msgid "obj_pech"
+msgstr "Consultation Hour"
+
+#, fuzzy
+msgid "obj_pecl"
+msgstr "Column Layout"
+
+#, fuzzy
+msgid "obj_peclp"
+msgstr "Clipboard"
+
+#, fuzzy
+msgid "obj_pecom"
+msgstr "Competences"
+
+#, fuzzy
+msgid "obj_pecrs"
+msgstr "Course"
+
+#, fuzzy
+msgid "obj_pecrt"
+msgstr "Certificate"
+
+#, fuzzy
+msgid "obj_pecs"
+msgstr "Content Snippet"
+
+#, fuzzy
+msgid "obj_pedt"
+msgstr "Data Table"
+
+#, fuzzy
+msgid "obj_pefl"
+msgstr "File List"
+
+#, fuzzy
+msgid "obj_peim"
+msgstr "interactive Media"
+
+#, fuzzy
+msgid "obj_pelh"
+msgstr "Learning History"
+
+#, fuzzy
+msgid "obj_pemed"
+msgstr "Image/Audio/Video"
+
+#, fuzzy
+msgid "obj_pemp"
+msgstr "Map"
+
+#, fuzzy
+msgid "obj_pepd"
+msgstr "Personal Data"
+
+#, fuzzy
+msgid "obj_pepe"
+msgstr "Plugin Element"
+
+#, fuzzy
+msgid "obj_pepl"
+msgstr "Page List"
+
+#, fuzzy
+msgid "obj_peplh"
+msgstr "Placeholder"
+
+#, fuzzy
+msgid "obj_pequ"
+msgstr "Questions"
+
+#, fuzzy
+msgid "obj_perl"
+msgstr "Ressource List"
+
+#, fuzzy
+msgid "obj_pesc"
+msgstr "Section"
+
+#, fuzzy
+msgid "obj_petmp"
+msgstr "Page Template"
+
+#, fuzzy
+msgid "obj_peusr"
+msgstr "User"
+
+msgid "obj_pg"
+msgstr "Stranica"
+
+msgid "obj_poll"
+msgstr "Glasovanje"
+
+msgid "obj_poll_dupliate:"
+msgstr "Kopiraj glasovanje"
+
+msgid "obj_poll_duplicate"
+msgstr "Kopiraj glasovanje"
+
+msgid "obj_prg"
+msgstr "Studijski program"
+
+msgid "obj_prg_duplicate"
+msgstr "Kopiraj studijski program"
+
+msgid "obj_prg_select"
+msgstr "- Molimo odaberite jedan studijski program -"
+
+#, fuzzy
+msgid "obj_prgr"
+msgstr "Link to Study Programme"
+
+#, fuzzy
+msgid "obj_prgrs"
+msgstr "Links to Study Programmes"
+
+msgid "obj_prgs"
+msgstr "Studijski programi"
+
+msgid "obj_prgs_desc"
+msgstr "Administracija studijskog programa"
+
+#, fuzzy
+msgid "obj_prss"
+msgstr "Personal Resources"
+
+#, fuzzy
+msgid "obj_prss_desc"
+msgstr "Personal resources settings"
+
+msgid "obj_prtf"
+msgstr "Portfelj"
+
+msgid "obj_prtt"
+msgstr "Predložak portfelja"
+
+msgid "obj_prtt_duplicate"
+msgstr "Kopiraj predložak portfelja"
+
+msgid "obj_ps"
+msgstr "Privatnost i sigurnost"
+
+msgid "obj_ps_desc"
+msgstr "Ovdje konfigurirajte globalne postavke privatnosti i sigurnosti."
+
+msgid "obj_qpl"
+msgstr "Bazen pitanja za testove"
+
+msgid "obj_qpl_duplicate"
+msgstr "Kopiraj bazen pitanja za testove"
+
+msgid "obj_qpl_select"
+msgstr "- Odaberite jedan bazen pitanja za testove -"
+
+msgid "obj_rcat"
+msgstr "ECS kategorija"
+
+msgid "obj_rcrs"
+msgstr "ECS tečaj"
+
+msgid "obj_recf"
+msgstr "Obnovljeni predmeti"
+
+msgid "obj_recf_desc"
+msgstr "Sadrži obnovljene objekte iz provjere sustava."
+
+#, fuzzy
+msgid "obj_rep"
+msgstr "Repository"
+
+msgid "obj_reps"
+msgstr "Repozitorij"
+
+msgid "obj_reps_desc"
+msgstr "Opće postavke repozitorija"
+
+msgid "obj_rfil"
+msgstr "ECS datoteka"
+
+msgid "obj_rglo"
+msgstr "ECS pojmovnik"
+
+msgid "obj_rgrp"
+msgstr "ECS skupina"
+
+msgid "obj_rlm"
+msgstr "ECS modul za učenje"
+
+msgid "obj_role"
+msgstr "Uloga"
+
+msgid "obj_rolf"
+msgstr "Uloge"
+
+msgid "obj_rolf_desc"
+msgstr "Ovdje upravljajte svojim ulogama."
+
+msgid "obj_rolf_local"
+msgstr "Lokalne uloge"
+
+msgid "obj_rolf_local_desc"
+msgstr "Sadrži lokalne uloge za objekt br."
+
+msgid "obj_rolt"
+msgstr "Predložak uloge"
+
+msgid "obj_root"
+msgstr "Repozitorij - Početna stranica"
+
+msgid "obj_rtst"
+msgstr "ECS test"
+
+msgid "obj_rwik"
+msgstr "ECS Wiki"
+
+msgid "obj_sahs"
+msgstr "Modul za učenje SCORM"
+
+msgid "obj_sahs_duplicate"
+msgstr "Kopiraj module za učenje"
+
+msgid "obj_sco"
+msgstr "SCO"
+
+msgid "obj_scov"
+msgstr "SCORM certifikat"
+
+msgid "obj_seas"
+msgstr "Pretraži"
+
+msgid "obj_seas_desc"
+msgstr "Ovdje upravljajte postavkama pretraživanja."
+
+#, fuzzy
+msgid "obj_serv"
+msgstr "Server"
+
+#, fuzzy
+msgid "obj_serv_desc"
+msgstr "Settings of the sever"
+
+msgid "obj_sess"
+msgstr "Sesija"
+
+msgid "obj_sess_duplicate"
+msgstr "Kopiraj sesiju"
+
+msgid "obj_skmg"
+msgstr "Upravljanje kompetencijama"
+
+msgid "obj_skmg_desc"
+msgstr "Upravljanje kompetencijama i kategorijama kompetencija."
+
+msgid "obj_spl"
+msgstr "Bazeni pitanja za ankete"
+
+msgid "obj_st"
+msgstr "Poglavlje"
+
+#, fuzzy
+msgid "obj_stus"
+msgstr "Shortlinks"
+
+#, fuzzy
+msgid "obj_stus_desc"
+msgstr "Global Shortlinks Settings"
+
+msgid "obj_sty"
+msgstr "Stil"
+
+msgid "obj_stys"
+msgstr "Layout i stilovi"
+
+msgid "obj_stys_desc"
+msgstr "Ovdje upravljajte postavkama za izgled i stil"
+
+msgid "obj_svy"
+msgstr "Anketa"
+
+msgid "obj_svy_duplicate"
+msgstr "Kopiraj anketu"
+
+msgid "obj_svyf"
+msgstr "Ankete"
+
+msgid "obj_svyf_desc"
+msgstr "Postavke platforme alat za anketiranje"
+
+msgid "obj_sysc"
+msgstr "Provjera sustava"
+
+msgid "obj_sysc_desc"
+msgstr "Alati za provjeru i popravak sustava"
+
+msgid "obj_tags"
+msgstr "Označavanje"
+
+msgid "obj_tags_desc"
+msgstr "Postavke za značajku označavanja."
+
+msgid "obj_tala"
+msgstr "Talk Templates"
+
+msgid "obj_tala_desc"
+msgstr "Talk Templates"
+
+msgid "obj_tals"
+msgstr "Employee Talk Series"
+
+msgid "obj_talt"
+msgstr "Talk Template"
+
+#, fuzzy
+msgid "obj_task"
+msgstr "Task"
+
+msgid "obj_tax"
+msgstr "Taksonomija"
+
+msgid "obj_taxf"
+msgstr "Taksonomije"
+
+msgid "obj_tool_setting_calendar"
+msgstr "Kalendar"
+
+#, fuzzy
+msgid "obj_tool_setting_calendar_active"
+msgstr "Calendar"
+
+#, fuzzy
+msgid "obj_tool_setting_calendar_active_info"
+msgstr "A calendar is available."
+
+msgid "obj_tool_setting_calendar_info"
+msgstr "Dostupan je kalendar, a blok ‘Kalendar’ prikazuje se na kartici ‘Sadržaj’."
+
+msgid "obj_tool_setting_custom_metadata"
+msgstr "Prilagođeni metapodaci"
+
+msgid "obj_tool_setting_custom_metadata_info"
+msgstr "Ako su aktivirani, metapodaci mogu se konfigurirati."
+
+msgid "obj_tool_setting_news"
+msgstr "Vijesti"
+
+msgid "obj_tool_setting_news_info"
+msgstr "Blok 'Vijesti' prikazat će se na kartici 'Sadržaj'."
+
+msgid "obj_tos"
+msgstr "Uvjeti pružanja usluge"
+
+msgid "obj_tos_desc"
+msgstr "Postavke Uvjeta pružanja usluge"
+
+msgid "obj_trac"
+msgstr "Statistike i napredak u učenju"
+
+msgid "obj_trac_desc"
+msgstr "Postavke i pregled statistika i napretka učenja"
+
+msgid "obj_tst"
+msgstr "Test"
+
+msgid "obj_tst_duplicate"
+msgstr "Kopiraj test"
+
+msgid "obj_tstv"
+msgstr "Potvrda za test"
+
+msgid "obj_type"
+msgstr "Vrsta objekta"
+
+msgid "obj_user"
+msgstr "Korisnik"
+
+msgid "obj_usr"
+msgstr "Korisnik"
+
+msgid "obj_usrf"
+msgstr "Upravljanje korisnicima"
+
+msgid "obj_usrf_desc"
+msgstr "Ovdje upravljajte korisničkim računima."
+
+#, fuzzy
+msgid "obj_wbdv"
+msgstr "WebDAV"
+
+#, fuzzy
+msgid "obj_wbdv_desc"
+msgstr "Configuration of WebDAV Settings."
+
+msgid "obj_wbrs"
+msgstr "Web poveznica"
+
+msgid "obj_wbrs_desc"
+msgstr "Opće postavke za web poveznice"
+
+msgid "obj_webr"
+msgstr "Web poveznica"
+
+msgid "obj_webr_duplicate"
+msgstr "Kopirajte zborku web poveznica"
+
+msgid "obj_wfld"
+msgstr "Mapa"
+
+msgid "obj_wiki"
+msgstr "Wiki"
+
+msgid "obj_wiki_duplicate"
+msgstr "Kopiraj Wiki"
+
+msgid "obj_wiks"
+msgstr "Wiki"
+
+msgid "obj_wiks_desc"
+msgstr "Globalne Wiki postavke"
+
+msgid "object"
+msgstr "Objekt"
+
+msgid "object_added"
+msgstr "Objekt dodan"
+
+msgid "object_copy_in_progress"
+msgstr "Kopiranje je započelo."
+
+msgid "object_duplicated"
+msgstr "Objekt je kopiran"
+
+msgid "object_id"
+msgstr "ID objekta"
+
+msgid "object_imported"
+msgstr "Objekt uvezen"
+
+#, fuzzy
+msgid "object_list"
+msgstr "List of Objects"
+
+msgid "objects"
+msgstr "Objekti"
+
+msgid "objf"
+msgstr "Definicije objekata"
+
+msgid "objs_bibl"
+msgstr "Bibliografije"
+
+msgid "objs_blog"
+msgstr "Blogovi"
+
+msgid "objs_book"
+msgstr "Bazeni rezervacija"
+
+msgid "objs_cat"
+msgstr "Kategorije"
+
+msgid "objs_catr"
+msgstr "Poveznice kategorije"
+
+msgid "objs_chtr"
+msgstr "Sobe za razgovore"
+
+#, fuzzy
+msgid "objs_cmix"
+msgstr "Objects xAPI/cmi5"
+
+msgid "objs_copa"
+msgstr "Stranice sadržaja"
+
+msgid "objs_crs"
+msgstr "Tečajevi"
+
+msgid "objs_crsr"
+msgstr "Poveznica na tečaj"
+
+msgid "objs_dcl"
+msgstr "Zbirke podataka"
+
+msgid "objs_etal"
+msgstr "Employee Talks"
+
+msgid "objs_exc"
+msgstr "Vježbe"
+
+msgid "objs_file"
+msgstr "Datoteke"
+
+msgid "objs_fold"
+msgstr "Mape"
+
+msgid "objs_frm"
+msgstr "Forumi"
+
+msgid "objs_glo"
+msgstr "Pojmovnici"
+
+msgid "objs_grp"
+msgstr "Skupine"
+
+msgid "objs_grpr"
+msgstr "Poveznice na skupine"
+
+msgid "objs_htlm"
+msgstr "HTML moduli za učenje"
+
+msgid "objs_iass"
+msgstr "Pojedinačne procjene"
+
+msgid "objs_itgr"
+msgstr "Skupine stavki"
+
+msgid "objs_lm"
+msgstr "Moduli za učenje ILIAS"
+
+msgid "objs_lres"
+msgstr "Resursi za učenje"
+
+msgid "objs_lso"
+msgstr "Sekvence učenja"
+
+#, fuzzy
+msgid "objs_lti"
+msgstr "LTI Consumers"
+
+msgid "objs_mail"
+msgstr "E-pošta"
+
+msgid "objs_mcst"
+msgstr "Mediacastovi (medijske emisije)"
+
+msgid "objs_mep"
+msgstr "Bazeni medija"
+
+msgid "objs_orgu"
+msgstr "Organizacijske jedinice"
+
+msgid "objs_poll"
+msgstr "Glasovanja"
+
+msgid "objs_prg"
+msgstr "Studijski programi"
+
+#, fuzzy
+msgid "objs_prgr"
+msgstr "Links to Study Programmes"
+
+msgid "objs_prtf"
+msgstr "Portfelji"
+
+msgid "objs_prtt"
+msgstr "Predlošci portfelja"
+
+msgid "objs_qpl"
+msgstr "Bazeni pitanja za testove"
+
+msgid "objs_qst"
+msgstr "Pitanja"
+
+msgid "objs_rcat"
+msgstr "ECS kategorije"
+
+msgid "objs_rcrs"
+msgstr "ECS tečajevi"
+
+msgid "objs_rfil"
+msgstr "ECS datoteke"
+
+msgid "objs_rglo"
+msgstr "ECS pojmovnici"
+
+msgid "objs_rgrp"
+msgstr "ECS skupine"
+
+msgid "objs_rlm"
+msgstr "ECS moduli za učenje"
+
+msgid "objs_role"
+msgstr "Uloge"
+
+#, fuzzy
+msgid "objs_rolf"
+msgstr "Role Folders"
+
+msgid "objs_rtst"
+msgstr "ECS testovi"
+
+msgid "objs_rwik"
+msgstr "ECS Wiki"
+
+msgid "objs_sahs"
+msgstr "SCORM moduli za učenje"
+
+msgid "objs_sess"
+msgstr "Sesije"
+
+#, fuzzy
+msgid "objs_skee"
+msgstr "Competence Trees"
+
+msgid "objs_spl"
+msgstr "Bazeni pitanja za ankete"
+
+msgid "objs_st"
+msgstr "Poglavlja"
+
+msgid "objs_svy"
+msgstr "Ankete"
+
+msgid "objs_tala"
+msgstr "Talk Templates"
+
+msgid "objs_talt"
+msgstr "Talk Templates"
+
+msgid "objs_tst"
+msgstr "Testovi"
+
+msgid "objs_webr"
+msgstr "Web poveznice"
+
+msgid "objs_wiki"
+msgstr "Wikis"
+
+msgid "of"
+msgstr "Od"
+
+msgid "offline"
+msgstr "Offline"
+
+msgid "offline_mode"
+msgstr "Koristi offline"
+
+msgid "ok"
+msgstr "u redu"
+
+msgid "old"
+msgstr "Star"
+
+msgid "omit"
+msgstr "Izostavi"
+
+msgid "omit_all"
+msgstr "Izostavi sve"
+
+msgid "on_waiting_list"
+msgstr "Upisani ste na listu čekanja"
+
+msgid "online"
+msgstr "Online"
+
+msgid "online_time"
+msgstr "Ukupno vrijeme na mreži (online) (DD: SS: MM: SS)"
+
+msgid "only_active"
+msgstr "Samo aktivni"
+
+msgid "only_inactive"
+msgstr "Samo neaktivni"
+
+msgid "open"
+msgstr "Otvori"
+
+msgid "operation"
+msgstr "Operacija"
+
+msgid "optimize"
+msgstr "Optimiziraj"
+
+msgid "option"
+msgstr "Opcija"
+
+msgid "optional_filter_hint"
+msgstr "Molimo aktivirajte jedan od opcionalnih filtara."
+
+msgid "optional_filters"
+msgstr "Opcionalni filtri"
+
+msgid "options"
+msgstr "Opcije"
+
+msgid "order_by"
+msgstr "Poredaj po"
+
+msgid "order_by_date"
+msgstr "Poredaj po datumu"
+
+msgid "org_op_access_enrolments"
+msgstr "Pogledaj status upisa"
+
+msgid "org_op_manage_members"
+msgstr "Upravljanje podređenim članovima"
+
+msgid "org_op_read_learning_progress"
+msgstr "Pogledaj napredak učenja podređenih korisnika"
+
+msgid "org_permission_settings"
+msgstr "Prava pozicija u organizacijskim jedinicama"
+
+msgid "org_units"
+msgstr "Organizacijske jedinice"
+
+msgid "organization"
+msgstr "Pružatelj usluga"
+
+msgid "other"
+msgstr "Ostalo"
+
+msgid "overview"
+msgstr "Pregled"
+
+msgid "overwrite"
+msgstr "Prepiši"
+
+msgid "owner"
+msgstr "Vlasnik"
+
+msgid "owner_updated"
+msgstr "Vlasnik ažuriran."
+
+msgid "page"
+msgstr "Stranica"
+
+msgid "page_count"
+msgstr "Broj stranica"
+
+msgid "page_layout"
+msgstr "Izgled stranice"
+
+msgid "page_layouts"
+msgstr "Izgledi stranice"
+
+#, fuzzy
+msgid "pagination_label_x_of_y"
+msgstr "Page %1$d of %2$d"
+
+msgid "parameter"
+msgstr "Parametar"
+
+msgid "parse"
+msgstr "Raščlani"
+
+msgid "participate"
+msgstr "Pretplati se"
+
+msgid "passed"
+msgstr "Prošao"
+
+msgid "passwd"
+msgstr "Lozinka"
+
+msgid "passwd_generation"
+msgstr "Generiranje lozinke"
+
+msgid "passwd_invalid"
+msgstr "Nova lozinka je nevaljana! Lozinka smije sadržavati samo sljedeće znakove (najmanje 6 znakova): A-Z a-z 0-9 _.-+?#*@!$%~"
+
+msgid "passwd_not_match"
+msgstr "Vaši unosi za novu lozinku se ne podudaraju! unesite novu lozinku ponovno."
+
+msgid "passwd_wrong"
+msgstr "Lozinka koju ste unijeli je pogrešna!"
+
+msgid "password"
+msgstr "Lozinka"
+
+msgid "password_allow_chars"
+msgstr "Dopušteni znakovi: %s"
+
+msgid "password_assistance_info"
+msgstr "Ako je omogućena pomoć s lozinkom, na stranici za prijavu ILIAS-a prikazuje se poveznica ‘Zaboravili ste lozinku?’. Korisnici mogu koristiti ovu vezu za definiranje nove lozinke za svoj korisnički račun bez potrebe za pomoći administratora sustava."
+
+msgid "password_change_on_first_login_demand"
+msgstr "Morate promijeniti početnu lozinku prije nego što počnete koristiti usluge ILIAS-a."
+
+msgid "password_contains_invalid_chars"
+msgstr "Lozinka sadrži nevažeće znakove"
+
+msgid "password_contains_parts_of_login_err"
+msgstr "Odabrana lozinka sadrži dijelove vašeg korisničkog imena. Unesite drugu lozinku."
+
+msgid "password_empty"
+msgstr "Polje za lozinku ne smije biti prazno."
+
+msgid "password_expired"
+msgstr "Vaša je lozinka istekla i mora se promijeniti jer je zadnja promjena bila prije %s dan(a)."
+
+msgid "password_multiple_errors"
+msgstr "Više kriterija nije zadovoljeno:"
+
+msgid "password_must_chars_and_numbers"
+msgstr "Lozinka mora sadržavati znakove i brojeve."
+
+msgid "password_must_contain_lcase_chars"
+msgstr "Lozinka mora sadržavati najmanje %s malih slova."
+
+msgid "password_must_contain_ucase_chars"
+msgstr "Lozinka mora sadržavati najmanje %s velikih slova."
+
+msgid "password_must_special_chars"
+msgstr "Lozinka mora sadržavati posebne znakove."
+
+msgid "password_to_long"
+msgstr "Lozinka smije imati najviše %s znakova."
+
+msgid "password_to_short"
+msgstr "Lozinka mora imati najmanje %s znakova."
+
+msgid "paste"
+msgstr "Zalijepi"
+
+msgid "pasteChapter"
+msgstr "Zalijepi"
+
+msgid "pastePage"
+msgstr "Zalijepi"
+
+msgid "paste_clipboard_items"
+msgstr "Zalijepi"
+
+msgid "path"
+msgstr "Staza"
+
+msgid "path_not_set"
+msgstr "Staza nije postavljena"
+
+msgid "path_to_convert"
+msgstr "Put do COVERT (konverzije)"
+
+msgid "path_to_htmldoc"
+msgstr "Staza do HTMLdoca"
+
+msgid "path_to_java"
+msgstr "Staza do Jave"
+
+msgid "path_to_unzip"
+msgstr "Staza do UNZIP-a (raspakiranja)"
+
+msgid "path_to_zip"
+msgstr "Staza do Zip-a"
+
+msgid "pathes"
+msgstr "Staze"
+
+msgid "pd_items_news"
+msgstr "Uključujući vijesti o osobnim stvarima"
+
+msgid "pdf_export"
+msgstr "PDF izvoz"
+
+msgid "perm_settings"
+msgstr "Prava"
+
+msgid "perma_link"
+msgstr "Trajna poveznica"
+
+#, fuzzy
+msgid "perma_link_copied"
+msgstr "Link to this page has been copied to the clipboard."
+
+msgid "permission"
+msgstr "Dozvola"
+
+msgid "permission_denied"
+msgstr "Dozvola odbijena"
+
+msgid "permission_settings"
+msgstr "Postavke dozvole za objekt"
+
+msgid "person_title"
+msgstr "Titula"
+
+msgid "personal_data"
+msgstr "Osobni podaci"
+
+msgid "personal_picture"
+msgstr "Slika za profil"
+
+msgid "personal_profile"
+msgstr "Osobni podaci i profil"
+
+#, fuzzy
+msgid "personal_resources"
+msgstr "Personal Resources"
+
+msgid "personal_settings"
+msgstr "Postavke"
+
+#, fuzzy
+msgid "personalise_date_time"
+msgstr "Personalise Date and Time Settings"
+
+msgid "persons"
+msgstr "Osobe"
+
+msgid "pg_add"
+msgstr "Dodaj stranicu"
+
+msgid "pg_new"
+msgstr "Nova stranica"
+
+msgid "phone"
+msgstr "Telefon"
+
+msgid "phone_home"
+msgstr "Telefon, pivatni"
+
+msgid "phone_mobile"
+msgstr "Telefon, mobitel"
+
+msgid "phone_office"
+msgstr "Telefon, ured"
+
+msgid "phrase"
+msgstr "Fraza"
+
+msgid "please_choose"
+msgstr "-- Izaberi --"
+
+msgid "please_enter_target"
+msgstr "Molimo unesite cilj"
+
+msgid "please_enter_title"
+msgstr "Molimo unesite naslov"
+
+msgid "please_select"
+msgstr "-- Molimo izaberite --"
+
+msgid "please_select_a_delivered_file_to_delete"
+msgstr "Morate odabrati barem jednu isporučenu datoteku kako biste je mogli izbrisati!"
+
+msgid "please_select_a_delivered_file_to_download"
+msgstr "Morate odabrati barem jednu isporučenu datoteku kako biste je mogli preuzeti!"
+
+msgid "please_wait"
+msgstr "Molimo pričekajte ..."
+
+msgid "port"
+msgstr "Ulaz"
+
+msgid "portfolio"
+msgstr "Portfelj"
+
+msgid "pos_bottom"
+msgstr "Dolje"
+
+msgid "pos_left"
+msgstr "Lijevo"
+
+msgid "pos_right"
+msgstr "Desno"
+
+msgid "pos_top"
+msgstr "Gore"
+
+msgid "position"
+msgstr "Položaj"
+
+msgid "position_permission_settings"
+msgstr "Dozvole specifične za organizacijsku jedinicu"
+
+msgid "precondition"
+msgstr "Preduvjet"
+
+msgid "precondition_not_accessible"
+msgstr "Nemate dovoljna prava za pregled preduvjeta ove stavke."
+
+msgid "precondition_required_itemlist"
+msgstr "Potreban preduvjet"
+
+msgid "precondition_toggle"
+msgstr "Preduvjeti koje treba ispuniti za pristup ovom objektu"
+
+msgid "preconditions"
+msgstr "Preduvjeti"
+
+msgid "preconditions_obligatory_hint"
+msgstr "Morate ispuniti sve sljedeće preduvjete"
+
+msgid "preconditions_optional_hint"
+msgstr "Morate ispuniti <b>%s</b> sljedećih preduvjeta"
+
+msgid "predefined_template"
+msgstr "Preddefinirani predložak uloge"
+
+msgid "preferences"
+msgstr "Korisničke postavke"
+
+msgid "presentation_table_more"
+msgstr "Prikaži više"
+
+#, fuzzy
+msgid "presenter"
+msgstr "Presenter"
+
+msgid "preview"
+msgstr "Pregled"
+
+msgid "preview_create"
+msgstr "Kreiraj pregled"
+
+msgid "preview_delete"
+msgstr "Izbriši pregled"
+
+#, fuzzy
+msgid "preview_image_size"
+msgstr "Size of Preview Images"
+
+msgid "preview_learner_info"
+msgstr "Ako je omogućeno, administratori tečaja i skupine mogu vidjeti sadržaj iz perspektive sudionika tečaja odn. skupine."
+
+msgid "preview_loading"
+msgstr "Učitavanje pregled..."
+
+msgid "preview_none"
+msgstr "Pregled (još nije izrađen)"
+
+#, fuzzy
+msgid "preview_not_possible"
+msgstr "Creation of Previews is currently not possible, please read the documentation in %s."
+
+#, fuzzy
+msgid "preview_renderers"
+msgstr "Preview Renderers"
+
+msgid "preview_settings"
+msgstr "Pregled datoteke"
+
+msgid "preview_show"
+msgstr "Prikaži pregled"
+
+msgid "preview_status_creating"
+msgstr "Pregled se izrađuje. To može potrajati ..."
+
+msgid "preview_status_deleting"
+msgstr "Pregled se briše..."
+
+msgid "preview_status_failed"
+msgstr "Izrada pregleda nije uspjela."
+
+msgid "preview_status_missing"
+msgstr "Za ovu datoteku ne postoji pregled."
+
+msgid "preview_status_pending"
+msgstr "Pregled još nije izrađen. Molimo pokušajte ponovno kasnije."
+
+msgid "previous"
+msgstr "Prethodni"
+
+msgid "prg_copy_threads_info"
+msgstr "Odlučite koje elemente studijskog programa treba kopirati, povezati ili čak izostaviti."
+
+msgid "prg_wizard_page"
+msgstr "Kopiraj studijski program (korak 2/2)"
+
+#, fuzzy
+msgid "prgr_add"
+msgstr "Add Study Programme Link"
+
+#, fuzzy
+msgid "prgr_edit_info"
+msgstr "Please choose one Study Programme for creating a new link."
+
+#, fuzzy
+msgid "prgr_new"
+msgstr "Create Study Programme Link"
+
+#, fuzzy
+msgid "prgr_settings"
+msgstr "Settings of Study Programme Link"
+
+msgid "print"
+msgstr "Ispis"
+
+msgid "print_view"
+msgstr "Prikaz ispisa"
+
+msgid "private_notes"
+msgstr "Privatne bilješke"
+
+msgid "pro"
+msgstr "Pro"
+
+msgid "proceed"
+msgstr "Nastavi"
+
+msgid "profile"
+msgstr "Profil"
+
+msgid "profile_changed"
+msgstr "Vaš profil je promijenjen"
+
+msgid "profile_incomplete"
+msgstr "Vaš je profil nepotpun. Molimo ispunite sve potrebne podatke."
+
+msgid "profile_of"
+msgstr "Profil korisnika"
+
+msgid "properties"
+msgstr "Svojstva"
+
+msgid "proxy"
+msgstr "Proxy poslužitelj"
+
+msgid "proxy_connectable"
+msgstr "Veza uspostavljena."
+
+msgid "proxy_host"
+msgstr "Domaćin"
+
+msgid "proxy_host_info"
+msgstr "Unesite ovdje domaćina."
+
+msgid "proxy_not_connectable"
+msgstr "ILIAS nije uspio uspostaviti vezu s definiranim proxy poslužiteljem."
+
+msgid "proxy_port"
+msgstr "Ulaz"
+
+msgid "proxy_port_info"
+msgstr "Unesite ulaz između 0 i 65535, npr. 8080."
+
+msgid "proxy_port_numeric"
+msgstr "Uneseni ulaz smije se sastojati samo od numeričkih vrijednosti između 0 i 65535"
+
+msgid "proxy_socket_error"
+msgstr "Pogreška utičnice: %s"
+
+msgid "proxy_status"
+msgstr "Proxy"
+
+msgid "proxy_status_info"
+msgstr "Kako biste koristili proxy u ILIAS-u (npr. za web sažetke ili provjeru web poveznica), aktivirajte gornji potvrdni okvir."
+
+msgid "ps_export_scorm"
+msgstr "Osobni podaci u podacima protokola"
+
+msgid "ps_password_lowercase_chars_num"
+msgstr "Mala slova"
+
+msgid "ps_password_lowercase_chars_num_info"
+msgstr "Unesite ovdje broj malih slova koje lozinka mora sadržavati. Unesite 0 da biste onemogućili ovaj zahtjev."
+
+msgid "ps_password_must_not_contain_loginame"
+msgstr "Spriječite korisničko ime u lozinci"
+
+msgid "ps_password_must_not_contain_loginame_info"
+msgstr "Ako se aktivira, lozinka ne smije sadržavati dio korisničkog imena."
+
+msgid "ps_password_uppercase_chars_num"
+msgstr "Velika slova"
+
+msgid "ps_password_uppercase_chars_num_info"
+msgstr "Unesite ovdje broj velikih slova koje lozinka mora sadržavati. Unesite 0 da biste onemogućili ovaj zahtjev."
+
+msgid "pub_section"
+msgstr "Anonimni pristup"
+
+msgid "pub_section_info"
+msgstr "Ako je omogućeno, dijelovi sustava (npr. repozitorij,  radni prostor, korisnički profili) mogu biti dostupni na internetu bez provjere autentičnosti. Dopuštenja uloge 'Anonimno' kontrolirat će na koji će način biti omogućen pristup resursima repozitorija."
+
+msgid "public"
+msgstr "javno"
+
+msgid "public_notes"
+msgstr "Javne bilješke"
+
+msgid "public_profile"
+msgstr "Profil"
+
+msgid "public_room"
+msgstr "Javna soba za razgovore"
+
+msgid "purpose"
+msgstr "Svrha"
+
+msgid "qpl"
+msgstr "Bazen pitanja za testove"
+
+msgid "qpl_add"
+msgstr "Dodaj bazen pitanja za testove"
+
+msgid "qpl_new"
+msgstr "Novi bazen pitanja za test"
+
+msgid "query_data"
+msgstr "Podaci upita"
+
+msgid "question"
+msgstr "Pitanje"
+
+msgid "question_message"
+msgstr "Pitanje"
+
+msgid "quit"
+msgstr "Odjava"
+
+msgid "quote"
+msgstr "Citat"
+
+msgid "read"
+msgstr "Čitaj"
+
+msgid "readcount_anonymous_users"
+msgstr "Broj anonimnih pristupa s pravom čitanja"
+
+msgid "readcount_users"
+msgstr "Broj neanonimnih pristupa s pravom čitanja"
+
+msgid "recipient"
+msgstr "Primatelj"
+
+msgid "reference_deleted"
+msgstr "Cilj nije dostupan"
+
+msgid "reference_of"
+msgstr "Referenca:"
+
+msgid "referral_comment"
+msgstr "Kako ste čuli za ILIAS?"
+
+msgid "refresh"
+msgstr "Osvježi"
+
+msgid "refresh_languages"
+msgstr "Osvježi sve jezike"
+
+msgid "refuse"
+msgstr "Odbij"
+
+msgid "reg_account_confirmation_successful"
+msgstr "Vaš korisnički račun je aktiviran."
+
+#, fuzzy
+msgid "reg_delete_expired_pending_registrations"
+msgstr "Delete Expired Pending Registrations"
+
+#, fuzzy
+msgid "reg_delete_expired_pending_registrations_desc"
+msgstr "Deletes all ILIAS accounts that have not been confirmed after a registration with e-mail confirmation."
+
+msgid "reg_goto_parent_membership_info"
+msgstr "Samo članovi mogu pristupiti ciljanom objektu."
+
+msgid "reg_mail_body_2_confirmation"
+msgstr "Poveznica će važiti samo %s, nakon toga ćete se morati registrirati ponovno."
+
+msgid "reg_mail_body_3_confirmation"
+msgstr "Ako ste ovu e-poštu dobili neočekivano, moguće je da je netko drugi namjerno ili slučajno unio vašu adresu e-pošte. Zbog toga zanemarite ovu e-poštu."
+
+msgid "reg_mail_body_forgot_password_info"
+msgstr "Kako biste dobili lozinku, upotrijebite funkciju «Zaboravili ste lozinku?» na zaslonu za prijavu kako biste mogli zatražiti novu lozinku za ovaj račun."
+
+msgid "reg_mail_body_salutation"
+msgstr "Dobar dan"
+
+msgid "reg_mail_body_text1"
+msgstr "Dobrodošli u ILIAS eLearning!"
+
+msgid "reg_mail_body_text2"
+msgstr "Za pristup ILIAS-u koristite sljedeće podatke:"
+
+msgid "reg_mail_body_text3"
+msgstr "Ostali osobni podaci:"
+
+msgid "reg_mail_subject"
+msgstr "Vaši pristupni podaci"
+
+msgid "reg_mail_subject_confirmation"
+msgstr "Vaša povezica za potvrdu"
+
+msgid "reg_passwd_via_mail"
+msgstr "Vaša lozinka bit će poslana na vašu adresu e-pošte navedenu u nastavku."
+
+msgid "register"
+msgstr "Registariraj se"
+
+#, fuzzy
+msgid "register_notification"
+msgstr "\"%s\" has applied for session \"%s\"."
+
+msgid "registered_since"
+msgstr "Registriran od"
+
+msgid "registered_user"
+msgstr "registrirani korisnik"
+
+msgid "registered_users"
+msgstr "registrirani korisnici"
+
+msgid "registration"
+msgstr "Registracija novog računa"
+
+msgid "related_to"
+msgstr "Odnosi se na"
+
+msgid "remove"
+msgstr "Ukloni"
+
+msgid "remove_entries"
+msgstr "Ukloni unose"
+
+msgid "remove_translation"
+msgstr "Ukloni prijevod"
+
+msgid "rename"
+msgstr "Preimenuj"
+
+msgid "rename_file"
+msgstr "Preimenuj datoteku"
+
+msgid "renderer_supported_file_types"
+msgstr "Podržane vrste datoteka"
+
+msgid "renderer_supported_repo_types"
+msgstr "Podržani ILIAS objekti"
+
+msgid "renderer_type_builtin"
+msgstr "Ugrađeno"
+
+msgid "rep_main_page"
+msgstr "Početna stranica"
+
+#, fuzzy
+msgid "rep_main_page_logo_alt"
+msgstr "Logo ILIAS - to the start page"
+
+msgid "repeat_scan"
+msgstr "Ponovi skeniranje na viruse..."
+
+msgid "repeat_scan_failed"
+msgstr "Ponovljeno skeniranje nije uspjelo."
+
+msgid "repeat_scan_succeded"
+msgstr "Ponovljeno skeniranje uspjelo."
+
+msgid "replace_file"
+msgstr "Zamijeni datoteku"
+
+msgid "reply"
+msgstr "Odgovori"
+
+#, fuzzy
+msgid "report_accessibility_issue"
+msgstr "Report Accessibility Issue"
+
+#, fuzzy
+msgid "report_accessibility_link"
+msgstr "Reported Link:"
+
+#, fuzzy
+msgid "report_accessibility_link_mailto"
+msgstr "Reported%20Link:"
+
+msgid "repository"
+msgstr "Repozitorij"
+
+msgid "repository_admin"
+msgstr "Repozitorij, koš za smeće i prava"
+
+msgid "repository_admin_desc"
+msgstr "Postavi prava za objekte repozitorija, vrati ili ukloni objekte iz koša za smeće"
+
+msgid "require_email"
+msgstr "Obvezni unos e-pošte"
+
+msgid "require_gender"
+msgstr "Obvezni unos oslovljavanja"
+
+msgid "require_hobby"
+msgstr "Obvezni unos hobija"
+
+msgid "require_matriculation"
+msgstr "Obvezni unos matičnog broja"
+
+msgid "require_referral_comment"
+msgstr "Obvezni unos komentara informacije"
+
+msgid "required_field"
+msgstr "Obvezno polje"
+
+msgid "res_links"
+msgstr "Poveznice u repozitoriju"
+
+msgid "res_links_short"
+msgstr "Poveznice"
+
+msgid "reset"
+msgstr "Poništi"
+
+msgid "reset_filter"
+msgstr "Poništi filtar"
+
+msgid "resources"
+msgstr "Resursi"
+
+msgid "right"
+msgstr "Pravo"
+
+msgid "rights"
+msgstr "Prava"
+
+msgid "role"
+msgstr "Uloga"
+
+msgid "role_add_user"
+msgstr "Dodaj korisnika ulozi"
+
+msgid "role_added"
+msgstr "Uloga je dodana"
+
+msgid "role_assignment"
+msgstr "Dodjela uloga"
+
+msgid "role_assignment_updated"
+msgstr "Dodjela uloga je ažurirana."
+
+msgid "role_edit"
+msgstr "Uredi ulogu"
+
+msgid "role_mailto"
+msgstr "E-pošta svim dodijeljenim korisnicima"
+
+msgid "role_new"
+msgstr "Nova uloga"
+
+msgid "role_new_search"
+msgstr "Nova pretraga"
+
+msgid "role_no_roles_selected"
+msgstr "Odaberi ulogu"
+
+msgid "role_protect_permissions"
+msgstr "Zaštiti prava"
+
+msgid "role_protect_permissions_desc"
+msgstr "Sistemske operacije više ne mogu mijenjati pava za objekt. Nadalje, samo administrator viših razina može mijenjati prava."
+
+msgid "role_select_one_item"
+msgstr "Molimo odaberite jedan objekt."
+
+msgid "role_sure_delete_desk_items"
+msgstr "Jeste li sigurni da želite izbrisati sljedeće dodjele?"
+
+msgid "role_templates_only"
+msgstr "Samo predlošci uloga"
+
+msgid "roles"
+msgstr "Uloge"
+
+msgid "roles_of_import_global"
+msgstr "Globalne uloge datoteke za uvoz"
+
+msgid "roles_of_import_local"
+msgstr "Lokalne uloge datoteke za uvoz"
+
+msgid "rolf"
+msgstr "Mapa uloga"
+
+msgid "rolf_added"
+msgstr "Dodana je mapa uloga"
+
+msgid "rolf_create_role"
+msgstr "Stvori novu ulogu"
+
+msgid "rolf_create_rolt"
+msgstr "Izradi novi predložak uloge"
+
+msgid "rolf_delete"
+msgstr "Izbriši uloge/predloške uloga"
+
+msgid "rolf_edit_permission"
+msgstr "Promijeni postavke prava"
+
+msgid "rolf_edit_userassignment"
+msgstr "Promijeni korisničku dodjelu uloga"
+
+msgid "rolf_read"
+msgstr "Pristup ulogama/predlošcima uloga s pravom čitanja"
+
+msgid "rolf_visible"
+msgstr "Uloge/predlošci uloga su vidljivi"
+
+msgid "rolf_write"
+msgstr "Uredite zadane postavke prava za uloge/predloške uloga"
+
+msgid "rolt"
+msgstr "Predložak uloge"
+
+msgid "rolt_added"
+msgstr "Predložak uloge je dodan"
+
+msgid "rolt_edit"
+msgstr "Uredi predložak uloge"
+
+msgid "rolt_new"
+msgstr "Novi predložak uloge"
+
+msgid "row"
+msgstr "Redak"
+
+msgid "rows"
+msgstr "Redovi"
+
+msgid "rpc_pdf_font"
+msgstr "Fontovi"
+
+msgid "rpc_pdf_font_info"
+msgstr "Dodatni fontovi za generiranje PDF datoteka. Na ILIAS poslužitelju moraju se instalirati drugi fontovi osim \"Helvetica\" i \"Unifont\"."
+
+msgid "rpc_pdf_generation"
+msgstr "Generiranje PDF-a"
+
+msgid "sad"
+msgstr "Tužan"
+
+msgid "sahs"
+msgstr "Modul za učenje SCORM"
+
+msgid "sahs_added"
+msgstr "Dodan je modul za učenje SCORM"
+
+msgid "sahs_export_file"
+msgstr "ILIAS je izvezao arhivsku datoteku SCORM-a"
+
+#, fuzzy
+msgid "sahs_export_file_info"
+msgstr "Use this option for a ZIP file that was exported directly from ILIAS. The file typically has titles such as 1675257903__4105__sahs_132295.zip."
+
+msgid "sahs_insert_chap_from_clip"
+msgstr "Zalijepi poglavlja iz međuspremnika"
+
+msgid "sahs_insert_page_from_clip"
+msgstr "Zalijepi stranice iz međuspremnika"
+
+msgid "sahs_insert_sco_from_clip"
+msgstr "Zalijepite SCO-ove iz međuspremnika"
+
+#, fuzzy
+msgid "sahs_new"
+msgstr "Create New Learning Module"
+
+msgid "salutation"
+msgstr "Oslovljavanje"
+
+msgid "salutation_f"
+msgstr "Gđa"
+
+msgid "salutation_m"
+msgstr "G."
+
+msgid "salutation_n"
+msgstr "Oslovljavanje nije željeno"
+
+msgid "saml_log_in"
+msgstr "Izravna prijava"
+
+msgid "saml_login_form_info_txt"
+msgstr "Možete se prijaviti pomoću gumba „Izravna prijava“ bez unošenja korisničkog imena ili lozinke."
+
+msgid "saml_login_form_txt"
+msgstr "Prijavi se na ILIAS putem SAML-a"
+
+msgid "save"
+msgstr "Spremi"
+
+msgid "save_and_back"
+msgstr "Spremi i natrag"
+
+msgid "save_message"
+msgstr "Spremi kao nacrt"
+
+msgid "save_params_for_cron"
+msgstr "Spremi parametar za Cron Job"
+
+msgid "save_refresh"
+msgstr "Spremi i osvježi"
+
+msgid "save_return"
+msgstr "Spremi i vrati"
+
+msgid "save_settings"
+msgstr "Spremi postavke"
+
+msgid "save_user_related_data"
+msgstr "Spremi podatke o pristupu koji se odnose na korisnika"
+
+msgid "saved_successfully"
+msgstr "Uspješno spremljeno"
+
+msgid "saving"
+msgstr "Spremanje ..."
+
+#, fuzzy
+msgid "scope"
+msgstr "Scope"
+
+msgid "scorm_create_export_file_html"
+msgstr "Stvori datoteku za izvoz (HTML)"
+
+msgid "scorm_create_export_file_pdf"
+msgstr "Stvori datoteku za izvoz (PDF)"
+
+msgid "scorm_create_export_file_scrom12"
+msgstr "Stvori datoteku za izvoz (SCORM 1.2)"
+
+msgid "scorm_create_export_file_scrom2004"
+msgstr "Stvori datoteku za izvoz (SCORM 2004. treće izdanje)"
+
+msgid "scorm_create_export_file_scrom2004_4th"
+msgstr "Stvori datoteku za izvoz (SCORM 2004, četvrto izdanje)"
+
+msgid "scorm_login_as_learner_id"
+msgstr "SCORM 2004: postavi korisničko ime za ILIAS kao cmi.learner_id"
+
+msgid "scorm_login_as_learner_id_info"
+msgstr "Ako je omogućeno, korisničko ime postavlja se umjesto korisničkog ID-a za cmi.learner_id."
+
+msgid "scorm_lp_auto_activate"
+msgstr "Zadana postavka za napredak u učenju"
+
+msgid "scorm_lp_auto_activate_info"
+msgstr "Ako je općenito aktiviran napredak učenja, postavke novih SCORM modula za učenje postavljaju se na ‘Zbirka SCORM stavki’ i svi SCO-i odabiru se za određivanje napretka učenja. Podešavanja su i dalje moguća za svaki SCORM modul za učenje."
+
+msgid "scorm_new"
+msgstr "Stvori novi SCORM modul za učenje (način rada autora)"
+
+msgid "scorm_without_session"
+msgstr "SCORM: omogući spremanje podataka bez sesije"
+
+msgid "scorm_without_session_info"
+msgstr "To osigurava pohranu podataka o učenju SCORM-a čak i ako je sesija ILIAS-a istekla"
+
+msgid "search"
+msgstr "Traži"
+
+msgid "search_active"
+msgstr "Uključi aktivne korisnike"
+
+msgid "search_at_current_position"
+msgstr "Na trenutačnoj poziciji"
+
+msgid "search_engine"
+msgstr "Čitljivi .html URL-ovi"
+
+msgid "search_for"
+msgstr "Traži"
+
+msgid "search_globally"
+msgstr "Globalno"
+
+msgid "search_in"
+msgstr "Traži u"
+
+msgid "search_inactive"
+msgstr "Uključite neaktivne korisnike"
+
+msgid "search_new"
+msgstr "Nova pretraga"
+
+msgid "search_result"
+msgstr "Rezultat pretrage"
+
+msgid "search_results"
+msgstr "Rezultati pretrage"
+
+msgid "search_user"
+msgstr "Pretraživanje korisnika"
+
+#, fuzzy
+msgid "search_users"
+msgstr "Look Up Users"
+
+msgid "seas_max_hits"
+msgstr "Maks. broj pronađenih rezultata"
+
+msgid "seas_max_hits_info"
+msgstr "Unesi broj za najveći broj pronađenih rezultata pretraživanja."
+
+msgid "seas_settings"
+msgstr "Postavke pretraživanja"
+
+msgid "second"
+msgstr "Sekunda"
+
+msgid "second_email"
+msgstr "Druga e-pošta"
+
+msgid "seconds"
+msgstr "Sekunde"
+
+msgid "sel_country"
+msgstr "Zemlja"
+
+msgid "select"
+msgstr "Izaberi"
+
+msgid "select_all"
+msgstr "Odaberi sve"
+
+msgid "select_at_least_one_object"
+msgstr "Odaberi barem jedan objekt."
+
+msgid "select_file"
+msgstr "Odaberi datoteku"
+
+#, fuzzy
+msgid "select_file_from_computer"
+msgstr "Select File"
+
+msgid "select_files_from_computer"
+msgstr "Odaberi datoteke"
+
+msgid "select_max_one_item"
+msgstr "Odaberi samo jedan objekt"
+
+msgid "select_object_to_link"
+msgstr "Odaberite objekt koji želite povezati"
+
+msgid "select_one"
+msgstr "Odaberi barem jedan."
+
+msgid "select_question_pool_info"
+msgstr "Sve dok datoteka za uvoz sadrži pitanja, ta će se pitanja uvoziti i u odabrani bazen pitanja."
+
+msgid "select_questionpool"
+msgstr "Umetni pitanja u"
+
+msgid "selected"
+msgstr "Odabrane"
+
+msgid "selected_files"
+msgstr "Odabrane datoteke"
+
+msgid "selected_items"
+msgstr "Osobne stavke"
+
+msgid "selected_items_back"
+msgstr "Povratak na osobne stavke"
+
+msgid "selected_languages_updated"
+msgstr "Odabrani jezici su ažurirani (ako su instalirani):"
+
+msgid "send"
+msgstr "Pošalji"
+
+msgid "send_mail"
+msgstr "Pošalji poruku"
+
+msgid "sender"
+msgstr "Pošiljatelj"
+
+msgid "sent"
+msgstr "Poslano"
+
+msgid "sequence"
+msgstr "Sekvenca"
+
+msgid "sequences"
+msgstr "Sekvence"
+
+msgid "server"
+msgstr "Poslužitelj"
+
+msgid "server_data"
+msgstr "Informacije o poslužitelju"
+
+msgid "server_disabled"
+msgstr "Razgovor je onemogućen"
+
+msgid "server_software"
+msgstr "Poslužiteljski softver"
+
+msgid "sess"
+msgstr "Sesija"
+
+msgid "sess_fixed_duration"
+msgstr "Fiksno trajanje sesije"
+
+msgid "session_config"
+msgstr "Postavke sesije"
+
+msgid "session_config_maintenance_disabled"
+msgstr "Održavanje od strane klijenta nije dopuštenbo"
+
+#, fuzzy
+msgid "session_mail_subject_deletion"
+msgstr "Deregistration of user \"%s\" from session \"%s\""
+
+#, fuzzy
+msgid "session_mail_subject_entered"
+msgstr "Joining of user \"%s\" in session \"%s\""
+
+#, fuzzy
+msgid "session_mail_subject_registered"
+msgstr "Registration of user \"%s\" for session \"%s\""
+
+msgid "session_reminder"
+msgstr "Podsjetnik na sesiju"
+
+msgid "session_reminder_alert"
+msgstr "Vaša sesija istječe za %1$s u %2$s! \\N\\nKliknite na OK kako biste nastavili sa sesijom.\\NAko kliknete Odustani, više nećete dobiti podsjetnik tijekom trenutne sesije preglednika.\\N\\nInstalacija: %3$s."
+
+#, fuzzy
+msgid "session_reminder_default_lead_time_info"
+msgstr "Please specify how many minutes before the expiration of a session a reminder should be shown.<br / >The function is deactivated when the value is '%s'. The recommended value is %s.<br / >The current length of a session is %s."
+
+#, fuzzy
+msgid "session_reminder_input"
+msgstr "Session Reminder (in Minutes)"
+
+msgid "session_reminder_lead_time"
+msgstr "Vrijeme prije"
+
+msgid "session_reminder_lead_time_info"
+msgstr "Odredite vrijeme prije slanja podsjetnika na istek sesije u minutama. Podsjetnik prikazuje upozorenje kada je preostalo samo ovo vremensko razdoblje prije isteka sesije. Preporučena vrijednost je 5 (minuta) <br /> Trenutačno trajanje korisničke sesije je %s."
+
+msgid "session_reminder_session_duration"
+msgstr "(Trajanje sesije: %s)."
+
+msgid "set"
+msgstr "Postavi"
+
+msgid "setSystemLanguage"
+msgstr "Postavi jezik sustava"
+
+msgid "setUserLanguage"
+msgstr "Postavi korisnički jezik"
+
+msgid "set_offline"
+msgstr "Postavi offline"
+
+msgid "set_online"
+msgstr "Postavi online"
+
+msgid "set_skin_does_not_exist"
+msgstr "Vaš odabrani izgled više ne postoji. Možete promijeniti svoj stil u osobnim postavkama ili se obratiti administratoru. Trenutačni odabir:"
+
+msgid "set_style_does_not_exist"
+msgstr "Vaš odabrani stil sustava više ne postoji. Možete promijeniti svoj stil u osobnim postavkama ili se obratiti administratoru. Trenutačni odabir:"
+
+msgid "settings"
+msgstr "Postavke"
+
+msgid "settings_for_all_members"
+msgstr "Članovi se obavještavaju automatski."
+
+msgid "settings_per_users"
+msgstr "Članovi se obavještavaju automatski. Deaktiviranje obavijesti može se dopustiti za svakog člana pojedinačno."
+
+#, fuzzy
+msgid "settings_presentation_header"
+msgstr "Presentation"
+
+msgid "settings_saved"
+msgstr "Spremljene postavke"
+
+msgid "shib"
+msgstr "Shibboleth"
+
+msgid "shib_active"
+msgstr "Omogući podršku za Shibboleth"
+
+msgid "shib_city"
+msgstr "Atribut za grad"
+
+msgid "shib_country"
+msgstr "Atribut za državu"
+
+msgid "shib_data_conv"
+msgstr "Apsolutni put do API-ja za manipulaciju podacima"
+
+msgid "shib_data_conv_warning"
+msgstr "API datoteku za manipulaciju podacima koju ste naveli ne može se pročitati"
+
+msgid "shib_department"
+msgstr "Atribut za odjel"
+
+msgid "shib_email"
+msgstr "Atribut za adresu e-pošte"
+
+msgid "shib_federation_name"
+msgstr "Ime vašeg Shibboleth saveza"
+
+msgid "shib_firstname"
+msgstr "Atribut za ime"
+
+msgid "shib_gender"
+msgstr "Atribut za pozdrav (mora biti 'm' ili 'f')"
+
+msgid "shib_general_login_instructions"
+msgstr "Kako biste se prijavili putem %s, kliknite gumb za prijavu i odaberite svoju organizaciju na sljedećoj stranici.<br>Ako imate pitanja s tim u vezi , pitajte"
+
+msgid "shib_general_wayf_login_instructions"
+msgstr "U slučaju da niste član nijedne od navedenih organizacija, trebate pristup tečaju na ovom poslužitelju, kontaktirajte"
+
+msgid "shib_idp_list"
+msgstr "Navedite popis davatelja identiteta da bi korisnik mogao izabrati između njih na stranici za prijavu ILIAS-a.<br>U svakom retku mora postojati n-torka (tuple) odvojena zarezom za <strong>ID operatora ID-a</strong>(vidi datoteku metapodataka Shibboletha) i <strong>Ime IdP-a</strong> kako će biti prikazano na padajućem popisu.<br>Kao neobavezni treći parametar možete dodati <strong>lokaciju inicijatora Shibboleth-ove sesije</strong> koja će se koristiti u slučaju da je vaša ILIAS instalacija dio višestruke federacije."
+
+msgid "shib_institution"
+msgstr "Atribut za ustanovu"
+
+msgid "shib_invalid_home_organization"
+msgstr "Odaberi valjanu organizaciju!"
+
+msgid "shib_language"
+msgstr "Atribut za jezik"
+
+msgid "shib_lastname"
+msgstr "Atribut za prezime"
+
+msgid "shib_login"
+msgstr "Jedinstveni Shibbolethov atribut"
+
+msgid "shib_login_button"
+msgstr "Put do sličice gumba za prijavu Shibboletha koji se koristi za preusmjeravanje korisnika na WAYF naveden u Shibboleth konfiguraciji"
+
+msgid "shib_login_embedded_wayf"
+msgstr "Dizajniraj prilagođeno područje za prijavu"
+
+msgid "shib_login_embedded_wayf_description"
+msgstr "Ako je odabrana ova opcija, možete navesti bilo koji HTML kôd u donjem tekstualnom području uputa za prijavu. To se na primjer može koristiti za ugrađivanje vlastitog JavaScript WAYF/Discovery Service-a ili za stvaranje prilagođenog dizajna područja za prijavu."
+
+msgid "shib_login_external_wayf"
+msgstr "Koristi vanjsku uslugu WAYF"
+
+msgid "shib_login_internal_wayf"
+msgstr "Koristi uslugu ILIAS WAYF"
+
+msgid "shib_login_type"
+msgstr "Izbor organizacije"
+
+msgid "shib_matriculation"
+msgstr "Atribut za matični broj"
+
+msgid "shib_member_of"
+msgstr "Član sam ..."
+
+msgid "shib_phone_home"
+msgstr "Atribut za kućni broj telefona"
+
+msgid "shib_phone_mobile"
+msgstr "Atribut za broj mobitela"
+
+msgid "shib_phone_office"
+msgstr "Atribut za telefonski broj u uredu"
+
+msgid "shib_select_home_organization"
+msgstr "Za provjeru autentičnosti putem %s, odaberite svoju organizaciju s padajućeg popisa."
+
+msgid "shib_settings_saved"
+msgstr "Spremljene su postavke za Shibboleth"
+
+msgid "shib_street"
+msgstr "Atribut za ulicu"
+
+msgid "shib_title"
+msgstr "Atribut za naslov"
+
+msgid "shib_update"
+msgstr "Ažuriraj ovo polje prilikom prijave"
+
+msgid "shib_user_default_role"
+msgstr "Zadana uloga dodijeljena Shibbolethovim korisnicima"
+
+msgid "shib_zipcode"
+msgstr "Atribut za poštanski broj"
+
+msgid "short_inst_name"
+msgstr "Kratki naslov"
+
+msgid "short_inst_name_info"
+msgstr "Ovaj će se naslov pojaviti na naslovnoj traci zaglavlja preglednika. Ako se ne unese vrijednost, koristi se ‘ILIAS’."
+
+msgid "show"
+msgstr "Prikaži"
+
+msgid "show_all_details"
+msgstr "Prikaži sve detalje"
+
+#, fuzzy
+msgid "show_content"
+msgstr "Show Content"
+
+msgid "show_details"
+msgstr "Prikaži detalje"
+
+msgid "show_filter"
+msgstr "Prikaži filtar"
+
+msgid "show_hidden_sections"
+msgstr "Prikaži više informacija & raquo;"
+
+#, fuzzy
+msgid "show_less"
+msgstr "Show less"
+
+msgid "show_list"
+msgstr "Prikaži popis"
+
+msgid "show_members"
+msgstr "Prikaži članove"
+
+#, fuzzy
+msgid "show_more"
+msgstr "Show More"
+
+#, fuzzy
+msgid "show_preview"
+msgstr "Show Preview"
+
+msgid "show_users_online"
+msgstr "Prikaži aktivne korisnike"
+
+#, fuzzy
+msgid "show_who_is_online"
+msgstr "Show who is online"
+
+msgid "side_frame"
+msgstr "Bočni okvir"
+
+msgid "signature"
+msgstr "Potpis"
+
+msgid "size"
+msgstr "Veličina"
+
+msgid "skills"
+msgstr "Kompetencije"
+
+msgid "skin_style"
+msgstr "Zadani izgled/stil"
+
+msgid "smtp"
+msgstr "SMTP"
+
+msgid "soap_connect_timeout"
+msgstr "Vrijeme za uspostavu veze je isteklo"
+
+msgid "soap_connect_timeout_info"
+msgstr "Maksimalno vrijeme u sekundama dok se ne prekine pokušaj povezivanja s web-uslugom SOAP."
+
+msgid "soap_user_administration"
+msgstr "Administracija putem SOAP-a"
+
+msgid "soap_user_administration_desc"
+msgstr "Ako je omogućeno, ILIAS se može administrirati putem SOAP-a."
+
+msgid "soap_wsdl_path"
+msgstr "WSDL put"
+
+msgid "soap_wsdl_path_info"
+msgstr "Unesi put do datoteke ilias wsdl koja bi se trebala koristiti za web uslugu. Ako ovo polje ostavite prazno, prema zadanim postavkama koristit će se sljedeća staza: %s"
+
+#, fuzzy
+msgid "sort"
+msgstr "Sort"
+
+#, fuzzy
+msgid "sort_ascending"
+msgstr "Sort Ascending"
+
+#, fuzzy
+msgid "sort_ascending_long"
+msgstr "Change Sort Direction to Ascending"
+
+msgid "sort_by_this_column"
+msgstr "Poredaj po ovom stupcu"
+
+#, fuzzy
+msgid "sort_descending"
+msgstr "Sort Descending"
+
+#, fuzzy
+msgid "sort_descending_long"
+msgstr "Change Sort Direction to Descending"
+
+msgid "sort_inherit_prefix"
+msgstr "Zadano"
+
+msgid "sorting_asc"
+msgstr "Uzlazni"
+
+msgid "sorting_creation_header"
+msgstr "Prema datumu stvaranja"
+
+msgid "sorting_creation_info"
+msgstr "Stavke sadržaja automatski se raspoređuju prema datumu izrade."
+
+msgid "sorting_desc"
+msgstr "Silazno"
+
+msgid "sorting_direction"
+msgstr "Smjer sortiranja"
+
+msgid "sorting_header"
+msgstr "Sortiranje stavki sadržaja"
+
+msgid "sorting_info_inherit"
+msgstr "Način sortiranja prihvaćen je od nadređenog tečaja/skupine."
+
+msgid "sorting_info_manual"
+msgstr "Stavke sadržaja mogu se slagati ručno u željenom redoslijedu. Pored toga, definiraj standardne postavke sortiranja za nove objekte."
+
+msgid "sorting_info_title"
+msgstr "Stavke sadržaja automatski su poredane prema naslovu po abecednom redu."
+
+msgid "sorting_manual_header"
+msgstr "Ručno"
+
+msgid "sorting_save"
+msgstr "Spremi sortiranje"
+
+msgid "sorting_title_header"
+msgstr "Naslovi po abecednom redu"
+
+msgid "spacer"
+msgstr "Razmaknica"
+
+msgid "spl"
+msgstr "Bazen pitanja za ankete"
+
+msgid "spl_add"
+msgstr "Dodaj bazen pitanja za ankete"
+
+msgid "spl_import"
+msgstr "Uvezi bazen pitanja za ankete"
+
+msgid "spl_new"
+msgstr "Novi bazen pitanja za ankete"
+
+msgid "ssl"
+msgstr "SSL (HTTPS)"
+
+msgid "standard_fields"
+msgstr "Standardna polja"
+
+msgid "startpage"
+msgstr "Stranica za prijavu ILIAS"
+
+msgid "stat_selected"
+msgstr "Odabran"
+
+msgid "statistic"
+msgstr "Statistika"
+
+msgid "statistics"
+msgstr "Statistike"
+
+msgid "status"
+msgstr "Status"
+
+msgid "status_no_permission"
+msgstr "Nije odobreno pravo"
+
+msgid "step"
+msgstr "Korak"
+
+msgid "street"
+msgstr "Ulica"
+
+msgid "structure"
+msgstr "Struktura"
+
+msgid "sty"
+msgstr "Stil"
+
+msgid "sub_request_deleted"
+msgstr "Zahtjev za članstvo je izbrisan"
+
+msgid "sub_request_saved"
+msgstr "Zahtjev za članstvo je spremljen"
+
+msgid "subject"
+msgstr "Predmet"
+
+msgid "submit"
+msgstr "Pošalji"
+
+msgid "subobjects"
+msgstr "Pod-objekti"
+
+msgid "subscription"
+msgstr "Pretplata"
+
+msgid "subtabs"
+msgstr "Podkartice"
+
+msgid "success_message"
+msgstr "Poruka o uspjehu"
+
+msgid "summary"
+msgstr "Sažetak"
+
+msgid "sure_delete_selected_users"
+msgstr "Jeste li sigurni da želite izbrisati odabrane korisnike?"
+
+msgid "survey_defaults"
+msgstr "Zadane postavke za ankete"
+
+msgid "survey_unlimited_invitation"
+msgstr "Neograničena pozivnica"
+
+msgid "svy"
+msgstr "Anketa"
+
+msgid "svy_add"
+msgstr "Dodaj anketu"
+
+msgid "svy_finished"
+msgstr "Već ste ispunili ste anketu"
+
+msgid "svy_new"
+msgstr "Nova anketa"
+
+msgid "svy_not_finished"
+msgstr "Anketa još nije dovršena"
+
+msgid "svy_not_started"
+msgstr "Niste sudjelovali u ovoj anketi"
+
+msgid "svy_run"
+msgstr "Izvrši"
+
+msgid "svy_warning_survey_not_complete"
+msgstr "Anketa je nepotpuna"
+
+#, fuzzy
+msgid "switch_language"
+msgstr "Switch Language"
+
+msgid "system"
+msgstr "Sustav"
+
+msgid "system_check"
+msgstr "Provjera sustava"
+
+msgid "system_information"
+msgstr "Informacije o sustavu"
+
+msgid "system_language"
+msgstr "Jezik sustava"
+
+msgid "system_styles"
+msgstr "Stilovi sustava"
+
+msgid "systemcheck_cron"
+msgstr "Provjera sustava putem Cron Joba"
+
+msgid "systemcheck_cronform"
+msgstr "Aktiviranje provjere sustava u Cron Jobu"
+
+msgid "table_mail_import"
+msgstr "Uvoz e-pošte"
+
+msgid "tabs"
+msgstr "Kartice"
+
+msgid "tagging_my_tags"
+msgstr "Moje oznake"
+
+#, fuzzy
+msgid "tags"
+msgstr "Tags"
+
+msgid "take_over_structure"
+msgstr "Usvoji strukturu"
+
+msgid "take_over_structure_info"
+msgstr "Ako je aktivirano, direktoriji u zip datoteci pruzet će se u kategorije ili, ako se koriste u skupinama ili tečajevima, u mape."
+
+msgid "tals_etal"
+msgstr "Talk"
+
+msgid "talt_etal"
+msgstr "Talk"
+
+msgid "target"
+msgstr "Cilj"
+
+msgid "tax"
+msgstr "Taksonomija"
+
+msgid "tax_add"
+msgstr "Dodaj taksonomiju"
+
+msgid "tax_new"
+msgstr "Nova taksonomija"
+
+msgid "term"
+msgstr "Pojam"
+
+msgid "test"
+msgstr "Test"
+
+msgid "tests"
+msgstr "Testovi"
+
+msgid "textbox"
+msgstr "Tekstualni okvir"
+
+msgid "thread"
+msgstr "Tema"
+
+msgid "thumbnail"
+msgstr "Sličica"
+
+#, fuzzy
+msgid "tile_view"
+msgstr "Tile View"
+
+msgid "time"
+msgstr "Vrijeme"
+
+msgid "time_limit"
+msgstr "Pristup"
+
+msgid "time_limit_add_time_limit_for_selected"
+msgstr "Unesi vremensko razdoblje za odabrane korisnike"
+
+msgid "time_limit_from"
+msgstr "Od (vremensko ograničenje)"
+
+msgid "time_limit_message"
+msgstr "Poruka (vremensko ograničenje)"
+
+msgid "time_limit_no_users_selected"
+msgstr "Odaberi korisnika."
+
+msgid "time_limit_not_valid"
+msgstr "Razdoblje nije važeće."
+
+msgid "time_limit_reached"
+msgstr "Vaš korisnički račun nije aktivan."
+
+msgid "time_limit_unlimited"
+msgstr "Neograničeno (vremensko ograničenje)"
+
+msgid "time_limit_until"
+msgstr "Do (vremensko ograničenje)"
+
+msgid "title"
+msgstr "Naslov"
+
+msgid "title_required"
+msgstr "Unesi naslov."
+
+msgid "to"
+msgstr "Do"
+
+msgid "to_client_list"
+msgstr "Odabir mandanta"
+
+msgid "today"
+msgstr "Danas"
+
+msgid "toggleGlobalDefault"
+msgstr "Uključi/isključi zadanu tablicu stilova"
+
+msgid "toggleGlobalFixed"
+msgstr "Uključi/isključi jedinstvenu tablicu stilova"
+
+msgid "toggle_dropdown"
+msgstr "Prebaci padajući izbornik"
+
+#. Don't translate this label to prevent rendering problems of the related Toggle Button!
+msgid "toggle_off"
+msgstr "OFF"
+
+#. Don't translate this label to prevent rendering problems of the related Toggle Button!
+msgid "toggle_on"
+msgstr "ON"
+
+msgid "tomorrow"
+msgstr "Sutra"
+
+#, fuzzy
+msgid "toolbar_more_actions"
+msgstr "More Actions"
+
+#, fuzzy
+msgid "tools"
+msgstr "Tools"
+
+msgid "top_of_page"
+msgstr "Vrh stranice"
+
+#, fuzzy
+msgid "tos_accept_usr_agreement"
+msgstr "Accept Terms of Service?"
+
+#, fuzzy
+msgid "tos_accept_usr_agreement_intro"
+msgstr "There are new terms of service. You need to accept them before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page."
+
+#, fuzzy
+msgid "tos_force_accept_usr_agreement"
+msgstr "You must accept the Terms of Service!"
+
+#, fuzzy
+msgid "tos_no_agreement_description"
+msgstr "There is currently no Terms of Service document available for this installation. Please contact the <a href=\"%1$s\">system administrator</a>."
+
+#, fuzzy
+msgid "tos_refuse_acceptance"
+msgstr "Refuse to Accept Terms of Service"
+
+#, fuzzy
+msgid "tos_usr_agreement"
+msgstr "Terms of Service"
+
+#, fuzzy
+msgid "tos_usr_agreement_footer_intro"
+msgstr "You have declared your consent to these terms of service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_description"
+msgstr "Withdraw your consent to our Terms of Service here."
+
+#, fuzzy
+msgid "tos_withdraw_consent_description_external"
+msgstr "Please return to your ILIAS installation and log in again to complete the process of withdrawing your consent to the Terms of Service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_description_internal"
+msgstr "Please log in again to complete the process of withdrawing your consent to the Terms of Service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_header"
+msgstr "Withdraw Terms of Service Consent"
+
+#, fuzzy
+msgid "tos_withdraw_consent_info"
+msgstr "Withdraw your consent to our Terms of Service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_info_external"
+msgstr "Please contact the administrator of your authentication system and inform them of your intention to withdraw your consent to the Terms of Service."
+
+msgid "total"
+msgstr "Ukupno"
+
+msgid "tracking_settings"
+msgstr "Postavke napretka učenja"
+
+msgid "translation"
+msgstr "Prijevod"
+
+msgid "trash"
+msgstr "Koš za smeće"
+
+msgid "tree"
+msgstr "Stablo"
+
+msgid "tree_frame"
+msgstr "Prikaz stabla"
+
+msgid "treeview"
+msgstr "Prikaži bočnu traku stabla"
+
+msgid "tst"
+msgstr "Test"
+
+msgid "tst_add"
+msgstr "Dodaj test"
+
+msgid "tst_edit_questions"
+msgstr "Uredi pitanja"
+
+#, fuzzy
+msgid "tst_history_read"
+msgstr "View History"
+
+msgid "tst_new"
+msgstr "Novi test"
+
+msgid "tst_results"
+msgstr "Rezultati testa"
+
+msgid "tst_run"
+msgstr "Izvrši"
+
+msgid "tst_user_not_invited"
+msgstr "Ne smijete sudjelovati u ovom online testu."
+
+msgid "tst_warning_test_not_complete"
+msgstr "Test nije potpun!"
+
+msgid "tutors"
+msgstr "Mentori"
+
+msgid "txt_registered"
+msgstr "Uspješno ste se registrirali u ILIAS. Kliknite na donji gumb za prijavu u ILIAS sa svojim korisničkim računom."
+
+msgid "txt_registered_passw_gen"
+msgstr "Uspješno ste se registrirali u ILIAS. Uskoro biste trebali primiti e-poštu s generiranom lozinkom."
+
+msgid "txt_submitted"
+msgstr "Uspješno ste podnijeli zahtjev za račun u ILIAS-u. Administrator sustava će pregledati vaš zahtjev za račun te bi ga trebaoaktivirati u roku od 48 sati. Nećete se moći prijaviti dok se vaš račun ne aktivira."
+
+msgid "typ"
+msgstr "Definicija tipa objekta"
+
+msgid "type"
+msgstr "Tip"
+
+msgid "udf_added_field"
+msgstr "Dodano je novo polje."
+
+msgid "udf_delete_sure"
+msgstr "Jeste li sigurni da želite izbrisati ovo polje i sve dodijeljene korisničke podatke?"
+
+msgid "udf_duplicate_entries"
+msgstr "Vrijednosti moraju biti jedinstvene."
+
+msgid "udf_field_deleted"
+msgstr "Izbrisano polje."
+
+msgid "udf_name_already_exists"
+msgstr "Ovo ime polja već postoji. Odaberite drugo ime."
+
+msgid "udf_required_requires_visib_reg"
+msgstr "Kada je polje postavljeno na 'obavezno', mora biti postavljeno na 'vidljivo u registraciji'"
+
+msgid "udf_type_date"
+msgstr "Datum"
+
+msgid "udf_type_datetime"
+msgstr "Datum i vrijeme"
+
+msgid "udf_type_select"
+msgstr "Popis za odabir (jedan izbor)"
+
+msgid "udf_type_text"
+msgstr "Polje za tekst (jedan redak)"
+
+msgid "udf_type_textarea"
+msgstr "Područje teksta (WYSIWYG)"
+
+msgid "udf_update_select_field"
+msgstr "Uredi popis za odabir"
+
+msgid "udf_update_text_field"
+msgstr "Uredi polje za tekst"
+
+msgid "udf_update_wysiwyg_field"
+msgstr "Uredi polje za tekstualno područje (WYSIWYG)"
+
+msgid "uid"
+msgstr "UID"
+
+msgid "ums_create_new_account"
+msgstr "Stvori novi račun"
+
+msgid "ums_explanation"
+msgstr "Vaš vanjski račun nije se mogao dodijeliti nijednom ILIAS računu. Ali, ILIAS je pronašao račun s vašom adresom e-pošte. Ako je ovo vaš račun, prijavite se svojom lozinkom za ILIAS."
+
+msgid "ums_explanation_2"
+msgstr "Ako ovo nije vaš račun, kliknite na 'Stvori novi račun'."
+
+msgid "ums_explanation_3"
+msgstr "Vaš vanjski račun nije se mogao dodijeliti nijednom ILIAS računu. Ali ILIAS je pronašao više računa s vašom adresom e-pošte. Ako je jedan od tih računa vaš račun, prijavite se lozinkom za ILIAS."
+
+msgid "ums_explanation_4"
+msgstr "Ako niti jedan od njih nije vaš račun, kliknite na 'Stvori novi račun'."
+
+msgid "unambiguousness"
+msgstr "Razlikovno obilježje"
+
+msgid "uncheck_all"
+msgstr "Odznači sve"
+
+msgid "unchecked"
+msgstr "Neoznačeno"
+
+msgid "uninstall"
+msgstr "Deinstaliraj"
+
+msgid "uninstalled"
+msgstr "deinstaliran."
+
+msgid "unknown"
+msgstr "NEPOZNAT"
+
+msgid "unparticipate"
+msgstr "Odjavi se"
+
+msgid "unread"
+msgstr "Nepročitano"
+
+msgid "unzip"
+msgstr "Otvoriti komprimirani paket"
+
+msgid "up"
+msgstr "Gore"
+
+msgid "update"
+msgstr "Uredi"
+
+msgid "update_applied"
+msgstr "Ažuriranje uspješno"
+
+msgid "update_language"
+msgstr "Ažuriraj jezik"
+
+msgid "update_on_conflict"
+msgstr "Ažuriraj u slučaju sukoba"
+
+msgid "update_orgunits"
+msgstr "Ažuriraj dodijeljene organizacijske jedinice"
+
+msgid "update_orgunits_desc"
+msgstr "Ako je omogućeno, polje 'Organizacijske jedinice' bit će ažurirano za sve korisničke račune."
+
+msgid "upload"
+msgstr "Učitaj"
+
+msgid "upload_error_file_not_found"
+msgstr "Pogreška pri učitavanju: datoteka nije pronađena."
+
+#, fuzzy
+msgid "upload_ok"
+msgstr "The upload was successful"
+
+msgid "upload_pending"
+msgstr "U tijeku"
+
+msgid "upload_settings"
+msgstr "Postavke učitavanja"
+
+#, fuzzy
+msgid "upload_svg_rejection_message"
+msgstr "An uploaded SVG file contains possibily malicious code and cannot be processed."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_base64"
+msgstr "The file contains base64 encoded content."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_elements"
+msgstr "The file contains elements or attributes which are not allowed or known."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_foreign_object"
+msgstr "The file contains foreign objects."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_script"
+msgstr "The file contains script-Elements."
+
+msgid "uploaded_and_checked"
+msgstr "Datoteka je učitana i provjerena, sada možete početi s uvozom."
+
+msgid "uploading"
+msgstr "Učitavanje..."
+
+msgid "uri"
+msgstr "URI"
+
+msgid "url"
+msgstr "URL"
+
+msgid "url_not_found"
+msgstr "Datoteka nije pronađena"
+
+msgid "use_customized_instructions"
+msgstr "Koristite prilagođene upute:"
+
+msgid "use_default_instructions"
+msgstr "Koristite zadane upute."
+
+msgid "user"
+msgstr "Korisnik"
+
+msgid "user_activated"
+msgstr "Korisnik je odobren"
+
+msgid "user_added"
+msgstr "Korisnik je dodan"
+
+msgid "user_assignment"
+msgstr "Dodjela korisnika"
+
+#, fuzzy
+msgid "user_avatar"
+msgstr "User Avatar"
+
+#, fuzzy
+msgid "user_avatar_of"
+msgstr "User Avatar of"
+
+msgid "user_cant_receive_mail"
+msgstr "%1$s - korisnik nema ovlaštenje za korištenje sustava pošte."
+
+msgid "user_comment"
+msgstr "Komentar korisnika"
+
+msgid "user_deactivated"
+msgstr "Korisnik nije odobren"
+
+msgid "user_defined_fields"
+msgstr "Korisnički definirana polja"
+
+msgid "user_defined_list"
+msgstr "Polja s prilagođenim korisničkim podacima"
+
+msgid "user_deleted"
+msgstr "Korisnik je izbrisan"
+
+msgid "user_detail"
+msgstr "Detaljni podaci"
+
+msgid "user_ext_account"
+msgstr "Vanjski račun"
+
+msgid "user_ext_account_desc"
+msgstr "Račun koji se koristi za vanjsku provjeru autentičnosti. (SOAP, LDAP ili radijus autentifikacija)"
+
+msgid "user_image"
+msgstr "Slika korisnika"
+
+msgid "user_import_failed"
+msgstr "Uvoz korisnika nije uspio."
+
+msgid "user_imported"
+msgstr "Uvoz korisnika dovršen."
+
+msgid "user_imported_with_warnings"
+msgstr "Uvoz korisnika s upozorenjima."
+
+msgid "user_language"
+msgstr "Jezik korisnika"
+
+#, fuzzy
+msgid "user_never_logged_in"
+msgstr "Delete user accounts without login"
+
+#, fuzzy
+msgid "user_never_logged_in_info"
+msgstr "All user accounts without login at all be deleted."
+
+#, fuzzy
+msgid "user_never_logged_in_info_threshold_err_num"
+msgstr "Only positive non decimal numbers are accepted."
+
+msgid "user_new_account_mail"
+msgstr "Obavijest o novom računu"
+
+msgid "user_new_account_mail_desc"
+msgstr "Ova se pošta automatski šalje korisnicima koji su se sami registrirali ili onima koje je registrirao administrator s omogućenom postavkom ‘Pošaljite obavijest kako biste korisnika obavijestili o promjenama’."
+
+msgid "user_not_found"
+msgstr "Korisnik nije pronađen"
+
+msgid "user_not_found_to_delete"
+msgstr "Nije moguće pronaći korisnika za brisanje."
+
+msgid "user_not_known"
+msgstr "Unesi važeće korisničko ime."
+
+msgid "user_profile_other"
+msgstr "Druge podatke"
+
+msgid "user_send_new_account_mail"
+msgstr "Pošalji novi račun e-poštom"
+
+msgid "user_status"
+msgstr "Status korisnika"
+
+msgid "user_toggle_noti"
+msgstr "Član ne smije deaktivirati obavijest"
+
+msgid "userfolder_export_csv"
+msgstr "Vrijednosti odvojene zarezom"
+
+msgid "userfolder_export_excel_x86"
+msgstr "Microsoft Excel"
+
+msgid "userfolder_export_file"
+msgstr "Datoteka"
+
+msgid "userfolder_export_file_size"
+msgstr "Veličina datoteke"
+
+msgid "userfolder_export_files"
+msgstr "Datoteke"
+
+msgid "userfolder_export_xml"
+msgstr "XML"
+
+msgid "username"
+msgstr "Korisničko ime"
+
+#, fuzzy
+msgid "username_assistance"
+msgstr "Username Assistance"
+
+msgid "users"
+msgstr "Korisnici"
+
+msgid "users_not_imported"
+msgstr "Sljedeći korisnici ne postoje, pa se njihove poruke ne mogu uvesti"
+
+msgid "users_online"
+msgstr "Aktivni korisnici"
+
+msgid "usr"
+msgstr "Korisnici"
+
+msgid "usr_account_inactive"
+msgstr "Neaktivan račun"
+
+msgid "usr_active_only"
+msgstr "Samo aktivni korisnici"
+
+msgid "usr_add"
+msgstr "Dodaj korisnika"
+
+msgid "usr_edit"
+msgstr "Uredi korisnika"
+
+#, fuzzy
+msgid "usr_field_change_components_listening"
+msgstr "There is at least one component which is interested in the changed configuration. Would you like to confirm the changes with the consequences the component(s) announced below?"
+
+msgid "usr_filter_coursemember"
+msgstr "Član tečaja"
+
+msgid "usr_filter_groupmember"
+msgstr "Član grupe"
+
+msgid "usr_filter_lastlogin"
+msgstr "Posljednja prijava korisnika"
+
+msgid "usr_filter_role"
+msgstr "Dodijeljena uloga"
+
+msgid "usr_inactive_only"
+msgstr "Samo neaktivni korisnici"
+
+msgid "usr_limited_access_only"
+msgstr "Samo korisnici s ograničenim pristupom"
+
+msgid "usr_name_undisclosed"
+msgstr "Neotkriveno"
+
+msgid "usr_new"
+msgstr "Novi korisnik"
+
+msgid "usr_settings_changeable_lua"
+msgstr "Promjenjivo u lokalnoj administraciji korisnika"
+
+msgid "usr_settings_explanation_profile"
+msgstr "Označite 'Vidljivo' da bi se prikazala polja u obrascu za registraciju i osobni podaci na osobnoj radnoj površini. Označite 'Promjenjivo' kako biste omogućili korisniku da promijeni vrijednost u osobnim podacima. Imajte na umu da se vidljiva polja uvijek mogu unijeti u obrazac za registraciju. Obvezna polja su obvezna u obrascu za registraciju i osobnim podacima. Svi se podaci mogu mijenjati u administraciji korisnika, neovisno o ovim postavkama."
+
+msgid "usr_settings_header_profile"
+msgstr "Standardna polja korisničkih podataka"
+
+msgid "usr_settings_saved"
+msgstr "Globalne korisničke postavke uspješno su spremljene!"
+
+msgid "usr_settings_visib_lua"
+msgstr "Vidljivo u lokalnoj administraciji korisnika"
+
+msgid "usr_skin_style"
+msgstr "Izgled / stil"
+
+msgid "usr_without_courses"
+msgstr "Korisnici bez dodijeljenih tečajeva"
+
+msgid "usrf"
+msgstr "Korisnički računi"
+
+msgid "usrf_profile_link"
+msgstr "Poveznica na korisnički profil"
+
+msgid "usrimport_action_ignored"
+msgstr "Ignorirana radnja %1$s."
+
+msgid "usrimport_action_replaced"
+msgstr "Radnja %1$s zamijenjena s%2$s."
+
+msgid "usrimport_cant_delete"
+msgstr "Nije moguće izvršiti radnju 'Izbriši'. U bazi podataka nema takvog korisnika."
+
+msgid "usrimport_cant_insert"
+msgstr "Nije moguće izvršiti radnju 'Umetni'. Korisnik je već u bazi podataka."
+
+msgid "usrimport_cant_update"
+msgstr "Nije moguće izvršiti radnju 'Ažuriraj'. U bazi podataka nema takvog korisnika."
+
+msgid "usrimport_conflict_handling_info"
+msgstr "Kada je odabrano 'Ignoriraj u slučaju sukoba', ILIAS zanemaruje radnju, ako se ne može izvršiti (npr. radnja 'Umetni' se neće izvršiti ako u bazi podataka već postoji korisnik s istim podacima za prijavu.)\\ nKada je odabrano 'Ažuriraj' u slučaju sukoba', ILIAS ažurira bazu podataka ako se radnja ne može izvršiti. (npr. radnja 'Umetni' zamjenjuje se radnjom 'Ažuriraj' ako u bazi podataka već postoji korisnik s istim podacima za prijavu)."
+
+#, fuzzy
+msgid "usrimport_form_not_evaluabe"
+msgstr "The form data couldn't be read."
+
+msgid "usrimport_global_role_for_action_required"
+msgstr "Za radnju '%1$s' mora biti određena barem jedna globalna uloga."
+
+msgid "usrimport_ignore_role"
+msgstr "Zanemari ulogu"
+
+msgid "usrimport_login_is_not_unique"
+msgstr "Podaci za prijavu nisi jedinstveni."
+
+msgid "usrimport_no_insert_ext_account_exists"
+msgstr "Nije moguće izvršiti radnju 'Umetni'. Vanjski račun već postoji."
+
+msgid "usrimport_no_update_ext_account_exists"
+msgstr "Nije moguće izvršiti radnju 'Ažuriraj'. Vanjski račun već postoji."
+
+msgid "usrimport_with_specified_role_not_permitted"
+msgstr "Uvoz s navedenom ulogom nije dopušten."
+
+#, fuzzy
+msgid "usrimport_wrong_file_count"
+msgstr "Too many files in import-folder. Please try again."
+
+#, fuzzy
+msgid "usrimport_xml_anonymous_or_root_not_allowed"
+msgstr "Neither the system-account nor the anonymous account can be changed through the import."
+
+msgid "usrimport_xml_attribute_missing"
+msgstr "Nedostaje atribut \"%2$s\" u elementu \"%1$s\"."
+
+msgid "usrimport_xml_attribute_value_illegal"
+msgstr "Vrijednost \"%3$s\" atributa \"%2$s\" u elementu \"%1$s\" je protuzakonita."
+
+msgid "usrimport_xml_attribute_value_inapplicable"
+msgstr "Vrijednost \"%3$s\" atributa \"%2$s\" u elementu \"%1$s\" nije primjenjiva za radnju \"%4$s\"."
+
+msgid "usrimport_xml_element_content_illegal"
+msgstr "Sadržaj \"%2$s\" elementa \"%1$s\" je protuzakonit."
+
+msgid "usrimport_xml_element_for_action_required"
+msgstr "Za radnju \"%2$s\" mora se odrediti element \"%1$s\"."
+
+msgid "usrimport_xml_element_inapplicable"
+msgstr "Element \"%1$s\" nije primjenjiv za radnju \"%2$s\"."
+
+msgid "valid"
+msgstr "Važeće"
+
+msgid "validate"
+msgstr "Potvrdi"
+
+msgid "value"
+msgstr "Vrijednost"
+
+msgid "vcard"
+msgstr "Posjetnica"
+
+msgid "vcard_download"
+msgstr "Preuzmi posjetnicu"
+
+msgid "verification_failed"
+msgstr "Provjera nije uspjela"
+
+msgid "verification_failure_log"
+msgstr "Provjera dnevnika grešaka"
+
+msgid "verification_warning_log"
+msgstr "Provjera dnevnika upozorenja"
+
+msgid "version"
+msgstr "Verzija"
+
+msgid "versions"
+msgstr "Verzije"
+
+msgid "view"
+msgstr "Prikaži"
+
+msgid "view_content"
+msgstr "Prikaži sadržaj"
+
+msgid "view_learning_progress"
+msgstr "Prikaži napredak u učenju"
+
+msgid "view_learning_progress_rec"
+msgstr "Prikaži napredak učenja jedinice, uključujući podjedinice"
+
+msgid "visible"
+msgstr "Vidljivo"
+
+msgid "visible_registration"
+msgstr "Vidljivo u registraciji"
+
+msgid "visitor"
+msgstr "Posjetitelj"
+
+msgid "visitors"
+msgstr "Posjetitelji"
+
+msgid "visits"
+msgstr "Posjeti"
+
+msgid "web_resources"
+msgstr "Web poveznice"
+
+msgid "webdav"
+msgstr "WebDAV"
+
+#, fuzzy
+msgid "webdav_add_instructions_btn_label"
+msgstr "Add Mount Instructions Document"
+
+#, fuzzy
+msgid "webdav_chosen_language_already_used"
+msgstr "There already is another document associated with the chosen language"
+
+#, fuzzy
+msgid "webdav_doc_delete"
+msgstr "Delete WebDav Mount Instructions"
+
+#, fuzzy
+msgid "webdav_docs_mount_instructions"
+msgstr "Mount Instructions Documents"
+
+#, fuzzy
+msgid "webdav_duplicate_detected_title"
+msgstr "Following objects could not be displayed, because an object with the same Title is already being shown:"
+
+#, fuzzy
+msgid "webdav_forbidden_chars_title"
+msgstr "Following files cannot be displayed, because they contain one or more forbidden characters (\\<>/:*?\"|#):"
+
+#, fuzzy
+msgid "webdav_form_document"
+msgstr "Instructions Document"
+
+#, fuzzy
+msgid "webdav_form_document_info"
+msgstr "Upload a txt or an html file here. After the upload the file will be parsed and processed. For more information"
+
+#, fuzzy
+msgid "webdav_form_document_title"
+msgstr "Title"
+
+#, fuzzy
+msgid "webdav_form_document_title_info"
+msgstr "This title will be dislayed as the title of the modal when the Mount Instructions are opened"
+
+#, fuzzy
+msgid "webdav_form_edit_doc_head"
+msgstr "Edit Mount Instructions Document"
+
+#, fuzzy
+msgid "webdav_form_new_doc_head"
+msgstr "Create new Mount Instructions Document"
+
+#, fuzzy
+msgid "webdav_general_settings"
+msgstr "General Settings"
+
+#, fuzzy
+msgid "webdav_missing_lang"
+msgstr "There is no english version of the WebDAV Mount Instructions"
+
+#, fuzzy
+msgid "webdav_mount_instructions"
+msgstr "Mount Instructions"
+
+#, fuzzy
+msgid "webdav_problem_free_container"
+msgstr "There are no objects that cause problems in this container."
+
+#, fuzzy
+msgid "webdav_problem_info_duplicate"
+msgstr "There is a file with the same title as the info file."
+
+msgid "webdav_pwd_instruction"
+msgstr "Predlažemo da stvorite lokalnu lozinku za otvaranje repozitorija kao web mape. <br /> Ova lozinka potrebna je samo za funkcionalnost web mape."
+
+msgid "webdav_pwd_instruction_success"
+msgstr "Stvorena je nova lokalna lozinka. Sada repozitorij možete otvoriti kao web mapu."
+
+#, fuzzy
+msgid "webdav_sure_delete_documents_s"
+msgstr "Are you sure you want to delete the Mount Instructions with the following title:"
+
+#, fuzzy
+msgid "webdav_tbl_docs_head_title"
+msgstr "Dokument title"
+
+#, fuzzy
+msgid "webdav_tbl_docs_title"
+msgstr "List of uploaded WebDAV Mount Instructions"
+
+#, fuzzy
+msgid "webdav_upload_instructions"
+msgstr "Upload Instructions"
+
+msgid "webfolder_dir_info"
+msgstr "Došli ste ovamo jer vaš preglednik ne može otvoriti web mape. Pročitajte <a href=\"%1$s\">upute za otvaranje web mapa</a>."
+
+msgid "webfolder_index_of"
+msgstr "Indeks %1$s"
+
+msgid "webfolder_instructions"
+msgstr "Upute za web mape"
+
+msgid "webfolder_instructions_info"
+msgstr "Upute za web mape prikazane su u preglednicima koji web mape ne mogu izravno otvoriti. Možete koristiti HTML kôd i sljedeće zamjenske znakove: <b>[WEBFOLDER_TITLE]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI_IE]</b>, <b>[WEBFOLDER_URI_KONQUEROR]</b>, <b>[WEBFOLDER_URI_NAUTILUS]</b>, <b>[ADMIN_MAIL]</b>, <b>[IF_WINDOWS]</b>...<b>[/IF_WINDOWS]</b>, <b>[IF_MAC]</b>...<b>[/IF_MAC]</b>, <b>[IF_LINUX]</b>...<b>[/IF_LINUX]</b>. Očistite polje da biste dobili zadane upute"
+
+msgid "webfolder_instructions_text"
+msgstr "[IF_WINDOWS] <h>Upute za povezivanje s Windowsom</h3> <ol> <li> Otvorite Windows Explorer (npr. kombinacija tipki Windows + E).</li> <li> Pritisnite tipku Alt. Prikazuje se izbornik.</li> <li> Na alatnoj traci odaberite \"Dodaj novo mrežno mjesto\".</li> <li> Unesite sljedeću adresu kao adresu (možete kopirati i zalijepiti URL):<br /><br /> <b>[WEBFOLDER_URI]</b><br /><br /></li> <li>Kliknite na \"Završi\".</li> <li>Unesite svoje pristupne podatke i lozinku i odaberite \"OK\".</li> <li> Web mapi sada možete pristupiti iz izbornika za pokretanje \"Računalo\".</li> </ol> <br /> Vaši pristupni podaci i lozinka identični su lokalnim podacima za prijavu u ILIAS i mogu se promijeniti putem \"Postavke osobne radne površine\".[/IF_WINDOWS] [IF_MAC] <h3>Upute za Mac OS X</h3> <ol> <li>Otvorite Finder.</li> <li>Odaberite izbornik 'Idi na &gt; Poveži se s poslužiteljem...'.<br/>Time se otvara prozor 'poveži s poslužiteljem'.</li> <li>Unesite ovaj URL kao URL servera:<br/><b>[WEBFOLDER_URI]</b><br/> i kliknite na 'Poveži'.</li> <li>Unesite svoje pristupne podatke i lozinku i odaberite \"OK\".</li> </ol> <br /> Vaši pristupni podaci i lozinka identični su lokalnim podacima za prijavu u ILIAS i mogu se promijeniti putem \"Postavke osobne radne površine\".[/IF_MAC][IF_LINUX] <h3>Upute za Linux s preglednikom Konqueror</h3> <ol> <li>Otvorite preglednik Konqueror.</li> <li>Unesite ovaj URL kao URL servera:<br /> <b>[WEBFOLDER_URI_KONQUEROR]</b><br/>i pritisnite tipku enter.</li> <li>Unesite svoje pristupne podatke i lozinku i odaberite \"OK\".</li> </ol> <h3>Upute za Linux s preglednikom Nautilus</h3> <ol> <li>Otvorite preglednik Nautilus. </li> <li>Unesite ovaj URL kao URL servera. <br /> <b>[WEBFOLDER_URI_NAUTILUS]</b><br/>i pritisnite tipku enter.</li> <li> Unesite svoje pristupne podatke i lozinku i odaberite \"OK\".</li> </ol> <br /> Vaši pristupni podaci i lozinka identični su lokalnim podacima za prijavu u ILIAS i mogu se promijeniti putem \"Postavke osobne radne površine\".[/IF_LINUX] <h3>Savjeti &amp; podrška</h3> <ul> <li>Ove korake treba provesti <b>samo jednom </b>. Vezi možete ponovno pristupiti kasnije.</li> </ul> <ul> <li>Spojite se s višom mapom. Uvijek se možete kreirati po stablu prema dolje, ali ne prema gore.</li> </ul> <ul> <li>Ako vaše računalo ne može otvoriti vezu WebDAV, kontaktirajte podršku za ILIAS.</li> </ul>"
+
+msgid "webfolder_instructions_titletext"
+msgstr "Otvori %1$s kao web mapu"
+
+msgid "webfolder_mount_dir_with"
+msgstr "Otvori ovu stranicu kao web mapu pomoću preglednika <a href=\"%1$s\">Internet Explorer6</a>, <a href=\"%2$s\">Konqueror</a>, <a href = \"%3$s\">Nautilus</a>, <a href=\"%4$s\">drugog preglednika</a>."
+
+msgid "webr"
+msgstr "Web poveznica"
+
+msgid "webr_active"
+msgstr "Aktivan"
+
+msgid "webr_add"
+msgstr "Dodajte web poveznicu"
+
+msgid "webr_deleted_items"
+msgstr "Izbrisana(e) web poveznica(e)."
+
+msgid "webr_edit"
+msgstr "Uredi web poveznicu"
+
+msgid "webr_sure_delete_items"
+msgstr "Želite li zaista izbrisati sljedeću(e) web poveznicu(e)?"
+
+msgid "webservices"
+msgstr "SOAP"
+
+msgid "week"
+msgstr "Tjedan"
+
+msgid "weekly"
+msgstr "tjedno"
+
+msgid "weeks"
+msgstr "Tjedni"
+
+msgid "welcome"
+msgstr "Dobrodošli"
+
+msgid "width"
+msgstr "Širina"
+
+msgid "wiki"
+msgstr "Wiki"
+
+msgid "wiki_add"
+msgstr "Dodaj Wiki"
+
+msgid "wiki_new"
+msgstr "Novi Wiki"
+
+msgid "with"
+msgstr "s"
+
+#, fuzzy
+msgid "withdraw_consent"
+msgstr "Withdraw Acceptance"
+
+#, fuzzy
+msgid "withdraw_consent_info_internal"
+msgstr "If you confirm here, your account will be deleted."
+
+#, fuzzy
+msgid "withdraw_usr_agreement"
+msgstr "Withdraw"
+
+#, fuzzy
+msgid "withdrawal_complete"
+msgstr "Withdrawal of consent complete."
+
+#, fuzzy
+msgid "withdrawal_complete_deleted"
+msgstr "Withdrawal of consent complete, account deleted."
+
+#, fuzzy
+msgid "withdrawal_complete_redirect"
+msgstr "Withdrawal of consent complete. To have the account deleted, please contact your organisation."
+
+#, fuzzy
+msgid "withdrawal_mail_info"
+msgstr "The following email will be sent to an administrator after confirming the withdrawal:[BR][BR]"
+
+#, fuzzy
+msgid "withdrawal_mail_subject"
+msgstr "Withdrawal of Consent to Terms of Service"
+
+#, fuzzy
+msgid "withdrawal_mail_text"
+msgstr "Dear Sir or Madam,[BR][BR]I hereby withdraw my consent to your ILIAS installations terms of service. Please update/remove my account accordingly.[BR][BR]Name: %1$s[BR]Login: %2$s[BR]External Account: %3$s[BR][BR]Kind regards[BR]%1$s"
+
+#, fuzzy
+msgid "withdrawal_sure_account"
+msgstr "Are you sure you want to confirm the withdrawal of consent?"
+
+#, fuzzy
+msgid "withdrawal_sure_account_deletion"
+msgstr "Are you sure you want to confirm the withdrawal of consent? Your user account will be irrevocably deleted."
+
+#, fuzzy
+msgid "withdrawal_sure_account_deletion_no_consent_yet"
+msgstr "Are you sure that you do not want to accept the Terms of Service? This will result in your user account being irrevocably deleted."
+
+#, fuzzy
+msgid "withdrawal_sure_account_no_consent_yet"
+msgstr "Are you sure that you do not want to accept the Terms of Service?"
+
+msgid "wizard_search_list"
+msgstr "Vaša je pretraga dala sljedeće rezultate. Molimo odaberite jedan od njih."
+
+msgid "wizard_title_info"
+msgstr "Potražite objekt koji želite duplicirati. Unesite naziv objekta ili dio naziva i kliknite na 'Nastavi' kako biste dobili odgovarajuće rezultate pretraživanja."
+
+msgid "write"
+msgstr "Pisati"
+
+msgid "year"
+msgstr "Godina"
+
+msgid "yearly"
+msgstr "godišnje"
+
+msgid "years"
+msgstr "Godine"
+
+msgid "yes"
+msgstr "Da"
+
+msgid "yesterday"
+msgstr "Jučer"
+
+msgid "zip"
+msgstr "Poštanski broj"
+
+msgid "zip_structure_error"
+msgstr "Arhiva sadrži ista imena datoteka. Učitavanje prekinuto."
+
+msgid "zip_test_failed"
+msgstr "Zip-test nije uspio. Molimo kontaktirajte svog ILIAS administratora."
+
+msgid "zipcode"
+msgstr "Poštanski broj"

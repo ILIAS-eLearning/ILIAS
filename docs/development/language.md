@@ -3,52 +3,56 @@ ILIAS Language Handling
 ILIAS offers multi-language support for the user interface of ILIAS. Language handling in ILIAS is realised by the [Language](../../components/ILIAS/Language/README.md) service.
 
 # Guidelines
-1.  All language entries are text strings and stored in language files in the 
-    subdirectory `/lang`. Each language entry has the format:
+1.  All language entries are text strings. They are grouped in language modules, and each module is shipped by
+    the component it belongs to as gettext files in the component's `lang/` directory: a template
+    `<language_module_ID>.pot` and one `<language_module_ID>_<lang>.po` per language (e.g.
+    `components/ILIAS/Forum/lang/forum.pot` and `forum_de.po`). Each language entry has the format:
 
-        language_module_ID#:#variable_ID#:#text_content###comment
+        #. comment
+        msgid "variable_ID"
+        msgstr "text_content"
 
-    The elements `language_module_ID`, `variable_ID` and `text_content`  are REQUIRED, 
-    while `comment` is OPTIONAL and can be used for additional information about an 
-    entry, e.g. „`07 02 2020 new variable`“.
-    
-2. The `variable_ID` of a language entry MUST be unique within the whole language file. This avoids conflicts in the
+    `variable_ID` and `text_content` are REQUIRED, while the extracted comment (`#.`) is OPTIONAL and can be used
+    for additional information about an entry. A component contributes each of its modules through
+    `$contribute[LanguageFileDirectory::class]` in its `<Component>.php`. The files in the global directory
+    `/lang` no longer hold any entries.
+
+2. The `variable_ID` of a language entry MUST be unique across all language modules. This avoids conflicts in the
 presentation of language entries because the `language_module_ID` is not taken into consideration when ILIAS inserts
-language entries into the output. The uniqueness of the spelling must be guaranteed regardless of upper and lower case.
-Having a language entry `common#:#login#:#…` and  `common#:#Login#:#…` would violate the rule.
+language entries into the output (the module loaded last wins). The uniqueness of the spelling must be guaranteed
+regardless of upper and lower case. Having the entries `login` and `Login` would violate the rule.
 
 3. The following naming conventions must be respected when introducing new language variables.
 3.1. New components MUST use the `object_ID` for the `language_module_ID` as defined in the related module.xml or 
 service.xml.
 3.2. The `language_module_ID` MUST also be used as a prefix for the variable names in this language module, 
-e.g.:
+e.g. in `forum.pot`:
 
-        frm#:#frm_new_posting#:#New Posting
+        msgid "frm_new_posting"
 
 3.3. Language variables used as alt texts MUST be easily identifiable by an added `_alt` at the end of the `variable_ID`.
 e.g. for an alt text that belongs to an expand glyph: 
 
-        common#:#expand_reload_alt#:#... 
+        msgid "expand_reload_alt"
 
 3.4. Language variables used as bylines for a setting option MUST have `_info` at the end of the `variable_ID`.
 e.g. for a byline to the setting `#default_auth_mode#`:
 
-        common#:#default_auth_mode_info#:#Please …
+        msgid "default_auth_mode_info"
 
-4. Each language file contains one block with language_module_ID `common`. Entries of this block start with 
-`common#:#`. The language_module_ID `common` MUST only be used for language entries that are used by various 
-components and in combined contexts. Because this block is always read from the database into memory for each 
-request, the use of new `common` variables SHOULD be minimised.
+4. The language module `common` is shipped by the Language component (`components/ILIAS/Language/lang/common.pot`).
+It MUST only be used for language entries that are used by various components and in combined contexts. Because
+`common` is loaded for each request, the use of new `common` variables SHOULD be minimised.
  
 5. To keep the language files maintainable and facilitate translation and creation of new language versions, 
 the amount of language entries should be as low as possible. Therefore, language entries that are no longer 
-used in ILIAS due to refactorings or changes in the code MUST be removed from the English language file. 
-Whenever possible, existing language entries SHOULD be reused and probably moved to the `common` module to 
-avoid multiple entries of the same meaning.
+used in ILIAS due to refactorings or changes in the code MUST be removed from the `.pot` and all `.po` files of
+their module. Whenever possible, existing language entries SHOULD be reused and probably moved to the `common`
+module to avoid multiple entries of the same meaning.
 
-6. The English language file is the master language file. New variables MUST be added at least to this file, 
-since we synchronise the variables when preparing a new ILIAS release. If a variable exists in a file of another 
-language but not in the English one, the entry will be removed from the file during synchronisation.
+6. English is the master language. New variables MUST be added at least to the `.pot` and the English `.po` of their
+module, since we synchronise the variables when preparing a new ILIAS release. If a variable exists in the `.po`
+of another language but not in the English one, the entry will be removed from the file during synchronisation.
 
 7. When, for a new or upcoming version of ILIAS, the underlying functionality of a feature or object changes to 
 such an extent that the text_content of any corresponding language entries needs to be totally rewritten, create 
@@ -59,27 +63,23 @@ improved or gender-conform) state.
 
 # Additional Information
 ## Loading Language Entries
-Adding new entries into language files will not make them available in the user interface automatically. You need to 
-refresh the languages by executing the `Refresh Languages` action in the global ILIAS language administration
-(`Administration » Languages`).
+Changed language files are not available in the user interface automatically: `php cli/setup.php build` (also run by
+`composer install` and `composer dump-autoload`) MUST be run after every change of a shipped `.po`, and
+`php cli/setup.php update` writes the values to the database for the language administration.
 
-## Modules Maintained in PO Files
-A few modules are no longer maintained in the `.lang` files but in gettext `.po` files shipped by
-their component (currently `tos` in `components/ILIAS/TermsOfService/lang/` and `poll` in
-`components/ILIAS/Poll/lang/`). For such a module the shipped `<module>_<lang>.po` is the only source
-of its translations: its lines in `lang/ilias_<lang>.lang` are ignored when installing or updating
-languages, and changes to its entries MUST be made in its `.po` files (a new key also in the module's
-`.pot`). A comment of a `.lang` entry corresponds to an extracted comment (`#.`) in the `.po` file.
-The initial files are generated with `components/ILIAS/Language/tools/po-migration/convert_module_to_po.php`;
-afterwards they are maintained directly, and `php cli/setup.php build` MUST be run after every change
-of a shipped `.po`. The developer mode action
-that merges local changes into the global language file writes the local changes of these modules
-into their shipped `.po` files. Each installation
-keeps its local changes of these modules in the client data directory, which is why the ILIAS setup
-MUST be run as the web server user. Plural forms are available for these modules through
-`txt($a_topic, $n)`. See
-[the Language component](../../components/ILIAS/Language/README.md#translations-maintained-in-po-files)
-for details.
+## Gettext Files
+The shipped `<module>_<lang>.po` is the only source of the translations of a module; they are never read from the
+database. ILIAS serves them through native gettext, so the PHP extension `gettext` and the `C.utf8` locale MUST be
+available to the PHP of the web server (see [the installation guide](../configuration/install.md)). When a module is
+converted or synchronised, an entry a language does not translate gets the English text, marked `#, fuzzy`. A key only
+added to the `.pot`/English `.po` shows `-identifier-` in the other languages until they are synchronised; `txt()`
+with a `LanguageIdentifier` serves the default language's text then. `php cli/setup.php install`/`update` build the
+language files themselves and therefore also need the PHP extension `gettext` and a writable `artifacts/language/`.
+The developer mode action that merges local changes into the global language files writes the local changes into the
+shipped `.po` files. Each installation keeps its local changes in the client data directory, which is why the ILIAS
+setup MUST be run as the web server user. Plural forms are available through `txt($a_topic, $n)`, and a component can
+address its entries through a generated `LanguageIdentifier` enum. Plugins still ship `.lang` files. See [the Language
+component](../../components/ILIAS/Language/README.md#translations-maintained-in-po-files) for details.
 
 ## Supported HTML Tags in Language Files
 Only a defined set of HTML tags and attributes is allowed within the `text_content` of a language

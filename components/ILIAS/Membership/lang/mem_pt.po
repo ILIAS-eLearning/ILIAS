@@ -1,0 +1,25 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: mem\n"
+
+#, fuzzy
+msgid "mem_period_without_time"
+msgstr "Without Time Indication"
+
+msgid "mem_print_view_form"
+msgstr "Definições padrão para vista da impressão"
+
+msgid "mem_settings_tab_print_view"
+msgstr "Definição da vista da impressão"
+
+msgid "mem_settings_tab_settings"
+msgstr "Definições gerais"
+
+msgid "mmbr_gallery_user_actions"
+msgstr "Define o tamanho mínimo das palavras-passe da conta. Se estiver definido para 0, as palavras-passe têm de ter sempre um tamanho mínimo de 1. Se o comprimento exigido for alterado, o novo requisito é aplicado apenas a essas contas que foram criadas ou alteradas depois de ter sido definido um novo comprimento. As contas existentes não são afetadas."

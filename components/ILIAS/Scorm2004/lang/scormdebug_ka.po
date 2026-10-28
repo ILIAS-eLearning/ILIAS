@@ -1,0 +1,477 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ka\n"
+"Language-Team: Georgian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: scormdebug\n"
+
+msgid "API-call"
+msgstr "API-ზარები"
+
+msgid "Commit"
+msgstr "მონაცემების დალაგება"
+
+msgid "GetDiagnostic"
+msgstr "შესაძლებლობას აძლევს LMS-ს (!) განსაზღვროს დამატებითი დიაგნოსტიკური ინფორმაცია"
+
+msgid "GetErrorString"
+msgstr "მიმდინარე შეცდომის მდგომარეობისთვის ტექსტობრივი აღწერილობის გამოძახება"
+
+msgid "GetLastError"
+msgstr "შეცდომის კოდის მოთხოვნა მიმდინარე შეცდომის მდგომარეობისთვის"
+
+msgid "GetValue"
+msgstr "მონაცემების მიღება"
+
+msgid "Initialize"
+msgstr "API-კომუნიკაციის დაწყება"
+
+msgid "SCO-name"
+msgstr "SCO-სახელი"
+
+msgid "SCO-title"
+msgstr "SCO-დასახელება"
+
+msgid "SetValue"
+msgstr "მონაცემების გაგზავნა"
+
+msgid "Terminate"
+msgstr "მონაცემების დალაგება და API-კომუნიკაციის გაჩერება"
+
+msgid "adl.nav.request"
+msgstr "ნავიგაციის მოთხოვნა მუშავდება გაჩერების შემდეგ"
+
+msgid "adl.nav.request_valid.choice"
+msgstr "გამოიყენება SCO-ს მიერ რომ განსაზღვროს არჩევის ნავიგაციის მოთხოვნა გარკვეული მოქმედებისთვის წარმატებულია თუ არა"
+
+msgid "adl.nav.request_valid.continue"
+msgstr "გამოიყენება SCO-ს მიერ რომ განსაზღვროს ნავიგაციის გაგრძელება წარმატებული იქნება თუ არა"
+
+msgid "adl.nav.request_valid.previous"
+msgstr "გამოიყენება SCO-ს მიერ რომ განსაზღვროს წინა ნავიგაციის მოთხოვნა წარმატებულია თუ არა"
+
+msgid "all_API-calls_shown"
+msgstr "ამჟამად ყველა API-ზარია ნაჩვენები"
+
+msgid "cmi._version"
+msgstr "მონაცემების მოდელის ვერსიას ასახავს"
+
+msgid "cmi.comments_from_learner._children"
+msgstr "მონაცემების მოდელის ელემენტების სია"
+
+msgid "cmi.comments_from_learner._count"
+msgstr "მოსწავლეების კომენტარების მიმდინარე რიცხვი"
+
+msgid "cmi.comments_from_learner.n.comment"
+msgstr "ტექსტობრივი შენატანი"
+
+msgid "cmi.comments_from_learner.n.location"
+msgstr "SCO-ს პუნქტი სადაც კომენტარების დამატებაა შესაძლებელი"
+
+msgid "cmi.comments_from_learner.n.timestamp"
+msgstr "დროის მონაკვეთი როდესაც კომენტარი შეიქმნა ან შეიცვალა"
+
+msgid "cmi.comments_from_lms._children"
+msgstr "მონაცემების მოდელის ელემენტების სია"
+
+msgid "cmi.comments_from_lms._count"
+msgstr "LMS-ის კომენტარების მიმდინარე რიცხვი"
+
+msgid "cmi.comments_from_lms.n.comment"
+msgstr "SCO-სთან დაკავშირებული ანოტაციები და კომენტარები"
+
+msgid "cmi.comments_from_lms.n.location"
+msgstr "SCO პუნქტი სადაც კომენტარის დამატებაა შესაძლებელი"
+
+msgid "cmi.comments_from_lms.n.timestamp"
+msgstr "დროის მონაკვეთი როდესაც კომენტარი შეიქმნა ან შეიცვალა"
+
+msgid "cmi.completion_status"
+msgstr "განსაზღვრავს დაასრულა თუ არა მოსწავლემ SCO"
+
+msgid "cmi.completion_threshold"
+msgstr "განსაზღვრავს უნდა ჩაითვალოს თუ არა SCO დასრულებულად"
+
+msgid "cmi.credit"
+msgstr "განსაზღვრავს მიიღებს თუ არა მოსწავლე კრედიტს SCO-ს შედეგისთვის"
+
+msgid "cmi.entry"
+msgstr "ამოწმებს შესულა თუ არა მოსწავლე SCO-ში მანამდე"
+
+msgid "cmi.exit"
+msgstr "განსაზღვრავს თუ რატომ ან როგორ დატოვა მოსწავლემ SCO"
+
+msgid "cmi.interactions._children"
+msgstr "მონაცემების მოდელის ელემენტების სია"
+
+msgid "cmi.interactions._count"
+msgstr "LMS-ის მიერ დალაგებული ურთიერთკავშირების მიმდინარე რაოდენობა"
+
+msgid "cmi.interactions.n.correct_responses._count"
+msgstr "LMS-ის მიერ ამ ურთიერთკავშირზე დალაგებული სწორი პასუხების მიმდინარე რიცხვი"
+
+msgid "cmi.interactions.n.correct_responses.n.pattern"
+msgstr "ერთი სწორი პასუხის ხასიათი ურთიერთკავშირისთვის"
+
+msgid "cmi.interactions.n.description"
+msgstr "ურთიერკავშირის მოკლე ინფორმაცია"
+
+msgid "cmi.interactions.n.id"
+msgstr "უნიკალური ეტიკეტი ურთიერთკავშირისთვის"
+
+msgid "cmi.interactions.n.latency"
+msgstr "მოსწავლის მიერ პირველ პასუხზე დახარჯულ და პასუხის გასაცემად მინიჭებულ დროებს შორის გაპარული დრო"
+
+msgid "cmi.interactions.n.learner_response"
+msgstr "მოსწავლის მიერ ურთიერთკავშირზე პასუხის გაცემისას წარმოქმნილი მონაცემები"
+
+msgid "cmi.interactions.n.objectives._count"
+msgstr "LMS-ის მიერ ამ ურთიერთკავშირისთვის დალაგებული მიზნების მიმდინარე რაოდენობა (მაგალითად: მიზნების განმსაზღვრელი)"
+
+msgid "cmi.interactions.n.objectives.n.id"
+msgstr "ამ ურთიერთკავშირთან დაკავშირებული მიზნების ეტიკეტი"
+
+msgid "cmi.interactions.n.result"
+msgstr "მოსწავლის პასუხის სისწორეზე მსჯელობა"
+
+msgid "cmi.interactions.n.timestamp"
+msgstr "დროის მონაკვეთი როდესაც ურთიერთკავშირი შესაძლებელი გახდა მოსწავლისთვის მოსწავლეებთან ურთიერთკავშირისთვის და პასუხისთვის"
+
+msgid "cmi.interactions.n.type"
+msgstr "რომელი სახეობის ურთიერთკავშირი იწერება"
+
+msgid "cmi.interactions.n.weighting"
+msgstr "სხვა ურთიერთკავშირებთან დაკავშირებული ურთიერთკავშირის სიგანე"
+
+msgid "cmi.launch_data"
+msgstr "SCO-სთვის მოწოდებული  მონაცემები, LMS-ის მონაცემების მანიფესტის ელემენტიდან"
+
+msgid "cmi.learner_id"
+msgstr "განსაზღვრავს რომელი მოსწავლის ხარჯზე გაიხსნა SCO"
+
+msgid "cmi.learner_name"
+msgstr "LMS-ის მიერ მოწოდებული მოსწავლის სახელი"
+
+msgid "cmi.learner_preference._children"
+msgstr "მონაცემების მოდელის ელემენტების სია"
+
+msgid "cmi.learner_preference.audio_captioning"
+msgstr "განსაზღვრავს აუდიოსთან დაკავშირებული ტექსტის სათაურის ჩვენებას"
+
+msgid "cmi.learner_preference.audio_level"
+msgstr "განსაზღვრავს განსაზღვრულ ცვლილებას აღქმულ აუდიო დონეში"
+
+msgid "cmi.learner_preference.delivery_speed"
+msgstr "შინაარსის მიწოდების მოსწავლის სასურველი სიჩქარე"
+
+msgid "cmi.learner_preference.language"
+msgstr "მოსწავლის სასურველი ენა SCO-სთვის მრავალენობრივი შესაძლებლობით"
+
+msgid "cmi.location"
+msgstr "მოსწავლის მიმდინარე ადგილი SCO-ში"
+
+msgid "cmi.max_time_allowed"
+msgstr "მოსწავლის მიერ SCO-ზე დახარჯული ჯამური დრო"
+
+msgid "cmi.mode"
+msgstr "განსაზღვრავს სამი შესაძლო მდგომარეობიდან ერთს სადაც SCO ჩვენება მოსწავლისთვის შესაძლებელია"
+
+msgid "cmi.objectives._children"
+msgstr "მონაცემების მოდელის ელემენტების სია"
+
+msgid "cmi.objectives._count"
+msgstr "მიზნების მიმდინარე რაოდენობა დალაგებული LMS-ით"
+
+msgid "cmi.objectives.n.completion_status"
+msgstr "განსაზღვრავს დაასრულა თუ არა მოსწავლემ შესაბამისი მიზანი"
+
+msgid "cmi.objectives.n.description"
+msgstr "გვაწვდის მიზნის მოკლე ინფორმაციას აღწერილობიდან"
+
+msgid "cmi.objectives.n.id"
+msgstr "უნიკალური ეტიკეტი მიზნისთვის"
+
+msgid "cmi.objectives.n.progress_measure"
+msgstr "მოსწავლის მიზნის მიღწევის პროგრესის განსაზღვრა"
+
+msgid "cmi.objectives.n.score._children"
+msgstr "მონაცემების მოდელის ელემენტების სია"
+
+msgid "cmi.objectives.n.score.max"
+msgstr "მაქსიმალური ღირებულება, მიზნისთვის, რიგის ნიშნის ზღვარში"
+
+msgid "cmi.objectives.n.score.min"
+msgstr "მინიმალური ღირებულება რიგის ნიშნის ზღვარში"
+
+msgid "cmi.objectives.n.score.raw"
+msgstr "რიცხვი რომელიც ასახავს მოსწავლის შედეგს, მიზნისთვის, მინიმალური და მაქსიმალური ღირებულებების ზღვრებთან მიმართებაში"
+
+msgid "cmi.objectives.n.score.scaled"
+msgstr "რიცხვი რომელიც ასახავს მოსწავლის შედეგს"
+
+msgid "cmi.objectives.n.success_status"
+msgstr "განსაზღვრავს დაასრულა თუ არა მოსწავლემ შესაბამისი მიზანი"
+
+msgid "cmi.progress_measure"
+msgstr "მოსწავლის მიერ SCO ჩაბარების პროგრესის განსაზღვრა"
+
+msgid "cmi.scaled_passing_score"
+msgstr "მასშტაბური ჩაბარების ნიშანი მოთხოვნილია SCO ჩასაბარებლად"
+
+msgid "cmi.score._children"
+msgstr "მონაცემების მოდელის ელემენტების სია"
+
+msgid "cmi.score.max"
+msgstr "მაქსიმალური ღირებულება რიგის ნიშნის ზღვარში"
+
+msgid "cmi.score.min"
+msgstr "მინიმალური ღირებულება რიგის ნიშნის ზღვარში"
+
+msgid "cmi.score.raw"
+msgstr "რიცხვი რომელიც გამოსახავს მოსწავლის შედეგს მინიმალური და მაქსიმალური ღირებულებების ზღვართან მიმართებაში"
+
+msgid "cmi.score.scaled"
+msgstr "რიცხვი რომელიც მოსწავლის შედეგს გამოსახავს"
+
+msgid "cmi.session_time"
+msgstr "დროის რაოდენობა რომელის მოსწავლემ დახარჯა მიმდინარე სესიაზე SCO-სთვის"
+
+msgid "cmi.success_status"
+msgstr "განსაზღვრავს დაასრულა თუ არა მოსწავლემმა შჩO"
+
+msgid "cmi.suspend_data"
+msgstr "გამოყოფს სივრცეს მოსწავლის სესიებს შორის მონაცემების დასალაგებლად"
+
+msgid "cmi.time_limit_action"
+msgstr "განსაზღვრავს თუ რა უნდა გააკეთოს SCO-მ როცა cmi.max_time_ დაშვება გადაჭარბებულია"
+
+msgid "cmi.total_time"
+msgstr "ყველა მოსწავლის სესიების დროების ჯამი მიმდინარე მოსწავლისის ცდაში"
+
+msgid "completion_status_by_progress_measure"
+msgstr "Because there is a value for cmi.completion_threshold, the value for cmi.completion_status is evaluated by the LMS! This is done by comparing the value for cmi.completion_threshold with the value for cmi.progress_measure. The value for cmi.completion_status is currently:"
+
+msgid "debugwindow_action"
+msgstr "მოქმედება"
+
+msgid "debugwindow_cancel"
+msgstr "გაუქმება"
+
+msgid "debugwindow_comment"
+msgstr "კომენტარი"
+
+msgid "debugwindow_comment_enter"
+msgstr "გთხოვთ შეიტანოთ თქვენი კომენტარი"
+
+msgid "debugwindow_console"
+msgstr "პანელი"
+
+msgid "debugwindow_date"
+msgstr "თარიღი"
+
+msgid "debugwindow_delete"
+msgstr "წაშლა"
+
+msgid "debugwindow_delete_logfile"
+msgstr "ჩანაწერის ფაილის წაშლა"
+
+msgid "debugwindow_download"
+msgstr "გადმოტვირთვა"
+
+msgid "debugwindow_filename"
+msgstr "ფაილის სახელი"
+
+msgid "debugwindow_logs"
+msgstr "ჩანაწერები"
+
+msgid "debugwindow_open"
+msgstr "ღია"
+
+msgid "debugwindow_start_recording"
+msgstr "ჩანაწერის დაწყება"
+
+msgid "debugwindow_stop_recording"
+msgstr "ჩანაწერის გაჩერება"
+
+msgid "debugwindow_submission_failed"
+msgstr "ჩაბარება გაუქმდა"
+
+msgid "debugwindow_submit"
+msgstr "ჩაბარება"
+
+msgid "description_for"
+msgstr "აღწერილობა"
+
+msgid "error0"
+msgstr "შეცდომა არ არის"
+
+msgid "error101"
+msgstr "ზოგადი გამონაკლისი"
+
+msgid "error102"
+msgstr "ზოგადი განხორციელება ჩაიშალა"
+
+msgid "error103"
+msgstr "უკვე განხორციელებული"
+
+msgid "error104"
+msgstr "შინაარსის მაგალითი გაუქმებულია"
+
+msgid "error111"
+msgstr "ზოგადი გაუქმება ჩაიშალა"
+
+msgid "error112"
+msgstr "გაუქმება გაუქმებამდე"
+
+msgid "error113"
+msgstr "გაუქმება შეწყვეტის შემდგომ"
+
+msgid "error122"
+msgstr "მონაცემების აღდგენა განხორციელებამდე"
+
+msgid "error123"
+msgstr "გაუქმების შემდეგ მონაცემების აღდგენა"
+
+msgid "error132"
+msgstr "მონაცემების განხორციელებამდე დალაგება"
+
+msgid "error133"
+msgstr "გაუქმების შემდეგ მონაცემების დალაგება"
+
+msgid "error142"
+msgstr "მხარდაჭერა განხორციელებამდე"
+
+msgid "error143"
+msgstr "მხარდაჭერა შეჩერების შემდეგ"
+
+msgid "error201"
+msgstr "ზოგადი მტკიცებულება მცდარია"
+
+msgid "error301"
+msgstr "ზოგადი მიღება ჩაიშალა"
+
+msgid "error351"
+msgstr "ზოგადი დაყენება ჩაიშალა"
+
+msgid "error391"
+msgstr "ზოგადი მხარდაჭერა ჩაიშალა"
+
+msgid "error401"
+msgstr "განუსაზღვრელი მონაცემების მოდელის ელემენტი"
+
+msgid "error402"
+msgstr "განუხორციელებელი მონაცემების მოდელის ელემენტი"
+
+msgid "error403"
+msgstr "მონაცემების მოდელის ელემენტის ღირებულება არ არის განხორციელებული"
+
+msgid "error404"
+msgstr "მონაცემების მოდელის ელემენტზე მხოლოდ კიტხვითი დაშვება"
+
+msgid "error405"
+msgstr "მონაცემების მოდელის ელემენტზე მხოლოდ წერილობითი დაშვება"
+
+msgid "error406"
+msgstr "მონაცემების მოდელის ელემენის სახეობა არ არის შესატყვისი"
+
+msgid "error407"
+msgstr "მონაცემების მოდელის ელემენტის ღირებულება ზღვარს მიღმაა"
+
+msgid "error408"
+msgstr "მონაცემების მოდელის დამოკიდებულება არ არის განხორციელებული"
+
+msgid "generated"
+msgstr "შექმნილი"
+
+msgid "i_fuchsia"
+msgstr "ფუქსია: ილიასის შეცდომა"
+
+msgid "i_gray"
+msgstr "gray: error corrected by ILIAS"
+
+msgid "i_green"
+msgstr "მწვანე: კარგი"
+
+msgid "i_orange"
+msgstr "სტაფილოსფერი: ყურადღება!"
+
+msgid "i_red"
+msgstr "წითელი: ჩაშლა"
+
+msgid "id_learning_module"
+msgstr "სასწავლო მოდულის Id"
+
+msgid "log_for"
+msgstr "სასწავლო მოდულის ჩანაწერი"
+
+msgid "milliseconds"
+msgstr "მილი წამები"
+
+msgid "missing_API-calls"
+msgstr "ეს API-ზარები გამოტოვებულია"
+
+msgid "no_missing_API-calls"
+msgstr "გამოტოვებული API-ზარები არ არის ნაცნობი"
+
+msgid "nr_session"
+msgstr "სესიის რიცხვი"
+
+msgid "only_important_API-Calls_shown"
+msgstr "მხოლოდ მნიშვნელოვანი API-ზარებია ნაჩვენები ამჟამად"
+
+msgid "return_value"
+msgstr "ღირებულების დაბრუნება"
+
+msgid "scormdebug_disable_cache"
+msgstr "Disable SCORM 2004 Browser Cache"
+
+msgid "scormdebug_disable_cache_info"
+msgstr "This prevents the storage of the SCORM 2004 javascript files in the browser cache. Please use this function in time before a new release!"
+
+msgid "scormdebug_global_activate"
+msgstr "SCORM-ის ტესტის ინსტრუმენტის გააქტიურება"
+
+msgid "scormdebug_global_activate_info"
+msgstr "თუ გააქტიურებულია, SCORM-ის ტესტის ინსტრუმენტის გააქტიურება შესაძლებელია სასურველი სასწავლო მოდულისთვის. თუ გაუქმებულია ტესტის ინსტრუმენტი არააქტიურია ყველა სასწავლო მოდულისთვის"
+
+msgid "sent_values_not_checked"
+msgstr "selected property: values sent by SCO are not fully checked"
+
+msgid "show_all_API-calls"
+msgstr "API-ზარების ჩვენება"
+
+msgid "show_only_important_API-calls"
+msgstr "მხოლოდ მნიშვნელოვანი API-ზარები"
+
+msgid "started"
+msgstr "დაწყებულია"
+
+msgid "strange_API-Call"
+msgstr "უცნაური API-ზარი"
+
+msgid "strange_error"
+msgstr "უცნაური შეცდომა"
+
+msgid "success_status_by_score_scaled"
+msgstr "Because there is a value for cmi.scaled_passing_score, the value for cmi.success_status is evaluated by the LMS! This is done by comparing the value for cmi.scaled_passing_score with the value for cmi.score.scaled. The value for cmi.success_status is currently:"
+
+msgid "summary_csv"
+msgstr "შეჯამება წარმოქმნილია როგორც CSV-ფაილი Excel-ში გადმოსატანად"
+
+msgid "summary_download"
+msgstr "თქვენ შეგიძლიათ დააკლიკოტ \"ჩანაწერებს\" და გადმოტვირთოთ და გადმოტვირთოთ როდესაც ამ ინსტრუმენტს ხელახლა გამოიყენებთ"
+
+msgid "summary_for_SCO_with_test"
+msgstr "შეჯამება SCO-სთვის ტესტებით"
+
+msgid "summary_for_SCO_without_test"
+msgstr "შეჯამება SCO-სთვის ტესტების გარეშე"
+
+msgid "undefined_color"
+msgstr "განუსაზღვრელი ფერი"
+
+msgid "unknown"
+msgstr "უცნობი"

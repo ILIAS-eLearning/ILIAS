@@ -1,0 +1,8445 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: tr\n"
+"Language-Team: Turkish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: common\n"
+
+msgid "HH"
+msgstr "SS: DD"
+
+msgid "absolute_path"
+msgstr "Mutlak Yolu"
+
+#, fuzzy
+msgid "accept_usr_agreement_btn"
+msgstr "Accept"
+
+msgid "access"
+msgstr "Erişim"
+
+msgid "accessFree"
+msgstr "Sınırlı Erişim Kaldır"
+
+msgid "accessRestrict"
+msgstr "Sınırlı Erişim Ayarla"
+
+msgid "access_expired"
+msgstr "süresi doldu"
+
+msgid "access_free_granted"
+msgstr "sınırsız erişim için seçilen kullanıcı (lar) ayarla"
+
+msgid "access_from"
+msgstr "Erişim (itibaren)"
+
+msgid "access_public"
+msgstr "Herkese Açık"
+
+msgid "access_restricted"
+msgstr "Sınırlı erişim Seçilen kullanıcı (lar) ayarla"
+
+msgid "access_scope"
+msgstr "Erişim"
+
+msgid "access_unlimited"
+msgstr "Sınırsız"
+
+msgid "access_until"
+msgstr "Erişim (kadar)"
+
+msgid "access_users"
+msgstr "Kullanıcı Girişi"
+
+msgid "accesscount_registered_users"
+msgstr "Farklı ILIAS kullanıcı sayısı resimleri"
+
+#, fuzzy
+msgid "accessibility_control_concept"
+msgstr "Accessibility Control Concept"
+
+#, fuzzy
+msgid "account"
+msgstr "My Account"
+
+msgid "account_expires_body"
+msgstr "Hesabınız sınırlıdır, sona ermesi:"
+
+msgid "account_expires_subject"
+msgstr "[ILIAS] Hesabınız sona eriyor"
+
+msgid "action"
+msgstr "Eylem"
+
+msgid "action_aborted"
+msgstr "Iptal edildi Eylem"
+
+msgid "actions"
+msgstr "Eylemler"
+
+#, fuzzy
+msgid "actions_for"
+msgstr "Actions for %s"
+
+msgid "activate"
+msgstr "Aktif Yap"
+
+msgid "activate_https"
+msgstr "HTTPS ILIAS tarafından kontrol edilsin<br>(Ödeme, Giriş)"
+
+msgid "activate_tracking"
+msgstr "Etkinleştirme"
+
+msgid "activation"
+msgstr "Aktivasyon"
+
+msgid "active"
+msgstr "Aktif"
+
+msgid "add"
+msgstr "ekle"
+
+msgid "add_condition"
+msgstr "Koşul Ekle"
+
+msgid "add_entry"
+msgstr "entry Ekle / Düzenle"
+
+msgid "add_member"
+msgstr "Üye Ekle"
+
+#, fuzzy
+msgid "add_member_role"
+msgstr "Add Member Role"
+
+msgid "add_new_user_defined_field"
+msgstr "Yeni Özel Alan Ekle"
+
+msgid "add_note"
+msgstr "Not Ekle"
+
+msgid "add_parameter"
+msgstr "Yeni Parametre"
+
+#, fuzzy
+msgid "add_remove_edit_entries_of_main_menu"
+msgstr "Add, remove or edit entries of the main menu"
+
+#, fuzzy
+msgid "add_role"
+msgstr "Add Role"
+
+msgid "add_translation"
+msgstr "Çeviri Ekle"
+
+msgid "add_user"
+msgstr "Yerel Kullanıcı Ekle"
+
+msgid "add_user_defined_field"
+msgstr "Yeni Alan Ekle"
+
+msgid "added_new_condition"
+msgstr "yeni durum düzenlendi."
+
+msgid "additional_info"
+msgstr "Ek Bilgiler"
+
+msgid "address"
+msgstr "Adres"
+
+msgid "admin_force_noti"
+msgstr "Bildirim etkin"
+
+msgid "administrate_users"
+msgstr "Yerel Kullanıcı Yönetimi"
+
+#, fuzzy
+msgid "administrate_users_headline"
+msgstr "Local ILIAS Accounts of this Category"
+
+msgid "administration"
+msgstr "Yönetim"
+
+msgid "administrator"
+msgstr "Yönetici"
+
+msgid "adopt"
+msgstr "Adopt"
+
+msgid "advanced_editing_allow_html_tags"
+msgstr "Metin düzenleme için seçilen HTML etiketlerine izin ver"
+
+msgid "advanced_editing_assessment_settings"
+msgstr "ILIAS Test ve değerlendirme aracı için İzin verilen HTML Etiketleri"
+
+msgid "advanced_editing_frm_post_settings"
+msgstr "Forum Mesaj Ayarları"
+
+msgid "advanced_editing_rep_page_editing"
+msgstr "Havuzu'ndaki İçerik Düzenleme etkinleştirin"
+
+msgid "advanced_editing_rep_page_editing_desc"
+msgstr "Bu özellik kategorisi, kurs, grup ve klasör sayfalara metin / medya ekleyebilirsiniz. Devre dışı ise, mevcut içeriği gizli olacaktır."
+
+msgid "advanced_editing_required_tags"
+msgstr "Aşağıdaki HTML etiketleri gereklidir:% s"
+
+msgid "advanced_editing_survey_settings"
+msgstr "ILIAS anket aracı için İzin verilen HTML Etiketleri"
+
+msgid "adve_assessment_settings"
+msgstr "Test ve Değerlendirme Ayarları"
+
+msgid "adve_frm_post_settings"
+msgstr "Forum Mesajlar"
+
+msgid "adve_general_settings"
+msgstr "Genel Ayarlar"
+
+msgid "adve_survey_settings"
+msgstr "Anket Ayarları"
+
+msgid "agree_date"
+msgstr "Kabul Tarihi"
+
+#, fuzzy
+msgid "all"
+msgstr "All"
+
+msgid "all_global_roles"
+msgstr "Global roller"
+
+msgid "all_local_roles"
+msgstr "Yerel roller (tümü)"
+
+msgid "all_objects"
+msgstr "Tüm Nesneler"
+
+msgid "all_roles"
+msgstr "Tüm Roller"
+
+msgid "all_topics"
+msgstr "Tüm Başlıklar"
+
+msgid "all_users"
+msgstr "Tüm Kullanıcılar"
+
+msgid "allow_assign_users"
+msgstr "yerel yöneticiler için kullanıcı atama izin ver."
+
+msgid "allow_override_alert"
+msgstr ". Htaccess için Kurallar doğru yorumlanmış değildir."
+
+msgid "allow_register"
+msgstr "Yeni kullanıcılar için kayıt formunu mevcuttur"
+
+msgid "allow_user_toggle_noti"
+msgstr "üyesi bildirim devre dışı bırakmak için izin verilir"
+
+msgid "already_delivered_files"
+msgstr "Ekleyen Dosyalar"
+
+msgid "and"
+msgstr "ve"
+
+#, fuzzy
+msgid "angry"
+msgstr "Angry"
+
+msgid "anonymous"
+msgstr "Anonim"
+
+msgid "answers"
+msgstr "Yanıtlar"
+
+msgid "any_language"
+msgstr "Herhangi bir dil"
+
+msgid "apache_auth"
+msgstr "Apache Doğrulama"
+
+msgid "application_completed"
+msgstr "Uygulama tamamlandı"
+
+msgid "application_date"
+msgstr "Başvuru Tarihi"
+
+msgid "applications"
+msgstr "Uygulamaları"
+
+msgid "apply"
+msgstr "Uygula"
+
+msgid "apply_filter"
+msgstr "Filtre Uygula"
+
+msgid "appointment"
+msgstr "Randevu"
+
+msgid "approve_date"
+msgstr "Onay Tarihi"
+
+msgid "approve_recipient"
+msgstr "Onaylayan ve Giriş ID"
+
+msgid "archive"
+msgstr "Arşiv"
+
+msgid "archive_broken"
+msgstr "Arşiv kırık veya boş gibi görünüyor."
+
+msgid "are_you_sure"
+msgstr "emin misiniz?"
+
+msgid "assf_allowed_questiontypes"
+msgstr "Mevcut Soru Türleri"
+
+msgid "assf_allowed_questiontypes_desc"
+msgstr "tüm kontrol soru tipleri bu ILIAS yükleme satışa sunulacak. Bu yükleme belirli bir soru tipinin yaratılması izin vermek istemiyorsanız, size ilişkili onay kutusundaki seçimi kaldırmalısınız."
+
+msgid "assf_questiontypes"
+msgstr "Soru Ayarlar"
+
+msgid "assign"
+msgstr "Ata"
+
+msgid "assign_global_role"
+msgstr "Global Rol Atama"
+
+msgid "assign_local_role"
+msgstr "Yerel Rol atama"
+
+msgid "assigned_members"
+msgstr "Görev Alan Üyeler"
+
+msgid "assigned_roles"
+msgstr "Atanan Roller"
+
+msgid "associated_user"
+msgstr "ilişkili Kullanıcı"
+
+#, fuzzy
+msgid "astounded"
+msgstr "Astounded"
+
+msgid "at_least_one_style"
+msgstr "en az bir stil aktive kalmalıdır."
+
+msgid "attachment"
+msgstr "Ek"
+
+msgid "attachments"
+msgstr "Dosya Ekle"
+
+msgid "attempts"
+msgstr "Denemeleri"
+
+msgid "auth_active_roles"
+msgstr "Kayıt formu üzerinde mevcut Küresel roller"
+
+msgid "auth_allow_local"
+msgstr "Yerel Kimlik İzin"
+
+msgid "auth_configure"
+msgstr "configure ..."
+
+msgid "auth_create_users"
+msgstr "otomatik olmayan mevcut kullanıcılar oluşturun"
+
+msgid "auth_default"
+msgstr "Varsayılan ayar"
+
+msgid "auth_default_mode_changed_to"
+msgstr "Olarak değiştirildi Varsayılan kimlik doğrulama modu"
+
+msgid "auth_ecs"
+msgstr "ECS"
+
+msgid "auth_ldap"
+msgstr "LDAP"
+
+msgid "auth_ldap_enable"
+msgstr "LDAP desteği etkinleştir"
+
+msgid "auth_ldap_migration"
+msgstr "Hesap Göç"
+
+msgid "auth_ldap_migration_info"
+msgstr "yeni kullanıcılar LDAP kimlik doğrulama için mevcut ILIAS hesaplarına geçiş imkanı vermek için bu seçeneği etkinleştirin."
+
+msgid "auth_local"
+msgstr "ILIAS veritabanı"
+
+msgid "auth_login_instructions"
+msgstr "Talimatları giriş sayfasında gösterilen"
+
+msgid "auth_mode"
+msgstr "Kimlik doğrulama modu"
+
+msgid "auth_mode_not_changed"
+msgstr "(Hiçbir şey değişmedi)"
+
+msgid "auth_mode_roles_changed"
+msgstr "Bu Rol için Değiştirilen kimlik doğrulama modu"
+
+msgid "auth_new_account_mail_desc"
+msgstr "Kullanıcı otomatik olarak oluşturulur ise kullanıcıya yeni bir hesap e-posta gönderin. Ayrıca etkinleştirildi \"Yerel Kimlik Allow\" eğer bir şifre sadece oluşacaktır."
+
+msgid "auth_per_default"
+msgstr "Standart Başına"
+
+msgid "auth_remark_non_local_auth"
+msgstr "ILIAS veritabanı dışında başka bir kimlik doğrulama modunu seçerken, artık kullanıcı adını ve parolasını değiştiremezsiniz."
+
+msgid "auth_role_auth_mode"
+msgstr "Kimlik doğrulama modu"
+
+#, fuzzy
+msgid "auth_saml"
+msgstr "SAML"
+
+msgid "auth_script"
+msgstr "Özel"
+
+msgid "auth_select"
+msgstr "Seç kimlik doğrulama modu"
+
+msgid "auth_selection"
+msgstr "Giriş Seçenekleri"
+
+msgid "auth_settings"
+msgstr "Kimlik Doğrulama Ayarları"
+
+msgid "auth_shib"
+msgstr "Shibboleth"
+
+msgid "auth_shib_instructions"
+msgstr "ILIAS için Shibboleth desteği nasıl yapılandırılacağı ile ilgili talimatlar için README dosyasını okuduğunuza emin olun."
+
+msgid "auth_shib_not_configured"
+msgstr "Shibboleth henüz kullanılmamış"
+
+msgid "auth_shibboleth"
+msgstr "Shibboleth"
+
+msgid "auth_soap"
+msgstr "SOAP"
+
+msgid "auth_soap_allow_local_desc"
+msgstr "Bu SOAP kullanıcıların kendi yerel ILIAS adınızı ve yerel bir şifre ile kimlik doğrulaması sağlar."
+
+msgid "auth_soap_auth"
+msgstr "Yapılandırma SOAP Doğrulama"
+
+msgid "auth_soap_auth_desc"
+msgstr "Bu ayarları değil ILIAS SOAP arayüzü ile, SOAP tabanlı kullanıcı kimlik doğrulaması ile sadece anlaşma."
+
+msgid "auth_soap_create_users_desc"
+msgstr "Henüz bir ILIAS hesabı kalmadan başarıyla SOAP karşı kimliği doğrulanmış kullanıcılar için, otomatik olarak bir ILIAS kullanıcı hesabı oluşturur."
+
+msgid "auth_soap_namespace"
+msgstr "Namespace"
+
+msgid "auth_soap_namespace_desc"
+msgstr "WSDL tanımlandığı şekliyle . NET SOAP tarzı kullanılırsa, belirtilmelidir."
+
+msgid "auth_soap_port_desc"
+msgstr "Örnek 8080 tam SOAP sunucu tanım http://auth.yourserver.com:8080/dir/server.php ise,"
+
+msgid "auth_soap_server_desc"
+msgstr "Tam SOAP sunucu tanım http://auth.yourserver.com:8080/dir/server.php ise, Örnek auth.yourserver.com"
+
+msgid "auth_soap_settings_saved"
+msgstr "SOAP doğrulama ayarları kaydedildi"
+
+msgid "auth_soap_uri_desc"
+msgstr "Yerel URI, tam SOAP sunucu URI http://auth.yourserver.com:8080/dir/server.php ise örneğin dir / server.php"
+
+msgid "auth_soap_use_dotnet"
+msgstr "kullanımlar. NET SOAP Stil"
+
+msgid "auth_soap_use_https"
+msgstr "kullanımlar HTTPS"
+
+msgid "auth_soap_user_default_role_desc"
+msgstr "Bu rol otomatik olarak oluşturulur SOAP kullanıcılara atanır."
+
+msgid "auth_user_default_role"
+msgstr "Standart Rolü"
+
+msgid "authenticate_ilias"
+msgstr "ILIAS Yerli Doğrulama"
+
+msgid "authentication_settings"
+msgstr "Kimlik Doğrulama"
+
+msgid "author"
+msgstr "Yazar"
+
+msgid "authoring_mode"
+msgstr "Yazar Modu"
+
+msgid "authors"
+msgstr "Yazarlar"
+
+#, fuzzy
+msgid "autocomplete_more"
+msgstr "more"
+
+msgid "available"
+msgstr "Mevcut"
+
+#, fuzzy
+msgid "awra"
+msgstr "Who is online?"
+
+msgid "back"
+msgstr "Geri"
+
+#, fuzzy
+msgid "back_to_course"
+msgstr "Back to Course"
+
+msgid "back_to_crs_content"
+msgstr "Dersin İçeriği Geri"
+
+msgid "back_to_fold_content"
+msgstr "Klasör İçeriğe Geri"
+
+msgid "back_to_grp_content"
+msgstr "Grup İçeriğe Geri"
+
+msgid "backto_lua"
+msgstr "Yerel Kullanıcı Yönetimi için geri dön"
+
+msgid "basedn"
+msgstr "TemelDN"
+
+msgid "basic_settings"
+msgstr "Temel Ayarlar"
+
+msgid "before"
+msgstr "öncesi"
+
+msgid "behind"
+msgstr "Behind"
+
+msgid "bib_data"
+msgstr "Bibliyografik Veri"
+
+#, fuzzy
+msgid "bibl_add"
+msgstr "Add Bibliography"
+
+msgid "birthday"
+msgstr "Doğum Günü"
+
+msgid "bkm_import"
+msgstr "İçe aktarma yerimleri"
+
+msgid "bkm_import_ok"
+msgstr "Başarıyla ithal %d yerimi ve % imi klasörlerini d."
+
+msgid "bkm_sendmail"
+msgstr "eki olarak gönder"
+
+msgid "block"
+msgstr "Blok"
+
+msgid "bm"
+msgstr "Bookmark"
+
+msgid "bm_add_to_ilias"
+msgstr "ILIAS Yer imleri"
+
+msgid "bmf"
+msgstr "Bookmark Klasör"
+
+msgid "bold"
+msgstr "Bold"
+
+#, fuzzy
+msgid "bold_action"
+msgstr "Insert Bold - Click to insert bold text."
+
+msgid "bookings"
+msgstr "Rezervasyonları"
+
+msgid "bookmark_added"
+msgstr "Bookmark oluşturuldu."
+
+msgid "bookmark_folder_new"
+msgstr "Yeni Favori Klasör"
+
+msgid "bookmark_new"
+msgstr "Yeni Favori"
+
+msgid "bookmark_target"
+msgstr "Hedef"
+
+msgid "bookmarks"
+msgstr "Yer imleri"
+
+msgid "bookmarks_of"
+msgstr "Yer imleri"
+
+msgid "breadcrumb_navigation"
+msgstr "Breadcrumb Navigasyon"
+
+#, fuzzy
+msgid "breadcrumbs_aria_label"
+msgstr "Breadcrumbs"
+
+#, fuzzy
+msgid "briefcase"
+msgstr "Background Tasks"
+
+msgid "btn_add"
+msgstr "ekle"
+
+msgid "btn_back"
+msgstr "Geri"
+
+msgid "btn_next"
+msgstr "Devam"
+
+msgid "btn_previous"
+msgstr "Geri"
+
+msgid "btn_remove_system"
+msgstr "Sistem çıkar"
+
+msgid "btn_undelete"
+msgstr "Restore"
+
+#, fuzzy
+msgid "buddy_allow_to_contact_me_no"
+msgstr "Doesn`t Receive Contact Requests"
+
+#, fuzzy
+msgid "buddy_allow_to_contact_me_yes"
+msgstr "Receives Contact Requests"
+
+#, fuzzy
+msgid "building_export_file"
+msgstr "Building Export File..."
+
+#, fuzzy
+msgid "bulletlist_action"
+msgstr "Insert Bulletpoint-List - Click to insert a bulletpoint-list."
+
+msgid "by"
+msgstr "tarafından"
+
+msgid "bytes"
+msgstr "Bytes"
+
+msgid "cal_from"
+msgstr "Gönderen:"
+
+msgid "cal_until"
+msgstr "Kadar:"
+
+msgid "calendar"
+msgstr "Takvim"
+
+msgid "cancel"
+msgstr "İptal"
+
+#, fuzzy
+msgid "cancel_file_upload"
+msgstr "Do you really want to cancel all pending uploads?"
+
+msgid "cannot_find_xml"
+msgstr "Herhangi bir XML dosya bulunamıyor."
+
+msgid "cannot_uninstall_language_in_use"
+msgstr "Halen kullanılmakta olan dili kaldıramıyorum!"
+
+msgid "cannot_uninstall_systemlanguage"
+msgstr "Sen sistem dili kaldıramıyorum!"
+
+msgid "cannot_unzip_file"
+msgstr "dosyasını açmak olamaz."
+
+msgid "cant_deactivate_if_users_assigned"
+msgstr "Kendisine atanmış kullanıcılar hala varsa bir tarzı kapatılamaz."
+
+msgid "cat"
+msgstr "Kategori"
+
+msgid "cat_add"
+msgstr "Kategori Ekle"
+
+msgid "cat_added"
+msgstr "Kategori eklendi"
+
+#, fuzzy
+msgid "cat_copy_threads_info"
+msgstr "Please decide which category items should be copied, linked or even omitted."
+
+msgid "cat_edit"
+msgstr "Kategori Düzenle"
+
+msgid "cat_new"
+msgstr "Yeni Kategori"
+
+msgid "cat_wizard_page"
+msgstr "Kopya Kategori (Adım 2/2)"
+
+msgid "categories"
+msgstr "Kategoriler"
+
+msgid "categories_imported"
+msgstr "Kategori içeri aktarma işlemi tamamlandı."
+
+msgid "catr"
+msgstr "Kategori Referans"
+
+#, fuzzy
+msgid "catr_add"
+msgstr "Add Category Link"
+
+msgid "catr_edit_info"
+msgstr "yeni bir referans oluşturmak için bir kategori seçiniz."
+
+msgid "catr_new"
+msgstr "Kategori Referans Oluştur"
+
+#, fuzzy
+msgid "catr_settings"
+msgstr "Category Link Settings"
+
+msgid "certificate"
+msgstr "Sertifika"
+
+#, fuzzy
+msgid "certificate_file_already_exists_error"
+msgstr "The certificate file already exists in the file system."
+
+#, fuzzy
+msgid "certificate_file_input_output_error"
+msgstr "The certificate file was found but couldn't be deleted because of internal errors. Please contact your administrator."
+
+#, fuzzy
+msgid "certificate_file_not_found_error"
+msgstr "The certificate file doesn't exist in the file system anymore. Die Zertikatsdatei wurde im Dateisystem nicht mehr gefunden."
+
+#, fuzzy
+msgid "certificate_persistent_option"
+msgstr "Certificates of Achievements"
+
+#, fuzzy
+msgid "certificate_selection"
+msgstr "Origin of Certificates"
+
+#, fuzzy
+msgid "certificate_workspace_option"
+msgstr "Certificates of Personal Resources"
+
+#, fuzzy
+msgid "certificates"
+msgstr "Certificates"
+
+msgid "change"
+msgstr "Değiştir"
+
+msgid "change_assignment"
+msgstr "Atananı Değiştir"
+
+msgid "change_header_title"
+msgstr "Sayfa Başlığını Değiştir"
+
+msgid "change_owner"
+msgstr "Sahibi değiştir"
+
+msgid "change_sort_direction"
+msgstr "Değişim sıralama yönü"
+
+msgid "changeable"
+msgstr "Kişisel Bilgilerde ve Profilde Değiştirilebilir"
+
+msgid "changed_to"
+msgstr "değiştirildi"
+
+msgid "changing_loginname_not_possible_info"
+msgstr "s geçen adresinden giriş adını değiştirdi. Sonraki değişiklik% s gerçekleştirilebilir."
+
+msgid "chapter"
+msgstr "Bölüm"
+
+msgid "characters"
+msgstr "karakter"
+
+msgid "chat_enter_public_room"
+msgstr "Genel Sohbet"
+
+msgid "chat_enter_public_room_tooltip"
+msgstr "Herkese açık sohbet girin."
+
+msgid "chat_users_active"
+msgstr "Aktif kullanıcılar"
+
+msgid "check"
+msgstr "Kontrol"
+
+msgid "check_all"
+msgstr "tüm kontrol"
+
+msgid "check_langfile"
+msgstr "dil dosyasını kontrol edin"
+
+msgid "check_languages"
+msgstr "Tüm Diller Giriş"
+
+msgid "check_link"
+msgstr "Link Kontrol"
+
+msgid "check_link_desc"
+msgstr "Etkinse, ILIAS öğrenme modüllerindeki tüm dış linkler kontrol edilecektir."
+
+msgid "check_user_accounts"
+msgstr "Kullanıcı Hesaplarını Kontrol Et"
+
+msgid "check_user_accounts_desc"
+msgstr "Seçilirse, hesaplarının süresi dolan tüm kullanıcılara e-postayla haber verilecektir."
+
+msgid "check_web_resources"
+msgstr "Web Kaynaklarını Kontrol Et"
+
+msgid "check_web_resources_desc"
+msgstr "Etkinleştirilmişse, aktif olan tüm Web Kaynakları kontrol edilecektir."
+
+msgid "checked"
+msgstr "Checked"
+
+msgid "checked_files"
+msgstr "Importable dosyaları"
+
+msgid "chg_ilias_and_webfolder_password"
+msgstr "Değişim webfolder Şifre"
+
+msgid "chg_ilias_password"
+msgstr "Değişim ILIAS Şifre"
+
+msgid "chg_password"
+msgstr "Şifre Değiştir"
+
+msgid "choose_language"
+msgstr "Dil seç"
+
+msgid "choose_only_one_language"
+msgstr "sadece bir dil seçiniz"
+
+msgid "chown_warning"
+msgstr "Dikkat, sahibini değiştirdikten sonra bu nesneye erişim iznini kaybedebilirsiniz."
+
+msgid "chta_edit_permission"
+msgstr "Değişim İzin Ayarları"
+
+msgid "chta_read"
+msgstr "Chatroom İdaresi okuma erişimi"
+
+msgid "chta_visible"
+msgstr "Chatroom İdaresi görülebilir"
+
+msgid "chta_write"
+msgstr "Edit Chatroom İdaresi"
+
+msgid "chtr_copy"
+msgstr "Kopya Chatroom"
+
+#, fuzzy
+msgid "chtr_import"
+msgstr "Import Chatroom"
+
+msgid "city"
+msgstr "Şehir, Eyalet"
+
+msgid "cleaned_file"
+msgstr "Dosya temizlendi."
+
+msgid "cleaning_failed"
+msgstr "Temizleme başarısız oldu."
+
+msgid "clear"
+msgstr "Sifresiz"
+
+msgid "clear_clipboard"
+msgstr "Clear Clipboard"
+
+msgid "client"
+msgstr "İstemci"
+
+msgid "client_id"
+msgstr "Müşteri Kimliği"
+
+msgid "client_ip"
+msgstr "İstemci IP"
+
+#, fuzzy
+msgid "clientlist_available_clients"
+msgstr "Available Clients"
+
+#, fuzzy
+msgid "clientlist_clientlist"
+msgstr "Client List"
+
+#, fuzzy
+msgid "clientlist_installation_name"
+msgstr "Installation Name"
+
+#, fuzzy
+msgid "clientlist_login"
+msgstr "Login"
+
+#, fuzzy
+msgid "clientlist_login_page"
+msgstr "Login page"
+
+#, fuzzy
+msgid "clientlist_public_access"
+msgstr "Public Access"
+
+#, fuzzy
+msgid "clientlist_start_page"
+msgstr "Start page"
+
+msgid "clipboard"
+msgstr "Pano"
+
+msgid "close"
+msgstr "Kapat"
+
+#, fuzzy
+msgid "cmix"
+msgstr "Object xAPI/cmi5"
+
+msgid "cnt_new"
+msgstr "(% s Yeni)"
+
+msgid "collapse"
+msgstr "Collapse"
+
+msgid "collapse_all"
+msgstr "Collapse All"
+
+#, fuzzy
+msgid "collapse_content"
+msgstr "Collapse Content"
+
+msgid "collapsed"
+msgstr "Çöktü"
+
+#, fuzzy
+msgid "column_selection"
+msgstr "Column Selection"
+
+msgid "columns"
+msgstr "Sütunlar"
+
+msgid "comma_separated"
+msgstr "Virgülle Ayrılmış"
+
+msgid "comment"
+msgstr "Yorum"
+
+#, fuzzy
+msgid "comments"
+msgstr "Comments"
+
+msgid "compose"
+msgstr "Posta Gönder"
+
+#, fuzzy
+msgid "concurrent_uploads"
+msgstr "Number of concurrent uploads"
+
+#, fuzzy
+msgid "concurrent_uploads_info"
+msgstr "Defines the number of files that can be uploaded per upload process at the same time."
+
+msgid "cond_ref_handling"
+msgstr "Bağlantı Ayarları"
+
+msgid "cond_ref_shared"
+msgstr "Tüm linkler için Paylaşılan Önkoşullar"
+
+msgid "cond_ref_unique"
+msgstr "Linkler için Benzersiz Önkoşullar"
+
+msgid "condition"
+msgstr "Durumu"
+
+#, fuzzy
+msgid "condition_accredited_or_passed"
+msgstr "Accredited or Passed"
+
+msgid "condition_already_assigned"
+msgstr "Nesne zaten atanmış."
+
+msgid "condition_circle_created"
+msgstr "Nesneleri birbirine bağlı olacağından Bu dernek, mümkün değildir."
+
+msgid "condition_deleted"
+msgstr "Durum silindi."
+
+msgid "condition_finished"
+msgstr "Biten"
+
+msgid "condition_not_finished"
+msgstr "Bitmedi"
+
+msgid "condition_passed"
+msgstr "Geçti"
+
+msgid "condition_select_object"
+msgstr "bir nesne seçin."
+
+msgid "conditions_updated"
+msgstr "Koşullar kurtardı"
+
+#, fuzzy
+msgid "configuration"
+msgstr "Configuration"
+
+msgid "confirm"
+msgstr "Onayla"
+
+msgid "confirm_delete_parameter"
+msgstr "gerçekten parametreyi silmek istediğinizden emin misiniz?"
+
+msgid "confirmation"
+msgstr "Onay"
+
+msgid "conflict_handling"
+msgstr "Çatışma işleme"
+
+msgid "cont_iim_content_popups_info"
+msgstr "Kullanıcı arka plan görüntüsü interaktif bölümleri tıkladığında İçerik açılanları, görünür. Bu ekranda sadece popup'lara tanımlayabilirsiniz. Onların içeriği sayfanın düzenleme ekranda düzenlenebilir."
+
+msgid "cont_iim_create_info"
+msgstr "interaktif görüntü için arka plan resmi yükleyin."
+
+msgid "cont_iim_overlay_info"
+msgstr "Bindirme görüntüleri arka plan görüntüsü (örneğin vurgulamak) parça değiştirmek için kullanılır zaman onların üzerinde fare Hovers. Görüntüleri yükledikten sonra, \"Tetikleyiciler\" sekmesine bunları seçebilirsiniz."
+
+msgid "contact"
+msgstr "İletişim"
+
+msgid "contact_data"
+msgstr "İletişim Bilgileri"
+
+msgid "contact_sysadmin"
+msgstr "İletişim Yönetim"
+
+msgid "container"
+msgstr "Konteyner"
+
+msgid "container_no_items"
+msgstr "Mevcut Resim Malzemeleri"
+
+msgid "content"
+msgstr "İçerik"
+
+msgid "content_frame"
+msgstr "İçerik Çerçevesi"
+
+msgid "content_styles"
+msgstr "İçerik Stilleri"
+
+msgid "context"
+msgstr "Bağlam"
+
+msgid "continue"
+msgstr "devam"
+
+msgid "continue_work"
+msgstr "Devam"
+
+msgid "contra"
+msgstr "Contra"
+
+#, fuzzy
+msgid "copa"
+msgstr "Content Page"
+
+msgid "copy"
+msgstr "Kopya"
+
+msgid "copyChapter"
+msgstr "Kopya"
+
+msgid "copyPage"
+msgstr "Kopya"
+
+msgid "copy_all"
+msgstr "Tümünü kopyala"
+
+msgid "copy_n_of_suffix"
+msgstr "- Kopyala (% 1 $ s)"
+
+msgid "copy_of"
+msgstr "Arasında Kopya"
+
+msgid "copy_of_suffix"
+msgstr "- Kopya"
+
+#, fuzzy
+msgid "copy_perma_link"
+msgstr "Copy link to clipboard"
+
+msgid "copy_selected_items"
+msgstr "Kopya"
+
+msgid "count"
+msgstr "Sayımı"
+
+#, fuzzy
+msgid "counter_novelty"
+msgstr "News"
+
+#, fuzzy
+msgid "counter_status"
+msgstr "Status"
+
+msgid "country"
+msgstr "Ülke"
+
+msgid "country_free_text"
+msgstr "Ülke (Serbest Metin Girişi)"
+
+msgid "country_selection"
+msgstr "Ülke (Selection Drop Down)"
+
+msgid "course"
+msgstr "Ders"
+
+msgid "courses"
+msgstr "Dersler"
+
+msgid "create"
+msgstr "Oluştur"
+
+msgid "create_date"
+msgstr "Oluşturulma"
+
+msgid "create_export_file"
+msgstr "Dışa aktarma dosyası oluştur"
+
+msgid "create_stylesheet"
+msgstr "Oluştur Stil"
+
+msgid "created"
+msgstr "Oluşturulma Tarihi"
+
+msgid "cron_forum_notification"
+msgstr "Forum Bildirimleri Gönder"
+
+#, fuzzy
+msgid "cron_forum_notification_crob_desc"
+msgstr "If enabled, all users who have enabled forum notifications will get a daily mail about all new posts but no immediate notification for each submitted posting."
+
+#, fuzzy
+msgid "cron_forum_notification_disabled"
+msgstr "Can't be disabled when the Cron Job is active."
+
+msgid "cron_jobs"
+msgstr "Cron Jobs"
+
+msgid "cron_lucene_index"
+msgstr "Lucene arama dizinini güncelle"
+
+msgid "cron_lucene_index_info"
+msgstr "Etkinleştirilmişse, Lucene arama dizini güncellenecektir. Lütfen Lucene sunucusunu ‘Yönetim -> Arama’ altında yapılandırın."
+
+msgid "cron_mail_notification"
+msgstr "E-posta Bildirimleri Gönder"
+
+msgid "cron_mail_notification_cron"
+msgstr "Her cron işi için düzenli olarak"
+
+msgid "cron_mail_notification_desc"
+msgstr "Etkinse, Yeni e-postalardan haberdar olmak isteyen tüm kullanıcılar harici e-posta adresinden bilgilendirme alacaktır."
+
+msgid "cron_mail_notification_message"
+msgstr "Posta-Mesaj ile e-posta bildirimleri gönder"
+
+msgid "cron_mail_notification_message_info"
+msgstr "Etkinse tüm kullanıcılar harici posta ile komple posta mesajı ile bildirim alırsınız."
+
+msgid "cron_mail_notification_never"
+msgstr "Asla"
+
+#, fuzzy
+msgid "cron_users_without_login_del_create_date_thr"
+msgstr "Thresholt"
+
+#, fuzzy
+msgid "cron_users_without_login_del_create_date_thr_info"
+msgstr "All user accounts created before the defined threshold will be taken into consideration."
+
+#, fuzzy
+msgid "cron_users_without_login_del_role_whitelist"
+msgstr "Included Roles"
+
+#, fuzzy
+msgid "cron_users_without_login_del_role_whitelist_info"
+msgstr "The deletion will only processed for users assigned to at least one of the selected roles"
+
+msgid "cronjob_last_start"
+msgstr "Cron Job Son Çalışma Zamanı"
+
+msgid "cronjob_last_start_unknown"
+msgstr "Belirsiz"
+
+msgid "crs"
+msgstr "Ders"
+
+msgid "crs_activation_start_invalid"
+msgstr "başlangıç ​​ve bitiş zamanı geçerli değil."
+
+msgid "crs_add"
+msgstr "Ders Ekleme"
+
+msgid "crs_added"
+msgstr "Ders eklendi"
+
+msgid "crs_archives"
+msgstr "Arşivler"
+
+msgid "crs_cancel_waiting_list"
+msgstr "Gerçekten \"% s\" dersin bekleme listesine kendinizi kaldırmak istiyor musunuz?"
+
+#, fuzzy
+msgid "crs_copy_threads_info"
+msgstr "Please decide which course materials should be copied, linked or even omitted."
+
+msgid "crs_edit"
+msgstr "Ders Düzenle"
+
+#, fuzzy
+msgid "crs_list_reg"
+msgstr "Registration"
+
+msgid "crs_list_reg_end"
+msgstr "Kayıt Sonu"
+
+msgid "crs_list_reg_limit_full"
+msgstr "Kalan Hayır yerler"
+
+msgid "crs_list_reg_limit_places"
+msgstr "Ücretsiz yerleri"
+
+msgid "crs_list_reg_noreg"
+msgstr "Kayıt Kapalı"
+
+msgid "crs_list_reg_period"
+msgstr "Kayıt Dönemi"
+
+msgid "crs_list_reg_start"
+msgstr "Kayıt Başlayan"
+
+msgid "crs_member_not_passed"
+msgstr "Geçmedi"
+
+msgid "crs_member_passed"
+msgstr "Geçti"
+
+msgid "crs_members_gallery"
+msgstr "Üye Galerisi"
+
+msgid "crs_new"
+msgstr "Yeni Ders"
+
+msgid "crs_removed_from_waiting_list"
+msgstr "Siz \"% s\" dersin bekleme listesine ayrılmış edilmiştir."
+
+msgid "crs_status_blocked"
+msgstr "[Erişim reddetti]"
+
+msgid "crs_status_pending"
+msgstr "[kaydı bekliyorum]"
+
+msgid "crs_subscribers_assigned"
+msgstr "Atanan yeni kullanıcı (lar)"
+
+msgid "crs_title"
+msgstr "Dersin Adı"
+
+msgid "crs_unsubscribe"
+msgstr "Ayrıl"
+
+msgid "crs_wizard_page"
+msgstr "Kopya Sahası (Adım 2/2)"
+
+msgid "crsr"
+msgstr "Kurs Başvuru"
+
+#, fuzzy
+msgid "crsr_add"
+msgstr "Add Course Link"
+
+msgid "crsr_edit_info"
+msgstr "yeni bir referans oluşturmak için, bir ders seçiniz."
+
+msgid "crsr_new"
+msgstr "Oluştur Kurs Başvuru"
+
+#, fuzzy
+msgid "crsr_settings"
+msgstr "Course Link Settings"
+
+msgid "csv_export"
+msgstr "CSV Dışa Aktarım"
+
+msgid "current_ip"
+msgstr "Şimdiki IP:"
+
+msgid "current_ip_alert"
+msgstr "Uyarı: Eğer yanlış bir ip girerseniz Artık bu profili ile sisteme erişim mümkün olmayacaktır."
+
+msgid "current_password"
+msgstr "Mevcut Şifre"
+
+#, fuzzy
+msgid "current_user_avatar"
+msgstr "Your User Avatar"
+
+msgid "currently_used_disk_space"
+msgstr "Şu anda kullanılan disk alanı"
+
+#, fuzzy
+msgid "customize_page"
+msgstr "Customize Page"
+
+msgid "cut"
+msgstr "Kes"
+
+msgid "cutPage"
+msgstr "Kes"
+
+msgid "daily"
+msgstr "Günlük"
+
+msgid "database"
+msgstr "Veritabanı"
+
+msgid "database_version"
+msgstr "Geçerli Veritabanı Sürüm"
+
+msgid "dataset"
+msgstr "Ürün"
+
+msgid "date"
+msgstr "Tarih"
+
+#, fuzzy
+msgid "date_time"
+msgstr "Date and Time"
+
+msgid "dateplaner"
+msgstr "Takvim"
+
+msgid "day"
+msgstr "Gün"
+
+msgid "days"
+msgstr "gün"
+
+msgid "db_host"
+msgstr "Veritabanı Sunucu"
+
+msgid "db_name"
+msgstr "Veritabanı Adı"
+
+msgid "db_need_update"
+msgstr "Veritabanı bir güncelleme ihtiyacı var!"
+
+msgid "db_pass"
+msgstr "Veritabanı Şifre"
+
+msgid "db_type"
+msgstr "Veritabanı Türü"
+
+msgid "db_user"
+msgstr "Veritabanı Kullanıcı"
+
+msgid "db_version"
+msgstr "​​Veritabanı Sürüm"
+
+msgid "dd_mm_yyyy"
+msgstr "DD.MM.YYYY"
+
+msgid "deactivate"
+msgstr "İnaktif Yap"
+
+msgid "decrease_attempts"
+msgstr "Denemeleri - 1"
+
+msgid "def_repository_view"
+msgstr "Varsayılan depolama alanı görünümü"
+
+msgid "default"
+msgstr "Standart"
+
+msgid "default_auth_mode"
+msgstr "Varsayılan Kimlik Doğrulama Yöntemi"
+
+msgid "default_auth_mode_info"
+msgstr "giriş sayfasında önceden kimlik doğrulama yöntemini seçiniz."
+
+msgid "default_language"
+msgstr "Varsayılan Dil"
+
+msgid "default_perm_settings"
+msgstr "Varsayılan İzinleri"
+
+msgid "default_role"
+msgstr "Standart Rolü"
+
+msgid "default_roles"
+msgstr "Standart Rolleri"
+
+msgid "default_skin"
+msgstr "Standart Cilt"
+
+msgid "default_skin_style"
+msgstr "Standart Cilt / Stil"
+
+msgid "default_style"
+msgstr "Style"
+
+msgid "defaults"
+msgstr "Varsayılanları"
+
+msgid "delete"
+msgstr "Sil"
+
+msgid "delete_existing_file"
+msgstr "Varolan Dosya Sil"
+
+msgid "delete_inactivated_user_accounts"
+msgstr "Aktif Olmayan Kullanıcı Hesaplarını Sil"
+
+msgid "delete_inactivated_user_accounts_desc"
+msgstr "Etkinse, kullanıcı hesapları inaktivasyon tarihine bağlı olarak silinecektir."
+
+msgid "delete_inactivated_user_accounts_include_roles"
+msgstr "Dahil rolleri"
+
+msgid "delete_inactivated_user_accounts_include_roles_desc"
+msgstr "silme katılacak rolleri tanımlar."
+
+msgid "delete_inactivated_user_accounts_period"
+msgstr "Inaktivasyon bu yana geçen gün"
+
+msgid "delete_inactivated_user_accounts_period_desc"
+msgstr "Bu süre inaktivasyon yana geçen varsaSilme idam edilecek."
+
+msgid "delete_inactive_user_accounts"
+msgstr "Pasif Kullanıcı Hesaplarını Sil"
+
+msgid "delete_inactive_user_accounts_desc"
+msgstr "Etkinse, kullanıcı hesapları son giriş tarihine göre silinecektir."
+
+msgid "delete_inactive_user_accounts_include_roles"
+msgstr "Dahil rolleri"
+
+msgid "delete_inactive_user_accounts_include_roles_desc"
+msgstr "silme katılacak rolleri tanımlar."
+
+msgid "delete_inactive_user_accounts_period"
+msgstr "Son girişinizden itibaren geçen gün"
+
+msgid "delete_inactive_user_accounts_period_desc"
+msgstr "Bu süre son girişinizden itibaren geçmişte varsa Silme idam edilecek."
+
+msgid "delete_parameter"
+msgstr "Sil Parametre"
+
+msgid "delete_selected_items"
+msgstr "Sil"
+
+msgid "deleted"
+msgstr "Silindi"
+
+msgid "deleted_user"
+msgstr "kullanıcı silindiğinde"
+
+msgid "deleted_users"
+msgstr "Silinen kullanıcılar"
+
+#, fuzzy
+msgid "deletion_notification"
+msgstr "\"%s\" has canceled the attendance of session \"%s\"."
+
+msgid "deliver"
+msgstr "sunun"
+
+#, fuzzy
+msgid "deny_usr_agreement"
+msgstr "Do Not Accept Terms of Service?"
+
+#, fuzzy
+msgid "deny_usr_agreement_btn"
+msgstr "Do Not Accept"
+
+msgid "department"
+msgstr "Bölümü"
+
+msgid "desc"
+msgstr "Açıklama"
+
+msgid "description"
+msgstr "Açıklama"
+
+msgid "desired_password"
+msgstr "Yeni Şifre"
+
+msgid "details"
+msgstr "Detaylar"
+
+#, fuzzy
+msgid "didactic_template"
+msgstr "Didactic Template"
+
+msgid "disable"
+msgstr "devre dışı"
+
+msgid "disable_check"
+msgstr "Devre Dışı Bırak onay"
+
+msgid "disable_ext_lang_maint"
+msgstr "Extended Maintenance Disable"
+
+msgid "disable_hide_user_toggle"
+msgstr "üyesi devre dışı bırakmak için izin verilir"
+
+msgid "disabled"
+msgstr "Kapalı"
+
+#, fuzzy
+msgid "disclose"
+msgstr "Disclose"
+
+#, fuzzy
+msgid "dislike"
+msgstr "Dislike"
+
+msgid "domain"
+msgstr "Etki Alanı"
+
+msgid "down"
+msgstr "Aşağı"
+
+msgid "download"
+msgstr "İndir"
+
+msgid "download_all_returned_files"
+msgstr "tüm iade dosyalarını indirin"
+
+#, fuzzy
+msgid "download_link"
+msgstr "Download Link"
+
+#, fuzzy
+msgid "download_multiple_objects"
+msgstr "Download Multiple Objects"
+
+#, fuzzy
+msgid "download_selected_items"
+msgstr "Download"
+
+msgid "downloading_settings"
+msgstr "İndirme Ayarları"
+
+#, fuzzy
+msgid "dpro_accept_usr_agreement"
+msgstr "Accept Declaration of Data Protection?"
+
+#, fuzzy
+msgid "dpro_accept_usr_agreement_intro"
+msgstr "There is a new Declaration of Data Protection. You need to accept it before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page."
+
+#, fuzzy
+msgid "dpro_agreed_on"
+msgstr "DoDP agreed to on"
+
+#, fuzzy
+msgid "dpro_force_accept_usr_agreement"
+msgstr "You must accept the Declaration of Data Protection!"
+
+#, fuzzy
+msgid "dpro_no_agreement_description"
+msgstr "There is currently no Declaration of Data Protection document available for this installation. Please contact the <a href=\"%1$s\">system administrator</a>."
+
+#, fuzzy
+msgid "dpro_refuse_acceptance"
+msgstr "Refuse to Accept the Declaration of Data Protection"
+
+#, fuzzy
+msgid "dpro_usr_agreement"
+msgstr "Declaration of Data Protection"
+
+#, fuzzy
+msgid "dpro_usr_agreement_footer_intro"
+msgstr "You have declared your consent to this Declaration of Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_description"
+msgstr "Withdraw your consent to our Declaration of Data Protection here."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_description_external"
+msgstr "Please return to your ILIAS installation and log in again to complete the process of withdrawing your consent to the Declaration of Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_description_internal"
+msgstr "Please log in again to complete the process of withdrawing your consent to the Declaration of Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_header"
+msgstr "Withdraw to Consent of Declaration of Data Protection"
+
+#, fuzzy
+msgid "dpro_withdraw_consent_info"
+msgstr "Withdraw your consent to our Declaration of Data Protection."
+
+#, fuzzy
+msgid "dpro_withdraw_consent_info_external"
+msgstr "Please contact the administrator of your authentication system and inform them of your intention to withdraw your consent to the Declaration of Data Protection."
+
+msgid "drafts"
+msgstr "Taslaklar"
+
+#, fuzzy
+msgid "drag_file_here"
+msgstr "Drag-and-drop your file here"
+
+#, fuzzy
+msgid "drag_files_here"
+msgstr "Drag-and-drop your files here"
+
+#, fuzzy
+msgid "drag_handle"
+msgstr "Draggable element"
+
+#, fuzzy
+msgid "drop_files_on_repo_obj_info"
+msgstr "Drop the files here to upload them into this object."
+
+msgid "edit"
+msgstr "Edit"
+
+msgid "edit_assignments"
+msgstr "Düzenleme Atamalar"
+
+msgid "edit_cat_settings"
+msgstr "Gelişmiş Kategori Ayarları"
+
+msgid "edit_content"
+msgstr "İçerik Düzenle"
+
+msgid "edit_grouping"
+msgstr "Düzenle Üyelik Sınırlandırılması"
+
+#, fuzzy
+msgid "edit_metadata"
+msgstr "Edit Metadata"
+
+msgid "edit_operations"
+msgstr "Düzenleme İşlemleri"
+
+msgid "edit_page"
+msgstr "Sayfayı Düzenle"
+
+msgid "edit_page_content"
+msgstr "Sayfa Düzenle İçerik"
+
+#, fuzzy
+msgid "edit_page_meta"
+msgstr "Edit Page Metadata"
+
+msgid "edit_properties"
+msgstr "Özellikleri Düzenle"
+
+msgid "edit_stylesheet"
+msgstr "Stil Düzenleme"
+
+#, fuzzy
+msgid "edited_on"
+msgstr "Edited on"
+
+msgid "editor"
+msgstr "Editör"
+
+msgid "email"
+msgstr "E-Posta"
+
+msgid "email_not_valid"
+msgstr "Girdiğiniz e-posta adresi geçerli değil!"
+
+msgid "enable"
+msgstr "etkinleştir"
+
+msgid "enable_anonymous_fora"
+msgstr "Takma adla yazmaya izin ver"
+
+msgid "enable_anonymous_fora_desc"
+msgstr "Bu seçenek devre dışı bırakılırsa, forumlarda takma adla yazı yazılmasına izin verilmez"
+
+msgid "enable_calendar"
+msgstr "Takvimi Etkinleştir"
+
+#, fuzzy
+msgid "enable_comments_export"
+msgstr "Enable Comments Export"
+
+msgid "enable_course_group_notifications"
+msgstr "Gruplar ve Ders Haberleri için Günlük Bildirimler"
+
+msgid "enable_course_group_notifications_desc"
+msgstr "Etkinse, Katılımcılar günlük haber özetlerine abone olabilir."
+
+msgid "enable_custom_icons"
+msgstr "özel simgeler etkinleştir"
+
+msgid "enable_custom_icons_info"
+msgstr "Bu tek kategorileri, dersler ve gruplar için özel simgeler tanımlamanızı sağlar. Kategorileri, ders ve grupların özellikleri bölümünde yükleme iletişim bir görüntü sağlayacaktır."
+
+#, fuzzy
+msgid "enable_dnd_upload"
+msgstr "Enable drag-and-drop upload"
+
+#, fuzzy
+msgid "enable_dnd_upload_info"
+msgstr "Files can be uploaded with drag-and-drop from the local computer if enabled."
+
+msgid "enable_download_folder"
+msgstr "indirme Klasörler etkinleştir"
+
+msgid "enable_download_folder_info"
+msgstr "bir zip dosyası olarak alt yapılar içeren bir klasöre karşıdan yüklemenizi sağlar."
+
+#, fuzzy
+msgid "enable_export_scorm_desc"
+msgstr "allow Export of User Data of SCORM-Learning Modules"
+
+msgid "enable_fora_statistics"
+msgstr "Forum istatistiklerini etkinleştir"
+
+msgid "enable_fora_statistics_desc"
+msgstr "Devre dışı bırakıldığında kimse forum istatistiklerine erişemez."
+
+msgid "enable_hide_user_toggle"
+msgstr "üyesi devre dışı bırakmak için izin verilmez"
+
+#, fuzzy
+msgid "enable_multi_download"
+msgstr "«Download multiple objects» enabled"
+
+#, fuzzy
+msgid "enable_multi_download_info"
+msgstr "Enables that multiple folders/files can be selected to download them as zip archive."
+
+msgid "enable_password_assistance"
+msgstr "Şifre Yardımını Etkinleştir"
+
+#, fuzzy
+msgid "enable_preview"
+msgstr "Enable Preview"
+
+#, fuzzy
+msgid "enable_preview_info"
+msgstr "Enable this option to display preview images on supported file types."
+
+#, fuzzy
+msgid "enable_repository_dnd_upload"
+msgstr "Enable in Repository"
+
+#, fuzzy
+msgid "enable_repository_dnd_upload_info"
+msgstr "Enables that files can be dragged from the computer directly onto an object in the repository to start uploading the files into this object."
+
+msgid "enable_sahs_protocol_data"
+msgstr "Protokol Bilgisini Etkinleştir"
+
+msgid "enable_sahs_protocol_data_desc"
+msgstr "Protokol Bilgisi Göster (SCORM / AICC)"
+
+msgid "enable_search_engine"
+msgstr "Herkese açık alanı arama motorlarına açın(Örn:Google) <br /> Apache modülü \"mod_rewrite\" bu uzantı için gereklidir. htaccess konfigürasyonları için uygun yetkilere sahip olup olmadığınıza dikkat ediniz."
+
+msgid "enable_trash"
+msgstr "Çöpü Etkinleştir"
+
+msgid "enable_trash_info"
+msgstr "Etkinse, silinen nesneler çöpe taşınır ve daha sonra geri alınabilir. Bu seçenek devre dışı bırakıldığında nesneler sistemden hemen silinir!"
+
+msgid "enable_webdav"
+msgstr "WebDAV erişimi etkinleştir"
+
+msgid "enable_webdav_info"
+msgstr "WebDAV istemcileri bir webfolder olarak depo erişmek için izin verir. Kullanıcılar, veya WebDAV istemci aşağıdaki adrese girerek depo \"webfolder gibi açık\" eylemini kullanarak webfolders açabilirsiniz: <a href=\"%1$s\" folder=\"%1$s\">% 1 $ s </ a>"
+
+msgid "enabled"
+msgstr "Etkin"
+
+#, fuzzy
+msgid "enlarge"
+msgstr "Enlarge"
+
+msgid "enter_in_mb_desc"
+msgstr "MB cinsinden bir değer girin."
+
+#, fuzzy
+msgid "enter_new_name"
+msgstr "Please enter a name"
+
+#, fuzzy
+msgid "entered_notification"
+msgstr "\"%s\" has joined the session \"%s\"."
+
+#, fuzzy
+msgid "entry_status"
+msgstr "Entry status"
+
+msgid "err_1_param"
+msgstr "Sadece 1 parametresi!"
+
+msgid "err_2_param"
+msgstr "Sadece 2 parametresi!"
+
+msgid "err_auth_apache_failed"
+msgstr "Kimlik doğrulama başarısız oldu. Belki hiçbir geçerli kullanıcı sertifikası ya da akıllı kart takılı değil."
+
+msgid "err_auth_ldap_no_ilias_user"
+msgstr "Oturum açılamadı. LDAP kimlik doğrulaması başarılı, ancak ilgili ILIAS kullanıcı bulunmadığı. Sistem yöneticinize başvurun."
+
+msgid "err_auth_mode_inactive"
+msgstr "Kimlik doğrulama yöntemi devre dışı bırakılır."
+
+msgid "err_auth_soap_no_ilias_user"
+msgstr "Oturum açılamadı. SOAP kimlik doğrulaması başarılı, ancak ilgili ILIAS kullanıcı bulunmadığı. Sistem yöneticinize başvurun."
+
+msgid "err_check_input"
+msgstr "ayarları kaydedilemedi. Lütfen girişinizi kontrol edin."
+
+msgid "err_count_param"
+msgstr "Sebep: Yanlış parametre sayısı"
+
+#, fuzzy
+msgid "err_disabled"
+msgstr "Account creation via Shibboleth has been disabled. Please contact the system administrator for further information."
+
+#, fuzzy
+msgid "err_double_entries"
+msgstr "Reason: Duplicate Entries"
+
+msgid "err_in_line"
+msgstr "Doğrultusunda Hatası"
+
+msgid "err_inactive"
+msgstr "Bu hesap aktif değil. Erişim için sistem yöneticinize başvurun."
+
+#, fuzzy
+msgid "err_inactive_login_attempts"
+msgstr "Your user account has been deactivated due too many failed login attempts. Click 'Contact Technical Support' at the footer of this page to notify the administrator about the need to re-activate your account. "
+
+msgid "err_invalid_port"
+msgstr "Geçersiz port numarası"
+
+msgid "err_no_cookies"
+msgstr "tarayıcınızda oturum çerezlerini etkinleştirin!"
+
+msgid "err_no_langfile_found"
+msgstr "dil dosyası yok mu!"
+
+msgid "err_no_param"
+msgstr "Hiçbir parametre!"
+
+msgid "err_over_3_param"
+msgstr "3 parametre daha daha fazla!"
+
+msgid "err_role_not_assignable"
+msgstr "Bu konumda bu role kullanıcılar atayamazsınız"
+
+msgid "err_session_expired"
+msgstr "Oturumunuz zaman aşımına uğradı !"
+
+#, fuzzy
+msgid "err_valid_login_account_creation_disabled"
+msgstr "Authentication succeeded, but the creation of new user accounts is currently disabled. Please contact your system administrator."
+
+msgid "err_wrong_header"
+msgstr "Sebep: Yanlış başlık."
+
+msgid "err_wrong_login"
+msgstr "Kullanıcı adı veya şifre yanlış"
+
+msgid "err_wrong_password"
+msgstr "Yanlış Şifre"
+
+msgid "error"
+msgstr "Hatası"
+
+#, fuzzy
+msgid "error_empty_file_or_folder"
+msgstr "The file size is 0 bytes or it is a folder."
+
+#, fuzzy
+msgid "error_extraction_failed"
+msgstr "The extraction of the archive and its directories failed. Probably because you don't have the rights to create folders or categories within this object."
+
+msgid "error_parser"
+msgstr "Ayrıştırıcı başlayarak Hatası."
+
+#, fuzzy
+msgid "error_upload_was_zero_bytes"
+msgstr "The upload failed as this is a folder, the file size is 0 bytes or the file was renamed meanwhile."
+
+msgid "etal_talks"
+msgstr "Talks"
+
+msgid "event_ass_materials_prop"
+msgstr "Oturum Malzemeleri"
+
+msgid "event_assign_files"
+msgstr "Dosya Atama"
+
+msgid "exc"
+msgstr "Egzersiz"
+
+msgid "exc_add"
+msgstr "Ekleme Egzersiz"
+
+msgid "exc_added"
+msgstr "Egzersiz eklendi"
+
+msgid "exc_date_not_valid"
+msgstr "Bu tarih geçersiz"
+
+msgid "exc_deassign_members"
+msgstr "kaldırma katılımcı (lar)"
+
+msgid "exc_download_files"
+msgstr "Dosyaları İndirin"
+
+msgid "exc_edit"
+msgstr "Oluşturulan Yeni egzersiz"
+
+msgid "exc_edit_exercise"
+msgstr "Edit egzersiz"
+
+msgid "exc_edit_until"
+msgstr "Edit kadar"
+
+msgid "exc_exercise_sent"
+msgstr "Gönderilmiş Egzersiz"
+
+msgid "exc_files"
+msgstr "Dosyalar"
+
+msgid "exc_files_returned"
+msgstr "Ekleyen Dosyalar"
+
+msgid "exc_instruction"
+msgstr "İş Talimatları"
+
+msgid "exc_last_submission"
+msgstr "Son Başvuru"
+
+#, fuzzy
+msgid "exc_member_of_crs_grp"
+msgstr "Member in Course/Group"
+
+msgid "exc_members_already_assigned"
+msgstr "Bu kullanıcı zaten bu görevin diğer takımların atanır"
+
+msgid "exc_members_assigned"
+msgstr "Atanan Üye"
+
+msgid "exc_members_comments_saved"
+msgstr "Seçilen kullanıcı için egzersiz açıklamaları kaydedilir oylandı"
+
+msgid "exc_new"
+msgstr "Yeni Egzersiz"
+
+msgid "exc_next_deadline"
+msgstr "Sonraki Son Başvuru Tarihi"
+
+msgid "exc_obj"
+msgstr "Egzersiz"
+
+msgid "exc_save_changes"
+msgstr "Kaydet"
+
+msgid "exc_schedule"
+msgstr "Program"
+
+msgid "exc_select_one_file"
+msgstr "tam bir dosya seçin."
+
+msgid "exc_sent"
+msgstr "egzersiz seçilen kullanıcılara gönderildi"
+
+msgid "exc_sent_at"
+msgstr "<br />% s Gönderilmiş"
+
+msgid "exc_status"
+msgstr "Durumu"
+
+msgid "exc_status_saved"
+msgstr "Egzersiz güncellendi"
+
+msgid "exc_submission"
+msgstr "Gönderim"
+
+msgid "exc_time_over_short"
+msgstr "Zaman doldu."
+
+msgid "exc_time_to_send"
+msgstr "Kalan Çalışma Süresi"
+
+msgid "exc_upload_error"
+msgstr "Hata yükleme dosyası"
+
+msgid "excs"
+msgstr "Egzersizleri"
+
+msgid "execute"
+msgstr "Çalıştır"
+
+msgid "exercise_time_over"
+msgstr "Bu egzersiz tamamlamak için ayrılan zamanı bitti. Dosyalar artık teslim edilemez!"
+
+msgid "expand"
+msgstr "Genişlet"
+
+msgid "expand_all"
+msgstr "Tümünü Genişlet"
+
+#, fuzzy
+msgid "expand_content"
+msgstr "Expand Content"
+
+msgid "expanded"
+msgstr "Expanded"
+
+msgid "export"
+msgstr "Dışa Aktar"
+
+msgid "export_format"
+msgstr "Dışa Aktarma Formatı"
+
+msgid "export_html"
+msgstr "HTML dosyası olarak dışarı aktar"
+
+msgid "ext_cat_settings"
+msgstr "Düzen Gelişmiş Kategori Ayarları"
+
+msgid "ext_link"
+msgstr "Bağlantı"
+
+#, fuzzy
+msgid "extracting"
+msgstr "Extracting..."
+
+#, fuzzy
+msgid "eyeclosed"
+msgstr "Eye Closed - Click to hide the input's contents"
+
+#, fuzzy
+msgid "eyeopened"
+msgstr "Eye Open - Click to reveal the input's contents"
+
+msgid "failure_message"
+msgstr "Hata Mesajı"
+
+msgid "fax"
+msgstr "Faks"
+
+msgid "feed"
+msgstr "Web Beslemesi"
+
+msgid "feedback"
+msgstr "Geri Bildirim"
+
+msgid "field_name"
+msgstr "Alan Adı"
+
+msgid "field_type"
+msgstr "Alan Türü"
+
+msgid "file"
+msgstr "Dosya"
+
+msgid "file_add"
+msgstr "Dosya Yükle"
+
+msgid "file_add_and_metadata"
+msgstr "Dosya Yükle ve Metaveri Düzenle"
+
+msgid "file_added"
+msgstr "Dosya yüklenemedi"
+
+msgid "file_allowed_suffixes"
+msgstr "İzin verilen dosya türleri:"
+
+#, fuzzy
+msgid "file_confirm_delete_all_versions"
+msgstr "You selected all file versions. This will delete the whole file object. Do you want to continue?"
+
+#, fuzzy
+msgid "file_confirm_delete_versions"
+msgstr "Are you sure to delete the following file versions?"
+
+msgid "file_created"
+msgstr "Dosya eklendi."
+
+msgid "file_edit"
+msgstr "Dosya Düzen ve Yeni Sürümü Yükle"
+
+msgid "file_info"
+msgstr "Dosya Bilgileri"
+
+msgid "file_is_infected"
+msgstr "dosya bir virüs bulaşmıştır."
+
+#, fuzzy
+msgid "file_new"
+msgstr "New File"
+
+#, fuzzy
+msgid "file_no_valid_file_type"
+msgstr "This file type is not allowed."
+
+msgid "file_not_found"
+msgstr "Dosya Bulunamadı"
+
+#, fuzzy
+msgid "file_not_found_sec"
+msgstr "This file cannot be found in ILIAS or has been blocked due to security reasons."
+
+msgid "file_not_valid"
+msgstr "Geçerli değil İçerik!"
+
+msgid "file_notice"
+msgstr "Maksimum yükleme boyutu:"
+
+#, fuzzy
+msgid "file_objects"
+msgstr "File Objects"
+
+#, fuzzy
+msgid "file_rollback"
+msgstr "Make this the current version"
+
+#, fuzzy
+msgid "file_rollback_done"
+msgstr "File version %s is now the current version."
+
+#, fuzzy
+msgid "file_rollback_select_exact_one"
+msgstr "Only one file version can be selected to make it the current version."
+
+#, fuzzy
+msgid "file_some_invalid_file_types_removed"
+msgstr "Some file types are not allowed and have been removed."
+
+msgid "file_suffix_repl"
+msgstr "Yüklenen Dosya Uzantısını Değiştir"
+
+msgid "file_suffix_repl_info"
+msgstr "Bu dosya uzantısına sahip dosyalar (virgülle ayrılmış), yüklendiği taktirde “.sec” dosya uzantısı ile yeniden adlandırılacaktır. Bu işlem şu dosya uzantıları için otomatik yapılır:"
+
+#, fuzzy
+msgid "file_system_clean_temp_dir_cron"
+msgstr "Clean temp directory"
+
+#, fuzzy
+msgid "file_system_clean_temp_dir_cron_info"
+msgstr "This job cleans the ILIAS temp-directory of files, which are older than 10 days. This counteracts the accumulation of unused files and therefore prevents an increased use of disk space by the temp directory."
+
+msgid "file_updated"
+msgstr "Dosya güncellendi."
+
+msgid "file_upload_pending"
+msgstr "Beklemede dosyası"
+
+msgid "file_valid"
+msgstr "Dosya geçerli!"
+
+msgid "file_version"
+msgstr "Dosya Sağlanan Sürüm"
+
+#, fuzzy
+msgid "file_version_create"
+msgstr "Initial version"
+
+#, fuzzy
+msgid "file_version_intermediate_version"
+msgstr "Intermediate Version"
+
+#, fuzzy
+msgid "file_version_new_version"
+msgstr "New version"
+
+#, fuzzy
+msgid "file_version_published_version"
+msgstr "Published Version"
+
+#, fuzzy
+msgid "file_version_replace"
+msgstr "All versions replaced"
+
+#, fuzzy
+msgid "file_version_rollback"
+msgstr "Rollback to version %s from %s"
+
+#, fuzzy
+msgid "file_versions_deleted"
+msgstr "The selected file versions were successfully deleted."
+
+msgid "filename"
+msgstr "Dosya Adı"
+
+msgid "filename_extension_missing"
+msgstr "Eksik Dosya adı uzantısı"
+
+msgid "filename_hidden_backup_file"
+msgstr "Gizli yedekleme dosyası"
+
+msgid "filename_hidden_unix_file"
+msgstr "Gizli Unix dosya"
+
+msgid "filename_interoperability"
+msgstr "Çalışabilirlik"
+
+msgid "filename_special_characters"
+msgstr "Karakter / bu nesneyi nedeniylewebfolders görünmez"
+
+msgid "filename_special_filename"
+msgstr "Adları ile Nesne. ve .. webfolders görünmez"
+
+msgid "filename_visibility"
+msgstr "Görüş"
+
+msgid "filename_windows_empty_extension"
+msgstr "Karakteri nedeniyle adının sonunda bu nesne, Windows webfolders görünmez"
+
+msgid "filename_windows_special_characters"
+msgstr "*: \\ / Karakterlerinden biri nedeniyle ? \"<> | Bu nesne, Windows webfolders görünmez"
+
+msgid "filename_windows_webdav_issue"
+msgstr "karakteri nedeniyle # bu nesne, Windows webfolders görünmez"
+
+msgid "files"
+msgstr "Dosyalar"
+
+msgid "filesize"
+msgstr "Dosya Boyutu"
+
+msgid "filetype"
+msgstr "Dosya Türü"
+
+msgid "fill_out_all_required_fields"
+msgstr "Lütfen tüm zorunlu alanları doldurun"
+
+msgid "filter"
+msgstr "Filtre"
+
+msgid "filter_users_with_access"
+msgstr "Erişimi Sadece kullanıcılar"
+
+msgid "filter_users_with_disk_usage"
+msgstr "Kullanılan disk alanı ile Sadece kullanıcılar"
+
+msgid "filter_users_without_access"
+msgstr "Erişimi olmayan Sadece kullanıcılar"
+
+msgid "filter_users_without_disk_usage"
+msgstr "Kullanılmayan disk alanı ile Sadece kullanıcılar"
+
+msgid "first"
+msgstr "İlk"
+
+msgid "firstname"
+msgstr "Ad"
+
+msgid "flatview"
+msgstr "Kenar Çubuğunu Gizle"
+
+msgid "fold"
+msgstr "Klasör"
+
+msgid "fold_add"
+msgstr "Klasör Ekle"
+
+msgid "fold_added"
+msgstr "Klasör eklendi"
+
+#, fuzzy
+msgid "fold_copy_threads_info"
+msgstr "Please decide which materials should be copied, linked or even omitted."
+
+msgid "fold_edit"
+msgstr "Düzenleme Klasör"
+
+msgid "fold_new"
+msgstr "Yeni Klasör"
+
+#, fuzzy
+msgid "fold_wizard_page"
+msgstr "Copy Folder (Step 2/2)"
+
+msgid "folder"
+msgstr "Klasör"
+
+msgid "folders"
+msgstr "Klasörler"
+
+msgid "follow_link_to_read_mails"
+msgstr "Bu e-postaları okumak için aşağıdaki bağlantıya tıklatın:"
+
+msgid "forgot_password"
+msgstr "Şifrenizi mi unuttunuz?"
+
+msgid "forgot_username"
+msgstr "Adınızı mı unuttunuz?"
+
+msgid "form_input_not_valid"
+msgstr "Bazı veriler eksik veya geçerli değil. Form girdilerini kontrol ediniz."
+
+msgid "forum"
+msgstr "Forum"
+
+msgid "forum_direct_notification"
+msgstr "Doğrudan Bildirim"
+
+msgid "forum_notify_me"
+msgstr "Bir yanıt gönderdi olduğunda bana bildir"
+
+msgid "forum_post_replied"
+msgstr "Sizin foruma girisi cevap olmuştur."
+
+msgid "forums"
+msgstr "Forumu"
+
+msgid "forums_anonymized"
+msgstr "Forum anonim"
+
+msgid "forums_anonymous"
+msgstr "anonym"
+
+msgid "forums_articles"
+msgstr "Makaleler"
+
+#, fuzzy
+msgid "forums_closed"
+msgstr "closed"
+
+msgid "forums_disable_forum_notification"
+msgstr "bu Forum için bildirim devre dışı bırakma"
+
+msgid "forums_enable_forum_notification"
+msgstr "Bu Forumu Etkinleştir Bildirim"
+
+msgid "forums_forum_notification_enabled"
+msgstr "Bu forumda yeni mesajları haberdar edilecektir."
+
+msgid "forums_last_post"
+msgstr "Yeni Makale"
+
+#, fuzzy
+msgid "forums_last_posting_asc"
+msgstr "Last Post Ascending"
+
+#, fuzzy
+msgid "forums_last_posting_dsc"
+msgstr "Last Post Descending"
+
+msgid "forums_notification_settings"
+msgstr "Forum Bildirim Ayarları"
+
+#, fuzzy
+msgid "forums_rating_asc"
+msgstr "Rating Ascending"
+
+#, fuzzy
+msgid "forums_rating_dsc"
+msgstr "Rating Descending"
+
+#, fuzzy
+msgid "forums_thread_sorting_asc"
+msgstr "Thread Title A→Z"
+
+#, fuzzy
+msgid "forums_thread_sorting_dsc"
+msgstr "Thread Title Z→A"
+
+msgid "forums_threads"
+msgstr "Başlıklar"
+
+msgid "forums_use_alias"
+msgstr "Yazınız için bir takma ad kullanabilirsiniz. Bu alanı boş bırakırsanız, yazınız 'anonym' tarafından yazılmış olarak işaretlenecektir."
+
+msgid "forums_your_name"
+msgstr "Adınız"
+
+msgid "frm"
+msgstr "Forumu"
+
+msgid "frm_add"
+msgstr "Ekle Forum"
+
+msgid "frm_added"
+msgstr "Forumu eklendi"
+
+msgid "frm_edit"
+msgstr "Düzenleme Forumu"
+
+#, fuzzy
+msgid "frm_import"
+msgstr "Import Forum"
+
+msgid "frm_latest_postings"
+msgstr "Son Makaleler"
+
+#, fuzzy
+msgid "frm_latest_postings_block"
+msgstr "Latest Posts Block"
+
+msgid "frm_new"
+msgstr "Yeni Forum"
+
+#, fuzzy
+msgid "frm_no_threads"
+msgstr "There are no threads available at the moment."
+
+msgid "from"
+msgstr "Gönderen"
+
+msgid "fullname"
+msgstr "Tam adı"
+
+msgid "functions"
+msgstr "İşlevler"
+
+msgid "further_informations"
+msgstr "Ayrıntılı Bilgi"
+
+msgid "gdf_add"
+msgstr "Ekleme Tanımı"
+
+msgid "gdf_new"
+msgstr "Yeni Tanım"
+
+msgid "gender"
+msgstr "Cinsiyet"
+
+msgid "gender_f"
+msgstr "Bayan"
+
+msgid "gender_m"
+msgstr "Erkek"
+
+#, fuzzy
+msgid "gender_n"
+msgstr "No salutation desired"
+
+#, fuzzy
+msgid "general"
+msgstr "General"
+
+msgid "general_settings"
+msgstr "Genel Ayarlar"
+
+msgid "generate"
+msgstr "üret"
+
+#, fuzzy
+msgid "ghostscript_not_configured"
+msgstr "Ghostscript is not configured. Please open the <a href=\"cli/setup.php?cmd=mastersettings\" target=\"_blank\">Setup</a> to configure it."
+
+msgid "glo"
+msgstr "Sözlük"
+
+msgid "glo_add"
+msgstr "Ekleme Sözlük"
+
+msgid "glo_added"
+msgstr "Sözlük eklendi"
+
+msgid "glo_import"
+msgstr "Sözlük İçe Aktar"
+
+msgid "glo_mode"
+msgstr "Mod"
+
+msgid "glo_mode_desc"
+msgstr "Bir sanal sözlüğü normal bir sözlük gibi çalışır. Ayrıca bu sanal sözlük (alt ağaç) ve pozisyon deposunda aşağı bulunan tüm sözlükler sırasıyla sanal sözlük (seviye) gibi depo aynı seviyede bulunan tüm sözlükler gelen terimleri içerir."
+
+msgid "glo_mode_normal"
+msgstr "Normal"
+
+msgid "glo_new"
+msgstr "Yeni Sözlük"
+
+msgid "global"
+msgstr "Genel"
+
+msgid "global_default"
+msgstr "Genel Standart"
+
+msgid "global_fixed"
+msgstr "Global Sabit"
+
+#, fuzzy
+msgid "global_role_assignment"
+msgstr "Globale Rollenzuweisung"
+
+msgid "global_settings"
+msgstr "Global ayarları"
+
+msgid "global_user"
+msgstr "Genel kullanıcılar"
+
+msgid "glossaries"
+msgstr "Sözlükler"
+
+msgid "glossary"
+msgstr "Sözlük"
+
+msgid "go"
+msgstr "Go"
+
+#, fuzzy
+msgid "grade"
+msgstr "Grade"
+
+msgid "group"
+msgstr "Grubu"
+
+msgid "group_members"
+msgstr "Grubu Üyeleri"
+
+msgid "group_name"
+msgstr "Grup Adı"
+
+msgid "group_new_registrations"
+msgstr "İstekleri katılın"
+
+msgid "group_password_registration_msg"
+msgstr "Eğer grup parolasını biliyorsanızbu gruba katılabilirsiniz. Eğer şifrenizi bilmiyorsanız, bir grup yöneticisine başvurun."
+
+msgid "group_registration"
+msgstr "Kayıt"
+
+msgid "group_registration_mode"
+msgstr "Kayıt Prosedürü"
+
+msgid "group_registration_time"
+msgstr "Kayıt Dönemi"
+
+msgid "group_req_direct"
+msgstr "doğrudan katılın"
+
+msgid "group_req_registration_msg"
+msgstr "Bu grup için üyelik talebinde bulunabilirsiniz. Bir grup yöneticisi isteğinizi kabul veya düştüğünde bir mesaj alacaksınız."
+
+msgid "group_status"
+msgstr "Grubu"
+
+msgid "groupings"
+msgstr "Üyelik Sınırlamaları"
+
+msgid "groupings_assigned_obj_crs"
+msgstr "Atanmış Dersler"
+
+msgid "groupings_assigned_obj_grp"
+msgstr "Atanan Gruplar"
+
+#, fuzzy
+msgid "groupings_source"
+msgstr "Source"
+
+msgid "groups"
+msgstr "Gruplar"
+
+msgid "grp"
+msgstr "Grubu"
+
+msgid "grp_add"
+msgstr "Grup Ekle"
+
+msgid "grp_added"
+msgstr "Grup eklendi"
+
+msgid "grp_btn_unsubscribe"
+msgstr "Grup itibaren çık"
+
+msgid "grp_cancel_waiting_list"
+msgstr "Gerçekten \"% s\" grubu bekleme listesine kendinizi kaldırmak istiyor musunuz?"
+
+msgid "grp_copy_threads_info"
+msgstr "Lütfen hangi malzemeler bağlantılı, kopyalanamaz, hatta göz ardı edilecek karar."
+
+msgid "grp_deleted_export_files"
+msgstr "Seçilen dosyaları silinmiş."
+
+msgid "grp_dismiss_member"
+msgstr "Eğer gruptan aşağıdaki üye (ler) göz ardı etmek istediğinizden emin misiniz?"
+
+msgid "grp_dismiss_myself"
+msgstr "Eğer gruba ayrılmak istediğinizden emin misiniz?"
+
+msgid "grp_edit"
+msgstr "Grubu Düzenle"
+
+msgid "grp_err_administrator_required"
+msgstr "üyesi grup başına en az bir yönetici gereklidir, kaldırılır olamazdı!"
+
+msgid "grp_header_edit_members"
+msgstr "Üyeleri düzenle"
+
+#, fuzzy
+msgid "grp_list_members"
+msgstr "List members"
+
+#, fuzzy
+msgid "grp_list_reg"
+msgstr "Registration"
+
+msgid "grp_list_reg_end"
+msgstr "Kayıt Sonu"
+
+msgid "grp_list_reg_limit_full"
+msgstr "Kalan Resim yerler"
+
+msgid "grp_list_reg_limit_places"
+msgstr "Ücretsiz yerleri"
+
+msgid "grp_list_reg_noreg"
+msgstr "Kayıt Kapalı"
+
+msgid "grp_list_reg_period"
+msgstr "Kayıt Dönemi"
+
+msgid "grp_list_reg_start"
+msgstr "Kayıt Başlayan"
+
+msgid "grp_list_users"
+msgstr "Liste kullanıcılar"
+
+msgid "grp_mem_change_status"
+msgstr "Değişim Katılımcı Durumu"
+
+msgid "grp_mem_send_mail"
+msgstr "Gönder Katılımcılar Mesaj"
+
+msgid "grp_members_gallery"
+msgstr "Grup Üyeleri Galeri"
+
+msgid "grp_msg_applicants_assigned"
+msgstr "Başvuru (ler) grubu üyesi (ler) olarak atanan"
+
+msgid "grp_msg_member_assigned"
+msgstr "Kullanıcı (lar) grubuna üye (ler) olarak atanan"
+
+msgid "grp_msg_membership_annulled"
+msgstr "üyeliği iptal edildi."
+
+msgid "grp_new"
+msgstr "Yeni Grup"
+
+msgid "grp_registration"
+msgstr "Gruba Katıl"
+
+msgid "grp_registration_completed"
+msgstr "Gruba katıldı"
+
+msgid "grp_removed_from_waiting_list"
+msgstr "Siz \"% s\" grubu bekleme listesi kopuk edilmiştir."
+
+msgid "grp_select_one_file"
+msgstr "Bir dosya seçiniz."
+
+msgid "grp_wizard_page"
+msgstr "kopyalama Grup (Aşama 2/2)"
+
+#, fuzzy
+msgid "grpr"
+msgstr "Group Reference"
+
+#, fuzzy
+msgid "grpr_add"
+msgstr "Add Group Link"
+
+#, fuzzy
+msgid "grpr_edit"
+msgstr "Edit Group Reference"
+
+#, fuzzy
+msgid "grpr_edit_info"
+msgstr "Please choose one group, for creating a new reference."
+
+#, fuzzy
+msgid "grpr_new"
+msgstr "Create Group Reference"
+
+#, fuzzy
+msgid "grpr_settings"
+msgstr "Group Link Settings"
+
+#, fuzzy
+msgid "header_action"
+msgstr "Insert Heading - Click to insert a heading."
+
+msgid "header_searchable"
+msgstr "Aranabilir"
+
+msgid "header_title"
+msgstr "Sayfa Başlığı"
+
+msgid "header_visible_registration"
+msgstr "Kayıtta Görünsün"
+
+msgid "header_zip"
+msgstr "Multiple Files Zip-Arşiv olarak yükle"
+
+msgid "height"
+msgstr "Yükseklik"
+
+msgid "help"
+msgstr "Yardımı"
+
+msgid "hide"
+msgstr "gizle"
+
+#, fuzzy
+msgid "hide_all_details"
+msgstr "Hide all details"
+
+msgid "hide_details"
+msgstr "Ayrıntıları Gizle"
+
+msgid "hide_filter"
+msgstr "Gizle"
+
+msgid "hide_own_online_status"
+msgstr "Çevrimiçi Durumumu Gizle"
+
+#, fuzzy
+msgid "hide_visible_sections"
+msgstr "Hide More Information &raquo;"
+
+msgid "hint"
+msgstr "İpucu"
+
+msgid "history"
+msgstr "Geçmiş"
+
+msgid "hobby"
+msgstr "İlgi Alanları / Hobiler"
+
+msgid "home"
+msgstr "Herkese Açık Alan"
+
+msgid "host"
+msgstr "Sunucu"
+
+msgid "hour"
+msgstr "Saat"
+
+msgid "hours"
+msgstr "Saat (ler)"
+
+msgid "htlm"
+msgstr "Öğrenim Modülü HTML"
+
+msgid "htlm_add"
+msgstr "HTML Öğrenme Modülü ekle"
+
+msgid "htlm_new"
+msgstr "Yeni HTML Öğrenme Modülü"
+
+msgid "http"
+msgstr "HTTP"
+
+msgid "http_not_possible"
+msgstr "Bu sunucu http isteklerini destekleyen değildir."
+
+msgid "http_path"
+msgstr "HTTP Yolu"
+
+msgid "https_not_possible"
+msgstr "Bu sunucu HTTPS Connnections destekleyen değildir."
+
+msgid "i2passwd"
+msgstr "ILIAS 2 şifre"
+
+#, fuzzy
+msgid "iass_import"
+msgstr "Import Individual Assessment"
+
+#, fuzzy
+msgid "iass_new"
+msgstr "Create Individual Assessment"
+
+msgid "icon"
+msgstr "Simge"
+
+msgid "icon_settings"
+msgstr "Simge Ayarları"
+
+msgid "id"
+msgstr "ID"
+
+msgid "identifier"
+msgstr "Tanımlayıcı"
+
+msgid "if_no_title_then_filename"
+msgstr "başlık olarak dosya adını kullanmak için boş bırakın."
+
+msgid "ignore_on_conflict"
+msgstr "çatışma yoksay"
+
+msgid "ignore_required_fields"
+msgstr "Zorunlu Alanları Yoksay"
+
+msgid "ignore_required_fields_info"
+msgstr "Aktifse, bu form gönderildikten sonra zorunlu alanlar artık kontrol edilmez. İlgili kullanıcı bir sonraki girişinde kişisel profilini tamamlamak zorundadır."
+
+#, fuzzy
+msgid "il_astpl_loc_initial"
+msgstr "Initial Test"
+
+#, fuzzy
+msgid "il_astpl_loc_qualified"
+msgstr "Qualifying Test"
+
+msgid "il_blog_contributor"
+msgstr "Blog Katılımcı"
+
+#, fuzzy
+msgid "il_blog_editor"
+msgstr "Blog-Editor"
+
+msgid "il_chat_moderator"
+msgstr "Sohbet Moderatör"
+
+msgid "il_crs_admin"
+msgstr "Ders Yöneticisi"
+
+msgid "il_crs_member"
+msgstr "Ders Üyesi"
+
+msgid "il_crs_non_member"
+msgstr "Üye olmayan Kursu"
+
+msgid "il_crs_tutor"
+msgstr "Ders Eğitmeni"
+
+msgid "il_frm_moderator"
+msgstr "Forum moderatör"
+
+msgid "il_grp_admin"
+msgstr "Grup Yöneticisi"
+
+msgid "il_grp_member"
+msgstr "Grubu Üyesi"
+
+msgid "il_grp_status_closed"
+msgstr "Grup kapatıldı"
+
+msgid "il_grp_status_open"
+msgstr "Grubu açık"
+
+#, fuzzy
+msgid "il_iass_member"
+msgstr "Participant"
+
+#, fuzzy
+msgid "il_lso_admin"
+msgstr "Learning Sequence Admin"
+
+#, fuzzy
+msgid "il_lso_member"
+msgstr "Learning Sequence Member"
+
+#, fuzzy
+msgid "il_lti_instructor"
+msgstr "LTI Instructor"
+
+#, fuzzy
+msgid "il_lti_learner"
+msgstr "LTI Learner"
+
+#, fuzzy
+msgid "il_lti_user"
+msgstr "LTI User"
+
+#, fuzzy
+msgid "il_orgu_employee"
+msgstr "Employee"
+
+#, fuzzy
+msgid "il_orgu_superior"
+msgstr "Superior"
+
+msgid "ilias_version"
+msgstr "ILIAS sürümü"
+
+msgid "image"
+msgstr "Görüntü"
+
+msgid "import"
+msgstr "İçe Aktar"
+
+msgid "import_cat_localrol"
+msgstr "her yeni kategori için yerel bir rol oluşturun"
+
+msgid "import_cat_table"
+msgstr "Onay kutusu ayarlanmışsa Aşağıdaki tablo sadece anlamlıdır"
+
+msgid "import_categories"
+msgstr "Kategorileri İçe Aktar"
+
+msgid "import_failure_log"
+msgstr "Başarısız olan işlemlerin listesini içeri aktar"
+
+msgid "import_file"
+msgstr "Dosya İçe Aktar"
+
+msgid "import_file_not_valid_here"
+msgstr "İçe aktarma dosyası geçersiz."
+
+msgid "import_finished"
+msgstr "Alınan iletilerin sayısı."
+
+msgid "import_lm"
+msgstr "ILIAS Öğrenme Modülü İçe Aktar"
+
+msgid "import_qpl"
+msgstr "Test Soru Havuzu İçe Aktar"
+
+msgid "import_questions_into_qpl"
+msgstr "Soruları soru havuzuna aktar"
+
+msgid "import_sahs"
+msgstr "SCORM / AICC Paketi İçe Aktar"
+
+#, fuzzy
+msgid "import_sahs_info"
+msgstr "To correct typos or images, use the option to replace individual files via the file directory. Upload a SCORM export from your authoring tool here and not an ILIAS export file. Make sure that your authoring tool has retained the IDs in the manifest file. Attention: Even popular authoring tools cannot do this. SCORM learning modules of certain authoring tools discard learner data obtained if you change the number of answer options of questions or insert new questions. Check in a test installation whether learning statuses that have already been achieved are possible when learning modules that have already been started are called up again."
+
+#, fuzzy
+msgid "import_sahs_new"
+msgstr "Import New Version of SCORM Package"
+
+msgid "import_svy"
+msgstr "Anket İçe Aktar"
+
+msgid "import_tst"
+msgstr "Test İçe Aktar"
+
+msgid "import_users"
+msgstr "Kullanıcıları İçe Aktar"
+
+msgid "import_warning_log"
+msgstr "Uyarı günlüğünü içe aktar"
+
+msgid "important"
+msgstr "Önemli"
+
+msgid "imported"
+msgstr "ithal"
+
+msgid "imprint"
+msgstr "Künye"
+
+msgid "in"
+msgstr "yılında"
+
+msgid "in_use"
+msgstr "Kullanıcı Dil"
+
+msgid "in_use_by"
+msgstr "Kullanım sırasında ile"
+
+msgid "inactive"
+msgstr "İnaktif"
+
+msgid "inbox"
+msgstr "Gelen Kutusu"
+
+msgid "include_local"
+msgstr "Dil güncellerken yerel dil dosyası bulunmaktadır"
+
+msgid "info"
+msgstr "Bilgi"
+
+msgid "info_access_and_status_info"
+msgstr "Erişim ve Durum Bilgileri"
+
+msgid "info_access_permissions"
+msgstr "Erişim izinleri"
+
+msgid "info_activate_sure"
+msgstr "Eğer aktif kullanıcı (lar) olarak aşağıdaki kullanıcı (lar) onaylamak istediğinizden emin misiniz?"
+
+msgid "info_assign_sure"
+msgstr "aşağıdaki kullanıcı (lar) atamak istediğinizden emin misiniz?"
+
+msgid "info_assigned"
+msgstr "atanan"
+
+msgid "info_available_roles"
+msgstr "Mevcut rolleri"
+
+msgid "info_change_user_view"
+msgstr "Kullanıcı Değiştir"
+
+msgid "info_deactivate_sure"
+msgstr "Eğer aktif kullanıcı (lar) olarak aşağıdaki kullanıcı (lar) tasvip etmek istediğinizden emin misiniz?"
+
+msgid "info_delete_sure"
+msgstr "Aşağıdaki öğeleri silmek istediğinizden emin misiniz?"
+
+msgid "info_delete_warning_no_trash"
+msgstr "(UYARI: Seçilmiş Nesneler Sistemi geri dönülmez silinecektir ve artık geri alınamaz olabilir)"
+
+msgid "info_deleted"
+msgstr "Nesne (ler) Silindi"
+
+msgid "info_err_user_not_exist"
+msgstr "Bu oturum açma adı veya user_id ile Kullanıcı mevcut değil"
+
+msgid "info_from_role"
+msgstr "Rol / Sahip"
+
+msgid "info_is_member"
+msgstr "Kullanıcı üyesidir"
+
+msgid "info_is_not_member"
+msgstr "Kullanıcı üye değildir"
+
+msgid "info_message"
+msgstr "Bilgi Mesaj"
+
+msgid "info_not_assigned"
+msgstr "atanmamış"
+
+msgid "info_owner_of_object"
+msgstr "Nesne sahibi"
+
+msgid "info_permission_origin"
+msgstr "Orijinal Pozisyon"
+
+msgid "info_permission_source"
+msgstr "* Yetki Kaynağı"
+
+msgid "info_remark_interrupted"
+msgstr "Bu konumda rol yarıda kesildi. Rolun etkin haldeki varsayılan yetki ayarları o konumda bulunuyor."
+
+#, fuzzy
+msgid "info_remove_sure"
+msgstr "Are you sure that you want to remove the following item(s)?"
+
+msgid "info_short"
+msgstr "Bilgiler"
+
+msgid "info_status_info"
+msgstr "Kullanıcı İzinleri"
+
+msgid "info_view_of_user"
+msgstr "Kullanıcı"
+
+msgid "inform_user_mail"
+msgstr "Kullanıcıyı değişikliklerden haberdar etmek için e-posta gönder"
+
+msgid "inline_file_extensions"
+msgstr "Web etkin dosya"
+
+msgid "inline_file_extensions_info"
+msgstr "Aşağıdaki uzantılara sahip Dosyalar tarayıcı penceresinde görüntülenir Örneğin <br/> edilir: <b> gif jpg mp3 pdf png </ b> Tüm diğer dosyaları indirmek için sunulmaktadır <br/>."
+
+msgid "insert"
+msgstr "Ekle"
+
+msgid "insert_object_here"
+msgstr "Burada Nesne ekle"
+
+msgid "inst_id"
+msgstr "Yükleme Kimliği"
+
+msgid "inst_info"
+msgstr "Kurulum Bilgileri"
+
+msgid "inst_name"
+msgstr "Kurulum Adı"
+
+msgid "install"
+msgstr "Kurulum"
+
+msgid "install_local"
+msgstr "Yerel ile Kurulum"
+
+#, fuzzy
+msgid "installation_status"
+msgstr "Installation Status"
+
+msgid "installed"
+msgstr "Yüklü"
+
+msgid "installed_local"
+msgstr "Yerel ile Yüklendi"
+
+msgid "instant_messengers"
+msgstr "Instant Messengers"
+
+msgid "institution"
+msgstr "Kurum"
+
+msgid "internal_local_roles_only"
+msgstr "Yerel roller (sadece otomatik oluşanlar)"
+
+msgid "invalid_visible_required_options_selected"
+msgstr "Gerekli ayarlanmış Tüm alanlar da kayıt görünür üzere ayarlanmış olması gerekir."
+
+msgid "invisible_block"
+msgstr "Görünmez Blok"
+
+msgid "invisible_block_mess"
+msgstr "Bu bloğu görüntülemek için izniniz yok."
+
+msgid "ip_address"
+msgstr "IP Adresi"
+
+msgid "is_already_your"
+msgstr "zaten sizin"
+
+#, fuzzy
+msgid "italic_action"
+msgstr "Insert Italic - Click to insert italic text."
+
+msgid "item"
+msgstr "Ürün"
+
+msgid "itgr_add"
+msgstr "Öğe Ekle Grubu"
+
+msgid "itgr_new"
+msgstr "Yeni Ürün Grubu"
+
+msgid "java_server"
+msgstr "Java Sunucu"
+
+msgid "java_server_host"
+msgstr "Sunucu"
+
+#. Needs to be adapted to new content of German lang file.
+msgid "java_server_info"
+msgstr "Aktif ise, PDF, HTML dosyaları ve HTML-Öğrenme modülleri arama yapmak mümkündür"
+
+msgid "java_server_port"
+msgstr "Port"
+
+msgid "java_server_readme"
+msgstr "Kurulum bilgileri"
+
+msgid "join"
+msgstr "Üyelik"
+
+msgid "join_session"
+msgstr "Üyelik"
+
+msgid "kb"
+msgstr "KByte"
+
+msgid "keywords"
+msgstr "Anahtar Kelimeler"
+
+#, fuzzy
+msgid "label_search_options"
+msgstr "Search Area"
+
+msgid "lang_dateformat"
+msgstr "Ymd"
+
+msgid "lang_path"
+msgstr "Dil Yolu"
+
+msgid "lang_refresh_confirm_info"
+msgstr "Genişletilmiş dil bakım anda devreye girer. Canlandırıcı dilleri ILIAS küresel dil dosyaları ve muhtemelen veritabanına Özelleştirme dizininden yerel dil dosyaları okuyacaktır. Küresel dil dosyaları manuel değişiklikleri etkilemez. Yerel langage dosyası yerel dil dosya kaydetme tarihinden daha eski olan tüm manuel değişikliklerin üzerine yazılır."
+
+msgid "lang_refresh_confirm_selected"
+msgstr "gerçekten seçilen dillerde yenilemek istiyor musunuz?"
+
+msgid "lang_sep_decimal"
+msgstr "."
+
+msgid "lang_sep_thousand"
+msgstr ","
+
+msgid "lang_size_bytes"
+msgstr "bayt"
+
+msgid "lang_size_gb"
+msgstr "GB"
+
+msgid "lang_size_kb"
+msgstr "KB"
+
+msgid "lang_size_mb"
+msgstr "MB"
+
+msgid "lang_timeformat"
+msgstr "H: i: s"
+
+msgid "lang_timeformat_no_sec"
+msgstr "H: i"
+
+#, fuzzy
+msgid "lang_uninstall_changes"
+msgstr "Uninstall Local Changes"
+
+#, fuzzy
+msgid "lang_uninstall_changes_confirm"
+msgstr "Do you really want to clear all local changes of the selected languages and reset them to the default of the current ILIAS version?"
+
+#, fuzzy
+msgid "lang_uninstall_confirm"
+msgstr "Do you really want to uninstall the selected languages?"
+
+msgid "langfile_found"
+msgstr "Dil dosyası bulunamadı"
+
+msgid "language"
+msgstr "Dil"
+
+msgid "language_not_installed"
+msgstr "yüklü değil. İlk o dili kurun"
+
+msgid "languages"
+msgstr "Diller"
+
+msgid "languages_already_installed"
+msgstr "Seçilen dil (ler) zaten kurulu"
+
+msgid "languages_already_uninstalled"
+msgstr "Seçilen dil (ler) zaten, kaldırılamaz"
+
+msgid "languages_updated"
+msgstr "Tüm yüklü diller güncellendi"
+
+msgid "last_access"
+msgstr "Son Erişim"
+
+msgid "last_change"
+msgstr "Son Değişiklik"
+
+msgid "last_edited_on"
+msgstr "Üzerine Son düzenleme"
+
+msgid "last_login"
+msgstr "Son Giriş"
+
+msgid "last_refresh"
+msgstr "Son Yenile"
+
+msgid "last_reminder"
+msgstr "Son hatırlatma"
+
+msgid "last_update"
+msgstr "Son Güncelleme"
+
+msgid "last_visited"
+msgstr "Son Bakılan"
+
+msgid "lastname"
+msgstr "Soyad"
+
+#, fuzzy
+msgid "latex_edit_info"
+msgstr "You can enter LaTeX code in the delimiters <code>[tex]</code> and <code>[/tex]</code>."
+
+#, fuzzy
+msgid "laugh"
+msgstr "Laugh"
+
+msgid "launch"
+msgstr "Başlat"
+
+msgid "ldap"
+msgstr "LDAP"
+
+msgid "ldap_basedn"
+msgstr "LDAP TemelDN"
+
+msgid "ldap_configure"
+msgstr "LDAP kimlik doğrulaması yapılandırma"
+
+msgid "ldap_port"
+msgstr "LDAP Bağlantı Noktası"
+
+msgid "ldap_read"
+msgstr "LDAP ayarlarını okuma erişimi"
+
+msgid "ldap_server"
+msgstr "LDAP Sunucu URL'si"
+
+msgid "ldap_tls"
+msgstr "kullanımlar LDAP TLS"
+
+msgid "ldap_version"
+msgstr "LDAP protokoll sürümü"
+
+msgid "learning module"
+msgstr "Öğrenim Modülü"
+
+msgid "learning_progress"
+msgstr "Öğrenme İlerleme"
+
+msgid "leave_waiting_list"
+msgstr "bırak Bekleme Listesi"
+
+msgid "legend"
+msgstr "Efsanesi"
+
+msgid "level"
+msgstr "Seviye"
+
+msgid "link"
+msgstr "Bağlantı"
+
+#, fuzzy
+msgid "link_action"
+msgstr "Insert Link - Click to insert a link."
+
+msgid "link_all"
+msgstr "Link: Tümünü"
+
+msgid "link_check"
+msgstr "Weblink Fiyatları"
+
+msgid "link_check_message_b"
+msgstr "Etkinse posta yoluyla geçersiz bağlantılar haberdar edilecektir."
+
+msgid "link_check_message_disabled"
+msgstr "Mesajlar Özürlü"
+
+msgid "link_check_message_enabled"
+msgstr "Etkin Mesajlar"
+
+msgid "link_check_subject"
+msgstr "[ILIAS] Weblink onay"
+
+msgid "link_checker_refreshed"
+msgstr "Yenilendi görünümü"
+
+msgid "link_selected_items"
+msgstr "Bağlantı"
+
+msgid "links_add_param"
+msgstr "Parametre Ekle'yi:"
+
+msgid "links_dyn_parameter"
+msgstr "Dinamik Parametreler"
+
+msgid "links_dynamic"
+msgstr "Dinamik Weblink Parametreleri"
+
+msgid "links_dynamic_info"
+msgstr "Etkinse bu Weblinks dinamik parametrelerini eklemek mümkündür. <br /> Örnek ILIAS kullanıcı kimliği veya adı."
+
+msgid "links_existing_params"
+msgstr "Mevcut Parametreler:"
+
+msgid "links_name"
+msgstr "Parametre Adı"
+
+msgid "links_no_name_given"
+msgstr "bir parametre adı seçiniz."
+
+msgid "links_no_value_given"
+msgstr "bir parametre değeri seçiniz."
+
+msgid "links_parameter_deleted"
+msgstr "Parametre silindi."
+
+msgid "links_select_one"
+msgstr "- birini seçin -"
+
+msgid "links_session_id"
+msgstr "ILIAS session id"
+
+msgid "links_user_id"
+msgstr "ILIAS kullanıcı kimliği"
+
+msgid "links_user_name"
+msgstr "ILIAS adı"
+
+msgid "links_value"
+msgstr "Parametre Değer"
+
+msgid "list"
+msgstr "Listesi"
+
+msgid "list_of_questions"
+msgstr "Soru Listesi"
+
+#, fuzzy
+msgid "list_view"
+msgstr "List View"
+
+#, fuzzy
+msgid "listaction_learning_progress_settings"
+msgstr "Learning Progress Settings"
+
+msgid "lm"
+msgstr "Öğrenme Modülü ILIAS"
+
+msgid "lm_add"
+msgstr "ILIAS Öğrenme Modülü Ekle"
+
+msgid "lm_added"
+msgstr "ILIAS Öğrenme Modülü eklendi"
+
+msgid "lm_new"
+msgstr "Yeni ILIAS Öğrenme Modülü"
+
+msgid "lm_type_scorm"
+msgstr "SCORM 1.2"
+
+msgid "lm_type_scorm2004"
+msgstr "SCORM 2004 3rd/4th Sürümü"
+
+#, fuzzy
+msgid "lm_type_scorm2004_info"
+msgstr "These are newer versions of SCORM with significantly enhanced functionality. The learning module is launched in an iFrame."
+
+#, fuzzy
+msgid "lm_type_scorm_info"
+msgstr "This is the most widely used version of SCORM. The learning module is launched in a frame."
+
+msgid "lng"
+msgstr "Dil"
+
+msgid "lngf"
+msgstr "Diller"
+
+msgid "lo"
+msgstr "Öğrenme Nesnesi"
+
+#, fuzzy
+msgid "loaded_preview_renderers"
+msgstr "Loaded Preview Renderers"
+
+msgid "local"
+msgstr "Yerel"
+
+msgid "local_language_file"
+msgstr "yerel dil dosyası"
+
+msgid "local_language_files"
+msgstr "yerel dil dosyaları"
+
+msgid "local_languages_already_installed"
+msgstr "Seçilen yerel dil dosya (lar) zaten kurulu"
+
+#, fuzzy
+msgid "local_role_assignment"
+msgstr "Lokale Rollenzuweisung"
+
+msgid "location"
+msgstr "Yer"
+
+msgid "locator"
+msgstr "Yer:"
+
+msgid "log_in"
+msgstr "Oturum Aç"
+
+#, fuzzy
+msgid "log_out"
+msgstr "Logout"
+
+msgid "logic_or"
+msgstr "ya da"
+
+msgid "login"
+msgstr "Kullanıcı Adı"
+
+msgid "login_as"
+msgstr "olarak giriş"
+
+msgid "login_data"
+msgstr "Giriş verileri"
+
+msgid "login_exists"
+msgstr "Bu kullanıcı adı ile bir kullanıcı zaten var! Lütfen bir başkasını seçin."
+
+msgid "login_invalid"
+msgstr "Seçilen giriş geçersizdir! Yalnızca aşağıdaki karakterlere izin verilir (en az 3 karakter):. AZ az 0-9 _ - + * @!% $ ~"
+
+msgid "login_to_ilias"
+msgstr "Giriş"
+
+#, fuzzy
+msgid "login_to_ilias_via_login_form"
+msgstr "Login to ILIAS"
+
+#, fuzzy
+msgid "login_to_ilias_via_saml"
+msgstr "Login to ILIAS via SAML Authentification"
+
+msgid "login_to_ilias_via_shibboleth"
+msgstr "ILIAS'a şunlar ile giriş yap"
+
+msgid "loginname_already_exists"
+msgstr "Bu oturum açma adı zaten var."
+
+msgid "loginname_settings"
+msgstr "Oturum Açma Adı Ayarları"
+
+msgid "logout"
+msgstr "Çıkış"
+
+msgid "logout_text"
+msgstr "Oturumunuz Sonlandı."
+
+msgid "logs"
+msgstr "Log verileri"
+
+#, fuzzy
+msgid "love"
+msgstr "Love"
+
+msgid "lres"
+msgstr "Öğrenim Kaynakları"
+
+#, fuzzy
+msgid "lso_add"
+msgstr "Add Learning Sequence"
+
+#, fuzzy
+msgid "lso_admin_form_byline"
+msgstr "General Settings for Learning Sequences"
+
+#, fuzzy
+msgid "lso_admin_form_title"
+msgstr "Settings"
+
+#, fuzzy
+msgid "lso_admin_interval_byline"
+msgstr "Poll Learning Progress every x seconds. Be careful! A low value will increase server-requests and have an impact on overall system performance. Please choose highest value possible!"
+
+#, fuzzy
+msgid "lso_admin_interval_label"
+msgstr "Learning Progress Polling Interval (seconds)"
+
+#, fuzzy
+msgid "lso_copy_threads_info"
+msgstr "Please decide which elements of the Learning Sequence should be copied, linked or omitted."
+
+#, fuzzy
+msgid "lso_edit"
+msgstr "Edit Learning Sequence"
+
+#, fuzzy
+msgid "lso_import"
+msgstr "Import Learning Sequence"
+
+#, fuzzy
+msgid "lso_new"
+msgstr "New Learning Sequence"
+
+#, fuzzy
+msgid "lso_wizard_page"
+msgstr "Copy Learning Sequence (Step 2/2)"
+
+#, fuzzy
+msgid "lti"
+msgstr "LTI Tool (Consumer)"
+
+#, fuzzy
+msgid "lti_add"
+msgstr "Add LTI Tool (Consumer)"
+
+#, fuzzy
+msgid "lti_new"
+msgstr "New LTI Tool (Consumer)"
+
+#, fuzzy
+msgid "lti_outcome_info"
+msgstr "Sendet den Lernfortschrittstatus von LTI-Benutzern an LTI Tool Consumer."
+
+msgid "mail"
+msgstr "Posta"
+
+msgid "mail_addressbook"
+msgstr "Rehber"
+
+msgid "mail_at_the_ilias_installation"
+msgstr "Sen ILIAS-Montaj% 2 $ s $ s yeni posta% 1 alındı"
+
+msgid "mail_attachment"
+msgstr "Posta eki"
+
+msgid "mail_b_inbox"
+msgstr "Gelen Kutusu"
+
+msgid "mail_c_trash"
+msgstr "Çöp"
+
+#, fuzzy
+msgid "mail_cron_scheduled_mails"
+msgstr "Send scheduled mails."
+
+#, fuzzy
+msgid "mail_cron_scheduled_mails_desc"
+msgstr "Sends scheduled user mails according to their defined delivery times"
+
+msgid "mail_d_drafts"
+msgstr "Taslaklar"
+
+msgid "mail_delete_error"
+msgstr "Hata silerken"
+
+#, fuzzy
+msgid "mail_e_outbox"
+msgstr "Outbox"
+
+msgid "mail_e_sent"
+msgstr "Gönderilen"
+
+msgid "mail_edit_permission"
+msgstr "Kullanıcı e-posta yönetiminde yetki ayarlarını değiştirebilir"
+
+#, fuzzy
+msgid "mail_f_sent"
+msgstr "Sent"
+
+msgid "mail_folders"
+msgstr "Posta Klasörleri"
+
+msgid "mail_import_file"
+msgstr "Dışa aktarma dosyası"
+
+msgid "mail_mails_of"
+msgstr "Posta"
+
+msgid "mail_maxsize_attach"
+msgstr "Maks. ek boyutu"
+
+msgid "mail_member"
+msgstr "Üyeye Posta"
+
+msgid "mail_members"
+msgstr "Üyelere Posta"
+
+#, fuzzy
+msgid "mail_message_scheduled"
+msgstr "Scheduled mail"
+
+#, fuzzy
+msgid "mail_message_scheduled_info"
+msgstr "Mails remain in the outbox until the scheduled sending time."
+
+msgid "mail_not_sent"
+msgstr "Posta gönderilmedi!"
+
+#, fuzzy
+msgid "mail_schedule_error_no_datetime"
+msgstr "To schedule a mail, a delivery date and time must be specified."
+
+#, fuzzy
+msgid "mail_schedule_error_past_datetime"
+msgstr "You cannot schedule emails in the past."
+
+#, fuzzy
+msgid "mail_schedule_scheduled_datetime"
+msgstr "Scheduled Send Time"
+
+#, fuzzy
+msgid "mail_scheduled"
+msgstr "Mail stored in outbox for later delivery."
+
+#, fuzzy
+msgid "mail_scheduled_edit_compose_info"
+msgstr "You are editing a scheduled mail. Sending is paused until you schedule the mail again."
+
+#, fuzzy
+msgid "mail_scheduled_edit_moved_info"
+msgstr "This scheduled mail was temporarily moved to drafts so it will not be sent while you are editing it. After scheduling again, it will reappear in the outbox."
+
+msgid "mail_search_no"
+msgstr "Hiçbir veri girişi bulunamadı."
+
+msgid "mail_select_one"
+msgstr "Bir posta seçmelisiniz"
+
+msgid "mail_send_error"
+msgstr "Posta gönderme hatası"
+
+msgid "mail_sent"
+msgstr "Posta gönderildi!"
+
+msgid "mail_settings"
+msgstr "Posta Ayarları"
+
+msgid "mail_to_global_roles_not_allowed"
+msgstr "Global rollere e-posta göndermek için izin verilmez"
+
+msgid "mail_z_local"
+msgstr "Kullanıcı Klasörleri"
+
+msgid "mails"
+msgstr "Postalar"
+
+msgid "mails_at_the_ilias_installation"
+msgstr "ILIAS yüklemesi %2$s tarafından %1$s yeni posta aldınız"
+
+msgid "mails_pl"
+msgstr "Posta"
+
+msgid "main_menu"
+msgstr "Ana Menü"
+
+#, fuzzy
+msgid "mainbar_aria_label"
+msgstr "Mainbar"
+
+#, fuzzy
+msgid "mainbar_more_label"
+msgstr "More"
+
+#, fuzzy
+msgid "manage_members"
+msgstr "Manage Members"
+
+msgid "matriculation"
+msgstr "Yeterlilik Sınavı"
+
+#, fuzzy
+msgid "max_previews_per_object"
+msgstr "Number of preview images per file"
+
+#, fuzzy
+msgid "max_previews_per_object_info"
+msgstr "Defines the maximum number of preview images that are created per file."
+
+msgid "mcst"
+msgstr "Mediacast"
+
+msgid "mcst_add"
+msgstr "Ekleme Mediacast"
+
+msgid "mcst_new"
+msgstr "yeni Mediacast"
+
+msgid "mem_add_to_wl"
+msgstr "Bekleme Listesi'ne ekle"
+
+msgid "mem_alert_no_places"
+msgstr "kullanılabilir hiçbir ücretsiz yerler vardır."
+
+#, fuzzy
+msgid "mem_cron_min_members"
+msgstr "Course/Group: Minimum Members Check"
+
+#, fuzzy
+msgid "mem_cron_min_members_info"
+msgstr "The administrators will be notified if the minimum number is not met."
+
+msgid "mem_end"
+msgstr "Kayıt Bitiş:"
+
+msgid "mem_free_places"
+msgstr "Ücretsiz Yerleri"
+
+msgid "mem_max_users"
+msgstr "Kullanıcılar Maksimum:"
+
+#, fuzzy
+msgid "mem_min_users"
+msgstr "Minimum of Users"
+
+msgid "mem_participants"
+msgstr "Katılımcıları"
+
+msgid "mem_reg_expired"
+msgstr "kayıt süresi dolmuş durumda."
+
+msgid "mem_reg_not_started"
+msgstr "kayıt başlamamıştır"
+
+msgid "mem_reg_period"
+msgstr "Kayıt Dönemi"
+
+msgid "mem_reg_type"
+msgstr "Kayıt Türü"
+
+msgid "mem_start"
+msgstr "Kayıt Başlangıç:"
+
+msgid "mem_unlimited"
+msgstr "Sınırsız"
+
+msgid "mem_view_activate"
+msgstr "Üye Görünümü"
+
+msgid "mem_view_close"
+msgstr "Üye Görünümünü Kapat"
+
+msgid "mem_view_long"
+msgstr "Üye Görünümü"
+
+msgid "mem_waiting_list"
+msgstr "Bekleme Listesinde Kullanıcılar:"
+
+msgid "mem_waiting_list_position"
+msgstr "Bekleme Listesinde Your Position:"
+
+msgid "member"
+msgstr "Üye"
+
+msgid "member_status"
+msgstr "Üyelik Durumu"
+
+msgid "members"
+msgstr "Üyeler"
+
+msgid "membership_leave"
+msgstr "Ayrıl"
+
+msgid "mep"
+msgstr "Medya Havuzu"
+
+msgid "mep_add"
+msgstr "Medya Ekle Havuzu"
+
+msgid "mep_edit"
+msgstr "Edit Medya Havuzu Özellikleri"
+
+msgid "mep_new"
+msgstr "Yeni Medya Havuzu"
+
+msgid "mep_not_insert_already_exist"
+msgstr "Onlar ortam havuzu zaten çünkü Aşağıdaki öğeler takılı değil:"
+
+msgid "message"
+msgstr "Mesaj"
+
+msgid "message_content"
+msgstr "Mesajınız"
+
+msgid "message_no_delivered_files"
+msgstr "herhangi bir dosya göndermediniz."
+
+msgid "meta_data"
+msgstr "Meta"
+
+#, fuzzy
+msgid "metabar_aria_label"
+msgstr "Metabar"
+
+#, fuzzy
+msgid "mgs_objects_linked_to_the_following_folders_p"
+msgstr "The objects were linked to the following folder(s): %s"
+
+#, fuzzy
+msgid "mgs_objects_linked_to_the_following_folders_s"
+msgstr "The object was linked to the following folder(s): %s"
+
+msgid "migrate"
+msgstr "Migrate"
+
+#, fuzzy
+msgid "minimize"
+msgstr "Minimize"
+
+msgid "minute"
+msgstr "Dakika"
+
+msgid "minutes"
+msgstr "dakika"
+
+msgid "missing"
+msgstr "Eksik"
+
+msgid "missing_perm"
+msgstr "Eksik İzni"
+
+msgid "missing_precondition"
+msgstr "Eksik Önkoşul"
+
+#, fuzzy
+msgid "mm_achievements"
+msgstr "Achievements"
+
+#, fuzzy
+msgid "mm_administration"
+msgstr "Administration"
+
+#, fuzzy
+msgid "mm_badges"
+msgstr "Badges"
+
+#, fuzzy
+msgid "mm_calendar"
+msgstr "Calendar"
+
+#, fuzzy
+msgid "mm_certificates"
+msgstr "Certificates"
+
+#, fuzzy
+msgid "mm_comments"
+msgstr "Comments"
+
+#, fuzzy
+msgid "mm_communication"
+msgstr "Communication"
+
+#, fuzzy
+msgid "mm_contacts"
+msgstr "Contacts"
+
+#, fuzzy
+msgid "mm_dashboard"
+msgstr "Dashboard"
+
+#, fuzzy
+msgid "mm_enrolments"
+msgstr "Enrolments"
+
+msgid "mm_favorites"
+msgstr "Favoriler"
+
+#, fuzzy
+msgid "mm_learning_history"
+msgstr "Learning History"
+
+#, fuzzy
+msgid "mm_learning_progress"
+msgstr "Learning Progress"
+
+#, fuzzy
+msgid "mm_mail"
+msgstr "Mail"
+
+#, fuzzy
+msgid "mm_news"
+msgstr "News"
+
+#, fuzzy
+msgid "mm_notes"
+msgstr "Notes"
+
+#, fuzzy
+msgid "mm_organisation"
+msgstr "Organisation"
+
+#, fuzzy
+msgid "mm_personal_and_shared_r"
+msgstr "Personal and Shared Resources"
+
+#, fuzzy
+msgid "mm_personal_workspace"
+msgstr "Personal Workspace"
+
+#, fuzzy
+msgid "mm_portfolio"
+msgstr "Portfolio"
+
+#, fuzzy
+msgid "mm_private_chats"
+msgstr "Private Chats"
+
+msgid "mm_repo_tree_view"
+msgstr "Ağaç görünümü"
+
+msgid "mm_repo_tree_view_act"
+msgstr "Aktywuj widok drzewa"
+
+msgid "mm_repo_tree_view_deact"
+msgstr "Deaktywuj widok drzewa"
+
+msgid "mm_repository"
+msgstr "Depo"
+
+#, fuzzy
+msgid "mm_skills"
+msgstr "Competences"
+
+#, fuzzy
+msgid "mm_staff_list"
+msgstr "Staff List"
+
+#, fuzzy
+msgid "mm_tags"
+msgstr "Tags"
+
+#, fuzzy
+msgid "mm_task_derived_tasks"
+msgstr "Tasks"
+
+#, fuzzy
+msgid "mme_lost_item_reason"
+msgstr "Item is no longer provided."
+
+#, fuzzy
+msgid "mme_lost_item_title"
+msgstr "No assignment"
+
+msgid "mob"
+msgstr "Ortam Nesnesi"
+
+msgid "moderators"
+msgstr "Moderatörler"
+
+msgid "module"
+msgstr "Modül"
+
+msgid "modules"
+msgstr "Modüller"
+
+msgid "month"
+msgstr "Ay"
+
+msgid "month_01_long"
+msgstr "Ocak"
+
+msgid "month_01_short"
+msgstr "Ocak"
+
+msgid "month_02_long"
+msgstr "Şubat"
+
+msgid "month_02_short"
+msgstr "Şubat"
+
+msgid "month_03_long"
+msgstr "Mart"
+
+msgid "month_03_short"
+msgstr "Mar"
+
+msgid "month_04_long"
+msgstr "Nisan"
+
+msgid "month_04_short"
+msgstr "Nisan"
+
+msgid "month_05_long"
+msgstr "Mayıs"
+
+msgid "month_05_short"
+msgstr "Mayıs"
+
+msgid "month_06_long"
+msgstr "Haziran"
+
+msgid "month_06_short"
+msgstr "Haziran"
+
+msgid "month_07_long"
+msgstr "Temmuz"
+
+msgid "month_07_short"
+msgstr "Temmuz"
+
+msgid "month_08_long"
+msgstr "Ağustos"
+
+msgid "month_08_short"
+msgstr "Ağustos"
+
+msgid "month_09_long"
+msgstr "Eylül"
+
+msgid "month_09_short"
+msgstr "Eylül"
+
+msgid "month_10_long"
+msgstr "Ekim"
+
+msgid "month_10_short"
+msgstr "Ekim"
+
+msgid "month_11_long"
+msgstr "Kasım"
+
+msgid "month_11_short"
+msgstr "Kasım"
+
+msgid "month_12_long"
+msgstr "Aralık"
+
+msgid "month_12_short"
+msgstr "Aralık"
+
+msgid "monthly"
+msgstr "Aylık"
+
+msgid "months"
+msgstr "Aylar"
+
+msgid "mount_webfolder"
+msgstr "Webfolder Open as"
+
+msgid "move"
+msgstr "Taşı"
+
+msgid "moveChapter"
+msgstr "Taşı"
+
+msgid "movePage"
+msgstr "Taşı"
+
+msgid "move_selected_items"
+msgstr "Taşı"
+
+#, fuzzy
+msgid "msg_bt_download_started"
+msgstr "ILIAS is generating a ZIP archive of all available files. You can download them from the Notification Center (bell icon) on top right."
+
+msgid "msg_cancel"
+msgstr "Eylem iptal"
+
+msgid "msg_clear_clipboard"
+msgstr "Pano temizlendi"
+
+msgid "msg_cloned"
+msgstr "Seçilen nesne (ler) kopyalanır"
+
+msgid "msg_copy_clipboard"
+msgstr "Şimdi seçili nesnelerin kopyalanması gerekir istenen konuma, seçin ve butonuna Kopyala tıklayın."
+
+#, fuzzy
+msgid "msg_copy_clipboard_container"
+msgstr "Now, please select the desired location, where the selected objects should be pasted into and click the button \"Continue\"."
+
+msgid "msg_copy_clipboard_source"
+msgstr "Şimdi kimin içeriğin kopyalanması gerekir istenen ders seçin ve düğmesine \"Next\" tıklayın."
+
+msgid "msg_cut_clipboard"
+msgstr "Şimdi seçili nesneleri yapıştırılması gerekir istenen konuma, seçin ve butonuna Yapıştır tıklayın."
+
+msgid "msg_cut_copied"
+msgstr "Seçilen nesne (ler) taşındı."
+
+msgid "msg_deleted_export_files"
+msgstr "Dışa aktarım dosyaları silindi"
+
+msgid "msg_deleted_role"
+msgstr "Rol silindi"
+
+msgid "msg_deleted_roles_rolts"
+msgstr "Roller ve Rol Şablonları silindi"
+
+msgid "msg_failed"
+msgstr "Üzgünüm, işlem başarısız oldu"
+
+msgid "msg_form_save_error"
+msgstr "form verileri kaydedilemedi. Herhangi bir hata iletileri için giriş alanları kontrol edin."
+
+#, fuzzy
+msgid "msg_info_blacklisted"
+msgstr "The files cannot be uploaded due to security reasons."
+
+#, fuzzy
+msgid "msg_input_char_limit_max"
+msgstr "You have entered more characters than allowed."
+
+#, fuzzy
+msgid "msg_input_char_limit_min"
+msgstr "You have to enter the minimum of characters specified."
+
+msgid "msg_input_does_not_match_regexp"
+msgstr "geçerli bir değer veriniz."
+
+msgid "msg_input_is_required"
+msgstr "Bu giriş gereklidir. Lütfen bir değer giriniz."
+
+#, fuzzy
+msgid "msg_invalid_value_css_rect_input"
+msgstr "The entered value is incorrect, do not use any plus or minus symbols in combination with the entered integer. Please check your input."
+
+msgid "msg_is_last_role"
+msgstr "Aşağıdaki kullanıcıların son global rolü kaldırıldı"
+
+msgid "msg_last_role_for_registration"
+msgstr "en az bir rolü yeni kullanıcılar için kayıt formunu mevcut olmalıdır. Bu rol mevcut sadece biridir."
+
+#, fuzzy
+msgid "msg_link_clipboard_p"
+msgstr "Now, please select the desired location, where the selected objects should be linked to and click the button Paste."
+
+#, fuzzy
+msgid "msg_link_clipboard_s"
+msgstr "Now, please select the desired location, where the selected object should be linked to and click the button Paste."
+
+msgid "msg_linked"
+msgstr "Seçilen nesne (ler) bağlantılı."
+
+msgid "msg_may_not_contain"
+msgstr "Bu nesne türü nesneleri içeremez:"
+
+msgid "msg_min_one_role"
+msgstr "Her kullanıcı en az bir küresel role sahip olmalıdır!"
+
+msgid "msg_multi_language_selected"
+msgstr "Farklı çeviriler için aynı dili seçilir!"
+
+msgid "msg_no_default_language"
+msgstr "Hayır varsayılan dil belirtilmedi! Varsayılan çeviri gibi bir çeviri tanımlamanız gerekir."
+
+msgid "msg_no_delete_yourself"
+msgstr "Kendi kullanıcı hesabınızı silemezsiniz."
+
+msgid "msg_no_file"
+msgstr "Bir dosya seçmedi"
+
+#, fuzzy
+msgid "msg_no_files_selected"
+msgstr "No files selected"
+
+msgid "msg_no_language_selected"
+msgstr "Hayır çeviri dili belirtilmedi! Her çeviri için bir dil tanımlamanız gerekir"
+
+msgid "msg_no_perm_assign_role_to_user"
+msgstr "Bu kullanıcı rolü ataması değiştirme izniniz yok"
+
+msgid "msg_no_perm_assign_user_to_role"
+msgstr "Bu kullanıcı atama değiştirme izniniz yok"
+
+msgid "msg_no_perm_copy"
+msgstr "Aşağıdaki nesne (ler) bir kopyasını oluşturmak için izniniz yok :"
+
+msgid "msg_no_perm_create_rolt"
+msgstr "Sen rol şablonları eklemek için izniniz yoktur"
+
+msgid "msg_no_perm_cut"
+msgstr "Aşağıdaki nesne (ler) kesmek izniniz yok :"
+
+msgid "msg_no_perm_delete"
+msgstr "Aşağıdaki nesne (ler) silmek için izniniz yok:"
+
+msgid "msg_no_perm_link"
+msgstr "Aşağıdaki nesne (ler) den bir bağlantı oluşturmak için izniniz yok :"
+
+msgid "msg_no_perm_modify_rolt"
+msgstr "Sen rol şablonları değiştirmek için izniniz yoktur"
+
+msgid "msg_no_perm_modify_user"
+msgstr "Bu kullanıcı verilerini değiştirme izniniz yok"
+
+msgid "msg_no_perm_paste"
+msgstr "Aşağıdaki nesne (ler) yapıştırın izniniz yok :"
+
+msgid "msg_no_perm_paste_object_in_folder"
+msgstr "Klasördeki% s nesnesini% s yapıştırmak için izniniz yoktur."
+
+msgid "msg_no_perm_perm"
+msgstr "İzin ayarlarını düzenlemek için izniniz yoktur"
+
+msgid "msg_no_perm_read"
+msgstr "Bu öğeye erişmek için izniniz yoktur."
+
+msgid "msg_no_perm_read_item"
+msgstr "Her öğe erişim izniniz yok."
+
+msgid "msg_no_perm_read_lm"
+msgstr "Bu öğrenme modülü okumak için izniniz yoktur."
+
+#, fuzzy
+msgid "msg_no_perm_view_roles_of_user"
+msgstr "You have no permission to view the role assignment of this user"
+
+msgid "msg_no_perm_write"
+msgstr "Yazma yetkiniz yok"
+
+msgid "msg_no_search_result"
+msgstr "Hiçbir veri girişi bulunamadı"
+
+msgid "msg_no_search_string"
+msgstr "sorgunuzu girin"
+
+msgid "msg_no_title"
+msgstr "Lütfen bir başlık girin."
+
+msgid "msg_not_available_for_anon"
+msgstr "Seçtiğiniz sayfa kayıtlı kullanıcılar için sadece erişilebilir"
+
+msgid "msg_not_in_itself"
+msgstr "O kendisi nesneyi yapıştırmak mümkün değil"
+
+#, fuzzy
+msgid "msg_obj_already_deleted"
+msgstr "The object has already been deleted."
+
+msgid "msg_obj_created"
+msgstr "Nesne oluşturuldu."
+
+msgid "msg_obj_exists"
+msgstr "Bu nesne, bu klasörde zaten var"
+
+msgid "msg_obj_exists_in_folder"
+msgstr "nesne% s% s klasör zaten var."
+
+msgid "msg_obj_may_not_contain_objects_of_type"
+msgstr ":% S nesne% s tür nesneleri içeremez."
+
+msgid "msg_obj_modified"
+msgstr "Değişiklikler kaydedildi."
+
+#, fuzzy
+msgid "msg_obj_no_download"
+msgstr "cannot be downloaded."
+
+msgid "msg_obj_no_link"
+msgstr "bağlantılı izin verilmez"
+
+#, fuzzy
+msgid "msg_obj_perm_download"
+msgstr "You do not have sufficient rights to download the following objects:"
+
+msgid "msg_paste_object_not_in_itself"
+msgstr "O kendisi nesne% s yapıştırmak mümkün değil."
+
+msgid "msg_perm_adopted_from1"
+msgstr "İzin ayarlarını kabul"
+
+msgid "msg_perm_adopted_from2"
+msgstr "(Ayarlar kaydedildi!)"
+
+msgid "msg_perm_adopted_from_itself"
+msgstr "Geçerli bir rol / rol şablonu kendisinden izin ayarlarını kabul edemez."
+
+msgid "msg_removed"
+msgstr "Nesne (ler) sistemi kaldırıldı."
+
+msgid "msg_role_reserved_prefix"
+msgstr "öneki 'il_' otomatik olarak oluşturulan roller için ayrılmıştır. Başka bir isim seçiniz"
+
+msgid "msg_roleassignment_changed"
+msgstr "Rol atama değişti"
+
+msgid "msg_sysrole_not_deletable"
+msgstr "sisteminin rolünü silinemez"
+
+msgid "msg_sysrole_not_editable"
+msgstr "Sistemin rolü izin ayarları değiştirilemez. Sisteminin rolünü tüm nesneleri ve işlevlerine atanan tüm kullanıcılara sınırsız erişim verir."
+
+#, fuzzy
+msgid "msg_to_many_files"
+msgstr "Too many files selected, allowed amount of files:"
+
+msgid "msg_trash_empty"
+msgstr "Hiçbir silinen nesneler vardır"
+
+msgid "msg_undeleted"
+msgstr "Nesne (ler) restore."
+
+msgid "msg_unit_is_required"
+msgstr "Bu giriş bir birim gerektirir. Doğru bir değer giriniz."
+
+#, fuzzy
+msgid "msg_unknown_value"
+msgstr "An unknown value has been passed."
+
+msgid "msg_user_last_role1"
+msgstr "Aşağıdaki kullanıcılar sadece bu role atanan:"
+
+msgid "msg_user_last_role2"
+msgstr "kullanıcıları silebilir ya da bu rolü silmek için başka bir rol için onları atayın."
+
+msgid "msg_userassignment_changed"
+msgstr "Kullanıcı atama değişti"
+
+#, fuzzy
+msgid "msg_wrong_filetypes"
+msgstr "Allowed Files-Types:"
+
+msgid "msg_wrong_format"
+msgstr "Girdiğiniz değeri geçerli bir biçimi değildir."
+
+msgid "my_bms"
+msgstr "Yer imleri"
+
+#, fuzzy
+msgid "my_certificates"
+msgstr "My Certificates"
+
+#, fuzzy
+msgid "my_contacts"
+msgstr "My Contact"
+
+msgid "my_courses"
+msgstr "Derslerim"
+
+msgid "my_courses_groups"
+msgstr "Derslerim ve Gruplarım"
+
+#, fuzzy
+msgid "my_staff"
+msgstr "Staff"
+
+msgid "name"
+msgstr "Adı"
+
+#, fuzzy
+msgid "nc_contact_requests_headline"
+msgstr "Contact Requests"
+
+#, fuzzy
+msgid "nc_contact_requests_number_p"
+msgstr "You have %s Contact Requests."
+
+#, fuzzy
+msgid "nc_contact_requests_number_s"
+msgstr "You have %s Contact Request."
+
+#, fuzzy
+msgid "nc_contact_requests_prop_time"
+msgstr "Time"
+
+msgid "never"
+msgstr "Asla"
+
+msgid "new"
+msgstr "Yeni"
+
+msgid "new_language"
+msgstr "Yeni Dil"
+
+msgid "new_pass_equals_old_pass"
+msgstr "Yeni şifre eski eşittir."
+
+msgid "newline"
+msgstr "Newline"
+
+msgid "news"
+msgstr "Haberleri"
+
+msgid "next"
+msgstr "Sonraki"
+
+msgid "no"
+msgstr "Hayır"
+
+msgid "no_access_item"
+msgstr "Bu öğeye erişmek için izniniz yoktur."
+
+msgid "no_access_item_public"
+msgstr "giriş yapmış olmanız gerekir Bu öğeye erişmek için ve uygun dosya erişim var."
+
+#, fuzzy
+msgid "no_accessibility_control_concept_description"
+msgstr "There is currently no Accessibility Control Concept provided with this installation. Please contact the <a href=\"%1$s\">Accessibility Point of Contact</a>."
+
+msgid "no_checkbox"
+msgstr "en az bir öğe seçiniz."
+
+msgid "no_condition_selected"
+msgstr "tek önkoşul seçiniz."
+
+msgid "no_date"
+msgstr "Tarih Yok"
+
+#, fuzzy
+msgid "no_gallery_users_available"
+msgstr "There are currently no users in the gallery."
+
+msgid "no_global_role_left"
+msgstr "Her kullanıcı bir rolü atanmış olması gerekir."
+
+msgid "no_import_file_found"
+msgstr "İçeri aktarılacak dosya bulunamadı"
+
+msgid "no_items"
+msgstr "Öğe Yok"
+
+msgid "no_limit"
+msgstr "Limit yok"
+
+msgid "no_mkisofs_configured"
+msgstr "ISO export çalıştırmak için ILIAS ayarlarından mkisoft ayarlarını yapmalısınız."
+
+msgid "no_parent_access"
+msgstr "Bir superordinated nesneye erişim yok!"
+
+msgid "no_permission"
+msgstr "Sen gerekli izne sahip değilsiniz."
+
+msgid "no_roles_user_can_be_assigned_to"
+msgstr "kullanıcıya atanabilir hiçbir küresel rol vardır. Bu nedenle kullanıcı eklemek için izin verilmez."
+
+msgid "no_start_file"
+msgstr "Başlangıç ​​Dosya No."
+
+msgid "no_title"
+msgstr "No Title"
+
+msgid "no_users_selected"
+msgstr "bir kullanıcı seçiniz."
+
+msgid "no_xml_file_found_in_zip"
+msgstr "Zip dosyası içinde XML dosya bulunamadı:"
+
+#, fuzzy
+msgid "noc"
+msgstr "Notification Center"
+
+msgid "non_internal_local_roles_only"
+msgstr "Yerel roller (sadece kullanıcı tanımlı)"
+
+msgid "none"
+msgstr "Yok"
+
+msgid "normal"
+msgstr "Normal"
+
+msgid "not_available"
+msgstr "Mevcut Değil"
+
+msgid "not_implemented_yet"
+msgstr "Henüz uygulanmadı"
+
+msgid "not_installed"
+msgstr "Yüklü Değil"
+
+msgid "not_logged_in"
+msgstr "Giriş yapmadınız"
+
+msgid "note"
+msgstr "Not"
+
+msgid "notes"
+msgstr "Not"
+
+msgid "notes_and_comments"
+msgstr "Notlar ve Yorumlar"
+
+msgid "notice"
+msgstr "Bildirim"
+
+msgid "notifications"
+msgstr "Bildirimler"
+
+msgid "nr_following_sessions"
+msgstr "%1d aşağıdaki oturum(lar) ..."
+
+#, fuzzy
+msgid "num_of_selected_files"
+msgstr "%s file(s) selected"
+
+msgid "num_users"
+msgstr "Kullanıcı sayısı"
+
+#, fuzzy
+msgid "numberedlist_action"
+msgstr "Insert Numbered List - Click to insert a numbered list."
+
+msgid "obj"
+msgstr "Nesne"
+
+msgid "obj_accs"
+msgstr "Erişilebilirlik"
+
+msgid "obj_accs_desc"
+msgstr "Erişilebilirlik özellikleri için ayarlar."
+
+msgid "obj_adm"
+msgstr "Yönetim"
+
+msgid "obj_adm_desc"
+msgstr "Ana sistem ayarları ILIAS yükleme yönetmek için tüm panelleri içeren klasörü."
+
+#, fuzzy
+msgid "obj_adma"
+msgstr "General Settings"
+
+#, fuzzy
+msgid "obj_adma_desc"
+msgstr "Important settings for the whole installation"
+
+#, fuzzy
+msgid "obj_adn"
+msgstr "Administrative Notifications"
+
+msgid "obj_adve"
+msgstr "Düzenleme"
+
+msgid "obj_adve_desc"
+msgstr "ILIAS sayfa editörü ve TinyMCE için Yönetim ayarları."
+
+msgid "obj_ass"
+msgstr "Varlık"
+
+msgid "obj_assf"
+msgstr "Test ve Değerlendirme"
+
+msgid "obj_assf_desc"
+msgstr "Test ve değerlendirme aracı için Platform ayarları"
+
+msgid "obj_auth"
+msgstr "Kimlik ve Kayıt"
+
+msgid "obj_auth_desc"
+msgstr "Kimlik doğrulama modu (yerel, LDAP, ...) ve burada yeni bir hesap kaydı ayarlarını yapılandırın."
+
+#, fuzzy
+msgid "obj_awra"
+msgstr "‘Who is online?’-Tool"
+
+#, fuzzy
+msgid "obj_awra_desc"
+msgstr "Manage ‘Who is online?’-Tool"
+
+#, fuzzy
+msgid "obj_bdga"
+msgstr "Badges"
+
+#, fuzzy
+msgid "obj_bdga_desc"
+msgstr "Administrate types, image templates and activity badges"
+
+#, fuzzy
+msgid "obj_bgtk"
+msgstr "Background Task"
+
+#, fuzzy
+msgid "obj_bibl"
+msgstr "Bibliography"
+
+#, fuzzy
+msgid "obj_bibs"
+msgstr "Bibliography"
+
+#, fuzzy
+msgid "obj_bibs_desc"
+msgstr "Bibliography Administration"
+
+msgid "obj_blog"
+msgstr "Blog"
+
+msgid "obj_blog_duplicate"
+msgstr "Kopya Blog"
+
+#, fuzzy
+msgid "obj_bnmk"
+msgstr "Benchmarking"
+
+#, fuzzy
+msgid "obj_bnmk_desc"
+msgstr "Recording and display of database query durations"
+
+msgid "obj_book"
+msgstr "Rezervasyon Havuzu"
+
+#, fuzzy
+msgid "obj_cadm"
+msgstr "Contacts"
+
+#, fuzzy
+msgid "obj_cadm_desc"
+msgstr "Contacts Administration"
+
+msgid "obj_cals"
+msgstr "Takvim"
+
+msgid "obj_cals_desc"
+msgstr "Genel Takvim ayarları."
+
+msgid "obj_cat"
+msgstr "Kategori"
+
+msgid "obj_cat_duplicate"
+msgstr "Kopya Kategori"
+
+msgid "obj_catr"
+msgstr "Kategori Referansı"
+
+msgid "obj_cert"
+msgstr "Sertifikalar"
+
+msgid "obj_cert_desc"
+msgstr "Sertifikaları için Ayarları"
+
+msgid "obj_chap"
+msgstr "Bölüm"
+
+msgid "obj_chta"
+msgstr "Sohbet"
+
+msgid "obj_chtr"
+msgstr "Chatroom"
+
+#, fuzzy
+msgid "obj_chtr_duplicate"
+msgstr "Copy Chat Room"
+
+#, fuzzy
+msgid "obj_cmis"
+msgstr "xAPI/cmi5"
+
+#, fuzzy
+msgid "obj_cmis_desc"
+msgstr "Learning Record Store Types Configuration"
+
+#, fuzzy
+msgid "obj_cmix"
+msgstr "xAPI/cmi5"
+
+msgid "obj_cmps"
+msgstr "Eklentiler, Modüller ve Hizmetler"
+
+msgid "obj_cmps_desc"
+msgstr "Deposu Eklentiler, Modüller ve Hizmetleri için Genel ayarlar"
+
+#, fuzzy
+msgid "obj_coms"
+msgstr "Comments"
+
+#, fuzzy
+msgid "obj_coms_desc"
+msgstr "Comments settings"
+
+#, fuzzy
+msgid "obj_copa"
+msgstr "Content Page"
+
+#, fuzzy
+msgid "obj_cpad"
+msgstr "Content Pages"
+
+#, fuzzy
+msgid "obj_cpad#_desc"
+msgstr "Content Page Administration"
+
+#, fuzzy
+msgid "obj_cpad_desc"
+msgstr "Content Page Administration"
+
+#, fuzzy
+msgid "obj_cron"
+msgstr "Cron Jobs"
+
+#, fuzzy
+msgid "obj_cron_desc"
+msgstr "List of all Cron Jobs"
+
+msgid "obj_crs"
+msgstr "Ders"
+
+msgid "obj_crs_duplicate"
+msgstr "Kopya Kursu"
+
+msgid "obj_crsr"
+msgstr "Kurs Referansı"
+
+#, fuzzy
+msgid "obj_crss"
+msgstr "Course"
+
+#, fuzzy
+msgid "obj_crss_desc"
+msgstr "General settings for Courses"
+
+#, fuzzy
+msgid "obj_crsv"
+msgstr "Course Certificate"
+
+msgid "obj_dbk"
+msgstr "Digilib Kitap"
+
+msgid "obj_dcl"
+msgstr "Veri Toplama"
+
+msgid "obj_dcl_duplicate"
+msgstr "Kopya Veri Toplama"
+
+#, fuzzy
+msgid "obj_dpro"
+msgstr "Declaration of Data Protection"
+
+#, fuzzy
+msgid "obj_dpro_desc"
+msgstr "Declaration of Data Protection Settings"
+
+#, fuzzy
+msgid "obj_dshs"
+msgstr "Dashboard"
+
+#, fuzzy
+msgid "obj_dshs_desc"
+msgstr "Dashboard settings"
+
+msgid "obj_ecss"
+msgstr "ECS"
+
+msgid "obj_ecss_desc"
+msgstr "Genel ECS Ayarlar"
+
+msgid "obj_etal"
+msgstr "Employee Talk"
+
+msgid "obj_exc"
+msgstr "Egzersiz"
+
+#, fuzzy
+msgid "obj_exc_duplicate"
+msgstr "Copy Exercise"
+
+msgid "obj_excv"
+msgstr "Egzersiz Sertifika"
+
+msgid "obj_facs"
+msgstr "Dosyalar ve Klasörler"
+
+msgid "obj_facs_desc"
+msgstr "dosya ve klasör nesnelere erişimi yapılandırın."
+
+msgid "obj_file"
+msgstr "Dosya"
+
+#, fuzzy
+msgid "obj_file_duplicate"
+msgstr "Duplicate File"
+
+msgid "obj_file_inline"
+msgstr "Öğrenim Modülü Dosya"
+
+#, fuzzy
+msgid "obj_fils"
+msgstr "File Services"
+
+#, fuzzy
+msgid "obj_fils_desc"
+msgstr "Configuration of File Service Settings."
+
+msgid "obj_fold"
+msgstr "Klasör"
+
+#, fuzzy
+msgid "obj_fold_duplicate"
+msgstr "Copy Folder"
+
+msgid "obj_frm"
+msgstr "Forum"
+
+msgid "obj_frm_duplicate"
+msgstr "Forum Kopyala"
+
+#, fuzzy
+msgid "obj_frma"
+msgstr "Forum"
+
+#, fuzzy
+msgid "obj_frma_desc"
+msgstr "Global Forum Settings"
+
+msgid "obj_glo"
+msgstr "Sözlük"
+
+msgid "obj_glo_duplicate"
+msgstr "Sözlük Kopyala"
+
+msgid "obj_grp"
+msgstr "Grup"
+
+msgid "obj_grp_duplicate"
+msgstr "Kopya Grubu"
+
+#, fuzzy
+msgid "obj_grpr"
+msgstr "Group Reference"
+
+#, fuzzy
+msgid "obj_grps"
+msgstr "Group"
+
+#, fuzzy
+msgid "obj_grps_desc"
+msgstr "General settings for Groups"
+
+#, fuzzy
+msgid "obj_gsfo"
+msgstr "Footer"
+
+#, fuzzy
+msgid "obj_gsfo_desc"
+msgstr "Administrate Footer Layout and Content"
+
+msgid "obj_hlps"
+msgstr "Yardım Sistemi"
+
+msgid "obj_hlps_desc"
+msgstr "Online yardım için Ayarları"
+
+msgid "obj_htlm"
+msgstr "Öğrenim Modülü HTML"
+
+msgid "obj_htlm_duplicate"
+msgstr "Kopya HTML Öğrenme Modülü"
+
+#, fuzzy
+msgid "obj_iass"
+msgstr "Individual Assessment"
+
+#, fuzzy
+msgid "obj_iass_duplicate"
+msgstr "Copy Individual Assessment"
+
+#, fuzzy
+msgid "obj_iass_select"
+msgstr "-- Please select one individual assessment --"
+
+msgid "obj_itgr"
+msgstr "Ürün Grubu"
+
+msgid "obj_ldap_desc"
+msgstr "Burada küresel LDAP Ayarlarını Yapılandırma."
+
+#, fuzzy
+msgid "obj_lhts"
+msgstr "Learning History"
+
+#, fuzzy
+msgid "obj_lhts_desc"
+msgstr "Learning history settings"
+
+msgid "obj_lm"
+msgstr "Öğrenme Modülü ILIAS"
+
+msgid "obj_lm_duplicate"
+msgstr "Kopya Öğrenme Modülü"
+
+msgid "obj_lng"
+msgstr "Dil"
+
+msgid "obj_lngf"
+msgstr "Diller"
+
+msgid "obj_lngf_desc"
+msgstr "burada sistem dilleri yönetin."
+
+#, fuzzy
+msgid "obj_logs"
+msgstr "Logging"
+
+#, fuzzy
+msgid "obj_logs_desc"
+msgstr "General Logging Settings"
+
+msgid "obj_lrss"
+msgstr "Öğrenim Kaynakları"
+
+msgid "obj_lrss_desc"
+msgstr "öğrenme modülleri her türlü yapılandırın."
+
+#, fuzzy
+msgid "obj_lso"
+msgstr "Learning Sequence"
+
+#, fuzzy
+msgid "obj_lso_duplicate"
+msgstr "Copy Learning Sequence"
+
+#, fuzzy
+msgid "obj_lsos"
+msgstr "Learning Sequences"
+
+#, fuzzy
+msgid "obj_lsos_desc"
+msgstr "General settings for Learning Sequences"
+
+#, fuzzy
+msgid "obj_lti"
+msgstr "LTI Consumer"
+
+#, fuzzy
+msgid "obj_ltis"
+msgstr "LTI"
+
+#, fuzzy
+msgid "obj_ltis_desc"
+msgstr "Learning Tools Interoperability"
+
+msgid "obj_mail"
+msgstr "Posta"
+
+msgid "obj_mail_desc"
+msgstr "Burada genel posta ayarlarını yapılandırın."
+
+#, fuzzy
+msgid "obj_mailr"
+msgstr "Read Mail"
+
+#, fuzzy
+msgid "obj_mailu"
+msgstr "Unread Mail"
+
+#, fuzzy
+msgid "obj_maps"
+msgstr "Maps"
+
+msgid "obj_mcst"
+msgstr "Mediacast"
+
+msgid "obj_mcst_duplicate"
+msgstr "Kopya Mediacast"
+
+msgid "obj_mcts"
+msgstr "Mediacast"
+
+msgid "obj_mcts_desc"
+msgstr "Mediacast için Genel ayarlar."
+
+msgid "obj_mep"
+msgstr "Medya Havuzu"
+
+msgid "obj_mep_duplicate"
+msgstr "Kopya Medya Havuzu"
+
+#, fuzzy
+msgid "obj_mme"
+msgstr "Main Menu"
+
+msgid "obj_mob"
+msgstr "Ortam Nesnesi"
+
+msgid "obj_mobs"
+msgstr "Media Objects / Pools"
+
+msgid "obj_mobs_desc"
+msgstr "Medya nesneleri ve ortam havuzları için ayarlar."
+
+msgid "obj_not_found"
+msgstr "Nesne Bulunamadı"
+
+#, fuzzy
+msgid "obj_nota"
+msgstr "Notifications"
+
+#, fuzzy
+msgid "obj_nota_desc"
+msgstr "Notification Administration"
+
+#, fuzzy
+msgid "obj_nots"
+msgstr "Notes"
+
+#, fuzzy
+msgid "obj_nots_desc"
+msgstr "Notes settings"
+
+msgid "obj_nwss"
+msgstr "Haber ve Web Beslemeleri"
+
+msgid "obj_nwss_desc"
+msgstr "İç haber ve dış web yayınları için ayarlar."
+
+msgid "obj_objf"
+msgstr "Nesne Tanımlar"
+
+#, fuzzy
+msgid "obj_orgu"
+msgstr "Organisational Unit"
+
+#, fuzzy
+msgid "obj_orgu_description"
+msgstr "Creating and editing organisational structure"
+
+msgid "obj_page"
+msgstr "Sayfa"
+
+#, fuzzy
+msgid "obj_peac"
+msgstr "Accordion"
+
+#, fuzzy
+msgid "obj_peadl"
+msgstr "Advanced List"
+
+#, fuzzy
+msgid "obj_peadt"
+msgstr "Advanced Table"
+
+#, fuzzy
+msgid "obj_pecd"
+msgstr "Code"
+
+#, fuzzy
+msgid "obj_pech"
+msgstr "Consultation Hour"
+
+#, fuzzy
+msgid "obj_pecl"
+msgstr "Column Layout"
+
+#, fuzzy
+msgid "obj_peclp"
+msgstr "Clipboard"
+
+#, fuzzy
+msgid "obj_pecom"
+msgstr "Competences"
+
+#, fuzzy
+msgid "obj_pecrs"
+msgstr "Course"
+
+#, fuzzy
+msgid "obj_pecrt"
+msgstr "Certificate"
+
+#, fuzzy
+msgid "obj_pecs"
+msgstr "Content Snippet"
+
+#, fuzzy
+msgid "obj_pedt"
+msgstr "Data Table"
+
+#, fuzzy
+msgid "obj_pefl"
+msgstr "File List"
+
+#, fuzzy
+msgid "obj_peim"
+msgstr "interactive Media"
+
+#, fuzzy
+msgid "obj_pelh"
+msgstr "Learning History"
+
+#, fuzzy
+msgid "obj_pemed"
+msgstr "Image/Audio/Video"
+
+#, fuzzy
+msgid "obj_pemp"
+msgstr "Map"
+
+#, fuzzy
+msgid "obj_pepd"
+msgstr "Personal Data"
+
+#, fuzzy
+msgid "obj_pepe"
+msgstr "Plugin Element"
+
+#, fuzzy
+msgid "obj_pepl"
+msgstr "Page List"
+
+#, fuzzy
+msgid "obj_peplh"
+msgstr "Placeholder"
+
+#, fuzzy
+msgid "obj_pequ"
+msgstr "Questions"
+
+#, fuzzy
+msgid "obj_perl"
+msgstr "Ressource List"
+
+#, fuzzy
+msgid "obj_pesc"
+msgstr "Section"
+
+#, fuzzy
+msgid "obj_petmp"
+msgstr "Page Template"
+
+#, fuzzy
+msgid "obj_peusr"
+msgstr "User"
+
+msgid "obj_pg"
+msgstr "Sayfa"
+
+msgid "obj_poll"
+msgstr "Anket"
+
+msgid "obj_poll_dupliate:"
+msgstr "Kopya Anket"
+
+msgid "obj_poll_duplicate"
+msgstr "Kopya Anket"
+
+#, fuzzy
+msgid "obj_prg"
+msgstr "Study Programme"
+
+#, fuzzy
+msgid "obj_prg_duplicate"
+msgstr "Copy Study Programme"
+
+#, fuzzy
+msgid "obj_prg_select"
+msgstr "-- Please select one Study Programme --"
+
+#, fuzzy
+msgid "obj_prgr"
+msgstr "Link to Study Programme"
+
+#, fuzzy
+msgid "obj_prgrs"
+msgstr "Links to Study Programmes"
+
+#, fuzzy
+msgid "obj_prgs"
+msgstr "Study Programmes"
+
+#, fuzzy
+msgid "obj_prgs_desc"
+msgstr "Study Programme Administration"
+
+#, fuzzy
+msgid "obj_prss"
+msgstr "Personal Resources"
+
+#, fuzzy
+msgid "obj_prss_desc"
+msgstr "Personal resources settings"
+
+msgid "obj_prtf"
+msgstr "Portföy"
+
+#, fuzzy
+msgid "obj_prtt"
+msgstr "Portfolio Template"
+
+#, fuzzy
+msgid "obj_prtt_duplicate"
+msgstr "Copy Portfolio Template"
+
+msgid "obj_ps"
+msgstr "Gizlilik ve Güvenlik"
+
+msgid "obj_ps_desc"
+msgstr "Burada küresel gizlilik ve güvenlik ayarlarını yapılandırın."
+
+msgid "obj_qpl"
+msgstr "Test Soru Havuzu"
+
+msgid "obj_qpl_duplicate"
+msgstr "Test Soru Havuzu Kopyala"
+
+msgid "obj_qpl_select"
+msgstr "- Bir Test Soru Havuzu seçiniz -"
+
+msgid "obj_rcat"
+msgstr "ECS Kategori"
+
+msgid "obj_rcrs"
+msgstr "ECS Kursu"
+
+msgid "obj_recf"
+msgstr "Restored Nesneler"
+
+msgid "obj_recf_desc"
+msgstr "Sistem Kontrolü dan restore Nesneler içerir."
+
+msgid "obj_rep"
+msgstr "Depo"
+
+msgid "obj_reps"
+msgstr "Depo"
+
+#, fuzzy
+msgid "obj_reps_desc"
+msgstr "General settings for the Repository"
+
+msgid "obj_rfil"
+msgstr "ECS Dosya"
+
+msgid "obj_rglo"
+msgstr "ECS Sözlüğü"
+
+msgid "obj_rgrp"
+msgstr "ECS Grup"
+
+msgid "obj_rlm"
+msgstr "ECS Öğrenme Modülü"
+
+msgid "obj_role"
+msgstr "Rolü"
+
+msgid "obj_rolf"
+msgstr "Roller"
+
+msgid "obj_rolf_desc"
+msgstr "burada rolleri yönetme."
+
+msgid "obj_rolf_local"
+msgstr "Yerel Rolleri"
+
+msgid "obj_rolf_local_desc"
+msgstr "nesnesi yerel rolleri içerir."
+
+msgid "obj_rolt"
+msgstr "Rol Şablonu"
+
+msgid "obj_root"
+msgstr "Kaynak - Ana Sayfa"
+
+msgid "obj_rtst"
+msgstr "ECS Testi"
+
+msgid "obj_rwik"
+msgstr "ECS Wiki"
+
+msgid "obj_sahs"
+msgstr "Öğrenme Modülü SCORM / AICC"
+
+msgid "obj_sahs_duplicate"
+msgstr "Öğrenme Modülü Kopyala"
+
+msgid "obj_sco"
+msgstr "SCO"
+
+#, fuzzy
+msgid "obj_scov"
+msgstr "SCORM Certificate"
+
+msgid "obj_seas"
+msgstr "Arama"
+
+msgid "obj_seas_desc"
+msgstr "Arama ayarlarını burada yönetin."
+
+#, fuzzy
+msgid "obj_serv"
+msgstr "Server"
+
+#, fuzzy
+msgid "obj_serv_desc"
+msgstr "Settings of the sever"
+
+msgid "obj_sess"
+msgstr "Oturum"
+
+msgid "obj_sess_duplicate"
+msgstr "Oturum Kopyala"
+
+msgid "obj_skmg"
+msgstr "Yetkinlik Yönetimi"
+
+msgid "obj_skmg_desc"
+msgstr "Yetkinlik ve yetkinlik kategorilerini yönetin."
+
+msgid "obj_spl"
+msgstr "Anket Soru Havuzu"
+
+msgid "obj_st"
+msgstr "Bölüm"
+
+#, fuzzy
+msgid "obj_stus"
+msgstr "Shortlinks"
+
+#, fuzzy
+msgid "obj_stus_desc"
+msgstr "Global Shortlinks Settings"
+
+msgid "obj_sty"
+msgstr "Stil"
+
+msgid "obj_stys"
+msgstr "Düzen ve Stiller"
+
+msgid "obj_stys_desc"
+msgstr "Sistem şablon ve stil yönetimi"
+
+msgid "obj_svy"
+msgstr "Anket"
+
+msgid "obj_svy_duplicate"
+msgstr "Anket Kopyala"
+
+msgid "obj_svyf"
+msgstr "Anket"
+
+msgid "obj_svyf_desc"
+msgstr "Anket Aracı için Platform ayarları"
+
+#, fuzzy
+msgid "obj_sysc"
+msgstr "System Check"
+
+#, fuzzy
+msgid "obj_sysc_desc"
+msgstr "System Check and Repair Tools"
+
+msgid "obj_tags"
+msgstr "Etiketleme"
+
+msgid "obj_tags_desc"
+msgstr "Etiketleme özelliği ayarları"
+
+msgid "obj_tala"
+msgstr "Talk Templates"
+
+msgid "obj_tala_desc"
+msgstr "Talk Templates"
+
+msgid "obj_tals"
+msgstr "Employee Talk Series"
+
+msgid "obj_talt"
+msgstr "Talk Template"
+
+#, fuzzy
+msgid "obj_task"
+msgstr "Task"
+
+msgid "obj_tax"
+msgstr "Taksonomi"
+
+msgid "obj_taxf"
+msgstr "Taksonomiler"
+
+msgid "obj_tool_setting_calendar"
+msgstr "Takvimi Göster"
+
+#, fuzzy
+msgid "obj_tool_setting_calendar_active"
+msgstr "Calendar"
+
+#, fuzzy
+msgid "obj_tool_setting_calendar_active_info"
+msgstr "A calendar is available."
+
+#, fuzzy
+msgid "obj_tool_setting_calendar_info"
+msgstr "The \"Calendar\" block will be displayed inside the \"Content\" tab."
+
+#, fuzzy
+msgid "obj_tool_setting_custom_metadata"
+msgstr "Custom Metadata"
+
+#, fuzzy
+msgid "obj_tool_setting_custom_metadata_info"
+msgstr "If activated metadata can be configured."
+
+msgid "obj_tool_setting_news"
+msgstr "Haberleri Göster"
+
+#, fuzzy
+msgid "obj_tool_setting_news_info"
+msgstr "The \"News\" block will be displayed inside the \"Content\" tab."
+
+#, fuzzy
+msgid "obj_tos"
+msgstr "Terms of Service"
+
+#, fuzzy
+msgid "obj_tos_desc"
+msgstr "Terms of Service Settings"
+
+msgid "obj_trac"
+msgstr "İstatistik ve Öğrenme Gelişimi"
+
+msgid "obj_trac_desc"
+msgstr "İstatistik ve Öğrenme Gelişimi Ayarlar ve Genel Bakış"
+
+msgid "obj_tst"
+msgstr "Test"
+
+msgid "obj_tst_duplicate"
+msgstr "Test Kopyala"
+
+msgid "obj_tstv"
+msgstr "Test Sertifikası"
+
+msgid "obj_type"
+msgstr "Nesne Türü"
+
+msgid "obj_user"
+msgstr "Kullanıcı"
+
+msgid "obj_usr"
+msgstr "Kullanıcı"
+
+msgid "obj_usrf"
+msgstr "Kullanıcı Hesapları"
+
+msgid "obj_usrf_desc"
+msgstr "Kullanıcı hesap yönetimi"
+
+#, fuzzy
+msgid "obj_wbdv"
+msgstr "WebDAV"
+
+#, fuzzy
+msgid "obj_wbdv_desc"
+msgstr "Configuration of WebDAV Settings."
+
+#, fuzzy
+msgid "obj_wbrs"
+msgstr "Weblink"
+
+#, fuzzy
+msgid "obj_wbrs_desc"
+msgstr "General settings for Web Links"
+
+msgid "obj_webr"
+msgstr "Weblink"
+
+msgid "obj_webr_duplicate"
+msgstr "Weblink listesi kopyala"
+
+msgid "obj_wfld"
+msgstr "Klasör"
+
+msgid "obj_wiki"
+msgstr "Wiki"
+
+msgid "obj_wiki_duplicate"
+msgstr "Wiki Kopyala"
+
+#, fuzzy
+msgid "obj_wiks"
+msgstr "Wiki"
+
+#, fuzzy
+msgid "obj_wiks_desc"
+msgstr "Global Wiki Settings"
+
+msgid "object"
+msgstr "Nesne"
+
+msgid "object_added"
+msgstr "Nesne eklendi"
+
+msgid "object_copy_in_progress"
+msgstr "Kopyalama Başladı."
+
+msgid "object_duplicated"
+msgstr "Nesne kopyalandı"
+
+msgid "object_id"
+msgstr "Nesne Kimliği"
+
+msgid "object_imported"
+msgstr "Nesne Alındı"
+
+#, fuzzy
+msgid "object_list"
+msgstr "List of Objects"
+
+msgid "objects"
+msgstr "Nesneler"
+
+msgid "objf"
+msgstr "Nesne tanımları"
+
+#, fuzzy
+msgid "objs_bibl"
+msgstr "Bibliographies"
+
+msgid "objs_blog"
+msgstr "Bloglar"
+
+msgid "objs_book"
+msgstr "Rezervasyon Kayıtları"
+
+msgid "objs_cat"
+msgstr "Kategoriler"
+
+msgid "objs_catr"
+msgstr "Kategori Referansları"
+
+msgid "objs_chtr"
+msgstr "Sohbet"
+
+#, fuzzy
+msgid "objs_cmix"
+msgstr "Objects xAPI/cmi5"
+
+#, fuzzy
+msgid "objs_copa"
+msgstr "Content Pages"
+
+msgid "objs_crs"
+msgstr "Dersler"
+
+msgid "objs_crsr"
+msgstr "Ders Referansları"
+
+msgid "objs_dcl"
+msgstr "Veri Koleksiyonları"
+
+msgid "objs_etal"
+msgstr "Employee Talks"
+
+msgid "objs_exc"
+msgstr "Egzersizleri"
+
+msgid "objs_file"
+msgstr "Dosyalar"
+
+msgid "objs_fold"
+msgstr "Klasörler"
+
+msgid "objs_frm"
+msgstr "Forumlar"
+
+msgid "objs_glo"
+msgstr "Sözlükler"
+
+msgid "objs_grp"
+msgstr "Gruplar"
+
+#, fuzzy
+msgid "objs_grpr"
+msgstr "Group References"
+
+msgid "objs_htlm"
+msgstr "HTML Öğrenme Modülleri"
+
+#, fuzzy
+msgid "objs_iass"
+msgstr "Individual Assessments"
+
+msgid "objs_itgr"
+msgstr "Ürün Grupları"
+
+msgid "objs_lm"
+msgstr "ILIAS Öğrenme Modülleri"
+
+msgid "objs_lres"
+msgstr "Öğrenim Kaynakları"
+
+#, fuzzy
+msgid "objs_lso"
+msgstr "Learning Sequences"
+
+#, fuzzy
+msgid "objs_lti"
+msgstr "LTI Consumers"
+
+msgid "objs_mail"
+msgstr "Posta"
+
+msgid "objs_mcst"
+msgstr "Mediacasts"
+
+msgid "objs_mep"
+msgstr "Medya Havuzları"
+
+#, fuzzy
+msgid "objs_orgu"
+msgstr "Organisational Unit"
+
+msgid "objs_poll"
+msgstr "Anketler"
+
+#, fuzzy
+msgid "objs_prg"
+msgstr "Study Programmes"
+
+#, fuzzy
+msgid "objs_prgr"
+msgstr "Links to Study Programmes"
+
+#, fuzzy
+msgid "objs_prtf"
+msgstr "Portfolios"
+
+#, fuzzy
+msgid "objs_prtt"
+msgstr "Portfolio Templates"
+
+msgid "objs_qpl"
+msgstr "Test Soru Havuzları"
+
+msgid "objs_qst"
+msgstr "Sorular"
+
+msgid "objs_rcat"
+msgstr "ECS Kategorileri"
+
+msgid "objs_rcrs"
+msgstr "ECS Dersleri"
+
+msgid "objs_rfil"
+msgstr "ECS Dosyaları"
+
+msgid "objs_rglo"
+msgstr "ECS Sözlükleri"
+
+msgid "objs_rgrp"
+msgstr "ECS Grupları"
+
+msgid "objs_rlm"
+msgstr "ECS Öğrenme Modülleri"
+
+msgid "objs_role"
+msgstr "Roller"
+
+#, fuzzy
+msgid "objs_rolf"
+msgstr "Role Folders"
+
+msgid "objs_rtst"
+msgstr "ECS Testleri"
+
+msgid "objs_rwik"
+msgstr "ECS Wiki'ler"
+
+msgid "objs_sahs"
+msgstr "SCORM / AICC Öğrenme Modülleri"
+
+msgid "objs_sess"
+msgstr "Oturumlar"
+
+#, fuzzy
+msgid "objs_skee"
+msgstr "Competence Trees"
+
+msgid "objs_spl"
+msgstr "Anket Soru Havuzları"
+
+msgid "objs_st"
+msgstr "Bölümler"
+
+msgid "objs_svy"
+msgstr "Anketler"
+
+msgid "objs_tala"
+msgstr "Talk Templates"
+
+msgid "objs_talt"
+msgstr "Talk Templates"
+
+msgid "objs_tst"
+msgstr "Testler"
+
+msgid "objs_webr"
+msgstr "Weblinks"
+
+msgid "objs_wiki"
+msgstr "Wiki'ler"
+
+msgid "of"
+msgstr "Of"
+
+msgid "offline"
+msgstr "Çevrimdışı"
+
+#, fuzzy
+msgid "offline_mode"
+msgstr "Offline-Mode"
+
+msgid "ok"
+msgstr "Tamam"
+
+msgid "old"
+msgstr "Eski"
+
+msgid "omit"
+msgstr "Atla"
+
+msgid "omit_all"
+msgstr "Hepsini Atla"
+
+msgid "on_waiting_list"
+msgstr "Bekleme listesindesiniz"
+
+msgid "online"
+msgstr "Çevrimiçi"
+
+msgid "online_time"
+msgstr "Çevrimiçi süre (DD: SS: DD: SS)"
+
+#, fuzzy
+msgid "only_active"
+msgstr "Only Active"
+
+#, fuzzy
+msgid "only_inactive"
+msgstr "Only Inactive"
+
+#, fuzzy
+msgid "open"
+msgstr "Open"
+
+msgid "operation"
+msgstr "Operasyon"
+
+msgid "optimize"
+msgstr "Optimize"
+
+msgid "option"
+msgstr "Seçenek"
+
+msgid "optional_filter_hint"
+msgstr "Lütfen opsiyonel filtrelerden birini etkinleştirin."
+
+msgid "optional_filters"
+msgstr "Opsiyonel Filtreler"
+
+msgid "options"
+msgstr "Seçenekler"
+
+msgid "order_by"
+msgstr "Sırala"
+
+msgid "order_by_date"
+msgstr "Tarihe göre sırala"
+
+#, fuzzy
+msgid "org_op_access_enrolments"
+msgstr "View Enrolment-Status"
+
+#, fuzzy
+msgid "org_op_manage_members"
+msgstr "Manage Subordinate Members"
+
+#, fuzzy
+msgid "org_op_read_learning_progress"
+msgstr "View Learning Progress of Subordinate Users"
+
+#, fuzzy
+msgid "org_permission_settings"
+msgstr "Permissions of Positions in Organisational Units"
+
+#, fuzzy
+msgid "org_units"
+msgstr "Organisational Units"
+
+msgid "organization"
+msgstr "Sağlayıcı"
+
+msgid "other"
+msgstr "Diğer"
+
+msgid "overview"
+msgstr "Genel Bakış"
+
+msgid "overwrite"
+msgstr "Üstüne Yaz"
+
+msgid "owner"
+msgstr "Sahibi"
+
+msgid "owner_updated"
+msgstr "Sahibi güncellendi."
+
+msgid "page"
+msgstr "Sayfa"
+
+#, fuzzy
+msgid "page_count"
+msgstr "Page Count"
+
+msgid "page_layout"
+msgstr "Sayfa Düzeni"
+
+msgid "page_layouts"
+msgstr "Sayfa Düzenleri"
+
+#, fuzzy
+msgid "pagination_label_x_of_y"
+msgstr "Page %1$d of %2$d"
+
+msgid "parameter"
+msgstr "Parametre"
+
+msgid "parse"
+msgstr "Parse"
+
+#, fuzzy
+msgid "participate"
+msgstr "Subscribe"
+
+msgid "passed"
+msgstr "Geçti"
+
+msgid "passwd"
+msgstr "Şifre"
+
+msgid "passwd_generation"
+msgstr "Şifre Oluştur"
+
+msgid "passwd_invalid"
+msgstr "Yeni şifre geçersizdir! Yalnızca aşağıdaki karakterlere izin verilir (en az 6 karakter):. AZ az 0-9 _ - +?#*@!$%~# * @!% $ ~"
+
+msgid "passwd_not_match"
+msgstr "Yeni şifre için girdileriniz uyuşmuyor! Yeni şifrenizi tekrar girin."
+
+msgid "passwd_wrong"
+msgstr "Girdiğiniz şifre yanlış!"
+
+msgid "password"
+msgstr "Şifre"
+
+msgid "password_allow_chars"
+msgstr "Geçerli karakterler:% s"
+
+msgid "password_assistance_info"
+msgstr "Şifre yardımı etkinse , \"Şifrenizi mi unuttunuz?\" bağlantısı ILIAS giriş sayfasında görünür. Kullanıcılar bu linki kullanarak yeni şifrelerini alabilirler."
+
+msgid "password_change_on_first_login_demand"
+msgstr "ILIAS hizmetlerini kullanmaya başlamadan önce ilk şifrenizin değiştirilmesi gerekir."
+
+msgid "password_contains_invalid_chars"
+msgstr "Şifre geçersiz karakter içeriyor"
+
+#, fuzzy
+msgid "password_contains_parts_of_login_err"
+msgstr "The chosen password contains your username. Please insert a new password."
+
+msgid "password_empty"
+msgstr "Şifre boş olmamalıdır."
+
+msgid "password_expired"
+msgstr "Şifrenizin süresi doldu ve değiştirilmesi gerekiyor. Son değiştirme %s gün önce yapıldı"
+
+msgid "password_multiple_errors"
+msgstr "Çoklu kriterler uygun değil:"
+
+msgid "password_must_chars_and_numbers"
+msgstr "Şifre karakterler ve sayılar içermelidir."
+
+#, fuzzy
+msgid "password_must_contain_lcase_chars"
+msgstr "The password must contain at least %s lower case letters."
+
+#, fuzzy
+msgid "password_must_contain_ucase_chars"
+msgstr "The password must contain at least %s capital letters."
+
+msgid "password_must_special_chars"
+msgstr "Şifre özel karakterler içermelidir."
+
+msgid "password_to_long"
+msgstr "Şifreniz en fazla %s karakter olmalıdır."
+
+msgid "password_to_short"
+msgstr "Şifreniz en az %s karakter olmalıdır."
+
+msgid "paste"
+msgstr "Yapıştır"
+
+msgid "pasteChapter"
+msgstr "Yapıştır"
+
+msgid "pastePage"
+msgstr "Yapıştır"
+
+msgid "paste_clipboard_items"
+msgstr "Yapıştır"
+
+msgid "path"
+msgstr "Dizin Yolu"
+
+msgid "path_not_set"
+msgstr "Dizin ayarlanmamış"
+
+msgid "path_to_convert"
+msgstr "Dönüştürme Dizini"
+
+msgid "path_to_htmldoc"
+msgstr "HTMLDoc için Dizin"
+
+msgid "path_to_java"
+msgstr "Java Dizini"
+
+msgid "path_to_unzip"
+msgstr "Unzip için Dizin"
+
+msgid "path_to_zip"
+msgstr "Zip Dizini"
+
+msgid "pathes"
+msgstr "Dizinler"
+
+msgid "pd_items_news"
+msgstr "Kişisel Haberleri Ekle"
+
+msgid "pdf_export"
+msgstr "PDF olarak kaydet"
+
+msgid "perm_settings"
+msgstr "İzinler"
+
+msgid "perma_link"
+msgstr "Kalıcı Bağlantı"
+
+#, fuzzy
+msgid "perma_link_copied"
+msgstr "Link to this page has been copied to the clipboard."
+
+msgid "permission"
+msgstr "İzin"
+
+msgid "permission_denied"
+msgstr "İzin Verilmedi"
+
+msgid "permission_settings"
+msgstr "Nesne İzin Ayarları"
+
+msgid "person_title"
+msgstr "Başlık"
+
+msgid "personal_data"
+msgstr "Kişisel Bilgiler"
+
+msgid "personal_picture"
+msgstr "Kişisel Resim"
+
+msgid "personal_profile"
+msgstr "Kişisel Profil"
+
+#, fuzzy
+msgid "personal_resources"
+msgstr "Personal Resources"
+
+msgid "personal_settings"
+msgstr "Ayarlar"
+
+#, fuzzy
+msgid "personalise_date_time"
+msgstr "Personalise Date and Time Settings"
+
+msgid "persons"
+msgstr "Kişiler"
+
+msgid "pg_add"
+msgstr "Sayfa ekle"
+
+msgid "pg_new"
+msgstr "Yeni sayfa"
+
+msgid "phone"
+msgstr "Telefon"
+
+msgid "phone_home"
+msgstr "Telefon, Ev"
+
+msgid "phone_mobile"
+msgstr "Telefon, Mobil"
+
+msgid "phone_office"
+msgstr "Telefon, İş"
+
+msgid "phrase"
+msgstr "İfade"
+
+msgid "please_choose"
+msgstr "- Seçiniz -"
+
+msgid "please_enter_target"
+msgstr "Bir hedef girin"
+
+msgid "please_enter_title"
+msgstr "Lütfen bir başlık girin"
+
+msgid "please_select"
+msgstr "- Lütfen Seçiniz -"
+
+msgid "please_select_a_delivered_file_to_delete"
+msgstr "Bunu silmek için en az bir teslim dosyası seçmelisiniz!"
+
+msgid "please_select_a_delivered_file_to_download"
+msgstr "Bunu indirmek için en az bir teslim dosyası seçmelisiniz!"
+
+msgid "please_wait"
+msgstr "Lütfen bekleyin ..."
+
+msgid "port"
+msgstr "Port"
+
+msgid "portfolio"
+msgstr "Portföy"
+
+msgid "pos_bottom"
+msgstr "Alt"
+
+msgid "pos_left"
+msgstr "Sol"
+
+msgid "pos_right"
+msgstr "Sağ"
+
+msgid "pos_top"
+msgstr "Üst"
+
+msgid "position"
+msgstr "Pozisyon"
+
+#, fuzzy
+msgid "position_permission_settings"
+msgstr "Orgunit-Specific Permissions"
+
+msgid "precondition"
+msgstr "Önkoşul"
+
+msgid "precondition_not_accessible"
+msgstr "Bu ürününün önkoşullarını görüntülemek için yeterli izniniz yok."
+
+msgid "precondition_required_itemlist"
+msgstr "Gereken Önkoşul"
+
+msgid "precondition_toggle"
+msgstr "Bu nesneye erişmek için yerine getirilmesi gereken önkoşullar"
+
+msgid "preconditions"
+msgstr "Önkoşullar"
+
+msgid "preconditions_obligatory_hint"
+msgstr "Aşağıdaki koşulların tümünü yerine getirmek zorundasınız"
+
+msgid "preconditions_optional_hint"
+msgstr "<b>% s </ b>, aşağıdaki önkoşulları yerine getirmek zorundasınız"
+
+msgid "predefined_template"
+msgstr "Öntanımlı rol şablonu"
+
+msgid "preferences"
+msgstr "Tercihler"
+
+#, fuzzy
+msgid "presentation_table_more"
+msgstr "more"
+
+#, fuzzy
+msgid "presenter"
+msgstr "Presenter"
+
+#, fuzzy
+msgid "preview"
+msgstr "Preview"
+
+#, fuzzy
+msgid "preview_create"
+msgstr "Create Preview"
+
+#, fuzzy
+msgid "preview_delete"
+msgstr "Delete Preview"
+
+#, fuzzy
+msgid "preview_image_size"
+msgstr "Size of Preview Images"
+
+msgid "preview_learner_info"
+msgstr "Etkinse, Ders ve Grup yöneticileri, öğrenci perspektifini görebilir."
+
+#, fuzzy
+msgid "preview_loading"
+msgstr "Loading Preview..."
+
+#, fuzzy
+msgid "preview_none"
+msgstr "Preview (not created yet)"
+
+#, fuzzy
+msgid "preview_not_possible"
+msgstr "Creation of Previews is currently not possible, please read the documentation in %s."
+
+#, fuzzy
+msgid "preview_renderers"
+msgstr "Preview Renderers"
+
+#, fuzzy
+msgid "preview_settings"
+msgstr "File Preview"
+
+#, fuzzy
+msgid "preview_show"
+msgstr "Show Preview"
+
+#, fuzzy
+msgid "preview_status_creating"
+msgstr "The preview gets created. This may take some time..."
+
+#, fuzzy
+msgid "preview_status_deleting"
+msgstr "The preview gets deleted..."
+
+#, fuzzy
+msgid "preview_status_failed"
+msgstr "Failed to create the preview."
+
+#, fuzzy
+msgid "preview_status_missing"
+msgstr "No preview exists for this file."
+
+#, fuzzy
+msgid "preview_status_pending"
+msgstr "The preview has not been created yet. Please try again later."
+
+msgid "previous"
+msgstr "Önceki"
+
+#, fuzzy
+msgid "prg_copy_threads_info"
+msgstr "Please decide which Study Program elements should be copied, linked or even omitted."
+
+#, fuzzy
+msgid "prg_wizard_page"
+msgstr "Copy Study Program (Step 2/2)"
+
+#, fuzzy
+msgid "prgr_add"
+msgstr "Add Study Programme Link"
+
+#, fuzzy
+msgid "prgr_edit_info"
+msgstr "Please choose one Study Programme for creating a new link."
+
+#, fuzzy
+msgid "prgr_new"
+msgstr "Create Study Programme Link"
+
+#, fuzzy
+msgid "prgr_settings"
+msgstr "Settings of Study Programme Link"
+
+msgid "print"
+msgstr "Yazdır"
+
+msgid "print_view"
+msgstr "Önizleme"
+
+msgid "private_notes"
+msgstr "Özel Notlar"
+
+msgid "pro"
+msgstr "Pro"
+
+msgid "proceed"
+msgstr "Devam"
+
+msgid "profile"
+msgstr "Profil"
+
+msgid "profile_changed"
+msgstr "profiliniz değişti"
+
+msgid "profile_incomplete"
+msgstr "Profiliniz eksiktir. Gerekli tüm bilgileri doldurun."
+
+msgid "profile_of"
+msgstr "Profili"
+
+msgid "properties"
+msgstr "Özellikleri"
+
+msgid "proxy"
+msgstr "Vekil Sunucu"
+
+msgid "proxy_connectable"
+msgstr "Bağlantı kuruldu."
+
+msgid "proxy_host"
+msgstr "Sunucu"
+
+msgid "proxy_host_info"
+msgstr "Sunucu(Host) giriniz"
+
+msgid "proxy_not_connectable"
+msgstr "ILIAS tanımlı proxy olmadan bağlantı kurumaz"
+
+msgid "proxy_port"
+msgstr "Port"
+
+msgid "proxy_port_info"
+msgstr "0 ve 65535 arasında bir bağlantı noktası giriniz, eg8080."
+
+msgid "proxy_port_numeric"
+msgstr "Port; 0 ve 65535 arasında bir sayısal değer olmalıdır"
+
+#, fuzzy
+msgid "proxy_socket_error"
+msgstr "Socket Error: %s"
+
+msgid "proxy_status"
+msgstr "Proxy"
+
+msgid "proxy_status_info"
+msgstr "ILIAS da proxy kullanmak için (örneğin, web beslemeleri veya weblinks kontrol etmek için) yukarıdaki onay kutusunu işaretleyin."
+
+#, fuzzy
+msgid "ps_export_scorm"
+msgstr "SCORM Tracking Data"
+
+#, fuzzy
+msgid "ps_password_lowercase_chars_num"
+msgstr "Lower Case Letters"
+
+#, fuzzy
+msgid "ps_password_lowercase_chars_num_info"
+msgstr "Please insert the number of lower case letters a password must contain. Enter 0 to disable this requirement."
+
+#, fuzzy
+msgid "ps_password_must_not_contain_loginame"
+msgstr "Prevent Username in Password"
+
+#, fuzzy
+msgid "ps_password_must_not_contain_loginame_info"
+msgstr "If activated, a password must not contain the username."
+
+#, fuzzy
+msgid "ps_password_uppercase_chars_num"
+msgstr "Capital Letters"
+
+#, fuzzy
+msgid "ps_password_uppercase_chars_num_info"
+msgstr "Please insert the number of capital letters a password must contain. Enter 0 to disable this requirement."
+
+msgid "pub_section"
+msgstr "Herkese Açık Alan"
+
+msgid "pub_section_info"
+msgstr "Etkinse, sistemin parçaları (örneğin depo, çalışma alanı, kullanıcı profilleri) yetkilendirme olmadan internete açılabilir. \"Anonim\" rolü izinleri depo kaynaklarına erişimi kontrol edecektir."
+
+msgid "public"
+msgstr "Genel"
+
+msgid "public_notes"
+msgstr "Genel Notlar"
+
+msgid "public_profile"
+msgstr "Profil"
+
+msgid "public_room"
+msgstr "Genel Oda"
+
+msgid "purpose"
+msgstr "Amaç"
+
+msgid "qpl"
+msgstr "Test Soru Havuzu"
+
+msgid "qpl_add"
+msgstr "Test Soru Havuzu Ekle"
+
+msgid "qpl_new"
+msgstr "Yeni Test Soru Havuzu"
+
+msgid "query_data"
+msgstr "Sorgu verisi"
+
+msgid "question"
+msgstr "Soru"
+
+msgid "question_message"
+msgstr "Soru"
+
+msgid "quit"
+msgstr "Çıkış"
+
+msgid "quote"
+msgstr "Alıntı"
+
+msgid "read"
+msgstr "Oku"
+
+msgid "readcount_anonymous_users"
+msgstr "Anonim okuma erişim sayısı"
+
+msgid "readcount_users"
+msgstr "Anonim olmayan salt erişimlerin sayısı"
+
+msgid "recipient"
+msgstr "Alıcı"
+
+msgid "reference_deleted"
+msgstr "Hedef mevcut değil"
+
+msgid "reference_of"
+msgstr "Referanslar:"
+
+msgid "referral_comment"
+msgstr "ILIAS'ı nereden duydunuz?"
+
+msgid "refresh"
+msgstr "Yenile"
+
+msgid "refresh_languages"
+msgstr "Tüm Dilleri Yenile"
+
+msgid "refuse"
+msgstr "Reddet"
+
+msgid "reg_account_confirmation_successful"
+msgstr "Kullanıcı hesabınız aktive edilmiştir."
+
+#, fuzzy
+msgid "reg_delete_expired_pending_registrations"
+msgstr "Delete Expired Pending Registrations"
+
+#, fuzzy
+msgid "reg_delete_expired_pending_registrations_desc"
+msgstr "Deletes all ILIAS accounts that have not been confirmed after a registration with e-mail confirmation."
+
+msgid "reg_goto_parent_membership_info"
+msgstr "Bu nesneye sadece üyeler erişebilir."
+
+msgid "reg_mail_body_2_confirmation"
+msgstr "Bağlantı yalnızca %s içindir, sonra tekrar denemeniz gerekecektir."
+
+msgid "reg_mail_body_3_confirmation"
+msgstr "Bu e-posta size bir şey ifade etmiyorsa , o zaman başkası bilerek ya da yanlışlıkla e-posta adresinizi girmiş olması mümkündür, bu nedenle lütfen bu e-postayı görmezden gelin"
+
+msgid "reg_mail_body_forgot_password_info"
+msgstr "Şifrenizi almak için «Şifreni mi unuttun?» işlevini kullanın"
+
+msgid "reg_mail_body_salutation"
+msgstr "Merhaba"
+
+msgid "reg_mail_body_text1"
+msgstr "ILIAS eLearning Hoş geldiniz!"
+
+msgid "reg_mail_body_text2"
+msgstr "ILIAS'a erişmek için aşağıdaki verileri kullanın :"
+
+msgid "reg_mail_body_text3"
+msgstr "Ayrıntılı kişisel bilgiler:"
+
+msgid "reg_mail_subject"
+msgstr "Erişim veriniz"
+
+msgid "reg_mail_subject_confirmation"
+msgstr "Onay Linkiniz"
+
+msgid "reg_passwd_via_mail"
+msgstr "Şifrenizi aşağıda verilen e-posta adresine gönderilecektir."
+
+msgid "register"
+msgstr "Kayıt"
+
+#, fuzzy
+msgid "register_notification"
+msgstr "\"%s\" has applied for session \"%s\"."
+
+msgid "registered_since"
+msgstr "Yılından bu yana kayıtlı"
+
+msgid "registered_user"
+msgstr "kayıtlı kullanıcı"
+
+msgid "registered_users"
+msgstr "kayıtlı kullanıcılar"
+
+msgid "registration"
+msgstr "Yeni Hesap Kaydı"
+
+msgid "related_to"
+msgstr "İle İlgili"
+
+msgid "remove"
+msgstr "Sil"
+
+msgid "remove_entries"
+msgstr "Girdileri Sil"
+
+msgid "remove_translation"
+msgstr "Çeviri Sil"
+
+msgid "rename"
+msgstr "Adlandır"
+
+msgid "rename_file"
+msgstr "Dosya Adlandır"
+
+#, fuzzy
+msgid "renderer_supported_file_types"
+msgstr "Supported File Types"
+
+#, fuzzy
+msgid "renderer_supported_repo_types"
+msgstr "Supported ILIAS Objects"
+
+#, fuzzy
+msgid "renderer_type_builtin"
+msgstr "Built-in"
+
+msgid "rep_main_page"
+msgstr "Anasayfa"
+
+#, fuzzy
+msgid "rep_main_page_logo_alt"
+msgstr "Logo ILIAS - to the start page"
+
+msgid "repeat_scan"
+msgstr "Yinelenen virüs tarama ..."
+
+msgid "repeat_scan_failed"
+msgstr "Tekrar tarama başarısız oldu."
+
+msgid "repeat_scan_succeded"
+msgstr "Tekrar tarama başarılı."
+
+msgid "replace_file"
+msgstr "Dosya Değiştir"
+
+msgid "reply"
+msgstr "Yanıt"
+
+#, fuzzy
+msgid "report_accessibility_issue"
+msgstr "Report Accessibility Issue"
+
+#, fuzzy
+msgid "report_accessibility_link"
+msgstr "Reported Link:"
+
+#, fuzzy
+msgid "report_accessibility_link_mailto"
+msgstr "Reported%20Link:"
+
+msgid "repository"
+msgstr "Depo"
+
+msgid "repository_admin"
+msgstr "Depo Çöp ve İzinler"
+
+msgid "repository_admin_desc"
+msgstr "Depo öğeleri için izinleri ayarla, sistem çöp nesneleri geri yüklemek veya kaldırmak"
+
+msgid "require_email"
+msgstr "E-posta gerekli"
+
+msgid "require_gender"
+msgstr "Cinsiyet gerekli"
+
+msgid "require_hobby"
+msgstr "Hobi gerekli"
+
+msgid "require_matriculation"
+msgstr "Olgunluk numarası gerekli"
+
+msgid "require_referral_comment"
+msgstr "Referans yorum gerekli"
+
+msgid "required_field"
+msgstr "Gerekli"
+
+msgid "res_links"
+msgstr "Depo Linkler"
+
+msgid "res_links_short"
+msgstr "Bağlantılar"
+
+msgid "reset"
+msgstr "Sıfırla"
+
+msgid "reset_filter"
+msgstr "Filtre Sıfırla"
+
+msgid "resources"
+msgstr "Kaynaklar"
+
+msgid "right"
+msgstr "Sağ"
+
+msgid "rights"
+msgstr "Haklar"
+
+msgid "role"
+msgstr "Rolü"
+
+msgid "role_add_user"
+msgstr "Role Kullanıcı(lar) Ekle"
+
+msgid "role_added"
+msgstr "Rol eklendi"
+
+msgid "role_assignment"
+msgstr "Rol Atama"
+
+msgid "role_assignment_updated"
+msgstr "Rol atama güncellendi."
+
+msgid "role_edit"
+msgstr "Rol Düzenle"
+
+msgid "role_mailto"
+msgstr "Atanmış tüm kullanıcılar için Posta"
+
+msgid "role_new"
+msgstr "Yeni Rol"
+
+msgid "role_new_search"
+msgstr "Yeni arama"
+
+msgid "role_no_roles_selected"
+msgstr "Bir rol seçiniz"
+
+msgid "role_protect_permissions"
+msgstr "Korunan İzinler"
+
+msgid "role_protect_permissions_desc"
+msgstr "Öğe izinleri sistem tarafından artık değiştirilemez. Sadece yönetici bu izinleri değiştirebilir."
+
+msgid "role_select_one_item"
+msgstr "Bir nesne seçin."
+
+msgid "role_sure_delete_desk_items"
+msgstr "Aşağıdaki atamaları silmek istediğinizden emin misiniz?"
+
+msgid "role_templates_only"
+msgstr "Yalnızca rol şablonları"
+
+msgid "roles"
+msgstr "Roller"
+
+msgid "roles_of_import_global"
+msgstr "Önemli dosyalar için global roller"
+
+msgid "roles_of_import_local"
+msgstr "İçe aktarılan dosyasının yerel rolleri"
+
+msgid "rolf"
+msgstr "Roller"
+
+msgid "rolf_added"
+msgstr "Rol Klasör eklendi"
+
+msgid "rolf_create_role"
+msgstr "Yeni Rol tanımı oluştur"
+
+msgid "rolf_create_rolt"
+msgstr "Yeni Rol tanımı şablonu oluştur"
+
+msgid "rolf_delete"
+msgstr "Rol şablonlarını sil"
+
+msgid "rolf_edit_permission"
+msgstr "İzin ayarlarını değiştir"
+
+msgid "rolf_edit_userassignment"
+msgstr "Kullanıcı atama rollerini değiştir"
+
+msgid "rolf_read"
+msgstr "Roller / Rol şablonları için okuma erişimi"
+
+msgid "rolf_visible"
+msgstr "Roller / Rol şablonları görebilir"
+
+msgid "rolf_write"
+msgstr "Rol şablonlarının varsayılan izin ayarlarını düzenle"
+
+msgid "rolt"
+msgstr "Rol Şablonu"
+
+msgid "rolt_added"
+msgstr "Rol şablonu eklendi"
+
+msgid "rolt_edit"
+msgstr "Rol şablonu düzenle"
+
+msgid "rolt_new"
+msgstr "Yeni Rol Şablonu"
+
+msgid "row"
+msgstr "Satır"
+
+msgid "rows"
+msgstr "Satırlar"
+
+#, fuzzy
+msgid "rpc_pdf_font"
+msgstr "Fonts"
+
+#, fuzzy
+msgid "rpc_pdf_font_info"
+msgstr "Additional fonts for the generation of PDF files. Other fonts than \"Helvetica\" and \"unifont\" must be installed on the ILIAS server."
+
+#, fuzzy
+msgid "rpc_pdf_generation"
+msgstr "PDF-Generation"
+
+#, fuzzy
+msgid "sad"
+msgstr "Sad"
+
+msgid "sahs"
+msgstr "Öğrenme Modülü SCORM / AICC"
+
+msgid "sahs_added"
+msgstr "SCORM / AICC Öğrenme Modülü eklendi"
+
+#, fuzzy
+msgid "sahs_export_file"
+msgstr "ILIAS exported SCORM archive file"
+
+#, fuzzy
+msgid "sahs_export_file_info"
+msgstr "Use this option for a ZIP file that was exported directly from ILIAS. The file typically has titles such as 1675257903__4105__sahs_132295.zip."
+
+msgid "sahs_insert_chap_from_clip"
+msgstr "Bölümleri Pano'dan Yapıştır"
+
+msgid "sahs_insert_page_from_clip"
+msgstr "Sayfaları Pano'dan Yapıştır"
+
+msgid "sahs_insert_sco_from_clip"
+msgstr "SCOs Pano'dan Yapıştır"
+
+#, fuzzy
+msgid "sahs_new"
+msgstr "Create New Learning Module"
+
+msgid "salutation"
+msgstr "Selamlama"
+
+msgid "salutation_f"
+msgstr "Bayan. / Bay."
+
+msgid "salutation_m"
+msgstr "Bay"
+
+#, fuzzy
+msgid "salutation_n"
+msgstr "No salutation desired"
+
+#, fuzzy
+msgid "saml_log_in"
+msgstr "Direct login"
+
+#, fuzzy
+msgid "saml_login_form_info_txt"
+msgstr "You can log in using the “Direct Login” button without having to enter your username or password."
+
+#, fuzzy
+msgid "saml_login_form_txt"
+msgstr "Login to ILIAS via SAML"
+
+msgid "save"
+msgstr "Kaydet"
+
+msgid "save_and_back"
+msgstr "Kaydet ve Geri"
+
+msgid "save_message"
+msgstr "Taslak olarak kaydet"
+
+msgid "save_params_for_cron"
+msgstr "Cronjob için Parametre kaydet"
+
+msgid "save_refresh"
+msgstr "Kaydet ve Yenile"
+
+msgid "save_return"
+msgstr "Kaydet ve Geri Dön"
+
+msgid "save_settings"
+msgstr "Ayarları Kaydet"
+
+msgid "save_user_related_data"
+msgstr "Kullanıcı ile ilgili erişim bilgilerini kaydet"
+
+msgid "saved_successfully"
+msgstr "Başarıyla Kaydedildi"
+
+msgid "saving"
+msgstr "Kaydediliyor..."
+
+#, fuzzy
+msgid "scope"
+msgstr "Scope"
+
+msgid "scorm_create_export_file_html"
+msgstr "Dışa Aktarım Dosyası (HTML) Oluştur"
+
+msgid "scorm_create_export_file_pdf"
+msgstr "Dışa Aktarım Dosyası (PDF) Oluştur"
+
+msgid "scorm_create_export_file_scrom12"
+msgstr "Dışa Aktarım Dosyası (SCORM 1.2) Oluştur"
+
+msgid "scorm_create_export_file_scrom2004"
+msgstr "Dışa Aktarım Dosyası (SCORM 2004 3rd Edition) Oluştur"
+
+msgid "scorm_create_export_file_scrom2004_4th"
+msgstr "Dışa Aktarım Dosyası (SCORM 2004 4th Edition) Oluştur"
+
+#, fuzzy
+msgid "scorm_login_as_learner_id"
+msgstr "SCORM 2004: set ILIAS User Name as cmi.learner_id"
+
+#, fuzzy
+msgid "scorm_login_as_learner_id_info"
+msgstr "If enabled, the User Name instead of the User ID is set for cmi.learner_id."
+
+#, fuzzy
+msgid "scorm_lp_auto_activate"
+msgstr "default settings for learning progress"
+
+#, fuzzy
+msgid "scorm_lp_auto_activate_info"
+msgstr "If learning progress is activated in general, the settings for new SCORM learning modules are set to 'Collection of SCORM Items' and all SCOs are selected for learning progress determination. Adjustments are still possible for every SCORM learning module."
+
+msgid "scorm_new"
+msgstr "SCORM Öğrenme Modülü Oluştur (Yazar Modu)"
+
+#, fuzzy
+msgid "scorm_without_session"
+msgstr "SCORM 2004: enable storing data without session"
+
+#, fuzzy
+msgid "scorm_without_session_info"
+msgstr "This ensures the storage of SCORM learning data even if ILIAS session expired"
+
+msgid "search"
+msgstr "Arama"
+
+msgid "search_active"
+msgstr "Aktif kullanıcı ekleyin"
+
+msgid "search_at_current_position"
+msgstr "Şimdiki Pozisyona"
+
+msgid "search_engine"
+msgstr "Arama Motorları"
+
+msgid "search_for"
+msgstr "Ara"
+
+msgid "search_globally"
+msgstr "Küresel"
+
+msgid "search_in"
+msgstr "İçinde ara"
+
+msgid "search_inactive"
+msgstr "Aktif olmayan kullanıcıları ekle"
+
+msgid "search_new"
+msgstr "Yeni Arama"
+
+msgid "search_result"
+msgstr "Arama Sonucu"
+
+msgid "search_results"
+msgstr "Arama Sonuçları"
+
+msgid "search_user"
+msgstr "Kullanıcı Ara"
+
+#, fuzzy
+msgid "search_users"
+msgstr "Look Up Users"
+
+msgid "seas_max_hits"
+msgstr "En çok bakılan"
+
+msgid "seas_max_hits_info"
+msgstr "Arama sonuçları için dönecek en fazla kayıt sayısını belirleyin"
+
+msgid "seas_settings"
+msgstr "Arama ayarları"
+
+msgid "second"
+msgstr "Saniye"
+
+#, fuzzy
+msgid "second_email"
+msgstr "Second Email"
+
+msgid "seconds"
+msgstr "Saniye"
+
+msgid "sel_country"
+msgstr "Ülke"
+
+msgid "select"
+msgstr "Seç"
+
+msgid "select_all"
+msgstr "Tümünü Seç"
+
+msgid "select_at_least_one_object"
+msgstr "En az bir nesne seçin."
+
+msgid "select_file"
+msgstr "Dosya Seç"
+
+#, fuzzy
+msgid "select_file_from_computer"
+msgstr "Select File"
+
+#, fuzzy
+msgid "select_files_from_computer"
+msgstr "Select the files from your computer"
+
+msgid "select_max_one_item"
+msgstr "Yalnızca bir öğe seçiniz"
+
+msgid "select_object_to_link"
+msgstr "Bağlamak istediğiniz nesneyi seçiniz"
+
+msgid "select_one"
+msgstr "Lütfen birini seçiniz."
+
+#, fuzzy
+msgid "select_question_pool_info"
+msgstr "As long as the import file contains questions, these questions will be imported to the selected questionpool as well."
+
+msgid "select_questionpool"
+msgstr "Soruları ekle"
+
+msgid "selected"
+msgstr "Seçilmiş"
+
+#, fuzzy
+msgid "selected_files"
+msgstr "Selected files"
+
+msgid "selected_items"
+msgstr "Kişisel Öğeler"
+
+msgid "selected_items_back"
+msgstr "Kişisel Öğelere Dön"
+
+msgid "selected_languages_updated"
+msgstr "Seçilen dil (kurulu ise) güncellendi:"
+
+msgid "send"
+msgstr "Gönder"
+
+msgid "send_mail"
+msgstr "Mesaj Gönder"
+
+msgid "sender"
+msgstr "Gönderen"
+
+msgid "sent"
+msgstr "Gönderilmiş"
+
+msgid "sequence"
+msgstr "Dizi"
+
+msgid "sequences"
+msgstr "Diziler"
+
+msgid "server"
+msgstr "Sunucu"
+
+msgid "server_data"
+msgstr "Sunucu Bilgileri"
+
+msgid "server_disabled"
+msgstr "Sohbet Devre Dışı"
+
+msgid "server_software"
+msgstr "Sunucu Yazılımı"
+
+msgid "sess"
+msgstr "Oturum"
+
+msgid "sess_fixed_duration"
+msgstr "Sabit Oturum Süresi"
+
+msgid "session_config"
+msgstr "Oturum Ayarları"
+
+msgid "session_config_maintenance_disabled"
+msgstr "İstemci bakım yapamaz"
+
+#, fuzzy
+msgid "session_mail_subject_deletion"
+msgstr "Deregistration of user \"%s\" from session \"%s\""
+
+#, fuzzy
+msgid "session_mail_subject_entered"
+msgstr "Joining of user \"%s\" in session \"%s\""
+
+#, fuzzy
+msgid "session_mail_subject_registered"
+msgstr "Registration of user \"%s\" for session \"%s\""
+
+msgid "session_reminder"
+msgstr "Oturum Hatırlatma"
+
+msgid "session_reminder_alert"
+msgstr "Oturumunuz $ s% 2% 1 $ s içinde sona erecek!\\ N \\ nOturuma devam etmek için tamamı seçin \\ nEğer iptal ederseniz oturumunuz sonlanacaktır."
+
+#, fuzzy
+msgid "session_reminder_default_lead_time_info"
+msgstr "Please specify how many minutes before the expiration of a session a reminder should be shown.<br / >The function is deactivated when the value is '%s'. The recommended value is %s.<br / >The current length of a session is %s."
+
+#, fuzzy
+msgid "session_reminder_input"
+msgstr "Session Reminder (in Minutes)"
+
+msgid "session_reminder_lead_time"
+msgstr "Zaman Aralığı"
+
+msgid "session_reminder_lead_time_info"
+msgstr "Oturum hatırlatmasının kaç dakikada bir olacağını belirleyin Önerilen değer 5 (dakika) <br /> Bir kullanıcı oturumunun geçerli uzunluğu % s dir."
+
+msgid "session_reminder_session_duration"
+msgstr "(Oturum Süresi:% s)."
+
+msgid "set"
+msgstr "Ayarla"
+
+msgid "setSystemLanguage"
+msgstr "Sistemi Dillerini Ayarla"
+
+msgid "setUserLanguage"
+msgstr "Kullanıcı Dilini Seç"
+
+msgid "set_offline"
+msgstr "Çevrimdışı Yap"
+
+msgid "set_online"
+msgstr "Çevrimiçi Yap"
+
+#, fuzzy
+msgid "set_skin_does_not_exist"
+msgstr "Your selected skin does not exist anymore. You may change your style in the personal settings or contact your administrator. Current selection:"
+
+#, fuzzy
+msgid "set_style_does_not_exist"
+msgstr "Your selected system style does not exist anymore. You may change your style in the personal settings or contact your administrator. Current selection:"
+
+msgid "settings"
+msgstr "Ayarlar"
+
+msgid "settings_for_all_members"
+msgstr "Tüm ders / grup üyeleri için önceden bildirim"
+
+msgid "settings_per_users"
+msgstr "Her Kurs / Grup üyesi için ayarlar"
+
+#, fuzzy
+msgid "settings_presentation_header"
+msgstr "Presentation"
+
+msgid "settings_saved"
+msgstr "Ayarlar kaydedildi"
+
+msgid "shib"
+msgstr "Slogan"
+
+msgid "shib_active"
+msgstr "Slogan desteğini etkinleştir"
+
+msgid "shib_city"
+msgstr "Şehir için özellik"
+
+msgid "shib_country"
+msgstr "Ülke için özellik"
+
+msgid "shib_data_conv"
+msgstr "Veri işleme API dizini"
+
+msgid "shib_data_conv_warning"
+msgstr "Belirttiğiniz veri işleme API dosya okunamıyor"
+
+msgid "shib_department"
+msgstr "Bölüm için özellik"
+
+msgid "shib_email"
+msgstr "E-posta adresi için özellik"
+
+msgid "shib_federation_name"
+msgstr "Slogan federasyonunuzun adı"
+
+msgid "shib_firstname"
+msgstr "İsim için özellik"
+
+msgid "shib_gender"
+msgstr "Cinsiyet için özellik ('m' veya 'f' olmalı)"
+
+msgid "shib_general_login_instructions"
+msgstr "% s üzerinden giriş yapmak için, giriş düğmesine tıklayın ve aşağıdaki sayfadan kuruluşunuzu seçiniz. <br> Bununla ilgili sorularınız varsa, lütfen sorunuz"
+
+msgid "shib_general_wayf_login_instructions"
+msgstr "Belirtilen organizasyon ile ilişkili değilseniz ve bu kursa erişim istiyorsanız iletişime geçin"
+
+msgid "shib_idp_list"
+msgstr "ILIAS giriş sayfasında kullanıcıların seçmesi için kimlik sağlayıcıları listesi tanımlayın. Her satırı <strong>providerID of IdP</strong> için noktalı virgül(;) ile ayırın.(Slogan metadata dosyasına bakın). <strong>IdP nin adı </strong> aşağı açılır listede görünecektir.<br>"
+
+msgid "shib_institution"
+msgstr "Kurum için özellik"
+
+msgid "shib_invalid_home_organization"
+msgstr "Geçerli bir organizasyon seçiniz!"
+
+msgid "shib_language"
+msgstr "Dil için özellik"
+
+msgid "shib_lastname"
+msgstr "Soyad için özellik"
+
+msgid "shib_login"
+msgstr "Benzersiz Slogan özniteliği"
+
+msgid "shib_login_button"
+msgstr "Slogan konfigürasyonunda belirtilen kullanıcıları WAYF e yönlendiren slogan giriş butonu resim dizini"
+
+msgid "shib_login_embedded_wayf"
+msgstr "Özel giriş bölümü dizayn edin"
+
+msgid "shib_login_embedded_wayf_description"
+msgstr "Bu seçenek seçilirse , aşağıdaki giriş talimatları metin alanında herhangi bir HTML kodu sağlayabilir. Bu örnek, Java WAYF / Discovery Servis gömmek veya giriş alanının bir müşteriye özel tasarım oluşturmak için de kullanılabilir."
+
+msgid "shib_login_external_wayf"
+msgstr "Harici WAYF servisi kullan"
+
+msgid "shib_login_internal_wayf"
+msgstr "ILIAS WAYF servisi kullan"
+
+msgid "shib_login_type"
+msgstr "Organizasyon seçimi"
+
+msgid "shib_matriculation"
+msgstr "Başlama sayısı için özellik"
+
+msgid "shib_member_of"
+msgstr "Ben bir üyesiyim ..."
+
+msgid "shib_phone_home"
+msgstr "Ev telefon numarası için özellik"
+
+msgid "shib_phone_mobile"
+msgstr "Cep telefonu numarası için özellik"
+
+msgid "shib_phone_office"
+msgstr "Ofis telefon numarası için özellik"
+
+msgid "shib_select_home_organization"
+msgstr "% S yoluyla kimlik doğrulama için listede aşağı doğru açılan menüden kuruluşunuzu seçiniz."
+
+msgid "shib_settings_saved"
+msgstr "Slogan ayarları kaydedildi"
+
+msgid "shib_street"
+msgstr "Sokak için özellik"
+
+msgid "shib_title"
+msgstr "Başlık için özellik"
+
+msgid "shib_update"
+msgstr "Bu alanı giriş yaparken güncelle"
+
+msgid "shib_user_default_role"
+msgstr "Slogan kullanıcılarına atanan varsayılan rol"
+
+msgid "shib_zipcode"
+msgstr "Zipcode için özellik"
+
+msgid "short_inst_name"
+msgstr "Kısa Başlık"
+
+msgid "short_inst_name_info"
+msgstr "Bu başlık tarayıcının başlık çubuğunda görünecektir. Değer yok ise 'ILIAS' kullanılır."
+
+msgid "show"
+msgstr "Göster"
+
+#, fuzzy
+msgid "show_all_details"
+msgstr "Show all details"
+
+#, fuzzy
+msgid "show_content"
+msgstr "Show Content"
+
+msgid "show_details"
+msgstr "Detayları göster"
+
+msgid "show_filter"
+msgstr "Filtre Göster"
+
+#, fuzzy
+msgid "show_hidden_sections"
+msgstr "Show More Information &raquo;"
+
+#, fuzzy
+msgid "show_less"
+msgstr "Show less"
+
+msgid "show_list"
+msgstr "Listeyi Göster"
+
+msgid "show_members"
+msgstr "Üyeleri Göster"
+
+#, fuzzy
+msgid "show_more"
+msgstr "Show More"
+
+#, fuzzy
+msgid "show_preview"
+msgstr "Show Preview"
+
+msgid "show_users_online"
+msgstr "Aktif kullanıcıları göster"
+
+#, fuzzy
+msgid "show_who_is_online"
+msgstr "Show who is online"
+
+msgid "side_frame"
+msgstr "Yan Çerçeve"
+
+msgid "signature"
+msgstr "İmza"
+
+msgid "size"
+msgstr "Boyut"
+
+msgid "skills"
+msgstr "Yetkinlikler"
+
+msgid "skin_style"
+msgstr "Standart Arayüz / Stil"
+
+msgid "smtp"
+msgstr "SMTP"
+
+msgid "soap_connect_timeout"
+msgstr "Bağlantı Zaman Aşımı"
+
+msgid "soap_connect_timeout_info"
+msgstr "SOAP WebServis bağlantı girişimi saniyedeki maksimum isteğe ulaşınca kesilir."
+
+msgid "soap_user_administration"
+msgstr "SOAP aracılığı ile yönetim"
+
+msgid "soap_user_administration_desc"
+msgstr "Etkinse, ILIAS SOAP aracılığı ile idare edilebilir."
+
+msgid "soap_wsdl_path"
+msgstr "WSDL Yolu"
+
+msgid "soap_wsdl_path_info"
+msgstr "WebServis için kullanılacak WSDL dosyası yolunu girin Bu alanı boş bırakırsanız, aşağıdaki yol varsayılan olarak kullanılır % S"
+
+#, fuzzy
+msgid "sort"
+msgstr "Sort"
+
+#, fuzzy
+msgid "sort_ascending"
+msgstr "Sort Ascending"
+
+#, fuzzy
+msgid "sort_ascending_long"
+msgstr "Change Sort Direction to Ascending"
+
+msgid "sort_by_this_column"
+msgstr "Bu sütuna göre sırala"
+
+#, fuzzy
+msgid "sort_descending"
+msgstr "Sort Descending"
+
+#, fuzzy
+msgid "sort_descending_long"
+msgstr "Change Sort Direction to Descending"
+
+msgid "sort_inherit_prefix"
+msgstr "Standart"
+
+#, fuzzy
+msgid "sorting_asc"
+msgstr "Ascending"
+
+#, fuzzy
+msgid "sorting_creation_header"
+msgstr "By Creation Date"
+
+#, fuzzy
+msgid "sorting_creation_info"
+msgstr "Content items are arranged automatically by their creation date."
+
+#, fuzzy
+msgid "sorting_desc"
+msgstr "Descendent"
+
+#, fuzzy
+msgid "sorting_direction"
+msgstr "Sorting Direction"
+
+msgid "sorting_header"
+msgstr "İçerik Öğesi Sıralama"
+
+msgid "sorting_info_inherit"
+msgstr "Sıralama modu, ana dersten benimsenmiştir."
+
+msgid "sorting_info_manual"
+msgstr "Bu mod öğeleri manuel sıralamak için imkan sunar"
+
+msgid "sorting_info_title"
+msgstr "Başlığa göre öğeleri otomatik sıralamak için bu modu seçin."
+
+msgid "sorting_manual_header"
+msgstr "Manuel Sırala"
+
+msgid "sorting_save"
+msgstr "Sıralamayı Kaydet"
+
+msgid "sorting_title_header"
+msgstr "Başlığa Göre Sıralama"
+
+msgid "spacer"
+msgstr "Ayırıcı"
+
+msgid "spl"
+msgstr "Anket Soru Havuzu"
+
+msgid "spl_add"
+msgstr "Anket Soru Havuzu Ekle"
+
+msgid "spl_import"
+msgstr "Anket Soru Havuzu İçe Aktar"
+
+msgid "spl_new"
+msgstr "Yeni Anket Soru Havuzu"
+
+msgid "ssl"
+msgstr "SSL (HTTPS)"
+
+msgid "standard_fields"
+msgstr "Standart Alanlar"
+
+msgid "startpage"
+msgstr "ILIAS Giriş Sayfası"
+
+msgid "stat_selected"
+msgstr "Seçilmiş"
+
+msgid "statistic"
+msgstr "İstatistik"
+
+msgid "statistics"
+msgstr "İstatistikler"
+
+msgid "status"
+msgstr "Durumu"
+
+msgid "status_no_permission"
+msgstr "Verilen izniniz yok"
+
+msgid "step"
+msgstr "Adım"
+
+msgid "street"
+msgstr "Sokak"
+
+msgid "structure"
+msgstr "Yapısı"
+
+msgid "sty"
+msgstr "Stil"
+
+msgid "sub_request_deleted"
+msgstr "Silinmiş üyelik başvurusu"
+
+msgid "sub_request_saved"
+msgstr "Kayıtlı üyelik başvurusu"
+
+msgid "subject"
+msgstr "Konu"
+
+msgid "submit"
+msgstr "Gönder"
+
+msgid "subobjects"
+msgstr "Alt Nesneler"
+
+msgid "subscription"
+msgstr "Abonelik"
+
+msgid "subtabs"
+msgstr "Alt Sekmeler"
+
+msgid "success_message"
+msgstr "Başarı Mesajı"
+
+msgid "summary"
+msgstr "Özeti"
+
+msgid "sure_delete_selected_users"
+msgstr "Seçili kullanıcıları silmek istediğinizden emin misiniz ?"
+
+msgid "survey_defaults"
+msgstr "Anketler için Varsayılan Ayarlar"
+
+msgid "survey_unlimited_invitation"
+msgstr "Sınırsız Davet"
+
+msgid "svy"
+msgstr "Anket"
+
+msgid "svy_add"
+msgstr "Anket Ekle"
+
+msgid "svy_finished"
+msgstr "Anketi tamamladınız"
+
+msgid "svy_new"
+msgstr "Yeni anket"
+
+msgid "svy_not_finished"
+msgstr "Anket henüz tamamlanmamıştır"
+
+msgid "svy_not_started"
+msgstr "Bu ankete katılmadınız"
+
+msgid "svy_run"
+msgstr "Çalıştır"
+
+msgid "svy_warning_survey_not_complete"
+msgstr "Anket tamamlanmamış"
+
+#, fuzzy
+msgid "switch_language"
+msgstr "Switch Language"
+
+msgid "system"
+msgstr "Sistem"
+
+msgid "system_check"
+msgstr "Sistem Kontrolü"
+
+msgid "system_information"
+msgstr "Sistem Bilgileri"
+
+msgid "system_language"
+msgstr "Sistem Dili"
+
+msgid "system_styles"
+msgstr "Sistem Stilleri"
+
+msgid "systemcheck_cron"
+msgstr "Cronjob ile Sistem Kontrol İşlemleri"
+
+msgid "systemcheck_cronform"
+msgstr "Cronjob ile Sistem Kontrolü Etkinleştirme"
+
+msgid "table_mail_import"
+msgstr "E-Posta içe aktar"
+
+msgid "tabs"
+msgstr "Tablar"
+
+msgid "tagging_my_tags"
+msgstr "Etiketlerim"
+
+#, fuzzy
+msgid "tags"
+msgstr "Tags"
+
+msgid "take_over_structure"
+msgstr "Yapıya Adapte"
+
+msgid "take_over_structure_info"
+msgstr "Etkinleştirilmişse, zip dosyası dizinleri kategoriler, gruplar ve kurslar klasörleri ile eşleştirilir."
+
+msgid "tals_etal"
+msgstr "Talk"
+
+msgid "talt_etal"
+msgstr "Talk"
+
+msgid "target"
+msgstr "Hedef"
+
+msgid "tax"
+msgstr "Taksonomi"
+
+msgid "tax_add"
+msgstr "Taksonomi Ekle"
+
+msgid "tax_new"
+msgstr "Yeni Taksonomi"
+
+msgid "term"
+msgstr "Dönem"
+
+msgid "test"
+msgstr "Test"
+
+msgid "tests"
+msgstr "Testler"
+
+msgid "textbox"
+msgstr "Metin Kutusu"
+
+msgid "thread"
+msgstr "Konu"
+
+msgid "thumbnail"
+msgstr "Küçük"
+
+#, fuzzy
+msgid "tile_view"
+msgstr "Tile View"
+
+msgid "time"
+msgstr "Zaman"
+
+msgid "time_limit"
+msgstr "Erişim"
+
+msgid "time_limit_add_time_limit_for_selected"
+msgstr "Seçilen kullanıcı (lar) için bir süre girin."
+
+msgid "time_limit_from"
+msgstr "Gönderen (zaman sınırı)"
+
+msgid "time_limit_message"
+msgstr "Mesaj (zaman sınırı)"
+
+msgid "time_limit_no_users_selected"
+msgstr "Bir kullanıcı seçiniz."
+
+msgid "time_limit_not_valid"
+msgstr "Periyod geçerli değildir."
+
+msgid "time_limit_reached"
+msgstr "Kullanıcı hesabınız aktif değildir."
+
+msgid "time_limit_unlimited"
+msgstr "Sınırsız (zaman sınırı)"
+
+msgid "time_limit_until"
+msgstr "Kadar (süre)"
+
+msgid "title"
+msgstr "Başlık"
+
+msgid "title_required"
+msgstr "Bir başlık giriniz."
+
+msgid "to"
+msgstr "için"
+
+msgid "to_client_list"
+msgstr "İstemci Seçimi"
+
+msgid "today"
+msgstr "Bugün"
+
+msgid "toggleGlobalDefault"
+msgstr "Genel Standart"
+
+msgid "toggleGlobalFixed"
+msgstr "Genel Sabit Değerleri Diğer Duruma Geçir"
+
+#, fuzzy
+msgid "toggle_dropdown"
+msgstr "Toggle Dropdown"
+
+#. Don't translate this label to prevent rendering problems of the related Toggle Button!
+msgid "toggle_off"
+msgstr "OFF"
+
+#. Don't translate this label to prevent rendering problems of the related Toggle Button!
+msgid "toggle_on"
+msgstr "ON"
+
+msgid "tomorrow"
+msgstr "Yarın"
+
+#, fuzzy
+msgid "toolbar_more_actions"
+msgstr "More Actions"
+
+#, fuzzy
+msgid "tools"
+msgstr "Tools"
+
+msgid "top_of_page"
+msgstr "Sayfa Başı"
+
+#, fuzzy
+msgid "tos_accept_usr_agreement"
+msgstr "Accept Terms of Service?"
+
+#, fuzzy
+msgid "tos_accept_usr_agreement_intro"
+msgstr "There are new terms of service. You need to accept them before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page."
+
+#, fuzzy
+msgid "tos_force_accept_usr_agreement"
+msgstr "You must accept the Terms of Service!"
+
+#, fuzzy
+msgid "tos_no_agreement_description"
+msgstr "There is currently no Terms of Service document available for this installation. Please contact the <a href=\"%1$s\">system administrator</a>."
+
+#, fuzzy
+msgid "tos_refuse_acceptance"
+msgstr "Refuse to Accept Terms of Service"
+
+#, fuzzy
+msgid "tos_usr_agreement"
+msgstr "Terms of Service"
+
+#, fuzzy
+msgid "tos_usr_agreement_footer_intro"
+msgstr "You have declared your consent to these terms of service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_description"
+msgstr "Withdraw your consent to our Terms of Service here."
+
+#, fuzzy
+msgid "tos_withdraw_consent_description_external"
+msgstr "Please return to your ILIAS installation and log in again to complete the process of withdrawing your consent to the Terms of Service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_description_internal"
+msgstr "Please log in again to complete the process of withdrawing your consent to the Terms of Service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_header"
+msgstr "Withdraw Terms of Service Consent"
+
+#, fuzzy
+msgid "tos_withdraw_consent_info"
+msgstr "Withdraw your consent to our Terms of Service."
+
+#, fuzzy
+msgid "tos_withdraw_consent_info_external"
+msgstr "Please contact the administrator of your authentication system and inform them of your intention to withdraw your consent to the Terms of Service."
+
+msgid "total"
+msgstr "Toplam"
+
+msgid "tracking_settings"
+msgstr "Öğrenme Adımları Ayarları"
+
+msgid "translation"
+msgstr "Çeviri"
+
+msgid "trash"
+msgstr "Çöp"
+
+msgid "tree"
+msgstr "Ağaç"
+
+msgid "tree_frame"
+msgstr "Ağaç Çerçeve"
+
+msgid "treeview"
+msgstr "Kenar Çubuğunu Göster"
+
+msgid "tst"
+msgstr "Test"
+
+msgid "tst_add"
+msgstr "Test Ekle"
+
+msgid "tst_edit_questions"
+msgstr "Soruları Düzenle"
+
+#, fuzzy
+msgid "tst_history_read"
+msgstr "View History"
+
+msgid "tst_new"
+msgstr "Yeni Test"
+
+#, fuzzy
+msgid "tst_results"
+msgstr "Test Results"
+
+msgid "tst_run"
+msgstr "Çalıştır"
+
+msgid "tst_user_not_invited"
+msgstr "Bu testi almanız gerekmiyor"
+
+msgid "tst_warning_test_not_complete"
+msgstr "Test tamamlanmadı !"
+
+msgid "tutors"
+msgstr "Öğretmenler"
+
+msgid "txt_registered"
+msgstr "ILIAS kaydınız yapıldı. Kullanıcı hesabınızla ILIAS giriş için aşağıdaki butona tıklayınız."
+
+msgid "txt_registered_passw_gen"
+msgstr "ILIAS kaydınız yapıldı. Kısa süre içinde oluşturulmuş bir parolayı içeren bir e-posta alacaksınız."
+
+msgid "txt_submitted"
+msgstr "ILIAS hesap talebiniz iletildi. Hesap isteği sistem yöneticileri tarafından gözden geçirilecektir ve 48 saat içinde aktif edilecektir. Hesabınız aktif edilene kadar giriş mümkün olmayacaktır."
+
+msgid "typ"
+msgstr "Nesne Türü Tanımı"
+
+msgid "type"
+msgstr "Tip"
+
+msgid "udf_added_field"
+msgstr "Yeni bir alan eklendi."
+
+msgid "udf_delete_sure"
+msgstr "Bu alanı ve tüm atanmış kullanıcı verilerini silmek istediğinize emin misiniz ?"
+
+msgid "udf_duplicate_entries"
+msgstr "Bu değer benzersiz(tekil) olmalıdır."
+
+msgid "udf_field_deleted"
+msgstr "Silinmiş alan."
+
+msgid "udf_name_already_exists"
+msgstr "Bu alan adı zaten var. Farklı bir ad seçin."
+
+msgid "udf_required_requires_visib_reg"
+msgstr "Alan \"gerekli\" olarak ayarlandığında, \"kayıt görünür\" şekilde ayarlanması gerekir"
+
+msgid "udf_type_date"
+msgstr "Tarih"
+
+msgid "udf_type_datetime"
+msgstr "Tarih ve Zaman"
+
+msgid "udf_type_select"
+msgstr "Seçim Listesi (Drop-Down)"
+
+msgid "udf_type_text"
+msgstr "Metin Alanı (Tek Satır)"
+
+msgid "udf_type_textarea"
+msgstr "Metin Alanı (WYSIWYG)"
+
+msgid "udf_update_select_field"
+msgstr "Seçim Kutusu Düzenle"
+
+msgid "udf_update_text_field"
+msgstr "Metin Alanı Düzenle"
+
+msgid "udf_update_wysiwyg_field"
+msgstr "Metin Alanı (WYSIWYG) Düzenle"
+
+msgid "uid"
+msgstr "UID"
+
+msgid "ums_create_new_account"
+msgstr "Yeni Hesap Oluştur"
+
+msgid "ums_explanation"
+msgstr "Harici hesabınız ILIAS hesabınız ile eşleştirilemedi. Ama ILIAS e-posta adresiniz ile bir hesap bulmuştur. Bu hesap sizin ise, ILIAS şifreniz ile giriş yapınız."
+
+msgid "ums_explanation_2"
+msgstr "Bu hesap sizin değilse, 'Yeni Hesap Oluştur' tuşuna tıklayın."
+
+msgid "ums_explanation_3"
+msgstr "Harici hesabınız ILIAS hesabınız ile eşleştirilemedi. Ama ILIAS e-posta adresiniz ile birden çok hesabı bulmuştur. Bunlardan biri sizinse, ILIAS şifreniz ile giriş yapınız."
+
+msgid "ums_explanation_4"
+msgstr "Bunlardan biri sizin hesabınız değilse, 'Yeni Hesap Oluştur' tuşuna tıklayın."
+
+msgid "unambiguousness"
+msgstr "Ayırt Edici İşaret"
+
+msgid "uncheck_all"
+msgstr "Hepsini kaldır"
+
+msgid "unchecked"
+msgstr "Seçilmeyen"
+
+msgid "uninstall"
+msgstr "Kaldır"
+
+msgid "uninstalled"
+msgstr "kaldırıldı."
+
+msgid "unknown"
+msgstr "BİLİNMEYEN"
+
+#, fuzzy
+msgid "unparticipate"
+msgstr "Unsubscribe"
+
+msgid "unread"
+msgstr "Okunmamış"
+
+msgid "unzip"
+msgstr "Çıkar(Unzip)"
+
+msgid "up"
+msgstr "Yukarı"
+
+msgid "update"
+msgstr "Düzenle"
+
+msgid "update_applied"
+msgstr "Güncelleme Uygulandı"
+
+msgid "update_language"
+msgstr "Dil Güncelle"
+
+msgid "update_on_conflict"
+msgstr "Çakışma halinde güncelleştir"
+
+#, fuzzy
+msgid "update_orgunits"
+msgstr "Update assigned organisational units"
+
+#, fuzzy
+msgid "update_orgunits_desc"
+msgstr "If enabled, the field 'Organisational Units' will be updated for all user accounts."
+
+msgid "upload"
+msgstr "Yükle"
+
+msgid "upload_error_file_not_found"
+msgstr "Yükle hatası: Dosya bulunamadı."
+
+#, fuzzy
+msgid "upload_ok"
+msgstr "The upload was successful"
+
+#, fuzzy
+msgid "upload_pending"
+msgstr "Pending"
+
+#, fuzzy
+msgid "upload_settings"
+msgstr "Uploading Settings"
+
+#, fuzzy
+msgid "upload_svg_rejection_message"
+msgstr "An uploaded SVG file contains possibily malicious code and cannot be processed."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_base64"
+msgstr "The file contains base64 encoded content."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_elements"
+msgstr "The file contains elements or attributes which are not allowed or known."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_foreign_object"
+msgstr "The file contains foreign objects."
+
+#, fuzzy
+msgid "upload_svg_rejection_message_script"
+msgstr "The file contains script-Elements."
+
+msgid "uploaded_and_checked"
+msgstr "Dosya yüklendi ve kontrol edildi. Dosyayı şimdi içe aktarabilirsiniz"
+
+#, fuzzy
+msgid "uploading"
+msgstr "Uploading..."
+
+msgid "uri"
+msgstr "URI"
+
+msgid "url"
+msgstr "URL"
+
+msgid "url_not_found"
+msgstr "Dosya Bulunamadı"
+
+msgid "use_customized_instructions"
+msgstr "Özel talimatları kullan:"
+
+msgid "use_default_instructions"
+msgstr "Varsayılan talimatları kullan"
+
+msgid "user"
+msgstr "Kullanıcı"
+
+msgid "user_activated"
+msgstr "Kullanıcı onaylandı"
+
+msgid "user_added"
+msgstr "Kullanıcı eklendi"
+
+msgid "user_assignment"
+msgstr "Kullanıcı Ataması"
+
+#, fuzzy
+msgid "user_avatar"
+msgstr "User Avatar"
+
+#, fuzzy
+msgid "user_avatar_of"
+msgstr "User Avatar of"
+
+msgid "user_cant_receive_mail"
+msgstr "kullanıcının posta sistemini kullanmasına izin verilmez"
+
+msgid "user_comment"
+msgstr "Kullanıcı yorumu"
+
+msgid "user_deactivated"
+msgstr "Kullanıcı onaylanmadı"
+
+msgid "user_defined_fields"
+msgstr "Seçimli Alanlar"
+
+msgid "user_defined_list"
+msgstr "Seçimli Kullanıcı Veri Alanları"
+
+msgid "user_deleted"
+msgstr "Kullanıcı silindi"
+
+msgid "user_detail"
+msgstr "Detay Veri"
+
+msgid "user_ext_account"
+msgstr "Dış Hesap"
+
+msgid "user_ext_account_desc"
+msgstr "Hesap, harici kimlik doğrulaması için kullanılır. (SOAP veya LDAP kimlik doğrulama)"
+
+msgid "user_image"
+msgstr "Kullanıcı Resmi"
+
+msgid "user_import_failed"
+msgstr "Kullanıcı içe aktarılamadı."
+
+msgid "user_imported"
+msgstr "Kullanıcı içe aktarımı tamamlandı."
+
+msgid "user_imported_with_warnings"
+msgstr "Kullanıcı içe aktarımı uyarılar ile tamamlandı."
+
+msgid "user_language"
+msgstr "Kullanıcı Dili"
+
+#, fuzzy
+msgid "user_never_logged_in"
+msgstr "Delete user accounts without login"
+
+#, fuzzy
+msgid "user_never_logged_in_info"
+msgstr "All user accounts without login at all be deleted."
+
+#, fuzzy
+msgid "user_never_logged_in_info_threshold_err_num"
+msgstr "Only positive non decimal numbers are accepted."
+
+msgid "user_new_account_mail"
+msgstr "Yeni Posta Hesabı"
+
+msgid "user_new_account_mail_desc"
+msgstr "Yeni kullanıcılar için bildirim e-postası"
+
+msgid "user_not_found"
+msgstr "Kullanıcı bulunamadı"
+
+#, fuzzy
+msgid "user_not_found_to_delete"
+msgstr "A user could not be found to delete."
+
+msgid "user_not_known"
+msgstr "Geçerli bir kullanıcı adı giriniz."
+
+msgid "user_profile_other"
+msgstr "Diğer Bilgiler"
+
+msgid "user_send_new_account_mail"
+msgstr "Yeni hesap e-postası gönder"
+
+msgid "user_status"
+msgstr "Kullanıcı Durumu"
+
+msgid "user_toggle_noti"
+msgstr "Üyelere bildirimleri pasif yapma izni verilmez"
+
+msgid "userfolder_export_csv"
+msgstr "Virgülle Ayrılmış Değerler"
+
+msgid "userfolder_export_excel_x86"
+msgstr "Microsoft Excel"
+
+msgid "userfolder_export_file"
+msgstr "Dosya"
+
+msgid "userfolder_export_file_size"
+msgstr "Dosya boyutu"
+
+msgid "userfolder_export_files"
+msgstr "Dosyalar"
+
+msgid "userfolder_export_xml"
+msgstr "XML"
+
+msgid "username"
+msgstr "Kullanıcı Adı"
+
+#, fuzzy
+msgid "username_assistance"
+msgstr "Username Assistance"
+
+msgid "users"
+msgstr "Kullanıcılar"
+
+msgid "users_not_imported"
+msgstr "Aşağıdaki kullanıcılar yoktur, onların mesajları içe aktarılamaz"
+
+msgid "users_online"
+msgstr "Aktif Kullanıcılar"
+
+msgid "usr"
+msgstr "Kullanıcı"
+
+msgid "usr_account_inactive"
+msgstr "Aktif Olmayan Hesap"
+
+msgid "usr_active_only"
+msgstr "Sadece Aktif Kullanıcılar"
+
+msgid "usr_add"
+msgstr "Kullanıcı Ekle"
+
+msgid "usr_edit"
+msgstr "Kullanıcı Düzenle"
+
+#, fuzzy
+msgid "usr_field_change_components_listening"
+msgstr "There is at least one component which is interested in the changed configuration. Would you like to confirm the changes with the consequences the component(s) announced below?"
+
+msgid "usr_filter_coursemember"
+msgstr "Kurs üyesi"
+
+msgid "usr_filter_groupmember"
+msgstr "Grup üyesi"
+
+msgid "usr_filter_lastlogin"
+msgstr "Kullanıcının son girişi"
+
+msgid "usr_filter_role"
+msgstr "Atanan rol"
+
+msgid "usr_inactive_only"
+msgstr "Sadece İnaktif Kullanıcılar"
+
+msgid "usr_limited_access_only"
+msgstr "Sadece limitli erişimli kullanıcılar"
+
+#, fuzzy
+msgid "usr_name_undisclosed"
+msgstr "Undisclosed"
+
+msgid "usr_new"
+msgstr "Yeni Kullanıcı"
+
+msgid "usr_settings_changeable_lua"
+msgstr "Yerel Kullanıcı Yönetiminde Değiştirilebilir"
+
+msgid "usr_settings_explanation_profile"
+msgstr "Kişisel masaüstünde kayıt bilgileri ve kişisel bilgilerin görünmesi için 'Görünür' seçeneğini işaretleyin. Kullanıcının kişisel bilgilerini değiştirebilmesi için 'Değiştirilebilir' seçeneğini işaretleyin. Kayıt formunda her zaman girilecek bu görünür alanları unutmayınız. Kayıt formu ve kişisel bilgiler için zorunlu alanlar. Tüm bilgiler, bu ayarlardan bağımsız olarak kullanıcı yönetiminden değiştirilebilir."
+
+msgid "usr_settings_header_profile"
+msgstr "Standart Kullanıcı Veri Alanları"
+
+msgid "usr_settings_saved"
+msgstr "Genel kullanıcı ayarları başarıyla kaydedildi!"
+
+msgid "usr_settings_visib_lua"
+msgstr "Yerel Kullanıcı Yönetiminde Görünebilir"
+
+msgid "usr_skin_style"
+msgstr "Arayüz / Stil"
+
+msgid "usr_without_courses"
+msgstr "Ders ataması olmayan kullanıcılar"
+
+msgid "usrf"
+msgstr "Kullanıcı hesapları"
+
+msgid "usrf_profile_link"
+msgstr "Kullanıcı profiline bağlantı"
+
+msgid "usrimport_action_ignored"
+msgstr "Reddedilmiş işlemler %1$s."
+
+msgid "usrimport_action_replaced"
+msgstr "Değiştirilen işlemler %1$s by %2$s."
+
+msgid "usrimport_cant_delete"
+msgstr "\"Silme\" işlemi gerçekleştirilemiyor. Veritabanında böyle bir kullanıcı yok."
+
+msgid "usrimport_cant_insert"
+msgstr "\"Ekleme\" işlemi gerçekleştirilemiyor. Kullanıcı veritabanında zaten kayıtlı."
+
+msgid "usrimport_cant_update"
+msgstr "\"Güncelleme\" işlemi gerçekleştirelemiyor. Veritabanında böyle bir kullanıcı yok."
+
+msgid "usrimport_conflict_handling_info"
+msgstr "\"Çakışma olursa görmezden gel\" seçilirse, ILIAS işlemi görmezden gelir. Örneğin; kullanıcı kaydında aynı kullanıcı çakışması olursa. \"Çakışma olursa güncelle\" seçilir ise, ILIAS veritabanında güncelleme yapar. Örneğin; kullanıcı ekleme işleminde aynı kullanıcı çakışması olursa \"Ekleme\" yerine \"Güncelleme\" yapar."
+
+#, fuzzy
+msgid "usrimport_form_not_evaluabe"
+msgstr "The form data couldn't be read."
+
+msgid "usrimport_global_role_for_action_required"
+msgstr "\"%1$s\" işlemi için en az bir genel rol tanımlanmalıdır."
+
+msgid "usrimport_ignore_role"
+msgstr "Rolü yoksay"
+
+msgid "usrimport_login_is_not_unique"
+msgstr "Oturum benzersiz değil."
+
+msgid "usrimport_no_insert_ext_account_exists"
+msgstr "\"Ekleme\" işlemi gerçekleştirilemiyor. Harici hesap zaten var."
+
+msgid "usrimport_no_update_ext_account_exists"
+msgstr "\"Güncelleme\" işlemi gerçekleştirilemiyor. Harici hesap zaten var."
+
+msgid "usrimport_with_specified_role_not_permitted"
+msgstr "Belirtilen rol ile içe aktarmaya izin verilmez"
+
+#, fuzzy
+msgid "usrimport_wrong_file_count"
+msgstr "Too many files in import-folder. Please try again."
+
+#, fuzzy
+msgid "usrimport_xml_anonymous_or_root_not_allowed"
+msgstr "Neither the system-account nor the anonymous account can be changed through the import."
+
+msgid "usrimport_xml_attribute_missing"
+msgstr "\"%1$s\" elemanı içindeki özellik \"%2$s\" eksik."
+
+msgid "usrimport_xml_attribute_value_illegal"
+msgstr "\"%1$s\" elemanı içindeki \"%2$s\" özelliğinin \"%3$s\" değeri geçerli değil"
+
+msgid "usrimport_xml_attribute_value_inapplicable"
+msgstr "\"%4$s\" işlemi için \"%1$s\" içindeki \"%2$s\" özelliğinin \"%3$s\" değeri uygulanamaz."
+
+msgid "usrimport_xml_element_content_illegal"
+msgstr "\"%1$s\" elemanın \"%2$s\" içeriği geçerli değildir."
+
+msgid "usrimport_xml_element_for_action_required"
+msgstr "\"%1$s\" elemanı \"%2$s\" işlemi için tanımlanmalıdır."
+
+msgid "usrimport_xml_element_inapplicable"
+msgstr "\"%1$s\" elemanı \"%2$s\" işlemi için uygulanamaz."
+
+msgid "valid"
+msgstr "Geçerli"
+
+msgid "validate"
+msgstr "Doğrula"
+
+msgid "value"
+msgstr "Değer"
+
+msgid "vcard"
+msgstr "Ziyaretçi Kartı"
+
+msgid "vcard_download"
+msgstr "Ziyaretçi Kartı İndir"
+
+msgid "verification_failed"
+msgstr "Doğrulama başarısız oldu"
+
+msgid "verification_failure_log"
+msgstr "Doğrulama hatası günlüğü"
+
+msgid "verification_warning_log"
+msgstr "Doğrulama uyarı günlüğü"
+
+msgid "version"
+msgstr "Sürüm"
+
+msgid "versions"
+msgstr "Sürümler"
+
+msgid "view"
+msgstr "Göster"
+
+msgid "view_content"
+msgstr "İçerik Göster"
+
+#, fuzzy
+msgid "view_learning_progress"
+msgstr "View Learning Progress"
+
+#, fuzzy
+msgid "view_learning_progress_rec"
+msgstr "View Learning Progress of Unit incl. Subunits"
+
+msgid "visible"
+msgstr "Görünür"
+
+msgid "visible_registration"
+msgstr "Kayıtta Görünür"
+
+msgid "visitor"
+msgstr "Ziyaretçi"
+
+msgid "visitors"
+msgstr "Ziyaretçiler"
+
+msgid "visits"
+msgstr "Ziyaretler"
+
+msgid "web_resources"
+msgstr "Weblinks"
+
+msgid "webdav"
+msgstr "WebDAV"
+
+#, fuzzy
+msgid "webdav_add_instructions_btn_label"
+msgstr "Add Mount Instructions Document"
+
+#, fuzzy
+msgid "webdav_chosen_language_already_used"
+msgstr "There already is another document associated with the chosen language"
+
+#, fuzzy
+msgid "webdav_doc_delete"
+msgstr "Delete WebDav Mount Instructions"
+
+#, fuzzy
+msgid "webdav_docs_mount_instructions"
+msgstr "Mount Instructions Documents"
+
+#, fuzzy
+msgid "webdav_duplicate_detected_title"
+msgstr "Following objects could not be displayed, because an object with the same Title is already being shown:"
+
+#, fuzzy
+msgid "webdav_forbidden_chars_title"
+msgstr "Following files cannot be displayed, because they contain one or more forbidden characters (\\<>/:*?\"|#):"
+
+#, fuzzy
+msgid "webdav_form_document"
+msgstr "Instructions Document"
+
+#, fuzzy
+msgid "webdav_form_document_info"
+msgstr "Upload a txt or an html file here. After the upload the file will be parsed and processed. For more information"
+
+#, fuzzy
+msgid "webdav_form_document_title"
+msgstr "Title"
+
+#, fuzzy
+msgid "webdav_form_document_title_info"
+msgstr "This title will be dislayed as the title of the modal when the Mount Instructions are opened"
+
+#, fuzzy
+msgid "webdav_form_edit_doc_head"
+msgstr "Edit Mount Instructions Document"
+
+#, fuzzy
+msgid "webdav_form_new_doc_head"
+msgstr "Create new Mount Instructions Document"
+
+#, fuzzy
+msgid "webdav_general_settings"
+msgstr "General Settings"
+
+#, fuzzy
+msgid "webdav_missing_lang"
+msgstr "There is no english version of the WebDAV Mount Instructions"
+
+#, fuzzy
+msgid "webdav_mount_instructions"
+msgstr "Mount Instructions"
+
+#, fuzzy
+msgid "webdav_problem_free_container"
+msgstr "There are no objects that cause problems in this container."
+
+#, fuzzy
+msgid "webdav_problem_info_duplicate"
+msgstr "There is a file with the same title as the info file."
+
+msgid "webdav_pwd_instruction"
+msgstr "Depoyu web klasörü olarak açmak için yerel şifre oluşturmanızı tavsiye ederiz. <br /> Bu şifre yalnızca web klasör işlevleri için gereklidir."
+
+msgid "webdav_pwd_instruction_success"
+msgstr "Yeni bir yerel parola oluşturuldu. Artık depoyu web klasörü olarak kullanabilirsiniz."
+
+#, fuzzy
+msgid "webdav_sure_delete_documents_s"
+msgstr "Are you sure you want to delete the Mount Instructions with the following title:"
+
+#, fuzzy
+msgid "webdav_tbl_docs_head_title"
+msgstr "Dokument title"
+
+#, fuzzy
+msgid "webdav_tbl_docs_title"
+msgstr "List of uploaded WebDAV Mount Instructions"
+
+#, fuzzy
+msgid "webdav_upload_instructions"
+msgstr "Upload Instructions"
+
+msgid "webfolder_dir_info"
+msgstr "Buradasınız, Çünkü tarayıcınız web klasörünü açamıyor. <a Href=\"%1$s\"> Web klasörü açma talimatları </ a>.nı okuyun"
+
+msgid "webfolder_index_of"
+msgstr "%1$s Endeksi"
+
+msgid "webfolder_instructions"
+msgstr "Web klasörü talimatları"
+
+msgid "webfolder_instructions_info"
+msgstr "Doğrudan açılamayan web klasörü talimatları tarayıcıda görünür. HTML kodu veya aşağıdaki yertutucuları kullanabilirsiniz:<br><b>[WEBFOLDER_TITLE]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI_KONQUEROR]</b>, <b>[WEBFOLDER_URI_NAUTILUS]</b>, <b>[ADMIN_MAIL]</b>, <b>[WINDOWS]</b>...<b>[/WINDOWS]</b>, <b>[MAC]</b>...<b>[/MAC]</b>, <b>[LINUX]</b>...<b>[/LINUX]</b>.<br> Varsayılan talimatları almak için alanı temizleyin."
+
+msgid "webfolder_instructions_text"
+msgstr "</ P> [WINDOWS] <h3> Windows Vista için talimatlar </ h3> <ol> <li> Basın: <p> <b> [WEBFOLDER_TITLE] </ b> webfolder olarak açmak için, aşağıdaki talimatları izleyin tuş kombinasyonu Windows + E Windows Gezgini'ni açmak için. </ li> <li> araç çubuğunda 'Ağ Bağlantısı Ekleme' üzerine tıklayın. sihirbazı açılacak 'Bir Ağ Bağlantısı Ekle' <br/>. </ li> <li > bağlantıyı tıklayın 'bir web sitesine bağlan'. </ li> <li> yılında seçeneği 'Başka Ağ Yeri Seç', ve 'İleri' seçeneğini seçin. <li> seçin 'Internet veya ağ adresi' alanına <br girin /> <b> [WEBFOLDER_URI] </ b> 'Sonraki' ı seçin <br/>. </ li> <li> Kullanıcı adı ve şifrenizi girin ve 'Tamam'. seçeneğini <br/> kadar bu adımı yineleyin sonraki iletişim penceresi olsun. </ li> <li> webfolder için bir ad girin, ardından <li> adınızı ve şifrenizi girin. 'İleri'yi seçin ve' Tamam '. seçeneğini bu adımı tekrarlayın <br/> kadar Bir sonraki iletişim penceresi olsun. </ li> <li> 'Son'u seçin. </ li> <li> Şimdi başlat menüsünden' Bilgisayar 'dan webfolder erişebilirsiniz. </ li> </ ol> < h3> Windows XP için talimatlar </ h3> <ol> <li> Windows + E Windows Gezgini'ni açmak için tuş kombinasyonuna basın. </ li> <li> menüsü 'Ekstralar> Ağ Bağlantısı Ekle ...' seçin. sihirbazı açılacak 'Bir Ağ Bağlantısı Ekle' <br/>. </ li> linkten <li> 'bir web sitesine bağlanın ...'. asistanı penceresi açılacaktır <br/>. </ li> <li> 'İleri'yi seçin. </ li> <li> alanına girmek <b <br/>' Adresi İnternet veya Ağ 'In seçeneği' Başka Ağ Yeri Seç ', ve' İleri 'seçeneğini seçin. <li> > [WEBFOLDER_URI] </ b> 'Sonraki' ı seçin <br/>. </ li> <li> Kullanıcı adı ve şifrenizi girin ve <li> webfolder için bir isim girin 'OK'. seçin ve sonra ' Sonraki '. <li> Kullanıcı adı ve şifrenizi girin ve' Tamam'ı seçin. </ li> <li> Seç 'Son'u. </ li> <li> Bu webfolder açılacaktır. Daha sonra başlat menüsünden 'Ağ yerleri' tekrar gelen webfolder erişebilirsiniz. </ Li> </ ol> [/ IF_WINDOWS] [MAC] <h3> Mac OS X </ h3> <ol> <li> Aç için talimatlar Bulucu </ li> <li> menüsü 'Git> Sunucuya Bağlan ...' iletişim 'Sunucuya Bağlan' <br/> açılacaktır. </ li> <li> adresi alanına girin seçiniz Aşağıdaki adresi:.. <br/> <b> [WEBFOLDER_URI] </ b> <br/> ve 'Bağlan' seçin </ li> <li> Kullanıcı adı ve şifrenizi girin ve 'Tamam' </ li> seçin </ ol> [/ IF_MAC] [LINUX] Konqueror </ h3> ile Linux için <h3> Talimatları <ol> <li> </ li> <li> adresi alanına aşağıdaki adresi girin Konqueror tarayıcısını başlatın: < br /> <b> [WEBFOLDER_URI_KONQUEROR] </ b> </ li> <li> Enter tuşuna basın. </ li> <li> Kullanıcı adı ve şifrenizi girin ve 'Tamam'. seçin </ li> </ ol> Nautilus </ h3 ile Linux için <h3> Talimatları> <ol> <li> </ li> <li> adresi alanına aşağıdaki adresi girin Nautilus tarayıcısını başlatın: <br/> <b> [WEBFOLDER_URI_NAUTILUS] </ b> </ li> <li> Enter tuşuna basın. </ li> <li> Kullanıcı adı ve şifrenizi girin ve 'Tamam'. seçin </ li> </ ol> [/ IF_LINUX] <p> webfolder açarak işe yaramazsa, <a href=\"mailto:[ADMIN_MAIL]\"> [ADMIN_MAIL] </ a>. </ p> lütfen"
+
+msgid "webfolder_instructions_titletext"
+msgstr "Web klasör olarak aç"
+
+msgid "webfolder_mount_dir_with"
+msgstr "Bu sayfayı web klasör gibi <a href=\"%1$s\"> Internet Explorer 6 </ a>, <a href=\"%2$s\"> Konqueror </ a> <a href = \"%3$s\"> Nautilus </ a>, <a href=\"%4$s\"> diğer Tarayıcı </ a>. ile açın"
+
+msgid "webr"
+msgstr "Weblink"
+
+msgid "webr_active"
+msgstr "Aktif"
+
+msgid "webr_add"
+msgstr "Weblink Ekle"
+
+msgid "webr_deleted_items"
+msgstr "Silinmiş Weblink(ler)"
+
+msgid "webr_edit"
+msgstr "Weblink Düzenle"
+
+msgid "webr_sure_delete_items"
+msgstr "Aşağıdaki Weblink(leri) silmek istiyor musunuz ?"
+
+msgid "webservices"
+msgstr "Web Servisleri"
+
+msgid "week"
+msgstr "Hafta"
+
+msgid "weekly"
+msgstr "Haftalık"
+
+msgid "weeks"
+msgstr "Haftalar"
+
+msgid "welcome"
+msgstr "Hoşgeldiniz"
+
+msgid "width"
+msgstr "Genişlik"
+
+msgid "wiki"
+msgstr "Wiki"
+
+msgid "wiki_add"
+msgstr "Wiki Ekle"
+
+msgid "wiki_new"
+msgstr "Yeni Wiki"
+
+msgid "with"
+msgstr "ile"
+
+#, fuzzy
+msgid "withdraw_consent"
+msgstr "Withdraw Consent"
+
+#, fuzzy
+msgid "withdraw_consent_info_internal"
+msgstr "If you click on ‘Withdraw Consent’, your account will be deleted."
+
+#, fuzzy
+msgid "withdraw_usr_agreement"
+msgstr "Withdraw Consent"
+
+#, fuzzy
+msgid "withdrawal_complete"
+msgstr "Withdrawal of consent complete."
+
+#, fuzzy
+msgid "withdrawal_complete_deleted"
+msgstr "Withdrawal of consent complete, account deleted."
+
+#, fuzzy
+msgid "withdrawal_complete_redirect"
+msgstr "Withdrawal of consent complete. To have your account deleted, please contact your organisation."
+
+#, fuzzy
+msgid "withdrawal_mail_info"
+msgstr "The following email will be sent to an administrator after confirming the withdrawal of your consent:[BR][BR]"
+
+#, fuzzy
+msgid "withdrawal_mail_subject"
+msgstr "Withdrawal of Consent to Terms of Service"
+
+#, fuzzy
+msgid "withdrawal_mail_text"
+msgstr "Dear Sir/Madam,[BR][BR]I hereby withdraw my consent to your ILIAS installation’s Terms of Service. Please update/remove my account accordingly.[BR][BR]Name: %1$s[BR]Login: %2$s[BR]External Account: %3$s[BR][BR]Yours faithfully[BR]%1$s"
+
+#, fuzzy
+msgid "withdrawal_sure_account"
+msgstr "Are you sure you want to confirm the withdrawal of your consent?"
+
+#, fuzzy
+msgid "withdrawal_sure_account_deletion"
+msgstr "Are you sure you want to confirm the withdrawal of your consent? This will result in your user account being irrevocably deleted."
+
+#, fuzzy
+msgid "withdrawal_sure_account_deletion_no_consent_yet"
+msgstr "Are you sure that you do not want to accept the Terms of Service? This will result in your user account being irrevocably deleted."
+
+#, fuzzy
+msgid "withdrawal_sure_account_no_consent_yet"
+msgstr "Are you sure that you do not want to accept the Terms of Service?"
+
+msgid "wizard_search_list"
+msgstr "Aramanız aşağıdaki hitleri üretti. Bunlardan birini seçiniz."
+
+msgid "wizard_title_info"
+msgstr "Çoğaltmak istediğiniz nesnenin başlığını giriniz."
+
+msgid "write"
+msgstr "Yaz"
+
+msgid "year"
+msgstr "Yıl"
+
+msgid "yearly"
+msgstr "Yıllık"
+
+msgid "years"
+msgstr "Yıllar"
+
+msgid "yes"
+msgstr "Evet"
+
+msgid "yesterday"
+msgstr "Dün"
+
+msgid "zip"
+msgstr "Posta Kodu"
+
+msgid "zip_structure_error"
+msgstr "Arşivde aynı dosyadan var. Yükleme iptal edildi."
+
+msgid "zip_test_failed"
+msgstr "Zip-Test başarısız. ILIAS yöneticinize başvurun."
+
+msgid "zipcode"
+msgstr "Posta Kodu"

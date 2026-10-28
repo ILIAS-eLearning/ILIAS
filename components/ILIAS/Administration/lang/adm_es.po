@@ -1,0 +1,30 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: adm\n"
+
+msgid "adm_acc_ctrl_cpt_desc"
+msgstr "Mostrar el enlace a su documento de accesibilidad en el pie de página de su instalación."
+
+msgid "adm_acc_ctrl_cpt_enable"
+msgstr "Enlace de accesibilidad en el pie de página"
+
+msgid "adm_accessibility_contacts"
+msgstr "Punto de contacto para problemas de accesibilidad"
+
+msgid "adm_accessibility_contacts_info"
+msgstr "Contactos para el enlace ‘Reportar un problema de accesibilidad’ en el pie de página de su instalación. Lista separada por comas de nombres de usuario de las cuentas (logins)."
+
+msgid "adm_awrn_support_contacts_info"
+msgstr "Se listan todos los usuarios asignados como contactos de soporte técnico. Los usuarios pueden asignarse a la lista de contactos de soporte técnico en la sección de administración 'Configuración del sistema y mantenimiento » Configuración general', pestaña 'Información de contacto'."
+
+msgid "adm_support_contacts"
+msgstr "Soporte técnico"
+
+msgid "adm_support_contacts_info"
+msgstr "Introduzca aquí los nombres de usuario de las personas que pueden ser contactadas con preguntas y problemas técnicos, separados por comas. Se puede contactar con ellas por correo electrónico a través del enlace \"Contactar con soporte técnico\" en el pie de página de ILIAS. Si la visualización \"¿Quién está en línea?\" está activa, estas personas también aparecerán allí como soporte técnico."

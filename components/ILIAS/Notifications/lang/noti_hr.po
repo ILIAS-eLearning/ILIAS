@@ -1,0 +1,21 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hr\n"
+"Language-Team: Croatian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: noti\n"
+
+msgid "noti_activate_notification"
+msgstr "Aktiviraj obavijest"
+
+msgid "noti_deactivate_notification"
+msgstr "Deaktiviraj obavijest"
+
+msgid "noti_notification_activated"
+msgstr "Obavijest aktivirana"
+
+msgid "noti_notification_deactivated"
+msgstr "Obavijest deaktivirana"

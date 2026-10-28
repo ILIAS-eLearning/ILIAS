@@ -1,0 +1,261 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: scormtrac\n"
+
+msgid "LearningModuleId"
+msgstr "ID des Lernmoduls"
+
+msgid "LearningModuleTitle"
+msgstr "Titel des Lernmoduls"
+
+msgid "LearningModuleVersion"
+msgstr "Version des Lernmoduls"
+
+msgid "Percentage"
+msgstr "Prozent abgeschlossener SCOs"
+
+msgid "Status"
+msgstr "Status gesamt"
+
+msgid "audio_captioning"
+msgstr "learner_preference.audio_captioning"
+
+msgid "audio_level"
+msgstr "learner_preference.audio_level"
+
+msgid "c_entry"
+msgstr "entry"
+
+msgid "c_exit"
+msgstr "exit"
+
+msgid "c_language"
+msgstr "learner_preference.language"
+
+msgid "c_location"
+msgstr "location"
+
+msgid "c_max"
+msgstr "score.max: maximale Punktzahl"
+
+msgid "c_min"
+msgstr "score.min: minimale Punktzahl"
+
+msgid "c_mode"
+msgstr "mode"
+
+msgid "c_raw"
+msgstr "score.raw: erreichte Punktzahl"
+
+msgid "c_timestamp"
+msgstr "Letzter Zugriff"
+
+msgid "c_type"
+msgstr "type: Typ der Aufgabe"
+
+msgid "completedSCOs"
+msgstr "Anzahl abgeschlossener SCOs"
+
+msgid "completion_status"
+msgstr "completion_status: Umfang der Bearbeitung"
+
+msgid "completion_threshold"
+msgstr "completion_threshold"
+
+msgid "counter"
+msgstr "Zähler"
+
+msgid "counter_all"
+msgstr "alle Benutzer"
+
+msgid "counter_correct"
+msgstr "Aufgabe richtig beantwortet (Anzahl TN)"
+
+msgid "counter_correct_percent"
+msgstr "Prozentsatz richtig Antwortender"
+
+msgid "counter_i_correct"
+msgstr "richtig beantwortete Aufgaben"
+
+msgid "counter_i_correct_percent"
+msgstr "Prozentsatz richtig beantworteter Aufgaben"
+
+msgid "counter_i_incorrect"
+msgstr "falsch beantwortete Aufgaben"
+
+msgid "counter_i_incorrect_percent"
+msgstr "Prozentsatz falsch beantworteter Aufgaben"
+
+msgid "counter_i_other"
+msgstr "weder richtig noch falsch beantwortete Aufgaben"
+
+msgid "counter_i_other_percent"
+msgstr "Prozentsatz weder richtig noch falsch beantworteter Aufgaben"
+
+msgid "counter_incorrect"
+msgstr "Aufgabe falsch beantwortet (Anzahl TN)"
+
+msgid "counter_incorrect_percent"
+msgstr "Prozentsatz falsch Antwortender"
+
+msgid "counter_other"
+msgstr "weder richtig noch falsch Antwortende"
+
+msgid "counter_other_percent"
+msgstr "Prozentsatz weder richtig noch falsch Antwortender"
+
+msgid "cp_node_id"
+msgstr "ID des Kapitels"
+
+msgid "credit"
+msgstr "credit"
+
+msgid "delivery_speed"
+msgstr "learner_preference.delivery_speed"
+
+msgid "existingSCOs"
+msgstr "Anzahl bestehender SCOs"
+
+msgid "exportobjglobaltosystem"
+msgstr "Report zum Kapitel-übergreifenden Bearbeitungsstand"
+
+msgid "exportselectedcore"
+msgstr "Report zu Kapiteln (SCO)"
+
+msgid "exportselectedinteractions"
+msgstr "Report zu Kapitel-Aufgaben (interactions)"
+
+msgid "exportselectedobjectives"
+msgstr "Report zu Kapitel-Lernzielen (objectives)"
+
+msgid "exportselectedraw"
+msgstr "Rohdaten"
+
+msgid "exportselectedsuccess"
+msgstr "Basis-Report zum Lernmodul insgesamt"
+
+msgid "identifierref"
+msgstr "SCO-Identifier"
+
+msgid "interaction_description"
+msgstr "Beschreibung der Aufgabe"
+
+msgid "interaction_id"
+msgstr "ID der Aufgabe"
+
+msgid "interaction_value"
+msgstr "Ergebnis der Aufgabe %s:"
+
+msgid "latency"
+msgstr "latency: Zeitdauer"
+
+msgid "latency_seconds"
+msgstr "latency: Zeitdauer in Sekunden"
+
+msgid "launch_data"
+msgstr "launch_data: Daten beim Start des SCO"
+
+msgid "learner_response"
+msgstr "learner_response: Antwort"
+
+msgid "lesson_status"
+msgstr "lesson_status: Status der Bearbeitung"
+
+msgid "lm_id"
+msgstr "ID des Lernmoduls"
+
+msgid "lm_title"
+msgstr "Titel des Lernmoduls"
+
+msgid "lvalue"
+msgstr "Key"
+
+msgid "measure"
+msgstr "Status: Maß"
+
+msgid "ostatus"
+msgstr "Status des Lernziels"
+
+msgid "passedSCOs"
+msgstr "Anzahl erfolgreich bearbeiteter SCOs"
+
+msgid "progress_measure"
+msgstr "progress_measure: Fortschritt der Bearbeitung"
+
+msgid "report"
+msgstr "Report"
+
+msgid "result"
+msgstr "result: Ergebnis"
+
+msgid "roundedTotal_timeSeconds"
+msgstr "Gesamtzeit in Sekunden (gerundet)"
+
+msgid "rvalue"
+msgstr "Value"
+
+msgid "satisfied"
+msgstr "Status: satisfied"
+
+msgid "scaled"
+msgstr "score.scaled: erreichte Punktzahl als Dezimalbruch"
+
+msgid "scaled_passing_score"
+msgstr "scaled_passing_score: zum Bestehen erforderliche Punktzahl als Dezimalbruch"
+
+msgid "sco_id"
+msgstr "ID des Kapitels"
+
+msgid "sco_marked_for_learning_progress"
+msgstr "relevant für den Lernstand"
+
+msgid "sco_title"
+msgstr "Titel des Kapitels"
+
+msgid "scope"
+msgstr "Anwendungsbereich"
+
+msgid "session_time"
+msgstr "session_time: Zeit in der letzten Sitzung"
+
+msgid "session_time_seconds"
+msgstr "session_time: Zeit in der letzten Sitzung in Sekunden"
+
+msgid "startedSCOs"
+msgstr "Anzahl begonnener SCOs"
+
+msgid "student_response"
+msgstr "student_response: Antwort"
+
+msgid "success_status"
+msgstr "success_status: Erfolg der Bearbeitung"
+
+msgid "suspend_data"
+msgstr "suspend_data: variabler Zwischenspeicher des SCO"
+
+msgid "total_time"
+msgstr "total_time: Gesamtzeit"
+
+msgid "total_time_seconds"
+msgstr "total_time: Gesamtzeit in Sekunden"
+
+msgid "tracinteractionitem"
+msgstr "Zusammenfassender Report der Kapitel-Aufgaben"
+
+msgid "tracinteractionuser"
+msgstr "Personenbezogener Report zum Kapitel mit Auswertung der Aufgaben im SCO"
+
+msgid "tracinteractionuseranswers"
+msgstr "Nur Ergebnisse zu Aufgaben im SCO pro Person"
+
+msgid "user_id"
+msgstr "ID des ILIAS-Kontos"
+
+msgid "weighting"
+msgstr "weighting: Gewichtung"

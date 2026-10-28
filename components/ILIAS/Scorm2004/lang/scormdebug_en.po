@@ -1,0 +1,477 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"Language-Team: English\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: scormdebug\n"
+
+msgid "API-call"
+msgstr "API-call"
+
+msgid "Commit"
+msgstr "store data"
+
+msgid "GetDiagnostic"
+msgstr "allows the LMS (!) to define additional diagnostic information"
+
+msgid "GetErrorString"
+msgstr "retrieve a textual description of the current error state"
+
+msgid "GetLastError"
+msgstr "request the error code for the current error state"
+
+msgid "GetValue"
+msgstr "get data"
+
+msgid "Initialize"
+msgstr "initialize API-communication"
+
+msgid "SCO-name"
+msgstr "SCO-name"
+
+msgid "SCO-title"
+msgstr "SCO-title"
+
+msgid "SetValue"
+msgstr "send data"
+
+msgid "Terminate"
+msgstr "store data and terminate API-communication"
+
+msgid "adl.nav.request"
+msgstr "Navigation request to be processed immediately following Terminate()"
+
+msgid "adl.nav.request_valid.choice"
+msgstr "Used by a SCO to determine if a Choice navigation request for a particular activity will succeed."
+
+msgid "adl.nav.request_valid.continue"
+msgstr "Used by a SCO to determine if a Continue navigation request will succeed."
+
+msgid "adl.nav.request_valid.previous"
+msgstr "Used by a SCO to determine if a Previous navigation request will succeed."
+
+msgid "all_API-calls_shown"
+msgstr "All API-calls are currently shown."
+
+msgid "cmi._version"
+msgstr "Represents the version of the data model"
+
+msgid "cmi.comments_from_learner._children"
+msgstr "Listing of supported data model elements"
+
+msgid "cmi.comments_from_learner._count"
+msgstr "Current number of learner comments"
+
+msgid "cmi.comments_from_learner.n.comment"
+msgstr "Textual input"
+
+msgid "cmi.comments_from_learner.n.location"
+msgstr "Point in the SCO to which the comment applies"
+
+msgid "cmi.comments_from_learner.n.timestamp"
+msgstr "Point in time at which the comment was created or most recently changed"
+
+msgid "cmi.comments_from_lms._children"
+msgstr "Listing of supported data model elements"
+
+msgid "cmi.comments_from_lms._count"
+msgstr "Current number of comments from the LMS"
+
+msgid "cmi.comments_from_lms.n.comment"
+msgstr "Comments or annotations associated with a SCO"
+
+msgid "cmi.comments_from_lms.n.location"
+msgstr "Point in the SCO to which the comment applies"
+
+msgid "cmi.comments_from_lms.n.timestamp"
+msgstr "Point in time at which the comment was created or most recently changed"
+
+msgid "cmi.completion_status"
+msgstr "Indicates whether the learner has completed the SCO"
+
+msgid "cmi.completion_threshold"
+msgstr "Used to determine whether the SCO should be considered complete"
+
+msgid "cmi.credit"
+msgstr "Indicates whether the learner will be credited for performance in the SCO"
+
+msgid "cmi.entry"
+msgstr "Asserts whether the learner has previously accessed the SCO"
+
+msgid "cmi.exit"
+msgstr "Indicates how or why the learner left the SCO"
+
+msgid "cmi.interactions._children"
+msgstr "Listing of supported data model elements"
+
+msgid "cmi.interactions._count"
+msgstr "Current number of interactions being stored by the LMS"
+
+msgid "cmi.interactions.n.correct_responses._count"
+msgstr "Current number of correct responses being stored by the LMS for this interaction"
+
+msgid "cmi.interactions.n.correct_responses.n.pattern"
+msgstr "One correct response pattern for the interaction"
+
+msgid "cmi.interactions.n.description"
+msgstr "Brief informative description of the interaction"
+
+msgid "cmi.interactions.n.id"
+msgstr "Unique label for the interaction"
+
+msgid "cmi.interactions.n.latency"
+msgstr "Time elapsed between the time the interaction was made available to the learner for response and the time of the first response"
+
+msgid "cmi.interactions.n.learner_response"
+msgstr "Data generated when a learner responds to an interaction"
+
+msgid "cmi.interactions.n.objectives._count"
+msgstr "Current number of objectives (i.e., objective identifiers) being stored by the LMS for this interaction"
+
+msgid "cmi.interactions.n.objectives.n.id"
+msgstr "Label for objectives associated with the interaction"
+
+msgid "cmi.interactions.n.result"
+msgstr "Judgment of the correctness of the learner response"
+
+msgid "cmi.interactions.n.timestamp"
+msgstr "Point in time at which the interaction was first made available to the learner for learner interaction and response"
+
+msgid "cmi.interactions.n.type"
+msgstr "Which type of interaction is recorded"
+
+msgid "cmi.interactions.n.weighting"
+msgstr "Weight given to the interaction relative to other interactions"
+
+msgid "cmi.launch_data"
+msgstr "Data provided to a SCO after launch, initialized from the dataFromLMS manifest element"
+
+msgid "cmi.learner_id"
+msgstr "Identifies the learner on behalf of whom the SCO was launched"
+
+msgid "cmi.learner_name"
+msgstr "Name provided for the learner by the LMS"
+
+msgid "cmi.learner_preference._children"
+msgstr "Listing of supported data model elements"
+
+msgid "cmi.learner_preference.audio_captioning"
+msgstr "Specifies whether captioning text corresponding to audio is displayed"
+
+msgid "cmi.learner_preference.audio_level"
+msgstr "Specifies an intended change in perceived audio level"
+
+msgid "cmi.learner_preference.delivery_speed"
+msgstr "The learner's preferred relative speed of content delivery"
+
+msgid "cmi.learner_preference.language"
+msgstr "The learner's preferred language for SCOs with multilingual capability"
+
+msgid "cmi.location"
+msgstr "The learner's current location in the SCO"
+
+msgid "cmi.max_time_allowed"
+msgstr "Amount of accumulated time the learner is allowed to use a SCO"
+
+msgid "cmi.mode"
+msgstr "Identifies one of three possible modes in which the SCO may be presented to the learner"
+
+msgid "cmi.objectives._children"
+msgstr "Listing of supported data model elements"
+
+msgid "cmi.objectives._count"
+msgstr "Current number of objectives being stored by the LMS"
+
+msgid "cmi.objectives.n.completion_status"
+msgstr "Indicates whether the learner has completed the associated objective"
+
+msgid "cmi.objectives.n.description"
+msgstr "Provides a brief informative description of the objective"
+
+msgid "cmi.objectives.n.id"
+msgstr "Unique label for the objective"
+
+msgid "cmi.objectives.n.progress_measure"
+msgstr "Measure of the progress the learner has made toward completing the objective"
+
+msgid "cmi.objectives.n.score._children"
+msgstr "Listing of supported data model elements"
+
+msgid "cmi.objectives.n.score.max"
+msgstr "Maximum value, for the objective, in the range for the raw score"
+
+msgid "cmi.objectives.n.score.min"
+msgstr "Minimum value, for the objective, in the range for the raw score"
+
+msgid "cmi.objectives.n.score.raw"
+msgstr "Number that reflects the performance of the learner, for the objective, relative to the range bounded by the values of min and max"
+
+msgid "cmi.objectives.n.score.scaled"
+msgstr "Number that reflects the performance of the learner for the objective"
+
+msgid "cmi.objectives.n.success_status"
+msgstr "Indicates whether the learner has mastered the objective"
+
+msgid "cmi.progress_measure"
+msgstr "Measure of the progress the learner has made toward completing the SCO"
+
+msgid "cmi.scaled_passing_score"
+msgstr "Scaled passing score required to master the SCO"
+
+msgid "cmi.score._children"
+msgstr "Listing of supported data model elements"
+
+msgid "cmi.score.max"
+msgstr "Maximum value in the range for the raw score"
+
+msgid "cmi.score.min"
+msgstr "Minimum value in the range for the raw score"
+
+msgid "cmi.score.raw"
+msgstr "Number that reflects the performance of the learner relative to the range bounded by the values of min and max"
+
+msgid "cmi.score.scaled"
+msgstr "Number that reflects the performance of the learner"
+
+msgid "cmi.session_time"
+msgstr "Amount of time that the learner has spent in the current learner session for this SCO"
+
+msgid "cmi.success_status"
+msgstr "Indicates whether the learner has mastered the SCO"
+
+msgid "cmi.suspend_data"
+msgstr "Provides space to store and retrieve data between learner sessions"
+
+msgid "cmi.time_limit_action"
+msgstr "Indicates what the SCO should do when cmi.max_time_allowed is exceeded"
+
+msgid "cmi.total_time"
+msgstr "Sum of all of the learner's session times accumulated in the current learner attempt"
+
+msgid "completion_status_by_progress_measure"
+msgstr "Because there is a value for cmi.completion_threshold, the value for cmi.completion_status is evaluated by the LMS! This is done by comparing the value for cmi.completion_threshold with the value for cmi.progress_measure. The value for cmi.completion_status is currently:"
+
+msgid "debugwindow_action"
+msgstr "Action"
+
+msgid "debugwindow_cancel"
+msgstr "Cancel"
+
+msgid "debugwindow_comment"
+msgstr "comment"
+
+msgid "debugwindow_comment_enter"
+msgstr "Please enter your comment"
+
+msgid "debugwindow_console"
+msgstr "Console"
+
+msgid "debugwindow_date"
+msgstr "Date"
+
+msgid "debugwindow_delete"
+msgstr "Delete"
+
+msgid "debugwindow_delete_logfile"
+msgstr "Delete logfile"
+
+msgid "debugwindow_download"
+msgstr "Download"
+
+msgid "debugwindow_filename"
+msgstr "File Name"
+
+msgid "debugwindow_logs"
+msgstr "Logs"
+
+msgid "debugwindow_open"
+msgstr "Open"
+
+msgid "debugwindow_start_recording"
+msgstr "Start Recording"
+
+msgid "debugwindow_stop_recording"
+msgstr "Stop Recording"
+
+msgid "debugwindow_submission_failed"
+msgstr "Submission failed"
+
+msgid "debugwindow_submit"
+msgstr "Submit"
+
+msgid "description_for"
+msgstr "description for"
+
+msgid "error0"
+msgstr "No error"
+
+msgid "error101"
+msgstr "General Exception"
+
+msgid "error102"
+msgstr "General Initialization Failure"
+
+msgid "error103"
+msgstr "Already Initialized"
+
+msgid "error104"
+msgstr "Content Instance Terminated"
+
+msgid "error111"
+msgstr "General Termination Failure"
+
+msgid "error112"
+msgstr "Termination Before Initialization"
+
+msgid "error113"
+msgstr "Termination After Termination"
+
+msgid "error122"
+msgstr "Retrieve Data Before Initialization"
+
+msgid "error123"
+msgstr "Retrieve Data After Termination"
+
+msgid "error132"
+msgstr "Store Data Before Initialization"
+
+msgid "error133"
+msgstr "Store Data After Termination"
+
+msgid "error142"
+msgstr "Commit Before Initialization"
+
+msgid "error143"
+msgstr "Commit After Termination"
+
+msgid "error201"
+msgstr "General Argument Error"
+
+msgid "error301"
+msgstr "General Get Failure"
+
+msgid "error351"
+msgstr "General Set Failure"
+
+msgid "error391"
+msgstr "General Commit Failure"
+
+msgid "error401"
+msgstr "Undefined Data Model Element"
+
+msgid "error402"
+msgstr "Unimplemented Data Model Element"
+
+msgid "error403"
+msgstr "Data Model Element Value Not Initialized"
+
+msgid "error404"
+msgstr "Data Model Element Is Read Only"
+
+msgid "error405"
+msgstr "Data Model Element Is Write Only"
+
+msgid "error406"
+msgstr "Data Model Element Type Mismatch"
+
+msgid "error407"
+msgstr "Data Model Element Value Out Of Range"
+
+msgid "error408"
+msgstr "Data Model Dependency Not Established"
+
+msgid "generated"
+msgstr "generated"
+
+msgid "i_fuchsia"
+msgstr "fuchsia: tolerated value because sent value is not rejected"
+
+msgid "i_gray"
+msgstr "gray: error corrected by ILIAS"
+
+msgid "i_green"
+msgstr "green: okay"
+
+msgid "i_orange"
+msgstr "orange: attention please!"
+
+msgid "i_red"
+msgstr "red: error!"
+
+msgid "id_learning_module"
+msgstr "ID of the learning module"
+
+msgid "log_for"
+msgstr "Log for the learning module"
+
+msgid "milliseconds"
+msgstr "milliseconds"
+
+msgid "missing_API-calls"
+msgstr "These API-calls are missing:"
+
+msgid "no_missing_API-calls"
+msgstr "Missing API-calls had not been recognized."
+
+msgid "nr_session"
+msgstr "number of session"
+
+msgid "only_important_API-Calls_shown"
+msgstr "Only important API-Calls are currently shown."
+
+msgid "return_value"
+msgstr "return value"
+
+msgid "scormdebug_disable_cache"
+msgstr "Disable SCORM 2004 Browser Cache"
+
+msgid "scormdebug_disable_cache_info"
+msgstr "This prevents the storage of the SCORM 2004 javascript files in the browser cache. Please use this function in time before a new release!"
+
+msgid "scormdebug_global_activate"
+msgstr "Enable SCORM test tool"
+
+msgid "scormdebug_global_activate_info"
+msgstr "If enabled, the SCORM test tool can be activated for desired learning modules. If disabled, the test tool is deactivated for all learning modules."
+
+msgid "sent_values_not_checked"
+msgstr "selected property: values sent by SCO are not fully checked"
+
+msgid "show_all_API-calls"
+msgstr "Show all API-calls!"
+
+msgid "show_only_important_API-calls"
+msgstr "Show only important API-calls!"
+
+msgid "started"
+msgstr "started"
+
+msgid "strange_API-Call"
+msgstr "strange API-Call"
+
+msgid "strange_error"
+msgstr "strange error"
+
+msgid "success_status_by_score_scaled"
+msgstr "Because there is a value for cmi.scaled_passing_score, the value for cmi.success_status is evaluated by the LMS! This is done by comparing the value for cmi.scaled_passing_score with the value for cmi.score.scaled. The value for cmi.success_status is currently:"
+
+msgid "summary_csv"
+msgstr "Summary is generated as CSV-file to import for example in Excel"
+
+msgid "summary_download"
+msgstr "You can click to ‘Logs’ and download it when you start this tool again."
+
+msgid "summary_for_SCO_with_test"
+msgstr "Summary for a SCO with a test"
+
+msgid "summary_for_SCO_without_test"
+msgstr "Summary for a SCO without a test"
+
+msgid "undefined_color"
+msgstr "undefined color"
+
+msgid "unknown"
+msgstr "unknown"

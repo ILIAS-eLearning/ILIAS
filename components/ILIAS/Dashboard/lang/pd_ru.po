@@ -1,0 +1,119 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ru\n"
+"Language-Team: Russian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: pd\n"
+
+msgid "block_show_chatviewer"
+msgstr "Показать чат"
+
+msgid "block_show_pdbookm"
+msgstr "Показать закладки"
+
+msgid "block_show_pdcal"
+msgstr "Отображать \"Календарь\""
+
+#, fuzzy
+msgid "block_show_pdfrmpostdraft"
+msgstr "Show Postings Drafts"
+
+msgid "block_show_pdmail"
+msgstr "Отображать \"Почта\""
+
+msgid "block_show_pdnews"
+msgstr "Отображать \"Новости\""
+
+msgid "block_show_pdnotes"
+msgstr "Отображать \"Заметки\""
+
+#, fuzzy
+msgid "block_show_pdportf"
+msgstr "Show Portfolios"
+
+msgid "block_show_pdtag"
+msgstr "Отображать \"Мои ключевые слова\""
+
+#, fuzzy
+msgid "block_show_pdtasks"
+msgstr "Show Tasks"
+
+msgid "block_show_x"
+msgstr "Показать %s"
+
+#, fuzzy
+msgid "pd_achievements"
+msgstr "Achievements"
+
+msgid "pd_bookmarks"
+msgstr "Закладки"
+
+msgid "pd_download_last_export_file"
+msgstr "Скачать последний экспортированный файл"
+
+msgid "pd_enable_comments"
+msgstr "Разрешить комментарии"
+
+msgid "pd_enable_prtf"
+msgstr "Включить портфолио"
+
+msgid "pd_enable_user_publish"
+msgstr "Разрешить публикацию пользовательского контента"
+
+msgid "pd_enable_user_publish_info"
+msgstr "Если включено, то пользователи могут публиковать их профили, объекты рабочего пространства и портфолио в Интернете."
+
+#, fuzzy
+msgid "pd_ended"
+msgstr "Ended"
+
+msgid "pd_export_profile"
+msgstr "Экспортировать личные данные"
+
+msgid "pd_import_personal_data"
+msgstr "Импортировать личные данные"
+
+#, fuzzy
+msgid "pd_my_memberships_sort_default"
+msgstr "Default of Sort Option"
+
+#, fuzzy
+msgid "pd_not_dated"
+msgstr "Not Dated"
+
+#, fuzzy
+msgid "pd_ongoing"
+msgstr "Ongoing"
+
+msgid "pd_personal_items_default_view"
+msgstr "Вид по умолчанию"
+
+msgid "pd_personal_items_default_view_info"
+msgstr "Выберите желаемое отображение персональных элементов."
+
+#, fuzzy
+msgid "pd_presentation_mode_list"
+msgstr "Item List Presentation"
+
+#, fuzzy
+msgid "pd_presentation_mode_tile"
+msgstr "Tile Presentation"
+
+msgid "pd_private_calendars"
+msgstr "Приватные календари"
+
+msgid "pd_profile_data"
+msgstr "Данные профиля"
+
+msgid "pd_remove_multi_confirm"
+msgstr "The objects were removed."
+
+#, fuzzy
+msgid "pd_upcoming"
+msgstr "Upcoming"
+
+msgid "pd_view_select_at_least_one"
+msgstr "Вы должны выбрать как минимум один вид из \"Выбранные элементы\" или \"Участие\"."

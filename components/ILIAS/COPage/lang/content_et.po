@@ -1,0 +1,3954 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: et\n"
+"Language-Team: Estonian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: content\n"
+
+msgid "Pages"
+msgstr "Lehed"
+
+msgid "add_menu_entry"
+msgstr "Lisa menüükirje>>"
+
+msgid "all_pages"
+msgstr "terve õppemoodul"
+
+msgid "citate"
+msgstr "Tsiteeri"
+
+msgid "citate_from"
+msgstr "Tsitaat (kellelt) ..."
+
+msgid "citate_page"
+msgstr "Tsiteeri seda lehte"
+
+msgid "citate_to"
+msgstr "Tsitaat ..."
+
+msgid "cont_Additional"
+msgstr "Lisa"
+
+msgid "cont_AdvancedKnowledge"
+msgstr "Advanced Knowledge"
+
+#, fuzzy
+msgid "cont_Attention"
+msgstr "Attention"
+
+#, fuzzy
+msgid "cont_Background"
+msgstr "Background"
+
+msgid "cont_Block"
+msgstr "lõik"
+
+#, fuzzy
+msgid "cont_Book"
+msgstr "Book"
+
+msgid "cont_Circle"
+msgstr "Ring"
+
+msgid "cont_Citation"
+msgstr "Tsitaat"
+
+#, fuzzy
+msgid "cont_Confirmation"
+msgstr "Confirmation"
+
+msgid "cont_Example"
+msgstr "Näide"
+
+msgid "cont_Excursus"
+msgstr "Ekskurss"
+
+msgid "cont_FileListItem"
+msgstr "Failinimestiku üksus (standard)"
+
+msgid "cont_Headline1"
+msgstr "Pealkiri 1"
+
+msgid "cont_Headline2"
+msgstr "Pealkiri 2"
+
+msgid "cont_Headline3"
+msgstr "Pealkiri 3"
+
+#, fuzzy
+msgid "cont_Information"
+msgstr "Information"
+
+#, fuzzy
+msgid "cont_Interaction"
+msgstr "Interaction"
+
+msgid "cont_List"
+msgstr "Nimestik"
+
+#, fuzzy
+msgid "cont_Literature"
+msgstr "Literature"
+
+msgid "cont_Mnemonic"
+msgstr "Memo"
+
+#, fuzzy
+msgid "cont_Numbers"
+msgstr "Numbers"
+
+msgid "cont_Poly"
+msgstr "Hulktahukas"
+
+msgid "cont_Rect"
+msgstr "Ristkülik"
+
+msgid "cont_Remark"
+msgstr "Ääremärkus"
+
+#, fuzzy
+msgid "cont_Separator"
+msgstr "Separator"
+
+msgid "cont_Special"
+msgstr "Eriline"
+
+#, fuzzy
+msgid "cont_StandardCenter"
+msgstr "Standard Center"
+
+msgid "cont_StandardTable"
+msgstr "Standardtabel"
+
+msgid "cont_TableContent"
+msgstr "Tabeli sisu"
+
+#, fuzzy
+msgid "cont_Verse"
+msgstr "Verse/Stanza"
+
+msgid "cont_WholePicture"
+msgstr "Terve pilt"
+
+msgid "cont_accented"
+msgstr "Accented"
+
+msgid "cont_act_number"
+msgstr "Peatükkide nummerdamine"
+
+msgid "cont_activate_html"
+msgstr "Aktiveeri HTML Rviimistlus"
+
+msgid "cont_activate_js"
+msgstr "Aktiveeri muutmine javaskriptis"
+
+msgid "cont_activate_media"
+msgstr "Akiveeri meedia"
+
+msgid "cont_activate_page"
+msgstr "Aktiveeri leht"
+
+msgid "cont_activated"
+msgstr "Aktiveeritud"
+
+msgid "cont_activation"
+msgstr "Aktiveerimine"
+
+msgid "cont_active"
+msgstr "Võimalda menüü"
+
+msgid "cont_active_areas"
+msgstr "Käivitajad"
+
+#, fuzzy
+msgid "cont_active_from"
+msgstr "Activation Start"
+
+#, fuzzy
+msgid "cont_active_to"
+msgstr "Activation End"
+
+msgid "cont_add_area"
+msgstr "Lisa ala"
+
+#, fuzzy
+msgid "cont_add_cell"
+msgstr "Add Column"
+
+msgid "cont_add_elements"
+msgstr "Klikka kohahoidja(te)l uute elementide lisamiseks."
+
+msgid "cont_add_file"
+msgstr "Lisa fail"
+
+msgid "cont_add_images"
+msgstr "Lisa pildid"
+
+msgid "cont_add_popup"
+msgstr "Lisa hüpikaken"
+
+msgid "cont_add_tab"
+msgstr "Lisa sakk"
+
+#, fuzzy
+msgid "cont_add_url"
+msgstr "Enter URL"
+
+#, fuzzy
+msgid "cont_added_cell"
+msgstr "Column added"
+
+msgid "cont_added_comment"
+msgstr "Kommentaar on ajalukku lisatud."
+
+msgid "cont_added_tab"
+msgstr "Sakk loodud."
+
+msgid "cont_added_term"
+msgstr "Mõiste lisatud"
+
+msgid "cont_adjust_size"
+msgstr "Vali sobiv suurus"
+
+#, fuzzy
+msgid "cont_advanced_settings"
+msgstr "Advanced Settings"
+
+msgid "cont_align"
+msgstr "Reastus"
+
+msgid "cont_alignment"
+msgstr "Joonda"
+
+msgid "cont_all_answers_correct"
+msgstr "Kõik vastused on õiged"
+
+msgid "cont_all_closed"
+msgstr "Kõik suletud"
+
+#, fuzzy
+msgid "cont_all_languages"
+msgstr "All Languages"
+
+msgid "cont_all_pages"
+msgstr "Kõik lehed"
+
+msgid "cont_all_topics"
+msgstr "All Topics"
+
+msgid "cont_all_usages"
+msgstr "Include History"
+
+msgid "cont_alphabetic"
+msgstr "Alphabetic A, B, ..."
+
+msgid "cont_alphabetic_s"
+msgstr "Tähestik a, b, ..."
+
+msgid "cont_always"
+msgstr "Always"
+
+msgid "cont_anchor"
+msgstr "Ankur"
+
+msgid "cont_annex"
+msgstr "Lisand"
+
+msgid "cont_anonymous_user_missing_perm"
+msgstr "Anonymous users currently have no permission to access this learning module."
+
+msgid "cont_areas_deleted"
+msgstr "Alad kaardil on kustutatud"
+
+msgid "cont_assign_characteristic"
+msgstr "Vali karakteristik"
+
+msgid "cont_assign_full"
+msgstr "Määra täisekraan"
+
+msgid "cont_assign_std"
+msgstr "Määra standard"
+
+#, fuzzy
+msgid "cont_assign_to_parent"
+msgstr "Assign to Parent"
+
+msgid "cont_auto_glossaries"
+msgstr "Auto-Linked Glossaries"
+
+msgid "cont_auto_last_visited"
+msgstr "load last visited chapter (SCO/Asset)"
+
+msgid "cont_auto_last_visited_info"
+msgstr "Opens the last visited SCO/Asset when the learner reenters the learning module."
+
+msgid "cont_auto_suspend"
+msgstr "Ensure getting tracking data from previous attempts"
+
+msgid "cont_auto_suspend_info"
+msgstr "This option is for SCORM learning modules, which support SCORM 2004 in an inadequate way by not sending proper values for cmi.exit."
+
+#, fuzzy
+msgid "cont_auto_time"
+msgstr "Auto Animation Waiting Time"
+
+msgid "cont_autoindent"
+msgstr "Automaatne taane"
+
+msgid "cont_automatically_set_store_tries"
+msgstr "Option \"$1\" has been activated automatically, because option \"$2\" has been enabled."
+
+msgid "cont_autostart"
+msgstr "Autostart"
+
+msgid "cont_back"
+msgstr "Tagasi"
+
+msgid "cont_base_image"
+msgstr "Põhipilt"
+
+msgid "cont_bb_tip"
+msgstr "Vihje: stiile saab märgistatud tekstile kiiresti lisada."
+
+msgid "cont_behavior"
+msgstr "Olek"
+
+msgid "cont_biblio"
+msgstr "Bibliographical Data"
+
+msgid "cont_biblio_info"
+msgstr "Enables the bibliographical data feature"
+
+msgid "cont_blist"
+msgstr "nuppnimestik"
+
+#, fuzzy
+msgid "cont_block_format"
+msgstr "Section Format"
+
+msgid "cont_blocked_users"
+msgstr "Blocked Users"
+
+msgid "cont_blocked_users_mail_link"
+msgstr "Click on the following link to open the learning module:"
+
+msgid "cont_bottom"
+msgstr "Alla"
+
+msgid "cont_bullet_list"
+msgstr "Täpploend"
+
+msgid "cont_cach_mode"
+msgstr "Mode"
+
+msgid "cont_cach_mode_automatic"
+msgstr "Automatic"
+
+msgid "cont_cach_mode_automatic_info"
+msgstr "All your consultation hours will be published."
+
+msgid "cont_cach_mode_manual"
+msgstr "Manual"
+
+msgid "cont_cach_mode_manual_info"
+msgstr "Only the consultation hours of the following groups will be published."
+
+msgid "cont_cant_copy_folders"
+msgstr "Kaustu ei saa puhvrisse kopeerida."
+
+msgid "cont_cant_del_full"
+msgstr "Täisekraanvaatesse määratud faili ei saa kustutada."
+
+msgid "cont_cant_del_std"
+msgstr "Standardvaatesse määratud faili ei saa kustutada."
+
+msgid "cont_caption"
+msgstr "Pealkiri, selgitus"
+
+#, fuzzy
+msgid "cont_caption_style"
+msgstr "Caption Style Class"
+
+msgid "cont_cc_emp"
+msgstr "Rõhutatud"
+
+msgid "cont_cc_imp"
+msgstr "Oluline"
+
+msgid "cont_cc_str"
+msgstr "Rasvane"
+
+#, fuzzy
+msgid "cont_cc_sub"
+msgstr "Subscript"
+
+#, fuzzy
+msgid "cont_cc_sup"
+msgstr "Superscript"
+
+#, fuzzy
+msgid "cont_cell_properties"
+msgstr "Table Cell Properties"
+
+msgid "cont_center"
+msgstr "Keskele"
+
+#, fuzzy
+msgid "cont_change_alignment"
+msgstr "Change Alignment"
+
+#, fuzzy
+msgid "cont_change_notification_salutation"
+msgstr "Hello %s,"
+
+#, fuzzy
+msgid "cont_change_notification_subject_lm"
+msgstr "Learning Module \"%1$s\" has been changed: %2$s"
+
+msgid "cont_change_object_reference"
+msgstr "Muuda objekti viidet"
+
+#, fuzzy
+msgid "cont_change_style"
+msgstr "Change Style"
+
+msgid "cont_change_type"
+msgstr "Muuda tüüpi"
+
+#, fuzzy
+msgid "cont_change_width"
+msgstr "Change Width"
+
+msgid "cont_chap_and_pages"
+msgstr "Peatükid ja lehed"
+
+msgid "cont_chap_select_target_now"
+msgstr "Peatükk ümbertõstmiseks märgistatud. Vali nüüd sihtkoht."
+
+msgid "cont_chapters"
+msgstr "Peatükid"
+
+msgid "cont_chapters_after_pages"
+msgstr "Pane tähele, et lehtedele peavad eelnema sama taseme alapeatükid."
+
+msgid "cont_chapters_and_pages"
+msgstr "Peatükid ja lehed"
+
+msgid "cont_chapters_only"
+msgstr "ainult peatükid"
+
+msgid "cont_char_format"
+msgstr "Tähed"
+
+#, fuzzy
+msgid "cont_char_link"
+msgstr "Link"
+
+#, fuzzy
+msgid "cont_char_media"
+msgstr "Media (Standard)"
+
+msgid "cont_char_style_acc"
+msgstr "Rõhutatud"
+
+msgid "cont_char_style_code"
+msgstr "Kood"
+
+msgid "cont_char_style_com"
+msgstr "Kommentaar"
+
+msgid "cont_char_style_quot"
+msgstr "Tsitaat"
+
+msgid "cont_characteristic"
+msgstr "Lõigu karakter"
+
+#, fuzzy
+msgid "cont_characteristic_table"
+msgstr "Style Class"
+
+msgid "cont_check_values"
+msgstr "check values sent by SCO"
+
+#, fuzzy
+msgid "cont_check_values_info"
+msgstr "The Test Tool will check whether the values sent from the SCOs adhere to the SCORM standard. <br /> The SCORM Standard is very demanding concerning the saving of values. Not all learning modules meet the requirements of the standard. This Options allows checking if the module adheres to the Standard or not. Do not check this option if you just want to check if ILIAS can run this module or not."
+
+msgid "cont_choose_characteristic"
+msgstr "Vali tunnusjoon"
+
+msgid "cont_choose_characteristic_section"
+msgstr "Sektsioon"
+
+msgid "cont_choose_characteristic_text"
+msgstr "Teksti elemendid"
+
+#, fuzzy
+msgid "cont_choose_file_source"
+msgstr "Source"
+
+#, fuzzy
+msgid "cont_choose_from_clipboard"
+msgstr "Choose from Clipboard"
+
+#, fuzzy
+msgid "cont_choose_from_pool"
+msgstr "Select from Media Pool"
+
+#, fuzzy
+msgid "cont_choose_glo"
+msgstr "Choose Glossary"
+
+#, fuzzy
+msgid "cont_choose_lm"
+msgstr "Choose Learning Module"
+
+#, fuzzy
+msgid "cont_choose_local"
+msgstr "Local directory"
+
+#, fuzzy
+msgid "cont_choose_media_pool"
+msgstr "Select Pool"
+
+#, fuzzy
+msgid "cont_choose_mep"
+msgstr "Choose Media Pool"
+
+msgid "cont_choose_pages_or_chapters_only"
+msgstr "Palun vali kas ainult lehed või peatükid."
+
+#, fuzzy
+msgid "cont_choose_upload_dir"
+msgstr "Upload directory"
+
+msgid "cont_choose_wiki"
+msgstr "Choose Wiki"
+
+msgid "cont_citation_selection_not_valid"
+msgstr "Sinu valik ei ole kehtiv"
+
+msgid "cont_click_br_corner"
+msgstr "Kliki soovitud ala alumises paremas nurgas."
+
+msgid "cont_click_center"
+msgstr "Kliki soovitud ala keskpunktil."
+
+msgid "cont_click_circle"
+msgstr "Palun  klikka soovitud ala ümarjoone punktil."
+
+#, fuzzy
+msgid "cont_click_edit"
+msgstr "<b>Click</b> on elements to <b>edit</b> its properties."
+
+#, fuzzy
+msgid "cont_click_multi_select"
+msgstr "<b>Click</b> on elements to <b>select</b> or deselect them."
+
+msgid "cont_click_next_or_save"
+msgstr "Palun klikka hulktahuka järgmisel punktil või salvesta ala (selle hulktahuka alguspunktil pole vaja uuesti klikata!)"
+
+msgid "cont_click_next_point"
+msgstr "Kliki hulknurga järgmisel punktil."
+
+msgid "cont_click_starting_point"
+msgstr "Kliki hulknurga alguspunktil."
+
+msgid "cont_click_tl_corner"
+msgstr "Kliki soovitud ala ülemises vasakus nurgas."
+
+#, fuzzy
+msgid "cont_code_import_file"
+msgstr "Import"
+
+#, fuzzy
+msgid "cont_code_manual_editing"
+msgstr "Manuelle Eingabe"
+
+msgid "cont_colspan"
+msgstr "Veeru lahtrite ühendamine"
+
+#, fuzzy
+msgid "cont_commented_by"
+msgstr "Commented by"
+
+msgid "cont_comments"
+msgstr "võimalda kommentaaride hoidmine"
+
+#, fuzzy
+msgid "cont_comments_info"
+msgstr "Some SCORM 2004 learning modules allow users providing comments within the module. This option allows saving those comments."
+
+msgid "cont_confirm_delete"
+msgstr "Kustutada objekti(d)?"
+
+msgid "cont_constrain_proportions"
+msgstr "Vähenda proportsioone"
+
+msgid "cont_content"
+msgstr "Sisu"
+
+msgid "cont_content_popup"
+msgstr "Sisu hüpikaken"
+
+msgid "cont_content_popups"
+msgstr "Sisu hüpikaknad"
+
+msgid "cont_coords"
+msgstr "Koordinaadid"
+
+msgid "cont_copy_question_from_pool"
+msgstr "Kopeeri küsimus varamust"
+
+msgid "cont_copy_question_into_page"
+msgstr "Kopeeri lehele"
+
+msgid "cont_copy_to_clipboard"
+msgstr "Kopeeri puhvrisse"
+
+msgid "cont_correct_after_first"
+msgstr "Esimene katse õige"
+
+msgid "cont_correct_answer_also"
+msgstr "Õige on ka:"
+
+msgid "cont_correct_answers_also"
+msgstr "Õiged on ka:"
+
+msgid "cont_correct_answers_shown"
+msgstr "Õiged vastused on näidatud ülalpool"
+
+msgid "cont_could_not_determine_resource_size"
+msgstr "ILIAS ei saa faili suurust automaatselt määrata."
+
+#, fuzzy
+msgid "cont_could_not_save_duplicate_pc_ids"
+msgstr "Page could not be saved (duplicate PC IDs)."
+
+msgid "cont_cp_question_diff_formats_info"
+msgstr "Please note that some formattings are not supported in content modules."
+
+msgid "cont_create_link"
+msgstr "Loo link"
+
+msgid "cont_create_mob"
+msgstr "Loo meediaobjekt"
+
+msgid "cont_credits"
+msgstr "Edusammud"
+
+msgid "cont_current_chapter"
+msgstr "Aktiivne peatükk"
+
+msgid "cont_current_lang"
+msgstr "Current Language"
+
+msgid "cont_current_page"
+msgstr "Aktiivne leht"
+
+msgid "cont_current_style"
+msgstr "Praegune stiil"
+
+msgid "cont_current_term"
+msgstr "Current Term"
+
+msgid "cont_current_usages"
+msgstr "Aktiivsed kasutajad"
+
+msgid "cont_current_version"
+msgstr "Käesolev versioon"
+
+msgid "cont_custom"
+msgstr "Muuda soovi kohaselt"
+
+msgid "cont_custom_menu_entries"
+msgstr "Custom Menu Entries"
+
+msgid "cont_custom_size"
+msgstr "Soovitud suurus"
+
+msgid "cont_dark"
+msgstr "Dark"
+
+msgid "cont_data_from_lms"
+msgstr "adlcp:datafromlms"
+
+msgid "cont_de_activate"
+msgstr "(In-)Aktiveeri"
+
+msgid "cont_deactivate_html"
+msgstr "Deaktiveeri HTML viimistlus"
+
+msgid "cont_deactivate_js"
+msgstr "Aktiveeri vormi vaade"
+
+msgid "cont_deactivate_media"
+msgstr "Muuda meedia mitteaktiivseks"
+
+msgid "cont_deactivate_page"
+msgstr "Inaktiveeri lehekülg"
+
+msgid "cont_deactivated"
+msgstr "Inaktiveeritud"
+
+msgid "cont_debug"
+msgstr "Näita debug menüüd"
+
+msgid "cont_debug_deactivate"
+msgstr "Vihje: testimise vahendi saab keelata kõikide õppemoodulite jaoks."
+
+#, fuzzy
+msgid "cont_debug_deactivate12"
+msgstr "A Test Tool will be displayed in the presentation mode of the learning module. Based on the data provided by it the interaction of the learning module and ILIAS can be evaluated."
+
+msgid "cont_debug_deactivated"
+msgstr "Vihje: testivahend on kõigis õppemoodulites välja lülitatud."
+
+msgid "cont_debugging"
+msgstr "Debugging"
+
+msgid "cont_decimal"
+msgstr "Kümnend-"
+
+msgid "cont_def_feedb_activated"
+msgstr "Default feedback texts are currently activated in the learning module settings."
+
+msgid "cont_def_feedb_deactivated"
+msgstr "Default feedback texts are currently deactivated in the learning module settings."
+
+msgid "cont_def_layout"
+msgstr "Paigutus vaikimisi"
+
+msgid "cont_def_lesson_mode"
+msgstr "Tunni olek vaikimisi"
+
+msgid "cont_def_map_areas"
+msgstr "Lingialad (vaikimisi)"
+
+msgid "cont_def_organization"
+msgstr "vaikimisi"
+
+msgid "cont_default"
+msgstr "Vaikimisi"
+
+msgid "cont_definition"
+msgstr "Definitsioon"
+
+#, fuzzy
+msgid "cont_delete_content"
+msgstr "Delete Content"
+
+#, fuzzy
+msgid "cont_delete_file_item_confirm"
+msgstr "Do you really want to delete the selected file(s)?"
+
+msgid "cont_delete_selected"
+msgstr "Kustuta"
+
+msgid "cont_delete_style"
+msgstr "Kustuta kujunduslaad"
+
+msgid "cont_delete_track_data"
+msgstr "Kustuta jälgimisandmed"
+
+msgid "cont_dependencies"
+msgstr "Sõltuvused"
+
+msgid "cont_dir_created"
+msgstr "Kataloog loodud."
+
+msgid "cont_dir_deleted"
+msgstr "Kataloog kustutatud."
+
+msgid "cont_dir_file"
+msgstr "Kataloog/Fail"
+
+msgid "cont_dir_renamed"
+msgstr "Kataloog ümbernimetatud."
+
+msgid "cont_disable_def_feedback"
+msgstr "Disable Default Question Feedback"
+
+msgid "cont_disable_def_feedback_info"
+msgstr "If disabled, answered questions will not show any feedback for the learner. You need to provide custom feedbacks for your questions."
+
+msgid "cont_download"
+msgstr "Download"
+
+msgid "cont_download_title"
+msgstr "Lae alla pealkiri"
+
+msgid "cont_drag_and_drop_elements"
+msgstr "Elementide liigutamiseks tiri ja kukuta sisuelemente kohahoidjatel."
+
+msgid "cont_drag_element_click_save"
+msgstr "Lohista element soovitud kohta. Seejärel kinnita käsk nupuga \"Salvesta\"."
+
+msgid "cont_ed_align_center"
+msgstr "reasta: keskele"
+
+msgid "cont_ed_align_left"
+msgstr "reasta: vasakule"
+
+msgid "cont_ed_align_left_float"
+msgstr "reasta: ujuvalt vasakule"
+
+msgid "cont_ed_align_right"
+msgstr "reasta: paremale"
+
+msgid "cont_ed_align_right_float"
+msgstr "reasta: ujuvalt paremale"
+
+msgid "cont_ed_atable"
+msgstr "Uuendatud tabel"
+
+#, fuzzy
+msgid "cont_ed_cell_left"
+msgstr "Move Left"
+
+#, fuzzy
+msgid "cont_ed_cell_right"
+msgstr "Move Right"
+
+msgid "cont_ed_class"
+msgstr "Stiil"
+
+msgid "cont_ed_click_to_add_pg"
+msgstr "Click here to add content."
+
+msgid "cont_ed_col_left"
+msgstr "lükka veerg vasakule"
+
+msgid "cont_ed_col_right"
+msgstr "lükka veerg paremale"
+
+msgid "cont_ed_copy"
+msgstr "Kopeeri"
+
+msgid "cont_ed_copy_clip"
+msgstr "kopeeri puhvrisse"
+
+msgid "cont_ed_cut"
+msgstr "Lõika"
+
+msgid "cont_ed_delete"
+msgstr "Kustuta"
+
+#, fuzzy
+msgid "cont_ed_delete_cell"
+msgstr "Delete Column"
+
+msgid "cont_ed_delete_col"
+msgstr "kustuta veerg"
+
+msgid "cont_ed_delete_item"
+msgstr "kustuta üksus"
+
+msgid "cont_ed_delete_row"
+msgstr "kustuta rida"
+
+msgid "cont_ed_dtable"
+msgstr "Andmetabel"
+
+msgid "cont_ed_edit"
+msgstr "muuda"
+
+msgid "cont_ed_edit_data"
+msgstr "Muuda andmeid"
+
+msgid "cont_ed_edit_files"
+msgstr "Muuda faile"
+
+msgid "cont_ed_edit_multiple"
+msgstr "Muuda peatükkide järjestust"
+
+msgid "cont_ed_edit_prop"
+msgstr "Muuda seadeid"
+
+msgid "cont_ed_enable"
+msgstr "(De-)Aktiveeri elemendid"
+
+msgid "cont_ed_flist"
+msgstr "Failinimestik"
+
+msgid "cont_ed_go"
+msgstr "OK"
+
+#, fuzzy
+msgid "cont_ed_grid_col_width"
+msgstr "Column Width"
+
+#, fuzzy
+msgid "cont_ed_grid_col_width_info"
+msgstr "Column width can span multiple 1/12 units of the row and depend on the overall screen size. Devices are given as examples. Their screen size determines the concrete behaviour. 12/12 equals to 100% width."
+
+#, fuzzy
+msgid "cont_ed_grid_col_widths"
+msgstr "Column Widths"
+
+#, fuzzy
+msgid "cont_ed_insert_amdfrm"
+msgstr "Insert Advanced Metadata"
+
+#, fuzzy
+msgid "cont_ed_insert_amdpl"
+msgstr "Insert Page List"
+
+msgid "cont_ed_insert_blog"
+msgstr "Sisesta blogi"
+
+#, fuzzy
+msgid "cont_ed_insert_cach"
+msgstr "Insert Consultation Hours"
+
+#, fuzzy
+msgid "cont_ed_insert_dtab"
+msgstr "Insert Data Table"
+
+#, fuzzy
+msgid "cont_ed_insert_flst"
+msgstr "Insert File List"
+
+#, fuzzy
+msgid "cont_ed_insert_grid"
+msgstr "Insert Column Layout"
+
+#, fuzzy
+msgid "cont_ed_insert_grid_info"
+msgstr "Adds a responsive column layout based on a grid with 12 units per row."
+
+msgid "cont_ed_insert_iim"
+msgstr "Sisesta interaktiivne pilt"
+
+msgid "cont_ed_insert_incl"
+msgstr "Sisesta sisuväljavõte"
+
+#, fuzzy
+msgid "cont_ed_insert_lay"
+msgstr "Insert Layout Template"
+
+#, fuzzy
+msgid "cont_ed_insert_lhist"
+msgstr "Insert Learning History"
+
+msgid "cont_ed_insert_list"
+msgstr "Lisa täiustatud loetelu"
+
+#, fuzzy
+msgid "cont_ed_insert_lpe"
+msgstr "Insert Login Page Element"
+
+msgid "cont_ed_insert_map"
+msgstr "lisa kaart"
+
+#, fuzzy
+msgid "cont_ed_insert_mcrs"
+msgstr "Insert My Courses"
+
+msgid "cont_ed_insert_media"
+msgstr "Lisa meedia"
+
+msgid "cont_ed_insert_par"
+msgstr "lisa lõik"
+
+msgid "cont_ed_insert_pcqst"
+msgstr "Sisesta küsimus"
+
+msgid "cont_ed_insert_plach"
+msgstr "Sisesta järjehoidja"
+
+#, fuzzy
+msgid "cont_ed_insert_prof"
+msgstr "Insert Personal Data"
+
+msgid "cont_ed_insert_qover"
+msgstr "Sisesta küsimuste ülevaade"
+
+msgid "cont_ed_insert_repobj"
+msgstr "lisa allikate nimestik"
+
+#, fuzzy
+msgid "cont_ed_insert_sec"
+msgstr "Insert Section"
+
+msgid "cont_ed_insert_skills"
+msgstr "Sisesta pädevused"
+
+#, fuzzy
+msgid "cont_ed_insert_src"
+msgstr "Insert Code"
+
+#, fuzzy
+msgid "cont_ed_insert_tab"
+msgstr "Insert Advanced Table"
+
+msgid "cont_ed_insert_tabs"
+msgstr "sisesta sakid"
+
+msgid "cont_ed_insert_templ"
+msgstr "Insert Content Template"
+
+#, fuzzy
+msgid "cont_ed_insert_vrfc"
+msgstr "Insert Certificate"
+
+msgid "cont_ed_item_down"
+msgstr "liiguta alla"
+
+msgid "cont_ed_item_up"
+msgstr "liiguta üles"
+
+msgid "cont_ed_list"
+msgstr "Uuendatud nimestik"
+
+msgid "cont_ed_moveafter"
+msgstr "liiguta edasi"
+
+msgid "cont_ed_movebefore"
+msgstr "liiguta tagasi"
+
+msgid "cont_ed_new_col_after"
+msgstr "uus veerg pärast"
+
+msgid "cont_ed_new_col_before"
+msgstr "uus veerg enne"
+
+msgid "cont_ed_new_item_after"
+msgstr "uus üksus pärast"
+
+msgid "cont_ed_new_item_before"
+msgstr "uus üksus enne"
+
+msgid "cont_ed_new_row_after"
+msgstr "uus rida pärast"
+
+msgid "cont_ed_new_row_before"
+msgstr "uus rida enne"
+
+#, fuzzy
+msgid "cont_ed_nr_cols"
+msgstr "Number of Columns"
+
+#, fuzzy
+msgid "cont_ed_nr_rows"
+msgstr "Number of Rows"
+
+msgid "cont_ed_par"
+msgstr "Tekst"
+
+msgid "cont_ed_paste"
+msgstr "Kleebi"
+
+msgid "cont_ed_paste_clip"
+msgstr "Kleebi puhvrist"
+
+msgid "cont_ed_pglprop"
+msgstr "Lehe kujunduse omadused"
+
+msgid "cont_ed_plachmedia"
+msgstr "Meedia kohahoidja"
+
+msgid "cont_ed_plachprop"
+msgstr "Kohahoidja seaded"
+
+msgid "cont_ed_plachquestion"
+msgstr "Kohahoidja küsimus"
+
+msgid "cont_ed_plachtext"
+msgstr "Teksti kohahoidja"
+
+msgid "cont_ed_plachverification"
+msgstr "Placeholder Certificate"
+
+msgid "cont_ed_row_down"
+msgstr "lükka rida allapoole"
+
+msgid "cont_ed_row_up"
+msgstr "lükka rida ülespoole"
+
+msgid "cont_ed_select_pctext"
+msgstr "Vali tekstiüksus"
+
+msgid "cont_ed_split_page"
+msgstr "viska uuele lehele"
+
+msgid "cont_ed_split_page_next"
+msgstr "viska järgmisele lehele"
+
+msgid "cont_ed_textitem"
+msgstr " Tekst"
+
+msgid "cont_ed_width"
+msgstr "Laius"
+
+msgid "cont_edit_base_image"
+msgstr "Muuda põhipilti"
+
+#, fuzzy
+msgid "cont_edit_comp"
+msgstr "Editing"
+
+msgid "cont_edit_definition"
+msgstr "Edit Definition"
+
+msgid "cont_edit_file_list_properties"
+msgstr "Muuda failinimestiku seadeid"
+
+msgid "cont_edit_language_version"
+msgstr "Edit Version"
+
+msgid "cont_edit_lrs_settings"
+msgstr "Muuda seadeid"
+
+msgid "cont_edit_marker_position"
+msgstr "Muuda markeri asukohta"
+
+msgid "cont_edit_mob"
+msgstr "Muuda meediaobjekti"
+
+msgid "cont_edit_mob_alias_prop"
+msgstr "Muuda meediaobjekti üksikjuhu seadeid"
+
+msgid "cont_edit_mode"
+msgstr "Muutmise viiis"
+
+#, fuzzy
+msgid "cont_edit_multi"
+msgstr "Selection"
+
+msgid "cont_edit_overlay_position"
+msgstr "Muuda ülekatte asukohta"
+
+msgid "cont_edit_par"
+msgstr "Muuda lõiku"
+
+msgid "cont_edit_personal_data"
+msgstr "Muuda isiklikke andmeid"
+
+msgid "cont_edit_popup_position"
+msgstr "Muuda hüpikakna asukohta"
+
+msgid "cont_edit_qover"
+msgstr "Muuda küsimuse ülevaadet"
+
+msgid "cont_edit_shape_circle"
+msgstr "Muuda kujundit (ring)"
+
+msgid "cont_edit_shape_polygon"
+msgstr "Muuda kujundit (hulknurk)"
+
+msgid "cont_edit_shape_rectangle"
+msgstr "Muuda kujundit (ristkülik)"
+
+msgid "cont_edit_shape_whole_picture"
+msgstr "Muuda kujundit (kogu pildil)"
+
+msgid "cont_edit_src"
+msgstr "Muuda algallikat"
+
+msgid "cont_edit_style"
+msgstr "Muuda kujunduslaadi"
+
+#, fuzzy
+msgid "cont_edit_table"
+msgstr "Edit Table"
+
+msgid "cont_edit_tabs"
+msgstr "Seaded"
+
+msgid "cont_edit_term"
+msgstr "Muuda mõistet"
+
+#, fuzzy
+msgid "cont_edit_title"
+msgstr "Change Title"
+
+msgid "cont_element_refers_removed_itgr"
+msgstr "This content element refers to an item group that has been removed in the meantime."
+
+msgid "cont_empty_question"
+msgstr "Küsimuse muutmine on lõpetamata. Palun kustuta küsimus või klikka sellel ja muuda."
+
+msgid "cont_enable_page_history"
+msgstr "Lehe ajalugu"
+
+msgid "cont_enable_page_history_info"
+msgstr "Säilitab lehe vanemad versioonid ja lubab neid sisse lülitada."
+
+msgid "cont_enable_time_scheduled_page_activation"
+msgstr "Ajakava põhine lehe aktiveerimine"
+
+msgid "cont_enable_time_scheduled_page_activation_info"
+msgstr "Kui võimaldatud, saab õppemooduli mootoris valida aktiivsusperioodi (päev/aeg) iga lehe jaoks eraldi."
+
+msgid "cont_end"
+msgstr "Lõpp"
+
+msgid "cont_enough_answers_correct"
+msgstr "Correct, but not the best solution!"
+
+msgid "cont_enter_a_dir_name"
+msgstr "Sisesta nimi kataloogi jaoks."
+
+msgid "cont_enter_a_file"
+msgstr "Vali fail."
+
+#, fuzzy
+msgid "cont_error"
+msgstr "An Error Occured"
+
+msgid "cont_exp_id_used_multiple"
+msgstr "Ekspordi ID korduvaks kasutamiseks"
+
+msgid "cont_exp_ids_not_resp_format1"
+msgstr "Eksport ID-d võivad sisaldada järgnevaid kirjamärke"
+
+msgid "cont_exp_ids_not_resp_format2"
+msgstr "Kontrollige ja täiendage antud sisendit."
+
+msgid "cont_exp_ids_not_resp_format3"
+msgstr "ID peab algama numbriga."
+
+msgid "cont_export_all"
+msgstr "Ekspordi kõik"
+
+msgid "cont_export_id"
+msgstr "Export ID"
+
+msgid "cont_file"
+msgstr "Fail"
+
+msgid "cont_file_created"
+msgstr "Fail on loodud."
+
+msgid "cont_file_deleted"
+msgstr "Fail kustutud."
+
+msgid "cont_file_from_repository"
+msgstr "Fail varamust"
+
+msgid "cont_file_from_workspace"
+msgstr "Fail minu töötsoonilt"
+
+msgid "cont_file_renamed"
+msgstr "Fail ümber nimetatud."
+
+msgid "cont_file_unzipped"
+msgstr "Fail lahti pakitud."
+
+msgid "cont_files"
+msgstr "Failid"
+
+msgid "cont_finish_editing"
+msgstr "Finish Editing"
+
+#, fuzzy
+msgid "cont_finish_table_editing"
+msgstr "Finish Data Table Editing"
+
+msgid "cont_first_open"
+msgstr "Algselt avatud"
+
+#, fuzzy
+msgid "cont_first_page"
+msgstr "First Page"
+
+msgid "cont_first_row_style"
+msgstr "Esimese rea stiil"
+
+msgid "cont_fix_tree"
+msgstr "Fikseeritud struktuur"
+
+msgid "cont_fix_tree_confirm"
+msgstr "Please execute this command only if the tree structure of this learning module is corrupted, e.g. if blank items occur in the explorer view."
+
+msgid "cont_fn"
+msgstr "Allääre märkus"
+
+msgid "cont_footer"
+msgstr "Jalus"
+
+#, fuzzy
+msgid "cont_footnote"
+msgstr "Footnote"
+
+msgid "cont_force_all_open"
+msgstr "Püsivalt avatud"
+
+msgid "cont_format"
+msgstr "Formaat"
+
+#, fuzzy
+msgid "cont_format_cells"
+msgstr "Format Cells"
+
+msgid "cont_fourth_edition"
+msgstr "SCORM 2004 4th edition"
+
+msgid "cont_fourth_edition_info"
+msgstr "SCORM 2004 4th edition offers some advantages compared to the 3rd edition. Further data over SCO boundaries can be exchanged for example. These options are however rarely used and have a negative effect on the speed."
+
+msgid "cont_free_pages"
+msgstr "Vabad lehed"
+
+msgid "cont_full_is_in_dir"
+msgstr "Kustutada ei saa kuna antud kataloogis on fail, millele on määratud täisekraan vaade"
+
+msgid "cont_fullscreen"
+msgstr "Täisekraan"
+
+msgid "cont_general_properties"
+msgstr "Põhiseaded"
+
+msgid "cont_get_link"
+msgstr "hangi link"
+
+msgid "cont_glo_assign"
+msgstr "Lisa sõnastik"
+
+msgid "cont_glo_create"
+msgstr "Loo sõnastik"
+
+msgid "cont_glo_detach"
+msgstr "Eemalda sõnastik"
+
+msgid "cont_glo_properties"
+msgstr "Sõnastiku seaded"
+
+msgid "cont_glossaries"
+msgstr "Glossaries"
+
+#, fuzzy
+msgid "cont_got_lock_release"
+msgstr "This page has been locked for your editing until %1. Please release the page after you have done all your changes."
+
+#, fuzzy
+msgid "cont_grid_cell"
+msgstr "Column"
+
+#, fuzzy
+msgid "cont_grid_cell_confirm_deletion"
+msgstr "Do you really want to delete the column(s)?"
+
+#, fuzzy
+msgid "cont_grid_nr_cells"
+msgstr "Number of Columns"
+
+#, fuzzy
+msgid "cont_grid_t_main_side"
+msgstr "Haupt- und Seitenblock"
+
+#, fuzzy
+msgid "cont_grid_t_main_side_info"
+msgstr "Legt einen breite Spalte links und eine schmalere Spalte rechts daneben an. Wechselt in Mobilansicht (small) zu einem Ein-Spalten-Layout."
+
+#, fuzzy
+msgid "cont_grid_t_manual"
+msgstr "Manuell erstelltes Seitenlayout"
+
+#, fuzzy
+msgid "cont_grid_t_manual_info"
+msgstr "Ermöglicht die freie Gestaltung von Spaltenanzahl und -breiten."
+
+#, fuzzy
+msgid "cont_grid_t_three_column"
+msgstr "Drei-Spalten-Layout"
+
+#, fuzzy
+msgid "cont_grid_t_three_column_info"
+msgstr "Legt drei gleich breite Spalten nebeneinander an. Wechselt in Mobilansicht (small) zu einem Ein-Spalten-Layout."
+
+#, fuzzy
+msgid "cont_grid_t_two_by_two"
+msgstr "Zwei-mal-zwei-Box"
+
+#, fuzzy
+msgid "cont_grid_t_two_by_two_info"
+msgstr "Legt zwei Zeilen mit zwei gleich breiten Spalten an. Wechselt in Mobilansicht (small) zu einem Ein-Spalten-Layout und auf extrabreiten Bildschirmen (extra large) in ein Vier-Spalten-Layout."
+
+#, fuzzy
+msgid "cont_grid_t_two_column"
+msgstr "Zwei-Spalten-Layout"
+
+#, fuzzy
+msgid "cont_grid_t_two_column_info"
+msgstr "Legt zwei gleich breite Spalten nebeneinander an. Wechselt in Mobilansicht (small) zu einem Ein-Spalten-Layout."
+
+#, fuzzy
+msgid "cont_grid_width_l"
+msgstr "Large"
+
+#, fuzzy
+msgid "cont_grid_width_l_info"
+msgstr "E.g. desktop"
+
+#, fuzzy
+msgid "cont_grid_width_m"
+msgstr "Medium"
+
+#, fuzzy
+msgid "cont_grid_width_m_info"
+msgstr "E.g. tablet"
+
+#, fuzzy
+msgid "cont_grid_width_s"
+msgstr "Small"
+
+#, fuzzy
+msgid "cont_grid_width_s_info"
+msgstr "E.g. smartphone"
+
+#, fuzzy
+msgid "cont_grid_width_xl"
+msgstr "Extra Large"
+
+#, fuzzy
+msgid "cont_grid_width_xl_info"
+msgstr "E.g. wide desktop"
+
+#, fuzzy
+msgid "cont_hacc_needs_height"
+msgstr "Please set a content height for horizontal accordions."
+
+#, fuzzy
+msgid "cont_hacc_needs_width"
+msgstr "Please set a content width for horizontal accordions."
+
+#, fuzzy
+msgid "cont_has_row_header"
+msgstr "Has a Header Row"
+
+msgid "cont_header"
+msgstr "Päis"
+
+msgid "cont_height"
+msgstr "Kõrgus"
+
+msgid "cont_help_no_valid_tooltip_id"
+msgstr "The tooltip ID you have entered was not valid."
+
+msgid "cont_hide_adv"
+msgstr "Hide Advanced Knowledge"
+
+msgid "cont_hide_head_foot_print"
+msgstr "Hide custom header and footer in print view"
+
+msgid "cont_hidenavig"
+msgstr "Peida navigatsioonipuu vasakul"
+
+#, fuzzy
+msgid "cont_hidenavig_info"
+msgstr "The left navigation tree can be hidden, if the SCORM Learning module contains sufficient functionality to navigate the content or the top navigation bar is displayed."
+
+msgid "cont_highlight_class"
+msgstr "Highlight Class"
+
+msgid "cont_highlight_mode"
+msgstr "Highlight Mode"
+
+msgid "cont_hover"
+msgstr "Hover"
+
+msgid "cont_href"
+msgstr "href"
+
+msgid "cont_html_export_ids"
+msgstr "HTML ID-de eksport"
+
+msgid "cont_html_export_ids_info"
+msgstr "Allows to maintain extra IDs for ILIAS learning modules, that are used for naming HTML files, when HTML export is done."
+
+msgid "cont_html_table"
+msgstr "HTML tabel"
+
+msgid "cont_id_ref"
+msgstr "identifierref"
+
+msgid "cont_ie_compatibility"
+msgstr "Internet Explorer 7 compatibility mode"
+
+msgid "cont_ie_compatibility_info"
+msgstr "Especially for older learning modules it can be helpful to activate the compatibility mode. Please note that the compatibility mode can be disabled in newer versions of Internet Explorer."
+
+msgid "cont_ie_force_render"
+msgstr "Force Internet Explorer to render again"
+
+msgid "cont_ie_force_render_info"
+msgstr "Enable this option only if content of the learning module is not displayed correctly with Internet Explorer due to many frames or iframes. Additionally you have to set the option 'Display' to 'in new window'."
+
+#, fuzzy
+msgid "cont_iim_add_overlay"
+msgstr "Add Overlay"
+
+#, fuzzy
+msgid "cont_iim_add_trigger"
+msgstr "Add Trigger"
+
+#, fuzzy
+msgid "cont_iim_add_trigger_text"
+msgstr "Please add a trigger. Afterwards edit size and position on the right screen."
+
+#, fuzzy
+msgid "cont_iim_background_image"
+msgstr "Background Image"
+
+#, fuzzy
+msgid "cont_iim_background_image_and_caption"
+msgstr "Background Image and Caption"
+
+#, fuzzy
+msgid "cont_iim_edit"
+msgstr "Edit Interactive Image"
+
+#, fuzzy
+msgid "cont_iim_edit_trigger"
+msgstr "Edit Trigger"
+
+#, fuzzy
+msgid "cont_iim_finish_editing"
+msgstr "Finish Editing Interactive Image"
+
+#, fuzzy
+msgid "cont_iim_horizontal"
+msgstr "Horizontal"
+
+#, fuzzy
+msgid "cont_iim_lg"
+msgstr "Large"
+
+#, fuzzy
+msgid "cont_iim_md"
+msgstr "Medium"
+
+#, fuzzy
+msgid "cont_iim_no_overlay"
+msgstr "No Overlay"
+
+#, fuzzy
+msgid "cont_iim_overview"
+msgstr "Overview"
+
+#, fuzzy
+msgid "cont_iim_select_overlay"
+msgstr "Select Overlay"
+
+#, fuzzy
+msgid "cont_iim_select_trigger"
+msgstr "To edit an existing trigger, click it on the right screen."
+
+#, fuzzy
+msgid "cont_iim_size"
+msgstr "Size"
+
+#, fuzzy
+msgid "cont_iim_sm"
+msgstr "Small"
+
+#, fuzzy
+msgid "cont_iim_tr_add_popup"
+msgstr "Add Content-Popup"
+
+#, fuzzy
+msgid "cont_iim_tr_properties_info"
+msgstr "The trigger will be presented on the right side. You may alter position and size using the mouse."
+
+#, fuzzy
+msgid "cont_iim_trigger"
+msgstr "Trigger"
+
+#, fuzzy
+msgid "cont_iim_vertical"
+msgstr "Vertical"
+
+msgid "cont_imagemap"
+msgstr "Pildikaart"
+
+#, fuzzy
+msgid "cont_import"
+msgstr "Import"
+
+msgid "cont_import_id"
+msgstr "identifikaator"
+
+#, fuzzy
+msgid "cont_import_lang"
+msgstr "Target Language"
+
+msgid "cont_import_tracking"
+msgstr "Impordi jälgimisandmed"
+
+#, fuzzy
+msgid "cont_import_trans"
+msgstr "Import Translation"
+
+msgid "cont_import_validation_errors"
+msgstr "Some errors occured during validation of the learning module. The presentation of the learning module may be ok, but it is likely that you are not able to edit the pages that contain errors."
+
+msgid "cont_initial_attached_content"
+msgstr "Initial Extra Content"
+
+msgid "cont_insert_amd_page_list"
+msgstr "Insert Page List"
+
+msgid "cont_insert_as_chapter"
+msgstr "Sisesta peatükina"
+
+msgid "cont_insert_as_subchapter"
+msgstr "Lisa kui alapeatükk"
+
+msgid "cont_insert_blog"
+msgstr "Lisa ajaveeb"
+
+msgid "cont_insert_chapter"
+msgstr "Lisa peatükk"
+
+msgid "cont_insert_chapter_from_clip"
+msgstr "Kleebi peatükid puhvrist"
+
+msgid "cont_insert_consultation_hours"
+msgstr "Insert Consultation Hours"
+
+msgid "cont_insert_file_item"
+msgstr "Sisesta fail"
+
+msgid "cont_insert_file_list"
+msgstr "Sisesta failinimestik"
+
+msgid "cont_insert_list"
+msgstr "Sisesta nimestik"
+
+msgid "cont_insert_login_page"
+msgstr "Lisa logilehe element"
+
+msgid "cont_insert_map"
+msgstr "Sisesta kaart"
+
+msgid "cont_insert_mob"
+msgstr "Lisa meediaobjekt"
+
+msgid "cont_insert_my_courses"
+msgstr "Insert My Courses"
+
+msgid "cont_insert_page"
+msgstr "Sisesta lehed"
+
+msgid "cont_insert_page_from_clip"
+msgstr "Kleebi lehed puhvrist"
+
+#, fuzzy
+msgid "cont_insert_pagelayout"
+msgstr "Insert Template Page"
+
+msgid "cont_insert_par"
+msgstr "Lisa lõik"
+
+msgid "cont_insert_profile"
+msgstr "Lisa isiklikud andmed"
+
+msgid "cont_insert_resources"
+msgstr "Sisesta alikate nimestik"
+
+msgid "cont_insert_section"
+msgstr "lisa vahelõik"
+
+msgid "cont_insert_skills"
+msgstr "Lisa pädevus"
+
+msgid "cont_insert_src"
+msgstr "Lisa lähtekood"
+
+msgid "cont_insert_subchapter"
+msgstr "Sisesta alapeatükk"
+
+msgid "cont_insert_subchapter_from_clip"
+msgstr "Kleebi alapeatükid puhvrist"
+
+msgid "cont_insert_table"
+msgstr "Sisesta tabel"
+
+msgid "cont_insert_verification"
+msgstr "Lisa tunnistus"
+
+msgid "cont_inst_map_areas"
+msgstr "Lingialad"
+
+msgid "cont_interactions"
+msgstr "võimalda interaktsioonide tulemuste talletus"
+
+#, fuzzy
+msgid "cont_interactions_info"
+msgstr "Typically results from interactions in learning modules are simply stored without being read / loaded again. If you ensured this is how your learning module operates, this option will improve performance."
+
+#, fuzzy
+msgid "cont_interactions_info_12"
+msgstr "Results from interactions in SCORM 1.2 learning modules are simply stored. This option will improve performance."
+
+msgid "cont_internal_link"
+msgstr "siselink"
+
+msgid "cont_internal_links"
+msgstr "Sisemised lingid"
+
+msgid "cont_invalid_new_module"
+msgstr "Sobimatu moodul! Palun veendu, et  imsmanifest.xml pole muudetud"
+
+msgid "cont_is_visible"
+msgstr "nähtamatu"
+
+msgid "cont_item"
+msgstr "Objekt"
+
+#, fuzzy
+msgid "cont_keyword"
+msgstr "Keyword"
+
+msgid "cont_language"
+msgstr "Language"
+
+msgid "cont_languages"
+msgstr "Languages"
+
+msgid "cont_last_try"
+msgstr "Last Try"
+
+#, fuzzy
+msgid "cont_last_update"
+msgstr "Last Update"
+
+#, fuzzy
+msgid "cont_last_visited_page"
+msgstr "Last Visited Page"
+
+msgid "cont_latest_rev"
+msgstr "viimane redigeerimine"
+
+msgid "cont_layout"
+msgstr "Paigutus"
+
+msgid "cont_layout_1window"
+msgstr "Üks aken"
+
+msgid "cont_layout_1window_desc"
+msgstr "Sisu on põhiaknas. FAQ, sõnastik ja meedialingid avanevad eraldi aknas."
+
+msgid "cont_layout_2window"
+msgstr "Kaks akent"
+
+msgid "cont_layout_2window_desc"
+msgstr "Sisu on vasakus aknas. FAQ, sõnastik ja meedialingid avanevad paremas aknas."
+
+msgid "cont_layout_3window"
+msgstr "Kolm akent"
+
+msgid "cont_layout_3window_desc"
+msgstr "Sisu on vasemas aknas. FAQ ja meedialingid avanevad ülemises paremas aknas, sõnastikulingid alumises vasakus aknas."
+
+msgid "cont_layout_fullscreen"
+msgstr "Täisekraan"
+
+msgid "cont_layout_fullscreen_desc"
+msgstr "Sisu on põhiaknas. FAQ, sõnastik ja meedialingid avanevad eraldi aknas. Puudub ILIASe põhimenüü ja navigeerimisriba."
+
+msgid "cont_layout_per_page"
+msgstr "Kujundus iga lehe kohta"
+
+msgid "cont_layout_per_page_info"
+msgstr "Luba iga lehe jaoks määrata oma kujundus. See aktiveerib automaatselt ka \"Sükroniseeri aknad\" seadistuse."
+
+msgid "cont_layout_presentation"
+msgstr "Esitlus"
+
+msgid "cont_layout_presentation_desc"
+msgstr "Sisu põhiaknas. FAQ, sõnastik ja meedialingid avanevad eraldi aknas. Puudub ILIASe põhimenüü."
+
+msgid "cont_layout_template"
+msgstr "Küljenduse mall"
+
+msgid "cont_layout_toc2win"
+msgstr "Sisutabel"
+
+msgid "cont_layout_toc2win_desc"
+msgstr "Sisutabel vasemal, sisu paremas aknas. FAQ, sõnastik ja meedialingid avanevad eraldi aknas."
+
+msgid "cont_layout_toc2windyn"
+msgstr "Dünaamiline sisutabel"
+
+msgid "cont_layout_toc2windyn_desc"
+msgstr "Sisutabel vasemal, sisu paremas aknas. FAQ, sõnastik ja meedialingid avavad dünaamiliselt all paremal asuvaa akna."
+
+msgid "cont_left"
+msgstr "Vasakule"
+
+msgid "cont_left_float"
+msgstr "Vasakule, ujuv"
+
+msgid "cont_license"
+msgstr "License"
+
+msgid "cont_license_info"
+msgstr "Enables the license feature"
+
+msgid "cont_light"
+msgstr "Light"
+
+msgid "cont_link"
+msgstr "Link"
+
+msgid "cont_link_area"
+msgstr "Lingiala"
+
+msgid "cont_link_ext"
+msgstr "Link (väline)"
+
+msgid "cont_link_glo_in_lm"
+msgstr "Should all glossary terms be linked in the learning module now?"
+
+msgid "cont_link_int"
+msgstr "Link (sise-)"
+
+msgid "cont_link_no"
+msgstr "No Link"
+
+msgid "cont_link_select"
+msgstr "Süsteemisisene link"
+
+msgid "cont_link_to_external"
+msgstr "Link välisele veebilehele"
+
+msgid "cont_link_to_internal"
+msgstr "Link ILIASe sisule"
+
+msgid "cont_link_to_wiki"
+msgstr "Link Wiki lehele"
+
+msgid "cont_link_type"
+msgstr "Lingi tüüp"
+
+#, fuzzy
+msgid "cont_link_user"
+msgstr "User Profile"
+
+msgid "cont_linked_mobs"
+msgstr "Lingitud meediaobjektid"
+
+msgid "cont_links"
+msgstr "Lingid"
+
+msgid "cont_list_files"
+msgstr "Nimestiku failid"
+
+msgid "cont_list_indent"
+msgstr "Suurenda taanet"
+
+#, fuzzy
+msgid "cont_list_item_style"
+msgstr "List Item Style"
+
+msgid "cont_list_outdent"
+msgstr "Vähenda taanet"
+
+msgid "cont_list_properties"
+msgstr "Nimestiku seaded"
+
+msgid "cont_lists"
+msgstr "Loendid"
+
+msgid "cont_lk_chapter"
+msgstr "Peatükk"
+
+msgid "cont_lk_chapter_new"
+msgstr "Peatükk (uus aken)"
+
+msgid "cont_lk_file"
+msgstr "Fail/Dokument"
+
+msgid "cont_lk_media_faq"
+msgstr "Meedia (FAQ Frame)"
+
+msgid "cont_lk_media_inline"
+msgstr "Meedia (Inline)"
+
+msgid "cont_lk_media_media"
+msgstr "Meedia (Media Frame)"
+
+msgid "cont_lk_media_new"
+msgstr "Meedia (New Frame)"
+
+msgid "cont_lk_page"
+msgstr "Leht"
+
+msgid "cont_lk_page_faq"
+msgstr "Leht (KKK aken)"
+
+msgid "cont_lk_page_new"
+msgstr "Leht (uus aken)"
+
+msgid "cont_lk_term"
+msgstr "Sõnastiku mõiste"
+
+msgid "cont_lk_term_new"
+msgstr "Sõnastiku mõiste (uues aknas)"
+
+msgid "cont_lm_comments_desc"
+msgstr "Allow users to share comments on every page of the learning module."
+
+msgid "cont_lm_default_layout"
+msgstr "Vaikimisi paigutus õppemoodulile"
+
+msgid "cont_lm_mail_permanent_link"
+msgstr "Click on the following link to access the learning module:"
+
+msgid "cont_lm_menu"
+msgstr "Menüü"
+
+msgid "cont_lm_properties"
+msgstr "Õpimooduli omadused"
+
+#, fuzzy
+msgid "cont_lm_starting_point"
+msgstr "Starting Point for ILIAS Learning Modules"
+
+#, fuzzy
+msgid "cont_lm_starting_point_info"
+msgstr "Page being opened when clicking a learning modules title."
+
+#, fuzzy
+msgid "cont_localfile"
+msgstr "Local File"
+
+msgid "cont_localization"
+msgstr "Lokaliseerimine"
+
+msgid "cont_localization_info"
+msgstr "Kasutajaliidese keel, nagu näiteks. \"Eelmine\" and \"Järgmine\"."
+
+msgid "cont_location"
+msgstr "Asukoht"
+
+#, fuzzy
+msgid "cont_lpe_dpro_agreement_link"
+msgstr "Declaration of Data Protection Link"
+
+#, fuzzy
+msgid "cont_lpe_language_selection"
+msgstr "Language Selection"
+
+#, fuzzy
+msgid "cont_lpe_login_form"
+msgstr "Login Form"
+
+#, fuzzy
+msgid "cont_lpe_openid_connect_login"
+msgstr "OpenId Connect Login"
+
+#, fuzzy
+msgid "cont_lpe_openid_login_form"
+msgstr "OpenId Login Form"
+
+#, fuzzy
+msgid "cont_lpe_registration_link"
+msgstr "New Registration Link"
+
+#, fuzzy
+msgid "cont_lpe_saml_login"
+msgstr "SAML Login"
+
+#, fuzzy
+msgid "cont_lpe_shib_login_form"
+msgstr "Shibboleth Login Form"
+
+#, fuzzy
+msgid "cont_lpe_user_agreement_link"
+msgstr "User Agreement Link"
+
+msgid "cont_lrs_settings"
+msgstr "Seaded"
+
+msgid "cont_lvalue"
+msgstr "Kuupäeva element"
+
+msgid "cont_maintenance"
+msgstr "Säilitamine"
+
+msgid "cont_manifest"
+msgstr "Avaldus"
+
+#, fuzzy
+msgid "cont_manual_item_group"
+msgstr "Manually Create Item Group"
+
+msgid "cont_map_file_not_generated"
+msgstr "Vabandust. Muutmise ajal ei saa kaardifaili luua."
+
+msgid "cont_marker"
+msgstr "Andmetähis"
+
+#, fuzzy
+msgid "cont_master_language_only"
+msgstr "Master Language for Translation"
+
+#, fuzzy
+msgid "cont_master_language_only_no_media"
+msgstr "Master Language without Media"
+
+msgid "cont_mastery_score"
+msgstr "adlcp:masteryscore"
+
+#, fuzzy
+msgid "cont_mastery_score_12"
+msgstr "overwrite mastery_score"
+
+#, fuzzy
+msgid "cont_mastery_score_12_info"
+msgstr "If a SCO does not autonomously determines a status, a SCO is considered passed if the score reached at least a certain level - the mastery_score. This value can be overwritten here e.g. to reduce the requirement level. If the field is empty, the information in the SCORM manifest are valid. The following values are provided in the manifest-file:"
+
+#, fuzzy
+msgid "cont_mastery_score_2004"
+msgstr "overwrite scaled_passing_score"
+
+#, fuzzy
+msgid "cont_mastery_score_2004_info"
+msgstr "Central learning objectives of this learning module are considered as passed if the score reached at least a certain level - the scaled_passing_score. This value - to be stated as a percentage value - can be overwritten here e.g. to reduce the requirement level. If the field is empty, the information in the SCORM manifest are valid. The following values are provided in the manifest-file:"
+
+msgid "cont_max_time_allowed"
+msgstr "adlcp:maxtimeallowed"
+
+#, fuzzy
+msgid "cont_media"
+msgstr "Images/Media"
+
+msgid "cont_media_placeh"
+msgstr "Klikka ja muuda meedia sisestamiseks"
+
+msgid "cont_media_placehl"
+msgstr "Meedia järjehoidja"
+
+msgid "cont_media_source"
+msgstr "Meedia allikas"
+
+#, fuzzy
+msgid "cont_merge_cells"
+msgstr "Merge Cells"
+
+msgid "cont_missing_preconditions"
+msgstr "Peatükile \"%s\" juurdepääsuks tuleb täita alljärgnevad tingimused."
+
+msgid "cont_missing_snippet"
+msgstr "Puudub sisu väljavõte. Vä'ljavõte on kustutatud."
+
+msgid "cont_mob_def_prop"
+msgstr "Vaikeseaded"
+
+msgid "cont_mob_from_media_pool"
+msgstr "Vali meediavaramust"
+
+msgid "cont_mob_inst_prop"
+msgstr "Seaded (kohalikud)"
+
+msgid "cont_mob_usages"
+msgstr "Kasutusala"
+
+msgid "cont_more_character_styles"
+msgstr "...rohkem tähestiile"
+
+msgid "cont_more_functions"
+msgstr "Rohkem"
+
+#, fuzzy
+msgid "cont_moved_srt_files"
+msgstr "Moved subtitles files to media objects."
+
+#, fuzzy
+msgid "cont_multi_srt_files"
+msgstr "SRT Files"
+
+#, fuzzy
+msgid "cont_mycourses_sortorder"
+msgstr "Default Sorting"
+
+#, fuzzy
+msgid "cont_mycourses_sortorder_alphabetical"
+msgstr "Alphabetical"
+
+#, fuzzy
+msgid "cont_mycourses_sortorder_info"
+msgstr "This is a default setting. Every user can choose a personal order which affects all \"My Courses\"-elements of any portfolio."
+
+#, fuzzy
+msgid "cont_mycourses_sortorder_location"
+msgstr "By Location"
+
+msgid "cont_name"
+msgstr "Nimi"
+
+msgid "cont_never"
+msgstr "Mitte kunagi"
+
+msgid "cont_new_area"
+msgstr "Uus lingiala"
+
+msgid "cont_new_chap"
+msgstr "Uus peatükk"
+
+msgid "cont_new_dir"
+msgstr "Uus liigitus"
+
+msgid "cont_new_file"
+msgstr "Uus fail"
+
+msgid "cont_new_marker"
+msgstr "Uus marker"
+
+msgid "cont_new_mob"
+msgstr "Uus meediaobjekt"
+
+msgid "cont_new_module_added"
+msgstr "Mooduli uus versioon on edukalt üles laetud"
+
+msgid "cont_new_page"
+msgstr "Uus leht"
+
+msgid "cont_new_popup"
+msgstr "Uus hüpikaken"
+
+msgid "cont_new_question"
+msgstr "Uus küsimus"
+
+msgid "cont_new_tab"
+msgstr "Uus sakk"
+
+msgid "cont_new_term"
+msgstr "Uus termin"
+
+msgid "cont_new_trigger_area"
+msgstr "Uue käiviti piirkond"
+
+msgid "cont_next_rev"
+msgstr "järgmine redigeerimine"
+
+msgid "cont_nlist"
+msgstr "Numbrinimestik"
+
+msgid "cont_no_access"
+msgstr "Juurdepääs puudub"
+
+#, fuzzy
+msgid "cont_no_block"
+msgstr "No Section"
+
+msgid "cont_no_caption"
+msgstr "Pealkiri puudub"
+
+msgid "cont_no_glossary"
+msgstr "Sõnastikku pole"
+
+msgid "cont_no_manifest"
+msgstr "Põhikaustast ei leitud imsmanifest.xml faili."
+
+msgid "cont_no_page"
+msgstr "Lehte ei leitud"
+
+msgid "cont_no_page_access_unansw_q"
+msgstr "You need to answer all questions of previous pages correctly to gain access to this page."
+
+msgid "cont_no_page_in_chapter"
+msgstr "Kahjuks praegu puudub selles peatükis aktiveeritud sisu."
+
+msgid "cont_no_parameters"
+msgstr "Parameetrid puuduvad"
+
+#, fuzzy
+msgid "cont_no_read"
+msgstr "No read permission"
+
+msgid "cont_no_subdir_in_zip"
+msgstr "Zip käsk ebaõnnestus või on importfail vigane.<br>See ei sisalda kausta '%s'."
+
+msgid "cont_no_text"
+msgstr "Teksti pole"
+
+msgid "cont_nomenu"
+msgstr "Peida ülemine navigatsiooniriba"
+
+#, fuzzy
+msgid "cont_nomenu_info"
+msgstr "The Top Navigation Bar can be hidden, if the SCORM Learning module contains sufficient functionality to suspend, finish and navigate the content."
+
+msgid "cont_none"
+msgstr "tühi"
+
+#, fuzzy
+msgid "cont_not_saved_edit_lock_expired"
+msgstr "Sorry, but another user obtained the edit lock for this page in the meantime. You may close this message and copy the content to your clipboard."
+
+#, fuzzy
+msgid "cont_notification_activate_lm"
+msgstr "Activate Notification for Learning Module"
+
+#, fuzzy
+msgid "cont_notification_activate_page"
+msgstr "Activate Notification for Page"
+
+#, fuzzy
+msgid "cont_notification_activated"
+msgstr "Notification Activated (Whole LM)"
+
+#, fuzzy
+msgid "cont_notification_comment_lm"
+msgstr "the following Learning Module Page has been commented"
+
+#, fuzzy
+msgid "cont_notification_comment_subject_lm"
+msgstr "A comment was added to %s: %s"
+
+#, fuzzy
+msgid "cont_notification_deactivate_lm"
+msgstr "Deactivate Notification for Learning Module"
+
+#, fuzzy
+msgid "cont_notification_deactivate_page"
+msgstr "Deactivate Notification for Page"
+
+#, fuzzy
+msgid "cont_notification_deactivated"
+msgstr "Notification Deactivated"
+
+#, fuzzy
+msgid "cont_notification_update_lm"
+msgstr "the following Learning Module has been updated"
+
+msgid "cont_notify_on_blocked_users"
+msgstr "Notifications on Blocked Users"
+
+msgid "cont_notify_on_blocked_users_info"
+msgstr "You will be notified if users are blocked when they run out of tries."
+
+msgid "cont_nr_col_footer"
+msgstr "Jaluse veerud"
+
+msgid "cont_nr_col_header"
+msgstr "Päise veerud"
+
+msgid "cont_nr_cols"
+msgstr "Veergude arv"
+
+msgid "cont_nr_items"
+msgstr "Üksuste arv"
+
+msgid "cont_nr_of_tries_exceeded"
+msgstr "Katsete arv on täis"
+
+msgid "cont_nr_row_footer"
+msgstr "Jaluse read"
+
+msgid "cont_nr_row_header"
+msgstr "Päise read"
+
+msgid "cont_nr_rows"
+msgstr "Ridade arv"
+
+msgid "cont_number_of_tabs"
+msgstr "Sakkide arv"
+
+msgid "cont_number_std"
+msgstr "Tavaline"
+
+msgid "cont_number_type"
+msgstr "Numbri tüüp"
+
+msgid "cont_numbered_list"
+msgstr "Numbriloend"
+
+msgid "cont_obj_removed"
+msgstr "Objektid eemaldatud."
+
+msgid "cont_objectives"
+msgstr "võimalda õpimoodulite andmete hoidmine"
+
+#, fuzzy
+msgid "cont_objectives_info"
+msgstr "If you ensured that this learning module runs properly, this option improves performance."
+
+msgid "cont_online"
+msgstr "Võrgus"
+
+msgid "cont_online_help_ids"
+msgstr "Help IDs"
+
+#, fuzzy
+msgid "cont_online_info"
+msgstr "Set the SCORM learning module online to make it visible and available for users. If not, only users with 'Edit'-permission will have access to it."
+
+msgid "cont_open"
+msgstr "Kuva"
+
+#, fuzzy
+msgid "cont_open_clipboard"
+msgstr "Open Clipboard"
+
+#, fuzzy
+msgid "cont_open_iframe"
+msgstr "Opens in the same window, the ILIAS main menue is displayed"
+
+#, fuzzy
+msgid "cont_open_iframe_info"
+msgstr "The learning module starts in the same window (iFrame) next to the ILIAS main menu."
+
+msgid "cont_open_normal"
+msgstr "sakis / uues aknas lingiga"
+
+#, fuzzy
+msgid "cont_open_normal_info"
+msgstr "The learning module starts in a new tab or alternatively in a new window without the ILIAS main menu."
+
+#, fuzzy
+msgid "cont_open_window"
+msgstr "Definitely opens in a new window, without ILIAS main menue"
+
+#, fuzzy
+msgid "cont_open_window_info"
+msgstr "The learning module must start in a new window without the ILIAS main menu."
+
+msgid "cont_operation_not_allowed"
+msgstr "See tegevus keelatud."
+
+msgid "cont_organization"
+msgstr "Sisu struktuur"
+
+msgid "cont_organizations"
+msgstr "Korraldused"
+
+msgid "cont_orig_size"
+msgstr "Originaalsuurus"
+
+#, fuzzy
+msgid "cont_other_resources"
+msgstr "Content (Other Remaining Resources)"
+
+msgid "cont_out_of_focus_message"
+msgstr "This page is not related to your current learning objective anymore."
+
+msgid "cont_out_of_focus_message_last_page"
+msgstr "This is the last page of the content related to your current learning objective."
+
+msgid "cont_ov_all_correct"
+msgstr "Sa vastasid õigesti kõikidele küsimustele."
+
+#, fuzzy
+msgid "cont_ov_preview"
+msgstr "The question overview does not work in the page editor context. Use the SCO or SCORM level preview instead."
+
+msgid "cont_ov_some_correct"
+msgstr "Sa vastasid õigesti [x] küsimusele [y] küsimusest."
+
+msgid "cont_ov_wrong_answered"
+msgstr "Järgmistele küsimustele ei vastatud või vastati neile valesti"
+
+msgid "cont_overlay_image"
+msgstr "Ülekatte pilt"
+
+msgid "cont_overlay_images"
+msgstr "Ülekattega pildid"
+
+msgid "cont_overlays_have_been_deleted"
+msgstr "Ülekatted kustutatud."
+
+msgid "cont_page_activation"
+msgstr "Lehe aktiveerimine"
+
+msgid "cont_page_activation_on"
+msgstr "The content will be activated on %s."
+
+msgid "cont_page_compare"
+msgstr "Võrdle valitud redigeerimisi"
+
+#, fuzzy
+msgid "cont_page_created"
+msgstr "Page created"
+
+msgid "cont_page_currently_deactivated"
+msgstr "Vabandame, see leht on praegu inaktiveeritud."
+
+msgid "cont_page_deactivated"
+msgstr "Leht on mitteaktiivne"
+
+msgid "cont_page_deactivated_elements"
+msgstr "Leht sisaldab mitteaktiivseid elemente."
+
+msgid "cont_page_header"
+msgstr "Lehe päis:"
+
+msgid "cont_page_layout"
+msgstr "Lehe kujundus"
+
+msgid "cont_page_lock_released"
+msgstr "Editing finished. Page lock has been released."
+
+#, fuzzy
+msgid "cont_page_notification_activated"
+msgstr "Notification Activated (Single Page)"
+
+#, fuzzy
+msgid "cont_page_template"
+msgstr "Page Template"
+
+msgid "cont_page_toc"
+msgstr "Lehe ülevaade"
+
+msgid "cont_page_translation_does_not_exist"
+msgstr "The translation page does not exist yet and will be created"
+
+#, fuzzy
+msgid "cont_page_usage"
+msgstr "Page Usage"
+
+msgid "cont_pages"
+msgstr "Lehed"
+
+msgid "cont_pages_and_subchapters"
+msgstr "Alapeatükid ja lehed"
+
+msgid "cont_par_format"
+msgstr "Lõik"
+
+msgid "cont_paragraph_styles"
+msgstr "Lõigustiilid"
+
+msgid "cont_parameter"
+msgstr "Parameeter"
+
+msgid "cont_parameters"
+msgstr "parameetrid"
+
+msgid "cont_paste_from_clipboard"
+msgstr "Kleebi lõikepuhvrist"
+
+#, fuzzy
+msgid "cont_paste_from_spreadsheet"
+msgstr "Paste From Spreadsheet"
+
+msgid "cont_paste_table"
+msgstr "Kleebi tabel"
+
+msgid "cont_pc_amdpl"
+msgstr "Page List"
+
+msgid "cont_pc_blog"
+msgstr "Blogi"
+
+#, fuzzy
+msgid "cont_pc_carousel"
+msgstr "Carousel"
+
+msgid "cont_pc_code"
+msgstr "Kood"
+
+msgid "cont_pc_deleted"
+msgstr "Kustutatud sisu"
+
+msgid "cont_pc_dtab"
+msgstr "Andmetabel"
+
+msgid "cont_pc_flist"
+msgstr "Failinimestik"
+
+#, fuzzy
+msgid "cont_pc_grid"
+msgstr "Column Layout"
+
+msgid "cont_pc_hacc"
+msgstr "Akordion (horisontaalne)"
+
+msgid "cont_pc_iim"
+msgstr "Interaktiivne pilt"
+
+msgid "cont_pc_incl"
+msgstr "Sisu väljavõte"
+
+#, fuzzy
+msgid "cont_pc_lay"
+msgstr "Layout Template"
+
+msgid "cont_pc_list"
+msgstr "Täiustatud nimestik"
+
+msgid "cont_pc_map"
+msgstr "kaart"
+
+#, fuzzy
+msgid "cont_pc_media"
+msgstr "Image/Media"
+
+msgid "cont_pc_mob"
+msgstr "Meedia"
+
+msgid "cont_pc_modified"
+msgstr "Muudetud sisu"
+
+msgid "cont_pc_new"
+msgstr "Uus sisu"
+
+msgid "cont_pc_par"
+msgstr "Tekst"
+
+#, fuzzy
+msgid "cont_pc_plach"
+msgstr "Placeholder"
+
+msgid "cont_pc_prof"
+msgstr "Isiklikud andmed"
+
+msgid "cont_pc_qover"
+msgstr "Küsimuste ülevaade"
+
+msgid "cont_pc_qst"
+msgstr "Küsimus"
+
+#, fuzzy
+msgid "cont_pc_repobj"
+msgstr "Item Group"
+
+msgid "cont_pc_res"
+msgstr "Üksus"
+
+msgid "cont_pc_sec"
+msgstr "Sektsioon"
+
+msgid "cont_pc_skills"
+msgstr "Oskus"
+
+#, fuzzy
+msgid "cont_pc_src"
+msgstr "Source Code"
+
+msgid "cont_pc_tab"
+msgstr "Täiustatud tabel"
+
+#, fuzzy
+msgid "cont_pc_tabs"
+msgstr "Accordion/Carousel"
+
+msgid "cont_pc_vacc"
+msgstr "Akordion (vertikaalne)"
+
+msgid "cont_pc_vrfc"
+msgstr "Tunnistus"
+
+#, fuzzy
+msgid "cont_permission_handling"
+msgstr "Permission Handling"
+
+#, fuzzy
+msgid "cont_permission_object"
+msgstr "Permission Object"
+
+#, fuzzy
+msgid "cont_permission_object_desc"
+msgstr "The section will only be presented for users that have the given permission on the permission object."
+
+msgid "cont_personal_clipboard"
+msgstr "Isiklik puhver"
+
+msgid "cont_pg_title"
+msgstr "Lehekülje pealkiri"
+
+msgid "cont_please_enter_a_term"
+msgstr "Sisesta mõiste."
+
+msgid "cont_please_select"
+msgstr "Vali"
+
+msgid "cont_please_try_again"
+msgstr "Proovi uuesti"
+
+msgid "cont_popups_have_been_deleted"
+msgstr "Hüpikaknad kustutai."
+
+msgid "cont_position"
+msgstr "Jrk"
+
+msgid "cont_prereq_type"
+msgstr "adlcp:prerequisites.type"
+
+msgid "cont_prerequisites"
+msgstr "adlcp:prerequisites"
+
+msgid "cont_presentation"
+msgstr "Presentation"
+
+msgid "cont_presentation_view"
+msgstr "Esitluse vaade"
+
+msgid "cont_preview"
+msgstr "Eelvaade"
+
+msgid "cont_previous_rev"
+msgstr "eelmine redigeerimine"
+
+msgid "cont_print_no_page_selected"
+msgstr "Palun vali vähemalt üks leht."
+
+msgid "cont_print_selection"
+msgstr "Prindivaate valik"
+
+msgid "cont_print_view"
+msgstr "Prindivaade"
+
+msgid "cont_print_view_pre_glo"
+msgstr "Ära näita trükivaates sõnaraamatu lisa"
+
+msgid "cont_profile_mode"
+msgstr "Olek"
+
+msgid "cont_profile_mode_inherit"
+msgstr "Automaatne"
+
+msgid "cont_profile_mode_inherit_info"
+msgstr "Use your public profile settings"
+
+msgid "cont_profile_mode_manual"
+msgstr "Käsitsi"
+
+msgid "cont_profile_mode_manual_info"
+msgstr "Kasuta alljärgnevaid andmeid:"
+
+msgid "cont_profile_mode_template_inherit_info"
+msgstr "Use the profile settings"
+
+msgid "cont_progress_icons"
+msgstr "Progress Icons"
+
+msgid "cont_progress_icons_info"
+msgstr "Show progress icons instead of chapter page icons in presentation mode. Please note that progress information is stored only with ILIAS 4.5 and higher."
+
+#, fuzzy
+msgid "cont_prtf_page"
+msgstr "Portfolio Page"
+
+#, fuzzy
+msgid "cont_prtt_page"
+msgstr "Portfolio Tempalte Page"
+
+msgid "cont_public_access"
+msgstr "Vaba juurdepääs"
+
+msgid "cont_purpose"
+msgstr "Eesmärk"
+
+msgid "cont_qover_list_wrong_q"
+msgstr "Valesti vastatud küsimuste loend"
+
+msgid "cont_qover_list_wrong_q_info"
+msgstr "Järgnevalt on kuvatud valesti vastatud või vastamata jäetud küsimustega."
+
+msgid "cont_qover_short_message"
+msgstr "Oleku sõnum"
+
+msgid "cont_qover_short_message_info"
+msgstr "Kuvatakse sõnum \"Olete õigesti vastanud C küsimusele Y-st peatüki küsimusest.\"."
+
+msgid "cont_qtries"
+msgstr "Vastamisvõimalusi"
+
+msgid "cont_qtries_info"
+msgstr "Default value for number of tries for newly created questions."
+
+#, fuzzy
+msgid "cont_question"
+msgstr "Question"
+
+#, fuzzy
+msgid "cont_question_page_usage"
+msgstr "Questions on Pages"
+
+msgid "cont_question_placeh"
+msgstr "Klikka ja muuda küsimuse sisestamiseks"
+
+msgid "cont_question_placehl"
+msgstr "Küsimuse järjehoidja"
+
+msgid "cont_question_stats"
+msgstr "Statistic"
+
+msgid "cont_question_type"
+msgstr "Küsimuse tüüp"
+
+#, fuzzy
+msgid "cont_question_usage"
+msgstr "Usages"
+
+#, fuzzy
+msgid "cont_quit_text_editing"
+msgstr "Finish Text Editing"
+
+#, fuzzy
+msgid "cont_rand_start"
+msgstr "Random Start"
+
+msgid "cont_really_delete_overlays"
+msgstr "Soovite kustutada järgmised ülekatted?"
+
+msgid "cont_really_delete_popups"
+msgstr "Soovite kustutada järgmised hüpikaknad?"
+
+msgid "cont_really_delete_triggers"
+msgstr "Soovite kustutada järgmised käivitid?"
+
+msgid "cont_ref_helptext"
+msgstr "(näiteks: http://www.server.org/myimage.jpg)"
+
+msgid "cont_ref_images"
+msgstr "Viidatud pildid"
+
+msgid "cont_reference"
+msgstr "Viide"
+
+msgid "cont_remove_format"
+msgstr "Eemalda vorming"
+
+msgid "cont_rename_dir"
+msgstr "Nimeta kataloog ümber"
+
+msgid "cont_replace_mob_feature"
+msgstr "Vaheta sisus meediaobjekt"
+
+msgid "cont_replace_mob_feature_info"
+msgstr "Activates a feature that allows to replace a media object while keeping the other properties of a media instance in the content."
+
+msgid "cont_repository_item"
+msgstr "Varamu element"
+
+msgid "cont_reset_nr_of_tries"
+msgstr "Reset Number of Tries"
+
+msgid "cont_resize_img"
+msgstr "Muuda faili suurust"
+
+msgid "cont_resource"
+msgstr "Allikas"
+
+msgid "cont_resource_size"
+msgstr "Algne suurus"
+
+#, fuzzy
+msgid "cont_resource_size_info"
+msgstr "Without size declaration the size can be controlled by the content style. If neither a size is declared nor the content style contains a rule that determines the size, only images will be displayed in their default size."
+
+msgid "cont_resource_type"
+msgstr "tüüp"
+
+msgid "cont_resources"
+msgstr "Allikad"
+
+msgid "cont_resources_of_type"
+msgstr "Resources of Type"
+
+msgid "cont_restrict_forw_nav"
+msgstr "Restrict Forward Navigation"
+
+msgid "cont_restrict_forw_nav_info"
+msgstr "Learners cannot navigate to subsequent pages unless they answered all previous questions correctly."
+
+msgid "cont_revision"
+msgstr "Versioon"
+
+msgid "cont_right"
+msgstr "Paremale"
+
+msgid "cont_right_float"
+msgstr "Paremale, ujuv"
+
+msgid "cont_rollback"
+msgstr "Tühistamine"
+
+msgid "cont_rollback_confirmation"
+msgstr "Kas soovid tõesti taastada selle lehe vanemat versiooni?"
+
+msgid "cont_roman"
+msgstr "Roman I, II, ..."
+
+msgid "cont_roman_s"
+msgstr "Rooma i, ii, ..."
+
+msgid "cont_rowspan"
+msgstr "Rea lahtrite ühendamine"
+
+msgid "cont_rte_settings"
+msgstr "RTE Settings"
+
+msgid "cont_rvalue"
+msgstr "Väärtus"
+
+msgid "cont_save_all_titles"
+msgstr "Salvesta pealkirjad"
+
+msgid "cont_save_positions"
+msgstr "Salvesta asukohad"
+
+msgid "cont_save_positions_and_classes"
+msgstr "Salvesta asendid ja kujunduslaadi klassid"
+
+msgid "cont_save_spans"
+msgstr "Salvesta muutmispiirkond"
+
+msgid "cont_save_types"
+msgstr "Salvesta tüübid"
+
+msgid "cont_save_widths"
+msgstr "Salvesta laius(ed)"
+
+msgid "cont_saved_export_ids"
+msgstr "Saved HTML Export IDs."
+
+msgid "cont_saved_interactive_image"
+msgstr "Loodud interaktiivne pilt"
+
+msgid "cont_saved_map_area"
+msgstr "Kaardi ala salvestatud"
+
+msgid "cont_saved_map_data"
+msgstr "Kaardi ala salvestatud"
+
+msgid "cont_saving"
+msgstr "Salvestamine..."
+
+msgid "cont_sc_auto_continue"
+msgstr "Auto-Continue"
+
+#, fuzzy
+msgid "cont_sc_auto_continue_info"
+msgstr "After finishing their last activity users will be automatically redirected to the next SCO. This function is not supported by all SCORM 1.2 Learning Modules."
+
+msgid "cont_sc_auto_review_2004"
+msgstr "Automatic Review Mode"
+
+msgid "cont_sc_auto_review_completed"
+msgstr "if completed"
+
+msgid "cont_sc_auto_review_completed_and_passed"
+msgstr "if completed and passed"
+
+msgid "cont_sc_auto_review_completed_not_failed_or_passed"
+msgstr "if completed or passed, but not failed (recommended for Automatic Review Mode)"
+
+msgid "cont_sc_auto_review_completed_or_passed"
+msgstr "if completed or passed"
+
+msgid "cont_sc_auto_review_info_2004"
+msgstr "If the automatic review mode is enabled, then the tracking data for a chapter (SCO) of the learning module are not stored when one of these options apply. In the rare case however, that the learning module makes use of Sequencing & Navigation according to SCORM 2004, this option should not be enabled."
+
+msgid "cont_sc_auto_review_no"
+msgstr "disabled"
+
+msgid "cont_sc_auto_review_passed"
+msgstr "if passed"
+
+msgid "cont_sc_auto_review_passed_or_failed"
+msgstr "if passed or failed"
+
+#, fuzzy
+msgid "cont_sc_id_setting"
+msgstr "student_id according to SCORM 1.2"
+
+#, fuzzy
+msgid "cont_sc_id_setting_2004"
+msgstr "learner_id according to SCORM 2004"
+
+#, fuzzy
+msgid "cont_sc_id_setting_info"
+msgstr "In the case that a numeric id for student_id (SCORM 1.2) or learner_id (SCORM 2004) causes problems for the learning module, use the option 'ILIAS user name'. The addition RefId or ObjId may be useful for learning modules that connect to an external server."
+
+#, fuzzy
+msgid "cont_sc_id_setting_user_id"
+msgstr "ILIAS User Id (Standard)"
+
+#, fuzzy
+msgid "cont_sc_id_setting_user_id_plus_obj_id"
+msgstr "ILIAS User Id plus ObjId of the Learning Module"
+
+#, fuzzy
+msgid "cont_sc_id_setting_user_id_plus_ref_id"
+msgstr "ILIAS User Id plus RefId of the Learning Module"
+
+#, fuzzy
+msgid "cont_sc_id_setting_user_login"
+msgstr "ILIAS Login Name"
+
+#, fuzzy
+msgid "cont_sc_id_setting_user_login_plus_obj_id"
+msgstr "ILIAS Login Name plus ObjId of the Learning Module"
+
+#, fuzzy
+msgid "cont_sc_id_setting_user_login_plus_ref_id"
+msgstr "ILIAS Login Name plus RefId of the Learning Module"
+
+msgid "cont_sc_less_mode_browse"
+msgstr "Otsi"
+
+#, fuzzy
+msgid "cont_sc_less_mode_browse_info"
+msgstr "The SCORM mode is set to \"browse\"."
+
+msgid "cont_sc_less_mode_normal"
+msgstr "Tavaline"
+
+#, fuzzy
+msgid "cont_sc_less_mode_normal_info"
+msgstr "The SCORM mode is set to \"normal\"."
+
+msgid "cont_sc_max_attempt_exceed"
+msgstr "Selle mooduli maksimaalne katsete arv on täis."
+
+#, fuzzy
+msgid "cont_sc_name_setting"
+msgstr "student_name according to SCORM 1.2"
+
+#, fuzzy
+msgid "cont_sc_name_setting_2004"
+msgstr "learner_name according to SCORM 2004"
+
+#, fuzzy
+msgid "cont_sc_name_setting_first_lastname"
+msgstr "First name and Last name"
+
+#, fuzzy
+msgid "cont_sc_name_setting_first_name"
+msgstr "First name"
+
+#, fuzzy
+msgid "cont_sc_name_setting_fullname"
+msgstr "Title, First name and Last name"
+
+#, fuzzy
+msgid "cont_sc_name_setting_info"
+msgstr "The name of the learner can be displayed in the learning module in several ways. In the case that the learning modules are on an external server, it may be useful not to disclose the name."
+
+#, fuzzy
+msgid "cont_sc_name_setting_last_firstname"
+msgstr "Last name, First name"
+
+#, fuzzy
+msgid "cont_sc_name_setting_no_name"
+msgstr "no name"
+
+#, fuzzy
+msgid "cont_sc_name_setting_salutation_lastname"
+msgstr "Salutation and Last name"
+
+msgid "cont_sc_new_version"
+msgstr "Lae uus versioon üles"
+
+msgid "cont_sc_preview"
+msgstr "Eelvaade"
+
+msgid "cont_sc_stat_browsed"
+msgstr "Sirvitud"
+
+msgid "cont_sc_stat_completed"
+msgstr "Lõpetatud"
+
+msgid "cont_sc_stat_failed"
+msgstr "Ebaõnnestunud"
+
+msgid "cont_sc_stat_incomplete"
+msgstr "Lõpetamata"
+
+msgid "cont_sc_stat_not_attempted"
+msgstr "Pole alustatud"
+
+msgid "cont_sc_stat_passed"
+msgstr "Läbitud"
+
+msgid "cont_sc_stat_running"
+msgstr "Toimub"
+
+#, fuzzy
+msgid "cont_sc_store_if_previous_score_was_lower"
+msgstr "keep tracking data if achieved score in previous attempt was higher or equal"
+
+msgid "cont_sc_title"
+msgstr "pealkiri"
+
+msgid "cont_sc_usession"
+msgstr "Piiramatu sessiooni aegumine"
+
+msgid "cont_sc_usession_info"
+msgstr "This setting activates periodical requests to the server to keep the session alive."
+
+msgid "cont_sc_version"
+msgstr "Versioon"
+
+#, fuzzy
+msgid "cont_sc_version_info"
+msgstr "The version management will automatically insert the correct version number."
+
+msgid "cont_scheduled_activation"
+msgstr "Planeeritud aktiveerimine"
+
+msgid "cont_sco_glossary"
+msgstr "Üksuse sõnastik"
+
+msgid "cont_score"
+msgstr "Punktid"
+
+msgid "cont_scorm_ed_properties"
+msgstr "Õppemooduli seaded / sõnastik"
+
+msgid "cont_scorm_options"
+msgstr "SCORM Options"
+
+msgid "cont_scorm_type"
+msgstr "adlcp:scormtype"
+
+msgid "cont_screen_ids"
+msgstr "Screen IDs"
+
+#, fuzzy
+msgid "cont_sec_protected"
+msgstr "Protected"
+
+#, fuzzy
+msgid "cont_sec_protected_text"
+msgstr "The following section is protected and can not be edited."
+
+msgid "cont_second"
+msgstr "Teine"
+
+#, fuzzy
+msgid "cont_sel_el_use_paste"
+msgstr "Selected elements are now in the clipboard. Please click the desired target placeholder and select ‘Paste’."
+
+msgid "cont_select"
+msgstr "Vali"
+
+msgid "cont_select_file"
+msgstr "Vali fail"
+
+msgid "cont_select_from_upload_dir"
+msgstr "-- Vali üleslaadimise kaustast --"
+
+msgid "cont_select_item"
+msgstr "Vali vähemalt üks objekt."
+
+msgid "cont_select_max_one_item"
+msgstr "Vali üks element."
+
+msgid "cont_select_media_pool"
+msgstr "Vali meediavaramu"
+
+#, fuzzy
+msgid "cont_select_none"
+msgstr "Clear Selection"
+
+msgid "cont_select_other_qpool"
+msgstr "Vali teine varamu"
+
+msgid "cont_select_par_or_section"
+msgstr "Palun vali vähemalt üks lõik või sektsioon"
+
+msgid "cont_selected_items_have_been_copied"
+msgstr "Valitud üksused on kopeeritud puhvrisse. Klikka sobival järjehoidjal nende kleepimiseks õpimoodulisse."
+
+msgid "cont_selected_items_have_been_cut"
+msgstr "Valitud üksused on lõigatud puhvrisse. Klikka sobival järjehoidjal nende kleepimiseks õpimoodulisse."
+
+msgid "cont_selected_pg_chap"
+msgstr "Valitud lehed/peatükid"
+
+msgid "cont_selected_terms"
+msgstr "Valitud mõisted"
+
+msgid "cont_selected_topic"
+msgstr "Selected Topic"
+
+msgid "cont_selection"
+msgstr "Valik"
+
+msgid "cont_self_assessment"
+msgstr "Self Assessment"
+
+msgid "cont_sequencing"
+msgstr "võimalda Järjestus&Navigeerimine vastavalt õpimooduli seadetele"
+
+msgid "cont_sequencing_info"
+msgstr "Enable the sequencing and navigation behaviour as defined by the learning module."
+
+msgid "cont_set_alignment"
+msgstr "Määra joondus"
+
+msgid "cont_set_layout"
+msgstr "Sea küljendys"
+
+msgid "cont_set_link"
+msgstr "Muuda linki"
+
+#, fuzzy
+msgid "cont_set_manuall"
+msgstr "Set Manually"
+
+#, fuzzy
+msgid "cont_set_properties"
+msgstr "Set Properties"
+
+msgid "cont_set_start_file"
+msgstr "Sea algusfail"
+
+msgid "cont_set_styles"
+msgstr "Sea kujunduslaadid"
+
+msgid "cont_set_tab_style_info"
+msgstr "Märgista stiili muutmiseks märkeruudud tabelilahtrite juures."
+
+msgid "cont_settings"
+msgstr "Settings for learning modules"
+
+msgid "cont_shape"
+msgstr "Kuju"
+
+#, fuzzy
+msgid "cont_shift_click_to_select"
+msgstr "<b>Shift-click</b> on an element to <b>select</b> it and switch to selection mode."
+
+#, fuzzy
+msgid "cont_short_title"
+msgstr "Short Title"
+
+#, fuzzy
+msgid "cont_short_title_info"
+msgstr "Short titles are used in the left-hand tree presentation and for labels in the previous/next navigation."
+
+#, fuzzy
+msgid "cont_short_titles"
+msgstr "Short Titles"
+
+msgid "cont_show_activation_info"
+msgstr "Show Activation Info"
+
+msgid "cont_show_activation_info_info"
+msgstr "If the scheduled activation is not yet reached, the page will not be skipped. The information when the page will be activated will be displayed to the user."
+
+msgid "cont_show_adv"
+msgstr "Show Advanced Knowledge"
+
+msgid "cont_show_content_after_focus"
+msgstr "Continue with the Learning Module"
+
+#, fuzzy
+msgid "cont_show_fullscreen"
+msgstr "Show Fullscreen"
+
+msgid "cont_show_info"
+msgstr "Näita infot"
+
+msgid "cont_show_line_numbers"
+msgstr "Näita ridade arvu"
+
+msgid "cont_show_print_view"
+msgstr "Näita prindivaadet"
+
+msgid "cont_size"
+msgstr "Suurus (baidid)"
+
+msgid "cont_skip_chapter"
+msgstr "Jäta see peatükk vahele"
+
+#, fuzzy
+msgid "cont_snippet_from_another_installation"
+msgstr "Snippet comes from another installation."
+
+msgid "cont_snippets_used"
+msgstr "Kasutatud sisu väljavõtetes"
+
+msgid "cont_span"
+msgstr "Vahemik"
+
+msgid "cont_special_page"
+msgstr "Eriline sisuleht"
+
+#, fuzzy
+msgid "cont_split_cell"
+msgstr "Split Cell"
+
+msgid "cont_spreadsheet_table"
+msgstr "Arvutustabel"
+
+#, fuzzy
+msgid "cont_sqst"
+msgstr "Survey Question (Assigned Material)"
+
+msgid "cont_src"
+msgstr "Lähtekood"
+
+msgid "cont_src_other"
+msgstr "muu"
+
+msgid "cont_st_title"
+msgstr "(ala)peatüki pealkiri"
+
+msgid "cont_standard"
+msgstr "Tavaline"
+
+msgid "cont_start"
+msgstr "Algus"
+
+msgid "cont_start_file_set_to"
+msgstr "%s has been set as start file."
+
+msgid "cont_start_value"
+msgstr "Algväärtus"
+
+msgid "cont_start_value_info"
+msgstr "Sisesta kümnendarvuna käivituse väärtus. Vaikimisi on 1."
+
+msgid "cont_startfile"
+msgstr "Algusfail"
+
+msgid "cont_status"
+msgstr "Staatus"
+
+msgid "cont_std_is_in_dir"
+msgstr "Kustutada ei saa kuna antud kataloogis asub standardvaate fail.."
+
+msgid "cont_std_view"
+msgstr "Standardvaade"
+
+msgid "cont_structure"
+msgstr "ülesehitus"
+
+msgid "cont_style"
+msgstr "Stiil"
+
+msgid "cont_subchapters"
+msgstr "Alapeatükid"
+
+msgid "cont_submit_answers"
+msgstr "Kinnita vastus"
+
+#, fuzzy
+msgid "cont_subtitle_file"
+msgstr "SRT ZIP File"
+
+#, fuzzy
+msgid "cont_subtitle_files"
+msgstr "Media Subtitles"
+
+#, fuzzy
+msgid "cont_sur_block_format"
+msgstr "Surrounding Section"
+
+msgid "cont_switch_to_media_pool"
+msgstr "Lülita teisele meediavaramule"
+
+msgid "cont_syntax_help"
+msgstr "Abiks:"
+
+#, fuzzy
+msgid "cont_tab_add_above"
+msgstr "Add Panel Above"
+
+#, fuzzy
+msgid "cont_tab_add_below"
+msgstr "Add Panel Below"
+
+msgid "cont_tab_cont_height"
+msgstr "Sisu kõrgus"
+
+msgid "cont_tab_cont_width"
+msgstr "Sisu laius"
+
+#, fuzzy
+msgid "cont_tab_delete"
+msgstr "Delete Panel"
+
+#, fuzzy
+msgid "cont_tab_move_bottom"
+msgstr "Move To Bottom"
+
+#, fuzzy
+msgid "cont_tab_move_down"
+msgstr "Move Downwards"
+
+#, fuzzy
+msgid "cont_tab_move_top"
+msgstr "Move To Top"
+
+#, fuzzy
+msgid "cont_tab_move_up"
+msgstr "Move Upwards"
+
+msgid "cont_table"
+msgstr "Tabel"
+
+#, fuzzy
+msgid "cont_table_adv_settings"
+msgstr "Erweiterte Einstellungen"
+
+msgid "cont_table_border"
+msgstr "Tabeli ääris"
+
+msgid "cont_table_border_info"
+msgstr "Keep this empty to make content style settings effective. Values must include unit (like px)."
+
+#, fuzzy
+msgid "cont_table_cell_edit_info_1"
+msgstr "Click on a table cell to select or deselect it."
+
+#, fuzzy
+msgid "cont_table_cell_edit_info_2"
+msgstr "Click on a row or column header to select or deselect the corresponding row or column."
+
+#, fuzzy
+msgid "cont_table_cell_edit_info_3"
+msgstr "Click on a second cell while holding shift to select all the cells in between."
+
+msgid "cont_table_cell_properties"
+msgstr "Tabelilahtrite omadused"
+
+msgid "cont_table_cellpadding"
+msgstr "Tabelilahtrite polster"
+
+msgid "cont_table_cellpadding_info"
+msgstr "Keep this empty to make content style settings effective. Values must include unit (like px)."
+
+#, fuzzy
+msgid "cont_table_edit_cells"
+msgstr "Edit Cells"
+
+#, fuzzy
+msgid "cont_table_import_info"
+msgstr "Please enter the table data separated by semicolon or TAB character for each column. Start a new row for each table row. Spreadsheet applications will usually use TAB characters for separation when transfered via clipboard. It should be possible to paste this data directly into the input field. No further formattings will be imported."
+
+msgid "cont_table_properties"
+msgstr "Tabeli omadused"
+
+#, fuzzy
+msgid "cont_table_style"
+msgstr "Style"
+
+msgid "cont_table_width"
+msgstr "Tabeli laius"
+
+msgid "cont_tabs"
+msgstr "Sakid"
+
+msgid "cont_tabs_acc_hor"
+msgstr "Horisontaalne akordion"
+
+msgid "cont_tabs_acc_ver"
+msgstr "Vertikaalne akordion"
+
+#, fuzzy
+msgid "cont_tabs_carousel"
+msgstr "Carousel"
+
+msgid "cont_tabs_confirm_deletion"
+msgstr "Soovite kustutada kõik sakid ja nende lehtede sisu?"
+
+#, fuzzy
+msgid "cont_target"
+msgstr "Target"
+
+msgid "cont_target_missing"
+msgstr "Sihtkoht puudub"
+
+msgid "cont_target_within_source"
+msgstr "Sihtpunkt ei pea olema allikobjektis."
+
+msgid "cont_template"
+msgstr "Template"
+
+msgid "cont_term"
+msgstr "Termin"
+
+msgid "cont_terms"
+msgstr "Terminid"
+
+msgid "cont_tex"
+msgstr "Latex kood"
+
+msgid "cont_text_acc"
+msgstr "Rõhutatud:"
+
+msgid "cont_text_code"
+msgstr "kood:"
+
+msgid "cont_text_com"
+msgstr "Kommentaar:"
+
+#, fuzzy
+msgid "cont_text_editing"
+msgstr "Edit Text"
+
+msgid "cont_text_emp"
+msgstr "Rõhutatud tekst:"
+
+msgid "cont_text_fn"
+msgstr "allmärkus:"
+
+#, fuzzy
+msgid "cont_text_iln_link"
+msgstr "Internal Link"
+
+msgid "cont_text_imp"
+msgstr "Oluline:"
+
+msgid "cont_text_keyword"
+msgstr "Võtmesõna"
+
+msgid "cont_text_placeh"
+msgstr "Klikka ja muuda teksti sisestamiseks"
+
+msgid "cont_text_placehl"
+msgstr "Teksti järjehoidja"
+
+msgid "cont_text_quot"
+msgstr "Tsitaat:"
+
+msgid "cont_text_str"
+msgstr "Rasvane tekst:"
+
+#, fuzzy
+msgid "cont_text_sub"
+msgstr "Subscript"
+
+#, fuzzy
+msgid "cont_text_sup"
+msgstr "Superscript"
+
+msgid "cont_text_tex"
+msgstr "LaTeX kood:"
+
+msgid "cont_text_xln"
+msgstr "Süsteemiväline link:"
+
+msgid "cont_third_and_more"
+msgstr "Kolmas või rohkem"
+
+msgid "cont_time"
+msgstr "Aeg"
+
+msgid "cont_time_from_lms"
+msgstr "määra töötlusaeg ILIASe, mitte SCO põhjal"
+
+msgid "cont_time_from_lms_info"
+msgstr "Strict (according to the SCORM standard) check of values sent by the learning module to ILIAS."
+
+msgid "cont_time_limit_action"
+msgstr "adlcp:timelimitaction"
+
+msgid "cont_to_focus_beginning"
+msgstr "Back to Content related to the Learning Objective"
+
+msgid "cont_to_focus_return_crs"
+msgstr "Back to Course"
+
+msgid "cont_toc"
+msgstr "Sisukorrad"
+
+msgid "cont_toc_mode"
+msgstr "Sisutabel näitab"
+
+#, fuzzy
+msgid "cont_tool_faq"
+msgstr "FAQ"
+
+#, fuzzy
+msgid "cont_tool_media"
+msgstr "Media"
+
+msgid "cont_top"
+msgstr "Üles"
+
+msgid "cont_topic"
+msgstr "Topic"
+
+msgid "cont_total_time"
+msgstr "Koguaeg"
+
+msgid "cont_tracking_bysco"
+msgstr "Peatüki järgi"
+
+msgid "cont_tracking_byuser"
+msgstr "Kasutaja järgi"
+
+msgid "cont_tracking_data"
+msgstr "Jälgimine"
+
+msgid "cont_tracking_items"
+msgstr "Jälgimisüksused"
+
+msgid "cont_tracking_modify"
+msgstr "modify data"
+
+#, fuzzy
+msgid "cont_trans_import_info"
+msgstr "If you exported this module as XML/Master Language for Translation to another installation, you can now re-import translated export files from this second installation here."
+
+#, fuzzy
+msgid "cont_transl_master_language_not_allowed"
+msgstr "To import a translation you need to activate at least one additional language under \"Settings\" > \"Multilingualism\"."
+
+msgid "cont_tree_fixed"
+msgstr "Puu struktuur parandatud."
+
+msgid "cont_tries"
+msgstr "Question Behaviour"
+
+msgid "cont_tries_remaining"
+msgstr "Järelejäänud katseid"
+
+msgid "cont_tries_reset_on_visit"
+msgstr "Reset on Page Visit"
+
+msgid "cont_tries_reset_on_visit_info"
+msgstr "Questions start with 0 number of tries each time a learner visits a page. Learner has to answer questions on every page visit."
+
+msgid "cont_tries_store"
+msgstr "Store Answer Status"
+
+msgid "cont_tries_store_info"
+msgstr "Number of tries are accumulated and stored. Correctly answered questions must not be answered again. Learners may run out of tries for questions."
+
+msgid "cont_trigger_area"
+msgstr "Käiviti alad"
+
+msgid "cont_type"
+msgstr "Tüüp"
+
+#, fuzzy
+msgid "cont_type_not_allowed"
+msgstr "Content type not allowed at this position"
+
+msgid "cont_unlock_allow_continue"
+msgstr "Unlock / Allow to Continue"
+
+msgid "cont_unlocked"
+msgstr "Unlocked"
+
+msgid "cont_update_amd_page_list"
+msgstr "Edit Page List"
+
+msgid "cont_update_blog"
+msgstr "Muuda ajaveebi"
+
+msgid "cont_update_consultation_hours"
+msgstr "Edit Consultation Hours"
+
+msgid "cont_update_login_page"
+msgstr "Muuda logilehe elementi"
+
+msgid "cont_update_map"
+msgstr "Muuda kaarti"
+
+msgid "cont_update_my_courses"
+msgstr "Edit My Courses"
+
+msgid "cont_update_profile"
+msgstr "Muuda isiklikke andmeid"
+
+msgid "cont_update_resources"
+msgstr "Uuenda üksuste nimestikku"
+
+msgid "cont_update_section"
+msgstr "Uuenda sektsiooni"
+
+msgid "cont_update_skills"
+msgstr "Muuda pädevust"
+
+msgid "cont_update_verification"
+msgstr "Muuda tunnistust"
+
+msgid "cont_upload_dir"
+msgstr "Üleslaadimise kataloog"
+
+#, fuzzy
+msgid "cont_upload_file"
+msgstr "Upload File"
+
+#, fuzzy
+msgid "cont_upload_multi_srt_howto"
+msgstr "This feature allows you to upload multiple subtitle (srt) files in a zip file for all media objects of the learning module. Your .zip file should contain all .srt files on the top level (no subdirectories). The file names should end with \"_&lt;lang code&gt;.srt\" where lang code is e.g. \"en\", \"it\", \"de\". The rest of the filename should correspond to the name of the video file, e.g. \"my_video.mp4\" -> \"my_video_en.srt\"."
+
+msgid "cont_uploaded_file"
+msgstr "Olemasolev fail"
+
+#, fuzzy
+msgid "cont_url_info"
+msgstr "URL of a media file or Youtube URL."
+
+msgid "cont_usage"
+msgstr "Kasutusala"
+
+msgid "cont_use_same_resource_as_above"
+msgstr "Kasuta sama allikat nagu üleval"
+
+#, fuzzy
+msgid "cont_user"
+msgstr "User"
+
+msgid "cont_user_blocked"
+msgstr "User out of tries in learning module \"%s\"."
+
+msgid "cont_user_blocked2"
+msgstr "A user has run out of tries for answering a question in the learning module. The user will not be able to navigate further through the learning module without your intervention."
+
+msgid "cont_user_blocked3"
+msgstr "Open the learning module in edit mode and enter the screen:"
+
+#, fuzzy
+msgid "cont_user_search_did_not_match"
+msgstr "Your search did not match any users."
+
+msgid "cont_users_answered"
+msgstr "Kasutaja vastas"
+
+msgid "cont_users_have_mob_in_clip1"
+msgstr "Meediaobjekt on lõikelaual (of)"
+
+msgid "cont_users_have_mob_in_clip2"
+msgstr "kasutaja(d)."
+
+msgid "cont_validate_file"
+msgstr "Faili kehtivuse kontroll"
+
+msgid "cont_verification_object"
+msgstr "Verification"
+
+msgid "cont_verification_placeh"
+msgstr "Click and edit to insert certificate"
+
+msgid "cont_verification_placehl"
+msgstr "Certificate Placeholder"
+
+msgid "cont_version"
+msgstr "versioon"
+
+msgid "cont_versions"
+msgstr "Versioonid"
+
+msgid "cont_whole_glossary"
+msgstr "Kogu sõnastik"
+
+msgid "cont_width"
+msgstr "Laius"
+
+#, fuzzy
+msgid "cont_width_height_info"
+msgstr "The size of the display can be set at a fixed size. 950 pixels for Width and 650 pixels for Height are proven values for setting the size. If no entry is made the browser will determine the size of the display."
+
+#, fuzzy
+msgid "cont_width_px_perc"
+msgstr "Width"
+
+#, fuzzy
+msgid "cont_width_px_perc_info"
+msgstr "(e.g. px or % value)"
+
+#, fuzzy
+msgid "cont_wiki_link_dialog"
+msgstr "Link to Wiki Page (Dialog)"
+
+msgid "cont_wiki_page"
+msgstr "Wiki Page"
+
+msgid "cont_wiki_page_link"
+msgstr "Wiki lehe link"
+
+msgid "cont_wrong_answers"
+msgstr "Valesid vastuseid"
+
+msgid "cont_wrong_answers_single"
+msgstr "Vale vastus."
+
+msgid "cont_xml_base"
+msgstr "xml:baas"
+
+msgid "cont_zip_file_invalid"
+msgstr "Pole imporditav.<br> Ei sisalda faili '%s'."
+
+msgid "content_no_edit_lock"
+msgstr "The page is currently locked by another user."
+
+msgid "content_page_history"
+msgstr "Lehe ajalugu"
+
+msgid "content_plugin_not_activated"
+msgstr "The page content element plugin is currently not activated."
+
+msgid "content_some_export_ids_multiple_times"
+msgstr "Mõnesid eksport ID-sid on kasutatud korduvalt. See võib tähendada puuduvaid lehti ekspordi failis."
+
+msgid "content_until"
+msgstr "At least locked until:"
+
+msgid "copied_to_clipboard"
+msgstr "Kopeeritud objekt(id) on puhvris."
+
+msgid "dgl_pagebreak"
+msgstr "Lehekatkestus"
+
+msgid "glo_add_new_term"
+msgstr "Lisa uus termin"
+
+msgid "glo_content_settings"
+msgstr "Content"
+
+msgid "glo_editing_view"
+msgstr "Muutmisvaade"
+
+msgid "glo_full_definitions"
+msgstr "Kogu definitsioon"
+
+msgid "glo_full_definitions_info"
+msgstr "Põhivaates näidatakse mõisteid ja definitsioone tervinisti."
+
+msgid "glo_hide_taxonomy"
+msgstr "Hide Taxonomy"
+
+msgid "glo_list_usages"
+msgstr "Loend kasutuse kohta"
+
+msgid "glo_mode_normal_info"
+msgstr "Only terms created within this glossar will be included."
+
+msgid "glo_presentation_mode"
+msgstr "Esitluse vaade"
+
+msgid "glo_presentation_view"
+msgstr "Esitluse vaade"
+
+msgid "glo_quick_navigation"
+msgstr "Kiirmenüü"
+
+msgid "glo_style"
+msgstr "Glossary Style"
+
+msgid "glo_table_form"
+msgstr "Tabeli kujul"
+
+msgid "glo_table_form_info"
+msgstr "Ülevaates on mõisted ja definitsioonid kahes veerus. Mõistel klikates avaneb kogu definitsioon uues aknas."
+
+msgid "glo_term_is_used_n_times"
+msgstr "Mõistet on kasutatud sisumoodulites %s korda."
+
+msgid "glo_term_must_belong_to_glo"
+msgstr "The action can only be performed on terms, which are defined in this glossary."
+
+msgid "glo_term_used_in"
+msgstr "Mõistele on lingitud järgmised allikad"
+
+msgid "glo_text_snippet_length"
+msgstr "Definitsiooni väljavõtte pikkus"
+
+msgid "glo_text_snippet_length_info"
+msgstr "Definitsiooni teksti väljavõtte suurus ülevaates."
+
+msgid "glo_usages"
+msgstr "Sõnastikku kasutatakse:"
+
+msgid "glo_used_in_scorm"
+msgstr "Sõnastik on kasutusel SCORM moodulis. Pärast sõnastiku kustutamist ei tööta enam viited sõnastikku."
+
+msgid "help_assign_help_ids"
+msgstr "Chapter/Screen-IDs Assignment"
+
+msgid "htlm_import"
+msgstr "Impordi HTML õppemoodul"
+
+msgid "import_sco_object"
+msgstr "Impordi SCO"
+
+msgid "info_stop_offline_mode_sure"
+msgstr "Note: The learning progress achieved in offline mode are lost. Are you sure?"
+
+#, fuzzy
+msgid "infobox_files_not_migrated"
+msgstr "The files of this learning module have not yet been migrated to the Resource Storage Service and can therefore not be edited."
+
+msgid "lm_activate_rating"
+msgstr "Activate Rating For Pages"
+
+#, fuzzy
+msgid "lm_editing_view"
+msgstr "Editing View"
+
+#, fuzzy
+msgid "lm_import"
+msgstr "Import ILIAS Learning Module"
+
+msgid "lm_menu_edit_entry"
+msgstr "Muuda menüükirjet"
+
+msgid "lm_menu_entry_target"
+msgstr "Sihtkoht"
+
+msgid "lm_menu_entry_title"
+msgstr "Pealkiri"
+
+msgid "lm_menu_new_entry"
+msgstr "Loo uus menüükirje"
+
+msgid "lm_menu_select_internal_object"
+msgstr "Vali siseobjekt >>"
+
+msgid "lm_menu_select_object_to_add"
+msgstr "Vali menüüsse lisamiseks vastav objekt"
+
+#, fuzzy
+msgid "lm_no_download_files"
+msgstr "There are currently no files for download available."
+
+#, fuzzy
+msgid "lm_only_one_download_per_type"
+msgstr "Please note that you can only make one file per type (XML, HTML, SCORM) public accessible."
+
+msgid "lm_rate_page"
+msgstr "Rate page"
+
+msgid "lm_rating"
+msgstr "Rate Learning Module"
+
+msgid "mep_folder_created"
+msgstr "Lisatud uus kaust."
+
+msgid "msg_entry_added"
+msgstr "Menüükirje lisatud"
+
+msgid "msg_entry_removed"
+msgstr "Menüü kirje eemaldatud"
+
+msgid "msg_entry_updated"
+msgstr "Menüü kirje uuendatud"
+
+#, fuzzy
+msgid "msg_no_page_access"
+msgstr "You do not have the permission to access this page."
+
+msgid "msg_page_no_public_access"
+msgstr "Kutsutud leht pole avalikul lehel kättesaadav. Ainult registreeritud kasutajad näevad seda. Juurdepääsuks logi sisse."
+
+msgid "msg_page_not_public"
+msgstr "Leht pole avalik"
+
+msgid "offline_mode_manager"
+msgstr "Offline use"
+
+msgid "offline_mode_users"
+msgstr "Users in offline mode"
+
+#, fuzzy
+msgid "offline_mode_users_info"
+msgstr "Users can be manually taken from the Off-line Mode and after doing so these users can again use the online-version of the learning module. This makes sense if e.g. the laptop with the learning modules was stolen."
+
+msgid "page_does_not_exist"
+msgstr "Vabandust aga sellist lehte ei eksisteeri."
+
+msgid "par"
+msgstr "Lõik"
+
+msgid "pg"
+msgstr "Leht"
+
+msgid "public_section"
+msgstr "Avalik ala"
+
+msgid "sahs_empty_objectives_are_not_allowed"
+msgstr "Sisesta õpieesmärk."
+
+#, fuzzy
+msgid "sahs_insert_pg_from_clip"
+msgstr "Import Pages from ILIAS Learning Module"
+
+#, fuzzy
+msgid "sahs_insert_st_from_clip"
+msgstr "Import Chapters from ILIAS Learning Module"
+
+#, fuzzy
+msgid "sahs_insert_st_from_clip_inside_chap"
+msgstr "Import Chapters from ILIAS Learning Module (inside chapter)"
+
+msgid "save_new"
+msgstr "Save and New"
+
+msgid "saved_media_object"
+msgstr "Meediaobjekt salvestatud"
+
+msgid "scplayer_collapsetree"
+msgstr "Sule kõik"
+
+msgid "scplayer_continue"
+msgstr "Jätka"
+
+msgid "scplayer_debugger"
+msgstr "Näita silurit"
+
+msgid "scplayer_exit"
+msgstr "Välju"
+
+msgid "scplayer_exitall"
+msgstr "Välju lõplikult"
+
+msgid "scplayer_expandtree"
+msgstr "Ava kõik"
+
+msgid "scplayer_hidetree"
+msgstr "Peida puu"
+
+msgid "scplayer_next"
+msgstr "Edasi"
+
+msgid "scplayer_phpmysqlcheck"
+msgstr "Vajate MYSQL 4.1 või kõrgemat, et võimaldada JSON-tugi javaskript-RTE kasutamiseks"
+
+msgid "scplayer_previous"
+msgstr "Eelmine"
+
+msgid "scplayer_showtree"
+msgstr "Näita puud"
+
+msgid "scplayer_start"
+msgstr "Algus"
+
+msgid "scplayer_suspendall"
+msgstr "Loobu kõigest"
+
+msgid "selectFooter"
+msgstr "Vali jaluseks"
+
+msgid "selectHeader"
+msgstr "Vali päiseks"
+
+msgid "select_a_file"
+msgstr "Vali fail."
+
+msgid "seq_close"
+msgstr "Palun sulge aken."
+
+msgid "seq_endsession"
+msgstr "Sessioon on lõppenud."
+
+msgid "seq_error"
+msgstr "Järjestajas tekkis sisemine viga."
+
+msgid "seq_toc"
+msgstr "Kursuse alustamiseks vali vasemal asuvast sisutabelist tegevus."
+
+msgid "set_public_mode"
+msgstr "Seadista avalik juurdepääs"
+
+msgid "st"
+msgstr "Peatükk"
+
+#, fuzzy
+msgid "start_lm"
+msgstr "Launch Learning Module"
+
+msgid "text_repr"
+msgstr "Teksti esitus"
+
+msgid "text_repr_info"
+msgstr "Kasutatud pildi \"alt\" atribuudina."

@@ -1,0 +1,477 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: zh\n"
+"Language-Team: Chinese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: scormdebug\n"
+
+msgid "API-call"
+msgstr "API调用"
+
+msgid "Commit"
+msgstr "储存数据"
+
+msgid "GetDiagnostic"
+msgstr "允许LMS(!)定义附加的诊断信息"
+
+msgid "GetErrorString"
+msgstr "检索当前错误状态的一个文本描述"
+
+msgid "GetLastError"
+msgstr "为当前错误状态请求错误码"
+
+msgid "GetValue"
+msgstr "获取数据"
+
+msgid "Initialize"
+msgstr "初始化api通信"
+
+msgid "SCO-name"
+msgstr "SCO名字"
+
+msgid "SCO-title"
+msgstr "SCO标题"
+
+msgid "SetValue"
+msgstr "发送数据"
+
+msgid "Terminate"
+msgstr "存储数据和终止api通信"
+
+msgid "adl.nav.request"
+msgstr "导航请求处理后立即终止()"
+
+msgid "adl.nav.request_valid.choice"
+msgstr "通过使用一个SCO来确定如果为一个特别的活动的选择导航请求将会成功。"
+
+msgid "adl.nav.request_valid.continue"
+msgstr "通过使用一个SCO来确定如果继续一个导航请求将会成功。"
+
+msgid "adl.nav.request_valid.previous"
+msgstr "通过使用一个SCO来确定如果继续一个前一步导航请求将会成功。"
+
+msgid "all_API-calls_shown"
+msgstr "所有API调用当前已显示。"
+
+msgid "cmi._version"
+msgstr "代表数据模型的版本"
+
+msgid "cmi.comments_from_learner._children"
+msgstr "支持的数据模型元素的清单"
+
+msgid "cmi.comments_from_learner._count"
+msgstr "当前学习者评论的数量"
+
+msgid "cmi.comments_from_learner.n.comment"
+msgstr "文本输入"
+
+msgid "cmi.comments_from_learner.n.location"
+msgstr "Point in the SCO to which the comment applies"
+
+msgid "cmi.comments_from_learner.n.timestamp"
+msgstr "Point in time at which the comment was created or most recently changed"
+
+msgid "cmi.comments_from_lms._children"
+msgstr "已支持的数据模型元素列表"
+
+msgid "cmi.comments_from_lms._count"
+msgstr "当前来自LMS评论的数目"
+
+msgid "cmi.comments_from_lms.n.comment"
+msgstr "与一个SCO相关的评论或注释"
+
+msgid "cmi.comments_from_lms.n.location"
+msgstr "Point in the SCO to which the comment applies"
+
+msgid "cmi.comments_from_lms.n.timestamp"
+msgstr "Point in time at which the comment was created or most recently changed"
+
+msgid "cmi.completion_status"
+msgstr "指示学习者是否已完成SCO"
+
+msgid "cmi.completion_threshold"
+msgstr "用于确定是否考虑完成SCO。"
+
+msgid "cmi.credit"
+msgstr "Indicates whether the learner will be credited for performance in the SCO"
+
+msgid "cmi.entry"
+msgstr "断言学习者之前是否访问过SCO"
+
+msgid "cmi.exit"
+msgstr "指示怎样或为什么学习者离开SCO"
+
+msgid "cmi.interactions._children"
+msgstr "已支持的数据模型元素清单"
+
+msgid "cmi.interactions._count"
+msgstr "Current number of interactions being stored by the LMS"
+
+msgid "cmi.interactions.n.correct_responses._count"
+msgstr "此次交互的当前正确回应数已由LMS保存"
+
+msgid "cmi.interactions.n.correct_responses.n.pattern"
+msgstr "交互的一个正确回应模式"
+
+msgid "cmi.interactions.n.description"
+msgstr "交互的简短信息描述"
+
+msgid "cmi.interactions.n.id"
+msgstr "交互的唯一性标签"
+
+msgid "cmi.interactions.n.latency"
+msgstr "Time elapsed between the time the interaction was made available to the learner for response and the time of the first response"
+
+msgid "cmi.interactions.n.learner_response"
+msgstr "当一个学习者回应一个交互时，数据已生成。"
+
+msgid "cmi.interactions.n.objectives._count"
+msgstr "通过为这次交互的LMS的当前目标(例如，目标标识符)数已储存。"
+
+msgid "cmi.interactions.n.objectives.n.id"
+msgstr "与交互相关联的目标标签"
+
+msgid "cmi.interactions.n.result"
+msgstr "判断学习者响应的正确性"
+
+msgid "cmi.interactions.n.timestamp"
+msgstr "Point in time at which the interaction was first made available to the learner for learner interaction and response"
+
+msgid "cmi.interactions.n.type"
+msgstr "交互的类型已记录"
+
+msgid "cmi.interactions.n.weighting"
+msgstr "给定交互关联到其他交互的权重。"
+
+msgid "cmi.launch_data"
+msgstr "启动后，数据提供给了一个SCO，从dataFromLMS manifest元素初始化。"
+
+msgid "cmi.learner_id"
+msgstr "Identifies the learner on behalf of whom the SCO was launched"
+
+msgid "cmi.learner_name"
+msgstr "Name provided for the learner by the LMS"
+
+msgid "cmi.learner_preference._children"
+msgstr "支持的数据模型元素清单"
+
+msgid "cmi.learner_preference.audio_captioning"
+msgstr "指定是否显示对应到音乐的字幕文本"
+
+msgid "cmi.learner_preference.audio_level"
+msgstr "Specifies an intended change in perceived audio level"
+
+msgid "cmi.learner_preference.delivery_speed"
+msgstr "学习者的首选关联的内容交付速度"
+
+msgid "cmi.learner_preference.language"
+msgstr "为SCOs多语言功能的学习者首先语言"
+
+msgid "cmi.location"
+msgstr "学习者的当前位置在SCO"
+
+msgid "cmi.max_time_allowed"
+msgstr "学习者被允许使用一个SCO累积的时间量……"
+
+msgid "cmi.mode"
+msgstr "确定了SCO可能呈现给学习者的三种可能模式之一"
+
+msgid "cmi.objectives._children"
+msgstr "已支持的数据模型元素的清单"
+
+msgid "cmi.objectives._count"
+msgstr "当前由LMS储存的目标数"
+
+msgid "cmi.objectives.n.completion_status"
+msgstr "指示学习者是否已完成相关的目标"
+
+msgid "cmi.objectives.n.description"
+msgstr "提供了一个简短的有关目标描述的信息"
+
+msgid "cmi.objectives.n.id"
+msgstr "目标的唯一性标签"
+
+msgid "cmi.objectives.n.progress_measure"
+msgstr "衡量进程，学习者就有了完成这个目标的方向"
+
+msgid "cmi.objectives.n.score._children"
+msgstr "已支持的数据模型元素清单"
+
+msgid "cmi.objectives.n.score.max"
+msgstr "这个目标的最大值，在原始分数范围内。"
+
+msgid "cmi.objectives.n.score.min"
+msgstr "这个目标的最小值，在原始分数范围内。"
+
+msgid "cmi.objectives.n.score.raw"
+msgstr "数字反映了学习者的表现，为这个目标，相对于最大和最小值区间内波动"
+
+msgid "cmi.objectives.n.score.scaled"
+msgstr "数字反映了这个目标的学习者的表现"
+
+msgid "cmi.objectives.n.success_status"
+msgstr "指示学习者是否掌握了这个目标"
+
+msgid "cmi.progress_measure"
+msgstr "衡量进程，学习者就有了完成SCO的方向"
+
+msgid "cmi.scaled_passing_score"
+msgstr "Scaled passing score required to master the SCO"
+
+msgid "cmi.score._children"
+msgstr "已支持的数据模型元素清单"
+
+msgid "cmi.score.max"
+msgstr "在原始分数范围内的最大值"
+
+msgid "cmi.score.min"
+msgstr "在原始分数范围内的最小值"
+
+msgid "cmi.score.raw"
+msgstr "数字反映了学习者的表现，相对于最小和最大值范围内的波动"
+
+msgid "cmi.score.scaled"
+msgstr "数字反映了学习者的表现"
+
+msgid "cmi.session_time"
+msgstr "学习者为这个SCO花费在当前学习者会话上的时间长短。"
+
+msgid "cmi.success_status"
+msgstr "指示学习者是否掌握了SCO"
+
+msgid "cmi.suspend_data"
+msgstr "提供了空间在学习者会话之间储存和检索数据"
+
+msgid "cmi.time_limit_action"
+msgstr "指示当 cmi.max_time_allowed已超过时，SCO应当做什么。"
+
+msgid "cmi.total_time"
+msgstr "在当前学习者的尝试中，学习者累积的会话时间的总数"
+
+msgid "completion_status_by_progress_measure"
+msgstr "因为有一个cmi.completion_threshold的值，这个为cmi.completion_status的值已经由LMS评估完成！这已通过对比cmi.completion_threshold和cmi.progress_measure的值完成了。当前cmi.completion_status的值是："
+
+msgid "debugwindow_action"
+msgstr "行动"
+
+msgid "debugwindow_cancel"
+msgstr "取消"
+
+msgid "debugwindow_comment"
+msgstr "评论"
+
+msgid "debugwindow_comment_enter"
+msgstr "请输入您的评论"
+
+msgid "debugwindow_console"
+msgstr "控制台"
+
+msgid "debugwindow_date"
+msgstr "日期"
+
+msgid "debugwindow_delete"
+msgstr "删除"
+
+msgid "debugwindow_delete_logfile"
+msgstr "删除日志文件"
+
+msgid "debugwindow_download"
+msgstr "下载"
+
+msgid "debugwindow_filename"
+msgstr "文件名"
+
+msgid "debugwindow_logs"
+msgstr "日志"
+
+msgid "debugwindow_open"
+msgstr "打开"
+
+msgid "debugwindow_start_recording"
+msgstr "开始记录"
+
+msgid "debugwindow_stop_recording"
+msgstr "停止录制"
+
+msgid "debugwindow_submission_failed"
+msgstr "提交失败"
+
+msgid "debugwindow_submit"
+msgstr "提交"
+
+msgid "description_for"
+msgstr "描述"
+
+msgid "error0"
+msgstr "无错误"
+
+msgid "error101"
+msgstr "常规导出"
+
+msgid "error102"
+msgstr "常规初始化失败"
+
+msgid "error103"
+msgstr "已经初始化"
+
+msgid "error104"
+msgstr "内容实例已止"
+
+msgid "error111"
+msgstr "常规终止失败"
+
+msgid "error112"
+msgstr "初始化之前终止"
+
+msgid "error113"
+msgstr "Termination After Termination"
+
+msgid "error122"
+msgstr "初始化之前检索数据"
+
+msgid "error123"
+msgstr "终止后检索数据"
+
+msgid "error132"
+msgstr "初始化之前保存数据"
+
+msgid "error133"
+msgstr "终止之后储存数据"
+
+msgid "error142"
+msgstr "初始化之前提交"
+
+msgid "error143"
+msgstr "终止之后提交"
+
+msgid "error201"
+msgstr "常规参数错误"
+
+msgid "error301"
+msgstr "常规获取失败"
+
+msgid "error351"
+msgstr "常规设置失败"
+
+msgid "error391"
+msgstr "常规提交失败"
+
+msgid "error401"
+msgstr "未定义数据模型元素"
+
+msgid "error402"
+msgstr "未实现模型数据"
+
+msgid "error403"
+msgstr "数据模型元素值没有初始化"
+
+msgid "error404"
+msgstr "数据模型元素是只读的"
+
+msgid "error405"
+msgstr "数据模型元素是只写的"
+
+msgid "error406"
+msgstr "数据模型元素类型不匹配"
+
+msgid "error407"
+msgstr "数据模型元素值超出围"
+
+msgid "error408"
+msgstr "数据模型依赖没有建立"
+
+msgid "generated"
+msgstr "已产生"
+
+msgid "i_fuchsia"
+msgstr "紫红色：可能是一个ILIAS失败"
+
+msgid "i_gray"
+msgstr "灰色：错误已由ILIAS更正"
+
+msgid "i_green"
+msgstr "绿色：OK"
+
+msgid "i_orange"
+msgstr "橙色：请注意！"
+
+msgid "i_red"
+msgstr "红色：失败"
+
+msgid "id_learning_module"
+msgstr "学习模块的ID"
+
+msgid "log_for"
+msgstr "学习模块日志"
+
+msgid "milliseconds"
+msgstr "毫秒"
+
+msgid "missing_API-calls"
+msgstr "这些API调用缺失："
+
+msgid "no_missing_API-calls"
+msgstr "缺失的PAI调用未被认可。"
+
+msgid "nr_session"
+msgstr "会话数"
+
+msgid "only_important_API-Calls_shown"
+msgstr "仅重要的API调用当前已显示！"
+
+msgid "return_value"
+msgstr "返回值"
+
+msgid "scormdebug_disable_cache"
+msgstr "禁用SCORM 2004 浏览器缓存"
+
+msgid "scormdebug_disable_cache_info"
+msgstr "这可以防止浏览器缓存中 SCORM 2004 的 javascript文件被存储。在一个新发布时间之前使用这个功能！"
+
+msgid "scormdebug_global_activate"
+msgstr "启用SCORM 2004测试工具"
+
+msgid "scormdebug_global_activate_info"
+msgstr "如果启用，SCORM 2004测试工具可以为所期望的学习模块所激活。如果禁用，测试工具对所有学习模块关闭。"
+
+msgid "sent_values_not_checked"
+msgstr "已选择属性：值已由SCO发送，是没有完整的检查过。"
+
+msgid "show_all_API-calls"
+msgstr "显示所有api调用"
+
+msgid "show_only_important_API-calls"
+msgstr "仅显示重要的API调用！"
+
+msgid "started"
+msgstr "已开始"
+
+msgid "strange_API-Call"
+msgstr "奇怪的API调用"
+
+msgid "strange_error"
+msgstr "奇怪的错误"
+
+msgid "success_status_by_score_scaled"
+msgstr "因为有一个cmi.scaled_passing_score的值，这个为cmi.success_status的值已经由LMS评估完成！这已通过对比cmi.scaled_passing_score和cmi.score.scaled的值完成了。当前cmi.success_status的值是："
+
+msgid "summary_csv"
+msgstr "摘要已生成，作为CSV文件导入，例如在Excel中"
+
+msgid "summary_download"
+msgstr "当您再次启动这个工具时，您可以点击“日志”去下载它。"
+
+msgid "summary_for_SCO_with_test"
+msgstr "一个带有测试的SCO摘要"
+
+msgid "summary_for_SCO_without_test"
+msgstr "一个没带测试的SCO摘要"
+
+msgid "undefined_color"
+msgstr "未定义的颜色"
+
+msgid "unknown"
+msgstr "未知"

@@ -1,0 +1,29 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fa\n"
+"Language-Team: Persian (Farsi)\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Domain: mem\n"
+
+#, fuzzy
+msgid "mem_period_without_time"
+msgstr "Without Time Indication"
+
+#, fuzzy
+msgid "mem_print_view_form"
+msgstr "Default Settings for Print View"
+
+#, fuzzy
+msgid "mem_settings_tab_print_view"
+msgstr "Print View Settings"
+
+#, fuzzy
+msgid "mem_settings_tab_settings"
+msgstr "General Settings"
+
+#, fuzzy
+msgid "mmbr_gallery_user_actions"
+msgstr "Benutzeraktionen in Mitgliedergalerie"

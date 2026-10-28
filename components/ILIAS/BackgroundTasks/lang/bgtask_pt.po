@@ -1,0 +1,66 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: bgtask\n"
+
+msgid "bgtask_blocked"
+msgstr "Download concorrente"
+
+msgid "bgtask_blocked_cancel_new"
+msgstr "Cancelar novo download"
+
+msgid "bgtask_blocked_cancel_old"
+msgstr "Cancelar download existente"
+
+msgid "bgtask_blocked_info"
+msgstr "Já existe um download processado para si."
+
+msgid "bgtask_cron_gc_desc"
+msgstr "Apaga ficheiros obsoletos, que foram criados por tarefas secundárias."
+
+msgid "bgtask_cron_gc_title"
+msgstr "Coleção de lixo de tarefas secundárias"
+
+msgid "bgtask_download_long"
+msgstr "O processamento do download com %1$s ficheiros (%2$s) pode demorar um pouco."
+
+msgid "bgtask_download_too_large"
+msgstr "O download ultrapassa o limite do tamanho de %s."
+
+msgid "bgtask_empty_folder"
+msgstr "A seleção atual não inclui qualquer conteúdo que possa ser descarregado."
+
+msgid "bgtask_failure"
+msgstr "Erro"
+
+msgid "bgtask_processing"
+msgstr "Criar download"
+
+msgid "bgtask_setting"
+msgstr "«Background download» ativado"
+
+msgid "bgtask_setting_info"
+msgstr "A criação do arquivo ZIP é feita assincronamente e pode ser cancelada a qualquer momento."
+
+msgid "bgtask_setting_limit"
+msgstr "Limite global"
+
+msgid "bgtask_setting_limit_info"
+msgstr "Um download só é possível se a soma dos tamanhos dos ficheiros estiver abaixo desse valor."
+
+msgid "bgtask_setting_threshold_count"
+msgstr "Número mínimo"
+
+msgid "bgtask_setting_threshold_count_info"
+msgstr "Se o número de ficheiros exceder este valor, o download será assincronamente."
+
+msgid "bgtask_setting_threshold_size"
+msgstr "Tamanho mínimo"
+
+msgid "bgtask_setting_threshold_size_info"
+msgstr "Se os tamanhos dos ficheiros exceder este valor, o download será assincronamente."

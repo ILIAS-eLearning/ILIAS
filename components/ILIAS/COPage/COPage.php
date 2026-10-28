@@ -145,5 +145,9 @@ class COPage implements Component\Component
             $this,
             'copg'
         );
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'content'
+        );
     }
 }

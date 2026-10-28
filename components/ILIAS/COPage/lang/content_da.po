@@ -1,0 +1,4305 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: da\n"
+"Language-Team: Danish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: content\n"
+
+msgid "Pages"
+msgstr "Sider"
+
+msgid "add_menu_entry"
+msgstr "Tilføj menuindgang"
+
+msgid "all_pages"
+msgstr "Hele læremodulet"
+
+msgid "citate"
+msgstr "Citate"
+
+msgid "citate_from"
+msgstr "Citate From ..."
+
+msgid "citate_page"
+msgstr "Citate this Page"
+
+msgid "citate_to"
+msgstr "Citate To ..."
+
+msgid "cont_Additional"
+msgstr "Yderligere"
+
+msgid "cont_AdvancedKnowledge"
+msgstr "Avanceret viden"
+
+#, fuzzy
+msgid "cont_Attention"
+msgstr "Attention"
+
+#, fuzzy
+msgid "cont_Background"
+msgstr "Background"
+
+msgid "cont_Block"
+msgstr "Blok"
+
+#, fuzzy
+msgid "cont_Book"
+msgstr "Book"
+
+msgid "cont_Circle"
+msgstr "Cirkel"
+
+msgid "cont_Citation"
+msgstr "Citat"
+
+#, fuzzy
+msgid "cont_Confirmation"
+msgstr "Confirmation"
+
+msgid "cont_Example"
+msgstr "Eksempel"
+
+#, fuzzy
+msgid "cont_Excursus"
+msgstr "Excursus"
+
+#, fuzzy
+msgid "cont_FileListItem"
+msgstr "File List Item (Standard)"
+
+msgid "cont_Headline1"
+msgstr "Overskrift 1"
+
+msgid "cont_Headline2"
+msgstr "Overskrift 2"
+
+msgid "cont_Headline3"
+msgstr "Overskrift 3"
+
+#, fuzzy
+msgid "cont_Information"
+msgstr "Information"
+
+#, fuzzy
+msgid "cont_Interaction"
+msgstr "Interaction"
+
+msgid "cont_List"
+msgstr "Liste"
+
+#, fuzzy
+msgid "cont_Literature"
+msgstr "Literature"
+
+#, fuzzy
+msgid "cont_Mnemonic"
+msgstr "Mnemonic"
+
+#, fuzzy
+msgid "cont_Numbers"
+msgstr "Numbers"
+
+#, fuzzy
+msgid "cont_Poly"
+msgstr "Polygon"
+
+msgid "cont_Rect"
+msgstr "Rektangel"
+
+msgid "cont_Remark"
+msgstr "Bemærkning"
+
+#, fuzzy
+msgid "cont_Separator"
+msgstr "Separator"
+
+msgid "cont_Special"
+msgstr "Speciel"
+
+#, fuzzy
+msgid "cont_StandardCenter"
+msgstr "Standard Center"
+
+msgid "cont_StandardTable"
+msgstr "Standardtabel"
+
+msgid "cont_TableContent"
+msgstr "Tabelindhold"
+
+#, fuzzy
+msgid "cont_Verse"
+msgstr "Verse/Stanza"
+
+#, fuzzy
+msgid "cont_WholePicture"
+msgstr "Whole Picture"
+
+msgid "cont_accented"
+msgstr "Accenteret"
+
+msgid "cont_act_number"
+msgstr "Kapitelnummerering"
+
+msgid "cont_activate_html"
+msgstr "Aktiver HTML visning"
+
+msgid "cont_activate_js"
+msgstr "Aktiver Javascript"
+
+msgid "cont_activate_media"
+msgstr "Aktiver medier"
+
+msgid "cont_activate_page"
+msgstr "Activate Page"
+
+msgid "cont_activated"
+msgstr "Aktiveret"
+
+msgid "cont_activation"
+msgstr "Aktivering"
+
+msgid "cont_active"
+msgstr "Aktiver Menu"
+
+#, fuzzy
+msgid "cont_active_areas"
+msgstr "Triggers"
+
+#, fuzzy
+msgid "cont_active_from"
+msgstr "Activation Start"
+
+#, fuzzy
+msgid "cont_active_to"
+msgstr "Activation End"
+
+msgid "cont_add_area"
+msgstr "Tilføj område"
+
+#, fuzzy
+msgid "cont_add_cell"
+msgstr "Add Column"
+
+msgid "cont_add_elements"
+msgstr "Klik på pladsholdere for at tilføje nye elementer"
+
+msgid "cont_add_file"
+msgstr "Tilføj fil"
+
+#, fuzzy
+msgid "cont_add_images"
+msgstr "Add Images"
+
+#, fuzzy
+msgid "cont_add_popup"
+msgstr "Add Popup"
+
+msgid "cont_add_tab"
+msgstr "Tilføj tab"
+
+#, fuzzy
+msgid "cont_add_url"
+msgstr "Enter URL"
+
+#, fuzzy
+msgid "cont_added_cell"
+msgstr "Column added"
+
+msgid "cont_added_comment"
+msgstr "Kommentar tilføjet til historik."
+
+#, fuzzy
+msgid "cont_added_tab"
+msgstr "Tab created."
+
+#, fuzzy
+msgid "cont_added_term"
+msgstr "Term added"
+
+msgid "cont_adjust_size"
+msgstr "Juster størrelse"
+
+#, fuzzy
+msgid "cont_advanced_settings"
+msgstr "Advanced Settings"
+
+msgid "cont_align"
+msgstr "Justering"
+
+msgid "cont_alignment"
+msgstr "Justeringt"
+
+msgid "cont_all_answers_correct"
+msgstr "Alle besvarelser er korrekte"
+
+msgid "cont_all_closed"
+msgstr "Alle lukket"
+
+#, fuzzy
+msgid "cont_all_languages"
+msgstr "All Languages"
+
+msgid "cont_all_pages"
+msgstr "Alle sider"
+
+msgid "cont_all_topics"
+msgstr "Alle emner"
+
+msgid "cont_all_usages"
+msgstr "Inklusiv historik"
+
+msgid "cont_alphabetic"
+msgstr "Alfabetisk A, B, ..."
+
+msgid "cont_alphabetic_s"
+msgstr "Alfabetisk a, b, ..."
+
+msgid "cont_always"
+msgstr "Altid"
+
+msgid "cont_anchor"
+msgstr "Anker"
+
+#, fuzzy
+msgid "cont_annex"
+msgstr "Annex"
+
+msgid "cont_anonymous_user_missing_perm"
+msgstr "Anonyme brugere har ikke tilladelse til at tilgå læremodulet."
+
+msgid "cont_areas_deleted"
+msgstr "Kortområder slettet."
+
+msgid "cont_assign_characteristic"
+msgstr "Tildel karakteristika"
+
+msgid "cont_assign_full"
+msgstr "Tildel fuldskærm"
+
+msgid "cont_assign_std"
+msgstr "Tildel standard"
+
+#, fuzzy
+msgid "cont_assign_to_parent"
+msgstr "Assign to Parent"
+
+#, fuzzy
+msgid "cont_auto_glossaries"
+msgstr "Auto-Linked Glossaries"
+
+#, fuzzy
+msgid "cont_auto_last_visited"
+msgstr "load last visited chapter (SCO/Asset)"
+
+#, fuzzy
+msgid "cont_auto_last_visited_info"
+msgstr "Opens the last visited SCO/Asset when the learner reenters the learning module."
+
+#, fuzzy
+msgid "cont_auto_suspend"
+msgstr "Ensure getting tracking data from previous attempts"
+
+#, fuzzy
+msgid "cont_auto_suspend_info"
+msgstr "This option is for SCORM learning modules, which support SCORM 2004 in an inadequate way by not sending proper values for cmi.exit."
+
+#, fuzzy
+msgid "cont_auto_time"
+msgstr "Auto Animation Waiting Time"
+
+msgid "cont_autoindent"
+msgstr "Automatisk indrykning"
+
+#, fuzzy
+msgid "cont_automatically_set_store_tries"
+msgstr "Option \"$1\" has been activated automatically, because option \"$2\" has been enabled."
+
+#, fuzzy
+msgid "cont_autostart"
+msgstr "Autostart"
+
+msgid "cont_back"
+msgstr "Tilbage"
+
+#, fuzzy
+msgid "cont_base_image"
+msgstr "Base Image"
+
+msgid "cont_bb_tip"
+msgstr "Tip: Formatering kan hurtigt påføres markeret tekst."
+
+#, fuzzy
+msgid "cont_behavior"
+msgstr "Behavior"
+
+#, fuzzy
+msgid "cont_biblio"
+msgstr "Bibliographical Data"
+
+#, fuzzy
+msgid "cont_biblio_info"
+msgstr "Enables the bibliographical data feature"
+
+msgid "cont_blist"
+msgstr "Punkliste"
+
+#, fuzzy
+msgid "cont_block_format"
+msgstr "Section Format"
+
+#, fuzzy
+msgid "cont_blocked_users"
+msgstr "Blocked Users"
+
+#, fuzzy
+msgid "cont_blocked_users_mail_link"
+msgstr "Click on the following link to open the learning module:"
+
+msgid "cont_bottom"
+msgstr "Bund"
+
+msgid "cont_bullet_list"
+msgstr "Punktliste"
+
+#, fuzzy
+msgid "cont_cach_mode"
+msgstr "Mode"
+
+#, fuzzy
+msgid "cont_cach_mode_automatic"
+msgstr "Automatic"
+
+#, fuzzy
+msgid "cont_cach_mode_automatic_info"
+msgstr "All your consultation hours will be published."
+
+#, fuzzy
+msgid "cont_cach_mode_manual"
+msgstr "Manual"
+
+#, fuzzy
+msgid "cont_cach_mode_manual_info"
+msgstr "Only the consultation hours of the following groups will be published."
+
+msgid "cont_cant_copy_folders"
+msgstr "Mapper kan ikke kopieres til udklipsholder"
+
+msgid "cont_cant_del_full"
+msgstr "Deletion of fullscreen file not possible."
+
+#, fuzzy
+msgid "cont_cant_del_std"
+msgstr "Deletion of standard view file not possible."
+
+msgid "cont_caption"
+msgstr "Undertekst"
+
+#, fuzzy
+msgid "cont_caption_style"
+msgstr "Caption Style Class"
+
+#, fuzzy
+msgid "cont_cc_emp"
+msgstr "Emphatic"
+
+msgid "cont_cc_imp"
+msgstr "Vigtigt"
+
+msgid "cont_cc_str"
+msgstr "Stærk"
+
+#, fuzzy
+msgid "cont_cc_sub"
+msgstr "Subscript"
+
+#, fuzzy
+msgid "cont_cc_sup"
+msgstr "Superscript"
+
+#, fuzzy
+msgid "cont_cell_properties"
+msgstr "Table Cell Properties"
+
+msgid "cont_center"
+msgstr "Centrer"
+
+#, fuzzy
+msgid "cont_change_alignment"
+msgstr "Change Alignment"
+
+#, fuzzy
+msgid "cont_change_notification_salutation"
+msgstr "Hello %s,"
+
+#, fuzzy
+msgid "cont_change_notification_subject_lm"
+msgstr "Learning Module \"%1$s\" has been changed: %2$s"
+
+#, fuzzy
+msgid "cont_change_object_reference"
+msgstr "Change Object Reference"
+
+#, fuzzy
+msgid "cont_change_style"
+msgstr "Change Style"
+
+msgid "cont_change_type"
+msgstr "ændre type"
+
+#, fuzzy
+msgid "cont_change_width"
+msgstr "Change Width"
+
+msgid "cont_chap_and_pages"
+msgstr "Kapitler og sider"
+
+#, fuzzy
+msgid "cont_chap_select_target_now"
+msgstr "Chapter marked for moving. Select target now."
+
+msgid "cont_chapters"
+msgstr "Kapitler"
+
+msgid "cont_chapters_after_pages"
+msgstr "Bemærk at sider skal efterfølge underkapitler på samme niveau."
+
+msgid "cont_chapters_and_pages"
+msgstr "Kapitler og Sider"
+
+msgid "cont_chapters_only"
+msgstr "Kun Kapitler"
+
+#, fuzzy
+msgid "cont_char_format"
+msgstr "Character"
+
+#, fuzzy
+msgid "cont_char_link"
+msgstr "Link"
+
+#, fuzzy
+msgid "cont_char_media"
+msgstr "Media (Standard)"
+
+#, fuzzy
+msgid "cont_char_style_acc"
+msgstr "Accentuated"
+
+#, fuzzy
+msgid "cont_char_style_code"
+msgstr "Code"
+
+#, fuzzy
+msgid "cont_char_style_com"
+msgstr "Comment"
+
+#, fuzzy
+msgid "cont_char_style_quot"
+msgstr "Quotation"
+
+msgid "cont_characteristic"
+msgstr "Skrifttypestil"
+
+#, fuzzy
+msgid "cont_characteristic_table"
+msgstr "Style Class"
+
+msgid "cont_check_values"
+msgstr "Check værdier sendt af SCO"
+
+#, fuzzy
+msgid "cont_check_values_info"
+msgstr "The Test Tool will check whether the values sent from the SCOs adhere to the SCORM standard. <br /> The SCORM Standard is very demanding concerning the saving of values. Not all learning modules meet the requirements of the standard. This Options allows checking if the module adheres to the Standard or not. Do not check this option if you just want to check if ILIAS can run this module or not."
+
+#, fuzzy
+msgid "cont_choose_characteristic"
+msgstr "Choose Characteristic"
+
+#, fuzzy
+msgid "cont_choose_characteristic_section"
+msgstr "Sections"
+
+msgid "cont_choose_characteristic_text"
+msgstr "Tekstelementer"
+
+#, fuzzy
+msgid "cont_choose_file_source"
+msgstr "Source"
+
+#, fuzzy
+msgid "cont_choose_from_clipboard"
+msgstr "Choose from Clipboard"
+
+#, fuzzy
+msgid "cont_choose_from_pool"
+msgstr "Select from Media Pool"
+
+#, fuzzy
+msgid "cont_choose_glo"
+msgstr "Choose Glossary"
+
+#, fuzzy
+msgid "cont_choose_lm"
+msgstr "Choose Learning Module"
+
+#, fuzzy
+msgid "cont_choose_local"
+msgstr "Local directory"
+
+#, fuzzy
+msgid "cont_choose_media_pool"
+msgstr "Select Pool"
+
+#, fuzzy
+msgid "cont_choose_mep"
+msgstr "Choose Media Pool"
+
+msgid "cont_choose_pages_or_chapters_only"
+msgstr "Vælg enten sider eller kapitler."
+
+#, fuzzy
+msgid "cont_choose_upload_dir"
+msgstr "Upload directory"
+
+#, fuzzy
+msgid "cont_choose_wiki"
+msgstr "Choose Wiki"
+
+msgid "cont_citation_selection_not_valid"
+msgstr "Dit valg er ikke muligt"
+
+msgid "cont_click_br_corner"
+msgstr "klik i det højre nederste hjørne i det ønskede område"
+
+msgid "cont_click_center"
+msgstr "Klik i midten af det ønskede område"
+
+msgid "cont_click_circle"
+msgstr "Klik i cirklen af det ønskede område"
+
+#, fuzzy
+msgid "cont_click_edit"
+msgstr "<b>Click</b> on elements to <b>edit</b> its properties."
+
+#, fuzzy
+msgid "cont_click_multi_select"
+msgstr "<b>Click</b> on elements to <b>select</b> or deselect them."
+
+msgid "cont_click_next_or_save"
+msgstr "Klik på det næste punkt på polygonen eller gem området"
+
+msgid "cont_click_next_point"
+msgstr "Klik på det næste punkt på polygonen"
+
+msgid "cont_click_starting_point"
+msgstr "Klik på start punktet på polygonen"
+
+msgid "cont_click_tl_corner"
+msgstr "Klik i venstre side af toppen i det ønskede område"
+
+#, fuzzy
+msgid "cont_code_import_file"
+msgstr "Import"
+
+#, fuzzy
+msgid "cont_code_manual_editing"
+msgstr "Manuelle Eingabe"
+
+msgid "cont_colspan"
+msgstr "Kol. span"
+
+#, fuzzy
+msgid "cont_commented_by"
+msgstr "Commented by"
+
+#, fuzzy
+msgid "cont_comments"
+msgstr "enable storage of comments"
+
+#, fuzzy
+msgid "cont_comments_info"
+msgstr "Some SCORM 2004 learning modules allow users providing comments within the module. This option allows saving those comments."
+
+msgid "cont_confirm_delete"
+msgstr "vil du virkelig slette ?"
+
+msgid "cont_constrain_proportions"
+msgstr "Bevar skaleringsforhold"
+
+msgid "cont_content"
+msgstr "Indhold"
+
+#, fuzzy
+msgid "cont_content_popup"
+msgstr "Content Popup"
+
+#, fuzzy
+msgid "cont_content_popups"
+msgstr "Content Popups"
+
+msgid "cont_coords"
+msgstr "Koordinater"
+
+msgid "cont_copy_question_from_pool"
+msgstr "Kopier spørgsmål fra bibliotek"
+
+msgid "cont_copy_question_into_page"
+msgstr "Kopier til side"
+
+msgid "cont_copy_to_clipboard"
+msgstr "Kopier til udklipsholder"
+
+#, fuzzy
+msgid "cont_correct_after_first"
+msgstr "First Try Correct"
+
+#, fuzzy
+msgid "cont_correct_answer_also"
+msgstr "Also correct is:"
+
+#, fuzzy
+msgid "cont_correct_answers_also"
+msgstr "Also correct are:"
+
+msgid "cont_correct_answers_shown"
+msgstr "De korrekte svar vises ovenfor."
+
+msgid "cont_could_not_determine_resource_size"
+msgstr "ILIAS kunne ikke automatisk opdage resursens størrelse."
+
+#, fuzzy
+msgid "cont_could_not_save_duplicate_pc_ids"
+msgstr "Page could not be saved (duplicate PC IDs)."
+
+#, fuzzy
+msgid "cont_cp_question_diff_formats_info"
+msgstr "Please note that some formattings are not supported in content modules."
+
+#, fuzzy
+msgid "cont_create_link"
+msgstr "Create Link"
+
+msgid "cont_create_mob"
+msgstr "Opret medieobjekt"
+
+#, fuzzy
+msgid "cont_credits"
+msgstr "Credits"
+
+msgid "cont_current_chapter"
+msgstr "Nuværende kapitel"
+
+#, fuzzy
+msgid "cont_current_lang"
+msgstr "Current Language"
+
+msgid "cont_current_page"
+msgstr "Nuværende side"
+
+msgid "cont_current_style"
+msgstr "Valgt stilark"
+
+#, fuzzy
+msgid "cont_current_term"
+msgstr "Current Term"
+
+msgid "cont_current_usages"
+msgstr "Aktuel anvendelse"
+
+msgid "cont_current_version"
+msgstr "Nuværende version"
+
+#, fuzzy
+msgid "cont_custom"
+msgstr "Custom"
+
+msgid "cont_custom_menu_entries"
+msgstr "Brugerdefinerede menupunkter"
+
+msgid "cont_custom_size"
+msgstr "Bestem størrelse"
+
+msgid "cont_dark"
+msgstr "Mørk"
+
+#, fuzzy
+msgid "cont_data_from_lms"
+msgstr "adlcp:datafromlms"
+
+msgid "cont_de_activate"
+msgstr "(De)aktiver"
+
+msgid "cont_deactivate_html"
+msgstr "Deaktiver HTML visning"
+
+msgid "cont_deactivate_js"
+msgstr "Brug formularer"
+
+msgid "cont_deactivate_media"
+msgstr "Deaktiver medier"
+
+msgid "cont_deactivate_page"
+msgstr "Deaktiver side"
+
+msgid "cont_deactivated"
+msgstr "Deaktiveret"
+
+msgid "cont_debug"
+msgstr "Vis debugmenu"
+
+#, fuzzy
+msgid "cont_debug_deactivate"
+msgstr "Hint: The test tool can be disabled for all learning modules."
+
+#, fuzzy
+msgid "cont_debug_deactivate12"
+msgstr "A Test Tool will be displayed in the presentation mode of the learning module. Based on the data provided by it the interaction of the learning module and ILIAS can be evaluated."
+
+#, fuzzy
+msgid "cont_debug_deactivated"
+msgstr "Hint: The test tool is disabled for all learning modules."
+
+msgid "cont_debugging"
+msgstr "Fejlsøgning"
+
+msgid "cont_decimal"
+msgstr "Decimal"
+
+#, fuzzy
+msgid "cont_def_feedb_activated"
+msgstr "Default feedback texts are currently activated in the learning module settings."
+
+#, fuzzy
+msgid "cont_def_feedb_deactivated"
+msgstr "Default feedback texts are currently deactivated in the learning module settings."
+
+msgid "cont_def_layout"
+msgstr "Standardlayout"
+
+msgid "cont_def_lesson_mode"
+msgstr "Standard læremetode"
+
+msgid "cont_def_map_areas"
+msgstr "Standard linkområder"
+
+msgid "cont_def_organization"
+msgstr "Standard"
+
+msgid "cont_default"
+msgstr "Standard"
+
+msgid "cont_definition"
+msgstr "Definitation"
+
+#, fuzzy
+msgid "cont_delete_content"
+msgstr "Delete Content"
+
+#, fuzzy
+msgid "cont_delete_file_item_confirm"
+msgstr "Do you really want to delete the selected file(s)?"
+
+msgid "cont_delete_selected"
+msgstr "Delete"
+
+msgid "cont_delete_style"
+msgstr "Slet stilark"
+
+msgid "cont_delete_track_data"
+msgstr "Slet sporingsdata"
+
+msgid "cont_dependencies"
+msgstr "Afhænger"
+
+msgid "cont_dir_created"
+msgstr "Mappen er blevet oprettet"
+
+msgid "cont_dir_deleted"
+msgstr "Mappen blev slettet."
+
+msgid "cont_dir_file"
+msgstr "Bibliotek/Fil"
+
+msgid "cont_dir_renamed"
+msgstr "Mappen blev omdøbt."
+
+#, fuzzy
+msgid "cont_disable_def_feedback"
+msgstr "Disable Default Question Feedback"
+
+#, fuzzy
+msgid "cont_disable_def_feedback_info"
+msgstr "If disabled, answered questions will not show any feedback for the learner. You need to provide custom feedbacks for your questions."
+
+#, fuzzy
+msgid "cont_download"
+msgstr "Download"
+
+msgid "cont_download_title"
+msgstr "Download titel"
+
+msgid "cont_drag_and_drop_elements"
+msgstr "Drag'n'drop indholdselementer til pladsholdere for at flytte elementer."
+
+#, fuzzy
+msgid "cont_drag_element_click_save"
+msgstr "Drag and drop the element to the desired position. Then hit \"Save\"."
+
+#, fuzzy
+msgid "cont_ed_align_center"
+msgstr "align: center"
+
+msgid "cont_ed_align_left"
+msgstr "juster: venstre"
+
+msgid "cont_ed_align_left_float"
+msgstr "juster: venstre flyd"
+
+msgid "cont_ed_align_right"
+msgstr "juster: højre"
+
+msgid "cont_ed_align_right_float"
+msgstr "juster: højre flyd"
+
+msgid "cont_ed_atable"
+msgstr "Advanceret tabel"
+
+#, fuzzy
+msgid "cont_ed_cell_left"
+msgstr "Move Left"
+
+#, fuzzy
+msgid "cont_ed_cell_right"
+msgstr "Move Right"
+
+msgid "cont_ed_class"
+msgstr "Stilark"
+
+#, fuzzy
+msgid "cont_ed_click_to_add_pg"
+msgstr "Click here to add content."
+
+msgid "cont_ed_col_left"
+msgstr "flyt kolonne til venstre"
+
+msgid "cont_ed_col_right"
+msgstr "flyt kolonne til højre"
+
+msgid "cont_ed_copy"
+msgstr "Kopier"
+
+msgid "cont_ed_copy_clip"
+msgstr "kopier til udklipsholder"
+
+msgid "cont_ed_cut"
+msgstr "Klip"
+
+msgid "cont_ed_delete"
+msgstr "slet"
+
+#, fuzzy
+msgid "cont_ed_delete_cell"
+msgstr "Delete Column"
+
+msgid "cont_ed_delete_col"
+msgstr "Slet række"
+
+msgid "cont_ed_delete_item"
+msgstr "slet element"
+
+msgid "cont_ed_delete_row"
+msgstr "Slet række"
+
+msgid "cont_ed_dtable"
+msgstr "Datatabel"
+
+msgid "cont_ed_edit"
+msgstr "ændre"
+
+msgid "cont_ed_edit_data"
+msgstr "Ret data"
+
+msgid "cont_ed_edit_files"
+msgstr "Ret filer"
+
+#, fuzzy
+msgid "cont_ed_edit_multiple"
+msgstr "Edit Paragraph Sequence"
+
+#, fuzzy
+msgid "cont_ed_edit_prop"
+msgstr "edit properties"
+
+msgid "cont_ed_enable"
+msgstr "(De)aktiver elementer"
+
+msgid "cont_ed_flist"
+msgstr " filliste"
+
+msgid "cont_ed_go"
+msgstr "Gå til"
+
+#, fuzzy
+msgid "cont_ed_grid_col_width"
+msgstr "Column Width"
+
+#, fuzzy
+msgid "cont_ed_grid_col_width_info"
+msgstr "Column width can span multiple 1/12 units of the row and depend on the overall screen size. Devices are given as examples. Their screen size determines the concrete behaviour. 12/12 equals to 100% width."
+
+#, fuzzy
+msgid "cont_ed_grid_col_widths"
+msgstr "Column Widths"
+
+#, fuzzy
+msgid "cont_ed_insert_amdfrm"
+msgstr "Insert Advanced Metadata"
+
+#, fuzzy
+msgid "cont_ed_insert_amdpl"
+msgstr "Insert Page List"
+
+msgid "cont_ed_insert_blog"
+msgstr "Indsæt blog"
+
+#, fuzzy
+msgid "cont_ed_insert_cach"
+msgstr "Insert Consultation Hours"
+
+#, fuzzy
+msgid "cont_ed_insert_dtab"
+msgstr "Insert Data Table"
+
+#, fuzzy
+msgid "cont_ed_insert_flst"
+msgstr "Insert File List"
+
+#, fuzzy
+msgid "cont_ed_insert_grid"
+msgstr "Insert Column Layout"
+
+#, fuzzy
+msgid "cont_ed_insert_grid_info"
+msgstr "Adds a responsive column layout based on a grid with 12 units per row."
+
+msgid "cont_ed_insert_iim"
+msgstr "Indsæt interaktivt billede"
+
+#, fuzzy
+msgid "cont_ed_insert_incl"
+msgstr "Insert Content Snippet"
+
+#, fuzzy
+msgid "cont_ed_insert_lay"
+msgstr "Insert Layout Template"
+
+#, fuzzy
+msgid "cont_ed_insert_lhist"
+msgstr "Insert Learning History"
+
+msgid "cont_ed_insert_list"
+msgstr "Indsæt liste"
+
+#, fuzzy
+msgid "cont_ed_insert_lpe"
+msgstr "Insert Login Page Element"
+
+msgid "cont_ed_insert_map"
+msgstr "Indsæt kort"
+
+#, fuzzy
+msgid "cont_ed_insert_mcrs"
+msgstr "Insert My Courses"
+
+msgid "cont_ed_insert_media"
+msgstr "Indsæt medie"
+
+msgid "cont_ed_insert_par"
+msgstr "Indsæt sektion"
+
+msgid "cont_ed_insert_pcqst"
+msgstr "Indsæt spørgsmål"
+
+msgid "cont_ed_insert_plach"
+msgstr "Indsæt pladsholder"
+
+#, fuzzy
+msgid "cont_ed_insert_prof"
+msgstr "Insert Personal Data"
+
+#, fuzzy
+msgid "cont_ed_insert_qover"
+msgstr "Insert Question Overview"
+
+msgid "cont_ed_insert_repobj"
+msgstr "Indsæt resurseliste"
+
+#, fuzzy
+msgid "cont_ed_insert_sec"
+msgstr "Insert Section"
+
+#, fuzzy
+msgid "cont_ed_insert_skills"
+msgstr "Insert Skills"
+
+#, fuzzy
+msgid "cont_ed_insert_src"
+msgstr "Insert Code"
+
+#, fuzzy
+msgid "cont_ed_insert_tab"
+msgstr "Insert Advanced Table"
+
+msgid "cont_ed_insert_tabs"
+msgstr "Indsæt faneblade"
+
+#, fuzzy
+msgid "cont_ed_insert_templ"
+msgstr "Insert Content Template"
+
+#, fuzzy
+msgid "cont_ed_insert_vrfc"
+msgstr "Insert Certificate"
+
+msgid "cont_ed_item_down"
+msgstr "flyt element ned"
+
+msgid "cont_ed_item_up"
+msgstr "flyt element op"
+
+msgid "cont_ed_list"
+msgstr " Avanceret lisste"
+
+msgid "cont_ed_moveafter"
+msgstr "flyt efter"
+
+msgid "cont_ed_movebefore"
+msgstr "flyt før"
+
+msgid "cont_ed_new_col_after"
+msgstr "ny kolonne efter"
+
+msgid "cont_ed_new_col_before"
+msgstr "ny kolonne efter"
+
+msgid "cont_ed_new_item_after"
+msgstr "nyt element efter"
+
+msgid "cont_ed_new_item_before"
+msgstr "nyt element før"
+
+msgid "cont_ed_new_row_after"
+msgstr "ny række efter"
+
+msgid "cont_ed_new_row_before"
+msgstr "ny række før"
+
+#, fuzzy
+msgid "cont_ed_nr_cols"
+msgstr "Number of Columns"
+
+#, fuzzy
+msgid "cont_ed_nr_rows"
+msgstr "Number of Rows"
+
+msgid "cont_ed_par"
+msgstr "Tekst"
+
+msgid "cont_ed_paste"
+msgstr "Indsæt"
+
+msgid "cont_ed_paste_clip"
+msgstr "Indsæt fra udklipsholder"
+
+msgid "cont_ed_pglprop"
+msgstr "Egenskaber for sidelayout"
+
+msgid "cont_ed_plachmedia"
+msgstr "Pladsholder medie"
+
+#, fuzzy
+msgid "cont_ed_plachprop"
+msgstr "Placeholder Properties"
+
+#, fuzzy
+msgid "cont_ed_plachquestion"
+msgstr "Placeholder Question"
+
+msgid "cont_ed_plachtext"
+msgstr "Pladsholdertekst"
+
+#, fuzzy
+msgid "cont_ed_plachverification"
+msgstr "Placeholder Certificate"
+
+msgid "cont_ed_row_down"
+msgstr "flyt række ned"
+
+msgid "cont_ed_row_up"
+msgstr "flyt række op"
+
+msgid "cont_ed_select_pctext"
+msgstr "Vælg tekstelement"
+
+msgid "cont_ed_split_page"
+msgstr "split til ny side"
+
+msgid "cont_ed_split_page_next"
+msgstr "split til næste side"
+
+msgid "cont_ed_textitem"
+msgstr " tekstelement"
+
+msgid "cont_ed_width"
+msgstr "Bredde"
+
+#, fuzzy
+msgid "cont_edit_base_image"
+msgstr "Edit Base Image"
+
+#, fuzzy
+msgid "cont_edit_comp"
+msgstr "Editing"
+
+#, fuzzy
+msgid "cont_edit_definition"
+msgstr "Edit Definition"
+
+msgid "cont_edit_file_list_properties"
+msgstr "Rediger egenskaber for fil liste"
+
+#, fuzzy
+msgid "cont_edit_language_version"
+msgstr "Edit Version"
+
+msgid "cont_edit_lrs_settings"
+msgstr "Ret indstillinger"
+
+#, fuzzy
+msgid "cont_edit_marker_position"
+msgstr "Edit Marker Position"
+
+msgid "cont_edit_mob"
+msgstr "Rediger medieobjekt"
+
+msgid "cont_edit_mob_alias_prop"
+msgstr "Ret egenskaber for medieobjektet"
+
+msgid "cont_edit_mode"
+msgstr "Redigeringstype"
+
+#, fuzzy
+msgid "cont_edit_multi"
+msgstr "Selection"
+
+#, fuzzy
+msgid "cont_edit_overlay_position"
+msgstr "Edit Overlay Position"
+
+msgid "cont_edit_par"
+msgstr "Rediger Paragraf"
+
+#, fuzzy
+msgid "cont_edit_personal_data"
+msgstr "Edit Personal Data"
+
+#, fuzzy
+msgid "cont_edit_popup_position"
+msgstr "Edit Popup Position"
+
+msgid "cont_edit_qover"
+msgstr "Ret spørgsmål overblik"
+
+msgid "cont_edit_shape_circle"
+msgstr "Rediger form (cirkel)"
+
+msgid "cont_edit_shape_polygon"
+msgstr "Rediger form (polygon)"
+
+msgid "cont_edit_shape_rectangle"
+msgstr "Rediger form (rektangel)"
+
+msgid "cont_edit_shape_whole_picture"
+msgstr "Ret form (hele billedet)"
+
+msgid "cont_edit_src"
+msgstr "Rediger Kildekode"
+
+msgid "cont_edit_style"
+msgstr "Ret stilark"
+
+#, fuzzy
+msgid "cont_edit_table"
+msgstr "Edit Table"
+
+msgid "cont_edit_tabs"
+msgstr "Indstillinger"
+
+msgid "cont_edit_term"
+msgstr "Rediger søgeord"
+
+#, fuzzy
+msgid "cont_edit_title"
+msgstr "Change Title"
+
+#, fuzzy
+msgid "cont_element_refers_removed_itgr"
+msgstr "This content element refers to an item group that has been removed in the meantime."
+
+msgid "cont_empty_question"
+msgstr "Redigering af spørgsmål ikke færdig. Du skal enten redigere eller slette."
+
+msgid "cont_enable_page_history"
+msgstr "Sidehistorik"
+
+#, fuzzy
+msgid "cont_enable_page_history_info"
+msgstr "Stores older versions of pages and allows to roll back to older versions."
+
+msgid "cont_enable_time_scheduled_page_activation"
+msgstr "Tidsplanlagt sideaktivering"
+
+#, fuzzy
+msgid "cont_enable_time_scheduled_page_activation_info"
+msgstr "If enabled, an activation period (date/time) can be selected in the learning module editor for each page."
+
+msgid "cont_end"
+msgstr "Slut"
+
+#, fuzzy
+msgid "cont_enough_answers_correct"
+msgstr "Correct, but not the best solution!"
+
+msgid "cont_enter_a_dir_name"
+msgstr "Indtast mappenavn"
+
+msgid "cont_enter_a_file"
+msgstr "Vælg fil"
+
+#, fuzzy
+msgid "cont_error"
+msgstr "An Error Occured"
+
+#, fuzzy
+msgid "cont_exp_id_used_multiple"
+msgstr "Export ID used multiple times"
+
+#, fuzzy
+msgid "cont_exp_ids_not_resp_format1"
+msgstr "Export IDs may only use the following characters"
+
+#, fuzzy
+msgid "cont_exp_ids_not_resp_format2"
+msgstr "Please check and correct your input."
+
+#, fuzzy
+msgid "cont_exp_ids_not_resp_format3"
+msgstr "The ID must not start with a number."
+
+msgid "cont_export_all"
+msgstr "Eksporter alt"
+
+#, fuzzy
+msgid "cont_export_id"
+msgstr "Export ID"
+
+msgid "cont_file"
+msgstr "Fil"
+
+msgid "cont_file_created"
+msgstr "Filen blev oprettet"
+
+msgid "cont_file_deleted"
+msgstr "Filen blev slettet."
+
+#, fuzzy
+msgid "cont_file_from_repository"
+msgstr "File From Repository"
+
+#, fuzzy
+msgid "cont_file_from_workspace"
+msgstr "File From My Workspace"
+
+msgid "cont_file_renamed"
+msgstr "Filen blev omdøbt."
+
+msgid "cont_file_unzipped"
+msgstr "Filen blev udpakket."
+
+msgid "cont_files"
+msgstr "Filer"
+
+#, fuzzy
+msgid "cont_finish_editing"
+msgstr "Finish Editing"
+
+#, fuzzy
+msgid "cont_finish_table_editing"
+msgstr "Finish Data Table Editing"
+
+msgid "cont_first_open"
+msgstr "Først åbnet"
+
+#, fuzzy
+msgid "cont_first_page"
+msgstr "First Page"
+
+msgid "cont_first_row_style"
+msgstr "Første række stilark"
+
+msgid "cont_fix_tree"
+msgstr "Fix struktur"
+
+msgid "cont_fix_tree_confirm"
+msgstr "Brug kun denne kommando, hvis træstrukturen i læremodulet er ødelagt - fx hvis blanke emner opstår i explorerview."
+
+#, fuzzy
+msgid "cont_fn"
+msgstr "Footnote"
+
+msgid "cont_footer"
+msgstr "Footer"
+
+#, fuzzy
+msgid "cont_footnote"
+msgstr "Footnote"
+
+msgid "cont_force_all_open"
+msgstr "Tving alle åben"
+
+#, fuzzy
+msgid "cont_format"
+msgstr "Format"
+
+#, fuzzy
+msgid "cont_format_cells"
+msgstr "Format Cells"
+
+#, fuzzy
+msgid "cont_fourth_edition"
+msgstr "SCORM 2004 4th edition"
+
+#, fuzzy
+msgid "cont_fourth_edition_info"
+msgstr "SCORM 2004 4th edition offers some advantages compared to the 3rd edition. Further data over SCO boundaries can be exchanged for example. These options are however rarely used and have a negative effect on the speed."
+
+msgid "cont_free_pages"
+msgstr "Ledige sider"
+
+msgid "cont_full_is_in_dir"
+msgstr "Sletning er ikke mulig"
+
+msgid "cont_fullscreen"
+msgstr "Fuldskærm"
+
+msgid "cont_general_properties"
+msgstr "Generelle egenskaber"
+
+msgid "cont_get_link"
+msgstr "få link"
+
+#, fuzzy
+msgid "cont_glo_assign"
+msgstr "Assign Glossary"
+
+#, fuzzy
+msgid "cont_glo_create"
+msgstr "Create Glossary"
+
+#, fuzzy
+msgid "cont_glo_detach"
+msgstr "Detach Glossary"
+
+msgid "cont_glo_properties"
+msgstr "Egenskaber for opslag"
+
+#, fuzzy
+msgid "cont_glossaries"
+msgstr "Glossaries"
+
+#, fuzzy
+msgid "cont_got_lock_release"
+msgstr "This page has been locked for your editing until %1. Please release the page after you have done all your changes."
+
+#, fuzzy
+msgid "cont_grid_cell"
+msgstr "Column"
+
+#, fuzzy
+msgid "cont_grid_cell_confirm_deletion"
+msgstr "Do you really want to delete the column(s)?"
+
+#, fuzzy
+msgid "cont_grid_nr_cells"
+msgstr "Number of Columns"
+
+#, fuzzy
+msgid "cont_grid_t_main_side"
+msgstr "Haupt- und Seitenblock"
+
+#, fuzzy
+msgid "cont_grid_t_main_side_info"
+msgstr "Legt einen breite Spalte links und eine schmalere Spalte rechts daneben an. Wechselt in Mobilansicht (small) zu einem Ein-Spalten-Layout."
+
+#, fuzzy
+msgid "cont_grid_t_manual"
+msgstr "Manuell erstelltes Seitenlayout"
+
+#, fuzzy
+msgid "cont_grid_t_manual_info"
+msgstr "Ermöglicht die freie Gestaltung von Spaltenanzahl und -breiten."
+
+#, fuzzy
+msgid "cont_grid_t_three_column"
+msgstr "Drei-Spalten-Layout"
+
+#, fuzzy
+msgid "cont_grid_t_three_column_info"
+msgstr "Legt drei gleich breite Spalten nebeneinander an. Wechselt in Mobilansicht (small) zu einem Ein-Spalten-Layout."
+
+#, fuzzy
+msgid "cont_grid_t_two_by_two"
+msgstr "Zwei-mal-zwei-Box"
+
+#, fuzzy
+msgid "cont_grid_t_two_by_two_info"
+msgstr "Legt zwei Zeilen mit zwei gleich breiten Spalten an. Wechselt in Mobilansicht (small) zu einem Ein-Spalten-Layout und auf extrabreiten Bildschirmen (extra large) in ein Vier-Spalten-Layout."
+
+#, fuzzy
+msgid "cont_grid_t_two_column"
+msgstr "Zwei-Spalten-Layout"
+
+#, fuzzy
+msgid "cont_grid_t_two_column_info"
+msgstr "Legt zwei gleich breite Spalten nebeneinander an. Wechselt in Mobilansicht (small) zu einem Ein-Spalten-Layout."
+
+#, fuzzy
+msgid "cont_grid_width_l"
+msgstr "Large"
+
+#, fuzzy
+msgid "cont_grid_width_l_info"
+msgstr "E.g. desktop"
+
+#, fuzzy
+msgid "cont_grid_width_m"
+msgstr "Medium"
+
+#, fuzzy
+msgid "cont_grid_width_m_info"
+msgstr "E.g. tablet"
+
+#, fuzzy
+msgid "cont_grid_width_s"
+msgstr "Small"
+
+#, fuzzy
+msgid "cont_grid_width_s_info"
+msgstr "E.g. smartphone"
+
+#, fuzzy
+msgid "cont_grid_width_xl"
+msgstr "Extra Large"
+
+#, fuzzy
+msgid "cont_grid_width_xl_info"
+msgstr "E.g. wide desktop"
+
+#, fuzzy
+msgid "cont_hacc_needs_height"
+msgstr "Please set a content height for horizontal accordions."
+
+#, fuzzy
+msgid "cont_hacc_needs_width"
+msgstr "Please set a content width for horizontal accordions."
+
+#, fuzzy
+msgid "cont_has_row_header"
+msgstr "Has a Header Row"
+
+msgid "cont_header"
+msgstr "Header"
+
+msgid "cont_height"
+msgstr "Højde"
+
+#, fuzzy
+msgid "cont_help_no_valid_tooltip_id"
+msgstr "The tooltip ID you have entered was not valid."
+
+msgid "cont_hide_adv"
+msgstr "Skjul avanceret viden"
+
+#, fuzzy
+msgid "cont_hide_head_foot_print"
+msgstr "Hide custom header and footer in print view"
+
+msgid "cont_hidenavig"
+msgstr "Skjul venstrenavigation"
+
+#, fuzzy
+msgid "cont_hidenavig_info"
+msgstr "The left navigation tree can be hidden, if the SCORM Learning module contains sufficient functionality to navigate the content or the top navigation bar is displayed."
+
+#, fuzzy
+msgid "cont_highlight_class"
+msgstr "Highlight Class"
+
+#, fuzzy
+msgid "cont_highlight_mode"
+msgstr "Highlight Mode"
+
+#, fuzzy
+msgid "cont_hover"
+msgstr "Hover"
+
+#, fuzzy
+msgid "cont_href"
+msgstr "href"
+
+#, fuzzy
+msgid "cont_html_export_ids"
+msgstr "HTML Export IDs"
+
+#, fuzzy
+msgid "cont_html_export_ids_info"
+msgstr "Allows to maintain extra IDs for ILIAS learning modules, that are used for naming HTML files, when HTML export is done."
+
+msgid "cont_html_table"
+msgstr "HTML tabel"
+
+#, fuzzy
+msgid "cont_id_ref"
+msgstr "identifierref"
+
+#, fuzzy
+msgid "cont_ie_compatibility"
+msgstr "Internet Explorer 7 compatibility mode"
+
+#, fuzzy
+msgid "cont_ie_compatibility_info"
+msgstr "Especially for older learning modules it can be helpful to activate the compatibility mode. Please note that the compatibility mode can be disabled in newer versions of Internet Explorer."
+
+#, fuzzy
+msgid "cont_ie_force_render"
+msgstr "Force Internet Explorer to render again"
+
+#, fuzzy
+msgid "cont_ie_force_render_info"
+msgstr "Enable this option only if content of the learning module is not displayed correctly with Internet Explorer due to many frames or iframes. Additionally you have to set the option 'Display' to 'in new window'."
+
+#, fuzzy
+msgid "cont_iim_add_overlay"
+msgstr "Add Overlay"
+
+#, fuzzy
+msgid "cont_iim_add_trigger"
+msgstr "Add Trigger"
+
+#, fuzzy
+msgid "cont_iim_add_trigger_text"
+msgstr "Please add a trigger. Afterwards edit size and position on the right screen."
+
+#, fuzzy
+msgid "cont_iim_background_image"
+msgstr "Background Image"
+
+#, fuzzy
+msgid "cont_iim_background_image_and_caption"
+msgstr "Background Image and Caption"
+
+#, fuzzy
+msgid "cont_iim_edit"
+msgstr "Edit Interactive Image"
+
+#, fuzzy
+msgid "cont_iim_edit_trigger"
+msgstr "Edit Trigger"
+
+#, fuzzy
+msgid "cont_iim_finish_editing"
+msgstr "Finish Editing Interactive Image"
+
+#, fuzzy
+msgid "cont_iim_horizontal"
+msgstr "Horizontal"
+
+#, fuzzy
+msgid "cont_iim_lg"
+msgstr "Large"
+
+#, fuzzy
+msgid "cont_iim_md"
+msgstr "Medium"
+
+#, fuzzy
+msgid "cont_iim_no_overlay"
+msgstr "No Overlay"
+
+#, fuzzy
+msgid "cont_iim_overview"
+msgstr "Overview"
+
+#, fuzzy
+msgid "cont_iim_select_overlay"
+msgstr "Select Overlay"
+
+#, fuzzy
+msgid "cont_iim_select_trigger"
+msgstr "To edit an existing trigger, click it on the right screen."
+
+#, fuzzy
+msgid "cont_iim_size"
+msgstr "Size"
+
+#, fuzzy
+msgid "cont_iim_sm"
+msgstr "Small"
+
+#, fuzzy
+msgid "cont_iim_tr_add_popup"
+msgstr "Add Content-Popup"
+
+#, fuzzy
+msgid "cont_iim_tr_properties_info"
+msgstr "The trigger will be presented on the right side. You may alter position and size using the mouse."
+
+#, fuzzy
+msgid "cont_iim_trigger"
+msgstr "Trigger"
+
+#, fuzzy
+msgid "cont_iim_vertical"
+msgstr "Vertical"
+
+msgid "cont_imagemap"
+msgstr "Billedemappe"
+
+#, fuzzy
+msgid "cont_import"
+msgstr "Import"
+
+#, fuzzy
+msgid "cont_import_id"
+msgstr "identifier"
+
+#, fuzzy
+msgid "cont_import_lang"
+msgstr "Target Language"
+
+msgid "cont_import_tracking"
+msgstr "Importer sporingsdata"
+
+#, fuzzy
+msgid "cont_import_trans"
+msgstr "Import Translation"
+
+#, fuzzy
+msgid "cont_import_validation_errors"
+msgstr "Some errors occured during validation of the learning module. The presentation of the learning module may be ok, but it is likely that you are not able to edit the pages that contain errors."
+
+#, fuzzy
+msgid "cont_initial_attached_content"
+msgstr "Initial Extra Content"
+
+#, fuzzy
+msgid "cont_insert_amd_page_list"
+msgstr "Insert Page List"
+
+msgid "cont_insert_as_chapter"
+msgstr "Indsæt som kapitel"
+
+msgid "cont_insert_as_subchapter"
+msgstr "Indsæt som underkapitel"
+
+msgid "cont_insert_blog"
+msgstr "Tilføj blog"
+
+msgid "cont_insert_chapter"
+msgstr "Indsæt kapitel"
+
+msgid "cont_insert_chapter_from_clip"
+msgstr "Indsæt kapitler fra udklipsholder"
+
+#, fuzzy
+msgid "cont_insert_consultation_hours"
+msgstr "Insert Consultation Hours"
+
+msgid "cont_insert_file_item"
+msgstr "Indsæt Fil Item"
+
+msgid "cont_insert_file_list"
+msgstr "Indsæt filliste"
+
+msgid "cont_insert_list"
+msgstr "Indsæt liste"
+
+#, fuzzy
+msgid "cont_insert_login_page"
+msgstr "Add Login Page Element"
+
+msgid "cont_insert_map"
+msgstr "Insæt kort"
+
+msgid "cont_insert_mob"
+msgstr "Indsæt medie"
+
+#, fuzzy
+msgid "cont_insert_my_courses"
+msgstr "Insert My Courses"
+
+msgid "cont_insert_page"
+msgstr "Indsæt side"
+
+msgid "cont_insert_page_from_clip"
+msgstr "Indsæt sider far udklipsholder"
+
+#, fuzzy
+msgid "cont_insert_pagelayout"
+msgstr "Insert Template Page"
+
+msgid "cont_insert_par"
+msgstr "Indsæt Paragraph"
+
+#, fuzzy
+msgid "cont_insert_profile"
+msgstr "Add Personal Data"
+
+msgid "cont_insert_resources"
+msgstr "Indsæt resurseliste"
+
+msgid "cont_insert_section"
+msgstr "Indsæt sektion"
+
+#, fuzzy
+msgid "cont_insert_skills"
+msgstr "Insert Skill"
+
+msgid "cont_insert_src"
+msgstr "Indsæt kildekode"
+
+msgid "cont_insert_subchapter"
+msgstr "Indsæt underkapitel"
+
+msgid "cont_insert_subchapter_from_clip"
+msgstr "Indsæt underkapitler fra udklipsholder"
+
+msgid "cont_insert_table"
+msgstr "Indsæt Table"
+
+#, fuzzy
+msgid "cont_insert_verification"
+msgstr "Add Verification"
+
+msgid "cont_inst_map_areas"
+msgstr "Instansens linkområder"
+
+#, fuzzy
+msgid "cont_interactions"
+msgstr "enable storage of results of interactions"
+
+#, fuzzy
+msgid "cont_interactions_info"
+msgstr "Typically results from interactions in learning modules are simply stored without being read / loaded again. If you ensured this is how your learning module operates, this option will improve performance."
+
+#, fuzzy
+msgid "cont_interactions_info_12"
+msgstr "Results from interactions in SCORM 1.2 learning modules are simply stored. This option will improve performance."
+
+msgid "cont_internal_link"
+msgstr "internt link"
+
+msgid "cont_internal_links"
+msgstr "Interne links"
+
+msgid "cont_invalid_new_module"
+msgstr "Modulet er inkompatibelt! Kontroller at imsmanifest.xml ikker er ændret"
+
+msgid "cont_is_visible"
+msgstr "Er synlig"
+
+#, fuzzy
+msgid "cont_item"
+msgstr "Item"
+
+#, fuzzy
+msgid "cont_keyword"
+msgstr "Keyword"
+
+#, fuzzy
+msgid "cont_language"
+msgstr "Language"
+
+#, fuzzy
+msgid "cont_languages"
+msgstr "Languages"
+
+#, fuzzy
+msgid "cont_last_try"
+msgstr "Last Try"
+
+#, fuzzy
+msgid "cont_last_update"
+msgstr "Last Update"
+
+#, fuzzy
+msgid "cont_last_visited_page"
+msgstr "Last Visited Page"
+
+msgid "cont_latest_rev"
+msgstr "Seneste revision"
+
+msgid "cont_layout"
+msgstr "Layout"
+
+msgid "cont_layout_1window"
+msgstr "Et vindue"
+
+#, fuzzy
+msgid "cont_layout_1window_desc"
+msgstr "Content in the main frame. FAQ, glossary and media links open in separate window."
+
+msgid "cont_layout_2window"
+msgstr "To vinduer"
+
+#, fuzzy
+msgid "cont_layout_2window_desc"
+msgstr "Content in the left frame. FAQ, glossary and media links open in right frame."
+
+msgid "cont_layout_3window"
+msgstr "Tre vinduer"
+
+#, fuzzy
+msgid "cont_layout_3window_desc"
+msgstr "Content in the left frame. FAQ and media links open in top-right frame, glossary links in bottom-right frame."
+
+msgid "cont_layout_fullscreen"
+msgstr "Fuldskærm"
+
+msgid "cont_layout_fullscreen_desc"
+msgstr "Indhold i hovedområdet. FAQ, glossary and media links open in separate window. Ingen ILIAS hovedmenu og ingen navigation"
+
+msgid "cont_layout_per_page"
+msgstr "Layout pr. side"
+
+msgid "cont_layout_per_page_info"
+msgstr "Tillad der kan sættes individuelle stilark for hver side. Dette aktiverer desuden automatisk synkronisering af rammer."
+
+msgid "cont_layout_presentation"
+msgstr "Præsentation"
+
+#, fuzzy
+msgid "cont_layout_presentation_desc"
+msgstr "Content in the main frame. FAQ, glossary and media links open in separate window. No ILIAS main menu."
+
+#, fuzzy
+msgid "cont_layout_template"
+msgstr "Layout Template"
+
+msgid "cont_layout_toc2win"
+msgstr "Indholdsfortegnelse"
+
+msgid "cont_layout_toc2win_desc"
+msgstr "Indholdsfortegnelse til venstre og indhold i højre vindue. OSS, ordbøger, medie links åbner i nye vinduer."
+
+msgid "cont_layout_toc2windyn"
+msgstr "Dynamisk indholdsfortegnelse"
+
+msgid "cont_layout_toc2windyn_desc"
+msgstr "Indholdsfortegnelsen til venstre, indhold i højre ramme. Indhold åbnes dynamisk i nederste højre ramme."
+
+msgid "cont_left"
+msgstr "Venstre"
+
+#, fuzzy
+msgid "cont_left_float"
+msgstr "Left, Floating"
+
+#, fuzzy
+msgid "cont_license"
+msgstr "License"
+
+#, fuzzy
+msgid "cont_license_info"
+msgstr "Enables the license feature"
+
+msgid "cont_light"
+msgstr "Lys"
+
+msgid "cont_link"
+msgstr "Link"
+
+msgid "cont_link_area"
+msgstr "Link område"
+
+msgid "cont_link_ext"
+msgstr "Link (externt)"
+
+#, fuzzy
+msgid "cont_link_glo_in_lm"
+msgstr "Should all glossary terms be linked in the learning module now?"
+
+msgid "cont_link_int"
+msgstr "Link (internt )"
+
+msgid "cont_link_no"
+msgstr "Intet link"
+
+msgid "cont_link_select"
+msgstr "Internt Link"
+
+#, fuzzy
+msgid "cont_link_to_external"
+msgstr "Link to External Website"
+
+#, fuzzy
+msgid "cont_link_to_internal"
+msgstr "Link to ILIAS Resource"
+
+#, fuzzy
+msgid "cont_link_to_wiki"
+msgstr "Link to Wiki Page"
+
+msgid "cont_link_type"
+msgstr "Link type"
+
+#, fuzzy
+msgid "cont_link_user"
+msgstr "User Profile"
+
+msgid "cont_linked_mobs"
+msgstr "Linkede medieobjekter"
+
+msgid "cont_links"
+msgstr "Links"
+
+msgid "cont_list_files"
+msgstr "Filliste"
+
+#, fuzzy
+msgid "cont_list_indent"
+msgstr "Indent List"
+
+#, fuzzy
+msgid "cont_list_item_style"
+msgstr "List Item Style"
+
+#, fuzzy
+msgid "cont_list_outdent"
+msgstr "Outdent List"
+
+msgid "cont_list_properties"
+msgstr "Egenskaber for liste"
+
+#, fuzzy
+msgid "cont_lists"
+msgstr "Lists"
+
+msgid "cont_lk_chapter"
+msgstr "Kapitel"
+
+msgid "cont_lk_chapter_new"
+msgstr "Chapter (Ny Frame)"
+
+#, fuzzy
+msgid "cont_lk_file"
+msgstr "File/Document"
+
+#, fuzzy
+msgid "cont_lk_media_faq"
+msgstr "Media (FAQ Frame)"
+
+#, fuzzy
+msgid "cont_lk_media_inline"
+msgstr "Media (Inline)"
+
+#, fuzzy
+msgid "cont_lk_media_media"
+msgstr "Media (Media Frame)"
+
+msgid "cont_lk_media_new"
+msgstr "Media (Ny Frame)"
+
+msgid "cont_lk_page"
+msgstr "Side"
+
+msgid "cont_lk_page_faq"
+msgstr "Side (FAQ Frame)"
+
+msgid "cont_lk_page_new"
+msgstr "Side (Ny Frame)"
+
+msgid "cont_lk_term"
+msgstr "Ordbogskriterier"
+
+msgid "cont_lk_term_new"
+msgstr "Ordbogsopsætning (Ny Ramme)"
+
+msgid "cont_lm_comments_desc"
+msgstr "Tillad brugerne at dele kommentarer med hinanden på alle sider i læremodulet."
+
+msgid "cont_lm_default_layout"
+msgstr "Standardlayout for læremodul"
+
+#, fuzzy
+msgid "cont_lm_mail_permanent_link"
+msgstr "Click on the following link to access the learning module:"
+
+msgid "cont_lm_menu"
+msgstr "Menu"
+
+msgid "cont_lm_properties"
+msgstr "Indstillinger for læremodul"
+
+#, fuzzy
+msgid "cont_lm_starting_point"
+msgstr "Starting Point for ILIAS Learning Modules"
+
+#, fuzzy
+msgid "cont_lm_starting_point_info"
+msgstr "Page being opened when clicking a learning modules title."
+
+msgid "cont_localfile"
+msgstr "Lokal fil"
+
+msgid "cont_localization"
+msgstr "Lokalisering"
+
+#, fuzzy
+msgid "cont_localization_info"
+msgstr "Language used for predifined texts, e.g. \"Previous\" and \"Next\"."
+
+msgid "cont_location"
+msgstr "Ploacering"
+
+#, fuzzy
+msgid "cont_lpe_dpro_agreement_link"
+msgstr "Declaration of Data Protection Link"
+
+#, fuzzy
+msgid "cont_lpe_language_selection"
+msgstr "Language Selection"
+
+#, fuzzy
+msgid "cont_lpe_login_form"
+msgstr "Login Form"
+
+#, fuzzy
+msgid "cont_lpe_openid_connect_login"
+msgstr "OpenId Connect Login"
+
+#, fuzzy
+msgid "cont_lpe_openid_login_form"
+msgstr "OpenId Login Form"
+
+#, fuzzy
+msgid "cont_lpe_registration_link"
+msgstr "New Registration Link"
+
+#, fuzzy
+msgid "cont_lpe_saml_login"
+msgstr "SAML Login"
+
+#, fuzzy
+msgid "cont_lpe_shib_login_form"
+msgstr "Shibboleth Login Form"
+
+#, fuzzy
+msgid "cont_lpe_user_agreement_link"
+msgstr "User Agreement Link"
+
+msgid "cont_lrs_settings"
+msgstr "Indstillinger"
+
+#, fuzzy
+msgid "cont_lvalue"
+msgstr "Data element"
+
+msgid "cont_maintenance"
+msgstr "Vedligeholdelse"
+
+#, fuzzy
+msgid "cont_manifest"
+msgstr "Manifest"
+
+#, fuzzy
+msgid "cont_manual_item_group"
+msgstr "Manually Create Item Group"
+
+#, fuzzy
+msgid "cont_map_file_not_generated"
+msgstr "Sorry. Unable to generate map file for editing."
+
+#, fuzzy
+msgid "cont_marker"
+msgstr "Marker"
+
+#, fuzzy
+msgid "cont_master_language_only"
+msgstr "Master Language for Translation"
+
+#, fuzzy
+msgid "cont_master_language_only_no_media"
+msgstr "Master Language without Media"
+
+#, fuzzy
+msgid "cont_mastery_score"
+msgstr "adlcp:masteryscore"
+
+#, fuzzy
+msgid "cont_mastery_score_12"
+msgstr "overwrite mastery_score"
+
+#, fuzzy
+msgid "cont_mastery_score_12_info"
+msgstr "If a SCO does not autonomously determines a status, a SCO is considered passed if the score reached at least a certain level - the mastery_score. This value can be overwritten here e.g. to reduce the requirement level. If the field is empty, the information in the SCORM manifest are valid. The following values are provided in the manifest-file:"
+
+#, fuzzy
+msgid "cont_mastery_score_2004"
+msgstr "overwrite scaled_passing_score"
+
+#, fuzzy
+msgid "cont_mastery_score_2004_info"
+msgstr "Central learning objectives of this learning module are considered as passed if the score reached at least a certain level - the scaled_passing_score. This value - to be stated as a percentage value - can be overwritten here e.g. to reduce the requirement level. If the field is empty, the information in the SCORM manifest are valid. The following values are provided in the manifest-file:"
+
+msgid "cont_max_time_allowed"
+msgstr "adlcp:maxtid tilladt"
+
+#, fuzzy
+msgid "cont_media"
+msgstr "Images/Media"
+
+#, fuzzy
+msgid "cont_media_placeh"
+msgstr "Click and edit to insert media"
+
+#, fuzzy
+msgid "cont_media_placehl"
+msgstr "Media Placeholder"
+
+msgid "cont_media_source"
+msgstr "Media Kilde"
+
+#, fuzzy
+msgid "cont_merge_cells"
+msgstr "Merge Cells"
+
+#, fuzzy
+msgid "cont_missing_preconditions"
+msgstr "You need to fulfill the following preconditions to access the chapter \\\"%s\\\"."
+
+#, fuzzy
+msgid "cont_missing_snippet"
+msgstr "Missing Content Snippet. The snippet has been deleted."
+
+msgid "cont_mob_def_prop"
+msgstr "Standardegenskaber"
+
+msgid "cont_mob_from_media_pool"
+msgstr "Vælg fra mediebibliotek"
+
+msgid "cont_mob_inst_prop"
+msgstr "Vigtige Egenskaber"
+
+msgid "cont_mob_usages"
+msgstr "I Brug"
+
+msgid "cont_more_character_styles"
+msgstr "...flere karakterstile"
+
+#, fuzzy
+msgid "cont_more_functions"
+msgstr "More"
+
+#, fuzzy
+msgid "cont_moved_srt_files"
+msgstr "Moved subtitles files to media objects."
+
+#, fuzzy
+msgid "cont_multi_srt_files"
+msgstr "SRT Files"
+
+#, fuzzy
+msgid "cont_mycourses_sortorder"
+msgstr "Default Sorting"
+
+#, fuzzy
+msgid "cont_mycourses_sortorder_alphabetical"
+msgstr "Alphabetical"
+
+#, fuzzy
+msgid "cont_mycourses_sortorder_info"
+msgstr "This is a default setting. Every user can choose a personal order which affects all \"My Courses\"-elements of any portfolio."
+
+#, fuzzy
+msgid "cont_mycourses_sortorder_location"
+msgstr "By Location"
+
+msgid "cont_name"
+msgstr "Navn"
+
+#, fuzzy
+msgid "cont_never"
+msgstr "Never"
+
+msgid "cont_new_area"
+msgstr "Nyt Link"
+
+#, fuzzy
+msgid "cont_new_chap"
+msgstr "New Chapter"
+
+msgid "cont_new_dir"
+msgstr "Nyt Bibliotek"
+
+msgid "cont_new_file"
+msgstr "Ny Fil"
+
+#, fuzzy
+msgid "cont_new_marker"
+msgstr "New Marker"
+
+msgid "cont_new_mob"
+msgstr "Nyt medieobjekt"
+
+msgid "cont_new_module_added"
+msgstr "Ny version af modulet blev uploaded"
+
+#, fuzzy
+msgid "cont_new_page"
+msgstr "New Page"
+
+#, fuzzy
+msgid "cont_new_popup"
+msgstr "New Popup"
+
+msgid "cont_new_question"
+msgstr "Nyt spørgsmål"
+
+msgid "cont_new_tab"
+msgstr "Ny tab"
+
+msgid "cont_new_term"
+msgstr "Ny Term"
+
+#, fuzzy
+msgid "cont_new_trigger_area"
+msgstr "New Trigger Area"
+
+msgid "cont_next_rev"
+msgstr "Næste revision"
+
+msgid "cont_nlist"
+msgstr "Nummereret liste"
+
+msgid "cont_no_access"
+msgstr "Ingen adgang"
+
+#, fuzzy
+msgid "cont_no_block"
+msgstr "No Section"
+
+#, fuzzy
+msgid "cont_no_caption"
+msgstr "No Caption"
+
+#, fuzzy
+msgid "cont_no_glossary"
+msgstr "No glossary"
+
+msgid "cont_no_manifest"
+msgstr "Ingen imsmanifest.xml filer er fundet i hoved biblioteket."
+
+msgid "cont_no_page"
+msgstr "Ingen sider fundet."
+
+#, fuzzy
+msgid "cont_no_page_access_unansw_q"
+msgstr "You need to answer all questions of previous pages correctly to gain access to this page."
+
+msgid "cont_no_page_in_chapter"
+msgstr "Der er intet aktiveret indhold i dette kapitel."
+
+#, fuzzy
+msgid "cont_no_parameters"
+msgstr "No Parameters"
+
+#, fuzzy
+msgid "cont_no_read"
+msgstr "No read permission"
+
+#, fuzzy
+msgid "cont_no_subdir_in_zip"
+msgstr "Zip command failed or import file invalid.<br>It does not contain a subfolder '%s'."
+
+msgid "cont_no_text"
+msgstr "Ingen tekst"
+
+msgid "cont_nomenu"
+msgstr "Deaktiver topnavigation"
+
+#, fuzzy
+msgid "cont_nomenu_info"
+msgstr "The Top Navigation Bar can be hidden, if the SCORM Learning module contains sufficient functionality to suspend, finish and navigate the content."
+
+msgid "cont_none"
+msgstr "Ingen"
+
+#, fuzzy
+msgid "cont_not_saved_edit_lock_expired"
+msgstr "Sorry, but another user obtained the edit lock for this page in the meantime. You may close this message and copy the content to your clipboard."
+
+#, fuzzy
+msgid "cont_notification_activate_lm"
+msgstr "Activate Notification for Learning Module"
+
+#, fuzzy
+msgid "cont_notification_activate_page"
+msgstr "Activate Notification for Page"
+
+#, fuzzy
+msgid "cont_notification_activated"
+msgstr "Notification Activated (Whole LM)"
+
+#, fuzzy
+msgid "cont_notification_comment_lm"
+msgstr "the following Learning Module Page has been commented"
+
+#, fuzzy
+msgid "cont_notification_comment_subject_lm"
+msgstr "A comment was added to %s: %s"
+
+#, fuzzy
+msgid "cont_notification_deactivate_lm"
+msgstr "Deactivate Notification for Learning Module"
+
+#, fuzzy
+msgid "cont_notification_deactivate_page"
+msgstr "Deactivate Notification for Page"
+
+#, fuzzy
+msgid "cont_notification_deactivated"
+msgstr "Notification Deactivated"
+
+#, fuzzy
+msgid "cont_notification_update_lm"
+msgstr "the following Learning Module has been updated"
+
+#, fuzzy
+msgid "cont_notify_on_blocked_users"
+msgstr "Notifications on Blocked Users"
+
+#, fuzzy
+msgid "cont_notify_on_blocked_users_info"
+msgstr "You will be notified if users are blocked when they run out of tries."
+
+msgid "cont_nr_col_footer"
+msgstr "Footer kolonner"
+
+msgid "cont_nr_col_header"
+msgstr "Header kolonner"
+
+msgid "cont_nr_cols"
+msgstr "Antal kolonner"
+
+msgid "cont_nr_items"
+msgstr "Antal ting"
+
+msgid "cont_nr_of_tries_exceeded"
+msgstr "Du har ikke flere forsøg."
+
+msgid "cont_nr_row_footer"
+msgstr "Footer rækker"
+
+msgid "cont_nr_row_header"
+msgstr "Header rækker"
+
+msgid "cont_nr_rows"
+msgstr "Antal linjer"
+
+msgid "cont_number_of_tabs"
+msgstr "Antal faneblade"
+
+msgid "cont_number_std"
+msgstr "Standard"
+
+#, fuzzy
+msgid "cont_number_type"
+msgstr "Number Type"
+
+msgid "cont_numbered_list"
+msgstr "Nummereret liste"
+
+msgid "cont_obj_removed"
+msgstr "Objekter er fjernede."
+
+#, fuzzy
+msgid "cont_objectives"
+msgstr "enable storage of data concerning learning objectives"
+
+#, fuzzy
+msgid "cont_objectives_info"
+msgstr "If you ensured that this learning module runs properly, this option improves performance."
+
+msgid "cont_online"
+msgstr "Online"
+
+#, fuzzy
+msgid "cont_online_help_ids"
+msgstr "Help IDs"
+
+#, fuzzy
+msgid "cont_online_info"
+msgstr "Set the SCORM learning module online to make it visible and available for users. If not, only users with 'Edit'-permission will have access to it."
+
+#, fuzzy
+msgid "cont_open"
+msgstr "Display"
+
+#, fuzzy
+msgid "cont_open_clipboard"
+msgstr "Open Clipboard"
+
+#, fuzzy
+msgid "cont_open_iframe"
+msgstr "Opens in the same window, the ILIAS main menue is displayed"
+
+#, fuzzy
+msgid "cont_open_iframe_info"
+msgstr "The learning module starts in the same window (iFrame) next to the ILIAS main menu."
+
+msgid "cont_open_normal"
+msgstr "i faneblad / nyt vindue med link"
+
+#, fuzzy
+msgid "cont_open_normal_info"
+msgstr "The learning module starts in a new tab or alternatively in a new window without the ILIAS main menu."
+
+#, fuzzy
+msgid "cont_open_window"
+msgstr "Definitely opens in a new window, without ILIAS main menue"
+
+#, fuzzy
+msgid "cont_open_window_info"
+msgstr "The learning module must start in a new window without the ILIAS main menu."
+
+msgid "cont_operation_not_allowed"
+msgstr "Denne operation er ikke tilladt."
+
+msgid "cont_organization"
+msgstr "Organisation"
+
+msgid "cont_organizations"
+msgstr "Organisationer"
+
+msgid "cont_orig_size"
+msgstr "Original Størrelse"
+
+#, fuzzy
+msgid "cont_other_resources"
+msgstr "Content (Other Remaining Resources)"
+
+#, fuzzy
+msgid "cont_out_of_focus_message"
+msgstr "This page is not related to your current learning objective anymore."
+
+#, fuzzy
+msgid "cont_out_of_focus_message_last_page"
+msgstr "This is the last page of the content related to your current learning objective."
+
+msgid "cont_ov_all_correct"
+msgstr "Du har besvaret alle spørgsmål korrekt."
+
+#, fuzzy
+msgid "cont_ov_preview"
+msgstr "The question overview does not work in the page editor context. Use the SCO or SCORM level preview instead."
+
+msgid "cont_ov_some_correct"
+msgstr "Du har besvaret [x] ud af [y] spørgsmål korrekt."
+
+msgid "cont_ov_wrong_answered"
+msgstr "Nedenstående spørgsmål blev ikke besvaret eller blev forkert besvaret."
+
+#, fuzzy
+msgid "cont_overlay_image"
+msgstr "Overlay Image"
+
+#, fuzzy
+msgid "cont_overlay_images"
+msgstr "Overlay Images"
+
+#, fuzzy
+msgid "cont_overlays_have_been_deleted"
+msgstr "Overlays have been deleted."
+
+msgid "cont_page_activation"
+msgstr "Side aktivering"
+
+#, fuzzy
+msgid "cont_page_activation_on"
+msgstr "The content will be activated on %s."
+
+msgid "cont_page_compare"
+msgstr "Sammenlign valgte revisioner"
+
+#, fuzzy
+msgid "cont_page_created"
+msgstr "Page created"
+
+msgid "cont_page_currently_deactivated"
+msgstr "Denne side er i øjeblikket deaktiveret."
+
+msgid "cont_page_deactivated"
+msgstr "Page is deactivated."
+
+msgid "cont_page_deactivated_elements"
+msgstr "Page contains deactivated elements."
+
+msgid "cont_page_header"
+msgstr "Sidehoved"
+
+msgid "cont_page_layout"
+msgstr "Sidelayout"
+
+#, fuzzy
+msgid "cont_page_lock_released"
+msgstr "Editing finished. Page lock has been released."
+
+#, fuzzy
+msgid "cont_page_notification_activated"
+msgstr "Notification Activated (Single Page)"
+
+#, fuzzy
+msgid "cont_page_template"
+msgstr "Page Template"
+
+#, fuzzy
+msgid "cont_page_toc"
+msgstr "Page Overview"
+
+#, fuzzy
+msgid "cont_page_translation_does_not_exist"
+msgstr "The translation page does not exist yet and will be created"
+
+#, fuzzy
+msgid "cont_page_usage"
+msgstr "Page Usage"
+
+msgid "cont_pages"
+msgstr "Sider"
+
+msgid "cont_pages_and_subchapters"
+msgstr "Underkapitler og sider"
+
+#, fuzzy
+msgid "cont_par_format"
+msgstr "Paragraph"
+
+msgid "cont_paragraph_styles"
+msgstr "Paragraf stil"
+
+msgid "cont_parameter"
+msgstr "Parameter"
+
+msgid "cont_parameters"
+msgstr "parametre"
+
+msgid "cont_paste_from_clipboard"
+msgstr "Indsæt fra udklipsholder"
+
+#, fuzzy
+msgid "cont_paste_from_spreadsheet"
+msgstr "Paste From Spreadsheet"
+
+msgid "cont_paste_table"
+msgstr "Indsæt tabel"
+
+#, fuzzy
+msgid "cont_pc_amdpl"
+msgstr "Page List"
+
+msgid "cont_pc_blog"
+msgstr "Blog"
+
+#, fuzzy
+msgid "cont_pc_carousel"
+msgstr "Carousel"
+
+#, fuzzy
+msgid "cont_pc_code"
+msgstr "Code"
+
+msgid "cont_pc_deleted"
+msgstr "Slettet indhold"
+
+msgid "cont_pc_dtab"
+msgstr "Datatabel"
+
+msgid "cont_pc_flist"
+msgstr "Filliste"
+
+#, fuzzy
+msgid "cont_pc_grid"
+msgstr "Column Layout"
+
+#, fuzzy
+msgid "cont_pc_hacc"
+msgstr "Harmonika (horizontal)"
+
+msgid "cont_pc_iim"
+msgstr "Interaktivt billede"
+
+#, fuzzy
+msgid "cont_pc_incl"
+msgstr "Content Snippet"
+
+#, fuzzy
+msgid "cont_pc_lay"
+msgstr "Layout Template"
+
+msgid "cont_pc_list"
+msgstr "Detaljeret liste"
+
+msgid "cont_pc_map"
+msgstr "Kort"
+
+#, fuzzy
+msgid "cont_pc_media"
+msgstr "Image/Media"
+
+msgid "cont_pc_mob"
+msgstr "Medie"
+
+msgid "cont_pc_modified"
+msgstr "Ændret indhold"
+
+msgid "cont_pc_new"
+msgstr "Nyt indhold"
+
+msgid "cont_pc_par"
+msgstr "Tekst"
+
+#, fuzzy
+msgid "cont_pc_plach"
+msgstr "Placeholder"
+
+#, fuzzy
+msgid "cont_pc_prof"
+msgstr "Personal Data"
+
+#, fuzzy
+msgid "cont_pc_qover"
+msgstr "Question Overview"
+
+msgid "cont_pc_qst"
+msgstr "Spørgsmål"
+
+#, fuzzy
+msgid "cont_pc_repobj"
+msgstr "Item Group"
+
+msgid "cont_pc_res"
+msgstr "Resurse"
+
+msgid "cont_pc_sec"
+msgstr "Sektion"
+
+#, fuzzy
+msgid "cont_pc_skills"
+msgstr "Skill"
+
+#, fuzzy
+msgid "cont_pc_src"
+msgstr "Source Code"
+
+msgid "cont_pc_tab"
+msgstr "Advanceret tabel"
+
+#, fuzzy
+msgid "cont_pc_tabs"
+msgstr "Accordion/Carousel"
+
+#, fuzzy
+msgid "cont_pc_vacc"
+msgstr "Harmonika (vertikal)"
+
+#, fuzzy
+msgid "cont_pc_vrfc"
+msgstr "Verification"
+
+#, fuzzy
+msgid "cont_permission_handling"
+msgstr "Permission Handling"
+
+#, fuzzy
+msgid "cont_permission_object"
+msgstr "Permission Object"
+
+#, fuzzy
+msgid "cont_permission_object_desc"
+msgstr "The section will only be presented for users that have the given permission on the permission object."
+
+msgid "cont_personal_clipboard"
+msgstr "Personlig udklipsholder"
+
+msgid "cont_pg_title"
+msgstr "Side Titel"
+
+#, fuzzy
+msgid "cont_please_enter_a_term"
+msgstr "Please enter a term."
+
+msgid "cont_please_select"
+msgstr "Vælg venligst"
+
+msgid "cont_please_try_again"
+msgstr "Prøv venligst igen"
+
+#, fuzzy
+msgid "cont_popups_have_been_deleted"
+msgstr "Popups have been deleted."
+
+#, fuzzy
+msgid "cont_position"
+msgstr "Position"
+
+#, fuzzy
+msgid "cont_prereq_type"
+msgstr "adlcp:prerequisites.type"
+
+#, fuzzy
+msgid "cont_prerequisites"
+msgstr "adlcp:prerequisites"
+
+msgid "cont_presentation"
+msgstr "Præsentation"
+
+msgid "cont_presentation_view"
+msgstr "Præsentationsvisning"
+
+msgid "cont_preview"
+msgstr "Se eksempel"
+
+msgid "cont_previous_rev"
+msgstr "Tidligere revision"
+
+msgid "cont_print_no_page_selected"
+msgstr "Vælg mindst en side"
+
+#, fuzzy
+msgid "cont_print_selection"
+msgstr "Print View Selection"
+
+msgid "cont_print_view"
+msgstr "Udskriv"
+
+#, fuzzy
+msgid "cont_print_view_pre_glo"
+msgstr "Prevent Glossary Appendix in Print View"
+
+#, fuzzy
+msgid "cont_profile_mode"
+msgstr "Mode"
+
+#, fuzzy
+msgid "cont_profile_mode_inherit"
+msgstr "Automatic"
+
+#, fuzzy
+msgid "cont_profile_mode_inherit_info"
+msgstr "Use your public profile settings"
+
+#, fuzzy
+msgid "cont_profile_mode_manual"
+msgstr "Manual"
+
+#, fuzzy
+msgid "cont_profile_mode_manual_info"
+msgstr "Use the following data:"
+
+#, fuzzy
+msgid "cont_profile_mode_template_inherit_info"
+msgstr "Use the profile settings"
+
+#, fuzzy
+msgid "cont_progress_icons"
+msgstr "Progress Icons"
+
+#, fuzzy
+msgid "cont_progress_icons_info"
+msgstr "Show progress icons instead of chapter page icons in presentation mode. Please note that progress information is stored only with ILIAS 4.5 and higher."
+
+#, fuzzy
+msgid "cont_prtf_page"
+msgstr "Portfolio Page"
+
+#, fuzzy
+msgid "cont_prtt_page"
+msgstr "Portfolio Tempalte Page"
+
+msgid "cont_public_access"
+msgstr "Åben adgang"
+
+msgid "cont_purpose"
+msgstr "Formåler"
+
+#, fuzzy
+msgid "cont_qover_list_wrong_q"
+msgstr "List of Wrong Answered Questions"
+
+#, fuzzy
+msgid "cont_qover_list_wrong_q_info"
+msgstr "A list of wrong or not answered questions will be displayed."
+
+#, fuzzy
+msgid "cont_qover_short_message"
+msgstr "Status Message"
+
+#, fuzzy
+msgid "cont_qover_short_message_info"
+msgstr "A message \"You have correctly answered C out of Y questions of this unit.\" will be displayed."
+
+msgid "cont_qtries"
+msgstr "Antal besvarelsesforsøg"
+
+#, fuzzy
+msgid "cont_qtries_info"
+msgstr "Default value for number of tries for newly created questions."
+
+#, fuzzy
+msgid "cont_question"
+msgstr "Question"
+
+#, fuzzy
+msgid "cont_question_page_usage"
+msgstr "Questions on Pages"
+
+#, fuzzy
+msgid "cont_question_placeh"
+msgstr "Click and edit to insert question"
+
+#, fuzzy
+msgid "cont_question_placehl"
+msgstr "Question Placeholder"
+
+#, fuzzy
+msgid "cont_question_stats"
+msgstr "Statistic"
+
+msgid "cont_question_type"
+msgstr "Spørgsmålstype"
+
+#, fuzzy
+msgid "cont_question_usage"
+msgstr "Usages"
+
+#, fuzzy
+msgid "cont_quit_text_editing"
+msgstr "Finish Text Editing"
+
+#, fuzzy
+msgid "cont_rand_start"
+msgstr "Random Start"
+
+#, fuzzy
+msgid "cont_really_delete_overlays"
+msgstr "Do you really want to delete the following overlays?"
+
+#, fuzzy
+msgid "cont_really_delete_popups"
+msgstr "Do you really want to delete the following popups?"
+
+#, fuzzy
+msgid "cont_really_delete_triggers"
+msgstr "Do you really want to delete the following triggers?"
+
+msgid "cont_ref_helptext"
+msgstr "(f.eks. http://www.server.org/mitbillede.jpg)"
+
+#, fuzzy
+msgid "cont_ref_images"
+msgstr "Referenced Images"
+
+msgid "cont_reference"
+msgstr "Reference"
+
+msgid "cont_remove_format"
+msgstr "Fjern formattering"
+
+msgid "cont_rename_dir"
+msgstr "Omdøb folder"
+
+msgid "cont_replace_mob_feature"
+msgstr "Erstat medier i indhold"
+
+msgid "cont_replace_mob_feature_info"
+msgstr "Aktiverer en funktion der tillader at erstatte medieobjekter men beholde alle andre egenskaber ved mediet i indholdet."
+
+msgid "cont_repository_item"
+msgstr "Oversigts element"
+
+#, fuzzy
+msgid "cont_reset_nr_of_tries"
+msgstr "Reset Number of Tries"
+
+msgid "cont_resize_img"
+msgstr "Skaler billedfil"
+
+msgid "cont_resource"
+msgstr "Resourcer"
+
+msgid "cont_resource_size"
+msgstr "Resurse størrelse"
+
+#, fuzzy
+msgid "cont_resource_size_info"
+msgstr "Without size declaration the size can be controlled by the content style. If neither a size is declared nor the content style contains a rule that determines the size, only images will be displayed in their default size."
+
+msgid "cont_resource_type"
+msgstr "type"
+
+msgid "cont_resources"
+msgstr "Resourcer"
+
+#, fuzzy
+msgid "cont_resources_of_type"
+msgstr "Resources of Type"
+
+#, fuzzy
+msgid "cont_restrict_forw_nav"
+msgstr "Restrict Forward Navigation"
+
+#, fuzzy
+msgid "cont_restrict_forw_nav_info"
+msgstr "Learners cannot navigate to subsequent pages unless they answered all previous questions correctly."
+
+msgid "cont_revision"
+msgstr "Revision"
+
+msgid "cont_right"
+msgstr "Højre"
+
+#, fuzzy
+msgid "cont_right_float"
+msgstr "Right, Floating"
+
+msgid "cont_rollback"
+msgstr "Fortryd"
+
+msgid "cont_rollback_confirmation"
+msgstr "Ønsker du at genskabe den tidligere version af siden?"
+
+msgid "cont_roman"
+msgstr "Romersk I, II, ..."
+
+msgid "cont_roman_s"
+msgstr "Romersk i, ii, ..."
+
+msgid "cont_rowspan"
+msgstr "Rækkespan"
+
+#, fuzzy
+msgid "cont_rte_settings"
+msgstr "RTE Settings"
+
+msgid "cont_rvalue"
+msgstr "Værdie"
+
+msgid "cont_save_all_titles"
+msgstr "Gem titler"
+
+msgid "cont_save_positions"
+msgstr "Gem positioner"
+
+#, fuzzy
+msgid "cont_save_positions_and_classes"
+msgstr "Save Positions and Style Classes"
+
+msgid "cont_save_spans"
+msgstr "Gem spænd"
+
+#, fuzzy
+msgid "cont_save_types"
+msgstr "Save Types"
+
+msgid "cont_save_widths"
+msgstr "Gem bredder"
+
+#, fuzzy
+msgid "cont_saved_export_ids"
+msgstr "Saved HTML Export IDs."
+
+#, fuzzy
+msgid "cont_saved_interactive_image"
+msgstr "Created Interactive Image"
+
+msgid "cont_saved_map_area"
+msgstr "Gemt kort område"
+
+msgid "cont_saved_map_data"
+msgstr "Gemt område data"
+
+#, fuzzy
+msgid "cont_saving"
+msgstr "Saving..."
+
+#, fuzzy
+msgid "cont_sc_auto_continue"
+msgstr "Auto-Continue"
+
+#, fuzzy
+msgid "cont_sc_auto_continue_info"
+msgstr "After finishing their last activity users will be automatically redirected to the next SCO. This function is not supported by all SCORM 1.2 Learning Modules."
+
+#, fuzzy
+msgid "cont_sc_auto_review_2004"
+msgstr "Automatic Review Mode"
+
+#, fuzzy
+msgid "cont_sc_auto_review_completed"
+msgstr "if completed"
+
+#, fuzzy
+msgid "cont_sc_auto_review_completed_and_passed"
+msgstr "if completed and passed"
+
+#, fuzzy
+msgid "cont_sc_auto_review_completed_not_failed_or_passed"
+msgstr "if completed or passed, but not failed (recommended for Automatic Review Mode)"
+
+#, fuzzy
+msgid "cont_sc_auto_review_completed_or_passed"
+msgstr "if completed or passed"
+
+#, fuzzy
+msgid "cont_sc_auto_review_info_2004"
+msgstr "If the automatic review mode is enabled, then the tracking data for a chapter (SCO) of the learning module are not stored when one of these options apply. In the rare case however, that the learning module makes use of Sequencing & Navigation according to SCORM 2004, this option should not be enabled."
+
+#, fuzzy
+msgid "cont_sc_auto_review_no"
+msgstr "disabled"
+
+#, fuzzy
+msgid "cont_sc_auto_review_passed"
+msgstr "if passed"
+
+#, fuzzy
+msgid "cont_sc_auto_review_passed_or_failed"
+msgstr "if passed or failed"
+
+#, fuzzy
+msgid "cont_sc_id_setting"
+msgstr "student_id according to SCORM 1.2"
+
+#, fuzzy
+msgid "cont_sc_id_setting_2004"
+msgstr "learner_id according to SCORM 2004"
+
+#, fuzzy
+msgid "cont_sc_id_setting_info"
+msgstr "In the case that a numeric id for student_id (SCORM 1.2) or learner_id (SCORM 2004) causes problems for the learning module, use the option 'ILIAS user name'. The addition RefId or ObjId may be useful for learning modules that connect to an external server."
+
+#, fuzzy
+msgid "cont_sc_id_setting_user_id"
+msgstr "ILIAS User Id (Standard)"
+
+#, fuzzy
+msgid "cont_sc_id_setting_user_id_plus_obj_id"
+msgstr "ILIAS User Id plus ObjId of the Learning Module"
+
+#, fuzzy
+msgid "cont_sc_id_setting_user_id_plus_ref_id"
+msgstr "ILIAS User Id plus RefId of the Learning Module"
+
+#, fuzzy
+msgid "cont_sc_id_setting_user_login"
+msgstr "ILIAS Login Name"
+
+#, fuzzy
+msgid "cont_sc_id_setting_user_login_plus_obj_id"
+msgstr "ILIAS Login Name plus ObjId of the Learning Module"
+
+#, fuzzy
+msgid "cont_sc_id_setting_user_login_plus_ref_id"
+msgstr "ILIAS Login Name plus RefId of the Learning Module"
+
+msgid "cont_sc_less_mode_browse"
+msgstr "Gennemse"
+
+#, fuzzy
+msgid "cont_sc_less_mode_browse_info"
+msgstr "The SCORM mode is set to \"browse\"."
+
+msgid "cont_sc_less_mode_normal"
+msgstr "Normal"
+
+#, fuzzy
+msgid "cont_sc_less_mode_normal_info"
+msgstr "The SCORM mode is set to \"normal\"."
+
+#, fuzzy
+msgid "cont_sc_max_attempt_exceed"
+msgstr "Max. number of attempts for this module has been reached."
+
+#, fuzzy
+msgid "cont_sc_name_setting"
+msgstr "student_name according to SCORM 1.2"
+
+#, fuzzy
+msgid "cont_sc_name_setting_2004"
+msgstr "learner_name according to SCORM 2004"
+
+#, fuzzy
+msgid "cont_sc_name_setting_first_lastname"
+msgstr "First name and Last name"
+
+#, fuzzy
+msgid "cont_sc_name_setting_first_name"
+msgstr "First name"
+
+#, fuzzy
+msgid "cont_sc_name_setting_fullname"
+msgstr "Title, First name and Last name"
+
+#, fuzzy
+msgid "cont_sc_name_setting_info"
+msgstr "The name of the learner can be displayed in the learning module in several ways. In the case that the learning modules are on an external server, it may be useful not to disclose the name."
+
+#, fuzzy
+msgid "cont_sc_name_setting_last_firstname"
+msgstr "Last name, First name"
+
+#, fuzzy
+msgid "cont_sc_name_setting_no_name"
+msgstr "no name"
+
+#, fuzzy
+msgid "cont_sc_name_setting_salutation_lastname"
+msgstr "Salutation and Last name"
+
+msgid "cont_sc_new_version"
+msgstr "Upload ny version"
+
+msgid "cont_sc_preview"
+msgstr "Forhåndsvisning"
+
+msgid "cont_sc_stat_browsed"
+msgstr "Set igennem"
+
+msgid "cont_sc_stat_completed"
+msgstr "Gennemført"
+
+msgid "cont_sc_stat_failed"
+msgstr "Fejlede"
+
+msgid "cont_sc_stat_incomplete"
+msgstr "Ikke gennemført"
+
+msgid "cont_sc_stat_not_attempted"
+msgstr "Ikke forsøgt"
+
+msgid "cont_sc_stat_passed"
+msgstr "Bestået"
+
+msgid "cont_sc_stat_running"
+msgstr "Kører"
+
+#, fuzzy
+msgid "cont_sc_store_if_previous_score_was_lower"
+msgstr "keep tracking data if achieved score in previous attempt was higher or equal"
+
+msgid "cont_sc_title"
+msgstr "titel"
+
+msgid "cont_sc_usession"
+msgstr "Uendelig sessionstimeout"
+
+#, fuzzy
+msgid "cont_sc_usession_info"
+msgstr "This setting activates periodical requests to the server to keep the session alive."
+
+msgid "cont_sc_version"
+msgstr "Version"
+
+#, fuzzy
+msgid "cont_sc_version_info"
+msgstr "The version management will automatically insert the correct version number."
+
+msgid "cont_scheduled_activation"
+msgstr "Tidsbestemt aktivering"
+
+#, fuzzy
+msgid "cont_sco_glossary"
+msgstr "Unit Glossary"
+
+msgid "cont_score"
+msgstr "Resultat"
+
+#, fuzzy
+msgid "cont_scorm_ed_properties"
+msgstr "Learning Module Properties / Glossary"
+
+msgid "cont_scorm_options"
+msgstr "SCORM valgmuligheder"
+
+#, fuzzy
+msgid "cont_scorm_type"
+msgstr "adlcp:scormtype"
+
+#, fuzzy
+msgid "cont_screen_ids"
+msgstr "Screen IDs"
+
+#, fuzzy
+msgid "cont_sec_protected"
+msgstr "Protected"
+
+#, fuzzy
+msgid "cont_sec_protected_text"
+msgstr "The following section is protected and can not be edited."
+
+#, fuzzy
+msgid "cont_second"
+msgstr "Second"
+
+#, fuzzy
+msgid "cont_sel_el_use_paste"
+msgstr "Selected elements are now in the clipboard. Please click the desired target placeholder and select ‘Paste’."
+
+msgid "cont_select"
+msgstr "Vælg"
+
+#, fuzzy
+msgid "cont_select_file"
+msgstr "Select File"
+
+msgid "cont_select_from_upload_dir"
+msgstr "-- Vælg fra kataloget --"
+
+msgid "cont_select_item"
+msgstr "Vælg mindst et obejkt."
+
+msgid "cont_select_max_one_item"
+msgstr "Vælg kun en ting"
+
+msgid "cont_select_media_pool"
+msgstr "Vælg mediebibliotek"
+
+#, fuzzy
+msgid "cont_select_none"
+msgstr "Clear Selection"
+
+msgid "cont_select_other_qpool"
+msgstr "Skift bibliotek"
+
+msgid "cont_select_par_or_section"
+msgstr "Du skal vælge mindst en paragraf eller sektion."
+
+msgid "cont_selected_items_have_been_copied"
+msgstr "Valgte elementer er kopieret til udklipsholder. Vælg de tilsvarende pladsholdere for at indsætte dem i læremodulet."
+
+msgid "cont_selected_items_have_been_cut"
+msgstr "Valgte elementer er klippet til udklipsholder. Klik relevante pladsholdere for at indsætte dem i læremodulet."
+
+msgid "cont_selected_pg_chap"
+msgstr "Valgte sider/kapitler"
+
+#, fuzzy
+msgid "cont_selected_terms"
+msgstr "Selected Terms"
+
+msgid "cont_selected_topic"
+msgstr "Valgt emne"
+
+#, fuzzy
+msgid "cont_selection"
+msgstr "Selection"
+
+#, fuzzy
+msgid "cont_self_assessment"
+msgstr "Self Assessment"
+
+#, fuzzy
+msgid "cont_sequencing"
+msgstr "enable Sequencing & Navigation according to settings by learning module"
+
+#, fuzzy
+msgid "cont_sequencing_info"
+msgstr "Enable the sequencing and navigation behaviour as defined by the learning module."
+
+#, fuzzy
+msgid "cont_set_alignment"
+msgstr "Set Alignment"
+
+#, fuzzy
+msgid "cont_set_layout"
+msgstr "Set Layout"
+
+msgid "cont_set_link"
+msgstr "Rediger Link"
+
+#, fuzzy
+msgid "cont_set_manuall"
+msgstr "Set Manually"
+
+#, fuzzy
+msgid "cont_set_properties"
+msgstr "Set Properties"
+
+msgid "cont_set_start_file"
+msgstr "Sæt Start Fil"
+
+msgid "cont_set_styles"
+msgstr "Sæt stilark"
+
+msgid "cont_set_tab_style_info"
+msgstr "Aktiver afkrydsningsbokse i tabellens celler for at sætte stilark."
+
+#, fuzzy
+msgid "cont_settings"
+msgstr "Settings for learning modules"
+
+msgid "cont_shape"
+msgstr "Form"
+
+#, fuzzy
+msgid "cont_shift_click_to_select"
+msgstr "<b>Shift-click</b> on an element to <b>select</b> it and switch to selection mode."
+
+#, fuzzy
+msgid "cont_short_title"
+msgstr "Short Title"
+
+#, fuzzy
+msgid "cont_short_title_info"
+msgstr "Short titles are used in the left-hand tree presentation and for labels in the previous/next navigation."
+
+#, fuzzy
+msgid "cont_short_titles"
+msgstr "Short Titles"
+
+#, fuzzy
+msgid "cont_show_activation_info"
+msgstr "Show Activation Info"
+
+#, fuzzy
+msgid "cont_show_activation_info_info"
+msgstr "If the scheduled activation is not yet reached, the page will not be skipped. The information when the page will be activated will be displayed to the user."
+
+msgid "cont_show_adv"
+msgstr "Vis avanceret viden"
+
+#, fuzzy
+msgid "cont_show_content_after_focus"
+msgstr "Continue with the Learning Module"
+
+#, fuzzy
+msgid "cont_show_fullscreen"
+msgstr "Show Fullscreen"
+
+msgid "cont_show_info"
+msgstr "Vis info"
+
+msgid "cont_show_line_numbers"
+msgstr "Vis linje numre"
+
+msgid "cont_show_print_view"
+msgstr "Vis sideudskrift"
+
+msgid "cont_size"
+msgstr "Størrelse (Bytes)"
+
+msgid "cont_skip_chapter"
+msgstr "Ignorer dette kapitel"
+
+#, fuzzy
+msgid "cont_snippet_from_another_installation"
+msgstr "Snippet comes from another installation."
+
+#, fuzzy
+msgid "cont_snippets_used"
+msgstr "Used Content Snippets"
+
+msgid "cont_span"
+msgstr "Span"
+
+#, fuzzy
+msgid "cont_special_page"
+msgstr "Special Content Page"
+
+#, fuzzy
+msgid "cont_split_cell"
+msgstr "Split Cell"
+
+msgid "cont_spreadsheet_table"
+msgstr "Regnearkstabel"
+
+#, fuzzy
+msgid "cont_sqst"
+msgstr "Survey Question (Assigned Material)"
+
+msgid "cont_src"
+msgstr "Kildekode"
+
+msgid "cont_src_other"
+msgstr "andre"
+
+msgid "cont_st_title"
+msgstr "Titel på  Kapitel"
+
+#, fuzzy
+msgid "cont_standard"
+msgstr "Standard"
+
+msgid "cont_start"
+msgstr "Start"
+
+#, fuzzy
+msgid "cont_start_file_set_to"
+msgstr "%s has been set as start file."
+
+msgid "cont_start_value"
+msgstr "Startværdi"
+
+#, fuzzy
+msgid "cont_start_value_info"
+msgstr "Enter start value as decimal number. Default is 1."
+
+msgid "cont_startfile"
+msgstr "Start Fil"
+
+msgid "cont_status"
+msgstr "Status"
+
+msgid "cont_std_is_in_dir"
+msgstr "Sletning er ikke mulig. Standard oversigt."
+
+msgid "cont_std_view"
+msgstr "Standard Oversigt"
+
+msgid "cont_structure"
+msgstr "struktur"
+
+msgid "cont_style"
+msgstr "Stilark"
+
+msgid "cont_subchapters"
+msgstr "Underkapitler"
+
+msgid "cont_submit_answers"
+msgstr "Send besvarelse(r)"
+
+#, fuzzy
+msgid "cont_subtitle_file"
+msgstr "SRT ZIP File"
+
+#, fuzzy
+msgid "cont_subtitle_files"
+msgstr "Media Subtitles"
+
+#, fuzzy
+msgid "cont_sur_block_format"
+msgstr "Surrounding Section"
+
+#, fuzzy
+msgid "cont_switch_to_media_pool"
+msgstr "Switch to other Media Pool"
+
+msgid "cont_syntax_help"
+msgstr "Syntax hjælp"
+
+#, fuzzy
+msgid "cont_tab_add_above"
+msgstr "Add Panel Above"
+
+#, fuzzy
+msgid "cont_tab_add_below"
+msgstr "Add Panel Below"
+
+msgid "cont_tab_cont_height"
+msgstr "Indholds højde"
+
+msgid "cont_tab_cont_width"
+msgstr "Indholds bredde"
+
+#, fuzzy
+msgid "cont_tab_delete"
+msgstr "Delete Panel"
+
+#, fuzzy
+msgid "cont_tab_move_bottom"
+msgstr "Move To Bottom"
+
+#, fuzzy
+msgid "cont_tab_move_down"
+msgstr "Move Downwards"
+
+#, fuzzy
+msgid "cont_tab_move_top"
+msgstr "Move To Top"
+
+#, fuzzy
+msgid "cont_tab_move_up"
+msgstr "Move Upwards"
+
+#, fuzzy
+msgid "cont_table"
+msgstr "Table"
+
+#, fuzzy
+msgid "cont_table_adv_settings"
+msgstr "Erweiterte Einstellungen"
+
+#, fuzzy
+msgid "cont_table_border"
+msgstr "Table Border"
+
+#, fuzzy
+msgid "cont_table_border_info"
+msgstr "Keep this empty to make content style settings effective. Values must include unit (like px)."
+
+#, fuzzy
+msgid "cont_table_cell_edit_info_1"
+msgstr "Click on a table cell to select or deselect it."
+
+#, fuzzy
+msgid "cont_table_cell_edit_info_2"
+msgstr "Click on a row or column header to select or deselect the corresponding row or column."
+
+#, fuzzy
+msgid "cont_table_cell_edit_info_3"
+msgstr "Click on a second cell while holding shift to select all the cells in between."
+
+msgid "cont_table_cell_properties"
+msgstr "Tabellens celle egenskaber"
+
+msgid "cont_table_cellpadding"
+msgstr "Tabel celle-foring"
+
+#, fuzzy
+msgid "cont_table_cellpadding_info"
+msgstr "Keep this empty to make content style settings effective. Values must include unit (like px)."
+
+#, fuzzy
+msgid "cont_table_edit_cells"
+msgstr "Edit Cells"
+
+#, fuzzy
+msgid "cont_table_import_info"
+msgstr "Please enter the table data separated by semicolon or TAB character for each column. Start a new row for each table row. Spreadsheet applications will usually use TAB characters for separation when transfered via clipboard. It should be possible to paste this data directly into the input field. No further formattings will be imported."
+
+msgid "cont_table_properties"
+msgstr "Tabelegenskaber"
+
+#, fuzzy
+msgid "cont_table_style"
+msgstr "Style"
+
+msgid "cont_table_width"
+msgstr "Tabel bredde"
+
+msgid "cont_tabs"
+msgstr "Tabs"
+
+msgid "cont_tabs_acc_hor"
+msgstr "Horizontale gardiner"
+
+msgid "cont_tabs_acc_ver"
+msgstr "Vertikale gardiner"
+
+#, fuzzy
+msgid "cont_tabs_carousel"
+msgstr "Carousel"
+
+#, fuzzy
+msgid "cont_tabs_confirm_deletion"
+msgstr "Are you sure that all of the tabs and their contents should be deleted?"
+
+#, fuzzy
+msgid "cont_target"
+msgstr "Target"
+
+msgid "cont_target_missing"
+msgstr "Mål mangler"
+
+msgid "cont_target_within_source"
+msgstr "Destinationen må ikke være den samme som kilden."
+
+#, fuzzy
+msgid "cont_template"
+msgstr "Template"
+
+#, fuzzy
+msgid "cont_term"
+msgstr "Term"
+
+#, fuzzy
+msgid "cont_terms"
+msgstr "Terms"
+
+msgid "cont_tex"
+msgstr "Latex kode"
+
+#, fuzzy
+msgid "cont_text_acc"
+msgstr "Accent:"
+
+#, fuzzy
+msgid "cont_text_code"
+msgstr "Code:"
+
+msgid "cont_text_com"
+msgstr "Kommentar:"
+
+#, fuzzy
+msgid "cont_text_editing"
+msgstr "Edit Text"
+
+#, fuzzy
+msgid "cont_text_emp"
+msgstr "Emphatic Text:"
+
+msgid "cont_text_fn"
+msgstr "Fodnote"
+
+#, fuzzy
+msgid "cont_text_iln_link"
+msgstr "Internal Link"
+
+msgid "cont_text_imp"
+msgstr "Vigtigt:"
+
+msgid "cont_text_keyword"
+msgstr "Søgeord"
+
+msgid "cont_text_placeh"
+msgstr "Klik og ret for at indsætte tekst"
+
+#, fuzzy
+msgid "cont_text_placehl"
+msgstr "Text Placeholder"
+
+msgid "cont_text_quot"
+msgstr "Spørgsmål"
+
+msgid "cont_text_str"
+msgstr "Fed tekst:"
+
+#, fuzzy
+msgid "cont_text_sub"
+msgstr "Subscript"
+
+#, fuzzy
+msgid "cont_text_sup"
+msgstr "Superscript"
+
+msgid "cont_text_tex"
+msgstr "LaTeX kode:"
+
+#, fuzzy
+msgid "cont_text_xln"
+msgstr "External Link:"
+
+#, fuzzy
+msgid "cont_third_and_more"
+msgstr "Third or More"
+
+msgid "cont_time"
+msgstr "Tid"
+
+#, fuzzy
+msgid "cont_time_from_lms"
+msgstr "determine processing times by ILIAS instead of SCO"
+
+#, fuzzy
+msgid "cont_time_from_lms_info"
+msgstr "Strict (according to the SCORM standard) check of values sent by the learning module to ILIAS."
+
+#, fuzzy
+msgid "cont_time_limit_action"
+msgstr "adlcp:timelimitaction"
+
+#, fuzzy
+msgid "cont_to_focus_beginning"
+msgstr "Back to Content related to the Learning Objective"
+
+#, fuzzy
+msgid "cont_to_focus_return_crs"
+msgstr "Back to Course"
+
+msgid "cont_toc"
+msgstr "Indholdsfortegnelse"
+
+msgid "cont_toc_mode"
+msgstr "TOC tilstand"
+
+#, fuzzy
+msgid "cont_tool_faq"
+msgstr "FAQ"
+
+#, fuzzy
+msgid "cont_tool_media"
+msgstr "Media"
+
+msgid "cont_top"
+msgstr "Top"
+
+msgid "cont_topic"
+msgstr "Emne"
+
+msgid "cont_total_time"
+msgstr "Total tid"
+
+msgid "cont_tracking_bysco"
+msgstr "Efter kapitel"
+
+msgid "cont_tracking_byuser"
+msgstr "Efter bruger"
+
+msgid "cont_tracking_data"
+msgstr "Sporer Data"
+
+msgid "cont_tracking_items"
+msgstr "Sporer ting"
+
+#, fuzzy
+msgid "cont_tracking_modify"
+msgstr "modify data"
+
+#, fuzzy
+msgid "cont_trans_import_info"
+msgstr "If you exported this module as XML/Master Language for Translation to another installation, you can now re-import translated export files from this second installation here."
+
+#, fuzzy
+msgid "cont_transl_master_language_not_allowed"
+msgstr "To import a translation you need to activate at least one additional language under \"Settings\" > \"Multilingualism\"."
+
+msgid "cont_tree_fixed"
+msgstr "Træstrukturen er blevet ordnet"
+
+#, fuzzy
+msgid "cont_tries"
+msgstr "Question Behaviour"
+
+msgid "cont_tries_remaining"
+msgstr "Tilbageværende forsøg"
+
+#, fuzzy
+msgid "cont_tries_reset_on_visit"
+msgstr "Reset on Page Visit"
+
+#, fuzzy
+msgid "cont_tries_reset_on_visit_info"
+msgstr "Questions start with 0 number of tries each time a learner visits a page. Learner has to answer questions on every page visit."
+
+#, fuzzy
+msgid "cont_tries_store"
+msgstr "Store Answer Status"
+
+#, fuzzy
+msgid "cont_tries_store_info"
+msgstr "Number of tries are accumulated and stored. Correctly answered questions must not be answered again. Learners may run out of tries for questions."
+
+#, fuzzy
+msgid "cont_trigger_area"
+msgstr "Trigger Area"
+
+msgid "cont_type"
+msgstr "Type"
+
+#, fuzzy
+msgid "cont_type_not_allowed"
+msgstr "Content type not allowed at this position"
+
+#, fuzzy
+msgid "cont_unlock_allow_continue"
+msgstr "Unlock / Allow to Continue"
+
+#, fuzzy
+msgid "cont_unlocked"
+msgstr "Unlocked"
+
+#, fuzzy
+msgid "cont_update_amd_page_list"
+msgstr "Edit Page List"
+
+#, fuzzy
+msgid "cont_update_blog"
+msgstr "Edit Blog"
+
+#, fuzzy
+msgid "cont_update_consultation_hours"
+msgstr "Edit Consultation Hours"
+
+#, fuzzy
+msgid "cont_update_login_page"
+msgstr "Edit Login Page Element"
+
+msgid "cont_update_map"
+msgstr "Rediger kort"
+
+#, fuzzy
+msgid "cont_update_my_courses"
+msgstr "Edit My Courses"
+
+#, fuzzy
+msgid "cont_update_profile"
+msgstr "Edit Personal Data"
+
+msgid "cont_update_resources"
+msgstr "Opdater resurseliste"
+
+msgid "cont_update_section"
+msgstr "Opdater sektion"
+
+#, fuzzy
+msgid "cont_update_skills"
+msgstr "Edit Skill"
+
+#, fuzzy
+msgid "cont_update_verification"
+msgstr "Edit Verification"
+
+msgid "cont_upload_dir"
+msgstr "Upload mappe"
+
+#, fuzzy
+msgid "cont_upload_file"
+msgstr "Upload File"
+
+#, fuzzy
+msgid "cont_upload_multi_srt_howto"
+msgstr "This feature allows you to upload multiple subtitle (srt) files in a zip file for all media objects of the learning module. Your .zip file should contain all .srt files on the top level (no subdirectories). The file names should end with \"_&lt;lang code&gt;.srt\" where lang code is e.g. \"en\", \"it\", \"de\". The rest of the filename should correspond to the name of the video file, e.g. \"my_video.mp4\" -> \"my_video_en.srt\"."
+
+msgid "cont_uploaded_file"
+msgstr "Eksisterende fil"
+
+#, fuzzy
+msgid "cont_url_info"
+msgstr "URL of a media file or Youtube URL."
+
+msgid "cont_usage"
+msgstr "Usage"
+
+#, fuzzy
+msgid "cont_use_same_resource_as_above"
+msgstr "Use the same resource as above"
+
+#, fuzzy
+msgid "cont_user"
+msgstr "User"
+
+#, fuzzy
+msgid "cont_user_blocked"
+msgstr "User out of tries in learning module \"%s\"."
+
+#, fuzzy
+msgid "cont_user_blocked2"
+msgstr "A user has run out of tries for answering a question in the learning module. The user will not be able to navigate further through the learning module without your intervention."
+
+#, fuzzy
+msgid "cont_user_blocked3"
+msgstr "Open the learning module in edit mode and enter the screen:"
+
+#, fuzzy
+msgid "cont_user_search_did_not_match"
+msgstr "Your search did not match any users."
+
+#, fuzzy
+msgid "cont_users_answered"
+msgstr "Users Answered"
+
+msgid "cont_users_have_mob_in_clip1"
+msgstr "Dette media objekt er i udklipsholderen til"
+
+msgid "cont_users_have_mob_in_clip2"
+msgstr "Bruger(ere)."
+
+msgid "cont_validate_file"
+msgstr "Kontroller fil"
+
+#, fuzzy
+msgid "cont_verification_object"
+msgstr "Verification"
+
+#, fuzzy
+msgid "cont_verification_placeh"
+msgstr "Click and edit to insert certificate"
+
+#, fuzzy
+msgid "cont_verification_placehl"
+msgstr "Certificate Placeholder"
+
+msgid "cont_version"
+msgstr "version"
+
+msgid "cont_versions"
+msgstr "Versioner"
+
+#, fuzzy
+msgid "cont_whole_glossary"
+msgstr "Whole Glossary"
+
+msgid "cont_width"
+msgstr "Bredde"
+
+#, fuzzy
+msgid "cont_width_height_info"
+msgstr "The size of the display can be set at a fixed size. 950 pixels for Width and 650 pixels for Height are proven values for setting the size. If no entry is made the browser will determine the size of the display."
+
+#, fuzzy
+msgid "cont_width_px_perc"
+msgstr "Width"
+
+#, fuzzy
+msgid "cont_width_px_perc_info"
+msgstr "(e.g. px or % value)"
+
+#, fuzzy
+msgid "cont_wiki_link_dialog"
+msgstr "Link to Wiki Page (Dialog)"
+
+#, fuzzy
+msgid "cont_wiki_page"
+msgstr "Wiki Page"
+
+msgid "cont_wiki_page_link"
+msgstr "Wiki sidelink"
+
+msgid "cont_wrong_answers"
+msgstr "Forkerte besvarelser"
+
+#, fuzzy
+msgid "cont_wrong_answers_single"
+msgstr "Incorrect Choice."
+
+#, fuzzy
+msgid "cont_xml_base"
+msgstr "xml:base"
+
+msgid "cont_zip_file_invalid"
+msgstr "Filen er ikke en gyldig fil til import.<br>Indeholder ikke en fil '%s'."
+
+#, fuzzy
+msgid "content_no_edit_lock"
+msgstr "The page is currently locked by another user."
+
+msgid "content_page_history"
+msgstr "Sidehistorik"
+
+#, fuzzy
+msgid "content_plugin_not_activated"
+msgstr "The page content element plugin is currently not activated."
+
+#, fuzzy
+msgid "content_some_export_ids_multiple_times"
+msgstr "Some export IDs are used multiple times. This will lead to missing pages in the export."
+
+#, fuzzy
+msgid "content_until"
+msgstr "At least locked until: "
+
+msgid "copied_to_clipboard"
+msgstr "Kopierede objekter til udklipholder."
+
+msgid "dgl_pagebreak"
+msgstr "Pagebreak"
+
+#, fuzzy
+msgid "glo_add_new_term"
+msgstr "Add New Term"
+
+#, fuzzy
+msgid "glo_content_settings"
+msgstr "Content"
+
+#, fuzzy
+msgid "glo_editing_view"
+msgstr "Editing View"
+
+#, fuzzy
+msgid "glo_full_definitions"
+msgstr "Full Definitions"
+
+#, fuzzy
+msgid "glo_full_definitions_info"
+msgstr "Terms and definitions are fully displayed in the main view."
+
+#, fuzzy
+msgid "glo_hide_taxonomy"
+msgstr "Hide Taxonomy"
+
+#, fuzzy
+msgid "glo_list_usages"
+msgstr "List Usages"
+
+#, fuzzy
+msgid "glo_mode_normal_info"
+msgstr "Only terms created within this glossar will be included."
+
+#, fuzzy
+msgid "glo_presentation_mode"
+msgstr "Presentation Mode"
+
+msgid "glo_presentation_view"
+msgstr "Vis som præsentation"
+
+#, fuzzy
+msgid "glo_quick_navigation"
+msgstr "Quick Navigation"
+
+#, fuzzy
+msgid "glo_style"
+msgstr "Glossary Style"
+
+#, fuzzy
+msgid "glo_table_form"
+msgstr "In Table Form"
+
+#, fuzzy
+msgid "glo_table_form_info"
+msgstr "Terms and definition are first shown in a two-column overview. Clicking the term opens the full content of a term on a separate screen."
+
+#, fuzzy
+msgid "glo_term_is_used_n_times"
+msgstr "The term is used %s time(s) in content modules."
+
+#, fuzzy
+msgid "glo_term_must_belong_to_glo"
+msgstr "The action can only be performed on terms, which are defined in this glossary."
+
+#, fuzzy
+msgid "glo_term_used_in"
+msgstr "The following resources linking to that term"
+
+#, fuzzy
+msgid "glo_text_snippet_length"
+msgstr "Definition Snippet Length"
+
+#, fuzzy
+msgid "glo_text_snippet_length_info"
+msgstr "Length of the text snippet of the definition that is shown in the overview."
+
+#, fuzzy
+msgid "glo_usages"
+msgstr "Glossary is used in..."
+
+#, fuzzy
+msgid "glo_used_in_scorm"
+msgstr "The glossary is used by the SCORM module. If deleted, references to the glossary cannot be resolved anymore."
+
+#, fuzzy
+msgid "help_assign_help_ids"
+msgstr "Chapter/Screen-IDs Assignment"
+
+#, fuzzy
+msgid "htlm_import"
+msgstr "Import HTML Learning Module"
+
+msgid "import_sco_object"
+msgstr "Importer SCO"
+
+#, fuzzy
+msgid "info_stop_offline_mode_sure"
+msgstr "Note: The learning progress achieved in offline mode are lost. Are you sure?"
+
+#, fuzzy
+msgid "infobox_files_not_migrated"
+msgstr "The files of this learning module have not yet been migrated to the Resource Storage Service and can therefore not be edited."
+
+#, fuzzy
+msgid "lm_activate_rating"
+msgstr "Activate Rating For Pages"
+
+#, fuzzy
+msgid "lm_editing_view"
+msgstr "Editing View"
+
+#, fuzzy
+msgid "lm_import"
+msgstr "Import ILIAS Learning Module"
+
+msgid "lm_menu_edit_entry"
+msgstr "Rediger menupunkt"
+
+msgid "lm_menu_entry_target"
+msgstr "Mål"
+
+msgid "lm_menu_entry_title"
+msgstr "Titel"
+
+msgid "lm_menu_new_entry"
+msgstr "Opret nyt menupunkt"
+
+msgid "lm_menu_select_internal_object"
+msgstr "Vælg internt objekt >>"
+
+msgid "lm_menu_select_object_to_add"
+msgstr "Vælg hvilket objekt du vil tilføje menuen."
+
+#, fuzzy
+msgid "lm_no_download_files"
+msgstr "There are currently no files for download available."
+
+#, fuzzy
+msgid "lm_only_one_download_per_type"
+msgstr "Please note that you can only make one file per type (XML, HTML, SCORM) public accessible."
+
+#, fuzzy
+msgid "lm_rate_page"
+msgstr "Rate page"
+
+#, fuzzy
+msgid "lm_rating"
+msgstr "Rate Learning Module"
+
+msgid "mep_folder_created"
+msgstr "Mappe blev tilføjet"
+
+msgid "msg_entry_added"
+msgstr "Menupunkt tilføjet"
+
+msgid "msg_entry_removed"
+msgstr "Menupunkt fjernet"
+
+msgid "msg_entry_updated"
+msgstr "Menupunkt rettet"
+
+#, fuzzy
+msgid "msg_no_page_access"
+msgstr "You do not have the permission to access this page."
+
+msgid "msg_page_no_public_access"
+msgstr "Den side du søger er ikke tilgængelig på offentligt område. Kun registrerede brugere må se denne side. Venligst login før du får adgang til denne side."
+
+msgid "msg_page_not_public"
+msgstr "Side er ikke offentlig"
+
+#, fuzzy
+msgid "offline_mode_manager"
+msgstr "Offline use"
+
+#, fuzzy
+msgid "offline_mode_users"
+msgstr "Users in offline mode"
+
+#, fuzzy
+msgid "offline_mode_users_info"
+msgstr "Users can be manually taken from the Off-line Mode and after doing so these users can again use the online-version of the learning module. This makes sense if e.g. the laptop with the learning modules was stolen."
+
+#, fuzzy
+msgid "page_does_not_exist"
+msgstr "We are sorry, but this page does not exist."
+
+msgid "par"
+msgstr "Linje"
+
+msgid "pg"
+msgstr "side"
+
+msgid "public_section"
+msgstr "Åbent område"
+
+#, fuzzy
+msgid "sahs_empty_objectives_are_not_allowed"
+msgstr "Please enter a learning objective."
+
+#, fuzzy
+msgid "sahs_insert_pg_from_clip"
+msgstr "Import Pages from ILIAS Learning Module"
+
+#, fuzzy
+msgid "sahs_insert_st_from_clip"
+msgstr "Import Chapters from ILIAS Learning Module"
+
+#, fuzzy
+msgid "sahs_insert_st_from_clip_inside_chap"
+msgstr "Import Chapters from ILIAS Learning Module (inside chapter)"
+
+#, fuzzy
+msgid "save_new"
+msgstr "Save and New"
+
+msgid "saved_media_object"
+msgstr "Medieobjekt blev gemt"
+
+msgid "scplayer_collapsetree"
+msgstr "Fold alt sammen"
+
+msgid "scplayer_continue"
+msgstr "Fortsæt"
+
+msgid "scplayer_debugger"
+msgstr "Vis debugger"
+
+msgid "scplayer_exit"
+msgstr "Luk"
+
+msgid "scplayer_exitall"
+msgstr "Luk alle"
+
+msgid "scplayer_expandtree"
+msgstr "Fold alt ud"
+
+msgid "scplayer_hidetree"
+msgstr "Skjul træ"
+
+msgid "scplayer_next"
+msgstr "Næste"
+
+msgid "scplayer_phpmysqlcheck"
+msgstr "Du skal bruge MySQL 4.1 eller højere og aktivere JSON-understøttelse for at bruge JavaScript-RTE"
+
+msgid "scplayer_previous"
+msgstr "Forrige"
+
+msgid "scplayer_showtree"
+msgstr "Vis træ"
+
+msgid "scplayer_start"
+msgstr "Start"
+
+msgid "scplayer_suspendall"
+msgstr "Pause alle"
+
+msgid "selectFooter"
+msgstr "Select As Footer"
+
+msgid "selectHeader"
+msgstr "Select As Header"
+
+msgid "select_a_file"
+msgstr "Vælg en fil."
+
+msgid "seq_close"
+msgstr "Luk afspilningsvinduet"
+
+msgid "seq_endsession"
+msgstr "Denne kursus-session er afsluttet."
+
+#, fuzzy
+msgid "seq_error"
+msgstr "An internal error in the sequencer occurred."
+
+msgid "seq_toc"
+msgstr "Vælg på indholdsfortegnelsen til venstre for at starte kurset."
+
+msgid "set_public_mode"
+msgstr "Sæt offentlighedsindstillinger"
+
+msgid "st"
+msgstr "Kapitel"
+
+#, fuzzy
+msgid "start_lm"
+msgstr "Launch Learning Module"
+
+msgid "text_repr"
+msgstr "Alternativ tekst"
+
+msgid "text_repr_info"
+msgstr "Bruges i billedets \"alt\" attribut."

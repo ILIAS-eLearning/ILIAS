@@ -1,0 +1,25 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ka\n"
+"Language-Team: Georgian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: noti\n"
+
+#, fuzzy
+msgid "noti_activate_notification"
+msgstr "Activate Notification"
+
+#, fuzzy
+msgid "noti_deactivate_notification"
+msgstr "Deactivate Notification"
+
+#, fuzzy
+msgid "noti_notification_activated"
+msgstr "Notification Activated"
+
+#, fuzzy
+msgid "noti_notification_deactivated"
+msgstr "Notification Deactivated"

@@ -1,0 +1,37 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: vi\n"
+"Language-Team: Vietnamese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: adm\n"
+
+#, fuzzy
+msgid "adm_acc_ctrl_cpt_desc"
+msgstr "Display the link to your Accessibility document in the footer of your installation."
+
+#, fuzzy
+msgid "adm_acc_ctrl_cpt_enable"
+msgstr "Accessibility Link in Footer"
+
+#, fuzzy
+msgid "adm_accessibility_contacts"
+msgstr "Accessibility Point of Contact"
+
+#, fuzzy
+msgid "adm_accessibility_contacts_info"
+msgstr "Contacts for reporting accessibility issues in the footer link. Comma separated list of account logins."
+
+#, fuzzy
+msgid "adm_awrn_support_contacts_info"
+msgstr "All technical support contacts are listed. Users are defined as technical support contacts in the section \"General Settings\" > \"Contact Information\"."
+
+#, fuzzy
+msgid "adm_support_contacts"
+msgstr "Technical Support"
+
+#, fuzzy
+msgid "adm_support_contacts_info"
+msgstr "Support contacts used in the footer link and (if activated) in the ‘Who is online?’-Tool. Comma separated list of account logins."

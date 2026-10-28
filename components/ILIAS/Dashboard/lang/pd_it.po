@@ -1,0 +1,109 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: pd\n"
+
+msgid "block_show_chatviewer"
+msgstr "Mostra chatviewer"
+
+msgid "block_show_pdbookm"
+msgstr "Mostra i segnalibri"
+
+msgid "block_show_pdcal"
+msgstr "Mostra il calendario"
+
+msgid "block_show_pdfrmpostdraft"
+msgstr "Mostra bozze"
+
+msgid "block_show_pdmail"
+msgstr "Mostra le mail"
+
+msgid "block_show_pdnews"
+msgstr "Mostra le news"
+
+msgid "block_show_pdnotes"
+msgstr "Mostra le note"
+
+msgid "block_show_pdportf"
+msgstr "Mostra portfolio"
+
+msgid "block_show_pdtag"
+msgstr "Mostra i tag"
+
+msgid "block_show_pdtasks"
+msgstr "Show Tasks"
+
+msgid "block_show_x"
+msgstr "Mostra %s"
+
+msgid "pd_achievements"
+msgstr "Risultati"
+
+msgid "pd_bookmarks"
+msgstr "Segnalibri"
+
+msgid "pd_download_last_export_file"
+msgstr "Scarica l'ultimo file esportato"
+
+msgid "pd_enable_comments"
+msgstr "Abilita i commenti"
+
+msgid "pd_enable_prtf"
+msgstr "Abilita il portfolio"
+
+msgid "pd_enable_user_publish"
+msgstr "Abilita la pubblicazione dei contenuti privati"
+
+msgid "pd_enable_user_publish_info"
+msgstr "Se attivato, permette all'utente di rendere accessibile il proprio profilo, la propria area di lavoro ed il proprio portfolio"
+
+msgid "pd_ended"
+msgstr "Concluso"
+
+msgid "pd_export_profile"
+msgstr "Esporta i dati personali"
+
+msgid "pd_import_personal_data"
+msgstr "Importa i dati personali"
+
+msgid "pd_my_memberships_sort_default"
+msgstr "Default dell’opzione ordina"
+
+#, fuzzy
+msgid "pd_not_dated"
+msgstr "Not Dated"
+
+msgid "pd_ongoing"
+msgstr "Costante"
+
+msgid "pd_personal_items_default_view"
+msgstr "Vista di default"
+
+msgid "pd_personal_items_default_view_info"
+msgstr "Scegli la vista preferita degli oggetti personali."
+
+msgid "pd_presentation_mode_list"
+msgstr "Presentazione dell'elenco degli articoli"
+
+msgid "pd_presentation_mode_tile"
+msgstr "Presentazione delle tessere"
+
+msgid "pd_private_calendars"
+msgstr "Calendario privato"
+
+msgid "pd_profile_data"
+msgstr "Dati personali"
+
+msgid "pd_remove_multi_confirm"
+msgstr "Gli oggetti sono stati rimossi."
+
+msgid "pd_upcoming"
+msgstr "Prossimo"
+
+msgid "pd_view_select_at_least_one"
+msgstr "Devi selezionare almeno una vista: \"Oggetti Selezionati\" e/o \"La Mia Iscrizione\""

@@ -1,0 +1,108 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: pd\n"
+
+msgid "block_show_chatviewer"
+msgstr "Chatviewer anzeigen"
+
+msgid "block_show_pdbookm"
+msgstr "Bookmarks anzeigen"
+
+msgid "block_show_pdcal"
+msgstr "Kalender anzeigen"
+
+msgid "block_show_pdfrmpostdraft"
+msgstr "Beitragsentwürfe anzeigen"
+
+msgid "block_show_pdmail"
+msgstr "Mail anzeigen"
+
+msgid "block_show_pdnews"
+msgstr "Neuigkeiten anzeigen"
+
+msgid "block_show_pdnotes"
+msgstr "Notizen anzeigen"
+
+msgid "block_show_pdportf"
+msgstr "Portfolios anzeigen"
+
+msgid "block_show_pdtag"
+msgstr "Tags anzeigen"
+
+msgid "block_show_pdtasks"
+msgstr "To-Do anzeigen"
+
+msgid "block_show_x"
+msgstr "%s anzeigen"
+
+msgid "pd_achievements"
+msgstr "Lernerfolge"
+
+msgid "pd_bookmarks"
+msgstr "Bookmarks"
+
+msgid "pd_download_last_export_file"
+msgstr "Aktuelle Exportdatei herunterladen"
+
+msgid "pd_enable_comments"
+msgstr "Kommentare aktivieren"
+
+msgid "pd_enable_prtf"
+msgstr "Portfolios aktivieren"
+
+msgid "pd_enable_user_publish"
+msgstr "Veröffentlichung Inhalte von Benutzern aktivieren"
+
+msgid "pd_enable_user_publish_info"
+msgstr "Die Option ermöglicht Benutzern, ihr Profil, Arbeitsrauminhalte und Portfolios global (im Internet) zugänglich zu machen."
+
+msgid "pd_ended"
+msgstr "Beendet"
+
+msgid "pd_export_profile"
+msgstr "Persönliche Daten exportieren"
+
+msgid "pd_import_personal_data"
+msgstr "Persönliche Daten importieren"
+
+msgid "pd_my_memberships_sort_default"
+msgstr "Standard-Sortierung"
+
+msgid "pd_not_dated"
+msgstr "Nicht datiert"
+
+msgid "pd_ongoing"
+msgstr "Aktuell"
+
+msgid "pd_personal_items_default_view"
+msgstr "Standard-Sicht"
+
+msgid "pd_personal_items_default_view_info"
+msgstr "Wählen Sie hier die Standard-Sicht für die Ausgewählten Angebote."
+
+msgid "pd_presentation_mode_list"
+msgstr "Listenansicht"
+
+msgid "pd_presentation_mode_tile"
+msgstr "Kachelansicht"
+
+msgid "pd_private_calendars"
+msgstr "Private Kalender"
+
+msgid "pd_profile_data"
+msgstr "Profildaten"
+
+msgid "pd_remove_multi_confirm"
+msgstr "Die Objekte wurden entfernt."
+
+msgid "pd_upcoming"
+msgstr "Bevorstehend"
+
+msgid "pd_view_select_at_least_one"
+msgstr "Bitte wählen Sie mindestens eine Sicht, entweder 'Ausgewählte Angebote' und/oder 'Kurse und Gruppen'."

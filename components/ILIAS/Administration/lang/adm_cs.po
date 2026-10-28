@@ -1,0 +1,34 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: adm\n"
+
+#, fuzzy
+msgid "adm_acc_ctrl_cpt_desc"
+msgstr "Display the link to your Accessibility document in the footer of your installation."
+
+#, fuzzy
+msgid "adm_acc_ctrl_cpt_enable"
+msgstr "Accessibility Link in Footer"
+
+#, fuzzy
+msgid "adm_accessibility_contacts"
+msgstr "Accessibility Point of Contact"
+
+#, fuzzy
+msgid "adm_accessibility_contacts_info"
+msgstr "Contacts for reporting accessibility issues in the footer link. Comma separated list of account logins."
+
+msgid "adm_awrn_support_contacts_info"
+msgstr "Jsou uvedeny všechny kontakty technické podpory. Uživatelé jsou definováni jako kontakty technické podpory v části „Obecná nastavení“ > „Kontaktní informace“."
+
+msgid "adm_support_contacts"
+msgstr "Technická podpora"
+
+msgid "adm_support_contacts_info"
+msgstr "Kontakty podpory použité v odkazu zápatí a (pokud je aktivován) v nástroji „Kdo je online?“. Seznam přihlášení k účtu s oddělovači."

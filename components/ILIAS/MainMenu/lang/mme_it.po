@@ -1,0 +1,303 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: mme\n"
+
+msgid "add_languages"
+msgstr "Aggiungi lingua"
+
+msgid "additional_langs"
+msgstr "Lingue aggiuntive"
+
+msgid "button_save"
+msgstr "Salva"
+
+msgid "component_not_active"
+msgstr "Il componente non è attivato."
+
+msgid "confirm_move"
+msgstr "Vuoi rimuovere gli oggetti selezionati dagli oggetti preferiti?"
+
+#, fuzzy
+msgid "deactived_by_configuration"
+msgstr "Deactivated by configuration"
+
+#, fuzzy
+msgid "edit_sub_tems"
+msgstr "Edit Entries"
+
+msgid "err_uri_not_valid"
+msgstr "Inserisci un URL valido"
+
+msgid "field_external"
+msgstr "Link esterno"
+
+msgid "field_external_info"
+msgstr "Il link verrà aperto in una finestra separata."
+
+msgid "field_ref_id"
+msgstr "ID di riferimento ILIAS"
+
+msgid "field_ref_id_info"
+msgstr "L'ID di riferimento dell'oggetto ILIAS desiderato dal repository, l'ID di riferimento si trova nell'URL di un oggetto (...?ref_id=123)"
+
+msgid "field_url"
+msgstr "URL"
+
+msgid "field_url_info"
+msgstr "Link al sito web desiderato, guidato da http(s)://"
+
+msgid "flush"
+msgstr "Rimuovi oggetti persi"
+
+msgid "item_must_be_always_active"
+msgstr "L'articolo deve essere attivo."
+
+#, fuzzy
+msgid "item_updated"
+msgstr "Item stored"
+
+msgid "main"
+msgstr "Menu principale"
+
+msgid "mm_translation_lang"
+msgstr "Lingua"
+
+msgid "mm_translation_trans"
+msgstr "Traduzione"
+
+#, fuzzy
+msgid "mme_lost_items"
+msgstr "Nowhere assigned"
+
+msgid "move_to_item"
+msgstr "Sposta oggetti"
+
+msgid "move_to_top_item"
+msgstr "Sposta negli oggetti preferiti"
+
+msgid "msg_languages_added"
+msgstr "Lingue aggiunte"
+
+msgid "msg_moved"
+msgstr "Oggetto spostato correttamente"
+
+#, fuzzy
+msgid "msg_not_changed"
+msgstr "The following entries could not be changed: %s"
+
+msgid "msg_not_moved"
+msgstr "L'oggetto non può essere spostato, seleziona una cartella madre valida."
+
+#, fuzzy
+msgid "msg_ref_id_not_callable"
+msgstr "This reference ID cannot be used by Main-Menu. Only targets in the magazine are supported."
+
+msgid "msg_restore_confirm"
+msgstr "Tutti gli articoli personalizzati e le traduzioni verranno eliminati, tutti gli articoli standard verranno ripristinati alle impostazioni di fabbrica. Tutta la personalizzazione andrà persa."
+
+msgid "msg_restored"
+msgstr "Menu principale reimpostato"
+
+msgid "msg_subitem_deleted"
+msgstr "Oggetto cancellato."
+
+msgid "msg_subitem_flushed"
+msgstr "Oggetti persi cancellati."
+
+#, fuzzy
+msgid "msg_success"
+msgstr "Successfully stored"
+
+msgid "msg_topitem_deleted"
+msgstr "Oggetto cancellato."
+
+msgid "msg_translations_deleted"
+msgstr "Traduzioni cancellate"
+
+msgid "msg_translations_saved"
+msgstr "Traduzioni salvate"
+
+msgid "restore"
+msgstr "Ripristina menu principale"
+
+msgid "select_parent"
+msgstr "Seleziona cartella madre"
+
+msgid "sub_actions"
+msgstr "Azioni"
+
+msgid "sub_active"
+msgstr "Attivo"
+
+msgid "sub_active_byline"
+msgstr "Attiva questo oggetto per tutti gli utenti."
+
+msgid "sub_global_roles"
+msgstr "Ruoli globali"
+
+msgid "sub_icon"
+msgstr "Icona"
+
+msgid "sub_icon_byline"
+msgstr "Carica un'icona personalizzata per questo articolo. Si prega di notare che le icone SVG saranno invertite."
+
+msgid "sub_parent"
+msgstr "Oggetti preferiti"
+
+msgid "sub_position"
+msgstr "Posizione"
+
+msgid "sub_provider"
+msgstr "Fornitore"
+
+msgid "sub_role_based_visibility"
+msgstr "Visibilità dei ruoli"
+
+msgid "sub_role_based_visibility_byline"
+msgstr "Scegli i ruoli globali che possono visualizzare questo oggetto. Se non attivo, l'oggetto sarà sempre visibile."
+
+msgid "sub_status"
+msgstr "Stato"
+
+msgid "sub_title"
+msgstr "Titolo"
+
+msgid "sub_title_default"
+msgstr "Titolo (lingua di default)"
+
+msgid "sub_title_default_byline"
+msgstr "Altre traduzioni possono essere aggiunte con l'azione Traduci dopo."
+
+msgid "sub_type"
+msgstr "Tipo"
+
+msgid "sub_type_byline"
+msgstr "Potrebbe essere necessario un tipo specifico per la configurazione aggiuntiva dell'articolo."
+
+#, fuzzy
+msgid "subitem"
+msgstr "Subitem"
+
+msgid "subitem_add"
+msgstr "Aggiungi oggetto"
+
+msgid "subitem_confirm_delete"
+msgstr "Vuoi veramente cancellare il seguente oggetto?"
+
+msgid "subitem_delete"
+msgstr "Elimina"
+
+msgid "subitem_edit"
+msgstr "Modifica"
+
+msgid "subitem_translate"
+msgstr "Traduci"
+
+msgid "subtab_subitems"
+msgstr "Oggetti"
+
+msgid "subtab_topitems"
+msgstr "Oggetti preferiti"
+
+msgid "tab_back"
+msgstr "Indietro"
+
+msgid "table_show_inactive"
+msgstr "Mostra inattivi"
+
+msgid "topitem_actions"
+msgstr "Azioni"
+
+msgid "topitem_active"
+msgstr "Attivo"
+
+msgid "topitem_active_byline"
+msgstr "Attiva questo oggetto principale per tutti gli utenti."
+
+msgid "topitem_add"
+msgstr "Aggiungi oggetto preferito"
+
+msgid "topitem_confirm_delete"
+msgstr "Vuoi veramente cancellare il seguente oggetto?"
+
+msgid "topitem_delete"
+msgstr "Elimina"
+
+msgid "topitem_edit"
+msgstr "Modifica"
+
+msgid "topitem_icon"
+msgstr "Icona"
+
+msgid "topitem_icon_byline"
+msgstr "Le icone SVG caricate vengono visualizzate invertite."
+
+msgid "topitem_position"
+msgstr "Posizione"
+
+msgid "topitem_provider"
+msgstr "Fornitore"
+
+msgid "topitem_subentries"
+msgstr "Oggetti"
+
+msgid "topitem_title"
+msgstr "Titolo"
+
+msgid "topitem_title_default"
+msgstr "Titolo (lingua predefinita)"
+
+msgid "topitem_title_default_byline"
+msgstr "Altre traduzioni possono essere aggiunte con l'azione \"Traduci\" dopo."
+
+msgid "topitem_translate"
+msgstr "Traduci"
+
+msgid "topitem_type"
+msgstr "Tipo"
+
+msgid "topitem_type_byline"
+msgstr "Gli articoli principali possono essere collegati direttamente come link o possono contenere ulteriori articoli."
+
+msgid "topitem_type_link"
+msgstr "Link"
+
+msgid "topitem_type_parent"
+msgstr "Articolo preferito"
+
+msgid "type_complex"
+msgstr "Complesso"
+
+msgid "type_link"
+msgstr "Link"
+
+msgid "type_link_list"
+msgstr "Elenco dei link"
+
+msgid "type_lost"
+msgstr "Perduto"
+
+msgid "type_repository_link"
+msgstr "Link del repository"
+
+msgid "type_separator"
+msgstr "Separatore"
+
+msgid "type_separator_info"
+msgstr "Il titolo di questo oggetto verrà visualizzato in un banner grigio. Se non si inserisce alcun titolo, verrà visualizzata una linea semplice."
+
+msgid "type_top_link_item"
+msgstr "Link"
+
+msgid "type_top_parent_item"
+msgstr "Contenitore"
+
+#, fuzzy
+msgid "unable_to_render"
+msgstr "Unable to show '%s' in '%s'."

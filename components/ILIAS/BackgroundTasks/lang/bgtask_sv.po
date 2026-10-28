@@ -1,0 +1,66 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: bgtask\n"
+
+msgid "bgtask_blocked"
+msgstr "Running nedladdning"
+
+msgid "bgtask_blocked_cancel_new"
+msgstr "Avbryt ny nedladdning"
+
+msgid "bgtask_blocked_cancel_old"
+msgstr "Avbryt pågående nedladdning"
+
+msgid "bgtask_blocked_info"
+msgstr "En nedladdning genereras redan åt dig."
+
+msgid "bgtask_cron_gc_desc"
+msgstr "Raderar filer som skapats av bakgrundsprocesser och som inte längre behövs."
+
+msgid "bgtask_cron_gc_title"
+msgstr "Bakgrundsuppgifter Uppstädning"
+
+msgid "bgtask_download_long"
+msgstr "Det tar lite tid att skapa nedladdningen med %1$s filer (%2$s)."
+
+msgid "bgtask_download_too_large"
+msgstr "Nedladdningen överskrider gränsen för %s."
+
+msgid "bgtask_empty_folder"
+msgstr "Urvalet innehåller inga objekt som kan laddas ner."
+
+msgid "bgtask_failure"
+msgstr "Fel"
+
+msgid "bgtask_processing"
+msgstr "Create nedladdning"
+
+msgid "bgtask_setting"
+msgstr "Activate \"Ladda ner i bakgrunden"
+
+msgid "bgtask_setting_info"
+msgstr "Skapandet av ZIP-filen sker asynkront och kan avbrytas när som helst."
+
+msgid "bgtask_setting_limit"
+msgstr "Global gräns"
+
+msgid "bgtask_setting_limit_info"
+msgstr "En nedladdning är endast möjlig om den maximala summan av filstorlekarna inte överstiger värdet."
+
+msgid "bgtask_setting_threshold_count"
+msgstr "Minsta antal"
+
+msgid "bgtask_setting_threshold_count_info"
+msgstr "Från och med detta värde sker nedladdningen asynkront."
+
+msgid "bgtask_setting_threshold_size"
+msgstr "Minsta storlek"
+
+msgid "bgtask_setting_threshold_size_info"
+msgstr "Från denna storlek och uppåt är nedladdningen asynkron."

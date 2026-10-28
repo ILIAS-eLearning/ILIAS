@@ -1,0 +1,105 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: pd\n"
+
+msgid "block_show_chatviewer"
+msgstr ""
+
+msgid "block_show_pdbookm"
+msgstr ""
+
+msgid "block_show_pdcal"
+msgstr ""
+
+msgid "block_show_pdfrmpostdraft"
+msgstr ""
+
+msgid "block_show_pdmail"
+msgstr ""
+
+msgid "block_show_pdnews"
+msgstr ""
+
+msgid "block_show_pdnotes"
+msgstr ""
+
+msgid "block_show_pdportf"
+msgstr ""
+
+msgid "block_show_pdtag"
+msgstr ""
+
+msgid "block_show_pdtasks"
+msgstr ""
+
+msgid "block_show_x"
+msgstr ""
+
+msgid "pd_achievements"
+msgstr ""
+
+msgid "pd_bookmarks"
+msgstr ""
+
+msgid "pd_download_last_export_file"
+msgstr ""
+
+msgid "pd_enable_comments"
+msgstr ""
+
+msgid "pd_enable_prtf"
+msgstr ""
+
+msgid "pd_enable_user_publish"
+msgstr ""
+
+msgid "pd_enable_user_publish_info"
+msgstr ""
+
+msgid "pd_ended"
+msgstr ""
+
+msgid "pd_export_profile"
+msgstr ""
+
+msgid "pd_import_personal_data"
+msgstr ""
+
+msgid "pd_my_memberships_sort_default"
+msgstr ""
+
+msgid "pd_not_dated"
+msgstr ""
+
+msgid "pd_ongoing"
+msgstr ""
+
+msgid "pd_personal_items_default_view"
+msgstr ""
+
+msgid "pd_personal_items_default_view_info"
+msgstr ""
+
+msgid "pd_presentation_mode_list"
+msgstr ""
+
+msgid "pd_presentation_mode_tile"
+msgstr ""
+
+msgid "pd_private_calendars"
+msgstr ""
+
+msgid "pd_profile_data"
+msgstr ""
+
+msgid "pd_remove_multi_confirm"
+msgstr ""
+
+msgid "pd_upcoming"
+msgstr ""
+
+msgid "pd_view_select_at_least_one"
+msgstr ""
