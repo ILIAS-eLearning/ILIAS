@@ -73,7 +73,7 @@ class ilObjNotificationSettingsGUI
         $form = new ilPropertyFormGUI();
 
         $form->setFormAction($ctrl->getFormAction($this, 'save'));
-        $form->setTitle($lng->txt('obj_notification_settings'));
+        $form->setTitle($lng->txt('notifications'));
 
         $radio_grp = new ilRadioGroupInputGUI($lng->txt("obj_activation"), 'notification_type');
         $radio_grp->setValue('0');
@@ -99,8 +99,6 @@ class ilObjNotificationSettingsGUI
         }
 
         $form->addCommandButton("save", $lng->txt("save"));
-
-        $form->setTitle($this->lng->txt("notifications"));
 
         return $form;
     }
