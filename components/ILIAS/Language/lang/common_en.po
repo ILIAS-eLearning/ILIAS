@@ -4839,6 +4839,12 @@ msgstr "Copy Question Pool for Tests"
 msgid "obj_qpl_select"
 msgstr "-- Please select one question pool for tests --"
 
+msgid "obj_qsts"
+msgstr "Questions"
+
+msgid "obj_qsts_desc"
+msgstr "Global Settings For Questions"
+
 msgid "obj_rcat"
 msgstr "ECS Category"
 

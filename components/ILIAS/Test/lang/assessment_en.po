@@ -456,7 +456,7 @@ msgid "cloze_answer_text_info"
 msgstr "Spaces preceding or following the answer text will be deleted upon saving."
 
 msgid "cloze_fixed_textlength"
-msgstr "Input Field Length"
+msgstr "Text Field Length"
 
 msgid "cloze_fixed_textlength_description"
 msgstr "Set a fixed length in characters for the solution input field of gaps that do not have their own length setting. This will affect the visual length of the input fields and also prevent participants from entering answers of more than the allowed number of characters. Please note: for numeric gaps the decimal separator is counted as a regular character."

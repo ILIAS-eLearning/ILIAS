@@ -1,0 +1,87 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: da\n"
+"Language-Team: Danish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: qsts\n"
+
+msgid "answer_options"
+msgstr "Answer Options"
+
+msgid "cloze_text"
+msgstr "Luk tekst"
+
+msgid "confirm_delete_questions"
+msgstr "Er du sikker på du vil slette følgende spørgsmål? Hvis du sletter låste spørgsmål vil resultater af alle test der bruger et låst spørgsmål også blive slettet."
+
+msgid "create_question"
+msgstr "Create Question"
+
+msgid "gap"
+msgstr "Hul"
+
+msgid "gaps"
+msgstr "Gaps"
+
+msgid "insert_gap"
+msgstr "Insert Gap"
+
+msgid "min_auto_complete"
+msgstr "Autocomplete"
+
+msgid "msg_no_questions_selected"
+msgstr "No questions were selected."
+
+msgid "out_of_range"
+msgstr "Out of range"
+
+msgid "qst_lifecycle"
+msgstr "Lifecycle"
+
+msgid "qst_lifecycle_draft"
+msgstr "Draft"
+
+msgid "qst_lifecycle_filter_all"
+msgstr "All Lifecycles"
+
+msgid "qst_lifecycle_final"
+msgstr "Final"
+
+msgid "qst_lifecycle_outdated"
+msgstr "Outdated"
+
+msgid "qst_lifecycle_rejected"
+msgstr "Rejected"
+
+msgid "qst_lifecycle_review"
+msgstr "To be Reviewed"
+
+msgid "qst_lifecycle_sharable"
+msgstr "Sharable"
+
+msgid "questionlist"
+msgstr "Spørgsmålsliste"
+
+msgid "questions"
+msgstr "Spørgsmål"
+
+msgid "range_lower_limit"
+msgstr "Lower limit"
+
+msgid "range_upper_limit"
+msgstr "Upper limit"
+
+msgid "reset_preview"
+msgstr "Reset Preview"
+
+msgid "select_gap"
+msgstr "Vælg hul"
+
+msgid "shuffle_answers"
+msgstr "Bland svar"
+
+msgid "suggested_learning_content"
+msgstr "Opret løsningsforslag"

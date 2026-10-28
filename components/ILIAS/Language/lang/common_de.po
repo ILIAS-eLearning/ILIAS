@@ -4840,6 +4840,12 @@ msgstr "Fragenpool für Tests kopieren"
 msgid "obj_qpl_select"
 msgstr "-- Bitte wählen Sie einen Fragenpool für Tests aus --"
 
+msgid "obj_qsts"
+msgstr "Fragen"
+
+msgid "obj_qsts_desc"
+msgstr "Globale Einstellungen für Fragen"
+
 msgid "obj_rcat"
 msgstr "ECS-Kategorie"
 
