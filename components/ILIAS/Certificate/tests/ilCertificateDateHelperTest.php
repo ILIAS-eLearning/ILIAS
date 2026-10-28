@@ -329,39 +329,15 @@ class ilCertificateDateHelperTest extends ilCertificateBaseTestCase
                                 ->getMock();
         $this->setGlobalVariable('ilClientIniFile', $ilClientIniFile);
 
-        $ilDB = $this->createMock(ilDBInterface::class);
-        $ilDB->method('query')->willReturnCallback(function ($query): ilDBStatement {
-            $statement = $this->createMock(ilDBStatement::class);
-
-            if (str_contains($query, 'FROM lng_modules')) {
-                $statement->method('numRows')->willReturn(1);
-                $statement->method('fetchRow')->willReturn([
-                    'lang_array' => serialize([
-                        'month_01_short' => 'Jan',
-                        'month_01_long' => 'Januar',
-                        'month_02_short' => 'Feb',
-                        'month_03_short' => 'Mär',
-                        'month_04_short' => 'Apr',
-                        'month_05_short' => 'Mai',
-                        'month_06_short' => 'Jun',
-                        'month_07_short' => 'Jul',
-                        'month_08_short' => 'Aug',
-                        'month_09_short' => 'Sep',
-                        'month_10_short' => 'Okt',
-                        'month_11_short' => 'Nov',
-                        'month_12_short' => 'Dez',
-                        'no_date' => 'Kein Datum',
-                        'today' => 'Heute',
-                        'yesterday' => 'Gestern',
-                        'tomorrow' => 'Morgen'
-                    ]),
-                ]);
-            } else {
-                $statement->method('numRows')->willReturn(0);
-                $statement->method('fetchRow')->willReturn(false);
-            }
-
-            return $statement;
+        // ilDatePresentation builds its own ilLanguage, which serves the shipped build only for installed languages
+        $installed = [['obj_id' => 1, 'title' => 'de', 'description' => 'installed']];
+        $ilDB = $this->createStub(ilDBInterface::class);
+        $ilDB->method('query')->willReturn($this->createStub(ilDBStatement::class));
+        $ilDB->method('numRows')->willReturnCallback(static function () use (&$installed): int {
+            return count($installed);
+        });
+        $ilDB->method('fetchAssoc')->willReturnCallback(static function () use (&$installed): ?array {
+            return array_shift($installed);
         });
 
         $this->setGlobalVariable('ilDB', $ilDB);
