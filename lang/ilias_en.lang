@@ -16285,6 +16285,7 @@ style#:#skin_version_description#:#The skin version is used to re-cache the styl
 style#:#sound_dir#:#Sound Directory
 style#:#sound_dir_description#:#Folder to store sounds of the skin into. This directory can be shared with other styles and sub styles of this skin.
 style#:#sty_acopy#:#Copy
+style#:#sty_activate#:#Activate
 style#:#sty_add_assignment#:#Add Assignment
 style#:#sty_add_characteristic#:#Add Style Class
 style#:#sty_add_color#:#Add Color
@@ -16355,6 +16356,7 @@ style#:#sty_cursor#:#Cursor
 style#:#sty_custom#:#Custom
 style#:#sty_custom_par#:#Custom Parameters
 style#:#sty_custom_par_info#:#Add custom CSS parameters using format ‘parameter: value’.
+style#:#sty_deactivate#:#Deactivate
 style#:#sty_default#:#Default
 style#:#sty_default_style#:#Default Style
 style#:#sty_del_template#:#Delete Templates and Classes
