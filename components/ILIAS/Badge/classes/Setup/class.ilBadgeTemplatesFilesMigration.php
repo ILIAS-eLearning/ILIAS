@@ -135,7 +135,17 @@ class ilBadgeTemplatesFilesMigration implements Migration
 
     private function getFilePath(int $a_id): string
     {
-        return ILIAS_ABSOLUTE_PATH . '/' . ILIAS_WEB_DIR . '/' . CLIENT_ID . '/sec/ilBadge/' . $this->createLegacyPathSegmentForBadgeTemplateId($a_id);
+        return ILIAS_ABSOLUTE_PATH . '/' . $this->legacyWebDir() . '/' . CLIENT_ID . '/sec/ilBadge/' . $this->createLegacyPathSegmentForBadgeTemplateId($a_id);
+    }
+
+    private function legacyWebDir(): string
+    {
+        $web_dir = trim(ILIAS_WEB_DIR, '/');
+        if ($web_dir !== 'public' && !str_starts_with($web_dir, 'public/')) {
+            return 'public/' . $web_dir;
+        }
+
+        return $web_dir;
     }
 
     private function createLegacyPathSegmentForBadgeTemplateId(int $id): string
