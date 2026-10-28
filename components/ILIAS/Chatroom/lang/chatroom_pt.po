@@ -1,0 +1,591 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: chatroom\n"
+
+msgid "allow_anonymous"
+msgstr "Permitir login anónimo"
+
+msgid "allow_custom_usernames"
+msgstr "Autor"
+
+#, fuzzy
+msgid "allow_custom_usernames_info"
+msgstr "Allow users to enter their own unique session name to use within the chat room. If this option is not selected, users are automatically identified using their usernames (login) when in the chat room."
+
+msgid "anonymous_hint"
+msgstr "Autores"
+
+msgid "auto_scroll"
+msgstr "Deslocar para baixo"
+
+msgid "autogen_usernames"
+msgstr "Funções globais disponíveis no formulário de registo"
+
+msgid "autogen_usernames_info"
+msgstr "Aut ILIAS"
+
+msgid "ban_question"
+msgstr "Tem a certeza que quer banir o utilizador da sala atual?"
+
+msgid "ban_table_title"
+msgstr "Utilizadores banidos"
+
+msgid "banned"
+msgstr "Envie novo e-mail de conta ao utilizador, se este for criado automaticamente. Só será criada uma palavra-passe, se estiver também ativada 'Permitir autenticação local'."
+
+msgid "bans"
+msgstr "Banir"
+
+msgid "chat_address"
+msgstr "Endereço"
+
+msgid "chat_anonymous_not_allowed"
+msgstr "Faça login para usar o chat."
+
+msgid "chat_auth_token_info"
+msgstr "Defina strings únicos usados por ILIAS para efeitos de autenticação quando envia pedidos para o servidor de chat. Pode automaticamente criar esses strings se clicar no correspondente botão. Note que o servidor de chat pode comunicar com múltiplos clientes ILIAS, mas cada Id de cliente tem de ser <b>único</b>."
+
+msgid "chat_ban"
+msgstr "Banir"
+
+#, fuzzy
+msgid "chat_broadcast_typing"
+msgstr "Broadcast Typing"
+
+#, fuzzy
+msgid "chat_broadcast_typing_default_info"
+msgstr "If enabled, typing will be broadcasted to other participants of a conversation or chat room by default."
+
+#, fuzzy
+msgid "chat_broadcast_typing_info"
+msgstr "If enabled, your typing will be broadcasted to other participants of a conversation or chat room."
+
+msgid "chat_connection_disconnected"
+msgstr "Função predefinida"
+
+msgid "chat_connection_established"
+msgstr "Disponível"
+
+msgid "chat_deletion_disabled"
+msgstr "Desativado"
+
+msgid "chat_deletion_interval"
+msgstr "Intervalo"
+
+msgid "chat_deletion_interval_info"
+msgstr "Voltar"
+
+msgid "chat_deletion_interval_run_at"
+msgstr "Hora"
+
+msgid "chat_deletion_interval_run_at_info"
+msgstr "Defina a hora (formato: HH:MM) quando o servidor deve proceder à eliminação da mensagem."
+
+msgid "chat_deletion_interval_unit"
+msgstr "Unidade"
+
+msgid "chat_deletion_interval_value"
+msgstr "Valor"
+
+msgid "chat_deletion_ival_max_val"
+msgstr "O valor máximo para a unidade escolhida '%s' é: %s"
+
+msgid "chat_deletion_section_head"
+msgstr "Eliminação de mensagens antigas"
+
+#, fuzzy
+msgid "chat_enable_history"
+msgstr "Enable History"
+
+#, fuzzy
+msgid "chat_enable_history_info"
+msgstr "Everybody can read and export past chat messages in the tab „History“."
+
+msgid "chat_error_log_info"
+msgstr "Defina um caminho de servidor absoluto para o ficheiro de registo de erros do servidor de chat (p. ex.: /var/www/ilias/data/chat_error.log). Se não especificar um caminho, o servidor de chat cria automaticamente um ficheiro localizado no diretório do servidor de chat."
+
+#, fuzzy
+msgid "chat_functions"
+msgstr "Chat Functions"
+
+msgid "chat_https_cert_info"
+msgstr "Defina um caminho de servidor absoluto para o ficheiro de certificados SSL (p. ex.: /etc/ssl/certs/server.pem)."
+
+msgid "chat_https_dhparam_info"
+msgstr "Defina um caminho de servidor absoluto para um ficheiro (p. ex.: /etc/ssl/private/dhparam.pem), usado para a negociação dos parâmetros Diffie Hellman (p. ex. criado via: openssl dhparam -out /etc/ssl/private/dhparam.pem 2048 )."
+
+msgid "chat_https_key_info"
+msgstr "Defina um caminho de servidor absoluto para o ficheiro de chave privada (p. ex.: /etc/ssl/private/server.key)."
+
+msgid "chat_invitation"
+msgstr "Referência"
+
+msgid "chat_invitation_long"
+msgstr "Referências"
+
+#, fuzzy
+msgid "chat_invitation_modal_headline"
+msgstr "Invitation to Chat Room"
+
+#, fuzzy
+msgid "chat_invitation_modal_section"
+msgstr "Invite User"
+
+#, fuzzy
+msgid "chat_invitation_nc_inv_x"
+msgstr "You have %s chat invitations."
+
+#, fuzzy
+msgid "chat_invitation_nc_no_inv"
+msgstr "You have no chat invitations."
+
+msgid "chat_invitation_short"
+msgstr "Aniversário"
+
+#, fuzzy
+msgid "chat_invitation_username_input_label"
+msgstr "Enter Username:"
+
+#, fuzzy
+msgid "chat_invitations"
+msgstr "Chat invitations"
+
+msgid "chat_invite"
+msgstr "Convidar"
+
+msgid "chat_join"
+msgstr "Importar favoritos"
+
+msgid "chat_kick"
+msgstr "Clicar"
+
+msgid "chat_log_info"
+msgstr "Defina um caminho de servidor absoluto para o ficheiro de registo do servidor de chat (p. ex.: /var/www/ilias/data/chat.log). Se não especificar um caminho, o servidor de chat cria automaticamente um ficheiro localizado no diretório do servidor de chat."
+
+#, fuzzy
+msgid "chat_log_level"
+msgstr "Log Level"
+
+msgid "chat_mainroom"
+msgstr "Sala principal"
+
+msgid "chat_message"
+msgstr "Mensagem"
+
+msgid "chat_message_display"
+msgstr "Opções"
+
+msgid "chat_message_options"
+msgstr "Visor"
+
+#, fuzzy
+msgid "chat_no_use_typing_broadcast"
+msgstr "Typing will not be broadcasted"
+
+#, fuzzy
+msgid "chat_not_use_osc"
+msgstr "Not Using On-Screen-Chat"
+
+msgid "chat_osc_accept_msg"
+msgstr "Autorizar conservas de chat no ecrã"
+
+#, fuzzy
+msgid "chat_osc_accept_msg_default_info"
+msgstr "If enabled, users are by default allowed to send each other messages using the on-screen chat system."
+
+msgid "chat_osc_accept_msg_info"
+msgstr "Se estiver ativado, os outros utilizadores estão autorizados a iniciar uma conversa comigo."
+
+#, fuzzy
+msgid "chat_osc_accept_msg_info_slate"
+msgstr "To have private conversations, you must enable your setting \"Allow On-Screen Chat Conversations\"."
+
+#, fuzzy
+msgid "chat_osc_accept_msg_info_slate_link_txt"
+msgstr "Visibility (in Profile and Privacy)"
+
+#, fuzzy
+msgid "chat_osc_accept_no_conv_info_slate"
+msgstr "There are currently no minimzed conversations."
+
+msgid "chat_osc_accepts_messages_no"
+msgstr "Não recebe mensagens de chat"
+
+msgid "chat_osc_accepts_messages_yes"
+msgstr "Recebe mensagens de chat"
+
+msgid "chat_osc_add_user"
+msgstr "Adicionar outros utilizadores"
+
+msgid "chat_osc_conversations"
+msgstr "Conversas"
+
+msgid "chat_osc_doesnt_accept_msg"
+msgstr "Conversas não são possíveis"
+
+msgid "chat_osc_head_grp_x_persons"
+msgstr "Enviar como anexo"
+
+msgid "chat_osc_invite_to_conversation"
+msgstr "Adicionar a uma conversa"
+
+msgid "chat_osc_leave_grp_conv"
+msgstr "Sair da conversa"
+
+#, fuzzy
+msgid "chat_osc_minimize"
+msgstr "Minimize"
+
+#, fuzzy
+msgid "chat_osc_nc_conv_x_p"
+msgstr "You have %s hidden conversations."
+
+#, fuzzy
+msgid "chat_osc_nc_conv_x_s"
+msgstr "You have one hidden conversation."
+
+#, fuzzy
+msgid "chat_osc_nc_no_conv"
+msgstr "No Conversations available"
+
+#, fuzzy
+msgid "chat_osc_nc_prop_time"
+msgstr "Time"
+
+msgid "chat_osc_no_conv"
+msgstr "Nenhumas conversas."
+
+msgid "chat_osc_no_sub_directory"
+msgstr "Subdiretório"
+
+msgid "chat_osc_no_sub_directory_info"
+msgstr "Bloco"
+
+msgid "chat_osc_no_usr_found"
+msgstr "Não conseguiu encontrar nenhum utilizador que corresponde à sua pesquisa."
+
+msgid "chat_osc_search_modal_info"
+msgstr "Favorito"
+
+msgid "chat_osc_self_rej_msgs"
+msgstr "Atualmente não pode fazer parte desta conversa porque anulou a receção de mensagens nas suas definições."
+
+msgid "chat_osc_send"
+msgstr "Enviar"
+
+msgid "chat_osc_start_conversation"
+msgstr "Iniciar conversa"
+
+msgid "chat_osc_subs_rej_msgs"
+msgstr "Atualmente não é possível continuar esta conversa. O seu parceiro de chat tem de ativar os chats nas definições de chat."
+
+msgid "chat_osc_subs_rej_msgs_p"
+msgstr "Os seguintes parceiros de chat da sua conversa não querem receber mais mensagens: %s"
+
+msgid "chat_osc_sure_to_leave_grp_conv"
+msgstr "Tem a certeza que quer sair da conversa do grupo?"
+
+msgid "chat_osc_user"
+msgstr "Utilizador"
+
+msgid "chat_osc_user_left_grp_conv"
+msgstr "O utilizador '%s' saiu da conversa de grupo."
+
+msgid "chat_osc_write_a_msg"
+msgstr "Escrever uma mensagem..."
+
+msgid "chat_select_room"
+msgstr "Selecionar sala de chat"
+
+msgid "chat_settings"
+msgstr "Definições de chat"
+
+#, fuzzy
+msgid "chat_settings_functions_header"
+msgstr "Chat Room Functions"
+
+#, fuzzy
+msgid "chat_show_auto_messages"
+msgstr "Show Status Messages"
+
+msgid "chat_to_mainroom"
+msgstr "Para a sala principal"
+
+#, fuzzy
+msgid "chat_use_osc"
+msgstr "Using On-Screen-Chat"
+
+#, fuzzy
+msgid "chat_use_typing_broadcast"
+msgstr "Typing will be broadcasted"
+
+msgid "chat_user_action_invite_osd"
+msgstr "Convidar para chat no ecrã"
+
+msgid "chat_user_action_invite_public_room"
+msgstr "Convidar para sala de chat pública"
+
+#, fuzzy
+msgid "chat_user_x_is_typing"
+msgstr "User %s is typing ..."
+
+#, fuzzy
+msgid "chat_users_are_typing"
+msgstr "Multiple users are typing ..."
+
+msgid "chat_whisper"
+msgstr "Sussurrar"
+
+#, fuzzy
+msgid "chatroom_anonymous_default"
+msgstr "Anonymous "
+
+msgid "chatroom_auth"
+msgstr "Autenticação"
+
+msgid "chatroom_auth_btn_txt"
+msgstr "Criar chaves"
+
+msgid "chatroom_auth_key"
+msgstr "Chave de autenticação"
+
+msgid "chatroom_auth_secret"
+msgstr "Segredo de autenticação"
+
+msgid "chatroom_client_name"
+msgstr "Nome"
+
+msgid "chatroom_client_name_info"
+msgstr "Introduza um nome para este cliente ILIAS. O string inserido tem de ser globalmente único. Inicialmente, este valor está definido para o id do cliente ILIAS. Se foi alterado, o servidor de chat tem de ser reiniciado."
+
+msgid "chatroom_enable_osc"
+msgstr "Ativar chat no ecrã"
+
+msgid "chatroom_enable_osc_info"
+msgstr "Se estiver ativado, o chat no ecrã fica disponível para cada utilizador. Mas cada utilizador pode decidir se quer ou não ser contactado por outros utilizadores. As conversas podem ser iniciadas na ferramenta ‘Who is online?’."
+
+#, fuzzy
+msgid "chatroom_log"
+msgstr "Chatserver Log"
+
+msgid "chatserver_address"
+msgstr "Por predefinição"
+
+msgid "chatserver_port"
+msgstr "Quando seleciona outro modo de autenticação que não a base de dados ILIAS, pode não conseguir voltar a mudar o nome de login e palavra-passe do utilizador."
+
+msgid "chtr_activation_limited_visibility_info"
+msgstr "Se estiver selecionado, o título do chat fica visível mesmo fora da disponibilidade indicada. No entanto, o chat não pode ser acedido."
+
+msgid "chtr_activation_online_info"
+msgstr "Definir o chat online para ficar visível e disponível aos participantes. Caso contrário, somente os utilizadores com autorização ‘Editar definições’ é que terão acesso."
+
+msgid "chtr_add"
+msgstr "Pasta de favoritos"
+
+msgid "chtr_ban_actor_tbl_head"
+msgstr "Atuador"
+
+msgid "chtr_ban_ts_tbl_head"
+msgstr "Carimbo de tempo"
+
+msgid "chtr_new"
+msgstr "Adicionar favoritos no ILIAS"
+
+msgid "chtr_server_status"
+msgstr "Estado do servidor"
+
+msgid "clear_room_history"
+msgstr "Apagar histórico de mensagens"
+
+msgid "clear_room_history_question"
+msgstr "Tem a certeza que quer apagar todas as mensagens da sala atual?"
+
+msgid "client_chatserver_connection"
+msgstr "Cliente para ligação ao servidor"
+
+msgid "client_proxy_info"
+msgstr "Se o servidor não estiver acessível com o endereço IP predefinido, é possível configurar um URL personalizado para cliente para ligação ao servidor."
+
+msgid "connection_url_info"
+msgstr "Insira um URL para a ligação ao servidor."
+
+msgid "custom_username"
+msgstr "Nome de utilizador personalizado"
+
+msgid "dhparam"
+msgstr "Parâmetro Diffie-Hellman"
+
+msgid "display_past_msgs"
+msgstr "Número de mensagens anteriores"
+
+msgid "duration_from"
+msgstr "De"
+
+msgid "duration_to"
+msgstr "Para"
+
+msgid "end_whisper"
+msgstr "Cancelar"
+
+msgid "enter"
+msgstr "Favoritos"
+
+msgid "error_log"
+msgstr "Registo de erros do servidor de chat"
+
+msgid "hint_display_past_msgs"
+msgstr "Favoritos de"
+
+msgid "history_byday_title"
+msgstr "Navegação em categorias"
+
+msgid "history_cleared"
+msgstr "O histórico de mensagens foi apagado por um moderador."
+
+msgid "history_title_general"
+msgstr "Conversa na sala de chat \"%s\""
+
+msgid "ilias_chatserver_connection"
+msgstr "ILIAS para ligação ao servidor"
+
+msgid "ilias_proxy_info"
+msgstr "Se o servidor não estiver acessível com o endereço IP predefinido, é possível configurar um URL personalizado para ILIAS para ligação ao servidor."
+
+msgid "invite_to_private_room"
+msgstr "Convidar para sala atual"
+
+msgid "invite_username"
+msgstr "Voltar"
+
+msgid "key"
+msgstr "Chave"
+
+msgid "kick_question"
+msgstr "Tem a certeza que quer retirar o utilizador da sala atual?"
+
+msgid "kicked"
+msgstr "Foi retirado desta sala de chat"
+
+msgid "lost_connection"
+msgstr "Voltar"
+
+msgid "main"
+msgstr "Sala principal"
+
+#, fuzzy
+msgid "messages"
+msgstr "Messages"
+
+msgid "no_further_users"
+msgstr "Mais nenhum outro utilizador presente"
+
+msgid "no_messages"
+msgstr "Não há mensagens guardadas para o período especificado."
+
+msgid "no_username_given"
+msgstr "Escolha um nome de utilizador"
+
+#, fuzzy
+msgid "osc_browser_noti_no_permission_error"
+msgstr "Please remove this domain from the list of blocked domains in the notification settings of your browser or operating system. Otherwise you will not be able to receive browser notifications."
+
+#, fuzzy
+msgid "osc_browser_noti_no_support_error"
+msgstr "Browser notifications are not supported in your browser. Please ensure you are requesting ILIAS via HTTPS and use a <a href=\"https://caniuse.com/#feat=notifications\" target=\"_blank\" rel=\"noopener noreferrer\">supported browser</a>."
+
+#, fuzzy
+msgid "osc_browser_noti_req_permission_error"
+msgstr "The browser notifications could not be enabled because you did not grant access. Please remove this domain from the list of blocked domains in the notification settings of your browser or operating system."
+
+#, fuzzy
+msgid "osc_enable_browser_notifications_info"
+msgstr "If enabled, a browser notification will be shown if you receive new messages and conversations when the ILIAS browser tab is in background, or if the browser is hidden. You will also receive a browser notification for new messages in a conversation after %s minute(s) of idling if the ILIAS tab is in foreground."
+
+#, fuzzy
+msgid "osc_enable_browser_notifications_label"
+msgstr "Browser Notifications"
+
+#, fuzzy
+msgid "osc_noti_title"
+msgstr "New Chat Message"
+
+msgid "period"
+msgstr "Período"
+
+msgid "permissions"
+msgstr "Permissões"
+
+#, fuzzy
+msgid "preferred_chatname"
+msgstr "Preferred Name"
+
+msgid "public_chat_created"
+msgstr "Por"
+
+msgid "scope"
+msgstr "Sala/Sala privada"
+
+msgid "select_custom_username"
+msgstr "Selecionar nome de utilizador personalizado"
+
+msgid "server_further_information"
+msgstr "Pode encontrar mais informação sobre a configuração do servidor no <a href=\"%1$s\" target=\"_blank\">ficheiro readme</a>."
+
+#, fuzzy
+msgid "server_readme_file_btn_label"
+msgstr "Readme File"
+
+msgid "session"
+msgstr "Sessão"
+
+msgid "settings_general"
+msgstr "Geral"
+
+msgid "settings_title"
+msgstr "Calendário"
+
+#, fuzzy
+msgid "start_private_chat"
+msgstr "Start Private Chat"
+
+msgid "unable_to_connect"
+msgstr "Não pode encontrar nenhum ficheiro XML."
+
+msgid "unban"
+msgstr "Não banir"
+
+#, fuzzy
+msgid "user_banned"
+msgstr "The user #user# has been banned."
+
+msgid "user_in_ilias"
+msgstr "Pesquisar e convidar utilizador de ILIAS"
+
+msgid "user_in_room"
+msgstr "Não pode desinstalar o idioma do sistema!"
+
+msgid "user_invited"
+msgstr "Não pode desinstalar o idioma atualmente em utilização!"
+
+msgid "user_invited_self"
+msgstr "<b>"
+
+msgid "user_kicked"
+msgstr "O utilizador <b>"
+
+msgid "users"
+msgstr "Utilizadores"
+
+msgid "welcome_to_chat"
+msgstr "Não pode descompactar o ficheiro."
+
+#, fuzzy
+msgid "write_message"
+msgstr "New Message"

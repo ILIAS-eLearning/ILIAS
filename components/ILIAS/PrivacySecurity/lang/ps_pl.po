@@ -1,0 +1,316 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pl\n"
+"Language-Team: Polish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: ps\n"
+
+msgid "cdf_edited_by_self"
+msgstr "przez użytkownika"
+
+msgid "crs_ps_cdf_info"
+msgstr "Dodatkowe dane właściwe dla danego kursu Wypełnij poniższe pola."
+
+msgid "crs_ps_required_info"
+msgstr "Aby wziąć udział w tym kursie, potrzebne są dodatkowe informacje."
+
+msgid "grp_ps_cdf_info"
+msgstr "Dodatkowe dane właściwe dla danej grupy. Wypełnij poniższe pola."
+
+msgid "grp_ps_required_info"
+msgstr "Aby wziąć udział w tej grupie, potrzebne są dodatkowe informacje."
+
+msgid "ps_agreement_accepted"
+msgstr "Warunki użytkowania zostały zaakceptowane"
+
+msgid "ps_auto_https"
+msgstr "Autodetekcja HTTPS"
+
+msgid "ps_auto_https_description"
+msgstr "Jeśli włączony, ILIAS próbuje wykryć status HTTPs przez analizę wartości nagłówka podanej poniżej."
+
+msgid "ps_auto_https_header_name"
+msgstr "Nazwa nagłówka"
+
+msgid "ps_auto_https_header_value"
+msgstr "Wartość nagłówka"
+
+msgid "ps_btn_add_value"
+msgstr "Nowa wartość"
+
+msgid "ps_cdf_add_field"
+msgstr "Dodaj pole użytkownika"
+
+msgid "ps_cdf_added_field"
+msgstr "Dodano nowe pole wyboru."
+
+msgid "ps_cdf_data_fields"
+msgstr "Dostępne pola danych"
+
+msgid "ps_cdf_delete_sure"
+msgstr "Czy chcesz usunąć to pole użytkownika?"
+
+msgid "ps_cdf_deleted"
+msgstr "Usunięto pole użytkownika."
+
+msgid "ps_cdf_deleted_field"
+msgstr "Usunięto wartość."
+
+msgid "ps_cdf_edit_field"
+msgstr "Edytuj pole danych"
+
+msgid "ps_cdf_name"
+msgstr "Nazwa"
+
+msgid "ps_cdf_no_fields"
+msgstr "Nie zdefiniowano pól użytkownika"
+
+msgid "ps_cdf_no_name_given"
+msgstr "Podaj nazwę"
+
+msgid "ps_cdf_required"
+msgstr "Wymagane pola"
+
+msgid "ps_cdf_select_one"
+msgstr "Wybierz jedną."
+
+msgid "ps_cdf_type"
+msgstr "Typ"
+
+msgid "ps_cdf_value"
+msgstr "Wartość"
+
+msgid "ps_cdf_warning_modify"
+msgstr "Uwaga: Minimum jeden użytkownik zaakceptował warunki użytkowania. Modyfikacja specyficznych pól tego kursu anuluje wszystkie zgody użytkowników."
+
+msgid "ps_crs_user_fields"
+msgstr "Pola użytkownika zależne od kursu"
+
+msgid "ps_error_message_https_header_missing"
+msgstr "Jeśli włączysz automatyczną detekcję https musisz dostarczyć nazwę nagłówka i wartość nagłówka."
+
+msgid "ps_error_message_invalid_login_max_attempts"
+msgstr "Maksymalna liczba prób logowania nie może być mniejsza niż 0."
+
+msgid "ps_error_message_invalid_password_max_age"
+msgstr "Maksymalny wiek hasła nie może być mniejszy niż 0."
+
+msgid "ps_error_message_invalid_password_max_length"
+msgstr "Maksymalna długość hasła nie może być mniejsza niż 0."
+
+msgid "ps_error_message_invalid_password_min_length"
+msgstr "Minimalna długość hasła nie może być mniejsza niż 0."
+
+msgid "ps_error_message_password_max_less_min"
+msgstr "Maksymalna długość hasła nie może być mniejsza niż minimalna długość hasła."
+
+msgid "ps_error_message_password_min1_because_chars"
+msgstr "Minimalna długość hasła nie może być mniejsza niż %s."
+
+msgid "ps_error_message_password_min2_because_chars_numbers"
+msgstr "Minimalna długość hasła nie może być mniejsza niż %s, jeśli hasło składać ma się z liter i cyfr."
+
+msgid "ps_error_message_password_min3_because_chars_numbers_sc"
+msgstr "Minimalna długość hasła nie może być mniejsza niż %s, jeśli hasło składać ma się z liter, cyfr i znaków specjalnych."
+
+msgid "ps_export_admin"
+msgstr "Administratorzy"
+
+#. Needs improvement!
+msgid "ps_export_confirm"
+msgstr "Zatwierdzenie użytkownika podczas wprowadzenia do kursu"
+
+#. Needs improvement!
+msgid "ps_export_confirm_group"
+msgstr "Aktywuj zasady użytkowania dla członków grupy"
+
+#, fuzzy
+msgid "ps_export_confirm_group_info"
+msgstr "When joining a group, users are required to accept that their personal data can be viewed by the group admins."
+
+#, fuzzy
+msgid "ps_export_confirm_info"
+msgstr "When joining a course, users are required to accept that their personal data can be viewed by the course admins."
+
+msgid "ps_export_course"
+msgstr "Zaawansowany eksport danych profilu użytkownika w kursach"
+
+msgid "ps_export_data"
+msgstr "Typy danych profilu osobistego"
+
+msgid "ps_export_excel"
+msgstr "Rozpocznij eksport do .xls"
+
+msgid "ps_export_files"
+msgstr "Pliki eksportu"
+
+msgid "ps_export_groups"
+msgstr "Wyświetl i eksportuj dane osobowe w grupach"
+
+msgid "ps_export_member"
+msgstr "Członkowie"
+
+#, fuzzy
+msgid "ps_export_prgs"
+msgstr "Allow export of user profile data in Study Programmes"
+
+msgid "ps_export_settings"
+msgstr "Ustawienia eksportu"
+
+msgid "ps_export_sub"
+msgstr "Subskrybenci"
+
+msgid "ps_export_tutor"
+msgstr "Opiekunowie naukowi"
+
+msgid "ps_export_user_data"
+msgstr "Typy danych"
+
+msgid "ps_export_wait"
+msgstr "Użytkownicy na liście oczekujących"
+
+msgid "ps_field_type"
+msgstr "Typ pola"
+
+msgid "ps_files_deleted"
+msgstr "Usunięte pliki eksportowe"
+
+msgid "ps_grp_user_fields"
+msgstr "Dane użytkownika właściwe dla grupy"
+
+msgid "ps_login_max_attempts"
+msgstr "Maksymalna liczba prób logowania"
+
+msgid "ps_login_max_attempts_info"
+msgstr " Określa, ile razy użytkownik może pomylić się przy logowaniu. Jeśli kilka prób się nie powiedzie, status użytkownika zmienia się na 'nieaktywny' i należy go ponownie aktywować w menu 'Zarządzanie użytkownikami', aby mógł nadal korzystać z serwisu. Jeśli nie wprowadzisz wartości, funkcja jest wyłączona; ILIAS nie liczy nieudanych prób logowania."
+
+msgid "ps_not_accepted"
+msgstr "Niezaakceptowane"
+
+#, fuzzy
+msgid "ps_participants_list_courses"
+msgstr "Allow Activation of Participant Lists in the Member Gallery of Courses"
+
+#, fuzzy
+msgid "ps_passwd_policy_change_force_user_reset_succ"
+msgstr "The changes have been successfully applied."
+
+#, fuzzy
+msgid "ps_passwd_policy_changed_force_user_reset"
+msgstr "The changes were saved successfully. You just modified at least one password policy setting. Should local users be forced to change their password after the next successful login?"
+
+msgid "ps_password_change_on_first_login_enabled"
+msgstr "Zmień hasło przy pierwszym logowaniu"
+
+msgid "ps_password_change_on_first_login_enabled_info"
+msgstr "Zmusza użytkowników, którzy nie zarejestrowali się samodzielnie, do tego, aby podczas pierwszego logowania do ILIAS zmienili swoje hasło."
+
+msgid "ps_password_chars_and_numbers_enabled"
+msgstr "Wymuś litery i cyfry"
+
+msgid "ps_password_chars_and_numbers_enabled_info"
+msgstr "Jeśli ta opcja jest aktywna, hasła muszą zawierać litery i cyfry."
+
+#, fuzzy
+msgid "ps_password_force_user_reset"
+msgstr "Force Password Reset"
+
+msgid "ps_password_max_age"
+msgstr "Maksymalny czas użytkowania jednego hasła"
+
+msgid "ps_password_max_age_info"
+msgstr "Ustala maksymalny czas użytkowania jednego hasła w dniach. Jeśli wartość wynosi 0, hasła nie tracą swojej ważności."
+
+msgid "ps_password_max_length"
+msgstr "Maksymalna długość hasła"
+
+msgid "ps_password_max_length_info"
+msgstr "Ustala maksymalną długość haseł. Jeśli wartość wynosi 0, hasła mogą mieć dowolną długość."
+
+msgid "ps_password_min_length"
+msgstr "Minimalna długość hasła"
+
+msgid "ps_password_min_length_info"
+msgstr "Ustala minimalną długość haseł. Jeśli wartość wynosi 0, hasła muszą mimo tego zawierać co najmniej 1 znak."
+
+msgid "ps_password_settings"
+msgstr "Ustawienia hasła"
+
+msgid "ps_password_special_chars_enabled"
+msgstr "Wymuś znaki specjalne"
+
+msgid "ps_password_special_chars_enabled_info"
+msgstr "Jeśli ta opcja jest aktywna, hasła muszą zawierać znaki specjalne."
+
+msgid "ps_perform_export"
+msgstr "Uruchom eksport do .csv"
+
+msgid "ps_prevent_simultaneous_logins"
+msgstr "Zapobieganie równoczesnym loginom"
+
+msgid "ps_prevent_simultaneous_logins_info"
+msgstr "Jeśli ta opcja jest aktywna, zapobiega się równoczesnym loginom na tym samym koncie na różnych komputerach."
+
+msgid "ps_privacy_protection"
+msgstr "Ustawienia prywatności"
+
+msgid "ps_profile_export"
+msgstr "Zabezpieczenie danych profilu użytkownika"
+
+msgid "ps_security_protection"
+msgstr "Ustawienia bezpieczeństwa"
+
+msgid "ps_select_one"
+msgstr "Wybierz jeden plik eksportowy"
+
+msgid "ps_show_crs_access"
+msgstr "Pokaż ostatni czas dostępu uczestników kursu"
+
+msgid "ps_show_grp_access"
+msgstr "Pokaż ostatni czas dostępu uczestników grupy"
+
+#, fuzzy
+msgid "ps_show_lso_access"
+msgstr "Show last access time of learning sequence participants"
+
+msgid "ps_size"
+msgstr "Rozmiar plików"
+
+msgid "ps_type_select"
+msgstr "Wybierz pole"
+
+msgid "ps_type_select_long"
+msgstr "Pole wyboru (stałe wartości)"
+
+msgid "ps_type_text"
+msgstr "Pole tekstowe"
+
+msgid "ps_type_txt_long"
+msgstr "Pole tekstowe (wartość opcjonalna)"
+
+msgid "ps_user_selection"
+msgstr "Wybór uczestników"
+
+msgid "ps_warning_modify"
+msgstr "Uwaga: Minimum jeden użytkownik zaakceptował warunki użytkowania. Modyfikacja tych ustawień anuluje wszystkie zgody użytkowników."
+
+msgid "rbac_log"
+msgstr "Logi dotyczące ustawień uprawnień"
+
+msgid "rbac_log_age"
+msgstr "Zastrzegaj posty dotyczące logów"
+
+msgid "rbac_log_age_info"
+msgstr "Maksymalny wiek postów dotyczących logów w miesiącach"
+
+msgid "rbac_log_info"
+msgstr "Aktywuj funkcję loggingu wszystkich zmian dotyczących ustawień uprawnień"
+
+msgid "show_privacy"
+msgstr "Prywatność"
+
+msgid "show_security"
+msgstr "Bezpieczeństwo"

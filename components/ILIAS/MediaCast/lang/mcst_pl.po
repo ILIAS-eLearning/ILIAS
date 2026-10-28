@@ -1,0 +1,303 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pl\n"
+"Language-Team: Polish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: mcst\n"
+
+msgid "mcst_add_new_item"
+msgstr "Dodaj nową pozycję Media Cast"
+
+#, fuzzy
+msgid "mcst_audio_files"
+msgstr "Audio Files"
+
+msgid "mcst_audioportable_settings_info"
+msgstr "Lista końcówek nazw plików przedzielonych przecinkiem"
+
+msgid "mcst_audioportable_settings_title"
+msgstr "Końcówki nazw plików do formatu audio"
+
+msgid "mcst_audioportable_title"
+msgstr "Dodaj plik audio dla urządzeń mobilnych"
+
+msgid "mcst_automatic_detection"
+msgstr "Automatyczne wykrywanie"
+
+#, fuzzy
+msgid "mcst_autoplay"
+msgstr "Autoplay"
+
+#, fuzzy
+msgid "mcst_autoplay_active"
+msgstr "Autoplay (Default on)"
+
+#, fuzzy
+msgid "mcst_autoplay_inactive"
+msgstr "Autoplay (Default off)"
+
+#, fuzzy
+msgid "mcst_autoplay_info"
+msgstr "Starts automatically the next video when reaching the end of the previous one. This feature is not supported by youtube videos."
+
+msgid "mcst_clear_purpose_title"
+msgstr "Usuń"
+
+#, fuzzy
+msgid "mcst_confirm_deletion"
+msgstr "Confirm Deletion"
+
+msgid "mcst_converted_file"
+msgstr "Przekształcono plik."
+
+msgid "mcst_copy"
+msgstr "Kopiuj MediaCast"
+
+msgid "mcst_current_value_info"
+msgstr "Pokaż bieżącą wartość tego formatu."
+
+msgid "mcst_default_visibility"
+msgstr "Dostęp standardowy"
+
+msgid "mcst_det_playtime"
+msgstr "Określ czas odtwarzania"
+
+#, fuzzy
+msgid "mcst_download_all"
+msgstr "Download All"
+
+msgid "mcst_download_audioportable"
+msgstr "Pobierz plik audio"
+
+msgid "mcst_download_cnt"
+msgstr "Pobrano"
+
+msgid "mcst_download_standard"
+msgstr "Download"
+
+#, fuzzy
+msgid "mcst_download_started_bg"
+msgstr "Download of files has started. Please check your background tasks in the top right corner."
+
+msgid "mcst_download_videoalternative"
+msgstr "Pobierz alternatywny format"
+
+msgid "mcst_download_videoportable"
+msgstr "Pobierz plik wideo"
+
+msgid "mcst_downloadable"
+msgstr "Pobierz"
+
+msgid "mcst_downloadable_info"
+msgstr "Jeśli ta opcja jest zaznaczona, istnieje możliwość pobrania pliku."
+
+msgid "mcst_duration"
+msgstr "Czas odtwarzania"
+
+msgid "mcst_duration_info"
+msgstr "Jeśli nie wprowadzono wartości, to ILIAS próbuje ustalić czas automatycznie."
+
+msgid "mcst_edit_item"
+msgstr "Edytuj post MediaCast"
+
+msgid "mcst_edit_settings"
+msgstr "Ustawienia"
+
+msgid "mcst_gallery"
+msgstr "Kafelki"
+
+#, fuzzy
+msgid "mcst_img_gallery"
+msgstr "Image Gallery"
+
+msgid "mcst_import"
+msgstr "Importuj MediaCast"
+
+msgid "mcst_incl_files_in_rss"
+msgstr "Zawiera pliki medialne w Feed"
+
+msgid "mcst_incl_files_in_rss_info"
+msgstr "Jeśli wybrane, to RSS Feed zawiera załączniki. W przeciwnym razie feed informuje subskrybentów o nowych pozycjach."
+
+msgid "mcst_input_either_file_or_url"
+msgstr "Wpisz plik lub adres URL. Przy wpisywaniu pliku zwróć uwagę na maksymalny dopuszczalny rozmiar pliku."
+
+#, fuzzy
+msgid "mcst_items"
+msgstr "Items"
+
+msgid "mcst_last_submission"
+msgstr "Ostatnie podporządkowanie"
+
+msgid "mcst_list"
+msgstr "Lista"
+
+msgid "mcst_manage"
+msgstr "Zarządzaj"
+
+msgid "mcst_media_cast"
+msgstr "MediaCast"
+
+msgid "mcst_media_cast_not_online"
+msgstr "MediaCast nie jest w trybie online"
+
+msgid "mcst_media_cast_not_online_text"
+msgstr "MediaCast nie jest w trybie online lub został wyłączony"
+
+msgid "mcst_mimetype"
+msgstr "Typ MIME"
+
+msgid "mcst_mimetype_info"
+msgstr "Wybierz typ MIME, aby określić prawidłową wtyczkę.<br />Informacja: Pamiętaj, że nie wszystkie przeglądarką mają zainstalowane lub obsługują wszystkie wtyczki."
+
+msgid "mcst_mimetypes"
+msgstr "Typy MIME"
+
+msgid "mcst_mimetypes_info"
+msgstr "Lista typów MIME przedzielonych przecinkiem"
+
+#, fuzzy
+msgid "mcst_new_items_det_lp"
+msgstr "Add new items to learning progress"
+
+#, fuzzy
+msgid "mcst_new_items_det_lp_info"
+msgstr "New items are automatically added to determine the overall learning progress."
+
+msgid "mcst_news_item_visibility_info"
+msgstr "Publiczne wiadomości mogą być dostępne poza systemem ILIAS bez autoryzacji poprzez RSS. Nie zawieraj w nich poufnych informacji."
+
+#, fuzzy
+msgid "mcst_next_items"
+msgstr "Next Items"
+
+#, fuzzy
+msgid "mcst_no_autoplay"
+msgstr "No Autoplay"
+
+msgid "mcst_nr_items"
+msgstr "Ilość pozycji"
+
+#, fuzzy
+msgid "mcst_nr_videos"
+msgstr "Number of Initial Videos"
+
+msgid "mcst_ordering"
+msgstr "Sortowanie"
+
+msgid "mcst_ordering_creation_date_asc"
+msgstr "Wg daty sporządzenia, najstarszy wpis u góry"
+
+msgid "mcst_ordering_creation_date_desc"
+msgstr "Wg daty sporządzenia, najnowszy wpis u góry"
+
+msgid "mcst_ordering_manual"
+msgstr "Ręcznie"
+
+msgid "mcst_ordering_title"
+msgstr "Sortuj alfabetycznie wg tytułu"
+
+msgid "mcst_play"
+msgstr "Odtwórz"
+
+msgid "mcst_play_cnt"
+msgstr "Odtworzono"
+
+msgid "mcst_play_time"
+msgstr "Czas odtwarzania"
+
+#, fuzzy
+msgid "mcst_podcast"
+msgstr "Podcast"
+
+#, fuzzy
+msgid "mcst_prev_items"
+msgstr "Previous Items"
+
+#, fuzzy
+msgid "mcst_preview"
+msgstr "Preview"
+
+msgid "mcst_preview_picture"
+msgstr "Obraz podglądu"
+
+msgid "mcst_preview_picture_info"
+msgstr "Obsługiwane tylko przez poniższe typy plików:"
+
+msgid "mcst_reference_info"
+msgstr "URL do źródła, np. adres HTTP."
+
+msgid "mcst_save_order"
+msgstr "Zapisz sortowanie"
+
+msgid "mcst_set_playtime"
+msgstr "Ustawiono czas odtwarzania."
+
+msgid "mcst_settings"
+msgstr "Ustawienia MediaCast"
+
+#, fuzzy
+msgid "mcst_show_description"
+msgstr "Show Description"
+
+msgid "mcst_standard_settings_info"
+msgstr "Lista końcówek nazw plików przedzielonych przecinkiem"
+
+msgid "mcst_standard_settings_title"
+msgstr "Końcówki nazw plików dla domyślnego formatu"
+
+msgid "mcst_standard_title"
+msgstr "Domyślny plik mediów"
+
+msgid "mcst_unable_to_determin_playtime"
+msgstr "Niestety nie udało się automatycznie ustawić czasu odtwarzania. W opcji \"Edytuj\" czas odtwarzania możesz ustawić ręcznie."
+
+#, fuzzy
+msgid "mcst_video_cast"
+msgstr "Videocast"
+
+#, fuzzy
+msgid "mcst_video_completion_threshold"
+msgstr "Video Completion Threshold"
+
+#, fuzzy
+msgid "mcst_video_completion_threshold_info"
+msgstr "Amount of video that triggers the completion status. Please note that the user may skip forward to reach this point."
+
+msgid "mcst_videoalternative_title"
+msgstr "Alternatywny format wideo do stosowania w przeglądarce"
+
+msgid "mcst_videoportable_settings_info"
+msgstr "Lista końcówek nazw plików przedzielonych przecinkiem"
+
+msgid "mcst_videoportable_settings_title"
+msgstr "Końcówki nazw plików do formatu wideo"
+
+msgid "mcst_videoportable_title"
+msgstr "Dodatkowe pliki wideo dla urządzeń mobilnych"
+
+#, fuzzy
+msgid "mcst_view_abandoned"
+msgstr "The current presentation mode has been abandoned. Please open the settings and switch to another mode."
+
+msgid "mcst_viewmode"
+msgstr "Typ prezentacji"
+
+msgid "mcst_visibility_info"
+msgstr "Pozycje publiczne mogą być dostępne poprzez RSS bez autoryzacji."
+
+msgid "mcst_visibility_public"
+msgstr "Zalogowani użytkownicy"
+
+msgid "mcst_visibility_users"
+msgstr "Publiczny"
+
+#, fuzzy
+msgid "mcst_watched"
+msgstr "watched"
+
+msgid "mcst_webfeed"
+msgstr "Kanał internetowy RSS"

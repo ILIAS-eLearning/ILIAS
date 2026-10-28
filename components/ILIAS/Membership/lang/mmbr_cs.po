@@ -1,0 +1,33 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: mmbr\n"
+
+msgid "info_refuse_sure"
+msgstr "Opravdu chcete odstranit následující(ho) uživatele?"
+
+msgid "mmbr_awrn_my_groups_courses"
+msgstr "Moje skupiny a kurzy"
+
+msgid "mmbr_awrn_my_groups_courses_info"
+msgstr "Uvedeni jsou všichni členové skupin nebo kursů aktuálního uživatele."
+
+msgid "mmbr_btn_mail_selected_users"
+msgstr "Poslat mail"
+
+#, fuzzy
+msgid "mmbr_memberships"
+msgstr "Memberships"
+
+#, fuzzy
+msgid "mmbr_role_error"
+msgstr "Members must have at least one role assigned."
+
+#, fuzzy
+msgid "mmbr_unsubscribed_from_objs"
+msgstr "You have been unsubscribed from the selected objects."

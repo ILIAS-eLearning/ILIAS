@@ -1,0 +1,457 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sr\n"
+"Language-Team: Serbian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: certificate\n"
+
+#, fuzzy
+msgid "cert_cron_task_desc"
+msgstr "This job's responsibility is the creation of persisting certificate data based on learning achievements of users."
+
+#, fuzzy
+msgid "cert_cron_task_title"
+msgstr "Certificates"
+
+#, fuzzy
+msgid "cert_form_sec_add_features"
+msgstr "Additional Features"
+
+#, fuzzy
+msgid "cert_form_sec_availability"
+msgstr "Availability"
+
+#, fuzzy
+msgid "cert_form_sec_layout"
+msgstr "Layout and Text"
+
+#, fuzzy
+msgid "certificate_a4"
+msgstr "A4 (297 mm x 210 mm)"
+
+#, fuzzy
+msgid "certificate_a4_landscape"
+msgstr "A4 Landscape (210 mm x 297 mm)"
+
+#, fuzzy
+msgid "certificate_a5"
+msgstr "A5 (210 mm x 148 mm)"
+
+#, fuzzy
+msgid "certificate_a5_landscape"
+msgstr "A5 Landscape (148 mm x 210 mm)"
+
+#, fuzzy
+msgid "certificate_background_image"
+msgstr "Background Image"
+
+#, fuzzy
+msgid "certificate_card_tile_image"
+msgstr "Thumbnail Image"
+
+#, fuzzy
+msgid "certificate_change_active_status"
+msgstr "The active state of the certificate has been changed"
+
+#, fuzzy
+msgid "certificate_confirm_deletion_text"
+msgstr "Do you really want to delete the certificate and all its related data?"
+
+#, fuzzy
+msgid "certificate_custom"
+msgstr "Custom..."
+
+#, fuzzy
+msgid "certificate_edit"
+msgstr "Create/Edit a Certificate Template"
+
+#, fuzzy
+msgid "certificate_error_import"
+msgstr "An error occured during the import of a certificate!"
+
+#, fuzzy
+msgid "certificate_error_upload_bgimage"
+msgstr "An error occured during the upload of the background image!"
+
+#, fuzzy
+msgid "certificate_export"
+msgstr "Export Certificate"
+
+#, fuzzy
+msgid "certificate_failed"
+msgstr "failed"
+
+#, fuzzy
+msgid "certificate_file_basename"
+msgstr "Certificate"
+
+#, fuzzy
+msgid "certificate_id"
+msgstr "Certificate ID"
+
+#, fuzzy
+msgid "certificate_issue_date"
+msgstr "Issue Date"
+
+#, fuzzy
+msgid "certificate_learning_progress_must_be_active"
+msgstr "Only objects with an active Learning Progress can be selected. The Learning Progress is deactivated on the following objects: %s"
+
+#, fuzzy
+msgid "certificate_letter"
+msgstr "Letter (11 inch x 8.5 inch)"
+
+#, fuzzy
+msgid "certificate_letter_landscape"
+msgstr "Letter Landscape (8.5 inch x 11 inch)"
+
+#, fuzzy
+msgid "certificate_margin_body"
+msgstr "Body Margin"
+
+#, fuzzy
+msgid "certificate_not_well_formed"
+msgstr "The certificate text is not well formed. Please enter valid XHTML for the certificate text!"
+
+#, fuzzy
+msgid "certificate_page_format"
+msgstr "Page Format"
+
+#, fuzzy
+msgid "certificate_page_format_info"
+msgstr "Please select the default page format for new certificates."
+
+#, fuzzy
+msgid "certificate_pageheight"
+msgstr "Page Height"
+
+#, fuzzy
+msgid "certificate_pagewidth"
+msgstr "Page Width"
+
+#, fuzzy
+msgid "certificate_passed"
+msgstr "passed"
+
+#, fuzzy
+msgid "certificate_ph_birthday"
+msgstr "Birthday of the user"
+
+#, fuzzy
+msgid "certificate_ph_cert_id"
+msgstr "Unique Certificate ID"
+
+#, fuzzy
+msgid "certificate_ph_city"
+msgstr "City of the user's address"
+
+#, fuzzy
+msgid "certificate_ph_country"
+msgstr "Country of the user's address"
+
+#, fuzzy
+msgid "certificate_ph_date"
+msgstr "Actual date"
+
+#, fuzzy
+msgid "certificate_ph_date_completed"
+msgstr "Date of completion"
+
+#, fuzzy
+msgid "certificate_ph_datetime"
+msgstr "Actual date and time"
+
+#, fuzzy
+msgid "certificate_ph_datetime_completed"
+msgstr "Date and time of completion"
+
+#, fuzzy
+msgid "certificate_ph_department"
+msgstr "Department of the user"
+
+#, fuzzy
+msgid "certificate_ph_exercisetitle"
+msgstr "Exercise Title"
+
+#, fuzzy
+msgid "certificate_ph_firstname"
+msgstr "First name of the user"
+
+#, fuzzy
+msgid "certificate_ph_fullname"
+msgstr "Full name of the user (title, firstname and lastname)"
+
+#, fuzzy
+msgid "certificate_ph_institution"
+msgstr "Institution of the user"
+
+#, fuzzy
+msgid "certificate_ph_introduction"
+msgstr "The following placeholders may be used"
+
+#, fuzzy
+msgid "certificate_ph_lastaccess"
+msgstr "Last access date and time of the user"
+
+#, fuzzy
+msgid "certificate_ph_lastname"
+msgstr "Last name of the user"
+
+#, fuzzy
+msgid "certificate_ph_login"
+msgstr "Login"
+
+#, fuzzy
+msgid "certificate_ph_mark"
+msgstr "Users mark"
+
+#, fuzzy
+msgid "certificate_ph_marklong"
+msgstr "Users mark (official version)"
+
+#, fuzzy
+msgid "certificate_ph_markshort"
+msgstr "Users mark (short version)"
+
+#, fuzzy
+msgid "certificate_ph_matriculation"
+msgstr "Matriculation number of the user"
+
+#, fuzzy
+msgid "certificate_ph_no_sco"
+msgstr "If items are selected to determine the overall learning progress status, titles and points for these items could be displayed in certificate."
+
+#, fuzzy
+msgid "certificate_ph_salutation"
+msgstr "Salutation"
+
+#, fuzzy
+msgid "certificate_ph_sco_points_max"
+msgstr "placeholder<br/>for points<br/>max"
+
+#, fuzzy
+msgid "certificate_ph_sco_points_raw"
+msgstr "placeholder<br/>for points"
+
+#, fuzzy
+msgid "certificate_ph_sco_points_scaled"
+msgstr "placeholder<br/>for points<br/>in percent"
+
+#, fuzzy
+msgid "certificate_ph_sco_title"
+msgstr "placeholder<br/>for title"
+
+#, fuzzy
+msgid "certificate_ph_scormmaxpoints"
+msgstr "Maximum value in the range for the raw score of the last relevant sco (most suitable for a final exam)"
+
+#, fuzzy
+msgid "certificate_ph_scormpoints"
+msgstr "Points of the SCORM learning module in percent"
+
+#, fuzzy
+msgid "certificate_ph_scormtitle"
+msgstr "Title of the SCORM learning module"
+
+#, fuzzy
+msgid "certificate_ph_scos"
+msgstr "The following items were selected to determine the overall learning progress status and are available for statements in the certificate:"
+
+#, fuzzy
+msgid "certificate_ph_street"
+msgstr "Street of the user's address"
+
+#, fuzzy
+msgid "certificate_ph_testtitle"
+msgstr "Title of the test"
+
+#, fuzzy
+msgid "certificate_ph_title"
+msgstr "Title of the user"
+
+#, fuzzy
+msgid "certificate_ph_title_sco"
+msgstr "title"
+
+#, fuzzy
+msgid "certificate_ph_zipcode"
+msgstr "ZIP code of the user's address"
+
+#, fuzzy
+msgid "certificate_points_notavailable"
+msgstr "This value cannot be calculated"
+
+#, fuzzy
+msgid "certificate_preview"
+msgstr "Show Certificate Preview"
+
+#, fuzzy
+msgid "certificate_settings"
+msgstr "Certificate Settings"
+
+#, fuzzy
+msgid "certificate_short_name"
+msgstr "Certificate file short title"
+
+#, fuzzy
+msgid "certificate_short_name_description"
+msgstr "Please enter a short title for the certificate name. The short title will be part of the certificate name: YYMMDD_[surname]_[SHORT_TITLE]_certificate.pdf."
+
+#, fuzzy
+msgid "certificate_text"
+msgstr "Certificate Text"
+
+#, fuzzy
+msgid "certificate_text_info"
+msgstr "Please enter the certificate text. If the WYSIWYG editor is disabled in the ILIAS administration, you can still use valid XHTML to format the text."
+
+#, fuzzy
+msgid "certificate_unit_description"
+msgstr "Enter units of measure as VALUE[cm|mm|in|pt|pc|px|em], e.g. 10mm or 3in"
+
+#, fuzzy
+msgid "certificate_usage"
+msgstr "Please note that the usage of certificates is only available if the ILIAS Java-Server is running. The configuration for Java-Server is available on the main page of the ILIAS administration in section Webservices."
+
+#, fuzzy
+msgid "certificate_var_max_points"
+msgstr "46"
+
+#, fuzzy
+msgid "certificate_var_result_mark_long"
+msgstr "Good"
+
+#, fuzzy
+msgid "certificate_var_result_mark_short"
+msgstr "B"
+
+#, fuzzy
+msgid "certificate_var_result_passed"
+msgstr "passed"
+
+#, fuzzy
+msgid "certificate_var_result_percent"
+msgstr "83%"
+
+#, fuzzy
+msgid "certificate_var_result_points"
+msgstr "38"
+
+#, fuzzy
+msgid "certificate_var_user_birthday"
+msgstr "1977-05-08"
+
+#, fuzzy
+msgid "certificate_var_user_city"
+msgstr "Anytown, NY"
+
+#, fuzzy
+msgid "certificate_var_user_country"
+msgstr "USA"
+
+#, fuzzy
+msgid "certificate_var_user_department"
+msgstr "Customer Support"
+
+#, fuzzy
+msgid "certificate_var_user_firstname"
+msgstr "Jane"
+
+#, fuzzy
+msgid "certificate_var_user_fullname"
+msgstr "Dr. Jane Doe"
+
+#, fuzzy
+msgid "certificate_var_user_institution"
+msgstr "ILIAS Open Source"
+
+#, fuzzy
+msgid "certificate_var_user_lastname"
+msgstr "Doe"
+
+#, fuzzy
+msgid "certificate_var_user_login"
+msgstr "jdoe"
+
+#, fuzzy
+msgid "certificate_var_user_matriculation"
+msgstr "12345"
+
+#, fuzzy
+msgid "certificate_var_user_salutation"
+msgstr "Mrs."
+
+#, fuzzy
+msgid "certificate_var_user_street"
+msgstr "100 Main Street"
+
+#, fuzzy
+msgid "certificate_var_user_title"
+msgstr "Dr."
+
+#, fuzzy
+msgid "certificate_var_user_zipcode"
+msgstr "12345"
+
+#, fuzzy
+msgid "cmix_cert_ph_object_description"
+msgstr "Description"
+
+#, fuzzy
+msgid "cmix_cert_ph_object_title"
+msgstr "Title of the xAPI/cmi5 Object"
+
+#, fuzzy
+msgid "cmix_cert_ph_reached_score"
+msgstr "Reached score as percentage"
+
+#, fuzzy
+msgid "default_background_info"
+msgstr "This background image will be chosen as default background for all certificates. If you need another background image in a certficiate, you have to upload one in the certificate editor."
+
+#, fuzzy
+msgid "download_certificate"
+msgstr "Download Certificate"
+
+#, fuzzy
+msgid "learning_progress_deactivated"
+msgstr "The Learning Progress for this object is deactivated. To edit the certificate template and achieve user certificates the learning progress for this object must be activated."
+
+#, fuzzy
+msgid "lti_cert_ph_mastery_score"
+msgstr "Mastery score as percentage"
+
+#, fuzzy
+msgid "lti_cert_ph_object_description"
+msgstr "Description"
+
+#, fuzzy
+msgid "lti_cert_ph_object_title"
+msgstr "Title of the LTI Consumer Object"
+
+#, fuzzy
+msgid "lti_cert_ph_reached_score"
+msgstr "Reached score as percentage"
+
+#, fuzzy
+msgid "persistent_certificate_mode"
+msgstr "User Certificate Creation"
+
+#, fuzzy
+msgid "persistent_certificate_mode_cron"
+msgstr "Cron Job"
+
+#, fuzzy
+msgid "persistent_certificate_mode_cron_info"
+msgstr "This option is recommended for systems with high user interaction."
+
+#, fuzzy
+msgid "persistent_certificate_mode_instant"
+msgstr "Instant"
+
+#, fuzzy
+msgid "persistent_certificate_mode_instant_info"
+msgstr "This option is recommended for systems with low up to mediocre user interactions. Systems that tend to big loading times during creation for multiple user certificates should switch to the \"Cron Job\" option."

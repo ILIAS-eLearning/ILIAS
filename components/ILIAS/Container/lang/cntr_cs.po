@@ -1,0 +1,118 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: cntr\n"
+
+msgid "cntr_add_new_item"
+msgstr "Přidat novou položku"
+
+msgid "cntr_adopt_content"
+msgstr "Převzít obsah"
+
+msgid "cntr_container_only_on_their_own"
+msgstr "Kategorie, kurzy, skupiny, složky nebo studijní programy lze kopírovat pouze jako jednotlivé objekty. Vyberte pouze jednu položku."
+
+msgid "cntr_copy_crs_grp"
+msgstr "Moje kurzy a skupiny"
+
+msgid "cntr_copy_repo_tree"
+msgstr "Strom úložiště"
+
+msgid "cntr_hide_title_and_icon"
+msgstr "Skrýt název a ikonu"
+
+msgid "cntr_manage"
+msgstr "Spravovat"
+
+msgid "cntr_ordering"
+msgstr "Řazení"
+
+msgid "cntr_saved_sorting"
+msgstr "Řazení uloženo."
+
+msgid "cntr_switch_to_new_editor_cmd"
+msgstr "Přepnout zobrazení na tuto stránku"
+
+msgid "cntr_switch_to_new_editor_message"
+msgstr "To je podporovaný standardní editor. Použijte jej prosím k nastavení obsahu stránky. Pokud klepnete na následující odkaz, obsah zobrazení úložiště bude přepnut ze starého editoru obsahu na tuto stránku."
+
+msgid "cntr_switched_editor"
+msgstr "Přepnuto na nový obsah."
+
+msgid "cntr_tax_none_available"
+msgstr "Nejsou k dispozici žádné taxonomie."
+
+#, fuzzy
+msgid "cntr_tax_settings_info"
+msgstr "Taxonomies in categories classify and filter the objects contained in the category. After adding taxonomies, classifications can be made via the \"Metadata\" tabs and the \"Taxonomy Assignment\" sub-tabs of the respective objects. Taxonomies can additionally be displayed in the side block of the category's \"Contents\" tab to enable direct filtering of the assigned objects."
+
+msgid "cntr_taxonomy_definitions"
+msgstr "Definice taxonomie"
+
+msgid "cntr_taxonomy_show_sideblock"
+msgstr "Zobrazit taxonomii v bočním bloku"
+
+msgid "cntr_taxonomy_sideblock_settings"
+msgstr "Nastavení bloku taxonomie"
+
+msgid "cntr_text_media_editor"
+msgstr "Přizpůsobit stránku"
+
+msgid "cntr_view_by_type"
+msgstr "Zobrazit sekupení podle typu"
+
+msgid "cntr_view_info_by_type"
+msgstr "Toto zobrazení obsahu seskupuje všechny položky podle zdrojového typu."
+
+msgid "cntr_view_info_sessions"
+msgstr "Toto zobrazení obsahu nejprve seskupuje všechny lekce. Pak vypisuje ostatní obsah kurzu."
+
+msgid "cntr_view_info_simple"
+msgstr "Toto zobrazení obsahu vypisuje všechny položky v jediném bloku."
+
+msgid "cntr_view_sessions"
+msgstr "Zobrazit sezení"
+
+msgid "cntr_view_simple"
+msgstr "Jednoduché zobrazení"
+
+msgid "container_import_zip_file_invalid"
+msgstr "Ukládaný soubor není platný exportní soubor ILIAS. K uložení adresářové struktury použijte prosím souborový objekt."
+
+msgid "edit_questions"
+msgstr "Upravit otázky"
+
+msgid "exc_next_deadline_single"
+msgstr "Konečný termín"
+
+msgid "msg_no_downloadable_objects"
+msgstr "Nebyly nalezeny žádné objekty ke stažení."
+
+msgid "objects_duplicated"
+msgstr "Objekty zkopírovány"
+
+msgid "prtf_create_portfolio_from_template"
+msgstr "Vytvořit Portfolio ze šablony"
+
+msgid "sorting_new_items_at_bottom"
+msgstr "Nejnižší úroveň"
+
+msgid "sorting_new_items_at_top"
+msgstr "Vrcholná úroveň"
+
+msgid "sorting_new_items_direction"
+msgstr "Směr třídění pro nové objekty"
+
+msgid "sorting_new_items_order"
+msgstr "Pořadí pro nové objekty"
+
+msgid "sorting_new_items_position"
+msgstr "Pozice pro nové objekty"
+
+msgid "tab_back_to_repository"
+msgstr "Zpět na úložiště"

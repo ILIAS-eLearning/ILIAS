@@ -1,0 +1,84 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: notifications_adm\n"
+
+#, fuzzy
+msgid "available_providers"
+msgstr "Available Providers"
+
+#, fuzzy
+msgid "client_settings"
+msgstr "Client Settings"
+
+msgid "enable_osd"
+msgstr "Aktivera popup-aviseringar"
+
+msgid "enable_osd_desc"
+msgstr "När detta är aktiverat meddelas användarna om nya aviseringar via en popup."
+
+#, fuzzy
+msgid "enable_push"
+msgstr "Enable Push Notifications"
+
+#, fuzzy
+msgid "enable_push_desc"
+msgstr "If enabled, users are notified by push notifications. User can change this behaviour within their user settings."
+
+msgid "notification_settings"
+msgstr "Inställningar för meddelanden"
+
+msgid "osd_error_refresh_interval_too_small"
+msgstr "Pollningsintervallet måste vara minst 3000 millisekunder."
+
+msgid "osd_interval"
+msgstr "Query intervall"
+
+msgid "osd_interval_desc"
+msgstr "Intervall för begäran om meddelanden i millisekunder. En lägre tid ger snabbare meddelanden, men ökar belastningen på servern."
+
+msgid "osd_play_sound"
+msgstr "Spela upp ljud"
+
+msgid "osd_play_sound_desc"
+msgstr "Spela upp ljud när ett nytt meddelande tas emot."
+
+msgid "osd_settings"
+msgstr "Popup-aviseringar"
+
+#, fuzzy
+msgid "push_client_already_used"
+msgstr "Push notifications are already used by another user for this client."
+
+#, fuzzy
+msgid "push_client_edge_case"
+msgstr "The Edge Browser might have deactivated notifications without your consent. Enter your browser settings to reactivate them."
+
+#, fuzzy
+msgid "push_client_inactive"
+msgstr "Push notifications are disabled for this website. Open your browser settings to activate them."
+
+#, fuzzy
+msgid "push_client_ios_case"
+msgstr "If you are using IOS (Iphone, Ipad, Ipod) push notifications for websites are not supported. Create an access via web app to enable them."
+
+#, fuzzy
+msgid "push_settings"
+msgstr "Push Notifications"
+
+#, fuzzy
+msgid "push_subscription_successfull"
+msgstr "Push Notifications activation successful"
+
+#, fuzzy
+msgid "push_subscription_successfull_desc"
+msgstr "This is a dummy notification to verify the successful activation of push notifications."
+
+#, fuzzy
+msgid "user_settings"
+msgstr "User Settings"

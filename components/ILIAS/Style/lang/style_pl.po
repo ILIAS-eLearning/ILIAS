@@ -1,0 +1,1463 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pl\n"
+"Language-Team: Polish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: style\n"
+
+msgid "adapt_icon"
+msgstr "Dopasowanie ikon"
+
+msgid "adapt_icon_description"
+msgstr "Dostosuj kolor ikony lub ikonę."
+
+msgid "adapt_icons"
+msgstr "Dostosowanie kolorów ikon"
+
+msgid "adapt_icons_description"
+msgstr "Tutaj zestawione są wszystkie ikony svg, które zostały znalezione w folderze Obrazy. Jeśli zmieniony zostanie kolor, zmiana ta jest natychmiast widoczna we wszystkich zestawionych tutaj ikonach."
+
+#, fuzzy
+msgid "adapt_scss"
+msgstr "Adapt scss"
+
+#, fuzzy
+msgid "adapt_scss_description"
+msgstr "This is a direct representation of all scss variables from the settings files used in the selected skin. Variable names and descriptions are drawn directly from those files and are therefore only available in their original language. The selected style will be recompiled completely by updating/reseting the variables. Resetting variables will create a copy of the default delos style."
+
+msgid "add_substyle"
+msgstr "Nowy podstyl"
+
+msgid "add_system_style"
+msgstr "Nowy styl systemowy"
+
+msgid "assignment"
+msgstr "Przydział"
+
+msgid "blue_color"
+msgstr "Niebieski"
+
+msgid "blue_colors"
+msgstr "Niebieskie kolory"
+
+msgid "blue_colors_description"
+msgstr "Niebieski, opis"
+
+#, fuzzy
+msgid "can_not_read_scss_file"
+msgstr "Cannot read scss file. Path:"
+
+msgid "cant_deactivate_default_style"
+msgstr "Nie można wyłączyć stylów domyślnych."
+
+msgid "cant_delete_activated_style"
+msgstr "Nie udało się usunąć aktywnych stylów."
+
+msgid "cant_delete_if_users_assigned"
+msgstr "Nie można usunąć stylów, jeśli przydzieleni są do nich użytkownicy."
+
+msgid "cant_delete_style_with_substyles"
+msgstr "Nie można usunąć stylów z podstylami."
+
+msgid "change_icon"
+msgstr "Zmień ikony"
+
+msgid "color"
+msgstr "Kolor"
+
+msgid "color_changed_from"
+msgstr "Kolor zmieniony przez:"
+
+msgid "color_changed_to"
+msgstr "do:"
+
+msgid "color_reset"
+msgstr "Przywrócone kolory ikon. Ważne: Pamięć podręczna przeglądarki może sprawić, że zmiany nie będą prawidłowo wyświetlane. Dlatego istnieje prawdopodobieństwo, że trzeba będzie opróżnić pamięć podręczną przeglądarki, aby sprawdzić dokonane zmiany."
+
+msgid "color_update"
+msgstr "Kolory ikon zostały zaktualizowane. Ważne: Pamięć podręczna przeglądarki może sprawić, że zmiany nie będą prawidłowo wyświetlane. Dlatego istnieje prawdopodobieństwo, że trzeba będzie opróżnić pamięć podręczną przeglądarki, aby sprawdzić dokonane zmiany."
+
+msgid "default_style_set_to"
+msgstr "Styl domyślny został zmieniony na:"
+
+#, fuzzy
+msgid "dir_changed_to"
+msgstr "The directory has been moved to:"
+
+msgid "dir_copied_from"
+msgstr "Folder został skopiowany przez:"
+
+#, fuzzy
+msgid "dir_created"
+msgstr "The following directory has been created:"
+
+msgid "dir_deleted"
+msgstr "Poniższy folder został usunięty:"
+
+#, fuzzy
+msgid "dir_preserved_backup"
+msgstr "Preserved Backup folder:"
+
+msgid "dir_preserved_linked"
+msgstr "Zachowane linki:"
+
+msgid "directory_created"
+msgstr "Utworzono folder:"
+
+msgid "documentation"
+msgstr "Dokumentacja"
+
+msgid "edit_by_color"
+msgstr "Edycja wg koloru"
+
+msgid "edit_by_icon"
+msgstr "Edycja wg ikon"
+
+msgid "enable_system_styles_management_no_write_perm"
+msgstr "Aktywna jest opcja 'Zarządzanie stylami systemowymi'. ILIAS nie posiada prawa pisania dla indeksu Customizing/global/skin. Dlatego nie można tworzyć/edytować nowych stylów."
+
+msgid "entries_reloaded"
+msgstr "Wszystkie wpisy zostały zaktualizowane"
+
+msgid "file_deleted"
+msgstr "Poniższy plik został usunięty:"
+
+msgid "font_dir"
+msgstr "Folder czcionek"
+
+msgid "font_dir_description"
+msgstr "Folder służący do zapisywania czcionek danej skórki. W folderze można przechowywać również inne style i podstyle."
+
+msgid "from_skin"
+msgstr "Skórka:"
+
+msgid "green_color"
+msgstr "Zielony"
+
+msgid "green_colors"
+msgstr "Zielone kolory"
+
+msgid "green_colors_description"
+msgstr "Zielony, opis"
+
+msgid "grey_color"
+msgstr "Szary"
+
+msgid "grey_colors"
+msgstr "Szare kolory"
+
+msgid "grey_colors_description"
+msgstr "Szary, opis"
+
+msgid "icons"
+msgstr "Icons"
+
+msgid "icons_gallery"
+msgstr "Galeria ikon"
+
+msgid "image_dir"
+msgstr "Folder ikon"
+
+msgid "image_dir_description"
+msgstr "Folder służący do zapisywania obrazów (głównie ikon) danej skórki. W folderze można przechowywać również inne style i podstyle."
+
+#, fuzzy
+msgid "in_main_scss_file"
+msgstr "is not imported inside the system styles main scss file:"
+
+#, fuzzy
+msgid "invalid_scss_path"
+msgstr "The provided sass/scss path is either not valid or the webserver does not have the proper permission to read and execute sass/scss. Sass/scss (or the file linked to by the file pointed to by the scss path) has to be readable and executable by your webserver."
+
+msgid "ks_documentation_of_style"
+msgstr "Dokumentacja dotycząca stylu - Kitchen Sink:"
+
+msgid "ks_documentation_of_substyle"
+msgstr "Dokumentacja dotycząca podstylu - Kitchen Sink:"
+
+#, fuzzy
+msgid "main_scss_created"
+msgstr "Main SCSS has been created:"
+
+msgid "manage_system_styles"
+msgstr "Zarządzaj stylami zawartości"
+
+msgid "msg_sub_style_created"
+msgstr "Utworzono podstyl."
+
+msgid "msg_sys_style_created"
+msgstr "Udało się utworzyć nowy plik stylu systemowego."
+
+msgid "msg_sys_style_update"
+msgstr "Style systemowe zostały zaktualizowane."
+
+#, fuzzy
+msgid "no_scss_path_set"
+msgstr "No Scss Path set"
+
+msgid "no_style_selected"
+msgstr "Nie wybrano podstylu."
+
+msgid "of_parent"
+msgstr "Parent:"
+
+msgid "open_documentation"
+msgstr "Otwórz dokumentację"
+
+msgid "parent"
+msgstr "Styl parent"
+
+msgid "personal"
+msgstr "Osobiste"
+
+msgid "personal_style_set_to"
+msgstr "Styl osobisty został zmieniony na:"
+
+#, fuzzy
+msgid "provided_scss_path"
+msgstr "Provided scss path:"
+
+msgid "red_color"
+msgstr "Czerwony"
+
+msgid "red_colors"
+msgstr "Czerwone kolory"
+
+msgid "red_colors_description"
+msgstr "Czerwony, opis"
+
+msgid "refresh_entries"
+msgstr "Zaktualizuj wpisy"
+
+msgid "remove_assignment"
+msgstr "Usuń przydział"
+
+msgid "reset_icons"
+msgstr "Przywróć kolory"
+
+msgid "reset_variables"
+msgstr "Przywróć zmienne"
+
+msgid "scope"
+msgstr "Obszar obowiązywania"
+
+#, fuzzy
+msgid "scss"
+msgstr "Scss"
+
+#, fuzzy
+msgid "scss_can_not_be_modified"
+msgstr "Scss cannot be modified"
+
+#, fuzzy
+msgid "scss_compile_failed"
+msgstr "Something in the compilation of the scss file went wrong. Is scss installed and the path set correctly in ILIAS setup? Original error:"
+
+#, fuzzy
+msgid "scss_file_reset"
+msgstr "The scss variables have been reset. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache."
+
+#, fuzzy
+msgid "scss_file_updated"
+msgstr "The scss variables have been updated. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache."
+
+#, fuzzy
+msgid "scss_folder_reset"
+msgstr "Scss folder reset"
+
+#, fuzzy
+msgid "scss_folder_updated"
+msgstr "Scss folder has been updated"
+
+#, fuzzy
+msgid "scss_scss_installation_detected"
+msgstr "Scss/sass installation detected at:"
+
+#, fuzzy
+msgid "scss_variable_empty"
+msgstr "This variable was empty. The default from your settings files has been set. Please check if this is correct before compiling."
+
+#, fuzzy
+msgid "scss_variables_empty_might_have_changed"
+msgstr "There are empty variables in your form. You might have changed your settings files since loading this form. The defaults from the settings files have been set for the empty fields. Please check those marked empty fields before compiling and saving the values to your settings files."
+
+#, fuzzy
+msgid "scss_variables_file_not_included"
+msgstr "The scss variables files:"
+
+msgid "select_icon"
+msgstr "Przeprowadź selekcję ikon"
+
+msgid "settings_of_style"
+msgstr "Zarządzaj stylami"
+
+msgid "settings_of_substyle"
+msgstr "Zarządzaj podstylami"
+
+msgid "skin"
+msgstr "Skórka"
+
+msgid "skin_deleted"
+msgstr "Poniższa skórka została usunięta:"
+
+msgid "skin_id"
+msgstr "Numer ID skórki"
+
+msgid "skin_id_description"
+msgstr "Skórki to pojemniki dla stylów i podstylów. Numer ID skórki składa się z nazwy folderu, który zawiera wszystkie informacje dotyczące stylów i podstylów. Numer ID skórki może składać się wyłącznie z liter, numerów i myślników."
+
+msgid "skin_id_exists"
+msgstr "Skórka o tym numerze ID już istnieje."
+
+msgid "skin_name"
+msgstr "Nazwa skórki"
+
+msgid "skin_name_description"
+msgstr "Nazwę skórki można użyć jako opisu dla obszaru zastosowania. Umieszczana jest we wszystkich elementach Ul, w których można wybrać skórkę."
+
+msgid "skin_version"
+msgstr "Wersja skórki"
+
+msgid "skin_version_description"
+msgstr "Wersja skórki wykorzystywana jest do tego, aby wyczyść pamięć podręczną po zmianach. Jest automatycznie aktualizowana."
+
+msgid "sound_dir"
+msgstr "Folder audio"
+
+msgid "sound_dir_description"
+msgstr "Folder służący do zapisywania dźwięków danej skórki. W folderze można przechowywać również inne style i podstyle."
+
+msgid "sty_acopy"
+msgstr "Kopia"
+
+msgid "sty_add_assignment"
+msgstr "Dodaj przydział"
+
+msgid "sty_add_characteristic"
+msgstr "Dodaj nowy styl"
+
+msgid "sty_add_color"
+msgstr "Dodaj kolor"
+
+msgid "sty_add_content_style"
+msgstr "Dodaj styl zawartości"
+
+msgid "sty_add_image"
+msgstr "Dodaj zdjęcie"
+
+msgid "sty_add_media_query"
+msgstr "Dodaj zapytania mediów"
+
+#, fuzzy
+msgid "sty_add_media_query_info"
+msgstr "E.g. \"only screen and (max-width: 600px)\" for browser window smaller than 600px or \"print\" for printing devices."
+
+msgid "sty_add_pgl"
+msgstr "Dodaj układ strony"
+
+msgid "sty_add_template"
+msgstr "Dodaj do szablonu"
+
+msgid "sty_added_characteristic"
+msgstr "Dodano nowy styl"
+
+msgid "sty_all"
+msgstr "Wszystko"
+
+msgid "sty_all_styles_obligatory"
+msgstr "Wszystkie wybrane klasy stylu muszą być zawsze dostępne i nie wolno ich usuwać."
+
+msgid "sty_assign_categories"
+msgstr "Przydziel kategorie"
+
+msgid "sty_background"
+msgstr "Tło"
+
+msgid "sty_background_attachment"
+msgstr "Załącznik tła"
+
+msgid "sty_background_color"
+msgstr "Kolor tła"
+
+msgid "sty_background_image"
+msgstr "Obraz tła"
+
+msgid "sty_background_position"
+msgstr "Pozycja tła"
+
+msgid "sty_background_repeat"
+msgstr "Powtarzanie tła"
+
+msgid "sty_base_color"
+msgstr "Kolor podstawowy"
+
+msgid "sty_based_on"
+msgstr "Oparty na"
+
+#, fuzzy
+msgid "sty_bg_img_info"
+msgstr "To add images to the dropdown selection please upload them in the \"Images\" section of the style first."
+
+msgid "sty_border"
+msgstr "Linia"
+
+msgid "sty_border_color"
+msgstr "Kolor linii"
+
+msgid "sty_border_style"
+msgstr "Styl linii"
+
+msgid "sty_border_width"
+msgstr "Grubość linii"
+
+msgid "sty_bottom"
+msgstr "Dół"
+
+msgid "sty_ca_cntr_class"
+msgstr "Karuzela - kontener"
+
+msgid "sty_ca_icntr_class"
+msgstr "Karuzela - kontener z elementem"
+
+msgid "sty_ca_icont_class"
+msgstr "Karuzela - treść, element"
+
+msgid "sty_ca_ihead_class"
+msgstr "Karuzela - nagłówek, element"
+
+#, fuzzy
+msgid "sty_cannot_be_copied"
+msgstr "The following style types cannot be copied"
+
+msgid "sty_caption"
+msgstr "Legenda"
+
+msgid "sty_caption_class"
+msgstr "Legenda"
+
+msgid "sty_carousel_templates"
+msgstr "Szablony karuzeli"
+
+msgid "sty_cat_assignments"
+msgstr "Przydziały do kategorii stylów"
+
+#, fuzzy
+msgid "sty_change_user_assignment"
+msgstr "Change User Assignment"
+
+msgid "sty_characteristic_already_exists"
+msgstr "Klasa dla stylu o tej nazwie już istnieje w arkusze stylów."
+
+#, fuzzy
+msgid "sty_class"
+msgstr "Style Class"
+
+#, fuzzy
+msgid "sty_class_name"
+msgstr "Class Name"
+
+msgid "sty_clear"
+msgstr "Zakończ opływający tekst"
+
+msgid "sty_col_foot_class"
+msgstr "Stopka (kolumny)"
+
+msgid "sty_col_head_class"
+msgstr "Nagłówek (kolumny)"
+
+msgid "sty_color"
+msgstr "Kolor"
+
+msgid "sty_color_already_exists"
+msgstr "Kolor o tej nazwie istnieje już w tym arkuszu stylów."
+
+msgid "sty_color_code"
+msgstr "Kod kolorystyczny"
+
+msgid "sty_color_flavors"
+msgstr "Odcienie"
+
+msgid "sty_color_info"
+msgstr "Wstępnie zdefiniowane schematy kolorów ułatwiają ponowne użycie kolorów dla różnych zastosowań. Odeślij do wstępnie zdefiniowanego koloru, wykorzystując jego nazwę z \"!\" znajdującym się z przodu dla wszystkich odcieni. Aby użyć odcieni, wpisz wartość w nawiasie zgodnie z nazwą koloru, np. !MojeKolory(20)."
+
+msgid "sty_color_name"
+msgstr "Nazwa koloru"
+
+msgid "sty_colors"
+msgstr "Kolory"
+
+msgid "sty_commands"
+msgstr "Akcje"
+
+msgid "sty_confirm_char_deletion"
+msgstr "Jesteś pewien, że chcesz usunąć poniższe klasy stylów?"
+
+msgid "sty_confirm_color_deletion"
+msgstr "Zatwierdź usunięcie koloru"
+
+msgid "sty_confirm_del_ind_styles"
+msgstr "Potwierdź usunięcie indywidualnych stylów treści."
+
+msgid "sty_confirm_del_ind_styles_desc"
+msgstr "Wszystkim modułom z indywidualnymi stylami zostanie przydzielony styl '%s'. To również spowoduje usunięcie wszystkich indywidualnych stylów treści. Chcesz kontynuować?"
+
+msgid "sty_confirm_template_deletion"
+msgstr "Zatwierdź usunięcie szablonu"
+
+msgid "sty_copied_please_select_target"
+msgstr "Skopiowano klasy stylów. Przejdź do wybranego stylu docelowego o wybierz \"wstaw klasy stylów\"."
+
+msgid "sty_copy_other_stylesheet"
+msgstr "Kopiuj styl z lokalnego źródła"
+
+msgid "sty_copy_other_system_style"
+msgstr "Kopiuj styl systemowy"
+
+#, fuzzy
+msgid "sty_copy_to"
+msgstr "to:"
+
+msgid "sty_create_ind_style"
+msgstr "Twórz indywidualny styl"
+
+#, fuzzy
+msgid "sty_create_new_class"
+msgstr "Create new style class"
+
+msgid "sty_create_new_stylesheet"
+msgstr "Twórz nowy styl"
+
+msgid "sty_create_new_system_style"
+msgstr "Utwórz nowy styl systemowy"
+
+msgid "sty_create_new_system_sub_style"
+msgstr "Utwórz nowy podstyl"
+
+msgid "sty_create_pgl"
+msgstr "Utwórz układ strony"
+
+msgid "sty_cursor"
+msgstr "Kursor"
+
+msgid "sty_custom"
+msgstr "Dodatkowe zasady CSS"
+
+msgid "sty_custom_par"
+msgstr "Dodatkowy parametr"
+
+msgid "sty_custom_par_info"
+msgstr "Definiuj dodatkowe parametry w formacie \"Wartość parametru\"."
+
+msgid "sty_default"
+msgstr "Domyślnie"
+
+msgid "sty_default_style"
+msgstr "Styl domyślny"
+
+msgid "sty_del_template"
+msgstr "Usuń szablon i klasę"
+
+msgid "sty_del_template_keep_classes"
+msgstr "Usuń i otrzymaj klasę arkuszu stylu"
+
+msgid "sty_delete_other_selected"
+msgstr "Kontynuuj"
+
+msgid "sty_disable_auto_margins"
+msgstr "Zablokuj automatyczne odstępy"
+
+msgid "sty_disable_auto_margins_info"
+msgstr "Blokuje automatyczne ustawianie lewego i prawego marginesu na 0 pikseli, jeśli obiekty mediów zostaną umieszczone w jednej płaszczyźnie po lewej lub prawej stronie."
+
+msgid "sty_edit_template"
+msgstr "Edytuj szablon"
+
+msgid "sty_even_col_class"
+msgstr "Łącznie z kolumnami"
+
+msgid "sty_even_row_class"
+msgstr "Łącznie z wierszami"
+
+msgid "sty_example"
+msgstr "Przykład"
+
+msgid "sty_flist_char"
+msgstr "Lista plików"
+
+msgid "sty_float"
+msgstr "Opływać"
+
+msgid "sty_font_family"
+msgstr "Rodzina czcionek"
+
+msgid "sty_font_size"
+msgstr "Styl czcionki"
+
+msgid "sty_font_style"
+msgstr "Styl czcionki"
+
+msgid "sty_font_variant"
+msgstr "Wariant czcionki"
+
+msgid "sty_font_weight"
+msgstr "Waga czcionki"
+
+msgid "sty_from"
+msgstr "Od"
+
+msgid "sty_generate_template"
+msgstr "Generowanie szablonu"
+
+msgid "sty_glo_char"
+msgstr "Słownik"
+
+msgid "sty_ha_cntr_class"
+msgstr "Poziomy kontener z układem harmonijkowym"
+
+msgid "sty_ha_icntr_class"
+msgstr "Poziomy element harmonijkowy, kontener"
+
+msgid "sty_ha_icont_class"
+msgstr "Poziomy element harmonijkowy, treść"
+
+msgid "sty_ha_ihcap_class"
+msgstr "Poziomy element harmonijkowy, tytuł"
+
+msgid "sty_ha_ihead_class"
+msgstr "Poziomy element harmonijkowy, nagłówek"
+
+msgid "sty_ha_iheada_class"
+msgstr "Poziomy element harmonijkowy, nagłówek (aktywny)"
+
+msgid "sty_haccordion_templates"
+msgstr "Poziomy element harmonijkowy, szablon"
+
+msgid "sty_height"
+msgstr "Wysokość"
+
+msgid "sty_hide"
+msgstr "Ukryj"
+
+msgid "sty_horizontal"
+msgstr "Poziomo"
+
+msgid "sty_if_style_class_already_exists"
+msgstr "Jak ma wyglądać proces, jeśli klasa stylów już istnieje?"
+
+msgid "sty_image_file"
+msgstr "Plik zdjęciowy"
+
+msgid "sty_images"
+msgstr "Zdjęcia"
+
+msgid "sty_import_page_layout"
+msgstr "Importuj układ strony"
+
+msgid "sty_import_stylesheet"
+msgstr "Import stylu"
+
+msgid "sty_import_system_style"
+msgstr "Importuj styl systemowy"
+
+#, fuzzy
+msgid "sty_imported_layout"
+msgstr "Imported Page Layout"
+
+msgid "sty_individual_styles"
+msgstr "Indywidualne style"
+
+msgid "sty_keep_existing"
+msgstr "Zachowaj istniejącą klasę"
+
+msgid "sty_left"
+msgstr "Lewy"
+
+msgid "sty_left_right_padding"
+msgstr "Rozciągnięcie po lewej stronie/po prawej stronie"
+
+#, fuzzy
+msgid "sty_legacy_image_directory_found"
+msgstr "Legacy image directory found. You may migrate the directory from ILIAS 9 by clicking \"Migrate Images\""
+
+msgid "sty_letter_spacing"
+msgstr "Spacjowanie liter"
+
+msgid "sty_lightness_border"
+msgstr "Jasność, ramka"
+
+msgid "sty_lightness_cell1_bg"
+msgstr "Jasność, komórka 1, tło"
+
+msgid "sty_lightness_cell1_text"
+msgstr "Jasność, komórka 1, tekst"
+
+msgid "sty_lightness_cell2_bg"
+msgstr "Jasność, komórka 2, tło"
+
+msgid "sty_lightness_cell2_text"
+msgstr "Jasność, komórka 2, tekst"
+
+msgid "sty_lightness_header_bg"
+msgstr "Jasność, nagłówek, tło"
+
+msgid "sty_lightness_header_text"
+msgstr "Wysokość linii"
+
+msgid "sty_line_height"
+msgstr "Wysokość wiersza"
+
+msgid "sty_link_char"
+msgstr "Link"
+
+msgid "sty_list_char"
+msgstr "Lista"
+
+#, fuzzy
+msgid "sty_list_style_position"
+msgstr "List Style Position"
+
+#, fuzzy
+msgid "sty_list_style_type"
+msgstr "List Style Type"
+
+msgid "sty_make_global_default"
+msgstr "Styl standardowy"
+
+msgid "sty_make_global_fixed"
+msgstr "Wymuszony styl dla wszystkich obiektów"
+
+msgid "sty_margin"
+msgstr "Margines zewnętrzny"
+
+msgid "sty_margin_and_padding"
+msgstr "Margines zewnętrzny i rozciągnięcie"
+
+msgid "sty_media_char"
+msgstr "Media"
+
+msgid "sty_media_queries"
+msgstr "Media Queries"
+
+msgid "sty_media_query_info"
+msgstr "Dla każdego zapytania mediów wstawiany jest arkusz CSS wg arkuszu domyślnego (bez zapytania mediów)."
+
+#, fuzzy
+msgid "sty_migrate_images"
+msgstr "Migrate Images"
+
+msgid "sty_min_height"
+msgstr "Minimalna wysokość"
+
+msgid "sty_move_lm_styles"
+msgstr "Zmień styl modułów nauczania"
+
+#, fuzzy
+msgid "sty_move_obj_styles"
+msgstr "Change Style of Objects"
+
+msgid "sty_move_style"
+msgstr "Zmień styl"
+
+msgid "sty_move_user_styles"
+msgstr "Zmień arkusz stylów użytkowników"
+
+#, fuzzy
+msgid "sty_move_user_styles_saved"
+msgstr "The assignment of the users assigned to skind-id %s has been changed to skin-id %s."
+
+msgid "sty_msg_characteristic_must_only_include"
+msgstr "Tytuł stylu może zawierać tylko poniższe znaki"
+
+msgid "sty_msg_color_must_only_include"
+msgstr "Nazwa koloru może zawierać tylko poniższe litery/znaki"
+
+msgid "sty_msg_input_must_be_numeric"
+msgstr "Konieczne jest wprowadzenie numeryczne."
+
+msgid "sty_name"
+msgstr "Nazwa"
+
+msgid "sty_nr_learning_modules"
+msgstr "Liczba modułów nauczania"
+
+#, fuzzy
+msgid "sty_nr_objects"
+msgstr "Number of Objects"
+
+msgid "sty_odd_col_class"
+msgstr "Kolumny nieparzyste"
+
+msgid "sty_odd_row_class"
+msgstr "Wiersze nieparzyste"
+
+#, fuzzy
+msgid "sty_ol"
+msgstr "Ordered List"
+
+msgid "sty_opacity"
+msgstr "Siła przykrycia"
+
+msgid "sty_opt_saved"
+msgstr "Opcja zapisana"
+
+msgid "sty_order"
+msgstr "Kolejność"
+
+#, fuzzy
+msgid "sty_outdated"
+msgstr "Outdated"
+
+msgid "sty_overflow"
+msgstr "Przepełnienie"
+
+msgid "sty_overwrite"
+msgstr "Nadpisanie"
+
+#, fuzzy
+msgid "sty_overwrite_existing_class"
+msgstr "Overwrite existing style class"
+
+msgid "sty_padding"
+msgstr "Rozciągnięcie"
+
+msgid "sty_page_char"
+msgstr "Strona"
+
+#, fuzzy
+msgid "sty_parameters"
+msgstr "Parameters"
+
+msgid "sty_paste_characteristics"
+msgstr "Wstaw klasy stylów"
+
+#, fuzzy
+msgid "sty_paste_chars"
+msgstr "Paste Classes"
+
+msgid "sty_paste_style_classes"
+msgstr "Wstaw klasy stylów"
+
+msgid "sty_position"
+msgstr "Pozycja"
+
+msgid "sty_positioning"
+msgstr "Pozycjonowanie"
+
+msgid "sty_preview"
+msgstr "Podgląd"
+
+msgid "sty_query"
+msgstr "Zapytanie"
+
+msgid "sty_question_char"
+msgstr "Pytanie"
+
+msgid "sty_remove_global_default_state"
+msgstr "Anuluj globalny standard przy statusie"
+
+msgid "sty_remove_global_fixed_state"
+msgstr "Anuluj ustalenie standardu"
+
+#, fuzzy
+msgid "sty_remove_outdated"
+msgstr "Remove Outdated Status"
+
+#, fuzzy
+msgid "sty_resize"
+msgstr "Resize"
+
+#, fuzzy
+msgid "sty_resize_image"
+msgstr "Resize Image"
+
+msgid "sty_right"
+msgstr "Prawy"
+
+msgid "sty_row_foot_class"
+msgstr "Stopka (wiersze)"
+
+msgid "sty_row_head_class"
+msgstr "Nagłówek (wiersze)"
+
+msgid "sty_rte_char"
+msgstr "SCORM RTE"
+
+msgid "sty_save_active_styles"
+msgstr "Zapisz aktywne style"
+
+#, fuzzy
+msgid "sty_save_hide_order_status"
+msgstr "Save Order and Hidden Status"
+
+msgid "sty_save_hide_status"
+msgstr "Zapisz ststus ukrycia"
+
+msgid "sty_save_order"
+msgstr "Zapisz kolejność"
+
+#, fuzzy
+msgid "sty_save_order_status"
+msgstr "Save Order"
+
+msgid "sty_sco_char"
+msgstr "SCOs oraz cele dydaktyczne"
+
+msgid "sty_scope"
+msgstr "Zakres"
+
+msgid "sty_section_char"
+msgstr "Sekcja"
+
+#, fuzzy
+msgid "sty_set_outdated"
+msgstr "Set Outdated"
+
+msgid "sty_set_scope"
+msgstr "Ustaw zakres"
+
+msgid "sty_some_styles_obligatory_delete_rest"
+msgstr "Poniższe klasy stylu muszą być zawsze dostępne i nie wolno ich usuwać. Chcesz kontynuować i usunąć istniejące klasy stylów?"
+
+msgid "sty_source"
+msgstr "Źródło"
+
+msgid "sty_special"
+msgstr "Specjalny"
+
+msgid "sty_style_chars"
+msgstr "Klasa stylu"
+
+msgid "sty_style_class"
+msgstr "Klasy stylów"
+
+msgid "sty_style_classes_copied"
+msgstr "Skopiono klasy stylów."
+
+#, fuzzy
+msgid "sty_style_not_migrated"
+msgstr "This content style has not been migrated to the ILIAS 10 data structure yet. Changes will not be applied."
+
+msgid "sty_substyle"
+msgstr "Style obszaru częściowego"
+
+msgid "sty_substyle_of"
+msgstr "Podstyl"
+
+msgid "sty_substyles"
+msgstr "Style obszaru częściowego"
+
+msgid "sty_sure_del_mqueries"
+msgstr "Czy naprawdę chcesz usunąć to zapytanie mediów i przydzielonego do niego zasady CSS?"
+
+msgid "sty_switch"
+msgstr "Zmiana"
+
+msgid "sty_table_char"
+msgstr "Tabela"
+
+msgid "sty_table_class"
+msgstr "Klasa stylu tabeli"
+
+msgid "sty_table_template_bw_zebra"
+msgstr "Szare pasy"
+
+msgid "sty_table_template_colored_zebra"
+msgstr "Kolorowe pasy"
+
+msgid "sty_table_template_no_zebra"
+msgstr "Brak pasów"
+
+msgid "sty_table_templates"
+msgstr "Szablony tabel"
+
+msgid "sty_tabs_char"
+msgstr "Układy harmonijkowe i wachlarzowe"
+
+msgid "sty_tag_hover"
+msgstr ":hover"
+
+msgid "sty_tag_normal"
+msgstr "Normalny"
+
+msgid "sty_template_layout"
+msgstr "Układ szablonu"
+
+msgid "sty_template_name"
+msgstr "Nazwa"
+
+msgid "sty_templates"
+msgstr "Szablony"
+
+msgid "sty_text"
+msgstr "Tekst"
+
+msgid "sty_text_align"
+msgstr "Wyrównanie tekstu"
+
+msgid "sty_text_block_char"
+msgstr "Blok tekstowy"
+
+msgid "sty_text_decoration"
+msgstr "Dekoracja tekstu"
+
+msgid "sty_text_indent"
+msgstr "Wcięcie tekstu"
+
+msgid "sty_text_inline_char"
+msgstr "Tekst (znaki)"
+
+msgid "sty_text_transform"
+msgstr "Przekształcenie tekstu"
+
+#, fuzzy
+msgid "sty_titles"
+msgstr "Titles"
+
+msgid "sty_to"
+msgstr "Do"
+
+msgid "sty_top"
+msgstr "Góra"
+
+msgid "sty_top_bottom_padding"
+msgstr "Rozciągnięcie u góry/na dole"
+
+msgid "sty_transform"
+msgstr "Przekształć"
+
+msgid "sty_transform_origin"
+msgstr "Przekształć oryginał"
+
+msgid "sty_type"
+msgstr "Typ"
+
+msgid "sty_type_ca_cntr"
+msgstr "Karuzela - kontener"
+
+msgid "sty_type_ca_icntr"
+msgstr "Karuzela - kontener z elementem"
+
+msgid "sty_type_ca_icont"
+msgstr "Karuzela - treść, element"
+
+msgid "sty_type_ca_ihead"
+msgstr "Karuzela - nagłówek, element"
+
+#, fuzzy
+msgid "sty_type_code_block"
+msgstr "Code (Block)"
+
+#, fuzzy
+msgid "sty_type_code_inline"
+msgstr "Code (Inline)"
+
+#, fuzzy
+msgid "sty_type_em"
+msgstr "Emphasised"
+
+msgid "sty_type_flist"
+msgstr "Lista plików"
+
+msgid "sty_type_flist_a"
+msgstr "Link wpis do listy plików"
+
+msgid "sty_type_flist_cont"
+msgstr "Kontener listy plików"
+
+msgid "sty_type_flist_head"
+msgstr "Nagłówek listy plików"
+
+msgid "sty_type_flist_li"
+msgstr "Wpis do listy plików"
+
+msgid "sty_type_glo_ovclink"
+msgstr "Zamknij słownik, link"
+
+msgid "sty_type_glo_overlay"
+msgstr "Słownik, wyskakujące okienko"
+
+msgid "sty_type_glo_ovtitle"
+msgstr "Pojęcie/tytuł (wyskakujące okienko)"
+
+msgid "sty_type_glo_ovuglink"
+msgstr "Link do pojęcia"
+
+msgid "sty_type_glo_ovuglistlink"
+msgstr "Link w liście z pojęciami"
+
+msgid "sty_type_ha_cntr"
+msgstr "Poziomy kontener z układem harmonijkowym"
+
+msgid "sty_type_ha_icntr"
+msgstr "Poziomy element harmonijkowy, kontener"
+
+msgid "sty_type_ha_icont"
+msgstr "Poziomy element harmonijkowy, treść"
+
+msgid "sty_type_ha_ihcap"
+msgstr "Poziomy element harmonijkowy, tytuł"
+
+msgid "sty_type_ha_ihead"
+msgstr "Poziomy element harmonijkowy, nagłówek"
+
+msgid "sty_type_ha_iheada"
+msgstr "Poziomy element harmonijkowy, nagłówek (aktywny)"
+
+msgid "sty_type_heading1"
+msgstr "Nagłówek 1"
+
+msgid "sty_type_heading2"
+msgstr "Nagłówek 2"
+
+msgid "sty_type_heading3"
+msgstr "Nagłówek 3"
+
+msgid "sty_type_iim"
+msgstr "Wyskakujące okienko dla treści z interaktywnym obrazem"
+
+msgid "sty_type_link"
+msgstr "Link"
+
+msgid "sty_type_list_item"
+msgstr "Wpis do listy"
+
+msgid "sty_type_list_o"
+msgstr "Lista numerowana"
+
+msgid "sty_type_list_u"
+msgstr "Lista wypunktowana"
+
+msgid "sty_type_marker"
+msgstr "Punkt zaznaczenia, obraz interaktywny"
+
+msgid "sty_type_media_caption"
+msgstr "Opis"
+
+msgid "sty_type_media_cont"
+msgstr "Kontener mediów"
+
+msgid "sty_type_page_bnav"
+msgstr "Nawigacja, na dole"
+
+msgid "sty_type_page_cont"
+msgstr "Kontener stron"
+
+msgid "sty_type_page_fn"
+msgstr "Stopka"
+
+msgid "sty_type_page_frame"
+msgstr "Ramka strony"
+
+msgid "sty_type_page_lnav"
+msgstr "Nawigacja, po lewej stronie"
+
+msgid "sty_type_page_lnavimage"
+msgstr "Obraz, nawigacja, po lewej stronie"
+
+msgid "sty_type_page_lnavlink"
+msgstr "Link, nawigacja, po lewej stronie"
+
+msgid "sty_type_page_rnav"
+msgstr "Nawigacja, po prawej stronie"
+
+msgid "sty_type_page_rnavimage"
+msgstr "Obraz, nawigacja, po prawej stronie"
+
+msgid "sty_type_page_rnavlink"
+msgstr "Link, nawigacja, po prawej stronie"
+
+msgid "sty_type_page_title"
+msgstr "Tytuł strony"
+
+msgid "sty_type_page_tnav"
+msgstr "Nawigacja, u góry"
+
+msgid "sty_type_qanswer"
+msgstr "Odpowiedź"
+
+msgid "sty_type_qetcorr"
+msgstr "Poprawiony błędny tekst"
+
+msgid "sty_type_qetitem"
+msgstr "Element błędnego tekstu"
+
+msgid "sty_type_qfeedr"
+msgstr "Informacja systemowa, prawidłowe"
+
+msgid "sty_type_qfeedw"
+msgstr "Informacja systemowa, nieprawidłowe"
+
+msgid "sty_type_qimg"
+msgstr "Obraz pytania"
+
+msgid "sty_type_qimgd"
+msgstr "Link do szczegółów obrazu"
+
+msgid "sty_type_qinput"
+msgstr "Wprowadzony tekst"
+
+msgid "sty_type_qlinput"
+msgstr "Wprowadzony tekst, długi"
+
+msgid "sty_type_qordli"
+msgstr "Wpis, lista wyliczająca"
+
+msgid "sty_type_qordul"
+msgstr "Lista wyliczająca"
+
+msgid "sty_type_qover"
+msgstr "Widok ogólny pytań"
+
+msgid "sty_type_qsubmit"
+msgstr "Przycisk"
+
+msgid "sty_type_qtitle"
+msgstr "Tytuł pytania"
+
+msgid "sty_type_question"
+msgstr "Pytanie"
+
+msgid "sty_type_rte_drag"
+msgstr "Przesuń belkę"
+
+msgid "sty_type_rte_menu"
+msgstr "Menu RTE"
+
+msgid "sty_type_rte_mlink"
+msgstr "Link do menu RTE"
+
+msgid "sty_type_rte_node"
+msgstr "Węzeł drzewa RTE"
+
+msgid "sty_type_rte_status"
+msgstr "Status RTE"
+
+msgid "sty_type_rte_tclink"
+msgstr "Link kontrolny, drzewo"
+
+msgid "sty_type_rte_texp"
+msgstr "Drzewo, ikony"
+
+msgid "sty_type_rte_tli"
+msgstr "Wpis w widoku drzewa"
+
+msgid "sty_type_rte_tlink"
+msgstr "Link do węzła drzewa RTE"
+
+msgid "sty_type_rte_tree"
+msgstr "Wybór drzewa RTE"
+
+msgid "sty_type_rte_tul"
+msgstr "Widok drzewa"
+
+msgid "sty_type_sco_desc"
+msgstr "Opis SCO"
+
+msgid "sty_type_sco_fmess"
+msgstr "Komunikat końcowy SCORM"
+
+msgid "sty_type_sco_keyw"
+msgstr "Hasła kluczowe SCO"
+
+msgid "sty_type_sco_obj"
+msgstr "SCO, cel dydaktyczny"
+
+msgid "sty_type_sco_title"
+msgstr "SCO, tytuł"
+
+msgid "sty_type_section"
+msgstr "Sekcja"
+
+#, fuzzy
+msgid "sty_type_strong"
+msgstr "Strong"
+
+msgid "sty_type_sub"
+msgstr "Dolny"
+
+msgid "sty_type_sup"
+msgstr "Wysoki"
+
+msgid "sty_type_table"
+msgstr "Tabela"
+
+msgid "sty_type_table_cell"
+msgstr "Komórka tabeli"
+
+msgid "sty_type_text_block"
+msgstr "Blok tekstowy"
+
+msgid "sty_type_text_inline"
+msgstr "Znak"
+
+msgid "sty_type_va_cntr"
+msgstr "Pionowy kontener harmonijkowy"
+
+msgid "sty_type_va_icntr"
+msgstr "Pionowy element harmonijkowy, kontener"
+
+msgid "sty_type_va_icont"
+msgstr "Pionowy element harmonijkowy, treść"
+
+msgid "sty_type_va_ihcap"
+msgstr "Pionowy element harmonijkowy, tytuł"
+
+msgid "sty_type_va_ihead"
+msgstr "Pionowy element harmonijkowy, nagłówek"
+
+msgid "sty_type_va_iheada"
+msgstr "Pionowy element harmonijkowy, nagłówek (aktywny)"
+
+#, fuzzy
+msgid "sty_ul"
+msgstr "Unordered List"
+
+msgid "sty_va_cntr_class"
+msgstr "Pionowy kontener harmonijkowy"
+
+msgid "sty_va_icntr_class"
+msgstr "Pionowy element harmonijkowy, kontener"
+
+msgid "sty_va_icont_class"
+msgstr "Pionowy element harmonijkowy, treść"
+
+msgid "sty_va_ihcap_class"
+msgstr "Pionowy element harmonijkowy, tytuł"
+
+msgid "sty_va_ihead_class"
+msgstr "Pionowy element harmonijkowy, nagłówek"
+
+msgid "sty_va_iheada_class"
+msgstr "Pionowy element harmonijkowy, nagłówek (aktywny)"
+
+msgid "sty_vaccordion_templates"
+msgstr "Pionowy szablon harmonijkowy"
+
+msgid "sty_vertical"
+msgstr "Pionowo"
+
+msgid "sty_vertical_align"
+msgstr "Wyrównanie pionowe"
+
+msgid "sty_white_space"
+msgstr "Pusta przestrzeń"
+
+msgid "sty_width"
+msgstr "Szerokość"
+
+msgid "sty_width_height"
+msgstr "Szerokość x wysokość"
+
+msgid "sty_word_spacing"
+msgstr "Odstęp między słowami"
+
+msgid "style"
+msgstr "Styl"
+
+msgid "style_assignments_deleted"
+msgstr "Usunięto przydziały stylu poniższego podstylu:"
+
+msgid "style_copied"
+msgstr "Style zostały z powodzeniem skopiowane."
+
+msgid "style_current_style"
+msgstr "Aktualny styl"
+
+msgid "style_delete_style"
+msgstr "Usuń styl"
+
+msgid "style_deleted"
+msgstr "Usunięty styl:"
+
+msgid "style_edit_style"
+msgstr "Edytuj style"
+
+msgid "style_id"
+msgstr "Numer ID stylu"
+
+msgid "style_id_description"
+msgstr "Numer ID skórki używany jest dla plików css i less właściwych dla stylów w strukturze poniżej folderu skórki. Numer ID stylu może składać się wyłącznie z liter, numerów i myślników."
+
+msgid "style_imported"
+msgstr "Style zostały z powodzeniem zaimportowane do:"
+
+msgid "style_name"
+msgstr "Nazwa stylu"
+
+msgid "style_name_description"
+msgstr "Nazwę stylu można użyć jako opisu dla obszaru zastosowania. Umieszczana jest we wszystkich elementach Ul, w których można wybrać skórkę."
+
+msgid "style_not_deleted"
+msgstr "Z poniższych przyczyn nie udało się usunąć stylu:"
+
+#, fuzzy
+msgid "style_page_layout_module_learning_module"
+msgstr "ILIAS Learning Module"
+
+msgid "style_page_layout_module_portfolio"
+msgstr "Portfolio"
+
+msgid "style_page_layout_module_scorm"
+msgstr "SCORM"
+
+#, fuzzy
+msgid "style_support_reuse"
+msgstr "Re-Use"
+
+#, fuzzy
+msgid "style_support_reuse_info"
+msgstr "Allow sub-objects of the current container to re-use this content style."
+
+msgid "styles_not_deleted"
+msgstr "Z poniższych przyczyn nie udało się usunąć stylów:"
+
+msgid "sub_style"
+msgstr "Podstyl"
+
+msgid "sub_style_id"
+msgstr "Numer ID podstylu"
+
+msgid "sub_style_id_description"
+msgstr "Numer ID podstylu używany jest dla danych plików css i less. Znajdują się w danym folderze skórki. Numer ID podstylu może składać się wyłącznie z liter, numerów i myślników."
+
+msgid "sub_style_name"
+msgstr "Nazwa podstylu"
+
+msgid "sub_style_name_description"
+msgstr "Nazwę podstylu można użyć jako opisu dla obszaru zastosowania. Umieszczana jest we wszystkich elementach Ul, które pozwalają na selekcję skórki."
+
+msgid "sub_style_parent_style_description"
+msgstr "Podstyle przydzielane są dokładnie do jednego stylu parent. Pokazywane są tylko tym użytkownikom, którzy mają dostęp do stylu parent. Styl parent podstylu można przydzielić tylko jeden raz, podczas tworzenia podstylu."
+
+msgid "system_style_activation"
+msgstr "Aktywowano style systemowe"
+
+msgid "system_style_activation_description"
+msgstr "Aktywne style systemowe można przydzielić do określonych użytkowników lub mogą być też przez nich wybierane, jeśli aktywne jest odpowiednie ustawienie (Zarządzanie użytkownikami / Ustawienia / Błędy domyślne / Skórka domyślna / Styl domyślny)."
+
+msgid "system_style_default_description"
+msgstr "Jeśli ta opcja jest aktywna, ten styl jest ustawiony jako styl systemowy. Domyślny styl systemowy używany jest wtedy, gdy użytkownikowi nie przydzielono jeszcze własnego stylu lub gdy użytkownik nie jest zalogowany."
+
+msgid "system_style_personal_description"
+msgstr "Jeśli ta opcja jest aktywna, ten styl jest ustawiony jako styl osobisty. Ta funkcja jest przydatną pomocą, jeśli chcemy śledzić aktualne zmiany skórki."
+
+msgid "update_colors"
+msgstr "Aktualizuj kolory"
+
+msgid "update_icon"
+msgstr "Aktualizuj ikony"
+
+msgid "update_variables"
+msgstr "Aktualizuj zmienne"
+
+msgid "usages"
+msgstr "Zastosowania:"
+
+msgid "used_colors"
+msgstr "Użyte kolory:"
+
+msgid "zip_export_failed"
+msgstr "Nie udało się przeprowadzić eksportu pliku ZIP, pojawił się poniższy komunikat błędu:"

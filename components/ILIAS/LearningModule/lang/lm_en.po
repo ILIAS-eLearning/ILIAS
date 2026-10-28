@@ -1,0 +1,90 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"Language-Team: English\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: lm\n"
+
+msgid "lm_btn_lp_toggle_state_completed"
+msgstr "Set Not Completed"
+
+msgid "lm_btn_lp_toggle_state_not_completed"
+msgstr "Set Completed"
+
+msgid "lm_copy"
+msgstr "Copy Learning Module"
+
+msgid "lm_edit_chapters"
+msgstr "Edit Chapters"
+
+msgid "lm_edit_content"
+msgstr "Edit Content"
+
+msgid "lm_edit_lm_settings"
+msgstr "Edit Learning Module Settings"
+
+msgid "lm_est_reading_time"
+msgstr "Estimated Reading Time"
+
+msgid "lm_est_reading_time_info"
+msgstr "In Learning Modules in the repository the estimated reading time can be determined and displayed."
+
+msgid "lm_insert_chapter"
+msgstr "Insert chapter"
+
+msgid "lm_insert_chapter_after"
+msgstr "Insert chapter after"
+
+msgid "lm_insert_chapter_before"
+msgstr "Insert chapter before"
+
+msgid "lm_insert_chapter_clip"
+msgstr "Insert chapter from clipboard"
+
+msgid "lm_insert_chapter_clip_after"
+msgstr "Insert chapter from clipboard after"
+
+msgid "lm_insert_chapter_clip_before"
+msgstr "Insert chapter from clipboard before"
+
+msgid "lm_insert_layout_after"
+msgstr "Insert template after"
+
+msgid "lm_insert_layout_before"
+msgstr "Insert template before"
+
+msgid "lm_insert_page"
+msgstr "Insert page"
+
+msgid "lm_insert_page_after"
+msgstr "Insert page after"
+
+msgid "lm_insert_page_before"
+msgstr "Insert page before"
+
+msgid "lm_insert_page_clip"
+msgstr "Insert page from clipboard"
+
+msgid "lm_insert_page_clip_after"
+msgstr "Insert page from clipboard after"
+
+msgid "lm_insert_page_clip_before"
+msgstr "Insert page from clipboard before"
+
+msgid "lm_list_pages"
+msgstr "Edit Pages"
+
+msgid "lm_page_added"
+msgstr "Page has been added."
+
+msgid "lm_page_type_lm"
+msgstr "LM Page"
+
+msgid "lm_pages_added"
+msgstr "Pages have been added."
+
+msgid "lm_save_titles"
+msgstr "Titles saved."

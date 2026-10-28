@@ -1,0 +1,345 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"Language-Team: English\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: blog\n"
+
+msgid "blog_abstract_image"
+msgstr "Add Image to Abstract"
+
+msgid "blog_abstract_image_height"
+msgstr "Height"
+
+msgid "blog_abstract_image_info"
+msgstr "The first image used in the post will be resized so that its longest edge matches the size entered here. This image will be displayed along with the abstract of the post’s text content. Images that are smaller than the minimum size will not be used."
+
+msgid "blog_abstract_image_pixels"
+msgstr "Px"
+
+msgid "blog_abstract_image_width"
+msgstr "Width"
+
+msgid "blog_abstract_shorten"
+msgstr "Shorten Abstract"
+
+msgid "blog_abstract_shorten_characters"
+msgstr "Characters"
+
+msgid "blog_abstract_shorten_length"
+msgstr "Maximum Length"
+
+msgid "blog_add"
+msgstr "Create Blog"
+
+msgid "blog_add_contributor"
+msgstr "Add Contributor"
+
+msgid "blog_add_posting"
+msgstr "Add Post"
+
+msgid "blog_admin_inactive_info"
+msgstr "You can activate the blog feature by going to ‘Administration » Personal Workspace » Personal Resources’."
+
+msgid "blog_admin_toggle_info"
+msgstr "You can deactivate the blog feature completely by going to ‘Administration » Personal Workspace » Personal Resources’."
+
+msgid "blog_approve"
+msgstr "Approve Post"
+
+msgid "blog_author"
+msgstr "Written by"
+
+msgid "blog_authors"
+msgstr "Authors"
+
+msgid "blog_back_to_blog_owner"
+msgstr "Edit Blog"
+
+msgid "blog_change_notification_body_approve"
+msgstr "The following blog post needs approval."
+
+msgid "blog_change_notification_body_comment"
+msgstr "The following blog post has received a comment."
+
+msgid "blog_change_notification_body_new"
+msgstr "A new post has been added to the following blog."
+
+msgid "blog_change_notification_body_update"
+msgstr "The following blog post has been updated."
+
+msgid "blog_change_notification_link"
+msgstr "Link to Blog Post"
+
+msgid "blog_change_notification_reason"
+msgstr "You have received this e-mail because you have activated notifications for the blog mentioned above."
+
+msgid "blog_change_notification_subject"
+msgstr "The blog \"%s\" has been updated."
+
+msgid "blog_comments"
+msgstr "Comments"
+
+msgid "blog_confirm_delete_contributors"
+msgstr "Are you sure you want to remove the following contributors?"
+
+msgid "blog_contribute_other_roles"
+msgstr "In addition to the blog contributors listed below, users with the role(s) %s can also add posts to this blog. They are not listed in the table below, because their respective permission(s) are derived from the object (e.g. course or group) in which this blog is contained."
+
+msgid "blog_contributors"
+msgstr "Blog Contributors"
+
+msgid "blog_copy"
+msgstr "Copy Blog"
+
+msgid "blog_download_submission"
+msgstr "Download Submission"
+
+msgid "blog_draft"
+msgstr "Draft"
+
+msgid "blog_draft_info"
+msgstr "The post has been unpublished and is now only visible to contributors."
+
+msgid "blog_draft_info_contributors"
+msgstr "This draft post is currently only visible to the contributors of this blog."
+
+msgid "blog_draft_text"
+msgstr "Unpublished Post"
+
+msgid "blog_edit"
+msgstr "Edit Blog"
+
+msgid "blog_edit_date"
+msgstr "Edit Date"
+
+msgid "blog_edit_date_info"
+msgstr "Publication status does not depend on this date."
+
+msgid "blog_edit_keywords"
+msgstr "Edit Keywords"
+
+msgid "blog_edit_posting"
+msgstr "Edit Post"
+
+msgid "blog_enable_approval"
+msgstr "Approve Posts"
+
+msgid "blog_enable_approval_info"
+msgstr "Posts will only be visible to other users after having being approved by a user with the ‘Edit Settings’ permission for this blog."
+
+msgid "blog_enable_keywords"
+msgstr "Keywords"
+
+msgid "blog_enable_keywords_info"
+msgstr "Keywords can be added to posts. These keywords will then be displayed in a ‘Keywords’ block in the sidebar, where they can be used to filter the blog posts accordingly."
+
+msgid "blog_enable_nav_authors"
+msgstr "Authors"
+
+msgid "blog_enable_nav_authors_info"
+msgstr "Display a list of all blog authors in an ‘Authors’ side block. Clicking on an author’s username will show all posts by this author in the main section of the blog."
+
+msgid "blog_enable_notes"
+msgstr "Public Comments"
+
+msgid "blog_enable_rss"
+msgstr "Activate RSS"
+
+msgid "blog_enable_rss_info"
+msgstr "The RSS feed is public and independent of blog sharing or user permissions."
+
+msgid "blog_est_reading_time"
+msgstr "Estimated Reading Time"
+
+msgid "blog_est_reading_time_info"
+msgstr "Add an automatically generated estimated reading time to blog posts in the repository."
+
+msgid "blog_exercise_info"
+msgstr "This blog is part of the assignment \"%s\" of the exercise \"%s\"."
+
+msgid "blog_exercise_submitted_info"
+msgstr "Your last submission was on %s. Please check the export file: %s"
+
+msgid "blog_finalize_blog"
+msgstr "Finalise and Submit Blog"
+
+msgid "blog_finalized"
+msgstr "Your blog has been submitted."
+
+msgid "blog_import"
+msgstr "Import Blog"
+
+msgid "blog_incl_comments"
+msgstr "including comments"
+
+msgid "blog_keyword"
+msgstr "Keyword"
+
+msgid "blog_keyword_enter"
+msgstr "Write a keyword and press Enter."
+
+msgid "blog_keywords"
+msgstr "Keywords"
+
+msgid "blog_latest_posting"
+msgstr "Latest Post"
+
+msgid "blog_link"
+msgstr "Link"
+
+msgid "blog_list_more"
+msgstr "More"
+
+msgid "blog_list_num_postings"
+msgstr "Number of Posts"
+
+msgid "blog_list_num_postings_info"
+msgstr "The maximum number of posts displayed when viewing the blog with no specific month selected."
+
+msgid "blog_nav_mode"
+msgstr "Posts"
+
+msgid "blog_nav_mode_month_list"
+msgstr "Show List of Months"
+
+msgid "blog_nav_mode_month_list_info"
+msgstr "List months with posts in the ‘Posts’ block."
+
+msgid "blog_nav_mode_month_list_num_month"
+msgstr "Total Number of Months Shown"
+
+msgid "blog_nav_mode_month_list_num_month_info"
+msgstr "Limit the number of months that will be displayed in the ‘Posts’ block. The months displayed will always be the most recent and will be shown with a number indicating how many posts were made in that month as standard."
+
+msgid "blog_nav_mode_month_list_num_month_with_post"
+msgstr "Number of Months With Listed Posts"
+
+msgid "blog_nav_mode_month_list_num_month_with_post_info"
+msgstr "These months will be displayed with the titles of all of their posts in the navigation block. Additional months will be displayed with a number indicating the total number of posts made in that month."
+
+msgid "blog_nav_mode_month_single"
+msgstr "Show Selected Month"
+
+msgid "blog_nav_mode_month_single_info"
+msgstr "Instead of a list of months, display a drop-down menu, containing all of the months with posts for this blog. Users can use this menu to select the month they wish to view. Only the posts of the selected month will then be shown."
+
+msgid "blog_nav_sortorder"
+msgstr "Block Order"
+
+msgid "blog_navigation"
+msgstr "Posts"
+
+msgid "blog_needs_approval"
+msgstr "Post has not yet been approved"
+
+msgid "blog_new"
+msgstr "Create New Blog"
+
+msgid "blog_new_posting_info"
+msgstr "The post has been published."
+
+msgid "blog_news_posting_authors"
+msgstr "Contributing authors: %s"
+
+msgid "blog_news_posting_published"
+msgstr "New blog post published by %s."
+
+msgid "blog_news_posting_updated"
+msgstr "Blog post updated by %s."
+
+msgid "blog_no_keywords"
+msgstr "No keywords have been entered yet."
+
+msgid "blog_notification_activated"
+msgstr "Notifications Activated"
+
+msgid "blog_notification_deactivated"
+msgstr "Notifications Deactivated"
+
+msgid "blog_notification_toggle_off"
+msgstr "Deactivate Notifications"
+
+msgid "blog_notification_toggle_on"
+msgstr "Activate Notifications"
+
+msgid "blog_number_users_notes_or_comments"
+msgstr "Number of users who have attached notes or comments to this post"
+
+msgid "blog_posting"
+msgstr "Blog Post"
+
+msgid "blog_posting_deleted"
+msgstr "Post successfully deleted."
+
+msgid "blog_posting_deletion_confirmation"
+msgstr "Are you sure you want to delete the following post?"
+
+msgid "blog_posting_edit_approval_info"
+msgstr "Post needs to be approved by an editor in order to be visible. The post needs to be published before approval can take place."
+
+msgid "blog_posting_not_found"
+msgstr "This blog post is not available."
+
+msgid "blog_postings"
+msgstr "Posts"
+
+msgid "blog_presentation_frame"
+msgstr "Blog Presentation"
+
+msgid "blog_presentation_overview"
+msgstr "Initial Overview"
+
+msgid "blog_preview"
+msgstr "Preview"
+
+msgid "blog_profile_picture"
+msgstr "Display Profile Picture"
+
+msgid "blog_profile_picture_repository_info"
+msgstr "Profile pictures of authors are only shown on post pages, not on overview pages."
+
+msgid "blog_properties"
+msgstr "Blog Properties"
+
+msgid "blog_rename_posting"
+msgstr "Rename Post"
+
+msgid "blog_selected_pages"
+msgstr "Selected posts"
+
+msgid "blog_settings"
+msgstr "Blog Administration"
+
+msgid "blog_settings_navigation"
+msgstr "Navigation Sidebar"
+
+msgid "blog_show_latest"
+msgstr "Show Latest Posts/Drafts"
+
+msgid "blog_show_print_view"
+msgstr "Show Print View"
+
+msgid "blog_side_blocks"
+msgstr "Side Blocks"
+
+msgid "blog_starting_page"
+msgstr "Starting Page"
+
+msgid "blog_task_publishing_draft_title"
+msgstr "Publish Draft Blog Post \"%s\""
+
+msgid "blog_toggle_draft"
+msgstr "Withdraw Publication"
+
+msgid "blog_toggle_draft_admin"
+msgstr "Deactivate Blog Post"
+
+msgid "blog_toggle_final"
+msgstr "Publish Post"
+
+msgid "blog_whole_blog"
+msgstr "Whole blog"

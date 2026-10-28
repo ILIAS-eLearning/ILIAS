@@ -1,0 +1,180 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ar\n"
+"Language-Team: Arabic\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=6; plural=(n == 0) ? 0 : ((n == 1) ? 1 : ((n == 2) ? 2 : ((n % 100 >= 3 && n % 100 <= 10) ? 3 : ((n % 100 >= 11 && n % 100 <= 99) ? 4 : 5))));\n"
+"X-Domain: jscalendar\n"
+
+msgid "about_calendar"
+msgstr "عن التقويم"
+
+msgid "about_calendar_long"
+msgstr "DHTML Date/Time Selector\\n(c) dynarch.com 2002-2003\\nFor latest version visit: http://dynarch.com/mishoo/calendar.epl\\nDistributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details.\\n\\nDate selection:\\n- Use the Â«, Â» buttons to select year\\n- Use the <, > buttons to select month\\n- Hold mouse button on any of the above buttons for faster selection."
+
+msgid "about_time"
+msgstr "\\n\\nTime selection:\\n- Click on any of the time parts to increase it\\n- or Shift-click to decrease it\\n- or click and drag for faster selection."
+
+msgid "day_first"
+msgstr "Display %s first"
+
+msgid "def_date_format"
+msgstr "%Y-%m-%d"
+
+msgid "drag_to_move"
+msgstr "اسحب لنقل"
+
+msgid "go_today"
+msgstr "الذهاب الى اليوم"
+
+msgid "l_01"
+msgstr "كانون الثاني"
+
+msgid "l_02"
+msgstr "شباط"
+
+msgid "l_03"
+msgstr "اذار"
+
+msgid "l_04"
+msgstr "نيسان"
+
+msgid "l_05"
+msgstr "ايار"
+
+msgid "l_06"
+msgstr "حزيران"
+
+msgid "l_07"
+msgstr "تموز"
+
+msgid "l_08"
+msgstr "آب"
+
+msgid "l_09"
+msgstr "ايلول"
+
+msgid "l_10"
+msgstr "تشرين الاول"
+
+msgid "l_11"
+msgstr "تشرين الثاني"
+
+msgid "l_12"
+msgstr "كانون الاول"
+
+msgid "l_fr"
+msgstr "الجمعة"
+
+msgid "l_mo"
+msgstr "الاثنين"
+
+msgid "l_sa"
+msgstr "السبت"
+
+msgid "l_su"
+msgstr "الاحد"
+
+msgid "l_th"
+msgstr "الخميس"
+
+msgid "l_tu"
+msgstr "الثلاثاء"
+
+msgid "l_we"
+msgstr "الاربعاء"
+
+msgid "next_month"
+msgstr "الشهر المقبل (قائمة عقد لمدة)"
+
+msgid "next_year"
+msgstr "السنة المقبلة (قائمة عقد لمدة)"
+
+msgid "open_calendar"
+msgstr "انقر هنا لفتح تقويم لتاريخ مختار (الجافا مطلوبة)"
+
+msgid "part_today"
+msgstr " (اليوم)"
+
+msgid "prev_month"
+msgstr "الشهر السابق (قائمة عقد لمدة)"
+
+msgid "prev_year"
+msgstr "السنة السابقة (قائمة عقد لمدة)"
+
+msgid "s_01"
+msgstr "كانون الثاني"
+
+msgid "s_02"
+msgstr "شباط"
+
+msgid "s_03"
+msgstr "اذار"
+
+msgid "s_04"
+msgstr "نيسان"
+
+msgid "s_05"
+msgstr "ايار"
+
+msgid "s_06"
+msgstr "حزيران"
+
+msgid "s_07"
+msgstr "تموز"
+
+msgid "s_08"
+msgstr "آب"
+
+msgid "s_09"
+msgstr "ايلول"
+
+msgid "s_10"
+msgstr "تشرين الاول"
+
+msgid "s_11"
+msgstr "تشرين الثاني"
+
+msgid "s_12"
+msgstr "كانون الاول"
+
+msgid "s_fr"
+msgstr "الجمعة"
+
+msgid "s_mo"
+msgstr "الاثنين"
+
+msgid "s_sa"
+msgstr "السبت"
+
+msgid "s_su"
+msgstr "الاحد"
+
+msgid "s_th"
+msgstr "الخميس"
+
+msgid "s_tu"
+msgstr "الثلاثاء"
+
+msgid "s_we"
+msgstr "الاربعاء"
+
+msgid "select_date"
+msgstr "اختر تاريخ"
+
+msgid "time"
+msgstr "الوقت"
+
+msgid "time_part"
+msgstr "ازاحة- انقر او اسحب لتغيير القيمة"
+
+msgid "today"
+msgstr "اليوم"
+
+msgid "tt_date_format"
+msgstr "%a, %b %e"
+
+msgid "wk"
+msgstr "الاسبوع"

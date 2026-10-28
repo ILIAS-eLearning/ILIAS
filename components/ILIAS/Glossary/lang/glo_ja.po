@@ -1,0 +1,226 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: glo\n"
+
+msgid "glo_add_from_other"
+msgstr "チームを収集"
+
+msgid "glo_add_glossary"
+msgstr "用語集を追加"
+
+msgid "glo_add_to_collection"
+msgstr "収集用語集へ用語集を追加"
+
+msgid "glo_added_to_collection_info"
+msgstr "収集用語集へ選択の用語集が追加されました。"
+
+msgid "glo_answered_correctly"
+msgstr "正しかった"
+
+msgid "glo_answered_not_correctly"
+msgstr "間違いだった"
+
+msgid "glo_box"
+msgstr "Box"
+
+msgid "glo_box_completed"
+msgstr "boxを完了しました。"
+
+msgid "glo_box_last_presented"
+msgstr "最後に表示のbox"
+
+msgid "glo_boxes"
+msgstr "Boxe"
+
+msgid "glo_boxes_really_reset"
+msgstr "全てのboxを本当にリセットしますか? 全てのフラッシュカードは最初のboxへ移動されます。"
+
+msgid "glo_boxes_reset"
+msgstr "boxは正しくリセットされました。"
+
+msgid "glo_bulk_confirmation"
+msgstr "全ての条件と定義が正しくリストされている場合はチェックしてください。"
+
+msgid "glo_bulk_creation"
+msgstr "Excelからペースト"
+
+msgid "glo_change_to_collection_unavailable_info"
+msgstr "コンテンツアッセンブリータイプを\"収集用語集\"へ変更するには、\"コンテンツ\"タブ内のこの用語集内の全ての条件を先に削除する必要があります。"
+
+msgid "glo_change_to_standard_unavailable_info"
+msgstr "コンテンツアッセンブリーのタイプを\"標準用語集\"へ変更するには、\"コンテンツ\"タブ内の選択した用語集を先に削除する必要があります。"
+
+msgid "glo_check"
+msgstr "チエック"
+
+msgid "glo_collection"
+msgstr "用語集を収集"
+
+msgid "glo_collection_empty_info"
+msgstr "この収集用語集は現在空です。用語集を一つは追加してください。"
+
+msgid "glo_collection_info"
+msgstr "用語集は他の用語集の追加用語を収集します。"
+
+msgid "glo_content_assembly"
+msgstr "コンテンツアッセンブリー"
+
+msgid "glo_copy"
+msgstr "用語集をコピーする"
+
+msgid "glo_copy_terms"
+msgstr "チームをコピー"
+
+msgid "glo_create_term_definition_pairs"
+msgstr "条件/定義ペアを作成"
+
+msgid "glo_days_ago"
+msgstr "%s 日前"
+
+msgid "glo_def_vs_term"
+msgstr "定義 vs. 条件"
+
+msgid "glo_def_vs_term_info"
+msgstr "先に定義を表示して学習者は条件を推測する必要があります。"
+
+msgid "glo_flashcard_training"
+msgstr "フラッシュカードトレーニング"
+
+msgid "glo_flashcard_training_info"
+msgstr "フラッシュカードをユーザが一つ一つ条件/定義がわかるようにフラッシュカードとしてプレゼンテーションを定義します。"
+
+msgid "glo_flashcards"
+msgstr "フラッシュカード"
+
+msgid "glo_flashcards_from_today_confirmation"
+msgstr "ボックスは本日すでに表示の %s フラッシュカードが含まれます。残りの %s フラッシュカード限定,もしくは全ての %s フラッシュカードを含めますか?"
+
+msgid "glo_flashcards_from_today_only_info"
+msgstr "ボックスは本日すでに表示のフラッシュカードのみが含まれます。その %s フラッシュカードが再表示される事を確認して下さい。"
+
+msgid "glo_flashcards_intro"
+msgstr "あなたの目標は、1行にそれぞれのフラッシュカードを4回正しく覚えることです。<br />はじめに、すべてのフラッシュカードはボックス1にあります。<br />フラッシュカードに'正解したとマークすると、次のボックスに進みます。<br />フラッシュカードに`間違えた`とマークすると、そのカードは最初のボックスに戻ります。<br />始めるには、ボックスを選択してください。これによりフラッシュカードが表示されます。"
+
+msgid "glo_flashcards_progress"
+msgstr "%s of %s"
+
+msgid "glo_introduction"
+msgstr "Introduction"
+
+msgid "glo_link_glo_in_glo"
+msgstr "ターゲットの用語の全ての用語集をここで現在の用語へリンクしますか?"
+
+msgid "glo_link_to_usages"
+msgstr "Link"
+
+msgid "glo_md_advanced"
+msgstr "詳細情報"
+
+msgid "glo_page_type_gdf"
+msgstr "用語の定義"
+
+msgid "glo_please_select_other_glo"
+msgstr "別の用語集を選択してください。"
+
+msgid "glo_quit_box"
+msgstr "ボックスを止める。"
+
+msgid "glo_really_remove_from_collection"
+msgstr "収集中の用語集か次の用語を本当に削除しますか?"
+
+msgid "glo_reference"
+msgstr "参照"
+
+msgid "glo_reference_terms"
+msgstr "参照用語"
+
+msgid "glo_referenced_term"
+msgstr "参照の用語"
+
+#, fuzzy
+msgid "glo_remove_glossary"
+msgstr "#Are you sure you want to remove the following glossary from the list of auto-linked glossaries?"
+
+msgid "glo_removed_from_collection_info"
+msgstr "収集の用語集から用語が削除されました。"
+
+msgid "glo_reset_all_boxes"
+msgstr "全ボックスをリセット"
+
+msgid "glo_save_and_continue"
+msgstr "保存して続ける"
+
+msgid "glo_select_source_glo"
+msgstr "元の用語集を選択してください。"
+
+msgid "glo_select_terms"
+msgstr "用語を選択"
+
+msgid "glo_selected_glossaries"
+msgstr "選択した用語集"
+
+msgid "glo_selected_glossaries_info"
+msgstr "次の用語集から条件は収集されます。"
+
+msgid "glo_selected_glossary_is_current_info"
+msgstr "選択の用語集は現在の用語集と一致します。別の用語集を選択してください。"
+
+msgid "glo_selected_terms_have_been_copied"
+msgstr "選択の用語はクリップボードへコピーされました。ターゲットの用語集を開いて\"貼付け\"をクリックしてください。"
+
+msgid "glo_show_in_presentation"
+msgstr "プレゼンテーションビュー内に表示"
+
+msgid "glo_show_in_presentation_off"
+msgstr "プレゼンテーションビュー内を非表示"
+
+msgid "glo_show_in_presentation_on"
+msgstr "プレゼンテーションビュー内に表示"
+
+msgid "glo_tax_info"
+msgstr "用語集の分類を分けて条件をフィルタします。常時編集ビュー内は利用できます。プレゼンテーションビュー用に分類は最初にアクティブ化する必要があります。用語集では1分類のみ使用できます。"
+
+msgid "glo_term"
+msgstr "用語集条件"
+
+msgid "glo_term_definition_pairs"
+msgstr "条件/定義ペア"
+
+msgid "glo_term_definition_pairs_info"
+msgstr "条件と各々の線の定義ペアを入力してください。条件と定義はセミコロン区切りまたはTAB 文字(スプレッドシートアプリケーションからクリップボード操作を経由して通常提供)である必要があります。"
+
+msgid "glo_term_letter"
+msgstr "Letter"
+
+msgid "glo_term_reference"
+msgstr "条件レファレンス"
+
+msgid "glo_term_vs_def"
+msgstr "条件 対 定義"
+
+msgid "glo_term_vs_def_info"
+msgstr "条件を先に表示して学習者が定義を推測する必要があります。"
+
+msgid "glo_terms_per_page"
+msgstr "ページ当たりの条件"
+
+msgid "glo_usage_link"
+msgstr "使用リンク"
+
+msgid "glo_use_all_flashcards"
+msgstr "全ててのフッラシュカードを使用 (%s)"
+
+msgid "glo_use_remaining_flashcards"
+msgstr "残りのフッラシュカードを使用する (%s)"
+
+msgid "glo_what_means_definition"
+msgstr "次の文はどういう意味ですか？"
+
+msgid "glo_what_means_term"
+msgstr "%はどういう意味ですか？"

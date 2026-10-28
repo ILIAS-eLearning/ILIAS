@@ -1,0 +1,309 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: zh\n"
+"Language-Team: Chinese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: mcst\n"
+
+msgid "mcst_add_new_item"
+msgstr "添加新媒体广播项"
+
+#, fuzzy
+msgid "mcst_audio_files"
+msgstr "Audio Files"
+
+msgid "mcst_audioportable_settings_info"
+msgstr "逗号分隔的文件后缀名列表"
+
+msgid "mcst_audioportable_settings_title"
+msgstr "音乐格式文件的扩展名"
+
+msgid "mcst_audioportable_title"
+msgstr "为便携式设备附加的音乐文件"
+
+msgid "mcst_automatic_detection"
+msgstr "自动检测"
+
+#, fuzzy
+msgid "mcst_autoplay"
+msgstr "Autoplay"
+
+#, fuzzy
+msgid "mcst_autoplay_active"
+msgstr "Autoplay (Default on)"
+
+#, fuzzy
+msgid "mcst_autoplay_inactive"
+msgstr "Autoplay (Default off)"
+
+#, fuzzy
+msgid "mcst_autoplay_info"
+msgstr "Starts automatically the next video when reaching the end of the previous one. This feature is not supported by youtube videos."
+
+msgid "mcst_clear_purpose_title"
+msgstr "删除"
+
+#, fuzzy
+msgid "mcst_confirm_deletion"
+msgstr "Confirm Deletion"
+
+msgid "mcst_converted_file"
+msgstr "文件已被转换。"
+
+#, fuzzy
+msgid "mcst_copy"
+msgstr "Copy Mediacast"
+
+msgid "mcst_current_value_info"
+msgstr "显示这个格式的当前值。"
+
+msgid "mcst_default_visibility"
+msgstr "默认访问"
+
+msgid "mcst_det_playtime"
+msgstr "确定播放时间"
+
+#, fuzzy
+msgid "mcst_download_all"
+msgstr "Download All"
+
+msgid "mcst_download_audioportable"
+msgstr "下载音乐(Download Audio Portable)"
+
+#, fuzzy
+msgid "mcst_download_cnt"
+msgstr "Downloaded"
+
+msgid "mcst_download_standard"
+msgstr "下载"
+
+#, fuzzy
+msgid "mcst_download_started_bg"
+msgstr "Download of files has started. Please check your background tasks in the top right corner."
+
+#, fuzzy
+msgid "mcst_download_videoalternative"
+msgstr "Download Alternative File"
+
+msgid "mcst_download_videoportable"
+msgstr "下载视频(Download Video Portable)"
+
+msgid "mcst_downloadable"
+msgstr "下载链接"
+
+msgid "mcst_downloadable_info"
+msgstr "如果启用了这个选项，将提供下载链接。"
+
+msgid "mcst_duration"
+msgstr "播放时间"
+
+msgid "mcst_duration_info"
+msgstr "如果没有输入，ILIAS尝试着自动确定播放时间。"
+
+msgid "mcst_edit_item"
+msgstr "编辑媒体广播项"
+
+msgid "mcst_edit_settings"
+msgstr "媒体广播设置"
+
+msgid "mcst_gallery"
+msgstr "Gallery"
+
+#, fuzzy
+msgid "mcst_img_gallery"
+msgstr "Image Gallery"
+
+msgid "mcst_import"
+msgstr "导入媒体广播"
+
+msgid "mcst_incl_files_in_rss"
+msgstr "在Feed中包含媒体文件"
+
+msgid "mcst_incl_files_in_rss_info"
+msgstr "如果启用，媒体文件以附件的形式包含在RSS feed中。否则feed只是通知订阅者有关的新项目。"
+
+#, fuzzy
+msgid "mcst_input_either_file_or_url"
+msgstr "Please specify a file or an URL. If you provide a file, please note the maximum allowed upload file size."
+
+#, fuzzy
+msgid "mcst_items"
+msgstr "Items"
+
+msgid "mcst_last_submission"
+msgstr "最后提交"
+
+msgid "mcst_list"
+msgstr "列表"
+
+msgid "mcst_manage"
+msgstr "管理"
+
+msgid "mcst_media_cast"
+msgstr "媒体广播"
+
+msgid "mcst_media_cast_not_online"
+msgstr "媒体广播不在线"
+
+msgid "mcst_media_cast_not_online_text"
+msgstr "媒体广播不在线或者已被禁用。"
+
+msgid "mcst_mimetype"
+msgstr "MIME 类型"
+
+msgid "mcst_mimetype_info"
+msgstr "选择mime类型来控制用于播放的插件。<br>请注意：并不是所有浏览器都包含您打算使用的插件。"
+
+msgid "mcst_mimetypes"
+msgstr "MIME类型"
+
+msgid "mcst_mimetypes_info"
+msgstr "逗号分隔的mime类型列表"
+
+#, fuzzy
+msgid "mcst_new_items_det_lp"
+msgstr "Add new items to learning progress"
+
+#, fuzzy
+msgid "mcst_new_items_det_lp_info"
+msgstr "New items are automatically added to determine the overall learning progress."
+
+msgid "mcst_news_item_visibility_info"
+msgstr "公共新闻可以被访问，无需通过ILIAS以外的RSS身份验证。请不要包含任何机密信息。"
+
+#, fuzzy
+msgid "mcst_next_items"
+msgstr "Next Items"
+
+#, fuzzy
+msgid "mcst_no_autoplay"
+msgstr "No Autoplay"
+
+msgid "mcst_nr_items"
+msgstr "项目数"
+
+#, fuzzy
+msgid "mcst_nr_videos"
+msgstr "Number of Initial Videos"
+
+msgid "mcst_ordering"
+msgstr "排序"
+
+msgid "mcst_ordering_creation_date_asc"
+msgstr "通过创建日期(升序)"
+
+msgid "mcst_ordering_creation_date_desc"
+msgstr "通过创建日期(降序)"
+
+msgid "mcst_ordering_manual"
+msgstr "手动"
+
+msgid "mcst_ordering_title"
+msgstr "按标题"
+
+msgid "mcst_play"
+msgstr "播放"
+
+#, fuzzy
+msgid "mcst_play_cnt"
+msgstr "Played"
+
+msgid "mcst_play_time"
+msgstr "播放时间"
+
+#, fuzzy
+msgid "mcst_podcast"
+msgstr "Podcast"
+
+#, fuzzy
+msgid "mcst_prev_items"
+msgstr "Previous Items"
+
+#, fuzzy
+msgid "mcst_preview"
+msgstr "Preview"
+
+msgid "mcst_preview_picture"
+msgstr "预览图片"
+
+msgid "mcst_preview_picture_info"
+msgstr "仅支持以下主要的媒体类型："
+
+msgid "mcst_reference_info"
+msgstr "提供URL指向到资源"
+
+msgid "mcst_save_order"
+msgstr "保存排序(order)"
+
+msgid "mcst_set_playtime"
+msgstr "播放时间已设置。"
+
+msgid "mcst_settings"
+msgstr "媒体广播设置"
+
+#, fuzzy
+msgid "mcst_show_description"
+msgstr "Show Description"
+
+msgid "mcst_standard_settings_info"
+msgstr "逗号分隔的文件后缀列表"
+
+msgid "mcst_standard_settings_title"
+msgstr "标准格式的文件扩展名"
+
+msgid "mcst_standard_title"
+msgstr "标准媒体文件"
+
+msgid "mcst_unable_to_determin_playtime"
+msgstr "无法确定播放时间。请点击编辑来手动设置。"
+
+#, fuzzy
+msgid "mcst_video_cast"
+msgstr "Videocast"
+
+#, fuzzy
+msgid "mcst_video_completion_threshold"
+msgstr "Video Completion Threshold"
+
+#, fuzzy
+msgid "mcst_video_completion_threshold_info"
+msgstr "Amount of video that triggers the completion status. Please note that the user may skip forward to reach this point."
+
+msgid "mcst_videoalternative_title"
+msgstr "替代(Alternative)视频文件(在浏览器中使用)"
+
+msgid "mcst_videoportable_settings_info"
+msgstr "逗号分隔的文件后缀列表"
+
+msgid "mcst_videoportable_settings_title"
+msgstr "视频格式文件的扩展名"
+
+msgid "mcst_videoportable_title"
+msgstr "为便携式设备附加视频文件"
+
+#, fuzzy
+msgid "mcst_view_abandoned"
+msgstr "The current presentation mode has been abandoned. Please open the settings and switch to another mode."
+
+msgid "mcst_viewmode"
+msgstr "展现模式"
+
+msgid "mcst_visibility_info"
+msgstr "可以通过RSS访问公共项目，而不需要任何身份验证。"
+
+msgid "mcst_visibility_public"
+msgstr "公共的"
+
+msgid "mcst_visibility_users"
+msgstr "已登录用户"
+
+#, fuzzy
+msgid "mcst_watched"
+msgstr "watched"
+
+#, fuzzy
+msgid "mcst_webfeed"
+msgstr "RSS Web Feed"

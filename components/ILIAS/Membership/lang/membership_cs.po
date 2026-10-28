@@ -1,0 +1,24 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: membership\n"
+
+msgid "mem_error_preconditions"
+msgstr "Registrace není možná, protože není splněna alespoň jedna podmínka."
+
+msgid "mem_force_notification"
+msgstr "Oznámení poštou"
+
+msgid "mem_force_notification_mode_all_sub_blocked"
+msgstr "Členové mohou oznámení deaktivovat"
+
+msgid "mem_force_notification_mode_blocked"
+msgstr "Členové budou informováni automaticky"
+
+msgid "mem_force_notification_mode_self"
+msgstr "Členové musejí ručně aktivovat oznámení"

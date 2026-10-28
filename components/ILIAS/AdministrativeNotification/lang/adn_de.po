@@ -1,0 +1,168 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: adn\n"
+
+msgid "action_confirm_delete"
+msgstr "Ankündigung(en) löschen"
+
+msgid "action_confirm_delete_msg"
+msgstr "Möchten Sie die folgende(n) Ankündigung(en) löschen?"
+
+msgid "administrative_notification"
+msgstr "Ankündigung"
+
+msgid "administrative_notification_description"
+msgstr "Bereitstellen systemweiter Ankündigungen in der Kopfzeile von ILIAS"
+
+msgid "btn_cancel"
+msgstr "Abbrechen"
+
+msgid "btn_delete"
+msgstr "Löschen"
+
+msgid "btn_delete_confirm"
+msgstr "Möchten Sie diese Ankündigung löschen?"
+
+msgid "btn_duplicate"
+msgstr "Duplizieren"
+
+msgid "btn_edit"
+msgstr "Bearbeiten"
+
+msgid "btn_reset"
+msgstr "Zurücksetzen"
+
+msgid "btn_reset_confirm"
+msgstr "Möchten Sie diese Ankündigung für alle Benutzer zurücksetzen?"
+
+msgid "common_actions"
+msgstr "Aktionen"
+
+msgid "common_add_msg"
+msgstr "Ankündigung hinzufügen"
+
+msgid "main"
+msgstr "Ankündigungen"
+
+msgid "msg_body"
+msgstr "Text"
+
+msgid "msg_body_info"
+msgstr "Text der Ankündigungen"
+
+msgid "msg_dismissable"
+msgstr "Manuell schließen"
+
+msgid "msg_dismissable_info"
+msgstr "Benutzer können Ankündigung schließen und sehen diese künftig nicht mehr."
+
+msgid "msg_display_date_end"
+msgstr "Anzeige bis"
+
+msgid "msg_display_date_start"
+msgstr "Anzeige ab"
+
+msgid "msg_error_false_date_configuration"
+msgstr "Mit dieser Konfiguration von Daten kann keine Benachrichtigung erstellt werden. Das Ereignis muss innerhalb der Anzeigezeit liegen."
+
+msgid "msg_event_date_end"
+msgstr "Ende Ereignis"
+
+msgid "msg_event_date_start"
+msgstr "Beginn Ereignis"
+
+msgid "msg_form_title"
+msgstr "Ankündigung"
+
+msgid "msg_has_language_limitation"
+msgstr "Auf ausgewählte Sprachen beschränken"
+
+msgid "msg_has_language_limitation_info"
+msgstr "Benachrichtigung wird nur Personen mit einer der nachfolgend ausgewählten Sprachen angezeigt."
+
+msgid "msg_languages"
+msgstr "Sprachen"
+
+msgid "msg_limit_to_roles"
+msgstr "Auf ausgewählte Rollen beschränken"
+
+msgid "msg_limit_to_roles_info"
+msgstr "Benachrichtigung wird nur Personen mit einer der nachfolgend ausgewählten Rollen angezeigt."
+
+msgid "msg_limited_to_role_ids"
+msgstr "Anzeige"
+
+msgid "msg_permanent"
+msgstr "Anzeige"
+
+msgid "msg_permanent_info"
+msgstr "Ankündigungen permanent oder zeitlich begrenzt anzeigen"
+
+msgid "msg_permanent_no"
+msgstr "Zeitlich begrenzt"
+
+msgid "msg_permanent_yes"
+msgstr "Permanent"
+
+msgid "msg_presentation"
+msgstr "Anzeige"
+
+msgid "msg_show_to_all_languages"
+msgstr "Allen Sprachen anzeigen"
+
+msgid "msg_show_to_all_roles"
+msgstr "Allen Rollen anzeigen"
+
+msgid "msg_show_to_all_roles_info"
+msgstr "Die Benachrichtigung wird allen Benutzern angezeigt und ist auch im Öffentlichen Bereich für nicht-eingeloggte Personen sichtbar."
+
+msgid "msg_success_created"
+msgstr "Ankündigung erstellt"
+
+msgid "msg_success_deleted"
+msgstr "Ankündigung(en) erfolgreich gelöscht"
+
+msgid "msg_success_duplicated"
+msgstr "Ankündigung erfolgreich dupliziert"
+
+msgid "msg_success_reset"
+msgstr "Ankündigung zurückgesetzt"
+
+msgid "msg_success_updated"
+msgstr "Ankündigung aktualisiert"
+
+msgid "msg_table_title"
+msgstr "Ankündigungen"
+
+msgid "msg_title"
+msgstr "Titel"
+
+msgid "msg_title_info"
+msgstr "Kurzer Titel der Ankündigung"
+
+msgid "msg_type"
+msgstr "Wichtigkeit"
+
+msgid "msg_type_0"
+msgstr "Hinweis"
+
+msgid "msg_type_1"
+msgstr "Hinweis"
+
+msgid "msg_type_2"
+msgstr "Wichtig"
+
+msgid "msg_type_3"
+msgstr "Eilmeldung"
+
+msgid "msg_type_during_event"
+msgstr "Während Ereignis"
+
+msgid "msg_type_info"
+msgstr "Die Wichtigkeit entscheidet über die farbliche Darstellung der Ankündigungen"

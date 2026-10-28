@@ -1,0 +1,204 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: wsp\n"
+
+msgid "element_already_shared"
+msgstr "Die Ressource ist für diese Person bereits freigegeben."
+
+msgid "element_shared"
+msgstr "Die Ressource wurde freigegeben."
+
+msgid "error_creating_certificate_pdf"
+msgstr "Das Zertifikat konnte nicht erstellt werden. Bitte kontaktieren Sie Ihre technische Betreuung und bitten um die Prüfung des Zertifikatsservers."
+
+msgid "share"
+msgstr "Freigeben"
+
+msgid "share_content"
+msgstr "Ressource freigeben"
+
+msgid "share_with"
+msgstr "Anmeldename"
+
+msgid "wsp_copy_to_repository"
+msgstr "Ins Magazin kopieren"
+
+msgid "wsp_invalid_password"
+msgstr "Das Passwort ist ungültig."
+
+msgid "wsp_list_cmxv"
+msgstr "Zertifikat des xAPI/cmi5-Objekts"
+
+msgid "wsp_list_crsv"
+msgstr "Kurszertifikat"
+
+msgid "wsp_list_excv"
+msgstr "Übungszertifikat"
+
+msgid "wsp_list_ltiv"
+msgstr "Zertifikat des LTI-Konsument-Objekts"
+
+msgid "wsp_list_scov"
+msgstr "SCORM-Zertifikat"
+
+msgid "wsp_list_tstv"
+msgstr "Testzertifikat"
+
+msgid "wsp_move_to_repository"
+msgstr "Ins Magazin verschieben"
+
+msgid "wsp_password_for"
+msgstr "Passwort für"
+
+msgid "wsp_password_protected_resource"
+msgstr "Passwort-geschützte Ressource"
+
+msgid "wsp_password_protected_resource_info"
+msgstr "Für den Zugang zu dieser Ressource benötigen Sie ein Passwort."
+
+msgid "wsp_permission_all_info"
+msgstr "Dieses Objekt ist für alle Benutzer im Internet sichtbar."
+
+msgid "wsp_permission_all_pw_info"
+msgstr "Nach Eingabe des Passworts ist dieses Objekt für alle Benutzer im Internet sichtbar."
+
+msgid "wsp_permission_registered_info"
+msgstr "Dieses Objekt ist für alle registrierten Benutzer freigegeben."
+
+msgid "wsp_permission_removed"
+msgstr "Der Eintrag wurde gelöscht."
+
+msgid "wsp_permissions"
+msgstr "Freigabe"
+
+msgid "wsp_personal_resources_description"
+msgstr "Hier können Sie persönliche Dateien, Blogs und Nachweise verwalten."
+
+msgid "wsp_search_no_match"
+msgstr "Ihre Suche ergab keine Treffer."
+
+msgid "wsp_send_mail"
+msgstr "Mail senden"
+
+msgid "wsp_set_permission_all"
+msgstr "Internet/WWW"
+
+msgid "wsp_set_permission_all_password"
+msgstr "Internet/WWW mit Passwort"
+
+msgid "wsp_set_permission_course"
+msgstr "Kursmitglieder"
+
+msgid "wsp_set_permission_group"
+msgstr "Gruppenmitglieder"
+
+msgid "wsp_set_permission_registered"
+msgstr "Alle registrierten Benutzer"
+
+msgid "wsp_set_permission_single_user"
+msgstr "Ausgewählte Benutzer"
+
+msgid "wsp_share_search_users"
+msgstr "Benutzer suchen"
+
+msgid "wsp_share_success"
+msgstr "Die Ressource wurde freigegeben."
+
+msgid "wsp_share_with_members"
+msgstr "Für Mitglieder freigeben"
+
+msgid "wsp_share_with_users"
+msgstr "Für Benutzer freigeben"
+
+msgid "wsp_shared_date"
+msgstr "Freigabedatum"
+
+msgid "wsp_shared_date_filter"
+msgstr "Freigabe ab dem"
+
+msgid "wsp_shared_filter_button"
+msgstr "Suche"
+
+msgid "wsp_shared_filter_reset_button"
+msgstr "Suche zurücksetzen"
+
+msgid "wsp_shared_mandatory_filter_info"
+msgstr "Bitte setzen Sie mindestens ein Filter-Attribut. Text-Filter müssen mindestens 4 Buchstaben lang sein."
+
+msgid "wsp_shared_member_filter"
+msgstr "Kurs-/Gruppenmitglieder"
+
+msgid "wsp_shared_object_type"
+msgstr "Typ der Ressource"
+
+msgid "wsp_shared_resources"
+msgstr "Freigegebene Ressourcen"
+
+msgid "wsp_shared_table_title"
+msgstr "Freigaben"
+
+msgid "wsp_shared_title"
+msgstr "Titel der Ressource"
+
+msgid "wsp_shared_type"
+msgstr "Freigegeben für"
+
+msgid "wsp_shared_user_filter"
+msgstr "Name/Anmeldename"
+
+msgid "wsp_shared_with"
+msgstr "Freigegeben für"
+
+msgid "wsp_status_shared"
+msgstr "Freigegeben"
+
+msgid "wsp_switch_to_repo_tree"
+msgstr "Zum Magazin wechseln"
+
+msgid "wsp_switch_to_wsp_tree"
+msgstr "Zu persönlichen Ressourcen wechseln"
+
+msgid "wsp_tab_ownership"
+msgstr "Meine Magazin-Objekte"
+
+msgid "wsp_tab_personal"
+msgstr "Meine Ressourcen"
+
+msgid "wsp_tab_shared"
+msgstr "Ressourcen von Anderen"
+
+msgid "wsp_type_blog"
+msgstr "Blog"
+
+msgid "wsp_type_cmxv"
+msgstr "Zertifikat: xAPI/cmi5"
+
+msgid "wsp_type_crsv"
+msgstr "Zertifikat: Kurs"
+
+msgid "wsp_type_excv"
+msgstr "Zertifikat: Übung"
+
+msgid "wsp_type_file"
+msgstr "Datei"
+
+msgid "wsp_type_ltiv"
+msgstr "Zertifikat: LTI-Konsument"
+
+msgid "wsp_type_scov"
+msgstr "Zertifikat: SCORM"
+
+msgid "wsp_type_tstv"
+msgstr "Zertifikat: Test"
+
+msgid "wsp_type_webr"
+msgstr "Weblink"
+
+msgid "wsp_type_wfld"
+msgstr "Ordner"

@@ -1,0 +1,273 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: file\n"
+
+msgid "add_icon"
+msgstr "Añadir icono"
+
+msgid "amount_of_downloads"
+msgstr "Descargas"
+
+msgid "amount_of_downloads_since"
+msgstr "%d veces desde %s"
+
+msgid "copyright_custom"
+msgstr "Personalizado"
+
+msgid "copyright_custom_info"
+msgstr "Elija un copyright personalizado que se aplicará a todos los archivos descomprimidos de este archivo."
+
+msgid "copyright_inherited"
+msgstr "Heredado"
+
+msgid "copyright_inherited_info"
+msgstr "Aplicar el copyright del archivo zip a sus archivos descomprimidos. <br \\>Copyright del archivo zip: %s."
+
+msgid "could_not_create_file_objs"
+msgstr "Se produjo un error al crear sus objetos de archivo. Póngase en contacto con el servicio de asistencia técnica de esta instalación."
+
+msgid "de_activate_icon"
+msgstr "Activar / Desactivar"
+
+msgid "download_ascii_filename"
+msgstr "Permitir solo caracteres ASCII en nombres de archivos descargados"
+
+msgid "download_ascii_filename_info"
+msgstr "Los archivos descargados solo deben tener caracteres ASCII en su nombre de archivo. Desactivar para utilizar todos los caracteres."
+
+msgid "file_action_download"
+msgstr "Descargar archivo o ver contenido"
+
+msgid "file_action_download_info"
+msgstr "Si WOPI está activado y se ha otorgado el permiso 'Ver contenido', el archivo se muestra en la pestaña 'Contenido'. Si no, el archivo se ofrecerá para descarga directa."
+
+msgid "file_action_show"
+msgstr "Redirigir al usuario a la pestaña 'Información' del archivo"
+
+msgid "file_action_show_info"
+msgstr "Se muestra la pestaña 'Información' donde el archivo podría descargarse en un segundo paso."
+
+msgid "file_btn_lp_toggle_state_completed"
+msgstr "Marcar como No Terminado"
+
+msgid "file_btn_lp_toggle_state_not_completed"
+msgstr "Marcar como Terminado"
+
+msgid "file_copy"
+msgstr "Copiar archivo"
+
+#, fuzzy
+msgid "file_create_empty_document"
+msgstr "Create empty document"
+
+#, fuzzy
+msgid "file_creation_mode"
+msgstr "Creation mode"
+
+msgid "file_download"
+msgstr "Descargar archivo"
+
+msgid "file_import"
+msgstr "Importar archivo"
+
+msgid "file_new_version"
+msgstr "Crear nueva versión"
+
+msgid "file_new_version_info"
+msgstr "Crear una nueva versión del archivo. Las versiones anteriores no se modificarán."
+
+msgid "file_publish"
+msgstr "Publicar borrador"
+
+msgid "file_rollback_rollback_first"
+msgstr "La versión seleccionada no se pudo publicar porque existe un borrador sin publicar."
+
+msgid "file_rollback_same_version"
+msgstr "¡Esta es ya la versión publicada!"
+
+#, fuzzy
+msgid "file_type"
+msgstr "File type"
+
+msgid "file_unpublish"
+msgstr "Marcar como borrador"
+
+msgid "file_upload_info_file_with_critical_extension"
+msgstr "Al menos un archivo subido contiene una extensión de archivo crítica o desconocida. Cada vez que se descargue el archivo, su extensión cambiará a '.sec'. Si es necesario, contacte con su administrador. Nombre(s) de archivo: %s"
+
+msgid "file_uploaded_by"
+msgstr "Subido por"
+
+msgid "file_version_draft"
+msgstr "Versión de borrador"
+
+msgid "file_version_draft_info"
+msgstr "La última versión de este archivo tiene el estado 'Borrador'. Mientras esta versión no haya sido publicada, no se pueden crear nuevas versiones. Las personas con permiso de lectura para el archivo obtendrán la versión publicada previamente más reciente."
+
+msgid "form_icon_creation"
+msgstr "Crear icono"
+
+msgid "form_icon_updating"
+msgstr "Actualizar icono"
+
+msgid "general_upload_error_occured"
+msgstr "Se produjo un error inesperado durante la carga."
+
+msgid "important_info"
+msgstr "Información importante"
+
+msgid "important_info_byline"
+msgstr "La información se mostrará en la pestaña 'Información'."
+
+msgid "input_active"
+msgstr "Activo"
+
+msgid "input_desc_active"
+msgstr "Activar este icono."
+
+msgid "input_desc_icon"
+msgstr "Imagen que se utilizará como icono para archivos con los sufijos especificados."
+
+msgid "input_desc_suffixes"
+msgstr "Lista de sufijos separados por comas (solo caracteres y números, sin punto previo)."
+
+msgid "input_icon"
+msgstr "Icono"
+
+msgid "input_suffixes"
+msgstr "Sufijo(s)"
+
+msgid "migrated"
+msgstr "Estado"
+
+msgid "mime_type"
+msgstr "Tipo MIME"
+
+msgid "msg_cant_unpublish"
+msgstr "No se pudo retirar la publicación del archivo."
+
+msgid "msg_confirm_entry_deletion"
+msgstr "¿Está seguro de que desea eliminar la siguiente entrada?:"
+
+msgid "msg_error_active_suffixes_blacklisted"
+msgstr "Una de las extensiones de archivo seleccionadas está en la lista negra global y, por lo tanto, no se puede utilizar actualmente."
+
+msgid "msg_error_active_suffixes_conflict"
+msgstr "Error: No es posible tener múltiples iconos activados para el mismo sufijo. Desactive este icono o el otro icono activado cuyos sufijos coincidan con los de este icono."
+
+msgid "msg_error_active_suffixes_not_whitelisted"
+msgstr "La extensión de archivo seleccionada no está en la lista blanca global. Los sufijos del archivo se cambiarán a '.sec' al descargarlos."
+
+msgid "msg_error_duplicate_suffix_entries"
+msgstr "Error: la lista de sufijos separados por comas contiene entradas duplicadas."
+
+msgid "msg_error_icon_deletion"
+msgstr "Error: falló la eliminación del icono."
+
+msgid "msg_error_suffixes_with_forbidden_characters"
+msgstr "Error: caracteres prohibidos. Solo se admiten letras, números, espacios y comas."
+
+msgid "msg_icon_missing_from_db"
+msgstr "Falta el icono en la base de datos."
+
+msgid "msg_icon_missing_from_irss"
+msgstr "Falta el icono en el almacenamiento de recursos."
+
+msgid "msg_success_icon_activated"
+msgstr "Icono activado con éxito."
+
+msgid "msg_success_icon_created"
+msgstr "Icono creado con éxito."
+
+msgid "msg_success_icon_deactivated"
+msgstr "Icono desactivado con éxito."
+
+msgid "msg_success_icon_deletion"
+msgstr "Icono eliminado con éxito."
+
+msgid "msg_success_icon_updated"
+msgstr "Icono actualizado con éxito."
+
+msgid "msg_unzip_success"
+msgstr "Archivo descomprimido con éxito."
+
+msgid "on_click_action"
+msgstr "Acción al hacer clic en el título"
+
+msgid "preview_caption"
+msgstr "Vista previa %sde %s"
+
+msgid "preview_image_size_info"
+msgstr "Las versiones de vista previa de las imágenes se reducirán o ampliarán según corresponda, de modo que su lado más largo sea la longitud (en px) introducida aquí."
+
+msgid "preview_persisting"
+msgstr "Imágenes de vista previa persistentes"
+
+msgid "preview_persisting_info"
+msgstr "Las imágenes de vista previa generadas serán almacenadas por ILIAS y se utilizarán a partir de entonces cada vez que se haga clic en el icono de vista previa de ese archivo. Si se desactiva, las vistas previas se generarán de nuevo cada vez."
+
+msgid "previews_for_tiles"
+msgstr "Mosaicos"
+
+msgid "previews_for_tiles_info"
+msgstr "Utilizar vista previa para mosaicos donde sea posible."
+
+msgid "publish_before_delete"
+msgstr "No fue posible eliminar ninguna de las versiones existentes porque existe un borrador sin publicar."
+
+msgid "replace_file_info"
+msgstr "Todas las versiones anteriores del archivo serán eliminadas."
+
+msgid "resource_id"
+msgstr "ID del recurso"
+
+msgid "service_settings"
+msgstr "Características adicionales"
+
+msgid "service_settings_saved"
+msgstr "Cambios guardados."
+
+msgid "set_license_for_all_files"
+msgstr "Establecer licencia para todos los archivos"
+
+msgid "show_amount_of_downloads"
+msgstr "Mostrar número de descargas"
+
+msgid "show_amount_of_downloads_info"
+msgstr "Muestra el número de veces que se ha descargado un objeto de archivo en su página de 'Información'."
+
+msgid "storage_id"
+msgstr "ID de almacenamiento"
+
+msgid "suffix_specific_icons"
+msgstr "Iconos específicos según sufijo"
+
+msgid "suffixes"
+msgstr "Sufijo(s)"
+
+msgid "upload_files"
+msgstr "Subir archivos"
+
+msgid "upload_files_limit"
+msgstr "El tamaño máximo de archivo permitido es %s."
+
+msgid "upload_files_title"
+msgstr "Subir archivos"
+
+msgid "upload_info"
+msgstr "Archivo"
+
+msgid "upload_info_desc"
+msgstr "Las subidas y versiones pueden gestionarse en la pestaña 'Versiones'."
+
+msgid "version_uploaded"
+msgstr "Versión subida"
+
+msgid "versionname"
+msgstr "Título"

@@ -1,0 +1,53 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hr\n"
+"Language-Team: Croatian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: copa\n"
+
+#, fuzzy
+msgid "copa_activation_online_info"
+msgstr "Set the Content Page online to make it visible and available to other users. If not, only administrators will have access to it."
+
+msgid "copa_add"
+msgstr "Dodaj stranicu sa sadržajem"
+
+msgid "copa_btn_lp_toggle_state_completed"
+msgstr "Postavljanje na \"nije dovršeno\""
+
+msgid "copa_btn_lp_toggle_state_not_completed"
+msgstr "Postavljanje na \"dovršeno\""
+
+msgid "copa_copy"
+msgstr "Kopiraj stranicu sadržaja"
+
+msgid "copa_edit"
+msgstr "Uredi stranicu sadržaja"
+
+msgid "copa_import"
+msgstr "Uvezi stranicu sadržaja"
+
+msgid "copa_new"
+msgstr "Stvori stranicu sadržaja"
+
+#, fuzzy
+msgid "copa_page_type_copa"
+msgstr "Content Page"
+
+#, fuzzy
+msgid "copa_prop_reading_time"
+msgstr "Reading Time"
+
+#, fuzzy
+msgid "copa_value_reading_time_f_p"
+msgstr "%s Minutes"
+
+#, fuzzy
+msgid "copa_value_reading_time_f_s"
+msgstr "%s Minute"
+
+msgid "obj_copa_duplicate"
+msgstr "Dupliciraj stranicu sadržaja"

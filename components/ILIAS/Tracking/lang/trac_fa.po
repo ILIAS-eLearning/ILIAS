@@ -1,0 +1,917 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fa\n"
+"Language-Team: Persian (Farsi)\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Domain: trac\n"
+
+#, fuzzy
+msgid "cmix_lp_mode_deactivated"
+msgstr "Learning Progress is Deactivated"
+
+#, fuzzy
+msgid "cmix_lp_mode_deactivated_info"
+msgstr "The learning progress status is not displayed and does not influence parent objects."
+
+#, fuzzy
+msgid "cmix_lp_mode_when_completed"
+msgstr "Completed when 'completed'"
+
+#, fuzzy
+msgid "cmix_lp_mode_when_completed_info"
+msgstr "ILIAS status 'completed' is set when verb of last relevant xAPI-Statement is 'completed'."
+
+#, fuzzy
+msgid "cmix_lp_mode_when_passed"
+msgstr "Completed when 'passed'"
+
+#, fuzzy
+msgid "cmix_lp_mode_when_passed_info"
+msgstr "ILIAS status 'completed' is set when verb of last relevant xAPI-Statement is 'passed' or 'satisfied'."
+
+#, fuzzy
+msgid "cmix_lp_mode_when_passed_or_completed"
+msgstr "Completed when passed or completed"
+
+#, fuzzy
+msgid "cmix_lp_mode_when_passed_or_completed_info"
+msgstr "ILIAS status 'completed' is set when verb of last relevant xAPI-Statement is 'completed' or 'passed' or 'satisfied'."
+
+#, fuzzy
+msgid "cmix_lp_mode_with_failed"
+msgstr "Also consider failed"
+
+#, fuzzy
+msgid "cmix_lp_mode_with_failed_info"
+msgstr "The status could be 'failed' instead of 'in progress'."
+
+msgid "create_date_max"
+msgstr "آخرین ثبت نام"
+
+msgid "create_date_min"
+msgstr "اولین ثبت نام"
+
+msgid "info_valid_request"
+msgstr "حداکثر زمان مجاز دو درخواست یک کاربر"
+
+msgid "meta_typical_learning_time"
+msgstr "Typical learning time"
+
+msgid "obj_types"
+msgstr "Object Types"
+
+#, fuzzy
+msgid "personal_learning_progress_view_description"
+msgstr "Ongoing courses with membership"
+
+#, fuzzy
+msgid "personal_learning_progress_view_title"
+msgstr "Your Learning Progress"
+
+msgid "read_count_avg"
+msgstr "Average page views"
+
+msgid "registration_filter"
+msgstr "Date of Registration"
+
+msgid "search_area_info"
+msgstr "لطفا یک شی انتخاب کنید"
+
+msgid "search_terms"
+msgstr "Search Term(s)"
+
+#, fuzzy
+msgid "session_statistics"
+msgstr "Session Statistics"
+
+#, fuzzy
+msgid "trac_aggregation"
+msgstr "Aggregation"
+
+msgid "trac_all"
+msgstr "همه"
+
+msgid "trac_anonymized"
+msgstr "ناشناس کردن"
+
+msgid "trac_anonymized_info"
+msgstr "اگر فعال شود، همه آمارها در حالت ناشناس خواهد بود."
+
+msgid "trac_anonymized_info_short"
+msgstr "(Anonymized)"
+
+msgid "trac_assigned"
+msgstr "Assigned"
+
+msgid "trac_average"
+msgstr "Average"
+
+#, fuzzy
+msgid "trac_begin_at"
+msgstr "Start date"
+
+#, fuzzy
+msgid "trac_closed_expire"
+msgstr "Timeout"
+
+#, fuzzy
+msgid "trac_closed_login"
+msgstr "Anonymous To Login"
+
+#, fuzzy
+msgid "trac_closed_manual"
+msgstr "Logout"
+
+#, fuzzy
+msgid "trac_closed_misc"
+msgstr "Misc."
+
+msgid "trac_collection_assign"
+msgstr "Assign"
+
+msgid "trac_collection_deassign"
+msgstr "Deassign"
+
+#, fuzzy
+msgid "trac_collection_manual_learner_changed_ts"
+msgstr "Changed on"
+
+#, fuzzy
+msgid "trac_collection_manual_learner_info"
+msgstr "The learning progress for this object has to be set manually."
+
+#, fuzzy
+msgid "trac_collection_manual_learner_lm_info"
+msgstr "Activate all chapters you completed."
+
+#, fuzzy
+msgid "trac_collection_tlt_learner_info"
+msgstr "The learning progress for this object is based on the typical learning time."
+
+#, fuzzy
+msgid "trac_collection_tlt_learner_subitem"
+msgstr "You have spent %s of the %s needed for completion (%s%%)."
+
+msgid "trac_comment"
+msgstr "نظر"
+
+msgid "trac_completed"
+msgstr "تکمیل شده"
+
+#, fuzzy
+msgid "trac_cron_info"
+msgstr "Please activate the \"Object Statistics\" cron job to gather data."
+
+msgid "trac_crs_objects"
+msgstr "شرکت کنندگان درس"
+
+#, fuzzy
+msgid "trac_current"
+msgstr "Current"
+
+#, fuzzy
+msgid "trac_current_system_load"
+msgstr "Current System Load"
+
+msgid "trac_data_deleted"
+msgstr "Data has been deleted."
+
+#, fuzzy
+msgid "trac_defaults"
+msgstr "Completion Status"
+
+#, fuzzy
+msgid "trac_defaults_inactive"
+msgstr "Inactive"
+
+#, fuzzy
+msgid "trac_defaults_info"
+msgstr "Set the completion status determination mode for supported object types. Used by certain badge types."
+
+msgid "trac_delete_data"
+msgstr "پاک کردن داده"
+
+msgid "trac_determines_learning_progress"
+msgstr "Determines Learning Progress"
+
+msgid "trac_edit_collection"
+msgstr "Please assign materials. If the status of all assigned items is 'Completed' the overall status is completed by the user."
+
+#, fuzzy
+msgid "trac_end_at"
+msgstr "End Date"
+
+msgid "trac_failed"
+msgstr "ناموفق"
+
+msgid "trac_figure"
+msgstr "معیار"
+
+msgid "trac_filter_area"
+msgstr "حوزه"
+
+#, fuzzy
+msgid "trac_filter_has_status"
+msgstr "Show not attempted objects"
+
+msgid "trac_filter_hidden"
+msgstr "مخفی"
+
+msgid "trac_first_access"
+msgstr "اولین دسترسی"
+
+msgid "trac_first_and_last_access"
+msgstr "اولین و آخرین دسترسی"
+
+#, fuzzy
+msgid "trac_frm_contribution_num_postings"
+msgstr "Minimum number of Postings"
+
+#, fuzzy
+msgid "trac_frm_contribution_num_postings_info_p"
+msgstr "%s: %s Posts"
+
+#, fuzzy
+msgid "trac_frm_contribution_num_postings_info_s"
+msgstr "%s: %s Post"
+
+msgid "trac_group_materials"
+msgstr "Group Materials"
+
+msgid "trac_group_materials_save"
+msgstr "Save Number of Obligatory Materials"
+
+msgid "trac_grouped_material_obligatory_err"
+msgstr "The number materials which must be passed has to be greater than 0 and smaller than the number of materials of the grouping."
+
+msgid "trac_hide"
+msgstr "مخفی کردن"
+
+msgid "trac_hide_selected"
+msgstr "مخفی کردن آیتمهای انتخاب شده"
+
+msgid "trac_in_progress"
+msgstr "در حال پیشروی"
+
+msgid "trac_info_edited"
+msgstr "اگر فکر می کنید که همه محتوا را پردازش کرده اید، وضعیت را به 'کامل شده' تنظیم کنید"
+
+msgid "trac_last_access"
+msgstr "آخرین دسترسی"
+
+#, fuzzy
+msgid "trac_last_aggregation"
+msgstr "Last Aggregation"
+
+msgid "trac_learning_progress"
+msgstr "پیشروی یادگیری"
+
+msgid "trac_learning_progress_of"
+msgstr "پیشروی یادگیری %s"
+
+msgid "trac_learning_progress_settings_info"
+msgstr "فعال سازی نمایش مقادیر زیر در جداول پیشروی یادگیری"
+
+#, fuzzy
+msgid "trac_lhist_obj_completed"
+msgstr "$1$ was completed."
+
+#, fuzzy
+msgid "trac_lhist_obj_completed_in"
+msgstr "$1$ was completed in $2$."
+
+msgid "trac_log_info"
+msgstr "آخرین حضور: %s (آیتمهای پردازش نشده: %s)"
+
+msgid "trac_log_info_link"
+msgstr "بروز رسانی"
+
+#, fuzzy
+msgid "trac_long_system_load"
+msgstr "Long term"
+
+msgid "trac_lp_determination"
+msgstr "Learning Progress Status Determination"
+
+msgid "trac_lp_determination_info_crs"
+msgstr "Select the items that determine the overall learning progress status."
+
+msgid "trac_lp_determination_info_crs_tutor"
+msgstr "This selection is not connected to the learning progress status."
+
+#, fuzzy
+msgid "trac_lp_determination_info_mob"
+msgstr "Select the items that determine the overall learning progress status of the Mediacast"
+
+msgid "trac_lp_determination_info_sco"
+msgstr "آیتمهایی که وضعیت کلی پیشروی یادگیری ماژول یادگیری SORM را تعیین می کنند، انتخاب کنید."
+
+msgid "trac_lp_determination_tutor"
+msgstr "Display of objects in learning progress"
+
+#, fuzzy
+msgid "trac_lp_learner_access"
+msgstr "View Own Learning Progress"
+
+#, fuzzy
+msgid "trac_lp_learner_access_info"
+msgstr "If active, users can access their own learning progress status."
+
+#, fuzzy
+msgid "trac_lp_list_gui"
+msgstr "Personal Desktop, Repository, Search"
+
+#, fuzzy
+msgid "trac_lp_list_gui_info"
+msgstr "If activated, the learning progress status is included in objects lists."
+
+#, fuzzy
+msgid "trac_lp_settings_info_parent_container"
+msgstr "Learning Progress of Parent Objects"
+
+#, fuzzy
+msgid "trac_lp_settings_info_parent_legend"
+msgstr "The learning progress status of this object is influenced by \"%s\"."
+
+msgid "trac_manual_display"
+msgstr "Display in Learning Progress"
+
+msgid "trac_manual_is_displayed"
+msgstr "Is Displayed"
+
+msgid "trac_manual_no_display"
+msgstr "Do not display in Learning Progress"
+
+msgid "trac_mark"
+msgstr "نشانه"
+
+msgid "trac_matrix"
+msgstr "نمایش ماتریسی"
+
+#, fuzzy
+msgid "trac_measure"
+msgstr "Figure"
+
+#, fuzzy
+msgid "trac_members_short"
+msgstr "Members"
+
+msgid "trac_min_passed"
+msgstr "Minimum Number of Passed Materials:"
+
+msgid "trac_mode"
+msgstr "حالت"
+
+#, fuzzy
+msgid "trac_mode_cmix_compl_or_passed_with_failed"
+msgstr "Completed when verb 'completed' or 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'Failed'."
+
+#, fuzzy
+msgid "trac_mode_cmix_compl_or_passed_with_failed_info"
+msgstr "&nbsp;"
+
+#, fuzzy
+msgid "trac_mode_cmix_compl_with_failed"
+msgstr "Completed when verb 'completed' was sent. Verb 'failed' sets status of ILIAS to 'Failed'."
+
+#, fuzzy
+msgid "trac_mode_cmix_compl_with_failed_info"
+msgstr "&nbsp;"
+
+#, fuzzy
+msgid "trac_mode_cmix_completed"
+msgstr "Completed when verb 'completed' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'."
+
+#, fuzzy
+msgid "trac_mode_cmix_completed_info"
+msgstr "&nbsp;"
+
+#, fuzzy
+msgid "trac_mode_cmix_completed_or_passed"
+msgstr "Completed when verb 'completed' or 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'."
+
+#, fuzzy
+msgid "trac_mode_cmix_completed_or_passed_info"
+msgstr "&nbsp;"
+
+#, fuzzy
+msgid "trac_mode_cmix_passed"
+msgstr "Completed when verb 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'."
+
+#, fuzzy
+msgid "trac_mode_cmix_passed_info"
+msgstr "&nbsp;"
+
+#, fuzzy
+msgid "trac_mode_cmix_passed_with_failed"
+msgstr "Completed when verb 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'Failed'."
+
+#, fuzzy
+msgid "trac_mode_cmix_passed_with_failed_info"
+msgstr "&nbsp;"
+
+msgid "trac_mode_collection"
+msgstr "Automatic by Collection of Objects"
+
+msgid "trac_mode_collection_info"
+msgstr "Define the materials that will determine the learning progress status."
+
+#, fuzzy
+msgid "trac_mode_collection_manual"
+msgstr "Manual by Learner (per Chapter)"
+
+#, fuzzy
+msgid "trac_mode_collection_manual_info"
+msgstr "Users have to decide for each chapter whether their status is completed or not."
+
+#, fuzzy
+msgid "trac_mode_collection_mobs"
+msgstr "Collection of Media Objects"
+
+#, fuzzy
+msgid "trac_mode_collection_mobs_info"
+msgstr "The learning progress status will be determined by the viewing status of selected media objects."
+
+#, fuzzy
+msgid "trac_mode_collection_tlt"
+msgstr "Typical Learning Time (per Chapter)"
+
+#, fuzzy
+msgid "trac_mode_collection_tlt_info"
+msgstr "Users who reached the Typical Learning Time of all relevant chapters will gain the status 'Completed'."
+
+#, fuzzy
+msgid "trac_mode_content_visited"
+msgstr "Visited"
+
+#, fuzzy
+msgid "trac_mode_content_visited_info"
+msgstr "Learning progress status is set to 'completed' when object has been presented to user."
+
+#, fuzzy
+msgid "trac_mode_contribution_to_discussion"
+msgstr "Contributions to Discussion"
+
+#, fuzzy
+msgid "trac_mode_contribution_to_discussion_info"
+msgstr "The learning progress status will be determined by the number of written postings."
+
+#, fuzzy
+msgid "trac_mode_course_reference"
+msgstr "Adopted from Course"
+
+#, fuzzy
+msgid "trac_mode_course_reference_info"
+msgstr "The mode is automatically adopted from the course this course link points to."
+
+msgid "trac_mode_deactivated"
+msgstr "غیرفعال"
+
+msgid "trac_mode_deactivated_info_new"
+msgstr "وضعیت پیشروی یادگیری نشان داده نخواهد شد"
+
+msgid "trac_mode_event"
+msgstr "Participation in Sessions"
+
+#, fuzzy
+msgid "trac_mode_event_info"
+msgstr "The learning progress status will be determined by the participation status."
+
+msgid "trac_mode_exercise_returned"
+msgstr "تمرین حل شده"
+
+msgid "trac_mode_exercise_returned_info"
+msgstr "The status 'Completed' can be set only by tutors."
+
+#, fuzzy
+msgid "trac_mode_individual_assessment"
+msgstr "Graded manually by tutor or trainer"
+
+#, fuzzy
+msgid "trac_mode_individual_assessment_info"
+msgstr "The record of a user has to be finalized by the tutor in order to complete individual assessment."
+
+#, fuzzy
+msgid "trac_mode_lti_outcome"
+msgstr "Mastery Score Must be reached"
+
+#, fuzzy
+msgid "trac_mode_lti_outcome_info"
+msgstr "The Learning Progress will be evaluated from the LTI outcome and the mastery score threshold."
+
+msgid "trac_mode_manual"
+msgstr "انجام شده توسط یادگیرنده"
+
+msgid "trac_mode_manual_by_tutor"
+msgstr "انجام شده توسط مدرس"
+
+msgid "trac_mode_manual_by_tutor_info"
+msgstr "The overall status can only be set by tutors."
+
+msgid "trac_mode_manual_info"
+msgstr "کاربران باید تصمیم بگیرند که وضعیت آنها کامل است یا خیر."
+
+msgid "trac_mode_objectives"
+msgstr "Automatic by Learning Objectives"
+
+msgid "trac_mode_objectives_info"
+msgstr "The learning progress will be calculated automatically according to the number of passed learning objectives."
+
+#, fuzzy
+msgid "trac_mode_plugin"
+msgstr "Plugin"
+
+#, fuzzy
+msgid "trac_mode_questions"
+msgstr "Questions"
+
+#, fuzzy
+msgid "trac_mode_questions_info"
+msgstr "Users who answered all questions correctly will gain the status 'Completed'."
+
+msgid "trac_mode_scorm"
+msgstr "Automatic by Collection of SCORM Items"
+
+msgid "trac_mode_scorm_info"
+msgstr "وضعیت پیشروی یادگیری توسط وضعیت SCO انتخاب شده تعیین می شود."
+
+msgid "trac_mode_scorm_package"
+msgstr "بطور اتوماتیک توسط وضعیت درس SCORM"
+
+msgid "trac_mode_scorm_package_info"
+msgstr "وضعیت پیشروی یادگیری مستقیما توسط وضعیت بسته درس SCORM تعیین می شود."
+
+#, fuzzy
+msgid "trac_mode_study_programme"
+msgstr "Study Programme Completed"
+
+#, fuzzy
+msgid "trac_mode_survey_finished"
+msgstr "Survey Finished"
+
+#, fuzzy
+msgid "trac_mode_survey_finished_info"
+msgstr "The survey has to be finished by an user to receive the status 'Completed'."
+
+msgid "trac_mode_test_finished"
+msgstr "تست پایان یافت"
+
+msgid "trac_mode_test_finished_info"
+msgstr "کاربران باید یک تست را بطور کامل انجام دهند"
+
+msgid "trac_mode_test_passed"
+msgstr "تست گذرانده شد"
+
+msgid "trac_mode_test_passed_info"
+msgstr "تست باید توسط یک کاربر گذرانده شود تا وضعیت 'تکمیل شد' را دریافت کند."
+
+msgid "trac_mode_tlt"
+msgstr "زمان یادگیری رایج"
+
+msgid "trac_mode_tlt_info"
+msgstr "کاربرانی که زمان یادگیری رایج را رعایت کنند وضعیتشان 'کامل' می شود."
+
+#, fuzzy
+msgid "trac_mode_visited_pages"
+msgstr "Visited Pages"
+
+#, fuzzy
+msgid "trac_mode_visited_pages_info"
+msgstr "Users who visited all pages will gain the status ‘Completed’."
+
+msgid "trac_mode_visits"
+msgstr "تعداد بازدیدها"
+
+msgid "trac_mode_visits_info"
+msgstr "تعداد بازدیدهای مورد نیاز برای کامل کردن این مورد یادگیری را تعیین کنید."
+
+msgid "trac_name_of_installation"
+msgstr "Name of Installation"
+
+msgid "trac_no_attempted"
+msgstr "شروع نشده"
+
+msgid "trac_not_accessed"
+msgstr "دسترسی نشده"
+
+msgid "trac_not_assigned"
+msgstr "Not Assigned"
+
+msgid "trac_not_attempted"
+msgstr "شروع نشده"
+
+msgid "trac_not_completed"
+msgstr "کامل نشده"
+
+msgid "trac_not_participated"
+msgstr "Not Participated"
+
+msgid "trac_not_registered"
+msgstr "Not Registered"
+
+msgid "trac_object_link"
+msgstr "Link to Object"
+
+msgid "trac_object_name"
+msgstr "Name of Object"
+
+msgid "trac_object_owner"
+msgstr "Owner of Object"
+
+msgid "trac_object_stat_access"
+msgstr "شدت استفاده"
+
+msgid "trac_object_stat_admin"
+msgstr "مدیریت داده"
+
+msgid "trac_object_stat_daily"
+msgstr "استفاده روزانه"
+
+#, fuzzy
+msgid "trac_object_stat_lp"
+msgstr "Learning Progress Statistics Course"
+
+#, fuzzy
+msgid "trac_object_stat_lp_max"
+msgstr "Max."
+
+#, fuzzy
+msgid "trac_object_stat_lp_min"
+msgstr "Min."
+
+msgid "trac_object_stat_types"
+msgstr "تعداد شی ها"
+
+msgid "trac_object_statistics"
+msgstr "آمار شی"
+
+#, fuzzy
+msgid "trac_object_statistics_info"
+msgstr "If activated, the basic data for the usage statistics will be gathered and processed."
+
+msgid "trac_objects"
+msgstr "کاربران"
+
+msgid "trac_others"
+msgstr "Others"
+
+msgid "trac_participants"
+msgstr "نمایش شرکت کنندگان"
+
+msgid "trac_participated"
+msgstr "Participated"
+
+#, fuzzy
+msgid "trac_paths"
+msgstr "Paths"
+
+msgid "trac_percentage"
+msgstr "درصد"
+
+#, fuzzy
+msgid "trac_periodic_system_load"
+msgstr "Periodic "
+
+msgid "trac_progress"
+msgstr "پیشروی یادگیری شخصی"
+
+#, fuzzy
+msgid "trac_progress_block_details"
+msgstr "View Details"
+
+#, fuzzy
+msgid "trac_progress_block_title"
+msgstr "Your Learning Progress"
+
+msgid "trac_read_count"
+msgstr "تعداد دسترسی"
+
+msgid "trac_read_count_spent_seconds"
+msgstr "زمان سپری/دسترسی"
+
+msgid "trac_reference"
+msgstr "مرجع ها"
+
+#, fuzzy
+msgid "trac_reference_ids_column"
+msgstr "Reference-Ids"
+
+msgid "trac_registered"
+msgstr "Registered"
+
+msgid "trac_release_materials"
+msgstr "Disintegrate Material Group"
+
+msgid "trac_report_date"
+msgstr "Date of Report"
+
+msgid "trac_report_owner"
+msgstr "Owner of Report"
+
+msgid "trac_required_visits"
+msgstr "Number of Required Visits"
+
+msgid "trac_sahs_relevant_items"
+msgstr "آیتمهای محتوا"
+
+#, fuzzy
+msgid "trac_scale"
+msgstr "Scale"
+
+msgid "trac_select_area"
+msgstr "انتخاب حوزه"
+
+#, fuzzy
+msgid "trac_session_active_avg"
+msgstr "Active Sessions (Average)"
+
+#, fuzzy
+msgid "trac_session_active_max"
+msgstr "Active Sessions (Maximum)"
+
+#, fuzzy
+msgid "trac_session_active_min"
+msgstr "Active Sessions (Minimum)"
+
+#, fuzzy
+msgid "trac_session_statistics_mode_day"
+msgstr "Day"
+
+#, fuzzy
+msgid "trac_session_statistics_mode_last_day"
+msgstr "Last 24 Hours"
+
+#, fuzzy
+msgid "trac_session_statistics_mode_last_month"
+msgstr "Last 30 Days"
+
+#, fuzzy
+msgid "trac_session_statistics_mode_last_week"
+msgstr "Last 7 Days"
+
+#, fuzzy
+msgid "trac_session_statistics_mode_month"
+msgstr "Month"
+
+#, fuzzy
+msgid "trac_session_statistics_mode_today"
+msgstr "Today"
+
+#, fuzzy
+msgid "trac_session_statistics_mode_week"
+msgstr "Week"
+
+#, fuzzy
+msgid "trac_session_statistics_mode_year"
+msgstr "Year"
+
+#, fuzzy
+msgid "trac_session_statistics_no_data"
+msgstr "No data for this statistics could be found."
+
+#, fuzzy
+msgid "trac_sessions_closed"
+msgstr "Leavings"
+
+#, fuzzy
+msgid "trac_sessions_opened"
+msgstr "Admissions"
+
+msgid "trac_settings"
+msgstr "تنظیمات"
+
+msgid "trac_settings_saved"
+msgstr "تنظمات ذخیره شدند"
+
+#, fuzzy
+msgid "trac_short_system_load"
+msgstr "Short term"
+
+msgid "trac_show_graph"
+msgstr "نمایش گراف"
+
+#, fuzzy
+msgid "trac_show_progress_block"
+msgstr "Show Personal Progress Chart in ‘Content’-Tab"
+
+msgid "trac_show_repository_views"
+msgstr "تغییرات در مخزن"
+
+#, fuzzy
+msgid "trac_show_repository_views_info"
+msgstr "Show tracking information for repository objects on info page."
+
+msgid "trac_spent_seconds"
+msgstr "زمان سپری شده"
+
+msgid "trac_spent_time"
+msgstr "زمان سپری شده"
+
+msgid "trac_status"
+msgstr "وضعیت"
+
+msgid "trac_status_changed"
+msgstr "آخرین تغییر وضعیت"
+
+msgid "trac_subitems"
+msgstr "نمایش زیر آیتم ها"
+
+msgid "trac_sum"
+msgstr "Sum"
+
+msgid "trac_summary"
+msgstr "خلاصه"
+
+msgid "trac_sure_delete_data"
+msgstr "Are you sure you want to delete the complete data for the following months?"
+
+msgid "trac_sync_obj_stats"
+msgstr "بروزرسانی داده"
+
+msgid "trac_sync_obj_stats_success"
+msgstr "Data has been updated."
+
+#, fuzzy
+msgid "trac_sync_session_stats"
+msgstr "Aggregate Data"
+
+#, fuzzy
+msgid "trac_sync_session_stats_success"
+msgstr "Data aggregation was done successfully."
+
+msgid "trac_time_passed"
+msgstr "Editing Time Exceeded"
+
+msgid "trac_title"
+msgstr "عنوان"
+
+msgid "trac_title_description"
+msgstr "عنوان / توضیح"
+
+msgid "trac_total_online"
+msgstr "کل زمان آنلاین بودن"
+
+msgid "trac_trash"
+msgstr "منتقل شده به سطل زباله"
+
+msgid "trac_update_edit_user"
+msgstr "تنظمات ذخیره شدند"
+
+msgid "trac_updated_status"
+msgstr "Saved learning progress status."
+
+msgid "trac_user_data"
+msgstr "داده های کاربر"
+
+msgid "trac_valid_request"
+msgstr "حداکثر زمان بین درخواستها"
+
+msgid "trac_view_crs"
+msgstr "Back to Course"
+
+msgid "trac_view_list"
+msgstr "Back to List"
+
+msgid "trac_view_mode"
+msgstr "View Mode"
+
+msgid "trac_view_mode_all"
+msgstr "All Objects"
+
+msgid "trac_view_mode_collection"
+msgstr "Only objects that determine the overall status"
+
+msgid "trac_visits"
+msgstr "تعداد بازدیدها"
+
+msgid "trac_visits_info"
+msgstr "هر بازدید صفحه به عنوان یک بازدید شمرده می شود."
+
+#, fuzzy
+msgid "trac_visits_nr"
+msgstr "Number of Visits"
+
+msgid "user_total"
+msgstr "User Total"
+
+msgid "view_mode"
+msgstr "View Mode"
+
+#, fuzzy
+msgid "view_mode_all"
+msgstr "All"
+
+#, fuzzy
+msgid "view_mode_current"
+msgstr "Current"
+
+#, fuzzy
+msgid "view_mode_future"
+msgstr "Future"
+
+#, fuzzy
+msgid "view_mode_past"
+msgstr "Past"

@@ -1,0 +1,315 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"Language-Team: English\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: news\n"
+
+msgid "cron_news_delete_old"
+msgstr "Delete old News Items"
+
+msgid "cron_news_delete_old_desc"
+msgstr "Deletes news items older than the configured threshold. MediaCast news items (context_obj_type mcst) are always excluded."
+
+msgid "cron_news_delete_old_result"
+msgstr "%s news item(s) deleted."
+
+msgid "cron_news_delete_old_scope"
+msgstr "Scope"
+
+msgid "cron_news_delete_old_scope_auto"
+msgstr "Delete automatic news items"
+
+msgid "cron_news_delete_old_scope_both"
+msgstr "Delete both automatic and manual news items"
+
+msgid "cron_news_delete_old_scope_manual"
+msgstr "Delete manual news items"
+
+msgid "cron_news_delete_old_threshold"
+msgstr "Threshold"
+
+msgid "cron_news_delete_old_threshold_info"
+msgstr "All news items older than the specified period will be deleted. The creation date is used as the criterion. Comments or any attached media from manually created news items will also be permanently deleted."
+
+msgid "lso_news_online_title"
+msgstr "A new learning sequence object is online!"
+
+msgid "lso_news_online_txt"
+msgstr "A new object for your learning sequence has been published."
+
+msgid "new_test_online"
+msgstr "Test now online."
+
+msgid "news_1_file_created"
+msgstr "File added."
+
+msgid "news_1_file_updated"
+msgstr "File updated."
+
+msgid "news_1_postings"
+msgstr "Post added."
+
+msgid "news_add_news"
+msgstr "Add News"
+
+msgid "news_all_items"
+msgstr "All News"
+
+msgid "news_allow_longer_periods"
+msgstr "Allow Longer Periods"
+
+msgid "news_allow_longer_periods_info"
+msgstr "Allow users to select a different, longer news period so that their dashboards show more news items stretching back over a longer period."
+
+msgid "news_allow_shorter_periods"
+msgstr "Allow Shorter Periods"
+
+msgid "news_allow_shorter_periods_info"
+msgstr "Allow users to select a different, shorter news period so that their dashboards show fewer news items stretching back over a shorter period."
+
+msgid "news_attached_to"
+msgstr "Source"
+
+msgid "news_block_information"
+msgstr "The <b>News</b> block lists all news that are related to your <b>Favourites</b>."
+
+msgid "news_cache"
+msgstr "News Cache (Minutes)"
+
+msgid "news_cache_info"
+msgstr "Update news blocks every x minutes. A value of ‘0’ means that news blocks are updated immediately. Higher values improve performance, but in rare cases may result in news items linking to things that are no longer accessible."
+
+msgid "news_co_period"
+msgstr "News Period for Container-Objects"
+
+msgid "news_co_period_info"
+msgstr "Select the default period for which news is displayed in container-objects. This setting can be overridden for each object individually. Select a shorter period if you experience performance problems."
+
+msgid "news_container_object_visibility_settings"
+msgstr "Visibility Settings of News in Container-Objects"
+
+msgid "news_dashboard_visibility_settings"
+msgstr "Visibility Settings of News on Dashboard"
+
+msgid "news_default_visibility"
+msgstr "Default Access Value"
+
+msgid "news_edit_news_settings"
+msgstr "Edit Settings"
+
+msgid "news_enable_internal_news"
+msgstr "Enable Internal News"
+
+msgid "news_enable_internal_news_info"
+msgstr "Make it possible to display news blocks in categories, courses, groups and other objects. Users can subscribe to the news of these objects on an individual basis and this news is also presented on the dashboard."
+
+msgid "news_enable_internal_rss"
+msgstr "Enable RSS for Internal News"
+
+msgid "news_enable_internal_rss_info"
+msgstr "Allow news items to be published via RSS. These items will be accessible outside of this installation without authentication, i.e. individuals won’t need to be logged in to this installation to view these news items."
+
+msgid "news_enable_private_feed"
+msgstr "Allow Private RSS Feeds"
+
+msgid "news_enable_private_feed_info"
+msgstr "Allow both public and private news (news restricted to authenticated, logged-in users) to be obtained via personal RSS feeds outside of ILIAS. Access to this news feed requires authentication by password."
+
+msgid "news_feed_url"
+msgstr "Feed URL"
+
+msgid "news_feed_url_for"
+msgstr "Feed URL for '%s'"
+
+msgid "news_general_settings"
+msgstr "General Settings of News"
+
+msgid "news_get_feed_info"
+msgstr "This is your personal news feed URL which collects all of the publicly available news items from the courses and groups in which you are a member (excluding automatically generated news). The feed includes only news items that have been declared as public by the authors. The feed is not protected by any authentication procedure. Please do not share this URL with other people."
+
+msgid "news_get_feed_title"
+msgstr "Personal News Feed URL"
+
+msgid "news_get_feed_url"
+msgstr "Get News Feed URL"
+
+msgid "news_get_priv_feed_info"
+msgstr "This is your private news feed URL. The feed includes both news that is public and news which has been designated as only being for ‘authenticated users’, i.e. logged-in users of this installation. This feed is protected by a password, which can be changed by going to ‘Settings’ in the ‘News’ block on your Dashboard. Please do not share this URL with other people. Please replace -password- in this URL with the password you selected as your Feed-Password."
+
+msgid "news_get_priv_feed_title"
+msgstr "Private News Feed URL"
+
+msgid "news_hide_news_by_period"
+msgstr "Show news from the last week, month or year"
+
+msgid "news_hide_news_date"
+msgstr "Start Date"
+
+msgid "news_hide_news_global"
+msgstr "Use global setting"
+
+msgid "news_hide_news_mode"
+msgstr "Time-Based News Restriction"
+
+msgid "news_hide_news_none"
+msgstr "Do not restrict news"
+
+msgid "news_hide_news_per_date"
+msgstr "Show news starting from a specific date"
+
+msgid "news_inactive_private_feed_info"
+msgstr "Your private news feed is not currently active. To activate it, please set a password in this news block’s settings."
+
+msgid "news_internal_news"
+msgstr "News"
+
+msgid "news_keep_minimal_x_items"
+msgstr "Retain Older News Items"
+
+msgid "news_keep_minimal_x_items_info"
+msgstr "Number of older news items kept in the RSS news feed regardless of the system-wide established RSS period."
+
+msgid "news_media"
+msgstr "Media File"
+
+msgid "news_new_comments"
+msgstr "New comments"
+
+msgid "news_new_reactions"
+msgstr "New reactions"
+
+msgid "news_news_block"
+msgstr "News Block"
+
+msgid "news_news_item_content"
+msgstr "Text"
+
+msgid "news_news_item_def_visibility_public_info"
+msgstr "News in a public RSS news feed can be accessed by the general public, i.e. without having to be logged in to the system. Such news should not contain confidential information."
+
+msgid "news_news_item_def_visibility_users_info"
+msgstr "Only users who are logged in to the system have access to news."
+
+msgid "news_news_item_head"
+msgstr "News Item"
+
+msgid "news_news_item_no_content"
+msgstr "No Text"
+
+msgid "news_news_item_post"
+msgstr "Post"
+
+msgid "news_news_item_title"
+msgstr "Headline"
+
+msgid "news_news_item_visibility"
+msgstr "Access"
+
+msgid "news_news_item_visibility_info"
+msgstr "Public news can be accessed outside of ILIAS via RSS without having to be logged in to the system. Please do not include any confidential information."
+
+msgid "news_no_news_items"
+msgstr "No news available."
+
+msgid "news_not_available"
+msgstr "News Item Unavailable"
+
+msgid "news_notifications_public"
+msgstr "Public Notifications"
+
+msgid "news_notifications_public_info"
+msgstr "If this option is enabled, notifications can be obtained by personal RSS feeds outside of ILIAS. Please note that this makes notifications accessible without authentication."
+
+msgid "news_nr_of_items"
+msgstr "Maximum Number of Stored News Items per Object"
+
+msgid "news_nr_of_items_info"
+msgstr "Number of news items that are stored for an object (e.g. a file or a learning module). Please note, that container objects (e.g. categories, courses) may list more items, because they aggregate the news of their sub-objects."
+
+msgid "news_old_period"
+msgstr "Value for '%s': %s"
+
+msgid "news_pd_period"
+msgstr "Dashboard News Period"
+
+msgid "news_pd_period_info"
+msgstr "Determine how long (week, month or year) news items should be displayed on the Dashboard. Select a shorter period if you experience any performance problems."
+
+msgid "news_period_1_month"
+msgstr "Last Month"
+
+msgid "news_period_1_week"
+msgstr "Last Week"
+
+msgid "news_period_1_year"
+msgstr "Last Year"
+
+msgid "news_period_x_days"
+msgstr "Last %s Days"
+
+msgid "news_public_feed"
+msgstr "Extra RSS Feed"
+
+msgid "news_public_feed_info"
+msgstr "Make an RSS feed for this object’s news available. This can be accessed via the ▼ menu."
+
+msgid "news_really_delete_news"
+msgstr "Are you sure you want to delete this news item?"
+
+msgid "news_rss"
+msgstr "RSS"
+
+msgid "news_rss_period"
+msgstr "RSS Period"
+
+msgid "news_rss_title_format"
+msgstr "RSS Title Format"
+
+msgid "news_rss_title_format_news_obj"
+msgstr "News Headline (Object Title)"
+
+msgid "news_rss_title_format_obj_news"
+msgstr "Object Title - News Headline"
+
+msgid "news_settings"
+msgstr "News Settings"
+
+msgid "news_sorry_not_accessible_anymore"
+msgstr "Sorry, this news item is no longer accessible."
+
+msgid "news_time_period"
+msgstr "Time Period"
+
+msgid "news_timline_add_entries_info"
+msgstr "No news available yet. Click on \"Add News\" to create a new news item."
+
+msgid "news_timline_no_entries"
+msgstr "No news found."
+
+msgid "news_visibility_public"
+msgstr "Public"
+
+msgid "news_visibility_users"
+msgstr "Authenticated Users"
+
+msgid "news_x_files_created"
+msgstr "%s files have been added."
+
+msgid "news_x_files_updated"
+msgstr "%s files have been updated."
+
+msgid "news_x_postings"
+msgstr "%s new posts."
+
+msgid "passwd_equals_ilpasswd"
+msgstr "For security reasons, please enter a password that is different to your ILIAS password."
+
+msgid "priv_feed_disabled"
+msgstr "Your private news feed has been deactivated."
+
+msgid "priv_feed_settings"
+msgstr "Private News Feed Settings"

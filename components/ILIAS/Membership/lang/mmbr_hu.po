@@ -1,0 +1,30 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: mmbr\n"
+
+msgid "info_refuse_sure"
+msgstr "Biztos, hogy elutasítja az alábbi felhasználó(ka)t?"
+
+msgid "mmbr_awrn_my_groups_courses"
+msgstr "Csoportjaim és kurzusaim"
+
+msgid "mmbr_awrn_my_groups_courses_info"
+msgstr "A jelenlegi felhasználó kurzusainak vagy csoportjainak összes tagját felsoroljuk itt."
+
+msgid "mmbr_btn_mail_selected_users"
+msgstr "Levél küldése"
+
+msgid "mmbr_memberships"
+msgstr "Tagság"
+
+msgid "mmbr_role_error"
+msgstr "Minden tagnak legalább egy szerepkörrel kell rendelkeznie."
+
+msgid "mmbr_unsubscribed_from_objs"
+msgstr "Sikeresen leiratkozott a kiválaszott objektumokról."

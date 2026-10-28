@@ -43,5 +43,9 @@ class ContentPage implements Component\Component
             $this,
             'cpad'
         );
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'copa'
+        );
     }
 }

@@ -1,0 +1,57 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: chatroom_adm\n"
+
+msgid "chat_cannot_connect_to_server"
+msgstr "ILIAS no puede establecer una conexión de socket con el servidor de chat."
+
+msgid "chat_enabled"
+msgstr "Activar chat"
+
+msgid "chatserver_settings_title"
+msgstr "Ajustes del servidor de chat"
+
+msgid "client_settings"
+msgstr "Ajustes generales"
+
+msgid "general_settings_title"
+msgstr "Ajustes generales del chat"
+
+msgid "https"
+msgstr "HTTPS"
+
+msgid "osc_adm_browser_noti_info"
+msgstr "Si se activa, los usuarios pueden decidir individualmente si desean recibir o no notificaciones de navegador para nuevas conversaciones y mensajes. Las notificaciones se activan si el usuario trabaja en diferentes pestañas del navegador o si el navegador está oculto e ILIAS se ha puesto en segundo plano. Los usuarios también recibirán notificaciones de navegador tras un cierto tiempo de inactividad en una conversación si ILIAS está en primer plano."
+
+msgid "osc_adm_browser_noti_label"
+msgstr "Notificaciones de navegador"
+
+msgid "osc_adm_conv_idle_state_threshold_info"
+msgstr "Limita las notificaciones estableciendo un intervalo mínimo en el que se activan las notificaciones del navegador para los mensajes entrantes del chat."
+
+msgid "osc_adm_conv_idle_state_threshold_label"
+msgstr "Tiempo entre notificaciones del navegador"
+
+msgid "port_info"
+msgstr "Los puertos poco utilizados suelen estar bloqueados por cortafuegos o servidores proxy. El navegador del usuario no podrá establecer una conexión con el servidor de chat si el puerto definido está bloqueado."
+
+msgid "protocol"
+msgstr "Protocolo"
+
+msgid "public_chat_permissions"
+msgstr "Permisos de la sala de chat pública"
+
+msgid "public_chat_settings"
+msgstr "Ajustes de la sala de chat pública"
+
+msgid "server_settings"
+msgstr "Ajustes del servidor de chat"
+
+msgid "settings_has_been_saved"
+msgstr "Se han guardado los ajustes"

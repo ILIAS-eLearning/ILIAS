@@ -1,0 +1,138 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: etal\n"
+
+msgid "appointments"
+msgstr "Találkozók"
+
+msgid "cal_type_tals"
+msgstr "Megbeszélések"
+
+msgid "change_date_of_series"
+msgstr "Megbeszéléssorozat dátumának módosítása"
+
+msgid "change_date_of_talk"
+msgstr "Megbeszélés dátumának módosítása"
+
+msgid "date_of_talk"
+msgstr "Megbeszélés dátuma"
+
+msgid "etal_add"
+msgstr "Megbeszélés hozzáadása"
+
+msgid "etal_add_new_item"
+msgstr "Új Megbeszélés hozzáadása"
+
+msgid "etal_create_invalid_template_ref"
+msgstr "Érvénytelen Megbeszéléssablon ID"
+
+msgid "etal_date_appointment_edit"
+msgstr "Megbeszélés dátuma"
+
+msgid "etal_date_series_edit"
+msgstr "Megbeszéléssorozat dátuma"
+
+msgid "etal_delete_confirmation_msg"
+msgstr "Biztos, hogy törli az alábbi megbeszélést?"
+
+msgid "etal_edit"
+msgstr "Általános"
+
+msgid "etal_invalid_user"
+msgstr "A felhasználó nem létezik vagy nem hívható meg."
+
+msgid "etal_location"
+msgstr "Helyszín"
+
+msgid "etal_new"
+msgstr "Új Talk"
+
+msgid "etal_open"
+msgstr "Munkavállalói megbeszélés megnyitása"
+
+msgid "etal_recurrence"
+msgstr "Ismétlődés"
+
+msgid "etal_status_all"
+msgstr "Összes"
+
+msgid "etal_status_completed"
+msgstr "Befejezve"
+
+msgid "etal_status_pending"
+msgstr "Függőben"
+
+msgid "etal_unknown_username"
+msgstr "Ismeretlen felhasználó"
+
+msgid "lock_edititng_for_others"
+msgstr "Szerkesztés zárolása a többeiknél"
+
+msgid "meta_adv_records"
+msgstr "Metaadat"
+
+msgid "mm_org_etal"
+msgstr "Megbeszélés"
+
+msgid "mm_talk_template"
+msgstr "Megbeszéléssablonok"
+
+msgid "notification_talks_created"
+msgstr "Önt meghívták a következő munkavállalói megbeszélésre."
+
+msgid "notification_talks_date_list_header"
+msgstr "Dátumok"
+
+msgid "notification_talks_removed"
+msgstr "Az alábbi találkozókat törölték."
+
+msgid "notification_talks_subject"
+msgstr "Meghívás: %s"
+
+msgid "notification_talks_subject_update"
+msgstr "Módosítás: %s"
+
+msgid "notification_talks_updated"
+msgstr "Az alábbi találkozókat módosították."
+
+msgid "pending_talks_warning"
+msgstr "A következő függőben lévő megbeszéléseket cseréljük le:"
+
+msgid "tala_no_content_without_admin_info"
+msgstr "Az Administrator szerepkörnek hozzáféréssel kell rendelkezni a Megbeszéléssablonokhoz."
+
+msgid "talk_serial"
+msgstr "Megbeszéléssorozat"
+
+msgid "tals_add"
+msgstr "Megbeszélés hozzáadása"
+
+msgid "tals_new"
+msgstr "Új Megbeszélés"
+
+msgid "talt_activation_online_info"
+msgstr "Állítsa be a megbeszéléssablont onlinera, hogy láthatóvá és elérhetővé tegye az alkalmazottak számára. Ha nem, akkor csak a rendszergazdák férhetnek hozzá."
+
+msgid "talt_add"
+msgstr "Sablon hozzáadása"
+
+msgid "talt_edit"
+msgstr "Általános"
+
+msgid "talt_etal"
+msgstr "Munkavállalói megbeszélés"
+
+msgid "talt_new"
+msgstr "Új Megbeszéléssablon"
+
+msgid "will_update_series_info_lock"
+msgstr "A sorozat összes időpontjának szerkesztésének zárolása"
+
+msgid "will_update_series_info_title"
+msgstr "A sorozat összes talákozójának címének módosítása."

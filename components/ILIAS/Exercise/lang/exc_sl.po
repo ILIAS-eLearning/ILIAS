@@ -1,0 +1,1565 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sl\n"
+"Language-Team: Slovenian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=4; plural=(n % 100 == 1) ? 0 : ((n % 100 == 2) ? 1 : ((n % 100 == 3 || n % 100 == 4) ? 2 : 3));\n"
+"X-Domain: exc\n"
+
+msgid "exc_add_assignment"
+msgstr "Dodaj vadbeno enoto"
+
+msgid "exc_add_criteria"
+msgstr "Dodaj kriterij"
+
+msgid "exc_add_criteria_catalogue"
+msgstr "Dodaj katalog"
+
+msgid "exc_add_feedback_file"
+msgstr "Naloži kot datoteko"
+
+msgid "exc_add_participant"
+msgstr "Dodaj udeleženca"
+
+msgid "exc_adopt_group_teams"
+msgstr "Iz skupin ustvari ekipe"
+
+msgid "exc_adopt_group_teams_added"
+msgstr "%s uporabnikov je bilo dodanih."
+
+msgid "exc_adopt_group_teams_blocked"
+msgstr "%s uporabnikov je že obstajalo."
+
+msgid "exc_adopt_group_teams_conflict"
+msgstr "Uporabnik \"%1$s\" je že izbran v skupini \"%2$s\"."
+
+msgid "exc_adopt_group_teams_no_members"
+msgstr "Ni članov"
+
+msgid "exc_after_submission"
+msgstr "Po oddaji"
+
+#, fuzzy
+msgid "exc_all"
+msgstr "All"
+
+msgid "exc_all_new_files_offered_already"
+msgstr "Vse nove datoteke so že na voljo za prenos. Za ponovni prenos kliknite na ustrezno povezavo za dejanja v spodaj navedenem seznamu."
+
+msgid "exc_ass_submission_zip"
+msgstr "Oddaje"
+
+msgid "exc_ass_team_wiki"
+msgstr "Wiki ekipe"
+
+msgid "exc_assignment"
+msgstr "Vadbena enota"
+
+#, fuzzy
+msgid "exc_assignment_list"
+msgstr "Assignments List"
+
+msgid "exc_assignment_type"
+msgstr "Tip oddaje"
+
+msgid "exc_assignment_view"
+msgstr "Na vadbeno enoto"
+
+msgid "exc_assignments"
+msgstr "Vadbene enote"
+
+msgid "exc_assignments_deleted"
+msgstr "Vadbene enote so bile izbrisane."
+
+#, fuzzy
+msgid "exc_auto_last_save"
+msgstr "Last saved:"
+
+#, fuzzy
+msgid "exc_auto_save_info"
+msgstr "The text will be saved every 30 seconds, if changes are made."
+
+#, fuzzy
+msgid "exc_auto_saved_minutes_p"
+msgstr "%s minute ago"
+
+#, fuzzy
+msgid "exc_auto_saved_minutes_s"
+msgstr "%s minutes ago"
+
+msgid "exc_blog_created"
+msgstr "Blog je bil ustvarjen."
+
+msgid "exc_blog_returned"
+msgstr "Blog za vadbeno enoto"
+
+msgid "exc_blog_selected"
+msgstr "Blog je bil povezan."
+
+#, fuzzy
+msgid "exc_cannot_submit_any_files"
+msgstr "You cannot submit any files anymore."
+
+msgid "exc_chars_remaining"
+msgstr "Preostali znaki"
+
+msgid "exc_comment_for_learner_edit"
+msgstr "Vnesi v besedilno polje kot komentar"
+
+msgid "exc_comment_for_learner_info"
+msgstr "Udeležencu se pošlje obvestilo. <br /><br />Povratne informacije bodo prikazane v njegovem osebnem pregledu vadbenih enot."
+
+msgid "exc_compare_selected_submissions"
+msgstr "Compare selected submissions"
+
+msgid "exc_compare_submissions"
+msgstr "Compare submissions"
+
+msgid "exc_completion_by_submission"
+msgstr "Samodejno ob oddaji"
+
+msgid "exc_completion_by_submission_info"
+msgstr "Če udeleženec vnese delovni rezultat, se status spremeni v \"Opravljeno\". Mentor lahko ročno prepiše status. Sprememba te nastavitve ne vpliva na obstoječe ocene."
+
+msgid "exc_completion_by_tutor"
+msgstr "Samo ročno s strani mentorja"
+
+msgid "exc_conf_del_assignments"
+msgstr "Ali res želite izbrisati naslednje vadbene enote?"
+
+msgid "exc_copy"
+msgstr "Kopiraj vajo"
+
+msgid "exc_copy_zip_error"
+msgstr "The submission can not be opened. An error occurred when copying the files."
+
+msgid "exc_create_blog"
+msgstr "Ustvari blog"
+
+msgid "exc_create_blog_select_info"
+msgstr "V svojih osebnih virih izberite mesto, kjer naj se ustvari blog."
+
+msgid "exc_create_portfolio"
+msgstr "Ustvari portfelj"
+
+msgid "exc_create_portfolio_no_template"
+msgstr "Ne uporabi predloge"
+
+msgid "exc_create_team"
+msgstr "Ustvari ekipo"
+
+msgid "exc_create_team_times_up_warning"
+msgstr "Ne morete več ustvariti ekipe. Obrnite se na svojega mentorja."
+
+msgid "exc_create_wiki"
+msgstr "Ustvari Wiki"
+
+msgid "exc_crit_cat_protected_assignment"
+msgstr "Aktivne povratne informacije kolegov"
+
+msgid "exc_crit_cat_protected_assignment_info"
+msgstr "Katalogov kriterijev vadbenih enot z aktiviranimi povratnimi informacijami kolegov ni več mogoče urejati."
+
+msgid "exc_criteria_catalogue_create_form"
+msgstr "Dodaj nov katalog"
+
+msgid "exc_criteria_catalogue_default"
+msgstr "Ni kataloga"
+
+msgid "exc_criteria_catalogue_deletion_confirmation"
+msgstr "Ali res želite izbrisati naslednje kataloge kriterijev?"
+
+msgid "exc_criteria_catalogue_update_form"
+msgstr "Uredi katalog"
+
+msgid "exc_criteria_catalogues"
+msgstr "Katalogi kriterijev"
+
+msgid "exc_criteria_create_form"
+msgstr "Dodaj nov kriterij"
+
+msgid "exc_criteria_deletion_confirmation"
+msgstr "Ali res želite izbrisati naslednje kriterije?"
+
+msgid "exc_criteria_type_bool"
+msgstr "Izpolnjeno da/ne"
+
+msgid "exc_criteria_type_file"
+msgstr "Nalaganje datoteke"
+
+msgid "exc_criteria_type_rating"
+msgstr "Ocena 5 zvezdic"
+
+msgid "exc_criteria_type_text"
+msgstr "Besedilo"
+
+msgid "exc_criteria_update_form"
+msgstr "Uredi kriterij"
+
+msgid "exc_criterias"
+msgstr "Kriteriji"
+
+msgid "exc_deadline"
+msgstr "Rok za oddajo"
+
+msgid "exc_deadline_ext_mismatch"
+msgstr "Naknadni rok se mora končati po roku za oddajo."
+
+msgid "exc_deadline_extended"
+msgstr "Naknadni rok"
+
+msgid "exc_deadline_extended_info"
+msgstr "V času med rokom za oddajo in koncem naknadnega roka se lahko opravijo zapoznele oddaje."
+
+#, fuzzy
+msgid "exc_deadline_not_set_yet"
+msgstr "Not Set Yet"
+
+#, fuzzy
+msgid "exc_deadline_requested"
+msgstr "Requested"
+
+msgid "exc_delete_team"
+msgstr "Izbriši ekipo"
+
+msgid "exc_deleted_user"
+msgstr "Deleted User"
+
+msgid "exc_denied_has_peer_reviews"
+msgstr "Reason"
+
+msgid "exc_denied_has_submissions"
+msgstr "Reason"
+
+msgid "exc_denied_has_team_assignments"
+msgstr "Reason"
+
+msgid "exc_direct_no_submit"
+msgstr "Ne oddaj"
+
+msgid "exc_direct_submit"
+msgstr "Oddaj"
+
+msgid "exc_direct_submit_blog"
+msgstr "Ali želite zdaj oddati aktualno različico vašega bloga? To lahko kadarkoli storite tudi v urejevalniku bloga."
+
+msgid "exc_direct_submit_portfolio"
+msgstr "Ali želite zdaj oddati aktualno različico vašega portfelja? To lahko kadarkoli storite tudi v urejevalniku portfelja."
+
+msgid "exc_down_files_started_bg"
+msgstr "Ustvarjen bo paket za prenos. V zgornjem desnem kotu najvišje vrstice preverite opravila v ozadju."
+
+#, fuzzy
+msgid "exc_download_selected"
+msgstr "Download Selected Submission"
+
+msgid "exc_download_zip_structure"
+msgstr "Prenesite strukturo seznama ZIP"
+
+msgid "exc_earliest_start_time"
+msgstr "Najzgodnejši čas začetka"
+
+msgid "exc_edit_assignment"
+msgstr "Nastavitve vadbene enote"
+
+msgid "exc_edit_assignments"
+msgstr "Uredi vadbene enote"
+
+#, fuzzy
+msgid "exc_edit_blog"
+msgstr "Edit Blog"
+
+msgid "exc_edit_criterias"
+msgstr "Uredi kriterije"
+
+#, fuzzy
+msgid "exc_edit_portfolio"
+msgstr "Edit Portfolio"
+
+msgid "exc_edit_submission"
+msgstr "Spremeni oddane rešitve"
+
+#, fuzzy
+msgid "exc_edit_wiki"
+msgstr "Edit Wiki"
+
+#, fuzzy
+msgid "exc_ended"
+msgstr "Ended"
+
+msgid "exc_ended_on"
+msgstr "Zaključeno dne"
+
+msgid "exc_export_excel"
+msgstr "Izvoz (Excel)"
+
+msgid "exc_fb_files"
+msgstr "Datoteke za ocenjevanje"
+
+msgid "exc_fb_tutor_info"
+msgstr "Ko se datoteka za ocenjevanje vadbene enote naloži, udeleženka ali udeleženec prejme obvestilo in nato lahko v pregledu vadbenih enot prenese in pogleda oceno."
+
+msgid "exc_feedback"
+msgstr "Povratne informacije"
+
+msgid "exc_feedback_notification_body"
+msgstr "Povratne informacije za naslednjo vadbeno enoto so bile objavljene."
+
+msgid "exc_feedback_notification_link"
+msgstr "Povezava do vaje"
+
+msgid "exc_feedback_notification_reason"
+msgstr "To sporočilo ste prejeli, ker ste udeleženec zgoraj navedene vaje."
+
+msgid "exc_feedback_notification_subject"
+msgstr "Povratne informacije za vadbeno enoto vaje \"%s\" so bile objavljene"
+
+msgid "exc_files_returned_text"
+msgstr "Oddano besedilo"
+
+msgid "exc_find_zip_error"
+msgstr "The submission can not be opened. The original files are not found."
+
+msgid "exc_fixed_date"
+msgstr "Fiksen datum"
+
+#, fuzzy
+msgid "exc_fixed_date_individual"
+msgstr "Individual Deadlines Only"
+
+#, fuzzy
+msgid "exc_fixed_date_individual_info"
+msgstr "There is no common deadline. Tutors must set individual deadlines for each participant individually."
+
+msgid "exc_fixed_date_info"
+msgstr "Na začetku vsi uporabniki prejmejo enak določen rok za oddajo."
+
+msgid "exc_fullscreen"
+msgstr "Fullscreen"
+
+#, fuzzy
+msgid "exc_future"
+msgstr "Upcoming"
+
+#, fuzzy
+msgid "exc_given_feedback"
+msgstr "Given Feedback"
+
+msgid "exc_global_feedback_file"
+msgstr "Vzorčna rešitev"
+
+msgid "exc_global_feedback_file_after_date"
+msgstr "Po določenem datumu"
+
+msgid "exc_global_feedback_file_cron"
+msgstr "Obvestilo ob razpoložljivosti"
+
+msgid "exc_global_feedback_file_cron_info"
+msgstr "Udeleženci bodo po e-pošti obveščeni o razpoložljivosti vzorčne rešitve."
+
+msgid "exc_global_feedback_file_date"
+msgstr "Razpoložljivost"
+
+msgid "exc_global_feedback_file_date_deadline"
+msgstr "Po roku za oddajo"
+
+msgid "exc_global_feedback_file_date_upload"
+msgstr "Po oddaji"
+
+msgid "exc_go_to_exercise"
+msgstr "Na vajo"
+
+#, fuzzy
+msgid "exc_graded_mem_notified"
+msgstr "All graded participants have been notified."
+
+msgid "exc_grades"
+msgstr "Pregled ocen"
+
+msgid "exc_grades_overview"
+msgstr "Pregled ocen"
+
+msgid "exc_hand_in"
+msgstr "Oddaj datoteko"
+
+#, fuzzy
+msgid "exc_hand_in_lead_text"
+msgstr "%s to Submit"
+
+#, fuzzy
+msgid "exc_idl_request_and_tutor_needed"
+msgstr "Please send a request to your tutor for setting an individual deadline for you."
+
+#, fuzzy
+msgid "exc_idl_tutor_needed"
+msgstr "You already requested a deadline. The request is still pending. You will be notified once the individual deadline is set."
+
+msgid "exc_import"
+msgstr "Uvozi vajo"
+
+msgid "exc_individual_deadline"
+msgstr "Individualni rok"
+
+msgid "exc_individual_deadline_action"
+msgstr "Določi individualni rok"
+
+msgid "exc_individual_deadline_before_global"
+msgstr "Datum mora biti po (zadnjem) roku: %s."
+
+msgid "exc_instruction_files"
+msgstr "Datoteke z delovnimi navodili"
+
+#, fuzzy
+msgid "exc_instruction_migration_not_run"
+msgstr "The instruction file migration has not been finished yet. Please contact your system administrator."
+
+msgid "exc_late_submission"
+msgstr "Prepozna oddaja"
+
+msgid "exc_late_submission_warning"
+msgstr "Oddaje po %s so označene kot prepozne."
+
+#, fuzzy
+msgid "exc_lead_request_idl"
+msgstr "Request Deadline"
+
+#, fuzzy
+msgid "exc_lead_wait_for_idl"
+msgstr "Waiting For Individual Deadline"
+
+msgid "exc_limit_characters"
+msgstr "Omejitev števila znakov"
+
+#, fuzzy
+msgid "exc_link_to_assignment"
+msgstr "Link to assignment"
+
+msgid "exc_list_submission"
+msgstr "Vse oddane rešitve"
+
+msgid "exc_list_text_assignment"
+msgstr "Seznam vseh oddaj"
+
+msgid "exc_mail_context_grade_reminder_info"
+msgstr "Mentorji bodo opomnjeni na oceno oddaj."
+
+msgid "exc_mail_context_grade_reminder_title"
+msgstr "Vaja: Opomnik za oceno"
+
+msgid "exc_mail_context_peer_reminder_info"
+msgstr "Uporabniki bodo opomnjeni na oddajo povratne informacije kolega."
+
+msgid "exc_mail_context_peer_reminder_title"
+msgstr "Vaja: Opomnik za povratno informacijo kolega"
+
+msgid "exc_mail_context_reminder_assignment_title"
+msgstr "Ime vadbene enote"
+
+msgid "exc_mail_context_reminder_exercise_title"
+msgstr "Naslov vaje"
+
+msgid "exc_mail_context_submit_reminder_info"
+msgstr "Uporabniki bodo opomnjeni na oddajo."
+
+msgid "exc_mail_context_submit_reminder_title"
+msgstr "Vaja: Opomnik za oddajo"
+
+msgid "exc_mail_permanent_link"
+msgstr "Naslednja povezava vas pripelje do vaje:"
+
+msgid "exc_manage_team"
+msgstr "Upravljaj ekipo"
+
+msgid "exc_mandatory"
+msgstr "Obvezno"
+
+msgid "exc_mandatory_info"
+msgstr "Obvezne vadbene enote morajo biti opravljene, da je opravljena celotna vaja."
+
+msgid "exc_mandatory_rand_determined"
+msgstr "Randomly determined"
+
+msgid "exc_max_char_limit"
+msgstr "Maksimalno število znakov"
+
+msgid "exc_max_file"
+msgstr "Maksimalno število datotek"
+
+msgid "exc_max_file_info"
+msgstr "Ko udeleženci dosežejo mejo, ne morejo naložiti nadaljnjih datotek. Tudi v ekipnih vadbenih enotah se ocenjuje meja na udeleženca in ne za celotno ekipo."
+
+msgid "exc_max_file_reached"
+msgstr "Naložite lahko maksimalno %s datotek."
+
+msgid "exc_max_file_tgl"
+msgstr "Omeji število nalaganj"
+
+msgid "exc_max_team_participants"
+msgstr "Maksimalno število"
+
+msgid "exc_members_already_assigned_team"
+msgstr "This user is already assigned to a team."
+
+msgid "exc_min_char_limit"
+msgstr "Minimalno število znakov"
+
+msgid "exc_min_nr"
+msgstr "Število vadbenih enot"
+
+msgid "exc_min_nr_info"
+msgstr "Ta vrednost mora biti najmanj enaka številu obveznih vadbenih enot."
+
+msgid "exc_min_team_participants"
+msgstr "Minimalno število"
+
+msgid "exc_msg_all_mandatory_ass"
+msgstr "Če želite opraviti vajo kot celoto, morate opraviti vse obvezne vadbene enote."
+
+#, fuzzy
+msgid "exc_msg_deadline_request_body"
+msgstr "the following user requested an individual deadline."
+
+#, fuzzy
+msgid "exc_msg_deadline_request_subject"
+msgstr "A deadline has been requested in exercise \"%s\"."
+
+msgid "exc_msg_failed_mandatory"
+msgstr "Vsaj ene obvezne vadbene enote niste uspešno opravili."
+
+#, fuzzy
+msgid "exc_msg_grading_done"
+msgstr "An assignment has been graded in exercise \"%s\"."
+
+#, fuzzy
+msgid "exc_msg_grading_done_body"
+msgstr "a tutor has graded your submission in exercise \"%s\"."
+
+#, fuzzy
+msgid "exc_msg_idl_set_body"
+msgstr "a new individual deadline has been set."
+
+#, fuzzy
+msgid "exc_msg_idl_set_subject"
+msgstr "A new deadline has been set in exercise \"%s\"."
+
+msgid "exc_msg_min_number_ass"
+msgstr "Če želite opraviti vajo, morate opraviti vsaj %s vadbenih enot."
+
+msgid "exc_msg_missed_minimum_number"
+msgstr "Niste opravili minimalnega števila vadbenih enot."
+
+msgid "exc_msg_new_feedback_file_uploaded"
+msgstr "Dodana je bila nova datoteka s povratnimi informacijami za vajo \"%s\"."
+
+msgid "exc_msg_new_feedback_file_uploaded2"
+msgstr "Za vas je bila naložena nova datoteka s povratnimi informacijami."
+
+msgid "exc_msg_new_feedback_text_uploaded"
+msgstr "Dodan je bil nov komentar k vaji \"%s\"."
+
+msgid "exc_msg_new_feedback_text_uploaded2"
+msgstr "Mentor je za vas dodal nov komentar."
+
+#, fuzzy
+msgid "exc_msg_new_message_from_pf_giver"
+msgstr "A new message from a peer feedback giver has been added to exercise \"%s\"."
+
+#, fuzzy
+msgid "exc_msg_new_message_from_pf_giver2"
+msgstr "a peer feedback giver has added a new message for you:"
+
+#, fuzzy
+msgid "exc_msg_new_message_from_pf_recipient"
+msgstr "A new message from a peer feedback recipient has been added to exercise \"%s\"."
+
+#, fuzzy
+msgid "exc_msg_new_message_from_pf_recipient2"
+msgstr "a peer feedback recipient has added a new message for you:"
+
+msgid "exc_msg_participants_removed"
+msgstr "Udeleženci so bili odstranjeni iz vaje."
+
+msgid "exc_msg_public_submission"
+msgstr "Vse oddane rešitve bodo objavljene po izteku roka za oddajo."
+
+msgid "exc_msg_saved_grades"
+msgstr "Ocena/-e oz. komentar/-ji za učence je bila/so bili shranjena/-i."
+
+msgid "exc_msg_sure_to_deassign_participant"
+msgstr "Ali res želite naslednje udeležence odstraniti iz vseh vadbenih enot vaje? Vse oddane rešitve iz vseh vadbenih enot udeležencev bodo izbrisane."
+
+msgid "exc_multi_feedb_info"
+msgstr "Na tej strani lahko naenkrat naložite datoteke s povratnimi informacijami za več udeležencev vaje.<br /> <br />Najprej kliknite spodaj na gumb \"Prenesi strukturo seznama ZIP\" in shranite datoteko ZIP na svoj računalnik. Tam v naslednjem koraku odprite datoteko ZIP, da razširite strukturo seznama. Zdaj datoteke s povratnimi informacijami odložite v ustrezne mape udeležencev in nato ponovno skrčite seznam kot datoteko ZIP. Zdaj na tej strani spodaj izberite to datoteko ZIP kot datoteko z več povratnimi informacijami in jo naložite. Na potrditveni strani bodo prikazane vse naložene datoteke. <br /> <br /><b>Pomembno</b>: V vsakem primeru se izogibajte uporabi preglasov in posebnih znakov v imenih datotek, saj tako pride do težav pri dodeljevanju datotek."
+
+msgid "exc_multi_feedback"
+msgstr "Povratna informacija za več udeležencev"
+
+msgid "exc_multi_feedback_file"
+msgstr "Datoteka z več povratnimi informacijami"
+
+msgid "exc_multi_feedback_files"
+msgstr "Datoteke z več povratnimi informacijami"
+
+msgid "exc_needs_deadline"
+msgstr "Za to možnost je potreben rok za oddajo."
+
+msgid "exc_needs_fixed_deadline"
+msgstr "Za to funkcijo je potreben fiksen datum za oddajo."
+
+msgid "exc_new_assignment"
+msgstr "Nova vadbena enota"
+
+#, fuzzy
+msgid "exc_no_assignments"
+msgstr "No assignments available."
+
+msgid "exc_no_assignments_available"
+msgstr "Vadbene enote ne obstajajo. Odprite \"Vadbene enote\" in \"Uredi\", da ustvarite vadbeno enoto."
+
+#, fuzzy
+msgid "exc_no_deadline"
+msgstr "No Deadline"
+
+#, fuzzy
+msgid "exc_no_deadline_info"
+msgstr "There is no submission deadline for participants."
+
+msgid "exc_no_deadline_specified"
+msgstr "Rok za oddajo ni bil določen."
+
+msgid "exc_no_feedback_dir_found_in_zip"
+msgstr "Strukture seznama naloženega arhiva zip ni bilo mogoče obdelati."
+
+msgid "exc_no_get_target"
+msgstr "Ni najden veljaven cilj povezave."
+
+#, fuzzy
+msgid "exc_no_graded_mem_selected"
+msgstr "Please select at least one graded participant."
+
+msgid "exc_no_participants"
+msgstr "Trenutno ni udeležencev."
+
+#, fuzzy
+msgid "exc_no_peer_feedback_deadline"
+msgstr "No Deadline for Giving Feedback"
+
+msgid "exc_no_portfolio_templates"
+msgstr "Na voljo ni nobene predloge portfelja."
+
+#, fuzzy
+msgid "exc_no_submission_yet"
+msgstr "No submission yet."
+
+msgid "exc_no_team_yet"
+msgstr "Ni dodeljen nobeni ekipi"
+
+msgid "exc_no_team_yet_info"
+msgstr "Ekipo lahko ustvarite sami ali pa vas člani ekipe dodajo v obstoječo ekipo."
+
+msgid "exc_no_team_yet_info_tutor"
+msgstr "Ekipe upravljajo mentorji vaj."
+
+msgid "exc_no_team_yet_notice"
+msgstr "Ne pripadate še nobeni ekipi!"
+
+msgid "exc_note_for_tutor"
+msgstr "Opomba za mentorje"
+
+msgid "exc_notification"
+msgstr "Osebno obvestilo"
+
+msgid "exc_nr_random_mand"
+msgstr "Number of Mandatory Assignments"
+
+msgid "exc_num_teams"
+msgstr "Število"
+
+#, fuzzy
+msgid "exc_ongoing"
+msgstr "Ongoing"
+
+#, fuzzy
+msgid "exc_optional"
+msgstr "Optional"
+
+msgid "exc_order_by_deadline"
+msgstr "Razvrsti po roku oddaje"
+
+msgid "exc_overview"
+msgstr "Pregled"
+
+msgid "exc_participant"
+msgstr "Udeleženec"
+
+msgid "exc_participant_view"
+msgstr "Na udeleženca"
+
+msgid "exc_participants"
+msgstr "Udeleženec"
+
+msgid "exc_pass_all"
+msgstr "Samo obvezne vadbene enote"
+
+msgid "exc_pass_all_info"
+msgstr "Udeleženci morajo opraviti vse obvezne vadbene enote, da opravijo celotno vajo."
+
+msgid "exc_pass_minimum_nr"
+msgstr "Minimalno število vadbenih enot"
+
+msgid "exc_pass_minimum_nr_info"
+msgstr "Udeleženci morajo opraviti minimalno število vadbenih enot, da opravijo celotno vajo."
+
+msgid "exc_pass_mode"
+msgstr "Zahteva"
+
+msgid "exc_pass_mode_not_changeable_info"
+msgstr "The pass mode cannot be changed anymore."
+
+msgid "exc_passed_status_determination"
+msgstr "Ocena kot „Opravljeno\"."
+
+msgid "exc_passing_exc"
+msgstr "Opravljena vaja"
+
+#, fuzzy
+msgid "exc_past"
+msgstr "Past"
+
+msgid "exc_peer_deadline_mismatch"
+msgstr "Ker je povratno informacijo mogoče oddati šele po roku za oddajo vadbene enote, rok za povratno informacijo ne sme biti pred datumom oddaje."
+
+#, fuzzy
+msgid "exc_peer_feedback_status"
+msgstr "Feedback Status"
+
+msgid "exc_peer_review"
+msgstr "Povratne informacije kolegov"
+
+msgid "exc_peer_review_ass_setting_info"
+msgstr "Potem ko sta potekla rok za oddajo in po potrebi naknadni rok, lahko udeleženci med sabo ocenjujejo svoje rezultate dela. Točne nastavitve povratnih informacij kolegov se izvedejo v zavihku z enakim imenom. Zavihek se prikaže, ko je ta možnost aktivirana in shranjena."
+
+msgid "exc_peer_review_chars_invalid"
+msgstr "Niste še dosegli zahtevane dolžine besedila, ki je %s znakov."
+
+msgid "exc_peer_review_completion"
+msgstr "Določitev statusa \"Opravljeno\""
+
+msgid "exc_peer_review_completion_all"
+msgstr "Vse zahtevane povratne informacije"
+
+msgid "exc_peer_review_completion_all_info"
+msgstr "Vadbena enota bo samodejno nastavljena na \"Opravljeno\" šele po oddaji rešitve in potrebnem številu povratnih informacij."
+
+msgid "exc_peer_review_completion_none"
+msgstr "Povratne informacije kolegov niso obvezne"
+
+msgid "exc_peer_review_completion_none_info"
+msgstr "Vadbena enota bo samodejno nastavljena na \"Opravljeno\", ne glede na to, ali so bile podane povratne informacije ali ne."
+
+msgid "exc_peer_review_completion_one"
+msgstr "Vsaj ena povratna informacija"
+
+msgid "exc_peer_review_completion_one_info"
+msgstr "Vadbena enota bo samodejno nastavljena na \"Opravljeno\", ko bo oddana rešitev in vsaj ena povratna informacija."
+
+msgid "exc_peer_review_deadline"
+msgstr "Oddaj povratno informacijo do"
+
+msgid "exc_peer_review_deadline_info"
+msgstr "Do tega roka je mogoče oddati ocene. Po tem bo prejeta povratna informacija vidna."
+
+msgid "exc_peer_review_deadline_info_button"
+msgstr "Končni rok: %s"
+
+msgid "exc_peer_review_deadline_reached"
+msgstr "Čas za povratne informacije je potekel."
+
+msgid "exc_peer_review_file"
+msgstr "Nalaganje datoteke"
+
+msgid "exc_peer_review_file_info"
+msgstr "Omogoča kolegom nalaganje datotek na pregled"
+
+msgid "exc_peer_review_give"
+msgstr "Oddaj povratno informacijo"
+
+msgid "exc_peer_review_given"
+msgstr "Pokaži oddano povratno informacijo"
+
+msgid "exc_peer_review_giver"
+msgstr "Dajalci povratnih informacij"
+
+msgid "exc_peer_review_invalid_giver_ids"
+msgstr "Dajalci povratnih informacij, ki niso več udeleženci vaje in niso ničesar oddali"
+
+msgid "exc_peer_review_invalid_peer_ids"
+msgstr "Prejemniki povratnih informacij, ki niso več udeleženci vaje in niso ničesar oddali"
+
+msgid "exc_peer_review_min_chars"
+msgstr "Minimalno število znakov"
+
+msgid "exc_peer_review_min_chars_info"
+msgstr "Potrebno število znakov za veljavno povratno informacijo."
+
+msgid "exc_peer_review_min_chars_tgl"
+msgstr "Minimalna dolžina"
+
+msgid "exc_peer_review_min_number"
+msgstr "Zahtevano število povratnih informacij"
+
+msgid "exc_peer_review_min_number_info"
+msgstr "Število povratnih informacij, ki jih udeleženec mora dati kolegom. Če število zahtevanih povratnih informacij preseže število dejanskih oddaj, se zahtevano število samodejno zmanjša na število dejanskih oddaj."
+
+msgid "exc_peer_review_missing_info"
+msgstr "Za ogled prejetih povratnih informacij manjka še %s lastnih povratnih informacij."
+
+msgid "exc_peer_review_missing_info_deadline"
+msgstr "Za ogled prejetih povratnih informacij manjka še %1$s lastnih povratnih informacij. Objavljeno bo dne: %2$s."
+
+msgid "exc_peer_review_missing_users"
+msgstr "Uporabniki z oddajami, ki niso del povratnih informacij kolegov"
+
+msgid "exc_peer_review_no_peers"
+msgstr "Kolegov ni bilo mogoče najti"
+
+msgid "exc_peer_review_no_peers_reviewed_yet"
+msgstr "Do sedaj še ni bilo nobenih ocen."
+
+msgid "exc_peer_review_not_returned_users"
+msgstr "Uporabniki brez oddaje, ki niso del povratnih informacij kolegov"
+
+msgid "exc_peer_review_overview"
+msgstr "Prikaži skupine kolegov"
+
+msgid "exc_peer_review_overview_invalid_users"
+msgstr "Neveljavni uporabniki"
+
+msgid "exc_peer_review_personal"
+msgstr "Personalizirane povratne informacije kolegov"
+
+msgid "exc_peer_review_personal_info"
+msgstr "Kolegi so prikazani s polnimi imeni"
+
+msgid "exc_peer_review_rating"
+msgstr "Ocena"
+
+msgid "exc_peer_review_recipient"
+msgstr "Prejemnik povratnih informacij"
+
+msgid "exc_peer_review_reset"
+msgstr "Izbriši in ponastavi povratne informacije kolegov"
+
+msgid "exc_peer_review_reset_done"
+msgstr "Vsi podatki o povratnih informacijah kolegov za vadbeno enoto so bili izbrisani."
+
+msgid "exc_peer_review_reset_sure"
+msgstr "Ali res želite v celoti izbrisati povratne informacije kolegov za vadbeno enoto \"%s\"?"
+
+msgid "exc_peer_review_show"
+msgstr "Pokaži prejete povratne informacije"
+
+msgid "exc_peer_review_show_missing"
+msgstr "Nimate vpogleda v prejete povratne informacije, ker ste oddali premalo povratnih informacij."
+
+msgid "exc_peer_review_show_received_none"
+msgstr "Niste prejeli nobene povratne informacije."
+
+msgid "exc_peer_review_simple_unlock"
+msgstr "Prikaz prejetih ocen"
+
+msgid "exc_peer_review_simple_unlock_active"
+msgstr "Po oddaji ocene"
+
+#, fuzzy
+msgid "exc_peer_review_simple_unlock_immed"
+msgstr "Always show received peer feedback"
+
+msgid "exc_peer_review_simple_unlock_inactive"
+msgstr "Po oddaji vseh ocen"
+
+msgid "exc_peer_review_text"
+msgstr "Vnos besedila"
+
+msgid "exc_peer_review_updated"
+msgstr "Vaša povratna informacija je bila shranjena."
+
+#, fuzzy
+msgid "exc_peer_reviews_in_lead_text"
+msgstr "%s to Give Feedback"
+
+msgid "exc_peer_reviews_invalid_warning"
+msgstr "Neveljavne skupine kolegov"
+
+msgid "exc_portfolio_created"
+msgstr "Portfelj je bil ustvarjen."
+
+msgid "exc_portfolio_returned"
+msgstr "Portfelj za vadbeno enoto"
+
+msgid "exc_portfolio_selected"
+msgstr "Portfelj je bil dodeljen."
+
+msgid "exc_portfolio_template"
+msgstr "Določi predlogo za portfelj"
+
+msgid "exc_portfolio_unlinked_from_assignment"
+msgstr "Portfelj je bil odstranjen iz te vadbene enote"
+
+msgid "exc_presentation_order"
+msgstr "Vrstni red"
+
+#, fuzzy
+msgid "exc_print_pdf"
+msgstr "Print/PDF"
+
+msgid "exc_public_submission"
+msgstr "Javno oddane rešitve"
+
+msgid "exc_publishing"
+msgstr "Objava"
+
+msgid "exc_rand_nr_mandatory"
+msgstr "Number of Mandatory Assignments"
+
+msgid "exc_rand_overall_ass"
+msgstr "Overall Number of Assignments"
+
+msgid "exc_random"
+msgstr "Random"
+
+msgid "exc_random_assignment"
+msgstr "Random Assignment"
+
+msgid "exc_random_assignment_info"
+msgstr "When starting the exercise some assignments will be randomly selected being mandatory for you."
+
+msgid "exc_random_selection"
+msgstr "Random Selection"
+
+msgid "exc_random_selection_info"
+msgstr "Each user gets assigned a random selection of mandatory assignments."
+
+msgid "exc_random_selection_not_changeable_info"
+msgstr "This mode cannot be activated."
+
+#, fuzzy
+msgid "exc_received_feedback"
+msgstr "Received Feedbacks"
+
+msgid "exc_rel_last_submission"
+msgstr "Last Possible Submission"
+
+msgid "exc_rel_last_submission_info"
+msgstr "If this optional date is set, all user have to submit until this deadline is reached."
+
+#, fuzzy
+msgid "exc_rel_start_latest_lead_text"
+msgstr "%s the Latest"
+
+#, fuzzy
+msgid "exc_rel_start_lead_text"
+msgstr "Submit %s Days After Start"
+
+msgid "exc_relative_date"
+msgstr "Relativni datum"
+
+msgid "exc_relative_date_info"
+msgstr "Rok za oddajo se določi na podlagi roka za urejanje in začetnega datuma, ki ga izbere udeleženec."
+
+#, fuzzy
+msgid "exc_relative_date_period"
+msgstr "Working Time"
+
+msgid "exc_rem_time_after_start"
+msgstr "Rok za urejanje po začetku"
+
+msgid "exc_reminder_cron_ok"
+msgstr "Poslani so bili opomniki"
+
+msgid "exc_reminder_end"
+msgstr "Konec"
+
+msgid "exc_reminder_feedback_setting"
+msgstr "Spomni udeležence na povratne informacije kolegov"
+
+msgid "exc_reminder_feedback_start"
+msgstr "Začetek pred rokom za povratne informacije kolegov"
+
+msgid "exc_reminder_frequency"
+msgstr "Frekvenca"
+
+msgid "exc_reminder_grade_body"
+msgstr "Naslednja vadbena enota še ni bila ocenjena"
+
+msgid "exc_reminder_grade_setting"
+msgstr "Opomnik za potrebno oceno"
+
+msgid "exc_reminder_grade_subject"
+msgstr "Vadbena enota \"%s\" ni bila ocenjena"
+
+msgid "exc_reminder_link"
+msgstr "URL"
+
+msgid "exc_reminder_mail_no_tpl"
+msgstr "Ne uporabi predloge za e-pošto"
+
+msgid "exc_reminder_mail_template"
+msgstr "Predloga za e-pošto"
+
+msgid "exc_reminder_peer_body"
+msgstr "Pri naslednjih vadbenih enotah manjkajo povratne informacije"
+
+msgid "exc_reminder_peer_subject"
+msgstr "Pri vadbeni enoti \"%s\" manjkajo povratne informacije"
+
+msgid "exc_reminder_salutation"
+msgstr "Pozdravljeni %s,"
+
+msgid "exc_reminder_start"
+msgstr "Začetek pred rokom za oddajo"
+
+msgid "exc_reminder_start_info"
+msgstr "Vsi člani nadrejene skupine ali nadrejenega tečaja bodo obveščeni.<br>Brez tečaja ali skupine ne bo obveščen nihče."
+
+msgid "exc_reminder_submit_body"
+msgstr "naslednjih vadbenih enot še niste oddali"
+
+msgid "exc_reminder_submit_setting"
+msgstr "Opomni uporabnika na oddajo"
+
+msgid "exc_reminder_submit_subject"
+msgstr "Vadbena enota \"%s\" še ni bila oddana"
+
+msgid "exc_reminders_cron"
+msgstr "Opomniki za vadbene enote"
+
+msgid "exc_reminders_cron_info"
+msgstr "Če je aktivirano, bodo poslani trije opomniki: manjkajoče oddaje, manjkajoče ocene in manjkajoče povratne informacije kolegov"
+
+#, fuzzy
+msgid "exc_reminders_cron_not_active"
+msgstr "Note: Notifications will not be sent until the 'Reminders for Assignments' cron job is activated. Currently the cron job is deactivated."
+
+#, fuzzy
+msgid "exc_request_deadline"
+msgstr "Request Deadline"
+
+#, fuzzy
+msgid "exc_requirement"
+msgstr "Requirement"
+
+#, fuzzy
+msgid "exc_review_anytime"
+msgstr "Give Feedback Anytime"
+
+msgid "exc_save_all"
+msgstr "Shrani vse"
+
+msgid "exc_save_order"
+msgstr "Shrani vrstni red"
+
+msgid "exc_save_selected"
+msgstr "Shrani izbrane vnose"
+
+msgid "exc_saved_order"
+msgstr "Vrstni red je shranjen"
+
+msgid "exc_select_ass"
+msgstr "Izberi vadbeno enoto"
+
+msgid "exc_select_blog"
+msgstr "Uporabi obstoječi blog"
+
+msgid "exc_select_blog_change"
+msgstr "Uporabi drug blog"
+
+msgid "exc_select_blog_info"
+msgstr "Izberite enega od svojih blogov za uporabo pri tej vadbeni enoti."
+
+#, fuzzy
+msgid "exc_select_blog_unlink"
+msgstr "Remove Blog"
+
+msgid "exc_select_portfolio"
+msgstr "Uporabi obstoječi portfelj"
+
+msgid "exc_select_portfolio_change"
+msgstr "Uporabi drug portfelj"
+
+msgid "exc_select_portfolio_info"
+msgstr "Izberite enega od svojih portfeljev za uporabo pri tej vadbeni enoti."
+
+msgid "exc_select_portfolio_unlink"
+msgstr "Odstrani portfelj"
+
+msgid "exc_send_assignment"
+msgstr "Vadbeno enoto pošlji po e-pošti"
+
+#, fuzzy
+msgid "exc_send_grading_notification"
+msgstr "Send Grading Notification"
+
+#, fuzzy
+msgid "exc_set_failed"
+msgstr "Set as Failed"
+
+#, fuzzy
+msgid "exc_set_passed"
+msgstr "Set as Passed"
+
+msgid "exc_settings_feedback"
+msgstr "Povratna informacija"
+
+msgid "exc_settings_feedback_file"
+msgstr "Datoteka"
+
+msgid "exc_settings_feedback_file_info"
+msgstr "Mentorji naložijo svojo datoteko. Vsak udeleženec prejme obvestilo in datoteka se mu prikaže v pregledu vadbenih enot."
+
+msgid "exc_settings_feedback_mail"
+msgstr "po e-pošti"
+
+msgid "exc_settings_feedback_mail_info"
+msgstr "Mentorji vnesejo svoje povratne informacije za oddajo v e-poštni obrazec. E-pošta se pošlje ustreznemu udeležencu."
+
+msgid "exc_settings_feedback_text"
+msgstr "Vnos besedila"
+
+msgid "exc_settings_feedback_text_info"
+msgstr "Mentorji vnesejo svoje povratne informacije v besedilno polje. Vsak udeleženec prejme obvestilo in besedilo se mu prikaže v pregledu vadbenih enot."
+
+#, fuzzy
+msgid "exc_show_instructions"
+msgstr "Show Work Instructions"
+
+#, fuzzy
+msgid "exc_show_more"
+msgstr "Show More"
+
+msgid "exc_show_peer_review"
+msgstr "Prikaži povratne informacije kolegov"
+
+msgid "exc_show_submissions"
+msgstr "Objavi oddane rešitve"
+
+msgid "exc_show_submissions_info"
+msgstr "Po roku za oddajo imajo vsi udeleženci vpogled v vse oddane rešitve vadbene enote."
+
+msgid "exc_start_assignment"
+msgstr "Zaženi vadbene enote"
+
+msgid "exc_start_exercise"
+msgstr "Start Exercise"
+
+msgid "exc_start_time"
+msgstr "Začetni čas"
+
+msgid "exc_starting_on"
+msgstr "Začeto dne"
+
+msgid "exc_submission_and_grades_notification_link"
+msgstr "Povezava do vaje (oddaje in ocene): %s"
+
+msgid "exc_submission_downloads_notification_link"
+msgstr "Prenesi nove oddaje: %s"
+
+msgid "exc_submission_file"
+msgstr "Oddaja datoteke"
+
+msgid "exc_submission_no_new_files"
+msgstr "Ni novih oddaj."
+
+msgid "exc_submission_notification"
+msgstr "Obvestilo ob oddaji"
+
+msgid "exc_submission_notification_body"
+msgstr "Na voljo je nova oddaja za vajo \"%s\"."
+
+msgid "exc_submission_notification_info"
+msgstr "Ko bodo oddane nove rešitve, boste obveščeni po e-pošti. To je osebna nastavitev, ki velja samo za vas. Nastavitev ne vpliva na druge mentorje vaje."
+
+msgid "exc_submission_notification_link"
+msgstr "Povezava do vaje: %s"
+
+msgid "exc_submission_notification_subject"
+msgstr "Na voljo je nova oddaja za vajo \"%s\""
+
+#, fuzzy
+msgid "exc_submission_open_notification_link"
+msgstr "Open submission: %s"
+
+msgid "exc_submission_text"
+msgstr "Oddaja besedila"
+
+msgid "exc_submissions_and_grades"
+msgstr "Oddaje in ocene"
+
+#, fuzzy
+msgid "exc_submit_anytime"
+msgstr "Submit Anytime"
+
+msgid "exc_submit_convenience_no_deadline"
+msgstr "Ko uredite vadbeno enoto, jo oddajte. Rok za oddajo ni določen."
+
+msgid "exc_submitted_files_deleted"
+msgstr "Izbrane datoteke so bile izbrisane."
+
+#, fuzzy
+msgid "exc_sure_unlink_blog"
+msgstr "Are you sure to remove this blog form this assignment?"
+
+msgid "exc_sure_unlink_portfolio"
+msgstr "Ali želite portfelj odstraniti iz te vadbene enote?"
+
+msgid "exc_target_not_valid"
+msgstr "Cilj povezave ni več veljaven."
+
+msgid "exc_task_grading"
+msgstr "Grading of Assignment \"%1\""
+
+msgid "exc_task_peer_feedback"
+msgstr "Give Peer Feedback in Assignment \"%1\""
+
+msgid "exc_task_submission"
+msgstr "Submission of Assignment \"%1\""
+
+msgid "exc_tbl_action_download_all_files"
+msgstr "Prenesi vse oddaje"
+
+msgid "exc_tbl_action_download_files"
+msgstr "Prenesi oddaje"
+
+msgid "exc_tbl_action_download_new_files"
+msgstr "Prenesi nove oddaje"
+
+msgid "exc_tbl_action_feedback_file"
+msgstr "Povratna informacija po datoteki"
+
+msgid "exc_tbl_action_feedback_mail"
+msgstr "Povratna informacija po e-pošti"
+
+msgid "exc_tbl_action_feedback_text"
+msgstr "Povratna informacija po SMS-u"
+
+msgid "exc_tbl_action_open_submission"
+msgstr "Open Submission"
+
+msgid "exc_tbl_action_peer_review_given"
+msgstr "Prikaži oddane povratne informacije kolegov"
+
+msgid "exc_tbl_action_peer_review_received"
+msgstr "Prikaži prejete povratne informacije kolegov"
+
+msgid "exc_tbl_action_team_log"
+msgstr "Prikaži dnevnik ekipe"
+
+msgid "exc_tbl_action_text_assignment_show"
+msgstr "Prikaži oddajo"
+
+msgid "exc_tbl_calculated_deadline"
+msgstr "Izračunan rok za oddajo"
+
+msgid "exc_tbl_comment"
+msgstr "Povratna informacija za besedilo"
+
+msgid "exc_tbl_feedback_time"
+msgstr "Povratna informacija dne"
+
+msgid "exc_tbl_filter_has_no_submission"
+msgstr "Še ni oddal"
+
+msgid "exc_tbl_filter_has_submission"
+msgstr "Je oddal"
+
+msgid "exc_tbl_filter_submission"
+msgstr "Oddaja"
+
+#, fuzzy
+msgid "exc_tbl_filter_submission_after"
+msgstr "Submission After"
+
+#, fuzzy
+msgid "exc_tbl_filter_submission_before"
+msgstr "Submission Before"
+
+msgid "exc_tbl_individual_deadline"
+msgstr "Individualni rok"
+
+msgid "exc_tbl_mark"
+msgstr "Ocena"
+
+msgid "exc_tbl_notice"
+msgstr "Opomba za mentorje"
+
+msgid "exc_tbl_sent_time"
+msgstr "Vadbena enota poslana dne"
+
+msgid "exc_tbl_status"
+msgstr "Ocena"
+
+msgid "exc_tbl_status_time"
+msgstr "Ocenjeno dne"
+
+msgid "exc_tbl_submission_date"
+msgstr "Oddano dne"
+
+msgid "exc_tbl_team"
+msgstr "Ekipa"
+
+msgid "exc_team"
+msgstr "Ekipa"
+
+msgid "exc_team_assignment_adopt"
+msgstr "Prrevzemi ekipe iz obstoječe vadbene enote"
+
+msgid "exc_team_assignment_adopt_already_assigned"
+msgstr "že dodeljeno"
+
+msgid "exc_team_assignment_adopt_none"
+msgstr "Ne prevzemi nobene ekipe"
+
+msgid "exc_team_assignment_adopt_none_user"
+msgstr "Ustvari novo ekipo"
+
+msgid "exc_team_assignment_adopt_teams"
+msgstr "Ekipe"
+
+msgid "exc_team_assignment_adopt_user"
+msgstr "Prevzemi ekipo iz vadbene enote"
+
+msgid "exc_team_at_least_one"
+msgstr "Ekipa mora imeti vsaj enega člana."
+
+msgid "exc_team_by_assignment"
+msgstr "Prevzem vadbene enote"
+
+msgid "exc_team_by_assignment_info"
+msgstr "Ekipe se prevzamejo iz obstoječe vadbene enote."
+
+msgid "exc_team_by_participants"
+msgstr "S strani udeleženca"
+
+msgid "exc_team_by_participants_info"
+msgstr "Udeleženci sami oblikujejo ekipe."
+
+msgid "exc_team_by_random"
+msgstr "Samodejna, naključna dodelitev"
+
+msgid "exc_team_by_random_add_info"
+msgstr "Upoštevajte, da morate vaji najprej dodeliti vse udeležence, preden lahko smiselno uporabite to možnost."
+
+msgid "exc_team_by_random_info"
+msgstr "Udeleženci bodo samodejno in naključno dodeljeni ekipam."
+
+msgid "exc_team_by_tutors"
+msgstr "S strani mentorjev"
+
+msgid "exc_team_by_tutors_info"
+msgstr "Mentorji oblikujejo ekipe."
+
+msgid "exc_team_by_tutors_manual"
+msgstr "Ročno"
+
+msgid "exc_team_by_tutors_manual_info"
+msgstr "Mentorji ročno razporedijo udeležence v ekipe."
+
+msgid "exc_team_creation"
+msgstr "Ustvarjanje"
+
+msgid "exc_team_formation"
+msgstr "Organizacija ekipe"
+
+msgid "exc_team_log"
+msgstr "Dnevnik ekipe"
+
+msgid "exc_team_log_add_file"
+msgstr "Datoteka %s je dodana."
+
+msgid "exc_team_log_add_member"
+msgstr "Član %s je dodan."
+
+msgid "exc_team_log_create_team"
+msgstr "Ekipa je ustvarjena."
+
+#, fuzzy
+msgid "exc_team_log_remove_file"
+msgstr "Removed file %s."
+
+msgid "exc_team_log_remove_member"
+msgstr "Član %s je odstranjen."
+
+msgid "exc_team_max_small_than_members"
+msgstr "Maksimalnega števila udeležencev ni mogoče nastaviti na %s, saj morajo nekatere ekipe imeti %s udeležencev."
+
+msgid "exc_team_member_add"
+msgstr "Dodaj člana ekipe (iskanje)"
+
+msgid "exc_team_member_container_add"
+msgstr "Dodaj člana ekipe iz tečaja/skupine"
+
+msgid "exc_team_member_remove_sure"
+msgstr "Ali res želite odstraniti naslednje člane svoje ekipe? Upoštevajte, da bodo tudi vse datoteke, ki so jih naložili ti člani, odstranjene iz vaše ekipe."
+
+msgid "exc_team_members"
+msgstr "Člani ekipe"
+
+msgid "exc_team_min_big_than_max"
+msgstr "Maksimalno število udeležencev ne sme biti manjše od minimalnega števila."
+
+msgid "exc_team_min_small_than_members"
+msgstr "Minimalnega števila udeležencev ni mogoče nastaviti na %s, saj morajo nekatere ekipe imeti %s udeležencev."
+
+msgid "exc_team_minimal_too_big"
+msgstr "Minimalno število udeležencev ekipe %s je preveliko, zmanjšajte vrednost."
+
+msgid "exc_team_multi_create"
+msgstr "Ustvari ekipo"
+
+msgid "exc_team_multi_dissolve"
+msgstr "Razpusti ekipo/-e"
+
+msgid "exc_team_notification_body_add"
+msgstr "Dodani ste bili v vadbeno enoto za nalaganje ekipe."
+
+msgid "exc_team_notification_body_rmv"
+msgstr "Odstranjeni ste bili iz vadbene enote za nalaganje ekipe."
+
+msgid "exc_team_notification_link"
+msgstr "Povezava do vaje"
+
+msgid "exc_team_notification_reason"
+msgstr "To sporočilo ste prejeli, ker ste udeleženec zgoraj navedene vaje."
+
+msgid "exc_team_notification_subject_add"
+msgstr "Dodan kot član ekipe v vadbeno enoto vaje \"%s\""
+
+msgid "exc_team_notification_subject_rmv"
+msgstr "Odstranjen kot član ekipe iz vadbene enote vaje \"%s\""
+
+msgid "exc_teams_assignment_adopted"
+msgstr "Ekipe so bile prevzete iz obstoječe vadbene enote"
+
+msgid "exc_template"
+msgstr "Predloga"
+
+msgid "exc_text_assignment_edit"
+msgstr "Uredi besedilo"
+
+msgid "exc_text_assignment_show"
+msgstr "Prikaži besedilo"
+
+msgid "exc_text_saved"
+msgstr "Besedilo je bilo shranjeno."
+
+#, fuzzy
+msgid "exc_too_many_files"
+msgstr "The upload contains too many files."
+
+msgid "exc_total_exc"
+msgstr "Celotna vaja"
+
+msgid "exc_total_members"
+msgstr "Skupno število udeležencev"
+
+#, fuzzy
+msgid "exc_type"
+msgstr "Type"
+
+msgid "exc_type_blog"
+msgstr "Blog"
+
+msgid "exc_type_portfolio"
+msgstr "Portfelj"
+
+msgid "exc_type_text"
+msgstr "Besedilo"
+
+msgid "exc_type_upload"
+msgstr "Datoteka"
+
+msgid "exc_type_upload_team"
+msgstr "Vloži datoteko kot ekipa"
+
+msgid "exc_value_can_not_set"
+msgstr "Te vrednosti ni mogoče nastaviti"
+
+#, fuzzy
+msgid "exc_view_portfolio"
+msgstr "View Portfolio"
+
+#, fuzzy
+msgid "exc_view_wiki"
+msgstr "View Wiki"
+
+msgid "exc_wait_for_files"
+msgstr "Prenos bi se moral začeti samodejno. V primeru težav kliknite tukaj."
+
+msgid "exc_wiki_container"
+msgstr "Shramba Wiki"
+
+msgid "exc_wiki_container_info"
+msgstr "Mesto, kjer bodo ustvarjeni novi Wiki-ji udeležencev."
+
+msgid "exc_with_template"
+msgstr "S predlogo portfelja"
+
+msgid "exc_with_template_info"
+msgstr "Prazen portfelj bo samodejno izvožen iz določene predloge portfelja."
+
+msgid "exc_with_wiki_template"
+msgstr "S predlogo"
+
+msgid "exc_with_wiki_template_info"
+msgstr "Novi Wiki-ji udeležencev bodo ustvarjeni kot kopija predloge."
+
+msgid "exc_without_template"
+msgstr "Brez predloge portfelja"
+
+msgid "exc_without_template_info"
+msgstr "Udeleženci sami ustvarijo svoje portfelje brez predloge"
+
+msgid "exc_without_wiki_template"
+msgstr "Brez predloge"
+
+msgid "exc_without_wiki_template_info"
+msgstr "Udeleženci začnejo s praznim Wiki-jem."
+
+msgid "exc_work_instructions"
+msgstr "Delovna navodila"
+
+#, fuzzy
+msgid "exc_x_of_y"
+msgstr "of"
+
+msgid "exc_your_text"
+msgstr "Vaše besedilo"
+
+msgid "feedback_from"
+msgstr "Povratne informacije od"
+
+msgid "feedback_given"
+msgstr "Oddane povratne informacije"
+
+msgid "feedback_received"
+msgstr "Prejete povratne informacije"
+
+msgid "fiter_no_results"
+msgstr "Trenutni filter se ne ujema z nobeno oddajo."
+
+msgid "grade_evaluate"
+msgstr "Ovrednoti/oceni"
+
+msgid "not_yet"
+msgstr "ne še"
+
+msgid "submissions_feedback"
+msgstr "Oddaje in povratne informacije kolegov"
+
+msgid "submissions_only"
+msgstr "Samo oddaje"
+
+msgid "text_assignment"
+msgstr "Besedilna naloga"

@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+
 class LearningSequence implements \ILIAS\Component\Component
 {
     public function init(
@@ -83,5 +86,9 @@ class LearningSequence implements \ILIAS\Component\Component
             new \ILIAS\LearningSequence\Content\Condition\ConditionTypeRegistry(
                 $seek[\ILIAS\LearningSequence\Content\Condition\ConditionType::class]
             );
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'lso'
+        );
     }
 }

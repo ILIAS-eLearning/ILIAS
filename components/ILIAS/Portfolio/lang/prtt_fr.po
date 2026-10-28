@@ -1,0 +1,47 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fr\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: prtt\n"
+
+msgid "prtt_activation_limited_visibility_info"
+msgstr "Lorsque choisi, le portfolio est visible y compris en dehors de ce contexte."
+
+msgid "prtt_activation_online_info"
+msgstr "Activer cette option pour rendre ce modèle de portfolio accessible aux utilisateurs."
+
+msgid "prtt_add"
+msgstr "Créer Modèle de Portfolio"
+
+msgid "prtt_copy"
+msgstr "Copier Modèle de Portfolio"
+
+msgid "prtt_edit"
+msgstr "Editer Modèle de Portfolio"
+
+msgid "prtt_import"
+msgstr "Importer Modèle de Portfolio"
+
+msgid "prtt_new"
+msgstr "Nouveau Modèle de Portfolio"
+
+#, fuzzy
+msgid "prtt_pfpg"
+msgstr "Portfolio Page"
+
+msgid "prtt_portfolio_created"
+msgstr "Modèle de portfolio ajouté"
+
+msgid "prtt_properties"
+msgstr "Propriétés du Modèle de Portfolio"
+
+#, fuzzy
+msgid "prtt_select_datasets"
+msgstr "Select Datasets"
+
+msgid "prtt_style"
+msgstr "Style du Modèle de Portfolio"

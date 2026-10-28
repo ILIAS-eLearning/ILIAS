@@ -1,0 +1,220 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: dash\n"
+
+#, fuzzy
+msgid "add_to_favourites"
+msgstr "Add to Favourites"
+
+#, fuzzy
+msgid "added_to_favourites"
+msgstr "The item has been added to your favourites."
+
+msgid "dash_activation"
+msgstr "activación"
+
+msgid "dash_added_to_favs"
+msgstr "La recomendación se ha añadido a sus favoritos personales."
+
+msgid "dash_avail_presentation"
+msgstr "Presentaciones Disponibles"
+
+msgid "dash_avail_sortation"
+msgstr "Criterios de ordenación disponibles"
+
+msgid "dash_click_here"
+msgstr "Haga clic aquí"
+
+msgid "dash_co_delete"
+msgstr "Eliminar estilo del Escritorio"
+
+msgid "dash_co_lang"
+msgstr "Estilo del Escritorio por idiomas"
+
+msgid "dash_customization"
+msgstr "Personalizar contenido del Escritorio"
+
+msgid "dash_dash_fav_remove"
+msgstr "Eliminar"
+
+msgid "dash_dash_fav_remove_info"
+msgstr "¿Está seguro de que desea eliminar los siguientes objetos de sus Favoritos?"
+
+msgid "dash_dash_fav_remove_multiple"
+msgstr "Eliminar múltiples favoritos"
+
+msgid "dash_dash_ls_remove"
+msgstr "Darse de baja"
+
+msgid "dash_dash_ls_remove_info"
+msgstr "¿Está seguro de que desea darse de baja de las siguientes secuencias de aprendizaje?"
+
+msgid "dash_dash_ls_remove_multiple"
+msgstr "Darse de baja de múltiples secuencias de aprendizaje"
+
+msgid "dash_dash_mem_remove"
+msgstr "Darse de baja"
+
+msgid "dash_dash_mem_remove_info"
+msgstr "¿Está seguro de que desea darse de baja de los siguientes cursos y grupos?"
+
+msgid "dash_dash_mem_remove_multiple"
+msgstr "Darse de baja de múltiples cursos y grupos"
+
+msgid "dash_dash_rc_remove"
+msgstr "Eliminar"
+
+msgid "dash_dash_rc_remove_info"
+msgstr "¿Está seguro de que desea eliminar los siguientes objetos de su contenido recomendado?"
+
+msgid "dash_dash_rc_remove_multiple"
+msgstr "Eliminar múltiples contenidos"
+
+msgid "dash_dashboard"
+msgstr "Escritorio"
+
+msgid "dash_default_presentation"
+msgstr "Presentación por defecto"
+
+msgid "dash_default_sortation"
+msgstr "Ordenación por defecto"
+
+msgid "dash_enable_cal"
+msgstr "Calendario"
+
+msgid "dash_enable_favourites"
+msgstr "Favoritos"
+
+msgid "dash_enable_learning_sequences"
+msgstr "Secuencias de aprendizaje"
+
+msgid "dash_enable_mail"
+msgstr "Correo"
+
+msgid "dash_enable_memberships"
+msgstr "Mis cursos y grupos"
+
+msgid "dash_enable_news"
+msgstr "Noticias"
+
+msgid "dash_enable_recommended_content"
+msgstr "Contenido recomendado"
+
+msgid "dash_enable_study_programmes"
+msgstr "Programas de estudio"
+
+msgid "dash_enable_task"
+msgstr "Tareas"
+
+msgid "dash_favourites"
+msgstr "Favoritos"
+
+msgid "dash_item_removed"
+msgstr "La recomendación ha sido eliminada de la lista."
+
+msgid "dash_learning_sequences"
+msgstr "Mis secuencias de aprendizaje"
+
+msgid "dash_list"
+msgstr "Lista"
+
+msgid "dash_main_panel"
+msgstr "Panel principal"
+
+msgid "dash_manual_new_item_pos"
+msgstr "Position of New Objects"
+
+msgid "dash_manual_new_item_pos_bot"
+msgstr "Bottom"
+
+msgid "dash_manual_new_item_pos_top"
+msgstr "Top"
+
+msgid "dash_manual_sorting_title"
+msgstr "Manual Sorting of Favorites"
+
+msgid "dash_member_main_alt"
+msgstr "Los cursos y grupos también pueden configurarse como una entrada independiente en el menú principal."
+
+msgid "dash_memberships"
+msgstr "Mis cursos y grupos"
+
+msgid "dash_no_items_to_manage"
+msgstr "No hay elementos disponibles para eliminar."
+
+msgid "dash_page_edit_info"
+msgstr "El contenido de esta página se muestra a todos los usuarios en su escritorio. A continuación se presentan los contenidos de los distintos bloques del escritorio."
+
+msgid "dash_presentation"
+msgstr "Presentación"
+
+msgid "dash_recommended_content"
+msgstr "Contenido recomendado"
+
+msgid "dash_remove_from_list"
+msgstr "Eliminar de la lista"
+
+msgid "dash_side_panel"
+msgstr "Panel lateral"
+
+msgid "dash_sort_by_alphabet"
+msgstr "Alfabeto"
+
+msgid "dash_sort_by_location"
+msgstr "Ubicación"
+
+msgid "dash_sort_by_manually"
+msgstr "Manually"
+
+msgid "dash_sort_by_start_date"
+msgstr "Periodo del evento"
+
+msgid "dash_sort_by_type"
+msgstr "Tipo"
+
+msgid "dash_sort_option_bot"
+msgstr "Bottom"
+
+msgid "dash_sort_option_top"
+msgstr "Top"
+
+msgid "dash_sort_options"
+msgstr "Postition of new Objects"
+
+msgid "dash_sortation"
+msgstr "Ordenación"
+
+msgid "dash_study_programmes"
+msgstr "Mis programas de estudio"
+
+msgid "dash_tile"
+msgstr "Mosaico"
+
+msgid "dash_view_courses_groups"
+msgstr "Sección ‘Mis cursos y grupos’"
+
+msgid "dash_view_favourites"
+msgstr "Sección ‘Favoritos’"
+
+msgid "favourites_disabled_info"
+msgstr "La función añadir a favoritos está desactivada. Puede cambiar esto en la configuración del repositorio."
+
+msgid "memberships_disabled_info"
+msgstr "Las suscripciones están desactivadas. Puede cambiar esto en la configuración del curso."
+
+#, fuzzy
+msgid "remove_from_favourites"
+msgstr "Remove from Favourites"
+
+#, fuzzy
+msgid "removed_from_favourites"
+msgstr "The item has been removed from your favourites."
+
+msgid "topitem_block"
+msgstr "Bloque"

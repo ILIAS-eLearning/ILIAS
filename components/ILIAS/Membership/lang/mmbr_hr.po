@@ -1,0 +1,33 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hr\n"
+"Language-Team: Croatian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: mmbr\n"
+
+msgid "info_refuse_sure"
+msgstr "Jeste li sigurni da želite odbiti sljedećeg(-e) korisnika(-e)?"
+
+msgid "mmbr_awrn_my_groups_courses"
+msgstr "Moje grupe i tečajevi"
+
+msgid "mmbr_awrn_my_groups_courses_info"
+msgstr "Navedeni su svi članovi grupa ili tečajeva trenutnog korisnika."
+
+msgid "mmbr_btn_mail_selected_users"
+msgstr "Pošalji e-poštu"
+
+#, fuzzy
+msgid "mmbr_memberships"
+msgstr "Memberships"
+
+#, fuzzy
+msgid "mmbr_role_error"
+msgstr "Members must have at least one role assigned."
+
+#, fuzzy
+msgid "mmbr_unsubscribed_from_objs"
+msgstr "You have been unsubscribed from the selected objects."

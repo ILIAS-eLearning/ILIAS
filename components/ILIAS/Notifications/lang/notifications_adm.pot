@@ -1,0 +1,69 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: notifications_adm\n"
+
+msgid "available_providers"
+msgstr ""
+
+msgid "client_settings"
+msgstr ""
+
+msgid "enable_osd"
+msgstr ""
+
+msgid "enable_osd_desc"
+msgstr ""
+
+msgid "enable_push"
+msgstr ""
+
+msgid "enable_push_desc"
+msgstr ""
+
+msgid "notification_settings"
+msgstr ""
+
+msgid "osd_error_refresh_interval_too_small"
+msgstr ""
+
+msgid "osd_interval"
+msgstr ""
+
+msgid "osd_interval_desc"
+msgstr ""
+
+msgid "osd_play_sound"
+msgstr ""
+
+msgid "osd_play_sound_desc"
+msgstr ""
+
+msgid "osd_settings"
+msgstr ""
+
+msgid "push_client_already_used"
+msgstr ""
+
+msgid "push_client_edge_case"
+msgstr ""
+
+msgid "push_client_inactive"
+msgstr ""
+
+msgid "push_client_ios_case"
+msgstr ""
+
+msgid "push_settings"
+msgstr ""
+
+msgid "push_subscription_successfull"
+msgstr ""
+
+msgid "push_subscription_successfull_desc"
+msgstr ""
+
+msgid "user_settings"
+msgstr ""

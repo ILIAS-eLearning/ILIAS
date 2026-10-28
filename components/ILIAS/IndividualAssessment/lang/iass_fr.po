@@ -1,0 +1,270 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fr\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: iass\n"
+
+msgid "download_assessment_paper"
+msgstr "Download Record file"
+
+msgid "grading"
+msgstr "Classement"
+
+msgid "grading_info"
+msgstr "Informations de classement"
+
+msgid "grading_record"
+msgstr "Dossier de classement"
+
+msgid "iass_add"
+msgstr "Créer une évaluation individuelle"
+
+msgid "iass_add_user_failure"
+msgstr "Impossible d’ajouter un ou plusieurs utilisateurs."
+
+msgid "iass_add_user_success"
+msgstr "Utilisateur ajouté en tant que personne examinée."
+
+msgid "iass_added"
+msgstr "Évaluation individuelle ajoutée"
+
+msgid "iass_amend_saved"
+msgstr "Le dossier modifié a été sauvegardé."
+
+msgid "iass_assessment_not_completed"
+msgstr "Pas encore complétée"
+
+msgid "iass_cancel"
+msgstr "Cancel"
+
+msgid "iass_changed_by"
+msgstr "Modifiée après finalisation"
+
+msgid "iass_confirm_finalize"
+msgstr "Finalize"
+
+msgid "iass_consultation_hours"
+msgstr "Heures de consultation"
+
+msgid "iass_contact"
+msgstr "Nom"
+
+msgid "iass_contact_info"
+msgstr "Coordonnées"
+
+msgid "iass_content"
+msgstr "Description du contenu d’évaluation"
+
+msgid "iass_content_explanation"
+msgstr "Contenus de l’évaluation, par ex. sujets pertinents."
+
+msgid "iass_copy"
+msgstr "Copier l’évaluation individuelle"
+
+msgid "iass_download"
+msgstr "Download"
+
+msgid "iass_edit"
+msgstr "Paramètres"
+
+msgid "iass_edit_info"
+msgstr "Paramètres d’informations"
+
+msgid "iass_edit_record"
+msgstr "User record"
+
+msgid "iass_event_time"
+msgstr "Date de l’évaluation"
+
+msgid "iass_event_time_place_required"
+msgstr "Date et lieu requis"
+
+msgid "iass_event_time_place_required_info"
+msgstr "La date et le lieu de l’évaluation doivent être ajoutés à chaque dossier de participant."
+
+msgid "iass_file"
+msgstr "File"
+
+msgid "iass_file_dropzone"
+msgstr "you can drop your files here"
+
+msgid "iass_file_required"
+msgstr "Fichier de dossier requis"
+
+msgid "iass_file_required_info"
+msgstr "Un fichier de dossier doit être téléchargé pour chaque dossier de participant."
+
+msgid "iass_file_visible_examinee"
+msgstr "Fichier visible pour le participant"
+
+#, fuzzy
+msgid "iass_file_visible_examinee_info"
+msgstr "Once the individual assessment has been completed, the person assessed can view the record file. To do so, the ‘Make Result Available to Participant’ function must be enabled."
+
+msgid "iass_filter_all"
+msgstr "All"
+
+msgid "iass_filter_failed"
+msgstr "Failed only"
+
+msgid "iass_filter_finalized"
+msgstr "Completed only"
+
+msgid "iass_filter_not_finalized"
+msgstr "Not completed only"
+
+msgid "iass_filter_not_started"
+msgstr "Not started only"
+
+msgid "iass_finalize"
+msgstr "Finaliser"
+
+msgid "iass_finalize_info"
+msgstr "Individual Assessment will be finalized."
+
+msgid "iass_finalize_user_qst"
+msgstr "Le statut de la personne examinée doit-il vraiment être finalisé? Aucune modification possible par la suite."
+
+msgid "iass_further_field_headline"
+msgstr "Detailed Information"
+
+msgid "iass_graded_by"
+msgstr "Classé par"
+
+msgid "iass_info_emails_expl"
+msgstr "You may provide several addresses separated by a coma."
+
+msgid "iass_internal_note"
+msgstr "Internal record note (should not be seen by examinee)"
+
+msgid "iass_internal_note_info"
+msgstr "Les notes internes sont visibles uniquement par les tuteurs mais pas par les personnes examinées."
+
+msgid "iass_location"
+msgstr "Location"
+
+msgid "iass_mails"
+msgstr "Mails"
+
+msgid "iass_may_not_finalize"
+msgstr "La personne examinée ne peut pas être finalisée."
+
+msgid "iass_membership_finalized"
+msgstr "Dossier finalisé"
+
+msgid "iass_membership_saved"
+msgstr "Dossier sauvegardé, pas encore finalisé"
+
+msgid "iass_mess_notification_completed"
+msgstr "You passed the assessment %s. Please check the following record for details:"
+
+msgid "iass_mess_notification_failed"
+msgstr "You failed the assessment %s. Please check the following record for details:"
+
+msgid "iass_notify"
+msgstr "Notify user after finalization"
+
+msgid "iass_notify_explanation"
+msgstr "The examinee will be notified via email after finalisation and will get access to her or his record on the Info screen."
+
+msgid "iass_phone"
+msgstr "Téléphone"
+
+msgid "iass_place"
+msgstr "Lieu de l’affectation"
+
+msgid "iass_record"
+msgstr "Note de dossier"
+
+msgid "iass_record_info"
+msgstr "Les personnes examinées peuvent voir la note du dossier après avoir été évaluées. Si la notification est autorisée en bas, la note du dossier sera également envoyée à la personne examinée par mail."
+
+msgid "iass_record_template"
+msgstr "Modèle de dossier"
+
+msgid "iass_record_template_explanation"
+msgstr "Modèle pour dossier de classement de personnes examinées. Sera utilisé automatiquement pour toute nouvelle personne examinée."
+
+msgid "iass_remove_user_qst"
+msgstr "La personne examinée doit-elle vraiment être retirée?"
+
+msgid "iass_responsibility"
+msgstr "Responsabilité"
+
+msgid "iass_save_amend"
+msgstr "Sauvegarder le dossier modifié"
+
+#, fuzzy
+msgid "iass_settings_availability"
+msgstr "Availability"
+
+msgid "iass_settings_saved"
+msgstr "Paramètres sauvegardés."
+
+msgid "iass_sort_changetime_asc"
+msgstr "Last Change ascending"
+
+msgid "iass_sort_changetime_desc"
+msgstr "Last Change descending"
+
+msgid "iass_sort_examiner_login_asc"
+msgstr "Examiner ascending"
+
+msgid "iass_sort_examiner_login_desc"
+msgstr "Examiner descending"
+
+msgid "iass_sort_name_asc"
+msgstr "Username ascending"
+
+msgid "iass_sort_name_desc"
+msgstr "Username descending"
+
+msgid "iass_status_completed"
+msgstr "Complété"
+
+msgid "iass_status_failed"
+msgstr "Échec"
+
+msgid "iass_status_pending"
+msgstr "Statut en attente"
+
+msgid "iass_subj_notification_completed"
+msgstr "%s: Évaluation individuelle terminée."
+
+msgid "iass_subj_notification_failed"
+msgstr "%s: Évaluation individuelle échouée."
+
+msgid "iass_upload_file"
+msgstr "Fichier de dossier"
+
+msgid "iass_user_removed"
+msgstr "User successfully removed."
+
+msgid "iass_usr_amend"
+msgstr "Modifier classement"
+
+msgid "iass_usr_download_attachment"
+msgstr "Télécharger la pièce-jointe"
+
+msgid "iass_usr_edit"
+msgstr "Edit user record and learning progress"
+
+msgid "iass_usr_remove"
+msgstr "Remove user from object"
+
+msgid "iass_usr_view"
+msgstr "User record"
+
+msgid "il_iass_members"
+msgstr "Participants"
+
+msgid "lp_inactive"
+msgstr "Note: la progression d’apprentissage pour cet objet est inactive. Les affiliations ne peuvent donc pas être finalisées."
+
+#, fuzzy
+msgid "save_amend"
+msgstr "Save Amended Record"

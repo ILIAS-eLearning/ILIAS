@@ -1,0 +1,177 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: adn\n"
+
+#, fuzzy
+msgid "action_confirm_delete"
+msgstr "Delete Notifications"
+
+#, fuzzy
+msgid "action_confirm_delete_msg"
+msgstr "Would you like to delete the following notification(s)?"
+
+#, fuzzy
+msgid "administrative_notification"
+msgstr "Administrative Notifications"
+
+msgid "administrative_notification_description"
+msgstr "Gå ut systemövergripande meddelanden i rubriken för ILIAS"
+
+msgid "btn_cancel"
+msgstr "Avbryt"
+
+msgid "btn_delete"
+msgstr "Radera"
+
+msgid "btn_delete_confirm"
+msgstr "Vill du ta bort detta meddelande?"
+
+#, fuzzy
+msgid "btn_duplicate"
+msgstr "Duplicate"
+
+msgid "btn_edit"
+msgstr "Redigera"
+
+msgid "btn_reset"
+msgstr "Återställ"
+
+msgid "btn_reset_confirm"
+msgstr "Vill du återställa detta meddelande för alla användare?"
+
+msgid "common_actions"
+msgstr "Åtgärder"
+
+msgid "common_add_msg"
+msgstr "Lägg till tillkännagivande"
+
+msgid "main"
+msgstr "Meddelanden"
+
+msgid "msg_body"
+msgstr "Text"
+
+msgid "msg_body_info"
+msgstr "Texten för tillkännagivandena"
+
+msgid "msg_dismissable"
+msgstr "Manuell stängning"
+
+msgid "msg_dismissable_info"
+msgstr "Användare kan stänga meddelanden och inte längre se dem i framtiden."
+
+msgid "msg_display_date_end"
+msgstr "Visa till"
+
+msgid "msg_display_date_start"
+msgstr "Visa från"
+
+msgid "msg_error_false_date_configuration"
+msgstr "Notification kan inte skapas med denna konfiguration av data. Händelsen måste vara inom visningstiden."
+
+msgid "msg_event_date_end"
+msgstr "Avsluta händelse"
+
+msgid "msg_event_date_start"
+msgstr "Börja evenemang"
+
+msgid "msg_form_title"
+msgstr "Tillkännagivande"
+
+#, fuzzy
+msgid "msg_has_language_limitation"
+msgstr "Limited to selected languages"
+
+#, fuzzy
+msgid "msg_has_language_limitation_info"
+msgstr "Only selected languages will see the notification."
+
+#, fuzzy
+msgid "msg_languages"
+msgstr "Languages"
+
+msgid "msg_limit_to_roles"
+msgstr "Begränsad till utvalda roller"
+
+msgid "msg_limit_to_roles_info"
+msgstr "Notification visas endast för personer med någon av de roller som valts nedan."
+
+msgid "msg_limited_to_role_ids"
+msgstr "Display"
+
+msgid "msg_permanent"
+msgstr "Display"
+
+msgid "msg_permanent_info"
+msgstr "Visa meddelanden permanent eller under en begränsad tidsperiod"
+
+msgid "msg_permanent_no"
+msgstr "Tillfälligt"
+
+msgid "msg_permanent_yes"
+msgstr "Permanent"
+
+msgid "msg_presentation"
+msgstr "Display"
+
+#, fuzzy
+msgid "msg_show_to_all_languages"
+msgstr "Show to all languages"
+
+msgid "msg_show_to_all_roles"
+msgstr "Visa alla roller"
+
+msgid "msg_show_to_all_roles_info"
+msgstr "Meddelandet visas för alla användare och är även synligt i det offentliga området för personer som inte är inloggade."
+
+msgid "msg_success_created"
+msgstr "Anmälan skapad"
+
+msgid "msg_success_deleted"
+msgstr "Announcement framgångsrikt raderat"
+
+#, fuzzy
+msgid "msg_success_duplicated"
+msgstr "Notification sucessfully duplicated"
+
+msgid "msg_success_reset"
+msgstr "Återställning av tillkännagivandet"
+
+msgid "msg_success_updated"
+msgstr "Anmälan uppdaterad"
+
+msgid "msg_table_title"
+msgstr "Meddelanden"
+
+msgid "msg_title"
+msgstr "Titel"
+
+msgid "msg_title_info"
+msgstr "Kort titel på meddelandet"
+
+msgid "msg_type"
+msgstr "betydelse"
+
+msgid "msg_type_0"
+msgstr "Note"
+
+msgid "msg_type_1"
+msgstr "Note"
+
+msgid "msg_type_2"
+msgstr "Viktigt"
+
+msgid "msg_type_3"
+msgstr "Brytande nyheter"
+
+msgid "msg_type_during_event"
+msgstr "Under evenemanget"
+
+msgid "msg_type_info"
+msgstr "Viktigheten avgör färgvisningen av tillkännagivandena"

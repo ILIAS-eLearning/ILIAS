@@ -1,0 +1,231 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: badge\n"
+
+msgid "awarded_by"
+msgstr "Vergeben durch"
+
+msgid "badge_activity_badges"
+msgstr "Automatisch vergebenes Badge"
+
+msgid "badge_add_template"
+msgstr "Vorlage hinzufügen"
+
+msgid "badge_add_to_profile"
+msgstr "Zum Profil hinzufügen"
+
+msgid "badge_assignment_deletion_confirmation"
+msgstr "Wollen Sie wirklich die folgenden Badge-Zuordnungen für „%s“ entziehen?"
+
+msgid "badge_award_badge"
+msgstr "Badge verleihen"
+
+msgid "badge_award_revoke"
+msgstr "Badge vergeben/entziehen"
+
+msgid "badge_badge"
+msgstr "Badge"
+
+msgid "badge_course_lp"
+msgstr "Nach Leistung vergebenes Badge"
+
+msgid "badge_course_lp_invalid"
+msgstr "Die folgenden Objekte verwenden einen nicht unterstützten Lernfortschrittsmodus: %s."
+
+msgid "badge_create"
+msgstr "Badge erstellen"
+
+msgid "badge_create_image_processing_failed"
+msgstr "Der Badge konnte nicht angelegt werden, beim Verarbeiten des Bildes trat ein Fehler auf."
+
+msgid "badge_criteria"
+msgstr "Kriterien"
+
+msgid "badge_crs_merit"
+msgstr "Händisch vergebenes Badge"
+
+msgid "badge_deletion"
+msgstr "Badge erfolgreich gelöscht."
+
+msgid "badge_deletion_confirmation"
+msgstr "Wollen Sie wirklich die folgenden Badges und alle ihre jeweiligen Zuweisungen löschen?"
+
+msgid "badge_image_from_template"
+msgstr "Vorlage nutzen"
+
+msgid "badge_image_from_upload"
+msgstr "Bild hochladen"
+
+msgid "badge_image_template_form"
+msgstr "Bildvorlage"
+
+msgid "badge_image_templates"
+msgstr "Bildvorlagen"
+
+msgid "badge_in_profile"
+msgstr "Im Profil"
+
+msgid "badge_issued_on"
+msgstr "Erhalten am"
+
+msgid "badge_lhist_badge_completed"
+msgstr "Badge $3$ wurde erworben."
+
+msgid "badge_lhist_badge_completed_in"
+msgstr "Badge $3$ wurde erworben in $1$."
+
+msgid "badge_manual"
+msgstr "Manuelle Vergabe"
+
+msgid "badge_new_badges"
+msgstr "Sie haben %1 Badge(s) erhalten."
+
+msgid "badge_no_valid_types_for_obj"
+msgstr "Es gibt aktuell keine aktiven Badge-Typen. Deshalb können keine neuen Badges erstellt werden. Bitte kontaktieren Sie Ihre technische Betreuung."
+
+msgid "badge_notification_badges"
+msgstr "Neue Badges"
+
+msgid "badge_notification_badges_goto"
+msgstr "Zu den Badges"
+
+msgid "badge_notification_body"
+msgstr "Sie haben gerade neue Badges erhalten."
+
+msgid "badge_notification_osd"
+msgstr "Sie haben gerade neue Badges erhalten: [BADGE_LIST]"
+
+msgid "badge_notification_parent_goto"
+msgstr "Zum Magazin"
+
+msgid "badge_notification_reason"
+msgstr "Sie erhalten diese Nachricht, um die neuen Badges in Ihr Profil einbinden zu können."
+
+msgid "badge_notification_subject"
+msgstr "Badge erhalten"
+
+msgid "badge_object_badges"
+msgstr "Objekt-Badges"
+
+msgid "badge_personal_badges"
+msgstr "Meine Badges"
+
+msgid "badge_profile_less"
+msgstr "Weniger zeigen"
+
+msgid "badge_profile_more"
+msgstr "Alle zeigen"
+
+msgid "badge_remove_badge"
+msgstr "Badge entziehen"
+
+msgid "badge_remove_from_profile"
+msgstr "Aus Profil entfernen"
+
+msgid "badge_select_one"
+msgstr "Sie müssen mindestens einen Badge auswählen"
+
+msgid "badge_service_activate"
+msgstr "Service aktivieren"
+
+msgid "badge_service_activate_info"
+msgstr "Aktiveren Sie den Service, um Badges verfügbar zu machen"
+
+msgid "badge_settings"
+msgstr "Badge Einstellungen"
+
+msgid "badge_sort_active_badges_first"
+msgstr "Aktive Badges zuerst"
+
+msgid "badge_sort_active_badges_last"
+msgstr "Aktive Badges zuletzt"
+
+msgid "badge_sort_activity_badges_first"
+msgstr "Automatisch vergebene Badges zuerst"
+
+msgid "badge_sort_activity_badges_last"
+msgstr "Automatisch vergebene Badges zuletzt"
+
+msgid "badge_sort_added_to_profile_last"
+msgstr "Dem Profil zugeordnete zuerst"
+
+msgid "badge_sort_excluded_from_profile_first"
+msgstr "Vom Profil ausgeklammerte zuerst"
+
+msgid "badge_sort_manual_awarding_first"
+msgstr "Badges mit manueller Vergabe zuerst"
+
+msgid "badge_sort_manual_awarding_last"
+msgstr "Badges mit manueller Vergabe zuletzt"
+
+msgid "badge_subtype_auto"
+msgstr "automatisch"
+
+msgid "badge_subtype_manual"
+msgstr "manuell"
+
+msgid "badge_template_deletion_confirmation"
+msgstr "Wollen Sie wirklich die folgenden Bildvorlagen löschen?"
+
+msgid "badge_template_types"
+msgstr "Gültige Typen"
+
+msgid "badge_template_types_all"
+msgstr "Alle"
+
+msgid "badge_template_types_specific"
+msgstr "Bestimmte"
+
+msgid "badge_types"
+msgstr "Typen"
+
+msgid "badge_update_image_processing_failed"
+msgstr "Der Badge konnte nicht aktualisiert werden, beim verarbeiten des Bildes trat ein Fehler auf."
+
+msgid "badge_uploaded_image_file_not_found"
+msgstr "Es konnte kein hochgeladenes Bild für den Badge gefunden werden."
+
+msgid "badge_user_profile"
+msgstr "Profil veröffentlicht"
+
+msgid "badge_valid"
+msgstr "Gültig bis"
+
+msgid "criteria"
+msgstr "Kriterium"
+
+msgid "endless"
+msgstr "Für immer"
+
+msgid "issued_on"
+msgstr "Ausgestellt am"
+
+msgid "position_updated"
+msgstr "Zuordnungen zum Profil geändert."
+
+msgid "sort_by_date_asc"
+msgstr "Datum, aufsteigend"
+
+msgid "sort_by_date_desc"
+msgstr "Datum, absteigend"
+
+msgid "sort_by_title_asc"
+msgstr "Titel, aufsteigend"
+
+msgid "sort_by_title_desc"
+msgstr "Titel, absteigend"
+
+msgid "table_view"
+msgstr "Tabelle"
+
+msgid "tile_view"
+msgstr "Kacheln"
+
+msgid "valid_until"
+msgstr "Gültig bis"

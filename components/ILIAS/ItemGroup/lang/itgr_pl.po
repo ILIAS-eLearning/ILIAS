@@ -1,0 +1,126 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pl\n"
+"Language-Team: Polish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: itgr\n"
+
+msgid "itgr_always_open"
+msgstr "Zawsze otwarty"
+
+#, fuzzy
+msgid "itgr_assign"
+msgstr "Assign"
+
+#, fuzzy
+msgid "itgr_assign_materials"
+msgstr "Assign Materials"
+
+#, fuzzy
+msgid "itgr_assigned_first"
+msgstr "Assigned First"
+
+msgid "itgr_assigned_materials"
+msgstr "Obiekty w sekcji obiektów"
+
+msgid "itgr_assignment"
+msgstr "Włączone"
+
+#, fuzzy
+msgid "itgr_assignment_to_other_itgr"
+msgstr "Already assigned to another Object Group"
+
+msgid "itgr_behaviour"
+msgstr "Reakcja"
+
+msgid "itgr_behaviour_info"
+msgstr "System zapamiętuje status każdego użytkownika (otwarty/zamknięty) do momentu wylogowania (logout)."
+
+#, fuzzy
+msgid "itgr_create_and_assign_object"
+msgstr "Create and Assign Object"
+
+msgid "itgr_desc_info"
+msgstr "Przy wyświetlaniu sekcji obiektu opis nie jest pokazywany."
+
+#, fuzzy
+msgid "itgr_display"
+msgstr "Display"
+
+#, fuzzy
+msgid "itgr_display_with_title"
+msgstr "With Title"
+
+#, fuzzy
+msgid "itgr_display_with_title_and_toggleable"
+msgstr "With Title, Item Group collapsible"
+
+#, fuzzy
+msgid "itgr_display_with_title_and_toggleable_initially"
+msgstr "Initial state"
+
+#, fuzzy
+msgid "itgr_display_with_title_and_toggleable_initially_closed"
+msgstr "initially closed"
+
+#, fuzzy
+msgid "itgr_display_with_title_and_toggleable_initially_open"
+msgstr "initially opened"
+
+#, fuzzy
+msgid "itgr_display_without_title"
+msgstr "Without Title"
+
+msgid "itgr_edit"
+msgstr "Edytuj sekcję obiektów"
+
+msgid "itgr_expandable_closed"
+msgstr "Rozwijany (najpierw zamknięty)"
+
+msgid "itgr_expandable_open"
+msgstr "Rozwijany (najpierw otwarty)"
+
+msgid "itgr_item"
+msgstr "Obiekt"
+
+#, fuzzy
+msgid "itgr_list"
+msgstr "List"
+
+#, fuzzy
+msgid "itgr_list_default"
+msgstr "Default"
+
+#, fuzzy
+msgid "itgr_list_default_info"
+msgstr "Inherits value from upper container."
+
+#, fuzzy
+msgid "itgr_list_presentation"
+msgstr "Item Presentation"
+
+msgid "itgr_materials"
+msgstr "Materiały"
+
+#, fuzzy
+msgid "itgr_organise_objects"
+msgstr "Manage Objects"
+
+#, fuzzy
+msgid "itgr_tile"
+msgstr "Tiles"
+
+#, fuzzy
+msgid "itgr_tile_size"
+msgstr "Tile Size"
+
+#, fuzzy
+msgid "itgr_unassign"
+msgstr "Unassign"
+
+#, fuzzy
+msgid "itgr_unassigned_first"
+msgstr "Unassigned First"

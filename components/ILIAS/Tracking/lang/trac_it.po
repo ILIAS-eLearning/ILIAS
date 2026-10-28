@@ -1,0 +1,821 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: trac\n"
+
+msgid "cmix_lp_mode_deactivated"
+msgstr "Il progresso di apprendimento è disattivato"
+
+msgid "cmix_lp_mode_deactivated_info"
+msgstr "Lo stato di avanzamento dell'apprendimento non viene visualizzato e non influenza gli oggetti padre."
+
+msgid "cmix_lp_mode_when_completed"
+msgstr "Completato quando \"completato\""
+
+msgid "cmix_lp_mode_when_completed_info"
+msgstr "Lo stato ILIAS 'completato' è impostato quando il verbo dell'ultima dichiarazione xAPI rilevante è 'completato'."
+
+msgid "cmix_lp_mode_when_passed"
+msgstr "Completato quando \"superato\""
+
+msgid "cmix_lp_mode_when_passed_info"
+msgstr "Lo stato ILIAS 'completato' è impostato quando il verbo dell'ultima dichiarazione xAPI rilevante è 'passato' o 'soddisfatto'."
+
+msgid "cmix_lp_mode_when_passed_or_completed"
+msgstr "Completato quando superato o completato"
+
+msgid "cmix_lp_mode_when_passed_or_completed_info"
+msgstr "Lo stato ILIAS 'completato' è impostato quando il verbo dell'ultima dichiarazione xAPI rilevante è 'completato' o 'passato' o 'soddisfatto'."
+
+msgid "cmix_lp_mode_with_failed"
+msgstr "Considera anche fallito"
+
+msgid "cmix_lp_mode_with_failed_info"
+msgstr "Lo stato potrebbe essere \"fallito\" anziché \"in corso\"."
+
+msgid "create_date_max"
+msgstr "Ultima registrazione"
+
+msgid "create_date_min"
+msgstr "Prima registrazione"
+
+msgid "info_valid_request"
+msgstr "Tempo massimo disponibile tra due richieste dello stesso utente."
+
+msgid "meta_typical_learning_time"
+msgstr "Tempo tipico di apprendimento"
+
+msgid "obj_types"
+msgstr "Tipi di oggetto:"
+
+#, fuzzy
+msgid "personal_learning_progress_view_description"
+msgstr "Ongoing courses with membership"
+
+#, fuzzy
+msgid "personal_learning_progress_view_title"
+msgstr "Your Learning Progress"
+
+msgid "read_count_avg"
+msgstr "Visualizzazioni della pagina media"
+
+msgid "registration_filter"
+msgstr "Data di registrazione"
+
+msgid "search_area_info"
+msgstr "Seleziona un oggetto."
+
+msgid "search_terms"
+msgstr "Cerca parola/e"
+
+msgid "session_statistics"
+msgstr "Statistiche di sessione"
+
+msgid "trac_aggregation"
+msgstr "Raggruppamento"
+
+msgid "trac_all"
+msgstr "Tutte"
+
+msgid "trac_anonymized"
+msgstr "Rendi anonimo"
+
+msgid "trac_anonymized_info"
+msgstr "Se attivato non verranno rilasciati dati personali"
+
+msgid "trac_anonymized_info_short"
+msgstr "(Anonimo)"
+
+msgid "trac_assigned"
+msgstr "Assegnato"
+
+msgid "trac_average"
+msgstr "Media"
+
+msgid "trac_begin_at"
+msgstr "Data di inizio"
+
+msgid "trac_closed_expire"
+msgstr "Timeout"
+
+msgid "trac_closed_login"
+msgstr "Anonimo per l’accesso"
+
+msgid "trac_closed_manual"
+msgstr "Logout"
+
+msgid "trac_closed_misc"
+msgstr "Altri"
+
+msgid "trac_collection_assign"
+msgstr "Selezionare per determinare il progresso dell'apprendimento"
+
+msgid "trac_collection_deassign"
+msgstr "Rimuovi assegnazione"
+
+msgid "trac_collection_manual_learner_changed_ts"
+msgstr "Cambiato in"
+
+msgid "trac_collection_manual_learner_info"
+msgstr "Il processo di apprendimento per questo oggetto deve essere impostato manualmente."
+
+msgid "trac_collection_manual_learner_lm_info"
+msgstr "Attiva tutti i capitoli completati."
+
+msgid "trac_collection_tlt_learner_info"
+msgstr "Il progresso di apprendimento per questo oggetto si basa sul tempo di apprendimento tipico."
+
+msgid "trac_collection_tlt_learner_subitem"
+msgstr "Hai utilizzato %s del %s necessario per il completamento (%s%%)."
+
+msgid "trac_comment"
+msgstr "Commento"
+
+msgid "trac_completed"
+msgstr "Completato"
+
+msgid "trac_cron_info"
+msgstr "Si prega di attivare le \"Statistiche oggetti\" cron job per raccogliere i dati."
+
+msgid "trac_crs_objects"
+msgstr "Progressi di apprendimento dei membri del corso"
+
+msgid "trac_current"
+msgstr "Attuale"
+
+msgid "trac_current_system_load"
+msgstr "Carico di sistema corrente"
+
+msgid "trac_data_deleted"
+msgstr "I dati sono stati eliminati."
+
+msgid "trac_defaults"
+msgstr "Stato di completamento"
+
+msgid "trac_defaults_inactive"
+msgstr "Tracciamento inattivo"
+
+msgid "trac_defaults_info"
+msgstr "Imposta la modalità di determinazione dello stato di completamento per i tipi di oggetti supportati. Utilizzata da alcuni tipi di badge e certificati."
+
+msgid "trac_delete_data"
+msgstr "Elimina dati"
+
+msgid "trac_determines_learning_progress"
+msgstr "Determina il progresso dell'apprendimento"
+
+msgid "trac_edit_collection"
+msgstr "Si prega di assegnare materiali. Se lo stato di tutti gli elementi assegnati è \"Completato\", lo stato generale viene completato dall'utente."
+
+msgid "trac_end_at"
+msgstr "Data di fine"
+
+msgid "trac_failed"
+msgstr "Non riuscito"
+
+msgid "trac_figure"
+msgstr "Figura chiave"
+
+msgid "trac_filter_area"
+msgstr "Area"
+
+msgid "trac_filter_has_status"
+msgstr "Mostra oggetti non utilizzati"
+
+msgid "trac_filter_hidden"
+msgstr "Nascosto"
+
+msgid "trac_first_access"
+msgstr "Primo accesso"
+
+msgid "trac_first_and_last_access"
+msgstr "Primo e ultimo accesso"
+
+#, fuzzy
+msgid "trac_frm_contribution_num_postings"
+msgstr "Minimum number of Postings"
+
+#, fuzzy
+msgid "trac_frm_contribution_num_postings_info_p"
+msgstr "%s: %s Postings"
+
+#, fuzzy
+msgid "trac_frm_contribution_num_postings_info_s"
+msgstr "%s: %s Posting"
+
+msgid "trac_group_materials"
+msgstr "Crea raggruppamenti con materiali opzionali"
+
+msgid "trac_group_materials_save"
+msgstr "Salva il numero di materiali obbligatori"
+
+msgid "trac_grouped_material_obligatory_err"
+msgstr "Il numero di materiali che devono essere superati deve essere maggiore di 0 e minore del numero di materiali del raggruppamento."
+
+msgid "trac_hide"
+msgstr "Nascondi"
+
+msgid "trac_hide_selected"
+msgstr "Nascondi elementi selezionati"
+
+msgid "trac_in_progress"
+msgstr "In esecuzione"
+
+msgid "trac_info_edited"
+msgstr "Imposta lo stato su \"Completato\" se ritieni di aver elaborato tutto il contenuto."
+
+msgid "trac_last_access"
+msgstr "Ultimo accesso"
+
+msgid "trac_last_aggregation"
+msgstr "Ultimo raggruppamento"
+
+msgid "trac_learning_progress"
+msgstr "Progressi di apprendimento"
+
+msgid "trac_learning_progress_of"
+msgstr "Progressi di apprendimento da %s"
+
+msgid "trac_learning_progress_settings_info"
+msgstr "Attiva la visualizzazione dei seguenti valori nelle tabelle Avanzamento apprendimento:"
+
+msgid "trac_lhist_obj_completed"
+msgstr "$1$ è stato terminato."
+
+msgid "trac_lhist_obj_completed_in"
+msgstr "$1$ è stato completato in $2$."
+
+msgid "trac_log_info"
+msgstr "Ultimo raggruppamento: %s (Elementi non elaborati: %s)"
+
+msgid "trac_log_info_link"
+msgstr "Aggiorna"
+
+msgid "trac_long_system_load"
+msgstr "A lungo termine"
+
+msgid "trac_lp_determination"
+msgstr "Determinazione dello stato di avanzamento dell'apprendimento"
+
+msgid "trac_lp_determination_info_crs"
+msgstr "Seleziona gli elementi che determinano lo stato generale di avanzamento dell'apprendimento del corso."
+
+msgid "trac_lp_determination_info_crs_tutor"
+msgstr "Questa selezione non è connessa allo stato di avanzamento dell'apprendimento."
+
+msgid "trac_lp_determination_info_mob"
+msgstr "Seleziona gli elementi che determinano lo stato generale di avanzamento dell'apprendimento del Mediacast"
+
+msgid "trac_lp_determination_info_sco"
+msgstr "Selezionare gli elementi che determinano lo stato generale di avanzamento dell'apprendimento del modulo di apprendimento SCORM."
+
+msgid "trac_lp_determination_tutor"
+msgstr "Visualizzazione di oggetti in corso di apprendimento"
+
+msgid "trac_lp_learner_access"
+msgstr "Guarda il tuo avanzamento dell'apprendimento"
+
+msgid "trac_lp_learner_access_info"
+msgstr "Se attivo, gli utenti possono accedere al loro stato di progresso di apprendimento."
+
+msgid "trac_lp_list_gui"
+msgstr "Desktop personale, Repository, Ricerca"
+
+msgid "trac_lp_list_gui_info"
+msgstr "Se attivo, lo stato del progresso di apprendimento è incluso nelle liste degli oggetti."
+
+msgid "trac_lp_settings_info_parent_container"
+msgstr "Progressi di apprendimento degli oggetti padre"
+
+msgid "trac_lp_settings_info_parent_legend"
+msgstr "Lo stato del progresso di apprendimento di questo oggetto è influenzato da \"%s\"."
+
+msgid "trac_manual_display"
+msgstr "Mostra in progresso di apprendimento"
+
+msgid "trac_manual_is_displayed"
+msgstr "Determina il progresso di apprendimento"
+
+msgid "trac_manual_no_display"
+msgstr "Non mostrare in progresso di apprendimento"
+
+msgid "trac_mark"
+msgstr "Valutazione"
+
+msgid "trac_matrix"
+msgstr "Visualizzazione matrice"
+
+msgid "trac_measure"
+msgstr "Valore"
+
+msgid "trac_members_short"
+msgstr "Membri"
+
+msgid "trac_min_passed"
+msgstr "Numero minimo di materiali passati:"
+
+msgid "trac_mode"
+msgstr "Modalità in progresso di apprendimento"
+
+msgid "trac_mode_cmix_compl_or_passed_with_failed"
+msgstr "Completato quando è stato inviato il verbo 'completato' o 'passato' o 'soddisfatto'. Il verbo 'Fallito' imposta lo stato di ILIAS su 'Fallito'."
+
+#, fuzzy
+msgid "trac_mode_cmix_compl_or_passed_with_failed_info"
+msgstr "&nbsp;"
+
+msgid "trac_mode_cmix_compl_with_failed"
+msgstr "Completato quando è stato inviato il verbo 'completato'. Il verbo 'Fallito' imposta lo stato di ILIAS su 'Fallito'."
+
+#, fuzzy
+msgid "trac_mode_cmix_compl_with_failed_info"
+msgstr "&nbsp;"
+
+msgid "trac_mode_cmix_completed"
+msgstr "Completato quando è stato inviato il verbo 'completato'. Il verbo \"fallito\" imposta lo stato di ILIAS su \"In corso\"."
+
+#, fuzzy
+msgid "trac_mode_cmix_completed_info"
+msgstr "&nbsp;"
+
+msgid "trac_mode_cmix_completed_or_passed"
+msgstr "Completato quando è stato inviato il verbo 'completato' o 'passato' o 'soddisfatto'. Il verbo \"fallito\" imposta lo stato di ILIAS su \"In corso\"."
+
+#, fuzzy
+msgid "trac_mode_cmix_completed_or_passed_info"
+msgstr "&nbsp;"
+
+msgid "trac_mode_cmix_passed"
+msgstr "Completato quando è stato inviato il verbo 'passato' o 'soddisfatto'. Il verbo \"fallito\" imposta lo stato di ILIAS su \"In corso\"."
+
+#, fuzzy
+msgid "trac_mode_cmix_passed_info"
+msgstr "&nbsp;"
+
+msgid "trac_mode_cmix_passed_with_failed"
+msgstr "Completato quando è stato inviato il verbo 'passato' o 'soddisfatto'. Il verbo 'Failed' imposta lo stato di ILIAS su 'Failed'."
+
+#, fuzzy
+msgid "trac_mode_cmix_passed_with_failed_info"
+msgstr "&nbsp;"
+
+msgid "trac_mode_collection"
+msgstr "Lo stato è determinato sulla base di una selezione di oggetti"
+
+msgid "trac_mode_collection_info"
+msgstr "Lo stato dell'avanzamento dell'apprendimento dell'oggetto è determinato automaticamente dallo stato degli oggetti selezionati. Dopo aver salvato questa impostazione, gli oggetti desiderati possono essere selezionati in questa pagina."
+
+msgid "trac_mode_collection_manual"
+msgstr "L'utente decide autonomamente sullo stato del progresso dell'apprendimento nel rispettivo capitolo."
+
+msgid "trac_mode_collection_manual_info"
+msgstr "Gli utenti decidono da soli quando hanno lavorato con successo a un capitolo del modulo di apprendimento. Non appena hai finito di modificare un capitolo, imposta lo stato di questo capitolo su \"Modificato\" nella scheda \"Informazioni\". Dopo aver salvato queste impostazioni, è possibile selezionare i capitoli in questa pagina per il progresso dell'apprendimento."
+
+msgid "trac_mode_collection_mobs"
+msgstr "Scelta tra gli oggetti multimediali"
+
+msgid "trac_mode_collection_mobs_info"
+msgstr "Lo stato del processo di apprendimento sarà determinato automaticamente dallo stato di visualizzazione degli oggetti multimediali selezionati."
+
+msgid "trac_mode_collection_tlt"
+msgstr "Tempo di apprendimento tipico (per capitolo)"
+
+msgid "trac_mode_collection_tlt_info"
+msgstr "Lo stato di un utente viene impostato automaticamente in base al tempo che questo utente trascorre a lavorare su un capitolo. Lo stato di un capitolo su \"elaborato\" viene fornito se il \"tempo di apprendimento tipico\" di tutti i capitoli rilevanti per il progresso dell'apprendimento viene superato. Dopo aver salvato queste impostazioni, è possibile selezionare i capitoli in questa pagina e definire i \"Tempi di apprendimento tipici\"."
+
+msgid "trac_mode_content_visited"
+msgstr "Visitato"
+
+msgid "trac_mode_content_visited_info"
+msgstr "Lo stato di avanzamento dell'apprendimento è impostato su \"completato\" quando l'oggetto è stato presentato all'utente."
+
+#, fuzzy
+msgid "trac_mode_contribution_to_discussion"
+msgstr "Contributions to Discussion"
+
+#, fuzzy
+msgid "trac_mode_contribution_to_discussion_info"
+msgstr "The learning progress status will be determined by the number of written postings."
+
+msgid "trac_mode_course_reference"
+msgstr "Ripreso dal corso"
+
+msgid "trac_mode_course_reference_info"
+msgstr "La modalità viene adottata automaticamente dal percorso a cui punta questo collegamento al corso."
+
+msgid "trac_mode_deactivated"
+msgstr "I progressi di apprendimento sono stati disattivati"
+
+msgid "trac_mode_deactivated_info_new"
+msgstr "Lo stato di avanzamento dell'apprendimento non verrà visualizzato."
+
+msgid "trac_mode_event"
+msgstr "Partecipazione a sessioni"
+
+msgid "trac_mode_event_info"
+msgstr "Lo stato di avanzamento dell'apprendimento sarà determinato dallo stato di partecipazione."
+
+msgid "trac_mode_exercise_returned"
+msgstr "Il tutor decide lo stato"
+
+msgid "trac_mode_exercise_returned_info"
+msgstr "Lo stato 'Completato' può essere impostato solo dai tutor."
+
+msgid "trac_mode_individual_assessment"
+msgstr "Classificato manualmente dal tutor o dal formatore"
+
+msgid "trac_mode_individual_assessment_info"
+msgstr "La registrazione dell’utente deve essere finalizzata dal tutor al fine di completare l’assegnazione individuale."
+
+msgid "trac_mode_lti_outcome"
+msgstr "Il punteggio master deve essere raggiunto"
+
+msgid "trac_mode_lti_outcome_info"
+msgstr "Il Learning Progress sarà valutato in base al risultato LTI e alla soglia del punteggio di padronanza."
+
+msgid "trac_mode_manual"
+msgstr "L'utente decide autonomamente lo stato del progresso di apprendimento per l'intero oggetto."
+
+msgid "trac_mode_manual_by_tutor"
+msgstr "I tutor monitorano e impostano lo stato"
+
+msgid "trac_mode_manual_by_tutor_info"
+msgstr "Lo stato generale può essere impostato solo dai tutor."
+
+msgid "trac_mode_manual_info"
+msgstr "Gli utenti devono decidere se il loro stato è completato o meno."
+
+msgid "trac_mode_objectives"
+msgstr "Obiettivi formativi"
+
+msgid "trac_mode_objectives_info"
+msgstr "Il progresso dell'apprendimento verrà calcolato automaticamente in base al numero di obiettivi di apprendimento superati."
+
+msgid "trac_mode_plugin"
+msgstr "Plug-in"
+
+msgid "trac_mode_questions"
+msgstr "E' stato risposto correttamente a tutte le domande"
+
+msgid "trac_mode_questions_info"
+msgstr "Gli utenti che hanno risposto correttamente a tutte le domande otterranno lo stato \"Completato\"."
+
+msgid "trac_mode_scorm"
+msgstr "Lo stato è determinato sulla base di una selezione di capitoli SCORM (per SCO)"
+
+msgid "trac_mode_scorm_info"
+msgstr "Lo stato del progresso di apprendimento dell'intero modulo di apprendimento è determinato automaticamente dallo stato dei capitoli selezionati (SCO). Dopo aver salvato questa impostazione, gli SCO desiderati possono essere selezionati in questa pagina."
+
+msgid "trac_mode_scorm_package"
+msgstr "Lo stato è determinato dal pacchetto SCORM (intero modulo di apprendimento)"
+
+msgid "trac_mode_scorm_package_info"
+msgstr "Lo stato di un utente viene impostato automaticamente su \"Completato\" quando l'intero modulo di apprendimento è stato elaborato. Tutti gli SCO contenuti nel pacchetto vengono presi in considerazione nel processo di apprendimento."
+
+msgid "trac_mode_study_programme"
+msgstr "Programma di studio completato"
+
+msgid "trac_mode_survey_finished"
+msgstr "Sondaggio terminato"
+
+msgid "trac_mode_survey_finished_info"
+msgstr "Il sondaggio deve essere terminato da un utente per ricevere lo stato di 'Completato'."
+
+msgid "trac_mode_test_finished"
+msgstr "Gli utenti devono completare completamente un test."
+
+msgid "trac_mode_test_finished_info"
+msgstr "Lo stato di un utente viene impostato automaticamente su \"Modificato\" dopo che l'utente ha fatto clic su \"Termina test\". Non importa se l'utente ha superato o meno il test."
+
+msgid "trac_mode_test_passed"
+msgstr "Gli utenti devono superare completamente un test."
+
+msgid "trac_mode_test_passed_info"
+msgstr "Lo stato di un utente viene impostato automaticamente su \"Modificato\" dopo che l'utente ha superato il test. Nella scheda \"Impostazioni\", nella sezione \"Schema di valutazione\", è possibile impostare i valori di soglia per il superamento del test."
+
+msgid "trac_mode_tlt"
+msgstr "Tempo di apprendimento minimo per l'intero modulo di apprendimento"
+
+msgid "trac_mode_tlt_info"
+msgstr "Lo stato di un utente viene impostato automaticamente in base al tempo che questo utente trascorre lavorando sul modulo di apprendimento. Lo stato \"elaborato\" viene assegnato non appena il \"tempo di apprendimento tipico\" è stato superato. Il \"Tempo di apprendimento tipico\" del modulo di apprendimento è specificato nella scheda \"Metadati\"."
+
+msgid "trac_mode_visited_pages"
+msgstr "Pagine visitate"
+
+msgid "trac_mode_visited_pages_info"
+msgstr "Gli utenti che hanno visitato tutte le pagine otterranno lo stato \"Completato\"."
+
+msgid "trac_mode_visits"
+msgstr "Lo stato viene determinato in base al numero di accessi"
+
+msgid "trac_mode_visits_info"
+msgstr "Lo stato di un utente viene impostato automaticamente su \"Completato\" se l'utente ha richiamato il modulo di apprendimento più spesso del numero minimo di chiamate richiesto. Gli utenti possono vedere il numero di chiamate effettuate e la percentuale che soddisfano i requisiti minimi."
+
+msgid "trac_name_of_installation"
+msgstr "Nome dell’installazione"
+
+msgid "trac_no_attempted"
+msgstr "Non eseguito"
+
+msgid "trac_not_accessed"
+msgstr "Non accceduto"
+
+msgid "trac_not_assigned"
+msgstr "Non assegnato"
+
+msgid "trac_not_attempted"
+msgstr "Non cominciato"
+
+msgid "trac_not_completed"
+msgstr "Non completato"
+
+msgid "trac_not_participated"
+msgstr "Non partecipato"
+
+msgid "trac_not_registered"
+msgstr "Non registrato"
+
+msgid "trac_object_link"
+msgstr "Collega all’oggetto"
+
+msgid "trac_object_name"
+msgstr "Nome dell’oggetto"
+
+msgid "trac_object_owner"
+msgstr "Proprietario dell'oggetto"
+
+msgid "trac_object_stat_access"
+msgstr "Intensità di utilizzo"
+
+msgid "trac_object_stat_admin"
+msgstr "Gestisci dati"
+
+msgid "trac_object_stat_daily"
+msgstr "Utilizzo giornaliero"
+
+msgid "trac_object_stat_lp"
+msgstr "Corso di statistica dello stato di apprendimento"
+
+msgid "trac_object_stat_lp_max"
+msgstr "Max."
+
+msgid "trac_object_stat_lp_min"
+msgstr "Min."
+
+msgid "trac_object_stat_types"
+msgstr "Numero degli oggetti"
+
+msgid "trac_object_statistics"
+msgstr "Statistiche dell'oggetto"
+
+msgid "trac_object_statistics_info"
+msgstr "Se attivati, i dati di base per le statistiche di utilizzo saranno raccolti ed elaborati."
+
+msgid "trac_objects"
+msgstr "Liste di oggetti"
+
+msgid "trac_others"
+msgstr "Altri"
+
+msgid "trac_participants"
+msgstr "Mostra partecipanti"
+
+msgid "trac_participated"
+msgstr "Partecipato"
+
+#, fuzzy
+msgid "trac_paths"
+msgstr "Paths"
+
+msgid "trac_percentage"
+msgstr "Percentuale"
+
+msgid "trac_periodic_system_load"
+msgstr "Visualizzazione periodica del carico"
+
+msgid "trac_progress"
+msgstr "Progressi didattici personali"
+
+#, fuzzy
+msgid "trac_progress_block_details"
+msgstr "View Details"
+
+#, fuzzy
+msgid "trac_progress_block_title"
+msgstr "Your Learning Progress"
+
+msgid "trac_read_count"
+msgstr "Numero di accessi"
+
+msgid "trac_read_count_spent_seconds"
+msgstr "Tempo impiegato/Accessi"
+
+msgid "trac_reference"
+msgstr "Riferimenti"
+
+#, fuzzy
+msgid "trac_reference_ids_column"
+msgstr "Reference-Ids"
+
+msgid "trac_registered"
+msgstr "Registrato"
+
+msgid "trac_release_materials"
+msgstr "Sciogliere il raggruppamento con materiali opzionali"
+
+msgid "trac_report_date"
+msgstr "Data della segnalazione"
+
+msgid "trac_report_owner"
+msgstr "Titolare della segnalazione"
+
+msgid "trac_required_visits"
+msgstr "Numero di accessi richiesto"
+
+msgid "trac_sahs_relevant_items"
+msgstr "SCO"
+
+msgid "trac_scale"
+msgstr "Scala"
+
+msgid "trac_select_area"
+msgstr "Seleziona area"
+
+msgid "trac_session_active_avg"
+msgstr "Sessioni attive (media)"
+
+msgid "trac_session_active_max"
+msgstr "Sessione attive (massimo)"
+
+msgid "trac_session_active_min"
+msgstr "Sessioni attive (minimo)"
+
+msgid "trac_session_statistics_mode_day"
+msgstr "Giorno"
+
+msgid "trac_session_statistics_mode_last_day"
+msgstr "Ultime 24 ore"
+
+msgid "trac_session_statistics_mode_last_month"
+msgstr "Ultimi 30 giorni"
+
+msgid "trac_session_statistics_mode_last_week"
+msgstr "Ultimi 7 giorni"
+
+msgid "trac_session_statistics_mode_month"
+msgstr "Mese"
+
+msgid "trac_session_statistics_mode_today"
+msgstr "Oggi"
+
+msgid "trac_session_statistics_mode_week"
+msgstr "Settimana"
+
+msgid "trac_session_statistics_mode_year"
+msgstr "Anno"
+
+msgid "trac_session_statistics_no_data"
+msgstr "Non ci sono dati per queste statistiche."
+
+msgid "trac_sessions_closed"
+msgstr "Uscite"
+
+msgid "trac_sessions_opened"
+msgstr "Accessi"
+
+msgid "trac_settings"
+msgstr "Impostazioni"
+
+msgid "trac_settings_saved"
+msgstr "Le impostazioni sono state salvate"
+
+msgid "trac_short_system_load"
+msgstr "Storia a breve termine"
+
+msgid "trac_show_graph"
+msgstr "Mostra come grafico"
+
+#, fuzzy
+msgid "trac_show_progress_block"
+msgstr "Show Personal Progress Chart in ‘Content’-Tab"
+
+msgid "trac_show_repository_views"
+msgstr "Mostra numero di accessi"
+
+msgid "trac_show_repository_views_info"
+msgstr "Mostra le informazioni di accesso per gli oggetti del repository nella pagina informazioni."
+
+msgid "trac_spent_seconds"
+msgstr "Tempo trascorso"
+
+msgid "trac_spent_time"
+msgstr "Tempo trascorso"
+
+msgid "trac_status"
+msgstr "Stato"
+
+msgid "trac_status_changed"
+msgstr "Ultima modifica dello stato"
+
+msgid "trac_subitems"
+msgstr "Mostra elementi secondari"
+
+msgid "trac_sum"
+msgstr "Somma"
+
+msgid "trac_summary"
+msgstr "Riepilogo"
+
+msgid "trac_sure_delete_data"
+msgstr "Vuoi davvero cancellare i dati per i mesi successivi? Ciò rimuove le seguenti statistiche per questo periodo: intensità di utilizzo, corso della giornata, statistiche sullo stato di apprendimento del corso e numero di oggetti."
+
+msgid "trac_sync_obj_stats"
+msgstr "Aggiorna dati"
+
+msgid "trac_sync_obj_stats_success"
+msgstr "I dati sono stati aggiornati."
+
+msgid "trac_sync_session_stats"
+msgstr "Raggruppa dati"
+
+msgid "trac_sync_session_stats_success"
+msgstr "I dati sono stati raggruppati con successo."
+
+msgid "trac_time_passed"
+msgstr "Tempo di elaborazione superato"
+
+msgid "trac_title"
+msgstr "Titolo"
+
+msgid "trac_title_description"
+msgstr "Titolo/Descrizione"
+
+msgid "trac_total_online"
+msgstr "Tempo totale di connessione"
+
+msgid "trac_trash"
+msgstr "di cui nel cestino"
+
+msgid "trac_update_edit_user"
+msgstr "Impostazioni salvate"
+
+msgid "trac_updated_status"
+msgstr "Stato dei progressi didattici salvato"
+
+msgid "trac_user_data"
+msgstr "Dati utente"
+
+msgid "trac_valid_request"
+msgstr "Tempo max. tra due richieste"
+
+msgid "trac_view_crs"
+msgstr "Torna al corso"
+
+msgid "trac_view_list"
+msgstr "Torna alla lista"
+
+msgid "trac_view_mode"
+msgstr "Visualizza modalità"
+
+msgid "trac_view_mode_all"
+msgstr "Tutti gli oggetti"
+
+msgid "trac_view_mode_collection"
+msgstr "Solo gli oggetti che determinano lo stato generale"
+
+msgid "trac_visits"
+msgstr "Numero minimo di chiamate"
+
+msgid "trac_visits_info"
+msgstr "Una chiamata viene conteggiata come una nuova chiamata solo dopo %s secondi."
+
+#, fuzzy
+msgid "trac_visits_nr"
+msgstr "Number of Visits"
+
+msgid "user_total"
+msgstr "Totale utenti"
+
+msgid "view_mode"
+msgstr "Visualizza modalità"
+
+#, fuzzy
+msgid "view_mode_all"
+msgstr "All"
+
+#, fuzzy
+msgid "view_mode_current"
+msgstr "Current"
+
+#, fuzzy
+msgid "view_mode_future"
+msgstr "Future"
+
+#, fuzzy
+msgid "view_mode_past"
+msgstr "Past"

@@ -1,0 +1,349 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: da\n"
+"Language-Team: Danish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: ps\n"
+
+#, fuzzy
+msgid "cdf_edited_by_self"
+msgstr "by the User"
+
+#, fuzzy
+msgid "crs_ps_cdf_info"
+msgstr "Further Course-Specific Data:"
+
+#, fuzzy
+msgid "crs_ps_required_info"
+msgstr "Further Course-Specific fields are required for accessing the course content."
+
+#, fuzzy
+msgid "grp_ps_cdf_info"
+msgstr "Further Group-Specific Data:"
+
+#, fuzzy
+msgid "grp_ps_required_info"
+msgstr "Further Group-Specific fields are required for accessing the group content."
+
+#, fuzzy
+msgid "ps_agreement_accepted"
+msgstr "User Agreement Accepted"
+
+#, fuzzy
+msgid "ps_auto_https"
+msgstr "Autodetect HTTPS"
+
+msgid "ps_auto_https_description"
+msgstr "Hvis aktiveret forsøger ILIAS selt at opdage HTTPS status ved at analysere header værdien neden for."
+
+msgid "ps_auto_https_header_name"
+msgstr "Header navn"
+
+msgid "ps_auto_https_header_value"
+msgstr "Header værdi"
+
+msgid "ps_btn_add_value"
+msgstr "Ny værdi"
+
+msgid "ps_cdf_add_field"
+msgstr "Tilføj brugerfelt"
+
+msgid "ps_cdf_added_field"
+msgstr "Rullemenu tilføjet."
+
+#, fuzzy
+msgid "ps_cdf_data_fields"
+msgstr "Available User Fields"
+
+msgid "ps_cdf_delete_sure"
+msgstr "Ønsker du at slette brugerfelterne?"
+
+#, fuzzy
+msgid "ps_cdf_deleted"
+msgstr "Deleted user fields"
+
+#, fuzzy
+msgid "ps_cdf_deleted_field"
+msgstr "Deleted value"
+
+#, fuzzy
+msgid "ps_cdf_edit_field"
+msgstr "Edit Data Field"
+
+msgid "ps_cdf_name"
+msgstr "Navn"
+
+msgid "ps_cdf_no_fields"
+msgstr "Ingen brugerfelter defineret"
+
+msgid "ps_cdf_no_name_given"
+msgstr "Indtast et navn."
+
+msgid "ps_cdf_required"
+msgstr "Krævet felt"
+
+#, fuzzy
+msgid "ps_cdf_select_one"
+msgstr "Please select one."
+
+#, fuzzy
+msgid "ps_cdf_type"
+msgstr "Type"
+
+msgid "ps_cdf_value"
+msgstr "Værdi"
+
+#, fuzzy
+msgid "ps_cdf_warning_modify"
+msgstr "Attention: Minimum one user has accepted the user agreement. Modifying these course specific fields will reset all user agreements."
+
+msgid "ps_crs_user_fields"
+msgstr "Kursusspecifikke felter"
+
+#, fuzzy
+msgid "ps_error_message_https_header_missing"
+msgstr "If you enable the automatic https detection you have to provide a header name and header value."
+
+#, fuzzy
+msgid "ps_error_message_invalid_login_max_attempts"
+msgstr "Maximum login attempts may not be less than 0."
+
+#, fuzzy
+msgid "ps_error_message_invalid_password_max_age"
+msgstr "Maximum password age may not be less than 0."
+
+#, fuzzy
+msgid "ps_error_message_invalid_password_max_length"
+msgstr "Maximum password size may not be less than 0."
+
+#, fuzzy
+msgid "ps_error_message_invalid_password_min_length"
+msgstr "Minimum password size may not be less than 0."
+
+msgid "ps_error_message_password_max_less_min"
+msgstr "Maksimal password længde må ikke være mindre end mindste længde. doh!."
+
+#, fuzzy
+msgid "ps_error_message_password_min1_because_chars"
+msgstr "Minimum password size may not be less than %s."
+
+#, fuzzy
+msgid "ps_error_message_password_min2_because_chars_numbers"
+msgstr "Minimum password size may not be less than 2 if password have to contain characters and numbers."
+
+#, fuzzy
+msgid "ps_error_message_password_min3_because_chars_numbers_sc"
+msgstr "Minimum password size may not be less than 3 if password have to contain characters, numbers and special characters."
+
+msgid "ps_export_admin"
+msgstr "Administratorer"
+
+#. Needs improvement!
+msgid "ps_export_confirm"
+msgstr "Brugerbekræftelse ved tilmelding til kurser"
+
+#. Needs improvement!
+#, fuzzy
+msgid "ps_export_confirm_group"
+msgstr "User Confirmation when Entering Groups"
+
+#, fuzzy
+msgid "ps_export_confirm_group_info"
+msgstr "When joining a group, users are required to accept that their personal data can be viewed by the group admins."
+
+#, fuzzy
+msgid "ps_export_confirm_info"
+msgstr "When joining a course, users are required to accept that their personal data can be viewed by the course admins."
+
+msgid "ps_export_course"
+msgstr "Eksport af avancerede profildata i kurser"
+
+msgid "ps_export_data"
+msgstr "Datatyper for personlig profil"
+
+msgid "ps_export_excel"
+msgstr "Start eksport til Excel"
+
+msgid "ps_export_files"
+msgstr "Eksportfiler"
+
+#, fuzzy
+msgid "ps_export_groups"
+msgstr "Visibility of User Profile Data in Groups"
+
+msgid "ps_export_member"
+msgstr "Medlemmer"
+
+#, fuzzy
+msgid "ps_export_prgs"
+msgstr "Allow export of user profile data in Study Programmes"
+
+msgid "ps_export_settings"
+msgstr "Eksport indstillinger"
+
+msgid "ps_export_sub"
+msgstr "Abonnenter"
+
+msgid "ps_export_tutor"
+msgstr "Tutorer"
+
+msgid "ps_export_user_data"
+msgstr "Datatyper"
+
+msgid "ps_export_wait"
+msgstr "Brugere på venteliste"
+
+msgid "ps_field_type"
+msgstr "Felttype"
+
+msgid "ps_files_deleted"
+msgstr "Eksportfiler slettet"
+
+#, fuzzy
+msgid "ps_grp_user_fields"
+msgstr "Group-Specific User Fields"
+
+msgid "ps_login_max_attempts"
+msgstr "Maksimale login forsøg"
+
+msgid "ps_login_max_attempts_info"
+msgstr "Sætter det maksimale antal forkerte loginforsøg. Hvis 0 er der intet øvre loft."
+
+msgid "ps_not_accepted"
+msgstr "Ikke accepteret"
+
+#, fuzzy
+msgid "ps_participants_list_courses"
+msgstr "Allow Activation of Participant Lists in the Member Gallery of Courses"
+
+#, fuzzy
+msgid "ps_passwd_policy_change_force_user_reset_succ"
+msgstr "The changes have been successfully applied."
+
+#, fuzzy
+msgid "ps_passwd_policy_changed_force_user_reset"
+msgstr "The changes were saved successfully. You just modified at least one password policy setting. Should local users be forced to change their password after the next successful login?"
+
+msgid "ps_password_change_on_first_login_enabled"
+msgstr "Vælg password ved første login"
+
+msgid "ps_password_change_on_first_login_enabled_info"
+msgstr "Brugere tvinges til at ændre deres password ved første login med mindre de har oprettet sig selv og dermed allerede valgt et personligt password."
+
+msgid "ps_password_chars_and_numbers_enabled"
+msgstr "Karakterer og tal"
+
+msgid "ps_password_chars_and_numbers_enabled_info"
+msgstr "Tvinger brugere til at anvende passwords med både bogstaver og tal."
+
+#, fuzzy
+msgid "ps_password_force_user_reset"
+msgstr "Force Password Reset"
+
+msgid "ps_password_max_age"
+msgstr "Maksimal password alder"
+
+msgid "ps_password_max_age_info"
+msgstr "Sætter tidsfrister (i dage) på brugen af passwords, så brugeren er tvunget til at ændre med jævne mellemrum."
+
+msgid "ps_password_max_length"
+msgstr "Maksimal password længde"
+
+msgid "ps_password_max_length_info"
+msgstr "Bestemmer den maksimale længede på passwords. 0 er ubegrænset."
+
+msgid "ps_password_min_length"
+msgstr "Mindste password længde"
+
+msgid "ps_password_min_length_info"
+msgstr "Det mindste antal karakterer et password må indeholde. Mindst 1 karakter, selvom værdien 0."
+
+#, fuzzy
+msgid "ps_password_settings"
+msgstr "Password Settings"
+
+msgid "ps_password_special_chars_enabled"
+msgstr "Specielle karakterer"
+
+msgid "ps_password_special_chars_enabled_info"
+msgstr "Tvinger brugeren til at vælge passwords der indeholder specielle tegn."
+
+msgid "ps_perform_export"
+msgstr "Start CSV eksport"
+
+msgid "ps_prevent_simultaneous_logins"
+msgstr "Forhindrer flere samtidige logins"
+
+#, fuzzy
+msgid "ps_prevent_simultaneous_logins_info"
+msgstr "If enabled, simultaneous logins with the same account from different computers are not possible."
+
+msgid "ps_privacy_protection"
+msgstr "Privatlivsindstillinger"
+
+msgid "ps_profile_export"
+msgstr "Beskyttelse af brugerprofiler"
+
+msgid "ps_security_protection"
+msgstr "Sikkerhedsindstillinger"
+
+msgid "ps_select_one"
+msgstr "Vælg venligst en eksportfil"
+
+msgid "ps_show_crs_access"
+msgstr "Vis hvornår deltagere sidst besøgte kurset."
+
+msgid "ps_show_grp_access"
+msgstr "Vis dato for gruppemedlemmers sidste besøg"
+
+#, fuzzy
+msgid "ps_show_lso_access"
+msgstr "Show last access time of learning sequence participants"
+
+msgid "ps_size"
+msgstr "Filstørrelser"
+
+#, fuzzy
+msgid "ps_type_select"
+msgstr "Select Field"
+
+msgid "ps_type_select_long"
+msgstr "Rullemenu (faste værdier)"
+
+msgid "ps_type_text"
+msgstr "Tekstfelt"
+
+msgid "ps_type_txt_long"
+msgstr "Tekstfelt (valgfrie værdier)"
+
+msgid "ps_user_selection"
+msgstr "Valg af deltageree"
+
+#, fuzzy
+msgid "ps_warning_modify"
+msgstr "Attention: Minimum one user has accepted the user agreement. Modifying these settings will reset all user agreements."
+
+#, fuzzy
+msgid "rbac_log"
+msgstr "Permission Log"
+
+#, fuzzy
+msgid "rbac_log_age"
+msgstr "Keep Log Entries "
+
+#, fuzzy
+msgid "rbac_log_age_info"
+msgstr "Maximum age of log entries in month"
+
+#, fuzzy
+msgid "rbac_log_info"
+msgstr "Enable logging of all changes to object permissions"
+
+msgid "show_privacy"
+msgstr "Privacy"
+
+msgid "show_security"
+msgstr "Sikkerhed"

@@ -1,0 +1,53 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: copa\n"
+
+#, fuzzy
+msgid "copa_activation_online_info"
+msgstr "Set the Content Page online to make it visible and available to other users. If not, only administrators will have access to it."
+
+msgid "copa_add"
+msgstr "Ilimitado"
+
+msgid "copa_btn_lp_toggle_state_completed"
+msgstr "Período de disponibilidade limitada"
+
+msgid "copa_btn_lp_toggle_state_not_completed"
+msgstr "Os participantes são recrutados da lista de espera automaticamente aquando cancelamentos. Isso não deve ser usado com o procedimento de registo “Pedir adesão”, uma vez que o autopreenchimento vai contornar isso."
+
+msgid "copa_copy"
+msgstr "Se o número máximo de utilizadores for excedido, os novos registos ficarão em lista de espera."
+
+msgid "copa_edit"
+msgstr "O número máximo de membros do curso foi excedido. Pode definir-se a si próprio na lista de espera. Receberá uma mensagem de um administrador do curso quando o seu pedido for aprovado ou rejeitado."
+
+msgid "copa_import"
+msgstr "Guardar"
+
+msgid "copa_new"
+msgstr "Os materiais atribuídos são apresentados diretamente por baixo da sessão."
+
+#, fuzzy
+msgid "copa_page_type_copa"
+msgstr "Content Page"
+
+#, fuzzy
+msgid "copa_prop_reading_time"
+msgstr "Reading Time"
+
+#, fuzzy
+msgid "copa_value_reading_time_f_p"
+msgstr "%s Minutes"
+
+#, fuzzy
+msgid "copa_value_reading_time_f_s"
+msgstr "%s Minute"
+
+msgid "obj_copa_duplicate"
+msgstr "Atribuição de materiais"

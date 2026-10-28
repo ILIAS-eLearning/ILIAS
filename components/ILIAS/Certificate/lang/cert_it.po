@@ -1,0 +1,57 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: cert\n"
+
+msgid "cert_currently_no_certs"
+msgstr "Al momento non hai ancora ottenuto alcun certificato."
+
+msgid "cert_description_label"
+msgstr "Descrizione"
+
+msgid "cert_download_label"
+msgstr "Scarica"
+
+msgid "cert_error_no_access"
+msgstr "Non hai accesso a questo certificato."
+
+msgid "cert_issued_on_label"
+msgstr "Rilasciato il"
+
+msgid "cert_object_label"
+msgstr "Oggetto"
+
+msgid "cert_sortable_by_issue_date_asc"
+msgstr "Crescente per data di rilascio"
+
+msgid "cert_sortable_by_issue_date_desc"
+msgstr "Discendente in base alla data di rilascio"
+
+msgid "cert_sortable_by_title_asc"
+msgstr "Crescente per titolo"
+
+msgid "cert_sortable_by_title_desc"
+msgstr "Decrescente per titolo"
+
+msgid "certificate_achievement"
+msgstr "%1$s raggiunto."
+
+msgid "certificate_achievement_sub_obj"
+msgstr "Certificato per %1$s"
+
+msgid "certificate_no_object_title"
+msgstr "Nessun titolo di oggetto disponibile"
+
+msgid "certificate_same_not_saved"
+msgstr "Nessuna nuova versione del modello di certificato è stata salvata perché i valori non sono cambiati."
+
+msgid "error_creating_certificate_pdf"
+msgstr "Non è stato possibile creare il certificato. Si prega di contattare l'amministratore per verificare il server dei certificati."
+
+msgid "user_certificates"
+msgstr "Certificazioni"

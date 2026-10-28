@@ -1,0 +1,795 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: trac\n"
+
+msgid "cmix_lp_mode_deactivated"
+msgstr ""
+
+msgid "cmix_lp_mode_deactivated_info"
+msgstr ""
+
+msgid "cmix_lp_mode_when_completed"
+msgstr ""
+
+msgid "cmix_lp_mode_when_completed_info"
+msgstr ""
+
+msgid "cmix_lp_mode_when_passed"
+msgstr ""
+
+msgid "cmix_lp_mode_when_passed_info"
+msgstr ""
+
+msgid "cmix_lp_mode_when_passed_or_completed"
+msgstr ""
+
+msgid "cmix_lp_mode_when_passed_or_completed_info"
+msgstr ""
+
+msgid "cmix_lp_mode_with_failed"
+msgstr ""
+
+msgid "cmix_lp_mode_with_failed_info"
+msgstr ""
+
+msgid "create_date_max"
+msgstr ""
+
+msgid "create_date_min"
+msgstr ""
+
+msgid "info_valid_request"
+msgstr ""
+
+msgid "meta_typical_learning_time"
+msgstr ""
+
+msgid "obj_types"
+msgstr ""
+
+msgid "personal_learning_progress_view_description"
+msgstr ""
+
+msgid "personal_learning_progress_view_title"
+msgstr ""
+
+msgid "read_count_avg"
+msgstr ""
+
+msgid "registration_filter"
+msgstr ""
+
+msgid "search_area_info"
+msgstr ""
+
+msgid "search_terms"
+msgstr ""
+
+msgid "session_statistics"
+msgstr ""
+
+msgid "trac_aggregation"
+msgstr ""
+
+msgid "trac_all"
+msgstr ""
+
+msgid "trac_anonymized"
+msgstr ""
+
+msgid "trac_anonymized_info"
+msgstr ""
+
+msgid "trac_anonymized_info_short"
+msgstr ""
+
+msgid "trac_assigned"
+msgstr ""
+
+msgid "trac_average"
+msgstr ""
+
+msgid "trac_begin_at"
+msgstr ""
+
+msgid "trac_closed_expire"
+msgstr ""
+
+msgid "trac_closed_login"
+msgstr ""
+
+msgid "trac_closed_manual"
+msgstr ""
+
+msgid "trac_closed_misc"
+msgstr ""
+
+msgid "trac_collection_assign"
+msgstr ""
+
+msgid "trac_collection_deassign"
+msgstr ""
+
+msgid "trac_collection_manual_learner_changed_ts"
+msgstr ""
+
+msgid "trac_collection_manual_learner_info"
+msgstr ""
+
+msgid "trac_collection_manual_learner_lm_info"
+msgstr ""
+
+msgid "trac_collection_tlt_learner_info"
+msgstr ""
+
+msgid "trac_collection_tlt_learner_subitem"
+msgstr ""
+
+msgid "trac_comment"
+msgstr ""
+
+msgid "trac_completed"
+msgstr ""
+
+msgid "trac_cron_info"
+msgstr ""
+
+msgid "trac_crs_objects"
+msgstr ""
+
+msgid "trac_current"
+msgstr ""
+
+msgid "trac_current_system_load"
+msgstr ""
+
+msgid "trac_data_deleted"
+msgstr ""
+
+msgid "trac_defaults"
+msgstr ""
+
+msgid "trac_defaults_inactive"
+msgstr ""
+
+msgid "trac_defaults_info"
+msgstr ""
+
+msgid "trac_delete_data"
+msgstr ""
+
+msgid "trac_determines_learning_progress"
+msgstr ""
+
+msgid "trac_edit_collection"
+msgstr ""
+
+msgid "trac_end_at"
+msgstr ""
+
+msgid "trac_failed"
+msgstr ""
+
+msgid "trac_figure"
+msgstr ""
+
+msgid "trac_filter_area"
+msgstr ""
+
+msgid "trac_filter_has_status"
+msgstr ""
+
+msgid "trac_filter_hidden"
+msgstr ""
+
+msgid "trac_first_access"
+msgstr ""
+
+msgid "trac_first_and_last_access"
+msgstr ""
+
+msgid "trac_frm_contribution_num_postings"
+msgstr ""
+
+msgid "trac_frm_contribution_num_postings_info_p"
+msgstr ""
+
+msgid "trac_frm_contribution_num_postings_info_s"
+msgstr ""
+
+msgid "trac_group_materials"
+msgstr ""
+
+msgid "trac_group_materials_save"
+msgstr ""
+
+msgid "trac_grouped_material_obligatory_err"
+msgstr ""
+
+msgid "trac_hide"
+msgstr ""
+
+msgid "trac_hide_selected"
+msgstr ""
+
+msgid "trac_in_progress"
+msgstr ""
+
+msgid "trac_info_edited"
+msgstr ""
+
+msgid "trac_last_access"
+msgstr ""
+
+msgid "trac_last_aggregation"
+msgstr ""
+
+msgid "trac_learning_progress"
+msgstr ""
+
+msgid "trac_learning_progress_of"
+msgstr ""
+
+msgid "trac_learning_progress_settings_info"
+msgstr ""
+
+msgid "trac_lhist_obj_completed"
+msgstr ""
+
+msgid "trac_lhist_obj_completed_in"
+msgstr ""
+
+msgid "trac_log_info"
+msgstr ""
+
+msgid "trac_log_info_link"
+msgstr ""
+
+msgid "trac_long_system_load"
+msgstr ""
+
+msgid "trac_lp_determination"
+msgstr ""
+
+msgid "trac_lp_determination_info_crs"
+msgstr ""
+
+msgid "trac_lp_determination_info_crs_tutor"
+msgstr ""
+
+msgid "trac_lp_determination_info_mob"
+msgstr ""
+
+msgid "trac_lp_determination_info_sco"
+msgstr ""
+
+msgid "trac_lp_determination_tutor"
+msgstr ""
+
+msgid "trac_lp_learner_access"
+msgstr ""
+
+msgid "trac_lp_learner_access_info"
+msgstr ""
+
+msgid "trac_lp_list_gui"
+msgstr ""
+
+msgid "trac_lp_list_gui_info"
+msgstr ""
+
+msgid "trac_lp_settings_info_parent_container"
+msgstr ""
+
+msgid "trac_lp_settings_info_parent_legend"
+msgstr ""
+
+msgid "trac_manual_display"
+msgstr ""
+
+msgid "trac_manual_is_displayed"
+msgstr ""
+
+msgid "trac_manual_no_display"
+msgstr ""
+
+msgid "trac_mark"
+msgstr ""
+
+msgid "trac_matrix"
+msgstr ""
+
+msgid "trac_measure"
+msgstr ""
+
+msgid "trac_members_short"
+msgstr ""
+
+msgid "trac_min_passed"
+msgstr ""
+
+msgid "trac_mode"
+msgstr ""
+
+msgid "trac_mode_cmix_compl_or_passed_with_failed"
+msgstr ""
+
+msgid "trac_mode_cmix_compl_or_passed_with_failed_info"
+msgstr ""
+
+msgid "trac_mode_cmix_compl_with_failed"
+msgstr ""
+
+msgid "trac_mode_cmix_compl_with_failed_info"
+msgstr ""
+
+msgid "trac_mode_cmix_completed"
+msgstr ""
+
+msgid "trac_mode_cmix_completed_info"
+msgstr ""
+
+msgid "trac_mode_cmix_completed_or_passed"
+msgstr ""
+
+msgid "trac_mode_cmix_completed_or_passed_info"
+msgstr ""
+
+msgid "trac_mode_cmix_passed"
+msgstr ""
+
+msgid "trac_mode_cmix_passed_info"
+msgstr ""
+
+msgid "trac_mode_cmix_passed_with_failed"
+msgstr ""
+
+msgid "trac_mode_cmix_passed_with_failed_info"
+msgstr ""
+
+msgid "trac_mode_collection"
+msgstr ""
+
+msgid "trac_mode_collection_info"
+msgstr ""
+
+msgid "trac_mode_collection_manual"
+msgstr ""
+
+msgid "trac_mode_collection_manual_info"
+msgstr ""
+
+msgid "trac_mode_collection_mobs"
+msgstr ""
+
+msgid "trac_mode_collection_mobs_info"
+msgstr ""
+
+msgid "trac_mode_collection_tlt"
+msgstr ""
+
+msgid "trac_mode_collection_tlt_info"
+msgstr ""
+
+msgid "trac_mode_content_visited"
+msgstr ""
+
+msgid "trac_mode_content_visited_info"
+msgstr ""
+
+msgid "trac_mode_contribution_to_discussion"
+msgstr ""
+
+msgid "trac_mode_contribution_to_discussion_info"
+msgstr ""
+
+msgid "trac_mode_course_reference"
+msgstr ""
+
+msgid "trac_mode_course_reference_info"
+msgstr ""
+
+msgid "trac_mode_deactivated"
+msgstr ""
+
+msgid "trac_mode_deactivated_info_new"
+msgstr ""
+
+msgid "trac_mode_event"
+msgstr ""
+
+msgid "trac_mode_event_info"
+msgstr ""
+
+msgid "trac_mode_exercise_returned"
+msgstr ""
+
+msgid "trac_mode_exercise_returned_info"
+msgstr ""
+
+msgid "trac_mode_individual_assessment"
+msgstr ""
+
+msgid "trac_mode_individual_assessment_info"
+msgstr ""
+
+msgid "trac_mode_lti_outcome"
+msgstr ""
+
+msgid "trac_mode_lti_outcome_info"
+msgstr ""
+
+msgid "trac_mode_manual"
+msgstr ""
+
+msgid "trac_mode_manual_by_tutor"
+msgstr ""
+
+msgid "trac_mode_manual_by_tutor_info"
+msgstr ""
+
+msgid "trac_mode_manual_info"
+msgstr ""
+
+msgid "trac_mode_objectives"
+msgstr ""
+
+msgid "trac_mode_objectives_info"
+msgstr ""
+
+msgid "trac_mode_plugin"
+msgstr ""
+
+msgid "trac_mode_questions"
+msgstr ""
+
+msgid "trac_mode_questions_info"
+msgstr ""
+
+msgid "trac_mode_scorm"
+msgstr ""
+
+msgid "trac_mode_scorm_info"
+msgstr ""
+
+msgid "trac_mode_scorm_package"
+msgstr ""
+
+msgid "trac_mode_scorm_package_info"
+msgstr ""
+
+msgid "trac_mode_study_programme"
+msgstr ""
+
+msgid "trac_mode_survey_finished"
+msgstr ""
+
+msgid "trac_mode_survey_finished_info"
+msgstr ""
+
+msgid "trac_mode_test_finished"
+msgstr ""
+
+msgid "trac_mode_test_finished_info"
+msgstr ""
+
+msgid "trac_mode_test_passed"
+msgstr ""
+
+msgid "trac_mode_test_passed_info"
+msgstr ""
+
+msgid "trac_mode_tlt"
+msgstr ""
+
+msgid "trac_mode_tlt_info"
+msgstr ""
+
+msgid "trac_mode_visited_pages"
+msgstr ""
+
+msgid "trac_mode_visited_pages_info"
+msgstr ""
+
+msgid "trac_mode_visits"
+msgstr ""
+
+msgid "trac_mode_visits_info"
+msgstr ""
+
+msgid "trac_name_of_installation"
+msgstr ""
+
+msgid "trac_no_attempted"
+msgstr ""
+
+msgid "trac_not_accessed"
+msgstr ""
+
+msgid "trac_not_assigned"
+msgstr ""
+
+msgid "trac_not_attempted"
+msgstr ""
+
+msgid "trac_not_completed"
+msgstr ""
+
+msgid "trac_not_participated"
+msgstr ""
+
+msgid "trac_not_registered"
+msgstr ""
+
+msgid "trac_object_link"
+msgstr ""
+
+msgid "trac_object_name"
+msgstr ""
+
+msgid "trac_object_owner"
+msgstr ""
+
+msgid "trac_object_stat_access"
+msgstr ""
+
+msgid "trac_object_stat_admin"
+msgstr ""
+
+msgid "trac_object_stat_daily"
+msgstr ""
+
+msgid "trac_object_stat_lp"
+msgstr ""
+
+msgid "trac_object_stat_lp_max"
+msgstr ""
+
+msgid "trac_object_stat_lp_min"
+msgstr ""
+
+msgid "trac_object_stat_types"
+msgstr ""
+
+msgid "trac_object_statistics"
+msgstr ""
+
+msgid "trac_object_statistics_info"
+msgstr ""
+
+msgid "trac_objects"
+msgstr ""
+
+msgid "trac_others"
+msgstr ""
+
+msgid "trac_participants"
+msgstr ""
+
+msgid "trac_participated"
+msgstr ""
+
+msgid "trac_paths"
+msgstr ""
+
+msgid "trac_percentage"
+msgstr ""
+
+msgid "trac_periodic_system_load"
+msgstr ""
+
+msgid "trac_progress"
+msgstr ""
+
+msgid "trac_progress_block_details"
+msgstr ""
+
+msgid "trac_progress_block_title"
+msgstr ""
+
+msgid "trac_read_count"
+msgstr ""
+
+msgid "trac_read_count_spent_seconds"
+msgstr ""
+
+msgid "trac_reference"
+msgstr ""
+
+msgid "trac_reference_ids_column"
+msgstr ""
+
+msgid "trac_registered"
+msgstr ""
+
+msgid "trac_release_materials"
+msgstr ""
+
+msgid "trac_report_date"
+msgstr ""
+
+msgid "trac_report_owner"
+msgstr ""
+
+msgid "trac_required_visits"
+msgstr ""
+
+msgid "trac_sahs_relevant_items"
+msgstr ""
+
+msgid "trac_scale"
+msgstr ""
+
+msgid "trac_select_area"
+msgstr ""
+
+msgid "trac_session_active_avg"
+msgstr ""
+
+msgid "trac_session_active_max"
+msgstr ""
+
+msgid "trac_session_active_min"
+msgstr ""
+
+msgid "trac_session_statistics_mode_day"
+msgstr ""
+
+msgid "trac_session_statistics_mode_last_day"
+msgstr ""
+
+msgid "trac_session_statistics_mode_last_month"
+msgstr ""
+
+msgid "trac_session_statistics_mode_last_week"
+msgstr ""
+
+msgid "trac_session_statistics_mode_month"
+msgstr ""
+
+msgid "trac_session_statistics_mode_today"
+msgstr ""
+
+msgid "trac_session_statistics_mode_week"
+msgstr ""
+
+msgid "trac_session_statistics_mode_year"
+msgstr ""
+
+msgid "trac_session_statistics_no_data"
+msgstr ""
+
+msgid "trac_sessions_closed"
+msgstr ""
+
+msgid "trac_sessions_opened"
+msgstr ""
+
+msgid "trac_settings"
+msgstr ""
+
+msgid "trac_settings_saved"
+msgstr ""
+
+msgid "trac_short_system_load"
+msgstr ""
+
+msgid "trac_show_graph"
+msgstr ""
+
+msgid "trac_show_progress_block"
+msgstr ""
+
+msgid "trac_show_repository_views"
+msgstr ""
+
+msgid "trac_show_repository_views_info"
+msgstr ""
+
+msgid "trac_spent_seconds"
+msgstr ""
+
+msgid "trac_spent_time"
+msgstr ""
+
+msgid "trac_status"
+msgstr ""
+
+msgid "trac_status_changed"
+msgstr ""
+
+msgid "trac_subitems"
+msgstr ""
+
+msgid "trac_sum"
+msgstr ""
+
+msgid "trac_summary"
+msgstr ""
+
+msgid "trac_sure_delete_data"
+msgstr ""
+
+msgid "trac_sync_obj_stats"
+msgstr ""
+
+msgid "trac_sync_obj_stats_success"
+msgstr ""
+
+msgid "trac_sync_session_stats"
+msgstr ""
+
+msgid "trac_sync_session_stats_success"
+msgstr ""
+
+msgid "trac_time_passed"
+msgstr ""
+
+msgid "trac_title"
+msgstr ""
+
+msgid "trac_title_description"
+msgstr ""
+
+msgid "trac_total_online"
+msgstr ""
+
+msgid "trac_trash"
+msgstr ""
+
+msgid "trac_update_edit_user"
+msgstr ""
+
+msgid "trac_updated_status"
+msgstr ""
+
+msgid "trac_user_data"
+msgstr ""
+
+msgid "trac_valid_request"
+msgstr ""
+
+msgid "trac_view_crs"
+msgstr ""
+
+msgid "trac_view_list"
+msgstr ""
+
+msgid "trac_view_mode"
+msgstr ""
+
+msgid "trac_view_mode_all"
+msgstr ""
+
+msgid "trac_view_mode_collection"
+msgstr ""
+
+msgid "trac_visits"
+msgstr ""
+
+msgid "trac_visits_info"
+msgstr ""
+
+msgid "trac_visits_nr"
+msgstr ""
+
+msgid "user_total"
+msgstr ""
+
+msgid "view_mode"
+msgstr ""
+
+msgid "view_mode_all"
+msgstr ""
+
+msgid "view_mode_current"
+msgstr ""
+
+msgid "view_mode_future"
+msgstr ""
+
+msgid "view_mode_past"
+msgstr ""

@@ -1,0 +1,21 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: cat\n"
+
+msgid "cat_copy"
+msgstr ""
+
+msgid "cat_hide_tax_in_side_block"
+msgstr ""
+
+msgid "cat_import"
+msgstr ""
+
+msgid "cat_more_translations"
+msgstr ""
+
+msgid "cat_show_tax_in_side_block"
+msgstr ""

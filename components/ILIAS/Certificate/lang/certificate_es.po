@@ -1,0 +1,345 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: certificate\n"
+
+msgid "cert_cron_task_desc"
+msgstr "Esta tarea programada (cron) crea certificados persistentes basados en los logros de aprendizaje de los usuarios."
+
+msgid "cert_cron_task_title"
+msgstr "Certificados"
+
+msgid "cert_form_sec_add_features"
+msgstr "Características adicionales"
+
+msgid "cert_form_sec_availability"
+msgstr "Disponibilidad"
+
+msgid "cert_form_sec_layout"
+msgstr "Diseño y Texto"
+
+msgid "certificate_a4"
+msgstr "A4 (297 mm x 210 mm)"
+
+msgid "certificate_a4_landscape"
+msgstr "A4 Horizontal (210 mm x 297 mm)"
+
+msgid "certificate_a5"
+msgstr "A5 (210 mm x 148 mm)"
+
+msgid "certificate_a5_landscape"
+msgstr "A5 Horizontal (148 mm x 210 mm)"
+
+msgid "certificate_background_image"
+msgstr "Imagen de fondo"
+
+msgid "certificate_card_tile_image"
+msgstr "Imagen en miniatura"
+
+msgid "certificate_change_active_status"
+msgstr "El estado 'Activo' del certificado ha sido modificado."
+
+msgid "certificate_confirm_deletion_text"
+msgstr "¿Está seguro de que desea eliminar todos los datos introducidos para esta plantilla de certificado?"
+
+msgid "certificate_custom"
+msgstr "Personalizado"
+
+msgid "certificate_edit"
+msgstr "Crear/Editar una plantilla de certificado"
+
+msgid "certificate_error_import"
+msgstr "¡Se ha producido un error al intentar importar el certificado!"
+
+msgid "certificate_error_upload_bgimage"
+msgstr "Se ha producido un error al intentar cargar la imagen de fondo."
+
+msgid "certificate_export"
+msgstr "Exportar"
+
+msgid "certificate_failed"
+msgstr "No superado"
+
+msgid "certificate_file_basename"
+msgstr "Certificado"
+
+msgid "certificate_id"
+msgstr "ID del certificado"
+
+msgid "certificate_issue_date"
+msgstr "Fecha de emisión"
+
+msgid "certificate_learning_progress_must_be_active"
+msgstr "Solo se pueden seleccionar objetos con un Progreso de Aprendizaje activo. El Progreso de Aprendizaje está desactivado en los siguientes objetos: %s"
+
+msgid "certificate_letter"
+msgstr "Carta (11 pulgadas x 8.5 pulgadas)"
+
+msgid "certificate_letter_landscape"
+msgstr "Carta Horizontal (8.5 pulgadas x 11 pulgadas)"
+
+msgid "certificate_margin_body"
+msgstr "Márgenes del texto"
+
+msgid "certificate_not_well_formed"
+msgstr "El texto del certificado no tiene un formato correcto. Por favor, introduzca XHTML válido para el texto del certificado."
+
+msgid "certificate_page_format"
+msgstr "Formato de página"
+
+msgid "certificate_page_format_info"
+msgstr "Seleccione el formato de página que se utilizará por defecto para los nuevos certificados."
+
+msgid "certificate_pageheight"
+msgstr "Altura de página"
+
+msgid "certificate_pagewidth"
+msgstr "Anchura de página"
+
+msgid "certificate_passed"
+msgstr "Superado"
+
+msgid "certificate_ph_birthday"
+msgstr "Fecha de nacimiento del usuario"
+
+msgid "certificate_ph_cert_id"
+msgstr "ID de certificado único"
+
+msgid "certificate_ph_city"
+msgstr "Ciudad de la dirección del usuario"
+
+msgid "certificate_ph_country"
+msgstr "País de la dirección del usuario"
+
+msgid "certificate_ph_date"
+msgstr "Fecha actual"
+
+msgid "certificate_ph_date_completed"
+msgstr "Fecha de finalización"
+
+msgid "certificate_ph_datetime"
+msgstr "Fecha y hora actual"
+
+msgid "certificate_ph_datetime_completed"
+msgstr "Fecha y hora de finalización"
+
+msgid "certificate_ph_department"
+msgstr "Departamento al que pertenece el usuario"
+
+msgid "certificate_ph_exercisetitle"
+msgstr "Título del ejercicio"
+
+msgid "certificate_ph_firstname"
+msgstr "Nombre del usuario"
+
+msgid "certificate_ph_fullname"
+msgstr "Nombre completo del usuario (título, nombre y apellidos)"
+
+msgid "certificate_ph_institution"
+msgstr "Institución a la que pertenece el usuario"
+
+msgid "certificate_ph_introduction"
+msgstr "Se pueden utilizar los siguientes marcadores"
+
+msgid "certificate_ph_lastaccess"
+msgstr "Fecha y hora del último acceso del usuario"
+
+msgid "certificate_ph_lastname"
+msgstr "Apellidos del usuario"
+
+msgid "certificate_ph_login"
+msgstr "Nombre de usuario"
+
+msgid "certificate_ph_mark"
+msgstr "Calificación del usuario"
+
+msgid "certificate_ph_marklong"
+msgstr "Calificación del usuario (versión oficial)"
+
+msgid "certificate_ph_markshort"
+msgstr "Calificación del usuario (versión corta)"
+
+msgid "certificate_ph_matriculation"
+msgstr "Número de matrícula del usuario"
+
+msgid "certificate_ph_no_sco"
+msgstr "Si el progreso de aprendizaje de este módulo se determina mediante una colección de objetos, aquí estarán disponibles los marcadores para los títulos y puntos de dichos objetos."
+
+msgid "certificate_ph_salutation"
+msgstr "Saludo/Tratamiento"
+
+msgid "certificate_ph_sco_points_max"
+msgstr "Marcador<br/>para puntos<br/>máximos"
+
+msgid "certificate_ph_sco_points_raw"
+msgstr "Marcador<br/>para puntos"
+
+msgid "certificate_ph_sco_points_scaled"
+msgstr "Marcador<br/>para puntos<br/>en porcentaje"
+
+msgid "certificate_ph_sco_title"
+msgstr "Marcador<br/>para título"
+
+msgid "certificate_ph_scormmaxpoints"
+msgstr "Valor máximo en el rango de la puntuación bruta del último SCO relevante (ideal para un examen final)"
+
+msgid "certificate_ph_scormpoints"
+msgstr "Puntos del módulo de aprendizaje SCORM en porcentaje"
+
+msgid "certificate_ph_scormtitle"
+msgstr "Título del módulo de aprendizaje SCORM"
+
+msgid "certificate_ph_scos"
+msgstr "Se han seleccionado los siguientes para determinar el estado de progreso general del aprendizaje y están disponibles para declaraciones en el certificado:"
+
+msgid "certificate_ph_street"
+msgstr "Calle de la dirección del usuario"
+
+msgid "certificate_ph_testtitle"
+msgstr "Título de la prueba"
+
+msgid "certificate_ph_title"
+msgstr "Título del usuario"
+
+msgid "certificate_ph_title_sco"
+msgstr "Título"
+
+msgid "certificate_ph_zipcode"
+msgstr "Código postal de la dirección del usuario"
+
+msgid "certificate_points_notavailable"
+msgstr "Este valor no se puede calcular"
+
+msgid "certificate_preview"
+msgstr "Vista previa"
+
+msgid "certificate_settings"
+msgstr "Configuración del certificado"
+
+msgid "certificate_short_name"
+msgstr "Título corto del archivo de certificado"
+
+msgid "certificate_short_name_description"
+msgstr "Introduzca un título corto para el nombre del certificado. El título corto formará parte del nombre del certificado: AAMMDD_[apellido]_[TÍTULO_CORTO]_certificado.pdf."
+
+msgid "certificate_text"
+msgstr "Texto del certificado"
+
+msgid "certificate_text_info"
+msgstr "Introduzca el texto que desea que aparezca en el certificado. Si el editor WYSIWYG está desactivado en la administración de ILIAS, todavía puede utilizar XHTML válido para dar formato al texto."
+
+msgid "certificate_unit_description"
+msgstr "Introduzca las unidades de medida como: VALOR[cm|mm|in|pt|pc|px|em], p. ej. 10mm o 3in"
+
+msgid "certificate_usage"
+msgstr "Tenga en cuenta que el uso y creación de certificados solo es posible si utiliza el servidor Java de ILIAS. El servidor Java se configura especificando el host de red y el puerto a través de la Configuración de ILIAS (Setup) y es necesario, entre otras cosas, para generar archivos PDF."
+
+msgid "certificate_var_max_points"
+msgstr "Número máximo de puntos en la prueba utilizada"
+
+msgid "certificate_var_result_mark_long"
+msgstr "Calificación obtenida presentada en \"forma oficial\""
+
+msgid "certificate_var_result_mark_short"
+msgstr "Calificación obtenida presentada en \"forma corta\""
+
+msgid "certificate_var_result_passed"
+msgstr "Aprobado"
+
+msgid "certificate_var_result_percent"
+msgstr "Porcentaje obtenido en la prueba"
+
+msgid "certificate_var_result_points"
+msgstr "Número de puntos obtenidos en la prueba"
+
+msgid "certificate_var_user_birthday"
+msgstr "22.05.1952"
+
+msgid "certificate_var_user_city"
+msgstr "Londres"
+
+msgid "certificate_var_user_country"
+msgstr "Reino Unido"
+
+msgid "certificate_var_user_department"
+msgstr "Atención al cliente"
+
+msgid "certificate_var_user_firstname"
+msgstr "Juan"
+
+msgid "certificate_var_user_fullname"
+msgstr "Juan H. Watson, Dr."
+
+msgid "certificate_var_user_institution"
+msgstr "ILIAS Investigaciones S.L."
+
+msgid "certificate_var_user_lastname"
+msgstr "Watson"
+
+msgid "certificate_var_user_login"
+msgstr "jwatson"
+
+msgid "certificate_var_user_matriculation"
+msgstr "8201754"
+
+msgid "certificate_var_user_salutation"
+msgstr "Sr."
+
+msgid "certificate_var_user_street"
+msgstr "221B Baker Street"
+
+msgid "certificate_var_user_title"
+msgstr "Dr"
+
+msgid "certificate_var_user_zipcode"
+msgstr "NW1 6XE"
+
+msgid "cmix_cert_ph_object_description"
+msgstr "Descripción"
+
+msgid "cmix_cert_ph_object_title"
+msgstr "Título del objeto xAPI/cmi5"
+
+msgid "cmix_cert_ph_reached_score"
+msgstr "Puntuación alcanzada en porcentaje"
+
+msgid "default_background_info"
+msgstr "Esta imagen de fondo se utilizará como fondo predeterminado para todos los certificados, a menos que se cargue una imagen diferente al crear un certificado para un objeto específico."
+
+msgid "download_certificate"
+msgstr "Descargar certificado"
+
+msgid "learning_progress_deactivated"
+msgstr "El progreso de aprendizaje para este objeto está desactivado actualmente. Para poder editar la plantilla del certificado y para que los usuarios puedan obtener certificados, el progreso de aprendizaje de este objeto debe activarse a través de Progreso de aprendizaje » Configuración."
+
+msgid "lti_cert_ph_mastery_score"
+msgstr "Puntuación de dominio en porcentaje"
+
+msgid "lti_cert_ph_object_description"
+msgstr "Descripción"
+
+msgid "lti_cert_ph_object_title"
+msgstr "Título del objeto LTI Consumer"
+
+msgid "lti_cert_ph_reached_score"
+msgstr "Puntuación alcanzada como porcentaje"
+
+msgid "persistent_certificate_mode"
+msgstr "Creación de certificados de usuario"
+
+msgid "persistent_certificate_mode_cron"
+msgstr "Tarea programada (Cron Job)"
+
+msgid "persistent_certificate_mode_cron_info"
+msgstr "Esta opción se recomienda para sistemas con niveles altos de interacción de usuarios."
+
+msgid "persistent_certificate_mode_instant"
+msgstr "Instantáneo"
+
+msgid "persistent_certificate_mode_instant_info"
+msgstr "Esta opción se recomienda para sistemas con niveles de interacción de usuarios bajos o medios. Los sistemas que tienden a tiempos de carga más largos durante la creación de múltiples certificados de usuario deberían cambiar a la opción 'Tarea programada'."

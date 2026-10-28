@@ -1,0 +1,276 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: mcst\n"
+
+msgid "mcst_add_new_item"
+msgstr ""
+
+msgid "mcst_audio_files"
+msgstr ""
+
+msgid "mcst_audioportable_settings_info"
+msgstr ""
+
+msgid "mcst_audioportable_settings_title"
+msgstr ""
+
+msgid "mcst_audioportable_title"
+msgstr ""
+
+msgid "mcst_automatic_detection"
+msgstr ""
+
+msgid "mcst_autoplay"
+msgstr ""
+
+msgid "mcst_autoplay_active"
+msgstr ""
+
+msgid "mcst_autoplay_inactive"
+msgstr ""
+
+msgid "mcst_autoplay_info"
+msgstr ""
+
+msgid "mcst_clear_purpose_title"
+msgstr ""
+
+msgid "mcst_confirm_deletion"
+msgstr ""
+
+msgid "mcst_converted_file"
+msgstr ""
+
+msgid "mcst_copy"
+msgstr ""
+
+msgid "mcst_current_value_info"
+msgstr ""
+
+msgid "mcst_default_visibility"
+msgstr ""
+
+msgid "mcst_det_playtime"
+msgstr ""
+
+msgid "mcst_download_all"
+msgstr ""
+
+msgid "mcst_download_audioportable"
+msgstr ""
+
+msgid "mcst_download_cnt"
+msgstr ""
+
+msgid "mcst_download_standard"
+msgstr ""
+
+msgid "mcst_download_started_bg"
+msgstr ""
+
+msgid "mcst_download_videoalternative"
+msgstr ""
+
+msgid "mcst_download_videoportable"
+msgstr ""
+
+msgid "mcst_downloadable"
+msgstr ""
+
+msgid "mcst_downloadable_info"
+msgstr ""
+
+msgid "mcst_duration"
+msgstr ""
+
+msgid "mcst_duration_info"
+msgstr ""
+
+msgid "mcst_edit_item"
+msgstr ""
+
+msgid "mcst_edit_settings"
+msgstr ""
+
+msgid "mcst_gallery"
+msgstr ""
+
+msgid "mcst_img_gallery"
+msgstr ""
+
+msgid "mcst_import"
+msgstr ""
+
+msgid "mcst_incl_files_in_rss"
+msgstr ""
+
+msgid "mcst_incl_files_in_rss_info"
+msgstr ""
+
+msgid "mcst_input_either_file_or_url"
+msgstr ""
+
+msgid "mcst_items"
+msgstr ""
+
+msgid "mcst_last_submission"
+msgstr ""
+
+msgid "mcst_list"
+msgstr ""
+
+msgid "mcst_manage"
+msgstr ""
+
+msgid "mcst_media_cast"
+msgstr ""
+
+msgid "mcst_media_cast_not_online"
+msgstr ""
+
+msgid "mcst_media_cast_not_online_text"
+msgstr ""
+
+msgid "mcst_mimetype"
+msgstr ""
+
+msgid "mcst_mimetype_info"
+msgstr ""
+
+msgid "mcst_mimetypes"
+msgstr ""
+
+msgid "mcst_mimetypes_info"
+msgstr ""
+
+msgid "mcst_new_items_det_lp"
+msgstr ""
+
+msgid "mcst_new_items_det_lp_info"
+msgstr ""
+
+msgid "mcst_news_item_visibility_info"
+msgstr ""
+
+msgid "mcst_next_items"
+msgstr ""
+
+msgid "mcst_no_autoplay"
+msgstr ""
+
+msgid "mcst_nr_items"
+msgstr ""
+
+msgid "mcst_nr_videos"
+msgstr ""
+
+msgid "mcst_ordering"
+msgstr ""
+
+msgid "mcst_ordering_creation_date_asc"
+msgstr ""
+
+msgid "mcst_ordering_creation_date_desc"
+msgstr ""
+
+msgid "mcst_ordering_manual"
+msgstr ""
+
+msgid "mcst_ordering_title"
+msgstr ""
+
+msgid "mcst_play"
+msgstr ""
+
+msgid "mcst_play_cnt"
+msgstr ""
+
+msgid "mcst_play_time"
+msgstr ""
+
+msgid "mcst_podcast"
+msgstr ""
+
+msgid "mcst_prev_items"
+msgstr ""
+
+msgid "mcst_preview"
+msgstr ""
+
+msgid "mcst_preview_picture"
+msgstr ""
+
+msgid "mcst_preview_picture_info"
+msgstr ""
+
+msgid "mcst_reference_info"
+msgstr ""
+
+msgid "mcst_save_order"
+msgstr ""
+
+msgid "mcst_set_playtime"
+msgstr ""
+
+msgid "mcst_settings"
+msgstr ""
+
+msgid "mcst_show_description"
+msgstr ""
+
+msgid "mcst_standard_settings_info"
+msgstr ""
+
+msgid "mcst_standard_settings_title"
+msgstr ""
+
+msgid "mcst_standard_title"
+msgstr ""
+
+msgid "mcst_unable_to_determin_playtime"
+msgstr ""
+
+msgid "mcst_video_cast"
+msgstr ""
+
+msgid "mcst_video_completion_threshold"
+msgstr ""
+
+msgid "mcst_video_completion_threshold_info"
+msgstr ""
+
+msgid "mcst_videoalternative_title"
+msgstr ""
+
+msgid "mcst_videoportable_settings_info"
+msgstr ""
+
+msgid "mcst_videoportable_settings_title"
+msgstr ""
+
+msgid "mcst_videoportable_title"
+msgstr ""
+
+msgid "mcst_view_abandoned"
+msgstr ""
+
+msgid "mcst_viewmode"
+msgstr ""
+
+msgid "mcst_visibility_info"
+msgstr ""
+
+msgid "mcst_visibility_public"
+msgstr ""
+
+msgid "mcst_visibility_users"
+msgstr ""
+
+msgid "mcst_watched"
+msgstr ""
+
+msgid "mcst_webfeed"
+msgstr ""

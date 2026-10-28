@@ -1,0 +1,42 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: prtt\n"
+
+msgid "prtt_activation_limited_visibility_info"
+msgstr ""
+
+msgid "prtt_activation_online_info"
+msgstr ""
+
+msgid "prtt_add"
+msgstr ""
+
+msgid "prtt_copy"
+msgstr ""
+
+msgid "prtt_edit"
+msgstr ""
+
+msgid "prtt_import"
+msgstr ""
+
+msgid "prtt_new"
+msgstr ""
+
+msgid "prtt_pfpg"
+msgstr ""
+
+msgid "prtt_portfolio_created"
+msgstr ""
+
+msgid "prtt_properties"
+msgstr ""
+
+msgid "prtt_select_datasets"
+msgstr ""
+
+msgid "prtt_style"
+msgstr ""

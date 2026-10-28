@@ -1,0 +1,180 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: jscalendar\n"
+
+msgid "about_calendar"
+msgstr "Om kalendern"
+
+msgid "about_calendar_long"
+msgstr "DHTML Date/Time Selector © dynarch.com 2002-2003 För senaste versionen besök"
+
+msgid "about_time"
+msgstr "Välja tid"
+
+msgid "day_first"
+msgstr "Visa %s först"
+
+msgid "def_date_format"
+msgstr "%Y-%m-%d"
+
+msgid "drag_to_move"
+msgstr "Dra för att flytta"
+
+msgid "go_today"
+msgstr "Idag"
+
+msgid "l_01"
+msgstr "Januari"
+
+msgid "l_02"
+msgstr "Februari"
+
+msgid "l_03"
+msgstr "Mars"
+
+msgid "l_04"
+msgstr "April"
+
+msgid "l_05"
+msgstr "Maj"
+
+msgid "l_06"
+msgstr "Juni"
+
+msgid "l_07"
+msgstr "Juli"
+
+msgid "l_08"
+msgstr "Augusti"
+
+msgid "l_09"
+msgstr "September"
+
+msgid "l_10"
+msgstr "Oktober"
+
+msgid "l_11"
+msgstr "November"
+
+msgid "l_12"
+msgstr "December"
+
+msgid "l_fr"
+msgstr "Fredag"
+
+msgid "l_mo"
+msgstr "Måndag"
+
+msgid "l_sa"
+msgstr "Lördag"
+
+msgid "l_su"
+msgstr "Söndag"
+
+msgid "l_th"
+msgstr "Torsdag"
+
+msgid "l_tu"
+msgstr "Tisdag"
+
+msgid "l_we"
+msgstr "Vardag"
+
+msgid "next_month"
+msgstr "Nästa månad (håll ned för snabbval)"
+
+msgid "next_year"
+msgstr "Nästa år (håll kvar för snabbval)"
+
+msgid "open_calendar"
+msgstr "Klicka här för att se en kalender för val av datum (JavaScript krävs!)"
+
+msgid "part_today"
+msgstr " (idag)"
+
+msgid "prev_month"
+msgstr "Previous months (Håll ned för snabbval)"
+
+msgid "prev_year"
+msgstr "Previous year (Håll ned för snabbval)"
+
+msgid "s_01"
+msgstr "Jan"
+
+msgid "s_02"
+msgstr "Feb"
+
+msgid "s_03"
+msgstr "Mär"
+
+msgid "s_04"
+msgstr "Apr"
+
+msgid "s_05"
+msgstr "Maj"
+
+msgid "s_06"
+msgstr "Jun"
+
+msgid "s_07"
+msgstr "Jul"
+
+msgid "s_08"
+msgstr "Aug"
+
+msgid "s_09"
+msgstr "Sep"
+
+msgid "s_10"
+msgstr "Okt"
+
+msgid "s_11"
+msgstr "Nov"
+
+msgid "s_12"
+msgstr "Dec"
+
+msgid "s_fr"
+msgstr "Fr"
+
+msgid "s_mo"
+msgstr "Mo"
+
+msgid "s_sa"
+msgstr "Sa"
+
+msgid "s_su"
+msgstr "Så"
+
+msgid "s_th"
+msgstr "Do"
+
+msgid "s_tu"
+msgstr "Di"
+
+msgid "s_we"
+msgstr "Mi"
+
+msgid "select_date"
+msgstr "Välj datum"
+
+msgid "time"
+msgstr "Tid"
+
+msgid "time_part"
+msgstr "(Toggle) klicka eller håll och dra för att ändra värdet"
+
+msgid "today"
+msgstr "Idag"
+
+msgid "tt_date_format"
+msgstr "%a, %b %e"
+
+msgid "wk"
+msgstr "KW"

@@ -1,0 +1,1442 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: style\n"
+
+msgid "adapt_icon"
+msgstr "Anpassning av ikonerna"
+
+msgid "adapt_icon_description"
+msgstr "Justera ikonens färg eller ikon."
+
+msgid "adapt_icons"
+msgstr "Justering av ikonernas färger"
+
+msgid "adapt_icons_description"
+msgstr "Alla svg-ikoner som finns i mappen Bilder listas här. Om en färg ändras syns detta omedelbart i alla ikoner som listas här."
+
+#, fuzzy
+msgid "adapt_scss"
+msgstr "Adapt scss"
+
+#, fuzzy
+msgid "adapt_scss_description"
+msgstr "This is a direct representation of all scss variables from the settings files used in the selected skin. Variable names and descriptions are drawn directly from those files and are therefore only available in their original language. The selected style will be recompiled completely by updating/reseting the variables. Resetting variables will create a copy of the default delos style."
+
+msgid "add_substyle"
+msgstr "Ny Sub Style"
+
+msgid "add_system_style"
+msgstr "Ny systemstil"
+
+msgid "assignment"
+msgstr "Allokering"
+
+msgid "blue_color"
+msgstr "Blauton"
+
+msgid "blue_colors"
+msgstr "Blå färger"
+
+msgid "blue_colors_description"
+msgstr "Beskrivning av Blauton"
+
+#, fuzzy
+msgid "can_not_read_scss_file"
+msgstr "Cannot read scss file. Path:"
+
+msgid "cant_deactivate_default_style"
+msgstr "Standard Styles kan inte avaktiveras."
+
+msgid "cant_delete_activated_style"
+msgstr "Aktiva stilar kan inte tas bort."
+
+msgid "cant_delete_if_users_assigned"
+msgstr "Styles kan inte raderas så länge som användare har tilldelats dem."
+
+msgid "cant_delete_style_with_substyles"
+msgstr "Styles med sub-styles kan inte raderas."
+
+msgid "change_icon"
+msgstr "Ändra ikon"
+
+msgid "color"
+msgstr "Färg"
+
+msgid "color_changed_from"
+msgstr "Färg ändrad från"
+
+msgid "color_changed_to"
+msgstr "till"
+
+msgid "color_reset"
+msgstr "Färgerna på ikonerna har återställts. Viktigt"
+
+msgid "color_update"
+msgstr "Färgerna på ikonerna har uppdaterats. Viktigt"
+
+msgid "default_style_set_to"
+msgstr "Standardstilen har ändrats till"
+
+#, fuzzy
+msgid "dir_changed_to"
+msgstr "The directory has been moved to:"
+
+msgid "dir_copied_from"
+msgstr "Mappen kopierades från"
+
+#, fuzzy
+msgid "dir_created"
+msgstr "The following directory has been created:"
+
+msgid "dir_deleted"
+msgstr "Följande mapp har tagits bort"
+
+#, fuzzy
+msgid "dir_preserved_backup"
+msgstr "Preserved Backup folder:"
+
+msgid "dir_preserved_linked"
+msgstr "Bevarade länkar"
+
+msgid "directory_created"
+msgstr "Folder skapad"
+
+msgid "documentation"
+msgstr "Dokumentation"
+
+msgid "edit_by_color"
+msgstr "Redigera efter färg"
+
+msgid "edit_by_icon"
+msgstr "Redigera med ikon"
+
+msgid "enable_system_styles_management_no_write_perm"
+msgstr "System styles management\" är aktiverat. ILIAS har dock ingen skrivåtkomst till katalogen customising/global/skin. Därför kan inga nya stilar skapas/redigeras."
+
+msgid "entries_reloaded"
+msgstr "Alla poster har uppdaterats"
+
+msgid "file_deleted"
+msgstr "Följande fil har tagits bort"
+
+msgid "font_dir"
+msgstr "Font mapp"
+
+msgid "font_dir_description"
+msgstr "Mapp för att spara teckensnitt från det relevanta skinnet. Denna mapp kan delas med andra stilar och understilar."
+
+msgid "from_skin"
+msgstr "från huden"
+
+msgid "green_color"
+msgstr "GrönTon"
+
+msgid "green_colors"
+msgstr "Gröna färger"
+
+msgid "green_colors_description"
+msgstr "Grön Tonbeskrivning"
+
+msgid "grey_color"
+msgstr "Grå ton"
+
+msgid "grey_colors"
+msgstr "Grå färger"
+
+msgid "grey_colors_description"
+msgstr "Grå ton Beskrivning"
+
+msgid "icons"
+msgstr "Ikoner"
+
+msgid "icons_gallery"
+msgstr "Icon Gallery"
+
+msgid "image_dir"
+msgstr "Icon folder"
+
+msgid "image_dir_description"
+msgstr "Mapp för att spara bilder (främst ikoner) av skinnet i fråga. Denna mapp kan delas med andra stilar och understilar."
+
+#, fuzzy
+msgid "in_main_scss_file"
+msgstr "is not imported inside the system styles main scss file:"
+
+#, fuzzy
+msgid "invalid_scss_path"
+msgstr "The provided sass/scss path is not valid or the webserver does not have the proper permission to read and execute sass/scss. Sass/scss (or the file linked to by the file pointed to by the scss path) has to be readabele and executable by your webserver."
+
+msgid "ks_documentation_of_style"
+msgstr "Dokumentärer om \"Kitchen Sink\" efter stil"
+
+msgid "ks_documentation_of_substyle"
+msgstr "\"Kitchen Sink\"-dokumentation efter understil"
+
+#, fuzzy
+msgid "main_scss_created"
+msgstr "Main SCSS has been created:"
+
+msgid "manage_system_styles"
+msgstr "Hantera systemets stilar"
+
+msgid "msg_sub_style_created"
+msgstr "Understilen har skapats."
+
+msgid "msg_sys_style_created"
+msgstr "Den nya systemstilsfilen har skapats framgångsrikt."
+
+msgid "msg_sys_style_update"
+msgstr "Systemstilar har uppdaterats."
+
+#, fuzzy
+msgid "no_scss_path_set"
+msgstr "No Scss Path set"
+
+msgid "no_style_selected"
+msgstr "Ingen understil har valts."
+
+msgid "of_parent"
+msgstr "från förälder"
+
+msgid "open_documentation"
+msgstr "Öppen dokumentation"
+
+msgid "parent"
+msgstr "Parent stil"
+
+msgid "personal"
+msgstr "Personlig"
+
+msgid "personal_style_set_to"
+msgstr "Den personliga stilen ändrades till"
+
+#, fuzzy
+msgid "provided_scss_path"
+msgstr "Provided scss path:"
+
+msgid "red_color"
+msgstr "ton"
+
+msgid "red_colors"
+msgstr "Röda färger"
+
+msgid "red_colors_description"
+msgstr "Beskrivning av Rotton"
+
+msgid "refresh_entries"
+msgstr "Uppdatera poster"
+
+msgid "remove_assignment"
+msgstr "Ta bort uppdrag"
+
+msgid "reset_icons"
+msgstr "Återställ färger"
+
+msgid "reset_variables"
+msgstr "Återställ variabler"
+
+msgid "scope"
+msgstr "Validitetsintervall"
+
+#, fuzzy
+msgid "scss"
+msgstr "Scss"
+
+#, fuzzy
+msgid "scss_can_not_be_modified"
+msgstr "Scss cannot be modified"
+
+#, fuzzy
+msgid "scss_compile_failed"
+msgstr "Something in the compilation of the scss file went wrong. Is scss installed and the path set correctly in ILIAS setup? Original error:"
+
+#, fuzzy
+msgid "scss_file_reset"
+msgstr "The scss variables have been reset. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache."
+
+#, fuzzy
+msgid "scss_file_updated"
+msgstr "The scss variables have been updated. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache."
+
+#, fuzzy
+msgid "scss_folder_reset"
+msgstr "Scss folder reset"
+
+#, fuzzy
+msgid "scss_folder_updated"
+msgstr "Scss folder has been updated"
+
+#, fuzzy
+msgid "scss_scss_installation_detected"
+msgstr "Scss/sass installation detected at:"
+
+#, fuzzy
+msgid "scss_variable_empty"
+msgstr "This variable was empty. The default from your settings files has been set. Please check if this is correct before compiling."
+
+#, fuzzy
+msgid "scss_variables_empty_might_have_changed"
+msgstr "There are empty variables in your form. You might have changed your settings files since loading this form. The defaults from the settings files have been set for the empty fields. Please check those marked empty fields before compiling and saving the values to your settings files."
+
+#, fuzzy
+msgid "scss_variables_file_not_included"
+msgstr "The scss variables files:"
+
+msgid "select_icon"
+msgstr "Selektiv ikon"
+
+msgid "settings_of_style"
+msgstr "Hantera Styles"
+
+msgid "settings_of_substyle"
+msgstr "Hantera understil"
+
+msgid "skin"
+msgstr "Hud"
+
+msgid "skin_deleted"
+msgstr "Följande hud har tagits bort"
+
+msgid "skin_id"
+msgstr "Hud-ID"
+
+msgid "skin_id_description"
+msgstr "Skins är behållare för stilar och understilar. Skin-ID:t anger namnet på mappen som innehåller all information om stilar och understilar. Skin-ID:t får endast bestå av bokstäver, siffror och bindestreck."
+
+msgid "skin_id_exists"
+msgstr "Det finns redan en skin med detta ID."
+
+msgid "skin_name"
+msgstr "Titel på hud"
+
+msgid "skin_name_description"
+msgstr "Skin-titeln kan användas som en beskrivning för applikationsområdet. Den listas i alla gränssnittselement där ett skin kan väljas."
+
+msgid "skin_version"
+msgstr "Hudversion"
+
+msgid "skin_version_description"
+msgstr "Hudversionen används för att cachelagra stilarna igen efter ändringar. Den uppdateras automatiskt."
+
+msgid "sound_dir"
+msgstr "Audio-mapp"
+
+msgid "sound_dir_description"
+msgstr "Mapp för att spara toner från den relevanta huden. Denna mapp kan delas med andra stilar och understilar."
+
+msgid "sty_acopy"
+msgstr "Kopia"
+
+msgid "sty_add_assignment"
+msgstr "Lägg till uppdrag"
+
+msgid "sty_add_characteristic"
+msgstr "Lägg till ny stil"
+
+msgid "sty_add_color"
+msgstr "Lägg till färg"
+
+msgid "sty_add_content_style"
+msgstr "Lägg till Content-stil"
+
+msgid "sty_add_image"
+msgstr "Lägg till bild"
+
+msgid "sty_add_media_query"
+msgstr "Lägg till Media Query"
+
+msgid "sty_add_media_query_info"
+msgstr "Till exempel \"only screen and (max-width"
+
+msgid "sty_add_pgl"
+msgstr "Lägg till sidlayout"
+
+msgid "sty_add_template"
+msgstr "Lägg till mall"
+
+msgid "sty_added_characteristic"
+msgstr "Ny stil tillagd."
+
+msgid "sty_all"
+msgstr "Alla"
+
+msgid "sty_all_styles_obligatory"
+msgstr "Alla valda stilklasser måste alltid finnas och kan inte tas bort."
+
+msgid "sty_assign_categories"
+msgstr "Tilldela kategorier"
+
+msgid "sty_background"
+msgstr "Bakgrund"
+
+msgid "sty_background_attachment"
+msgstr "Beteende Bakgrund"
+
+msgid "sty_background_color"
+msgstr "Bakgrundsfärg"
+
+msgid "sty_background_image"
+msgstr "Bakgrundsbild"
+
+msgid "sty_background_position"
+msgstr "Bakgrundsposition"
+
+msgid "sty_background_repeat"
+msgstr "Upprepa effekt"
+
+msgid "sty_base_color"
+msgstr "Basisk färg"
+
+msgid "sty_based_on"
+msgstr "Baserat på"
+
+msgid "sty_bg_img_info"
+msgstr "För att inkludera bilder i urvalet måste de först laddas upp i avsnittet \"Bilder\" i stilen."
+
+msgid "sty_border"
+msgstr "Ram"
+
+msgid "sty_border_color"
+msgstr "Frame färg"
+
+msgid "sty_border_style"
+msgstr "Typ av ram"
+
+msgid "sty_border_width"
+msgstr "Ramens tjocklek"
+
+msgid "sty_bottom"
+msgstr "Botten"
+
+msgid "sty_ca_cntr_class"
+msgstr "Carousel - Behållare"
+
+msgid "sty_ca_icntr_class"
+msgstr "Carousel - Elementbehållare"
+
+msgid "sty_ca_icont_class"
+msgstr "Carousel - Innehållselement"
+
+msgid "sty_ca_ihead_class"
+msgstr "Carousel - Rubrikelement"
+
+#, fuzzy
+msgid "sty_cannot_be_copied"
+msgstr "The following style types cannot be copied"
+
+msgid "sty_caption"
+msgstr "Legend"
+
+msgid "sty_caption_class"
+msgstr "Legend"
+
+msgid "sty_carousel_templates"
+msgstr "karusellmallar"
+
+msgid "sty_cat_assignments"
+msgstr "Uppgifter Stil Kategori"
+
+#, fuzzy
+msgid "sty_change_user_assignment"
+msgstr "Change User Assignment"
+
+msgid "sty_characteristic_already_exists"
+msgstr "En klass för en stil med detta namn finns redan i denna formatmall."
+
+msgid "sty_class"
+msgstr "Stil klass"
+
+msgid "sty_class_name"
+msgstr " Klassens namn"
+
+msgid "sty_clear"
+msgstr "Avsluta textflöde"
+
+msgid "sty_col_foot_class"
+msgstr "Fot (kolumner)"
+
+msgid "sty_col_head_class"
+msgstr "Huvud (kolumner)"
+
+msgid "sty_color"
+msgstr "Färg"
+
+msgid "sty_color_already_exists"
+msgstr "En färg med detta namn finns redan i denna formatmall."
+
+msgid "sty_color_code"
+msgstr "Färgkod"
+
+msgid "sty_color_flavors"
+msgstr "Färganvisningar"
+
+msgid "sty_color_info"
+msgstr "Fördefinierade färgscheman underlättar återanvändning av färger för olika tillämpningar. Hänvisa till en fördefinierad färg genom att använda dess namn föregånget av \"!\" för alla färggraderingar. För att använda en gradering, ange värdet för graderingen"
+
+msgid "sty_color_name"
+msgstr "Färgens namn"
+
+msgid "sty_colors"
+msgstr "Färger"
+
+msgid "sty_commands"
+msgstr "Åtgärder"
+
+msgid "sty_confirm_char_deletion"
+msgstr "Är du säker på att du vill ta bort följande stilklasser?"
+
+msgid "sty_confirm_color_deletion"
+msgstr "Bekräfta borttagandet av färgen"
+
+msgid "sty_confirm_del_ind_styles"
+msgstr "Bekräfta borttagningen av den lokala utbildningsmodulens formatmallar"
+
+msgid "sty_confirm_del_ind_styles_desc"
+msgstr "Alla utbildningsmoduler med lokala formatmallar har tilldelats stilen '%s'. De lokala inlärningsmodulernas stilmallar raderas därför också. Vill du fortsätta?"
+
+msgid "sty_confirm_template_deletion"
+msgstr "Bekräfta strykningen av mallen"
+
+msgid "sty_copied_please_select_target"
+msgstr "Stilklasserna har kopierats. Växla till önskad målstil och välj \"Klistra in stilklasser\"."
+
+msgid "sty_copy_other_stylesheet"
+msgstr "Kopiera formatmall från lokal källa"
+
+msgid "sty_copy_other_system_style"
+msgstr "Kopiera systemets stil"
+
+msgid "sty_copy_to"
+msgstr "till"
+
+msgid "sty_create_ind_style"
+msgstr "Create lokal formatmall"
+
+msgid "sty_create_new_class"
+msgstr "Skapa ny klass"
+
+msgid "sty_create_new_stylesheet"
+msgstr "Skapa ny formatmall"
+
+msgid "sty_create_new_system_style"
+msgstr "Skapa ny systemstil"
+
+msgid "sty_create_new_system_sub_style"
+msgstr "Skapa ny understil"
+
+msgid "sty_create_pgl"
+msgstr "Skapa sidlayout"
+
+msgid "sty_cursor"
+msgstr "Musens pekare"
+
+msgid "sty_custom"
+msgstr "Fler CSS-regler"
+
+msgid "sty_custom_par"
+msgstr "Ytterligare parametrar"
+
+msgid "sty_custom_par_info"
+msgstr "Definiera ytterligare parametrar i formatet \"Parameter"
+
+msgid "sty_default"
+msgstr "Standard"
+
+msgid "sty_default_style"
+msgstr "Standard formatmall"
+
+msgid "sty_del_template"
+msgstr "Ta bort mallar och klasser"
+
+msgid "sty_del_template_keep_classes"
+msgstr "Ta bort och hämta stilmallsklass"
+
+msgid "sty_delete_other_selected"
+msgstr "Fortsättning"
+
+msgid "sty_disable_auto_margins"
+msgstr "Suppress automatic spacing"
+
+msgid "sty_disable_auto_margins_info"
+msgstr "Undertrycker den automatiska inställningen av vänster och höger avstånd till 0 pixlar när mediaobjekt är vänster- eller högerjusterade."
+
+msgid "sty_edit_template"
+msgstr "Redigera mall"
+
+msgid "sty_even_col_class"
+msgstr "Inkluderar kolumner"
+
+msgid "sty_even_row_class"
+msgstr "Inklusive linjer"
+
+msgid "sty_example"
+msgstr "Exempel"
+
+msgid "sty_flist_char"
+msgstr " Lista över filer"
+
+msgid "sty_float"
+msgstr "Flöde"
+
+msgid "sty_font_family"
+msgstr "Font"
+
+msgid "sty_font_size"
+msgstr "Fontstorlek"
+
+msgid "sty_font_style"
+msgstr "Skrivstil"
+
+msgid "sty_font_variant"
+msgstr "Font variant"
+
+msgid "sty_font_weight"
+msgstr "Font vikt"
+
+msgid "sty_from"
+msgstr "Från"
+
+msgid "sty_generate_template"
+msgstr "Skapa mall"
+
+msgid "sty_glo_char"
+msgstr "Ordlista"
+
+msgid "sty_ha_cntr_class"
+msgstr "Hor. Dragspel behållare"
+
+msgid "sty_ha_icntr_class"
+msgstr "Hor. Dragspel element behållare"
+
+msgid "sty_ha_icont_class"
+msgstr "Hor. Dragspel element innehåll"
+
+msgid "sty_ha_ihcap_class"
+msgstr "Hor. Ackord element rubrik"
+
+msgid "sty_ha_ihead_class"
+msgstr "Hor. Ackord element rubrik"
+
+msgid "sty_ha_iheada_class"
+msgstr "Hor. Dragspel element huvud (aktiv)"
+
+msgid "sty_haccordion_templates"
+msgstr "Hor. Mallar för ackordelement"
+
+msgid "sty_height"
+msgstr "Höjd"
+
+msgid "sty_hide"
+msgstr "Dölj"
+
+msgid "sty_horizontal"
+msgstr "Horisontell"
+
+msgid "sty_if_style_class_already_exists"
+msgstr "Hur går man vidare om stilklassen redan finns?"
+
+msgid "sty_image_file"
+msgstr "Image-fil"
+
+msgid "sty_images"
+msgstr "Bilder"
+
+msgid "sty_import_page_layout"
+msgstr "Importera sidlayout"
+
+msgid "sty_import_stylesheet"
+msgstr "Importera formatmall"
+
+msgid "sty_import_system_style"
+msgstr "Stil för importsystem"
+
+#, fuzzy
+msgid "sty_imported_layout"
+msgstr "Imported Page Layout"
+
+msgid "sty_individual_styles"
+msgstr "Lokala formatmallar"
+
+msgid "sty_keep_existing"
+msgstr "Behåll befintlig klass"
+
+msgid "sty_left"
+msgstr "Länkar"
+
+msgid "sty_left_right_padding"
+msgstr "Inre avstånd vänster/höger"
+
+#, fuzzy
+msgid "sty_legacy_image_directory_found"
+msgstr "Legacy image directory found. You may migrate the directory from ILIAS 9 by clicking \"Migrate Images\""
+
+msgid "sty_letter_spacing"
+msgstr "Teckenavstånd"
+
+msgid "sty_lightness_border"
+msgstr "Brightness ram"
+
+msgid "sty_lightness_cell1_bg"
+msgstr "Brightness Cell 1 Bakgrund"
+
+msgid "sty_lightness_cell1_text"
+msgstr " ljusstyrka cell 1 text"
+
+msgid "sty_lightness_cell2_bg"
+msgstr "Brightness Cell 2 Bakgrund"
+
+msgid "sty_lightness_cell2_text"
+msgstr " ljusstyrka cell 2 text"
+
+msgid "sty_lightness_header_bg"
+msgstr "Brightness Rubrik Bakgrund"
+
+msgid "sty_lightness_header_text"
+msgstr "Brightness Rubrik Text"
+
+msgid "sty_line_height"
+msgstr "Linjens höjd"
+
+msgid "sty_link_char"
+msgstr "Länk"
+
+msgid "sty_list_char"
+msgstr "Lista"
+
+#, fuzzy
+msgid "sty_list_style_position"
+msgstr "List Style Position"
+
+#, fuzzy
+msgid "sty_list_style_type"
+msgstr "List Style Type"
+
+msgid "sty_make_global_default"
+msgstr "Standardstil"
+
+msgid "sty_make_global_fixed"
+msgstr "Tvingad stil för alla objekt"
+
+msgid "sty_margin"
+msgstr "Yttre fälg"
+
+msgid "sty_margin_and_padding"
+msgstr "Yttermarginal och inneravstånd"
+
+msgid "sty_media_char"
+msgstr "Media"
+
+msgid "sty_media_queries"
+msgstr "Medieförfrågningar"
+
+msgid "sty_media_query_info"
+msgstr "För varje mediafråga infogas ett separat CSS-avsnitt efter standardavsnittet (utan mediafråga)."
+
+#, fuzzy
+msgid "sty_migrate_images"
+msgstr "Migrate Images"
+
+msgid "sty_min_height"
+msgstr "Minsta höjd"
+
+msgid "sty_move_lm_styles"
+msgstr "Ändra formatmallarna för utbildningsmodulerna"
+
+#, fuzzy
+msgid "sty_move_obj_styles"
+msgstr "Change Style of Objects"
+
+msgid "sty_move_style"
+msgstr "Ändra formatmall"
+
+msgid "sty_move_user_styles"
+msgstr "Ändra stilmall för användarna"
+
+#, fuzzy
+msgid "sty_move_user_styles_saved"
+msgstr "The assignment of the users assigned to skind-id %s has been changed to skin-id %s."
+
+msgid "sty_msg_characteristic_must_only_include"
+msgstr "Titeln på stilen måste börja med en bokstav och får inte innehålla några mellanslag utan endast följande tecken"
+
+msgid "sty_msg_color_must_only_include"
+msgstr "Färgnamnet får endast innehålla följande bokstäver/tecken"
+
+msgid "sty_msg_input_must_be_numeric"
+msgstr "Numerisk inmatning krävs."
+
+msgid "sty_name"
+msgstr "Namn"
+
+msgid "sty_nr_learning_modules"
+msgstr "Antal utbildningsmoduler"
+
+#, fuzzy
+msgid "sty_nr_objects"
+msgstr "Number of Objects"
+
+msgid "sty_odd_col_class"
+msgstr "Even kolumner"
+
+msgid "sty_odd_row_class"
+msgstr "Odd linjer"
+
+#, fuzzy
+msgid "sty_ol"
+msgstr "Ordered List"
+
+msgid "sty_opacity"
+msgstr "Täckning av makt"
+
+msgid "sty_opt_saved"
+msgstr "Inställningar sparade"
+
+msgid "sty_order"
+msgstr "Beställ"
+
+msgid "sty_outdated"
+msgstr "Veraltet"
+
+msgid "sty_overflow"
+msgstr "Överflöde"
+
+msgid "sty_overwrite"
+msgstr "Överskrivning"
+
+msgid "sty_overwrite_existing_class"
+msgstr "Överskriv befintlig klass"
+
+msgid "sty_padding"
+msgstr "Internt avstånd"
+
+msgid "sty_page_char"
+msgstr "Sida"
+
+msgid "sty_parameters"
+msgstr "Parametrar"
+
+msgid "sty_paste_characteristics"
+msgstr "Inför stilklasser"
+
+msgid "sty_paste_chars"
+msgstr "Infoga klasser"
+
+msgid "sty_paste_style_classes"
+msgstr "Inför stilklasser"
+
+msgid "sty_position"
+msgstr "Position"
+
+msgid "sty_positioning"
+msgstr "Positionering"
+
+msgid "sty_preview"
+msgstr "Förhandsgranskning"
+
+msgid "sty_query"
+msgstr "Query"
+
+msgid "sty_question_char"
+msgstr "Frågor och svar"
+
+msgid "sty_remove_global_default_state"
+msgstr "Upphäv status som global standard"
+
+msgid "sty_remove_global_fixed_state"
+msgstr "Fixa inte standarden"
+
+msgid "sty_remove_outdated"
+msgstr "Ta bort statusen \"Föråldrad\""
+
+msgid "sty_resize"
+msgstr "Justera bildstorlek"
+
+msgid "sty_resize_image"
+msgstr "Justera bildstorlek"
+
+msgid "sty_right"
+msgstr "Höger"
+
+msgid "sty_row_foot_class"
+msgstr "Fot (linjer)"
+
+msgid "sty_row_head_class"
+msgstr "Huvud (rader)"
+
+msgid "sty_rte_char"
+msgstr "SCORM RTE"
+
+msgid "sty_save_active_styles"
+msgstr "Spara aktiva formatmallar"
+
+msgid "sty_save_hide_order_status"
+msgstr "Spara seriens ordning och status"
+
+msgid "sty_save_hide_status"
+msgstr "Status Spara"
+
+msgid "sty_save_order"
+msgstr "Spara sekvens"
+
+msgid "sty_save_order_status"
+msgstr "Spara sekvens"
+
+msgid "sty_sco_char"
+msgstr "SCOs och lärandemål"
+
+msgid "sty_scope"
+msgstr "Tillämpningsområde"
+
+msgid "sty_section_char"
+msgstr "Blockera"
+
+msgid "sty_set_outdated"
+msgstr " Markera som \"föråldrad"
+
+msgid "sty_set_scope"
+msgstr "Sätt omfattning"
+
+msgid "sty_some_styles_obligatory_delete_rest"
+msgstr "Följande stilklasser måste alltid finnas och kan inte tas bort. Vill du fortsätta och ta bort de återstående stilklasserna?"
+
+msgid "sty_source"
+msgstr "Källa"
+
+msgid "sty_special"
+msgstr "Särskild"
+
+msgid "sty_style_chars"
+msgstr "Stil klass"
+
+msgid "sty_style_class"
+msgstr "Klasser för stil"
+
+msgid "sty_style_classes_copied"
+msgstr "Style-klasser kopierades."
+
+#, fuzzy
+msgid "sty_style_not_migrated"
+msgstr "This content style has not been migrated to the ILIAS 10 data structure yet. Changes will not be applied."
+
+msgid "sty_substyle"
+msgstr "Stil för ett delområde"
+
+msgid "sty_substyle_of"
+msgstr "Sub-Style från"
+
+msgid "sty_substyles"
+msgstr "Stil för ett delområde"
+
+msgid "sty_sure_del_mqueries"
+msgstr "Vill du verkligen ta bort den här mediafrågan och de tillhörande CSS-reglerna?"
+
+msgid "sty_switch"
+msgstr "Förändring"
+
+msgid "sty_table_char"
+msgstr "Tabell"
+
+msgid "sty_table_class"
+msgstr "Tabell stil klass"
+
+msgid "sty_table_template_bw_zebra"
+msgstr "Grå zebraövergång"
+
+msgid "sty_table_template_colored_zebra"
+msgstr "Färgade zebraränder"
+
+msgid "sty_table_template_no_zebra"
+msgstr "Inga övergångsställen"
+
+msgid "sty_table_templates"
+msgstr "Tabellmallar"
+
+msgid "sty_tabs_char"
+msgstr "Accordions och fans"
+
+#, fuzzy
+msgid "sty_tag_hover"
+msgstr ":hover"
+
+msgid "sty_tag_normal"
+msgstr "Normal"
+
+msgid "sty_template_layout"
+msgstr "Layout för mallar"
+
+msgid "sty_template_name"
+msgstr "Namn"
+
+msgid "sty_templates"
+msgstr "Mallar"
+
+msgid "sty_text"
+msgstr "Text"
+
+msgid "sty_text_align"
+msgstr "Horisontell justering"
+
+msgid "sty_text_block_char"
+msgstr "Text (block)"
+
+msgid "sty_text_decoration"
+msgstr "Text dekoration"
+
+msgid "sty_text_indent"
+msgstr "Indragning av text"
+
+msgid "sty_text_inline_char"
+msgstr "Text (tecken)"
+
+msgid "sty_text_transform"
+msgstr "Texttransformation"
+
+msgid "sty_titles"
+msgstr "Titel"
+
+msgid "sty_to"
+msgstr "Efter"
+
+msgid "sty_top"
+msgstr "Topp"
+
+msgid "sty_top_bottom_padding"
+msgstr "Internt avstånd topp/botten"
+
+msgid "sty_transform"
+msgstr "Konvertera"
+
+msgid "sty_transform_origin"
+msgstr "Konvertera original"
+
+msgid "sty_type"
+msgstr "Typ"
+
+msgid "sty_type_ca_cntr"
+msgstr "Carousel - Behållare"
+
+msgid "sty_type_ca_icntr"
+msgstr "Carousel - Elementbehållare"
+
+msgid "sty_type_ca_icont"
+msgstr "Carousel - Innehållselement"
+
+msgid "sty_type_ca_ihead"
+msgstr "Carousel - Rubrikelement"
+
+msgid "sty_type_code_block"
+msgstr "Kod (Block)"
+
+msgid "sty_type_code_inline"
+msgstr "Kod (Inline)"
+
+#, fuzzy
+msgid "sty_type_em"
+msgstr "Emphasised"
+
+msgid "sty_type_flist"
+msgstr " Lista över filer"
+
+msgid "sty_type_flist_a"
+msgstr "Länk fil lista post"
+
+msgid "sty_type_flist_cont"
+msgstr "Fil lista container"
+
+msgid "sty_type_flist_head"
+msgstr "Fil list rubrik"
+
+msgid "sty_type_flist_li"
+msgstr "Post i fillista"
+
+msgid "sty_type_glo_ovclink"
+msgstr "Glossary Stäng länk"
+
+msgid "sty_type_glo_overlay"
+msgstr "Glossar popup"
+
+msgid "sty_type_glo_ovtitle"
+msgstr "Term/Title (popup-fönster)"
+
+msgid "sty_type_glo_ovuglink"
+msgstr "termlink"
+
+msgid "sty_type_glo_ovuglistlink"
+msgstr "Länk i termlista"
+
+msgid "sty_type_ha_cntr"
+msgstr "Hor. Dragspel behållare"
+
+msgid "sty_type_ha_icntr"
+msgstr "Hor. Dragspel element behållare"
+
+msgid "sty_type_ha_icont"
+msgstr "Hor. Dragspel element innehåll"
+
+msgid "sty_type_ha_ihcap"
+msgstr "Hor. Ackord element rubrik"
+
+msgid "sty_type_ha_ihead"
+msgstr "Hor. Ackord element rubrik"
+
+msgid "sty_type_ha_iheada"
+msgstr "Hor. Dragspel element huvud (aktiv)"
+
+msgid "sty_type_heading1"
+msgstr "Rubrik 1"
+
+msgid "sty_type_heading2"
+msgstr "Rubrik 2"
+
+msgid "sty_type_heading3"
+msgstr "Rubrik 3"
+
+msgid "sty_type_iim"
+msgstr "Popup för innehåll i interaktiv bild"
+
+msgid "sty_type_link"
+msgstr "Länk"
+
+msgid "sty_type_list_item"
+msgstr "Listpost"
+
+msgid "sty_type_list_o"
+msgstr "Numrerad lista"
+
+msgid "sty_type_list_u"
+msgstr "Bulletlista"
+
+msgid "sty_type_marker"
+msgstr "Markeringspunkt Interaktiv bild"
+
+msgid "sty_type_media_caption"
+msgstr "Märkning"
+
+msgid "sty_type_media_cont"
+msgstr "media behållare"
+
+msgid "sty_type_page_bnav"
+msgstr "Navigation nedan"
+
+msgid "sty_type_page_cont"
+msgstr "Pagecontainer"
+
+msgid "sty_type_page_fn"
+msgstr "Fotnot"
+
+msgid "sty_type_page_frame"
+msgstr "Sida ram"
+
+msgid "sty_type_page_lnav"
+msgstr "Navigation vänster"
+
+msgid "sty_type_page_lnavimage"
+msgstr "Bildnavigering vänster"
+
+msgid "sty_type_page_lnavlink"
+msgstr "Länk Navigering vänster"
+
+msgid "sty_type_page_rnav"
+msgstr "Navigation höger"
+
+msgid "sty_type_page_rnavimage"
+msgstr "Bildnavigering till höger"
+
+msgid "sty_type_page_rnavlink"
+msgstr "Länk navigering höger"
+
+msgid "sty_type_page_title"
+msgstr "Sidans titel"
+
+msgid "sty_type_page_tnav"
+msgstr "Navigation topp"
+
+msgid "sty_type_qanswer"
+msgstr "Svar"
+
+msgid "sty_type_qetcorr"
+msgstr "Korrigerad feltext"
+
+msgid "sty_type_qetitem"
+msgstr "Fel textelement"
+
+msgid "sty_type_qfeedr"
+msgstr "Feedback, höger"
+
+msgid "sty_type_qfeedw"
+msgstr "Feedback, fel"
+
+msgid "sty_type_qimg"
+msgstr "Fråga bild"
+
+msgid "sty_type_qimgd"
+msgstr "Länk för bildinformation"
+
+msgid "sty_type_qinput"
+msgstr " Textinmatning"
+
+msgid "sty_type_qlinput"
+msgstr "Lång textinmatning"
+
+msgid "sty_type_qordli"
+msgstr "Ange punktlista"
+
+msgid "sty_type_qordul"
+msgstr "Uppräkningslista"
+
+msgid "sty_type_qover"
+msgstr "Frågeformulär"
+
+msgid "sty_type_qsubmit"
+msgstr "Knapp för omkoppling"
+
+msgid "sty_type_qtitle"
+msgstr "Frågans titel"
+
+msgid "sty_type_question"
+msgstr "Fråga"
+
+msgid "sty_type_rte_drag"
+msgstr "Flytta bar"
+
+msgid "sty_type_rte_menu"
+msgstr "RTE meny"
+
+msgid "sty_type_rte_mlink"
+msgstr "RTE menylänk"
+
+msgid "sty_type_rte_node"
+msgstr "RTE trädnod"
+
+msgid "sty_type_rte_status"
+msgstr "RTE-status"
+
+msgid "sty_type_rte_tclink"
+msgstr "Kontrollera länkträdet"
+
+msgid "sty_type_rte_texp"
+msgstr "Icon träd"
+
+msgid "sty_type_rte_tli"
+msgstr "Ingång i trädvy"
+
+msgid "sty_type_rte_tlink"
+msgstr "RTE länk till trädnod"
+
+msgid "sty_type_rte_tree"
+msgstr "RTE trädval"
+
+msgid "sty_type_rte_tul"
+msgstr "Trädvy"
+
+msgid "sty_type_sco_desc"
+msgstr "SCO beskrivning"
+
+msgid "sty_type_sco_fmess"
+msgstr "SCORM Slutligt meddelande"
+
+msgid "sty_type_sco_keyw"
+msgstr "SCO nyckelord"
+
+msgid "sty_type_sco_obj"
+msgstr "SCO Lärandemål"
+
+msgid "sty_type_sco_title"
+msgstr "SCO-titel"
+
+msgid "sty_type_section"
+msgstr "Blockera"
+
+#, fuzzy
+msgid "sty_type_strong"
+msgstr "Strong"
+
+msgid "sty_type_sub"
+msgstr "Djupgående"
+
+msgid "sty_type_sup"
+msgstr "Höjdmarkerad"
+
+msgid "sty_type_table"
+msgstr "Tabell"
+
+msgid "sty_type_table_cell"
+msgstr "Tabellcell"
+
+msgid "sty_type_text_block"
+msgstr "Text (block)"
+
+msgid "sty_type_text_inline"
+msgstr "karaktärer"
+
+msgid "sty_type_va_cntr"
+msgstr "Vert. Dragspelsbehållare"
+
+msgid "sty_type_va_icntr"
+msgstr "Vert. Dragspel element behållare"
+
+msgid "sty_type_va_icont"
+msgstr "Vert. Dragspel element innehåll"
+
+msgid "sty_type_va_ihcap"
+msgstr "Vert. Dragspel element rubrik"
+
+msgid "sty_type_va_ihead"
+msgstr "Vert. Dragspel element huvud"
+
+msgid "sty_type_va_iheada"
+msgstr "Vert. Dragspel element huvud (aktiv)"
+
+#, fuzzy
+msgid "sty_ul"
+msgstr "Unordered List"
+
+msgid "sty_va_cntr_class"
+msgstr "Vert. Dragspelsbehållare"
+
+msgid "sty_va_icntr_class"
+msgstr "Vert. Dragspel element behållare"
+
+msgid "sty_va_icont_class"
+msgstr "Vert. Dragspel element innehåll"
+
+msgid "sty_va_ihcap_class"
+msgstr "Vert. Dragspel element rubrik"
+
+msgid "sty_va_ihead_class"
+msgstr "Vert. Dragspel element huvud"
+
+msgid "sty_va_iheada_class"
+msgstr "Vert. Dragspel element huvud (aktiv)"
+
+msgid "sty_vaccordion_templates"
+msgstr "Vert. Dragspelsmallar"
+
+msgid "sty_vertical"
+msgstr "Vertikal"
+
+msgid "sty_vertical_align"
+msgstr "Vertikal inriktning"
+
+msgid "sty_white_space"
+msgstr "Leerzeile"
+
+msgid "sty_width"
+msgstr "Bredd"
+
+msgid "sty_width_height"
+msgstr "Bredd x Höjd"
+
+msgid "sty_word_spacing"
+msgstr "Avstånd mellan ord"
+
+msgid "style"
+msgstr "Stil"
+
+msgid "style_assignments_deleted"
+msgstr "Styletilldelningar för följande understil har tagits bort"
+
+msgid "style_copied"
+msgstr "Style har kopierats framgångsrikt."
+
+msgid "style_current_style"
+msgstr "Tidsstil"
+
+msgid "style_delete_style"
+msgstr "Radera Stil"
+
+msgid "style_deleted"
+msgstr "Borttagen stil"
+
+msgid "style_edit_style"
+msgstr "Redigera stil"
+
+msgid "style_id"
+msgstr "Stil-ID"
+
+msgid "style_id_description"
+msgstr "Stil-ID:t används för stilspecifika css- och less-filer under skin-mappen. Stil-ID:t får endast bestå av bokstäver, siffror och bindestreck."
+
+msgid "style_imported"
+msgstr "Style har framgångsrikt importerats till"
+
+msgid "style_name"
+msgstr "Style titel"
+
+msgid "style_name_description"
+msgstr "Stiltiteln kan användas som en beskrivning för applikationsområdet. Den listas i alla gränssnittselement där en skin kan väljas."
+
+msgid "style_not_deleted"
+msgstr "Stilen kunde inte raderas av följande skäl"
+
+msgid "style_page_layout_module_learning_module"
+msgstr "ILIAS utbildningsmodul"
+
+msgid "style_page_layout_module_portfolio"
+msgstr "Portfölj"
+
+msgid "style_page_layout_module_scorm"
+msgstr "SCORM"
+
+msgid "style_support_reuse"
+msgstr "Återanvändning"
+
+msgid "style_support_reuse_info"
+msgstr "Underobjekt till denna container kan också använda innehållsstilen."
+
+msgid "styles_not_deleted"
+msgstr "Stilarna kunde inte tas bort av följande skäl"
+
+msgid "sub_style"
+msgstr "Sub-Stil"
+
+msgid "sub_style_id"
+msgstr "Sub Stil ID"
+
+msgid "sub_style_id_description"
+msgstr "Understilens ID används för relevanta css- och less-filer. Dessa finns inuti den relevanta skin-mappen. Understilens ID får endast bestå av bokstäver, siffror och bindestreck."
+
+msgid "sub_style_name"
+msgstr "Sub Stilnamn"
+
+msgid "sub_style_name_description"
+msgstr "Understilsnamnet kan användas som en beskrivning för applikationsområdet. Det listas i alla gränssnittselement som tillåter val av hud."
+
+msgid "sub_style_parent_style_description"
+msgstr "Sub-styles är tilldelade exakt en överordnad stil. De visas endast för användare som också har tillgång till den överordnade stilen. Den överordnade stilen för en understil kan bara tilldelas en gång under skapandet av understilen."
+
+msgid "system_style_activation"
+msgstr "Systemstil aktiverad"
+
+msgid "system_style_activation_description"
+msgstr "Denna systemstil kan användas i ILIAS"
+
+msgid "system_style_default_description"
+msgstr "Om den är aktiverad ställs denna stil in som systemets standardstil. Systemets standardstil används om användaren ännu inte har tilldelat en egen stil eller om användaren inte är inloggad."
+
+msgid "system_style_personal_description"
+msgstr "Om den är aktiverad ställs denna stil in som en personlig stil. Detta är en bra hjälp om du vill följa aktuella ändringar av huden."
+
+msgid "update_colors"
+msgstr "Uppdatera färger"
+
+msgid "update_icon"
+msgstr "Uppdatera ikon"
+
+msgid "update_variables"
+msgstr "Uppdatera variabler"
+
+msgid "usages"
+msgstr "Användningsområden"
+
+msgid "used_colors"
+msgstr "Använda färger"
+
+msgid "zip_export_failed"
+msgstr "ZIP-exporten misslyckades med följande felmeddelande"

@@ -1,0 +1,24 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: membership\n"
+
+msgid "mem_error_preconditions"
+msgstr "Die Aufnahme konnte nicht erfolgen, da mindestens eine Einstellung dies verhindert."
+
+msgid "mem_force_notification"
+msgstr "Täglicher Neuigkeitenüberblick"
+
+msgid "mem_force_notification_mode_all_sub_blocked"
+msgstr "Mitglieder können ihre Abonnierung des täglichen Neuigkeitenüberblicks kündigen"
+
+msgid "mem_force_notification_mode_blocked"
+msgstr "Mitglieder abonnieren automatisch die tägliche E-Mail mit Neuigkeitenüberblick"
+
+msgid "mem_force_notification_mode_self"
+msgstr "Mitglieder müssen den täglichen Neuigkeitenüberblick selbst abonnieren"

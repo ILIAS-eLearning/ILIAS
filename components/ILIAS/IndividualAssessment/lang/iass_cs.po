@@ -1,0 +1,276 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: iass\n"
+
+#, fuzzy
+msgid "download_assessment_paper"
+msgstr "Download Record file"
+
+msgid "grading"
+msgstr "Klasifikace"
+
+msgid "grading_info"
+msgstr "Informace o klasifikaci"
+
+msgid "grading_record"
+msgstr "Klasifikační záznam"
+
+msgid "iass_add"
+msgstr "Vytvořit individuální hodnocení"
+
+msgid "iass_add_user_failure"
+msgstr "Nelze přidat jednoho nebo více uživatelů."
+
+msgid "iass_add_user_success"
+msgstr "Uživatel přidán jako zkoušený."
+
+msgid "iass_added"
+msgstr "Přidáno individuální hodnocení"
+
+msgid "iass_amend_saved"
+msgstr "Doplněný záznam byl uložen."
+
+msgid "iass_assessment_not_completed"
+msgstr "Hodnocení nedokončeno"
+
+#, fuzzy
+msgid "iass_cancel"
+msgstr "Cancel"
+
+msgid "iass_changed_by"
+msgstr "Změněno po dokončení"
+
+#, fuzzy
+msgid "iass_confirm_finalize"
+msgstr "Finalize"
+
+msgid "iass_consultation_hours"
+msgstr "Konzultační hodiny"
+
+msgid "iass_contact"
+msgstr "Jméno"
+
+msgid "iass_contact_info"
+msgstr "Kontaktní informace"
+
+msgid "iass_content"
+msgstr "Popis obsahu hodnocení"
+
+msgid "iass_content_explanation"
+msgstr "Obsahy hodnocení, např. relevantní témata."
+
+msgid "iass_copy"
+msgstr "Kopírovat individuální hodnocení"
+
+msgid "iass_download"
+msgstr "Stáhnout"
+
+msgid "iass_edit"
+msgstr "Nastavení"
+
+msgid "iass_edit_info"
+msgstr "Nastavení informací"
+
+msgid "iass_edit_record"
+msgstr "Záznam uživatele"
+
+msgid "iass_event_time"
+msgstr "Čas události"
+
+msgid "iass_event_time_place_required"
+msgstr "Požadované datum a místo"
+
+msgid "iass_event_time_place_required_info"
+msgstr "Ke každému záznamu účastníka musí být přidáno datum a místo hodnocení."
+
+msgid "iass_file"
+msgstr "Soubor"
+
+#, fuzzy
+msgid "iass_file_dropzone"
+msgstr "you can drop your files here"
+
+msgid "iass_file_required"
+msgstr "Požadovaný soubor záznamu"
+
+msgid "iass_file_required_info"
+msgstr "Soubor záznamu musí být nahrán do každého záznamu účastníka."
+
+msgid "iass_file_visible_examinee"
+msgstr "Soubor viditelný pro účastníka"
+
+#, fuzzy
+msgid "iass_file_visible_examinee_info"
+msgstr "Once the individual assessment has been completed, the person assessed can view the record file. To do so, the ‘Make Result Available to Participant’ function must be enabled."
+
+msgid "iass_filter_all"
+msgstr "Vše"
+
+msgid "iass_filter_failed"
+msgstr "Nezdařilo se pouze"
+
+msgid "iass_filter_finalized"
+msgstr "Dokončeno pouze"
+
+msgid "iass_filter_not_finalized"
+msgstr "Nedokončeno pouze"
+
+msgid "iass_filter_not_started"
+msgstr "Nezahájeno pouze"
+
+msgid "iass_finalize"
+msgstr "Dokončit"
+
+#, fuzzy
+msgid "iass_finalize_info"
+msgstr "Individual Assessment will be finalized."
+
+msgid "iass_finalize_user_qst"
+msgstr "Má být status zkoušeného skutečně dokončen? Potom není možné provádět žádné změny."
+
+msgid "iass_further_field_headline"
+msgstr "Podrobné informace"
+
+msgid "iass_graded_by"
+msgstr "Známkoval"
+
+msgid "iass_info_emails_expl"
+msgstr "Můžete zadat několik adres oddělených čárkou."
+
+msgid "iass_internal_note"
+msgstr "Interní poznámky k záznamu (nesmí je vidět zkoušený)"
+
+msgid "iass_internal_note_info"
+msgstr "Interní poznámky jsou viditelné pouze pro lektory, ale ne pro zkoušené."
+
+msgid "iass_location"
+msgstr "Umístění"
+
+msgid "iass_mails"
+msgstr "E-maily"
+
+msgid "iass_may_not_finalize"
+msgstr "Zkoušený nesmí být dokončen."
+
+msgid "iass_membership_finalized"
+msgstr "Záznam dokončen"
+
+msgid "iass_membership_saved"
+msgstr "Záznam byl uložen, ale ještě nebyl dokončen"
+
+msgid "iass_mess_notification_completed"
+msgstr "Prošli jste hodnocením %s. Podrobnosti najdete v následujícím záznamu:"
+
+msgid "iass_mess_notification_failed"
+msgstr "Neprošli jste hodnocením %s. Podrobnosti najdete v následujícím záznamu:"
+
+msgid "iass_notify"
+msgstr "Informovat uživatele po dokončení"
+
+msgid "iass_notify_explanation"
+msgstr "Zkoušený bude po dokončení informován e-mailem a bude mít přístup ke svému záznamu na obrazovce Informace."
+
+msgid "iass_phone"
+msgstr "Telefon"
+
+msgid "iass_place"
+msgstr "Místo události"
+
+msgid "iass_record"
+msgstr "Poznámka k záznamu"
+
+msgid "iass_record_info"
+msgstr "Zkoušení mohou vidět poznámku k záznamu, když byli konečně oznámkováni. Pokud je níže povoleno oznámení, bude poznámka k záznamu odeslána zkoušenému také e-mailem."
+
+msgid "iass_record_template"
+msgstr "Šablona záznamu"
+
+msgid "iass_record_template_explanation"
+msgstr "Šablona pro záznam klasifikace zkoušeného. Bude automaticky použita pro každého nového zkoušeného."
+
+msgid "iass_remove_user_qst"
+msgstr "Má být zkoušený opravdu odstraněn?"
+
+msgid "iass_responsibility"
+msgstr "Odpovědnost"
+
+msgid "iass_save_amend"
+msgstr "Uložit změnu"
+
+#, fuzzy
+msgid "iass_settings_availability"
+msgstr "Availability"
+
+msgid "iass_settings_saved"
+msgstr "Nastavení uložena."
+
+msgid "iass_sort_changetime_asc"
+msgstr "Poslední změna vzestupně"
+
+msgid "iass_sort_changetime_desc"
+msgstr "Poslední změna sestupně"
+
+msgid "iass_sort_examiner_login_asc"
+msgstr "Zkoušející vzestupně"
+
+msgid "iass_sort_examiner_login_desc"
+msgstr "Zkoušející sestupně"
+
+msgid "iass_sort_name_asc"
+msgstr "Uživatelské jméno vzestupně"
+
+msgid "iass_sort_name_desc"
+msgstr "Uživatelské jméno sestupně"
+
+msgid "iass_status_completed"
+msgstr "Dokončeno"
+
+msgid "iass_status_failed"
+msgstr "Nepodařilo se"
+
+msgid "iass_status_pending"
+msgstr "Stav nevyřízené"
+
+msgid "iass_subj_notification_completed"
+msgstr "%s: Individuální hodnocení dokončeno."
+
+msgid "iass_subj_notification_failed"
+msgstr "%s: Individuální hodnocení se nepodařilo."
+
+msgid "iass_upload_file"
+msgstr "Nahrát soubor"
+
+#, fuzzy
+msgid "iass_user_removed"
+msgstr "User successfully removed."
+
+msgid "iass_usr_amend"
+msgstr "Doplnit klasifikaci"
+
+msgid "iass_usr_download_attachment"
+msgstr "Stáhnout přílohu"
+
+msgid "iass_usr_edit"
+msgstr "Upravit záznam uživatele a proces učení"
+
+msgid "iass_usr_remove"
+msgstr "Odebrat uživatele z objektu"
+
+msgid "iass_usr_view"
+msgstr "Záznam uživatele"
+
+msgid "il_iass_members"
+msgstr "Účastníci"
+
+msgid "lp_inactive"
+msgstr "Poznámka: Postup učení pro tento objekt je neaktivní. Proto nesmí být členství dokončena."
+
+#, fuzzy
+msgid "save_amend"
+msgstr "Save Amended Record"

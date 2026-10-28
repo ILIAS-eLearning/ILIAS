@@ -1,0 +1,29 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ro\n"
+"Language-Team: Romanian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n == 0 || n != 1 && n % 100 >= 1 && n % 100 <= 19) ? 1 : 2);\n"
+"X-Domain: cat\n"
+
+#, fuzzy
+msgid "cat_copy"
+msgstr "Copy Category"
+
+#, fuzzy
+msgid "cat_hide_tax_in_side_block"
+msgstr "Don't Present in Side Panel"
+
+#, fuzzy
+msgid "cat_import"
+msgstr "Import Category"
+
+#, fuzzy
+msgid "cat_more_translations"
+msgstr "More Translations"
+
+#, fuzzy
+msgid "cat_show_tax_in_side_block"
+msgstr "Present in Side Panel"

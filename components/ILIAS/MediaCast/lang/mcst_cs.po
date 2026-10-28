@@ -1,0 +1,303 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: mcst\n"
+
+msgid "mcst_add_new_item"
+msgstr "Přidat novou položku Mediacast"
+
+#, fuzzy
+msgid "mcst_audio_files"
+msgstr "Audio Files"
+
+msgid "mcst_audioportable_settings_info"
+msgstr "Seznam přípon souborů oddělený čárkou."
+
+msgid "mcst_audioportable_settings_title"
+msgstr "Přípony souborů pro formát Audio"
+
+msgid "mcst_audioportable_title"
+msgstr "Přídavný audio soubor pro přenosná zařízení"
+
+msgid "mcst_automatic_detection"
+msgstr "Automatická detekce"
+
+#, fuzzy
+msgid "mcst_autoplay"
+msgstr "Autoplay"
+
+#, fuzzy
+msgid "mcst_autoplay_active"
+msgstr "Autoplay (Default on)"
+
+#, fuzzy
+msgid "mcst_autoplay_inactive"
+msgstr "Autoplay (Default off)"
+
+#, fuzzy
+msgid "mcst_autoplay_info"
+msgstr "Starts automatically the next video when reaching the end of the previous one. This feature is not supported by youtube videos."
+
+msgid "mcst_clear_purpose_title"
+msgstr "Smazat"
+
+#, fuzzy
+msgid "mcst_confirm_deletion"
+msgstr "Confirm Deletion"
+
+msgid "mcst_converted_file"
+msgstr "Soubor byl změněn."
+
+msgid "mcst_copy"
+msgstr "Kopírovat Mediacast"
+
+msgid "mcst_current_value_info"
+msgstr "Ukazuje aktuální hodnotu tohoto formátu."
+
+msgid "mcst_default_visibility"
+msgstr "Výchozí přístup"
+
+msgid "mcst_det_playtime"
+msgstr "Určit hrací dobu"
+
+#, fuzzy
+msgid "mcst_download_all"
+msgstr "Download All"
+
+msgid "mcst_download_audioportable"
+msgstr "Stáhnout přenosné Audio"
+
+msgid "mcst_download_cnt"
+msgstr "Staženo"
+
+msgid "mcst_download_standard"
+msgstr "Stáhnout"
+
+#, fuzzy
+msgid "mcst_download_started_bg"
+msgstr "Download of files has started. Please check your background tasks in the top right corner."
+
+msgid "mcst_download_videoalternative"
+msgstr "Stáhnout alternativní soubor"
+
+msgid "mcst_download_videoportable"
+msgstr "Stáhnout přenosné Video"
+
+msgid "mcst_downloadable"
+msgstr "Odkazy ke stažení"
+
+msgid "mcst_downloadable_info"
+msgstr "Pokud je tato volba zapnuta, odkazy pro stahování jsou poskytovány."
+
+msgid "mcst_duration"
+msgstr "Hrací doba"
+
+msgid "mcst_duration_info"
+msgstr "Není-li vložena žádná hodnota, ILIAS zkusí zjistit hrací dobu automaticky."
+
+msgid "mcst_edit_item"
+msgstr "Upravit položku Mediacast"
+
+msgid "mcst_edit_settings"
+msgstr "Nastavení MediaCast"
+
+msgid "mcst_gallery"
+msgstr "Galerie"
+
+#, fuzzy
+msgid "mcst_img_gallery"
+msgstr "Image Gallery"
+
+msgid "mcst_import"
+msgstr "Importovat Mediacast"
+
+msgid "mcst_incl_files_in_rss"
+msgstr "Zahrnout mediální soubory v zásobníku"
+
+msgid "mcst_incl_files_in_rss_info"
+msgstr "Je-li zapnuto, mediální soubory jsou zahrnuty jako přílohy v zásobníku RSS. Jinak zásobník pouze informuje uživatele o nových položkách."
+
+msgid "mcst_input_either_file_or_url"
+msgstr "Uveďte prosím soubor nebo adresu URL. Pokud poskytnete soubor, vezměte prosím na vědomí maximální povolenou velikost souboru."
+
+#, fuzzy
+msgid "mcst_items"
+msgstr "Items"
+
+msgid "mcst_last_submission"
+msgstr "Poslední zařazení"
+
+msgid "mcst_list"
+msgstr "List"
+
+msgid "mcst_manage"
+msgstr "Spravovat"
+
+msgid "mcst_media_cast"
+msgstr "Mediacast"
+
+msgid "mcst_media_cast_not_online"
+msgstr "Mediacast není online"
+
+msgid "mcst_media_cast_not_online_text"
+msgstr "Mediacast není online, nebo bylo vypnuto"
+
+msgid "mcst_mimetype"
+msgstr "Typ Mime"
+
+msgid "mcst_mimetype_info"
+msgstr "Vyberte prosím typ mime k řídícímu pluginu používanému pro přehrávání.<br>Povšimněte si prosím: Pamatujte, že ne každý webový prohlížeč obsahuje plugin, který hodláte použít."
+
+msgid "mcst_mimetypes"
+msgstr "Typy Mime"
+
+msgid "mcst_mimetypes_info"
+msgstr "Seznam mime typů oddělených čárkami"
+
+#, fuzzy
+msgid "mcst_new_items_det_lp"
+msgstr "Add new items to learning progress"
+
+#, fuzzy
+msgid "mcst_new_items_det_lp_info"
+msgstr "New items are automatically added to determine the overall learning progress."
+
+msgid "mcst_news_item_visibility_info"
+msgstr "Veřejné zprávy mohou být přístupné bez autentizace mimo ILIAS přes RSS. Nevkládejte prosím žádné důvěrné informace."
+
+#, fuzzy
+msgid "mcst_next_items"
+msgstr "Next Items"
+
+#, fuzzy
+msgid "mcst_no_autoplay"
+msgstr "No Autoplay"
+
+msgid "mcst_nr_items"
+msgstr "Počet položek"
+
+#, fuzzy
+msgid "mcst_nr_videos"
+msgstr "Number of Initial Videos"
+
+msgid "mcst_ordering"
+msgstr "Třídění"
+
+msgid "mcst_ordering_creation_date_asc"
+msgstr "Podle data vytvoření (vzestupně)"
+
+msgid "mcst_ordering_creation_date_desc"
+msgstr "Podle data vytvoření (sestupně)"
+
+msgid "mcst_ordering_manual"
+msgstr "Manuál"
+
+msgid "mcst_ordering_title"
+msgstr "Podle názvu"
+
+msgid "mcst_play"
+msgstr "Přehrát"
+
+msgid "mcst_play_cnt"
+msgstr "Přehráno"
+
+msgid "mcst_play_time"
+msgstr "Hrací doba"
+
+#, fuzzy
+msgid "mcst_podcast"
+msgstr "Podcast"
+
+#, fuzzy
+msgid "mcst_prev_items"
+msgstr "Previous Items"
+
+#, fuzzy
+msgid "mcst_preview"
+msgstr "Preview"
+
+msgid "mcst_preview_picture"
+msgstr "Náhled obrázku"
+
+msgid "mcst_preview_picture_info"
+msgstr "Podporují pouze následující hlavní typy médií:"
+
+msgid "mcst_reference_info"
+msgstr "Poskytnout směrování URL zdroje"
+
+msgid "mcst_save_order"
+msgstr "Uložit objednávku"
+
+msgid "mcst_set_playtime"
+msgstr "Hrací doba byla nastavena."
+
+msgid "mcst_settings"
+msgstr "Nastavení Mediacast"
+
+#, fuzzy
+msgid "mcst_show_description"
+msgstr "Show Description"
+
+msgid "mcst_standard_settings_info"
+msgstr "Seznam přípon souborů oddělených čárkami."
+
+msgid "mcst_standard_settings_title"
+msgstr "Přípony souborů pro standardní formát"
+
+msgid "mcst_standard_title"
+msgstr "Běžný mediální soubor"
+
+msgid "mcst_unable_to_determin_playtime"
+msgstr "Nelze určit hrací dobu. Nastavte ji prosím manuálně klepnutím na Upravit."
+
+#, fuzzy
+msgid "mcst_video_cast"
+msgstr "Videocast"
+
+#, fuzzy
+msgid "mcst_video_completion_threshold"
+msgstr "Video Completion Threshold"
+
+#, fuzzy
+msgid "mcst_video_completion_threshold_info"
+msgstr "Amount of video that triggers the completion status. Please note that the user may skip forward to reach this point."
+
+msgid "mcst_videoalternative_title"
+msgstr "Alternativní video soubor (použít v prohlížeči)"
+
+msgid "mcst_videoportable_settings_info"
+msgstr "Seznam přípon souborů oddělených čárkami."
+
+msgid "mcst_videoportable_settings_title"
+msgstr "Přípony souborů pro Video formát"
+
+msgid "mcst_videoportable_title"
+msgstr "Přídavný video soubor pro přenosná zařízení"
+
+#, fuzzy
+msgid "mcst_view_abandoned"
+msgstr "The current presentation mode has been abandoned. Please open the settings and switch to another mode."
+
+msgid "mcst_viewmode"
+msgstr "Režim prezentace"
+
+msgid "mcst_visibility_info"
+msgstr "Veřejné položky přístupné přes RSS bez autentizace."
+
+msgid "mcst_visibility_public"
+msgstr "Veřejné"
+
+msgid "mcst_visibility_users"
+msgstr "Zaznamenán v uživatelích"
+
+#, fuzzy
+msgid "mcst_watched"
+msgstr "watched"
+
+msgid "mcst_webfeed"
+msgstr "RSS Web Feed"

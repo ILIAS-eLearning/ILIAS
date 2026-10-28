@@ -1,0 +1,744 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: lso\n"
+
+msgid "abstract"
+msgstr ""
+
+msgid "abstract_img"
+msgstr ""
+
+msgid "add_condition"
+msgstr ""
+
+msgid "always"
+msgstr ""
+
+msgid "avail_time_period"
+msgstr ""
+
+msgid "completed_steps"
+msgstr ""
+
+msgid "condition_already_exists"
+msgstr ""
+
+msgid "condition_learning_progress"
+msgstr ""
+
+msgid "condition_name"
+msgstr ""
+
+msgid "condition_points"
+msgstr ""
+
+msgid "condition_subtype"
+msgstr ""
+
+msgid "condition_targets"
+msgstr ""
+
+msgid "condition_type"
+msgstr ""
+
+msgid "conditions"
+msgstr ""
+
+msgid "conditions_deleted"
+msgstr ""
+
+msgid "cont_ed_insert_lsolearningmap"
+msgstr ""
+
+msgid "cont_ed_insert_lsostartbutton"
+msgstr ""
+
+msgid "curriculum"
+msgstr ""
+
+msgid "delete_condition"
+msgstr ""
+
+msgid "delete_condition_no_selection"
+msgstr ""
+
+msgid "delete_condition_verify"
+msgstr ""
+
+msgid "delete_confirmation"
+msgstr ""
+
+msgid "entries_deleted"
+msgstr ""
+
+msgid "entries_updated"
+msgstr ""
+
+msgid "extro"
+msgstr ""
+
+msgid "extro_img"
+msgstr ""
+
+msgid "failed"
+msgstr ""
+
+msgid "finished"
+msgstr ""
+
+msgid "first_access"
+msgstr ""
+
+msgid "input_condition"
+msgstr ""
+
+msgid "input_conditions"
+msgstr ""
+
+msgid "last_visited_step"
+msgstr ""
+
+msgid "learner_view"
+msgstr ""
+
+msgid "learning_map"
+msgstr ""
+
+msgid "learning_progress_completed"
+msgstr ""
+
+msgid "learning_progress_in_progress"
+msgstr ""
+
+msgid "learning_progress_input"
+msgstr ""
+
+msgid "learning_progress_not_attempted"
+msgstr ""
+
+msgid "learning_progress_output"
+msgstr ""
+
+msgid "logic_gate"
+msgstr ""
+
+msgid "logic_gate_and"
+msgstr ""
+
+msgid "logic_gate_and_byline"
+msgstr ""
+
+msgid "logic_gate_not"
+msgstr ""
+
+msgid "logic_gate_not_byline"
+msgstr ""
+
+msgid "logic_gate_or"
+msgstr ""
+
+msgid "logic_gate_or_byline"
+msgstr ""
+
+msgid "lp_not_relevant_post_cond"
+msgstr ""
+
+msgid "lso_activation_online_info"
+msgstr ""
+
+msgid "lso_adaptive_dead_end"
+msgstr ""
+
+msgid "lso_adaptive_end"
+msgstr ""
+
+msgid "lso_adaptive_entry_point"
+msgstr ""
+
+msgid "lso_adaptive_information"
+msgstr ""
+
+msgid "lso_adaptive_misconfigured"
+msgstr ""
+
+msgid "lso_adaptive_misconfigured_info"
+msgstr ""
+
+msgid "lso_adaptive_missing_boundaries_online"
+msgstr ""
+
+msgid "lso_adaptive_missing_end_object"
+msgstr ""
+
+msgid "lso_adaptive_missing_start_object"
+msgstr ""
+
+msgid "lso_adaptive_next_object"
+msgstr ""
+
+msgid "lso_adaptive_offline"
+msgstr ""
+
+msgid "lso_adaptive_offline_due_to_missing_boundaries"
+msgstr ""
+
+msgid "lso_adaptive_previous_object"
+msgstr ""
+
+msgid "lso_adaptive_start"
+msgstr ""
+
+msgid "lso_adaptive_start_end_not_same"
+msgstr ""
+
+msgid "lso_at_least_one_admin"
+msgstr ""
+
+msgid "lso_choice_page_headline"
+msgstr ""
+
+msgid "lso_choice_page_start_label"
+msgstr ""
+
+msgid "lso_condition_simple_choice_target"
+msgstr ""
+
+msgid "lso_condition_simple_multi_target"
+msgstr ""
+
+msgid "lso_condition_unknown_type"
+msgstr ""
+
+msgid "lso_edit_permission"
+msgstr ""
+
+msgid "lso_exception_additional_form_no_override"
+msgstr ""
+
+msgid "lso_exception_at_least_one_object"
+msgstr ""
+
+msgid "lso_exception_condition_ambiguous"
+msgstr ""
+
+msgid "lso_exception_condition_not_exists"
+msgstr ""
+
+msgid "lso_exception_logic_gate_condition_id_not_set"
+msgstr ""
+
+msgid "lso_exception_logic_gate_subtype_not_stored"
+msgstr ""
+
+msgid "lso_exception_lp_condition_ambiguous"
+msgstr ""
+
+msgid "lso_exception_lp_target_ref_id_not_set"
+msgstr ""
+
+msgid "lso_exception_lp_target_ref_id_not_stored"
+msgstr ""
+
+msgid "lso_exception_object_ids_invalid"
+msgstr ""
+
+msgid "lso_exception_object_ids_not_stored"
+msgstr ""
+
+msgid "lso_exception_points_invalid"
+msgstr ""
+
+msgid "lso_exception_points_negative"
+msgstr ""
+
+msgid "lso_exception_subset_exceeds_objects"
+msgstr ""
+
+msgid "lso_exception_subset_invalid"
+msgstr ""
+
+msgid "lso_exception_subset_negative"
+msgstr ""
+
+msgid "lso_header_delete_members"
+msgstr ""
+
+msgid "lso_header_edit_members"
+msgstr ""
+
+msgid "lso_intropages_deprecationhint"
+msgstr ""
+
+msgid "lso_learning_map_blocked"
+msgstr ""
+
+msgid "lso_learning_map_current"
+msgstr ""
+
+msgid "lso_learning_map_done"
+msgstr ""
+
+msgid "lso_learning_map_empty"
+msgstr ""
+
+msgid "lso_learning_map_fit"
+msgstr ""
+
+msgid "lso_learning_map_focus_current"
+msgstr ""
+
+msgid "lso_learning_map_node_blocked"
+msgstr ""
+
+msgid "lso_learning_map_node_open"
+msgstr ""
+
+msgid "lso_learning_map_open"
+msgstr ""
+
+msgid "lso_learning_map_open_object"
+msgstr ""
+
+msgid "lso_learning_map_path"
+msgstr ""
+
+msgid "lso_learning_map_reset_zoom"
+msgstr ""
+
+msgid "lso_learning_map_reset_zoom_label"
+msgstr ""
+
+msgid "lso_learning_map_sr_at_current"
+msgstr ""
+
+msgid "lso_learning_map_sr_blocked_way"
+msgstr ""
+
+msgid "lso_learning_map_sr_current"
+msgstr ""
+
+msgid "lso_learning_map_sr_end"
+msgstr ""
+
+msgid "lso_learning_map_sr_fitted"
+msgstr ""
+
+msgid "lso_learning_map_sr_leads_to"
+msgstr ""
+
+msgid "lso_learning_map_sr_leads_to_none"
+msgstr ""
+
+msgid "lso_learning_map_sr_no_current"
+msgstr ""
+
+msgid "lso_learning_map_sr_start"
+msgstr ""
+
+msgid "lso_learning_map_sr_state_blocked"
+msgstr ""
+
+msgid "lso_learning_map_sr_state_done"
+msgstr ""
+
+msgid "lso_learning_map_sr_state_open"
+msgstr ""
+
+msgid "lso_learning_map_sr_step"
+msgstr ""
+
+msgid "lso_learning_map_sr_summary"
+msgstr ""
+
+msgid "lso_learning_map_sr_summary_current"
+msgstr ""
+
+msgid "lso_learning_map_sr_summary_end"
+msgstr ""
+
+msgid "lso_learning_map_sr_summary_start"
+msgstr ""
+
+msgid "lso_learning_map_sr_zoom"
+msgstr ""
+
+msgid "lso_learning_map_viewport"
+msgstr ""
+
+msgid "lso_learning_map_zoom_in"
+msgstr ""
+
+msgid "lso_learning_map_zoom_in_symbol"
+msgstr ""
+
+msgid "lso_learning_map_zoom_out"
+msgstr ""
+
+msgid "lso_learning_map_zoom_out_symbol"
+msgstr ""
+
+msgid "lso_legacy_info"
+msgstr ""
+
+msgid "lso_logic_gate_input_not_start_reference"
+msgstr ""
+
+msgid "lso_mail_admission_new_bod"
+msgstr ""
+
+msgid "lso_mail_admission_new_sub"
+msgstr ""
+
+msgid "lso_mail_dismiss_bod"
+msgstr ""
+
+msgid "lso_mail_dismiss_sub"
+msgstr ""
+
+msgid "lso_mail_notification_reg_bod"
+msgstr ""
+
+msgid "lso_mail_notification_reg_req_bod"
+msgstr ""
+
+msgid "lso_mail_notification_reg_req_bod2"
+msgstr ""
+
+msgid "lso_mail_notification_reg_req_sub"
+msgstr ""
+
+msgid "lso_mail_notification_reg_sub"
+msgstr ""
+
+msgid "lso_mail_notification_unsub_bod"
+msgstr ""
+
+msgid "lso_mail_notification_unsub_bod2"
+msgstr ""
+
+msgid "lso_mail_notification_unsub_sub"
+msgstr ""
+
+msgid "lso_mail_permanent_link"
+msgstr ""
+
+msgid "lso_mail_status_bod"
+msgstr ""
+
+msgid "lso_mail_status_sub"
+msgstr ""
+
+msgid "lso_mail_sub_acc_bod"
+msgstr ""
+
+msgid "lso_mail_sub_acc_sub"
+msgstr ""
+
+msgid "lso_mail_sub_dec_bod"
+msgstr ""
+
+msgid "lso_mail_sub_dec_sub"
+msgstr ""
+
+msgid "lso_mail_subscribe_member_bod"
+msgstr ""
+
+msgid "lso_mail_subscribe_member_sub"
+msgstr ""
+
+msgid "lso_mail_unsubscribe_member_bod"
+msgstr ""
+
+msgid "lso_mail_unsubscribe_member_sub"
+msgstr ""
+
+msgid "lso_mail_wl_bod"
+msgstr ""
+
+msgid "lso_mail_wl_sub"
+msgstr ""
+
+msgid "lso_mainbar_button_label_curriculum"
+msgstr ""
+
+msgid "lso_mainbar_button_label_toc"
+msgstr ""
+
+msgid "lso_mem_tbl_header"
+msgstr ""
+
+msgid "lso_member_administration"
+msgstr ""
+
+msgid "lso_members_deleted"
+msgstr ""
+
+msgid "lso_members_gallery"
+msgstr ""
+
+msgid "lso_members_print_title"
+msgstr ""
+
+msgid "lso_min_one_admin"
+msgstr ""
+
+msgid "lso_mode"
+msgstr ""
+
+msgid "lso_mode_adaptive"
+msgstr ""
+
+msgid "lso_mode_adaptive_info"
+msgstr ""
+
+msgid "lso_mode_byline"
+msgstr ""
+
+msgid "lso_mode_info"
+msgstr ""
+
+msgid "lso_mode_linear"
+msgstr ""
+
+msgid "lso_mode_linear_info"
+msgstr ""
+
+msgid "lso_msg_choose_one_object"
+msgstr ""
+
+msgid "lso_msg_member_assigned"
+msgstr ""
+
+msgid "lso_multidownload_not_available"
+msgstr ""
+
+msgid "lso_new_status"
+msgstr ""
+
+msgid "lso_notification"
+msgstr ""
+
+msgid "lso_notification_explanation_admin"
+msgstr ""
+
+msgid "lso_notify_off"
+msgstr ""
+
+msgid "lso_notify_on"
+msgstr ""
+
+msgid "lso_player_abstract"
+msgstr ""
+
+msgid "lso_player_dead_end_line_1"
+msgstr ""
+
+msgid "lso_player_dead_end_line_2"
+msgstr ""
+
+msgid "lso_player_dead_end_line_3"
+msgstr ""
+
+msgid "lso_player_dead_end_title"
+msgstr ""
+
+msgid "lso_player_extro"
+msgstr ""
+
+msgid "lso_player_finish"
+msgstr ""
+
+msgid "lso_player_next"
+msgstr ""
+
+msgid "lso_player_next_object_blocked"
+msgstr ""
+
+msgid "lso_player_noitems"
+msgstr ""
+
+msgid "lso_player_previous"
+msgstr ""
+
+msgid "lso_player_resume"
+msgstr ""
+
+msgid "lso_player_review"
+msgstr ""
+
+msgid "lso_player_start"
+msgstr ""
+
+msgid "lso_player_suspend"
+msgstr ""
+
+msgid "lso_player_viewmodelabel"
+msgstr ""
+
+msgid "lso_points_input_missing_output_on_object"
+msgstr ""
+
+msgid "lso_points_input_points_must_be_greater_zero"
+msgstr ""
+
+msgid "lso_points_input_source_without_points_output"
+msgstr ""
+
+msgid "lso_points_input_source_without_points_output_table"
+msgstr ""
+
+msgid "lso_points_input_unreachable_threshold"
+msgstr ""
+
+msgid "lso_print_list"
+msgstr ""
+
+msgid "lso_read"
+msgstr ""
+
+msgid "lso_search_users"
+msgstr ""
+
+msgid "lso_settings_availability"
+msgstr ""
+
+msgid "lso_settings_extro"
+msgstr ""
+
+msgid "lso_settings_intro"
+msgstr ""
+
+msgid "lso_settings_old_extro"
+msgstr ""
+
+msgid "lso_settings_old_intro"
+msgstr ""
+
+msgid "lso_show_members_info"
+msgstr ""
+
+msgid "lso_start_item"
+msgstr ""
+
+msgid "lso_static_input_configuration_conflict_detail"
+msgstr ""
+
+msgid "lso_static_input_configuration_contradictory_constraints"
+msgstr ""
+
+msgid "lso_static_input_configuration_missing_references"
+msgstr ""
+
+msgid "lso_static_input_configuration_referenced_by_objects"
+msgstr ""
+
+msgid "lso_static_input_configuration_referenced_objects"
+msgstr ""
+
+msgid "lso_subset_msg_choose_at_least_one"
+msgstr ""
+
+msgid "lso_toast_completed_desc"
+msgstr ""
+
+msgid "lso_toast_completed_title"
+msgstr ""
+
+msgid "lso_users_already_assigned"
+msgstr ""
+
+msgid "mail_lso_roles"
+msgstr ""
+
+msgid "manage"
+msgstr ""
+
+msgid "manage_conditions"
+msgstr ""
+
+msgid "manage_content_maintab"
+msgstr ""
+
+msgid "members_gallery"
+msgstr ""
+
+msgid "no_conditions"
+msgstr ""
+
+msgid "no_entries_selected_for_delete"
+msgstr ""
+
+msgid "not_finished"
+msgstr ""
+
+msgid "notification_lso_completed_title"
+msgstr ""
+
+msgid "output_condition"
+msgstr ""
+
+msgid "output_conditions"
+msgstr ""
+
+msgid "points_input"
+msgstr ""
+
+msgid "points_input_byline"
+msgstr ""
+
+msgid "points_output"
+msgstr ""
+
+msgid "points_output_byline"
+msgstr ""
+
+msgid "set_end_object"
+msgstr ""
+
+msgid "set_start_object"
+msgstr ""
+
+msgid "show_summary"
+msgstr ""
+
+msgid "subset"
+msgstr ""
+
+msgid "subset_amount"
+msgstr ""
+
+msgid "subset_amount_byline"
+msgstr ""
+
+msgid "table_actions"
+msgstr ""
+
+msgid "table_lp_settings"
+msgstr ""
+
+msgid "table_may_proceed"
+msgstr ""
+
+msgid "table_online"
+msgstr ""
+
+msgid "table_position"
+msgstr ""
+
+msgid "table_sequence_content"
+msgstr ""
+
+msgid "table_title"
+msgstr ""
+
+msgid "unparticipate"
+msgstr ""
+
+msgid "unset_end_object"
+msgstr ""
+
+msgid "unset_start_object"
+msgstr ""

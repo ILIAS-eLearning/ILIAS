@@ -1,0 +1,297 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sk\n"
+"Language-Team: Slovak\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: glo\n"
+
+#, fuzzy
+msgid "glo_add_from_other"
+msgstr "Collect Terms"
+
+#, fuzzy
+msgid "glo_add_glossary"
+msgstr "Add Glossary"
+
+#, fuzzy
+msgid "glo_add_to_collection"
+msgstr "Add Glossary to Collection Glossary"
+
+#, fuzzy
+msgid "glo_added_to_collection_info"
+msgstr "The selected glossary has been added to the collection glossary."
+
+#, fuzzy
+msgid "glo_answered_correctly"
+msgstr "I got it right"
+
+#, fuzzy
+msgid "glo_answered_not_correctly"
+msgstr "I was wrong"
+
+#, fuzzy
+msgid "glo_box"
+msgstr "Box"
+
+#, fuzzy
+msgid "glo_box_completed"
+msgstr "You have completed the box."
+
+#, fuzzy
+msgid "glo_box_last_presented"
+msgstr "Box Last Presented"
+
+#, fuzzy
+msgid "glo_boxes"
+msgstr "Boxes"
+
+#, fuzzy
+msgid "glo_boxes_really_reset"
+msgstr "Do you really want to reset all boxes? All flashcards will be moved to the first box."
+
+#, fuzzy
+msgid "glo_boxes_reset"
+msgstr "The boxes have been reset successfully."
+
+#, fuzzy
+msgid "glo_bulk_confirmation"
+msgstr "Please check if all terms and definitions are listed correctly."
+
+#, fuzzy
+msgid "glo_bulk_creation"
+msgstr "Bulk Creation"
+
+#, fuzzy
+msgid "glo_change_to_collection_unavailable_info"
+msgstr "To change the type of content assembly to \"Collection Glossary\", you first have to delete all existing terms within this glossary in tab \"Content\"."
+
+#, fuzzy
+msgid "glo_change_to_standard_unavailable_info"
+msgstr "To change the type of content assembly to \"Standard Glossary\", you first have to remove the selected glossaries in tab \"Content\"."
+
+#, fuzzy
+msgid "glo_check"
+msgstr "Check"
+
+#, fuzzy
+msgid "glo_collection"
+msgstr "Collection Glossary"
+
+#, fuzzy
+msgid "glo_collection_empty_info"
+msgstr "This collection glossary is currently empty. Please add at least one glossary to it."
+
+#, fuzzy
+msgid "glo_collection_info"
+msgstr "The glossary collects additional terms of other glossaries."
+
+#, fuzzy
+msgid "glo_content_assembly"
+msgstr "Content Assembly"
+
+#, fuzzy
+msgid "glo_copy"
+msgstr "Copy Glossary"
+
+#, fuzzy
+msgid "glo_copy_terms"
+msgstr "Copy Terms"
+
+#, fuzzy
+msgid "glo_create_term_definition_pairs"
+msgstr "Create Term/Definition Pairs"
+
+#, fuzzy
+msgid "glo_days_ago"
+msgstr "%s days ago"
+
+#, fuzzy
+msgid "glo_def_vs_term"
+msgstr "Definition vs. Term"
+
+#, fuzzy
+msgid "glo_def_vs_term_info"
+msgstr "Show a definition first, the learner has to guess the term."
+
+#, fuzzy
+msgid "glo_flashcard_training"
+msgstr "Flashcard Training"
+
+#, fuzzy
+msgid "glo_flashcard_training_info"
+msgstr "Offers a presentation as flashcards allowing the user to train the terms/definitions one by one."
+
+#, fuzzy
+msgid "glo_flashcards"
+msgstr "Flashcards"
+
+#, fuzzy
+msgid "glo_flashcards_from_today_confirmation"
+msgstr "The box contains %s flashcards already presented today. Do you want to include only the remaining %s flashcards or all %s flashcards?"
+
+#, fuzzy
+msgid "glo_flashcards_from_today_only_info"
+msgstr "The box contains only flashcards already presented today. Please confirm that these %s flashcards will be shown to you again."
+
+#, fuzzy
+msgid "glo_flashcards_intro"
+msgstr "Your goal is to correctly remember each flashcard four times in a row.<br />To begin with, all of the flashcards are in box 1.<br />Flagging a flashcard as \"I got it right\" will advance it to the next box.<br />Flagging a flashcard as \"I was wrong\" will return the card to the first box.<br />To start, select a box. This will reveal the flashcards."
+
+#, fuzzy
+msgid "glo_flashcards_progress"
+msgstr "%s of %s"
+
+#, fuzzy
+msgid "glo_introduction"
+msgstr "Introduction"
+
+#, fuzzy
+msgid "glo_link_glo_in_glo"
+msgstr "Should all glossary terms of the target glossary be linked in the current glossary now?"
+
+#, fuzzy
+msgid "glo_link_to_usages"
+msgstr "Link"
+
+#, fuzzy
+msgid "glo_md_advanced"
+msgstr "Further Details"
+
+#, fuzzy
+msgid "glo_page_type_gdf"
+msgstr "Term Definition"
+
+#, fuzzy
+msgid "glo_please_select_other_glo"
+msgstr "Please select another glossary."
+
+#, fuzzy
+msgid "glo_quit_box"
+msgstr "Quit Box"
+
+#, fuzzy
+msgid "glo_really_remove_from_collection"
+msgstr "Are you sure you want to remove the following glossary from the collection glossary?"
+
+#, fuzzy
+msgid "glo_reference"
+msgstr "Reference"
+
+#, fuzzy
+msgid "glo_reference_terms"
+msgstr "Reference Terms"
+
+#, fuzzy
+msgid "glo_referenced_term"
+msgstr "Referenced Term"
+
+#, fuzzy
+msgid "glo_remove_glossary"
+msgstr "#Are you sure you want to remove the following glossary from the list of auto-linked glossaries?"
+
+#, fuzzy
+msgid "glo_removed_from_collection_info"
+msgstr "The glossary has been removed from the collection glossary."
+
+#, fuzzy
+msgid "glo_reset_all_boxes"
+msgstr "Reset All Boxes"
+
+#, fuzzy
+msgid "glo_save_and_continue"
+msgstr "Save and Continue"
+
+#, fuzzy
+msgid "glo_select_source_glo"
+msgstr "Please select a source glossary."
+
+#, fuzzy
+msgid "glo_select_terms"
+msgstr "Select Terms"
+
+#, fuzzy
+msgid "glo_selected_glossaries"
+msgstr "Selected Glossaries"
+
+#, fuzzy
+msgid "glo_selected_glossaries_info"
+msgstr "Terms are collected from the following glossaries:"
+
+#, fuzzy
+msgid "glo_selected_glossary_is_current_info"
+msgstr "The selected glossary corresponds to the current glossary. Please select another glossary."
+
+#, fuzzy
+msgid "glo_selected_terms_have_been_copied"
+msgstr "The selected terms have been copied to the clipboard. Please open the target glossary and click \"Paste\"."
+
+#, fuzzy
+msgid "glo_show_in_presentation"
+msgstr "Shown in Presentation View"
+
+#, fuzzy
+msgid "glo_show_in_presentation_off"
+msgstr "Hide in Presentation View"
+
+#, fuzzy
+msgid "glo_show_in_presentation_on"
+msgstr "Show in Presentation View"
+
+#, fuzzy
+msgid "glo_tax_info"
+msgstr "A taxonomy in a Glossary classifies and filters the terms. It always is available in the editing view. For the presentation view, the taxonomy must first be activated. In glossaries, only one taxonomy can be used."
+
+#, fuzzy
+msgid "glo_term"
+msgstr "Glossary Term"
+
+#, fuzzy
+msgid "glo_term_definition_pairs"
+msgstr "Term/Definition Pairs"
+
+#, fuzzy
+msgid "glo_term_definition_pairs_info"
+msgstr "Please enter a term and a definition pair in each line. Term and definition must be separated by a semicolon or a TAB character (usually provided by clipboard actions from spreadsheet applications)."
+
+#, fuzzy
+msgid "glo_term_letter"
+msgstr "Letter"
+
+#, fuzzy
+msgid "glo_term_reference"
+msgstr "Term Reference"
+
+#, fuzzy
+msgid "glo_term_vs_def"
+msgstr "Term vs. Definition"
+
+#, fuzzy
+msgid "glo_term_vs_def_info"
+msgstr "Show a term first, the learner has to guess the definition."
+
+#, fuzzy
+msgid "glo_terms_per_page"
+msgstr "Terms per Page"
+
+#, fuzzy
+msgid "glo_usage_link"
+msgstr "Usage Link"
+
+#, fuzzy
+msgid "glo_use_all_flashcards"
+msgstr "Use All Flashcards (%s)"
+
+#, fuzzy
+msgid "glo_use_remaining_flashcards"
+msgstr "Use Remaining Flashcards (%s)"
+
+#, fuzzy
+msgid "glo_what_means_definition"
+msgstr "What does the following mean?"
+
+#, fuzzy
+msgid "glo_what_means_term"
+msgstr "What does \"%s\" mean?"

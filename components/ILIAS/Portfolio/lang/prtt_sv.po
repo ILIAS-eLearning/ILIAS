@@ -1,0 +1,45 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: prtt\n"
+
+msgid "prtt_activation_limited_visibility_info"
+msgstr "Om portföljmallen är aktiv visas den även utanför åtkomsttiderna."
+
+msgid "prtt_activation_online_info"
+msgstr "Markera denna inställning för att göra portföljmallen tillgänglig för användare."
+
+msgid "prtt_add"
+msgstr "Skapa mall för portfölj"
+
+msgid "prtt_copy"
+msgstr "Mall för portfölj med kopior"
+
+msgid "prtt_edit"
+msgstr "Redigera portföljmall"
+
+msgid "prtt_import"
+msgstr "Import portföljmall"
+
+msgid "prtt_new"
+msgstr "Skapa en ny portföljmall"
+
+msgid "prtt_pfpg"
+msgstr "Portföljsida"
+
+msgid "prtt_portfolio_created"
+msgstr "Portfoliomall har lagts till"
+
+msgid "prtt_properties"
+msgstr "Egenskaper för portfoliomall"
+
+msgid "prtt_select_datasets"
+msgstr "Välj formulär"
+
+msgid "prtt_style"
+msgstr "Stil för mall för portfölj"

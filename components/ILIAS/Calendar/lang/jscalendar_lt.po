@@ -1,0 +1,180 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: lt\n"
+"Language-Team: Lithuanian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && (n % 100 < 11 || n % 100 > 19)) ? 0 : ((n % 10 >= 2 && n % 10 <= 9 && (n % 100 < 11 || n % 100 > 19)) ? 1 : 2);\n"
+"X-Domain: jscalendar\n"
+
+msgid "about_calendar"
+msgstr "Apie kalendorių"
+
+msgid "about_calendar_long"
+msgstr "DHTML Datos/Laiko Parinkėjas\\n(c) dynarch.com 2002-2003\\nNaujasią versiją rasite: http://dynarch.com/mishoo/calendar.epl\\nPlatinama pagal GNU LGPL.  Žiūrėti http://gnu.org/licenses/lgpl.html .\\n\\nDatos parinkimas:\\n- Naudokite «, » mygtukus metų parinkimui\\n- Naudokite <, > bygtukus mėnesio parinkimui\\n- Laikykyte pelės mygtuką ant aukščiau esančių mygtukų greitesnei parinkčiai."
+
+msgid "about_time"
+msgstr "\\n\\nLaiko pasirinkimas:\\n- Norėdami padidinti laiką, paspauskite ant bet kurios laiko dalies.\\n- arba Shift-paspaudimas norint jį sumažinti\\n- ar paspauskite ir paleiskite greitesniai parinkčiai."
+
+msgid "day_first"
+msgstr "Rodyti %s pirma"
+
+msgid "def_date_format"
+msgstr "%Y-%m-%d"
+
+msgid "drag_to_move"
+msgstr "Paimite perkėlimui"
+
+msgid "go_today"
+msgstr "Eiti į Šiandieną"
+
+msgid "l_01"
+msgstr "Sausis"
+
+msgid "l_02"
+msgstr "Vasaris"
+
+msgid "l_03"
+msgstr "Kovas"
+
+msgid "l_04"
+msgstr "Balandis"
+
+msgid "l_05"
+msgstr "Gegužė"
+
+msgid "l_06"
+msgstr "Birželis"
+
+msgid "l_07"
+msgstr "Liepa"
+
+msgid "l_08"
+msgstr "Rugpjūtis"
+
+msgid "l_09"
+msgstr "Rugsėjis"
+
+msgid "l_10"
+msgstr "Spalis"
+
+msgid "l_11"
+msgstr "Lapkritis"
+
+msgid "l_12"
+msgstr "Gruodis"
+
+msgid "l_fr"
+msgstr "Penktadienis"
+
+msgid "l_mo"
+msgstr "Pirmadienis"
+
+msgid "l_sa"
+msgstr "Šeštadienis"
+
+msgid "l_su"
+msgstr "Sekmadienis"
+
+msgid "l_th"
+msgstr "Ketvirtadienis"
+
+msgid "l_tu"
+msgstr "Antradienis"
+
+msgid "l_we"
+msgstr "Trečiadienis"
+
+msgid "next_month"
+msgstr "Kitas mėnuo (laikydami iškv. meniu)"
+
+msgid "next_year"
+msgstr "Kiti metai (laikydami iškv. meniu)"
+
+msgid "open_calendar"
+msgstr "Spauskite čia norėdami atverti kalendorių datos pasirinkimui (JavaScript būtinas!)"
+
+msgid "part_today"
+msgstr " (šiandien)"
+
+msgid "prev_month"
+msgstr "Ankst. mėnuo (laikydami iškv. meniu)"
+
+msgid "prev_year"
+msgstr "Ankst. metai (laikydami iškv. meniu)"
+
+msgid "s_01"
+msgstr "Sau"
+
+msgid "s_02"
+msgstr "Vas"
+
+msgid "s_03"
+msgstr "Kov"
+
+msgid "s_04"
+msgstr "Bal"
+
+msgid "s_05"
+msgstr "Geg"
+
+msgid "s_06"
+msgstr "Bir"
+
+msgid "s_07"
+msgstr "Lie"
+
+msgid "s_08"
+msgstr "Rug"
+
+msgid "s_09"
+msgstr "Rgs"
+
+msgid "s_10"
+msgstr "Spa"
+
+msgid "s_11"
+msgstr "Lap"
+
+msgid "s_12"
+msgstr "Grd"
+
+msgid "s_fr"
+msgstr "Pn"
+
+msgid "s_mo"
+msgstr "P"
+
+msgid "s_sa"
+msgstr "Š"
+
+msgid "s_su"
+msgstr "S"
+
+msgid "s_th"
+msgstr "K"
+
+msgid "s_tu"
+msgstr "A"
+
+msgid "s_we"
+msgstr "T"
+
+msgid "select_date"
+msgstr "Pasirinkite datą"
+
+msgid "time"
+msgstr "Laikas"
+
+msgid "time_part"
+msgstr "(Shift-)Paspauskite ar paleiskite norėdami pakeisti reikšmę"
+
+msgid "today"
+msgstr "Šiandien"
+
+msgid "tt_date_format"
+msgstr "%a, %b %e"
+
+msgid "wk"
+msgstr "sv"

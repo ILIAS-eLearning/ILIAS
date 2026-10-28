@@ -1,0 +1,288 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: sess\n"
+
+msgid "il_sess_participant"
+msgstr "Participantes de la sesión"
+
+msgid "il_sess_status_open"
+msgstr "Sesión abierta"
+
+msgid "mail_sess_roles"
+msgstr "Enviar correo a roles de sesión"
+
+msgid "notification"
+msgstr "Notificación"
+
+msgid "objs_crs_role"
+msgstr "Roles de curso"
+
+msgid "objs_grp_role"
+msgstr "Roles de grupo"
+
+msgid "send_mail_participants"
+msgstr "Todos los participantes de la sesión"
+
+msgid "sess_accept_request"
+msgstr "Aceptar participación"
+
+msgid "sess_assign"
+msgstr "Asignar"
+
+msgid "sess_bt_refuse"
+msgstr "No puede participar"
+
+msgid "sess_change_type"
+msgstr "Cambiar tipo de sesión"
+
+msgid "sess_contact"
+msgstr "Contacto"
+
+msgid "sess_copy"
+msgstr "Copiar sesión"
+
+msgid "sess_filter_all_types"
+msgstr "Todos los tipos"
+
+msgid "sess_filter_not_assigned"
+msgstr "No asignado"
+
+msgid "sess_import"
+msgstr "Importar sesión"
+
+msgid "sess_info_new_sess_type"
+msgstr "Nuevo tipo de sesión"
+
+msgid "sess_is_assigned"
+msgstr "Asignado"
+
+msgid "sess_list_reg_limit_places"
+msgstr "Plazas libres"
+
+msgid "sess_lp_preset"
+msgstr "Activar progreso de aprendizaje"
+
+msgid "sess_lp_preset_info"
+msgstr "Activa el progreso de aprendizaje para todos los eventos de sesión que se creen."
+
+msgid "sess_mail_admins_only"
+msgstr "Solo para administradores"
+
+msgid "sess_mail_admins_only_info"
+msgstr "Sólo los administradores pueden utilizar la función 'Correo a los participantes' en la pestaña 'Participantes'."
+
+msgid "sess_mail_all"
+msgstr "Para todos los participantes"
+
+msgid "sess_mail_all_info"
+msgstr "Todos los participantes pueden utilizar la función 'Correo a los participantes' en la pestaña 'Participantes'."
+
+msgid "sess_mail_context_participant_info"
+msgstr "Para los correos electrónicos de los participantes en las pantallas de participantes y de progreso de aprendizaje de una sesión"
+
+msgid "sess_mail_context_participant_title"
+msgstr "Sesión: Correo a los participantes"
+
+msgid "sess_mail_permanent_link"
+msgstr "Haga clic en el siguiente enlace para encontrar toda la información que necesita sobre la sesión:"
+
+msgid "sess_mail_permanent_link_participants"
+msgstr "Haga clic en el siguiente enlace para editar los participantes de la sesión:"
+
+msgid "sess_mail_sub_acc_bod"
+msgstr "ha sido registrado para la sesión \"%s\"."
+
+msgid "sess_mail_sub_acc_sub"
+msgstr "Registro para la sesión \"%s\""
+
+msgid "sess_mail_sub_dec_bod"
+msgstr "su registro para la sesión \"%s\" ha sido rechazado."
+
+msgid "sess_mail_sub_dec_sub"
+msgstr "Registro rechazado para la sesión \"%s\""
+
+msgid "sess_mail_type"
+msgstr "Correo a los participantes"
+
+msgid "sess_material_assigned"
+msgstr "Asignado"
+
+msgid "sess_material_not_assigned"
+msgstr "No asignado"
+
+msgid "sess_max_members_needed"
+msgstr "Se necesita un número máximo de miembros para la función de lista de espera."
+
+msgid "sess_mem_contacts"
+msgstr "Soporte de tutoría"
+
+msgid "sess_mem_send_mail"
+msgstr "Enviar correo"
+
+msgid "sess_mem_tbl_header"
+msgstr "Participantes de %s"
+
+msgid "sess_member_administration"
+msgstr "Editar participantes"
+
+msgid "sess_members"
+msgstr "Participantes"
+
+msgid "sess_members_gallery"
+msgstr "Galería de la sesión"
+
+msgid "sess_members_print_title"
+msgstr "Participantes de la sesión"
+
+msgid "sess_msg_applicants_assigned"
+msgstr "Solicitante(s) registrado(s) para la sesión."
+
+msgid "sess_msg_applicants_removed"
+msgstr "Solicitante(s) eliminado(s) de la lista."
+
+msgid "sess_new"
+msgstr "Crear sesión"
+
+msgid "sess_new_registrations"
+msgstr "Solicitud de unión"
+
+msgid "sess_notification_option"
+msgstr "Opción"
+
+msgid "sess_notification_option_inherit"
+msgstr "Heredar del superior"
+
+msgid "sess_notification_option_inherit_info"
+msgstr "Utilizar los ajustes de notificación del superior (p.ej. ajustes de notificación del curso o grupo) para los miembros de esta sesión"
+
+msgid "sess_notification_option_manual"
+msgstr "Configurar manualmente"
+
+msgid "sess_notification_option_manual_info"
+msgstr "El ajuste de notificación para los usuarios debe configurarse manualmente en la pestaña 'Participantes'"
+
+msgid "sess_open"
+msgstr "Abrir sesión"
+
+msgid "sess_part_filter_participated"
+msgstr "Solo asistentes"
+
+msgid "sess_part_filter_registered"
+msgstr "Solo registrados"
+
+msgid "sess_part_table_excused"
+msgstr "Excusado"
+
+msgid "sess_participation_refused_info"
+msgstr "Su participación para este evento ha sido cancelada."
+
+msgid "sess_print_list"
+msgstr "Generar lista"
+
+msgid "sess_reg_added_to_wl"
+msgstr "Ha sido añadido a la lista de espera."
+
+msgid "sess_reg_cannot_participate"
+msgstr "No puede participar"
+
+msgid "sess_reg_cannot_participate_info"
+msgstr "Los usuarios pueden indicar que no pueden participar en la sesión."
+
+msgid "sess_reg_direct"
+msgstr "Declarar participación"
+
+msgid "sess_reg_direct_info"
+msgstr "El usuario debe hacer clic en 'Asistir' para participar en la sesión"
+
+msgid "sess_reg_disabled"
+msgstr "Sin registro"
+
+msgid "sess_reg_disabled_info"
+msgstr "No se ofrecen opciones de registro para esta sesión."
+
+msgid "sess_reg_max_members"
+msgstr "Número limitado de miembros"
+
+msgid "sess_reg_max_members_info"
+msgstr "Defina el número máximo de usuarios que pueden participar en la sesión."
+
+msgid "sess_reg_max_members_short"
+msgstr "Número de miembros"
+
+msgid "sess_reg_max_users_exceeded"
+msgstr "No es posible el registro, ya que se ha superado el número máximo de usuarios."
+
+msgid "sess_reg_max_users_exceeded_wl"
+msgstr "Se ha superado el número máximo de usuarios para esta cita de sesión."
+
+msgid "sess_reg_request"
+msgstr "Solicitar participación"
+
+msgid "sess_reg_request_info"
+msgstr "Un administrador debe decidir sobre la solicitud de cada usuario para participar en la sesión."
+
+msgid "sess_reg_tutor"
+msgstr "Registro no disponible"
+
+msgid "sess_reg_tutor_info"
+msgstr "Los usuarios no pueden registrarse en esta sesión por su cuenta. Solo los administradores pueden registrar usuarios."
+
+msgid "sess_reg_type"
+msgstr "Procedimiento de registro"
+
+msgid "sess_reg_waiting_list"
+msgstr "Lista de espera"
+
+msgid "sess_reg_waiting_list_autofill"
+msgstr "Con autocompletado"
+
+msgid "sess_reg_waiting_list_autofill_info"
+msgstr "Los participantes se reclutan de la lista de espera automáticamente en caso de cancelaciones. Esto no debe usarse con el procedimiento de registro \"Solicitud de participación\", ya que el autocompletado lo omitirá."
+
+msgid "sess_reg_waiting_list_no_autofill"
+msgstr "Sin autocompletado"
+
+msgid "sess_reg_waiting_list_no_autofill_info"
+msgstr "Si se excede el número máximo de usuarios, los nuevos registros se colocarán en una lista de espera."
+
+msgid "sess_reg_waiting_list_none"
+msgstr "Ninguna"
+
+msgid "sess_registered_confirm"
+msgstr "La participación requiere la confirmación de un administrador. Se le notificará cuando su solicitud haya sido gestionada."
+
+msgid "sess_registration_notification"
+msgstr "Notificación"
+
+msgid "sess_registration_notification_info"
+msgstr "Muestra una columna en la pestaña 'Participantes' para seleccionar a los usuarios que serán notificados sobre nuevos participantes o bajas"
+
+msgid "sess_section_reg"
+msgstr "Ajustes de registro"
+
+msgid "sess_setting_header_presentation"
+msgstr "Presentación"
+
+msgid "sess_show_participants_info"
+msgstr "Si se activa, los participantes de la sesión pueden acceder a la galería de participantes"
+
+msgid "sess_title"
+msgstr "Título de la sesión"
+
+msgid "sess_users_added"
+msgstr "Usuarios seleccionados registrados para la sesión."
+
+msgid "sess_users_already_assigned"
+msgstr "El usuario ya está registrado en esta sesión."
+
+msgid "sess_users_removed_from_list"
+msgstr "Los usuarios seleccionados han sido eliminados de la lista de espera."
+
+msgid "sess_warn_sess_type_changed"
+msgstr "¿Realmente desea cambiar el tipo de sesión? Se restablecerán todos los ajustes de permisos."

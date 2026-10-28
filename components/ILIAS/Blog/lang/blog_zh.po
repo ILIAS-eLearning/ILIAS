@@ -1,0 +1,402 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: zh\n"
+"Language-Team: Chinese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: blog\n"
+
+#, fuzzy
+msgid "blog_abstract_image"
+msgstr "Add Image To Abstract"
+
+#, fuzzy
+msgid "blog_abstract_image_height"
+msgstr "Height"
+
+#, fuzzy
+msgid "blog_abstract_image_info"
+msgstr "Images which are smaller will not be used."
+
+#, fuzzy
+msgid "blog_abstract_image_pixels"
+msgstr "Px"
+
+#, fuzzy
+msgid "blog_abstract_image_width"
+msgstr "Width"
+
+#, fuzzy
+msgid "blog_abstract_shorten"
+msgstr "Shorten Abstract"
+
+#, fuzzy
+msgid "blog_abstract_shorten_characters"
+msgstr "Characters"
+
+#, fuzzy
+msgid "blog_abstract_shorten_length"
+msgstr "Maximum Length"
+
+msgid "blog_add"
+msgstr "创建博客"
+
+msgid "blog_add_contributor"
+msgstr "添加贡献者"
+
+msgid "blog_add_posting"
+msgstr "发贴"
+
+msgid "blog_admin_inactive_info"
+msgstr "您能在个人桌面管理中激活博客特性"
+
+msgid "blog_admin_toggle_info"
+msgstr "您能在个人桌面管理中完整地关闭博客特性。"
+
+msgid "blog_approve"
+msgstr "批准"
+
+msgid "blog_author"
+msgstr "作者"
+
+msgid "blog_authors"
+msgstr "作者"
+
+#, fuzzy
+msgid "blog_back_to_blog_owner"
+msgstr "Edit Blog"
+
+#, fuzzy
+msgid "blog_change_notification_body_approve"
+msgstr "the following blog posting needs approval."
+
+#, fuzzy
+msgid "blog_change_notification_body_comment"
+msgstr "the following blog posting has been commented."
+
+msgid "blog_change_notification_body_new"
+msgstr "以下博客贴子已创建。"
+
+msgid "blog_change_notification_body_update"
+msgstr "以下博客贴子已更新。"
+
+msgid "blog_change_notification_link"
+msgstr "URL"
+
+#, fuzzy
+msgid "blog_change_notification_reason"
+msgstr "You are receiving this email because you activated notifications for the blog mentioned above."
+
+msgid "blog_change_notification_subject"
+msgstr "博客 \"%s\" 已更新"
+
+msgid "blog_comments"
+msgstr "评论"
+
+#, fuzzy
+msgid "blog_confirm_delete_contributors"
+msgstr "Are you sure you want to delete the following contributors?"
+
+msgid "blog_contribute_other_roles"
+msgstr "以下角色给予一个活跃的\"贡献\"权限：%s 。"
+
+msgid "blog_contributors"
+msgstr "贡献者"
+
+msgid "blog_copy"
+msgstr "复制博客"
+
+#, fuzzy
+msgid "blog_download_submission"
+msgstr "Download Submission"
+
+msgid "blog_draft"
+msgstr "草稿"
+
+msgid "blog_draft_info"
+msgstr "这个贴子草稿仅作者可见。"
+
+#, fuzzy
+msgid "blog_draft_info_contributors"
+msgstr "This posting draft is only visible for the contributors."
+
+#, fuzzy
+msgid "blog_draft_text"
+msgstr "Unpublished Post"
+
+msgid "blog_edit"
+msgstr "编辑博客"
+
+msgid "blog_edit_date"
+msgstr "编辑日期"
+
+msgid "blog_edit_date_info"
+msgstr "发布状态不取决于这个日期。"
+
+msgid "blog_edit_keywords"
+msgstr "编辑关键词"
+
+#, fuzzy
+msgid "blog_edit_posting"
+msgstr "Edit Posting"
+
+msgid "blog_enable_approval"
+msgstr "批准"
+
+msgid "blog_enable_approval_info"
+msgstr "所有贴子在发布之前都要由管理员批准。"
+
+#, fuzzy
+msgid "blog_enable_keywords"
+msgstr "Keywords"
+
+#, fuzzy
+msgid "blog_enable_keywords_info"
+msgstr "Keywords can be set for postings. Clicking a keyword shows all postings tagged with this keyword."
+
+#, fuzzy
+msgid "blog_enable_nav_authors"
+msgstr "Authors"
+
+#, fuzzy
+msgid "blog_enable_nav_authors_info"
+msgstr "List of blog authors is displayed. Clicking a username shows all postings of this author."
+
+msgid "blog_enable_notes"
+msgstr "公共评论"
+
+msgid "blog_enable_rss"
+msgstr "激活RSS"
+
+msgid "blog_enable_rss_info"
+msgstr "RSS feed是公共的和独立的博客分享或用户权限。"
+
+#, fuzzy
+msgid "blog_est_reading_time"
+msgstr "Estimated Reading Time"
+
+#, fuzzy
+msgid "blog_est_reading_time_info"
+msgstr "For Blogs in the repository reading time can be determined and displayed."
+
+msgid "blog_exercise_info"
+msgstr "这个博客是分配 \"%s\"(此分配属于练习\"%s\") 的一部分。"
+
+msgid "blog_exercise_submitted_info"
+msgstr "您最后一次提交是在 %s，请检查导出文件：%s 。"
+
+msgid "blog_finalize_blog"
+msgstr "完成和提交博客"
+
+msgid "blog_finalized"
+msgstr "这个博客已经提交。"
+
+msgid "blog_import"
+msgstr "导入博客"
+
+#, fuzzy
+msgid "blog_incl_comments"
+msgstr "including comments"
+
+msgid "blog_keyword"
+msgstr "关键词"
+
+#, fuzzy
+msgid "blog_keyword_enter"
+msgstr "Write a keyword and press Enter."
+
+msgid "blog_keywords"
+msgstr "关键词"
+
+#, fuzzy
+msgid "blog_latest_posting"
+msgstr "Latest Posting"
+
+#, fuzzy
+msgid "blog_link"
+msgstr "Link"
+
+msgid "blog_list_more"
+msgstr "更多"
+
+#, fuzzy
+msgid "blog_list_num_postings"
+msgstr "Number of postings"
+
+#, fuzzy
+msgid "blog_list_num_postings_info"
+msgstr "This setting is only used if no specific month is selected."
+
+#, fuzzy
+msgid "blog_nav_mode"
+msgstr "Postings"
+
+#, fuzzy
+msgid "blog_nav_mode_month_list"
+msgstr "Show List of Months"
+
+#, fuzzy
+msgid "blog_nav_mode_month_list_info"
+msgstr "All months with postings are listed in the 'Postings' block."
+
+#, fuzzy
+msgid "blog_nav_mode_month_list_num_month"
+msgstr "Number of listed months"
+
+#, fuzzy
+msgid "blog_nav_mode_month_list_num_month_info"
+msgstr "Months above the limit will not be listed and related postings are not accessible."
+
+#, fuzzy
+msgid "blog_nav_mode_month_list_num_month_with_post"
+msgstr "Number of month with listed postings"
+
+#, fuzzy
+msgid "blog_nav_mode_month_list_num_month_with_post_info"
+msgstr "These months will be displayed with all their postings in the navigation block."
+
+#, fuzzy
+msgid "blog_nav_mode_month_single"
+msgstr "Show Selected Month"
+
+#, fuzzy
+msgid "blog_nav_mode_month_single_info"
+msgstr "Only postings of the selected month are listed in the 'Postings' block. Month can be changed by dropdown. "
+
+#, fuzzy
+msgid "blog_nav_sortorder"
+msgstr "Order of Blocks"
+
+msgid "blog_navigation"
+msgstr "发贴"
+
+msgid "blog_needs_approval"
+msgstr "需要审批"
+
+msgid "blog_new"
+msgstr "创建新博客"
+
+msgid "blog_new_posting_info"
+msgstr "第一个文本块作为帖子列表摘要。"
+
+#, fuzzy
+msgid "blog_news_posting_authors"
+msgstr "Contributing authors: %s"
+
+#, fuzzy
+msgid "blog_news_posting_published"
+msgstr "A blog posting has been published by %s."
+
+#, fuzzy
+msgid "blog_news_posting_updated"
+msgstr "A blog posting has been updated by %s. "
+
+msgid "blog_no_keywords"
+msgstr "还没有输入关键词"
+
+msgid "blog_notification_activated"
+msgstr "通知已激活"
+
+msgid "blog_notification_deactivated"
+msgstr "通知已停用"
+
+msgid "blog_notification_toggle_off"
+msgstr "停用通知"
+
+msgid "blog_notification_toggle_on"
+msgstr "激活通知"
+
+msgid "blog_number_users_notes_or_comments"
+msgstr "附加笔记或评论到这个条目的用户数"
+
+msgid "blog_posting"
+msgstr "博客贴子"
+
+msgid "blog_posting_deleted"
+msgstr "条目已被删除。"
+
+msgid "blog_posting_deletion_confirmation"
+msgstr "您确定想删除以下条目吗？"
+
+#, fuzzy
+msgid "blog_posting_edit_approval_info"
+msgstr "Posting remains to be approved by a tutor before being published."
+
+#, fuzzy
+msgid "blog_posting_not_found"
+msgstr "This blog posting is not available."
+
+#, fuzzy
+msgid "blog_postings"
+msgstr "Postings"
+
+#, fuzzy
+msgid "blog_presentation_frame"
+msgstr "Blog Presentation"
+
+#, fuzzy
+msgid "blog_presentation_overview"
+msgstr "Initial Overview"
+
+msgid "blog_preview"
+msgstr "预览"
+
+msgid "blog_profile_picture"
+msgstr "显示资料(profile)图片"
+
+#, fuzzy
+msgid "blog_profile_picture_repository_info"
+msgstr "Profile pictures of the authors are only shown on the postings pages, not on overview pages."
+
+#, fuzzy
+msgid "blog_properties"
+msgstr "Blog Properties"
+
+msgid "blog_rename_posting"
+msgstr "重命名贴子"
+
+#, fuzzy
+msgid "blog_selected_pages"
+msgstr "Selected Postings"
+
+msgid "blog_settings"
+msgstr "博客管理"
+
+#, fuzzy
+msgid "blog_settings_navigation"
+msgstr "Navigation Column"
+
+#, fuzzy
+msgid "blog_show_latest"
+msgstr "Show latest postings/drafts"
+
+#, fuzzy
+msgid "blog_show_print_view"
+msgstr "Show Print View"
+
+#, fuzzy
+msgid "blog_side_blocks"
+msgstr "Side Blocks"
+
+#, fuzzy
+msgid "blog_starting_page"
+msgstr "Starting Page"
+
+#, fuzzy
+msgid "blog_task_publishing_draft_title"
+msgstr "Publishing of Draft \"%s\""
+
+msgid "blog_toggle_draft"
+msgstr "保存为草稿"
+
+msgid "blog_toggle_draft_admin"
+msgstr "关闭博客贴子"
+
+msgid "blog_toggle_final"
+msgstr "发布贴子"
+
+#, fuzzy
+msgid "blog_whole_blog"
+msgstr "Whole Blog"

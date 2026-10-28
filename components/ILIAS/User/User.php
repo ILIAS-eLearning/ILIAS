@@ -64,5 +64,9 @@ class User implements Component\Component
             $this,
             'usr'
         );
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'user'
+        );
     }
 }

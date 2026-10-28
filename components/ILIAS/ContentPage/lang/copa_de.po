@@ -1,0 +1,48 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: copa\n"
+
+msgid "copa_activation_online_info"
+msgstr "Objekt ist veröffentlicht und kann von allen Personen mit dem Recht „Lesezugriff“ genutzt werden. Andernfalls ist das Objekt nur für Personen mit dem Recht „Einstellungen bearbeiten“ verfügbar."
+
+msgid "copa_add"
+msgstr "Inhaltsseite anlegen"
+
+msgid "copa_btn_lp_toggle_state_completed"
+msgstr "Auf \"Nicht bearbeitet\" setzen"
+
+msgid "copa_btn_lp_toggle_state_not_completed"
+msgstr "Auf \"Bearbeitet\" setzen"
+
+msgid "copa_copy"
+msgstr "Inhaltsseite kopieren"
+
+msgid "copa_edit"
+msgstr "Einstellungen der Inhaltsseite"
+
+msgid "copa_import"
+msgstr "Inhaltsseite importieren"
+
+msgid "copa_new"
+msgstr "Neue Inhaltsseite anlegen"
+
+msgid "copa_page_type_copa"
+msgstr "Inhaltsseite"
+
+msgid "copa_prop_reading_time"
+msgstr "Lesezeit"
+
+msgid "copa_value_reading_time_f_p"
+msgstr "%s Minuten"
+
+msgid "copa_value_reading_time_f_s"
+msgstr "%s Minute"
+
+msgid "obj_copa_duplicate"
+msgstr "Inhaltsseite duplizieren"

@@ -1,0 +1,61 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: chatroom_adm\n"
+
+msgid "chat_cannot_connect_to_server"
+msgstr "ILIAS nemůže navázat spojení s diskuzním serverem."
+
+msgid "chat_enabled"
+msgstr "Zapnout besedy"
+
+msgid "chatserver_settings_title"
+msgstr "Nastavení diskuzního serveru"
+
+msgid "client_settings"
+msgstr "Nastavení klienta"
+
+msgid "general_settings_title"
+msgstr "Obecné nastavení besedy"
+
+msgid "https"
+msgstr "HTTPS"
+
+#, fuzzy
+msgid "osc_adm_browser_noti_info"
+msgstr "If enabled, users may individually decide whether or not they want to receive browser notifications for new conversations and messages. Notifications are triggered if the user works in different browser tabs or the browser is hidden and ILIAS was put into the background. Users will also receive browser notifications after a certain idle time in a conversation if ILIAS is in the foreground."
+
+#, fuzzy
+msgid "osc_adm_browser_noti_label"
+msgstr "Browser Notifications"
+
+#, fuzzy
+msgid "osc_adm_conv_idle_state_threshold_info"
+msgstr "Cut off notifications by given a minimum interval at which browser notifications are triggered for incoming chat messages.."
+
+#, fuzzy
+msgid "osc_adm_conv_idle_state_threshold_label"
+msgstr "Time between Browser Notifications"
+
+msgid "port_info"
+msgstr "Zřídka používané porty jsou často blokovány firewallem nebo proxy servery. Prohlížeč uživatele nebude schopen navázat spojení s diskuzním serverem pokud definovaný port je blokován."
+
+msgid "protocol"
+msgstr "Protokol"
+
+msgid "public_chat_permissions"
+msgstr "Oprávnění veřejné diskuze"
+
+msgid "public_chat_settings"
+msgstr "Nastavení veřejné diskuze"
+
+msgid "server_settings"
+msgstr "Nastavení serveru"
+
+msgid "settings_has_been_saved"
+msgstr "Nystavení bylo uloženo"

@@ -1,0 +1,817 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: trac\n"
+
+msgid "cmix_lp_mode_deactivated"
+msgstr "Learning progress är avaktiverad"
+
+msgid "cmix_lp_mode_deactivated_info"
+msgstr "Inlärningsstatus visas inte och har inget inflytande på objekt på högre nivå."
+
+msgid "cmix_lp_mode_when_completed"
+msgstr "Completed när \"completed\"."
+
+msgid "cmix_lp_mode_when_completed_info"
+msgstr "ILIAS-status \"completed\" anges om verbet i det sista relevanta xAPI-uttalandet är \"completed\"."
+
+msgid "cmix_lp_mode_when_passed"
+msgstr "Fullbordad när \"godkänd\"."
+
+msgid "cmix_lp_mode_when_passed_info"
+msgstr "ILIAS-statusen \"completed\" sätts om verbet i det sista relevanta xAPI-uttalandet är \"passed\" eller \"satisfied\"."
+
+msgid "cmix_lp_mode_when_passed_or_completed"
+msgstr "Fullbordad när \"fullbordad\" eller \"godkänd"
+
+msgid "cmix_lp_mode_when_passed_or_completed_info"
+msgstr "ILIAS-statusen \"completed\" sätts om verbet i det sista relevanta xAPI-uttalandet är \"completed\" eller \"passed\" eller \"satisfied\"."
+
+msgid "cmix_lp_mode_with_failed"
+msgstr "Beakta även statusen \"misslyckad\""
+
+msgid "cmix_lp_mode_with_failed_info"
+msgstr "Status kan sättas till \"failed\" istället för \"in progress\"."
+
+msgid "create_date_max"
+msgstr "Senaste registrering"
+
+msgid "create_date_min"
+msgstr "Tidig registrering"
+
+msgid "info_valid_request"
+msgstr "Om två förfrågningar från en användare sker inom detta tidsintervall, utvärderas motsvarande tidsintervall som \"aktivt\"."
+
+msgid "meta_typical_learning_time"
+msgstr "Typisk inlärningstid"
+
+msgid "obj_types"
+msgstr "Objekttyper"
+
+#, fuzzy
+msgid "personal_learning_progress_view_description"
+msgstr "Ongoing courses with membership"
+
+#, fuzzy
+msgid "personal_learning_progress_view_title"
+msgstr "Your Learning Progress"
+
+msgid "read_count_avg"
+msgstr "Genomsnittliga sidvisningar"
+
+msgid "registration_filter"
+msgstr "Datum för registrering"
+
+msgid "search_area_info"
+msgstr "Vänligen välj ett objekt."
+
+msgid "search_terms"
+msgstr "Sökord(er)"
+
+msgid "session_statistics"
+msgstr "Statistik över sessionen"
+
+msgid "trac_aggregation"
+msgstr "Aggregering"
+
+msgid "trac_all"
+msgstr "Alla"
+
+msgid "trac_anonymized"
+msgstr "Anonymisering av uppgifterna"
+
+msgid "trac_anonymized_info"
+msgstr "Om aktiverat, inga personuppgifter kommer att skickas ut"
+
+msgid "trac_anonymized_info_short"
+msgstr "(Anonymiserad)"
+
+msgid "trac_assigned"
+msgstr "Vald"
+
+msgid "trac_average"
+msgstr "Genomsnitt"
+
+msgid "trac_begin_at"
+msgstr "Startdatum"
+
+msgid "trac_closed_expire"
+msgstr "Timeout"
+
+msgid "trac_closed_login"
+msgstr "Anonym till inloggning"
+
+msgid "trac_closed_manual"
+msgstr "Logga ut"
+
+msgid "trac_closed_misc"
+msgstr "Annat"
+
+msgid "trac_collection_assign"
+msgstr "Välj för bestämning av inlärningsframsteg"
+
+msgid "trac_collection_deassign"
+msgstr "Avmarkera"
+
+msgid "trac_collection_manual_learner_changed_ts"
+msgstr "Hängde på"
+
+msgid "trac_collection_manual_learner_info"
+msgstr "Inlärningsförloppet för detta objekt anges manuellt."
+
+msgid "trac_collection_manual_learner_lm_info"
+msgstr "Aktivera alla kapitel som du har slutfört."
+
+msgid "trac_collection_tlt_learner_info"
+msgstr "Inlärningsförloppet för detta objekt baseras på den typiska inlärningstiden."
+
+msgid "trac_collection_tlt_learner_subitem"
+msgstr "Du har hittills tillhandahållit %s av de %s som krävs (%s%%)."
+
+msgid "trac_comment"
+msgstr "Kommentar"
+
+msgid "trac_completed"
+msgstr "Editerad"
+
+msgid "trac_cron_info"
+msgstr "Aktivera cron-jobbet \"Objektstatistik\" för att samla in data för denna utvärdering."
+
+msgid "trac_crs_objects"
+msgstr "Användare"
+
+msgid "trac_current"
+msgstr "Aktuell"
+
+msgid "trac_current_system_load"
+msgstr "Aktuell belastning på systemet"
+
+msgid "trac_data_deleted"
+msgstr "Data har raderats."
+
+msgid "trac_defaults"
+msgstr "Redigerad status"
+
+msgid "trac_defaults_inactive"
+msgstr "Inaktiv"
+
+msgid "trac_defaults_info"
+msgstr "Ställer in läget för att bestämma bearbetningsstatus för objekttyper som stöds. Används av märken och certifikat."
+
+msgid "trac_delete_data"
+msgstr "Radera data"
+
+msgid "trac_determines_learning_progress"
+msgstr "Fastställer framsteg i inlärningen"
+
+msgid "trac_edit_collection"
+msgstr "Välj nu de material som kommer att användas för att fastställa inlärningsframsteg."
+
+msgid "trac_end_at"
+msgstr "Slutdatum"
+
+msgid "trac_failed"
+msgstr "Misslyckad"
+
+msgid "trac_figure"
+msgstr "Nyckeltal"
+
+msgid "trac_filter_area"
+msgstr "Område"
+
+msgid "trac_filter_has_status"
+msgstr " Visa även objekt med status 'Ännu ej påbörjad"
+
+msgid "trac_filter_hidden"
+msgstr "Färgad ut"
+
+msgid "trac_first_access"
+msgstr "Första åtkomst"
+
+msgid "trac_first_and_last_access"
+msgstr "Första och sista tillgång"
+
+msgid "trac_frm_contribution_num_postings"
+msgstr "Erforderligt antal bidrag"
+
+#, fuzzy
+msgid "trac_frm_contribution_num_postings_info_p"
+msgstr "%s: %s Posts"
+
+#, fuzzy
+msgid "trac_frm_contribution_num_postings_info_s"
+msgstr "%s: %s Post"
+
+msgid "trac_group_materials"
+msgstr "Create grouping med valfritt material"
+
+msgid "trac_group_materials_save"
+msgstr "Spara antal obligatoriska material"
+
+msgid "trac_grouped_material_obligatory_err"
+msgstr "Antalet obligatoriska material måste vara större än 0 och mindre än antalet material som tilldelats denna gruppering."
+
+msgid "trac_hide"
+msgstr "Dölj"
+
+msgid "trac_hide_selected"
+msgstr "Dölj markerat innehåll"
+
+msgid "trac_in_progress"
+msgstr "Pågår"
+
+msgid "trac_info_edited"
+msgstr "Om du tror att du har arbetat igenom allt innehåll kan du ändra statusen för din inlärningsprocess här."
+
+msgid "trac_last_access"
+msgstr "Sista åtkomst"
+
+msgid "trac_last_aggregation"
+msgstr "Stånd"
+
+msgid "trac_learning_progress"
+msgstr "Framsteg inom lärande"
+
+msgid "trac_learning_progress_of"
+msgstr "Lärande framsteg från %s"
+
+msgid "trac_learning_progress_settings_info"
+msgstr " Aktivera avancerade data"
+
+msgid "trac_lhist_obj_completed"
+msgstr "$1$ slutfördes."
+
+msgid "trac_lhist_obj_completed_in"
+msgstr "$1$ slutfördes på $2$."
+
+msgid "trac_log_info"
+msgstr "Sista aggregering"
+
+msgid "trac_log_info_link"
+msgstr "Uppdatera"
+
+msgid "trac_long_system_load"
+msgstr "Långsiktig historia"
+
+msgid "trac_lp_determination"
+msgstr "Fastställande av framsteg i inlärningen"
+
+msgid "trac_lp_determination_info_crs"
+msgstr "Urval av de material på grundval av vilka den övergripande statusen bestäms."
+
+msgid "trac_lp_determination_info_crs_tutor"
+msgstr "Välj de objekt som ska bidra till fastställandet av inlärningsförloppet."
+
+msgid "trac_lp_determination_info_mob"
+msgstr "Välj de medieobjekt på grundval av vilka den övergripande statusen för Mediacast bestäms."
+
+msgid "trac_lp_determination_info_sco"
+msgstr "Välj den SCOx som används för att fastställa SCORM-modulens övergripande status."
+
+msgid "trac_lp_determination_tutor"
+msgstr "Välja objekt som bestämmer inlärningsförloppet"
+
+msgid "trac_lp_learner_access"
+msgstr "Visa dina egna framsteg i lärandet"
+
+msgid "trac_lp_learner_access_info"
+msgstr "När den är aktiverad kan användarna se sina egna inlärningsresultat."
+
+msgid "trac_lp_list_gui"
+msgstr "Dashboard, Magasin, Sök"
+
+msgid "trac_lp_list_gui_info"
+msgstr "Om den är aktiverad visas status för inlärningsförloppet i objektlistor."
+
+msgid "trac_lp_settings_info_parent_container"
+msgstr "Lärandeutveckling av överordnade objekt"
+
+msgid "trac_lp_settings_info_parent_legend"
+msgstr "Objektets status för inlärningsframsteg påverkas av \"%s\"."
+
+msgid "trac_manual_display"
+msgstr "Visa i lärandets framsteg"
+
+msgid "trac_manual_is_displayed"
+msgstr "Fastställer framsteg i inlärningen"
+
+msgid "trac_manual_no_display"
+msgstr "Visa inte i inlärningsprocessen"
+
+msgid "trac_mark"
+msgstr "Note"
+
+msgid "trac_matrix"
+msgstr "Matrisvy"
+
+msgid "trac_measure"
+msgstr "Nyckeltal"
+
+msgid "trac_members_short"
+msgstr "Del."
+
+msgid "trac_min_passed"
+msgstr "Minsta antal befintliga material"
+
+msgid "trac_mode"
+msgstr "Läge för framsteg i inlärningen"
+
+msgid "trac_mode_cmix_compl_or_passed_with_failed"
+msgstr "'Processed' om 'completed' eller 'passed' eller 'satisfied' skickades; 'failed' sätter ILIAS inlärningsförlopp till 'failed'."
+
+#, fuzzy
+msgid "trac_mode_cmix_compl_or_passed_with_failed_info"
+msgstr "&nbsp;"
+
+msgid "trac_mode_cmix_compl_with_failed"
+msgstr "'Processed' om 'completed' skickades; 'failed' sätter ILIAS-inlärningsförloppet till 'failed'."
+
+#, fuzzy
+msgid "trac_mode_cmix_compl_with_failed_info"
+msgstr "&nbsp;"
+
+msgid "trac_mode_cmix_completed"
+msgstr "'Processed' om 'completed' skickades; 'failed' sätter ILIAS inlärningsförlopp till 'in progress'."
+
+#, fuzzy
+msgid "trac_mode_cmix_completed_info"
+msgstr "&nbsp;"
+
+msgid "trac_mode_cmix_completed_or_passed"
+msgstr "'Processed' om 'completed' eller 'passed' eller 'satisfied' har skickats; 'failed' sätter ILIAS inlärningsförlopp till 'in progress'."
+
+#, fuzzy
+msgid "trac_mode_cmix_completed_or_passed_info"
+msgstr "&nbsp;"
+
+msgid "trac_mode_cmix_passed"
+msgstr "'Processed' om 'passed' eller 'satisfied' skickades; 'failed' sätter ILIAS inlärningsförlopp till 'in progress'."
+
+#, fuzzy
+msgid "trac_mode_cmix_passed_info"
+msgstr "&nbsp;"
+
+msgid "trac_mode_cmix_passed_with_failed"
+msgstr "'Processed' om 'passed' eller 'satisfied' skickades; 'failed' sätter ILIAS inlärningsförlopp till 'failed'."
+
+#, fuzzy
+msgid "trac_mode_cmix_passed_with_failed_info"
+msgstr "&nbsp;"
+
+msgid "trac_mode_collection"
+msgstr "Status bestäms på grundval av ett urval av objekt"
+
+msgid "trac_mode_collection_info"
+msgstr "Status för objektets inlärningsförlopp bestäms automatiskt av status för de valda objekten. <br />Efter att ha sparat denna inställning kan önskade objekt väljas på denna sida."
+
+msgid "trac_mode_collection_manual"
+msgstr "User bestämmer själv status för inlärningsframstegen i respektive kapitel."
+
+msgid "trac_mode_collection_manual_info"
+msgstr "Användarna bestämmer själva när de har slutfört ett kapitel i inlärningsmodulen. Så snart de har avslutat arbetet med ett kapitel sätter de status för detta kapitel till \"Worked on\" på fliken \"Info\".<br />Efter att ha sparat dessa inställningar kan kapit"
+
+msgid "trac_mode_collection_mobs"
+msgstr "Urval av mediaobjekt"
+
+msgid "trac_mode_collection_mobs_info"
+msgstr "Framsteget i inlärningen bestäms automatiskt utifrån antalet visade mediaobjekt."
+
+msgid "trac_mode_collection_tlt"
+msgstr "Minsta utbildningstid per kapitel"
+
+msgid "trac_mode_collection_tlt_info"
+msgstr "Statusen för en användare sätts automatiskt efter den tid som användaren arbetar med ett kapitel. Statusen för ett kapitel till \"Redigerat\" tilldelas när den \"Typiska inlärningstiden\" för alla kapitel som är relevanta för inlärningsframstegen överskrids."
+
+msgid "trac_mode_content_visited"
+msgstr "Besök"
+
+msgid "trac_mode_content_visited_info"
+msgstr "Inlärningsnivån bestäms av hur innehållet förmedlas."
+
+msgid "trac_mode_contribution_to_discussion"
+msgstr "Bidrag till diskussionen"
+
+msgid "trac_mode_contribution_to_discussion_info"
+msgstr "Inlärningsframstegen bestäms av antalet skrivna inlägg."
+
+msgid "trac_mode_course_reference"
+msgstr "Tagen från kursen"
+
+msgid "trac_mode_course_reference_info"
+msgstr "The learning progress mode är automatiskt hämtat från den kurs som denna kurslänk hänvisar till."
+
+msgid "trac_mode_deactivated"
+msgstr "Learning progress är avaktiverad"
+
+msgid "trac_mode_deactivated_info_new"
+msgstr "Status för inlärningsframsteg visas inte och påverkar inte några objekt på högre nivå."
+
+msgid "trac_mode_event"
+msgstr "Tutorer registrerar deltagande"
+
+msgid "trac_mode_event_info"
+msgstr "Tutorer kontrollerar vilka deltagare som har deltagit i sessionen och registrerar närvaron manuellt på fliken \"Hantera sessionsdeltagare\"."
+
+msgid "trac_mode_exercise_returned"
+msgstr "Tutor beslutar om status"
+
+msgid "trac_mode_exercise_returned_info"
+msgstr "Tutors avgör på grundval av inlämningarna om deltagarna har löst övningen. Handledarna sätter manuellt statusen till \"Bearbetad\" eller \"Misslyckad\"."
+
+msgid "trac_mode_individual_assessment"
+msgstr "Individuell bedömning av handledare/utbildare"
+
+msgid "trac_mode_individual_assessment_info"
+msgstr "Deltagaren måste slutligen bedömas så att inlärningsframstegen fastställs för honom/henne."
+
+msgid "trac_mode_lti_outcome"
+msgstr "Mastery Score måste uppnås"
+
+msgid "trac_mode_lti_outcome_info"
+msgstr "Lärandet anses vara slutfört när LTI Outcome Service-poängen är minst lika hög som Mastery-poängen."
+
+msgid "trac_mode_manual"
+msgstr "User bestämmer status för inlärningsförloppet för hela objektet."
+
+msgid "trac_mode_manual_by_tutor"
+msgstr "Tutor beslutar om status för inlärningsförloppet"
+
+msgid "trac_mode_manual_by_tutor_info"
+msgstr "Tutors avgör om deltagarna har bearbetat objektet framgångsrikt. Handledarna sätter manuellt statusen till \"Fungerade\" eller \"Misslyckades\"."
+
+msgid "trac_mode_manual_info"
+msgstr "Användarna bestämmer själva när de har arbetat igenom objektet. Så snart bearbetningen är klar sätter de statusen i fliken \"Info\" till \"Bearbetad\"."
+
+msgid "trac_mode_objectives"
+msgstr "Lärandemål"
+
+msgid "trac_mode_objectives_info"
+msgstr "Lärandets framsteg bestäms automatiskt utifrån antalet lärandemål som uppfyllts."
+
+msgid "trac_mode_plugin"
+msgstr "Plugin"
+
+msgid "trac_mode_questions"
+msgstr "Besvarade alla frågor korrekt"
+
+msgid "trac_mode_questions_info"
+msgstr "Användare som har svarat rätt på alla frågor får automatiskt statusen \"Redigerad\". Använd endast detta alternativ om det faktiskt finns frågor i utbildningsmodulen."
+
+msgid "trac_mode_scorm"
+msgstr "Status bestäms av ett urval av SCORM-kapitel (per SCO)"
+
+msgid "trac_mode_scorm_info"
+msgstr "Status för inlärningsförloppet för hela inlärningsmodulen bestäms automatiskt av status för de valda kapitlen (SCOs). <br />När du har sparat denna inställning kan du välja önskat SCO på denna sida."
+
+msgid "trac_mode_scorm_package"
+msgstr "Status bestäms av SCORM-paketet (hela inlärningsmodulen)"
+
+msgid "trac_mode_scorm_package_info"
+msgstr "Statusen för en användare sätts automatiskt till \"Worked\" när hela inlärningsmodulen har arbetats igenom. Alla SCO:er som ingår i paketet beaktas i inlärningsförloppet."
+
+msgid "trac_mode_study_programme"
+msgstr "Studieprogram avslutat"
+
+msgid "trac_mode_survey_finished"
+msgstr "Undersökningen avslutad"
+
+msgid "trac_mode_survey_finished_info"
+msgstr "Undersökningen måste avslutas."
+
+msgid "trac_mode_test_finished"
+msgstr "Användaren måste avsluta testet"
+
+msgid "trac_mode_test_finished_info"
+msgstr "Statusen för en användare sätts automatiskt till \"Redigerad\" efter att användaren har klickat på \"Avsluta test\". Det spelar ingen roll om användaren har klarat testet eller inte."
+
+msgid "trac_mode_test_passed"
+msgstr "Användare måste klara testet"
+
+msgid "trac_mode_test_passed_info"
+msgstr "En användares status sätts automatiskt till \"Redigerad\" efter att användaren har klarat testet. På fliken \"Inställningar\" kan tröskelvärden för godkänt test ställas in i avsnittet \"Bedömningsschema\"."
+
+msgid "trac_mode_tlt"
+msgstr "Minsta utbildningstid för hela utbildningsmodulen"
+
+msgid "trac_mode_tlt_info"
+msgstr "Statusen för en användare sätts automatiskt efter den tid som användaren tillbringar i inlärningsmodulen. Statusen \"Redigerad\" tilldelas så snart den \"Typiska inlärningstiden\" överskrids. <br />Den \"typiska inlärningstiden\" för inlärningsmodulen definier"
+
+msgid "trac_mode_visited_pages"
+msgstr "Sidor som besökts"
+
+msgid "trac_mode_visited_pages_info"
+msgstr "Användare som har besökt alla sidor i utbildningsmodulen får automatiskt statusen \"Redigerad\"."
+
+msgid "trac_mode_visits"
+msgstr "Status bestäms av antalet samtal"
+
+msgid "trac_mode_visits_info"
+msgstr "Statusen för en användare sätts automatiskt till \"Redigerad\" om denna användare har hämtat utbildningsmodulen oftare än det minsta antal anrop som krävs. Användarna visas hur många gånger de har öppnat modulen och hur många procent av gångerna de har upp"
+
+msgid "trac_name_of_installation"
+msgstr "Namn på anläggningen"
+
+msgid "trac_no_attempted"
+msgstr "Ännu inte redigerad"
+
+msgid "trac_not_accessed"
+msgstr "Not yet accessed"
+
+msgid "trac_not_assigned"
+msgstr "Inte vald"
+
+msgid "trac_not_attempted"
+msgstr "Not yet started"
+
+msgid "trac_not_completed"
+msgstr "Inte redigerad"
+
+msgid "trac_not_participated"
+msgstr "Inte deltagit"
+
+msgid "trac_not_registered"
+msgstr "Inte inloggad"
+
+msgid "trac_object_link"
+msgstr "Länk till objektet"
+
+msgid "trac_object_name"
+msgstr "Namn på objektet"
+
+msgid "trac_object_owner"
+msgstr "Ägare av objektet"
+
+msgid "trac_object_stat_access"
+msgstr "Använd intensitet"
+
+msgid "trac_object_stat_admin"
+msgstr "Datahantering"
+
+msgid "trac_object_stat_daily"
+msgstr "Daglig kurs"
+
+msgid "trac_object_stat_lp"
+msgstr "Lärande statistik kurs"
+
+msgid "trac_object_stat_lp_max"
+msgstr "Max."
+
+msgid "trac_object_stat_lp_min"
+msgstr "Min."
+
+msgid "trac_object_stat_types"
+msgstr "Antal objekt"
+
+msgid "trac_object_statistics"
+msgstr "Statistik över objekt"
+
+msgid "trac_object_statistics_info"
+msgstr "Om aktiverat samlas data in för åtkomststatistik."
+
+msgid "trac_objects"
+msgstr "Användare"
+
+msgid "trac_others"
+msgstr "Annat"
+
+msgid "trac_participants"
+msgstr "Deltagare i utställningen"
+
+msgid "trac_participated"
+msgstr "Deltagande"
+
+msgid "trac_paths"
+msgstr "Vägar"
+
+msgid "trac_percentage"
+msgstr "Procent"
+
+msgid "trac_periodic_system_load"
+msgstr "Periodisk representation av last"
+
+msgid "trac_progress"
+msgstr "Personliga framsteg i lärandet"
+
+#, fuzzy
+msgid "trac_progress_block_details"
+msgstr "View Details"
+
+#, fuzzy
+msgid "trac_progress_block_title"
+msgstr "Your Learning Progress"
+
+msgid "trac_read_count"
+msgstr "Tillgångar"
+
+msgid "trac_read_count_spent_seconds"
+msgstr "Handläggningstid / åtkomst"
+
+msgid "trac_reference"
+msgstr "Referenser"
+
+msgid "trac_reference_ids_column"
+msgstr "Reference Ids"
+
+msgid "trac_registered"
+msgstr "Reported"
+
+msgid "trac_release_materials"
+msgstr "Ungrupp med valfritt material"
+
+msgid "trac_report_date"
+msgstr "Datum för rapporten"
+
+# Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
+msgid "trac_report_owner"
+msgstr "Rapport skapad av"
+
+msgid "trac_required_visits"
+msgstr "Antal besök som krävs"
+
+msgid "trac_sahs_relevant_items"
+msgstr "SCOs"
+
+msgid "trac_scale"
+msgstr "Skala"
+
+msgid "trac_select_area"
+msgstr "Ändra område"
+
+msgid "trac_session_active_avg"
+msgstr "Antal aktiva sessioner (genomsnitt)"
+
+msgid "trac_session_active_max"
+msgstr "Antal aktiva sessioner (maximalt)"
+
+msgid "trac_session_active_min"
+msgstr "Antal aktiva sessioner (minimum)"
+
+msgid "trac_session_statistics_mode_day"
+msgstr "Tag"
+
+msgid "trac_session_statistics_mode_last_day"
+msgstr "Senaste 24 timmarna"
+
+msgid "trac_session_statistics_mode_last_month"
+msgstr "Senaste 30 dagarna"
+
+msgid "trac_session_statistics_mode_last_week"
+msgstr "Senaste 7 dagarna"
+
+msgid "trac_session_statistics_mode_month"
+msgstr "Månad"
+
+msgid "trac_session_statistics_mode_today"
+msgstr "Idag"
+
+msgid "trac_session_statistics_mode_week"
+msgstr "Vecka"
+
+msgid "trac_session_statistics_mode_year"
+msgstr "År"
+
+msgid "trac_session_statistics_no_data"
+msgstr "Det finns inga tillgängliga data för denna statistik."
+
+msgid "trac_sessions_closed"
+msgstr "Ledigheter"
+
+msgid "trac_sessions_opened"
+msgstr "Accessions"
+
+msgid "trac_settings"
+msgstr "Inställningar"
+
+msgid "trac_settings_saved"
+msgstr "Inställningarna har sparats."
+
+msgid "trac_short_system_load"
+msgstr "Kortsiktig historia"
+
+msgid "trac_show_graph"
+msgstr "Visa som diagramvy"
+
+#, fuzzy
+msgid "trac_show_progress_block"
+msgstr "Show Personal Progress Chart in ‘Content’-Tab"
+
+msgid "trac_show_repository_views"
+msgstr "Visa antal åtkomster"
+
+msgid "trac_show_repository_views_info"
+msgstr "Om den är påslagen visas antalet åtkomster på infosidan."
+
+msgid "trac_spent_seconds"
+msgstr "Tid"
+
+msgid "trac_spent_time"
+msgstr "Total bearbetningstid"
+
+msgid "trac_status"
+msgstr "Status"
+
+msgid "trac_status_changed"
+msgstr "Sista statusförändring"
+
+msgid "trac_subitems"
+msgstr "Visa underobjekt"
+
+msgid "trac_sum"
+msgstr "Summa"
+
+msgid "trac_summary"
+msgstr "Sammanfattning"
+
+msgid "trac_sure_delete_data"
+msgstr "Vill du verkligen radera data för de följande månaderna? Detta kommer att ta bort följande statistik för den perioden"
+
+msgid "trac_sync_obj_stats"
+msgstr "Uppdatera data"
+
+msgid "trac_sync_obj_stats_success"
+msgstr "Uppgifterna har uppdaterats."
+
+msgid "trac_sync_session_stats"
+msgstr "Aggregerade data"
+
+msgid "trac_sync_session_stats_success"
+msgstr "Data har aggregerats framgångsrikt."
+
+msgid "trac_time_passed"
+msgstr "Bearbetningstiden överskriden"
+
+msgid "trac_title"
+msgstr "Titel"
+
+msgid "trac_title_description"
+msgstr "Titel / Beskrivning"
+
+msgid "trac_total_online"
+msgstr "Total tid online"
+
+msgid "trac_trash"
+msgstr "varav i papperskorgen"
+
+msgid "trac_update_edit_user"
+msgstr "Ändringarna har antagits"
+
+msgid "trac_updated_status"
+msgstr "Status har uppdaterats."
+
+msgid "trac_user_data"
+msgstr "Användardata"
+
+msgid "trac_valid_request"
+msgstr "Maximal tid mellan förfrågningar"
+
+msgid "trac_view_crs"
+msgstr "Till kursöversikten"
+
+msgid "trac_view_list"
+msgstr "Till översikten"
+
+msgid "trac_view_mode"
+msgstr " Visningsläge"
+
+msgid "trac_view_mode_all"
+msgstr "Alla objekt"
+
+msgid "trac_view_mode_collection"
+msgstr "Endast objekt som bestämmer den övergripande statusen"
+
+msgid "trac_visits"
+msgstr "Minsta antal visningar"
+
+msgid "trac_visits_info"
+msgstr "Ett samtal räknas som ett nytt samtal först efter %s sekunder."
+
+#, fuzzy
+msgid "trac_visits_nr"
+msgstr "Number of Visits"
+
+msgid "user_total"
+msgstr "Antal användare"
+
+msgid "view_mode"
+msgstr " Visningsläge"
+
+#, fuzzy
+msgid "view_mode_all"
+msgstr "All"
+
+#, fuzzy
+msgid "view_mode_current"
+msgstr "Current"
+
+#, fuzzy
+msgid "view_mode_future"
+msgstr "Future"
+
+#, fuzzy
+msgid "view_mode_past"
+msgstr "Past"

@@ -1,0 +1,61 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: zh\n"
+"Language-Team: Chinese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: chatroom_adm\n"
+
+msgid "chat_cannot_connect_to_server"
+msgstr "ILIAS不能建立一个到聊天服务器的socket连接。"
+
+msgid "chat_enabled"
+msgstr "启用聊天"
+
+msgid "chatserver_settings_title"
+msgstr "聊天服务器设置"
+
+msgid "client_settings"
+msgstr "客户端设置"
+
+msgid "general_settings_title"
+msgstr "常规聊天设置"
+
+msgid "https"
+msgstr "HTTPS"
+
+#, fuzzy
+msgid "osc_adm_browser_noti_info"
+msgstr "If enabled, users may individually decide whether or not they want to receive browser notifications for new conversations and messages. Notifications are triggered if the user works in different browser tabs or the browser is hidden and ILIAS was put into the background. Users will also receive browser notifications after a certain idle time in a conversation if ILIAS is in the foreground."
+
+#, fuzzy
+msgid "osc_adm_browser_noti_label"
+msgstr "Browser Notifications"
+
+#, fuzzy
+msgid "osc_adm_conv_idle_state_threshold_info"
+msgstr "Cut off notifications by given a minimum interval at which browser notifications are triggered for incoming chat messages.."
+
+#, fuzzy
+msgid "osc_adm_conv_idle_state_threshold_label"
+msgstr "Time between Browser Notifications"
+
+msgid "port_info"
+msgstr "很少使用的端口通常被防火墙或代理服务器所阻止。如果定义的端口被阻止，则用户的浏览器将无法与聊天服务器建立连接。"
+
+msgid "protocol"
+msgstr "协议"
+
+msgid "public_chat_permissions"
+msgstr "公共聊天室权限"
+
+msgid "public_chat_settings"
+msgstr "公共聊天室设置"
+
+msgid "server_settings"
+msgstr "服务器设置"
+
+msgid "settings_has_been_saved"
+msgstr "设置已保存"

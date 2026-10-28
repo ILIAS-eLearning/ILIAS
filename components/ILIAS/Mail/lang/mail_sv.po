@@ -1,0 +1,991 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: mail\n"
+
+msgid "back_to_folder"
+msgstr "Tillbaka till mappen"
+
+#, fuzzy
+msgid "chat_users_have_been_invited"
+msgstr "The following users have been invited:"
+
+#, fuzzy
+msgid "chat_users_without_login"
+msgstr "The following users don't have an ILIAS account and can't be invited to a chat room:"
+
+#, fuzzy
+msgid "chat_users_without_permission"
+msgstr "The following users don't have access to the selected chat room:"
+
+msgid "current_folder"
+msgstr "Aktuell mapp"
+
+msgid "deleteTemplate"
+msgstr "Radera"
+
+#, fuzzy
+msgid "edit_attachments"
+msgstr "Edit Attachments"
+
+msgid "first_email_missing_info"
+msgstr "Val ej möjligt eftersom ingen e-postadress har angetts"
+
+msgid "forward"
+msgstr "Framåt"
+
+#, fuzzy
+msgid "goto_invitation_chat"
+msgstr "Open Chat Room"
+
+msgid "invite_to_chat"
+msgstr "Bjud in i chatt"
+
+msgid "link_check_affected_links"
+msgstr "Påverkade länkar"
+
+msgid "link_check_introduction"
+msgstr "Följande externa länkar är ogiltiga"
+
+msgid "link_check_perma_link"
+msgstr "Permanent länk"
+
+msgid "link_check_reason"
+msgstr "Du får detta meddelande eftersom du har aktiverat meddelandet om ogiltiga externa länkar."
+
+#, fuzzy
+msgid "mail_1"
+msgstr "1 Mail"
+
+#, fuzzy
+msgid "mail_absence_auto_responder_body"
+msgstr "Message"
+
+#, fuzzy
+msgid "mail_absence_auto_responder_body_hint"
+msgstr "This is an automatically created message. You will not receive this kind of message until [NEXT_AUTO_RESPONDER_DATETIME]."
+
+#, fuzzy
+msgid "mail_absence_auto_responder_body_info"
+msgstr "This message will be sent automatically during your absence when users send you an ILIAS internal message.<br>Users will be notified of your absence every %1$s days if they send further messages."
+
+#, fuzzy
+msgid "mail_absence_auto_responder_body_info_single_day"
+msgstr "This message will be sent automatically during your absence when users send you an ILIAS internal message.<br>Users will be notified again of your absence the next day if they send further messages."
+
+#, fuzzy
+msgid "mail_absence_auto_responder_subject"
+msgstr "Subject"
+
+#, fuzzy
+msgid "mail_absence_duration"
+msgstr "Duration"
+
+#, fuzzy
+msgid "mail_absence_status"
+msgstr "Enable Autoresponder"
+
+#, fuzzy
+msgid "mail_absence_status_info"
+msgstr "Activation of the automatic sending of an out of office message"
+
+#, fuzzy
+msgid "mail_absent_from"
+msgstr "Absent from"
+
+#, fuzzy
+msgid "mail_absent_until"
+msgstr "Absent until"
+
+msgid "mail_account_mail"
+msgstr "Informera om nytt konto"
+
+msgid "mail_add_folder"
+msgstr "Skapa ny mapp"
+
+# Modifierad som en del av jämställdhetsintegreringen för ILIAS 8
+msgid "mail_add_recipient"
+msgstr "Ange vem som ska få mailet. Ange inloggningsnamn för ILIAS eller giltiga e-postadresser."
+
+msgid "mail_add_subfolder"
+msgstr "Lägg till undermapp"
+
+msgid "mail_add_subject"
+msgstr "Vänligen ange ett ämne"
+
+#, fuzzy
+msgid "mail_adopt_selected_attachements"
+msgstr "Adopt selected Attachments"
+
+#, fuzzy
+msgid "mail_all_in_trash"
+msgstr "All in Trash"
+
+msgid "mail_allow_external"
+msgstr "Externa e-postmeddelanden"
+
+msgid "mail_allow_external_info"
+msgstr "Om den inte är aktiverad undertrycks sändningen av externa e-postmeddelanden (via SMTP) globalt."
+
+msgid "mail_assign_entry_to_mailing_list"
+msgstr "Att tilldela en kontakt till distributionslistan \"%s"
+
+#, fuzzy
+msgid "mail_assign_to_mailing_list"
+msgstr "Assign"
+
+msgid "mail_attachment_file_not_exist"
+msgstr "Minst en av följande bilagor kunde inte hittas"
+
+msgid "mail_attachments"
+msgstr "Attachments"
+
+msgid "mail_auto_generated_info"
+msgstr "Detta e-postmeddelande skickades automatiskt till dig av ILIAS-installationen %s, %s."
+
+#, fuzzy
+msgid "mail_auto_responder"
+msgstr "Autoresponder"
+
+#, fuzzy
+msgid "mail_auto_responder_idle_time"
+msgstr "Sending again"
+
+#, fuzzy
+msgid "mail_auto_responder_idle_time_info"
+msgstr "Specify here how many days should elapse between resending an out-of-office note to the same sender."
+
+msgid "mail_bcc"
+msgstr "BCC"
+
+msgid "mail_bg_task_desc"
+msgstr "Ämne"
+
+msgid "mail_bg_task_title"
+msgstr "Utskick av e-post"
+
+msgid "mail_both_email"
+msgstr "Båda e-postadresserna"
+
+msgid "mail_cc"
+msgstr "CC"
+
+msgid "mail_change_to_folder"
+msgstr "Byt till mapp"
+
+msgid "mail_create_tpl"
+msgstr "Skapa textmall"
+
+msgid "mail_cronjob_notification_info"
+msgstr "Här kan du aktivera den regelbundna aviseringen av nya e-postmeddelanden."
+
+msgid "mail_crs_list_members_not_available"
+msgstr "Medlemmarna i de markerade kurserna kan inte listas."
+
+msgid "mail_crs_list_members_not_available_for_at_least_one_crs"
+msgstr "Medlemmarna i minst en vald kurs kan inte listas."
+
+# Modifierad som en del av jämställdhetsarbetet för ILIAS 8. Etiketten är nu generaliserad för alla komponenter som stöder "mail till medlemmar".
+msgid "mail_crs_roles"
+msgstr "Alla personer med följande lokala roller"
+
+msgid "mail_deleted"
+msgstr "Mailen har tagits bort"
+
+msgid "mail_deleted_entry"
+msgstr "Posterna har tagits bort"
+
+#, fuzzy
+msgid "mail_download_attachment"
+msgstr "Download Attachment"
+
+msgid "mail_download_zip_no_attachments"
+msgstr "Inga bilagor hittades."
+
+msgid "mail_edit_tpl"
+msgstr "Redigera textmall"
+
+msgid "mail_email_sys_body"
+msgstr "Detta är ett testmejl för att testa sändningen av ett e-postmeddelande som automatiskt initieras av systemet till externa e-postadresser."
+
+msgid "mail_email_sys_subject"
+msgstr "Test e-post \"System e-post"
+
+msgid "mail_email_usr_body"
+msgstr "Detta är ett testmejl för att testa att skicka ett användarinitierat e-postmeddelande till externa e-postadresser."
+
+msgid "mail_email_usr_subject"
+msgstr "Test e-post \"Användarmail"
+
+msgid "mail_empty_trash"
+msgstr "Tomma sopor"
+
+msgid "mail_empty_trash_confirmation"
+msgstr "Är du säker på att alla e-postmeddelanden i papperskorgen ska raderas?"
+
+msgid "mail_enable_crs_admin_notification"
+msgstr " Meddela kursadministratörer"
+
+msgid "mail_enable_crs_admin_notification_info"
+msgstr "I nya kurser är inställningen \"Notifiering av nya medlemmar\" aktiverad som standard på fliken \"Medlemmar\" för kursadministratörer och handledare. Du kommer att få e-postmeddelanden när en medlem går med, lämnar kursen eller det minsta antalet deltagare f"
+
+msgid "mail_enable_crs_member_notification"
+msgstr "Meddela medlemmar"
+
+msgid "mail_enable_crs_member_notification_info"
+msgstr "Medlemmar får automatiskt ett e-postmeddelande när deras medlemskapsstatus ändras. Den här inställningen påverkar alla kurser på plattformen."
+
+msgid "mail_enable_grp_admin_notification"
+msgstr "Meddela gruppadministratörer"
+
+msgid "mail_enable_grp_admin_notification_info"
+msgstr "I nya grupper aktiveras inställningarna för \"Meddelanden\" som standard på fliken \"Medlemmar\" för gruppadministratörer. Du får e-postmeddelanden när en medlem går med i gruppen, lämnar gruppen eller när det minsta antalet deltagare för att driva gruppen i"
+
+msgid "mail_enable_grp_member_notification"
+msgstr "Meddela medlemmar"
+
+msgid "mail_enable_grp_member_notification_info"
+msgstr "Medlemmar får automatiskt ett e-postmeddelande när deras medlemsstatus ändras. Denna inställning påverkar alla grupper på plattformen."
+
+msgid "mail_enable_lso_admin_notification"
+msgstr "Meddela administratörer om inlärningssekvensen"
+
+msgid "mail_enable_lso_admin_notification_info"
+msgstr "I nya utbildningssekvenser är inställningarna för \"Meddelanden\" aktiverade som standard på fliken \"Medlemmar\" för administratörer. Du kommer att få e-postmeddelanden när en medlem går med i eller lämnar sekvensen."
+
+msgid "mail_enable_lso_member_notification"
+msgstr "Meddela medlemmar"
+
+msgid "mail_enable_lso_member_notification_info"
+msgstr "Medlemmar får automatiskt ett e-postmeddelande när deras medlemskapsstatus ändras. Denna inställning påverkar alla utbildningssekvenser på plattformen."
+
+msgid "mail_entry_of_contacts"
+msgstr "Ingång från kontakterna"
+
+msgid "mail_error_reading_attachment"
+msgstr "Inget appendix kunde identifieras."
+
+msgid "mail_external_send_test_sys"
+msgstr "Sänd testmeddelande för systemmeddelande"
+
+msgid "mail_external_send_test_usr"
+msgstr "Sänd testmeddelande för användarmeddelande"
+
+msgid "mail_external_test_sent"
+msgstr "Ett testmeddelande har skickats till den e-postadress som finns lagrad i din profil."
+
+msgid "mail_file_name"
+msgstr "Filenamn"
+
+msgid "mail_file_size"
+msgstr "Filens storlek"
+
+msgid "mail_files_deleted"
+msgstr "Filen/filerna har raderats"
+
+msgid "mail_filter"
+msgstr "Filter"
+
+msgid "mail_filter_attach"
+msgstr "Attachments"
+
+msgid "mail_filter_body"
+msgstr "Meddelande"
+
+#, fuzzy
+msgid "mail_filter_display"
+msgstr "Display"
+
+msgid "mail_filter_field_placeholder"
+msgstr "Sök efter nyheter ..."
+
+msgid "mail_filter_period"
+msgstr "Tidsperiod"
+
+# Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
+msgid "mail_filter_recipients"
+msgstr "An"
+
+msgid "mail_filter_sender"
+msgstr "From##Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8"
+
+#, fuzzy
+msgid "mail_filter_show_read"
+msgstr "Show Read"
+
+#, fuzzy
+msgid "mail_filter_show_system_mails"
+msgstr "Show System Notifications"
+
+#, fuzzy
+msgid "mail_filter_show_unread"
+msgstr "Show Unread"
+
+#, fuzzy
+msgid "mail_filter_show_user_mails"
+msgstr "Show User Mails"
+
+#, fuzzy
+msgid "mail_filter_show_with_attachments"
+msgstr "Show With Attachments"
+
+#, fuzzy
+msgid "mail_filter_show_without_attachment"
+msgstr "Show Without Attachment"
+
+msgid "mail_filter_subject"
+msgstr "Ämne"
+
+msgid "mail_filter_txt"
+msgstr "Sökning i"
+
+msgid "mail_first_email"
+msgstr "Första e-postadress"
+
+# Modifierad som en del av jämställdhetsintegreringsaktiviteter för ILIAS 8
+msgid "mail_firstname_last_name_superior"
+msgstr "Kommaseparerad lista med för- och efternamn på överordnad chef för en person"
+
+msgid "mail_folder_created"
+msgstr "En ny mapp har skapats"
+
+msgid "mail_folder_deleted"
+msgstr "Mappen har tagits bort"
+
+msgid "mail_folder_exists"
+msgstr "En mapp med detta namn finns redan"
+
+msgid "mail_folder_name_changed"
+msgstr "Mappen har bytt namn"
+
+msgid "mail_following_rcp_not_valid"
+msgstr "Följande information är inte giltig"
+
+msgid "mail_form_placeholders_label"
+msgstr "Tillgängliga platshållare"
+
+msgid "mail_generic_rcp_error"
+msgstr "Ett fel uppstod vid validering av fältet \"Till\""
+
+msgid "mail_global_reply_to_addr"
+msgstr "Reply-To"
+
+msgid "mail_global_reply_to_addr_info"
+msgstr "Ange den önskade \"Reply-To\"-e-postadressen här."
+
+# Modifierad som en del av jämställdhetsarbetet för ILIAS 8. Etiketten är nu generaliserad för alla komponenter som stöder "mail till medlemmar".
+msgid "mail_grp_roles"
+msgstr "Alla personer med följande lokala roller"
+
+msgid "mail_hint_add_placeholder_x"
+msgstr "Inför platshållaren '%s' i meddelandets brödtext."
+
+#, fuzzy
+msgid "mail_inbox_external_delivery_only_info"
+msgstr "Your account is configured to receive messages at an external email address.<br>You can only see mails in this inbox if your account is configured to (also) receive them locally."
+
+msgid "mail_incoming"
+msgstr "MaileInput"
+
+msgid "mail_incoming_both"
+msgstr "Lokal och vidare till e-post"
+
+msgid "mail_incoming_local"
+msgstr "Endast lokalt mottagande"
+
+msgid "mail_incoming_mail"
+msgstr "MaileInput"
+
+msgid "mail_incoming_smtp"
+msgstr "Vidarebefordra till registrerad e-postadress"
+
+msgid "mail_insert_folder_name"
+msgstr "Var god ange ett mappnamn"
+
+msgid "mail_insert_query"
+msgstr "Var god ange en sökterm"
+
+#, fuzzy
+msgid "mail_invite_users_to_chat"
+msgstr "Invite Users to Chat"
+
+msgid "mail_is_read"
+msgstr "Läs"
+
+msgid "mail_is_unread"
+msgstr "oläst"
+
+msgid "mail_list_members"
+msgstr "Lista medlemmar"
+
+msgid "mail_mailing_list"
+msgstr "Distributionslista"
+
+msgid "mail_mailing_lists"
+msgstr "Fördelningslistor"
+
+msgid "mail_mailing_lists_all_contact_entries_assigned"
+msgstr "Du har redan tilldelat alla dina kontakter till denna distributionslista."
+
+msgid "mail_mailing_lists_no_contact_entries"
+msgstr "Du har inga poster i kontakterna som du kan lägga till i distributionslistan."
+
+#, fuzzy
+msgid "mail_main_folder"
+msgstr "Main Folder"
+
+#, fuzzy
+msgid "mail_manage_attachments"
+msgstr "Manage Attachments"
+
+#, fuzzy
+msgid "mail_manage_attachments_back_to_compose"
+msgstr "Back to Compose"
+
+#, fuzzy
+msgid "mail_manage_attachments_drop_files_msg"
+msgstr "Drop file to upload"
+
+msgid "mail_mark_read"
+msgstr "Markera som läst"
+
+msgid "mail_mark_unread"
+msgstr "Markera som oläst"
+
+msgid "mail_max_size_attachments_total"
+msgstr "Var god ange den tillåtna filstorleken för e-postbilagor här. Denna inställning har ingen inverkan på uppladdningen av filer (här gäller serverns begränsningar, t.ex. upload_max_filesize), utan endast på datamängden för de filer som väljs som bilagor til"
+
+msgid "mail_max_size_attachments_total_error"
+msgstr "Den maximala tillåtna filstorleken för bilagor är"
+
+msgid "mail_maxsize_attachment_error"
+msgstr "Den maximala filstorleken är"
+
+msgid "mail_member_notification"
+msgstr "Anmälan av deltagare"
+
+msgid "mail_members_of_mailing_list"
+msgstr "Medlemmar i distributionslistan \"%s"
+
+msgid "mail_members_search_continue"
+msgstr "Fortsättning"
+
+msgid "mail_message_send"
+msgstr "Mailen har skickats"
+
+#, fuzzy
+msgid "mail_mode_switch_label"
+msgstr "Switch between „Personal Mail” and „Serial Letter” mode"
+
+#, fuzzy
+msgid "mail_mode_switch_locked"
+msgstr "You cannot switch to „%s” mode."
+
+msgid "mail_move_error"
+msgstr "Fel vid sändning av e-post"
+
+msgid "mail_move_to"
+msgstr "Flytta till"
+
+#, fuzzy
+msgid "mail_move_to_folder_btn_label"
+msgstr "Move Mail"
+
+#, fuzzy
+msgid "mail_move_to_folder_x"
+msgstr "to \"%s\""
+
+msgid "mail_moved"
+msgstr "Din(a) post(er) har flyttats"
+
+msgid "mail_moved_to_trash"
+msgstr "Posten/posterna har flyttats till papperskorgen"
+
+msgid "mail_multiple_role_recipients_found"
+msgstr "%1$s i fältet \"Till\" är inte unikt."
+
+msgid "mail_my_courses"
+msgstr "Mina kurser"
+
+msgid "mail_my_groups"
+msgstr "Mina grupper"
+
+msgid "mail_my_mailing_lists"
+msgstr "Mina distributionslistor"
+
+msgid "mail_nacc_admin_mail"
+msgstr "E-postadress till administratören"
+
+msgid "mail_nacc_if_timelimit"
+msgstr "Detta textblock infogas endast om användaren har en begränsad åtkomstperiod."
+
+msgid "mail_nacc_ilias_url"
+msgstr "URL för ILIAS-systemet"
+
+msgid "mail_nacc_installation_desc"
+msgstr "Beskrivning av installationen"
+
+msgid "mail_nacc_installation_name"
+msgstr "Namn på anläggningen"
+
+msgid "mail_nacc_login"
+msgstr "Login namn"
+
+msgid "mail_nacc_no_pw_block"
+msgstr "Detta textblock infogas endast om den nya användaren skapades utan lösenord."
+
+msgid "mail_nacc_pw_block"
+msgstr "Detta textblock infogas endast om den nya användaren skapades med ett lösenord."
+
+msgid "mail_nacc_salutation"
+msgstr "Välkommen"
+
+msgid "mail_nacc_target"
+msgstr "URL för målobjektet, t.ex. en kurs som länkas till från en annan ILIAS."
+
+msgid "mail_nacc_target_block"
+msgstr "Detta textblock infogas endast om ett målobjekt erbjuds."
+
+msgid "mail_nacc_target_title"
+msgstr "Titel för målobjektet, t.ex. kursens titel"
+
+msgid "mail_nacc_target_type"
+msgstr "Typ för målobjektet, t.ex. \"Kurs\" för ett kursobjekt."
+
+msgid "mail_nacc_timelimit"
+msgstr "Användarens åtkomstperiod"
+
+msgid "mail_nacc_title"
+msgstr "Titel"
+
+msgid "mail_nacc_use_placeholder"
+msgstr "Följande platshållare kan användas i fältet 'Innehåll'"
+
+#, fuzzy
+msgid "mail_nacc_user_fullname"
+msgstr "User Full Name"
+
+#, fuzzy
+msgid "mail_nacc_user_login"
+msgstr "User Login"
+
+#, fuzzy
+msgid "mail_new"
+msgstr "New Mail"
+
+msgid "mail_new_template"
+msgstr "Ny textmall"
+
+#, fuzzy
+msgid "mail_no_mail_items"
+msgstr "No unread mails."
+
+msgid "mail_no_permissions_write_smtp"
+msgstr "Du har inte behörighet att skicka externa e-postmeddelanden."
+
+msgid "mail_no_subject"
+msgstr "Inget ämne tillgängligt"
+
+msgid "mail_no_valid_mailing_list"
+msgstr "%1$s (inte en giltig distributör)"
+
+msgid "mail_notification_membership_section"
+msgstr "Memberships"
+
+msgid "mail_notification_subject"
+msgstr "Nya e-postmeddelanden i inkorgen"
+
+msgid "mail_notify_orphaned"
+msgstr "Meddelanden via e-post"
+
+msgid "mail_notify_orphaned_info"
+msgstr "Om du anger ett värde som är större än eller lika med 1 här, kommer ILIAS att skicka ett e-postmeddelande till användaren innan ett internt e-postmeddelande raderas. Se till att extern e-postmottagning är möjlig."
+
+#, fuzzy
+msgid "mail_operation_on_invalid_folder"
+msgstr "It was not possible to carry out the requested operation. The folder given in the server request is invalid. Please contact an administrator."
+
+#, fuzzy
+msgid "mail_options"
+msgstr "Mail Options"
+
+msgid "mail_options_saved"
+msgstr "Inställningarna har sparats"
+
+msgid "mail_orphaned_mails"
+msgstr "Radera gamla eller föräldralösa e-postmeddelanden"
+
+msgid "mail_orphaned_mails_desc"
+msgstr "Radera gamla eller föräldralösa e-postmeddelanden"
+
+# Modifierad som en del av jämställdhetsintegreringsaktiviteter för ILIAS 8
+msgid "mail_recipient_not_found"
+msgstr "%1$s - Vänligen korrigera informationen i fältet \"Till\"."
+
+msgid "mail_rename_folder"
+msgstr " Namnge mappen"
+
+msgid "mail_roles"
+msgstr "Alla personer med följande lokala roller"
+
+msgid "mail_s"
+msgstr "Mails"
+
+msgid "mail_salutation_anonymous"
+msgstr "Hello"
+
+msgid "mail_salutation_f"
+msgstr "Kära fru"
+
+# Modifierad som en del av jämställdhetsintegreringsaktiviteter för ILIAS 8
+msgid "mail_salutation_female"
+msgstr "Output för platshållare [MAIL_SALUTATION], om hälsning \"kvinna\""
+
+msgid "mail_salutation_general"
+msgstr "Utdata för platshållaren [MAIL_SALUTATION], om ingen hälsningsfras är angiven eller önskad."
+
+msgid "mail_salutation_m"
+msgstr "Kära Sir"
+
+# Modifierad som en del av jämställdhetsintegreringsaktiviteter för ILIAS 8
+msgid "mail_salutation_male"
+msgstr "Output för platshållare [MAIL_SALUTATION], om hälsning \"Mr\""
+
+msgid "mail_salutation_n"
+msgstr "Hello"
+
+msgid "mail_saved"
+msgstr "Din e-post har sparats"
+
+msgid "mail_second_email"
+msgstr "Den andra e-postadressen"
+
+# Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
+msgid "mail_sel_label"
+msgstr "Send mail to"
+
+# Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
+msgid "mail_sel_users"
+msgstr "Urvalda personer"
+
+msgid "mail_select_attachment"
+msgstr "Välj en bilaga för att ladda ner."
+
+#, fuzzy
+msgid "mail_select_crs"
+msgstr "Please select at least one course."
+
+#, fuzzy
+msgid "mail_select_grp"
+msgstr "Please select at least one group."
+
+msgid "mail_select_one_entry"
+msgstr "Du måste välja minst en post"
+
+msgid "mail_select_one_file"
+msgstr "Du måste välja minst en fil"
+
+msgid "mail_send_html"
+msgstr "HTML-ram"
+
+msgid "mail_send_html_info"
+msgstr "Om den är aktiverad placeras meddelandetexten för externa e-postmeddelanden i en HTML-ram. Detta kan anpassas via en skin-mall under './Customising/global/skin/[SKIN]/Services/Mail/tpl.html_mail_template.html' (som en kopia av './Services/Mail/templates/"
+
+#, fuzzy
+msgid "mail_sent_datetime"
+msgstr "Date"
+
+msgid "mail_serial_letter_placeholders"
+msgstr "Platshållare för seriebokstav"
+
+msgid "mail_settings_external_frm_head"
+msgstr "Externa e-postmeddelanden"
+
+msgid "mail_settings_external_tab"
+msgstr "External"
+
+msgid "mail_settings_general_tab"
+msgstr "Allmänt"
+
+#, fuzzy
+msgid "mail_settings_incoming_type_see_also"
+msgstr "How incoming e-mails for users are handled can also be set <a href=\"%s\">here</a>."
+
+msgid "mail_settings_system_frm_head"
+msgstr "System e-post"
+
+msgid "mail_settings_user_frm_head"
+msgstr "E-post från användare"
+
+msgid "mail_smtp_encryption"
+msgstr "Kryptering"
+
+msgid "mail_smtp_encryption_ssl"
+msgstr "SSL"
+
+msgid "mail_smtp_encryption_tls"
+msgstr "TLS"
+
+msgid "mail_smtp_host"
+msgstr "Host"
+
+msgid "mail_smtp_host_info"
+msgstr "Ange e-postserverns värdnamn eller IP-adress här."
+
+msgid "mail_smtp_password"
+msgstr " Lösenord"
+
+msgid "mail_smtp_password_req"
+msgstr "Om du anger en användare är lösenordet obligatoriskt."
+
+msgid "mail_smtp_port"
+msgstr "Port"
+
+msgid "mail_smtp_port_info"
+msgstr "Var god ange en numerisk SMTP-port (t.ex. 25)."
+
+msgid "mail_smtp_status"
+msgstr "Aktivera SMTP-sändning"
+
+msgid "mail_smtp_status_info"
+msgstr "Om aktiverat delegerar ILIAS sändningen av externa e-postmeddelanden till den e-postserver som konfigurerats här istället för att använda den funktionalitet som tillhandahålls av PHP runtime för sändning (mail()-funktionen, sendmail)."
+
+msgid "mail_smtp_user"
+msgstr "Användare"
+
+msgid "mail_subject_prefix"
+msgstr "Ämne för e-post"
+
+msgid "mail_subject_prefix_info"
+msgstr "Du kan ange en text här som kommer att prefixas till ämnesraden i utgående, automatiskt genererade e-postmeddelanden. Det rekommenderas att ange ett prefix för att göra det lättare för användarna att filtrera meddelandena."
+
+msgid "mail_subject_too_long"
+msgstr "Ämnet är för långt."
+
+#, fuzzy
+msgid "mail_success_removed_user"
+msgstr "User(s) successfully removed from mailing list."
+
+msgid "mail_sure_delete_entry"
+msgstr "Är du säker på att du vill ta bort de markerade posterna?"
+
+msgid "mail_sure_delete_file"
+msgstr "Är du säker på att du vill radera de markerade filerna?"
+
+msgid "mail_sure_delete_folder"
+msgstr "Mappen och dess innehåll är oåterkalleligen raderade!"
+
+#, fuzzy
+msgid "mail_sure_delete_p"
+msgstr "Are you sure you want to delete the following mails?"
+
+#, fuzzy
+msgid "mail_sure_delete_s"
+msgstr "Are you sure you want to delete the following mail?"
+
+#, fuzzy
+msgid "mail_sure_remove_user"
+msgstr "Are you sure you want to remove the following user(s) from the members list?"
+
+# Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
+msgid "mail_system_sys_env_from_addr"
+msgstr "Technical Sender Address (\"SENDER\")"
+
+# Modif
+msgid "mail_system_sys_env_from_addr_info"
+msgstr " Ange den tekniska sändningsadressen (\"SENDER\"-rubriken) här. Om du lämnar fältet tomt kommer avsändarens e-postadress (\"FROM\" header) att användas för extern sändning. I annat fall är det serveradministrationens uppgift att konfigurera rubriken."
+
+msgid "mail_system_sys_from_addr"
+msgstr "FROM\" adress för automatiskt skickade e-postmeddelanden"
+
+msgid "mail_system_sys_from_addr_info"
+msgstr "För att säkerställa att de e-postmeddelanden som automatiskt skickas från ILIAS inte avvisas som skräppost, måste en avsändaradress anges här (tekniskt"
+
+# Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
+msgid "mail_system_sys_from_name"
+msgstr "\"FROM\"-Name"
+
+#, fuzzy
+msgid "mail_system_sys_general_signature"
+msgstr "Signature"
+
+msgid "mail_system_sys_reply_to_addr"
+msgstr "Reply-To"
+
+# Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
+msgid "mail_system_usr_env_from_addr"
+msgstr "Technical Sender Address (\"SENDER\")"
+
+# Modif
+msgid "mail_system_usr_env_from_addr_info"
+msgstr " Ange den tekniska sändningsadressen (\"SENDER\"-rubriken) här. Om du lämnar fältet tomt kommer avsändarens e-postadress (\"FROM\" header) att användas för extern sändning. I annat fall är det serveradministrationens uppgift att konfigurera rubriken."
+
+# Modifierad som en del av jämställdhetsintegreringsaktiviteter för ILIAS 8
+msgid "mail_system_usr_from_addr"
+msgstr "FROM\" adress för manuellt skickade e-postmeddelanden"
+
+msgid "mail_system_usr_from_addr_info"
+msgstr "För att säkerställa att e-post som skickas manuellt från ILIAS inte avvisas som skräppost, måste en avsändaradress anges här (tekniskt"
+
+# Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
+msgid "mail_system_usr_from_name"
+msgstr "FROM\" namn och format"
+
+# Modifierad som en del
+msgid "mail_system_usr_from_name_info"
+msgstr "Detta namn visas vanligtvis i e-postklienten i kolumnen \"Från\". FULLNAME], [FIRSTNAME] och [LASTNAME] kan användas som platshållare. Dessa ersätts sedan av respektive data för den person som skickade ett manuellt e-postmeddelande."
+
+#, fuzzy
+msgid "mail_system_usr_general_signature"
+msgstr "User Signature"
+
+msgid "mail_tbl_head_attachments"
+msgstr "Tillägg"
+
+msgid "mail_template_client"
+msgstr "Textmall"
+
+msgid "mail_template_client_info"
+msgstr "Välj mellan en av de tillgängliga textmallarna. Du har möjlighet att använda de platshållare som erbjuds av textmallen. När du väljer en textmall kommer meddelandet och ämnet i detta formulär (om det definieras i mallen) att ersättas."
+
+msgid "mail_template_context"
+msgstr "Kontext"
+
+msgid "mail_template_default"
+msgstr " (standard)"
+
+#, fuzzy
+msgid "mail_template_invalid_tpl_syntax"
+msgstr "An invalid syntax has been detected. Please ensure a valid input, especially regarding the placeholder syntax."
+
+msgid "mail_template_missing_id"
+msgstr "Åtgärden kan inte utföras eftersom textmallens ID inte överfördes korrekt."
+
+msgid "mail_template_no_context_available"
+msgstr "För närvarande tillhandahålls ingen kontext av någon ILIAS-tjänst eller modul. Det är därför inte möjligt att skapa eller redigera textmallar."
+
+msgid "mail_template_no_valid_context"
+msgstr "Det valda sammanhanget är inte giltigt."
+
+msgid "mail_template_orphaned_context"
+msgstr "Sammanhanget är förgäves"
+
+msgid "mail_template_set_as_default"
+msgstr "Sätt som standard"
+
+msgid "mail_template_title"
+msgstr "Namn på textmallen"
+
+msgid "mail_template_unset_as_default"
+msgstr "Ta bort som standard"
+
+msgid "mail_templates"
+msgstr "Tekstmallar"
+
+msgid "mail_threshold"
+msgstr "Tröskelvärde"
+
+msgid "mail_threshold_info"
+msgstr "Interna e-postmeddelanden som är äldre än det tröskelvärde som definieras här raderas oåterkalleligt (inklusive eventuella bilagor).<br> Tänk på att när detta cron-jobb körs för första gången, beroende på tröskelvärdet, raderas ett stort antal meddelande"
+
+msgid "mail_to"
+msgstr "An"
+
+msgid "mail_tpl_deleted_p"
+msgstr "Textmallarna har raderats framgångsrikt."
+
+msgid "mail_tpl_deleted_s"
+msgstr "Tekstmallen har tagits bort framgångsrikt."
+
+msgid "mail_tpl_sure_delete_entries"
+msgstr "Är du säker på att du vill ta bort de markerade textmallarna?"
+
+msgid "mail_tpl_sure_delete_entry"
+msgstr "Är du säker på att du vill ta bort textmallen?"
+
+msgid "mail_use_global_reply_to_addr"
+msgstr "Använd global svarsadress"
+
+msgid "mail_use_global_reply_to_addr_info"
+msgstr "Ange en e-postadress som används som plattformsövergripande svarsadress (tekniskt"
+
+msgid "nc_mail_noti_item_title"
+msgstr "Inkorg"
+
+msgid "nc_mail_prop_time"
+msgstr "Tid"
+
+msgid "nc_mail_unread_messages"
+msgstr "Du har %s i din inkorg."
+
+msgid "nc_mail_unread_messages_number_p"
+msgstr "%s olästa e-postmeddelanden"
+
+msgid "nc_mail_unread_messages_number_s"
+msgstr "ett oläst e-postmeddelande"
+
+msgid "only_inbox_trash"
+msgstr "Ta endast hänsyn till inkorg/skräpkorg"
+
+msgid "only_inbox_trash_info"
+msgstr "Om aktiverat raderas endast e-postmeddelanden som finns i inkorgen och papperskorgen för respektive person vid tidpunkten för utförandet av cron-jobbet. I annat fall raderas alla e-postmeddelanden oavsett mapp."
+
+msgid "orphaned_mail_body"
+msgstr "Det finns föråldrade eller föräldralösa e-postmeddelanden i följande brevlådor. Observera att dessa e-postmeddelanden kommer att raderas automatiskt inom kort."
+
+msgid "orphaned_mail_subject"
+msgstr "Notifiering om föräldralösa e-postmeddelanden"
+
+# Modifierad som en del av jämställdhetsintegreringsaktiviteter för ILIAS 8
+msgid "placeholders_advise"
+msgstr "Personliga platshållare ersätts endast för personer i fältet \"Till\". Personer i \"CC\"-fältet och \"BCC\"-fältet kommer att få e-postmeddelandet med icke ersatta platshållare."
+
+#, fuzzy
+msgid "regular_mail"
+msgstr "Personal Mail"
+
+msgid "search_content"
+msgstr "Sökresultat"
+
+# Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
+msgid "search_recipients"
+msgstr "Search people"
+
+msgid "second_email_missing_info"
+msgstr "Urval ej möjligt, eftersom ingen andra e-postadress har angetts."
+
+msgid "select_mail_with_subject_x"
+msgstr "Välj e-post med ämne \"%s"
+
+msgid "send_mail_admins"
+msgstr "Alla administratörer"
+
+msgid "send_mail_members"
+msgstr "Alla medlemmar"
+
+msgid "send_mail_to"
+msgstr "Mail till"
+
+msgid "send_mail_tutors"
+msgstr "Alla handledare"
+
+#, fuzzy
+msgid "serial_letter"
+msgstr "Serial Letter"
+
+msgid "show_mail_settings"
+msgstr "Inställningar för display"
+
+msgid "show_mail_settings_info"
+msgstr "Aktiverar visning av e-postinställningarna i området 'Inställningar' eller 'E-post'. Användare kan endast ändra e-postinställningarna om konfigurationen av användarprofilen tillåter detta. Om användaren inte har behörighet att ändra e-postinställningarna"
+
+msgid "system_notification_installation_changed_by"
+msgstr "Ändrad av"
+
+msgid "usrFieldChange_second_mail_visible_in_personal_data"
+msgstr "You have changed the attribute \"%s\" in the field \"%s\".<br>Detta kommer för alla befintliga och framtida skapade konton att leda till att<br>ändrar den mottagningstyp som valts för användare och standard för nya inloggningskonton för extern leverans till"

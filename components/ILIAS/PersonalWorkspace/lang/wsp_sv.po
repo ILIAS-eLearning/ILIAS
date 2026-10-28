@@ -1,0 +1,209 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: wsp\n"
+
+# Modifierad som en del av jämställdhetsintegreringsaktiviteter för ILIAS 8
+msgid "element_already_shared"
+msgstr "Resursen har redan släppts för denna person."
+
+msgid "element_shared"
+msgstr "Resursen har frigjorts."
+
+msgid "error_creating_certificate_pdf"
+msgstr "Certifikatet kunde inte skapas. Låt en administratör kontrollera certifikatservern."
+
+msgid "share"
+msgstr "Släpp"
+
+msgid "share_content"
+msgstr "Release resurs"
+
+# Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
+msgid "share_with"
+msgstr "Login name"
+
+msgid "wsp_copy_to_repository"
+msgstr "Kopiera till tidning"
+
+msgid "wsp_invalid_password"
+msgstr "Lösenordet är ogiltigt."
+
+msgid "wsp_list_cmxv"
+msgstr "Certifikat för xAPI/cmi5-objektet"
+
+msgid "wsp_list_crsv"
+msgstr "Kursintyg"
+
+msgid "wsp_list_excv"
+msgstr "Träningscertifikat"
+
+msgid "wsp_list_ltiv"
+msgstr "Certifikat för LTI-konsumentobjektet"
+
+msgid "wsp_list_scov"
+msgstr "SCORM certifikat"
+
+msgid "wsp_list_tstv"
+msgstr "Testa certifikat"
+
+msgid "wsp_move_to_repository"
+msgstr "Flytta till tidningen"
+
+msgid "wsp_password_for"
+msgstr "Lösenord för"
+
+msgid "wsp_password_protected_resource"
+msgstr "Lösenordsskyddad resurs"
+
+msgid "wsp_password_protected_resource_info"
+msgstr "Du behöver ett lösenord för att komma åt denna resurs."
+
+msgid "wsp_permission_all_info"
+msgstr "Detta objekt är synligt för alla användare på Internet."
+
+msgid "wsp_permission_all_pw_info"
+msgstr "När du har angett lösenordet är detta objekt synligt för alla användare på Internet."
+
+msgid "wsp_permission_registered_info"
+msgstr "Detta objekt är tillgängligt för alla registrerade användare."
+
+msgid "wsp_permission_removed"
+msgstr "Posten har tagits bort."
+
+msgid "wsp_permissions"
+msgstr "Släpp"
+
+msgid "wsp_personal_resources_description"
+msgstr "Här kan du hantera personliga filer, bloggar och bevis."
+
+#, fuzzy
+msgid "wsp_search_no_match"
+msgstr "Your search did not match any results."
+
+#, fuzzy
+msgid "wsp_send_mail"
+msgstr "Send Mail"
+
+msgid "wsp_set_permission_all"
+msgstr "Internet/WWW"
+
+msgid "wsp_set_permission_all_password"
+msgstr "Internet/WWW med lösenord"
+
+msgid "wsp_set_permission_course"
+msgstr "Kursdeltagare"
+
+msgid "wsp_set_permission_group"
+msgstr "Gruppmedlemmar"
+
+msgid "wsp_set_permission_registered"
+msgstr "Alla registrerade användare"
+
+msgid "wsp_set_permission_single_user"
+msgstr "Utvalda användare"
+
+msgid "wsp_share_search_users"
+msgstr "Sök användare"
+
+msgid "wsp_share_success"
+msgstr "En ny post har lagts till."
+
+msgid "wsp_share_with_members"
+msgstr "Dela med medlemmar"
+
+msgid "wsp_share_with_users"
+msgstr "Dela med användare"
+
+msgid "wsp_shared_date"
+msgstr "Släppdatum"
+
+msgid "wsp_shared_date_filter"
+msgstr "Frigivning från"
+
+msgid "wsp_shared_filter_button"
+msgstr "Sökning"
+
+msgid "wsp_shared_filter_reset_button"
+msgstr "Återställ sökning"
+
+msgid "wsp_shared_mandatory_filter_info"
+msgstr "Ange minst ett filterattribut. Textfilter måste vara minst 4 bokstäver långa."
+
+msgid "wsp_shared_member_filter"
+msgstr "Kurs-/Gruppmedlemmar"
+
+msgid "wsp_shared_object_type"
+msgstr "Typ av resurs"
+
+msgid "wsp_shared_resources"
+msgstr "Delade resurser"
+
+msgid "wsp_shared_table_title"
+msgstr "Utgivningar"
+
+msgid "wsp_shared_title"
+msgstr "Titel på resursen"
+
+msgid "wsp_shared_type"
+msgstr "Släppt för"
+
+# Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
+msgid "wsp_shared_user_filter"
+msgstr "name/login name"
+
+msgid "wsp_shared_with"
+msgstr "Släppt för"
+
+msgid "wsp_status_shared"
+msgstr "Släppt"
+
+msgid "wsp_switch_to_repo_tree"
+msgstr "Byt till magasin"
+
+msgid "wsp_switch_to_wsp_tree"
+msgstr "Byt till personliga resurser"
+
+msgid "wsp_tab_ownership"
+msgstr "Mina tidningsobjekt"
+
+msgid "wsp_tab_personal"
+msgstr "Mina resurser"
+
+msgid "wsp_tab_shared"
+msgstr "Resurser från andra"
+
+msgid "wsp_type_blog"
+msgstr "Blogg"
+
+msgid "wsp_type_cmxv"
+msgstr "Certifikat xAPI/cmi5"
+
+msgid "wsp_type_crsv"
+msgstr "Certifikat Kurs"
+
+msgid "wsp_type_excv"
+msgstr "Certifikat Übung"
+
+msgid "wsp_type_file"
+msgstr "Fil"
+
+msgid "wsp_type_ltiv"
+msgstr "Certifikat LTI-Konsument"
+
+msgid "wsp_type_scov"
+msgstr "Certifikat SCORM"
+
+msgid "wsp_type_tstv"
+msgstr "Certifikat Test"
+
+msgid "wsp_type_webr"
+msgstr "Webblänk"
+
+msgid "wsp_type_wfld"
+msgstr "Folder"

@@ -1,0 +1,1404 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: style\n"
+
+msgid "adapt_icon"
+msgstr "Anpassung der Icons"
+
+msgid "adapt_icon_description"
+msgstr "Passe die Iconfarbe oder das Icon an."
+
+msgid "adapt_icons"
+msgstr "Anpassung der Iconfarben"
+
+msgid "adapt_icons_description"
+msgstr "Alle svg Icons, welche im Ordner images gefunden wurden, werden hier aufgelistet. Wenn eine Farbe geändert wird, ist dies in allen hier aufgelisteten Icons sofort ersichtlich."
+
+msgid "adapt_scss"
+msgstr "Anpassung der Scss-Datei"
+
+msgid "adapt_scss_description"
+msgstr "Dies ist die Darstellung aller scss Variablen aus dem aktuellen Skin. Variablennamen und Beschreibungen sind direkt aus den Dateien ausgelesen und daher nur in Originalsprache vorhanden. Der ausgewählte Style wird beim Aktualisieren/Zurücksetzen der Variablen vollständig neu kompiliert. Das Zurücksetzen der Variablen erstellt eine Kopie der Settings des ursprünglichen \"delos style\"."
+
+msgid "add_substyle"
+msgstr "Neuer Sub-Style"
+
+msgid "add_system_style"
+msgstr "Neuer System-Style"
+
+msgid "assignment"
+msgstr "Zuweisung"
+
+msgid "blue_color"
+msgstr "Blauton"
+
+msgid "blue_colors"
+msgstr "Blaue Farben"
+
+msgid "blue_colors_description"
+msgstr "Blauton Beschreibung"
+
+msgid "can_not_read_scss_file"
+msgstr "Scss-Datei kann nicht gelesen werden. Pfad:"
+
+msgid "cant_deactivate_default_style"
+msgstr "Standard Styles können nicht deaktiviert werden."
+
+msgid "cant_delete_activated_style"
+msgstr "Aktive Styles können nicht gelöscht werden."
+
+msgid "cant_delete_if_users_assigned"
+msgstr "Styles können nicht gelöscht werden, solange Benutzer ihnen zugewiesen sind."
+
+msgid "cant_delete_style_with_substyles"
+msgstr "Styles mit Sub-Styles können nicht gelöscht werden."
+
+msgid "change_icon"
+msgstr "Ändere Icon"
+
+msgid "color"
+msgstr "Farbe"
+
+msgid "color_changed_from"
+msgstr "Farbe geändert von:"
+
+msgid "color_changed_to"
+msgstr "nach:"
+
+msgid "color_reset"
+msgstr "Die Farben der Icons wurden zurückgesetzt. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderungen korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen."
+
+msgid "color_update"
+msgstr "Die Farben der Icons wurden aktualisiert. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderungen korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen."
+
+msgid "default_style_set_to"
+msgstr "Der Standard-Style wurde geändert zu:"
+
+msgid "dir_changed_to"
+msgstr "Der Ordner wurde verschoben nach:"
+
+msgid "dir_copied_from"
+msgstr "Der Ordner wurde kopiert von:"
+
+msgid "dir_created"
+msgstr "Der folgende Ordner wurde erstellt:"
+
+msgid "dir_deleted"
+msgstr "Der folgende Ordner wurde gelöscht:"
+
+msgid "dir_preserved_backup"
+msgstr "Behaltene Ordner:"
+
+msgid "dir_preserved_linked"
+msgstr "Behaltene Links:"
+
+msgid "directory_created"
+msgstr "Ordner erstellt:"
+
+msgid "documentation"
+msgstr "Dokumentation"
+
+msgid "edit_by_color"
+msgstr "Bearbeitung nach Farbe"
+
+msgid "edit_by_icon"
+msgstr "Bearbeitung nach Icon"
+
+msgid "enable_system_styles_management_no_write_perm"
+msgstr "'System-Styles-Management' ist aktiviert. ILIAS hat aber keinen Schreibzugriff auf das Customizing/global/skin Verzeichnis. Es können deshalb keine neuen Styles erstellt/editiert werden."
+
+msgid "entries_reloaded"
+msgstr "Alle Einträge wurden aktualisiert"
+
+msgid "file_deleted"
+msgstr "Folgende Datei wurde gelöscht:"
+
+msgid "font_dir"
+msgstr "Schrift-Ordner"
+
+msgid "font_dir_description"
+msgstr "Ordner für das Speichern von Schriftarten vom betreffenden Skin. Dieser Ordner kann mit anderen Styles und Sub-Styles geteilt werden. Achtung, falls dieser Ordner Angepasst wird, muss auch die SCSS Variable il-web-font-path manuell angepasst werden."
+
+msgid "from_skin"
+msgstr "vom Skin:"
+
+msgid "green_color"
+msgstr "Grünton"
+
+msgid "green_colors"
+msgstr "Grüne Farben"
+
+msgid "green_colors_description"
+msgstr "Grünton Beschreibung"
+
+msgid "grey_color"
+msgstr "Grauton"
+
+msgid "grey_colors"
+msgstr "Graue Farben"
+
+msgid "grey_colors_description"
+msgstr "Grauton Beschreibung"
+
+msgid "icons"
+msgstr "Icons"
+
+msgid "icons_gallery"
+msgstr "Icon Galerie"
+
+msgid "image_dir"
+msgstr "Icon-Ordner"
+
+msgid "image_dir_description"
+msgstr "Ordner für das Speichern von Bildern (hauptsächlich Icons) vom betreffenden Skin. Dieser Ordner kann mit anderen Styles und Sub-Styles geteilt werden."
+
+msgid "in_main_scss_file"
+msgstr "ist nicht in der System-Styles-Main-Scss-Datei importiert:"
+
+msgid "invalid_scss_path"
+msgstr "Der angegebene sass/scss-Pfad ist ungültig oder kann vom Webserver nicht gelesen und ausgeführt werden. Die sass/scss-Datei unter dem angegebenen Pfad (oder die verlinkte Datei, falls der Pfad auf einen symlink verweist) muss vom Webserver gelesen und ausgeführt werden können."
+
+msgid "ks_documentation_of_style"
+msgstr "'Kitchen Sink'-Dokumentation von Style:"
+
+msgid "ks_documentation_of_substyle"
+msgstr "'Kitchen Sink'-Dokumentation von Sub-Style:"
+
+msgid "main_scss_created"
+msgstr "Main SCSS Datei wurde erstellt:"
+
+msgid "manage_system_styles"
+msgstr "System-Styles verwalten"
+
+msgid "msg_sub_style_created"
+msgstr "Der Sub-Style wurde erstellt."
+
+msgid "msg_sys_style_created"
+msgstr "Die neue System-Style-Datei wurde erfolgreich erstellt."
+
+msgid "msg_sys_style_update"
+msgstr "System-Styles wurden aktualisiert."
+
+msgid "no_scss_path_set"
+msgstr "Das Scss-Verzeichnis ist nicht gesetzt."
+
+msgid "no_style_selected"
+msgstr "Es wurde kein Sub-Style ausgewählt."
+
+msgid "of_parent"
+msgstr "vom Parent:"
+
+msgid "open_documentation"
+msgstr "Dokumentation öffnen"
+
+msgid "parent"
+msgstr "Parent-Style"
+
+msgid "personal"
+msgstr "Persönlich"
+
+msgid "personal_style_set_to"
+msgstr "Der persönliche Style wurde geändert zu:"
+
+msgid "provided_scss_path"
+msgstr "Angegebener scss-Pfad:"
+
+msgid "red_color"
+msgstr "Rotton"
+
+msgid "red_colors"
+msgstr "Rote Farben"
+
+msgid "red_colors_description"
+msgstr "Rotton Beschreibung"
+
+msgid "refresh_entries"
+msgstr "Einträge aktualisieren"
+
+msgid "remove_assignment"
+msgstr "Zuweisung löschen"
+
+msgid "reset_icons"
+msgstr "Farben zurücksetzen"
+
+msgid "reset_variables"
+msgstr "Variablen zurücksetzen"
+
+msgid "scope"
+msgstr "Gültigkeitsbereich"
+
+msgid "scss"
+msgstr "Scss"
+
+msgid "scss_can_not_be_modified"
+msgstr "Scss kann nicht verändert werden."
+
+msgid "scss_compile_failed"
+msgstr "Die Scss Datei konnte nicht kompiliert werden. Sass/scss muss dafür installiert und der Pfad im ILIAS setup richtig gesetzt sein."
+
+msgid "scss_file_reset"
+msgstr "Die scss-Variablen wurden zurückgesetzt. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderungen korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen."
+
+msgid "scss_file_updated"
+msgstr "Die scss-Variablen wurden aktualisiert. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderungen korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen."
+
+msgid "scss_folder_reset"
+msgstr "Scss Ordner zurückgesetzt"
+
+msgid "scss_folder_updated"
+msgstr "Scss Ordner wurde aktualisiert"
+
+msgid "scss_scss_installation_detected"
+msgstr "Scss-Installation gefunden:"
+
+msgid "scss_variable_empty"
+msgstr "Für diese Variabel wurde kein Wert gesetzt. Der Wert aus den Settings Dateien wurde nun geladen. Bitte überprüfen Sie dieses Feld bevor Sie komplilieren."
+
+msgid "scss_variables_empty_might_have_changed"
+msgstr "Scss Variabeln ohne Wert waren im Formular enthalten. Die Ursache kann sein, dass die Settings Dateien seit dem Laden dieses Formulares geändert wurde. Die leeren Variabeln wurden mit den Werten aus den Settings Dateien ersetzt und markiert. Bitte überprüfen Sie diese Werte, bevor Sie kompilieren und somit auch die Werte im Formular in die Settings Dateien schreiben."
+
+msgid "scss_variables_file_not_included"
+msgstr "Die Scss-Variablen-Datei:"
+
+msgid "select_icon"
+msgstr "Selektieres Icon"
+
+msgid "settings_of_style"
+msgstr "Styles verwalten"
+
+msgid "settings_of_substyle"
+msgstr "Sub-Style verwalten"
+
+msgid "skin"
+msgstr "Skin"
+
+msgid "skin_deleted"
+msgstr "Folgender Skin wurde gelöscht:"
+
+msgid "skin_id"
+msgstr "Skin-ID"
+
+msgid "skin_id_description"
+msgstr "Skins sind Behälter für Styles und Sub-Styles. Die Skin-ID setzt den Namen des Ordners, welcher alle Informationen zu Styles und Sub-Styles beinhaltet. Die Skin-ID darf sich nur aus Buchstaben, Nummern sowie Bindestrichen zusammensetzen."
+
+msgid "skin_id_exists"
+msgstr "Es existiert bereits ein Skin mit dieser ID."
+
+msgid "skin_name"
+msgstr "Skin-Titel"
+
+msgid "skin_name_description"
+msgstr "Der Skin-Titel kann als Beschreibung für das Einsatzgebiet verwendet werden. Er wird in allen UI-Elementen aufgelistet, in denen ein Skin ausgewählt werden kann."
+
+msgid "skin_version"
+msgstr "Skin-Version"
+
+msgid "skin_version_description"
+msgstr "Die Skin-Version wird genutzt um die Styles, nach Änderungen, neu zu cachen. Sie wird automatisch aktualisiert."
+
+msgid "sound_dir"
+msgstr "Audio-Ordner"
+
+msgid "sound_dir_description"
+msgstr "Ordner für das Speichern von Tönen vom betreffenden Skin. Dieser Ordner kann mit anderen Styles und Sub-Styles geteilt werden."
+
+msgid "sty_acopy"
+msgstr "Kopie"
+
+msgid "sty_add_assignment"
+msgstr "Zuordnung hinzufügen"
+
+msgid "sty_add_characteristic"
+msgstr "Neuen Style hinzufügen"
+
+msgid "sty_add_color"
+msgstr "Farbe hinzufügen"
+
+msgid "sty_add_content_style"
+msgstr "Content-Style hinzufügen"
+
+msgid "sty_add_image"
+msgstr "Bild hinzufügen"
+
+msgid "sty_add_media_query"
+msgstr "Media Query hinzufügen"
+
+msgid "sty_add_media_query_info"
+msgstr "Z.B. \"only screen and (max-width: 600px)\" für Fenstergrößen kleiner als 600px oder \"print\" für Druckausgaben."
+
+msgid "sty_add_pgl"
+msgstr "Seitenlayout hinzufügen"
+
+msgid "sty_add_template"
+msgstr "Template hinzufügen"
+
+msgid "sty_added_characteristic"
+msgstr "Neuen Style hinzugefügt."
+
+msgid "sty_all"
+msgstr "Alle"
+
+msgid "sty_all_styles_obligatory"
+msgstr "Alle ausgewählten Styleklassen müssen immer vorhanden sein und können nicht gelöscht werden."
+
+msgid "sty_assign_categories"
+msgstr "Kategorien zuordnen"
+
+msgid "sty_background"
+msgstr "Hintergrund"
+
+msgid "sty_background_attachment"
+msgstr "Verhalten Hintergrund"
+
+msgid "sty_background_color"
+msgstr "Hintergrundfarbe"
+
+msgid "sty_background_image"
+msgstr "Hintergrundbild"
+
+msgid "sty_background_position"
+msgstr "Hintergrundposition"
+
+msgid "sty_background_repeat"
+msgstr "Wiederholungseffekt"
+
+msgid "sty_base_color"
+msgstr "Grundfarbe"
+
+msgid "sty_based_on"
+msgstr "Basierend auf"
+
+msgid "sty_bg_img_info"
+msgstr "Um Bilder in die Auswahl aufzunehmen, müssen diese zunächst im Bereich „Bilder“ des Styles hochgeladen werden."
+
+msgid "sty_border"
+msgstr "Rahmen"
+
+msgid "sty_border_color"
+msgstr "Rahmenfarbe"
+
+msgid "sty_border_style"
+msgstr "Rahmentyp"
+
+msgid "sty_border_width"
+msgstr "Rahmendicke"
+
+msgid "sty_bottom"
+msgstr "Unten"
+
+msgid "sty_ca_cntr_class"
+msgstr "Karussell - Container"
+
+msgid "sty_ca_icntr_class"
+msgstr "Karussell - Element-Container"
+
+msgid "sty_ca_icont_class"
+msgstr "Karussell - Inhalt Element"
+
+msgid "sty_ca_ihead_class"
+msgstr "Karussell - Kopfzeile Element"
+
+msgid "sty_cannot_be_copied"
+msgstr "Die folgenden Styletypen könne nicht kopiert werden"
+
+msgid "sty_caption"
+msgstr "Legende"
+
+msgid "sty_caption_class"
+msgstr "Legende"
+
+msgid "sty_carousel_templates"
+msgstr "Karussell Templates"
+
+msgid "sty_cat_assignments"
+msgstr "Zuordnungen Style-Kategorie"
+
+msgid "sty_change_user_assignment"
+msgstr "Style Zuordnung ändern"
+
+msgid "sty_characteristic_already_exists"
+msgstr "Eine Klasse für einen Style dieses Namens existiert bereits in diesem Stylesheet."
+
+msgid "sty_class"
+msgstr "Style-Klasse"
+
+msgid "sty_class_name"
+msgstr "Klassenname"
+
+msgid "sty_clear"
+msgstr "Textumfluss beenden"
+
+msgid "sty_col_foot_class"
+msgstr "Fuß (Spalten)"
+
+msgid "sty_col_head_class"
+msgstr "Kopf (Spalten)"
+
+msgid "sty_color"
+msgstr "Farbe"
+
+msgid "sty_color_already_exists"
+msgstr "Eine Farbe dieses Namens existiert bereits in diesem Stylesheet."
+
+msgid "sty_color_code"
+msgstr "Farbcode"
+
+msgid "sty_color_flavors"
+msgstr "Farbrichtungen"
+
+msgid "sty_color_info"
+msgstr "Vordefinierte Farbschemata erleichtern die Wiederverwendung von Farben für verschiedene Anwendungszwecke. Verweisen Sie auf eine vordefinierte Farbe, in dem Sie deren Name mit einem vorangestellten \"!\" für alle Farbabstufungen nutzen. Um eine Abstufung zu nutzen, geben Sie den Wert für die Abstufung in Klammern nach dem Farbnamen an, z. B.  !MeineFarbe(20)."
+
+msgid "sty_color_name"
+msgstr "Farbname"
+
+msgid "sty_colors"
+msgstr "Farben"
+
+msgid "sty_commands"
+msgstr "Aktionen"
+
+msgid "sty_confirm_char_deletion"
+msgstr "Sind Sie sicher, dass Sie die folgende Styleklassen löschen möchten?"
+
+msgid "sty_confirm_color_deletion"
+msgstr "Löschen der Farbe bestätigen"
+
+msgid "sty_confirm_del_ind_styles"
+msgstr "Löschen der lokalen Lernmodul-Stylesheets bestätigen"
+
+msgid "sty_confirm_del_ind_styles_desc"
+msgstr "Alle Lernmodule mit lokalen Stylesheets werden dem Stil „%s“ zugeordnet. Die lokalen Lernmodul-Stylesheets werden damit auch gelöscht. Wollen Sie fortfahren?"
+
+msgid "sty_confirm_template_deletion"
+msgstr "Löschen des Templates bestätigen"
+
+msgid "sty_copied_please_select_target"
+msgstr "Die Styleklassen wurden kopiert. Bitte wechseln Sie zum gewünschten Zielstyle und wählen \"Styleklassen einfügen\"."
+
+msgid "sty_copy_other_stylesheet"
+msgstr "Stylesheet aus lokaler Quelle kopieren"
+
+msgid "sty_copy_other_system_style"
+msgstr "System-Style kopieren"
+
+msgid "sty_copy_to"
+msgstr "nach:"
+
+msgid "sty_create_ind_style"
+msgstr "Lokales Stylesheet anlegen"
+
+msgid "sty_create_new_class"
+msgstr "Neue Klasse erstellen"
+
+msgid "sty_create_new_stylesheet"
+msgstr "Neues Stylesheet anlegen"
+
+msgid "sty_create_new_system_style"
+msgstr "Neuen System-Style anlegen"
+
+msgid "sty_create_new_system_sub_style"
+msgstr "Neuen Sub-Style anlegen"
+
+msgid "sty_create_pgl"
+msgstr "Seitenlayout erstellen"
+
+msgid "sty_cursor"
+msgstr "Mauszeiger"
+
+msgid "sty_custom"
+msgstr "Weitere CSS-Regeln"
+
+msgid "sty_custom_par"
+msgstr "Zusatzparameter"
+
+msgid "sty_custom_par_info"
+msgstr "Definieren Sie Zusatzparameter im Format \"Parameter: Wert\"."
+
+msgid "sty_default"
+msgstr "Standard"
+
+msgid "sty_default_style"
+msgstr "Standard-Stylesheet"
+
+msgid "sty_del_template"
+msgstr "Templates und Klassen löschen"
+
+msgid "sty_del_template_keep_classes"
+msgstr "Löschen und Stylesheet-Klasse erhalten"
+
+msgid "sty_delete_other_selected"
+msgstr "Fortfahren"
+
+msgid "sty_disable_auto_margins"
+msgstr "Automatische Abstände unterdrücken"
+
+msgid "sty_disable_auto_margins_info"
+msgstr "Unterdrückt das automatische Setzen des linken und rechten Abstandes auf 0 Pixel, wenn Media-Objekte links- oder rechtsbündig angeordnet werden."
+
+msgid "sty_edit_template"
+msgstr "Template bearbeiten"
+
+msgid "sty_even_col_class"
+msgstr "Einschließlich Spalten"
+
+msgid "sty_even_row_class"
+msgstr "Einschließlich Zeilen"
+
+msgid "sty_example"
+msgstr "Beispiel"
+
+msgid "sty_flist_char"
+msgstr "Dateiliste"
+
+msgid "sty_float"
+msgstr "Fließen"
+
+msgid "sty_font_family"
+msgstr "Schriftart"
+
+msgid "sty_font_size"
+msgstr "Schriftgröße"
+
+msgid "sty_font_style"
+msgstr "Schriftstil"
+
+msgid "sty_font_variant"
+msgstr "Schriftvariante"
+
+msgid "sty_font_weight"
+msgstr "Schriftgewicht"
+
+msgid "sty_from"
+msgstr "Von"
+
+msgid "sty_generate_template"
+msgstr "Template erzeugen"
+
+msgid "sty_glo_char"
+msgstr "Glossar"
+
+msgid "sty_ha_cntr_class"
+msgstr "Hor. Akkordeon-Container"
+
+msgid "sty_ha_icntr_class"
+msgstr "Hor. Akkordeonelement Container"
+
+msgid "sty_ha_icont_class"
+msgstr "Hor. Akkordeonelement Inhalt"
+
+msgid "sty_ha_ihcap_class"
+msgstr "Hor. Akkordeonelement Überschrift"
+
+msgid "sty_ha_ihead_class"
+msgstr "Hor. Akkordeonelement Überschrift"
+
+msgid "sty_ha_iheada_class"
+msgstr "Hor. Akkordeonelement Kopf (aktiv)"
+
+msgid "sty_haccordion_templates"
+msgstr "Hor. Akkordeonelement Templates"
+
+msgid "sty_height"
+msgstr "Höhe"
+
+msgid "sty_hide"
+msgstr "Verstecken"
+
+msgid "sty_horizontal"
+msgstr "Horizontal"
+
+msgid "sty_if_style_class_already_exists"
+msgstr "Wie soll verfahren werden, wenn die Styleklasse bereits existiert?"
+
+msgid "sty_image_file"
+msgstr "Bilddatei"
+
+msgid "sty_images"
+msgstr "Bilder"
+
+msgid "sty_import_page_layout"
+msgstr "Seitenlayout importieren"
+
+msgid "sty_import_stylesheet"
+msgstr "Stylesheet importieren"
+
+msgid "sty_import_system_style"
+msgstr "System-Style importieren"
+
+msgid "sty_imported_layout"
+msgstr "Seitenlayout wurde importiert."
+
+msgid "sty_individual_styles"
+msgstr "Lokale Stylesheets"
+
+msgid "sty_keep_existing"
+msgstr "Bestehende Klasse erhalten"
+
+msgid "sty_left"
+msgstr "Links"
+
+msgid "sty_left_right_padding"
+msgstr "Innenabstand Links/Rechts"
+
+msgid "sty_legacy_image_directory_found"
+msgstr "Es wurde in ILIAS 9 Verzeichnis mit Bildern gefunden. Sie können die Bilder durch klicken auf \"Bilder migrieren\" übertragen."
+
+msgid "sty_letter_spacing"
+msgstr "Zeichenabstand"
+
+msgid "sty_lightness_border"
+msgstr "Helligkeit Rahmen"
+
+msgid "sty_lightness_cell1_bg"
+msgstr "Helligkeit Zelle 1 Hintergrund"
+
+msgid "sty_lightness_cell1_text"
+msgstr "Helligkeit Zelle 1 Text"
+
+msgid "sty_lightness_cell2_bg"
+msgstr "Helligkeit Zelle 2 Hintergrund"
+
+msgid "sty_lightness_cell2_text"
+msgstr "Helligkeit Zelle 2 Text"
+
+msgid "sty_lightness_header_bg"
+msgstr "Helligkeit Überschrift Hintergrund"
+
+msgid "sty_lightness_header_text"
+msgstr "Helligkeit Überschrift Text"
+
+msgid "sty_line_height"
+msgstr "Zeilenhöhe"
+
+msgid "sty_link_char"
+msgstr "Link"
+
+msgid "sty_list_char"
+msgstr "Liste"
+
+msgid "sty_list_style_position"
+msgstr "Listenstil/Position"
+
+msgid "sty_list_style_type"
+msgstr "Listenstil/Type"
+
+msgid "sty_make_global_default"
+msgstr "Standard-Style"
+
+msgid "sty_make_global_fixed"
+msgstr "Erzwungener Style für alle Objekte"
+
+msgid "sty_margin"
+msgstr "Außenrand"
+
+msgid "sty_margin_and_padding"
+msgstr "Außenrand und Innenabstand"
+
+msgid "sty_media_char"
+msgstr "Medien"
+
+msgid "sty_media_queries"
+msgstr "Media Queries"
+
+msgid "sty_media_query_info"
+msgstr "Für jeden Media Query wird ein eigener CSS-Abschnitt nach dem Standard-Abschnitt (ohne Media Query) eingefügt."
+
+msgid "sty_migrate_images"
+msgstr "Bilder migrieren"
+
+msgid "sty_min_height"
+msgstr "Minimale Höhe"
+
+msgid "sty_move_lm_styles"
+msgstr "Stylesheets der Lernmodule ändern"
+
+msgid "sty_move_obj_styles"
+msgstr "Stylesheets der Objekte ändern"
+
+msgid "sty_move_style"
+msgstr "Stylesheet ändern"
+
+msgid "sty_move_user_styles"
+msgstr "Stylesheet der Benutzer ändern"
+
+msgid "sty_move_user_styles_saved"
+msgstr "Die Zuordnung der Benutzenden, denen die Skin-ID %s zugeordnet war, wurde geändert zu Skin-ID %s."
+
+msgid "sty_msg_characteristic_must_only_include"
+msgstr "Der Titel des Styles muss mit einem Buchstaben beginnen und darf keine Leerzeichen sondern nur die folgenden Zeichen enthalten:"
+
+msgid "sty_msg_color_must_only_include"
+msgstr "Der Farbname darf nur folgende Buchstaben/Zeichen enthalten"
+
+msgid "sty_msg_input_must_be_numeric"
+msgstr "Numerische Eingabe erforderlich."
+
+msgid "sty_name"
+msgstr "Name"
+
+msgid "sty_nr_learning_modules"
+msgstr "Anzahl der Lernmodule"
+
+msgid "sty_nr_objects"
+msgstr "Number of Objects"
+
+msgid "sty_odd_col_class"
+msgstr "Ungerade Spalten"
+
+msgid "sty_odd_row_class"
+msgstr "Ungerade Zeilen"
+
+msgid "sty_ol"
+msgstr "Geordnete Liste"
+
+msgid "sty_opacity"
+msgstr "Deckkraft"
+
+msgid "sty_opt_saved"
+msgstr "Einstellungen gespeichert"
+
+msgid "sty_order"
+msgstr "Reihenfolge"
+
+msgid "sty_outdated"
+msgstr "Veraltet"
+
+msgid "sty_overflow"
+msgstr "Überlauf"
+
+msgid "sty_overwrite"
+msgstr "Überschreiben"
+
+msgid "sty_overwrite_existing_class"
+msgstr "Vorhandene Klasse überschreiben"
+
+msgid "sty_padding"
+msgstr "Innenabstand"
+
+msgid "sty_page_char"
+msgstr "Seite"
+
+msgid "sty_parameters"
+msgstr "Parameter"
+
+msgid "sty_paste_characteristics"
+msgstr "Styleklassen einfügen"
+
+msgid "sty_paste_chars"
+msgstr "Klassen einfügen"
+
+msgid "sty_paste_style_classes"
+msgstr "Styleklassen einfügen"
+
+msgid "sty_position"
+msgstr "Position"
+
+msgid "sty_positioning"
+msgstr "Positionierung"
+
+msgid "sty_preview"
+msgstr "Vorschau"
+
+msgid "sty_query"
+msgstr "Query"
+
+msgid "sty_question_char"
+msgstr "Fragen"
+
+msgid "sty_remove_global_default_state"
+msgstr "Status als globaler Standard aufheben"
+
+msgid "sty_remove_global_fixed_state"
+msgstr "Festsetzung des Standards aufheben"
+
+msgid "sty_remove_outdated"
+msgstr "\"Veraltet\"-Status entfernen"
+
+msgid "sty_resize"
+msgstr "Bildgröße anpassen"
+
+msgid "sty_resize_image"
+msgstr "Bildgröße anpassen"
+
+msgid "sty_right"
+msgstr "Rechts"
+
+msgid "sty_row_foot_class"
+msgstr "Fuß (Zeilen)"
+
+msgid "sty_row_head_class"
+msgstr "Kopf (Zeilen)"
+
+msgid "sty_rte_char"
+msgstr "SCORM RTE#"
+
+msgid "sty_save_active_styles"
+msgstr "Aktive Stylesheets speichern"
+
+msgid "sty_save_hide_order_status"
+msgstr "Reihefolge und Status speichern"
+
+msgid "sty_save_hide_status"
+msgstr "Status Speichern"
+
+msgid "sty_save_order"
+msgstr "Reihenfolge speichern"
+
+msgid "sty_save_order_status"
+msgstr "Reihenfolge speichern"
+
+msgid "sty_sco_char"
+msgstr "SCOs und Lernziele"
+
+msgid "sty_scope"
+msgstr "Geltungsbereich"
+
+msgid "sty_section_char"
+msgstr "Block"
+
+msgid "sty_set_outdated"
+msgstr "Als \"veraltet\" kennzeichnen"
+
+msgid "sty_set_scope"
+msgstr "Geltungsbereich festlegen"
+
+msgid "sty_some_styles_obligatory_delete_rest"
+msgstr "Die folgenden Styleklassen müssen immer vorhanden sein und können nicht gelöscht werden. Möchten Sie fortfahren und die verbleibenden Styleklassen löschen?"
+
+msgid "sty_source"
+msgstr "Quelle"
+
+msgid "sty_special"
+msgstr "Spezial"
+
+msgid "sty_style_chars"
+msgstr "Styleklasse"
+
+msgid "sty_style_class"
+msgstr "Styleklassen"
+
+msgid "sty_style_classes_copied"
+msgstr "Styleklassen wurden kopiert."
+
+msgid "sty_style_not_migrated"
+msgstr "Dieser Content-Style wurde noch nicht in die ILIAS 10 Datenstruktur migriert. Änderungen werden noch nicht wirksam."
+
+msgid "sty_substyle"
+msgstr "Style eines Teilbereichs"
+
+msgid "sty_substyle_of"
+msgstr "Sub-Style von"
+
+msgid "sty_substyles"
+msgstr "Style eines Teilbereichs"
+
+msgid "sty_sure_del_mqueries"
+msgstr "Möchten Sie diesen Media Query und die zugehörigen CSS-Regeln wirklich löschen?"
+
+msgid "sty_switch"
+msgstr "Wechsel"
+
+msgid "sty_table_char"
+msgstr "Tabelle"
+
+msgid "sty_table_class"
+msgstr "Tabellenstyleklasse"
+
+msgid "sty_table_template_bw_zebra"
+msgstr "Grauer Zebrastreifen"
+
+msgid "sty_table_template_colored_zebra"
+msgstr "Farbige Zebrastreifen"
+
+msgid "sty_table_template_no_zebra"
+msgstr "Keine Zebrastreifen"
+
+msgid "sty_table_templates"
+msgstr "Tabellen-Templates"
+
+msgid "sty_tabs_char"
+msgstr "Akkordeons und Fächer"
+
+msgid "sty_tag_hover"
+msgstr ":hover"
+
+msgid "sty_tag_normal"
+msgstr "Normal"
+
+msgid "sty_template_layout"
+msgstr "Template-Layout"
+
+msgid "sty_template_name"
+msgstr "Name"
+
+msgid "sty_templates"
+msgstr "Templates"
+
+msgid "sty_text"
+msgstr "Text"
+
+msgid "sty_text_align"
+msgstr "Horizontale Ausrichtung"
+
+msgid "sty_text_block_char"
+msgstr "Text (Block)"
+
+msgid "sty_text_decoration"
+msgstr "Textdekoration"
+
+msgid "sty_text_indent"
+msgstr "Texteinrückung"
+
+msgid "sty_text_inline_char"
+msgstr "Text (Zeichen)"
+
+msgid "sty_text_transform"
+msgstr "Text-Transformation"
+
+msgid "sty_titles"
+msgstr "Titel"
+
+msgid "sty_to"
+msgstr "Nach"
+
+msgid "sty_top"
+msgstr "Oben"
+
+msgid "sty_top_bottom_padding"
+msgstr "Innenabstand Oben/Unten"
+
+msgid "sty_transform"
+msgstr "Umwandeln"
+
+msgid "sty_transform_origin"
+msgstr "Original umwandeln"
+
+msgid "sty_type"
+msgstr "Typ"
+
+msgid "sty_type_ca_cntr"
+msgstr "Karussell - Container"
+
+msgid "sty_type_ca_icntr"
+msgstr "Karussell - Element-Container"
+
+msgid "sty_type_ca_icont"
+msgstr "Karussell - Inhalt Element"
+
+msgid "sty_type_ca_ihead"
+msgstr "Karussell - Kopfzeile Element"
+
+msgid "sty_type_code_block"
+msgstr "Code (Block)"
+
+msgid "sty_type_code_inline"
+msgstr "Code (Inline)"
+
+msgid "sty_type_em"
+msgstr "Betont"
+
+msgid "sty_type_flist"
+msgstr "Dateiliste"
+
+msgid "sty_type_flist_a"
+msgstr "Link Dateilisteneintrag"
+
+msgid "sty_type_flist_cont"
+msgstr "Dateilistencontainer"
+
+msgid "sty_type_flist_head"
+msgstr "Dateilistenüberschrift"
+
+msgid "sty_type_flist_li"
+msgstr "Dateilisteneintrag"
+
+msgid "sty_type_glo_ovclink"
+msgstr "Glossar Schließen-Link"
+
+msgid "sty_type_glo_overlay"
+msgstr "Glossar-Pop-up"
+
+msgid "sty_type_glo_ovtitle"
+msgstr "Begriff/Titel (Pop-up)"
+
+msgid "sty_type_glo_ovuglink"
+msgstr "Begriffslink"
+
+msgid "sty_type_glo_ovuglistlink"
+msgstr "Link in Begriffsliste"
+
+msgid "sty_type_ha_cntr"
+msgstr "Hor. Akkordeon-Container"
+
+msgid "sty_type_ha_icntr"
+msgstr "Hor. Akkordeonelement Container"
+
+msgid "sty_type_ha_icont"
+msgstr "Hor. Akkordeonelement Inhalt"
+
+msgid "sty_type_ha_ihcap"
+msgstr "Hor. Akkordeonelement Überschrift"
+
+msgid "sty_type_ha_ihead"
+msgstr "Hor. Akkordeonelement Überschrift"
+
+msgid "sty_type_ha_iheada"
+msgstr "Hor. Akkordeonelement Kopf (aktiv)"
+
+msgid "sty_type_heading1"
+msgstr "Überschrift 1"
+
+msgid "sty_type_heading2"
+msgstr "Überschrift 2"
+
+msgid "sty_type_heading3"
+msgstr "Überschrift 3"
+
+msgid "sty_type_iim"
+msgstr "Pop-up für Inhalte in Interaktivem Bild"
+
+msgid "sty_type_link"
+msgstr "Link"
+
+msgid "sty_type_list_item"
+msgstr "Listeneintrag"
+
+msgid "sty_type_list_o"
+msgstr "Nummerierte Liste"
+
+msgid "sty_type_list_u"
+msgstr "Bullet-Liste"
+
+msgid "sty_type_marker"
+msgstr "Markierungspunkt Interaktives Bild"
+
+msgid "sty_type_media_caption"
+msgstr "Beschriftung"
+
+msgid "sty_type_media_cont"
+msgstr "Mediencontainer"
+
+msgid "sty_type_page_bnav"
+msgstr "Navigation unten"
+
+msgid "sty_type_page_cont"
+msgstr "Seitencontainer"
+
+msgid "sty_type_page_fn"
+msgstr "Fussnote"
+
+msgid "sty_type_page_frame"
+msgstr "Seitenrahmen"
+
+msgid "sty_type_page_lnav"
+msgstr "Navigation links"
+
+msgid "sty_type_page_lnavimage"
+msgstr "Bild Navigation links"
+
+msgid "sty_type_page_lnavlink"
+msgstr "Link Navigation links"
+
+msgid "sty_type_page_rnav"
+msgstr "Navigation rechts"
+
+msgid "sty_type_page_rnavimage"
+msgstr "Bild Navigation rechts"
+
+msgid "sty_type_page_rnavlink"
+msgstr "Link Navigation rechts"
+
+msgid "sty_type_page_title"
+msgstr "Seitentitel"
+
+msgid "sty_type_page_tnav"
+msgstr "Navigation oben"
+
+msgid "sty_type_qanswer"
+msgstr "Antwort"
+
+msgid "sty_type_qetcorr"
+msgstr "Korrigierter Fehlertext"
+
+msgid "sty_type_qetitem"
+msgstr "Fehlertext-Element"
+
+msgid "sty_type_qfeedr"
+msgstr "Feedback, richtig"
+
+msgid "sty_type_qfeedw"
+msgstr "Feedback, falsch"
+
+msgid "sty_type_qimg"
+msgstr "Fragenbild"
+
+msgid "sty_type_qimgd"
+msgstr "Link für Bilddetails"
+
+msgid "sty_type_qinput"
+msgstr "Texteingabe"
+
+msgid "sty_type_qlinput"
+msgstr "Lange Texteingabe"
+
+msgid "sty_type_qordli"
+msgstr "Eintrag Aufzählungsliste"
+
+msgid "sty_type_qordul"
+msgstr "Aufzählungsliste"
+
+msgid "sty_type_qover"
+msgstr "Fragenübersicht"
+
+msgid "sty_type_qsubmit"
+msgstr "Schaltknopf"
+
+msgid "sty_type_qtitle"
+msgstr "Fragentitel"
+
+msgid "sty_type_question"
+msgstr "Frage"
+
+msgid "sty_type_rte_drag"
+msgstr "Balken verschieben"
+
+msgid "sty_type_rte_menu"
+msgstr "RTE-Menü"
+
+msgid "sty_type_rte_mlink"
+msgstr "RTE-Menülink"
+
+msgid "sty_type_rte_node"
+msgstr "RTE-Baumknoten"
+
+msgid "sty_type_rte_status"
+msgstr "RTE-Status"
+
+msgid "sty_type_rte_tclink"
+msgstr "Kontrolllink Baum"
+
+msgid "sty_type_rte_texp"
+msgstr "Icon Baum"
+
+msgid "sty_type_rte_tli"
+msgstr "Eintrag in Baumansicht"
+
+msgid "sty_type_rte_tlink"
+msgstr "RTE-Baumknotenlink"
+
+msgid "sty_type_rte_tree"
+msgstr "RTE-Baumauswahl"
+
+msgid "sty_type_rte_tul"
+msgstr "Baumansicht"
+
+msgid "sty_type_sco_desc"
+msgstr "SCO Beschreibung"
+
+msgid "sty_type_sco_fmess"
+msgstr "SCORM Final Message"
+
+msgid "sty_type_sco_keyw"
+msgstr "SCO Schlagworte"
+
+msgid "sty_type_sco_obj"
+msgstr "SCO Lernziel"
+
+msgid "sty_type_sco_title"
+msgstr "SCO Titel"
+
+msgid "sty_type_section"
+msgstr "Block"
+
+msgid "sty_type_strong"
+msgstr "Stark Betont"
+
+msgid "sty_type_sub"
+msgstr "Tiefgestellt"
+
+msgid "sty_type_sup"
+msgstr "Hochgestellt"
+
+msgid "sty_type_table"
+msgstr "Tabelle"
+
+msgid "sty_type_table_cell"
+msgstr "Tabellenzelle"
+
+msgid "sty_type_text_block"
+msgstr "Text (Block)"
+
+msgid "sty_type_text_inline"
+msgstr "Zeichen"
+
+msgid "sty_type_va_cntr"
+msgstr "Vert. Akkordeon Container"
+
+msgid "sty_type_va_icntr"
+msgstr "Vert. Akkordeonelement Container"
+
+msgid "sty_type_va_icont"
+msgstr "Vert. Akkordeonelement Inhalt"
+
+msgid "sty_type_va_ihcap"
+msgstr "Vert. Akkordeonelement Überschrift"
+
+msgid "sty_type_va_ihead"
+msgstr "Vert. Akkordeonelement Kopf"
+
+msgid "sty_type_va_iheada"
+msgstr "Vert. Akkordeonelement Kopf (aktiv)"
+
+msgid "sty_ul"
+msgstr "Ungeordnete Liste"
+
+msgid "sty_va_cntr_class"
+msgstr "Vert. Akkordeon Container"
+
+msgid "sty_va_icntr_class"
+msgstr "Vert. Akkordeonelement Container"
+
+msgid "sty_va_icont_class"
+msgstr "Vert. Akkordeonelement Inhalt"
+
+msgid "sty_va_ihcap_class"
+msgstr "Vert. Akkordeonelement Überschrift"
+
+msgid "sty_va_ihead_class"
+msgstr "Vert. Akkordeonelement Kopf"
+
+msgid "sty_va_iheada_class"
+msgstr "Vert. Akkordeonelement Kopf (aktiv)"
+
+msgid "sty_vaccordion_templates"
+msgstr "Vert. Akkordeon Templates"
+
+msgid "sty_vertical"
+msgstr "Vertikal"
+
+msgid "sty_vertical_align"
+msgstr "Vertikale Ausrichtung"
+
+msgid "sty_white_space"
+msgstr "Leerzeile"
+
+msgid "sty_width"
+msgstr "Breite"
+
+msgid "sty_width_height"
+msgstr "Breite x Höhe"
+
+msgid "sty_word_spacing"
+msgstr "Wortabstand"
+
+msgid "style"
+msgstr "Style"
+
+msgid "style_assignments_deleted"
+msgstr "Style-Zuweisungen des folgenden Sub-Styles wurden gelöscht:"
+
+msgid "style_copied"
+msgstr "Style wurde erfolgreich kopiert."
+
+msgid "style_current_style"
+msgstr "Derzeitiger Style"
+
+msgid "style_delete_style"
+msgstr "Style löschen"
+
+msgid "style_deleted"
+msgstr "Gelöschter Style:"
+
+msgid "style_edit_style"
+msgstr "Style editieren"
+
+msgid "style_id"
+msgstr "Style-ID"
+
+msgid "style_id_description"
+msgstr "Die Style ID wird für Style-spezifische css- und scss-Dateien unterhalb des Skin Ordners verwendet. Die Style-ID darf sich nur aus Buchstaben, Nummern sowie Bindestrichen zusammensetzen."
+
+msgid "style_imported"
+msgstr "Style wurde erfolgreich importiert nach:"
+
+msgid "style_name"
+msgstr "Style-Titel"
+
+msgid "style_name_description"
+msgstr "Der Style-Titel kann als Beschreibung für das Einsatzgebiet verwendet werden. Er wird in allen UI-Elementen aufgelistet, in denen ein Skin ausgewählt werden kann."
+
+msgid "style_not_deleted"
+msgstr "Der Style konnte aus folgenden Gründen nicht gelöscht werden:"
+
+msgid "style_page_layout_module_learning_module"
+msgstr "ILIAS-Lernmodul"
+
+msgid "style_page_layout_module_portfolio"
+msgstr "Portfolio"
+
+msgid "style_page_layout_module_scorm"
+msgstr "SCORM"
+
+msgid "style_support_reuse"
+msgstr "Wiederverwendung"
+
+msgid "style_support_reuse_info"
+msgstr "Unterobjekte dieses Containers können den Content-Style ebenfalls verwenden."
+
+msgid "styles_not_deleted"
+msgstr "Die Styles konnten aus folgenden Gründen nicht gelöscht werden:"
+
+msgid "sub_style"
+msgstr "Sub-Style"
+
+msgid "sub_style_id"
+msgstr "Sub-Style-ID"
+
+msgid "sub_style_id_description"
+msgstr "Die Sub-Style-ID wird für die betreffenden css und scss Dateien verwendet. Diese sind innerhalb des betreffenden Skin Ordners. Die Sub-Style-ID darf sich nur aus Buchstaben, Nummern sowie Bindestrichen zusammensetzen."
+
+msgid "sub_style_name"
+msgstr "Sub-Style-Name"
+
+msgid "sub_style_name_description"
+msgstr "Der Sub-Style-Name kann als Beschreibung für das Einsatzgebiet verwendet werden. Es wird in allen UI-Elementen aufgelistet, welche eine Selektierung des Skins erlauben."
+
+msgid "sub_style_parent_style_description"
+msgstr "Sub-Styles werden genau einem Parent-Style zugewiesen. Sie werden nur den Usern angezeigt, welche auch Zugang zum Parent-Style haben. Der Parent-Style eines Sub-Styles kann nur während der Erstellung des Sub-Styles einmalig zugeordnet werden."
+
+msgid "system_style_activation"
+msgstr "System-Style aktiviert"
+
+msgid "system_style_activation_description"
+msgstr "Dieser System-Style kann in ILIAS genutzt werden: Aktive System-Styles können einzelnen ILIAS-Konten zugewiesen werden. Ist die Auswahl des System-Styles unter „Administration » Konten und Rollen » ILIAS-Konten » Einstellungen » Standardfelder” aktiviert, können Benutzerinnen und Benutzer in ihren persönlichen Einstellungen einen System-Style wählen."
+
+msgid "system_style_default_description"
+msgstr "Wenn aktiviert, ist dieser Style als Standard-System-Style festgelegt. Der Standard-System-Style wird verwendet, sofern der Benutzer noch keinen eigenen Style zugewiesen hat, oder der Benutzer nicht eingeloggt ist."
+
+msgid "system_style_personal_description"
+msgstr "Wenn aktiviert, ist dieser Style als persönlicher Style festgelegt. Das stellt eine gute Hilfe dar, wenn aktuelle Änderungen am Skin mitverfolgt werden möchten."
+
+msgid "update_colors"
+msgstr "Farben aktualisieren"
+
+msgid "update_icon"
+msgstr "Aktualisiere Icon"
+
+msgid "update_variables"
+msgstr "Variablen aktualisieren"
+
+msgid "usages"
+msgstr "Verwendungen:"
+
+msgid "used_colors"
+msgstr "Benutzte Farben:"
+
+msgid "zip_export_failed"
+msgstr "Der ZIP-Export ist mit folgender Fehlermeldung fehlgeschlagen:"

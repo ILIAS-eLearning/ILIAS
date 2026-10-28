@@ -1,0 +1,268 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: iass\n"
+
+msgid "download_assessment_paper"
+msgstr "Felvétel-fájl letöltése"
+
+msgid "grading"
+msgstr "Értékelés"
+
+msgid "grading_info"
+msgstr "Értékelésinformáció"
+
+msgid "grading_record"
+msgstr "Értékelésfeljegyzés"
+
+msgid "iass_add"
+msgstr "Személyes értékelés létrehozása"
+
+msgid "iass_add_user_failure"
+msgstr "Egy vagy több felhasználót nem sikerült hozzáadni."
+
+msgid "iass_add_user_success"
+msgstr "A felhasználót értékelendőnek sikeresen hozzáadta."
+
+msgid "iass_added"
+msgstr "A személyes értékelést sikeresen létrehozta"
+
+msgid "iass_amend_saved"
+msgstr "Az utólagos módosítást sikeresen mentette."
+
+msgid "iass_assessment_not_completed"
+msgstr "Még nem fejezték be"
+
+msgid "iass_cancel"
+msgstr "Mégsem"
+
+msgid "iass_changed_by"
+msgstr "Befejezés után módosult"
+
+msgid "iass_confirm_finalize"
+msgstr "Véglegesítés"
+
+msgid "iass_consultation_hours"
+msgstr "Fogadóórák"
+
+msgid "iass_contact"
+msgstr "Név"
+
+msgid "iass_contact_info"
+msgstr "Kapcsolat"
+
+msgid "iass_content"
+msgstr "Értékelés tartalmi leírása"
+
+msgid "iass_content_explanation"
+msgstr "Értékelés tartalma, például a kapcsolódó témakörök felsorolása."
+
+msgid "iass_copy"
+msgstr "Egyéni értékelés másolása"
+
+msgid "iass_download"
+msgstr "Letöltés"
+
+msgid "iass_edit"
+msgstr "Beállítások"
+
+msgid "iass_edit_info"
+msgstr "Kapcsolattartó"
+
+msgid "iass_edit_record"
+msgstr "Értékelésbejegyzés"
+
+msgid "iass_event_time"
+msgstr "Értékelés időpontja"
+
+msgid "iass_event_time_place_required"
+msgstr "Időpont és helyszín kötelező"
+
+msgid "iass_event_time_place_required_info"
+msgstr "Minden résztvevői bejegyzéshez hozzá kell adni az értékelés időpontját és helyszínét."
+
+msgid "iass_file"
+msgstr "Fájl"
+
+msgid "iass_file_dropzone"
+msgstr "ide dobhat fájlokat"
+
+msgid "iass_file_required"
+msgstr "Bejegyzésfájl kötelező"
+
+msgid "iass_file_required_info"
+msgstr "Minden résztvevői bejegyzéshez fel kell tölteni egy bejegyzésfájlt."
+
+msgid "iass_file_visible_examinee"
+msgstr "A fájlt láthatja az értékelt"
+
+#, fuzzy
+msgid "iass_file_visible_examinee_info"
+msgstr "Once the individual assessment has been completed, the person assessed can view the record file. To do so, the ‘Make Result Available to Participant’ function must be enabled."
+
+msgid "iass_filter_all"
+msgstr "Összes"
+
+msgid "iass_filter_failed"
+msgstr "Csak a nem teljesítettek"
+
+msgid "iass_filter_finalized"
+msgstr "Csak a teljesítettek"
+
+msgid "iass_filter_not_finalized"
+msgstr "Csak a tervezetek"
+
+msgid "iass_filter_not_started"
+msgstr "Csak az el nem indítottak"
+
+msgid "iass_finalize"
+msgstr "Véglegesítés"
+
+msgid "iass_finalize_info"
+msgstr "Az egyéni értékelés véglegessé válik."
+
+msgid "iass_finalize_user_qst"
+msgstr "Biztos, hogy véglegesíti az értékelendő állapotát? Utána annak módosítása már nem lehetséges."
+
+msgid "iass_further_field_headline"
+msgstr "Részletes információk"
+
+msgid "iass_graded_by"
+msgstr "Értékelést adta"
+
+msgid "iass_info_emails_expl"
+msgstr "Több címet vesszővel elválasztva adhat meg."
+
+msgid "iass_internal_note"
+msgstr "Belső megjegyzés"
+
+msgid "iass_internal_note_info"
+msgstr "Belső megjegyzéseket a tutorok láthatják, de az értékeltek nem."
+
+msgid "iass_location"
+msgstr "Helyszín"
+
+msgid "iass_mails"
+msgstr "E-mail cím"
+
+msgid "iass_may_not_finalize"
+msgstr "Az értékelés még nincs véglegesítve. Először értékelje a felhasználót."
+
+msgid "iass_membership_finalized"
+msgstr "Bejegyzés véglegesítve"
+
+msgid "iass_membership_saved"
+msgstr "A bejegyzést sikeresen mentett, de az még nincs véglegesítve"
+
+msgid "iass_mess_notification_completed"
+msgstr "‘<i>%s</i>’ értékelést sikeresen teljesítette. Kérem, ellenőrizze az alábbi értékelési bejegyzés részleteit:"
+
+msgid "iass_mess_notification_failed"
+msgstr "‘<i>%s</i>’ értékelést nem sikerült teljesítenie. Kérem, ellenőrizze az alábbi értékelési bejegyzés részleteit:"
+
+msgid "iass_notify"
+msgstr "Az eredmény elérhetővé tétel a résztvevő számára"
+
+msgid "iass_notify_explanation"
+msgstr "A véglegesítésről levélben értesítjük az értékeltet, tovább hozzáférést biztosítunk számára a saját bejegyzéséhez az információs lapon."
+
+msgid "iass_phone"
+msgstr "Telefonszám"
+
+msgid "iass_place"
+msgstr "Értékelés helyszíne"
+
+msgid "iass_record"
+msgstr "Megjegyzés"
+
+msgid "iass_record_info"
+msgstr "Az értékelendők értékelésük véglegesítése után megtekinthetik bejegyzésükhöz rögzített megjegyzést. Ha alább az értesítés be van kapcsolva, az értesítést az értékelendőnek e-mailben is elküldjük."
+
+msgid "iass_record_template"
+msgstr "Bejegyzéssablon"
+
+msgid "iass_record_template_explanation"
+msgstr "Értékelési sablon, melyet automatikusan alkalmazzuk minden új értékelésnél."
+
+msgid "iass_remove_user_qst"
+msgstr "Biztos, hogy eltávolítja az értékelendőt?"
+
+msgid "iass_responsibility"
+msgstr "Felelősségi kör"
+
+msgid "iass_save_amend"
+msgstr "Utólagos módosított értékelés mentése"
+
+msgid "iass_settings_availability"
+msgstr "Elérhetőség"
+
+msgid "iass_settings_saved"
+msgstr "A beállításokat sikeresen mentette."
+
+msgid "iass_sort_changetime_asc"
+msgstr "Utolsó módosítás ↑"
+
+msgid "iass_sort_changetime_desc"
+msgstr "Utolsó módosítás ↓"
+
+msgid "iass_sort_examiner_login_asc"
+msgstr "Értékelő A→Z"
+
+msgid "iass_sort_examiner_login_desc"
+msgstr "Értékelő Z→A"
+
+msgid "iass_sort_name_asc"
+msgstr "Felhasználónév A→Z"
+
+msgid "iass_sort_name_desc"
+msgstr "Felhasználónév Z→A"
+
+msgid "iass_status_completed"
+msgstr "Sikeresen teljesítette"
+
+msgid "iass_status_failed"
+msgstr "Nem teljesítette"
+
+msgid "iass_status_pending"
+msgstr "Még nincs értékelve"
+
+msgid "iass_subj_notification_completed"
+msgstr "%s: Személyes értékelése: sikeresen teljesítette."
+
+msgid "iass_subj_notification_failed"
+msgstr "%s: Személyes értékelése: nem teljesítette."
+
+msgid "iass_upload_file"
+msgstr "Fájl rögzítése"
+
+msgid "iass_user_removed"
+msgstr "A felhasználót sikeresen eltávolította."
+
+msgid "iass_usr_amend"
+msgstr "Értékelés utólagos módosítása"
+
+msgid "iass_usr_download_attachment"
+msgstr "Csatolmány letöltése"
+
+msgid "iass_usr_edit"
+msgstr "Résztvevői bejegyzés módosítása"
+
+msgid "iass_usr_remove"
+msgstr "Értékelendő eltávolítása a hozzárendelésből"
+
+msgid "iass_usr_view"
+msgstr "Bejegyzés"
+
+msgid "il_iass_members"
+msgstr "Értékelendők"
+
+msgid "lp_inactive"
+msgstr "Megjegyzés: erre az objektumra a tanulási haladás ki van kapcsolva, így a tagságok lehet, hogy nem véglegesíthetőek."
+
+msgid "save_amend"
+msgstr "Módosított bejegyzés mentése"

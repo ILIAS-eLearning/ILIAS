@@ -1,0 +1,909 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: mail\n"
+
+msgid "back_to_folder"
+msgstr ""
+
+msgid "chat_users_have_been_invited"
+msgstr ""
+
+msgid "chat_users_without_login"
+msgstr ""
+
+msgid "chat_users_without_permission"
+msgstr ""
+
+msgid "current_folder"
+msgstr ""
+
+msgid "deleteTemplate"
+msgstr ""
+
+msgid "edit_attachments"
+msgstr ""
+
+msgid "first_email_missing_info"
+msgstr ""
+
+msgid "forward"
+msgstr ""
+
+msgid "goto_invitation_chat"
+msgstr ""
+
+msgid "invite_to_chat"
+msgstr ""
+
+msgid "link_check_affected_links"
+msgstr ""
+
+msgid "link_check_introduction"
+msgstr ""
+
+msgid "link_check_perma_link"
+msgstr ""
+
+msgid "link_check_reason"
+msgstr ""
+
+msgid "mail_1"
+msgstr ""
+
+msgid "mail_absence_auto_responder_body"
+msgstr ""
+
+msgid "mail_absence_auto_responder_body_hint"
+msgstr ""
+
+msgid "mail_absence_auto_responder_body_info"
+msgstr ""
+
+msgid "mail_absence_auto_responder_body_info_single_day"
+msgstr ""
+
+msgid "mail_absence_auto_responder_subject"
+msgstr ""
+
+msgid "mail_absence_duration"
+msgstr ""
+
+msgid "mail_absence_status"
+msgstr ""
+
+msgid "mail_absence_status_info"
+msgstr ""
+
+msgid "mail_absent_from"
+msgstr ""
+
+msgid "mail_absent_until"
+msgstr ""
+
+msgid "mail_account_mail"
+msgstr ""
+
+msgid "mail_add_folder"
+msgstr ""
+
+msgid "mail_add_recipient"
+msgstr ""
+
+msgid "mail_add_subfolder"
+msgstr ""
+
+msgid "mail_add_subject"
+msgstr ""
+
+msgid "mail_adopt_selected_attachements"
+msgstr ""
+
+msgid "mail_all_in_trash"
+msgstr ""
+
+msgid "mail_allow_external"
+msgstr ""
+
+msgid "mail_allow_external_info"
+msgstr ""
+
+msgid "mail_assign_entry_to_mailing_list"
+msgstr ""
+
+msgid "mail_assign_to_mailing_list"
+msgstr ""
+
+msgid "mail_attachment_file_not_exist"
+msgstr ""
+
+msgid "mail_attachments"
+msgstr ""
+
+msgid "mail_auto_generated_info"
+msgstr ""
+
+msgid "mail_auto_responder"
+msgstr ""
+
+msgid "mail_auto_responder_idle_time"
+msgstr ""
+
+msgid "mail_auto_responder_idle_time_info"
+msgstr ""
+
+msgid "mail_bcc"
+msgstr ""
+
+msgid "mail_bg_task_desc"
+msgstr ""
+
+msgid "mail_bg_task_title"
+msgstr ""
+
+msgid "mail_both_email"
+msgstr ""
+
+msgid "mail_cc"
+msgstr ""
+
+msgid "mail_change_to_folder"
+msgstr ""
+
+msgid "mail_create_tpl"
+msgstr ""
+
+msgid "mail_cronjob_notification_info"
+msgstr ""
+
+msgid "mail_crs_list_members_not_available"
+msgstr ""
+
+msgid "mail_crs_list_members_not_available_for_at_least_one_crs"
+msgstr ""
+
+msgid "mail_crs_roles"
+msgstr ""
+
+msgid "mail_deleted"
+msgstr ""
+
+msgid "mail_deleted_entry"
+msgstr ""
+
+msgid "mail_download_attachment"
+msgstr ""
+
+msgid "mail_download_zip_no_attachments"
+msgstr ""
+
+msgid "mail_edit_tpl"
+msgstr ""
+
+msgid "mail_email_sys_body"
+msgstr ""
+
+msgid "mail_email_sys_subject"
+msgstr ""
+
+msgid "mail_email_usr_body"
+msgstr ""
+
+msgid "mail_email_usr_subject"
+msgstr ""
+
+msgid "mail_empty_trash"
+msgstr ""
+
+msgid "mail_empty_trash_confirmation"
+msgstr ""
+
+msgid "mail_enable_crs_admin_notification"
+msgstr ""
+
+msgid "mail_enable_crs_admin_notification_info"
+msgstr ""
+
+msgid "mail_enable_crs_member_notification"
+msgstr ""
+
+msgid "mail_enable_crs_member_notification_info"
+msgstr ""
+
+msgid "mail_enable_grp_admin_notification"
+msgstr ""
+
+msgid "mail_enable_grp_admin_notification_info"
+msgstr ""
+
+msgid "mail_enable_grp_member_notification"
+msgstr ""
+
+msgid "mail_enable_grp_member_notification_info"
+msgstr ""
+
+msgid "mail_enable_lso_admin_notification"
+msgstr ""
+
+msgid "mail_enable_lso_admin_notification_info"
+msgstr ""
+
+msgid "mail_enable_lso_member_notification"
+msgstr ""
+
+msgid "mail_enable_lso_member_notification_info"
+msgstr ""
+
+msgid "mail_entry_of_contacts"
+msgstr ""
+
+msgid "mail_error_reading_attachment"
+msgstr ""
+
+msgid "mail_external_send_test_sys"
+msgstr ""
+
+msgid "mail_external_send_test_usr"
+msgstr ""
+
+msgid "mail_external_test_sent"
+msgstr ""
+
+msgid "mail_file_name"
+msgstr ""
+
+msgid "mail_file_size"
+msgstr ""
+
+msgid "mail_files_deleted"
+msgstr ""
+
+msgid "mail_filter"
+msgstr ""
+
+msgid "mail_filter_attach"
+msgstr ""
+
+msgid "mail_filter_body"
+msgstr ""
+
+msgid "mail_filter_display"
+msgstr ""
+
+msgid "mail_filter_field_placeholder"
+msgstr ""
+
+msgid "mail_filter_period"
+msgstr ""
+
+msgid "mail_filter_recipients"
+msgstr ""
+
+msgid "mail_filter_sender"
+msgstr ""
+
+msgid "mail_filter_show_read"
+msgstr ""
+
+msgid "mail_filter_show_system_mails"
+msgstr ""
+
+msgid "mail_filter_show_unread"
+msgstr ""
+
+msgid "mail_filter_show_user_mails"
+msgstr ""
+
+msgid "mail_filter_show_with_attachments"
+msgstr ""
+
+msgid "mail_filter_show_without_attachment"
+msgstr ""
+
+msgid "mail_filter_subject"
+msgstr ""
+
+msgid "mail_filter_txt"
+msgstr ""
+
+msgid "mail_first_email"
+msgstr ""
+
+msgid "mail_firstname_last_name_superior"
+msgstr ""
+
+msgid "mail_folder_created"
+msgstr ""
+
+msgid "mail_folder_deleted"
+msgstr ""
+
+msgid "mail_folder_exists"
+msgstr ""
+
+msgid "mail_folder_name_changed"
+msgstr ""
+
+msgid "mail_following_rcp_not_valid"
+msgstr ""
+
+msgid "mail_form_placeholders_label"
+msgstr ""
+
+msgid "mail_generic_rcp_error"
+msgstr ""
+
+msgid "mail_global_reply_to_addr"
+msgstr ""
+
+msgid "mail_global_reply_to_addr_info"
+msgstr ""
+
+msgid "mail_grp_roles"
+msgstr ""
+
+msgid "mail_hint_add_placeholder_x"
+msgstr ""
+
+msgid "mail_inbox_external_delivery_only_info"
+msgstr ""
+
+msgid "mail_incoming"
+msgstr ""
+
+msgid "mail_incoming_both"
+msgstr ""
+
+msgid "mail_incoming_local"
+msgstr ""
+
+msgid "mail_incoming_mail"
+msgstr ""
+
+msgid "mail_incoming_smtp"
+msgstr ""
+
+msgid "mail_insert_folder_name"
+msgstr ""
+
+msgid "mail_insert_query"
+msgstr ""
+
+msgid "mail_invite_users_to_chat"
+msgstr ""
+
+msgid "mail_is_read"
+msgstr ""
+
+msgid "mail_is_unread"
+msgstr ""
+
+msgid "mail_list_members"
+msgstr ""
+
+msgid "mail_mailing_list"
+msgstr ""
+
+msgid "mail_mailing_lists"
+msgstr ""
+
+msgid "mail_mailing_lists_all_contact_entries_assigned"
+msgstr ""
+
+msgid "mail_mailing_lists_no_contact_entries"
+msgstr ""
+
+msgid "mail_main_folder"
+msgstr ""
+
+msgid "mail_manage_attachments"
+msgstr ""
+
+msgid "mail_manage_attachments_back_to_compose"
+msgstr ""
+
+msgid "mail_manage_attachments_drop_files_msg"
+msgstr ""
+
+msgid "mail_mark_read"
+msgstr ""
+
+msgid "mail_mark_unread"
+msgstr ""
+
+msgid "mail_max_size_attachments_total"
+msgstr ""
+
+msgid "mail_max_size_attachments_total_error"
+msgstr ""
+
+msgid "mail_maxsize_attachment_error"
+msgstr ""
+
+msgid "mail_member_notification"
+msgstr ""
+
+msgid "mail_members_of_mailing_list"
+msgstr ""
+
+msgid "mail_members_search_continue"
+msgstr ""
+
+msgid "mail_message_send"
+msgstr ""
+
+msgid "mail_mode_switch_label"
+msgstr ""
+
+msgid "mail_mode_switch_locked"
+msgstr ""
+
+msgid "mail_move_error"
+msgstr ""
+
+msgid "mail_move_to"
+msgstr ""
+
+msgid "mail_move_to_folder_btn_label"
+msgstr ""
+
+msgid "mail_move_to_folder_x"
+msgstr ""
+
+msgid "mail_moved"
+msgstr ""
+
+msgid "mail_moved_to_trash"
+msgstr ""
+
+msgid "mail_multiple_role_recipients_found"
+msgstr ""
+
+msgid "mail_my_courses"
+msgstr ""
+
+msgid "mail_my_groups"
+msgstr ""
+
+msgid "mail_my_mailing_lists"
+msgstr ""
+
+msgid "mail_nacc_admin_mail"
+msgstr ""
+
+msgid "mail_nacc_if_timelimit"
+msgstr ""
+
+msgid "mail_nacc_ilias_url"
+msgstr ""
+
+msgid "mail_nacc_installation_desc"
+msgstr ""
+
+msgid "mail_nacc_installation_name"
+msgstr ""
+
+msgid "mail_nacc_login"
+msgstr ""
+
+msgid "mail_nacc_no_pw_block"
+msgstr ""
+
+msgid "mail_nacc_pw_block"
+msgstr ""
+
+msgid "mail_nacc_salutation"
+msgstr ""
+
+msgid "mail_nacc_target"
+msgstr ""
+
+msgid "mail_nacc_target_block"
+msgstr ""
+
+msgid "mail_nacc_target_title"
+msgstr ""
+
+msgid "mail_nacc_target_type"
+msgstr ""
+
+msgid "mail_nacc_timelimit"
+msgstr ""
+
+msgid "mail_nacc_title"
+msgstr ""
+
+msgid "mail_nacc_use_placeholder"
+msgstr ""
+
+msgid "mail_nacc_user_fullname"
+msgstr ""
+
+msgid "mail_nacc_user_login"
+msgstr ""
+
+msgid "mail_new"
+msgstr ""
+
+msgid "mail_new_template"
+msgstr ""
+
+msgid "mail_no_mail_items"
+msgstr ""
+
+msgid "mail_no_permissions_write_smtp"
+msgstr ""
+
+msgid "mail_no_subject"
+msgstr ""
+
+msgid "mail_no_valid_mailing_list"
+msgstr ""
+
+msgid "mail_notification_membership_section"
+msgstr ""
+
+msgid "mail_notification_subject"
+msgstr ""
+
+msgid "mail_notify_orphaned"
+msgstr ""
+
+msgid "mail_notify_orphaned_info"
+msgstr ""
+
+msgid "mail_operation_on_invalid_folder"
+msgstr ""
+
+msgid "mail_options"
+msgstr ""
+
+msgid "mail_options_saved"
+msgstr ""
+
+msgid "mail_orphaned_mails"
+msgstr ""
+
+msgid "mail_orphaned_mails_desc"
+msgstr ""
+
+msgid "mail_recipient_not_found"
+msgstr ""
+
+msgid "mail_rename_folder"
+msgstr ""
+
+msgid "mail_roles"
+msgstr ""
+
+msgid "mail_s"
+msgstr ""
+
+msgid "mail_salutation_anonymous"
+msgstr ""
+
+msgid "mail_salutation_f"
+msgstr ""
+
+msgid "mail_salutation_female"
+msgstr ""
+
+msgid "mail_salutation_general"
+msgstr ""
+
+msgid "mail_salutation_m"
+msgstr ""
+
+msgid "mail_salutation_male"
+msgstr ""
+
+msgid "mail_salutation_n"
+msgstr ""
+
+msgid "mail_saved"
+msgstr ""
+
+msgid "mail_second_email"
+msgstr ""
+
+msgid "mail_sel_label"
+msgstr ""
+
+msgid "mail_sel_users"
+msgstr ""
+
+msgid "mail_select_attachment"
+msgstr ""
+
+msgid "mail_select_crs"
+msgstr ""
+
+msgid "mail_select_grp"
+msgstr ""
+
+msgid "mail_select_one_entry"
+msgstr ""
+
+msgid "mail_select_one_file"
+msgstr ""
+
+msgid "mail_send_html"
+msgstr ""
+
+msgid "mail_send_html_info"
+msgstr ""
+
+msgid "mail_sent_datetime"
+msgstr ""
+
+msgid "mail_serial_letter_placeholders"
+msgstr ""
+
+msgid "mail_settings_external_frm_head"
+msgstr ""
+
+msgid "mail_settings_external_tab"
+msgstr ""
+
+msgid "mail_settings_general_tab"
+msgstr ""
+
+msgid "mail_settings_incoming_type_see_also"
+msgstr ""
+
+msgid "mail_settings_system_frm_head"
+msgstr ""
+
+msgid "mail_settings_user_frm_head"
+msgstr ""
+
+msgid "mail_smtp_encryption"
+msgstr ""
+
+msgid "mail_smtp_encryption_ssl"
+msgstr ""
+
+msgid "mail_smtp_encryption_tls"
+msgstr ""
+
+msgid "mail_smtp_host"
+msgstr ""
+
+msgid "mail_smtp_host_info"
+msgstr ""
+
+msgid "mail_smtp_password"
+msgstr ""
+
+msgid "mail_smtp_password_req"
+msgstr ""
+
+msgid "mail_smtp_port"
+msgstr ""
+
+msgid "mail_smtp_port_info"
+msgstr ""
+
+msgid "mail_smtp_status"
+msgstr ""
+
+msgid "mail_smtp_status_info"
+msgstr ""
+
+msgid "mail_smtp_user"
+msgstr ""
+
+msgid "mail_subject_prefix"
+msgstr ""
+
+msgid "mail_subject_prefix_info"
+msgstr ""
+
+msgid "mail_subject_too_long"
+msgstr ""
+
+msgid "mail_success_removed_user"
+msgstr ""
+
+msgid "mail_sure_delete_entry"
+msgstr ""
+
+msgid "mail_sure_delete_file"
+msgstr ""
+
+msgid "mail_sure_delete_folder"
+msgstr ""
+
+msgid "mail_sure_delete_p"
+msgstr ""
+
+msgid "mail_sure_delete_s"
+msgstr ""
+
+msgid "mail_sure_remove_user"
+msgstr ""
+
+msgid "mail_system_sys_env_from_addr"
+msgstr ""
+
+msgid "mail_system_sys_env_from_addr_info"
+msgstr ""
+
+msgid "mail_system_sys_from_addr"
+msgstr ""
+
+msgid "mail_system_sys_from_addr_info"
+msgstr ""
+
+msgid "mail_system_sys_from_name"
+msgstr ""
+
+msgid "mail_system_sys_general_signature"
+msgstr ""
+
+msgid "mail_system_sys_reply_to_addr"
+msgstr ""
+
+msgid "mail_system_usr_env_from_addr"
+msgstr ""
+
+msgid "mail_system_usr_env_from_addr_info"
+msgstr ""
+
+msgid "mail_system_usr_from_addr"
+msgstr ""
+
+msgid "mail_system_usr_from_addr_info"
+msgstr ""
+
+msgid "mail_system_usr_from_name"
+msgstr ""
+
+msgid "mail_system_usr_from_name_info"
+msgstr ""
+
+msgid "mail_system_usr_general_signature"
+msgstr ""
+
+msgid "mail_tbl_head_attachments"
+msgstr ""
+
+msgid "mail_template_client"
+msgstr ""
+
+msgid "mail_template_client_info"
+msgstr ""
+
+msgid "mail_template_context"
+msgstr ""
+
+msgid "mail_template_default"
+msgstr ""
+
+msgid "mail_template_invalid_tpl_syntax"
+msgstr ""
+
+msgid "mail_template_missing_id"
+msgstr ""
+
+msgid "mail_template_no_context_available"
+msgstr ""
+
+msgid "mail_template_no_valid_context"
+msgstr ""
+
+msgid "mail_template_orphaned_context"
+msgstr ""
+
+msgid "mail_template_set_as_default"
+msgstr ""
+
+msgid "mail_template_title"
+msgstr ""
+
+msgid "mail_template_unset_as_default"
+msgstr ""
+
+msgid "mail_templates"
+msgstr ""
+
+msgid "mail_threshold"
+msgstr ""
+
+msgid "mail_threshold_info"
+msgstr ""
+
+msgid "mail_to"
+msgstr ""
+
+msgid "mail_tpl_deleted_p"
+msgstr ""
+
+msgid "mail_tpl_deleted_s"
+msgstr ""
+
+msgid "mail_tpl_sure_delete_entries"
+msgstr ""
+
+msgid "mail_tpl_sure_delete_entry"
+msgstr ""
+
+msgid "mail_use_global_reply_to_addr"
+msgstr ""
+
+msgid "mail_use_global_reply_to_addr_info"
+msgstr ""
+
+msgid "nc_mail_noti_item_title"
+msgstr ""
+
+msgid "nc_mail_prop_time"
+msgstr ""
+
+msgid "nc_mail_unread_messages"
+msgstr ""
+
+msgid "nc_mail_unread_messages_number_p"
+msgstr ""
+
+msgid "nc_mail_unread_messages_number_s"
+msgstr ""
+
+msgid "only_inbox_trash"
+msgstr ""
+
+msgid "only_inbox_trash_info"
+msgstr ""
+
+msgid "orphaned_mail_body"
+msgstr ""
+
+msgid "orphaned_mail_subject"
+msgstr ""
+
+msgid "placeholders_advise"
+msgstr ""
+
+msgid "regular_mail"
+msgstr ""
+
+msgid "search_content"
+msgstr ""
+
+msgid "search_recipients"
+msgstr ""
+
+msgid "second_email_missing_info"
+msgstr ""
+
+msgid "select_mail_with_subject_x"
+msgstr ""
+
+msgid "send_mail_admins"
+msgstr ""
+
+msgid "send_mail_members"
+msgstr ""
+
+msgid "send_mail_to"
+msgstr ""
+
+msgid "send_mail_tutors"
+msgstr ""
+
+msgid "serial_letter"
+msgstr ""
+
+msgid "show_mail_settings"
+msgstr ""
+
+msgid "show_mail_settings_info"
+msgstr ""
+
+msgid "system_notification_installation_changed_by"
+msgstr ""
+
+msgid "usrFieldChange_second_mail_visible_in_personal_data"
+msgstr ""

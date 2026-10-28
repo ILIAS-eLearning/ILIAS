@@ -1,0 +1,180 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: jscalendar\n"
+
+msgid "about_calendar"
+msgstr "カレンダーについて"
+
+msgid "about_calendar_long"
+msgstr "DHTML Date/Time Selector(c) dynarch.com 2002-2003。最新版のURL：http://dynarch.com/mishoo/calendar.epl GNU LGPLの下に配布。詳細はhttp://gnu.org/licenses/lgpl.html を参照の事。日付選択:-年を選択するには^A<と^A>ボタンを使用-月を選択するには<"
+
+msgid "about_time"
+msgstr "タイムセッション：- 増やすにはどこかをクリック- 減らすにはShiftをクリック- すばやく選択するにはクリックしてドラッグ"
+
+msgid "day_first"
+msgstr "%sを先に表示"
+
+msgid "def_date_format"
+msgstr "%Y-%m-%d"
+
+msgid "drag_to_move"
+msgstr "ドラッグして移動"
+
+msgid "go_today"
+msgstr "Go Today"
+
+msgid "l_01"
+msgstr "1月"
+
+msgid "l_02"
+msgstr "2月"
+
+msgid "l_03"
+msgstr "3月"
+
+msgid "l_04"
+msgstr "4月"
+
+msgid "l_05"
+msgstr "5月"
+
+msgid "l_06"
+msgstr "6月"
+
+msgid "l_07"
+msgstr "7月"
+
+msgid "l_08"
+msgstr "8月"
+
+msgid "l_09"
+msgstr "9月"
+
+msgid "l_10"
+msgstr "10月"
+
+msgid "l_11"
+msgstr "11月"
+
+msgid "l_12"
+msgstr "12月"
+
+msgid "l_fr"
+msgstr "金曜日"
+
+msgid "l_mo"
+msgstr "月曜日"
+
+msgid "l_sa"
+msgstr "土曜日"
+
+msgid "l_su"
+msgstr "日曜日"
+
+msgid "l_th"
+msgstr "木曜日"
+
+msgid "l_tu"
+msgstr "火曜日"
+
+msgid "l_we"
+msgstr "水曜日"
+
+msgid "next_month"
+msgstr "翌月 (メニューをホールド)"
+
+msgid "next_year"
+msgstr "翌年 (メニューをホールド)"
+
+msgid "open_calendar"
+msgstr "ここをクリックして日付選択用にカレンダーを開く(JavaScript必須!)"
+
+msgid "part_today"
+msgstr " (today)"
+
+msgid "prev_month"
+msgstr "前月 (メニューをホールド)"
+
+msgid "prev_year"
+msgstr "前年 (メニューをホールド)"
+
+msgid "s_01"
+msgstr "1月"
+
+msgid "s_02"
+msgstr "2月"
+
+msgid "s_03"
+msgstr "3月"
+
+msgid "s_04"
+msgstr "4月"
+
+msgid "s_05"
+msgstr "5月"
+
+msgid "s_06"
+msgstr "6月"
+
+msgid "s_07"
+msgstr "7月"
+
+msgid "s_08"
+msgstr "8月"
+
+msgid "s_09"
+msgstr "9月"
+
+msgid "s_10"
+msgstr "10月"
+
+msgid "s_11"
+msgstr "11月"
+
+msgid "s_12"
+msgstr "12月"
+
+msgid "s_fr"
+msgstr "金"
+
+msgid "s_mo"
+msgstr "月"
+
+msgid "s_sa"
+msgstr "土"
+
+msgid "s_su"
+msgstr "日"
+
+msgid "s_th"
+msgstr "木"
+
+msgid "s_tu"
+msgstr "火"
+
+msgid "s_we"
+msgstr "水"
+
+msgid "select_date"
+msgstr "日を選択"
+
+msgid "time"
+msgstr "時間"
+
+msgid "time_part"
+msgstr "(Shift-)クリックまたはドラッグして値を変更"
+
+msgid "today"
+msgstr "Today"
+
+msgid "tt_date_format"
+msgstr "%a, %b %e"
+
+msgid "wk"
+msgstr "週"

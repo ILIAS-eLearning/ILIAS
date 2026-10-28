@@ -1,0 +1,26 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: nl\n"
+"Language-Team: Dutch\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: cat\n"
+
+msgid "cat_copy"
+msgstr "Kopieer Categorie"
+
+#, fuzzy
+msgid "cat_hide_tax_in_side_block"
+msgstr "Don't Present in Side Panel"
+
+msgid "cat_import"
+msgstr "Importeer Categorie"
+
+msgid "cat_more_translations"
+msgstr "Meer vertalingen"
+
+#, fuzzy
+msgid "cat_show_tax_in_side_block"
+msgstr "Present in Side Panel"

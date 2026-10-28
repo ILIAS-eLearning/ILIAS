@@ -1,0 +1,117 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: cntr\n"
+
+msgid "cntr_add_new_item"
+msgstr "新規アイテムを追加"
+
+msgid "cntr_adopt_content"
+msgstr "コンテンツの取込み"
+
+msgid "cntr_container_only_on_their_own"
+msgstr "カテゴリあるいはコース、グループ、フォルダのみがシングルオブジェクトとしてコピーできます。項目を1つだけ選択してください。"
+
+msgid "cntr_copy_crs_grp"
+msgstr "マイコースとグループ"
+
+msgid "cntr_copy_repo_tree"
+msgstr "リポジトリツリー"
+
+msgid "cntr_hide_title_and_icon"
+msgstr "タイトルとアイコンを非表示"
+
+msgid "cntr_manage"
+msgstr "管理"
+
+msgid "cntr_ordering"
+msgstr "並び替え"
+
+msgid "cntr_saved_sorting"
+msgstr "並び替えを保存"
+
+msgid "cntr_switch_to_new_editor_cmd"
+msgstr "新しいコンテンツのページに切り替える。古いコンテンツを削除。"
+
+msgid "cntr_switch_to_new_editor_message"
+msgstr "サポートされている標準的なエディターです。古いエディターからコンテンツは引き継がれません。以下の新しいページコンテンツへ追加を開始してください。次のリンクをクリックすると新しいコンテンツが使用されます。"
+
+msgid "cntr_switched_editor"
+msgstr "新しいコンテンツへ切り替えられました。"
+
+msgid "cntr_tax_none_available"
+msgstr "分類は利用できません。"
+
+msgid "cntr_tax_settings_info"
+msgstr "カテゴリーの分類学はカテゴリーに含まれるオブジェクトを分類しフィルターします。分類学を追加すると、それぞれのオブジェクトの\"メタデータ\" タブと\"分類学割り当て\" サブタブを通して分類されます。 分類学は、 割り当てられたオブジェクトの直接フィルタを有効にするカテゴリのサイドブロック\"コンテンツ\" タブ 内に表示できます。"
+
+msgid "cntr_taxonomy_definitions"
+msgstr "分類定義"
+
+msgid "cntr_taxonomy_show_sideblock"
+msgstr "サイドブロック中に分類を表示"
+
+msgid "cntr_taxonomy_sideblock_settings"
+msgstr "表示設定"
+
+msgid "cntr_text_media_editor"
+msgstr "テキスト/メディアエディター"
+
+msgid "cntr_view_by_type"
+msgstr "タイプビューでグループ化"
+
+msgid "cntr_view_info_by_type"
+msgstr "リソースタイプ別に全アイテムを分類表示します。"
+
+msgid "cntr_view_info_sessions"
+msgstr "最初に全てのセッション別に分類表示します。その後に他のコースの内容が一覧表示されます。"
+
+msgid "cntr_view_info_simple"
+msgstr "1ブロックで全アイテムの内容を表示します。"
+
+msgid "cntr_view_sessions"
+msgstr "セッションビュー"
+
+msgid "cntr_view_simple"
+msgstr "シンプルビュー"
+
+msgid "container_import_zip_file_invalid"
+msgstr "アップロードされたファイルはILIASの有効なエクスポートファイルではありません。ディレクトリ構造をアップロードするにはファイルオブジェクトを使用してください。"
+
+msgid "edit_questions"
+msgstr "問題を編集"
+
+msgid "exc_next_deadline_single"
+msgstr "期限"
+
+msgid "msg_no_downloadable_objects"
+msgstr "ダウンロード可能なオブジェクトが見つかりませんでした。"
+
+msgid "objects_duplicated"
+msgstr "オブジェクトをコピーしました。"
+
+msgid "prtf_create_portfolio_from_template"
+msgstr "テンプレートからポートフォリオを作成"
+
+msgid "sorting_new_items_at_bottom"
+msgstr "Bottom"
+
+msgid "sorting_new_items_at_top"
+msgstr "Top"
+
+msgid "sorting_new_items_direction"
+msgstr "新規オブジェクトの並び替え順"
+
+msgid "sorting_new_items_order"
+msgstr "新規オブジェクトの順"
+
+msgid "sorting_new_items_position"
+msgstr "新規オブジェクトの位置"
+
+msgid "tab_back_to_repository"
+msgstr "リピジトリへ戻る"

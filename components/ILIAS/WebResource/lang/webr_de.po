@@ -1,0 +1,90 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: webr\n"
+
+msgid "invalid_links_tbl"
+msgstr "Ungültige Links"
+
+msgid "webr_active"
+msgstr "Aktiv"
+
+msgid "webr_container_info"
+msgstr "Da diese Weblink-Sammlung mehr als einen Weblink enthalten soll, sollten Sie einen Titel und eventuell einen Beschreibungstext für die Darstellung im Magazin vergeben."
+
+msgid "webr_copy"
+msgstr "Weblink kopieren"
+
+msgid "webr_deactivate"
+msgstr "Weblink deaktivieren"
+
+msgid "webr_edit_links"
+msgstr "Weblinks bearbeiten"
+
+msgid "webr_edit_list"
+msgstr "Weblink-Sammlung bearbeiten"
+
+msgid "webr_edit_settings"
+msgstr "Einstellungen bearbeiten"
+
+msgid "webr_import"
+msgstr "Weblink importieren"
+
+msgid "webr_inactive_success"
+msgstr "Der Weblink wurde deaktiviert."
+
+msgid "webr_link_added"
+msgstr "Ein neuer Weblink wurde angelegt."
+
+msgid "webr_link_target"
+msgstr "Ziel"
+
+msgid "webr_link_title"
+msgstr "Titel des Weblinks / Titel der Weblink-Sammlung"
+
+msgid "webr_link_type_list"
+msgstr "Weblink-Sammlung"
+
+msgid "webr_link_type_single"
+msgstr "Einzelner Weblink"
+
+msgid "webr_list_added"
+msgstr "Eine neue Weblink-Sammlung wurde angelegt."
+
+msgid "webr_list_desc"
+msgstr "Beschreibung der Weblink-Sammlung"
+
+msgid "webr_list_set"
+msgstr "Der Weblink wurde in eine Weblink-Sammlung umgewandelt."
+
+msgid "webr_list_title"
+msgstr "Titel der Weblink-Sammlung"
+
+msgid "webr_new"
+msgstr "Neuen Weblink anlegen"
+
+msgid "webr_new_link"
+msgstr "Neuen Weblink anlegen"
+
+msgid "webr_new_list"
+msgstr "Neue Weblink-Sammlung anlegen"
+
+msgid "webr_new_list_info"
+msgstr "Bitte geben Sie einen Titel und optional eine Beschreibung für die Präsentation dieser Weblink-Sammlung im Magazin ein."
+
+msgid "webr_set_to_list"
+msgstr "In Weblink-Sammlung umwandeln"
+
+msgid "webr_sort_manual"
+msgstr "Manuelle Sortierung"
+
+msgid "webr_sort_title"
+msgstr "Alphabetisch nach Titel"
+
+msgid "webr_sorting"
+msgstr "Sortierung der Weblinks"

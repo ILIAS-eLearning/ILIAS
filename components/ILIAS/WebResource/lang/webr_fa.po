@@ -1,0 +1,100 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fa\n"
+"Language-Team: Persian (Farsi)\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Domain: webr\n"
+
+#, fuzzy
+msgid "invalid_links_tbl"
+msgstr "Invalid Links"
+
+msgid "webr_active"
+msgstr "فعال کردن"
+
+msgid "webr_container_info"
+msgstr "لطفا یک عنوان و توضیح برای نمایش لینک وب در مخزن وارد کنید."
+
+#, fuzzy
+msgid "webr_copy"
+msgstr "Copy Weblink"
+
+msgid "webr_deactivate"
+msgstr "غیر فعال کردن لینک وب"
+
+msgid "webr_edit_links"
+msgstr "ویرایش لینکهای وب"
+
+msgid "webr_edit_list"
+msgstr "ویرایش لینکهای وب"
+
+msgid "webr_edit_settings"
+msgstr "ویرایش تنظیمات"
+
+msgid "webr_import"
+msgstr "وارد کردن ویرایش لینک وب"
+
+msgid "webr_inactive_success"
+msgstr "The chosen link is deactivated."
+
+msgid "webr_link_added"
+msgstr "A new link has been created."
+
+msgid "webr_link_target"
+msgstr "مقصد لینک وب"
+
+msgid "webr_link_title"
+msgstr "نام لینک وب"
+
+#, fuzzy
+msgid "webr_link_type_list"
+msgstr "Weblink List"
+
+#, fuzzy
+msgid "webr_link_type_single"
+msgstr "Single Weblink"
+
+#, fuzzy
+msgid "webr_list_added"
+msgstr "A new weblink list has been created."
+
+msgid "webr_list_desc"
+msgstr "توضیحات لیست لینک وب"
+
+#, fuzzy
+msgid "webr_list_set"
+msgstr "The weblink has been set to a weblink list."
+
+msgid "webr_list_title"
+msgstr "عنوان لیست لینک وب"
+
+#, fuzzy
+msgid "webr_new"
+msgstr "Create Weblink"
+
+msgid "webr_new_link"
+msgstr "اضافه کردن لینک وب جدید"
+
+#, fuzzy
+msgid "webr_new_list"
+msgstr "Add New Weblink List"
+
+#, fuzzy
+msgid "webr_new_list_info"
+msgstr "Please enter a title and optionally a description for the presentation of this Weblink List in the repository."
+
+#, fuzzy
+msgid "webr_set_to_list"
+msgstr "Set to Weblink List"
+
+msgid "webr_sort_manual"
+msgstr "Sort Manually"
+
+msgid "webr_sort_title"
+msgstr "Sort by Title"
+
+msgid "webr_sorting"
+msgstr "Weblink Sorting"

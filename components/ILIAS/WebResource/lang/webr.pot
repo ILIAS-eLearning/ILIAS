@@ -1,0 +1,87 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: webr\n"
+
+msgid "invalid_links_tbl"
+msgstr ""
+
+msgid "webr_active"
+msgstr ""
+
+msgid "webr_container_info"
+msgstr ""
+
+msgid "webr_copy"
+msgstr ""
+
+msgid "webr_deactivate"
+msgstr ""
+
+msgid "webr_edit_links"
+msgstr ""
+
+msgid "webr_edit_list"
+msgstr ""
+
+msgid "webr_edit_settings"
+msgstr ""
+
+msgid "webr_import"
+msgstr ""
+
+msgid "webr_inactive_success"
+msgstr ""
+
+msgid "webr_link_added"
+msgstr ""
+
+msgid "webr_link_target"
+msgstr ""
+
+msgid "webr_link_title"
+msgstr ""
+
+msgid "webr_link_type_list"
+msgstr ""
+
+msgid "webr_link_type_single"
+msgstr ""
+
+msgid "webr_list_added"
+msgstr ""
+
+msgid "webr_list_desc"
+msgstr ""
+
+msgid "webr_list_set"
+msgstr ""
+
+msgid "webr_list_title"
+msgstr ""
+
+msgid "webr_new"
+msgstr ""
+
+msgid "webr_new_link"
+msgstr ""
+
+msgid "webr_new_list"
+msgstr ""
+
+msgid "webr_new_list_info"
+msgstr ""
+
+msgid "webr_set_to_list"
+msgstr ""
+
+msgid "webr_sort_manual"
+msgstr ""
+
+msgid "webr_sort_title"
+msgstr ""
+
+msgid "webr_sorting"
+msgstr ""

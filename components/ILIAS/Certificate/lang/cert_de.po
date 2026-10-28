@@ -1,0 +1,57 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: cert\n"
+
+msgid "cert_currently_no_certs"
+msgstr "Aktuell besitzen Sie noch keine Zertifikate."
+
+msgid "cert_description_label"
+msgstr "Beschreibung"
+
+msgid "cert_download_label"
+msgstr "Herunterladen"
+
+msgid "cert_error_no_access"
+msgstr "Sie haben keine Berichtigung, auf dieses Zertifikat zuzugreifen."
+
+msgid "cert_issued_on_label"
+msgstr "Ausgestellt am"
+
+msgid "cert_object_label"
+msgstr "Objekt"
+
+msgid "cert_sortable_by_issue_date_asc"
+msgstr "Sortiert nach Ausstellungsdatum - Älteste zuerst"
+
+msgid "cert_sortable_by_issue_date_desc"
+msgstr "Sortiert nach Ausstellungsdatum - Neueste zuerst"
+
+msgid "cert_sortable_by_title_asc"
+msgstr "Sortiert nach Titel (A→Z)"
+
+msgid "cert_sortable_by_title_desc"
+msgstr "Sortiert nach Titel (Z→A)"
+
+msgid "certificate_achievement"
+msgstr "%1$s erhalten."
+
+msgid "certificate_achievement_sub_obj"
+msgstr "Zertifikat für %1$s"
+
+msgid "certificate_no_object_title"
+msgstr "Kein Titel vorhanden"
+
+msgid "certificate_same_not_saved"
+msgstr "Es wurde keine neue Version der Zertifikatsvorlage gespeichert, da die entsprechenden Werte nicht verändert wurden."
+
+msgid "error_creating_certificate_pdf"
+msgstr "Das Zertifikat konnte nicht erstellt werden. Bitte kontaktieren Sie Ihre technische Betreuung und bitten um die Prüfung des Zertifikatsservers."
+
+msgid "user_certificates"
+msgstr "Zertifikate"

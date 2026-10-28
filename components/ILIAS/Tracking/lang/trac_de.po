@@ -1,0 +1,798 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: trac\n"
+
+msgid "cmix_lp_mode_deactivated"
+msgstr "Lernfortschritt wird deaktiviert"
+
+msgid "cmix_lp_mode_deactivated_info"
+msgstr "Der Lernfortschrittsstatus wird nicht angezeigt und hat keinen Einfluss auf übergeordnete Objekte."
+
+msgid "cmix_lp_mode_when_completed"
+msgstr "Abgeschlossen, wenn \"completed\"."
+
+msgid "cmix_lp_mode_when_completed_info"
+msgstr "Der ILIAS-Status \"completed\" wird gesetzt, wenn das Verb des letzten relevanten xAPI-Statements \"completed\" ist."
+
+msgid "cmix_lp_mode_when_passed"
+msgstr "Abgeschlossen, wenn \"passed\"."
+
+msgid "cmix_lp_mode_when_passed_info"
+msgstr "Der ILIAS-Status \"completed\" wird gesetzt, wenn das Verb des letzten relevanten xAPI-Statements \"passed\" oder \"satisfied\" ist."
+
+msgid "cmix_lp_mode_when_passed_or_completed"
+msgstr "Abgeschlossen, wenn \"completed\" oder \"passed\""
+
+msgid "cmix_lp_mode_when_passed_or_completed_info"
+msgstr "Der ILIAS-Status \"completed\" wird gesetzt, wenn das Verb des letzten relevanten xAPI-Statements \"completed\" oder \"passed\" oder \"satisfied\" ist."
+
+msgid "cmix_lp_mode_with_failed"
+msgstr "Auch den Status \"nicht bestanden\" berücksichtigen"
+
+msgid "cmix_lp_mode_with_failed_info"
+msgstr "Der Status kann anstelle von \"in Bearbeitung\" auf \"nicht bestanden\" gesetzt werden."
+
+msgid "create_date_max"
+msgstr "Späteste Registrierung"
+
+msgid "create_date_min"
+msgstr "Früheste Registrierung"
+
+msgid "info_valid_request"
+msgstr "Finden zwei Anfragen eines Benutzers innerhalb dieser Zeitspanne statt, so wird die entsprechende Zeitspanne als 'aktiv' gewertet."
+
+msgid "meta_typical_learning_time"
+msgstr "Typische Lernzeit"
+
+msgid "obj_types"
+msgstr "Objekttypen"
+
+msgid "personal_learning_progress_view_description"
+msgstr "Laufende Kurse mit Mitgliedschaften"
+
+msgid "personal_learning_progress_view_title"
+msgstr "Ihr Lernfortschritt"
+
+msgid "read_count_avg"
+msgstr "Durchschnitt Seitenaufrufe"
+
+msgid "registration_filter"
+msgstr "Registrierungsdatum"
+
+msgid "search_area_info"
+msgstr "Bitte wählen Sie ein Objekt aus."
+
+msgid "search_terms"
+msgstr "Suchbegriff(e)"
+
+msgid "session_statistics"
+msgstr "Session-Statistik"
+
+msgid "trac_aggregation"
+msgstr "Aggregation"
+
+msgid "trac_all"
+msgstr "Alle"
+
+msgid "trac_anonymized"
+msgstr "Anonymisierung der Daten"
+
+msgid "trac_anonymized_info"
+msgstr "Wenn aktiviert, werden keine personenbezogenen Daten ausgegeben"
+
+msgid "trac_anonymized_info_short"
+msgstr "(Anonymisiert)"
+
+msgid "trac_assigned"
+msgstr "Ausgewählt"
+
+msgid "trac_average"
+msgstr "Durchschnitt"
+
+msgid "trac_begin_at"
+msgstr "Startdatum"
+
+msgid "trac_closed_expire"
+msgstr "Timeout"
+
+msgid "trac_closed_login"
+msgstr "Statusänderung - Anonym zu angemeldet"
+
+msgid "trac_closed_manual"
+msgstr "Logout"
+
+msgid "trac_closed_misc"
+msgstr "Sonstige"
+
+msgid "trac_collection_assign"
+msgstr "Für Lernfortschritts-Bestimmung auswählen"
+
+msgid "trac_collection_deassign"
+msgstr "Auswahl aufheben"
+
+msgid "trac_collection_manual_learner_changed_ts"
+msgstr "Geändert am"
+
+msgid "trac_collection_manual_learner_info"
+msgstr "Der Lernfortschritt für dieses Objekt wird manuell gesetzt."
+
+msgid "trac_collection_manual_learner_lm_info"
+msgstr "Aktivieren Sie alle Kapitel, die Sie abgeschlossen haben."
+
+msgid "trac_collection_tlt_learner_info"
+msgstr "Der Lernfortschritt für dieses Objekt basiert auf der typischen Lerndauer."
+
+msgid "trac_collection_tlt_learner_subitem"
+msgstr "Sie haben bisher %s der geforderten %s erbracht (%s%%)."
+
+msgid "trac_comment"
+msgstr "Kommentar"
+
+msgid "trac_completed"
+msgstr "Bearbeitet"
+
+msgid "trac_cron_info"
+msgstr "Aktivieren Sie den \"Objekt-Statistik\"-Cron-Job, um Daten für diese Auswertung zu sammeln."
+
+msgid "trac_crs_objects"
+msgstr "Benutzer"
+
+msgid "trac_current"
+msgstr "Aktuell"
+
+msgid "trac_current_system_load"
+msgstr "Aktuelle Systemlast"
+
+msgid "trac_data_deleted"
+msgstr "Die Daten wurden gelöscht."
+
+msgid "trac_defaults"
+msgstr "Bearbeitet-Status"
+
+msgid "trac_defaults_inactive"
+msgstr "Inaktiv"
+
+msgid "trac_defaults_info"
+msgstr "Setzt den Modus zur Ermittlung des Bearbeitet-Status für unterstützte Objekt-Typen. Wird von Badges und Zertifikaten verwendet."
+
+msgid "trac_delete_data"
+msgstr "Daten löschen"
+
+msgid "trac_determines_learning_progress"
+msgstr "Bestimmt Lernfortschritt"
+
+msgid "trac_edit_collection"
+msgstr "Bitte wählen Sie nun die Materialien aus, anhand derer der Lernfortschritt bestimmt wird."
+
+msgid "trac_end_at"
+msgstr "Enddatum"
+
+msgid "trac_failed"
+msgstr "Nicht bestanden"
+
+msgid "trac_figure"
+msgstr "Kennzahl"
+
+msgid "trac_filter_area"
+msgstr "Bereich"
+
+msgid "trac_filter_has_status"
+msgstr "Zeige auch Objekte mit Status 'Noch nicht begonnen'"
+
+msgid "trac_filter_hidden"
+msgstr "Ausgeblendet"
+
+msgid "trac_first_access"
+msgstr "Erster Zugriff"
+
+msgid "trac_first_and_last_access"
+msgstr "Erster und letzter Zugriff"
+
+msgid "trac_frm_contribution_num_postings"
+msgstr "Benötigte Anzahl Beiträge"
+
+msgid "trac_frm_contribution_num_postings_info_p"
+msgstr "%s: %s Beiträge"
+
+msgid "trac_frm_contribution_num_postings_info_s"
+msgstr "%s: %s Beitrag"
+
+msgid "trac_group_materials"
+msgstr "Gruppierung mit optionalen Materialien erstellen"
+
+msgid "trac_group_materials_save"
+msgstr "Anzahl verpflichtender Materialien speichern"
+
+msgid "trac_grouped_material_obligatory_err"
+msgstr "Die Anzahl der obligatorischen Materialien muss größer als 0 sein und kleiner als die Anzahl der Materialien, die dieser Gruppierung zugeordnet sind."
+
+msgid "trac_hide"
+msgstr "Ausblenden"
+
+msgid "trac_hide_selected"
+msgstr "Ausgewählte Inhalte ausblenden"
+
+msgid "trac_in_progress"
+msgstr "In Bearbeitung"
+
+msgid "trac_info_edited"
+msgstr "Wenn Sie der Meinung sind, dass Sie alle Inhalte bearbeitet haben, können Sie hier den Status Ihres Lernfortschrittes ändern."
+
+msgid "trac_last_access"
+msgstr "Letzter Zugriff"
+
+msgid "trac_last_aggregation"
+msgstr "Stand"
+
+msgid "trac_learning_progress"
+msgstr "Lernfortschritt"
+
+msgid "trac_learning_progress_of"
+msgstr "Lernfortschritt von %s"
+
+msgid "trac_learning_progress_settings_info"
+msgstr "Erweiterte Daten aktivieren"
+
+msgid "trac_lhist_obj_completed"
+msgstr "$1$ wurde abgeschlossen."
+
+msgid "trac_lhist_obj_completed_in"
+msgstr "$1$ wurde abgeschlossen in $2$."
+
+msgid "trac_log_info"
+msgstr "Letzte Aggregation: %s (Unverarbeitete Datensätze: %s)"
+
+msgid "trac_log_info_link"
+msgstr "Aktualisieren"
+
+msgid "trac_long_system_load"
+msgstr "Langzeithistorie"
+
+msgid "trac_lp_determination"
+msgstr "Ermittlung des Lernfortschritts"
+
+msgid "trac_lp_determination_info_crs"
+msgstr "Auswahl der Materialien, anhand derer der Gesamtstatus ermittelt wird."
+
+msgid "trac_lp_determination_info_crs_tutor"
+msgstr "Wählen Sie diejenigen Objekte aus, welche zur Bestimmung des Lernfortschritts beitragen sollen."
+
+msgid "trac_lp_determination_info_mob"
+msgstr "Auswahl der Medienobjekte, anhand derer der Gesamtstatus des Mediacast ermittelt wird."
+
+msgid "trac_lp_determination_info_sco"
+msgstr "Auswahl der SCOx, anhand derer der Gesamtstatus des SCORM-Moduls ermittelt wird."
+
+msgid "trac_lp_determination_tutor"
+msgstr "Auswahl von Objekten, die den Lernfortschritt bestimmen"
+
+msgid "trac_lp_learner_access"
+msgstr "Eigenen Lernfortschritt einsehen"
+
+msgid "trac_lp_learner_access_info"
+msgstr "Wenn aktiviert, können Benutzer ihren eigenen Lernfortschritt einsehen."
+
+msgid "trac_lp_list_gui"
+msgstr "Dashboard und Magazin"
+
+msgid "trac_lp_list_gui_info"
+msgstr "Wenn aktiviert, wird der Lernfortschrittsstatus in Objekt-Listen angezeigt."
+
+msgid "trac_lp_settings_info_parent_container"
+msgstr "Lernfortschritt übergeordneter Objekte"
+
+msgid "trac_lp_settings_info_parent_legend"
+msgstr "Der Lernfortschrittsstatus des Objekts wird durch „%s“ beeinflusst."
+
+msgid "trac_manual_display"
+msgstr "Im Lernfortschritt anzeigen"
+
+msgid "trac_manual_is_displayed"
+msgstr "Bestimmt Lernfortschritt"
+
+msgid "trac_manual_no_display"
+msgstr "Im Lernfortschritt nicht anzeigen"
+
+msgid "trac_mark"
+msgstr "Note"
+
+msgid "trac_matrix"
+msgstr "Matrixansicht"
+
+msgid "trac_measure"
+msgstr "Kennzahl"
+
+msgid "trac_members_short"
+msgstr "Teil."
+
+msgid "trac_min_passed"
+msgstr "Minimalanzahl zu bestehender Materialien:"
+
+msgid "trac_mode"
+msgstr "Lernfortschrittsmodus"
+
+msgid "trac_mode_cmix_compl_or_passed_with_failed"
+msgstr "Status „Bearbeitet“, wenn von CMI5-Modul „completed“, „passed“ oder „satisfied“ gesendet wurde. Wird „failed“ gesendet, setzt ILIAS den Status des Lernfortschritts auf „Nicht bestanden“."
+
+msgid "trac_mode_cmix_compl_or_passed_with_failed_info"
+msgstr "&nbsp;"
+
+msgid "trac_mode_cmix_compl_with_failed"
+msgstr "Status „Bearbeitet“, wenn „completed“ gesendet wurde. Wird „failed“ gesendet, setzt ILIAS den Status des Lernfortschritts auf „Nicht bestanden“."
+
+msgid "trac_mode_cmix_compl_with_failed_info"
+msgstr "&nbsp;"
+
+msgid "trac_mode_cmix_completed"
+msgstr "Status „Bearbeitet“, wenn „completed“ gesendet wurde. Wird „failed“ gesendet, setzt ILIAS den Status des Lernfortschritts auf „in Bearbeitung“."
+
+msgid "trac_mode_cmix_completed_info"
+msgstr "&nbsp;"
+
+msgid "trac_mode_cmix_completed_or_passed"
+msgstr "Status „Bearbeitet“, wenn von CMI5-Modul „completed“, „passed“ oder „satisfied“ gesendet wurde. Wird „failed“ gesendet, setzt ILIAS den Status des Lernfortschritts auf „in Bearbeitung“."
+
+msgid "trac_mode_cmix_completed_or_passed_info"
+msgstr "&nbsp;"
+
+msgid "trac_mode_cmix_passed"
+msgstr "Status „Bearbeitet“, wenn von CMI5-Modul „passed“ oder „satisfied“ gesendet wurde. Wird „failed“ gesendet, setzt ILIAS den Status des Lernfortschritts auf „in Bearbeitung“."
+
+msgid "trac_mode_cmix_passed_info"
+msgstr "&nbsp;"
+
+msgid "trac_mode_cmix_passed_with_failed"
+msgstr "Status „Bearbeitet“, wenn von CMI5-Modul „passed“ oder „satisfied“ gesendet wurde. Wird „failed“ gesendet, setzt ILIAS den Status des Lernfortschritts auf „Nicht bestanden“."
+
+msgid "trac_mode_cmix_passed_with_failed_info"
+msgstr "&nbsp;"
+
+msgid "trac_mode_collection"
+msgstr "Automatische Bewertung auf Basis ausgewählter Objekte"
+
+msgid "trac_mode_collection_info"
+msgstr "Der Status des Lernfortschritts wird automatisch durch den Status der ausgewählten Unterobjekte bestimmt. <br />Nach dem Speichern dieser Einstellung können auf dieser Seite die dafür gewünschten Objekte ausgewählt werden."
+
+msgid "trac_mode_collection_manual"
+msgstr "Selbsteinschätzung pro Kapitel"
+
+msgid "trac_mode_collection_manual_info"
+msgstr "Eine Person entscheidet selbst, wann sie ein Kapitel des Lernmoduls erfolgreich durchgearbeitet haben. Sobald die Bearbeitung eines Kapitels abgeschlossen ist, wird dazu der Status des Kapitels auf „Bearbeitet“ gesetzt.<br />Nach dem Speichern der Einstellung können auf dieser Seite Kapitel für die Selbsteinschätzung ausgewählt werden."
+
+msgid "trac_mode_collection_mobs"
+msgstr "Auswahl an Medien-Objekten"
+
+msgid "trac_mode_collection_mobs_info"
+msgstr "Der Lernfortschritt wird automatisch aus der Anzahl der betrachteten Medienobjekte ermittelt."
+
+msgid "trac_mode_collection_tlt"
+msgstr "Mindestlerndauer je Kapitel"
+
+msgid "trac_mode_collection_tlt_info"
+msgstr "Der Status des Lernfortschritts wird automatisch entsprechend der Dauer gesetzt, die eine Person mit der Bearbeitung eines Kapitels verbringt. Ein Kapitel wird als „Bearbeitet“ gewertet, sobald die „Typische Lernzeit“ aller für den Lernfortschritt relevanten Kapitel überschritten ist. <br />Nach dem Speichern der Einstellung, können auf dieser Seite Kapitel ausgewählt und für diese jeweils die „Typische Lernzeit“ festgelegt werden."
+
+msgid "trac_mode_content_visited"
+msgstr "Besuch"
+
+msgid "trac_mode_content_visited_info"
+msgstr "Der Lernstand wird über das Ausliefern des Inhalts bestimmt."
+
+msgid "trac_mode_contribution_to_discussion"
+msgstr "Beiträge zur Diskussion"
+
+msgid "trac_mode_contribution_to_discussion_info"
+msgstr "Der Lernfortschritt wird durch die Anzahl der verfassten Beiträge bestimmt."
+
+msgid "trac_mode_course_reference"
+msgstr "Vom Kurs übernommen"
+
+msgid "trac_mode_course_reference_info"
+msgstr "Der Lernfortschrittmodus wird automatisch von dem Kurs übernommen, auf den dieser Kurslink verweist."
+
+msgid "trac_mode_deactivated"
+msgstr "Lernfortschritt ist deaktiviert"
+
+msgid "trac_mode_deactivated_info_new"
+msgstr "Der Lernfortschrittsstatus wird nicht angezeigt und beeinflusst keine übergeordneten Objekte."
+
+msgid "trac_mode_event"
+msgstr "Teilnahmeliste abhaken"
+
+msgid "trac_mode_event_info"
+msgstr "Personen mit dem Recht „Mitglieder verwalten“ erfassen die Teilnahme im Reiter „Teilnahmen“."
+
+msgid "trac_mode_exercise_returned"
+msgstr "Manuelle Bewertung"
+
+msgid "trac_mode_exercise_returned_info"
+msgstr "Personen mit dem Recht „Einstellungen bearbeiten“ entscheiden anhand der Einreichungen, ob die Übungseinheit gelöst wurde. Im Reiter „Abgaben und Noten“ setzen sie händisch den jeweiligen Status."
+
+msgid "trac_mode_individual_assessment"
+msgstr "Manuelle Bewertung"
+
+msgid "trac_mode_individual_assessment_info"
+msgstr "Ob eine Individuelle Bewertung bestanden wurde, entscheiden Personen mit dem Recht „Mitglieder verwalten“ im Reiter „Teilnehmer“. Abhängig von der Entscheidung ändert sich der Status des Lernfortschritts für die bewertete Person."
+
+msgid "trac_mode_lti_outcome"
+msgstr "Mastery Score muss erreicht werden"
+
+msgid "trac_mode_lti_outcome_info"
+msgstr "Der Lernfortschritt gilt als abgeschlossen, wenn das Ergebnis des LTI-Outcome-Service mindestens so hoch wie der Mastery Score ist."
+
+msgid "trac_mode_manual"
+msgstr "Selbsteinschätzung für gesamtes Objekt"
+
+msgid "trac_mode_manual_by_tutor"
+msgstr "Manuelle Bewertung"
+
+msgid "trac_mode_manual_by_tutor_info"
+msgstr "Ob eine Person das Objekt erfolgreich bearbeitet hat, entscheiden Personen mit dem Recht „Mitglieder verwalten“ (zum Beispiel die Kurs- oder Gruppenadministration). Dazu muss der Status händisch auf „Bearbeitet“ gesetzt werden."
+
+msgid "trac_mode_manual_info"
+msgstr "Eine Person entscheidet selbst, ob sie das Objekt erfolgreich durchgearbeitet hat. Dazu setzt sie im Reiter „Lernfortschritt“ den Status auf „Bearbeitet“."
+
+msgid "trac_mode_objectives"
+msgstr "Lernziele"
+
+msgid "trac_mode_objectives_info"
+msgstr "Der Lernfortschritt wird automatisch aus der Anzahl der erfüllten Lernziele ermittelt."
+
+msgid "trac_mode_plugin"
+msgstr "Plugin"
+
+msgid "trac_mode_questions"
+msgstr "Alle Fragen richtig beantwortet"
+
+msgid "trac_mode_questions_info"
+msgstr "Ein Lernmodul gilt als „bearbeitet“, sobald alle Fragen richtig beantwortet wurden.<br />Nutzen Sie diese Option nur, wenn es Fragen im Lernmodul gibt."
+
+msgid "trac_mode_scorm"
+msgstr "Auswahl von SCORM-Kapiteln"
+
+msgid "trac_mode_scorm_info"
+msgstr "Der Status des Lernfortschritts des gesamten Lernmoduls wird automatisch durch den Status der ausgewählten Kapitel (SCOs) bestimmt. <br />Nach dem Speichern der Einstellung können auf dieser Seite die gewünschten SCOs ausgewählt werden."
+
+msgid "trac_mode_scorm_package"
+msgstr "Durch SCORM-Paket (gesamtes Lernmodul)"
+
+msgid "trac_mode_scorm_package_info"
+msgstr "Der Lernfortschritt wird automatisch auf „Bearbeitet“ gesetzt, wenn das gesamte Lernmodul durchgearbeitet wurde. Alle im Paket enthaltenen SCOs werden im Lernfortschritt berücksichtigt."
+
+msgid "trac_mode_study_programme"
+msgstr "Studienprogramm abgeschlossen"
+
+msgid "trac_mode_survey_finished"
+msgstr "Umfrage beendet"
+
+msgid "trac_mode_survey_finished_info"
+msgstr "Die Umfrage muss beendet werden."
+
+msgid "trac_mode_test_finished"
+msgstr "Test beendet"
+
+msgid "trac_mode_test_finished_info"
+msgstr "Der Lernfortschritt wird automatisch auf „Bearbeitet“ gesetzt, sobald im Testdurchlauf auf „Test beenden“ geklickt wurde. Dabei spielt keine Rolle, ob der Test bestanden wurde oder nicht."
+
+msgid "trac_mode_test_passed"
+msgstr "Test bestanden"
+
+msgid "trac_mode_test_passed_info"
+msgstr "Der Lernfortschritt für den Test wird nur dann auf „Bearbeitet“ gesetzt, wenn der Test auch bestanden wurde. Wurde der Test nicht bestanden, setzt ILIAS automatisch den Status „Nicht bestanden“.<br />Die Schwellenwerte für das Bestehen eines Tests werden im Reiter „Einstellungen“, Unterreiter „Notenschema“' festgelegt."
+
+msgid "trac_mode_tlt"
+msgstr "Mindestlerndauer für gesamtes Lernmodul"
+
+msgid "trac_mode_tlt_info"
+msgstr "Der Status des Lernfortschritts wird automatisch auf „Bearbeitet“ gesetzt, sobald die Bearbeitung des Lernmoduls länger dauert, als dies in der „Typischen Lernzeit“ definiert ist. <br />Die „Typische Lernzeit“ wird im Reiter „Metadaten“ festgelegt."
+
+msgid "trac_mode_visited_pages"
+msgstr "Besuchte Seiten"
+
+msgid "trac_mode_visited_pages_info"
+msgstr "Hat eine Person alle Seiten des Lernmoduls besucht, wird der Status des Lernfortschritt automatisch auf „Bearbeitet“ gesetzt."
+
+msgid "trac_mode_visits"
+msgstr "Anzahl der Aufrufe"
+
+msgid "trac_mode_visits_info"
+msgstr "Der Status des Lernfortschritts wird automatisch auf „Bearbeitet“ gesetzt, wenn eine Person das Lernmodul häufiger aufruft, als es die definierte Mindestanzahl verlangt."
+
+msgid "trac_name_of_installation"
+msgstr "Name der Installation"
+
+msgid "trac_no_attempted"
+msgstr "Noch nicht bearbeitet"
+
+msgid "trac_not_accessed"
+msgstr "Noch nicht zugegriffen"
+
+msgid "trac_not_assigned"
+msgstr "Nicht ausgewählt"
+
+msgid "trac_not_attempted"
+msgstr "Noch nicht begonnen"
+
+msgid "trac_not_completed"
+msgstr "Nicht bearbeitet"
+
+msgid "trac_not_participated"
+msgstr "Nicht teilgenommen"
+
+msgid "trac_not_registered"
+msgstr "Nicht angemeldet"
+
+msgid "trac_object_link"
+msgstr "Link zum Objekt"
+
+msgid "trac_object_name"
+msgstr "Name des Objekts"
+
+msgid "trac_object_owner"
+msgstr "Objekt im Besitz von"
+
+msgid "trac_object_stat_access"
+msgstr "Nutzungsintensität"
+
+msgid "trac_object_stat_admin"
+msgstr "Datenverwaltung"
+
+msgid "trac_object_stat_daily"
+msgstr "Tagesverlauf"
+
+msgid "trac_object_stat_lp"
+msgstr "Lernstandstatistik Kurs"
+
+msgid "trac_object_stat_lp_max"
+msgstr "Maximum"
+
+msgid "trac_object_stat_lp_min"
+msgstr "Minimim"
+
+msgid "trac_object_stat_types"
+msgstr "Anzahl der Objekte"
+
+msgid "trac_object_statistics"
+msgstr "Objekt-Statistik"
+
+msgid "trac_object_statistics_info"
+msgstr "Wenn aktiviert, werden Daten für die Zugriffsstatistiken gesammelt."
+
+msgid "trac_objects"
+msgstr "Benutzer"
+
+msgid "trac_others"
+msgstr "Sonstige"
+
+msgid "trac_participants"
+msgstr "Status anzeigen"
+
+msgid "trac_participated"
+msgstr "Teilgenommen"
+
+msgid "trac_paths"
+msgstr "Pfade"
+
+msgid "trac_percentage"
+msgstr "Prozent"
+
+msgid "trac_periodic_system_load"
+msgstr "Periodische Lastdarstellung"
+
+msgid "trac_progress"
+msgstr "Persönlicher Lernfortschritt"
+
+msgid "trac_progress_block_details"
+msgstr "Details anzeigen"
+
+msgid "trac_progress_block_title"
+msgstr "Ihr Lernfortschritt"
+
+msgid "trac_read_count"
+msgstr "Zugriffe"
+
+msgid "trac_read_count_spent_seconds"
+msgstr "Bearbeitungszeit / Zugriffe"
+
+msgid "trac_reference"
+msgstr "Referenzen"
+
+msgid "trac_reference_ids_column"
+msgstr "Referenz-IDs"
+
+msgid "trac_registered"
+msgstr "Angemeldet"
+
+msgid "trac_release_materials"
+msgstr "Gruppierung mit optionalen Materialien auflösen"
+
+msgid "trac_report_date"
+msgstr "Datum des Reports"
+
+msgid "trac_report_owner"
+msgstr "Report erstellt von"
+
+msgid "trac_required_visits"
+msgstr "Anzahl benötigter Besuche"
+
+msgid "trac_sahs_relevant_items"
+msgstr "SCOs"
+
+msgid "trac_scale"
+msgstr "Skala"
+
+msgid "trac_select_area"
+msgstr "Bereich ändern"
+
+msgid "trac_session_active_avg"
+msgstr "Aktive Sessions (Durchschnitt)"
+
+msgid "trac_session_active_max"
+msgstr "Aktive Sessions (Maximum)"
+
+msgid "trac_session_active_min"
+msgstr "Aktive Sessions (Minimum)"
+
+msgid "trac_session_statistics_mode_day"
+msgstr "Tag"
+
+msgid "trac_session_statistics_mode_last_day"
+msgstr "Letzte 24 Stunden"
+
+msgid "trac_session_statistics_mode_last_month"
+msgstr "Letzte 30 Tage"
+
+msgid "trac_session_statistics_mode_last_week"
+msgstr "Letzte 7 Tage"
+
+msgid "trac_session_statistics_mode_month"
+msgstr "Monat"
+
+msgid "trac_session_statistics_mode_today"
+msgstr "Heute"
+
+msgid "trac_session_statistics_mode_week"
+msgstr "Woche"
+
+msgid "trac_session_statistics_mode_year"
+msgstr "Jahr"
+
+msgid "trac_session_statistics_no_data"
+msgstr "Es liegen keine Daten für diese Statistik vor."
+
+msgid "trac_sessions_closed"
+msgstr "Abgänge"
+
+msgid "trac_sessions_opened"
+msgstr "Zugänge"
+
+msgid "trac_settings"
+msgstr "Einstellungen"
+
+msgid "trac_settings_saved"
+msgstr "Die Einstellungen wurden gespeichert."
+
+msgid "trac_short_system_load"
+msgstr "Kurzzeithistorie"
+
+msgid "trac_show_graph"
+msgstr "Als Diagrammansicht zeigen"
+
+msgid "trac_show_progress_block"
+msgstr "Persönlichen Lernfortschritt im Reiter „Inhalt“ anzeigen"
+
+msgid "trac_show_repository_views"
+msgstr "Anzahl Zugriffe anzeigen"
+
+msgid "trac_show_repository_views_info"
+msgstr "Auf dem Reiter „Info“ werden die Anzahl der Zugriffe angezeigt."
+
+msgid "trac_spent_seconds"
+msgstr "Zeit"
+
+msgid "trac_spent_time"
+msgstr "Gesamtbearbeitungszeit"
+
+msgid "trac_status"
+msgstr "Status"
+
+msgid "trac_status_changed"
+msgstr "Letzte Statusänderung"
+
+msgid "trac_subitems"
+msgstr "Unterobjekte zeigen"
+
+msgid "trac_sum"
+msgstr "Summe"
+
+msgid "trac_summary"
+msgstr "Zusammenfassung"
+
+msgid "trac_sure_delete_data"
+msgstr "Wollen Sie wirklich die Daten der folgenden Monate löschen? Dadurch werden folgende Statistiken für diesen Zeitraum entfernt: Nutzungsintensität, Tagesverlauf, Lernstandstatistik Kurs und Anzahl der Objekte."
+
+msgid "trac_sync_obj_stats"
+msgstr "Daten aktualisieren"
+
+msgid "trac_sync_obj_stats_success"
+msgstr "Daten wurden aktualisiert."
+
+msgid "trac_sync_session_stats"
+msgstr "Daten aggregieren"
+
+msgid "trac_sync_session_stats_success"
+msgstr "Die Daten wurden erfolgreich aggregiert."
+
+msgid "trac_time_passed"
+msgstr "Bearbeitungszeit überschritten"
+
+msgid "trac_title"
+msgstr "Titel"
+
+msgid "trac_title_description"
+msgstr "Titel / Beschreibung"
+
+msgid "trac_total_online"
+msgstr "Gesamtzeit online"
+
+msgid "trac_trash"
+msgstr "davon im Papierkorb"
+
+msgid "trac_update_edit_user"
+msgstr "Die Änderungen wurden übernommen"
+
+msgid "trac_updated_status"
+msgstr "Der Status wurde aktualisiert."
+
+msgid "trac_user_data"
+msgstr "Benutzerdaten"
+
+msgid "trac_valid_request"
+msgstr "Maximale Zeit zwischen Anfragen"
+
+msgid "trac_view_crs"
+msgstr "Zur Kursübersicht"
+
+msgid "trac_view_list"
+msgstr "Zur Übersicht"
+
+msgid "trac_view_mode"
+msgstr "Anzeigemodus"
+
+msgid "trac_view_mode_all"
+msgstr "Alle Objekte"
+
+msgid "trac_view_mode_collection"
+msgstr "Nur Objekte, die Gesamtstatus bestimmen"
+
+msgid "trac_visits"
+msgstr "Mindestanzahl Aufrufe"
+
+msgid "trac_visits_info"
+msgstr "Ein Aufruf wird erst nach %s Sekunden als neuer Aufruf gezählt."
+
+msgid "trac_visits_nr"
+msgstr "Anzahl Aufrufe"
+
+msgid "user_total"
+msgstr "Anzahl Benutzer"
+
+msgid "view_mode"
+msgstr "Anzeigemodus"
+
+msgid "view_mode_all"
+msgstr "Alle"
+
+msgid "view_mode_current"
+msgstr "Aktuelle"
+
+msgid "view_mode_future"
+msgstr "Zukünftige"
+
+msgid "view_mode_past"
+msgstr "Vergangene"

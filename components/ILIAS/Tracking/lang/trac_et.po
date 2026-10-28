@@ -1,0 +1,863 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: et\n"
+"Language-Team: Estonian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: trac\n"
+
+#, fuzzy
+msgid "cmix_lp_mode_deactivated"
+msgstr "Learning Progress is Deactivated"
+
+#, fuzzy
+msgid "cmix_lp_mode_deactivated_info"
+msgstr "The learning progress status is not displayed and does not influence parent objects."
+
+#, fuzzy
+msgid "cmix_lp_mode_when_completed"
+msgstr "Completed when 'completed'"
+
+#, fuzzy
+msgid "cmix_lp_mode_when_completed_info"
+msgstr "ILIAS status 'completed' is set when verb of last relevant xAPI-Statement is 'completed'."
+
+#, fuzzy
+msgid "cmix_lp_mode_when_passed"
+msgstr "Completed when 'passed'"
+
+#, fuzzy
+msgid "cmix_lp_mode_when_passed_info"
+msgstr "ILIAS status 'completed' is set when verb of last relevant xAPI-Statement is 'passed' or 'satisfied'."
+
+#, fuzzy
+msgid "cmix_lp_mode_when_passed_or_completed"
+msgstr "Completed when passed or completed"
+
+#, fuzzy
+msgid "cmix_lp_mode_when_passed_or_completed_info"
+msgstr "ILIAS status 'completed' is set when verb of last relevant xAPI-Statement is 'completed' or 'passed' or 'satisfied'."
+
+#, fuzzy
+msgid "cmix_lp_mode_with_failed"
+msgstr "Also consider failed"
+
+#, fuzzy
+msgid "cmix_lp_mode_with_failed_info"
+msgstr "The status could be 'failed' instead of 'in progress'."
+
+msgid "create_date_max"
+msgstr "Viimane registreerumine"
+
+msgid "create_date_min"
+msgstr "Varaseim registreerumine"
+
+msgid "info_valid_request"
+msgstr "Maksimaalne aeg kasutaja kahe päringu vahel."
+
+msgid "meta_typical_learning_time"
+msgstr "Keskmine õppimisaeg"
+
+msgid "obj_types"
+msgstr "Objekti tüübid"
+
+#, fuzzy
+msgid "personal_learning_progress_view_description"
+msgstr "Ongoing courses with membership"
+
+#, fuzzy
+msgid "personal_learning_progress_view_title"
+msgstr "Your Learning Progress"
+
+msgid "read_count_avg"
+msgstr "Keskmine vaadatud lehtede arv"
+
+msgid "registration_filter"
+msgstr "Registreerumispäev"
+
+msgid "search_area_info"
+msgstr "Vali üks objekt."
+
+msgid "search_terms"
+msgstr "Otsingusõna(d)"
+
+msgid "session_statistics"
+msgstr "Session Statistics"
+
+msgid "trac_aggregation"
+msgstr "Aggregation"
+
+msgid "trac_all"
+msgstr "All"
+
+msgid "trac_anonymized"
+msgstr "Anonüümne"
+
+msgid "trac_anonymized_info"
+msgstr "Valiku korral kuvatakse kogu statistika anonüümselt."
+
+msgid "trac_anonymized_info_short"
+msgstr "(anonüümne)"
+
+msgid "trac_assigned"
+msgstr "Määratud"
+
+msgid "trac_average"
+msgstr "Keskmine"
+
+msgid "trac_begin_at"
+msgstr "Start date"
+
+msgid "trac_closed_expire"
+msgstr "Timeout"
+
+msgid "trac_closed_login"
+msgstr "Anonymous To Login"
+
+msgid "trac_closed_manual"
+msgstr "Logout"
+
+msgid "trac_closed_misc"
+msgstr "Misc."
+
+msgid "trac_collection_assign"
+msgstr "Vali"
+
+msgid "trac_collection_deassign"
+msgstr "Tühista"
+
+msgid "trac_collection_manual_learner_changed_ts"
+msgstr "Changed on"
+
+msgid "trac_collection_manual_learner_info"
+msgstr "The learning progress for this object has to be set manually."
+
+msgid "trac_collection_manual_learner_lm_info"
+msgstr "Activate all chapters you completed."
+
+msgid "trac_collection_tlt_learner_info"
+msgstr "The learning progress for this object is based on the typical learning time."
+
+msgid "trac_collection_tlt_learner_subitem"
+msgstr "You have spent %s of the %s needed for completion (%s%%)."
+
+msgid "trac_comment"
+msgstr "Kommentaar"
+
+msgid "trac_completed"
+msgstr "Lõpetatud"
+
+#, fuzzy
+msgid "trac_cron_info"
+msgstr "Please activate the \"Object Statistics\" cron job to gather data."
+
+msgid "trac_crs_objects"
+msgstr "Kursuse osalejate edasijõudmine"
+
+msgid "trac_current"
+msgstr "Current"
+
+msgid "trac_current_system_load"
+msgstr "Current System Load"
+
+msgid "trac_data_deleted"
+msgstr "Data has been deleted."
+
+#, fuzzy
+msgid "trac_defaults"
+msgstr "Completion Status"
+
+#, fuzzy
+msgid "trac_defaults_inactive"
+msgstr "Inactive"
+
+#, fuzzy
+msgid "trac_defaults_info"
+msgstr "Set the completion status determination mode for supported object types. Used by certain badge types."
+
+msgid "trac_delete_data"
+msgstr "Delete Data"
+
+msgid "trac_determines_learning_progress"
+msgstr "Edasijõudmist määravad"
+
+msgid "trac_edit_collection"
+msgstr "Palun määra kursuse üksused. Kui kõikide määratud üksuste staatus on 'Lõpetatud', on õppur lõpetanud kogu kursuse."
+
+msgid "trac_end_at"
+msgstr "End Date"
+
+msgid "trac_failed"
+msgstr "Ebaõnnestunud"
+
+msgid "trac_figure"
+msgstr "Key Figure"
+
+msgid "trac_filter_area"
+msgstr "Ala"
+
+msgid "trac_filter_has_status"
+msgstr "Show not attempted objects"
+
+msgid "trac_filter_hidden"
+msgstr "Peidetud"
+
+msgid "trac_first_access"
+msgstr "Esimene sisenemine"
+
+msgid "trac_first_and_last_access"
+msgstr "Esimene ja viimane külastus"
+
+#, fuzzy
+msgid "trac_frm_contribution_num_postings"
+msgstr "Minimum number of Postings"
+
+#, fuzzy
+msgid "trac_frm_contribution_num_postings_info_p"
+msgstr "%s: %s Posts"
+
+#, fuzzy
+msgid "trac_frm_contribution_num_postings_info_s"
+msgstr "%s: %s Post"
+
+msgid "trac_group_materials"
+msgstr "Grupi materialid"
+
+msgid "trac_group_materials_save"
+msgstr "Save Number of Obligatory Materials"
+
+msgid "trac_grouped_material_obligatory_err"
+msgstr "The number materials which must be passed has to be greater than 0 and smaller than the number of materials of the grouping."
+
+msgid "trac_hide"
+msgstr "Peida"
+
+msgid "trac_hide_selected"
+msgstr "Peida valitud üksused"
+
+msgid "trac_in_progress"
+msgstr "Töös"
+
+msgid "trac_info_edited"
+msgstr "Määrake ise staatuseks 'Lõpetatud', kui töötasite kogu sisu läbi."
+
+msgid "trac_last_access"
+msgstr "Viimane külastus"
+
+msgid "trac_last_aggregation"
+msgstr "Last Aggregation"
+
+msgid "trac_learning_progress"
+msgstr "Edasijõudmine"
+
+msgid "trac_learning_progress_of"
+msgstr "Kasutaja %s edasijõudmine"
+
+msgid "trac_learning_progress_settings_info"
+msgstr "Aktiveeri järgmised edasijõudmise väärtused:"
+
+#, fuzzy
+msgid "trac_lhist_obj_completed"
+msgstr "$1$ was completed."
+
+#, fuzzy
+msgid "trac_lhist_obj_completed_in"
+msgstr "$1$ was completed in $2$."
+
+msgid "trac_log_info"
+msgstr "Last Aggregation: %s (Unprocessed items: %s)"
+
+msgid "trac_log_info_link"
+msgstr "Update"
+
+msgid "trac_long_system_load"
+msgstr "Long term"
+
+msgid "trac_lp_determination"
+msgstr "Õpiprogressi staatuse määramine"
+
+msgid "trac_lp_determination_info_crs"
+msgstr "Tee valik üksuste hulgast, mis määravad õpiprogressi üldise staatuse."
+
+msgid "trac_lp_determination_info_crs_tutor"
+msgstr "Valik pole seotud edasijõudmise staatusega"
+
+#, fuzzy
+msgid "trac_lp_determination_info_mob"
+msgstr "Select the items that determine the overall learning progress status of the Mediacast"
+
+msgid "trac_lp_determination_info_sco"
+msgstr "Vali välja üksused, mis määravad kogu SCORMi õppemooduli edasijõudmisprotsessi staatuse."
+
+msgid "trac_lp_determination_tutor"
+msgstr "Näita edasijõudmist objektide kaupa"
+
+#, fuzzy
+msgid "trac_lp_learner_access"
+msgstr "View Own Learning Progress"
+
+msgid "trac_lp_learner_access_info"
+msgstr "If active, users can access their own learning progress status."
+
+msgid "trac_lp_list_gui"
+msgstr "Personal Desktop, Repository, Search"
+
+msgid "trac_lp_list_gui_info"
+msgstr "If activated, the learning progress status is included in objects lists."
+
+#, fuzzy
+msgid "trac_lp_settings_info_parent_container"
+msgstr "Learning Progress of Parent Objects"
+
+#, fuzzy
+msgid "trac_lp_settings_info_parent_legend"
+msgstr "The learning progress status of this object is influenced by \"%s\"."
+
+msgid "trac_manual_display"
+msgstr "Display in Learning Progress"
+
+msgid "trac_manual_is_displayed"
+msgstr "Is Displayed"
+
+msgid "trac_manual_no_display"
+msgstr "Do not display in Learning Progress"
+
+msgid "trac_mark"
+msgstr "Hinne"
+
+msgid "trac_matrix"
+msgstr "Maatriksvaade"
+
+msgid "trac_measure"
+msgstr "Figure"
+
+msgid "trac_members_short"
+msgstr "Members"
+
+msgid "trac_min_passed"
+msgstr "Minimum Number of Passed Materials:"
+
+msgid "trac_mode"
+msgstr "Olek"
+
+#, fuzzy
+msgid "trac_mode_cmix_compl_or_passed_with_failed"
+msgstr "Completed when verb 'completed' or 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'Failed'."
+
+#, fuzzy
+msgid "trac_mode_cmix_compl_or_passed_with_failed_info"
+msgstr "&nbsp;"
+
+#, fuzzy
+msgid "trac_mode_cmix_compl_with_failed"
+msgstr "Completed when verb 'completed' was sent. Verb 'failed' sets status of ILIAS to 'Failed'."
+
+#, fuzzy
+msgid "trac_mode_cmix_compl_with_failed_info"
+msgstr "&nbsp;"
+
+#, fuzzy
+msgid "trac_mode_cmix_completed"
+msgstr "Completed when verb 'completed' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'."
+
+#, fuzzy
+msgid "trac_mode_cmix_completed_info"
+msgstr "&nbsp;"
+
+#, fuzzy
+msgid "trac_mode_cmix_completed_or_passed"
+msgstr "Completed when verb 'completed' or 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'."
+
+#, fuzzy
+msgid "trac_mode_cmix_completed_or_passed_info"
+msgstr "&nbsp;"
+
+#, fuzzy
+msgid "trac_mode_cmix_passed"
+msgstr "Completed when verb 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'."
+
+#, fuzzy
+msgid "trac_mode_cmix_passed_info"
+msgstr "&nbsp;"
+
+#, fuzzy
+msgid "trac_mode_cmix_passed_with_failed"
+msgstr "Completed when verb 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'Failed'."
+
+#, fuzzy
+msgid "trac_mode_cmix_passed_with_failed_info"
+msgstr "&nbsp;"
+
+msgid "trac_mode_collection"
+msgstr "Automaatne lähtuvalt materjalidest"
+
+msgid "trac_mode_collection_info"
+msgstr "Vali materjalid, mis määravad edasijõudmist."
+
+msgid "trac_mode_collection_manual"
+msgstr "Manual by Learner (per Chapter)"
+
+msgid "trac_mode_collection_manual_info"
+msgstr "Users have to decide for each chapter whether their status is completed or not."
+
+#, fuzzy
+msgid "trac_mode_collection_mobs"
+msgstr "Collection of Media Objects"
+
+#, fuzzy
+msgid "trac_mode_collection_mobs_info"
+msgstr "The learning progress status will be determined by the viewing status of selected media objects."
+
+msgid "trac_mode_collection_tlt"
+msgstr "Typical Learning Time (per Chapter)"
+
+msgid "trac_mode_collection_tlt_info"
+msgstr "Users who reached the Typical Learning Time of all relevant chapters will gain the status 'Completed'."
+
+#, fuzzy
+msgid "trac_mode_content_visited"
+msgstr "Visited"
+
+#, fuzzy
+msgid "trac_mode_content_visited_info"
+msgstr "Learning progress status is set to 'completed' when object has been presented to user."
+
+#, fuzzy
+msgid "trac_mode_contribution_to_discussion"
+msgstr "Contributions to Discussion"
+
+#, fuzzy
+msgid "trac_mode_contribution_to_discussion_info"
+msgstr "The learning progress status will be determined by the number of written postings."
+
+#, fuzzy
+msgid "trac_mode_course_reference"
+msgstr "Adopted from Course"
+
+#, fuzzy
+msgid "trac_mode_course_reference_info"
+msgstr "The mode is automatically adopted from the course this course link points to."
+
+msgid "trac_mode_deactivated"
+msgstr "Pole aktiivne"
+
+msgid "trac_mode_deactivated_info_new"
+msgstr "Edasijõudmise staatust ei kuvata."
+
+msgid "trac_mode_event"
+msgstr "Osalemine kohtumistel"
+
+msgid "trac_mode_event_info"
+msgstr "The learning progress status will be determined by the participation status."
+
+msgid "trac_mode_exercise_returned"
+msgstr "Ülesanne on sooritatud"
+
+msgid "trac_mode_exercise_returned_info"
+msgstr "Staatust 'Sooritatud' saavad lisada vaid õppejõud."
+
+#, fuzzy
+msgid "trac_mode_individual_assessment"
+msgstr "Graded manually by tutor or trainer"
+
+#, fuzzy
+msgid "trac_mode_individual_assessment_info"
+msgstr "The record of a user has to be finalized by the tutor in order to complete individual assessment."
+
+#, fuzzy
+msgid "trac_mode_lti_outcome"
+msgstr "Mastery Score Must be reached"
+
+#, fuzzy
+msgid "trac_mode_lti_outcome_info"
+msgstr "The Learning Progress will be evaluated from the LTI outcome and the mastery score threshold."
+
+msgid "trac_mode_manual"
+msgstr "Käsitsi"
+
+msgid "trac_mode_manual_by_tutor"
+msgstr "Käsitsi tuutori poolt"
+
+msgid "trac_mode_manual_by_tutor_info"
+msgstr "Kursuse staatuse saab seadistada ainult tuutor."
+
+msgid "trac_mode_manual_info"
+msgstr "Kasutajad peavad otsustama, kas nende staatus on `lõpetatud` või mitte."
+
+msgid "trac_mode_objectives"
+msgstr "Õpieesmärkide lõikes automaatne"
+
+msgid "trac_mode_objectives_info"
+msgstr "Edasijõudmine arvutatakse automaatselt vastavalt saavutatud õpieesmärkidele."
+
+msgid "trac_mode_plugin"
+msgstr "Plugin"
+
+msgid "trac_mode_questions"
+msgstr "Questions"
+
+msgid "trac_mode_questions_info"
+msgstr "Users who answered all questions correctly will gain the status 'Completed'."
+
+msgid "trac_mode_scorm"
+msgstr "Automaatne lähtuvalt valitud SCORM objektidest"
+
+msgid "trac_mode_scorm_info"
+msgstr "Edasijõudmise staatust määrab SCO'de staatus."
+
+msgid "trac_mode_scorm_package"
+msgstr "Automaatne SCORMi kursuse staatuse järgi"
+
+msgid "trac_mode_scorm_package_info"
+msgstr "Edasijõudmine määratakse SCORM kursuse poolt."
+
+#, fuzzy
+msgid "trac_mode_study_programme"
+msgstr "Study Programme Completed"
+
+#, fuzzy
+msgid "trac_mode_survey_finished"
+msgstr "Survey Finished"
+
+#, fuzzy
+msgid "trac_mode_survey_finished_info"
+msgstr "The survey has to be finished by an user to receive the status 'Completed'."
+
+msgid "trac_mode_test_finished"
+msgstr "Test on lõpetatud"
+
+msgid "trac_mode_test_finished_info"
+msgstr "Kasutajad peavad testi läbi tegema."
+
+msgid "trac_mode_test_passed"
+msgstr "Test on läbitud"
+
+msgid "trac_mode_test_passed_info"
+msgstr "Staatuse `Läbitud`saamiseks peavad kasutajad olema testi sooritanud positiivse tulemusega."
+
+msgid "trac_mode_tlt"
+msgstr "Keskmine õppimisaeg"
+
+msgid "trac_mode_tlt_info"
+msgstr "Õppimisaja saavitanud kasutajad saavad staatuse 'Lõpetatud'."
+
+#, fuzzy
+msgid "trac_mode_visited_pages"
+msgstr "Visited Pages"
+
+#, fuzzy
+msgid "trac_mode_visited_pages_info"
+msgstr "Users who visited all pages will gain the status ‘Completed’."
+
+msgid "trac_mode_visits"
+msgstr "Külastuste arv"
+
+msgid "trac_mode_visits_info"
+msgstr "Määra õppematerjali läbimiseks nõutav külastuste arv."
+
+msgid "trac_name_of_installation"
+msgstr "Name of Installation"
+
+msgid "trac_no_attempted"
+msgstr "Pole alustatud"
+
+msgid "trac_not_accessed"
+msgstr "Pole vaadatud"
+
+msgid "trac_not_assigned"
+msgstr "Pole määratud"
+
+msgid "trac_not_attempted"
+msgstr "Pole alustatud"
+
+msgid "trac_not_completed"
+msgstr "Pole lõpetatud"
+
+msgid "trac_not_participated"
+msgstr "Pole osaletud"
+
+msgid "trac_not_registered"
+msgstr "Pole registreeritud"
+
+msgid "trac_object_link"
+msgstr "Lingi objektile"
+
+msgid "trac_object_name"
+msgstr "Objekti nimi"
+
+msgid "trac_object_owner"
+msgstr "Objekti omanik"
+
+msgid "trac_object_stat_access"
+msgstr "Kasutamise intensiivsus"
+
+msgid "trac_object_stat_admin"
+msgstr "Manage Data"
+
+msgid "trac_object_stat_daily"
+msgstr "Kasutus päevade kaupa"
+
+msgid "trac_object_stat_lp"
+msgstr "Learning Progress Statistics Course"
+
+msgid "trac_object_stat_lp_max"
+msgstr "Max."
+
+msgid "trac_object_stat_lp_min"
+msgstr "Min."
+
+msgid "trac_object_stat_types"
+msgstr "Objektide arv"
+
+msgid "trac_object_statistics"
+msgstr "Object Statistics"
+
+msgid "trac_object_statistics_info"
+msgstr "If activated, the basic data for the usage statistics will be gathered and processed."
+
+msgid "trac_objects"
+msgstr "Kasutajate edasijõudmine"
+
+msgid "trac_others"
+msgstr "Muu"
+
+msgid "trac_participants"
+msgstr "Osalejad kursusel"
+
+msgid "trac_participated"
+msgstr "Osalenud"
+
+#, fuzzy
+msgid "trac_paths"
+msgstr "Paths"
+
+msgid "trac_percentage"
+msgstr "Protsendimäär"
+
+msgid "trac_periodic_system_load"
+msgstr "Periodic"
+
+msgid "trac_progress"
+msgstr "Minu edasijõudmine"
+
+#, fuzzy
+msgid "trac_progress_block_details"
+msgstr "View Details"
+
+#, fuzzy
+msgid "trac_progress_block_title"
+msgstr "Your Learning Progress"
+
+msgid "trac_read_count"
+msgstr "Sisenemisi"
+
+msgid "trac_read_count_spent_seconds"
+msgstr "Time Spent / Access"
+
+msgid "trac_reference"
+msgstr "Viited"
+
+#, fuzzy
+msgid "trac_reference_ids_column"
+msgstr "Reference-Ids"
+
+msgid "trac_registered"
+msgstr "Registreeritud"
+
+msgid "trac_release_materials"
+msgstr "Disintegrate Material Group"
+
+msgid "trac_report_date"
+msgstr "Aruande kuupäev"
+
+msgid "trac_report_owner"
+msgstr "Aruande omanik"
+
+msgid "trac_required_visits"
+msgstr "Nõutud külastuste arv"
+
+msgid "trac_sahs_relevant_items"
+msgstr "SCO'd"
+
+msgid "trac_scale"
+msgstr "Scale"
+
+msgid "trac_select_area"
+msgstr "Vali ala"
+
+msgid "trac_session_active_avg"
+msgstr "Active Sessions (Average)"
+
+msgid "trac_session_active_max"
+msgstr "Active Sessions (Maximum)"
+
+msgid "trac_session_active_min"
+msgstr "Active Sessions (Minimum)"
+
+msgid "trac_session_statistics_mode_day"
+msgstr "Day"
+
+msgid "trac_session_statistics_mode_last_day"
+msgstr "Last 24 Hours"
+
+msgid "trac_session_statistics_mode_last_month"
+msgstr "Last 30 Days"
+
+msgid "trac_session_statistics_mode_last_week"
+msgstr "Last 7 Days"
+
+msgid "trac_session_statistics_mode_month"
+msgstr "Month"
+
+msgid "trac_session_statistics_mode_today"
+msgstr "Today"
+
+msgid "trac_session_statistics_mode_week"
+msgstr "Week"
+
+msgid "trac_session_statistics_mode_year"
+msgstr "Year"
+
+msgid "trac_session_statistics_no_data"
+msgstr "No data for this statistics could be found."
+
+msgid "trac_sessions_closed"
+msgstr "Leavings"
+
+msgid "trac_sessions_opened"
+msgstr "Admissions"
+
+msgid "trac_settings"
+msgstr "Seaded"
+
+msgid "trac_settings_saved"
+msgstr "Seaded salvestatud"
+
+msgid "trac_short_system_load"
+msgstr "Short term"
+
+msgid "trac_show_graph"
+msgstr "Näita graafikat"
+
+#, fuzzy
+msgid "trac_show_progress_block"
+msgstr "Show Personal Progress Chart in ‘Content’-Tab"
+
+msgid "trac_show_repository_views"
+msgstr "Muudatused varamus"
+
+#, fuzzy
+msgid "trac_show_repository_views_info"
+msgstr "Show tracking information for repository objects on info page."
+
+msgid "trac_spent_seconds"
+msgstr "Veedetud aeg"
+
+msgid "trac_spent_time"
+msgstr "Veedetud aeg"
+
+msgid "trac_status"
+msgstr "Staatus"
+
+msgid "trac_status_changed"
+msgstr "Viimane staatuse muudatus"
+
+msgid "trac_subitems"
+msgstr "Näita alamühikuid"
+
+msgid "trac_sum"
+msgstr "Näita"
+
+msgid "trac_summary"
+msgstr "Kokkuvõte"
+
+msgid "trac_sure_delete_data"
+msgstr "Are you sure you want to delete the complete data for the following months?"
+
+msgid "trac_sync_obj_stats"
+msgstr "Update Data"
+
+msgid "trac_sync_obj_stats_success"
+msgstr "Data has been updated."
+
+msgid "trac_sync_session_stats"
+msgstr "Aggregate Data"
+
+msgid "trac_sync_session_stats_success"
+msgstr "Data aggregation was done successfully."
+
+msgid "trac_time_passed"
+msgstr "Muutmisaega on ületatud"
+
+msgid "trac_title"
+msgstr "Pealkiri"
+
+msgid "trac_title_description"
+msgstr "Pealkiri / kirjeldus"
+
+msgid "trac_total_online"
+msgstr "Kasutamisaeg kokku"
+
+msgid "trac_trash"
+msgstr "Tõstetud prügisse"
+
+msgid "trac_update_edit_user"
+msgstr "Seaded salvestatud"
+
+msgid "trac_updated_status"
+msgstr "Edasijõudmise staatus salvestatud."
+
+msgid "trac_user_data"
+msgstr "Kasutaja andmed"
+
+msgid "trac_valid_request"
+msgstr "Päringute vaheline maksimaalne aeg"
+
+msgid "trac_view_crs"
+msgstr "Tagasi kursusele"
+
+msgid "trac_view_list"
+msgstr "Tagasi loendisse"
+
+msgid "trac_view_mode"
+msgstr "Vaate reziim"
+
+msgid "trac_view_mode_all"
+msgstr "Kõik objektid"
+
+msgid "trac_view_mode_collection"
+msgstr "Ainult objektid, mis määravad kogu staatuse"
+
+msgid "trac_visits"
+msgstr "Külastuste arv"
+
+msgid "trac_visits_info"
+msgstr "Külastust  igal lehel loetakse kui üheks külastuseks."
+
+#, fuzzy
+msgid "trac_visits_nr"
+msgstr "Number of Visits"
+
+msgid "user_total"
+msgstr "Kasutajaid kokku"
+
+msgid "view_mode"
+msgstr "Vaata olekut"
+
+#, fuzzy
+msgid "view_mode_all"
+msgstr "All"
+
+#, fuzzy
+msgid "view_mode_current"
+msgstr "Current"
+
+#, fuzzy
+msgid "view_mode_future"
+msgstr "Future"
+
+#, fuzzy
+msgid "view_mode_past"
+msgstr "Past"

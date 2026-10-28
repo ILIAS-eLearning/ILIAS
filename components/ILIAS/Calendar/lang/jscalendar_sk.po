@@ -1,0 +1,180 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sk\n"
+"Language-Team: Slovak\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: jscalendar\n"
+
+msgid "about_calendar"
+msgstr "O tomto kalendáři"
+
+msgid "about_calendar_long"
+msgstr "DHTML Date/Time Selector\\n(c) dynarch.com 2002-2003\\nPoslední verzi naleznete na stránce: http://www.dynarch.com/projects/calendar/\\nDistribuováno pod GNU LGPL.  Pro podrobnosti navštivte http://gnu.org/licenses/lgpl.html.\\n\\nVýběr data:\\n- Použijte tlačítka «, » pro výběr roku\\n- Použijte tlačítka <, > pro výběr měsíce\\n- Podržte tlačítko myši nebo tlačítko výše pro rychlý výběr\\n- Mezerník slouží pro skok na dnešní den."
+
+msgid "about_time"
+msgstr "\\n\\nVýběr času:\\n- Klepněte na některé z časových částí k jejímu zvětšení\\n- nebo klepnutím se Shiftem ke zmenšení\\n- nebo klepnout a táhnout pro rychlý výběr."
+
+msgid "day_first"
+msgstr "Zobrazit nejprve %s"
+
+msgid "def_date_format"
+msgstr "%d-%m-%Y"
+
+msgid "drag_to_move"
+msgstr "Uchopit k přesunu"
+
+msgid "go_today"
+msgstr "Dnes"
+
+msgid "l_01"
+msgstr "Leden"
+
+msgid "l_02"
+msgstr "Únor"
+
+msgid "l_03"
+msgstr "Březen"
+
+msgid "l_04"
+msgstr "Duben"
+
+msgid "l_05"
+msgstr "Květen"
+
+msgid "l_06"
+msgstr "Červen"
+
+msgid "l_07"
+msgstr "Červenen"
+
+msgid "l_08"
+msgstr "Srpen"
+
+msgid "l_09"
+msgstr "Září"
+
+msgid "l_10"
+msgstr "Říjen"
+
+msgid "l_11"
+msgstr "Listopad"
+
+msgid "l_12"
+msgstr "Prosinec"
+
+msgid "l_fr"
+msgstr "Pátek"
+
+msgid "l_mo"
+msgstr "Ponděli"
+
+msgid "l_sa"
+msgstr "Sobota"
+
+msgid "l_su"
+msgstr "Neděle"
+
+msgid "l_th"
+msgstr "Čtvrtek"
+
+msgid "l_tu"
+msgstr "Úterý"
+
+msgid "l_we"
+msgstr "Středa"
+
+msgid "next_month"
+msgstr "Další měsíc (držet pro menu)"
+
+msgid "next_year"
+msgstr "Další rok (držet pro menu)"
+
+msgid "open_calendar"
+msgstr "Klepněte k otevření kalendáře pro výběr data (vyžadován JavaScript!)"
+
+msgid "part_today"
+msgstr "(dnes)"
+
+msgid "prev_month"
+msgstr "Předch. měsíc (držet pro menu)"
+
+msgid "prev_year"
+msgstr "Předch. rok (držet pro menu)"
+
+msgid "s_01"
+msgstr "Le"
+
+msgid "s_02"
+msgstr "Ún"
+
+msgid "s_03"
+msgstr "Bř"
+
+msgid "s_04"
+msgstr "Du"
+
+msgid "s_05"
+msgstr "Kv"
+
+msgid "s_06"
+msgstr "Če"
+
+msgid "s_07"
+msgstr "Čc"
+
+msgid "s_08"
+msgstr "Sr"
+
+msgid "s_09"
+msgstr "Zá"
+
+msgid "s_10"
+msgstr "Ří"
+
+msgid "s_11"
+msgstr "Li"
+
+msgid "s_12"
+msgstr "Pr"
+
+msgid "s_fr"
+msgstr "Pá"
+
+msgid "s_mo"
+msgstr "Po"
+
+msgid "s_sa"
+msgstr "So"
+
+msgid "s_su"
+msgstr "Ne"
+
+msgid "s_th"
+msgstr "Čt"
+
+msgid "s_tu"
+msgstr "Út"
+
+msgid "s_we"
+msgstr "St"
+
+msgid "select_date"
+msgstr "Vybrat datum"
+
+msgid "time"
+msgstr "Čas"
+
+msgid "time_part"
+msgstr "(Shift-)Klepnout nebo táhnout pro změnu hodnoty."
+
+msgid "today"
+msgstr "Dnes"
+
+msgid "tt_date_format"
+msgstr "%a, %b %e"
+
+msgid "wk"
+msgstr "Týd"

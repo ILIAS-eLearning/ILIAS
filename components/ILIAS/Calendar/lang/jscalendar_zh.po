@@ -1,0 +1,180 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: zh\n"
+"Language-Team: Chinese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: jscalendar\n"
+
+msgid "about_calendar"
+msgstr "关于这个日历"
+
+msgid "about_calendar_long"
+msgstr "DHTML 日期/时间选择器\\n(c) dynarch.com 2002-2003\\n 最新版本请访问：http://dynarch.com/mishoo/calendar.epl\\n在GNU LGPL协议下发布。详情请看http://gnu.org/licenses/lgpl.html \\n\\n日期选择：\\n- 使用 «、»按钮选择年份\\n- 使用<、>按钮选择月份\\n-在以上任意一个按钮上保持住鼠标按下状态来实现更快速的选择。"
+
+msgid "about_time"
+msgstr "\\n\\n时间选择：\\n- 点击时间的任意部分递增\\n- 或按住Shift键再点击递减\\n- 或点击并拖动来更快速的选择。"
+
+msgid "day_first"
+msgstr "Display %s first"
+
+msgid "def_date_format"
+msgstr "%Y-%m-%d"
+
+msgid "drag_to_move"
+msgstr "Drag to move"
+
+msgid "go_today"
+msgstr "到今天"
+
+msgid "l_01"
+msgstr "一月"
+
+msgid "l_02"
+msgstr "二月"
+
+msgid "l_03"
+msgstr "三月"
+
+msgid "l_04"
+msgstr "四月"
+
+msgid "l_05"
+msgstr "五月"
+
+msgid "l_06"
+msgstr "六月"
+
+msgid "l_07"
+msgstr "七月"
+
+msgid "l_08"
+msgstr "八月"
+
+msgid "l_09"
+msgstr "九月"
+
+msgid "l_10"
+msgstr "十月"
+
+msgid "l_11"
+msgstr "十一月"
+
+msgid "l_12"
+msgstr "十二月"
+
+msgid "l_fr"
+msgstr "星期五"
+
+msgid "l_mo"
+msgstr "星期一"
+
+msgid "l_sa"
+msgstr "星期六"
+
+msgid "l_su"
+msgstr "星期天"
+
+msgid "l_th"
+msgstr "星期四"
+
+msgid "l_tu"
+msgstr "星期二"
+
+msgid "l_we"
+msgstr "星期三"
+
+msgid "next_month"
+msgstr "下一月 (按住菜单)"
+
+msgid "next_year"
+msgstr "下一年(按住菜单)"
+
+msgid "open_calendar"
+msgstr "点击这里为日期选择打开一个日历(要求JavaScript！)"
+
+msgid "part_today"
+msgstr " 今天"
+
+msgid "prev_month"
+msgstr "上一月 (按住菜单)"
+
+msgid "prev_year"
+msgstr "P上一年(按住菜单)"
+
+msgid "s_01"
+msgstr "1月"
+
+msgid "s_02"
+msgstr "2月"
+
+msgid "s_03"
+msgstr "3月"
+
+msgid "s_04"
+msgstr "4月"
+
+msgid "s_05"
+msgstr "5月"
+
+msgid "s_06"
+msgstr "6月"
+
+msgid "s_07"
+msgstr "7月"
+
+msgid "s_08"
+msgstr "8月"
+
+msgid "s_09"
+msgstr "9月"
+
+msgid "s_10"
+msgstr "10月"
+
+msgid "s_11"
+msgstr "11月"
+
+msgid "s_12"
+msgstr "12月"
+
+msgid "s_fr"
+msgstr "周五"
+
+msgid "s_mo"
+msgstr "周一"
+
+msgid "s_sa"
+msgstr "周六"
+
+msgid "s_su"
+msgstr "周日"
+
+msgid "s_th"
+msgstr "周四"
+
+msgid "s_tu"
+msgstr "周二"
+
+msgid "s_we"
+msgstr "周三"
+
+msgid "select_date"
+msgstr "选择日期"
+
+msgid "time"
+msgstr "时间"
+
+msgid "time_part"
+msgstr "点击(或同时按住Shift键)或手动去改变值"
+
+msgid "today"
+msgstr "今天；"
+
+msgid "tt_date_format"
+msgstr "%a, %b %e"
+
+msgid "wk"
+msgstr "周(wk)"

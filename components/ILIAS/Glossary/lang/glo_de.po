@@ -1,0 +1,225 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: glo\n"
+
+msgid "glo_add_from_other"
+msgstr "Begriffe sammeln"
+
+msgid "glo_add_glossary"
+msgstr "Glossar hinzufügen"
+
+msgid "glo_add_to_collection"
+msgstr "Glossar zum Sammelglossar hinzufügen"
+
+msgid "glo_added_to_collection_info"
+msgstr "Das Glossar wurde dem Sammelglossar hinzugefügt."
+
+msgid "glo_answered_correctly"
+msgstr "Wusste ich"
+
+msgid "glo_answered_not_correctly"
+msgstr "Wusste ich nicht"
+
+msgid "glo_box"
+msgstr "Fach"
+
+msgid "glo_box_completed"
+msgstr "Sie haben das Fach abgeschlossen."
+
+msgid "glo_box_last_presented"
+msgstr "Fach zuletzt angezeigt"
+
+msgid "glo_boxes"
+msgstr "Fächer"
+
+msgid "glo_boxes_really_reset"
+msgstr "Möchten Sie wirklich alle Fächer zurücksetzen? Alle Lernkarten werden in das erste Fach verschoben."
+
+msgid "glo_boxes_reset"
+msgstr "Die Fächer wurden erfolgreich zurückgesetzt."
+
+msgid "glo_bulk_confirmation"
+msgstr "Bitte überprüfen Sie, ob alle Begriffe und Erklärungen korrekt gelistet sind."
+
+msgid "glo_bulk_creation"
+msgstr "Aus Excel kopieren"
+
+msgid "glo_change_to_collection_unavailable_info"
+msgstr "Um die Zusammenstellung der Inhalte auf \"Sammelglossar\" zu ändern, müssen Sie zuerst alle bestehenden Begriffe innerhalb dieses Glossars im Reiter \"Inhalt\" löschen."
+
+msgid "glo_change_to_standard_unavailable_info"
+msgstr "Um die Zusammenstellung der Inhalte auf \"Normales Glossar\" zu ändern, müssen Sie zuerst die ausgewählten Glossare im Reiter \"Inhalt\" entfernen."
+
+msgid "glo_check"
+msgstr "Prüfen"
+
+msgid "glo_collection"
+msgstr "Sammelglossar"
+
+msgid "glo_collection_empty_info"
+msgstr "Dieses Sammelglossar ist aktuell leer. Bitte fügen mindestens ein Glossar hinzu."
+
+msgid "glo_collection_info"
+msgstr "Das Glossar sammelt automatisch alle Begriffe aus den ausgewählten Glossaren."
+
+msgid "glo_content_assembly"
+msgstr "Zusammenstellung der Inhalte"
+
+msgid "glo_copy"
+msgstr "Glossar kopieren"
+
+msgid "glo_copy_terms"
+msgstr "Begriffe kopieren"
+
+msgid "glo_create_term_definition_pairs"
+msgstr "Endgültig erstellen"
+
+msgid "glo_days_ago"
+msgstr "vor %s Tagen"
+
+msgid "glo_def_vs_term"
+msgstr "Erklärung vs. Begriff"
+
+msgid "glo_def_vs_term_info"
+msgstr "Zeige zuerst eine Erklärung, der Lernende muss den Begriff erraten."
+
+msgid "glo_flashcard_training"
+msgstr "Lernkarten Training"
+
+msgid "glo_flashcard_training_info"
+msgstr "Bietet eine Präsentation in Form von Lernkarten, die es dem Benutzer ermöglicht, die Begriffe/Erklärungen einzeln zu trainieren."
+
+msgid "glo_flashcards"
+msgstr "Lernkarten"
+
+msgid "glo_flashcards_from_today_confirmation"
+msgstr "Das Fach beinhaltet %s Lernkarten, die Ihnen heute bereits angezeigt wurden. Möchten Sie nur die verbleibenden %s Lernkarten einbeziehen oder alle %s Lernkarten?"
+
+msgid "glo_flashcards_from_today_only_info"
+msgstr "Das Fach beinhaltet ausschließlich Lernkarten, die Ihnen heute bereits angezeigt wurden. Bitte bestätigen Sie, dass Ihnen diese %s Lernkarten nochmal angezeigt werden."
+
+msgid "glo_flashcards_intro"
+msgstr "Sie sollen jede Lernkarte viermal hintereinander erinnern.<br />Am Anfang befinden sich alle Lernkarten in Fach 1.<br />Lernkarten, die Sie mit \"Wusste ich\" bewerten, werden in das nächste Fach befördert.<br />Lernkarten, die Sie mit \"Wusste ich nicht\" bewerten, kommen zurück in das erste Fach.<br />Fangen Sie an, indem Sie ein Fach auswählen. Dann werden die Lernkarten angezeigt."
+
+msgid "glo_flashcards_progress"
+msgstr "%s von %s"
+
+msgid "glo_introduction"
+msgstr "Einleitung"
+
+msgid "glo_link_glo_in_glo"
+msgstr "Sollen jetzt alle Glossarbegriffe aus dem Zielglossar in das bestehende Glossar verlinkt werden?"
+
+msgid "glo_link_to_usages"
+msgstr "Link"
+
+msgid "glo_md_advanced"
+msgstr "Weitere Angaben"
+
+msgid "glo_page_type_gdf"
+msgstr "Begriffserklärung"
+
+msgid "glo_please_select_other_glo"
+msgstr "Bitte wählen Sie ein anderes Glossar aus."
+
+msgid "glo_quit_box"
+msgstr "Fach verlassen"
+
+msgid "glo_really_remove_from_collection"
+msgstr "Sind Sie sich sicher, dass Sie das folgende Glossar aus dem Sammelglossar entfernen wollen?"
+
+msgid "glo_reference"
+msgstr "Link"
+
+msgid "glo_reference_terms"
+msgstr "Begriffe verlinken"
+
+msgid "glo_referenced_term"
+msgstr "Verlinkte Begriffe"
+
+msgid "glo_remove_glossary"
+msgstr "#Sind Sie sich sicher, dass Sie das folgende Glossar aus der Liste der automatisch verlinkten Glossare entfernen wollen?"
+
+msgid "glo_removed_from_collection_info"
+msgstr "Das Glossar wurde aus dem Sammelglossar entfernt."
+
+msgid "glo_reset_all_boxes"
+msgstr "Alle Fächer zurücksetzen"
+
+msgid "glo_save_and_continue"
+msgstr "Speichern und weiter"
+
+msgid "glo_select_source_glo"
+msgstr "Bitte wählen Sie das Ausgangsglossar aus."
+
+msgid "glo_select_terms"
+msgstr "Begriffe auswählen"
+
+msgid "glo_selected_glossaries"
+msgstr "Ausgewählte Glossare"
+
+msgid "glo_selected_glossaries_info"
+msgstr "Die Begriffe stammen aus den folgenden Glossaren:"
+
+msgid "glo_selected_glossary_is_current_info"
+msgstr "Das ausgewählte Glossar entspricht dem aktuellen Glossar. Bitte wählen Sie ein anderes Glossar."
+
+msgid "glo_selected_terms_have_been_copied"
+msgstr "Die ausgewählten Begriffe wurden in die Zwischenablage kopiert. Bitte öffnen Sie das Zielglossar und klicken dann auf \"Einfügen\"."
+
+msgid "glo_show_in_presentation"
+msgstr "Anzeige in Präsentationsansicht"
+
+msgid "glo_show_in_presentation_off"
+msgstr "Nicht in Präsentationsansicht anzeigen"
+
+msgid "glo_show_in_presentation_on"
+msgstr "In Präsentationsansicht anzeigen"
+
+msgid "glo_tax_info"
+msgstr "Eine Taxonomie im Glossar klassifiziert und filtert die Begriffe. In der Bearbeitungsansicht steht sie immer zur Verfügung. Für die Präsentationsansicht muss die Darstellung der Taxonomie zunächst aktiviert werden. In einem Glossar kann genau eine einzige Taxonomie genutzt werden."
+
+msgid "glo_term"
+msgstr "Glossarbegriff"
+
+msgid "glo_term_definition_pairs"
+msgstr "Kopierte Daten aus Excel"
+
+msgid "glo_term_definition_pairs_info"
+msgstr "Kopieren Sie die Inhalte aus der Excel-Tabelle in dieses Eingabefeld. Üblicherweise macht die Zwischenablage des Tabellenkalkulationsprogramms automatisch alles richtig.<br />Ansonsten müssen Begriff und Erklärung durch ein Semikolon (;) oder den TAB (↹ - Taste) getrennt werden."
+
+msgid "glo_term_letter"
+msgstr "Buchstabe"
+
+msgid "glo_term_reference"
+msgstr "Begriffslink"
+
+msgid "glo_term_vs_def"
+msgstr "Begriff vs. Erklärung"
+
+msgid "glo_term_vs_def_info"
+msgstr "Zeige zuerst einen Begriff, der Lernende muss die Erklärung erraten."
+
+msgid "glo_terms_per_page"
+msgstr "Begriffe pro Seite"
+
+msgid "glo_usage_link"
+msgstr "Link zur Verwendung"
+
+msgid "glo_use_all_flashcards"
+msgstr "Alle Lernkarten nutzen (%s)"
+
+msgid "glo_use_remaining_flashcards"
+msgstr "Verbleibende Lernkarten nutzen (%s)"
+
+msgid "glo_what_means_definition"
+msgstr "Was bedeutet Folgendes?"
+
+msgid "glo_what_means_term"
+msgstr "Was bedeutet „%s“?"

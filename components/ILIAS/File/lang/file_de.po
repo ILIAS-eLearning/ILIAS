@@ -1,0 +1,270 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: file\n"
+
+msgid "add_icon"
+msgstr "Icon hinzufügen"
+
+msgid "amount_of_downloads"
+msgstr "Downloads"
+
+msgid "amount_of_downloads_since"
+msgstr "%d seit %s"
+
+msgid "copyright_custom"
+msgstr "Benutzerdefiniert"
+
+msgid "copyright_custom_info"
+msgstr "Lizenz auswählen, welche auf alle entpackten Dateien dieses Archivs angewandt wird."
+
+msgid "copyright_inherited"
+msgstr "Vererbt"
+
+msgid "copyright_inherited_info"
+msgstr "Lizenz des Zip-Archivs auf seine entpackten Dateien anwenden. <br \\>Lizenz des Zip-Archivs: %s."
+
+msgid "could_not_create_file_objs"
+msgstr "Beim Erstellen der Dateiobjekte ist ein Fehler aufgetreten. Bitte wenden Sie sich an die technische Betreuung dieser Installation."
+
+msgid "de_activate_icon"
+msgstr "(De-)Aktivieren"
+
+msgid "download_ascii_filename"
+msgstr "Nur ASCII-Zeichen im Download"
+
+msgid "download_ascii_filename_info"
+msgstr "Die Namen heruntergeladener Dateien enthalten nur ASCII-Zeichen und können so auf allen Systemen problemlos genutzt werden. Andere Zeichen werden durch Unterstriche ersetzt. Auf Installationen, die Dateinamen mit nicht-lateinischen Schriftzeichen nutzen, muss diese Option deaktiviert werden."
+
+msgid "file_action_download"
+msgstr "Datei herunterladen oder Inhalt anzeigen"
+
+msgid "file_action_download_info"
+msgstr "Wenn WOPI aktiviert ist und die Berechtigung „Inhalt anzeigen“ erteilt wurde, wird die Datei auf der Registerkarte „Inhalt“ angezeigt. Wenn nicht, wird die Datei zum direkten Download angeboten."
+
+msgid "file_action_show"
+msgstr "Zunächst Reiter „Info“ anzeigen"
+
+msgid "file_action_show_info"
+msgstr "Der Reiter „Info“ wird angezeigt, wo die Datei in einem zweiten Schritt heruntergeladen werden kann."
+
+msgid "file_btn_lp_toggle_state_completed"
+msgstr "Auf „Nicht bearbeitet“ setzen"
+
+msgid "file_btn_lp_toggle_state_not_completed"
+msgstr "Auf „Bearbeitet“ setzen"
+
+msgid "file_copy"
+msgstr "Datei kopieren"
+
+msgid "file_create_empty_document"
+msgstr "Leeres Dokument erstellen"
+
+msgid "file_creation_mode"
+msgstr "Art der Erstellung"
+
+msgid "file_download"
+msgstr "Datei herunterladen"
+
+msgid "file_import"
+msgstr "Dateiimport"
+
+msgid "file_new_version"
+msgstr "Neue Version anlegen"
+
+msgid "file_new_version_info"
+msgstr "Eine neue Dateiversion anlegen. Alte Versionen bleiben erhalten."
+
+msgid "file_publish"
+msgstr "Entwurf veröffentlichen"
+
+msgid "file_rollback_rollback_first"
+msgstr "Die Version konnte nicht zurückgesetzt werden, weil ein unveröffentlichter Entwurf existiert."
+
+msgid "file_rollback_same_version"
+msgstr "Dies ist bereits die veröffentlichte Version"
+
+msgid "file_type"
+msgstr "Dateityp"
+
+msgid "file_unpublish"
+msgstr "Als Entwurf markieren"
+
+msgid "file_upload_info_file_with_critical_extension"
+msgstr "Mindestens eine Datei enthält eine kritische oder unbekannte Dateiendung. Die Dateiendung wird bei jedem Download zu .sec geändert. Bitte kontaktieren Sie gegebenenfalls Ihre technische Betreuung. Dateiname(n): %s"
+
+msgid "file_uploaded_by"
+msgstr "Hochgeladen von"
+
+msgid "file_version_draft"
+msgstr "Entwurf"
+
+msgid "file_version_draft_info"
+msgstr "Die aktuellste Version ist im Status „Entwurf“. Solange diese Version nicht veröffentlicht wurde, können keine neuen Versionen angelegt werden. Personen mit Leserecht auf die Datei erhalten die aktuell veröffentlichte Version."
+
+msgid "form_icon_creation"
+msgstr "Icon erstellen"
+
+msgid "form_icon_updating"
+msgstr "Icon aktualisieren"
+
+msgid "general_upload_error_occured"
+msgstr "Beim Verarbeiten der Datei ist ein unerwartetet Fehler aufgetreten."
+
+msgid "important_info"
+msgstr "Wichtige Informationen"
+
+msgid "important_info_byline"
+msgstr "Die Angaben werden im Reiter „Info“ angezeigt."
+
+msgid "input_active"
+msgstr "Aktiv"
+
+msgid "input_desc_active"
+msgstr "Dieses Icon aktivieren."
+
+msgid "input_desc_icon"
+msgstr "Bild welches als Icon für Dateien mit den spezifizierten Suffixen verwendet werden soll."
+
+msgid "input_desc_suffixes"
+msgstr "Liste Komma-separierter Suffixe (Nur Buchstaben und Zahlen ohne vorangehenden Punkt)."
+
+msgid "input_icon"
+msgstr "Icon"
+
+msgid "input_suffixes"
+msgstr "Suffix(e)"
+
+msgid "migrated"
+msgstr "Status"
+
+msgid "mime_type"
+msgstr "MIME-Type"
+
+msgid "msg_cant_unpublish"
+msgstr "Aktion konnte nicht ausgeführt werden"
+
+msgid "msg_confirm_entry_deletion"
+msgstr "Wollen Sie den nachfolgenden Eintrag wirklich löschen?:"
+
+msgid "msg_error_active_suffixes_blacklisted"
+msgstr "Eine der gewählten Dateiendungen ist auf der globalen Blacklist und kann derzeit nicht genutzt werden."
+
+msgid "msg_error_active_suffixes_conflict"
+msgstr "Fehler: Es dürfen nicht mehrere Icons für ein Suffix aktiv sein. Bitte deaktivieren Sie entweder dieses Icon oder das andere aktivierte Icon, dessen Suffixe sich mit jenen dieses Icons überschneiden."
+
+msgid "msg_error_active_suffixes_not_whitelisted"
+msgstr "Die gewählte Dateiendung ist nicht auf der globalen Whitelist, beim Download werden die Dateine zu .sec. umbenannt."
+
+msgid "msg_error_duplicate_suffix_entries"
+msgstr "Fehler: Die Komma-separierte Suffix-Liste enthält Duplikate."
+
+msgid "msg_error_icon_deletion"
+msgstr "Fehler: Icon Löschung fehlgeschlagen."
+
+msgid "msg_error_suffixes_with_forbidden_characters"
+msgstr "Fehler: unerlaubte Zeichen. Nur Buchstaben, Nummern, Leerzeichen und Kommas sind erlaubt."
+
+msgid "msg_icon_missing_from_db"
+msgstr "Icon ist nicht in der Datenbank."
+
+msgid "msg_icon_missing_from_irss"
+msgstr "Icon ist nicht im Resource Storage."
+
+msgid "msg_success_icon_activated"
+msgstr "Icon erfolgreich aktiviert."
+
+msgid "msg_success_icon_created"
+msgstr "Icon erfolgreich erstellt."
+
+msgid "msg_success_icon_deactivated"
+msgstr "Icon erfolgreich deaktiviert."
+
+msgid "msg_success_icon_deletion"
+msgstr "Icon erfolgreich gelöscht."
+
+msgid "msg_success_icon_updated"
+msgstr "Icon erfolgreich aktualisiert."
+
+msgid "msg_unzip_success"
+msgstr "Archiv wurde erfolreich entpackt."
+
+msgid "on_click_action"
+msgstr "Klick auf Titel"
+
+msgid "preview_caption"
+msgstr "Vorschau %svon %s"
+
+msgid "preview_image_size_info"
+msgstr "Die Vorschauversionen der Bilder werden je nach Bedarf verkleinert oder vergrößert, so dass ihre längste Seite der hier eingegebenen Länge (in px) entspricht."
+
+msgid "preview_persisting"
+msgstr "Vorschaubilder speichern"
+
+msgid "preview_persisting_info"
+msgstr "Vorschaubilder werden generiert und gespeichert. Sie müssen nicht mehr bei jedem Aufruf neu erzeugt werden. Das verbessert die Performanz."
+
+msgid "previews_for_tiles"
+msgstr "Kachelbilder"
+
+msgid "previews_for_tiles_info"
+msgstr "Verwende Vorschaubilder für Kacheln."
+
+msgid "publish_before_delete"
+msgstr "Version(en) konnte(n) nicht gelöscht werden, da ein noch unveröffentlichter Entwurf existiert."
+
+msgid "replace_file_info"
+msgstr "Alle früheren Dateiversionen werden gelöscht."
+
+msgid "resource_id"
+msgstr "Ressourcen ID"
+
+msgid "service_settings"
+msgstr "Weitere Funktionen"
+
+msgid "service_settings_saved"
+msgstr "Gespeichert"
+
+msgid "set_license_for_all_files"
+msgstr "Lizenz für alle Dateien festlegen"
+
+msgid "show_amount_of_downloads"
+msgstr "Anzahl Downloads anzeigen"
+
+msgid "show_amount_of_downloads_info"
+msgstr "Die Anzahl der Downloads wird im Reiter „Info“ des Dateiobjekts angezeigt."
+
+msgid "storage_id"
+msgstr "Storage ID"
+
+msgid "suffix_specific_icons"
+msgstr "Suffix-spezifische Icons"
+
+msgid "suffixes"
+msgstr "Suffix(e)"
+
+msgid "upload_files"
+msgstr "Dateien hochladen"
+
+msgid "upload_files_limit"
+msgstr "Die maximale Größe einer Datei beträgt %s."
+
+msgid "upload_files_title"
+msgstr "Dateien hochladen"
+
+msgid "upload_info"
+msgstr "Datei"
+
+msgid "upload_info_desc"
+msgstr "Sie können die Dateien und die Dateiversionen im Tab \"Versionen\" verwalten."
+
+msgid "version_uploaded"
+msgstr "Version hochgeladen am"
+
+msgid "versionname"
+msgstr "Angezeigter Titel"

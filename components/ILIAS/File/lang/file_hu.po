@@ -1,0 +1,273 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: file\n"
+
+msgid "add_icon"
+msgstr "Ikon hozzáadása"
+
+msgid "amount_of_downloads"
+msgstr "Letöltések"
+
+msgid "amount_of_downloads_since"
+msgstr "%d alkalommal %s óta"
+
+msgid "copyright_custom"
+msgstr "Egyéni"
+
+msgid "copyright_custom_info"
+msgstr "Válasszon egy szerzői jogot, amely az archívum összes kicsomagolt fájljára vonatkozik."
+
+msgid "copyright_inherited"
+msgstr "Örökölt"
+
+msgid "copyright_inherited_info"
+msgstr "ZIP-archívum szerzői jogi beállításának alkalmazása a kicsomagolt fájlokra. <br \\>A ZIP-archívum szerzői joga: %s."
+
+msgid "could_not_create_file_objs"
+msgstr "Hiba történt a fájlok létrehozásakor, keresse a rendszerüzemeltetőt."
+
+msgid "de_activate_icon"
+msgstr "(De-)Aktív"
+
+msgid "download_ascii_filename"
+msgstr "A letöltési fájlnévben csak ASCII-karekterek használata"
+
+msgid "download_ascii_filename_info"
+msgstr "A letöltött fájlok nevében csak ASCII-karakterek legyenek. Deaktiválja tetszőleges karakterek használatához."
+
+msgid "file_action_download"
+msgstr "Közvetlen letöltés bekapcsolása"
+
+msgid "file_action_download_info"
+msgstr "Ha a WOPI be van kapcsolva és a ‘Tartalom megtekintése’ engedéllyel rendelkezik, a fájl a ‘Tartalom’ fülön megjelenik. Ha nem, akkor a fájl közvetlen letöltésre ajánlljuk fel."
+
+msgid "file_action_show"
+msgstr "Átiránytás az Információ lapra"
+
+msgid "file_action_show_info"
+msgstr "A második lépésben a fájl az ‘Info’ lapról letölthető."
+
+msgid "file_btn_lp_toggle_state_completed"
+msgstr "Beállítás nem teljesítettre"
+
+msgid "file_btn_lp_toggle_state_not_completed"
+msgstr "Beállítás teljesítettre"
+
+msgid "file_copy"
+msgstr "Fájl másolása"
+
+#, fuzzy
+msgid "file_create_empty_document"
+msgstr "Create empty document"
+
+#, fuzzy
+msgid "file_creation_mode"
+msgstr "Creation mode"
+
+msgid "file_download"
+msgstr "Fájl letöltése"
+
+msgid "file_import"
+msgstr "Fájlok importálása"
+
+msgid "file_new_version"
+msgstr "Új verzió létrehozása"
+
+msgid "file_new_version_info"
+msgstr "Új fájlverzió létrehozása. A korábbi verziók nem módosulnak."
+
+msgid "file_publish"
+msgstr "Piszkozat közzététele"
+
+msgid "file_rollback_rollback_first"
+msgstr "A verziót nem lehetett visszaállítani, mert létezik egy közzé nem tett piszkozat."
+
+msgid "file_rollback_same_version"
+msgstr "Ez már a közzétett verzió"
+
+#, fuzzy
+msgid "file_type"
+msgstr "File type"
+
+msgid "file_unpublish"
+msgstr "Megjelölés piszkozatként"
+
+msgid "file_upload_info_file_with_critical_extension"
+msgstr "Legalább egy feltöltött fájl kritikus vagy ismeretlen fájlvégződést tartalmaz. Minden fájl minden feltöltött példányának a végét lecseréljük ‘.sec’-re. A fájl(ok): %s"
+
+msgid "file_uploaded_by"
+msgstr "Feltöltötte"
+
+msgid "file_version_draft"
+msgstr "Piszkozat verziója"
+
+msgid "file_version_draft_info"
+msgstr "A legújabb verzió ‘Piszkozat’ állapotban van. Amíg a verziót nem tették közzé, új verzió nem hozható létre. A fájlhoz olvasási engedéllyel rendelkező személyek a legújabb közzétett verziót kapják meg."
+
+msgid "form_icon_creation"
+msgstr "Ikon létrehozása"
+
+msgid "form_icon_updating"
+msgstr "Ikon módosítása"
+
+msgid "general_upload_error_occured"
+msgstr "A feltöltés alatt ismeretlen hiba lépett fel."
+
+msgid "important_info"
+msgstr "Fontos információ"
+
+msgid "important_info_byline"
+msgstr "Az ‘Információ’ lapon jelenik meg."
+
+msgid "input_active"
+msgstr "Aktív"
+
+msgid "input_desc_active"
+msgstr "Ikon aktiválása"
+
+msgid "input_desc_icon"
+msgstr "A megadott kiterjesztésű fájlokhoz ikonként megjelenő kép."
+
+msgid "input_desc_suffixes"
+msgstr "Kiterjesztések vesszővel elválasztott felsorolása (csak betűk és számok, pont nélkül)."
+
+msgid "input_icon"
+msgstr "Ikon"
+
+msgid "input_suffixes"
+msgstr "Kiterjesztés(ek)"
+
+msgid "migrated"
+msgstr "Állapot"
+
+msgid "mime_type"
+msgstr "MIME-Típus"
+
+msgid "msg_cant_unpublish"
+msgstr "A művelet nem hajtható végre"
+
+msgid "msg_confirm_entry_deletion"
+msgstr "Biztos, hogy törlöd a következő bejegyzést?"
+
+msgid "msg_error_active_suffixes_blacklisted"
+msgstr "A fájlkiterjesztés nem használható, mert a globális fektetelista tartalmazza."
+
+msgid "msg_error_active_suffixes_conflict"
+msgstr "Hiba: egy kiterjesztéshez nem tartozhat több ikon. Kérem, vagy deaktiválja ezt az ikont vagy azt, amelyik ugyanehhez a kitrejesztéshez van rendelve."
+
+msgid "msg_error_active_suffixes_not_whitelisted"
+msgstr "A kiválasztott fájlt átnevezzük ‘.sec’ végűre, mert a kiterjesztése nincs benne a globális fehérlistában."
+
+msgid "msg_error_duplicate_suffix_entries"
+msgstr "Hiba: a kiterjesztések vesszőfelsorolt listája ismétlődést tartalmaz."
+
+msgid "msg_error_icon_deletion"
+msgstr "Hiba: az ikon törlése sikertelen."
+
+msgid "msg_error_suffixes_with_forbidden_characters"
+msgstr "Hiba: tiltott karakterek. Csak betűk, számok, whitespace-ek és vesszők engedélyezettek."
+
+msgid "msg_icon_missing_from_db"
+msgstr "Az ikon hiányzik az adatbázisból."
+
+msgid "msg_icon_missing_from_irss"
+msgstr "Az ikon hiányzik erőforrás tárolóból."
+
+msgid "msg_success_icon_activated"
+msgstr "Az ikont sikeresen aktiválta."
+
+msgid "msg_success_icon_created"
+msgstr "Az ikont sikeresen létrehozta."
+
+msgid "msg_success_icon_deactivated"
+msgstr "Az ikont sikeresen deaktiválta."
+
+msgid "msg_success_icon_deletion"
+msgstr "Az ikont sikeresen törölte."
+
+msgid "msg_success_icon_updated"
+msgstr "Az ikont sikeresen módosította."
+
+msgid "msg_unzip_success"
+msgstr "A ZIP-fájlt sikeresen kibontotta."
+
+msgid "on_click_action"
+msgstr "A csempére kattintás művelete"
+
+msgid "preview_caption"
+msgstr "%s/%s előnézet"
+
+msgid "preview_image_size_info"
+msgstr "Az előnézeti képek maximális hossza px-ben."
+
+msgid "preview_persisting"
+msgstr "Állandó előnézeti képek"
+
+msgid "preview_persisting_info"
+msgstr "A generált előképeket eltároljuk, különben azokat menet közben állítjuk elő."
+
+msgid "previews_for_tiles"
+msgstr "Csempék"
+
+msgid "previews_for_tiles_info"
+msgstr "Csempe előnézet használata, ha lehetséges."
+
+msgid "publish_before_delete"
+msgstr "A verzió(k) nem törölhető(k), mert nincs közzétett változata."
+
+msgid "replace_file_info"
+msgstr "Az összes korábbi fájlverziót törli."
+
+msgid "resource_id"
+msgstr "Erőforrás-ID"
+
+msgid "service_settings"
+msgstr "További tulajdonságok"
+
+msgid "service_settings_saved"
+msgstr "Sikeres mentés"
+
+msgid "set_license_for_all_files"
+msgstr "Licensz beállítása az össze fájlra"
+
+msgid "show_amount_of_downloads"
+msgstr "Letöltések számának megjelenítése"
+
+msgid "show_amount_of_downloads_info"
+msgstr "Az Informació oldal megjelenik, hogy a fájlt hányszor töltötték le."
+
+msgid "storage_id"
+msgstr "Tároló-ID"
+
+msgid "suffix_specific_icons"
+msgstr "Kiterjesztésfüggő ikonok"
+
+msgid "suffixes"
+msgstr "Kiterjesztés(ek)"
+
+msgid "upload_files"
+msgstr "Fájlok feltöltése"
+
+msgid "upload_files_limit"
+msgstr "Egy fájl maximális mérete %s."
+
+msgid "upload_files_title"
+msgstr "Fájlok feltöltése"
+
+msgid "upload_info"
+msgstr "Fájl"
+
+msgid "upload_info_desc"
+msgstr "Feltöltések és verziók kezelése a ‘Verziók’ lap alatt"
+
+msgid "version_uploaded"
+msgstr "A verziót sikeresen feltöltötte"
+
+msgid "versionname"
+msgstr "Cím"

@@ -1,0 +1,291 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: sess\n"
+
+msgid "il_sess_participant"
+msgstr "Deltagare i sessionen"
+
+msgid "il_sess_status_open"
+msgstr "Öppen session"
+
+# Modifierad som en del av jämställdhetsarbetet för ILIAS 8. Etiketten är nu generaliserad för alla komponenter som stöder "mail till medlemmar".
+msgid "mail_sess_roles"
+msgstr "Alla personer med följande lokala roller"
+
+msgid "notification"
+msgstr "Notifiering"
+
+msgid "objs_crs_role"
+msgstr "Kursroller"
+
+msgid "objs_grp_role"
+msgstr "Grupproller"
+
+msgid "send_mail_participants"
+msgstr "Alla deltagare i sessionen"
+
+msgid "sess_accept_request"
+msgstr "Tillåt för session"
+
+msgid "sess_assign"
+msgstr "Assign"
+
+msgid "sess_bt_refuse"
+msgstr "Avbryt deltagande"
+
+msgid "sess_change_type"
+msgstr "Ändra sessionstyp"
+
+msgid "sess_contact"
+msgstr "Kontakt"
+
+msgid "sess_copy"
+msgstr "Kopiera session"
+
+msgid "sess_filter_all_types"
+msgstr "Alla objekttyper"
+
+msgid "sess_filter_not_assigned"
+msgstr "Inte tilldelad"
+
+msgid "sess_import"
+msgstr "Importera session"
+
+msgid "sess_info_new_sess_type"
+msgstr "Ny sessionstyp"
+
+msgid "sess_is_assigned"
+msgstr "Tilldelad"
+
+msgid "sess_list_reg_limit_places"
+msgstr "Fria platser"
+
+msgid "sess_lp_preset"
+msgstr "Möjliggöra framsteg i lärandet"
+
+msgid "sess_lp_preset_info"
+msgstr "Aktivera inlärningsförloppet för alla sessionsmöten som ska skapas."
+
+msgid "sess_mail_admins_only"
+msgstr "Endast för administratörer"
+
+msgid "sess_mail_admins_only_info"
+msgstr "Endast administratörer kan använda funktionen \"Mail till deltagare\" på fliken Deltagare."
+
+msgid "sess_mail_all"
+msgstr "För alla deltagare"
+
+msgid "sess_mail_all_info"
+msgstr "Alla deltagare kan använda funktionen \"Mail till deltagare\" på fliken Deltagare."
+
+msgid "sess_mail_context_participant_info"
+msgstr "For the participant e-postmeddelanden om medlemmen och inlärningsframstegsvyer för en session."
+
+msgid "sess_mail_context_participant_title"
+msgstr "Session"
+
+msgid "sess_mail_permanent_link"
+msgstr "Välj följande länk för att komma åt innehållet i sessionen"
+
+msgid "sess_mail_permanent_link_participants"
+msgstr "Välj följande länk för att komma åt innehållet i sessionen"
+
+msgid "sess_mail_sub_acc_bod"
+msgstr "Du har godkänts för att delta i mötet datum \"%s\"."
+
+msgid "sess_mail_sub_acc_sub"
+msgstr "Deltagande i sessionen \"%s\""
+
+msgid "sess_mail_sub_dec_bod"
+msgstr "Din begäran om att delta i mötet \"%s\" har avvisats."
+
+msgid "sess_mail_sub_dec_sub"
+msgstr "Nekar att delta i sessionen \"%s\""
+
+msgid "sess_mail_type"
+msgstr "Mail till deltagare"
+
+msgid "sess_material_assigned"
+msgstr "Tilldelad"
+
+msgid "sess_material_not_assigned"
+msgstr "Inte tilldelad"
+
+msgid "sess_max_members_needed"
+msgstr "Ett maximalt antal medlemmar krävs för väntelistan."
+
+msgid "sess_mem_contacts"
+msgstr "Stöd för undervisning"
+
+#, fuzzy
+msgid "sess_mem_send_mail"
+msgstr "Send Mail"
+
+msgid "sess_mem_tbl_header"
+msgstr "Deltagare i sessionen"
+
+msgid "sess_member_administration"
+msgstr "Deltagarstyrning"
+
+msgid "sess_members"
+msgstr "Deltagare"
+
+msgid "sess_members_gallery"
+msgstr "Deltagarantalet"
+
+msgid "sess_members_print_title"
+msgstr "Deltagare i sessionen"
+
+msgid "sess_msg_applicants_assigned"
+msgstr "Användaren har registrerats för sessionen."
+
+msgid "sess_msg_applicants_removed"
+msgstr "Ansökan avslås och tas bort från listan."
+
+#, fuzzy
+msgid "sess_new"
+msgstr "Create Session"
+
+msgid "sess_new_registrations"
+msgstr "Tillämpningar för deltagande"
+
+msgid "sess_notification_option"
+msgstr "Alternativ"
+
+msgid "sess_notification_option_inherit"
+msgstr "Ärva från överordnat objekt"
+
+msgid "sess_notification_option_inherit_info"
+msgstr "Använd inställningarna för det överordnade objektet (t.ex. kurs- eller gruppinställningar) för medlemmar i den här sessionen."
+
+msgid "sess_notification_option_manual"
+msgstr "Manuellt inställd"
+
+msgid "sess_notification_option_manual_info"
+msgstr "Mottagare av aviseringar måste anges manuellt på fliken \"Hantera sessionsdeltagare\"."
+
+msgid "sess_open"
+msgstr "Öppen session"
+
+msgid "sess_part_filter_participated"
+msgstr "Endast deltagare"
+
+msgid "sess_part_filter_registered"
+msgstr "Endast registrerad"
+
+msgid "sess_part_table_excused"
+msgstr "Avbruten"
+
+msgid "sess_participation_refused_info"
+msgstr "Din närvaro vid detta möte har ställts in."
+
+msgid "sess_print_list"
+msgstr "Skapa lista"
+
+msgid "sess_reg_added_to_wl"
+msgstr "Du har lagts till på väntelistan."
+
+msgid "sess_reg_cannot_participate"
+msgstr "Avbryt deltagande"
+
+msgid "sess_reg_cannot_participate_info"
+msgstr "Users har möjlighet att avbryta sitt deltagande på \"Info page\"."
+
+msgid "sess_reg_direct"
+msgstr "Direkt registrering"
+
+msgid "sess_reg_direct_info"
+msgstr "Användare måste klicka på \"Logga in\" om de vill delta i denna session."
+
+msgid "sess_reg_disabled"
+msgstr "Utan registrering"
+
+msgid "sess_reg_disabled_info"
+msgstr "Möjligheter att registrera användare till sessionen erbjuds inte."
+
+msgid "sess_reg_max_members"
+msgstr "Maximalt antal"
+
+msgid "sess_reg_max_members_info"
+msgstr "När det maximala antalet deltagare har uppnåtts är det inte längre möjligt att registrera sig."
+
+msgid "sess_reg_max_members_short"
+msgstr "Begränsat antal deltagare"
+
+msgid "sess_reg_max_users_exceeded"
+msgstr "Registrering är inte möjlig eftersom det maximala antalet deltagare för detta datum har överskridits."
+
+msgid "sess_reg_max_users_exceeded_wl"
+msgstr "Det maximala antalet deltagare för detta sessionsdatum har överskridits. Du kan dock skriva upp dig på väntelistan."
+
+msgid "sess_reg_request"
+msgstr "Ansök om deltagande"
+
+msgid "sess_reg_request_info"
+msgstr "Deltagande i mötet kräver godkännande av en administratör."
+
+msgid "sess_reg_tutor"
+msgstr "Ingen registrering möjlig"
+
+msgid "sess_reg_tutor_info"
+msgstr "Login av användare är inaktiv. Endast administratörer kan registrera användare."
+
+msgid "sess_reg_type"
+msgstr "Ansökningsförfarande"
+
+msgid "sess_reg_waiting_list"
+msgstr "Väntelista"
+
+msgid "sess_reg_waiting_list_autofill"
+msgstr "Med automatisk framflyttning"
+
+msgid "sess_reg_waiting_list_autofill_info"
+msgstr "Deltagare flyttas automatiskt upp från väntelistan i händelse av avbokningar. Detta bör inte användas i samband med registreringsprocessen \"Begär deltagande\" eftersom det kringgår bekräftelsen."
+
+msgid "sess_reg_waiting_list_no_autofill"
+msgstr "Utan automatisk framflyttning"
+
+msgid "sess_reg_waiting_list_no_autofill_info"
+msgstr "Om det maximala antalet deltagare uppnås kan ytterligare användare placeras på en väntelista."
+
+msgid "sess_reg_waiting_list_none"
+msgstr "Ingen"
+
+msgid "sess_registered_confirm"
+msgstr "Du har registrerats för mötesdatumet. Din ansökan måste dock fortfarande bekräftas av en administratör. Du kommer att meddelas så snart detta har gjorts."
+
+msgid "sess_registration_notification"
+msgstr "Notifiering"
+
+msgid "sess_registration_notification_info"
+msgstr " Visar en kolumn på fliken \"Hantera sessionsdeltagare\" för att välja användare som ska meddelas om nya eller avgående deltagare."
+
+msgid "sess_section_reg"
+msgstr "Logga in med användare"
+
+msgid "sess_setting_header_presentation"
+msgstr "Presentation"
+
+msgid "sess_show_participants_info"
+msgstr "Alla deltagare kan se deltagargalleriet på fliken \"Deltagare\"."
+
+msgid "sess_title"
+msgstr "Sessionens titel"
+
+msgid "sess_users_added"
+msgstr "Användare har registrerats för sessionen."
+
+msgid "sess_users_already_assigned"
+msgstr "Användarna är redan registrerade för sessionen."
+
+msgid "sess_users_removed_from_list"
+msgstr "De valda användarna har tagits bort från väntelistan."
+
+msgid "sess_warn_sess_type_changed"
+msgstr "Är du säker på att du vill ändra sessionstyp? Rättighetsinställningarna för den här sessionen kommer att skrivas över och anpassas till den nya sessionstypen."

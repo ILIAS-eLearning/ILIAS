@@ -1,0 +1,798 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"Language-Team: English\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: trac\n"
+
+msgid "cmix_lp_mode_deactivated"
+msgstr "Learning Progress is Deactivated"
+
+msgid "cmix_lp_mode_deactivated_info"
+msgstr "The learning progress status is not displayed and does not influence parent objects."
+
+msgid "cmix_lp_mode_when_completed"
+msgstr "Completed when 'completed'"
+
+msgid "cmix_lp_mode_when_completed_info"
+msgstr "ILIAS status 'completed' is set when verb of last relevant xAPI-Statement is 'completed'."
+
+msgid "cmix_lp_mode_when_passed"
+msgstr "Completed when 'passed'"
+
+msgid "cmix_lp_mode_when_passed_info"
+msgstr "ILIAS status 'completed' is set when verb of last relevant xAPI-Statement is 'passed' or 'satisfied'."
+
+msgid "cmix_lp_mode_when_passed_or_completed"
+msgstr "Completed when passed or completed"
+
+msgid "cmix_lp_mode_when_passed_or_completed_info"
+msgstr "ILIAS status 'completed' is set when verb of last relevant xAPI-Statement is 'completed' or 'passed' or 'satisfied'."
+
+msgid "cmix_lp_mode_with_failed"
+msgstr "Also consider failed"
+
+msgid "cmix_lp_mode_with_failed_info"
+msgstr "The status could be 'failed' instead of 'in progress'."
+
+msgid "create_date_max"
+msgstr "Latest Registration"
+
+msgid "create_date_min"
+msgstr "Earliest Registration"
+
+msgid "info_valid_request"
+msgstr "The maximum valid time between two requests of a user."
+
+msgid "meta_typical_learning_time"
+msgstr "Typical learning time"
+
+msgid "obj_types"
+msgstr "Object Types"
+
+msgid "personal_learning_progress_view_description"
+msgstr "Ongoing courses with membership"
+
+msgid "personal_learning_progress_view_title"
+msgstr "Your Learning Progress"
+
+msgid "read_count_avg"
+msgstr "Average page views"
+
+msgid "registration_filter"
+msgstr "Date of Registration"
+
+msgid "search_area_info"
+msgstr "Please choose one object."
+
+msgid "search_terms"
+msgstr "Search Term(s)"
+
+msgid "session_statistics"
+msgstr "Session Statistics"
+
+msgid "trac_aggregation"
+msgstr "Aggregation"
+
+msgid "trac_all"
+msgstr "All"
+
+msgid "trac_anonymized"
+msgstr "Anonymized"
+
+msgid "trac_anonymized_info"
+msgstr "If enabled, all statistics will be anonymized."
+
+msgid "trac_anonymized_info_short"
+msgstr "(Anonymized)"
+
+msgid "trac_assigned"
+msgstr "Assigned"
+
+msgid "trac_average"
+msgstr "Average"
+
+msgid "trac_begin_at"
+msgstr "Start date"
+
+msgid "trac_closed_expire"
+msgstr "Timeout"
+
+msgid "trac_closed_login"
+msgstr "Change of status - anonymous to logged-in"
+
+msgid "trac_closed_manual"
+msgstr "Logout"
+
+msgid "trac_closed_misc"
+msgstr "Misc."
+
+msgid "trac_collection_assign"
+msgstr "Select for Learning Progress Determination"
+
+msgid "trac_collection_deassign"
+msgstr "Deselect for Learning Progress Determination"
+
+msgid "trac_collection_manual_learner_changed_ts"
+msgstr "Changed on"
+
+msgid "trac_collection_manual_learner_info"
+msgstr "The learning progress for this object has to be set manually."
+
+msgid "trac_collection_manual_learner_lm_info"
+msgstr "Activate all chapters you completed."
+
+msgid "trac_collection_tlt_learner_info"
+msgstr "The learning progress for this object is based on the typical learning time."
+
+msgid "trac_collection_tlt_learner_subitem"
+msgstr "You have spent %s of the %s needed for completion (%s%%)."
+
+msgid "trac_comment"
+msgstr "Remark"
+
+msgid "trac_completed"
+msgstr "Completed"
+
+msgid "trac_cron_info"
+msgstr "Please activate the \"Object Statistics\" cron job to gather data."
+
+msgid "trac_crs_objects"
+msgstr "Course Participants"
+
+msgid "trac_current"
+msgstr "Current"
+
+msgid "trac_current_system_load"
+msgstr "Current System Load"
+
+msgid "trac_data_deleted"
+msgstr "Data has been deleted."
+
+msgid "trac_defaults"
+msgstr "Completion Status"
+
+msgid "trac_defaults_inactive"
+msgstr "Inactive"
+
+msgid "trac_defaults_info"
+msgstr "Set the completion status determination mode for supported object types. Used by certain badge types and certificates."
+
+msgid "trac_delete_data"
+msgstr "Delete Data"
+
+msgid "trac_determines_learning_progress"
+msgstr "Determines Learning Progress"
+
+msgid "trac_edit_collection"
+msgstr "Please assign materials. If the status of all assigned items is ‘Completed’ the overall status is completed by the user."
+
+msgid "trac_end_at"
+msgstr "End Date"
+
+msgid "trac_failed"
+msgstr "Failed"
+
+msgid "trac_figure"
+msgstr "Key Figure"
+
+msgid "trac_filter_area"
+msgstr "Area"
+
+msgid "trac_filter_has_status"
+msgstr "Show also objects with status ‘not attempted’"
+
+msgid "trac_filter_hidden"
+msgstr "Hidden"
+
+msgid "trac_first_access"
+msgstr "First Access"
+
+msgid "trac_first_and_last_access"
+msgstr "First and Last Access"
+
+msgid "trac_frm_contribution_num_postings"
+msgstr "Minimum number of Posts"
+
+msgid "trac_frm_contribution_num_postings_info_p"
+msgstr "%s: %s Posts"
+
+msgid "trac_frm_contribution_num_postings_info_s"
+msgstr "%s: %s Post"
+
+msgid "trac_group_materials"
+msgstr "Create Grouping with Optional Materials"
+
+msgid "trac_group_materials_save"
+msgstr "Save Number of Compulsory Materials"
+
+msgid "trac_grouped_material_obligatory_err"
+msgstr "The number materials which must be passed has to be greater than 0 and smaller than the number of materials of the grouping."
+
+msgid "trac_hide"
+msgstr "Hide"
+
+msgid "trac_hide_selected"
+msgstr "Hide Selected Items"
+
+msgid "trac_in_progress"
+msgstr "In Progress"
+
+msgid "trac_info_edited"
+msgstr "Set the status to ‘Completed’ if you think you have processed all content."
+
+msgid "trac_last_access"
+msgstr "Last Access"
+
+msgid "trac_last_aggregation"
+msgstr "Last Aggregation"
+
+msgid "trac_learning_progress"
+msgstr "Learning Progress"
+
+msgid "trac_learning_progress_of"
+msgstr "Learning Progress of %s"
+
+msgid "trac_learning_progress_settings_info"
+msgstr "Activate extended data"
+
+msgid "trac_lhist_obj_completed"
+msgstr "$1$ was completed."
+
+msgid "trac_lhist_obj_completed_in"
+msgstr "$1$ was completed in $2$."
+
+msgid "trac_log_info"
+msgstr "Last Aggregation: %s (Unprocessed items: %s)"
+
+msgid "trac_log_info_link"
+msgstr "Update"
+
+msgid "trac_long_system_load"
+msgstr "Long term"
+
+msgid "trac_lp_determination"
+msgstr "Items Determining the Learning Progress"
+
+msgid "trac_lp_determination_info_crs"
+msgstr "Select the items that determine the overall learning progress status."
+
+msgid "trac_lp_determination_info_crs_tutor"
+msgstr "This selection is not connected to the learning progress status."
+
+msgid "trac_lp_determination_info_mob"
+msgstr "Select the items that determine the overall learning progress status of the Mediacast"
+
+msgid "trac_lp_determination_info_sco"
+msgstr "Select the items that determine the overall learning progress status of the SCORM learning module."
+
+msgid "trac_lp_determination_tutor"
+msgstr "Display of objects in learning progress"
+
+msgid "trac_lp_learner_access"
+msgstr "View Own Learning Progress"
+
+msgid "trac_lp_learner_access_info"
+msgstr "If active, users can access their own learning progress status."
+
+msgid "trac_lp_list_gui"
+msgstr "Dashboard and Repository"
+
+msgid "trac_lp_list_gui_info"
+msgstr "If activated, the learning progress status is included in objects lists."
+
+msgid "trac_lp_settings_info_parent_container"
+msgstr "Learning Progress of Parent Container Objects"
+
+msgid "trac_lp_settings_info_parent_legend"
+msgstr "The learning progress status of this object is influenced by \"%s\"."
+
+msgid "trac_manual_display"
+msgstr "Display in Learning Progress"
+
+msgid "trac_manual_is_displayed"
+msgstr "Is Displayed"
+
+msgid "trac_manual_no_display"
+msgstr "Do not display in Learning Progress"
+
+msgid "trac_mark"
+msgstr "Mark"
+
+msgid "trac_matrix"
+msgstr "Matrix View"
+
+msgid "trac_measure"
+msgstr "Figure"
+
+msgid "trac_members_short"
+msgstr "Members"
+
+msgid "trac_min_passed"
+msgstr "Minimum Number of Passed Materials:"
+
+msgid "trac_mode"
+msgstr "Mode"
+
+msgid "trac_mode_cmix_compl_or_passed_with_failed"
+msgstr "Completed when verb 'completed' or 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'Failed'."
+
+msgid "trac_mode_cmix_compl_or_passed_with_failed_info"
+msgstr "&nbsp;"
+
+msgid "trac_mode_cmix_compl_with_failed"
+msgstr "Completed when verb 'completed' was sent. Verb 'failed' sets status of ILIAS to 'Failed'."
+
+msgid "trac_mode_cmix_compl_with_failed_info"
+msgstr "&nbsp;"
+
+msgid "trac_mode_cmix_completed"
+msgstr "Completed when verb 'completed' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'."
+
+msgid "trac_mode_cmix_completed_info"
+msgstr "&nbsp;"
+
+msgid "trac_mode_cmix_completed_or_passed"
+msgstr "Completed when verb 'completed' or 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'."
+
+msgid "trac_mode_cmix_completed_or_passed_info"
+msgstr "&nbsp;"
+
+msgid "trac_mode_cmix_passed"
+msgstr "Completed when verb 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'."
+
+msgid "trac_mode_cmix_passed_info"
+msgstr "&nbsp;"
+
+msgid "trac_mode_cmix_passed_with_failed"
+msgstr "Completed when verb 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'Failed'."
+
+msgid "trac_mode_cmix_passed_with_failed_info"
+msgstr "&nbsp;"
+
+msgid "trac_mode_collection"
+msgstr "Status is Determined by a Collection of Items"
+
+msgid "trac_mode_collection_info"
+msgstr "A user's learning progress status is determined by the learning progress status of a collection of items:  If the status of all items in the collection is ‘Completed’ the overall status is ‘Completed’ .<br />Items can be assigned to the collection on this screen after saving this setting."
+
+msgid "trac_mode_collection_manual"
+msgstr "Users Monitor and Set Status per Chapter Themselves"
+
+msgid "trac_mode_collection_manual_info"
+msgstr "Users decide themselves if they have accomplished a chapter of the learning module. After completing a chapter, users have to set this chapter's status to ‘Completed’ on the 'Info'-tab. <br />Chapters can be selected as Progress-relevant on this screen after you have saved this setting."
+
+msgid "trac_mode_collection_mobs"
+msgstr "Collection of Media Objects"
+
+msgid "trac_mode_collection_mobs_info"
+msgstr "The learning progress status will be determined by the viewing status of selected media objects."
+
+msgid "trac_mode_collection_tlt"
+msgstr "Minimally Required Amount of Time Spent per Chapter"
+
+msgid "trac_mode_collection_tlt_info"
+msgstr "The status will be automatically set according to time a user spends working on the chapters . The status 'Completed' is assigned once users exceed the minimally required Typical Learning Time for all progress-relevant chapters.<br />The Typical Learning Time per chapter can be set on this screen after you have saved this setting."
+
+msgid "trac_mode_content_visited"
+msgstr "Visited"
+
+msgid "trac_mode_content_visited_info"
+msgstr "Learning progress status is set to 'completed' when object has been presented to user."
+
+msgid "trac_mode_contribution_to_discussion"
+msgstr "Contributions to Discussion"
+
+msgid "trac_mode_contribution_to_discussion_info"
+msgstr "The learning progress status will be determined by the number of written posts."
+
+msgid "trac_mode_course_reference"
+msgstr "Adopted from Course"
+
+msgid "trac_mode_course_reference_info"
+msgstr "The mode is automatically adopted from the course this course link points to."
+
+msgid "trac_mode_deactivated"
+msgstr "Learning Progress is Deactivated"
+
+msgid "trac_mode_deactivated_info_new"
+msgstr "The learning progress status is not displayed and does not influence parent objects."
+
+msgid "trac_mode_event"
+msgstr "Tutors Monitor and Record Attendance"
+
+msgid "trac_mode_event_info"
+msgstr "Tutors monitor whether or not participants attend the session. Tutors record attendance manually in the 'Participants'-tab."
+
+msgid "trac_mode_exercise_returned"
+msgstr "Tutors Monitor and Set Status"
+
+msgid "trac_mode_exercise_returned_info"
+msgstr "Tutors decide if users have accomplished the excercise. Tutors manually set the overall status i.e. ‘Completed’ or ‘Failed’."
+
+msgid "trac_mode_individual_assessment"
+msgstr "Graded manually by tutor or trainer"
+
+msgid "trac_mode_individual_assessment_info"
+msgstr "The record of a user has to be finalized by the tutor in order to complete individual assessment."
+
+msgid "trac_mode_lti_outcome"
+msgstr "Mastery Score Must be reached"
+
+msgid "trac_mode_lti_outcome_info"
+msgstr "The Learning Progress will be evaluated from the LTI outcome and the mastery score threshold."
+
+msgid "trac_mode_manual"
+msgstr "Users Monitor and Set Status Themselves (Complete Module)"
+
+msgid "trac_mode_manual_by_tutor"
+msgstr "Tutors Monitor and Set Status"
+
+msgid "trac_mode_manual_by_tutor_info"
+msgstr "Tutors decide if users have accomplished the object. Tutors manually set the overall status i.e. ‘Completed’ or ‘Failed’."
+
+msgid "trac_mode_manual_info"
+msgstr "Users decide themselves if they have accomplished the object. Once they are done, they have to set their status to ‘Completed’ on the ‘Learning Progress’ tab."
+
+msgid "trac_mode_objectives"
+msgstr "Status is Determined by Learning Objectives"
+
+msgid "trac_mode_objectives_info"
+msgstr "The learning progress will be automatically determined according to the number of passed learning objectives."
+
+msgid "trac_mode_plugin"
+msgstr "Plugin"
+
+msgid "trac_mode_questions"
+msgstr "Answering All Questions Correctly"
+
+msgid "trac_mode_questions_info"
+msgstr "Users who answered all questions correctly will automatically be assigned with the status ‘Completed’. Please use this setting only if there actually are questions in the learning module."
+
+msgid "trac_mode_scorm"
+msgstr "Status is Determined by a Collection of SCORM Items"
+
+msgid "trac_mode_scorm_info"
+msgstr "The learning progress status will automatically be determined by the status of selected SCOs.<br />A user's learning progress status is determined by the learning progress status of a collection of SCOs: SCOs can be assigned to the collection on this screen after saving this setting."
+
+msgid "trac_mode_scorm_package"
+msgstr "Status is Determined by the Whole SCORM Package"
+
+msgid "trac_mode_scorm_package_info"
+msgstr "The learning progress status will automatically be determined by the status of the complete SCORM package. All comprised SCOs will matter for the learning progress."
+
+msgid "trac_mode_study_programme"
+msgstr "Study Programme Completed"
+
+msgid "trac_mode_survey_finished"
+msgstr "Survey Finished"
+
+msgid "trac_mode_survey_finished_info"
+msgstr "The survey has to be finished by an user to receive the status 'Completed'."
+
+msgid "trac_mode_test_finished"
+msgstr "Test Must Be Finished"
+
+msgid "trac_mode_test_finished_info"
+msgstr "A user's learning progress status is set to ‘Completed’ after the user clicks 'Finish the Test'. Regardless of whether or not the test was passed, the learning progress will be set to ‘Completed’."
+
+msgid "trac_mode_test_passed"
+msgstr "Test Must Be Passed"
+
+msgid "trac_mode_test_passed_info"
+msgstr "A user's learning progress status is set to ‘Completed’ after the user passed the test. Thresholds for passing the test can be set in the 'Settings'-tab at the section 'Mark Schema'."
+
+msgid "trac_mode_tlt"
+msgstr "Minimally Required Amount of Time Spent on Learning Module"
+
+msgid "trac_mode_tlt_info"
+msgstr "The status will be automatically set according to time a user spends working with the learning module. The status 'Completed' is assigned once users exceed the minimally required Typical Learning Time. <br />The Typical Learning Time can be specified in the 'Metadata'-tab."
+
+msgid "trac_mode_visited_pages"
+msgstr "Visiting All Pages"
+
+msgid "trac_mode_visited_pages_info"
+msgstr "The status ‘Completed’ is automatically assigned to a user once this user visited all pages of the learning module."
+
+msgid "trac_mode_visits"
+msgstr "Status is Determined from Number of Visits"
+
+msgid "trac_mode_visits_info"
+msgstr "A user's status will be automatically set to 'Completed' after this user has visited the learning module more than a specified number of times. Users will be informed about their number of visits to the learning module and to what percentage they have met the set requirements."
+
+msgid "trac_name_of_installation"
+msgstr "Name of Installation"
+
+msgid "trac_no_attempted"
+msgstr "Not Attempted"
+
+msgid "trac_not_accessed"
+msgstr "Not Accessed"
+
+msgid "trac_not_assigned"
+msgstr "Not Assigned"
+
+msgid "trac_not_attempted"
+msgstr "Not Attempted"
+
+msgid "trac_not_completed"
+msgstr "Not Completed"
+
+msgid "trac_not_participated"
+msgstr "Not Participated"
+
+msgid "trac_not_registered"
+msgstr "Not Registered"
+
+msgid "trac_object_link"
+msgstr "Link to Object"
+
+msgid "trac_object_name"
+msgstr "Name of Object"
+
+msgid "trac_object_owner"
+msgstr "Owner of Object"
+
+msgid "trac_object_stat_access"
+msgstr "Usage Intensity"
+
+msgid "trac_object_stat_admin"
+msgstr "Manage Data"
+
+msgid "trac_object_stat_daily"
+msgstr "Daily Usage"
+
+msgid "trac_object_stat_lp"
+msgstr "Learning Progress Statistics Course"
+
+msgid "trac_object_stat_lp_max"
+msgstr "Max."
+
+msgid "trac_object_stat_lp_min"
+msgstr "Min."
+
+msgid "trac_object_stat_types"
+msgstr "Number of Objects"
+
+msgid "trac_object_statistics"
+msgstr "Object Statistics"
+
+msgid "trac_object_statistics_info"
+msgstr "If activated, the basic data for the usage statistics will be gathered and processed."
+
+msgid "trac_objects"
+msgstr "Users"
+
+msgid "trac_others"
+msgstr "Others"
+
+msgid "trac_participants"
+msgstr "Show Participants"
+
+msgid "trac_participated"
+msgstr "Participated"
+
+msgid "trac_paths"
+msgstr "Paths"
+
+msgid "trac_percentage"
+msgstr "Percentage"
+
+msgid "trac_periodic_system_load"
+msgstr "Periodic"
+
+msgid "trac_progress"
+msgstr "Personal Learning Progress"
+
+msgid "trac_progress_block_details"
+msgstr "View Details"
+
+msgid "trac_progress_block_title"
+msgstr "Your Learning Progress"
+
+msgid "trac_read_count"
+msgstr "Access Number"
+
+msgid "trac_read_count_spent_seconds"
+msgstr "Time Spent / Access"
+
+msgid "trac_reference"
+msgstr "References"
+
+msgid "trac_reference_ids_column"
+msgstr "Reference-IDs"
+
+msgid "trac_registered"
+msgstr "Registered"
+
+msgid "trac_release_materials"
+msgstr "Disintegrate Grouping with Optional Materials"
+
+msgid "trac_report_date"
+msgstr "Date of Report"
+
+msgid "trac_report_owner"
+msgstr "Owner of Report"
+
+msgid "trac_required_visits"
+msgstr "Number of Required Visits"
+
+msgid "trac_sahs_relevant_items"
+msgstr "Content Items"
+
+msgid "trac_scale"
+msgstr "Scale"
+
+msgid "trac_select_area"
+msgstr "Select Area"
+
+msgid "trac_session_active_avg"
+msgstr "Active Sessions (Average)"
+
+msgid "trac_session_active_max"
+msgstr "Active Sessions (Maximum)"
+
+msgid "trac_session_active_min"
+msgstr "Active Sessions (Minimum)"
+
+msgid "trac_session_statistics_mode_day"
+msgstr "Day"
+
+msgid "trac_session_statistics_mode_last_day"
+msgstr "Last 24 Hours"
+
+msgid "trac_session_statistics_mode_last_month"
+msgstr "Last 30 Days"
+
+msgid "trac_session_statistics_mode_last_week"
+msgstr "Last 7 Days"
+
+msgid "trac_session_statistics_mode_month"
+msgstr "Month"
+
+msgid "trac_session_statistics_mode_today"
+msgstr "Today"
+
+msgid "trac_session_statistics_mode_week"
+msgstr "Week"
+
+msgid "trac_session_statistics_mode_year"
+msgstr "Year"
+
+msgid "trac_session_statistics_no_data"
+msgstr "No data for this statistics could be found."
+
+msgid "trac_sessions_closed"
+msgstr "Exits"
+
+msgid "trac_sessions_opened"
+msgstr "Entrances"
+
+msgid "trac_settings"
+msgstr "Settings"
+
+msgid "trac_settings_saved"
+msgstr "Settings saved."
+
+msgid "trac_short_system_load"
+msgstr "Short term"
+
+msgid "trac_show_graph"
+msgstr "Show Graph"
+
+msgid "trac_show_progress_block"
+msgstr "Show Personal Progress Chart in ‘Content’-Tab"
+
+msgid "trac_show_repository_views"
+msgstr "Show Tracking Information"
+
+msgid "trac_show_repository_views_info"
+msgstr "Show tracking information for repository objects on info page."
+
+msgid "trac_spent_seconds"
+msgstr "Time Spent"
+
+msgid "trac_spent_time"
+msgstr "Spent Time"
+
+msgid "trac_status"
+msgstr "Status"
+
+msgid "trac_status_changed"
+msgstr "Last Status Change"
+
+msgid "trac_subitems"
+msgstr "Show Sub-Items"
+
+msgid "trac_sum"
+msgstr "Sum"
+
+msgid "trac_summary"
+msgstr "Summary"
+
+msgid "trac_sure_delete_data"
+msgstr "Are you sure you want to delete the complete data for the following months? This will remove all statistics for that period incl. Usage Intensity, Daily Usage, Learning Progress Statistics Course and Number of Objects."
+
+msgid "trac_sync_obj_stats"
+msgstr "Update Data"
+
+msgid "trac_sync_obj_stats_success"
+msgstr "Data has been updated."
+
+msgid "trac_sync_session_stats"
+msgstr "Aggregate Data"
+
+msgid "trac_sync_session_stats_success"
+msgstr "Data aggregation was done successfully."
+
+msgid "trac_time_passed"
+msgstr "Editing Time Exceeded"
+
+msgid "trac_title"
+msgstr "Title"
+
+msgid "trac_title_description"
+msgstr "Title / Description"
+
+msgid "trac_total_online"
+msgstr "Total Time Online"
+
+msgid "trac_trash"
+msgstr "Moved to Trash"
+
+msgid "trac_update_edit_user"
+msgstr "Settings saved."
+
+msgid "trac_updated_status"
+msgstr "Saved learning progress status."
+
+msgid "trac_user_data"
+msgstr "User Data"
+
+msgid "trac_valid_request"
+msgstr "Max. Time Between Requests"
+
+msgid "trac_view_crs"
+msgstr "Back to Course"
+
+msgid "trac_view_list"
+msgstr "Back to List"
+
+msgid "trac_view_mode"
+msgstr "View Mode"
+
+msgid "trac_view_mode_all"
+msgstr "All Objects"
+
+msgid "trac_view_mode_collection"
+msgstr "Only objects that determine the overall status"
+
+msgid "trac_visits"
+msgstr "Required Number of Visits"
+
+msgid "trac_visits_info"
+msgstr "A click counts as new visit only after %s seconds."
+
+msgid "trac_visits_nr"
+msgstr "Number of Visits"
+
+msgid "user_total"
+msgstr "User Total"
+
+msgid "view_mode"
+msgstr "View Mode"
+
+msgid "view_mode_all"
+msgstr "All"
+
+msgid "view_mode_current"
+msgstr "Current"
+
+msgid "view_mode_future"
+msgstr "Future"
+
+msgid "view_mode_past"
+msgstr "Past"

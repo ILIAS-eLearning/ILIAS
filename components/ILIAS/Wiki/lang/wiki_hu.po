@@ -1,0 +1,590 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: wiki\n"
+
+msgid "wiki_activate_extended_rating"
+msgstr "Értékelési kategóriák bekapcsolása"
+
+msgid "wiki_activate_new_page_rating"
+msgstr "Értékelés bekapcsolása új lapokhoz"
+
+msgid "wiki_activate_page_rating"
+msgstr "Értékelés bekapcsolása"
+
+msgid "wiki_activate_rating"
+msgstr "Oldalak értékelésének engedélyezése"
+
+msgid "wiki_add_link"
+msgstr "Link létrehozása"
+
+msgid "wiki_add_template"
+msgstr "Sablonként megjelöl"
+
+msgid "wiki_advmd_block_title"
+msgstr "Oldal egyéni metaadatai"
+
+msgid "wiki_all_pages"
+msgstr "Összes lap"
+
+msgid "wiki_block_page"
+msgstr "Beállítás írásvédetté"
+
+msgid "wiki_change_notification_body_new"
+msgstr "az alábbi wikioldal jött létre"
+
+msgid "wiki_change_notification_link"
+msgstr "URL"
+
+msgid "wiki_change_notification_page_body_comment"
+msgstr "ezúton értesítjük, hogy az alábbi wikilaphoz megjegyzést fűztek"
+
+msgid "wiki_change_notification_page_body_delete"
+msgstr "ezúton értesítjük, hogy az alábbi wikilapot törölték"
+
+msgid "wiki_change_notification_page_body_update"
+msgstr "ezúton értesítjük, hogy az alábbi wikilapokat sikeresen frissítette"
+
+msgid "wiki_change_notification_page_link"
+msgstr "URL"
+
+msgid "wiki_change_notification_salutation"
+msgstr "Tisztelt %s,"
+
+msgid "wiki_change_notification_subject"
+msgstr "‘%1$s’ wiki megváltozott: %2$s"
+
+msgid "wiki_changed_by"
+msgstr "Módosította"
+
+#, fuzzy
+msgid "wiki_comment"
+msgstr "Comment"
+
+#, fuzzy
+msgid "wiki_comment_for_learner"
+msgstr "Feedback for contributor"
+
+msgid "wiki_commented_by"
+msgstr "A hozzászólást írta"
+
+msgid "wiki_contributor"
+msgstr "Közreműködő"
+
+msgid "wiki_contributors"
+msgstr "Közreműködők"
+
+msgid "wiki_copy"
+msgstr "Wiki másolása"
+
+msgid "wiki_create_page"
+msgstr "Oldal létrehozás"
+
+msgid "wiki_created_by"
+msgstr "Létrehozta"
+
+msgid "wiki_deactivate_page_rating"
+msgstr "Értékelés kikapcsolása"
+
+msgid "wiki_delete_page"
+msgstr "Lap törlése"
+
+msgid "wiki_download_submission"
+msgstr "Beadandó fájl letöltése"
+
+msgid "wiki_empty_page"
+msgstr "Üres oldal"
+
+msgid "wiki_empty_page_template"
+msgstr "Oldal létrehozása üres sablonnal"
+
+msgid "wiki_exc_template"
+msgstr "Wikisablon"
+
+msgid "wiki_exc_wiki_created"
+msgstr "A wikit sikeresen létrehozta."
+
+msgid "wiki_exercise_info"
+msgstr "Ez a wiki része a következő feladatnak: ‘%s’ / ‘%s’."
+
+msgid "wiki_exercise_submitted_info"
+msgstr "Utolsó beküldésének időpontja: %s. Ellenőrizze az exportfájlt."
+
+msgid "wiki_failed"
+msgstr "Sikertelen"
+
+msgid "wiki_feedback_from_tutor"
+msgstr "Visszajelzés a tutortól"
+
+msgid "wiki_finalize_wiki"
+msgstr "Wiki véglegesítése és beküldése"
+
+msgid "wiki_finalized"
+msgstr "A wikit sikeresen véglegesítette és beküldte."
+
+msgid "wiki_functions"
+msgstr "Wikifunkciók"
+
+msgid "wiki_general_settings"
+msgstr "Általános beállítások"
+
+msgid "wiki_grading"
+msgstr "Értékelés"
+
+msgid "wiki_html_export"
+msgstr "Exportálás HTML-ként"
+
+msgid "wiki_imp_page_added"
+msgstr "Sikeresen létrehozott egy lapot."
+
+msgid "wiki_import"
+msgstr "Wiki importálása"
+
+msgid "wiki_incl_comments"
+msgstr "hozzászólásokkal együtt"
+
+msgid "wiki_indentation"
+msgstr "Behúzás"
+
+msgid "wiki_introduction"
+msgstr "Bevezetés"
+
+msgid "wiki_last_changed"
+msgstr "Utolsó módosítás"
+
+msgid "wiki_last_changed_by"
+msgstr "Utoljára módosította"
+
+msgid "wiki_last_edited"
+msgstr "Utoljára szerkesztette"
+
+msgid "wiki_last_visited_page"
+msgstr "Utoljára megtekintett lap"
+
+msgid "wiki_link_md_values"
+msgstr "Automatikus linkelés"
+
+msgid "wiki_link_md_values_info"
+msgstr "Az automatikusan linkelt tulajdonságok a wiki oldal oldalsávjában jelenik meg ugyanazon a néven."
+
+msgid "wiki_link_text"
+msgstr "Link szövege"
+
+msgid "wiki_mark"
+msgstr "Osztályzat"
+
+msgid "wiki_master_existing"
+msgstr "Az oldal létezik a főnyelven"
+
+msgid "wiki_master_title"
+msgstr "Az oldal címe főnyelven"
+
+msgid "wiki_navigation"
+msgstr "Wikinavigáció"
+
+msgid "wiki_navigation_info"
+msgstr "Itt adhatja hozzá wikilapok linkjeit a wiki navigációs blokkjához, illetve távolíthat el linkeket a blokkból."
+
+msgid "wiki_new_page"
+msgstr "Új oldal"
+
+msgid "wiki_new_page_name"
+msgstr "Új cím"
+
+msgid "wiki_new_pages"
+msgstr "Új lapok"
+
+msgid "wiki_news_page_changed"
+msgstr "A wikilap frissült"
+
+msgid "wiki_news_page_created"
+msgstr "Sikeresen létrehozott egy új wikilapot."
+
+msgid "wiki_no_master"
+msgstr "Az oldal még nem létezik a főnyelven."
+
+msgid "wiki_no_page_found"
+msgstr "Nincs wikioldal a kifejezéshez: ‘$1’."
+
+msgid "wiki_no_search_term"
+msgstr "Nem adott meg keresési feltételt. Az összes wikioldalt felsoroljuk."
+
+msgid "wiki_no_start_page"
+msgstr "A wikiből hiányzik az érvényes kezdőlap."
+
+msgid "wiki_not_existing"
+msgstr "még nem létezik"
+
+msgid "wiki_notgraded"
+msgstr "Nincs értékelve"
+
+msgid "wiki_notification_activate_page"
+msgstr "Értesítés bekapcsolása lapra"
+
+msgid "wiki_notification_activate_wiki"
+msgstr "Értesítés bekapcsolása wikire"
+
+msgid "wiki_notification_activated"
+msgstr "Értesítés bekapcsolva (egész wikire)"
+
+msgid "wiki_notification_comment"
+msgstr "a következő wikioldalhoz hozzászóltak."
+
+msgid "wiki_notification_comment_subject"
+msgstr "Új hozzászólás keletkezett %s: %s"
+
+msgid "wiki_notification_deactivate_page"
+msgstr "Értesítés letiltása lapra"
+
+msgid "wiki_notification_deactivate_wiki"
+msgstr "Értesítés letiltása wikire"
+
+msgid "wiki_notification_deactivated"
+msgstr "Értesítés letiltva"
+
+msgid "wiki_number_users_notes_or_comments"
+msgstr "Ehhez a laphoz jegyzetet vagy megjegyzést fűző felhasználók száma"
+
+msgid "wiki_ordering"
+msgstr "Rendezés"
+
+msgid "wiki_ordering_and_indent_saved"
+msgstr "A rendezést és a behúzást sikeresen mentette."
+
+msgid "wiki_orphaned_pages"
+msgstr "Árva lapok"
+
+msgid "wiki_other_pages_linking"
+msgstr "Erre a lapra linkelő más lapok"
+
+msgid "wiki_page"
+msgstr "Lap"
+
+msgid "wiki_page_actions"
+msgstr "Laptevékenységek"
+
+msgid "wiki_page_already_exists"
+msgstr "Már van ilyen című lap."
+
+msgid "wiki_page_blocked"
+msgstr "A wikilap írásvédett. Csak a ‘Beállítások módosítása’ joggal rendelkezők tudják módosítani."
+
+msgid "wiki_page_changes"
+msgstr "Lapmódosítások"
+
+msgid "wiki_page_deleted"
+msgstr "A wikilapot sikeresen törölte."
+
+msgid "wiki_page_deletion_confirmation"
+msgstr "Biztos, hogy törli ezt a wikilapot?"
+
+msgid "wiki_page_exists"
+msgstr "Létező oldal"
+
+msgid "wiki_page_hits"
+msgstr "Laplátogatások"
+
+msgid "wiki_page_in_master_language"
+msgstr "Az oldal főnyelven."
+
+msgid "wiki_page_list_form_info"
+msgstr "Az alábbi kiválasztott metaadathoz rendelt wikioldalakat sorolja fel. Csak a kereshető metaadat-mezőket soroljuk fel."
+
+msgid "wiki_page_list_mode"
+msgstr "Felsorolás típusa"
+
+msgid "wiki_page_list_mode_ordered"
+msgstr "Számozott"
+
+msgid "wiki_page_list_mode_unordered"
+msgstr "Listajeles"
+
+msgid "wiki_page_lists"
+msgstr "Lapok áttekintése"
+
+msgid "wiki_page_not_exist_select_templ"
+msgstr "Ez az oldal még nem létezik. Válasszon egy sablont az új oldalnak."
+
+msgid "wiki_page_notification_activated"
+msgstr "Értesítés bekapcsolva (egy oldalra)"
+
+msgid "wiki_page_status_blocked"
+msgstr "A lap írásvédett."
+
+msgid "wiki_page_template"
+msgstr "Sablon"
+
+msgid "wiki_page_templates"
+msgstr "Oldalsablonok"
+
+msgid "wiki_page_title_too_long"
+msgstr "A megadott cím túl hosszú. Adjon a Wiki oldalnak rövidebb címet."
+
+msgid "wiki_page_toc"
+msgstr "Lapáttekintés-blokk engedélyezése"
+
+msgid "wiki_page_toc_info"
+msgstr "Ennek a listának minden címe az egyes lapok tartalmának elejére linkel, ha a lap legalább két címet használ."
+
+msgid "wiki_page_type_wpg"
+msgstr "Wikioldal"
+
+msgid "wiki_page_unblocked"
+msgstr "A felhasználók írási jogosultságot kaptak."
+
+msgid "wiki_pages"
+msgstr "Lapok"
+
+msgid "wiki_pages_found"
+msgstr "A következő wikioldalakat találtuk a kifejezéshez: ‘$1’."
+
+msgid "wiki_passed"
+msgstr "Sikeres"
+
+msgid "wiki_pg_list_no_search_fields"
+msgstr "A wiki metaadata gyűjteményében egy kereshető metaadat sem található."
+
+msgid "wiki_please_enter_search_term"
+msgstr "Adjon meg keresési időt."
+
+msgid "wiki_popular_pages"
+msgstr "Kedvelt lapok"
+
+msgid "wiki_print_view"
+msgstr "Nyomtatási nézet"
+
+msgid "wiki_public_comments"
+msgstr "Nyilvános megjegyzések"
+
+msgid "wiki_purpose"
+msgstr "Szándék"
+
+msgid "wiki_quick_navigation"
+msgstr "Wiki gyors navigáció"
+
+msgid "wiki_rate_overall"
+msgstr "Wiki értékelése"
+
+msgid "wiki_rate_page"
+msgstr "Wikilap értékelése"
+
+msgid "wiki_recent_changes"
+msgstr "Legutóbbi módosítások"
+
+msgid "wiki_remove_template_status"
+msgstr "Sablonok közül eltávolít"
+
+msgid "wiki_removed_imp_pages"
+msgstr "A fontos lapokat eltávolította a listáról."
+
+msgid "wiki_rename"
+msgstr "Átnevezés"
+
+msgid "wiki_rename_page"
+msgstr "Lap átnevezése"
+
+msgid "wiki_save_ordering_and_indent"
+msgstr "Rendezés és behúzás mentése"
+
+msgid "wiki_search"
+msgstr "Keresés"
+
+msgid "wiki_search_results"
+msgstr "Keresési találatok"
+
+msgid "wiki_sec_protect_info"
+msgstr "A védett fejezeteket csak a ‘Beállítások módosítása’ jogosultsággal rendelkezők szerkeszthetik."
+
+msgid "wiki_select_one_item"
+msgstr "Egy elemet válasszon ki."
+
+msgid "wiki_selected_pages"
+msgstr "Kiválasztott lapok"
+
+msgid "wiki_set_as_start_page"
+msgstr "Beállítás kezdőoldalnak"
+
+msgid "wiki_settings"
+msgstr "Wikibeállítások"
+
+msgid "wiki_short_title_already_in_use"
+msgstr "Ezt a címet már használja egy másik wiki. Válasszon másik címet!"
+
+msgid "wiki_show_pdf_export"
+msgstr "PDF Export"
+
+msgid "wiki_show_print_view"
+msgstr "Nyomtatási nézet"
+
+msgid "wiki_start_page"
+msgstr "Kezdőlap"
+
+msgid "wiki_start_page_info"
+msgstr "Amennyiben oldal még nem létezik ezzel a címmel, új oldal jön létre."
+
+msgid "wiki_stat_chars"
+msgstr "Karakterek száma"
+
+msgid "wiki_stat_chars_avg"
+msgstr "Oldalankénti karakterek átlagos száma"
+
+msgid "wiki_stat_deleted_pages"
+msgstr "Törölt oldalak száma"
+
+msgid "wiki_stat_edit_pages"
+msgstr "Módosított oldalak száma"
+
+msgid "wiki_stat_edit_pages_avg"
+msgstr "Felhasználónkénti módosított oldalak átlagos száma"
+
+msgid "wiki_stat_external_links"
+msgstr "Külső linkek száma"
+
+msgid "wiki_stat_external_links_avg"
+msgstr "Oldalankénti külső linkek átlagos száma"
+
+msgid "wiki_stat_figure"
+msgstr "Mutatószám"
+
+msgid "wiki_stat_footnotes"
+msgstr "Lábjegyzetek száma"
+
+msgid "wiki_stat_footnotes_avg"
+msgstr "Oldalankénti lábjegyzetek átlagos száma"
+
+msgid "wiki_stat_internal_links"
+msgstr "Belső linkek száma"
+
+msgid "wiki_stat_internal_links_avg"
+msgstr "Oldalankénti belső linkek átlagos száma"
+
+msgid "wiki_stat_new_pages"
+msgstr "Új oldalak száma"
+
+msgid "wiki_stat_new_pages_avg"
+msgstr "Felhasználónkénti új oldalak átlagos száma"
+
+msgid "wiki_stat_num_pages"
+msgstr "Oldalak száma"
+
+msgid "wiki_stat_num_rating"
+msgstr "Értékelések száma"
+
+msgid "wiki_stat_num_rating_avg"
+msgstr "Oldalankénti értékelések átlagos száma"
+
+msgid "wiki_stat_page_changes"
+msgstr "Változtatások száma"
+
+msgid "wiki_stat_page_changes_avg"
+msgstr "Változtatás átlagos száma"
+
+msgid "wiki_stat_page_characters"
+msgstr "Karakterek száma"
+
+msgid "wiki_stat_page_external_links"
+msgstr "Külső linkek száma"
+
+msgid "wiki_stat_page_footnotes"
+msgstr "Lábjegyzetek száma"
+
+msgid "wiki_stat_page_internal_links"
+msgstr "Belső linkek száma"
+
+msgid "wiki_stat_page_ratings"
+msgstr "Értékelések száma"
+
+msgid "wiki_stat_page_read"
+msgstr "Olvasási hozzáférések száma"
+
+msgid "wiki_stat_page_user_edit"
+msgstr "Oldal módosítóinak száma"
+
+msgid "wiki_stat_page_words"
+msgstr "Szavak száma"
+
+msgid "wiki_stat_rating_avg"
+msgstr "Értékelések átlaga"
+
+msgid "wiki_stat_read_pages"
+msgstr "Olvasási hozzáférések száma"
+
+msgid "wiki_stat_scope"
+msgstr "Időkeret"
+
+msgid "wiki_stat_user_edit_pages"
+msgstr "Oldal módosítóinak száma"
+
+msgid "wiki_stat_user_edit_pages_avg"
+msgstr "Oldalankénti módosítók átlagos száma"
+
+msgid "wiki_stat_words"
+msgstr "Szavak száma"
+
+msgid "wiki_stat_words_avg"
+msgstr "Oldalankénti szavak átlagos száma"
+
+msgid "wiki_style"
+msgstr "Stílus"
+
+msgid "wiki_sure_remove_imp_pages"
+msgstr "Biztos, hogy eltávolítja az alábbi lapokat a fontos lapok listájáról?"
+
+msgid "wiki_target_page"
+msgstr "Céllap"
+
+msgid "wiki_team_members"
+msgstr "Csapattagok"
+
+msgid "wiki_templ_add_to_page"
+msgstr "Meglévő oldalhoz használható"
+
+msgid "wiki_templ_new_pages"
+msgstr "Új oldalhoz használható"
+
+msgid "wiki_template_added"
+msgstr "Sikeresen létrehozott egy sablont."
+
+msgid "wiki_template_status_removed"
+msgstr "A sablont sikeresen eltávolította."
+
+msgid "wiki_translate_page_master_info"
+msgstr "Új wikioldal fordítást hoz létre. Kérjük, adja meg, hogy ez a fordítás az oldal egy meglévő főverziójához tartozik-e, vagy egy teljesen új oldal készül. A második esetben meg kell adnia a főverzió oldalcímét."
+
+msgid "wiki_translation_page"
+msgstr "Fordítási oldal"
+
+msgid "wiki_translations"
+msgstr "Fordítások"
+
+msgid "wiki_type_wiki_team"
+msgstr "Csapatwiki"
+
+msgid "wiki_unblock_page"
+msgstr "Írási jog megadása"
+
+msgid "wiki_unhide_meta_adv_records"
+msgstr "További tulajdonságok megjelenítése"
+
+msgid "wiki_what_links_here"
+msgstr "Ide mutató linkek"
+
+msgid "wiki_what_links_to_page"
+msgstr "Mi hivatkozik a(z) ‘%s’ lapra?"
+
+msgid "wiki_whole_wiki"
+msgstr "Teljes wiki"
+
+msgid "wiki_wiki_page"
+msgstr "Wikilap"
+
+msgid "wiki_wiki_search"
+msgstr "Wikikeresés"
+
+msgid "wiki_wpg"
+msgstr "Wiki oldal"

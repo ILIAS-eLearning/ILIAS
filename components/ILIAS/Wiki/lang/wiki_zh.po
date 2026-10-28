@@ -1,0 +1,690 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: zh\n"
+"Language-Team: Chinese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: wiki\n"
+
+msgid "wiki_activate_extended_rating"
+msgstr "激活分级类别"
+
+msgid "wiki_activate_new_page_rating"
+msgstr "激活新页面分级"
+
+msgid "wiki_activate_page_rating"
+msgstr "激活分级"
+
+msgid "wiki_activate_rating"
+msgstr "激活评级"
+
+#, fuzzy
+msgid "wiki_add_link"
+msgstr "Add Link"
+
+#, fuzzy
+msgid "wiki_add_template"
+msgstr "Set Template Status"
+
+#, fuzzy
+msgid "wiki_advmd_block_title"
+msgstr "Advanced Metadata of Page"
+
+msgid "wiki_all_pages"
+msgstr "所有页面"
+
+msgid "wiki_block_page"
+msgstr "阻止页面"
+
+#, fuzzy
+msgid "wiki_change_notification_body_new"
+msgstr "the following wiki page was created"
+
+msgid "wiki_change_notification_link"
+msgstr "链接到 wiki: %s"
+
+#, fuzzy
+msgid "wiki_change_notification_page_body_comment"
+msgstr "a comment has been added to the following wiki page"
+
+#, fuzzy
+msgid "wiki_change_notification_page_body_delete"
+msgstr "the following wiki page has been deleted"
+
+msgid "wiki_change_notification_page_body_update"
+msgstr "在 wiki \"%s\" 中，页面 \"%s\" 已被更新。"
+
+msgid "wiki_change_notification_page_link"
+msgstr "链接到wiki页面：%s"
+
+msgid "wiki_change_notification_salutation"
+msgstr "Hello %s，"
+
+msgid "wiki_change_notification_subject"
+msgstr "Wiki \"%s\" 已经被更改。"
+
+msgid "wiki_changed_by"
+msgstr "更改者"
+
+#, fuzzy
+msgid "wiki_comment"
+msgstr "Comment"
+
+#, fuzzy
+msgid "wiki_comment_for_learner"
+msgstr "Feedback for contributor"
+
+#, fuzzy
+msgid "wiki_commented_by"
+msgstr "Commented by"
+
+msgid "wiki_contributor"
+msgstr "贡献者"
+
+msgid "wiki_contributors"
+msgstr "贡献者"
+
+#, fuzzy
+msgid "wiki_copy"
+msgstr "Copy Wiki"
+
+#, fuzzy
+msgid "wiki_create_page"
+msgstr "Create Page"
+
+msgid "wiki_created_by"
+msgstr "创建者"
+
+msgid "wiki_deactivate_page_rating"
+msgstr "停用分级"
+
+msgid "wiki_delete_page"
+msgstr "删除页面"
+
+#, fuzzy
+msgid "wiki_download_submission"
+msgstr "Download Submission File"
+
+#, fuzzy
+msgid "wiki_empty_page"
+msgstr "Empty Page"
+
+#, fuzzy
+msgid "wiki_empty_page_template"
+msgstr "Empty Page Template on Page Creation"
+
+#, fuzzy
+msgid "wiki_exc_template"
+msgstr "Wiki Template"
+
+#, fuzzy
+msgid "wiki_exc_wiki_created"
+msgstr "Wiki has been created."
+
+#, fuzzy
+msgid "wiki_exercise_info"
+msgstr "This wiki is part of the assignment \"%s\" of exercise \"%s\"."
+
+#, fuzzy
+msgid "wiki_exercise_submitted_info"
+msgstr "Your last submission was on %s. Please check the export file."
+
+msgid "wiki_failed"
+msgstr "失败"
+
+msgid "wiki_feedback_from_tutor"
+msgstr "导师的反馈"
+
+#, fuzzy
+msgid "wiki_finalize_wiki"
+msgstr "Finalize and Submit Wiki"
+
+#, fuzzy
+msgid "wiki_finalized"
+msgstr "Wiki has been finalized and submitted."
+
+msgid "wiki_functions"
+msgstr "Wiki 功能"
+
+msgid "wiki_general_settings"
+msgstr "常规设置"
+
+msgid "wiki_grading"
+msgstr "分级"
+
+#, fuzzy
+msgid "wiki_html_export"
+msgstr "HTML exportieren"
+
+msgid "wiki_imp_page_added"
+msgstr "页面已添加"
+
+msgid "wiki_import"
+msgstr "导入 Wiki"
+
+#, fuzzy
+msgid "wiki_incl_comments"
+msgstr "including comments"
+
+msgid "wiki_indentation"
+msgstr "缩进"
+
+msgid "wiki_introduction"
+msgstr "介绍"
+
+msgid "wiki_last_changed"
+msgstr "最近更改"
+
+msgid "wiki_last_changed_by"
+msgstr "最近更改者"
+
+msgid "wiki_last_edited"
+msgstr "最后编辑的"
+
+msgid "wiki_last_visited_page"
+msgstr "最近访问的页面"
+
+#, fuzzy
+msgid "wiki_link_md_values"
+msgstr "Automatic Linking"
+
+#, fuzzy
+msgid "wiki_link_md_values_info"
+msgstr "Autmatically links properties presented in the side block to wiki pages with the same name."
+
+#, fuzzy
+msgid "wiki_link_text"
+msgstr "Link Text"
+
+msgid "wiki_mark"
+msgstr "标记"
+
+#, fuzzy
+msgid "wiki_master_existing"
+msgstr "Page Exists in Master Language"
+
+#, fuzzy
+msgid "wiki_master_title"
+msgstr "Title of Page in Master Language"
+
+msgid "wiki_navigation"
+msgstr "Wiki 导航"
+
+msgid "wiki_navigation_info"
+msgstr "在这里您能添加和移除链接到已有的wiki页面到wiki中的导航区块。"
+
+#, fuzzy
+msgid "wiki_new_page"
+msgstr "New Page"
+
+msgid "wiki_new_page_name"
+msgstr "新标题"
+
+msgid "wiki_new_pages"
+msgstr "新页面"
+
+msgid "wiki_news_page_changed"
+msgstr "Wiki页面已经更新"
+
+msgid "wiki_news_page_created"
+msgstr "新wiki页面创建已创建"
+
+#, fuzzy
+msgid "wiki_no_master"
+msgstr "Page Does Not Exist in Master Language"
+
+#, fuzzy
+msgid "wiki_no_page_found"
+msgstr "No wiki page has been found for search term '$1'."
+
+#, fuzzy
+msgid "wiki_no_search_term"
+msgstr "No search term has been entered. All pages of the wiki are listed below."
+
+msgid "wiki_no_start_page"
+msgstr "Wiki缺失了一个有效的开始页。"
+
+#, fuzzy
+msgid "wiki_not_existing"
+msgstr "not existing yet"
+
+msgid "wiki_notgraded"
+msgstr "未分级"
+
+msgid "wiki_notification_activate_page"
+msgstr "激活页面通知"
+
+msgid "wiki_notification_activate_wiki"
+msgstr "激活Wiki通知"
+
+msgid "wiki_notification_activated"
+msgstr "通知已激活(整个Wiki)"
+
+#, fuzzy
+msgid "wiki_notification_comment"
+msgstr "the following Wiki Page has been commented."
+
+#, fuzzy
+msgid "wiki_notification_comment_subject"
+msgstr "A comment was added to %s: %s"
+
+msgid "wiki_notification_deactivate_page"
+msgstr "关闭页面通知"
+
+msgid "wiki_notification_deactivate_wiki"
+msgstr "关闭 Wiki 通知"
+
+msgid "wiki_notification_deactivated"
+msgstr "通知已停用"
+
+msgid "wiki_number_users_notes_or_comments"
+msgstr "附加笔记或评论到这个页面的用户数量"
+
+msgid "wiki_ordering"
+msgstr "排序"
+
+msgid "wiki_ordering_and_indent_saved"
+msgstr "排序和缩进已保存。"
+
+msgid "wiki_orphaned_pages"
+msgstr "孤立的页面"
+
+msgid "wiki_other_pages_linking"
+msgstr "其他页面链接到此页面"
+
+msgid "wiki_page"
+msgstr "页"
+
+msgid "wiki_page_actions"
+msgstr "页面动作"
+
+msgid "wiki_page_already_exists"
+msgstr "这个标题的页面已存在。"
+
+msgid "wiki_page_blocked"
+msgstr "Wiki页面已锁定。"
+
+msgid "wiki_page_changes"
+msgstr "页面更改"
+
+msgid "wiki_page_deleted"
+msgstr "Wiki页面已删除。"
+
+msgid "wiki_page_deletion_confirmation"
+msgstr "您真的要删除这个wiki页面吗?"
+
+#, fuzzy
+msgid "wiki_page_exists"
+msgstr "Existing Page"
+
+msgid "wiki_page_hits"
+msgstr "页面点击"
+
+#, fuzzy
+msgid "wiki_page_in_master_language"
+msgstr "Page in Master Language"
+
+#, fuzzy
+msgid "wiki_page_list_form_info"
+msgstr "Adds a list of pages of this wiki that are all assigned to the selected metadata below."
+
+#, fuzzy
+msgid "wiki_page_list_mode"
+msgstr "Type of List"
+
+#, fuzzy
+msgid "wiki_page_list_mode_ordered"
+msgstr "Numbered"
+
+#, fuzzy
+msgid "wiki_page_list_mode_unordered"
+msgstr "Not numbered"
+
+msgid "wiki_page_lists"
+msgstr "页面列表"
+
+#, fuzzy
+msgid "wiki_page_not_exist_select_templ"
+msgstr "This page does not exist yet. Please select a template for the new page."
+
+msgid "wiki_page_notification_activated"
+msgstr "通知已激活(单个页面)"
+
+msgid "wiki_page_status_blocked"
+msgstr "学习者被阻止编辑这个页面。"
+
+#, fuzzy
+msgid "wiki_page_template"
+msgstr "Page Template"
+
+#, fuzzy
+msgid "wiki_page_templates"
+msgstr "Page Templates"
+
+#, fuzzy
+msgid "wiki_page_title_too_long"
+msgstr "Sorry, the title of the wiki page is too long. Please replace it with a shorter title."
+
+msgid "wiki_page_toc"
+msgstr "启用页面概览块"
+
+msgid "wiki_page_toc_info"
+msgstr "如果这些页面使用了至少两标题，则在每页的开始，将列出所有链接到内容的标题。"
+
+#, fuzzy
+msgid "wiki_page_type_wpg"
+msgstr "Wiki Page"
+
+msgid "wiki_page_unblocked"
+msgstr "Wiki页面已解除锁定。"
+
+msgid "wiki_pages"
+msgstr "页面"
+
+#, fuzzy
+msgid "wiki_pages_found"
+msgstr "The following pages match your search term '$1'."
+
+msgid "wiki_passed"
+msgstr "合格"
+
+#, fuzzy
+msgid "wiki_pg_list_no_search_fields"
+msgstr "No searchable meta data fields found in the metadata sets of the wiki."
+
+msgid "wiki_please_enter_search_term"
+msgstr "请输入一个搜索词。"
+
+msgid "wiki_popular_pages"
+msgstr "流行页"
+
+msgid "wiki_print_view"
+msgstr "打印视图"
+
+msgid "wiki_public_comments"
+msgstr "公共评论"
+
+#, fuzzy
+msgid "wiki_purpose"
+msgstr "Purpose"
+
+msgid "wiki_quick_navigation"
+msgstr "Wiki快速导航"
+
+#, fuzzy
+msgid "wiki_rate_overall"
+msgstr "Rate Wiki"
+
+msgid "wiki_rate_page"
+msgstr "评估这个页面"
+
+msgid "wiki_recent_changes"
+msgstr "最近更改"
+
+#, fuzzy
+msgid "wiki_remove_template_status"
+msgstr "Remove Template Status"
+
+msgid "wiki_removed_imp_pages"
+msgstr "重要页面已经从清单中移除。"
+
+msgid "wiki_rename"
+msgstr "重命名"
+
+msgid "wiki_rename_page"
+msgstr "重命名页面"
+
+msgid "wiki_save_ordering_and_indent"
+msgstr "保存排序和缩进"
+
+msgid "wiki_search"
+msgstr "搜索。"
+
+msgid "wiki_search_results"
+msgstr "搜索结果"
+
+#, fuzzy
+msgid "wiki_sec_protect_info"
+msgstr "Protected sections can only be edited by users having \"Edit Settings\" permission."
+
+#, fuzzy
+msgid "wiki_select_one_item"
+msgstr "Please select one item."
+
+msgid "wiki_selected_pages"
+msgstr "所选页面"
+
+#, fuzzy
+msgid "wiki_set_as_start_page"
+msgstr "Set as Start Page"
+
+msgid "wiki_settings"
+msgstr "Wiki设置"
+
+msgid "wiki_short_title_already_in_use"
+msgstr "这个标题已经被其他wiki使用。请选择一个不同的标题。"
+
+#, fuzzy
+msgid "wiki_show_pdf_export"
+msgstr "PDF Export"
+
+#, fuzzy
+msgid "wiki_show_print_view"
+msgstr "Print View"
+
+msgid "wiki_start_page"
+msgstr "开始页"
+
+#, fuzzy
+msgid "wiki_start_page_info"
+msgstr "If there does not exist a page with this title yet, a new page will be created."
+
+#, fuzzy
+msgid "wiki_stat_chars"
+msgstr "Number of Characters"
+
+#, fuzzy
+msgid "wiki_stat_chars_avg"
+msgstr "Average Number of Characters per Page"
+
+#, fuzzy
+msgid "wiki_stat_deleted_pages"
+msgstr "Number of Deleted Pages"
+
+#, fuzzy
+msgid "wiki_stat_edit_pages"
+msgstr "Number of Edited Pages"
+
+#, fuzzy
+msgid "wiki_stat_edit_pages_avg"
+msgstr "Average Number of Edited Pages per User"
+
+#, fuzzy
+msgid "wiki_stat_external_links"
+msgstr "Number of External Links"
+
+#, fuzzy
+msgid "wiki_stat_external_links_avg"
+msgstr "Average Number of External Links per Page"
+
+#, fuzzy
+msgid "wiki_stat_figure"
+msgstr "Figure"
+
+#, fuzzy
+msgid "wiki_stat_footnotes"
+msgstr "Number of Footnotes"
+
+#, fuzzy
+msgid "wiki_stat_footnotes_avg"
+msgstr "Average Number of Footnotes per Page"
+
+#, fuzzy
+msgid "wiki_stat_internal_links"
+msgstr "Number of Internal Links"
+
+#, fuzzy
+msgid "wiki_stat_internal_links_avg"
+msgstr "Average Number of Internal Links per Page"
+
+#, fuzzy
+msgid "wiki_stat_new_pages"
+msgstr "Number of New Pages"
+
+#, fuzzy
+msgid "wiki_stat_new_pages_avg"
+msgstr "Average Number of New Pages per User"
+
+#, fuzzy
+msgid "wiki_stat_num_pages"
+msgstr "Number of Pages"
+
+#, fuzzy
+msgid "wiki_stat_num_rating"
+msgstr "Number of Ratings"
+
+#, fuzzy
+msgid "wiki_stat_num_rating_avg"
+msgstr "Average Number of Ratings per Page"
+
+#, fuzzy
+msgid "wiki_stat_page_changes"
+msgstr "Number of Changes"
+
+#, fuzzy
+msgid "wiki_stat_page_changes_avg"
+msgstr "Average Number of Changes"
+
+#, fuzzy
+msgid "wiki_stat_page_characters"
+msgstr "Number of Characters"
+
+#, fuzzy
+msgid "wiki_stat_page_external_links"
+msgstr "Number of External Links"
+
+#, fuzzy
+msgid "wiki_stat_page_footnotes"
+msgstr "Number of Footnotes"
+
+#, fuzzy
+msgid "wiki_stat_page_internal_links"
+msgstr "Number of Internal Links"
+
+#, fuzzy
+msgid "wiki_stat_page_ratings"
+msgstr "Number of Ratings"
+
+#, fuzzy
+msgid "wiki_stat_page_read"
+msgstr "Number of Read Accesses"
+
+#, fuzzy
+msgid "wiki_stat_page_user_edit"
+msgstr "Number of Users Who Edited Page"
+
+#, fuzzy
+msgid "wiki_stat_page_words"
+msgstr "Number of Words"
+
+#, fuzzy
+msgid "wiki_stat_rating_avg"
+msgstr "Average Rating"
+
+#, fuzzy
+msgid "wiki_stat_read_pages"
+msgstr "Number of Read Accesses"
+
+#, fuzzy
+msgid "wiki_stat_scope"
+msgstr "Timeframe"
+
+#, fuzzy
+msgid "wiki_stat_user_edit_pages"
+msgstr "Number of Users Who Edited Pages "
+
+#, fuzzy
+msgid "wiki_stat_user_edit_pages_avg"
+msgstr "Average Number of Users Who Edited Pages "
+
+#, fuzzy
+msgid "wiki_stat_words"
+msgstr "Number of Words"
+
+#, fuzzy
+msgid "wiki_stat_words_avg"
+msgstr " Average Number of Words per Page"
+
+msgid "wiki_style"
+msgstr "样式"
+
+msgid "wiki_sure_remove_imp_pages"
+msgstr "您确定想从重要的页面清单中移除以下页面吗？"
+
+#, fuzzy
+msgid "wiki_target_page"
+msgstr "Target Page"
+
+#, fuzzy
+msgid "wiki_team_members"
+msgstr "Team Members"
+
+#, fuzzy
+msgid "wiki_templ_add_to_page"
+msgstr "Available for Being Added to Existing Pages"
+
+#, fuzzy
+msgid "wiki_templ_new_pages"
+msgstr "Available on Page Creation"
+
+#, fuzzy
+msgid "wiki_template_added"
+msgstr "Template page added."
+
+#, fuzzy
+msgid "wiki_template_status_removed"
+msgstr "Template status removed."
+
+#, fuzzy
+msgid "wiki_translate_page_master_info"
+msgstr "You are creating a new wiki page translation. Please specify, if this translation belongs to an existing master version of the page, or if a completely new page is being created. In the second case you need to specify a page title for the master version."
+
+#, fuzzy
+msgid "wiki_translation_page"
+msgstr "Translation Page"
+
+#, fuzzy
+msgid "wiki_translations"
+msgstr "Translations"
+
+#, fuzzy
+msgid "wiki_type_wiki_team"
+msgstr "Team Wiki"
+
+msgid "wiki_unblock_page"
+msgstr "开启页面"
+
+#, fuzzy
+msgid "wiki_unhide_meta_adv_records"
+msgstr "Show additional properties"
+
+msgid "wiki_what_links_here"
+msgstr "What Links Here?"
+
+msgid "wiki_what_links_to_page"
+msgstr "什么链接到页面 \"%s\"？"
+
+msgid "wiki_whole_wiki"
+msgstr "整个 Wiki"
+
+msgid "wiki_wiki_page"
+msgstr "wiki页面"
+
+msgid "wiki_wiki_search"
+msgstr "Wiki搜索"
+
+#, fuzzy
+msgid "wiki_wpg"
+msgstr "Wiki Page"

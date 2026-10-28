@@ -1,0 +1,285 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: sess\n"
+
+msgid "il_sess_participant"
+msgstr ""
+
+msgid "il_sess_status_open"
+msgstr ""
+
+msgid "mail_sess_roles"
+msgstr ""
+
+msgid "notification"
+msgstr ""
+
+msgid "objs_crs_role"
+msgstr ""
+
+msgid "objs_grp_role"
+msgstr ""
+
+msgid "send_mail_participants"
+msgstr ""
+
+msgid "sess_accept_request"
+msgstr ""
+
+msgid "sess_assign"
+msgstr ""
+
+msgid "sess_bt_refuse"
+msgstr ""
+
+msgid "sess_change_type"
+msgstr ""
+
+msgid "sess_contact"
+msgstr ""
+
+msgid "sess_copy"
+msgstr ""
+
+msgid "sess_filter_all_types"
+msgstr ""
+
+msgid "sess_filter_not_assigned"
+msgstr ""
+
+msgid "sess_import"
+msgstr ""
+
+msgid "sess_info_new_sess_type"
+msgstr ""
+
+msgid "sess_is_assigned"
+msgstr ""
+
+msgid "sess_list_reg_limit_places"
+msgstr ""
+
+msgid "sess_lp_preset"
+msgstr ""
+
+msgid "sess_lp_preset_info"
+msgstr ""
+
+msgid "sess_mail_admins_only"
+msgstr ""
+
+msgid "sess_mail_admins_only_info"
+msgstr ""
+
+msgid "sess_mail_all"
+msgstr ""
+
+msgid "sess_mail_all_info"
+msgstr ""
+
+msgid "sess_mail_context_participant_info"
+msgstr ""
+
+msgid "sess_mail_context_participant_title"
+msgstr ""
+
+msgid "sess_mail_permanent_link"
+msgstr ""
+
+msgid "sess_mail_permanent_link_participants"
+msgstr ""
+
+msgid "sess_mail_sub_acc_bod"
+msgstr ""
+
+msgid "sess_mail_sub_acc_sub"
+msgstr ""
+
+msgid "sess_mail_sub_dec_bod"
+msgstr ""
+
+msgid "sess_mail_sub_dec_sub"
+msgstr ""
+
+msgid "sess_mail_type"
+msgstr ""
+
+msgid "sess_material_assigned"
+msgstr ""
+
+msgid "sess_material_not_assigned"
+msgstr ""
+
+msgid "sess_max_members_needed"
+msgstr ""
+
+msgid "sess_mem_contacts"
+msgstr ""
+
+msgid "sess_mem_send_mail"
+msgstr ""
+
+msgid "sess_mem_tbl_header"
+msgstr ""
+
+msgid "sess_member_administration"
+msgstr ""
+
+msgid "sess_members"
+msgstr ""
+
+msgid "sess_members_gallery"
+msgstr ""
+
+msgid "sess_members_print_title"
+msgstr ""
+
+msgid "sess_msg_applicants_assigned"
+msgstr ""
+
+msgid "sess_msg_applicants_removed"
+msgstr ""
+
+msgid "sess_new"
+msgstr ""
+
+msgid "sess_new_registrations"
+msgstr ""
+
+msgid "sess_notification_option"
+msgstr ""
+
+msgid "sess_notification_option_inherit"
+msgstr ""
+
+msgid "sess_notification_option_inherit_info"
+msgstr ""
+
+msgid "sess_notification_option_manual"
+msgstr ""
+
+msgid "sess_notification_option_manual_info"
+msgstr ""
+
+msgid "sess_open"
+msgstr ""
+
+msgid "sess_part_filter_participated"
+msgstr ""
+
+msgid "sess_part_filter_registered"
+msgstr ""
+
+msgid "sess_part_table_excused"
+msgstr ""
+
+msgid "sess_participation_refused_info"
+msgstr ""
+
+msgid "sess_print_list"
+msgstr ""
+
+msgid "sess_reg_added_to_wl"
+msgstr ""
+
+msgid "sess_reg_cannot_participate"
+msgstr ""
+
+msgid "sess_reg_cannot_participate_info"
+msgstr ""
+
+msgid "sess_reg_direct"
+msgstr ""
+
+msgid "sess_reg_direct_info"
+msgstr ""
+
+msgid "sess_reg_disabled"
+msgstr ""
+
+msgid "sess_reg_disabled_info"
+msgstr ""
+
+msgid "sess_reg_max_members"
+msgstr ""
+
+msgid "sess_reg_max_members_info"
+msgstr ""
+
+msgid "sess_reg_max_members_short"
+msgstr ""
+
+msgid "sess_reg_max_users_exceeded"
+msgstr ""
+
+msgid "sess_reg_max_users_exceeded_wl"
+msgstr ""
+
+msgid "sess_reg_request"
+msgstr ""
+
+msgid "sess_reg_request_info"
+msgstr ""
+
+msgid "sess_reg_tutor"
+msgstr ""
+
+msgid "sess_reg_tutor_info"
+msgstr ""
+
+msgid "sess_reg_type"
+msgstr ""
+
+msgid "sess_reg_waiting_list"
+msgstr ""
+
+msgid "sess_reg_waiting_list_autofill"
+msgstr ""
+
+msgid "sess_reg_waiting_list_autofill_info"
+msgstr ""
+
+msgid "sess_reg_waiting_list_no_autofill"
+msgstr ""
+
+msgid "sess_reg_waiting_list_no_autofill_info"
+msgstr ""
+
+msgid "sess_reg_waiting_list_none"
+msgstr ""
+
+msgid "sess_registered_confirm"
+msgstr ""
+
+msgid "sess_registration_notification"
+msgstr ""
+
+msgid "sess_registration_notification_info"
+msgstr ""
+
+msgid "sess_section_reg"
+msgstr ""
+
+msgid "sess_setting_header_presentation"
+msgstr ""
+
+msgid "sess_show_participants_info"
+msgstr ""
+
+msgid "sess_title"
+msgstr ""
+
+msgid "sess_users_added"
+msgstr ""
+
+msgid "sess_users_already_assigned"
+msgstr ""
+
+msgid "sess_users_removed_from_list"
+msgstr ""
+
+msgid "sess_warn_sess_type_changed"
+msgstr ""

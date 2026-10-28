@@ -1,0 +1,324 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fa\n"
+"Language-Team: Persian (Farsi)\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Domain: mcst\n"
+
+msgid "mcst_add_new_item"
+msgstr "اضافه کردن آیتم پوشش رسانه ای"
+
+#, fuzzy
+msgid "mcst_audio_files"
+msgstr "Audio Files"
+
+msgid "mcst_audioportable_settings_info"
+msgstr "لیست پسوندها با کاما جدا شده اند"
+
+msgid "mcst_audioportable_settings_title"
+msgstr "پسوندهای فایل برای فرمت صدا"
+
+msgid "mcst_audioportable_title"
+msgstr "صدای اضافی برای دستگاههای قابل حمل"
+
+msgid "mcst_automatic_detection"
+msgstr "تشخیص اتوماتیک"
+
+#, fuzzy
+msgid "mcst_autoplay"
+msgstr "Autoplay"
+
+#, fuzzy
+msgid "mcst_autoplay_active"
+msgstr "Autoplay (Default on)"
+
+#, fuzzy
+msgid "mcst_autoplay_inactive"
+msgstr "Autoplay (Default off)"
+
+#, fuzzy
+msgid "mcst_autoplay_info"
+msgstr "Starts automatically the next video when reaching the end of the previous one. This feature is not supported by youtube videos."
+
+msgid "mcst_clear_purpose_title"
+msgstr "پاک کردن"
+
+#, fuzzy
+msgid "mcst_confirm_deletion"
+msgstr "Confirm Deletion"
+
+#, fuzzy
+msgid "mcst_converted_file"
+msgstr "File has been converted."
+
+#, fuzzy
+msgid "mcst_copy"
+msgstr "Copy Mediacast"
+
+msgid "mcst_current_value_info"
+msgstr "Shows the current value of this format."
+
+msgid "mcst_default_visibility"
+msgstr "دسترسی پیش فرض"
+
+msgid "mcst_det_playtime"
+msgstr "تعیین زمان پخش"
+
+#, fuzzy
+msgid "mcst_download_all"
+msgstr "Download All"
+
+msgid "mcst_download_audioportable"
+msgstr "Download Audio Portable"
+
+#, fuzzy
+msgid "mcst_download_cnt"
+msgstr "Downloaded"
+
+msgid "mcst_download_standard"
+msgstr "دانلود"
+
+#, fuzzy
+msgid "mcst_download_started_bg"
+msgstr "Download of files has started. Please check your background tasks in the top right corner."
+
+#, fuzzy
+msgid "mcst_download_videoalternative"
+msgstr "Download Alternative File"
+
+msgid "mcst_download_videoportable"
+msgstr "Download Video Portable"
+
+msgid "mcst_downloadable"
+msgstr "لینک های دانلود"
+
+msgid "mcst_downloadable_info"
+msgstr "اگر این گزینه فعال شود، برای دانلود کردن لینکهایی آماده می شوند."
+
+msgid "mcst_duration"
+msgstr "زمان پخش"
+
+msgid "mcst_duration_info"
+msgstr "اگر مقداری وارد نشده باشد، سیستم سعی می کند تا زمانی را بطور اتوماتیک تعیین کند."
+
+msgid "mcst_edit_item"
+msgstr "ویرایش آیتم پوشش رسانه ای"
+
+msgid "mcst_edit_settings"
+msgstr "تنظیمات پوشش رسانه ای"
+
+#, fuzzy
+msgid "mcst_gallery"
+msgstr "Gallery"
+
+#, fuzzy
+msgid "mcst_img_gallery"
+msgstr "Image Gallery"
+
+msgid "mcst_import"
+msgstr "وارد کردن پوشش رسانه ای"
+
+msgid "mcst_incl_files_in_rss"
+msgstr "Include Media Files in Feed"
+
+msgid "mcst_incl_files_in_rss_info"
+msgstr "If enabled, media files are includes as attachements in the RSS feed. Otherwise the feed just notifies subscribers about new items."
+
+#, fuzzy
+msgid "mcst_input_either_file_or_url"
+msgstr "Please specify a file or an URL. If you provide a file, please note the maximum allowed upload file size."
+
+#, fuzzy
+msgid "mcst_items"
+msgstr "Items"
+
+msgid "mcst_last_submission"
+msgstr "آخرین ارسال"
+
+#, fuzzy
+msgid "mcst_list"
+msgstr "List"
+
+#, fuzzy
+msgid "mcst_manage"
+msgstr "Manage"
+
+msgid "mcst_media_cast"
+msgstr "پوشش رسانه ای"
+
+msgid "mcst_media_cast_not_online"
+msgstr "پوشش رسانه ای آنلاین نیست"
+
+msgid "mcst_media_cast_not_online_text"
+msgstr "پوشش رسانه ای آنلاین نیست یا غیرفعال شده است"
+
+msgid "mcst_mimetype"
+msgstr "نوع Mime"
+
+msgid "mcst_mimetype_info"
+msgstr "نوع را برای کنترل پلاگین پخش را انتخاب کنبد. لطفا توجه کنید: هر مرورگری پلاگینی را که شما می خواهید استفاده کنید، ندارد."
+
+msgid "mcst_mimetypes"
+msgstr "انواع Mime"
+
+msgid "mcst_mimetypes_info"
+msgstr "لیست انواع mime با کاما جدا شده اند"
+
+#, fuzzy
+msgid "mcst_new_items_det_lp"
+msgstr "Add new items to learning progress"
+
+#, fuzzy
+msgid "mcst_new_items_det_lp_info"
+msgstr "New items are automatically added to determine the overall learning progress."
+
+msgid "mcst_news_item_visibility_info"
+msgstr "اخبار عمومی می توانند بدون احراز هویت سیستم و از طریق RSS دیده شوند. لطفا اطلاعات محرمانه در آن قرار ندهید."
+
+#, fuzzy
+msgid "mcst_next_items"
+msgstr "Next Items"
+
+#, fuzzy
+msgid "mcst_no_autoplay"
+msgstr "No Autoplay"
+
+msgid "mcst_nr_items"
+msgstr "تعداد آیتم ها"
+
+#, fuzzy
+msgid "mcst_nr_videos"
+msgstr "Number of Initial Videos"
+
+#, fuzzy
+msgid "mcst_ordering"
+msgstr "Sorting"
+
+#, fuzzy
+msgid "mcst_ordering_creation_date_asc"
+msgstr "By Creation Date (Ascending)"
+
+#, fuzzy
+msgid "mcst_ordering_creation_date_desc"
+msgstr "By Creation Date (Descending)"
+
+#, fuzzy
+msgid "mcst_ordering_manual"
+msgstr "Manual"
+
+#, fuzzy
+msgid "mcst_ordering_title"
+msgstr "By Title"
+
+#, fuzzy
+msgid "mcst_play"
+msgstr "Play"
+
+#, fuzzy
+msgid "mcst_play_cnt"
+msgstr "Played"
+
+msgid "mcst_play_time"
+msgstr "زمان پخش"
+
+#, fuzzy
+msgid "mcst_podcast"
+msgstr "Podcast"
+
+#, fuzzy
+msgid "mcst_prev_items"
+msgstr "Previous Items"
+
+#, fuzzy
+msgid "mcst_preview"
+msgstr "Preview"
+
+#, fuzzy
+msgid "mcst_preview_picture"
+msgstr "Preview Picture"
+
+#, fuzzy
+msgid "mcst_preview_picture_info"
+msgstr "Only supported by the following main media types:"
+
+msgid "mcst_reference_info"
+msgstr "مکان منبع"
+
+#, fuzzy
+msgid "mcst_save_order"
+msgstr "Save Order"
+
+msgid "mcst_set_playtime"
+msgstr "Playtime has been set."
+
+msgid "mcst_settings"
+msgstr "تنظیمات پوشش رسانه ای"
+
+#, fuzzy
+msgid "mcst_show_description"
+msgstr "Show Description"
+
+msgid "mcst_standard_settings_info"
+msgstr "لیست پسوندها با کاما جدا شده اند"
+
+msgid "mcst_standard_settings_title"
+msgstr "پسوندهای فایل برای فرمت استاندارد"
+
+msgid "mcst_standard_title"
+msgstr "فایل رسانه نرمال"
+
+msgid "mcst_unable_to_determin_playtime"
+msgstr "Unable to determine playtime. Please set it manually be clicking on Edit."
+
+#, fuzzy
+msgid "mcst_video_cast"
+msgstr "Videocast"
+
+#, fuzzy
+msgid "mcst_video_completion_threshold"
+msgstr "Video Completion Threshold"
+
+#, fuzzy
+msgid "mcst_video_completion_threshold_info"
+msgstr "Amount of video that triggers the completion status. Please note that the user may skip forward to reach this point."
+
+#, fuzzy
+msgid "mcst_videoalternative_title"
+msgstr "Alternative Video File (Use in Browser)"
+
+msgid "mcst_videoportable_settings_info"
+msgstr "لیست پسوندها با کاما جدا شده اند"
+
+msgid "mcst_videoportable_settings_title"
+msgstr "پسوندهای فایل برای فرمت ویدئو"
+
+msgid "mcst_videoportable_title"
+msgstr "ویدئوی اضافی برای دستگاههای قابل حمل"
+
+#, fuzzy
+msgid "mcst_view_abandoned"
+msgstr "The current presentation mode has been abandoned. Please open the settings and switch to another mode."
+
+#, fuzzy
+msgid "mcst_viewmode"
+msgstr "Presentation Mode"
+
+msgid "mcst_visibility_info"
+msgstr "Public items can be accessed via RSS without any authentication."
+
+msgid "mcst_visibility_public"
+msgstr "عمومی"
+
+msgid "mcst_visibility_users"
+msgstr "کاربران حاضر در سیستم"
+
+#, fuzzy
+msgid "mcst_watched"
+msgstr "watched"
+
+#, fuzzy
+msgid "mcst_webfeed"
+msgstr "RSS Web Feed"
