@@ -18,13 +18,13 @@
 
 declare(strict_types=1);
 
+use ILIAS\Mail\Attachments\MailAttachments;
+
 class ilMailValueObject
 {
-    /** @var list<string> */
-    private readonly array $attachments;
+    private readonly MailAttachments $attachments;
 
     /**
-     * @param list<string> $attachments
      * @throws InvalidArgumentException
      */
     public function __construct(
@@ -34,14 +34,14 @@ class ilMailValueObject
         private readonly string $recipients_bcc,
         private readonly string $subject,
         private readonly string $body,
-        array $attachments,
+        ?MailAttachments $attachments = null,
         private readonly bool $use_placeholders = false,
         private readonly bool $save_in_sent_box = false
     ) {
         if (ilStr::strLen($this->subject) > 255) {
             throw new InvalidArgumentException('Subject must not be longer than 255 characters');
         }
-        $this->attachments = array_filter(array_map('trim', $attachments));
+        $this->attachments = $attachments ?? MailAttachments::empty();
     }
 
     public function getRecipients(): string
@@ -69,10 +69,7 @@ class ilMailValueObject
         return $this->body;
     }
 
-    /**
-     * @return list<string>
-     */
-    public function getAttachments(): array
+    public function getAttachments(): MailAttachments
     {
         return $this->attachments;
     }

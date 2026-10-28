@@ -17,6 +17,9 @@ Current Problems:
   context which is responsible to provide/replace placeholders.
 * To solve the problem, the mail context implementations are currently created with the `Reflection API` in the setup context.
 
-### IRSS Integration
+## Done
 
-Files should be handled by the IRSS
+### IRSS Integration (ILIAS 12)
+
+Mail attachments are stored and delivered via the IRSS (`MailAttachments` / resource collections).
+Existing filesystem attachments are migrated by the setup migration `MigrateMailAttachmentsToIRSS`.

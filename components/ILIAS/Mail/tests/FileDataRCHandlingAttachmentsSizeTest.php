@@ -18,10 +18,10 @@
 
 declare(strict_types=1);
 
-use ILIAS\Filesystem\Stream\FileStream;
+use ILIAS\ResourceStorage\Services;
 use ILIAS\FileUpload\Handler\FileInfoResult;
 use PHPUnit\Framework\Attributes\DataProvider;
-use ILIAS\ResourceStorage\Consumer\FileStreamConsumer;
+use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 
 class FileDataRCHandlingAttachmentsSizeTest extends ilMailBaseTestCase
 {
@@ -29,11 +29,11 @@ class FileDataRCHandlingAttachmentsSizeTest extends ilMailBaseTestCase
      * @param list<array{id: string, size: int}> $files
      */
     #[DataProvider('exceededLimitProvider')]
-    public function testHandleAttachmentsRejectsWhenTotalSizeExceedsLimit(
+    public function testFormUploadRejectsWhenTotalSizeExceedsLimit(
         ?float $limit,
         array $files
     ): void {
-        $subject = $this->createSubject($limit, $files, expect_store: false);
+        $subject = $this->createSubject($limit, $files, expect_stage: false);
 
         $this->expectException(ilMailAttachmentsTotalSizeLimitExceededException::class);
         $subject->handle(array_column($files, 'id'));
@@ -43,15 +43,16 @@ class FileDataRCHandlingAttachmentsSizeTest extends ilMailBaseTestCase
      * @param list<array{id: string, size: int}> $files
      */
     #[DataProvider('acceptedLimitProvider')]
-    public function testHandleAttachmentsStoresWhenTotalSizeIsWithinLimit(
+    public function testFormUploadKeepsTheStageWhenTotalSizeIsWithinLimit(
         ?float $limit,
         array $files
     ): void {
-        $subject = $this->createSubject($limit, $files, expect_store: true);
+        $expected_rcid = new ResourceCollectionIdentification('stage-rcid');
+        $subject = $this->createSubject($limit, $files, expect_stage: true, expected_rcid: $expected_rcid);
 
         $result = $subject->handle(array_column($files, 'id'));
 
-        $this->assertSame(array_column($files, 'id'), $result);
+        $this->assertSame($expected_rcid, $result->rcid());
     }
 
     /**
@@ -83,11 +84,15 @@ class FileDataRCHandlingAttachmentsSizeTest extends ilMailBaseTestCase
     /**
      * @param list<array{id: string, size: int}> $files
      */
-    private function createSubject(?float $limit, array $files, bool $expect_store): FileDataRCHandlingAttachmentsSizeTestSubject
-    {
+    private function createSubject(
+        ?float $limit,
+        array $files,
+        bool $expect_stage,
+        ?ResourceCollectionIdentification $expected_rcid = null
+    ): FileDataRCHandlingAttachmentsSizeTestSubject {
         $infos = [];
         foreach ($files as $file) {
-            $info = $this->createMock(FileInfoResult::class);
+            $info = $this->createStub(FileInfoResult::class);
             $info->method('getFileIdentifier')->willReturn($file['id']);
             $info->method('getSize')->willReturn($file['size']);
             $info->method('getName')->willReturn($file['id']);
@@ -96,41 +101,41 @@ class FileDataRCHandlingAttachmentsSizeTest extends ilMailBaseTestCase
 
         $fdm = $this->createMock(ilFileDataMail::class);
         $fdm->method('getAttachmentsTotalSizeLimit')->willReturn($limit);
-        if ($expect_store) {
-            $fdm->expects($this->exactly(count($files)))->method('storeAsAttachment')->willReturnArgument(0);
+        if ($expect_stage) {
+            $fdm->expects($this->once())
+                ->method('restrictStageTo')
+                ->with(array_column($files, 'id'))
+                ->willReturn($expected_rcid);
         } else {
-            $fdm->expects($this->never())->method('storeAsAttachment');
+            $fdm->expects($this->never())->method('restrictStageTo');
         }
 
-        $upload_handler = $this->createMock(ilMailFormUploadHandlerGUI::class);
+        $storage = $this->createStub(Services::class);
+
+        $upload_handler = $this->createStub(ilMailFormUploadHandlerGUI::class);
         $upload_handler->method('getInfoResult')->willReturnCallback(
             static fn(string $id): FileInfoResult => $infos[$id]
         );
-        if ($expect_store) {
-            $consumer = $this->createMock(FileStreamConsumer::class);
-            $consumer->method('getStream')->willReturn($this->createMock(FileStream::class));
-            $upload_handler->method('getStreamConsumer')->willReturn($consumer);
-            $upload_handler->method('removeFileForIdentifier');
-        }
 
-        $lng = $this->createMock(ilLanguage::class);
+        $lng = $this->createStub(ilLanguage::class);
         $lng->method('txt')->willReturnArgument(0);
         $this->setGlobalVariable('lng', $lng);
 
-        return new FileDataRCHandlingAttachmentsSizeTestSubject($fdm, $upload_handler, $lng);
+        return new FileDataRCHandlingAttachmentsSizeTestSubject($fdm, $upload_handler, $lng, $storage);
     }
 }
 
 class FileDataRCHandlingAttachmentsSizeTestSubject
 {
     use FileDataRCHandling {
-        handleAttachments as public handle;
+        attachmentsFromFormUpload as public handle;
     }
 
     public function __construct(
         public ilFileDataMail $fdm,
         public ilMailFormUploadHandlerGUI $upload_handler,
-        public ilLanguage $lng
+        public ilLanguage $lng,
+        public Services $storage
     ) {
     }
 }
