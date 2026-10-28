@@ -155,6 +155,10 @@ class BasicPersistence implements Persistence
      */
     public function getBucketIdsOfUser(int $user_id, string $order_by = "id", string $order_direction = "ASC"): array
     {
+        if ((new \Random\Randomizer())->getInt(0, 100) === 1) {
+            $this->garbageCollection();
+        }
+
         return BucketContainer::where(['user_id' => $user_id])
                               ->orderBy($order_by, $order_direction)
                               ->getArray(null, 'id');
