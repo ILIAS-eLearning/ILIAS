@@ -539,6 +539,8 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
             $keys = explode($this->lng->separator, $name);
             $translation = $field_factory
                 ->textarea(($keys[0] ?? '') . ' / ' . ($keys[1] ?? ''))
+                // markup is checked by TranslationMarkupPolicy in saveEditedEntriesObject(), not stripped
+                ->withoutStripTags()
                 ->withValue($translations[$name] ?? '');
 
             $compare_value = str_replace(['<br />', '<br/>', '<br>'], ' ', (string) ($compare_values[$name] ?? ''));
@@ -554,6 +556,8 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
                 // no withMaxLength(): KS counts bytes, the remarks column characters; see normalizeRemark()
                 $inputs["comment_$idx"] = $field_factory
                     ->text($this->lng->txt('comment'))
+                    // remarks were always stored unfiltered and are only output escaped
+                    ->withoutStripTags()
                     ->withValue($this->normalizeRemark($this->entries_table->effectiveRemarkOf($name)));
             }
         }

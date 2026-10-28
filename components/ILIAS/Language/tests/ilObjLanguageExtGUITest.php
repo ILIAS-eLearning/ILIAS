@@ -816,6 +816,7 @@ class ilObjLanguageExtGUITest extends TestCase
     {
         return [
             'carriage return and line feed become one br' => ["one\r\ntwo", 'one<br />two'],
+            'double less-than becomes a guillemet' => ['a << b', 'a « b'],
         ];
     }
 
@@ -837,6 +838,50 @@ class ilObjLanguageExtGUITest extends TestCase
             $gui->saveEditedEntriesObject();
 
             self::assertSame($expected, $replaced['zztest#:#access']['value'][1]);
+        } finally {
+            $restore();
+        }
+    }
+
+    /**
+     * @return array<string, array{0: string}> posted translation
+     */
+    public static function disallowedMarkupProvider(): array
+    {
+        return [
+            'script' => ['a<script>alert(1)</script>b'],
+            'tag outside the allowlist' => ['<table>t</table><b>x</b>'],
+        ];
+    }
+
+    /** Nothing is saved, the failure names the key (escaped) and the edit modal is shown again with a fresh selection. */
+    #[DataProvider('disallowedMarkupProvider')]
+    public function testSaveEditedEntriesObjectRejectsDisallowedMarkupAndSavesNothing(string $posted): void
+    {
+        $restore = $this->stubSaveValuesStatics();
+        try {
+            [$gui] = $this->createGuiForSave(
+                false,
+                ['zztest#:#access' => 'Old'],
+                ['t' => ['zztest#:#access']],
+                't',
+                ['translation_0' => $posted, 'expected_entry_count' => '1']
+            );
+            // the view shown again builds the missing entries with the global ilCtrl
+            $GLOBALS['DIC']['ilCtrl'] = $this->edit_ctrl;
+            $this->edit_db->expects($this->never())->method('replace');
+            $this->edit_db->expects($this->never())->method('insert');
+            $this->edit_ctrl->expects($this->never())->method('redirect');
+            $this->edit_tpl->expects($this->once())->method('setOnScreenMessage')->with(
+                'failure',
+                $this->callback(static fn(string $message): bool => str_contains($message, 'zztest#:#access')
+                    && !str_contains($message, '<script>'))
+            );
+
+            $gui->saveEditedEntriesObject();
+
+            $stored = $_SESSION['lang_ext_edit_selection'];
+            self::assertSame(['zztest#:#access'], end($stored));
         } finally {
             $restore();
         }
