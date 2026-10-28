@@ -2718,6 +2718,19 @@ ol.breadcrumb > li + li:before {
 .navbar-form > a .glyph .glyphicon {
   color: unset;
 }
+.btn .glyph:hover, .il-link.link-bulky .glyph:hover,
+.il-drilldown .menulevel .glyph:hover, .navbar-form > a .glyph:hover, .btn .glyph:focus, .il-link.link-bulky .glyph:focus,
+.il-drilldown .menulevel .glyph:focus, .navbar-form > a .glyph:focus,
+.btn .glyph .glyphicon:hover,
+.il-link.link-bulky .glyph .glyphicon:hover,
+.il-drilldown .menulevel .glyph .glyphicon:hover,
+.navbar-form > a .glyph .glyphicon:hover,
+.btn .glyph .glyphicon:focus,
+.il-link.link-bulky .glyph .glyphicon:focus,
+.il-drilldown .menulevel .glyph .glyphicon:focus,
+.navbar-form > a .glyph .glyphicon:focus {
+  color: unset;
+}
 
 a.btn.disabled, a.disabled.il-link.link-bulky,
 .il-drilldown a.disabled.menulevel, .navbar-form > a.disabled, fieldset[disabled] a.btn, fieldset[disabled] a.il-link.link-bulky,
@@ -8011,6 +8024,22 @@ code {
 .il-link.link-bulky .glyph .glyphicon,
 .il-drilldown .menulevel .glyph .glyphicon,
 .navbar-form > a .glyph .glyphicon {
+  color: unset;
+}
+
+.btn .glyph:hover, .c-drilldown .c-drilldown__menulevel--trigger .glyph:hover, .il-link.link-bulky .glyph:hover,
+.il-drilldown .menulevel .glyph:hover, .navbar-form > a .glyph:hover, .btn .glyph:focus, .c-drilldown .c-drilldown__menulevel--trigger .glyph:focus, .il-link.link-bulky .glyph:focus,
+.il-drilldown .menulevel .glyph:focus, .navbar-form > a .glyph:focus,
+.btn .glyph .glyphicon:hover,
+.c-drilldown .c-drilldown__menulevel--trigger .glyph .glyphicon:hover,
+.il-link.link-bulky .glyph .glyphicon:hover,
+.il-drilldown .menulevel .glyph .glyphicon:hover,
+.navbar-form > a .glyph .glyphicon:hover,
+.btn .glyph .glyphicon:focus,
+.c-drilldown .c-drilldown__menulevel--trigger .glyph .glyphicon:focus,
+.il-link.link-bulky .glyph .glyphicon:focus,
+.il-drilldown .menulevel .glyph .glyphicon:focus,
+.navbar-form > a .glyph .glyphicon:focus {
   color: unset;
 }
 
