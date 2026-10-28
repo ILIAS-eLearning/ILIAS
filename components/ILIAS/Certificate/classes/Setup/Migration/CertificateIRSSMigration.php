@@ -123,7 +123,7 @@ class CertificateIRSSMigration implements Migration
             return 0;
         }
 
-        $path_to_file = ILIAS_ABSOLUTE_PATH . '/' . ILIAS_WEB_DIR . '/' . CLIENT_ID . '/certificates/default/' . $row['value'];
+        $path_to_file = ILIAS_ABSOLUTE_PATH . '/' . $this->legacyWebDir() . '/' . CLIENT_ID . '/certificates/default/' . $row['value'];
         if (!is_file($path_to_file)) {
             return 0;
         }
@@ -183,7 +183,7 @@ class CertificateIRSSMigration implements Migration
         if (str_starts_with($filepath, '/')) {
             $sanitized_filepath = substr($sanitized_filepath, 1);
         }
-        $full_path = ILIAS_ABSOLUTE_PATH . '/' . ILIAS_WEB_DIR . '/' . CLIENT_ID . '/' . $sanitized_filepath;
+        $full_path = ILIAS_ABSOLUTE_PATH . '/' . $this->legacyWebDir() . '/' . CLIENT_ID . '/' . $sanitized_filepath;
 
         $resource_id = $this->helper->movePathToStorage(
             $full_path,
@@ -357,6 +357,16 @@ class CertificateIRSSMigration implements Migration
                 '/certificates/default/background.jpg'
             ]
         );
+    }
+
+    private function legacyWebDir(): string
+    {
+        $web_dir = trim(ILIAS_WEB_DIR, '/');
+        if ($web_dir !== 'public' && !str_starts_with($web_dir, 'public/')) {
+            return 'public/' . $web_dir;
+        }
+
+        return $web_dir;
     }
 
     private function inform(string $text, bool $force = false): void
