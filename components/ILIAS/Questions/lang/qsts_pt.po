@@ -1,0 +1,87 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: qsts\n"
+
+msgid "answer_options"
+msgstr "Opções de resposta"
+
+msgid "cloze_text"
+msgstr "Fechar texto"
+
+msgid "confirm_delete_questions"
+msgstr "Tem a certeza que quer remover as seguintes perguntas?"
+
+msgid "create_question"
+msgstr "Criar pergunta"
+
+msgid "gap"
+msgstr "Intervalo"
+
+msgid "gaps"
+msgstr "Gaps"
+
+msgid "insert_gap"
+msgstr "Inserir intervalo"
+
+msgid "min_auto_complete"
+msgstr "Autocompletado"
+
+msgid "msg_no_questions_selected"
+msgstr "No questions were selected."
+
+msgid "out_of_range"
+msgstr "Fora de alcance"
+
+msgid "qst_lifecycle"
+msgstr "Lifecycle"
+
+msgid "qst_lifecycle_draft"
+msgstr "Draft"
+
+msgid "qst_lifecycle_filter_all"
+msgstr "All Lifecycles"
+
+msgid "qst_lifecycle_final"
+msgstr "Final"
+
+msgid "qst_lifecycle_outdated"
+msgstr "Outdated"
+
+msgid "qst_lifecycle_rejected"
+msgstr "Rejected"
+
+msgid "qst_lifecycle_review"
+msgstr "To be Reviewed"
+
+msgid "qst_lifecycle_sharable"
+msgstr "Sharable"
+
+msgid "questionlist"
+msgstr "Lista de perguntas"
+
+msgid "questions"
+msgstr "Questões"
+
+msgid "range_lower_limit"
+msgstr "Limite inferior"
+
+msgid "range_upper_limit"
+msgstr "Limite superior"
+
+msgid "reset_preview"
+msgstr "Repor pré-visualização"
+
+msgid "select_gap"
+msgstr "Selecionar espaço"
+
+msgid "shuffle_answers"
+msgstr "Misturar respostas"
+
+msgid "suggested_learning_content"
+msgstr "Adicionar conteúdo para recapitulação"

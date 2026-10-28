@@ -1,0 +1,336 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"Language-Team: English\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: qsts\n"
+
+msgid "above_range"
+msgstr "Above Range"
+
+msgid "add_gap_combination"
+msgstr "Add Combination of Gaps"
+
+msgid "answer_form"
+msgstr "Answer Form"
+
+msgid "answer_options"
+msgstr "Answer Options"
+
+msgid "answer_options_awarding_points"
+msgstr "Answer Options Awarding Points"
+
+msgid "answer_options_must_be_unique"
+msgstr "All answer options must be unique."
+
+msgid "async_view"
+msgstr "Asynchronous View"
+
+msgid "at_least_one_gap_positiv_points"
+msgstr "At least one gap needs to award points."
+
+msgid "available_points"
+msgstr "Available Points"
+
+msgid "awarded_points"
+msgstr "Awarded Points"
+
+msgid "basic_answer_form_properties"
+msgstr "Basic Answer Form Properties"
+
+msgid "below_range"
+msgstr "Below Range"
+
+msgid "best_response"
+msgstr "Best Response"
+
+msgid "best_response_given"
+msgstr "You have provided the best possible response."
+
+msgid "between"
+msgstr "Between %s and %s"
+
+msgid "broken_answer_form"
+msgstr "Broken Answer Form"
+
+msgid "byline_create_mode_full"
+msgstr "The page editor is used. The question text can contain rich content and multiple answer forms."
+
+msgid "byline_create_mode_simple"
+msgstr "Only a simple text input is shown to enter the question text. The question text cannot be formatted and only one answer form can be created. At the end of the creation process a button is shown to directly create an additional question after saving."
+
+msgid "cloze"
+msgstr "Cloze"
+
+msgid "cloze_enable_gap_combinations"
+msgstr "Lückenkombinationen aktivieren"
+
+msgid "cloze_text"
+msgstr "Cloze Text"
+
+msgid "cloze_textgap_case_insensitive"
+msgstr "Case Insensitive"
+
+msgid "cloze_textgap_case_sensitive"
+msgstr "Case Sensitive"
+
+msgid "cloze_textgap_levenshtein_of"
+msgstr "Levenshtein Distance of %s"
+
+msgid "combination_needs_more_than_one"
+msgstr "A combination of gaps needs to contain more than one gap."
+
+msgid "confirm_delete_feedback"
+msgstr "Do you really want to delete this feedback."
+
+msgid "confirm_delete_questions"
+msgstr "Are you sure you want to remove the following questions?"
+
+msgid "confirm_remove_gaps"
+msgstr "You have removed gaps from the cloze text. Do you really want to delete them and all associated information?"
+
+msgid "cont_ed_insert_answf"
+msgstr "Insert Answer Form"
+
+msgid "contained_answer_form_types"
+msgstr "Contained Answer Form Types"
+
+msgid "contains_answer_form_types"
+msgstr "Contains Answer Form Types"
+
+msgid "create_answer_form"
+msgstr "Create Answer Form"
+
+msgid "create_feedback"
+msgstr "Create Feedback"
+
+msgid "create_mode_full"
+msgstr "Full"
+
+msgid "create_mode_simple"
+msgstr "Simple"
+
+msgid "create_question"
+msgstr "Create Question"
+
+msgid "default_user_settings"
+msgstr "Default Settings"
+
+msgid "default_view"
+msgstr "Default View"
+
+msgid "delete_combination"
+msgstr "Delete Combination of Gaps"
+
+msgid "delete_responses"
+msgstr "Delete Responses"
+
+msgid "disable_marking_allowing_partial_points"
+msgstr "Disable Marking"
+
+msgid "disable_suggested_learning_content"
+msgstr "Disable Suggested Learning Content"
+
+msgid "disable_text_feedback"
+msgstr "Disable Feedback"
+
+msgid "edit_answer_options"
+msgstr "Edit Answer Options"
+
+msgid "edit_available_points"
+msgstr "Edit Available Points"
+
+msgid "edit_basic_answer_form_properties"
+msgstr "Edit Basic Answer Form Properties"
+
+msgid "edit_basic_question_properties"
+msgstr "Edit Basic Question Properties"
+
+msgid "edit_feedback"
+msgstr "Edit Feedback"
+
+msgid "edit_gaps"
+msgstr "Edit Gaps"
+
+msgid "edit_generic_feedback"
+msgstr "Feedback Based On Reached Points"
+
+msgid "edit_points"
+msgstr "Edit Points"
+
+msgid "edit_suggested_learning_content"
+msgstr "Edit Suggested Learning Content"
+
+msgid "enable_marking_allowing_partial_points"
+msgstr "Enable Marking"
+
+msgid "enable_suggested_learning_content"
+msgstr "Enable Suggested Learning Content"
+
+msgid "enable_text_feedback"
+msgstr "Enable Feedback"
+
+msgid "equal"
+msgstr "Equal to %s"
+
+msgid "gap"
+msgstr "Gap"
+
+msgid "gap_combination_already_exists"
+msgstr "This combination of gaps already exists."
+
+msgid "gap_combinations"
+msgstr "Combinations of Gaps"
+
+msgid "gap_type"
+msgstr "Type of Gap"
+
+msgid "gap_used_in_combination"
+msgstr "Gap used in combination"
+
+msgid "gaps"
+msgstr "Gaps"
+
+msgid "insert_gap"
+msgstr "Insert Gap"
+
+msgid "insert_legacy_texts"
+msgstr "Import Legacy Texts"
+
+msgid "insert_legacy_texts_info"
+msgstr "Some texts have been migrated from a previous version. They cannot be edited directed, but you can import them into the form. All formatting will be lost."
+
+msgid "legacy_text_cannot_be_edited"
+msgstr "This text was migrated from the previous question implementation and cannot be edited."
+
+msgid "long_menu_gap"
+msgstr "Longmenu"
+
+msgid "max_characters"
+msgstr "Character Limit"
+
+msgid "min_auto_complete"
+msgstr "Autocomplete"
+
+msgid "msg_no_questions_selected"
+msgstr "No questions were selected."
+
+msgid "no_best_response_available"
+msgstr "The Best Response is not Defined"
+
+msgid "no_gaps"
+msgstr "The provided text does not contain any gaps."
+
+msgid "no_response"
+msgstr "No Response"
+
+msgid "no_response_given"
+msgstr "No Response Given"
+
+msgid "other_response"
+msgstr "Not the Best Response"
+
+msgid "other_response_given"
+msgstr "There are better responses."
+
+msgid "out_of_range"
+msgstr "Out of range"
+
+msgid "qst_lifecycle"
+msgstr "Lifecycle"
+
+msgid "qst_lifecycle_draft"
+msgstr "Draft"
+
+msgid "qst_lifecycle_filter_all"
+msgstr "All Lifecycles"
+
+msgid "qst_lifecycle_final"
+msgstr "Final"
+
+msgid "qst_lifecycle_outdated"
+msgstr "Outdated"
+
+msgid "qst_lifecycle_rejected"
+msgstr "Rejected"
+
+msgid "qst_lifecycle_review"
+msgstr "To be Reviewed"
+
+msgid "qst_lifecycle_sharable"
+msgstr "Shareable"
+
+msgid "qst_remarks"
+msgstr "Remarks"
+
+msgid "question_create_mode"
+msgstr "Question Create Mode"
+
+msgid "question_text"
+msgstr "Question Text"
+
+msgid "questionlist"
+msgstr "Question List"
+
+msgid "questions"
+msgstr "Questions"
+
+msgid "range_lower_limit"
+msgstr "Lower Bound"
+
+msgid "range_upper_limit"
+msgstr "Upper Bound"
+
+msgid "reset_preview"
+msgstr "Reset Preview"
+
+msgid "save_and_new"
+msgstr "Save and New"
+
+msgid "score_all"
+msgstr "All Responses are Scored"
+
+msgid "score_distinct"
+msgstr "Identical Responses are Only Scored Once"
+
+msgid "scoring_of_identical_responses"
+msgstr "Scoring of Identical Responses"
+
+msgid "select_answer_form_type"
+msgstr "Select Type of Answer Form"
+
+msgid "select_gap"
+msgstr "Select Gap"
+
+msgid "select_gaps_for_combination"
+msgstr "Select Gap for Combination"
+
+msgid "set_gap_types"
+msgstr "Set Types for Gaps"
+
+msgid "shuffle_answers"
+msgstr "Shuffle Answers"
+
+msgid "specific_feedback"
+msgstr "Feedback Based On Answer Options"
+
+msgid "step_size"
+msgstr "Step Size"
+
+msgid "suggested_learning_content"
+msgstr "Suggested Content"
+
+msgid "text_matching_method"
+msgstr "Text Matching Method"
+
+msgid "upload_answer_options"
+msgstr "Upload Answer Options"
+
+msgid "upload_answer_options_info"
+msgstr "You can upload a file containing a list of answer options that will be added to the list. Each answer option needs to be on a new line."
+
+msgid "upper_limit_bigger_than_lower"
+msgstr "The upper bound must be bigger than the lower bound and the step size."

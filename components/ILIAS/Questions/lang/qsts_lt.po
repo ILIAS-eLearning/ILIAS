@@ -1,0 +1,87 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: lt\n"
+"Language-Team: Lithuanian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && (n % 100 < 11 || n % 100 > 19)) ? 0 : ((n % 10 >= 2 && n % 10 <= 9 && (n % 100 < 11 || n % 100 > 19)) ? 1 : 2);\n"
+"X-Domain: qsts\n"
+
+msgid "answer_options"
+msgstr "Answer Options"
+
+msgid "cloze_text"
+msgstr "Sąlygos tekstas"
+
+msgid "confirm_delete_questions"
+msgstr "Ar jūs tikrai norite ištrinti šį(-iuos) klausimą(-us)? Jei ištrinsite užrakintus klausimus, visų testų, kuriuose yra užrakintas klausimas rezultatai bus ištrinti taip pat."
+
+msgid "create_question"
+msgstr "Create Question"
+
+msgid "gap"
+msgstr "Tarpas (Gap)"
+
+msgid "gaps"
+msgstr "Gaps"
+
+msgid "insert_gap"
+msgstr "Insert Gap"
+
+msgid "min_auto_complete"
+msgstr "Autocomplete"
+
+msgid "msg_no_questions_selected"
+msgstr "No questions were selected."
+
+msgid "out_of_range"
+msgstr "Out of range"
+
+msgid "qst_lifecycle"
+msgstr "Lifecycle"
+
+msgid "qst_lifecycle_draft"
+msgstr "Draft"
+
+msgid "qst_lifecycle_filter_all"
+msgstr "All Lifecycles"
+
+msgid "qst_lifecycle_final"
+msgstr "Final"
+
+msgid "qst_lifecycle_outdated"
+msgstr "Outdated"
+
+msgid "qst_lifecycle_rejected"
+msgstr "Rejected"
+
+msgid "qst_lifecycle_review"
+msgstr "To be Reviewed"
+
+msgid "qst_lifecycle_sharable"
+msgstr "Sharable"
+
+msgid "questionlist"
+msgstr "Questionlist"
+
+msgid "questions"
+msgstr "Questions"
+
+msgid "range_lower_limit"
+msgstr "Žemutinė riba"
+
+msgid "range_upper_limit"
+msgstr "Viršutinė riba"
+
+msgid "reset_preview"
+msgstr "Reset Preview"
+
+msgid "select_gap"
+msgstr "Pasirinkite tarpą"
+
+msgid "shuffle_answers"
+msgstr "Išmaišyti atsakymus"
+
+msgid "suggested_learning_content"
+msgstr "Add suggested solution"

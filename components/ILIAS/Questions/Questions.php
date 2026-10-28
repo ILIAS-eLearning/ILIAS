@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Questions\AnswerForm\Capabilities\TextFeedback\Migration as TextFeedbackMigration;
 use ILIAS\Questions\AnswerForm\Capabilities\TextFeedback\TableDefinitions as TextFeedbackTableDefinitions;
 use ILIAS\Questions\AnswerForm\Capabilities\Definitions\Migration as CapabilityMigration;
@@ -129,5 +131,9 @@ class Questions implements Component\Component
             );
         $contribute[User\Settings\UserSettings::class] = fn()
             => new Questions\UserSettings\Settings();
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'qsts'
+        );
     }
 }

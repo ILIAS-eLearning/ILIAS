@@ -4833,6 +4833,12 @@ msgstr ""
 msgid "obj_qpl_select"
 msgstr ""
 
+msgid "obj_qsts"
+msgstr ""
+
+msgid "obj_qsts_desc"
+msgstr ""
+
 msgid "obj_rcat"
 msgstr ""
 

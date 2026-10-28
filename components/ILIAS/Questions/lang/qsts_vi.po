@@ -1,0 +1,87 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: vi\n"
+"Language-Team: Vietnamese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: qsts\n"
+
+msgid "answer_options"
+msgstr "Answer Options"
+
+msgid "cloze_text"
+msgstr "Đoạn văn điền chỗ trống"
+
+msgid "confirm_delete_questions"
+msgstr "Bạn có chắc chắn muốn xóa (các) câu hỏi sau không? Nếu bạn xóa các câu hỏi đã khóa kết quả của tất cả bài kiểm tra chứa câu hỏi đã khóa sẽ bị xóa theo."
+
+msgid "create_question"
+msgstr "Create Question"
+
+msgid "gap"
+msgstr "Chỗ trống"
+
+msgid "gaps"
+msgstr "Gaps"
+
+msgid "insert_gap"
+msgstr "Insert Gap"
+
+msgid "min_auto_complete"
+msgstr "Autocomplete"
+
+msgid "msg_no_questions_selected"
+msgstr "No questions were selected."
+
+msgid "out_of_range"
+msgstr "Out of range"
+
+msgid "qst_lifecycle"
+msgstr "Lifecycle"
+
+msgid "qst_lifecycle_draft"
+msgstr "Draft"
+
+msgid "qst_lifecycle_filter_all"
+msgstr "All Lifecycles"
+
+msgid "qst_lifecycle_final"
+msgstr "Final"
+
+msgid "qst_lifecycle_outdated"
+msgstr "Outdated"
+
+msgid "qst_lifecycle_rejected"
+msgstr "Rejected"
+
+msgid "qst_lifecycle_review"
+msgstr "To be Reviewed"
+
+msgid "qst_lifecycle_sharable"
+msgstr "Sharable"
+
+msgid "questionlist"
+msgstr "Questionlist"
+
+msgid "questions"
+msgstr "Questions"
+
+msgid "range_lower_limit"
+msgstr "Lower Bound"
+
+msgid "range_upper_limit"
+msgstr "Upper Bound"
+
+msgid "reset_preview"
+msgstr "Reset Preview"
+
+msgid "select_gap"
+msgstr "Lựa chọn từ điền"
+
+msgid "shuffle_answers"
+msgstr "Xáo trộn các lựa chọn"
+
+msgid "suggested_learning_content"
+msgstr "Add suggested solution"
