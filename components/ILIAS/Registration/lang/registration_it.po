@@ -1,0 +1,322 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: registration\n"
+
+msgid "reg_access_limitation_limited_time"
+msgstr "Dopo la registrazione, accesso per"
+
+msgid "reg_access_limitation_limited_until"
+msgstr "Accesso limitato fino a"
+
+msgid "reg_access_limitation_missing_mode"
+msgstr "Per favore, seleziona per tutti i Ruoli una modalità di limitazione d'accesso."
+
+msgid "reg_access_limitation_mode"
+msgstr "Modalitàdilimitazione d'accesso"
+
+msgid "reg_access_limitation_mode_absolute"
+msgstr "L'accesso è limitato da una certa data"
+
+msgid "reg_access_limitation_mode_absolute_target"
+msgstr "Valida fino a"
+
+msgid "reg_access_limitation_mode_relative"
+msgstr "Accesso limitato per un certo tempo, dopo la registrazione."
+
+msgid "reg_access_limitation_mode_relative_target"
+msgstr "Valida per"
+
+msgid "reg_access_limitation_mode_unlimited"
+msgstr "Nessuna limitazione d'accesso"
+
+msgid "reg_access_limitation_none"
+msgstr "Accesso illimitato"
+
+msgid "reg_access_limitation_out_of_date"
+msgstr "Uno o più Ruoli hanno una limitazione d'accesso scaduta!"
+
+msgid "reg_access_limitations"
+msgstr "Limitazione di accesso"
+
+msgid "reg_add_assignment"
+msgstr "Nuova Assegnazione"
+
+msgid "reg_added_assignment"
+msgstr "Aggiunta nuova assegnazione"
+
+msgid "reg_allow_codes"
+msgstr "Consenti Codici"
+
+msgid "reg_allow_codes_info"
+msgstr "Gli utenti hanno anche la facoltà di registrare tramite codici."
+
+msgid "reg_allowed_domains"
+msgstr "Domini di indirizzi e-mail consentiti"
+
+msgid "reg_allowed_domains_info"
+msgstr "Usa * come carattere jolly e ; come separatore"
+
+msgid "reg_approve"
+msgstr "Registrazione con approvazione"
+
+msgid "reg_approve_info"
+msgstr "Se abilitato, ogni registrazione di nuovo Utente dovrà essere approvata da un Amministratore."
+
+msgid "reg_approve_needs_recipient"
+msgstr "È necessario definire almeno un utente che sarà notificato circa le nuove registrazioni, se il tipo di registrazione \"Registrazione con approvazione\" è selezionato."
+
+msgid "reg_available_roles"
+msgstr "Ruoli disponibili:"
+
+#, fuzzy
+msgid "reg_confirmation_already_confirmed"
+msgstr "The registration is no longer pending, it has already been confirmed."
+
+msgid "reg_confirmation_hash_life_time"
+msgstr "Illimitato"
+
+msgid "reg_confirmation_hash_life_time_expired"
+msgstr "Il link di conferma non è più valido."
+
+msgid "reg_confirmation_hash_life_time_info"
+msgstr "Inserire la durata (in secondi) del link di conferma."
+
+msgid "reg_confirmation_hash_not_found"
+msgstr "Nessun account utente potrebbe essere presente a questo link di conferma."
+
+#, fuzzy
+msgid "reg_confirmation_hash_not_passed"
+msgstr "The confirmation link is incomplete."
+
+msgid "reg_confirmation_link_successful"
+msgstr "Hai presentato con successo una richiesta di account ad ILIAS. Riceverai una mail di conferma entro qualche minuto. Si prega di confermare la registrazione cliccando sul link di conferma in questa mail.<br />Sarai reindirizzato alla <a href=\"%s\" title=\"login screen\">pagina login</a> entro 20 secondi."
+
+msgid "reg_default"
+msgstr "Impostazione predefinita"
+
+msgid "reg_deleted_assignment"
+msgstr "Cancella l'assegnazione (i)."
+
+msgid "reg_direct"
+msgstr "Registrazione diretta"
+
+msgid "reg_direct_info"
+msgstr "Se abilitato, ogni richiesta di registrazione di nuovo utente, è automaticamente approvato."
+
+msgid "reg_disabled"
+msgstr "Non è possibile registrarsi"
+
+msgid "reg_domain"
+msgstr "Dominio"
+
+#, fuzzy
+msgid "reg_domain_already_assigned_p"
+msgstr "The domains '%s' were already entered for another role."
+
+#, fuzzy
+msgid "reg_domain_already_assigned_s"
+msgstr "The domain '%s' was already entered for another role. "
+
+msgid "reg_email"
+msgstr "Assegnazione automatica di Ruolo"
+
+msgid "reg_email_domains"
+msgstr "I seguenti domini di indirizzi e-mail sono validi: %s"
+
+msgid "reg_email_domains_code"
+msgstr "Con un codice di registrazione qualsiasi indirizzo email è valido."
+
+msgid "reg_email_role_assignment"
+msgstr "Ruolo assegnato dal dominio"
+
+msgid "reg_fixed"
+msgstr "Seleziona dalla lista specifica"
+
+msgid "reg_info_pwd"
+msgstr "Se abilitato le password saranno inviate automaticamente al nuovo utente per email."
+
+msgid "reg_mail_body_activation"
+msgstr "per attivare il tuo account e confermare la proprietà di questo indirizzo email, clicca sul link sottostante:"
+
+msgid "reg_mail_body_approve"
+msgstr "Sei già registrato su eLearning ILIAS e hai ricevuto una mail con i dati del tuo account. Ora il tuo account è stato attivato da un amministratore."
+
+msgid "reg_mail_body_confirmation"
+msgstr "Per confermare questa registrazione inserisci ILIAS user administration e attivare l'account."
+
+msgid "reg_mail_body_profile"
+msgstr "Dati del Profilo:"
+
+msgid "reg_mail_body_profile_changed"
+msgstr "Il tuo profilo è cambiato !"
+
+msgid "reg_mail_body_pwd_generation"
+msgstr "La tua richiesta account verrà esaminata da un amministratore, e dovrebbe essere attivata entro 48 ore. Sarete informati dell'approvazione via email."
+
+msgid "reg_mail_body_reason"
+msgstr "Si riceve questa mail perché le notifiche circa le nuove registrazioni sono abilitate per il tuo account nell'amministrazione ILIAS."
+
+msgid "reg_mail_body_timelimit"
+msgstr "Il tuo account ha un periodo limitato di validità: %s."
+
+msgid "reg_mail_new_user"
+msgstr "Nuova registrazone utente"
+
+msgid "reg_mail_new_user_body"
+msgstr "E' stato registrato un nuovo utente"
+
+msgid "reg_mail_new_user_confirmation"
+msgstr "Richiesta per conferma account"
+
+msgid "reg_missing_domain"
+msgstr "Per favore, riempi tutti i campi."
+
+msgid "reg_missing_role"
+msgstr "Per favore, riempi tutti i campi."
+
+msgid "reg_notification"
+msgstr "Notifiche"
+
+msgid "reg_notification_info"
+msgstr "Inserisci uno o più Login-ID di utenti (separati da virgola) che saranno informati sulle registrazioni nuovo utente per e-mail."
+
+msgid "reg_role_access_limitations"
+msgstr "Definisce le limitazioni di accesso dei Ruoli attribuiti ai nuovi Utenti."
+
+msgid "reg_role_assignment"
+msgstr "Assegnazione di ruolo"
+
+msgid "reg_role_info"
+msgstr "Ruoli assegnati"
+
+msgid "reg_select_one"
+msgstr "Per favore, seleziona un valore."
+
+msgid "reg_selectable_roles"
+msgstr "Ruoli selezionabili"
+
+msgid "reg_settings_header"
+msgstr "Impostazioni per una nuova registrazione"
+
+msgid "reg_type"
+msgstr "Tipo di registrazione"
+
+msgid "reg_type_confirmation"
+msgstr "Registrazione con E-Mail di Conferma"
+
+msgid "reg_type_confirmation_info"
+msgstr "Questo tipo permette l'auto-registrazione degli utenti, ma richiede una email di conferma per attivare l'account. Ciò evita l'auto-registrazione ad ILIAS con indirizzi email errati o inesistenti."
+
+msgid "reg_unknown_recipients"
+msgstr "Il seguente login non è valido:"
+
+msgid "registration_code"
+msgstr "Codice"
+
+msgid "registration_code_not_valid"
+msgstr "Il codice di registrazione non è valido o è già stato utilizzato."
+
+msgid "registration_code_optional_info"
+msgstr "Se hai un codice di registrazione ILIAS, puoi inserirlo ora."
+
+msgid "registration_code_required_info"
+msgstr "Un codice predefinito è obbligatorio per il processo di registrazione."
+
+msgid "registration_code_role_info"
+msgstr "Se si utilizza un codice di registrazione, la selezione del ruolo può essere sostituita dal codice."
+
+msgid "registration_codes_access_limitation_all"
+msgstr "Tutte"
+
+msgid "registration_codes_add"
+msgstr "Aggiungi Codici"
+
+msgid "registration_codes_edit_header"
+msgstr "Aggiungi Codici"
+
+msgid "registration_codes_export"
+msgstr "Esporta Codici"
+
+msgid "registration_codes_no_assigned_role"
+msgstr "Nessun ruolo predefinito assegnato"
+
+msgid "registration_codes_number"
+msgstr "Numero Di Codici"
+
+msgid "registration_codes_override_global_info"
+msgstr "Queste impostazioni possono essere sostituite da codici di registrazione."
+
+msgid "registration_codes_override_info"
+msgstr "Questa impostazione prevale su qualsiasi valore definito in \"Impostazioni di registrazione\"."
+
+msgid "registration_codes_roles"
+msgstr "Ruolo per i Nuovi Accounts"
+
+msgid "registration_codes_roles_limitation_none"
+msgstr "Nessuna limitazione di accesso predefinita"
+
+msgid "registration_codes_roles_local"
+msgstr "Ruolo/i locale"
+
+msgid "registration_codes_roles_title"
+msgstr "Ruolo/i locale/i"
+
+msgid "registration_codes_type"
+msgstr "Tipo di codice"
+
+msgid "registration_codes_type_ext"
+msgstr "Estensione degli account utente limitati"
+
+msgid "registration_codes_type_ext_info"
+msgstr "Il codice può essere utilizzato per l’estensione degli account limitati."
+
+msgid "registration_codes_type_reg"
+msgstr "Codice di registrazione"
+
+msgid "registration_codes_type_reg_info"
+msgstr "Il codice può essere utilizzato per la registrazione se si tratta di un nuovo account utente"
+
+msgid "registration_disabled_no_access"
+msgstr "L’auto-registrazione non è consentita. Si prega di contattare l'amministrazione del sistema per ulteriore assistenza: %s"
+
+msgid "registration_export_codes_no_data"
+msgstr "Non è stato selezionato alcun codice da esportare."
+
+msgid "registration_generated"
+msgstr "Data di creazione"
+
+msgid "registration_generated_all"
+msgstr "Tutte le Date"
+
+msgid "registration_no_valid_role"
+msgstr "Attualmente non c’è alcun ruolo valido per nuovi account. Si prega di contattare il proprio amministratore."
+
+msgid "registration_reg_type_codes"
+msgstr "Registrazione con Codici"
+
+msgid "registration_reg_type_codes_info"
+msgstr "Questo tipo permette l'auto-registrazione degli utenti, ma richiede un codice valido."
+
+msgid "registration_roles_all"
+msgstr "Tutti i Ruoli"
+
+msgid "registration_settings"
+msgstr "Nuova registrazione"
+
+msgid "registration_tab_codes"
+msgstr "Codici di Registrazione"
+
+msgid "registration_tab_settings"
+msgstr "Configurazione Registrazione"
+
+msgid "registration_used"
+msgstr "Data di utilizzo"
+
+msgid "registration_user_new_account_mail"
+msgstr "Modifica il Nuovo Account Mail"

@@ -1,0 +1,29 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sl\n"
+"Language-Team: Slovenian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=4; plural=(n % 100 == 1) ? 0 : ((n % 100 == 2) ? 1 : ((n % 100 == 3 || n % 100 == 4) ? 2 : 3));\n"
+"X-Domain: qpl\n"
+
+#, fuzzy
+msgid "qpl_filter_commented_exclude"
+msgstr "Questions without comments"
+
+#, fuzzy
+msgid "qpl_filter_commented_only"
+msgstr "Questions with comments"
+
+msgid "qpl_page_type_qfbg"
+msgstr "General Feedback"
+
+msgid "qpl_page_type_qfbs"
+msgstr "Special Feedback"
+
+msgid "qpl_page_type_qht"
+msgstr "Hint"
+
+msgid "qpl_page_type_qpl"
+msgstr "Question Page"

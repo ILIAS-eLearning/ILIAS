@@ -1,0 +1,213 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: ldoc\n"
+
+msgid "deleteDocument"
+msgstr "Törlés"
+
+msgid "detachCriterionAssignment"
+msgstr "Törlése"
+
+msgid "ldoc_acceptance_history"
+msgstr "Elfogadási előzmények"
+
+msgid "ldoc_account_reg_not_possible"
+msgstr "A regisztráció jelenleg nem lehetséges. További információért keresse a <a href=\"%1$s\">rendszer üzemeltetőjét</a>."
+
+msgid "ldoc_add_document_btn_label"
+msgstr "Dokumentum hozzáadása"
+
+msgid "ldoc_agreement_document"
+msgstr "Dokumentum"
+
+msgid "ldoc_agreement_document_missing"
+msgstr "Hiányzik"
+
+msgid "ldoc_agreement_documents_tab_label"
+msgstr "Documentumok"
+
+msgid "ldoc_agreement_exists"
+msgstr "Létező"
+
+msgid "ldoc_agreement_missing"
+msgstr "Hiányzik"
+
+msgid "ldoc_crit_type_usr_country"
+msgstr "Profil országa"
+
+msgid "ldoc_crit_type_usr_country_info"
+msgstr "A dokumentuma akkor jelenik meg (és el kell fogadnia a felhasználónak első bejelentkezésekor), ha a felhasználói profiljában beállított ország megfelel az alábbi listából kiválasztott országkritériumnak. A felhasználó profiljában az ország későbbi módosításai nem vezetnek automatikusan új dokumentum megjelenítéséhez. Egynél több dokumentumhoz nem használhatja ugyanazt az országot megjelenítési feltételként."
+
+msgid "ldoc_crit_type_usr_global_role"
+msgstr "A felhasználó rendelkezik globál szereppel."
+
+msgid "ldoc_crit_type_usr_global_role_info"
+msgstr "A dokumentum megjelenik (és első bejelentkezéskor el kell fogadni), amennyiben a felhasználó tagja az itt kiválasztott globális szerepkörök valamelyikének. A felhasználó globális szerepkörének esetleges későbbi módosítása esetén nem jelenik meg automatikusan a Szolgáltatási Feltételek dokumentuma."
+
+msgid "ldoc_crit_type_usr_language"
+msgstr "Profil nyelve"
+
+msgid "ldoc_crit_type_usr_language_info"
+msgstr "A dokumentum megjelenik, (és azt el kell fogadni) regisztrációkor, ha a felhasználó nyelve (kiválasztva az alábbi felsorolásból) azonos a regisztrációkor használt nyelvvel; vagy bejelentkezéskor, ha a felhasználó erre a nyelve vált. Kérjük, vegye figyelembe, hogy minden nyelv csak egyetlen dokumentum megjelenítési feltételeként állítható be."
+
+msgid "ldoc_criterion_assignment_cannot_match"
+msgstr "Ez a feltétel nem használható a dokumentum megjelenítéséhez, mert egy másik, már meglévő feltétellel kizáró lenne."
+
+msgid "ldoc_criterion_assignment_must_be_unique"
+msgstr "Ez a feltétel nem használható a dokumentum megjelenítéséhez. Ez a feltétel már létezik."
+
+msgid "ldoc_deleted_documents_p"
+msgstr "A dokumentumot sikeresen törölte."
+
+msgid "ldoc_deleted_documents_s"
+msgstr "A dokumentumokat sikeresen törölte."
+
+msgid "ldoc_disabled"
+msgstr "Kikapcsolva"
+
+msgid "ldoc_doc_crit_attached"
+msgstr "A dokumentum megjelenítési feltételeit sikeresen beállította."
+
+msgid "ldoc_doc_crit_changed"
+msgstr "A dokumentum megjelenítési feltételeit sikeresen módosította."
+
+msgid "ldoc_doc_crit_detached"
+msgstr "A feltételt sikeresen eltávolította."
+
+msgid "ldoc_doc_delete"
+msgstr "Dokumentum törlése"
+
+msgid "ldoc_doc_detach_crit_confirm_title"
+msgstr "Feltétel törlése"
+
+msgid "ldoc_doc_sure_detach_crit"
+msgstr "Biztos, hogy eltávolítja a Szolgáltatási feltételek ezen megjelenítési feltételét?"
+
+msgid "ldoc_document"
+msgstr "Dokumentum"
+
+msgid "ldoc_enabled"
+msgstr "Bekapcsolva"
+
+msgid "ldoc_form_attach_criterion_head"
+msgstr "Válassza ki a dokumentum megjelenési feltételét"
+
+msgid "ldoc_form_criterion"
+msgstr "Feltétel"
+
+msgid "ldoc_form_criterion_standard_fields_info_text"
+msgstr "Kérjük, ellenőrizze a standard mezők beállításait a kritérium meghatározása előtt."
+
+msgid "ldoc_form_document"
+msgstr "Dokumentum"
+
+msgid "ldoc_form_document_content_changed"
+msgstr "A feltöltött HTML-fájl &lt;head&gt; részét eltávolítottuk. Kérem, ellenőrizze az eredményt, szükség esetén töltsön fel egy újat."
+
+msgid "ldoc_form_document_info"
+msgstr "Válasszon ki egy fájlt a saját gépéről. Feltölthet egy TEXT-fájlt, illetve egy HTML-fájlt. A HTML-fájl &lt;head/gt; részét eltávolítjuk, annak csak a tartalmát, a &lt;body/gt; részét tartjuk meg."
+
+msgid "ldoc_form_document_new"
+msgstr "Tartalom módosítása"
+
+msgid "ldoc_form_document_new_info"
+msgstr "Kiválaszthat egy fájlt a helyi fájlrendszerből a dokumentum tartalmának módosításához. Feltölthet egyszerű szöveges fájlt vagy egyszerű HTML-fájlt. A HTML-fájlok &lt;head&gt; részét eltávolítjuk, csak a &lt;body&gt; rész tartalmát használjuk fel, a dokumentum jelenlegi tartalmát erre cseréljük le. Az elfogadási előzményeket ez nem érinti."
+
+msgid "ldoc_form_document_title"
+msgstr "Cím"
+
+msgid "ldoc_form_document_title_info"
+msgstr "Adja meg a dokumentum címét"
+
+msgid "ldoc_form_edit_criterion_head"
+msgstr "A dokumentum megjelenési feltételének módosítása"
+
+msgid "ldoc_form_edit_doc_head"
+msgstr "Dokumentum módosítása"
+
+msgid "ldoc_form_new_doc_head"
+msgstr "Dokumentum létrehozása"
+
+msgid "ldoc_last_modified"
+msgstr "Utolsó módosítás"
+
+msgid "ldoc_ldoc_settings"
+msgstr "Beállítások"
+
+msgid "ldoc_period"
+msgstr "Időszak"
+
+msgid "ldoc_period_from"
+msgstr "Kezdő időpont"
+
+msgid "ldoc_period_until"
+msgstr "Záró időpont"
+
+msgid "ldoc_reevaluate_on_login"
+msgstr "Bejelentkezéskor ellenőrizze újra"
+
+msgid "ldoc_reevaluate_on_login_desc"
+msgstr "Sikeres bejelentkezés után automatikusan ellenőrizzük, hogy a korábban elfogadott dokumentum érvényben van-e még. Amennyiben már nincs, például a megjelenítés feltétele megváltozott(például nyelv vagy ország beállítása), és az új feltételekkel új dokumentum létezik, a felhasználónak az újat el kell fogadnia."
+
+msgid "ldoc_saved_sorting"
+msgstr "Az új sorrendet sikeresen mentette."
+
+msgid "ldoc_sure_delete_documents_p"
+msgstr "Biztos, hogy törli a kiválasztott dokumentumokat?"
+
+msgid "ldoc_sure_delete_documents_s"
+msgstr "Biztos, hogy törli ezt a dokumentumot?"
+
+msgid "ldoc_tbl_docs_action_add_criterion"
+msgstr "Feltétel hozzáadása"
+
+msgid "ldoc_tbl_docs_cell_not_criterion"
+msgstr "Egy feltétel sincs hozzárendelve"
+
+msgid "ldoc_tbl_docs_head_created"
+msgstr "Létrehozás dátum"
+
+msgid "ldoc_tbl_docs_head_criteria"
+msgstr "Feltétel"
+
+msgid "ldoc_tbl_docs_head_last_change"
+msgstr "Utolsó módosítás"
+
+msgid "ldoc_tbl_docs_head_sorting"
+msgstr "Sorrend"
+
+msgid "ldoc_tbl_docs_head_title"
+msgstr "Cím"
+
+msgid "ldoc_tbl_docs_title"
+msgstr "Dokumentumok"
+
+msgid "ldoc_tbl_hist_cell_not_criterion"
+msgstr "Egy feltétel sincs hozzárendelve"
+
+msgid "ldoc_tbl_hist_head_acceptance_date"
+msgstr "Dátum"
+
+msgid "ldoc_tbl_hist_head_criteria"
+msgstr "Feltétel"
+
+msgid "ldoc_tbl_hist_head_document"
+msgstr "Dokumentum"
+
+msgid "ldoc_tbl_hist_head_firstname"
+msgstr "Családnév"
+
+msgid "ldoc_tbl_hist_head_lastname"
+msgstr "Utónév"
+
+msgid "ldoc_tbl_hist_head_login"
+msgstr "Felhasználónév (Login)"
+
+msgid "ldoc_updated_document"
+msgstr "A dokumentumot sikeresen feltöltötte"

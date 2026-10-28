@@ -29,48 +29,6 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-acc#:#acc_add_document_btn_label#:#Lägg till dokument
-acc#:#acc_crit_type_usr_language#:#Användarspråk
-acc#:#acc_criterion_assignment_must_be_unique_insert#:#Du kan inte tilldela mallkriteriet med motsvarande konfiguration. En identisk tilldelning finns redan.
-acc#:#acc_criterion_assignment_must_be_unique_update#:#Du kan inte ändra konfigurationen av mallkriteriet efter önskemål. En identisk tilldelning finns redan.
-acc#:#acc_ctrl_cpt_txt#:#Info om tillgänglighet
-acc#:#acc_deleted_documents_p#:#De valda dokumenten har raderats.
-acc#:#acc_deleted_documents_s#:#Dokumentet har tagits bort.
-acc#:#acc_doc_crit_attached#:#Mallkriteriet har tilldelats.
-acc#:#acc_doc_crit_changed#:#Mallkriteriet har uppdaterats.
-acc#:#acc_doc_crit_detached#:#Mallkriteriet har tagits bort.
-acc#:#acc_doc_delete#:#Radera dokument
-acc#:#acc_doc_detach_crit_confirm_title#:#Ta bort kriteriet för mall
-acc#:#acc_doc_sure_detach_crit#:#Är du säker på att mallkriteriet ska tas bort?
-acc#:#acc_document#:#Dokument
-acc#:#acc_form_attach_criterion_head#:#Lägg till mallkriterium
-acc#:#acc_form_criterion#:#Kriterium för mall
-acc#:#acc_form_document#:#Dokument
-acc#:#acc_form_document_content_changed#:#Innehållet i den uppladdade filen har rensats av ILIAS. Kontrollera resultatet och ladda upp en ny fil om du är osäker.
-acc#:#acc_form_document_info#:#Välj en lämplig fil från ditt lokala filsystem. Du kan ladda upp en enkel textfil eller en HTML-fil. Endast delar av HTML-språket stöds. Observera att HTML-filer rensas under uppladdningen och att endast innehållet i body-elementet övertas.
-acc#:#acc_form_document_new#:#Ändra innehåll
-acc#:#acc_form_document_new_info#:#Här kan du välja en ny fil från ditt lokala filsystem för att ändra dokumentet. Du kan ladda upp en enkel textfil eller en HTML-fil. Hela HTML-språket stöds inte. Observera att HTML-filer rensas under uppladdningen och att endast innehållet i body-elemen
-acc#:#acc_form_document_title#:#Titel
-acc#:#acc_form_document_title_info#:# Ange en titel för dokumentet här.
-acc#:#acc_form_edit_criterion_head#:#Redigera kriterium för mall
-acc#:#acc_form_edit_doc_head#:#Redigera dokument
-acc#:#acc_form_new_doc_head#:#Skapa dokument
-acc#:#acc_forward_mail#:#Framåt
-acc#:#acc_function#:#Funktion
-acc#:#acc_last_rep_visited#:#Magazine/Last visited
-acc#:#acc_saved_sorting#:#Sorteringen har sparats.
-acc#:#acc_sure_delete_documents_p#:#Är du säker på att du vill radera de valda dokumenten?
-acc#:#acc_sure_delete_documents_s#:#Är du säker på att du vill ta bort det markerade dokumentet?
-acc#:#acc_tbl_docs_action_add_criterion#:#Lägg till mallkriterium
-acc#:#acc_tbl_docs_cell_not_criterion#:#Inget mallkriterium tilldelat
-acc#:#acc_tbl_docs_head_created#:#Datum för skapande
-acc#:#acc_tbl_docs_head_criteria#:#Kriterier för mall
-acc#:#acc_tbl_docs_head_last_change#:#Sista förändringen
-acc#:#acc_tbl_docs_head_sorting#:#Sortering
-acc#:#acc_tbl_docs_head_title#:#Titel
-acc#:#acc_tbl_docs_title#:#Dokument
-acc#:#acc_tree_off#:#Trädvy av
-acc#:#acc_tree_on#:#Trädutsikt på
 adm#:#adm_acc_ctrl_cpt_desc#:#Om den är aktiverad visas länken till "Tillgänglighetsinformation" i sidfoten.
 adm#:#adm_acc_ctrl_cpt_enable#:#Info Aktivera tillgänglighet
 adm#:#adm_accessibility_contacts#:#Kontaktpunkt för tillgänglighet
@@ -391,34 +349,6 @@ adn#:#msg_type_2#:#Viktigt
 adn#:#msg_type_3#:#Brytande nyheter
 adn#:#msg_type_during_event#:#Under evenemanget
 adn#:#msg_type_info#:#Viktigheten avgör färgvisningen av tillkännagivandena
-adve#:#advanced_editing_excass_settings#:#Settings Övningsenheter (textleveranser)
-adve#:#advanced_editing_tst_editing#:#Sidredigerare för ytterligare frågeinnehåll
-adve#:#advanced_editing_tst_editing_desc#:#Aktiverar ILIAS sidredigerare för feedback och notistexter.
-adve#:#adve_activation#:#Aktivering
-adve#:#adve_auto_url_linking#:#URL Automatisk länkning
-adve#:#adve_auto_url_linking_info#:#ILIAS söker i textstycken efter URL-adresser (t.ex. "http
-adve#:#adve_autosave#:#Automatiskt sparintervall
-adve#:#adve_autosave_info#:#Textinnehåll sparas automatiskt vid detta intervall. Kortare intervall leder till högre serverbelastning och lägre systemprestanda.
-adve#:#adve_autosave_info_min_10#:#Ställ in värdet på minst 10 sekunder om du använder funktionen.
-adve#:#adve_blocking_mode#:#Redigera lås
-adve#:#adve_excass_settings#:#Träningsenheter
-adve#:#adve_grp_copa#:#Innehållssidor
-adve#:#adve_grp_frm#:#Forum
-adve#:#adve_grp_glo#:#Glossarier
-adve#:#adve_grp_lm#:#ILIAS utbildningsmoduler
-adve#:#adve_grp_rep#:#Sidor i tidskrifter
-adve#:#adve_grp_scorm#:#SCORM-moduler
-adve#:#adve_grp_test#:#Test och bedömning
-adve#:#adve_grp_wiki#:#Wikis
-adve#:#adve_minutes#:#minuter
-adve#:#adve_minutes_info#:#Tidsperiod i minuter tills sidan kan släppas igen på grund av brist på aktivitet och sedan redigeras av en annan användare.
-adve#:#adve_page_editor_settings#:#ILIAS sidredigerare
-adve#:#adve_pe_general#:#Inställningar
-adve#:#adve_rte_settings#:#TinyMCE-editor
-adve#:#adve_text_content_features#:#Text Innehåll Meny
-adve#:#adve_use_physical#:#Ersätt #str|emp|imp med <u>B|I|U</u>
-adve#:#adve_use_physical_info#:#Inställningen ersätter knapparna i de semantiska stilklasserna för stark, eftertrycklig och viktig med de fast definierade distinktionerna <b>B</b> (fet), <i>I</i> (kursiv) och <u>U</u> (understruken). Uppmärksamhet
-adve#:#adve_use_tiny_mce#:#Aktivera TinyMCE för WYSIWYG-redigering
 assessment#:#activate_logging#:#Aktivera loggning av test och bedömning
 assessment#:#activate_manual_scoring#:#Enable Manual Scoring###28 10 2024 new variable
 assessment#:#activate_manual_scoring_desc#:#Enables manual Scoring for all question types.###28 10 2024 new variable
@@ -2150,32 +2080,6 @@ auth#:#lti_consumer_inactive#:#LTI Tool Consumer är avaktiverad
 auth#:#page_design_activate#:#Activate Page Design###26 08 2024 new variable
 auth#:#page_design_deactivate#:#Deactivate Page Design###26 08 2024 new variable
 auth#:#saml_tab_head_idp#:#IDP
-awrn#:#awareness_now_online#:#Nu online
-awrn#:#awareness_settings#:#Inställningar
-awrn#:#awrn_caching_period#:#Caching-period
-awrn#:#awrn_caching_period_info#:#Denna period inväntas innan antalet användare i toppdisplayen uppdateras och nya online-användare identifieras.
-awrn#:#awrn_enable#:#Aktivera displayen "Vem är online?"
-awrn#:#awrn_filter#:#Användarfilter
-awrn#:#awrn_hide_from_awareness#:#Lista inte upp mig i "Vem är online?"-visningen
-awrn#:#awrn_hide_from_awareness_info#:#Indikatorn "Vem är online?" visas högst upp i applikationen och listar valda användare (t.ex. kontakter eller medlemmar i dina kurser).
-awrn#:#awrn_inactive#:#Ingen display
-awrn#:#awrn_incl_offline#:#Online och offline
-awrn#:#awrn_max_inactivity#:#Max. Inaktivitet
-awrn#:#awrn_max_inactivity_info#:#Användare som inte har agerat under den angivna tidsperioden listas som "offline". Om inget värde anges gäller sessionens giltighet.
-awrn#:#awrn_max_nr_entries#:#Antal max. inmatningar
-awrn#:#awrn_max_nr_entries_info#:#Detta är det maximala antalet poster som visas i listan "Vem är online?". Den här inställningen har ingen större inverkan på visningen i det övre fältet.
-awrn#:#awrn_minutes#:#min
-awrn#:#awrn_online#:#Online
-awrn#:#awrn_online_only#:#Endast online
-awrn#:#awrn_seconds#:#Sec.
-awrn#:#awrn_use_osd#:#Popup online-användare
-awrn#:#awrn_use_osd_info#:#Visar en popup när nya användare visas i "Vem är online?"-displayen med online-status.
-awrn#:#awrn_user_show#:#Visa min status i "Vem är online?
-awrn#:#awrn_user_show_default#:#Default Value for  the Visibility in "Who-Is-Online?"###29 10 2025 new variable
-awrn#:#awrn_user_show_default_info#:#Defines the default value for the visibility of the status of a user in "Who-Is-Online?".###29 10 2025 new variable
-awrn#:#user_awrn_default#:#Standard
-awrn#:#user_awrn_hide#:#Visa inte
-awrn#:#user_awrn_show#:#Display
 background_tasks#:#abort#:#Avbryt
 background_tasks#:#background_tasks#:#Bakgrundsuppgifter
 background_tasks#:#background_tasks_running#:#Bakgrundsuppgifter
@@ -2262,17 +2166,6 @@ badge#:#sort_by_title_desc#:#Sort by Title Descending###21 11 2023 new variable
 badge#:#table_view#:#Table View###21 11 2023 new variable
 badge#:#tile_view#:#Tile View###21 11 2023 new variable
 badge#:#valid_until#:#Valid until###21 11 2023 new variable
-benchmark#:#adm_activate_db_benchmark#:#Activate Benchmarking###29 10 2025 new variable
-benchmark#:#adm_activate_db_benchmark_desc#:#Benchmarking will be automatically disabled after one request.###29 10 2025 new variable
-benchmark#:#adm_db_bench_by_first_table#:#Aggregated by First Table in SQL###29 10 2025 new variable
-benchmark#:#adm_db_bench_chronological#:#Chronological###29 10 2025 new variable
-benchmark#:#adm_db_bench_slowest_first#:#Slowest First###29 10 2025 new variable
-benchmark#:#adm_db_bench_sorted_by_sql#:#Sorted by SQL###29 10 2025 new variable
-benchmark#:#adm_db_benchmark#:#DB Benchmark###29 10 2025 new variable
-benchmark#:#adm_db_benchmark_user#:#User Account Name###29 10 2025 new variable
-benchmark#:#adm_db_benchmark_user_desc#:#Measurements will be made for this user only. The username entered should not belong to the user initiating the benchmarking.###29 10 2025 new variable
-benchmark#:#adm_sql#:#SQL###29 10 2025 new variable
-benchmark#:#adm_time#:#Time###29 10 2025 new variable
 bgtask#:#bgtask_blocked#:#Running nedladdning
 bgtask#:#bgtask_blocked_cancel_new#:#Avbryt ny nedladdning
 bgtask#:#bgtask_blocked_cancel_old#:#Avbryt pågående nedladdning
@@ -2667,62 +2560,6 @@ book#:#booking_nr_of_items#:#Nummer
 book#:#obj_book_duplicate#:#Kopiera bokningspool
 book#:#participants#:#Deltagare
 book#:#reservation_deleted#:#Reservation borttagen
-buddysystem#:#buddy_allow_to_contact_me#:#Tillåt kontaktförfrågningar
-buddysystem#:#buddy_allow_to_contact_me_default_info#:#Defines if users can send each other requests for getting into contact by default.###29 10 2025 new variable
-buddysystem#:#buddy_allow_to_contact_me_info#:#Om aktiverat kan andra användare skicka kontaktförfrågningar till mig.
-buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_linked#:#Bekräfta begäran
-buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_unlinked#:#Begäran om återkallelse
-buddysystem#:#buddy_bs_act_btn_txt_linked_to_unlinked#:#Avbryt kontakt
-buddysystem#:#buddy_bs_act_btn_txt_requested_to_ignored_request#:#Ignorera kontakt
-buddysystem#:#buddy_bs_act_btn_txt_requested_to_linked#:#Bekräfta kontakt
-buddysystem#:#buddy_bs_act_btn_txt_requested_to_unlinked#:#Begäran om återkallelse
-buddysystem#:#buddy_bs_action_already_ignored#:#Åtgärden är inte möjlig eftersom kontaktförfrågan från användaren '%s' redan har ignorerats.
-buddysystem#:#buddy_bs_action_already_linked#:#Åtgärden är inte möjlig eftersom kontaktförfrågan för användaren '%s' redan har bekräftats.
-buddysystem#:#buddy_bs_action_already_requested#:#Åtgärden är inte möjlig eftersom användaren '%s' redan har begärts.
-buddysystem#:#buddy_bs_action_already_unlinked#:#Åtgärden är inte möjlig. All kontakt med användaren '%s' har redan lösts.
-buddysystem#:#buddy_bs_action_not_possible#:#Aktion ej möjlig
-buddysystem#:#buddy_bs_btn_txt_ignored_request_a#:#Begärd kontakt
-buddysystem#:#buddy_bs_btn_txt_ignored_request_p#:#Förfrågan ignorerad
-buddysystem#:#buddy_bs_btn_txt_linked_a#:#Nätverk
-buddysystem#:#buddy_bs_btn_txt_linked_p#:#Nätverk
-buddysystem#:#buddy_bs_btn_txt_requested_a#:#Begärd kontakt
-buddysystem#:#buddy_bs_btn_txt_requested_p#:#Kontaktförfrågan
-buddysystem#:#buddy_bs_btn_txt_unlinked_a#:#Förfrågan om kontakt
-buddysystem#:#buddy_bs_state_ignored_request_a#:#Frågade
-buddysystem#:#buddy_bs_state_ignored_request_p#:#Ignorerad
-buddysystem#:#buddy_bs_state_ignoredrequest#:#Ignorerad
-buddysystem#:#buddy_bs_state_linked#:#Nätverk
-buddysystem#:#buddy_bs_state_linked_a#:#Nätverk
-buddysystem#:#buddy_bs_state_linked_p#:#Nätverk
-buddysystem#:#buddy_bs_state_requested#:#Frågade
-buddysystem#:#buddy_bs_state_requested_a#:#Frågade
-buddysystem#:#buddy_bs_state_requested_filter_a#:#Väntar på reaktion
-buddysystem#:#buddy_bs_state_requested_filter_p#:#Åtgärd krävs
-buddysystem#:#buddy_bs_state_requested_p#:#Frågade
-buddysystem#:#buddy_bs_state_unlinked#:#Inte nätverk
-buddysystem#:#buddy_bs_state_unlinked_a#:#Inte nätverk
-buddysystem#:#buddy_bs_state_unlinked_p#:#Inte nätverk
-buddysystem#:#buddy_enable#:#Aktivera "Användarkontakter
-buddysystem#:#buddy_enable_info#:#Om den är aktiverad kan användare i systemet kontakta varandra via kontaktförfrågningar. En ytterligare personlig inställning gör det möjligt för varje användare att tillåta eller förhindra kontaktförfrågningar.
-buddysystem#:#buddy_handle_contact_request#:#Kontaktförfrågan
-buddysystem#:#buddy_noti_cr_profile_not_published#:#Profil ej publicerad
-buddysystem#:#buddy_notification_contact_request#:#Kontaktförfrågan
-buddysystem#:#buddy_notification_contact_request_ignore#:#Ignorera begäran
-buddysystem#:#buddy_notification_contact_request_ignore_osd#:#Ignorera begäran
-buddysystem#:#buddy_notification_contact_request_link#:#Bekräfta begäran
-buddysystem#:#buddy_notification_contact_request_link_osd#:#Bekräfta begäran
-buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR]"[REQUESTING_USER]" vill gärna komma i kontakt med dig.[BR][BR]Länk till personlig profil
-buddysystem#:#buddy_notification_contact_request_short#:#Användaren "[REQUESTING_USER]" vill gärna kontakta dig.
-buddysystem#:#buddy_relation_requested#:#En kontaktförfrågan har skickats till användaren.
-buddysystem#:#buddy_request_approved#:#Kontakten har framgångsrikt etablerats.
-buddysystem#:#buddy_request_ignored#:#Du har ignorerat användaren.
-buddysystem#:#buddy_tbl_filter_state#:#Status
-buddysystem#:#buddy_tbl_state_actions_col_label#:#Status / Åtgärd
-buddysystem#:#buddy_tbl_title_relations#:#Relationer med andra användare
-buddysystem#:#buddy_use_osd#:#Popup kontaktförfrågningar
-buddysystem#:#buddy_use_osd_info#:#Visar en popup när en användare vill kontakta mig.
-buddysystem#:#buddy_view_gallery#:#Galleri
-buddysystem#:#buddy_view_table#:#Lista
 cat#:#cat_copy#:#Kopieringskategori
 cat#:#cat_hide_tax_in_side_block#:#Don't Present in Side Panel###21 11 2023 new variable
 cat#:#cat_import#:#Kategori #Import
@@ -3046,12 +2883,6 @@ chatroom_adm#:#public_chat_permissions#:#Publikt chattrum
 chatroom_adm#:#public_chat_settings#:#Publikt chattrum
 chatroom_adm#:#server_settings#:#Inställningar för chatt-server
 chatroom_adm#:#settings_has_been_saved#:#Inställningarna har sparats.
-classification#:#clsfct_back_to_cat#:#Tillbaka till kategorin
-classification#:#clsfct_block_info#:#Ditt urval filtrerar objekten.
-classification#:#clsfct_block_title#:#Urval enligt teman
-classification#:#clsfct_content_no_match#:#Inga objekt hittades för de valda kriterierna.
-classification#:#clsfct_content_title#:#Objekt som matchar ditt urval.
-classification#:#clsfct_selected_objects#:#Utvalda objekt
 cmix#:#achieved_info#:#Successfully bring about or achieve a desired goal, level or result through effort, skill or courage.
 cmix#:#achieved_label#:#Uttalanden med verbet "uppnått
 cmix#:#activity_id#:#Aktivitets-ID
@@ -3314,8 +3145,6 @@ cmix#:#use_fetch_info#:#Så länge resursen stöder det här alternativet bör d
 cmix#:#xapi_statements_fetched_successfully#:#Resultat från Learning Record Store har hämtats framgångsrikt.
 cmix#:#xapi_statements_last_fetch_date#:#Sista hämtning av resultat
 cmix#:#xapi_statements_not_fetched_yet#:#Resultaten från Learning Record Store har ännu inte hämtats.
-cmxv#:#cmxv_create#:#Skapa certifikat för xAPI/cmi5-objekt
-cmxv#:#cmxv_create_info#:#Välj ett slutfört xAPI/cmi5-objekt för att generera ett certifikat för det.
 cntr#:#cntr_add_new_item#:#Lägg till nytt objekt
 cntr#:#cntr_adopt_content#:#Ta över innehåll
 cntr#:#cntr_container_only_on_their_own#:#Kategorier, kurser, grupper, mappar, inlärningssekvenser och studieprogram kan endast kopieras individuellt. Välj endast ett sådant objekt.
@@ -5947,89 +5776,6 @@ common#:#zip_structure_error#:#Arkivet innehåller samma filnamn. Uppladdning av
 common#:#zip_test_failed#:#ZIP-testet har misslyckats. Vänligen kontakta din ILIAS-administratör.
 common#:#zipcode#:#Postnummer
 cond#:#cond_under_parent_control#:#Förutsättningarna hanteras av det överordnade objektet.
-cont#:#cont_add_global_profile#:#Lägg till global profil
-cont#:#cont_add_local_profile#:#Lägg till lokal profil
-cont#:#cont_add_skill#:#Lägg till kompetens
-cont#:#cont_assign_competence#:#Tilldela kompetens till medlemmar
-cont#:#cont_assign_skills#:#Tilldela kompetenser
-cont#:#cont_block_limit#:#Begränsa inmatningar per block
-cont#:#cont_block_limit_info#:#Om ett block innehåller fler poster visas en åtgärdsknapp "Visa mer".
-cont#:#cont_cont_skills#:#Medlemmarnas kompetens
-cont#:#cont_deassign_competence#:#Återställa kompetenser
-cont#:#cont_filter#:#Filter
-cont#:#cont_filter_field#:#Fält
-cont#:#cont_filter_fields#:#Filterfält
-cont#:#cont_filter_record#:#Dataset
-cont#:#cont_found_objects#:#Fundna objekt
-cont#:#cont_item_list#:#Lista
-cont#:#cont_item_list_info#:#Visa underordnade objekt i en lista.
-cont#:#cont_list_presentation#:#Presentationsvy för innehåll
-cont#:#cont_mem_skills#:#Kompetens
-cont#:#cont_news_edited#:#Editerad
-cont#:#cont_news_settings#:#Nyheter
-cont#:#cont_news_timeline#:#Tidslinje
-cont#:#cont_news_timeline_auto_entries#:#Automatiskt skapade nyheter
-cont#:#cont_news_timeline_auto_entries_info#:#Alla automatiskt skapade nyheter visas också, t.ex. foruminlägg, nya filer, etc.
-cont#:#cont_news_timeline_info#:#Aktiverar fliken "Tidslinje" för nyheter
-cont#:#cont_news_timeline_landing_page#:#Startsida
-cont#:#cont_news_timeline_landing_page_info#:#Timeline som startsida
-cont#:#cont_news_timeline_tab#:#Tidslinje
-cont#:#cont_no_title#:#Empty Title###26 08 2024 new variable
-cont#:#cont_page_type_cont#:#Magazin-sida (kurs, grupp, kategori, ...)
-cont#:#cont_page_type_cstr#:#Startpage lärande målorienterad kurs
-cont#:#cont_path#:#Stig
-cont#:#cont_publish_assignment#:#Publicera uppdrag
-cont#:#cont_published#:#Publicering
-cont#:#cont_really_deassign_skills#:#Vill du verkligen återställa alla användarens kompetenstilldelningar?
-cont#:#cont_really_remove_skill_from_course#:#Bör kompetenserna verkligen tas bort från listan?
-cont#:#cont_select_fields#:#Välj fält
-cont#:#cont_show_more#:#Visa mer
-cont#:#cont_skill#:#Kompetens
-cont#:#cont_skill_ass_profiles#:#Assigned Profiles of Members###21 11 2023 new variable
-cont#:#cont_skill_assigned_comp#:#Urval av kompetenser
-cont#:#cont_skill_assigned_profiles#:#Urval av profil
-cont#:#cont_skill_deletion_not_possible#:#Det är inte möjligt att ta bort globala kompetensprofiler. Välj endast lokala kompetensprofiler.
-cont#:#cont_skill_do_not_set#:#Ställ inte in
-cont#:#cont_skill_members#:#Medlemmar
-cont#:#cont_skill_no_profile_selected#:#Vänligen välj en profil.
-cont#:#cont_skill_no_skill#:#Inget värde (återställning)
-cont#:#cont_skill_no_skills_selected#:#Inga kompetenser har valts ännu. Lägg till minst en kompetens under "Val av kompetens" först.
-cont#:#cont_skill_profile#:#Profil
-cont#:#cont_skill_profiles#:#Profiler över medlemmarna
-cont#:#cont_skill_publish#:#Publicering
-cont#:#cont_skill_publish_auto#:#Automatisk
-cont#:#cont_skill_publish_auto_info#:#Tilldelning av kompetensnivåer till medlemmar är omedelbart synliga för dem.
-cont#:#cont_skill_publish_manual#:#Handbok
-cont#:#cont_skill_publish_manual_info#:#Tilldelningar av kompetensnivåer till medlemmar är endast synliga för dem när de publiceras.
-cont#:#cont_skill_really_delete_profile_from_list#:#Bör profilen verkligen raderas?
-cont#:#cont_skill_really_delete_profiles_from_list#:#Bör profilerna verkligen raderas?
-cont#:#cont_skill_really_remove_profile_from_list#:#Bör profilen verkligen tas bort från listan?
-cont#:#cont_skill_really_remove_profiles_from_list#:#Bör profilerna verkligen tas bort från listan?
-cont#:#cont_skill_records#:#Competence Records###21 11 2023 new variable
-cont#:#cont_skill_removal_not_possible#:#Att ta bort lokala kompetensprofiler är inte möjligt. Vänligen välj endast globala kompetensprofiler.
-cont#:#cont_std_filter_title_1#:#Titel
-cont#:#cont_std_filter_title_2#:#Beskrivning
-cont#:#cont_std_filter_title_3#:#Titel/Beskrivning
-cont#:#cont_std_filter_title_4#:# nyckelord
-cont#:#cont_std_filter_title_5#:#Författare
-cont#:#cont_std_filter_title_6#:#Upphovsrätt
-cont#:#cont_std_filter_title_7#:#Stöd för undervisning
-cont#:#cont_std_filter_title_8#:#Objekttyp
-cont#:#cont_std_filter_title_9#:#Online/Offline
-cont#:#cont_std_record_title#:#Standard
-cont#:#cont_tile_size#:#Storlek på kakel
-cont#:#cont_tile_size_0#:#normal (upp till fyra brickor på en rad)
-cont#:#cont_tile_size_1#:#small (upp till sex brickor på en rad)
-cont#:#cont_tile_size_2#:#large (upp till tre brickor på en rad)
-cont#:#cont_tile_size_3#:#mycket stor (upp till två plattor på en rad)
-cont#:#cont_tile_size_4#:# full bredd (en kakelplatta på en rad)
-cont#:#cont_tile_view#:#Kakelplattor
-cont#:#cont_tile_view_info#:#Visa underordnade objekt som brickor. Bilder för dessa plattor kan laddas upp i inställningarna för varje enskilt objekt.
-cont#:#cont_trash_general_usage#:#If you want to remove a huge amount of old, deleted objects from the system it is highly advisable to start with non-container objects (i.e. Files, Glossaries, Tests,..) and thus removing all objects from the containers (Categories, Courses, Groups, Learning Sequences,...) . Using the filters "Type" and "Deleted on" helps this process. Then finally remove the containers.###28 10 2024 new variable
-contact#:#contact_awrn_ap_contacts#:#Bekräftade kontakter
-contact#:#contact_awrn_ap_contacts_info#:#Alla bekräftade kontakter för en användare listas.
-contact#:#contact_awrn_req_contacts#:#Kontaktförfrågningar
-contact#:#contact_awrn_req_contacts_info#:#Alla kontaktförfrågningar är listade.
 content#:#Pages#:#Sidor
 content#:#add_menu_entry#:#Lägg till menyalternativ &gt;&gt;
 content#:#all_pages#:# för hela utbildningsmodulen
@@ -7254,99 +7000,8 @@ copa#:#copa_prop_reading_time#:#Tid för läsning
 copa#:#copa_value_reading_time_f_p#:#%s minuter
 copa#:#copa_value_reading_time_f_s#:#%s minut
 copa#:#obj_copa_duplicate#:#Sidor med duplicerat innehåll
-copg#:#copg_active_to_small#:#This date must be higher than the starting date.###26 08 2024 new variable
-copg#:#copg_allow_html#:#Tillåt HTML/Javascript
-copg#:#copg_allow_html_info#:#Användare kan använda HTML eller Javascript i sidinnehåll. Detta kan leda till säkerhetsproblem. Du bör endast aktivera denna funktion för komponenter som används av betrodda användare. Möjligheten att inkludera HTML på detta sätt kan komma att tas bort
-copg#:#copg_an_error_occured#:#Tyvärr har ett problem uppstått.
-copg#:#copg_confirm_el_deletion#:#Vill du verkligen ta bort de markerade objekten?
-copg#:#copg_cron_days#:#Radera poster som är äldre än x
-copg#:#copg_cron_days_info#:#Raderar poster från historiken som är äldre än den angivna perioden.
-copg#:#copg_cron_keep_entries#:#Minsta antal bidrag
-copg#:#copg_cron_keep_entries_info#:#Detta antal poster sparas i historiken, även om de är äldre än den angivna perioden.
-copg#:#copg_days#:#dagar
-copg#:#copg_details#:#Detaljer
-copg#:#copg_edit_iframe_title#:#Text Editing of Page Editor###26 08 2024 new variable
-copg#:#copg_entries#:#Inträden
-copg#:#copg_error#:#Problem
-copg#:#copg_error_occured_modal#:#Tyvärr, ett fel har uppstått. Tryck på "Ladda om sidan" för att återgå till det senast sparade innehållet.
-copg#:#copg_est_reading_time#:#Uppskattad lästid
-copg#:#copg_history_cleanup_cron#:#Page Editor Historik rensning
-copg#:#copg_history_cleanup_cron_info#:# Raderar äldre poster från sidredigerarens historik.
-copg#:#copg_list_item_style#:#List Item###21 11 2023 new variable
-copg#:#copg_list_style#:#List###21 11 2023 new variable
-copg#:#copg_list_styles#:#List Formats###21 11 2023 new variable
-copg#:#copg_more_character_formats#:#More Styles for Characters###26 08 2024 new variable
-copg#:#copg_obj_types#:#Object Types###26 08 2024 new variable
-copg#:#copg_page_element_not_found#:# Okänt sidelement.
-copg#:#copg_page_type_stys#:#Sidans layout
-copg#:#copg_pages#:#Pages###29 10 2025 new variable
-copg#:#copg_par_format_selection#:#Paragraph Format Selection###26 08 2024 new variable
-copg#:#copg_pc_mob_does_not_exist#:#This media object does not exist.###21 11 2023 new variable
-copg#:#copg_plugin#:#Plugin###29 10 2025 new variable
-copg#:#copg_plugin_not_avail#:#Plugin %s not available.###29 10 2025 new variable
-copg#:#copg_questions_not_supported_here#:#Inga frågor stöds i detta sammanhang.
-copg#:#copg_reload_page#:#Reload sida
-copg#:#copg_remove_formats#:#Remove Formatting###26 08 2024 new variable
-copg#:#copg_sec_link_info#:#Välj en destination för länkning av blocket. Uppmärksamhet
-copg#:#copg_snippet_cannot_be_edited#:#Detta är en fördefinierad innehållsmodul som inte kan redigeras just nu.
-copg#:#copg_templates#:#Templates###29 10 2025 new variable
-copg#:#copg_unsupported_media_type#:#This media object has an unsupported media type.###26 08 2024 new variable
-copg#:#copg_x_minutes#:#%s minut(er)
-cpad#:#cpad_reading_time_status#:#Tid för läsning
-cpad#:#cpad_reading_time_status_desc#:#Om den är aktiverad beräknas och visas den uppskattade lästiden för innehållssidor.
 cptch#:#cptch_freetype_support_needed#:#För att använda denna funktion behöver du freetype-stödet för PHP.
 cptch#:#cptch_wrong_input#:#Felaktig inmatning
-cron#:#cro_job_rc_job_auto_deactivation_time_limit#:#Cronjobbet avaktiverades eftersom det var inaktivt i mer än 3 timmar.
-cron#:#cro_job_rc_job_manual_reset#:#Cronjobbet har återaktiverats av en administratör
-cron#:#cro_job_rc_job_no_result#:#Inget rent resultat överfördes av cron-jobbet
-cron#:#cron_action_activate#:#Aktivera
-cron#:#cron_action_activate_success#:#Cron-jobbet aktiverat.
-cron#:#cron_action_activate_sure#:#Vill du verkligen aktivera cron-jobbet "%s"?
-cron#:#cron_action_activate_sure_multi#:#Vill du verkligen aktivera följande cron-jobb?
-cron#:#cron_action_deactivate#:#Avaktivera
-cron#:#cron_action_deactivate_success#:#Cron-jobbet avaktiverat.
-cron#:#cron_action_deactivate_sure#:#Vill du verkligen avaktivera cron-jobbet "%s"?
-cron#:#cron_action_deactivate_sure_multi#:#Vill du verkligen inaktivera följande cron-jobb?
-cron#:#cron_action_edit#:#Redigera
-cron#:#cron_action_edit_success#:#Tidtabellen uppdaterad.
-cron#:#cron_action_reset#:#Återställ
-cron#:#cron_action_reset_success#:#Återställning av kronjobb.
-cron#:#cron_action_reset_sure#:#Vill du verkligen återställa cron-jobbet "%s"?
-cron#:#cron_action_reset_sure_multi#:#Vill du verkligen återställa följande cron-jobb?
-cron#:#cron_action_run#:#Utför
-cron#:#cron_action_run_fail#:#Exekveringen misslyckades.
-cron#:#cron_action_run_success#:#Cron-jobbet har utförts framgångsrikt.
-cron#:#cron_action_run_sure#:#Vill du verkligen köra cron-jobbet "%s"?
-cron#:#cron_changed_by_crontab#:#SYSTEM
-cron#:#cron_component#:#Komponent
-cron#:#cron_job_id#:#Id
-cron#:#cron_jobs_with_required_intervention#:#The following jobs may require an intervention.###29 10 2025 new variable
-cron#:#cron_last_run#:#Sista körningen
-cron#:#cron_no_executable_job_selected#:#Välj minst ett körbart cron-jobb.
-cron#:#cron_result#:#Resultat
-cron#:#cron_result_info#:#Info om resultat
-cron#:#cron_result_status_crashed#:#Avbryt
-cron#:#cron_result_status_fail#:#Fel
-cron#:#cron_result_status_invalid_configuration#:# Ogiltig konfiguration
-cron#:#cron_result_status_no_action#:#Okej, ingen redigering
-cron#:#cron_result_status_ok#:#Ok
-cron#:#cron_result_status_reset#:#Återställ
-cron#:#cron_running_since#:#Running sedan
-cron#:#cron_schedule#:#Tidtabell
-cron#:#cron_schedule_daily#:#Dagligen
-cron#:#cron_schedule_in_days#:#Alla %s dagar
-cron#:#cron_schedule_in_hours#:#Alla %s timmar
-cron#:#cron_schedule_in_minutes#:#Alla %s minuter
-cron#:#cron_schedule_monthly#:#Månadsvis
-cron#:#cron_schedule_quarterly#:#Kvartalsvis
-cron#:#cron_schedule_type#:#Tidtabell
-cron#:#cron_schedule_value#:#Intervall
-cron#:#cron_schedule_weekly#:#Veckovis
-cron#:#cron_schedule_yearly#:#Årlig
-cron#:#cron_status#:#Status
-cron#:#cron_status_active#:#Aktiv
-cron#:#cron_status_inactive#:#Inaktiv
-cron#:#cron_status_info#:#Status info
 crs#:#activation_times_not_valid#:#Tidsperioden för 'Availability' är inte giltig.
 crs#:#assigned#:#Tilldelad
 crs#:#contact_email_not_valid#:#E-postadressen är inte giltig.
@@ -8784,340 +8439,6 @@ dcl#:#role_limitation#:#Role-based View Limitation###29 10 2025 new variable
 dcl#:#roles#:#Roles with Access###29 10 2025 new variable
 dcl#:#roles_desc#:#Define wich roles have access to the view.###29 10 2025 new variable
 dcl#:#set_as_default#:#Set as default###26 08 2024 new variable
-didactic#:#activate_exclusive_template#:#Grå ut standard
-didactic#:#activate_exclusive_template_info#:#Standardmallen är gråmarkerad när denna didaktiska mall är aktiv.
-didactic#:#activate_local_didactic_template#:#Validitetsintervall
-didactic#:#activate_local_didactic_template_info#:#Användningen av de didaktiska mallarna kommer att begränsas till underavsnitt i tidningen.
-didactic#:#didactic_activated_msg#:#De valda didaktiska mallarna har aktiverats.
-didactic#:#didactic_adm_tab#:#Didaktiska mallar
-didactic#:#didactic_applicable_for#:#Tillämplig på
-didactic#:#didactic_auto_generated#:#Automatiskt genererad
-didactic#:#didactic_available_templates#:#Tillgängliga didaktiska mallar
-didactic#:#didactic_back_to_overview#:#Tillbaka till översikten
-didactic#:#didactic_cannot_delete_auto_generated#:#Att radera automatiskt genererade didaktiska mallar är inte tillåtet.
-didactic#:#didactic_cannot_delete_auto_generated_confirmation#:#Minst en av de valda didaktiska mallarna är automatiskt genererad och kan därför inte tas bort.
-didactic#:#didactic_confirm_apply_new_template#:#Är du säker på att du vill använda den här didaktiska mallen? Alla rättighetsjusteringar kommer att skrivas över och anpassas till den nya didaktiska mallen.
-didactic#:#didactic_confirm_delete_msg#:#Är du säker på att följande didaktiska mallar bör tas bort?
-didactic#:#didactic_copy_suc_message#:#Den didaktiska mallen kopierades
-didactic#:#didactic_deactivated_msg#:#De valda didaktiska mallarna har avaktiverats.
-didactic#:#didactic_default_type#:#Standard
-didactic#:#didactic_default_type_info#:#Rättsspecifikationerna för respektive roll tillämpas.
-didactic#:#didactic_delete_msg#:#De valda didaktiska mallarna har tagits bort.
-didactic#:#didactic_do_export#:#Export
-didactic#:#didactic_edit_tpl#:#Redigera didaktisk mall
-didactic#:#didactic_filter_with_icon#:#med symbol
-didactic#:#didactic_filter_without_icon#:#Utan symbol
-didactic#:#didactic_global#:#Global
-didactic#:#didactic_icon#:#Icon
-didactic#:#didactic_icon_error#:#Ikoner kan endast användas för containerobjekt.
-didactic#:#didactic_icon_info#:#Ikonen visas för alla objekt som tillämpar dessa mallar. "Anpassade ikoner" för objekten skriver över ikonen för mallen. Ikoner kan endast konfigureras för behållarobjekt (t.ex. kurs och kategorier).
-didactic#:#didactic_import_btn#:#Importera didaktisk mall
-didactic#:#didactic_import_failed#:#Den didaktiska mallen kunde inte importeras
-didactic#:#didactic_import_success#:#Den didaktiska mallen importerades framgångsrikt
-didactic#:#didactic_import_table_title#:#Import av en didaktisk mall
-didactic#:#didactic_install_info#:#Allmän information
-didactic#:#didactic_local#:#Lokalt
-didactic#:#didactic_not_changed#:#Den aktiva didaktiska mallen ändrades inte.
-didactic#:#didactic_scope#:#Validitetsintervall
-didactic#:#didactic_scope_list_header#:#Begränsad till
-didactic#:#didactic_selected_tpl_option#:#Tillämpad didaktisk mall
-didactic#:#didactic_template_applied#:#Den didaktiska mallen tillämpades.
-didactic#:#didactic_template_update_import#:#Uppdatering av didaktiska mallar
-didactic#:#didactic_template_update_import_info#:#Alla egenskaper justeras enligt importfilen. Objekt som redan använder inställningarna i denna mall ändras inte.
-didactic#:#dtpl_obj_type_info#:#Anger den objekttyp som denna didaktiska mall kan tillämpas på.
-didactic#:#effective_form#:#Template effektiv från
-didactic#:#grp_closed#:#Sluten grupp
-didactic#:#grp_closed_info#:#Gruppen är osynlig för icke-medlemmar.
-didactic#:#more_translations#:#Andra översättningar
-didactic#:#sess_closed#:#Avslutad session
-didactic#:#sess_closed_info#:#Sessionen är osynlig för icke-deltagare.
-dpro#:#dpro_accept_usr_agreement_anonymous#:#Declaration of Data Protection###26 08 2024 new variable
-dpro#:#dpro_accept_usr_agreement_anonymous_intro#:#Before you proceed to ILIAS you accept the following Declaration of Data Protection.###26 08 2024 new variable
-dpro#:#dpro_account_reg_not_possible#:#Self-registration is currently not possible because there is no Data Protection agreement available. Please contact your <a href="%1$s">system administrator</a> for further information.###21 11 2023 new variable
-dpro#:#dpro_agree_date#:#Data Protection agreed on###21 11 2023 new variable
-dpro#:#dpro_last_reset_date#:#The Data Protection were reset on %s. Only reset the Data Protection if changes have been made to the document(s) and you require all users to agree to the documents.###21 11 2023 new variable
-dpro#:#dpro_mode#:#Mode###21 11 2023 new variable
-dpro#:#dpro_mode_desc#:#Please configure when and how the Data Protection should be accepted.###21 11 2023 new variable
-dpro#:#dpro_no_acceptance#:#Never, only informative###21 11 2023 new variable
-dpro#:#dpro_no_documents_exist#:#There are currently no Declaration of Data Protection documents available.###26 08 2024 new variable
-dpro#:#dpro_no_documents_exist_cant_save#:#There are currently no Declaration of Data Protection documents available. Please add at least one document in order to activate this service.###26 08 2024 new variable
-dpro#:#dpro_once#:#Accept once###21 11 2023 new variable
-dpro#:#dpro_reset_for_all_users#:#Reset Data Protection###21 11 2023 new variable
-dpro#:#dpro_status_enable#:#Enable Data Protection###21 11 2023 new variable
-dpro#:#dpro_status_enable_desc#:#Display relevant language-based Data Protection documents at the end of the registration form for new users and, if applicable, upon the user’s first login. Users are required to accept the Data Protection before they can enter ILIAS.###21 11 2023 new variable
-dpro#:#dpro_sure_reset_tos#:#Are you sure you want to reset the Data Protection for all users in the system? This also applies, for example, to those accounts that are used for the SOAP web services.###21 11 2023 new variable
-dpro#:#dpro_withdrawal_usr_deletion#:#Account deletion upon Data Protection withdrawal###21 11 2023 new variable
-dpro#:#dpro_withdrawal_usr_deletion_desc#:#If a user withdraws their acceptance from a previously accepted Data Protection document, this will result in the deletion of the user’s account.###21 11 2023 new variable
-ecs#:#cert_serial#:#Certifikatets serienummer
-ecs#:#ecs_abr#:#Abkortning
-ecs#:#ecs_account_duration#:#Förlängning av aktiveringstiden
-ecs#:#ecs_account_duration_info#:#Aktiveringstiden för nya ECS-användare är begränsad till sessionens varaktighet. Endast när de antas till en kurs förlängs slutet på aktiveringstiden.
-ecs#:#ecs_activate#:#Aktivera
-ecs#:#ecs_active#:#Aktivera ECS-funktioner
-ecs#:#ecs_active_header#:#Export/Import tillåten
-ecs#:#ecs_add_new_ecs#:#Lägg till ny ECS
-ecs#:#ecs_apache_pass#:# Lösenord
-ecs#:#ecs_apache_user#:#Login name###Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
-ecs#:#ecs_approval_rcp#:#Notifieringar om kursreleaser
-ecs#:#ecs_approval_rcp_info#:#Ange här, kommaseparerat, ett eller flera inloggningsnamn för att bli meddelad via e-post om nya kursversioner.###Modifierad som en del av jämställdhetsintegreringsaktiviteter för ILIAS 8
-ecs#:#ecs_attribute_name#:#Attributets namn
-ecs#:#ecs_auth_type#:#Typ av autentisering
-ecs#:#ecs_auth_type_apache#:#Login namn/Passord###Modifierad som en del av jämställdhetsintegreringen för ILIAS 8
-ecs#:#ecs_auth_type_cert#:#Certifikat baserat
-ecs#:#ecs_availability#:#Tillgänglighet
-ecs#:#ecs_available_ecs#:#Tillgänglig ECS
-ecs#:#ecs_back_settings#:#ECS-inställningar
-ecs#:#ecs_ca_cert#:#CA Certifikat
-ecs#:#ecs_campus_connect_title#:#Uppdrag inom CampusConnect
-ecs#:#ecs_cat_export#:#Kategori utgåvor
-ecs#:#ecs_cat_export_disabled#:#Inte släppa
-ecs#:#ecs_cat_export_enabled#:#Släpp
-ecs#:#ecs_cat_export_obj_settings#:#Inställningar för kategoriutgåvor
-ecs#:#ecs_cat_mapping_by_type#:#Efter typ
-ecs#:#ecs_cat_mapping_by_type_info#:#Välj denna inställning för att tilldela efter objekttyp.
-ecs#:#ecs_cat_mapping_duration#:#Tidsram
-ecs#:#ecs_cat_mapping_duration_info#:#Välj denna inställning för att tilldela ECS-kurser till specifika kategorier, t.ex. baserat på deras startdatum.
-ecs#:#ecs_cat_mapping_fixed#:#Fasta värden
-ecs#:#ecs_cat_mapping_fixed_info#:#Välj denna inställning för att tilldela med fasta värden. Flera värden kan anges separerade med kommatecken.
-ecs#:#ecs_cat_mapping_type#:#Typ av uppdrag
-ecs#:#ecs_cat_mapping_values#:#Attributets värde
-ecs#:#ecs_category_mapping#:#Tilldelning till kategorier
-ecs#:#ecs_cc_mapping_overview#:#Översikt över uppdrag
-ecs#:#ecs_cert_key#:#Certifikat nyckel
-ecs#:#ecs_cert_valid_until#:#Certifikatet är giltigt till
-ecs#:#ecs_check_import_id#:#Kontrollera inställningen för import-ID.
-ecs#:#ecs_client_cert#:#Klientcertifikat
-ecs#:#ecs_cmap_add_attribute_btn#:#Lägg till attribut
-ecs#:#ecs_cmap_all_in_one#:#Kurser i en kategori
-ecs#:#ecs_cmap_all_in_one_cat#:#Kurs kategori
-ecs#:#ecs_cmap_all_in_one_info#:#Ange den kategori i vilken alla kurser ska skapas. Kurslänkar kommer att skapas i alla andra kategorier, om tillämpligt.
-ecs#:#ecs_cmap_att_courseType#:#Typ av händelse
-ecs#:#ecs_cmap_att_degreeProgramme#:#Studiekurs
-ecs#:#ecs_cmap_att_lecturer#:#Lärare
-ecs#:#ecs_cmap_att_module#:#Modul
-ecs#:#ecs_cmap_att_organisation#:#Organisation
-ecs#:#ecs_cmap_att_orgunit#:#Organisatorisk enhet
-ecs#:#ecs_cmap_att_term#:#Semester
-ecs#:#ecs_cmap_att_title#:#Händelsens titel
-ecs#:#ecs_cmap_att_venue#:#Plats
-ecs#:#ecs_cmap_attributes#:#Attribut
-ecs#:#ecs_cmap_atts_table#:#Konfiguration av uppdragets attribut
-ecs#:#ecs_cmap_def_cat#:#Standardkategori
-ecs#:#ecs_cmap_def_cat_info#:#Ange den kategori i vilken kurser ska skapas som inte kan tilldelas via befintliga regler.
-ecs#:#ecs_cmap_delete_attribute_btn#:#Ta bort det sista attributet
-ecs#:#ecs_cmap_delete_rule#:#Ta bort uppdrag
-ecs#:#ecs_cmap_enable#:#Kursuppgift
-ecs#:#ecs_cmap_form_all_values#:#Alla värden
-ecs#:#ecs_cmap_form_create_subdirs#:#Skapa underkataloger
-ecs#:#ecs_cmap_form_current_dir#:#Aktuell katalog
-ecs#:#ecs_cmap_form_dir_relation#:#Hänvisning till katalog
-ecs#:#ecs_cmap_form_filter#:#Inställningar för filter
-ecs#:#ecs_cmap_form_filter_by_values#:#Filtrera efter attributvärden
-ecs#:#ecs_cmap_form_filter_info#:#Manuell(a) värde(n), åtskilda med kommatecken.
-ecs#:#ecs_cmap_form_subdir_name#:#Namn på underkatalog
-ecs#:#ecs_cmap_form_subdir_type#:# Titel på underkatalog
-ecs#:#ecs_cmap_form_subdir_value#:#Värde för underkatalog
-ecs#:#ecs_cmap_mapping_form_title#:#Kursuppgift för kategori
-ecs#:#ecs_cmap_multiple_atts#:#Allokering enligt attribut
-ecs#:#ecs_cmap_overview#:#Översikt över uppdrag
-ecs#:#ecs_cms_dir_tree#:#CMS katalogträd
-ecs#:#ecs_cms_directory_trees_tbl#:#CMS katalogträd
-ecs#:#ecs_cms_id#:#Root ID i Campus Management System
-ecs#:#ecs_cms_tree_deleted#:#Uppdragen till campusförvaltningens träd har tagits bort
-ecs#:#ecs_cms_tree_synchronize#:#Synkronisera
-ecs#:#ecs_cms_tree_synchronized#:#Trädet har synkroniserats.
-ecs#:#ecs_communities#:#Deltagare
-ecs#:#ecs_confirm_delete_tree#:#Vill du verkligen ta bort alla tilldelningar till detta CMS-träd?
-ecs#:#ecs_connection_settings#:#Anslutningsdata
-ecs#:#ecs_consent_modal_btn_accept#:#Agree and Proceed###29 10 2025 new variable
-ecs#:#ecs_consent_modal_title#:#Consent for data transfer###26 08 2024 new variable
-ecs#:#ecs_consent_reset_confirm_title#:#Reset user consent for this participant###26 08 2024 new variable
-ecs#:#ecs_cron_task_scheduler#:#Utföra ECS-uppgifter
-ecs#:#ecs_cron_task_scheduler_info#:#Om aktiverat, utförs ECS-uppgifter regelbundet. Detta är endast möjligt om en ECS-server är aktiverad under "Administration " Utöka ILIAS " ECS".
-ecs#:#ecs_crs_alloc#:#Kursuppgifter
-ecs#:#ecs_crs_alloc_set#:#Redigera kursuppgifter
-ecs#:#ecs_crs_export#:#Kursreleaser
-ecs#:#ecs_crs_export_disabled#:#Inte släppa
-ecs#:#ecs_crs_export_enabled#:#Släpp
-ecs#:#ecs_crs_export_obj_settings#:#Inställningar för kursutgåvor
-ecs#:#ecs_deactivate#:#Avaktivera
-ecs#:#ecs_delete_setting#:#Är du säker på att du vill ta bort följande ECS?
-ecs#:#ecs_deprecated_token#:#Stöd för föråldrade autentiseringstoken
-ecs#:#ecs_deprecated_token_info#:#Ger stöd för föråldrade autentiseringstoken (t.ex. för ILIAS-installationer av version 4.x).
-ecs#:#ecs_dir_alloc#:#Direkttilldelningar
-ecs#:#ecs_dir_alloc_set#:#Redigera mappningar av kataloger
-ecs#:#ecs_dns#:#Domännamn
-ecs#:#ecs_duration#:#Varaktighet
-ecs#:#ecs_econ_rcp#:#Notifieringar om externa kurser
-ecs#:#ecs_econ_rcp_info#:#Ange här, kommaseparerat, ett eller flera inloggningsnamn för att bli meddelad via e-post om nya externa kurser.###Modifierad som en del av jämställdhetsintegreringsaktiviteter för ILIAS 8
-ecs#:#ecs_edit_category_mapping#:#Redigera uppdrag
-ecs#:#ecs_email#:#E-post
-ecs#:#ecs_enable_participant#:#Tillåt import och export av kurser
-ecs#:#ecs_err_invalid_by_type#:#Välj en objekttyp att tilldela i efterhand.
-ecs#:#ecs_err_invalid_dates#:#Startdatumet måste vara före slutdatumet. Vänligen kontrollera din post.
-ecs#:#ecs_err_invalid_type#:#Var god ange ett giltigt ID för kategorins objekt.
-ecs#:#ecs_err_missing_value#:#Kontrollera dina poster för attributvärden.
-ecs#:#ecs_error_extract_serial#:#Fel vid läsning av certifikatets serienummer. Vänligen kontrollera klientcertifikatet.
-ecs#:#ecs_event_appointment#:#Händelsedatum
-ecs#:#ecs_export#:#Kursreleaser
-ecs#:#ecs_export_auth_type#:#Authentication method for users with external user attribute###26 08 2024 new variable
-ecs#:#ecs_export_auth_type_ilias#:#User authentication via LDAP###26 08 2024 new variable
-ecs#:#ecs_export_auth_type_info#:#Please choose the authentication method for users to authenticate via ECS, for whom an external user attribute was transferred via ECS.###26 08 2024 new variable
-ecs#:#ecs_export_auth_type_none#:#Do not allow users with external user attribute###26 08 2024 new variable
-ecs#:#ecs_export_auth_type_oidc#:#User authentication via OpenID Connect###29 10 2025 new variable
-ecs#:#ecs_export_auth_type_shib#:#User authentication via Shibboleth###26 08 2024 new variable
-ecs#:#ecs_export_created_body_a#:#En ny kurs har släppts
-ecs#:#ecs_export_disabled#:#Inte släppa
-ecs#:#ecs_export_enabled#:#Släpp
-ecs#:#ecs_export_local_account#:#Local ILIAS accounts###26 08 2024 new variable
-ecs#:#ecs_export_local_account_info#:#If enabled, will allow the creation of local accounts via ECS. ECS users without external user attribute will receive a local user account on your installation.###26 08 2024 new variable
-ecs#:#ecs_export_obj_settings#:#Inställningar för kursutgåvor
-ecs#:#ecs_export_types#:#Exporterbara objekttyper
-ecs#:#ecs_field_begin#:#Startdatum
-ecs#:#ecs_field_community#:#Gemenskap
-ecs#:#ecs_field_courseID#:#Händelse-ID
-ecs#:#ecs_field_courseType#:#Typ av händelse
-ecs#:#ecs_field_credits#:#Krediter
-ecs#:#ecs_field_cycle#:#Cycle
-ecs#:#ecs_field_day#:#Tag
-ecs#:#ecs_field_end#:#Sista datum
-ecs#:#ecs_field_lecturer#:#Leadership###Modifierad som en del av arbetet med att integrera ett jämställdhetsperspektiv i ILIAS 8
-ecs#:#ecs_field_part_id#:#Deltagarens ID
-ecs#:#ecs_field_room#:#Rymd
-ecs#:#ecs_field_semester_hours#:#Semester timmar per vecka
-ecs#:#ecs_field_start#:#Startdatum
-ecs#:#ecs_field_study_courses#:#Studier
-ecs#:#ecs_field_term#:#Semester
-ecs#:#ecs_field_time#:#Tid
-ecs#:#ecs_file_export#:#Fil aktier
-ecs#:#ecs_file_export_disabled#:#Inte släppa
-ecs#:#ecs_file_export_enabled#:#Släpp
-ecs#:#ecs_file_export_obj_settings#:#Inställningar för fildelning
-ecs#:#ecs_firstname#:#First name###26 08 2024 new variable
-ecs#:#ecs_form_consent#:#Consent###26 08 2024 new variable
-ecs#:#ecs_form_consent_option_title#:#I hereby consent to the transfer of the following data to the above-mentioned target system:###26 08 2024 new variable
-ecs#:#ecs_form_target_platform#:#Target system###26 08 2024 new variable
-ecs#:#ecs_general_info#:#Allmän information
-ecs#:#ecs_glo_export#:#Glossary utgåvor
-ecs#:#ecs_glo_export_disabled#:#Inte släppa
-ecs#:#ecs_glo_export_enabled#:#Släpp
-ecs#:#ecs_glo_export_obj_settings#:#Inställningar för publicering av ordlistor
-ecs#:#ecs_global_role_info#:#Välj en global roll som nya ECS-användare ska tilldelas.
-ecs#:#ecs_grp_export#:#Gruppens aktier
-ecs#:#ecs_grp_export_disabled#:#Inte släppa
-ecs#:#ecs_grp_export_enabled#:#Släpp
-ecs#:#ecs_grp_export_obj_settings#:#Inställningar för gruppaktier
-ecs#:#ecs_ignore_field#:#Uppdatera inte detta fält
-ecs#:#ecs_import#:#Externa kurser
-ecs#:#ecs_import_auth_mode#:#Allow accounts of authentication method %s for transmission via ECS###26 08 2024 new variable
-ecs#:#ecs_import_auth_type_default#:#Allow accounts authentication method "Default" for transmission via ECS###26 08 2024 new variable
-ecs#:#ecs_import_cms#:#Campusförvaltning
-ecs#:#ecs_import_id#:#Import ID
-ecs#:#ecs_import_id_info#:#Ange ID för den kategori i vilken nya ECS-objekt ska skapas.
-ecs#:#ecs_import_types#:#Objekttyper som inte kan importeras
-ecs#:#ecs_import_user_credentials_by_auth_mode#:#Configuration of authentication methods for transmission via ECS###26 08 2024 new variable
-ecs#:#ecs_import_user_credentials_by_auth_mode_info#:#Enable this option to allow accounts of authentication method "Default" to access participant's resources via ECS.###26 08 2024 new variable
-ecs#:#ecs_imported_content#:#Importerade material
-ecs#:#ecs_imported_from#:#Importerad från
-ecs#:#ecs_institution#:#Institution###26 08 2024 new variable
-ecs#:#ecs_invalid_import_type_cms#:#Du kan bara välja importtypen "Campus Management" för högst en deltagare.
-ecs#:#ecs_key_password#:#Nyckelord
-ecs#:#ecs_lastname#:#Last name###26 08 2024 new variable
-ecs#:#ecs_lm_export#:#lanseringar av utbildningsmoduler
-ecs#:#ecs_lm_export_disabled#:#Inte släppa
-ecs#:#ecs_lm_export_enabled#:#Släpp
-ecs#:#ecs_lm_export_obj_settings#:#Inställningar för lanseringar av lärmoduler
-ecs#:#ecs_local_information#:#Ytterligare information
-ecs#:#ecs_local_settings#:#Lokala inställningar
-ecs#:#ecs_login#:#Username or External user account###26 08 2024 new variable
-ecs#:#ecs_mapping_crs#:#Uppgifter för kurser
-ecs#:#ecs_mapping_exp_tbl#:#Tilldelning av utökade metadata till ECS-data
-ecs#:#ecs_mapping_rcrs#:#Uppgift för ECS-kurser
-ecs#:#ecs_mapping_tbl#:#Mappning av ECS-data till utökade metadata
-ecs#:#ecs_mappings#:#Tilldelning av ECS-data
-ecs#:#ecs_member_auth_type#:#Autentiseringssätt för deltagarna
-ecs#:#ecs_meta_data#:#Metadata
-ecs#:#ecs_new_approval_subject#:#En ny kurs har släppts
-ecs#:#ecs_new_category_mapping#:#Ny regel för tilldelning av importerade ECS-kurser till kategorier
-ecs#:#ecs_new_econtent_subject#:#Ny ECS-kurs
-ecs#:#ecs_new_user_body#:#En ny ECS-användare har skapats.
-ecs#:#ecs_new_user_profile#:#Profiluppgifter
-ecs#:#ecs_new_user_subject#:#Nya ECS-användare
-ecs#:#ecs_no_adv_md#:#Det finns inga utökade metadata tillgängliga. Därför kan ingen tilldelning göras.
-ecs#:#ecs_no_owner#:#Välj under vilken community du vill publicera denna kurs.
-ecs#:#ecs_no_value#:#Inte specificerat
-ecs#:#ecs_node_mapping_activate#:# Aktivera mappning av kataloger
-ecs#:#ecs_node_mapping_create_empty#:#Skapa endast kategorier som innehåller kurser
-ecs#:#ecs_node_mapping_create_empty_info#:#Används endast i samband med kursuppgifter (detta aktiveras automatiskt).
-ecs#:#ecs_node_mapping_status_1#:#Mappa hela trädet
-ecs#:#ecs_node_mapping_status_2#:#Manuell kartläggning
-ecs#:#ecs_node_mapping_status_3#:#Oförmärkt
-ecs#:#ecs_not_configured#:#Inte konfigurerad
-ecs#:#ecs_not_published#:#Inga releaser har valts.
-ecs#:#ecs_notifications#:#Notifieringar
-ecs#:#ecs_outgoing_user_credentials#:#User attribute###26 08 2024 new variable
-ecs#:#ecs_outgoing_user_credentials_info#:#Please specify which user attribute should be used for transmission. Possible values [Login], [EXTERNAL_ACCOUNT]. You can modify the specified attribute by prepending or appending any strings. Example: [LOGIN]@example.com###26 08 2024 new variable
-ecs#:#ecs_part_settings#:#Inställningar för deltagare
-ecs#:#ecs_participants#:#Deltagare
-ecs#:#ecs_participants_infos#:#Ytterligare information
-ecs#:#ecs_polling#:#Frekvens av förfrågningar
-ecs#:#ecs_polling_info#:#Ange en frekvens för förfrågningar till ECS-servern.
-ecs#:#ecs_port#:#Port
-ecs#:#ecs_position_updates#:#Transfer Position Uppdateringar
-ecs#:#ecs_protocol#:#Protokoll
-ecs#:#ecs_publish_as#:#Publicera under
-ecs#:#ecs_publish_for#:#Släpp för
-ecs#:#ecs_published_for#:#Släppt för
-ecs#:#ecs_rcat_created_body_a#:#A new ECS Category has been created:###28 10 2024 new variable
-ecs#:#ecs_rcrs_created_body_a#:#En ny ECS-kurs skapades
-ecs#:#ecs_read_remote_links#:#Uppdatera kursinformation
-ecs#:#ecs_refresh_participants#:#Uppdatera ECS deltagare
-ecs#:#ecs_released#:#Undantagna kurser
-ecs#:#ecs_released_content#:#Delat e-innehåll
-ecs#:#ecs_remote_imported#:#Informationen om kursändringar har lästs om.
-ecs#:#ecs_remote_user_settings#:#Login-konton som skapats av ECS
-ecs#:#ecs_role#:#Rolltilldelning
-ecs#:#ecs_role_mapping_value#:#Attributets värde
-ecs#:#ecs_role_mappings#:#Rolltilldelning för kurser/grupper
-ecs#:#ecs_server_addr#:#Serverns adress
-ecs#:#ecs_server_deleted#:#Server borttagen
-ecs#:#ecs_server_settings#:#ECS-funktioner
-ecs#:#ecs_server_title#:#Namn på ECS-konfigurationen
-ecs#:#ecs_server_url#:#URL till server
-ecs#:#ecs_setting_deleted#:#ECS har tagits bort.
-ecs#:#ecs_settings#:#Inställningar
-ecs#:#ecs_status_deleted#:#Borttagen
-ecs#:#ecs_status_legend#:#Legend
-ecs#:#ecs_status_mapped#:#Mappad
-ecs#:#ecs_status_pending_unmapped#:#Outstanding (ej mappad)
-ecs#:#ecs_status_pending_unmapped_discon#:#Utgående (ej mappad, separation möjlig)
-ecs#:#ecs_status_pending_unmapped_nondiscon#:#Outgoing (ej mappad, separation inte längre möjlig)
-ecs#:#ecs_sync_trees#:#Uppdatera CMS katalogträd
-ecs#:#ecs_tab_export#:#Export
-ecs#:#ecs_tab_import#:#Import
-ecs#:#ecs_tbl_active#:#Aktiv
-ecs#:#ecs_tbl_active_rules#:#Aktiva regler för tilldelning till kategorier
-ecs#:#ecs_tbl_export#:#Export
-ecs#:#ecs_tbl_import#:#Import
-ecs#:#ecs_tbl_import_type#:#Importera typ
-ecs#:#ecs_tbl_settings_for_server#:#ECS-inställningar för %s
-ecs#:#ecs_title_updates#:#Transfer Titel Uppdateringar
-ecs#:#ecs_token_mechanism#:#Autentiseringstoken
-ecs#:#ecs_token_mechanism_info#:#Om aktiverat sker inloggningen för installation av frigjorda objekt via ECS-tokenmekanismen.
-ecs#:#ecs_tree_updates#:#Transfer Tree Uppdateringar
-ecs#:#ecs_tst_export#:#Testversioner
-ecs#:#ecs_tst_export_disabled#:#Inte släppa
-ecs#:#ecs_tst_export_enabled#:#Släpp
-ecs#:#ecs_tst_export_obj_settings#:#Inställningar för testversioner
-ecs#:#ecs_unique_id#:#Deltagarens ID
-ecs#:#ecs_user_rcp#:#Notifieringar om ECS-användare
-ecs#:#ecs_user_rcp_info#:#Ange här, kommaseparerat, ett eller flera inloggningsnamn som ska meddelas via e-post om nya ECS-konton.###Modifierad som en del av jämställdhetsintegreringsaktiviteter för ILIAS 8
-ecs#:#ecs_wiki_export#:#Wiki aktier
-ecs#:#ecs_wiki_export_disabled#:#Inte släppa
-ecs#:#ecs_wiki_export_enabled#:#Släpp
-ecs#:#ecs_wiki_export_obj_settings#:#Inställningar för wiki-aktier
-error#:#error_back_to_repository#:#Tillbaka till tidningen
-error#:#error_sry_error#:#Ett fel har tyvärr uppstått.
 etal#:#appointments#:#Sessioner
 etal#:#cal_type_tals#:#Talks
 etal#:#change_date_of_series#:#Anpassa samtalsserier
@@ -9648,63 +8969,6 @@ exc#:#submissions_only#:#Endast skatter
 exc#:#text_assignment#:#Text Övning Enhet
 excv#:#excv_create#:#Skapa träningscertifikat
 excv#:#excv_create_info#:#Välj en övning för vilken du behöver ett certifikat
-exercise#:#exc_admin_settings#:#Administration av övningar
-exercise#:#exc_comment#:#opinion
-exercise#:#exc_comment_for_learner#:#Feedback för deltagare
-exercise#:#exc_failed#:#Misslyckad
-exercise#:#exc_feedback_from_tutor#:#Utvärdering av handledaren
-exercise#:#exc_grading#:#Rating
-exercise#:#exc_mark#:#Note
-exercise#:#exc_notgraded#:#Ej betygsatt
-exercise#:#exc_passed#:#Bekräftad
-exercise#:#exc_send_mail#:#Sänd som post
-exercise#:#exc_start_date_should_be_before_end_date#:#Starttiden bör vara före tidsfristen.
-exercise#:#exc_your_submission#:#Din ansökan
-exp#:#exp_create_file#:#Skapa exportfil
-exp#:#exp_error_disabled#:#Exporten av containerobjekt är avaktiverad. Om du har några frågor, vänligen kontakta den tekniska supporten.
-exp#:#exp_error_too_many_objects#:#Exporten överskrider det maximalt tillåtna antalet objekt (%1). Välj ett mindre antal objekt.
-exp#:#exp_export_dropdown#:#Export###29 10 2025 new variable
-exp#:#exp_export_files#:#Exportera filer
-exp#:#exp_export_single_option#:#Export %s###29 10 2025 new variable
-exp#:#exp_file_created#:#En exportfil har skapats.
-exp#:#exp_format_dropdown-csv#:#as CSV###29 10 2025 new variable
-exp#:#exp_format_dropdown-html#:#as HTML###29 10 2025 new variable
-exp#:#exp_format_dropdown-xls#:#as XLS###29 10 2025 new variable
-exp#:#exp_format_dropdown-xml#:#as XML###29 10 2025 new variable
-exp#:#exp_html#:#HTML###28 10 2024 new variable
-exp#:#exp_import_validation_err_no_matching_xsd#:#No valid schema file for version %s exists.###26 08 2024 new variable
-exp#:#exp_not_public_access_status#:#Not published###29 10 2025 new variable
-exp#:#exp_print_pdf#:#Print/PDF
-exp#:#exp_print_pdf_info#:#För att skapa en PDF, välj "Spara som PDF" som destination i utskriftsvyn.
-exp#:#exp_public_access_status#:#Available in ‘Info’-tab###29 10 2025 new variable
-exp#:#exp_really_delete#:#Vill du verkligen ta bort dessa exportfiler?
-exp#:#exp_show_print_view#:#Visa utskriftsvy
-exp#:#exp_xml#:#XML
-exp#:#export_created#:#En ny exportfil har skapats.
-exp#:#export_files_deleted#:#The selected export files have been deleted.###26 08 2024 new variable
-exp#:#export_options#:#Export Options###28 10 2024 new variable
-exp#:#export_type#:#Export Type###28 10 2024 new variable
-export#:#exp_file#:#File Name###28 10 2024 new variable
-export#:#exp_public_access#:#Public Access###28 10 2024 new variable
-export#:#exp_size#:#File Size (MB)###28 10 2024 new variable
-export#:#exp_timestamp#:#Creation Date###28 10 2024 new variable
-export#:#exp_toggle_public_access#:#Toggle Public Access###28 10 2024 new variable
-export#:#exp_type#:#Type###28 10 2024 new variable
-export#:#export_create#:#Skapa ny
-export#:#export_create_new_file#:#Skapa ny exportfil
-export#:#export_existing#:#Återanvändning
-export#:#export_export_date#:#Exportdatum
-export#:#export_info_public_access#:#Public Access Export###28 10 2024 new variable
-export#:#export_info_public_access_download#:#Download###28 10 2024 new variable
-export#:#export_last_export#:#Senaste export
-export#:#export_last_export_file#:#Använd den senaste exportfilen
-export#:#export_last_file#:#Sista filen
-export#:#export_omit#:#Uppdrag
-export#:#export_omit_resource#:#Omit objekt
-export#:#export_resource#:#Resurs
-export#:#export_save_selection#:#Starta export
-export#:#export_select_resources#:#Välj objekt
-export#:#no_file#:#Ingen fil
 file#:#add_icon#:#Add Icon###21 11 2023 new variable
 file#:#amount_of_downloads#:#Downloads###21 11 2023 new variable
 file#:#amount_of_downloads_since#:#%d times since %s###21 11 2023 new variable
@@ -9789,38 +9053,6 @@ file#:#upload_info#:#Fil
 file#:#upload_info_desc#:#Du kan hantera filerna och filversionerna på fliken "Versioner".
 file#:#version_uploaded#:#Version uppladdad på
 file#:#versionname#:#Titel
-fils#:#add_upload_policy#:#Add Policy###21 11 2023 new variable
-fils#:#edit_upload_policy#:#Edit Policy###21 11 2023 new variable
-fils#:#file_services#:#Filtjänster
-fils#:#file_services_description#:#Konfigurera inställningarna för filservicen.
-fils#:#file_suffix_custom_expl_negative#:#Förbjudna filtillägg
-fils#:#file_suffix_custom_expl_negative_info#:#Filer med dessa tillägg accepteras inte vid uppladdning.
-fils#:#file_suffix_custom_negative#:#Filtillägg
-fils#:#file_suffix_custom_negative_info#:#Dessa filändelser är borttagna från positivlistan ovan.
-fils#:#file_suffix_custom_positive#:#Filtillägg
-fils#:#file_suffix_custom_positive_info#:#Dessa filändelser läggs till i den positiva listan ovan.
-fils#:#file_suffix_default_positive#:#Filtillägg
-fils#:#file_suffix_default_positive_info#:#Förinställd utdatalista för accepterade filtillägg.
-fils#:#file_suffix_overall_positive#:#Effektiv positiv lista
-fils#:#file_suffix_overall_positive_info#:#Detta är den slutliga listan över godkända filändelser.
-fils#:#policy_audience#:#Audience###21 11 2023 new variable
-fils#:#policy_audience_all_users_option_desc#:#Apply policy for all users.###21 11 2023 new variable
-fils#:#policy_audience_global_roles_option_desc#:#Apply policy for users with specific global roles.###21 11 2023 new variable
-fils#:#policy_confirm_deletion#:#Are you sure you want to delete the policy with the following properties?:###21 11 2023 new variable
-fils#:#policy_deletion_failure_not_found#:#Error: Deletion failed due to policy not being found.###21 11 2023 new variable
-fils#:#policy_deletion_successful#:#Deletion of policy was successful.###21 11 2023 new variable
-fils#:#policy_filter#:#Policy Filter###21 11 2023 new variable
-fils#:#policy_no_validity_limitation_set#:#Valid indefinitely###21 11 2023 new variable
-fils#:#policy_scope#:#Scope###21 11 2023 new variable
-fils#:#policy_table_info_no_policies#:#No upload policies have been created yet.###21 11 2023 new variable
-fils#:#policy_title_desc#:#Descriptive title for the policy.###21 11 2023 new variable
-fils#:#policy_upload_limit#:#Upload Limit###21 11 2023 new variable
-fils#:#policy_upload_limit_desc#:#Upload limit which is set by this policy in MB.###21 11 2023 new variable
-fils#:#policy_valid_until#:#Valid Until###21 11 2023 new variable
-fils#:#policy_valid_until_desc#:#Set an optional 'valid until' date after which the policy expires.###21 11 2023 new variable
-fils#:#policy_validity#:#Validity###21 11 2023 new variable
-fils#:#upload_limits#:#Upload Limits###21 11 2023 new variable
-fils#:#upload_policies#:#Upload Policies###21 11 2023 new variable
 fold#:#fold_copy#:#Kopiera mapp
 fold#:#fold_import#:#Importera mapp
 fold#:#fold_presentation#:#Presentation
@@ -10403,86 +9635,6 @@ gsfo#:#services#:#Services###28 10 2024 new variable
 gsfo#:#support#:#Support###28 10 2024 new variable
 gsfo#:#translate#:#Translate###29 10 2025 new variable
 gsfo#:#translations#:#Translations###29 10 2025 new variable
-help#:#gdtr_active#:#Active###29 10 2025 new variable
-help#:#gdtr_add_step#:#Add Step###29 10 2025 new variable
-help#:#gdtr_add_tour#:#Add Tour###29 10 2025 new variable
-help#:#gdtr_close#:#End Tour###29 10 2025 new variable
-help#:#gdtr_delete_step#:#Delete Step###29 10 2025 new variable
-help#:#gdtr_delete_step_mess#:#Are you sure you want to delete this step?###29 10 2025 new variable
-help#:#gdtr_delete_tour#:#Delete Tour###29 10 2025 new variable
-help#:#gdtr_delete_tour_mess#:#Are you sure you want to delete this tour?###29 10 2025 new variable
-help#:#gdtr_deleted_step#:#Step has been deleted.###29 10 2025 new variable
-help#:#gdtr_deleted_tour#:#Tour has been deleted.###29 10 2025 new variable
-help#:#gdtr_edit_content#:#Edit Content###29 10 2025 new variable
-help#:#gdtr_edit_page_info#:#Edit the content that should be presented to explain the selected UI element.###29 10 2025 new variable
-help#:#gdtr_edit_properties#:#Edit Properties###29 10 2025 new variable
-help#:#gdtr_edit_step_info#:#On this screen you define, which element on the screen should be explained in this step of the tour. A popover with the explanation text you define will be presented pointing to this element.###29 10 2025 new variable
-help#:#gdtr_edit_steps#:#Edit Steps###29 10 2025 new variable
-help#:#gdtr_element_id#:#Element ID###29 10 2025 new variable
-help#:#gdtr_form#:#Form###29 10 2025 new variable
-help#:#gdtr_form_info#:#The first form of the main content area. Usually views should only contain one form.###29 10 2025 new variable
-help#:#gdtr_guided_tours#:#Guided Tours###29 10 2025 new variable
-help#:#gdtr_id_pres_users#:#Show IDs for User Accounts###29 10 2025 new variable
-help#:#gdtr_id_pres_users_info#:#Login names of user that should get element IDs presented. Separate multiple entries by comma.###29 10 2025 new variable
-help#:#gdtr_id_settings#:#ID Settings###29 10 2025 new variable
-help#:#gdtr_import_tour#:#Import Tour###29 10 2025 new variable
-help#:#gdtr_language#:#Language###29 10 2025 new variable
-help#:#gdtr_language_info#:#Activates a guided tour only for users with the selected language.###29 10 2025 new variable
-help#:#gdtr_list_tours_mess#:#To activate the presentation of screen and element IDs as tooltips, switch to ID Settings and enter your account name.###29 10 2025 new variable
-help#:#gdtr_mainbar#:#Mainbar###29 10 2025 new variable
-help#:#gdtr_mainbar_info#:#The mainbar ist the main menu on the left side. If element-ID presentation is activated, the IDs will be shown in tooltips for the distinct items.###29 10 2025 new variable
-help#:#gdtr_metabar#:#Metabar###29 10 2025 new variable
-help#:#gdtr_metabar_info#:#The metabar is the menu on the top, right. If element-ID presentation is activated, the IDs will be shown in tooltips for the distinct items.###29 10 2025 new variable
-help#:#gdtr_next_step#:#Next Step###29 10 2025 new variable
-help#:#gdtr_permission#:#Permission###29 10 2025 new variable
-help#:#gdtr_permission_info#:#Activates a guided tour only for users with a certain permission on the current repository object, e.g. only for users with "edit settings" permission for a course. If you "Create" is selected, the tour is active, if the user has any creation permission.###29 10 2025 new variable
-help#:#gdtr_primary_button#:#Primary Button###29 10 2025 new variable
-help#:#gdtr_primary_button_info#:#The first primary button of the main content area. Primary buttons are presented emphasised compared to standard buttons. Usually views should only contain one primary button.###29 10 2025 new variable
-help#:#gdtr_reset_tour#:#Reset Tour###29 10 2025 new variable
-help#:#gdtr_reset_tour_mess#:#If you reset the tour, all users that previously ended the tour, will get the tour presented again. Are you sure to proceed?###29 10 2025 new variable
-help#:#gdtr_screen_ids#:#Screen IDs###29 10 2025 new variable
-help#:#gdtr_screen_ids_info#:#Enable a guided tour only for distinct views of the system. If element IDs are activated, you find the Screen ID of a current view on top in the header. Multiple IDs must be separated by comma.###29 10 2025 new variable
-help#:#gdtr_step#:#Step###29 10 2025 new variable
-help#:#gdtr_step_type#:#User Interface Element###29 10 2025 new variable
-help#:#gdtr_table#:#Table###29 10 2025 new variable
-help#:#gdtr_table_info#:#The first table of the main content area. Usually views should only contain one table.###29 10 2025 new variable
-help#:#gdtr_tabs#:#Tabs###29 10 2025 new variable
-help#:#gdtr_tabs_info#:#The tabs are displayed below the main header of the screen. If element-ID presentation is activated, the IDs will be shown in tooltips for the distinct items.###29 10 2025 new variable
-help#:#gdtr_toolbar#:#Toolbar###29 10 2025 new variable
-help#:#gdtr_toolbar_info#:#The first toolbar of the main content area, usually presented below the tabs. Views should only contain one toolbar.###29 10 2025 new variable
-help#:#gdtr_tour_has_been_reset#:#Tour has been reset.###29 10 2025 new variable
-help#:#gdtr_tour_steps#:#Tour Steps###29 10 2025 new variable
-help#:#gdtr_tours#:#Tours###29 10 2025 new variable
-help#:#gdtr_type#:#Type###29 10 2025 new variable
-help#:#guided_tour#:#Guided Tour###29 10 2025 new variable
-help#:#help_all#:#Alla
-help#:#help_component#:#Komponent
-help#:#help_filter#:#Filter
-help#:#help_help_file#:#Hjälp på nätet
-help#:#help_help_only#:#Endast instruktioner för åtgärder
-help#:#help_imported_on#:#Importerad på
-help#:#help_module_uploaded#:#Hjälppaket uppladdat
-help#:#help_modules#:#Hjälp paket
-help#:#help_no_content#:#Tyvärr finns ingen hjälp tillgänglig för den aktuella vyn. Du kan använda sökningen för att hitta hjälpinnehåll.
-help#:#help_open_online_help#:#Öppen hjälp online
-help#:#help_order#:#Order###21 11 2023 new variable
-help#:#help_search_label#:#Sökning i Help
-help#:#help_select_a_file#:#Välj en fil.
-help#:#help_set_mode#:#Ställ in hjälpläge
-help#:#help_sure_delete_help_modules#:#Vill du verkligen ta bort dessa paket?
-help#:#help_toggle_tooltips#:#Hjälp Verktygstips
-help#:#help_toggle_tooltips_info#:#Visa hjälpverktygstips för menyer och flikar.
-help#:#help_tooltip_id#:#Tooltip ID
-help#:#help_tooltips#:#Hjälp Verktygstips
-help#:#help_tooltips_and_help#:#Tooltips och instruktioner för åtgärder
-help#:#help_tooltips_only#:#Endast verktygstips
-help#:#help_topcis#:#Ämnen
-help#:#help_tt_text#:#Text
-htlm#:#file_import_from_upload_dir_failed#:#File from Upload-Directory not imported###29 10 2025 new variable
-htlm#:#file_imported_from_upload_dir#:#File imported from Upload-Directory###29 10 2025 new variable
-htlm#:#import_from_upload_dir#:#Import from Upload-Directory###29 10 2025 new variable
-htlm#:#import_from_upload_dir_file_name#:#Filename###29 10 2025 new variable
-htlm#:#import_from_upload_dir_info#:#Please select file for import###29 10 2025 new variable
 iass#:#download_assessment_paper#:#Ladda ner tentamensblad
 iass#:#grading#:#Rating
 iass#:#grading_info#:#Information om utvärdering
@@ -10569,10 +9721,6 @@ iass#:#il_iass_members#:#Deltagare
 iass#:#lp_inactive#:#Titta på
 iass#:#save_amend#:#Spara ändrade tentamensdata
 impr#:#impr_page_type_impr#:#Imprint
-init#:#init_error_authentication_fail#:#Autentisering misslyckades.
-init#:#init_error_maintenance#:#Servern är för närvarande inte tillgänglig på grund av underhållsarbete. Vi ber om din förståelse. Vänligen försök igen senare.
-init#:#init_error_redirect_click#:#Vänligen klicka för att fortsätta.
-init#:#init_error_redirect_info#:#Framåtblickar stöds inte av sammanhanget.
 irss#:#action_download#:#Download###21 11 2023 new variable
 irss#:#action_goto#:#Open Resource###21 11 2023 new variable
 irss#:#action_remove_resource#:#Delete Resource###21 11 2023 new variable
@@ -10703,219 +9851,6 @@ jscalendar#:#time_part#:#(Toggle) klicka eller håll och dra för att ändra vä
 jscalendar#:#today#:#Idag
 jscalendar#:#tt_date_format#:#%a, %b %e
 jscalendar#:#wk#:#KW
-ldap#:#add_ldap_server#:#Lägg till server
-ldap#:#ldap_add_missing#:#Tilldela roller som saknas
-ldap#:#ldap_add_role_ass_rule#:#Ny regel för ILIAS rolltilldelning
-ldap#:#ldap_add_roles#:#Add Roles###29 10 2025 new variable
-ldap#:#ldap_as_ds#:#Använd som datakälla
-ldap#:#ldap_as_ds_info#:#I kombination med andra autentiseringstyper (t.ex. SAML) används LDAP-konfigurationen endast för att synkronisera uppgifterna i ILIAS-kontona. Direkt autentisering via LDAP är inte möjlig.
-ldap#:#ldap_assignment_type#:#Typ av uppdrag
-ldap#:#ldap_authentication_settings#:#Inställningar för autentisering
-ldap#:#ldap_bind_anonymous#:#Ankoppla anonymt
-ldap#:#ldap_bind_user#:#Anslut som användare
-ldap#:#ldap_btn_add_role_ass#:#Skapa ny regel
-ldap#:#ldap_check_role_assignment#:#Rolltilldelning efter senare inloggningar
-ldap#:#ldap_choose_role#:#Välj roll
-ldap#:#ldap_confirm_del_role_ass#:#Ta bort rolltilldelning
-ldap#:#ldap_deleted_role_mapping#:#Uppdraget har tagits bort
-ldap#:#ldap_deleted_rule#:#Vald rolltilldelning borttagen
-ldap#:#ldap_dn_info#:#Välj den fullständiga DN för LDAP-gruppen här.
-ldap#:#ldap_edit_role_ass_rule#:#Redigera regel för rolltilldelning
-ldap#:#ldap_edit_role_assignment#:#Redigera uppdrag
-ldap#:#ldap_err_missing_plugin_id#:#Var god ange ett giltigt plugin-id.
-ldap#:#ldap_escapedn#:#Mask DN
-ldap#:#ldap_escapedn_info#:#Om aktiverat maskeras reserverade tecken i "Distinguished Name (DN)" för frågor om gruppmedlemskap.
-ldap#:#ldap_filter_info#:#Filter har lagts till i sökfiltret enligt följande
-ldap#:#ldap_global_role#:#Global roll
-ldap#:#ldap_global_role_assignment#:#Rolltilldelning
-ldap#:#ldap_global_role_info#:#Välj en global roll för nya ILIAS-användare som ska skapas. *Rollen <b>krävs</b> när du har valt en synkroniseringstyp.
-ldap#:#ldap_group_attribute#:#Attributnamn för gruppen
-ldap#:#ldap_group_attribute_info#:# Ange gruppens attributnamn här.
-ldap#:#ldap_group_dn#:#Grupper DN
-ldap#:#ldap_group_dn_info#:#Sökbas för gruppsökningen. Föregår "BaseDN". T.EX.
-ldap#:#ldap_group_dn_short#:#Grupp DN
-ldap#:#ldap_group_filter#:#LDAP-filter
-ldap#:#ldap_group_filter_info#:#Filter har lagts till i sökfiltret enligt följande
-ldap#:#ldap_group_member#:#Attributnamn för gruppmedlemmarna
-ldap#:#ldap_group_member_info#:#Ange här attributnamnet som gruppmedlemmarna ska tilldelas. Välj 'Attributvärdet är DN' om medlemsnamnen skapas som DN.
-ldap#:#ldap_group_member_optional#:#Optionellt gruppmedlemskap
-ldap#:#ldap_group_member_short#:#Attribut
-ldap#:#ldap_group_membership#:#Gruppmedlemskap
-ldap#:#ldap_group_name#:#Gruppens namn
-ldap#:#ldap_group_name_info#:#Namn på gruppen
-ldap#:#ldap_group_optional_info#:#Om det är aktiverat krävs inte gruppmedlemskap för att autentiseringen ska lyckas. Ange ett användarfilter för dessa gruppmedlemmar
-ldap#:#ldap_group_restrictions#:#Grupprestriktioner
-ldap#:#ldap_group_scope#:#Sökningsområde
-ldap#:#ldap_group_scope_info#:#Area för gruppsökning. Om du är osäker, välj "Sub".
-ldap#:#ldap_group_search_base#:#Sökbas
-ldap#:#ldap_group_user_filter#:#Användarfilter
-ldap#:#ldap_ilias_role#:#ILIAS rollnamn
-ldap#:#ldap_info_text#:#Informationstext
-ldap#:#ldap_info_text_info#:#Du kan ange en informationstext här som visas på informationssidan för det objekt som är kopplat till rollen. Eventuellt kan denna text också visas i magasinet och på instrumentpanelen.
-ldap#:#ldap_local_role#:#Lokal roll
-ldap#:#ldap_mapping_info_type#:#Display i tidningen också.
-ldap#:#ldap_mapping_table#:#Tilldelning av datafält för ILIAS-konton till LDAP-attribut
-ldap#:#ldap_mapping_template#:#Använd mall för objektklass
-ldap#:#ldap_member_info#:#Ange här attributnamnet som gruppmedlemmarna ska tilldelas. Välj 'Attributvärdet är DN' om medlemsnamnen skapas som DN.
-ldap#:#ldap_memberisdn#:#Attributets värde är DN
-ldap#:#ldap_missing_bind_user#:#Du har valt 'Anslut som användare' som anslutningstyp.
-ldap#:#ldap_missing_role_assignment#:#Välj en global roll som nyskapade användare ska tilldelas.
-ldap#:#ldap_moment_sync#:#Typ av synkronisering
-ldap#:#ldap_new_role_assignment#:#Skapa nytt uppdrag
-ldap#:#ldap_plugin#:#Uppgift via plugin
-ldap#:#ldap_plugin_id#:#Plugin-Id
-ldap#:#ldap_plugin_info#:#Kontrollera rolltilldelningen via plugin. Ange ett giltigt plugin-ID för detta ändamål.
-ldap#:#ldap_referrals#:#Framåt
-ldap#:#ldap_referrals_info#:#Bestämmer om LDAP-serverns vidarebefordringar ska följas automatiskt eller inte.
-ldap#:#ldap_remove_deprecated#:#Ta bort obehöriga roller
-ldap#:#ldap_remove_roles#:#Remove Roles###29 10 2025 new variable
-ldap#:#ldap_role_active#:#Gruppuppdatering påslagen
-ldap#:#ldap_role_assignments#:#Rolltilldelning
-ldap#:#ldap_role_at_info#:#Tilldelningen baseras på ett specifikt attribut för LDAP-kontot.###Modifierad som en del av jämställdhetsintegreringen för ILIAS 8
-ldap#:#ldap_role_at_name#:#Attributets namn
-ldap#:#ldap_role_at_value#:#Attributets värde
-ldap#:#ldap_role_bind_pass#:# Lösenord
-ldap#:#ldap_role_bind_pass_info#:#Lösenord för LDAP-användaren.
-ldap#:#ldap_role_bind_user#:#Login namn
-ldap#:#ldap_role_bind_user_info#:#Ange ett LDAP-inloggningsnamn. Denna användare måste ha skrivbehörighet till de grupper som ska uppdateras.
-ldap#:#ldap_role_by_attribute#:#Användarattribut
-ldap#:#ldap_role_by_group#:#Gruppmedlemskap
-ldap#:#ldap_role_by_plugin#:#Per plugin
-ldap#:#ldap_role_group_assignments#:#Befintliga uppdrag
-ldap#:#ldap_role_grp_at#:#Attribut
-ldap#:#ldap_role_grp_dn_info#:#Ange gruppens fullständiga "Distinguished Name".
-ldap#:#ldap_role_grp_info#:#Medlemmar i en specifik LDAP-grupp tilldelas den angivna ILIAS-rollen.
-ldap#:#ldap_role_grp_isdn#:#Attributets värde är DN
-ldap#:#ldap_role_info#:#Ange namnet på den ILIAS-roll som ska kontrollera LDAP-gruppmedlemskapet.
-ldap#:#ldap_role_mapping#:#Tilldelning av ILIAS-roller ? LDAP-grupper
-ldap#:#ldap_role_name_info#:#Välj antingen en global roll eller ange namnet på en lokal roll.
-ldap#:#ldap_role_not_exists#:#En ILIAS-roll med följande namn existerar inte
-ldap#:#ldap_role_selection#:#Urval av roller
-ldap#:#ldap_role_selection_info#:#Ditt val är inte unikt. Vänligen välj en av rollerna nedan.
-ldap#:#ldap_role_settings#:#Inställningar för uppdatering av LDAP-grupper
-ldap#:#ldap_rule_condition#:#Kondition
-ldap#:#ldap_rule_type#:#Typ av uppdrag
-ldap#:#ldap_scope_one#:#En
-ldap#:#ldap_scope_sub#:#Sub
-ldap#:#ldap_search_base_info#:#Sökbas för användarens sökning. Föregår "BaseDN". T.EX.
-ldap#:#ldap_search_filter#:#LDAP-filter
-ldap#:#ldap_server_bind_dn#:#Användarens DN
-ldap#:#ldap_server_bind_pass#:# Lösenord
-ldap#:#ldap_server_binding#:#Typ av anslutning
-ldap#:#ldap_server_name#:#Namn på LDAP-konfigurationen
-ldap#:#ldap_server_name_info#:#Välj ett namn för denna serverkonfiguration!
-ldap#:#ldap_server_security_settings#:#Säkerhetsinställningar
-ldap#:#ldap_server_short#:#URL till server
-ldap#:#ldap_server_url_info#:#Den fullständiga URL-adressen för anslutningen till LDAP-servern. T.ex. "ldap
-ldap#:#ldap_server_version_info#:#Protokollversion för LDAP-servern (i de flesta fall "LDAPv3").
-ldap#:#ldap_servers#:#LDAP-server
-ldap#:#ldap_settings#:#Inställningar för server
-ldap#:#ldap_sync_cron#:#Per Cron Jobb
-ldap#:#ldap_sync_login#:#När användaren loggar in
-ldap#:#ldap_tbl_role_ass#:#Regler för tilldelning av aktiv roll
-ldap#:#ldap_tls_conflict#:#LDAP-TLS kan inte användas i kombination med protokollversion 2.
-ldap#:#ldap_update_field_info#:#Automatisk uppdatering
-ldap#:#ldap_update_roles#:#Rolltilldelning
-ldap#:#ldap_user_attribute#:#Attributnamn för inloggningskonton
-ldap#:#ldap_user_dn#:#Sökbas
-ldap#:#ldap_user_mapping#:#Tilldelning av profiluppgifter
-ldap#:#ldap_user_scope#:#Sökningsområde
-ldap#:#ldap_user_scope_info#:#Area för användarens sökning. Om du är osäker, välj "Sub".
-ldap#:#ldap_user_sync#:#Inställningar för användarsynkronisering
-ldap#:#ldap_user_sync_cron#:#LDAP synkronisering av användare
-ldap#:#ldap_user_sync_cron_info#:#Om aktiverat importeras inloggningskonton från LDAP-katalogen och synkroniseras kontinuerligt.
-ldap#:#ldap_user_sync_info#:#Bestämmer om användare som ännu inte finns i ILIAS skapas automatiskt vid den första inloggningen eller regelbundet via cron-jobb.
-ldap#:#ldap_username_filter#:#Filter för inloggningsnamn
-ldap#:#ldap_username_filter_info#:#Använd * som jokertecken.
-ldoc#:#deleteDocument#:#Delete###21 11 2023 new variable
-ldoc#:#detachCriterionAssignment#:#Delete###21 11 2023 new variable
-ldoc#:#ldoc_acceptance_history#:#Acceptance History###21 11 2023 new variable
-ldoc#:#ldoc_account_reg_not_possible#:#Self-registration is currently not possible. Please contact your <a href="%1$s">system administrator</a> for further information.###21 11 2023 new variable
-ldoc#:#ldoc_add_document_btn_label#:#Add Document###21 11 2023 new variable
-ldoc#:#ldoc_agreement_document#:#Document###21 11 2023 new variable
-ldoc#:#ldoc_agreement_document_missing#:#Missing###21 11 2023 new variable
-ldoc#:#ldoc_agreement_documents_tab_label#:#Documents###21 11 2023 new variable
-ldoc#:#ldoc_agreement_exists#:#Existent###21 11 2023 new variable
-ldoc#:#ldoc_agreement_missing#:#Missing###21 11 2023 new variable
-ldoc#:#ldoc_crit_type_usr_country#:#Profile Country###21 11 2023 new variable
-ldoc#:#ldoc_crit_type_usr_country_info#:#Your document is displayed (and must be accepted the first time a user logs in) if the country set in their user profile matches the country criterion selected from the list below.  Subsequent changes to the country in a user’s profile do not automatically lead to a new document being displayed. You cannot use the same country as the display criterion for more than one document.###21 11 2023 new variable
-ldoc#:#ldoc_crit_type_usr_global_role#:#User Has Global Role###21 11 2023 new variable
-ldoc#:#ldoc_crit_type_usr_global_role_info#:#The document is displayed (and must be accepted the first time a user logs in) if the global role the user has matches the global role selected from the list below.  Subsequent changes to a user’s global role do not automatically lead to a new ToS document being displayed.###21 11 2023 new variable
-ldoc#:#ldoc_crit_type_usr_language#:#Profile Language###21 11 2023 new variable
-ldoc#:#ldoc_crit_type_usr_language_info#:#Your document is displayed (and must be accepted) during registration if the user’s language (selected from the list below) matches the language used during registration; or upon login if the user switches to this language in their preferences.  Please note that each language can only be set as the display criterion for a single document.###21 11 2023 new variable
-ldoc#:#ldoc_criterion_assignment_cannot_match#:#It is not possible to use this particular criterion for displaying your document. Because of another criterion this document would never match.###21 11 2023 new variable
-ldoc#:#ldoc_criterion_assignment_must_be_unique#:#It is not possible to use this particular criterion for displaying your document. This criterion already exists.###21 11 2023 new variable
-ldoc#:#ldoc_deleted_documents_p#:#The documents have been deleted.###21 11 2023 new variable
-ldoc#:#ldoc_deleted_documents_s#:#The document has been deleted.###21 11 2023 new variable
-ldoc#:#ldoc_disabled#:#Disabled###21 11 2023 new variable
-ldoc#:#ldoc_doc_crit_attached#:#The criterion for displaying your document has been set successfully.###21 11 2023 new variable
-ldoc#:#ldoc_doc_crit_changed#:#The criterion for displaying your document has been changed.###21 11 2023 new variable
-ldoc#:#ldoc_doc_crit_detached#:#The criterion has been removed.###21 11 2023 new variable
-ldoc#:#ldoc_doc_delete#:#Delete Document###21 11 2023 new variable
-ldoc#:#ldoc_doc_detach_crit_confirm_title#:#Remove Criterion###21 11 2023 new variable
-ldoc#:#ldoc_doc_sure_detach_crit#:#Are you sure that you want to remove this as the criterion for displaying your Terms of Service document?###21 11 2023 new variable
-ldoc#:#ldoc_document#:#Document###21 11 2023 new variable
-ldoc#:#ldoc_enabled#:#Enabled###21 11 2023 new variable
-ldoc#:#ldoc_form_attach_criterion_head#:#Select Criterion for Displaying your Document###21 11 2023 new variable
-ldoc#:#ldoc_form_criterion#:#Criterion###21 11 2023 new variable
-ldoc#:#ldoc_form_document#:#Document###21 11 2023 new variable
-ldoc#:#ldoc_form_document_content_changed#:#The uploaded file has had its html &lt;head&gt; information removed by ILIAS. Please check the result and upload a new file if necessary.###21 11 2023 new variable
-ldoc#:#ldoc_form_document_info#:#Please select a file from your local filesystem. You can either upload a plain text file, or a simple HTML file. HTML files will have their &lt;head/gt; information removed – only the contents of the body element will be used.###21 11 2023 new variable
-ldoc#:#ldoc_form_document_new#:#Change Content###21 11 2023 new variable
-ldoc#:#ldoc_form_document_new_info#:#Here you can select a file from your local filesystem to change the contents of the document. You can either upload a plain text file, or a simple HTML file. HTML files will have their &lt;head&gt; information removed - only the contents of the body element will be used. The existing contents of the document will be replaced. The acceptance history will not be affected.###21 11 2023 new variable
-ldoc#:#ldoc_form_document_title#:#Title###21 11 2023 new variable
-ldoc#:#ldoc_form_document_title_info#:#Please enter a title for the document.###21 11 2023 new variable
-ldoc#:#ldoc_form_edit_criterion_head#:#Edit Criterion for Displaying Your Document###21 11 2023 new variable
-ldoc#:#ldoc_form_edit_doc_head#:#Edit Document###21 11 2023 new variable
-ldoc#:#ldoc_form_new_doc_head#:#Create Document###21 11 2023 new variable
-ldoc#:#ldoc_last_modified#:#Last Change###21 11 2023 new variable
-ldoc#:#ldoc_ldoc_settings#:#Settings###21 11 2023 new variable
-ldoc#:#ldoc_period#:#Period###21 11 2023 new variable
-ldoc#:#ldoc_period_from#:#From###21 11 2023 new variable
-ldoc#:#ldoc_period_until#:#Until###21 11 2023 new variable
-ldoc#:#ldoc_reevaluate_on_login#:#Re-evaluate on Successful Login###21 11 2023 new variable
-ldoc#:#ldoc_reevaluate_on_login_desc#:#After a successful login, automatically have ILIAS check whether a previously-accepted document is still valid or not. If, for example, a user has changed a setting that is the criterion for displaying a particular document (for example their language setting or country], and ILIAS can find a document with that criterion, then the user has to accept the new agreement.###21 11 2023 new variable
-ldoc#:#ldoc_saved_sorting#:#The new order has been saved.###21 11 2023 new variable
-ldoc#:#ldoc_sure_delete_documents_p#:#Are you sure you want to delete the selected documents?###21 11 2023 new variable
-ldoc#:#ldoc_sure_delete_documents_s#:#Are you sure you want to delete this document?###21 11 2023 new variable
-ldoc#:#ldoc_tbl_docs_action_add_criterion#:#Add Criterion###21 11 2023 new variable
-ldoc#:#ldoc_tbl_docs_cell_not_criterion#:#No criterion assigned###21 11 2023 new variable
-ldoc#:#ldoc_tbl_docs_head_created#:#Creation Date###21 11 2023 new variable
-ldoc#:#ldoc_tbl_docs_head_criteria#:#Criterion###21 11 2023 new variable
-ldoc#:#ldoc_tbl_docs_head_last_change#:#Last Change###21 11 2023 new variable
-ldoc#:#ldoc_tbl_docs_head_sorting#:#Order###21 11 2023 new variable
-ldoc#:#ldoc_tbl_docs_head_title#:#Title###21 11 2023 new variable
-ldoc#:#ldoc_tbl_docs_title#:#Documents###21 11 2023 new variable
-ldoc#:#ldoc_tbl_hist_cell_not_criterion#:#No criterion assigned###21 11 2023 new variable
-ldoc#:#ldoc_tbl_hist_head_acceptance_date#:#Date###21 11 2023 new variable
-ldoc#:#ldoc_tbl_hist_head_criteria#:#Criterion###21 11 2023 new variable
-ldoc#:#ldoc_tbl_hist_head_document#:#Document###21 11 2023 new variable
-ldoc#:#ldoc_tbl_hist_head_firstname#:#First Name###21 11 2023 new variable
-ldoc#:#ldoc_tbl_hist_head_lastname#:#Last Name###21 11 2023 new variable
-ldoc#:#ldoc_tbl_hist_head_login#:#Username (Login)###21 11 2023 new variable
-ldoc#:#ldoc_updated_document#:#Document uploaded###26 08 2024 new variable
-lhist#:#cont_create_lhist#:#Create element för inlärningshistorik
-lhist#:#cont_update_lhist#:#Redigera element för inlärningshistorik
-lhist#:#lhist_all#:#Alla
-lhist#:#lhist_cont_placeholder_text#:#Detta element visar lärandets framsteg i portföljens presentationsvy.
-lhist#:#lhist_enable_learning_history#:#Framsteg inom lärande
-lhist#:#lhist_enable_learning_history_info#:#Aktiverar en översikt över alla inlärningsresultat för en användare.
-lhist#:#lhist_first_login#:#Första inloggning
-lhist#:#lhist_learning_history#:#Framsteg inom lärande
-lhist#:#lhist_lhist#:#Framsteg inom lärande
-lhist#:#lhist_manual#:#Handbok
-lhist#:#lhist_no_entries#:#Fortsätt att sträva efter dina mål! Lär dig något idag för att förlänga din inlärning.
-lhist#:#lhist_period#:#Period
-lhist#:#lhist_selected#:#Vald
-lhist#:#lhist_show_more#:#Visa mer
-lhist#:#lhist_type_of_achievement#:#Typ av framgångsrikt lärande
-like#:#like#:#Like
-like#:#reaction#:#Reaktion
-link#:#link_chapters#:#Kapitel
-link#:#link_link#:#Länk
-link#:#link_mobs#:#Medieobjekt
-link#:#link_terms#:#Termer
-link#:#link_wpages#:#Wiki-sidor
 lm#:#lm_btn_lp_toggle_state_completed#:#Set till "Ej redigerad
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set till "Redigerad
 lm#:#lm_copy#:#Kopiera ILIAS utbildningsmodul
@@ -10963,18 +9898,6 @@ log#:#log_level_off#:#Funktionshindrad
 log#:#log_level_warning#:#VARNING
 log#:#log_log_level#:#Loggnivå
 log#:#log_memory#:#Log minnesbehov
-logging#:#error_settings_saved#:#Inställningar sparade
-logging#:#frm_clear_older_then#:#Radera filer som är äldre än
-logging#:#frm_clear_older_then_info#:#Ange perioden i dagar.
-logging#:#log_error_file_cleanup_info#:# Raderar gamla eller föräldralösa filer i felloggen.
-logging#:#log_error_file_cleanup_title#:#Radera gamla eller övergivna felloggfiler
-logging#:#log_error_folder#:#Sökväg till fil
-logging#:#log_error_mail#:#Skicka protokollet till (e-postadress)
-logging#:#log_error_message#:#Sorry, ett fel har inträffat. En loggfil skapades som kan identifieras med felkoden "%s".
-logging#:#log_error_message_send_mail#:# Vänligen kontakta &lt;a href="mailto
-logging#:#log_error_path_not_configured_or_wrong#:#Sökvägen till felloggarna (error_path) är inte angiven eller inte tillgänglig.
-logging#:#log_error_settings#:#Inställningar för fellogg
-logging#:#logs_settings#:#Inställningar för loggning
 lso#:#abstract#:#Inledning
 lso#:#abstract_img#:#Bild för introduktionssidan
 lso#:#avail_time_period#:#Tidsperiod
@@ -11360,8 +10283,6 @@ lti#:#use_xapi#:#Använd xAPI-stöd
 lti#:#use_xapi_info#:#LTI-verktyget stöder förfrågan av xAPI-uttalanden.
 lti#:#user_lng#:#Användarspråk
 lti#:#user_provider_subtab#:#Leverantörer eller verktyg definieras av användarna
-ltiv#:#ltiv_create#:#Skapa certifikat för LTI-konsumentobjekt
-ltiv#:#ltiv_create_info#:#Välj ett slutfört LTI-konsumentobjekt för att generera ett certifikat för det.
 mail#:#back_to_folder#:#Tillbaka till mappen
 mail#:#chat_users_have_been_invited#:#The following users have been invited:###26 08 2024 new variable
 mail#:#chat_users_without_login#:#The following users don't have an ILIAS account and can't be invited to a chat room:###26 08 2024 new variable
@@ -11657,24 +10578,6 @@ mail#:#show_mail_settings#:#Inställningar för display
 mail#:#show_mail_settings_info#:#Aktiverar visning av e-postinställningarna i området 'Inställningar' eller 'E-post'. Användare kan endast ändra e-postinställningarna om konfigurationen av användarprofilen tillåter detta. Om användaren inte har behörighet att ändra e-postinställningarna
 mail#:#system_notification_installation_changed_by#:#Ändrad av
 mail#:#usrFieldChange_second_mail_visible_in_personal_data#:#You have changed the attribute "%s" in the field "%s".<br>Detta kommer för alla befintliga och framtida skapade konton att leda till att<br>ändrar den mottagningstyp som valts för användare och standard för nya inloggningskonton för extern leverans till
-maps#:#configure_geolocation#:#För att kunna söka efter adresser måste du slutföra konfigurationen för geolokalisering i administrationsmenyn "Programvara från tredje part".
-maps#:#maps_custom_geolocation_server_info#:#URL till den server genom vilken geolokaliseringsdata tillhandahålls via Nominatims tjänst. Posten måste innehålla platshållaren [QUERY] för att ange förfrågningspositionen. Exempel
-maps#:#maps_custom_tile_server_info#:#URL för den server som tillhandahåller brickorna. Flera poster måste separeras med mellanslag. Standardinmatningen är "%s".
-maps#:#maps_enable_maps#:#Aktivera kort
-maps#:#maps_enable_maps_info#:#Kartor kan visas systemövergripande i profiler, kurser och grupper ###Modifierad som en del av jämställdhetsintegreringsaktiviteter för ILIAS 8
-maps#:#maps_geolocation_server#:#Server för omvänd geolokalisering
-maps#:#maps_google_maps#:#Google Maps
-maps#:#maps_https_for_reverse_lookup#:#Https för omvänd sökning
-maps#:#maps_latitude#:#Latitud
-maps#:#maps_longitude#:#längd
-maps#:#maps_lookup_address#:#Sökadress
-maps#:#maps_map_type#:#Typ
-maps#:#maps_open_layers_maps#:#Öppna lager kartor
-maps#:#maps_settings#:#Inställningar kartor
-maps#:#maps_std_location#:#Förvald position
-maps#:#maps_std_location_desc#:#Klicka på kartan för att ange din egen position.
-maps#:#maps_tile_server#:#Til server
-maps#:#maps_zoom_level#:#Utvidgningsnivå
 mcst#:#mcst_add_new_item#:#Lägg till ny Mediacast-post
 mcst#:#mcst_audio_files#:#Ljudfiler
 mcst#:#mcst_audioportable_settings_info#:# Kommaseparerad lista över filtillägg
@@ -11777,56 +10680,6 @@ membership#:#mem_force_notification_mode_all_sub_blocked#:#Medlemmar kan avaktiv
 membership#:#mem_force_notification_mode_blocked#:#Medlemmar kommer att meddelas automatiskt
 membership#:#mem_force_notification_mode_custom#:#Inställningar för varje medlem
 membership#:#mem_force_notification_mode_self#:#Medlemmar måste aktivera aviseringar
-mep#:#mep_all#:#Alla
-mep#:#mep_all_mobs#:#Alla mediaobjekt
-mep#:#mep_bulk_upload#:#Massuppladdning
-mep#:#mep_choose_from_folder#:#Välj från mapp
-mep#:#mep_choose_from_mep#:#Välj från pool
-mep#:#mep_content#:#Medieobjekt
-mep#:#mep_content_snippet_in_use#:#Innehållsblocket '%s' används och kan därför inte tas bort.
-mep#:#mep_content_snippet_used_in_older_versions#:#Attention
-mep#:#mep_copy_to_mep#:#Kopiera till mediapool
-mep#:#mep_create_content_snippet#:#Skapa innehållsmodul
-mep#:#mep_create_folder#:# Skapa mapp
-mep#:#mep_create_media_files#:#Skapa mediaobjekt
-mep#:#mep_create_mob#:#Skapa mediaobjekt
-mep#:#mep_default_height#:#Standardhöjd
-mep#:#mep_default_width#:#Standardbredd
-mep#:#mep_default_width_height_info#:#Default width och height används som standard för nya mediaobjekt.
-mep#:#mep_edit_content_snippet#:#Redigera innehållsmodul
-mep#:#mep_edit_folder#:#Redigera mapp
-mep#:#mep_file#:#Fil
-mep#:#mep_folder#:#Folder
-mep#:#mep_format#:#Format
-mep#:#mep_import#:#Importera media pool
-mep#:#mep_import_lang#:#Målspråk
-mep#:#mep_import_trans#:#Import översättning
-mep#:#mep_master_language_only#:#Basspråk för översättning - Master
-mep#:#mep_master_language_only_no_media#:#Basspråk för översättning - utan mediaobjekt
-mep#:#mep_media_files#:#Mediefiler
-mep#:#mep_media_subtitles#:#Underrubrik
-mep#:#mep_mob#:#media objekt
-mep#:#mep_move_select_insert#:#Navigera till målmappen och välj "Klistra in".
-mep#:#mep_mpg#:#Innehållsmodul
-mep#:#mep_new_content_snippet#:#Ny innehållsmodul
-mep#:#mep_new_folder#:#Ny mapp
-mep#:#mep_page_properties#:#Egenskaper hos byggstenen
-mep#:#mep_page_type_mep#:#Innehållsmodul
-mep#:#mep_thumbnail#:#Miniatyrbild
-mep#:#mep_title_and_description#:#Titel och beskrivning
-mep#:#mep_trans_import_info#:#Om du har exporterat denna modul som "XML (basic language for translation - master)" till en annan installation, kan du återimportera de översatta exportfilerna från denna installation här.
-mep#:#mep_unknown#:#Okänd
-mep#:#mep_up_dir_copy#:#Kopiera filer från uppladdningskatalogen (tar emot filer i uppladdningskatalogen)
-mep#:#mep_up_dir_move#:# Flytta filer från uppladdningskatalogen (snabbare)
-mep#:#mep_upload_dir_files#:#Filer från uppladdningskatalogen
-mep#:#mobs_activate_pages#:#Använd innehållsmoduler
-mep#:#mobs_activate_pages_info#:#Gör det möjligt att skapa sidinnehåll som byggstenar i mediapooler. Dessa innehållsmoduler kan återanvändas i ILIAS inlärningsmoduler, men kan inte redigeras där.
-mep#:#mobs_always_show_file_manager#:#Visa alltid filstrukturen
-mep#:#mobs_always_show_file_manager_info#:#Om inaktiverat visas inte filstrukturen för enkla datatyper, t.ex. bilder.
-mep#:#mobs_black_list_file_types#:#Förbjudna filtyper
-mep#:#mobs_black_list_file_types_and_allowed_info#:#Enter a comma separated list of mime types. This list will restrict the set of allowed file types. Currently allowed mime types are:###21 11 2023 new variable
-mep#:#mobs_restrict_file_types#:#Tillåtna filtyper
-mep#:#mobs_restrict_file_types_info#:#Ange alla filtyper som får laddas upp i mediaobjekt. För att göra detta anger du respektive filändelser separerade med kommatecken (t.ex. jpg,gif). Om inget anges är alla typer tillåtna.
 meta#:#adt_error_max_length#:#Den text du har skrivit är för lång. Vänligen ange en kortare text.
 meta#:#md_adn_int_error_no_default#:#Välj ett aktiverat språk som "Standardspråk".
 meta#:#md_adv_active#:#Aktiv
@@ -12716,61 +11569,6 @@ mme#:#type_separator_info#:#Separatorns titel visas i ett grått område. Du få
 mme#:#type_top_link_item#:#Länk
 mme#:#type_top_parent_item#:#Container
 mme#:#unable_to_render#:#Unable to show '%s' in '%s'.###26 08 2024 new variable
-mob#:#mob_choose_from_pool#:#Från mediapoolen
-mob#:#mob_copyright#:#Copyright###29 10 2025 new variable
-mob#:#mob_copyright_icon#:#Copyright Icon###29 10 2025 new variable
-mob#:#mob_external_url#:#Extern URL
-mob#:#mob_extract_preview_image#:#Extract Preview Image###21 11 2023 new variable
-mob#:#mob_file#:#Fil
-mob#:#mob_file_could_not_be_uploaded#:#Filen kunde inte laddas upp.
-mob#:#mob_general#:#Allmänt
-mob#:#mob_image_extracted#:#Image has been extracted.###21 11 2023 new variable
-mob#:#mob_internal_usages_in_object#:#Page Usages###29 10 2025 new variable
-mob#:#mob_language#:#Språk
-mob#:#mob_last_update#:#Last Update###29 10 2025 new variable
-mob#:#mob_media#:#Media###29 10 2025 new variable
-mob#:#mob_media_objects_overview#:#Media Objects on Pages###29 10 2025 new variable
-mob#:#mob_mime_type_not_allowed#:#Följande mime-typer är inte tillåtna på destinationen.
-mob#:#mob_multi_srt_files#:#SRT-filer
-mob#:#mob_no_extraction_possible#:#Sorry, it was not able to extract an image from the file.###21 11 2023 new variable
-mob#:#mob_no_fixed_size_map_editing#:#Var god ange en fast storlek för din bild innan du definierar länkade områden. Områdena kommer inte att justeras om din bild skalas av en innehållsstil eller andra CSS-regler.
-mob#:#mob_object#:#Objekt
-mob#:#mob_please_select_pool#:#Vänligen välj en mediapool.
-mob#:#mob_preview_picture#:#Preview Picture###21 11 2023 new variable
-mob#:#mob_really_delete_srt#:#Vill du verkligen ta bort följande srt-filer?
-mob#:#mob_second#:#Second###21 11 2023 new variable
-mob#:#mob_srt_files_deleted#:#Undertextfiler har tagits bort.
-mob#:#mob_srt_not_allowed#:#Filer av typen .srt kan för närvarande inte laddas upp. För att aktivera funktionen måste den konfigureras av en systemadministratör (Administration &gt; File Services).
-mob#:#mob_subtitle_file#:#Fil för undertexter
-mob#:#mob_subtitle_files#:#Filer för undertexter
-mob#:#mob_subtitles#:#Underrubrik
-mob#:#mob_type_not_supported#:#Mimetypen stöds inte för närvarande
-mob#:#mob_upload_file#:#Ladda upp fil
-mob#:#mob_upload_multi_srt#:#Ladda upp som ZIP-fil
-mob#:#mob_upload_multi_srt_howto#:#.zip-filen / .zip-arkivet får inte innehålla några underkataloger. Alla .srt-filer måste vara på toppnivå för att kunna identifieras. Filnamnen måste avslutas med "_&lt;SPRACHE&gt;.srt", där SPRACHE är motsvarande språkidentifierare (t.ex. "en", "it" ell
-mob#:#mob_url#:#URL
-mob#:#mob_url_info#:#Extern URL, t.ex. Youtube eller Vimeo URL.
-mob#:#mob_url_info1#:#Extern resurs-URL, tillåtna suffix är
-mob#:#mob_url_info_video#:#Du kan också hänvisa till en Youtube- eller Vimeo-URL.
-mob#:#mob_usages_in_media_pools#:#Media Pool Usages###29 10 2025 new variable
-mob#:#mob_usages_in_other_objects#:#Other Usages###29 10 2025 new variable
-mst#:#mst_cert_issued_on#:#Utställd på
-mst#:#mst_courses_of#:#Anmälningar från %s
-mst#:#mst_download_certificate#:#Ladda ner certifikat
-mst#:#mst_list_certificates#:#Certifikat
-mst#:#mst_list_competences#:#Kompetens
-mst#:#mst_list_courses#:#Anmälningar
-mst#:#mst_list_users#:#Lista över anställda
-mst#:#mst_memb_status_registered#:#Reported
-mst#:#mst_memb_status_requested#:#Ansökt för
-mst#:#mst_memb_status_waitinglist#:#Väntelista
-mst#:#mst_my_staff#:#Anställda
-mst#:#mst_opt_all#:#Alla
-mst#:#mst_please_select_course#:#Vänligen välj en kurs.
-mst#:#mst_profile_fulfilled#:#Achieved
-mst#:#mst_profile_not_fulfilled#:#Not yet reached
-mst#:#mst_select_course#:#Välj kurs
-mst#:#mst_show_courses#:#Anmälningar
 news#:#lso_news_online_title#:#Nytt inlärningssekvensobjekt är online!
 news#:#lso_news_online_txt#:#Ett nytt objekt för din inlärningssekvens har precis lagts online.
 news#:#new_test_online#:#Testet har kopplats upp online.
@@ -12860,68 +11658,6 @@ news#:#news_x_postings#:#%s bidrag har lagts till.
 news#:#passwd_equals_ilpasswd#:#Var god ange ett annat lösenord än ditt ILIAS-lösenord av säkerhetsskäl
 news#:#priv_feed_disabled#:#Privat nyhetsflöde har avaktiverats.
 news#:#priv_feed_settings#:#Inställningar för privat nyhetsflöde
-note#:#note_comment_notification_link#:#Länk
-note#:#note_comment_notification_reason#:#Du får detta meddelande eftersom ILIAS administration är inställd på att meddela dig om alla kommentarer.
-note#:#note_comment_notification_salutation#:#Hej %s,
-note#:#note_comment_notification_subject#:#Ny kommentar i "%s".
-note#:#note_comment_notification_subjectc#:#Ändrad kommentar i "%s".
-note#:#note_comment_notification_user_has_written#:#%s har skrivit
-note#:#note_comments_notification#:#Generellt meddelande om alla kommentarer
-note#:#note_comments_notification_info#:#Kommaseparerad lista över ILIAS-konton som får varje kommentar som ett e-postmeddelande.
-note#:#note_enable_comments#:# Aktivera kommentarer
-note#:#note_enable_comments_del_tutor#:#Alla kommentarer kan raderas av handledare
-note#:#note_enable_comments_del_tutor_info#:#Användare med rätt "Redigera inställningar" på ett objekt kan radera alla kommentarer som gjorts i det.
-note#:#note_enable_comments_del_user#:#Kommentarer kan raderas av den person som skapade dem ###Modifierad som en del av jämställdhetsintegreringen för ILIAS 8
-note#:#note_enable_comments_del_user_info#:#Comments can be deleted by the person who created them.###21 11 2023 new variable
-note#:#note_enable_comments_export_info#:#Gör det möjligt att exportera kommentarer i objekt som portföljer, bloggar eller wikis.
-note#:#note_enable_notes#:#Aktivera Noter
-note#:#note_html_export_include_comments#:#Bör även kommentarerna exporteras?
-notes#:#comments_feature_currently_not_activated_for_object#:#Den offentliga kommentarsfunktionen är för närvarande inte aktiverad för detta objekt.
-notes#:#note_add_comment#:#Lägg till kommentar
-notes#:#note_add_message#:#Add Message###21 11 2023 new variable
-notes#:#note_add_note#:#Lägg till anteckning
-notes#:#note_content_removed#:#Innehållet har tagits bort.
-notes#:#note_text#:#Text
-notes#:#note_update_comment#:#Redigera kommentar
-notes#:#note_update_message#:#Update Message###21 11 2023 new variable
-notes#:#note_update_note#:#Redigera anteckning
-notes#:#note_without_object#:#Utan objektreferens
-notes#:#notes_activate_comments#:#Öppna för offentliga kommentarer
-notes#:#notes_add_comment#:#Lägg till kommentar
-notes#:#notes_add_edit_comment#:#Lägg till/redigera kommentar
-notes#:#notes_add_edit_message#:#Add/Edit Message###21 11 2023 new variable
-notes#:#notes_add_edit_note#:#Add/Edit Note###21 11 2023 new variable
-notes#:#notes_all_comments#:#Alla kommentarer
-notes#:#notes_comment#:#Kommentar
-notes#:#notes_comment_deleted#:#Kommentaren raderades
-notes#:#notes_comments#:#Kommentarer
-notes#:#notes_comments_deleted#:#Kommentarerna har tagits bort.
-notes#:#notes_deactivate_comments#:#Stäng av offentliga kommentarer
-notes#:#notes_delete_comment#:#Ska följande kommentar verkligen raderas?
-notes#:#notes_delete_message#:#Do you really want to delete this message?###21 11 2023 new variable
-notes#:#notes_delete_note#:#Bör följande meddelande verkligen tas bort?
-notes#:#notes_hide_comments#:#Dölja kommentarer
-notes#:#notes_html_export#:#HTML-export
-notes#:#notes_latest_comment#:#Sista kommentaren
-notes#:#notes_latest_message#:#Latest Message###21 11 2023 new variable
-notes#:#notes_message_author_counterpart#:#Respondent###21 11 2023 new variable
-notes#:#notes_message_author_you#:#You###21 11 2023 new variable
-notes#:#notes_messages#:#Messages###21 11 2023 new variable
-notes#:#notes_my_comments#:#Mina kommentarer
-notes#:#notes_no_comments#:#Ingen kommentar har gjorts ännu.
-notes#:#notes_no_comments_found#:#Inga kommentarer hittades som matchar sökkriterierna.
-notes#:#notes_no_messages#:#No messages have been attached yet.###21 11 2023 new variable
-notes#:#notes_no_messages_found#:#No messages found that match your seach criteria.###21 11 2023 new variable
-notes#:#notes_no_notes#:#Ingen notering har lagts till ännu.
-notes#:#notes_no_notes_found#:#Inga anteckningar hittades som matchar sökkriterierna.
-notes#:#notes_note_deleted#:#Anteckningen har tagits bort
-notes#:#notes_notes_deleted#:#Anteckningarna har tagits bort.
-notes#:#notes_origin#:#Ursprung
-notes#:#notes_public_comments#:#Offentliga kommentarer
-notes#:#notes_show_comments#:#Visa kommentarer
-notes#:#notes_sort_asc#:#Sortera stigande
-notes#:#notes_sort_desc#:#Sortera fallande
-notes#:#notes_text#:#Text
 noti#:#noti_activate_notification#:# Aktivera avisering
 noti#:#noti_deactivate_notification#:#Avaktivera avisering
 noti#:#noti_notification_activated#:#Notifieringar är aktiverade
@@ -13036,12 +11772,6 @@ obj#:#select_object_type#:#Select Object Type###21 11 2023 new variable
 obj#:#svy_results#:#Resultat
 obj#:#unequal_items_for_availability_period_message#:#You have selected items with different availability periods. Overwrite existing settings below or cancel action to keep current availability periods.###21 11 2023 new variable
 obj#:#user_owns_no_objects#:#No Repository Objects Available###21 11 2023 new variable
-objref#:#objref_custom_title#:#Ange din egen titel
-objref#:#objref_edit_ref#:#Länkens mål
-objref#:#objref_edit_title#:#Titel
-objref#:#objref_failure_target_type#:#Målet för länken måste vara av följande typ
-objref#:#objref_reuse_title#:#Ta över titeln på det länkade objektet
-objref#:#objref_title_settings#:#Titel på det länkade objektet
 orgu#:#Staff#:#Anställda
 orgu#:#add_position#:#Lägg till position
 orgu#:#authorities#:#Behaviours
@@ -13760,60 +12490,6 @@ ps#:#rbac_log_age_info#:#Maximal ålder för loggposter i månader
 ps#:#rbac_log_info#:#Aktivera loggning av alla ändringar av rättighetsinställningar
 ps#:#show_privacy#:#Skydd av personuppgifter
 ps#:#show_security#:#Säkerhet
-pwassist#:#password_assistance#:#Stöd för lösenord
-pwassist#:#pwassist_disabled_no_access#:#Stöd för lösenord är inte aktiverat.  Kontakta en systemadministratör för ytterligare support
-pwassist#:#pwassist_enter_email#:#Ange din e-postadress här. ILIAS kommer att skicka en lista över alla relaterade inloggningsnamn till denna adress och informera dig om lösenordssupport. Om du inte får något e-postmeddelande, meddela din kursadministratör eller skicka ett e-postmeddelan
-pwassist#:#pwassist_enter_username_and_email#:#Ange ett inloggningsnamn och motsvarande e-postadress. ILIAS kommer att skicka instruktioner för att ange ett nytt lösenord till denna adress. Om du inte får något e-postmeddelande, meddela din kursadministratör eller skicka ett e-postmeddelande till %1$
-pwassist#:#pwassist_enter_username_and_new_password#:#Ange inloggningsnamn och tilldela ett nytt lösenord.###Modifierad som en del av jämställdhetsintegreringsaktiviteter för ILIAS 8
-pwassist#:#pwassist_login_not_match#:#Det inloggningsnamn du angav stämmer inte överens med det inloggningsnamn som du begärde lösenordssupport för. Vänligen ange rätt inloggningsnamn.###Modifierad som en del av jämställdhetsintegreringsaktiviteter för ILIAS 8
-pwassist#:#pwassist_mail_body#:#Ange ett nytt lösenord för ditt inloggningskonto %1$s <br><br>Detta meddelande genererades automatiskt av ILIAS-installationen
-pwassist#:#pwassist_mail_sent#:#ILIAS har skickat ett e-postmeddelande till adressen %1$s, om det finns ett ILIAS-konto med det angivna inloggningsnamnet och e-postadressen. Ytterligare instruktioner finns i detta e-postmeddelande.
-pwassist#:#pwassist_mail_sent_generic#:#ILIAS har skickat ett e-postmeddelande till den deponerade adressen. Du hittar ytterligare instruktioner i detta mail.
-pwassist#:#pwassist_mail_subject#:#ILIAS lösenord stöd
-pwassist#:#pwassist_password_assigned#:#Lösenordet för inloggningsnamnet %1$s sparades framgångsrikt.
-pwassist#:#pwassist_session_expired#:#Vänligen fyll i formuläret igen. Tiden för att utföra lösenordssupport har löpt ut. Det kan bero på att du har försökt använda den adress som skickades till dig mer än en gång, eller att det har gått för lång tid sedan adressen skickades till dig.
-pwassist#:#pwassist_username_mail_body#:#Detta är de aktiva inloggningsnamn som tilldelats denna e-postadress i ILIAS.
-pwassist#:#unassist_disabled_no_access#:#Stöd för inloggningsnamn är inte aktiverat. Kontakta en systemadministratör för ytterligare support
-pwsp#:#pwsp_enable_personal_resources#:#Aktivera personliga resurser
-pwsp#:#pwsp_enable_wsp_blogs#:#Aktivera bloggar
-pwsp#:#pwsp_enable_wsp_files#:# Aktivera filer
-pwsp#:#pwsp_enable_wsp_links#:# Aktivera länkar
-pwsp#:#pwsp_type_cannot_be_copied#:#Objects of type '%s' cannot be copied.###29 10 2025 new variable
-qpl#:#qpl_filter_commented_exclude#:#Questions without comments###26 08 2024 new variable
-qpl#:#qpl_filter_commented_only#:#Questions with comments###26 08 2024 new variable
-qpl#:#qpl_page_type_qfbg#:#Allmän feedback
-qpl#:#qpl_page_type_qfbs#:#Särskild feedback
-qpl#:#qpl_page_type_qht#:#Note
-qpl#:#qpl_page_type_qpl#:#Frågesida
-rating#:#rat_not_rated_yet#:#Not yet rated
-rating#:#rat_nr_ratings#:#%s betyg
-rating#:#rat_one_rating#:#En bedömning
-rating#:#rating_activate_rating#:# Aktivera betyg
-rating#:#rating_activate_rating_info#:#Om aktiverat kan användare betygsätta detta objekt.
-rating#:#rating_add_category#:#Lägg till kategori
-rating#:#rating_avg_rating#:#Genomsnittlig rating
-rating#:#rating_categories#:#Klassificeringskategorier
-rating#:#rating_category_add#:#Add
-rating#:#rating_category_create#:#Skapa kategori
-rating#:#rating_category_created#:#Kategori tillagd.
-rating#:#rating_category_delete_sure#:#Vill du verkligen radera följande kategorier?  Alla betyg för denna kategori kommer att raderas.
-rating#:#rating_category_deleted#:#Kategori borttagen.
-rating#:#rating_category_edit#:#Redigera kategori
-rating#:#rating_category_update#:#Spara
-rating#:#rating_category_updated#:#Kategori sparad.
-rating#:#rating_export_category#:#Kategori
-rating#:#rating_export_date#:#Datum
-rating#:#rating_export_rating#:#Rating
-rating#:#rating_new_objects_auto#:#Värdering för nya objekt
-rating#:#rating_new_objects_auto_info#:#Betygsfunktionen aktiveras automatiskt i nyskapade filer, lärmoduler och wikis.
-rating#:#rating_number_votes#:#%s betyg
-rating#:#rating_open_dialog#:#Utveckla klassificeringsskalan
-rating#:#rating_overlay_submit#:#Rating
-rating#:#rating_personal_rating#:#Ditt betyg
-rating#:#rating_rate_x_of_5#:#Rata med % av 5 stjärnor
-rating#:#rating_remove#:#Ta bort betyg
-rating#:#rating_update_positions#:#Spara sekvens
-rating#:#rating_your_rating#:#Ditt betyg
 rbac#:#accs_edit_permission#:#Ändra rättighetsinställningar för tillgänglighetsinställningar
 rbac#:#accs_read#:#Settings Tillgänglighet i Administration kan läsas
 rbac#:#accs_visible#:#Accessibility-inställningar i Administration är synliga
@@ -14748,111 +13424,6 @@ rbac#:#wiks_read#:#Läsbehörighet till wiki-administration
 rbac#:#wiks_visible#:#Wiki-administrationen är synlig
 rbac#:#wiks_write#:#Redigera inställningar i wikiadministrationen
 rbac#:#write#:#Redigera inställningar
-rcat#:#rcat_call#:#Samtal ECS kategori
-rcrs#:#rcrs_call#:#Ring ECS-kurs
-registration#:#reg_access_limitation_limited_time#:#Access från registreringsdatum för
-registration#:#reg_access_limitation_limited_until#:#Tillgången är begränsad fram till
-registration#:#reg_access_limitation_missing_mode#:#Vänligen välj typ av åtkomstperiod för alla roller.
-registration#:#reg_access_limitation_mode#:#Typ av tidsbegränsning för åtkomst
-registration#:#reg_access_limitation_mode_absolute#:#Temporärt tillträde med fastställt slutdatum
-registration#:#reg_access_limitation_mode_absolute_target#:#Giltig tills
-registration#:#reg_access_limitation_mode_relative#:#Begränsad åtkomstperiod från registreringsdatum
-registration#:#reg_access_limitation_mode_relative_target#:#Giltig för
-registration#:#reg_access_limitation_mode_unlimited#:#Utan tidsbegränsning för åtkomst
-registration#:#reg_access_limitation_none#:#obegränsad tillgång
-registration#:#reg_access_limitation_out_of_date#:#För en eller flera roller har tidsfristen för tillträde redan löpt ut!
-registration#:#reg_access_limitations#:#Term of access
-registration#:#reg_add_assignment#:#Nytt uppdrag
-registration#:#reg_added_assignment#:#Ett nytt uppdrag skapades.
-registration#:#reg_allow_codes#:#Tillåt Koder
-registration#:#reg_allow_codes_info#:#Användare kan dessutom registrera sig med koder.
-registration#:#reg_allowed_domains#:#Tillåtna domäner för e-postadresser
-registration#:#reg_allowed_domains_info#:#Använd * som jokertecken och ; som separator. Till exempel "*@ilias.de".  Registreringskoder upphäver denna kontroll.
-registration#:#reg_approve#:#Ny registrering med verifiering
-registration#:#reg_approve_info#:#Alla nyregistrerade användare måste aktiveras av en administratör.
-registration#:#reg_approve_needs_recipient#:#För registreringstypen "Registrering med verifiering" ska minst en användare definieras som kommer att meddelas om nya registreringar.
-registration#:#reg_available_roles#:#Tillgängliga roller
-registration#:#reg_confirmation_already_confirmed#:#The registration is no longer pending, it has already been confirmed.###29 10 2025 new variable
-registration#:#reg_confirmation_hash_life_time#:#Giltighetstid
-registration#:#reg_confirmation_hash_life_time_expired#:#Bekräftelselänken är inte längre giltig. Vänligen registrera dig igen!
-registration#:#reg_confirmation_hash_life_time_info#:#Ange giltighetstiden för bekräftelselänken (i sekunder). Rekommenderat värde är 1800 sekunder.
-registration#:#reg_confirmation_hash_not_found#:#Den här bekräftelselänken matchar inte något ILIAS-konto.
-registration#:#reg_confirmation_hash_not_passed#:#Bekräftelselänken är inte fullständig.
-registration#:#reg_confirmation_link_successful#:#Du har framgångsrikt registrerat dig hos ILIAS. Nu måste du fortfarande aktivera ditt ILIAS-konto. Du har just fått ett e-postmeddelande med en bekräftelselänk. Vänligen klicka på bekräftelselänken inom de närmaste minuterna för att aktivera ditt ILIAS-k
-registration#:#reg_default#:#Standard
-registration#:#reg_deleted_assignment#:#Uppdragen har tagits bort.
-registration#:#reg_direct#:#Direkt registrering
-registration#:#reg_direct_info#:#Om den är påslagen aktiveras alla nyregistrerade användare automatiskt.
-registration#:#reg_disabled#:#Ingen registrering möjlig
-registration#:#reg_domain#:#domän (t.ex. "@din_domän.de")
-registration#:#reg_domain_already_assigned_p#:#The domains '%s' were already entered for another role.###26 08 2024 new variable
-registration#:#reg_domain_already_assigned_s#:#The domain '%s' was already entered for another role. ###26 08 2024 new variable
-registration#:#reg_email#:#Automatisk rolltilldelning
-registration#:#reg_email_domains#:#Följande domäner för e-postadresser är giltiga
-registration#:#reg_email_domains_code#:#När du använder en kod är alla e-postadresser möjliga.
-registration#:#reg_email_role_assignment#:#Rolltilldelning via e-postadress
-registration#:#reg_fixed#:#Val från fördefinierad lista
-registration#:#reg_info_pwd#:#Om den är påslagen tilldelas och skickas ett automatiskt genererat lösenord till nyinloggade användare.
-registration#:#reg_mail_body_activation#:#För att aktivera ditt konto, vänligen klicka på följande länk
-registration#:#reg_mail_body_approve#:#Du har redan registrerat dig på eLearning-plattformen och fått ett e-postmeddelande med dina åtkomstuppgifter. Nu har din åtkomst aktiverats av din administratör. Om du har några frågor eller problem, vänligen kontakta honom / henne via e-post.
-registration#:#reg_mail_body_confirmation#:#För att aktivera ILIAS-kontot måste du aktivera det i
-registration#:#reg_mail_body_profile#:#Profiluppgifter
-registration#:#reg_mail_body_profile_changed#:#Dina profildata har ändrats.
-registration#:#reg_mail_body_pwd_generation#:#Din åtkomst måste dock fortfarande aktiveras av administratören. När detta har gjorts kommer du att få ett bekräftelsemeddelande.
-registration#:#reg_mail_body_reason#:#Du får detta mail eftersom aviseringen av nya inloggningskonton är aktiverad för dig i administrationen.
-registration#:#reg_mail_body_timelimit#:#Din tillgång är begränsad i tid
-registration#:#reg_mail_new_user#:#Ny användarinloggning
-registration#:#reg_mail_new_user_body#:#En ny användare har loggat in.
-registration#:#reg_mail_new_user_confirmation#:#Förfrågan om att verifiera ansökan
-registration#:#reg_missing_domain#:#Vänligen fyll i alla nödvändiga fält.
-registration#:#reg_missing_role#:#Vänligen fyll i alla nödvändiga fält.
-registration#:#reg_notification#:#Notifieringar
-registration#:#reg_notification_info#:#Ange här ett eller flera inloggningsnamn (åtskilda av kommatecken) som ska meddelas via e-post när en ny inloggning tas emot.###Modifierad som en del av jämställdhetsintegreringsaktiviteter för ILIAS 8
-registration#:#reg_role_access_limitations#:#Sätt åtkomstperioder för roller
-registration#:#reg_role_assignment#:#Rolltilldelning
-registration#:#reg_role_info#:#Rolls
-registration#:#reg_select_one#:#Vänligen gör ett urval.
-registration#:#reg_selectable_roles#:#Valbara roller
-registration#:#reg_settings_header#:#Inställningar
-registration#:#reg_type#:#Typ av registrering
-registration#:#reg_type_confirmation#:#Registrera med e-postbekräftelse
-registration#:#reg_type_confirmation_info#:#Med denna registreringsmetod får den nya användaren först en bekräftelselänk via e-post. Om detta bekräftas aktiveras ILIAS-kontot automatiskt.
-registration#:#reg_unknown_recipients#:#Följande användare är inte giltiga
-registration#:#registration_code#:#Kod
-registration#:#registration_code_not_valid#:#Den angivna registreringskoden är ogiltig eller har redan använts.
-registration#:#registration_code_optional_info#:#Om du har en ILIAS-registreringskod kan du ange den här.
-registration#:#registration_code_required_info#:#En ILIAS-registreringskod krävs för framgångsrik registrering.
-registration#:#registration_code_role_info#:#Vid användning av en registreringskod kan detta val skrivas över.
-registration#:#registration_codes_access_limitation_all#:#Alla
-registration#:#registration_codes_add#:#Skapa koder
-registration#:#registration_codes_edit_header#:#Skapa nya koder
-registration#:#registration_codes_export#:#Exportkoder
-registration#:#registration_codes_no_assigned_role#:#Ingen fördefinierad tilldelad roll
-registration#:#registration_codes_number#:#Antal koder
-registration#:#registration_codes_override_global_info#:#Dessa inställningar kan åsidosättas av registreringskoder.
-registration#:#registration_codes_override_info#:#Den här inställningen har prioritet över alla andra motsvarande registerinställningar.
-registration#:#registration_codes_roles#:#Global roll
-registration#:#registration_codes_roles_limitation_none#:#Ingen fördefinierad åtkomstperiod
-registration#:#registration_codes_roles_local#:#Lokal(a) roll(er)
-registration#:#registration_codes_roles_title#:#Roll för nya ILIAS-konton
-registration#:#registration_codes_type#:#Kod typ
-registration#:#registration_codes_type_ext#:#Förnyelse av tillfälliga inloggningskonton
-registration#:#registration_codes_type_ext_info#:#Koden kan användas för att förnya tillfälliga inloggningskonton.
-registration#:#registration_codes_type_reg#:#Registreringskod
-registration#:#registration_codes_type_reg_info#:#Koden kan användas för att registrera nya inloggningskonton.
-registration#:#registration_disabled_no_access#:#Självregistrering är inte aktiverat. Kontakta en systemadministratör för ytterligare hjälp
-registration#:#registration_export_codes_no_data#:#Inga koder valdes för export.
-registration#:#registration_generated#:#Skapad på
-registration#:#registration_generated_all#:#Alla datum
-registration#:#registration_no_valid_role#:#För närvarande finns ingen roll definierad för registreringar. Vänligen kontakta systemadministratören.
-registration#:#registration_reg_type_codes#:#Registrera med koder
-registration#:#registration_reg_type_codes_info#:#Med denna registreringsmetod behöver den nya användaren en giltig kod.
-registration#:#registration_roles_all#:#Alla roller
-registration#:#registration_settings#:#ILIAS-Auth / Självregistrering
-registration#:#registration_tab_codes#:#Registreringskoder
-registration#:#registration_tab_settings#:#Inställningar
-registration#:#registration_used#:#Konsumeras på
-registration#:#registration_user_new_account_mail#:#Redigera meddelande om ny registrering
 rep#:#btn_undelete_new_location#:#Restore (ny plats)
 rep#:#btn_undelete_origin_location#:#Restore (ursprunglig plats)
 rep#:#rep_activation_access#:#Tillgång
@@ -14943,13 +13514,6 @@ rep#:#rep_tree_limit#:#Begränsning av antalet poster i trädet
 rep#:#rep_tree_limit_info#:#Visar endast ett begränsat antal element i trädet för att öka prestandan.
 rep#:#rep_tree_limit_number#:#Maximalt antal
 rep#:#rep_tree_limit_number_info#:#Maximalt antal underordnade element som initialt visas för en nod. Om det finns fler underordnade element visas ett inmatningsfält för sökning där de underordnade elementen kan filtreras efter titel.
-rfil#:#rfil_call#:#Ring ECS-fil
-rfil#:#rfil_version_tstamp#:#Datum för uppladdning
-rglo#:#rglo_call#:#Hämta ECS ordlista
-rgrp#:#rgrp_call#:#Ring ECS-gruppen
-rlm#:#rlm_call#:#Ring upp ECS utbildningsmodul
-rtst#:#rtst_call#:#Ring ECS-test
-rwik#:#rwik_call#:#Samtal ECS Wiki
 sahs#:#cont_insert_after_chap#:#Insätt element efter ett kapitel.
 sahs#:#cont_insert_into_chap#:#Insert elements inom ett kapitel.
 sahs#:#sahs_activate_expert_mode#:#Aktivera expertläget Sequencing
@@ -15463,271 +14027,6 @@ sess#:#sess_users_added#:#Användare har registrerats för sessionen.
 sess#:#sess_users_already_assigned#:#Användarna är redan registrerade för sessionen.
 sess#:#sess_users_removed_from_list#:#De valda användarna har tagits bort från väntelistan.
 sess#:#sess_warn_sess_type_changed#:#Är du säker på att du vill ändra sessionstyp? Rättighetsinställningarna för den här sessionen kommer att skrivas över och anpassas till den nya sessionstypen.
-shib#:#shib_account_creation#:#Account Creation###28 10 2024 new variable
-shib#:#shib_account_creation_disabled#:#Disabled###28 10 2024 new variable
-shib#:#shib_account_creation_disabled_info#:#No new account is created.###28 10 2024 new variable
-shib#:#shib_account_creation_enabled#:#Enabled###28 10 2024 new variable
-shib#:#shib_account_creation_enabled_info#:#An active new account is created.###28 10 2024 new variable
-shib#:#shib_account_creation_info#:#Account creation is triggered, when a user without a pre-existing ILIAS Account tries to log in via Shibboleth.###28 10 2024 new variable
-shib#:#shib_account_creation_with_approval#:#With approval###28 10 2024 new variable
-shib#:#shib_account_creation_with_approval_info#:#An inactive new account is created. The account remains inactive until activated by an administrator.###28 10 2024 new variable
-shib#:#shib_add_missing#:#Tilldela roller som saknas
-shib#:#shib_add_remove#:#Lägg till/ta bort roller
-shib#:#shib_assignment_type#:#Typ av uppdrag
-shib#:#shib_attr_info#:#Tilldelningen baseras på ett specifikt attribut i Shibboleth-kontot ###Modifierad som en del av jämställdhetsintegreringsaktiviteterna för ILIAS 8
-shib#:#shib_attribute#:#Användarattribut
-shib#:#shib_attribute_name#:#Attributets namn
-shib#:#shib_attribute_value#:#Attributets värde
-shib#:#shib_check_role_assignment#:#Uppdatera rolltilldelningar vid varje inloggning
-shib#:#shib_choose_role#:#Ta på dig en roll
-shib#:#shib_confirm_del_role_ass#:#Är du säker på att du vill ta bort följande uppgifter?
-shib#:#shib_deleted_rule#:#Tilldelningsreglerna har tagits bort.
-shib#:#shib_global_role#:#Global roll
-shib#:#shib_ilias_role#:#ILIAS rollnamn
-shib#:#shib_local_role#:#Lokal roll
-shib#:#shib_missing_attr_name#:#Var god ange namnet på attributet.
-shib#:#shib_missing_attr_value#:#Var god ange värdet på attributet.
-shib#:#shib_missing_plugin_id#:#Var god ange ett unikt plugin-id.
-shib#:#shib_missing_role#:#Vänligen välj en ILIAS-roll.
-shib#:#shib_new_rule#:#Skapa ny regel
-shib#:#shib_plugin#:#Uppdrag genom plugin
-shib#:#shib_plugin_id#:#Plugin-Id
-shib#:#shib_plugin_info#:#Om tilldelningen inte kan göras med en enkel kontroll (attributnamn/värde), kan du alternativt reglera tilldelningen via en plug-in.
-shib#:#shib_remove_deprecated#:#Ta bort obehöriga roller
-shib#:#shib_role_ass_table#:#Ny regel för ILIAS rolltilldelning
-shib#:#shib_role_assignment#:#Rolltilldelning
-shib#:#shib_role_by_attribute#:#Användarattribut
-shib#:#shib_role_by_plugin#:#Genom plugin
-shib#:#shib_role_name#:#ILIAS rollnamn
-shib#:#shib_role_name_info#:#Välj antingen en global roll eller ange namnet på en lokal roll.
-shib#:#shib_role_selection#:#Val av roll
-shib#:#shib_rule_condition#:#Kondition
-shib#:#shib_rule_type#:#Typ av uppdrag
-shib#:#shib_rules_tables#:#Regler för tilldelning av aktiv roll
-shib#:#shib_settings#:#Shibboleth-inställningar
-shib#:#shib_update_role_ass_table#:#Redigera regel för rolltilldelning
-shib#:#shib_update_roles#:#Rolltilldelning
-skll#:#skll_competence_achievements#:#Nya kompetensbedömningar och utvärderingar
-skll#:#skll_intro_skill_notification_for#:#Följande är en översikt över dina senaste kompetensförändringar
-skll#:#skll_lhist_skill_achieved#:#Status $4$ av $3$ tilldelades i $1$.
-skll#:#skll_lhist_skill_profile_fulfilled#:#Kompetensprofil $3$ har uppfyllts.
-skll#:#skll_lhist_skill_self_eval#:#Status $4$ av $3$ är självtilldelad.
-skll#:#skll_lhist_skill_self_eval_in#:#Status $4$ av $3$ var självtilldelad i $1$.
-skll#:#skll_new_skill_achievements#:#Du har uppnått följande kompetensnivåer under perioden %1$s till %2$s
-skll#:#skll_skill_notification#:#Anmälan Kompetens Utvärdering
-skll#:#skll_skill_notification_desc#:#Användare meddelas om ändrade kompetensnivåer.
-skmg#:#scat#:#Kategori
-skmg#:#skll#:#Kompetens
-skmg#:#skmg_360_survey#:#360° undersökning
-skmg#:#skmg_add_assignment#:#Tilldela roller/medlemmar
-skmg#:#skmg_add_level#:#Lägg till uttryck
-skmg#:#skmg_add_local_profile#:#Lägg till lokal profil
-skmg#:#skmg_add_profile#:#Lägg till profil
-skmg#:#skmg_add_resource#:# Tilldela tidskriftsobjekt
-skmg#:#skmg_add_skill#:#Lägg till kompetens
-skmg#:#skmg_add_skill_tree#:#Lägg till kompetensträd
-skmg#:#skmg_add_user_to_profile#:#Sök efter användare eller roller
-skmg#:#skmg_all#:#Alla
-skmg#:#skmg_allow_local_profiles#:#Tillåt skapande av lokala profiler
-skmg#:#skmg_allow_local_profiles_info#:#Användare med rätt "Redigera inställningar" i kurser och grupper kan skapa lokala kompetensprofiler med hjälp av globalt definierade kompetenser.
-skmg#:#skmg_ass_materials_from_workspace#:#Nu kan du tilldela innehåll från dina personliga resurser (t.ex. filer) till kompetenser. Om du nu vill lägga till innehåll i dina personliga resurser, vänligen klicka på följande länk.
-skmg#:#skmg_assign_level#:#Tilldela uttryck
-skmg#:#skmg_assign_materials#:#Tilldela personliga resurser
-skmg#:#skmg_assign_user#:#Tilldela användare
-skmg#:#skmg_assigned_objects#:# Tilldelade objekt
-skmg#:#skmg_assigned_profiles#:#Tilldelade kompetensprofiler
-skmg#:#skmg_assigned_skill_levels#:# Tilldelade kompetensmål
-skmg#:#skmg_assigned_users#:# Tilldelade roller och användare
-skmg#:#skmg_bar_charts#:#Bar Charts###26 08 2024 new variable
-skmg#:#skmg_cannot_delete_nodes_in_use#:#Vissa objekt kan inte raderas eftersom de fortfarande används.
-skmg#:#skmg_cert_skill_level_title#:#Title Kompetensnivå
-skmg#:#skmg_cert_skill_title#:#Titel Kompetens
-skmg#:#skmg_cert_skill_trigger_title#:#Titel Trigger
-skmg#:#skmg_confirm_level_resources_removal#:#Vill du verkligen ta bort följande tidningsartiklar från profilen?
-skmg#:#skmg_confirm_remove_level_ass#:#Vill du verkligen ta bort följande kompetensnivåer från profilen?
-skmg#:#skmg_confirm_user_removal#:#Vill du verkligen ta bort följande användare från profilen?
-skmg#:#skmg_cont_profiles_info#:#I denna vy kan du välja kompetensprofiler med kompetensposter som är relaterade till det för närvarande öppnade objektet (kurs/grupp). För att komma till den globala vyn med alla kompetensprofiler som tilldelats dig och alla kompetensposter, klicka på lä
-skmg#:#skmg_cont_profiles_info_empty#:#There are no competence profiles related to the currently open object.###21 11 2023 new variable
-skmg#:#skmg_cont_records_info_empty#:#There are no competences related to the currently opened object.###21 11 2023 new variable
-skmg#:#skmg_context_global#:#Global
-skmg#:#skmg_context_local#:#Lokalt
-skmg#:#skmg_count_references#:#Antal refererade kompetenser
-skmg#:#skmg_create_sctp#:#Skapa mall för kategori
-skmg#:#skmg_create_skill_category#:#Skapa kategori
-skmg#:#skmg_create_skill_template#:#Skapa mall
-skmg#:#skmg_create_skill_template_category#:#Skapa mall för kategori
-skmg#:#skmg_create_skill_template_reference#:#Infoga mall
-skmg#:#skmg_create_skll#:#Skapa kompetens
-skmg#:#skmg_custom_image_alt#:#Användardefinierad bild för kompetensprofil
-skmg#:#skmg_delete_profiles#:#Vill du verkligen radera följande profiler?
-skmg#:#skmg_delete_warning#:#Are you sure that you want to delete the following item(s)? When you delete the items, you also delete all usages, assignments and achievements of it. To be on the safe side, you find a list of all usages below. If the item is used in a competence profile, it will be removed from the profile, too. This may cause the fulfilment of the competence profile for the assigned users. If your are not sure whether an item should really be deleted, please use the statuses in the settings of a single item.###21 11 2023 new variable
-skmg#:#skmg_description_info#:#Beskrivningen är hämtad från mallen.
-skmg#:#skmg_edit_level#:#Redigera uttryck
-skmg#:#skmg_edit_profile#:#Redigera profil
-skmg#:#skmg_edit_scat#:#Ändra kategori
-skmg#:#skmg_edit_sctp#:#Redigera mallkategori
-skmg#:#skmg_edit_skll#:#Redigera inställningar för kompetens
-skmg#:#skmg_edit_sktr#:#Redigera mallreferens
-skmg#:#skmg_enable_skmg#:#Möjliggöra kompetenshantering
-skmg#:#skmg_eval_type_1#:#Utländsk opinion
-skmg#:#skmg_eval_type_2#:#Mätning
-skmg#:#skmg_eval_type_3#:#självutvärdering
-skmg#:#skmg_eval_type_latest_1#:#Sista externa utvärderingen
-skmg#:#skmg_eval_type_latest_2#:#Sista mätningen
-skmg#:#skmg_eval_type_latest_3#:#Senaste självutvärdering
-skmg#:#skmg_execute_self_evaluation#:#Start
-skmg#:#skmg_form_presentation#:#Presentation
-skmg#:#skmg_from_lower_to_higher_levels#:#Vänligen ge lägre kompetensnivåer även lägre ordningsnummer. Per rad bör kompetensen öka nedåt.
-skmg#:#skmg_hide_profile_self_eval#:#Visa kompetensmål enligt självutvärdering
-skmg#:#skmg_hide_profile_self_eval_info#:#För enskilda kompetenser visas kompetensmålet först efter att användaren har gjort en självutvärdering.
-skmg#:#skmg_import_skills#:#Import
-skmg#:#skmg_input_file#:#Importera fil
-skmg#:#skmg_insert_basic_skill_from_clip#:#Klipp in kompetenser från Urklipp.
-skmg#:#skmg_insert_please_choose_one_type_only#:#Välj endast en objekttyp.
-skmg#:#skmg_insert_skill_category_from_clip#:#Klistra in kategorier från urklipp.
-skmg#:#skmg_insert_skill_template_from_clip#:#Klistra in mall från urklipp
-skmg#:#skmg_insert_skill_template_reference_from_clip#:#Klipp in mallreferens från urklipp
-skmg#:#skmg_insert_template_category_from_clip#:#Klistra in mallkategori från urklipp
-skmg#:#skmg_items#:#Inträden
-skmg#:#skmg_level#:#Uttryck
-skmg#:#skmg_list_skills#:#Lista kompetenser
-skmg#:#skmg_local_assignment_profiles#:#Tillåt lokal tilldelning av globala profiler
-skmg#:#skmg_lp_triggers_level#:#Sätts av status 'Redigerad'
-skmg#:#skmg_materials#:#Personliga resurser
-skmg#:#skmg_materials_resources#:#Innehåll för lärande
-skmg#:#skmg_new_level#:#Nytt uttryck
-skmg#:#skmg_new_sktr#:#Ny mallreferens
-skmg#:#skmg_next_step#:#Nästa steg
-skmg#:#skmg_no_nodes_selectable#:#Inga kompetenser kan väljas för närvarande.
-skmg#:#skmg_no_skill_entries#:#Du har ännu inga poster för denna kompetens.
-skmg#:#skmg_no_skills_selected_info#:#Du har ännu inte valt eller förvärvat några kompetenser. Klicka på knappen "Lägg till kompetens" för att välja en kompetens. Du kan lägga till så många kompetenser som du vill. Om du förvärvar kompetenser genom att redigera lärandeinnehåll kommer de auto
-skmg#:#skmg_no_trigger#:#Ingen utlösare
-skmg#:#skmg_nr#:#Nej
-skmg#:#skmg_number#:#Nummer
-skmg#:#skmg_open#:#Open###21 11 2023 new variable
-skmg#:#skmg_open_all_assigned_profiles#:#Öppna alla tilldelade kompetensprofiler
-skmg#:#skmg_order#:#Beställ
-skmg#:#skmg_order_nr#:#Nummer
-skmg#:#skmg_order_nr_info#:#placerar kompetensen i listan över kompetenser.
-skmg#:#skmg_please_select_self_skill#:#Ny självutvärdering
-skmg#:#skmg_please_select_your_skill_levels#:#Välj dina färdigheter!
-skmg#:#skmg_previous_step#:#Föregående steg
-skmg#:#skmg_profile#:#Profil
-skmg#:#skmg_really_delete_levels#:#Bör följande kompetensnivåer verkligen tas bort?
-skmg#:#skmg_really_remove_skills#:#Vill du verkligen ta bort följande behörigheter?
-skmg#:#skmg_recommended_learning_material_crs#:#Lärandeinnehåll i kursen för att uppnå målet
-skmg#:#skmg_recommended_learning_material_global#:#Lärandeinnehåll för att uppnå målet
-skmg#:#skmg_recommended_learning_material_grp#:#Lärandeinnehåll i gruppen för att uppnå målet
-skmg#:#skmg_recommended_learning_material_info#:#Välj exakt ett av följande läranderesultat. Arbeta med det för att uppnå kompetensmålet.
-skmg#:#skmg_refresh_view#:#Uppdatera vy
-skmg#:#skmg_remove#:#Remove###21 11 2023 new variable
-skmg#:#skmg_remove_levels#:#Ta bort egenskaper
-skmg#:#skmg_remove_skill#:#Ta bort kompetens
-skmg#:#skmg_remove_trigger#:#Ta bort utlösaren
-skmg#:#skmg_resources#:#Magasinobjekt
-skmg#:#skmg_save_order#:#Spara sekvens
-skmg#:#skmg_save_self_evaluation#:#Fullständig självutvärdering
-skmg#:#skmg_save_settings#:#Spara inställningar
-skmg#:#skmg_sctp#:#Mall för kategori
-skmg#:#skmg_select_level#:#Select Competence Level###21 11 2023 new variable
-skmg#:#skmg_select_skill#:#Klicka på en kompetens för att lägga till den till dina personliga kompetenser.
-skmg#:#skmg_select_skill_level_assign#:#Vänligen välj en kompetens.
-skmg#:#skmg_select_trigger#:#Välj utlösare
-skmg#:#skmg_selectable#:#Väljbar
-skmg#:#skmg_selectable_info#:#Tillåter användare att lägga till kompetensen som en personlig kompetens.
-skmg#:#skmg_selected_items_have_been_copied#:#De markerade objekten har kopierats.
-skmg#:#skmg_selected_items_have_been_cut#:#De valda objekten klipptes ut.
-skmg#:#skmg_selected_skills#:#Utvalda kompetenser
-skmg#:#skmg_self_evaluation#:#självutvärdering
-skmg#:#skmg_self_evaluation_byline#:#Självutvärderingen beaktas inte i uppnåendet av ditt kompetensmål. Den är avsedd för orienteringsändamål.
-skmg#:#skmg_self_evaluations#:#självutvärderingar
-skmg#:#skmg_set_as_lp_trigger#:#Completion Should Trigger Competence Record###21 11 2023 new variable
-skmg#:#skmg_set_as_no_lp_trigger#:#Completion Should Not Trigger Competence Record###21 11 2023 new variable
-skmg#:#skmg_set_as_no_suggested#:#Do not Show as Learning Material###21 11 2023 new variable
-skmg#:#skmg_set_as_suggested#:#Show as Learning Material###21 11 2023 new variable
-skmg#:#skmg_settings#:#Kompetenshantering Inställningar
-skmg#:#skmg_show_all#:#Visa alla
-skmg#:#skmg_show_latest_entries#:#Visa de senaste inmatningarna
-skmg#:#skmg_skill#:#Kompetens
-skmg#:#skmg_skill_in_use#:#Den här kompetensen används av användare eller innehåll. Därför är inte alla åtgärder tillgängliga. Kom ihåg att alla ändringar påverkar befintliga användningar.
-skmg#:#skmg_skill_level#:#Kompetensnivå
-skmg#:#skmg_skill_level_trigger#:#Trigger
-skmg#:#skmg_skill_levels#:#Kompetensnivåer
-skmg#:#skmg_skill_management_deactivated#:#Competency management är för närvarande avaktiverat.
-skmg#:#skmg_skill_needs_impr_no_res#:#Du behöver förbättra denna kompetens. Tyvärr finns det för närvarande inget lämpligt utbildningsinnehåll som matchar ditt kompetensmål.
-skmg#:#skmg_skill_needs_impr_res#:#Du behöver förbättra denna kompetens. Följande utbildningsinnehåll motsvarar ditt kompetensmål.
-skmg#:#skmg_skill_needs_self_eval#:#Gör en självutvärdering först så att ditt kompetensmål visas.
-skmg#:#skmg_skill_needs_self_eval_box#:#Observera att för minst en kompetens i denna profil har ingen självutvärdering genomförts ännu. Du kommer att få se kompetensmålet för de berörda kompetenserna så snart en självutvärdering har genomförts.
-skmg#:#skmg_skill_no_needs_impr#:#Kompetensmålet uppfyllt!
-skmg#:#skmg_skill_no_needs_impr_info#:#Du har uppfyllt målet för denna kompetens.
-skmg#:#skmg_skill_overview#:#Översikt
-skmg#:#skmg_skill_profile_records#:#Kompetens anmälningar
-skmg#:#skmg_skill_profiles#:#Kompetensprofiler
-skmg#:#skmg_skill_template#:#Mall
-skmg#:#skmg_skill_templates#:#Mallar
-skmg#:#skmg_skill_tree#:#Kompetens träd
-skmg#:#skmg_skill_trees#:#Kompetens träd
-skmg#:#skmg_skills#:#Kompetens
-skmg#:#skmg_sktr#:#Mall för referens
-skmg#:#skmg_status#:#Status
-skmg#:#skmg_status_draft#:#In förberedelse (Offline)
-skmg#:#skmg_status_draft_info#:#Entry visas inte för användare.
-skmg#:#skmg_status_outdated#:#Veraltet
-skmg#:#skmg_status_outdated_info#:#Posten kan inte längre väljas av användaren som en ny personlig kompetens. Om kompetensen redan valts tidigare kvarstår detta val.
-skmg#:#skmg_status_publish#:#Publicerad
-skmg#:#skmg_status_publish_info#:#Kompetensen kan användas av användare om alla överordnade poster också är frisläppta.
-skmg#:#skmg_suggested#:#Visa som innehåll för lärande
-skmg#:#skmg_suggested_resources#:#Allokerade tidskriftsföremål
-skmg#:#skmg_sure_delete_self_evaluation#:#Vill du verkligen ta bort följande självutvärderingar?
-skmg#:#skmg_target_level#:#Kompetensmål
-skmg#:#skmg_target_levels#:#Kompetensmål
-skmg#:#skmg_trigger#:#Trigger
-skmg#:#skmg_type#:#Typ
-skmg#:#skmg_type_of_formation#:#Typ av undersökning
-skmg#:#skmg_update_order#:#Spara sekvens
-skmg#:#skmg_usage#:#Använda
-skmg#:#skmg_usage_obj_objects#:#Objekt(en)
-skmg#:#skmg_usage_obj_profiles#:#Profil(er)
-skmg#:#skmg_usage_obj_users#:#Användare
-skmg#:#skmg_usage_type_info_gen#:#Allmän användning i tidningsobjekt
-skmg#:#skmg_usage_type_info_mat#:#Användare har tilldelats personliga resurser
-skmg#:#skmg_usage_type_info_pers#:#Väljs av användare som en personlig kompetens
-skmg#:#skmg_usage_type_info_prof#:#Användning i kompetensprofiler
-skmg#:#skmg_usage_type_info_res#:#Uppdrag till magasinobjekt
-skmg#:#skmg_usage_type_info_user#:#Uppdrag till användare
-skmg#:#skmg_your_self_evaluation#:#Din självutvärdering
-stus#:#stus_action_delete#:#Delete###29 10 2025 new variable
-stus#:#stus_action_edit#:#Edit###29 10 2025 new variable
-stus#:#stus_action_toggle#:#Activate/Deactivate###29 10 2025 new variable
-stus#:#stus_active#:#Active###29 10 2025 new variable
-stus#:#stus_alias#:#Shortlink###29 10 2025 new variable
-stus#:#stus_alias_already_exists#:#The shortlink is already taken. Please choose another one.###29 10 2025 new variable
-stus#:#stus_alias_invalid#:#The shortlink contains invalid characters. Permitted characters: A-Z, a-z, 0-9, - and _###29 10 2025 new variable
-stus#:#stus_confirm_delete#:#Delete entries###29 10 2025 new variable
-stus#:#stus_create_shortlink#:#Create shortlink###29 10 2025 new variable
-stus#:#stus_delete#:#Delete###29 10 2025 new variable
-stus#:#stus_delete_shortlink#:#Delete###29 10 2025 new variable
-stus#:#stus_delete_shortlink_msg#:#Shortlink deleted###29 10 2025 new variable
-stus#:#stus_index#:#Manage###29 10 2025 new variable
-stus#:#stus_info#:#Information###29 10 2025 new variable
-stus#:#stus_info_active#:#Inactive shortlinks are not redirected when called up.###29 10 2025 new variable
-stus#:#stus_info_alias#:#May only contain the following characters: A-Z, a-z, 0-9, - und _###29 10 2025 new variable
-stus#:#stus_info_target_ref_id#:#Target object###29 10 2025 new variable
-stus#:#stus_order_saved#:#Order saved###29 10 2025 new variable
-stus#:#stus_prefix#:#Prefix###29 10 2025 new variable
-stus#:#stus_rbac_permissions#:#Permissions###29 10 2025 new variable
-stus#:#stus_shortlink#:#Shortlink###29 10 2025 new variable
-stus#:#stus_shortlinks#:#Shortlinks###29 10 2025 new variable
-stus#:#stus_shortlinks_deleted#:#Shortlinks have been deleted###29 10 2025 new variable
-stus#:#stus_shortlinks_toggled#:#Shortlinks have been deactivated/activated###29 10 2025 new variable
-stus#:#stus_stus_stored_sucessfully#:#Shortlink successfully saved###29 10 2025 new variable
-stus#:#stus_stus_toggle#:#Deactivate/Activate###29 10 2025 new variable
-stus#:#stus_target_link#:#Target object###29 10 2025 new variable
-stus#:#stus_target_ref_id#:#Target object###29 10 2025 new variable
-stus#:#stus_target_ref_id_required#:#Select a target object.###29 10 2025 new variable
-stus#:#stus_toggle#:#Deactivate/Activate###29 10 2025 new variable
-stus#:#stus_toggle_shortlink#:#Change status###29 10 2025 new variable
-stus#:#stus_toggle_shortlink_msg#:#Would you like to change the active status of the following entries?###29 10 2025 new variable
 style#:#Style#:#Stil
 style#:#adapt_icon#:#Anpassning av ikonerna
 style#:#adapt_icon_description#:#Justera ikonens färg eller ikon.
@@ -16788,151 +15087,6 @@ survey#:#values#:#Värderingar
 survey#:#vertical#:#vertikal
 survey#:#warning_question_not_complete#:#Frågan är ofullständig!
 survey#:#workingtime#:#Bearbetningstid
-svy#:#survey_360_appraisees_remind_info#:#Om självutvärdering är aktiverat kommer feedbackmottagare som ännu inte har slutfört undersökningen att få ett påminnelsemeddelande.
-svy#:#survey_360_raters_remind_info#:#Feedback-donatorer som ännu inte har slutfört undersökningen kommer att få ett påminnelsemeddelande.
-svy#:#svy_0_open_appraisees#:#You cannot perform the survey for any appraisee anymore.###28 10 2024 new variable
-svy#:#svy_all_pages#:#Alla sidor
-svy#:#svy_all_participants#:#Alla deltagare
-svy#:#svy_all_questions#:#Alla frågor
-svy#:#svy_code#:#Access Code###28 10 2024 new variable
-svy#:#svy_codes#:#Nyckel för åtkomst
-svy#:#svy_current_page#:#Aktuell sida
-svy#:#svy_finish_survey#:#Redigera undersökning "%1
-svy#:#svy_finished_x_appraisees#:#You have finished the survey for %s appraisee(s).###28 10 2024 new variable
-svy#:#svy_info_participants#:#Lägg till användare som deltagare i den här enkäten med ett av följande sökalternativ. Enkäten läggs till för dessa användare som en uppgift på deras instrumentpanel.
-svy#:#svy_information#:#Information###28 10 2024 new variable
-svy#:#svy_invite_participants#:#Bjud in deltagare
-svy#:#svy_link_to_svy#:#Länk till undersökningen
-svy#:#svy_part_overview#:#Översikt
-svy#:#svy_placeholders_label#:#Available Placeholders###26 08 2024 new variable
-svy#:#svy_print_selection#:#Selektion utskriftsvy
-svy#:#svy_remove_all_participants#:#Radera alla deltagardata
-svy#:#svy_remove_participants#:#Ta bort deltagare
-svy#:#svy_selected_participants#:#Utvalda deltagare
-svy#:#svy_selected_questions#:#Utvalda frågor
-svy#:#svy_selection#:#Urval
-svy#:#svy_status#:#Status
-svy#:#svy_status_finished#:#Färdig
-svy#:#svy_status_in_progress#:#Pågår
-svy#:#svy_status_invited#:#Inbjuden
-svy#:#svy_user_added_appraisee#:#Förfrågan '%1
-svy#:#svy_user_added_appraisee_close_mail#:#Undersökningen har avslutats för dina feedbackgivare.
-svy#:#svy_user_added_appraisee_mail#:#Du har lagts till i undersökningen som en feedbackmottagare.
-svy#:#svy_user_added_rater#:#Förfrågan '%1
-svy#:#svy_user_added_rater_mail#:#Du har lagts till som en feedbackgivare.
-svy#:#svy_user_added_rater_reminder_mail#:#Bedöm fortfarande följande feedbackmottagare
-svy#:#svy_user_not_found#:#Ingen motsvarande användare hittades.
-svy#:#svy_users_invited#:#Användarna har bjudits in.
-svy#:#svy_x_appraisees_closed_for_raters#:#%s appraisee(s) has/have closed the survey for raters.###28 10 2024 new variable
-svy#:#svy_x_open_appraisees#:#%s appraisee(s) are open for you to rate.###28 10 2024 new variable
-svy#:#svy_your_appraisees#:#Your Appraisees###28 10 2024 new variable
-svy#:#svy_your_raters#:#Your Raters###28 10 2024 new variable
-svy#:#svy_your_raters_finished#:#%s of your raters have finished the survey.###28 10 2024 new variable
-sysc#:#sysc_action_list_tree#:#Skapa en dump av trädstrukturen
-sysc#:#sysc_action_repair#:#Repair
-sysc#:#sysc_action_show_tree#:#Visa trädstruktur
-sysc#:#sysc_action_validate#:#Granskning
-sysc#:#sysc_administrate_deleted#:#Hantera raderade objekt
-sysc#:#sysc_btn_tree_missing#:#Starta återhämtning
-sysc#:#sysc_btn_tree_structure#:#Regenerera trädstruktur
-sysc#:#sysc_completed_num#:#Avslutade uppgifter
-sysc#:#sysc_cron_empty_trash#:#Ta bort papperskorgen
-sysc#:#sysc_cron_empty_trash_desc#:#Om aktiverat tas objekt i papperskorgen automatiskt bort från systemet baserat på vissa kriterier (ålder, objekttyp, antal).
-sysc#:#sysc_failed_num#:#Ouppfyllda uppgifter
-sysc#:#sysc_groups#:#Grupper för systemkontroll
-sysc#:#sysc_grp_tree#:#Magasin träd
-sysc#:#sysc_grp_tree_desc#:#Analyserar och reparerar dataintegriteten i tidskriftens träd
-sysc#:#sysc_message_success#:#Inga fel upptäcktes.
-sysc#:#sysc_message_tree_missing_confirm#:#Vill du återställa de saknade posterna i trädstrukturen?
-sysc#:#sysc_message_tree_structure_confirm#:#Var säker på att du vill reparera trädstrukturen. Vi rekommenderar starkt att du skapar en säkerhetskopia av ILIAS-databasen innan du reparerar den.
-sysc#:#sysc_overview#:#Översikt
-sysc#:#sysc_status_completed#:#Uppfyllt
-sysc#:#sysc_status_failed#:#Missad
-sysc#:#sysc_status_na#:#Ännu ej utförd
-sysc#:#sysc_status_running#:#Vill bli utförd
-sysc#:#sysc_tab_trash#:#Borttagna objekt
-sysc#:#sysc_task_overview#:#Arbetsuppgifter
-sysc#:#sysc_task_structure#:#Trädstruktur
-sysc#:#sysc_task_structure_desc#:#Analyserar och korrigerar strukturen i tidningsträdet
-sysc#:#sysc_task_tree_dump#:#Lista träd
-sysc#:#sysc_task_tree_dump_desc#:#Analyserar trädstrukturen och listar alla trädnoder tillsammans med analysdata.
-sysc#:#sysc_task_tree_duplicates#:#Dubbla poster i trädstrukturen
-sysc#:#sysc_task_tree_duplicates_desc#:#Söker i systemet efter dubbla poster i tidskriftsträdet.
-sysc#:#sysc_task_tree_missing#:#Saknade poster i trädstrukturen
-sysc#:#sysc_task_tree_missing_desc#:#Söker i systemet efter saknade poster i trädstrukturen
-sysc#:#sysc_task_tree_missing_reference#:#Saknade referenser
-sysc#:#sysc_task_tree_missing_reference_desc#:#Finnar och reparerar saknade objektreferenser för poster i tidningsträdet.
-sysc#:#sysc_task_tree_missing_tree#:#Saknade poster i tidskriftsträdet
-sysc#:#sysc_task_tree_missing_tree_desc#:#Söker och reparerar saknade poster för refererade objekt i tidningsträdet.
-sysc#:#sysc_trash_action#:#Åtgärder
-sysc#:#sysc_trash_limit_age#:#Åldersgräns
-sysc#:#sysc_trash_limit_num#:#Nummer gräns
-sysc#:#sysc_trash_limit_type#:#Typ av gränsvärde
-sysc#:#sysc_trash_remove#:#Ta bort raderade objekt
-sysc#:#sysc_trash_remove_info#:#Ta bort objekt i papperskorgen från systemet
-sysc#:#sysc_trash_restore#:#Återställ raderade objekt
-sysc#:#sysc_trash_restore_info#:#Återställ alla objekt i papperskorgen och flytta dem till räddningsmappen.
-sysc#:#sysc_tree_duplicate_failures#:#Duplicerade poster hittades i trädstrukturen. Antal dubbletter av poster
-sysc#:#sysc_tree_list_failures#:#En dump av magasinträdet skapades. Antal fel som hittades
-sysc#:#sysc_tree_missing_failures#:#Det saknas poster i trädstrukturen. Antal saknade poster
-sysc#:#sysc_tree_structure_failures#:#Antal fel i trädstrukturen (föräldrarelation)
-tagging#:#no_tag_text_1#:#Du har för närvarande inte använt några taggar. För att göra detta måste du vidta två åtgärder
-tagging#:#no_tag_text_2#:#Klicka på "%s" och välj ett lärandeobjekt från det tillgängliga utbudet, t.ex. en lärmodul eller ett forum.
-tagging#:#no_tag_text_3#:#Öppna sedan objektets <i>åtgärdsmeny</i> och välj<i>"Ange taggar</i>".
-tagging#:#tag_remove_tags_of_obj_without_access#:#Ta bort tagg
-tagging#:#tag_some_obj_tagged_without_access#:#Du har inte längre tillgång till några av de taggade objekten. Bör taggen för dessa objekt tas bort?
-tagging#:#tag_tags_deleted#:#Tag togs bort för objekt utan åtkomst.
-tagging#:#tagging_all_users#:#Alla användare
-tagging#:#tagging_edit_settings#:#Inställningar
-tagging#:#tagging_enable_all_users#:#Visa taggar för alla användare
-tagging#:#tagging_enable_all_users_info#:# Lägger till ett "Alla användare"-område på infosidan som visar taggarna för alla besökare till en resurs.
-tagging#:#tagging_enable_tagging#:#Aktivera taggning
-tagging#:#tagging_forbidden_tags#:#Förbjudna taggar
-tagging#:#tagging_no_obj_for_tag#:#Det finns inget innehåll taggat med '%s'.
-tagging#:#tagging_no_perm_write#:#You have no permission to change this data.###28 10 2024 new variable
-tagging#:#tagging_other_users#:#Tags från andra användare
-tagging#:#tagging_resources_for_tag#:#Innehåll taggat med %s
-tagging#:#tagging_search_users#:#Sök användare
-tagging#:#tagging_set_tag#:#Ange taggar
-tagging#:#tagging_settings#:#Inställningar
-tagging#:#tagging_tag#:#Tag
-tagging#:#tagging_tag_info#:#För att tagga innehåll, öppna objektets informationssida och ange taggarna där.
-tagging#:#tagging_tags#:#Etiketter
-tagging#:#tagging_users_using_tag#:#Användare som använder taggar
-task#:#task_deadline#:#Slut
-task#:#task_derived_tasks#:#Att göra
-task#:#task_details#:#Detaljer
-task#:#task_no_task_items#:#Det finns inget att göra för dig.
-task#:#task_no_tasks#:#Du har för närvarande inga öppna att göra-uppgifter.
-task#:#task_start#:#Begin
-task#:#task_task#:#Uppgift
-task#:#task_tasks_with_deadline#:#Med slutdatum
-task#:#task_tasks_without_deadline#:#Utan slutdatum
-tax#:#obj_taxn#:#Nod
-tax#:#tax_add_taxonomy#:#Lägg till taxonomi
-tax#:#tax_added#:#Taxonomin har skapats.
-tax#:#tax_admin_settings_repository#:# Taxonomier för tidskrifter
-tax#:#tax_alphabetical#:#Alfabetisk
-tax#:#tax_assigned_items#:# Tilldelade poster
-tax#:#tax_confirm_deletion#:#Vill du verkligen radera hela taxonomin med alla relationer?
-tax#:#tax_create_node#:#Skapa nod
-tax#:#tax_item_sorting#:#Support sortering av de tilldelade posterna
-tax#:#tax_manual#:#Handbok
-tax#:#tax_max_one_tax#:#Du kan bara använda en taxonomi här.
-tax#:#tax_new_tax_node#:#Ny nod
-tax#:#tax_node#:#Nod
-tax#:#tax_node_sorting#:#Sortering av noderna
-tax#:#tax_nodes#:#Nod
-tax#:#tax_order#:#Beställ
-tax#:#tax_order_nr#:# Beställningsnummer
-tax#:#tax_please_select_target#:#Vänligen välj en destination!
-tax#:#tax_target_within_nodes#:#Målet får inte vara en undernod till det valda elementet.
-tax#:#tax_tax_assignment#:#Taxonomiuppdrag
-tax#:#tax_tax_deleted#:#Taxonomin har tagits bort.
-tax#:#tax_tax_settings#:#Taxonomiska inställningar
-tax#:#tax_taxonomy#:#Taxonomi
-tbl#:#tbl_export_csv#:#.CSV-export
-tbl#:#tbl_export_excel#:#Excel export
 trac#:#cmix_lp_mode_deactivated#:#Learning progress är avaktiverad
 trac#:#cmix_lp_mode_deactivated_info#:#Inlärningsstatus visas inte och har inget inflytande på objekt på högre nivå.
 trac#:#cmix_lp_mode_when_completed#:#Completed när "completed".
@@ -17194,90 +15348,6 @@ trac#:#view_mode_all#:#All###29 10 2025 new variable
 trac#:#view_mode_current#:#Current###29 10 2025 new variable
 trac#:#view_mode_future#:#Future###29 10 2025 new variable
 trac#:#view_mode_past#:#Past###29 10 2025 new variable
-tstv#:#tstv_create#:#Skapa testcertifikat
-tstv#:#tstv_create_info#:#Välj ett test för vilket du behöver ett intyg.
-ui#:#1stars#:#one of five stars###26 08 2024 new variable
-ui#:#2stars#:#two of five stars###26 08 2024 new variable
-ui#:#3stars#:#three of five stars###26 08 2024 new variable
-ui#:#4stars#:#four of five stars###26 08 2024 new variable
-ui#:#5stars#:#five of five stars###26 08 2024 new variable
-ui#:#datatable_close_warning#:#OK###29 10 2025 new variable
-ui#:#datatable_multiaction_label#:#Bulk Actions###26 08 2024 new variable
-ui#:#datatable_multiactionmodal_actionlabel#:#operation###21 11 2023 new variable
-ui#:#datatable_multiactionmodal_apply#:#Apply###26 08 2024 new variable
-ui#:#datatable_multiactionmodal_listentry#:#apply to all objects###21 11 2023 new variable
-ui#:#datatable_multiactionmodal_msg#:#<b>Caution!</b> multiple objects affected.###21 11 2023 new variable
-ui#:#datatable_multiactionmodal_title#:#Operation on multiple objects###21 11 2023 new variable
-ui#:#drilldown_no_items#:#No Matching Elements###26 08 2024 new variable
-ui#:#duration_default_label_end#:#Slut
-ui#:#duration_default_label_start#:#Begin
-ui#:#duration_end_must_not_be_earlier_than_start#:#Starten måste vara före slutet.
-ui#:#filter_nodes_in#:#Filter Nodes in %s###26 08 2024 new variable
-ui#:#footer_icons#:#Footer Icons###28 10 2024 new variable
-ui#:#footer_link_groups#:#Footer Link-Groups###28 10 2024 new variable
-ui#:#footer_links#:#Footer Links###28 10 2024 new variable
-ui#:#footer_permanent_link#:#Footer Permanent Link###28 10 2024 new variable
-ui#:#footer_texts#:#Footer Texts###28 10 2024 new variable
-ui#:#image_alt_text#:#Alternate Text###29 10 2025 new variable
-ui#:#image_purpose_decorative#:#Decorative Image###29 10 2025 new variable
-ui#:#image_purpose_informative#:#Informative Image###29 10 2025 new variable
-ui#:#image_purpose_user_defined#:#Image Purpose###29 10 2025 new variable
-ui#:#label_fieldselection#:#Field Selection###21 11 2023 new variable
-ui#:#label_fieldselection_refresh#:#Apply###21 11 2023 new variable
-ui#:#label_modeviewcontrol#:#view mode###29 10 2025 new variable
-ui#:#label_pagination_limit#:#Pagination Number of Rows###21 11 2023 new variable
-ui#:#label_pagination_offset#:#Pagination Offset###21 11 2023 new variable
-ui#:#label_sortation#:#Sortation###21 11 2023 new variable
-ui#:#order_option_alphabetical_ascending#:#A to Z###26 08 2024 new variable
-ui#:#order_option_alphabetical_descending#:#Z to A###26 08 2024 new variable
-ui#:#order_option_chronological_ascending#:#Earliest first###26 08 2024 new variable
-ui#:#order_option_chronological_descending#:#Most Recent first###26 08 2024 new variable
-ui#:#order_option_first#:#first###26 08 2024 new variable
-ui#:#order_option_generic_ascending#:#ascending###26 08 2024 new variable
-ui#:#order_option_generic_descending#:#descending###26 08 2024 new variable
-ui#:#order_option_numerical_ascending#:#0 to 9###26 08 2024 new variable
-ui#:#order_option_numerical_descending#:#9 to 0###26 08 2024 new variable
-ui#:#presentation_table_collapse#:#collapse all###21 11 2023 new variable
-ui#:#presentation_table_expand#:#expand all###21 11 2023 new variable
-ui#:#rating_average#:#others rated %s of 5###26 08 2024 new variable
-ui#:#reset_stars#:#neutral###26 08 2024 new variable
-ui#:#select_node#:#Add node %s to selection###29 10 2025 new variable
-ui#:#table_posinput_col_title#:#Position###26 08 2024 new variable
-ui#:#ui_chars_max#:#Maximum
-ui#:#ui_chars_min#:#Minimum
-ui#:#ui_chars_remaining#:#Resterande bokstäver
-ui#:#ui_error#:#Error###28 10 2024 new variable
-ui#:#ui_error_in_group#:#Det har uppstått ett fel i det här området.
-ui#:#ui_error_switchable_group_required#:#Vänligen gör ett urval.
-ui#:#ui_field_option_filter_clear_search#:#Clear search###29 10 2025 new variable
-ui#:#ui_field_option_filter_filtered_results_aria_label#:#List of options - collapsible and filterable###29 10 2025 new variable
-ui#:#ui_field_option_filter_no_match#:#There was no match for the search term you entered.###29 10 2025 new variable
-ui#:#ui_field_option_filter_no_selection#:#Nothing selected.###29 10 2025 new variable
-ui#:#ui_field_option_filter_options_shown#:#Currently showing %s options.###29 10 2025 new variable
-ui#:#ui_field_option_filter_screen_reader_hint#:#Start typing and the field options below will be filtered accordingly.###29 10 2025 new variable
-ui#:#ui_field_option_filter_search_in#:#Find###29 10 2025 new variable
-ui#:#ui_field_option_filter_show_all_options#:#Show all options###29 10 2025 new variable
-ui#:#ui_field_option_filter_show_less#:#Show less###29 10 2025 new variable
-ui#:#ui_file_input_general_error#:#Ett fel har uppstått. Du kan kontrollera JavaScript-konsolen i din webbläsare för att se om det finns mer information om detta fel och/eller informera administrationen av din ILIAS-installation om händelsen.
-ui#:#ui_file_input_invalid_amount#:#Du får inte ladda upp så många filer på en gång! Ta bort några filer för att fortsätta.
-ui#:#ui_file_input_invalid_mime#:#Filer av typen '%s' är inte tillåtna.
-ui#:#ui_file_input_invalid_size#:#Filen överskrider den maximala filstorleken på %s.
-ui#:#ui_file_upload_max_nr#:#Max Number of Files:###26 08 2024 new variable
-ui#:#ui_invalid_url#:#Formatet på URL:en är inte korrekt.
-ui#:#ui_link_label#:#Label
-ui#:#ui_link_url#:#URL
-ui#:#ui_md_input_edit#:#Edit###21 11 2023 new variable
-ui#:#ui_md_input_view#:#View###21 11 2023 new variable
-ui#:#ui_nav_sequence_control_label#:#Sequence control for contents below###29 10 2025 new variable
-ui#:#ui_nav_sequence_description#:#Used to navigate through this content or trigger actions and filters on the entire sequence.###29 10 2025 new variable
-ui#:#ui_pagination_unlimited#:#Unlimited###26 08 2024 new variable
-ui#:#ui_select_dropdown_label#:#Please select###26 08 2024 new variable
-ui#:#ui_table_no_records#:#No records###21 11 2023 new variable
-ui#:#ui_table_order#:#Order###29 10 2025 new variable
-ui#:#ui_transcription#:#Transkript
-ui#:#unselect_node#:#Remove node %s from selection###29 10 2025 new variable
-ui#:#vc_sort#:#Sort by:###29 10 2025 new variable
-ui#:#warning_url_too_long_msg#:#The amount of selected rows will result in a very large URL; the Server will probably block this request.<br>Please select less rows or perform the action on all entries.###29 10 2025 new variable
 user#:#activate_in_profile_fields#:#To change this setting, the user must first be allowed to change their login name under Profile > Profile Fields###29 10 2025 new variable
 user#:#administrative_settings#:#Administrative Settings###29 10 2025 new variable
 user#:#all_roles_has_starting_point#:#Alla roller med definierad startsida
@@ -17438,9 +15508,6 @@ user#:#usr_public_profile_disabled#:#Profil avaktiverad
 user#:#usr_public_profile_disabled_info#:#Dina uppgifter är endast synliga för systemadministratörer.
 user#:#usr_public_profile_global#:#WWW / Synlig för alla användare av internet
 user#:#usr_public_profile_logged_in#:#Synlig för inloggade användare
-usr#:#user_action#:#Användaråtgärd
-usr#:#user_actions#:#Användaråtgärder
-usr#:#user_actions_activation_info#:#Åtgärderna erbjuds endast om motsvarande tjänster är aktiverade och de nödvändiga förutsättningarna (t.ex. tillstånd) är givna för användarna.
 validation#:#datetime_required#:#Time/Date required###21 11 2023 new variable
 validation#:#no_array#:#Value är inte ett fält
 validation#:#not_a_null#:#Värde av typen '%s' är inte en nolla.
@@ -17488,15 +15555,6 @@ webr#:#webr_set_to_list#:#Konvertera till insamling av webblänkar
 webr#:#webr_sort_manual#:#Manuell sortering
 webr#:#webr_sort_title#:#Alfabetiskt efter titel
 webr#:#webr_sorting#:#Sortering av webblänkar
-wfld#:#wfld_add#:# Skapa mapp
-wfld#:#wfld_alphabetically_asc#:#Alfabetisk, asc.
-wfld#:#wfld_alphabetically_desc#:#Alfabetisk, abst.
-wfld#:#wfld_creation_asc#:#Creation datum, asst.
-wfld#:#wfld_creation_desc#:#Datum för skapande, abst.
-wfld#:#wfld_derive#:#Som överordnad mapp
-wfld#:#wfld_edit#:#Redigera mapp
-wfld#:#wfld_new#:# Skapa ny mapp
-wfld#:#wfld_sortation#:#Sortering
 wiki#:#wiki_activate_extended_rating#:# Aktivera betygskategorier
 wiki#:#wiki_activate_new_page_rating#:#Aktivera betyg för nya sidor
 wiki#:#wiki_activate_page_rating#:#Tillåt betyg
@@ -17688,27 +15746,6 @@ wiki#:#wiki_whole_wiki#:#Övergripande Wiki
 wiki#:#wiki_wiki_page#:#Wiki-sida
 wiki#:#wiki_wiki_search#:#Sök i wikin
 wiki#:#wiki_wpg#:#Wiki-sida
-wopi#:#action_edit#:#Edit###28 10 2024 new variable
-wopi#:#action_view#:#View###28 10 2024 new variable
-wopi#:#activate_saving_interval#:#Activate Saving Interval###28 10 2024 new variable
-wopi#:#activate_wopi#:#Activate WOPI###21 11 2023 new variable
-wopi#:#close_wopi_editor#:#Close Editor###26 08 2024 new variable
-wopi#:#close_wopi_editor_info#:#It can take up to several minutes for the external editor to transfer the changes to ILIAS. Visit this page again at a later time if the changes you have made are not yet visible.###26 08 2024 new variable
-wopi#:#currently_supported#:#Currently supported Suffixes: %s###26 08 2024 new variable
-wopi#:#msg_error_wopi_invalid_discorvery_url#:#The Discovery URL entered is invalid or cannot be accessed.###21 11 2023 new variable
-wopi#:#msg_wopi_settings_modified#:#Settings stored###21 11 2023 new variable
-wopi#:#open_external_editor#:#Open in external Editor###21 11 2023 new variable
-wopi#:#open_external_viewer#:#Show Content###28 10 2024 new variable
-wopi#:#saving_interval#:#Interval###28 10 2024 new variable
-wopi#:#saving_interval_byline#:#By default, ILIAS adds all changes made by an external editor to a draft version until this version is published manually. Activating the save interval causes a new version to be published after the specified number of seconds, if possible. Please note that a low value can lead to a large number of file versions, which in turn takes up a multiple of the hard disk space.###28 10 2024 new variable
-wopi#:#wopi_crawler_cronjob_description#:#Updates the information of the connected WOPI service.###21 11 2023 new variable
-wopi#:#wopi_crawler_cronjob_no_apps#:#No WOPI apps were found in the discovery.###21 11 2023 new variable
-wopi#:#wopi_crawler_cronjob_not_activated#:#WOPI is not activated.###21 11 2023 new variable
-wopi#:#wopi_crawler_cronjob_success#:#WOPI information updated successfully.###21 11 2023 new variable
-wopi#:#wopi_crawler_cronjob_title#:#Update WOPI Discovery###21 11 2023 new variable
-wopi#:#wopi_settings#:#WOPI###21 11 2023 new variable
-wopi#:#wopi_url#:#WOPI Discovery URL###21 11 2023 new variable
-wopi#:#wopi_url_byline#:#Complete URL of the WOPI-Discovery, this must be accessible through the ILIAS server. The XML data of the Discover is read in and stored by ILIAS, the information is regularly updated by the cronjob "Update WOPI Discovery".###21 11 2023 new variable
 wsp#:#element_already_shared#:#Resursen har redan släppts för denna person.###Modifierad som en del av jämställdhetsintegreringsaktiviteter för ILIAS 8
 wsp#:#element_shared#:#Resursen har frigjorts.
 wsp#:#error_creating_certificate_pdf#:#Certifikatet kunde inte skapas. Låt en administratör kontrollera certifikatservern.

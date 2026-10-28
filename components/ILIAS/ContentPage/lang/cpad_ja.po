@@ -1,0 +1,15 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: cpad\n"
+
+msgid "cpad_reading_time_status"
+msgstr "読込み時間"
+
+msgid "cpad_reading_time_status_desc"
+msgstr "有効にすると、コンテンツページオブジェクトの読込み予測時間が確定して表示されます。"

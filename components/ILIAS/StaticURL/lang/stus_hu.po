@@ -1,0 +1,105 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: stus\n"
+
+msgid "stus_action_delete"
+msgstr "Törlés"
+
+msgid "stus_action_edit"
+msgstr "Módosítás"
+
+msgid "stus_action_toggle"
+msgstr "Ki-/Bekapcsolás"
+
+msgid "stus_active"
+msgstr "Aktív"
+
+msgid "stus_alias"
+msgstr "Gyorslink"
+
+msgid "stus_alias_already_exists"
+msgstr "Ez a gyorslink már foglalt, válasszon másikat."
+
+msgid "stus_alias_invalid"
+msgstr "A gyorslink érvénytelen karaktereket tartalmaz. Engedélyezett karakterek: A-Z, a-z, 0-9, - és _"
+
+msgid "stus_confirm_delete"
+msgstr "Bejegyzések törlése"
+
+msgid "stus_create_shortlink"
+msgstr "Gyorslink létrehozása"
+
+msgid "stus_delete"
+msgstr "Törlés"
+
+msgid "stus_delete_shortlink"
+msgstr "Törlés"
+
+msgid "stus_delete_shortlink_msg"
+msgstr "A gyorslinkeket sikeresen törölte."
+
+msgid "stus_index"
+msgstr "Kezelés"
+
+msgid "stus_info"
+msgstr "Információ"
+
+msgid "stus_info_active"
+msgstr "Az inaktív gyorslinkeket nem irányítjuk át meghíváskor"
+
+msgid "stus_info_alias"
+msgstr "Engedélyezett karakterek: A-Z, a-z, 0-9, - és _"
+
+msgid "stus_info_target_ref_id"
+msgstr "Célobjektum"
+
+msgid "stus_order_saved"
+msgstr "A sorrendet sikeresen mentette."
+
+msgid "stus_prefix"
+msgstr "Előtag"
+
+msgid "stus_rbac_permissions"
+msgstr "Jogosultságok"
+
+msgid "stus_shortlink"
+msgstr "Gyorslink"
+
+msgid "stus_shortlinks"
+msgstr "Gyorslinkek"
+
+msgid "stus_shortlinks_deleted"
+msgstr "A gyorslinkeket sikeresen törölte."
+
+msgid "stus_shortlinks_toggled"
+msgstr "A gyorslinkeket sikeresen be-/kikapcsolta."
+
+msgid "stus_stus_stored_sucessfully"
+msgstr "A gyorslinkeket sikeresen mentette."
+
+msgid "stus_stus_toggle"
+msgstr "Ki-/Bekapcsolás"
+
+msgid "stus_target_link"
+msgstr "Célobjektum"
+
+msgid "stus_target_ref_id"
+msgstr "Célobjektum"
+
+msgid "stus_target_ref_id_required"
+msgstr "Válasszon egy célobjektumot."
+
+msgid "stus_toggle"
+msgstr "Ki-/Bekapcsolás"
+
+msgid "stus_toggle_shortlink"
+msgstr "Állapot módosítása"
+
+msgid "stus_toggle_shortlink_msg"
+msgstr "Biztos, hogy módosítja a következő bejegyzések állapotát?"

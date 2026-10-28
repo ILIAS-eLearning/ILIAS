@@ -1,0 +1,94 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: exp\n"
+
+msgid "exp_create_file"
+msgstr "Skapa exportfil"
+
+msgid "exp_error_disabled"
+msgstr "Exporten av containerobjekt är avaktiverad. Om du har några frågor, vänligen kontakta den tekniska supporten."
+
+msgid "exp_error_too_many_objects"
+msgstr "Exporten överskrider det maximalt tillåtna antalet objekt (%1). Välj ett mindre antal objekt."
+
+#, fuzzy
+msgid "exp_export_dropdown"
+msgstr "Export"
+
+msgid "exp_export_files"
+msgstr "Exportera filer"
+
+#, fuzzy
+msgid "exp_export_single_option"
+msgstr "Export %s"
+
+msgid "exp_file_created"
+msgstr "En exportfil har skapats."
+
+#, fuzzy
+msgid "exp_format_dropdown-csv"
+msgstr "as CSV"
+
+#, fuzzy
+msgid "exp_format_dropdown-html"
+msgstr "as HTML"
+
+#, fuzzy
+msgid "exp_format_dropdown-xls"
+msgstr "as XLS"
+
+#, fuzzy
+msgid "exp_format_dropdown-xml"
+msgstr "as XML"
+
+#, fuzzy
+msgid "exp_html"
+msgstr "HTML"
+
+#, fuzzy
+msgid "exp_import_validation_err_no_matching_xsd"
+msgstr "No valid schema file for version %s exists."
+
+#, fuzzy
+msgid "exp_not_public_access_status"
+msgstr "Not published"
+
+msgid "exp_print_pdf"
+msgstr "Print/PDF"
+
+msgid "exp_print_pdf_info"
+msgstr "För att skapa en PDF, välj \"Spara som PDF\" som destination i utskriftsvyn."
+
+#, fuzzy
+msgid "exp_public_access_status"
+msgstr "Available in ‘Info’-tab"
+
+msgid "exp_really_delete"
+msgstr "Vill du verkligen ta bort dessa exportfiler?"
+
+msgid "exp_show_print_view"
+msgstr "Visa utskriftsvy"
+
+msgid "exp_xml"
+msgstr "XML"
+
+msgid "export_created"
+msgstr "En ny exportfil har skapats."
+
+#, fuzzy
+msgid "export_files_deleted"
+msgstr "The selected export files have been deleted."
+
+#, fuzzy
+msgid "export_options"
+msgstr "Export Options"
+
+#, fuzzy
+msgid "export_type"
+msgstr "Export Type"

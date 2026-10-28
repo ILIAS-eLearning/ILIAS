@@ -1,0 +1,27 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: objref\n"
+
+msgid "objref_custom_title"
+msgstr "カスタムタイトルを使用"
+
+msgid "objref_edit_ref"
+msgstr "ターゲット設定"
+
+msgid "objref_edit_title"
+msgstr "タイトル設定"
+
+msgid "objref_failure_target_type"
+msgstr "リンクのターゲットは次のタイプである必要があります:"
+
+msgid "objref_reuse_title"
+msgstr "参照のタイトルを再利用"
+
+msgid "objref_title_settings"
+msgstr "リンクされたオブジェクトのタイトル"

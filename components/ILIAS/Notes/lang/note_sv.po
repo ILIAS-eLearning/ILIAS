@@ -1,0 +1,59 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: note\n"
+
+msgid "note_comment_notification_link"
+msgstr "Länk"
+
+msgid "note_comment_notification_reason"
+msgstr "Du får detta meddelande eftersom ILIAS administration är inställd på att meddela dig om alla kommentarer."
+
+msgid "note_comment_notification_salutation"
+msgstr "Hej %s,"
+
+msgid "note_comment_notification_subject"
+msgstr "Ny kommentar i \"%s\"."
+
+msgid "note_comment_notification_subjectc"
+msgstr "Ändrad kommentar i \"%s\"."
+
+msgid "note_comment_notification_user_has_written"
+msgstr "%s har skrivit"
+
+msgid "note_comments_notification"
+msgstr "Generellt meddelande om alla kommentarer"
+
+msgid "note_comments_notification_info"
+msgstr "Kommaseparerad lista över ILIAS-konton som får varje kommentar som ett e-postmeddelande."
+
+msgid "note_enable_comments"
+msgstr " Aktivera kommentarer"
+
+msgid "note_enable_comments_del_tutor"
+msgstr "Alla kommentarer kan raderas av handledare"
+
+msgid "note_enable_comments_del_tutor_info"
+msgstr "Användare med rätt \"Redigera inställningar\" på ett objekt kan radera alla kommentarer som gjorts i det."
+
+# Modifierad som en del av jämställdhetsintegreringen för ILIAS 8
+msgid "note_enable_comments_del_user"
+msgstr "Kommentarer kan raderas av den person som skapade dem "
+
+#, fuzzy
+msgid "note_enable_comments_del_user_info"
+msgstr "Comments can be deleted by the person who created them."
+
+msgid "note_enable_comments_export_info"
+msgstr "Gör det möjligt att exportera kommentarer i objekt som portföljer, bloggar eller wikis."
+
+msgid "note_enable_notes"
+msgstr "Aktivera Noter"
+
+msgid "note_html_export_include_comments"
+msgstr "Bör även kommentarerna exporteras?"

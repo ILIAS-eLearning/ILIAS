@@ -1,0 +1,421 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sq\n"
+"Language-Team: Albanian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: registration\n"
+
+#, fuzzy
+msgid "reg_access_limitation_limited_time"
+msgstr "After registration access for"
+
+#, fuzzy
+msgid "reg_access_limitation_limited_until"
+msgstr "Access is limited until"
+
+#, fuzzy
+msgid "reg_access_limitation_missing_mode"
+msgstr "Please choose for all roles an Access Limitation Mode"
+
+#, fuzzy
+msgid "reg_access_limitation_mode"
+msgstr "Access Limitation Mode"
+
+#, fuzzy
+msgid "reg_access_limitation_mode_absolute"
+msgstr "Access is limited by a fixed date"
+
+#, fuzzy
+msgid "reg_access_limitation_mode_absolute_target"
+msgstr "Valid until"
+
+#, fuzzy
+msgid "reg_access_limitation_mode_relative"
+msgstr "Limited access for a fixed time period after registration"
+
+#, fuzzy
+msgid "reg_access_limitation_mode_relative_target"
+msgstr "Valid for"
+
+#, fuzzy
+msgid "reg_access_limitation_mode_unlimited"
+msgstr "No access limitation"
+
+#, fuzzy
+msgid "reg_access_limitation_none"
+msgstr "Unlimited access"
+
+#, fuzzy
+msgid "reg_access_limitation_out_of_date"
+msgstr "One or more Roles have an outdated access limitation!"
+
+#, fuzzy
+msgid "reg_access_limitations"
+msgstr "Access Limitation"
+
+#, fuzzy
+msgid "reg_add_assignment"
+msgstr "New Assignment"
+
+#, fuzzy
+msgid "reg_added_assignment"
+msgstr "Added new assignment."
+
+#, fuzzy
+msgid "reg_allow_codes"
+msgstr "Allow Codes"
+
+#, fuzzy
+msgid "reg_allow_codes_info"
+msgstr "Users are also allowed to register via codes."
+
+#, fuzzy
+msgid "reg_allowed_domains"
+msgstr "Allowed Email Address Domains"
+
+#, fuzzy
+msgid "reg_allowed_domains_info"
+msgstr "Use * as wildcard and ; as separator."
+
+#, fuzzy
+msgid "reg_approve"
+msgstr "Registration with Approvement"
+
+#, fuzzy
+msgid "reg_approve_info"
+msgstr "If checked any new user registration has to be approved by an administrator."
+
+#, fuzzy
+msgid "reg_approve_needs_recipient"
+msgstr "You should define minimum one user who will be notified about new registrations, if the registration type \"Registration with Approvement\" is chosen."
+
+#, fuzzy
+msgid "reg_available_roles"
+msgstr "Available Roles:"
+
+#, fuzzy
+msgid "reg_confirmation_already_confirmed"
+msgstr "The registration is no longer pending, it has already been confirmed."
+
+#, fuzzy
+msgid "reg_confirmation_hash_life_time"
+msgstr "Lifetime"
+
+#, fuzzy
+msgid "reg_confirmation_hash_life_time_expired"
+msgstr "The confirmation link is not valid anymore."
+
+#, fuzzy
+msgid "reg_confirmation_hash_life_time_info"
+msgstr "Enter the lifetime (seconds) of confirmation links."
+
+#, fuzzy
+msgid "reg_confirmation_hash_not_found"
+msgstr "No user account could be matched to this confirmation link."
+
+#, fuzzy
+msgid "reg_confirmation_hash_not_passed"
+msgstr "The confirmation link is incomplete."
+
+#, fuzzy
+msgid "reg_confirmation_link_successful"
+msgstr "You successfully submitted an account request to ILIAS. You have to confirm your registration by clicking the confirmation link."
+
+#, fuzzy
+msgid "reg_default"
+msgstr "Default"
+
+#, fuzzy
+msgid "reg_deleted_assignment"
+msgstr "Deleted assignment(s)."
+
+#, fuzzy
+msgid "reg_direct"
+msgstr "Direct Registration"
+
+#, fuzzy
+msgid "reg_direct_info"
+msgstr "If this is checked, any new user registration request is automatically approved."
+
+#, fuzzy
+msgid "reg_disabled"
+msgstr "No Registration Possible"
+
+#, fuzzy
+msgid "reg_domain"
+msgstr "Domain"
+
+#, fuzzy
+msgid "reg_domain_already_assigned_p"
+msgstr "The domains '%s' were already entered for another role."
+
+#, fuzzy
+msgid "reg_domain_already_assigned_s"
+msgstr "The domain '%s' was already entered for another role. "
+
+#, fuzzy
+msgid "reg_email"
+msgstr "Automatic Role Assignment"
+
+#, fuzzy
+msgid "reg_email_domains"
+msgstr "The following email address domains are valid: %s"
+
+#, fuzzy
+msgid "reg_email_domains_code"
+msgstr "With a registration code any E-Mail-Address is valid."
+
+#, fuzzy
+msgid "reg_email_role_assignment"
+msgstr "Role Assignment By Domain"
+
+#, fuzzy
+msgid "reg_fixed"
+msgstr "Selection From Specified List"
+
+#, fuzzy
+msgid "reg_info_pwd"
+msgstr "If enabled passwords will be send automatically to the new users per E-mail."
+
+#, fuzzy
+msgid "reg_mail_body_activation"
+msgstr "to activate your account and confirm ownership of this email address, click the link below:"
+
+#, fuzzy
+msgid "reg_mail_body_approve"
+msgstr "You already have registered to ILIAS eLearning and received a mail with your account data. Now your account has been activated by an administrator."
+
+#, fuzzy
+msgid "reg_mail_body_confirmation"
+msgstr "To confirm this registration enter the ILIAS user administration and activate the account."
+
+#, fuzzy
+msgid "reg_mail_body_profile"
+msgstr "Profile data:"
+
+#, fuzzy
+msgid "reg_mail_body_profile_changed"
+msgstr "your profile has changed !"
+
+#, fuzzy
+msgid "reg_mail_body_pwd_generation"
+msgstr "Your account request will be reviewed by an administrator, and should be activated within 48 hours. You will be informed about the approvement by email."
+
+#, fuzzy
+msgid "reg_mail_body_reason"
+msgstr "You receive this mail because notifications about new registrations are enabled for your account in the ILIAS administration."
+
+#, fuzzy
+msgid "reg_mail_body_timelimit"
+msgstr "Your account has a limited period of validity: %s."
+
+#, fuzzy
+msgid "reg_mail_new_user"
+msgstr "New user registration"
+
+#, fuzzy
+msgid "reg_mail_new_user_body"
+msgstr "A new user has been registered."
+
+#, fuzzy
+msgid "reg_mail_new_user_confirmation"
+msgstr "Request for account confirmation"
+
+#, fuzzy
+msgid "reg_missing_domain"
+msgstr "Please fill out all fields."
+
+#, fuzzy
+msgid "reg_missing_role"
+msgstr "Please fill out all fields."
+
+#, fuzzy
+msgid "reg_notification"
+msgstr "Notifications"
+
+#, fuzzy
+msgid "reg_notification_info"
+msgstr "Enter one or more Login-Ids of users (comma seperated) that will be informed about new user registrations per email."
+
+#, fuzzy
+msgid "reg_role_access_limitations"
+msgstr "Define access limitations of Roles for new registered Users"
+
+#, fuzzy
+msgid "reg_role_assignment"
+msgstr "Role Assignment"
+
+#, fuzzy
+msgid "reg_role_info"
+msgstr "Assigned Roles"
+
+#, fuzzy
+msgid "reg_select_one"
+msgstr "Please select one entry."
+
+#, fuzzy
+msgid "reg_selectable_roles"
+msgstr "Selectable Roles"
+
+#, fuzzy
+msgid "reg_settings_header"
+msgstr "New Registration Settings"
+
+#, fuzzy
+msgid "reg_type"
+msgstr "Registration Type"
+
+#, fuzzy
+msgid "reg_type_confirmation"
+msgstr "Registration with Email Confirmation"
+
+#, fuzzy
+msgid "reg_type_confirmation_info"
+msgstr "This type allows self-registration of users but requires an email confirmation to activate the account. This avoids self-registration to ILIAS with wrong or non-existant email addresses."
+
+#, fuzzy
+msgid "reg_unknown_recipients"
+msgstr "The following logins are not valid:"
+
+#, fuzzy
+msgid "registration_code"
+msgstr "Code"
+
+#, fuzzy
+msgid "registration_code_not_valid"
+msgstr "The given registration code is either invalid or already has been used."
+
+#, fuzzy
+msgid "registration_code_optional_info"
+msgstr "If you have an ILIAS registration code, you can enter it now."
+
+#, fuzzy
+msgid "registration_code_required_info"
+msgstr "A pre-defined code is mandatory for the registration process."
+
+#, fuzzy
+msgid "registration_code_role_info"
+msgstr "If you use a registration code, the role selection may be superseded by the code."
+
+#, fuzzy
+msgid "registration_codes_access_limitation_all"
+msgstr "All"
+
+#, fuzzy
+msgid "registration_codes_add"
+msgstr "Add Codes"
+
+#, fuzzy
+msgid "registration_codes_edit_header"
+msgstr "Add Codes"
+
+#, fuzzy
+msgid "registration_codes_export"
+msgstr "Export Codes"
+
+#, fuzzy
+msgid "registration_codes_no_assigned_role"
+msgstr "No Predefined Assigned Role"
+
+#, fuzzy
+msgid "registration_codes_number"
+msgstr "Number Of Codes"
+
+#, fuzzy
+msgid "registration_codes_override_global_info"
+msgstr "These settings may be overridden by registration codes."
+
+#, fuzzy
+msgid "registration_codes_override_info"
+msgstr "This setting overrides any values defined in \"Registration Settings\"."
+
+#, fuzzy
+msgid "registration_codes_roles"
+msgstr "Role For New Accounts"
+
+#, fuzzy
+msgid "registration_codes_roles_limitation_none"
+msgstr "No Predefined Access Limitation"
+
+#, fuzzy
+msgid "registration_codes_roles_local"
+msgstr "Local Role(s) "
+
+#, fuzzy
+msgid "registration_codes_roles_title"
+msgstr "Role for New Accounts"
+
+#, fuzzy
+msgid "registration_codes_type"
+msgstr "Code Type"
+
+#, fuzzy
+msgid "registration_codes_type_ext"
+msgstr "Extension of limited user accounts"
+
+#, fuzzy
+msgid "registration_codes_type_ext_info"
+msgstr "Code can be used for the extension of limited accounts."
+
+#, fuzzy
+msgid "registration_codes_type_reg"
+msgstr "Registration Code"
+
+#, fuzzy
+msgid "registration_codes_type_reg_info"
+msgstr "Code can be used for the registration if a new user account"
+
+#, fuzzy
+msgid "registration_disabled_no_access"
+msgstr "The self-registration is not enabled. Please contact the system administration for further assistance: %s"
+
+#, fuzzy
+msgid "registration_export_codes_no_data"
+msgstr "No codes to export were selected."
+
+#, fuzzy
+msgid "registration_generated"
+msgstr "Date Of Generation"
+
+#, fuzzy
+msgid "registration_generated_all"
+msgstr "All Dates"
+
+#, fuzzy
+msgid "registration_no_valid_role"
+msgstr "There is currently no valid role for new accounts. Please contact your administrator."
+
+#, fuzzy
+msgid "registration_reg_type_codes"
+msgstr "Registration with Codes"
+
+#, fuzzy
+msgid "registration_reg_type_codes_info"
+msgstr "This type allows self-registration of users but requires a valid code."
+
+#, fuzzy
+msgid "registration_roles_all"
+msgstr "All Roles"
+
+#, fuzzy
+msgid "registration_settings"
+msgstr "New Registrations"
+
+#, fuzzy
+msgid "registration_tab_codes"
+msgstr "Registration Codes"
+
+#, fuzzy
+msgid "registration_tab_settings"
+msgstr "Registration Settings"
+
+#, fuzzy
+msgid "registration_used"
+msgstr "Date Of Usage"
+
+#, fuzzy
+msgid "registration_user_new_account_mail"
+msgstr "Edit New Account Mail"

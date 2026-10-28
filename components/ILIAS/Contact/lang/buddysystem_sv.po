@@ -1,0 +1,182 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: buddysystem\n"
+
+msgid "buddy_allow_to_contact_me"
+msgstr "Tillåt kontaktförfrågningar"
+
+#, fuzzy
+msgid "buddy_allow_to_contact_me_default_info"
+msgstr "Defines if users can send each other requests for getting into contact by default."
+
+msgid "buddy_allow_to_contact_me_info"
+msgstr "Om aktiverat kan andra användare skicka kontaktförfrågningar till mig."
+
+msgid "buddy_bs_act_btn_txt_ignored_request_to_linked"
+msgstr "Bekräfta begäran"
+
+msgid "buddy_bs_act_btn_txt_ignored_request_to_unlinked"
+msgstr "Begäran om återkallelse"
+
+msgid "buddy_bs_act_btn_txt_linked_to_unlinked"
+msgstr "Avbryt kontakt"
+
+msgid "buddy_bs_act_btn_txt_requested_to_ignored_request"
+msgstr "Ignorera kontakt"
+
+msgid "buddy_bs_act_btn_txt_requested_to_linked"
+msgstr "Bekräfta kontakt"
+
+msgid "buddy_bs_act_btn_txt_requested_to_unlinked"
+msgstr "Begäran om återkallelse"
+
+msgid "buddy_bs_action_already_ignored"
+msgstr "Åtgärden är inte möjlig eftersom kontaktförfrågan från användaren '%s' redan har ignorerats."
+
+msgid "buddy_bs_action_already_linked"
+msgstr "Åtgärden är inte möjlig eftersom kontaktförfrågan för användaren '%s' redan har bekräftats."
+
+msgid "buddy_bs_action_already_requested"
+msgstr "Åtgärden är inte möjlig eftersom användaren '%s' redan har begärts."
+
+msgid "buddy_bs_action_already_unlinked"
+msgstr "Åtgärden är inte möjlig. All kontakt med användaren '%s' har redan lösts."
+
+msgid "buddy_bs_action_not_possible"
+msgstr "Aktion ej möjlig"
+
+msgid "buddy_bs_btn_txt_ignored_request_a"
+msgstr "Begärd kontakt"
+
+msgid "buddy_bs_btn_txt_ignored_request_p"
+msgstr "Förfrågan ignorerad"
+
+msgid "buddy_bs_btn_txt_linked_a"
+msgstr "Nätverk"
+
+msgid "buddy_bs_btn_txt_linked_p"
+msgstr "Nätverk"
+
+msgid "buddy_bs_btn_txt_requested_a"
+msgstr "Begärd kontakt"
+
+msgid "buddy_bs_btn_txt_requested_p"
+msgstr "Kontaktförfrågan"
+
+msgid "buddy_bs_btn_txt_unlinked_a"
+msgstr "Förfrågan om kontakt"
+
+msgid "buddy_bs_state_ignored_request_a"
+msgstr "Frågade"
+
+msgid "buddy_bs_state_ignored_request_p"
+msgstr "Ignorerad"
+
+msgid "buddy_bs_state_ignoredrequest"
+msgstr "Ignorerad"
+
+msgid "buddy_bs_state_linked"
+msgstr "Nätverk"
+
+msgid "buddy_bs_state_linked_a"
+msgstr "Nätverk"
+
+msgid "buddy_bs_state_linked_p"
+msgstr "Nätverk"
+
+msgid "buddy_bs_state_requested"
+msgstr "Frågade"
+
+msgid "buddy_bs_state_requested_a"
+msgstr "Frågade"
+
+msgid "buddy_bs_state_requested_filter_a"
+msgstr "Väntar på reaktion"
+
+msgid "buddy_bs_state_requested_filter_p"
+msgstr "Åtgärd krävs"
+
+msgid "buddy_bs_state_requested_p"
+msgstr "Frågade"
+
+msgid "buddy_bs_state_unlinked"
+msgstr "Inte nätverk"
+
+msgid "buddy_bs_state_unlinked_a"
+msgstr "Inte nätverk"
+
+msgid "buddy_bs_state_unlinked_p"
+msgstr "Inte nätverk"
+
+#, fuzzy
+msgid "buddy_confirm_unlink"
+msgstr "Do you really want to disconnect from this contact?"
+
+msgid "buddy_enable"
+msgstr "Aktivera \"Användarkontakter"
+
+msgid "buddy_enable_info"
+msgstr "Om den är aktiverad kan användare i systemet kontakta varandra via kontaktförfrågningar. En ytterligare personlig inställning gör det möjligt för varje användare att tillåta eller förhindra kontaktförfrågningar."
+
+msgid "buddy_handle_contact_request"
+msgstr "Kontaktförfrågan"
+
+msgid "buddy_noti_cr_profile_not_published"
+msgstr "Profil ej publicerad"
+
+msgid "buddy_notification_contact_request"
+msgstr "Kontaktförfrågan"
+
+msgid "buddy_notification_contact_request_ignore"
+msgstr "Ignorera begäran"
+
+msgid "buddy_notification_contact_request_ignore_osd"
+msgstr "Ignorera begäran"
+
+msgid "buddy_notification_contact_request_link"
+msgstr "Bekräfta begäran"
+
+msgid "buddy_notification_contact_request_link_osd"
+msgstr "Bekräfta begäran"
+
+msgid "buddy_notification_contact_request_long"
+msgstr "[SALUTATION][BR]\"[REQUESTING_USER]\" vill gärna komma i kontakt med dig.[BR][BR]Länk till personlig profil"
+
+msgid "buddy_notification_contact_request_short"
+msgstr "Användaren \"[REQUESTING_USER]\" vill gärna kontakta dig."
+
+msgid "buddy_relation_requested"
+msgstr "En kontaktförfrågan har skickats till användaren."
+
+msgid "buddy_request_approved"
+msgstr "Kontakten har framgångsrikt etablerats."
+
+msgid "buddy_request_ignored"
+msgstr "Du har ignorerat användaren."
+
+msgid "buddy_tbl_filter_state"
+msgstr "Status"
+
+msgid "buddy_tbl_state_actions_col_label"
+msgstr "Status / Åtgärd"
+
+msgid "buddy_tbl_title_relations"
+msgstr "Relationer med andra användare"
+
+msgid "buddy_use_osd"
+msgstr "Popup kontaktförfrågningar"
+
+msgid "buddy_use_osd_info"
+msgstr "Visar en popup när en användare vill kontakta mig."
+
+msgid "buddy_view_gallery"
+msgstr "Galleri"
+
+msgid "buddy_view_table"
+msgstr "Lista"

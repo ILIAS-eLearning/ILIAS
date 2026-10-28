@@ -1,0 +1,120 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: mob\n"
+
+msgid "mob_choose_from_pool"
+msgstr ""
+
+msgid "mob_copyright"
+msgstr ""
+
+msgid "mob_copyright_icon"
+msgstr ""
+
+msgid "mob_external_url"
+msgstr ""
+
+msgid "mob_extract_preview_image"
+msgstr ""
+
+msgid "mob_file"
+msgstr ""
+
+msgid "mob_file_could_not_be_uploaded"
+msgstr ""
+
+msgid "mob_general"
+msgstr ""
+
+msgid "mob_image_extracted"
+msgstr ""
+
+msgid "mob_internal_usages_in_object"
+msgstr ""
+
+msgid "mob_language"
+msgstr ""
+
+msgid "mob_last_update"
+msgstr ""
+
+msgid "mob_media"
+msgstr ""
+
+msgid "mob_media_objects_overview"
+msgstr ""
+
+msgid "mob_mime_type_not_allowed"
+msgstr ""
+
+msgid "mob_multi_srt_files"
+msgstr ""
+
+msgid "mob_no_extraction_possible"
+msgstr ""
+
+msgid "mob_no_fixed_size_map_editing"
+msgstr ""
+
+msgid "mob_object"
+msgstr ""
+
+msgid "mob_please_select_pool"
+msgstr ""
+
+msgid "mob_preview_picture"
+msgstr ""
+
+msgid "mob_really_delete_srt"
+msgstr ""
+
+msgid "mob_second"
+msgstr ""
+
+msgid "mob_srt_files_deleted"
+msgstr ""
+
+msgid "mob_srt_not_allowed"
+msgstr ""
+
+msgid "mob_subtitle_file"
+msgstr ""
+
+msgid "mob_subtitle_files"
+msgstr ""
+
+msgid "mob_subtitles"
+msgstr ""
+
+msgid "mob_type_not_supported"
+msgstr ""
+
+msgid "mob_upload_file"
+msgstr ""
+
+msgid "mob_upload_multi_srt"
+msgstr ""
+
+msgid "mob_upload_multi_srt_howto"
+msgstr ""
+
+msgid "mob_url"
+msgstr ""
+
+msgid "mob_url_info"
+msgstr ""
+
+msgid "mob_url_info1"
+msgstr ""
+
+msgid "mob_url_info_video"
+msgstr ""
+
+msgid "mob_usages_in_media_pools"
+msgstr ""
+
+msgid "mob_usages_in_other_objects"
+msgstr ""

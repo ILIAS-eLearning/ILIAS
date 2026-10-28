@@ -1,0 +1,45 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: logging\n"
+
+msgid "error_settings_saved"
+msgstr "Impostazioni salvate"
+
+msgid "frm_clear_older_then"
+msgstr "Elimina file più vecchi di"
+
+msgid "frm_clear_older_then_info"
+msgstr "Si prega di digitare la durata in giorni."
+
+msgid "log_error_file_cleanup_info"
+msgstr "Elimina errore di registrazione file datato o orfano."
+
+msgid "log_error_file_cleanup_title"
+msgstr "Elimina errori di registrazione per file datati o orfani"
+
+msgid "log_error_folder"
+msgstr "Percorso"
+
+msgid "log_error_mail"
+msgstr "Destinatario mail"
+
+msgid "log_error_message"
+msgstr "Spiacente, ha avuto luogo un errore. È stato creato un file di log, identificativo %s."
+
+msgid "log_error_message_send_mail"
+msgstr "Si prega di inviare una mail a <a href=\"mailto:%s?subject=code: %s\">%s</a>"
+
+msgid "log_error_path_not_configured_or_wrong"
+msgstr "Il percorso degli errori (error_path) non è configurato o non è raggiungibile."
+
+msgid "log_error_settings"
+msgstr "Impostazioni di errore di registrazione"
+
+msgid "logs_settings"
+msgstr "Impostazioni di registrazione"

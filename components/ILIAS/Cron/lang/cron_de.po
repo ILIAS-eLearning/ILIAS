@@ -1,0 +1,162 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: cron\n"
+
+msgid "cro_job_rc_job_auto_deactivation_time_limit"
+msgstr "Der Cron-Job wurde deaktiviert, da er länger als 3 Stunden inaktiv war."
+
+msgid "cro_job_rc_job_manual_reset"
+msgstr "Der Cron-Job wurde von der ILIAS-Administration zurückgesetzt."
+
+msgid "cro_job_rc_job_no_result"
+msgstr "Vom Cron-Job wurde kein sauberes Resultat übermittelt."
+
+msgid "cron_action_activate"
+msgstr "Aktivieren"
+
+msgid "cron_action_activate_success"
+msgstr "Cron-Job aktiviert."
+
+msgid "cron_action_activate_sure"
+msgstr "Wollen Sie wirklich den Cron-Job „%s“ aktivieren?"
+
+msgid "cron_action_activate_sure_multi"
+msgstr "Wollen Sie wirklich die folgenden Cron-Jobs aktivieren?"
+
+msgid "cron_action_deactivate"
+msgstr "Deaktivieren"
+
+msgid "cron_action_deactivate_success"
+msgstr "Cron-Job deaktiviert."
+
+msgid "cron_action_deactivate_sure"
+msgstr "Wollen Sie wirklich den Cron-Job „%s“ deaktivieren?"
+
+msgid "cron_action_deactivate_sure_multi"
+msgstr "Wollen Sie wirklich die folgenden Cron-Jobs deaktivieren?"
+
+msgid "cron_action_edit"
+msgstr "Bearbeiten"
+
+msgid "cron_action_edit_success"
+msgstr "Zeitplan aktualisiert."
+
+msgid "cron_action_reset"
+msgstr "Zurücksetzen"
+
+msgid "cron_action_reset_success"
+msgstr "Cron-Job zurückgesetzt."
+
+msgid "cron_action_reset_sure"
+msgstr "Wollen Sie wirklich den Cron-Job „%s“ zurücksetzen?"
+
+msgid "cron_action_reset_sure_multi"
+msgstr "Wollen Sie wirklich die folgenden Cron-Jobs zurücksetzen?"
+
+msgid "cron_action_run"
+msgstr "Cron-Job ausführen"
+
+msgid "cron_action_run_fail"
+msgstr "Ausführung gescheitert"
+
+msgid "cron_action_run_success"
+msgstr "Cron-Job erfolgreich ausgeführt"
+
+msgid "cron_action_run_sure"
+msgstr "Wollen Sie wirklich den Cron-Job „%s“ ausführen?"
+
+msgid "cron_changed_by_crontab"
+msgstr "SYSTEM"
+
+msgid "cron_component"
+msgstr "Komponente"
+
+msgid "cron_job_id"
+msgstr "ID"
+
+msgid "cron_jobs_with_required_intervention"
+msgstr "Folgende Cron-Jobs benötigen möglicherweise eine Begutachtung."
+
+msgid "cron_last_run"
+msgstr "Letzter Durchlauf"
+
+msgid "cron_no_executable_job_selected"
+msgstr "Bitte wählen Sie mindestens einen ausführbaren Cron-Job."
+
+msgid "cron_result"
+msgstr "Ergebnis"
+
+msgid "cron_result_info"
+msgstr "Ergebnisdetails"
+
+msgid "cron_result_status_crashed"
+msgstr "Abbruch"
+
+msgid "cron_result_status_fail"
+msgstr "Fehler"
+
+msgid "cron_result_status_invalid_configuration"
+msgstr "Ungültige Konfiguration"
+
+msgid "cron_result_status_no_action"
+msgstr "Ausgeführt. Keine Änderungen"
+
+msgid "cron_result_status_ok"
+msgstr "Ok"
+
+msgid "cron_result_status_reset"
+msgstr "Zurücksetzen"
+
+msgid "cron_running_since"
+msgstr "Läuft seit"
+
+msgid "cron_schedule"
+msgstr "Zeitplan"
+
+msgid "cron_schedule_daily"
+msgstr "Täglich"
+
+msgid "cron_schedule_in_days"
+msgstr "Alle %s Tage"
+
+msgid "cron_schedule_in_hours"
+msgstr "Alle %s Stunden"
+
+msgid "cron_schedule_in_minutes"
+msgstr "Alle %s Minuten"
+
+msgid "cron_schedule_monthly"
+msgstr "Monatlich"
+
+msgid "cron_schedule_quarterly"
+msgstr "Vierteljährlich"
+
+msgid "cron_schedule_type"
+msgstr "Zeitplan"
+
+msgid "cron_schedule_value"
+msgstr "Intervall"
+
+msgid "cron_schedule_weekly"
+msgstr "Wöchentlich"
+
+msgid "cron_schedule_yearly"
+msgstr "Jährlich"
+
+msgid "cron_status"
+msgstr "Status"
+
+msgid "cron_status_active"
+msgstr "Aktiv"
+
+msgid "cron_status_inactive"
+msgstr "Inaktiv"
+
+msgid "cron_status_info"
+msgstr "Statusänderung"

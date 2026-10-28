@@ -1,0 +1,51 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: lhist\n"
+
+msgid "cont_create_lhist"
+msgstr ""
+
+msgid "cont_update_lhist"
+msgstr ""
+
+msgid "lhist_all"
+msgstr ""
+
+msgid "lhist_cont_placeholder_text"
+msgstr ""
+
+msgid "lhist_enable_learning_history"
+msgstr ""
+
+msgid "lhist_enable_learning_history_info"
+msgstr ""
+
+msgid "lhist_first_login"
+msgstr ""
+
+msgid "lhist_learning_history"
+msgstr ""
+
+msgid "lhist_lhist"
+msgstr ""
+
+msgid "lhist_manual"
+msgstr ""
+
+msgid "lhist_no_entries"
+msgstr ""
+
+msgid "lhist_period"
+msgstr ""
+
+msgid "lhist_selected"
+msgstr ""
+
+msgid "lhist_show_more"
+msgstr ""
+
+msgid "lhist_type_of_achievement"
+msgstr ""

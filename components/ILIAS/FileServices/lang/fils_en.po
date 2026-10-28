@@ -1,0 +1,105 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"Language-Team: English\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: fils\n"
+
+msgid "add_upload_policy"
+msgstr "Add Policy"
+
+msgid "edit_upload_policy"
+msgstr "Edit Policy"
+
+msgid "file_services"
+msgstr "File Services"
+
+msgid "file_services_description"
+msgstr "Configuration of File Service Settings."
+
+msgid "file_suffix_custom_expl_negative"
+msgstr "Prohibited File Suffixes"
+
+msgid "file_suffix_custom_expl_negative_info"
+msgstr "Files with these suffixes won't be accepted for upload."
+
+msgid "file_suffix_custom_negative"
+msgstr "File Suffixes: Negative List (Adaptations)"
+
+msgid "file_suffix_custom_negative_info"
+msgstr "These file suffixes will be removed from the positive list."
+
+msgid "file_suffix_custom_positive"
+msgstr "File Suffixes: Positive List (Additions)"
+
+msgid "file_suffix_custom_positive_info"
+msgstr "These file suffixes will be added to the positive list."
+
+msgid "file_suffix_default_positive"
+msgstr "File Suffixes: Positive List (Default List)"
+
+msgid "file_suffix_default_positive_info"
+msgstr "Preset default list of accepted file suffixes."
+
+msgid "file_suffix_overall_positive"
+msgstr "Overall Positive List"
+
+msgid "file_suffix_overall_positive_info"
+msgstr "This is the final list of accepted file suffixes."
+
+msgid "policy_audience"
+msgstr "Target Group"
+
+msgid "policy_audience_all_users_option_desc"
+msgstr "Apply policy to all users."
+
+msgid "policy_audience_global_roles_option_desc"
+msgstr "Apply policy to users with specific global roles."
+
+msgid "policy_confirm_deletion"
+msgstr "Are you sure you want to delete the policy with the following properties?:"
+
+msgid "policy_deletion_failure_not_found"
+msgstr "Error: Deletion failed because policy could not be found."
+
+msgid "policy_deletion_successful"
+msgstr "Policy successfully deleted."
+
+msgid "policy_filter"
+msgstr "Policy Filter"
+
+msgid "policy_no_validity_limitation_set"
+msgstr "Valid indefinitely"
+
+msgid "policy_scope"
+msgstr "Scope"
+
+msgid "policy_table_info_no_policies"
+msgstr "No upload policies have been created yet."
+
+msgid "policy_title_desc"
+msgstr "Descriptive title for this policy."
+
+msgid "policy_upload_limit"
+msgstr "Upload Limit"
+
+msgid "policy_upload_limit_desc"
+msgstr "Upload limit (in MB) imposed by this policy."
+
+msgid "policy_valid_until"
+msgstr "Valid Until"
+
+msgid "policy_valid_until_desc"
+msgstr "Set an optional ‘valid until’ date, after which the policy expires."
+
+msgid "policy_validity"
+msgstr "Validity"
+
+msgid "upload_limits"
+msgstr "Upload Limits"
+
+msgid "upload_policies"
+msgstr "Upload Policies"

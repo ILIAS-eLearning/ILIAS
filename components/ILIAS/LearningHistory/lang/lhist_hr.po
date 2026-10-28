@@ -1,0 +1,56 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hr\n"
+"Language-Team: Croatian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: lhist\n"
+
+msgid "cont_create_lhist"
+msgstr "Stvorite element povijesti učenja"
+
+msgid "cont_update_lhist"
+msgstr "Uredi element povijesti učenja"
+
+msgid "lhist_all"
+msgstr "Svi"
+
+msgid "lhist_cont_placeholder_text"
+msgstr "Ovaj će element prikazati povijest učenja u načinu prezentacije portfelja."
+
+#, fuzzy
+msgid "lhist_enable_learning_history"
+msgstr "Learning History"
+
+#, fuzzy
+msgid "lhist_enable_learning_history_info"
+msgstr "Enables an overview of all achievements of a user."
+
+msgid "lhist_first_login"
+msgstr "Prva prijava"
+
+msgid "lhist_learning_history"
+msgstr "Povijest učenja"
+
+msgid "lhist_lhist"
+msgstr "Povijest učenja"
+
+msgid "lhist_manual"
+msgstr "Priručnik"
+
+msgid "lhist_no_entries"
+msgstr "Ostvarite svoje ciljeve! Naučite nešto danas kako biste proširili svoju povijest učenja."
+
+msgid "lhist_period"
+msgstr "Razdoblje"
+
+msgid "lhist_selected"
+msgstr "Odabrano"
+
+msgid "lhist_show_more"
+msgstr "Prikaži više"
+
+msgid "lhist_type_of_achievement"
+msgstr "Vrsta postignuća"

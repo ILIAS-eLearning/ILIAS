@@ -1,0 +1,153 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: sysc\n"
+
+msgid "sysc_action_list_tree"
+msgstr "Dump der Baumstruktur erzeugen"
+
+msgid "sysc_action_repair"
+msgstr "Reparieren"
+
+msgid "sysc_action_show_tree"
+msgstr "Baumstruktur anzeigen"
+
+msgid "sysc_action_validate"
+msgstr "Überprüfen"
+
+msgid "sysc_administrate_deleted"
+msgstr "Gelöschte Objekte verwalten"
+
+msgid "sysc_btn_tree_missing"
+msgstr "Wiederherstellung starten"
+
+msgid "sysc_btn_tree_structure"
+msgstr "Baumstruktur neu generieren"
+
+msgid "sysc_completed_num"
+msgstr "Erfüllte Aufgaben"
+
+msgid "sysc_cron_empty_trash"
+msgstr "Papierkorb löschen"
+
+msgid "sysc_cron_empty_trash_desc"
+msgstr "Objekte des Papierkorbs werden automatisch anhand bestimmter Kriterien (Alter, Objekttyp, Anzahl) aus dem System entfernt."
+
+msgid "sysc_failed_num"
+msgstr "Nicht erfüllte Aufgaben"
+
+msgid "sysc_groups"
+msgstr "Systemcheck-Gruppen"
+
+msgid "sysc_grp_tree"
+msgstr "Magazinbaum"
+
+msgid "sysc_grp_tree_desc"
+msgstr "Analysiert und repariert die Datenintegrität des Magazinbaums."
+
+msgid "sysc_message_success"
+msgstr "Es wurden keine Fehler festgestellt."
+
+msgid "sysc_message_tree_missing_confirm"
+msgstr "Möchten Sie die fehlenden Einträge in der Baumstruktur wieder herstellen?"
+
+msgid "sysc_message_tree_structure_confirm"
+msgstr "Sind Sie sicher, dass Sie die Baumstruktur reparieren möchten. Es wird unbedingt empfohlen vor Reparatur eine Sicherung der ILIAS-Datenbank zu erstellen."
+
+msgid "sysc_overview"
+msgstr "Übersicht"
+
+msgid "sysc_status_completed"
+msgstr "Erfüllt"
+
+msgid "sysc_status_failed"
+msgstr "Fehlgeschlagen"
+
+msgid "sysc_status_na"
+msgstr "Noch nicht ausgeführt"
+
+msgid "sysc_status_running"
+msgstr "Wird durchgeführt"
+
+msgid "sysc_tab_trash"
+msgstr "Gelöschte Objekte"
+
+msgid "sysc_task_overview"
+msgstr "Aufgaben"
+
+msgid "sysc_task_structure"
+msgstr "Baumstruktur"
+
+msgid "sysc_task_structure_desc"
+msgstr "Analysiert und korrigiert die Struktur des Magazinbaums."
+
+msgid "sysc_task_tree_dump"
+msgstr "Baum auflisten"
+
+msgid "sysc_task_tree_dump_desc"
+msgstr "Analysiert die Baumstruktur und listet alle Baumknoten zusammen mit den Analysedaten auf."
+
+msgid "sysc_task_tree_duplicates"
+msgstr "Doppelte Einträge in der Baumstruktur"
+
+msgid "sysc_task_tree_duplicates_desc"
+msgstr "Durchsucht das System nach doppelten Einträgen in Magazinbaum."
+
+msgid "sysc_task_tree_missing"
+msgstr "Fehlende Einträge in der Baumstruktur"
+
+msgid "sysc_task_tree_missing_desc"
+msgstr "Durchsucht das System nach fehlenden Einträgen in der Baumstruktur."
+
+msgid "sysc_task_tree_missing_reference"
+msgstr "Fehlende Referenzen"
+
+msgid "sysc_task_tree_missing_reference_desc"
+msgstr "Sucht und repariert fehlende Objektreferenzen für Einträge im Magazinbaum."
+
+msgid "sysc_task_tree_missing_tree"
+msgstr "Fehlende Einträge im Magazinbaum"
+
+msgid "sysc_task_tree_missing_tree_desc"
+msgstr "Sucht und repariert fehlende Einträge referenzierter Objekte im Magazinbaum."
+
+msgid "sysc_trash_action"
+msgstr "Aktion"
+
+msgid "sysc_trash_limit_age"
+msgstr "Begrenze Alter"
+
+msgid "sysc_trash_limit_num"
+msgstr "Begrenze Anzahl"
+
+msgid "sysc_trash_limit_type"
+msgstr "Begrenze Typ"
+
+msgid "sysc_trash_remove"
+msgstr "Entferne gelöschte Objekte"
+
+msgid "sysc_trash_remove_info"
+msgstr "Entferne Objekte im Papierkorb aus dem System"
+
+msgid "sysc_trash_restore"
+msgstr "Gelöschte Objekte wiederherstellen"
+
+msgid "sysc_trash_restore_info"
+msgstr "Stelle alle Objekte im Papierkorb wieder her und verschiebe sie in den Rettungsordner."
+
+msgid "sysc_tree_duplicate_failures"
+msgstr "Es wurden doppelte Einträge in der Baumstruktur gefunden. Anzahl doppelter Einträge:"
+
+msgid "sysc_tree_list_failures"
+msgstr "Ein Dump des Magazinbaums wurde erstellt. Anzahl gefundener Fehler:"
+
+msgid "sysc_tree_missing_failures"
+msgstr "Es gibt fehlende Einträge in der Baumstruktur. Anzahl fehlender Einträge:"
+
+msgid "sysc_tree_structure_failures"
+msgstr "Anzahl von Fehlern in der Baumstruktur (parent-Relation):"

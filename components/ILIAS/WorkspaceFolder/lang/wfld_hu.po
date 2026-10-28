@@ -1,0 +1,36 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: wfld\n"
+
+msgid "wfld_add"
+msgstr "Mappa létrehozása"
+
+msgid "wfld_alphabetically_asc"
+msgstr "Betűrend ↑"
+
+msgid "wfld_alphabetically_desc"
+msgstr "Betűrend ↓"
+
+msgid "wfld_creation_asc"
+msgstr "Létrehozás dátuma ↑"
+
+msgid "wfld_creation_desc"
+msgstr "Létrehozás dátuma ↓"
+
+msgid "wfld_derive"
+msgstr "Szülőtől öröklődik"
+
+msgid "wfld_edit"
+msgstr "Mappa módosítása"
+
+msgid "wfld_new"
+msgstr "Új mappa létrehozása"
+
+msgid "wfld_sortation"
+msgstr "Rendezés"

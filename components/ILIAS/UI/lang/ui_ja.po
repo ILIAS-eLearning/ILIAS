@@ -1,0 +1,256 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: ui\n"
+
+msgid "1stars"
+msgstr "5つ星のうちの1つ"
+
+msgid "2stars"
+msgstr "5つ星のうちの2つ"
+
+msgid "3stars"
+msgstr "5つ星のうちの3つ"
+
+msgid "4stars"
+msgstr "5つ星のうちの4つ"
+
+msgid "5stars"
+msgstr "5つ星のうちの5つ"
+
+msgid "datatable_close_warning"
+msgstr "OK"
+
+msgid "datatable_multiaction_label"
+msgstr "一括操作"
+
+msgid "datatable_multiactionmodal_actionlabel"
+msgstr "操作"
+
+msgid "datatable_multiactionmodal_apply"
+msgstr "適用"
+
+msgid "datatable_multiactionmodal_listentry"
+msgstr "全てのオブジェクトへ適用"
+
+msgid "datatable_multiactionmodal_msg"
+msgstr "<b>警告!</b> 複数オブジェクトが影響"
+
+msgid "datatable_multiactionmodal_title"
+msgstr "全テーブル操作"
+
+msgid "drilldown_no_items"
+msgstr "一致する要素がありません"
+
+msgid "duration_default_label_end"
+msgstr "終了"
+
+msgid "duration_default_label_start"
+msgstr "開始"
+
+msgid "duration_end_must_not_be_earlier_than_start"
+msgstr "開始は終了よりも遅くできません。"
+
+msgid "filter_nodes_in"
+msgstr "%s 内のノードをフィルター"
+
+msgid "footer_icons"
+msgstr "フッターアイコン"
+
+msgid "footer_link_groups"
+msgstr "フッター リンク-グループ"
+
+msgid "footer_links"
+msgstr "フッターリンク"
+
+msgid "footer_permanent_link"
+msgstr "フッターパーマネントリンク"
+
+msgid "footer_texts"
+msgstr "フッターテキスト"
+
+msgid "image_alt_text"
+msgstr "代替テキスト"
+
+msgid "image_purpose_decorative"
+msgstr "装飾画像"
+
+msgid "image_purpose_informative"
+msgstr "情報画像"
+
+msgid "image_purpose_user_defined"
+msgstr "画像目的"
+
+msgid "label_fieldselection"
+msgstr "フィールド選択"
+
+msgid "label_fieldselection_refresh"
+msgstr "適用"
+
+#, fuzzy
+msgid "label_modeviewcontrol"
+msgstr "view mode"
+
+msgid "label_pagination_limit"
+msgstr "列のページ付け数"
+
+msgid "label_pagination_offset"
+msgstr "ページ付けオフセット"
+
+msgid "label_sortation"
+msgstr "仕分け"
+
+msgid "order_option_alphabetical_ascending"
+msgstr "A to Z"
+
+msgid "order_option_alphabetical_descending"
+msgstr "Z to A"
+
+msgid "order_option_chronological_ascending"
+msgstr "先行順"
+
+msgid "order_option_chronological_descending"
+msgstr "最新順"
+
+msgid "order_option_first"
+msgstr "最初"
+
+msgid "order_option_generic_ascending"
+msgstr "昇順"
+
+msgid "order_option_generic_descending"
+msgstr "降順"
+
+msgid "order_option_numerical_ascending"
+msgstr "0 to 9"
+
+msgid "order_option_numerical_descending"
+msgstr "9 to 0"
+
+msgid "presentation_table_collapse"
+msgstr "全てたたむ"
+
+msgid "presentation_table_expand"
+msgstr "全て展開"
+
+msgid "rating_average"
+msgstr "他の人の評価は5中%sです"
+
+msgid "reset_stars"
+msgstr "中立"
+
+msgid "select_node"
+msgstr "ノード %s を選択に追加"
+
+msgid "table_posinput_col_title"
+msgstr "位置"
+
+msgid "ui_chars_max"
+msgstr "Maximum:"
+
+msgid "ui_chars_min"
+msgstr "Minimum:"
+
+msgid "ui_chars_remaining"
+msgstr "残り文字数:"
+
+msgid "ui_error"
+msgstr "エラー"
+
+msgid "ui_error_in_group"
+msgstr "この部分にエラーがあります。"
+
+msgid "ui_error_switchable_group_required"
+msgstr "オプションを選択してください。"
+
+msgid "ui_field_option_filter_clear_search"
+msgstr "検索クリヤ"
+
+msgid "ui_field_option_filter_filtered_results_aria_label"
+msgstr "オプションのリスト - 折りたたみ可能でフィルタ可能"
+
+msgid "ui_field_option_filter_no_match"
+msgstr "入力した検索語に一致する結果はありませんでした。"
+
+msgid "ui_field_option_filter_no_selection"
+msgstr "何も選択されていません。"
+
+msgid "ui_field_option_filter_options_shown"
+msgstr "現在 %s のオプションを表示しています。"
+
+msgid "ui_field_option_filter_screen_reader_hint"
+msgstr "入力を開始すると、下のフィールドオプションがそれに応じて絞り込まれます。"
+
+msgid "ui_field_option_filter_search_in"
+msgstr "Find"
+
+msgid "ui_field_option_filter_show_all_options"
+msgstr "全てのオプションを表示"
+
+msgid "ui_field_option_filter_show_less"
+msgstr "折りたたむ"
+
+msgid "ui_file_input_general_error"
+msgstr "エラーが発生しました! 詳細情報についてはブラウザーコンソールのJavaScriptのチエックを行い、このインシデントに関してILIASシステム管理者へコンタクトする事ができます。"
+
+msgid "ui_file_input_invalid_amount"
+msgstr "この量のファイルをuploadする事はできませんので継続するには一定数を削除して下さい。"
+
+msgid "ui_file_input_invalid_mime"
+msgstr "ファイルタイプ '%s' は許可されていません。"
+
+msgid "ui_file_input_invalid_size"
+msgstr "ファイルサイズが %s の最大値を超えています。"
+
+msgid "ui_file_upload_max_nr"
+msgstr "最大ファイル数:"
+
+msgid "ui_invalid_url"
+msgstr "無効な URL-format"
+
+msgid "ui_link_label"
+msgstr "Label"
+
+msgid "ui_link_url"
+msgstr "URL"
+
+msgid "ui_md_input_edit"
+msgstr "編集"
+
+msgid "ui_md_input_view"
+msgstr "ビュー"
+
+msgid "ui_nav_sequence_control_label"
+msgstr "以下の内容のシーケンス制御"
+
+msgid "ui_nav_sequence_description"
+msgstr "このコンテンツをナビゲートしたり、シーケンス全体でアクションやフィルターを起動するために使用されます。"
+
+msgid "ui_pagination_unlimited"
+msgstr "無制限"
+
+msgid "ui_select_dropdown_label"
+msgstr "選択してください"
+
+msgid "ui_table_no_records"
+msgstr "記録なし"
+
+msgid "ui_table_order"
+msgstr "順番"
+
+msgid "ui_transcription"
+msgstr "写し"
+
+msgid "unselect_node"
+msgstr "選択からノード %s を削除"
+
+msgid "vc_sort"
+msgstr "並べ替え:"
+
+msgid "warning_url_too_long_msg"
+msgstr "選択された行の数が多いため、非常に長いURLが生成されます。そのため、サーバーがこのリクエストをブロックする可能性があります。<br>行の数を減らして選択するか、すべてのエントリに対して処理を実行してください。"

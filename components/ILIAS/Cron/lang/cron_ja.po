@@ -1,0 +1,162 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: cron\n"
+
+msgid "cro_job_rc_job_auto_deactivation_time_limit"
+msgstr "クラッシュの可能性"
+
+msgid "cro_job_rc_job_manual_reset"
+msgstr "管理者操作でCron jobを再有効化"
+
+msgid "cro_job_rc_job_no_result"
+msgstr "Cron jobは正しい結果を返しませんでした。"
+
+msgid "cron_action_activate"
+msgstr "アクティブにする"
+
+msgid "cron_action_activate_success"
+msgstr "クローンジョブはアクティブ化されました。"
+
+msgid "cron_action_activate_sure"
+msgstr "本当にクローンジョブ\"%s\"をアクティブにしますか?"
+
+msgid "cron_action_activate_sure_multi"
+msgstr "本当に次のcron-jobを有効にしますか?"
+
+msgid "cron_action_deactivate"
+msgstr "アクティブ解除"
+
+msgid "cron_action_deactivate_success"
+msgstr "クローンジョブのアクティブを解除しました。"
+
+msgid "cron_action_deactivate_sure"
+msgstr "本当にクローンジョブ\"%s\"を解除しますか?"
+
+msgid "cron_action_deactivate_sure_multi"
+msgstr "本当に次のcron-jobを無効にしますか?"
+
+msgid "cron_action_edit"
+msgstr "編集"
+
+msgid "cron_action_edit_success"
+msgstr "予定を更新しました。"
+
+msgid "cron_action_reset"
+msgstr "リセット"
+
+msgid "cron_action_reset_success"
+msgstr "クローンジョブはリセットしました。"
+
+msgid "cron_action_reset_sure"
+msgstr "本当にクローンジョブ\"%s\"をリセットしますか?"
+
+msgid "cron_action_reset_sure_multi"
+msgstr "次のcro-jobを本当にリセットしますか?"
+
+msgid "cron_action_run"
+msgstr "実行"
+
+msgid "cron_action_run_fail"
+msgstr "クローンジョブは失敗しました。"
+
+msgid "cron_action_run_success"
+msgstr "クローンジョブは成功しました。"
+
+msgid "cron_action_run_sure"
+msgstr "本当にクローンジョブ\"%s\"を実行しますか?"
+
+msgid "cron_changed_by_crontab"
+msgstr "システム"
+
+msgid "cron_component"
+msgstr "コンポーネント"
+
+msgid "cron_job_id"
+msgstr "ID"
+
+msgid "cron_jobs_with_required_intervention"
+msgstr "次の作業には介入が必要な場合があります。"
+
+msgid "cron_last_run"
+msgstr "最終試行"
+
+msgid "cron_no_executable_job_selected"
+msgstr "実行可能なクローンジョブを一つは選択してください。"
+
+msgid "cron_result"
+msgstr "結果"
+
+msgid "cron_result_info"
+msgstr "結果情報"
+
+msgid "cron_result_status_crashed"
+msgstr "クラッシュしました。"
+
+msgid "cron_result_status_fail"
+msgstr "失敗しました"
+
+msgid "cron_result_status_invalid_configuration"
+msgstr "不正な構成"
+
+msgid "cron_result_status_no_action"
+msgstr "Ok, 処理中なし"
+
+msgid "cron_result_status_ok"
+msgstr "Ok"
+
+msgid "cron_result_status_reset"
+msgstr "リセット"
+
+msgid "cron_running_since"
+msgstr "開始時間"
+
+msgid "cron_schedule"
+msgstr "予定"
+
+msgid "cron_schedule_daily"
+msgstr "毎日"
+
+msgid "cron_schedule_in_days"
+msgstr "%s日間隔"
+
+msgid "cron_schedule_in_hours"
+msgstr "%s時間間隔"
+
+msgid "cron_schedule_in_minutes"
+msgstr "%s分間隔"
+
+msgid "cron_schedule_monthly"
+msgstr "月"
+
+msgid "cron_schedule_quarterly"
+msgstr "4半期"
+
+msgid "cron_schedule_type"
+msgstr "予定"
+
+msgid "cron_schedule_value"
+msgstr "間隔"
+
+msgid "cron_schedule_weekly"
+msgstr "週間"
+
+msgid "cron_schedule_yearly"
+msgstr "年間"
+
+msgid "cron_status"
+msgstr "ステータス"
+
+msgid "cron_status_active"
+msgstr "アクティブ"
+
+msgid "cron_status_inactive"
+msgstr "非アクティブ"
+
+msgid "cron_status_info"
+msgstr "ステータス情報"

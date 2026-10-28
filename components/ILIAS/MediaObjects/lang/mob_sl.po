@@ -1,0 +1,147 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sl\n"
+"Language-Team: Slovenian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=4; plural=(n % 100 == 1) ? 0 : ((n % 100 == 2) ? 1 : ((n % 100 == 3 || n % 100 == 4) ? 2 : 3));\n"
+"X-Domain: mob\n"
+
+#, fuzzy
+msgid "mob_choose_from_pool"
+msgstr "Choose from Media Pool"
+
+#, fuzzy
+msgid "mob_copyright"
+msgstr "Copyright"
+
+#, fuzzy
+msgid "mob_copyright_icon"
+msgstr "Copyright Icon"
+
+#, fuzzy
+msgid "mob_external_url"
+msgstr "External URL"
+
+#, fuzzy
+msgid "mob_extract_preview_image"
+msgstr "Extract Preview Image"
+
+msgid "mob_file"
+msgstr "Datoteka"
+
+msgid "mob_file_could_not_be_uploaded"
+msgstr "Datoteke ni bilo mogoče naložiti."
+
+msgid "mob_general"
+msgstr "Splošno"
+
+#, fuzzy
+msgid "mob_image_extracted"
+msgstr "Image has been extracted."
+
+#, fuzzy
+msgid "mob_internal_usages_in_object"
+msgstr "Page Usages"
+
+msgid "mob_language"
+msgstr "Jezik"
+
+#, fuzzy
+msgid "mob_last_update"
+msgstr "Last Update"
+
+#, fuzzy
+msgid "mob_media"
+msgstr "Media"
+
+#, fuzzy
+msgid "mob_media_objects_overview"
+msgstr "Media Objects on Pages"
+
+#, fuzzy
+msgid "mob_mime_type_not_allowed"
+msgstr "The following mime types are not allowed at the destination."
+
+msgid "mob_multi_srt_files"
+msgstr "Datoteke SRT"
+
+#, fuzzy
+msgid "mob_no_extraction_possible"
+msgstr "Sorry, it was not able to extract an image from the file."
+
+msgid "mob_no_fixed_size_map_editing"
+msgstr "Določite fiksno velikost slike, preden definirate povezana področja. Če je vaša slika prilagojena slogu vsebine ali drugim pravilom CSS, potem področja ne bodo prilagojena."
+
+msgid "mob_object"
+msgstr "Object"
+
+#, fuzzy
+msgid "mob_please_select_pool"
+msgstr "Bitte wählen Sie einen Medienpool aus."
+
+#, fuzzy
+msgid "mob_preview_picture"
+msgstr "Preview Picture"
+
+msgid "mob_really_delete_srt"
+msgstr "Ali res želite izbrisati naslednje datoteke srt?"
+
+#, fuzzy
+msgid "mob_second"
+msgstr "Second"
+
+msgid "mob_srt_files_deleted"
+msgstr "Datoteke za podnapise so bile izbrisane."
+
+#, fuzzy
+msgid "mob_srt_not_allowed"
+msgstr "Files with a .srt suffix are currently not allowed to be uploaded. If you would like to use srt files, contact your system administrator."
+
+msgid "mob_subtitle_file"
+msgstr "Datoteka za podnapise"
+
+msgid "mob_subtitle_files"
+msgstr "Datoteke za podnapise"
+
+msgid "mob_subtitles"
+msgstr "Podnapisi"
+
+#, fuzzy
+msgid "mob_type_not_supported"
+msgstr "Mime type not supported:"
+
+#, fuzzy
+msgid "mob_upload_file"
+msgstr "Upload File"
+
+msgid "mob_upload_multi_srt"
+msgstr "Naloži kot datoteko ZIP"
+
+msgid "mob_upload_multi_srt_howto"
+msgstr "Datoteka .zip / arhiv .zip ne sme vsebovati podseznamov. Vse datoteke .srt morajo biti na najvišji ravni, da so prepoznane. Imena datotek se morajo končati z \"_&lt;SPRACHE&gt;.srt\", pri čemer je JEZIK ustrezna kratica jezika (npr. \"en\", \"it\" ali \"de\"). Preostanek imena datoteke mora ustrezati pripadajoči video datoteki. Datoteka za angleške podnapise v videu \"my_video.mp4\" se temu ustrezno imenuje \"my_video_en.srt\"."
+
+#, fuzzy
+msgid "mob_url"
+msgstr "URL"
+
+#, fuzzy
+msgid "mob_url_info"
+msgstr "External resource URL, e.g. Youtube or Vimeo URL."
+
+#, fuzzy
+msgid "mob_url_info1"
+msgstr "External resource URL, allowed suffixes are:"
+
+#, fuzzy
+msgid "mob_url_info_video"
+msgstr "You may also refer to a Youtube or Vimeo URL."
+
+#, fuzzy
+msgid "mob_usages_in_media_pools"
+msgstr "Media Pool Usages"
+
+#, fuzzy
+msgid "mob_usages_in_other_objects"
+msgstr "Other Usages"

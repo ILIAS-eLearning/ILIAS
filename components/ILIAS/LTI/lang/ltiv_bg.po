@@ -1,0 +1,17 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: bg\n"
+"Language-Team: Bulgarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: ltiv\n"
+
+#, fuzzy
+msgid "ltiv_create"
+msgstr "Create Certificate for LTI Consumer Object"
+
+#, fuzzy
+msgid "ltiv_create_info"
+msgstr "Select a completed LTI consumer object to generate a certificate for it"

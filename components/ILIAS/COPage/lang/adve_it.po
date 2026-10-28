@@ -1,0 +1,94 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: adve\n"
+
+msgid "advanced_editing_excass_settings"
+msgstr "Impostazioni esercizi (consegna testi)"
+
+msgid "advanced_editing_tst_editing"
+msgstr "Editor di pagina per ulteriori contenuti delle domande"
+
+msgid "advanced_editing_tst_editing_desc"
+msgstr "Attiva ILIAS Page Editor per il feedback e la modifica del testo dei suggerimenti."
+
+msgid "adve_activation"
+msgstr "Attivazione"
+
+msgid "adve_auto_url_linking"
+msgstr "URL collegamento automatico"
+
+msgid "adve_auto_url_linking_info"
+msgstr "ILIAS analizza il testo e identifica gli URL (p.es. \"http://..\") creando automaticamente i collegamenti ipertestuali (link)."
+
+msgid "adve_autosave"
+msgstr "Intervallo di salvataggio automatico"
+
+msgid "adve_autosave_info"
+msgstr "Salvataggio automatico per il contenuto di testo. Con intervalli più brevi, il carico del server aumenta e le prestazioni del sistema diminuiscono."
+
+msgid "adve_autosave_info_min_10"
+msgstr "Scegli un valore minimo di 10 secondi se hai attivato questa funzione."
+
+msgid "adve_blocking_mode"
+msgstr "Blocco modifiche"
+
+msgid "adve_excass_settings"
+msgstr "Unità esercizi"
+
+msgid "adve_grp_copa"
+msgstr "Pagine Contenuto"
+
+#, fuzzy
+msgid "adve_grp_frm"
+msgstr "Forums"
+
+msgid "adve_grp_glo"
+msgstr "Glossari"
+
+msgid "adve_grp_lm"
+msgstr "Moduli E-learning ILIAS"
+
+msgid "adve_grp_rep"
+msgstr "Pagine dell'Archivio"
+
+msgid "adve_grp_scorm"
+msgstr "Moduli SCORM"
+
+msgid "adve_grp_test"
+msgstr "Test e Valutazione"
+
+msgid "adve_grp_wiki"
+msgstr "Wiki"
+
+msgid "adve_minutes"
+msgstr "Minuti"
+
+msgid "adve_minutes_info"
+msgstr "Minuti di inattività prima della scadenza di un blocco di modifica, successivamente la pagina può essere modificata da un altro utente."
+
+msgid "adve_page_editor_settings"
+msgstr "Impostazioni Editor di Pagina ILIAS"
+
+msgid "adve_pe_general"
+msgstr "Impostazioni"
+
+msgid "adve_rte_settings"
+msgstr "Impostazioni Rich Text Editor"
+
+msgid "adve_text_content_features"
+msgstr "Menu contenuto del testo"
+
+msgid "adve_use_physical"
+msgstr "Utilizzare <b>B</b>|<i>I</i>|<u>U</u> invece di str|emp|imp"
+
+msgid "adve_use_physical_info"
+msgstr "Questa impostazione sostituisce i semantici pulsanti di stile \"strong\", \"emphatic\" e \"important\" con \"b\" (grassetto), \"i\" (corsivo) e \"u\" (sottolineato). Si prega di notare, che questo potrebbe causare incoerenze se l'editor di stile è utilizzato e altri attributi fisici sono assegnati alle classi di stile strong/emphatic/important."
+
+msgid "adve_use_tiny_mce"
+msgstr "Abilita TinyMCE come Editor WYSIWYG (What You See Is What You Get)"

@@ -1,0 +1,45 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sl\n"
+"Language-Team: Slovenian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=4; plural=(n % 100 == 1) ? 0 : ((n % 100 == 2) ? 1 : ((n % 100 == 3 || n % 100 == 4) ? 2 : 3));\n"
+"X-Domain: exercise\n"
+
+msgid "exc_admin_settings"
+msgstr "Administracija vaje"
+
+msgid "exc_comment"
+msgstr "Stališče"
+
+msgid "exc_comment_for_learner"
+msgstr "Povratna informacija za udeleženca"
+
+msgid "exc_failed"
+msgstr "Ni opravljeno"
+
+msgid "exc_feedback_from_tutor"
+msgstr "Ocena mentorja"
+
+msgid "exc_grading"
+msgstr "Ocena"
+
+msgid "exc_mark"
+msgstr "Ocena"
+
+msgid "exc_notgraded"
+msgstr "Ni ocenjen"
+
+msgid "exc_passed"
+msgstr "Opravljeno"
+
+msgid "exc_send_mail"
+msgstr "Pošlji kot e-pošto"
+
+msgid "exc_start_date_should_be_before_end_date"
+msgstr "Začetni čas mora biti pred rokom za oddajo."
+
+msgid "exc_your_submission"
+msgstr "Vaša oddaja"

@@ -1,0 +1,54 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: lhist\n"
+
+msgid "cont_create_lhist"
+msgstr "Crea uno storico dell'apprendimento"
+
+msgid "cont_update_lhist"
+msgstr "Modifica storico dell'apprendimento"
+
+msgid "lhist_all"
+msgstr "Tutto"
+
+msgid "lhist_cont_placeholder_text"
+msgstr "Questo elemento mostrerà lo storico dell'apprendimento nella modalità di presentazione del portfolio."
+
+msgid "lhist_enable_learning_history"
+msgstr "Storico di apprendimento"
+
+msgid "lhist_enable_learning_history_info"
+msgstr "Abilita una panoramica dei traguardi dell'utente."
+
+msgid "lhist_first_login"
+msgstr "Primo accesso"
+
+msgid "lhist_learning_history"
+msgstr "Storico dell'apprendimento"
+
+msgid "lhist_lhist"
+msgstr "Storico dell'apprendimento"
+
+msgid "lhist_manual"
+msgstr "Manuale"
+
+msgid "lhist_no_entries"
+msgstr "Raggiungi i tuoi obiettivi! Impara qualcosa oggi per progredire nel tuo apprendimento."
+
+msgid "lhist_period"
+msgstr "Periodo"
+
+msgid "lhist_selected"
+msgstr "Selezionato"
+
+msgid "lhist_show_more"
+msgstr "Mostra di più"
+
+msgid "lhist_type_of_achievement"
+msgstr "Tipo di traguardo"

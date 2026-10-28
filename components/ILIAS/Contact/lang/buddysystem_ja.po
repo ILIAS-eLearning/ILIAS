@@ -1,0 +1,180 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: buddysystem\n"
+
+msgid "buddy_allow_to_contact_me"
+msgstr "コンタクトを許可"
+
+msgid "buddy_allow_to_contact_me_default_info"
+msgstr "ユーザーがデフォルトで互いに連絡を取るためのリクエストを送信できるかどうかを定義します。"
+
+msgid "buddy_allow_to_contact_me_info"
+msgstr "有効にすると他のユーザがコンタクト要求を送れるようになります。"
+
+msgid "buddy_bs_act_btn_txt_ignored_request_to_linked"
+msgstr "要求を確認"
+
+msgid "buddy_bs_act_btn_txt_ignored_request_to_unlinked"
+msgstr "要求をキャンセル"
+
+msgid "buddy_bs_act_btn_txt_linked_to_unlinked"
+msgstr "リンクなし"
+
+msgid "buddy_bs_act_btn_txt_requested_to_ignored_request"
+msgstr "無視"
+
+msgid "buddy_bs_act_btn_txt_requested_to_linked"
+msgstr "確認"
+
+msgid "buddy_bs_act_btn_txt_requested_to_unlinked"
+msgstr "要求をキャンセル"
+
+msgid "buddy_bs_action_already_ignored"
+msgstr "すでにユーザ'%s'を無視しました。"
+
+msgid "buddy_bs_action_already_linked"
+msgstr "すでにユーザ'%s'からコンタクト要求を承認しました。"
+
+msgid "buddy_bs_action_already_requested"
+msgstr "すでにユーザ'%s'を要求しました。"
+
+msgid "buddy_bs_action_already_unlinked"
+msgstr "ユーザ'%s'のコンタクト状態はすでにリンク解除されています。"
+
+msgid "buddy_bs_action_not_possible"
+msgstr "アクションは不可"
+
+msgid "buddy_bs_btn_txt_ignored_request_a"
+msgstr "コンタクトを要求"
+
+msgid "buddy_bs_btn_txt_ignored_request_p"
+msgstr "要求を無視"
+
+msgid "buddy_bs_btn_txt_linked_a"
+msgstr "リンク済み"
+
+msgid "buddy_bs_btn_txt_linked_p"
+msgstr "リンク済み"
+
+msgid "buddy_bs_btn_txt_requested_a"
+msgstr "要求済みのコンタクト"
+
+msgid "buddy_bs_btn_txt_requested_p"
+msgstr "要求"
+
+msgid "buddy_bs_btn_txt_unlinked_a"
+msgstr "コンタクトを要求"
+
+msgid "buddy_bs_state_ignored_request_a"
+msgstr "要求済み"
+
+msgid "buddy_bs_state_ignored_request_p"
+msgstr "無視"
+
+msgid "buddy_bs_state_ignoredrequest"
+msgstr "無視"
+
+msgid "buddy_bs_state_linked"
+msgstr "リンク済み"
+
+msgid "buddy_bs_state_linked_a"
+msgstr "リンク済み"
+
+msgid "buddy_bs_state_linked_p"
+msgstr "Linked"
+
+msgid "buddy_bs_state_requested"
+msgstr "要求済み"
+
+msgid "buddy_bs_state_requested_a"
+msgstr "要求済み"
+
+msgid "buddy_bs_state_requested_filter_a"
+msgstr "リアクション待ち"
+
+msgid "buddy_bs_state_requested_filter_p"
+msgstr "アクションを要求しました"
+
+msgid "buddy_bs_state_requested_p"
+msgstr "要求済み"
+
+msgid "buddy_bs_state_unlinked"
+msgstr "Unlinked"
+
+msgid "buddy_bs_state_unlinked_a"
+msgstr "リンクなし"
+
+msgid "buddy_bs_state_unlinked_p"
+msgstr "Unlinked"
+
+msgid "buddy_confirm_unlink"
+msgstr "本当にこの連絡先との接続を切断しますか？"
+
+msgid "buddy_enable"
+msgstr "‘コンタクト’を有効化"
+
+msgid "buddy_enable_info"
+msgstr "有効にするとユーザはコンタクト要求を出してお互いにコンタクトを許可されます。また、許可またはコンタクトの準備のパーソナルユーザ設定があります。"
+
+msgid "buddy_handle_contact_request"
+msgstr "コンタクト要求"
+
+msgid "buddy_noti_cr_profile_not_published"
+msgstr "プロファイルは未公開"
+
+msgid "buddy_notification_contact_request"
+msgstr "コンタクト要求"
+
+msgid "buddy_notification_contact_request_ignore"
+msgstr "要求を無視しました:"
+
+msgid "buddy_notification_contact_request_ignore_osd"
+msgstr "要求を無視"
+
+msgid "buddy_notification_contact_request_link"
+msgstr "要求を承認:"
+
+msgid "buddy_notification_contact_request_link_osd"
+msgstr "要求を承認"
+
+msgid "buddy_notification_contact_request_long"
+msgstr "[SALUTATION][BR][BR]ユーザ\"[REQUESTING_USER]\"が友達リストへ追加される事を希望します。[BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]"
+
+msgid "buddy_notification_contact_request_short"
+msgstr "ユーザ\"[REQUESTING_USER]\" が友達リストへ追加される事を希望します。[BR][BR][APPROVE_REQUEST][BR][IGNORE_REQUEST]"
+
+msgid "buddy_relation_requested"
+msgstr "要求はユーザへ送信されました。"
+
+msgid "buddy_request_approved"
+msgstr "コンタクトが承認されました。"
+
+msgid "buddy_request_ignored"
+msgstr "ユーザを無視しました。"
+
+msgid "buddy_tbl_filter_state"
+msgstr "ステータス"
+
+msgid "buddy_tbl_state_actions_col_label"
+msgstr "State / Action"
+
+msgid "buddy_tbl_title_relations"
+msgstr "他のユーザとの関係"
+
+msgid "buddy_use_osd"
+msgstr "コンタクト要求をポップアップ"
+
+msgid "buddy_use_osd_info"
+msgstr "友達リストへ追加したいユーザを示すポップアップを表示する"
+
+msgid "buddy_view_gallery"
+msgstr "ギャラリー"
+
+msgid "buddy_view_table"
+msgstr "リスト"

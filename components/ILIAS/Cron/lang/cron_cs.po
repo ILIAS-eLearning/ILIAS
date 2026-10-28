@@ -1,0 +1,163 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: cron\n"
+
+msgid "cro_job_rc_job_auto_deactivation_time_limit"
+msgstr "PRAVDĚPODOBNĚ DOŠLO K PÁDU"
+
+msgid "cro_job_rc_job_manual_reset"
+msgstr "MANUÁLNĚ RESETOVAT"
+
+msgid "cro_job_rc_job_no_result"
+msgstr "Cronová úloha nevrátila správný výsledek"
+
+msgid "cron_action_activate"
+msgstr "Aktivovat"
+
+msgid "cron_action_activate_success"
+msgstr "Cron-Job aktivován."
+
+msgid "cron_action_activate_sure"
+msgstr "Skutečně chcete aktivovat cron-job \"%s\"?"
+
+msgid "cron_action_activate_sure_multi"
+msgstr "Opravdu chcete aktivovat následující cronové úlohy?"
+
+msgid "cron_action_deactivate"
+msgstr "Deaktivovat"
+
+msgid "cron_action_deactivate_success"
+msgstr "Cron-Job deaktivován."
+
+msgid "cron_action_deactivate_sure"
+msgstr "Skutečně chcete deaktivovat cron-job \"%s\"?"
+
+msgid "cron_action_deactivate_sure_multi"
+msgstr "Opravdu chcete deaktivovat následující cronové úlohy?"
+
+msgid "cron_action_edit"
+msgstr "Upravit"
+
+msgid "cron_action_edit_success"
+msgstr "Rozvrh aktualizován."
+
+msgid "cron_action_reset"
+msgstr "Resetovat"
+
+msgid "cron_action_reset_success"
+msgstr "Cron-Job resetován."
+
+msgid "cron_action_reset_sure"
+msgstr "Skutečně chcete resetovat cron-job \"%s\"?"
+
+msgid "cron_action_reset_sure_multi"
+msgstr "Opravdu chcete obnovit následující cronové úlohy?"
+
+msgid "cron_action_run"
+msgstr "Vykonat"
+
+msgid "cron_action_run_fail"
+msgstr "Cron-Job selhal."
+
+msgid "cron_action_run_success"
+msgstr "Cron-Job běží úspěšně."
+
+msgid "cron_action_run_sure"
+msgstr "Skutečně chcete spustit cron-job \"%s\"?"
+
+msgid "cron_changed_by_crontab"
+msgstr "SYSTEM"
+
+msgid "cron_component"
+msgstr "Komponenta"
+
+msgid "cron_job_id"
+msgstr "Id"
+
+#, fuzzy
+msgid "cron_jobs_with_required_intervention"
+msgstr "The following jobs may require an intervention."
+
+msgid "cron_last_run"
+msgstr "Poslední chod"
+
+msgid "cron_no_executable_job_selected"
+msgstr "Vyberte alespoň jednu proveditelnou cronovou úlohu."
+
+msgid "cron_result"
+msgstr "Výsledek"
+
+msgid "cron_result_info"
+msgstr "Info výsledku"
+
+msgid "cron_result_status_crashed"
+msgstr "Havaroval"
+
+msgid "cron_result_status_fail"
+msgstr "Nepodařilo se"
+
+msgid "cron_result_status_invalid_configuration"
+msgstr "Chybná konfigurace"
+
+msgid "cron_result_status_no_action"
+msgstr "Ok, nepracuje"
+
+msgid "cron_result_status_ok"
+msgstr "Ok"
+
+msgid "cron_result_status_reset"
+msgstr "Reset"
+
+msgid "cron_running_since"
+msgstr "Běží od"
+
+msgid "cron_schedule"
+msgstr "Rozvrh"
+
+msgid "cron_schedule_daily"
+msgstr "Denně"
+
+msgid "cron_schedule_in_days"
+msgstr "Každých %s dnů"
+
+msgid "cron_schedule_in_hours"
+msgstr "Každých %s hdin"
+
+msgid "cron_schedule_in_minutes"
+msgstr "Každých %s minut"
+
+msgid "cron_schedule_monthly"
+msgstr "Měsíčně"
+
+msgid "cron_schedule_quarterly"
+msgstr "Čtvrtletně"
+
+msgid "cron_schedule_type"
+msgstr "Rozvrh"
+
+msgid "cron_schedule_value"
+msgstr "Interval"
+
+msgid "cron_schedule_weekly"
+msgstr "Týdně"
+
+msgid "cron_schedule_yearly"
+msgstr "Ročně"
+
+msgid "cron_status"
+msgstr "Status"
+
+msgid "cron_status_active"
+msgstr "Aktivní"
+
+msgid "cron_status_inactive"
+msgstr "Neaktivní"
+
+msgid "cron_status_info"
+msgstr "Status Info"

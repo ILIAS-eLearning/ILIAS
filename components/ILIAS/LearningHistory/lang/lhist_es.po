@@ -1,0 +1,54 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: lhist\n"
+
+msgid "cont_create_lhist"
+msgstr "Crear elemento de historial de aprendizaje"
+
+msgid "cont_update_lhist"
+msgstr "Editar elemento de historial de aprendizaje"
+
+msgid "lhist_all"
+msgstr "Todo"
+
+msgid "lhist_cont_placeholder_text"
+msgstr "Este elemento mostrará el historial de aprendizaje en el modo de presentación del portafolio."
+
+msgid "lhist_enable_learning_history"
+msgstr "Historial de aprendizaje"
+
+msgid "lhist_enable_learning_history_info"
+msgstr "Habilita una vista general de todos los logros de un usuario."
+
+msgid "lhist_first_login"
+msgstr "Primer inicio de sesión"
+
+msgid "lhist_learning_history"
+msgstr "Historial de aprendizaje"
+
+msgid "lhist_lhist"
+msgstr "Historial de aprendizaje"
+
+msgid "lhist_manual"
+msgstr "Manual"
+
+msgid "lhist_no_entries"
+msgstr "¡Alcanza tus metas! Aprende algo hoy para ampliar tu historial de aprendizaje."
+
+msgid "lhist_period"
+msgstr "Periodo"
+
+msgid "lhist_selected"
+msgstr "Seleccionado"
+
+msgid "lhist_show_more"
+msgstr "Mostrar más"
+
+msgid "lhist_type_of_achievement"
+msgstr "Tipo de logro"

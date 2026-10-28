@@ -1,0 +1,33 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: wfld\n"
+
+msgid "wfld_add"
+msgstr ""
+
+msgid "wfld_alphabetically_asc"
+msgstr ""
+
+msgid "wfld_alphabetically_desc"
+msgstr ""
+
+msgid "wfld_creation_asc"
+msgstr ""
+
+msgid "wfld_creation_desc"
+msgstr ""
+
+msgid "wfld_derive"
+msgstr ""
+
+msgid "wfld_edit"
+msgstr ""
+
+msgid "wfld_new"
+msgstr ""
+
+msgid "wfld_sortation"
+msgstr ""

@@ -1,0 +1,322 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hr\n"
+"Language-Team: Croatian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: registration\n"
+
+msgid "reg_access_limitation_limited_time"
+msgstr "Nakon registracije pristup za"
+
+msgid "reg_access_limitation_limited_until"
+msgstr "Pristup je ograničen do"
+
+msgid "reg_access_limitation_missing_mode"
+msgstr "Molimo odaberite za sve uloge način ograničenja pristupa"
+
+msgid "reg_access_limitation_mode"
+msgstr "Način ograničenja pristupa"
+
+msgid "reg_access_limitation_mode_absolute"
+msgstr "Pristup je ograničen određenim datumom"
+
+msgid "reg_access_limitation_mode_absolute_target"
+msgstr "Vrijedi do"
+
+msgid "reg_access_limitation_mode_relative"
+msgstr "Ograničeni pristup određeno vrijeme nakon registracije"
+
+msgid "reg_access_limitation_mode_relative_target"
+msgstr "Vrijedi za"
+
+msgid "reg_access_limitation_mode_unlimited"
+msgstr "Nema ograničenja pristupa"
+
+msgid "reg_access_limitation_none"
+msgstr "Neograničen pristup"
+
+msgid "reg_access_limitation_out_of_date"
+msgstr "Jedna ili više uloga imaju zastarjela ograničenja pristupa!"
+
+msgid "reg_access_limitations"
+msgstr "Ograničenje pristupa"
+
+msgid "reg_add_assignment"
+msgstr "Novi zadatak"
+
+msgid "reg_added_assignment"
+msgstr "Dodan je novi zadatak."
+
+msgid "reg_allow_codes"
+msgstr "Dopusti kodove"
+
+msgid "reg_allow_codes_info"
+msgstr "Korisnici se također mogu registrirati putem kodova."
+
+msgid "reg_allowed_domains"
+msgstr "Dopuštene domene adresa e-pošte"
+
+msgid "reg_allowed_domains_info"
+msgstr "Koristite * kao zamjenski znak i ; kao separator. npr. \"*@ilias.de\". Registracijski kodovi zamjenjuju ta pravila."
+
+msgid "reg_approve"
+msgstr "Registracija s odobrenjem"
+
+msgid "reg_approve_info"
+msgstr "Ako je potvrđeno, bilo koju novu registraciju korisnika mora odobriti administrator."
+
+msgid "reg_approve_needs_recipient"
+msgstr "Trebali biste definirati najmanje jednog korisnika koji će biti obaviješten o novim registracijama, ako je odabrana vrsta registracije ‘Registracija s odobrenjem’."
+
+msgid "reg_available_roles"
+msgstr "Dostupne uloge:"
+
+#, fuzzy
+msgid "reg_confirmation_already_confirmed"
+msgstr "The registration is no longer pending, it has already been confirmed."
+
+msgid "reg_confirmation_hash_life_time"
+msgstr "Trajanje"
+
+msgid "reg_confirmation_hash_life_time_expired"
+msgstr "Poveznica za potvrdu više nije važeća. Molimo registrirajte se ponovno!"
+
+msgid "reg_confirmation_hash_life_time_info"
+msgstr "Unesite trajanje (sekunde) poveznice za potvrdu. Preporučena vrijednost je 1800 sekundi."
+
+msgid "reg_confirmation_hash_not_found"
+msgstr "Nijedan korisnički račun ne može se povezati s ovom poveznicom za potvrdu."
+
+#, fuzzy
+msgid "reg_confirmation_hash_not_passed"
+msgstr "The confirmation link is incomplete."
+
+msgid "reg_confirmation_link_successful"
+msgstr "Uspješno ste podnijeli zahtjev za račun ILIAS-u. U sljedećih nekoliko minuta primit ćete e-poruku s potvrdom. Potvrdite svoju registraciju klikom na poveznicu za potvrdu u ovoj poruci e-pošte.<br />Bit ćete preusmjereni na <a href=\"%s\" title=\"login screen\"> zaslon za prijavu </a> nakon 20 sekundi."
+
+msgid "reg_default"
+msgstr "Zadano"
+
+msgid "reg_deleted_assignment"
+msgstr "Izbrisani zadatak(-ci)."
+
+msgid "reg_direct"
+msgstr "Izravna registracija"
+
+msgid "reg_direct_info"
+msgstr "Ako je ovo potvrđeno, svaki novi zahtjev za registraciju korisnika automatski se odobrava."
+
+msgid "reg_disabled"
+msgstr "Registracija nije moguća"
+
+msgid "reg_domain"
+msgstr "Domena"
+
+#, fuzzy
+msgid "reg_domain_already_assigned_p"
+msgstr "The domains '%s' were already entered for another role."
+
+#, fuzzy
+msgid "reg_domain_already_assigned_s"
+msgstr "The domain '%s' was already entered for another role. "
+
+msgid "reg_email"
+msgstr "Automatsko dodjeljivanje uloga"
+
+msgid "reg_email_domains"
+msgstr "Sljedeće domene adresa e-pošte su važeće: %s"
+
+msgid "reg_email_domains_code"
+msgstr "S registracijskim kodom vrijedi bilo koja adresa e-pošte."
+
+msgid "reg_email_role_assignment"
+msgstr "Dodjela uloga prema domeni"
+
+msgid "reg_fixed"
+msgstr "Odabir s navedenog popisa"
+
+msgid "reg_info_pwd"
+msgstr "Ako je omogućeno, lozinke će se automatski slati novim korisnicima e-poštom."
+
+msgid "reg_mail_body_activation"
+msgstr "da biste aktivirali svoj račun i potvrdili vlasništvo nad ovom adresom e-pošte, kliknite na donju poveznicu:"
+
+msgid "reg_mail_body_approve"
+msgstr "Već ste se registrirali za ILIAS eLearning i dobili ste e-poštu s podacima o vašem računu. Sada je administrator aktivirao vaš račun."
+
+msgid "reg_mail_body_confirmation"
+msgstr "Da biste potvrdili ovu registraciju, uđite administraciju korisnika ILIAS i aktivirajte račun."
+
+msgid "reg_mail_body_profile"
+msgstr "Podaci o profilu:"
+
+msgid "reg_mail_body_profile_changed"
+msgstr "vaš se profil promijenio!"
+
+msgid "reg_mail_body_pwd_generation"
+msgstr "Administrator će pregledati zahtjev za vaš račun te bi se trebao aktivirati u roku od 48 sati. Obavijestit ćemo vas e-poštom kad se izda odobrenje."
+
+msgid "reg_mail_body_reason"
+msgstr "Od ILIAS-a primate poštu jer su za vaš račun u administraciji ILIAS-a omogućene obavijesti o novim registracijama."
+
+msgid "reg_mail_body_timelimit"
+msgstr "Vaš račun ima ograničeno razdoblje valjanosti: %s."
+
+msgid "reg_mail_new_user"
+msgstr "Registracija novog korisnika"
+
+msgid "reg_mail_new_user_body"
+msgstr "Registriran je novi korisnik."
+
+msgid "reg_mail_new_user_confirmation"
+msgstr "Zahtjev za potvrdu računa"
+
+msgid "reg_missing_domain"
+msgstr "Molimo ispunite sva polja."
+
+msgid "reg_missing_role"
+msgstr "Molimo ispunite sva polja."
+
+msgid "reg_notification"
+msgstr "Obavijesti"
+
+msgid "reg_notification_info"
+msgstr "Unesite jedan ili više korisničkih ID-a za prijavu (odvojenih zarezom) koji će e-poštom biti obaviješteni o novim registracijama korisnika."
+
+msgid "reg_role_access_limitations"
+msgstr "Definiraj ograničenja pristupa uloga za nove registrirane korisnike"
+
+msgid "reg_role_assignment"
+msgstr "Dodjela uloga"
+
+msgid "reg_role_info"
+msgstr "Dodijeljene uloge"
+
+msgid "reg_select_one"
+msgstr "Odaberi jedan unos."
+
+msgid "reg_selectable_roles"
+msgstr "Uloge koje se mogu odabrati"
+
+msgid "reg_settings_header"
+msgstr "Nove postavke registracije"
+
+msgid "reg_type"
+msgstr "Vrsta registracije"
+
+msgid "reg_type_confirmation"
+msgstr "Registracija s potvrdom e-pošte"
+
+msgid "reg_type_confirmation_info"
+msgstr "Ovaj tip omogućuje samoregistraciju korisnika, ali za aktiviranje računa potrebna je potvrda e-poštom. Time se izbjegava samoprijava ILIAS-u s pogrešnim ili nepostojećim adresama e-pošte."
+
+msgid "reg_unknown_recipients"
+msgstr "Sljedeći računi nisu valjani:"
+
+msgid "registration_code"
+msgstr "Kod"
+
+msgid "registration_code_not_valid"
+msgstr "Dani registracijski kod je ili nevaljan ili je već korišten."
+
+msgid "registration_code_optional_info"
+msgstr "Ako ste dobili registracijski kod, unesite ga ovdje."
+
+msgid "registration_code_required_info"
+msgstr "Unaprijed definirani kod obvezan je za postupak registracije."
+
+msgid "registration_code_role_info"
+msgstr "Ako koristite registracijski kod, odabir uloge može zamijeniti kod."
+
+msgid "registration_codes_access_limitation_all"
+msgstr "Svi"
+
+msgid "registration_codes_add"
+msgstr "Dodaj kodove"
+
+msgid "registration_codes_edit_header"
+msgstr "Dodaj kodove"
+
+msgid "registration_codes_export"
+msgstr "Izvezi kodove"
+
+msgid "registration_codes_no_assigned_role"
+msgstr "Nema unaprijed definirane uloge"
+
+msgid "registration_codes_number"
+msgstr "Broj kodova"
+
+msgid "registration_codes_override_global_info"
+msgstr "Ove postavke mogu biti pregražene registracijskim kodovima."
+
+msgid "registration_codes_override_info"
+msgstr "Ova postavka poništava sve vrijednosti definirane u 'Postavkama registracije'."
+
+msgid "registration_codes_roles"
+msgstr "Globalna uloga"
+
+msgid "registration_codes_roles_limitation_none"
+msgstr "Nema unaprijed definiranog ograničenja pristupa"
+
+msgid "registration_codes_roles_local"
+msgstr "Lokalna(e) uloga(e)"
+
+msgid "registration_codes_roles_title"
+msgstr "Uloga za nove račune"
+
+msgid "registration_codes_type"
+msgstr "Tip koda"
+
+msgid "registration_codes_type_ext"
+msgstr "Proširenje ograničenih korisničkih računa"
+
+msgid "registration_codes_type_ext_info"
+msgstr "Kod se može koristiti za proširenje ograničenih računa."
+
+msgid "registration_codes_type_reg"
+msgstr "Registracijski kod"
+
+msgid "registration_codes_type_reg_info"
+msgstr "Kod se može koristiti za registraciju ako se radi o novom korisničkom računu"
+
+msgid "registration_disabled_no_access"
+msgstr "Samoregistracija nije omogućena. Molimo kontaktirajte administraciju sustava za daljnju pomoć: %s"
+
+msgid "registration_export_codes_no_data"
+msgstr "Nije odabran nijedan kod za izvoz."
+
+msgid "registration_generated"
+msgstr "Datum izrade"
+
+msgid "registration_generated_all"
+msgstr "Svi datumi"
+
+msgid "registration_no_valid_role"
+msgstr "Trenutno nema valjane uloge za nove račune. Molimo kontaktirajte svog administratora."
+
+msgid "registration_reg_type_codes"
+msgstr "Registracija kodovima"
+
+msgid "registration_reg_type_codes_info"
+msgstr "Ovaj tip omogućuje samoregistraciju korisnika, ali zahtijeva valjani kod."
+
+msgid "registration_roles_all"
+msgstr "Sve uloge"
+
+msgid "registration_settings"
+msgstr "ILIAS autorizacija / samoprijava"
+
+msgid "registration_tab_codes"
+msgstr "Registracijski kodovi"
+
+msgid "registration_tab_settings"
+msgstr "Postavke registracije"
+
+msgid "registration_used"
+msgstr "Datum upotrebe"
+
+msgid "registration_user_new_account_mail"
+msgstr "Uredi novi račun e-pošte"

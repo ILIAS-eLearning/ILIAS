@@ -1,0 +1,105 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"Language-Team: English\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: stus\n"
+
+msgid "stus_action_delete"
+msgstr "Delete"
+
+msgid "stus_action_edit"
+msgstr "Edit"
+
+msgid "stus_action_toggle"
+msgstr "Activate/Deactivate"
+
+msgid "stus_active"
+msgstr "Active"
+
+msgid "stus_alias"
+msgstr "Shortlink"
+
+msgid "stus_alias_already_exists"
+msgstr "The shortlink is already taken. Please choose another one."
+
+msgid "stus_alias_invalid"
+msgstr "The shortlink contains invalid characters. Permitted characters: A-Z, a-z, 0-9, - and _"
+
+msgid "stus_confirm_delete"
+msgstr "Delete entries"
+
+msgid "stus_create_shortlink"
+msgstr "Create shortlink"
+
+msgid "stus_delete"
+msgstr "Delete"
+
+msgid "stus_delete_shortlink"
+msgstr "Delete"
+
+msgid "stus_delete_shortlink_msg"
+msgstr "Shortlink deleted"
+
+msgid "stus_index"
+msgstr "Manage"
+
+msgid "stus_info"
+msgstr "Information"
+
+msgid "stus_info_active"
+msgstr "Inactive shortlinks are not redirected when called up."
+
+msgid "stus_info_alias"
+msgstr "May only contain the following characters: A-Z, a-z, 0-9, - und _"
+
+msgid "stus_info_target_ref_id"
+msgstr "Target object"
+
+msgid "stus_order_saved"
+msgstr "Order saved"
+
+msgid "stus_prefix"
+msgstr "Prefix"
+
+msgid "stus_rbac_permissions"
+msgstr "Permissions"
+
+msgid "stus_shortlink"
+msgstr "Shortlink"
+
+msgid "stus_shortlinks"
+msgstr "Shortlinks"
+
+msgid "stus_shortlinks_deleted"
+msgstr "Shortlinks have been deleted"
+
+msgid "stus_shortlinks_toggled"
+msgstr "Shortlinks have been deactivated/activated"
+
+msgid "stus_stus_stored_sucessfully"
+msgstr "Shortlink successfully saved"
+
+msgid "stus_stus_toggle"
+msgstr "Deactivate/Activate"
+
+msgid "stus_target_link"
+msgstr "Target object"
+
+msgid "stus_target_ref_id"
+msgstr "Target object"
+
+msgid "stus_target_ref_id_required"
+msgstr "Select a target object."
+
+msgid "stus_toggle"
+msgstr "Deactivate/Activate"
+
+msgid "stus_toggle_shortlink"
+msgstr "Change status"
+
+msgid "stus_toggle_shortlink_msg"
+msgstr "Would you like to change the active status of the following entries?"

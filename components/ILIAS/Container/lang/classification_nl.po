@@ -1,0 +1,29 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: nl\n"
+"Language-Team: Dutch\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: classification\n"
+
+#, fuzzy
+msgid "clsfct_back_to_cat"
+msgstr "Back to Category"
+
+msgid "clsfct_block_info"
+msgstr "Je selectie filtreert de objecten"
+
+msgid "clsfct_block_title"
+msgstr "Selectie per onderwerp"
+
+msgid "clsfct_content_no_match"
+msgstr "Geen overeenkomsten"
+
+msgid "clsfct_content_title"
+msgstr "Objecten die overeenkomen met je selectie"
+
+#, fuzzy
+msgid "clsfct_selected_objects"
+msgstr "Selected Objects"

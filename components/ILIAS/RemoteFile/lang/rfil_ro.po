@@ -1,0 +1,17 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ro\n"
+"Language-Team: Romanian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n == 0 || n != 1 && n % 100 >= 1 && n % 100 <= 19) ? 1 : 2);\n"
+"X-Domain: rfil\n"
+
+#, fuzzy
+msgid "rfil_call"
+msgstr "Call ECS File "
+
+#, fuzzy
+msgid "rfil_version_tstamp"
+msgstr "Upload Date"

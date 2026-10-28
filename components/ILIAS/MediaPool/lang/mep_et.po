@@ -1,0 +1,178 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: et\n"
+"Language-Team: Estonian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: mep\n"
+
+msgid "mep_all"
+msgstr "Kõik"
+
+msgid "mep_all_mobs"
+msgstr "Kõik meediaobjektid"
+
+#, fuzzy
+msgid "mep_bulk_upload"
+msgstr "Bulk Upload"
+
+msgid "mep_choose_from_folder"
+msgstr "Choose from Folder"
+
+msgid "mep_choose_from_mep"
+msgstr "Vali järgmisest varamust"
+
+#, fuzzy
+msgid "mep_clipboard_info"
+msgstr "Here you can upload media files that you can then access from any page on which you have access to the page editor. The clipboard is also accessible in media pools. This storage is only for you and cannot be viewed by other users."
+
+#, fuzzy
+msgid "mep_content"
+msgstr "Content"
+
+msgid "mep_content_snippet_in_use"
+msgstr "Faili eelvaade '%s' on kasutusel ja seda ei saa kustutada."
+
+msgid "mep_content_snippet_used_in_older_versions"
+msgstr "Please note: This snippet is used in older versions of some pages. If these pages are rolled back to a version that includes this snippet, the snippet will be missing in the page."
+
+msgid "mep_copy_to_mep"
+msgstr "Kopeeri meedia varamusse"
+
+msgid "mep_create_content_snippet"
+msgstr "Loo sisu väljavõte"
+
+msgid "mep_create_folder"
+msgstr "Loo kaust"
+
+msgid "mep_create_media_files"
+msgstr "Loo multimeedia olemeid"
+
+msgid "mep_create_mob"
+msgstr "Loo meediaobjekt"
+
+msgid "mep_default_height"
+msgstr "Kõrgus vaikimisi"
+
+msgid "mep_default_width"
+msgstr "Laius vaikimisi"
+
+msgid "mep_default_width_height_info"
+msgstr "Vaikimisi kõrgust ja laiust kasutatakse uue meeidaobjekti loomise algsätetena."
+
+msgid "mep_edit_content_snippet"
+msgstr "Muuda faili eelvaadet"
+
+msgid "mep_edit_folder"
+msgstr "Muuda kausta"
+
+msgid "mep_file"
+msgstr "File"
+
+msgid "mep_folder"
+msgstr "Kaust"
+
+msgid "mep_format"
+msgstr "Formaat"
+
+msgid "mep_import"
+msgstr "Impordi meediavaramu"
+
+#, fuzzy
+msgid "mep_import_lang"
+msgstr "Target Language"
+
+#, fuzzy
+msgid "mep_import_trans"
+msgstr "Import Translation"
+
+#, fuzzy
+msgid "mep_master_language_only"
+msgstr "Master Language for Translation"
+
+#, fuzzy
+msgid "mep_master_language_only_no_media"
+msgstr "Master Language without Media"
+
+#, fuzzy
+msgid "mep_media_files"
+msgstr "Media Files"
+
+#, fuzzy
+msgid "mep_media_subtitles"
+msgstr "Media Subtitles"
+
+#, fuzzy
+msgid "mep_mob"
+msgstr "Media Object"
+
+#, fuzzy
+msgid "mep_move_select_insert"
+msgstr "Navigate to target folder and click \"Insert\""
+
+#, fuzzy
+msgid "mep_mpg"
+msgstr "Content Snippet"
+
+msgid "mep_new_content_snippet"
+msgstr "Uus sisu väljavõte"
+
+msgid "mep_new_folder"
+msgstr "uus kaust"
+
+msgid "mep_page_properties"
+msgstr "Lehe omadused"
+
+#, fuzzy
+msgid "mep_page_type_mep"
+msgstr "Content Snippet"
+
+msgid "mep_thumbnail"
+msgstr "Pisipilt"
+
+msgid "mep_title_and_description"
+msgstr "Nimetus ja kirjeldus"
+
+#, fuzzy
+msgid "mep_trans_import_info"
+msgstr "If you exported this module as XML/Master Language for Translation to another installation, you can now re-import translated export files from this second installation here."
+
+msgid "mep_unknown"
+msgstr "Teadmata"
+
+msgid "mep_up_dir_copy"
+msgstr "Copy Files from Upload Directory (Keeps files in the upload directory)"
+
+msgid "mep_up_dir_move"
+msgstr "Move Files from Upload Directory (Faster)"
+
+msgid "mep_upload_dir_files"
+msgstr "Files from Upload Directory"
+
+msgid "mobs_activate_pages"
+msgstr "Aktiveeri sisu lehtede haldus"
+
+msgid "mobs_activate_pages_info"
+msgstr "Luba sisu lehti lisada meediavaramutesse. Neid lehti saab taaskasutada (mitte muuta) õppemoodulites jne."
+
+msgid "mobs_always_show_file_manager"
+msgstr "Näita failihaldajat alati"
+
+msgid "mobs_always_show_file_manager_info"
+msgstr "Kui pole aktiivne, on meediaobjektide failihaldaja peidetud for simple mime types (e.g. images)."
+
+#, fuzzy
+msgid "mobs_black_list_file_types"
+msgstr "Forbidden File Types"
+
+#, fuzzy
+msgid "mobs_black_list_file_types_and_allowed_info"
+msgstr "Enter a comma separated list of mime types. This list will restrict the set of allowed file types. Currently allowed mime types are:"
+
+msgid "mobs_restrict_file_types"
+msgstr "Keela failitüübid"
+
+msgid "mobs_restrict_file_types_info"
+msgstr "Enter a comma separated list of file suffixes (e.g. jpg,gif) that are allowed to be uploaded into media objects. If no value is entered, all file types are allowed."

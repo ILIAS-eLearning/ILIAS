@@ -1,0 +1,162 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: cron\n"
+
+msgid "cro_job_rc_job_auto_deactivation_time_limit"
+msgstr "Tarea programada desactivada porque ha estado inactiva durante 3 horas"
+
+msgid "cro_job_rc_job_manual_reset"
+msgstr "Tarea programada reactivada por el administrador"
+
+msgid "cro_job_rc_job_no_result"
+msgstr "La tarea programada no devolvió un resultado adecuado"
+
+msgid "cron_action_activate"
+msgstr "Activar"
+
+msgid "cron_action_activate_success"
+msgstr "Tarea programada activada."
+
+msgid "cron_action_activate_sure"
+msgstr "¿Está seguro de que desea activar la tarea programada \"%s\"?"
+
+msgid "cron_action_activate_sure_multi"
+msgstr "¿Está seguro de que desea activar las siguientes tareas programadas?"
+
+msgid "cron_action_deactivate"
+msgstr "Desactivar"
+
+msgid "cron_action_deactivate_success"
+msgstr "Tarea programada desactivada."
+
+msgid "cron_action_deactivate_sure"
+msgstr "¿Está seguro de que desea desactivar la tarea programada \"%s\"?"
+
+msgid "cron_action_deactivate_sure_multi"
+msgstr "¿Está seguro de que desea desactivar las siguientes tareas programadas?"
+
+msgid "cron_action_edit"
+msgstr "Editar"
+
+msgid "cron_action_edit_success"
+msgstr "Programación actualizada."
+
+msgid "cron_action_reset"
+msgstr "Reiniciar"
+
+msgid "cron_action_reset_success"
+msgstr "Tarea programada reiniciada."
+
+msgid "cron_action_reset_sure"
+msgstr "¿Está seguro de que desea reiniciar la tarea programada \"%s\"?"
+
+msgid "cron_action_reset_sure_multi"
+msgstr "¿Está seguro de que desea reiniciar las siguientes tareas programadas?"
+
+msgid "cron_action_run"
+msgstr "Ejecutar tarea programada"
+
+msgid "cron_action_run_fail"
+msgstr "La tarea programada falló."
+
+msgid "cron_action_run_success"
+msgstr "La tarea programada se ejecutó con éxito."
+
+msgid "cron_action_run_sure"
+msgstr "¿Está seguro de que desea ejecutar la tarea programada \"%s\"?"
+
+msgid "cron_changed_by_crontab"
+msgstr "SISTEMA"
+
+msgid "cron_component"
+msgstr "Componente"
+
+msgid "cron_job_id"
+msgstr "ID"
+
+msgid "cron_jobs_with_required_intervention"
+msgstr "The following jobs may require an intervention."
+
+msgid "cron_last_run"
+msgstr "Última ejecución"
+
+msgid "cron_no_executable_job_selected"
+msgstr "Por favor, seleccione al menos una tarea programada ejecutable."
+
+msgid "cron_result"
+msgstr "Resultado"
+
+msgid "cron_result_info"
+msgstr "Información del resultado"
+
+msgid "cron_result_status_crashed"
+msgstr "Colapsado"
+
+msgid "cron_result_status_fail"
+msgstr "Fallido"
+
+msgid "cron_result_status_invalid_configuration"
+msgstr "Configuración no válida"
+
+msgid "cron_result_status_no_action"
+msgstr "Ok, sin procesamiento"
+
+msgid "cron_result_status_ok"
+msgstr "Ok"
+
+msgid "cron_result_status_reset"
+msgstr "Restablecer"
+
+msgid "cron_running_since"
+msgstr "En ejecución desde"
+
+msgid "cron_schedule"
+msgstr "Programación"
+
+msgid "cron_schedule_daily"
+msgstr "Diario"
+
+msgid "cron_schedule_in_days"
+msgstr "Cada %s días"
+
+msgid "cron_schedule_in_hours"
+msgstr "Cada %s horas"
+
+msgid "cron_schedule_in_minutes"
+msgstr "Cada %s minutos"
+
+msgid "cron_schedule_monthly"
+msgstr "Mensual"
+
+msgid "cron_schedule_quarterly"
+msgstr "Trimestral"
+
+msgid "cron_schedule_type"
+msgstr "Tipo de programación"
+
+msgid "cron_schedule_value"
+msgstr "Intervalo"
+
+msgid "cron_schedule_weekly"
+msgstr "Semanal"
+
+msgid "cron_schedule_yearly"
+msgstr "Anual"
+
+msgid "cron_status"
+msgstr "Estado"
+
+msgid "cron_status_active"
+msgstr "Activo"
+
+msgid "cron_status_inactive"
+msgstr "Inactivo"
+
+msgid "cron_status_info"
+msgstr "Información del estado"

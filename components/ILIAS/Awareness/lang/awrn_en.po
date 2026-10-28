@@ -1,0 +1,87 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"Language-Team: English\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: awrn\n"
+
+msgid "awareness_now_online"
+msgstr "Online Now"
+
+msgid "awareness_settings"
+msgstr "Settings"
+
+msgid "awrn_caching_period"
+msgstr "Caching Period"
+
+msgid "awrn_caching_period_info"
+msgstr "Time that is waited before the number of users in the top bar is updated and new online users are determined."
+
+msgid "awrn_enable"
+msgstr "Enable ‘Who is online?’-Tool"
+
+msgid "awrn_filter"
+msgstr "User Filter"
+
+msgid "awrn_hide_from_awareness"
+msgstr "Hide Me From ‘Who is online?’-Tool"
+
+msgid "awrn_hide_from_awareness_info"
+msgstr "The ‘Who is Online?’ tool can be found in the header bar and lists selected users (e.g. contacts or members of your courses)."
+
+msgid "awrn_inactive"
+msgstr "Not Listed"
+
+msgid "awrn_incl_offline"
+msgstr "Online and Offline"
+
+msgid "awrn_max_inactivity"
+msgstr "Maximum Inactivity Period"
+
+msgid "awrn_max_inactivity_info"
+msgstr "After this period users are considered being offline. If nothing is set, the session time will be used."
+
+msgid "awrn_max_nr_entries"
+msgstr "Max. Number of Items"
+
+msgid "awrn_max_nr_entries_info"
+msgstr "Maximum number of items in the ‘Who is online?’ list. This setting has only minimal performance influence when displaying the tool in the top bar."
+
+msgid "awrn_minutes"
+msgstr "min"
+
+msgid "awrn_online"
+msgstr "Online"
+
+msgid "awrn_online_only"
+msgstr "Online Only"
+
+msgid "awrn_seconds"
+msgstr "sec"
+
+msgid "awrn_use_osd"
+msgstr "Popup Online Users"
+
+msgid "awrn_use_osd_info"
+msgstr "Display a popup to indicate new online users in the ‘Who is online?’ list."
+
+msgid "awrn_user_show"
+msgstr "Show Your Account in \"Who-Is-Online?\""
+
+msgid "awrn_user_show_default"
+msgstr "Default Value for  the Visibility in \"Who-Is-Online?\""
+
+msgid "awrn_user_show_default_info"
+msgstr "Defines the default value for the visibility of the status of a user in \"Who-Is-Online?\"."
+
+msgid "user_awrn_default"
+msgstr "Default"
+
+msgid "user_awrn_hide"
+msgstr "Hide my status"
+
+msgid "user_awrn_show"
+msgstr "Show my status"

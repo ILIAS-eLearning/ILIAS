@@ -1,0 +1,315 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: registration\n"
+
+msgid "reg_access_limitation_limited_time"
+msgstr ""
+
+msgid "reg_access_limitation_limited_until"
+msgstr ""
+
+msgid "reg_access_limitation_missing_mode"
+msgstr ""
+
+msgid "reg_access_limitation_mode"
+msgstr ""
+
+msgid "reg_access_limitation_mode_absolute"
+msgstr ""
+
+msgid "reg_access_limitation_mode_absolute_target"
+msgstr ""
+
+msgid "reg_access_limitation_mode_relative"
+msgstr ""
+
+msgid "reg_access_limitation_mode_relative_target"
+msgstr ""
+
+msgid "reg_access_limitation_mode_unlimited"
+msgstr ""
+
+msgid "reg_access_limitation_none"
+msgstr ""
+
+msgid "reg_access_limitation_out_of_date"
+msgstr ""
+
+msgid "reg_access_limitations"
+msgstr ""
+
+msgid "reg_add_assignment"
+msgstr ""
+
+msgid "reg_added_assignment"
+msgstr ""
+
+msgid "reg_allow_codes"
+msgstr ""
+
+msgid "reg_allow_codes_info"
+msgstr ""
+
+msgid "reg_allowed_domains"
+msgstr ""
+
+msgid "reg_allowed_domains_info"
+msgstr ""
+
+msgid "reg_approve"
+msgstr ""
+
+msgid "reg_approve_info"
+msgstr ""
+
+msgid "reg_approve_needs_recipient"
+msgstr ""
+
+msgid "reg_available_roles"
+msgstr ""
+
+msgid "reg_confirmation_already_confirmed"
+msgstr ""
+
+msgid "reg_confirmation_hash_life_time"
+msgstr ""
+
+msgid "reg_confirmation_hash_life_time_expired"
+msgstr ""
+
+msgid "reg_confirmation_hash_life_time_info"
+msgstr ""
+
+msgid "reg_confirmation_hash_not_found"
+msgstr ""
+
+msgid "reg_confirmation_hash_not_passed"
+msgstr ""
+
+msgid "reg_confirmation_link_successful"
+msgstr ""
+
+msgid "reg_default"
+msgstr ""
+
+msgid "reg_deleted_assignment"
+msgstr ""
+
+msgid "reg_direct"
+msgstr ""
+
+msgid "reg_direct_info"
+msgstr ""
+
+msgid "reg_disabled"
+msgstr ""
+
+msgid "reg_domain"
+msgstr ""
+
+msgid "reg_domain_already_assigned_p"
+msgstr ""
+
+msgid "reg_domain_already_assigned_s"
+msgstr ""
+
+msgid "reg_email"
+msgstr ""
+
+msgid "reg_email_domains"
+msgstr ""
+
+msgid "reg_email_domains_code"
+msgstr ""
+
+msgid "reg_email_role_assignment"
+msgstr ""
+
+msgid "reg_fixed"
+msgstr ""
+
+msgid "reg_info_pwd"
+msgstr ""
+
+msgid "reg_mail_body_activation"
+msgstr ""
+
+msgid "reg_mail_body_approve"
+msgstr ""
+
+msgid "reg_mail_body_confirmation"
+msgstr ""
+
+msgid "reg_mail_body_profile"
+msgstr ""
+
+msgid "reg_mail_body_profile_changed"
+msgstr ""
+
+msgid "reg_mail_body_pwd_generation"
+msgstr ""
+
+msgid "reg_mail_body_reason"
+msgstr ""
+
+msgid "reg_mail_body_timelimit"
+msgstr ""
+
+msgid "reg_mail_new_user"
+msgstr ""
+
+msgid "reg_mail_new_user_body"
+msgstr ""
+
+msgid "reg_mail_new_user_confirmation"
+msgstr ""
+
+msgid "reg_missing_domain"
+msgstr ""
+
+msgid "reg_missing_role"
+msgstr ""
+
+msgid "reg_notification"
+msgstr ""
+
+msgid "reg_notification_info"
+msgstr ""
+
+msgid "reg_role_access_limitations"
+msgstr ""
+
+msgid "reg_role_assignment"
+msgstr ""
+
+msgid "reg_role_info"
+msgstr ""
+
+msgid "reg_select_one"
+msgstr ""
+
+msgid "reg_selectable_roles"
+msgstr ""
+
+msgid "reg_settings_header"
+msgstr ""
+
+msgid "reg_type"
+msgstr ""
+
+msgid "reg_type_confirmation"
+msgstr ""
+
+msgid "reg_type_confirmation_info"
+msgstr ""
+
+msgid "reg_unknown_recipients"
+msgstr ""
+
+msgid "registration_code"
+msgstr ""
+
+msgid "registration_code_not_valid"
+msgstr ""
+
+msgid "registration_code_optional_info"
+msgstr ""
+
+msgid "registration_code_required_info"
+msgstr ""
+
+msgid "registration_code_role_info"
+msgstr ""
+
+msgid "registration_codes_access_limitation_all"
+msgstr ""
+
+msgid "registration_codes_add"
+msgstr ""
+
+msgid "registration_codes_edit_header"
+msgstr ""
+
+msgid "registration_codes_export"
+msgstr ""
+
+msgid "registration_codes_no_assigned_role"
+msgstr ""
+
+msgid "registration_codes_number"
+msgstr ""
+
+msgid "registration_codes_override_global_info"
+msgstr ""
+
+msgid "registration_codes_override_info"
+msgstr ""
+
+msgid "registration_codes_roles"
+msgstr ""
+
+msgid "registration_codes_roles_limitation_none"
+msgstr ""
+
+msgid "registration_codes_roles_local"
+msgstr ""
+
+msgid "registration_codes_roles_title"
+msgstr ""
+
+msgid "registration_codes_type"
+msgstr ""
+
+msgid "registration_codes_type_ext"
+msgstr ""
+
+msgid "registration_codes_type_ext_info"
+msgstr ""
+
+msgid "registration_codes_type_reg"
+msgstr ""
+
+msgid "registration_codes_type_reg_info"
+msgstr ""
+
+msgid "registration_disabled_no_access"
+msgstr ""
+
+msgid "registration_export_codes_no_data"
+msgstr ""
+
+msgid "registration_generated"
+msgstr ""
+
+msgid "registration_generated_all"
+msgstr ""
+
+msgid "registration_no_valid_role"
+msgstr ""
+
+msgid "registration_reg_type_codes"
+msgstr ""
+
+msgid "registration_reg_type_codes_info"
+msgstr ""
+
+msgid "registration_roles_all"
+msgstr ""
+
+msgid "registration_settings"
+msgstr ""
+
+msgid "registration_tab_codes"
+msgstr ""
+
+msgid "registration_tab_settings"
+msgstr ""
+
+msgid "registration_used"
+msgstr ""
+
+msgid "registration_user_new_account_mail"
+msgstr ""

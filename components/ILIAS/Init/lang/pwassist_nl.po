@@ -1,0 +1,54 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: nl\n"
+"Language-Team: Dutch\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: pwassist\n"
+
+msgid "password_assistance"
+msgstr "Wachtwoord assistentie"
+
+#, fuzzy
+msgid "pwassist_disabled_no_access"
+msgstr "Password assistance is not enabled. Please contact the system administration for further assistance: %s"
+
+msgid "pwassist_enter_email"
+msgstr "Gelieve een e-mailadres op te geven en het formulier te vervolledigen .\\nILIAS zal dan een e-mail sturen. Deze mail bevat alle gebruikers die zich hebben ingeschreven met dat e-mailadres.\\nKies een gebruikersnaam en gebruik de wachtwoordservice om een nieuw wachtwoord te zoeken. Als je geen e-mail ontvangt kan je best contact opnemen met de cursusbeheerder."
+
+msgid "pwassist_enter_username_and_email"
+msgstr "Geef de gebruikersnaam en het bijhorende e-mailadres op.\\nILIAS zal dan een e-mail sturen. Het bericht bevat een website, waar je een nieuw wachtwoord kan aanmaken."
+
+msgid "pwassist_enter_username_and_new_password"
+msgstr "Geef de gebruikersnaam en het nieuwe wachtwoord in."
+
+msgid "pwassist_login_not_match"
+msgstr "Gelieve een andere gebruikersnaam op te geven.\\nDe gebruikersnaam komt niet overeen met de gevraagde gebruikersnaam voor wachtwoordassistentie."
+
+msgid "pwassist_mail_body"
+msgstr "Maak een nieuw wachtwoord voor je gebruikersaccount :\\n\\t%1$s\\n\\Dit bericht werd automatisch gegenereerd door ILIAS op \\t%2$s\\n\\nJij of iemand anders heeft gevraagd voor wachtwoordassistentie \"%4$s\".\\n\\n\\n\\n- Als je per ongeluk deze wachtwoordservice hebt geraadpleegd, verwijder dan deze mail.\\n\\n- Als je er zeker van bent dat je niet om wachtwoordassistentie gevraagd hebt op de ILIAS-server, contacteer de beheerder %5$s.\\n\\n- Als je wel gevraagd heeft om wachtwoord-assistentie doe dan het volgende:\\n\\n1. Open de browser.\\n\\n2. Geef het volgende adres in:\\n\\t%1$s\\n\\nbelangrijk: het adres is één regel.\\n\\n3. Op de webpagina, geef je een nieuw wachtwoord in.\\n\\nOpgelet omwille van veiligheidsreden, kan je deze stappen maar een maal uitvoeren. Hierna is de website niet meer geldig en moet je de wachtwoordassistentie opnieuw raadplegen op de ILIAS server."
+
+msgid "pwassist_mail_sent"
+msgstr "Er is een bericht verzonden naar %1$s.\\n Gelieve je e-mail te controleren."
+
+#, fuzzy
+msgid "pwassist_mail_sent_generic"
+msgstr "A message has been sent to the email address defined in ILIAS.\\nPlease check your mail box."
+
+msgid "pwassist_mail_subject"
+msgstr "ILIAS wachtwoord assistentie"
+
+msgid "pwassist_password_assigned"
+msgstr "Het password is toegekend aan gebruiker \"%1$s\"."
+
+msgid "pwassist_session_expired"
+msgstr "Gelieve dit formulier opnieuw in te vullen.\\nUWachtwoordassistentie is vervallen."
+
+msgid "pwassist_username_mail_body"
+msgstr "dit zijn de actieve gebruikersnamen voor dit e-mailadres:\\n%s\\n\\nDeze mail is automatisch aangemaakt door ILIAS-server:\\n\\t%s\\n\\nJij of iemand anders heeft gevraagd voor hulp i.v.m. de gebruikersnaam '%s'.\\n\\nGelieve het volgende te controleren en volg de volgende handelingen::\\n\\n-Als je per ongeluk deze mail hebt aangevraagd:\\nVerwijder dan deze mail.\\n\\n-Ben je zeker dat je deze mail niet hebt aangevraagd:\\nContacteer %s.\\n\\n- Als je deze e-mail hebt aangevraagd volg dan de volgende handelingen::\\n\\n1. Open de internetbrowser.\\n\\n2. Geef de volgende url:\\n\\t%s Je browser toont nu de wachtwoordservice. Gebruik deze pagina met een van de gebruikersnamen en het bijhorende e-mailadres om het wachtwoord te ontvangen."
+
+#, fuzzy
+msgid "unassist_disabled_no_access"
+msgstr "Username assistance is not enabled. Please contact the system administration for further assistance: %s"

@@ -1,0 +1,249 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: cont\n"
+
+msgid "cont_add_global_profile"
+msgstr "Añadir perfil global"
+
+msgid "cont_add_local_profile"
+msgstr "Añadir perfil local"
+
+msgid "cont_add_skill"
+msgstr "Añadir competencia"
+
+msgid "cont_assign_competence"
+msgstr "Asignar competencias a los miembros"
+
+msgid "cont_assign_skills"
+msgstr "Asignar competencias"
+
+msgid "cont_block_limit"
+msgstr "Limitar objetos por bloque"
+
+msgid "cont_block_limit_info"
+msgstr "Si un bloque contiene más objetos que el número establecido aquí, aparecerá un botón \"Mostrar más\"."
+
+msgid "cont_cont_skills"
+msgstr "Competencias asignadas de los miembros"
+
+msgid "cont_deassign_competence"
+msgstr "Desasignar competencias"
+
+msgid "cont_filter"
+msgstr "Filtro"
+
+msgid "cont_filter_field"
+msgstr "Campo"
+
+msgid "cont_filter_fields"
+msgstr "Campos de filtrado"
+
+msgid "cont_filter_record"
+msgstr "Registro"
+
+msgid "cont_found_objects"
+msgstr "Objetos encontrados"
+
+msgid "cont_item_list"
+msgstr "Lista"
+
+msgid "cont_item_list_info"
+msgstr "Los objetos situados dentro de este contenedor se muestran en forma de lista."
+
+msgid "cont_list_presentation"
+msgstr "Opciones de visualización de contenido"
+
+msgid "cont_mem_skills"
+msgstr "Competencias"
+
+msgid "cont_news_edited"
+msgstr "Editado"
+
+msgid "cont_news_settings"
+msgstr "Configuración de noticias"
+
+msgid "cont_news_timeline"
+msgstr "Cronología de noticias"
+
+msgid "cont_news_timeline_auto_entries"
+msgstr "Incluir entradas automáticas"
+
+msgid "cont_news_timeline_auto_entries_info"
+msgstr "Incluir todas las noticias que se crean automáticamente, p. ej., mensajes del foro, archivos nuevos, etc."
+
+msgid "cont_news_timeline_info"
+msgstr "Activa la pestaña de Cronología de noticias"
+
+msgid "cont_news_timeline_landing_page"
+msgstr "Página de inicio"
+
+msgid "cont_news_timeline_landing_page_info"
+msgstr "La página de la línea de tiempo será la página de inicio."
+
+msgid "cont_news_timeline_tab"
+msgstr "Línea de tiempo"
+
+msgid "cont_no_title"
+msgstr "Título vacío"
+
+msgid "cont_only_crs_grp_fold_download"
+msgstr "Solo se pueden descargar cursos, grupos, carpetas o archivos."
+
+msgid "cont_page_type_cont"
+msgstr "Página del repositorio (Curso, Grupo, ...)"
+
+msgid "cont_page_type_cstr"
+msgstr "Página de inicio del curso (Vista de objetivos de aprendizaje)"
+
+msgid "cont_path"
+msgstr "Ruta"
+
+msgid "cont_publish_assignment"
+msgstr "Publicar tareas"
+
+msgid "cont_published"
+msgstr "Publicado"
+
+msgid "cont_really_deassign_skills"
+msgstr "¿Realmente desea desasignar todas las competencias de los usuarios?"
+
+msgid "cont_really_remove_skill_from_course"
+msgstr "¿Realmente desea eliminar estas competencias de la lista?"
+
+msgid "cont_select_fields"
+msgstr "Seleccionar campos"
+
+msgid "cont_show_more"
+msgstr "Mostrar más"
+
+msgid "cont_skill"
+msgstr "Competencia"
+
+msgid "cont_skill_ass_profiles"
+msgstr "Perfiles asignados de los miembros"
+
+msgid "cont_skill_assigned_comp"
+msgstr "Selección de competencias"
+
+msgid "cont_skill_assigned_profiles"
+msgstr "Selección de perfiles"
+
+msgid "cont_skill_deletion_not_possible"
+msgstr "La eliminación de perfiles de competencias globales no es posible. Por favor, seleccione solo perfiles de competencias locales."
+
+msgid "cont_skill_do_not_set"
+msgstr "No establecer"
+
+msgid "cont_skill_members"
+msgstr "Miembros"
+
+msgid "cont_skill_no_profile_selected"
+msgstr "Por favor, seleccione un perfil."
+
+msgid "cont_skill_no_skill"
+msgstr "Sin valor (Restablecer)"
+
+msgid "cont_skill_no_skills_selected"
+msgstr "Aún no se han seleccionado competencias. Por favor, añada primero al menos una competencia en \"Selección de competencias\"."
+
+msgid "cont_skill_profile"
+msgstr "Perfil"
+
+msgid "cont_skill_profiles"
+msgstr "Perfiles de competencias"
+
+msgid "cont_skill_publish"
+msgstr "Publicar"
+
+msgid "cont_skill_publish_auto"
+msgstr "Automático"
+
+msgid "cont_skill_publish_auto_info"
+msgstr "Las asignaciones de competencias para los miembros son visibles inmediatamente para ellos."
+
+msgid "cont_skill_publish_manual"
+msgstr "Manual"
+
+msgid "cont_skill_publish_manual_info"
+msgstr "Las asignaciones de competencias para los miembros deben publicarse antes de que sean visibles para ellos."
+
+msgid "cont_skill_really_delete_profile_from_list"
+msgstr "¿Realmente desea eliminar este perfil?"
+
+msgid "cont_skill_really_delete_profiles_from_list"
+msgstr "¿Realmente desea eliminar estos perfiles?"
+
+msgid "cont_skill_really_remove_profile_from_list"
+msgstr "¿Realmente desea quitar este perfil de la lista?"
+
+msgid "cont_skill_really_remove_profiles_from_list"
+msgstr "¿Realmente desea quitar estos perfiles de la lista?"
+
+msgid "cont_skill_records"
+msgstr "Registros de competencias"
+
+msgid "cont_skill_removal_not_possible"
+msgstr "No es posible eliminar perfiles de competencias locales. Por favor, seleccione solo perfiles de competencias globales."
+
+msgid "cont_std_filter_title_1"
+msgstr "Título"
+
+msgid "cont_std_filter_title_2"
+msgstr "Descripción"
+
+msgid "cont_std_filter_title_3"
+msgstr "Título/Descripción"
+
+msgid "cont_std_filter_title_4"
+msgstr "Palabra clave"
+
+msgid "cont_std_filter_title_5"
+msgstr "Autor"
+
+msgid "cont_std_filter_title_6"
+msgstr "Copyright"
+
+msgid "cont_std_filter_title_7"
+msgstr "Soporte Tutorial"
+
+msgid "cont_std_filter_title_8"
+msgstr "Tipo de objeto"
+
+msgid "cont_std_filter_title_9"
+msgstr "En línea/Fuera de línea"
+
+msgid "cont_std_record_title"
+msgstr "Estándar"
+
+msgid "cont_tile_size"
+msgstr "Tamaño del mosaico"
+
+msgid "cont_tile_size_0"
+msgstr "normal (hasta cuatro mosaicos en una fila)"
+
+msgid "cont_tile_size_1"
+msgstr "pequeño (hasta seis mosaicos en una fila)"
+
+msgid "cont_tile_size_2"
+msgstr "grande (hasta tres mosaicos en una fila)"
+
+msgid "cont_tile_size_3"
+msgstr "extra grande (hasta dos mosaicos en una fila)"
+
+msgid "cont_tile_size_4"
+msgstr "completo (un mosaico en una fila)"
+
+msgid "cont_tile_view"
+msgstr "Mosaicos"
+
+msgid "cont_tile_view_info"
+msgstr "Los objetos ubicados dentro de este contenedor se muestran en forma de mosaicos estilo miniatura. Las imágenes para estos mosaicos pueden subirse en la configuración de cada objeto individual."
+
+msgid "cont_trash_general_usage"
+msgstr "Si desea eliminar una gran cantidad de objetos antiguos y eliminados del sistema, es muy recomendable comenzar con objetos que no sean contenedores (es decir, archivos, glosarios, pruebas,...) y así eliminar todos los objetos de los contenedores (categorías, cursos, grupos, secuencias de aprendizaje,...). El uso de los filtros \"Tipo\" y \"Eliminado el\" ayuda en este proceso. Finalmente, elimine los contenedores."

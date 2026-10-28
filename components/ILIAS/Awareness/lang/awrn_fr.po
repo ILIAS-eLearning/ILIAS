@@ -1,0 +1,89 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fr\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: awrn\n"
+
+msgid "awareness_now_online"
+msgstr "Maintenant en ligne"
+
+msgid "awareness_settings"
+msgstr "Paramètres Généraux"
+
+msgid "awrn_caching_period"
+msgstr "Période de Rafraà®chissement"
+
+msgid "awrn_caching_period_info"
+msgstr "Le temps attendu avant que le nombre d'utilisateurs dans le bandeau supérieure soit mise à  jour et que les nouveaux utilisateurs en ligne soient déterminés."
+
+msgid "awrn_enable"
+msgstr "Activer 'Qui est en Ligne ?'"
+
+msgid "awrn_filter"
+msgstr "Filtre utilisateur"
+
+msgid "awrn_hide_from_awareness"
+msgstr "Cacher Mon Statut En-Ligne"
+
+msgid "awrn_hide_from_awareness_info"
+msgstr "L'outil \"Qui est en ligne ?\" se trouve dans la barre supérieure et liste les utilisateurs sélectionnés (par ex. contacts ou membres de vos cours)."
+
+msgid "awrn_inactive"
+msgstr "Non Listé"
+
+msgid "awrn_incl_offline"
+msgstr "En ligne et Hors ligne"
+
+msgid "awrn_max_inactivity"
+msgstr "Période Maximale d'Inactivité"
+
+msgid "awrn_max_inactivity_info"
+msgstr "Après cette période, les utilisateurs sont considérés comme étant hors ligne. Si rien est défini, le temps de session sera utilisé."
+
+msgid "awrn_max_nr_entries"
+msgstr "Nombre d'Objets Max."
+
+msgid "awrn_max_nr_entries_info"
+msgstr "Nombre maximum d'éléments dans la liste 'Qui est en ligne?'."
+
+msgid "awrn_minutes"
+msgstr "min"
+
+msgid "awrn_online"
+msgstr "En ligne"
+
+msgid "awrn_online_only"
+msgstr "En ligne Seulement"
+
+msgid "awrn_seconds"
+msgstr "sec"
+
+msgid "awrn_use_osd"
+msgstr "Pop-up utilisateurs en ligne"
+
+msgid "awrn_use_osd_info"
+msgstr "Un pop-up apparaît pour indiquer de nouveaux utilisateurs en ligne dans la liste «Qui est en ligne?»."
+
+msgid "awrn_user_show"
+msgstr "Montrer votre profil dans \"Qui est en ligne ?\""
+
+#, fuzzy
+msgid "awrn_user_show_default"
+msgstr "Default Value for  the Visibility in \"Who-Is-Online?\""
+
+#, fuzzy
+msgid "awrn_user_show_default_info"
+msgstr "Defines the default value for the visibility of the status of a user in \"Who-Is-Online?\"."
+
+msgid "user_awrn_default"
+msgstr "Par défaut"
+
+msgid "user_awrn_hide"
+msgstr "Cacher mon statut"
+
+msgid "user_awrn_show"
+msgstr "Montrer mon statut"

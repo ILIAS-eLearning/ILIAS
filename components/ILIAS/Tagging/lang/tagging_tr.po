@@ -1,0 +1,87 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: tr\n"
+"Language-Team: Turkish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: tagging\n"
+
+#, fuzzy
+msgid "no_tag_text_1"
+msgstr "You have not yet used any tags. To do this, you must take two steps:"
+
+#, fuzzy
+msgid "no_tag_text_2"
+msgstr "Click on '%s' and select a learning object from the available offer, e.g. a learning module or a forum."
+
+#, fuzzy
+msgid "no_tag_text_3"
+msgstr "To attach any tags to the object select 'Set Tags' from the actions menu."
+
+#, fuzzy
+msgid "tag_remove_tags_of_obj_without_access"
+msgstr "Remove Tag"
+
+#, fuzzy
+msgid "tag_some_obj_tagged_without_access"
+msgstr "You do not have the permissions to access some of the tagged objects anymore. Should the tag be removed for these objects?"
+
+#, fuzzy
+msgid "tag_tags_deleted"
+msgstr "Tag has been removed from inaccessible objects."
+
+msgid "tagging_all_users"
+msgstr "Tüm Kullanıcılar"
+
+msgid "tagging_edit_settings"
+msgstr "Ayarları Düzenle"
+
+msgid "tagging_enable_all_users"
+msgstr "Tüm Kullanıcıların Etiketlerini Göster"
+
+msgid "tagging_enable_all_users_info"
+msgstr "Bir kaynağa bağlı tüm kullanıcıların etiketlerini göstermek için \"Tüm Kullanıcılar\" sekmesi ekler"
+
+msgid "tagging_enable_tagging"
+msgstr "Etiketleme Etkin"
+
+msgid "tagging_forbidden_tags"
+msgstr "Yasak Etiketler"
+
+#, fuzzy
+msgid "tagging_no_obj_for_tag"
+msgstr "No Resources tagged with %s."
+
+#, fuzzy
+msgid "tagging_no_perm_write"
+msgstr "You have no permission to change this data."
+
+#, fuzzy
+msgid "tagging_other_users"
+msgstr "Other Users"
+
+msgid "tagging_resources_for_tag"
+msgstr "%S ile etiketlendi Kaynakları"
+
+msgid "tagging_search_users"
+msgstr "Kullanıcıları Ara"
+
+msgid "tagging_set_tag"
+msgstr "Etiketler"
+
+msgid "tagging_settings"
+msgstr "Ayarlar"
+
+msgid "tagging_tag"
+msgstr "Tag"
+
+msgid "tagging_tag_info"
+msgstr "Bir kaynağa etiket eklemek için kaynağın bilgi ekranını açın ve etiketlerinizi girin"
+
+msgid "tagging_tags"
+msgstr "Etiketler"
+
+msgid "tagging_users_using_tag"
+msgstr "Etiket kullanma Kullanıcıları"

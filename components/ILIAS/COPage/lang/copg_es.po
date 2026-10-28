@@ -1,0 +1,137 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: copg\n"
+
+msgid "copg_active_to_small"
+msgstr "Esta fecha debe ser posterior a la fecha de inicio."
+
+msgid "copg_add_content"
+msgstr "Añadir Contenido"
+
+msgid "copg_allow_html"
+msgstr "Activar HTML/Javascript"
+
+msgid "copg_allow_html_info"
+msgstr "El usuario puede utilizar HTML o Javascript en el contenido de la página. Esto puede conllevar problemas de seguridad. No lo active si las funciones pueden ser utilizadas por usuarios que no considere de confianza. El soporte para añadir contenido HTML de esta forma podría interrumpirse en una versión futura."
+
+msgid "copg_an_error_occured"
+msgstr "Se ha producido un error."
+
+msgid "copg_confirm_el_deletion"
+msgstr "¿Realmente desea eliminar los elementos seleccionados?"
+
+msgid "copg_cron_days"
+msgstr "Eliminar páginas anteriores a"
+
+msgid "copg_cron_days_info"
+msgstr "Se eliminarán las entradas del historial de páginas anteriores a este periodo."
+
+msgid "copg_cron_keep_entries"
+msgstr "Mantener Mínimo"
+
+msgid "copg_cron_keep_entries_info"
+msgstr "Este número es el mínimo de entradas que se conservarán, aunque sean anteriores al periodo de eliminación."
+
+msgid "copg_days"
+msgstr "Días"
+
+msgid "copg_details"
+msgstr "Detalles"
+
+msgid "copg_edit_iframe_title"
+msgstr "Edición de texto del editor de páginas"
+
+#, fuzzy
+msgid "copg_edit_style_class"
+msgstr "Edit Style Class"
+
+msgid "copg_entries"
+msgstr "Entradas"
+
+msgid "copg_error"
+msgstr "Error"
+
+msgid "copg_error_occured_modal"
+msgstr "Se ha producido un error al procesar la página. Haga clic en \"Recargar página\" para volver al estado guardado anteriormente."
+
+msgid "copg_est_reading_time"
+msgstr "Tiempo estimado de lectura"
+
+msgid "copg_history_cleanup_cron"
+msgstr "Limpieza del historial del editor de páginas"
+
+msgid "copg_history_cleanup_cron_info"
+msgstr "Elimina las entradas antiguas del historial de la página."
+
+msgid "copg_list_item_style"
+msgstr "Elemento de lista"
+
+msgid "copg_list_style"
+msgstr "Lista"
+
+msgid "copg_list_styles"
+msgstr "Formatos de lista"
+
+msgid "copg_more_character_formats"
+msgstr "Más estilos de caracteres"
+
+msgid "copg_obj_types"
+msgstr "Tipos de objeto"
+
+msgid "copg_page_element_not_found"
+msgstr "Elemento de página no encontrado."
+
+msgid "copg_page_type_stys"
+msgstr "Página de diseño"
+
+msgid "copg_pages"
+msgstr "Páginas"
+
+msgid "copg_par_format_selection"
+msgstr "Selección de formato de párrafo"
+
+msgid "copg_pc_mob_does_not_exist"
+msgstr "Este objeto multimedia no existe."
+
+msgid "copg_plugin"
+msgstr "Plugin"
+
+msgid "copg_plugin_not_avail"
+msgstr "El plugin %s no está disponible."
+
+msgid "copg_questions_not_supported_here"
+msgstr "Las preguntas no están soportadas en este contexto."
+
+msgid "copg_reload_page"
+msgstr "Recargar página"
+
+msgid "copg_remove_formats"
+msgstr "Eliminar formato"
+
+msgid "copg_sec_link_info"
+msgstr "Seleccione un destino para vincular el bloque. Atención: ¡En este caso, el contenido del bloque no debe contener más enlaces!"
+
+#, fuzzy
+msgid "copg_select_two_versions"
+msgstr "Select exactly two versions of the page to compare."
+
+msgid "copg_snippet_cannot_be_edited"
+msgstr "Este es un fragmento de contenido predefinido y no se puede editar aquí."
+
+msgid "copg_templates"
+msgstr "Templates"
+
+msgid "copg_unsupported_media_type"
+msgstr "Este objeto multimedia tiene un tipo de medio no compatible."
+
+msgid "copg_use_template"
+msgstr "Usar plantilla"
+
+msgid "copg_x_minutes"
+msgstr "%s minuto(s)"

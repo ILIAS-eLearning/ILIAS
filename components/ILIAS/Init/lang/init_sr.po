@@ -1,0 +1,25 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sr\n"
+"Language-Team: Serbian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: init\n"
+
+#, fuzzy
+msgid "init_error_authentication_fail"
+msgstr "Authentication failed."
+
+#, fuzzy
+msgid "init_error_maintenance"
+msgstr "The server is not available due to maintenance. We apologise for any inconvenience."
+
+#, fuzzy
+msgid "init_error_redirect_click"
+msgstr "Please click to continue."
+
+#, fuzzy
+msgid "init_error_redirect_info"
+msgstr "Redirect not supported by context."

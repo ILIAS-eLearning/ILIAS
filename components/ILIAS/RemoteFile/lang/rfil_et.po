@@ -1,0 +1,15 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: et\n"
+"Language-Team: Estonian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: rfil\n"
+
+msgid "rfil_call"
+msgstr "Call ECS File"
+
+msgid "rfil_version_tstamp"
+msgstr "Upload Date"

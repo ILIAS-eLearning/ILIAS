@@ -1,0 +1,45 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: exercise\n"
+
+msgid "exc_admin_settings"
+msgstr "Administração do exercício"
+
+msgid "exc_comment"
+msgstr "Ficheiros do diretório upload"
+
+msgid "exc_comment_for_learner"
+msgstr "Usar fragmentos do conteúdo"
+
+msgid "exc_failed"
+msgstr "Falhou"
+
+msgid "exc_feedback_from_tutor"
+msgstr "Permite criar fragmentos do conteúdo em bancos de media. Estes fragmentos podem ser reutilizados (não editados) em módulos de aprendizagem."
+
+msgid "exc_grading"
+msgstr "Classificação"
+
+msgid "exc_mark"
+msgstr "Nota"
+
+msgid "exc_notgraded"
+msgstr "Não classificado"
+
+msgid "exc_passed"
+msgstr "Aprovado"
+
+msgid "exc_send_mail"
+msgstr "Tipos de ficheiro permitidos"
+
+msgid "exc_start_date_should_be_before_end_date"
+msgstr "O tempo de início deve ser anterior ao prazo."
+
+msgid "exc_your_submission"
+msgstr "A sua submissão"

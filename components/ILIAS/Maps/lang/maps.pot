@@ -1,0 +1,57 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: maps\n"
+
+msgid "configure_geolocation"
+msgstr ""
+
+msgid "maps_custom_geolocation_server_info"
+msgstr ""
+
+msgid "maps_custom_tile_server_info"
+msgstr ""
+
+msgid "maps_enable_maps"
+msgstr ""
+
+msgid "maps_enable_maps_info"
+msgstr ""
+
+msgid "maps_geolocation_server"
+msgstr ""
+
+msgid "maps_https_for_reverse_lookup"
+msgstr ""
+
+msgid "maps_latitude"
+msgstr ""
+
+msgid "maps_longitude"
+msgstr ""
+
+msgid "maps_lookup_address"
+msgstr ""
+
+msgid "maps_map_type"
+msgstr ""
+
+msgid "maps_open_layers_maps"
+msgstr ""
+
+msgid "maps_settings"
+msgstr ""
+
+msgid "maps_std_location"
+msgstr ""
+
+msgid "maps_std_location_desc"
+msgstr ""
+
+msgid "maps_tile_server"
+msgstr ""
+
+msgid "maps_zoom_level"
+msgstr ""

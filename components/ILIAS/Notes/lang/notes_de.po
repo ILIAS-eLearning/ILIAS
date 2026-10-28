@@ -1,0 +1,132 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: notes\n"
+
+msgid "comments_feature_currently_not_activated_for_object"
+msgstr "Die öffentliche Kommentarfunktion ist für dieses Objekt zur Zeit nicht aktiviert."
+
+msgid "note_add_comment"
+msgstr "Kommentar hinzufügen"
+
+msgid "note_add_message"
+msgstr "Mitteilung hinzufügen"
+
+msgid "note_add_note"
+msgstr "Notiz hinzufügen"
+
+msgid "note_content_removed"
+msgstr "Der Inhalt wurde entfernt."
+
+msgid "note_text"
+msgstr "Text"
+
+msgid "note_update_comment"
+msgstr "Kommentar bearbeiten"
+
+msgid "note_update_message"
+msgstr "Mitteilung bearbeiten"
+
+msgid "note_update_note"
+msgstr "Notiz bearbeiten"
+
+msgid "note_without_object"
+msgstr "Ohne Objektbezug"
+
+msgid "notes_activate_comments"
+msgstr "Öffentliches Kommentieren aktivieren"
+
+msgid "notes_add_comment"
+msgstr "Kommentar hinzufügen"
+
+msgid "notes_add_edit_comment"
+msgstr "Kommentar hinzufügen/editieren"
+
+msgid "notes_add_edit_message"
+msgstr "Mitteilung hinzufügen/editieren"
+
+msgid "notes_add_edit_note"
+msgstr "Notiz hinzufügen/editieren"
+
+msgid "notes_comment_deleted"
+msgstr "Der Kommentar wurde gelöscht"
+
+msgid "notes_comments"
+msgstr "Kommentare"
+
+msgid "notes_comments_deleted"
+msgstr "Die Kommentare wurden gelöscht."
+
+msgid "notes_deactivate_comments"
+msgstr "Öffentliches Kommentieren ausschalten"
+
+msgid "notes_delete_comment"
+msgstr "Soll der folgende Kommentar wirklich gelöscht werden?"
+
+msgid "notes_delete_message"
+msgstr "Soll die folgende Mitteilung wirklich gelöscht werden?"
+
+msgid "notes_delete_note"
+msgstr "Soll die folgende Notiz wirklich gelöscht werden?"
+
+msgid "notes_html_export"
+msgstr "HTML Export"
+
+msgid "notes_latest_comment"
+msgstr "Letzter Kommentar"
+
+msgid "notes_latest_message"
+msgstr "Letzte Mitteilung"
+
+msgid "notes_message_author_you"
+msgstr "Sie"
+
+msgid "notes_message_deleted"
+msgstr "Die Mitteilung wurde gelöscht."
+
+msgid "notes_messages"
+msgstr "Mitteilungen"
+
+msgid "notes_no_comments"
+msgstr "Bisher wurde noch kein Kommentar abgegeben."
+
+msgid "notes_no_comments_found"
+msgstr "Es wurden keine Kommentare gefunden, die den Suchkriterien entsprechen."
+
+msgid "notes_no_messages"
+msgstr "Bisher wurde noch keine Mitteilung hinzugefügt."
+
+msgid "notes_no_messages_found"
+msgstr "Es wurden keine Mitteilungen gefunden, die den Suchkriterien entsprechen."
+
+msgid "notes_no_notes"
+msgstr "Bisher wurde noch keine Notiz hinzugefügt."
+
+msgid "notes_no_notes_found"
+msgstr "Es wurden keine Notizen gefunden, die den Suchkriterien entsprechen."
+
+msgid "notes_note_deleted"
+msgstr "Die Notiz wurde gelöscht"
+
+msgid "notes_notes_deleted"
+msgstr "Die Notizen wurden gelöscht."
+
+msgid "notes_origin"
+msgstr "Herkunft"
+
+msgid "notes_public_comments"
+msgstr "Öffentliche Kommentare"
+
+msgid "notes_sort_asc"
+msgstr "Aufsteigend sortieren"
+
+msgid "notes_sort_desc"
+msgstr "Absteigend sortieren"
+
+msgid "notes_text"
+msgstr "Text"

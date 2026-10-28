@@ -1,0 +1,162 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: mep\n"
+
+msgid "mep_all"
+msgstr "Todo"
+
+msgid "mep_all_mobs"
+msgstr "Todos los objetos multimedia"
+
+msgid "mep_bulk_upload"
+msgstr "Carga masiva"
+
+msgid "mep_choose_from_folder"
+msgstr "Elegir de carpeta"
+
+msgid "mep_choose_from_mep"
+msgstr "Elegir del repositorio"
+
+msgid "mep_clipboard_info"
+msgstr "Aquí puede cargar archivos multimedia a los que podrá acceder desde cualquier página en la que tenga acceso al editor de páginas. El portapapeles también es accesible en los repositorios de medios. Este almacenamiento es solo para usted y no puede ser visto por otros usuarios."
+
+msgid "mep_content"
+msgstr "Contenido"
+
+msgid "mep_content_snippet_in_use"
+msgstr "El fragmento de contenido '%s' está en uso y no se puede eliminar."
+
+msgid "mep_content_snippet_used_in_older_versions"
+msgstr "Tenga en cuenta: este fragmento se utiliza en versiones anteriores de algunas páginas. Si estas páginas se revierten a una versión que incluye este fragmento, el fragmento faltará en la página."
+
+msgid "mep_copy_to_mep"
+msgstr "Copiar al repositorio de medios"
+
+msgid "mep_create_content_snippet"
+msgstr "Crear fragmento de contenido"
+
+msgid "mep_create_folder"
+msgstr "Crear carpeta"
+
+msgid "mep_create_media_files"
+msgstr "Crear objetos multimedia"
+
+msgid "mep_create_mob"
+msgstr "Crear objeto multimedia"
+
+msgid "mep_default_height"
+msgstr "Altura predeterminada"
+
+msgid "mep_default_width"
+msgstr "Ancho predeterminado"
+
+msgid "mep_default_width_height_info"
+msgstr "El ancho y la altura predeterminados se utilizan como ajustes preestablecidos para la creación de nuevos objetos multimedia."
+
+msgid "mep_edit_content_snippet"
+msgstr "Editar fragmento de contenido"
+
+msgid "mep_edit_folder"
+msgstr "Editar carpeta"
+
+msgid "mep_file"
+msgstr "Archivo"
+
+msgid "mep_folder"
+msgstr "Carpeta"
+
+msgid "mep_format"
+msgstr "Formato"
+
+msgid "mep_import"
+msgstr "Importar un repositorio de objetos multimedia"
+
+msgid "mep_import_lang"
+msgstr "Idioma de destino"
+
+msgid "mep_import_trans"
+msgstr "Importar traducción"
+
+msgid "mep_master_language_only"
+msgstr "Idioma maestro para traducción"
+
+msgid "mep_master_language_only_no_media"
+msgstr "Idioma maestro sin multimedia"
+
+msgid "mep_media_files"
+msgstr "Archivos multimedia"
+
+msgid "mep_media_subtitles"
+msgstr "Subtítulos multimedia"
+
+msgid "mep_mob"
+msgstr "Objeto multimedia"
+
+msgid "mep_move_select_insert"
+msgstr "Navegue a la carpeta de destino y haga clic en \"Insertar\""
+
+msgid "mep_mpg"
+msgstr "Fragmento de contenido"
+
+msgid "mep_new_content_snippet"
+msgstr "Nuevo fragmento de contenido"
+
+msgid "mep_new_folder"
+msgstr "Nueva carpeta"
+
+msgid "mep_page_properties"
+msgstr "Propiedades de la página"
+
+msgid "mep_page_type_mep"
+msgstr "Fragmento de contenido"
+
+msgid "mep_thumbnail"
+msgstr "Miniatura"
+
+msgid "mep_title_and_description"
+msgstr "Título y descripción"
+
+msgid "mep_trans_import_info"
+msgstr "Si exportó este módulo como XML/Idioma maestro para traducción a otra instalación, ahora puede volver a importar aquí los archivos de exportación traducidos de esa segunda instalación."
+
+msgid "mep_unknown"
+msgstr "Desconocido"
+
+msgid "mep_up_dir_copy"
+msgstr "Copiar archivos del directorio de carga (mantiene los archivos en el directorio de carga)"
+
+msgid "mep_up_dir_move"
+msgstr "Mover archivos del directorio de carga (más rápido)"
+
+msgid "mep_upload_dir_files"
+msgstr "Archivos del directorio de carga"
+
+msgid "mobs_activate_pages"
+msgstr "Usar fragmentos de contenido"
+
+msgid "mobs_activate_pages_info"
+msgstr "Permite crear fragmentos de contenido en los repositorios de objetos multimedia. Estos fragmentos pueden ser reutilizados (no editados) en los módulos de aprendizaje."
+
+msgid "mobs_always_show_file_manager"
+msgstr "Mostrar siempre el administrador de archivos"
+
+msgid "mobs_always_show_file_manager_info"
+msgstr "Si se desactiva, el administrador de archivos para objetos multimedia se ocultará para tipos MIME simples (p. ej., imágenes)."
+
+msgid "mobs_black_list_file_types"
+msgstr "Tipos de archivo prohibidos"
+
+msgid "mobs_black_list_file_types_and_allowed_info"
+msgstr "Introduzca una lista de tipos MIME separados por comas. Esta lista restringirá el conjunto de tipos de archivo permitidos. Los tipos MIME permitidos actualmente son:"
+
+msgid "mobs_restrict_file_types"
+msgstr "Tipos de archivo permitidos"
+
+msgid "mobs_restrict_file_types_info"
+msgstr "Introduzca una lista de sufijos de archivo separados por comas (ej. jpg,gif) que se permiten cargar en objetos multimedia. Si no se introduce ningún valor, se permitirán todos los tipos de archivo."

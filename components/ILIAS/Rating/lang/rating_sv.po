@@ -1,0 +1,96 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: rating\n"
+
+msgid "rat_not_rated_yet"
+msgstr "Not yet rated"
+
+msgid "rat_nr_ratings"
+msgstr "%s betyg"
+
+msgid "rat_one_rating"
+msgstr "En bedömning"
+
+msgid "rating_activate_rating"
+msgstr " Aktivera betyg"
+
+msgid "rating_activate_rating_info"
+msgstr "Om aktiverat kan användare betygsätta detta objekt."
+
+msgid "rating_add_category"
+msgstr "Lägg till kategori"
+
+msgid "rating_avg_rating"
+msgstr "Genomsnittlig rating"
+
+msgid "rating_categories"
+msgstr "Klassificeringskategorier"
+
+msgid "rating_category_add"
+msgstr "Add"
+
+msgid "rating_category_create"
+msgstr "Skapa kategori"
+
+msgid "rating_category_created"
+msgstr "Kategori tillagd."
+
+msgid "rating_category_delete_sure"
+msgstr "Vill du verkligen radera följande kategorier?  Alla betyg för denna kategori kommer att raderas."
+
+msgid "rating_category_deleted"
+msgstr "Kategori borttagen."
+
+msgid "rating_category_edit"
+msgstr "Redigera kategori"
+
+msgid "rating_category_update"
+msgstr "Spara"
+
+msgid "rating_category_updated"
+msgstr "Kategori sparad."
+
+msgid "rating_export_category"
+msgstr "Kategori"
+
+msgid "rating_export_date"
+msgstr "Datum"
+
+msgid "rating_export_rating"
+msgstr "Rating"
+
+msgid "rating_new_objects_auto"
+msgstr "Värdering för nya objekt"
+
+msgid "rating_new_objects_auto_info"
+msgstr "Betygsfunktionen aktiveras automatiskt i nyskapade filer, lärmoduler och wikis."
+
+msgid "rating_number_votes"
+msgstr "%s betyg"
+
+msgid "rating_open_dialog"
+msgstr "Utveckla klassificeringsskalan"
+
+msgid "rating_overlay_submit"
+msgstr "Rating"
+
+msgid "rating_personal_rating"
+msgstr "Ditt betyg"
+
+msgid "rating_rate_x_of_5"
+msgstr "Rata med % av 5 stjärnor"
+
+msgid "rating_remove"
+msgstr "Ta bort betyg"
+
+msgid "rating_update_positions"
+msgstr "Spara sekvens"
+
+msgid "rating_your_rating"
+msgstr "Ditt betyg"

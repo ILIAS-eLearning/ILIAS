@@ -1,0 +1,51 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sl\n"
+"Language-Team: Slovenian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=4; plural=(n % 100 == 1) ? 0 : ((n % 100 == 2) ? 1 : ((n % 100 == 3 || n % 100 == 4) ? 2 : 3));\n"
+"X-Domain: pwassist\n"
+
+msgid "password_assistance"
+msgstr "Pomoč pri geslu"
+
+msgid "pwassist_disabled_no_access"
+msgstr "Pomoč pri geslu ni aktivirana.  Za nadaljnjo pomoč se obrnite na sistemskega administratorja: %s"
+
+msgid "pwassist_enter_email"
+msgstr "Vnesite e-poštni naslov in kliknite na pošlji. ILIAS bo poslal e-pošto na ta naslov. E-pošta vsebuje vsa uporabniška imena, ki imajo v profilu vnešen e-poštni naslov. Izberite ustrezno uporabniško ime in uporabite funkcijo \"Pozabljeno geslo\", da vam bo poslano novo geslo. Če prek te funkcije ne prejmete e-pošte, o tem obvestite vodstvo tečaja ali pošljite e-pošto na %1$s."
+
+msgid "pwassist_enter_username_and_email"
+msgstr "Vnesite svoje uporabniško ime in pripadajoč e-poštni naslov ter kliknite na pošlji. ILIAS bo poslal e-pošto na ta naslov. E-pošta vsebuje naslov spletne strani, kjer lahko vnesete novo geslo za svoj uporabniški račun. Če prek te funkcije ne morete nastaviti gesla, o tem obvestite vodstvo tečaja ali pošljite e-pošto na %1$s."
+
+msgid "pwassist_enter_username_and_new_password"
+msgstr "Vnesite uporabniško ime, za katero ste zahtevali pomoč pri geslu in dodeljeno geslo."
+
+msgid "pwassist_login_not_match"
+msgstr "Vnesite drugo uporabniško ime. Vneseno uporabniško ime se ne ujema z uporabniškim imenom, za katerega ste zahtevali pomoč pri geslu."
+
+msgid "pwassist_mail_body"
+msgstr "Vnesite novo geslo za svoj uporabniški račun: %1$ To sporočilo je samodejno ustvarila namestitev ILIAS: %2$s Vi (ali nekdo z naslovom %3$s) ste vprašali za pomoč pri geslu za uporabniški račun \"%4$s\".  Pozorno preverite spodnje primere in nadaljujte ustrezno: -Če ste pomoč pri geslu na strežniku uporabili pomotoma: Izbrišite to sporočilo. -Če ste prepričani, da še nikoli niste zahtevali pomoči pri geslu na tem strežniku ILIAS: Kontaktirajte %5$s. -Če ste zahtevali pomoč pri geslu: Nadaljujte kot sledi:  1. Odprite svoj brskalnik.  2. V brskalnik vnesite naslednji naslov: %6$s  Pomembno: Naslov je sestavljen iz ene same vrstice. Če vidite, da je naslov razdeljen na več vrstic, je vaš e-poštni program vstavil te prelome vrstic.  3. Brskalnik zdaj prikazuje stran, kjer lahko dodelite novo geslo za uporabniški račun.  Bodite pozorni na: Upoštevajte, da lahko zgornje tri korake iz varnostnih razlogov izvedete natanko enkrat in le v omejenem času. Po tem naslov postane neveljaven in morate znova zahtevati pomoč pri geslu na strežniku ILIAS."
+
+msgid "pwassist_mail_sent"
+msgstr "ILIAS je poslal e-pošto na naslov %1$s. Nadaljnja navodila najdete v tem sporočilu."
+
+msgid "pwassist_mail_sent_generic"
+msgstr "ILIAS je poslal e-pošto na shranjen naslov. Nadaljnja navodila najdete v tem sporočilu."
+
+msgid "pwassist_mail_subject"
+msgstr "Pomoč pri geslu ILIAS"
+
+msgid "pwassist_password_assigned"
+msgstr "Geslo je uspešno dodeljeno uporabniškemu imenu %1$s."
+
+msgid "pwassist_session_expired"
+msgstr "Ponovno izpolnite obrazec. Vaš čas za izvedbo pomoči pri geslu je potekel. To je lahko zato, ker ste več kot enkrat poskušali uporabiti povezavo, ki vam je bila poslana po e-pošti, ali ker je minilo preveč časa, odkar vam je bila poslana."
+
+msgid "pwassist_username_mail_body"
+msgstr "To so aktivna uporabniška imena, ki jih ima ILIAS na voljo za dani e-poštni naslov: %s To sporočilo je samodejno ustvaril strežnik ILIAS: %s Vi (ali nekdo z naslovom %s) ste zahtevali seznam uporabniških imen za e-poštni naslov '% s'.  Skrbno preverite naslednje primere in ravnajte, kot je predlagano: -Pomotoma ste na strežniku zahtevali pomoč pri uporabniškem imenu: Izbrišite to e-pošto. -Prepričani ste, da na navedenem strežniku ILIAS nikoli niste zahtevali pomoči pri uporabniškem imenu: Kontaktirajte %s. - Zahtevali ste pomoč pri uporabniškem imenu. Nadaljujte kot sledi:  1. Odprite svoj brskalnik.  2. V brskalnik vnesite naslednji naslov: %s  Pomembno: Naslov je sestavljen iz ene same vrstice. Če vidite, da je naslov razdeljen na več vrstic, je vaš e-poštni program vstavil te prelome vrstic.  3. Vaš brskalnik zdaj prikazuje stran za pomoč pri uporabniškem geslu. Uporabite to funkcijo, da vam bo v kombinaciji z uporabniškim imenom in e-poštnim naslovom poslano novo geslo."
+
+msgid "unassist_disabled_no_access"
+msgstr "Pomoč pri uporabniškem imenu ni aktivirana. Za nadaljnjo pomoč se obrnite na sistemskega administratorja: %s"

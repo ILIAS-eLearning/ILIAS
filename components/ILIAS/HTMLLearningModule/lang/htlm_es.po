@@ -1,0 +1,24 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: htlm\n"
+
+msgid "file_import_from_upload_dir_failed"
+msgstr "No se ha podido importar el archivo desde el directorio de carga"
+
+msgid "file_imported_from_upload_dir"
+msgstr "Archivo importado desde el directorio de carga"
+
+msgid "import_from_upload_dir"
+msgstr "Importar desde el directorio de carga"
+
+msgid "import_from_upload_dir_file_name"
+msgstr "Nombre de archivo"
+
+msgid "import_from_upload_dir_info"
+msgstr "Por favor, seleccione el archivo para importar"

@@ -1,0 +1,162 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: mep\n"
+
+msgid "mep_all"
+msgstr "すべて"
+
+msgid "mep_all_mobs"
+msgstr "すべてのメディア オブジェクト"
+
+msgid "mep_bulk_upload"
+msgstr "一括アップロード"
+
+msgid "mep_choose_from_folder"
+msgstr "フォルダから選択"
+
+msgid "mep_choose_from_mep"
+msgstr "問題集から選択"
+
+msgid "mep_clipboard_info"
+msgstr "ここでは、メディアファイルをアップロードでき、その後ページ編集者にアクセス権のある任意のページからアクセスできます。クリップボードもメディアプールでアクセス可能です。このストレージはあなた専用であり、他のユーザーが閲覧することはできません。"
+
+msgid "mep_content"
+msgstr "コンテンツ"
+
+msgid "mep_content_snippet_in_use"
+msgstr "スニペットコンテンツ '%s'は使用中で削除できません"
+
+msgid "mep_content_snippet_used_in_older_versions"
+msgstr "注意: この断片はいずれかのページの旧バージョンに使用されます。このページをこの断片を含むバージョンへロールバックすると断片はページ内で欠損します。"
+
+msgid "mep_copy_to_mep"
+msgstr "メディア集をコピー"
+
+msgid "mep_create_content_snippet"
+msgstr "スニペットコンテンツを作成"
+
+msgid "mep_create_folder"
+msgstr "フォルダを作成"
+
+msgid "mep_create_media_files"
+msgstr "メディアオブジェクトを作成"
+
+msgid "mep_create_mob"
+msgstr "メディア オブジェクトを作成"
+
+msgid "mep_default_height"
+msgstr "高さ初期設定"
+
+msgid "mep_default_width"
+msgstr "幅の初期設定"
+
+msgid "mep_default_width_height_info"
+msgstr "初期設定幅の高さは新しいメディアオブジェクト作成用のプリセットとして使用されます。"
+
+msgid "mep_edit_content_snippet"
+msgstr "スニペットコンテンツを編集"
+
+msgid "mep_edit_folder"
+msgstr "フォルダを編集"
+
+msgid "mep_file"
+msgstr "ファイル"
+
+msgid "mep_folder"
+msgstr "フォルダ"
+
+msgid "mep_format"
+msgstr "形式"
+
+msgid "mep_import"
+msgstr "メディア集をインポートします"
+
+msgid "mep_import_lang"
+msgstr "目標言語"
+
+msgid "mep_import_trans"
+msgstr "翻訳をインポート"
+
+msgid "mep_master_language_only"
+msgstr "翻訳用のマスター言語"
+
+msgid "mep_master_language_only_no_media"
+msgstr "メディアなしのマスター言語"
+
+msgid "mep_media_files"
+msgstr "Media Files"
+
+msgid "mep_media_subtitles"
+msgstr "メディア字幕"
+
+msgid "mep_mob"
+msgstr "Media Object"
+
+msgid "mep_move_select_insert"
+msgstr "ターゲットフォルダーへナビゲートして\"挿入\"をクリックしてください"
+
+msgid "mep_mpg"
+msgstr "Content Snippet"
+
+msgid "mep_new_content_snippet"
+msgstr "新規スニペットコンテンツ"
+
+msgid "mep_new_folder"
+msgstr "新規フォルダ"
+
+msgid "mep_page_properties"
+msgstr "ページプロパティ"
+
+msgid "mep_page_type_mep"
+msgstr "Content Snippet"
+
+msgid "mep_thumbnail"
+msgstr "サムネイル"
+
+msgid "mep_title_and_description"
+msgstr "タイトルと説明"
+
+msgid "mep_trans_import_info"
+msgstr "他のインストールの翻訳用XML/マスター言語としてこのモジュールをエクスポートしたらこの2番目のインストールから翻訳済エクスポートファイルを再インポートできます。"
+
+msgid "mep_unknown"
+msgstr "不明"
+
+msgid "mep_up_dir_copy"
+msgstr "アップローディディレクトリからファイルをコピー(アップロードディレクトリ中のファイルは保持)"
+
+msgid "mep_up_dir_move"
+msgstr "アップロードディレクトリからファイルを移動(より速い)"
+
+msgid "mep_upload_dir_files"
+msgstr "アップロードディレクトリからのファイル"
+
+msgid "mobs_activate_pages"
+msgstr "コンテンツスニペット管理を使用"
+
+msgid "mobs_activate_pages_info"
+msgstr "メディア集へコンテンツスニペットの作成を許可します。スニペットはラーニングモジュール等において再利用(編集不可）する事ができます。"
+
+msgid "mobs_always_show_file_manager"
+msgstr "ファイルマネージャーを常時表示"
+
+msgid "mobs_always_show_file_manager_info"
+msgstr "アクティブを解除するとメディアオブジェクト用のファイルマネージャーのシンプルMIMEタイプ(例　イメージ)を非表示にします。"
+
+msgid "mobs_black_list_file_types"
+msgstr "禁止ファイルタイプ"
+
+msgid "mobs_black_list_file_types_and_allowed_info"
+msgstr "MIMEタイプリストをコンマ区切りで入力します。このリストは許容ファイルタイプセットを制限します。現時点での許容MIMEタイプ:"
+
+msgid "mobs_restrict_file_types"
+msgstr "制限ファイルタイプ"
+
+msgid "mobs_restrict_file_types_info"
+msgstr "メディアオブジェクトに対してアップロードするファイル拡張子のコンマ区切りリスト(例、jpg、gif)を入力します。未入力の場合は全てのファイル形式が許可されます。"

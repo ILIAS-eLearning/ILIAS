@@ -1,0 +1,549 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: skmg\n"
+
+msgid "scat"
+msgstr "Categoría de Competencia"
+
+msgid "skll"
+msgstr "Competencia"
+
+msgid "skmg_360_survey"
+msgstr "Encuesta de 360°"
+
+msgid "skmg_add_assignment"
+msgstr "Añadir Roles / Miembros"
+
+msgid "skmg_add_level"
+msgstr "Añadir Nivel"
+
+msgid "skmg_add_local_profile"
+msgstr "Añadir Perfil Local"
+
+msgid "skmg_add_profile"
+msgstr "Añadir Perfil"
+
+msgid "skmg_add_resource"
+msgstr "Asignar Objeto del Repositorio"
+
+msgid "skmg_add_skill"
+msgstr "Añadir Competencia"
+
+msgid "skmg_add_skill_tree"
+msgstr "Añadir Árbol de Competencias"
+
+msgid "skmg_add_user_to_profile"
+msgstr "Añadir usuarios o roles al perfil"
+
+msgid "skmg_all"
+msgstr "Todo"
+
+msgid "skmg_allow_local_profiles"
+msgstr "Permitir Creación de Perfiles Locales"
+
+msgid "skmg_allow_local_profiles_info"
+msgstr "Los usuarios con el permiso 'Editar Ajustes' en Cursos y Grupos pueden crear perfiles de competencia locales utilizando competencias definidas globalmente."
+
+msgid "skmg_ass_materials_from_workspace"
+msgstr "Aquí puede asignar materiales, por ejemplo, archivos de sus recursos personales, a los niveles de competencia. Si desea añadir materiales a sus recursos personales ahora, por favor haga clic en el siguiente enlace."
+
+msgid "skmg_assign_level"
+msgstr "Asignar nivel"
+
+msgid "skmg_assign_materials"
+msgstr "Asignar recursos personales"
+
+msgid "skmg_assign_user"
+msgstr "Asignar usuario"
+
+msgid "skmg_assigned_objects"
+msgstr "Objetos asignados"
+
+msgid "skmg_assigned_profiles"
+msgstr "Perfiles de competencias asignados"
+
+msgid "skmg_assigned_skill_levels"
+msgstr "Objetivos de competencia asignados"
+
+msgid "skmg_assigned_users"
+msgstr "Roles y usuarios asignados"
+
+msgid "skmg_bar_charts"
+msgstr "Gráficos de barras"
+
+msgid "skmg_cannot_delete_nodes_in_use"
+msgstr "Algunos elementos no se pueden eliminar porque todavía están en uso."
+
+msgid "skmg_cert_skill_level_title"
+msgstr "Título del nivel de competencia"
+
+msgid "skmg_cert_skill_title"
+msgstr "Título de la competencia"
+
+msgid "skmg_cert_skill_trigger_title"
+msgstr "Título del activador de competencia"
+
+msgid "skmg_confirm_level_resources_removal"
+msgstr "¿Realmente desea eliminar los siguientes objetos del repositorio del nivel de competencia?"
+
+msgid "skmg_confirm_remove_level_ass"
+msgstr "¿Realmente desea eliminar los siguientes niveles de competencia del perfil?"
+
+msgid "skmg_confirm_user_removal"
+msgstr "¿Realmente desea eliminar a los siguientes usuarios de este perfil?"
+
+msgid "skmg_cont_profiles_info"
+msgstr "En esta vista, puede seleccionar los perfiles de competencia con entradas de competencia que están relacionados con el objeto actualmente abierto (curso/grupo). Para acceder a la vista global con todos los perfiles de competencia que tiene asignados y todas las entradas de competencia, haga clic en el enlace de abajo."
+
+msgid "skmg_cont_profiles_info_empty"
+msgstr "No hay perfiles de competencia relacionados con el objeto actualmente abierto."
+
+msgid "skmg_cont_records_info_empty"
+msgstr "No hay competencias relacionadas con el objeto actualmente abierto."
+
+msgid "skmg_context_global"
+msgstr "Global"
+
+msgid "skmg_context_local"
+msgstr "Local"
+
+msgid "skmg_count_references"
+msgstr "Número de competencias referenciadas:"
+
+msgid "skmg_create_sctp"
+msgstr "Crear categoría de plantilla"
+
+msgid "skmg_create_skill_category"
+msgstr "Crear categoría de competencia"
+
+msgid "skmg_create_skill_template"
+msgstr "Crear plantilla de competencia"
+
+msgid "skmg_create_skill_template_category"
+msgstr "Crear categoría de plantilla de competencia"
+
+msgid "skmg_create_skill_template_reference"
+msgstr "Crear referencia a plantilla de competencia"
+
+msgid "skmg_create_skll"
+msgstr "Crear competencia"
+
+msgid "skmg_custom_image_alt"
+msgstr "Imagen personalizada para el perfil de competencia"
+
+msgid "skmg_delete_profiles"
+msgstr "¿Realmente desea eliminar los siguientes perfiles?"
+
+msgid "skmg_delete_warning"
+msgstr "¿Está seguro de que desea eliminar las siguientes competencias, categorías de competencias o árboles de competencias? También eliminará todos los registros de objetos y usuarios. Si el elemento se elimina de un perfil de competencia, esto puede dar lugar a que el perfil de competencia se considere cumplido para los usuarios asignados. La lista a continuación muestra cuántas veces se utiliza el elemento que se va a eliminar en objetos y por usuarios. Por favor, revise la lista cuidadosamente antes de proceder con la eliminación."
+
+msgid "skmg_description_info"
+msgstr "La descripción proviene de la plantilla."
+
+msgid "skmg_edit_level"
+msgstr "Editar nivel"
+
+msgid "skmg_edit_profile"
+msgstr "Editar perfil"
+
+msgid "skmg_edit_scat"
+msgstr "Editar categoría de competencia"
+
+msgid "skmg_edit_sctp"
+msgstr "Editar categoría de plantilla"
+
+msgid "skmg_edit_skll"
+msgstr "Editar ajustes de competencia"
+
+msgid "skmg_edit_sktr"
+msgstr "Editar referencia de plantilla de competencia"
+
+msgid "skmg_enable_skmg"
+msgstr "Activar gestión de competencias"
+
+msgid "skmg_eval_type_1"
+msgstr "Valoración"
+
+msgid "skmg_eval_type_2"
+msgstr "Medición"
+
+msgid "skmg_eval_type_3"
+msgstr "Autoevaluación"
+
+msgid "skmg_eval_type_latest_1"
+msgstr "Última valoración"
+
+msgid "skmg_eval_type_latest_2"
+msgstr "Última medición"
+
+msgid "skmg_eval_type_latest_3"
+msgstr "Última autoevaluación"
+
+msgid "skmg_execute_self_evaluation"
+msgstr "Iniciar"
+
+msgid "skmg_form_presentation"
+msgstr "Presentación"
+
+msgid "skmg_from_lower_to_higher_levels"
+msgstr "Por favor, ordene los niveles de competencia desde los inferiores arriba hasta los superiores abajo."
+
+msgid "skmg_hide_profile_self_eval"
+msgstr "Ocultar objetivo de competencia sin autoevaluación"
+
+msgid "skmg_hide_profile_self_eval_info"
+msgstr "El objetivo de competencia no se mostrará a un usuario si no se ha realizado ninguna autoevaluación para una competencia específica."
+
+msgid "skmg_import_skills"
+msgstr "Importar"
+
+msgid "skmg_input_file"
+msgstr "Archivo de importación"
+
+msgid "skmg_insert_basic_skill_from_clip"
+msgstr "Insertar competencias desde el portapapeles"
+
+msgid "skmg_insert_please_choose_one_type_only"
+msgstr "Por favor, elija solo un tipo de elementos."
+
+msgid "skmg_insert_skill_category_from_clip"
+msgstr "Insertar categorías de competencias desde el portapapeles"
+
+msgid "skmg_insert_skill_template_from_clip"
+msgstr "Insertar plantilla de competencia desde el portapapeles"
+
+msgid "skmg_insert_skill_template_reference_from_clip"
+msgstr "Insertar referencia de plantilla de competencia desde el portapapeles"
+
+msgid "skmg_insert_template_category_from_clip"
+msgstr "Insertar categoría de plantilla desde el portapapeles"
+
+msgid "skmg_items"
+msgstr "Elementos"
+
+msgid "skmg_level"
+msgstr "Nivel"
+
+msgid "skmg_list_skills"
+msgstr "Listar competencias"
+
+msgid "skmg_local_assignment_profiles"
+msgstr "Permitir la asignación local de perfiles globales"
+
+msgid "skmg_lp_triggers_level"
+msgstr "La finalización activa el registro de la competencia"
+
+msgid "skmg_materials"
+msgstr "Recursos personales"
+
+msgid "skmg_materials_resources"
+msgstr "Materiales de aprendizaje"
+
+msgid "skmg_new_level"
+msgstr "Nuevo nivel"
+
+msgid "skmg_new_sktr"
+msgstr "Nueva referencia de plantilla de competencia"
+
+msgid "skmg_next_step"
+msgstr "Siguiente paso"
+
+msgid "skmg_no_nodes_selectable"
+msgstr "Actualmente no hay competencias seleccionables."
+
+msgid "skmg_no_skill_entries"
+msgstr "Aún no tienes entradas para esta competencia."
+
+msgid "skmg_no_skills_selected_info"
+msgstr "Aún no ha seleccionado ni cumplido ninguna competencia. Haga clic en el botón \"Añadir competencia\" para seleccionar una competencia. Puede añadir cualquier número de competencias. Si cumple competencias al editar materiales de aprendizaje, aparecerán automáticamente en la lista."
+
+msgid "skmg_no_trigger"
+msgstr "Sin activador"
+
+msgid "skmg_nr"
+msgstr "Núm."
+
+msgid "skmg_number"
+msgstr "Número"
+
+msgid "skmg_open"
+msgstr "Abierto"
+
+msgid "skmg_open_all_assigned_profiles"
+msgstr "Abrir todos los perfiles de competencia asignados"
+
+msgid "skmg_order"
+msgstr "Orden"
+
+msgid "skmg_order_nr"
+msgstr "Número de orden"
+
+msgid "skmg_order_nr_info"
+msgstr "Posiciona la competencia en la lista de competencias."
+
+msgid "skmg_please_select_self_skill"
+msgstr "Iniciar una nueva autoevaluación. Competencia:"
+
+msgid "skmg_please_select_your_skill_levels"
+msgstr "Por favor, seleccione sus niveles de competencia."
+
+msgid "skmg_previous_step"
+msgstr "Paso anterior"
+
+msgid "skmg_profile"
+msgstr "Perfil"
+
+msgid "skmg_really_delete_levels"
+msgstr "¿Realmente desea eliminar los siguientes niveles de competencia?"
+
+msgid "skmg_really_remove_skills"
+msgstr "¿Realmente desea eliminar las siguientes competencias de su lista?"
+
+msgid "skmg_recommended_learning_material_crs"
+msgstr "Alcance sus objetivos en este curso"
+
+msgid "skmg_recommended_learning_material_global"
+msgstr "Alcance sus objetivos"
+
+msgid "skmg_recommended_learning_material_grp"
+msgstr "Alcance sus objetivos en este grupo"
+
+msgid "skmg_recommended_learning_material_info"
+msgstr "Por favor, trabaje con los siguientes materiales de aprendizaje para alcanzar el objetivo de competencia. Seleccione exactamente un material de aprendizaje por nivel de competencia."
+
+msgid "skmg_refresh_view"
+msgstr "Actualizar"
+
+msgid "skmg_remove"
+msgstr "Eliminar"
+
+msgid "skmg_remove_levels"
+msgstr "Eliminar Niveles"
+
+msgid "skmg_remove_skill"
+msgstr "Eliminar Competencia"
+
+msgid "skmg_remove_trigger"
+msgstr "Eliminar Disparador"
+
+msgid "skmg_resources"
+msgstr "Objetos del Repositorio"
+
+msgid "skmg_save_order"
+msgstr "Guardar Orden"
+
+msgid "skmg_save_self_evaluation"
+msgstr "Finalizar Autoevaluación"
+
+msgid "skmg_save_settings"
+msgstr "Guardar Ajustes"
+
+msgid "skmg_sctp"
+msgstr "Categoría de Plantilla de Competencias"
+
+msgid "skmg_select_level"
+msgstr "Seleccionar Nivel de Competencia"
+
+msgid "skmg_select_skill"
+msgstr "Haga clic en una competencia para añadirla a sus competencias personales."
+
+msgid "skmg_select_skill_level_assign"
+msgstr "Por favor, seleccione una competencia."
+
+msgid "skmg_select_trigger"
+msgstr "Seleccionar Disparador"
+
+msgid "skmg_selectable"
+msgstr "Seleccionable"
+
+msgid "skmg_selectable_info"
+msgstr "Permite al usuario seleccionar esta categoría como una competencia personal."
+
+msgid "skmg_selected_items_have_been_copied"
+msgstr "Los elementos seleccionados han sido copiados."
+
+msgid "skmg_selected_items_have_been_cut"
+msgstr "Los elementos seleccionados han sido cortados."
+
+msgid "skmg_selected_skills"
+msgstr "Competencias Seleccionadas"
+
+msgid "skmg_self_evaluation"
+msgstr "Autoevaluación"
+
+msgid "skmg_self_evaluation_byline"
+msgstr "La autoevaluación será excluida del logro de objetivos. Se utiliza para su orientación."
+
+msgid "skmg_self_evaluations"
+msgstr "Autoevaluaciones"
+
+msgid "skmg_set_as_lp_trigger"
+msgstr "La finalización debería disparar el registro de competencia"
+
+msgid "skmg_set_as_no_lp_trigger"
+msgstr "La finalización no debería disparar el registro de competencia"
+
+msgid "skmg_set_as_no_suggested"
+msgstr "No mostrar como material de aprendizaje"
+
+msgid "skmg_set_as_suggested"
+msgstr "Mostrar como material de aprendizaje"
+
+msgid "skmg_settings"
+msgstr "Ajustes de Gestión de Competencias"
+
+msgid "skmg_show_all"
+msgstr "Mostrar todo"
+
+msgid "skmg_show_latest_entries"
+msgstr "Mostrar últimas entradas"
+
+msgid "skmg_skill"
+msgstr "Competencia"
+
+msgid "skmg_skill_in_use"
+msgstr "Esta competencia está siendo utilizada por usuarios o contenidos. No todos los comandos están disponibles. Por favor, tenga en cuenta que cualquier cambio que se realice afectará a los usos existentes."
+
+msgid "skmg_skill_level"
+msgstr "Nivel de Competencia"
+
+msgid "skmg_skill_level_trigger"
+msgstr "Activador de nivel de competencia"
+
+msgid "skmg_skill_levels"
+msgstr "Niveles de competencia"
+
+msgid "skmg_skill_management_deactivated"
+msgstr "La gestión de competencias está desactivada actualmente."
+
+msgid "skmg_skill_needs_impr_no_res"
+msgstr "Necesita mejorar esta competencia. Lamentablemente, no hay materiales de aprendizaje disponibles actualmente que estén alineados con su objetivo de competencia."
+
+msgid "skmg_skill_needs_impr_res"
+msgstr "Necesita mejorar esta competencia. Los siguientes materiales de aprendizaje están alineados con su objetivo de competencia."
+
+msgid "skmg_skill_needs_self_eval"
+msgstr "Por favor, realice primero una autoevaluación para ver su objetivo de competencia."
+
+msgid "skmg_skill_needs_self_eval_box"
+msgstr "Tenga en cuenta que no ha realizado una autoevaluación para al menos una competencia en este perfil. No verá el objetivo de competencia para las competencias afectadas hasta que se realice una autoevaluación."
+
+msgid "skmg_skill_no_needs_impr"
+msgstr "¡Objetivo de competencia alcanzado!"
+
+msgid "skmg_skill_no_needs_impr_info"
+msgstr "Ha alcanzado el objetivo para esta competencia."
+
+msgid "skmg_skill_overview"
+msgstr "Vista general"
+
+msgid "skmg_skill_profile_records"
+msgstr "Registros de competencias"
+
+msgid "skmg_skill_profiles"
+msgstr "Perfiles de competencias"
+
+msgid "skmg_skill_template"
+msgstr "Plantilla de competencia"
+
+msgid "skmg_skill_templates"
+msgstr "Plantillas de competencias"
+
+msgid "skmg_skill_tree"
+msgstr "Árbol de competencias"
+
+msgid "skmg_skill_trees"
+msgstr "Árboles de competencias"
+
+msgid "skmg_skills"
+msgstr "Competencias"
+
+msgid "skmg_sktr"
+msgstr "Referencia de plantilla de competencia"
+
+msgid "skmg_status"
+msgstr "Estado"
+
+msgid "skmg_status_draft"
+msgstr "Borrador (Fuera de línea)"
+
+msgid "skmg_status_draft_info"
+msgstr "El elemento se ocultará."
+
+msgid "skmg_status_outdated"
+msgstr "Obsoleto"
+
+msgid "skmg_status_outdated_info"
+msgstr "El elemento no podrá ser seleccionado nuevamente por los usuarios como competencia personal, ni asignado de nuevo a objetos del repositorio o perfiles de competencia. Sin embargo, las asignaciones y datos existentes seguirán mostrándose."
+
+msgid "skmg_status_publish"
+msgstr "Publicado"
+
+msgid "skmg_status_publish_info"
+msgstr "El elemento puede ser utilizado si todos los elementos superiores están publicados también."
+
+msgid "skmg_suggested"
+msgstr "Mostrado como material de aprendizaje"
+
+msgid "skmg_suggested_resources"
+msgstr "Objetos del repositorio asignados"
+
+msgid "skmg_sure_delete_self_evaluation"
+msgstr "¿Realmente desea eliminar las siguientes autoevaluaciones?"
+
+msgid "skmg_target_level"
+msgstr "Objetivo de competencia"
+
+msgid "skmg_target_levels"
+msgstr "Objetivos de competencia"
+
+msgid "skmg_trigger"
+msgstr "Disparador"
+
+msgid "skmg_type"
+msgstr "Tipo"
+
+msgid "skmg_type_of_formation"
+msgstr "Tipo de formación"
+
+msgid "skmg_update_order"
+msgstr "Actualizar orden"
+
+msgid "skmg_usage"
+msgstr "Uso"
+
+msgid "skmg_usage_obj_objects"
+msgstr "Objeto(s)"
+
+msgid "skmg_usage_obj_profiles"
+msgstr "Perfil(es)"
+
+msgid "skmg_usage_obj_users"
+msgstr "Usuario(s)"
+
+msgid "skmg_usage_type_info_gen"
+msgstr "Uso general en objetos del repositorio"
+
+msgid "skmg_usage_type_info_mat"
+msgstr "Usuarios con recursos personales asignados desde su espacio de trabajo personal"
+
+msgid "skmg_usage_type_info_pers"
+msgstr "Seleccionado por los usuarios como competencia personal"
+
+msgid "skmg_usage_type_info_prof"
+msgstr "Utilizado en perfiles de competencias"
+
+msgid "skmg_usage_type_info_res"
+msgstr "Objetos del repositorio asignados como material de aprendizaje"
+
+msgid "skmg_usage_type_info_user"
+msgstr "Asignado a usuarios"
+
+msgid "skmg_your_self_evaluation"
+msgstr "Su autoevaluación"

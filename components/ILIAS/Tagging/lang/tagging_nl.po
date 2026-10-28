@@ -1,0 +1,86 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: nl\n"
+"Language-Team: Dutch\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: tagging\n"
+
+#, fuzzy
+msgid "no_tag_text_1"
+msgstr "You have not yet used any tags. To do this, you must take two steps:"
+
+#, fuzzy
+msgid "no_tag_text_2"
+msgstr "Click on '%s' and select a learning object from the available offer, e.g. a learning module or a forum."
+
+#, fuzzy
+msgid "no_tag_text_3"
+msgstr "To attach any tags to the object select 'Set Tags' from the actions menu."
+
+#, fuzzy
+msgid "tag_remove_tags_of_obj_without_access"
+msgstr "Remove Tag"
+
+#, fuzzy
+msgid "tag_some_obj_tagged_without_access"
+msgstr "You do not have the permissions to access some of the tagged objects anymore. Should the tag be removed for these objects?"
+
+#, fuzzy
+msgid "tag_tags_deleted"
+msgstr "Tag has been removed from inaccessible objects."
+
+msgid "tagging_all_users"
+msgstr "Alle gebruikers"
+
+msgid "tagging_edit_settings"
+msgstr "Instellingen wijzigen"
+
+msgid "tagging_enable_all_users"
+msgstr "Toon labels van alle gebuikers"
+
+msgid "tagging_enable_all_users_info"
+msgstr "Voegt sectie \"alle gebruikers\" toe aan de info schermen die alle labels tonen van alle gebruikers verbonden met een bron."
+
+msgid "tagging_enable_tagging"
+msgstr "Labels inschakelen"
+
+msgid "tagging_forbidden_tags"
+msgstr "Verboden labels"
+
+#, fuzzy
+msgid "tagging_no_obj_for_tag"
+msgstr "No Resources tagged with %s."
+
+#, fuzzy
+msgid "tagging_no_perm_write"
+msgstr "You have no permission to change this data."
+
+msgid "tagging_other_users"
+msgstr "Andere gebruikers"
+
+msgid "tagging_resources_for_tag"
+msgstr "Bronnen gelabeld met %s"
+
+msgid "tagging_search_users"
+msgstr "Gebruikers zoeken"
+
+msgid "tagging_set_tag"
+msgstr "Plaatsen label"
+
+msgid "tagging_settings"
+msgstr "Instellingen"
+
+msgid "tagging_tag"
+msgstr "Label"
+
+msgid "tagging_tag_info"
+msgstr "Om een label te plaatsen en te hangen aan een hulpmiddel, open eerst het info scherm en type de tags."
+
+msgid "tagging_tags"
+msgstr "Labels"
+
+msgid "tagging_users_using_tag"
+msgstr "Gebruikers die label gebruiken"

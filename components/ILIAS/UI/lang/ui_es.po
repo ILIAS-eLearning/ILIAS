@@ -1,0 +1,255 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: ui\n"
+
+msgid "1stars"
+msgstr "una de cinco estrellas"
+
+msgid "2stars"
+msgstr "dos de cinco estrellas"
+
+msgid "3stars"
+msgstr "tres de cinco estrellas"
+
+msgid "4stars"
+msgstr "cuatro de cinco estrellas"
+
+msgid "5stars"
+msgstr "cinco de cinco estrellas"
+
+msgid "datatable_close_warning"
+msgstr "Aceptar"
+
+msgid "datatable_multiaction_label"
+msgstr "Acciones masivas"
+
+msgid "datatable_multiactionmodal_actionlabel"
+msgstr "Acción para todas las entradas"
+
+msgid "datatable_multiactionmodal_apply"
+msgstr "Aplicar"
+
+msgid "datatable_multiactionmodal_listentry"
+msgstr "Acciones para toda la tabla"
+
+msgid "datatable_multiactionmodal_msg"
+msgstr "La acción seleccionada afectará a todas las entradas de esta tabla."
+
+msgid "datatable_multiactionmodal_title"
+msgstr "Acciones para toda la tabla"
+
+msgid "drilldown_no_items"
+msgstr "No hay elementos coincidentes"
+
+msgid "duration_default_label_end"
+msgstr "fin"
+
+msgid "duration_default_label_start"
+msgstr "inicio"
+
+msgid "duration_end_must_not_be_earlier_than_start"
+msgstr "El inicio no debe ser posterior al fin."
+
+msgid "filter_nodes_in"
+msgstr "Filtrar nodos en %s"
+
+msgid "footer_icons"
+msgstr "Iconos del pie de página"
+
+msgid "footer_link_groups"
+msgstr "Grupos de enlaces del pie de página"
+
+msgid "footer_links"
+msgstr "Enlaces del pie de página"
+
+msgid "footer_permanent_link"
+msgstr "Enlace permanente del pie de página"
+
+msgid "footer_texts"
+msgstr "Textos del pie de página"
+
+msgid "image_alt_text"
+msgstr "Alternate Text"
+
+msgid "image_purpose_decorative"
+msgstr "Decorative Image"
+
+msgid "image_purpose_informative"
+msgstr "Informative Image"
+
+msgid "image_purpose_user_defined"
+msgstr "Image Purpose"
+
+msgid "label_fieldselection"
+msgstr "Selección de campos"
+
+msgid "label_fieldselection_refresh"
+msgstr "Aplicar"
+
+msgid "label_modeviewcontrol"
+msgstr "view mode"
+
+msgid "label_pagination_limit"
+msgstr "Número de filas por página"
+
+msgid "label_pagination_offset"
+msgstr "Desplazamiento de paginación"
+
+msgid "label_sortation"
+msgstr "Ordenación"
+
+msgid "order_option_alphabetical_ascending"
+msgstr "A a Z"
+
+msgid "order_option_alphabetical_descending"
+msgstr "Z a A"
+
+msgid "order_option_chronological_ascending"
+msgstr "Más antiguo primero"
+
+msgid "order_option_chronological_descending"
+msgstr "Más reciente primero"
+
+msgid "order_option_first"
+msgstr "Primero"
+
+msgid "order_option_generic_ascending"
+msgstr "Ascendente"
+
+msgid "order_option_generic_descending"
+msgstr "Descendente"
+
+msgid "order_option_numerical_ascending"
+msgstr "0 a 9"
+
+msgid "order_option_numerical_descending"
+msgstr "9 a 0"
+
+msgid "presentation_table_collapse"
+msgstr "Contraer todo"
+
+msgid "presentation_table_expand"
+msgstr "Expandir todo"
+
+msgid "rating_average"
+msgstr "Otros calificaron %s de 5"
+
+msgid "reset_stars"
+msgstr "neutral"
+
+msgid "select_node"
+msgstr "Add node %s to selection"
+
+msgid "table_posinput_col_title"
+msgstr "Posición"
+
+msgid "ui_chars_max"
+msgstr "Máximo:"
+
+msgid "ui_chars_min"
+msgstr "Mínimo:"
+
+msgid "ui_chars_remaining"
+msgstr "Caracteres restantes:"
+
+msgid "ui_error"
+msgstr "Error"
+
+msgid "ui_error_in_group"
+msgstr "Hay algún error en esta parte."
+
+msgid "ui_error_switchable_group_required"
+msgstr "Por favor, seleccione una opción."
+
+msgid "ui_field_option_filter_clear_search"
+msgstr "Clear search"
+
+msgid "ui_field_option_filter_filtered_results_aria_label"
+msgstr "List of options - collapsible and filterable"
+
+msgid "ui_field_option_filter_no_match"
+msgstr "There was no match for the search term you entered."
+
+msgid "ui_field_option_filter_no_selection"
+msgstr "Nothing selected."
+
+msgid "ui_field_option_filter_options_shown"
+msgstr "Currently showing %s options."
+
+msgid "ui_field_option_filter_screen_reader_hint"
+msgstr "Start typing and the field options below will be filtered accordingly."
+
+msgid "ui_field_option_filter_search_in"
+msgstr "Find"
+
+msgid "ui_field_option_filter_show_all_options"
+msgstr "Show all options"
+
+msgid "ui_field_option_filter_show_less"
+msgstr "Show less"
+
+msgid "ui_file_input_general_error"
+msgstr "¡Ha ocurrido un error! Puede consultar la consola de JavaScript de su navegador para obtener más información y/o ponerse en contacto con la administración del sistema ILIAS sobre este incidente."
+
+msgid "ui_file_input_invalid_amount"
+msgstr "No puede cargar tantos archivos, por favor elimine algunos para continuar."
+
+msgid "ui_file_input_invalid_mime"
+msgstr "No se permiten archivos de tipo '%s'"
+
+msgid "ui_file_input_invalid_size"
+msgstr "El archivo excede el tamaño máximo de %s."
+
+msgid "ui_file_upload_max_nr"
+msgstr "Número máximo de archivos:"
+
+msgid "ui_invalid_url"
+msgstr "Formato de URL inválido"
+
+msgid "ui_link_label"
+msgstr "Etiqueta"
+
+msgid "ui_link_url"
+msgstr "URL"
+
+msgid "ui_md_input_edit"
+msgstr "Editar"
+
+msgid "ui_md_input_view"
+msgstr "Ver"
+
+msgid "ui_nav_sequence_control_label"
+msgstr "Sequence control for contents below"
+
+msgid "ui_nav_sequence_description"
+msgstr "Used to navigate through this content or trigger actions and filters on the entire sequence."
+
+msgid "ui_pagination_unlimited"
+msgstr "Ilimitado"
+
+msgid "ui_select_dropdown_label"
+msgstr "Por favor, seleccione"
+
+msgid "ui_table_no_records"
+msgstr "No hay registros"
+
+msgid "ui_table_order"
+msgstr "Orden"
+
+msgid "ui_transcription"
+msgstr "Transcripción"
+
+msgid "unselect_node"
+msgstr "Remove node %s from selection"
+
+msgid "vc_sort"
+msgstr "Ordenar por:"
+
+msgid "warning_url_too_long_msg"
+msgstr "La cantidad de filas seleccionadas resultará en una URL muy larga; es probable que el servidor bloquee esta solicitud.<br>Por favor, seleccione menos filas o realice la acción en todas las entradas."

@@ -1,0 +1,57 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: uk\n"
+"Language-Team: Ukrainian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: pwassist\n"
+
+#, fuzzy
+msgid "password_assistance"
+msgstr "Password Assistance"
+
+#, fuzzy
+msgid "pwassist_disabled_no_access"
+msgstr "Password assistance is not enabled. Please contact the system administration for further assistance: %s"
+
+#, fuzzy
+msgid "pwassist_enter_email"
+msgstr "Please enter an email address and submit the form.\\nILIAS will send an email to that address. The email contains all usernames which have registered this email address.\\nChoose a suitable username and use the password service to retrieve a new password. If you do not retrieve any email by this service please contact your course admin or %1$s."
+
+msgid "pwassist_enter_username_and_email"
+msgstr "Введіть ім'я користувача та відповідну e-mail адресу в поля показані нижче.\\nILIAS відішле повідомлення на цю e-mail адресу. Повідомлення містить адресу веб сторінки, де ви можете ввести новий пароль для акаунту користувача."
+
+msgid "pwassist_enter_username_and_new_password"
+msgstr "Введіть ім'я користувача та новий пароль в поля нижче."
+
+msgid "pwassist_login_not_match"
+msgstr "Будь ласка введіть інше ім'я користувача.\\nІм'я користувача що ви ввели не співпадає з ім'ям користувача для якого ви запросили відновлення паролю."
+
+msgid "pwassist_mail_body"
+msgstr "Реєстрація нового паролю для вашого акаунту користувача:\\n\\t%1$s\\n\\nЦе повідомлення було згенеровано автоматично сервером ILIAS\\n\\t%2$s\\n\\nВи (або хтось %3$s) запросив відновлення паролю для акаунту користувача \"%4$s\".\\n\\nБудь ласка перевірте уважно умови наведені нижче, та дійте відповідно:\\n\\n- Якщо ви випадково використали відновлення паролю на ILIAS сервері:\\nВидаліть цей лист.\\n\\n- Якщо ви впевнені, що ви ніколи не користувались відновленням паролю на сервері ILIAS:\\nБудь ласка зв'яжіться з %5$s.\\n\\n- Якщо ви використовували відновлення паролю, будь ласка виконайте наступне:\\n\\n1. Відкрийте ваш браузер.\\n\\n2. Введіть наступну адресу в ваш браузер:\\n\\t%1$s\\n\\nВажливо: Адреса має бути однією стрічкою. Якщо ви бачите, що адреса розділена на декілька ліній, це означає що ваша e-mail програма вставила ці розділи стрічок.\\n\\n3. На веб сторінці показаній вашим браузером, введіть новий пароль для вашого акаунту користувача.\\n\\nБудь ласка зауважте, що з міркувань безпеки, ви можете виконати три кроки вище тільки віключно один раз та тільки за обмежений час. Пізніше адреса стане невірною, та ви буду змушені використати відновлення паролю на ILIAS сервері знову."
+
+msgid "pwassist_mail_sent"
+msgstr "Повідомлення відправлене на %1$s.\\nБудь ласка перевірте вашу почтову скриньку."
+
+#, fuzzy
+msgid "pwassist_mail_sent_generic"
+msgstr "A message has been sent to the email address defined in ILIAS.\\nPlease check your mail box."
+
+msgid "pwassist_mail_subject"
+msgstr "ILIAS Відновлення Паролю"
+
+msgid "pwassist_password_assigned"
+msgstr "Пароль був вдало призначений до користувача \"%1$s\"."
+
+msgid "pwassist_session_expired"
+msgstr "Будь ласка заповніть цю форму знову.\\nСтрок дії вашої сесія відновлення паролю скінчився. Це могло трапитись, тому що ви намагались використати лінк, що був надісланий вам більше ніж один раз, або тому що дуже багато часу пройшло з тих пір, як лінк був вам відісланий."
+
+#, fuzzy
+msgid "pwassist_username_mail_body"
+msgstr "These are the active username found for the given email address:\\n%s\\n\\nThis message has been created automatically by the following ILIAS Server:\\n\\t%s\\n\\nYou (or somebody with IP  %s) have requested support for forgotten usernames for the email address '%s'.\\n\\nPlease check the following and act as suggested::\\n\\n-You have requested this mail by accident:\\nDelete this email.\\n\\n-You are sure, that you never requested this email:\\nPlease contact %s.\\n\\n- If you requested this email, please proceed as follows::\\n\\n1. Start your internet browser.\\n\\n2. Enter the following url:\\n\\t%s\\n\\nImportant: The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.\\n\\n3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according email address to retrieve a new password."
+
+#, fuzzy
+msgid "unassist_disabled_no_access"
+msgstr "Username assistance is not enabled. Please contact the system administration for further assistance: %s"

@@ -1,0 +1,86 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ka\n"
+"Language-Team: Georgian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: tax\n"
+
+msgid "obj_taxn"
+msgstr "Node"
+
+msgid "tax_add_taxonomy"
+msgstr "Add Taxonomy"
+
+#, fuzzy
+msgid "tax_added"
+msgstr "Taxonomy has been created."
+
+#, fuzzy
+msgid "tax_admin_settings_repository"
+msgstr "Repository Taxonomies"
+
+msgid "tax_alphabetical"
+msgstr "Alphabetical"
+
+#, fuzzy
+msgid "tax_assigned_items"
+msgstr "Assigned Items"
+
+msgid "tax_confirm_deletion"
+msgstr "Do you really want to delete the whole taxonomy and all its relations?"
+
+msgid "tax_create_node"
+msgstr "Create Node"
+
+#, fuzzy
+msgid "tax_item_sorting"
+msgstr "Support Sorting of Assigned Items"
+
+msgid "tax_manual"
+msgstr "Manual"
+
+#, fuzzy
+msgid "tax_max_one_tax"
+msgstr "You can use maximum one taxonomy in this context."
+
+msgid "tax_new_tax_node"
+msgstr "New Node"
+
+msgid "tax_node"
+msgstr "Node"
+
+#, fuzzy
+msgid "tax_node_sorting"
+msgstr "Sorting of Nodes"
+
+msgid "tax_nodes"
+msgstr "Nodes"
+
+msgid "tax_order"
+msgstr "Order"
+
+msgid "tax_order_nr"
+msgstr "Order Nr"
+
+msgid "tax_please_select_target"
+msgstr "Please select the target."
+
+msgid "tax_target_within_nodes"
+msgstr "The target must not be a subnode of the selected items."
+
+#, fuzzy
+msgid "tax_tax_assignment"
+msgstr "Taxonomy Assignment"
+
+msgid "tax_tax_deleted"
+msgstr "The taxonomy has been deleted."
+
+#, fuzzy
+msgid "tax_tax_settings"
+msgstr "Taxonomy Settings"
+
+msgid "tax_taxonomy"
+msgstr "Taxonomy"

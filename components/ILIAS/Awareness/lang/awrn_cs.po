@@ -1,0 +1,94 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: awrn\n"
+
+msgid "awareness_now_online"
+msgstr "Nyní online"
+
+msgid "awareness_settings"
+msgstr "Nastavení"
+
+msgid "awrn_caching_period"
+msgstr "Doba ukládání do mezipaměti"
+
+msgid "awrn_caching_period_info"
+msgstr "Doba, po kterou se čeká, než je aktualizován počet uživatelů v horní liště a jsou zjišťování noví online uživatelé."
+
+msgid "awrn_enable"
+msgstr "Povolit nástroj „Kdo je online?“"
+
+#, fuzzy
+msgid "awrn_filter"
+msgstr "User Filter"
+
+msgid "awrn_hide_from_awareness"
+msgstr "Skrýt mě v nástroji „Kdo je online?“"
+
+msgid "awrn_hide_from_awareness_info"
+msgstr "Nástroj „Kdo je online?“ je v horní liště a uvádí seznam vybraných uživatelů (např. kontakty nebo členové vašich kurzů)."
+
+msgid "awrn_inactive"
+msgstr "Neuvedeno"
+
+msgid "awrn_incl_offline"
+msgstr "Online a offline"
+
+msgid "awrn_max_inactivity"
+msgstr "Maximální doba nečinnosti"
+
+msgid "awrn_max_inactivity_info"
+msgstr "Po této době jsou uživatelé považováni, že jsou offline. Pokud není nic nastaveno, bude použit čas relace."
+
+msgid "awrn_max_nr_entries"
+msgstr "Max. Počet položek"
+
+msgid "awrn_max_nr_entries_info"
+msgstr "Maximální počet položek v seznamu „Kdo je online?“."
+
+msgid "awrn_minutes"
+msgstr "min"
+
+msgid "awrn_online"
+msgstr "Online"
+
+msgid "awrn_online_only"
+msgstr "Pouze online"
+
+msgid "awrn_seconds"
+msgstr "s"
+
+msgid "awrn_use_osd"
+msgstr "Vyskakovací okno Online uživatelé"
+
+msgid "awrn_use_osd_info"
+msgstr "Zobrazí se vyskakovací okno pro označení nových online uživatelů v seznamu „Kdo je online?“."
+
+#, fuzzy
+msgid "awrn_user_show"
+msgstr "Show Your Account in \"Who-Is-Online?\""
+
+#, fuzzy
+msgid "awrn_user_show_default"
+msgstr "Default Value for  the Visibility in \"Who-Is-Online?\""
+
+#, fuzzy
+msgid "awrn_user_show_default_info"
+msgstr "Defines the default value for the visibility of the status of a user in \"Who-Is-Online?\"."
+
+#, fuzzy
+msgid "user_awrn_default"
+msgstr "Default"
+
+#, fuzzy
+msgid "user_awrn_hide"
+msgstr "Hide my status"
+
+#, fuzzy
+msgid "user_awrn_show"
+msgstr "Show my status"

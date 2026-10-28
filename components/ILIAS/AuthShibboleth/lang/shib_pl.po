@@ -1,0 +1,149 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pl\n"
+"Language-Team: Polish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: shib\n"
+
+#, fuzzy
+msgid "shib_account_creation"
+msgstr "Account Creation"
+
+#, fuzzy
+msgid "shib_account_creation_disabled"
+msgstr "Disabled"
+
+#, fuzzy
+msgid "shib_account_creation_disabled_info"
+msgstr "No new account is created."
+
+#, fuzzy
+msgid "shib_account_creation_enabled"
+msgstr "Enabled"
+
+#, fuzzy
+msgid "shib_account_creation_enabled_info"
+msgstr "An active new account is created."
+
+#, fuzzy
+msgid "shib_account_creation_info"
+msgstr "Account creation is triggered, when a user without a pre-existing ILIAS Account tries to log in via Shibboleth."
+
+#, fuzzy
+msgid "shib_account_creation_with_approval"
+msgstr "With approval"
+
+#, fuzzy
+msgid "shib_account_creation_with_approval_info"
+msgstr "An inactive new account is created. The account remains inactive until activated by an administrator."
+
+msgid "shib_add_missing"
+msgstr "Przydziel brakujące role"
+
+msgid "shib_add_remove"
+msgstr "Dodaj/usuń rolę"
+
+msgid "shib_assignment_type"
+msgstr "Rodzaj przydziału"
+
+msgid "shib_attr_info"
+msgstr "Przydział następuje na podstawie określonego atrybutu w profilu użytkownika Shibboleth."
+
+msgid "shib_attribute"
+msgstr "Atrybut użytkownika"
+
+msgid "shib_attribute_name"
+msgstr "Nazwa atrybutowa"
+
+msgid "shib_attribute_value"
+msgstr "Wartość atrybutowa"
+
+msgid "shib_check_role_assignment"
+msgstr "Aktualizacja przydziałów ról przy każdym logowaniu:"
+
+msgid "shib_choose_role"
+msgstr "Przejmij rolę"
+
+msgid "shib_confirm_del_role_ass"
+msgstr "Czy naprawdę chcesz usunąć poniższe przydziały?"
+
+msgid "shib_deleted_rule"
+msgstr "Usunięto zasady przydzielania."
+
+msgid "shib_global_role"
+msgstr "Globalna rola"
+
+msgid "shib_ilias_role"
+msgstr "Nazwa roli ILIAS"
+
+msgid "shib_local_role"
+msgstr "Lokalna rola"
+
+msgid "shib_missing_attr_name"
+msgstr "Wpisz nazwę atrybutu."
+
+msgid "shib_missing_attr_value"
+msgstr "Wpisz wartość atrybutu."
+
+msgid "shib_missing_plugin_id"
+msgstr "Wpisz jednoznaczny numer ID wtyczki."
+
+msgid "shib_missing_role"
+msgstr "Wybierz rolę ILIAS."
+
+msgid "shib_new_rule"
+msgstr "Dodaj nową regułę"
+
+msgid "shib_plugin"
+msgstr "Przydział poprzez wtyczkę"
+
+msgid "shib_plugin_id"
+msgstr "Numer ID wtyczki"
+
+msgid "shib_plugin_info"
+msgstr "Jeśli przydziału nie można przeprowadzić w ramach zwykłej kontroli (nazwa/wartość atrybutu), przydział można zrealizować również za pomocą wtyczki."
+
+msgid "shib_remove_deprecated"
+msgstr "Usuń nieuprawnione role"
+
+msgid "shib_role_ass_table"
+msgstr "Nowe zasady przydzielania ról ILIAS"
+
+msgid "shib_role_assignment"
+msgstr "Przydziały ról"
+
+msgid "shib_role_by_attribute"
+msgstr "Atrybut użytkownika"
+
+msgid "shib_role_by_plugin"
+msgstr "Poprzez wtyczkę"
+
+msgid "shib_role_name"
+msgstr "Nazwa roli ILIAS"
+
+msgid "shib_role_name_info"
+msgstr "Wybierz globalną rolę lub podaj nazwę lokalnej roli."
+
+msgid "shib_role_selection"
+msgstr "Wybór ról"
+
+msgid "shib_rule_condition"
+msgstr "Warunek"
+
+msgid "shib_rule_type"
+msgstr "Rodzaj przydziału"
+
+msgid "shib_rules_tables"
+msgstr "Aktywne zasady dotyczące przydzielania ról"
+
+msgid "shib_settings"
+msgstr "Ustawienia Shibboleth"
+
+msgid "shib_update_role_ass_table"
+msgstr "Edytuj zasady przydziału ról"
+
+msgid "shib_update_roles"
+msgstr "Przydziały ról"

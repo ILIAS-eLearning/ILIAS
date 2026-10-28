@@ -1,0 +1,84 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: awrn\n"
+
+msgid "awareness_now_online"
+msgstr ""
+
+msgid "awareness_settings"
+msgstr ""
+
+msgid "awrn_caching_period"
+msgstr ""
+
+msgid "awrn_caching_period_info"
+msgstr ""
+
+msgid "awrn_enable"
+msgstr ""
+
+msgid "awrn_filter"
+msgstr ""
+
+msgid "awrn_hide_from_awareness"
+msgstr ""
+
+msgid "awrn_hide_from_awareness_info"
+msgstr ""
+
+msgid "awrn_inactive"
+msgstr ""
+
+msgid "awrn_incl_offline"
+msgstr ""
+
+msgid "awrn_max_inactivity"
+msgstr ""
+
+msgid "awrn_max_inactivity_info"
+msgstr ""
+
+msgid "awrn_max_nr_entries"
+msgstr ""
+
+msgid "awrn_max_nr_entries_info"
+msgstr ""
+
+msgid "awrn_minutes"
+msgstr ""
+
+msgid "awrn_online"
+msgstr ""
+
+msgid "awrn_online_only"
+msgstr ""
+
+msgid "awrn_seconds"
+msgstr ""
+
+msgid "awrn_use_osd"
+msgstr ""
+
+msgid "awrn_use_osd_info"
+msgstr ""
+
+msgid "awrn_user_show"
+msgstr ""
+
+msgid "awrn_user_show_default"
+msgstr ""
+
+msgid "awrn_user_show_default_info"
+msgstr ""
+
+msgid "user_awrn_default"
+msgstr ""
+
+msgid "user_awrn_hide"
+msgstr ""
+
+msgid "user_awrn_show"
+msgstr ""

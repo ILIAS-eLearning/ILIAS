@@ -1,0 +1,162 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: cron\n"
+
+msgid "cro_job_rc_job_auto_deactivation_time_limit"
+msgstr "Az ütemezett feladatot deaktiváltuk, mert több, mint 3 órája inaktív"
+
+msgid "cro_job_rc_job_manual_reset"
+msgstr "Az üzemeltető újraaktiválta az ütemezett feladatot."
+
+msgid "cro_job_rc_job_no_result"
+msgstr "Az ütemezett feladat nem megfelelő eredményt adott vissza"
+
+msgid "cron_action_activate"
+msgstr "Bekapcsolás"
+
+msgid "cron_action_activate_success"
+msgstr "Ütemezett feladatot sikeresen bekapcsolta."
+
+msgid "cron_action_activate_sure"
+msgstr "Biztos, hogy bekapcsolja az ütemezett feladatot: ‘%s’?"
+
+msgid "cron_action_activate_sure_multi"
+msgstr "Biztos, hogy bekapcsolja az alábbi ütemezett feladatot?"
+
+msgid "cron_action_deactivate"
+msgstr "Kikapcsolás"
+
+msgid "cron_action_deactivate_success"
+msgstr "Ütemezett feladatot sikeresen kikapcsolta."
+
+msgid "cron_action_deactivate_sure"
+msgstr "Biztos, hogy kikapcsolja az ütemezett feladatot: ‘%s’?"
+
+msgid "cron_action_deactivate_sure_multi"
+msgstr "Biztos, hogy kikapcsolja az alábbi ütemezett feladatot?"
+
+msgid "cron_action_edit"
+msgstr "Ütemezés módosítása"
+
+msgid "cron_action_edit_success"
+msgstr "Az ütemezést sikeresen frissítette."
+
+msgid "cron_action_reset"
+msgstr "Reszetelés"
+
+msgid "cron_action_reset_success"
+msgstr "Az ütemezett feladatot sikeresen alapértékre állította."
+
+msgid "cron_action_reset_sure"
+msgstr "Biztos, hogy megállítja az ütemezett feladatot: ‘%s’?"
+
+msgid "cron_action_reset_sure_multi"
+msgstr "Biztos, hogy alapértékre állítja az alábbi ütemezett feladatot?"
+
+msgid "cron_action_run"
+msgstr "Futtatás"
+
+msgid "cron_action_run_fail"
+msgstr "Ütemezett feladat futása sikertelen."
+
+msgid "cron_action_run_success"
+msgstr "Az ütemezett feladata sikeresen lefutott."
+
+msgid "cron_action_run_sure"
+msgstr "Biztos, hogy futtatja az ütemezett feladatot: ‘%s’?"
+
+msgid "cron_changed_by_crontab"
+msgstr "RENDSZER"
+
+msgid "cron_component"
+msgstr "Komponens"
+
+msgid "cron_job_id"
+msgstr "Azonosító"
+
+msgid "cron_jobs_with_required_intervention"
+msgstr "A következő feladatok igényelhetnek beavatkozást."
+
+msgid "cron_last_run"
+msgstr "Utolsó futás"
+
+msgid "cron_no_executable_job_selected"
+msgstr "Legalább egy ütemezett feladatok jelöljön ki!"
+
+msgid "cron_result"
+msgstr "Eredmény"
+
+msgid "cron_result_info"
+msgstr "Eredményinformáció"
+
+msgid "cron_result_status_crashed"
+msgstr "Összeomlott"
+
+msgid "cron_result_status_fail"
+msgstr "Sikertelen"
+
+msgid "cron_result_status_invalid_configuration"
+msgstr "Helytelen beállítás"
+
+msgid "cron_result_status_no_action"
+msgstr "Ok, semmi nem kerül feldolgozásra"
+
+msgid "cron_result_status_ok"
+msgstr "Ok"
+
+msgid "cron_result_status_reset"
+msgstr "Reszetelés"
+
+msgid "cron_running_since"
+msgstr "Mióta fut"
+
+msgid "cron_schedule"
+msgstr "Ütemezés"
+
+msgid "cron_schedule_daily"
+msgstr "Naponta"
+
+msgid "cron_schedule_in_days"
+msgstr "Minden %s. napon"
+
+msgid "cron_schedule_in_hours"
+msgstr "Minden %s. órában"
+
+msgid "cron_schedule_in_minutes"
+msgstr "Minden %s. percben"
+
+msgid "cron_schedule_monthly"
+msgstr "Havonta"
+
+msgid "cron_schedule_quarterly"
+msgstr "Negyedévente"
+
+msgid "cron_schedule_type"
+msgstr "Ütemezés típusa"
+
+msgid "cron_schedule_value"
+msgstr "Intervallum"
+
+msgid "cron_schedule_weekly"
+msgstr "Hetente"
+
+msgid "cron_schedule_yearly"
+msgstr "Évente"
+
+msgid "cron_status"
+msgstr "Állapot"
+
+msgid "cron_status_active"
+msgstr "Bekapcsolt"
+
+msgid "cron_status_inactive"
+msgstr "Kikapcsolt"
+
+msgid "cron_status_info"
+msgstr "Állapotinformáció"

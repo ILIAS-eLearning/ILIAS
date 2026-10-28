@@ -1,0 +1,549 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: skmg\n"
+
+msgid "scat"
+msgstr "Kompetenciakategória"
+
+msgid "skll"
+msgstr "Kompetencia"
+
+msgid "skmg_360_survey"
+msgstr "360°-os kérdőív"
+
+msgid "skmg_add_assignment"
+msgstr "Szerepkörök / felhasználók hozzáadása"
+
+msgid "skmg_add_level"
+msgstr "Kompetenciaszint létrehozása"
+
+msgid "skmg_add_local_profile"
+msgstr "Helyi profil hozzáadása"
+
+msgid "skmg_add_profile"
+msgstr "Profil hozzáadása"
+
+msgid "skmg_add_resource"
+msgstr "ILIAS-objektum hozzárendelés"
+
+msgid "skmg_add_skill"
+msgstr "Kompetencia létrehozása"
+
+msgid "skmg_add_skill_tree"
+msgstr "Kompetencia-fa hozzáadása"
+
+msgid "skmg_add_user_to_profile"
+msgstr "Szerepkörök vagy felhasználók hozzáadása a profilhoz"
+
+msgid "skmg_all"
+msgstr "Összes"
+
+msgid "skmg_allow_local_profiles"
+msgstr "Helyi profilok létrehozásának engedélyezése"
+
+msgid "skmg_allow_local_profiles_info"
+msgstr "A ‘Beállítások módosítása’ jogosultsággal rendelkezők kurzusokban és csoportokban létrehozhatnak helyi kompetenciaprofilokat globálisan létrehozott kompetenciák felhasználásával."
+
+msgid "skmg_ass_materials_from_workspace"
+msgstr "Itt rendelhet hozzá anyagokat, például fájlokat a személyes erőforrásaiból a kompetenciaszintekhez. Ha most szeretne anyagokat hozzáadni a személyes erőforrásaihoz, kattintson az alábbi linkre."
+
+msgid "skmg_assign_level"
+msgstr "Szint hozzárendelése"
+
+msgid "skmg_assign_materials"
+msgstr "Személyes erőforrások hozzárendelése"
+
+msgid "skmg_assign_user"
+msgstr "Felhasználó hozzárendelése"
+
+msgid "skmg_assigned_objects"
+msgstr "Hozzárendelt objektumok"
+
+msgid "skmg_assigned_profiles"
+msgstr "Hozzárendelt kompetenciaprofilok"
+
+msgid "skmg_assigned_skill_levels"
+msgstr "Hozzárendelt célszintek"
+
+msgid "skmg_assigned_users"
+msgstr "Hozzárendelt szerepkörök és felhasználók"
+
+msgid "skmg_bar_charts"
+msgstr "Oszlopdiagramok"
+
+msgid "skmg_cannot_delete_nodes_in_use"
+msgstr "Néhány elem nem törölhető, mert használatban van."
+
+msgid "skmg_cert_skill_level_title"
+msgstr "Kompetenciaszint címe"
+
+msgid "skmg_cert_skill_title"
+msgstr "Kompetencia címe"
+
+msgid "skmg_cert_skill_trigger_title"
+msgstr "Kompetenciatrigger címe"
+
+msgid "skmg_confirm_level_resources_removal"
+msgstr "Biztos, hogy törli az alábbi objektumokat a kompetenciaszintből?"
+
+msgid "skmg_confirm_remove_level_ass"
+msgstr "Biztos, hogy törli az alábbi kompetenciaszinteket a profilból?"
+
+msgid "skmg_confirm_user_removal"
+msgstr "Biztos, hogy törli az alábbi felhasználókat ebből a profilból?"
+
+msgid "skmg_cont_profiles_info"
+msgstr "Ebben a nézetben kiválaszthatja azokat a kompetencia-bejegyzéseket tartalmazó kompetencia profilokat, amelyek az éppen nyitott objektumhoz (kurzushoz/csoporthoz) kapcsolódnak. Az alábbi linkre kattintva elérheti az összes hozzárendelt kompetenciaprofil és az összes kompetencia-bejegyzés globális nézetét."
+
+msgid "skmg_cont_profiles_info_empty"
+msgstr "A jelenleg megnyitott objektumhoz egy kompetenciaprofil sincs hozzárendelve."
+
+msgid "skmg_cont_records_info_empty"
+msgstr "A jelenleg megnyitott objektumhoz egy kompetencia sincs hozzárendelve."
+
+msgid "skmg_context_global"
+msgstr "Globális"
+
+msgid "skmg_context_local"
+msgstr "Helyi"
+
+msgid "skmg_count_references"
+msgstr "A hivatkozott kompetenciák száma:"
+
+msgid "skmg_create_sctp"
+msgstr "Sablonkategória létrehozása"
+
+msgid "skmg_create_skill_category"
+msgstr "Kompetenciakategória létrehozása"
+
+msgid "skmg_create_skill_template"
+msgstr "Kompetenciasablon létrehozása"
+
+msgid "skmg_create_skill_template_category"
+msgstr "Kompetenciasablon-kategória létrehozása"
+
+msgid "skmg_create_skill_template_reference"
+msgstr "Kompetenciasablon-hivatkozás létrehozása"
+
+msgid "skmg_create_skll"
+msgstr "Kompetencia létrehozása"
+
+msgid "skmg_custom_image_alt"
+msgstr "Kompetenciaprofilokhoz egyéni kép"
+
+msgid "skmg_delete_profiles"
+msgstr "Biztos, hogy törli a következő profilokat?"
+
+msgid "skmg_delete_warning"
+msgstr "Biztos, hogy törli a következő kompetenciákat, kompetencia-kategóriákat vagy kompetenciafákat? Ezzel törli az objektumok és felhasználók összes rekordját is. Ha az elemet eltávolítja egy kompetenciaprofilból, az azt eredményezheti, hogy a hozzárendelt felhasználók kompetenciaprofilja teljesül. Az alábbi lista azt mutatja, hogy a törlendő elemet hányszor használják objektumokban és felhasználók. Kérjük, a tényleges törlés előtt figyelmesen ellenőrizze az alábbi listát."
+
+msgid "skmg_description_info"
+msgstr "A leírás a sablonból jön."
+
+msgid "skmg_edit_level"
+msgstr "Szint módosítása"
+
+msgid "skmg_edit_profile"
+msgstr "Profil módosítása"
+
+msgid "skmg_edit_scat"
+msgstr "Kompetenciakategória módosítása"
+
+msgid "skmg_edit_sctp"
+msgstr "Sablonkategória módosítása"
+
+msgid "skmg_edit_skll"
+msgstr "Kompetenciabeállítások módosítása"
+
+msgid "skmg_edit_sktr"
+msgstr "Kompetenciasablon-hivatkozás módosítása"
+
+msgid "skmg_enable_skmg"
+msgstr "Kompetenciamenedzsment bekapcsolása"
+
+msgid "skmg_eval_type_1"
+msgstr "Értékelés"
+
+msgid "skmg_eval_type_2"
+msgstr "Mérés"
+
+msgid "skmg_eval_type_3"
+msgstr "Önértékelés"
+
+msgid "skmg_eval_type_latest_1"
+msgstr "Legutolsó értékelés"
+
+msgid "skmg_eval_type_latest_2"
+msgstr "Legutolsó mérés"
+
+msgid "skmg_eval_type_latest_3"
+msgstr "Legutolsó önértékelés"
+
+msgid "skmg_execute_self_evaluation"
+msgstr "Indítás"
+
+msgid "skmg_form_presentation"
+msgstr "Presentation"
+
+msgid "skmg_from_lower_to_higher_levels"
+msgstr "Úgy rendezze a szinteket, hogy a legalacsonyabb felül, a legmagasabb pedig alul helyezkedjen el."
+
+msgid "skmg_hide_profile_self_eval"
+msgstr "Önértékelés nélküli profil célszintjének elrejtése"
+
+msgid "skmg_hide_profile_self_eval_info"
+msgstr "A profil célszintje nem jelenik meg a felhasználónak, amíg nem értékelte önmagát ebből a kompetenciából."
+
+msgid "skmg_import_skills"
+msgstr "Importálás"
+
+msgid "skmg_input_file"
+msgstr "Importfájl"
+
+msgid "skmg_insert_basic_skill_from_clip"
+msgstr "Kompetenciák beillesztése a vágólapról"
+
+msgid "skmg_insert_please_choose_one_type_only"
+msgstr "Csak azonos típusból objektumokat válasszon!"
+
+msgid "skmg_insert_skill_category_from_clip"
+msgstr "Kompetenciakategóriákat beillesztette a vágólapról"
+
+msgid "skmg_insert_skill_template_from_clip"
+msgstr "Kompetenciasablon-kategória beszúrása vágólapról"
+
+msgid "skmg_insert_skill_template_reference_from_clip"
+msgstr "Kompetenciasablon-hivatkozás beszúrása vágólapról"
+
+msgid "skmg_insert_template_category_from_clip"
+msgstr "Sablonkategória beszúrása vágólapról"
+
+msgid "skmg_items"
+msgstr "Bejegyzések"
+
+msgid "skmg_level"
+msgstr "Szint"
+
+msgid "skmg_list_skills"
+msgstr "Kompetenciák listája"
+
+msgid "skmg_local_assignment_profiles"
+msgstr "Globális profilok helyi hozzárendelésének engedélyzése"
+
+msgid "skmg_lp_triggers_level"
+msgstr "A befejezés hatására"
+
+msgid "skmg_materials"
+msgstr "Személyes erőforrások"
+
+msgid "skmg_materials_resources"
+msgstr "Tanulási anyagok/segédanyagok"
+
+msgid "skmg_new_level"
+msgstr "Új szint"
+
+msgid "skmg_new_sktr"
+msgstr "Új kompetenciasablon-hivatkozás"
+
+msgid "skmg_next_step"
+msgstr "Következő lépés"
+
+msgid "skmg_no_nodes_selectable"
+msgstr "Jelenleg nincsenek választható kompetenciák."
+
+msgid "skmg_no_skill_entries"
+msgstr "Ennek a kompetenciának még egy bejegyzése sincs."
+
+msgid "skmg_no_skills_selected_info"
+msgstr "Még nem választott ki és nem is teljesített egy kompetenciát sem. Egy kompetencia kiválasztásához kattintson a \"Kompetencia hozzáadása\" gombra. Tetszőlege számú kompetenciát hozzáadhat. Azokat a kompetenciákat automatikusan megjelenítjük, melyeket tanulási anyagokkal teljesített."
+
+msgid "skmg_no_trigger"
+msgstr "Nincs trigger"
+
+msgid "skmg_nr"
+msgstr "Sorszám"
+
+msgid "skmg_number"
+msgstr "Szám"
+
+msgid "skmg_open"
+msgstr "Megnyitás"
+
+msgid "skmg_open_all_assigned_profiles"
+msgstr "Az összes hozzárendelt kompetenciaprofil megnyitása"
+
+msgid "skmg_order"
+msgstr "Sorrend"
+
+msgid "skmg_order_nr"
+msgstr "Sorszám"
+
+msgid "skmg_order_nr_info"
+msgstr "Kompetencia pozíciója a kompetenciák felsorolásában."
+
+msgid "skmg_please_select_self_skill"
+msgstr "Új önértékelés elindítása. Kompetencia:"
+
+msgid "skmg_please_select_your_skill_levels"
+msgstr "Válassza ki kompetenciaszintjét."
+
+msgid "skmg_previous_step"
+msgstr "Előző lépés"
+
+msgid "skmg_profile"
+msgstr "Profil"
+
+msgid "skmg_really_delete_levels"
+msgstr "Biztos, hogy törli az alábbi kompetenciaszinteket?"
+
+msgid "skmg_really_remove_skills"
+msgstr "Biztos, hogy eltávolítja az alábbi kompetenciákat a listáról?"
+
+msgid "skmg_recommended_learning_material_crs"
+msgstr "Érje el céljait a kurzusban"
+
+msgid "skmg_recommended_learning_material_global"
+msgstr "Érje el céljait"
+
+msgid "skmg_recommended_learning_material_grp"
+msgstr "Érje el céljait a csoportban"
+
+msgid "skmg_recommended_learning_material_info"
+msgstr "Pontosan egy tanulási (segéd)anyagot válasszon. Dolgozza fel annak tartalmát a célszint eléréséhez."
+
+msgid "skmg_refresh_view"
+msgstr "Frissítés"
+
+msgid "skmg_remove"
+msgstr "Eltávolítás"
+
+msgid "skmg_remove_levels"
+msgstr "Szintek eltávolítása"
+
+msgid "skmg_remove_skill"
+msgstr "Kompetencia eltávolítása"
+
+msgid "skmg_remove_trigger"
+msgstr "Trigger eltávolítása"
+
+msgid "skmg_resources"
+msgstr "ILIAS-objektumok"
+
+msgid "skmg_save_order"
+msgstr "Sorrend mentése"
+
+msgid "skmg_save_self_evaluation"
+msgstr "Önértékelés befejezése"
+
+msgid "skmg_save_settings"
+msgstr "Beállítások mentése"
+
+msgid "skmg_sctp"
+msgstr "Kompetenciasablon-kategória"
+
+msgid "skmg_select_level"
+msgstr "Kompetenciaszint kiválasztása"
+
+msgid "skmg_select_skill"
+msgstr "Kattintson egy kompetenciára, hogy felvegye a személyes kompetenciái közé."
+
+msgid "skmg_select_skill_level_assign"
+msgstr "Válasszon egy kompetenciát."
+
+msgid "skmg_select_trigger"
+msgstr "Trigger kiválasztása"
+
+msgid "skmg_selectable"
+msgstr "Kiválasztható"
+
+msgid "skmg_selectable_info"
+msgstr "Felhasználó személyes kompetenciaként választhatja ki ezt a kategóriát"
+
+msgid "skmg_selected_items_have_been_copied"
+msgstr "A kiválasztott objektumokat másolta."
+
+msgid "skmg_selected_items_have_been_cut"
+msgstr "A kiválasztott objektumokat kivágta."
+
+msgid "skmg_selected_skills"
+msgstr "Kiválasztott kompetenciák"
+
+msgid "skmg_self_evaluation"
+msgstr "Önértékelés"
+
+msgid "skmg_self_evaluation_byline"
+msgstr "Az önértékelést kizárjuk a cél eléréséből, az csak iránymutatásul szolgál."
+
+msgid "skmg_self_evaluations"
+msgstr "Önértékelések"
+
+msgid "skmg_set_as_lp_trigger"
+msgstr "A teljesítés hozza létre a kompetenciabejegyzést"
+
+msgid "skmg_set_as_no_lp_trigger"
+msgstr "A teljesítés nem hozza létre a kompetenciabejegyzést"
+
+msgid "skmg_set_as_no_suggested"
+msgstr "Ne jelenjen meg mint tanulási segédanyag"
+
+msgid "skmg_set_as_suggested"
+msgstr "Megjelenítés mint tanulási segédanyag"
+
+msgid "skmg_settings"
+msgstr "Kompetenciamenedzsment-beállítások"
+
+msgid "skmg_show_all"
+msgstr "Összes megjelenítése"
+
+msgid "skmg_show_latest_entries"
+msgstr "Legújabb bejegyzések megjelenítése"
+
+msgid "skmg_skill"
+msgstr "Kompetencia"
+
+msgid "skmg_skill_in_use"
+msgstr "Ezt a kompetenciát másik felhasználó vagy tartalom használja, ezért nem minden művelet végezhető el rajta. Módosítása hatással lehet korábbi felhasználásaira."
+
+msgid "skmg_skill_level"
+msgstr "Kompetenciaszint"
+
+msgid "skmg_skill_level_trigger"
+msgstr "Kompetenciaszint-trigger"
+
+msgid "skmg_skill_levels"
+msgstr "Kompetenciaszintek"
+
+msgid "skmg_skill_management_deactivated"
+msgstr "A kompetenciamenedzsment jelenleg ki van kapcsolva."
+
+msgid "skmg_skill_needs_impr_no_res"
+msgstr "Szükséges fejlesztenie ezt a kompetenciát. Sajnos jelenleg nem érhető el olyan (segéd)anyag, aminek feldogozásával a kívánt kompetenciaszintet elérhetné."
+
+msgid "skmg_skill_needs_impr_res"
+msgstr "Szükséges fejlesztenie ezt a kompetenciát. Az alábbi (segéd)anyagok feldolgozásával elérheti a kívánt kompetenciaszintet."
+
+msgid "skmg_skill_needs_self_eval"
+msgstr "Kérjük, először végezzen önértékelést, hogy lássa a célszintjét."
+
+msgid "skmg_skill_needs_self_eval_box"
+msgstr "Kérjük, vegye figyelembe, hogy ebben a profilban nem végzett önértékelést legalább egy kompetenciára vonatkozóan. Nem fogja látni az érintett kompetenciák célszintjét, amíg el nem készül az önértékelés."
+
+msgid "skmg_skill_no_needs_impr"
+msgstr "A célszintet elérte!"
+
+msgid "skmg_skill_no_needs_impr_info"
+msgstr "Elérte a célt ebben a kompetenciában."
+
+msgid "skmg_skill_overview"
+msgstr "Áttekintés"
+
+msgid "skmg_skill_profile_records"
+msgstr "Kompetencia-bejegyzések"
+
+msgid "skmg_skill_profiles"
+msgstr "Kompetenciaprofilok"
+
+msgid "skmg_skill_template"
+msgstr "Kompetenciasablon"
+
+msgid "skmg_skill_templates"
+msgstr "Kompetenciasablonok"
+
+msgid "skmg_skill_tree"
+msgstr "Kompetencia-fa"
+
+msgid "skmg_skill_trees"
+msgstr "Kompetencia-fák"
+
+msgid "skmg_skills"
+msgstr "Kompetenciák"
+
+msgid "skmg_sktr"
+msgstr "Kompetenciasablon-hivatkozás"
+
+msgid "skmg_status"
+msgstr "Állapot"
+
+msgid "skmg_status_draft"
+msgstr "Tervezet (Offline)"
+
+msgid "skmg_status_draft_info"
+msgstr "Az elem rejtett lesz."
+
+msgid "skmg_status_outdated"
+msgstr "Lejárt"
+
+msgid "skmg_status_outdated_info"
+msgstr "A felhasználók nem választhatják újólag az elemet, mint személyes kompetencia, vagy újólag nem rendelhetik ILIAS-objektumhoz vagy kompetenciaprofilokhoz. Azonban a meglévő hozzárendelések és adatok továbbra is jelen vannak."
+
+msgid "skmg_status_publish"
+msgstr "Közzétéve"
+
+msgid "skmg_status_publish_info"
+msgstr "Az elemet akkor is lehet használni, ha az összes szülője közzé van téve."
+
+msgid "skmg_suggested"
+msgstr "Megjelenítés tanulási (segéd)anyagként"
+
+msgid "skmg_suggested_resources"
+msgstr "Hozzárendelt ILIAS-objektumok"
+
+msgid "skmg_sure_delete_self_evaluation"
+msgstr "Biztos, hogy törli az alábbi önértékeléseket?"
+
+msgid "skmg_target_level"
+msgstr "Célszint"
+
+msgid "skmg_target_levels"
+msgstr "Célszintek"
+
+msgid "skmg_trigger"
+msgstr "Trigger"
+
+msgid "skmg_type"
+msgstr "Típus"
+
+msgid "skmg_type_of_formation"
+msgstr "Típus"
+
+msgid "skmg_update_order"
+msgstr "Sorrend módosítása"
+
+msgid "skmg_usage"
+msgstr "Használat"
+
+msgid "skmg_usage_obj_objects"
+msgstr "Objektum(ok)"
+
+msgid "skmg_usage_obj_profiles"
+msgstr "Profil(ok)"
+
+msgid "skmg_usage_obj_users"
+msgstr "Felhasználó(k)"
+
+msgid "skmg_usage_type_info_gen"
+msgstr "Általános használatra a ILIAS-objektumokban"
+
+msgid "skmg_usage_type_info_mat"
+msgstr "A felhasználók (segéd)anyagakat rendeltek a személyes munkaterületükről"
+
+msgid "skmg_usage_type_info_pers"
+msgstr "A felhasználók kiválaszthatják, mint személyes kompetencia"
+
+msgid "skmg_usage_type_info_prof"
+msgstr "Kompetenciaprofilokban felhasználásra"
+
+msgid "skmg_usage_type_info_res"
+msgstr "ILIAS-objektumok hozzárendelése tanulási (segéd)anyagként"
+
+msgid "skmg_usage_type_info_user"
+msgstr "Felhasználókhoz rendelve"
+
+msgid "skmg_your_self_evaluation"
+msgstr "Az Ön önértékelése"

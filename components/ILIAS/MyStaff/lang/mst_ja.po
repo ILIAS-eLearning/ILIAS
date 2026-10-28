@@ -1,0 +1,60 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: mst\n"
+
+msgid "mst_cert_issued_on"
+msgstr "発行日"
+
+msgid "mst_courses_of"
+msgstr "%sの登録"
+
+msgid "mst_download_certificate"
+msgstr "証明書をダウンロード"
+
+msgid "mst_list_certificates"
+msgstr "証明書"
+
+msgid "mst_list_competences"
+msgstr "強み"
+
+msgid "mst_list_courses"
+msgstr "登録"
+
+msgid "mst_list_users"
+msgstr "スタッフリスト"
+
+msgid "mst_memb_status_registered"
+msgstr "登録されました"
+
+msgid "mst_memb_status_requested"
+msgstr "リクエストされました"
+
+msgid "mst_memb_status_waitinglist"
+msgstr "待ちリスト"
+
+msgid "mst_my_staff"
+msgstr "スタッフ"
+
+msgid "mst_opt_all"
+msgstr "全て"
+
+msgid "mst_please_select_course"
+msgstr "コースを選択してください。"
+
+msgid "mst_profile_fulfilled"
+msgstr "未確認"
+
+msgid "mst_profile_not_fulfilled"
+msgstr "履行"
+
+msgid "mst_select_course"
+msgstr "コースを選択"
+
+msgid "mst_show_courses"
+msgstr "登録"

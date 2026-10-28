@@ -1,0 +1,27 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: classification\n"
+
+msgid "clsfct_back_to_cat"
+msgstr "Tillbaka till kategorin"
+
+msgid "clsfct_block_info"
+msgstr "Ditt urval filtrerar objekten."
+
+msgid "clsfct_block_title"
+msgstr "Urval enligt teman"
+
+msgid "clsfct_content_no_match"
+msgstr "Inga objekt hittades för de valda kriterierna."
+
+msgid "clsfct_content_title"
+msgstr "Objekt som matchar ditt urval."
+
+msgid "clsfct_selected_objects"
+msgstr "Utvalda objekt"

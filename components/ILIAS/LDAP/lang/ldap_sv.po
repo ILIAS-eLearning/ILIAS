@@ -1,0 +1,396 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: ldap\n"
+
+msgid "add_ldap_server"
+msgstr "Lägg till server"
+
+msgid "ldap_add_missing"
+msgstr "Tilldela roller som saknas"
+
+msgid "ldap_add_role_ass_rule"
+msgstr "Ny regel för ILIAS rolltilldelning"
+
+#, fuzzy
+msgid "ldap_add_roles"
+msgstr "Add Roles"
+
+msgid "ldap_as_ds"
+msgstr "Använd som datakälla"
+
+msgid "ldap_as_ds_info"
+msgstr "I kombination med andra autentiseringstyper (t.ex. SAML) används LDAP-konfigurationen endast för att synkronisera uppgifterna i ILIAS-kontona. Direkt autentisering via LDAP är inte möjlig."
+
+msgid "ldap_assignment_type"
+msgstr "Typ av uppdrag"
+
+msgid "ldap_authentication_settings"
+msgstr "Inställningar för autentisering"
+
+msgid "ldap_bind_anonymous"
+msgstr "Ankoppla anonymt"
+
+msgid "ldap_bind_user"
+msgstr "Anslut som användare"
+
+msgid "ldap_btn_add_role_ass"
+msgstr "Skapa ny regel"
+
+msgid "ldap_check_role_assignment"
+msgstr "Rolltilldelning efter senare inloggningar"
+
+msgid "ldap_choose_role"
+msgstr "Välj roll"
+
+msgid "ldap_confirm_del_role_ass"
+msgstr "Ta bort rolltilldelning"
+
+msgid "ldap_deleted_role_mapping"
+msgstr "Uppdraget har tagits bort"
+
+msgid "ldap_deleted_rule"
+msgstr "Vald rolltilldelning borttagen"
+
+msgid "ldap_dn_info"
+msgstr "Välj den fullständiga DN för LDAP-gruppen här."
+
+msgid "ldap_edit_role_ass_rule"
+msgstr "Redigera regel för rolltilldelning"
+
+msgid "ldap_edit_role_assignment"
+msgstr "Redigera uppdrag"
+
+msgid "ldap_err_missing_plugin_id"
+msgstr "Var god ange ett giltigt plugin-id."
+
+msgid "ldap_escapedn"
+msgstr "Mask DN"
+
+msgid "ldap_escapedn_info"
+msgstr "Om aktiverat maskeras reserverade tecken i \"Distinguished Name (DN)\" för frågor om gruppmedlemskap."
+
+msgid "ldap_filter_info"
+msgstr "Filter har lagts till i sökfiltret enligt följande"
+
+msgid "ldap_global_role"
+msgstr "Global roll"
+
+msgid "ldap_global_role_assignment"
+msgstr "Rolltilldelning"
+
+msgid "ldap_global_role_info"
+msgstr "Välj en global roll för nya ILIAS-användare som ska skapas. *Rollen <b>krävs</b> när du har valt en synkroniseringstyp."
+
+msgid "ldap_group_attribute"
+msgstr "Attributnamn för gruppen"
+
+msgid "ldap_group_attribute_info"
+msgstr " Ange gruppens attributnamn här."
+
+msgid "ldap_group_dn"
+msgstr "Grupper DN"
+
+msgid "ldap_group_dn_info"
+msgstr "Sökbas för gruppsökningen. Föregår \"BaseDN\". T.EX."
+
+msgid "ldap_group_dn_short"
+msgstr "Grupp DN"
+
+msgid "ldap_group_filter"
+msgstr "LDAP-filter"
+
+msgid "ldap_group_filter_info"
+msgstr "Filter har lagts till i sökfiltret enligt följande"
+
+msgid "ldap_group_member"
+msgstr "Attributnamn för gruppmedlemmarna"
+
+msgid "ldap_group_member_info"
+msgstr "Ange här attributnamnet som gruppmedlemmarna ska tilldelas. Välj 'Attributvärdet är DN' om medlemsnamnen skapas som DN."
+
+msgid "ldap_group_member_optional"
+msgstr "Optionellt gruppmedlemskap"
+
+msgid "ldap_group_member_short"
+msgstr "Attribut"
+
+msgid "ldap_group_membership"
+msgstr "Gruppmedlemskap"
+
+msgid "ldap_group_name"
+msgstr "Gruppens namn"
+
+msgid "ldap_group_name_info"
+msgstr "Namn på gruppen"
+
+msgid "ldap_group_optional_info"
+msgstr "Om det är aktiverat krävs inte gruppmedlemskap för att autentiseringen ska lyckas. Ange ett användarfilter för dessa gruppmedlemmar"
+
+msgid "ldap_group_restrictions"
+msgstr "Grupprestriktioner"
+
+msgid "ldap_group_scope"
+msgstr "Sökningsområde"
+
+msgid "ldap_group_scope_info"
+msgstr "Area för gruppsökning. Om du är osäker, välj \"Sub\"."
+
+msgid "ldap_group_search_base"
+msgstr "Sökbas"
+
+msgid "ldap_group_user_filter"
+msgstr "Användarfilter"
+
+msgid "ldap_ilias_role"
+msgstr "ILIAS rollnamn"
+
+msgid "ldap_info_text"
+msgstr "Informationstext"
+
+msgid "ldap_info_text_info"
+msgstr "Du kan ange en informationstext här som visas på informationssidan för det objekt som är kopplat till rollen. Eventuellt kan denna text också visas i magasinet och på instrumentpanelen."
+
+msgid "ldap_local_role"
+msgstr "Lokal roll"
+
+msgid "ldap_mapping_info_type"
+msgstr "Display i tidningen också."
+
+msgid "ldap_mapping_table"
+msgstr "Tilldelning av datafält för ILIAS-konton till LDAP-attribut"
+
+msgid "ldap_mapping_template"
+msgstr "Använd mall för objektklass"
+
+msgid "ldap_member_info"
+msgstr "Ange här attributnamnet som gruppmedlemmarna ska tilldelas. Välj 'Attributvärdet är DN' om medlemsnamnen skapas som DN."
+
+msgid "ldap_memberisdn"
+msgstr "Attributets värde är DN"
+
+msgid "ldap_missing_bind_user"
+msgstr "Du har valt 'Anslut som användare' som anslutningstyp."
+
+msgid "ldap_missing_role_assignment"
+msgstr "Välj en global roll som nyskapade användare ska tilldelas."
+
+msgid "ldap_moment_sync"
+msgstr "Typ av synkronisering"
+
+msgid "ldap_new_role_assignment"
+msgstr "Skapa nytt uppdrag"
+
+msgid "ldap_plugin"
+msgstr "Uppgift via plugin"
+
+msgid "ldap_plugin_id"
+msgstr "Plugin-Id"
+
+msgid "ldap_plugin_info"
+msgstr "Kontrollera rolltilldelningen via plugin. Ange ett giltigt plugin-ID för detta ändamål."
+
+msgid "ldap_referrals"
+msgstr "Framåt"
+
+msgid "ldap_referrals_info"
+msgstr "Bestämmer om LDAP-serverns vidarebefordringar ska följas automatiskt eller inte."
+
+msgid "ldap_remove_deprecated"
+msgstr "Ta bort obehöriga roller"
+
+#, fuzzy
+msgid "ldap_remove_roles"
+msgstr "Remove Roles"
+
+msgid "ldap_role_active"
+msgstr "Gruppuppdatering påslagen"
+
+msgid "ldap_role_assignments"
+msgstr "Rolltilldelning"
+
+# Modifierad som en del av jämställdhetsintegreringen för ILIAS 8
+msgid "ldap_role_at_info"
+msgstr "Tilldelningen baseras på ett specifikt attribut för LDAP-kontot."
+
+msgid "ldap_role_at_name"
+msgstr "Attributets namn"
+
+msgid "ldap_role_at_value"
+msgstr "Attributets värde"
+
+msgid "ldap_role_bind_pass"
+msgstr " Lösenord"
+
+msgid "ldap_role_bind_pass_info"
+msgstr "Lösenord för LDAP-användaren."
+
+msgid "ldap_role_bind_user"
+msgstr "Login namn"
+
+msgid "ldap_role_bind_user_info"
+msgstr "Ange ett LDAP-inloggningsnamn. Denna användare måste ha skrivbehörighet till de grupper som ska uppdateras."
+
+msgid "ldap_role_by_attribute"
+msgstr "Användarattribut"
+
+msgid "ldap_role_by_group"
+msgstr "Gruppmedlemskap"
+
+msgid "ldap_role_by_plugin"
+msgstr "Per plugin"
+
+msgid "ldap_role_group_assignments"
+msgstr "Befintliga uppdrag"
+
+msgid "ldap_role_grp_at"
+msgstr "Attribut"
+
+msgid "ldap_role_grp_dn_info"
+msgstr "Ange gruppens fullständiga \"Distinguished Name\"."
+
+msgid "ldap_role_grp_info"
+msgstr "Medlemmar i en specifik LDAP-grupp tilldelas den angivna ILIAS-rollen."
+
+msgid "ldap_role_grp_isdn"
+msgstr "Attributets värde är DN"
+
+msgid "ldap_role_info"
+msgstr "Ange namnet på den ILIAS-roll som ska kontrollera LDAP-gruppmedlemskapet."
+
+msgid "ldap_role_mapping"
+msgstr "Tilldelning av ILIAS-roller ? LDAP-grupper"
+
+msgid "ldap_role_name_info"
+msgstr "Välj antingen en global roll eller ange namnet på en lokal roll."
+
+msgid "ldap_role_not_exists"
+msgstr "En ILIAS-roll med följande namn existerar inte"
+
+msgid "ldap_role_selection"
+msgstr "Urval av roller"
+
+msgid "ldap_role_selection_info"
+msgstr "Ditt val är inte unikt. Vänligen välj en av rollerna nedan."
+
+msgid "ldap_role_settings"
+msgstr "Inställningar för uppdatering av LDAP-grupper"
+
+msgid "ldap_rule_condition"
+msgstr "Kondition"
+
+msgid "ldap_rule_type"
+msgstr "Typ av uppdrag"
+
+msgid "ldap_scope_one"
+msgstr "En"
+
+msgid "ldap_scope_sub"
+msgstr "Sub"
+
+msgid "ldap_search_base_info"
+msgstr "Sökbas för användarens sökning. Föregår \"BaseDN\". T.EX."
+
+msgid "ldap_search_filter"
+msgstr "LDAP-filter"
+
+msgid "ldap_server_bind_dn"
+msgstr "Användarens DN"
+
+msgid "ldap_server_bind_pass"
+msgstr " Lösenord"
+
+msgid "ldap_server_binding"
+msgstr "Typ av anslutning"
+
+msgid "ldap_server_name"
+msgstr "Namn på LDAP-konfigurationen"
+
+msgid "ldap_server_name_info"
+msgstr "Välj ett namn för denna serverkonfiguration!"
+
+msgid "ldap_server_security_settings"
+msgstr "Säkerhetsinställningar"
+
+msgid "ldap_server_short"
+msgstr "URL till server"
+
+msgid "ldap_server_url_info"
+msgstr "Den fullständiga URL-adressen för anslutningen till LDAP-servern. T.ex. \"ldap"
+
+#, fuzzy
+msgid "ldap_server_url_invalid_parts"
+msgstr "The following server URL(s) could not be parsed as valid URIs and may not work until corrected:"
+
+#, fuzzy
+msgid "ldap_server_url_invalid_uris"
+msgstr "Every comma-separated entry must be a valid URI (e.g. ldap://host:389). Invalid:"
+
+#, fuzzy
+msgid "ldap_server_url_required"
+msgstr "Server URL is required."
+
+msgid "ldap_server_version_info"
+msgstr "Protokollversion för LDAP-servern (i de flesta fall \"LDAPv3\")."
+
+msgid "ldap_servers"
+msgstr "LDAP-server"
+
+msgid "ldap_settings"
+msgstr "Inställningar för server"
+
+msgid "ldap_sync_cron"
+msgstr "Per Cron Jobb"
+
+msgid "ldap_sync_login"
+msgstr "När användaren loggar in"
+
+msgid "ldap_tbl_role_ass"
+msgstr "Regler för tilldelning av aktiv roll"
+
+msgid "ldap_tls_conflict"
+msgstr "LDAP-TLS kan inte användas i kombination med protokollversion 2."
+
+msgid "ldap_update_field_info"
+msgstr "Automatisk uppdatering"
+
+msgid "ldap_update_roles"
+msgstr "Rolltilldelning"
+
+msgid "ldap_user_attribute"
+msgstr "Attributnamn för inloggningskonton"
+
+msgid "ldap_user_dn"
+msgstr "Sökbas"
+
+msgid "ldap_user_mapping"
+msgstr "Tilldelning av profiluppgifter"
+
+msgid "ldap_user_scope"
+msgstr "Sökningsområde"
+
+msgid "ldap_user_scope_info"
+msgstr "Area för användarens sökning. Om du är osäker, välj \"Sub\"."
+
+msgid "ldap_user_sync"
+msgstr "Inställningar för användarsynkronisering"
+
+msgid "ldap_user_sync_cron"
+msgstr "LDAP synkronisering av användare"
+
+msgid "ldap_user_sync_cron_info"
+msgstr "Om aktiverat importeras inloggningskonton från LDAP-katalogen och synkroniseras kontinuerligt."
+
+msgid "ldap_user_sync_info"
+msgstr "Bestämmer om användare som ännu inte finns i ILIAS skapas automatiskt vid den första inloggningen eller regelbundet via cron-jobb."
+
+msgid "ldap_username_filter"
+msgstr "Filter för inloggningsnamn"
+
+msgid "ldap_username_filter_info"
+msgstr "Använd * som jokertecken."

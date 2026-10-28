@@ -1,0 +1,281 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fa\n"
+"Language-Team: Persian (Farsi)\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Domain: ldoc\n"
+
+#, fuzzy
+msgid "deleteDocument"
+msgstr "Delete"
+
+#, fuzzy
+msgid "detachCriterionAssignment"
+msgstr "Delete"
+
+#, fuzzy
+msgid "ldoc_acceptance_history"
+msgstr "Acceptance History"
+
+#, fuzzy
+msgid "ldoc_account_reg_not_possible"
+msgstr "Self-registration is currently not possible. Please contact your <a href=\"%1$s\">system administrator</a> for further information."
+
+#, fuzzy
+msgid "ldoc_add_document_btn_label"
+msgstr "Add Document"
+
+#, fuzzy
+msgid "ldoc_agreement_document"
+msgstr "Document"
+
+#, fuzzy
+msgid "ldoc_agreement_document_missing"
+msgstr "Missing"
+
+#, fuzzy
+msgid "ldoc_agreement_documents_tab_label"
+msgstr "Documents"
+
+#, fuzzy
+msgid "ldoc_agreement_exists"
+msgstr "Existent"
+
+#, fuzzy
+msgid "ldoc_agreement_missing"
+msgstr "Missing"
+
+#, fuzzy
+msgid "ldoc_crit_type_usr_country"
+msgstr "Profile Country"
+
+#, fuzzy
+msgid "ldoc_crit_type_usr_country_info"
+msgstr "Your document is displayed (and must be accepted the first time a user logs in) if the country set in their user profile matches the country criterion selected from the list below.  Subsequent changes to the country in a user’s profile do not automatically lead to a new document being displayed. You cannot use the same country as the display criterion for more than one document."
+
+#, fuzzy
+msgid "ldoc_crit_type_usr_global_role"
+msgstr "User Has Global Role"
+
+#, fuzzy
+msgid "ldoc_crit_type_usr_global_role_info"
+msgstr "The document is displayed (and must be accepted the first time a user logs in) if the global role the user has matches the global role selected from the list below.  Subsequent changes to a user’s global role do not automatically lead to a new ToS document being displayed."
+
+#, fuzzy
+msgid "ldoc_crit_type_usr_language"
+msgstr "Profile Language"
+
+#, fuzzy
+msgid "ldoc_crit_type_usr_language_info"
+msgstr "Your document is displayed (and must be accepted) during registration if the user’s language (selected from the list below) matches the language used during registration; or upon login if the user switches to this language in their preferences.  Please note that each language can only be set as the display criterion for a single document."
+
+#, fuzzy
+msgid "ldoc_criterion_assignment_cannot_match"
+msgstr "It is not possible to use this particular criterion for displaying your document. Because of another criterion this document would never match."
+
+#, fuzzy
+msgid "ldoc_criterion_assignment_must_be_unique"
+msgstr "It is not possible to use this particular criterion for displaying your document. This criterion already exists."
+
+#, fuzzy
+msgid "ldoc_deleted_documents_p"
+msgstr "The documents have been deleted."
+
+#, fuzzy
+msgid "ldoc_deleted_documents_s"
+msgstr "The document has been deleted."
+
+#, fuzzy
+msgid "ldoc_disabled"
+msgstr "Disabled"
+
+#, fuzzy
+msgid "ldoc_doc_crit_attached"
+msgstr "The criterion for displaying your document has been set successfully."
+
+#, fuzzy
+msgid "ldoc_doc_crit_changed"
+msgstr "The criterion for displaying your document has been changed."
+
+#, fuzzy
+msgid "ldoc_doc_crit_detached"
+msgstr "The criterion has been removed."
+
+#, fuzzy
+msgid "ldoc_doc_delete"
+msgstr "Delete Document"
+
+#, fuzzy
+msgid "ldoc_doc_detach_crit_confirm_title"
+msgstr "Remove Criterion"
+
+#, fuzzy
+msgid "ldoc_doc_sure_detach_crit"
+msgstr "Are you sure that you want to remove this as the criterion for displaying your document?"
+
+#, fuzzy
+msgid "ldoc_document"
+msgstr "Document"
+
+#, fuzzy
+msgid "ldoc_enabled"
+msgstr "Enabled"
+
+#, fuzzy
+msgid "ldoc_form_attach_criterion_head"
+msgstr "Select Criterion for Displaying your Document"
+
+#, fuzzy
+msgid "ldoc_form_criterion"
+msgstr "Criterion"
+
+#, fuzzy
+msgid "ldoc_form_criterion_standard_fields_info_text"
+msgstr "Please check the settings of the standard fields before defining the criterion."
+
+#, fuzzy
+msgid "ldoc_form_document"
+msgstr "Document"
+
+#, fuzzy
+msgid "ldoc_form_document_content_changed"
+msgstr "The uploaded file has had its html &lt;head&gt; information removed by ILIAS. Please check the result and upload a new file if necessary."
+
+#, fuzzy
+msgid "ldoc_form_document_info"
+msgstr "Please select a file from your local filesystem. You can either upload a plain text file, or a simple HTML file. HTML files will have their &lt;head/gt; information removed – only the contents of the body element will be used."
+
+#, fuzzy
+msgid "ldoc_form_document_new"
+msgstr "Change Content"
+
+#, fuzzy
+msgid "ldoc_form_document_new_info"
+msgstr "Here you can select a file from your local filesystem to change the contents of the document. You can either upload a plain text file, or a simple HTML file. HTML files will have their &lt;head&gt; information removed - only the contents of the body element will be used. The existing contents of the document will be replaced. The acceptance history will not be affected."
+
+#, fuzzy
+msgid "ldoc_form_document_title"
+msgstr "Title"
+
+#, fuzzy
+msgid "ldoc_form_document_title_info"
+msgstr "Please enter a title for the document."
+
+#, fuzzy
+msgid "ldoc_form_edit_criterion_head"
+msgstr "Edit Criterion for Displaying Your Document"
+
+#, fuzzy
+msgid "ldoc_form_edit_doc_head"
+msgstr "Edit Document"
+
+#, fuzzy
+msgid "ldoc_form_new_doc_head"
+msgstr "Create Document"
+
+#, fuzzy
+msgid "ldoc_last_modified"
+msgstr "Last Change"
+
+#, fuzzy
+msgid "ldoc_ldoc_settings"
+msgstr "Settings"
+
+#, fuzzy
+msgid "ldoc_period"
+msgstr "Period"
+
+#, fuzzy
+msgid "ldoc_period_from"
+msgstr "From"
+
+#, fuzzy
+msgid "ldoc_period_until"
+msgstr "Until"
+
+#, fuzzy
+msgid "ldoc_reevaluate_on_login"
+msgstr "Re-evaluate on Successful Login"
+
+#, fuzzy
+msgid "ldoc_reevaluate_on_login_desc"
+msgstr "After a successful login, automatically have ILIAS check whether a previously-accepted document is still valid or not. If, for example, a user has changed a setting that is the criterion for displaying a particular document (for example their language setting or country], and ILIAS can find a document with that criterion, then the user has to accept the new agreement."
+
+#, fuzzy
+msgid "ldoc_saved_sorting"
+msgstr "The new order has been saved."
+
+#, fuzzy
+msgid "ldoc_sure_delete_documents_p"
+msgstr "Are you sure you want to delete the selected documents?"
+
+#, fuzzy
+msgid "ldoc_sure_delete_documents_s"
+msgstr "Are you sure you want to delete this document?"
+
+#, fuzzy
+msgid "ldoc_tbl_docs_action_add_criterion"
+msgstr "Add Criterion"
+
+#, fuzzy
+msgid "ldoc_tbl_docs_cell_not_criterion"
+msgstr "No criterion assigned"
+
+#, fuzzy
+msgid "ldoc_tbl_docs_head_created"
+msgstr "Creation Date"
+
+#, fuzzy
+msgid "ldoc_tbl_docs_head_criteria"
+msgstr "Criterion"
+
+#, fuzzy
+msgid "ldoc_tbl_docs_head_last_change"
+msgstr "Last Change"
+
+#, fuzzy
+msgid "ldoc_tbl_docs_head_sorting"
+msgstr "Order"
+
+#, fuzzy
+msgid "ldoc_tbl_docs_head_title"
+msgstr "Title"
+
+#, fuzzy
+msgid "ldoc_tbl_docs_title"
+msgstr "Documents"
+
+#, fuzzy
+msgid "ldoc_tbl_hist_cell_not_criterion"
+msgstr "No criterion assigned"
+
+#, fuzzy
+msgid "ldoc_tbl_hist_head_acceptance_date"
+msgstr "Date"
+
+#, fuzzy
+msgid "ldoc_tbl_hist_head_criteria"
+msgstr "Criterion"
+
+#, fuzzy
+msgid "ldoc_tbl_hist_head_document"
+msgstr "Document"
+
+#, fuzzy
+msgid "ldoc_tbl_hist_head_firstname"
+msgstr "First Name"
+
+#, fuzzy
+msgid "ldoc_tbl_hist_head_lastname"
+msgstr "Last Name"
+
+#, fuzzy
+msgid "ldoc_tbl_hist_head_login"
+msgstr "Username (Login)"
+
+#, fuzzy
+msgid "ldoc_updated_document"
+msgstr "Document uploaded"

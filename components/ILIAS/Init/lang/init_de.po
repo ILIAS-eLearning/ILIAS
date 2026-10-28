@@ -1,0 +1,21 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: init\n"
+
+msgid "init_error_authentication_fail"
+msgstr "Authentifizierung fehlgeschlagen."
+
+msgid "init_error_maintenance"
+msgstr "Der Server ist aufgrund von Wartungsarbeiten aktuell nicht verf&uuml;gbar. Wir bitten um Verst&auml;ndnis. Versuchen Sie es sp&auml;ter noch einmal."
+
+msgid "init_error_redirect_click"
+msgstr "Bitte klicken um fortzufahren."
+
+msgid "init_error_redirect_info"
+msgstr "Weiterleitungen werden durch Kontext nicht unterstützt."

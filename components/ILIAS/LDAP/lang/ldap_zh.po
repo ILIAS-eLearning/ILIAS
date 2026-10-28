@@ -1,0 +1,406 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: zh\n"
+"Language-Team: Chinese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: ldap\n"
+
+#, fuzzy
+msgid "add_ldap_server"
+msgstr "Add Server"
+
+msgid "ldap_add_missing"
+msgstr "分配缺失角色"
+
+msgid "ldap_add_role_ass_rule"
+msgstr "角色分配的新规则"
+
+#, fuzzy
+msgid "ldap_add_roles"
+msgstr "Add Roles"
+
+msgid "ldap_as_ds"
+msgstr "作为数据库源来使用"
+
+msgid "ldap_as_ds_info"
+msgstr "如果已激活，这个LDAP配置仅用于组合其他身份验证方法的用户账号的同步上。(例如)。"
+
+msgid "ldap_assignment_type"
+msgstr "分配类型"
+
+msgid "ldap_authentication_settings"
+msgstr "身份验证设置"
+
+msgid "ldap_bind_anonymous"
+msgstr "匿名绑定"
+
+msgid "ldap_bind_user"
+msgstr "作为用户绑定"
+
+msgid "ldap_btn_add_role_ass"
+msgstr "添加新规则"
+
+msgid "ldap_check_role_assignment"
+msgstr "登录之后的角色分配"
+
+#, fuzzy
+msgid "ldap_choose_role"
+msgstr "Choose Role"
+
+msgid "ldap_confirm_del_role_ass"
+msgstr "删除角色分配"
+
+msgid "ldap_deleted_role_mapping"
+msgstr "已删除的分配"
+
+msgid "ldap_deleted_rule"
+msgstr "选定的角色分配已删除"
+
+msgid "ldap_dn_info"
+msgstr "输入专有的LDAP组名。"
+
+msgid "ldap_edit_role_ass_rule"
+msgstr "编辑角色分配规则"
+
+#, fuzzy
+msgid "ldap_edit_role_assignment"
+msgstr "Edit Role -> Group Assignment"
+
+msgid "ldap_err_missing_plugin_id"
+msgstr "请输入一个有效的插件ID。"
+
+#, fuzzy
+msgid "ldap_escapedn"
+msgstr "Escape DN"
+
+#, fuzzy
+msgid "ldap_escapedn_info"
+msgstr "If enabled, special characters in the \"Distinguished Name (DN)\" of user accounts are escaped in queries for group membership."
+
+msgid "ldap_filter_info"
+msgstr "过滤器将以这种方式添加到搜索过滤器：(&(userattr=username)<strong>(userfilter)</strong>)。"
+
+msgid "ldap_global_role"
+msgstr "全局角色"
+
+msgid "ldap_global_role_assignment"
+msgstr "ILIAS角色分配"
+
+msgid "ldap_global_role_info"
+msgstr "请选择一个ILIAS角色，新用户将被分配给它。"
+
+msgid "ldap_group_attribute"
+msgstr "组属性"
+
+msgid "ldap_group_attribute_info"
+msgstr "The group attribute to search for."
+
+msgid "ldap_group_dn"
+msgstr "Group Search Base"
+
+msgid "ldap_group_dn_info"
+msgstr "当搜索组时，获得前面的“BaseDN”。"
+
+msgid "ldap_group_dn_short"
+msgstr "组DN:"
+
+msgid "ldap_group_filter"
+msgstr "LDAP 过滤器"
+
+msgid "ldap_group_filter_info"
+msgstr "当搜索一个组时，过滤器将被添加到搜索过滤器：(&(groupattr=group)(memberattr=username)<strong>(groupfilter)</strong>)。"
+
+msgid "ldap_group_member"
+msgstr "组成员属性"
+
+msgid "ldap_group_member_info"
+msgstr "在组对象属性中，有可能发现用户dn。如果成员属性是用户的专有名称，选择“属性值是DN”。"
+
+msgid "ldap_group_member_optional"
+msgstr "组成员是可选的。"
+
+msgid "ldap_group_member_short"
+msgstr "属性："
+
+msgid "ldap_group_membership"
+msgstr "组成员"
+
+msgid "ldap_group_name"
+msgstr "组名"
+
+msgid "ldap_group_name_info"
+msgstr "组用户的名字必须是一个身份验证成功的成员。"
+
+msgid "ldap_group_optional_info"
+msgstr "如果启用，该且成员不需要一个成功的身份验证。请输入这些组成员的用户过滤器：<br />(&(userattr=username)<strong>(userfilter)</strong>)"
+
+msgid "ldap_group_restrictions"
+msgstr "组限制"
+
+msgid "ldap_group_scope"
+msgstr "搜索范围"
+
+msgid "ldap_group_scope_info"
+msgstr "组搜索的范围。如果不确定，请选择 \"Sub\""
+
+msgid "ldap_group_search_base"
+msgstr "Group Search Base"
+
+msgid "ldap_group_user_filter"
+msgstr "户过滤器"
+
+msgid "ldap_ilias_role"
+msgstr "ILIAS角色"
+
+msgid "ldap_info_text"
+msgstr "信息文字"
+
+msgid "ldap_info_text_info"
+msgstr "如果已输入，此对象被分配的这个角色将显示在这个信息屏上。可选的这个文本在知识库和个人桌面上是可用的。"
+
+msgid "ldap_local_role"
+msgstr "本地角色"
+
+msgid "ldap_mapping_info_type"
+msgstr "在知识库/个人桌面上也显示信息"
+
+msgid "ldap_mapping_table"
+msgstr "LDAP属性到ILIAS用户资料(profile)的分配"
+
+msgid "ldap_mapping_template"
+msgstr "对象类的模板："
+
+msgid "ldap_member_info"
+msgstr "组对象的属性中可能发现用户dn。"
+
+msgid "ldap_memberisdn"
+msgstr "属性值是DN"
+
+msgid "ldap_missing_bind_user"
+msgstr "您已经选择“绑定用户”：请输入一个有效的LDAP用户名和密码。"
+
+msgid "ldap_missing_role_assignment"
+msgstr "请选择一个全局角色，新用户将被分配给它。"
+
+msgid "ldap_moment_sync"
+msgstr "同步类型"
+
+msgid "ldap_new_role_assignment"
+msgstr "添加新角色 -> 组分配"
+
+msgid "ldap_plugin"
+msgstr "由插件分配"
+
+msgid "ldap_plugin_id"
+msgstr "插件Id"
+
+msgid "ldap_plugin_info"
+msgstr "为一个插件验证角色分配。(Validate the role assignment with a plugin.)请输入一个有效的插件ID。"
+
+msgid "ldap_referrals"
+msgstr "参照"
+
+msgid "ldap_referrals_info"
+msgstr "如果设置，则决定是否由LDAP服务器自动遵循参照返回LDAP库。如果您正在使用一个活动目录服务器，这将被禁用。"
+
+msgid "ldap_remove_deprecated"
+msgstr "放弃分配已弃用角色"
+
+#, fuzzy
+msgid "ldap_remove_roles"
+msgstr "Remove Roles"
+
+msgid "ldap_role_active"
+msgstr "启用组同步"
+
+msgid "ldap_role_assignments"
+msgstr "角色分配"
+
+msgid "ldap_role_at_info"
+msgstr "此分配基于LDAP用户资料(profile)中的一个特定属性。"
+
+msgid "ldap_role_at_name"
+msgstr "属性名称"
+
+msgid "ldap_role_at_value"
+msgstr "属性值"
+
+msgid "ldap_role_bind_pass"
+msgstr "密码"
+
+msgid "ldap_role_bind_pass_info"
+msgstr "密码"
+
+msgid "ldap_role_bind_user"
+msgstr "用户 DN"
+
+msgid "ldap_role_bind_user_info"
+msgstr "请输入一个特定的LDAP用户账号名称。这个用户需要这个LDAP组的写访问权限。"
+
+msgid "ldap_role_by_attribute"
+msgstr "LDAP属性"
+
+msgid "ldap_role_by_group"
+msgstr "组成员"
+
+msgid "ldap_role_by_plugin"
+msgstr "通过插件"
+
+msgid "ldap_role_group_assignments"
+msgstr "已存在角色 -> 组分配"
+
+msgid "ldap_role_grp_at"
+msgstr "属性"
+
+msgid "ldap_role_grp_dn_info"
+msgstr "请输入LDAP组的“特定名称”。"
+
+msgid "ldap_role_grp_info"
+msgstr "一个指定的LDAP组的成员将被分配到给定的ILIAS角色。"
+
+msgid "ldap_role_grp_isdn"
+msgstr "属性值是DN"
+
+msgid "ldap_role_info"
+msgstr "输入一个ILIAS角色的名字，将控制到LDAP组的成员。"
+
+msgid "ldap_role_mapping"
+msgstr "LDAP组 -> 角色映射"
+
+msgid "ldap_role_name_info"
+msgstr "请选择一个全局角色或输入一个本地角色的名字。"
+
+msgid "ldap_role_not_exists"
+msgstr "这个角色名不存在"
+
+msgid "ldap_role_selection"
+msgstr "角色选择"
+
+msgid "ldap_role_selection_info"
+msgstr "您的选择很含糊。请选择以下角色之一。"
+
+msgid "ldap_role_settings"
+msgstr "LDAP组同步设置"
+
+msgid "ldap_rule_condition"
+msgstr "条件"
+
+msgid "ldap_rule_type"
+msgstr "分配的类型"
+
+msgid "ldap_scope_one"
+msgstr "One"
+
+msgid "ldap_scope_sub"
+msgstr "Sub"
+
+msgid "ldap_search_base_info"
+msgstr "搜索用户时获取前缀加到baseDN上。(Gets prepended to basedn when searching for users.)"
+
+msgid "ldap_search_filter"
+msgstr "LDAP过滤器"
+
+msgid "ldap_server_bind_dn"
+msgstr "User Search Base"
+
+msgid "ldap_server_bind_pass"
+msgstr "密码"
+
+msgid "ldap_server_binding"
+msgstr "绑定"
+
+msgid "ldap_server_name"
+msgstr "LDAP配置的名称"
+
+#, fuzzy
+msgid "ldap_server_name_info"
+msgstr "Please choose a name for this LDAP server configuration."
+
+msgid "ldap_server_security_settings"
+msgstr "安全设置"
+
+msgid "ldap_server_short"
+msgstr "服务器URL:"
+
+msgid "ldap_server_url_info"
+msgstr "一个指定协议、url和端口的完整的合乎规范的URL连接。例如，“ldap://ldap.ilias.de:389”"
+
+#, fuzzy
+msgid "ldap_server_url_invalid_parts"
+msgstr "The following server URL(s) could not be parsed as valid URIs and may not work until corrected:"
+
+#, fuzzy
+msgid "ldap_server_url_invalid_uris"
+msgstr "Every comma-separated entry must be a valid URI (e.g. ldap://host:389). Invalid:"
+
+#, fuzzy
+msgid "ldap_server_url_required"
+msgstr "Server URL is required."
+
+msgid "ldap_server_version_info"
+msgstr "LDAP使用的版本通常是3."
+
+#, fuzzy
+msgid "ldap_servers"
+msgstr "LDAP Server"
+
+msgid "ldap_settings"
+msgstr "服务器设置"
+
+msgid "ldap_sync_cron"
+msgstr "每个Cron定时任务"
+
+msgid "ldap_sync_login"
+msgstr "在登录"
+
+msgid "ldap_tbl_role_ass"
+msgstr "激活规则"
+
+msgid "ldap_tls_conflict"
+msgstr "LDAP-TLS不能和LDAPv2组合使用。请选择LDAP版本“3“或禁用TLS支持。"
+
+msgid "ldap_update_field_info"
+msgstr "自动更新"
+
+msgid "ldap_update_roles"
+msgstr "角色分配"
+
+msgid "ldap_user_attribute"
+msgstr "登录名属性"
+
+msgid "ldap_user_dn"
+msgstr "User Search Base"
+
+msgid "ldap_user_mapping"
+msgstr "用户资料(profile)映射"
+
+msgid "ldap_user_scope"
+msgstr "搜索范围"
+
+msgid "ldap_user_scope_info"
+msgstr "用户搜索范围。如果不确定请选择“Sub”。"
+
+msgid "ldap_user_sync"
+msgstr "用户同步设置"
+
+#, fuzzy
+msgid "ldap_user_sync_cron"
+msgstr "LDAP User Synchronization "
+
+#, fuzzy
+msgid "ldap_user_sync_cron_info"
+msgstr "If activated, user accounts will be imported from the LDAP directory and synchronised continuously as an option."
+
+msgid "ldap_user_sync_info"
+msgstr "定义要么在登录时自动创建新用户，要么在每次Cron自动作业时规范的创建新用户。"
+
+#, fuzzy
+msgid "ldap_username_filter"
+msgstr "Username Filter"
+
+#, fuzzy
+msgid "ldap_username_filter_info"
+msgstr "Use * as wildcard."

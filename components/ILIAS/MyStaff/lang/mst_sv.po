@@ -1,0 +1,60 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: mst\n"
+
+msgid "mst_cert_issued_on"
+msgstr "Utställd på"
+
+msgid "mst_courses_of"
+msgstr "Anmälningar från %s"
+
+msgid "mst_download_certificate"
+msgstr "Ladda ner certifikat"
+
+msgid "mst_list_certificates"
+msgstr "Certifikat"
+
+msgid "mst_list_competences"
+msgstr "Kompetens"
+
+msgid "mst_list_courses"
+msgstr "Anmälningar"
+
+msgid "mst_list_users"
+msgstr "Lista över anställda"
+
+msgid "mst_memb_status_registered"
+msgstr "Reported"
+
+msgid "mst_memb_status_requested"
+msgstr "Ansökt för"
+
+msgid "mst_memb_status_waitinglist"
+msgstr "Väntelista"
+
+msgid "mst_my_staff"
+msgstr "Anställda"
+
+msgid "mst_opt_all"
+msgstr "Alla"
+
+msgid "mst_please_select_course"
+msgstr "Vänligen välj en kurs."
+
+msgid "mst_profile_fulfilled"
+msgstr "Achieved"
+
+msgid "mst_profile_not_fulfilled"
+msgstr "Not yet reached"
+
+msgid "mst_select_course"
+msgstr "Välj kurs"
+
+msgid "mst_show_courses"
+msgstr "Anmälningar"

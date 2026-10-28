@@ -1,0 +1,46 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ar\n"
+"Language-Team: Arabic\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=6; plural=(n == 0) ? 0 : ((n == 1) ? 1 : ((n == 2) ? 2 : ((n % 100 >= 3 && n % 100 <= 10) ? 3 : ((n % 100 >= 11 && n % 100 <= 99) ? 4 : 5))));\n"
+"X-Domain: exercise\n"
+
+#, fuzzy
+msgid "exc_admin_settings"
+msgstr "Exercise Administration"
+
+msgid "exc_comment"
+msgstr "Comment"
+
+msgid "exc_comment_for_learner"
+msgstr "Comment for Learner"
+
+msgid "exc_failed"
+msgstr "Failed"
+
+msgid "exc_feedback_from_tutor"
+msgstr "Feedback from Tutor"
+
+msgid "exc_grading"
+msgstr "Grading"
+
+msgid "exc_mark"
+msgstr "Mark"
+
+msgid "exc_notgraded"
+msgstr "Not Graded"
+
+msgid "exc_passed"
+msgstr "Passed"
+
+msgid "exc_send_mail"
+msgstr "Send Mail"
+
+msgid "exc_start_date_should_be_before_end_date"
+msgstr "Start time should be before deadline."
+
+msgid "exc_your_submission"
+msgstr "Your Submission"

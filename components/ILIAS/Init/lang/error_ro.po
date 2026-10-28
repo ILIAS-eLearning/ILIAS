@@ -1,0 +1,25 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ro\n"
+"Language-Team: Romanian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n == 0 || n != 1 && n % 100 >= 1 && n % 100 <= 19) ? 1 : 2);\n"
+"X-Domain: error\n"
+
+#, fuzzy
+msgid "error_back_to_repository"
+msgstr "Back to Repository"
+
+#, fuzzy
+msgid "error_sry_error"
+msgstr "Sorry, an error occured."
+
+#, fuzzy
+msgid "http_404_not_found"
+msgstr "The requested page could not be found."
+
+#, fuzzy
+msgid "http_500_internal_server_error"
+msgstr "An internal server error occurred."

@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
+
 /**
  * LTI component: LTI 1.1 (classes/LTI1p1) and LTI Advantage (classes/LTIAdvantage) for ILIAS as consumer and provider.
  * See README.md for the structure.
@@ -78,6 +81,11 @@ class LTI implements Component\Component
 
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentCSS($this, "lti_view.css");
+
+        $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
+            $this,
+            'ltiv'
+        );
 
         $internal[\ilLTIViewGUI::class] = static fn(): \ilLTIViewGUI =>
             new \ilLTIViewGUI(

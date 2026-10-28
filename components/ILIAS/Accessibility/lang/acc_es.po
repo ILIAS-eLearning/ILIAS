@@ -1,0 +1,135 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: acc\n"
+
+msgid "acc_add_document_btn_label"
+msgstr "Agregar documento"
+
+msgid "acc_crit_type_usr_language"
+msgstr "Idioma del perfil"
+
+msgid "acc_criterion_assignment_must_be_unique_insert"
+msgstr "No puedes adjuntar este criterio con este valor. Ya existe un criterio idéntico adjunto."
+
+msgid "acc_criterion_assignment_must_be_unique_update"
+msgstr "No puedes cambiar el criterio como se desea. Ya existe un criterio idéntico adjunto."
+
+msgid "acc_ctrl_cpt_txt"
+msgstr "Concepto de control de accesibilidad"
+
+msgid "acc_deleted_documents_p"
+msgstr "Los documentos han sido eliminados."
+
+msgid "acc_deleted_documents_s"
+msgstr "El documento ha sido eliminado."
+
+msgid "acc_doc_crit_attached"
+msgstr "El criterio ha sido adjuntado."
+
+msgid "acc_doc_crit_changed"
+msgstr "El criterio ha sido cambiado."
+
+msgid "acc_doc_crit_detached"
+msgstr "El criterio para mostrar este documento de accesibilidad ha sido eliminado."
+
+msgid "acc_doc_delete"
+msgstr "Eliminar documento"
+
+msgid "acc_doc_detach_crit_confirm_title"
+msgstr "Eliminar criterio de idioma"
+
+msgid "acc_doc_sure_detach_crit"
+msgstr "¿Está seguro de que ya no desea que este idioma sea el criterio para mostrar este documento de accesibilidad?"
+
+msgid "acc_document"
+msgstr "Documento"
+
+msgid "acc_form_attach_criterion_head"
+msgstr "Seleccionar criterio de idioma para mostrar el documento de información de accesibilidad"
+
+msgid "acc_form_criterion"
+msgstr "Criterio"
+
+msgid "acc_form_document"
+msgstr "Documento"
+
+msgid "acc_form_document_content_changed"
+msgstr "ILIAS ha eliminado la información html &lt;head&gt; del archivo subido. Por favor, revise el resultado y cargue un nuevo archivo si es necesario."
+
+msgid "acc_form_document_info"
+msgstr "Seleccione un archivo de su sistema de archivos local. Puede subir un archivo de texto plano o un archivo HTML sencillo. Los archivos HTML tendrán su información &lt;head&gt; eliminada – solo se utilizará el contenido del elemento body."
+
+msgid "acc_form_document_new"
+msgstr "Cambiar contenido"
+
+msgid "acc_form_document_new_info"
+msgstr "Aquí puede seleccionar un archivo de su sistema de archivos local para cambiar el contenido de este documento de accesibilidad. Puede subir un archivo de texto plano o un archivo HTML sencillo. Los archivos HTML tendrán su información &lt;head&gt; eliminada - solo se utilizará el contenido del elemento body. El contenido existente del documento de accesibilidad será reemplazado. El historial de aceptación del documento no se verá afectado."
+
+msgid "acc_form_document_title"
+msgstr "Título"
+
+msgid "acc_form_document_title_info"
+msgstr "Por favor, introduzca un título para el documento."
+
+msgid "acc_form_edit_criterion_head"
+msgstr "Editar criterio de idioma"
+
+msgid "acc_form_edit_doc_head"
+msgstr "Editar documento"
+
+msgid "acc_form_new_doc_head"
+msgstr "Crear documento"
+
+msgid "acc_forward_mail"
+msgstr "Reenviar correo"
+
+msgid "acc_function"
+msgstr "Función"
+
+msgid "acc_last_rep_visited"
+msgstr "Repositorio/Último visitado"
+
+msgid "acc_saved_sorting"
+msgstr "El nuevo orden ha sido guardado."
+
+msgid "acc_sure_delete_documents_p"
+msgstr "¿Está seguro de que desea eliminar los documentos seleccionados?"
+
+msgid "acc_sure_delete_documents_s"
+msgstr "¿Está seguro de que desea eliminar este documento?"
+
+msgid "acc_tbl_docs_action_add_criterion"
+msgstr "Agregar Criterio"
+
+msgid "acc_tbl_docs_cell_not_criterion"
+msgstr "No se ha asignado ningún criterio de idioma"
+
+msgid "acc_tbl_docs_head_created"
+msgstr "Fecha de creación"
+
+msgid "acc_tbl_docs_head_criteria"
+msgstr "Criterio"
+
+msgid "acc_tbl_docs_head_last_change"
+msgstr "Último cambio"
+
+msgid "acc_tbl_docs_head_sorting"
+msgstr "Orden"
+
+msgid "acc_tbl_docs_head_title"
+msgstr "Título"
+
+msgid "acc_tbl_docs_title"
+msgstr "Documentos"
+
+msgid "acc_tree_off"
+msgstr "Árbol desactivado"
+
+msgid "acc_tree_on"
+msgstr "Árbol activado"

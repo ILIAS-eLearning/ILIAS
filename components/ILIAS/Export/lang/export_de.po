@@ -1,0 +1,60 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: export\n"
+
+msgid "exp_file"
+msgstr "Dateiname"
+
+msgid "exp_public_access"
+msgstr "Öffentlicher Zugriff aktiv"
+
+msgid "exp_size"
+msgstr "Dateigröße (MB)"
+
+msgid "exp_timestamp"
+msgstr "Erstellungsdatum"
+
+msgid "exp_toggle_public_access"
+msgstr "Öffentlichen Zugriff (de-)aktivieren"
+
+msgid "exp_type"
+msgstr "Type"
+
+msgid "export_create_new_file"
+msgstr "Neue Exportdatei erstellen"
+
+msgid "export_existing"
+msgstr "Wiederverwenden"
+
+msgid "export_export_date"
+msgstr "Exportdatum"
+
+msgid "export_info_public_access"
+msgstr "Öffentliche Exportdatei"
+
+msgid "export_info_public_access_download"
+msgstr "Download"
+
+msgid "export_last_export"
+msgstr "Letzter Export"
+
+msgid "export_last_export_file"
+msgstr "Letzte Exportdatei benutzen"
+
+msgid "export_omit_resource"
+msgstr "Objekt auslassen"
+
+msgid "export_save_selection"
+msgstr "Export starten"
+
+msgid "export_select_resources"
+msgstr "Objekte auswählen"
+
+msgid "no_file"
+msgstr "Keine Datei"

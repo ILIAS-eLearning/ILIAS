@@ -1,0 +1,81 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: wopi\n"
+
+msgid "action_edit"
+msgstr ""
+
+msgid "action_editnew"
+msgstr ""
+
+msgid "action_editnew_templates"
+msgstr ""
+
+msgid "action_view"
+msgstr ""
+
+msgid "activate_saving_interval"
+msgstr ""
+
+msgid "activate_wopi"
+msgstr ""
+
+msgid "close_wopi_editor"
+msgstr ""
+
+msgid "close_wopi_editor_info"
+msgstr ""
+
+msgid "create_templates"
+msgstr ""
+
+msgid "create_templates_byline"
+msgstr ""
+
+msgid "currently_supported"
+msgstr ""
+
+msgid "msg_error_wopi_invalid_discorvery_url"
+msgstr ""
+
+msgid "msg_wopi_settings_modified"
+msgstr ""
+
+msgid "open_external_editor"
+msgstr ""
+
+msgid "open_external_viewer"
+msgstr ""
+
+msgid "saving_interval"
+msgstr ""
+
+msgid "saving_interval_byline"
+msgstr ""
+
+msgid "wopi_crawler_cronjob_description"
+msgstr ""
+
+msgid "wopi_crawler_cronjob_no_apps"
+msgstr ""
+
+msgid "wopi_crawler_cronjob_not_activated"
+msgstr ""
+
+msgid "wopi_crawler_cronjob_success"
+msgstr ""
+
+msgid "wopi_crawler_cronjob_title"
+msgstr ""
+
+msgid "wopi_settings"
+msgstr ""
+
+msgid "wopi_url"
+msgstr ""
+
+msgid "wopi_url_byline"
+msgstr ""

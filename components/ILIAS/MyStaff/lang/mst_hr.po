@@ -1,0 +1,66 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hr\n"
+"Language-Team: Croatian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: mst\n"
+
+#, fuzzy
+msgid "mst_cert_issued_on"
+msgstr "Issued On"
+
+msgid "mst_courses_of"
+msgstr "Upisi %s"
+
+#, fuzzy
+msgid "mst_download_certificate"
+msgstr "Download Certificate"
+
+#, fuzzy
+msgid "mst_list_certificates"
+msgstr "Certificates"
+
+#, fuzzy
+msgid "mst_list_competences"
+msgstr "Competences"
+
+msgid "mst_list_courses"
+msgstr "Upisi"
+
+msgid "mst_list_users"
+msgstr "Popis osoblja"
+
+msgid "mst_memb_status_registered"
+msgstr "Registrirano"
+
+msgid "mst_memb_status_requested"
+msgstr "Zatraženo"
+
+msgid "mst_memb_status_waitinglist"
+msgstr "Lista čekanja"
+
+msgid "mst_my_staff"
+msgstr "Osoblje"
+
+msgid "mst_opt_all"
+msgstr "Svi"
+
+msgid "mst_please_select_course"
+msgstr "Molimo odaberite tečaj."
+
+#, fuzzy
+msgid "mst_profile_fulfilled"
+msgstr "Not met, yet"
+
+#, fuzzy
+msgid "mst_profile_not_fulfilled"
+msgstr "Fulfilled"
+
+msgid "mst_select_course"
+msgstr "Odaberi tečaj"
+
+msgid "mst_show_courses"
+msgstr "Upisi"

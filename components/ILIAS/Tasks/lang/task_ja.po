@@ -1,0 +1,36 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: task\n"
+
+msgid "task_deadline"
+msgstr "終わり"
+
+msgid "task_derived_tasks"
+msgstr "タスク"
+
+msgid "task_details"
+msgstr "詳細"
+
+msgid "task_no_task_items"
+msgstr "タスクはありません。"
+
+msgid "task_no_tasks"
+msgstr "行うオープンタスクはありません。"
+
+msgid "task_start"
+msgstr "開始"
+
+msgid "task_task"
+msgstr "タスク"
+
+msgid "task_tasks_with_deadline"
+msgstr "期限あり"
+
+msgid "task_tasks_without_deadline"
+msgstr "期限なし"

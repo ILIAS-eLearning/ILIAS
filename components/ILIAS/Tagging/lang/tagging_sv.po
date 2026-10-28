@@ -1,0 +1,79 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: tagging\n"
+
+msgid "no_tag_text_1"
+msgstr "Du har för närvarande inte använt några taggar. För att göra detta måste du vidta två åtgärder"
+
+msgid "no_tag_text_2"
+msgstr "Klicka på \"%s\" och välj ett lärandeobjekt från det tillgängliga utbudet, t.ex. en lärmodul eller ett forum."
+
+msgid "no_tag_text_3"
+msgstr "Öppna sedan objektets <i>åtgärdsmeny</i> och välj<i>\"Ange taggar</i>\"."
+
+msgid "tag_remove_tags_of_obj_without_access"
+msgstr "Ta bort tagg"
+
+msgid "tag_some_obj_tagged_without_access"
+msgstr "Du har inte längre tillgång till några av de taggade objekten. Bör taggen för dessa objekt tas bort?"
+
+msgid "tag_tags_deleted"
+msgstr "Tag togs bort för objekt utan åtkomst."
+
+msgid "tagging_all_users"
+msgstr "Alla användare"
+
+msgid "tagging_edit_settings"
+msgstr "Inställningar"
+
+msgid "tagging_enable_all_users"
+msgstr "Visa taggar för alla användare"
+
+msgid "tagging_enable_all_users_info"
+msgstr " Lägger till ett \"Alla användare\"-område på infosidan som visar taggarna för alla besökare till en resurs."
+
+msgid "tagging_enable_tagging"
+msgstr "Aktivera taggning"
+
+msgid "tagging_forbidden_tags"
+msgstr "Förbjudna taggar"
+
+msgid "tagging_no_obj_for_tag"
+msgstr "Det finns inget innehåll taggat med '%s'."
+
+#, fuzzy
+msgid "tagging_no_perm_write"
+msgstr "You have no permission to change this data."
+
+msgid "tagging_other_users"
+msgstr "Tags från andra användare"
+
+msgid "tagging_resources_for_tag"
+msgstr "Innehåll taggat med %s"
+
+msgid "tagging_search_users"
+msgstr "Sök användare"
+
+msgid "tagging_set_tag"
+msgstr "Ange taggar"
+
+msgid "tagging_settings"
+msgstr "Inställningar"
+
+msgid "tagging_tag"
+msgstr "Tag"
+
+msgid "tagging_tag_info"
+msgstr "För att tagga innehåll, öppna objektets informationssida och ange taggarna där."
+
+msgid "tagging_tags"
+msgstr "Etiketter"
+
+msgid "tagging_users_using_tag"
+msgstr "Användare som använder taggar"

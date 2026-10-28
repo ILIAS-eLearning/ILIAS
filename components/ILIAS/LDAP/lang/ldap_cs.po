@@ -1,0 +1,397 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: cs\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Domain: ldap\n"
+
+msgid "add_ldap_server"
+msgstr "Přidat server"
+
+msgid "ldap_add_missing"
+msgstr "Přiřadit chybějící role"
+
+msgid "ldap_add_role_ass_rule"
+msgstr "Nové pravidlo pro přiřazení role"
+
+#, fuzzy
+msgid "ldap_add_roles"
+msgstr "Add Roles"
+
+msgid "ldap_as_ds"
+msgstr "Použít zdroj dat"
+
+msgid "ldap_as_ds_info"
+msgstr "Je-li aktivováno, tato konfigurace LDAP je použita pro synchronizaci uživatelských účtů v kombinaci s jinými metodami autentizace."
+
+msgid "ldap_assignment_type"
+msgstr "Typ přiřazení"
+
+msgid "ldap_authentication_settings"
+msgstr "Nastavení autentizace"
+
+msgid "ldap_bind_anonymous"
+msgstr "Anonymní přihlášení"
+
+msgid "ldap_bind_user"
+msgstr "Připojen jako uživatel:"
+
+msgid "ldap_btn_add_role_ass"
+msgstr "Přidat nové pravidlo"
+
+msgid "ldap_check_role_assignment"
+msgstr "Přiřazení role po dalším přihlášení"
+
+msgid "ldap_choose_role"
+msgstr "Vybrat roli"
+
+msgid "ldap_confirm_del_role_ass"
+msgstr "Smazat přiřazení role"
+
+msgid "ldap_deleted_role_mapping"
+msgstr "Přiřazení smazáno"
+
+msgid "ldap_deleted_rule"
+msgstr "Přiřazení vybraných rolí smazáno."
+
+msgid "ldap_dn_info"
+msgstr "Vložte vyhrazené jméno skupiny LDAP."
+
+msgid "ldap_edit_role_ass_rule"
+msgstr "Upravit pravidlo přiřazení role"
+
+msgid "ldap_edit_role_assignment"
+msgstr "Upravit roli -> Přiřazení skupiny"
+
+msgid "ldap_err_missing_plugin_id"
+msgstr "Vložte prosím platné id pluginu."
+
+#, fuzzy
+msgid "ldap_escapedn"
+msgstr "Escape DN"
+
+#, fuzzy
+msgid "ldap_escapedn_info"
+msgstr "If enabled, special characters in the \"Distinguished Name (DN)\" of user accounts are escaped in queries for group membership."
+
+msgid "ldap_filter_info"
+msgstr "Filtr, který bude přidán k filtru vyhledávání tímto způsobem: (&(userattr=username)(userfilter))."
+
+msgid "ldap_global_role"
+msgstr "Globální role"
+
+msgid "ldap_global_role_assignment"
+msgstr "Přiřazení role ILIAS"
+
+msgid "ldap_global_role_info"
+msgstr "Vyberte prosím přiřazení role ILIAS novým uživatelům."
+
+msgid "ldap_group_attribute"
+msgstr "Atributy pro skupinu"
+
+msgid "ldap_group_attribute_info"
+msgstr "Atributy skupinu pro vyhledávání."
+
+msgid "ldap_group_dn"
+msgstr "Skupinové DN"
+
+msgid "ldap_group_dn_info"
+msgstr "Určit předponu pro \"BaseDN\" pro vyhledávání skupin."
+
+msgid "ldap_group_dn_short"
+msgstr "Skupinové DN:"
+
+msgid "ldap_group_filter"
+msgstr "LDAP Filtr"
+
+msgid "ldap_group_filter_info"
+msgstr "Filtr který bude přidán k filtru vyhledávání, pro vyhledávání skupin: (&(groupattr=group)(memberattr=username)(groupfilter))."
+
+msgid "ldap_group_member"
+msgstr "Atributy skupin členů"
+
+msgid "ldap_group_member_info"
+msgstr "Tyto atributy skupin objektů, kde DN uživatele mohou být nalezeni. Zvolte \"Hodnota atributu je DN\" když atributy členů je rozlišované jméno uživatelů."
+
+msgid "ldap_group_member_optional"
+msgstr "Skupinové členství je volitelné"
+
+msgid "ldap_group_member_short"
+msgstr "Atributy:"
+
+msgid "ldap_group_membership"
+msgstr "Skupinové členství"
+
+msgid "ldap_group_name"
+msgstr "Jméno skupiny"
+
+msgid "ldap_group_name_info"
+msgstr "Název skupiny uživatelů je pro členy s úspěšnou autentizací."
+
+msgid "ldap_group_optional_info"
+msgstr "Je-li zapnuto, členství skupiny není vyžadováno pro úspěšnou autentizaci. Vložte prosím filtr uživatelů pro členy této skupiny:<br />(&(userattr=username)<strong>(userfilter)</strong>)"
+
+msgid "ldap_group_restrictions"
+msgstr "Omezení skupiny"
+
+msgid "ldap_group_scope"
+msgstr "Rozsah vyhledávání"
+
+msgid "ldap_group_scope_info"
+msgstr "Rozsah skupinové vyhledávání. Není-li zajištěno zvolte \"Sub\""
+
+msgid "ldap_group_search_base"
+msgstr "Báze skupinového vyhledávání"
+
+msgid "ldap_group_user_filter"
+msgstr "Uživatelský filtr"
+
+msgid "ldap_ilias_role"
+msgstr "ILIAS Role"
+
+msgid "ldap_info_text"
+msgstr "Informační text"
+
+msgid "ldap_info_text_info"
+msgstr "Je-li vloženo, tento text bude zobrazen v úložišti a na informační obrazovce pro které je objekt této role přiřazen. Tento texte je volitelně dostupný v úložišti a na osobní pracovní ploše."
+
+msgid "ldap_local_role"
+msgstr "Lokální role"
+
+msgid "ldap_mapping_info_type"
+msgstr "Zobrazit informace také v Úložiště/Osobní pracovní plocha"
+
+msgid "ldap_mapping_table"
+msgstr "Přiřazení atributů LDAP k uživatelskému profilu ILIAS"
+
+msgid "ldap_mapping_template"
+msgstr "Šablona pro objectClass:"
+
+msgid "ldap_member_info"
+msgstr "Atribut skupiny objektů, kde DN uživatele lze najít."
+
+msgid "ldap_memberisdn"
+msgstr "Hodnota atributu je DN"
+
+msgid "ldap_missing_bind_user"
+msgstr "Zvolil jste \"Připojen jako uživatel\": Vložte prosím platné jméno a heslo LDAP."
+
+msgid "ldap_missing_role_assignment"
+msgstr "Vyberte prosím globální roli k přiřazení  novému uživateli."
+
+msgid "ldap_moment_sync"
+msgstr "Typ sychronizace"
+
+msgid "ldap_new_role_assignment"
+msgstr "Přidat novou roli -> Skupinové přiřazení"
+
+msgid "ldap_plugin"
+msgstr "Přiřazení Pluginem"
+
+msgid "ldap_plugin_id"
+msgstr "Id Pluginu"
+
+msgid "ldap_plugin_info"
+msgstr "Ověřte prosím přiřazení role pluginu. Vložte prosím platné id pluginu."
+
+msgid "ldap_referrals"
+msgstr "Přesměrování"
+
+msgid "ldap_referrals_info"
+msgstr "Je-li nastaveno, určuje zda knihovna LDAP automaticky následuje odkazovaná přesměrování vrácené LDAP servery nebo ne."
+
+msgid "ldap_remove_deprecated"
+msgstr "Zrušit přiřazení neschválených rolí"
+
+#, fuzzy
+msgid "ldap_remove_roles"
+msgstr "Remove Roles"
+
+msgid "ldap_role_active"
+msgstr "Zapnout synchronizaci skupin"
+
+msgid "ldap_role_assignments"
+msgstr "Přiřazení role"
+
+msgid "ldap_role_at_info"
+msgstr "Toto přiřazení je založeno na specifickém atributu v uživatelském profilu LDAP."
+
+msgid "ldap_role_at_name"
+msgstr "Název atributu"
+
+msgid "ldap_role_at_value"
+msgstr "Hodnota atributu"
+
+msgid "ldap_role_bind_pass"
+msgstr "Heslo"
+
+msgid "ldap_role_bind_pass_info"
+msgstr "Heslo"
+
+msgid "ldap_role_bind_user"
+msgstr "Uživatelské DN"
+
+msgid "ldap_role_bind_user_info"
+msgstr "Vložte prosím vyhrazené jméno uživatelského účtu LDAP. Tento uživatel musí zapsaný přístup pro skupinu LDAP."
+
+msgid "ldap_role_by_attribute"
+msgstr "Atribut LDAP"
+
+msgid "ldap_role_by_group"
+msgstr "Skupinové členství"
+
+msgid "ldap_role_by_plugin"
+msgstr "Podle Pluginů"
+
+msgid "ldap_role_group_assignments"
+msgstr "Existující role -> Přiřazení skupiny"
+
+msgid "ldap_role_grp_at"
+msgstr "Atribut"
+
+msgid "ldap_role_grp_dn_info"
+msgstr "Vložte prosím \"Vyhrazené jméno\" skupiny LDAP."
+
+msgid "ldap_role_grp_info"
+msgstr "Člen specifikované skupiny LDAP Group bude přiřazen k dané roli ILIAS."
+
+msgid "ldap_role_grp_isdn"
+msgstr "Hodnota atributu je DN"
+
+msgid "ldap_role_info"
+msgstr "Vložte název role ILIAS, která bude řídit členství ve skupině LDAP."
+
+msgid "ldap_role_mapping"
+msgstr "Role ILIAS -> Mapování skupiny LDAP"
+
+msgid "ldap_role_name_info"
+msgstr "Vyberte prosím globální roli, nebo vložte prosím jméno lokální role."
+
+msgid "ldap_role_not_exists"
+msgstr "Role které jméno neexistuje"
+
+msgid "ldap_role_selection"
+msgstr "Výběr role"
+
+msgid "ldap_role_selection_info"
+msgstr "Váš výběr je nejednoznačný. Vyberte prosím jednu z následujících rolí."
+
+msgid "ldap_role_settings"
+msgstr "Nastavení synchrozice skupin LDAP"
+
+msgid "ldap_rule_condition"
+msgstr "Podmínka"
+
+msgid "ldap_rule_type"
+msgstr "Typ přiřazení"
+
+msgid "ldap_scope_one"
+msgstr "Jeden"
+
+msgid "ldap_scope_sub"
+msgstr "Sub"
+
+msgid "ldap_search_base_info"
+msgstr "Získat cestu do basedn pro hledání uživatelů."
+
+msgid "ldap_search_filter"
+msgstr "LDAP Filtr"
+
+msgid "ldap_server_bind_dn"
+msgstr "Uživatelské DN"
+
+msgid "ldap_server_bind_pass"
+msgstr "Heslo"
+
+msgid "ldap_server_binding"
+msgstr "Vazba"
+
+msgid "ldap_server_name"
+msgstr "Název konfigurace LDAP"
+
+msgid "ldap_server_name_info"
+msgstr "Zvolte prosím název pro tuto konfiguraci serveru LDAP."
+
+msgid "ldap_server_security_settings"
+msgstr "Nastavení bezpečnosti"
+
+msgid "ldap_server_short"
+msgstr "URL serveru:"
+
+msgid "ldap_server_url_info"
+msgstr "Plně specifikovaná URL pro určení protokolu, URL a portu k připojení se. Např. \"ldap://ldap.ilias.de:389\". Můžete přidat více serverů oddělených čárkou. Servery jsou při dotazu cyklicky rotovány."
+
+#, fuzzy
+msgid "ldap_server_url_invalid_parts"
+msgstr "The following server URL(s) could not be parsed as valid URIs and may not work until corrected:"
+
+#, fuzzy
+msgid "ldap_server_url_invalid_uris"
+msgstr "Every comma-separated entry must be a valid URI (e.g. ldap://host:389). Invalid:"
+
+#, fuzzy
+msgid "ldap_server_url_required"
+msgstr "Server URL is required."
+
+msgid "ldap_server_version_info"
+msgstr "Verze LDAP k použití, obvykle 3."
+
+msgid "ldap_servers"
+msgstr "LDAP Server"
+
+msgid "ldap_settings"
+msgstr "Nastavení serveru"
+
+msgid "ldap_sync_cron"
+msgstr "Přes Cron-Job"
+
+msgid "ldap_sync_login"
+msgstr "Při přihlášení"
+
+msgid "ldap_tbl_role_ass"
+msgstr "Aktivovat pravidla"
+
+msgid "ldap_tls_conflict"
+msgstr "LDAP-TLS nelze použít v kombinaci s LDAPv2. Zvolte prosím LDAP verzi \"3\" nebo vypněte podporu TLS."
+
+msgid "ldap_update_field_info"
+msgstr "Aktializovat automaticky"
+
+msgid "ldap_update_roles"
+msgstr "Přiřazení Role"
+
+msgid "ldap_user_attribute"
+msgstr "Atributy pro přihlášení"
+
+msgid "ldap_user_dn"
+msgstr "Uživatelská vyhledávací databáze"
+
+msgid "ldap_user_mapping"
+msgstr "Mapování uživatelských profilů"
+
+msgid "ldap_user_scope"
+msgstr "Oblast vyhledávání"
+
+msgid "ldap_user_scope_info"
+msgstr "Oblast pro uživatelské vyhledávání. Není-li zajištěno, volte \"Sub\"."
+
+msgid "ldap_user_sync"
+msgstr "Nastavení uživatelské synchronizace"
+
+msgid "ldap_user_sync_cron"
+msgstr "Synchronizace uživatele LDAP"
+
+msgid "ldap_user_sync_cron_info"
+msgstr "Je-li aktivována, budou uživatelské účty importovány z adresáře LDAP a budou průběžně synchronizovány jako volba."
+
+msgid "ldap_user_sync_info"
+msgstr "Definuje zda nový uživatel je automaticky vytvářen při přihlášení, nebo řádně přes Cron-Job."
+
+msgid "ldap_username_filter"
+msgstr "Filtr uživatelského jména"
+
+msgid "ldap_username_filter_info"
+msgstr "Použijte * jako zástupný znak."

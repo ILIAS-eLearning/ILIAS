@@ -1,0 +1,57 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: note\n"
+
+msgid "note_comment_notification_link"
+msgstr "Enlace"
+
+msgid "note_comment_notification_reason"
+msgstr "Recibe este mensaje porque su cuenta figura como destinatario global de todos los comentarios en la administración de ILIAS."
+
+msgid "note_comment_notification_salutation"
+msgstr "Hola %s,"
+
+msgid "note_comment_notification_subject"
+msgstr "Se ha añadido un comentario en \"%s\""
+
+msgid "note_comment_notification_subjectc"
+msgstr "Se ha modificado un comentario en \"%s\""
+
+msgid "note_comment_notification_user_has_written"
+msgstr "%s ha escrito:"
+
+msgid "note_comments_notification"
+msgstr "Notificación general sobre todos los comentarios"
+
+msgid "note_comments_notification_info"
+msgstr "Lista separada por comas de las cuentas que son notificadas por cada comentario"
+
+msgid "note_enable_comments"
+msgstr "Habilitar comentarios"
+
+msgid "note_enable_comments_del_tutor"
+msgstr "Cualquier comentario puede ser eliminado por los tutores"
+
+msgid "note_enable_comments_del_tutor_info"
+msgstr "Los usuarios con permiso \"Editar ajustes\" para un objeto pueden eliminar cualquier comentario realizado en dicho objeto."
+
+msgid "note_enable_comments_del_user"
+msgstr "Los comentarios pueden ser eliminados por sus autores"
+
+msgid "note_enable_comments_del_user_info"
+msgstr "Los comentarios pueden ser eliminados por la persona que los creó."
+
+msgid "note_enable_comments_export_info"
+msgstr "Esta opción habilita la exportación de comentarios para objetos de contenido como portafolios, blogs y wikis."
+
+msgid "note_enable_notes"
+msgstr "Habilitar notas"
+
+msgid "note_html_export_include_comments"
+msgstr "¿Deben incluirse los comentarios en la exportación?"
