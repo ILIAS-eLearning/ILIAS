@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,12 +16,7 @@
  *
  *********************************************************************/
 
-/**
- * Created by PhpStorm.
- * User: otruffer
- * Date: 05.05.17
- * Time: 10:14
- */
+declare(strict_types=1);
 
 namespace ILIAS\BackgroundTasks;
 
@@ -32,9 +28,9 @@ interface Persistence
     public function saveBucketAndItsTasks(Bucket $bucket): void;
 
     /**
-     * @return \int[] Returns an array of bucket ids for the given user Id.
+     * @return int[] Returns an array of bucket ids for the given user Id.
      */
-    public function getBucketIdsOfUser(int $user_id, string $order_by = "id", string $order_direction = "ASC"): array;
+    public function getBucketIdsOfUser(int $user_id, string $order_by = 'id', string $order_direction = 'ASC'): array;
 
     /**
      * @return int[] Returns a list of bucket ids for the given Observer State
@@ -72,4 +68,6 @@ interface Persistence
      * @return BucketMeta[]
      */
     public function getBucketMetaOfUser(int $user_id): array;
+
+    public function garbageCollection(): void;
 }

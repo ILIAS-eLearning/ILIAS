@@ -33,7 +33,7 @@ class ilBackgroundTaskGarbageCollection extends ilCronJob
     {
         global $DIC;
 
-        $this->logger = $DIC->logger()->cal();
+        $this->logger = $DIC->logger()->bgtk();
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('background_tasks');
         $this->persistence = $DIC->backgroundTasks()->persistence();
