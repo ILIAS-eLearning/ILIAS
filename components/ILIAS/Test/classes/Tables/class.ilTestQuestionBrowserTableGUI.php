@@ -221,6 +221,11 @@ class ilTestQuestionBrowserTableGUI
     {
         if ($this->testrequest->raw(self::MODE_PARAMETER) === self::MODE_BROWSE_TESTS) {
             $question_list->setParentObjectType('tst');
+            $writable_test_obj_ids = $this->getWritableTestObjIds();
+            if ($writable_test_obj_ids === []) {
+                $writable_test_obj_ids = [0];
+            }
+            $question_list->setParentObjIdsFilter($writable_test_obj_ids);
             $question_list->setQuestionInstanceTypeFilter(\ilAssQuestionList::QUESTION_INSTANCE_TYPE_ALL);
             $question_list->setExcludeQuestionIdsFilter($this->test_obj->getQuestions());
             return $question_list;
@@ -230,6 +235,19 @@ class ilTestQuestionBrowserTableGUI
         $question_list->setQuestionInstanceTypeFilter(\ilAssQuestionList::QUESTION_INSTANCE_TYPE_ORIGINALS);
         $question_list->setExcludeQuestionIdsFilter($this->test_obj->getExistingQuestions());
         return $question_list;
+    }
+
+    /**
+     * @return int[]
+     */
+    protected function getWritableTestObjIds(): array
+    {
+        return array_values(
+            array_diff(
+                array_keys(\ilObjTest::_getAvailableTests(true)),
+                [$this->test_obj->getId()]
+            )
+        );
     }
 
     private function getQuestionParentObjIds(int $repositoryRootNode): array
