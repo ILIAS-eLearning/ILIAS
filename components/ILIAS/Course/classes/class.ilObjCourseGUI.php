@@ -18,6 +18,7 @@
 
 declare(strict_types=0);
 
+use ILIAS\Certificate\CertificateEditorMode;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
 use ILIAS\News\Service as News;
@@ -2213,13 +2214,15 @@ class ilObjCourseGUI extends ilContainerGUI
                 break;
 
             case "ilcertificategui":
-                $this->checkPermission('write');
+                if (!$this->checkPermissionBool('read') && !$this->checkPermissionBool('write')) {
+                    $this->checkPermission('read');
+                }
                 $this->tabs_gui->activateTab("settings");
                 $this->setSubTabs("properties");
                 $this->tabs_gui->activateSubTab('certificate');
 
                 $guiFactory = new ilCertificateGUIFactory();
-                $output_gui = $guiFactory->create($this->object);
+                $output_gui = $guiFactory->create($this->object, $this->certificateEditorMode());
                 $this->ctrl->forwardCommand($output_gui);
                 break;
 
@@ -3068,5 +3071,12 @@ class ilObjCourseGUI extends ilContainerGUI
     public function setSideColumnReturn(): void
     {
         $this->ctrl->setReturn($this, "view");
+    }
+
+    private function certificateEditorMode(): CertificateEditorMode
+    {
+        return $this->checkPermissionBool('write')
+            ? CertificateEditorMode::Write
+            : CertificateEditorMode::Read;
     }
 } // END class.ilObjCourseGUI

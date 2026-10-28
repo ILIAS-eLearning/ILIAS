@@ -37,7 +37,6 @@ class CertificateSettingsTestFormRepository implements \ilCertificateFormReposit
         bool $has_additional_elements,
         \ilLanguage $language,
         \ilCtrlInterface $ctrl,
-        \ilAccess $access,
         \ilToolbarGUI $toolbar,
         \ilCertificatePlaceholderDescription $placeholder_description_object,
         ?\ilCertificateSettingsFormRepository $settings_form_repository = null
@@ -50,7 +49,6 @@ class CertificateSettingsTestFormRepository implements \ilCertificateFormReposit
             $has_additional_elements,
             $language,
             $ctrl,
-            $access,
             $toolbar,
             $placeholder_description_object,
             $DIC->ui()->factory(),

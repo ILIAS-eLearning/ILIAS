@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Certificate\CertificateEditorMode;
+
 /**
  * Class ilCmiXapiSettingsGUI
  *
@@ -90,10 +92,18 @@ class ilCmiXapiSettingsGUI
                     throw new ilCmiXapiException('access denied!');
                 }
 
+                $ref_id = $this->object->getRefId();
+                if (
+                    !$this->dic->access()->checkAccess('read', '', $ref_id)
+                    && !$this->dic->access()->checkAccess('write', '', $ref_id)
+                ) {
+                    throw new ilCmiXapiException('access denied!');
+                }
+
                 $this->dic->tabs()->activateSubTab(self::SUBTAB_ID_CERTIFICATE);
 
                 $guiFactory = new ilCertificateGUIFactory();
-                $gui = $guiFactory->create($this->object);
+                $gui = $guiFactory->create($this->object, $this->certificateEditorMode());
 
                 $this->dic->ctrl()->forwardCommand($gui);
 
@@ -702,5 +712,12 @@ class ilCmiXapiSettingsGUI
         );
 
         $pdfAction->downloadPdf((int) $this->dic->user()->getId(), $this->object->getId());
+    }
+
+    private function certificateEditorMode(): CertificateEditorMode
+    {
+        return $this->dic->access()->checkAccess('write', '', $this->object->getRefId())
+            ? CertificateEditorMode::Write
+            : CertificateEditorMode::Read;
     }
 }

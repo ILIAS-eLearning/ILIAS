@@ -41,10 +41,6 @@ class CertificateSettingsTestFormRepositoryTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $access = $this->getMockBuilder(\ilAccess::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $toolbar = $this->getMockBuilder(\ilToolbarGUI::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -68,7 +64,6 @@ class CertificateSettingsTestFormRepositoryTest extends TestCase
             false,
             $language,
             $controller,
-            $access,
             $toolbar,
             $placeholder_description_object,
             $settings_form_factory
@@ -94,10 +89,6 @@ class CertificateSettingsTestFormRepositoryTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $access = $this->getMockBuilder(\ilAccess::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $toolbar = $this->getMockBuilder(\ilToolbarGUI::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -116,7 +107,6 @@ class CertificateSettingsTestFormRepositoryTest extends TestCase
             false,
             $language,
             $controller,
-            $access,
             $toolbar,
             $placeholderDescriptionObject,
             $settingsFormFactory
@@ -130,10 +120,6 @@ class CertificateSettingsTestFormRepositoryTest extends TestCase
             ->getMock();
 
         $controller = $this->getMockBuilder(\ilCtrlInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $access = $this->getMockBuilder(\ilAccess::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -160,7 +146,6 @@ class CertificateSettingsTestFormRepositoryTest extends TestCase
             false,
             $language,
             $controller,
-            $access,
             $toolbar,
             $placeholderDescriptionObject,
             $settingsFormFactory

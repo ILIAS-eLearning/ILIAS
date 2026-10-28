@@ -34,7 +34,6 @@ class ilCertificateSettingsStudyProgrammeFormRepository implements \ilCertificat
         bool $hasAdditionalElements,
         \ilLanguage $language,
         \ilCtrlInterface $ctrl,
-        \ilAccess $access,
         \ilToolbarGUI $toolbar,
         \ilCertificatePlaceholderDescription $placeholderDescriptionObject,
         ?\ilCertificateSettingsFormRepository $settingsFormRepository = null
@@ -47,7 +46,6 @@ class ilCertificateSettingsStudyProgrammeFormRepository implements \ilCertificat
             $hasAdditionalElements,
             $language,
             $ctrl,
-            $access,
             $toolbar,
             $placeholderDescriptionObject,
             $DIC->ui()->factory(),

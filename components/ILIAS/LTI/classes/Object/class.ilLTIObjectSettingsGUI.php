@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\Certificate\CertificateEditorMode;
 use ILIAS\ILIASObject\Properties\CoreProperties\Online;
 use ILIAS\UI\Component\Input\Container\Form\Standard as Form;
 use ILIAS\UI\Component\Input\Field\OptionalGroup;
@@ -288,8 +289,18 @@ class ilLTIObjectSettingsGUI
             throw new ilObjectException('certificates are not active');
         }
 
+        $ref_id = $this->object->getRefId();
+        if (
+            !$this->dic->access()->checkAccess('read', '', $ref_id)
+            && !$this->dic->access()->checkAccess('write', '', $ref_id)
+        ) {
+            throw new ilObjectException($this->dic->language()->txt('permission_denied'));
+        }
+
         $this->dic->tabs()->activateSubTab(self::SUBTAB_CERTIFICATE);
-        $this->dic->ctrl()->forwardCommand(new ilCertificateGUIFactory()->create($this->object));
+        $this->dic->ctrl()->forwardCommand(
+            new ilCertificateGUIFactory()->create($this->object, $this->certificateEditorMode())
+        );
     }
 
     /**
@@ -323,5 +334,12 @@ class ilLTIObjectSettingsGUI
                 $this->dic->ctrl()->getLinkTargetByClass([ilObjLTIToolGUI::class, self::class, ilCertificateGUI::class], 'certificateEditor')
             );
         }
+    }
+
+    private function certificateEditorMode(): CertificateEditorMode
+    {
+        return $this->dic->access()->checkAccess('write', '', $this->object->getRefId())
+            ? CertificateEditorMode::Write
+            : CertificateEditorMode::Read;
     }
 }

@@ -25,7 +25,6 @@ use ilLanguage;
 use ilException;
 use ilToolbarGUI;
 use ilWACException;
-use ilAccessHandler;
 use ilCtrlInterface;
 use ilCertificateGUI;
 use ilPropertyFormGUI;
@@ -50,7 +49,6 @@ class CertificateSettingsExerciseRepository implements ilCertificateFormReposito
         bool $hasAdditionalElements,
         ilLanguage $language,
         ilCtrlInterface $ctrl,
-        ilAccessHandler $access,
         ilToolbarGUI $toolbar,
         ilCertificatePlaceholderDescription $placeholderDescriptionObject,
         ?ilCertificateSettingsFormRepository $settingsFormFactory = null
@@ -63,7 +61,6 @@ class CertificateSettingsExerciseRepository implements ilCertificateFormReposito
             $hasAdditionalElements,
             $language,
             $ctrl,
-            $access,
             $toolbar,
             $placeholderDescriptionObject,
             $DIC->ui()->factory(),

@@ -36,10 +36,6 @@ class ilCertificateSettingsScormFormRepositoryTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $access = $this->getMockBuilder(ilAccess::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $toolbar = $this->getMockBuilder(ilToolbarGUI::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -66,7 +62,6 @@ class ilCertificateSettingsScormFormRepositoryTest extends TestCase
             false,
             $language,
             $controller,
-            $access,
             $toolbar,
             $placeholderDescriptionObject,
             $settingFormRepository,
@@ -92,10 +87,6 @@ class ilCertificateSettingsScormFormRepositoryTest extends TestCase
             ->getMock();
 
         $controller = $this->getMockBuilder(ilCtrlInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $access = $this->getMockBuilder(ilAccess::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -136,7 +127,6 @@ class ilCertificateSettingsScormFormRepositoryTest extends TestCase
             false,
             $language,
             $controller,
-            $access,
             $toolbar,
             $placeholderDescriptionObject,
             $settingFormRepository,

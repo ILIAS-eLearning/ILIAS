@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\Certificate\CertificateEditorMode;
 use ILIAS\DI\Container;
 use ILIAS\Exercise\Certificate\ExercisePlaceholderValues;
 use ILIAS\Exercise\Certificate\ExercisePlaceholderDescription;
@@ -52,7 +53,7 @@ class ilCertificateGUIFactory
     /**
      * @throws ilException
      */
-    public function create(ilObject $object): ilCertificateGUI
+    public function create(ilObject $object, CertificateEditorMode $mode): ilCertificateGUI
     {
         global $DIC;
 
@@ -78,7 +79,6 @@ class ilCertificateGUIFactory
                     false,
                     $DIC->language(),
                     $DIC->ctrl(),
-                    $DIC->access(),
                     $DIC->toolbar(),
                     $placeholderDescriptionObject
                 );
@@ -98,7 +98,6 @@ class ilCertificateGUIFactory
                     false,
                     $DIC->language(),
                     $DIC->ctrl(),
-                    $DIC->access(),
                     $DIC->toolbar(),
                     $placeholderDescriptionObject
                 );
@@ -114,7 +113,6 @@ class ilCertificateGUIFactory
                     false,
                     $DIC->language(),
                     $DIC->ctrl(),
-                    $DIC->access(),
                     $DIC->toolbar(),
                     $placeholderDescriptionObject
                 );
@@ -130,7 +128,6 @@ class ilCertificateGUIFactory
                     true,
                     $DIC->language(),
                     $DIC->ctrl(),
-                    $DIC->access(),
                     $DIC->toolbar(),
                     $placeholderDescriptionObject
                 );
@@ -146,7 +143,6 @@ class ilCertificateGUIFactory
                     true,
                     $DIC->language(),
                     $DIC->ctrl(),
-                    $DIC->access(),
                     $DIC->toolbar(),
                     $placeholderDescriptionObject
                 );
@@ -162,7 +158,6 @@ class ilCertificateGUIFactory
                     true,
                     $DIC->language(),
                     $DIC->ctrl(),
-                    $DIC->access(),
                     $DIC->toolbar(),
                     $placeholderDescriptionObject
                 );
@@ -177,7 +172,6 @@ class ilCertificateGUIFactory
                     true,
                     $DIC->language(),
                     $DIC->ctrl(),
-                    $DIC->access(),
                     $DIC->toolbar(),
                     $placeholderDescriptionObject
                 );
@@ -192,6 +186,7 @@ class ilCertificateGUIFactory
             $placeholderValuesObject,
             $objectId,
             $certificatePath,
+            $mode,
             $formFactory,
             $deleteAction
         );
