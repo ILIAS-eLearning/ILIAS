@@ -47,6 +47,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
     protected ilToolbarGUI $toolbar;
     protected int $node_id;
     protected PostingManager $posting_manager;
+    protected \ILIAS\COPage\Page\PageManagerInterface $page_manager;
     protected ?object $access_handler = null;
     protected bool $enable_public_notes = false;
     protected bool $may_contribute = false;
@@ -115,6 +116,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         $this->notes = $DIC->notes();
         $this->profile_gui = $DIC->blog()->internal()->gui()->profile();
         $this->posting_manager = $DIC->blog()->internal()->domain()->posting();
+        $this->page_manager = $this->domain->pageManager();
         $this->toolbar = $DIC->toolbar();
     }
 

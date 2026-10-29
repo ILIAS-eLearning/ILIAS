@@ -133,7 +133,15 @@ class ilBlogExerciseGUI
         $exc_gui->submitBlog($this->node_id, $this->user->getId());
 
         $this->main_tpl->setOnScreenMessage('success', $lng->txt("blog_finalized"), true);
-        $ilCtrl->returnToParent($this);
+        $ilCtrl->redirectByClass(
+            [
+                ilDashboardGUI::class,
+                ilPersonalWorkspaceGUI::class,
+                ilObjBlogGUI::class,
+                \ILIAS\Blog\Editing\EditingGUI::class,
+            ],
+            ""
+        );
     }
 
     /**
