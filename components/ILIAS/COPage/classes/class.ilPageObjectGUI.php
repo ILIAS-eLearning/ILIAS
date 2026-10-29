@@ -2224,10 +2224,14 @@ class ilPageObjectGUI
     /**
      * Rollback confirmation
      */
-    public function rollbackConfirmation(int $nr): void
+    public function rollbackConfirmation(int $nr = 0): void
     {
         if (!$this->getEnableEditing()) {
             return;
+        }
+
+        if ($nr === 0) {
+            $nr = $this->requested_old_nr;
         }
 
         $c_gui = new ilConfirmationGUI();
