@@ -44,12 +44,6 @@ msgstr "Threshold"
 msgid "cron_news_delete_old_threshold_info"
 msgstr "All news items older than the specified period will be deleted. The creation date is used as the criterion. Comments or any attached media from manually created news items will also be permanently deleted."
 
-msgid "lso_news_online_title"
-msgstr "A new learning sequence object is online!"
-
-msgid "lso_news_online_txt"
-msgstr "A new object for your learning sequence was just published."
-
 msgid "new_test_online"
 msgstr "The Test was set online."
 
