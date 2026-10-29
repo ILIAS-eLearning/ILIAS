@@ -178,7 +178,9 @@ Only other modules (plugins) are read from `lng_data`/`lng_modules`.
   * macOS and FreeBSD: gettext from GNU libintl
     (Homebrew, Ports) and a system locale of `NativeGettext::SYSTEM_LOCALES`;
     the libc there ignores `LOCPATH`, no locale is shipped (`C.UTF-8` does not
-    work: GNU libintl ignores `LANGUAGE` there);
+    work: GNU libintl ignores `LANGUAGE` there); locale variables of the
+    environment (e.g. `LANG=C.UTF-8`) do not matter: native gettext sets the
+    environment variable `LC_ALL` to that locale (child processes inherit it);
   * musl is not supported (ignores `LOCPATH`).
 
   Build on the platform that serves ILIAS (with Docker in the container): the

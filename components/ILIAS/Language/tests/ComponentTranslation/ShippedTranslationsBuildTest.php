@@ -38,6 +38,7 @@ class ShippedTranslationsBuildTest extends TestCase
     private string $artifacts;
     private string|false $messages_locale;
     private string|false $language;
+    private string|false $lc_all;
 
     protected function setUp(): void
     {
@@ -45,6 +46,7 @@ class ShippedTranslationsBuildTest extends TestCase
         MigratedPoFixture::resetRuntime();
         $this->messages_locale = setlocale(LC_MESSAGES, '0');
         $this->language = getenv('LANGUAGE');
+        $this->lc_all = getenv('LC_ALL');
         $this->root = sys_get_temp_dir() . '/ilias_shipped_build_test_' . bin2hex(random_bytes(6));
         mkdir($this->root, 0775, true);
         $this->artifacts = MigratedLanguageFilePaths::shippedArtifactDirectory($this->root);
@@ -57,6 +59,7 @@ class ShippedTranslationsBuildTest extends TestCase
             setlocale(LC_MESSAGES, $this->messages_locale);
         }
         putenv($this->language === false ? 'LANGUAGE' : 'LANGUAGE=' . $this->language);
+        putenv($this->lc_all === false ? 'LC_ALL' : 'LC_ALL=' . $this->lc_all);
         MigratedPoFixture::removeDirectory($this->root);
         MigratedPoFixture::resetRuntime();
     }
