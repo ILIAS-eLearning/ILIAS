@@ -26,9 +26,7 @@ use ilBadgeFileStakeholder;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\FileUpload\Exception\IllegalStateException;
 use ilGlobalTemplateInterface;
-use ilWACSignedPath;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
-use Exception;
 
 class ilBadgeImage
 {
@@ -62,18 +60,17 @@ class ilBadgeImage
         ilBadge $badge,
         int $size = self::IMAGE_SIZE_XS
     ): string {
-        $image_src = '';
-
-        if ($badge->getImageRid() !== '' && $badge->getImageRid() !== null) {
-            $identification = $this->resource_storage->manage()->find($badge->getImageRid());
-            if ($identification !== null) {
-                $image_src = $this->resource_storage->consume()->src($identification)->getSrc();
-            }
-        } elseif ($badge->getImage()) {
-            $image_src = ilWACSignedPath::signFile($badge->getImagePath());
+        $image_rid = $badge->getImageRid();
+        if ($image_rid === null) {
+            return '';
         }
 
-        return $image_src;
+        $identification = $this->resource_storage->manage()->find($image_rid);
+        if ($identification === null) {
+            return '';
+        }
+
+        return $this->resource_storage->consume()->src($identification)->getSrc();
     }
 
 

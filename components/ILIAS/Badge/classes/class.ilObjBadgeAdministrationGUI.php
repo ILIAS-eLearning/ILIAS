@@ -468,13 +468,13 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI implements ilCtrlSecurityI
         ilBadgeImageTemplate $a_tmpl
     ): void {
         $a_form->getItemByPostVar('title')->setValue($a_tmpl->getTitle());
-        if ($a_tmpl->getImageRid() !== null) {
-            $img = $a_tmpl->getImageFromResourceId();
-            $a_form->getItemByPostVar('img')->setImage($img);
-            $a_form->getItemByPostVar('img')->setValue($a_tmpl->getImageRid());
-        } else {
-            $a_form->getItemByPostVar('img')->setImage($a_tmpl->getImagePath());
-            $a_form->getItemByPostVar('img')->setValue($a_tmpl->getImage());
+        $image_src = $a_tmpl->getImageFromResourceId();
+        if ($image_src !== '') {
+            $a_form->getItemByPostVar('img')->setImage($image_src);
+        }
+        $image_rid = $a_tmpl->getImageRid();
+        if ($image_rid !== null) {
+            $a_form->getItemByPostVar('img')->setValue($image_rid);
         }
 
         if ($a_tmpl->getTypes()) {

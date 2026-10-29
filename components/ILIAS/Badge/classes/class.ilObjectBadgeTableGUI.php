@@ -150,8 +150,9 @@ class ilObjectBadgeTableGUI implements DataRetrieval
 
         $identifications = [];
         foreach ($records as $record) {
-            if (isset($record[self::RECORD_RAW]['image_rid']) && $record[self::RECORD_RAW]['image_rid'] !== '') {
-                $identifications[] = $record[self::RECORD_RAW]['image_rid'];
+            $image_rid = $record[self::RECORD_RAW]['image_rid'] ?? null;
+            if (is_string($image_rid) && $image_rid !== '' && $image_rid !== '-') {
+                $identifications[] = $image_rid;
             }
         }
 
@@ -190,7 +191,6 @@ class ilObjectBadgeTableGUI implements DataRetrieval
      *      title: ?string,
      *      descr: ?string,
      *      conf: ?string,
-     *      image: ?string,
      *      valid: ?string,
      *      crit: ?string,
      *      image_rid: ?string,
@@ -220,7 +220,6 @@ class ilObjectBadgeTableGUI implements DataRetrieval
         $badge = new ilBadge(0);
         $badge->setId($badge_item['id']);
         $badge->setImageRid($badge_item['image_rid']);
-        $badge->setImage($badge_item['image']);
 
         $images = [
             'rendered' => null,
@@ -337,7 +336,6 @@ class ilObjectBadgeTableGUI implements DataRetrieval
      *      title: ?string,
      *      descr: ?string,
      *      conf: ?string,
-     *      image: ?string,
      *      valid: ?string,
      *      crit: ?string,
      *      image_rid: ?string,

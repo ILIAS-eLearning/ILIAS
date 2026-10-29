@@ -476,7 +476,10 @@ class ilBadgeManagementGUI implements ilCtrlSecurityInterface
                 $this->badge_image_service->processImageUpload($badge);
             } else {
                 $tmpl = new ilBadgeImageTemplate($form->getInput('tmpl'));
-                $this->cloneBadgeTemplate($badge, new ResourceIdentification($tmpl->getImageRid()));
+                $image_rid = $tmpl->getImageRid();
+                if ($image_rid !== null) {
+                    $this->cloneBadgeTemplate($badge, new ResourceIdentification($image_rid));
+                }
             }
 
             $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_SUCCESS, $this->lng->txt('settings_saved'), true);
@@ -529,8 +532,6 @@ class ilBadgeManagementGUI implements ilCtrlSecurityInterface
         $a_form->getItemByPostVar('title')->setValue($a_badge->getTitle());
         $a_form->getItemByPostVar('desc')->setValue($a_badge->getDescription());
         $a_form->getItemByPostVar('crit')->setValue($a_badge->getCriteria());
-        $a_form->getItemByPostVar('img')->setValue($a_badge->getImage());
-        $a_form->getItemByPostVar('img')->setImage($a_badge->getImagePath());
 
         $image_src = $this->badge_image_service->getImageFromBadge($a_badge);
         if ($image_src !== '') {
@@ -588,7 +589,10 @@ class ilBadgeManagementGUI implements ilCtrlSecurityInterface
             if ($tmpl_id !== '') {
                 $this->removeResourceStorageImage($badge);
                 $tmpl = new ilBadgeImageTemplate($tmpl_id);
-                $this->cloneBadgeTemplate($badge, new ResourceIdentification($tmpl->getImageRid()));
+                $image_rid = $tmpl->getImageRid();
+                if ($image_rid !== null) {
+                    $this->cloneBadgeTemplate($badge, new ResourceIdentification($image_rid));
+                }
             }
 
             $badge->update();
@@ -964,9 +968,10 @@ class ilBadgeManagementGUI implements ilCtrlSecurityInterface
 
     private function removeResourceStorageImage(ilBadge $badge): void
     {
-        if ($badge->getImageRid() !== '') {
+        $image_rid = $badge->getImageRid();
+        if ($image_rid !== null) {
             $this->resource_storage->manage()->remove(
-                new ResourceIdentification($badge->getImageRid()),
+                new ResourceIdentification($image_rid),
                 new ilBadgeFileStakeholder()
             );
         }

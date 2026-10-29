@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Badge\test;
 
-use Exception;
 use ILIAS\DI\Container;
 use ILIAS\DI\UIServices;
 use ILIAS\Badge\Modal;
@@ -43,9 +42,7 @@ class ModalTest extends TestCase
     public function testConstruct(): void
     {
         $container = $this->getMockBuilder(Container::class)->disableOriginalConstructor()->getMock();
-        $modal = new Modal($container, static function (): void {
-            throw new Exception('Should not be called.');
-        });
+        $modal = new Modal($container);
         $this->assertInstanceOf(Modal::class, $modal);
     }
 
@@ -89,7 +86,7 @@ class ModalTest extends TestCase
         $content->method('badge')->willReturn($badge);
         $content->method('properties')->willReturn($properties);
 
-        $modal = new Modal($container, fn(string $file): string => '/');
+        $modal = new Modal($container);
 
         $this->assertSame([$image_component, $divider_component, $item_component], $modal->components($content));
     }

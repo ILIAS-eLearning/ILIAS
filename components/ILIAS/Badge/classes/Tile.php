@@ -29,12 +29,9 @@ use ilBadgeAssignment;
 use ilDatePresentation;
 use ilDateTime;
 use ilDateTimeException;
-use ilWACSignedPath;
 
 class Tile
 {
-    /** @var Closure(string): string */
-    private readonly Closure $sign_file;
     private readonly BadgeParent $parent;
     private readonly Modal $modal;
     /** @var Closure(int): string */
@@ -42,19 +39,16 @@ class Tile
     private readonly ilBadgeImage $badge_image_service;
 
     /**
-     * @param Closure(string): string $sign_file
      * @param Closure(int): string $format_date
      */
     public function __construct(
         private readonly Container $container,
         ?BadgeParent $parent = null,
         ?Modal $modal = null,
-        $sign_file = [ilWACSignedPath::class, 'signFile'],
         ?Closure $format_date = null,
     ) {
         $this->parent = $parent ?? new BadgeParent($this->container);
         $this->modal = $modal ?? new Modal($this->container);
-        $this->sign_file = Closure::fromCallable($sign_file);
         if (!$format_date) {
             class_exists(ilDateTime::class); // Ensure ilDateTime is loaded as IL_CAL_UNIX is defined in ilDateTime.php.
             $format_date = static fn($date, int $format = IL_CAL_UNIX): string => (
