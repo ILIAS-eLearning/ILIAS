@@ -2478,16 +2478,14 @@ Components are listed alphabetically by their folder name in `components/ILIAS/`
 
 #### [StaticURL](https://github.com/ILIAS-eLearning/ILIAS/tree/trunk/components/ILIAS/StaticURL)
 
-**Status:** Unmaintained / NONE
-
 *Belongs to:* StaticURL
 
-* Authority to Sign off on Conceptual Changes: NONE
-* Authority to Sign off on Code Changes: NONE
-* Authority to Curate Test Cases: NONE
-* Authority to (De-)Assign Authorities: NONE
-* Assignee for Issues: NONE
-* Assignee for Security Reports: NONE
+* Authority to Sign off on Conceptual Changes: [fschmid](https://docu.ilias.de/go/usr/21087)
+* Authority to Sign off on Code Changes: [fschmid](https://docu.ilias.de/go/usr/21087)
+* Authority to Curate Test Cases: [fschmid](https://docu.ilias.de/go/usr/21087)
+* Authority to (De-)Assign Authorities: [fschmid](https://docu.ilias.de/go/usr/21087)
+* Assignee for Issues: [fschmid](https://docu.ilias.de/go/usr/21087)
+* Assignee for Security Reports: [fschmid](https://docu.ilias.de/go/usr/21087)
 
 [//]: # (END StaticURL)
 
