@@ -21,7 +21,7 @@ use ILIAS\TestQuestionPool\ilTestLegacyFormsHelper;
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Component\Button\Factory as ButtonFactory;
 use ILIAS\UI\Component\Symbol\Glyph\Factory as GlyphFactory;
-use ILIAS\Scripts\PHPStan\Attributes\AllowSuperglobalWrite;
+use ILIAS\TestQuestionPool\UploadSubmit;
 
 /**
 * This class represents an image map file property in a property form.
@@ -43,6 +43,7 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
     protected GlyphFactory $glyph_factory;
     protected ButtonFactory $button_factory;
     protected Renderer $renderer;
+    private readonly UploadSubmit $upload_submit;
 
     /**
     * Constructor
@@ -60,6 +61,7 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
         $this->glyph_factory = $DIC->ui()->factory()->symbol()->glyph();
         $this->button_factory = $DIC->ui()->factory()->button();
         $this->renderer = $DIC->ui()->renderer();
+        $this->upload_submit = QuestionPoolDIC::dic()['upload_submit'];
     }
 
     public function setPointsUncheckedFieldEnabled($pointsUncheckedFieldEnabled): void
@@ -178,21 +180,20 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
     * Check input, strip slashes etc. set alert, if input is not ok.
     * @return	boolean		Input ok, true/false
     */
-    #[AllowSuperglobalWrite('sanitises the uploaded file name in place, because the inherited getInput() hands $_FILES[postVar] on to every caller.', 12)]
     public function checkInput(): bool
     {
         $lng = $this->lng;
+        $file_submit = $this->upload_submit->get($this->getPostVar());
+        $filename = rtrim((string) ($file_submit['name'] ?? ''), '/');
+        if ($filename !== ($file_submit['name'] ?? '')) {
+            $file_submit['name'] = $filename;
+            $this->upload_submit->set($this->getPostVar(), $file_submit);
+        }
 
-        // remove trailing '/'
-        $_FILES[$this->getPostVar()]["name"] = rtrim($_FILES[$this->getPostVar()]["name"], '/');
-
-        $filename = $_FILES[$this->getPostVar()]["name"];
-        $filename_arr = pathinfo($_FILES[$this->getPostVar()]["name"]);
+        $filename_arr = pathinfo($filename);
         $suffix = $filename_arr["extension"] ?? '';
-        $mimetype = $_FILES[$this->getPostVar()]["type"];
-        $size_bytes = $_FILES[$this->getPostVar()]["size"];
-        $temp_name = $_FILES[$this->getPostVar()]["tmp_name"];
-        $error = $_FILES[$this->getPostVar()]["error"];
+        $temp_name = (string) ($file_submit['tmp_name'] ?? '');
+        $error = (int) ($file_submit['error'] ?? UPLOAD_ERR_NO_FILE);
 
         // error handling
         if ($error > 0) {
@@ -235,8 +236,7 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
         }
 
         // check suffixes
-        if ($_FILES[$this->getPostVar()]["tmp_name"] != "" &&
-            is_array($this->getSuffixes())) {
+        if ($temp_name !== '' && is_array($this->getSuffixes())) {
             if (!in_array(strtolower($suffix), $this->getSuffixes())) {
                 $this->setAlert($lng->txt("form_msg_file_wrong_file_type"));
                 return false;
@@ -244,7 +244,7 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
         }
 
         // virus handling
-        if ($_FILES[$this->getPostVar()]["tmp_name"] != "") {
+        if ($temp_name !== '') {
             $vir = ilVirusScanner::virusHandling($temp_name, $filename);
             if ($vir[0] == false) {
                 $this->setAlert($lng->txt("form_msg_file_virus_found") . "<br />" . $vir[1]);
@@ -276,7 +276,8 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
             }
         }
 
-        if ($max == 0 && (!$filename) && !$_FILES['imagemapfile']['tmp_name']) {
+        $imagemap_tmp = $this->upload_submit->get('imagemapfile')['tmp_name'] ?? '';
+        if ($max == 0 && (!$filename) && $imagemap_tmp === '') {
             $this->setAlert($lng->txt("enter_enough_positive_points"));
             return false;
         }

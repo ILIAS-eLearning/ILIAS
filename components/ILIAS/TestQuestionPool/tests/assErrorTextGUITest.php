@@ -53,7 +53,6 @@ class assErrorTextGUITest extends assBaseTestCase
         global $DIC;
         $user_mock = $this->createMock('ilObjUser', [], [], '', false);
         $DIC['ilUser'] = $user_mock;
-        $GLOBALS['ilUser'] = $user_mock;
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void

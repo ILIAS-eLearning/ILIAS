@@ -25,6 +25,7 @@ use ILIAS\Test\TestDIC;
 use ILIAS\Test\Access\ParticipantAccess;
 use ILIAS\Test\Settings\MainSettings\MainSettingsDatabaseRepository;
 use ILIAS\Test\Settings\MainSettings\SettingsAccess;
+use ILIAS\HTTP\Services as HTTPServices;
 
 /**
  * Class ilTestAccess
@@ -43,6 +44,7 @@ class ilTestAccess
 
     protected ilTestParticipantAccessFilterFactory $participant_access_filter;
     protected ParticipantRepository $participant_repository;
+    protected HTTPServices $http;
 
     public function __construct(
         protected int $ref_id
@@ -51,6 +53,7 @@ class ilTestAccess
         global $DIC;
         $this->db = $DIC['ilDB'];
         $this->lng = $DIC['lng'];
+        $this->http = $DIC->http();
         $this->participant_access_filter = new ilTestParticipantAccessFilterFactory($DIC['ilAccess']);
         $this->participant_repository = TestDIC::dic()['participant.repository'];
         $this->access = $DIC->access();
@@ -206,7 +209,7 @@ class ilTestAccess
             return ParticipantAccess::NOT_INVITED;
         }
 
-        $ip = $_SERVER['REMOTE_ADDR'];
+        $ip = $this->http->request()->getServerParams()['REMOTE_ADDR'] ?? '';
 
         $allowed_individual = $this->isParticipantExplicitelyAllowedByIndividualIPRange($participant, $ip);
         if ($allowed_individual === false) {

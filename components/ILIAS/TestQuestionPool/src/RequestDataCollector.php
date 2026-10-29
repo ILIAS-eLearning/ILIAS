@@ -63,7 +63,7 @@ class RequestDataCollector implements RequestDataCollectorInterface
     }
 
     /**
-     * @param array<string> $http_names An array of keys used as structure for the HTTP name (e.g. ['terms', 'image'] for $_FILES['terms']['image'])
+     * @param array<string> $http_names An array of keys used as structure for the HTTP name (e.g. ['terms', 'image'] for getUploadedFiles()['terms']['image'])
      * @param int $index
      * @return string|null
      */
@@ -88,6 +88,47 @@ class RequestDataCollector implements RequestDataCollectorInterface
         }
 
         return null;
+    }
+
+    /**
+     * @param array<int|string> $path Keys into getUploadedFiles(), e.g. ['choice', 'image', 0]
+     */
+    public function getUploadedFile(array $path): ?UploadedFileInterface
+    {
+        $uploaded_files = $this->http->request()->getUploadedFiles();
+
+        foreach ($path as $segment) {
+            if (!is_array($uploaded_files) || !isset($uploaded_files[$segment])) {
+                return null;
+            }
+
+            $uploaded_files = $uploaded_files[$segment];
+        }
+
+        return $uploaded_files instanceof UploadedFileInterface ? $uploaded_files : null;
+    }
+
+    /**
+     * @param array<int|string> $path
+     */
+    public function getUploadedFileTempPath(array $path): string
+    {
+        $file = $this->getUploadedFile($path);
+        if ($file === null) {
+            return '';
+        }
+
+        $tmp = $file->getStream()->getMetadata('uri');
+
+        return is_string($tmp) ? $tmp : '';
+    }
+
+    /**
+     * @param array<int|string> $path
+     */
+    public function getUploadedFileClientFilename(array $path): string
+    {
+        return $this->getUploadedFile($path)?->getClientFilename() ?? '';
     }
 
     public function upload(): FileUpload

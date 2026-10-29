@@ -2204,7 +2204,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $this->ui_factory,
             $this->ui_renderer,
             $this->tpl,
-            $this->toolbar
+            $this->toolbar,
+            $this->http,
+            $this->refinery
         );
 
         $toolbar->setCloseFormTag(false);

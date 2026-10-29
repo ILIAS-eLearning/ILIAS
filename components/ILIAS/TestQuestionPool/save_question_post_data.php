@@ -19,22 +19,37 @@
 chdir("../../..");
 ilInitialisation::initILIAS();
 include_once "./components/ILIAS/soap/include/inc.soap_functions.php";
+
+/** @var ILIAS\DI\Container $DIC */
+global $DIC;
+
+$http = $DIC->http();
+$post = $http->wrapper()->post();
+$refinery = $DIC['refinery'];
+$string = $refinery->kindlyTo()->string();
+$int = $refinery->kindlyTo()->int();
+
 $results = [];
-foreach ($_POST as $key => $value) {
+foreach ($post->keys() as $key) {
     if (preg_match("/value_(\d+)_1/", $key, $matches)) {
-        array_push($results, $_POST["value_" . $matches[1] . "_1"]);
-        array_push($results, $_POST["value_" . $matches[1] . "_2"]);
-        array_push($results, $_POST["points_" . $matches[1]]);
+        $id = $matches[1];
+        $results[] = (string) $post->retrieve("value_{$id}_1", $string);
+        $results[] = (string) $post->retrieve("value_{$id}_2", $string);
+        $results[] = (string) $post->retrieve("points_{$id}", $string);
     }
 }
-$res = ilSoapFunctions::saveQuestion($_POST["session_id"] . "::" . $_POST["client"], $_POST["active_id"], $_POST["question_id"], $_POST["pass"], $results);
+
+$session_client = "{$post->retrieve('session_id', $string)}::{$post->retrieve('client', $string)}";
+$active_id = (int) $post->retrieve('active_id', $int);
+$question_id = (int) $post->retrieve('question_id', $int);
+$pass = (int) $post->retrieve('pass', $int);
+
+$res = ilSoapFunctions::saveQuestion($session_client, $active_id, $question_id, $pass, $results);
 if ($res === true) {
-    global $DIC;
     $lng = $DIC['lng'];
     $lng->loadLanguageModule("assessment");
     echo $lng->txt("result_successful_saved");
 } else {
-    global $DIC;
     $lng = $DIC['lng'];
     $lng->loadLanguageModule("assessment");
     echo $lng->txt("result_unsuccessful_saved");
