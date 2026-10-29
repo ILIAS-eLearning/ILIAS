@@ -25,8 +25,8 @@ namespace ILIAS\Language\ComponentTranslation;
  * (MigratedLanguageFileSync) on top, looked up via native gettext (NativeGettext), never via the gettext/gettext
  * library or lng_data/lng_modules.
  *
- * A module is served for a language if the build in `artifacts/language/current.json` was built for it. On
- * first use per module and language in a request (getKeys()):
+ * A module is served for a language if the build in `artifacts/language/current.json` (with a system locale
+ * `current-system.json`) was built for it. On first use per module and language in a request (getKeys()):
  * - native gettext is activated with the build's locale, the domain "<module>.<lang>" bound to the build and,
  *   if `<client data dir>/lang/<module>/<lang>/current` names a revision, "<module>.<lang>.overlay" to it;
  * - the identifiers are those of the build's `keys/<module>.php` plus the overlay revision's `keys.json`.
@@ -188,7 +188,10 @@ final class TranslationGettextRepository implements TranslationRepository
                 MigratedLanguageFilePaths::buildKeysFile($build_directory, $module)
             ));
         } elseif (!NativeGettext::activate(MigratedLanguageFilePaths::buildLocaleDirectory($build_directory))) {
-            MigratedTranslations::reportActivationProblem((string) NativeGettext::getProblem());
+            MigratedTranslations::reportActivationProblem(
+                (NativeGettext::isExtensionLoaded() ? ShippedTranslationsBuild::platformProblem($build_directory) : null)
+                    ?? (string) NativeGettext::getProblem()
+            );
         } elseif (!NativeGettext::bind($domain, $build_directory) || !NativeGettext::isLoaded($domain)) {
             MigratedTranslations::reportProblem(sprintf(
                 'Native gettext cannot read "%s" - run "php cli/setup.php build".',

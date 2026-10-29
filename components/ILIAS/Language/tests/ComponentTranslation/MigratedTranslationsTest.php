@@ -321,6 +321,7 @@ class MigratedTranslationsTest extends TestCase
      */
     public function testLostNativeGettextServesNothingNotEvenTheIdentifierForAnOverlayValue(): void
     {
+        MigratedPoFixture::requireGlibcLocale($this);
         $this->build();
         $plural = MigratedPoFixture::catalog('mtr', ['greeting' => 'Servus', 'same' => 'same']);
         $plural->setHeader('Plural-Forms', 'nplurals=2; plural=(n != 1);');
@@ -410,6 +411,158 @@ class MigratedTranslationsTest extends TestCase
         $this->assertCount(1, $this->warnings);
     }
 
+    public function testASystemLocaleBuildOnAnotherPlatformServesNothingAndTheProblemNamesTheCause(): void
+    {
+        $before = setlocale(LC_MESSAGES, '0');
+        $found = setlocale(LC_MESSAGES, NativeGettext::SYSTEM_LOCALES);
+        setlocale(LC_MESSAGES, $before);
+        if ($found === false) {
+            $this->markTestSkipped('none of ' . implode(', ', NativeGettext::SYSTEM_LOCALES) . ' is installed');
+        }
+        NativeGettext::useSystemLocaleForTests(true);
+        $this->build();
+        NativeGettext::resetForTests();
+        NativeGettext::useSystemLocaleForTests(false);
+        // current.json of a former version, which also wrote the system locale build there
+        copy(
+            MigratedLanguageFilePaths::buildPointerFileOf(MigratedPoFixture::artifactDirectory(), true),
+            MigratedLanguageFilePaths::buildPointerFileOf(MigratedPoFixture::artifactDirectory(), false)
+        );
+        MigratedTranslations::reset();
+
+        $this->assertNull($this->text('greeting'));
+
+        $problem = MigratedTranslations::getProblem($this->client_data_dir);
+        $this->assertNotNull($problem);
+        $this->assertStringContainsString(
+            sprintf('the build was made on %s with a system locale, run "php cli/setup.php build" on the platform of the web server', PHP_OS_FAMILY),
+            $problem['message']
+        );
+        $this->assertTrue($problem['fatal']);
+    }
+
+    private function requireSystemLocale(): void
+    {
+        $before = setlocale(LC_MESSAGES, '0');
+        $found = setlocale(LC_MESSAGES, NativeGettext::SYSTEM_LOCALES);
+        setlocale(LC_MESSAGES, $before);
+        if ($found === false) {
+            $this->markTestSkipped('none of ' . implode(', ', NativeGettext::SYSTEM_LOCALES) . ' is installed');
+        }
+    }
+
+    /** @return string the build id, made as in a fresh process */
+    private function buildKind(bool $system_locale, string $greeting): string
+    {
+        MigratedPoFixture::writePo($this->root . '/mtr/mtr_de.po', MigratedPoFixture::catalog('mtr', ['greeting' => $greeting]));
+        NativeGettext::resetForTests();
+        NativeGettext::useSystemLocaleForTests($system_locale);
+        $build = MigratedPoFixture::build(
+            new LanguageFileDirectoryManager(new CustomizingLanguageFileDirectory(), MigratedPoFixture::directory('mtr', 'mtr/')),
+            $this->root
+        )['build'];
+        NativeGettext::resetForTests();
+        MigratedTranslations::reset();
+
+        return (string) $build;
+    }
+
+    private function pointerFileOfKind(bool $system_locale): string
+    {
+        return MigratedLanguageFilePaths::buildPointerFileOf(MigratedPoFixture::artifactDirectory(), $system_locale);
+    }
+
+    public function testEachLocaleKindServesTheBuildOfItsOwnPointer(): void
+    {
+        $this->requireSystemLocale();
+        MigratedPoFixture::requireGlibcLocale($this);
+        $glibc = $this->buildKind(false, 'Hallo');
+        $system = $this->buildKind(true, 'Moin');
+
+        $this->assertFileExists($this->pointerFileOfKind(false));
+        $this->assertFileExists($this->pointerFileOfKind(true));
+        $this->assertNotSame($glibc, $system);
+
+        NativeGettext::useSystemLocaleForTests(false);
+        $this->assertSame('Hallo', $this->text('greeting'));
+
+        NativeGettext::resetForTests();
+        MigratedTranslations::reset();
+        NativeGettext::useSystemLocaleForTests(true);
+        $this->assertSame('Moin', $this->text('greeting'));
+    }
+
+    public function testSwitchingTheLocaleKindReadsTheOtherPointerWithoutAReset(): void
+    {
+        $this->requireSystemLocale();
+        $system = $this->buildKind(true, 'Moin');
+        $other = 'b-' . str_repeat('a', 32);
+        file_put_contents($this->pointerFileOfKind(false), json_encode(['build' => $other, 'previous' => null, 'modules' => ['mtr' => ['de']], 'shipped' => ['mtr'], 'sources' => 'x']));
+
+        NativeGettext::useSystemLocaleForTests(true);
+        $this->assertSame($system, MigratedTranslations::pointer()['build']);
+
+        NativeGettext::useSystemLocaleForTests(false);
+        $this->assertSame($other, MigratedTranslations::pointer()['build']);
+
+        NativeGettext::useSystemLocaleForTests(true);
+        $this->assertSame($system, MigratedTranslations::pointer()['build']);
+    }
+
+    /**
+     * @return iterable<string, array{int, bool, bool}> mtime of the pointer of the other kind (own: 1000), same sources, hint expected
+     */
+    public static function otherPointers(): iterable
+    {
+        yield 'newer, other sources' => [2000, false, true];
+        yield 'newer, same sources' => [2000, true, false];
+        yield 'older, other sources' => [500, false, false];
+    }
+
+    #[DataProvider('otherPointers')]
+    public function testANewerBuildOfTheOtherLocaleKindIsHintedAtOnlyForOtherShippedFiles(int $other_time, bool $same_sources, bool $hint): void
+    {
+        $this->requireSystemLocale();
+        $this->buildKind(true, 'Moin');
+        $own = json_decode((string) file_get_contents($this->pointerFileOfKind(true)), true, 512, JSON_THROW_ON_ERROR);
+        $own['sources'] = 'same-or-not';
+        file_put_contents($this->pointerFileOfKind(true), json_encode($own));
+        $own['sources'] = $same_sources ? 'same-or-not' : 'other';
+        file_put_contents($this->pointerFileOfKind(false), json_encode($own));
+        touch($this->pointerFileOfKind(true), 1000);
+        touch($this->pointerFileOfKind(false), $other_time);
+        NativeGettext::useSystemLocaleForTests(true);
+
+        $problem = MigratedTranslations::getProblem($this->client_data_dir);
+
+        if ($hint) {
+            $this->assertNotNull($problem);
+            $this->assertStringContainsString('A newer build exists for glibc', $problem['message']);
+            $this->assertStringContainsString('on the platform of the web server', $problem['message']);
+            $this->assertFalse($problem['fatal']);
+            $this->assertSame([], $this->warnings, 'a hint for the administration is no log line');
+        } else {
+            $this->assertNull($problem);
+        }
+    }
+
+    public function testWithoutAnOwnPointerTheMissingBuildIsFatalAndNamesTheBuildOfTheOtherKind(): void
+    {
+        $this->requireSystemLocale();
+        $this->buildKind(true, 'Moin');
+        copy($this->pointerFileOfKind(true), $this->pointerFileOfKind(false));
+        unlink($this->pointerFileOfKind(true));
+        NativeGettext::useSystemLocaleForTests(true);
+
+        $problem = MigratedTranslations::getProblem($this->client_data_dir);
+
+        $this->assertNotNull($problem);
+        $this->assertTrue($problem['fatal']);
+        $this->assertStringContainsString('There is no build', $problem['message']);
+        $this->assertStringContainsString('A build exists for glibc', $problem['message']);
+        $this->assertCount(1, $this->warnings, 'the missing build is logged once, with the hint');
+    }
+
     public function testAHealthyBuildHasNoProblem(): void
     {
         $this->build();
@@ -424,7 +577,7 @@ class MigratedTranslationsTest extends TestCase
         $this->assertNotNull($problem);
 
         $this->assertTrue($problem['fatal']);
-        $this->assertStringContainsString('"artifacts/language/current.json"', $problem['message']);
+        $this->assertStringContainsString('"artifacts/language/' . basename(MigratedLanguageFilePaths::buildPointerFile(MigratedPoFixture::artifactDirectory())) . '"', $problem['message']);
         $this->assertStringNotContainsString(sys_get_temp_dir(), $problem['message']);
     }
 

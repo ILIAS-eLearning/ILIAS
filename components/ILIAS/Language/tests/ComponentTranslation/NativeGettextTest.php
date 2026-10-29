@@ -105,6 +105,7 @@ class NativeGettextTest extends TestCase
     #[DataProvider('previousProcessSettings')]
     public function testActivateServesTheBuildAndRestoreGivesTheProcessStateBack(string|false $language, string|false $locpath): void
     {
+        MigratedPoFixture::requireGlibcLocale($this);
         putenv($language === false ? 'LANGUAGE' : 'LANGUAGE=' . $language);
         putenv($locpath === false ? 'LOCPATH' : 'LOCPATH=' . $locpath);
         $messages_before = setlocale(LC_MESSAGES, '0');
@@ -149,6 +150,82 @@ class NativeGettextTest extends TestCase
         $this->assertSame($messages, setlocale(LC_MESSAGES, '0'));
     }
 
+    private function requireSystemLocale(): void
+    {
+        $before = setlocale(LC_MESSAGES, '0');
+        $found = setlocale(LC_MESSAGES, NativeGettext::SYSTEM_LOCALES);
+        setlocale(LC_MESSAGES, $before);
+        if ($found === false) {
+            $this->markTestSkipped('none of ' . implode(', ', NativeGettext::SYSTEM_LOCALES) . ' is installed');
+        }
+    }
+
+    public function testSystemLocaleBranchTranslatesWithoutLocaleDirectoryAndLeavesLocpathAlone(): void
+    {
+        $this->requireSystemLocale();
+        NativeGettext::useSystemLocaleForTests(true);
+        putenv('LOCPATH');
+        $this->assertDirectoryDoesNotExist($this->root . '/no-locale');
+
+        $this->assertTrue(NativeGettext::activate($this->root . '/no-locale'), (string) NativeGettext::getProblem());
+        $this->assertTrue(NativeGettext::bind(self::DOMAIN, $this->build_directory));
+
+        $this->assertTrue(NativeGettext::isActive());
+        $this->assertNotSame(NativeGettext::LOCALE_NAME, setlocale(LC_MESSAGES, '0'));
+        $this->assertSame(NativeGettext::CATALOG_LANGUAGE, getenv('LANGUAGE'));
+        $this->assertFalse(getenv('LOCPATH'), 'the system branch never sets LOCPATH');
+        $this->assertSame('Hallo', NativeGettext::translate(self::DOMAIN, 'greeting'));
+    }
+
+    /**
+     * @return iterable<string, array{string|false, string|false}>
+     */
+    public static function processSettingsBeforeSystemLocaleActivation(): iterable
+    {
+        yield 'C locale' => ['C', 'de'];
+        yield 'the system locale itself, LANGUAGE unset' => ['system', false];
+    }
+
+    #[DataProvider('processSettingsBeforeSystemLocaleActivation')]
+    public function testSystemLocaleIsOnlyActiveAfterActivateAndRestoreGivesTheProcessStateBack(string $locale, string|false $language): void
+    {
+        $this->requireSystemLocale();
+        NativeGettext::useSystemLocaleForTests(true);
+        $locale = $locale === 'system' ? (string) setlocale(LC_MESSAGES, NativeGettext::SYSTEM_LOCALES) : (string) setlocale(LC_MESSAGES, $locale);
+        putenv($language === false ? 'LANGUAGE' : 'LANGUAGE=' . $language);
+        $this->assertFalse(NativeGettext::isActive(), 'a locale set by someone else is not our activation');
+
+        $this->activateSystemLocale();
+        $this->assertTrue(NativeGettext::isActive());
+
+        NativeGettext::restore();
+
+        $this->assertFalse(NativeGettext::isActive());
+        $this->assertSame($locale, setlocale(LC_MESSAGES, '0'));
+        $this->assertSame($language, getenv('LANGUAGE'));
+    }
+
+    #[DataProvider('foreignChanges')]
+    public function testReactivateIfLostRepairsWhatOtherCodeChangedInTheSystemLocaleBranch(\Closure $change): void
+    {
+        $this->requireSystemLocale();
+        NativeGettext::useSystemLocaleForTests(true);
+        $this->activateSystemLocale();
+        $change();
+        $this->assertFalse(NativeGettext::isActive(), 'precondition');
+
+        $this->assertTrue(NativeGettext::reactivateIfLost());
+
+        $this->assertTrue(NativeGettext::isActive());
+        $this->assertSame('Hallo', NativeGettext::translate(self::DOMAIN, 'greeting'));
+    }
+
+    private function activateSystemLocale(): void
+    {
+        $this->assertTrue(NativeGettext::activate($this->root . '/no-locale'), (string) NativeGettext::getProblem());
+        $this->assertTrue(NativeGettext::bind(self::DOMAIN, $this->build_directory));
+    }
+
     /**
      * @return iterable<string, array{string}>
      */
@@ -161,6 +238,7 @@ class NativeGettextTest extends TestCase
     #[DataProvider('directoriesWithoutAUsableLocale')]
     public function testActivateFailsWithAProblemAndLeavesTheProcessAsItWas(string $kind): void
     {
+        MigratedPoFixture::requireGlibcLocale($this);
         $directory = $this->root . '/locale-' . $kind;
         mkdir($directory . ($kind === 'empty' ? '/' . NativeGettext::LOCALE_NAME : ''), 0775, true);
         putenv('LANGUAGE=de');
@@ -198,6 +276,7 @@ class NativeGettextTest extends TestCase
     #[DataProvider('foreignChanges')]
     public function testReactivateIfLostRepairsWhatOtherCodeChanged(\Closure $change): void
     {
+        MigratedPoFixture::requireGlibcLocale($this);
         $this->activateBuild();
         $change();
         $this->assertFalse(NativeGettext::isActive(), 'precondition');
@@ -262,6 +341,7 @@ class NativeGettextTest extends TestCase
 
     public function testReactivateIfLostFailsWithAProblemWhenTheLocaleIsGone(): void
     {
+        MigratedPoFixture::requireGlibcLocale($this);
         $this->activateBuild();
         setlocale(LC_MESSAGES, 'C');
         MigratedPoFixture::removeDirectory($this->locale_directory . '/' . NativeGettext::LOCALE_NAME);

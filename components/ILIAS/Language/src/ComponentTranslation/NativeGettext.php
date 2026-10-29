@@ -25,11 +25,12 @@ namespace ILIAS\Language\ComponentTranslation;
  * migrated modules, and the one place that calls it.
  *
  * Native gettext only translates while LC_MESSAGES is not "C"/"POSIX" and finds a catalog as
- * `<bound directory>/<language>/LC_MESSAGES/<domain>.mo`. ILIAS depends neither on system locales nor on
- * the locale's language:
- * - the build ships its own locale (a copy of "C.utf8", see ShippedTranslationsBuild) named LOCALE_NAME;
- *   activate() loads it via LOCPATH and removes LOCPATH again right away (while it is set, setlocale()
- *   finds no system locale);
+ * `<bound directory>/<language>/LC_MESSAGES/<domain>.mo`. ILIAS does not depend on the locale's language:
+ * - glibc: the build ships its own locale (a copy of "C.utf8", see ShippedTranslationsBuild) named
+ *   LOCALE_NAME; activate() loads it via LOCPATH and removes LOCPATH again right away (while it is set,
+ *   setlocale() finds no system locale);
+ * - macOS/BSD (see usesSystemLocale()): the C library ignores LOCPATH, gettext comes from GNU libintl, so
+ *   activate() sets the first existing of SYSTEM_LOCALES (GNU libintl ignores LANGUAGE for "C.<codeset>");
  * - LANGUAGE is CATALOG_LANGUAGE, so "<language>" is always "messages"; the language of a catalog is part
  *   of its domain ("<module>.<lang>", see MigratedLanguageFilePaths), as the C library caches per process
  *   and a later LANGUAGE change would not reliably switch catalogs;
@@ -48,6 +49,11 @@ final class NativeGettext
 {
     public const string LOCALE_NAME = 'ilias_messages';
 
+    /** LC_MESSAGES candidates where the system locale is used, see usesSystemLocale(). */
+    public const array SYSTEM_LOCALES = ['en_US.UTF-8', 'en_US.utf8'];
+
+    private const array SYSTEM_LOCALE_OS_FAMILIES = ['Darwin', 'BSD'];
+
     /** The value of LANGUAGE: the directory below a bound directory the catalogs are looked up in. */
     public const string CATALOG_LANGUAGE = 'messages';
 
@@ -60,6 +66,9 @@ final class NativeGettext
 
     private static ?string $locale_directory = null;
 
+    /** What setlocale() returned in the last successful activate(). */
+    private static ?string $active_locale = null;
+
     /**
      * LANGUAGE and LC_MESSAGES before the first activate() since the last restore() (`false`: not
      * set), see restore().
@@ -69,6 +78,8 @@ final class NativeGettext
     private static ?array $previous = null;
 
     private static ?bool $thread_safe_for_tests = null;
+
+    private static ?bool $system_locale_for_tests = null;
 
     private static ?string $problem = null;
 
@@ -96,9 +107,25 @@ final class NativeGettext
         self::$thread_safe_for_tests = $thread_safe;
     }
 
+    /** macOS/BSD: activate() uses a SYSTEM_LOCALES entry, their C library ignores LOCPATH. */
+    public static function usesSystemLocale(): bool
+    {
+        return self::$system_locale_for_tests ?? in_array(PHP_OS_FAMILY, self::SYSTEM_LOCALE_OS_FAMILIES, true);
+    }
+
     /**
-     * Activates the locale LOCALE_NAME of $locale_directory for LC_MESSAGES and sets LANGUAGE; if it
-     * fails, getProblem() tells why.
+     * Makes usesSystemLocale() return $system_locale (`null`: by PHP_OS_FAMILY again) - for tests only.
+     *
+     * @internal
+     */
+    public static function useSystemLocaleForTests(?bool $system_locale): void
+    {
+        self::$system_locale_for_tests = $system_locale;
+    }
+
+    /**
+     * Activates the locale LOCALE_NAME of $locale_directory (or, see usesSystemLocale(), a system locale)
+     * for LC_MESSAGES and sets LANGUAGE; if it fails, getProblem() tells why.
      */
     public static function activate(string $locale_directory): bool
     {
@@ -108,6 +135,9 @@ final class NativeGettext
         }
         if (self::$locale_directory === $locale_directory && self::isActive()) {
             return true;
+        }
+        if (self::usesSystemLocale()) {
+            return self::activateSystemLocale($locale_directory);
         }
         if (!is_dir($locale_directory . '/' . self::LOCALE_NAME)) {
             self::$problem = sprintf('the locale "%s" is missing in "%s"', self::LOCALE_NAME, $locale_directory);
@@ -124,9 +154,31 @@ final class NativeGettext
             self::$problem = sprintf('the locale "%s" of "%s" cannot be activated', self::LOCALE_NAME, $locale_directory);
             return false;
         }
-        putenv('LANGUAGE=' . self::CATALOG_LANGUAGE);
 
+        return self::activated($locale_directory, $locale);
+    }
+
+    private static function activateSystemLocale(string $locale_directory): bool
+    {
+        self::$previous ??= ['language' => getenv('LANGUAGE'), 'messages' => setlocale(LC_MESSAGES, '0')];
+        $locale = setlocale(LC_MESSAGES, self::SYSTEM_LOCALES);
+        if ($locale === false) {
+            self::$problem = sprintf(
+                'none of the system locales %s exists for LC_MESSAGES (needed on %s, where native gettext cannot use the locale of the build)',
+                implode(', ', self::SYSTEM_LOCALES),
+                PHP_OS_FAMILY
+            );
+            return false;
+        }
+
+        return self::activated($locale_directory, $locale);
+    }
+
+    private static function activated(string $locale_directory, string $locale): bool
+    {
+        putenv('LANGUAGE=' . self::CATALOG_LANGUAGE);
         self::$locale_directory = $locale_directory;
+        self::$active_locale = $locale;
         self::$problem = null;
 
         return true;
@@ -139,7 +191,7 @@ final class NativeGettext
     public static function isActive(): bool
     {
         return self::$locale_directory !== null
-            && setlocale(LC_MESSAGES, '0') === self::LOCALE_NAME
+            && setlocale(LC_MESSAGES, '0') === self::$active_locale
             && getenv('LANGUAGE') === self::CATALOG_LANGUAGE;
     }
 
@@ -169,7 +221,7 @@ final class NativeGettext
         if (self::$previous === null || self::isThreadSafe()) {
             return;
         }
-        if (self::$previous['messages'] !== false && setlocale(LC_MESSAGES, '0') === self::LOCALE_NAME) {
+        if (self::$previous['messages'] !== false && setlocale(LC_MESSAGES, '0') === self::$active_locale) {
             setlocale(LC_MESSAGES, self::$previous['messages']);
         }
         if (getenv('LANGUAGE') === self::CATALOG_LANGUAGE) {
@@ -245,7 +297,9 @@ final class NativeGettext
     {
         self::$thread_safe_for_tests = null;
         self::restore();
+        self::$system_locale_for_tests = null;
         self::$locale_directory = null;
+        self::$active_locale = null;
         self::$previous = null;
         self::$problem = null;
     }

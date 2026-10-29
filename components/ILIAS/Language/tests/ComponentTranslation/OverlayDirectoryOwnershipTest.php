@@ -227,11 +227,22 @@ class OverlayDirectoryOwnershipTest extends TestCase
         if (!function_exists('posix_geteuid') || posix_geteuid() !== 0) {
             $this->markTestSkipped('Requires root to chown()/chgrp() the overlay directory to an arbitrary owner/group.');
         }
-        $group_member_uid = 33; // www-data, whose own primary gid (33) is also 33 on both the
-        // reference host and the ILIAS container - see posix_getpwuid(33) above.
+        // www-data (33) does not exist everywhere (FreeBSD: www, 80)
+        $group_member_uid = 0;
+        $group_gid = 0;
+        foreach (array_merge([33], range(1, 1000)) as $uid) {
+            $user = posix_getpwuid($uid);
+            if ($user !== false && $user['gid'] !== 0) {
+                [$group_member_uid, $group_gid] = [$uid, $user['gid']];
+                break;
+            }
+        }
+        if ($group_member_uid === 0) {
+            $this->markTestSkipped('No unprivileged user with an own primary group found.');
+        }
         $this->seedOverlayDirectory(0750); // owner: rwx, group: r-x (no write) - not enough
         chown($this->overlayDirectory(), 0);
-        chgrp($this->overlayDirectory(), 33);
+        chgrp($this->overlayDirectory(), $group_gid);
         clearstatcache(true, $this->overlayDirectory());
 
         $this->assertSame(

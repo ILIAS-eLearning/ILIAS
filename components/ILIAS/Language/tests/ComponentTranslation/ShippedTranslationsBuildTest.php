@@ -36,11 +36,15 @@ class ShippedTranslationsBuildTest extends TestCase
 {
     private string $root;
     private string $artifacts;
+    private string|false $messages_locale;
+    private string|false $language;
 
     protected function setUp(): void
     {
         // never the build of the installation, see MigratedPoFixture::resetRuntime()
         MigratedPoFixture::resetRuntime();
+        $this->messages_locale = setlocale(LC_MESSAGES, '0');
+        $this->language = getenv('LANGUAGE');
         $this->root = sys_get_temp_dir() . '/ilias_shipped_build_test_' . bin2hex(random_bytes(6));
         mkdir($this->root, 0775, true);
         $this->artifacts = MigratedLanguageFilePaths::shippedArtifactDirectory($this->root);
@@ -48,6 +52,11 @@ class ShippedTranslationsBuildTest extends TestCase
 
     protected function tearDown(): void
     {
+        NativeGettext::resetForTests();
+        if ($this->messages_locale !== false) {
+            setlocale(LC_MESSAGES, $this->messages_locale);
+        }
+        putenv($this->language === false ? 'LANGUAGE' : 'LANGUAGE=' . $this->language);
         MigratedPoFixture::removeDirectory($this->root);
         MigratedPoFixture::resetRuntime();
     }
@@ -220,6 +229,7 @@ class ShippedTranslationsBuildTest extends TestCase
 
     public function testABuildNativeGettextCannotServeLeavesCurrentAndThePreviousBuildAsTheyAreAndNoRemnants(): void
     {
+        MigratedPoFixture::requireGlibcLocale($this);
         $this->ship('mfa', 'de', ['greeting' => 'Hallo']);
         $good = $this->build(['mfa']);
         $pointer_before = (string) file_get_contents($this->pointerFile());
@@ -227,6 +237,7 @@ class ShippedTranslationsBuildTest extends TestCase
         $this->ship('mfa', 'de', ['greeting' => 'Moin']);
         // as in a fresh Setup process: nothing active that could let the broken locale pass
         NativeGettext::resetForTests();
+        NativeGettext::useSystemLocaleForTests(false);
 
         try {
             $this->build(['mfa'], $this->brokenLocaleSource());
@@ -262,10 +273,19 @@ class ShippedTranslationsBuildTest extends TestCase
 
     public function testMissingLocaleOfTheCLibraryAbortsBeforeAnythingIsWritten(): void
     {
+        // the first build is not the subject of the test: it uses what the platform can load
+        if (MigratedPoFixture::glibcLocaleAvailable()) {
+            NativeGettext::useSystemLocaleForTests(false);
+        } else {
+            $this->requireSystemLocale();
+            NativeGettext::useSystemLocaleForTests(true);
+        }
         $this->ship('mfa', 'de', ['greeting' => 'Hallo']);
         $this->build(['mfa']);
-        $pointer_before = (string) file_get_contents($this->pointerFile());
+        $pointer_file = $this->pointerFile();
+        $pointer_before = (string) file_get_contents($pointer_file);
         $entries_before = $this->artifactEntries();
+        NativeGettext::useSystemLocaleForTests(false);
 
         try {
             $this->build(['mfa'], $this->root . '/no-such-locale');
@@ -275,7 +295,7 @@ class ShippedTranslationsBuildTest extends TestCase
             $this->assertStringContainsString('no-such-locale', $e->getMessage());
         }
 
-        $this->assertSame($pointer_before, (string) file_get_contents($this->pointerFile()));
+        $this->assertSame($pointer_before, (string) file_get_contents($pointer_file));
         $this->assertSame($entries_before, $this->artifactEntries());
     }
 
@@ -356,7 +376,7 @@ class ShippedTranslationsBuildTest extends TestCase
         $pointer = ShippedTranslationsBuild::readPointer($this->artifacts);
         $this->assertSame($builds[2], $pointer['build'] ?? null);
         $this->assertSame($builds[1], $pointer['previous'] ?? null);
-        $expected = ['build.lock', 'current.json', 'de', 'keep-me', 'keep-me.txt', $builds[1], $builds[2]];
+        $expected = ['build.lock', basename($this->pointerFile()), 'de', 'keep-me', 'keep-me.txt', $builds[1], $builds[2]];
         $actual = $this->artifactEntries();
         sort($expected);
         sort($actual);
@@ -381,6 +401,182 @@ class ShippedTranslationsBuildTest extends TestCase
         $this->assertSame(0, $second['removed']);
         $this->assertSame($first['build'], $second['build']);
         $this->assertSame($identity, [fileinode($mo), fileinode($pointer)], 'neither the build nor current.json were written again');
+    }
+
+    private function requireSystemLocale(): void
+    {
+        $before = setlocale(LC_MESSAGES, '0');
+        $found = setlocale(LC_MESSAGES, NativeGettext::SYSTEM_LOCALES);
+        setlocale(LC_MESSAGES, $before);
+        if ($found === false) {
+            $this->markTestSkipped('none of ' . implode(', ', NativeGettext::SYSTEM_LOCALES) . ' is installed');
+        }
+    }
+
+    /** @return string the build id; the process uses the shipped locale (glibc) again afterwards */
+    private function buildWithSystemLocale(string $module): string
+    {
+        $this->requireSystemLocale();
+        $this->ship($module, 'de', ['greeting' => 'Hallo']);
+        NativeGettext::resetForTests();
+        NativeGettext::useSystemLocaleForTests(true);
+        $build = (string) $this->build([$module])['build'];
+        NativeGettext::resetForTests();
+        // the check is about the manifest, whatever this platform uses
+        NativeGettext::useSystemLocaleForTests(false);
+
+        return $build;
+    }
+
+    public function testSystemLocaleBuildShipsNoLocaleIsReusedAndDiffersFromTheGlibcBuild(): void
+    {
+        $this->requireSystemLocale();
+        MigratedPoFixture::requireGlibcLocale($this);
+        $this->ship('msl', 'de', ['greeting' => 'Hallo']);
+        $glibc = $this->build(['msl']);
+        $glibc_locale = MigratedLanguageFilePaths::buildLocaleDirectory($this->buildDirectory((string) $glibc['build']));
+        NativeGettext::resetForTests();
+        NativeGettext::useSystemLocaleForTests(true);
+
+        $first = $this->build(['msl']);
+        $second = $this->build(['msl']);
+
+        $this->assertDirectoryExists($glibc_locale . '/' . NativeGettext::LOCALE_NAME);
+        $this->assertNotSame($glibc['build'], $first['build']);
+        $this->assertDirectoryDoesNotExist(MigratedLanguageFilePaths::buildLocaleDirectory($this->buildDirectory((string) $first['build'])));
+        $this->assertSame(['Hallo'], array_values($this->servedValues((string) $first['build'], 'msl', 'de')));
+        $this->assertFalse($first['unchanged']);
+        $this->assertTrue($second['unchanged']);
+        $this->assertSame($first['build'], $second['build']);
+    }
+
+    public function testPlatformProblemTellsASystemLocaleBuildOnlyWhereTheShippedLocaleIsNeeded(): void
+    {
+        $directory = $this->buildDirectory($this->buildWithSystemLocale('mpp'));
+
+        $this->assertSame(
+            sprintf('the build was made on %s with a system locale, run "php cli/setup.php build" on the platform of the web server', PHP_OS_FAMILY),
+            ShippedTranslationsBuild::platformProblem($directory)
+        );
+
+        NativeGettext::useSystemLocaleForTests(true);
+        $this->assertNull(ShippedTranslationsBuild::platformProblem($directory), 'the platform of a system locale can use the build');
+    }
+
+    public function testPlatformProblemIsNullForAShippedLocaleBuildAndForAManifestOfAFormerVersion(): void
+    {
+        $shipped = $this->buildDirectory($this->buildWithSystemLocale('mpq'));
+        $this->editManifest($shipped, static function (array $data): array {
+            $data['locale'] = 'shipped';
+
+            return $data;
+        });
+        $former = $this->buildDirectory($this->buildWithSystemLocale('mpr'));
+        $this->editManifest($former, static function (array $data): array {
+            unset($data['locale'], $data['platform']);
+
+            return $data;
+        });
+
+        $this->assertNull(ShippedTranslationsBuild::platformProblem($shipped));
+        $this->assertNull(ShippedTranslationsBuild::platformProblem($former), 'without the fields a manifest counts as shipped');
+        $this->assertNull(ShippedTranslationsBuild::platformProblem($this->root . '/no-build'));
+    }
+
+    /**
+     * @param \Closure(array<string, mixed>): array<string, mixed> $change
+     */
+    private function editManifest(string $build_directory, \Closure $change): void
+    {
+        $file = $build_directory . '/manifest.json';
+        $data = json_decode((string) file_get_contents($file), true, 512, JSON_THROW_ON_ERROR);
+        $this->assertSame('system', $data['locale'] ?? null, 'precondition');
+        file_put_contents($file, json_encode($change($data), JSON_THROW_ON_ERROR));
+    }
+
+    public function testBuildsOfTheOtherLocaleKindAndTheirPointerSurviveTheCleanup(): void
+    {
+        $this->requireSystemLocale();
+        MigratedPoFixture::requireGlibcLocale($this);
+        $build_as = function (bool $system_locale, string $greeting): string {
+            $this->ship('mcl', 'de', ['greeting' => $greeting]);
+            NativeGettext::resetForTests();
+            NativeGettext::useSystemLocaleForTests($system_locale);
+
+            return (string) $this->build(['mcl'])['build'];
+        };
+        $system_pointer = MigratedLanguageFilePaths::buildPointerFileOf($this->artifacts, true);
+        $glibc_pointer = MigratedLanguageFilePaths::buildPointerFileOf($this->artifacts, false);
+
+        $system_1 = $build_as(true, 'S1');
+        $system_pointer_before = (string) file_get_contents($system_pointer);
+        $glibc_1 = $build_as(false, 'G1');
+        $glibc_2 = $build_as(false, 'G2');
+        $glibc_3 = $build_as(false, 'G3');
+
+        $this->assertSame($system_pointer_before, (string) file_get_contents($system_pointer), 'a glibc build never switches the pointer of the system locale');
+        $this->assertDirectoryExists($this->buildDirectory($system_1));
+        $this->assertDirectoryDoesNotExist($this->buildDirectory($glibc_1), 'per kind only the current and the previous build stay');
+        $this->assertSame([$glibc_3, $glibc_2], [ShippedTranslationsBuild::readPointerOf($this->artifacts, false)['build'] ?? null, ShippedTranslationsBuild::readPointerOf($this->artifacts, false)['previous'] ?? null]);
+
+        $system_2 = $build_as(true, 'S2');
+        $system_3 = $build_as(true, 'S3');
+
+        $this->assertFileExists($glibc_pointer);
+        foreach ([$glibc_3, $glibc_2, $system_3, $system_2] as $kept) {
+            $this->assertDirectoryExists($this->buildDirectory($kept));
+        }
+        $this->assertDirectoryDoesNotExist($this->buildDirectory($system_1));
+        $this->assertSame([$system_3, $system_2], [ShippedTranslationsBuild::readPointerOf($this->artifacts, true)['build'] ?? null, ShippedTranslationsBuild::readPointerOf($this->artifacts, true)['previous'] ?? null]);
+        $this->assertSame($glibc_3, ShippedTranslationsBuild::readPointerOf($this->artifacts, false)['build'] ?? null);
+    }
+
+    /**
+     * @return iterable<string, array{bool}> whether the building PHP uses a system locale
+     */
+    public static function localeKinds(): iterable
+    {
+        yield 'system locale' => [true];
+        yield 'glibc' => [false];
+    }
+
+    #[DataProvider('localeKinds')]
+    public function testABuildRemovesLeftoversOfItsOwnLocaleKindOnly(bool $system_locale): void
+    {
+        if ($system_locale) {
+            $this->requireSystemLocale();
+        } else {
+            MigratedPoFixture::requireGlibcLocale($this);
+        }
+        $run = function (string $greeting) use ($system_locale): void {
+            $this->ship('mlk', 'de', ['greeting' => $greeting]);
+            NativeGettext::resetForTests();
+            NativeGettext::useSystemLocaleForTests($system_locale);
+            $this->build(['mlk']);
+        };
+        $run('Hallo');
+        $own_temporary = $this->artifacts . '/.b-' . str_repeat('1', 32) . ($system_locale ? '.system.' : '.') . str_repeat('a', 12);
+        $foreign_temporary = $this->artifacts . '/.b-' . str_repeat('2', 32) . ($system_locale ? '.' : '.system.') . str_repeat('b', 12);
+        $own_build = $this->artifacts . '/b-' . str_repeat('3', 32);
+        $foreign_build = $this->artifacts . '/b-' . str_repeat('4', 32);
+        $own_pointer_temporary = $this->artifacts . '/.' . ($system_locale ? 'current-system' : 'current') . '.json.abc123';
+        $foreign_pointer_temporary = $this->artifacts . '/.' . ($system_locale ? 'current' : 'current-system') . '.json.abc123';
+        foreach ([$own_temporary, $foreign_temporary, $own_build . '/messages', $foreign_build . '/messages'] as $directory) {
+            mkdir($directory, 0775, true);
+        }
+        // a build is of the glibc kind where it ships a locale
+        mkdir(($system_locale ? $foreign_build : $own_build) . '/locale', 0775, true);
+        file_put_contents($own_pointer_temporary, '{}');
+        file_put_contents($foreign_pointer_temporary, '{}');
+
+        $run('Moin');
+
+        foreach ([$foreign_temporary, $foreign_build, $foreign_pointer_temporary] as $kept) {
+            $this->assertFileExists($kept, 'left by the other locale kind');
+        }
+        foreach ([$own_temporary, $own_build, $own_pointer_temporary] as $removed) {
+            $this->assertFileDoesNotExist($removed, 'a leftover of this locale kind');
+        }
     }
 
     public function testRebuildingAnEarlierStateSwitchesBackWithoutLosingThePreviousBuild(): void
@@ -459,8 +655,10 @@ class ShippedTranslationsBuildTest extends TestCase
 
         $keys = array_keys($data);
         sort($keys);
-        $this->assertSame(['build', 'modules', 'previous', 'shipped'], $keys);
+        $this->assertSame(['build', 'modules', 'previous', 'shipped', 'sources'], $keys);
         sort($data['modules']['mpa']);
+        $this->assertMatchesRegularExpression('/\A[0-9a-f]{64}\z/', $data['sources']);
+        unset($data['sources']);
         $this->assertSame(['build' => $second, 'previous' => $first, 'modules' => ['mpa' => ['de', 'en']], 'shipped' => ['mpa']], $data);
     }
 
@@ -517,7 +715,7 @@ class ShippedTranslationsBuildTest extends TestCase
 
         $this->assertNull($result['build']);
         $this->assertSame(
-            ['build' => null, 'previous' => null, 'modules' => [], 'shipped' => ['mpa', 'mpz']],
+            ['build' => null, 'previous' => null, 'modules' => [], 'shipped' => ['mpa', 'mpz'], 'sources' => null],
             ShippedTranslationsBuild::readPointer($this->artifacts),
             'without any .po no build, the contributions are still recorded'
         );
@@ -633,7 +831,7 @@ class ShippedTranslationsBuildTest extends TestCase
         $data['collisions'] = ['old collision'];
         file_put_contents($this->pointerFile(), json_encode($data));
 
-        $this->assertSame(['build' => $build, 'previous' => null, 'modules' => ['mpa' => ['de']], 'shipped' => ['mpa']], ShippedTranslationsBuild::readPointer($this->artifacts));
+        $this->assertSame(['build' => $build, 'previous' => null, 'modules' => ['mpa' => ['de']], 'shipped' => ['mpa'], 'sources' => $pointer['sources'] ?? null], ShippedTranslationsBuild::readPointer($this->artifacts));
         $this->assertSame($pointer, ShippedTranslationsBuild::readPointer($this->artifacts));
         $this->assertTrue($this->build(['mpa'])['unchanged'], 'a current.json of the former layout is no reason to rebuild');
     }

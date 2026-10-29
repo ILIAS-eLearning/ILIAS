@@ -33,7 +33,8 @@ class ConvertModuleToPoToolTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->directory = sys_get_temp_dir() . '/ilias_convert_tool_' . bin2hex(random_bytes(4));
+        // the tool prints resolved paths: macOS /var is a link, FreeBSD's temp dir ends with a slash
+        $this->directory = (string) realpath(sys_get_temp_dir()) . '/ilias_convert_tool_' . bin2hex(random_bytes(4));
         mkdir($this->directory . '/out', 0775, true);
     }
 

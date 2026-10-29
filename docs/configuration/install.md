@@ -118,7 +118,9 @@ gd, dom, xsl, pdo, pdo_mysql, curl, json, simplexml, libxml, xml, zip, imagick, 
 
 ILIAS serves its translations through native gettext: the PHP extension `gettext` and the C library's
 `C.utf8` locale (glibc) MUST be available to the PHP of the web server as well as to the CLI. Without them
-the user interface shows identifiers (e.g. `-login-`) instead of texts.
+the user interface shows identifiers (e.g. `-login-`) instead of texts. On macOS and BSD, the system
+locale `en_US.UTF-8` is used instead of `C.utf8`. Run `php cli/setup.php build` on the system that serves ILIAS
+(with Docker in the container), a build on another system (e.g. the Docker host) is not served.
 
 **Optional PHP Extensions:**
 
