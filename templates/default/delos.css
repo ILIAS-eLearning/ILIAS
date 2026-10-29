@@ -8360,7 +8360,12 @@ button .minimize, button .close {
 .c-field-tag {
   width: 100%;
   background-color: white;
-  --tags-focus-border-color: #4c6586;
+  min-height: 28px;
+  font-size: 0.75rem;
+  align-items: center;
+  --tags-border-color: #757575;
+  --tags-hover-border-color: #757575;
+  --tags-focus-border-color: #757575;
   --tag-bg: #4c6586;
   --tag-hover: #4c6586;
   --tag-text-color: white;
@@ -8371,6 +8376,12 @@ button .minimize, button .close {
   --tag-remove-btn-bg--hover: #4c6586;
   --tag-hide-transition: .0s;
   line-height: 1.428571429;
+}
+.c-field-tag > .tagify__input {
+  margin: 0;
+  min-height: unset;
+  padding: 3px 9px;
+  line-height: inherit;
 }
 
 .c-field-password__revelation-glyph {
@@ -23249,5 +23260,3 @@ div.Access {
 .light {
   color: rgb(43.6274509804%, 43.6274509804%, 43.6274509804%);
 }
-
-/*# sourceMappingURL=delos.css.map */

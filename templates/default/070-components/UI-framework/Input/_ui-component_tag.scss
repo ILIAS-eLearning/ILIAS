@@ -1,4 +1,5 @@
 @use "../../../010-settings/"as *;
+@use "../../../010-settings/legacy-settings/legacy-settings_form" as *;
 @use "../../../050-layout/basics"as *;
 
 //** Tag Input
@@ -9,8 +10,13 @@ $il-input-tag-color-disabled: #EEEEEE;
 .c-field-tag {
 	width: 100%;
 	background-color: $il-main-bg;
-	
-	--tags-focus-border-color: #{$il-input-tag-color-bg};
+	min-height: $il-input-min-height;
+	font-size: $il-standard-form-font-size;
+	align-items: center;
+
+	--tags-border-color: #{$il-input-border-color};
+	--tags-hover-border-color: #{$il-input-border-color};
+	--tags-focus-border-color: #{$il-input-border-color};
 	--tag-bg: #{$il-input-tag-color-bg};
 	--tag-hover: #{$il-input-tag-color-bg};
 	--tag-text-color: #{$il-input-tag-color-text};
@@ -21,4 +27,11 @@ $il-input-tag-color-disabled: #EEEEEE;
 	--tag-remove-btn-bg--hover: #{$il-input-tag-color-bg};
 	--tag-hide-transition: .0s;
 	line-height: $il-line-height-base;
+
+	> .tagify__input {
+		margin: 0;
+		min-height: unset;
+		padding: $il-padding-base-vertical $il-padding-base-horizontal;
+		line-height: inherit;
+	}
 }
