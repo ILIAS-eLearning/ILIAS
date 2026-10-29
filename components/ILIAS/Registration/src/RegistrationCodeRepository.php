@@ -22,10 +22,18 @@ namespace ILIAS\Registration;
 
 use ilDBConstants;
 use ilDBInterface;
+use ILIAS\Data\Order;
 
 class RegistrationCodeRepository
 {
     private const string TABLE_NAME = 'reg_registration_codes';
+
+    private const array SORT_FIELDS = [
+        'code' => 'code',
+        'role' => 'role',
+        'generated' => 'generated_on',
+        'used' => 'used',
+    ];
 
     public function __construct(
         protected readonly ilDBInterface $db
@@ -89,11 +97,13 @@ class RegistrationCodeRepository
         ?CodeFilter $code_filter = null
     ): array {
         $sql = 'SELECT * FROM ' . self::TABLE_NAME . ($code_filter ? $this->filterToSQL($code_filter) : '');
-        if ($order_field) {
-            if ($order_field === 'generated') {
-                $order_field = 'generated_on';
+        $sort_field = self::SORT_FIELDS[$order_field] ?? '';
+        if ($sort_field !== '') {
+            $order_direction = strtoupper($order_direction);
+            if (!in_array($order_direction, [Order::ASC, Order::DESC], true)) {
+                $order_direction = Order::ASC;
             }
-            $sql .= ' ORDER BY ' . $order_field . ' ' . $order_direction;
+            $sql .= ' ORDER BY ' . $this->db->quoteIdentifier($sort_field) . ' ' . $order_direction;
         }
 
         $this->db->setLimit($limit, $offset);
