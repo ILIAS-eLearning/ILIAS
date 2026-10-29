@@ -16851,27 +16851,96 @@ div.ilc_Page.readonly textarea[disabled] {
   top: 40px;
 }
 
-/* 2024-10-23 skergomard: We use fixed margins from here on because of interactions with content.css */
+/* Drop zones take no space and are never measured: they are shown on drag
+   start only, possibly in a question that was hidden on init (e.g. in a
+   collapsed accordion), and must not shift the page. Their drop area (::before)
+   has a fixed size and overlaps the neighbouring answers, the hovered zone
+   shows a line. */
 .c-test__dropzone {
   display: none;
-  margin: 5px 10px 5px 0;
+  position: relative;
+  z-index: 1;
+  height: 0;
+  margin: 0;
   padding: 0;
-  background: #f9f9f9;
-  border: 1px solid #dddddd;
 }
-.c-test__dropzone.c-test__dropzone--hover {
-  background: rgb(88.7394957983%, 90.8403361345%, 93.6134453782%);
+.c-test__dropzone::before {
+  content: "";
+  position: absolute;
+  top: -1rem;
+  right: 0;
+  left: 0;
+  height: 2rem;
+}
+.c-test__dropzone.c-test__dropzone--hover::after {
+  content: "";
+  position: absolute;
+  top: -2px;
+  right: 0;
+  left: 0;
+  height: 4px;
+  background: #4c6586;
 }
 .c-test__dropzone.c-test__dropzone--active {
   display: block;
 }
 
+/* 2024-10-23 skergomard: We use fixed margins from here on because of interactions with content.css */
 .ilc_qordul_OrderListHorizontal .c-test__dropzone {
   float: left;
+  width: 0;
+  height: 2rem;
+  margin: 5px 0;
+  /* the zone sits after the 10px right margin of the previous answer */
+}
+.ilc_qordul_OrderListHorizontal .c-test__dropzone::before {
+  top: 0;
+  left: calc(-1rem - 5px);
+  width: 2rem;
+  height: 100%;
+}
+.ilc_qordul_OrderListHorizontal .c-test__dropzone.c-test__dropzone--hover::after {
+  top: 0;
+  bottom: 0;
+  left: -7px;
+  width: 4px;
+  height: auto;
 }
 
 .ilc_qordul_OrderList .c-test__dropzone {
   width: 100%;
+}
+
+/* In matching questions the zone covers the whole column of the definition
+   or the source area, the order within it does not matter. */
+.ilMatchingQuestionTerm,
+.source_area {
+  position: relative;
+}
+.ilMatchingQuestionTerm > .c-test__dropzone,
+.source_area > .c-test__dropzone {
+  position: absolute;
+  inset: 0;
+  height: auto;
+}
+.ilMatchingQuestionTerm > .c-test__dropzone::before,
+.source_area > .c-test__dropzone::before {
+  content: none;
+}
+.ilMatchingQuestionTerm > .c-test__dropzone.c-test__dropzone--active,
+.source_area > .c-test__dropzone.c-test__dropzone--active {
+  outline: 1px solid #dddddd;
+  outline-style: dashed;
+  outline-offset: -1px;
+}
+.ilMatchingQuestionTerm > .c-test__dropzone.c-test__dropzone--hover,
+.source_area > .c-test__dropzone.c-test__dropzone--hover {
+  background: rgb(88.7394957983%, 90.8403361345%, 93.6134453782%);
+  opacity: 0.6;
+}
+.ilMatchingQuestionTerm > .c-test__dropzone.c-test__dropzone--hover::after,
+.source_area > .c-test__dropzone.c-test__dropzone--hover::after {
+  content: none;
 }
 
 .c-test__definition {

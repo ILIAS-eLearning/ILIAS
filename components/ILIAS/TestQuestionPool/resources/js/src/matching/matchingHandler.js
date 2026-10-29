@@ -48,24 +48,6 @@ const termElementClass = 'c-test__term';
  */
 const placeholderClass = 'c-test__dropzone';
 
-function setup(parentElement) {
-  const answers = parentElement.querySelectorAll(`.${termElementClass}`);
-  let elementHeight = 0;
-  answers.forEach(
-    (elem) => {
-      if (elem.offsetHeight < elementHeight) {
-        elementHeight = elem.offsetHeight;
-      }
-    },
-  );
-  parentElement.querySelectorAll(`.${placeholderClass}`).forEach(
-    (elem) => {
-      elem.style.height = `${answers.item(0).offsetHeight}px`;
-    },
-  );
-  return parentElement.querySelector(`.${placeholderClass}`);
-}
-
 function updatePlaceholderElementsOneToOne(targetArea, placeholderElement) {
   const firstChild = targetArea.firstElementChild;
   if (firstChild === null) {
@@ -168,7 +150,7 @@ export default function matchingHandler(
   makeDraggable,
   matchingType,
 ) {
-  const placeholderElement = setup(parentElement);
+  const placeholderElement = parentElement.querySelector(`.${placeholderClass}`);
   makeDraggable(
     matchingType === matchingTypeOneToOne ? 'move' : 'copy',
     parentElement,

@@ -28,18 +28,6 @@ const answerElementClass = 'answers';
  */
 const placeholderClass = 'c-test__dropzone';
 
-function setup(parentElement) {
-  const answers = parentElement.querySelectorAll(`.${answerElementClass}`);
-  let elementWidth = 0;
-  answers.forEach((elem) => { elementWidth += elem.offsetWidth; });
-  parentElement.querySelectorAll(`.${placeholderClass}`).forEach(
-    (elem) => {
-      elem.style.width = `${elementWidth / answers.length}px`;
-      elem.style.height = `${answers.item(0).offsetHeight}px`;
-    },
-  );
-}
-
 function updatePlaceholders(parentElement) {
   const placeholderElement = parentElement.querySelector(`.${placeholderClass}`);
 
@@ -82,7 +70,6 @@ function onStartPrepareHandler(draggedElement, parentElement) {
 }
 
 export default function orderingHorizontalHandler(parentElement, makeDraggable) {
-  setup(parentElement);
   makeDraggable(
     'move',
     parentElement,
