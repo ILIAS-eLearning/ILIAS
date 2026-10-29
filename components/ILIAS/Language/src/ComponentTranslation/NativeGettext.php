@@ -30,7 +30,8 @@ namespace ILIAS\Language\ComponentTranslation;
  *   LOCALE_NAME; activate() loads it via LOCPATH and removes LOCPATH again right away (while it is set,
  *   setlocale() finds no system locale);
  * - macOS/BSD (see usesSystemLocale()): the C library ignores LOCPATH, gettext comes from GNU libintl, so
- *   activate() sets the first existing of SYSTEM_LOCALES (GNU libintl ignores LANGUAGE for "C.<codeset>");
+ *   activate() sets the first existing of SYSTEM_LOCALES for LC_MESSAGES and the environment variable LC_ALL
+ *   (GNU libintl ignores LANGUAGE for "C.<codeset>");
  * - LANGUAGE is CATALOG_LANGUAGE, so "<language>" is always "messages"; the language of a catalog is part
  *   of its domain ("<module>.<lang>", see MigratedLanguageFilePaths), as the C library caches per process
  *   and a later LANGUAGE change would not reliably switch catalogs;
@@ -40,7 +41,8 @@ namespace ILIAS\Language\ComponentTranslation;
  * setlocale() reset to "C"), so no shutdown function is needed (it would stop later shutdown functions
  * from translating). In a thread-safe (ZTS) PHP the end of another thread's request can take them back
  * mid-request: isActive() checks, reactivateIfLost() activates again (the administration shows a hint,
- * see isThreadSafe()). Child processes inherit LANGUAGE=messages, which is harmless.
+ * see isThreadSafe()). Child processes inherit LANGUAGE=messages, which is harmless, and on macOS/BSD
+ * LC_ALL=<active locale>, which overrides the locale of the environment for them.
  *
  * The C library never reloads a catalog file it has read once (also not a replaced one), so every new
  * state (a build, an overlay revision) gets a directory of its own, and binding the domain loads it.
@@ -70,10 +72,10 @@ final class NativeGettext
     private static ?string $active_locale = null;
 
     /**
-     * LANGUAGE and LC_MESSAGES before the first activate() since the last restore() (`false`: not
-     * set), see restore().
+     * LANGUAGE, LC_MESSAGES and the environment variable LC_ALL before the first activate() since the
+     * last restore() (`false`: not set), see restore().
      *
-     * @var array{language: string|false, messages: string|false}|null
+     * @var array{language: string|false, messages: string|false, all: string|false}|null
      */
     private static ?array $previous = null;
 
@@ -144,7 +146,7 @@ final class NativeGettext
             return false;
         }
 
-        self::$previous ??= ['language' => getenv('LANGUAGE'), 'messages' => setlocale(LC_MESSAGES, '0')];
+        self::$previous ??= self::processState();
         $locpath = getenv('LOCPATH');
         putenv('LOCPATH=' . $locale_directory);
         $locale = setlocale(LC_MESSAGES, self::LOCALE_NAME);
@@ -160,7 +162,7 @@ final class NativeGettext
 
     private static function activateSystemLocale(string $locale_directory): bool
     {
-        self::$previous ??= ['language' => getenv('LANGUAGE'), 'messages' => setlocale(LC_MESSAGES, '0')];
+        self::$previous ??= self::processState();
         $locale = setlocale(LC_MESSAGES, self::SYSTEM_LOCALES);
         if ($locale === false) {
             self::$problem = sprintf(
@@ -170,8 +172,18 @@ final class NativeGettext
             );
             return false;
         }
+        // GNU libintl on macOS reads the locale of the environment before setlocale()'s, and "C" there ignores LANGUAGE
+        putenv('LC_ALL=' . $locale);
 
         return self::activated($locale_directory, $locale);
+    }
+
+    /**
+     * @return array{language: string|false, messages: string|false, all: string|false}
+     */
+    private static function processState(): array
+    {
+        return ['language' => getenv('LANGUAGE'), 'messages' => setlocale(LC_MESSAGES, '0'), 'all' => getenv('LC_ALL')];
     }
 
     private static function activated(string $locale_directory, string $locale): bool
@@ -186,13 +198,14 @@ final class NativeGettext
 
     /**
      * Whether activate() succeeded and its settings are still in place (other code, e.g.
-     * ilInitialisation::initLocale() with LC_ALL, may have changed LC_MESSAGES since).
+     * ilInitialisation::initLocale() with setlocale(LC_ALL, …), may have changed LC_MESSAGES since).
      */
     public static function isActive(): bool
     {
         return self::$locale_directory !== null
             && setlocale(LC_MESSAGES, '0') === self::$active_locale
-            && getenv('LANGUAGE') === self::CATALOG_LANGUAGE;
+            && getenv('LANGUAGE') === self::CATALOG_LANGUAGE
+            && (!self::usesSystemLocale() || getenv('LC_ALL') === self::$active_locale);
     }
 
     /**
@@ -211,7 +224,7 @@ final class NativeGettext
     }
 
     /**
-     * Takes LANGUAGE and LC_MESSAGES back to the state before the first activate(); settings changed by
+     * Takes LANGUAGE, LC_MESSAGES and LC_ALL back to the state before the first activate(); settings changed by
      * other code since stay. Only for long-running processes (e.g. Setup's build after its check), a web
      * request needs no call. No-op in a thread-safe PHP, where other threads may use them. The activated
      * directory is kept, so reactivateIfLost() can activate it again.
@@ -226,6 +239,9 @@ final class NativeGettext
         }
         if (getenv('LANGUAGE') === self::CATALOG_LANGUAGE) {
             putenv(self::$previous['language'] === false ? 'LANGUAGE' : 'LANGUAGE=' . self::$previous['language']);
+        }
+        if (self::usesSystemLocale() && getenv('LC_ALL') === self::$active_locale) {
+            putenv(self::$previous['all'] === false ? 'LC_ALL' : 'LC_ALL=' . self::$previous['all']);
         }
         self::$previous = null;
     }

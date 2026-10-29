@@ -27,7 +27,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
- * NativeGettext changes process-wide state (LC_MESSAGES, LANGUAGE, LOCPATH): what activate() leaves behind and
+ * NativeGettext changes process-wide state (LC_MESSAGES, LANGUAGE, LOCPATH, LC_ALL): what activate() leaves behind and
  * restore() gives back, losing and regaining the settings to other code, a build native gettext cannot use, lookups of
  * messages that cannot be looked up.
  *
@@ -42,7 +42,7 @@ class NativeGettextTest extends TestCase
     private string $locale_directory;
 
     /**
-     * @var array{language: string|false, locpath: string|false, messages: string|false}
+     * @var array{language: string|false, locpath: string|false, all: string|false, messages: string|false}
      */
     private array $process_state;
 
@@ -52,6 +52,7 @@ class NativeGettextTest extends TestCase
         $this->process_state = [
             'language' => getenv('LANGUAGE'),
             'locpath' => getenv('LOCPATH'),
+            'all' => getenv('LC_ALL'),
             'messages' => setlocale(LC_MESSAGES, '0'),
         ];
         $this->root = sys_get_temp_dir() . '/ilias_native_gettext_' . bin2hex(random_bytes(6));
@@ -78,6 +79,7 @@ class NativeGettextTest extends TestCase
         // whatever a test did to the process, the next one starts as this one did
         putenv($this->process_state['language'] === false ? 'LANGUAGE' : 'LANGUAGE=' . $this->process_state['language']);
         putenv($this->process_state['locpath'] === false ? 'LOCPATH' : 'LOCPATH=' . $this->process_state['locpath']);
+        putenv($this->process_state['all'] === false ? 'LC_ALL' : 'LC_ALL=' . $this->process_state['all']);
         if ($this->process_state['messages'] !== false) {
             setlocale(LC_MESSAGES, $this->process_state['messages']);
         }
@@ -205,7 +207,21 @@ class NativeGettextTest extends TestCase
         $this->assertSame($language, getenv('LANGUAGE'));
     }
 
-    #[DataProvider('foreignChanges')]
+    /**
+     * @return iterable<string, array{\Closure(): void}>
+     */
+    public static function foreignChangesInTheSystemLocaleBranch(): iterable
+    {
+        yield from self::foreignChanges();
+        yield 'LC_ALL environment variable set to C' => [static function (): void {
+            putenv('LC_ALL=C');
+        }];
+        yield 'LC_ALL environment variable removed' => [static function (): void {
+            putenv('LC_ALL');
+        }];
+    }
+
+    #[DataProvider('foreignChangesInTheSystemLocaleBranch')]
     public function testReactivateIfLostRepairsWhatOtherCodeChangedInTheSystemLocaleBranch(\Closure $change): void
     {
         $this->requireSystemLocale();
@@ -218,6 +234,100 @@ class NativeGettextTest extends TestCase
 
         $this->assertTrue(NativeGettext::isActive());
         $this->assertSame('Hallo', NativeGettext::translate(self::DOMAIN, 'greeting'));
+    }
+
+    /**
+     * @return iterable<string, array{string|false}>
+     */
+    public static function lcAllBeforeSystemLocaleActivation(): iterable
+    {
+        yield 'unset' => [false];
+        yield 'C' => ['C'];
+        yield 'another locale' => ['de_DE.UTF-8'];
+    }
+
+    #[DataProvider('lcAllBeforeSystemLocaleActivation')]
+    public function testSystemLocaleBranchSetsLcAllToTheActiveLocaleAndRestoreGivesItBackExactly(string|false $lc_all): void
+    {
+        $this->requireSystemLocale();
+        NativeGettext::useSystemLocaleForTests(true);
+        putenv($lc_all === false ? 'LC_ALL' : 'LC_ALL=' . $lc_all);
+
+        $this->activateSystemLocale();
+
+        $this->assertSame(setlocale(LC_MESSAGES, '0'), getenv('LC_ALL'));
+        $this->assertTrue(NativeGettext::isActive());
+        $this->assertSame('Hallo', NativeGettext::translate(self::DOMAIN, 'greeting'));
+
+        NativeGettext::restore();
+
+        $this->assertSame($lc_all, getenv('LC_ALL'));
+        $this->assertFalse(NativeGettext::isActive());
+    }
+
+    #[DataProvider('lcAllBeforeSystemLocaleActivation')]
+    public function testRestoreAfterARepeatedActivationGivesBackLcAllFromBeforeTheFirstOne(string|false $lc_all): void
+    {
+        $this->requireSystemLocale();
+        NativeGettext::useSystemLocaleForTests(true);
+        putenv($lc_all === false ? 'LC_ALL' : 'LC_ALL=' . $lc_all);
+        $this->activateSystemLocale();
+
+        $this->assertTrue(NativeGettext::activate($this->root . '/other-no-locale'), (string) NativeGettext::getProblem());
+        putenv('LC_ALL=fr_FR.UTF-8');
+        $this->assertTrue(NativeGettext::reactivateIfLost());
+        $this->assertSame(setlocale(LC_MESSAGES, '0'), getenv('LC_ALL'));
+
+        NativeGettext::restore();
+
+        $this->assertSame($lc_all, getenv('LC_ALL'));
+    }
+
+    public function testRestoreChangesNothingInAThreadSafePhpInTheSystemLocaleBranch(): void
+    {
+        $this->requireSystemLocale();
+        NativeGettext::useSystemLocaleForTests(true);
+        putenv('LC_ALL=C');
+        $this->activateSystemLocale();
+        $active = setlocale(LC_MESSAGES, '0');
+        NativeGettext::useThreadSafeForTests(true);
+
+        NativeGettext::restore();
+
+        $this->assertSame($active, getenv('LC_ALL'));
+        $this->assertTrue(NativeGettext::isActive());
+    }
+
+    public function testRestoreLeavesALcAllOtherCodeChangedSinceAsItIsInTheSystemLocaleBranch(): void
+    {
+        $this->requireSystemLocale();
+        NativeGettext::useSystemLocaleForTests(true);
+        putenv('LC_ALL');
+        $this->activateSystemLocale();
+        putenv('LC_ALL=fr_FR.UTF-8');
+
+        NativeGettext::restore();
+
+        $this->assertSame('fr_FR.UTF-8', getenv('LC_ALL'));
+    }
+
+    public function testGlibcBranchNeverTouchesLcAll(): void
+    {
+        MigratedPoFixture::requireGlibcLocale($this);
+        putenv('LC_ALL=de_DE.UTF-8');
+
+        $this->activateBuild();
+        $this->assertTrue(NativeGettext::isActive());
+        $this->assertSame('de_DE.UTF-8', getenv('LC_ALL'));
+
+        NativeGettext::restore();
+        $this->assertSame('de_DE.UTF-8', getenv('LC_ALL'));
+
+        putenv('LC_ALL');
+        $this->activateBuild();
+        $this->assertFalse(getenv('LC_ALL'));
+        NativeGettext::restore();
+        $this->assertFalse(getenv('LC_ALL'));
     }
 
     private function activateSystemLocale(): void
