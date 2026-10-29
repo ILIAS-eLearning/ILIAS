@@ -175,7 +175,7 @@ Only other modules (plugins) are read from `lng_data`/`lng_modules`.
 * Requirements: the PHP extension `gettext` for CLI and web server, and
   * glibc: the locale `C.utf8`, with the same C library for both; native
     gettext activates the build's copy of it through `LOCPATH`;
-  * macOS and FreeBSD (experimental, untested): gettext from GNU libintl
+  * macOS and FreeBSD: gettext from GNU libintl
     (Homebrew, Ports) and a system locale of `NativeGettext::SYSTEM_LOCALES`;
     the libc there ignores `LOCPATH`, no locale is shipped (`C.UTF-8` does not
     work: GNU libintl ignores `LANGUAGE` there);
