@@ -36,6 +36,7 @@ class ilMailSearchGUI
     private readonly ilFormatMail $umail;
     private readonly GlobalHttpState $http;
     private readonly Refinery $refinery;
+    private ilSearchSettings $search_settings;
 
     /**
      * @param ilWorkspaceAccessHandler|null|ilPortfolioAccessHandler $wsp_access_handler
@@ -52,6 +53,7 @@ class ilMailSearchGUI
         $this->object_data_cache = $DIC['ilObjDataCache'];
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
+        $this->search_settings = ilSearchSettings::getInstance();
 
         $this->ctrl->saveParameter($this, 'mobj_id');
         $this->ctrl->saveParameter($this, 'ref');
@@ -286,7 +288,9 @@ class ilMailSearchGUI
             $query_parser->parse();
 
             $user_search = ilObjectSearchFactory::_getUserSearchInstance($query_parser);
-            $user_search->enableActiveCheck(true);
+            $user_search->enableActiveCheck(!$this->search_settings->isInactiveUserVisible());
+            $user_search->enableTimeLimitedCheck(!$this->search_settings->isLimitedUserVisible());
+
             $user_search->setFields(['login']);
             $result_obj = $user_search->performSearch();
             $contacts_search_result->mergeEntries($result_obj);
@@ -382,7 +386,8 @@ class ilMailSearchGUI
         $query_parser->parse();
 
         $user_search = ilObjectSearchFactory::_getUserSearchInstance($query_parser);
-        $user_search->enableActiveCheck(true);
+        $user_search->enableActiveCheck(!$this->search_settings->isInactiveUserVisible());
+        $user_search->enableTimeLimitedCheck(!$this->search_settings->isLimitedUserVisible());
         $user_search->setFields(['login']);
         $result_obj = $user_search->performSearch();
         $all_results->mergeEntries($result_obj);
