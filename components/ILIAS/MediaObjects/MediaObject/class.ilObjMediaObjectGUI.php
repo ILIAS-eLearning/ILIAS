@@ -1308,7 +1308,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
             if ($med->getLocationType() == "LocalFile") {
 
                 try {
-                    $info = $media_manager->getInfoOfEntry($med->getMobId(), "/" . $med->getLocation());
+                    $info = $media_manager->getInfoOfEntry($med->getMobId(), $med->getLocation());
                 } catch (Exception $e) {
                 }
 
