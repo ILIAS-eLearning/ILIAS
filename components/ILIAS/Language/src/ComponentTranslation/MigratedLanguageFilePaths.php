@@ -24,7 +24,8 @@ namespace ILIAS\Language\ComponentTranslation;
  * The single place that knows where the files of a module migrated to PO/MO live:
  *
  * - the shipped, git-tracked `.po`: <ILIAS root>/<directory path><shipped file name>.po
- * - the build (see ShippedTranslationsBuild): `artifacts/language/current.json` names the build
+ * - the build (see ShippedTranslationsBuild): `artifacts/language/current.json` (with a system locale
+ *   `current-system.json`) names the build
  *   `artifacts/language/<build>/` with `messages/LC_MESSAGES/<module>.<lang>.mo`, `keys/<module>.php`
  *   and (glibc only) `locale/`
  * - the per-installation overlay (see MigratedLanguageFileSync):
@@ -45,6 +46,7 @@ final class MigratedLanguageFilePaths
 
     private const string SHIPPED_ARTIFACT_DIRECTORY = 'artifacts/language';
     private const string BUILD_POINTER_FILE = 'current.json';
+    private const string SYSTEM_LOCALE_BUILD_POINTER_FILE = 'current-system.json';
     private const string BUILD_ID_FORMAT = '/^b-[0-9a-f]{16,64}\z/';
     private const string OVERLAY_REVISION_FORMAT = '/^r-[0-9a-f]{16,64}\z/';
     private const string SHIPPED_TEMPLATES = 'components/*/*/lang/*.pot';
@@ -267,12 +269,19 @@ final class MigratedLanguageFilePaths
     }
 
     /**
-     * `artifacts/language/current.json`: names the build the runtime serves (see
-     * ShippedTranslationsBuild) - switched atomically once a build is complete.
+     * `artifacts/language/current.json` (`current-system.json` where NativeGettext::usesSystemLocale()): names
+     * the build this PHP serves (see ShippedTranslationsBuild) - switched atomically once a build is complete.
      */
     public static function buildPointerFile(string $artifact_directory): string
     {
-        return rtrim($artifact_directory, '/') . '/' . self::BUILD_POINTER_FILE;
+        return self::buildPointerFileOf($artifact_directory, NativeGettext::usesSystemLocale());
+    }
+
+    /** The pointer of the builds made with ($system_locale) or without a system locale. */
+    public static function buildPointerFileOf(string $artifact_directory, bool $system_locale): string
+    {
+        return rtrim($artifact_directory, '/') . '/'
+            . ($system_locale ? self::SYSTEM_LOCALE_BUILD_POINTER_FILE : self::BUILD_POINTER_FILE);
     }
 
     /**

@@ -131,9 +131,11 @@ or updating a language.
 shipped `.po` into `artifacts/language/<build>/`:
 `messages/LC_MESSAGES/<module>.<lang>.mo`, `keys/<module>.php`, on glibc a copy
 of the C library's `C.utf8` locale and a manifest (also the hashes of the compiled
-`.po` files, warnings and collisions). `artifacts/language/current.json` names
-the build that is served, its languages per module and every contributed
-module, nothing else, as every request reads it; it is switched only after the
+`.po` files, warnings and collisions). `artifacts/language/current.json`
+(glibc) or `current-system.json` (system locale, macOS/BSD) names the build
+that is served, its languages per module and every contributed module, nothing
+else, as every request reads it. A build writes only the pointer of its kind
+and keeps the builds of the other one. It is switched only after the
 new build is complete and passed a real lookup through native gettext, and the
 previous build is kept for running requests.
 
@@ -161,7 +163,7 @@ previous build is kept for running requests.
 gettext, see `NativeGettext`): the build with the overlay of the
 local changes on top, never from the database - also in Setup and CLI, where
 the client data directory of the overlay is taken from `ilias.ini.php` until
-`CLIENT_DATA_DIR` is defined. A module counts as shipped if `current.json`
+`CLIENT_DATA_DIR` is defined. A module counts as shipped if the pointer
 lists it as contributed, without a build if a component ships its
 `lang/<module>.pot` (the build warns about a contribution without one); this
 needs no component graph.
@@ -179,8 +181,10 @@ Only other modules (plugins) are read from `lng_data`/`lng_modules`.
     work: GNU libintl ignores `LANGUAGE` there);
   * musl is not supported (ignores `LOCPATH`).
 
-  Build on the platform that serves ILIAS (with Docker in the container): a
-  build made with a system locale is not served on glibc.
+  Build on the platform that serves ILIAS (with Docker in the container): the
+  web server serves only the pointer of its own kind. A build on the host
+  (e.g. by `composer install` on macOS) does not change it, if that build is
+  newer the language administration shows a hint.
   The build checks this in the CLI process only.
   Without them every text of a shipped module is shown as `-identifier-`; the
   problem is logged and shown in the language administration. With a
