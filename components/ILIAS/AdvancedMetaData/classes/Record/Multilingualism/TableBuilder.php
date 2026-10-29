@@ -34,7 +34,6 @@ use ilAdvancedMDRecordTranslationGUI;
 use ILIAS\Data\Range;
 use ILIAS\Data\Factory as DataFactory;
 
-
 class TableBuilder
 {
     public const string COL_LANGUAGE = 'language';
@@ -56,10 +55,8 @@ class TableBuilder
     ) {
     }
 
-    public function get(): DataTable
+    public function get(URLBuilder $url_builder, URLBuilderToken $id_token, URLBuilderToken $action_token): DataTable
     {
-        [$url_builder, $id_token, $action_token] = $this->getTableActionURLBuilder();
-
         $columns = [];
         $columns[self::COL_LANGUAGE] = $this->ui_factory->table()->column()->text(
             $this->lng->txt('md_adv_record_lng_table_lng')
@@ -114,14 +111,4 @@ class TableBuilder
             ->withId('advanced_metadata_record_translations_table');
     }
 
-    public function getTableActionURLBuilder(): array
-    {
-        $link = ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass(
-            ilAdvancedMDRecordTranslationGUI::class,
-            'handleTableAction'
-        );
-        $url_builder = new URLBuilder($this->data_factory->uri($link));
-
-        return $url_builder->acquireParameters(['advmd_ml'], 'table_ids', 'table_action');
-    }
 }
