@@ -200,6 +200,10 @@ $il-standard-filter-add-input-popover-list-button-width: 100%;
 		display: flex;
 		align-items: center;
 		padding-left: $il-standard-filter-bar-toggle-padding-left;
+		.il-toggle-item {
+			display: flex;
+			align-items: center;
+		}
 	}
 }
 

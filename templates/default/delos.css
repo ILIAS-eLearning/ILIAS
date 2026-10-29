@@ -8575,6 +8575,10 @@ button .minimize, button .close {
   align-items: center;
   padding-left: 10px;
 }
+.il-filter-bar .il-filter-bar-toggle .il-toggle-item {
+  display: flex;
+  align-items: center;
+}
 
 .il-filter-controls {
   bottom: 0px;
