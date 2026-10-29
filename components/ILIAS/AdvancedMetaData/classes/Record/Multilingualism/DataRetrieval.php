@@ -98,34 +98,22 @@ class DataRetrieval implements BaseDataRetrieval
         mixed $filter_data,
         mixed $additional_parameters
     ): ?int {
-        return count($this->readLanguages());
+        return count(self::getAllIDs());
     }
 
-    /**
-     * @return string[]
-     */
-    public function resolveIDs(array|string $ids): array
+    public static function getAllIDs(): array
     {
-        if ($ids === ['ALL_OBJECTS'] || $ids === 'ALL_OBJECTS') {
-            return $this->getAllIDs();
+        $languages = ilObject::_getObjectsByType('lng');
+        $parsed_languages = [];
+        foreach ($languages as $language) {
+            $parsed_languages[] = $language['title'];
         }
-        if (is_array($ids)) {
-            return array_values(array_filter($ids, 'is_string'));
-        }
-        if (is_string($ids)) {
-            return [$ids];
-        }
-        return [];
-    }
-
-    public function getAllIDs(): array
-    {
-        return $this->readLanguages();
+        return array_values(array_filter($parsed_languages, static fn($lang) => is_string($lang) && strlen($lang) >= 2 && strlen($lang) <= 10 && $lang !== 'ALL_OBJECTS'));
     }
 
     protected function getRawData(): array
     {
-        $all_languages = $this->readLanguages();
+        $all_languages = self::getAllIDs();
         $installed_languages = ilLanguage::_getInstalledLanguages();
 
         $record_translations = ilAdvancedMDRecordTranslations::getInstanceByRecordId(
@@ -144,15 +132,5 @@ class DataRetrieval implements BaseDataRetrieval
             ];
         }
         return $data;
-    }
-
-    protected function readLanguages(): array
-    {
-        $languages = ilObject::_getObjectsByType('lng');
-        $parsed_languages = [];
-        foreach ($languages as $language) {
-            $parsed_languages[] = $language['title'];
-        }
-        return array_values(array_filter($parsed_languages, fn($lang) => is_string($lang) && strlen($lang) >= 2 && strlen($lang) <= 10 && $lang !== 'ALL_OBJECTS'));
     }
 }

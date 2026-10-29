@@ -23,17 +23,16 @@ use ilSelectInputGUI;
 use Psr\Http\Message\RequestInterface;
 use ILIAS\HTTP\Services as HTTP;
 use ILIAS\Data\Factory as DataFactory;
-
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\AdvancedMetaData\Record\Multilingualism\DataRetrieval;
 use ILIAS\AdvancedMetaData\Record\Multilingualism\TableBuilder;
+use ILIAS\UI\URLBuilder;
+use ILIAS\UI\URLBuilderToken;
 
 class ilAdvancedMDRecordTranslationGUI
 {
-    protected TableBuilder $table_builder;
-
     protected const CMD_DEFAULT = 'translations';
     protected const CMD_ADD_TRANSLATION = 'addTranslations';
     protected const CMD_SAVE_ADDITIONAL_TRANSLATIONS = 'saveAdditionalTranslations';
@@ -70,7 +69,7 @@ class ilAdvancedMDRecordTranslationGUI
         $this->ui_renderer = $DIC->ui()->renderer();
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
-        $this->data_factory = new \ILIAS\Data\Factory();
+        $this->data_factory = new DataFactory();
     }
 
     /**
@@ -107,7 +106,7 @@ class ilAdvancedMDRecordTranslationGUI
             $this->language
         );
 
-        $this->table_builder = new TableBuilder(
+        $table_builder = new TableBuilder(
             $data_retrieval,
             $this->language,
             $this->ui_factory,
@@ -116,42 +115,61 @@ class ilAdvancedMDRecordTranslationGUI
             $this->data_factory
         );
 
-        $table = $this->table_builder->get();
+        [$url_builder, $id_token, $action_token] = $this->getTableActionURLBuilder();
+        $table = $table_builder->get($url_builder, $id_token, $action_token);
 
         $this->tpl->setContent($this->ui_renderer->render($table));
     }
 
-    protected function getLanguageCodes(): array
+    protected function getTableActionURLBuilder(): array
     {
-        $this->ensureTableBuilder();
+        $link = ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass(
+            ilAdvancedMDRecordTranslationGUI::class,
+            'handleTableAction'
+        );
+        $url_builder = new URLBuilder($this->data_factory->uri($link));
 
-        list($url_builder, $id_token, $action_token) = $this->table_builder->getTableActionURLBuilder();
-
-        $data_retrieval = new DataRetrieval($this->record, $this->language);
-        $parameter_name = $id_token->getName();
-
-        $raw_ids = $this->getParameter($parameter_name);
-        if ($raw_ids === null) {
-            return [];
-        }
-
-        return $data_retrieval->resolveIDs($raw_ids);
+        return $url_builder->acquireParameters(['advmd_ml'], 'table_ids', 'table_action');
     }
 
-    protected function getParameter(string $name): mixed
+    protected function getLanguageCodes(URLBuilderToken $id_token): array
     {
-        if ($this->http->wrapper()->post()->has($name)) {
-            return $this->http->wrapper()->post()->retrieve(
-                $name,
-                $this->refinery->identity()
-            );
+        $parameter_name = $id_token->getName();
+        $raw_ids = $this->getPostParameter($parameter_name, true);
+        if ($raw_ids === null) {
+            $raw_ids = $this->getQueryParameter($parameter_name, true);
         }
 
-        if ($this->http->wrapper()->query()->has($name)) {
-            return $this->http->wrapper()->query()->retrieve(
-                $name,
-                $this->refinery->identity()
-            );
+        if ($raw_ids === ['ALL_OBJECTS'] || $raw_ids === 'ALL_OBJECTS') {
+            return DataRetrieval::getAllIDs();
+        }
+
+        return (array) ($raw_ids ?? []);
+    }
+
+    protected function getPostParameter(string $name, bool $is_list = false): mixed
+    {
+        $wrapper = $this->http->wrapper()->post();
+
+        if ($wrapper->has($name)) {
+            $refinery = $is_list ?
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string()) :
+                $this->refinery->kindlyTo()->string();
+            return $wrapper->retrieve($name, $refinery);
+        }
+
+        return null;
+    }
+
+    protected function getQueryParameter(string $name, bool $is_list = false): mixed
+    {
+        $wrapper = $this->http->wrapper()->query();
+
+        if ($wrapper->has($name)) {
+            $refinery = $is_list ?
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string()) :
+                $this->refinery->kindlyTo()->string();
+            return $wrapper->retrieve($name, $refinery);
         }
 
         return null;
@@ -159,40 +177,29 @@ class ilAdvancedMDRecordTranslationGUI
 
     public function handleTableAction(): void
     {
-        $this->ensureTableBuilder();
+        [$url_builder, $id_token, $action_token] = $this->getTableActionURLBuilder();
+        $ids = $this->getLanguageCodes($id_token);
+        $action = $this->getPostParameter($action_token->getName());
+        if ($action === null) {
+            $action = $this->getQueryParameter($action_token->getName());
+        }
 
-        list($url_builder, $id_token, $action_token) = $this->table_builder->getTableActionURLBuilder();
-
-        $parameter_name = $action_token->getName();
-        $action = $this->getParameter($parameter_name);
-
-        if (is_string($action) && in_array($action, [self::CMD_ACTIVATE, self::CMD_DEACTIVATE, self::CMD_SET_DEFAULT])) {
-            $this->$action();
+        switch ($action) {
+            case 'activate':
+                $this->activate($ids);
+                break;
+            case 'deactivate':
+                $this->deactivate($ids);
+                break;
+            case 'setDefault':
+                $this->setDefault($ids);
+                break;
         }
     }
 
-    protected function ensureTableBuilder(): void
-    {
-        if (!isset($this->table_builder)) {
-            $data_retrieval = new DataRetrieval(
-                $this->record,
-                $this->language
-            );
 
-            $this->table_builder = new TableBuilder(
-                $data_retrieval,
-                $this->language,
-                $this->ui_factory,
-                $this->http,
-                $this->ctrl,
-                $this->data_factory
-            );
-        }
-    }
-
-    protected function activate(): void
+    protected function activate(array $lang_keys): void
     {
-        $lang_keys = $this->getLanguageCodes();
         $record_id = $this->record->getRecordId();
         $translations = ilAdvancedMDRecordTranslations::getInstanceByRecordId($record_id);
 
@@ -209,9 +216,8 @@ class ilAdvancedMDRecordTranslationGUI
         $this->ctrl->redirect($this, self::CMD_DEFAULT);
     }
 
-    protected function deactivate(): void
+    protected function deactivate(array $lang_keys): void
     {
-        $lang_keys = $this->getLanguageCodes();
         $record_id = $this->record->getRecordId();
         $translations = ilAdvancedMDRecordTranslations::getInstanceByRecordId($record_id);
         $success = false;
@@ -235,9 +241,8 @@ class ilAdvancedMDRecordTranslationGUI
         $this->ctrl->redirect($this, self::CMD_DEFAULT);
     }
 
-    protected function setDefault(): void
+    protected function setDefault(array $lang_keys): void
     {
-        $lang_keys = $this->getLanguageCodes();
         $lang_key = reset($lang_keys);
 
         if (!$lang_key) {
