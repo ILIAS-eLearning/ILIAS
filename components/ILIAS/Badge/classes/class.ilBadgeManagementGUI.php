@@ -16,12 +16,12 @@
  *
  *********************************************************************/
 
-use ILIAS\Badge\ilBadgeImage;
-use ILIAS\ResourceStorage\Services;
-use ILIAS\FileUpload\Exception\IllegalStateException;
-use ILIAS\Badge\ilBadgeTableGUI;
-use ILIAS\Badge\ilBadgeUserTableGUI;
 use ILIAS\Refinery\Factory;
+use ILIAS\Badge\ilBadgeImage;
+use ILIAS\Badge\ilBadgeTableGUI;
+use ILIAS\ResourceStorage\Services;
+use ILIAS\Badge\ilBadgeUserTableGUI;
+use ILIAS\FileUpload\Exception\IllegalStateException;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 /**
@@ -43,7 +43,6 @@ class ilBadgeManagementGUI implements ilCtrlSecurityInterface
     private const string DEFAULT_ACTION = self::LIST_BADGES_ACTION;
     private const string TABLE_ACTIONS = 'handleTableActions';
     public const string TABLE_ALL_OBJECTS_ACTION = 'ALL_OBJECTS';
-
     private ilBadgeGUIRequest $request;
     private ilBadgeManagementSessionRepository $session_repo;
     private ilLanguage $lng;
@@ -53,13 +52,12 @@ class ilBadgeManagementGUI implements ilCtrlSecurityInterface
     private ilToolbarGUI $toolbar;
     private ilGlobalTemplateInterface $tpl;
     private ilObjUser $user;
-    private \ILIAS\UI\Factory $ui_factory;
+    private ILIAS\UI\Factory $ui_factory;
     private int $parent_obj_id;
     private string $parent_obj_type;
-
     private ?ilBadgeImage $badge_image_service = null;
     private ?Services $resource_storage;
-    private \ILIAS\HTTP\Services $http;
+    private ILIAS\HTTP\Services $http;
     private Factory $refinery;
 
     public function __construct(
@@ -106,7 +104,7 @@ class ilBadgeManagementGUI implements ilCtrlSecurityInterface
     }
 
     /**
-     * @param list<string> $splittable_user_ids
+     * @param  list<string>                $splittable_user_ids
      * @return array{0: list<int>, 1: int}
      */
     private function splitBadgeAndUserIdsFromString(array $splittable_user_ids): array
@@ -128,21 +126,20 @@ class ilBadgeManagementGUI implements ilCtrlSecurityInterface
                 $badge_id = $this->http->wrapper()->query()->retrieve('bid', $this->refinery->kindlyTo()->int());
 
                 return [$user_ids, $badge_id];
-            } else {
-                foreach ($splittable_user_ids as $row) {
-                    if (str_contains($row, '_')) {
-                        $split = explode('_', $row);
+            }
+            foreach ($splittable_user_ids as $row) {
+                if (str_contains($row, '_')) {
+                    $split = explode('_', $row);
 
-                        if ($badge_id === null && $split[0] !== '') {
-                            $badge_id = (int) $split[0];
-                        }
-
-                        if ($split[1] !== '') {
-                            $user_ids[] = (int) $split[1];
-                        }
-                    } else {
-                        return [$user_ids, 0];
+                    if ($badge_id === null && $split[0] !== '') {
+                        $badge_id = (int) $split[0];
                     }
+
+                    if ($split[1] !== '') {
+                        $user_ids[] = (int) $split[1];
+                    }
+                } else {
+                    return [$user_ids, 0];
                 }
             }
         }
@@ -176,8 +173,8 @@ class ilBadgeManagementGUI implements ilCtrlSecurityInterface
                     $form = $this->initBadgeForm('create', $type, $type_id);
                 }
                 $this->ctrl->forwardCommand($form);
-                break;
 
+                break;
             default:
                 $badge_ids = $this->request->getMultiActionBadgeIdsFromUrl();
                 if (count($badge_ids) === 1) {
@@ -186,6 +183,7 @@ class ilBadgeManagementGUI implements ilCtrlSecurityInterface
                 }
 
                 $this->$cmd();
+
                 break;
         }
     }

@@ -21,11 +21,11 @@ declare(strict_types=1);
 namespace ILIAS\Badge;
 
 use ilBadge;
-use ILIAS\ResourceStorage\Services;
 use ilBadgeFileStakeholder;
-use ILIAS\FileUpload\FileUpload;
-use ILIAS\FileUpload\Exception\IllegalStateException;
 use ilGlobalTemplateInterface;
+use ILIAS\FileUpload\FileUpload;
+use ILIAS\ResourceStorage\Services;
+use ILIAS\FileUpload\Exception\IllegalStateException;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 class ilBadgeImage
@@ -36,7 +36,6 @@ class ilBadgeImage
     public const IMAGE_SIZE_L = 1;
     public const IMAGE_SIZE_XL = 0;
     public const IMAGE_URL_COUNT = 5;
-
     private ?Services $resource_storage;
     private ?FileUpload $upload_service;
     private ?ilGlobalTemplateInterface $main_template;
@@ -72,7 +71,6 @@ class ilBadgeImage
 
         return $this->resource_storage->consume()->src($identification)->getSrc();
     }
-
 
     public function processImageUpload(ilBadge $badge): void
     {

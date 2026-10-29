@@ -20,21 +20,24 @@ declare(strict_types=1);
 
 namespace ILIAS\Badge\test;
 
+use ilCtrl;
+use ilBadge;
+use ilLanguage;
+use ILIAS\Badge\Tile;
+use RuntimeException;
+use ILIAS\Badge\Modal;
 use ILIAS\DI\Container;
 use ILIAS\DI\UIServices;
 use ILIAS\Badge\BadgeParent;
-use ILIAS\Badge\Modal;
 use ILIAS\Badge\ModalContent;
-use ILIAS\Badge\Tile;
-use ILIAS\UI\Component\Button\Button as ButtonComponent;
-use ILIAS\UI\Component\Image\Image as ImageComponent;
-use ILIAS\UI\Component\Modal\Modal as ModalComponent;
 use PHPUnit\Framework\TestCase;
-use ilBadge;
-use ilCtrl;
-use ilLanguage;
 use ILIAS\ResourceStorage\Services;
 use PHPUnit\Framework\Attributes\DataProvider;
+use ILIAS\UI\Component\Image\Image as ImageComponent;
+use ILIAS\UI\Component\Modal\Modal as ModalComponent;
+use ILIAS\UI\Component\Button\Button as ButtonComponent;
+
+use function count;
 
 class TileTest extends TestCase
 {
@@ -69,7 +72,7 @@ class TileTest extends TestCase
         $container->method('language')->willReturn($language);
         $container->method('resourceStorage')->willReturn($resource_storage);
         $format_date = function (int $x): void {
-            throw new \RuntimeException('Should not be called.');
+            throw new RuntimeException('Should not be called.');
         };
         $badge->method('getImageRid')->willReturn($badge_image_rid_name);
         $modal_content->method('badge')->willReturn($badge);
@@ -78,7 +81,7 @@ class TileTest extends TestCase
 
         $components = $tile->$method($modal_content);
 
-        $this->assertCount(\count($expected_components), $components);
+        $this->assertCount(count($expected_components), $components);
         array_map($this->assertInstanceOf(...), $expected_components, $components);
     }
 

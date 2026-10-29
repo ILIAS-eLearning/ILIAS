@@ -20,22 +20,22 @@ declare(strict_types=1);
 
 namespace ILIAS\Badge\test;
 
-use ILIAS\DI\Container;
-use ILIAS\DI\UIServices;
-use ILIAS\Badge\Modal;
-use ILIAS\Badge\ModalContent;
-use ILIAS\UI\Component\Divider\Factory as Divider;
-use ILIAS\UI\Component\Divider\Horizontal;
-use ILIAS\UI\Component\Image\Factory as ImageFactory;
-use ILIAS\UI\Component\Image\Image;
-use ILIAS\UI\Component\Item\Factory as ItemFactory;
-use ILIAS\UI\Component\Item\Group;
-use ILIAS\UI\Component\Item\Standard as Item;
-use ILIAS\UI\Component\Listing\Factory as Listing;
-use ILIAS\UI\Factory as UI;
-use PHPUnit\Framework\TestCase;
 use ilBadge;
 use ilLanguage;
+use ILIAS\Badge\Modal;
+use ILIAS\DI\Container;
+use ILIAS\DI\UIServices;
+use ILIAS\UI\Factory as UI;
+use ILIAS\Badge\ModalContent;
+use PHPUnit\Framework\TestCase;
+use ILIAS\UI\Component\Item\Group;
+use ILIAS\UI\Component\Image\Image;
+use ILIAS\UI\Component\Divider\Horizontal;
+use ILIAS\UI\Component\Item\Standard as Item;
+use ILIAS\UI\Component\Divider\Factory as Divider;
+use ILIAS\UI\Component\Listing\Factory as Listing;
+use ILIAS\UI\Component\Item\Factory as ItemFactory;
+use ILIAS\UI\Component\Image\Factory as ImageFactory;
 
 class ModalTest extends TestCase
 {

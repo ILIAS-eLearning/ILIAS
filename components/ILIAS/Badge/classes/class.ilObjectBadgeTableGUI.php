@@ -20,37 +20,42 @@ declare(strict_types=1);
 
 namespace ILIAS\Badge;
 
-use ILIAS\UI\Factory;
-use ILIAS\UI\URLBuilder;
-use ILIAS\Data\Order;
-use ILIAS\Data\Range;
-use ilLanguage;
-use ilGlobalTemplateInterface;
-use ILIAS\UI\Renderer;
-use Psr\Http\Message\ServerRequestInterface;
-use ILIAS\HTTP\Services;
-use Psr\Http\Message\RequestInterface;
-use ILIAS\UI\Component\Table\DataRowBuilder;
-use Generator;
-use ILIAS\UI\Component\Table\DataRetrieval;
-use ILIAS\UI\URLBuilderToken;
+use ilStr;
+use ilLink;
 use ilBadge;
+use ilObject;
+use Generator;
+use ilLanguage;
 use ilBadgeHandler;
 use ILIAS\Data\URI;
-use ILIAS\UI\Implementation\Component\Link\Standard;
-use ilObject;
-use ilLink;
+use ilAccessHandler;
+use ILIAS\Data\Order;
+use ILIAS\Data\Range;
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
+use ILIAS\HTTP\Services;
+use ILIAS\UI\URLBuilder;
+use ILIAS\UI\URLBuilderToken;
+use ilGlobalTemplateInterface;
 use ilObjBadgeAdministrationGUI;
 use ILIAS\Filesystem\Stream\Streams;
-use ILIAS\UI\Component\Table\Action\Action;
-use ilAccessHandler;
-use ILIAS\UI\Component\Table\Column\Column;
+use Psr\Http\Message\RequestInterface;
 use ILIAS\Badge\Table\TableContentWrapper;
+use ILIAS\UI\Component\Table\Action\Action;
+use ILIAS\UI\Component\Table\Column\Column;
+use ILIAS\UI\Component\Table\DataRetrieval;
+use ILIAS\UI\Component\Table\DataRowBuilder;
+use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\UI\Implementation\Component\Link\Standard;
+
+use function count;
+use function in_array;
+use function is_array;
+use function array_slice;
 
 class ilObjectBadgeTableGUI implements DataRetrieval
 {
     private const RECORD_RAW = '__raw__';
-
     private readonly Factory $factory;
     private readonly Renderer $renderer;
     private readonly \ILIAS\Refinery\Factory $refinery;
@@ -62,6 +67,7 @@ class ilObjectBadgeTableGUI implements DataRetrieval
     private readonly ilAccessHandler $access;
     private readonly \ILIAS\ResourceStorage\Services $irss;
     private readonly ilBadgeImage $badge_image_service;
+
     /**
      * @var null|list<array{
      *     id: int,
@@ -75,8 +81,10 @@ class ilObjectBadgeTableGUI implements DataRetrieval
      * }>
      */
     private ?array $cached_records = null;
+
     /** @var array<int, bool> */
     private array $has_access_by_parent_cache = [];
+
     /** @var array<int, int|null> */
     private array $first_ref_id_for_parent_cache = [];
 
@@ -121,12 +129,12 @@ class ilObjectBadgeTableGUI implements DataRetrieval
             );
 
             usort($records, static function (array $left, array $right) use ($order_field): int {
-                if (\in_array($order_field, ['container', 'title', 'type'], true)) {
-                    if (\in_array($order_field, ['container', 'title'], true)) {
+                if (in_array($order_field, ['container', 'title', 'type'], true)) {
+                    if (in_array($order_field, ['container', 'title'], true)) {
                         $order_field .= '_sortable';
                     }
 
-                    return \ilStr::strCmp(
+                    return ilStr::strCmp(
                         $left[$order_field],
                         $right[$order_field]
                     );
@@ -145,7 +153,7 @@ class ilObjectBadgeTableGUI implements DataRetrieval
         }
 
         if ($range) {
-            $records = \array_slice($records, $range->getStart(), $range->getLength());
+            $records = array_slice($records, $range->getStart(), $range->getLength());
         }
 
         $identifications = [];
@@ -173,7 +181,7 @@ class ilObjectBadgeTableGUI implements DataRetrieval
         mixed $filter_data,
         mixed $additional_parameters
     ): ?int {
-        return \count($this->getRecords());
+        return count($this->getRecords());
     }
 
     /**
@@ -298,7 +306,7 @@ class ilObjectBadgeTableGUI implements DataRetrieval
             [
                 'active' => $badge_item['active'] ? $this->lng->txt('yes') : $this->lng->txt('no'),
                 'type' => $record['type'],
-                'container' => implode(' ', \array_slice($container_title_parts, 1, null, true)),
+                'container' => implode(' ', array_slice($container_title_parts, 1, null, true)),
             ],
             true
         );
@@ -413,24 +421,21 @@ class ilObjectBadgeTableGUI implements DataRetrieval
                 $url_builder->withParameter($action_parameter_token, 'obj_badge_activate'),
                 $row_id_token
             ),
-            'obj_badge_deactivate' =>
-                $this->factory->table()->action()->multi(
-                    $this->lng->txt('deactivate'),
-                    $url_builder->withParameter($action_parameter_token, 'obj_badge_deactivate'),
-                    $row_id_token
-                ),
-            'obj_badge_delete' =>
-                $this->factory->table()->action()->multi(
-                    $this->lng->txt('delete'),
-                    $url_builder->withParameter($action_parameter_token, 'obj_badge_delete'),
-                    $row_id_token
-                ),
-            'obj_badge_show_users' =>
-                $this->factory->table()->action()->single(
-                    $this->lng->txt('user'),
-                    $url_builder->withParameter($action_parameter_token, 'obj_badge_show_users'),
-                    $row_id_token
-                )
+            'obj_badge_deactivate' => $this->factory->table()->action()->multi(
+                $this->lng->txt('deactivate'),
+                $url_builder->withParameter($action_parameter_token, 'obj_badge_deactivate'),
+                $row_id_token
+            ),
+            'obj_badge_delete' => $this->factory->table()->action()->multi(
+                $this->lng->txt('delete'),
+                $url_builder->withParameter($action_parameter_token, 'obj_badge_delete'),
+                $row_id_token
+            ),
+            'obj_badge_show_users' => $this->factory->table()->action()->single(
+                $this->lng->txt('user'),
+                $url_builder->withParameter($action_parameter_token, 'obj_badge_show_users'),
+                $row_id_token
+            )
         ] : [];
     }
 
@@ -464,7 +469,7 @@ class ilObjectBadgeTableGUI implements DataRetrieval
 
             if ($action === 'obj_badge_delete') {
                 $items = [];
-                if (\is_array($ids) && \count($ids) > 0) {
+                if (is_array($ids) && count($ids) > 0) {
                     if ($ids === ['ALL_OBJECTS']) {
                         $filter = [
                             'type' => '',

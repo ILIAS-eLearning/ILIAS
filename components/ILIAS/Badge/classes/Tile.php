@@ -21,19 +21,20 @@ declare(strict_types=1);
 namespace ILIAS\Badge;
 
 use Closure;
-use ILIAS\DI\Container;
-use ILIAS\UI\Component\Card\Card;
-use ILIAS\UI\Component\Component;
 use ilBadge;
+use ilDateTime;
 use ilBadgeAssignment;
 use ilDatePresentation;
-use ilDateTime;
+use ILIAS\DI\Container;
 use ilDateTimeException;
+use ILIAS\UI\Component\Card\Card;
+use ILIAS\UI\Component\Component;
 
 class Tile
 {
     private readonly BadgeParent $parent;
     private readonly Modal $modal;
+
     /** @var Closure(int): string */
     private readonly Closure $format_date;
     private readonly ilBadgeImage $badge_image_service;
@@ -51,9 +52,9 @@ class Tile
         $this->modal = $modal ?? new Modal($this->container);
         if (!$format_date) {
             class_exists(ilDateTime::class); // Ensure ilDateTime is loaded as IL_CAL_UNIX is defined in ilDateTime.php.
-            $format_date = static fn($date, int $format = IL_CAL_UNIX): string => (
+            $format_date = static fn($date, int $format = IL_CAL_UNIX): string =>
                 ilDatePresentation::formatDate(new ilDateTime($date, $format))
-            );
+            ;
         }
         $this->format_date = $format_date;
         $this->badge_image_service = new ilBadgeImage($container->resourceStorage(), $container->upload(), $container->ui()->mainTemplate());
@@ -73,8 +74,8 @@ class Tile
         $modal = $this->modal($card);
         $image = $this->image($modal, $badge);
         $card = $card->withSections($badge_sections)
-                     ->withImage($image)
-                     ->withTitleAction($modal->getShowSignal());
+            ->withImage($image)
+            ->withTitleAction($modal->getShowSignal());
 
         return [
             'card' => $card,
@@ -88,6 +89,7 @@ class Tile
     public function asTitleWithLeadingImage(ModalContent $content): array
     {
         $modal = $this->modal($this->card($content));
+
         return [
             $modal,
             $this->image($modal, $content->badge()),
@@ -101,6 +103,7 @@ class Tile
     public function asImage(ModalContent $content, int $size = ilBadgeImage::IMAGE_SIZE_M): array
     {
         $modal = $this->modal($this->card($content));
+
         return [
             $modal,
             $this->image($modal, $content->badge(), $size),
@@ -113,6 +116,7 @@ class Tile
     public function asTitle(ModalContent $content): array
     {
         $modal = $this->modal($this->card($content));
+
         return [
             $modal,
             $this->title($modal, $content->badge()),
@@ -139,6 +143,7 @@ class Tile
     private function image(Component $modal, ilBadge $badge, int $size = ilBadgeImage::IMAGE_SIZE_M): Component
     {
         $image_src = $this->badge_image_service->getImageFromBadge($badge, $size);
+
         return $this->container
             ->ui()
             ->factory()
@@ -159,6 +164,7 @@ class Tile
     public function modalContent(ilBadge $badge): ModalContent
     {
         $awarded_by = $this->parent->asProperty($badge);
+
         return new ModalContent($badge, [
             $this->txt('criteria') => $badge->getCriteria(),
             ...($awarded_by !== null ? [$this->txt('awarded_by') => $awarded_by] : []),
