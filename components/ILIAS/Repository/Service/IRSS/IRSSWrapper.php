@@ -406,15 +406,28 @@ class IRSSWrapper
     // Container
     //
 
+    private function getContainerEntryPathVariants(string $path): array
+    {
+        $variants = [$path];
+        if (str_starts_with($path, "/")) {
+            $variants[] = substr($path, 1);
+        } else {
+            $variants[] = "/" . $path;
+        }
+        return $variants;
+    }
+
     public function getStreamOfContainerEntry(
         string $rid,
         string $entry
     ): ZIPStream {
         $zip_path = $this->stream($rid)->getMetadata("uri");
-        return Streams::ofFileInsideZIP(
-            $zip_path,
-            $entry
-        );
+        try {
+            return Streams::ofFileInsideZIP($zip_path, $entry);
+        } catch (\Exception) {
+            $path = $this->getContainerEntryPathVariants($entry)[1];
+            return Streams::ofFileInsideZIP($zip_path, $path);
+        }
     }
 
     public function getContainerEntryInfo(
@@ -424,6 +437,11 @@ class IRSSWrapper
         $reader = new ZipReader(
             $this->irss->consume()->stream($this->getResourceIdForIdString($container_id))->getStream()
         );
+        foreach ($this->getContainerEntryPathVariants($path) as $variant) {
+            if (isset($reader->getStructure()[$variant])) {
+                return $reader->getItem($variant)[1];
+            }
+        }
         return $reader->getItem($path)[1];
     }
 
@@ -434,9 +452,14 @@ class IRSSWrapper
         $reader = new ZipReader(
             $this->irss->consume()->stream($this->getResourceIdForIdString($container_id))->getStream()
         );
-        [$stream, $info] = $reader->getItem($path);
-        if (!isset($info['basename']) && !str_starts_with($path, "/")) {
-            [$stream, $info] = $reader->getItem("/" . $path);   // try "/" variant
+        foreach ($this->getContainerEntryPathVariants($path) as $variant) {
+            if (isset($reader->getStructure()[$variant])) {
+                [$stream, $info] = $reader->getItem($variant);
+                break;
+            }
+        }
+        if (!isset($info['basename'])) {
+            [$stream, $info] = $reader->getItem($path);
         }
 
         $this->file_delivery->delivery()->deliver(
@@ -461,16 +484,16 @@ class IRSSWrapper
         if (is_null($zip_path)) {
             return false;
         }
-        try {
-            $stream = Streams::ofFileInsideZIP(
-                $zip_path,
-                $entry
-            );
-            $stream->close();
-            return true;
-        } catch (\Exception $e) {
-            return false;
+        foreach ($this->getContainerEntryPathVariants($entry) as $path) {
+            try {
+                $stream = Streams::ofFileInsideZIP($zip_path, $path);
+                $stream->close();
+                return true;
+            } catch (\Exception) {
+                // try the other path variant
+            }
         }
+        return false;
     }
 
 
