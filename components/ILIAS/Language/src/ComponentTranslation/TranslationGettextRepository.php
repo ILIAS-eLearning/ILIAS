@@ -188,7 +188,10 @@ final class TranslationGettextRepository implements TranslationRepository
                 MigratedLanguageFilePaths::buildKeysFile($build_directory, $module)
             ));
         } elseif (!NativeGettext::activate(MigratedLanguageFilePaths::buildLocaleDirectory($build_directory))) {
-            MigratedTranslations::reportActivationProblem((string) NativeGettext::getProblem());
+            MigratedTranslations::reportActivationProblem(
+                (NativeGettext::isExtensionLoaded() ? ShippedTranslationsBuild::platformProblem($build_directory) : null)
+                    ?? (string) NativeGettext::getProblem()
+            );
         } elseif (!NativeGettext::bind($domain, $build_directory) || !NativeGettext::isLoaded($domain)) {
             MigratedTranslations::reportProblem(sprintf(
                 'Native gettext cannot read "%s" - run "php cli/setup.php build".',

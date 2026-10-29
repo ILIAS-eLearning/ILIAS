@@ -36,11 +36,15 @@ class ShippedTranslationsBuildTest extends TestCase
 {
     private string $root;
     private string $artifacts;
+    private string|false $messages_locale;
+    private string|false $language;
 
     protected function setUp(): void
     {
         // never the build of the installation, see MigratedPoFixture::resetRuntime()
         MigratedPoFixture::resetRuntime();
+        $this->messages_locale = setlocale(LC_MESSAGES, '0');
+        $this->language = getenv('LANGUAGE');
         $this->root = sys_get_temp_dir() . '/ilias_shipped_build_test_' . bin2hex(random_bytes(6));
         mkdir($this->root, 0775, true);
         $this->artifacts = MigratedLanguageFilePaths::shippedArtifactDirectory($this->root);
@@ -48,6 +52,11 @@ class ShippedTranslationsBuildTest extends TestCase
 
     protected function tearDown(): void
     {
+        NativeGettext::resetForTests();
+        if ($this->messages_locale !== false) {
+            setlocale(LC_MESSAGES, $this->messages_locale);
+        }
+        putenv($this->language === false ? 'LANGUAGE' : 'LANGUAGE=' . $this->language);
         MigratedPoFixture::removeDirectory($this->root);
         MigratedPoFixture::resetRuntime();
     }
@@ -220,6 +229,7 @@ class ShippedTranslationsBuildTest extends TestCase
 
     public function testABuildNativeGettextCannotServeLeavesCurrentAndThePreviousBuildAsTheyAreAndNoRemnants(): void
     {
+        MigratedPoFixture::requireGlibcLocale($this);
         $this->ship('mfa', 'de', ['greeting' => 'Hallo']);
         $good = $this->build(['mfa']);
         $pointer_before = (string) file_get_contents($this->pointerFile());
@@ -227,6 +237,7 @@ class ShippedTranslationsBuildTest extends TestCase
         $this->ship('mfa', 'de', ['greeting' => 'Moin']);
         // as in a fresh Setup process: nothing active that could let the broken locale pass
         NativeGettext::resetForTests();
+        NativeGettext::useSystemLocaleForTests(false);
 
         try {
             $this->build(['mfa'], $this->brokenLocaleSource());
@@ -262,10 +273,18 @@ class ShippedTranslationsBuildTest extends TestCase
 
     public function testMissingLocaleOfTheCLibraryAbortsBeforeAnythingIsWritten(): void
     {
+        // the first build is not the subject of the test: it uses what the platform can load
+        if (MigratedPoFixture::glibcLocaleAvailable()) {
+            NativeGettext::useSystemLocaleForTests(false);
+        } else {
+            $this->requireSystemLocale();
+            NativeGettext::useSystemLocaleForTests(true);
+        }
         $this->ship('mfa', 'de', ['greeting' => 'Hallo']);
         $this->build(['mfa']);
         $pointer_before = (string) file_get_contents($this->pointerFile());
         $entries_before = $this->artifactEntries();
+        NativeGettext::useSystemLocaleForTests(false);
 
         try {
             $this->build(['mfa'], $this->root . '/no-such-locale');
@@ -381,6 +400,97 @@ class ShippedTranslationsBuildTest extends TestCase
         $this->assertSame(0, $second['removed']);
         $this->assertSame($first['build'], $second['build']);
         $this->assertSame($identity, [fileinode($mo), fileinode($pointer)], 'neither the build nor current.json were written again');
+    }
+
+    private function requireSystemLocale(): void
+    {
+        $before = setlocale(LC_MESSAGES, '0');
+        $found = setlocale(LC_MESSAGES, NativeGettext::SYSTEM_LOCALES);
+        setlocale(LC_MESSAGES, $before);
+        if ($found === false) {
+            $this->markTestSkipped('none of ' . implode(', ', NativeGettext::SYSTEM_LOCALES) . ' is installed');
+        }
+    }
+
+    /** @return string the build id; the process uses the shipped locale (glibc) again afterwards */
+    private function buildWithSystemLocale(string $module): string
+    {
+        $this->requireSystemLocale();
+        $this->ship($module, 'de', ['greeting' => 'Hallo']);
+        NativeGettext::resetForTests();
+        NativeGettext::useSystemLocaleForTests(true);
+        $build = (string) $this->build([$module])['build'];
+        NativeGettext::resetForTests();
+        // the check is about the manifest, whatever this platform uses
+        NativeGettext::useSystemLocaleForTests(false);
+
+        return $build;
+    }
+
+    public function testSystemLocaleBuildShipsNoLocaleIsReusedAndDiffersFromTheGlibcBuild(): void
+    {
+        $this->requireSystemLocale();
+        MigratedPoFixture::requireGlibcLocale($this);
+        $this->ship('msl', 'de', ['greeting' => 'Hallo']);
+        $glibc = $this->build(['msl']);
+        $glibc_locale = MigratedLanguageFilePaths::buildLocaleDirectory($this->buildDirectory((string) $glibc['build']));
+        NativeGettext::resetForTests();
+        NativeGettext::useSystemLocaleForTests(true);
+
+        $first = $this->build(['msl']);
+        $second = $this->build(['msl']);
+
+        $this->assertDirectoryExists($glibc_locale . '/' . NativeGettext::LOCALE_NAME);
+        $this->assertNotSame($glibc['build'], $first['build']);
+        $this->assertDirectoryDoesNotExist(MigratedLanguageFilePaths::buildLocaleDirectory($this->buildDirectory((string) $first['build'])));
+        $this->assertSame(['Hallo'], array_values($this->servedValues((string) $first['build'], 'msl', 'de')));
+        $this->assertFalse($first['unchanged']);
+        $this->assertTrue($second['unchanged']);
+        $this->assertSame($first['build'], $second['build']);
+    }
+
+    public function testPlatformProblemTellsASystemLocaleBuildOnlyWhereTheShippedLocaleIsNeeded(): void
+    {
+        $directory = $this->buildDirectory($this->buildWithSystemLocale('mpp'));
+
+        $this->assertSame(
+            sprintf('the build was made on %s with a system locale, run "php cli/setup.php build" on the platform of the web server', PHP_OS_FAMILY),
+            ShippedTranslationsBuild::platformProblem($directory)
+        );
+
+        NativeGettext::useSystemLocaleForTests(true);
+        $this->assertNull(ShippedTranslationsBuild::platformProblem($directory), 'the platform of a system locale can use the build');
+    }
+
+    public function testPlatformProblemIsNullForAShippedLocaleBuildAndForAManifestOfAFormerVersion(): void
+    {
+        $shipped = $this->buildDirectory($this->buildWithSystemLocale('mpq'));
+        $this->editManifest($shipped, static function (array $data): array {
+            $data['locale'] = 'shipped';
+
+            return $data;
+        });
+        $former = $this->buildDirectory($this->buildWithSystemLocale('mpr'));
+        $this->editManifest($former, static function (array $data): array {
+            unset($data['locale'], $data['platform']);
+
+            return $data;
+        });
+
+        $this->assertNull(ShippedTranslationsBuild::platformProblem($shipped));
+        $this->assertNull(ShippedTranslationsBuild::platformProblem($former), 'without the fields a manifest counts as shipped');
+        $this->assertNull(ShippedTranslationsBuild::platformProblem($this->root . '/no-build'));
+    }
+
+    /**
+     * @param \Closure(array<string, mixed>): array<string, mixed> $change
+     */
+    private function editManifest(string $build_directory, \Closure $change): void
+    {
+        $file = $build_directory . '/manifest.json';
+        $data = json_decode((string) file_get_contents($file), true, 512, JSON_THROW_ON_ERROR);
+        $this->assertSame('system', $data['locale'] ?? null, 'precondition');
+        file_put_contents($file, json_encode($change($data), JSON_THROW_ON_ERROR));
     }
 
     public function testRebuildingAnEarlierStateSwitchesBackWithoutLosingThePreviousBuild(): void

@@ -321,6 +321,7 @@ class MigratedTranslationsTest extends TestCase
      */
     public function testLostNativeGettextServesNothingNotEvenTheIdentifierForAnOverlayValue(): void
     {
+        MigratedPoFixture::requireGlibcLocale($this);
         $this->build();
         $plural = MigratedPoFixture::catalog('mtr', ['greeting' => 'Servus', 'same' => 'same']);
         $plural->setHeader('Plural-Forms', 'nplurals=2; plural=(n != 1);');
@@ -408,6 +409,31 @@ class MigratedTranslationsTest extends TestCase
         $this->assertStringContainsString('There is no build', $problem['message']);
         $this->assertTrue($problem['fatal']);
         $this->assertCount(1, $this->warnings);
+    }
+
+    public function testASystemLocaleBuildOnAnotherPlatformServesNothingAndTheProblemNamesTheCause(): void
+    {
+        $before = setlocale(LC_MESSAGES, '0');
+        $found = setlocale(LC_MESSAGES, NativeGettext::SYSTEM_LOCALES);
+        setlocale(LC_MESSAGES, $before);
+        if ($found === false) {
+            $this->markTestSkipped('none of ' . implode(', ', NativeGettext::SYSTEM_LOCALES) . ' is installed');
+        }
+        NativeGettext::useSystemLocaleForTests(true);
+        $this->build();
+        NativeGettext::resetForTests();
+        NativeGettext::useSystemLocaleForTests(false);
+        MigratedTranslations::reset();
+
+        $this->assertNull($this->text('greeting'));
+
+        $problem = MigratedTranslations::getProblem($this->client_data_dir);
+        $this->assertNotNull($problem);
+        $this->assertStringContainsString(
+            sprintf('the build was made on %s with a system locale, run "php cli/setup.php build" on the platform of the web server', PHP_OS_FAMILY),
+            $problem['message']
+        );
+        $this->assertTrue($problem['fatal']);
     }
 
     public function testAHealthyBuildHasNoProblem(): void

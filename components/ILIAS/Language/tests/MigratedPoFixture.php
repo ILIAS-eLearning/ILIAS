@@ -257,6 +257,26 @@ final class MigratedPoFixture
         return sys_get_temp_dir() . '/ilias_lang_test_artifacts_' . getmypid() . '_' . self::$artifact_generation;
     }
 
+    public static function glibcLocaleAvailable(): bool
+    {
+        foreach (['/usr/lib/locale/C.utf8', '/usr/lib/locale/C.UTF-8', '/usr/lib64/locale/C.utf8', '/usr/lib64/locale/C.UTF-8'] as $candidate) {
+            if (is_file($candidate . '/LC_MESSAGES/SYS_LC_MESSAGES') || is_file($candidate . '/LC_CTYPE')) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /** Skips $test without the glibc locale (macOS, BSD), otherwise makes NativeGettext use it. */
+    public static function requireGlibcLocale(\PHPUnit\Framework\TestCase $test): void
+    {
+        if (!self::glibcLocaleAvailable()) {
+            $test::markTestSkipped('needs the glibc locale "C.utf8" (LOCPATH), which this platform does not have');
+        }
+        NativeGettext::useSystemLocaleForTests(false);
+    }
+
     /** Forgets the static state of the runtime read path and points build and runtime at $artifact_directory (default: the emptied temporary one), never at the installation's artifacts. */
     public static function resetRuntime(?string $artifact_directory = null): void
     {

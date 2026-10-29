@@ -30,28 +30,30 @@ use RuntimeException;
  * only, never by the web server (it does not write `artifacts/`; "merge" only writes the shipped `.po`, see
  * ShippedPoMerger).
  *
- * Requirement: the locale is copied from the C library of the build host and checked in that (CLI) process
- * only. The web server must use the same C library (glibc with `C.utf8`) and have the PHP extension "gettext";
- * with separate CLI/web images or a musl based system (which ignores LOCPATH) the runtime serves `-identifier-`
- * and reports why (see MigratedTranslations::getProblem()).
+ * Requirement: on glibc the locale is copied from the C library of the build host and checked in that (CLI)
+ * process only. The web server must use the same C library (glibc with `C.utf8`) and have the PHP extension
+ * "gettext"; with separate CLI/web images or a musl based system (which ignores LOCPATH) the runtime serves
+ * `-identifier-` and reports why (see MigratedTranslations::getProblem()). macOS/BSD ship no locale.
  *
  * Layout below `artifacts/language/` (see MigratedLanguageFilePaths):
  * - `<build>/messages/LC_MESSAGES/<module>.<lang>.mo`: the shipped state of a module, see
  *   ShippedTranslations::compile();
  * - `<build>/keys/<module>.php`: all identifiers of the module's `.po` files and template, the same for every
  *   language, as a PHP file for the opcache;
- * - `<build>/locale/`: the locale native gettext is activated with (see NativeGettext), a copy of "C.utf8";
+ * - `<build>/locale/`: the locale native gettext is activated with (see NativeGettext), a copy of "C.utf8"
+ *   (glibc only);
  * - `<build>/manifest.json`: size and hash of every file, to tell an intact build, the hash of each built `.po`
- *   (see servesShippedPo()), the warnings and collisions;
+ *   (see servesShippedPo()), the warnings and collisions, whether it ships a locale and the building platform
+ *   (see platformProblem());
  * - `current.json`: the build the runtime serves, its languages per module and every contributed module
  *   ("shipped") - read on every request, so nothing else.
  *
  * The build id fingerprints everything that determines the build: the shipped files, the compiling code (see
- * FORMAT_VERSION) and the locale. An intact build with the same id (its manifest also keeps its warnings) is
- * reused, otherwise a new one is written into a temporary directory and renamed to its id. Either way it is
- * checked with a real native gettext lookup before `current.json` is switched atomically; running requests
- * keep their build. The previous build is kept, older ones (and the files of the former layout
- * `<lang>/<module>.mo`, `index.json`) are removed. Builds are serialized by `build.lock`.
+ * FORMAT_VERSION) and the locale (or the platform using a system locale). An intact build with the same id (its
+ * manifest also keeps its warnings) is reused, otherwise a new one is written into a temporary directory and
+ * renamed to its id. Either way it is checked with a real native gettext lookup before `current.json` is switched
+ * atomically; running requests keep their build. The previous build is kept, older ones (and the files of the
+ * former layout `<lang>/<module>.mo`, `index.json`) are removed. Builds are serialized by `build.lock`.
  *
  * A `.po` that cannot be compiled is reported and served with the catalog of the served (or else the previous)
  * build, so a broken file never turns a working language into `-identifier-`; without such a catalog the module is
@@ -62,7 +64,7 @@ use RuntimeException;
  * Files are written without fsync(): a build can be repeated any time, and the manifest reveals a build
  * damaged by a crash.
  *
- * @phpstan-type Manifest array{files: array<string, array{0: int, 1: string}>, sample: array{module: string, lang: string, key: string, value: string}, languages: array<string, list<string>>, hashes: array<string, array<string, string>>, warnings: list<string>, collisions: list<string>, compatibility: string}
+ * @phpstan-type Manifest array{files: array<string, array{0: int, 1: string}>, sample: array{module: string, lang: string, key: string, value: string}, languages: array<string, list<string>>, hashes: array<string, array<string, string>>, warnings: list<string>, collisions: list<string>, compatibility: string, locale: 'shipped'|'system', platform: string}
  * @phpstan-type Pointer array{build: ?string, previous: ?string, modules: array<string, list<string>>, shipped: ?list<string>}
  */
 final class ShippedTranslationsBuild
@@ -97,6 +99,13 @@ final class ShippedTranslationsBuild
      * @var array<string, Manifest>
      */
     private static array $manifests = [];
+
+    /**
+     * Per build directory: the platform of a build made with a system locale, `null` for any other.
+     *
+     * @var array<string, ?string>
+     */
+    private static array $system_locale_platforms = [];
 
     /**
      * Where the C library's "C.utf8" locale is looked for (Debian/Ubuntu, Fedora/RHEL, Arch, ...).
@@ -174,7 +183,7 @@ final class ShippedTranslationsBuild
             ];
         }
 
-        $locale_source = $this->findLocaleSource();
+        $locale_source = NativeGettext::usesSystemLocale() ? null : $this->findLocaleSource();
         $build_id = $this->buildId($modules, $locale_source);
         $build_directory = MigratedLanguageFilePaths::buildDirectory($artifact_directory, $build_id);
         $manifest = self::readManifest($build_directory);
@@ -294,7 +303,7 @@ final class ShippedTranslationsBuild
         string $build_directory,
         string $build_id,
         array $modules,
-        string $locale_source,
+        ?string $locale_source,
         array $former_builds
     ): array {
         $temporary = $artifact_directory . '/.' . $build_id . '.' . bin2hex(random_bytes(6));
@@ -376,7 +385,9 @@ final class ShippedTranslationsBuild
                 throw new RuntimeException('No migrated module has a single translated value - nothing to check native gettext with.');
             }
 
-            $this->copyLocale($locale_source, MigratedLanguageFilePaths::buildLocaleDirectory($temporary) . '/' . NativeGettext::LOCALE_NAME, $temporary, $files);
+            if ($locale_source !== null) {
+                $this->copyLocale($locale_source, MigratedLanguageFilePaths::buildLocaleDirectory($temporary) . '/' . NativeGettext::LOCALE_NAME, $temporary, $files);
+            }
             ksort($files, SORT_STRING);
             [$collisions, $collision_summary] = $this->findCollisions($values_per_language);
             $manifest = [
@@ -387,6 +398,8 @@ final class ShippedTranslationsBuild
                 'warnings' => $warnings,
                 'collisions' => $collisions,
                 'compatibility' => self::catalogCompatibility(),
+                'locale' => $locale_source === null ? 'system' : 'shipped',
+                'platform' => PHP_OS_FAMILY,
             ];
             $this->writeFile($temporary . '/' . self::MANIFEST_FILE, json_encode($manifest, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR) . "\n");
 
@@ -635,10 +648,15 @@ final class ShippedTranslationsBuild
 
     /**
      * @param array<string, array{directory: LanguageFileDirectory, languages: array<string, string>, template: ?string}> $modules
+     * @param string|null $locale_source `null`: no locale is shipped, see NativeGettext::usesSystemLocale()
      */
-    private function buildId(array $modules, string $locale_source): string
+    private function buildId(array $modules, ?string $locale_source): string
     {
-        $parts = [(string) self::FORMAT_VERSION, $this->codeFingerprint(), $this->directoryFingerprint($locale_source)];
+        $parts = [
+            (string) self::FORMAT_VERSION,
+            $this->codeFingerprint(),
+            $locale_source === null ? 'system-locale|' . PHP_OS_FAMILY : $this->directoryFingerprint($locale_source),
+        ];
         foreach ($modules as $module => $shipped) {
             $files = $shipped['languages'];
             if ($shipped['template'] !== null) {
@@ -798,6 +816,8 @@ final class ShippedTranslationsBuild
             'hashes' => self::hashes($data['hashes'] ?? []),
             'collisions' => self::stringList($data['collisions'] ?? []),
             'compatibility' => is_string($data['compatibility'] ?? null) ? $data['compatibility'] : '',
+            'locale' => ($data['locale'] ?? null) === 'system' ? 'system' : 'shipped',
+            'platform' => is_string($data['platform'] ?? null) ? $data['platform'] : '',
         ];
     }
 
@@ -972,6 +992,26 @@ final class ShippedTranslationsBuild
         $hash = self::$manifests[$build_directory]['hashes'][$module][$lang_key] ?? null;
 
         return $hash !== null && $hash === @hash_file('sha256', $shipped_po);
+    }
+
+    /** Why a build made with a system locale (macOS/BSD) cannot be activated by a PHP needing the shipped one. */
+    public static function platformProblem(string $build_directory): ?string
+    {
+        if (!array_key_exists($build_directory, self::$system_locale_platforms)) {
+            $manifest = self::$manifests[$build_directory] ?? self::readManifest($build_directory);
+            self::$system_locale_platforms[$build_directory] = $manifest !== null && $manifest['locale'] === 'system'
+                ? ($manifest['platform'] === '' ? 'another platform' : $manifest['platform'])
+                : null;
+        }
+        $platform = self::$system_locale_platforms[$build_directory];
+        if ($platform === null || NativeGettext::usesSystemLocale()) {
+            return null;
+        }
+
+        return sprintf(
+            'the build was made on %s with a system locale, run "php cli/setup.php build" on the platform of the web server',
+            $platform
+        );
     }
 
     /**

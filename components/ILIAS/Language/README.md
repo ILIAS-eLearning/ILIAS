@@ -129,8 +129,8 @@ or updating a language.
 `php cli/setup.php build` (also run by `composer install` and
 `composer dump-autoload`, see `ShippedTranslationsBuild`) compiles every
 shipped `.po` into `artifacts/language/<build>/`:
-`messages/LC_MESSAGES/<module>.<lang>.mo`, `keys/<module>.php`, a copy of the C
-library's `C.utf8` locale and a manifest (also the hashes of the compiled
+`messages/LC_MESSAGES/<module>.<lang>.mo`, `keys/<module>.php`, on glibc a copy
+of the C library's `C.utf8` locale and a manifest (also the hashes of the compiled
 `.po` files, warnings and collisions). `artifacts/language/current.json` names
 the build that is served, its languages per module and every contributed
 module, nothing else, as every request reads it; it is switched only after the
@@ -138,7 +138,7 @@ new build is complete and passed a real lookup through native gettext, and the
 previous build is kept for running requests.
 
 * **The build aborts** if the PHP extension `gettext` (a precondition of
-  `setup build`) or `C.utf8` is missing.
+  `setup build`) or, on glibc, `C.utf8` is missing.
 * Not aborting, but reported on every build: values with markup that is not
   allowed (compiled cleaned, see [Markup Policy](#markup-policy)), a `.po` that
   cannot be compiled (e.g. merge conflict markers) and identifiers that two
@@ -170,9 +170,18 @@ Only other modules (plugins) are read from `lng_data`/`lng_modules`.
 * Without a build, for a language the build lacks, or for a language that is
   not installed a shipped module has no texts (`-identifier-`); a missing
   build or a shipped `.po` that is not built is reported.
-* Requirements: the PHP extension `gettext` and the locale `C.utf8` are
-  mandatory for CLI and web server, with the same C library for both (glibc;
-  musl ignores `LOCPATH`). The build checks this in the CLI process only.
+* Requirements: the PHP extension `gettext` for CLI and web server, and
+  * glibc: the locale `C.utf8`, with the same C library for both; native
+    gettext activates the build's copy of it through `LOCPATH`;
+  * macOS and FreeBSD (experimental, untested): gettext from GNU libintl
+    (Homebrew, Ports) and a system locale of `NativeGettext::SYSTEM_LOCALES`;
+    the libc there ignores `LOCPATH`, no locale is shipped (`C.UTF-8` does not
+    work: GNU libintl ignores `LANGUAGE` there);
+  * musl is not supported (ignores `LOCPATH`).
+
+  Build on the platform that serves ILIAS (with Docker in the container): a
+  build made with a system locale is not served on glibc.
+  The build checks this in the CLI process only.
   Without them every text of a shipped module is shown as `-identifier-`; the
   problem is logged and shown in the language administration. With a
   thread-safe PHP (ZTS) the locale applies to every thread of the process.

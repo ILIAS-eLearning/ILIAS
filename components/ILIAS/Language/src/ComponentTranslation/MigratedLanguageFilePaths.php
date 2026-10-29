@@ -26,7 +26,7 @@ namespace ILIAS\Language\ComponentTranslation;
  * - the shipped, git-tracked `.po`: <ILIAS root>/<directory path><shipped file name>.po
  * - the build (see ShippedTranslationsBuild): `artifacts/language/current.json` names the build
  *   `artifacts/language/<build>/` with `messages/LC_MESSAGES/<module>.<lang>.mo`, `keys/<module>.php`
- *   and `locale/`
+ *   and (glibc only) `locale/`
  * - the per-installation overlay (see MigratedLanguageFileSync):
  *   <client data dir>/lang/<module>/<lang>/ with `<shipped file name>.po`, `lock`, `current` and
  *   `r-<hash>/messages/LC_MESSAGES/<module>.<lang>.overlay.mo` plus `r-<hash>/keys.json`
@@ -320,7 +320,8 @@ final class MigratedLanguageFilePaths
     }
 
     /**
-     * The directory with the locale NativeGettext activates (NativeGettext::LOCALE_NAME): `<build>/locale`.
+     * The directory with the locale NativeGettext activates (NativeGettext::LOCALE_NAME): `<build>/locale`,
+     * missing where NativeGettext::usesSystemLocale().
      */
     public static function buildLocaleDirectory(string $build_directory): string
     {
