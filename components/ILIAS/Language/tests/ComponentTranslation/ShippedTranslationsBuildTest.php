@@ -282,7 +282,8 @@ class ShippedTranslationsBuildTest extends TestCase
         }
         $this->ship('mfa', 'de', ['greeting' => 'Hallo']);
         $this->build(['mfa']);
-        $pointer_before = (string) file_get_contents($this->pointerFile());
+        $pointer_file = $this->pointerFile();
+        $pointer_before = (string) file_get_contents($pointer_file);
         $entries_before = $this->artifactEntries();
         NativeGettext::useSystemLocaleForTests(false);
 
@@ -294,7 +295,7 @@ class ShippedTranslationsBuildTest extends TestCase
             $this->assertStringContainsString('no-such-locale', $e->getMessage());
         }
 
-        $this->assertSame($pointer_before, (string) file_get_contents($this->pointerFile()));
+        $this->assertSame($pointer_before, (string) file_get_contents($pointer_file));
         $this->assertSame($entries_before, $this->artifactEntries());
     }
 
@@ -375,7 +376,7 @@ class ShippedTranslationsBuildTest extends TestCase
         $pointer = ShippedTranslationsBuild::readPointer($this->artifacts);
         $this->assertSame($builds[2], $pointer['build'] ?? null);
         $this->assertSame($builds[1], $pointer['previous'] ?? null);
-        $expected = ['build.lock', 'current.json', 'de', 'keep-me', 'keep-me.txt', $builds[1], $builds[2]];
+        $expected = ['build.lock', basename($this->pointerFile()), 'de', 'keep-me', 'keep-me.txt', $builds[1], $builds[2]];
         $actual = $this->artifactEntries();
         sort($expected);
         sort($actual);

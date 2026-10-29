@@ -577,7 +577,7 @@ class MigratedTranslationsTest extends TestCase
         $this->assertNotNull($problem);
 
         $this->assertTrue($problem['fatal']);
-        $this->assertStringContainsString('"artifacts/language/current.json"', $problem['message']);
+        $this->assertStringContainsString('"artifacts/language/' . basename(MigratedLanguageFilePaths::buildPointerFile(MigratedPoFixture::artifactDirectory())) . '"', $problem['message']);
         $this->assertStringNotContainsString(sys_get_temp_dir(), $problem['message']);
     }
 
