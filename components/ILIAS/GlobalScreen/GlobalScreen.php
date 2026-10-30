@@ -28,6 +28,7 @@ use ILIAS\Component\Resource\Endpoint;
 use ILIAS\Component\Resource\ComponentJS;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class GlobalScreen implements Component
 {
@@ -61,5 +62,7 @@ class GlobalScreen implements Component
             $this,
             'gsfo'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new GlobalScreen\ObjectType\FooterAdministrationObjectType();
     }
 }

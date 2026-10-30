@@ -22,6 +22,7 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class MetaData implements Component\Component
 {
@@ -49,5 +50,7 @@ class MetaData implements Component\Component
             $this,
             'meta'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new MetaData\ObjectType\MDSettingsObjectType();
     }
 }

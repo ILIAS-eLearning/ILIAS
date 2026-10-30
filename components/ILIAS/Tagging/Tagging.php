@@ -22,6 +22,7 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class Tagging implements Component\Component
 {
@@ -41,5 +42,7 @@ class Tagging implements Component\Component
             $this,
             'tagging'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Tagging\ObjectType\TaggingSettingsObjectType();
     }
 }

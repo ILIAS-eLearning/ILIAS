@@ -22,6 +22,7 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class Taxonomy implements Component\Component
 {
@@ -40,5 +41,8 @@ class Taxonomy implements Component\Component
             $this,
             'tax'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Taxonomy\ObjectType\TaxonomyObjectType();
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Taxonomy\ObjectType\TaxonomyAdministrationObjectType();
     }
 }

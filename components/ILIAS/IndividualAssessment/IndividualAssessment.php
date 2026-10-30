@@ -22,6 +22,8 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectGroup;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class IndividualAssessment implements Component\Component
 {
@@ -43,5 +45,8 @@ class IndividualAssessment implements Component\Component
             $this,
             'iass'
         );
+
+        $contribute[ObjectGroup::class] = static fn(): ObjectGroup => new IndividualAssessment\ObjectType\IndividualAssessmentObjectGroup();
+        $contribute[ObjectType::class] = static fn(): ObjectType => new IndividualAssessment\ObjectType\IndividualAssessmentObjectType();
     }
 }

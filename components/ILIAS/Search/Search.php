@@ -25,6 +25,7 @@ use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\Search\Setup\Agent as SearchSetupAgent;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class Search implements Component\Component
 {
@@ -47,5 +48,7 @@ class Search implements Component\Component
             $this,
             'search'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Search\ObjectType\SearchSettingsObjectType();
     }
 }

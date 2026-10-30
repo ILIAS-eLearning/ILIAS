@@ -22,6 +22,8 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectGroup;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class Wiki implements Component\Component
 {
@@ -48,5 +50,9 @@ class Wiki implements Component\Component
             $this,
             'wiki'
         );
+
+        $contribute[ObjectGroup::class] = static fn(): ObjectGroup => new Wiki\ObjectType\WikisObjectGroup();
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Wiki\ObjectType\WikiObjectType();
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Wiki\ObjectType\WikiSettingsObjectType();
     }
 }

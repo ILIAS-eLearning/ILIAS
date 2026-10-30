@@ -22,6 +22,8 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectGroup;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class Course implements Component\Component
 {
@@ -51,5 +53,10 @@ class Course implements Component\Component
             $this,
             'crs'
         );
+
+        $contribute[ObjectGroup::class] = static fn(): ObjectGroup => new Course\ObjectType\CoursesObjectGroup();
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Course\ObjectType\CourseObjectType();
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Course\ObjectType\CourseAdministrationObjectType();
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Course\ObjectType\CourseVerificationObjectType();
     }
 }

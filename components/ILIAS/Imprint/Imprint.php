@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+use ILIAS\ILIASObject\Definition\ObjectType;
+
 class Imprint implements Component\Component
 {
     public function init(
@@ -36,5 +38,7 @@ class Imprint implements Component\Component
             new \ILIAS\Imprint\Setup\ImprintUpdateAgent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Imprint\ObjectType\LegalNoticeObjectType();
     }
 }

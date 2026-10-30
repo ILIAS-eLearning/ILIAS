@@ -22,6 +22,7 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class TestQuestionPool implements Component\Component
 {
@@ -100,5 +101,7 @@ class TestQuestionPool implements Component\Component
             $this,
             'qpl'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new TestQuestionPool\ObjectType\QuestionPoolObjectType();
     }
 }

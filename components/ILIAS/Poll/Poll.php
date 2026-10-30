@@ -24,6 +24,7 @@ use ILIAS\Setup\Agent as SetupAgent;
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class Poll implements Component\Component
 {
@@ -44,5 +45,7 @@ class Poll implements Component\Component
             $this,
             'poll'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Poll\ObjectType\PollObjectType();
     }
 }

@@ -22,6 +22,7 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class Administration implements Component\Component
 {
@@ -52,5 +53,10 @@ class Administration implements Component\Component
             $this,
             'adm'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Administration\ObjectType\SystemFolderObjectType();
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Administration\ObjectType\GeneralSettingsObjectType();
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Administration\ObjectType\ServerInfoObjectType();
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Administration\ObjectType\RecoveryFolderObjectType();
     }
 }
