@@ -2819,12 +2819,6 @@ msgstr "A Hibahatár megadja az eredménytől való megengedett százalékos elt
 msgid "too_many_targets_selected_for_move"
 msgstr "Egy célpozíciót válasszon ki!"
 
-msgid "toplist_by_score"
-msgstr "Toplista pontozás alapján"
-
-msgid "toplist_by_time"
-msgstr "Toplista kidolgozási idő alapján"
-
 msgid "toplist_col_achieved"
 msgstr "Dátum"
 
@@ -2836,9 +2830,6 @@ msgstr "Százalék"
 
 msgid "toplist_col_rank"
 msgstr "Helyezés"
-
-msgid "toplist_col_score"
-msgstr "Pont"
 
 msgid "toplist_col_wtime"
 msgstr "Kidolgozási idő"
@@ -4406,9 +4397,6 @@ msgstr "Kérdéslista megjelenítése"
 
 msgid "tst_show_summary_description"
 msgstr "A kitöltő számára megjelenik a ‘Kérdéslista’ gomb, amivel bekapcsolhatják az összes kérdések felsorolását, ahol látszódik, melyikre adtak már választ. További beállítási lehetőséget alább talál."
-
-msgid "tst_show_toplist"
-msgstr "Rangsor"
 
 msgid "tst_shuffle_questions"
 msgstr "Kérdések összekeverése"

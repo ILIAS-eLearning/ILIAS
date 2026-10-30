@@ -2813,12 +2813,6 @@ msgstr "Allow answers that deviate from the expected result by the percentage ma
 msgid "too_many_targets_selected_for_move"
 msgstr "You must select exactly one target position!"
 
-msgid "toplist_by_score"
-msgstr "Ranking by Score"
-
-msgid "toplist_by_time"
-msgstr "Ranking by Time Taken"
-
 msgid "toplist_col_achieved"
 msgstr "Date"
 
@@ -2830,9 +2824,6 @@ msgstr "Percentage Score"
 
 msgid "toplist_col_rank"
 msgstr "Rank"
-
-msgid "toplist_col_score"
-msgstr "Point Score"
 
 msgid "toplist_col_wtime"
 msgstr "Time Taken"
@@ -4399,9 +4390,6 @@ msgstr "Show Test Attempt Overview"
 
 msgid "tst_show_summary_description"
 msgstr "Show a ‘Test Attempt Overview’ button. By clicking on this, participants can access an overview of the current test attempt showing which questions have already been answered. Additionally, which questions have been flagged and how many points a question is worth will displayed according to which of these options have been activated. Further fine tuning to the overview of the test attempt can be undertaken below."
-
-msgid "tst_show_toplist"
-msgstr "Rankings"
 
 msgid "tst_shuffle_questions"
 msgstr "Shuffle Questions"

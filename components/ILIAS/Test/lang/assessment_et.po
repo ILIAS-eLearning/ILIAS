@@ -3206,12 +3206,6 @@ msgstr "The tolerance specifies an allowable percentage deviation from the resul
 msgid "too_many_targets_selected_for_move"
 msgstr "Vali ainult üks sihtmärgi asukoht!"
 
-msgid "toplist_by_score"
-msgstr "Highscore by score"
-
-msgid "toplist_by_time"
-msgstr "Highscore by working time"
-
 msgid "toplist_col_achieved"
 msgstr "Date"
 
@@ -3223,9 +3217,6 @@ msgstr "Percentage"
 
 msgid "toplist_col_rank"
 msgstr "Rank"
-
-msgid "toplist_col_score"
-msgstr "Score"
 
 msgid "toplist_col_wtime"
 msgstr "Working Time"
@@ -5003,9 +4994,6 @@ msgstr "Näita küsimuste loetelu"
 
 msgid "tst_show_summary_description"
 msgstr "Osaleja näeb testi sooritamise ajal testiküsimuste loetelu."
-
-msgid "tst_show_toplist"
-msgstr "Show Highscores"
 
 msgid "tst_shuffle_questions"
 msgstr "Sega küsimusi"

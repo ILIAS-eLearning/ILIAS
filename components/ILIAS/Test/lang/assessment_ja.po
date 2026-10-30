@@ -2819,12 +2819,6 @@ msgstr "公差は結果値のばらつき許容パーセントを表す。公差
 msgid "too_many_targets_selected_for_move"
 msgstr "正確に一つの目標位置を選択としなけれなりません!"
 
-msgid "toplist_by_score"
-msgstr "得点別高得点"
-
-msgid "toplist_by_time"
-msgstr "時間別高得点"
-
 msgid "toplist_col_achieved"
 msgstr "日付"
 
@@ -2836,9 +2830,6 @@ msgstr "パーセント"
 
 msgid "toplist_col_rank"
 msgstr "順位"
-
-msgid "toplist_col_score"
-msgstr "点数"
 
 msgid "toplist_col_wtime"
 msgstr "処理時間"
@@ -4407,9 +4398,6 @@ msgstr "問題リストを表示"
 
 msgid "tst_show_summary_description"
 msgstr "受験者は実際の問題の左側のテスト問題のリストへ切替できます。さらに\"問題リスト\"へ表示されます。その画面上で問題の全般ステータスが表示されます。"
-
-msgid "tst_show_toplist"
-msgstr "順位を表示"
 
 msgid "tst_shuffle_questions"
 msgstr "問題をシャッフル"
