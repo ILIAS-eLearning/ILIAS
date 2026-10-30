@@ -177,7 +177,7 @@ class ilBookCronNotification extends ilCronJob
 
                     if ($access->canRetrieveNotificationsForAllReservationsByObjId(
                         (int) $p["booking_pool_id"],
-                        (int) $r["user_id"]
+                        (int) $uid
                     )) {
                         $log->debug("got write");
                         $notifications[$uid]["admin"][$r["pool_id"]][] = $r;
