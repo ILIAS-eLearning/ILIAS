@@ -24,6 +24,7 @@ use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
 use ILIAS\ILIASObject\Definition\ObjectType;
 use ILIAS\Administration\Node\AdministrationNode;
+use ILIAS\Administration\Settings\ExternalSettings;
 
 class PrivacySecurity implements Component\Component
 {
@@ -49,5 +50,7 @@ class PrivacySecurity implements Component\Component
         $contribute[ObjectType::class] = static fn(): ObjectType => new PrivacySecurity\ObjectType\PrivacySecurityObjectType();
 
         $contribute[AdministrationNode::class] = static fn(): AdministrationNode => new PrivacySecurity\AdministrationNode\PrivacySecurityAdministrationNode();
+        $contribute[ExternalSettings::class] = static fn(): ExternalSettings => new PrivacySecurity\AdministrationNode\PrivacySecurityExternalSettings();
+
     }
 }

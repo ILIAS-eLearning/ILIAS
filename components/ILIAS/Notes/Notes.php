@@ -24,6 +24,7 @@ use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
 use ILIAS\ILIASObject\Definition\ObjectType;
 use ILIAS\Administration\Node\AdministrationNode;
+use ILIAS\Administration\Settings\ExternalSettings;
 
 class Notes implements Component\Component
 {
@@ -58,5 +59,7 @@ class Notes implements Component\Component
 
         $contribute[AdministrationNode::class] = static fn(): AdministrationNode => new Notes\AdministrationNode\NotesSettingsAdministrationNode();
         $contribute[AdministrationNode::class] = static fn(): AdministrationNode => new Notes\AdministrationNode\CommentsSettingsAdministrationNode();
+        $contribute[ExternalSettings::class] = static fn(): ExternalSettings => new Notes\AdministrationNode\CommentsSettingsExternalSettings();
+
     }
 }

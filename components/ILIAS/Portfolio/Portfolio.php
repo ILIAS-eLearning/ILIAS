@@ -24,6 +24,7 @@ use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
 use ILIAS\ILIASObject\Definition\ObjectType;
 use ILIAS\Administration\Node\AdministrationNode;
+use ILIAS\Administration\Settings\ExternalSettings;
 
 class Portfolio implements Component\Component
 {
@@ -58,5 +59,7 @@ class Portfolio implements Component\Component
         $contribute[ObjectType::class] = static fn(): ObjectType => new Portfolio\ObjectType\PortfolioAdministrationObjectType();
 
         $contribute[AdministrationNode::class] = static fn(): AdministrationNode => new Portfolio\AdministrationNode\PortfolioAdministrationAdministrationNode();
+        $contribute[ExternalSettings::class] = static fn(): ExternalSettings => new Portfolio\AdministrationNode\PortfolioAdministrationExternalSettings();
+
     }
 }
