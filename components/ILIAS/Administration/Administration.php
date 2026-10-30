@@ -25,6 +25,8 @@ use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
 use ILIAS\ILIASObject\Definition\ObjectType;
 use ILIAS\Administration\Node\AdministrationNodes;
 use ILIAS\Administration\Node\AdministrationNode;
+use ILIAS\Administration\Settings\ExternalSettings;
+use ILIAS\Administration\Settings\ExternalSettingsCollection;
 
 class Administration implements Component\Component
 {
@@ -40,6 +42,8 @@ class Administration implements Component\Component
     ): void {
         $provide[AdministrationNodes::class] = static fn(): AdministrationNodes =>
             new AdministrationNodes($seek[AdministrationNode::class]);
+        $provide[ExternalSettingsCollection::class] = static fn(): ExternalSettingsCollection =>
+            new ExternalSettingsCollection($seek[ExternalSettings::class]);
 
         $contribute[\ILIAS\Setup\Agent::class] = static fn() =>
             new \ILIAS\Administration\Setup\ilAdministrationSetupAgent(

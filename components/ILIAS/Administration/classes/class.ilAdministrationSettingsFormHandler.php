@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\Administration\Settings\SettingsForm;
+use ILIAS\Administration\Settings\ExternalSettingsCollection;
+
 /**
  * Administration settings form handler
  *
@@ -113,76 +116,31 @@ class ilAdministrationSettingsFormHandler
         return $gui_obj;
     }
 
+    /**
+     * Adds the settings which other components contribute for the given form
+     * (ExternalSettings) as read only sections with a link to edit them.
+     */
     public static function addFieldsToForm(
         int $a_form_id,
         ilPropertyFormGUI $a_form,
         ilObjectGUI $a_parent_gui
     ): void {
-        switch ($a_form_id) {
-            case self::FORM_SECURITY:
-                $types = array(self::SETTINGS_USER, self::SETTINGS_FILE, self::SETTINGS_ROLE);
-                break;
+        global $DIC;
 
-            case self::FORM_PRIVACY:
-                $types = array(self::SETTINGS_ROLE, self::SETTINGS_FORUM, self::SETTINGS_LRES, self::SETTINGS_COMMENTS);
-                break;
-
-            case self::FORM_TAGGING:
-            case self::FORM_LP:
-                $types = array(self::SETTINGS_REPOSITORY);
-                break;
-
-            case self::FORM_ACCESSIBILITY:
-                $types = array(self::SETTINGS_FORUM, self::SETTINGS_AUTH, self::SETTINGS_WIKI);
-                break;
-
-            case self::FORM_MAIL:
-                $types = array(self::SETTINGS_COURSE, self::SETTINGS_GROUP, self::SETTINGS_LEARNINGSEQUENCE);
-                break;
-
-            case self::FORM_COURSE:
-                $types = array(self::SETTINGS_PRIVACY_SECURITY, self::SETTINGS_CALENDAR, self::SETTINGS_GENERAL);
-                break;
-
-            case self::FORM_GROUP:
-                $types = array(self::SETTINGS_PRIVACY_SECURITY, self::SETTINGS_CALENDAR, self::SETTINGS_GENERAL, self::SETTINGS_COURSE);
-                break;
-
-            case self::FORM_WSP:
-                $types = array(self::SETTINGS_PORTFOLIO);
-                break;
-
-            case self::FORM_CERTIFICATE:
-                $types = array(self::SETTINGS_LP_COMPLETION_STATUS);
-                break;
-
-            case self::FORM_PRG:
-                $types = array(self::SETTINGS_PRIVACY_SECURITY);
-                break;
-
-            default:
-                $types = null;
-                break;
+        $form = SettingsForm::tryFrom($a_form_id);
+        if ($form === null || !$DIC->offsetExists(ExternalSettingsCollection::class)) {
+            return;
         }
 
-        if (is_array($types)) {
-            foreach ($types as $type) {
-                $gui = self::getSettingsGUIInstance($type);
-                if ($gui && method_exists($gui, "addToExternalSettingsForm")) {
-                    $data = $gui->addToExternalSettingsForm($a_form_id);
-                    if (is_array($data)) {
-                        self::parseFieldDefinition($type, $a_form, $gui, $data);
-                    }
-                }
+        foreach ($DIC[ExternalSettingsCollection::class]->forForm($form) as $external_settings) {
+            $gui = $external_settings->getGUI();
+            if (!method_exists($gui, "addToExternalSettingsForm")) {
+                continue;
             }
-        }
-
-        // cron jobs - special handling
-
-        $gui = ilObjCronGUI::create();
-        $data = $gui->addToExternalSettingsForm($a_form_id);
-        if ($data !== []) {
-            self::parseFieldDefinition("cron", $a_form, $gui, $data);
+            $data = $gui->addToExternalSettingsForm($a_form_id);
+            if (is_array($data) && $data !== []) {
+                self::parseFieldDefinition($external_settings->getObjectType(), $a_form, $gui, $data);
+            }
         }
     }
 
