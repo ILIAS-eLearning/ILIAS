@@ -26,6 +26,7 @@ use ILIAS\Refinery\Factory;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
 use ILIAS\ILIASObject\Definition\ObjectType;
+use ILIAS\Administration\Node\AdministrationNode;
 
 class Bibliographic implements Component
 {
@@ -50,5 +51,7 @@ class Bibliographic implements Component
 
         $contribute[ObjectType::class] = static fn(): ObjectType => new Bibliographic\ObjectType\BibliographicObjectType();
         $contribute[ObjectType::class] = static fn(): ObjectType => new Bibliographic\ObjectType\BibliographicAdminObjectType();
+
+        $contribute[AdministrationNode::class] = static fn(): AdministrationNode => new Bibliographic\AdministrationNode\BibliographicAdminAdministrationNode();
     }
 }

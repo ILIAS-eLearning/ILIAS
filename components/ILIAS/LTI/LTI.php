@@ -23,6 +23,7 @@ namespace ILIAS;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\ILIASObject\Definition\ObjectType;
+use ILIAS\Administration\Node\AdministrationNode;
 
 /**
  * LTI component: LTI 1.1 (classes/LTI1p1) and LTI Advantage (classes/LTIAdvantage) for ILIAS as consumer and provider.
@@ -121,5 +122,7 @@ class LTI implements Component\Component
         $contribute[ObjectType::class] = static fn(): ObjectType => new LTI\ObjectType\LTIToolObjectType();
         $contribute[ObjectType::class] = static fn(): ObjectType => new LTI\ObjectType\LTIToolVerificationObjectType();
         $contribute[ObjectType::class] = static fn(): ObjectType => new LTI\ObjectType\LTIAdministrationObjectType();
+
+        $contribute[AdministrationNode::class] = static fn(): AdministrationNode => new LTI\AdministrationNode\LTIAdministrationAdministrationNode();
     }
 }

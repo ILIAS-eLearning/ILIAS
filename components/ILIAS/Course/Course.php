@@ -24,6 +24,7 @@ use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
 use ILIAS\ILIASObject\Definition\ObjectGroup;
 use ILIAS\ILIASObject\Definition\ObjectType;
+use ILIAS\Administration\Node\AdministrationNode;
 
 class Course implements Component\Component
 {
@@ -58,5 +59,7 @@ class Course implements Component\Component
         $contribute[ObjectType::class] = static fn(): ObjectType => new Course\ObjectType\CourseObjectType();
         $contribute[ObjectType::class] = static fn(): ObjectType => new Course\ObjectType\CourseAdministrationObjectType();
         $contribute[ObjectType::class] = static fn(): ObjectType => new Course\ObjectType\CourseVerificationObjectType();
+
+        $contribute[AdministrationNode::class] = static fn(): AdministrationNode => new Course\AdministrationNode\CourseAdministrationAdministrationNode();
     }
 }

@@ -24,6 +24,7 @@ use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
 use ILIAS\ILIASObject\Definition\ObjectGroup;
 use ILIAS\ILIASObject\Definition\ObjectType;
+use ILIAS\Administration\Node\AdministrationNode;
 
 class Group implements Component\Component
 {
@@ -47,5 +48,7 @@ class Group implements Component\Component
         $contribute[ObjectGroup::class] = static fn(): ObjectGroup => new Group\ObjectType\GroupsObjectGroup();
         $contribute[ObjectType::class] = static fn(): ObjectType => new Group\ObjectType\GroupObjectType();
         $contribute[ObjectType::class] = static fn(): ObjectType => new Group\ObjectType\GroupAdministrationObjectType();
+
+        $contribute[AdministrationNode::class] = static fn(): AdministrationNode => new Group\AdministrationNode\GroupAdministrationAdministrationNode();
     }
 }

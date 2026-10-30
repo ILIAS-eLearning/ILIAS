@@ -32,6 +32,7 @@ use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
 use ILIAS\ILIASObject\Definition\ObjectType;
+use ILIAS\Administration\Node\AdministrationNode;
 
 class AccessControl implements Component\Component
 {
@@ -112,5 +113,7 @@ class AccessControl implements Component\Component
         $contribute[ObjectType::class] = static fn(): ObjectType => new AccessControl\ObjectType\RoleFolderObjectType();
         $contribute[ObjectType::class] = static fn(): ObjectType => new AccessControl\ObjectType\RoleObjectType();
         $contribute[ObjectType::class] = static fn(): ObjectType => new AccessControl\ObjectType\RoleTemplateObjectType();
+
+        $contribute[AdministrationNode::class] = static fn(): AdministrationNode => new AccessControl\AdministrationNode\RoleFolderAdministrationNode();
     }
 }

@@ -40,6 +40,7 @@ use ILIAS\Questions\Question\Persistence\Repository as QuestionRepository;
 use ILIAS\Questions\Setup\Agent;
 use ILIAS\Setup\Agent as AgentInterface;
 use ILIAS\ILIASObject\Definition\ObjectType;
+use ILIAS\Administration\Node\AdministrationNode;
 
 class Questions implements Component\Component
 {
@@ -138,5 +139,7 @@ class Questions implements Component\Component
         );
 
         $contribute[ObjectType::class] = static fn(): ObjectType => new Questions\ObjectType\QuestionsObjectType();
+
+        $contribute[AdministrationNode::class] = static fn(): AdministrationNode => new Questions\AdministrationNode\QuestionsAdministrationNode();
     }
 }

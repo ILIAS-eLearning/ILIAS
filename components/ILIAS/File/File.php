@@ -53,6 +53,7 @@ use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
 use ILIAS\ILIASObject\Definition\ObjectGroup;
 use ILIAS\ILIASObject\Definition\ObjectType;
+use ILIAS\Administration\Node\AdministrationNode;
 
 class File implements Component
 {
@@ -216,5 +217,7 @@ class File implements Component
         $contribute[ObjectGroup::class] = static fn(): ObjectGroup => new File\ObjectType\FilesObjectGroup();
         $contribute[ObjectType::class] = static fn(): ObjectType => new File\ObjectType\FileObjectType();
         $contribute[ObjectType::class] = static fn(): ObjectType => new File\ObjectType\FileAccessSettingsObjectType();
+
+        $contribute[AdministrationNode::class] = static fn(): AdministrationNode => new File\AdministrationNode\FileAccessSettingsAdministrationNode();
     }
 }

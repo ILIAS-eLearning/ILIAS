@@ -26,6 +26,7 @@ use ILIAS\Search\Setup\Agent as SearchSetupAgent;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
 use ILIAS\ILIASObject\Definition\ObjectType;
+use ILIAS\Administration\Node\AdministrationNode;
 
 class Search implements Component\Component
 {
@@ -50,5 +51,7 @@ class Search implements Component\Component
         );
 
         $contribute[ObjectType::class] = static fn(): ObjectType => new Search\ObjectType\SearchSettingsObjectType();
+
+        $contribute[AdministrationNode::class] = static fn(): AdministrationNode => new Search\AdministrationNode\SearchSettingsAdministrationNode();
     }
 }

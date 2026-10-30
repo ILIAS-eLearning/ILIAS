@@ -23,6 +23,7 @@ namespace ILIAS;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
 use ILIAS\ILIASObject\Definition\ObjectType;
+use ILIAS\Administration\Node\AdministrationNode;
 
 class Blog implements Component\Component
 {
@@ -59,5 +60,7 @@ class Blog implements Component\Component
 
         $contribute[ObjectType::class] = static fn(): ObjectType => new Blog\ObjectType\BlogObjectType();
         $contribute[ObjectType::class] = static fn(): ObjectType => new Blog\ObjectType\BlogAdministrationObjectType();
+
+        $contribute[AdministrationNode::class] = static fn(): AdministrationNode => new Blog\AdministrationNode\BlogAdministrationAdministrationNode();
     }
 }

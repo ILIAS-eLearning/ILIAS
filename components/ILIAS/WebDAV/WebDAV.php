@@ -43,6 +43,7 @@ use ILIAS\WebDAV\Setup\KeyRotationObjective;
 use ILIAS\FileDelivery\Token\Signer\Key\Secret\SecretKeyRotation;
 use ILIAS\WebDAV\Mount\UriBuilder;
 use ILIAS\ILIASObject\Definition\ObjectType;
+use ILIAS\Administration\Node\AdministrationNode;
 
 class WebDAV implements Component
 {
@@ -118,5 +119,7 @@ class WebDAV implements Component
             => new \ILIAS\WebDAV\Setup\Agent();
 
         $contribute[ObjectType::class] = static fn(): ObjectType => new WebDAV\ObjectType\WebDAVObjectType();
+
+        $contribute[AdministrationNode::class] = static fn(): AdministrationNode => new WebDAV\AdministrationNode\WebDAVAdministrationNode();
     }
 }

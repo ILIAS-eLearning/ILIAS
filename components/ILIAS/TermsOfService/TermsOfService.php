@@ -23,6 +23,7 @@ namespace ILIAS;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
 use ILIAS\ILIASObject\Definition\ObjectType;
+use ILIAS\Administration\Node\AdministrationNode;
 
 class TermsOfService implements Component\Component
 {
@@ -42,5 +43,7 @@ class TermsOfService implements Component\Component
         );
 
         $contribute[ObjectType::class] = static fn(): ObjectType => new TermsOfService\ObjectType\TermsOfServiceObjectType();
+
+        $contribute[AdministrationNode::class] = static fn(): AdministrationNode => new TermsOfService\AdministrationNode\TermsOfServiceAdministrationNode();
     }
 }

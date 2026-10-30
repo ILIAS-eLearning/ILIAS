@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS;
 
 use ILIAS\ILIASObject\Definition\ObjectType;
+use ILIAS\Administration\Node\AdministrationNode;
 
 class Imprint implements Component\Component
 {
@@ -40,5 +41,7 @@ class Imprint implements Component\Component
             );
 
         $contribute[ObjectType::class] = static fn(): ObjectType => new Imprint\ObjectType\LegalNoticeObjectType();
+
+        $contribute[AdministrationNode::class] = static fn(): AdministrationNode => new Imprint\AdministrationNode\LegalNoticeAdministrationNode();
     }
 }

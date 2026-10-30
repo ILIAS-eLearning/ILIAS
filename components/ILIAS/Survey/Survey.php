@@ -23,6 +23,7 @@ namespace ILIAS;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
 use ILIAS\ILIASObject\Definition\ObjectType;
+use ILIAS\Administration\Node\AdministrationNode;
 
 class Survey implements Component\Component
 {
@@ -49,5 +50,7 @@ class Survey implements Component\Component
 
         $contribute[ObjectType::class] = static fn(): ObjectType => new Survey\ObjectType\SurveyObjectType();
         $contribute[ObjectType::class] = static fn(): ObjectType => new Survey\ObjectType\SurveyAdministrationObjectType();
+
+        $contribute[AdministrationNode::class] = static fn(): AdministrationNode => new Survey\AdministrationNode\SurveyAdministrationAdministrationNode();
     }
 }

@@ -23,6 +23,7 @@ namespace ILIAS;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
 use ILIAS\ILIASObject\Definition\ObjectType;
+use ILIAS\Administration\Node\AdministrationNode;
 
 class PersonalWorkspace implements Component\Component
 {
@@ -48,5 +49,7 @@ class PersonalWorkspace implements Component\Component
         );
 
         $contribute[ObjectType::class] = static fn(): ObjectType => new PersonalWorkspace\ObjectType\PersonalWorkspaceSettingsObjectType();
+
+        $contribute[AdministrationNode::class] = static fn(): AdministrationNode => new PersonalWorkspace\AdministrationNode\PersonalWorkspaceSettingsAdministrationNode();
     }
 }

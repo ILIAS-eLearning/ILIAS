@@ -23,6 +23,7 @@ namespace ILIAS;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
 use ILIAS\ILIASObject\Definition\ObjectType;
+use ILIAS\Administration\Node\AdministrationNode;
 
 class Badge implements Component\Component
 {
@@ -51,5 +52,7 @@ class Badge implements Component\Component
         );
 
         $contribute[ObjectType::class] = static fn(): ObjectType => new Badge\ObjectType\BadgeAdministrationObjectType();
+
+        $contribute[AdministrationNode::class] = static fn(): AdministrationNode => new Badge\AdministrationNode\BadgeAdministrationAdministrationNode();
     }
 }

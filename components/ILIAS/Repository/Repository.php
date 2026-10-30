@@ -23,6 +23,7 @@ namespace ILIAS;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
 use ILIAS\ILIASObject\Definition\ObjectType;
+use ILIAS\Administration\Node\AdministrationNode;
 
 class Repository implements Component\Component
 {
@@ -56,5 +57,7 @@ class Repository implements Component\Component
             new \ILIAS\Repository\PluginSlot\RepositoryObjectPluginTypes();
 
         $contribute[ObjectType::class] = static fn(): ObjectType => new Repository\ObjectType\RepositorySettingsObjectType();
+
+        $contribute[AdministrationNode::class] = static fn(): AdministrationNode => new Repository\AdministrationNode\RepositorySettingsAdministrationNode();
     }
 }
