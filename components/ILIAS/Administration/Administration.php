@@ -23,6 +23,8 @@ namespace ILIAS;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
 use ILIAS\ILIASObject\Definition\ObjectType;
+use ILIAS\Administration\Node\AdministrationNodes;
+use ILIAS\Administration\Node\AdministrationNode;
 
 class Administration implements Component\Component
 {
@@ -36,9 +38,14 @@ class Administration implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
+        $provide[AdministrationNodes::class] = static fn(): AdministrationNodes =>
+            new AdministrationNodes($seek[AdministrationNode::class]);
+
         $contribute[\ILIAS\Setup\Agent::class] = static fn() =>
             new \ILIAS\Administration\Setup\ilAdministrationSetupAgent(
-                $pull[\ILIAS\Refinery\Factory::class]
+                $pull[\ILIAS\Refinery\Factory::class],
+                $seek[AdministrationNode::class],
+                $seek[ObjectType::class]
             );
         $contribute[\ILIAS\Setup\Agent::class] = static fn() =>
             new \ilSystemFolderSetupAgent(
@@ -58,5 +65,9 @@ class Administration implements Component\Component
         $contribute[ObjectType::class] = static fn(): ObjectType => new Administration\ObjectType\GeneralSettingsObjectType();
         $contribute[ObjectType::class] = static fn(): ObjectType => new Administration\ObjectType\ServerInfoObjectType();
         $contribute[ObjectType::class] = static fn(): ObjectType => new Administration\ObjectType\RecoveryFolderObjectType();
+
+        $contribute[AdministrationNode::class] = static fn(): AdministrationNode => new Administration\AdministrationNode\GeneralSettingsAdministrationNode();
+        $contribute[AdministrationNode::class] = static fn(): AdministrationNode => new Administration\AdministrationNode\ServerInfoAdministrationNode();
+        $contribute[AdministrationNode::class] = static fn(): AdministrationNode => new Administration\AdministrationNode\RecoveryFolderAdministrationNode();
     }
 }

@@ -153,6 +153,12 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
             );
         }
 
+        // nodes of removed components are not available anymore
+        if (!$this->obj_definition->isAvailable(ilObject::_lookupType($this->cur_ref_id, true))) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
+            $this->ctrl->redirectToURL(ilUserUtil::getStartingPointAsUrl());
+        }
+
         // check creation mode
         // determined by "new_type" parameter
         // e.g. creation of a new role, user org unit, talk template
@@ -312,6 +318,11 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
         $ref_id = $this->request->getRefId();
         $obj_id = ilObject::_lookupObjId($ref_id);
         $obj_type = ilObject::_lookupType($obj_id);
+        if (!$this->obj_definition->isAvailable($obj_type)) {
+            // the component providing the node has been removed
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
+            $this->ctrl->redirectToURL(ilUserUtil::getStartingPointAsUrl());
+        }
         $class_name = $this->obj_definition->getClassName($obj_type);
         $class = strtolower("ilObj" . $class_name . "GUI");
         $this->ctrl->setParameterByClass($class, "ref_id", $ref_id);
