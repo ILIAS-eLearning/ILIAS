@@ -80,7 +80,13 @@ class Handler implements ilPollImageRepositoryElementIRSSWrapperInterface
         $definition = new CropToSquare(true, $this->processed_size);
         $flavour = $this->irss->flavours()->get($rid, $definition);
         $urls_of_flavour_streams = $this->irss->consume()->flavourUrls($flavour);
-        return $urls_of_flavour_streams->getURLsAsArray(true)[0];
+        $urls_of_flavour = $urls_of_flavour_streams->getURLsAsArray(true);
+        if ($urls_of_flavour === []) {
+            // flavour could not be built (e.g. image not processable by GD),
+            // fall back to the unprocessed image instead of failing
+            return $this->getUnprocessedImageURL();
+        }
+        return $urls_of_flavour[0];
     }
 
     public function getThumbnailImageURL(): null|string
@@ -92,7 +98,13 @@ class Handler implements ilPollImageRepositoryElementIRSSWrapperInterface
         $definition = new CropToSquare(true, $this->thumbnail_size);
         $flavour = $this->irss->flavours()->get($rid, $definition);
         $urls_of_flavour_streams = $this->irss->consume()->flavourUrls($flavour);
-        return $urls_of_flavour_streams->getURLsAsArray(true)[0];
+        $urls_of_flavour = $urls_of_flavour_streams->getURLsAsArray(true);
+        if ($urls_of_flavour === []) {
+            // flavour could not be built (e.g. image not processable by GD),
+            // fall back to the unprocessed image instead of failing
+            return $this->getUnprocessedImageURL();
+        }
+        return $urls_of_flavour[0];
     }
 
     public function getUnprocessedImageURL(): null|string

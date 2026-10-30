@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -57,14 +58,30 @@ trait GdImageToStreamTrait
             // and also more memory efficient
             $filename = $stream->getMetadata('uri');
             $mime = mime_content_type($filename);
-            return match ($mime) {
-                'image/jpeg' => imagecreatefromjpeg($filename),
-                'image/png' => imagecreatefrompng($filename),
-                'image/gif' => imagecreatefromgif($filename),
-                'image/bmp' => imagecreatefrombmp($filename),
-                'image/webp' => imagecreatefromwebp($filename),
-                default => imagecreatefromstring((string) $stream)
-            };
+
+            // GD only raises (recoverable) warnings for some image issues, e.g.
+            // for PNGs containing a known-incorrect sRGB profile in an iCCP
+            // chunk. Since ILIAS converts warnings into exceptions, such images
+            // would wrongly be treated as not loadable at all. Errors raised
+            // inside the image loading functions are therefore silenced scoped
+            // to these calls, unloadable images still fail via return value.
+            set_error_handler(
+                static function (int $level, string $message, string $file, int $line): bool {
+                    return true;
+                }
+            );
+            try {
+                return match ($mime) {
+                    'image/jpeg' => imagecreatefromjpeg($filename),
+                    'image/png' => imagecreatefrompng($filename),
+                    'image/gif' => imagecreatefromgif($filename),
+                    'image/bmp' => imagecreatefrombmp($filename),
+                    'image/webp' => imagecreatefromwebp($filename),
+                    default => imagecreatefromstring((string) $stream)
+                };
+            } finally {
+                restore_error_handler();
+            }
         } catch (\Throwable $t) {
             return null;
         }
