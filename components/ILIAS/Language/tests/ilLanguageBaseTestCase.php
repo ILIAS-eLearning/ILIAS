@@ -29,6 +29,8 @@ use ILIAS\Language\LanguageFolder;
  */
 abstract class ilLanguageBaseTestCase extends TestCase
 {
+    use RestoresProcessState;
+
     protected function setUp(): void
     {
         // never the build of the installation, see MigratedPoFixture::resetRuntime()

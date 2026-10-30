@@ -33,6 +33,8 @@ use PHPUnit\Framework\TestCase;
  */
 class MigratedTranslationsTest extends TestCase
 {
+    use \RestoresProcessState;
+
     private string $root;
     private string $client_data_dir;
     private string $build_directory;

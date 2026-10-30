@@ -35,6 +35,8 @@ use PHPUnit\Framework\TestCase;
  */
 abstract class MigratedLanguageFileSyncTestCase extends TestCase
 {
+    use RestoresProcessState;
+
     protected const string MODULE = 'stest';
 
     protected string $fixture_directory;

@@ -33,6 +33,8 @@ use PHPUnit\Framework\TestCase;
  */
 class ShippedLanguageFilesCompiledObjectiveTest extends TestCase
 {
+    use RestoresProcessState;
+
     private string $root;
 
     protected function setUp(): void

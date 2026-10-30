@@ -6,8 +6,8 @@
  *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
- * You should have received a copy of said license along with
- * the source code, too.
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
@@ -29,6 +29,8 @@ use PHPUnit\Framework\TestCase;
  */
 abstract class MigratedLanguageFileSyncLockTestCase extends TestCase
 {
+    use RestoresProcessState;
+
     protected const string MODULE = 'stest';
 
     protected string $client_data_dir;
