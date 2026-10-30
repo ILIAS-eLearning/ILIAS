@@ -2810,12 +2810,6 @@ msgstr ""
 msgid "too_many_targets_selected_for_move"
 msgstr ""
 
-msgid "toplist_by_score"
-msgstr ""
-
-msgid "toplist_by_time"
-msgstr ""
-
 msgid "toplist_col_achieved"
 msgstr ""
 
@@ -2826,9 +2820,6 @@ msgid "toplist_col_percentage"
 msgstr ""
 
 msgid "toplist_col_rank"
-msgstr ""
-
-msgid "toplist_col_score"
 msgstr ""
 
 msgid "toplist_col_wtime"
@@ -4395,9 +4386,6 @@ msgid "tst_show_summary"
 msgstr ""
 
 msgid "tst_show_summary_description"
-msgstr ""
-
-msgid "tst_show_toplist"
 msgstr ""
 
 msgid "tst_shuffle_questions"

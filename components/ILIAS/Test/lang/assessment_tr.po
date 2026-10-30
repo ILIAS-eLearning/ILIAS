@@ -3376,12 +3376,6 @@ msgstr "The tolerance specifies an allowable percentage deviation from the resul
 msgid "too_many_targets_selected_for_move"
 msgstr "Tam olarak bir hedef pozisyon seçmelisiniz!"
 
-msgid "toplist_by_score"
-msgstr "Puana göre en yüksek puan"
-
-msgid "toplist_by_time"
-msgstr "Çalışma zamanına göre en yüksek puan"
-
 msgid "toplist_col_achieved"
 msgstr "Tarih"
 
@@ -3393,9 +3387,6 @@ msgstr "Yüzde"
 
 msgid "toplist_col_rank"
 msgstr "Sıra"
-
-msgid "toplist_col_score"
-msgstr "Puan"
 
 msgid "toplist_col_wtime"
 msgstr "Çalışma Süresi"
@@ -5325,9 +5316,6 @@ msgstr "Soru Listesini Göster"
 
 msgid "tst_show_summary_description"
 msgstr "Testin soruları bir listede gösterilir."
-
-msgid "tst_show_toplist"
-msgstr "En Yüksek Skoru Göster"
 
 msgid "tst_shuffle_questions"
 msgstr "Soruları Karıştır"

@@ -3490,14 +3490,6 @@ msgid "too_many_targets_selected_for_move"
 msgstr "You must select exactly one target position!"
 
 #, fuzzy
-msgid "toplist_by_score"
-msgstr "Highscore by score"
-
-#, fuzzy
-msgid "toplist_by_time"
-msgstr "Highscore by working time"
-
-#, fuzzy
 msgid "toplist_col_achieved"
 msgstr "Date"
 
@@ -3512,10 +3504,6 @@ msgstr "Percentage"
 #, fuzzy
 msgid "toplist_col_rank"
 msgstr "Rank"
-
-#, fuzzy
-msgid "toplist_col_score"
-msgstr "Score"
 
 #, fuzzy
 msgid "toplist_col_wtime"
@@ -5484,10 +5472,6 @@ msgstr "Εμφάνιση περίληψης της ερώτησης"
 
 msgid "tst_show_summary_description"
 msgstr "Εμφανίζει μια σελίδα περίληψης με όλες τις ερωτήσεις του διαγωνίσματος στους συμμετέχοντες του διαγωνίσματος"
-
-#, fuzzy
-msgid "tst_show_toplist"
-msgstr "Show Highscores"
 
 msgid "tst_shuffle_questions"
 msgstr "Ανακάτεμα ερωτήσεων"

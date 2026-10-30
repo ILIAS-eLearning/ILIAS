@@ -3040,12 +3040,6 @@ msgstr "La tolleranza determina una deviazione percentuale consentita dal valore
 msgid "too_many_targets_selected_for_move"
 msgstr "Devi selezionare esattamente una posizione di destinazione!"
 
-msgid "toplist_by_score"
-msgstr "Posizionamento da punteggio"
-
-msgid "toplist_by_time"
-msgstr "Punteggio più alto in base al tempo di lavoro"
-
 msgid "toplist_col_achieved"
 msgstr "Data"
 
@@ -3057,9 +3051,6 @@ msgstr "Percentuale"
 
 msgid "toplist_col_rank"
 msgstr "Classifica"
-
-msgid "toplist_col_score"
-msgstr "Punteggio"
 
 msgid "toplist_col_wtime"
 msgstr "Tempo di lavoro"
@@ -4710,9 +4701,6 @@ msgstr "Mostra il sommario delle domande"
 
 msgid "tst_show_summary_description"
 msgstr "I partecipanti possono visualizzare un elenco di domande a sinistra delle domande del test. Con il pulsante \"Stato di elaborazione\" i partecipanti richiamano una panoramica che mostra quali domande hanno già elaborato o contrassegnato. È possibile configurare ulteriormente il comportamento della panoramica \"Stato di elaborazione\":"
-
-msgid "tst_show_toplist"
-msgstr "Mostra posizionamento"
 
 msgid "tst_shuffle_questions"
 msgstr "Mischia le domande"

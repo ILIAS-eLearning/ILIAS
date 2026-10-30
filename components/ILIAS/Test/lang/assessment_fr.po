@@ -3009,12 +3009,6 @@ msgstr "La tolérance spécifie un écart en pourcentage admissible par rapport 
 msgid "too_many_targets_selected_for_move"
 msgstr "Vous devez sélectionner précisément une position cible !"
 
-msgid "toplist_by_score"
-msgstr "Les meilleurs scores"
-
-msgid "toplist_by_time"
-msgstr "Les plus rapides"
-
 msgid "toplist_col_achieved"
 msgstr "Date"
 
@@ -3026,9 +3020,6 @@ msgstr "Pourcentage"
 
 msgid "toplist_col_rank"
 msgstr "Classement"
-
-msgid "toplist_col_score"
-msgstr "Note"
 
 msgid "toplist_col_wtime"
 msgstr "Temps Passé"
@@ -4659,9 +4650,6 @@ msgstr "Afficher la Liste des Questions"
 
 msgid "tst_show_summary_description"
 msgstr "Afficher la liste des questions durant le test."
-
-msgid "tst_show_toplist"
-msgstr "Montrer les meilleurs scores"
 
 msgid "tst_shuffle_questions"
 msgstr "Mélanger les Questions"

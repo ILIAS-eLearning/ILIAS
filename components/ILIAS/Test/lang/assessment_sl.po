@@ -3025,12 +3025,6 @@ msgstr "Toleranca določa dovoljeno odstotno odstopanje od vrednosti rezultata. 
 msgid "too_many_targets_selected_for_move"
 msgstr "Izbrati morate natančno en ciljni položaj!"
 
-msgid "toplist_by_score"
-msgstr "Uvrstitev glede na točke"
-
-msgid "toplist_by_time"
-msgstr "Uvrstitev glede na čas obdelave"
-
 msgid "toplist_col_achieved"
 msgstr "Date"
 
@@ -3042,9 +3036,6 @@ msgstr "Odstotek"
 
 msgid "toplist_col_rank"
 msgstr "Uvrstitev"
-
-msgid "toplist_col_score"
-msgstr "Število točk"
 
 msgid "toplist_col_wtime"
 msgstr "Čas obdelave"
@@ -4693,9 +4684,6 @@ msgstr "Prikaži seznam vprašanj in stanje obdelave"
 
 msgid "tst_show_summary_description"
 msgstr "Udeleženci si lahko levo od vprašanja vključijo seznam vprašanj. Z gumbom ‚Stanje obdelave‘ udeleženci odprejo pregled, ki prikazuje že obdelana ali označena vprašanja. Delovanje pregleda 'Stanje obdelave‘ lahko konfigurirate še naprej."
-
-msgid "tst_show_toplist"
-msgstr "Uvrstitev"
 
 msgid "tst_shuffle_questions"
 msgstr "Zmešaj vprašanja"

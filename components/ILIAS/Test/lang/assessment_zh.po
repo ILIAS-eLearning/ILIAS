@@ -3368,12 +3368,6 @@ msgstr "The tolerance specifies an allowable percentage deviation from the resul
 msgid "too_many_targets_selected_for_move"
 msgstr "您必须选择一个目标位置"
 
-msgid "toplist_by_score"
-msgstr "按分数排行"
-
-msgid "toplist_by_time"
-msgstr "按工作时间排行"
-
 msgid "toplist_col_achieved"
 msgstr "日期"
 
@@ -3385,9 +3379,6 @@ msgstr "百分比"
 
 msgid "toplist_col_rank"
 msgstr "排名"
-
-msgid "toplist_col_score"
-msgstr "得分"
 
 msgid "toplist_col_wtime"
 msgstr "工作时间"
@@ -5315,9 +5306,6 @@ msgstr "显示题目列表"
 
 msgid "tst_show_summary_description"
 msgstr "提供一个参与者在测试期间的所有可用测试题的列表"
-
-msgid "tst_show_toplist"
-msgstr "显示排行榜"
 
 msgid "tst_shuffle_questions"
 msgstr "Shuffle Questions"

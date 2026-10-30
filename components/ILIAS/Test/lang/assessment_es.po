@@ -2819,12 +2819,6 @@ msgstr "La tolerancia especifica un porcentaje de desviación permitido respecto
 msgid "too_many_targets_selected_for_move"
 msgstr "¡Debe seleccionar exactamente una posición de destino!"
 
-msgid "toplist_by_score"
-msgstr "Mejor puntuación por puntos"
-
-msgid "toplist_by_time"
-msgstr "Mejor puntuación por tiempo de trabajo"
-
 msgid "toplist_col_achieved"
 msgstr "Fecha"
 
@@ -2836,9 +2830,6 @@ msgstr "Porcentaje"
 
 msgid "toplist_col_rank"
 msgstr "Posición"
-
-msgid "toplist_col_score"
-msgstr "Puntuación"
 
 msgid "toplist_col_wtime"
 msgstr "Tiempo de trabajo"
@@ -4408,9 +4399,6 @@ msgstr "Mostrar 'Resumen del intento de examen'"
 
 msgid "tst_show_summary_description"
 msgstr "A los participantes se les presenta un botón 'Resumen del intento de examen'. En esa pantalla se mostrará el estado general de todas las preguntas."
-
-msgid "tst_show_toplist"
-msgstr "Clasificación"
 
 msgid "tst_shuffle_questions"
 msgstr "Barajar preguntas"

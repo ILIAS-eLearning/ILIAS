@@ -42,7 +42,6 @@ use ILIAS\Style\Content\Service as ContentStyle;
  *
  * @ilCtrl_Calls ilTestResultsGUI: ilMyTestResultsGUI
  * @ilCtrl_Calls ilTestResultsGUI: ilTestEvalObjectiveOrientedGUI
- * @ilCtrl_Calls ilTestResultsGUI: ilTestToplistGUI
  * @ilCtrl_Calls ilTestResultsGUI: ilTestSkillEvaluationGUI
  */
 class ilTestResultsGUI

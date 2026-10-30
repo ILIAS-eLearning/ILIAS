@@ -3011,12 +3011,6 @@ msgstr "Toleransen definierar en tillåten procentuell avvikelse från resultatv
 msgid "too_many_targets_selected_for_move"
 msgstr "Du måste välja exakt en målposition!"
 
-msgid "toplist_by_score"
-msgstr "Placering enligt poäng"
-
-msgid "toplist_by_time"
-msgstr "Placering efter bearbetningstid"
-
 msgid "toplist_col_achieved"
 msgstr "Datum"
 
@@ -3028,9 +3022,6 @@ msgstr "Procent"
 
 msgid "toplist_col_rank"
 msgstr "Plats"
-
-msgid "toplist_col_score"
-msgstr "Score"
 
 msgid "toplist_col_wtime"
 msgstr "Bearbetningstid"
@@ -4665,9 +4656,6 @@ msgstr "Visa frågelista och redigeringsstatus"
 
 msgid "tst_show_summary_description"
 msgstr "Deltagarna kan visa en lista med frågor till vänster om testfrågorna. Med knappen \"Bearbetningsstatus\" får deltagarna fram en översikt som visar vilka frågor de redan har bearbetat eller markerat. Du kan ytterligare konfigurera beteendet för översikten \""
-
-msgid "tst_show_toplist"
-msgstr "Placering"
 
 msgid "tst_shuffle_questions"
 msgstr "Mix frågor"
