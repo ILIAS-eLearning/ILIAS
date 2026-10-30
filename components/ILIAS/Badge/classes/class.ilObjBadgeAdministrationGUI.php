@@ -16,10 +16,10 @@
  *
  *********************************************************************/
 
-use ILIAS\Badge\ilBadgeImageTemplateTableGUI;
+use ILIAS\Badge\ilBadgeUserTableGUI;
 use ILIAS\Badge\ilBadgeTypesTableGUI;
 use ILIAS\Badge\ilObjectBadgeTableGUI;
-use ILIAS\Badge\ilBadgeUserTableGUI;
+use ILIAS\Badge\ilBadgeImageTemplateTableGUI;
 
 /**
  * @ilCtrl_Calls ilObjBadgeAdministrationGUI: ilPermissionGUI, ilBadgeManagementGUI
@@ -40,7 +40,6 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI implements ilCtrlSecurityI
     private const string DEFAULT_ACTION = self::EDIT_SETTINGS_ACTION;
     private const string TABLE_ACTIONS = 'handleTableActions';
     public const string TABLE_ALL_OBJECTS_ACTION = 'ALL_OBJECTS';
-
     private ilRbacSystem $rbacsystem;
     private ilBadgeGUIRequest $badge_request;
     private ilTabsGUI $tabs;
@@ -83,15 +82,15 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI implements ilCtrlSecurityI
                 $this->tabs_gui->setTabActive('perm_settings');
                 $perm_gui = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($perm_gui);
-                break;
 
+                break;
             case strtolower(ilBadgeManagementGUI::class):
                 $this->assertActive();
                 $this->tabs_gui->setTabActive('activity');
                 $gui = new ilBadgeManagementGUI($this->ref_id, $this->obj_id, $this->type);
                 $this->ctrl->forwardCommand($gui);
-                break;
 
+                break;
             default:
                 if ($cmd === '' || $cmd === null || $cmd === 'view' || !method_exists($this, $cmd . 'Cmd')) {
                     $cmd = self::DEFAULT_ACTION;
@@ -103,6 +102,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI implements ilCtrlSecurityI
                 }
 
                 $this->$cmd();
+
                 break;
         }
     }
@@ -468,13 +468,13 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI implements ilCtrlSecurityI
         ilBadgeImageTemplate $a_tmpl
     ): void {
         $a_form->getItemByPostVar('title')->setValue($a_tmpl->getTitle());
-        if ($a_tmpl->getImageRid() !== null) {
-            $img = $a_tmpl->getImageFromResourceId();
-            $a_form->getItemByPostVar('img')->setImage($img);
-            $a_form->getItemByPostVar('img')->setValue($a_tmpl->getImageRid());
-        } else {
-            $a_form->getItemByPostVar('img')->setImage($a_tmpl->getImagePath());
-            $a_form->getItemByPostVar('img')->setValue($a_tmpl->getImage());
+        $image_src = $a_tmpl->getImageFromResourceId();
+        if ($image_src !== '') {
+            $a_form->getItemByPostVar('img')->setImage($image_src);
+        }
+        $image_rid = $a_tmpl->getImageRid();
+        if ($image_rid !== null) {
+            $a_form->getItemByPostVar('img')->setValue($image_rid);
         }
 
         if ($a_tmpl->getTypes()) {
@@ -638,7 +638,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI implements ilCtrlSecurityI
     {
         $badge_ids = $this->getObjectBadgesFromMultiAction();
         if (current($badge_ids) === self::TABLE_ALL_OBJECTS_ACTION) {
-            $filter = ['type' => '' , 'title' => '', 'object' => ''];
+            $filter = ['type' => '', 'title' => '', 'object' => ''];
             $badge_ids = [];
             foreach (ilBadge::getObjectInstances($filter) as $badge_item) {
                 $badge_ids[] = $badge_item['id'];

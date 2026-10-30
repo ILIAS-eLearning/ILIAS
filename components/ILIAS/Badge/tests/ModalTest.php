@@ -20,32 +20,29 @@ declare(strict_types=1);
 
 namespace ILIAS\Badge\test;
 
-use Exception;
-use ILIAS\DI\Container;
-use ILIAS\DI\UIServices;
-use ILIAS\Badge\Modal;
-use ILIAS\Badge\ModalContent;
-use ILIAS\UI\Component\Divider\Factory as Divider;
-use ILIAS\UI\Component\Divider\Horizontal;
-use ILIAS\UI\Component\Image\Factory as ImageFactory;
-use ILIAS\UI\Component\Image\Image;
-use ILIAS\UI\Component\Item\Factory as ItemFactory;
-use ILIAS\UI\Component\Item\Group;
-use ILIAS\UI\Component\Item\Standard as Item;
-use ILIAS\UI\Component\Listing\Factory as Listing;
-use ILIAS\UI\Factory as UI;
-use PHPUnit\Framework\TestCase;
 use ilBadge;
 use ilLanguage;
+use ILIAS\Badge\Modal;
+use ILIAS\DI\Container;
+use ILIAS\DI\UIServices;
+use ILIAS\UI\Factory as UI;
+use ILIAS\Badge\ModalContent;
+use PHPUnit\Framework\TestCase;
+use ILIAS\UI\Component\Item\Group;
+use ILIAS\UI\Component\Image\Image;
+use ILIAS\UI\Component\Divider\Horizontal;
+use ILIAS\UI\Component\Item\Standard as Item;
+use ILIAS\UI\Component\Divider\Factory as Divider;
+use ILIAS\UI\Component\Listing\Factory as Listing;
+use ILIAS\UI\Component\Item\Factory as ItemFactory;
+use ILIAS\UI\Component\Image\Factory as ImageFactory;
 
 class ModalTest extends TestCase
 {
     public function testConstruct(): void
     {
         $container = $this->getMockBuilder(Container::class)->disableOriginalConstructor()->getMock();
-        $modal = new Modal($container, static function (): void {
-            throw new Exception('Should not be called.');
-        });
+        $modal = new Modal($container);
         $this->assertInstanceOf(Modal::class, $modal);
     }
 
@@ -89,7 +86,7 @@ class ModalTest extends TestCase
         $content->method('badge')->willReturn($badge);
         $content->method('properties')->willReturn($properties);
 
-        $modal = new Modal($container, fn(string $file): string => '/');
+        $modal = new Modal($container);
 
         $this->assertSame([$image_component, $divider_component, $item_component], $modal->components($content));
     }
