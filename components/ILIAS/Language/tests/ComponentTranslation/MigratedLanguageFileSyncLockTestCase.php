@@ -29,6 +29,8 @@ use PHPUnit\Framework\TestCase;
  */
 abstract class MigratedLanguageFileSyncLockTestCase extends TestCase
 {
+    use RestoresProcessState;
+
     protected const string MODULE = 'stest';
 
     protected string $client_data_dir;

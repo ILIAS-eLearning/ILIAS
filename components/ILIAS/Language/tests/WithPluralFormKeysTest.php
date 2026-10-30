@@ -26,6 +26,8 @@ use PHPUnit\Framework\TestCase;
  */
 class WithPluralFormKeysTest extends TestCase
 {
+    use RestoresProcessState;
+
     private const string SEPARATOR = '#:#';
 
     /**

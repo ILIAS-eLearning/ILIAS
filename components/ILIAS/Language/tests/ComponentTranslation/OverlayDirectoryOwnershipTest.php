@@ -32,6 +32,8 @@ use PHPUnit\Framework\TestCase;
  */
 class OverlayDirectoryOwnershipTest extends TestCase
 {
+    use RestoresProcessState;
+
     private const string MODULE = 'stest';
 
     private string $fixture_directory;

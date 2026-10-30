@@ -23,6 +23,8 @@ use PHPUnit\Framework\TestCase;
 
 class ilObjLanguageExtGUITest extends TestCase
 {
+    use RestoresProcessState;
+
     use ilObjLanguageExtGUITestFixture;
 
     /** A data-changing command missing here would be triggerable via GET without the CSRF token. */

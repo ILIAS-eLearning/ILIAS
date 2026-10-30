@@ -37,6 +37,8 @@ use ILIAS\Language\ComponentTranslation\ShippedTranslationsBuild;
  */
 final class MigratedPoFixture
 {
+    private const array PROCESS_ENVIRONMENT = ['LANGUAGE', 'LC_ALL', 'LC_MESSAGES', 'LOCPATH', 'LANG'];
+
     private static bool $artifact_cleanup_registered = false;
 
     /** The C library never forgets a catalog path it has looked at, so every resetRuntime() gets a directory of its own. */
@@ -296,6 +298,36 @@ final class MigratedPoFixture
         MigratedLanguageFilePaths::useArtifactDirectoryForTests($artifact_directory ?? self::artifactDirectory());
         MigratedTranslations::resetForTests();
         NativeGettext::resetForTests();
+    }
+
+    /**
+     * @return array{locale: string|false, env: array<string, string|false>}
+     */
+    public static function captureProcessState(): array
+    {
+        $env = [];
+        foreach (self::PROCESS_ENVIRONMENT as $name) {
+            $env[$name] = getenv($name);
+        }
+
+        return ['locale' => setlocale(LC_ALL, '0'), 'env' => $env];
+    }
+
+    /**
+     * Gives back what captureProcessState() saw and forgets the static state of the runtime read path.
+     *
+     * @param array{locale: string|false, env: array<string, string|false>} $state
+     */
+    public static function restoreProcessState(array $state): void
+    {
+        MigratedTranslations::resetForTests();
+        NativeGettext::resetForTests();
+        foreach ($state['env'] as $name => $value) {
+            putenv($value === false ? $name : $name . '=' . $value);
+        }
+        if ($state['locale'] !== false && setlocale(LC_ALL, $state['locale']) === false) {
+            setlocale(LC_ALL, 'C');
+        }
     }
 
     /** Moves the builds to a directory this process has not looked at: the C library keeps what it read from a path (mapped, not copied), so a file damaged in place must not be one it read. */

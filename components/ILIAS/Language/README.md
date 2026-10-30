@@ -172,6 +172,12 @@ Only other modules (plugins) are read from `lng_data`/`lng_modules`.
 * Without a build, for a language the build lacks, or for a language that is
   not installed a shipped module has no texts (`-identifier-`); a missing
   build or a shipped `.po` that is not built is reported.
+* A real locale in `LC_MESSAGES` (e.g. from the setting "Locale" of the
+  general settings) stays, native gettext sets one only where `LC_MESSAGES`
+  is `C`, `POSIX` or `C.<codeset>`. ICU takes its default locale from
+  `LC_MESSAGES` once per process: a PHP-FPM worker whose first ICU call comes
+  before that setting or without it keeps `ilias__MESSAGES` (glibc) for its
+  lifetime.
 * Requirements: the PHP extension `gettext` for CLI and web server, and
   * glibc: the locale `C.utf8`, with the same C library for both; native
     gettext activates the build's copy of it through `LOCPATH`;
@@ -180,7 +186,8 @@ Only other modules (plugins) are read from `lng_data`/`lng_modules`.
     the libc there ignores `LOCPATH`, no locale is shipped (`C.UTF-8` does not
     work: GNU libintl ignores `LANGUAGE` there); locale variables of the
     environment (e.g. `LANG=C.UTF-8`) do not matter: native gettext sets the
-    environment variable `LC_ALL` to that locale (child processes inherit it);
+    environment variable `LC_ALL` to the active locale, a kept one too (child
+    processes inherit it);
   * musl is not supported (ignores `LOCPATH`).
 
   Build on the platform that serves ILIAS (with Docker in the container): the

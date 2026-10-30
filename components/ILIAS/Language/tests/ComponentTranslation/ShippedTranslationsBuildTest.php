@@ -34,19 +34,15 @@ use RuntimeException;
  */
 class ShippedTranslationsBuildTest extends TestCase
 {
+    use \RestoresProcessState;
+
     private string $root;
     private string $artifacts;
-    private string|false $messages_locale;
-    private string|false $language;
-    private string|false $lc_all;
 
     protected function setUp(): void
     {
         // never the build of the installation, see MigratedPoFixture::resetRuntime()
         MigratedPoFixture::resetRuntime();
-        $this->messages_locale = setlocale(LC_MESSAGES, '0');
-        $this->language = getenv('LANGUAGE');
-        $this->lc_all = getenv('LC_ALL');
         $this->root = sys_get_temp_dir() . '/ilias_shipped_build_test_' . bin2hex(random_bytes(6));
         mkdir($this->root, 0775, true);
         $this->artifacts = MigratedLanguageFilePaths::shippedArtifactDirectory($this->root);
@@ -54,12 +50,6 @@ class ShippedTranslationsBuildTest extends TestCase
 
     protected function tearDown(): void
     {
-        NativeGettext::resetForTests();
-        if ($this->messages_locale !== false) {
-            setlocale(LC_MESSAGES, $this->messages_locale);
-        }
-        putenv($this->language === false ? 'LANGUAGE' : 'LANGUAGE=' . $this->language);
-        putenv($this->lc_all === false ? 'LC_ALL' : 'LC_ALL=' . $this->lc_all);
         MigratedPoFixture::removeDirectory($this->root);
         MigratedPoFixture::resetRuntime();
     }
@@ -252,6 +242,49 @@ class ShippedTranslationsBuildTest extends TestCase
         $this->assertSame($pointer_before, (string) file_get_contents($this->pointerFile()));
         $this->assertSame($entries_before, $this->artifactEntries(), 'neither the rejected build nor a temporary directory is left');
         $this->assertDirectoryExists($this->buildDirectory((string) $good['build']));
+    }
+
+    private function useRealLocaleForMessages(): string
+    {
+        MigratedPoFixture::requireGlibcLocale($this);
+        $before = setlocale(LC_MESSAGES, '0');
+        $real = setlocale(LC_MESSAGES, 'de_DE.UTF-8');
+        if ($real === false) {
+            setlocale(LC_MESSAGES, $before);
+            $this->markTestSkipped('the locale "de_DE.UTF-8" is not installed');
+        }
+        // as in a fresh Setup process, started with the locale of an administrator
+        NativeGettext::resetForTests();
+        NativeGettext::useSystemLocaleForTests(false);
+        setlocale(LC_MESSAGES, $real);
+
+        return $real;
+    }
+
+    public function testABuildNativeGettextCannotServeIsRefusedEvenWhenARealLocaleWasActiveBeforeAndItStaysUnchanged(): void
+    {
+        $real = $this->useRealLocaleForMessages();
+        $this->ship('mfa', 'de', ['greeting' => 'Hallo']);
+
+        try {
+            $this->build(['mfa'], $this->brokenLocaleSource());
+            $this->fail('the build must not be accepted');
+        } catch (RuntimeException $e) {
+            $this->assertStringContainsString('cannot be activated', $e->getMessage());
+        }
+
+        $this->assertSame($real, setlocale(LC_MESSAGES, '0'));
+    }
+
+    public function testAnIntactBuildIsCheckedWithItsOwnLocaleAndLeavesARealLocaleOfTheProcessUnchanged(): void
+    {
+        $real = $this->useRealLocaleForMessages();
+        $this->ship('mfa', 'de', ['greeting' => 'Hallo']);
+
+        $result = $this->build(['mfa']);
+
+        $this->assertNotNull($result['build']);
+        $this->assertSame($real, setlocale(LC_MESSAGES, '0'));
     }
 
     public function testABuildWithoutAnyTranslatedValueCannotBeCheckedAndIsRefused(): void

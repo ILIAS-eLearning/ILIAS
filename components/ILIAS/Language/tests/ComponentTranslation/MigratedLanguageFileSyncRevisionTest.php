@@ -34,6 +34,8 @@ use PHPUnit\Framework\TestCase;
  */
 class MigratedLanguageFileSyncRevisionTest extends TestCase
 {
+    use \RestoresProcessState;
+
     private const string MODULE = 'rvs';
 
     private string $root;

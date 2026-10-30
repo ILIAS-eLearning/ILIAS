@@ -25,6 +25,8 @@ use PHPUnit\Framework\TestCase;
 
 class ilObjLanguageFolderGUIUninstallChangesTest extends TestCase
 {
+    use RestoresProcessState;
+
     use ilObjLanguageFolderGUITestFixture;
 
     public function testUninstallChangesObjectEmbedsTheThrowableMessageFromAnErrorResultIntoTheFailureMessage(): void

@@ -28,6 +28,8 @@ use PHPUnit\Framework\TestCase;
 
 class ilObjLanguageExtGUIMaintenanceTest extends TestCase
 {
+    use RestoresProcessState;
+
     use ilObjLanguageExtGUITestFixture;
 
     private ?string $maintenance_directory = null;

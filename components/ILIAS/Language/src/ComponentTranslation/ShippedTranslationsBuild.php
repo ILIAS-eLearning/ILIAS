@@ -574,6 +574,23 @@ final class ShippedTranslationsBuild
      */
     private function assertNativeGettextServes(string $build_directory, array $sample): void
     {
+        $messages = setlocale(LC_MESSAGES, '0');
+        // with "C" activate() loads the shipped locale instead of keeping a real one, so the check covers it
+        setlocale(LC_MESSAGES, 'C');
+        try {
+            $this->assertActivatedNativeGettextServes($build_directory, $sample);
+        } finally {
+            if ($messages !== false) {
+                setlocale(LC_MESSAGES, $messages);
+            }
+        }
+    }
+
+    /**
+     * @param array{module: string, lang: string, key: string, value: string} $sample
+     */
+    private function assertActivatedNativeGettextServes(string $build_directory, array $sample): void
+    {
         if (!NativeGettext::activate(MigratedLanguageFilePaths::buildLocaleDirectory($build_directory))) {
             throw new RuntimeException(sprintf('Native gettext is not available: %s.', (string) NativeGettext::getProblem()));
         }

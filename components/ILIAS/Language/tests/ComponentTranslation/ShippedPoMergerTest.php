@@ -39,6 +39,8 @@ use PHPUnit\Framework\TestCase;
  */
 class ShippedPoMergerTest extends TestCase
 {
+    use RestoresProcessState;
+
     private const string MODULE = 'mtest';
     private const string LANG = 'de';
 

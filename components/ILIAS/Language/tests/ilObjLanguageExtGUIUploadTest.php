@@ -28,6 +28,8 @@ use PHPUnit\Framework\TestCase;
  */
 class ilObjLanguageExtGUIUploadTest extends TestCase
 {
+    use RestoresProcessState;
+
     use ilObjLanguageExtGUITestFixture;
 
     /**

@@ -28,6 +28,8 @@ use PHPUnit\Framework\TestCase;
 
 class ilObjLanguageFolderGUITest extends TestCase
 {
+    use RestoresProcessState;
+
     use ilObjLanguageFolderGUITestFixture;
 
     /** @return ilObjLanguageFolderGUI&\PHPUnit\Framework\MockObject\MockObject */

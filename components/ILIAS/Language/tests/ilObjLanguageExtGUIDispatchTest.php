@@ -24,6 +24,8 @@ use PHPUnit\Framework\TestCase;
 
 class ilObjLanguageExtGUIDispatchTest extends TestCase
 {
+    use RestoresProcessState;
+
     use ilObjLanguageGuiTestSupport;
 
     private const array COMMANDS = [

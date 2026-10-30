@@ -32,6 +32,8 @@ use RuntimeException;
  */
 class ShippedTranslationsTest extends TestCase
 {
+    use \RestoresProcessState;
+
     private string $root;
     private ShippedTranslations $shipped_translations;
 

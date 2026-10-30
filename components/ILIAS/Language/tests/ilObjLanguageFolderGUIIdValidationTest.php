@@ -27,6 +27,8 @@ use PHPUnit\Framework\TestCase;
 
 class ilObjLanguageFolderGUIIdValidationTest extends TestCase
 {
+    use RestoresProcessState;
+
     use ilObjLanguageFolderGUITestFixture;
 
     /** One non-"lng" id aborts the whole request: failure message, redirect to "view", InstallLanguage never called. */

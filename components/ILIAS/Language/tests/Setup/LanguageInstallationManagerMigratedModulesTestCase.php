@@ -41,6 +41,8 @@ use PHPUnit\Framework\TestCase;
  */
 abstract class LanguageInstallationManagerMigratedModulesTestCase extends TestCase
 {
+    use RestoresProcessState;
+
     protected const string NOW = '2026-01-02 03:04:05';
     protected const string MODULE = 'pilot';
 

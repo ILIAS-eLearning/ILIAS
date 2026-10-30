@@ -30,6 +30,8 @@ use PHPUnit\Framework\TestCase;
 #[AllowMockObjectsWithoutExpectations]
 class ilObjLanguageFolderGUILanguageDetectionTest extends TestCase
 {
+    use RestoresProcessState;
+
     use ilObjLanguageFolderGUITestFixture;
 
     /**

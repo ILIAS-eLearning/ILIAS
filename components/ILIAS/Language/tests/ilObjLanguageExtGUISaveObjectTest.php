@@ -25,6 +25,8 @@ use PHPUnit\Framework\TestCase;
 
 class ilObjLanguageExtGUISaveObjectTest extends TestCase
 {
+    use RestoresProcessState;
+
     use ilObjLanguageExtGUITestFixture;
 
     /** @var array<string, ilLanguageFile>|null */
