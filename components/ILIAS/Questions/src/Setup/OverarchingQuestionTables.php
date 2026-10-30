@@ -363,10 +363,14 @@ class OverarchingQuestionTables implements \ilDatabaseUpdateSteps
             );
         }
 
-        $this->db->manipulate(
-            "CREATE UNIQUE INDEX IF NOT EXISTS apc_idx ON {$table_name}" . PHP_EOL
-            . '(`answer_form_id`, `parent_id`, `condition`)'
-        );
+        $unique_fields = ['answer_form_id', 'parent_id', 'condition'];
+        $unique_constraint_exists = array_filter(
+            (new \ilDBAnalyzer($this->db))->getConstraintsInformation($table_name),
+            static fn(array $constraint): bool => array_keys($constraint['fields']) === $unique_fields
+        ) !== [];
+        if (!$unique_constraint_exists) {
+            $this->db->addUniqueConstraint($table_name, $unique_fields, 'apc');
+        }
     }
 
     public function step_8(): void
