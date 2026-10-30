@@ -25,6 +25,7 @@ use ILIAS\StaticURL\Handler\BaseHandler;
 use ILIAS\File\Capabilities\CapabilityBuilder;
 use ILIAS\WOPI\Discovery\ActionDBRepository;
 use ILIAS\File\Capabilities\Capabilities;
+use ILIAS\StaticURL\Request\Intent;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -78,12 +79,10 @@ class ilFileStaticURLHandler extends BaseHandler implements Handler
 
         $capabilities = $this->capabilities->get($capability_context);
 
-        // special case for cloned objects
-        $forced = null;
-        $referrer = $context->http()->request()->getServerParams()['HTTP_REFERER'] ?? '';
-        if (str_contains(strtolower($referrer), strtolower(ilObjectCopyGUI::class))) {
-            $forced = $capabilities->get(Capabilities::INFO_PAGE);
-        }
+        // e.g. after copying a file, the file must not be downloaded
+        $forced = $request->getIntent() === Intent::SHOW
+            ? $capabilities->get(Capabilities::INFO_PAGE)
+            : null;
 
         // Determine Capability to redirect
         $capability = match ($additional_params) {

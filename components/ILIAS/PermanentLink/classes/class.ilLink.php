@@ -18,6 +18,7 @@
 
 use ILIAS\StaticURL\Services;
 use ILIAS\Data\ReferenceId;
+use ILIAS\StaticURL\Request\Intent;
 
 /**
  * @deprecated Use ILIAS\components\StaticURL instead
@@ -31,7 +32,8 @@ class ilLink
         ?int $a_ref_id,
         string $a_type = '',
         array $a_params = [],
-        string $append = ""
+        string $append = "",
+        Intent $intent = Intent::DEFAULT
     ): string {
         global $DIC;
         /** @var Services $static_url */
@@ -54,7 +56,8 @@ class ilLink
             return (string) $static_url->builder()->build(
                 $a_type,
                 $a_ref_id !== null ? new ReferenceId($a_ref_id) : null,
-                $a_params
+                $a_params,
+                $intent
             );
         }
 
