@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Logging\Logger\LoggerInterface;
+
 /**
  * Base class for materialize path based trees
  * Based on implementation of Werner Randelshofer
@@ -29,23 +31,11 @@ class ilMaterializedPathTree implements ilTreeImplementation
 {
     private const MAXIMUM_POSSIBLE_DEPTH = 100;
 
-    protected ilTree $tree;
-    protected ilDBInterface $db;
-    protected ilLogger $logger;
-
-    /**
-     * Constructor
-     * @param ilTree $a_tree
-     */
-    public function __construct(ilTree $a_tree)
-    {
-        global $DIC;
-
-        $this->tree = $a_tree;
-        $this->db = $DIC->database();
-        if (ilContext::getType() != "") {
-            $this->logger = $DIC->logger()->tree();
-        }
+    public function __construct(
+        protected ilTree $tree,
+        protected ilDBInterface $db,
+        protected LoggerInterface $logger
+    ) {
     }
 
     /**
