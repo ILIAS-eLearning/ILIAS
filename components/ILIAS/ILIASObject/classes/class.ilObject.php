@@ -1893,6 +1893,10 @@ class ilObject
     {
         global $DIC;
         $objDefinition = $DIC['objDefinition'];
+        $icon_path = $objDefinition->getIconPath($type);
+        if ($icon_path !== null) {
+            return $icon_path;
+        }
         if (!$objDefinition->isPluginTypeName($type)) {
             return ilUtil::getImagePath("standard/icon_{$type}.svg");
         }

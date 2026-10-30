@@ -23,13 +23,41 @@ use ILIAS\Setup\Agent\NullAgent;
 use ILIAS\Setup\Config;
 use ILIAS\Setup\Objective;
 use ILIAS\Setup\Metrics;
+use ILIAS\Setup\ObjectiveCollection;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class Agent extends NullAgent
 {
+    /**
+     * @var array<string, ObjectType>
+     */
+    private readonly array $object_types;
+
+    /**
+     * @param ObjectType[] $object_types
+     */
+    public function __construct(
+        Refinery $refinery,
+        array $object_types
+    ) {
+        parent::__construct($refinery);
+        $types = [];
+        foreach ($object_types as $type) {
+            $types[$type->getId()] = $type;
+        }
+        $this->object_types = $types;
+    }
+
     public function getUpdateObjective(?Config $config = null): Objective
     {
-        return new \ilDatabaseUpdateStepsExecutedObjective(
-            new DBUpdateSteps11()
+        return new ObjectiveCollection(
+            'Update ILIASObject',
+            false,
+            new \ilDatabaseUpdateStepsExecutedObjective(
+                new DBUpdateSteps11()
+            ),
+            new ObjectTypesInstalledObjective($this->object_types)
         );
     }
 

@@ -2228,7 +2228,7 @@ class ilObjectGUI implements ImplementsCreationCallback
             $add_new_items_content_array[$subitem['pos']] = new AddNewItemElement(
                 AddNewItemElementTypes::Object,
                 $this->getTranslatedObjectTypeNameFromItemArray($subitem),
-                empty($subitem['plugin'])
+                empty($subitem['plugin']) && $this->obj_definition->getIconPath($type) === null
                     ? $this->ui_factory->symbol()->icon()->standard($type, '')
                     : $this->ui_factory->symbol()->icon()->custom(
                         ilObject::getIconForType($type),

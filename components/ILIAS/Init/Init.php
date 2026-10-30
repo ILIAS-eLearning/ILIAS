@@ -188,7 +188,8 @@ class Init implements Component\Component
                 $pull[\ILIAS\Language\Activities\SetLanguageDetectionEnabled::class],
                 $pull[\ILIAS\Language\Activities\SetLanguageTranslationEnabled::class],
                 $use[\ILIAS\BackgroundTasks\Registry\Registry::class],
-                $use[\ILIAS\UICore\Ctrl\CommandClassResolver::class]
+                $use[\ILIAS\UICore\Ctrl\CommandClassResolver::class],
+                $pull[\ILIAS\ILIASObject\Definition\ObjectTypeRegistry::class]
             );
         $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
             $this,
