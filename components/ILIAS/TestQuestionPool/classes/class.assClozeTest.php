@@ -99,14 +99,31 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     */
     public function isComplete(): bool
     {
-        if ($this->getTitle() !== ''
-            && $this->getAuthor()
-            && $this->getClozeText()
-            && count($this->getGaps())
-            && $this->getMaximumPoints() > 0) {
-            return true;
+        if (
+            $this->getTitle() === ''
+            || !$this->getAuthor()
+            || !$this->getClozeText()
+            || count($this->getGaps()) === 0
+            || $this->getMaximumPoints() <= 0
+        ) {
+            return false;
         }
-        return false;
+
+        foreach ($this->getGaps() as $gap) {
+            if ($gap->getItemsRaw() === []) {
+                return false;
+            }
+
+            foreach ($gap->getItemsRaw() as $item) {
+                if (trim($item->getAnswertext()) !== '') {
+                    continue;
+                }
+
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
