@@ -305,7 +305,7 @@ class BookableItemTableCancelBookingAction implements TableAction
                     'object_id' => $object_id,
                     'title' => $titles[$object_id],
                     'slot_from' => $slot_from,
-                    'slot_to' => $slot_to + 1,
+                    'slot_to' => $slot_to,
                     'has_schedule' => count($parts) === 3,
                     'has_user_active_booking' =>
                         $user_id === (int) $reservation['user_id']
@@ -330,7 +330,7 @@ class BookableItemTableCancelBookingAction implements TableAction
         $this->lng->loadLanguageModule('dateplaner');
         $period = ilDatePresentation::formatPeriod(
             new ilDateTime($record['slot_from'], IL_CAL_UNIX),
-            new ilDateTime($record['slot_to'] - 1, IL_CAL_UNIX)
+            new ilDateTime($record['slot_to'], IL_CAL_UNIX)
         );
 
         return "{$record['title']} ({$period})";
