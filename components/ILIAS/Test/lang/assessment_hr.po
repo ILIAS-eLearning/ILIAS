@@ -3052,12 +3052,6 @@ msgstr "Tolerancija određuje dopušteno postotno odstupanje od vrijednosti rezu
 msgid "too_many_targets_selected_for_move"
 msgstr "Morate odabrati točno jednu ciljnu poziciju!"
 
-msgid "toplist_by_score"
-msgstr "Plasman prema bodovima"
-
-msgid "toplist_by_time"
-msgstr "Plasman prema vremenu obrade"
-
 msgid "toplist_col_achieved"
 msgstr "Datum"
 
@@ -3069,9 +3063,6 @@ msgstr "Postotak"
 
 msgid "toplist_col_rank"
 msgstr "Rang"
-
-msgid "toplist_col_score"
-msgstr "Broj bodova"
 
 msgid "toplist_col_wtime"
 msgstr "Vrijeme obrade"
@@ -4728,9 +4719,6 @@ msgstr "Pokaži ‘Popis pitanja’"
 
 msgid "tst_show_summary_description"
 msgstr "Sudionici mogu uključiti popis pitanja testa s lijeve strane stvarnog pitanja. Pored toga, prikazuje im se tipka ‘Popis pitanja’. Na tom će se zaslonu prikazati ukupni status svih pitanja."
-
-msgid "tst_show_toplist"
-msgstr "Rangiranje"
 
 msgid "tst_shuffle_questions"
 msgstr "Promiješaj pitanja"

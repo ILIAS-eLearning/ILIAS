@@ -3050,12 +3050,6 @@ msgstr "Tolerance určuje přípustnou procentní odchylku od výsledné hodnoty
 msgid "too_many_targets_selected_for_move"
 msgstr "Musíte vybrat přesně jedno cílové umístění!"
 
-msgid "toplist_by_score"
-msgstr "Nejvyšší výsledky podle hodnocení"
-
-msgid "toplist_by_time"
-msgstr "Nejvyšší výsledky podle pracovního času"
-
 msgid "toplist_col_achieved"
 msgstr "Datum"
 
@@ -3067,9 +3061,6 @@ msgstr "Procenta"
 
 msgid "toplist_col_rank"
 msgstr "Umístění"
-
-msgid "toplist_col_score"
-msgstr "Hodnocení"
 
 msgid "toplist_col_wtime"
 msgstr "Pracovní čas"
@@ -4715,9 +4706,6 @@ msgstr "Zobrazit seznam otázek"
 
 msgid "tst_show_summary_description"
 msgstr "Nabídnout dosažitelnost seznamu všech otázek testu jeho účastníkům v průběhu testu"
-
-msgid "tst_show_toplist"
-msgstr "Zobrazit nejlepší výsledky"
 
 msgid "tst_shuffle_questions"
 msgstr "Zamíchat otázky"

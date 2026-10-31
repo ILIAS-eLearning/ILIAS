@@ -3063,12 +3063,6 @@ msgstr "A tolerância especifica um desvio tolerado da percentagem em relação 
 msgid "too_many_targets_selected_for_move"
 msgstr "Tem de selecionar exatamente uma posição de destino!"
 
-msgid "toplist_by_score"
-msgstr "Estatística por pontuação"
-
-msgid "toplist_by_time"
-msgstr "Estatística por tempo de trabalho"
-
 msgid "toplist_col_achieved"
 msgstr "Data"
 
@@ -3080,9 +3074,6 @@ msgstr "Percentagem"
 
 msgid "toplist_col_rank"
 msgstr "Classificação"
-
-msgid "toplist_col_score"
-msgstr "Pontuação"
 
 msgid "toplist_col_wtime"
 msgstr "Tempo de trabalho"
@@ -4739,9 +4730,6 @@ msgstr "Tipo de teste"
 
 msgid "tst_show_summary_description"
 msgstr "Usar respostas anteriores"
-
-msgid "tst_show_toplist"
-msgstr "Os participantes poderão ver as suas respostas das tentativas de este anteriores. Esta opção tem de ser ativada por participantes individuais no separador Informação antes de começar uma tentativa de teste."
 
 msgid "tst_shuffle_questions"
 msgstr "Misturar perguntas"

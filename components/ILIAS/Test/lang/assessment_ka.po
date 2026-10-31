@@ -3380,12 +3380,6 @@ msgstr "The tolerance specifies an allowable percentage deviation from the resul
 msgid "too_many_targets_selected_for_move"
 msgstr "თქვენ ზუსტად ერთი სამიზნე ადგილი უნდა აირჩიოთ"
 
-msgid "toplist_by_score"
-msgstr "Highscore by score"
-
-msgid "toplist_by_time"
-msgstr "Highscore by working time"
-
 msgid "toplist_col_achieved"
 msgstr "Date"
 
@@ -3397,9 +3391,6 @@ msgstr "Percentage"
 
 msgid "toplist_col_rank"
 msgstr "Rank"
-
-msgid "toplist_col_score"
-msgstr "Score"
 
 msgid "toplist_col_wtime"
 msgstr "Working Time"
@@ -5339,9 +5330,6 @@ msgstr "აჩვენე კითხვების სია"
 
 msgid "tst_show_summary_description"
 msgstr "სთავაზობს მონაწილეებს ტესტისთვის ყველა შესაძლო კითვის სიას"
-
-msgid "tst_show_toplist"
-msgstr "Show Highscores"
 
 msgid "tst_shuffle_questions"
 msgstr "კითხვების არევა"

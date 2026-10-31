@@ -3445,12 +3445,6 @@ msgstr "The tolerance specifies an allowable percentage deviation from the resul
 msgid "too_many_targets_selected_for_move"
 msgstr "You must select exactly one target position!"
 
-msgid "toplist_by_score"
-msgstr "Placering efter resultat"
-
-msgid "toplist_by_time"
-msgstr "Placering efter tidsforbrug"
-
 msgid "toplist_col_achieved"
 msgstr "Dato"
 
@@ -3462,9 +3456,6 @@ msgstr "Procent"
 
 msgid "toplist_col_rank"
 msgstr "Placering"
-
-msgid "toplist_col_score"
-msgstr "Resultat"
 
 msgid "toplist_col_wtime"
 msgstr "Arbejdstid"
@@ -5418,9 +5409,6 @@ msgstr "Vis spørgsmålsresume"
 
 msgid "tst_show_summary_description"
 msgstr "Viser en oversigt over alle testspørgsmål der er tilgængelige under testen."
-
-msgid "tst_show_toplist"
-msgstr "Vis topplaceringer"
 
 msgid "tst_shuffle_questions"
 msgstr "Bland spørgsmål"

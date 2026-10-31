@@ -3260,12 +3260,6 @@ msgstr "The tolerance specifies an allowable percentage deviation from the resul
 msgid "too_many_targets_selected_for_move"
 msgstr "Вы должны выбрать только одну целевую позицию!"
 
-msgid "toplist_by_score"
-msgstr "Лучшие баллы по баллам"
-
-msgid "toplist_by_time"
-msgstr "Лучшие баллы по времени работы"
-
 msgid "toplist_col_achieved"
 msgstr "Дата"
 
@@ -3277,9 +3271,6 @@ msgstr "Проценты"
 
 msgid "toplist_col_rank"
 msgstr "Ранг"
-
-msgid "toplist_col_score"
-msgstr "Баллы"
 
 msgid "toplist_col_wtime"
 msgstr "Время работы"
@@ -5133,9 +5124,6 @@ msgstr "Отображать список вопросов"
 
 msgid "tst_show_summary_description"
 msgstr "Делает список всех вопросов теста доступным для участников во время теста."
-
-msgid "tst_show_toplist"
-msgstr "Показать лучшие баллы"
 
 msgid "tst_shuffle_questions"
 msgstr "Перетасовать вопросы"

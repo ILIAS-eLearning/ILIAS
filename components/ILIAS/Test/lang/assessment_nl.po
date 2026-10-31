@@ -3217,12 +3217,6 @@ msgstr "The tolerance specifies an allowable percentage deviation from the resul
 msgid "too_many_targets_selected_for_move"
 msgstr "Je moet precies 1 doelpositie selecteren!"
 
-msgid "toplist_by_score"
-msgstr "Hoogste scores gebaseerd op score"
-
-msgid "toplist_by_time"
-msgstr "Hoogste scores gebaseerd op tijd"
-
 msgid "toplist_col_achieved"
 msgstr "Datum"
 
@@ -3234,9 +3228,6 @@ msgstr "Percentage"
 
 msgid "toplist_col_rank"
 msgstr "Rank"
-
-msgid "toplist_col_score"
-msgstr "Score"
 
 msgid "toplist_col_wtime"
 msgstr "Werktijd"
@@ -5040,9 +5031,6 @@ msgstr "Toon vraag samenvatting"
 
 msgid "tst_show_summary_description"
 msgstr "Biedt een samenvattingspagina met alle toetsvragen."
-
-msgid "tst_show_toplist"
-msgstr "Hoge scores tonen"
 
 msgid "tst_shuffle_questions"
 msgstr "Mix de vragen"
