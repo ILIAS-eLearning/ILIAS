@@ -252,6 +252,23 @@ button.copg-add.dropdown-toggle.btn:focus-visible {
 	height: 25px;
 }
 
+.ilc_media_caption_MediaCaption {
+	display: flow-root;
+}
+
+.ilc_media_fullscreen_link {
+	float: right;
+	display: block;
+	width: 25px;
+	height: 25px;
+}
+
+.ilc_media_fullscreen_link img {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
 .il-copg-mob-fullscreen-modal .il-modal-roundtrip {
 	width: 90%;
 	height: 90vh;

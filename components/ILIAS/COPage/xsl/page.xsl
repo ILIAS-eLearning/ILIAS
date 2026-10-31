@@ -2230,18 +2230,17 @@
 			</div>
 			<!-- mob caption -->
 			<xsl:choose>			<!-- derive -->
-				<xsl:when test="count(../MediaAliasItem[@Purpose=$curPurpose]/Caption[1]) != 0">
-					<xsl:if test="../MediaAliasItem[@Purpose=$curPurpose]/Caption[1] != ''">
-						<figcaption><xsl:attribute name="style"><xsl:value-of select="$captiondisplay"/></xsl:attribute><div>
-							<xsl:attribute name="class"><xsl:value-of select="$captionclass"/></xsl:attribute>
-						<xsl:call-template name="FullscreenLink">
-							<xsl:with-param name="cmobid" select="$cmobid"/>
-						</xsl:call-template>
-						<xsl:value-of select="../MediaAliasItem[@Purpose=$curPurpose]/Caption[1]"/>
-						</div></figcaption>
-					</xsl:if>
+				<xsl:when test="../MediaAliasItem[@Purpose=$curPurpose]/Caption[1] != ''">
+					<figcaption><xsl:attribute name="style"><xsl:value-of select="$captiondisplay"/></xsl:attribute><div>
+						<xsl:attribute name="class"><xsl:value-of select="$captionclass"/></xsl:attribute>
+					<xsl:call-template name="FullscreenLink">
+						<xsl:with-param name="cmobid" select="$cmobid"/>
+					</xsl:call-template>
+					<xsl:value-of select="../MediaAliasItem[@Purpose=$curPurpose]/Caption[1]"/>
+					</div></figcaption>
 				</xsl:when>
-				<xsl:when test="count(//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Caption[1]) != 0">
+				<xsl:when test="count(../MediaAliasItem[@Purpose=$curPurpose]/Caption[1]) = 0 and
+					//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Caption[1] != ''">
 					<figcaption><xsl:attribute name="style"><xsl:value-of select="$captiondisplay"/></xsl:attribute><div>
 						<xsl:attribute name="class"><xsl:value-of select="$captionclass"/></xsl:attribute>
 					<xsl:call-template name="FullscreenLink">
@@ -2834,15 +2833,15 @@
 
 		<xsl:choose>
 		<xsl:when test="$fullscreen_link = 'fullscreen.html'">
-			<a target="_blank">
+			<a class="ilc_media_fullscreen_link" target="_blank">
 			<xsl:attribute name="href">fullscreen_<xsl:value-of select="substring-after($cmobid,'mob_')"/>.html</xsl:attribute>
-			<img style="float: right;">
+			<img>
 			<xsl:attribute name="src"><xsl:value-of select="$enlarge_path"/></xsl:attribute>
 			</img>
 			</a>
 		</xsl:when>
 		<xsl:otherwise>
-			<a href="#" style="float: right; width: auto; display:inline-block" target="_blank">
+			<a class="ilc_media_fullscreen_link" href="#" target="_blank">
 			<xsl:attribute name="onclick">il.COPagePres.openFullScreenModal('<xsl:value-of select="$fullscreen_link"/>&amp;mob_id=<xsl:value-of select="substring-after($cmobid,'mob_')"/>&amp;pg_id=<xsl:value-of select="$pg_id"/>','<xsl:value-of select="concat('-', $parent_type, '-', $pg_id)"/>'); return false;</xsl:attribute>
 			<img>
 			<xsl:attribute name="src"><xsl:value-of select="$enlarge_path"/></xsl:attribute>
