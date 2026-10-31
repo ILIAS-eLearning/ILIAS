@@ -55,4 +55,14 @@ class assMatchingQuestionTest extends assBaseTestCase
 
         $this->assertInstanceOf(assMatchingQuestion::class, $instance);
     }
+
+    public function test_sumMatchingQuestionPoints(): void
+    {
+        $question = new assMatchingQuestion();
+        $method = new ReflectionMethod(assMatchingQuestion::class, 'sumMatchingQuestionPoints');
+
+        $sum = $method->invoke($question, [-0.5, 0.34, 0.33, -0.5, 0.33]);
+
+        $this->assertSame(0.0, $sum);
+    }
 }
