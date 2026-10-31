@@ -1,10 +1,10 @@
-<dialog class="c-modal c-modal--interruptive" tabindex="-1" id="{ID}">
+<dialog class="c-modal c-modal--interruptive" tabindex="-1" id="{ID}" aria-modal="true" aria-labelledby="{ID}_title">
 	<div class="modal-dialog" role="document">
 		<form action="{FORM_ACTION}" method="POST">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button formmethod="dialog" class="close" aria-label="{CLOSE_LABEL}"><span aria-hidden="true">&times;</span></button>
-					<h1 class="modal-title">{TITLE}</h1>
+					<h1 id="{ID}_title" class="modal-title">{TITLE}</h1>
 				</div>
 				<div class="modal-body">
 					<div class="alert alert-warning c-modal--interruptive__message" role="alert">

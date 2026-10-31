@@ -113,13 +113,13 @@ class InterruptiveTest extends ModalBase
     protected function getExpectedHTML(bool $with_items = false): string
     {
         $expected_start = <<<EOT
-<dialog class="c-modal c-modal--interruptive" tabindex="-1" id="id_1">
+<dialog class="c-modal c-modal--interruptive" tabindex="-1" id="id_1" aria-modal="true" aria-labelledby="id_1_title">
 	<div class="modal-dialog" role="document">
 		<form action="myAction.php" method="POST">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button formmethod="dialog" class="close" aria-label="cancel"><span aria-hidden="true">&times;</span></button>
-					<h1 class="modal-title">Title</h1>
+					<h1 id="id_1_title" class="modal-title">Title</h1>
 				</div>
 				<div class="modal-body">
 					<div class="alert alert-warning c-modal--interruptive__message" role="alert">Message</div>
