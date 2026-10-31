@@ -377,6 +377,7 @@ class ilPageEditorGUI
                 $pc_question_gui = new ilPCQuestionGUI($this->page, $cont_obj, $hier_id, $pc_id);
                 $pc_question_gui->setSelfAssessmentMode($this->page_gui->getPageConfig()->getEnableSelfAssessment());
                 $pc_question_gui->setPageConfig($this->page_gui->getPageConfig());
+                $pc_question_gui->setParentPageGUI($this->page_gui);
 
                 if ($this->page_gui->getPageConfig()->getEnableSelfAssessment()) {
                     $this->tabs_gui->clearTargets();
