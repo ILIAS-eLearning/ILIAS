@@ -102,14 +102,31 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     */
     public function isComplete(): bool
     {
-        if ($this->getTitle() !== ''
-            && $this->getAuthor()
-            && $this->getClozeText()
-            && count($this->getGaps())
-            && $this->getMaximumPoints() > 0) {
-            return true;
+        if (
+            $this->getTitle() === ''
+            || !$this->getAuthor()
+            || !$this->getClozeText()
+            || count($this->getGaps()) === 0
+            || $this->getMaximumPoints() <= 0
+        ) {
+            return false;
         }
-        return false;
+
+        foreach ($this->getGaps() as $gap) {
+            if ($gap->getItemsRaw() === []) {
+                return false;
+            }
+
+            foreach ($gap->getItemsRaw() as $item) {
+                if (trim($item->getAnswertext()) !== '') {
+                    continue;
+                }
+
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -1775,8 +1792,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     public function toNormalized(
         Transformations $transformations,
         array $context = []
-    ): array|float|bool|int|string|null
-    {
+    ): array|float|bool|int|string|null {
         return [
             ...$transformations->normalize(parent::toNormalized($transformations, $context)),
             'feedback_mode' => $this->feedbackMode,
@@ -1794,8 +1810,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     public function fromNormalized(
         array $normalized,
         Transformations $transformations
-    ): static
-    {
+    ): static {
         $clone = parent::fromNormalized($normalized, $transformations);
         $clone->feedbackMode = $transformations->string($normalized['feedback_mode']);
         $clone->cloze_text = $transformations->string($normalized['cloze_text']);
