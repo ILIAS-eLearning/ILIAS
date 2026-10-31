@@ -62,13 +62,15 @@ $zoom-large: math.div($il-avatar-size-large, $il-avatar-size);
 	}
 
 	&.il-avatar-letter {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+
 		span.abbreviation {
 			font-weight: $il-avatar-letter-abbreviation-font-weight;
 			text-transform: $il-avatar-letter-abbreviation-font-transform;
 			font-size: calc($il-avatar-inner-size / 2);
 			line-height: 1;
-			position: relative;
-			top: calc($il-avatar-inner-size / 4);
 		}
 
 		@for $i from 1 through length($il-avatar-colors) {
@@ -101,7 +103,6 @@ $zoom-large: math.div($il-avatar-size-large, $il-avatar-size);
 		&.il-avatar-letter {
 			span.abbreviation {
 				font-size: calc($il-avatar-inner-mobile-size / 2);
-				top: calc($il-avatar-inner-mobile-size / 4);
 			}
 		}
 	}
