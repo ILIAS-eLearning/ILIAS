@@ -204,7 +204,7 @@ class EntityTest extends ILIAS_UI_TestBase
          <div class="c-entity__actions-container l-bar__group">
             <div class="c-entity__actions-manage l-bar__element">
                <div class="dropdown" id="id_10">
-                  <button class="btn btn-default dropdown-toggle" type="button" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_10_menu"><span class="caret"></span></button>
+                  <button class="btn btn-default dropdown-toggle" type="button" aria-label="actions" aria-expanded="false" aria-controls="id_10_menu"><span class="caret"></span></button>
                   <ul id="id_10_menu" class="dropdown-menu">
                      <li><button class="btn btn-link" data-action="#" id="id_8">shy</button></li>
                      <li><button class="btn btn-link" data-action="#" id="id_9">shy</button></li>

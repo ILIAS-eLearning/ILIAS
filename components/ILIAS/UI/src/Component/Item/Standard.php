@@ -103,4 +103,14 @@ interface Standard extends Item
     public function withMainAction(ButtonStandard|LinkStandard $button): Standard;
 
     public function getMainAction(): ButtonStandard|LinkStandard|null;
+
+    /**
+     * Get an item like this with the given heading level for the item title.
+     */
+    public function withHeadingLevel(int $level): Standard;
+
+    /**
+     * Get the heading level of the item title.
+     */
+    public function getHeadingLevel(): int;
 }
