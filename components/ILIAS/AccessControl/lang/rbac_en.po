@@ -213,10 +213,10 @@ msgid "book_edit_permission"
 msgstr "User can change permission settings for booking pool"
 
 msgid "book_manage_all_reservations"
-msgstr "User can manage all reservations"
+msgstr "User can manage all bookings"
 
 msgid "book_manage_own_reservations"
-msgstr "User can manage own reservations"
+msgstr "User can manage own bookings"
 
 msgid "book_read"
 msgstr "User can book resources / objects in booking pool"
