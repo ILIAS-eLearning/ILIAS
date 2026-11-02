@@ -20,12 +20,12 @@ declare(strict_types=1);
 
 namespace ILIAS\Logging\Logger\Monolog;
 
-use ILIAS\Logging\ILIASLogLevel;
 use Monolog\Logger as MonologLogger;
+use Monolog\Handler\HandlerInterface as MonologHandlerInterface;
 
 interface FactoryInterface
 {
-    public function logger(string $name, ILIASLogLevel $level, string $file_path): MonologLogger;
+    public function logger(string $name, MonologHandlerInterface ...$handlers): MonologLogger;
 
     public function nullLogger(string $name): MonologLogger;
 }

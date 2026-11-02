@@ -72,6 +72,56 @@ $logger->debug('Lorem ipsum {foo} dolor {bar}.', [
 ]);
 ```
 
+## Adding Handlers to Loggers
+
+Other components may contribute additional handlers to the loggers given out by Logging. Those handler can then can e.g.
+log to the browser console, send out logged errors by mail, or pass on log entries to some third service. This is mostly
+intended for use by non-core components.
+
+To add additional handlers, implement the [`Monolog\Handler\ProviderInterface`](src/Logger/Monolog/Handler/ProviderInterface.php),
+and contribute it in your `Component.php`.
+
+```php
+$contribute[Logging\Logger\Monolog\Handler\ProviderInterface::class] = static fn() =>
+    new MyHandlerProvider();
+```
+
+`ProviderInterface::getHandler` returns the handler you want to contribute. The interface requires you to return a
+`Monolog\Handler\HandlerInterface`, so that you can directly use the many built-in handlers that Monolog provides.
+
+`ProviderInterface::appliesTo` determines to which loggers the handler will be added. It can also be used to restrict
+usage of the handler based on external criteria.
+
+```php
+/**
+ * Will be added to all loggers.
+ */ 
+public function appliesTo(string $component_id): bool
+{
+    return true;
+}
+
+/**
+ * Will only be added to the logger for courses.
+ */ 
+public function appliesTo(string $component_id): bool
+{
+    return $component_id === 'crs';
+}
+
+/**
+ * Will be added to all loggers, but only when enabled externally.
+ */ 
+public function appliesTo(string $component_id): bool
+{
+    return $this->my_settings->isAdditionalLoggingHandlerEnabled();
+}
+```
+
+Note that the order in which handlers are added to loggers should currently not be treated as stable. You should make
+sure that every handler you introduce does not interrupt the stack: `bubble`-parameters should be set to true,
+`HandlerInterface::handle` should always return `false`.
+
 ## Further reading
 
 Please read the [PSR-3 Specification](https://www.php-fig.org/psr/psr-3/) for further information.

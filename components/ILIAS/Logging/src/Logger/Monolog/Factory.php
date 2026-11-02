@@ -24,17 +24,17 @@ use ILIAS\Logging\ILIASLogLevel;
 use Monolog\Logger as MonologLogger;
 use Monolog\Handler\NullHandler;
 use Monolog\Processor\PsrLogMessageProcessor;
-use Monolog\Handler\Handler;
-use Monolog\Handler\StreamHandler;
+use Monolog\Handler\HandlerInterface as MonologHandlerInterface;
 
 class Factory implements FactoryInterface
 {
-    public function logger(string $name, ILIASLogLevel $level, string $file_path): MonologLogger
+    public function logger(string $name, MonologHandlerInterface ...$handlers): MonologLogger
     {
         $logger = new MonologLogger($name);
 
-        $handler = $this->buildStandardHandler($level, $file_path);
-        $logger->pushHandler($handler);
+        foreach ($handlers as $handler) {
+            $logger->pushHandler($handler);
+        }
 
         $logger->pushProcessor(function ($record) {
             $record['extra']['suid'] = substr(session_id(), 0, 5);
@@ -44,20 +44,6 @@ class Factory implements FactoryInterface
         $logger->pushProcessor(new PsrLogMessageProcessor()); // Interpolate context variables.
 
         return $logger;
-    }
-
-    protected function buildStandardHandler(ILIASLogLevel $level, string $file_path): Handler
-    {
-        $stream_handler = new StreamHandler(
-            $file_path,
-            $level->value,
-            true
-        );
-
-        $line_formatter = new ILIASLineFormatter();
-        $stream_handler->setFormatter($line_formatter);
-
-        return $stream_handler;
     }
 
     public function nullLogger(string $name): MonologLogger
