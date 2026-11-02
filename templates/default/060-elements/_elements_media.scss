@@ -9,7 +9,8 @@ img {
 	}
 }
 
-a:has(img) {
+// Image links show focus only for keyboard navigation; bulky controls style themselves.
+a:has(img):not(.link-bulky) {
 	@include focus.clear-focus-for-override();
-	@include focus.il-focus();
+	@include focus.il-focus-visible();
 }

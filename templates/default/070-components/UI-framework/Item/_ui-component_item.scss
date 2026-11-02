@@ -3,6 +3,7 @@
 @use "../../../010-settings/legacy-settings/legacy-settings_chart" as *;
 @use "../../../010-settings/legacy-settings/legacy-settings_symbol" as *;
 @use "../../../030-tools/tool_rem-conversion" as *;
+@use "../../../030-tools/tool_focus-outline" as focus;
 @use "../../../050-layout/basics" as *;
 
 //== Item
@@ -36,6 +37,9 @@ $il-item-gap-xs: 1px;
 		.btn-link, a {
 			font-size: inherit;
 			line-height: $il-line-height-base;
+			// Keep the generic inset link outline from covering item-title text.
+			@include focus.clear-focus-for-override($clearAfter: true);
+			@include focus.il-focus-outline-only($outline-offset: 2px);
 			
 			&:focus-visible {
 				display: block;

@@ -4,6 +4,7 @@
 @use "../../../050-layout/standardpage" as *;
 @use "../../../050-layout/layout_container-query" as container-query;
 @use "../../../070-components/UI-framework/MainControls/_ui-component_metabar.scss" as metabar;
+@use "../../../030-tools/tool_focus-outline" as focus;
 
 //== Standard Page
 $il-standard-page-small-mainbar-height-w-bottom-safe-area: calc($il-standard-page-small-mainbar-height + 1.2 * env(safe-area-inset-bottom));
@@ -110,8 +111,11 @@ div.il-system-infos {
 	justify-self: start;
 	display: flex;
   	align-items: center;
-	a {
+	a:has(img):not(.link-bulky) {
 		display: block; // so keyboard focus surrounds logo
+		// The generic image-link ring otherwise appears as a stray line beside the logo.
+		@include focus.clear-focus-for-override($clearAfter: true);
+		@include focus.il-focus-border-only();
 	}
 }
 
