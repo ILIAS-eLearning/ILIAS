@@ -18,11 +18,10 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Tests\Authentication\KeyValueStorage;
+namespace ILIAS\Tests\UI\Implementation\Storage;
 
 use ILIAS\Authentication\Domain\AuthenticatedSubjectResolver;
 use ILIAS\Authentication\KeyValueStorage\SessionRepository;
-use ILIAS\Authentication\KeyValueStorage\UiStorageAdapter;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\KeyValueStorage\Internal\KeyRules;
 use ILIAS\KeyValueStorage\Internal\NamespacedStore;
@@ -35,24 +34,22 @@ use ILIAS\Refinery\Transformation;
 use ILIAS\UI\Implementation\Component\Navigation\Sequence\Sequence;
 use ILIAS\UI\Implementation\Component\Table\Data;
 use ILIAS\UI\Implementation\Component\Table\Ordering;
+use ILIAS\UI\Implementation\Storage\KeyValueStorageAdapter;
 use PHPUnit\Framework\Attributes\BackupGlobals;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 #[BackupGlobals(true)]
-class UiStorageAdapterTest extends TestCase
+class KeyValueStorageAdapterTest extends TestCase
 {
-    private UiStorageAdapter $adapter;
+    private KeyValueStorageAdapter $adapter;
 
     private Refinery $refinery;
 
     protected function setUp(): void
     {
         $_SESSION = [];
-        $language = $this->getMockBuilder(\ilLanguage::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->refinery = new Refinery(new DataFactory(), $language);
+        $this->refinery = new Refinery(new DataFactory(), self::createStub(\ilLanguage::class));
         $store = new NamespacedStore(
             new StorageNamespace(['ui', 'storage']),
             new SessionRepository(),
@@ -64,17 +61,17 @@ class UiStorageAdapterTest extends TestCase
         $services = $this->createMock(Services::class);
         $services->method('session')->willReturn($store);
         $services->expects($this->never())->method('persistentFor');
-        $this->adapter = new UiStorageAdapter($subjects, $services, $this->refinery);
+        $this->adapter = new KeyValueStorageAdapter($subjects, $services, $this->refinery);
     }
 
     public function testAViewStateSurvivesAWriteAndReadCycle(): void
     {
-        $this->assertFalse($this->adapter->offsetExists('view_state'));
+        self::assertFalse($this->adapter->offsetExists('view_state'));
 
         $this->adapter->offsetSet('view_state', ['sort' => 'title', 'page' => 2]);
 
-        $this->assertTrue($this->adapter->offsetExists('view_state'));
-        $this->assertSame(['sort' => 'title', 'page' => 2], $this->adapter->offsetGet('view_state'));
+        self::assertTrue($this->adapter->offsetExists('view_state'));
+        self::assertSame(['sort' => 'title', 'page' => 2], $this->adapter->offsetGet('view_state'));
     }
 
     public function testUnsetRemovesTheEntry(): void
@@ -83,8 +80,8 @@ class UiStorageAdapterTest extends TestCase
 
         $this->adapter->offsetUnset('view_state');
 
-        $this->assertFalse($this->adapter->offsetExists('view_state'));
-        $this->assertNull($this->adapter->offsetGet('view_state'));
+        self::assertFalse($this->adapter->offsetExists('view_state'));
+        self::assertNull($this->adapter->offsetGet('view_state'));
     }
 
     /**
@@ -96,7 +93,7 @@ class UiStorageAdapterTest extends TestCase
     {
         $this->adapter->offsetSet($storage_id, ['sort' => 'title']);
 
-        $this->assertSame(['sort' => 'title'], $this->adapter->offsetGet($storage_id));
+        self::assertSame(['sort' => 'title'], $this->adapter->offsetGet($storage_id));
     }
 
     /**
@@ -132,7 +129,9 @@ class UiStorageAdapterTest extends TestCase
             ->willReturn($store);
         $services->expects($this->never())->method('session');
 
-        self::assertTrue((new UiStorageAdapter($subjects, $services, $this->refinery))->offsetExists('view_state'));
+        $adapter = new KeyValueStorageAdapter($subjects, $services, $this->refinery);
+
+        self::assertTrue($adapter->offsetExists('view_state'));
     }
 
     public function testAnAnonymousActorUsesTheSessionStore(): void
@@ -145,7 +144,9 @@ class UiStorageAdapterTest extends TestCase
         $services->expects($this->once())->method('session')->with(['ui', 'storage'])->willReturn($store);
         $services->expects($this->never())->method('persistentFor');
 
-        self::assertFalse((new UiStorageAdapter($subjects, $services, $this->refinery))->offsetExists('view_state'));
+        $adapter = new KeyValueStorageAdapter($subjects, $services, $this->refinery);
+
+        self::assertFalse($adapter->offsetExists('view_state'));
     }
 
     public function testNoStoreIsChosenWhileTheAdapterIsBuilt(): void
@@ -155,7 +156,7 @@ class UiStorageAdapterTest extends TestCase
         $services = $this->createMock(Services::class);
         $services->expects($this->never())->method($this->anything());
 
-        new UiStorageAdapter($subjects, $services, $this->refinery);
+        new KeyValueStorageAdapter($subjects, $services, $this->refinery);
     }
 
     /**
@@ -173,7 +174,7 @@ class UiStorageAdapterTest extends TestCase
         $services->method('session')->willReturn($session_store);
         $services->method('persistentFor')->willReturn($persistent_store);
 
-        $adapter = new UiStorageAdapter($subjects, $services, $this->refinery);
+        $adapter = new KeyValueStorageAdapter($subjects, $services, $this->refinery);
         $adapter->offsetSet('view_state', ['page' => 1]);
         $adapter->offsetSet('view_state', ['page' => 2]);
     }
@@ -196,7 +197,7 @@ class UiStorageAdapterTest extends TestCase
         $services = $this->createStub(Services::class);
         $services->method('session')->willReturn($store);
 
-        $adapter = new UiStorageAdapter($subjects, $services, $this->refinery);
+        $adapter = new KeyValueStorageAdapter($subjects, $services, $this->refinery);
 
         self::assertSame(['sort' => 'title'], $adapter->offsetGet('view_state'));
     }
