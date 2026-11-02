@@ -26,7 +26,6 @@ use ILIAS\UI\Component\Component;
 use ILIAS\LegalDocuments\Value\DocumentContent;
 use ilTemplate;
 use ILIAS\Data\Result\Ok;
-use ILIAS\UI\Component\MainControls\Footer;
 use ILIAS\LegalDocuments\test\ContainerMock;
 use ILIAS\LegalDocuments\Provide;
 use ILIAS\LegalDocuments\ConsumerToolbox\User;
@@ -43,9 +42,9 @@ class ModifyFooterTest extends TestCase
     public function testConstruct(): void
     {
         $this->assertInstanceOf(ModifyFooter::class, new ModifyFooter(
-            $this->mock(UI::class),
-            $this->mock(User::class),
-            $this->mock(Provide::class),
+            $this->stub(UI::class),
+            $this->stub(User::class),
+            $this->stub(Provide::class),
             $this->fail(...),
             $this->fail(...),
             null,
@@ -58,11 +57,11 @@ class ModifyFooterTest extends TestCase
         $footer = fn() => $return;
 
         $instance = new ModifyFooter(
-            $this->mock(UI::class),
-            $this->mockTree(User::class, ['acceptedVersion' => new Ok($this->mock(DocumentContent::class))]),
-            $this->mock(Provide::class),
+            $this->stub(UI::class),
+            $this->stubTree(User::class, ['acceptedVersion' => new Ok($this->stub(DocumentContent::class))]),
+            $this->stub(Provide::class),
             fn() => 'rendered',
-            fn() => $this->mock(ilTemplate::class),
+            fn() => $this->stub(ilTemplate::class),
             null,
         );
 
@@ -71,7 +70,7 @@ class ModifyFooterTest extends TestCase
 
     public function testInvokeWithGotoLink(): void
     {
-        $dummy_uri = $this->mock(URI::class);
+        $dummy_uri = $this->stub(URI::class);
         $return = fn() => null;
         $footer = function ($id, $title, $uri) use ($dummy_uri, $return) {
             $this->assertSame('foo', $id);
@@ -81,11 +80,11 @@ class ModifyFooterTest extends TestCase
         };
 
         $instance = new ModifyFooter(
-            $this->mockTree(UI::class, ['txt' => 'translated']),
-            $this->mockTree(User::class, ['acceptedVersion' => new Error('Not found.'), 'isLoggedIn' => false]),
-            $this->mockTree(Provide::class, ['id' => 'foo']),
+            $this->stubTree(UI::class, ['txt' => 'translated']),
+            $this->stubTree(User::class, ['acceptedVersion' => new Error('Not found.'), 'isLoggedIn' => false]),
+            $this->stubTree(Provide::class, ['id' => 'foo']),
             fn() => 'rendered',
-            fn() => $this->mock(ilTemplate::class),
+            fn() => $this->stub(ilTemplate::class),
             fn() => $dummy_uri,
         );
 
@@ -95,15 +94,15 @@ class ModifyFooterTest extends TestCase
     public function testRenderModal(): void
     {
         $instance = new ModifyFooter(
-            $this->mock(UI::class),
-            $this->mock(User::class),
-            $this->mock(Provide::class),
+            $this->stub(UI::class),
+            $this->stub(User::class),
+            $this->stub(Provide::class),
             fn() => 'rendered',
-            fn() => $this->mock(ilTemplate::class),
+            fn() => $this->stub(ilTemplate::class),
             null
         );
 
-        $modal = $instance->renderModal($this->mock(DocumentContent::class));
+        $modal = $instance->renderModal($this->stub(DocumentContent::class));
         $this->assertInstanceOf(Modal::class, $modal);
     }
 
@@ -114,9 +113,9 @@ class ModifyFooterTest extends TestCase
         $template->expects($this->once())->method('get');
 
         $instance = new ModifyFooter(
-            $this->mock(UI::class),
-            $this->mock(User::class),
-            $this->mock(Provide::class),
+            $this->stub(UI::class),
+            $this->stub(User::class),
+            $this->stub(Provide::class),
             fn() => 'rendered',
             fn() => $template,
             null

@@ -40,16 +40,16 @@ class RoleTest extends TestCase
     public function testConstruct(): void
     {
         $this->assertInstanceOf(Role::class, new Role(
-            $this->mock(CriterionContent::class),
-            $this->mock(RoleDefinition::class),
-            $this->mock(UIFactory::class),
-            $this->mock(ilRbacReview::class)
+            $this->stub(CriterionContent::class),
+            $this->stub(RoleDefinition::class),
+            $this->stub(UIFactory::class),
+            $this->stub(ilRbacReview::class)
         ));
     }
 
     public function testAsComponent(): void
     {
-        $legacy = $this->mock(Legacy\Content::class);
+        $legacy = $this->stub(Legacy\Content::class);
         $legacy_factory = $this->mock(Legacy\Factory::class);
         $legacy_factory
             ->expects($this->once())
@@ -57,10 +57,10 @@ class RoleTest extends TestCase
             ->willReturn($legacy);
 
         $this->assertSame($legacy, (new Role(
-            $this->mockTree(CriterionContent::class, ['arguments' => ['role_id' => 78]]),
-            $this->mock(RoleDefinition::class),
-            $this->mockTree(UIFactory::class, ['legacy' => $legacy_factory]),
-            $this->mock(ilRbacReview::class)
+            $this->stubTree(CriterionContent::class, ['arguments' => ['role_id' => 78]]),
+            $this->stub(RoleDefinition::class),
+            $this->stubTree(UIFactory::class, ['legacy' => $legacy_factory]),
+            $this->stub(ilRbacReview::class)
         ))->asComponent());
     }
 
@@ -69,24 +69,24 @@ class RoleTest extends TestCase
         $rbac = $this->mockMethod(ilRbacReview::class, 'isAssigned', [45, 78], true);
 
         $instance = new Role(
-            $this->mockTree(CriterionContent::class, ['arguments' => ['role_id' => 78]]),
-            $this->mock(RoleDefinition::class),
-            $this->mock(UIFactory::class),
+            $this->stubTree(CriterionContent::class, ['arguments' => ['role_id' => 78]]),
+            $this->stub(RoleDefinition::class),
+            $this->stub(UIFactory::class),
             $rbac
         );
 
-        $this->assertTrue($instance->eval($this->mockTree(ilObjUser::class, ['getId' => 45])));
+        $this->assertTrue($instance->eval($this->stubTree(ilObjUser::class, ['getId' => 45])));
     }
 
     public function testDefinition(): void
     {
-        $definition = $this->mock(RoleDefinition::class);
+        $definition = $this->stub(RoleDefinition::class);
 
         $instance = new Role(
-            $this->mock(CriterionContent::class),
+            $this->stub(CriterionContent::class),
             $definition,
-            $this->mock(UIFactory::class),
-            $this->mock(ilRbacReview::class)
+            $this->stub(UIFactory::class),
+            $this->stub(ilRbacReview::class)
         );
 
         $this->assertSame($definition, $instance->definition());
@@ -95,12 +95,12 @@ class RoleTest extends TestCase
     public function testKnownToNeverMatchWith(): void
     {
         $instance = new Role(
-            $this->mock(CriterionContent::class),
-            $this->mock(RoleDefinition::class),
-            $this->mock(UIFactory::class),
-            $this->mock(ilRbacReview::class)
+            $this->stub(CriterionContent::class),
+            $this->stub(RoleDefinition::class),
+            $this->stub(UIFactory::class),
+            $this->stub(ilRbacReview::class)
         );
 
-        $this->assertFalse($instance->knownToNeverMatchWith($this->mock(Condition::class)));
+        $this->assertFalse($instance->knownToNeverMatchWith($this->stub(Condition::class)));
     }
 }

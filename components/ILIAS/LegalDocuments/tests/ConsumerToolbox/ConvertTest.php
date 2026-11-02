@@ -33,14 +33,14 @@ class ConvertTest extends TestCase
 
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(Convert::class, new Convert($this->mock(Transformation::class), $this->mock(Transformation::class)));
+        $this->assertInstanceOf(Convert::class, new Convert($this->stub(Transformation::class), $this->stub(Transformation::class)));
     }
 
     public function testGetter(): void
     {
         $this->assertGetter(Convert::class, [
-            'fromString' => $this->mock(Transformation::class),
-            'toString' => $this->mock(Transformation::class),
+            'fromString' => $this->stub(Transformation::class),
+            'toString' => $this->stub(Transformation::class),
         ]);
     }
 }

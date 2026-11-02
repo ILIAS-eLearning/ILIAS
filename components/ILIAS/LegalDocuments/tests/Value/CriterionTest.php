@@ -34,16 +34,16 @@ class CriterionTest extends TestCase
 
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(Criterion::class, new Criterion(8, $this->mock(CriterionContent::class), $this->mock(Edit::class), $this->mock(Edit::class)));
+        $this->assertInstanceOf(Criterion::class, new Criterion(8, $this->stub(CriterionContent::class), $this->stub(Edit::class), $this->stub(Edit::class)));
     }
 
     public function testGetter(): void
     {
         $this->assertGetter(Criterion::class, [
             'id' => 8,
-            'content' => $this->mock(CriterionContent::class),
-            'lastModification' => $this->mock(Edit::class),
-            'creation' => $this->mock(Edit::class),
+            'content' => $this->stub(CriterionContent::class),
+            'lastModification' => $this->stub(Edit::class),
+            'creation' => $this->stub(Edit::class),
         ]);
     }
 }

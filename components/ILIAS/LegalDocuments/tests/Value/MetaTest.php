@@ -33,15 +33,15 @@ class MetaTest extends TestCase
 
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(Meta::class, new Meta(8, $this->mock(Edit::class), $this->mock(Edit::class)));
+        $this->assertInstanceOf(Meta::class, new Meta(8, $this->stub(Edit::class), $this->stub(Edit::class)));
     }
 
     public function testGetter(): void
     {
         $this->assertGetter(Meta::class, [
             'sorting' => 348,
-            'lastModification' => $this->mock(Edit::class),
-            'creation' => $this->mock(Edit::class),
+            'lastModification' => $this->stub(Edit::class),
+            'creation' => $this->stub(Edit::class),
         ]);
     }
 }

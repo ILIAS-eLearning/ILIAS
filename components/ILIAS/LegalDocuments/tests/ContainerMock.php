@@ -20,13 +20,30 @@ declare(strict_types=1);
 
 namespace ILIAS\LegalDocuments\test;
 
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use ReflectionClass;
 
 trait ContainerMock
 {
+    /**
+     * @template T of object
+     * @param class-string<T> $class
+     * @return T&MockObject
+     */
     private function mock(string $class)
     {
         return $this->getMockBuilder($class)->disableOriginalConstructor()->getMock();
+    }
+
+    /**
+     * @template T of object
+     * @param class-string<T> $class
+     * @return T&Stub
+     */
+    private function stub(string $class)
+    {
+        return $this->createStub($class);
     }
 
     private function mockMethod(string $class, string $method, array $args, $return, $times = null)
@@ -51,23 +68,49 @@ trait ContainerMock
     }
 
     /**
+     * @template T of object
+     * @param class-string<T> $class
      * @param array<string, mixed> $tree
+     * @return T&MockObject
      */
     private function mockTree(string $class, array $tree)
     {
-        $r = new ReflectionClass($class);
-        $mock = $this->mock($class);
+        $double = $this->mock($class);
+        $this->configureTree($double, $class, $tree);
+
+        return $double;
+    }
+
+    /**
+     * @template T of object
+     * @param class-string<T> $class
+     * @param array<string, mixed> $tree
+     * @return T&Stub
+     */
+    private function stubTree(string $class, array $tree)
+    {
+        $double = $this->stub($class);
+        $this->configureTree($double, $class, $tree);
+
+        return $double;
+    }
+
+    /**
+     * @param class-string $class
+     * @param array<string, mixed> $tree
+     */
+    private function configureTree(Stub $double, string $class, array $tree): void
+    {
+        $reflection = new ReflectionClass($class);
         foreach ($tree as $name => $value) {
-            $type = (string) $r->getMethod($name)->getReturnType();
+            $type = (string) $reflection->getMethod($name)->getReturnType();
             $type = $type === 'self' ? $class : $type;
             $type = preg_replace('/^\?/', '', $type);
-            $mock->method($name)->willReturn(
+            $double->method($name)->willReturn(
                 class_exists($type) || interface_exists($type) ?
-                (is_array($value) ? $this->mockTree($type, $value) : $value) :
+                (is_array($value) ? $this->stubTree($type, $value) : $value) :
                 $value
             );
         }
-
-        return $mock;
     }
 }

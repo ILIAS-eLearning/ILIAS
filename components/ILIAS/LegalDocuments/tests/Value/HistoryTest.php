@@ -36,16 +36,16 @@ class HistoryTest extends TestCase
 
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(History::class, new History($this->mock(Document::class), $this->mock(Edit::class), [], $this->mock(DocumentContent::class)));
+        $this->assertInstanceOf(History::class, new History($this->stub(Document::class), $this->stub(Edit::class), [], $this->stub(DocumentContent::class)));
     }
 
     public function testGetter(): void
     {
         $this->assertGetter(History::class, [
-            'currentDocument' => $this->mock(Document::class),
-            'creation' => $this->mock(Edit::class),
-            'criteriaContent' => [$this->mock(CriterionContent::class)],
-            'documentContent' => $this->mock(DocumentContent::class),
+            'currentDocument' => $this->stub(Document::class),
+            'creation' => $this->stub(Edit::class),
+            'criteriaContent' => [$this->stub(CriterionContent::class)],
+            'documentContent' => $this->stub(DocumentContent::class),
         ]);
     }
 }

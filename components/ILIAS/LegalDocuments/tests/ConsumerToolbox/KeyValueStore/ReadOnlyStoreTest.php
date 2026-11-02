@@ -34,7 +34,7 @@ class ReadOnlyStoreTest extends TestCase
 
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(ReadOnlyStore::class, new ReadOnlyStore($this->mock(KeyValueStore::class)));
+        $this->assertInstanceOf(ReadOnlyStore::class, new ReadOnlyStore($this->stub(KeyValueStore::class)));
     }
 
     public function testValue(): void
@@ -48,7 +48,7 @@ class ReadOnlyStoreTest extends TestCase
     {
         $this->expectException(Exception::class);
 
-        $instance = new ReadOnlyStore($this->mock(KeyValueStore::class));
+        $instance = new ReadOnlyStore($this->stub(KeyValueStore::class));
         $instance->update('foo', 'bar');
     }
 }

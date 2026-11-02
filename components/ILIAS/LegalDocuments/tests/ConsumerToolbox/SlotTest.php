@@ -45,9 +45,9 @@ class SlotTest extends TestCase
     {
         $this->assertInstanceOf(Slot::class, new Slot(
             'foo',
-            $this->mock(Blocks::class),
-            $this->mock(LazyProvide::class),
-            $this->mock(Container::class)
+            $this->stub(Blocks::class),
+            $this->stub(LazyProvide::class),
+            $this->stub(Container::class)
         ));
     }
 
@@ -55,9 +55,9 @@ class SlotTest extends TestCase
     {
         $instance = new Slot(
             'foo',
-            $this->mock(Blocks::class),
-            $this->mock(LazyProvide::class),
-            $this->mock(Container::class)
+            $this->stub(Blocks::class),
+            $this->stub(LazyProvide::class),
+            $this->stub(Container::class)
         );
 
         $this->assertInstanceOf(ShowOnLoginPage::class, $instance->showOnLoginPage());
@@ -67,56 +67,56 @@ class SlotTest extends TestCase
     {
         $instance = new Slot(
             'foo',
-            $this->mock(Blocks::class),
-            $this->mock(LazyProvide::class),
-            $this->mock(Container::class)
+            $this->stub(Blocks::class),
+            $this->stub(LazyProvide::class),
+            $this->stub(Container::class)
         );
 
-        $this->assertInstanceOf(WithdrawProcess::class, $instance->withdrawProcess($this->mock(User::class), $this->mock(Settings::class), $this->fail(...)));
+        $this->assertInstanceOf(WithdrawProcess::class, $instance->withdrawProcess($this->stub(User::class), $this->stub(Settings::class), $this->fail(...)));
     }
 
     public function testAgreement(): void
     {
         $instance = new Slot(
             'foo',
-            $this->mock(Blocks::class),
-            $this->mock(LazyProvide::class),
-            $this->mock(Container::class)
+            $this->stub(Blocks::class),
+            $this->stub(LazyProvide::class),
+            $this->stub(Container::class)
         );
-        $this->assertInstanceOf(Agreement::class, $instance->agreement($this->mock(User::class), $this->mock(Settings::class)));
+        $this->assertInstanceOf(Agreement::class, $instance->agreement($this->stub(User::class), $this->stub(Settings::class)));
     }
 
     public function testModifyFooter(): void
     {
         $instance = new Slot(
             'foo',
-            $this->mock(Blocks::class),
-            $this->mock(LazyProvide::class),
-            $this->mock(Container::class)
+            $this->stub(Blocks::class),
+            $this->stub(LazyProvide::class),
+            $this->stub(Container::class)
         );
 
-        $this->assertInstanceOf(ModifyFooter::class, $instance->modifyFooter($this->mock(User::class)));
+        $this->assertInstanceOf(ModifyFooter::class, $instance->modifyFooter($this->stub(User::class)));
     }
 
     public function testSelfRegistration(): void
     {
         $instance = new Slot(
             'foo',
-            $this->mock(Blocks::class),
-            $this->mock(LazyProvide::class),
-            $this->mock(Container::class)
+            $this->stub(Blocks::class),
+            $this->stub(LazyProvide::class),
+            $this->stub(Container::class)
         );
 
-        $this->assertInstanceOf(SelfRegistration::class, $instance->selfRegistration($this->mock(User::class), $this->fail(...)));
+        $this->assertInstanceOf(SelfRegistration::class, $instance->selfRegistration($this->stub(User::class), $this->fail(...)));
     }
 
     public function testOnlineStatusFilter(): void
     {
         $instance = $instance = new Slot(
             'foo',
-            $this->mock(Blocks::class),
-            $this->mock(LazyProvide::class),
-            $this->mock(Container::class)
+            $this->stub(Blocks::class),
+            $this->stub(LazyProvide::class),
+            $this->stub(Container::class)
         );
 
         $this->assertInstanceOf(OnlineStatusFilter::class, $instance->onlineStatusFilter($this->fail(...)));

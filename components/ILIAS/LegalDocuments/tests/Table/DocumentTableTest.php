@@ -22,14 +22,9 @@ namespace ILIAS\LegalDocuments\test\Table;
 
 use ilCtrl;
 use ILIAS\Data\Factory;
-use ILIAS\LegalDocuments\EditLinks;
 use ILIAS\UI\Component\Component;
-use ILIAS\UI\Factory as UIFactory;
 use ILIAS\LegalDocuments\Value\CriterionContent;
 use ILIAS\LegalDocuments\Value\Criterion;
-use ILIAS\LegalDocuments\Value\Document;
-use ILIAS\LegalDocuments\TableSelection;
-use ILIAS\LegalDocuments\TableConfig;
 use ILIAS\LegalDocuments\test\ContainerMock;
 use ILIAS\LegalDocuments\Table\DocumentModal;
 use ILIAS\LegalDocuments\ConsumerToolbox\UI;
@@ -39,7 +34,6 @@ use ilLegalDocumentsAdministrationGUI;
 use ilObjUser;
 use PHPUnit\Framework\TestCase;
 use ILIAS\LegalDocuments\Table\DocumentTable;
-use DateTimeImmutable;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UriInterface;
 
@@ -51,58 +45,58 @@ class DocumentTableTest extends TestCase
 
     public function testConstruct(): void
     {
-        $uri = $this->mock(UriInterface::class);
+        $uri = $this->stub(UriInterface::class);
         $uri->method('__toString')->willReturn('http://myIlias/ilias.php?baseClass=iladministrationgui&cmdNode=2g.qo.gq&cmdClass=ilLegalDocumentsAdministrationGUI&cmd=documents&ref_id=50');
 
-        $request = $this->mock(ServerRequestInterface::class);
+        $request = $this->stub(ServerRequestInterface::class);
         $request->method("getUri")->willReturn($uri);
 
         $this->assertInstanceOf(DocumentTable::class, new DocumentTable(
             $this->fail(...),
-            $this->mock(DocumentRepository::class),
-            $this->mock(UI::class),
-            $this->mock(DocumentModal::class),
-            $this->mock(ilLegalDocumentsAdministrationGUI::class),
+            $this->stub(DocumentRepository::class),
+            $this->stub(UI::class),
+            $this->stub(DocumentModal::class),
+            $this->stub(ilLegalDocumentsAdministrationGUI::class),
             null,
             $request,
             new Factory(),
-            $this->mock(ilCtrl::class),
-            $this->mock(Renderer::class),
-            $this->mockTree(ilObjUser::class, ['getTimeZone' => 'europe/berlin'])
+            $this->stub(ilCtrl::class),
+            $this->stub(Renderer::class),
+            $this->stubTree(ilObjUser::class, ['getTimeZone' => 'europe/berlin'])
         ));
     }
 
     public function testCriterionName(): void
     {
-        $uri = $this->mock(UriInterface::class);
+        $uri = $this->stub(UriInterface::class);
         $uri->method('__toString')->willReturn('http://myIlias/ilias.php?baseClass=iladministrationgui&cmdNode=2g.qo.gq&cmdClass=ilLegalDocumentsAdministrationGUI&cmd=documents&ref_id=50');
 
-        $request = $this->mock(ServerRequestInterface::class);
+        $request = $this->stub(ServerRequestInterface::class);
         $request->method("getUri")->willReturn($uri);
 
-        $content = $this->mock(CriterionContent::class);
-        $component = $this->mock(Component::class);
+        $content = $this->stub(CriterionContent::class);
+        $component = $this->stub(Component::class);
 
         $instance = new DocumentTable(
             function (CriterionContent $c) use ($content, $component) {
                 $this->assertSame($content, $c);
                 return $component;
             },
-            $this->mock(DocumentRepository::class),
-            $this->mock(UI::class),
-            $this->mock(DocumentModal::class),
-            $this->mock(ilLegalDocumentsAdministrationGUI::class),
+            $this->stub(DocumentRepository::class),
+            $this->stub(UI::class),
+            $this->stub(DocumentModal::class),
+            $this->stub(ilLegalDocumentsAdministrationGUI::class),
             null,
             $request,
             new Factory(),
-            $this->mock(ilCtrl::class),
-            $this->mock(Renderer::class),
-            $this->mockTree(ilObjUser::class, ['getTimeZone' => 'europe/berlin'])
+            $this->stub(ilCtrl::class),
+            $this->stub(Renderer::class),
+            $this->stubTree(ilObjUser::class, ['getTimeZone' => 'europe/berlin'])
         );
 
         $this->assertSame(
             $component,
-            $instance->criterionName($this->mockTree(Criterion::class, ['content' => $content]))
+            $instance->criterionName($this->stubTree(Criterion::class, ['content' => $content]))
         );
     }
 }

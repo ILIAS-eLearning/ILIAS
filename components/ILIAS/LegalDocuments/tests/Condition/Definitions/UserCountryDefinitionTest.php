@@ -38,7 +38,7 @@ class UserCountryDefinitionTest extends TestCase
     public function testConstruct(): void
     {
         $this->assertInstanceOf(UserCountryDefinition::class, new UserCountryDefinition(
-            $this->mock(UI::class),
+            $this->stub(UI::class),
             $this->fail(...)
         ));
     }
@@ -46,8 +46,8 @@ class UserCountryDefinitionTest extends TestCase
     public function testFormGroup(): void
     {
         $instance = new UserCountryDefinition(
-            $this->mock(UI::class),
-            fn() => $this->mock(Constraint::class)
+            $this->stub(UI::class),
+            fn() => $this->stub(Constraint::class)
         );
 
         $this->assertInstanceOf(Group::class, $instance->formGroup());
@@ -55,8 +55,8 @@ class UserCountryDefinitionTest extends TestCase
 
     public function testWithCriterion(): void
     {
-        $instance = new UserCountryDefinition($this->mock(UI::class), $this->fail(...));
-        $this->assertInstanceOf(UserCountry::class, $instance->withCriterion($this->mock(CriterionContent::class)));
+        $instance = new UserCountryDefinition($this->stub(UI::class), $this->fail(...));
+        $this->assertInstanceOf(UserCountry::class, $instance->withCriterion($this->stub(CriterionContent::class)));
     }
 
     public function testTranslatedType(): void

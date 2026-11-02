@@ -43,7 +43,7 @@ class PageContentTest extends TestCase
     {
         $template = $this->mock(ilGlobalTemplateInterface::class);
         $template->expects($this->once())->method('setTitle')->with('foo');
-        $components = [$this->mock(Component::class), $this->mock(Component::class)];
+        $components = [$this->stub(Component::class), $this->stub(Component::class)];
         $renderer = $this->mockMethod(Renderer::class, 'render', [$components], 'rendered');
 
         $instance = new PageContent('foo', $components);

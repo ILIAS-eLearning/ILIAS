@@ -35,6 +35,6 @@ class DatabaseHistoryRepositoryTest extends TestCase
 
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(DatabaseHistoryRepository::class, new DatabaseHistoryRepository('foo', $this->mock(DocumentRepositoryMeta::class), $this->mock(ilDBInterface::class), $this->mock(UserAction::class)));
+        $this->assertInstanceOf(DatabaseHistoryRepository::class, new DatabaseHistoryRepository('foo', $this->stub(DocumentRepositoryMeta::class), $this->stub(ilDBInterface::class), $this->stub(UserAction::class)));
     }
 }

@@ -97,11 +97,11 @@ class PublicApiTest extends TestCase
 
     private function assertSameValues(string $method, array $compare): void
     {
-        $user = $this->mock(ilObjUser::class);
-        $dpro_user = fn($ret) => $this->mockTree(User::class, $dpro_user_tree($ret));
+        $user = $this->stub(ilObjUser::class);
+        $dpro_user = fn($ret) => $this->stubTree(User::class, $dpro_user_tree($ret));
 
         foreach ($compare as $pair) {
-            $this->assertSame($pair[0], (new PublicApi(true, fn() => $this->mockTree(User::class, $pair[1])))->$method($user));
+            $this->assertSame($pair[0], (new PublicApi(true, fn() => $this->stubTree(User::class, $pair[1])))->$method($user));
         }
     }
 }

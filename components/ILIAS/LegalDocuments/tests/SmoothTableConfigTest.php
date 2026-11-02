@@ -32,6 +32,6 @@ class SmoothTableConfigTest extends TestCase
 
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(SmoothTableConfig::class, new SmoothTableConfig($this->mock(ilTable2GUI::class)));
+        $this->assertInstanceOf(SmoothTableConfig::class, new SmoothTableConfig($this->stub(ilTable2GUI::class)));
     }
 }

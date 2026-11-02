@@ -33,7 +33,7 @@ class ILIASSettingStoreTest extends TestCase
 
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(ILIASSettingStore::class, new ILIASSettingStore($this->mock(ilSetting::class)));
+        $this->assertInstanceOf(ILIASSettingStore::class, new ILIASSettingStore($this->stub(ilSetting::class)));
     }
 
     public function testValue(): void

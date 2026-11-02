@@ -40,6 +40,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\KindlyTo\Group as KindlyToGroup;
 use ILIAS\Refinery\Transformation;
+use PHPUnit\Framework\MockObject\Stub;
 
 require_once __DIR__ . '/ContainerMock.php';
 
@@ -49,17 +50,22 @@ class AdministrationTest extends TestCase
 
     public function testConstruct(): void
     {
-        $config = $this->getMockBuilder(Config::class)->disableOriginalConstructor()->getMock();
-        $container = $this->getMockBuilder(Container::class)->disableOriginalConstructor()->getMock();
-        $ui = $this->getMockBuilder(UI::class)->disableOriginalConstructor()->getMock();
+        /** @var Config&Stub $config */
+        $config = $this->createStub(Config::class);
+        /** @var Container&Stub $container */
+        $container = $this->createStub(Container::class);
+        /** @var UI&Stub $ui */
+        $ui = $this->createStub(UI::class);
 
         $this->assertInstanceOf(Administration::class, new Administration($config, $container, $ui));
     }
 
     public function testDeleteDocumentsConfirmation(): void
     {
-        $config = $this->getMockBuilder(Config::class)->disableOriginalConstructor()->getMock();
-        $container = $this->getMockBuilder(Container::class)->disableOriginalConstructor()->getMock();
+        /** @var Config&Stub $config */
+        $config = $this->createStub(Config::class);
+        /** @var Container&Stub $container */
+        $container = $this->createStub(Container::class);
         $ui = $this->mockMethod(UI::class, 'txt', ['sure_delete_documents_p'], 'translated');
 
         $documents = [$this->doc(9, 'First title'), $this->doc(49, 'Second title')];
@@ -83,13 +89,15 @@ class AdministrationTest extends TestCase
 
     public function testDeleteDocuments(): void
     {
-        $container = $this->getMockBuilder(Container::class)->disableOriginalConstructor()->getMock();
-        $ui = $this->getMockBuilder(UI::class)->disableOriginalConstructor()->getMock();
+        /** @var Container&Stub $container */
+        $container = $this->createStub(Container::class);
+        /** @var UI&Stub $ui */
+        $ui = $this->createStub(UI::class);
 
         $documents = [
-            $this->getMockBuilder(Document::class)->disableOriginalConstructor()->getMock(),
-            $this->getMockBuilder(Document::class)->disableOriginalConstructor()->getMock(),
-            $this->getMockBuilder(Document::class)->disableOriginalConstructor()->getMock(),
+            $this->createStub(Document::class),
+            $this->createStub(Document::class),
+            $this->createStub(Document::class),
         ];
 
         $repository = $this->getMockBuilder(DocumentRepository::class)->getMock();
@@ -115,8 +123,10 @@ class AdministrationTest extends TestCase
 
     public function testWithDocumentAndCriterion(): void
     {
-        $container = $this->getMockBuilder(Container::class)->disableOriginalConstructor()->getMock();
-        $ui = $this->getMockBuilder(UI::class)->disableOriginalConstructor()->getMock();
+        /** @var Container&Stub $container */
+        $container = $this->createStub(Container::class);
+        /** @var UI&Stub $ui */
+        $ui = $this->createStub(UI::class);
 
         $criterion = $this->mockMethod(Criterion::class, 'id', [], 98);
         $document = $this->mockMethod(Document::class, 'criteria', [], [

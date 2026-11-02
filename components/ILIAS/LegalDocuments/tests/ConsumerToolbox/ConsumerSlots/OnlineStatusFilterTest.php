@@ -34,7 +34,7 @@ class OnlineStatusFilterTest extends TestCase
     {
         $this->assertInstanceOf(OnlineStatusFilter::class, new OnlineStatusFilter(
             $this->fail(...),
-            $this->mock(ilRbacReview::class)
+            $this->stub(ilRbacReview::class)
         ));
     }
 
@@ -47,7 +47,7 @@ class OnlineStatusFilterTest extends TestCase
             define('SYSTEM_USER_ID', 9);
         }
 
-        $rbac = $this->mock(ilRbacReview::class);
+        $rbac = $this->stub(ilRbacReview::class);
         $rbac->method('isAssigned')->willReturnCallback(function (int $user, int $role) {
             $this->assertSame(SYSTEM_ROLE_ID, $role);
             return $user === 7;

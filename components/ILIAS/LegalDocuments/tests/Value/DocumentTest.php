@@ -35,16 +35,16 @@ class DocumentTest extends TestCase
 
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(Document::class, new Document(47, $this->mock(Meta::class), $this->mock(DocumentContent::class), []));
+        $this->assertInstanceOf(Document::class, new Document(47, $this->stub(Meta::class), $this->stub(DocumentContent::class), []));
     }
 
     public function testGetter(): void
     {
         $this->assertGetter(Document::class, [
             'id' => 80,
-            'meta' => $this->mock(Meta::class),
-            'content' => $this->mock(DocumentContent::class),
-            'criteria' => [$this->mock(Criterion::class), $this->mock(Criterion::class)],
+            'meta' => $this->stub(Meta::class),
+            'content' => $this->stub(DocumentContent::class),
+            'criteria' => [$this->stub(Criterion::class), $this->stub(Criterion::class)],
         ]);
     }
 }

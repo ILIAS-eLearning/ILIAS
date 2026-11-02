@@ -27,7 +27,6 @@ use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 use ILIAS\DI\UIServices;
-use ILIAS\UI\Factory as UIFactory;
 use ILIAS\LegalDocuments\ConsumerToolbox\User;
 use ILIAS\LegalDocuments\ConsumerToolbox\UserSettings;
 use ILIAS\LegalDocuments\ConsumerToolbox\Settings;
@@ -45,7 +44,6 @@ use ILIAS\LegalDocuments\ConsumerToolbox\Blocks;
 use ilObjUser;
 use ilSetting;
 use ilLanguage;
-use ilGlobalTemplateInterface;
 use ilCtrl;
 use stdClass;
 use DateTimeImmutable;
@@ -59,23 +57,23 @@ class BlocksTest extends TestCase
 
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(Blocks::class, new Blocks('foo', $this->mock(Container::class), $this->mock(Provide::class)));
+        $this->assertInstanceOf(Blocks::class, new Blocks('foo', $this->stub(Container::class), $this->stub(Provide::class)));
     }
 
     public function testConstructors(): void
     {
-        $instance = new Blocks('foo', $this->mock(Container::class), $this->mock(Provide::class));
+        $instance = new Blocks('foo', $this->stub(Container::class), $this->stub(Provide::class));
 
         $this->assertInstanceOf(DefaultMappings::class, $instance->defaultMappings());
         $this->assertInstanceOf(Marshal::class, $instance->marshal());
-        $this->assertInstanceOf(SelectSetting::class, $instance->selectSettingsFrom($this->mock(KeyValueStore::class)));
-        $this->assertInstanceOf(KeyValueStore::class, $instance->readOnlyStore($this->mock(KeyValueStore::class)));
-        $this->assertInstanceOf(KeyValueStore::class, $instance->userStore($this->mock(ilObjUser::class)));
+        $this->assertInstanceOf(SelectSetting::class, $instance->selectSettingsFrom($this->stub(KeyValueStore::class)));
+        $this->assertInstanceOf(KeyValueStore::class, $instance->readOnlyStore($this->stub(KeyValueStore::class)));
+        $this->assertInstanceOf(KeyValueStore::class, $instance->userStore($this->stub(ilObjUser::class)));
         $this->assertInstanceOf(KeyValueStore::class, $instance->sessionStore());
         $this->assertInstanceOf(User::class, $instance->user(
-            $this->mock(Settings::class),
-            $this->mock(UserSettings::class),
-            $this->mock(ilObjUser::class)
+            $this->stub(Settings::class),
+            $this->stub(UserSettings::class),
+            $this->stub(ilObjUser::class)
         ));
     }
 
@@ -83,8 +81,8 @@ class BlocksTest extends TestCase
     {
         $instance = new Blocks(
             'foo',
-            $this->mockMethod(Container::class, 'settings', [], $this->mock(ilSetting::class)),
-            $this->mock(Provide::class)
+            $this->mockMethod(Container::class, 'settings', [], $this->stub(ilSetting::class)),
+            $this->stub(Provide::class)
         );
 
         $this->assertInstanceOf(KeyValueStore::class, $instance->globalStore());
@@ -94,13 +92,13 @@ class BlocksTest extends TestCase
     public function testUi(): void
     {
         $container = $this->mock(Container::class);
-        $container->expects($this->once())->method('ui')->willReturn($this->mock(UIServices::class));
-        $container->expects($this->once())->method('language')->willReturn($this->mock(ilLanguage::class));
+        $container->expects($this->once())->method('ui')->willReturn($this->stub(UIServices::class));
+        $container->expects($this->once())->method('language')->willReturn($this->stub(ilLanguage::class));
 
         $instance = new Blocks(
             'foo',
             $container,
-            $this->mock(Provide::class)
+            $this->stub(Provide::class)
         );
 
         $this->assertInstanceOf(UI::class, $instance->ui());
@@ -108,9 +106,9 @@ class BlocksTest extends TestCase
 
     public function testRouting(): void
     {
-        $container = $this->mockMethod(Container::class, 'ctrl', [], $this->mock(ilCtrl::class));
+        $container = $this->mockMethod(Container::class, 'ctrl', [], $this->stub(ilCtrl::class));
 
-        $instance = new Blocks('foo', $container, $this->mock(Provide::class));
+        $instance = new Blocks('foo', $container, $this->stub(Provide::class));
         $this->assertInstanceOf(Routing::class, $instance->routing());
     }
 
@@ -119,10 +117,10 @@ class BlocksTest extends TestCase
         $selected = new stdClass();
         $called = false;
 
-        $refinery = $this->mock(Refinery::class);
-        $transformation = $this->mock(Transformation::class);
+        $refinery = $this->stub(Refinery::class);
+        $transformation = $this->stub(Transformation::class);
 
-        $container = $this->mockTree(Container::class, [
+        $container = $this->stubTree(Container::class, [
             'refinery' => $refinery,
             'http' => [
                 'wrapper' => [
@@ -131,7 +129,7 @@ class BlocksTest extends TestCase
             ],
         ]);
 
-        $instance = new Blocks('foo', $container, $this->mock(Provide::class));
+        $instance = new Blocks('foo', $container, $this->stub(Provide::class));
         $result = $instance->retrieveQueryParameter('bar', function (Refinery $r) use (&$called, $transformation, $refinery): object {
             $this->assertSame($refinery, $r);
             $called = true;
@@ -147,9 +145,9 @@ class BlocksTest extends TestCase
         $result = $this->mockTree(Result::class, ['value' => 'dummy']);
         $result->expects($this->once())->method('map')->willReturn($result);
         $result->expects($this->once())->method('except')->willReturn($result);
-        $user = $this->mock(ilObjUser::class);
+        $user = $this->stub(ilObjUser::class);
         $date = new DateTimeImmutable();
-        $ldoc_user = $this->mockTree(User::class, [
+        $ldoc_user = $this->stubTree(User::class, [
             'agreeDate' => ['value' => $date],
             'acceptedVersion' => $result,
         ]);
@@ -165,8 +163,8 @@ class BlocksTest extends TestCase
 
         $instance = new Blocks(
             'foo',
-            $this->mockTree(Container::class, ['language' => $language]),
-            $this->mock(Provide::class),
+            $this->stubTree(Container::class, ['language' => $language]),
+            $this->stub(Provide::class),
             function (DateTimeImmutable $d) use ($date) {
                 $this->assertSame($date, $d);
                 return 'formatted date';
@@ -185,7 +183,7 @@ class BlocksTest extends TestCase
         $data = new stdClass();
         $called = false;
 
-        $container = $this->mockTree(Container::class, [
+        $container = $this->stubTree(Container::class, [
             'http' => ['request' => $this->mockMethod(ServerRequestInterface::class, 'getMethod', [], 'POST')],
         ]);
 
@@ -193,7 +191,7 @@ class BlocksTest extends TestCase
         $form->expects($this->once())->method('withRequest')->with($container->http()->request())->willReturn($form);
         $form->expects($this->once())->method('getData')->willReturn($data);
 
-        $instance = new Blocks('foo', $container, $this->mock(Provide::class));
+        $instance = new Blocks('foo', $container, $this->stub(Provide::class));
         $this->assertSame($form, $instance->withRequest($form, function ($x) use ($data, &$called) {
             $this->assertSame($data, $x);
             $called = true;
@@ -203,13 +201,13 @@ class BlocksTest extends TestCase
 
     public function testWithoutRequest(): void
     {
-        $container = $this->mockTree(Container::class, [
+        $container = $this->stubTree(Container::class, [
             'http' => ['request' => ['getMethod' => 'GET']],
         ]);
 
-        $form = $this->mock(Form::class);
+        $form = $this->stub(Form::class);
 
-        $instance = new Blocks('foo', $container, $this->mock(Provide::class));
+        $instance = new Blocks('foo', $container, $this->stub(Provide::class));
         $result = $instance->withRequest($form, $this->fail(...));
         $this->assertSame($form, $result);
     }
@@ -217,9 +215,9 @@ class BlocksTest extends TestCase
     public function testNotAvailable(): void
     {
         $called = false;
-        $container = $this->mockTree(Container::class, []);
+        $container = $this->stubTree(Container::class, []);
 
-        $instance = new Blocks('foo', $container, $this->mock(Provide::class), null, function () use (&$called): string {
+        $instance = new Blocks('foo', $container, $this->stub(Provide::class), null, function () use (&$called): string {
             $called = true;
             return 'bar';
         });

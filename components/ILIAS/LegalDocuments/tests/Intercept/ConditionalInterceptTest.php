@@ -36,7 +36,7 @@ class ConditionalInterceptTest extends TestCase
         $this->assertInstanceOf(ConditionalIntercept::class, new ConditionalIntercept(
             $this->fail(...),
             'foo',
-            $this->mock(Target::class)
+            $this->stub(Target::class)
         ));
     }
 
@@ -45,7 +45,7 @@ class ConditionalInterceptTest extends TestCase
         $instance = new ConditionalIntercept(
             fn() => true,
             'foo',
-            $this->mock(Target::class)
+            $this->stub(Target::class)
         );
 
         $this->assertTrue($instance->intercept());
@@ -56,7 +56,7 @@ class ConditionalInterceptTest extends TestCase
         $instance = new ConditionalIntercept(
             $this->fail(...),
             'foo',
-            $this->mock(Target::class)
+            $this->stub(Target::class)
         );
 
         $this->assertSame('foo', $instance->id());
@@ -64,7 +64,7 @@ class ConditionalInterceptTest extends TestCase
 
     public function testTarget(): void
     {
-        $target = $this->mock(Target::class);
+        $target = $this->stub(Target::class);
         $instance = new ConditionalIntercept(
             $this->fail(...),
             'foo',

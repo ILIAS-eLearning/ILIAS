@@ -44,20 +44,20 @@ class DefaultMappingsTest extends TestCase
 
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(DefaultMappings::class, new DefaultMappings('foo', $this->mock(Container::class)));
+        $this->assertInstanceOf(DefaultMappings::class, new DefaultMappings('foo', $this->stub(Container::class)));
     }
 
     public function testConditionDefinitions(): void
     {
         $container = $this->mockTree(Container::class, [
             'ui' => [
-                'factory' => $this->mock(UI::class),
-                'mainTemplate' => $this->mock(ilGlobalTemplateInterface::class),
+                'factory' => $this->stub(UI::class),
+                'mainTemplate' => $this->stub(ilGlobalTemplateInterface::class),
             ],
             'language' => $this->mockMethod(ilLanguage::class, 'getInstalledLanguages', [], []),
-            'rbac' => $this->mockMethod(RBACServices::class, 'review', [], $this->mock(ilRbacReview::class)),
+            'rbac' => $this->mockMethod(RBACServices::class, 'review', [], $this->stub(ilRbacReview::class)),
         ]);
-        $container->expects($this->once())->method('offsetGet')->with('ilObjDataCache')->willReturn($this->mock(ilObjectDataCache::class));
+        $container->expects($this->once())->method('offsetGet')->with('ilObjDataCache')->willReturn($this->stub(ilObjectDataCache::class));
 
         $instance = new DefaultMappings('foo', $container);
         $result = $instance->conditionDefinitions();
@@ -71,20 +71,20 @@ class DefaultMappingsTest extends TestCase
 
     public function testContentAsComponent(): void
     {
-        $legacy = $this->mock(Legacy\Content::class);
+        $legacy = $this->stub(Legacy\Content::class);
         $legacy_factory = $this->mock(Legacy\Factory::class);
         $legacy_factory
             ->expects($this->once())
             ->method('content')
             ->willReturn($legacy);
 
-        $container = $this->mockTree(Container::class, [
+        $container = $this->stubTree(Container::class, [
             'ui' => ['factory' => $this->mockMethod(UIFactory::class, 'legacy', [], $legacy_factory)],
         ]);
 
         $instance = new DefaultMappings('foo', $container);
         $map = $instance->contentAsComponent();
         $this->assertSame(['html'], array_keys($map));
-        $this->assertSame($legacy, $map['html']($this->mockTree(DocumentContent::class, ['value' => 'bar'])));
+        $this->assertSame($legacy, $map['html']($this->stubTree(DocumentContent::class, ['value' => 'bar'])));
     }
 }

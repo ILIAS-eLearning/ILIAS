@@ -33,14 +33,14 @@ class EditTest extends TestCase
 
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(Edit::class, new Edit(93, $this->mock(DateTimeImmutable::class)));
+        $this->assertInstanceOf(Edit::class, new Edit(93, $this->stub(DateTimeImmutable::class)));
     }
 
     public function testGetter(): void
     {
         $this->assertGetter(Edit::class, [
             'user' => 39,
-            'time' => $this->mock(DateTimeImmutable::class),
+            'time' => $this->stub(DateTimeImmutable::class),
         ]);
     }
 }

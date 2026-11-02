@@ -40,48 +40,48 @@ class SlotConstructorTest extends TestCase
 
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(SlotConstructor::class, new SlotConstructor('foo', $this->mock(Container::class), $this->mock(UserAction::class)));
+        $this->assertInstanceOf(SlotConstructor::class, new SlotConstructor('foo', $this->stub(Container::class), $this->stub(UserAction::class)));
     }
 
     public function testId(): void
     {
-        $this->assertSame('foo', (new SlotConstructor('foo', $this->mock(Container::class), $this->mock(UserAction::class)))->id());
+        $this->assertSame('foo', (new SlotConstructor('foo', $this->stub(Container::class), $this->stub(UserAction::class)))->id());
     }
 
     public function testHistory(): void
     {
-        $document = $this->mockTree(ProvideDocument::class, ['repository' => $this->mock(DatabaseDocumentRepository::class)]);
-        $instance = new SlotConstructor('foo', $this->mock(Container::class), $this->mock(UserAction::class));
+        $document = $this->stubTree(ProvideDocument::class, ['repository' => $this->stub(DatabaseDocumentRepository::class)]);
+        $instance = new SlotConstructor('foo', $this->stub(Container::class), $this->stub(UserAction::class));
         $this->assertInstanceOf(ProvideHistory::class, $instance->history($document));
     }
 
     public function testDocument(): void
     {
-        $instance = new SlotConstructor('foo', $this->mock(Container::class), $this->mock(UserAction::class));
-        $this->assertInstanceOf(ProvideDocument::class, $instance->document($this->mock(DocumentRepository::class), new SelectionMap(), []));
+        $instance = new SlotConstructor('foo', $this->stub(Container::class), $this->stub(UserAction::class));
+        $this->assertInstanceOf(ProvideDocument::class, $instance->document($this->stub(DocumentRepository::class), new SelectionMap(), []));
     }
 
     public function testDocumentRepository(): void
     {
-        $instance = new SlotConstructor('foo', $this->mock(Container::class), $this->mock(UserAction::class));
+        $instance = new SlotConstructor('foo', $this->stub(Container::class), $this->stub(UserAction::class));
         $this->assertInstanceOf(DatabaseDocumentRepository::class, $instance->documentRepository());
     }
 
     public function testReadOnlyDocuments(): void
     {
-        $instance = new SlotConstructor('foo', $this->mock(Container::class), $this->mock(UserAction::class));
-        $this->assertInstanceOf(ReadOnlyDocumentRepository::class, $instance->readOnlyDocuments($this->mock(DocumentRepository::class)));
+        $instance = new SlotConstructor('foo', $this->stub(Container::class), $this->stub(UserAction::class));
+        $this->assertInstanceOf(ReadOnlyDocumentRepository::class, $instance->readOnlyDocuments($this->stub(DocumentRepository::class)));
     }
 
     public function testWithdrawalFinished(): void
     {
         $called = false;
 
-        $container = $this->mockTree(Container::class, [
-            'http' => ['request' => $this->mockTree(ServerRequestInterface::class, ['getQueryParams' => ['withdrawal_finished' => 'foo']])]
+        $container = $this->stubTree(Container::class, [
+            'http' => ['request' => $this->stubTree(ServerRequestInterface::class, ['getQueryParams' => ['withdrawal_finished' => 'foo']])]
         ]);
 
-        $instance = new SlotConstructor('foo', $container, $this->mock(UserAction::class));
+        $instance = new SlotConstructor('foo', $container, $this->stub(UserAction::class));
 
         $proc = $instance->withdrawalFinished(function () use (&$called): void {
             $called = true;
@@ -96,11 +96,11 @@ class SlotConstructorTest extends TestCase
     {
         $called = false;
 
-        $container = $this->mockTree(Container::class, [
-            'http' => ['request' => $this->mockTree(ServerRequestInterface::class, ['getQueryParams' => []])]
+        $container = $this->stubTree(Container::class, [
+            'http' => ['request' => $this->stubTree(ServerRequestInterface::class, ['getQueryParams' => []])]
         ]);
 
-        $instance = new SlotConstructor('foo', $container, $this->mock(UserAction::class));
+        $instance = new SlotConstructor('foo', $container, $this->stub(UserAction::class));
 
         $proc = $instance->withdrawalFinished(function () use (&$called): void {
             $called = true;

@@ -33,6 +33,6 @@ class ReadOnlyDocumentRepositoryTest extends TestCase
 
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(ReadOnlyDocumentRepository::class, new ReadOnlyDocumentRepository($this->mock(DocumentRepository::class)));
+        $this->assertInstanceOf(ReadOnlyDocumentRepository::class, new ReadOnlyDocumentRepository($this->stub(DocumentRepository::class)));
     }
 }

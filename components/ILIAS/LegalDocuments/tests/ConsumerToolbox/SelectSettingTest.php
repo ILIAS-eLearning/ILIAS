@@ -37,7 +37,7 @@ class SelectSettingTest extends TestCase
 
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(SelectSetting::class, new SelectSetting($this->mock(KeyValueStore::class), $this->mock(Marshal::class)));
+        $this->assertInstanceOf(SelectSetting::class, new SelectSetting($this->stub(KeyValueStore::class), $this->stub(Marshal::class)));
     }
 
     public function testTyped(): void
@@ -47,8 +47,8 @@ class SelectSettingTest extends TestCase
         $set_value = new stdClass();
         $value = new stdClass();
 
-        $marshal = $this->mock(Marshal::class);
-        $convert = $this->mockTree(Convert::class, [
+        $marshal = $this->stub(Marshal::class);
+        $convert = $this->stubTree(Convert::class, [
             'fromString' => $this->mockMethod(Transformation::class, 'transform', [$read_value], $value),
             'toString' => $this->mockMethod(Transformation::class, 'transform', [$set_value], $write_value),
         ]);

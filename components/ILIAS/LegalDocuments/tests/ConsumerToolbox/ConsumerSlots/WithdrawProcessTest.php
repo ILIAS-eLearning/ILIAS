@@ -41,12 +41,12 @@ class WithdrawProcessTest extends TestCase
     public function testConstruct(): void
     {
         $this->assertInstanceOf(WithdrawProcess::class, new WithdrawProcess(
-            $this->mock(User::class),
-            $this->mock(UI::class),
-            $this->mock(Routing::class),
-            $this->mock(Settings::class),
+            $this->stub(User::class),
+            $this->stub(UI::class),
+            $this->stub(Routing::class),
+            $this->stub(Settings::class),
             $this->fail(...),
-            $this->mock(Provide::class),
+            $this->stub(Provide::class),
             $this->fail(...)
         ));
     }
@@ -54,12 +54,12 @@ class WithdrawProcessTest extends TestCase
     public function testShowValidatePasswordMessage(): void
     {
         $instance = new WithdrawProcess(
-            $this->mock(User::class),
-            $this->mock(UI::class),
-            $this->mock(Routing::class),
-            $this->mock(Settings::class),
+            $this->stub(User::class),
+            $this->stub(UI::class),
+            $this->stub(Routing::class),
+            $this->stub(Settings::class),
             fn() => 'internal',
-            $this->mock(Provide::class),
+            $this->stub(Provide::class),
             $this->fail(...)
         );
 
@@ -72,12 +72,12 @@ class WithdrawProcessTest extends TestCase
     public function testIsOnGoing(): void
     {
         $instance = new WithdrawProcess(
-            $this->mockTree(User::class, ['withdrawalRequested' => ['value' => true]]),
-            $this->mock(UI::class),
-            $this->mock(Routing::class),
-            $this->mock(Settings::class),
+            $this->stubTree(User::class, ['withdrawalRequested' => ['value' => true]]),
+            $this->stub(UI::class),
+            $this->stub(Routing::class),
+            $this->stub(Settings::class),
             $this->fail(...),
-            $this->mock(Provide::class),
+            $this->stub(Provide::class),
             $this->fail(...)
         );
 
@@ -90,12 +90,12 @@ class WithdrawProcessTest extends TestCase
         $setting->expects($this->once())->method('update')->with(true);
 
         $instance = new WithdrawProcess(
-            $this->mockTree(User::class, ['cannotAgree' => false, 'neverAgreed' => false, 'withdrawalRequested' => $setting]),
-            $this->mock(UI::class),
-            $this->mock(Routing::class),
-            $this->mock(Settings::class),
+            $this->stubTree(User::class, ['cannotAgree' => false, 'neverAgreed' => false, 'withdrawalRequested' => $setting]),
+            $this->stub(UI::class),
+            $this->stub(Routing::class),
+            $this->stub(Settings::class),
             $this->fail(...),
-            $this->mock(Provide::class),
+            $this->stub(Provide::class),
             $this->fail(...)
         );
 
@@ -107,12 +107,12 @@ class WithdrawProcessTest extends TestCase
     public function testWithdrawalRequestedWithInvalidUser(): void
     {
         $instance = new WithdrawProcess(
-            $this->mockTree(User::class, ['cannotAgree' => true, 'neverAgreed' => false]),
-            $this->mock(UI::class),
-            $this->mock(Routing::class),
-            $this->mock(Settings::class),
+            $this->stubTree(User::class, ['cannotAgree' => true, 'neverAgreed' => false]),
+            $this->stub(UI::class),
+            $this->stub(Routing::class),
+            $this->stub(Settings::class),
             $this->fail(...),
-            $this->mock(Provide::class),
+            $this->stub(Provide::class),
             $this->fail(...)
         );
 
@@ -128,12 +128,12 @@ class WithdrawProcessTest extends TestCase
         $main_template->expects($this->once())->method('setOnScreenMessage');
 
         $instance = new WithdrawProcess(
-            $this->mock(User::class),
-            $this->mockTree(UI::class, ['mainTemplate' => $main_template]),
-            $this->mock(Routing::class),
-            $this->mock(Settings::class),
+            $this->stub(User::class),
+            $this->stubTree(UI::class, ['mainTemplate' => $main_template]),
+            $this->stub(Routing::class),
+            $this->stub(Settings::class),
             fn() => null,
-            $this->mock(Provide::class),
+            $this->stub(Provide::class),
             $this->fail(...)
         );
 
@@ -143,12 +143,12 @@ class WithdrawProcessTest extends TestCase
     public function testShowWithdraw(): void
     {
         $instance = new WithdrawProcess(
-            $this->mock(User::class),
-            $this->mock(UI::class),
-            $this->mock(Routing::class),
-            $this->mock(Settings::class),
+            $this->stub(User::class),
+            $this->stub(UI::class),
+            $this->stub(Routing::class),
+            $this->stub(Settings::class),
             $this->fail(...),
-            $this->mock(Provide::class),
+            $this->stub(Provide::class),
             $this->fail(...)
         );
 
