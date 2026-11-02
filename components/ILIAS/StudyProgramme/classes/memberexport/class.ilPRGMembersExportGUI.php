@@ -19,6 +19,8 @@
 declare(strict_types=1);
 
 use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Membership\Export\Table\DataRetrieval;
+use ILIAS\Membership\Export\Table\TableBuilder;
 
 /**
  * export assignments of PRG
@@ -174,7 +176,7 @@ class ilPRGMembersExportGUI extends ilMemberExportGUI
         }
 
         foreach ($this->fss_export->getMemberExportFiles() as $file) {
-            if (!in_array(md5($file['name']), $_POST['id'])) {
+            if (!in_array(md5($file['name']), $file_ids)) {
                 continue;
             }
             $this->fss_export->deleteMemberExportFile($file['name']);
@@ -194,6 +196,22 @@ class ilPRGMembersExportGUI extends ilMemberExportGUI
             );
         }
 
+        if ($fl === '') {
+            list($url_builder, $id_token, $action_token) = $this->getTableActionURLBuilder();
+            if ($this->http->wrapper()->query()->has($id_token->getName())) {
+                $ids = $this->http->wrapper()->query()->retrieve(
+                    $id_token->getName(),
+                    $this->refinery->byTrying([
+                        $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string()),
+                        $this->refinery->kindlyTo()->string()
+                    ])
+                );
+                $data_retrieval = new DataRetrieval($this->fss_export, $this->lng);
+                $ids = $data_retrieval->resolveIDs($ids);
+                $fl = $ids[0] ?? '';
+            }
+        }
+
         $hash = trim($fl);
         if (!$hash) {
             $this->ctrl->redirect($this, 'show');
@@ -203,7 +221,7 @@ class ilPRGMembersExportGUI extends ilMemberExportGUI
             if (md5($file['name']) == $hash) {
                 $contents = $this->fss_export->getMemberExportFile($file['name']);
                 $fts = $file['timest'];
-                $dat = date('Y_m_d_H-i', (int)$fts);
+                $dat = date('Y_m_d_H-i', (int) $fts);
                 $down_name = str_replace($fts, $dat, $file['name']);
 
                 $mime = 'text/csv';
