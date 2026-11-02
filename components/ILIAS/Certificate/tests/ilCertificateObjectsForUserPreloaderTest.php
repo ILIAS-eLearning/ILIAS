@@ -18,13 +18,14 @@
 
 declare(strict_types=1);
 
+use PHPUnit\Framework\MockObject\Stub;
+
 class ilCertificateObjectsForUserPreloaderTest extends ilCertificateBaseTestCase
 {
     public function testUsersWithCertifcatesWillBePreoloaded(): void
     {
-        $userCertificateRepository = $this->getMockBuilder(ilUserCertificateRepository::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilUserCertificateRepository&Stub $userCertificateRepository */
+        $userCertificateRepository = $this->createStub(ilUserCertificateRepository::class);
 
         $userCertificateRepository->method('fetchObjectIdsWithCertificateForUser')
             ->willReturn([1, 2, 3]);
@@ -40,9 +41,8 @@ class ilCertificateObjectsForUserPreloaderTest extends ilCertificateBaseTestCase
 
     public function testUserWithCertificateIsNotPreloaded(): void
     {
-        $userCertificateRepository = $this->getMockBuilder(ilUserCertificateRepository::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilUserCertificateRepository&Stub $userCertificateRepository */
+        $userCertificateRepository = $this->createStub(ilUserCertificateRepository::class);
 
         $userCertificateRepository->method('fetchObjectIdsWithCertificateForUser')
             ->willReturn([1, 2, 3]);
@@ -58,9 +58,8 @@ class ilCertificateObjectsForUserPreloaderTest extends ilCertificateBaseTestCase
 
     public function testUserIsNoProloaded(): void
     {
-        $userCertificateRepository = $this->getMockBuilder(ilUserCertificateRepository::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilUserCertificateRepository&Stub $userCertificateRepository */
+        $userCertificateRepository = $this->createStub(ilUserCertificateRepository::class);
 
         $userCertificateRepository->method('fetchObjectIdsWithCertificateForUser')
             ->willReturn([1, 2, 3]);

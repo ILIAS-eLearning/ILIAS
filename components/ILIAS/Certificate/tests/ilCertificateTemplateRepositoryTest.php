@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use PHPUnit\Framework\MockObject\Stub;
+
 class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
 {
     public function testCertificateWillBeSavedToTheDatabase(): void
@@ -28,9 +30,8 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $objectDataCache = $this->getMockBuilder(ilObjectDataCache::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilObjectDataCache&Stub $objectDataCache */
+        $objectDataCache = $this->createStub(ilObjectDataCache::class);
 
         $objectDataCache->method('lookUpType')->willReturn('crs');
 
@@ -83,11 +84,11 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
 
     public function testFetchCertificateTemplatesByObjId(): void
     {
-        $logger = $this->getMockBuilder(ilLogger::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilLogger&Stub $logger */
+        $logger = $this->createStub(ilLogger::class);
 
-        $database = $this->createMock(ilDBInterface::class);
+        /** @var ilDBInterface&Stub $database */
+        $database = $this->createStub(ilDBInterface::class);
         $consecutive = [
             [
                 'id' => 1,
@@ -124,9 +125,8 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
             }
         );
 
-        $objectDataCache = $this->getMockBuilder(ilObjectDataCache::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilObjectDataCache&Stub $objectDataCache */
+        $objectDataCache = $this->createStub(ilObjectDataCache::class);
 
         $objectDataCache->method('lookUpType')->willReturn('crs');
 
@@ -140,11 +140,11 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
 
     public function testFetchCurrentlyActiveCertificate(): void
     {
-        $logger = $this->getMockBuilder(ilLogger::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilLogger&Stub $logger */
+        $logger = $this->createStub(ilLogger::class);
 
-        $database = $this->createMock(ilDBInterface::class);
+        /** @var ilDBInterface&Stub $database */
+        $database = $this->createStub(ilDBInterface::class);
         $consecutive = [
             [
                 'id' => 1,
@@ -181,9 +181,8 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
             }
         );
 
-        $objectDataCache = $this->getMockBuilder(ilObjectDataCache::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilObjectDataCache&Stub $objectDataCache */
+        $objectDataCache = $this->createStub(ilObjectDataCache::class);
 
         $objectDataCache->method('lookUpType')->willReturn('crs');
 
@@ -196,11 +195,11 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
 
     public function testFetchPreviousCertificate(): void
     {
-        $logger = $this->getMockBuilder(ilLogger::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilLogger&Stub $logger */
+        $logger = $this->createStub(ilLogger::class);
 
-        $database = $this->createMock(ilDBInterface::class);
+        /** @var ilDBInterface&Stub $database */
+        $database = $this->createStub(ilDBInterface::class);
         $consecutive = [
                 [
                     'id' => 1,
@@ -237,9 +236,8 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
             }
         );
 
-        $objectDataCache = $this->getMockBuilder(ilObjectDataCache::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilObjectDataCache&Stub $objectDataCache */
+        $objectDataCache = $this->createStub(ilObjectDataCache::class);
 
         $objectDataCache->method('lookUpType')->willReturn('crs');
 
@@ -253,7 +251,9 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
     public function testDeleteTemplateFromDatabase(): void
     {
         $database = $this->createMock(ilDBInterface::class);
+        /** @var ilLogger&Stub $logger */
         $logger = $this->createStub(ilLogger::class);
+        /** @var ilObjectDataCache&Stub $object_data_cache */
         $object_data_cache = $this->createStub(ilObjectDataCache::class);
 
         $database->method('quote')->willReturnCallback(
@@ -281,11 +281,11 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
 
     public function testActivatePreviousCertificate(): void
     {
-        $logger = $this->getMockBuilder(ilLogger::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilLogger&Stub $logger */
+        $logger = $this->createStub(ilLogger::class);
 
-        $database = $this->createMock(ilDBInterface::class);
+        /** @var ilDBInterface&Stub $database */
+        $database = $this->createStub(ilDBInterface::class);
 
         $quote_consecutive = [
             [10, 'integer'],
@@ -343,15 +343,14 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
         $database->method('query')->willReturnCallback(
             function (string $v) use (&$query_consecutive) {
                 $expected = array_shift($query_consecutive);
-                $v = trim(str_replace(array("\n", "\r"), ' ', $v))  ;
+                $v = trim(str_replace(["\n", "\r"], ' ', $v))  ;
                 $this->assertEquals($expected, $v);
-                return $this->createMock(ilDBStatement::class);
+                return $this->createStub(ilDBStatement::class);
             },
         );
 
-        $objectDataCache = $this->getMockBuilder(ilObjectDataCache::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilObjectDataCache&Stub $objectDataCache */
+        $objectDataCache = $this->createStub(ilObjectDataCache::class);
 
         $objectDataCache->method('lookUpType')->willReturn('crs');
 
@@ -364,16 +363,15 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
 
     public function testFetchAllObjectIdsByType(): void
     {
-        $logger = $this->getMockBuilder(ilLogger::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilLogger&Stub $logger */
+        $logger = $this->createStub(ilLogger::class);
 
-        $objectDataCache = $this->getMockBuilder(ilObjectDataCache::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilObjectDataCache&Stub $objectDataCache */
+        $objectDataCache = $this->createStub(ilObjectDataCache::class);
 
 
-        $database = $this->createMock(ilDBInterface::class);
+        /** @var ilDBInterface&Stub $database */
+        $database = $this->createStub(ilDBInterface::class);
         $consecutive = [
             [
                 'id' => 1,
@@ -424,9 +422,8 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
 
         $database = $this->createMock(ilDBInterface::class);
 
-        $logger = $this->getMockBuilder(ilLogger::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilLogger&Stub $logger */
+        $logger = $this->createStub(ilLogger::class);
 
         $database
             ->expects($this->once())
@@ -434,9 +431,8 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
             ->with(10, 'integer')
             ->willReturn('10');
 
-        $objectDataCache = $this->getMockBuilder(ilObjectDataCache::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilObjectDataCache&Stub $objectDataCache */
+        $objectDataCache = $this->createStub(ilObjectDataCache::class);
 
         $database->method('fetchAssoc')
             ->willReturn([]);
@@ -455,9 +451,8 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
     {
         $database = $this->createMock(ilDBInterface::class);
 
-        $logger = $this->getMockBuilder(ilLogger::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilLogger&Stub $logger */
+        $logger = $this->createStub(ilLogger::class);
 
         $database
             ->expects($this->once())
@@ -465,9 +460,8 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
             ->with(10, 'integer')
             ->willReturn(10);
 
-        $objectDataCache = $this->getMockBuilder(ilObjectDataCache::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilObjectDataCache&Stub $objectDataCache */
+        $objectDataCache = $this->createStub(ilObjectDataCache::class);
 
         $database->method('fetchAssoc')
             ->willReturn([]);

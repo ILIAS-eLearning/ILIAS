@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\Stub;
 
 class ilXlsFoParserTest extends ilCertificateBaseTestCase
 {
@@ -34,21 +35,20 @@ class ilXlsFoParserTest extends ilCertificateBaseTestCase
 
     private function createXlsFoParser(): ilXlsFoParser
     {
-        $settings = $this->getMockBuilder(ilSetting::class)
-                         ->disableOriginalConstructor()
-                         ->getMock();
+        /** @var ilSetting&Stub $settings */
+        $settings = $this->createStub(ilSetting::class);
         $settings->method('get')->willReturnArgument(0);
 
-        $language = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->onlyMethods(
+        /** @var ilLanguage&Stub $language */
+        $language = $this->getStubBuilder(ilLanguage::class)->disableOriginalConstructor()->onlyMethods(
             ['txt']
-        )->getMock();
+        )->getStub();
         $language->method('txt')->willReturnArgument(0);
 
         $page_formats = new ilPageFormats($language);
 
-        $util_helper = $this->getMockBuilder(ilCertificateUtilHelper::class)
-                            ->disableOriginalConstructor()
-                            ->getMock();
+        /** @var ilCertificateUtilHelper&Stub $util_helper */
+        $util_helper = $this->createStub(ilCertificateUtilHelper::class);
 
         $util_helper->method('stripSlashes')
                     ->willReturnArgument(0);
@@ -56,9 +56,8 @@ class ilXlsFoParserTest extends ilCertificateBaseTestCase
         $xmlChecker = new ilXMLChecker(new ILIAS\Data\Factory());
         $xslt_process = new ilCertificateXlstProcess();
 
-        $language = $this->getMockBuilder(ilLanguage::class)
-                         ->disableOriginalConstructor()
-                         ->getMock();
+        /** @var ilLanguage&Stub $language */
+        $language = $this->createStub(ilLanguage::class);
 
         $xsl_loader = new ilCertificateXlsFileLoader();
 
@@ -127,16 +126,14 @@ class ilXlsFoParserTest extends ilCertificateBaseTestCase
             'pageformat' => 'a4'
         ];
 
-        $settings = $this->getMockBuilder(ilSetting::class)
-                         ->disableOriginalConstructor()
-                         ->getMock();
+        /** @var ilSetting&Stub $settings */
+        $settings = $this->createStub(ilSetting::class);
 
         $settings->method('get')
                  ->willReturn('Something');
 
-        $pageFormats = $this->getMockBuilder(ilPageFormats::class)
-                            ->disableOriginalConstructor()
-                            ->getMock();
+        /** @var ilPageFormats&Stub $pageFormats */
+        $pageFormats = $this->createStub(ilPageFormats::class);
 
         $pageFormats->method('fetchPageFormats')
                     ->willReturn([
@@ -150,9 +147,8 @@ class ilXlsFoParserTest extends ilCertificateBaseTestCase
 
         $xmlChecker = new ilXMLChecker(new ILIAS\Data\Factory());
 
-        $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
-                           ->disableOriginalConstructor()
-                           ->getMock();
+        /** @var ilCertificateUtilHelper&Stub $utilHelper */
+        $utilHelper = $this->createStub(ilCertificateUtilHelper::class);
 
         $utilHelper->method('stripSlashes')
                    ->willReturnOnConsecutiveCalls(
@@ -184,12 +180,11 @@ class ilXlsFoParserTest extends ilCertificateBaseTestCase
             )
             ->willReturn('Something Processed');
 
-        $language = $this->getMockBuilder(ilLanguage::class)
-                         ->disableOriginalConstructor()
-                         ->getMock();
+        /** @var ilLanguage&Stub $language */
+        $language = $this->createStub(ilLanguage::class);
 
-        $certificateXlsFileLoader = $this->getMockBuilder(ilCertificateXlsFileLoader::class)
-                                         ->getMock();
+        /** @var ilCertificateXlsFileLoader&Stub $certificateXlsFileLoader */
+        $certificateXlsFileLoader = $this->createStub(ilCertificateXlsFileLoader::class);
 
         $certificateXlsFileLoader->method('getXlsCertificateContent')
                                  ->willReturn('<xml>Some XLS Content</xml>');
@@ -224,16 +219,14 @@ class ilXlsFoParserTest extends ilCertificateBaseTestCase
             'pageformat' => 'custom'
         ];
 
-        $settings = $this->getMockBuilder(ilSetting::class)
-                         ->disableOriginalConstructor()
-                         ->getMock();
+        /** @var ilSetting&Stub $settings */
+        $settings = $this->createStub(ilSetting::class);
 
         $settings->method('get')
                  ->willReturn('Something');
 
-        $pageFormats = $this->getMockBuilder(ilPageFormats::class)
-                            ->disableOriginalConstructor()
-                            ->getMock();
+        /** @var ilPageFormats&Stub $pageFormats */
+        $pageFormats = $this->createStub(ilPageFormats::class);
 
         $pageFormats->method('fetchPageFormats')
                     ->willReturn([
@@ -247,12 +240,11 @@ class ilXlsFoParserTest extends ilCertificateBaseTestCase
 
         $xmlChecker = new ilXMLChecker(new ILIAS\Data\Factory());
 
-        $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
-                           ->disableOriginalConstructor()
-                           ->getMock();
+        /** @var ilCertificateUtilHelper&Stub $utilHelper */
+        $utilHelper = $this->createStub(ilCertificateUtilHelper::class);
 
-        $xlstProcess = $this->getMockBuilder(ilCertificateXlstProcess::class)
-                            ->getMock();
+        /** @var ilCertificateXlstProcess&Stub $xlstProcess */
+        $xlstProcess = $this->createStub(ilCertificateXlstProcess::class);
 
         $language = $this->getMockBuilder(ilLanguage::class)
                          ->disableOriginalConstructor()
@@ -260,8 +252,8 @@ class ilXlsFoParserTest extends ilCertificateBaseTestCase
                          ->getMock();
         $language->expects($this->once())->method('txt')->willReturn('certificate_not_well_formed');
 
-        $certificateXlsFileLoader = $this->getMockBuilder(ilCertificateXlsFileLoader::class)
-                                         ->getMock();
+        /** @var ilCertificateXlsFileLoader&Stub $certificateXlsFileLoader */
+        $certificateXlsFileLoader = $this->createStub(ilCertificateXlsFileLoader::class);
 
         $certificateXlsFileLoader->method('getXlsCertificateContent')
                                  ->willReturn('<xml>Some XLS Content</xml>');
@@ -296,16 +288,14 @@ class ilXlsFoParserTest extends ilCertificateBaseTestCase
             'pageheight' => '297mm'
         ];
 
-        $settings = $this->getMockBuilder(ilSetting::class)
-                         ->disableOriginalConstructor()
-                         ->getMock();
+        /** @var ilSetting&Stub $settings */
+        $settings = $this->createStub(ilSetting::class);
 
         $settings->method('get')
                  ->willReturn('Something');
 
-        $pageFormats = $this->getMockBuilder(ilPageFormats::class)
-                            ->disableOriginalConstructor()
-                            ->getMock();
+        /** @var ilPageFormats&Stub $pageFormats */
+        $pageFormats = $this->createStub(ilPageFormats::class);
 
         $pageFormats->method('fetchPageFormats')
                     ->willReturn([
@@ -319,9 +309,8 @@ class ilXlsFoParserTest extends ilCertificateBaseTestCase
 
         $xmlChecker = new ilXMLChecker(new ILIAS\Data\Factory());
 
-        $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
-                           ->disableOriginalConstructor()
-                           ->getMock();
+        /** @var ilCertificateUtilHelper&Stub $utilHelper */
+        $utilHelper = $this->createStub(ilCertificateUtilHelper::class);
 
         $utilHelper->method('stripSlashes')
                    ->willReturnOnConsecutiveCalls(
@@ -353,12 +342,11 @@ class ilXlsFoParserTest extends ilCertificateBaseTestCase
             )
             ->willReturn('Something Processed');
 
-        $language = $this->getMockBuilder(ilLanguage::class)
-                         ->disableOriginalConstructor()
-                         ->getMock();
+        /** @var ilLanguage&Stub $language */
+        $language = $this->createStub(ilLanguage::class);
 
-        $certificateXlsFileLoader = $this->getMockBuilder(ilCertificateXlsFileLoader::class)
-                                         ->getMock();
+        /** @var ilCertificateXlsFileLoader&Stub $certificateXlsFileLoader */
+        $certificateXlsFileLoader = $this->createStub(ilCertificateXlsFileLoader::class);
 
         $certificateXlsFileLoader->method('getXlsCertificateContent')
                                  ->willReturn('<xml>Some XLS Content</xml>');
@@ -393,16 +381,14 @@ class ilXlsFoParserTest extends ilCertificateBaseTestCase
             'pageheight' => '297mm'
         ];
 
-        $settings = $this->getMockBuilder(ilSetting::class)
-                         ->disableOriginalConstructor()
-                         ->getMock();
+        /** @var ilSetting&Stub $settings */
+        $settings = $this->createStub(ilSetting::class);
 
         $settings->method('get')
                  ->willReturn('Something');
 
-        $pageFormats = $this->getMockBuilder(ilPageFormats::class)
-                            ->disableOriginalConstructor()
-                            ->getMock();
+        /** @var ilPageFormats&Stub $pageFormats */
+        $pageFormats = $this->createStub(ilPageFormats::class);
 
         $pageFormats->method('fetchPageFormats')
                     ->willReturn([
@@ -416,9 +402,8 @@ class ilXlsFoParserTest extends ilCertificateBaseTestCase
 
         $xmlChecker = new ilXMLChecker(new ILIAS\Data\Factory());
 
-        $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
-                           ->disableOriginalConstructor()
-                           ->getMock();
+        /** @var ilCertificateUtilHelper&Stub $utilHelper */
+        $utilHelper = $this->createStub(ilCertificateUtilHelper::class);
 
         $utilHelper->method('stripSlashes')
                    ->willReturnOnConsecutiveCalls(
@@ -450,12 +435,11 @@ class ilXlsFoParserTest extends ilCertificateBaseTestCase
             )
             ->willReturn('Something Processed');
 
-        $language = $this->getMockBuilder(ilLanguage::class)
-                         ->disableOriginalConstructor()
-                         ->getMock();
+        /** @var ilLanguage&Stub $language */
+        $language = $this->createStub(ilLanguage::class);
 
-        $certificateXlsFileLoader = $this->getMockBuilder(ilCertificateXlsFileLoader::class)
-                                         ->getMock();
+        /** @var ilCertificateXlsFileLoader&Stub $certificateXlsFileLoader */
+        $certificateXlsFileLoader = $this->createStub(ilCertificateXlsFileLoader::class);
 
         $certificateXlsFileLoader->method('getXlsCertificateContent')
                                  ->willReturn('<xml>Some XLS Content</xml>');

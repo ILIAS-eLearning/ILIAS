@@ -19,30 +19,29 @@
 declare(strict_types=1);
 
 use ILIAS\User\Profile\Profile;
+use PHPUnit\Framework\MockObject\Stub;
 
 class ilDefaultPlaceholderDescriptionTest extends ilCertificateBaseTestCase
 {
     public function testCreateHtmlDescription(): void
     {
-        $languageMock = $this->getMockBuilder(ilLanguage::class)
+        /** @var ilLanguage&Stub $languageMock */
+        $languageMock = $this->getStubBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['txt', 'loadLanguageModule'])
-            ->getMock();
+            ->getStub();
 
-        $profileMock = $this->getMockBuilder(Profile::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var Profile&Stub $profileMock */
+        $profileMock = $this->createStub(Profile::class);
 
-        $templateMock = $this->getMockBuilder(ilTemplate::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilTemplate&Stub $templateMock */
+        $templateMock = $this->createStub(ilTemplate::class);
 
         $templateMock->method('get')
             ->willReturn('');
 
-        $userDefinePlaceholderMock = $this->getMockBuilder(ilUserDefinedFieldsPlaceholderDescription::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilUserDefinedFieldsPlaceholderDescription&Stub $userDefinePlaceholderMock */
+        $userDefinePlaceholderMock = $this->createStub(ilUserDefinedFieldsPlaceholderDescription::class);
 
         $userDefinePlaceholderMock->method('createPlaceholderHtmlDescription')
             ->willReturn('');
@@ -68,13 +67,11 @@ class ilDefaultPlaceholderDescriptionTest extends ilCertificateBaseTestCase
             ->method('txt')
             ->willReturn('Something translated');
 
-        $profileMock = $this->getMockBuilder(Profile::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var Profile&Stub $profileMock */
+        $profileMock = $this->createStub(Profile::class);
 
-        $userDefinePlaceholderMock = $this->getMockBuilder(ilUserDefinedFieldsPlaceholderDescription::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilUserDefinedFieldsPlaceholderDescription&Stub $userDefinePlaceholderMock */
+        $userDefinePlaceholderMock = $this->createStub(ilUserDefinedFieldsPlaceholderDescription::class);
 
         $userDefinePlaceholderMock->method('createPlaceholderHtmlDescription')
             ->willReturn('');

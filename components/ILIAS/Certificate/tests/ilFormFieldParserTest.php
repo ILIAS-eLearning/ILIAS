@@ -18,12 +18,14 @@
 
 declare(strict_types=1);
 
+use PHPUnit\Framework\MockObject\Stub;
+
 class ilFormFieldParserTest extends ilCertificateBaseTestCase
 {
     public function testA4(): void
     {
-        $xlstProcess = $this->getMockBuilder(ilCertificateXlstProcess::class)
-            ->getMock();
+        /** @var ilCertificateXlstProcess&Stub $xlstProcess */
+        $xlstProcess = $this->createStub(ilCertificateXlstProcess::class);
 
         $content = '';
 

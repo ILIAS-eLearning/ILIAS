@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use PHPUnit\Framework\MockObject\Stub;
+
 class ilCertificateActiveValidatorTest extends \PHPUnit\Framework\TestCase
 {
     public function testCertificatesAreActiveAndJavaServerIsActive(): void
@@ -32,9 +34,8 @@ class ilCertificateActiveValidatorTest extends \PHPUnit\Framework\TestCase
             ->with('active')
             ->willReturn('1');
 
-        $rpcSettings = $this->getMockBuilder(ilRPCServerSettings::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilRPCServerSettings&Stub $rpcSettings */
+        $rpcSettings = $this->createStub(ilRPCServerSettings::class);
 
         $rpcSettings->method('isEnabled')
             ->willReturn(true);

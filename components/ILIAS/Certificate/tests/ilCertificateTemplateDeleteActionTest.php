@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use PHPUnit\Framework\MockObject\Stub;
+
 class ilCertificateTemplateDeleteActionTest extends ilCertificateBaseTestCase
 {
     public function testDeleteTemplateAndUseOldThumbnail(): void
@@ -33,8 +35,8 @@ class ilCertificateTemplateDeleteActionTest extends ilCertificateBaseTestCase
 
         $templateRepositoryMock->expects($this->once())->method('save');
 
-        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
-            ->getMock();
+        /** @var ilCertificateObjectHelper&Stub $objectHelper */
+        $objectHelper = $this->createStub(ilCertificateObjectHelper::class);
 
         $objectHelper->method('lookUpType')
             ->willReturn('crs');

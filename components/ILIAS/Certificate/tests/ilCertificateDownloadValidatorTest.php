@@ -18,22 +18,22 @@
 
 declare(strict_types=1);
 
+use PHPUnit\Framework\MockObject\Stub;
+
 class ilCertificateDownloadValidatorTest extends ilCertificateBaseTestCase
 {
     public function testValidationSucceedsAndReturnsTrue(): void
     {
-        $userCertificateRepository = $this->getMockBuilder(ilUserCertificateRepository::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilUserCertificateRepository&Stub $userCertificateRepository */
+        $userCertificateRepository = $this->createStub(ilUserCertificateRepository::class);
 
 
         $userCertificateRepository->method('fetchActiveCertificate');
 
         $accessValidator = new ilCertificateUserCertificateAccessValidator($userCertificateRepository);
 
-        $activeValidator = $this->getMockBuilder(ilCertificateActiveValidator::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilCertificateActiveValidator&Stub $activeValidator */
+        $activeValidator = $this->createStub(ilCertificateActiveValidator::class);
 
         $activeValidator->method('validate')
             ->willReturn(true);
@@ -57,9 +57,8 @@ class ilCertificateDownloadValidatorTest extends ilCertificateBaseTestCase
 
         $accessValidator = new ilCertificateUserCertificateAccessValidator($userCertificateRepository);
 
-        $activeValidator = $this->getMockBuilder(ilCertificateActiveValidator::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilCertificateActiveValidator&Stub $activeValidator */
+        $activeValidator = $this->createStub(ilCertificateActiveValidator::class);
 
         $activeValidator
             ->method('validate')
@@ -85,9 +84,8 @@ class ilCertificateDownloadValidatorTest extends ilCertificateBaseTestCase
 
         $accessValidator = new ilCertificateUserCertificateAccessValidator($userCertificateRepository);
 
-        $activeValidator = $this->getMockBuilder(ilCertificateActiveValidator::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilCertificateActiveValidator&Stub $activeValidator */
+        $activeValidator = $this->createStub(ilCertificateActiveValidator::class);
 
         $activeValidator
             ->method('validate')

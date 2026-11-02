@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use PHPUnit\Framework\MockObject\Stub;
+
 class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
 {
     public function testFetchingDataSetForTableWithoutParamtersAndWithoutFilters(): void
@@ -46,9 +48,8 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
                 null
             );
 
-        $logger = $this->getMockBuilder(ilLogger::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilLogger&Stub $logger */
+        $logger = $this->createStub(ilLogger::class);
 
         $provider = new ilUserCertificateTableProvider(
             $database,
@@ -105,9 +106,8 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
                 null
             );
 
-        $logger = $this->getMockBuilder(ilLogger::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilLogger&Stub $logger */
+        $logger = $this->createStub(ilLogger::class);
 
         $provider = new ilUserCertificateTableProvider(
             $database,
@@ -164,9 +164,8 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
                 null
             );
 
-        $logger = $this->getMockBuilder(ilLogger::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilLogger&Stub $logger */
+        $logger = $this->createStub(ilLogger::class);
 
         $provider = new ilUserCertificateTableProvider(
             $database,
@@ -225,9 +224,8 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
                 null
             );
 
-        $logger = $this->getMockBuilder(ilLogger::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilLogger&Stub $logger */
+        $logger = $this->createStub(ilLogger::class);
 
         $provider = new ilUserCertificateTableProvider(
             $database,
@@ -270,9 +268,8 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
                 null
             );
 
-        $logger = $this->getMockBuilder(ilLogger::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilLogger&Stub $logger */
+        $logger = $this->createStub(ilLogger::class);
 
         $provider = new ilUserCertificateTableProvider(
             $database,
@@ -315,9 +312,8 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
                 null
             );
 
-        $logger = $this->getMockBuilder(ilLogger::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilLogger&Stub $logger */
+        $logger = $this->createStub(ilLogger::class);
 
         $provider = new ilUserCertificateTableProvider(
             $database,
@@ -365,9 +361,8 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
                 null
             );
 
-        $logger = $this->getMockBuilder(ilLogger::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilLogger&Stub $logger */
+        $logger = $this->createStub(ilLogger::class);
 
         $provider = new ilUserCertificateTableProvider(
             $database,
@@ -415,9 +410,8 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
                 null
             );
 
-        $logger = $this->getMockBuilder(ilLogger::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilLogger&Stub $logger */
+        $logger = $this->createStub(ilLogger::class);
 
         $provider = new ilUserCertificateTableProvider(
             $database,

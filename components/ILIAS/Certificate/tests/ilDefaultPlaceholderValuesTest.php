@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\User\Profile\Profile;
+use PHPUnit\Framework\MockObject\Stub;
 
 class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
 {
@@ -121,29 +122,25 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
             ->method('formatDateTime')
             ->willReturn('2018-09-10 12:01:33');
 
-        $language = $this->getMockBuilder(ilLanguage::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilLanguage&Stub $language */
+        $language = $this->createStub(ilLanguage::class);
 
         $language->method('txt')
             ->willReturn('Something');
 
-        $profile = $this->getMockBuilder(Profile::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var Profile&Stub $profile */
+        $profile = $this->createStub(Profile::class);
 
-        $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilCertificateUtilHelper&Stub $utilHelper */
+        $utilHelper = $this->createStub(ilCertificateUtilHelper::class);
 
         $utilHelper->method('prepareFormOutput')
             ->willReturnCallback(function ($input) {
                 return $input;
             });
 
-        $userDefinePlaceholderMock = $this->getMockBuilder(ilUserDefinedFieldsPlaceholderValues::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilUserDefinedFieldsPlaceholderValues&Stub $userDefinePlaceholderMock */
+        $userDefinePlaceholderMock = $this->createStub(ilUserDefinedFieldsPlaceholderValues::class);
 
         $userDefinePlaceholderMock->method('getPlaceholderValues')
             ->willReturn([]);
@@ -151,8 +148,8 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
         $userDefinePlaceholderMock->method('getPlaceholderValuesForPreview')
             ->willReturn([]);
 
-        $uuid_factory_mock = $this->getMockBuilder(ILIAS\Data\UUID\Factory::class)
-            ->getMock();
+        /** @var ILIAS\Data\UUID\Factory&Stub $uuid_factory_mock */
+        $uuid_factory_mock = $this->createStub(ILIAS\Data\UUID\Factory::class);
         $uuid_factory_mock->method('uuid4AsString')->willReturn('randomUniqueString');
 
         $placeHolderObject = new ilDefaultPlaceholderValues(
@@ -198,11 +195,11 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
 
     public function testGetPlaceholderValuesForPreview(): void
     {
-        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
-            ->getMock();
+        /** @var ilCertificateObjectHelper&Stub $objectHelper */
+        $objectHelper = $this->createStub(ilCertificateObjectHelper::class);
 
-        $dateHelper = $this->getMockBuilder(ilCertificateDateHelper::class)
-            ->getMock();
+        /** @var ilCertificateDateHelper&Stub $dateHelper */
+        $dateHelper = $this->createStub(ilCertificateDateHelper::class);
 
         $dateHelper->method('formatDate')
             ->willReturn('2018-09-09');
@@ -210,29 +207,25 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
         $dateHelper->method('formatDateTime')
             ->willReturn('2018-09-09 14:00:30');
 
-        $language = $this->getMockBuilder(ilLanguage::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilLanguage&Stub $language */
+        $language = $this->createStub(ilLanguage::class);
 
         $language->method('txt')
             ->willReturn('Something');
 
-        $profile = $this->getMockBuilder(Profile::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var Profile&Stub $profile */
+        $profile = $this->createStub(Profile::class);
 
-        $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilCertificateUtilHelper&Stub $utilHelper */
+        $utilHelper = $this->createStub(ilCertificateUtilHelper::class);
 
         $utilHelper->method('prepareFormOutput')
             ->willReturnCallback(function ($input) {
                 return $input;
             });
 
-        $userDefinePlaceholderMock = $this->getMockBuilder(ilUserDefinedFieldsPlaceholderValues::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilUserDefinedFieldsPlaceholderValues&Stub $userDefinePlaceholderMock */
+        $userDefinePlaceholderMock = $this->createStub(ilUserDefinedFieldsPlaceholderValues::class);
 
         $userDefinePlaceholderMock->method('getPlaceholderValues')
             ->willReturn([]);
@@ -240,8 +233,8 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
         $userDefinePlaceholderMock->method('getPlaceholderValuesForPreview')
             ->willReturn([]);
 
-        $uuid_factory_mock = $this->getMockBuilder(ILIAS\Data\UUID\Factory::class)
-            ->getMock();
+        /** @var ILIAS\Data\UUID\Factory&Stub $uuid_factory_mock */
+        $uuid_factory_mock = $this->createStub(ILIAS\Data\UUID\Factory::class);
         $uuid_factory_mock->method('uuid4AsString')->willReturn('randomUniqueString');
 
         $placeHolderObject = new ilDefaultPlaceholderValues(
