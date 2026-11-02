@@ -20,8 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\Setup;
 use ILIAS\Setup\Environment;
-use ILIAS\DI\Container;
-use ILIAS\Tree\Logging\NoLogger;
+use ILIAS\Tree\TreeBuilder;
 
 class ilTreeAdminNodeAddedObjective implements Setup\Objective
 {
@@ -117,13 +116,10 @@ class ilTreeAdminNodeAddedObjective implements Setup\Objective
         ];
         $db->insert("object_reference", $values);
 
-        $tree = new ilTree(
-            ROOT_FOLDER_ID,
-            0,
-            $db,
-            new NoLogger(),
-            $settings_factory->settingsFor("common")
-        );
+        $tree = (new TreeBuilder(ROOT_FOLDER_ID))
+            ->forSetupEnvironment($db, $settings_factory->settingsFor("common"))
+            ->build();
+
         if ($this->parent_type) {
             $set = $db->queryF(
                 "SELECT * FROM object_data " .

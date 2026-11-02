@@ -20,7 +20,8 @@ declare(strict_types=1);
 
 use Psr\Log\LogLevel;
 use ILIAS\Logging\Logger\LoggerInterface;
-use ILIAS\Tree\Logging\NoLogger;
+use ILIAS\Tree\Logging\NullLogger;
+use ILIAS\Tree\Language\NullLanguage;
 use ILIAS\Logging\Logger\LoggerFactory;
 use ILIAS\Language\Language;
 use ILIAS\Administration\Setting;
@@ -141,6 +142,16 @@ class ilTree
     private array $path_id_cache = [];
 
     /**
+     * @param int $a_tree_id Tree identifier
+     * @param int $a_root_id Root node identifier (defaults to ROOT_FOLDER_ID)
+     * @param ilDBInterface|null $db Database interface (optional, falls back to DIC)
+     * @param LoggerInterface|null $logger Logger instance (optional, falls back to DIC or NullLogger)
+     * @param Setting|null $setting Settings for tree implementation (optional, falls back to DIC or uses NestedSet as default Implementation)
+     * @param ilAppEventHandler|null $event_handler Event handler (optional)
+     * @param ilObjectDataCache|null $obj_data_cache Object data cache (optional)
+     * @param ilObjectDefinition|null $obj_definition Object definition (optional)
+     * @param ilObjUser|null $user Current user (optional, falls back to DIC or uses default language and no user for deleted_by field)
+     * @param Language|null $language Language handler (optional, falls back to DIC or uses NullLanguage with warning if used)
      * @throws InvalidArgumentException
      */
     public function __construct(
@@ -148,52 +159,43 @@ class ilTree
         int $a_root_id = 0,
         ?ilDBInterface $db = null,
         ?LoggerInterface $logger = null,
-        ?Setting $setting = null
+        ?Setting $setting = null,
+        ?ilAppEventHandler $event_handler = null,
+        ?ilObjectDataCache $obj_data_cache = null,
+        ?ilObjectDefinition $obj_definition = null,
+        ?ilObjUser $user = null,
+        ?Language $language = null
     ) {
         global $DIC;
 
-        $dic = $DIC;
-        if (!$dic instanceof Container) {
-            $dic = new Container($DIC);
-        }
+        // Normalize DIC access
+        $dic = $DIC instanceof Container ? $DIC : (new Container($DIC ?? []));
 
-        $this->db = $db ?? $dic->database();
+        // Set required dependencies with fallbacks
+        $this->db = $db ?? ($dic->isDependencyAvailable('database') ? $dic->database() : null);
 
-        if ($logger === null && isset($dic['logging.factory'])) {
-            /**
-             * @var LoggerFactory $logging_factory
-             */
+        // Logger with multiple fallback levels
+        if ($logger !== null) {
+            $this->logger = $logger;
+        } elseif (isset($dic['logging.factory'])) {
+            /** @var LoggerFactory $logging_factory */
             $logging_factory = $dic['logging.factory'];
-            $logger = $logging_factory->getLazy('tree');
-        } elseif ($logger === null) {
-            $logger = new NoLogger();
+            $this->logger = $logging_factory->getLazy('tree');
+        } else {
+            $this->logger = new NullLogger();
         }
 
-        $this->logger = $logger;
-
-        if ($dic->isDependencyAvailable('event')) {
-            $this->eventHandler = $dic->event();
-        }
-
-        if (isset($dic['ilObjDataCache'])) {
-            $this->objDataCache = $dic['ilObjDataCache'];
-        }
-
-        if (isset($dic['objDefinition'])) {
-            $this->objDef = $dic['objDefinition'];
-        }
-
-        if ($dic->isDependencyAvailable('user')) {
-            $this->user = $dic->user();
-        }
-
-        if ($dic->isDependencyAvailable('language')) {
-            $this->lng = $dic->language();
-        }
+        // Optional dependencies with direct injection or DIC fallback
+        $this->eventHandler = $event_handler ?? ($dic->isDependencyAvailable('event') ? $dic->event() : null);
+        $this->objDataCache = $obj_data_cache ?? ($dic['ilObjDataCache'] ?? null);
+        $this->objDef = $obj_definition ?? ($dic['objDefinition'] ?? null);
+        $this->user = $user ?? ($dic->isDependencyAvailable('user') ? $dic->user() : null);
+        $this->lng = $language ?? ($dic->isDependencyAvailable('language') ? $dic->language() : new NullLanguage());
 
         $this->lang_code = self::DEFAULT_LANGUAGE;
 
-        if (func_num_args() > 5) {
+        // Legacy parameter count check - update to new count
+        if (func_num_args() > 10) {
             $this->logger->error("Wrong parameter count!");
             $this->logger->logStack(LogLevel::ERROR);
             throw new InvalidArgumentException("Wrong parameter count!");
@@ -223,7 +225,7 @@ class ilTree
         if ($setting === null) {
             if ($dic->isDependencyAvailable('settings') && $dic->settings()->getModule() === 'common') {
                 $setting = $dic->settings();
-            } elseif ($dic->isDependencyAvailable('ilDB')) {
+            } elseif ($dic->isDependencyAvailable('database')) {
                 $setting = new ilSetting('common');
             }
         }
@@ -238,14 +240,20 @@ class ilTree
     }
 
     /**
-     * @param int $node_id
-     * @return int[]
+     * @param int $node_id Node identifier
+     * @param ilDBInterface|null $db Database interface (optional, falls back to DIC)
+     * @return int[] Array of tree IDs containing the node
      */
-    public static function lookupTreesForNode(int $node_id): array
+    public static function lookupTreesForNode(int $node_id, ?ilDBInterface $db = null): array
     {
         global $DIC;
 
-        $db = $DIC->database();
+        $dic = $DIC instanceof Container ? $DIC : (new Container($DIC ?? []));
+        $db = $db ?? ($dic->isDependencyAvailable('database') ? $dic->database() : null);
+        $dic->logger()->tree();
+        if ($db === null) {
+            throw new InvalidArgumentException("Database dependency required for lookupTreesForNode");
+        }
 
         $query = 'select tree from tree ' .
             'where child = ' . $db->quote($node_id, \ilDBConstants::T_INTEGER);
@@ -1157,10 +1165,10 @@ class ilTree
             $translation_type = $this->objDef->getTranslationType($data["type"] ?? '');
         }
 
-        if ($this->lng !== null) {
-            $lng = $this->lng;
-        } else {
-            throw new InvalidArgumentException("Language not initialized!");
+        $lng = $this->lng;
+
+        if ($lng instanceof NullLanguage) {
+            $this->logger->warning("Language not initialized, using NullLanguage fallback in " . __METHOD__);
         }
 
         if ($translation_type == "sys") {
@@ -1764,14 +1772,29 @@ class ilTree
     /**
      * STATIC METHOD
      * Removes a single entry from a tree. The tree structure is NOT updated!
+     * @param int $a_tree Tree identifier
+     * @param int $a_child Child node identifier
+     * @param string $a_db_table Database table name
+     * @param ilDBInterface|null $db Database interface (optional, falls back to DIC)
+     * @param LoggerInterface|null $logger Logger instance (optional, falls back to DIC)
      * @throws InvalidArgumentException
      */
-    public static function _removeEntry(int $a_tree, int $a_child, string $a_db_table = "tree"): void
-    {
+    public static function _removeEntry(
+        int $a_tree,
+        int $a_child,
+        string $a_db_table = "tree",
+        ?ilDBInterface $db = null,
+        ?LoggerInterface $logger = null
+    ): void {
         global $DIC;
 
-        $db = $DIC->database();
-        $logger = $DIC->logger();
+        $dic = $DIC instanceof Container ? $DIC : (new Container($DIC ?? []));
+        $db = $db ?? ($dic->isDependencyAvailable('database') ? $dic->database() : null);
+        $logger = $logger ?? ($dic->isDependencyAvailable('logger') ? $dic->logger() : new NullLogger());
+
+        if ($db === null) {
+            throw new InvalidArgumentException("Database dependency required for _removeEntry");
+        }
 
         if ($a_db_table === 'tree') {
             if ($a_tree == 1 && $a_child == ROOT_FOLDER_ID) {
