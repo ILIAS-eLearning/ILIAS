@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\ResourceStorage\Services as IRSS;
 use ILIAS\Certificate\ValueObject\CertificateId;
 use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
+use PHPUnit\Framework\MockObject\Stub;
 
 class ilPdfGeneratorTest extends ilCertificateBaseTestCase
 {
@@ -50,31 +51,27 @@ class ilPdfGeneratorTest extends ilCertificateBaseTestCase
             300
         );
 
-        $user_repo = $this->getMockBuilder(ilUserCertificateRepository::class)
-            ->disableOriginalConstructor()
-            ->getMock()
+        /** @var ilUserCertificateRepository&Stub $user_repo */
+        $user_repo = $this->createStub(ilUserCertificateRepository::class)
         ;
         $user_repo->method('fetchCertificate')
             ->willReturn($certificate);
 
-        $rpc = $this->getMockBuilder(ilCertificateRpcClientFactoryHelper::class)
-            ->getMock();
+        /** @var ilCertificateRpcClientFactoryHelper&Stub $rpc */
+        $rpc = $this->createStub(ilCertificateRpcClientFactoryHelper::class);
 
         $pdf = new stdClass();
         $pdf->scalar = '';
         $rpc->method('ilFO2PDF')->willReturn($pdf);
 
-        $filename_factory = $this->getMockBuilder(ilCertificatePdfFileNameFactory::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilCertificatePdfFileNameFactory&Stub $filename_factory */
+        $filename_factory = $this->createStub(ilCertificatePdfFileNameFactory::class);
 
-        $language = $this->getMockBuilder(ilLanguage::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilLanguage&Stub $language */
+        $language = $this->createStub(ilLanguage::class);
 
-        $irss = $this->getMockBuilder(IRSS::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var IRSS&Stub $irss */
+        $irss = $this->createStub(IRSS::class);
 
         $pdf_generator = new ilPdfGenerator(
             $user_repo,
@@ -112,31 +109,27 @@ class ilPdfGeneratorTest extends ilCertificateBaseTestCase
             300
         );
 
-        $user_repo = $this->getMockBuilder(ilUserCertificateRepository::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilUserCertificateRepository&Stub $user_repo */
+        $user_repo = $this->createStub(ilUserCertificateRepository::class);
 
         $user_repo->method('fetchActiveCertificate')
             ->willReturn($certificate);
 
-        $rpc = $this->getMockBuilder(ilCertificateRpcClientFactoryHelper::class)
-            ->getMock();
+        /** @var ilCertificateRpcClientFactoryHelper&Stub $rpc */
+        $rpc = $this->createStub(ilCertificateRpcClientFactoryHelper::class);
 
         $pdf = new stdClass();
         $pdf->scalar = '';
         $rpc->method('ilFO2PDF')->willReturn($pdf);
 
-        $filename_factory = $this->getMockBuilder(ilCertificatePdfFileNameFactory::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilCertificatePdfFileNameFactory&Stub $filename_factory */
+        $filename_factory = $this->createStub(ilCertificatePdfFileNameFactory::class);
 
-        $language = $this->getMockBuilder(ilLanguage::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilLanguage&Stub $language */
+        $language = $this->createStub(ilLanguage::class);
 
-        $irss = $this->getMockBuilder(IRSS::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var IRSS&Stub $irss */
+        $irss = $this->createStub(IRSS::class);
 
         $pdf_generator = new ilPdfGenerator(
             $user_repo,

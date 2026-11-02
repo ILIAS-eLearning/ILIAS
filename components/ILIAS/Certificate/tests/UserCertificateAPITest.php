@@ -19,16 +19,17 @@
 declare(strict_types=1);
 
 use ILIAS\Certificate\API\Repository\UserDataRepository;
+use PHPUnit\Framework\MockObject\Stub;
 
 class UserCertificateAPITest extends ilCertificateBaseTestCase
 {
     public function testUserDataCall(): void
     {
-        $repository = $this->getMockBuilder(UserDataRepository::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var UserDataRepository&Stub $repository */
+        $repository = $this->createStub(UserDataRepository::class);
         $logger = new \ILIAS\components\Logging\NullLogger();
-        $database = $this->createMock(ilDBInterface::class);
+        /** @var ilDBInterface&Stub $database */
+        $database = $this->createStub(ilDBInterface::class);
 
         $userData = new \ILIAS\Certificate\API\Data\UserCertificateDto(
             5,
@@ -49,14 +50,14 @@ class UserCertificateAPITest extends ilCertificateBaseTestCase
 
         $api = new \ILIAS\Certificate\API\UserCertificateAPI(
             $repository,
-            $this->createMock(ilCertificateTemplateRepository::class),
+            $this->createStub(ilCertificateTemplateRepository::class),
             new ilCertificateQueueRepository(
                 $database,
                 $logger
             ),
             new ilCertificateTypeClassMap(),
             $logger,
-            $this->getMockBuilder(ilObjectDataCache::class)->disableOriginalConstructor()->getMock()
+            $this->createStub(ilObjectDataCache::class)
         );
 
         $result = $api->getUserCertificateData(new \ILIAS\Certificate\API\Filter\UserDataFilter(), []);

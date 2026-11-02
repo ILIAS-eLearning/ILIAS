@@ -21,16 +21,17 @@ declare(strict_types=1);
 use ILIAS\ResourceStorage\Services as IRSS;
 use ILIAS\Language\Language;
 use ILIAS\User\Profile\Fields\Custom\Custom;
+use PHPUnit\Framework\MockObject\Stub;
 
 class ilCertificateTemplatePreviewActionTest extends ilCertificateBaseTestCase
 {
     public function testA(): void
     {
-        $templateRepository = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
+        /** @var ilCertificateTemplateRepository&Stub $templateRepository */
+        $templateRepository = $this->createStub(ilCertificateTemplateRepository::class);
 
-        $placeholderValuesObject = $this->getMockBuilder(ilCertificatePlaceholderValues::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilCertificatePlaceholderValues&Stub $placeholderValuesObject */
+        $placeholderValuesObject = $this->createStub(ilCertificatePlaceholderValues::class);
 
         $placeholderValuesObject->method('getPlaceholderValuesForPreview')
             ->willReturn([
@@ -40,13 +41,11 @@ class ilCertificateTemplatePreviewActionTest extends ilCertificateBaseTestCase
                 'USER_FIRSTNAME' => 'SomeFirstName'
             ]);
 
-        $irss = $this->getMockBuilder(IRSS::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var IRSS&Stub $irss */
+        $irss = $this->createStub(IRSS::class);
 
-        $user = $this->getMockBuilder(ilObjUser::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilObjUser&Stub $user */
+        $user = $this->createStub(ilObjUser::class);
         $user->method('getId')
             ->willReturn(100);
 
@@ -58,9 +57,8 @@ class ilCertificateTemplatePreviewActionTest extends ilCertificateBaseTestCase
             ->method('create')
             ->willReturn('test');
 
-        $lng = $this->getMockBuilder(Language::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var Language&Stub $lng */
+        $lng = $this->createStub(Language::class);
 
         $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
             ->disableOriginalConstructor()
@@ -70,13 +68,11 @@ class ilCertificateTemplatePreviewActionTest extends ilCertificateBaseTestCase
             ->expects($this->once())
             ->method('deliverData');
 
-        $userDefinedFieldsHelper = $this->getMockBuilder(ilCertificateUserDefinedFieldsHelper::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilCertificateUserDefinedFieldsHelper&Stub $userDefinedFieldsHelper */
+        $userDefinedFieldsHelper = $this->createStub(ilCertificateUserDefinedFieldsHelper::class);
 
-        $field = $this->getMockBuilder(Custom::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var Custom&Stub $field */
+        $field = $this->createStub(Custom::class);
         $field->method('getidentifier')
             ->willReturn('70ddbac5-c162-474d-9365-e374975fd021');
         $field->method('getLabel')
@@ -89,12 +85,11 @@ class ilCertificateTemplatePreviewActionTest extends ilCertificateBaseTestCase
                 ]
             );
 
-        $rpcClientFactoryHelper = $this->getMockBuilder(ilCertificateRpcClientFactoryHelper::class)
-            ->getMock();
+        /** @var ilCertificateRpcClientFactoryHelper&Stub $rpcClientFactoryHelper */
+        $rpcClientFactoryHelper = $this->createStub(ilCertificateRpcClientFactoryHelper::class);
 
-        $mock = $this->getMockBuilder(stdClass::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var stdClass&Stub $mock */
+        $mock = $this->createStub(stdClass::class);
 
         $mock->scalar = '<xml> Some XML content </xml>';
 

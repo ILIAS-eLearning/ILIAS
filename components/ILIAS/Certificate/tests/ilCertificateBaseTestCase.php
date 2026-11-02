@@ -71,9 +71,7 @@ abstract class ilCertificateBaseTestCase extends TestCase
 
     /**
      * @template T of Throwable
-     * @param callable             $cb
      * @param class-string<T>|null $expected_class
-     * @param string|null          $expected_message
      */
     protected function assertThrows(
         callable $cb,

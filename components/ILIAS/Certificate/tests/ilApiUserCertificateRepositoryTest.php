@@ -20,14 +20,14 @@ declare(strict_types=1);
 
 class ilApiUserCertificateRepositoryTest extends ilCertificateBaseTestCase
 {
-    private \ilDBInterface&\PHPUnit\Framework\MockObject\MockObject $database;
-    private \ilCtrlInterface&\PHPUnit\Framework\MockObject\MockObject $controller;
+    private ilDBInterface&\PHPUnit\Framework\MockObject\Stub $database;
+    private ilCtrlInterface&\PHPUnit\Framework\MockObject\Stub $controller;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->database = $this->createMock(ilDBInterface::class);
-        $this->controller = $this->createMock(ilCtrlInterface::class);
+        $this->database = $this->createStub(ilDBInterface::class);
+        $this->controller = $this->createStub(ilCtrlInterface::class);
     }
 
     public function testGetUserData(): void

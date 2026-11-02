@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Certificate\ValueObject\CertificateId;
+use PHPUnit\Framework\MockObject\Stub;
 
 class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
 {
@@ -91,7 +92,8 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
 
     public function testFetchAllActiveCertificateForUser(): void
     {
-        $database = $this->createMock(ilDBInterface::class);
+        /** @var ilDBInterface&Stub $database */
+        $database = $this->createStub(ilDBInterface::class);
 
         $database->method('nextId')
             ->willReturn(141);
@@ -159,7 +161,8 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
 
     public function testFetchActiveCertificateForUserObjectCombination(): void
     {
-        $database = $this->createMock(ilDBInterface::class);
+        /** @var ilDBInterface&Stub $database */
+        $database = $this->createStub(ilDBInterface::class);
 
         $database->method('nextId')
             ->willReturn(141);
@@ -225,7 +228,8 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
     {
         $this->expectException(ilException::class);
 
-        $database = $this->createMock(ilDBInterface::class);
+        /** @var ilDBInterface&Stub $database */
+        $database = $this->createStub(ilDBInterface::class);
 
         $database->method('nextId')
             ->willReturn(141);
@@ -248,7 +252,8 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
 
     public function testFetchActiveCertificatesByType(): void
     {
-        $database = $this->createMock(ilDBInterface::class);
+        /** @var ilDBInterface&Stub $database */
+        $database = $this->createStub(ilDBInterface::class);
 
         $database->method('nextId')
             ->willReturn(141);
@@ -314,7 +319,8 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
 
     public function testFetchCertificate(): void
     {
-        $database = $this->createMock(ilDBInterface::class);
+        /** @var ilDBInterface&Stub $database */
+        $database = $this->createStub(ilDBInterface::class);
 
         $database->method('nextId')
             ->willReturn(141);
@@ -360,7 +366,8 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
     {
         $this->expectException(ilException::class);
 
-        $database = $this->createMock(ilDBInterface::class);
+        /** @var ilDBInterface&Stub $database */
+        $database = $this->createStub(ilDBInterface::class);
 
         $database->method('nextId')
             ->willReturn(141);

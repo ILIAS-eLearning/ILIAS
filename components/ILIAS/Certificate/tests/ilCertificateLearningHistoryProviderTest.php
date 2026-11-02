@@ -19,53 +19,44 @@
 declare(strict_types=1);
 
 use ILIAS\Certificate\ValueObject\CertificateId;
+use PHPUnit\Framework\MockObject\Stub;
 
 class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
 {
     public function testIsActive(): void
     {
-        $learningHistoryFactory = $this->getMockBuilder(ilLearningHistoryFactory::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilLearningHistoryFactory&Stub $learningHistoryFactory */
+        $learningHistoryFactory = $this->createStub(ilLearningHistoryFactory::class);
 
-        $language = $this->getMockBuilder(ilLanguage::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilLanguage&Stub $language */
+        $language = $this->createStub(ilLanguage::class);
 
-        $dic = $this->getMockBuilder(\ILIAS\DI\Container::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var \ILIAS\DI\Container&Stub $dic */
+        $dic = $this->createStub(\ILIAS\DI\Container::class);
 
-        $template = $this->getMockBuilder(ilTemplate::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilTemplate&Stub $template */
+        $template = $this->createStub(ilTemplate::class);
 
-        $userCertificateRepository = $this->getMockBuilder(ilUserCertificateRepository::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilUserCertificateRepository&Stub $userCertificateRepository */
+        $userCertificateRepository = $this->createStub(ilUserCertificateRepository::class);
 
-        $controller = $this->getMockBuilder(ilCtrlInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilCtrlInterface&Stub $controller */
+        $controller = $this->createStub(ilCtrlInterface::class);
 
-        $certificateSettings = $this->getMockBuilder(ilSetting::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilSetting&Stub $certificateSettings */
+        $certificateSettings = $this->createStub(ilSetting::class);
 
         $certificateSettings->method('get')
             ->willReturn('1');
 
-        $uiFactory = $this->getMockBuilder(ILIAS\UI\Factory::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ILIAS\UI\Factory&Stub $uiFactory */
+        $uiFactory = $this->createStub(ILIAS\UI\Factory::class);
 
-        $uiRenderer = $this->getMockBuilder(ILIAS\UI\Renderer::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ILIAS\UI\Renderer&Stub $uiRenderer */
+        $uiRenderer = $this->createStub(ILIAS\UI\Renderer::class);
 
-        $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
-                           ->disableOriginalConstructor()
-                           ->getMock();
+        /** @var ilCertificateUtilHelper&Stub $utilHelper */
+        $utilHelper = $this->createStub(ilCertificateUtilHelper::class);
 
         $provider = new ilCertificateLearningHistoryProvider(
             10,
@@ -86,13 +77,11 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
 
     public function testGetEntries(): void
     {
-        $learningHistoryFactory = $this->getMockBuilder(ilLearningHistoryFactory::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilLearningHistoryFactory&Stub $learningHistoryFactory */
+        $learningHistoryFactory = $this->createStub(ilLearningHistoryFactory::class);
 
-        $language = $this->getMockBuilder(ilLanguage::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilLanguage&Stub $language */
+        $language = $this->createStub(ilLanguage::class);
 
         $language->method('txt')
             ->willReturnOnConsecutiveCalls(
@@ -102,20 +91,17 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
                 '%1$s achieved.'
             );
 
-        $dic = $this->getMockBuilder(\ILIAS\DI\Container::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var \ILIAS\DI\Container&Stub $dic */
+        $dic = $this->createStub(\ILIAS\DI\Container::class);
 
-        $template = $this->getMockBuilder(ilTemplate::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilTemplate&Stub $template */
+        $template = $this->createStub(ilTemplate::class);
 
         $template->method('get')
             ->willReturnOnConsecutiveCalls('Course Title', 'Test Title');
 
-        $userCertificateRepository = $this->getMockBuilder(ilUserCertificateRepository::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilUserCertificateRepository&Stub $userCertificateRepository */
+        $userCertificateRepository = $this->createStub(ilUserCertificateRepository::class);
 
         $userCertificateRepository->method('fetchActiveCertificatesInIntervalForPresentation')
             ->willReturn(
@@ -188,24 +174,21 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
             ->expects($this->exactly(2))
             ->method('setParameterByClass');
 
-        $certificateSettings = $this->getMockBuilder(ilSetting::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilSetting&Stub $certificateSettings */
+        $certificateSettings = $this->createStub(ilSetting::class);
 
         $certificateSettings->method('get')
             ->willReturn('1');
 
-        $uiFactory = $this->getMockBuilder(ILIAS\UI\Factory::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ILIAS\UI\Factory&Stub $uiFactory */
+        $uiFactory = $this->createStub(ILIAS\UI\Factory::class);
 
         $link = $this->getMockBuilder(\ILIAS\UI\Component\Link\Factory::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $std_link = $this->getMockBuilder(\ILIAS\UI\Component\Link\Standard::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var \ILIAS\UI\Component\Link\Standard&Stub $std_link */
+        $std_link = $this->createStub(\ILIAS\UI\Component\Link\Standard::class);
 
         $consecutive = ['Course Title', 'Test Title'];
         $link
@@ -232,9 +215,8 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
             ->with($std_link)
             ->willReturn('link');
 
-        $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilCertificateUtilHelper&Stub $utilHelper */
+        $utilHelper = $this->createStub(ilCertificateUtilHelper::class);
 
         $utilHelper->method('getImagePath')
             ->willReturn('/some/acutal/image/path/background.png');
@@ -276,9 +258,8 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
 
     public function testGetName(): void
     {
-        $learningHistoryFactory = $this->getMockBuilder(ilLearningHistoryFactory::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilLearningHistoryFactory&Stub $learningHistoryFactory */
+        $learningHistoryFactory = $this->createStub(ilLearningHistoryFactory::class);
 
         $language = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
@@ -289,40 +270,32 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
             ->method('txt')
             ->willReturn('Certificates');
 
-        $dic = $this->getMockBuilder(\ILIAS\DI\Container::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var \ILIAS\DI\Container&Stub $dic */
+        $dic = $this->createStub(\ILIAS\DI\Container::class);
 
-        $template = $this->getMockBuilder(ilTemplate::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilTemplate&Stub $template */
+        $template = $this->createStub(ilTemplate::class);
 
-        $userCertificateRepository = $this->getMockBuilder(ilUserCertificateRepository::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilUserCertificateRepository&Stub $userCertificateRepository */
+        $userCertificateRepository = $this->createStub(ilUserCertificateRepository::class);
 
-        $controller = $this->getMockBuilder(ilCtrlInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilCtrlInterface&Stub $controller */
+        $controller = $this->createStub(ilCtrlInterface::class);
 
-        $certificateSettings = $this->getMockBuilder(ilSetting::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilSetting&Stub $certificateSettings */
+        $certificateSettings = $this->createStub(ilSetting::class);
 
         $certificateSettings->method('get')
             ->willReturn('1');
 
-        $uiFactory = $this->getMockBuilder(ILIAS\UI\Factory::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ILIAS\UI\Factory&Stub $uiFactory */
+        $uiFactory = $this->createStub(ILIAS\UI\Factory::class);
 
-        $uiRenderer = $this->getMockBuilder(ILIAS\UI\Renderer::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ILIAS\UI\Renderer&Stub $uiRenderer */
+        $uiRenderer = $this->createStub(ILIAS\UI\Renderer::class);
 
-        $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
-                           ->disableOriginalConstructor()
-                           ->getMock();
+        /** @var ilCertificateUtilHelper&Stub $utilHelper */
+        $utilHelper = $this->createStub(ilCertificateUtilHelper::class);
 
         $provider = new ilCertificateLearningHistoryProvider(
             10,

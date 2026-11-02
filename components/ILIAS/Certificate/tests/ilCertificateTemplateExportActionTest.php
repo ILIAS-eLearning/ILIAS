@@ -19,12 +19,14 @@
 declare(strict_types=1);
 
 use ILIAS\ResourceStorage\Services as IRSS;
+use PHPUnit\Framework\MockObject\Stub;
 
 class ilCertificateTemplateExportActionTest extends ilCertificateBaseTestCase
 {
     public function testExport(): void
     {
-        $templateRepository = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
+        /** @var ilCertificateTemplateRepository&Stub $templateRepository */
+        $templateRepository = $this->createStub(ilCertificateTemplateRepository::class);
 
         $templateRepository->method('fetchCurrentlyActiveCertificate')
             ->willReturn(new ilCertificateTemplate(
@@ -42,12 +44,11 @@ class ilCertificateTemplateExportActionTest extends ilCertificateBaseTestCase
                 50
             ));
 
-        $irss = $this->getMockBuilder(IRSS::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var IRSS&Stub $irss */
+        $irss = $this->createStub(IRSS::class);
 
-        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
-            ->getMock();
+        /** @var ilCertificateObjectHelper&Stub $objectHelper */
+        $objectHelper = $this->createStub(ilCertificateObjectHelper::class);
 
         $objectHelper->method('lookupType')
             ->willReturn('crs');

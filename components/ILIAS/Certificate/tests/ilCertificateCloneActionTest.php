@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use PHPUnit\Framework\MockObject\Stub;
+
 class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
 {
     public function testCloneCertificate(): void
@@ -93,17 +95,16 @@ class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
             ->expects($this->exactly(3))
             ->method('save');
 
-        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
-            ->getMock();
+        /** @var ilCertificateObjectHelper&Stub $objectHelper */
+        $objectHelper = $this->createStub(ilCertificateObjectHelper::class);
 
         $objectHelper->method('lookupObjId')
             ->willReturn(1000);
         $objectHelper->method('lookupType')
             ->willReturn('crs');
 
-        $global_certificate_settings = $this->getMockBuilder(ilObjCertificateSettings::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilObjCertificateSettings&Stub $global_certificate_settings */
+        $global_certificate_settings = $this->createStub(ilObjCertificateSettings::class);
 
         $cloneAction = new ilCertificateCloneAction(
             $database,
@@ -113,9 +114,8 @@ class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
             $global_certificate_settings
         );
 
-        $oldObject = $this->getMockBuilder(ilObject::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilObject&Stub $oldObject */
+        $oldObject = $this->createStub(ilObject::class);
 
         $oldObject->method('getType')
             ->willReturn('crs');
@@ -123,9 +123,8 @@ class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
         $oldObject->method('getId')
             ->willReturn(10);
 
-        $newObject = $this->getMockBuilder(ilObject::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilObject&Stub $newObject */
+        $newObject = $this->createStub(ilObject::class);
 
         $newObject->method('getType')
             ->willReturn('crs');

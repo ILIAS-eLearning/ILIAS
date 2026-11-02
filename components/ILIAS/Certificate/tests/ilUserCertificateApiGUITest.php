@@ -19,24 +19,23 @@
 declare(strict_types=1);
 
 use Psr\Http\Message\ServerRequestInterface;
+use PHPUnit\Framework\MockObject\Stub;
 
 class ilUserCertificateApiGUITest extends ilCertificateBaseTestCase
 {
     public function testCreationOfGuiClass(): void
     {
-        $language = $this->getMockBuilder(ilLanguage::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilLanguage&Stub $language */
+        $language = $this->createStub(ilLanguage::class);
 
-        $request = $this->getMockBuilder(ServerRequestInterface::class)->getMock();
+        /** @var ServerRequestInterface&Stub $request */
+        $request = $this->createStub(ServerRequestInterface::class);
 
-        $logger = $this->getMockBuilder(ilLogger::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilLogger&Stub $logger */
+        $logger = $this->createStub(ilLogger::class);
 
-        $controller = $this->getMockBuilder(ilCtrlInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var ilCtrlInterface&Stub $controller */
+        $controller = $this->createStub(ilCtrlInterface::class);
 
         $gui = new ilUserCertificateApiGUI($language, $request, $logger, $controller);
         $this->assertInstanceOf(ilUserCertificateApiGUI::class, $gui);

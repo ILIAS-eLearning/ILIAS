@@ -18,14 +18,17 @@
 
 declare(strict_types=1);
 
+use PHPUnit\Framework\MockObject\Stub;
+
 class ilPageFormatsTest extends ilCertificateBaseTestCase
 {
     public function testFetchFormats(): void
     {
-        $languageMock = $this->getMockBuilder(ilLanguage::class)
+        /** @var ilLanguage&Stub $languageMock */
+        $languageMock = $this->getStubBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['txt'])
-            ->getMock();
+            ->getStub();
 
         $consecutive_returns = [
             'certificate_a4' => 'A4',
