@@ -239,7 +239,7 @@ class DataTest extends TableTestBase
 
         $table = new class ($storage) extends C\Table\Data {
             public function __construct(
-                protected \ArrayAccess $storage,
+                protected \ILIAS\UI\Storage $storage,
             ) {
             }
             public function mockGetStorageData(): ?array
