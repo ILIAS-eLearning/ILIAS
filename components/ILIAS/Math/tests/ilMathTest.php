@@ -67,8 +67,8 @@ class ilMathTest extends TestCase
         if (extension_loaded('bcmath')) {
             $lower_text = (string) $this->eval_math->evaluate('5.4E+24');
             $upper_text = (string) $this->eval_math->evaluate('5.6E+24');
-            $this->assertSame('5400000000000000000000000', strstr($lower_text, '.', true));
-            $this->assertSame('5600000000000000000000000', strstr($upper_text, '.', true));
+            $this->assertSame(0, bccomp($lower_text, '5400000000000000000000000', 0), $lower_text);
+            $this->assertSame(0, bccomp($upper_text, '5600000000000000000000000', 0), $upper_text);
         }
     }
 }
