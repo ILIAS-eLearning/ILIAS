@@ -24,12 +24,13 @@ use ILIAS\UI\Component\Table\DataRowBuilder;
 use ILIAS\Data\Range;
 use ILIAS\Data\Order;
 use Generator;
-use ilAdvancedMDFieldDefinition;
+use ilAdvancedMDFieldDefinitionGroupBased;
+use ILIAS\UI\Component\Table\DataRetrieval as BaseDataRetrieval;
 
-class DataRetrieval implements \ILIAS\UI\Component\Table\DataRetrieval
+class DataRetrieval implements BaseDataRetrieval
 {
     public function __construct(
-        protected ilAdvancedMDFieldDefinition $definition
+        protected ilAdvancedMDFieldDefinitionGroupBased $definition
     ) {
     }
 

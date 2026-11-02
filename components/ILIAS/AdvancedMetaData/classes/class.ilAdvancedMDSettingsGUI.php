@@ -205,20 +205,20 @@ class ilAdvancedMDSettingsGUI
     protected function getOidFromQuery(): ?string
     {
         $name = 'advmd_oid';
-        $oid = null;
-        $transformation = $this->refinery->byTrying([
-            $this->refinery->kindlyTo()->string(),
-            $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string())
-        ]);
         if ($this->http->wrapper()->query()->has($name)) {
+            $transformation = $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->string(),
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string())
+            ]);
             $oid = $this->http->wrapper()->query()->retrieve($name, $transformation);
+
+            if (is_array($oid) && !empty($oid)) {
+                return (string) $oid[0];
+            }
+            return (string) $oid;
         }
 
-        if (is_array($oid) && !empty($oid)) {
-            return (string) $oid[0];
-        }
-
-        return (string) $oid ?? null;
+        return null;
     }
 
     /**
@@ -1259,9 +1259,12 @@ class ilAdvancedMDSettingsGUI
             $this->showLanguageSwitch($this->record->getRecordId(), 'editField');
             $a_form = $this->initFieldForm($field_definition);
         }
-        $table = null;
+        $table = '';
         if ($field_definition->hasComplexOptions()) {
-            $table = $field_definition->getComplexOptionsOverview($this, "editField");
+            $table_obj = $field_definition->getComplexOptionsOverview();
+            if ($table_obj !== null) {
+                $table = $this->ui_renderer->render($table_obj);
+            }
         }
         $this->tpl->setContent($a_form->getHTML() . $table);
     }

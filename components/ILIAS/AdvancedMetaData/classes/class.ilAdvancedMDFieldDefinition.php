@@ -27,6 +27,7 @@ use ILIAS\AdvancedMetaData\Data\FieldDefinition\GenericData\GenericDataImplement
 use ILIAS\AdvancedMetaData\Repository\FieldDefinition\GenericData\DatabaseGatewayImplementation;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\UI\Component\Component;
 
 /**
  * AMD field abstract base class
@@ -1044,11 +1045,9 @@ abstract class ilAdvancedMDFieldDefinition
     }
 
     /**
-     * @param object $a_parent_gui
-     * @param string $parent_cmd
      * @return null
      */
-    public function getComplexOptionsOverview(object $a_parent_gui, string $parent_cmd): ?string
+    public function getComplexOptionsOverview(): ?Component
     {
         return null;
     }

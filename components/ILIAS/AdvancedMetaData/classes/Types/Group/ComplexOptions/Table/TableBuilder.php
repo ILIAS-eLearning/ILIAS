@@ -25,8 +25,7 @@ use ILIAS\UI\Component\Table\Data as DataTable;
 use ilLanguage;
 use ILIAS\HTTP\Services as HTTP;
 use ILIAS\UI\URLBuilder;
-use ILIAS\Refinery\Factory as Refinery;
-use ilAdvancedMDFieldDefinition;
+use ilAdvancedMDFieldDefinitionGroupBased;
 use ilAdvancedMDSettingsGUI;
 use ilCtrl;
 use ILIAS\Data\URI;
@@ -42,7 +41,7 @@ class TableBuilder
         protected UIFactory $ui_factory,
         protected HTTP $http,
         protected ilCtrl $ctrl,
-        protected ilAdvancedMDFieldDefinition $definition
+        protected ilAdvancedMDFieldDefinitionGroupBased $definition
     ) {
     }
 
