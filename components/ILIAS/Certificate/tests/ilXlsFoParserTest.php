@@ -537,6 +537,22 @@ EOT;
 </fo:root>
 EOT;
 
+        yield 'Empty paragraph marked as emptyrow' => [
+            [
+                'certificate_text' => '<p class="emptyrow"></p>',
+                'margin_body' => [
+                    'top' => '1cm',
+                    'right' => '2cm',
+                    'bottom' => '3cm',
+                    'left' => '4cm'
+                ],
+                'pageformat' => 'custom',
+                'pagewidth' => '210mm',
+                'pageheight' => '297mm'
+            ],
+            $expected_fo_with_centered_block
+        ];
+
         yield 'Empty paragraph' => [
             [
                 'certificate_text' => '<p></p>',
@@ -702,5 +718,49 @@ EOT;
             ['center', 'left'],
             $this->paragraphAlignments($reloaded['certificate_text'])
         );
+    }
+
+    public function testParagraphsWithoutDescendantTextKeepANonBreakingSpace(): void
+    {
+        $output = $this->createXlsFoParser()->parse([
+            'certificate_text' =>
+                '<p style="text-align: center;"><span style="font-size: 36pt;">Bestätigung</span></p>'
+                . '<p style="text-align: center;"><span style="font-size: 36pt;"></span></p>'
+                . '<p style="text-align: center;"><span style="font-size: 36pt;"></span></p>'
+                . '<p style="text-align: center;"><strong><span style="font-size: 12pt;">Durch dieses Zertifikat wird bestätigt, dass</span></strong></p>'
+                . '<p style="text-align: center;"><span style="font-size: 12pt;"><strong></strong></span></p>'
+                . '<p style="text-align: center;"><span style="font-size: 12pt;"><strong>Zertifikats-ID: [CERTIFICATE_ID]</strong></span></p>',
+            'margin_body' => [
+                'top' => '0cm',
+                'right' => '2cm',
+                'bottom' => '0cm',
+                'left' => '2cm'
+            ],
+            'pageformat' => 'custom',
+            'pagewidth' => '297mm',
+            'pageheight' => '210mm'
+        ]);
+
+        $document = new DOMDocument();
+        $document->loadXML($output);
+        $xpath = new DOMXPath($document);
+        $xpath->registerNamespace('fo', 'http://www.w3.org/1999/XSL/Format');
+
+        $blocks = [];
+        foreach ($xpath->query('//fo:flow/fo:block/fo:block') as $block) {
+            $blocks[] = $block;
+        }
+
+        $this->assertCount(6, $blocks);
+        foreach ($blocks as $block) {
+            $this->assertNotSame('', $block->textContent, $document->saveXML($block));
+        }
+
+        $this->assertSame('Bestätigung', $blocks[0]->textContent);
+        $this->assertSame("\u{00A0}", $blocks[1]->textContent);
+        $this->assertSame("\u{00A0}", $blocks[2]->textContent);
+        $this->assertSame('Durch dieses Zertifikat wird bestätigt, dass', $blocks[3]->textContent);
+        $this->assertSame("\u{00A0}", $blocks[4]->textContent);
+        $this->assertSame('Zertifikats-ID: [CERTIFICATE_ID]', $blocks[5]->textContent);
     }
 }

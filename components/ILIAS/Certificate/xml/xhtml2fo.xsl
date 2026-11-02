@@ -196,18 +196,9 @@
 						<xsl:value-of select="@align"/>
 					</xsl:attribute>
 				</xsl:when>
-				<xsl:when test="@class='emptyrow'">
-					<xsl:text disable-output-escaping="yes">&amp;#160;</xsl:text>
-				</xsl:when>
 			</xsl:choose>
-			<xsl:choose>
-				<xsl:when test="not(@class='emptyrow') and not(text()) and count(./node()) = 0">
-					<xsl:text disable-output-escaping="yes">&amp;#160;</xsl:text>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:apply-templates select="node()"/>
-				</xsl:otherwise>
-			</xsl:choose>
+			<xsl:apply-templates select="node()"/>
+			<xsl:call-template name="ensureNonEmptyParagraph"/>
 		</fo:block>
 	</xsl:template>
 
@@ -740,6 +731,16 @@
 	<xsl:template name="element">
 		<xsl:param name="s" />
 		<xsl:value-of select="$s" />
+	</xsl:template>
+
+	<!-- A paragraph without any filled descendant text node still needs a
+	     glyph so FOP keeps the line. TinyMCE empty lines often wrap nothing
+	     in span/strong; those wrappers stay, the block gets the spacer.
+	     ilXlsFoParser::parse also marks bare empty paragraphs as emptyrow. -->
+	<xsl:template name="ensureNonEmptyParagraph">
+		<xsl:if test="@class='emptyrow' or not(normalize-space(.))">
+			<xsl:text disable-output-escaping="yes">&amp;#160;</xsl:text>
+		</xsl:if>
 	</xsl:template>
 
 </xsl:stylesheet>
