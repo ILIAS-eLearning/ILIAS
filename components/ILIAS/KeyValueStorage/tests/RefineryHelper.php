@@ -28,9 +28,10 @@ trait RefineryHelper
 {
     private function refinery(): Refinery
     {
-        $language = $this->getMockBuilder(\ilLanguage::class)
+        /** @var \ilLanguage&\PHPUnit\Framework\MockObject\Stub $language */
+        $language = $this->getStubBuilder(\ilLanguage::class)
             ->disableOriginalConstructor()
-            ->getMock();
+            ->getStub();
 
         return new Refinery(new DataFactory(), $language);
     }

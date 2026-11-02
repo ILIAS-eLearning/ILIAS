@@ -50,9 +50,10 @@ class KeyValueStorageTest extends TestCase
         $this->contribute = new LazyContainer();
         $this->internal = new LazyContainer();
 
-        $language = $this->getMockBuilder(\ilLanguage::class)
+        /** @var \ilLanguage&\PHPUnit\Framework\MockObject\Stub $language */
+        $language = $this->getStubBuilder(\ilLanguage::class)
             ->disableOriginalConstructor()
-            ->getMock();
+            ->getStub();
 
         $use = new LazyContainer([
             SessionRepository::class => $this->createStub(SessionRepository::class),
