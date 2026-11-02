@@ -245,9 +245,6 @@ msgstr "Recurrence"
 msgid "book_modal_recurrence_multiple"
 msgstr "Book multiple time slots"
 
-msgid "book_modal_recurrence_single"
-msgstr "Book only this date"
-
 msgid "book_modal_skipped_unknown_item"
 msgstr "Unknown or invalid selection (%s)."
 
@@ -473,9 +470,6 @@ msgstr "Bookings Overview"
 msgid "book_reservation_status_5"
 msgstr "Cancelled"
 
-msgid "book_reservation_title"
-msgstr "Booking Reservation for"
-
 msgid "book_reservations_list"
 msgstr "Bookings"
 
@@ -509,17 +503,11 @@ msgstr "Fixed Schedule"
 msgid "book_schedule_type_fixed_info"
 msgstr "This booking mode can be used for things that can be booked for specific periods of time, such as rooms, services and equipment."
 
-msgid "book_schedule_type_none"
-msgstr "No Schedule"
-
 msgid "book_schedule_type_none_direct"
 msgstr "No Schedule, Direct Booking"
 
 msgid "book_schedule_type_none_direct_info"
 msgstr "This booking mode is ideal for presentation topics or places in seminars that do not require set times. Participants can book items directly on a first come, first served basis. Each item can only be booked once per participant."
-
-msgid "book_schedule_type_none_info"
-msgstr "This type can be used for seminar papers, seminar places and such."
 
 msgid "book_schedule_type_none_preference"
 msgstr "No Schedule, Using Preferences"

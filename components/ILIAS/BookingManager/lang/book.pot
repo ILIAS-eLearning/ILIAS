@@ -242,9 +242,6 @@ msgstr ""
 msgid "book_modal_recurrence_multiple"
 msgstr ""
 
-msgid "book_modal_recurrence_single"
-msgstr ""
-
 msgid "book_modal_skipped_unknown_item"
 msgstr ""
 
@@ -470,9 +467,6 @@ msgstr ""
 msgid "book_reservation_status_5"
 msgstr ""
 
-msgid "book_reservation_title"
-msgstr ""
-
 msgid "book_reservations_list"
 msgstr ""
 
@@ -506,16 +500,10 @@ msgstr ""
 msgid "book_schedule_type_fixed_info"
 msgstr ""
 
-msgid "book_schedule_type_none"
-msgstr ""
-
 msgid "book_schedule_type_none_direct"
 msgstr ""
 
 msgid "book_schedule_type_none_direct_info"
-msgstr ""
-
-msgid "book_schedule_type_none_info"
 msgstr ""
 
 msgid "book_schedule_type_none_preference"
