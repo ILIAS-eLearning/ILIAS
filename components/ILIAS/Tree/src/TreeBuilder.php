@@ -203,7 +203,8 @@ class TreeBuilder
      */
     public function forMainTree(): self
     {
-        $this->root_id = ROOT_FOLDER_ID;
+        $this->root_id = defined("ROOT_FOLDER_ID") ? ROOT_FOLDER_ID : 0;
+
         return $this;
     }
 
@@ -267,8 +268,8 @@ class TreeBuilder
      * @param \ilDBInterface $db Database connection
      * @return self
      */
-    public static function forSetup(\ilDBInterface $db): self
+    public static function forSetup(\ilDBInterface $db, Setting $setting): self
     {
-        return (new self(1))->forSetupEnvironment($db);
+        return (new self(1))->forSetupEnvironment($db, $setting);
     }
 }
