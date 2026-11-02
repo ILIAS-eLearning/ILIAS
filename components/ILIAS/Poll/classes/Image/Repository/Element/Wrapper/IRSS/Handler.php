@@ -92,13 +92,7 @@ class Handler implements ilPollImageRepositoryElementIRSSWrapperInterface
         $definition = new CropToSquare(true, $this->thumbnail_size);
         $flavour = $this->irss->flavours()->get($rid, $definition);
         $urls_of_flavour_streams = $this->irss->consume()->flavourUrls($flavour);
-        $urls_of_flavour = $urls_of_flavour_streams->getURLsAsArray(true);
-        if ($urls_of_flavour === []) {
-            // flavour could not be built (e.g. image not processable by GD),
-            // fall back to the unprocessed image instead of failing
-            return $this->getUnprocessedImageURL();
-        }
-        return $urls_of_flavour[0];
+        return $urls_of_flavour_streams->getURLsAsArray(true)[0] ?? null;
     }
 
     public function getUnprocessedImageURL(): null|string
