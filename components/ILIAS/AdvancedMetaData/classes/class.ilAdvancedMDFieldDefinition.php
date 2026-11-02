@@ -28,6 +28,7 @@ use ILIAS\AdvancedMetaData\Repository\FieldDefinition\GenericData\DatabaseGatewa
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Table\Data as DataTable;
 
 /**
  * AMD field abstract base class
@@ -1047,7 +1048,7 @@ abstract class ilAdvancedMDFieldDefinition
     /**
      * @return null
      */
-    public function getComplexOptionsOverview(): ?Component
+    public function getComplexOptionsOverview(): ?DataTable
     {
         return null;
     }

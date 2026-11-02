@@ -18,9 +18,10 @@
 
 declare(strict_types=1);
 
-use ILIAS\AdvancedMetaData\Types\Group\ComplexOptions\Table\DataRetrieval;
-use ILIAS\AdvancedMetaData\Types\Group\ComplexOptions\Table\TableBuilder;
+use ILIAS\AdvancedMetaData\Types\Group\ComplexOptions\Table\DataRetrieval as ComplexOptionsDataRetrieval;
+use ILIAS\AdvancedMetaData\Types\Group\ComplexOptions\Table\TableBuilder as ComplexOptionsTableBuilder;
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Table\Data as DataTable;
 
 /**
  * AMD field type address
@@ -196,10 +197,10 @@ abstract class ilAdvancedMDFieldDefinitionGroupBased extends ilAdvancedMDFieldDe
     }
 
 
-    public function getComplexOptionsOverview(): ?Component
+    public function getComplexOptionsOverview(): ?DataTable
     {
-        $data_retrieval = new DataRetrieval($this);
-        $table_builder = new TableBuilder(
+        $data_retrieval = new ComplexOptionsDataRetrieval($this);
+        $table_builder = new ComplexOptionsTableBuilder(
             $data_retrieval,
             $this->lng,
             $this->ui_factory,

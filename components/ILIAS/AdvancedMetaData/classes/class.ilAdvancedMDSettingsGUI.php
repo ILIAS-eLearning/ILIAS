@@ -206,16 +206,24 @@ class ilAdvancedMDSettingsGUI
     {
         $name = 'advmd_oid';
         if ($this->http->wrapper()->query()->has($name)) {
-            $transformation = $this->refinery->byTrying([
-                $this->refinery->kindlyTo()->string(),
-                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string())
-            ]);
-            $oid = $this->http->wrapper()->query()->retrieve($name, $transformation);
+            return $this->http->wrapper()->query()->retrieve(
+                $name,
+                $this->refinery->kindlyTo()->string()
+            );
+        }
 
-            if (is_array($oid) && !empty($oid)) {
-                return (string) $oid[0];
-            }
-            return (string) $oid;
+        return null;
+    }
+
+    protected function getOidFromTable(): ?string
+    {
+        $name = 'advmd_oid_table';
+        if ($this->http->wrapper()->query()->has($name)) {
+            $oids = $this->http->wrapper()->query()->retrieve(
+                $name,
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string())
+            );
+            return (string) ($oids[0] ?? '');
         }
 
         return null;
@@ -2003,19 +2011,21 @@ class ilAdvancedMDSettingsGUI
         }
 
         if (!$a_form) {
-            $a_form = $this->initComplexOptionForm($field_definition);
+            $oid = $this->getOidFromTable();
+            $a_form = $this->initComplexOptionForm($field_definition, $oid);
         }
 
         $this->tpl->setContent($a_form->getHTML());
     }
 
-    protected function initComplexOptionForm(ilAdvancedMDFieldDefinition $a_def): ilPropertyFormGUI
+    protected function initComplexOptionForm(ilAdvancedMDFieldDefinition $a_def, ?string $oid = null): ilPropertyFormGUI
     {
         $this->ctrl->saveParameter($this, "record_id");
         $this->ctrl->saveParameter($this, "field_id");
 
-        $oid = $this->getOidFromQuery();
-        $this->ctrl->setParameter($this, "advmd_oid", (string) $oid);
+        if ($oid !== null) {
+            $this->ctrl->setParameter($this, "advmd_oid", $oid);
+        }
 
         $form = new ilPropertyFormGUI();
         $form->setTitle($this->lng->txt("md_adv_edit_complex_option"));
@@ -2036,7 +2046,7 @@ class ilAdvancedMDSettingsGUI
         $oid = $this->getOidFromQuery();
 
         if ($field_definition->hasComplexOptions()) {
-            $form = $this->initComplexOptionForm($field_definition);
+            $form = $this->initComplexOptionForm($field_definition, $oid);
             if ($form->checkInput() &&
                 $field_definition->updateComplexOption($form, $oid)) {
                 $field_definition->update();

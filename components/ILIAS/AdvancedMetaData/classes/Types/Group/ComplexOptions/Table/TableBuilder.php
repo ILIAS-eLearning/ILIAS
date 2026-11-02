@@ -83,6 +83,6 @@ class TableBuilder
         );
         $url_builder = new URLBuilder(new URI($link));
 
-        return $url_builder->acquireParameters(['advmd'], 'oid');
+        return $url_builder->acquireParameters(['advmd'], 'oid_table');
     }
 }
