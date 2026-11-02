@@ -105,7 +105,22 @@ class FloatTransformationTest extends TestCase
             'floatstr_st_one' => ['0.1', 0.1],
             'floatstr_st_one_negative' => ['-0.1', -0.1],
             'floatstr_st_one_comma' => ['0,1', 0.1],
-            'floatstr_st_one_comma_negative' => ['-0,1', -0.1]
+            'floatstr_st_one_comma_negative' => ['-0,1', -0.1],
+            'decimal_mantissa_plus_exponent' => ['5.4E+24', 5.4E+24],
+            'comma_mantissa_plus_exponent' => ['5,4E+24', 5.4E+24],
+            'integer_mantissa_plus_exponent' => ['54E+23', 5.4E+24],
+            'decimal_mantissa_minus_exponent' => ['5.4E-3', 0.0054],
+            'upper_bound_from_report' => ['5.6E+24', 5.6E+24]
         ];
+    }
+
+    public function testPhpStringFormOfScientificBoundParsesAgain(): void
+    {
+        $parsed = $this->transformation->transform('54E23');
+        $again = $this->transformation->transform((string) $parsed);
+
+        $this->assertEquals(5.4E+24, $parsed);
+        $this->assertEquals($parsed, $again);
+        $this->assertEquals('5.4E+24', (string) $parsed);
     }
 }

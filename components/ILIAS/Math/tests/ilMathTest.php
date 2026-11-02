@@ -51,4 +51,17 @@ class ilMathTest extends TestCase
             ['41414124', '41414124', '41414124']
         ];
     }
+
+    public function testPlusScientificNotationIsPowerOfTen(): void
+    {
+        $lower = $this->eval_math->evaluate('5.4E+24');
+        $upper = $this->eval_math->evaluate('5.6E+24');
+        $without_plus = $this->eval_math->evaluate('54E23');
+
+        $this->assertNotFalse($lower);
+        $this->assertNotFalse($upper);
+        $this->assertEqualsWithDelta(5.4e24, (float) $lower, 1.0);
+        $this->assertEqualsWithDelta(5.6e24, (float) $upper, 1.0);
+        $this->assertEqualsWithDelta(5.4e24, (float) $without_plus, 1.0);
+    }
 }
