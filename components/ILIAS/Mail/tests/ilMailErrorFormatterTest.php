@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\Stub;
 
 class ilMailErrorFormatterTest extends ilMailBaseTestCase
 {
@@ -28,11 +29,13 @@ class ilMailErrorFormatterTest extends ilMailBaseTestCase
     {
         parent::setUp();
 
-        $component_factory = $this->getMockBuilder(ilComponentFactory::class)->getMock();
+        /** @var ilComponentFactory&Stub $component_factory */
+        $component_factory = $this->createStub(ilComponentFactory::class);
 
         $this->setGlobalVariable('component.factory', $component_factory);
 
-        $language_mock = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock();
+        /** @var ilLanguage&Stub $language_mock */
+        $language_mock = $this->getStubBuilder(ilLanguage::class)->disableOriginalConstructor()->getStub();
         $language_mock->method('txt')->willReturnCallback(static function (string $key): string {
             if ($key === 'error1') {
                 return '-' . $key . '-';

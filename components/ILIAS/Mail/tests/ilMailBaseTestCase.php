@@ -49,7 +49,7 @@ abstract class ilMailBaseTestCase extends TestCase
         $this->dic = is_object($DIC) ? clone $DIC : $DIC;
 
         $DIC = new Container();
-        $DIC['legalDocuments'] = fn() => $this->getMockBuilder(Conductor::class)->disableOriginalConstructor()->getMock();
+        $DIC['legalDocuments'] = fn() => $this->getStubBuilder(Conductor::class)->disableOriginalConstructor()->getStub();
 
         MailService::init($DIC);
 

@@ -22,19 +22,22 @@ use ILIAS\LegalDocuments\Conductor;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Data\Result;
 use ILIAS\Mail\Recipient;
+use PHPUnit\Framework\MockObject\Stub;
 
 class RecipientTest extends ilMailBaseTestCase
 {
     public function testCreate(): void
     {
         $user_id = 10;
-        $user = $this->createMock(ilObjUser::class);
-        $mail_options = $this->createMock(ilMailOptions::class);
-        $recipient = new Recipient($user_id, $user, $mail_options, $this->createMock(Conductor::class));
+        /** @var ilObjUser&Stub $user */
+        $user = $this->createStub(ilObjUser::class);
+        /** @var ilMailOptions&Stub $mail_options */
+        $mail_options = $this->createStub(ilMailOptions::class);
+        $recipient = new Recipient($user_id, $user, $mail_options, $this->createStub(Conductor::class));
         $this->assertEquals($user_id, $recipient->getUserId());
         $this->assertSame($mail_options, $recipient->getMailOptions());
 
-        $recipient = new Recipient($user_id, null, $mail_options, $this->createMock(Conductor::class));
+        $recipient = new Recipient($user_id, null, $mail_options, $this->createStub(Conductor::class));
         $this->assertEquals($user_id, $recipient->getUserId());
         $this->assertSame($mail_options, $recipient->getMailOptions());
     }
@@ -42,33 +45,34 @@ class RecipientTest extends ilMailBaseTestCase
     public function testCheckProperties(): void
     {
         $user_id = 10;
-        $mail = "mail@test.de";
-        $mail_2 = "mail2@test.de";
+        $mail = 'mail@test.de';
+        $mail_2 = 'mail2@test.de';
         $external_mails = [$mail, $mail_2];
 
-        $result = $this->createMock(Result::class);
+        /** @var Result&Stub $result */
+        $result = $this->createStub(Result::class);
 
         $transformation = $this->createMock(Transformation::class);
-        $transformation->expects(self::once())->method('applyTo')->willReturn($result);
+        $transformation->expects($this->once())->method('applyTo')->willReturn($result);
 
         $legal_documents = $this->createMock(Conductor::class);
-        $legal_documents->expects(self::once())->method('userCanReadInternalMail')->willReturn($transformation);
+        $legal_documents->expects($this->once())->method('userCanReadInternalMail')->willReturn($transformation);
 
         $user = $this->createMock(ilObjUser::class);
         $user->expects($this->once())
-             ->method("getActive")
+             ->method('getActive')
              ->willReturn(true);
         $user->expects($this->once())
-             ->method("checkTimeLimit")
+             ->method('checkTimeLimit')
              ->willReturn(true);
 
         $mail_options = $this->createMock(ilMailOptions::class);
         $mail_options->expects($this->exactly(3))
-                     ->method("getIncomingType")
+                     ->method('getIncomingType')
                      ->willReturn(2);
 
         $mail_options->expects($this->atLeastOnce())
-                     ->method("getExternalEmailAddresses")
+                     ->method('getExternalEmailAddresses')
                      ->willReturn($external_mails);
 
         $recipient = new Recipient($user_id, $user, $mail_options, $legal_documents);
@@ -88,28 +92,28 @@ class RecipientTest extends ilMailBaseTestCase
     public function testPropertiesPart2(): void
     {
         $user_id = 133;
-        $mail = "mails@test.de";
-        $mail_2 = "mails2@test.de";
+        $mail = 'mails@test.de';
+        $mail_2 = 'mails2@test.de';
         $external_mails = [$mail, $mail_2];
 
         $legal_documents = $this->createMock(Conductor::class);
-        $legal_documents->expects(self::never())->method('userCanReadInternalMail');
+        $legal_documents->expects($this->never())->method('userCanReadInternalMail');
 
         $user = $this->createMock(ilObjUser::class);
         $user->expects($this->once())
-             ->method("getActive")
+             ->method('getActive')
              ->willReturn(false);
         $user->expects($this->once())
-             ->method("checkTimeLimit")
+             ->method('checkTimeLimit')
              ->willReturn(false);
 
         $mail_options = $this->createMock(ilMailOptions::class);
         $mail_options->expects($this->exactly(3))
-                     ->method("getIncomingType")
+                     ->method('getIncomingType')
                      ->willReturn(0);
 
         $mail_options->expects($this->atLeastOnce())
-                     ->method("getExternalEmailAddresses")
+                     ->method('getExternalEmailAddresses')
                      ->willReturn($external_mails);
 
         $recipient = new Recipient($user_id, $user, $mail_options, $legal_documents);

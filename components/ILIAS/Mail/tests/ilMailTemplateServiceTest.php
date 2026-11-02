@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Mail\TemplateEngine\TemplateEngineFactoryInterface;
+use PHPUnit\Framework\MockObject\Stub;
 
 class ilMailTemplateServiceTest extends ilMailBaseTestCase
 {
@@ -47,7 +48,8 @@ class ilMailTemplateServiceTest extends ilMailBaseTestCase
 
         $repo->expects($this->once())->method('findByContextId')->with($template->getContext())->willReturn($all);
         $repo->expects($this->exactly(count($all)))->method('store');
-        $template_engine_factory = $this->getMockBuilder(TemplateEngineFactoryInterface::class)->getMock();
+        /** @var TemplateEngineFactoryInterface&Stub $template_engine_factory */
+        $template_engine_factory = $this->createStub(TemplateEngineFactoryInterface::class);
         $service = new ilMailTemplateService($repo, $template_engine_factory);
 
         $service->setAsContextDefault($template);
@@ -67,7 +69,8 @@ class ilMailTemplateServiceTest extends ilMailBaseTestCase
         $template->setContext('phpunit');
 
         $repo->expects($this->once())->method('store')->with($template);
-        $template_engine_factory = $this->getMockBuilder(TemplateEngineFactoryInterface::class)->getMock();
+        /** @var TemplateEngineFactoryInterface&Stub $template_engine_factory */
+        $template_engine_factory = $this->createStub(TemplateEngineFactoryInterface::class);
         $service = new ilMailTemplateService($repo, $template_engine_factory);
 
         $service->unsetAsContextDefault($template);
