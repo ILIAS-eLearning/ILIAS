@@ -646,7 +646,7 @@ CREATE TABLE `adv_mdf_definition` (
   `import_id` varchar(32) DEFAULT NULL,
   `position` int(11) NOT NULL DEFAULT 0,
   `field_type` tinyint(4) NOT NULL DEFAULT 0,
-  `field_values` text DEFAULT NULL,
+  `field_values` mediumtext DEFAULT NULL,
   `title` varchar(255) DEFAULT NULL,
   `description` varchar(2000) DEFAULT NULL,
   `searchable` tinyint(4) NOT NULL DEFAULT 0,
@@ -896,7 +896,6 @@ CREATE TABLE `badge_badge` (
   `title` varchar(255) DEFAULT NULL,
   `descr` varchar(4000) DEFAULT NULL,
   `conf` varchar(4000) DEFAULT NULL,
-  `image` varchar(255) DEFAULT NULL,
   `valid` varchar(255) DEFAULT NULL,
   `crit` varchar(4000) DEFAULT NULL,
   `image_rid` varchar(64) DEFAULT NULL,
@@ -944,7 +943,6 @@ CREATE TABLE `badge_image_templ_type` (
 CREATE TABLE `badge_image_template` (
   `id` int(11) NOT NULL DEFAULT 0,
   `title` varchar(255) DEFAULT NULL,
-  `image` varchar(255) DEFAULT NULL,
   `image_rid` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ;
@@ -1143,8 +1141,8 @@ CREATE TABLE `booking_object` (
   `info_file` varchar(500) DEFAULT NULL,
   `post_text` varchar(4000) DEFAULT NULL,
   `post_file` varchar(500) DEFAULT NULL,
-  `obj_info_rid` varchar(64) DEFAULT NULL,
-  `book_info_rid` varchar(64) DEFAULT NULL,
+  `obj_info_rid` varchar(64) NOT NULL DEFAULT '',
+  `book_info_rid` varchar(64) NOT NULL DEFAULT '',
   PRIMARY KEY (`booking_object_id`),
   KEY `i1_idx` (`pool_id`),
   KEY `i2_idx` (`schedule_id`)
@@ -1256,6 +1254,7 @@ CREATE TABLE `booking_schedule` (
   `auto_break` int(11) DEFAULT NULL,
   `av_from` int(11) DEFAULT NULL,
   `av_to` int(11) DEFAULT NULL,
+  `schedule_type` varchar(64) NOT NULL DEFAULT 'time_period',
   PRIMARY KEY (`booking_schedule_id`),
   KEY `i1_idx` (`pool_id`)
 ) ;
@@ -2039,7 +2038,7 @@ CREATE TABLE `cmi_comment_seq` (
 CREATE TABLE `cmi_correct_response` (
   `cmi_correct_resp_id` int(11) NOT NULL DEFAULT 0,
   `cmi_interaction_id` int(11) DEFAULT NULL,
-  `pattern` varchar(255) DEFAULT NULL,
+  `pattern` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`cmi_correct_resp_id`),
   KEY `i1_idx` (`cmi_interaction_id`)
 ) ;
@@ -2115,7 +2114,7 @@ CREATE TABLE `cmi_interaction` (
   `cmi_interaction_id` int(11) NOT NULL DEFAULT 0,
   `cmi_node_id` int(11) DEFAULT NULL,
   `description` longtext DEFAULT NULL,
-  `id` varchar(255) DEFAULT NULL,
+  `id` varchar(4000) DEFAULT NULL,
   `latency` varchar(20) DEFAULT NULL,
   `result` varchar(4000) DEFAULT NULL,
   `c_timestamp` varchar(40) DEFAULT NULL,
@@ -2123,9 +2122,9 @@ CREATE TABLE `cmi_interaction` (
   `weighting` double DEFAULT NULL,
   `learner_response` longtext DEFAULT NULL,
   PRIMARY KEY (`cmi_interaction_id`),
-  KEY `i2_idx` (`id`),
   KEY `i3_idx` (`c_type`),
-  KEY `i4_idx` (`cmi_node_id`)
+  KEY `i4_idx` (`cmi_node_id`),
+  KEY `i2_idx` (`id`(255))
 ) ;
 
 --
@@ -2808,6 +2807,7 @@ CREATE TABLE `copg_pc_def` (
 
 INSERT INTO `copg_pc_def` VALUES ('amdfrm','AMDForm','Page',0,0,0,'components/ILIAS/Portfolio',0,1,139);
 INSERT INTO `copg_pc_def` VALUES ('amdpl','AMDPageList','classes',0,0,0,'components/ILIAS/Wiki',0,1,240);
+INSERT INTO `copg_pc_def` VALUES ('answf','AnswerForm','PageEditor',0,1,0,'components/ILIAS/Questions',0,1,0);
 INSERT INTO `copg_pc_def` VALUES ('blog','Blog','PC/Blog',0,0,0,'components/ILIAS/COPage',0,1,100);
 INSERT INTO `copg_pc_def` VALUES ('cach','ConsultationHours','Page',0,0,0,'components/ILIAS/Portfolio',0,1,138);
 INSERT INTO `copg_pc_def` VALUES ('contpop','ContentPopup','PC/InteractiveImage',0,0,0,'components/ILIAS/COPage',1,0,0);
@@ -2818,12 +2818,13 @@ INSERT INTO `copg_pc_def` VALUES ('gcell','GridCell','PC/Grid',0,0,0,'components
 INSERT INTO `copg_pc_def` VALUES ('grid','Grid','PC/Grid',0,0,0,'components/ILIAS/COPage',1,1,67);
 INSERT INTO `copg_pc_def` VALUES ('iim','InteractiveImage','classes',1,1,0,'components/ILIAS/COPage',1,1,100);
 INSERT INTO `copg_pc_def` VALUES ('incl','ContentInclude','PC/ContentInclude',1,1,0,'components/ILIAS/COPage',0,1,110);
+INSERT INTO `copg_pc_def` VALUES ('laft','LegacyAnswerFormText','PageEditor',0,1,0,'components/ILIAS/Questions',0,0,0);
 INSERT INTO `copg_pc_def` VALUES ('lay','LayoutTemplate','PC/LayoutTemplate',0,0,0,'components/ILIAS/COPage',0,1,195);
 INSERT INTO `copg_pc_def` VALUES ('lhist','LearningHistory','classes',0,0,0,'components/ILIAS/LearningHistory',0,1,136);
 INSERT INTO `copg_pc_def` VALUES ('li','ListItem','PC/List',0,0,0,'components/ILIAS/COPage',1,0,0);
 INSERT INTO `copg_pc_def` VALUES ('list','List','PC/List',0,1,0,'components/ILIAS/COPage',1,1,220);
 INSERT INTO `copg_pc_def` VALUES ('lpe','LoginPageElement','PC/Login',0,0,0,'components/ILIAS/COPage',0,1,120);
-INSERT INTO `copg_pc_def` VALUES ('lsocurriculum','Curriculum','classes/PageEditor',0,0,0,'components/ILIAS/LearningSequence',0,1,127);
+INSERT INTO `copg_pc_def` VALUES ('lsolearningmap','LearningMap','classes/LearningMap',0,0,0,'components/ILIAS/LearningSequence',0,1,127);
 INSERT INTO `copg_pc_def` VALUES ('lsostartbutton','Launcher','classes/PageEditor',0,0,0,'components/ILIAS/LearningSequence',0,1,127);
 INSERT INTO `copg_pc_def` VALUES ('map','Map','PC/Map',0,0,0,'components/ILIAS/COPage',0,1,280);
 INSERT INTO `copg_pc_def` VALUES ('mcrs','MyCourses','Page',0,0,0,'components/ILIAS/Portfolio',0,1,137);
@@ -2883,6 +2884,7 @@ INSERT INTO `copg_pobj_def` VALUES ('prtt','ilPortfolioTemplatePage','Template',
 INSERT INTO `copg_pobj_def` VALUES ('qfbg','ilAssGenFeedbackPage','classes/feedback','components/ILIAS/TestQuestionPool');
 INSERT INTO `copg_pobj_def` VALUES ('qfbs','ilAssSpecFeedbackPage','classes/feedback','components/ILIAS/TestQuestionPool');
 INSERT INTO `copg_pobj_def` VALUES ('qpl','ilAssQuestionPage','classes','components/ILIAS/TestQuestionPool');
+INSERT INTO `copg_pobj_def` VALUES ('qsts','QstsQuestionPage','Legacy/PageEditor','components/ILIAS/Questions');
 INSERT INTO `copg_pobj_def` VALUES ('sahs','ilSCORM2004Page','classes','components/ILIAS/Scorm2004');
 INSERT INTO `copg_pobj_def` VALUES ('stys','ilPageLayoutPage','Layout/classes','components/ILIAS/COPage');
 INSERT INTO `copg_pobj_def` VALUES ('term','ilGlossaryDefPage','classes','components/ILIAS/Glossary');
@@ -3342,6 +3344,7 @@ CREATE TABLE `cron_job` (
 --
 
 INSERT INTO `cron_job` VALUES ('auth_destroy_expired_sessions','components/ILIAS/Authentication',3,1,1,0,0,1702399177,NULL,NULL,NULL,NULL,NULL,NULL,'ilAuthDestroyExpiredSessionsCron',NULL,NULL,NULL,NULL);
+INSERT INTO `cron_job` VALUES ('background_task_garbage_collection','components/ILIAS/BackgroundTasks',3,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'ilBackgroundTaskGarbageCollection',NULL,NULL,NULL,NULL);
 INSERT INTO `cron_job` VALUES ('book_notification','components/ILIAS/BookingManager',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'ilBookCronNotification',NULL,NULL,NULL,NULL);
 INSERT INTO `cron_job` VALUES ('book_pref_book','components/ILIAS/BookingManager',1,NULL,1,0,0,1702399177,NULL,NULL,NULL,NULL,NULL,NULL,'ilBookingPrefBookCron',NULL,NULL,NULL,NULL);
 INSERT INTO `cron_job` VALUES ('cal_consultation','components/ILIAS/Calendar',0,0,0,0,0,0,0,0,'','',0,0,'ilConsultationHourCron','Services/Calendar/classes/ConsultationHours/',0,0,0);
@@ -3358,13 +3361,14 @@ INSERT INTO `cron_job` VALUES ('frm_notification','components/ILIAS/Forum',3,1,0
 INSERT INTO `cron_job` VALUES ('ldap_sync','components/ILIAS/LDAP',0,0,0,0,0,0,0,0,'','',0,0,'ilLDAPCronSynchronization',NULL,0,0,0);
 INSERT INTO `cron_job` VALUES ('log_error_file_cleanup','components/ILIAS/Logging',4,10,0,0,0,0,0,0,'','',0,0,'ilLoggerCronCleanErrorFiles','Services/Logging/classes/error/',0,0,0);
 INSERT INTO `cron_job` VALUES ('lp_object_statistics','components/ILIAS/Tracking',0,0,1,0,0,1381511103,0,0,'','',0,0,'ilLPCronObjectStatistics',NULL,0,0,0);
-INSERT INTO `cron_job` VALUES ('lti_outcome','components/ILIAS/LTIProvider',2,5,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'ilLTICronOutcomeService',NULL,NULL,NULL,NULL);
+INSERT INTO `cron_job` VALUES ('lti_outcome','components/ILIAS/LTI',2,5,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'ilLTICronOutcomeService',NULL,NULL,NULL,NULL);
 INSERT INTO `cron_job` VALUES ('mail_notification','components/ILIAS/Mail',0,0,1,6,1,1481898063,NULL,6,'job_manual_reset','Cron job re-activated by admin',1,0,'ilMailCronNotification',NULL,0,0,0);
 INSERT INTO `cron_job` VALUES ('mail_orphaned_mails','components/ILIAS/Mail',1,1,0,0,0,0,0,0,'','',0,0,'ilMailCronOrphanedMails',NULL,0,0,0);
 INSERT INTO `cron_job` VALUES ('mail_scheduled_mails','components/ILIAS/Mail',1,1,1,0,0,1777905731,NULL,NULL,NULL,NULL,NULL,NULL,'ILIAS\\Mail\\Cron\\ScheduledMailsCron',NULL,NULL,NULL,NULL);
 INSERT INTO `cron_job` VALUES ('mem_min_members','components/ILIAS/Membership',0,0,1,0,0,1443610661,0,0,'','',0,0,'ilMembershipCronMinMembers','Services/Membership/classes/Cron',0,0,0);
 INSERT INTO `cron_job` VALUES ('mem_notification','components/ILIAS/Membership',1,0,0,0,0,0,0,0,'','',0,0,'ilMembershipCronNotifications','Services/Membership/classes/Cron',0,0,0);
 INSERT INTO `cron_job` VALUES ('meta_oer_harvester','components/ILIAS/MetaData',1,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'ilCronOerHarvester',NULL,NULL,NULL,NULL);
+INSERT INTO `cron_job` VALUES ('news_delete_old','components/ILIAS/News',6,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'ilNewsCronDeleteOldItems','classes/Cron/',NULL,NULL,NULL);
 INSERT INTO `cron_job` VALUES ('orgunit_paths','components/ILIAS/OrgUnit',1,0,1,0,0,1472816001,0,0,'','',0,0,'ilCronUpdateOrgUnitPaths',NULL,0,0,0);
 INSERT INTO `cron_job` VALUES ('prg_invalidate_expired_progresses','components/ILIAS/StudyProgramme',4,1,1,0,0,1702399177,NULL,NULL,NULL,NULL,NULL,NULL,'ilPrgInvalidateExpiredProgressesCronJob',NULL,NULL,NULL,NULL);
 INSERT INTO `cron_job` VALUES ('prg_restart_assignments_temporal_progress','components/ILIAS/StudyProgramme',4,1,1,0,0,1702399177,NULL,NULL,NULL,NULL,NULL,NULL,'ilPrgRestartAssignmentsCronJob',NULL,NULL,NULL,NULL);
@@ -3800,7 +3804,7 @@ CREATE TABLE `crs_settings` (
   `period_start` datetime DEFAULT NULL,
   `period_end` datetime DEFAULT NULL,
   `period_time_indication` int(11) NOT NULL DEFAULT 0,
-  `target_group` varchar(4000) DEFAULT NULL,
+  `target_group` mediumtext DEFAULT NULL,
   `tutorial_support_block` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`obj_id`)
 ) ;
@@ -4752,7 +4756,7 @@ CREATE TABLE `event` (
   `tutor_name` varchar(4000) DEFAULT NULL,
   `tutor_email` varchar(127) DEFAULT NULL,
   `tutor_phone` varchar(127) DEFAULT NULL,
-  `details` varchar(4000) DEFAULT NULL,
+  `details` mediumtext DEFAULT NULL,
   `registration` tinyint(4) NOT NULL DEFAULT 0,
   `participation` tinyint(4) NOT NULL DEFAULT 0,
   `reg_type` smallint(6) DEFAULT 0,
@@ -5279,7 +5283,7 @@ CREATE TABLE `exc_returned` (
   PRIMARY KEY (`returned_id`),
   KEY `i1_idx` (`obj_id`),
   KEY `i2_idx` (`user_id`),
-  KEY `i3_idx` (`filetitle`)
+  KEY `i3_idx` (`filetitle`(768))
 ) ;
 
 --
@@ -6319,7 +6323,7 @@ CREATE TABLE `iass_info_settings` (
   `contact` varchar(100) DEFAULT NULL,
   `responsibility` varchar(100) DEFAULT NULL,
   `phone` varchar(100) DEFAULT NULL,
-  `mails` text DEFAULT NULL,
+  `mails` mediumtext DEFAULT NULL,
   `consultation_hours` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`obj_id`)
 ) ;
@@ -6337,8 +6341,8 @@ CREATE TABLE `iass_members` (
   `obj_id` int(11) NOT NULL DEFAULT 0,
   `usr_id` int(11) NOT NULL DEFAULT 0,
   `examiner_id` int(11) DEFAULT NULL,
-  `record` text DEFAULT NULL,
-  `internal_note` text DEFAULT NULL,
+  `record` mediumtext DEFAULT NULL,
+  `internal_note` mediumtext DEFAULT NULL,
   `notify` tinyint(4) NOT NULL DEFAULT 0,
   `notification_ts` int(11) NOT NULL DEFAULT -1,
   `learning_progress` tinyint(4) DEFAULT 0,
@@ -6363,8 +6367,8 @@ CREATE TABLE `iass_members` (
 
 CREATE TABLE `iass_settings` (
   `obj_id` int(11) NOT NULL DEFAULT 0,
-  `content` text DEFAULT NULL,
-  `record_template` text DEFAULT NULL,
+  `content` mediumtext DEFAULT NULL,
+  `record_template` mediumtext DEFAULT NULL,
   `event_time_place_required` tinyint(4) NOT NULL DEFAULT 0,
   `file_required` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`obj_id`)
@@ -6692,7 +6696,8 @@ CREATE TABLE `il_block_setting` (
   `block_id` int(11) NOT NULL DEFAULT 0,
   `setting` varchar(40) NOT NULL DEFAULT ' ',
   `value` varchar(200) DEFAULT NULL,
-  PRIMARY KEY (`type`,`user_id`,`block_id`,`setting`)
+  PRIMARY KEY (`type`,`user_id`,`block_id`,`setting`),
+  KEY `i1_idx` (`user_id`)
 ) ;
 
 --
@@ -6784,7 +6789,12 @@ CREATE TABLE `il_bt_bucket` (
   `title` varchar(255) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
   `last_heartbeat` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `i1_idx` (`user_id`,`state`),
+  KEY `il_bt_bucket_fk_root_task` (`root_task_id`),
+  KEY `il_bt_bucket_fk_current_task` (`current_task_id`),
+  CONSTRAINT `il_bt_bucket_fk_current_task` FOREIGN KEY (`current_task_id`) REFERENCES `il_bt_task` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `il_bt_bucket_fk_root_task` FOREIGN KEY (`root_task_id`) REFERENCES `il_bt_task` (`id`) ON DELETE SET NULL
 ) ;
 
 --
@@ -6816,7 +6826,9 @@ CREATE TABLE `il_bt_task` (
   `class_path` varchar(256) DEFAULT NULL,
   `class_name` varchar(256) DEFAULT NULL,
   `bucket_id` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `i1_idx` (`bucket_id`),
+  CONSTRAINT `il_bt_task_fk_bucket` FOREIGN KEY (`bucket_id`) REFERENCES `il_bt_bucket` (`id`) ON DELETE CASCADE
 ) ;
 
 --
@@ -6854,7 +6866,10 @@ CREATE TABLE `il_bt_value` (
   `bucket_id` bigint(20) DEFAULT NULL,
   `position` bigint(20) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
-  KEY `i1_idx` (`bucket_id`)
+  KEY `i1_idx` (`bucket_id`),
+  KEY `il_bt_value_fk_parent_task` (`parent_task_id`),
+  CONSTRAINT `il_bt_value_fk_bucket` FOREIGN KEY (`bucket_id`) REFERENCES `il_bt_bucket` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `il_bt_value_fk_parent_task` FOREIGN KEY (`parent_task_id`) REFERENCES `il_bt_task` (`id`) ON DELETE CASCADE
 ) ;
 
 --
@@ -6888,7 +6903,11 @@ CREATE TABLE `il_bt_value_to_task` (
   `position` bigint(20) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `i1_idx` (`task_id`),
-  KEY `i2_idx` (`value_id`)
+  KEY `i2_idx` (`value_id`),
+  KEY `i3_idx` (`bucket_id`),
+  CONSTRAINT `il_bt_value_to_task_fk_bucket` FOREIGN KEY (`bucket_id`) REFERENCES `il_bt_bucket` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `il_bt_value_to_task_fk_task` FOREIGN KEY (`task_id`) REFERENCES `il_bt_task` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `il_bt_value_to_task_fk_value` FOREIGN KEY (`value_id`) REFERENCES `il_bt_value` (`id`) ON DELETE CASCADE
 ) ;
 
 --
@@ -7115,10 +7134,14 @@ INSERT INTO `il_db_steps` VALUES ('ilAccessRBACDeleteDbkSteps',2,'2023-12-12 16:
 INSERT INTO `il_db_steps` VALUES ('ilAccessRBACDeleteDbkSteps',3,'2023-12-12 16:39:39.337997','2023-12-12 16:39:39.339521');
 INSERT INTO `il_db_steps` VALUES ('ilADNDatabaseObjective',1,'2023-12-12 16:39:39.302966','2023-12-12 16:39:39.315435');
 INSERT INTO `il_db_steps` VALUES ('ilAuthenticationDatabaseUpdateSteps8',1,'2023-12-12 16:39:39.340519','2023-12-12 16:39:39.348635');
+INSERT INTO `il_db_steps` VALUES ('ilBackgroundTasksDBHotfixes10',1,'2026-11-02 10:51:15.492205','2026-11-02 10:51:15.501912');
+INSERT INTO `il_db_steps` VALUES ('ilBackgroundTasksDBHotfixes10',2,'2026-11-02 10:51:15.502266','2026-11-02 10:51:16.772884');
 INSERT INTO `il_db_steps` VALUES ('ilBadgeDBUpdateSteps',1,'2025-07-18 06:53:07.022218','2025-07-18 06:53:07.024081');
 INSERT INTO `il_db_steps` VALUES ('ilBadgeDBUpdateSteps',2,'2025-07-18 06:53:07.024360','2025-07-18 06:53:07.026215');
+INSERT INTO `il_db_steps` VALUES ('ilBadgeDBUpdateSteps',3,'2026-11-02 11:16:54.651023','2026-11-02 11:16:54.655529');
 INSERT INTO `il_db_steps` VALUES ('ilBibliograficDB80',1,'2023-12-12 16:39:39.349499','2023-12-12 16:39:39.355083');
 INSERT INTO `il_db_steps` VALUES ('ilBibliograficDB80',2,'2023-12-12 16:39:39.355665','2023-12-12 16:39:39.362170');
+INSERT INTO `il_db_steps` VALUES ('ilBlockDBUpdateSteps',1,'2026-10-06 14:23:22.821243','2026-10-06 14:23:22.825062');
 INSERT INTO `il_db_steps` VALUES ('ilCalendarDBUpdateSteps10',1,'2025-07-18 06:53:07.293933','2025-07-18 06:53:07.295723');
 INSERT INTO `il_db_steps` VALUES ('ilCalendarDBUpdateSteps10',2,'2025-07-18 06:53:07.295956','2025-07-18 06:53:07.296709');
 INSERT INTO `il_db_steps` VALUES ('ilCalendarDBUpdateSteps9',1,'2023-12-12 16:39:39.363138','2023-12-12 16:39:39.376860');
@@ -7167,10 +7190,13 @@ INSERT INTO `il_db_steps` VALUES ('ilCtrlDatabaseUpdateSteps',4,'2023-12-12 16:3
 INSERT INTO `il_db_steps` VALUES ('ilCtrlDatabaseUpdateSteps',5,'2023-12-12 16:39:41.357629','2023-12-12 16:39:41.364305');
 INSERT INTO `il_db_steps` VALUES ('ilCtrlDatabaseUpdateSteps',6,'2023-12-12 16:39:41.364838','2023-12-12 16:39:41.371618');
 INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps10',1,'2025-08-26 15:16:08.639522','2025-08-26 15:16:08.640706');
+INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps10',2,'2026-07-07 14:57:25.355149','2026-07-07 14:57:25.355840');
+INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps10',3,'2026-11-02 10:51:17.472843','2026-11-02 10:51:17.474087');
 INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps11',1,'2026-05-04 14:42:11.820636','2026-05-04 14:42:11.822789');
 INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps11',2,'2026-05-04 14:42:11.823073','2026-05-04 14:42:11.825106');
 INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps11',3,'2026-05-04 14:42:11.825394','2026-05-04 14:42:11.825941');
 INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps11',4,'2026-05-04 14:42:11.826227','2026-05-04 14:42:11.830097');
+INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps11',5,'2026-08-11 14:08:06.491381','2026-08-11 14:08:06.493520');
 INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps9',1,'2023-12-12 16:39:39.706792','2023-12-12 16:39:39.715602');
 INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps9',2,'2023-12-12 16:39:39.716246','2023-12-12 16:39:39.739058');
 INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps9',3,'2023-12-12 16:39:39.739786','2023-12-12 16:39:39.748476');
@@ -7260,6 +7286,8 @@ INSERT INTO `il_db_steps` VALUES ('ILIAS\\BookingManager\\Setup\\ilBookingManage
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\BookingManager\\Setup\\ilBookingManagerDBUpdateSteps',7,'2023-12-12 16:39:38.786336','2023-12-12 16:39:38.797865');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\BookingManager\\Setup\\ilBookingManagerDBUpdateSteps',8,'2025-07-18 06:53:07.031473','2025-07-18 06:53:07.033393');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\BookingManager\\Setup\\ilBookingManagerDBUpdateSteps',9,'2025-07-18 06:53:07.033694','2025-07-18 06:53:07.035764');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\BookingManager\\Setup\\ilBookingManagerDBUpdateSteps',10,'2026-07-07 14:57:25.332722','2026-07-07 14:57:25.335418');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\BookingManager\\Setup\\ilBookingManagerDBUpdateSteps',11,'2026-11-02 10:51:17.479695','2026-11-02 10:51:17.488067');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Chatroom\\Setup\\UpdateSteps',1,'2023-12-12 16:39:39.450025','2023-12-12 16:39:39.490305');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Chatroom\\Setup\\UpdateSteps',2,'2023-12-12 16:39:39.490976','2023-12-12 16:39:39.502927');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Chatroom\\Setup\\UpdateSteps',3,'2023-12-12 16:39:39.503552','2023-12-12 16:39:39.510145');
@@ -7285,7 +7313,9 @@ INSERT INTO `il_db_steps` VALUES ('ILIAS\\COPage\\Setup\\ilCOPageDBUpdateSteps',
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\COPage\\Setup\\ilCOPageDBUpdateSteps',12,'2023-12-12 16:39:37.442881','2023-12-12 16:39:37.445224');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\COPage\\Setup\\ilCOPageDBUpdateSteps',13,'2025-07-18 06:53:06.497670','2025-07-18 06:53:06.498699');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\COPage\\Setup\\ilCOPageDBUpdateSteps',14,'2025-07-18 06:53:06.498949','2025-07-18 06:53:06.500011');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\COPage\\Setup\\ilCOPageDBUpdateSteps',15,'2026-10-06 14:23:22.237012','2026-10-06 14:23:22.241196');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\COPage\\Setup\\ilCOPageHotfix9DBUpdateSteps',1,'2025-07-18 06:53:07.303785','2025-07-18 06:53:07.306634');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Course\\Setup\\UpdateStepsV12',1,'2026-11-02 11:16:54.663449','2026-11-02 11:16:54.666992');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Dashboard\\Setup\\ilDashboardUpdateSteps',1,'2023-12-12 16:39:38.799015','2023-12-12 16:39:38.800401');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Dashboard\\Setup\\ilDashboardUpdateSteps',2,'2023-12-12 16:39:38.800987','2023-12-12 16:39:38.809540');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Dashboard\\Setup\\ilDashboardUpdateSteps',3,'2025-07-18 06:53:07.319271','2025-07-18 06:53:07.319651');
@@ -7316,6 +7346,7 @@ INSERT INTO `il_db_steps` VALUES ('ILIAS\\Exercise\\Setup\\ilExerciseDBUpdateSte
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Exercise\\Setup\\ilExerciseDBUpdateSteps',19,'2025-07-18 06:53:07.490123','2025-07-18 06:53:07.494051');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Exercise\\Setup\\ilExerciseDBUpdateSteps',20,'2025-07-18 06:53:07.494338','2025-07-18 06:53:07.494651');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Exercise\\Setup\\ilExerciseDBUpdateSteps',21,'2025-07-18 06:53:07.494921','2025-07-18 06:53:07.496850');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Exercise\\Setup\\ilExerciseDBUpdateSteps',22,'2026-10-06 14:23:22.818571','2026-10-06 14:23:22.819263');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Export\\HTML\\Setup\\DBHTMLExportUpdateSteps',1,'2025-07-18 06:53:06.830880','2025-07-18 06:53:06.834781');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Export\\HTML\\Setup\\DBHTMLExportUpdateSteps',2,'2025-07-18 06:53:06.835044','2025-07-18 06:53:06.835343');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Export\\HTML\\Setup\\DBHTMLExportUpdateSteps',3,'2025-07-18 06:53:06.835575','2025-07-18 06:53:06.835780');
@@ -7323,6 +7354,7 @@ INSERT INTO `il_db_steps` VALUES ('ILIAS\\Export\\HTML\\Setup\\DBHTMLExportUpdat
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Export\\Setup\\DBUpdateSteps10',1,'2025-07-18 06:53:06.819007','2025-07-18 06:53:06.823388');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Export\\Setup\\DBUpdateSteps10',2,'2025-07-18 06:53:06.823700','2025-07-18 06:53:06.827577');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Export\\Setup\\DBUpdateSteps10',3,'2025-07-18 06:53:06.827816','2025-07-18 06:53:06.830359');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\File\\Setup\\Database\\V11\\FileObjectRBACDatabaseSteps',1,'2026-08-11 14:08:06.500427','2026-08-11 14:08:06.500771');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\GlobalScreen_\\UI\\Footer\\Setup\\DB100',1,'2025-07-18 06:53:06.887638','2025-07-18 06:53:06.888332');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\GlobalScreen_\\UI\\Footer\\Setup\\DB100',2,'2025-07-18 06:53:06.888657','2025-07-18 06:53:06.890333');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\GlobalScreen_\\UI\\Footer\\Setup\\DB100',3,'2025-07-18 06:53:06.890586','2025-07-18 06:53:06.894480');
@@ -7343,6 +7375,9 @@ INSERT INTO `il_db_steps` VALUES ('ILIAS\\History\\Setup\\HistoryDatabaseUpdateS
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\ILIASObject\\Setup\\DBUpdateSteps11',1,'2026-05-04 14:42:12.164904','2026-05-04 14:42:12.170425');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\ItemGroup\\Setup\\ilItemGroupDBUpdateSteps',1,'2023-12-12 16:39:38.894598','2023-12-12 16:39:38.900233');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\ItemGroup\\Setup\\ilItemGroupDBUpdateSteps',2,'2023-12-12 16:39:38.900874','2023-12-12 16:39:38.906340');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\ItemGroup\\Setup\\ilItemGroupDBUpdateSteps',3,'2026-07-07 14:57:25.347311','2026-07-07 14:57:25.350981');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\ItemGroup\\Setup\\ilItemGroupDBUpdateSteps',4,'2026-10-06 14:23:22.825933','2026-10-06 14:23:22.831205');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\KeyValueStorage\\Setup\\DBUpdateSteps',1,'2026-11-02 11:16:54.717235','2026-11-02 11:16:54.721639');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\LDAP\\Setup\\LDAPBindPasswordFieldMigration',1,'2025-07-18 06:53:07.061046','2025-07-18 06:53:07.065188');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\LearningModule\\Setup\\LearningModuleDBUpdateSteps',1,'2023-12-12 16:39:38.907450','2023-12-12 16:39:38.912966');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\LearningModule\\Setup\\LearningModuleDBUpdateSteps',2,'2023-12-12 16:39:38.913604','2023-12-12 16:39:38.919087');
@@ -7352,6 +7387,11 @@ INSERT INTO `il_db_steps` VALUES ('ILIAS\\LegalDocuments\\Setup\\UpdateSteps',2,
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\LegalDocuments\\Setup\\UpdateSteps',3,'2024-01-31 14:38:25.383413','2024-01-31 14:38:25.389480');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Link\\Setup\\LinkDBUpdateSteps',1,'2023-12-12 16:39:38.972279','2023-12-12 16:39:38.980246');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Link\\Setup\\LinkDBUpdateSteps',2,'2023-12-12 16:39:38.980881','2023-12-12 16:39:38.981557');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Logging\\Setup\\Steps\\DBUpdateSteps12',1,'2026-11-02 11:16:54.723738','2026-11-02 11:16:54.724713');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Logging\\Setup\\Steps\\DBUpdateSteps12',2,'2026-11-02 11:16:54.724953','2026-11-02 11:16:54.725724');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Mail\\Setup\\Database\\V12\\MailDBUpdateSteps12',1,'2026-11-02 11:16:54.644818','2026-11-02 11:16:54.646926');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Mail\\Setup\\Database\\V12\\MailDBUpdateSteps12',2,'2026-11-02 11:16:54.647297','2026-11-02 11:16:54.649685');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Mail\\Setup\\Database\\V12\\MailDBUpdateSteps12',3,'2026-11-02 11:16:54.649992','2026-11-02 11:16:54.650347');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Mail\\Setup\\MailDBUpdateSteps11',1,'2026-05-04 14:42:11.782796','2026-05-04 14:42:11.783155');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Mail\\Setup\\MailDBUpdateSteps11',2,'2026-05-04 14:42:11.783406','2026-05-04 14:42:11.787308');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\MediaCast\\Setup\\ilMediaCastDBUpdateSteps',1,'2023-12-12 16:39:38.982512','2023-12-12 16:39:38.988267');
@@ -7376,18 +7416,45 @@ INSERT INTO `il_db_steps` VALUES ('ILIAS\\Object\\Setup\\ilObjectDBUpdateSteps',
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Object\\Setup\\ilObjectDBUpdateSteps',3,'2025-07-18 06:53:07.050620','2025-07-18 06:53:07.050885');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Object\\Setup\\ilObjectDBUpdateSteps',4,'2025-07-18 06:53:07.051152','2025-07-18 06:53:07.051571');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Object\\Setup\\ilObjectDBUpdateSteps',5,'2025-07-18 06:53:07.051796','2025-07-18 06:53:07.052070');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\ObjectGroup\\Setup\\ilObjectGroupDBUpdateSteps',1,'2026-11-02 11:16:54.615068','2026-11-02 11:16:54.616206');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\ObjectGroup\\Setup\\ilObjectGroupDBUpdateSteps',2,'2026-11-02 11:16:54.616518','2026-11-02 11:16:54.617486');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\ObjectGroup\\Setup\\ilObjectGroupDBUpdateSteps',3,'2026-11-02 11:16:54.617836','2026-11-02 11:16:54.619386');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\ObjectGroup\\Setup\\ilObjectGroupDBUpdateSteps',4,'2026-11-02 11:16:54.619654','2026-11-02 11:16:54.624381');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\ObjectGroup\\Setup\\ilObjectGroupDBUpdateSteps',5,'2026-11-02 11:16:54.624724','2026-11-02 11:16:54.644092');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Poll\\Setup\\DBUpdateSteps10',1,'2025-07-18 06:53:07.052701','2025-07-18 06:53:07.056492');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Poll\\Setup\\DBUpdateSteps10',2,'2025-07-18 06:53:07.056777','2025-07-18 06:53:07.059056');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Portfolio\\Setup\\ilPortfolioDBUpdateSteps',1,'2023-12-12 16:39:39.093581','2023-12-12 16:39:39.105685');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Portfolio\\Setup\\ilPortfolioDBUpdateSteps',2,'2025-07-18 06:53:06.879129','2025-07-18 06:53:06.879418');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Portfolio\\Setup\\ilPortfolioDBUpdateSteps',3,'2026-03-10 16:31:24.651310','2026-03-10 16:31:24.651612');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Questions\\Setup\\ClozeQuestionTables',1,'2026-11-02 11:16:54.564109','2026-11-02 11:16:54.568421');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Questions\\Setup\\ClozeQuestionTables',2,'2026-11-02 11:16:54.568724','2026-11-02 11:16:54.574932');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Questions\\Setup\\ClozeQuestionTables',3,'2026-11-02 11:16:54.575261','2026-11-02 11:16:54.581339');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Questions\\Setup\\ClozeQuestionTables',4,'2026-11-02 11:16:54.581665','2026-11-02 11:16:54.587405');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Questions\\Setup\\ClozeQuestionTables',5,'2026-11-02 11:16:54.587668','2026-11-02 11:16:54.594456');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Questions\\Setup\\ClozeQuestionTables',6,'2026-11-02 11:16:54.594840','2026-11-02 11:16:54.601235');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Questions\\Setup\\OverarchingQuestionTables',1,'2026-11-02 11:16:54.507434','2026-11-02 11:16:54.511964');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Questions\\Setup\\OverarchingQuestionTables',2,'2026-11-02 11:16:54.512314','2026-11-02 11:16:54.518858');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Questions\\Setup\\OverarchingQuestionTables',3,'2026-11-02 11:16:54.519161','2026-11-02 11:16:54.525044');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Questions\\Setup\\OverarchingQuestionTables',4,'2026-11-02 11:16:54.525321','2026-11-02 11:16:54.531240');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Questions\\Setup\\OverarchingQuestionTables',5,'2026-11-02 11:16:54.531539','2026-11-02 11:16:54.535440');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Questions\\Setup\\OverarchingQuestionTables',6,'2026-11-02 11:16:54.535731','2026-11-02 11:16:54.540023');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Questions\\Setup\\OverarchingQuestionTables',7,'2026-11-02 11:16:54.540330','2026-11-02 11:16:54.546400');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Questions\\Setup\\OverarchingQuestionTables',8,'2026-11-02 11:16:54.546705','2026-11-02 11:16:54.551363');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Questions\\Setup\\OverarchingQuestionTables',9,'2026-11-02 11:16:54.551739','2026-11-02 11:16:54.556217');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Questions\\Setup\\OverarchingQuestionTables',10,'2026-11-02 11:16:54.556522','2026-11-02 11:16:54.563509');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Questions\\Setup\\TempTables',1,'2026-11-02 11:16:54.601757','2026-11-02 11:16:54.606233');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Registration\\DualOptIn\\Setup\\DualOptInDatabaseUpdateSteps',1,'2026-05-04 14:42:11.757770','2026-05-04 14:42:11.761633');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Registration\\DualOptIn\\Setup\\DualOptInDatabaseUpdateSteps',2,'2026-05-04 14:42:11.761911','2026-05-04 14:42:11.763018');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Registration\\DualOptIn\\Setup\\DualOptInDatabaseUpdateSteps',3,'2026-05-04 14:42:11.763285','2026-05-04 14:42:11.766115');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Registration\\DualOptIn\\Setup\\DualOptInDatabaseUpdateSteps',4,'2026-05-04 14:42:11.766381','2026-05-04 14:42:11.771282');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Repository\\Setup\\RepositoryDBUpdateSteps',1,'2023-12-12 16:39:39.106736','2023-12-12 16:39:39.107544');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Repository\\Setup\\RepositoryDBUpdateSteps',2,'2025-07-18 06:53:07.317247','2025-07-18 06:53:07.318819');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Repository\\Setup\\RepositoryDBUpdateSteps',3,'2026-10-06 14:23:22.816773','2026-10-06 14:23:22.817513');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\ResourceStorage\\Setup\\DB\\UpdateStepsV12',1,'2026-11-02 11:16:53.125477','2026-11-02 11:16:53.130935');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\ResourceStorage\\Setup\\DB\\UpdateStepsV12',2,'2026-11-02 11:16:53.131305','2026-11-02 11:16:53.133597');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\ScormAicc\\Setup\\ScormAiccDatabaseUpdateSteps',1,'2026-11-02 11:16:54.503906','2026-11-02 11:16:54.506780');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Search\\Setup\\UpdateSteps11',1,'2026-05-04 14:42:12.063083','2026-05-04 14:42:12.065112');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Session\\Setup\\UpdateStepsV12',1,'2026-11-02 11:16:54.710671','2026-11-02 11:16:54.714068');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\StaticURL\\Setup\\Shortlinks\\ShortlinksDBSteps11',1,'2026-05-04 14:42:11.792255','2026-05-04 14:42:11.797411');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Style\\Content\\Setup\\ilStyleDBUpdateSteps',1,'2023-12-12 16:39:39.108632','2023-12-12 16:39:39.120662');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Style\\Content\\Setup\\ilStyleDBUpdateSteps',2,'2023-12-12 16:39:39.121328','2023-12-12 16:39:39.146185');
@@ -7411,6 +7478,8 @@ INSERT INTO `il_db_steps` VALUES ('ILIAS\\Style\\Content\\Setup\\ilStyleDBUpdate
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Style\\Content\\Setup\\ilStyleDBUpdateSteps',20,'2024-04-30 15:11:09.017679','2024-04-30 15:11:09.018014');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Style\\Content\\Setup\\ilStyleDBUpdateSteps',21,'2025-07-18 06:53:06.838357','2025-07-18 06:53:06.840247');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Style\\Content\\Setup\\ilStyleDBUpdateSteps',22,'2026-04-21 16:00:11.283501','2026-04-21 16:00:11.283884');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Style\\Content\\Setup\\ilStyleDBUpdateSteps',23,'2026-09-03 12:52:05.983748','2026-09-03 12:52:05.984209');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Style\\Content\\Setup\\ilStyleDBUpdateSteps',24,'2026-11-02 10:51:17.460615','2026-11-02 10:51:17.461055');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\SurveyQuestionPool\\Setup\\SurveyQuestionPoolDBUpdateSteps',1,'2025-07-18 06:53:07.066560','2025-07-18 06:53:07.068398');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Test\\Setup\\ilTestNoHintsDBUpdateSteps',1,'2026-05-04 14:42:11.838918','2026-05-04 14:42:11.843622');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Test\\Setup\\ilTestNoHintsDBUpdateSteps',2,'2026-05-04 14:42:11.843899','2026-05-04 14:42:11.847493');
@@ -7443,6 +7512,15 @@ INSERT INTO `il_db_steps` VALUES ('ILIAS\\Test\\Setup\\Test11DBUpdateSteps',4,'2
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Test\\Setup\\Test11DBUpdateSteps',5,'2026-05-04 14:42:12.010009','2026-05-04 14:42:12.010222');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Test\\Setup\\Test11DBUpdateSteps',6,'2026-05-04 14:42:12.010467','2026-05-04 14:42:12.012131');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Test\\Setup\\Test11DBUpdateSteps',7,'2026-05-04 14:42:12.012379','2026-05-04 14:42:12.014043');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Test\\Setup\\Test12DBUpdateSteps',1,'2026-11-02 11:16:54.671176','2026-11-02 11:16:54.671752');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Test\\Setup\\Test12DBUpdateSteps',2,'2026-11-02 11:16:54.672060','2026-11-02 11:16:54.672474');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Test\\Setup\\Test12DBUpdateSteps',3,'2026-11-02 11:16:54.672770','2026-11-02 11:16:54.673237');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Test\\Setup\\Test12DBUpdateSteps',4,'2026-11-02 11:16:54.673514','2026-11-02 11:16:54.673941');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Test\\Setup\\Test12DBUpdateSteps',5,'2026-11-02 11:16:54.674213','2026-11-02 11:16:54.674726');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Test\\Setup\\Test12DBUpdateSteps',6,'2026-11-02 11:16:54.675111','2026-11-02 11:16:54.675552');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Test\\Setup\\Test12DBUpdateSteps',7,'2026-11-02 11:16:54.675835','2026-11-02 11:16:54.676260');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Test\\Setup\\Test12DBUpdateSteps',8,'2026-11-02 11:16:54.676585','2026-11-02 11:16:54.676992');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Test\\Setup\\Test12DBUpdateSteps',9,'2026-11-02 11:16:54.677272','2026-11-02 11:16:54.677669');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Test\\Setup\\Test9DBUpdateSteps',1,'2025-07-18 06:53:07.128907','2025-07-18 06:53:07.132259');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Test\\Setup\\Test9DBUpdateSteps',2,'2025-07-18 06:53:07.134005','2025-07-18 06:53:07.137416');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Test\\Setup\\Test9DBUpdateSteps',3,'2025-07-18 06:53:07.138807','2025-07-18 06:53:07.141647');
@@ -7485,6 +7563,7 @@ INSERT INTO `il_db_steps` VALUES ('ILIAS\\User\\Setup\\DBUpdateSteps11',11,'2026
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\User\\Setup\\DBUpdateSteps11',12,'2026-05-04 14:42:12.150731','2026-05-04 14:42:12.153748');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\User\\Setup\\DBUpdateSteps11',13,'2026-05-04 14:42:12.154050','2026-05-04 14:42:12.154600');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\User\\Setup\\DBUpdateSteps11',14,'2026-05-04 14:42:12.154849','2026-05-04 14:42:12.159687');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\User\\Setup\\DBUpdateSteps12',1,'2026-11-02 11:16:54.722414','2026-11-02 11:16:54.723120');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Wiki\\Setup\\ilWiki8HotfixDBUpdateSteps',1,'2025-07-18 06:53:07.021380','2025-07-18 06:53:07.021735');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Wiki\\Setup\\ilWikiDBUpdateSteps',1,'2023-12-12 16:39:39.203953','2023-12-12 16:39:39.239197');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Wiki\\Setup\\ilWikiDBUpdateSteps',2,'2023-12-12 16:39:39.239904','2023-12-12 16:39:39.245378');
@@ -7505,11 +7584,16 @@ INSERT INTO `il_db_steps` VALUES ('ilIntroduceComponentArtifactDBUpdateSteps',6,
 INSERT INTO `il_db_steps` VALUES ('ilIntroduceComponentArtifactDBUpdateSteps',7,'2023-12-12 16:39:39.675172','2023-12-12 16:39:39.682053');
 INSERT INTO `il_db_steps` VALUES ('ilIntroduceComponentArtifactDBUpdateSteps',8,'2023-12-12 16:39:39.682739','2023-12-12 16:39:39.688813');
 INSERT INTO `il_db_steps` VALUES ('ilIntroduceEventHandlingArtifactDBUpdateSteps',1,'2023-12-12 16:39:39.789218','2023-12-12 16:39:39.797080');
+INSERT INTO `il_db_steps` VALUES ('ilLearningSequenceItemBoundariesDBUpdateSteps',1,'2026-11-02 11:16:54.434517','2026-11-02 11:16:54.439476');
+INSERT INTO `il_db_steps` VALUES ('ilLearningSequenceItemPathDBUpdateSteps',1,'2026-11-02 11:16:54.440049','2026-11-02 11:16:54.444889');
+INSERT INTO `il_db_steps` VALUES ('ilLearningSequenceItemVisitsDBUpdateSteps',1,'2026-11-02 11:16:54.445519','2026-11-02 11:16:54.449848');
 INSERT INTO `il_db_steps` VALUES ('ilLearningSequenceRectifyPostConditionsTableDBUpdateSteps',1,'2023-12-12 16:39:40.445426','2023-12-12 16:39:40.460126');
 INSERT INTO `il_db_steps` VALUES ('ilLearningSequenceRectifyPostConditionsTableDBUpdateSteps',2,'2023-12-12 16:39:40.460745','2023-12-12 16:39:40.469096');
 INSERT INTO `il_db_steps` VALUES ('ilLearningSequenceRectifyPostConditionsTableDBUpdateSteps',3,'2023-12-12 16:39:40.469737','2023-12-12 16:39:40.470737');
 INSERT INTO `il_db_steps` VALUES ('ilLearningSequenceRegisterNotificationType',1,'2023-12-12 16:39:40.471781','2023-12-12 16:39:40.472617');
 INSERT INTO `il_db_steps` VALUES ('ilLearningSequenceRegisterNotificationType',2,'2023-12-12 16:39:40.473202','2023-12-12 16:39:40.474079');
+INSERT INTO `il_db_steps` VALUES ('ilLearningSequenceStreamlinePermissionsDBUpdateSteps',1,'2026-11-02 11:16:54.431813','2026-11-02 11:16:54.432326');
+INSERT INTO `il_db_steps` VALUES ('ilLearningSequenceStreamlinePermissionsDBUpdateSteps',2,'2026-11-02 11:16:54.432661','2026-11-02 11:16:54.434001');
 INSERT INTO `il_db_steps` VALUES ('ilLoggingUpdateSteps8',1,'2023-12-12 16:39:40.475061','2023-12-12 16:39:40.475900');
 INSERT INTO `il_db_steps` VALUES ('ilLTIConsumerDatabaseUpdateSteps',1,'2023-12-12 16:39:40.259312','2023-12-12 16:39:40.265030');
 INSERT INTO `il_db_steps` VALUES ('ilLTIConsumerDatabaseUpdateSteps',2,'2023-12-12 16:39:40.265647','2023-12-12 16:39:40.271342');
@@ -7527,6 +7611,10 @@ INSERT INTO `il_db_steps` VALUES ('ilLTIConsumerDatabaseUpdateSteps',13,'2023-12
 INSERT INTO `il_db_steps` VALUES ('ilLTIConsumerDatabaseUpdateSteps',14,'2023-12-12 16:39:40.342328','2023-12-12 16:39:40.347680');
 INSERT INTO `il_db_steps` VALUES ('ilLTIConsumerDatabaseUpdateSteps',15,'2023-12-12 16:39:40.348311','2023-12-12 16:39:40.368952');
 INSERT INTO `il_db_steps` VALUES ('ilLTIConsumerDatabaseUpdateSteps',16,'2026-01-20 16:18:03.707361','2026-01-20 16:18:03.709985');
+INSERT INTO `il_db_steps` VALUES ('ilLTIConsumerDatabaseUpdateSteps',17,'2026-09-03 12:52:05.957804','2026-09-03 12:52:05.965477');
+INSERT INTO `il_db_steps` VALUES ('ilLTIConsumerDatabaseUpdateSteps',18,'2026-09-03 12:52:05.965865','2026-09-03 12:52:05.973687');
+INSERT INTO `il_db_steps` VALUES ('ilLTIConsumerDatabaseUpdateSteps',19,'2026-09-03 12:52:05.974161','2026-09-03 12:52:05.975339');
+INSERT INTO `il_db_steps` VALUES ('ilLTIConsumerDatabaseUpdateSteps',20,'2026-09-03 12:52:05.975696','2026-09-03 12:52:05.976681');
 INSERT INTO `il_db_steps` VALUES ('ilLTIDatabaseUpdateSteps',1,'2023-12-12 16:39:40.370010','2023-12-12 16:39:40.376439');
 INSERT INTO `il_db_steps` VALUES ('ilLTIDatabaseUpdateSteps',2,'2023-12-12 16:39:40.377073','2023-12-12 16:39:40.383219');
 INSERT INTO `il_db_steps` VALUES ('ilLTIDatabaseUpdateSteps',3,'2023-12-12 16:39:40.383847','2023-12-12 16:39:40.392769');
@@ -7536,6 +7624,30 @@ INSERT INTO `il_db_steps` VALUES ('ilLTIDatabaseUpdateSteps',6,'2023-12-12 16:39
 INSERT INTO `il_db_steps` VALUES ('ilLTIDatabaseUpdateSteps',7,'2023-12-12 16:39:40.411887','2023-12-12 16:39:40.417318');
 INSERT INTO `il_db_steps` VALUES ('ilLTIDatabaseUpdateSteps',8,'2023-12-12 16:39:40.418019','2023-12-12 16:39:40.435272');
 INSERT INTO `il_db_steps` VALUES ('ilLTIDatabaseUpdateSteps',9,'2023-12-12 16:39:40.435922','2023-12-12 16:39:40.444322');
+INSERT INTO `il_db_steps` VALUES ('ilLTIDatabaseUpdateSteps',10,'2026-11-02 11:16:54.678464','2026-11-02 11:16:54.679188');
+INSERT INTO `il_db_steps` VALUES ('ilLTIDatabaseUpdateSteps',11,'2026-11-02 11:16:54.679516','2026-11-02 11:16:54.680071');
+INSERT INTO `il_db_steps` VALUES ('ilLTIDatabaseUpdateSteps',12,'2026-11-02 11:16:54.680409','2026-11-02 11:16:54.680866');
+INSERT INTO `il_db_steps` VALUES ('ilLTIDatabaseUpdateSteps',13,'2026-11-02 11:16:54.681195','2026-11-02 11:16:54.681701');
+INSERT INTO `il_db_steps` VALUES ('ilLTIDatabaseUpdateSteps',14,'2026-11-02 11:16:54.681967','2026-11-02 11:16:54.682467');
+INSERT INTO `il_db_steps` VALUES ('ilLTIDatabaseUpdateSteps',15,'2026-11-02 11:16:54.682774','2026-11-02 11:16:54.683360');
+INSERT INTO `il_db_steps` VALUES ('ilLTIDatabaseUpdateSteps',16,'2026-11-02 11:16:54.683659','2026-11-02 11:16:54.684186');
+INSERT INTO `il_db_steps` VALUES ('ilLTIDatabaseUpdateSteps',17,'2026-11-02 11:16:54.684518','2026-11-02 11:16:54.685042');
+INSERT INTO `il_db_steps` VALUES ('ilLTIDatabaseUpdateSteps',18,'2026-11-02 11:16:54.685325','2026-11-02 11:16:54.685814');
+INSERT INTO `il_db_steps` VALUES ('ilLTIDatabaseUpdateSteps',19,'2026-11-02 11:16:54.686094','2026-11-02 11:16:54.686576');
+INSERT INTO `il_db_steps` VALUES ('ilLTIDatabaseUpdateSteps',20,'2026-11-02 11:16:54.686856','2026-11-02 11:16:54.687366');
+INSERT INTO `il_db_steps` VALUES ('ilLTIDatabaseUpdateSteps',21,'2026-11-02 11:16:54.687642','2026-11-02 11:16:54.688119');
+INSERT INTO `il_db_steps` VALUES ('ilLTIDatabaseUpdateSteps',22,'2026-11-02 11:16:54.688409','2026-11-02 11:16:54.688893');
+INSERT INTO `il_db_steps` VALUES ('ilLTIDatabaseUpdateSteps',23,'2026-11-02 11:16:54.689205','2026-11-02 11:16:54.689803');
+INSERT INTO `il_db_steps` VALUES ('ilLTIDatabaseUpdateSteps',24,'2026-11-02 11:16:54.690100','2026-11-02 11:16:54.690854');
+INSERT INTO `il_db_steps` VALUES ('ilLTIDatabaseUpdateSteps',25,'2026-11-02 11:16:54.691149','2026-11-02 11:16:54.691706');
+INSERT INTO `il_db_steps` VALUES ('ilLTIDatabaseUpdateSteps',26,'2026-11-02 11:16:54.691994','2026-11-02 11:16:54.692541');
+INSERT INTO `il_db_steps` VALUES ('ilLTIDatabaseUpdateSteps',27,'2026-11-02 11:16:54.692827','2026-11-02 11:16:54.693548');
+INSERT INTO `il_db_steps` VALUES ('ilLTIDatabaseUpdateSteps',28,'2026-11-02 11:16:54.693872','2026-11-02 11:16:54.694941');
+INSERT INTO `il_db_steps` VALUES ('ilLTIDatabaseUpdateSteps',29,'2026-11-02 11:16:54.695273','2026-11-02 11:16:54.696229');
+INSERT INTO `il_db_steps` VALUES ('ilLTIDatabaseUpdateSteps',31,'2026-11-02 11:16:54.696554','2026-11-02 11:16:54.697427');
+INSERT INTO `il_db_steps` VALUES ('ilLTIDatabaseUpdateSteps',32,'2026-11-02 11:16:54.697732','2026-11-02 11:16:54.699968');
+INSERT INTO `il_db_steps` VALUES ('ilLTIDatabaseUpdateSteps',33,'2026-11-02 11:16:54.700342','2026-11-02 11:16:54.706304');
+INSERT INTO `il_db_steps` VALUES ('ilLTIDatabaseUpdateSteps',34,'2026-11-02 11:16:54.706575','2026-11-02 11:16:54.708704');
 INSERT INTO `il_db_steps` VALUES ('ilMailDatabaseUpdateSteps',1,'2023-12-12 16:39:40.663356','2023-12-12 16:39:40.671293');
 INSERT INTO `il_db_steps` VALUES ('ilMailDatabaseUpdateSteps',2,'2023-12-12 16:39:40.671949','2023-12-12 16:39:40.672918');
 INSERT INTO `il_db_steps` VALUES ('ilMailDatabaseUpdateSteps',3,'2023-12-12 16:39:40.673495','2023-12-12 16:39:40.674173');
@@ -7587,6 +7699,7 @@ INSERT INTO `il_db_steps` VALUES ('ilMDLOMUpdateSteps',11,'2023-12-12 16:39:40.6
 INSERT INTO `il_db_steps` VALUES ('ilMDUpdateSteps10',1,'2025-07-18 06:53:06.901643','2025-07-18 06:53:06.905399');
 INSERT INTO `il_db_steps` VALUES ('ilMDUpdateSteps11',1,'2026-05-04 14:42:11.830895','2026-05-04 14:42:11.832768');
 INSERT INTO `il_db_steps` VALUES ('ilMigrateStudyProgrammeCertificateProviderDBUpdateSteps',1,'2025-07-18 06:53:07.313584','2025-07-18 06:53:07.313812');
+INSERT INTO `il_db_steps` VALUES ('ilNewsDBUpdateSteps',1,'2026-11-02 10:51:17.456280','2026-11-02 10:51:17.460006');
 INSERT INTO `il_db_steps` VALUES ('ilNotificationUpdateSteps',1,'2023-12-12 16:39:40.745514','2023-12-12 16:39:40.746045');
 INSERT INTO `il_db_steps` VALUES ('ilNotificationUpdateSteps',2,'2023-12-12 16:39:40.746642','2023-12-12 16:39:40.747782');
 INSERT INTO `il_db_steps` VALUES ('ilNotificationUpdateSteps',3,'2023-12-12 16:39:40.748371','2023-12-12 16:39:40.749597');
@@ -7636,6 +7749,9 @@ INSERT INTO `il_db_steps` VALUES ('ilResourceStorageDB90',4,'2023-12-12 16:39:40
 INSERT INTO `il_db_steps` VALUES ('ilScorm2004DatabaseUpdateSteps',1,'2025-11-04 16:18:51.922597','2025-11-04 16:18:51.925280');
 INSERT INTO `il_db_steps` VALUES ('ilScorm2004DatabaseUpdateSteps',2,'2025-11-04 16:18:51.925565','2025-11-04 16:18:51.931400');
 INSERT INTO `il_db_steps` VALUES ('ilScorm2004DatabaseUpdateSteps',3,'2026-03-10 16:31:24.633455','2026-03-10 16:31:24.637422');
+INSERT INTO `il_db_steps` VALUES ('ilScorm2004DatabaseUpdateSteps',4,'2026-07-07 14:57:25.336300','2026-07-07 14:57:25.338214');
+INSERT INTO `il_db_steps` VALUES ('ilScorm2004DatabaseUpdateSteps',5,'2026-07-07 14:57:25.338496','2026-07-07 14:57:25.341074');
+INSERT INTO `il_db_steps` VALUES ('ilScorm2004DatabaseUpdateSteps',6,'2026-11-02 10:51:17.488766','2026-11-02 10:51:17.494496');
 INSERT INTO `il_db_steps` VALUES ('ilScormAiccDatabaseUpdateSteps',1,'2024-01-31 14:38:25.408514','2024-01-31 14:38:25.417677');
 INSERT INTO `il_db_steps` VALUES ('ilSessionDBUpdateSteps9',1,'2023-12-12 16:39:40.848750','2023-12-12 16:39:40.854713');
 INSERT INTO `il_db_steps` VALUES ('ilSessionDBUpdateSteps9',2,'2023-12-12 16:39:40.855241','2023-12-12 16:39:40.869825');
@@ -7718,6 +7834,8 @@ INSERT INTO `il_db_steps` VALUES ('ilWebResourceDropValidSteps',2,'2023-12-12 16
 INSERT INTO `il_db_steps` VALUES ('ilWebResourceDropValidSteps',3,'2023-12-12 16:39:41.494136','2023-12-12 16:39:41.500293');
 INSERT INTO `il_db_steps` VALUES ('ilWebResourceDropValidSteps',4,'2023-12-12 16:39:41.500904','2023-12-12 16:39:41.502972');
 INSERT INTO `il_db_steps` VALUES ('ilWOPIDB100',1,'2025-07-18 06:53:07.291500','2025-07-18 06:53:07.293391');
+INSERT INTO `il_db_steps` VALUES ('ilWOPIDB120',1,'2026-11-02 11:16:54.657845','2026-11-02 11:16:54.662057');
+INSERT INTO `il_db_steps` VALUES ('ilWOPIDB120',2,'2026-11-02 11:16:54.662336','2026-11-02 11:16:54.662613');
 INSERT INTO `il_db_steps` VALUES ('ilWOPIDB90',1,'2023-12-12 16:39:38.616248','2023-12-12 16:39:38.629801');
 INSERT INTO `il_db_steps` VALUES ('ilWOPIDB90',2,'2023-12-12 16:39:38.630407','2023-12-12 16:39:38.650076');
 INSERT INTO `il_db_steps` VALUES ('ilWOPIDB90',3,'2025-07-18 06:53:06.427551','2025-07-18 06:53:06.429874');
@@ -7726,6 +7844,8 @@ INSERT INTO `il_db_steps` VALUES ('ilWorkflowEngine9DBUpdateSteps',1,'2023-12-12
 INSERT INTO `il_db_steps` VALUES ('ilWorkflowEngine9DBUpdateSteps',2,'2023-12-12 16:39:41.555897','2023-12-12 16:39:41.595930');
 INSERT INTO `il_db_steps` VALUES ('ilWorkflowEngine9DBUpdateSteps',3,'2023-12-12 16:39:41.596587','2023-12-12 16:39:41.597086');
 INSERT INTO `il_db_steps` VALUES ('ilWorkflowEngine9DBUpdateSteps',4,'2023-12-12 16:39:41.597674','2023-12-12 16:39:41.601575');
+INSERT INTO `il_db_steps` VALUES ('LSOAddModeDBUpdateSteps',1,'2026-11-02 11:16:54.427279','2026-11-02 11:16:54.430669');
+INSERT INTO `il_db_steps` VALUES ('LSOAddModeDBUpdateSteps',2,'2026-11-02 11:16:54.430987','2026-11-02 11:16:54.431309');
 INSERT INTO `il_db_steps` VALUES ('LSODropActivationDBUpdateSteps',1,'2025-11-04 16:18:51.939250','2025-11-04 16:18:51.943824');
 INSERT INTO `il_db_steps` VALUES ('MigrateCourseCertificateProviderDBUpdateSteps',1,'2025-07-18 06:53:07.346853','2025-07-18 06:53:07.347106');
 INSERT INTO `il_db_steps` VALUES ('MigrateExerciseCertificateProviderDBUpdateSteps',1,'2025-07-18 06:53:07.347534','2025-07-18 06:53:07.347742');
@@ -8588,13 +8708,13 @@ CREATE TABLE `il_md_cpr_selections` (
 -- Dumping data for table `il_md_cpr_selections`
 --
 
-INSERT INTO `il_md_cpr_selections` VALUES (1,'Attribution Non-commercial No Derivatives (by-nc-nd)','Creative Commons License','<a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nc-nd/4.0/\"><img alt=\"Creative Commons License\" style=\"border-width:0\" src=\"https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png\" /></a><br />This work is licensed under a <a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nc-nd/4.0/\">Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License</a>.','en',0,1,0,0,0,NULL,NULL,NULL,NULL,0,NULL);
-INSERT INTO `il_md_cpr_selections` VALUES (2,'Attribution Non-commercial Share Alike (by-nc-sa)','Creative Commons License','<a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nc-sa/4.0/\"><img alt=\"Creative Commons License\" style=\"border-width:0\" src=\"https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png\" /></a><br />This work is licensed under a <a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nc-sa/4.0/\">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.','en',0,1,0,0,0,NULL,NULL,NULL,NULL,0,NULL);
-INSERT INTO `il_md_cpr_selections` VALUES (3,'Attribution Non-commercial (by-nc)','Creative Commons License','<a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nc/4.0/\"><img alt=\"Creative Commons License\" style=\"border-width:0\" src=\"https://i.creativecommons.org/l/by-nc/4.0/88x31.png\" /></a><br />This work is licensed under a <a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nc/4.0/\">Creative Commons Attribution-NonCommercial 4.0 International License</a>.','en',0,1,0,0,0,NULL,NULL,NULL,NULL,0,NULL);
-INSERT INTO `il_md_cpr_selections` VALUES (4,'Attribution No Derivatives (by-nd)','Creative Commons License','<a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nd/4.0/\"><img alt=\"Creative Commons License\" style=\"border-width:0\" src=\"https://i.creativecommons.org/l/by-nd/4.0/88x31.png\" /></a><br />This work is licensed under a <a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nd/4.0/\">Creative Commons Attribution-NoDerivatives 4.0 International License</a>.','en',0,1,0,0,0,NULL,NULL,NULL,NULL,0,NULL);
-INSERT INTO `il_md_cpr_selections` VALUES (5,'Attribution Share Alike (by-sa)','Creative Commons License','<a rel=\"license\" href=\"http://creativecommons.org/licenses/by-sa/4.0/\"><img alt=\"Creative Commons License\" style=\"border-width:0\" src=\"https://i.creativecommons.org/l/by-sa/4.0/88x31.png\" /></a><br />This work is licensed under a <a rel=\"license\" href=\"http://creativecommons.org/licenses/by-sa/4.0/\">Creative Commons Attribution-ShareAlike 4.0 International License</a>.','en',0,1,0,0,0,NULL,NULL,NULL,NULL,0,NULL);
-INSERT INTO `il_md_cpr_selections` VALUES (6,'Attribution (by)','Creative Commons License','<a rel=\"license\" href=\"http://creativecommons.org/licenses/by/4.0/\"><img alt=\"Creative Commons License\" style=\"border-width:0\" src=\"https://i.creativecommons.org/l/by/4.0/88x31.png\" /></a><br />This work is licensed under a <a rel=\"license\" href=\"http://creativecommons.org/licenses/by/4.0/\">Creative Commons Attribution 4.0 International License</a>.','en',0,1,0,0,0,NULL,NULL,NULL,NULL,0,NULL);
-INSERT INTO `il_md_cpr_selections` VALUES (7,'All rights reserved','The copyright holder reserves, or holds for their own use, all the rights provided by copyright law.','This work has all rights reserved by the owner.','en',0,1,1,0,0,NULL,NULL,NULL,NULL,0,NULL);
+INSERT INTO `il_md_cpr_selections` VALUES (1,'Attribution Non-commercial No Derivatives (BY-NC-ND) 4.0','Creative Commons License','<a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nc-nd/4.0/\"><img alt=\"Creative Commons License\" style=\"border-width:0\" src=\"https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png\" /></a><br />This work is licensed under a <a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nc-nd/4.0/\">Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License</a>.','en',0,1,0,0,0,'Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License','http://creativecommons.org/licenses/by-nc-nd/4.0/','https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-nc-nd.svg','Creative Commons License',1,NULL);
+INSERT INTO `il_md_cpr_selections` VALUES (2,'Attribution Non-commercial Share Alike (BY-NC-SA) 4.0','Creative Commons License','<a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nc-sa/4.0/\"><img alt=\"Creative Commons License\" style=\"border-width:0\" src=\"https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png\" /></a><br />This work is licensed under a <a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nc-sa/4.0/\">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.','en',0,1,0,0,0,'Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License','http://creativecommons.org/licenses/by-nc-sa/4.0/','https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-nc-sa.svg','Creative Commons License',1,NULL);
+INSERT INTO `il_md_cpr_selections` VALUES (3,'Attribution Non-commercial (BY-NC) 4.0','Creative Commons License','<a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nc/4.0/\"><img alt=\"Creative Commons License\" style=\"border-width:0\" src=\"https://i.creativecommons.org/l/by-nc/4.0/88x31.png\" /></a><br />This work is licensed under a <a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nc/4.0/\">Creative Commons Attribution-NonCommercial 4.0 International License</a>.','en',0,1,0,0,0,'Creative Commons Attribution-NonCommercial 4.0 International License','http://creativecommons.org/licenses/by-nc/4.0/','https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-nc.svg','Creative Commons License',1,NULL);
+INSERT INTO `il_md_cpr_selections` VALUES (4,'Attribution No Derivatives (BY-ND) 4.0','Creative Commons License','<a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nd/4.0/\"><img alt=\"Creative Commons License\" style=\"border-width:0\" src=\"https://i.creativecommons.org/l/by-nd/4.0/88x31.png\" /></a><br />This work is licensed under a <a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nd/4.0/\">Creative Commons Attribution-NoDerivatives 4.0 International License</a>.','en',0,1,0,0,0,'Creative Commons Attribution-NoDerivatives 4.0 International License','http://creativecommons.org/licenses/by-nd/4.0/','https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-nd.svg','Creative Commons License',1,NULL);
+INSERT INTO `il_md_cpr_selections` VALUES (5,'Attribution Share Alike (BY-SA) 4.0','Creative Commons License','<a rel=\"license\" href=\"http://creativecommons.org/licenses/by-sa/4.0/\"><img alt=\"Creative Commons License\" style=\"border-width:0\" src=\"https://i.creativecommons.org/l/by-sa/4.0/88x31.png\" /></a><br />This work is licensed under a <a rel=\"license\" href=\"http://creativecommons.org/licenses/by-sa/4.0/\">Creative Commons Attribution-ShareAlike 4.0 International License</a>.','en',0,1,0,0,0,'Creative Commons Attribution-ShareAlike 4.0 International License','http://creativecommons.org/licenses/by-sa/4.0/','https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-sa.svg','Creative Commons License',1,NULL);
+INSERT INTO `il_md_cpr_selections` VALUES (6,'Attribution (BY) 4.0','Creative Commons License','<a rel=\"license\" href=\"http://creativecommons.org/licenses/by/4.0/\"><img alt=\"Creative Commons License\" style=\"border-width:0\" src=\"https://i.creativecommons.org/l/by/4.0/88x31.png\" /></a><br />This work is licensed under a <a rel=\"license\" href=\"http://creativecommons.org/licenses/by/4.0/\">Creative Commons Attribution 4.0 International License</a>.','en',0,1,0,0,0,'Creative Commons Attribution 4.0 International License','http://creativecommons.org/licenses/by/4.0/','https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by.svg','Creative Commons License',1,NULL);
+INSERT INTO `il_md_cpr_selections` VALUES (7,'All rights reserved','The copyright holder reserves, or holds for their own use, all the rights provided by copyright law.','This work has all rights reserved by the owner.','en',0,1,1,0,0,'All rights reserved','','','',1,NULL);
 INSERT INTO `il_md_cpr_selections` VALUES (8,'Public Domain','Creative work to which no exclusive intellectual property rights apply.',NULL,NULL,0,1,0,0,1,'Public Domain','http://creativecommons.org/publicdomain/zero/1.0/','https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/cc-zero.svg','CC0',1,'');
 
 --
@@ -8800,7 +8920,8 @@ CREATE TABLE `il_meta_context` (
   `parent_id` int(11) DEFAULT NULL,
   `context` varchar(255) DEFAULT NULL,
   `context_src` varchar(64) NOT NULL DEFAULT '',
-  PRIMARY KEY (`meta_context_id`)
+  PRIMARY KEY (`meta_context_id`),
+  KEY `i1_idx` (`rbac_id`,`obj_id`)
 ) ;
 
 --
@@ -8874,7 +8995,8 @@ CREATE TABLE `il_meta_coverage` (
   `parent_id` int(11) DEFAULT NULL,
   `coverage` varchar(4000) DEFAULT NULL,
   `coverage_language` char(2) DEFAULT NULL,
-  PRIMARY KEY (`meta_coverage_id`)
+  PRIMARY KEY (`meta_coverage_id`),
+  KEY `i1_idx` (`rbac_id`,`obj_id`)
 ) ;
 
 --
@@ -8991,7 +9113,8 @@ CREATE TABLE `il_meta_end_usr_role` (
   `parent_id` int(11) DEFAULT NULL,
   `intended_end_user_role` varchar(255) DEFAULT NULL,
   `intended_end_user_role_src` varchar(64) NOT NULL DEFAULT '',
-  PRIMARY KEY (`meta_end_usr_role_id`)
+  PRIMARY KEY (`meta_end_usr_role_id`),
+  KEY `i1_idx` (`rbac_id`,`obj_id`)
 ) ;
 
 --
@@ -9350,7 +9473,8 @@ CREATE TABLE `il_meta_lr_type` (
   `parent_id` int(11) DEFAULT NULL,
   `learning_resource_type` varchar(255) DEFAULT NULL,
   `learning_resource_type_src` varchar(64) NOT NULL DEFAULT '',
-  PRIMARY KEY (`meta_lr_type_id`)
+  PRIMARY KEY (`meta_lr_type_id`),
+  KEY `i1_idx` (`rbac_id`,`obj_id`)
 ) ;
 
 --
@@ -9418,7 +9542,8 @@ CREATE TABLE `il_meta_meta_schema` (
   `parent_type` varchar(16) DEFAULT NULL,
   `parent_id` int(11) DEFAULT NULL,
   `meta_data_schema` varchar(16) DEFAULT NULL,
-  PRIMARY KEY (`meta_meta_schema_id`)
+  PRIMARY KEY (`meta_meta_schema_id`),
+  KEY `i1_idx` (`rbac_id`,`obj_id`)
 ) ;
 
 --
@@ -9491,7 +9616,8 @@ CREATE TABLE `il_meta_or_composite` (
   `max_version` varchar(255) DEFAULT NULL,
   `type_src` varchar(64) NOT NULL DEFAULT '',
   `name_src` varchar(64) NOT NULL DEFAULT '',
-  PRIMARY KEY (`meta_or_composite_id`)
+  PRIMARY KEY (`meta_or_composite_id`),
+  KEY `i1_idx` (`rbac_id`,`obj_id`)
 ) ;
 
 --
@@ -9910,7 +10036,8 @@ CREATE TABLE `il_news_item` (
   PRIMARY KEY (`id`),
   KEY `i1_idx` (`context_obj_id`),
   KEY `i2_idx` (`creation_date`),
-  KEY `mo_idx` (`mob_id`)
+  KEY `mo_idx` (`mob_id`),
+  KEY `i3_idx` (`context_obj_type`)
 ) ;
 
 --
@@ -10043,7 +10170,7 @@ INSERT INTO `il_object_def` VALUES ('exc','Exercise','components/ILIAS/Exercise'
 INSERT INTO `il_object_def` VALUES ('excs','ExerciseAdministration','components/ILIAS/Exercise','components/ILIAS/Exercise/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('excv','ExerciseVerification','components/ILIAS/Exercise','components/ILIAS/Exercise/classes',0,0,'0',0,0,0,0,0,0,100,NULL,160,0,0,0,0,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('facs','FileAccessSettings','components/ILIAS/File','components/ILIAS/File/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
-INSERT INTO `il_object_def` VALUES ('file','File','components/ILIAS/File','components/ILIAS/File/classes',1,0,'0',0,1,1,1,0,0,90,NULL,150,1,1,1,0,1,0,0,0);
+INSERT INTO `il_object_def` VALUES ('file','File','components/ILIAS/File','components/ILIAS/File/classes',1,0,'0',0,1,1,1,0,0,90,NULL,150,1,1,1,0,1,0,0,1);
 INSERT INTO `il_object_def` VALUES ('fils','FileServices','components/ILIAS/FileServices','components/ILIAS/FileServices/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('fold','Folder','components/ILIAS/Folder','components/ILIAS/Folder/classes',1,1,'db',0,0,1,1,0,0,40,NULL,20,1,1,0,0,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('frm','Forum','components/ILIAS/Forum','components/ILIAS/Forum/classes',1,1,'0',0,1,1,1,0,0,70,NULL,90,1,1,0,0,0,0,0,1);
@@ -10058,18 +10185,17 @@ INSERT INTO `il_object_def` VALUES ('hlps','HelpSettings','components/ILIAS/Help
 INSERT INTO `il_object_def` VALUES ('htlm','FileBasedLM','components/ILIAS/HTMLLearningModule','components/ILIAS/HTMLLearningModule/classes',1,1,'0',0,1,1,1,0,0,130,'lres',0,1,1,0,0,0,0,0,1);
 INSERT INTO `il_object_def` VALUES ('iass','IndividualAssessment','components/ILIAS/IndividualAssessment','components/ILIAS/IndividualAssessment/classes',1,1,'0',0,1,1,1,0,0,190,NULL,190,1,1,0,0,1,1,0,1);
 INSERT INTO `il_object_def` VALUES ('impr','LegalNotice','components/ILIAS/Imprint','components/ILIAS/Imprint/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
-INSERT INTO `il_object_def` VALUES ('itgr','ItemGroup','components/ILIAS/ItemGroup','components/ILIAS/ItemGroup/classes',1,0,'db',0,0,1,1,0,0,45,NULL,5,1,1,0,0,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('lhts','LearningHistorySettings','components/ILIAS/LearningHistory','components/ILIAS/LearningHistory/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('lm','LearningModule','components/ILIAS/LearningModule','components/ILIAS/LearningModule/classes',1,1,'db',0,1,1,1,0,0,120,'lres',0,1,1,0,0,0,0,1,1);
 INSERT INTO `il_object_def` VALUES ('lng','Language','components/ILIAS/Language','components/ILIAS/Language/classes',1,0,'0',0,0,0,0,0,0,0,NULL,0,0,1,0,0,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('lngf','LanguageFolder','components/ILIAS/Language','components/ILIAS/Language/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('logs','LoggingSettings','components/ILIAS/Logging','components/ILIAS/Logging/classes',0,1,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('lrss','LearningResourcesSettings','components/ILIAS/LearningModule','components/ILIAS/LearningModule/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
-INSERT INTO `il_object_def` VALUES ('lso','LearningSequence','components/ILIAS/LearningSequence','components/ILIAS/LearningSequence/classes',1,1,'0',0,0,1,1,0,0,30,'lso',300,1,1,0,0,0,0,0,1);
+INSERT INTO `il_object_def` VALUES ('lso','LearningSequence','components/ILIAS/LearningSequence','components/ILIAS/LearningSequence/classes',1,1,'0',0,0,1,1,0,0,30,'lso',300,1,1,0,0,1,0,0,1);
 INSERT INTO `il_object_def` VALUES ('lsos','LearningSequenceAdmin','components/ILIAS/LearningSequence','components/ILIAS/LearningSequence/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
-INSERT INTO `il_object_def` VALUES ('lti','LTIConsumer','components/ILIAS/LTIConsumer','components/ILIAS/LTIConsumer/classes',1,1,'db',0,1,0,1,0,0,120,'lres',0,0,1,0,0,0,0,0,1);
-INSERT INTO `il_object_def` VALUES ('ltis','LTIAdministration','components/ILIAS/LTIProvider','components/ILIAS/LTIProvider/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
-INSERT INTO `il_object_def` VALUES ('ltiv','LTIConsumerVerification','components/ILIAS/LTIConsumer','components/ILIAS/LTIConsumer/classes/Verification',0,0,'0',0,0,0,0,0,0,90,NULL,150,0,0,0,0,0,0,0,0);
+INSERT INTO `il_object_def` VALUES ('lti','LTITool','components/ILIAS/LTI','components/ILIAS/LTI/classes/Object',1,1,'db',0,1,1,1,0,0,120,'lres',0,0,1,0,0,0,0,0,1);
+INSERT INTO `il_object_def` VALUES ('ltis','LTIAdministration','components/ILIAS/LTI','components/ILIAS/LTI/classes/Administration',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
+INSERT INTO `il_object_def` VALUES ('ltiv','LTIToolVerification','components/ILIAS/LTI','components/ILIAS/LTI/classes/Object/Verification',0,0,'0',0,0,0,0,0,0,90,NULL,150,0,0,0,0,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('mail','Mail','components/ILIAS/Mail','components/ILIAS/Mail/classes',0,0,'sys',0,0,0,1,0,0,0,NULL,0,0,1,0,1,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('maps','Maps','components/ILIAS/Maps','components/ILIAS/Maps/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('mcst','MediaCast','components/ILIAS/MediaCast','components/ILIAS/MediaCast/classes',1,1,NULL,0,1,1,1,0,0,110,NULL,130,1,1,0,0,0,0,0,1);
@@ -10081,6 +10207,7 @@ INSERT INTO `il_object_def` VALUES ('mobs','MediaObjectsSettings','components/IL
 INSERT INTO `il_object_def` VALUES ('nota','NotificationAdmin','components/ILIAS/Notifications','components/ILIAS/Notifications/classes',0,0,'sys',0,0,0,0,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('nots','NotesSettings','components/ILIAS/Notes','components/ILIAS/Notes/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('nwss','NewsSettings','components/ILIAS/News','components/ILIAS/News/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
+INSERT INTO `il_object_def` VALUES ('obgr','ObjectGroup','components/ILIAS/ObjectGroup','components/ILIAS/ObjectGroup/classes',1,0,'db',0,0,1,1,0,0,45,NULL,5,1,1,0,0,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('objf','ObjectFolder','components/ILIAS/ILIASObject','components/ILIAS/ILIASObject/classes',0,0,'sys',1,0,0,1,1,0,0,NULL,0,0,1,0,0,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('orgu','OrgUnit','components/ILIAS/OrgUnit','components/ILIAS/OrgUnit/classes',1,1,'db',0,0,0,1,0,0,10,'orgu',10,1,1,0,1,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('otpl','ObjectTemplateAdministration','components/ILIAS/DidacticTemplate','components/ILIAS/DidacticTemplate/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
@@ -10090,10 +10217,11 @@ INSERT INTO `il_object_def` VALUES ('prg','StudyProgramme','components/ILIAS/Stu
 INSERT INTO `il_object_def` VALUES ('prgr','StudyProgrammeReference','components/ILIAS/StudyProgrammeReference','components/ILIAS/StudyProgrammeReference/classes',1,0,'0',0,1,1,1,0,0,25,'prg',20,0,1,0,0,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('prgs','StudyProgrammeAdmin','components/ILIAS/StudyProgramme','components/ILIAS/StudyProgramme/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('prss','PersonalWorkspaceSettings','components/ILIAS/PersonalWorkspace','components/ILIAS/PersonalWorkspace/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
-INSERT INTO `il_object_def` VALUES ('prtf','Portfolio','components/ILIAS/Portfolio','components/ILIAS/Portfolio/classes',0,0,'0',0,0,0,0,0,0,0,NULL,0,0,0,0,0,0,0,0,0);
+INSERT INTO `il_object_def` VALUES ('prtf','Portfolio','components/ILIAS/Portfolio','components/ILIAS/Portfolio/classes',0,0,'0',0,0,0,0,0,0,0,NULL,0,0,0,0,0,0,0,0,1);
 INSERT INTO `il_object_def` VALUES ('prtt','PortfolioTemplate','components/ILIAS/Portfolio','components/ILIAS/Portfolio/Template',1,0,'0',0,1,1,1,0,0,500,NULL,500,1,1,0,0,0,0,0,1);
 INSERT INTO `il_object_def` VALUES ('ps','PrivacySecurity','components/ILIAS/PrivacySecurity','components/ILIAS/PrivacySecurity/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('qpl','QuestionPool','components/ILIAS/TestQuestionPool','components/ILIAS/TestQuestionPool/classes',1,1,'0',0,1,1,1,0,0,210,NULL,200,1,1,0,0,0,0,0,1);
+INSERT INTO `il_object_def` VALUES ('qsts','Questions','components/ILIAS/Questions','components/ILIAS/Questions/Legacy/Administration',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('rcat','RemoteCategory','components/ILIAS/RemoteCategory','components/ILIAS/RemoteCategory/classes',1,0,'0',0,1,1,1,0,0,30,'cat',40,0,0,0,0,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('rcrs','RemoteCourse','components/ILIAS/RemoteCourse','components/ILIAS/RemoteCourse/classes',1,0,'0',0,1,1,1,0,0,30,'crs',40,0,0,0,0,1,0,0,0);
 INSERT INTO `il_object_def` VALUES ('recf','RecoveryFolder','components/ILIAS/Administration','components/ILIAS/Administration/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
@@ -10268,6 +10396,7 @@ INSERT INTO `il_object_subobj` VALUES ('adm','prfa',1);
 INSERT INTO `il_object_subobj` VALUES ('adm','prgs',1);
 INSERT INTO `il_object_subobj` VALUES ('adm','prss',1);
 INSERT INTO `il_object_subobj` VALUES ('adm','ps',1);
+INSERT INTO `il_object_subobj` VALUES ('adm','qsts',1);
 INSERT INTO `il_object_subobj` VALUES ('adm','recf',1);
 INSERT INTO `il_object_subobj` VALUES ('adm','reps',1);
 INSERT INTO `il_object_subobj` VALUES ('adm','rolf',0);
@@ -10306,12 +10435,12 @@ INSERT INTO `il_object_subobj` VALUES ('cat','grp',0);
 INSERT INTO `il_object_subobj` VALUES ('cat','grpr',0);
 INSERT INTO `il_object_subobj` VALUES ('cat','htlm',0);
 INSERT INTO `il_object_subobj` VALUES ('cat','iass',0);
-INSERT INTO `il_object_subobj` VALUES ('cat','itgr',0);
 INSERT INTO `il_object_subobj` VALUES ('cat','lm',0);
 INSERT INTO `il_object_subobj` VALUES ('cat','lso',0);
 INSERT INTO `il_object_subobj` VALUES ('cat','lti',0);
 INSERT INTO `il_object_subobj` VALUES ('cat','mcst',0);
 INSERT INTO `il_object_subobj` VALUES ('cat','mep',0);
+INSERT INTO `il_object_subobj` VALUES ('cat','obgr',0);
 INSERT INTO `il_object_subobj` VALUES ('cat','poll',0);
 INSERT INTO `il_object_subobj` VALUES ('cat','prg',0);
 INSERT INTO `il_object_subobj` VALUES ('cat','prgr',0);
@@ -10349,12 +10478,12 @@ INSERT INTO `il_object_subobj` VALUES ('crs','grp',0);
 INSERT INTO `il_object_subobj` VALUES ('crs','grpr',0);
 INSERT INTO `il_object_subobj` VALUES ('crs','htlm',0);
 INSERT INTO `il_object_subobj` VALUES ('crs','iass',0);
-INSERT INTO `il_object_subobj` VALUES ('crs','itgr',0);
 INSERT INTO `il_object_subobj` VALUES ('crs','lm',0);
 INSERT INTO `il_object_subobj` VALUES ('crs','lso',0);
 INSERT INTO `il_object_subobj` VALUES ('crs','lti',0);
 INSERT INTO `il_object_subobj` VALUES ('crs','mcst',0);
 INSERT INTO `il_object_subobj` VALUES ('crs','mep',0);
+INSERT INTO `il_object_subobj` VALUES ('crs','obgr',0);
 INSERT INTO `il_object_subobj` VALUES ('crs','poll',0);
 INSERT INTO `il_object_subobj` VALUES ('crs','prtt',0);
 INSERT INTO `il_object_subobj` VALUES ('crs','qpl',0);
@@ -10383,12 +10512,12 @@ INSERT INTO `il_object_subobj` VALUES ('fold','glo',0);
 INSERT INTO `il_object_subobj` VALUES ('fold','grp',0);
 INSERT INTO `il_object_subobj` VALUES ('fold','htlm',0);
 INSERT INTO `il_object_subobj` VALUES ('fold','iass',0);
-INSERT INTO `il_object_subobj` VALUES ('fold','itgr',0);
 INSERT INTO `il_object_subobj` VALUES ('fold','lm',0);
 INSERT INTO `il_object_subobj` VALUES ('fold','lso',0);
 INSERT INTO `il_object_subobj` VALUES ('fold','lti',0);
 INSERT INTO `il_object_subobj` VALUES ('fold','mcst',0);
 INSERT INTO `il_object_subobj` VALUES ('fold','mep',0);
+INSERT INTO `il_object_subobj` VALUES ('fold','obgr',0);
 INSERT INTO `il_object_subobj` VALUES ('fold','poll',0);
 INSERT INTO `il_object_subobj` VALUES ('fold','prtt',0);
 INSERT INTO `il_object_subobj` VALUES ('fold','qpl',0);
@@ -10417,12 +10546,12 @@ INSERT INTO `il_object_subobj` VALUES ('grp','grp',0);
 INSERT INTO `il_object_subobj` VALUES ('grp','grpr',0);
 INSERT INTO `il_object_subobj` VALUES ('grp','htlm',0);
 INSERT INTO `il_object_subobj` VALUES ('grp','iass',0);
-INSERT INTO `il_object_subobj` VALUES ('grp','itgr',0);
 INSERT INTO `il_object_subobj` VALUES ('grp','lm',0);
 INSERT INTO `il_object_subobj` VALUES ('grp','lso',0);
 INSERT INTO `il_object_subobj` VALUES ('grp','lti',0);
 INSERT INTO `il_object_subobj` VALUES ('grp','mcst',0);
 INSERT INTO `il_object_subobj` VALUES ('grp','mep',0);
+INSERT INTO `il_object_subobj` VALUES ('grp','obgr',0);
 INSERT INTO `il_object_subobj` VALUES ('grp','poll',0);
 INSERT INTO `il_object_subobj` VALUES ('grp','prtt',0);
 INSERT INTO `il_object_subobj` VALUES ('grp','qpl',0);
@@ -10470,11 +10599,11 @@ INSERT INTO `il_object_subobj` VALUES ('recf','glo',0);
 INSERT INTO `il_object_subobj` VALUES ('recf','grp',0);
 INSERT INTO `il_object_subobj` VALUES ('recf','grpr',0);
 INSERT INTO `il_object_subobj` VALUES ('recf','htlm',0);
-INSERT INTO `il_object_subobj` VALUES ('recf','itgr',0);
 INSERT INTO `il_object_subobj` VALUES ('recf','lm',0);
 INSERT INTO `il_object_subobj` VALUES ('recf','lti',0);
 INSERT INTO `il_object_subobj` VALUES ('recf','mcst',0);
 INSERT INTO `il_object_subobj` VALUES ('recf','mep',0);
+INSERT INTO `il_object_subobj` VALUES ('recf','obgr',0);
 INSERT INTO `il_object_subobj` VALUES ('recf','poll',0);
 INSERT INTO `il_object_subobj` VALUES ('recf','prg',0);
 INSERT INTO `il_object_subobj` VALUES ('recf','prgr',0);
@@ -10509,12 +10638,12 @@ INSERT INTO `il_object_subobj` VALUES ('root','grp',0);
 INSERT INTO `il_object_subobj` VALUES ('root','grpr',0);
 INSERT INTO `il_object_subobj` VALUES ('root','htlm',0);
 INSERT INTO `il_object_subobj` VALUES ('root','iass',0);
-INSERT INTO `il_object_subobj` VALUES ('root','itgr',0);
 INSERT INTO `il_object_subobj` VALUES ('root','lm',0);
 INSERT INTO `il_object_subobj` VALUES ('root','lso',0);
 INSERT INTO `il_object_subobj` VALUES ('root','lti',0);
 INSERT INTO `il_object_subobj` VALUES ('root','mcst',0);
 INSERT INTO `il_object_subobj` VALUES ('root','mep',0);
+INSERT INTO `il_object_subobj` VALUES ('root','obgr',0);
 INSERT INTO `il_object_subobj` VALUES ('root','poll',0);
 INSERT INTO `il_object_subobj` VALUES ('root','prg',0);
 INSERT INTO `il_object_subobj` VALUES ('root','prgr',0);
@@ -11154,6 +11283,7 @@ CREATE TABLE `il_resource` (
   `rid` varchar(64) NOT NULL DEFAULT '',
   `storage_id` varchar(8) NOT NULL DEFAULT '',
   `rtype` tinyint(4) NOT NULL DEFAULT 1,
+  `confidential` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`rid`),
   KEY `i1_idx` (`storage_id`)
 ) ;
@@ -11171,7 +11301,7 @@ CREATE TABLE `il_resource_flavour` (
   `rid` varchar(64) NOT NULL,
   `revision` bigint(20) NOT NULL,
   `definition_id` varchar(64) NOT NULL,
-  `variant` varchar(768) NOT NULL,
+  `variant` varchar(638) NOT NULL DEFAULT '',
   PRIMARY KEY (`rid`,`revision`,`definition_id`,`variant`),
   KEY `i1_idx` (`rid`),
   KEY `i3_idx` (`definition_id`),
@@ -11556,35 +11686,20 @@ CREATE TABLE `int_link` (
 
 
 --
--- Table structure for table `item_group_item`
+-- Table structure for table `kvs_store`
 --
 
-CREATE TABLE `item_group_item` (
-  `item_group_id` int(11) NOT NULL DEFAULT 0,
-  `item_ref_id` int(11) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`item_group_id`,`item_ref_id`)
+CREATE TABLE `kvs_store` (
+  `provider` varchar(64) NOT NULL DEFAULT '',
+  `subject` varchar(128) NOT NULL DEFAULT '',
+  `namespace` varchar(128) NOT NULL,
+  `keyword` varchar(255) NOT NULL,
+  `value` varchar(4000) DEFAULT NULL,
+  PRIMARY KEY (`provider`,`subject`,`namespace`,`keyword`)
 ) ;
 
 --
--- Dumping data for table `item_group_item`
---
-
-
---
--- Table structure for table `itgr_data`
---
-
-CREATE TABLE `itgr_data` (
-  `id` int(11) NOT NULL DEFAULT 0,
-  `hide_title` tinyint(4) NOT NULL DEFAULT 0,
-  `behaviour` tinyint(4) DEFAULT 0,
-  `list_presentation` varchar(10) DEFAULT NULL,
-  `tile_size` tinyint(4) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`id`)
-) ;
-
---
--- Dumping data for table `itgr_data`
+-- Dumping data for table `kvs_store`
 --
 
 
@@ -11876,7 +11991,7 @@ CREATE TABLE `ldoc_versions` (
   `hash` varchar(32) DEFAULT NULL,
   `ts` int(11) NOT NULL DEFAULT 0,
   `doc_id` int(11) NOT NULL DEFAULT 0,
-  `title` text DEFAULT NULL,
+  `title` mediumtext DEFAULT NULL,
   `type` varchar(255) NOT NULL DEFAULT 'html',
   `provider` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
@@ -12333,84 +12448,6 @@ CREATE TABLE `log_components` (
 -- Dumping data for table `log_components`
 --
 
-INSERT INTO `log_components` VALUES ('ac',0);
-INSERT INTO `log_components` VALUES ('adms',NULL);
-INSERT INTO `log_components` VALUES ('adn',NULL);
-INSERT INTO `log_components` VALUES ('amet',NULL);
-INSERT INTO `log_components` VALUES ('auth',0);
-INSERT INTO `log_components` VALUES ('awrn',0);
-INSERT INTO `log_components` VALUES ('bgtk',NULL);
-INSERT INTO `log_components` VALUES ('bnmk',NULL);
-INSERT INTO `log_components` VALUES ('book',NULL);
-INSERT INTO `log_components` VALUES ('cal',NULL);
-INSERT INTO `log_components` VALUES ('cat',NULL);
-INSERT INTO `log_components` VALUES ('cert',NULL);
-INSERT INTO `log_components` VALUES ('chtr',0);
-INSERT INTO `log_components` VALUES ('cmix',NULL);
-INSERT INTO `log_components` VALUES ('cont',NULL);
-INSERT INTO `log_components` VALUES ('contact',0);
-INSERT INTO `log_components` VALUES ('copg',0);
-INSERT INTO `log_components` VALUES ('cron',NULL);
-INSERT INTO `log_components` VALUES ('crs',0);
-INSERT INTO `log_components` VALUES ('crsr',NULL);
-INSERT INTO `log_components` VALUES ('data_pro',NULL);
-INSERT INTO `log_components` VALUES ('db',0);
-INSERT INTO `log_components` VALUES ('ds',NULL);
-INSERT INTO `log_components` VALUES ('evnt',NULL);
-INSERT INTO `log_components` VALUES ('exc',NULL);
-INSERT INTO `log_components` VALUES ('exp',0);
-INSERT INTO `log_components` VALUES ('file',0);
-INSERT INTO `log_components` VALUES ('fils',NULL);
-INSERT INTO `log_components` VALUES ('frm',NULL);
-INSERT INTO `log_components` VALUES ('glo',0);
-INSERT INTO `log_components` VALUES ('global_screen',NULL);
-INSERT INTO `log_components` VALUES ('grp',0);
-INSERT INTO `log_components` VALUES ('init',0);
-INSERT INTO `log_components` VALUES ('irss',NULL);
-INSERT INTO `log_components` VALUES ('lang',NULL);
-INSERT INTO `log_components` VALUES ('ldoc',NULL);
-INSERT INTO `log_components` VALUES ('lhist',NULL);
-INSERT INTO `log_components` VALUES ('lm',0);
-INSERT INTO `log_components` VALUES ('log',0);
-INSERT INTO `log_components` VALUES ('log_root',0);
-INSERT INTO `log_components` VALUES ('lti',NULL);
-INSERT INTO `log_components` VALUES ('ltis',NULL);
-INSERT INTO `log_components` VALUES ('mail',0);
-INSERT INTO `log_components` VALUES ('maps',NULL);
-INSERT INTO `log_components` VALUES ('mcst',NULL);
-INSERT INTO `log_components` VALUES ('mep',NULL);
-INSERT INTO `log_components` VALUES ('meta',NULL);
-INSERT INTO `log_components` VALUES ('mmbr',NULL);
-INSERT INTO `log_components` VALUES ('mme',NULL);
-INSERT INTO `log_components` VALUES ('mob',0);
-INSERT INTO `log_components` VALUES ('news',NULL);
-INSERT INTO `log_components` VALUES ('nota',NULL);
-INSERT INTO `log_components` VALUES ('note',NULL);
-INSERT INTO `log_components` VALUES ('noti',NULL);
-INSERT INTO `log_components` VALUES ('obj',0);
-INSERT INTO `log_components` VALUES ('osch',NULL);
-INSERT INTO `log_components` VALUES ('otpl',0);
-INSERT INTO `log_components` VALUES ('pdfg',NULL);
-INSERT INTO `log_components` VALUES ('pwsp',NULL);
-INSERT INTO `log_components` VALUES ('rep',0);
-INSERT INTO `log_components` VALUES ('rnd',NULL);
-INSERT INTO `log_components` VALUES ('sc13',NULL);
-INSERT INTO `log_components` VALUES ('sess',NULL);
-INSERT INTO `log_components` VALUES ('skll',0);
-INSERT INTO `log_components` VALUES ('spl',NULL);
-INSERT INTO `log_components` VALUES ('src',0);
-INSERT INTO `log_components` VALUES ('styl',NULL);
-INSERT INTO `log_components` VALUES ('svy',NULL);
-INSERT INTO `log_components` VALUES ('sysc',NULL);
-INSERT INTO `log_components` VALUES ('tos',NULL);
-INSERT INTO `log_components` VALUES ('trac',NULL);
-INSERT INTO `log_components` VALUES ('tree',0);
-INSERT INTO `log_components` VALUES ('user',0);
-INSERT INTO `log_components` VALUES ('wbdv',NULL);
-INSERT INTO `log_components` VALUES ('webr',0);
-INSERT INTO `log_components` VALUES ('wiki',NULL);
-INSERT INTO `log_components` VALUES ('wopi',NULL);
-INSERT INTO `log_components` VALUES ('wsrv',0);
 
 --
 -- Table structure for table `loginname_history`
@@ -12429,6 +12466,261 @@ CREATE TABLE `loginname_history` (
 
 
 --
+-- Table structure for table `lso_c_learning_progress_input`
+--
+
+CREATE TABLE `lso_c_learning_progress_input` (
+  `condition_id` int(11) NOT NULL,
+  `subtype` varchar(32) NOT NULL,
+  `item_ref_id` int(11) NOT NULL,
+  PRIMARY KEY (`condition_id`)
+) ;
+
+--
+-- Dumping data for table `lso_c_learning_progress_input`
+--
+
+
+--
+-- Table structure for table `lso_c_learning_progress_output`
+--
+
+CREATE TABLE `lso_c_learning_progress_output` (
+  `condition_id` int(11) NOT NULL,
+  `subtype` varchar(32) NOT NULL,
+  PRIMARY KEY (`condition_id`)
+) ;
+
+--
+-- Dumping data for table `lso_c_learning_progress_output`
+--
+
+
+--
+-- Table structure for table `lso_c_logic_gate_input`
+--
+
+CREATE TABLE `lso_c_logic_gate_input` (
+  `condition_id` int(11) NOT NULL,
+  `subtype` varchar(32) NOT NULL,
+  PRIMARY KEY (`condition_id`)
+) ;
+
+--
+-- Dumping data for table `lso_c_logic_gate_input`
+--
+
+
+--
+-- Table structure for table `lso_c_logic_gate_items`
+--
+
+CREATE TABLE `lso_c_logic_gate_items` (
+  `condition_id` int(11) NOT NULL,
+  `item_ref_id` int(11) NOT NULL,
+  PRIMARY KEY (`condition_id`,`item_ref_id`)
+) ;
+
+--
+-- Dumping data for table `lso_c_logic_gate_items`
+--
+
+
+--
+-- Table structure for table `lso_c_points_input`
+--
+
+CREATE TABLE `lso_c_points_input` (
+  `condition_id` int(11) NOT NULL,
+  `points` int(11) NOT NULL,
+  PRIMARY KEY (`condition_id`)
+) ;
+
+--
+-- Dumping data for table `lso_c_points_input`
+--
+
+
+--
+-- Table structure for table `lso_c_points_input_items`
+--
+
+CREATE TABLE `lso_c_points_input_items` (
+  `condition_id` int(11) NOT NULL,
+  `item_ref_id` int(11) NOT NULL,
+  PRIMARY KEY (`condition_id`,`item_ref_id`)
+) ;
+
+--
+-- Dumping data for table `lso_c_points_input_items`
+--
+
+
+--
+-- Table structure for table `lso_c_points_output`
+--
+
+CREATE TABLE `lso_c_points_output` (
+  `condition_id` int(11) NOT NULL,
+  `points` int(11) NOT NULL,
+  PRIMARY KEY (`condition_id`)
+) ;
+
+--
+-- Dumping data for table `lso_c_points_output`
+--
+
+
+--
+-- Table structure for table `lso_c_subset`
+--
+
+CREATE TABLE `lso_c_subset` (
+  `condition_id` int(11) NOT NULL,
+  `subset` int(11) NOT NULL,
+  PRIMARY KEY (`condition_id`)
+) ;
+
+--
+-- Dumping data for table `lso_c_subset`
+--
+
+
+--
+-- Table structure for table `lso_c_subset_items`
+--
+
+CREATE TABLE `lso_c_subset_items` (
+  `condition_id` int(11) NOT NULL,
+  `item_ref_id` int(11) NOT NULL,
+  PRIMARY KEY (`condition_id`,`item_ref_id`)
+) ;
+
+--
+-- Dumping data for table `lso_c_subset_items`
+--
+
+
+--
+-- Table structure for table `lso_condition_types`
+--
+
+CREATE TABLE `lso_condition_types` (
+  `type_id` int(11) NOT NULL,
+  `condition_name` varchar(255) NOT NULL,
+  PRIMARY KEY (`type_id`)
+) ;
+
+--
+-- Dumping data for table `lso_condition_types`
+--
+
+INSERT INTO `lso_condition_types` VALUES (1,'PointsInput');
+INSERT INTO `lso_condition_types` VALUES (2,'SubsetInput');
+INSERT INTO `lso_condition_types` VALUES (3,'LogicGateInputAware');
+INSERT INTO `lso_condition_types` VALUES (4,'LearningProgressInputAware');
+INSERT INTO `lso_condition_types` VALUES (5,'AlwaysOutput');
+INSERT INTO `lso_condition_types` VALUES (6,'PointsOutput');
+INSERT INTO `lso_condition_types` VALUES (7,'LearningProgressOutputAware');
+
+--
+-- Table structure for table `lso_condition_types_seq`
+--
+
+CREATE TABLE `lso_condition_types_seq` (
+  `sequence` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`sequence`)
+)  AUTO_INCREMENT=8;
+
+--
+-- Dumping data for table `lso_condition_types_seq`
+--
+
+INSERT INTO `lso_condition_types_seq` VALUES (7);
+
+--
+-- Table structure for table `lso_conditions`
+--
+
+CREATE TABLE `lso_conditions` (
+  `condition_id` int(11) NOT NULL,
+  `lso_ref_id` int(11) NOT NULL,
+  `obj_ref_id` int(11) NOT NULL,
+  `type_id` int(11) NOT NULL,
+  PRIMARY KEY (`condition_id`)
+) ;
+
+--
+-- Dumping data for table `lso_conditions`
+--
+
+
+--
+-- Table structure for table `lso_conditions_seq`
+--
+
+CREATE TABLE `lso_conditions_seq` (
+  `sequence` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`sequence`)
+) ;
+
+--
+-- Dumping data for table `lso_conditions_seq`
+--
+
+
+--
+-- Table structure for table `lso_item_boundaries`
+--
+
+CREATE TABLE `lso_item_boundaries` (
+  `obj_id` int(11) NOT NULL,
+  `start_ref_id` int(11) DEFAULT NULL,
+  `end_ref_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`obj_id`)
+) ;
+
+--
+-- Dumping data for table `lso_item_boundaries`
+--
+
+
+--
+-- Table structure for table `lso_item_path`
+--
+
+CREATE TABLE `lso_item_path` (
+  `usr_id` int(11) NOT NULL,
+  `lso_obj_id` int(11) NOT NULL,
+  `position` int(11) NOT NULL,
+  `ref_id` int(11) NOT NULL,
+  PRIMARY KEY (`usr_id`,`lso_obj_id`,`position`)
+) ;
+
+--
+-- Dumping data for table `lso_item_path`
+--
+
+
+--
+-- Table structure for table `lso_item_visits`
+--
+
+CREATE TABLE `lso_item_visits` (
+  `usr_id` int(11) NOT NULL,
+  `lso_obj_id` int(11) NOT NULL,
+  `position` int(11) NOT NULL,
+  `ref_id` int(11) NOT NULL,
+  `visited_ts` int(11) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`usr_id`,`lso_obj_id`,`position`)
+) ;
+
+--
+-- Dumping data for table `lso_item_visits`
+--
+
+
+--
 -- Table structure for table `lso_settings`
 --
 
@@ -12439,6 +12731,7 @@ CREATE TABLE `lso_settings` (
   `abstract_image` varchar(128) DEFAULT NULL,
   `extro_image` varchar(128) DEFAULT NULL,
   `gallery` tinyint(4) NOT NULL DEFAULT 0,
+  `lso_mod` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`obj_id`)
 ) ;
 
@@ -12753,6 +13046,46 @@ CREATE TABLE `lti_consumer_grades_seq` (
 
 
 --
+-- Table structure for table `lti_consumer_lineitems`
+--
+
+CREATE TABLE `lti_consumer_lineitems` (
+  `id` int(11) NOT NULL,
+  `context_id` int(11) NOT NULL,
+  `obj_id` int(11) DEFAULT NULL,
+  `client_id` varchar(255) DEFAULT NULL,
+  `label` varchar(255) DEFAULT NULL,
+  `score_maximum` double DEFAULT 1,
+  `resource_id` varchar(255) DEFAULT NULL,
+  `resource_link_id` varchar(255) DEFAULT NULL,
+  `tag` varchar(255) DEFAULT NULL,
+  `enabled` tinyint(4) NOT NULL DEFAULT 1,
+  `start_date_time` varchar(64) DEFAULT NULL,
+  `end_date_time` varchar(64) DEFAULT NULL,
+  `grades_released` tinyint(4) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ;
+
+--
+-- Dumping data for table `lti_consumer_lineitems`
+--
+
+
+--
+-- Table structure for table `lti_consumer_lineitems_seq`
+--
+
+CREATE TABLE `lti_consumer_lineitems_seq` (
+  `sequence` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`sequence`)
+) ;
+
+--
+-- Dumping data for table `lti_consumer_lineitems_seq`
+--
+
+
+--
 -- Table structure for table `lti_consumer_results`
 --
 
@@ -12809,6 +13142,7 @@ CREATE TABLE `lti_consumer_settings` (
   `launch_key` varchar(255) DEFAULT NULL,
   `launch_secret` varchar(255) DEFAULT NULL,
   `custom_params` varchar(255) NOT NULL DEFAULT '',
+  `score_maximum` double DEFAULT 1,
   PRIMARY KEY (`obj_id`)
 ) ;
 
@@ -12831,6 +13165,7 @@ CREATE TABLE `lti_ext_consumer` (
   `local_role_always_member` tinyint(4) NOT NULL DEFAULT 0,
   `default_skin` varchar(50) DEFAULT NULL,
   `active` tinyint(4) NOT NULL DEFAULT 0,
+  `names_roles` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ;
 
@@ -12920,6 +13255,7 @@ CREATE TABLE `lti_ext_provider` (
   `content_item_url` varchar(510) DEFAULT NULL,
   `grade_synchronization` tinyint(4) NOT NULL DEFAULT 0,
   `lti_version` varchar(10) NOT NULL DEFAULT 'LTI-1p0',
+  `names_roles` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ;
 
@@ -13002,8 +13338,10 @@ CREATE TABLE `mail` (
 CREATE TABLE `mail_attachment` (
   `mail_id` int(11) NOT NULL DEFAULT 0,
   `path` varchar(500) DEFAULT NULL,
+  `rcid` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`mail_id`),
-  KEY `i1_idx` (`path`(255))
+  KEY `i1_idx` (`path`(255)),
+  KEY `rci_idx` (`rcid`)
 ) ;
 
 --
@@ -13102,6 +13440,7 @@ INSERT INTO `mail_obj_data` VALUES (4,6,'c_trash','trash');
 INSERT INTO `mail_obj_data` VALUES (5,6,'d_drafts','drafts');
 INSERT INTO `mail_obj_data` VALUES (6,6,'f_sent','sent');
 INSERT INTO `mail_obj_data` VALUES (7,6,'z_local','local');
+INSERT INTO `mail_obj_data` VALUES (9,6,'e_outbox','outbox');
 
 --
 -- Table structure for table `mail_obj_data_seq`
@@ -13110,13 +13449,13 @@ INSERT INTO `mail_obj_data` VALUES (7,6,'z_local','local');
 CREATE TABLE `mail_obj_data_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-)  AUTO_INCREMENT=9;
+)  AUTO_INCREMENT=10;
 
 --
 -- Dumping data for table `mail_obj_data_seq`
 --
 
-INSERT INTO `mail_obj_data_seq` VALUES (8);
+INSERT INTO `mail_obj_data_seq` VALUES (9);
 
 --
 -- Table structure for table `mail_options`
@@ -13251,12 +13590,13 @@ CREATE TABLE `mail_tree` (
 -- Dumping data for table `mail_tree`
 --
 
-INSERT INTO `mail_tree` VALUES (6,2,0,1,12,1);
+INSERT INTO `mail_tree` VALUES (6,2,0,1,14,1);
 INSERT INTO `mail_tree` VALUES (6,3,2,2,3,2);
 INSERT INTO `mail_tree` VALUES (6,4,2,4,5,2);
 INSERT INTO `mail_tree` VALUES (6,5,2,6,7,2);
-INSERT INTO `mail_tree` VALUES (6,6,2,8,9,2);
-INSERT INTO `mail_tree` VALUES (6,7,2,10,11,2);
+INSERT INTO `mail_tree` VALUES (6,6,2,10,11,2);
+INSERT INTO `mail_tree` VALUES (6,7,2,12,13,2);
+INSERT INTO `mail_tree` VALUES (6,9,2,8,9,2);
 
 --
 -- Table structure for table `manscoring_done`
@@ -13763,18 +14103,20 @@ INSERT INTO `notification_usercfg` VALUES (-1,'lso_completion','osd');
 INSERT INTO `notification_usercfg` VALUES (-1,'who_is_online','osd');
 
 --
--- Table structure for table `obj_content_master_lng`
+-- Table structure for table `obgr_data`
 --
 
-CREATE TABLE `obj_content_master_lng` (
-  `obj_id` int(11) NOT NULL DEFAULT 0,
-  `master_lang` varchar(2) NOT NULL DEFAULT '',
-  `fallback_lang` varchar(2) DEFAULT NULL,
-  PRIMARY KEY (`obj_id`)
+CREATE TABLE `obgr_data` (
+  `id` int(11) NOT NULL DEFAULT 0,
+  `list_presentation` varchar(10) DEFAULT NULL,
+  `tile_size` tinyint(4) NOT NULL DEFAULT 0,
+  `display` varchar(255) NOT NULL DEFAULT 'with_title',
+  `toggleable_initially` varchar(255) NOT NULL DEFAULT 'with_title_and_toggleable_initially_open',
+  PRIMARY KEY (`id`)
 ) ;
 
 --
--- Dumping data for table `obj_content_master_lng`
+-- Dumping data for table `obgr_data`
 --
 
 
@@ -14014,7 +14356,7 @@ CREATE TABLE `object_data` (
 -- Dumping data for table `object_data`
 --
 
-INSERT INTO `object_data` VALUES (1,'root','ILIAS','This is the root node of the system!!!',-1,'2002-06-24 15:15:03','2004-01-20 12:24:12','',NULL,NULL);
+INSERT INTO `object_data` VALUES (1,'root','ILIAS','',-1,'2002-06-24 15:15:03','2004-01-20 12:24:12','',NULL,NULL);
 INSERT INTO `object_data` VALUES (2,'role','Administrator','Role for systemadministrators. This role grants access to everything!',-1,'2002-01-16 15:31:45','2003-08-15 13:18:57','',NULL,NULL);
 INSERT INTO `object_data` VALUES (3,'rolt','Author','Role template for authors with write & create permissions.',-1,'2002-01-16 15:32:50','2016-12-16 14:58:27','',NULL,NULL);
 INSERT INTO `object_data` VALUES (4,'role','User','Standard role for registered users. Grants read access to most objects.',-1,'2002-01-16 15:34:00','2016-12-16 14:56:25','',NULL,NULL);
@@ -14050,7 +14392,7 @@ INSERT INTO `object_data` VALUES (34,'typ','lm','Learning module Object',-1,'200
 INSERT INTO `object_data` VALUES (35,'typ','notf','Note Folder Object',-1,'2002-12-21 00:04:00','2002-12-21 00:04:00','',NULL,NULL);
 INSERT INTO `object_data` VALUES (36,'typ','note','Note Object',-1,'2002-12-21 00:04:00','2002-12-21 00:04:00','',NULL,NULL);
 INSERT INTO `object_data` VALUES (37,'typ','frm','Forum object',-1,'2002-07-15 15:54:22','2003-08-15 12:36:40','',NULL,NULL);
-INSERT INTO `object_data` VALUES (70,'lng','en','installed',-1,NULL,'2026-05-04 14:42:11','',NULL,NULL);
+INSERT INTO `object_data` VALUES (70,'lng','en','installed',-1,NULL,'2026-11-02 11:21:12','',NULL,NULL);
 INSERT INTO `object_data` VALUES (71,'lng','de','not_installed',6,'2003-08-15 10:25:19','2015-12-22 16:29:24','',NULL,NULL);
 INSERT INTO `object_data` VALUES (72,'lng','es','not_installed',6,'2003-08-15 10:25:19','2003-08-15 10:25:19','',NULL,NULL);
 INSERT INTO `object_data` VALUES (73,'lng','it','not_installed',6,'2003-08-15 10:25:19','2003-08-15 10:25:19','',NULL,NULL);
@@ -14152,7 +14494,7 @@ INSERT INTO `object_data` VALUES (190,'typ','dcl','Data Collection Object',-1,'2
 INSERT INTO `object_data` VALUES (191,'typ','poll','Poll Object',-1,'2012-09-04 14:25:41','2012-09-04 14:25:41','',NULL,NULL);
 INSERT INTO `object_data` VALUES (192,'typ','hlps','Help Settings',-1,'2012-09-04 14:25:48','2012-09-04 14:25:48','',NULL,NULL);
 INSERT INTO `object_data` VALUES (193,'hlps','HelpSettings','Help Settings',-1,'2012-09-04 14:25:48','2012-09-04 14:25:48','',NULL,NULL);
-INSERT INTO `object_data` VALUES (194,'typ','itgr','Item Group',-1,'2012-09-04 14:25:52','2012-09-04 14:25:52','',NULL,NULL);
+INSERT INTO `object_data` VALUES (194,'typ','obgr','Object Group',-1,'2012-09-04 14:25:52','2012-09-04 14:25:52','',NULL,NULL);
 INSERT INTO `object_data` VALUES (195,'typ','rcat','Remote Category Object',-1,'2012-09-04 14:26:14','2012-09-04 14:26:14','',NULL,NULL);
 INSERT INTO `object_data` VALUES (196,'typ','rwik','Remote Wiki Object',-1,'2012-09-04 14:26:14','2012-09-04 14:26:14','',NULL,NULL);
 INSERT INTO `object_data` VALUES (197,'typ','rlm','Remote Learning Module Object',-1,'2012-09-04 14:26:15','2012-09-04 14:26:15','',NULL,NULL);
@@ -14281,6 +14623,8 @@ INSERT INTO `object_data` VALUES (323,'typ','bnmk','Benchmark',-1,'2026-05-04 14
 INSERT INTO `object_data` VALUES (324,'bnmk','Benchmark','Benchmark',-1,'2026-05-04 14:42:12','2026-05-04 14:42:12',NULL,NULL,NULL);
 INSERT INTO `object_data` VALUES (325,'typ','maps','Maps',-1,'2026-05-04 14:42:12','2026-05-04 14:42:12',NULL,NULL,NULL);
 INSERT INTO `object_data` VALUES (326,'maps','Maps','Maps',-1,'2026-05-04 14:42:12','2026-05-04 14:42:12',NULL,NULL,NULL);
+INSERT INTO `object_data` VALUES (327,'typ','qsts','Questions',-1,'2026-11-02 11:16:54','2026-11-02 11:16:54',NULL,NULL,NULL);
+INSERT INTO `object_data` VALUES (328,'qsts','Questions','Questions',-1,'2026-11-02 11:16:54','2026-11-02 11:16:54',NULL,NULL,NULL);
 
 --
 -- Table structure for table `object_data_del`
@@ -14307,13 +14651,13 @@ CREATE TABLE `object_data_del` (
 CREATE TABLE `object_data_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-)  AUTO_INCREMENT=327;
+)  AUTO_INCREMENT=329;
 
 --
 -- Dumping data for table `object_data_seq`
 --
 
-INSERT INTO `object_data_seq` VALUES (326);
+INSERT INTO `object_data_seq` VALUES (328);
 
 --
 -- Table structure for table `object_description`
@@ -14330,6 +14674,21 @@ CREATE TABLE `object_description` (
 --
 
 INSERT INTO `object_description` VALUES (152,'Settings for files and file handling');
+
+--
+-- Table structure for table `object_group_item`
+--
+
+CREATE TABLE `object_group_item` (
+  `object_group_id` int(11) NOT NULL DEFAULT 0,
+  `object_ref_id` int(11) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`object_group_id`,`object_ref_id`)
+) ;
+
+--
+-- Dumping data for table `object_group_item`
+--
+
 
 --
 -- Table structure for table `object_reference`
@@ -14429,6 +14788,7 @@ INSERT INTO `object_reference` VALUES (88,320,NULL,0);
 INSERT INTO `object_reference` VALUES (89,322,NULL,0);
 INSERT INTO `object_reference` VALUES (90,324,NULL,0);
 INSERT INTO `object_reference` VALUES (91,326,NULL,0);
+INSERT INTO `object_reference` VALUES (92,328,NULL,0);
 
 --
 -- Table structure for table `object_reference_seq`
@@ -14437,13 +14797,13 @@ INSERT INTO `object_reference` VALUES (91,326,NULL,0);
 CREATE TABLE `object_reference_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-)  AUTO_INCREMENT=92;
+)  AUTO_INCREMENT=93;
 
 --
 -- Dumping data for table `object_reference_seq`
 --
 
-INSERT INTO `object_reference_seq` VALUES (91);
+INSERT INTO `object_reference_seq` VALUES (92);
 
 --
 -- Table structure for table `object_reference_ws`
@@ -14896,7 +15256,7 @@ CREATE TABLE `page_pc_usage` (
 CREATE TABLE `page_qst_answer` (
   `qst_id` int(11) NOT NULL DEFAULT 0,
   `user_id` int(11) NOT NULL DEFAULT 0,
-  `try` tinyint(4) NOT NULL DEFAULT 0,
+  `try` int(11) NOT NULL DEFAULT 0,
   `passed` tinyint(4) NOT NULL DEFAULT 0,
   `points` double NOT NULL DEFAULT 0,
   `unlocked` tinyint(4) NOT NULL DEFAULT 0,
@@ -15343,7 +15703,7 @@ CREATE TABLE `prtf_role_assignment` (
 --
 
 CREATE TABLE `push_subscriptions` (
-  `endpoint` text NOT NULL,
+  `endpoint` mediumtext NOT NULL,
   `user_id` int(11) NOT NULL,
   `p256dh` varchar(87) NOT NULL,
   `auth` varchar(22) NOT NULL,
@@ -16381,6 +16741,317 @@ CREATE TABLE `qpl_sol_sug_seq` (
 
 
 --
+-- Table structure for table `qsts_answer_forms`
+--
+
+CREATE TABLE `qsts_answer_forms` (
+  `id` varchar(64) NOT NULL,
+  `type` varchar(4000) NOT NULL,
+  `question_id` varchar(64) NOT NULL,
+  `available_points` double DEFAULT NULL,
+  `image_size` smallint(6) DEFAULT NULL,
+  `shuffle_answer_options` tinyint(4) DEFAULT NULL,
+  `additional_text` longtext NOT NULL,
+  `additional_text_legacy` longtext NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `q_idx` (`question_id`)
+) ;
+
+--
+-- Dumping data for table `qsts_answer_forms`
+--
+
+
+--
+-- Table structure for table `qsts_answer_forms_cloze`
+--
+
+CREATE TABLE `qsts_answer_forms_cloze` (
+  `answer_form_id` varchar(64) NOT NULL,
+  `scoring_identical_responses` varchar(32) NOT NULL,
+  `combinations_enabled` tinyint(4) NOT NULL,
+  PRIMARY KEY (`answer_form_id`)
+) ;
+
+--
+-- Dumping data for table `qsts_answer_forms_cloze`
+--
+
+
+--
+-- Table structure for table `qsts_answer_inputs_cloze`
+--
+
+CREATE TABLE `qsts_answer_inputs_cloze` (
+  `id` varchar(64) NOT NULL,
+  `answer_form_id` varchar(64) NOT NULL,
+  `position` smallint(6) NOT NULL,
+  `gap_type` varchar(32) NOT NULL,
+  `max_chars` smallint(6) DEFAULT NULL,
+  `step_size` double DEFAULT NULL,
+  `text_matching_method` varchar(32) DEFAULT NULL,
+  `min_autocomplete` smallint(6) DEFAULT NULL,
+  `shuffle_answer_options` tinyint(4) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `af_idx` (`answer_form_id`)
+) ;
+
+--
+-- Dumping data for table `qsts_answer_inputs_cloze`
+--
+
+
+--
+-- Table structure for table `qsts_answer_options_cloze`
+--
+
+CREATE TABLE `qsts_answer_options_cloze` (
+  `id` varchar(64) NOT NULL,
+  `answer_input_id` varchar(64) NOT NULL,
+  `position` smallint(6) NOT NULL,
+  `text_value` varchar(4000) DEFAULT NULL,
+  `lower_limit` double DEFAULT NULL,
+  `upper_limit` double DEFAULT NULL,
+  `points` double DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `ai_idx` (`answer_input_id`)
+) ;
+
+--
+-- Dumping data for table `qsts_answer_options_cloze`
+--
+
+
+--
+-- Table structure for table `qsts_attempt`
+--
+
+CREATE TABLE `qsts_attempt` (
+  `id` varchar(64) NOT NULL,
+  `shuffler_seed` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`)
+) ;
+
+--
+-- Dumping data for table `qsts_attempt`
+--
+
+
+--
+-- Table structure for table `qsts_attempt_additional_data`
+--
+
+CREATE TABLE `qsts_attempt_additional_data` (
+  `attempt_id` varchar(64) NOT NULL,
+  `parent_id` varchar(64) NOT NULL,
+  `data` varchar(4000) NOT NULL,
+  PRIMARY KEY (`attempt_id`,`parent_id`),
+  KEY `aid_idx` (`attempt_id`)
+) ;
+
+--
+-- Dumping data for table `qsts_attempt_additional_data`
+--
+
+
+--
+-- Table structure for table `qsts_cloze_combinations`
+--
+
+CREATE TABLE `qsts_cloze_combinations` (
+  `id` varchar(64) NOT NULL,
+  `answer_form_id` varchar(64) NOT NULL,
+  `points` double DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `ai_idx` (`answer_form_id`)
+) ;
+
+--
+-- Dumping data for table `qsts_cloze_combinations`
+--
+
+
+--
+-- Table structure for table `qsts_cloze_combinations_to_answer_options`
+--
+
+CREATE TABLE `qsts_cloze_combinations_to_answer_options` (
+  `combination_id` varchar(64) NOT NULL,
+  `gap_id` varchar(64) NOT NULL,
+  `answer_option_id` varchar(64) NOT NULL,
+  `in_range` varchar(16) DEFAULT NULL,
+  PRIMARY KEY (`combination_id`,`gap_id`),
+  KEY `ci_idx` (`combination_id`)
+) ;
+
+--
+-- Dumping data for table `qsts_cloze_combinations_to_answer_options`
+--
+
+
+--
+-- Table structure for table `qsts_linking`
+--
+
+CREATE TABLE `qsts_linking` (
+  `question_id` varchar(64) NOT NULL,
+  `obj_id` int(11) NOT NULL,
+  `position` smallint(6) DEFAULT NULL,
+  PRIMARY KEY (`question_id`),
+  KEY `o_idx` (`obj_id`)
+) ;
+
+--
+-- Dumping data for table `qsts_linking`
+--
+
+
+--
+-- Table structure for table `qsts_migrations`
+--
+
+CREATE TABLE `qsts_migrations` (
+  `new_question_id` varchar(64) NOT NULL,
+  `old_question_id` int(11) NOT NULL,
+  `success` tinyint(4) NOT NULL,
+  PRIMARY KEY (`old_question_id`)
+) ;
+
+--
+-- Dumping data for table `qsts_migrations`
+--
+
+
+--
+-- Table structure for table `qsts_questions`
+--
+
+CREATE TABLE `qsts_questions` (
+  `id` varchar(64) NOT NULL,
+  `page_id` int(11) NOT NULL,
+  `title` varchar(512) NOT NULL,
+  `author` varchar(512) DEFAULT NULL,
+  `lifecycle` varchar(16) NOT NULL,
+  `remarks` varchar(4000) DEFAULT NULL,
+  `original_id` varchar(64) DEFAULT NULL,
+  `last_update` bigint(20) NOT NULL,
+  `created` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`)
+) ;
+
+--
+-- Dumping data for table `qsts_questions`
+--
+
+
+--
+-- Table structure for table `qsts_responses`
+--
+
+CREATE TABLE `qsts_responses` (
+  `id` varchar(64) NOT NULL,
+  `attempt_id` varchar(64) NOT NULL,
+  `question_id` varchar(64) NOT NULL,
+  `create_timestamp` bigint(20) NOT NULL,
+  `awarded_points` double DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `q_idx` (`question_id`)
+) ;
+
+--
+-- Dumping data for table `qsts_responses`
+--
+
+
+--
+-- Table structure for table `qsts_responses_cloze`
+--
+
+CREATE TABLE `qsts_responses_cloze` (
+  `response_id` varchar(64) NOT NULL,
+  `answer_input_id` varchar(64) NOT NULL,
+  `selected_answer_option` varchar(64) DEFAULT NULL,
+  `text` varchar(4000) NOT NULL,
+  PRIMARY KEY (`response_id`,`answer_input_id`),
+  KEY `r_idx` (`response_id`)
+) ;
+
+--
+-- Dumping data for table `qsts_responses_cloze`
+--
+
+
+--
+-- Table structure for table `qsts_suggested_learning_content`
+--
+
+CREATE TABLE `qsts_suggested_learning_content` (
+  `answer_form_id` varchar(64) NOT NULL,
+  `type` varchar(32) DEFAULT NULL,
+  `content` longtext NOT NULL,
+  PRIMARY KEY (`answer_form_id`)
+) ;
+
+--
+-- Dumping data for table `qsts_suggested_learning_content`
+--
+
+
+--
+-- Table structure for table `qsts_temp_attempt`
+--
+
+CREATE TABLE `qsts_temp_attempt` (
+  `user_id` int(11) NOT NULL,
+  `attempt_id` varchar(64) NOT NULL,
+  `solved_questions` varchar(4000) NOT NULL DEFAULT '',
+  PRIMARY KEY (`user_id`)
+) ;
+
+--
+-- Dumping data for table `qsts_temp_attempt`
+--
+
+
+--
+-- Table structure for table `qsts_text_feedback_generic`
+--
+
+CREATE TABLE `qsts_text_feedback_generic` (
+  `answer_form_id` varchar(64) NOT NULL,
+  `feedback_best_response` longtext NOT NULL,
+  `feedback_best_response_legacy` longtext NOT NULL,
+  `feedback_other_response` longtext NOT NULL,
+  `feedback_other_response_legacy` longtext NOT NULL,
+  PRIMARY KEY (`answer_form_id`)
+) ;
+
+--
+-- Dumping data for table `qsts_text_feedback_generic`
+--
+
+
+--
+-- Table structure for table `qsts_text_feedback_specific`
+--
+
+CREATE TABLE `qsts_text_feedback_specific` (
+  `id` varchar(64) NOT NULL,
+  `answer_form_id` varchar(64) NOT NULL,
+  `parent_id` varchar(64) NOT NULL,
+  `condition` varchar(64) DEFAULT NULL,
+  `feedback` longtext NOT NULL,
+  `feedback_legacy` longtext NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `apc_idx` (`answer_form_id`,`parent_id`,`condition`)
+) ;
+
+--
+-- Dumping data for table `qsts_text_feedback_specific`
+--
+
+
+--
 -- Table structure for table `rbac_fa`
 --
 
@@ -16538,7 +17209,7 @@ INSERT INTO `rbac_operations` VALUES (74,'create_blog','Create Blog','create',99
 INSERT INTO `rbac_operations` VALUES (75,'create_dcl','Create Data Collection','create',9999);
 INSERT INTO `rbac_operations` VALUES (76,'create_poll','Create Poll','create',9999);
 INSERT INTO `rbac_operations` VALUES (77,'add_entry','Add Entry','object',3200);
-INSERT INTO `rbac_operations` VALUES (78,'create_itgr','Create Item Group','create',9999);
+INSERT INTO `rbac_operations` VALUES (78,'create_obgr','Create Object Group','create',9999);
 INSERT INTO `rbac_operations` VALUES (79,'contribute','Contribute','object',3205);
 INSERT INTO `rbac_operations` VALUES (80,'lp_other_users','See LP Data Of Other Users','object',250);
 INSERT INTO `rbac_operations` VALUES (81,'create_bibl','Create Bibliographic','create',9999);
@@ -17402,8 +18073,6 @@ INSERT INTO `rbac_ta` VALUES (277,55);
 INSERT INTO `rbac_ta` VALUES (277,58);
 INSERT INTO `rbac_ta` VALUES (277,95);
 INSERT INTO `rbac_ta` VALUES (277,102);
-INSERT INTO `rbac_ta` VALUES (277,120);
-INSERT INTO `rbac_ta` VALUES (277,121);
 INSERT INTO `rbac_ta` VALUES (280,1);
 INSERT INTO `rbac_ta` VALUES (280,2);
 INSERT INTO `rbac_ta` VALUES (280,3);
@@ -17841,12 +18510,6 @@ INSERT INTO `rbac_templates` VALUES (3,'iass',58,8);
 INSERT INTO `rbac_templates` VALUES (3,'iass',95,8);
 INSERT INTO `rbac_templates` VALUES (3,'iass',109,8);
 INSERT INTO `rbac_templates` VALUES (3,'iass',110,8);
-INSERT INTO `rbac_templates` VALUES (3,'itgr',1,8);
-INSERT INTO `rbac_templates` VALUES (3,'itgr',2,8);
-INSERT INTO `rbac_templates` VALUES (3,'itgr',3,8);
-INSERT INTO `rbac_templates` VALUES (3,'itgr',4,8);
-INSERT INTO `rbac_templates` VALUES (3,'itgr',6,8);
-INSERT INTO `rbac_templates` VALUES (3,'itgr',58,8);
 INSERT INTO `rbac_templates` VALUES (3,'lm',1,8);
 INSERT INTO `rbac_templates` VALUES (3,'lm',2,8);
 INSERT INTO `rbac_templates` VALUES (3,'lm',3,8);
@@ -17897,6 +18560,12 @@ INSERT INTO `rbac_templates` VALUES (3,'mep',3,8);
 INSERT INTO `rbac_templates` VALUES (3,'mep',4,8);
 INSERT INTO `rbac_templates` VALUES (3,'mep',6,8);
 INSERT INTO `rbac_templates` VALUES (3,'mep',58,8);
+INSERT INTO `rbac_templates` VALUES (3,'obgr',1,8);
+INSERT INTO `rbac_templates` VALUES (3,'obgr',2,8);
+INSERT INTO `rbac_templates` VALUES (3,'obgr',3,8);
+INSERT INTO `rbac_templates` VALUES (3,'obgr',4,8);
+INSERT INTO `rbac_templates` VALUES (3,'obgr',6,8);
+INSERT INTO `rbac_templates` VALUES (3,'obgr',58,8);
 INSERT INTO `rbac_templates` VALUES (3,'poll',1,8);
 INSERT INTO `rbac_templates` VALUES (3,'poll',3,8);
 INSERT INTO `rbac_templates` VALUES (3,'poll',4,8);
@@ -18031,8 +18700,6 @@ INSERT INTO `rbac_templates` VALUES (4,'grp',7,8);
 INSERT INTO `rbac_templates` VALUES (4,'grpr',2,8);
 INSERT INTO `rbac_templates` VALUES (4,'htlm',2,8);
 INSERT INTO `rbac_templates` VALUES (4,'htlm',3,8);
-INSERT INTO `rbac_templates` VALUES (4,'itgr',2,8);
-INSERT INTO `rbac_templates` VALUES (4,'itgr',3,8);
 INSERT INTO `rbac_templates` VALUES (4,'lm',2,8);
 INSERT INTO `rbac_templates` VALUES (4,'lm',3,8);
 INSERT INTO `rbac_templates` VALUES (4,'lso',2,8);
@@ -18042,6 +18709,8 @@ INSERT INTO `rbac_templates` VALUES (4,'lti',3,8);
 INSERT INTO `rbac_templates` VALUES (4,'mail',30,8);
 INSERT INTO `rbac_templates` VALUES (4,'mcst',2,8);
 INSERT INTO `rbac_templates` VALUES (4,'mcst',3,8);
+INSERT INTO `rbac_templates` VALUES (4,'obgr',2,8);
+INSERT INTO `rbac_templates` VALUES (4,'obgr',3,8);
 INSERT INTO `rbac_templates` VALUES (4,'poll',3,8);
 INSERT INTO `rbac_templates` VALUES (4,'prg',2,8);
 INSERT INTO `rbac_templates` VALUES (4,'prg',3,8);
@@ -18080,11 +18749,11 @@ INSERT INTO `rbac_templates` VALUES (5,'glo',2,8);
 INSERT INTO `rbac_templates` VALUES (5,'grp',2,8);
 INSERT INTO `rbac_templates` VALUES (5,'grpr',2,8);
 INSERT INTO `rbac_templates` VALUES (5,'htlm',2,8);
-INSERT INTO `rbac_templates` VALUES (5,'itgr',2,8);
-INSERT INTO `rbac_templates` VALUES (5,'itgr',3,8);
 INSERT INTO `rbac_templates` VALUES (5,'lm',2,8);
 INSERT INTO `rbac_templates` VALUES (5,'lti',2,8);
 INSERT INTO `rbac_templates` VALUES (5,'mcst',2,8);
+INSERT INTO `rbac_templates` VALUES (5,'obgr',2,8);
+INSERT INTO `rbac_templates` VALUES (5,'obgr',3,8);
 INSERT INTO `rbac_templates` VALUES (5,'poll',3,8);
 INSERT INTO `rbac_templates` VALUES (5,'prg',2,8);
 INSERT INTO `rbac_templates` VALUES (5,'prgr',2,8);
@@ -18320,12 +18989,6 @@ INSERT INTO `rbac_templates` VALUES (80,'iass',58,8);
 INSERT INTO `rbac_templates` VALUES (80,'iass',95,8);
 INSERT INTO `rbac_templates` VALUES (80,'iass',109,8);
 INSERT INTO `rbac_templates` VALUES (80,'iass',110,8);
-INSERT INTO `rbac_templates` VALUES (80,'itgr',1,8);
-INSERT INTO `rbac_templates` VALUES (80,'itgr',2,8);
-INSERT INTO `rbac_templates` VALUES (80,'itgr',3,8);
-INSERT INTO `rbac_templates` VALUES (80,'itgr',4,8);
-INSERT INTO `rbac_templates` VALUES (80,'itgr',6,8);
-INSERT INTO `rbac_templates` VALUES (80,'itgr',58,8);
 INSERT INTO `rbac_templates` VALUES (80,'lm',1,8);
 INSERT INTO `rbac_templates` VALUES (80,'lm',2,8);
 INSERT INTO `rbac_templates` VALUES (80,'lm',3,8);
@@ -18377,6 +19040,12 @@ INSERT INTO `rbac_templates` VALUES (80,'mep',3,8);
 INSERT INTO `rbac_templates` VALUES (80,'mep',4,8);
 INSERT INTO `rbac_templates` VALUES (80,'mep',6,8);
 INSERT INTO `rbac_templates` VALUES (80,'mep',58,8);
+INSERT INTO `rbac_templates` VALUES (80,'obgr',1,8);
+INSERT INTO `rbac_templates` VALUES (80,'obgr',2,8);
+INSERT INTO `rbac_templates` VALUES (80,'obgr',3,8);
+INSERT INTO `rbac_templates` VALUES (80,'obgr',4,8);
+INSERT INTO `rbac_templates` VALUES (80,'obgr',6,8);
+INSERT INTO `rbac_templates` VALUES (80,'obgr',58,8);
 INSERT INTO `rbac_templates` VALUES (80,'poll',1,8);
 INSERT INTO `rbac_templates` VALUES (80,'poll',3,8);
 INSERT INTO `rbac_templates` VALUES (80,'poll',4,8);
@@ -18497,8 +19166,6 @@ INSERT INTO `rbac_templates` VALUES (81,'htlm',2,8);
 INSERT INTO `rbac_templates` VALUES (81,'htlm',3,8);
 INSERT INTO `rbac_templates` VALUES (81,'iass',2,8);
 INSERT INTO `rbac_templates` VALUES (81,'iass',3,8);
-INSERT INTO `rbac_templates` VALUES (81,'itgr',2,8);
-INSERT INTO `rbac_templates` VALUES (81,'itgr',3,8);
 INSERT INTO `rbac_templates` VALUES (81,'lm',2,8);
 INSERT INTO `rbac_templates` VALUES (81,'lm',3,8);
 INSERT INTO `rbac_templates` VALUES (81,'lso',2,8);
@@ -18508,6 +19175,8 @@ INSERT INTO `rbac_templates` VALUES (81,'lti',2,8);
 INSERT INTO `rbac_templates` VALUES (81,'lti',3,8);
 INSERT INTO `rbac_templates` VALUES (81,'mcst',2,8);
 INSERT INTO `rbac_templates` VALUES (81,'mcst',3,8);
+INSERT INTO `rbac_templates` VALUES (81,'obgr',2,8);
+INSERT INTO `rbac_templates` VALUES (81,'obgr',3,8);
 INSERT INTO `rbac_templates` VALUES (81,'poll',3,8);
 INSERT INTO `rbac_templates` VALUES (81,'prtt',2,8);
 INSERT INTO `rbac_templates` VALUES (81,'prtt',3,8);
@@ -18796,12 +19465,6 @@ INSERT INTO `rbac_templates` VALUES (110,'iass',58,8);
 INSERT INTO `rbac_templates` VALUES (110,'iass',95,8);
 INSERT INTO `rbac_templates` VALUES (110,'iass',109,8);
 INSERT INTO `rbac_templates` VALUES (110,'iass',110,8);
-INSERT INTO `rbac_templates` VALUES (110,'itgr',1,8);
-INSERT INTO `rbac_templates` VALUES (110,'itgr',2,8);
-INSERT INTO `rbac_templates` VALUES (110,'itgr',3,8);
-INSERT INTO `rbac_templates` VALUES (110,'itgr',4,8);
-INSERT INTO `rbac_templates` VALUES (110,'itgr',6,8);
-INSERT INTO `rbac_templates` VALUES (110,'itgr',58,8);
 INSERT INTO `rbac_templates` VALUES (110,'lm',1,8);
 INSERT INTO `rbac_templates` VALUES (110,'lm',2,8);
 INSERT INTO `rbac_templates` VALUES (110,'lm',3,8);
@@ -18853,6 +19516,12 @@ INSERT INTO `rbac_templates` VALUES (110,'mep',3,8);
 INSERT INTO `rbac_templates` VALUES (110,'mep',4,8);
 INSERT INTO `rbac_templates` VALUES (110,'mep',6,8);
 INSERT INTO `rbac_templates` VALUES (110,'mep',58,8);
+INSERT INTO `rbac_templates` VALUES (110,'obgr',1,8);
+INSERT INTO `rbac_templates` VALUES (110,'obgr',2,8);
+INSERT INTO `rbac_templates` VALUES (110,'obgr',3,8);
+INSERT INTO `rbac_templates` VALUES (110,'obgr',4,8);
+INSERT INTO `rbac_templates` VALUES (110,'obgr',6,8);
+INSERT INTO `rbac_templates` VALUES (110,'obgr',58,8);
 INSERT INTO `rbac_templates` VALUES (110,'poll',1,8);
 INSERT INTO `rbac_templates` VALUES (110,'poll',3,8);
 INSERT INTO `rbac_templates` VALUES (110,'poll',4,8);
@@ -19114,10 +19783,6 @@ INSERT INTO `rbac_templates` VALUES (111,'iass',55,8);
 INSERT INTO `rbac_templates` VALUES (111,'iass',58,8);
 INSERT INTO `rbac_templates` VALUES (111,'iass',95,8);
 INSERT INTO `rbac_templates` VALUES (111,'iass',109,8);
-INSERT INTO `rbac_templates` VALUES (111,'itgr',2,8);
-INSERT INTO `rbac_templates` VALUES (111,'itgr',3,8);
-INSERT INTO `rbac_templates` VALUES (111,'itgr',4,8);
-INSERT INTO `rbac_templates` VALUES (111,'itgr',58,8);
 INSERT INTO `rbac_templates` VALUES (111,'lm',2,8);
 INSERT INTO `rbac_templates` VALUES (111,'lm',3,8);
 INSERT INTO `rbac_templates` VALUES (111,'lm',55,8);
@@ -19153,6 +19818,10 @@ INSERT INTO `rbac_templates` VALUES (111,'mep',2,8);
 INSERT INTO `rbac_templates` VALUES (111,'mep',3,8);
 INSERT INTO `rbac_templates` VALUES (111,'mep',4,8);
 INSERT INTO `rbac_templates` VALUES (111,'mep',58,8);
+INSERT INTO `rbac_templates` VALUES (111,'obgr',2,8);
+INSERT INTO `rbac_templates` VALUES (111,'obgr',3,8);
+INSERT INTO `rbac_templates` VALUES (111,'obgr',4,8);
+INSERT INTO `rbac_templates` VALUES (111,'obgr',58,8);
 INSERT INTO `rbac_templates` VALUES (111,'poll',3,8);
 INSERT INTO `rbac_templates` VALUES (111,'poll',4,8);
 INSERT INTO `rbac_templates` VALUES (111,'poll',58,8);
@@ -19251,8 +19920,6 @@ INSERT INTO `rbac_templates` VALUES (112,'htlm',2,8);
 INSERT INTO `rbac_templates` VALUES (112,'htlm',3,8);
 INSERT INTO `rbac_templates` VALUES (112,'iass',2,8);
 INSERT INTO `rbac_templates` VALUES (112,'iass',3,8);
-INSERT INTO `rbac_templates` VALUES (112,'itgr',2,8);
-INSERT INTO `rbac_templates` VALUES (112,'itgr',3,8);
 INSERT INTO `rbac_templates` VALUES (112,'lm',2,8);
 INSERT INTO `rbac_templates` VALUES (112,'lm',3,8);
 INSERT INTO `rbac_templates` VALUES (112,'lso',2,8);
@@ -19262,6 +19929,8 @@ INSERT INTO `rbac_templates` VALUES (112,'lti',2,8);
 INSERT INTO `rbac_templates` VALUES (112,'lti',3,8);
 INSERT INTO `rbac_templates` VALUES (112,'mcst',2,8);
 INSERT INTO `rbac_templates` VALUES (112,'mcst',3,8);
+INSERT INTO `rbac_templates` VALUES (112,'obgr',2,8);
+INSERT INTO `rbac_templates` VALUES (112,'obgr',3,8);
 INSERT INTO `rbac_templates` VALUES (112,'poll',3,8);
 INSERT INTO `rbac_templates` VALUES (112,'prtt',2,8);
 INSERT INTO `rbac_templates` VALUES (112,'prtt',3,8);
@@ -19418,10 +20087,6 @@ INSERT INTO `rbac_templates` VALUES (125,'iass',1,8);
 INSERT INTO `rbac_templates` VALUES (125,'iass',2,8);
 INSERT INTO `rbac_templates` VALUES (125,'iass',3,8);
 INSERT INTO `rbac_templates` VALUES (125,'iass',6,8);
-INSERT INTO `rbac_templates` VALUES (125,'itgr',1,8);
-INSERT INTO `rbac_templates` VALUES (125,'itgr',2,8);
-INSERT INTO `rbac_templates` VALUES (125,'itgr',3,8);
-INSERT INTO `rbac_templates` VALUES (125,'itgr',6,8);
 INSERT INTO `rbac_templates` VALUES (125,'lm',1,8);
 INSERT INTO `rbac_templates` VALUES (125,'lm',2,8);
 INSERT INTO `rbac_templates` VALUES (125,'lm',3,8);
@@ -19446,6 +20111,10 @@ INSERT INTO `rbac_templates` VALUES (125,'mep',2,8);
 INSERT INTO `rbac_templates` VALUES (125,'mep',3,8);
 INSERT INTO `rbac_templates` VALUES (125,'mep',6,8);
 INSERT INTO `rbac_templates` VALUES (125,'mep',58,8);
+INSERT INTO `rbac_templates` VALUES (125,'obgr',1,8);
+INSERT INTO `rbac_templates` VALUES (125,'obgr',2,8);
+INSERT INTO `rbac_templates` VALUES (125,'obgr',3,8);
+INSERT INTO `rbac_templates` VALUES (125,'obgr',6,8);
 INSERT INTO `rbac_templates` VALUES (125,'poll',1,8);
 INSERT INTO `rbac_templates` VALUES (125,'poll',3,8);
 INSERT INTO `rbac_templates` VALUES (125,'poll',6,8);
@@ -20051,6 +20720,7 @@ CREATE TABLE `sahs_lm` (
   `mastery_score` tinyint(4) DEFAULT NULL,
   `id_setting` tinyint(4) NOT NULL DEFAULT 0,
   `name_setting` tinyint(4) NOT NULL DEFAULT 0,
+  `rid` varchar(64) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
 ) ;
 
@@ -20744,12 +21414,12 @@ CREATE TABLE `settings` (
 -- Dumping data for table `settings`
 --
 
-INSERT INTO `settings` VALUES ('adve','autosave','30');
 INSERT INTO `settings` VALUES ('adve','auto_url_linking','1');
+INSERT INTO `settings` VALUES ('adve','autosave','30');
 INSERT INTO `settings` VALUES ('adve','block_mode_minutes','0');
 INSERT INTO `settings` VALUES ('adve','use_physical','');
-INSERT INTO `settings` VALUES ('assessment','assessment_manual_scoring','8,14');
 INSERT INTO `settings` VALUES ('assessment','ass_process_lock_mode','db');
+INSERT INTO `settings` VALUES ('assessment','assessment_manual_scoring','8,14');
 INSERT INTO `settings` VALUES ('assessment','quest_process_lock_mode_autoinit_done','1');
 INSERT INTO `settings` VALUES ('assessment','use_javascript','1');
 INSERT INTO `settings` VALUES ('awrn','awrn_enabled','1');
@@ -20780,8 +21450,8 @@ INSERT INTO `settings` VALUES ('calendar','course_cal','1');
 INSERT INTO `settings` VALUES ('calendar','default_date_format','1');
 INSERT INTO `settings` VALUES ('calendar','default_day_end','19');
 INSERT INTO `settings` VALUES ('calendar','default_day_start','8');
-INSERT INTO `settings` VALUES ('calendar','default_timezone','Europe/Berlin');
 INSERT INTO `settings` VALUES ('calendar','default_time_format','1');
+INSERT INTO `settings` VALUES ('calendar','default_timezone','Europe/Berlin');
 INSERT INTO `settings` VALUES ('calendar','default_week_start','1');
 INSERT INTO `settings` VALUES ('calendar','enabled','1');
 INSERT INTO `settings` VALUES ('calendar','group_cal','1');
@@ -20830,13 +21500,13 @@ INSERT INTO `settings` VALUES ('common','custom_icon_small_height','22');
 INSERT INTO `settings` VALUES ('common','custom_icon_small_width','22');
 INSERT INTO `settings` VALUES ('common','custom_icon_tiny_height','16');
 INSERT INTO `settings` VALUES ('common','custom_icon_tiny_width','16');
-INSERT INTO `settings` VALUES ('common','dbupdate_randtest_pooldef_migration_fix','2');
-INSERT INTO `settings` VALUES ('common','dbupwarn_tos_migr_54x','1');
-INSERT INTO `settings` VALUES ('common','dbupwarn_tstfixqstseq','1');
-INSERT INTO `settings` VALUES ('common','dbup_tst_skl_thres_mig_done','1');
 INSERT INTO `settings` VALUES ('common','db_hotfixes_5_3','18');
 INSERT INTO `settings` VALUES ('common','db_update_running','0');
 INSERT INTO `settings` VALUES ('common','db_version','5808');
+INSERT INTO `settings` VALUES ('common','dbup_tst_skl_thres_mig_done','1');
+INSERT INTO `settings` VALUES ('common','dbupdate_randtest_pooldef_migration_fix','2');
+INSERT INTO `settings` VALUES ('common','dbupwarn_tos_migr_54x','1');
+INSERT INTO `settings` VALUES ('common','dbupwarn_tstfixqstseq','1');
 INSERT INTO `settings` VALUES ('common','default_repository_view','flat');
 INSERT INTO `settings` VALUES ('common','disable_bookmarks','0');
 INSERT INTO `settings` VALUES ('common','disable_comments','0');
@@ -20928,7 +21598,6 @@ INSERT INTO `settings` VALUES ('common','mail_system_usr_general_signature','\n\
 INSERT INTO `settings` VALUES ('common','main_tree_impl','mp');
 INSERT INTO `settings` VALUES ('common','new_registration_type','4');
 INSERT INTO `settings` VALUES ('common','nic_key','d9f35b4eab4947c1557ce5a533c3f0cf');
-INSERT INTO `settings` VALUES ('common','object_statistics','1');
 INSERT INTO `settings` VALUES ('common','obj_add_new_pos_bibl','99990170');
 INSERT INTO `settings` VALUES ('common','obj_add_new_pos_blog','99990160');
 INSERT INTO `settings` VALUES ('common','obj_add_new_pos_book','99990250');
@@ -20948,7 +21617,6 @@ INSERT INTO `settings` VALUES ('common','obj_add_new_pos_fold','99990050');
 INSERT INTO `settings` VALUES ('common','obj_add_new_pos_frm','99990090');
 INSERT INTO `settings` VALUES ('common','obj_add_new_pos_glo','99990190');
 INSERT INTO `settings` VALUES ('common','obj_add_new_pos_grp','99990040');
-INSERT INTO `settings` VALUES ('common','obj_add_new_pos_grpr','99990045');
 INSERT INTO `settings` VALUES ('common','obj_add_new_pos_grp_bibl','0');
 INSERT INTO `settings` VALUES ('common','obj_add_new_pos_grp_blog','0');
 INSERT INTO `settings` VALUES ('common','obj_add_new_pos_grp_book','0');
@@ -20969,10 +21637,10 @@ INSERT INTO `settings` VALUES ('common','obj_add_new_pos_grp_grp','0');
 INSERT INTO `settings` VALUES ('common','obj_add_new_pos_grp_grpr','0');
 INSERT INTO `settings` VALUES ('common','obj_add_new_pos_grp_htlm','0');
 INSERT INTO `settings` VALUES ('common','obj_add_new_pos_grp_iass','0');
-INSERT INTO `settings` VALUES ('common','obj_add_new_pos_grp_itgr','0');
 INSERT INTO `settings` VALUES ('common','obj_add_new_pos_grp_lm','0');
 INSERT INTO `settings` VALUES ('common','obj_add_new_pos_grp_mcst','0');
 INSERT INTO `settings` VALUES ('common','obj_add_new_pos_grp_mep','0');
+INSERT INTO `settings` VALUES ('common','obj_add_new_pos_grp_obgr','0');
 INSERT INTO `settings` VALUES ('common','obj_add_new_pos_grp_orgu','0');
 INSERT INTO `settings` VALUES ('common','obj_add_new_pos_grp_poll','0');
 INSERT INTO `settings` VALUES ('common','obj_add_new_pos_grp_prg','0');
@@ -20985,14 +21653,15 @@ INSERT INTO `settings` VALUES ('common','obj_add_new_pos_grp_svy','0');
 INSERT INTO `settings` VALUES ('common','obj_add_new_pos_grp_tst','0');
 INSERT INTO `settings` VALUES ('common','obj_add_new_pos_grp_webr','0');
 INSERT INTO `settings` VALUES ('common','obj_add_new_pos_grp_wiki','0');
+INSERT INTO `settings` VALUES ('common','obj_add_new_pos_grpr','99990045');
 INSERT INTO `settings` VALUES ('common','obj_add_new_pos_htlm','99990200');
 INSERT INTO `settings` VALUES ('common','obj_add_new_pos_iass','99990270');
-INSERT INTO `settings` VALUES ('common','obj_add_new_pos_itgr','99990060');
 INSERT INTO `settings` VALUES ('common','obj_add_new_pos_lm','99990210');
 INSERT INTO `settings` VALUES ('common','obj_add_new_pos_lso','99990080');
 INSERT INTO `settings` VALUES ('common','obj_add_new_pos_lti','99990230');
 INSERT INTO `settings` VALUES ('common','obj_add_new_pos_mcst','99990140');
 INSERT INTO `settings` VALUES ('common','obj_add_new_pos_mep','99990310');
+INSERT INTO `settings` VALUES ('common','obj_add_new_pos_obgr','99990060');
 INSERT INTO `settings` VALUES ('common','obj_add_new_pos_orgu','99990360');
 INSERT INTO `settings` VALUES ('common','obj_add_new_pos_poll','99990300');
 INSERT INTO `settings` VALUES ('common','obj_add_new_pos_prg','99990020');
@@ -21027,10 +21696,10 @@ INSERT INTO `settings` VALUES ('common','obj_dis_creation_grp','');
 INSERT INTO `settings` VALUES ('common','obj_dis_creation_grpr','');
 INSERT INTO `settings` VALUES ('common','obj_dis_creation_htlm','');
 INSERT INTO `settings` VALUES ('common','obj_dis_creation_iass','');
-INSERT INTO `settings` VALUES ('common','obj_dis_creation_itgr','');
 INSERT INTO `settings` VALUES ('common','obj_dis_creation_lm','');
 INSERT INTO `settings` VALUES ('common','obj_dis_creation_mcst','');
 INSERT INTO `settings` VALUES ('common','obj_dis_creation_mep','');
+INSERT INTO `settings` VALUES ('common','obj_dis_creation_obgr','');
 INSERT INTO `settings` VALUES ('common','obj_dis_creation_orgu','');
 INSERT INTO `settings` VALUES ('common','obj_dis_creation_poll','');
 INSERT INTO `settings` VALUES ('common','obj_dis_creation_prg','');
@@ -21043,6 +21712,7 @@ INSERT INTO `settings` VALUES ('common','obj_dis_creation_svy','');
 INSERT INTO `settings` VALUES ('common','obj_dis_creation_tst','');
 INSERT INTO `settings` VALUES ('common','obj_dis_creation_webr','');
 INSERT INTO `settings` VALUES ('common','obj_dis_creation_wiki','');
+INSERT INTO `settings` VALUES ('common','object_statistics','1');
 INSERT INTO `settings` VALUES ('common','password_assistance','1');
 INSERT INTO `settings` VALUES ('common','pd_active_pres_view_0','a:2:{i:0;s:4:\"list\";i:1;s:4:\"tile\";}');
 INSERT INTO `settings` VALUES ('common','pd_active_pres_view_1','a:2:{i:0;s:4:\"list\";i:1;s:4:\"tile\";}');
@@ -21095,41 +21765,16 @@ INSERT INTO `settings` VALUES ('common','rep_shorten_description','1');
 INSERT INTO `settings` VALUES ('common','rep_shorten_description_length','128');
 INSERT INTO `settings` VALUES ('common','rep_tree_limit_grp_crs','');
 INSERT INTO `settings` VALUES ('common','rep_tree_synchronize','1');
-INSERT INTO `settings` VALUES ('common','require_city','');
 INSERT INTO `settings` VALUES ('common','require_default_role','1');
-INSERT INTO `settings` VALUES ('common','require_department','');
-INSERT INTO `settings` VALUES ('common','require_email','1');
-INSERT INTO `settings` VALUES ('common','require_fax','');
-INSERT INTO `settings` VALUES ('common','require_firstname','1');
-INSERT INTO `settings` VALUES ('common','require_gender','0');
-INSERT INTO `settings` VALUES ('common','require_hobby','');
-INSERT INTO `settings` VALUES ('common','require_institution','');
-INSERT INTO `settings` VALUES ('common','require_lastname','1');
 INSERT INTO `settings` VALUES ('common','require_login','1');
 INSERT INTO `settings` VALUES ('common','require_old_country','');
 INSERT INTO `settings` VALUES ('common','require_passwd','1');
 INSERT INTO `settings` VALUES ('common','require_passwd2','1');
-INSERT INTO `settings` VALUES ('common','require_phone_home','');
-INSERT INTO `settings` VALUES ('common','require_phone_mobile','');
-INSERT INTO `settings` VALUES ('common','require_phone_office','');
-INSERT INTO `settings` VALUES ('common','require_referral_comment','');
-INSERT INTO `settings` VALUES ('common','require_street','');
-INSERT INTO `settings` VALUES ('common','require_zipcode','');
 INSERT INTO `settings` VALUES ('common','reuse_of_loginnames','1');
 INSERT INTO `settings` VALUES ('common','rpc_server_host','');
 INSERT INTO `settings` VALUES ('common','rpc_server_port','0');
 INSERT INTO `settings` VALUES ('common','save_user_related_data','0');
 INSERT INTO `settings` VALUES ('common','search_date_filter','');
-INSERT INTO `settings` VALUES ('common','search_enabled_firstname','0');
-INSERT INTO `settings` VALUES ('common','search_enabled_gender','0');
-INSERT INTO `settings` VALUES ('common','search_enabled_hobby','0');
-INSERT INTO `settings` VALUES ('common','search_enabled_institution','0');
-INSERT INTO `settings` VALUES ('common','search_enabled_interests_general','0');
-INSERT INTO `settings` VALUES ('common','search_enabled_interests_help_looking','0');
-INSERT INTO `settings` VALUES ('common','search_enabled_interests_help_offered','0');
-INSERT INTO `settings` VALUES ('common','search_enabled_lastname','0');
-INSERT INTO `settings` VALUES ('common','search_enabled_matriculation','0');
-INSERT INTO `settings` VALUES ('common','search_enabled_title','0');
 INSERT INTO `settings` VALUES ('common','search_index','0');
 INSERT INTO `settings` VALUES ('common','search_lucene','0');
 INSERT INTO `settings` VALUES ('common','search_max_hits','10');
@@ -21151,11 +21796,11 @@ INSERT INTO `settings` VALUES ('common','soap_response_timeout','5');
 INSERT INTO `settings` VALUES ('common','soap_user_administration','0');
 INSERT INTO `settings` VALUES ('common','soap_wsdl_path','');
 INSERT INTO `settings` VALUES ('common','sty_media_cont_mig','1');
-INSERT INTO `settings` VALUES ('common','system_role_id','2');
-INSERT INTO `settings` VALUES ('common','system_user_id','6');
 INSERT INTO `settings` VALUES ('common','sys_advanced_editing_id','26');
 INSERT INTO `settings` VALUES ('common','sys_assessment_folder_id','20');
 INSERT INTO `settings` VALUES ('common','sys_user_tracking_id','17');
+INSERT INTO `settings` VALUES ('common','system_role_id','2');
+INSERT INTO `settings` VALUES ('common','system_user_id','6');
 INSERT INTO `settings` VALUES ('common','tos_status','0');
 INSERT INTO `settings` VALUES ('common','tracking_time_span','300');
 INSERT INTO `settings` VALUES ('common','tst_score_rep_consts_cleaned','1');
@@ -21165,173 +21810,46 @@ INSERT INTO `settings` VALUES ('common','user_delete_own_account','0');
 INSERT INTO `settings` VALUES ('common','user_delete_own_account_email','');
 INSERT INTO `settings` VALUES ('common','user_portfolios','1');
 INSERT INTO `settings` VALUES ('common','user_reactivate_code','0');
+INSERT INTO `settings` VALUES ('common','usr_profile_migration_completed','1');
 INSERT INTO `settings` VALUES ('common','usr_settings_changeable_by_user_date_format','1');
 INSERT INTO `settings` VALUES ('common','usr_settings_changeable_by_user_last_visited','1');
 INSERT INTO `settings` VALUES ('common','usr_settings_changeable_by_user_new_mail_notification','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_by_user_timezone','1');
 INSERT INTO `settings` VALUES ('common','usr_settings_changeable_by_user_time_format','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_allow_contact_request','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_avatar','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_awrn_user_show','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_birthday','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_city','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_country','0');
+INSERT INTO `settings` VALUES ('common','usr_settings_changeable_by_user_timezone','1');
 INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_date_format','1');
 INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_delicious','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_department','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_email','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_fax','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_firstname','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_gender','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_hobby','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_incoming_mail','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_institution','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_interests_general','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_interests_help_looking','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_interests_help_offered','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_language','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_lastname','1');
 INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_last_visited','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_matriculation','0');
 INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_new_mail_notification','1');
 INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_old_country','0');
 INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_password','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_phone_home','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_phone_mobile','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_phone_office','0');
 INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_preferences','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_referral_comment','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_roles','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_second_email','0');
 INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_starting_point','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_street','0');
 INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_style','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_timezone','1');
 INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_time_format','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_title','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_zipcode','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_disable_birthday','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_disable_city','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_disable_country','1');
+INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_timezone','1');
 INSERT INTO `settings` VALUES ('common','usr_settings_disable_delicious','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_disable_department','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_disable_fax','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_disable_hobby','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_disable_institution','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_disable_interests_general','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_disable_interests_help_looking','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_disable_interests_help_offered','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_disable_matriculation','1');
 INSERT INTO `settings` VALUES ('common','usr_settings_disable_old_country','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_disable_phone_home','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_disable_phone_mobile','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_disable_phone_office','1');
 INSERT INTO `settings` VALUES ('common','usr_settings_disable_preferences','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_disable_referral_comment','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_disable_second_email','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_disable_street','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_disable_title','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_disable_zipcode','1');
 INSERT INTO `settings` VALUES ('common','usr_settings_export_date_format','1');
 INSERT INTO `settings` VALUES ('common','usr_settings_export_last_visited','1');
 INSERT INTO `settings` VALUES ('common','usr_settings_export_new_mail_notification','1');
 INSERT INTO `settings` VALUES ('common','usr_settings_export_starting_point','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_export_timezone','1');
 INSERT INTO `settings` VALUES ('common','usr_settings_export_time_format','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_hide_awrn_user_show','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_hide_birthday','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_hide_city','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_hide_country','1');
+INSERT INTO `settings` VALUES ('common','usr_settings_export_timezone','1');
 INSERT INTO `settings` VALUES ('common','usr_settings_hide_delicious','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_hide_department','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_hide_fax','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_hide_hobby','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_hide_institution','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_hide_interests_general','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_hide_interests_help_looking','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_hide_interests_help_offered','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_hide_matriculation','1');
 INSERT INTO `settings` VALUES ('common','usr_settings_hide_old_country','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_hide_org_units','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_hide_phone_home','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_hide_phone_mobile','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_hide_phone_office','1');
 INSERT INTO `settings` VALUES ('common','usr_settings_hide_preferences','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_hide_referral_comment','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_hide_roles','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_hide_second_email','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_hide_street','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_hide_title','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_hide_zipcode','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_allow_contact_request','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_avatar','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_awrn_user_show','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_birthday','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_city','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_country','0');
 INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_delicious','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_department','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_email','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_fax','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_firstname','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_gender','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_hobby','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_incoming_mail','1');
 INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_instant_messengers','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_institution','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_interests_general','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_interests_help_looking','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_interests_help_offered','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_language','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_lastname','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_matriculation','0');
 INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_old_country','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_org_units','0');
 INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_password','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_phone_home','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_phone_mobile','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_phone_office','0');
 INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_preferences','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_referral_comment','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_roles','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_second_email','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_street','0');
 INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_style','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_title','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_zipcode','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_allow_contact_request','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_avatar','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_birthday','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_city','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_country','0');
 INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_delicious','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_department','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_email','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_fax','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_firstname','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_gender','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_hobby','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_incoming_mail','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_institution','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_interests_general','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_interests_help_looking','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_interests_help_offered','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_language','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_lastname','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_matriculation','0');
 INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_old_country','0');
 INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_password','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_phone_home','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_phone_mobile','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_phone_office','0');
 INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_preferences','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_referral_comment','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_roles','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_second_email','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_street','0');
 INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_style','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_title','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_zipcode','0');
 INSERT INTO `settings` VALUES ('common','usr_starting_point','1');
 INSERT INTO `settings` VALUES ('common','zip_path','');
 INSERT INTO `settings` VALUES ('file','copied_perm_read_view_content','1');
@@ -21344,11 +21862,11 @@ INSERT INTO `settings` VALUES ('lm','cont_upload_dir','');
 INSERT INTO `settings` VALUES ('lm','html_export_ids','');
 INSERT INTO `settings` VALUES ('lm','page_history','1');
 INSERT INTO `settings` VALUES ('lm','replace_mob_feature','');
-INSERT INTO `settings` VALUES ('lm','scormdebug_disable_cache','');
-INSERT INTO `settings` VALUES ('lm','scormdebug_global_activate','');
 INSERT INTO `settings` VALUES ('lm','scorm_login_as_learner_id','');
 INSERT INTO `settings` VALUES ('lm','scorm_lp_auto_activate','1');
 INSERT INTO `settings` VALUES ('lm','scorm_without_session','1');
+INSERT INTO `settings` VALUES ('lm','scormdebug_disable_cache','');
+INSERT INTO `settings` VALUES ('lm','scormdebug_global_activate','');
 INSERT INTO `settings` VALUES ('lm','time_scheduled_page_activation','1');
 INSERT INTO `settings` VALUES ('lucene_adv_search','lom_browser','0');
 INSERT INTO `settings` VALUES ('lucene_adv_search','lom_content','0');
@@ -22121,7 +22639,7 @@ CREATE TABLE `svy_answer` (
   `active_fi` int(11) NOT NULL DEFAULT 0,
   `question_fi` int(11) NOT NULL DEFAULT 0,
   `value` double DEFAULT NULL,
-  `textanswer` text DEFAULT NULL,
+  `textanswer` mediumtext DEFAULT NULL,
   `rowvalue` int(11) NOT NULL DEFAULT 0,
   `tstamp` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`answer_id`),
@@ -24184,8 +24702,6 @@ CREATE TABLE `tst_test_defaults` (
   `user_fi` int(11) NOT NULL DEFAULT 0,
   `name` varchar(255) DEFAULT NULL,
   `tstamp` int(11) NOT NULL DEFAULT 0,
-  `marks` longtext DEFAULT NULL,
-  `defaults` longtext DEFAULT NULL,
   `settings_id` int(11) DEFAULT NULL,
   `description` varchar(4000) DEFAULT NULL,
   `author` varchar(255) DEFAULT NULL,
@@ -24428,94 +24944,11 @@ CREATE TABLE `tst_test_settings_seq` (
 CREATE TABLE `tst_tests` (
   `test_id` int(11) NOT NULL DEFAULT 0,
   `obj_fi` int(11) NOT NULL DEFAULT 0,
-  `introduction` varchar(4000) DEFAULT NULL,
-  `sequence_settings` tinyint(4) NOT NULL DEFAULT 0,
-  `score_reporting` tinyint(4) NOT NULL DEFAULT 0,
-  `instant_verification` varchar(1) DEFAULT '0',
-  `answer_feedback` varchar(1) DEFAULT '0',
-  `answer_feedback_points` varchar(1) DEFAULT '0',
-  `fixed_participants` varchar(1) DEFAULT '0',
-  `suspend_test_allowed` varchar(1) DEFAULT '0',
-  `anonymity` varchar(1) DEFAULT '0',
-  `nr_of_tries` smallint(6) NOT NULL DEFAULT 0,
-  `use_previous_answers` varchar(1) DEFAULT '0',
-  `title_output` varchar(1) DEFAULT '0',
-  `processing_time` varchar(8) DEFAULT NULL,
-  `enable_processing_time` tinyint(4) NOT NULL DEFAULT 0,
-  `reset_processing_time` tinyint(4) NOT NULL DEFAULT 0,
-  `reporting_date` varchar(14) DEFAULT NULL,
-  `shuffle_questions` varchar(1) DEFAULT '0',
-  `ects_output` varchar(1) DEFAULT '0',
-  `ects_fx` double DEFAULT NULL,
   `complete` varchar(1) DEFAULT '1',
-  `ects_a` double NOT NULL DEFAULT 90,
-  `ects_b` double NOT NULL DEFAULT 65,
-  `ects_c` double NOT NULL DEFAULT 35,
-  `ects_d` double NOT NULL DEFAULT 10,
-  `ects_e` double NOT NULL DEFAULT 0,
-  `keep_questions` tinyint(4) NOT NULL DEFAULT 0,
-  `count_system` varchar(1) DEFAULT '0',
-  `mc_scoring` varchar(1) DEFAULT '0',
-  `score_cutting` varchar(1) DEFAULT '0',
-  `pass_scoring` varchar(1) DEFAULT '0',
-  `password` varchar(20) DEFAULT NULL,
-  `results_presentation` int(11) NOT NULL DEFAULT 3,
-  `usr_pass_overview_mode` int(11) NOT NULL DEFAULT 0,
-  `show_question_titles` varchar(1) DEFAULT '1',
-  `certificate_visibility` varchar(1) DEFAULT '0',
-  `show_marker` tinyint(4) NOT NULL DEFAULT 0,
-  `kiosk` int(11) NOT NULL DEFAULT 0,
-  `resultoutput` int(11) NOT NULL DEFAULT 0,
-  `finalstatement` varchar(4000) DEFAULT NULL,
-  `showfinalstatement` int(11) NOT NULL DEFAULT 0,
   `tstamp` int(11) NOT NULL DEFAULT 0,
   `created` int(11) NOT NULL DEFAULT 0,
-  `exportsettings` int(11) NOT NULL DEFAULT 0,
   `template_id` int(11) DEFAULT NULL,
-  `pool_usage` tinyint(4) DEFAULT NULL,
   `online_status` tinyint(4) NOT NULL DEFAULT 0,
-  `print_bs_with_res` tinyint(4) NOT NULL DEFAULT 1,
-  `highscore_enabled` int(11) DEFAULT 0,
-  `highscore_anon` int(11) DEFAULT 0,
-  `highscore_achieved_ts` int(11) DEFAULT 0,
-  `highscore_score` int(11) DEFAULT 0,
-  `highscore_percentage` int(11) DEFAULT 0,
-  `highscore_wtime` int(11) DEFAULT 0,
-  `highscore_own_table` int(11) DEFAULT 0,
-  `highscore_top_table` int(11) DEFAULT 0,
-  `highscore_top_num` int(11) DEFAULT 0,
-  `specific_feedback` int(11) DEFAULT 0,
-  `autosave` tinyint(4) NOT NULL DEFAULT 0,
-  `autosave_ival` int(11) NOT NULL DEFAULT 0,
-  `pass_deletion_allowed` int(11) NOT NULL DEFAULT 0,
-  `redirection_mode` int(11) NOT NULL DEFAULT 0,
-  `redirection_url` varchar(4000) DEFAULT NULL,
-  `examid_in_test_pass` int(11) NOT NULL DEFAULT 0,
-  `examid_in_test_res` int(11) NOT NULL DEFAULT 0,
-  `enable_examview` tinyint(4) DEFAULT NULL,
-  `question_set_type` varchar(32) NOT NULL DEFAULT 'FIXED_QUEST_SET',
-  `skill_service` tinyint(4) DEFAULT NULL,
-  `show_grading_status` tinyint(4) DEFAULT 0,
-  `show_grading_mark` tinyint(4) DEFAULT 0,
-  `inst_fb_answer_fixation` tinyint(4) DEFAULT NULL,
-  `intro_enabled` tinyint(4) DEFAULT NULL,
-  `starting_time_enabled` tinyint(4) DEFAULT NULL,
-  `ending_time_enabled` tinyint(4) DEFAULT NULL,
-  `password_enabled` tinyint(4) DEFAULT NULL,
-  `force_inst_fb` tinyint(4) DEFAULT 0,
-  `starting_time` bigint(20) NOT NULL DEFAULT 0,
-  `ending_time` bigint(20) NOT NULL DEFAULT 0,
-  `pass_waiting` varchar(15) DEFAULT NULL,
-  `follow_qst_answer_fixation` tinyint(4) DEFAULT 0,
-  `block_after_passed` tinyint(4) DEFAULT 0,
-  `info_screen` tinyint(4) DEFAULT NULL,
-  `introduction_page_id` bigint(20) DEFAULT NULL,
-  `concluding_remarks_page_id` bigint(20) DEFAULT NULL,
-  `show_questionlist` tinyint(4) DEFAULT NULL,
-  `hide_info_tab` tinyint(4) NOT NULL DEFAULT 0,
-  `conditions_checkbox_enabled` tinyint(4) NOT NULL DEFAULT 0,
-  `ip_range_from` varchar(39) DEFAULT NULL,
-  `ip_range_to` varchar(39) DEFAULT NULL,
   `settings_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`test_id`),
   KEY `i1_idx` (`obj_fi`),
@@ -24620,18 +25053,6 @@ CREATE TABLE `udf_definition` (
   `field_name` char(255) DEFAULT NULL,
   `field_type` varchar(4000) NOT NULL DEFAULT '0',
   `field_values` longtext DEFAULT NULL,
-  `visible` tinyint(4) NOT NULL DEFAULT 0,
-  `changeable` tinyint(4) NOT NULL DEFAULT 0,
-  `required` tinyint(4) NOT NULL DEFAULT 0,
-  `searchable` tinyint(4) NOT NULL DEFAULT 0,
-  `export` tinyint(4) NOT NULL DEFAULT 0,
-  `course_export` tinyint(4) NOT NULL DEFAULT 0,
-  `registration_visible` tinyint(4) DEFAULT 0,
-  `visible_lua` tinyint(4) NOT NULL DEFAULT 0,
-  `changeable_lua` tinyint(4) NOT NULL DEFAULT 0,
-  `group_export` tinyint(4) DEFAULT 0,
-  `certificate` tinyint(4) NOT NULL DEFAULT 0,
-  `prg_export` tinyint(4) NOT NULL DEFAULT 0,
   `section` varchar(64) NOT NULL DEFAULT 'other',
   PRIMARY KEY (`field_id`)
 ) ;
@@ -24640,6 +25061,7 @@ CREATE TABLE `udf_definition` (
 -- Dumping data for table `udf_definition`
 --
 
+INSERT INTO `udf_definition` VALUES ('3f08f029-32d0-455a-aa51-42acc7a514dd','Country','ILIAS\\User\\Profile\\Fields\\Custom\\Text',NULL,'contact_data');
 
 --
 -- Table structure for table `user_action_activation`
@@ -24859,7 +25281,41 @@ CREATE TABLE `usr_field_config` (
 -- Dumping data for table `usr_field_config`
 --
 
+INSERT INTO `usr_field_config` VALUES ('3f08f029-32d0-455a-aa51-42acc7a514dd',0,0,0,0,0,0,0,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('allow_contact_request',0,1,1,0,0,0,1,1,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('avatar',0,1,0,0,0,0,1,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('awrn_user_show',0,0,1,0,0,0,1,1,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('birthday',0,0,0,0,0,0,0,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('city',0,0,0,0,0,0,0,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('country',0,0,0,0,0,0,0,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('department',0,0,0,0,0,0,0,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('email',1,1,1,0,0,0,1,1,1,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('fax',0,0,0,0,0,0,0,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('firstname',0,1,0,0,0,0,1,1,1,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('gender',1,1,0,0,0,0,1,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('hobby',0,0,0,0,0,0,0,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('incoming_mail',0,1,1,0,0,0,1,1,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('institution',0,0,0,0,0,0,0,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('interests_general',0,0,0,0,0,0,0,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('interests_help_looking',0,0,0,0,0,0,0,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('interests_help_offered',0,0,0,0,0,0,0,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('language',0,1,1,0,0,0,1,1,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('lastname',0,1,0,0,0,0,1,1,1,0,0,0);
 INSERT INTO `usr_field_config` VALUES ('location',0,1,0,0,0,0,1,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('matriculation',0,0,0,0,0,0,0,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('org_units',0,0,0,0,0,0,1,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('phone_home',0,0,0,0,0,0,0,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('phone_mobile',0,0,0,0,0,0,0,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('phone_office',0,0,0,0,0,0,0,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('referral_comment',0,0,0,0,0,0,0,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('roles',0,0,0,0,0,0,1,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('second_email',0,0,0,0,0,0,0,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('session_reminder',0,1,0,0,0,0,1,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('skin_style',0,1,0,0,0,0,1,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('street',0,0,0,0,0,0,0,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('title',0,0,0,0,0,0,0,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('username',0,1,0,0,0,0,0,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('zipcode',0,0,0,0,0,0,0,0,0,0,0,0);
 
 --
 -- Table structure for table `usr_form_settings`
@@ -24998,7 +25454,7 @@ INSERT INTO `usr_pref` VALUES (13,'show_users_online','y');
 CREATE TABLE `usr_profile_data` (
   `usr_id` int(11) NOT NULL DEFAULT 0,
   `field_id` varchar(255) NOT NULL DEFAULT '',
-  `value` text DEFAULT NULL,
+  `value` mediumtext DEFAULT NULL,
   KEY `i1_idx` (`usr_id`),
   KEY `uf_idx` (`usr_id`,`field_id`)
 ) ;
@@ -25646,6 +26102,23 @@ CREATE TABLE `wopi_app_seq` (
 
 
 --
+-- Table structure for table `wopi_lock`
+--
+
+CREATE TABLE `wopi_lock` (
+  `resource_id` varchar(64) NOT NULL,
+  `lock_value` varchar(1024) NOT NULL,
+  `expires` bigint(20) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`resource_id`)
+) ;
+
+--
+-- Dumping data for table `wopi_lock`
+--
+
+
+--
 -- Table structure for table `write_event`
 --
 
@@ -25888,5 +26361,5 @@ CREATE TABLE `xmlvalue_seq` (
 
 
 
--- Dump completed on 2026-05-04 14:42:13
+-- Dump completed on 2026-11-02 11:24:17
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
