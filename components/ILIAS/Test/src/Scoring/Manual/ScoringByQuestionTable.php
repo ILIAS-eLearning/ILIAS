@@ -131,7 +131,8 @@ class ScoringByQuestionTable
                     0 => $this->lng->txt('no'),
                     1 => $this->lng->txt('yes')
                 ]
-            )->withRequired(true),
+            )->withRequired(true)
+            ->withValue(0),
             self::COLUMN_FINALIZED => $field_factory->select(
                 $this->lng->txt('finalized_evaluation'),
                 [
@@ -140,6 +141,7 @@ class ScoringByQuestionTable
                     2 => $this->lng->txt('not_evaluated_users')
                 ]
             )->withRequired(true)
+            ->withValue(0)
         ];
 
         $active = array_fill(0, count($filter_inputs), true);
