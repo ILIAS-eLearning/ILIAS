@@ -24,6 +24,7 @@ use ILIAS\Mail\Autoresponder\AutoresponderDto;
 use ILIAS\Mail\Autoresponder\AutoresponderRepository;
 use ILIAS\Data\Clock\ClockInterface;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\Stub;
 
 class ilMailAutoresponderServiceTest extends ilMailBaseTestCase
 {
@@ -37,7 +38,8 @@ class ilMailAutoresponderServiceTest extends ilMailBaseTestCase
         int $interval,
         bool $expects_active_auto_responder
     ): void {
-        $clock = $this->createMock(ClockInterface::class);
+        /** @var ClockInterface&Stub $clock */
+        $clock = $this->createStub(ClockInterface::class);
         $clock->method('now')->willReturn($faked_now);
 
         $repository = $this->createMock(AutoresponderRepository::class);
@@ -74,11 +76,13 @@ class ilMailAutoresponderServiceTest extends ilMailBaseTestCase
             $repository->expects($this->never())->method('store');
         }
 
-        $mail_receiver_options = $this->getMockBuilder(ilMailOptions::class)->disableOriginalConstructor()->getMock();
+        /** @var ilMailOptions&Stub $mail_receiver_options */
+        $mail_receiver_options = $this->getStubBuilder(ilMailOptions::class)->disableOriginalConstructor()->getStub();
         $mail_receiver_options->method('getUsrId')->willReturn(self::MAIL_RECEIVER_USER_ID);
         $mail_receiver_options->method('isAbsent')->willReturn(true);
 
-        $mail_options = $this->getMockBuilder(ilMailOptions::class)->disableOriginalConstructor()->getMock();
+        /** @var ilMailOptions&Stub $mail_options */
+        $mail_options = $this->getStubBuilder(ilMailOptions::class)->disableOriginalConstructor()->getStub();
         $mail_options->method('getUsrId')->willReturn(self::MAIL_SENDER_USER_ID);
         $mail_options->method('isAbsent')->willReturn(false);
 

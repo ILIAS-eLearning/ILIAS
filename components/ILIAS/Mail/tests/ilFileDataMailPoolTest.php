@@ -22,6 +22,7 @@ use ILIAS\ResourceStorage\Manager\Manager;
 use ILIAS\Mail\Attachments\MailAttachments;
 use ILIAS\ResourceStorage\Services as IRSS;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 
 class ilFileDataMailPoolTest extends ilMailBaseTestCase
 {
@@ -108,7 +109,7 @@ class ilFileDataMailPoolTest extends ilMailBaseTestCase
     public function testMigrateLegacyPoolAttachmentsReturnsIrssWhenAlreadyMigrated(): void
     {
         $irss = MailAttachments::fromIrss(
-            new ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification('rcid-1')
+            new ResourceCollectionIdentification('rcid-1')
         );
 
         $partial = $this->getMockBuilder(ilFileDataMail::class)

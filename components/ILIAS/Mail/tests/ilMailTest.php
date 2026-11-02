@@ -28,8 +28,9 @@ use ILIAS\Data\Result\Ok;
 use ILIAS\Mail\Service\MailSignatureService;
 use PHPUnit\Framework\Attributes\DataProvider;
 use ILIAS\Mail\TemplateEngine\TemplateEngineFactoryInterface;
-use ILIAS\Mail\TemplateEngine\Mustache\MustacheTemplateEngineFactory;
 use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
+use PHPUnit\Framework\MockObject\Stub;
+use ILIAS\Mail\TemplateEngine\TemplateEngineInterface;
 
 class ilMailTest extends ilMailBaseTestCase
 {
@@ -42,17 +43,18 @@ class ilMailTest extends ilMailBaseTestCase
 
     public function testExternalMailDeliveryWorksAsExpected(): void
     {
-        $refinery = $this->getMockBuilder(Factory::class)->disableOriginalConstructor()->getMock();
+        /** @var Factory&Stub $refinery */
+        $refinery = $this->getStubBuilder(Factory::class)->disableOriginalConstructor()->getStub();
         $this->setGlobalVariable('refinery', $refinery);
 
         $legal_documents = $this->createMock(Conductor::class);
         $this->setGlobalVariable('legalDocuments', $legal_documents);
 
-        $this->setGlobalVariable('ilIliasIniFile', $this->createMock(ilIniFile::class));
-        $this->setGlobalVariable('ilDB', $this->createMock(ilDBInterface::class));
-        $this->setGlobalVariable('ilClientIniFile', $this->createMock(ilIniFile::class));
-        $this->setGlobalVariable('lng', $this->createMock(ilLanguage::class));
-        $this->setGlobalVariable('ilCtrl', $this->createMock(ilCtrl::class));
+        $this->setGlobalVariable('ilIliasIniFile', $this->createStub(ilIniFile::class));
+        $this->setGlobalVariable('ilDB', $this->createStub(ilDBInterface::class));
+        $this->setGlobalVariable('ilClientIniFile', $this->createStub(ilIniFile::class));
+        $this->setGlobalVariable('lng', $this->createStub(ilLanguage::class));
+        $this->setGlobalVariable('ilCtrl', $this->createStub(ilCtrl::class));
 
         $web_dir = 'public/data';
         define('ILIAS_WEB_DIR', $web_dir);
@@ -83,7 +85,8 @@ class ilMailTest extends ilMailBaseTestCase
             $inactive_and_expired_users_login_to_id_map
         );
 
-        $transformation = $this->createMock(Transformation::class);
+        /** @var Transformation&Stub $transformation */
+        $transformation = $this->createStub(Transformation::class);
         $transformation->method('applyTo')->willReturn(
             new Ok(null)
         );
@@ -119,21 +122,23 @@ class ilMailTest extends ilMailBaseTestCase
 
         foreach ($user_groups as $user_group) {
             foreach ($user_group[0] as $usr_id) {
+                /** @var ilObjUser&Stub $user */
                 $user = $this
-                    ->getMockBuilder(ilObjUser::class)
+                    ->getStubBuilder(ilObjUser::class)
                     ->disableOriginalConstructor()
                     ->onlyMethods(['getId', 'checkTimeLimit', 'getActive'])
-                    ->getMock();
+                    ->getStub();
                 $user->method('getId')->willReturn($usr_id);
                 $user->method('getActive')->willReturn($user_group[1]);
                 $user->method('checkTimeLimit')->willReturn($user_group[2]);
                 $usr_instances_by_id[$usr_id] = $user;
 
+                /** @var ilMailOptions&Stub $mail_options */
                 $mail_options = $this
-                    ->getMockBuilder(ilMailOptions::class)
+                    ->getStubBuilder(ilMailOptions::class)
                     ->disableOriginalConstructor()
                     ->onlyMethods(['getExternalEmailAddresses', 'getIncomingType'])
-                    ->getMock();
+                    ->getStub();
                 $mail_options->method('getExternalEmailAddresses')->willReturn([
                     'phpunit' . $usr_id . '@ilias.de',
                 ]);
@@ -142,14 +147,16 @@ class ilMailTest extends ilMailBaseTestCase
             }
         }
 
-        $user = $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock();
+        /** @var ilObjUser&Stub $user */
+        $user = $this->getStubBuilder(ilObjUser::class)->disableOriginalConstructor()->getStub();
         ilMailMimeSenderUserById::addUserToCache($sender_usr_id, $user);
 
+        /** @var ilMailAddressTypeFactory&Stub $address_type_factory */
         $address_type_factory = $this
-            ->getMockBuilder(ilMailAddressTypeFactory::class)
+            ->getStubBuilder(ilMailAddressTypeFactory::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['getByPrefix'])
-            ->getMock();
+            ->getStub();
         $address_type_factory
             ->method('getByPrefix')
             ->willReturnCallback(function ($arg) use ($all_users_login_to_id_map): object {
@@ -185,7 +192,8 @@ class ilMailTest extends ilMailBaseTestCase
                 };
             });
 
-        $db = $this->createMock(ilDBInterface::class);
+        /** @var ilDBInterface&Stub $db */
+        $db = $this->createStub(ilDBInterface::class);
         $next_id = 0;
         $db->method('nextId')->willReturnCallback(function () use (&$next_id): int {
             ++$next_id;
@@ -193,18 +201,27 @@ class ilMailTest extends ilMailBaseTestCase
             return $next_id;
         });
 
-        $event_handler = $this->getMockBuilder(ilAppEventHandler::class)->disableOriginalConstructor()->getMock();
-        $logger = $this->getMockBuilder(ilLogger::class)->disableOriginalConstructor()->getMock();
-        $lng = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock();
-        $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->getMock();
+        /** @var ilAppEventHandler&Stub $event_handler */
+        $event_handler = $this->getStubBuilder(ilAppEventHandler::class)->disableOriginalConstructor()->getStub();
+        /** @var ilLogger&Stub $logger */
+        $logger = $this->getStubBuilder(ilLogger::class)->disableOriginalConstructor()->getStub();
+        /** @var ilLanguage&Stub $lng */
+        $lng = $this->getStubBuilder(ilLanguage::class)->disableOriginalConstructor()->getStub();
+        /** @var ilSetting&Stub $settings */
+        $settings = $this->getStubBuilder(ilSetting::class)->disableOriginalConstructor()->getStub();
         $settings->method('get')->willReturn('');
         $this->setGlobalVariable('ilSetting', $settings);
 
-        $mail_file_data = $this->getMockBuilder(ilFileDataMail::class)->disableOriginalConstructor()->getMock();
-        $mail_options = $this->getMockBuilder(ilMailOptions::class)->disableOriginalConstructor()->getMock();
-        $mail_box = $this->getMockBuilder(ilMailbox::class)->disableOriginalConstructor()->getMock();
-        $actor = $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock();
-        $template_engine_factory = $this->createMock(TemplateEngineFactoryInterface::class);
+        /** @var ilFileDataMail&Stub $mail_file_data */
+        $mail_file_data = $this->getStubBuilder(ilFileDataMail::class)->disableOriginalConstructor()->getStub();
+        /** @var ilMailOptions&Stub $mail_options */
+        $mail_options = $this->getStubBuilder(ilMailOptions::class)->disableOriginalConstructor()->getStub();
+        /** @var ilMailbox&Stub $mail_box */
+        $mail_box = $this->getStubBuilder(ilMailbox::class)->disableOriginalConstructor()->getStub();
+        /** @var ilObjUser&Stub $actor */
+        $actor = $this->getStubBuilder(ilObjUser::class)->disableOriginalConstructor()->getStub();
+        /** @var TemplateEngineFactoryInterface&Stub $template_engine_factory */
+        $template_engine_factory = $this->createStub(TemplateEngineFactoryInterface::class);
 
         $mail_service = new ilMail(
             $sender_usr_id,
@@ -219,12 +236,12 @@ class ilMailTest extends ilMailBaseTestCase
             $mail_box,
             new ilMailMimeSenderFactory($settings, $template_engine_factory),
             static fn(string $login): int => $all_users_login_to_id_map[$login] ?? 0,
-            $this->createMock(AutoresponderService::class),
+            $this->createStub(AutoresponderService::class),
             0,
             4711,
             $actor,
             new ilMailTemplatePlaceholderResolver(
-                new class () implements \ILIAS\Mail\TemplateEngine\TemplateEngineInterface {
+                new class () implements TemplateEngineInterface {
                     public function render(string $template, object|array $context): string
                     {
                         return 'phpunit';
@@ -350,10 +367,11 @@ class ilMailTest extends ilMailBaseTestCase
         $folder_id = 89;
         $usr_id = 901;
         $instance = $this->create(234, $usr_id);
-        $mock_statement = $this->getMockBuilder(ilDBStatement::class)->getMock();
+        /** @var ilDBStatement&Stub $statement */
+        $statement = $this->createStub(ilDBStatement::class);
         $this->mock_database->expects($this->never())->method('setLimit');
-        $this->mock_database->expects($this->exactly(3))->method('fetchAssoc')->with($mock_statement)->willReturnOnConsecutiveCalls($row_data, $row_data, null);
-        $this->mock_database->expects($this->once())->method('queryF')->willReturnCallback($this->queryCallback($mock_statement, ['integer', 'integer'], [$usr_id, $folder_id]));
+        $this->mock_database->expects($this->exactly(3))->method('fetchAssoc')->with($statement)->willReturnOnConsecutiveCalls($row_data, $row_data, null);
+        $this->mock_database->expects($this->once())->method('queryF')->willReturnCallback($this->queryCallback($statement, ['integer', 'integer'], [$usr_id, $folder_id]));
 
         $this->mock_database->expects($this->once())->method('quote')->with($filter['status'], 'text')->willReturn($filter['status']);
 
@@ -366,9 +384,10 @@ class ilMailTest extends ilMailBaseTestCase
         $folder_id = 68;
         $num_rows = 89;
         $instance = $this->create(345, $usr_id);
-        $mock_statement = $this->getMockBuilder(ilDBStatement::class)->getMock();
-        $this->mock_database->expects($this->once())->method('queryF')->willReturnCallback($this->queryCallback($mock_statement, ['integer', 'integer'], [$usr_id, $folder_id]));
-        $this->mock_database->expects($this->once())->method('numRows')->with($mock_statement)->willReturn($num_rows);
+        /** @var ilDBStatement&Stub $statement */
+        $statement = $this->createStub(ilDBStatement::class);
+        $this->mock_database->expects($this->once())->method('queryF')->willReturnCallback($this->queryCallback($statement, ['integer', 'integer'], [$usr_id, $folder_id]));
+        $this->mock_database->expects($this->once())->method('numRows')->with($statement)->willReturn($num_rows);
 
         $this->assertSame($num_rows, $instance->countMailsOfFolder($folder_id));
     }
@@ -385,7 +404,7 @@ class ilMailTest extends ilMailBaseTestCase
         $mail_ids = [1, 2, 3, 4, 5, 6];
         $usr_id = 987;
         $instance = $this->create(567, $usr_id);
-        $this->getMockBuilder(ilDBStatement::class)->getMock();
+
         $this->mock_database->expects($this->once())->method('in')->with('mail_id', $mail_ids, false, 'integer')->willReturn('');
         $this->mock_database->expects($this->once())->method('manipulateF')->willReturnCallback($this->queryCallback(0, ['text', 'integer'], ['read', $usr_id]));
 
@@ -397,7 +416,7 @@ class ilMailTest extends ilMailBaseTestCase
         $mail_ids = [1, 2, 3, 4, 5, 6];
         $usr_id = 987;
         $instance = $this->create(567, $usr_id);
-        $this->getMockBuilder(ilDBStatement::class)->getMock();
+
         $this->mock_database->expects($this->once())->method('in')->with('mail_id', $mail_ids, false, 'integer')->willReturn('');
         $this->mock_database->expects($this->once())->method('manipulateF')->willReturnCallback($this->queryCallback(0, ['text', 'integer'], ['unread', $usr_id]));
 
@@ -545,7 +564,8 @@ class ilMailTest extends ilMailBaseTestCase
             'tpl_ctx_params' => ['blob', json_encode($params, JSON_THROW_ON_ERROR)],
         ]);
 
-        $mock_statement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
+        /** @var ilDBStatement&Stub $mock_statement */
+        $mock_statement = $this->createStub(ilDBStatement::class);
         // Previous stage lookup (to release its collection) and re-reading the stage
         $this->mock_database->expects($this->exactly(2))->method('queryF')->willReturnCallback($this->queryCallback($mock_statement, ['integer'], [$usr_id]));
         $this->mock_database->expects($this->exactly(2))->method('fetchAssoc')->with($mock_statement)->willReturn([
@@ -570,7 +590,8 @@ class ilMailTest extends ilMailBaseTestCase
     {
         $usr_id = 789;
         $instance = $this->create(67, $usr_id);
-        $mock_statement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
+        /** @var ilDBStatement&Stub $mock_statement */
+        $mock_statement = $this->createStub(ilDBStatement::class);
         $this->mock_database->expects($this->once())->method('queryF')->willReturnCallback($this->queryCallback($mock_statement, ['integer'], [$usr_id]));
         $this->mock_database->expects($this->once())->method('fetchAssoc')->with($mock_statement)->willReturn([
             'rcp_to' => 'phpunit'
@@ -651,8 +672,9 @@ class ilMailTest extends ilMailBaseTestCase
     {
         $usr_id = 897;
         $instance = $this->create(789, $usr_id);
-        $mock_statement = $this->createStub(ilDBStatement::class);
-        $this->mock_database->method('queryF')->willReturn($mock_statement);
+        /** @var ilDBStatement&Stub $statement */
+        $statement = $this->createStub(ilDBStatement::class);
+        $this->mock_database->method('queryF')->willReturn($statement);
         $this->mock_database->method('fetchAssoc')->willReturnOnConsecutiveCalls(
             ['attachments' => '11111111-1111-4111-8111-111111111111'],
             ['attachments' => '22222222-2222-4222-8222-222222222222', 'rcp_to' => '']
@@ -680,8 +702,9 @@ class ilMailTest extends ilMailBaseTestCase
     {
         $usr_id = 897;
         $instance = $this->create(789, $usr_id);
-        $mock_statement = $this->createStub(ilDBStatement::class);
-        $this->mock_database->method('queryF')->willReturn($mock_statement);
+        /** @var ilDBStatement&Stub $statement */
+        $statement = $this->createStub(ilDBStatement::class);
+        $this->mock_database->method('queryF')->willReturn($statement);
         $this->mock_database->method('fetchAssoc')->willReturn(['attachments' => '33333333-3333-4333-8333-333333333333', 'rcp_to' => '']);
 
         $this->mock_mail_file_data->expects($this->never())->method('releaseCollectionIfUnreferenced');
@@ -704,12 +727,13 @@ class ilMailTest extends ilMailBaseTestCase
             new ResourceCollectionIdentification('657497dc-5079-4f95-b19d-aecdaf81ff1a')
         );
         $instance = $this->create(789, $usr_id);
-        $mock_statement = $this->createStub(ilDBStatement::class);
+        /** @var ilDBStatement&Stub $statement */
+        $statement = $this->createStub(ilDBStatement::class);
 
         $this->mock_database->expects($this->exactly(3))->method('queryF')->willReturnCallback(
-            $this->queryCallback($mock_statement, ['integer'], [$usr_id])
+            $this->queryCallback($statement, ['integer'], [$usr_id])
         );
-        $this->mock_database->expects($this->exactly(3))->method('fetchAssoc')->with($mock_statement)->willReturn([
+        $this->mock_database->expects($this->exactly(3))->method('fetchAssoc')->with($statement)->willReturn([
             'attachments' => null,
             'rcp_to' => '',
             'rcp_cc' => '',
@@ -747,38 +771,40 @@ class ilMailTest extends ilMailBaseTestCase
     {
         $usr_id = 900;
         $instance = $this->create(234, $usr_id);
-        $mock_statement = $this->getMockBuilder(ilDBStatement::class)->getMock();
-        $this->mock_database->expects($this->once())->method('fetchAssoc')->with($mock_statement)->willReturn($row_data);
-        $this->mock_database->expects($this->once())->method('queryF')->willReturnCallback($this->queryCallback($mock_statement, ['integer', 'integer'], [$usr_id, $some_mail_id]));
+        /** @var ilDBStatement&Stub $statement */
+        $statement = $this->createStub(ilDBStatement::class);
+        $this->mock_database->expects($this->once())->method('fetchAssoc')->with($statement)->willReturn($row_data);
+        $this->mock_database->expects($this->once())->method('queryF')->willReturnCallback($this->queryCallback($statement, ['integer', 'integer'], [$usr_id, $some_mail_id]));
 
         return $instance;
     }
 
     private function create(int $ref_id = 234, int $usr_id = 123): ilMail
     {
-        $refinery = $this->getMockBuilder(Factory::class)->disableOriginalConstructor()->getMock();
+        /** @var Factory&Stub $refinery */
+        $refinery = $this->getStubBuilder(Factory::class)->disableOriginalConstructor()->getStub();
         $this->setGlobalVariable('refinery', $refinery);
 
         $instance = new ilMail(
             $usr_id,
             ($this->mock_address_type_factory = $this->getMockBuilder(ilMailAddressTypeFactory::class)->disableOriginalConstructor()->getMock()),
             ($this->mock_parser_factory = $this->getMockBuilder(ilMailRfc822AddressParserFactory::class)->disableOriginalConstructor()->getMock()),
-            $this->getMockBuilder(ilAppEventHandler::class)->disableOriginalConstructor()->getMock(),
+            $this->getStubBuilder(ilAppEventHandler::class)->disableOriginalConstructor()->getStub(),
             ($this->mock_log = $this->getMockBuilder(ilLogger::class)->disableOriginalConstructor()->getMock()),
             ($this->mock_database = $this->createMock(ilDBInterface::class)),
             ($this->mock_language = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock()),
             ($this->mock_mail_file_data = $this->getMockBuilder(ilFileDataMail::class)->disableOriginalConstructor()->getMock()),
-            $this->getMockBuilder(ilMailOptions::class)->disableOriginalConstructor()->getMock(),
-            $this->getMockBuilder(ilMailbox::class)->disableOriginalConstructor()->getMock(),
-            $this->getMockBuilder(ilMailMimeSenderFactory::class)->disableOriginalConstructor()->getMock(),
+            $this->getStubBuilder(ilMailOptions::class)->disableOriginalConstructor()->getStub(),
+            $this->getStubBuilder(ilMailbox::class)->disableOriginalConstructor()->getStub(),
+            $this->getStubBuilder(ilMailMimeSenderFactory::class)->disableOriginalConstructor()->getStub(),
             static fn(string $login): int => 780,
-            $this->createMock(AutoresponderService::class),
+            $this->createStub(AutoresponderService::class),
             0,
             $ref_id,
-            $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock(),
-            $this->getMockBuilder(ilMailTemplatePlaceholderResolver::class)->disableOriginalConstructor()->getMock(),
+            $this->getStubBuilder(ilObjUser::class)->disableOriginalConstructor()->getStub(),
+            $this->getStubBuilder(ilMailTemplatePlaceholderResolver::class)->disableOriginalConstructor()->getStub(),
             null,
-            $this->getMockBuilder(MailSignatureService::class)->disableOriginalConstructor()->getMock(),
+            $this->getStubBuilder(MailSignatureService::class)->disableOriginalConstructor()->getStub(),
         );
 
         return $instance;

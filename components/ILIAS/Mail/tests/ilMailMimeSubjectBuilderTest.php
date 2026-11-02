@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\Stub;
 
 class ilMailMimeSubjectBuilderTest extends ilMailBaseTestCase
 {
@@ -58,7 +59,8 @@ class ilMailMimeSubjectBuilderTest extends ilMailBaseTestCase
 
     public function testSubjectMustNotBeChangedWhenNoPrefixShouldBeAdded(): void
     {
-        $settings = $this->getMockBuilder(ilSetting::class)->onlyMethods(['get'])->disableOriginalConstructor()->getMock();
+        /** @var ilSetting&Stub $settings */
+        $settings = $this->getStubBuilder(ilSetting::class)->onlyMethods(['get'])->disableOriginalConstructor()->getStub();
         $subject_builder = new ilMailMimeSubjectBuilder($settings, self::DEFAULT_PREFIX);
 
         $subject = 'phpunit';

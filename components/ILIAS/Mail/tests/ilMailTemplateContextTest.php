@@ -24,6 +24,9 @@ use PHPUnit\Framework\MockObject\MockObject;
 use OrgUnit\PublicApi\OrgUnitUserService;
 use OrgUnit\User\ilOrgUnitUser;
 use PHPUnit\Framework\Attributes\DataProvider;
+use ILIAS\Mail\TemplateEngine\TemplateEngineInterface;
+use PHPUnit\Framework\Constraint\TraversableContainsEqual;
+use PHPUnit\Framework\TestCase;
 
 class ilMailTemplateContextTest extends ilMailBaseTestCase
 {
@@ -209,7 +212,7 @@ class ilMailTemplateContextTest extends ilMailBaseTestCase
         if ($ou_superiors !== []) {
             $expected_ids_constraint = self::logicalAnd(
                 ...array_map(
-                    static function (ilOrgUnitUser $user): \PHPUnit\Framework\Constraint\TraversableContainsEqual {
+                    static function (ilOrgUnitUser $user): TraversableContainsEqual {
                         return self::containsEqual($user->getUserId());
                     },
                     $ou_superiors
@@ -246,9 +249,9 @@ class ilMailTemplateContextTest extends ilMailBaseTestCase
             'INSTALLATION_NAME' => '###phpunit_client###',
         ];
 
-        $engine = new class ($this, $expected_values) implements \ILIAS\Mail\TemplateEngine\TemplateEngineInterface {
+        $engine = new class ($this, $expected_values) implements TemplateEngineInterface {
             public function __construct(
-                private readonly \PHPUnit\Framework\TestCase $test_case,
+                private readonly TestCase $test_case,
                 /** @var array<string, string> */
                 private readonly array $expected_values
             ) {
