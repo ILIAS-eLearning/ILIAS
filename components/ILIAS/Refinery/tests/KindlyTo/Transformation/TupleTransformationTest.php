@@ -30,10 +30,6 @@ class TupleTransformationTest extends TestCase
 {
     private const TUPLE_KEY = 'hello';
 
-    /**
-     * @param array $originVal
-     * @param array $expectedVal
-     */
     #[DataProvider('TupleTransformationDataProvider')]
     public function testTupleTransformation(array $originVal, array $expectedVal): void
     {
@@ -48,9 +44,6 @@ class TupleTransformationTest extends TestCase
         $this->assertEquals($expectedVal, $transformedValue);
     }
 
-    /**
-     * @param array $failingVal
-     */
     #[DataProvider('TupleFailingTransformationDataProvider')]
     public function testNewTupleIsIncorrect(array $failingVal): void
     {
@@ -70,9 +63,6 @@ class TupleTransformationTest extends TestCase
         $this->fail();
     }
 
-    /**
-     * @param array $tooManyValues
-     */
     #[DataProvider('TupleTooManyValuesDataProvider')]
     public function testTupleTooManyValues(array $tooManyValues): void
     {

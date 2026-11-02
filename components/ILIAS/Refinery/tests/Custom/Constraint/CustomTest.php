@@ -25,33 +25,20 @@ use ILIAS\Data\Factory as DataFactory;
 class CustomTest extends TestCase
 {
     private string $txt_id = '';
-    private ILIAS\Language\Language $lng;
     private CustomConstraint $constraint;
 
     protected function setUp(): void
     {
-        $is_ok = static function ($value): bool {
-            return false;
-        };
-        $this->txt_id = "TXT_ID";
-        $error = function (callable $txt, $value): string {
-            return $txt($this->txt_id, $value);
-        };
-        $this->lng = $this->createMock(ILIAS\Language\Language::class);
-        $this->constraint = new class ($is_ok, $error, new DataFactory(), $this->lng) extends CustomConstraint {
-            public function _getLngClosure(): Closure
-            {
-                return $this->getLngClosure();
-            }
-        };
+        $this->txt_id = 'TXT_ID';
+        $this->constraint = $this->newConstraint($this->createStub(ILIAS\Language\Language::class));
     }
 
     public function testWithProblemBuilder(): void
     {
         $new_constraint = $this->constraint->withProblemBuilder(static function (): string {
-            return "This was a fault";
+            return 'This was a fault';
         });
-        $this->assertEquals("This was a fault", $new_constraint->problemWith(""));
+        $this->assertEquals('This was a fault', $new_constraint->problemWith(''));
     }
 
     public function testProblemBuilderRetrievesLngClosure(): void
@@ -59,23 +46,24 @@ class CustomTest extends TestCase
         $cls = null;
         $c = $this->constraint->withProblemBuilder(function ($txt) use (&$cls): string {
             $cls = $txt;
-            return "";
+            return '';
         });
-        $c->problemWith("");
+        $c->problemWith('');
         $this->assertIsCallable($cls);
     }
 
     public function test_use_txt(): void
     {
         $txt_out = "'%s'";
-        $this->lng
+        $lng = $this->createMock(ILIAS\Language\Language::class);
+        $lng
             ->expects($this->once())
-            ->method("txt")
+            ->method('txt')
             ->with($this->txt_id)
             ->willReturn($txt_out);
 
-        $value = "VALUE";
-        $problem = $this->constraint->problemWith($value);
+        $value = 'VALUE';
+        $problem = $this->newConstraint($lng)->problemWith($value);
 
         $this->assertEquals(sprintf($txt_out, $value), $problem);
     }
@@ -91,15 +79,15 @@ class CustomTest extends TestCase
 
     public function test_no_sprintf_on_one_parameter(): void
     {
-        $lng_closure = $this->constraint->_getLngClosure();
-
-        $txt_out = "txt";
-        $this->lng
+        $txt_out = 'txt';
+        $lng = $this->createMock(ILIAS\Language\Language::class);
+        $lng
             ->expects($this->once())
-            ->method("txt")
+            ->method('txt')
             ->with($this->txt_id)
             ->willReturn($txt_out);
 
+        $lng_closure = $this->newConstraint($lng)->_getLngClosure();
         $res = $lng_closure($this->txt_id);
 
         $this->assertEquals($txt_out, $res);
@@ -107,16 +95,29 @@ class CustomTest extends TestCase
 
     public function test_gracefully_handle_arrays_and_objects(): void
     {
-        $lng_closure = $this->constraint->_getLngClosure();
-
-        $this->lng
+        $lng = $this->createMock(ILIAS\Language\Language::class);
+        $lng
             ->expects($this->once())
-            ->method("txt")
-            ->with("id")
-            ->willReturn("%s-%s-%s-%s-");
+            ->method('txt')
+            ->with('id')
+            ->willReturn('%s-%s-%s-%s-');
 
-        $res = $lng_closure("id", [], new stdClass(), "foo", null);
+        $lng_closure = $this->newConstraint($lng)->_getLngClosure();
+        $res = $lng_closure('id', [], new stdClass(), 'foo', null);
 
-        $this->assertEquals("array-" . stdClass::class . "-foo-null-", $res);
+        $this->assertEquals('array-' . stdClass::class . '-foo-null-', $res);
+    }
+
+    private function newConstraint(ILIAS\Language\Language $lng): CustomConstraint
+    {
+        $is_ok = static fn($value): bool => false;
+        $error = fn(callable $txt, $value): string => $txt($this->txt_id, $value);
+
+        return new class ($is_ok, $error, $this->createStub(DataFactory::class), $lng) extends CustomConstraint {
+            public function _getLngClosure(): Closure
+            {
+                return $this->getLngClosure();
+            }
+        };
     }
 }

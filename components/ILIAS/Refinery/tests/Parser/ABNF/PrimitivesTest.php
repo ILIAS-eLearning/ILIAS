@@ -28,6 +28,7 @@ use ILIAS\Refinery\Parser\ABNF\Intermediate;
 use ILIAS\Refinery\Parser\ABNF\Primitives;
 use PHPUnit\Framework\TestCase;
 use Exception;
+use PHPUnit\Framework\MockObject\Stub;
 
 class PrimitivesTest extends TestCase
 {
@@ -74,7 +75,8 @@ class PrimitivesTest extends TestCase
             throw new Exception('Should not be called.');
         });
 
-        $intermediate = $this->getMockBuilder(Intermediate::class)->disableOriginalConstructor()->getMock();
+        /** @var Intermediate&Stub $intermediate */
+        $intermediate = $this->createStub(Intermediate::class);
 
         $result = $parser($intermediate, static fn(Result $x): Result => $x);
         $this->assertTrue($result->isOk());
@@ -93,7 +95,8 @@ class PrimitivesTest extends TestCase
                 return $cc(new Ok($x));
             });
 
-            $intermediate = $this->getMockBuilder(Intermediate::class)->disableOriginalConstructor()->getMock();
+            /** @var Intermediate&Stub $intermediate */
+            $intermediate = $this->createStub(Intermediate::class);
 
             $result = $parser($intermediate, static function (Result $x) use (&$end_called, $i): Result {
                 $end_called++;
@@ -122,7 +125,8 @@ class PrimitivesTest extends TestCase
             return $cc(new Ok($x));
         });
 
-        $intermediate = $this->getMockBuilder(Intermediate::class)->disableOriginalConstructor()->getMock();
+        /** @var Intermediate&Stub $intermediate */
+        $intermediate = $this->createStub(Intermediate::class);
 
         $result = $parser($intermediate, static function (Result $x) use (&$end_called, $success_after): Result {
             $end_called++;
@@ -145,7 +149,8 @@ class PrimitivesTest extends TestCase
             return $called <= $fail_after ? $cc(new Ok($x)) : $cc(new Error('Failed.'));
         });
 
-        $intermediate = $this->getMockBuilder(Intermediate::class)->disableOriginalConstructor()->getMock();
+        /** @var Intermediate&Stub $intermediate */
+        $intermediate = $this->createStub(Intermediate::class);
 
         $result = $parser($intermediate, static function (Result $x) use (&$end_called): Result {
             $end_called++;
@@ -171,7 +176,8 @@ class PrimitivesTest extends TestCase
     {
         $primitives = new Primitives();
 
-        $intermediate = $this->getMockBuilder(Intermediate::class)->disableOriginalConstructor()->getMock();
+        /** @var Intermediate&Stub $intermediate */
+        $intermediate = $this->createStub(Intermediate::class);
         $intermediate->method('value')->willReturnOnConsecutiveCalls(ord('h'), ord('e'), ord('l'), ord('l'), ord('o'));
         $intermediate->method('accept')->willReturn(new Ok($intermediate));
 

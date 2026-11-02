@@ -83,7 +83,6 @@ class PasswordContraintsTest extends TestCase
     }
 
     /**
-     * @param Constraint $constraint
      * @param ILIAS\Data\Password[] $ok_values
      * @param ILIAS\Data\Password[] $error_values
      */

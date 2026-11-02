@@ -39,6 +39,7 @@ use ILIAS\Refinery\URI\Group as URIGroup;
 use ILIAS\Refinery\Decode\Group as DecodeGroup;
 use ILIAS\Refinery\Encode\Group as EncodeGroup;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\MockObject\Stub;
 
 class FactoryTest extends TestCase
 {
@@ -46,9 +47,8 @@ class FactoryTest extends TestCase
 
     protected function setUp(): void
     {
-        $language = $this->getMockBuilder(\ILIAS\Language\Language::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var \ILIAS\Language\Language&Stub $language */
+        $language = $this->createStub(\ILIAS\Language\Language::class);
 
         $this->basicFactory = new Refinery(new DataFactory(), $language);
     }

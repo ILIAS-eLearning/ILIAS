@@ -30,6 +30,7 @@ use ILIAS\Refinery\Transformation;
 use Closure;
 use stdClass;
 use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\MockObject\Stub;
 
 class TransformTest extends TestCase
 {
@@ -43,7 +44,8 @@ class TransformTest extends TestCase
     {
         $transform = new Transform();
         $transformed = new stdClass();
-        $transformation = $this->getMockBuilder(Transformation::class)->getMock();
+        /** @var Transformation&Stub $transformation */
+        $transformation = $this->createStub(Transformation::class);
         $transformation->method('applyTo')->willReturnCallback(function (Result $x) use ($transformed): Result {
             $this->assertEquals('x', $x->value());
             return new Ok($transformed);
@@ -67,7 +69,8 @@ class TransformTest extends TestCase
     public function testFailedToTransform(): void
     {
         $transform = new Transform();
-        $transformation = $this->getMockBuilder(Transformation::class)->getMock();
+        /** @var Transformation&Stub $transformation */
+        $transformation = $this->createStub(Transformation::class);
         $transformation->method('applyTo')->willReturnCallback(function (Result $x): Result {
             $this->assertEquals('x', $x->value());
             return new Error('Sorryy.');
@@ -92,7 +95,8 @@ class TransformTest extends TestCase
     {
         $transform = new Transform();
         $transformCalled = false;
-        $transformation = $this->getMockBuilder(Transformation::class)->getMock();
+        /** @var Transformation&Stub $transformation */
+        $transformation = $this->createStub(Transformation::class);
         $transformation->method('applyTo')->willReturnCallback(function (Result $x) use (&$transformCalled): Result {
             $transformCalled = true;
             return $x;

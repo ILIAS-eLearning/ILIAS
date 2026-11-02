@@ -36,6 +36,7 @@ use ILIAS\Refinery\To\Transformation\TupleTransformation;
 use PHPUnit\Framework\TestCase;
 use InvalidArgumentException;
 use ILIAS\Language\Language;
+use PHPUnit\Framework\MockObject\Stub;
 
 class GroupTest extends TestCase
 {
@@ -43,7 +44,8 @@ class GroupTest extends TestCase
 
     protected function setUp(): void
     {
-        $language = $this->getMockBuilder(Language::class)->disableOriginalConstructor()->getMock();
+        /** @var Language&Stub $language */
+        $language = $this->createStub(Language::class);
         $this->basicGroup = new ToGroup(new DataFactory(), $language);
     }
 

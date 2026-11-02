@@ -20,10 +20,10 @@ declare(strict_types=1);
 namespace ILIAS\Tests\Refinery\URI\Transformation;
 
 use ILIAS\Refinery\URI\Transformation\ToSvgQrCodeTransformation;
+use PHPUnit\Framework\MockObject\Stub;
 use ILIAS\Data\QR\ErrorCorrectionLevel;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class ToSvgTransformationTest extends TestCase
@@ -102,9 +102,10 @@ class ToSvgTransformationTest extends TestCase
         $code = $transformation->transform($this->createUriMock());
     }
 
-    protected function createUriMock(): \ILIAS\Data\URI & MockObject
+    protected function createUriMock(): \ILIAS\Data\URI & Stub
     {
-        $uri_mock = $this->createMock(\ILIAS\Data\URI::class);
+        /** @var \ILIAS\Data\URI&Stub $uri_mock */
+        $uri_mock = $this->createStub(\ILIAS\Data\URI::class);
         $uri_mock->method('__toString')->willReturn('https://ilias.ch');
         return $uri_mock;
     }

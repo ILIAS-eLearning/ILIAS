@@ -22,17 +22,18 @@ use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Refinery\Factory as Refinery ;
 use ILIAS\Refinery\Transformation;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\MockObject\Stub;
 
 class CaseOfLabelTest extends TestCase
 {
-    private const LANGUAGE_KEY = "en";
-    private const SENSELESS_LANGUAGE_KEY = "this_language_key_will_never_exist";
-    private const TEST_STRING_1 = "I am a test string for the title capitalization and I hope that works even if it is complicated :)";
-    private const TEST_STRING_2 = "I switch the computer on and go online";
-    private const TEST_STRING_3 = "Now it is working";
-    private const EXPECTED_RESULT_TEST_STRING_1 = "I Am a Test String for the Title Capitalization and I Hope that Works even if It Is Complicated :)";
-    private const EXPECTED_RESULT_TEST_STRING_2 = "I Switch the Computer on and Go Online";
-    private const EXPECTED_RESULT_TEST_STRING_3 = "Now It Is Working";
+    private const LANGUAGE_KEY = 'en';
+    private const SENSELESS_LANGUAGE_KEY = 'this_language_key_will_never_exist';
+    private const TEST_STRING_1 = 'I am a test string for the title capitalization and I hope that works even if it is complicated :)';
+    private const TEST_STRING_2 = 'I switch the computer on and go online';
+    private const TEST_STRING_3 = 'Now it is working';
+    private const EXPECTED_RESULT_TEST_STRING_1 = 'I Am a Test String for the Title Capitalization and I Hope that Works even if It Is Complicated :)';
+    private const EXPECTED_RESULT_TEST_STRING_2 = 'I Switch the Computer on and Go Online';
+    private const EXPECTED_RESULT_TEST_STRING_3 = 'Now It Is Working';
 
     private ?Transformation $case_of_label_if_possible;
     private ?Refinery $f;
@@ -41,7 +42,8 @@ class CaseOfLabelTest extends TestCase
     {
         $dataFactory = new DataFactory();
 
-        $language = $this->createMock(ILIAS\Language\Language::class);
+        /** @var ILIAS\Language\Language&Stub $language */
+        $language = $this->createStub(ILIAS\Language\Language::class);
 
         $this->f = new Refinery($dataFactory, $language);
         $this->case_of_label_if_possible = $this->f->string()->caseOfLabel(self::LANGUAGE_KEY);

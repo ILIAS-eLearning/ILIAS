@@ -25,19 +25,18 @@ use ILIAS\Refinery\Numeric\IsNumeric;
 use ILIAS\Refinery\Numeric\Group as NumericGroup;
 use PHPUnit\Framework\TestCase;
 use ILIAS\Language\Language;
+use PHPUnit\Framework\MockObject\Stub;
 
 class GroupTest extends TestCase
 {
     private NumericGroup $group;
     private DataFactory $dataFactory;
-    private Language $language;
+    private Language&Stub $language;
 
     protected function setUp(): void
     {
         $this->dataFactory = new DataFactory();
-        $this->language = $this->getMockBuilder(Language::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->language = $this->createStub(Language::class);
 
         $this->group = new NumericGroup($this->dataFactory, $this->language);
     }

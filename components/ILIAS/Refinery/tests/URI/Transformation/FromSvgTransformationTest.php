@@ -20,8 +20,8 @@ declare(strict_types=1);
 namespace ILIAS\Tests\Refinery\URI\Transformation;
 
 use ILIAS\Refinery\URI\Transformation\FromSvgTransformation;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class FromSvgTransformationTest extends TestCase
@@ -51,9 +51,10 @@ class FromSvgTransformationTest extends TestCase
         $this->assertStringEndsWith(base64_encode($svg_mock->__toString()), $result); // ensure base64 encoded value
     }
 
-    protected function createSvgMock(): \ILIAS\Data\SVG & MockObject
+    protected function createSvgMock(): \ILIAS\Data\SVG & Stub
     {
-        $svg_mock = $this->createMock(\ILIAS\Data\SVG::class);
+        /** @var \ILIAS\Data\SVG&Stub $svg_mock */
+        $svg_mock = $this->createStub(\ILIAS\Data\SVG::class);
         $svg_mock->method('__toString')->willReturn('<svg></svg>');
         return $svg_mock;
     }

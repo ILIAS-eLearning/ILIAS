@@ -30,23 +30,17 @@ use UnexpectedValueException;
 class LessThanConstraintTest extends TestCase
 {
     private Constraint $c;
-    private Language $lng;
     private DataFactory $df;
     private int $less_than;
 
     protected function setUp(): void
     {
         $this->df = new DataFactory();
-        $this->lng = $this->getMockBuilder(Language::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $this->less_than = 10;
-
         $this->c = new LessThan(
             $this->less_than,
             $this->df,
-            $this->lng
+            $this->createStub(Language::class)
         );
     }
 
@@ -79,13 +73,16 @@ class LessThanConstraintTest extends TestCase
 
     public function testProblemWith(): void
     {
-        $this->lng
+        $lng = $this->createMock(Language::class);
+        $lng
             ->expects($this->once())
-            ->method("txt")
-            ->with("not_less_than")
-            ->willReturn("-%s-%s-");
+            ->method('txt')
+            ->with('not_less_than')
+            ->willReturn('-%s-%s-');
 
-        $this->assertEquals("-12-{$this->less_than}-", $this->c->problemWith("12"));
+        $constraint = new LessThan($this->less_than, $this->df, $lng);
+
+        $this->assertEquals("-12-{$this->less_than}-", $constraint->problemWith('12'));
     }
 
     public function testRestrictOk(): void
@@ -106,7 +103,7 @@ class LessThanConstraintTest extends TestCase
 
     public function testRestrictError(): void
     {
-        $error = $this->df->error("error");
+        $error = $this->df->error('error');
 
         $res = $this->c->applyTo($error);
         $this->assertSame($error, $res);
@@ -115,8 +112,8 @@ class LessThanConstraintTest extends TestCase
     public function testWithProblemBuilder(): void
     {
         $new_c = $this->c->withProblemBuilder(static function (): string {
-            return "This was a fault";
+            return 'This was a fault';
         });
-        $this->assertEquals("This was a fault", $new_c->problemWith(13));
+        $this->assertEquals('This was a fault', $new_c->problemWith(13));
     }
 }

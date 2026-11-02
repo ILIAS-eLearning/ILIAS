@@ -29,10 +29,6 @@ use PHPUnit\Framework\Attributes\DataProvider;
 
 class DictionaryTransformationTest extends TestCase
 {
-    /**
-     * @param array $originVal
-     * @param array $expectedVal
-     */
     #[DataProvider('DictionaryTransformationDataProvider')]
     public function testDictionaryTransformation(array $originVal, array $expectedVal): void
     {

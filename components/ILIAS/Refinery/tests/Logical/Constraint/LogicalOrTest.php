@@ -90,9 +90,6 @@ class LogicalOrTest extends TestCase
         $this->assertEquals("This was a vault", $new_constraint->problemWith($errorValue));
     }
 
-    /**
-     * @return array
-     */
     public static function constraintsProvider(): array
     {
         $language = new class () implements \ILIAS\Language\Language {

@@ -26,6 +26,7 @@ use ILIAS\Refinery\String\HasMinLength;
 use ILIAS\Refinery\String\HasMaxLength;
 use PHPUnit\Framework\TestCase;
 use ILIAS\Refinery\String\MakeClickable;
+use PHPUnit\Framework\MockObject\Stub;
 
 class GroupTest extends TestCase
 {
@@ -34,9 +35,8 @@ class GroupTest extends TestCase
     protected function setUp(): void
     {
         $dataFactory = new DataFactory();
-        $language = $this->getMockBuilder(\ILIAS\Language\Language::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var \ILIAS\Language\Language&Stub $language */
+        $language = $this->createStub(\ILIAS\Language\Language::class);
 
         $this->group = new StringGroup($dataFactory, $language);
     }

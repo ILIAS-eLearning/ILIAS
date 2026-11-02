@@ -48,8 +48,8 @@ EOT;
     protected function setUp(): void
     {
         $this->refinery = new Refinery(
-            $this->createMock(DataFactory::class),
-            $this->createMock(Language::class)
+            $this->createStub(DataFactory::class),
+            $this->createStub(Language::class)
         );
 
         parent::setUp();

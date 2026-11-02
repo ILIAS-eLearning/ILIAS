@@ -32,7 +32,7 @@ class KeyValueAccessTest extends PHPUnitTestCase
 
     protected function setUp(): void
     {
-        $this->refinery = new Refinery(new DataFactory(), $this->createMock(Language::class));
+        $this->refinery = new Refinery(new DataFactory(), $this->createStub(Language::class));
     }
 
     public function testAccess(): void

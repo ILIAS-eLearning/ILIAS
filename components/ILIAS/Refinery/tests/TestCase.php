@@ -29,7 +29,6 @@ class ilLanguageMock implements Language
 {
     /** @var string[] */
     public array $requested = [];
-    public string $lang_module = 'common';
     public string $lang_key = 'en';
 
     public function __construct()
@@ -39,10 +38,10 @@ class ilLanguageMock implements Language
     public function txt(string|LanguageIdentifier $a_topic, ?int $n = null): string
     {
         $this->requested[] = $a_topic;
-        return is_string($a_topic) ? $a_topic : (string) $a_topic->value;
+        return \is_string($a_topic) ? $a_topic : (string) $a_topic->value;
     }
 
-    public function toJS($a_lang_key, ?ilGlobalTemplateInterface $a_tpl = null): void
+    public function toJS($key, ?ilGlobalTemplateInterface $a_tpl = null): void
     {
     }
 

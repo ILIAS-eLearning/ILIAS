@@ -25,17 +25,12 @@ use PHPUnit\Framework\TestCase;
 class IsNullConstraintTest extends TestCase
 {
     private DataFactory $df;
-    private ILIAS\Language\Language $lng;
-    private Refinery $f;
     private \ILIAS\Refinery\Constraint $c;
 
     protected function setUp(): void
     {
         $this->df = new DataFactory();
-        $this->lng = $this->createMock(ILIAS\Language\Language::class);
-        $this->f = new Refinery($this->df, $this->lng);
-
-        $this->c = $this->f->null();
+        $this->c = $this->nullConstraint($this->createStub(ILIAS\Language\Language::class));
     }
 
     public function testAccepts(): void
@@ -67,13 +62,14 @@ class IsNullConstraintTest extends TestCase
 
     public function testProblemWith(): void
     {
-        $this->lng
+        $lng = $this->createMock(ILIAS\Language\Language::class);
+        $lng
             ->expects($this->once())
-            ->method("txt")
-            ->with("not_a_null")
-            ->willReturn("-%s-");
+            ->method('txt')
+            ->with('not_a_null')
+            ->willReturn('-%s-');
 
-        $this->assertEquals("-integer-", $this->c->problemWith(2));
+        $this->assertEquals('-integer-', $this->nullConstraint($lng)->problemWith(2));
     }
 
     public function testRestrictOk(): void
@@ -94,7 +90,7 @@ class IsNullConstraintTest extends TestCase
 
     public function testRestrictError(): void
     {
-        $error = $this->df->error("error");
+        $error = $this->df->error('error');
 
         $res = $this->c->applyTo($error);
         $this->assertSame($error, $res);
@@ -102,9 +98,12 @@ class IsNullConstraintTest extends TestCase
 
     public function testWithProblemBuilder(): void
     {
-        $new_c = $this->c->withProblemBuilder(static function (): string {
-            return "This was a fault";
-        });
-        $this->assertEquals("This was a fault", $new_c->problemWith(2));
+        $new_c = $this->c->withProblemBuilder(static fn(): string => 'This was a fault');
+        $this->assertEquals('This was a fault', $new_c->problemWith(2));
+    }
+
+    private function nullConstraint(ILIAS\Language\Language $lng): \ILIAS\Refinery\Constraint
+    {
+        return (new Refinery($this->df, $lng))->null();
     }
 }

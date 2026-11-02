@@ -22,6 +22,7 @@ use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Refinery\Transformation;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\MockObject\Stub;
 
 class MapValuesTest extends TestCase
 {
@@ -43,7 +44,8 @@ class MapValuesTest extends TestCase
     protected function setUp(): void
     {
         $dataFactory = new DataFactory();
-        $language = $this->createMock(ILIAS\Language\Language::class);
+        /** @var ILIAS\Language\Language&Stub $language */
+        $language = $this->createStub(ILIAS\Language\Language::class);
 
         $this->f = new Refinery($dataFactory, $language);
         $this->map_values = $this->f->container()->mapValues($this->f->custom()->transformation(fn($v) => $v * 2));
