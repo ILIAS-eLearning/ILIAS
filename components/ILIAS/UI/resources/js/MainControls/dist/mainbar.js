@@ -218,18 +218,17 @@ var mainbar = function() {
         if(Object.keys(cookie_state).length > 0) {
             //re-apply engaged
             for(var idx in init_state.tools) {
-                gs_id = init_state.tools[idx].gs_id;
-                if(cookie_state.known_tools.indexOf(gs_id) === -1) {
-                    cookie_state.known_tools.push(gs_id);
+                var gs_id = init_state.tools[idx].gs_id,
+                    stored = helper.findToolByGSId(cookie_state.tools, gs_id);
+                // Open tools when entering their context or navigating from a menu,
+                // regardless of whether they have already been used in this session.
+                if(!stored || (cookie_state.any_entry_engaged && !cookie_state.tools_engaged)) {
                     if(!init_state.tools[idx].hidden) {
-                        init_state.tools[idx].engaged = true; //new tool is active
+                        init_state.tools[idx].engaged = true;
                     }
                 } else {
-                    stored = helper.findToolByGSId(cookie_state.tools, gs_id);
-                    if(stored) {
-                        init_state.tools[idx].engaged = stored.engaged;
-                        init_state.tools[idx].hidden = stored.hidden;
-                    }
+                    init_state.tools[idx].engaged = stored.engaged;
+                    init_state.tools[idx].hidden = stored.hidden;
                 }
             }
 
@@ -356,7 +355,6 @@ var model = function() {
 
             entries: {},
             tools: {}, //"moving" parts, current tools
-            known_tools: [], //gs-ids; a tool is "new", if not listed here
             last_active_top: null
         },
         entry: {
