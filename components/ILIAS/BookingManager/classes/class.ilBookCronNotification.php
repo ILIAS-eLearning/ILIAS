@@ -16,9 +16,18 @@
  *
  *********************************************************************/
 
+use ILIAS\BookingManager\Access\AccessManager;
+use ILIAS\BookingManager\Notification\AdminReservation;
+use ILIAS\BookingManager\Notification\PersonalReservation;
+use ILIAS\BookingManager\Notification\PoolReservations;
+use ILIAS\BookingManager\Notification\ReminderMailText;
+use ILIAS\BookingManager\Notification\ReminderSection;
+use ILIAS\BookingManager\Notification\Reservation;
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
 use ILIAS\Cron\Job\JobResult;
 use ILIAS\Cron\CronJob;
+use ILIAS\Data\ReferenceId;
+use ILIAS\StaticURL\Builder\URIBuilder;
 
 /**
  * Cron for booking manager notification
@@ -29,17 +38,22 @@ class ilBookCronNotification extends CronJob
     protected \ILIAS\BookingManager\InternalRepoService $repo;
     protected ilLanguage $lng;
     protected ilLogger $book_log;
+    protected ilAccessHandler $access;
+    protected AccessManager $booking_access;
+    protected URIBuilder $uri_builder;
 
     public function __construct()
     {
         global $DIC;
 
         $this->lng = $DIC->language();
-
         $this->book_log = ilLoggerFactory::getLogger("book");
         $this->repo = $DIC->bookingManager()
             ->internal()
             ->repo();
+        $this->access = $DIC->access();
+        $this->booking_access = $DIC->bookingManager()->internal()->domain()->access();
+        $this->uri_builder = $DIC['static_url']->builder();
     }
 
     public function getId(): string
@@ -101,10 +115,6 @@ class ilBookCronNotification extends CronJob
 
     protected function sendNotifications(): int
     {
-        global $DIC;
-
-        $access = $DIC->bookingManager()->internal()->domain()->access();
-
         $log = $this->book_log;
 
         $log->debug("start");
@@ -164,7 +174,7 @@ class ilBookCronNotification extends CronJob
                 // users
                 $log->debug("check notification of user id: " . $r["user_id"]);
                 if (in_array($r["user_id"], $user_ids)) {
-                    if ($access->canRetrieveNotificationsForOwnReservationsByObjId(
+                    if ($this->booking_access->canRetrieveNotificationsForOwnReservationsByObjId(
                         (int) $p["booking_pool_id"],
                         (int) $r["user_id"]
                     )) {
@@ -177,7 +187,7 @@ class ilBookCronNotification extends CronJob
                 foreach ($user_ids as $uid) {
                     $log->debug("check write for user id: " . $uid . ", pool: " . $p["booking_pool_id"]);
 
-                    if ($access->canRetrieveNotificationsForAllReservationsByObjId(
+                    if ($this->booking_access->canRetrieveNotificationsForAllReservationsByObjId(
                         (int) $p["booking_pool_id"],
                         (int) $uid
                     )) {
@@ -203,36 +213,7 @@ class ilBookCronNotification extends CronJob
             $lng = $ntf->getUserLanguage($uid);
             $lng->loadLanguageModule("book");
 
-            $txt = "";
-            if (is_array($n["personal"] ?? null)) {
-                $txt .= "\n" . $lng->txt("book_your_reservations") . "\n";
-                $txt .= "-----------------------------------------\n";
-                foreach ($n["personal"] as $obj_id => $reservs) {
-                    $txt .= ilObject::_lookupTitle($obj_id) . ":\n";
-                    foreach ($reservs as $r) {
-                        $txt .= "- " . $r["title"] . " (" . $r["counter"] . "), " .
-                            ilDatePresentation::formatDate(new ilDate($r["date"], IL_CAL_DATE)) . ", " .
-                            $r["slot"] . "\n";
-                    }
-                }
-            }
-
-            if (is_array($n["admin"] ?? null)) {
-                $txt .= "\n" . $lng->txt("book_reservation_overview") . "\n";
-                $txt .= "-----------------------------------------\n";
-                foreach ($n["admin"] as $obj_id => $reservs) {
-                    $txt .= ilObject::_lookupTitle($obj_id) . ":\n";
-                    foreach ($reservs as $r) {
-                        $txt .= "- " . $r["title"] . " (" . $r["counter"] . "), " . $r["user_name"] . ", " .
-                            ilDatePresentation::formatDate(new ilDate($r["date"], IL_CAL_DATE)) . ", " .
-                            $r["slot"] . "\n";
-                        if ($r["message"] != "") {
-                            $txt .= "  " . $lng->txt("book_message") .
-                                ": " . $r["message"];
-                        }
-                    }
-                }
-            }
+            $txt = $this->buildReminderBody($lng, $n, (int) $uid);
             $ntf->setLangModules(array("book"));
             $ntf->setSubjectLangId("book_booking_reminders");
             $ntf->setIntroductionLangId("book_rem_intro");
@@ -243,5 +224,84 @@ class ilBookCronNotification extends CronJob
         }
     }
 
+    protected function buildReminderBody(ilLanguage $language, array $notification, int $user_id): string
+    {
+        return (string) new ReminderMailText(
+            $this->personalSection($language, $notification['personal'] ?? null, $user_id),
+            $this->adminSection($language, $notification['admin'] ?? null, $user_id)
+        );
+    }
 
+    private function personalSection(ilLanguage $language, mixed $pools, int $user_id): ?ReminderSection
+    {
+        if (!is_array($pools)) {
+            return null;
+        }
+
+        $blocks = [];
+        foreach ($pools as $pool_id => $reservations) {
+            $lines = [];
+            foreach ($reservations as $reservation) {
+                $lines[] = new PersonalReservation(
+                    (string) $reservation['title'],
+                    (int) $reservation['counter'],
+                    ilDatePresentation::formatDate(new ilDate((string) $reservation['date'], IL_CAL_DATE))
+                        . ', ' . $reservation['slot']
+                );
+            }
+            $blocks[] = $this->poolBlock((int) $pool_id, $user_id, $lines);
+        }
+
+        return new ReminderSection($language->txt('book_your_reservations'), $blocks);
+    }
+
+    private function adminSection(ilLanguage $language, mixed $pools, int $user_id): ?ReminderSection
+    {
+        if (!is_array($pools)) {
+            return null;
+        }
+
+        $blocks = [];
+        foreach ($pools as $pool_id => $reservations) {
+            $lines = [];
+            foreach ($reservations as $reservation) {
+                $lines[] = new AdminReservation(
+                    (string) $reservation['title'],
+                    (int) $reservation['counter'],
+                    (string) $reservation['user_name'],
+                    ilDatePresentation::formatDate(new ilDate((string) $reservation['date'], IL_CAL_DATE))
+                        . ', ' . $reservation['slot'],
+                    $reservation['message'] != ''
+                        ? $language->txt('book_message') . ': ' . $reservation['message']
+                        : ''
+                );
+            }
+            $blocks[] = $this->poolBlock((int) $pool_id, $user_id, $lines);
+        }
+
+        return new ReminderSection($language->txt('book_reservation_overview'), $blocks);
+    }
+
+    /**
+     * @param list<Reservation> $reservations
+     */
+    private function poolBlock(int $pool_id, int $user_id, array $reservations): PoolReservations
+    {
+        return new PoolReservations(
+            ilObject::_lookupTitle($pool_id),
+            $this->poolGotoLink($pool_id, $user_id),
+            $reservations
+        );
+    }
+
+    private function poolGotoLink(int $pool_obj_id, int $user_id): string
+    {
+        foreach (ilObject::_getAllReferences($pool_obj_id) as $ref_id) {
+            if ($this->access->checkAccessOfUser($user_id, 'read', '', $ref_id)) {
+                return (string) $this->uri_builder->build('book', new ReferenceId((int) $ref_id));
+            }
+        }
+
+        return '';
+    }
 }
