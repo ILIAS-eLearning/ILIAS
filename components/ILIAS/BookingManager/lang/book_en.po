@@ -63,7 +63,7 @@ msgid "book_book_available"
 msgstr "Book Available Time Slots"
 
 msgid "book_book_recurrence"
-msgstr "Book multiple dates"
+msgstr "Book multiple time slots"
 
 msgid "book_booked_in"
 msgstr "Booked In"
@@ -444,7 +444,7 @@ msgid "book_reservation_available"
 msgstr "%s available"
 
 msgid "book_reservation_cancelled"
-msgstr "Bookings(s) cancelled."
+msgstr "Booking(s) cancelled."
 
 msgid "book_reservation_confirmed"
 msgstr "Your booking has been confirmed."
