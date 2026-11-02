@@ -684,7 +684,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
             $this->tabs->addTab(
                 self::TAB_LP,
                 $this->lng->txt(self::TAB_LP),
-                $this->ctrl->getLinkTargetByClass(array('ilobjlearningsequencegui', 'illearningprogressgui'), '')
+                $this->ctrl->getLinkTargetByClass(ilLearningProgressGUI::class, '')
             );
         }
 
@@ -816,14 +816,15 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         return ilLearningProgressAccess::checkAccess($ref_id, $is_participant);
     }
 
+    /**
+     * Build the link target relative to the current ilCtrl context. An absolute
+     * class path starting with ilObjLearningSequenceGUI would make it the
+     * baseClass and thus drop the repository context (e.g. the member view
+     * mode info is only provided in the repository context).
+     */
     protected function getLinkTarget(string $cmd): string
     {
-        $class = $this->getClassForTabs($cmd);
-        $class_path = [
-            strtolower('ilObjLearningSequenceGUI'),
-            $class
-        ];
-        return $this->ctrl->getLinkTargetByClass($class_path, $cmd);
+        return $this->ctrl->getLinkTargetByClass($this->getClassForTabs($cmd), $cmd);
     }
 
     protected function getClassForTabs(string $cmd): string
