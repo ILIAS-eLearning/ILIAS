@@ -291,6 +291,22 @@ class ilBookingReservationsGUI
         $this->ctrl->redirect($this, "log");
     }
 
+    protected function getCancelConfirmationLabel(
+        string $object_title,
+        int $participant_id,
+        ?string $period
+    ): string {
+        $parts = [
+            $object_title,
+            strip_tags(ilUserUtil::getNamePresentation($participant_id)),
+        ];
+        if ($period !== null && $period !== '') {
+            $parts[] = $period;
+        }
+
+        return implode(" \u{2013} ", $parts);
+    }
+
     /**
      * (C2) Confirmation screen for canceling booking from reservations screen (with and without schedule)
      */
@@ -359,16 +375,23 @@ class ilBookingReservationsGUI
         foreach ($ids as $id) {
             $rsv = new ilBookingReservation($id);
             $obj = new ilBookingObject($rsv->getObjectId());
-
-            $details = $obj->getTitle();
+            $period = null;
             if ($this->pool->getScheduleType() !== ilObjBookingPool::TYPE_NO_SCHEDULE) {
-                $details .= ", " . ilDatePresentation::formatPeriod(
+                $period = ilDatePresentation::formatPeriod(
                     new ilDateTime($rsv->getFrom(), IL_CAL_UNIX),
                     new ilDateTime($rsv->getTo() + 1, IL_CAL_UNIX)
                 );
             }
 
-            $conf->addItem('rsv_id[]', $id, $details);
+            $conf->addItem(
+                'rsv_id[]',
+                $id,
+                $this->getCancelConfirmationLabel(
+                    $obj->getTitle(),
+                    $rsv->getUserId(),
+                    $period
+                )
+            );
         }
 
         $tpl->setContent($conf->getHTML());
@@ -379,7 +402,7 @@ class ilBookingReservationsGUI
      * (C2.a) Cancel aggregated booking from reservations screen (with and without schedule)
      *        called in (C2)
      */
-    public function rsvConfirmCancelAggregation(array $a_ids = null): void
+    public function rsvConfirmCancelAggregation(?array $a_ids = null): void
     {
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
@@ -422,9 +445,13 @@ class ilBookingReservationsGUI
             $rsv = new ilBookingReservation($first);
             $obj = new ilBookingObject($rsv->getObjectId());
 
-            $caption = $obj->getTitle() . ", " . ilDatePresentation::formatPeriod(
-                new ilDateTime($rsv->getFrom(), IL_CAL_UNIX),
-                new ilDateTime($rsv->getTo() + 1, IL_CAL_UNIX)
+            $caption = $this->getCancelConfirmationLabel(
+                $obj->getTitle(),
+                $rsv->getUserId(),
+                ilDatePresentation::formatPeriod(
+                    new ilDateTime($rsv->getFrom(), IL_CAL_UNIX),
+                    new ilDateTime($rsv->getTo() + 1, IL_CAL_UNIX)
+                )
             );
 
             // #17869
