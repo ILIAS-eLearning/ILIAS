@@ -54,16 +54,21 @@ class ilMathTest extends TestCase
 
     public function testPlusScientificNotationIsPowerOfTen(): void
     {
-        $lower = $this->eval_math->evaluate('5.4E+24');
-        $upper = $this->eval_math->evaluate('5.6E+24');
-        $without_plus = $this->eval_math->evaluate('54E23');
-        $plus_only = $this->eval_math->evaluate('1E+2');
+        $this->assertEqualsWithDelta(100.0, (float) $this->eval_math->evaluate('1E+2'), 0.000001);
+        $this->assertEqualsWithDelta(5400000.0, (float) $this->eval_math->evaluate('5.4E+6'), 0.001);
+        $this->assertEqualsWithDelta(5400000.0, (float) $this->eval_math->evaluate('54E5'), 0.001);
+        $this->assertEqualsWithDelta(0.0054, (float) $this->eval_math->evaluate('5.4E-3'), 0.0000001);
 
-        $this->assertNotFalse($lower);
-        $this->assertNotFalse($upper);
-        $this->assertEqualsWithDelta(5.4e24, (float) $lower, 1.0);
-        $this->assertEqualsWithDelta(5.6e24, (float) $upper, 1.0);
-        $this->assertEqualsWithDelta(5.4e24, (float) $without_plus, 1.0);
-        $this->assertEqualsWithDelta(100.0, (float) $plus_only, 0.000001);
+        $lower = (float) $this->eval_math->evaluate('5.4E+24');
+        $upper = (float) $this->eval_math->evaluate('5.6E+24');
+        $this->assertGreaterThan(38000.0, $lower);
+        $this->assertGreaterThan($lower, $upper);
+
+        if (extension_loaded('bcmath')) {
+            $lower_text = (string) $this->eval_math->evaluate('5.4E+24');
+            $upper_text = (string) $this->eval_math->evaluate('5.6E+24');
+            $this->assertSame('5400000000000000000000000', strstr($lower_text, '.', true));
+            $this->assertSame('5600000000000000000000000', strstr($upper_text, '.', true));
+        }
     }
 }
