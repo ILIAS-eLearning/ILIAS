@@ -30,6 +30,7 @@ class ilMathTest extends TestCase
      */
     protected function setUp(): void
     {
+        ilMath::setDefaultAdapter(ilMath::getFirstValidAdapter());
         $this->eval_math = new EvalMath();
     }
 
