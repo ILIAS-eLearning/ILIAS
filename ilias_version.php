@@ -26,5 +26,5 @@ declare(strict_types=1);
 *
 * @package ilias-core
 */
-const ILIAS_VERSION = "12.0_alpha";
-const ILIAS_VERSION_NUMERIC = "12.0";            // since version ILIAS 6 this must be always x.y: x and y are numbers
+const ILIAS_VERSION = "13.0_alpha";
+const ILIAS_VERSION_NUMERIC = "13.0";            // since version ILIAS 6 this must be always x.y: x and y are numbers
