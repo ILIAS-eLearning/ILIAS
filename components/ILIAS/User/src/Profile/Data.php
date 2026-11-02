@@ -22,10 +22,30 @@ namespace ILIAS\User\Profile;
 
 use ILIAS\User\Profile\Fields\Standard\Genders;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+use ILIAS\Data\Privacy\TechnicalRequirement\LegacyAccess;
+use ILIAS\Data\Privacy\Source\LegacySource;
+use ILIAS\Data\Privacy\Factory as PrivacyFactory;
+use ILIAS\Data\Privacy\PrivacyDataBundle;
+use ILIAS\Data\Privacy\Source\Known\UserSources;
+use ILIAS\Data\Privacy\Types\Affiliation;
+use ILIAS\Data\Privacy\Types\AffiliationValue;
+use ILIAS\Data\Privacy\Types\GeoLocation;
+use ILIAS\Data\Privacy\Types\GeoLocationValue;
+use ILIAS\Data\Privacy\Types\Login;
+use ILIAS\Data\Privacy\Types\PersonName;
+use ILIAS\Data\Privacy\Types\PersonNameValue;
+use ILIAS\Data\Privacy\Types\PostalAddress;
+use ILIAS\Data\Privacy\Types\PostalAddressValue;
 
-class Data
+/**
+ * The profile of a user. As privacy data bundle, it groups the profile
+ * fields that are privacy data types so far; the remaining fields join as
+ * they get a type.
+ */
+class Data implements PrivacyDataBundle
 {
     private array $system_information = [];
+    private PostalAddress $postal_address;
 
     public function __construct(
         private ?int $id = null,
@@ -38,10 +58,7 @@ class Data
         private ?\DateTimeImmutable $birthday = null,
         private string $institution = '',
         private string $department = '',
-        private string $street = '',
-        private string $city = '',
-        private string $zipcode = '',
-        private string $country = '',
+        ?PostalAddress $postal_address = null,
         private string $email = '',
         private ?string $second_email = null,
         private string $phone_office = '',
@@ -54,6 +71,10 @@ class Data
         private array $geo_coordinates = [],
         private array $additional_fields = []
     ) {
+        $this->postal_address = $postal_address ?? new PrivacyFactory()->postalAddress(
+            new PostalAddressValue(),
+            new UserSources()->postalAddress()
+        );
     }
 
     public function getId(): int
@@ -176,52 +197,93 @@ class Data
         return $clone;
     }
 
+    public function getPostalAddress(): PostalAddress
+    {
+        return $this->postal_address;
+    }
+
+    public function withPostalAddress(PostalAddress $postal_address): self
+    {
+        $clone = clone $this;
+        $clone->postal_address = $postal_address;
+        return $clone;
+    }
+
+    /**
+     * @deprecated Resolve {@see getPostalAddress()} with a real requirement instead.
+     */
     public function getStreet(): string
     {
-        return $this->street;
+        return $this->resolveAddressForLegacyGetter()->street;
     }
 
+    /**
+     * @deprecated Derive {@see getPostalAddress()} with a real source and use {@see withPostalAddress()} instead.
+     */
     public function withStreet(string $street): self
     {
-        $clone = clone $this;
-        $clone->street = $street;
-        return $clone;
+        return $this->withPostalAddress(
+            $this->postal_address->withStreet($street, new LegacySource('profile_data_wither'))
+        );
     }
 
+    /**
+     * @deprecated Resolve {@see getPostalAddress()} with a real requirement instead.
+     */
     public function getCity(): string
     {
-        return $this->city;
+        return $this->resolveAddressForLegacyGetter()->city;
     }
 
+    /**
+     * @deprecated Derive {@see getPostalAddress()} with a real source and use {@see withPostalAddress()} instead.
+     */
     public function withCity(string $city): self
     {
-        $clone = clone $this;
-        $clone->city = $city;
-        return $clone;
+        return $this->withPostalAddress(
+            $this->postal_address->withCity($city, new LegacySource('profile_data_wither'))
+        );
     }
 
+    /**
+     * @deprecated Resolve {@see getPostalAddress()} with a real requirement instead.
+     */
     public function getZipcode(): string
     {
-        return $this->zipcode;
+        return $this->resolveAddressForLegacyGetter()->zipcode;
     }
 
+    /**
+     * @deprecated Derive {@see getPostalAddress()} with a real source and use {@see withPostalAddress()} instead.
+     */
     public function withZipcode(string $zipcode): self
     {
-        $clone = clone $this;
-        $clone->zipcode = $zipcode;
-        return $clone;
+        return $this->withPostalAddress(
+            $this->postal_address->withZipcode($zipcode, new LegacySource('profile_data_wither'))
+        );
     }
 
+    /**
+     * @deprecated Resolve {@see getPostalAddress()} with a real requirement instead.
+     */
     public function getCountry(): string
     {
-        return $this->country;
+        return $this->resolveAddressForLegacyGetter()->country;
     }
 
+    /**
+     * @deprecated Derive {@see getPostalAddress()} with a real source and use {@see withPostalAddress()} instead.
+     */
     public function withCountry(string $country): self
     {
-        $clone = clone $this;
-        $clone->country = $country;
-        return $clone;
+        return $this->withPostalAddress(
+            $this->postal_address->withCountry($country, new LegacySource('profile_data_wither'))
+        );
+    }
+
+    private function resolveAddressForLegacyGetter(): PostalAddressValue
+    {
+        return $this->postal_address->resolve(new LegacyAccess('profile_data_getter'));
     }
 
     public function getEmail(): string
@@ -330,6 +392,70 @@ class Data
         $clone = clone $this;
         $clone->referral_comment = $comment;
         return $clone;
+    }
+
+    public function parts(): iterable
+    {
+        yield 'login' => $this->getLogin();
+        yield 'name' => $this->getPersonName();
+        yield 'affiliation' => $this->getAffiliation();
+        yield 'postal_address' => $this->postal_address;
+        $geo_location = $this->getGeoLocation();
+        if ($geo_location !== null) {
+            yield 'geo_location' => $geo_location;
+        }
+    }
+
+    /**
+     * The login as privacy data type. Wrapped when read; the string
+     * accessors stay until all consumers are migrated.
+     */
+    public function getLogin(): Login
+    {
+        return new PrivacyFactory()->login($this->alias, new UserSources()->login());
+    }
+
+    /**
+     * The name as privacy data type. Wrapped when read; the string
+     * accessors stay until all consumers are migrated.
+     */
+    public function getPersonName(): PersonName
+    {
+        return new PrivacyFactory()->personName(
+            new PersonNameValue($this->firstname, $this->lastname, $this->title),
+            new UserSources()->personName()
+        );
+    }
+
+    /**
+     * Institution and department as privacy data type. Wrapped when read;
+     * the string accessors stay until all consumers are migrated.
+     */
+    public function getAffiliation(): Affiliation
+    {
+        return new PrivacyFactory()->affiliation(
+            new AffiliationValue($this->institution, $this->department),
+            new UserSources()->affiliation()
+        );
+    }
+
+    /**
+     * The location the person entered, or null if there is none. Wrapped
+     * when read; the coordinate accessors stay until all consumers are
+     * migrated.
+     */
+    public function getGeoLocation(): ?GeoLocation
+    {
+        $latitude = (string) ($this->geo_coordinates['latitude'] ?? '');
+        $longitude = (string) ($this->geo_coordinates['longitude'] ?? '');
+        if ((float) $latitude === 0.0 || (float) $longitude === 0.0) {
+            return null;
+        }
+
+        return new PrivacyFactory()->geoLocation(
+            new GeoLocationValue($latitude, $longitude, (int) ($this->geo_coordinates['zoom'] ?? 0)),
+            new UserSources()->geoLocation()
+        );
     }
 
     public function getGeoCoordinates(): array

@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\MyStaff\ListUsers;
 
 use ilObjUser;
+use ILIAS\Data\Privacy\Types\PostalAddress;
 
 /**
  * Class ilMStListUser
@@ -36,10 +37,7 @@ final class ilMStListUser
     private string $hobby;
     private string $institution;
     private string $department;
-    private string $street;
-    private string $zipcode;
-    private string $city;
-    private string $country;
+    private ?PostalAddress $postal_address = null;
     private string $matriculation;
     private string $firstname;
     private string $lastname;
@@ -166,44 +164,14 @@ final class ilMStListUser
         $this->department = $department;
     }
 
-    public function getStreet(): string
+    public function getPostalAddress(): ?PostalAddress
     {
-        return $this->street;
+        return $this->postal_address;
     }
 
-    public function setStreet(string $street): void
+    public function setPostalAddress(?PostalAddress $postal_address): void
     {
-        $this->street = $street;
-    }
-
-    public function getZipcode(): string
-    {
-        return $this->zipcode;
-    }
-
-    public function setZipcode(string $zipcode): void
-    {
-        $this->zipcode = $zipcode;
-    }
-
-    public function getCity(): string
-    {
-        return $this->city;
-    }
-
-    public function setCity(string $city): void
-    {
-        $this->city = $city;
-    }
-
-    public function getCountry(): string
-    {
-        return $this->country;
-    }
-
-    public function setCountry(string $country): void
-    {
-        $this->country = $country;
+        $this->postal_address = $postal_address;
     }
 
     public function getMatriculation(): string

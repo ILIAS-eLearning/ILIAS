@@ -18,11 +18,20 @@
 
 declare(strict_types=1);
 
+use ILIAS\Data\Privacy\TechnicalRequirement\TechnicalRequirements;
+use ILIAS\Data\Privacy\Types\GeoLocationValue;
+
 /**
  * User interface class for maps
  */
 abstract class ilMapGUI
 {
+    // how the use of person data is described in the generated privacy documentation
+    private const string PRIVACY_MARKER = 'in the marker of a person on the map';
+    private const string PRIVACY_VIEWERS = 'every person who can see the map';
+    private const string PRIVACY_IN_ORDER_TO = 'show who is where';
+
+    protected TechnicalRequirements $privacy_requirements;
     protected ilGlobalTemplateInterface $tpl;
     protected ilLanguage $lng;
     protected string $map_id;
@@ -41,6 +50,7 @@ abstract class ilMapGUI
 
     public function __construct()
     {
+        $this->privacy_requirements = new TechnicalRequirements();
         global $DIC;
         $this->lng = $DIC['lng'];
         $this->tpl = $DIC['tpl'];
@@ -194,4 +204,102 @@ abstract class ilMapGUI
     * Get User List HTML (to be displayed besides the map)
     */
     abstract public function getUserListHtml(): string;
+
+    /**
+     * The location of a person for a marker on the map, if the person has
+     * one and has published it in their profile.
+     */
+    protected function userMarkerLocation(ilObjUser $user): ?GeoLocationValue
+    {
+        if ($user->getPref('public_location') !== 'y') {
+            return null;
+        }
+        return $user->getProfileData()->getGeoLocation()?->resolve(
+            $this->privacy_requirements->displayToUser(
+                self::PRIVACY_MARKER,
+                self::PRIVACY_VIEWERS,
+                self::PRIVACY_IN_ORDER_TO,
+                'the person has published their location in their profile'
+            )
+        );
+    }
+
+    /**
+     * The HTML shown in the marker of a person: the name, and what the
+     * person has published in their profile of their affiliation and
+     * address.
+     */
+    protected function userMarkerInfo(ilObjUser $user): string
+    {
+        $profile = $user->getProfileData();
+        $published = static fn(string $field): bool => $user->getPref('public_' . $field) === 'y';
+
+        $name = $profile->getPersonName()->resolve($this->privacy_requirements->displayToUser(
+            self::PRIVACY_MARKER,
+            self::PRIVACY_VIEWERS,
+            self::PRIVACY_IN_ORDER_TO,
+            'the person has published their location in their profile'
+        ));
+        $info = htmlspecialchars($name->firstname . ' ' . $name->lastname);
+
+        if ($published('institution') || $published('department')) {
+            $affiliation = $profile->getAffiliation()->resolve(
+                $this->privacy_requirements->displayToUser(
+                    self::PRIVACY_MARKER,
+                    self::PRIVACY_VIEWERS,
+                    self::PRIVACY_IN_ORDER_TO,
+                    'the person has published it in their profile'
+                )
+            );
+            $delim = '<br />';
+            if ($published('institution')) {
+                $info .= $delim . htmlspecialchars($affiliation->institution);
+                $delim = ', ';
+            }
+            if ($published('department')) {
+                $info .= $delim . htmlspecialchars($affiliation->department);
+            }
+        }
+
+        if ($published('street') || $published('zipcode') || $published('city') || $published('country')) {
+            $address = $profile->getPostalAddress()->resolve(
+                $this->privacy_requirements->displayToUser(
+                    self::PRIVACY_MARKER,
+                    self::PRIVACY_VIEWERS,
+                    self::PRIVACY_IN_ORDER_TO,
+                    'the person has published it in their profile'
+                )
+            );
+            $delim = '<br />';
+            if ($published('street')) {
+                $info .= $delim . htmlspecialchars($address->street);
+            }
+            if ($published('zipcode')) {
+                $info .= $delim . htmlspecialchars($address->zipcode);
+                $delim = ' ';
+            }
+            if ($published('city')) {
+                $info .= $delim . htmlspecialchars($address->city);
+            }
+            if ($published('country')) {
+                $info .= '<br />' . htmlspecialchars($address->country);
+            }
+        }
+
+        return $info;
+    }
+
+    /**
+     * The login of a person in the list of persons beside the map.
+     */
+    protected function userListLogin(ilObjUser $user): string
+    {
+        return $user->getProfileData()->getLogin()->resolve(
+            $this->privacy_requirements->displayToUser(
+                'in the list of persons beside the map',
+                self::PRIVACY_VIEWERS,
+                'open the marker of a person on the map'
+            )
+        );
+    }
 }

@@ -23,6 +23,7 @@ use ILIAS\User\Context;
 use ILIAS\User\UserGUIRequest;
 use ILIAS\User\Profile\Profile;
 use ILIAS\User\Profile\Data as ProfileData;
+use ILIAS\Data\Privacy\Source\Sources;
 use ILIAS\Refinery\Factory as Refinery;
 
 class ilUserImportParser extends ilSaxParser
@@ -1109,18 +1110,15 @@ class ilUserImportParser extends ilSaxParser
                             if ($this->tagContained('Institution')) {
                                 $update_user->setInstitution($this->user_obj->getInstitution());
                             }
-                            if ($this->tagContained('Street')) {
-                                $update_user->setStreet($this->user_obj->getStreet());
-                            }
-                            if ($this->tagContained('City')) {
-                                $update_user->setCity($this->user_obj->getCity());
-                            }
-                            if ($this->tagContained('PostalCode')) {
-                                $update_user->setZipcode($this->user_obj->getZipcode());
-                            }
-                            if ($this->tagContained('SelCountry') && mb_strlen($this->cdata) === 2) {
-                                $update_user->setCountry($this->user_obj->getCountry());
-                            }
+                            $update_user = $this->copyImportedAddressFields(
+                                $update_user,
+                                array_keys(array_filter([
+                                    'street' => $this->tagContained('Street'),
+                                    'city' => $this->tagContained('City'),
+                                    'zipcode' => $this->tagContained('PostalCode'),
+                                    'country' => $this->tagContained('SelCountry') && mb_strlen($this->cdata) === 2,
+                                ]))
+                            );
                             if ($this->tagContained('PhoneOffice')) {
                                 $update_user->setPhoneOffice($this->user_obj->getPhoneOffice());
                             }
@@ -1327,15 +1325,15 @@ class ilUserImportParser extends ilSaxParser
                 break;
 
             case 'Street':
-                $this->user_obj->setStreet($this->getCDataWithoutTags($this->cdata));
+                $this->setImportedAddressField('street', $this->getCDataWithoutTags());
                 break;
 
             case 'City':
-                $this->user_obj->setCity($this->getCDataWithoutTags($this->cdata));
+                $this->setImportedAddressField('city', $this->getCDataWithoutTags());
                 break;
 
             case 'PostalCode':
-                $this->user_obj->setZipcode($this->getCDataWithoutTags($this->cdata));
+                $this->setImportedAddressField('zipcode', $this->getCDataWithoutTags());
                 break;
 
             case 'Country':
@@ -1343,7 +1341,7 @@ class ilUserImportParser extends ilSaxParser
                 if (mb_strlen($this->cdata) !== 2) {
                     break;
                 }
-                $this->user_obj->setCountry($this->getCDataWithoutTags($this->cdata));
+                $this->setImportedAddressField('country', $this->getCDataWithoutTags());
                 break;
 
             case 'PhoneOffice':
@@ -1695,15 +1693,15 @@ class ilUserImportParser extends ilSaxParser
                 break;
 
             case 'Street':
-                $this->user_obj->setStreet($this->cdata);
+                $this->setImportedAddressField('street', $this->cdata);
                 break;
 
             case 'City':
-                $this->user_obj->setCity($this->cdata);
+                $this->setImportedAddressField('city', $this->cdata);
                 break;
 
             case 'PostalCode':
-                $this->user_obj->setZipcode($this->cdata);
+                $this->setImportedAddressField('zipcode', $this->cdata);
                 break;
 
             case 'Country':
@@ -1711,7 +1709,7 @@ class ilUserImportParser extends ilSaxParser
                 if (mb_strlen($this->cdata) !== 2) {
                     break;
                 }
-                $this->user_obj->setCountry($this->cdata);
+                $this->setImportedAddressField('country', $this->cdata);
                 break;
 
             case 'PhoneOffice':
@@ -2219,6 +2217,58 @@ class ilUserImportParser extends ilSaxParser
     private function getCDataWithoutTags(): string
     {
         return $this->stripTags($this->cdata);
+    }
+
+    /**
+     * Carries the address fields contained in the import over to the
+     * user being updated, without resolving the address and without
+     * routing through the deprecated string accessors.
+     *
+     * @param list<'street'|'city'|'zipcode'|'country'> $fields
+     */
+    private function copyImportedAddressFields(ilObjUser $update_user, array $fields): ilObjUser
+    {
+        if ($fields === []) {
+            return $update_user;
+        }
+
+        $source_address = $this->user_obj->getProfileData()->getPostalAddress();
+        $target_data = $update_user->getProfileData();
+        $target_address = $target_data->getPostalAddress();
+
+        return $update_user->withProfileData($target_data->withPostalAddress(
+            $target_address->withFieldsOf(
+                $source_address,
+                $fields,
+                $this->privacySources()->externalApi('xml_import', implode(',', $fields))
+            )
+        ));
+    }
+
+    private function privacySources(): Sources
+    {
+        return new Sources();
+    }
+
+    /**
+     * @param 'street'|'city'|'zipcode'|'country' $field
+     */
+    private function setImportedAddressField(string $field, string $value): void
+    {
+        $profile_data = $this->user_obj->getProfileData();
+        $address = $profile_data->getPostalAddress();
+
+        $source = $this->privacySources()->externalApi('xml_import', $field);
+        $this->user_obj = $this->user_obj->withProfileData(
+            $profile_data->withPostalAddress(
+                match ($field) {
+                    'street' => $address->withStreet($value, $source),
+                    'city' => $address->withCity($value, $source),
+                    'zipcode' => $address->withZipcode($value, $source),
+                    'country' => $address->withCountry($value, $source),
+                }
+            )
+        );
     }
 
     private function stripTags(string $string): string
