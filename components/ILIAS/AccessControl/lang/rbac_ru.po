@@ -1176,24 +1176,6 @@ msgstr "Internal Mail"
 msgid "invite"
 msgstr "Inviting to survey"
 
-msgid "itgr_copy"
-msgstr "User can copy item group"
-
-msgid "itgr_delete"
-msgstr "User can move or delete item group"
-
-msgid "itgr_edit_permission"
-msgstr "User can change permission settings"
-
-msgid "itgr_read"
-msgstr "User can read item group"
-
-msgid "itgr_visible"
-msgstr "Item group is visible"
-
-msgid "itgr_write"
-msgstr "User can edit content and settings of item group"
-
 msgid "leave"
 msgstr "Покинуть"
 
@@ -1595,6 +1577,24 @@ msgstr "News and Web Feeds Settings are visible"
 
 msgid "nwss_write"
 msgstr "Edit News and Web Feeds Settings"
+
+msgid "obgr_copy"
+msgstr "User can copy object group"
+
+msgid "obgr_delete"
+msgstr "User can move or delete object group"
+
+msgid "obgr_edit_permission"
+msgstr "User can change permission settings"
+
+msgid "obgr_read"
+msgstr "User can read object group"
+
+msgid "obgr_visible"
+msgstr "Object group is visible"
+
+msgid "obgr_write"
+msgstr "User can edit content and settings of object group"
 
 #, fuzzy
 msgid "obj_skee"
@@ -2067,9 +2067,6 @@ msgstr "Создать обучающий модуль HTML"
 msgid "rbac_create_iass"
 msgstr "Create Individual Assessment"
 
-msgid "rbac_create_itgr"
-msgstr "Создать группу элементов"
-
 msgid "rbac_create_lm"
 msgstr "Создать обучающий модуль ILIAS"
 
@@ -2086,6 +2083,9 @@ msgstr "Create Mediacast"
 
 msgid "rbac_create_mep"
 msgstr "Создать хранилище мультимедиа"
+
+msgid "rbac_create_obgr"
+msgstr "Создать группу элементов"
 
 msgid "rbac_create_orgu"
 msgstr "Create Organisational Units"
@@ -3148,3 +3148,4 @@ msgstr "Edit settings in Wiki administration"
 
 msgid "write"
 msgstr "Править настройки"
+

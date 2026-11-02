@@ -31,6 +31,7 @@ use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
 class DefaultRendererFactory implements RendererFactory
 {
     public function __construct(
+        protected ContextMatcher $context_matcher,
         protected FactoryInternal $ui_factory,
         protected TemplateFactory $tpl_factory,
         protected Language $lng,
@@ -39,6 +40,7 @@ class DefaultRendererFactory implements RendererFactory
         protected DataFactory $data_factory,
         protected HelpTextRetriever $help_text_retriever,
         protected UploadLimitResolver $upload_limit_resolver,
+        protected \ILIAS\Refinery\Factory $refinery,
     ) {
     }
 
@@ -57,6 +59,7 @@ class DefaultRendererFactory implements RendererFactory
             $this->data_factory,
             $this->help_text_retriever,
             $this->upload_limit_resolver,
+            $this->refinery,
         );
     }
 

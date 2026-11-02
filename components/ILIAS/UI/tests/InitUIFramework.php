@@ -63,6 +63,7 @@ class InitUIFramework
                 $c["ui.factory.entity"],
                 $c["ui.factory.prompt"],
                 $c["ui.factory.navigation"],
+                new ILIAS\UI\Implementation\Component\Transfer\Factory(),
             );
         };
         $c["ui.upload_limit_resolver"] = function ($c) {
@@ -316,72 +317,16 @@ class InitUIFramework
                 $c["lng"],
             );
         };
+        $c["ui.context_matcher"] = function ($c) {
+            return new ILIAS\UI\Implementation\Render\ContextMatcher();
+        };
         $c["ui.component_renderer_loader"] = function ($c) {
             return new ILIAS\UI\Implementation\Render\LoaderCachingWrapper(
                 new ILIAS\UI\Implementation\Render\LoaderResourceRegistryWrapper(
                     $c["ui.resource_registry"],
                     new ILIAS\UI\Implementation\Render\FSLoader(
                         new ILIAS\UI\Implementation\Render\DefaultRendererFactory(
-                            $c["ui.factory"],
-                            $c["ui.template_factory"],
-                            $c["lng"],
-                            $c["ui.javascript_binding"],
-                            $c["ui.pathresolver"],
-                            $c["ui.data_factory"],
-                            $c["help.text_retriever"],
-                            $c["ui.upload_limit_resolver"]
-                        ),
-                        new ILIAS\UI\Implementation\Component\Button\ButtonRendererFactory(
-                            $c["ui.factory"],
-                            $c["ui.template_factory"],
-                            $c["lng"],
-                            $c["ui.javascript_binding"],
-                            $c["ui.pathresolver"],
-                            $c["ui.data_factory"],
-                            $c["help.text_retriever"],
-                            $c["ui.upload_limit_resolver"]
-                        ),
-                        new ILIAS\UI\Implementation\Component\Input\Field\FieldRendererFactory(
-                            $c["ui.factory"],
-                            $c["ui.template_factory"],
-                            $c["lng"],
-                            $c["ui.javascript_binding"],
-                            $c["ui.pathresolver"],
-                            $c["ui.data_factory"],
-                            $c["help.text_retriever"],
-                            $c["ui.upload_limit_resolver"]
-                        ),
-                        new ILIAS\UI\Implementation\Component\MessageBox\MessageBoxRendererFactory(
-                            $c["ui.factory"],
-                            $c["ui.template_factory"],
-                            $c["lng"],
-                            $c["ui.javascript_binding"],
-                            $c["ui.pathresolver"],
-                            $c["ui.data_factory"],
-                            $c["help.text_retriever"],
-                            $c["ui.upload_limit_resolver"]
-                        ),
-                        new ILIAS\UI\Implementation\Component\Input\Container\Form\FormRendererFactory(
-                            $c["ui.factory"],
-                            $c["ui.template_factory"],
-                            $c["lng"],
-                            $c["ui.javascript_binding"],
-                            $c["ui.pathresolver"],
-                            $c["ui.data_factory"],
-                            $c["help.text_retriever"],
-                            $c["ui.upload_limit_resolver"]
-                        ),
-                        new ILIAS\UI\Implementation\Component\Menu\MenuRendererFactory(
-                            $c["ui.factory"],
-                            $c["ui.template_factory"],
-                            $c["lng"],
-                            $c["ui.javascript_binding"],
-                            $c["ui.pathresolver"],
-                            $c["ui.data_factory"],
-                            $c["help.text_retriever"],
-                            $c["ui.upload_limit_resolver"]
-                        ),
-                        new ILIAS\UI\Implementation\Component\Listing\ListingRendererFactory(
+                            $c["ui.context_matcher"],
                             $c["ui.factory"],
                             $c["ui.template_factory"],
                             $c["lng"],
@@ -390,6 +335,103 @@ class InitUIFramework
                             $c["ui.data_factory"],
                             $c["help.text_retriever"],
                             $c["ui.upload_limit_resolver"],
+                            $c["refinery"],
+                        ),
+                        new ILIAS\UI\Implementation\Component\Button\ButtonRendererFactory(
+                            $c["ui.context_matcher"],
+                            $c["ui.factory"],
+                            $c["ui.template_factory"],
+                            $c["lng"],
+                            $c["ui.javascript_binding"],
+                            $c["ui.pathresolver"],
+                            $c["ui.data_factory"],
+                            $c["help.text_retriever"],
+                            $c["ui.upload_limit_resolver"],
+                            $c["refinery"],
+                        ),
+                        new ILIAS\UI\Implementation\Component\Input\Field\FieldRendererFactory(
+                            $c["ui.context_matcher"],
+                            $c["ui.factory"],
+                            $c["ui.template_factory"],
+                            $c["lng"],
+                            $c["ui.javascript_binding"],
+                            $c["ui.pathresolver"],
+                            $c["ui.data_factory"],
+                            $c["help.text_retriever"],
+                            $c["ui.upload_limit_resolver"],
+                            $c["refinery"],
+                        ),
+                        new ILIAS\UI\Implementation\Component\MessageBox\MessageBoxRendererFactory(
+                            $c["ui.context_matcher"],
+                            $c["ui.factory"],
+                            $c["ui.template_factory"],
+                            $c["lng"],
+                            $c["ui.javascript_binding"],
+                            $c["ui.pathresolver"],
+                            $c["ui.data_factory"],
+                            $c["help.text_retriever"],
+                            $c["ui.upload_limit_resolver"],
+                            $c["refinery"],
+                        ),
+                        new ILIAS\UI\Implementation\Component\Input\Container\Form\FormRendererFactory(
+                            $c["ui.context_matcher"],
+                            $c["ui.factory"],
+                            $c["ui.template_factory"],
+                            $c["lng"],
+                            $c["ui.javascript_binding"],
+                            $c["ui.pathresolver"],
+                            $c["ui.data_factory"],
+                            $c["help.text_retriever"],
+                            $c["ui.upload_limit_resolver"],
+                            $c["refinery"],
+                        ),
+                        new ILIAS\UI\Implementation\Component\Menu\MenuRendererFactory(
+                            $c["ui.context_matcher"],
+                            $c["ui.factory"],
+                            $c["ui.template_factory"],
+                            $c["lng"],
+                            $c["ui.javascript_binding"],
+                            $c["ui.pathresolver"],
+                            $c["ui.data_factory"],
+                            $c["help.text_retriever"],
+                            $c["ui.upload_limit_resolver"],
+                            $c["refinery"],
+                        ),
+                        new ILIAS\UI\Implementation\Component\Entity\EntityRendererFactory(
+                            $c["ui.context_matcher"],
+                            $c["ui.factory"],
+                            $c["ui.template_factory"],
+                            $c["lng"],
+                            $c["ui.javascript_binding"],
+                            $c["ui.pathresolver"],
+                            $c["ui.data_factory"],
+                            $c["help.text_retriever"],
+                            $c["ui.upload_limit_resolver"],
+                            $c["refinery"],
+                        ),
+                        new ILIAS\UI\Implementation\Component\Listing\ListingRendererFactory(
+                            $c["ui.context_matcher"],
+                            $c["ui.factory"],
+                            $c["ui.template_factory"],
+                            $c["lng"],
+                            $c["ui.javascript_binding"],
+                            $c["ui.pathresolver"],
+                            $c["ui.data_factory"],
+                            $c["help.text_retriever"],
+                            $c["ui.upload_limit_resolver"],
+                            $c["refinery"],
+                        ),
+                        new ILIAS\UI\Implementation\Component\Transfer\TransferRendererFactory(
+                            $c["ui.context_matcher"],
+                            $c["ui.factory"],
+                            $c["ui.template_factory"],
+                            $c["lng"],
+                            $c["ui.javascript_binding"],
+                            $c["ui.pathresolver"],
+                            $c["ui.data_factory"],
+                            $c["help.text_retriever"],
+                            $c["ui.upload_limit_resolver"],
+                            $c["refinery"],
                         ),
                     )
                 )
@@ -430,7 +472,13 @@ class InitUIFramework
         };
 
         $c["ui.factory.prompt"] = function ($c) {
-            return new ILIAS\UI\Implementation\Component\Prompt\Factory($c["ui.signal_generator"]);
+            return new ILIAS\UI\Implementation\Component\Prompt\Factory(
+                $c["ui.signal_generator"],
+                $c["ui.factory.prompt.state"],
+            );
+        };
+        $c["ui.factory.prompt.state"] = function ($c) {
+            return new ILIAS\UI\Implementation\Component\Prompt\State\Factory();
         };
 
         $c["ui.factory.navigation"] = function ($c) {

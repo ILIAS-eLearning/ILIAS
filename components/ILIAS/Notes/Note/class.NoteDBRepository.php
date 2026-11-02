@@ -363,7 +363,8 @@ class NoteDBRepository
             $db->in("rep_obj_id", $obj_ids, false, "integer");
 
         if ($no_sub_objs) {
-            $q .= " AND obj_id = " . $db->quote(0, "integer");
+            $q .= " AND obj_id = " . $db->quote(0, "integer") .
+                " AND news_id = " . $db->quote(0, "integer");
         }
 
         $q .= " GROUP BY rep_obj_id, type ";

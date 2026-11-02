@@ -486,8 +486,8 @@ class ilContainer extends ilObject
         // fix internal links to other objects
         self::fixInternalLinksAfterCopy($target_id, $copy_id, $this->getRefId());
 
-        // fix item group references in page content
-        ilObjItemGroup::fixContainerItemGroupRefsAfterCloning($this, $copy_id);
+        // fix object group references in page content
+        ilObjObjectGroup::fixContainerObjectGroupRefsAfterCloning($this, $copy_id);
 
         $olp = ilObjectLP::getInstance($this->getId());
         $collection = $olp->getCollectionInstance();
@@ -548,7 +548,7 @@ class ilContainer extends ilObject
 
         #print_r($options);
         // Duplicate session to avoid logout problems with backgrounded SOAP calls
-        $new_session_id = ilSession::_duplicate($session_id);
+        $new_session_id = ilSession::duplicate($session_id);
         // Start cloning process using soap call
         $soap_client = new ilSoapClient();
         $soap_client->setResponseTimeout($soap_client->getResponseTimeout());

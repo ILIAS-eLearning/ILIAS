@@ -568,13 +568,11 @@ class ilObjectActivation
     }
 
     /**
-     * Get materials of item group
+     * Get materials of object group
      */
-    public static function getItemsByItemGroup(int $item_group_ref_id): array
+    public static function getItemsByObjectGroup(int $object_group_ref_id): array
     {
-        $ig_items = new ilItemGroupItems($item_group_ref_id);
-        $items = $ig_items->getValidItems();
-        return self::processListItems($items);
+        return self::processListItems((new ilObjectGroupItems($object_group_ref_id))->getValidItems());
     }
 
     /**

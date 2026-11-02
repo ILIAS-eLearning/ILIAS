@@ -31,6 +31,12 @@ use ILIAS\BackgroundTasks\Types\Type;
  *          - UserInteraction: A Task in the Bucket, which will need some User-Interaction before
  *          running the task. A User-Interaction is provided as Button in the UserInterface such as
  *          [ Cancel ] or [ Download ]
+ *
+ * Components contribute their tasks and values to the bootstrap, see
+ * {@see \ILIAS\BackgroundTasks\Registry\Registry}. A task or value nobody
+ * contributed is still built by the {@see \ILIAS\BackgroundTasks\Dependencies\Injector},
+ * which only resolves a few services of the legacy container. A task or value
+ * must therefore be contributed as soon as its constructor takes anything else.
  */
 interface Task
 {

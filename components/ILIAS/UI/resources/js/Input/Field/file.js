@@ -18,7 +18,7 @@
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  *
  * @TODO: dropzone.js library can easily be dropped, the only thing
- * 		  it still does is keeping track of files and uploading them.
+ *      it still does is keeping track of files and uploading them.
  */
 
 // global dropzone.js setting
@@ -28,74 +28,74 @@ var il = il || {};
 il.UI = il.UI || {};
 il.UI.Input = il.UI.Input || {};
 (function ($, Input) {
-	Input.File = (function ($) {
-		/**
-		 * Holds a list of all the query selectors used throughout this script.
-		 * @type {{}}
-		 */
-		const SELECTOR = {
-			file_input: 'fieldset',
-			file_fieldset: '[data-il-ui-component="file-field-input"]',
-			image_fieldset: '[data-il-ui-component="image-field-input"]',
-			file_list: '.ui-input-file-input-list',
-			file_list_entry: '.ui-input-file-input',
-			file_entry_metadata: '.ui-input-file-metadata',
-			file_entry_input: 'input[type="hidden"]',
+  Input.File = (function ($) {
+    /**
+     * Holds a list of all the query selectors used throughout this script.
+     * @type {{}}
+     */
+    const SELECTOR = {
+      file_input: 'fieldset',
+      file_fieldset: '[data-il-ui-component="file-field-input"]',
+      image_fieldset: '[data-il-ui-component="image-field-input"]',
+      file_list: '.ui-input-file-input-list',
+      file_list_entry: '.ui-input-file-input',
+      file_entry_metadata: '.ui-input-file-metadata',
+      file_entry_input: 'input[type="hidden"]',
 
-			dropzone: '.ui-input-file-input-dropzone',
-			error_message: '.ui-input-file-input-error-msg',
-			removal_button: '[data-action="remove"] button',
-			expand_button: '[data-action="expand"] button',
-			collapse_button: '[data-action="collapse"] button',
-			form_submit_buttons: '.c-form_actions > button',
-			modal_form_controls: '.modal-footer button',
+      dropzone: '.ui-input-file-input-dropzone',
+      error_message: '.ui-input-file-input-error-msg',
+      removal_button: '[data-action="remove"] button',
+      expand_button: '[data-action="expand"] button',
+      collapse_button: '[data-action="collapse"] button',
+      form_submit_buttons: '.c-form_actions > button',
+      modal_form_controls: '.modal-footer button',
 
-			progress_container: '.ui-input-file-input-progress-container',
-			progress_indicator: '.ui-input-file-input-progress-indicator',
-		};
+      progress_container: '.ui-input-file-input-progress-container',
+      progress_indicator: '.ui-input-file-input-progress-indicator',
+    };
 
-		/**
-		 * Holds a list of translated messages that could be displayed to humans.
-		 * @type {{}}
-		 */
-		let I18N = {
-			invalid_mime: `Files of type '%s' are not allowed`,
-			invalid_size: `File exceeds the maximum size of %s.`,
-			invalid_amount: `You cannot upload this many files, please remove some in order to continue.`,
-			general_error: `An error occurred, check the console for more information.`,
-		}
+    /**
+     * Holds a list of translated messages that could be displayed to humans.
+     * @type {{}}
+     */
+    let I18N = {
+      invalid_mime: 'Files of type \'%s\' are not allowed',
+      invalid_size: 'File exceeds the maximum size of %s.',
+      invalid_amount: 'You cannot upload this many files, please remove some in order to continue.',
+      general_error: 'An error occurred, check the console for more information.',
+    };
 
-		/**
-		 * Holds whether the global event listeners were added.
-		 * @type {boolean}
-		 */
-		let instantiated = false;
+    /**
+     * Holds whether the global event listeners were added.
+     * @type {boolean}
+     */
+    let instantiated = false;
 
-		/**
-		 * When a form is processed that holds an instance of this input,
-		 * this holds the total amount of dropzones in it.
-		 * @type {int}
-		 */
-		let current_dropzone_count = 0;
+    /**
+     * When a form is processed that holds an instance of this input,
+     * this holds the total amount of dropzones in it.
+     * @type {int}
+     */
+    let current_dropzone_count = 0;
 
-		/**
-		 * When a form is processed that holds an instance of this input,
-		 * this keeps track of how many of the dropzones were processed.
-		 * @type {int}
-		 */
-		let current_dropzone = 0;
+    /**
+     * When a form is processed that holds an instance of this input,
+     * this keeps track of how many of the dropzones were processed.
+     * @type {int}
+     */
+    let current_dropzone = 0;
 
-		/**
-		 * Holds a list of Dropzone instances mapped to the file input id.
-		 * @type {Dropzone[]}
-		 */
-		let dropzones = [];
+    /**
+     * Holds a list of Dropzone instances mapped to the file input id.
+     * @type {Dropzone[]}
+     */
+    const dropzones = [];
 
-		/**
-		 * Holds a list of Files per file input id to remove before sending the form
-		 * @type string[]
-		 */
-		let removal_items = [];
+    /**
+     * Holds a list of Files per file input id to remove before sending the form
+     * @type string[]
+     */
+    const removal_items = [];
 
     /**
      * Current form element and submitter for
@@ -107,116 +107,129 @@ il.UI.Input = il.UI.Input || {};
      * Holds initialised forms, prevents duplicate submission handlers.
      * @type {WeakSet<HTMLFormElement>}
      */
-    let initialised_forms_set = new WeakSet();
+    const initialised_forms_set = new WeakSet();
 
     /**
-		 * @param {string} input_id
-		 * @param {string} upload_url
-		 * @param {string} removal_url
-		 * @param {string} file_identifier
-		 * @param {int} current_file_count
-		 * @param {int} max_file_amount
-		 * @param {int} max_file_size_in_bytes
-		 * @param {string} mime_types
-		 * @param {boolean} is_disabled
-		 * @param {string[]} translations
-		 */
-		let init = function (
-			input_id,
-			upload_url,
-			removal_url,
-			file_identifier,
-			current_file_count,
-			max_file_amount,
-			max_file_size_in_bytes,
-			mime_types,
-			is_disabled,
-			translations,
-			should_upload_be_chunked,
-			chunk_size_in_bytes
-		) {
-			if (typeof dropzones[input_id] !== 'undefined') {
-				console.error(`Error: tried to register input '${input_id}' as file input twice.`);
-				return;
-			}
+     * Holds uploaded/finished forms, lets the second (final) submit pass through.
+     * An entry is consumed (deleted) as soon as the final submit event passed.
+     * @type {WeakSet<HTMLFormElement>}
+     */
+    const finished_forms = new WeakSet();
 
-			if (is_disabled) {
-				disableActionButton(input_id);
-				return;
-			}
+    /**
+     * @param {string} input_id
+     * @param {string} upload_url
+     * @param {string} removal_url
+     * @param {string} file_identifier
+     * @param {int} current_file_count
+     * @param {int} max_file_amount
+     * @param {int} max_file_size_in_bytes
+     * @param {string} mime_types
+     * @param {boolean} is_disabled
+     * @param {string[]} translations
+     */
+    const init = function (
+      input_id,
+      upload_url,
+      removal_url,
+      file_identifier,
+      current_file_count,
+      max_file_amount,
+      max_file_size_in_bytes,
+      mime_types,
+      is_disabled,
+      translations,
+      should_upload_be_chunked,
+      chunk_size_in_bytes,
+    ) {
+      if (typeof dropzones[input_id] !== 'undefined') {
+        console.error(`Error: tried to register input '${input_id}' as file input twice.`);
+        return;
+      }
 
-			I18N = Object.assign(translations);
+      if (is_disabled) {
+        disableActionButton(input_id);
+        return;
+      }
 
-			// retrieve file-list and action button in vanilla js,
-			// because of dropzone.js compatibility.
-			let file_list = document.querySelector(`#${input_id} ${SELECTOR.file_list}`);
-			let action_button = document.querySelector(`#${input_id} ${SELECTOR.dropzone} button`);
-			const previewTemplate = document.querySelector(`#${input_id} template`);
+      I18N = Object.assign(translations);
 
-			removal_items[input_id] = [];
+      // retrieve file-list and action button in vanilla js,
+      // because of dropzone.js compatibility.
+      const file_list = document.querySelector(`#${input_id} ${SELECTOR.file_list}`);
+      const action_button = document.querySelector(`#${input_id} ${SELECTOR.dropzone} button`);
+      const previewTemplate = document.querySelector(`#${input_id} template`);
 
-			dropzones[input_id] = new Dropzone(
-				`#${input_id} ${SELECTOR.dropzone}`,
-				{
-					url: encodeURI(upload_url),
-					uploadMultiple: (!should_upload_be_chunked && 1 < max_file_amount),
-					acceptedFiles: (0 < mime_types.length) ? mime_types : null,
-					maxFiles: max_file_amount,
-					maxFilesize: bytesToMiB(max_file_size_in_bytes), // official dropzone.js docu is wrong, MiB is expected.
-					previewsContainer: file_list,
-					customPreviewTemplate: previewTemplate,
-					clickable: action_button,
-					autoProcessQueue: false,
-					parallelUploads: 1,
-					current_file_count: current_file_count,
-					file_identifier: file_identifier,
-					removal_url: removal_url,
-					input_id: input_id,
-					chunking: should_upload_be_chunked,
-					forceChunking: should_upload_be_chunked,
-					chunkSize: chunk_size_in_bytes,
-					form: action_button.closest('form'),
+      removal_items[input_id] = [];
 
-					// override default rendering function.
-					addedfile: file => {
-						renderFileEntryHook(file, input_id);
-					},
-				}
-			);
+      dropzones[input_id] = new Dropzone(
+        `#${input_id} ${SELECTOR.dropzone}`,
+        {
+          url: encodeURI(upload_url),
+          uploadMultiple: (!should_upload_be_chunked && max_file_amount > 1),
+          acceptedFiles: (mime_types.length > 0) ? mime_types : null,
+          maxFiles: max_file_amount,
+          maxFilesize: bytesToMiB(max_file_size_in_bytes), // official dropzone.js docu is wrong, MiB is expected.
+          previewsContainer: file_list,
+          customPreviewTemplate: previewTemplate,
+          clickable: action_button,
+          autoProcessQueue: false,
+          parallelUploads: 1,
+          current_file_count,
+          file_identifier,
+          removal_url,
+          input_id,
+          chunking: should_upload_be_chunked,
+          forceChunking: should_upload_be_chunked,
+          chunkSize: chunk_size_in_bytes,
+          form: action_button.closest('form'),
 
-			dropzones[input_id].options.form.should_submit = true;
+          // override default rendering function.
+          addedfile: (file) => {
+            renderFileEntryHook(file, input_id);
+          },
+        },
+      );
 
-			initGlobalFileEventListeners();
-			initDropzoneEventListeners(dropzones[input_id]);
-			maybeToggleActionButtonAndErrorMessage(input_id);
-			setupExpansionGlyphs();
-		}
+      dropzones[input_id].options.form.should_submit = true;
 
-		let initGlobalFileEventListeners = function () {
-			// abort if the global event listeners were already added.
-			if (instantiated) {
-				return;
-			}
+      initGlobalFileEventListeners();
+      initDropzoneEventListeners(dropzones[input_id]);
+      maybeToggleActionButtonAndErrorMessage(input_id);
+      setupExpansionGlyphs();
+    };
 
-			$(document).on('click',
-				`${SELECTOR.file_list} ${SELECTOR.collapse_button}, ${SELECTOR.file_list} ${SELECTOR.expand_button}`,
-				toggleMetadataInputsHook);
+    let initGlobalFileEventListeners = function () {
+      // abort if the global event listeners were already added.
+      if (instantiated) {
+        return;
+      }
 
-			$(document).on('click',
-				`${SELECTOR.file_list} ${SELECTOR.collapse_button}, ${SELECTOR.file_list} ${SELECTOR.expand_button}`,
-				toggleExpansionGlyphsHook);
+      $(document).on(
+        'click',
+        `${SELECTOR.file_list} ${SELECTOR.collapse_button}, ${SELECTOR.file_list} ${SELECTOR.expand_button}`,
+        toggleMetadataInputsHook,
+      );
 
-			$(document).on('click',
-				`${SELECTOR.file_list} ${SELECTOR.removal_button}`,
-				removeFileManuallyHook);
+      $(document).on(
+        'click',
+        `${SELECTOR.file_list} ${SELECTOR.collapse_button}, ${SELECTOR.file_list} ${SELECTOR.expand_button}`,
+        toggleExpansionGlyphsHook,
+      );
 
-			instantiated = true;
-		}
+      $(document).on(
+        'click',
+        `${SELECTOR.file_list} ${SELECTOR.removal_button}`,
+        removeFileManuallyHook,
+      );
 
-		/**
-		 * @param {Dropzone} dropzone
-		 */
-		let initDropzoneEventListeners = function (dropzone) {
+      instantiated = true;
+    };
+
+    /**
+     * @param {Dropzone} dropzone
+     */
+    let initDropzoneEventListeners = function (dropzone) {
       const form = document
         .getElementById(dropzone.options.input_id)
         .closest('form');
@@ -228,221 +241,267 @@ il.UI.Input = il.UI.Input || {};
         initialised_forms_set.add(form);
       }
 
-			dropzone.on('maxfilesexceeded', alertMaxFilesReachedHook);
-			dropzone.on('maxfilesreached', disableActionButtonHook);
-			dropzone.on('queuecomplete', () => {
-				submitCurrentFormHook(dropzone);
-			});
-			dropzone.on('processing', enableAutoProcessingHook);
-			dropzone.on('success', setResourceStorageIdHook);
-			dropzone.on('error', function () {
-				return false;
-			});
-			dropzone.on('uploadprogress', function (file, progress, bytesSent) {
-				let file_id_input = $(`#${file.input_id}`);
-				let file_preview = file_id_input.closest(SELECTOR.file_list_entry);
+      dropzone.on('maxfilesexceeded', alertMaxFilesReachedHook);
+      dropzone.on('maxfilesreached', disableActionButtonHook);
+      dropzone.on('queuecomplete', () => {
+        submitCurrentFormHook(dropzone);
+      });
+      dropzone.on('processing', enableAutoProcessingHook);
+      dropzone.on('success', setResourceStorageIdHook);
+      dropzone.on('error', (file, message, xhr) => {
+        console.error('[file.js] dropzone error', dropzone.options.input_id, message, xhr);
+        return false;
+      });
+      dropzone.on('uploadprogress', (file, progress, bytesSent) => {
+        const file_id_input = $(`#${file.input_id}`);
+        const file_preview = file_id_input.closest(SELECTOR.file_list_entry);
 
-				if (file_preview) {
-					let progressContainer = file_preview.find(SELECTOR.progress_container);
-					let progressIndicator = file_preview.find(SELECTOR.progress_indicator);
-					let number = Math.round(progress);
+        if (file_preview) {
+          const progressContainer = file_preview.find(SELECTOR.progress_container);
+          const progressIndicator = file_preview.find(SELECTOR.progress_indicator);
+          const number = Math.round(progress);
 
-					if (number === 100 && bytesSent < file.size) {
-						// return;
-					}
-					if (progressContainer && progressIndicator) {
-						progressContainer.css('display', 'block');
-						if (!file.hasOwnProperty('progress_storage') || number > file.progress_storage) {
-							progressIndicator.css('width', number + '%');
-						}
-						if (number === 100) {
-							progressIndicator.addClass('success');
-						}
-					}
-					file.progress_storage = number;
-				}
-			});
-		}
+          if (number === 100 && bytesSent < file.size) {
+            // return;
+          }
+          if (progressContainer && progressIndicator) {
+            progressContainer.css('display', 'block');
+            if (!file.hasOwnProperty('progress_storage') || number > file.progress_storage) {
+              progressIndicator.css('width', `${number}%`);
+            }
+            if (number === 100) {
+              progressIndicator.addClass('success');
+            }
+          }
+          file.progress_storage = number;
+        }
+      });
+    };
 
-		// ==========================================
-		// BEGIN global event hooks
-		// ==========================================
+    // ==========================================
+    // BEGIN global event hooks
+    // ==========================================
 
-		/**
-		 * @param {Event} event
-		 */
-		let removeFileManuallyHook = function (event) {
-			event.preventDefault();
-			let removal_button = $(this);
-			let input_id = removal_button.closest(SELECTOR.file_input).attr('id');
-			let dropzone = dropzones[input_id];
+    /**
+     * @param {Event} event
+     */
+    let removeFileManuallyHook = function (event) {
+      event.preventDefault();
+      const removal_button = $(this);
+      const input_id = removal_button.closest(SELECTOR.file_input).attr('id');
+      const dropzone = dropzones[input_id];
 
-			if (typeof dropzone === 'undefined') {
-				console.error(`Error: tried to remove file from uninitialized input: '${input_id}'`);
-				return;
-			}
+      if (typeof dropzone === 'undefined') {
+        console.error(`Error: tried to remove file from uninitialized input: '${input_id}'`);
+        return;
+      }
 
-			let file_entry = removal_button.closest(SELECTOR.file_list_entry);
-			let file_entry_input = getFileEntryInput(file_entry);
+      const file_entry = removal_button.closest(SELECTOR.file_list_entry);
+      const file_entry_input = getFileEntryInput(file_entry);
 
-			dropzone.options.autoProcessQueue = false;
-			dropzone.options.form.should_submit = false;
-			dropzone.options.current_file_count--;
-			maybeRemoveFileFromQueue(dropzone, file_entry_input.attr('id'));
-			maybeToggleActionButtonAndErrorMessage(input_id);
-			setFormControlsDisabledState(dropzone.options.form, false);
-			file_entry.remove();
+      dropzone.options.autoProcessQueue = false;
+      dropzone.options.form.should_submit = false;
+      dropzone.options.current_file_count--;
+      maybeRemoveFileFromQueue(dropzone, file_entry_input.attr('id'));
+      maybeToggleActionButtonAndErrorMessage(input_id);
+      setFormControlsDisabledState(dropzone.options.form, false);
+      file_entry.remove();
 
-			// only remove files that have a file id and are therefore stored
-			// on the server.
-			if ('' === file_entry_input.val()) {
-				return;
-			}
+      // only remove files that have a file id and are therefore stored
+      // on the server.
+      if (file_entry_input.val() === '') {
+        return;
+      }
 
-			// stop event propagation as there may occur an error.
-			event.stopImmediatePropagation();
-		}
+      // stop event propagation as there may occur an error.
+      event.stopImmediatePropagation();
+    };
 
-		/**
-		 * @param {Dropzone} dropzone
-		 * @param {SubmitEvent} event
-		 */
-		let processFormSubmissionHook = function (dropzone, event) {
-			// emitter will be an HTMLFormElement, but once the proper emitter is set
-			// for NoSubmit signals, this can also be an HTMLButtonElement.
-			dropzone.options.form.should_submit = true;
+    /**
+     * Handles the submit event of a form holding file inputs.
+     *
+     * There are three cases:
+     *
+     * 1. The final pass: all uploads are finished and submitCurrentFormHook()
+     *    called form.requestSubmit(). The event must NOT be prevented, so it
+     *    bubbles up (e.g. to the Prompt) with defaultPrevented === false.
+     * 2. Nothing to upload: the very same (original) event is let through.
+     *    We must not call requestSubmit() here, because calling it
+     *    synchronously from within a submit listener is a silent no-op
+     *    (the form's "firing submission events" flag is still set).
+     * 3. Files to upload: the event is prevented, the uploads are processed
+     *    asynchronously and afterwards requestSubmit() is called (case 1).
+     *
+     * @param {Dropzone} dropzone
+     * @param {SubmitEvent} event
+     */
+    let processFormSubmissionHook = function (dropzone, event) {
+      const { form } = dropzone.options;
 
+      // case 1: final pass, consume the marker and let the event bubble.
+      if (finished_forms.has(form)) {
+        finished_forms.delete(form);
+        return;
+      }
+
+      form.should_submit = true;
       submitter_button = event.submitter;
 
-			event.preventDefault();
-			setFormControlsDisabledState(dropzone.options.form, true);
-			processCurrentFormDropzones(dropzone.options.form, event);
-		}
+      const dropzones_to_process = getDropzonesToProcess(form);
 
-		let toggleExpansionGlyphsHook = function (event) {
-			event.preventDefault();
-			let current_button = $(this);
-			let action_container = current_button.closest('[data-action]');
+      // case 2: nothing to upload, let the original event through.
+      if (dropzones_to_process.size < 1) {
+        return;
+      }
 
-			let other_button = action_container.data('action') === 'expand' ?
-				current_button.closest(SELECTOR.file_list_entry).find(SELECTOR.collapse_button) :
-				current_button.closest(SELECTOR.file_list_entry).find(SELECTOR.expand_button)
-			;
+      // case 3: upload first, submit again afterwards.
+      event.preventDefault();
+      setFormControlsDisabledState(form, true);
 
-			other_button.show();
-			action_container.hide();
-		}
+      current_dropzone_count = dropzones_to_process.size;
+      current_dropzone = 0;
 
-		let toggleMetadataInputsHook = function (event) {
-			event.preventDefault();
-			$(this)
-			.closest(SELECTOR.file_list_entry)
-			.find(SELECTOR.file_entry_metadata)
-			.toggle();
-		}
+      dropzones_to_process.forEach((dz, input_id) => {
+        processRemovals(input_id, event);
+        dz.processQueue();
+      });
+    };
 
-		// ==========================================
-		// END global event hooks
-		// ==========================================
+    let toggleExpansionGlyphsHook = function (event) {
+      event.preventDefault();
+      const current_button = $(this);
+      const action_container = current_button.closest('[data-action]');
 
-		// ==========================================
-		// BEGIN dropzone event hooks
-		// ==========================================
+      const other_button = action_container.data('action') === 'expand'
+        ? current_button.closest(SELECTOR.file_list_entry).find(SELECTOR.collapse_button)
+        : current_button.closest(SELECTOR.file_list_entry).find(SELECTOR.expand_button);
+      other_button.show();
+      action_container.hide();
+    };
 
-		/**
-		 * @param {File} file
-		 * @param {string} input_id
-		 */
-		let renderFileEntryHook = function (file, input_id) {
-			if (typeof dropzones[input_id] === 'undefined') {
-				console.error(`Error: tried rendering a file entry for '${input_id}' which is not yet initialized.`);
-				return;
-			}
+    let toggleMetadataInputsHook = function (event) {
+      event.preventDefault();
+      $(this)
+        .closest(SELECTOR.file_list_entry)
+        .find(SELECTOR.file_entry_metadata)
+        .toggle();
+    };
 
-			// abort if the given file is not an allowed file type.
-      if (dropzones[input_id].options.acceptedFiles &&
-        !Dropzone.isValidFile(file, dropzones[input_id].options.acceptedFiles)
+    // ==========================================
+    // END global event hooks
+    // ==========================================
+
+    // ==========================================
+    // BEGIN dropzone event hooks
+    // ==========================================
+
+    /**
+     * @param {File} file
+     * @param {string} input_id
+     */
+    let renderFileEntryHook = function (file, input_id) {
+      if (typeof dropzones[input_id] === 'undefined') {
+        console.error(`Error: tried rendering a file entry for '${input_id}' which is not yet initialized.`);
+        return;
+      }
+
+      // abort if the given file is not an allowed file type.
+      if (dropzones[input_id].options.acceptedFiles
+        && !Dropzone.isValidFile(file, dropzones[input_id].options.acceptedFiles)
       ) {
-				displayErrorMessage(
-					I18N.invalid_mime.replace('%s', file.type),
-					$(`#${input_id} ${SELECTOR.dropzone}`)
-				);
+        displayErrorMessage(
+          I18N.invalid_mime.replace('%s', file.type),
+          $(`#${input_id} ${SELECTOR.dropzone}`),
+        );
 
-				// we need to remove the file manually from the dropzone becausee
-				// it (mistakenly?) gets added anyhow.
-				dropzones[input_id].removeFile(file);
+        // we need to remove the file manually from the dropzone becausee
+        // it (mistakenly?) gets added anyhow.
+        dropzones[input_id].removeFile(file);
 
-				return;
-			}
+        return;
+      }
 
-			// abort if the given file size exceeds the max limit.
-			if ((dropzones[input_id].options.maxFilesize * 1024 * 1024) < file.size) {
-				let allowed_file_size = dropzones[input_id].filesize(dropzones[input_id].options.maxFilesize * 1024 * 1024);
-				displayErrorMessage(
-					I18N.invalid_size.replace('%s', allowed_file_size),
-					$(`#${input_id} ${SELECTOR.dropzone}`)
-				);
+      // abort if the given file size exceeds the max limit.
+      if ((dropzones[input_id].options.maxFilesize * 1024 * 1024) < file.size) {
+        const allowed_file_size = dropzones[input_id].filesize(dropzones[input_id].options.maxFilesize * 1024 * 1024);
+        displayErrorMessage(
+          I18N.invalid_size.replace('%s', allowed_file_size),
+          $(`#${input_id} ${SELECTOR.dropzone}`),
+        );
 
-				// we need to remove the file manually from the dropzone becausee
-				// it (mistakenly?) gets added anyhow.
-				dropzones[input_id].removeFile(file);
+        // we need to remove the file manually from the dropzone becausee
+        // it (mistakenly?) gets added anyhow.
+        dropzones[input_id].removeFile(file);
 
-				return;
-			}
+        return;
+      }
 
-			let preview = il.UI.core.TemplateRenderer.createContent(dropzones[input_id].options.customPreviewTemplate);
+      let preview = il.UI.core.TemplateRenderer.createContent(dropzones[input_id].options.customPreviewTemplate);
 
-			// add file info to preview and setup expansion toggles.
-			preview.querySelector('[data-dz-name]').innerText = file.name;
-			preview.querySelector('[data-dz-size]').innerHTML = dropzones[input_id].filesize(file.size);
-			dropzones[input_id].options.previewsContainer.append(...preview.children);
-			preview = $(dropzones[input_id].options.previewsContainer.lastElementChild);
-			setupExpansionGlyphs(preview);
+      // add file info to preview and setup expansion toggles.
+      preview.querySelector('[data-dz-name]').innerText = file.name;
+      preview.querySelector('[data-dz-size]').innerHTML = dropzones[input_id].filesize(file.size);
+      dropzones[input_id].options.previewsContainer.append(...preview.children);
+      preview = $(dropzones[input_id].options.previewsContainer.lastElementChild);
+      setupExpansionGlyphs(preview);
 
-			// store rendered preview id temporarily in file, to retrieve
-			// the corresponding input later.
-			file.input_id = getFileEntryInput(preview).attr('id');
-			dropzones[input_id].options.current_file_count++;
+      // store rendered preview id temporarily in file, to retrieve
+      // the corresponding input later.
+      file.input_id = getFileEntryInput(preview).attr('id');
+      dropzones[input_id].options.current_file_count++;
 
-			// enqueue file to dropzone
-			if (typeof file.status === 'undefined' || file.status !== Dropzone.ADDED) {
-				registerDropzoneFile(dropzones[input_id], file);
-			}
+      // enqueue file to dropzone
+      if (typeof file.status === 'undefined' || file.status !== Dropzone.ADDED) {
+        registerDropzoneFile(dropzones[input_id], file);
+      }
 
-			maybeToggleActionButtonAndErrorMessage(input_id);
-		}
+      maybeToggleActionButtonAndErrorMessage(input_id);
+    };
 
-		/**
-		 * @param {File} file
-		 * @param {string} json_response
-		 */
-		let setResourceStorageIdHook = function (file, json_response) {
-			let response = Object.assign(JSON.parse(json_response));
-			let file_id_input = $(`#${file.input_id}`);
-			let file_preview = file_id_input.closest(SELECTOR.file_list_entry);
-			let dropzone = dropzones[file_id_input.closest(SELECTOR.file_input).attr('id')];
+    /**
+     * @param {File} file
+     * @param {string} json_response
+     */
+    let setResourceStorageIdHook = function (file, json_response) {
+      const response = Object.assign(JSON.parse(json_response));
+      const file_id_input = $(`#${file.input_id}`);
+      const file_preview = file_id_input.closest(SELECTOR.file_list_entry);
+      const dropzone = dropzones[file_id_input.closest(SELECTOR.file_input).attr('id')];
 
-			if (typeof response.status === 'undefined' || 1 !== response.status) {
-				dropzone.options.form.should_submit = false;
-				response.responseText = response.message;
-				ajaxResponseFailureHook(response, file_preview);
-				return false;
-			}
+      if (typeof response.status === 'undefined' || response.status !== 1) {
+        dropzone.options.form.should_submit = false;
+        response.responseText = response.message;
+        ajaxResponseFailureHook(response, file_preview);
+        return false;
+      }
 
-			// set the upload results IRSS file id.
-			file_id_input.val(response[dropzone.options.file_identifier]);
-		}
+      // set the upload results IRSS file id.
+      file_id_input.val(response[dropzone.options.file_identifier]);
+    };
 
-		let submitCurrentFormHook = function (dropzone) {
+    /**
+     * Called asynchronously (after uploads finished), therefore calling
+     * requestSubmit() here really fires a new submit event.
+     *
+     * @param {Dropzone} dropzone
+     */
+    let submitCurrentFormHook = function (dropzone) {
       // mark one dropzone as finished
       current_dropzone++;
-			// submit the current form only if all dropzones
-			// were processed.
-			if (dropzone.options.form.should_submit === true && current_dropzone >= current_dropzone_count) {
+      // submit the current form only if all dropzones
+      // were processed.
+      if (dropzone.options.form.should_submit === true && current_dropzone >= current_dropzone_count) {
+        current_dropzone = 0;
         setSubmitterButtonFormAction(dropzone.options.form);
-				dropzone.options.form.submit();
-			}
-		}
+        // lets the upcoming submit event pass through (and consumes the marker).
+        finished_forms.add(dropzone.options.form);
+        try {
+          dropzone.options.form.requestSubmit(submitter_button);
+        } catch (error) {
+          finished_forms.delete(dropzone.options.form);
+        }
+      }
+    };
 
     let setSubmitterButtonFormAction = function (form) {
       // The check about the submitter having the attribute 'formaction' needs to stay
@@ -452,350 +511,348 @@ il.UI.Input = il.UI.Input || {};
       if (submitter_button && submitter_button.hasAttribute('formaction')) {
         form.action = submitter_button.formAction;
       }
-    }
+    };
 
-		let enableAutoProcessingHook = function () {
-			let dropzone = $(this)[0];
+    let enableAutoProcessingHook = function () {
+      const dropzone = $(this)[0];
 
-			// if there are more than one file in the current
-			// dropzone's queue, the auto-processing can be
-			// enabled after the first file was processed.
-			if (1 !== dropzone.files.length) {
-				dropzone.options.autoProcessQueue = true;
-			}
-		}
+      // if there are more than one file in the current
+      // dropzone's queue, the auto-processing can be
+      // enabled after the first file was processed.
+      if (dropzone.files.length !== 1) {
+        dropzone.options.autoProcessQueue = true;
+      }
+    };
 
-		let alertMaxFilesReachedHook = function () {
-			let input_id = $(this)[0].options.input_id;
-			displayMaxFilesReachedMessage(input_id);
-		}
+    let alertMaxFilesReachedHook = function () {
+      const { input_id } = $(this)[0].options;
+      displayMaxFilesReachedMessage(input_id);
+    };
 
-		let disableActionButtonHook = function () {
-			let input_id = $(this)[0].options.input_id;
-			disableActionButton(input_id);
-		}
+    let disableActionButtonHook = function () {
+      const { input_id } = $(this)[0].options;
+      disableActionButton(input_id);
+    };
 
-		/**
-		 * @param {string} json_response
-		 * @param {jQuery} file_preview
-		 */
-		let ajaxResponseSuccessHook = function (json_response, file_preview) {
-			let response = Object.assign(JSON.parse(json_response));
+    /**
+     * @param {string} json_response
+     * @param {jQuery} file_preview
+     */
+    const ajaxResponseSuccessHook = function (json_response, file_preview) {
+      const response = Object.assign(JSON.parse(json_response));
 
-			// if the delivered response status is not 1 an
-			// error occurred and the failure hook is fired.
-			if (typeof response.status === 'undefined' || 1 !== response.status) {
-				displayErrorMessage(response.message, file_preview);
-			}
-		}
+      // if the delivered response status is not 1 an
+      // error occurred and the failure hook is fired.
+      if (typeof response.status === 'undefined' || response.status !== 1) {
+        displayErrorMessage(response.message, file_preview);
+      }
+    };
 
-		/**
-		 * @param {jQuery.jqXHR} response
-		 * @param {jQuery} file_preview
-		 */
-		let ajaxResponseFailureHook = function (response, file_preview) {
-			console.error(response.status, response.responseText);
-			displayErrorMessage(
-				response.responseText,
-				file_preview
-			);
-		}
+    /**
+     * @param {jQuery.jqXHR} response
+     * @param {jQuery} file_preview
+     */
+    let ajaxResponseFailureHook = function (response, file_preview) {
+      console.error(response.status, response.responseText);
+      displayErrorMessage(
+        response.responseText,
+        file_preview,
+      );
+    };
 
-		// ==========================================
-		// END dropzone event hooks
-		// ==========================================
+    // ==========================================
+    // END dropzone event hooks
+    // ==========================================
 
-		// ==========================================
-		// BEGIN helper functions
-		// ==========================================
+    // ==========================================
+    // BEGIN helper functions
+    // ==========================================
 
-		/**
-		 * @param {Dropzone} dropzone
-		 * @param {File} file
-		 */
-		let registerDropzoneFile = function (dropzone, file) {
-			file.status = Dropzone.ADDED;
-			file.accepted = true;
-			file.upload = {
-				uuid: Dropzone.uuidv4(),
-				progress: 0,
-				bytesSent: 0,
-				total: file.size,
-				filename: dropzone._renameFile(file),
-				chunked: dropzone.options.chunking && (dropzone.options.forceChunking || file.size > dropzone.options.chunkSize),
-				totalChunkCount: Math.ceil(file.size / dropzone.options.chunkSize)
-			};
+    /**
+     * @param {Dropzone} dropzone
+     * @param {File} file
+     */
+    let registerDropzoneFile = function (dropzone, file) {
+      file.status = Dropzone.ADDED;
+      file.accepted = true;
+      file.upload = {
+        uuid: Dropzone.uuidv4(),
+        progress: 0,
+        bytesSent: 0,
+        total: file.size,
+        filename: dropzone._renameFile(file),
+        chunked: dropzone.options.chunking && (dropzone.options.forceChunking || file.size > dropzone.options.chunkSize),
+        totalChunkCount: Math.ceil(file.size / dropzone.options.chunkSize),
+      };
 
-			dropzone.files.push(file);
-			dropzone.enqueueFile(file);
-		}
+      dropzone.files.push(file);
+      dropzone.enqueueFile(file);
+    };
 
-		/**
-		 * @param {jQuery|null} file_entry
-		 */
-		let setupExpansionGlyphs = function (file_entry = null) {
-			if (null === file_entry) {
-				// hide collapse control globally (in file list).
-				$(`${SELECTOR.file_list} ${SELECTOR.collapse_button}`).hide();
-			} else {
-				// hide collapse control locally (in file entry).
-				file_entry.find(SELECTOR.collapse_button).hide();
-			}
-		}
+    /**
+     * @param {jQuery|null} file_entry
+     */
+    let setupExpansionGlyphs = function (file_entry = null) {
+      if (file_entry === null) {
+        // hide collapse control globally (in file list).
+        $(`${SELECTOR.file_list} ${SELECTOR.collapse_button}`).hide();
+      } else {
+        // hide collapse control locally (in file entry).
+        file_entry.find(SELECTOR.collapse_button).hide();
+      }
+    };
 
-		/**
-		 * @param {Dropzone} dropzone
-		 * @param {string} input_id
-		 */
-		let maybeRemoveFileFromQueue = function (dropzone, input_id) {
-			let file_to_remove = null;
-			for (let i = 0, i_max = dropzone.files.length; i < i_max; i++) {
-				let current_input_id = dropzone.files[i].input_id;
-				if (typeof current_input_id !== 'undefined' && current_input_id === input_id) {
-					file_to_remove = dropzone.files[i];
-          			break;
-				}
-			}
+    /**
+     * @param {Dropzone} dropzone
+     * @param {string} input_id
+     */
+    let maybeRemoveFileFromQueue = function (dropzone, input_id) {
+      let file_to_remove = null;
+      for (let i = 0, i_max = dropzone.files.length; i < i_max; i++) {
+        const current_input_id = dropzone.files[i].input_id;
+        if (typeof current_input_id !== 'undefined' && current_input_id === input_id) {
+          file_to_remove = dropzone.files[i];
+          break;
+        }
+      }
 
-			if (null !== file_to_remove) {
-				// removes ONE file object at found position.
-				dropzone.removeFile(file_to_remove);
-			}
-		}
+      if (file_to_remove !== null) {
+        // removes ONE file object at found position.
+        dropzone.removeFile(file_to_remove);
+      }
+    };
 
-		/**
-		 * @param {string} input_id
-		 */
-		let cancelFileUpload = function (input_id) {
-			if (typeof dropzones[input_id] === 'undefined') {
-				console.error(`Error: tried to access unknown input '${input_id}'.`);
-				return;
-			}
+    /**
+     * @param {string} input_id
+     */
+    const cancelFileUpload = function (input_id) {
+      if (typeof dropzones[input_id] === 'undefined') {
+        console.error(`Error: tried to access unknown input '${input_id}'.`);
+        return;
+      }
 
-			dropzones[input_id].options.autoProcessQueue = false;
-			dropzones[input_id].options.form.should_submit = false;
+      dropzones[input_id].options.autoProcessQueue = false;
+      dropzones[input_id].options.form.should_submit = false;
+      current_dropzone = 0;
 
-			setFormControlsDisabledState(dropzones[input_id].options.form, false);
+      setFormControlsDisabledState(dropzones[input_id].options.form, false);
 
-			for (let i = 0; i < dropzones[input_id].files.length; ++i) {
-				let file = dropzones[input_id].files[i];
-				dropzones[input_id].removeFile(file);
-				registerDropzoneFile(dropzones[input_id], file);
+      for (let i = 0; i < dropzones[input_id].files.length; ++i) {
+        const file = dropzones[input_id].files[i];
+        dropzones[input_id].removeFile(file);
+        registerDropzoneFile(dropzones[input_id], file);
 
-				// remove any progress indicators
-				let file_id_input = $(`#${file.input_id}`);
-				let file_preview = file_id_input.closest(SELECTOR.file_list_entry);
-				if (file_preview) {
-					let progressContainer = file_preview.find(SELECTOR.progress_container);
-					if (progressContainer) {
-						progressContainer.css('display', 'none');
-					}
-					file.progress_storage = 0;
-				}
-			}
-		};
+        // remove any progress indicators
+        const file_id_input = $(`#${file.input_id}`);
+        const file_preview = file_id_input.closest(SELECTOR.file_list_entry);
+        if (file_preview) {
+          const progressContainer = file_preview.find(SELECTOR.progress_container);
+          if (progressContainer) {
+            progressContainer.css('display', 'none');
+          }
+          file.progress_storage = 0;
+        }
+      }
+    };
 
-		let removeAllFilesFromQueue = function (input_id) {
-			if (typeof dropzones[input_id] === 'undefined') {
-				console.error(`Error: tried to access unknown input '${input_id}'.`);
-				return;
-			}
+    const removeAllFilesFromQueue = function (input_id) {
+      if (typeof dropzones[input_id] === 'undefined') {
+        console.error(`Error: tried to access unknown input '${input_id}'.`);
+        return;
+      }
 
-			for (let i = 0; i < dropzones[input_id].files.length; ++i) {
-				dropzones[input_id].options.current_file_count -= 1;
-				let file = dropzones[input_id].files[i];
-				let file_id_input = $(`#${file.input_id}`);
-				let file_preview = file_id_input.closest(SELECTOR.file_list_entry);
-				file_preview.remove();
-			}
+      for (let i = 0; i < dropzones[input_id].files.length; ++i) {
+        dropzones[input_id].options.current_file_count -= 1;
+        const file = dropzones[input_id].files[i];
+        const file_id_input = $(`#${file.input_id}`);
+        const file_preview = file_id_input.closest(SELECTOR.file_list_entry);
+        file_preview.remove();
+      }
 
-			dropzones[input_id].removeAllFiles(true);
-			maybeToggleActionButtonAndErrorMessage(input_id);
-		}
+      dropzones[input_id].removeAllFiles(true);
+      maybeToggleActionButtonAndErrorMessage(input_id);
+    };
 
-		/**
-		 * @param {string} input_id
-		 */
-		let maybeToggleActionButtonAndErrorMessage = function (input_id) {
-			let current_file_count = dropzones[input_id].options.current_file_count;
-			let max_file_amount = dropzones[input_id].options.maxFiles;
+    /**
+     * @param {string} input_id
+     */
+    let maybeToggleActionButtonAndErrorMessage = function (input_id) {
+      const { current_file_count } = dropzones[input_id].options;
+      const max_file_amount = dropzones[input_id].options.maxFiles;
 
-			if (current_file_count > max_file_amount) {
-				displayMaxFilesReachedMessage(input_id);
-				disableSubmitButtons($(`#${input_id}`).closest('form'));
-			} else {
-				removeErrorMessage($(`#${input_id} ${SELECTOR.dropzone}`));
-				enableSubmitButtons($(`#${input_id}`).closest('form'));
-			}
+      if (current_file_count > max_file_amount) {
+        displayMaxFilesReachedMessage(input_id);
+        disableSubmitButtons($(`#${input_id}`).closest('form'));
+      } else {
+        removeErrorMessage($(`#${input_id} ${SELECTOR.dropzone}`));
+        enableSubmitButtons($(`#${input_id}`).closest('form'));
+      }
 
-			if (current_file_count >= max_file_amount) {
-				disableActionButton(input_id);
-			} else {
-				enableActionButton(input_id);
-			}
-		}
+      if (current_file_count >= max_file_amount) {
+        disableActionButton(input_id);
+      } else {
+        enableActionButton(input_id);
+      }
+    };
 
-		let processRemovals = function (input_id, event) {
-			let file_to_remove = removal_items[input_id];
-			let dropzone = dropzones[input_id];
-			for (let i = 0, i_max = file_to_remove.length; i < i_max; i++) {
-				let file_id = file_to_remove[i];
-				$.ajax({
-					type: 'GET',
-					url: dropzone.options.removal_url,
-					data: {
-						[dropzone.options.file_identifier]: file_id,
-					},
-					success: json_response => {
+    const processRemovals = function (input_id, event) {
+      const file_to_remove = removal_items[input_id];
+      const dropzone = dropzones[input_id];
+      for (let i = 0, i_max = file_to_remove.length; i < i_max; i++) {
+        const file_id = file_to_remove[i];
+        $.ajax({
+          type: 'GET',
+          url: dropzone.options.removal_url,
+          data: {
+            [dropzone.options.file_identifier]: file_id,
+          },
+          success: (json_response) => {
 
-					},
-					error: json_response => {
+          },
+          error: (json_response) => {
 
-					},
-				});
-			}
-		}
+          },
+        });
+      }
+    };
 
-		let processCurrentFormDropzones = function (form, event) {
+    /**
+     * Returns all dropzones of the given form that have queued files,
+     * mapped by their file input id.
+     *
+     * @param {HTMLFormElement} form
+     * @returns {Map<string, Dropzone>}
+     */
+    let getDropzonesToProcess = function (form) {
       // retrieve all file inputs of the current form.
       const file_inputs = form.querySelectorAll(`${SELECTOR.file_fieldset}, ${SELECTOR.image_fieldset}`);
 
       const dropzones_to_process = new Map();
       file_inputs.forEach((file_input) => {
         const dropzone = dropzones[file_input.id];
-        if (dropzone.getQueuedFiles().length > 0) {
+        if (dropzone && dropzone.getQueuedFiles().length > 0) {
           dropzones_to_process.set(file_input.id, dropzone);
         }
       });
 
-      current_dropzone_count = dropzones_to_process.size;
-      if (current_dropzone_count < 1) {
-        setSubmitterButtonFormAction(form);
-        form.submit();
-        return;
-      }
+      return dropzones_to_process;
+    };
 
-      dropzones_to_process.forEach((dropzone, input_id) => {
-        processRemovals(input_id, event);
-        dropzone.processQueue();
+    /**
+     * @param {HTMLFormElement} form
+     * @param {boolean} state
+     */
+    let setFormControlsDisabledState = function (form, state) {
+      // NoSubmit forms will have disconnected buttons, since they will currently
+      // only be used in modals, this ternary can be used. Note that this will
+      // most likely break in the future and we should definitely refactor this.
+      const form_controls = (form.parentNode.classList.contains('modal-body'))
+        ? form.closest('.modal-content').querySelectorAll(SELECTOR.modal_form_controls)
+        : form.querySelectorAll(SELECTOR.form_submit_buttons);
+
+      form_controls.forEach((element) => {
+        // ignores cancel button of modals
+        if (element instanceof HTMLButtonElement && !element.hasAttribute('data-dismiss')) {
+          element.disabled = state;
+        }
       });
-		}
+    };
 
-		/**
-		 * @param {HTMLFormElement} form
-		 * @param {boolean} state
-		 */
-		let setFormControlsDisabledState = function (form, state) {
-			// NoSubmit forms will have disconnected buttons, since they will currently
-			// only be used in modals, this ternary can be used. Note that this will
-			// most likely break in the future and we should definitely refactor this.
-			let form_controls = (form.parentNode.classList.contains('modal-body')) ?
-				form.closest('.modal-content').querySelectorAll(SELECTOR.modal_form_controls) :
-				form.querySelectorAll(SELECTOR.form_submit_buttons);
+    /**
+     * @param {jQuery} file_entry
+     * @return {jQuery} the file-id input
+     */
+    let getFileEntryInput = function (file_entry) {
+      // since there could be multiple hidden inputs in the future (due
+      // to introduction as UI component) we have to check if it's one
+      // or more. When multiple are found it's always the last one.
+      const hidden_inputs = file_entry.find(SELECTOR.file_entry_input);
+      return (hidden_inputs.length > 1)
+        ? $(hidden_inputs[hidden_inputs.length - 1])
+        : hidden_inputs;
+    };
 
-			form_controls.forEach(function (element) {
-				// ignores cancel button of modals
-				if (element instanceof HTMLButtonElement && !element.hasAttribute('data-dismiss')) {
-					element.disabled = state;
-				}
-			});
-		}
+    /**
+     * @param {jQuery} form
+     */
+    let disableSubmitButtons = function (form) {
+      form
+        .find(SELECTOR.form_submit_buttons)
+        .each(function () {
+          $(this).attr('disabled', true);
+        });
+    };
 
-		/**
-		 * @param {jQuery} file_entry
-		 * @return {jQuery} the file-id input
-		 */
-		let getFileEntryInput = function (file_entry) {
-			// since there could be multiple hidden inputs in the future (due
-			// to introduction as UI component) we have to check if it's one
-			// or more. When multiple are found it's always the last one.
-			let hidden_inputs = file_entry.find(SELECTOR.file_entry_input);
-			return (1 < hidden_inputs.length) ?
-				$(hidden_inputs[hidden_inputs.length - 1]) :
-				hidden_inputs;
-		}
+    /**
+     * @param {jQuery} form
+     */
+    let enableSubmitButtons = function (form) {
+      form
+        .find(SELECTOR.form_submit_buttons)
+        .each(function () {
+          $(this).attr('disabled', false);
+        });
+    };
 
-		/**
-		 * @param {jQuery} form
-		 */
-		let disableSubmitButtons = function (form) {
-			form
-			.find(SELECTOR.form_submit_buttons)
-			.each(function () {
-				$(this).attr('disabled', true);
-			});
-		}
+    /**
+     * @param {string} input_id
+     */
+    let displayMaxFilesReachedMessage = function (input_id) {
+      displayErrorMessage(
+        I18N.invalid_amount,
+        $(`#${input_id} ${SELECTOR.dropzone}`),
+      );
+    };
 
-		/**
-		 * @param {jQuery} form
-		 */
-		let enableSubmitButtons = function (form) {
-			form
-			.find(SELECTOR.form_submit_buttons)
-			.each(function () {
-				$(this).attr('disabled', false);
-			});
-		}
+    /**
+     * @param {string} input_id
+     */
+    let disableActionButton = function (input_id) {
+      const action_button = $(`#${input_id} ${SELECTOR.dropzone} button`);
+      action_button.attr('disabled', true);
+    };
 
-		/**
-		 * @param {string} input_id
-		 */
-		let displayMaxFilesReachedMessage = function (input_id) {
-			displayErrorMessage(
-				I18N.invalid_amount,
-				$(`#${input_id} ${SELECTOR.dropzone}`)
-			);
-		}
+    /**
+     * @param {string} input_id
+     */
+    let enableActionButton = function (input_id) {
+      const action_button = $(`#${input_id} ${SELECTOR.dropzone} button`);
+      action_button.attr('disabled', false);
+    };
 
-		/**
-		 * @param {string} input_id
-		 */
-		let disableActionButton = function (input_id) {
-			let action_button = $(`#${input_id} ${SELECTOR.dropzone} button`);
-			action_button.attr('disabled', true);
-		}
+    /**
+     * @param {string} message
+     * @param {jQuery} container
+     */
+    let displayErrorMessage = function (message, container) {
+      container.find(SELECTOR.error_message).html(message);
+      container.find(SELECTOR.progress_indicator).addClass('error');
+    };
 
-		/**
-		 * @param {string} input_id
-		 */
-		let enableActionButton = function (input_id) {
-			let action_button = $(`#${input_id} ${SELECTOR.dropzone} button`);
-			action_button.attr('disabled', false);
-		}
+    /**
+     * @param {jQuery} container
+     */
+    let removeErrorMessage = function (container) {
+      container.find(SELECTOR.error_message).text('');
+    };
 
-		/**
-		 * @param {string} message
-		 * @param {jQuery} container
-		 */
-		let displayErrorMessage = function (message, container) {
-			container.find(SELECTOR.error_message).html(message);
-			container.find(SELECTOR.progress_indicator).addClass('error');
-		}
+    /**
+     * @param {number} bytes
+     * @returns {number}
+     */
+    let bytesToMiB = function (bytes) {
+      return bytes / 1024 / 1024;
+    };
 
-		/**
-		 * @param {jQuery} container
-		 */
-		let removeErrorMessage = function (container) {
-			container.find(SELECTOR.error_message).text('');
-		}
+    // ==========================================
+    // END helper functions
+    // ==========================================
 
-		/**
-		 * @param {number} bytes
-		 * @returns {number}
-		 */
-		let bytesToMiB = function (bytes) {
-			return bytes / 1024 / 1024;
-		}
-
-		// ==========================================
-		// END helper functions
-		// ==========================================
-
-		return {
-			removeAllFilesFromQueue: removeAllFilesFromQueue,
-			renderFileEntry: renderFileEntryHook,
-			cancelFleUpload: cancelFileUpload,
-			init: init,
-		}
-	})($)
-})($, il.UI.Input);
+    return {
+      removeAllFilesFromQueue,
+      renderFileEntry: renderFileEntryHook,
+      cancelFleUpload: cancelFileUpload,
+      init,
+    };
+  }($));
+}($, il.UI.Input));

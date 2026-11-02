@@ -22,24 +22,24 @@ namespace ILIAS\UI\Implementation\Component\Prompt;
 
 use ILIAS\UI\Component\Prompt as I;
 use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 use ILIAS\Data\URI;
 
-/**
- *
- */
-abstract class Prompt implements I\Prompt
+
+class Prompt implements I\Prompt
 {
     use ComponentHelper;
     use JavaScriptBindable;
 
+    protected ?string $title = null;
     protected Signal $show_signal;
     protected Signal $close_signal;
 
     public function __construct(
-        SignalGenerator $signal_generator,
+        SignalGeneratorInterface $signal_generator,
         protected URI $async_url
     ) {
         $this->show_signal = $signal_generator->create();
@@ -49,6 +49,18 @@ abstract class Prompt implements I\Prompt
     public function getAsyncUrl(): URI
     {
         return $this->async_url;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function withTitle(string $title): static
+    {
+        $clone = clone $this;
+        $clone->title = $title;
+        return $clone;
     }
 
     public function getShowSignal(?URI $uri = null): Signal

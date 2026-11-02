@@ -20,27 +20,23 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Prompt\State;
 
-use ILIAS\UI\Component\Prompt as I;
-use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\Data\URI;
+use ILIAS\UI\Component as C;
 
-class Factory implements I\State\Factory
+class Factory implements C\Prompt\State\Factory
 {
-    public function show(
-        I\IsPromptContent $primary_content,
-        I\IsPromptContent ...$secondary_content
-    ): State {
-        return new State($primary_content, ...$secondary_content);
+    public function show(C\Prompt\IsPromptContent $primary_content, C\Prompt\IsPromptContent ...$secondary_content): State
+    {
+        return new State(Instruction::SHOW, null, $primary_content, $secondary_content);
     }
 
     public function close(): State
     {
-        return new State(null)->withCloseModal(true);
+        return new State(Instruction::CLOSE, null, null);
     }
 
     public function redirect(URI $redirect): State
     {
-        return new State(null)->withRedirect($redirect);
+        return new State(Instruction::REDIRECT, $redirect, null);
     }
-
 }

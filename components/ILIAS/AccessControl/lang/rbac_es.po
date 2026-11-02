@@ -1045,24 +1045,6 @@ msgstr "Correo interno"
 msgid "invite"
 msgstr "Invitando a la encuesta"
 
-msgid "itgr_copy"
-msgstr "El usuario puede copiar el grupo de elementos"
-
-msgid "itgr_delete"
-msgstr "El usuario puede mover o eliminar el grupo de elementos"
-
-msgid "itgr_edit_permission"
-msgstr "El usuario puede cambiar la configuración de permisos"
-
-msgid "itgr_read"
-msgstr "El usuario puede ver los elementos en el grupo de elementos"
-
-msgid "itgr_visible"
-msgstr "El grupo de elementos es visible"
-
-msgid "itgr_write"
-msgstr "El usuario puede editar el contenido y la configuración del grupo de elementos"
-
 msgid "leave"
 msgstr "Darse de baja"
 
@@ -1404,6 +1386,24 @@ msgstr "La administración de Noticias y Canales Web es visible"
 
 msgid "nwss_write"
 msgstr "El usuario puede editar los ajustes en la administración de Noticias y Canales Web"
+
+msgid "obgr_copy"
+msgstr "El usuario puede copiar el grupo de elementos"
+
+msgid "obgr_delete"
+msgstr "El usuario puede mover o eliminar el grupo de elementos"
+
+msgid "obgr_edit_permission"
+msgstr "El usuario puede cambiar la configuración de permisos"
+
+msgid "obgr_read"
+msgstr "El usuario puede ver los elementos en el grupo de elementos"
+
+msgid "obgr_visible"
+msgstr "El grupo de elementos es visible"
+
+msgid "obgr_write"
+msgstr "El usuario puede editar el contenido y la configuración del grupo de elementos"
 
 msgid "obj_skee"
 msgstr "Árbol de Competencias"
@@ -1831,9 +1831,6 @@ msgstr "Crear módulo de aprendizaje HTML"
 msgid "rbac_create_iass"
 msgstr "Crear evaluación individual"
 
-msgid "rbac_create_itgr"
-msgstr "Crear grupo de ítems"
-
 msgid "rbac_create_lm"
 msgstr "Crear módulo de aprendizaje ILIAS"
 
@@ -1848,6 +1845,9 @@ msgstr "Crear Mediacast"
 
 msgid "rbac_create_mep"
 msgstr "Crear Pool de medios"
+
+msgid "rbac_create_obgr"
+msgstr "Crear grupo de ítems"
 
 msgid "rbac_create_orgu"
 msgstr "Crear Unidades Organizativas"
@@ -2811,3 +2811,4 @@ msgstr "Editar configuración en la administración del Wiki"
 
 msgid "write"
 msgstr "Editar configuración"
+

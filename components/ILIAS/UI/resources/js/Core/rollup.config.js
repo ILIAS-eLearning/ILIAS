@@ -22,6 +22,7 @@ export default {
   ],
   input: './src/core.js',
   output: {
+    // file: '../../../../../../public/assets/js/core.js',
     file: './dist/core.js',
     format: 'iife',
     banner: copyright,

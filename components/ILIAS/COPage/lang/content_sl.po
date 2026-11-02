@@ -1897,8 +1897,8 @@ msgid "cont_manifest"
 msgstr "Manifest"
 
 #, fuzzy
-msgid "cont_manual_item_group"
-msgstr "Manually Create Item Group"
+msgid "cont_manual_object_group"
+msgstr "Manually Created Object Group"
 
 msgid "cont_map_file_not_generated"
 msgstr "Datoteke s slikovnim zemljevidom žal ni bilo mogoče generirati."
@@ -3783,3 +3783,5 @@ msgstr "Alternativno besedilo"
 
 msgid "text_repr_info"
 msgstr "Se uporabi, če ni mogoče prikazati grafike."
+
+

@@ -69,6 +69,7 @@ class ilContainerXmlParser
         $ref_id = (string) $item['RefId'];
         $obj_id = (string) $item['Id'];
         $type = (string) $item['Type'];
+        $type = $type === 'itgr' ? 'obgr' : $type;
 
 
         $new_ref = $this->getMapping()->getMapping('components/ILIAS/Container', 'refs', $ref_id);

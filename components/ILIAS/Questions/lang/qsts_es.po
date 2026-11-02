@@ -1,0 +1,87 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: qsts\n"
+
+msgid "answer_options"
+msgstr "Opciones de respuesta"
+
+msgid "cloze_text"
+msgstr "Texto Cloze"
+
+msgid "confirm_delete_questions"
+msgstr "¿Está seguro de que desea eliminar las siguientes preguntas?"
+
+msgid "create_question"
+msgstr "Crear pregunta"
+
+msgid "gap"
+msgstr "Hueco"
+
+msgid "gaps"
+msgstr "Huecos"
+
+msgid "insert_gap"
+msgstr "Insertar hueco"
+
+msgid "min_auto_complete"
+msgstr "Autocompletar"
+
+msgid "msg_no_questions_selected"
+msgstr "No se seleccionaron preguntas."
+
+msgid "out_of_range"
+msgstr "Fuera de rango"
+
+msgid "qst_lifecycle"
+msgstr "Ciclo de vida"
+
+msgid "qst_lifecycle_draft"
+msgstr "Borrador"
+
+msgid "qst_lifecycle_filter_all"
+msgstr "Todos los ciclos de vida"
+
+msgid "qst_lifecycle_final"
+msgstr "Final"
+
+msgid "qst_lifecycle_outdated"
+msgstr "Obsoleto"
+
+msgid "qst_lifecycle_rejected"
+msgstr "Rechazado"
+
+msgid "qst_lifecycle_review"
+msgstr "Por revisar"
+
+msgid "qst_lifecycle_sharable"
+msgstr "Compartible"
+
+msgid "questionlist"
+msgstr "Lista de preguntas"
+
+msgid "questions"
+msgstr "Preguntas"
+
+msgid "range_lower_limit"
+msgstr "Límite inferior"
+
+msgid "range_upper_limit"
+msgstr "Límite superior"
+
+msgid "reset_preview"
+msgstr "Restablecer vista previa"
+
+msgid "select_gap"
+msgstr "Seleccionar hueco"
+
+msgid "shuffle_answers"
+msgstr "Barajar respuestas"
+
+msgid "suggested_learning_content"
+msgstr "Agregar contenido para recapitulación"

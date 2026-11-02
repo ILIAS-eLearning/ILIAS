@@ -23,6 +23,6 @@ namespace ILIAS\UI\Implementation\Component\Listing\Entity;
 use ILIAS\UI\Component\Listing\Entity as I;
 use ILIAS\UI\Component\Entity as IEntity;
 
-class Standard extends EntityListing implements I\Standard
+class Standard extends Entity implements I\Standard
 {
 }

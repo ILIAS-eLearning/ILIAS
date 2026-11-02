@@ -18,6 +18,15 @@
 
 declare(strict_types=1);
 
+use Psr\Log\LogLevel;
+use ILIAS\Logging\Logger\LoggerInterface;
+use ILIAS\Tree\Logging\NullLogger;
+use ILIAS\Tree\Language\NullLanguage;
+use ILIAS\Logging\Logger\LoggerFactory;
+use ILIAS\Language\Language;
+use ILIAS\Administration\Setting;
+use ILIAS\DI\Container;
+
 /**
  * Tree class
  * data representation in hierachical trees using the Nested Set Model with Gaps
@@ -42,10 +51,15 @@ class ilTree
 
     protected const DEFAULT_LANGUAGE = 'en';
     protected const DEFAULT_GAP = 50;
+    private string $main_tree_impl;
 
-    protected ilLogger $logger;
+    protected LoggerInterface $logger;
     protected ilDBInterface $db;
     protected ?ilAppEventHandler $eventHandler;
+    protected ?ilObjectDataCache $objDataCache = null;
+    protected ?ilObjectDefinition $objDef = null;
+    protected ?ilObjUser $user = null;
+    protected ?Language $lng = null;
 
     /**
      * Used in fetchNodeData
@@ -128,27 +142,62 @@ class ilTree
     private array $path_id_cache = [];
 
     /**
+     * @param int $a_tree_id Tree identifier
+     * @param int $a_root_id Root node identifier (defaults to ROOT_FOLDER_ID)
+     * @param ilDBInterface|null $db Database interface (optional, falls back to DIC)
+     * @param LoggerInterface|null $logger Logger instance (optional, falls back to DIC or NullLogger)
+     * @param Setting|null $setting Settings for tree implementation (optional, falls back to DIC or uses NestedSet as default Implementation)
+     * @param ilAppEventHandler|null $event_handler Event handler (optional)
+     * @param ilObjectDataCache|null $obj_data_cache Object data cache (optional)
+     * @param ilObjectDefinition|null $obj_definition Object definition (optional)
+     * @param ilObjUser|null $user Current user (optional, falls back to DIC or uses default language and no user for deleted_by field)
+     * @param Language|null $language Language handler (optional, falls back to DIC or uses NullLanguage with warning if used)
      * @throws InvalidArgumentException
      */
     public function __construct(
         int $a_tree_id,
         int $a_root_id = 0,
-        ?ilDBInterface $db = null
+        ?ilDBInterface $db = null,
+        ?LoggerInterface $logger = null,
+        ?Setting $setting = null,
+        ?ilAppEventHandler $event_handler = null,
+        ?ilObjectDataCache $obj_data_cache = null,
+        ?ilObjectDefinition $obj_definition = null,
+        ?ilObjUser $user = null,
+        ?Language $language = null
     ) {
         global $DIC;
 
-        $this->db = $db ?? $DIC->database();
-        $this->logger = ilLoggerFactory::getLogger('tree');
-        //$this->logger = $DIC->logger()->tree();
-        if (isset($DIC['ilAppEventHandler'])) {
-            $this->eventHandler = $DIC['ilAppEventHandler'];
+        // Normalize DIC access
+        $dic = $DIC instanceof Container ? $DIC : (new Container($DIC ?? []));
+
+        // Set required dependencies with fallbacks
+        $this->db = $db ?? ($dic->isDependencyAvailable('database') ? $dic->database() : null);
+
+        // Logger with multiple fallback levels
+        if ($logger !== null) {
+            $this->logger = $logger;
+        } elseif (isset($dic['logging.factory'])) {
+            /** @var LoggerFactory $logging_factory */
+            $logging_factory = $dic['logging.factory'];
+            $this->logger = $logging_factory->getLazy('tree');
+        } else {
+            $this->logger = new NullLogger();
         }
+
+        // Optional dependencies with direct injection or DIC fallback
+        $this->eventHandler = $event_handler ?? ($dic->isDependencyAvailable('event') ? $dic->event() : null);
+        $this->objDataCache = $obj_data_cache ?? ($dic['ilObjDataCache'] ?? null);
+        $this->objDef = $obj_definition ?? ($dic['objDefinition'] ?? null);
+        $this->user = $user ?? ($dic->isDependencyAvailable('user') ? $dic->user() : null);
+        $this->lng = $language ?? ($dic->isDependencyAvailable('language') ? $dic->language() : new NullLanguage());
 
         $this->lang_code = self::DEFAULT_LANGUAGE;
 
-        if (func_num_args() > 3) {
+        // Legacy parameter count check - update to new count
+        if (func_num_args() > 10) {
             $this->logger->error("Wrong parameter count!");
-            $this->logger->logStack(ilLogLevel::ERROR);
+            $this->logger->logStack(LogLevel::ERROR);
             throw new InvalidArgumentException("Wrong parameter count!");
         }
 
@@ -171,19 +220,40 @@ class ilTree
         // By default, we create gaps in the tree sequence numbering for 50 nodes
         $this->gap = self::DEFAULT_GAP;
 
+        $main_tree_impl = self::TREE_TYPE_NESTED_SET;
+
+        if ($setting === null) {
+            if ($dic->isDependencyAvailable('settings') && $dic->settings()->getModule() === 'common') {
+                $setting = $dic->settings();
+            } elseif ($dic->isDependencyAvailable('database')) {
+                $setting = new ilSetting('common');
+            }
+        }
+
+        if ($setting !== null) {
+            $main_tree_impl = $setting->get('main_tree_impl', self::TREE_TYPE_NESTED_SET);
+        }
+
+        $this->main_tree_impl = $main_tree_impl;
         // init tree implementation
         $this->initTreeImplementation();
     }
 
     /**
-     * @param int $node_id
-     * @return int[]
+     * @param int $node_id Node identifier
+     * @param ilDBInterface|null $db Database interface (optional, falls back to DIC)
+     * @return int[] Array of tree IDs containing the node
      */
-    public static function lookupTreesForNode(int $node_id): array
+    public static function lookupTreesForNode(int $node_id, ?ilDBInterface $db = null): array
     {
         global $DIC;
 
-        $db = $DIC->database();
+        $dic = $DIC instanceof Container ? $DIC : (new Container($DIC ?? []));
+        $db = $db ?? ($dic->isDependencyAvailable('database') ? $dic->database() : null);
+        $dic->logger()->tree();
+        if ($db === null) {
+            throw new InvalidArgumentException("Database dependency required for lookupTreesForNode");
+        }
 
         $query = 'select tree from tree ' .
             'where child = ' . $db->quote($node_id, \ilDBConstants::T_INTEGER);
@@ -201,22 +271,14 @@ class ilTree
      */
     public function initTreeImplementation(): void
     {
-        global $DIC;
-
-        if (!$DIC->isDependencyAvailable('settings') || $DIC->settings()->getModule() != 'common') {
-            $setting = new ilSetting('common');
-        } else {
-            $setting = $DIC->settings();
-        }
-
         if ($this->__isMainTree()) {
-            if ($setting->get('main_tree_impl', 'ns') == 'ns') {
-                $this->tree_impl = new ilNestedSetTree($this);
+            if ($this->main_tree_impl == self::TREE_TYPE_NESTED_SET) {
+                $this->tree_impl = new ilNestedSetTree($this, $this->db, $this->logger);
             } else {
-                $this->tree_impl = new ilMaterializedPathTree($this);
+                $this->tree_impl = new ilMaterializedPathTree($this, $this->db, $this->logger);
             }
         } else {
-            $this->tree_impl = new ilNestedSetTree($this);
+            $this->tree_impl = new ilNestedSetTree($this, $this->db, $this->logger);
         }
     }
 
@@ -265,15 +327,12 @@ class ilTree
      * Do not use it
      * Store user language. This function is used by the "main"
      * tree only (during initialisation).
-     * @todo remove this dependency to user language from tree class
      */
     public function initLangCode(): void
     {
-        global $DIC;
-
-        if ($DIC->offsetExists('ilUser')) {
-            $this->lang_code = $DIC->user()->getCurrentLanguage() ?
-                $DIC->user()->getCurrentLanguage() : self::DEFAULT_LANGUAGE;
+        if ($this->user !== null) {
+            $this->lang_code = $this->user->getCurrentLanguage() ?
+                $this->user->getCurrentLanguage() : self::DEFAULT_LANGUAGE;
         } else {
             $this->lang_code = self::DEFAULT_LANGUAGE;
         }
@@ -430,15 +489,9 @@ class ilTree
 
     /**
      * get child nodes of given node
-     * @todo remove dependency to ilObjUser and use $this->lang_code
      */
     public function getChilds(int $a_node_id, string $a_order = "", string $a_direction = "ASC"): array
     {
-        global $DIC;
-
-        $ilObjDataCache = $DIC['ilObjDataCache'];
-        $ilUser = $DIC['ilUser'];
-
         // init childs
         $childs = [];
 
@@ -480,10 +533,10 @@ class ilTree
         }
 
         // preload object translation information
-        if ($this->__isMainTree() && $this->isCacheUsed() && is_object($ilObjDataCache) &&
-            is_object($ilUser) && $this->lang_code == $ilUser->getLanguage() && !isset($this->oc_preloaded[$a_node_id])) {
+        if ($this->__isMainTree() && $this->isCacheUsed() && $this->objDataCache !== null &&
+            $this->user !== null && $this->lang_code == $this->user->getLanguage() && !isset($this->oc_preloaded[$a_node_id])) {
             //			$ilObjDataCache->preloadTranslations($obj_ids, $this->lang_code);
-            $ilObjDataCache->preloadObjectCache($obj_ids, $this->lang_code);
+            $this->objDataCache->preloadObjectCache($obj_ids, $this->lang_code);
             $this->fetchTranslationFromObjectDataCache($obj_ids);
             $this->oc_preloaded[$a_node_id] = true;
         }
@@ -631,8 +684,8 @@ class ilTree
             }
         }
         if ($this->isInTree($a_source_id)) {
-            ilLoggerFactory::getLogger('tree')->error('Node already in tree');
-            ilLoggerFactory::getLogger('tree')->logStack(ilLogLevel::WARNING);
+            $this->logger->error('Node already in tree');
+            $this->logger->logStack(ilLogLevel::WARNING);
             throw new InvalidArgumentException('Node already in tree.');
         }
 
@@ -658,7 +711,7 @@ class ilTree
                     $a_node_id,
                     $a_parent_id
                 );
-                $this->logger->logStack(ilLogLevel::ERROR, $message);
+                $this->logger->logStack(LogLevel::ERROR, $message);
                 throw new InvalidArgumentException($message);
             }
         }
@@ -833,8 +886,6 @@ class ilTree
      */
     public function preloadDepthParent(array $a_node_ids): void
     {
-        global $DIC;
-
         if (!$this->__isMainTree() || !$this->isCacheUsed()) {
             return;
         }
@@ -1021,8 +1072,6 @@ class ilTree
      */
     public function getMaximumDepth(): int
     {
-        global $DIC;
-
         $query = 'SELECT MAX(depth) depth FROM ' . $this->table_tree;
         $res = $this->db->query($query);
 
@@ -1035,8 +1084,6 @@ class ilTree
      */
     public function getDepth(int $a_node_id): int
     {
-        global $DIC;
-
         if ($a_node_id) {
             if ($this->__isMainTree()) {
                 $query = 'SELECT depth FROM ' . $this->table_tree . ' ' .
@@ -1061,8 +1108,6 @@ class ilTree
      */
     public function getNodeTreeData(int $a_node_id): array
     {
-        global $DIC;
-
         if (!$a_node_id) {
             $this->logger->logStack(ilLogLevel::ERROR);
             throw new InvalidArgumentException('Missing or empty parameter $a_node_id: ' . $a_node_id);
@@ -1111,18 +1156,19 @@ class ilTree
      */
     public function fetchNodeData(array $a_row): array
     {
-        global $DIC;
-
-        $objDefinition = $DIC['objDefinition'];
-        $lng = $DIC['lng'];
-
         $data = $a_row;
         $data["desc"] = (string) ($a_row["description"] ?? '');  // for compability
 
         // multilingual support systemobjects (sys) & categories (db)
         $translation_type = '';
-        if (is_object($objDefinition)) {
-            $translation_type = $objDefinition->getTranslationType($data["type"] ?? '');
+        if ($this->objDef !== null) {
+            $translation_type = $this->objDef->getTranslationType($data["type"] ?? '');
+        }
+
+        $lng = $this->lng;
+
+        if ($lng instanceof NullLanguage) {
+            $this->logger->warning("Language not initialized, using NullLanguage fallback in " . __METHOD__);
         }
 
         if ($translation_type == "sys") {
@@ -1183,18 +1229,13 @@ class ilTree
     /**
      * Get translation data from object cache (trigger in object cache on preload)
      * @param array $a_obj_ids object ids
-     * @todo handle dependency
      */
     protected function fetchTranslationFromObjectDataCache(array $a_obj_ids): void
     {
-        global $DIC;
-
-        $ilObjDataCache = $DIC['ilObjDataCache'];
-
-        if ($this->isCacheUsed() && is_array($a_obj_ids) && is_object($ilObjDataCache)) {
+        if ($this->isCacheUsed() && is_array($a_obj_ids) && $this->objDataCache !== null) {
             foreach ($a_obj_ids as $id) {
-                $this->translation_cache[$id . '.']['title'] = $ilObjDataCache->lookupTitle((int) $id);
-                $this->translation_cache[$id . '.']['description'] = $ilObjDataCache->lookupDescription((int) $id);
+                $this->translation_cache[$id . '.']['title'] = $this->objDataCache->lookupTitle((int) $id);
+                $this->translation_cache[$id . '.']['description'] = $this->objDataCache->lookupDescription((int) $id);
                 $this->translation_cache[$id . '.']['desc'] =
                     $this->translation_cache[$id . '.']['description'];
             }
@@ -1242,9 +1283,6 @@ class ilTree
      */
     public function getParentNodeData(int $a_node_id): array
     {
-        global $DIC;
-
-        $ilLog = $DIC['ilLog'];
         if ($this->table_obj_reference) {
             // Use inner join instead of left join to improve performance
             $innerjoin = "JOIN " . $this->table_obj_reference . " ON v.child=" . $this->table_obj_reference . "." . $this->ref_pk . " " .
@@ -1286,8 +1324,6 @@ class ilTree
      */
     public function addTree(int $a_tree_id, int $a_node_id = -1): bool
     {
-        global $DIC;
-
         // FOR SECURITY addTree() IS NOT ALLOWED ON MAIN TREE
         if ($this->__isMainTree()) {
             $message = sprintf(
@@ -1346,15 +1382,11 @@ class ilTree
     /**
      * Move node to trash bin
      * @throws InvalidArgumentException
-     * @todo remove ilUser dependency
      */
     public function moveToTrash(int $a_node_id, bool $a_set_deleted = false, int $a_deleted_by = 0): bool
     {
-        global $DIC;
-
-        $user = $DIC->user();
-        if (!$a_deleted_by) {
-            $a_deleted_by = $user->getId();
+        if ($a_deleted_by === 0 && $this->user !== null) {
+            $a_deleted_by = $this->user->getId();
         }
 
         if (!$a_node_id) {
@@ -1444,8 +1476,6 @@ class ilTree
      */
     public function getSavedNodeData(int $a_parent_id): array
     {
-        global $DIC;
-
         if (!isset($a_parent_id)) {
             $message = "No node_id given!";
             $this->logger->error($message);
@@ -1474,8 +1504,6 @@ class ilTree
      */
     public function getSavedNodeObjIds(array $a_obj_ids): array
     {
-        global $DIC;
-
         $query = 'SELECT ' . $this->table_obj_data . '.obj_id FROM ' . $this->table_tree . ' ' .
             $this->buildJoin() .
             'WHERE ' . $this->table_tree . '.' . $this->tree_pk . ' < ' . $this->db->quote(0, 'integer') . ' ' .
@@ -1495,7 +1523,6 @@ class ilTree
      */
     public function getParentId(int $a_node_id): ?int
     {
-        global $DIC;
         if ($this->__isMainTree()) {
             $query = 'SELECT parent FROM ' . $this->table_tree . ' ' .
                 'WHERE child = %s ';
@@ -1745,13 +1772,29 @@ class ilTree
     /**
      * STATIC METHOD
      * Removes a single entry from a tree. The tree structure is NOT updated!
+     * @param int $a_tree Tree identifier
+     * @param int $a_child Child node identifier
+     * @param string $a_db_table Database table name
+     * @param ilDBInterface|null $db Database interface (optional, falls back to DIC)
+     * @param LoggerInterface|null $logger Logger instance (optional, falls back to DIC)
      * @throws InvalidArgumentException
      */
-    public static function _removeEntry(int $a_tree, int $a_child, string $a_db_table = "tree"): void
-    {
+    public static function _removeEntry(
+        int $a_tree,
+        int $a_child,
+        string $a_db_table = "tree",
+        ?ilDBInterface $db = null,
+        ?LoggerInterface $logger = null
+    ): void {
         global $DIC;
 
-        $db = $DIC->database();
+        $dic = $DIC instanceof Container ? $DIC : (new Container($DIC ?? []));
+        $db = $db ?? ($dic->isDependencyAvailable('database') ? $dic->database() : null);
+        $logger = $logger ?? ($dic->isDependencyAvailable('logger') ? $dic->logger() : new NullLogger());
+
+        if ($db === null) {
+            throw new InvalidArgumentException("Database dependency required for _removeEntry");
+        }
 
         if ($a_db_table === 'tree') {
             if ($a_tree == 1 && $a_child == ROOT_FOLDER_ID) {
@@ -1760,7 +1803,7 @@ class ilTree
                     $a_tree,
                     $a_child
                 );
-                ilLoggerFactory::getLogger('tree')->error($message);
+                $logger->error($message);
                 throw new InvalidArgumentException($message);
             }
         }
@@ -1905,8 +1948,8 @@ class ilTree
     {
         $old_parent_id = $this->getParentId($a_source_id);
         $this->getTreeImplementation()->moveTree($a_source_id, $a_target_id, $a_location);
-        if (isset($GLOBALS['DIC']["ilAppEventHandler"]) && $this->__isMainTree()) {
-            $GLOBALS['DIC']['ilAppEventHandler']->raise(
+        if ($this->eventHandler !== null && $this->__isMainTree()) {
+            $this->eventHandler->raise(
                 "components/ILIAS/Tree",
                 "moveTree",
                 array(

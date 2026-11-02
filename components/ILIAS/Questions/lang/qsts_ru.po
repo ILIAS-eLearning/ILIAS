@@ -1,0 +1,87 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ru\n"
+"Language-Team: Russian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: qsts\n"
+
+msgid "answer_options"
+msgstr "Answer Options"
+
+msgid "cloze_text"
+msgstr "Текст с пропусками"
+
+msgid "confirm_delete_questions"
+msgstr "Вы действительно желаете удалить следующие вопрос(ы)?"
+
+msgid "create_question"
+msgstr "Создать вопрос"
+
+msgid "gap"
+msgstr "Пропуск"
+
+msgid "gaps"
+msgstr "Gaps"
+
+msgid "insert_gap"
+msgstr "Вставить пропуск"
+
+msgid "min_auto_complete"
+msgstr "Autocomplete"
+
+msgid "msg_no_questions_selected"
+msgstr "No questions were selected."
+
+msgid "out_of_range"
+msgstr "Out of range"
+
+msgid "qst_lifecycle"
+msgstr "Lifecycle"
+
+msgid "qst_lifecycle_draft"
+msgstr "Draft"
+
+msgid "qst_lifecycle_filter_all"
+msgstr "All Lifecycles"
+
+msgid "qst_lifecycle_final"
+msgstr "Final"
+
+msgid "qst_lifecycle_outdated"
+msgstr "Outdated"
+
+msgid "qst_lifecycle_rejected"
+msgstr "Rejected"
+
+msgid "qst_lifecycle_review"
+msgstr "To be Reviewed"
+
+msgid "qst_lifecycle_sharable"
+msgstr "Sharable"
+
+msgid "questionlist"
+msgstr "Questionlist"
+
+msgid "questions"
+msgstr "Questions"
+
+msgid "range_lower_limit"
+msgstr "Нижняя граница"
+
+msgid "range_upper_limit"
+msgstr "Верхняя граница"
+
+msgid "reset_preview"
+msgstr "Reset Preview"
+
+msgid "select_gap"
+msgstr "Выберите пропуск"
+
+msgid "shuffle_answers"
+msgstr "Перемешать ответы"
+
+msgid "suggested_learning_content"
+msgstr "Добавить предполагаемое решение"

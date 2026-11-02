@@ -1820,8 +1820,8 @@ msgstr "Maintenance"
 msgid "cont_manifest"
 msgstr "Manifest"
 
-msgid "cont_manual_item_group"
-msgstr "Manually Created Item Group"
+msgid "cont_manual_object_group"
+msgstr "Manually Created Object Group"
 
 msgid "cont_map_file_not_generated"
 msgstr "Sorry. Unable to generate map file for editing."
@@ -3649,3 +3649,4 @@ msgstr "Text Representation"
 
 msgid "text_repr_info"
 msgstr "Used for image ‘alt’ attribute."
+

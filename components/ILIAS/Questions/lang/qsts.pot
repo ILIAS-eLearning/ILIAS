@@ -1,0 +1,333 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"X-Domain: qsts\n"
+
+msgid "above_range"
+msgstr ""
+
+msgid "add_gap_combination"
+msgstr ""
+
+msgid "answer_form"
+msgstr ""
+
+msgid "answer_options"
+msgstr ""
+
+msgid "answer_options_awarding_points"
+msgstr ""
+
+msgid "answer_options_must_be_unique"
+msgstr ""
+
+msgid "async_view"
+msgstr ""
+
+msgid "at_least_one_gap_positiv_points"
+msgstr ""
+
+msgid "available_points"
+msgstr ""
+
+msgid "awarded_points"
+msgstr ""
+
+msgid "basic_answer_form_properties"
+msgstr ""
+
+msgid "below_range"
+msgstr ""
+
+msgid "best_response"
+msgstr ""
+
+msgid "best_response_given"
+msgstr ""
+
+msgid "between"
+msgstr ""
+
+msgid "broken_answer_form"
+msgstr ""
+
+msgid "byline_create_mode_full"
+msgstr ""
+
+msgid "byline_create_mode_simple"
+msgstr ""
+
+msgid "cloze"
+msgstr ""
+
+msgid "cloze_enable_gap_combinations"
+msgstr ""
+
+msgid "cloze_text"
+msgstr ""
+
+msgid "cloze_textgap_case_insensitive"
+msgstr ""
+
+msgid "cloze_textgap_case_sensitive"
+msgstr ""
+
+msgid "cloze_textgap_levenshtein_of"
+msgstr ""
+
+msgid "combination_needs_more_than_one"
+msgstr ""
+
+msgid "confirm_delete_feedback"
+msgstr ""
+
+msgid "confirm_delete_questions"
+msgstr ""
+
+msgid "confirm_remove_gaps"
+msgstr ""
+
+msgid "cont_ed_insert_answf"
+msgstr ""
+
+msgid "contained_answer_form_types"
+msgstr ""
+
+msgid "contains_answer_form_types"
+msgstr ""
+
+msgid "create_answer_form"
+msgstr ""
+
+msgid "create_feedback"
+msgstr ""
+
+msgid "create_mode_full"
+msgstr ""
+
+msgid "create_mode_simple"
+msgstr ""
+
+msgid "create_question"
+msgstr ""
+
+msgid "default_user_settings"
+msgstr ""
+
+msgid "default_view"
+msgstr ""
+
+msgid "delete_combination"
+msgstr ""
+
+msgid "delete_responses"
+msgstr ""
+
+msgid "disable_marking_allowing_partial_points"
+msgstr ""
+
+msgid "disable_suggested_learning_content"
+msgstr ""
+
+msgid "disable_text_feedback"
+msgstr ""
+
+msgid "edit_answer_options"
+msgstr ""
+
+msgid "edit_available_points"
+msgstr ""
+
+msgid "edit_basic_answer_form_properties"
+msgstr ""
+
+msgid "edit_basic_question_properties"
+msgstr ""
+
+msgid "edit_feedback"
+msgstr ""
+
+msgid "edit_gaps"
+msgstr ""
+
+msgid "edit_generic_feedback"
+msgstr ""
+
+msgid "edit_points"
+msgstr ""
+
+msgid "edit_suggested_learning_content"
+msgstr ""
+
+msgid "enable_marking_allowing_partial_points"
+msgstr ""
+
+msgid "enable_suggested_learning_content"
+msgstr ""
+
+msgid "enable_text_feedback"
+msgstr ""
+
+msgid "equal"
+msgstr ""
+
+msgid "gap"
+msgstr ""
+
+msgid "gap_combination_already_exists"
+msgstr ""
+
+msgid "gap_combinations"
+msgstr ""
+
+msgid "gap_type"
+msgstr ""
+
+msgid "gap_used_in_combination"
+msgstr ""
+
+msgid "gaps"
+msgstr ""
+
+msgid "insert_gap"
+msgstr ""
+
+msgid "insert_legacy_texts"
+msgstr ""
+
+msgid "insert_legacy_texts_info"
+msgstr ""
+
+msgid "legacy_text_cannot_be_edited"
+msgstr ""
+
+msgid "long_menu_gap"
+msgstr ""
+
+msgid "max_characters"
+msgstr ""
+
+msgid "min_auto_complete"
+msgstr ""
+
+msgid "msg_no_questions_selected"
+msgstr ""
+
+msgid "no_best_response_available"
+msgstr ""
+
+msgid "no_gaps"
+msgstr ""
+
+msgid "no_response"
+msgstr ""
+
+msgid "no_response_given"
+msgstr ""
+
+msgid "other_response"
+msgstr ""
+
+msgid "other_response_given"
+msgstr ""
+
+msgid "out_of_range"
+msgstr ""
+
+msgid "qst_lifecycle"
+msgstr ""
+
+msgid "qst_lifecycle_draft"
+msgstr ""
+
+msgid "qst_lifecycle_filter_all"
+msgstr ""
+
+msgid "qst_lifecycle_final"
+msgstr ""
+
+msgid "qst_lifecycle_outdated"
+msgstr ""
+
+msgid "qst_lifecycle_rejected"
+msgstr ""
+
+msgid "qst_lifecycle_review"
+msgstr ""
+
+msgid "qst_lifecycle_sharable"
+msgstr ""
+
+msgid "qst_remarks"
+msgstr ""
+
+msgid "question_create_mode"
+msgstr ""
+
+msgid "question_text"
+msgstr ""
+
+msgid "questionlist"
+msgstr ""
+
+msgid "questions"
+msgstr ""
+
+msgid "range_lower_limit"
+msgstr ""
+
+msgid "range_upper_limit"
+msgstr ""
+
+msgid "reset_preview"
+msgstr ""
+
+msgid "save_and_new"
+msgstr ""
+
+msgid "score_all"
+msgstr ""
+
+msgid "score_distinct"
+msgstr ""
+
+msgid "scoring_of_identical_responses"
+msgstr ""
+
+msgid "select_answer_form_type"
+msgstr ""
+
+msgid "select_gap"
+msgstr ""
+
+msgid "select_gaps_for_combination"
+msgstr ""
+
+msgid "set_gap_types"
+msgstr ""
+
+msgid "shuffle_answers"
+msgstr ""
+
+msgid "specific_feedback"
+msgstr ""
+
+msgid "step_size"
+msgstr ""
+
+msgid "suggested_learning_content"
+msgstr ""
+
+msgid "text_matching_method"
+msgstr ""
+
+msgid "upload_answer_options"
+msgstr ""
+
+msgid "upload_answer_options_info"
+msgstr ""
+
+msgid "upper_limit_bigger_than_lower"
+msgstr ""

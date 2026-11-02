@@ -28,6 +28,8 @@ use PHPUnit\Framework\TestCase;
  */
 class LanguageInstallationManagerDatabaseRowsOfMigratedModuleTest extends TestCase
 {
+    use RestoresProcessState;
+
     /**
      * @param array<string, array{0: string, 1: ?string, 2: ?string}> $rows
      * @param array<string, string> $final_entries

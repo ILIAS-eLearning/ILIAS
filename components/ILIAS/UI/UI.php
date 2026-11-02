@@ -217,6 +217,7 @@ class UI implements Component\Component
                 $internal[UI\Implementation\Component\Entity\Factory::class],
                 $internal[UI\Implementation\Component\Prompt\Factory::class],
                 $internal[UI\Implementation\Component\Navigation\Factory::class],
+                $internal[UI\Implementation\Component\Transfer\Factory::class],
             );
 
         $internal[UI\Implementation\Component\Counter\Factory::class] = static fn() =>
@@ -472,6 +473,7 @@ class UI implements Component\Component
         $internal[UI\Implementation\Component\Prompt\Factory::class] = static fn() =>
             new UI\Implementation\Component\Prompt\Factory(
                 $internal[UI\Implementation\Component\SignalGeneratorInterface::class],
+                $internal[UI\Implementation\Component\Prompt\State\Factory::class],
             );
         $internal[UI\Implementation\Component\Prompt\State\Factory::class] = static fn() =>
             new UI\Implementation\Component\Prompt\State\Factory();
@@ -482,6 +484,9 @@ class UI implements Component\Component
                 $pull[Refinery\Factory::class],
                 $use[UI\Storage::class],
             );
+
+        $internal[UI\Implementation\Component\Transfer\Factory::class] = static fn() =>
+            new UI\Implementation\Component\Transfer\Factory();
 
         $internal[UI\Implementation\DefaultRenderer::class] = static fn() =>
             new UI\Implementation\DefaultRenderer(
@@ -495,6 +500,7 @@ class UI implements Component\Component
                     $internal[UI\Implementation\Render\ResourceRegistry::class],
                     new UI\Implementation\Render\FSLoader(
                         new UI\Implementation\Render\DefaultRendererFactory(
+                            $internal[UI\Implementation\Render\ContextMatcher::class],
                             $use[UI\Implementation\FactoryInternal::class],
                             $internal[UI\Implementation\Render\TemplateFactory::class],
                             $use[Language\Language::class],
@@ -503,8 +509,10 @@ class UI implements Component\Component
                             $pull[Data\Factory::class],
                             $use[UI\HelpTextRetriever::class],
                             $internal[UI\Implementation\Component\Input\UploadLimitResolver::class],
+                            $pull[Refinery\Factory::class],
                         ),
                         new UI\Implementation\Component\Button\ButtonRendererFactory(
+                            $internal[UI\Implementation\Render\ContextMatcher::class],
                             $use[UI\Implementation\FactoryInternal::class],
                             $internal[UI\Implementation\Render\TemplateFactory::class],
                             $use[Language\Language::class],
@@ -513,8 +521,10 @@ class UI implements Component\Component
                             $pull[Data\Factory::class],
                             $use[UI\HelpTextRetriever::class],
                             $internal[UI\Implementation\Component\Input\UploadLimitResolver::class],
+                            $pull[Refinery\Factory::class],
                         ),
                         new UI\Implementation\Component\Input\Field\FieldRendererFactory(
+                            $internal[UI\Implementation\Render\ContextMatcher::class],
                             $use[UI\Implementation\FactoryInternal::class],
                             $internal[UI\Implementation\Render\TemplateFactory::class],
                             $use[Language\Language::class],
@@ -523,8 +533,10 @@ class UI implements Component\Component
                             $pull[Data\Factory::class],
                             $use[UI\HelpTextRetriever::class],
                             $internal[UI\Implementation\Component\Input\UploadLimitResolver::class],
+                            $pull[Refinery\Factory::class],
                         ),
                         new UI\Implementation\Component\MessageBox\MessageBoxRendererFactory(
+                            $internal[UI\Implementation\Render\ContextMatcher::class],
                             $use[UI\Implementation\FactoryInternal::class],
                             $internal[UI\Implementation\Render\TemplateFactory::class],
                             $use[Language\Language::class],
@@ -533,8 +545,10 @@ class UI implements Component\Component
                             $pull[Data\Factory::class],
                             $use[UI\HelpTextRetriever::class],
                             $internal[UI\Implementation\Component\Input\UploadLimitResolver::class],
+                            $pull[Refinery\Factory::class],
                         ),
                         new UI\Implementation\Component\Input\Container\Form\FormRendererFactory(
+                            $internal[UI\Implementation\Render\ContextMatcher::class],
                             $use[UI\Implementation\FactoryInternal::class],
                             $internal[UI\Implementation\Render\TemplateFactory::class],
                             $use[Language\Language::class],
@@ -543,8 +557,10 @@ class UI implements Component\Component
                             $pull[Data\Factory::class],
                             $use[UI\HelpTextRetriever::class],
                             $internal[UI\Implementation\Component\Input\UploadLimitResolver::class],
+                            $pull[Refinery\Factory::class],
                         ),
                         new UI\Implementation\Component\Menu\MenuRendererFactory(
+                            $internal[UI\Implementation\Render\ContextMatcher::class],
                             $use[UI\Implementation\FactoryInternal::class],
                             $internal[UI\Implementation\Render\TemplateFactory::class],
                             $use[Language\Language::class],
@@ -553,8 +569,22 @@ class UI implements Component\Component
                             $pull[Data\Factory::class],
                             $use[UI\HelpTextRetriever::class],
                             $internal[UI\Implementation\Component\Input\UploadLimitResolver::class],
+                            $pull[Refinery\Factory::class],
+                        ),
+                        new UI\Implementation\Component\Entity\EntityRendererFactory(
+                            $internal[UI\Implementation\Render\ContextMatcher::class],
+                            $use[UI\Implementation\FactoryInternal::class],
+                            $internal[UI\Implementation\Render\TemplateFactory::class],
+                            $use[Language\Language::class],
+                            $internal[UI\Implementation\Render\JavaScriptBinding::class],
+                            $use[UI\Implementation\Render\ImagePathResolver::class],
+                            $pull[Data\Factory::class],
+                            $use[UI\HelpTextRetriever::class],
+                            $internal[UI\Implementation\Component\Input\UploadLimitResolver::class],
+                            $pull[Refinery\Factory::class],
                         ),
                         new UI\Implementation\Component\Listing\ListingRendererFactory(
+                            $internal[UI\Implementation\Render\ContextMatcher::class],
                             $use[UI\Implementation\FactoryInternal::class],
                             $internal[UI\Implementation\Render\TemplateFactory::class],
                             $use[Language\Language::class],
@@ -563,10 +593,25 @@ class UI implements Component\Component
                             $pull[Data\Factory::class],
                             $use[UI\HelpTextRetriever::class],
                             $internal[UI\Implementation\Component\Input\UploadLimitResolver::class],
+                            $pull[Refinery\Factory::class],
+                        ),
+                        new UI\Implementation\Component\Transfer\TransferRendererFactory(
+                            $internal[UI\Implementation\Render\ContextMatcher::class],
+                            $use[UI\Implementation\FactoryInternal::class],
+                            $internal[UI\Implementation\Render\TemplateFactory::class],
+                            $use[Language\Language::class],
+                            $internal[UI\Implementation\Render\JavaScriptBinding::class],
+                            $use[UI\Implementation\Render\ImagePathResolver::class],
+                            $pull[Data\Factory::class],
+                            $use[UI\HelpTextRetriever::class],
+                            $internal[UI\Implementation\Component\Input\UploadLimitResolver::class],
+                            $pull[Refinery\Factory::class],
                         ),
                     )
                 )
             );
+        $internal[UI\Implementation\Render\ContextMatcher::class] = static fn() =>
+            new UI\Implementation\Render\ContextMatcher();
         $internal[UI\Implementation\Render\JavaScriptBinding::class] = static fn() =>
             new UI\Implementation\Render\ilJavaScriptBinding(
                 $use[UICore\GlobalTemplate::class],
@@ -647,11 +692,13 @@ class UI implements Component\Component
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "js/Progress/dist/progress.min.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, "js/MainControls/dist/footer.min.js");
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "js/Input/ViewControl/dist/input.viewcontrols.min.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "js/MathJax/mathjax_config.js");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\ComponentJS($this, "js/Transfer/dist/transfer.min.js");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+        new Component\Resource\ComponentJS($this, "js/Tooltip/dist/tooltip.min.js");
 
         /*
         those are contributed by MediaObjects

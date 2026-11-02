@@ -233,7 +233,9 @@ class BlogHtmlExport
                 $a_link_template,
                 []
             ),
-            $this->settings
+            $this->settings,
+            $this->node_id,
+            $this->id_type
         )->render(
             $this->items
         );
@@ -320,7 +322,9 @@ class BlogHtmlExport
                         $a_link_template,
                         []
                     ),
-                    $this->settings
+                    $this->settings,
+                    $this->node_id,
+                    $this->id_type
                 )->render(
                     $this->items,
                     false,

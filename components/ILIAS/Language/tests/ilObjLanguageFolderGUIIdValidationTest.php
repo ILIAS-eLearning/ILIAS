@@ -6,8 +6,8 @@
  *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
- * You should have received a copy of said license along with
- * the source code, too.
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
@@ -27,6 +27,8 @@ use PHPUnit\Framework\TestCase;
 
 class ilObjLanguageFolderGUIIdValidationTest extends TestCase
 {
+    use RestoresProcessState;
+
     use ilObjLanguageFolderGUITestFixture;
 
     /** One non-"lng" id aborts the whole request: failure message, redirect to "view", InstallLanguage never called. */

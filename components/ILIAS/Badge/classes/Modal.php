@@ -21,21 +21,15 @@ declare(strict_types=1);
 namespace ILIAS\Badge;
 
 use ILIAS\DI\Container;
-use Closure;
 use ILIAS\UI\Component\Component;
-use ilWACSignedPath;
 
 class Modal
 {
-    /** @var Closure(string): string */
-    private readonly Closure $sign_file;
     private ilBadgeImage $badge_image_service;
 
     public function __construct(
-        private readonly Container $container,
-        $sign_file = [ilWACSignedPath::class, 'signFile']
+        private readonly Container $container
     ) {
-        $this->sign_file = Closure::fromCallable($sign_file);
         $this->badge_image_service = new ilBadgeImage(
             $container->resourceStorage(),
             $container->upload(),

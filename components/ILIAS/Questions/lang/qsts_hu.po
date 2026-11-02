@@ -1,0 +1,87 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: qsts\n"
+
+msgid "answer_options"
+msgstr "Válaszlehetőségek"
+
+msgid "cloze_text"
+msgstr "Kiegészítendő szöveg"
+
+msgid "confirm_delete_questions"
+msgstr "Biztos, hogy eltávolítja az alábbi kérdés(eke)t?"
+
+msgid "create_question"
+msgstr "Kérdés létrehozása"
+
+msgid "gap"
+msgstr "Kitöltendő hely"
+
+msgid "gaps"
+msgstr "Gaps"
+
+msgid "insert_gap"
+msgstr "Kitöltendő hely beszúrása"
+
+msgid "min_auto_complete"
+msgstr "Automatikus kiegészítés"
+
+msgid "msg_no_questions_selected"
+msgstr "Egy kérdés sincs kiválasztva."
+
+msgid "out_of_range"
+msgstr "Tartományon kívül esik"
+
+msgid "qst_lifecycle"
+msgstr "Életciklus"
+
+msgid "qst_lifecycle_draft"
+msgstr "Piszkozat"
+
+msgid "qst_lifecycle_filter_all"
+msgstr "Összes életciklus"
+
+msgid "qst_lifecycle_final"
+msgstr "Végső"
+
+msgid "qst_lifecycle_outdated"
+msgstr "Elavult"
+
+msgid "qst_lifecycle_rejected"
+msgstr "Elutasított"
+
+msgid "qst_lifecycle_review"
+msgstr "Átnézendő"
+
+msgid "qst_lifecycle_sharable"
+msgstr "Megosztható"
+
+msgid "questionlist"
+msgstr "Kérdéslista"
+
+msgid "questions"
+msgstr "Kérdések"
+
+msgid "range_lower_limit"
+msgstr "Alsó határ"
+
+msgid "range_upper_limit"
+msgstr "Felső határ"
+
+msgid "reset_preview"
+msgstr "Előnézet alaphelyzetbe állítása"
+
+msgid "select_gap"
+msgstr "Szöveghely választása"
+
+msgid "shuffle_answers"
+msgstr "Kevert válaszok"
+
+msgid "suggested_learning_content"
+msgstr "Ismétlő összefoglaláshoz tartalom hozzáadása"

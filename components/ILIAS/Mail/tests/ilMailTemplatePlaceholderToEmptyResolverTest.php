@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 use ILIAS\Mail\TemplateEngine\Mustache\MustacheTemplateEngine;
 use OrgUnit\PublicApi\OrgUnitUserService;
+use PHPUnit\Framework\MockObject\Stub;
+use Mustache\Engine;
 
 class ilMailTemplatePlaceholderToEmptyResolverTest extends ilMailBaseTestCase
 {
@@ -33,13 +35,16 @@ class ilMailTemplatePlaceholderToEmptyResolverTest extends ilMailBaseTestCase
 
     public function testNullRecipientResolvesContextPlaceholdersAndKeepsRecipientDependentNames(): void
     {
-        $lng = $this->createMock(ilLanguage::class);
+        /** @var ilLanguage&Stub $lng */
+        $lng = $this->createStub(ilLanguage::class);
         $this->setGlobalVariable('lng', $lng);
-        $env_helper = $this->createMock(ilMailEnvironmentHelper::class);
+        /** @var ilMailEnvironmentHelper&Stub $env_helper */
+        $env_helper = $this->createStub(ilMailEnvironmentHelper::class);
         $env_helper->method('getClientId')->willReturn('phpunit_client');
         $env_helper->method('getHttpPath')->willReturn('https://ilias.example/');
 
-        $lng_helper = $this->createMock(ilMailLanguageHelper::class);
+        /** @var ilMailLanguageHelper&Stub $lng_helper */
+        $lng_helper = $this->createStub(ilMailLanguageHelper::class);
         $lng_helper->method('getCurrentLanguage')->willReturn($lng);
 
         $context = new class (
@@ -86,7 +91,7 @@ class ilMailTemplatePlaceholderToEmptyResolverTest extends ilMailBaseTestCase
             }
         };
 
-        $resolver = new ilMailTemplatePlaceholderResolver(new MustacheTemplateEngine(new \Mustache\Engine()));
+        $resolver = new ilMailTemplatePlaceholderResolver(new MustacheTemplateEngine(new Engine()));
         $message = 'Hello {{FIRST_NAME}} {{LAST_NAME}}, welcome to {{COURSE_TITLE}} at {{ILIAS_URL}}{{INSTALLATION_NAME}}';
 
         $resolved = $resolver->resolve($context, $message, null, ['ref_id' => 123]);

@@ -35,6 +35,8 @@ use PHPUnit\Framework\TestCase;
  */
 class InstallLanguagesRemovesOverlaysTest extends TestCase
 {
+    use RestoresProcessState;
+
     private const string MODULE = 'pilot';
 
     private string $root;

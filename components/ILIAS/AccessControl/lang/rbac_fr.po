@@ -1062,24 +1062,6 @@ msgstr "Messagerie"
 msgid "invite"
 msgstr "Inviter Participants"
 
-msgid "itgr_copy"
-msgstr "L'utilisateur peut copier l'objet"
-
-msgid "itgr_delete"
-msgstr "L'utilisateur peut déplacer et supprimer l'objet"
-
-msgid "itgr_edit_permission"
-msgstr "L'utilisateur peut modifier les permissions de l'objet"
-
-msgid "itgr_read"
-msgstr "L'utilisateur a accès au groupe d'objets"
-
-msgid "itgr_visible"
-msgstr "L'objet est visible"
-
-msgid "itgr_write"
-msgstr "L'utilisateur peut modifier les paramètres et éditer le contenu de l'objet"
-
 msgid "leave"
 msgstr "Se désinscrire"
 
@@ -1430,6 +1412,24 @@ msgstr "Panneau d'administration visible"
 
 msgid "nwss_write"
 msgstr "Administration autorisée"
+
+msgid "obgr_copy"
+msgstr "L'utilisateur peut copier l'objet"
+
+msgid "obgr_delete"
+msgstr "L'utilisateur peut déplacer et supprimer l'objet"
+
+msgid "obgr_edit_permission"
+msgstr "L'utilisateur peut modifier les permissions de l'objet"
+
+msgid "obgr_read"
+msgstr "L'utilisateur a accès au groupe d'objets"
+
+msgid "obgr_visible"
+msgstr "L'objet est visible"
+
+msgid "obgr_write"
+msgstr "L'utilisateur peut modifier les paramètres et éditer le contenu de l'objet"
 
 #, fuzzy
 msgid "obj_skee"
@@ -1865,9 +1865,6 @@ msgstr "Créer un Module HTML"
 msgid "rbac_create_iass"
 msgstr "Créer une évaluation individuelle"
 
-msgid "rbac_create_itgr"
-msgstr "Créer un Groupe d'Objets"
-
 msgid "rbac_create_lm"
 msgstr "Créer un Module ILIAS"
 
@@ -1882,6 +1879,9 @@ msgstr "Créer un Mediacast"
 
 msgid "rbac_create_mep"
 msgstr "Créer une Galerie de Médias"
+
+msgid "rbac_create_obgr"
+msgstr "Créer un Groupe d'Objets"
 
 msgid "rbac_create_orgu"
 msgstr "Créer des unités organisationnelles"
@@ -2873,3 +2873,4 @@ msgstr "L'utilisateur peut modifier les paramètres de l'objet"
 
 msgid "write"
 msgstr "Modifier paramètres"
+

@@ -20,6 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Listing\Entity;
 
-interface Grid extends EntityListing
+interface Grid extends Entity
 {
 }

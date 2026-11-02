@@ -1,0 +1,20 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<module xmlns="http://www.w3.org" version="$Id: modules.xml 15671 2008-01-04 13:08:30Z akill $"
+	id="obgr">
+	<baseclasses>
+	</baseclasses>
+	<objects>
+		<object id="obgr" class_name="ObjectGroup" dir="classes" default_pos="45" default_pres_pos="5"
+			checkbox="1" inherit="0" translate="db" allow_link="0" allow_copy="1" rbac="1" export="1">
+			<parent id="cat">cat</parent>
+			<parent id="crs">crs</parent>
+			<parent id="fold">fold</parent>
+			<parent id="grp">grp</parent>
+			<parent id="recf">recf</parent>
+			<parent id="root">root</parent>		
+		</object>	
+	</objects>
+	<events>
+		<event type="listen" id="components/ILIAS/ILIASObject" />
+	</events>
+</module>

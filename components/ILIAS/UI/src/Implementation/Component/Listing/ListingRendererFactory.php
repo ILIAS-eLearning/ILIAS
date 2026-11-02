@@ -36,7 +36,7 @@ class ListingRendererFactory extends DefaultRendererFactory
 
     public function getRendererInContext(Component $component, array $contexts): ComponentRenderer
     {
-        if (!empty(array_intersect(self::TABLE_COLUMN_CONTEXTS, $contexts))) {
+        if ($this->context_matcher->isDirectDescendantOfAny($contexts, self::TABLE_COLUMN_CONTEXTS)) {
             return new TableColumnContextRenderer(
                 $this->ui_factory,
                 $this->tpl_factory,
@@ -46,9 +46,9 @@ class ListingRendererFactory extends DefaultRendererFactory
                 $this->data_factory,
                 $this->help_text_retriever,
                 $this->upload_limit_resolver,
+                $this->refinery,
             );
         }
-
         return parent::getRendererInContext($component, $contexts);
     }
 }

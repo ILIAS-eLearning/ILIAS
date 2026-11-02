@@ -2273,8 +2273,8 @@ msgid "cont_manifest"
 msgstr "Khai vào bản kê"
 
 #, fuzzy
-msgid "cont_manual_item_group"
-msgstr "Manually Create Item Group"
+msgid "cont_manual_object_group"
+msgstr "Manually Created Object Group"
 
 #, fuzzy
 msgid "cont_map_file_not_generated"
@@ -4583,3 +4583,5 @@ msgstr "Text Representation"
 #, fuzzy
 msgid "text_repr_info"
 msgstr "Used for image \"alt\" attribute."
+
+

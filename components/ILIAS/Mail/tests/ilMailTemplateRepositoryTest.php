@@ -19,12 +19,15 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\MockObject\Stub;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class ilMailTemplateRepositoryTest extends ilMailBaseTestCase
 {
     public function testEntityCanBeSaved(): ilMailTemplate
     {
-        $db = $this->getMockBuilder(ilDBInterface::class)->getMock();
+        /** @var ilDBInterface&MockObject $db */
+        $db = $this->createMock(ilDBInterface::class);
 
         $repository = new ilMailTemplateRepository($db);
 
@@ -51,7 +54,8 @@ class ilMailTemplateRepositoryTest extends ilMailBaseTestCase
     #[Depends('testEntityCanBeSaved')]
     public function testEntityCanBeModified(ilMailTemplate $template): ilMailTemplate
     {
-        $db = $this->getMockBuilder(ilDBInterface::class)->getMock();
+        /** @var ilDBInterface&MockObject $db */
+        $db = $this->createMock(ilDBInterface::class);
 
         $repository = new ilMailTemplateRepository($db);
 
@@ -65,7 +69,8 @@ class ilMailTemplateRepositoryTest extends ilMailBaseTestCase
     #[Depends('testEntityCanBeModified')]
     public function testEntityCanBeDeleted(ilMailTemplate $template): void
     {
-        $db = $this->getMockBuilder(ilDBInterface::class)->getMock();
+        /** @var ilDBInterface&MockObject $db */
+        $db = $this->createMock(ilDBInterface::class);
 
         $repository = new ilMailTemplateRepository($db);
 
@@ -76,8 +81,10 @@ class ilMailTemplateRepositoryTest extends ilMailBaseTestCase
 
     public function testTemplateCanBeFoundById(): void
     {
-        $db = $this->getMockBuilder(ilDBInterface::class)->getMock();
-        $statement = $this->getMockBuilder(ilDBStatement::class)->getMock();
+        /** @var ilDBInterface&MockObject $db */
+        $db = $this->createMock(ilDBInterface::class);
+        /** @var ilDBStatement&Stub $statement */
+        $statement = $this->createStub(ilDBStatement::class);
 
         $template_id = 666;
 
@@ -98,8 +105,10 @@ class ilMailTemplateRepositoryTest extends ilMailBaseTestCase
     {
         $this->expectException(OutOfBoundsException::class);
 
-        $db = $this->getMockBuilder(ilDBInterface::class)->getMock();
-        $statement = $this->getMockBuilder(ilDBStatement::class)->getMock();
+        /** @var ilDBInterface&MockObject $db */
+        $db = $this->createMock(ilDBInterface::class);
+        /** @var ilDBStatement&Stub $statement */
+        $statement = $this->getStubBuilder(ilDBStatement::class)->getStub();
 
         $db->expects($this->once())->method('queryF')->willReturn($statement);
         $db->expects($this->once())->method('numRows')->willReturn(0);

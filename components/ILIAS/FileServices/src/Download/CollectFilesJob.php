@@ -1,0 +1,254 @@
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+namespace ILIAS\FileServices\Download;
+
+use ILIAS\BackgroundTasks\Observer;
+use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractJob;
+use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\BooleanValue;
+use ILIAS\BackgroundTasks\Types\SingleType;
+use ILIAS\BackgroundTasks\Types\Type;
+use ILIAS\BackgroundTasks\Value;
+use ILIAS\AccessControl\PublicInterface\Access;
+use ILIAS\FileServices\Legacy\RepositoryTreeProxy;
+use ILIAS\Logging\Logger\LoggerInterface;
+
+class CollectFilesJob extends AbstractJob
+{
+    use \ilObjFileSecureString;
+
+    /**
+     * @var array<string, int>
+     */
+    private static array $duplicate_count_by_target = [];
+
+    public function __construct(
+        private readonly LoggerInterface $logger,
+        private readonly Access $access,
+        private readonly RepositoryTreeProxy $tree
+    ) {
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getInputTypes(): array
+    {
+        return
+            [
+                new SingleType(CopyDefinition::class),
+                new SingleType(BooleanValue::class),
+            ];
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getOutputType(): Type
+    {
+        return new SingleType(CopyDefinition::class);
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function isStateless(): bool
+    {
+        return true;
+    }
+
+
+    /**
+     * @inheritDoc
+     * @todo use filsystem service
+     */
+    public function run(array $input, Observer $observer): Value
+    {
+        $this->logger->debug('Start collecting files!');
+        $this->logger->dump($input);
+        $definition = $input[0];
+        $initiated_by_folder_action = $input[1]->getValue();
+        $object_ref_ids = $definition->getObjectRefIds();
+        $files = [];
+
+        foreach ($object_ref_ids as $object_ref_id) {
+            $object = \ilObjectFactory::getInstanceByRefId($object_ref_id);
+            if (!$object instanceof \ilObject) {
+                continue;
+            }
+
+            $object_type = $object->getType();
+            $object_name = $object->getTitle();
+            $object_temp_dir = ''; // empty as content will be added in recurseFolder and getFileDirs
+
+            if (in_array($object_type, ['fold', 'crs', 'grp'], true)) {
+                $num_recursions = 0;
+                $files_from_folder = $this->recurseFolder(
+                    $object_ref_id,
+                    $object_name,
+                    $object_temp_dir,
+                    $num_recursions,
+                    $initiated_by_folder_action
+                );
+                $files = array_merge($files, $files_from_folder);
+                continue;
+            }
+
+            if ($object_type !== 'file') {
+                continue;
+            }
+
+            $file_dirs = $this->getFileDirs($object_ref_id, $object_name, $object_temp_dir);
+            if (!is_array($file_dirs)) {
+                continue;
+            }
+
+            $files[] = $file_dirs;
+        }
+        $this->logger->debug('Collected files:');
+        $this->logger->dump($files);
+
+        $num_files = 0;
+        foreach ($files as $file) {
+            $definition->addCopyDefinition($file['source_dir'], $file['target_dir']);
+            $this->logger->debug('Added new copy definition: ' . $file['source_dir'] . ' -> ' . $file['target_dir']);
+
+            // count files only (without empty directories)
+            $is_empty_folder = preg_match_all("/\/$/", (string) $file['target_dir']);
+            if (!$is_empty_folder) {
+                $num_files++;
+            }
+        }
+        $definition->setObjectRefIds($object_ref_ids);
+        $definition->setNumFiles($num_files);
+
+        return $definition;
+    }
+
+
+    /**
+     * @return bool|array<string, string>
+     * Please note that this method must only be called ONCE in order to detect
+     * duplicate entries. DO NOT call this method e.g. in an if condition and
+     * then again in its body.
+     */
+    private function getFileDirs($a_ref_id, string $a_file_name, string $a_temp_dir): false|array
+    {
+        if ($this->access->checkAccess("read", "", $a_ref_id)) {
+            $file = new \ilObjFile($a_ref_id);
+            $source_dir = $file->getFile();
+
+            if (@!is_file($source_dir)) {
+                return false;
+            }
+
+            // The object title may contain characters which are not allowed in file names:
+            // "/" would create a directory inside the archive, while "*", "?" and ":" are
+            // invalid on Windows and prevent the archive from being extracted. They are
+            // sanitized the same way as the folder names in recurseFolder().
+            $filname_with_suffix = $this->ensureSuffix(
+                \ilFileUtils::getASCIIFilename($a_file_name),
+                $file->getFileExtension()
+            );
+
+            $target_dir = $a_temp_dir . '/' . $filname_with_suffix;
+
+            // #25025: allow duplicate filenames by appending an incrementing
+            // number per duplicate in brackets to the name.
+            // Example: test.txt, test (1).txt, test (2).txt, ...
+            if (isset(self::$duplicate_count_by_target[$target_dir])) {
+                $target_info = pathinfo($target_dir);
+                $filename = $target_info["filename"];
+                $extension = isset($target_info["extension"]) ? "." . $target_info["extension"] : "";
+                // pathinfo() returns the name without its directory, therefore the separator
+                // has to be added again, just like above
+                $target_dir = $a_temp_dir . '/' . $filename
+                    . " (" . ++self::$duplicate_count_by_target[$target_dir] . ")" . $extension;
+            } else {
+                self::$duplicate_count_by_target[$target_dir] = 0;
+            }
+
+            return [
+                "source_dir" => $source_dir,
+                "target_dir" => $target_dir,
+            ];
+        }
+
+        return false;
+    }
+
+
+    /**
+     * @param $ref_id
+     * @param $title
+     * @param $tmpdir
+     *
+     * @return mixed[]
+     */
+    private function recurseFolder($a_ref_id, string $a_folder_name, string $a_temp_dir, int|float $a_num_recursions, $a_initiated_by_folder_action): array
+    {
+        $num_recursions = $a_num_recursions + 1;
+        $files = [];
+
+        // Avoid the duplication of the uppermost folder when the download is initiated via a folder's action drop-down
+        // by not including said folders name in the temp_dir path.
+        if ($num_recursions <= 1 && $a_initiated_by_folder_action) {
+            $temp_dir = $a_temp_dir;
+        } else {
+            $temp_dir = $a_temp_dir . '/' . \ilFileUtils::getASCIIFilename($a_folder_name);
+        }
+
+        $subtree = $this->tree->getChildsByTypeFilter($a_ref_id, ["fold", "file"]);
+
+        foreach ($subtree as $child) {
+            if (!$this->access->checkAccess("read", "", $child["ref_id"])) {
+                continue;
+            }
+            if (\ilObject::_isInTrash($child["ref_id"])) {
+                continue;
+            }
+            if ($child["type"] == "fold") {
+                $files_from_folder = $this->recurseFolder($child["ref_id"], $child['title'], $temp_dir, $num_recursions, $a_initiated_by_folder_action);
+                $files = array_merge($files, $files_from_folder);
+            } elseif (($child["type"] === "file") && (($dirs = $this->getFileDirs($child["ref_id"], $child['title'], $temp_dir)) !== false)) {
+                $files[] = $dirs;
+            }
+        }
+        // ensure that empty folders are also contained in the downloaded zip
+        if (empty($subtree)) {
+            $files[] = [
+                "source_dir" => "",
+                "target_dir" => $temp_dir . '/',
+            ];
+        }
+
+        return $files;
+    }
+
+
+    /**
+     * @inheritdoc
+     */
+    public function getExpectedTimeOfTaskInSeconds(): int
+    {
+        return 30;
+    }
+}

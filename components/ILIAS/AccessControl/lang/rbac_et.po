@@ -1158,24 +1158,6 @@ msgstr "Internal Mail"
 msgid "invite"
 msgstr "Kutse küsitlusse"
 
-msgid "itgr_copy"
-msgstr "User can copy item group"
-
-msgid "itgr_delete"
-msgstr "User can move or delete item group"
-
-msgid "itgr_edit_permission"
-msgstr "User can change permission settings"
-
-msgid "itgr_read"
-msgstr "User can read item group"
-
-msgid "itgr_visible"
-msgstr "Item group is visible"
-
-msgid "itgr_write"
-msgstr "User can edit content and settings of item group"
-
 msgid "leave"
 msgstr "Lahkumine"
 
@@ -1576,6 +1558,24 @@ msgstr "News and Web Feeds Settings are visible"
 
 msgid "nwss_write"
 msgstr "Edit News and Web Feeds Settings"
+
+msgid "obgr_copy"
+msgstr "User can copy object group"
+
+msgid "obgr_delete"
+msgstr "User can move or delete object group"
+
+msgid "obgr_edit_permission"
+msgstr "User can change permission settings"
+
+msgid "obgr_read"
+msgstr "User can read object group"
+
+msgid "obgr_visible"
+msgstr "Object group is visible"
+
+msgid "obgr_write"
+msgstr "User can edit content and settings of object group"
 
 #, fuzzy
 msgid "obj_skee"
@@ -2045,9 +2045,6 @@ msgstr "Create HTML Learning Module"
 msgid "rbac_create_iass"
 msgstr "Create Individual Assessment"
 
-msgid "rbac_create_itgr"
-msgstr "Create Item Group"
-
 msgid "rbac_create_lm"
 msgstr "Create ILIAS Learning Module"
 
@@ -2064,6 +2061,9 @@ msgstr "Create Mediacast"
 
 msgid "rbac_create_mep"
 msgstr "Create Media Pool"
+
+msgid "rbac_create_obgr"
+msgstr "Create Object Group"
 
 msgid "rbac_create_orgu"
 msgstr "Create Organisational Units"
@@ -3114,3 +3114,4 @@ msgstr "Edit settings in Wiki administration"
 
 msgid "write"
 msgstr "Seadete muutmine"
+

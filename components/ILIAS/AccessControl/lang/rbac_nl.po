@@ -1159,24 +1159,6 @@ msgstr "Interne E-mail"
 msgid "invite"
 msgstr "Uitnodigen voor enquête."
 
-msgid "itgr_copy"
-msgstr "User can copy item group"
-
-msgid "itgr_delete"
-msgstr "User can move or delete item group"
-
-msgid "itgr_edit_permission"
-msgstr "User can change permission settings"
-
-msgid "itgr_read"
-msgstr "User can read item group"
-
-msgid "itgr_visible"
-msgstr "Item group is visible"
-
-msgid "itgr_write"
-msgstr "User can edit content and settings of item group"
-
 msgid "leave"
 msgstr "verlaat"
 
@@ -1577,6 +1559,24 @@ msgstr "Nieuw en Web Feed instellingen zijn zichtbaar."
 
 msgid "nwss_write"
 msgstr "Wijzigen Nieuws en Web feed instellingen"
+
+msgid "obgr_copy"
+msgstr "User can copy object group"
+
+msgid "obgr_delete"
+msgstr "User can move or delete object group"
+
+msgid "obgr_edit_permission"
+msgstr "User can change permission settings"
+
+msgid "obgr_read"
+msgstr "User can read object group"
+
+msgid "obgr_visible"
+msgstr "Object group is visible"
+
+msgid "obgr_write"
+msgstr "User can edit content and settings of object group"
 
 #, fuzzy
 msgid "obj_skee"
@@ -2049,9 +2049,6 @@ msgstr "Aanmaken HTML Learning Module"
 msgid "rbac_create_iass"
 msgstr "Create Individual Assessment"
 
-msgid "rbac_create_itgr"
-msgstr "Aanmaken Item Group"
-
 msgid "rbac_create_lm"
 msgstr "Aanmaken ILIAS Learning Module"
 
@@ -2068,6 +2065,9 @@ msgstr "Aanmaken Mediacast"
 
 msgid "rbac_create_mep"
 msgstr "Aanmaken mediapool"
+
+msgid "rbac_create_obgr"
+msgstr "Aanmaken Object Group"
 
 msgid "rbac_create_orgu"
 msgstr "Aanmaken van Organisatorische Eenheden"
@@ -3118,3 +3118,4 @@ msgstr "Wijzigen instellingen in wiki beheer"
 
 msgid "write"
 msgstr "Instellingen wijzigen"
+

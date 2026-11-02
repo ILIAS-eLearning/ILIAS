@@ -1,0 +1,129 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt\n"
+"Language-Team: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: obgr\n"
+
+msgid "obgr_always_open"
+msgstr "Sempre aberto"
+
+#, fuzzy
+msgid "obgr_assign"
+msgstr "Assign"
+
+#, fuzzy
+msgid "obgr_assign_materials"
+msgstr "Assign Materials"
+
+#, fuzzy
+msgid "obgr_assigned_first"
+msgstr "Assigned First"
+
+msgid "obgr_assigned_materials"
+msgstr "Materiais atribuídos"
+
+msgid "obgr_assignment"
+msgstr "Atribuição"
+
+#, fuzzy
+msgid "obgr_assignment_to_other_obgr"
+msgstr "Already assigned to another Object Group"
+
+#, fuzzy
+msgid "obgr_behaviour"
+msgstr "Block Behaviour"
+
+#, fuzzy
+msgid "obgr_behaviour_info"
+msgstr "The system will store the opened/closed state for the current user until logout."
+
+#, fuzzy
+msgid "obgr_create_and_assign_object"
+msgstr "Create and Assign Object"
+
+msgid "obgr_desc_info"
+msgstr "A descrição não fará parte da apresentação do grupos de itens no seu recipiente."
+
+#, fuzzy
+msgid "obgr_display"
+msgstr "Display"
+
+#, fuzzy
+msgid "obgr_display_with_title"
+msgstr "With Title"
+
+#, fuzzy
+msgid "obgr_display_with_title_and_toggleable"
+msgstr "With Title, Object Group collapsible"
+
+#, fuzzy
+msgid "obgr_display_with_title_and_toggleable_initially"
+msgstr "Initial state"
+
+#, fuzzy
+msgid "obgr_display_with_title_and_toggleable_initially_closed"
+msgstr "initially closed"
+
+#, fuzzy
+msgid "obgr_display_with_title_and_toggleable_initially_open"
+msgstr "initially opened"
+
+#, fuzzy
+msgid "obgr_display_without_title"
+msgstr "Without Title"
+
+msgid "obgr_edit"
+msgstr "Editar grupos de itens"
+
+msgid "obgr_expandable_closed"
+msgstr "Expansível (inicialmente fechado)"
+
+msgid "obgr_expandable_open"
+msgstr "Expansível (inicialmente aberto)"
+
+msgid "obgr_item"
+msgstr "Item"
+
+#, fuzzy
+msgid "obgr_list"
+msgstr "List"
+
+#, fuzzy
+msgid "obgr_list_default"
+msgstr "Default"
+
+#, fuzzy
+msgid "obgr_list_default_info"
+msgstr "Inherits value from upper container."
+
+#, fuzzy
+msgid "obgr_list_presentation"
+msgstr "Item Presentation"
+
+msgid "obgr_materials"
+msgstr "Materiais"
+
+#, fuzzy
+msgid "obgr_organise_objects"
+msgstr "Manage Objects"
+
+#, fuzzy
+msgid "obgr_tile"
+msgstr "Tiles"
+
+#, fuzzy
+msgid "obgr_tile_size"
+msgstr "Tile Size"
+
+#, fuzzy
+msgid "obgr_unassign"
+msgstr "Unassign"
+
+#, fuzzy
+msgid "obgr_unassigned_first"
+msgstr "Unassigned First"
+

@@ -1,0 +1,106 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"Language-Team: English\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: obgr\n"
+
+msgid "obgr_always_open"
+msgstr "Always Open"
+
+msgid "obgr_assign"
+msgstr "Assign"
+
+msgid "obgr_assign_materials"
+msgstr "Organize Objects"
+
+msgid "obgr_assigned_first"
+msgstr "Assigned First"
+
+msgid "obgr_assigned_materials"
+msgstr "Assigned Objects"
+
+msgid "obgr_assignment"
+msgstr "Assigned to this Object Group"
+
+msgid "obgr_assignment_to_other_obgr"
+msgstr "Already assigned to another Object Group"
+
+msgid "obgr_behaviour"
+msgstr "Behaviour"
+
+msgid "obgr_behaviour_info"
+msgstr "The system will store the opened/closed state for the current user until logout."
+
+msgid "obgr_create_and_assign_object"
+msgstr "Create and Assign Object"
+
+msgid "obgr_desc_info"
+msgstr "The description will not be a part of the object group's presentation in its container."
+
+msgid "obgr_display"
+msgstr "Display"
+
+msgid "obgr_display_with_title"
+msgstr "With Title"
+
+msgid "obgr_display_with_title_and_toggleable"
+msgstr "With Title, Object Group collapsible"
+
+msgid "obgr_display_with_title_and_toggleable_initially"
+msgstr "Initial state"
+
+msgid "obgr_display_with_title_and_toggleable_initially_closed"
+msgstr "initially closed"
+
+msgid "obgr_display_with_title_and_toggleable_initially_open"
+msgstr "initially opened"
+
+msgid "obgr_display_without_title"
+msgstr "Without Title"
+
+msgid "obgr_edit"
+msgstr "Edit Object Groups"
+
+msgid "obgr_expandable_closed"
+msgstr "Expandable (initially closed)"
+
+msgid "obgr_expandable_open"
+msgstr "Expandable (initially opened)"
+
+msgid "obgr_item"
+msgstr "Object"
+
+msgid "obgr_list"
+msgstr "List"
+
+msgid "obgr_list_default"
+msgstr "Default"
+
+msgid "obgr_list_default_info"
+msgstr "Inherits value from upper container."
+
+msgid "obgr_list_presentation"
+msgstr "Object Presentation"
+
+msgid "obgr_materials"
+msgstr "Materials"
+
+msgid "obgr_organise_objects"
+msgstr "Manage Objects"
+
+msgid "obgr_tile"
+msgstr "Tiles"
+
+msgid "obgr_tile_size"
+msgstr "Tile Size"
+
+msgid "obgr_unassign"
+msgstr "Unassign"
+
+msgid "obgr_unassigned_first"
+msgstr "Unassigned First"
+

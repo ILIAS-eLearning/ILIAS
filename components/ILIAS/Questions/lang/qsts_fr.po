@@ -1,0 +1,87 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fr\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: qsts\n"
+
+msgid "answer_options"
+msgstr "Options de réponse"
+
+msgid "cloze_text"
+msgstr "Texte à  trous"
+
+msgid "confirm_delete_questions"
+msgstr "Etes-vous sûr(e) de vouloir supprimer la(les) question(s) suivante(s) ? Si vous détruisez des questions verrouillées, les résultats de tous les tests contenant une question verrouillée seront détruits également."
+
+msgid "create_question"
+msgstr "Créer Question"
+
+msgid "gap"
+msgstr "Trou"
+
+msgid "gaps"
+msgstr "Gaps"
+
+msgid "insert_gap"
+msgstr "Insérer Ecart"
+
+msgid "min_auto_complete"
+msgstr "Saisie automatique"
+
+msgid "msg_no_questions_selected"
+msgstr "No questions were selected."
+
+msgid "out_of_range"
+msgstr "Hors de portée"
+
+msgid "qst_lifecycle"
+msgstr "Lifecycle"
+
+msgid "qst_lifecycle_draft"
+msgstr "Draft"
+
+msgid "qst_lifecycle_filter_all"
+msgstr "All Lifecycles"
+
+msgid "qst_lifecycle_final"
+msgstr "Final"
+
+msgid "qst_lifecycle_outdated"
+msgstr "Outdated"
+
+msgid "qst_lifecycle_rejected"
+msgstr "Rejected"
+
+msgid "qst_lifecycle_review"
+msgstr "To be Reviewed"
+
+msgid "qst_lifecycle_sharable"
+msgstr "Sharable"
+
+msgid "questionlist"
+msgstr "Liste de questions"
+
+msgid "questions"
+msgstr "Questions"
+
+msgid "range_lower_limit"
+msgstr "Limite Inférieure"
+
+msgid "range_upper_limit"
+msgstr "Limite Supérieure"
+
+msgid "reset_preview"
+msgstr "Réinitialiser l'aperàçu"
+
+msgid "select_gap"
+msgstr "Selectionner trou"
+
+msgid "shuffle_answers"
+msgstr "Mélanger les Réponses"
+
+msgid "suggested_learning_content"
+msgstr "Ajouter solution suggérée"

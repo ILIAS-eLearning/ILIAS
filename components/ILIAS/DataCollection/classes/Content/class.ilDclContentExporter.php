@@ -163,7 +163,7 @@ class ilDclContentExporter
         $soap_params = [$this->dcl->getRefId()];
         array_push($soap_params, $this->table_id, $format, $filepath);
 
-        $new_session_id = ilSession::_duplicate(
+        $new_session_id = ilSession::duplicate(
             $DIC->http()->wrapper()->cookie()->retrieve(session_name(), $DIC->refinery()->kindlyTo()->string())
         );
         $client_id = $DIC->http()->wrapper()->cookie()->retrieve('ilClientId', $DIC->refinery()->kindlyTo()->string());

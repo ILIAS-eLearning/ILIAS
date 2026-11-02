@@ -2022,8 +2022,8 @@ msgid "cont_manifest"
 msgstr "声明"
 
 #, fuzzy
-msgid "cont_manual_item_group"
-msgstr "Manually Create Item Group"
+msgid "cont_manual_object_group"
+msgstr "Manually Created Object Group"
 
 msgid "cont_map_file_not_generated"
 msgstr "对不起。不能生成地图文件并编辑它。"
@@ -4061,3 +4061,5 @@ msgstr "文本表示"
 
 msgid "text_repr_info"
 msgstr "用于图像“alt”属性。"
+
+

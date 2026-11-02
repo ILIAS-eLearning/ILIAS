@@ -1,0 +1,87 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: it\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);\n"
+"X-Domain: qsts\n"
+
+msgid "answer_options"
+msgstr "Opzioni di risposte"
+
+msgid "cloze_text"
+msgstr "Testo corrispondente"
+
+msgid "confirm_delete_questions"
+msgstr "Sei sicuro di voler eliminare le seguenti domande? Se cancelli le domande bloccate, anche i risultati dei test che le contengono verranno cancellati."
+
+msgid "create_question"
+msgstr "Crea domanda"
+
+msgid "gap"
+msgstr "Spazio vuoto"
+
+msgid "gaps"
+msgstr "Gaps"
+
+msgid "insert_gap"
+msgstr "Inserisci Gap"
+
+msgid "min_auto_complete"
+msgstr "Completamento automatico"
+
+msgid "msg_no_questions_selected"
+msgstr "No questions were selected."
+
+msgid "out_of_range"
+msgstr "Fuori portata"
+
+msgid "qst_lifecycle"
+msgstr "Ciclo vitale"
+
+msgid "qst_lifecycle_draft"
+msgstr "Bozza"
+
+msgid "qst_lifecycle_filter_all"
+msgstr "Tutti i cicli di vita"
+
+msgid "qst_lifecycle_final"
+msgstr "Finale"
+
+msgid "qst_lifecycle_outdated"
+msgstr "Obsoleto"
+
+msgid "qst_lifecycle_rejected"
+msgstr "Respinto"
+
+msgid "qst_lifecycle_review"
+msgstr "Da rivedere"
+
+msgid "qst_lifecycle_sharable"
+msgstr "Condivisibile"
+
+msgid "questionlist"
+msgstr "Questionlist"
+
+msgid "questions"
+msgstr "Questions"
+
+msgid "range_lower_limit"
+msgstr "Limite inferiore"
+
+msgid "range_upper_limit"
+msgstr "Limite superiore"
+
+msgid "reset_preview"
+msgstr "Ripristina anteprima"
+
+msgid "select_gap"
+msgstr "Seleziona spazio"
+
+msgid "shuffle_answers"
+msgstr "Mescola le risposte"
+
+msgid "suggested_learning_content"
+msgstr "Contenuti per il ripasso"

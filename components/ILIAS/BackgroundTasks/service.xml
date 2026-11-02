@@ -2,7 +2,7 @@
 <service xmlns="http://www.w3.org" version="$Id$"
 	id="bgtk">
 	<baseclasses>
-		<baseclass name="ilBTControllerGUI" dir="classes" />
+		<baseclass name="ILIAS\BackgroundTasks\Implementation\UI\ControllerGUI" dir="src/Implementation/UI" />
 	</baseclasses>
 	<gsproviders>
 		<gsprovider class_name="ilBTGSProvider" purpose="meta_bar_static"/>

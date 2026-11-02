@@ -1,0 +1,122 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hu\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: obgr\n"
+
+msgid "obgr_always_open"
+msgstr "Mindig nyitva"
+
+#, fuzzy
+msgid "obgr_assign"
+msgstr "Assign"
+
+msgid "obgr_assign_materials"
+msgstr "Objektumok hozzárendelése"
+
+#, fuzzy
+msgid "obgr_assigned_first"
+msgstr "Assigned First"
+
+msgid "obgr_assigned_materials"
+msgstr "Hozzárendelt objektumok"
+
+msgid "obgr_assignment"
+msgstr "Hozzárendelve"
+
+#, fuzzy
+msgid "obgr_assignment_to_other_obgr"
+msgstr "Already assigned to another Object Group"
+
+#, fuzzy
+msgid "obgr_behaviour"
+msgstr "Behaviour"
+
+#, fuzzy
+msgid "obgr_behaviour_info"
+msgstr "The system will store the opened/closed state for the current user until logout."
+
+#, fuzzy
+msgid "obgr_create_and_assign_object"
+msgstr "Create and Assign Object"
+
+msgid "obgr_desc_info"
+msgstr "Az objektumcsoport leírása nem jelenik meg az objektumcsoport tárolójában."
+
+#, fuzzy
+msgid "obgr_display"
+msgstr "Display"
+
+#, fuzzy
+msgid "obgr_display_with_title"
+msgstr "With Title"
+
+#, fuzzy
+msgid "obgr_display_with_title_and_toggleable"
+msgstr "With Title, Object Group collapsible"
+
+#, fuzzy
+msgid "obgr_display_with_title_and_toggleable_initially"
+msgstr "Initial state"
+
+#, fuzzy
+msgid "obgr_display_with_title_and_toggleable_initially_closed"
+msgstr "initially closed"
+
+#, fuzzy
+msgid "obgr_display_with_title_and_toggleable_initially_open"
+msgstr "initially opened"
+
+#, fuzzy
+msgid "obgr_display_without_title"
+msgstr "Without Title"
+
+msgid "obgr_edit"
+msgstr "Objektumcsoportok módosítása"
+
+msgid "obgr_expandable_closed"
+msgstr "Kibontható (kezdetben zárt)"
+
+msgid "obgr_expandable_open"
+msgstr "Kibontható (kezdetben nyitott)"
+
+msgid "obgr_item"
+msgstr "Objektum"
+
+msgid "obgr_list"
+msgstr "Felsorolás"
+
+msgid "obgr_list_default"
+msgstr "Alapértelmezett"
+
+msgid "obgr_list_default_info"
+msgstr "Értékek örökítése a feljebbi tárolókból."
+
+msgid "obgr_list_presentation"
+msgstr "Elemmegjelenítés"
+
+msgid "obgr_materials"
+msgstr "Objektumok"
+
+#, fuzzy
+msgid "obgr_organise_objects"
+msgstr "Manage Objects"
+
+msgid "obgr_tile"
+msgstr "Csempe"
+
+msgid "obgr_tile_size"
+msgstr "Csempe mérete"
+
+#, fuzzy
+msgid "obgr_unassign"
+msgstr "Unassign"
+
+#, fuzzy
+msgid "obgr_unassigned_first"
+msgstr "Unassigned First"
+

@@ -790,24 +790,57 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *      Hidden inputs are used for transmitting persistent data which the user should not manipulate.
+     *     The Hidden Input is used for transmitting data associated to between server roundtrips.
+     *     Users cannot see or operate this Input.
      *   composition: >
-     *      Hidden inputs consist of a html-input type hidden.
+     *     The Hidden Input consists of one HTML input type hidden.
      *   effect: >
-     *      A hidden input is rendered where developers can set any kind of value that should be transmitted.
+     *     Hidden Input's cannot be interacted with and do not have any effect.
+     *     They only carry data between requests.
+     *   rivals:
+     *     Hidden List: use a Hidden List Input if your data is a list.
      *
      * context:
-     *   - The Hidden input is used in UI-forms.
+     *   - The Hidden Input is used in Input Form Container's.
      *
      * rules:
      *   usage:
-     *      1: >
-     *        Use this input for persistent data which the user should not manipulate.
-     *
+     *     1: >
+     *       This Input SHOULD be used for persistent data which the user SHOULD NOT see.
+     *     2: >
+     *       You MUST NOT trust the received data, since clients can be tampered with.
      * ---
      * @return \ILIAS\UI\Component\Input\Field\Hidden
      */
     public function hidden(): Hidden;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *     The Hidden List Input is used for transmitting a list of data between server roundtrips.
+     *     Users cannot see or operate this Input.
+     *   composition: >
+     *     The Hidden List Input consists of multiple HTML input type hidden.
+     *   effect: >
+     *     Hidden List Input's cannot be interacted with and do not have any effect.
+     *     They only carry data between requests.
+     *   rivals:
+     *     Hidden: use a Hidden Input if your data is not a list.
+     *
+     * context:
+     *   - The Hidden List Input is used in Input Form Container's.
+     *
+     * rules:
+     *   usage:
+     *     1: >
+     *       This Input SHOULD be used for persistent data which the user SHOULD NOT see.
+     *     2: >
+     *       You MUST NOT trust the received data, since clients can be tampered with.
+     * ---
+     * @return \ILIAS\UI\Component\Input\Field\HiddenList
+     */
+    public function hiddenList(): HiddenList;
 
     /**
      * ---

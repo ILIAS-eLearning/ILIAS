@@ -1045,24 +1045,6 @@ msgstr "内部メール"
 msgid "invite"
 msgstr "サーベイへ招待"
 
-msgid "itgr_copy"
-msgstr "ユーザはアイテムグループをコピーできます"
-
-msgid "itgr_delete"
-msgstr "ユーザはアイテムグループをコピーできます"
-
-msgid "itgr_edit_permission"
-msgstr "ユーザはアクセス権設定を変更できます"
-
-msgid "itgr_read"
-msgstr "ユーザはアイテムグループを読み込みできます"
-
-msgid "itgr_visible"
-msgstr "アイテムグループを表示"
-
-msgid "itgr_write"
-msgstr "ユーザは内容とアイテムグループ編集ができます"
-
 msgid "leave"
 msgstr "退室"
 
@@ -1404,6 +1386,24 @@ msgstr "ニュースとWebフィード管理を表示"
 
 msgid "nwss_write"
 msgstr "ユーザはニュースとWebフィード管理設定を変更できます"
+
+msgid "obgr_copy"
+msgstr "ユーザはアイテムグループをコピーできます"
+
+msgid "obgr_delete"
+msgstr "ユーザはアイテムグループをコピーできます"
+
+msgid "obgr_edit_permission"
+msgstr "ユーザはアクセス権設定を変更できます"
+
+msgid "obgr_read"
+msgstr "ユーザはアイテムグループを読み込みできます"
+
+msgid "obgr_visible"
+msgstr "アイテムグループを表示"
+
+msgid "obgr_write"
+msgstr "ユーザは内容とアイテムグループ編集ができます"
 
 msgid "obj_skee"
 msgstr "Competenceツリー"
@@ -1828,9 +1828,6 @@ msgstr "HTMLラーニングモジュールを作成"
 msgid "rbac_create_iass"
 msgstr "個別アセスメントを作成"
 
-msgid "rbac_create_itgr"
-msgstr "アイテムグループ作成"
-
 msgid "rbac_create_lm"
 msgstr "ILIASラーニングモジュールを作成"
 
@@ -1845,6 +1842,9 @@ msgstr "メディアキャストを作成"
 
 msgid "rbac_create_mep"
 msgstr "メディア集を作成"
+
+msgid "rbac_create_obgr"
+msgstr "アイテムグループ作成"
 
 msgid "rbac_create_orgu"
 msgstr "組織ユニットを作成"
@@ -2808,3 +2808,4 @@ msgstr "Wiki管理の設定を編集"
 
 msgid "write"
 msgstr "設定変更"
+

@@ -21,10 +21,18 @@ declare(strict_types=1);
 namespace ILIAS;
 
 use ILIAS\Component\Component;
+use ILIAS\Component\Resource\PublicAsset;
+use ILIAS\Component\Resource\ComponentJS;
 use ILIAS\Setup\Agent;
 use ILIAS\Refinery\Factory;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\BackgroundTasks\Registry\Registry;
+use ILIAS\BackgroundTasks\Task;
+use ILIAS\BackgroundTasks\Value;
+use ILIAS\BackgroundTasks\Implementation\Registry\BasicRegistry;
+use ILIAS\BackgroundTasks\Implementation\Values;
+use ILIAS\BackgroundTasks\Implementation\Tasks;
 
 class BackgroundTasks implements Component
 {
@@ -38,8 +46,27 @@ class BackgroundTasks implements Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        $contribute[Agent::class] = static fn(): \ilBackgroundTasksSetupAgent =>
-            new \ilBackgroundTasksSetupAgent(
+        $define[] = Registry::class;
+
+        // components putting tasks or values into buckets contribute them, see Registry\Registry
+        $implement[Registry::class] = static fn(): Registry =>
+            new BasicRegistry(
+                $seek[Task::class],
+                $seek[Value::class]
+            );
+
+        $contribute[Value::class] = static fn() => new Values\ScalarValues\ScalarValue();
+        $contribute[Value::class] = static fn() => new Values\ScalarValues\BooleanValue();
+        $contribute[Value::class] = static fn() => new Values\ScalarValues\FloatValue();
+        $contribute[Value::class] = static fn() => new Values\ScalarValues\IntegerValue();
+        $contribute[Value::class] = static fn() => new Values\ScalarValues\StringValue();
+        $contribute[Value::class] = static fn() => new Values\AggregationValues\ListValue();
+        $contribute[Value::class] = static fn() => new Values\ThunkValue();
+        $contribute[Task::class] = static fn() => new Tasks\Aggregation\ConcatenationJob();
+        $contribute[Task::class] = static fn() => new Tasks\NotFoundUserInteraction();
+
+        $contribute[Agent::class] = static fn(): Agent =>
+            new \ILIAS\BackgroundTasks\Setup\Agent(
                 $pull[Factory::class]
             );
         $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
@@ -49,6 +76,11 @@ class BackgroundTasks implements Component
         $contribute[LanguageFileDirectory::class] = fn() => new ComponentLanguageFileDirectory(
             $this,
             'background_tasks'
+        );
+
+        $contribute[PublicAsset::class] = fn(): ComponentJS => new ComponentJS(
+            $this,
+            "background_task_refresh.js"
         );
     }
 }

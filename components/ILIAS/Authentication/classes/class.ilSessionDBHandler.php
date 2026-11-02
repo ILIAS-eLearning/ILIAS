@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-class ilSessionDBHandler implements SessionHandlerInterface
+class ilSessionDBHandler implements SessionHandlerInterface, SessionUpdateTimestampHandlerInterface
 {
     /**
      * Registers the session save handler
@@ -65,7 +65,7 @@ class ilSessionDBHandler implements SessionHandlerInterface
      */
     public function read($id): string
     {
-        return ilSession::_getData($id);
+        return ilSession::getData($id);
     }
 
     /**
@@ -77,7 +77,7 @@ class ilSessionDBHandler implements SessionHandlerInterface
     {
         chdir(IL_INITIAL_WD);
 
-        return ilSession::_writeData($id, $data);
+        return ilSession::writeData($id, $data);
     }
 
     /**
@@ -86,7 +86,7 @@ class ilSessionDBHandler implements SessionHandlerInterface
      */
     public function destroy($id): bool
     {
-        return ilSession::_destroy($id);
+        return ilSession::destroy($id);
     }
 
     /**
@@ -95,6 +95,25 @@ class ilSessionDBHandler implements SessionHandlerInterface
      */
     public function gc(int $max_lifetime): int | false
     {
-        return ilSession::_destroyExpiredSessions();
+        return ilSession::destroyExpiredSessions();
+    }
+
+    public function validateId(string $id): bool
+    {
+        return ilSession::exists($id);
+    }
+
+    /**
+     * PHP calls this when $_SESSION did not change.
+     * An expired session row is deleted before shutdown; a timestamp UPDATE then
+     * matches nothing and would drop the expired flag. Store the payload again.
+     */
+    public function updateTimestamp(string $id, string $data): bool
+    {
+        if (ilSession::updateTimestamp($id)) {
+            return true;
+        }
+
+        return $this->write($id, $data);
     }
 }

@@ -17,17 +17,15 @@
 
 import il from 'il';
 import $ from 'jquery';
-import replaceContent from './core.replaceContent';
-import Tooltip from './core.Tooltip';
-import URLBuilder from './core.URLBuilder';
-import URLBuilderToken from './core.URLBuilderToken';
-import TemplateRenderer from './TemplateRenderer';
+import replaceContent from './core.replaceContent.js';
+import URLBuilder from './core.URLBuilder.js';
+import URLBuilderToken from './core.URLBuilderToken.js';
+import TemplateRenderer from './TemplateRenderer.js';
 
 il.UI = il.UI || {};
 il.UI.core = il.UI.core || {};
 
 il.UI.core.replaceContent = replaceContent($);
-il.UI.core.Tooltip = Tooltip;
 il.UI.core.URLBuilder = URLBuilder;
 il.UI.core.URLBuilderToken = URLBuilderToken;
 

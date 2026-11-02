@@ -377,7 +377,12 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("exc_blog_created"), true);
         $this->ctrl->setParameterByClass(ilObjBlogGUI::class, "wsp_id", $node_id);
         $this->ctrl->redirectByClass(
-            [ilDashboardGUI::class, ilPersonalWorkspaceGUI::class, ilObjBlogGUI::class],
+            [
+                ilDashboardGUI::class,
+                ilPersonalWorkspaceGUI::class,
+                ilObjBlogGUI::class,
+                \ILIAS\Blog\Editing\EditingGUI::class,
+            ],
             ""
         );
     }

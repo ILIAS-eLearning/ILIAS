@@ -58,6 +58,7 @@ class Factory implements FactoryInternal
         protected I\Entity\Factory $entity_factory,
         protected I\Prompt\Factory $prompt_factory,
         protected I\Navigation\Factory $navigation_factory,
+        protected I\Transfer\Factory $transfer_factory,
     ) {
     }
 
@@ -234,4 +235,8 @@ class Factory implements FactoryInternal
         return $this->navigation_factory;
     }
 
+    public function transfer(): I\Transfer\Factory
+    {
+        return $this->transfer_factory;
+    }
 }

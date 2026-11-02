@@ -1,0 +1,87 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: hr\n"
+"Language-Team: Croatian\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: qsts\n"
+
+msgid "answer_options"
+msgstr "Opcija odgovora"
+
+msgid "cloze_text"
+msgstr "Pitanje s prazninom u tekstu"
+
+msgid "confirm_delete_questions"
+msgstr "Jeste li sigurni da želite ukloniti sljedeća pitanja?"
+
+msgid "create_question"
+msgstr "Izradi pitanje"
+
+msgid "gap"
+msgstr "Praznina"
+
+msgid "gaps"
+msgstr "Gaps"
+
+msgid "insert_gap"
+msgstr "Umetni prazninu"
+
+msgid "min_auto_complete"
+msgstr "Automatsko dopunjavanje"
+
+msgid "msg_no_questions_selected"
+msgstr "No questions were selected."
+
+msgid "out_of_range"
+msgstr "Izvan raspona"
+
+msgid "qst_lifecycle"
+msgstr "Lifecycle"
+
+msgid "qst_lifecycle_draft"
+msgstr "Draft"
+
+msgid "qst_lifecycle_filter_all"
+msgstr "All Lifecycles"
+
+msgid "qst_lifecycle_final"
+msgstr "Final"
+
+msgid "qst_lifecycle_outdated"
+msgstr "Outdated"
+
+msgid "qst_lifecycle_rejected"
+msgstr "Rejected"
+
+msgid "qst_lifecycle_review"
+msgstr "To be Reviewed"
+
+msgid "qst_lifecycle_sharable"
+msgstr "Sharable"
+
+msgid "questionlist"
+msgstr "Questionlist"
+
+msgid "questions"
+msgstr "Questions"
+
+msgid "range_lower_limit"
+msgstr "Donja granica"
+
+msgid "range_upper_limit"
+msgstr "Gornja granica"
+
+msgid "reset_preview"
+msgstr "Resetiraj pregled"
+
+msgid "select_gap"
+msgstr "Odaberi prazninu"
+
+msgid "shuffle_answers"
+msgstr "Pomiješaj odgovore"
+
+msgid "suggested_learning_content"
+msgstr "Sadržaji za ponavljanje"

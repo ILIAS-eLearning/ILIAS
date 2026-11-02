@@ -75,7 +75,7 @@ class BlogPrintViewProviderGUI extends Export\AbstractPrintViewProvider
     {
         $print_pages = [];
 
-        $selected_pages = (count($this->selected_pages) > 0)
+        $selected_pages = (count($this->selected_pages ?? []) > 0)
             ? $this->selected_pages
             : $this->posting_manager->getAllPostingIds($this->blog_id);
 

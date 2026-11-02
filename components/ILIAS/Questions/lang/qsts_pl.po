@@ -1,0 +1,87 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pl\n"
+"Language-Team: Polish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
+"X-Domain: qsts\n"
+
+msgid "answer_options"
+msgstr "Opcje z odpowiedziami"
+
+msgid "cloze_text"
+msgstr "Uzupełnij tekst"
+
+msgid "confirm_delete_questions"
+msgstr "Czy jesteś pewien, że chcesz usunąć następujące pytania? Jeśli usuniesz zaznaczone pytania, to rezultaty wszystkich testów zawierających zaznaczone pytania będą również usunięte."
+
+msgid "create_question"
+msgstr "Utwórz pytanie"
+
+msgid "gap"
+msgstr "Luka"
+
+msgid "gaps"
+msgstr "Gaps"
+
+msgid "insert_gap"
+msgstr "Wypełnij lukę"
+
+msgid "min_auto_complete"
+msgstr "Automatyczne uzupełnianie"
+
+msgid "msg_no_questions_selected"
+msgstr "No questions were selected."
+
+msgid "out_of_range"
+msgstr "Poza obszarem"
+
+msgid "qst_lifecycle"
+msgstr "Lifecycle"
+
+msgid "qst_lifecycle_draft"
+msgstr "Draft"
+
+msgid "qst_lifecycle_filter_all"
+msgstr "All Lifecycles"
+
+msgid "qst_lifecycle_final"
+msgstr "Final"
+
+msgid "qst_lifecycle_outdated"
+msgstr "Outdated"
+
+msgid "qst_lifecycle_rejected"
+msgstr "Rejected"
+
+msgid "qst_lifecycle_review"
+msgstr "To be Reviewed"
+
+msgid "qst_lifecycle_sharable"
+msgstr "Sharable"
+
+msgid "questionlist"
+msgstr "Lista pytań"
+
+msgid "questions"
+msgstr "Pytania"
+
+msgid "range_lower_limit"
+msgstr "Limit dolny"
+
+msgid "range_upper_limit"
+msgstr "Limit górny"
+
+msgid "reset_preview"
+msgstr "Przywróć podgląd"
+
+msgid "select_gap"
+msgstr "Wybierz odstęp"
+
+msgid "shuffle_answers"
+msgstr "Mieszaj odpowiedzi"
+
+msgid "suggested_learning_content"
+msgstr "Pokaż sugerowane rozwiązanie"

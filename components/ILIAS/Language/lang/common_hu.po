@@ -2945,12 +2945,6 @@ msgstr "Dőlt beillesztése - Kattintson dőlt szöveg beillesztéséhez."
 msgid "item"
 msgstr "Elem"
 
-msgid "itgr_add"
-msgstr "Objektumcsoport létrehozása"
-
-msgid "itgr_new"
-msgstr "Új objektumcsoport"
-
 #, fuzzy
 msgid "java_server"
 msgstr "PDF Configuration"
@@ -4260,6 +4254,12 @@ msgstr "Felhasználók száma"
 msgid "numberedlist_action"
 msgstr "Számozott lista beillesztése - Kattintson számozott lista beillesztéséhez."
 
+msgid "obgr_add"
+msgstr "Objektumcsoport létrehozása"
+
+msgid "obgr_new"
+msgstr "Új objektumcsoport"
+
 msgid "obj"
 msgstr "Objektum"
 
@@ -4567,9 +4567,6 @@ msgstr "Személyes értékelés másolása"
 msgid "obj_iass_select"
 msgstr "-- Válasszon egy személyes értékelést --"
 
-msgid "obj_itgr"
-msgstr "Objektumcsoport"
-
 msgid "obj_ldap_desc"
 msgstr "Itt módosíthatja a globális LDAP-beállításokat."
 
@@ -4692,6 +4689,9 @@ msgstr "Hírek és webhírforrások"
 
 msgid "obj_nwss_desc"
 msgstr "Beállítások belső hírekhez és külső hírforrásokhoz"
+
+msgid "obj_obgr"
+msgstr "Objektumcsoport"
 
 msgid "obj_objf"
 msgstr "Objektumdefiníciók"
@@ -5191,9 +5191,6 @@ msgstr "HTML-tananyagok"
 msgid "objs_iass"
 msgstr "Személyes értékelések"
 
-msgid "objs_itgr"
-msgstr "Objektumcsoportok"
-
 msgid "objs_lm"
 msgstr "ILIAS-tananyagok"
 
@@ -5214,6 +5211,9 @@ msgstr "Médiasugárzások"
 
 msgid "objs_mep"
 msgstr "Médiagyűjtemény"
+
+msgid "objs_obgr"
+msgstr "Objektumcsoportok"
 
 msgid "objs_orgu"
 msgstr "Szervezeti egységek"
@@ -7822,3 +7822,4 @@ msgstr "ZIP tesztelése sikertelen. Lépjen kapcsolatba egy rendszergazdával."
 
 msgid "zipcode"
 msgstr "Irányítószám / Postafiók"
+

@@ -1102,24 +1102,6 @@ msgstr "Interní mail"
 msgid "invite"
 msgstr "Pozvat do ankety"
 
-msgid "itgr_copy"
-msgstr "Uživatel může kopírovat skupinu položek"
-
-msgid "itgr_delete"
-msgstr "Uživatel může přesouvat nebo mazat skupinu položek"
-
-msgid "itgr_edit_permission"
-msgstr "Uživatel může změnit nastavení oprávnění"
-
-msgid "itgr_read"
-msgstr "Uživatel může číst skupinu položek"
-
-msgid "itgr_visible"
-msgstr "Skupina položek je viditelná"
-
-msgid "itgr_write"
-msgstr "Uživatel může upravovat obsah a nastavení skupiny položek"
-
 msgid "leave"
 msgstr "Opustit"
 
@@ -1490,6 +1472,24 @@ msgstr "Zprávy a nastavení webového zásobníku je viditelné"
 
 msgid "nwss_write"
 msgstr "Upravit zprávy a nastavení webového zásobníku"
+
+msgid "obgr_copy"
+msgstr "Uživatel může kopírovat skupinu položek"
+
+msgid "obgr_delete"
+msgstr "Uživatel může přesouvat nebo mazat skupinu položek"
+
+msgid "obgr_edit_permission"
+msgstr "Uživatel může změnit nastavení oprávnění"
+
+msgid "obgr_read"
+msgstr "Uživatel může číst skupinu položek"
+
+msgid "obgr_visible"
+msgstr "Skupina položek je viditelná"
+
+msgid "obgr_write"
+msgstr "Uživatel může upravovat obsah a nastavení skupiny položek"
 
 #, fuzzy
 msgid "obj_skee"
@@ -1939,9 +1939,6 @@ msgstr "Vytvořit výukový modul HTML"
 msgid "rbac_create_iass"
 msgstr "Vytvořit individuální hodnocení"
 
-msgid "rbac_create_itgr"
-msgstr "Vytvořit item skupinu"
-
 msgid "rbac_create_lm"
 msgstr "Vytvořit výukový modul ILIAS"
 
@@ -1957,6 +1954,9 @@ msgstr "Vytvořit Mediacast"
 
 msgid "rbac_create_mep"
 msgstr "Vytvořit zásobník médií"
+
+msgid "rbac_create_obgr"
+msgstr "Vytvořit item skupinu"
 
 msgid "rbac_create_orgu"
 msgstr "Vytvořit organizační jednotky"
@@ -2974,3 +2974,4 @@ msgstr "Upravit nastavení ve správě Wiki"
 
 msgid "write"
 msgstr "Upravit nastavení"
+

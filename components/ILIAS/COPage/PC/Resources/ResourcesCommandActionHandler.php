@@ -83,7 +83,7 @@ class ResourcesCommandActionHandler implements Server\CommandActionHandler
             $res->setResourceListType("_other");
         } elseif ($res_type === "_lobj") {
             $res->setResourceListType("_lobj");
-        } elseif ($res_type !== "itgr") {
+        } elseif ($res_type !== "obgr") {
             if (isset($body["type"])) {
                 $res->setResourceListType(
                     $body["type"]
@@ -93,7 +93,7 @@ class ResourcesCommandActionHandler implements Server\CommandActionHandler
             }
         } else {
             $res->setItemGroupRefId(
-                (int) $body["itgr"]
+                (int) $body["obgr"]
             );
         }
 
@@ -121,7 +121,7 @@ class ResourcesCommandActionHandler implements Server\CommandActionHandler
             $res->setResourceListType("_other");
         } elseif ($res_type === "_lobj") {
             $res->setResourceListType("_lobj");
-        } elseif ($res_type !== "itgr") {
+        } elseif ($res_type !== "obgr") {
             if (isset($body["type"])) {
                 $res->setResourceListType(
                     $body["type"]
@@ -131,7 +131,7 @@ class ResourcesCommandActionHandler implements Server\CommandActionHandler
             }
         } else {
             $res->setItemGroupRefId(
-                (int) $body["itgr"]
+                (int) $body["obgr"]
             );
         }
 

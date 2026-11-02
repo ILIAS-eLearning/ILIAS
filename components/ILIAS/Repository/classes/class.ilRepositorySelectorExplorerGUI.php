@@ -88,10 +88,10 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
         $this->setAjax(true);
         $this->setOrderField("title");
 
-        // per default: all object types, except item groups
+        // per default: all object types, except object groups
         $white = [];
         foreach ($objDefinition->getSubObjectsRecursively("root") as $rtype) {
-            if ($rtype["name"] !== "itgr" && !$objDefinition->isSideBlock($rtype["name"])) {
+            if ($rtype["name"] !== "obgr" && !$objDefinition->isSideBlock($rtype["name"])) {
                 $white[] = $rtype["name"];
             }
         }

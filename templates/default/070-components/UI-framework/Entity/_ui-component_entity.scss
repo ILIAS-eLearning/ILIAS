@@ -9,6 +9,11 @@ $entity-padding-horizontal: l.$il-padding-xlarge-horizontal; // counterstyling i
 $img-large-max-width: 360px;
 $max-rows: 9;
 
+$prompt-gap: 0.75rem;
+$prompt-symbol-size: 1.5rem;
+$prompt-primary-identifier-width: 10rem;
+$prompt-font-weight: s.$il-font-weight-base;
+
 @mixin entity-limited-space-design() {
     &__container {
         display: flex;
@@ -121,5 +126,137 @@ $max-rows: 9;
     }
     @include l-brk.on-screen-size(small) {
         @include entity-limited-space-design();
+    }
+}
+
+// compact entity for confirmation prompts
+.c-prompt .c-listing-entity .c-entity {
+
+    &__container {
+        // beats the base grid and the small-screen block/flex-column variants
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: $prompt-gap;
+        padding: 0.25rem 0.5rem;
+        //line-height: 1.3;
+
+        // reset half-paddings, order and the per-block font sizes
+        // (base styles set larger/smaller sizes on details, main-details, ...)
+        > * {
+            padding: 0;
+            order: 0;
+            font-size: inherit;
+            min-width: 0; // allow ellipsis inside flex
+        }
+    }
+
+    &__secondary-identifier {
+        order: -1; // always left, regardless of DOM order
+        flex: 0 0 auto;
+        width: auto;
+        max-width: none;
+
+        &.--string,
+        &.--shy,
+        &.--shylink {
+            width: auto;
+            max-width: 8rem;
+        }
+
+        &.--symbol {
+            line-height: 0;
+            --prompt-avatar-size: #{$prompt-symbol-size};
+
+            .il-avatar {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: var(--prompt-avatar-size);
+                height: var(--prompt-avatar-size);
+                min-width: var(--prompt-avatar-size);
+                min-height: var(--prompt-avatar-size);
+                line-height: 1;
+                font-size: calc(var(--prompt-avatar-size) * 0.5);
+
+                .abbreviation {
+                    font-size: inherit;
+                    line-height: 1;
+                    letter-spacing: 0;
+                    margin: 0;
+                    padding: 0;
+                    transform: none;
+                    position: static;
+                }
+            }
+        }
+
+        &.--image img {
+            width: $prompt-symbol-size;
+            height: $prompt-symbol-size;
+            max-width: none;
+            margin: 0;
+            object-fit: cover;
+        }
+    }
+
+    &__featured-headerbar {
+        flex: 0 1 $prompt-primary-identifier-width;
+
+        // flatten the bar so the ellipsis can work on the name
+        .l-bar__space-keeper,
+        .l-bar__group,
+        .l-bar__element {
+            display: block;
+            min-width: 0;
+        }
+
+        // empty action slot must not eat space
+        .c-entity__actions-container:not(:has(*)) {
+            display: none;
+        }
+    }
+
+    &__primary-identifier {
+        font-size: inherit;
+        font-weight: s.$il-font-weight-bold;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    &__main-details {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-weight: $prompt-font-weight;
+
+        // flatten the property bars to inline text
+        .c-listing-property,
+        .c-listing-property__property,
+        .c-listing-property__propertylabel,
+        .c-listing-property__propertyvalue {
+            display: inline;
+            margin: 0;
+            padding: 0;
+            font-size: inherit;
+        }
+
+        .c-listing-property__property + .c-listing-property__property {
+            margin-left: $prompt-gap;
+        }
+
+        .c-listing-property__propertylabel {
+            font-weight: $prompt-font-weight;
+            margin-right: 0.25em;
+        }
+
+        .c-listing-property__propertyvalue {
+            font-weight: $prompt-font-weight;
+        }
+    }
+
+    &__main-details {
+        flex: 1 1 0; // takes the remaining width
     }
 }

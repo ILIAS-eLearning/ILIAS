@@ -329,6 +329,7 @@ class ilImport
         string $a_component = "",
         string $a_tmpdir = ""
     ): array {
+        $a_type = $a_type === 'itgr' ? 'obgr' : $a_type;
         if ($a_component == "") {
             $a_component = ilImportExportFactory::getComponentForExport($a_type);
         }
@@ -352,7 +353,8 @@ class ilImport
         $this->mapping->setInstallId($parser->getInstallId());
 
         // check for correct type
-        if ($parser->getMainEntity() != $a_type) {
+        $main_entity = $parser->getMainEntity() === 'itgr' ? 'obgr' : $parser->getMainEntity();
+        if ($main_entity != $a_type) {
             throw new ilImportObjectTypeMismatchException(
                 "Object type does not match. Import file has type '" .
                 $parser->getMainEntity() . "' but import being processed for '" . $a_type . "'."

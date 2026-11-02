@@ -37,12 +37,21 @@ class ilScheduleDaysInputGUI extends ilFormPropertyGUI
     public function checkInput(): bool
     {
         $data = $this->getPostData();
-        foreach ($data as $day) {
-            if (!in_array($day, self::DAY_KEYS, true)) {
-                $this->setAlert($this->lng->txt('msg_input_does_not_match_regexp'));
-                return false;
-            }
+
+        if ($data === []) {
+            $this->setAlert($this->lng->txt('msg_input_is_required'));
+            return false;
         }
+
+        foreach ($data as $day) {
+            if (in_array($day, self::DAY_KEYS, true)) {
+                continue;
+            }
+
+            $this->setAlert($this->lng->txt('msg_input_does_not_match_regexp'));
+            return false;
+        }
+
         return true;
     }
 

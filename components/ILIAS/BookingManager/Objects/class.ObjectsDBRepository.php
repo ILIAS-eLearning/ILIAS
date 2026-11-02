@@ -18,6 +18,7 @@
 
 namespace ILIAS\BookingManager\Objects;
 
+use ilDBConstants;
 use ILIAS\Repository\IRSS\IRSSWrapper;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 
@@ -112,9 +113,16 @@ class ObjectsDBRepository
     public function deleteObjectInfo(int $booking_object_id, ResourceStakeholder $stakeholder): void
     {
         $rid = $this->getObjectInfoRidForBookingObjectId($booking_object_id);
-        if ($rid !== "") {
-            $this->wrapper->deleteResource($rid, $stakeholder);
+        if ($rid === '') {
+            return;
         }
+
+        $this->wrapper->deleteResource($rid, $stakeholder);
+        $this->db->update(
+            'booking_object',
+            ['obj_info_rid' => [ilDBConstants::T_TEXT, '']],
+            ['booking_object_id' => [ilDBConstants::T_INTEGER, $booking_object_id]]
+        );
     }
 
     public function getObjectInfoPath(int $booking_object_id): string
@@ -145,21 +153,18 @@ class ObjectsDBRepository
         array $file_input,
         ResourceStakeholder $stakeholder
     ): string {
-        $rcid = $this->wrapper->importFileFromLegacyUpload(
-            $file_input,
-            $stakeholder
+        $rcid = $this->wrapper->importFileFromLegacyUpload($file_input, $stakeholder);
+
+        $this->db->update(
+            'booking_object',
+            [
+                'obj_info_rid' => [ilDBConstants::T_TEXT, $rcid]
+            ],
+            [
+                'booking_object_id' => [ilDBConstants::T_INTEGER, $booking_object_id]
+            ]
         );
-        if ($rcid !== "") {
-            $this->db->update(
-                "booking_object",
-                [
-                    "obj_info_rid" => ["text", $rcid]
-                ],
-                [    // where
-                     "booking_object_id" => ["integer", $booking_object_id]
-                ]
-            );
-        }
+
         return $rcid;
     }
 
@@ -184,9 +189,16 @@ class ObjectsDBRepository
     public function deleteBookingInfo(int $booking_object_id, ResourceStakeholder $stakeholder): void
     {
         $rid = $this->getBookingInfoRidForBookingObjectId($booking_object_id);
-        if ($rid !== "") {
-            $this->wrapper->deleteResource($rid, $stakeholder);
+        if ($rid === '') {
+            return;
         }
+
+        $this->wrapper->deleteResource($rid, $stakeholder);
+        $this->db->update(
+            'booking_object',
+            ['book_info_rid' => [ilDBConstants::T_TEXT, '']],
+            ['booking_object_id' => [ilDBConstants::T_INTEGER, $booking_object_id]]
+        );
     }
 
     public function deliverBookingInfo(int $booking_object_id): void
@@ -204,11 +216,9 @@ class ObjectsDBRepository
     public function getBookingInfoFilename(int $booking_object_id): string
     {
         $rid = $this->getBookingInfoRidForBookingObjectId($booking_object_id);
-        if ($rid !== "") {
-            $info = $this->wrapper->getResourceInfo($rid);
-            return $info->getTitle();
-        }
-        return "";
+        return $rid !== ''
+            ? $this->wrapper->getResourceInfo($rid)->getTitle()
+            : '';
     }
 
 
@@ -217,21 +227,18 @@ class ObjectsDBRepository
         array $file_input,
         ResourceStakeholder $stakeholder
     ): string {
-        $rcid = $this->wrapper->importFileFromLegacyUpload(
-            $file_input,
-            $stakeholder
+        $rcid = $this->wrapper->importFileFromLegacyUpload($file_input, $stakeholder);
+
+        $this->db->update(
+            'booking_object',
+            [
+                'book_info_rid' => [ilDBConstants::T_TEXT, $rcid]
+            ],
+            [
+                'booking_object_id' => [ilDBConstants::T_INTEGER, $booking_object_id]
+            ]
         );
-        if ($rcid !== "") {
-            $this->db->update(
-                "booking_object",
-                [
-                    "book_info_rid" => ["text", $rcid]
-                ],
-                [    // where
-                     "booking_object_id" => ["integer", $booking_object_id]
-                ]
-            );
-        }
+
         return $rcid;
     }
 
@@ -241,29 +248,26 @@ class ObjectsDBRepository
     ): void {
         $from_rid = $this->getObjectInfoRidForBookingObjectId($from_id);
         $to_rid = $this->wrapper->cloneResource($from_rid);
-        if ($to_rid !== "") {
-            $this->db->update(
-                "booking_object",
-                [
-                    "obj_info_rid" => ["text", $to_rid]
-                ],
-                [    // where
-                     "booking_object_id" => ["integer", $to_id]
-                ]
-            );
-        }
+        $this->db->update(
+            'booking_object',
+            [
+                'obj_info_rid' => [ilDBConstants::T_TEXT, $to_rid]
+            ],
+            [
+                'booking_object_id' => [ilDBConstants::T_INTEGER, $to_id]
+            ]
+        );
+
         $from_rid = $this->getBookingInfoRidForBookingObjectId($from_id);
         $to_rid = $this->wrapper->cloneResource($from_rid);
-        if ($to_rid !== "") {
-            $this->db->update(
-                "booking_object",
-                [
-                    "book_info_rid" => ["text", $to_rid]
-                ],
-                [    // where
-                     "booking_object_id" => ["integer", $to_id]
-                ]
-            );
-        }
+        $this->db->update(
+            'booking_object',
+            [
+                'book_info_rid' => [ilDBConstants::T_TEXT, $to_rid]
+            ],
+            [
+                'booking_object_id' => [ilDBConstants::T_INTEGER, $to_id]
+            ]
+        );
     }
 }

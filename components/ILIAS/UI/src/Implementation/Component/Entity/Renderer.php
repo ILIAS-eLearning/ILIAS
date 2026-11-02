@@ -23,6 +23,7 @@ namespace ILIAS\UI\Implementation\Component\Entity;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
+use ILIAS\UI\Implementation\Render\Template;
 
 class Renderer extends AbstractComponentRenderer
 {
@@ -40,33 +41,15 @@ class Renderer extends AbstractComponentRenderer
     protected function renderEntity(Entity $component, RendererInterface $default_renderer): string
     {
         $tpl = $this->getTemplate('tpl.entity.html', true, true);
-        $secondary_identifier = $component->getSecondaryIdentifier();
 
-        if (is_string($secondary_identifier)) {
-            $tpl->touchBlock('secondid_string');
-        } elseif ($secondary_identifier instanceof Component\Image\Image) {
-            $tpl->touchBlock('secondid_image');
-        } elseif ($secondary_identifier instanceof Component\Symbol\Symbol) {
-            $tpl->touchBlock('secondid_symbol');
-        } elseif ($secondary_identifier instanceof Component\Link\Link) {
-            $tpl->touchBlock('secondid_link');
-        } elseif ($secondary_identifier instanceof Component\Button\Shy) {
-            $tpl->touchBlock('secondid_shy');
-        }
-
-        $tpl->setVariable('SECONDARY_IDENTIFIER', is_string($secondary_identifier) ? $secondary_identifier : $this->maybeRender($default_renderer, $secondary_identifier));
-
-        $primary_identifier = $component->getPrimaryIdentifier();
-        $primary_identifier = is_string($primary_identifier) ? $primary_identifier : $this->maybeRender($default_renderer, $primary_identifier);
-        $tpl->setVariable('PRIMARY_IDENTIFIER', $primary_identifier);
-        $tpl->setVariable('PRIMARY_IDENTIFIER_ID', $this->createId());
-
-        $tpl->setVariable('BLOCKING_CONDITIONS', $this->maybeRender($default_renderer, ...$component->getBlockingAvailabilityConditions()));
-        $tpl->setVariable('FEATURES', $this->maybeRender($default_renderer, ...$component->getFeaturedProperties()));
-        $tpl->setVariable('PERSONAL_STATUS', $this->maybeRender($default_renderer, ...$component->getPersonalStatus()));
-        $tpl->setVariable('MAIN_DETAILS', $this->maybeRender($default_renderer, ...$component->getMainDetails()));
-        $tpl->setVariable('AVAILABILITY', $this->maybeRender($default_renderer, ...$component->getAvailability()));
-        $tpl->setVariable('DETAILS', $this->maybeRender($default_renderer, ...$component->getDetails()));
+        $this->renderPrimaryIdentifier($component, $default_renderer, $tpl);
+        $this->renderSecondaryIdentifier($component, $default_renderer, $tpl);
+        $this->renderBlockingConditions($component, $default_renderer, $tpl);
+        $this->renderFeatures($component, $default_renderer, $tpl);
+        $this->renderPersonalStatus($component, $default_renderer, $tpl);
+        $this->renderMainDetails($component, $default_renderer, $tpl);
+        $this->renderAvailability($component, $default_renderer, $tpl);
+        $this->renderDetails($component, $default_renderer, $tpl);
 
         if (null !== $component->getWorkflow()) {
             $button_components = $this->createUnfinishedWorkflowActions($component->getWorkflow());
@@ -84,6 +67,72 @@ class Renderer extends AbstractComponentRenderer
         }
 
         return $tpl->get();
+    }
+
+    protected function renderPrimaryIdentifier(
+        Entity $component,
+        RendererInterface $default_renderer,
+        Template $tpl
+    ): void {
+        $primary_identifier = $component->getPrimaryIdentifier();
+        if (!is_string($primary_identifier)) {
+            $primary_identifier = $this->maybeRender($default_renderer, $primary_identifier);
+        }
+        $tpl->setVariable('PRIMARY_IDENTIFIER', $primary_identifier);
+        $tpl->setVariable('PRIMARY_IDENTIFIER_ID', $this->createId());
+    }
+
+    protected function renderSecondaryIdentifier(
+        Entity $component,
+        RendererInterface $default_renderer,
+        Template $tpl
+    ): void {
+        $secondary_identifier = $component->getSecondaryIdentifier();
+        if (is_string($secondary_identifier)) {
+            $tpl->touchBlock('secondid_string');
+        } elseif ($secondary_identifier instanceof Component\Image\Image) {
+            $tpl->touchBlock('secondid_image');
+        } elseif ($secondary_identifier instanceof Component\Symbol\Symbol) {
+            $tpl->touchBlock('secondid_symbol');
+        } elseif ($secondary_identifier instanceof Component\Link\Link) {
+            $tpl->touchBlock('secondid_link');
+        } elseif ($secondary_identifier instanceof Component\Button\Shy) {
+            $tpl->touchBlock('secondid_shy');
+        }
+        if (!is_string($secondary_identifier)) {
+            $secondary_identifier = $this->maybeRender($default_renderer, $secondary_identifier);
+        }
+        $tpl->setVariable('SECONDARY_IDENTIFIER', $secondary_identifier);
+    }
+
+    protected function renderBlockingConditions(Entity $component, RendererInterface $default_renderer, Template $tpl): void
+    {
+        $tpl->setVariable('BLOCKING_CONDITIONS', $this->maybeRender($default_renderer, ...$component->getBlockingAvailabilityConditions()));
+    }
+
+    protected function renderFeatures(Entity $component, RendererInterface $default_renderer, Template $tpl): void
+    {
+        $tpl->setVariable('FEATURES', $this->maybeRender($default_renderer, ...$component->getFeaturedProperties()));
+    }
+
+    protected function renderPersonalStatus(Entity $component, RendererInterface $default_renderer, Template $tpl): void
+    {
+        $tpl->setVariable('PERSONAL_STATUS', $this->maybeRender($default_renderer, ...$component->getPersonalStatus()));
+    }
+
+    protected function renderMainDetails(Entity $component, RendererInterface $default_renderer, Template $tpl): void
+    {
+        $tpl->setVariable('MAIN_DETAILS', $this->maybeRender($default_renderer, ...$component->getMainDetails()));
+    }
+
+    protected function renderAvailability(Entity $component, RendererInterface $default_renderer, Template $tpl): void
+    {
+        $tpl->setVariable('AVAILABILITY', $this->maybeRender($default_renderer, ...$component->getAvailability()));
+    }
+
+    protected function renderDetails(Entity $component, RendererInterface $default_renderer, Template $tpl): void
+    {
+        $tpl->setVariable('DETAILS', $this->maybeRender($default_renderer, ...$component->getDetails()));
     }
 
     protected function maybeRender(RendererInterface $default_renderer, Component\Component | null ...$values): ?string

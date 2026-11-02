@@ -32,15 +32,18 @@ class FooterTest extends ILIAS_UI_TestBase
     protected I\Button\Shy $shy_mock;
     protected I\Button\Standard $button_mock;
     protected I\Listing\Unordered $unordered_mock;
+    protected I\Transfer\Link $transfer_mock;
     protected I\Button\Factory $button_factory;
     protected I\Link\Factory $link_factory;
     protected I\Listing\Factory $listing_factory;
+    protected I\Transfer\Factory $transfer_factory;
     protected \ILIAS\Data\URI $uri_mock;
     protected string $link_html;
     protected string $icon_html;
     protected string $shy_html;
     protected string $button_html;
     protected string $unordered_html;
+    protected string $transfer_html;
 
     protected function setUp(): void
     {
@@ -49,6 +52,7 @@ class FooterTest extends ILIAS_UI_TestBase
         $this->shy_html = sha1(C\Button\Shy::class);
         $this->button_html = sha1(C\Button\Standard::class);
         $this->unordered_html = sha1(C\Listing\Unordered::class);
+        $this->transfer_html = sha1(C\Transfer\Link::class);
 
         $this->link_mock = $this->createMock(I\Link\Standard::class);
         $this->link_mock->method('getCanonicalName')->willReturn($this->link_html);
@@ -62,6 +66,9 @@ class FooterTest extends ILIAS_UI_TestBase
         $this->button_mock = $this->createMock(I\Button\Standard::class);
         $this->button_mock->method('getCanonicalName')->willReturn($this->button_html);
 
+        $this->transfer_mock = $this->createMock(I\Transfer\Link::class);
+        $this->transfer_mock->method('getCanonicalName')->willReturn($this->transfer_html);
+
         $this->unordered_mock = $this->createMock(I\Listing\Unordered::class);
         $this->unordered_mock->method('getCanonicalName')->willReturn($this->unordered_html);
 
@@ -74,6 +81,9 @@ class FooterTest extends ILIAS_UI_TestBase
 
         $this->listing_factory = $this->createMock(I\Listing\Factory::class);
         $this->listing_factory->method('unordered')->willReturn($this->unordered_mock);
+
+        $this->transfer_factory = $this->createMock(I\Transfer\Factory::class);
+        $this->transfer_factory->method('link')->willReturn($this->transfer_mock);
 
         $this->uri_mock = $this->createMock(\ILIAS\Data\URI::class);
 
@@ -106,22 +116,23 @@ class FooterTest extends ILIAS_UI_TestBase
         $footer = $this->getUIFactory()->mainControls()->footer();
         $footer = $footer->withPermanentURL($this->uri_mock);
 
-        $this->button_factory->expects($this->once())->method('standard')->with('copy_perma_link', '');
-        $this->button_mock->expects($this->once())->method('withAdditionalOnLoadCode')->willReturnSelf();
+        $this->transfer_factory
+            ->expects($this->once())
+            ->method('link')
+            ->with(C\Transfer\TransferMechanism::CLIPBOARD, $this->uri_mock, 'footer_permanent_link');
+        $this->transfer_mock->method('withAdditionalTransferMechanism')->willReturnSelf();
+        $this->transfer_mock
+            ->expects($this->once())
+            ->method('withAdditionalTransferMechanism')
+            ->with(C\Transfer\TransferMechanism::WEB_SHARE, C\Transfer\TransferMechanism::QR_CODE);
 
-        $renderer = $this->getDefaultRenderer(null, [$this->button_mock]);
+        $renderer = $this->getDefaultRenderer(null, [$this->transfer_mock]);
         $actual_html = $renderer->render($footer);
 
         $expected_html = <<<EOT
 <footer class="c-maincontrols c-maincontrols__footer">
     <section class="c-maincontrols__footer-grid c-maincontrols__footer-grid--md" data-section="permanent-link" aria-label="footer_permanent_link" tabindex="0">
-        <div class="c-maincontrols__footer-grid__item text-left">
-            <div class="c-tooltip__container c-tooltip--top" aria-live="polite">
-                $this->button_html
-                <div class="c-tooltip c-tooltip--hidden" role="tooltip">
-                    perma_link_copied
-                </div>
-            </div>
+        <div class="c-maincontrols__footer-grid__item text-left">$this->transfer_html
         </div>
     </section>
 </footer>
@@ -287,6 +298,7 @@ EOT;
             $this->button_factory,
             $this->link_factory,
             $this->listing_factory,
+            $this->transfer_factory,
         ) extends NoUIFactory {
             public function __construct(
                 protected I\SignalGeneratorInterface $signal_generator,
@@ -295,6 +307,7 @@ EOT;
                 protected I\Button\Factory $button_factory,
                 protected I\Link\Factory $link_factory,
                 protected I\Listing\Factory $listing_factory,
+                protected I\Transfer\Factory $transfer_factory,
             ) {
             }
             public function mainControls(): I\MainControls\Factory
@@ -319,6 +332,10 @@ EOT;
             public function listing(): I\Listing\Factory
             {
                 return $this->listing_factory;
+            }
+            public function transfer(): I\Transfer\Factory
+            {
+                return $this->transfer_factory;
             }
         };
     }

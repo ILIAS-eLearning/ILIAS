@@ -121,7 +121,7 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
             // No side blocks here
             if ($node['child'] == $this->parent_ref_id ||
                 $objDefinition->isSideBlock($node['type']) ||
-                in_array($node['type'], array('sess', 'itgr', 'rolf'))) {
+                in_array($node['type'], array('sess', 'obgr', 'rolf'))) {
                 continue;
             }
 

@@ -158,7 +158,7 @@ class ilPageEditorGUI
 
     private function isNewComponentCommand(string $cmd): bool
     {
-        return in_array($cmd, ["insert", "create", "upload"], true);
+        return in_array($cmd, ["insert", "create"], true);
     }
 
     protected function isMatchingContentObjectGUI(string $next_class, string $ctype): bool
@@ -203,6 +203,9 @@ class ilPageEditorGUI
 
         $cont_obj = $this->page->getContentObject($hier_id, $pc_id);
         if (!is_object($cont_obj)) {
+            if ($cmd === "upload") {
+                return null;
+            }
             $this->log->debug("returnToParent");
             $this->ctrl->returnToParent($this);
         }

@@ -21,6 +21,8 @@ declare(strict_types=1);
 use ILIAS\Data\Clock\ClockInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\Stub;
+use ILIAS\User\Settings\Settings;
 
 class ilMailOptionsTest extends ilMailBaseTestCase
 {
@@ -32,10 +34,10 @@ class ilMailOptionsTest extends ilMailBaseTestCase
     {
         parent::setUp();
 
-        $this->database = $this->getMockBuilder(ilDBInterface::class)
-                               ->getMock();
-        $query_mock = $this->getMockBuilder(ilDBStatement::class)
-                          ->getMock();
+        /** @var ilDBInterface&MockObject $query_mock */
+        $this->database = $this->createMock(ilDBInterface::class);
+        /** @var ilDBStatement&Stub $query_mock */
+        $query_mock = $this->createStub(ilDBStatement::class);
 
         $this->object = new stdClass();
         $this->object->cronjob_notification = false;
@@ -58,7 +60,8 @@ class ilMailOptionsTest extends ilMailBaseTestCase
 
     public function testConstructor(): void
     {
-        $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->onlyMethods(['get'])->getMock();
+        /** @var ilSetting&Stub $settings */
+        $settings = $this->getStubBuilder(ilSetting::class)->disableOriginalConstructor()->onlyMethods(['get'])->getStub();
         $settings->method('get')->willReturnCallback(static function (string $key, ?string $default = null) {
             if ($key === 'mail_incoming_mail' || $key === 'mail_address_option') {
                 return $default;
@@ -71,16 +74,14 @@ class ilMailOptionsTest extends ilMailBaseTestCase
             return $default;
         });
 
-        $user_settings = $this->getMockBuilder(ILIAS\User\Settings\Settings::class)->disableOriginalConstructor()
-            ->getMock();
+        /** @var Settings&Stub $user_settings */
+        $user_settings = $this->createStub(Settings::class);
 
         $mail_options = new ilMailOptions(
             1,
             null,
-            $this->createMock(ClockInterface::class),
+            $this->createStub(ClockInterface::class),
             $settings,
-            $this->database,
-            $user_settings,
             $this->database,
             $user_settings
         );
@@ -92,7 +93,8 @@ class ilMailOptionsTest extends ilMailBaseTestCase
 
     public function testConstructorWithUserSettings(): void
     {
-        $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->onlyMethods(['get'])->getMock();
+        /** @var ilSetting&Stub $settings */
+        $settings = $this->getStubBuilder(ilSetting::class)->disableOriginalConstructor()->onlyMethods(['get'])->getStub();
         $settings->method('get')->willReturnCallback(static function (string $key, ?string $default = null) {
             if ($key === 'mail_incoming_mail' || $key === 'mail_address_option') {
                 return $default;
@@ -105,14 +107,14 @@ class ilMailOptionsTest extends ilMailBaseTestCase
             return $default;
         });
 
-        $user_settings = $this->getMockBuilder(ILIAS\User\Settings\Settings::class)->disableOriginalConstructor()
-            ->getMock();
+        /** @var Settings&Stub $user_settings */
+        $user_settings = $this->createStub(Settings::class);
         $user_settings->method('settingAvailableToUser')->willReturn(true);
 
         $mail_options = new ilMailOptions(
             1,
             null,
-            $this->createMock(ClockInterface::class),
+            $this->createStub(ClockInterface::class),
             $settings,
             $this->database,
             $user_settings
@@ -138,10 +140,12 @@ class ilMailOptionsTest extends ilMailBaseTestCase
         $this->object->absence_ar_subject = 'subject';
         $this->object->absence_ar_body = 'body';
 
-        $cloc_service = $this->createMock(ClockInterface::class);
+        /** @var ClockInterface&Stub $cloc_service */
+        $cloc_service = $this->createStub(ClockInterface::class);
         $cloc_service->method('now')->willReturn((new DateTimeImmutable())->setTimestamp(100));
 
-        $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->onlyMethods(['get'])->getMock();
+        /** @var ilSetting&Stub $settings */
+        $settings = $this->getStubBuilder(ilSetting::class)->disableOriginalConstructor()->onlyMethods(['get'])->getStub();
         $settings->method('get')->willReturnCallback(static function (string $key, ?string $default = null) {
             if ($key === 'mail_incoming_mail' || $key === 'mail_address_option') {
                 return $default;
@@ -158,8 +162,8 @@ class ilMailOptionsTest extends ilMailBaseTestCase
             return $default;
         });
 
-        $user_settings = $this->getMockBuilder(ILIAS\User\Settings\Settings::class)->disableOriginalConstructor()
-            ->getMock();
+        /** @var Settings&Stub $user_settings */
+        $user_settings = $this->createStub(Settings::class);
 
         $mail_options = new ilMailOptions(
             $usr_id,

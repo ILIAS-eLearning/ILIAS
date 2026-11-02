@@ -3096,12 +3096,6 @@ msgstr "Insert Italic - Click to insert italic text."
 msgid "item"
 msgstr "Пункт"
 
-msgid "itgr_add"
-msgstr "Добавить группу элементов"
-
-msgid "itgr_new"
-msgstr "Новая группа элементов"
-
 msgid "java_server"
 msgstr "Java-Server"
 
@@ -4512,6 +4506,12 @@ msgstr "Количество пользователей"
 msgid "numberedlist_action"
 msgstr "Insert Numbered List - Click to insert a numbered list."
 
+msgid "obgr_add"
+msgstr "Добавить группу элементов"
+
+msgid "obgr_new"
+msgstr "Новая группа элементов"
+
 msgid "obj"
 msgstr "Объект"
 
@@ -4859,9 +4859,6 @@ msgstr "Copy Individual Assessment"
 msgid "obj_iass_select"
 msgstr "-- Please select one individual assessment --"
 
-msgid "obj_itgr"
-msgstr "Группа элементов"
-
 msgid "obj_ldap_desc"
 msgstr "Здесь можно сконфигурировать глобальные установки LDAP."
 
@@ -5003,6 +5000,9 @@ msgstr "Настройки новостей и новостных лент"
 
 msgid "obj_nwss_desc"
 msgstr "Settings for internal news and external web feeds."
+
+msgid "obj_obgr"
+msgstr "Группа элементов"
 
 msgid "obj_objf"
 msgstr "Определения объекта"
@@ -5555,9 +5555,6 @@ msgstr "Обучающие модули HTML"
 msgid "objs_iass"
 msgstr "Individual Assessments"
 
-msgid "objs_itgr"
-msgstr "Группы элементов"
-
 msgid "objs_lm"
 msgstr "Обучающие модули ILIAS"
 
@@ -5580,6 +5577,9 @@ msgstr "Трансляции"
 
 msgid "objs_mep"
 msgstr "Хранилища мультимедиа"
+
+msgid "objs_obgr"
+msgstr "Группы элементов"
 
 msgid "objs_orgu"
 msgstr "Организационный блок"
@@ -8343,3 +8343,4 @@ msgstr "Zip-Test failed. Please contact you ILIAS administrator."
 
 msgid "zipcode"
 msgstr "Почтовый индекс"
+

@@ -22,6 +22,6 @@ namespace ILIAS\UI\Implementation\Component\Listing\Entity;
 use ILIAS\UI\Component\Listing\Entity as I;
 use ILIAS\UI\Component\Entity as IEntity;
 
-class Grid extends EntityListing implements I\Grid
+class Grid extends Entity implements I\Grid
 {
 }

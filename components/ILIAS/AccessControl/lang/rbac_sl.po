@@ -1083,24 +1083,6 @@ msgstr "Notranji sistem pošte"
 msgid "invite"
 msgstr "Povabi k anketi"
 
-msgid "itgr_copy"
-msgstr "Kopiraj blok objektov"
-
-msgid "itgr_delete"
-msgstr "Izbriši ali premakni blok objektov"
-
-msgid "itgr_edit_permission"
-msgstr "Spremeni nastavitve pravic bloka objektov"
-
-msgid "itgr_read"
-msgstr "Bralni dostop do bloka objektov"
-
-msgid "itgr_visible"
-msgstr "Blok objektov je viden"
-
-msgid "itgr_write"
-msgstr "Uredi vsebino in nastavitve bloka objektov"
-
 msgid "leave"
 msgstr "Prekini članstvo"
 
@@ -1461,6 +1443,24 @@ msgstr "Administracija novic in spletnih virov je vidna"
 
 msgid "nwss_write"
 msgstr "Uredi nastavitve v administraciji novic in spletnih virov"
+
+msgid "obgr_copy"
+msgstr "Kopiraj blok objektov"
+
+msgid "obgr_delete"
+msgstr "Izbriši ali premakni blok objektov"
+
+msgid "obgr_edit_permission"
+msgstr "Spremeni nastavitve pravic bloka objektov"
+
+msgid "obgr_read"
+msgstr "Bralni dostop do bloka objektov"
+
+msgid "obgr_visible"
+msgstr "Blok objektov je viden"
+
+msgid "obgr_write"
+msgstr "Uredi vsebino in nastavitve bloka objektov"
 
 #, fuzzy
 msgid "obj_skee"
@@ -1900,9 +1900,6 @@ msgstr "Ustvari učni modul HTML"
 msgid "rbac_create_iass"
 msgstr "Ustvari individualno oceno"
 
-msgid "rbac_create_itgr"
-msgstr "Ustvari blok objektov"
-
 msgid "rbac_create_lm"
 msgstr "Ustvari učni modul ILIAS"
 
@@ -1917,6 +1914,9 @@ msgstr "Ustvari predvajanje medijskih vsebin"
 
 msgid "rbac_create_mep"
 msgstr "Ustvari skupino medijev"
+
+msgid "rbac_create_obgr"
+msgstr "Ustvari blok objektov"
 
 msgid "rbac_create_orgu"
 msgstr "Ustvari organizacijske enote"
@@ -2911,3 +2911,4 @@ msgstr "Uredi nastavitve v upravljanju Wiki"
 
 msgid "write"
 msgstr "Uredi nastavitve"
+

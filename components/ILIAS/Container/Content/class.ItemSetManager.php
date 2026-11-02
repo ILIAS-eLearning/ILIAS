@@ -207,7 +207,7 @@ class ItemSetManager
             }
 
             // BEGIN WebDAV: Don't display hidden Files, Folders and Categories
-            /* this is an old webdav hack, which leads to issues in item groups
+            /* this is an old webdav hack, which leads to issues in object groups
                these objects would be "invisible" but accessible (via url) which makes the behaviour very strange.
                They are hidden here, but shown in explorer trees and other places...
             if (in_array($object['type'], array('file','fold','cat'))) {

@@ -23,13 +23,16 @@ use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\BasicScalarValueFac
 use ILIAS\BackgroundTasks\Task;
 use ILIAS\BackgroundTasks\Task\TaskFactory;
 use ILIAS\BackgroundTasks\Value;
+use ILIAS\BackgroundTasks\Registry\Registry;
 
 class BasicTaskFactory implements TaskFactory
 {
     use BasicScalarValueFactory;
 
-    public function __construct(protected Injector $injector)
-    {
+    public function __construct(
+        protected Injector $injector,
+        protected Registry $registry
+    ) {
     }
 
     /**
@@ -37,11 +40,15 @@ class BasicTaskFactory implements TaskFactory
      */
     public function createTask(string $class_name, ?array $input = null): Task
     {
-        if (!class_exists($class_name)) {
+        if ($this->registry->isRegistered($class_name)) {
+            $task = $this->registry->newTask($class_name);
+        } elseif (class_exists($class_name)) {
+            // not contributed (yet), e.g. tasks of plugins, see ROADMAP.md
+            /** @var Task $task */
+            $task = $this->injector->createInstance($class_name);
+        } else {
             return new NotFoundUserInteraction();
         }
-        /** @var Task $task */
-        $task = $this->injector->createInstance($class_name);
         if ($input) {
             $wrappedInput = array_map(function ($i): Value {
                 if ($i instanceof Task) {

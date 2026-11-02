@@ -16,23 +16,24 @@
  *
  *********************************************************************/
 
-use ILIAS\FileUpload\Exception\IllegalStateException;
-use ILIAS\ResourceStorage\Services;
 use ILIAS\FileUpload\FileUpload;
+use ILIAS\ResourceStorage\Services;
+use ILIAS\FileUpload\Exception\IllegalStateException;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 class ilBadgeImageTemplate
 {
     protected ilDBInterface $db;
     protected int $id = 0;
-    protected string $title = "";
-    protected string $image = "";
-    protected ?string $image_rid = "";
+    protected string $title = '';
+    protected ?string $image_rid = null;
+
     /** @var string[] */
     protected ?array $types = null;
     protected Services $resource_storage;
     protected FileUpload $upload_service;
     protected ilGlobalTemplateInterface $main_template;
+    protected ilLogger $log;
 
     public function __construct(?int $a_id = null)
     {
@@ -41,6 +42,7 @@ class ilBadgeImageTemplate
         $this->resource_storage = $DIC->resourceStorage();
         $this->upload_service = $DIC->upload();
         $this->main_template = $DIC->ui()->mainTemplate();
+        $this->log = $DIC->logger()->forComponent('badge');
         $this->db = $DIC->database();
         if ($a_id) {
             $this->read($a_id);
@@ -56,18 +58,18 @@ class ilBadgeImageTemplate
 
         $ilDB = $DIC->database();
 
-        $res = array();
+        $res = [];
 
-        $types = array();
-        $set = $ilDB->query("SELECT * FROM badge_image_templ_type");
+        $types = [];
+        $set = $ilDB->query('SELECT * FROM badge_image_templ_type');
         while ($row = $ilDB->fetchAssoc($set)) {
-            $types[$row["tmpl_id"]][] = $row["type_id"];
+            $types[$row['tmpl_id']][] = $row['type_id'];
         }
 
-        $set = $ilDB->query("SELECT * FROM badge_image_template" .
-            " ORDER BY title");
+        $set = $ilDB->query('SELECT * FROM badge_image_template' .
+            ' ORDER BY title');
         while ($row = $ilDB->fetchAssoc($set)) {
-            $row["types"] = (array) ($types[$row["id"]] ?? null);
+            $row['types'] = (array) ($types[$row['id']] ?? null);
 
             $obj = new self();
             $obj->importDBRow($row);
@@ -93,7 +95,6 @@ class ilBadgeImageTemplate
         return $res;
     }
 
-
     //
     // setter/getter
     //
@@ -118,13 +119,6 @@ class ilBadgeImageTemplate
         return $this->title;
     }
 
-    protected function setImage(?string $a_value): void
-    {
-        if ($a_value !== null) {
-            $this->image = trim($a_value);
-        }
-    }
-
     /**
      * @return string[]
      */
@@ -138,34 +132,6 @@ class ilBadgeImageTemplate
         $this->types = is_array($types)
             ? array_unique($types)
             : null;
-    }
-
-    public function getImage(): string
-    {
-        return $this->image;
-    }
-
-    /**
-     * @throws ilException
-     * @throws ilFileUtilsException
-     */
-    public function uploadImage(array $a_upload_meta): void
-    {
-        if ($this->getId() &&
-            $a_upload_meta["tmp_name"]) {
-            $path = $this->getFilePath($this->getId());
-
-            $filename = ilFileUtils::getValidFilename($a_upload_meta["name"]);
-
-            $exp = explode(".", $filename);
-            $suffix = strtolower(array_pop($exp));
-            $tgt = $path . "img" . $this->getId() . "." . $suffix;
-
-            if (ilFileUtils::moveUploadedFile($a_upload_meta["tmp_name"], "img" . $this->getId() . "." . $suffix, $tgt)) {
-                $this->setImage($filename);
-                $this->update();
-            }
-        }
     }
 
     public function processImageUpload(ilBadgeImageTemplate $badge): void
@@ -192,44 +158,6 @@ class ilBadgeImageTemplate
         }
     }
 
-    public function getImagePath(): string
-    {
-        if ($this->getId()) {
-            if (is_file($this->getFilePath($this->getId()) . "img" . $this->getId())) {	// formerly (early 5.2 versino), images have been uploaded with no suffix
-                return $this->getFilePath($this->getId()) . "img" . $this->getId();
-            }
-
-            $exp = explode(".", $this->getImage());
-            $suffix = strtolower(array_pop($exp));
-            return $this->getFilePath($this->getId()) . "img" . $this->getId() . "." . $suffix;
-        }
-        return "";
-    }
-
-    /**
-     * Init file system storage
-     */
-    protected function getFilePath(
-        int $a_id,
-        ?string $a_subdir = null
-    ): string {
-        $storage = new ilFSStorageBadgeImageTemplate($a_id);
-        $storage->create();
-
-        $path = $storage->getAbsolutePath() . "/";
-
-        if ($a_subdir) {
-            $path .= $a_subdir . "/";
-
-            if (!is_dir($path)) {
-                mkdir($path);
-            }
-        }
-
-        return $path;
-    }
-
-
     //
     // crud
     //
@@ -238,11 +166,11 @@ class ilBadgeImageTemplate
     {
         $ilDB = $this->db;
 
-        $set = $ilDB->query("SELECT * FROM badge_image_template" .
-            " WHERE id = " . $ilDB->quote($a_id, "integer"));
+        $set = $ilDB->query('SELECT * FROM badge_image_template' .
+            ' WHERE id = ' . $ilDB->quote($a_id, 'integer'));
         if ($ilDB->numRows($set)) {
             $row = $ilDB->fetchAssoc($set);
-            $row["types"] = $this->readTypes($a_id);
+            $row['types'] = $this->readTypes($a_id);
             $this->importDBRow($row);
         }
     }
@@ -251,11 +179,11 @@ class ilBadgeImageTemplate
     {
         $ilDB = $this->db;
 
-        $res = array();
+        $res = [];
 
-        $set = $ilDB->query("SELECT * FROM badge_image_templ_type WHERE tmpl_id = " . $ilDB->quote($a_id, "integer"));
+        $set = $ilDB->query('SELECT * FROM badge_image_templ_type WHERE tmpl_id = ' . $ilDB->quote($a_id, 'integer'));
         while ($row = $ilDB->fetchAssoc($set)) {
-            $res[] = $row["type_id"];
+            $res[] = $row['type_id'];
         }
 
         if (!count($res)) {
@@ -267,15 +195,12 @@ class ilBadgeImageTemplate
 
     protected function importDBRow(array $a_row): void
     {
-        $this->setId($a_row["id"]);
-        $this->setTitle($a_row["title"]);
-        if (isset($a_row["image"])) {
-            $this->setImage($a_row["image"]);
+        $this->setId($a_row['id']);
+        $this->setTitle($a_row['title']);
+        if (isset($a_row['image_rid'])) {
+            $this->setImageRid($a_row['image_rid']);
         }
-        if (isset($a_row["image_rid"])) {
-            $this->setImageRid($a_row["image_rid"]);
-        }
-        $this->setTypes($a_row["types"]);
+        $this->setTypes($a_row['types']);
     }
 
     public function create(): void
@@ -284,16 +209,17 @@ class ilBadgeImageTemplate
 
         if ($this->getId()) {
             $this->update();
+
             return;
         }
 
-        $id = $ilDB->nextId("badge_image_template");
+        $id = $ilDB->nextId('badge_image_template');
         $this->setId($id);
 
         $fields = $this->getPropertiesForStorage();
-        $fields["id"] = array("integer", $id);
+        $fields['id'] = ['integer', $id];
 
-        $ilDB->insert("badge_image_template", $fields);
+        $ilDB->insert('badge_image_template', $fields);
 
         $this->saveTypes();
     }
@@ -304,15 +230,16 @@ class ilBadgeImageTemplate
 
         if (!$this->getId()) {
             $this->create();
+
             return;
         }
 
         $fields = $this->getPropertiesForStorage();
 
         $ilDB->update(
-            "badge_image_template",
+            'badge_image_template',
             $fields,
-            array("id" => array("integer", $this->getId()))
+            ['id' => ['integer', $this->getId()]]
         );
 
         $this->saveTypes();
@@ -326,11 +253,24 @@ class ilBadgeImageTemplate
             return;
         }
 
-        $path = $this->getFilePath($this->getId());
-        ilFileUtils::delDir($path);
+        $image_rid = $this->getImageRid();
+        if ($image_rid !== null) {
+            try {
+                $this->resource_storage->manage()->remove(
+                    new ResourceIdentification($image_rid),
+                    new ilBadgeFileStakeholder()
+                );
+            } catch (Exception $e) {
+                $this->log->warning(sprintf(
+                    'There was an exception, while deleting the badge image template with id %s. Exception: %s',
+                    $this->getId(),
+                    $e->getMessage()
+                ));
+            }
+        }
 
-        $ilDB->manipulate("DELETE FROM badge_image_template" .
-            " WHERE id = " . $ilDB->quote($this->getId(), "integer"));
+        $ilDB->manipulate('DELETE FROM badge_image_template' .
+            ' WHERE id = ' . $ilDB->quote($this->getId(), 'integer'));
     }
 
     /**
@@ -339,9 +279,8 @@ class ilBadgeImageTemplate
     protected function getPropertiesForStorage(): array
     {
         return [
-            "title" => ["text", $this->getTitle()],
-            "image" => ["text", $this->getImage()],
-            "image_rid" => ["text", $this->getImageRid()]
+            'title' => ['text', $this->getTitle()],
+            'image_rid' => ['text', $this->getImageRid()]
         ];
     }
 
@@ -350,16 +289,16 @@ class ilBadgeImageTemplate
         $ilDB = $this->db;
 
         if ($this->getId()) {
-            $ilDB->manipulate("DELETE FROM badge_image_templ_type" .
-                " WHERE tmpl_id = " . $ilDB->quote($this->getId(), "integer"));
+            $ilDB->manipulate('DELETE FROM badge_image_templ_type' .
+                ' WHERE tmpl_id = ' . $ilDB->quote($this->getId(), 'integer'));
 
             if ($this->getTypes()) {
                 foreach ($this->getTypes() as $type) {
-                    $fields = array(
-                        "tmpl_id" => array("integer", $this->getId()),
-                        "type_id" => array("text", $type)
-                    );
-                    $ilDB->insert("badge_image_templ_type", $fields);
+                    $fields = [
+                        'tmpl_id' => ['integer', $this->getId()],
+                        'type_id' => ['text', $type]
+                    ];
+                    $ilDB->insert('badge_image_templ_type', $fields);
                 }
             }
         }
@@ -367,6 +306,11 @@ class ilBadgeImageTemplate
 
     public function getImageRid(): ?string
     {
+        // '-' was written by the removed filesystem migration for templates without an image.
+        if ($this->image_rid === null || $this->image_rid === '' || $this->image_rid === '-') {
+            return null;
+        }
+
         return $this->image_rid;
     }
 
@@ -375,19 +319,18 @@ class ilBadgeImageTemplate
         $this->image_rid = $image_rid;
     }
 
-    public function getImageFromResourceId(
-    ): string {
-        $image_src = '';
-
-        if ($this->getImageRid()) {
-            $identification = $this->resource_storage->manage()->find($this->getImageRid());
-            if ($identification !== null) {
-                $image_src = $this->resource_storage->consume()->src($identification)->getSrc();
-            }
-        } elseif ($this->getImage()) {
-            $image_src = ilWACSignedPath::signFile($this->getImagePath());
+    public function getImageFromResourceId(): string
+    {
+        $image_rid = $this->getImageRid();
+        if ($image_rid === null) {
+            return '';
         }
 
-        return $image_src;
+        $identification = $this->resource_storage->manage()->find($image_rid);
+        if ($identification === null) {
+            return '';
+        }
+
+        return $this->resource_storage->consume()->src($identification)->getSrc();
     }
 }

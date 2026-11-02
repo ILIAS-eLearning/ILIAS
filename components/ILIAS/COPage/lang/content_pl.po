@@ -1923,8 +1923,8 @@ msgid "cont_manifest"
 msgstr "Manifest"
 
 #, fuzzy
-msgid "cont_manual_item_group"
-msgstr "Manually Create Item Group"
+msgid "cont_manual_object_group"
+msgstr "Manually Created Object Group"
 
 msgid "cont_map_file_not_generated"
 msgstr "Niestety nie udało się wygenerować pliku mapy bitowej."
@@ -3826,3 +3826,5 @@ msgstr "Tekst alternatywny"
 
 msgid "text_repr_info"
 msgstr "Używany jest wtedy, gdy nie można wyświetlić grafiki."
+
+

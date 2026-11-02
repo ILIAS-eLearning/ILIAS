@@ -2193,7 +2193,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         $item_data = $this->object->getSubItems(false, false, $child_ref_id);
         $container_view = $this->getContentGUI();
-        $item_group_list_presentation = $this->getListPresentationForRedraw($parent_ref_id);
+        $object_group_list_presentation = $this->getListPresentationForRedraw($parent_ref_id);
 
         // see #41377 (material not redrawn, when not a direct child)
         $sess_data = [];
@@ -2216,7 +2216,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                         if ($parent_ref_id !== 0) {
                             $event_item["parent"] = $parent_ref_id;
                         }
-                        $html = $container_view->renderItem($event_item, 0, false, "", $item_group_list_presentation);
+                        $html = $container_view->renderItem($event_item, 0, false, "", $object_group_list_presentation);
                     }
                 }
             }
@@ -2230,10 +2230,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                     if ($parent_ref_id !== 0) {
                         $id_with_block["parent"] = $parent_ref_id;
                     }
-                    if ($parent_ref_id > 0 && ilObject::_lookupType($parent_ref_id, true) === "itgr") {
+                    if ($parent_ref_id > 0 && ilObject::_lookupType($parent_ref_id, true) === "obgr") {
                         $id_with_block["block_parent"] = $parent_ref_id;
                     }
-                    $html = $container_view->renderItem($id_with_block, 0, false, "", $item_group_list_presentation);
+                    $html = $container_view->renderItem($id_with_block, 0, false, "", $object_group_list_presentation);
                 }
             }
         }
@@ -2253,9 +2253,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
     protected function getListPresentationForRedraw(int $parent_ref_id): string
     {
-        if ($parent_ref_id > 0 && ilObject::_lookupType($parent_ref_id, true) === "itgr") {
-            $item_group = new \ilObjItemGroup($parent_ref_id, true);
-            $presentation = $item_group->getListPresentation();
+        if ($parent_ref_id > 0 && ilObject::_lookupType($parent_ref_id, true) === "obgr") {
+            $object_group = new \ilObjObjectGroup($parent_ref_id, true);
+            $presentation = $object_group->getListPresentation();
             if ($presentation === "tile" || $presentation === "list") {
                 return $presentation;
             }

@@ -63,7 +63,11 @@ class ilJavaScriptBinding implements JavaScriptBinding
             return '';
         }
         $js_out = '<script data-replace-marker="script">' . implode("\n", $this->code) . '</script>';
-        $this->code = [];
         return $js_out;
+    }
+
+    public function clearOnLoadCodeAsync(): void
+    {
+        $this->code = [];
     }
 }

@@ -163,7 +163,7 @@ class ilCalendarRemoteAccessHandler
             return false;
         }
 
-        $GLOBALS['DIC']['ilAuthSession']->setAuthenticated(true, $this->getTokenHandler()->getUserId());
+        $GLOBALS['DIC']['ilAuthSession']->onLoginSuccess($this->getTokenHandler()->getUserId());
         ilInitialisation::initUserAccount();
 
         if (!$DIC->user() instanceof ilObjUser) {

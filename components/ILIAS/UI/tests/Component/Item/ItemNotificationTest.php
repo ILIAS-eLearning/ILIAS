@@ -211,6 +211,11 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
             public function getOnLoadCodeAsync(): string
             {
             }
+
+            public function clearOnLoadCodeAsync(): void
+            {
+                $this->on_load_code = [];
+            }
         });
 
         $props = array("prop1" => "val1", "prop2" => "val2");

@@ -1045,24 +1045,6 @@ msgstr "Belső levelezés"
 msgid "invite"
 msgstr "Meghívás kérdőívhez"
 
-msgid "itgr_copy"
-msgstr "A felhasználó másolhat objektumcsoportot"
-
-msgid "itgr_delete"
-msgstr "A felhasználó áthelyezhet vagy törölhet objektumcsoportot"
-
-msgid "itgr_edit_permission"
-msgstr "A felhasználó módosíthatja a jogosultsági beállításokat"
-
-msgid "itgr_read"
-msgstr "A felhasználó olvashat objektumcsoportot"
-
-msgid "itgr_visible"
-msgstr "Elem csoport látható"
-
-msgid "itgr_write"
-msgstr "A felhasználó szerkesztheti objektumcsoport tartalmát és beállításait"
-
 msgid "leave"
 msgstr "Kilépés"
 
@@ -1404,6 +1386,24 @@ msgstr "A felhasználó láthatja a Rendszerbeállítások » Hírek és webhír
 
 msgid "nwss_write"
 msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Hírek és webhírforrások beállításait"
+
+msgid "obgr_copy"
+msgstr "A felhasználó másolhat objektumcsoportot"
+
+msgid "obgr_delete"
+msgstr "A felhasználó áthelyezhet vagy törölhet objektumcsoportot"
+
+msgid "obgr_edit_permission"
+msgstr "A felhasználó módosíthatja a jogosultsági beállításokat"
+
+msgid "obgr_read"
+msgstr "A felhasználó olvashat objektumcsoportot"
+
+msgid "obgr_visible"
+msgstr "Elem csoport látható"
+
+msgid "obgr_write"
+msgstr "A felhasználó szerkesztheti objektumcsoport tartalmát és beállításait"
 
 msgid "obj_skee"
 msgstr "Kompetencia-fa"
@@ -1828,9 +1828,6 @@ msgstr "HTML-tananyag létrehozása"
 msgid "rbac_create_iass"
 msgstr "Személyes értékelés létrehozása"
 
-msgid "rbac_create_itgr"
-msgstr "Objektumcsoport létrehozása"
-
 msgid "rbac_create_lm"
 msgstr "ILIAS-tananyag létrehozása"
 
@@ -1845,6 +1842,9 @@ msgstr "Médiasugárzás létrehozása"
 
 msgid "rbac_create_mep"
 msgstr "Médiagyűjtemény létrehozása"
+
+msgid "rbac_create_obgr"
+msgstr "Objektumcsoport létrehozása"
 
 msgid "rbac_create_orgu"
 msgstr "Szervezeti egységek létrehozása"
@@ -2808,3 +2808,4 @@ msgstr "A felhasználó módosíthatja a Rendszerbeállítások » Wiki beállí
 
 msgid "write"
 msgstr "Beállítások módosítása"
+

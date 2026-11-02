@@ -100,7 +100,7 @@ interface Standard extends Icon
     public const DCL = 'dcl';	//Data Collection Object
     public const POLL = 'poll';	//Poll Object
     public const HLPS = 'hlps';	//Help Settings
-    public const ITGR = 'itgr';	//Item Group
+    public const OBGR = 'obgr';	//Object Group
     public const RCAT = 'rcat';	//Remote Category Object
     public const RWIK = 'rwik';	//Remote Wiki Object
     public const RLM = 'rlm';	//Remote Learning Module Object
@@ -184,7 +184,7 @@ interface Standard extends Icon
     public const GCON = 'gcon';	    //Group Conversaion
     public const FILS = 'fils';	    //File System Service
     public const TALA = 'tala';	    //Employee Talk Template Admin
-    public const QST = 'ques';     //Question
+    public const QSTS = 'qsts';     //Question Component
     public const GSFO = 'gsfo';     //Footer Administration
     public const STUS = 'stus';     //Shortlink
     public const ADMA = 'adma';     //Administration - General Settings

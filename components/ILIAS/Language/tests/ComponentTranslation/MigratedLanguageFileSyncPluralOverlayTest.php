@@ -34,6 +34,8 @@ use PHPUnit\Framework\TestCase;
  */
 class MigratedLanguageFileSyncPluralOverlayTest extends TestCase
 {
+    use RestoresProcessState;
+
     private const string MODULE = 'ptest';
 
     private string $fixture_directory;

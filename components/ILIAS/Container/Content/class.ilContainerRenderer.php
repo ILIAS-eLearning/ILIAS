@@ -171,7 +171,7 @@ class ilContainerRenderer
         ?string $a_block_id = null
     ): bool {
         $block_id = $a_block_id ?? $a_type;
-        if ($a_type !== "itgr" &&
+        if ($a_type !== "obgr" &&
             !$this->hasTypeBlock($block_id)) {
             $this->type_blocks[$block_id] = [
                 "prefix" => $a_prefix
@@ -305,7 +305,7 @@ class ilContainerRenderer
         $a_item_html,
         bool $a_force = false
     ): bool {
-        if ($a_item_type !== "itgr" &&
+        if ($a_item_type !== "obgr" &&
             $this->isValidBlock($a_block_id) &&
             (!$this->hasItem($a_item_id) || $a_force)) {
             if (is_string($a_item_html) && trim($a_item_html) === "") {
@@ -516,22 +516,22 @@ class ilContainerRenderer
         return false;
     }
 
-    protected function getViewModeOfItemGroup(int $ref_id): int
+    protected function getViewModeOfObjectGroup(int $ref_id): int
     {
-        $item_group = new ilObjItemGroup($ref_id);
+        $object_group = new ilObjObjectGroup($ref_id);
         $view_mode = ilContainerContentGUI::VIEW_MODE_LIST;
-        if ($item_group->getListPresentation() !== "") {
-            $view_mode = ($item_group->getListPresentation() === "tile")
+        if ($object_group->getListPresentation() !== "") {
+            $view_mode = ($object_group->getListPresentation() === "tile")
                 ? ilContainerContentGUI::VIEW_MODE_TILE
                 : ilContainerContentGUI::VIEW_MODE_LIST;
         }
         return $view_mode;
     }
 
-    protected function getListPresentationOfItemGroup(int $ref_id): string
+    protected function getListPresentationOfObjectGroup(int $ref_id): string
     {
-        $item_group = new ilObjItemGroup($ref_id);
-        return $item_group->getListPresentation();
+        $object_group = new ilObjObjectGroup($ref_id);
+        return $object_group->getListPresentation();
     }
 
     /**
@@ -563,17 +563,17 @@ class ilContainerRenderer
                 $tile_size = ilContainer::_lookupContainerSetting($this->container_gui->getObject()->getId(), "tile_size");
             }
             if (is_numeric($a_block_id)) {
-                $item_group = new ilObjItemGroup($a_block_id);
-                if ($item_group->getListPresentation() !== "") {
-                    $view_mode = ($item_group->getListPresentation() === "tile" && !$this->active_block_ordering && !$this->admin_panel)
+                $object_group = new ilObjObjectGroup($a_block_id);
+                if ($object_group->getListPresentation() !== "") {
+                    $view_mode = ($object_group->getListPresentation() === "tile" && !$this->active_block_ordering && !$this->admin_panel)
                         ? ilContainerContentGUI::VIEW_MODE_TILE
                         : ilContainerContentGUI::VIEW_MODE_LIST;
-                    $tile_size = $item_group->getTileSize();
+                    $tile_size = $object_group->getTileSize();
                 }
             }
 
 
-            // #14610 - manage empty item groups
+            // #14610 - manage empty object groups
             if ((isset($this->block_items[$a_block_id]) && is_array($this->block_items[$a_block_id])) ||
                 is_numeric($a_block_id)) {
                 $cards = [];
@@ -684,7 +684,7 @@ class ilContainerRenderer
 
     /**
      * Render block header
-     * @param string     $a_order_id item group id or type, e.g. "crs"
+     * @param string     $a_order_id object group id or type, e.g. "crs"
      * @throws ilTemplateException
      */
     protected function addHeaderRow(
@@ -734,7 +734,7 @@ class ilContainerRenderer
                 $a_tpl->setVariable("DATA_VALUE", $v);
                 $a_tpl->parseCurrentBlock();
 
-                if ($k === "behaviour" && $v == ilItemGroupBehaviour::EXPANDABLE_CLOSED) {
+                if ($k === "behaviour" && $v == ilObjectGroupBehaviour::EXPANDABLE_CLOSED) {
                     $a_tpl->touchBlock("container_items_hide");
                 }
             }
@@ -887,7 +887,7 @@ class ilContainerRenderer
             if ($block->getPageEmbedded()) {
                 $page_block_instance++;
             }
-            if ($block->getBlock() instanceof \ILIAS\Container\Content\ItemGroupBlock) {
+            if ($block->getBlock() instanceof \ILIAS\Container\Content\ObjectGroupBlock) {
                 $block_id = (string) $block->getBlock()->getRefId();
                 $force_item_even_if_already_rendered = true;
             }
@@ -911,9 +911,9 @@ class ilContainerRenderer
             $pos_prefix = "";
 
             // (1) add block
-            if ($block->getBlock() instanceof \ILIAS\Container\Content\ItemGroupBlock) {
-                $this->addItemGroupBlock($block_id);
-                $pos_prefix = "[itgr][" . \ilObject::_lookupObjId($block->getBlock()->getRefId()) . "]";
+            if ($block->getBlock() instanceof \ILIAS\Container\Content\ObjectGroupBlock) {
+                $this->addObjectGroupBlock($block_id);
+                $pos_prefix = "[obgr][" . \ilObject::_lookupObjId($block->getBlock()->getRefId()) . "]";
             }
             if ($block->getBlock() instanceof \ILIAS\Container\Content\OtherBlock) {
                 $title = $this->item_presentation->filteredSubtree()
@@ -945,7 +945,7 @@ class ilContainerRenderer
                     continue;
                 }
                 // use block_id as parent for unique IDs when item appears in multiple blocks
-                if ($block->getBlock() instanceof \ILIAS\Container\Content\ItemGroupBlock) {
+                if ($block->getBlock() instanceof \ILIAS\Container\Content\ObjectGroupBlock) {
                     $item_data["block_parent"] = (int) $block_id;
                 }
                 if ($block->getPageEmbedded()) {
@@ -957,16 +957,16 @@ class ilContainerRenderer
                 } elseif ($this->container_gui->isMultiDownloadEnabled()) {
                     $checkbox = \ILIAS\Containter\Content\ItemRenderer::CHECKBOX_DOWNLOAD;
                 }
-                $item_group_list_presentation = "";
-                if ($block->getBlock() instanceof \ILIAS\Container\Content\ItemGroupBlock) {
-                    if ($this->getListPresentationOfItemGroup((int) $block_id) === "tile") {
+                $object_group_list_presentation = "";
+                if ($block->getBlock() instanceof \ILIAS\Container\Content\ObjectGroupBlock) {
+                    if ($this->getListPresentationOfObjectGroup((int) $block_id) === "tile") {
                         if (!$this->admin_panel && !$this->active_block_ordering) {
-                            $item_group_list_presentation = "tile";
+                            $object_group_list_presentation = "tile";
                         }
                     }
-                    if ($this->getListPresentationOfItemGroup((int) $block_id) === "list") {
+                    if ($this->getListPresentationOfObjectGroup((int) $block_id) === "list") {
                         if (!$this->admin_panel && !$this->active_block_ordering) {
-                            $item_group_list_presentation = "list";
+                            $object_group_list_presentation = "list";
                         }
                     }
                 }
@@ -975,7 +975,7 @@ class ilContainerRenderer
                     $position++,
                     false,
                     $pos_prefix,
-                    $item_group_list_presentation,
+                    $object_group_list_presentation,
                     $checkbox,
                     $this->item_presentation->isActiveItemOrdering($item_data["type"]),
                     $this->getDetailsLevel($item_data["obj_id"])
@@ -1002,7 +1002,7 @@ class ilContainerRenderer
                         1
                     );
                     $valid = true;
-                } elseif ($block->getBlock() instanceof \ILIAS\Container\Content\ItemGroupBlock) {
+                } elseif ($block->getBlock() instanceof \ILIAS\Container\Content\ObjectGroupBlock) {
                     $page_html = preg_replace(
                         '~\[item-group-' . $block->getId() . '\]~i',
                         $this->renderSingleCustomBlock((int) $block->getId(), $block->getLimitExhausted()),
@@ -1025,7 +1025,7 @@ class ilContainerRenderer
                     $valid = true;
                 }
             } else {
-                if ($block->getBlock() instanceof \ILIAS\Container\Content\ItemGroupBlock ||
+                if ($block->getBlock() instanceof \ILIAS\Container\Content\ObjectGroupBlock ||
                     $block->getBlock() instanceof \ILIAS\Container\Content\OtherBlock) {
                     if ($this->renderHelperCustomBlock($block_tpl, $block_id, false, $block->getLimitExhausted())) {
                         $this->addSeparatorRow($block_tpl);
@@ -1148,9 +1148,9 @@ class ilContainerRenderer
     }
 
     /**
-     * replaces ilContainerContentGUI::renderItemGroup
+     * replaces ilContainerContentGUI::renderObjectGroup
      */
-    protected function addItemGroupBlock(string $block_id, int $block_pos = 0): void
+    protected function addObjectGroupBlock(string $block_id, int $block_pos = 0): void
     {
         $item_data = $this->item_presentation->getRawDataByRefId((int) $block_id);
         $item_list_gui = $this->item_renderer->getItemGUI($item_data);
@@ -1164,7 +1164,7 @@ class ilContainerRenderer
         $perm_ok = ($ilAccess->checkAccess("visible", "", $item_data['ref_id']) &&
             $ilAccess->checkAccess("read", "", $item_data['ref_id']));
 
-        $items = ilObjectActivation::getItemsByItemGroup($item_data['ref_id']);
+        $items = ilObjectActivation::getItemsByObjectGroup($item_data['ref_id']);
 
         // get all valid ids (this is filtered)
         $all_ids = array_map(static function (array $i) : int {
@@ -1193,25 +1193,25 @@ class ilContainerRenderer
         $item_list_gui->initItem(
             (int) $item_data["ref_id"],
             (int) $item_data["obj_id"],
-            "itgr",
+            "obgr",
             $item_data["title"],
             $item_data["description"]
         );
 
         // determine behaviour
-        $item_group = new ilObjItemGroup($item_data['ref_id']);
-        $opened = $this->block_repo->getProperty("itgr_{$item_data['ref_id']}", $this->user->getId(), 'opened');
+        $object_group = new ilObjObjectGroup($item_data['ref_id']);
+        $opened = $this->block_repo->getProperty("obgr_{$item_data['ref_id']}", $this->user->getId(), 'opened');
 
-        $this->ctrl->setParameterByClass(ilContainerBlockPropertiesStorageGUI::class, 'cont_block_id', "itgr_{$item_data['ref_id']}");
+        $this->ctrl->setParameterByClass(ilContainerBlockPropertiesStorageGUI::class, 'cont_block_id', "obgr_{$item_data['ref_id']}");
         $store_url = $this->ctrl->getLinkTargetByClass(ilContainerBlockPropertiesStorageGUI::class, 'store');
         $this->ctrl->clearParameterByClass(ilContainerBlockPropertiesStorageGUI::class, 'cont_block_id');
 
         $this->addCustomBlock(
             $block_id,
-            $item_group->getShowTitle() || $this->container_gui->isActiveAdministrationPanel() ? $item_data['title'] : '',
+            $object_group->getShowTitle() || $this->container_gui->isActiveAdministrationPanel() ? $item_data['title'] : '',
             $item_list_gui->getCommandsHTML(),
             [
-                'behaviour' => $item_group->getBehaviour(in_array($opened, ['0', '1'], true) ? (bool) $opened : null),
+                'behaviour' => $object_group->getBehaviour(in_array($opened, ['0', '1'], true) ? (bool) $opened : null),
                 'store-url' => "./{$store_url}"
             ]
         );

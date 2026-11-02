@@ -18,14 +18,17 @@
 
 declare(strict_types=1);
 
+use PHPUnit\Framework\MockObject\Stub;
+
 class ilMailTransportSettingsTest extends ilMailBaseTestCase
 {
     public function testSystemAsIncomingTypeWontUpdate(): void
     {
-        $mail_options = $this->getMockBuilder(ilMailOptions::class)
+        /** @var ilMailOptions&Stub $mail_options */
+        $mail_options = $this->getStubBuilder(ilMailOptions::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['updateOptions'])
-            ->getMock();
+            ->getStub();
 
         $mail_options->setIncomingType(0);
         $mail_options->setEmailAddressmode(3);

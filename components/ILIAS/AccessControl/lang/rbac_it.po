@@ -1065,24 +1065,6 @@ msgstr "Mail interna"
 msgid "invite"
 msgstr "Invita per il sondaggio"
 
-msgid "itgr_copy"
-msgstr "L’utente può copiare il gruppo di elementi"
-
-msgid "itgr_delete"
-msgstr "L’utente può spostare o eliminare il gruppo di elementi"
-
-msgid "itgr_edit_permission"
-msgstr "L’utente può modificare le impostazioni di autorizzazione"
-
-msgid "itgr_read"
-msgstr "L'utente può leggere il gruppo di articoli"
-
-msgid "itgr_visible"
-msgstr "Il gruppo di articoli è visibile"
-
-msgid "itgr_write"
-msgstr "L’utente può modificare il contenuto e le impostazioni del gruppo di elementi"
-
 msgid "leave"
 msgstr "Abbandona"
 
@@ -1433,6 +1415,24 @@ msgstr "Le impostazioni delle notizie e dei feed web sono visibili"
 
 msgid "nwss_write"
 msgstr "Modifica le impostazioni alle News ed ai Web Feeds"
+
+msgid "obgr_copy"
+msgstr "L’utente può copiare il gruppo di elementi"
+
+msgid "obgr_delete"
+msgstr "L’utente può spostare o eliminare il gruppo di elementi"
+
+msgid "obgr_edit_permission"
+msgstr "L’utente può modificare le impostazioni di autorizzazione"
+
+msgid "obgr_read"
+msgstr "L'utente può leggere il gruppo di articoli"
+
+msgid "obgr_visible"
+msgstr "Il gruppo di articoli è visibile"
+
+msgid "obgr_write"
+msgstr "L’utente può modificare il contenuto e le impostazioni del gruppo di elementi"
 
 #, fuzzy
 msgid "obj_skee"
@@ -1868,9 +1868,6 @@ msgstr "Crea modulo di apprendimento HTML"
 msgid "rbac_create_iass"
 msgstr "Crea assegnazione individuale"
 
-msgid "rbac_create_itgr"
-msgstr "Crea gruppo di elementi"
-
 msgid "rbac_create_lm"
 msgstr "Crea modulo di apprendimento ILIAS"
 
@@ -1885,6 +1882,9 @@ msgstr "Crea Mediacast"
 
 msgid "rbac_create_mep"
 msgstr "Crea gruppo di supporto"
+
+msgid "rbac_create_obgr"
+msgstr "Crea gruppo di elementi"
 
 msgid "rbac_create_orgu"
 msgstr "Crea unità organizzative"
@@ -2876,3 +2876,4 @@ msgstr "Modifica impostazioni nell’amministrazione del Wiki"
 
 msgid "write"
 msgstr "Modifica impostazioni"
+

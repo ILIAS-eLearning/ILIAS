@@ -33,6 +33,9 @@ final class MigratedTranslations
 {
     private static bool $pointer_read = false;
 
+    /** The locale kind (NativeGettext::usesSystemLocale()) $pointer was read for. */
+    private static ?bool $pointer_system_locale = null;
+
     /**
      * @var Pointer|null
      */
@@ -221,6 +224,7 @@ final class MigratedTranslations
         (new TranslationGettextRepository())->invalidateAll();
         self::$pointer_read = false;
         self::$pointer = null;
+        self::$pointer_system_locale = null;
         self::$shipped_templates = null;
         self::$shipped_modules = [];
         self::$client_data_dir = null;
@@ -242,9 +246,47 @@ final class MigratedTranslations
 
     private static function missingBuildMessage(): string
     {
-        return sprintf(
+        $message = sprintf(
             'There is no build of the language files ("%s") - run "php cli/setup.php build".',
             MigratedLanguageFilePaths::buildPointerFile(self::artifactDirectory())
+        );
+        $system_locale = !NativeGettext::usesSystemLocale();
+
+        return is_file(MigratedLanguageFilePaths::buildPointerFileOf(self::artifactDirectory(), $system_locale))
+            ? $message . ' ' . self::otherBuildHint('A build exists', $system_locale)
+            : $message;
+    }
+
+    /**
+     * Records (not fatal, not logged) that the pointer of the other locale kind was switched later than $pointer to a
+     * build of other shipped files.
+     *
+     * @param Pointer $pointer
+     */
+    private static function reportNewerOtherBuild(array $pointer): void
+    {
+        $system_locale = !NativeGettext::usesSystemLocale();
+        $other_file = MigratedLanguageFilePaths::buildPointerFileOf(self::artifactDirectory(), $system_locale);
+        $other_time = @filemtime($other_file);
+        $own_time = @filemtime(MigratedLanguageFilePaths::buildPointerFile(self::artifactDirectory()));
+        if ($other_time === false || ($own_time !== false && $own_time >= $other_time)) {
+            return;
+        }
+        $other = ShippedTranslationsBuild::readPointerOf(self::artifactDirectory(), $system_locale);
+        if ($other === null || $other['build'] === null || ($pointer['sources'] !== null && $pointer['sources'] === $other['sources'])) {
+            return;
+        }
+        // a state of the installation for the administration, not worth a log line on every request
+        self::$problems[self::otherBuildHint('A newer build exists', $system_locale)] ??= false;
+    }
+
+    private static function otherBuildHint(string $prefix, bool $system_locale): string
+    {
+        return sprintf(
+            '%s for %s ("%s") - run "php cli/setup.php build" on the platform of the web server to serve it.',
+            $prefix,
+            $system_locale ? 'a system locale (macOS/BSD)' : 'glibc',
+            MigratedLanguageFilePaths::buildPointerFileOf(self::artifactDirectory(), $system_locale)
         );
     }
 
@@ -263,9 +305,17 @@ final class MigratedTranslations
      */
     public static function pointer(): ?array
     {
+        $system_locale = NativeGettext::usesSystemLocale();
+        if (self::$pointer_read && self::$pointer_system_locale !== $system_locale) {
+            self::reset();
+        }
         if (!self::$pointer_read) {
             self::$pointer = ShippedTranslationsBuild::readPointer(self::artifactDirectory());
             self::$pointer_read = true;
+            self::$pointer_system_locale = $system_locale;
+            if (self::$pointer !== null) {
+                self::reportNewerOtherBuild(self::$pointer);
+            }
         }
 
         return self::$pointer;

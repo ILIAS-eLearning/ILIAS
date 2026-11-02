@@ -193,7 +193,8 @@ class ilObjTest extends ilObject
 
         parent::__construct($id, $a_call_by_reference);
 
-        $this->lng->loadLanguageModule("assessment");
+        $this->lng->loadLanguageModule('assessment');
+        $this->lng->loadLanguageModule('qsts');
         $this->score_settings = null;
 
         $this->question_set_config_factory = new ilTestQuestionSetConfigFactory(

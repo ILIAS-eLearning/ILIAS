@@ -1868,8 +1868,8 @@ msgid "cont_manifest"
 msgstr "Manifesto"
 
 #, fuzzy
-msgid "cont_manual_item_group"
-msgstr "Manually Create Item Group"
+msgid "cont_manual_object_group"
+msgstr "Manually Created Object Group"
 
 msgid "cont_map_file_not_generated"
 msgstr "Non è possibile generare la map file per l'editing."
@@ -3743,3 +3743,5 @@ msgstr "Testo alternativo"
 
 msgid "text_repr_info"
 msgstr "Verrà usato quando l'immagine non verrà mostrata"
+
+

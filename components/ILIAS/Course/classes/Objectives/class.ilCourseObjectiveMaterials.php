@@ -134,7 +134,7 @@ class ilCourseObjectiveMaterials
 
                 case 'crs':
                 case 'rolf':
-                case 'itgr':
+                case 'obgr':
                     break;
 
                 default:

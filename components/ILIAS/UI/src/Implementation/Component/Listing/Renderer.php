@@ -113,7 +113,7 @@ class Renderer extends AbstractComponentRenderer
         Property $component,
         RendererInterface $default_renderer
     ): string {
-        $tpl = $this->getTemplate("tpl.propertylisting.html", true, true);
+        $tpl = $this->getTemplate("tpl.property.html", true, true);
 
         foreach ($component->getItems() as [$label, $value, $show_label]) {
             $tpl->setCurrentBlock("property");

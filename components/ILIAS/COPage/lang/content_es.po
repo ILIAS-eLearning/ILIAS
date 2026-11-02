@@ -1821,7 +1821,7 @@ msgstr "Mantenimiento"
 msgid "cont_manifest"
 msgstr "Manifiesto"
 
-msgid "cont_manual_item_group"
+msgid "cont_manual_object_group"
 msgstr "Grupo de elementos creado manualmente"
 
 msgid "cont_map_file_not_generated"
@@ -3653,3 +3653,4 @@ msgstr "Representación de texto"
 
 msgid "text_repr_info"
 msgstr "Se utiliza para el atributo ‘alt’ de la imagen."
+

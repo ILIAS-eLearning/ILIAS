@@ -219,7 +219,7 @@ class ilObjRepositorySettings extends ilObject
 
         $groups = [
             "content" => ["file", "webr", "feed", "copa", "wiki", "blog", "lm", "htlm", "sahs", 'cmix', 'lti', "lso", "glo", "dcl", "bibl", "mcst", "mep"],
-            "organisation" => ["fold", "sess", "cat", "catr", "crs", "crsr", "grp", "grpr", "itgr", "book", "prg", "prgr"],
+            "organisation" => ["fold", "sess", "cat", "catr", "crs", "crsr", "grp", "grpr", "obgr", "book", "prg", "prgr"],
             "communication" => ["frm", "chtr"],
             "assessment" => ["exc", "tst", "qpl", "iass"],
             "feedback" => ["poll", "svy", "spl"],

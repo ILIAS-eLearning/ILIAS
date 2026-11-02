@@ -31,6 +31,7 @@ use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\IntegerValue;
 use ILIAS\DI\Container;
 use ILIAS\BackgroundTasks\Dependencies\DependencyMap\BaseDependencyMap;
 use ILIAS\BackgroundTasks\Dependencies\Injector;
+use ILIAS\BackgroundTasks\Implementation\Registry\BasicRegistry;
 use PHPUnit\Framework\TestCase;
 
 class BasicTaskFactoryTest extends TestCase
@@ -39,7 +40,7 @@ class BasicTaskFactoryTest extends TestCase
     {
         $dic = new Container();
         $injector = new Injector($dic, new BaseDependencyMap());
-        $taskFactory = new BasicTaskFactory($injector);
+        $taskFactory = new BasicTaskFactory($injector, new BasicRegistry([], []));
         $plusJob = $taskFactory->createTask(PlusJob::class, [1, 2]);
         $this->assertInstanceOf(\ILIAS\BackgroundTasks\Implementation\Tasks\PlusJob::class, $plusJob);
         $plusJobInput = $plusJob->getInput();
@@ -55,5 +56,22 @@ class BasicTaskFactoryTest extends TestCase
         $this->assertInstanceOf(\ILIAS\BackgroundTasks\Implementation\Tasks\PlusJob::class, $plusJob);
         $plusJobInput = $plusJob->getInput();
         $this->assertTrue($plusJobInput[0]->equals($one));
+    }
+
+    public function testRegisteredTasksAreClonedFromTheirPrototype(): void
+    {
+        $prototype = new PlusJob();
+        $injector = new Injector(new Container(), new BaseDependencyMap());
+        $taskFactory = new BasicTaskFactory($injector, new BasicRegistry([$prototype], []));
+
+        $first = $taskFactory->createTask(PlusJob::class, [1, 2]);
+        $second = $taskFactory->createTask(PlusJob::class, [3, 4]);
+
+        $this->assertNotSame($prototype, $first);
+        $this->assertNotSame($first, $second);
+        $this->assertSame([], $prototype->getInput());
+        $three = new IntegerValue();
+        $three->setValue(3);
+        $this->assertTrue($second->getInput()[0]->equals($three));
     }
 }

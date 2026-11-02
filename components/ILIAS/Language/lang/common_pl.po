@@ -3048,12 +3048,6 @@ msgstr "Insert Italic - Click to insert italic text."
 msgid "item"
 msgstr "Pozycja"
 
-msgid "itgr_add"
-msgstr "Dodaj sekcję obiektów"
-
-msgid "itgr_new"
-msgstr "Nowa sekcja obiektów"
-
 msgid "java_server"
 msgstr "Serwer Java"
 
@@ -4434,6 +4428,12 @@ msgstr "Liczba użytkowników"
 msgid "numberedlist_action"
 msgstr "Insert Numbered List - Click to insert a numbered list."
 
+msgid "obgr_add"
+msgstr "Dodaj sekcję obiektów"
+
+msgid "obgr_new"
+msgstr "Nowa sekcja obiektów"
+
 msgid "obj"
 msgstr "Obiekt"
 
@@ -4765,9 +4765,6 @@ msgstr "Kopiuj indywidualne oceny"
 msgid "obj_iass_select"
 msgstr "-- Wybierz indywidualną ocenę --"
 
-msgid "obj_itgr"
-msgstr "Sekcja obiektów"
-
 msgid "obj_ldap_desc"
 msgstr "Konfiguracja globalnych ustawień LDAP"
 
@@ -4902,6 +4899,9 @@ msgstr "Wiadomości i kanały komunikacji"
 
 msgid "obj_nwss_desc"
 msgstr "Ustawienia dla wewnętrznych wiadomości i zewnętrznych web feed"
+
+msgid "obj_obgr"
+msgstr "Sekcja obiektów"
 
 msgid "obj_objf"
 msgstr "Definicja obiektu"
@@ -5442,9 +5442,6 @@ msgstr "Moduły nauczania HTML"
 msgid "objs_iass"
 msgstr "Indywidualne oceny"
 
-msgid "objs_itgr"
-msgstr "Sekcje obiektów"
-
 msgid "objs_lm"
 msgstr "Moduły nauczania ILIAS"
 
@@ -5466,6 +5463,9 @@ msgstr "MediaCast-y"
 
 msgid "objs_mep"
 msgstr "Pule mediów"
+
+msgid "objs_obgr"
+msgstr "Sekcje obiektów"
 
 msgid "objs_orgu"
 msgstr "Jednostki organizacyjne"
@@ -8189,3 +8189,4 @@ msgstr "Nie udało się przeprowadzić testu ZIP. Skontaktuj się z administrato
 
 msgid "zipcode"
 msgstr "Kod pocztowy"
+

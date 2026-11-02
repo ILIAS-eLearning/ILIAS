@@ -35,6 +35,8 @@ use PHPUnit\Framework\MockObject\Stub;
  */
 class ilLanguagesInstalledAndUpdatedObjectiveTest extends TestCase
 {
+    use RestoresProcessState;
+
     private bool $had_global_db;
     private mixed $previous_global_db = null;
 

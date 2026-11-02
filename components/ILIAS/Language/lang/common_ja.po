@@ -2944,12 +2944,6 @@ msgstr "イタリックを挿入- クリックしてイタリック文字を挿�
 msgid "item"
 msgstr "アイテム"
 
-msgid "itgr_add"
-msgstr "アイテムグループを追加"
-
-msgid "itgr_new"
-msgstr "新規アイテムグループ"
-
 #, fuzzy
 msgid "java_server"
 msgstr "PDF Configuration"
@@ -4259,6 +4253,12 @@ msgstr "ユーザ数"
 msgid "numberedlist_action"
 msgstr "番号リストを挿入 - クリックして番号リストを挿入"
 
+msgid "obgr_add"
+msgstr "アイテムグループを追加"
+
+msgid "obgr_new"
+msgstr "新規アイテムグループ"
+
 msgid "obj"
 msgstr "オブジェクト"
 
@@ -4565,9 +4565,6 @@ msgstr "個別アセスメントをコピー"
 msgid "obj_iass_select"
 msgstr "-- 個別アセスメントを一つ選択してください --"
 
-msgid "obj_itgr"
-msgstr "アイテムグループ"
-
 msgid "obj_ldap_desc"
 msgstr "グローバルLDAP設定をここで構成します。"
 
@@ -4690,6 +4687,9 @@ msgstr "ニュースとWebフィード"
 
 msgid "obj_nwss_desc"
 msgstr "内部ニュースとWebフィードの設定"
+
+msgid "obj_obgr"
+msgstr "アイテムグループ"
 
 msgid "obj_objf"
 msgstr "オブジェクト定義"
@@ -5189,9 +5189,6 @@ msgstr "HTMLラーニングモジュール"
 msgid "objs_iass"
 msgstr "個別アセスメント"
 
-msgid "objs_itgr"
-msgstr "アイテムグループ"
-
 msgid "objs_lm"
 msgstr "ILIAS ラーニングモジュール"
 
@@ -5212,6 +5209,9 @@ msgstr "メディアキャスト"
 
 msgid "objs_mep"
 msgstr "メディア集"
+
+msgid "objs_obgr"
+msgstr "アイテムグループ"
 
 msgid "objs_orgu"
 msgstr "組織単位"
@@ -7823,3 +7823,4 @@ msgstr "郵便番号テストに失敗しました。ILIAS 管理者へ連絡し
 
 msgid "zipcode"
 msgstr "郵便番号"
+

@@ -248,9 +248,17 @@ class UIWrapper
         }
         $html = $form->render();
         $tag = "button";
-        /* not necessary, since top buttons have been removed in general for forms
-        $del_count = $in_modal ? 2 : 1;
-        $html = preg_replace("#\\<" . $tag . "([^>]*)btn-default(.*)/" . $tag . ">#iUs", "", $html, $del_count);*/
+
+        // Adapter forms still render built-in buttons in modals. Remove them before
+        // inserting the COPage command button into the modal footer.
+        if ($in_modal) {
+            $html = preg_replace(
+                "#\\<" . $tag . "([^>]*)btn-default(.*)/" . $tag . ">#iUs",
+                "",
+                $html,
+                2
+            );
+        }
         $footer_pos = stripos($html, "il-standard-form-footer");
         if (!is_int($footer_pos)) {
             $footer_pos = stripos($html, "c-form__footer");

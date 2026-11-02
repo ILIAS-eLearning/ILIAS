@@ -42,4 +42,21 @@ interface JavaScriptBinding
      * inside <script> tags
      */
     public function getOnLoadCodeAsync(): string;
+
+    /**
+     * Clears all JavaScript code currently registered for the async context.
+     *
+     * This is necessary because rendering can register JavaScript as a side effect,
+     * even when the rendered output is not required by the current async endpoint.
+     *
+     * This is caused by ILIAS treating controllers as independent layers, meaning a
+     * controller cannot reliably determine what has been executed before it, while
+     * each layer may contribute parts of the page. This causes unnecessary rendering
+     * and JavaScript registration. This method prevents said JavaScript from leaking
+     * into the async response.
+     *
+     * This is a reminder that we want proper routing inside ILIAS:
+     * https://docu.ilias.de/go/wiki/wpage_8780_1357
+     */
+    public function clearOnLoadCodeAsync(): void;
 }

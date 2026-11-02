@@ -28,6 +28,11 @@ use ILIAS\Data\URI;
 interface Prompt extends Component, JavaScriptBindable
 {
     /**
+     * Get a Prompt like this, but provide it with an initial title.
+     */
+    public function withTitle(string $title): static;
+
+    /**
      * Get the signal to load and show this Prompt.
      */
     public function getShowSignal(?URI $uri = null): Signal;

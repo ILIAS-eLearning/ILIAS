@@ -1821,7 +1821,7 @@ msgstr "Karbantartás"
 msgid "cont_manifest"
 msgstr "Manifest"
 
-msgid "cont_manual_item_group"
+msgid "cont_manual_object_group"
 msgstr "Manuálisan létrehozott elemcsoport"
 
 msgid "cont_map_file_not_generated"
@@ -3653,3 +3653,4 @@ msgstr "Kép szöveges leírása"
 
 msgid "text_repr_info"
 msgstr "A kép ‘alt’ attribútumához használva."
+

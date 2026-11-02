@@ -17,16 +17,18 @@
  *********************************************************************/
 
 use ILIAS\BackgroundTasks\Persistence;
-use ILIAS\Cron\Schedule\CronJobScheduleType;
+use ILIAS\Cron\CronJob;
+use ILIAS\Cron\Job\JobResult;
+use ILIAS\Cron\Job\Schedule\JobScheduleType;
 
 /**
  * Garbage collection for BackgroundTasks
  */
-class ilBackgroundTaskGarbageCollection extends ilCronJob
+class ilBackgroundTaskGarbageCollection extends CronJob
 {
     private ilLogger $logger;
     private ilLanguage $lng;
-    private ilCronJobResult $result;
+    private JobResult $result;
     private Persistence $persistence;
 
     public function __construct()
@@ -38,7 +40,7 @@ class ilBackgroundTaskGarbageCollection extends ilCronJob
         $this->lng->loadLanguageModule('background_tasks');
         $this->persistence = $DIC->backgroundTasks()->persistence();
 
-        $this->result = new ilCronJobResult();
+        $this->result = new JobResult();
     }
 
     public function getTitle(): string
@@ -66,9 +68,9 @@ class ilBackgroundTaskGarbageCollection extends ilCronJob
         return true;
     }
 
-    public function getDefaultScheduleType(): CronJobScheduleType
+    public function getDefaultScheduleType(): JobScheduleType
     {
-        return CronJobScheduleType::SCHEDULE_TYPE_IN_HOURS;
+        return JobScheduleType::IN_HOURS;
     }
 
     public function getDefaultScheduleValue(): ?int
@@ -76,21 +78,21 @@ class ilBackgroundTaskGarbageCollection extends ilCronJob
         return 1;
     }
 
-    public function run(): ilCronJobResult
+    public function run(): JobResult
     {
         $this->logger->debug('Starting background task garbage collector..');
 
         try {
             $this->persistence->garbageCollection();
         } catch (Exception $e) {
-            $this->result->setStatus(ilCronJobResult::STATUS_CRASHED);
+            $this->result->setStatus(JobResult::STATUS_CRASHED);
             $this->result->setMessage(mb_substr("Exc.: {$e->getMessage()} / {$e->getTraceAsString()}", 0, 400));
             $this->logger->error("Background-Task Garbage Collection execution failed with message: {$e->getMessage()}");
             $this->logger->error($e->getTraceAsString());
             return $this->result;
         }
 
-        $this->result->setStatus(ilCronJobResult::STATUS_OK);
+        $this->result->setStatus(JobResult::STATUS_OK);
         return $this->result;
     }
 }

@@ -2944,12 +2944,6 @@ msgstr "Insertar cursiva - Haga clic para insertar texto en cursiva."
 msgid "item"
 msgstr "Elemento"
 
-msgid "itgr_add"
-msgstr "Añadir grupo de elementos"
-
-msgid "itgr_new"
-msgstr "Nuevo grupo de elementos"
-
 msgid "java_server"
 msgstr "Servidor Java"
 
@@ -4258,6 +4252,12 @@ msgstr "Número de usuarios"
 msgid "numberedlist_action"
 msgstr "Insertar lista numerada - Haga clic para insertar una lista numerada."
 
+msgid "obgr_add"
+msgstr "Añadir grupo de elementos"
+
+msgid "obgr_new"
+msgstr "Nuevo grupo de elementos"
+
 msgid "obj"
 msgstr "Objeto"
 
@@ -4564,9 +4564,6 @@ msgstr "Copiar evaluación individual"
 msgid "obj_iass_select"
 msgstr "-- Por favor, seleccione una evaluación individual --"
 
-msgid "obj_itgr"
-msgstr "Grupo de elementos"
-
 msgid "obj_ldap_desc"
 msgstr "Configure los ajustes globales de LDAP aquí."
 
@@ -4689,6 +4686,9 @@ msgstr "Noticias y canales web"
 
 msgid "obj_nwss_desc"
 msgstr "Ajustes para noticias internas y canales web externos."
+
+msgid "obj_obgr"
+msgstr "Grupo de elementos"
 
 msgid "obj_objf"
 msgstr "Definiciones de objetos"
@@ -5188,9 +5188,6 @@ msgstr "Módulos de aprendizaje HTML"
 msgid "objs_iass"
 msgstr "Evaluaciones individuales"
 
-msgid "objs_itgr"
-msgstr "Grupos de elementos"
-
 msgid "objs_lm"
 msgstr "Módulos de aprendizaje de ILIAS"
 
@@ -5211,6 +5208,9 @@ msgstr "Mediacasts"
 
 msgid "objs_mep"
 msgstr "Repositorios de objetos multimedia"
+
+msgid "objs_obgr"
+msgstr "Grupos de elementos"
 
 msgid "objs_orgu"
 msgstr "Unidades organizativas"
@@ -7821,3 +7821,4 @@ msgstr "La prueba de Zip ha fallado. Por favor, contacte con su administrador de
 
 msgid "zipcode"
 msgstr "Código Postal"
+

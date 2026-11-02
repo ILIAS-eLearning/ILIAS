@@ -178,7 +178,8 @@ namespace {
                 $this->image_path_resolver,
                 $this->getDataFactory(),
                 $this->help_text_retriever,
-                $this->getUploadLimitResolver()
+                $this->getUploadLimitResolver(),
+                $this->getRefinery(),
             );
             $r->_getTemplate("tpl.glyph.html", true, false);
 
@@ -199,7 +200,8 @@ namespace {
                 $this->image_path_resolver,
                 $this->getDataFactory(),
                 $this->help_text_retriever,
-                $this->getUploadLimitResolver()
+                $this->getUploadLimitResolver(),
+                $this->getRefinery(),
             );
 
             $this->expectException(TypeError::class);
@@ -221,7 +223,8 @@ namespace {
                 $this->image_path_resolver,
                 $this->getDataFactory(),
                 $this->help_text_retriever,
-                $this->getUploadLimitResolver()
+                $this->getUploadLimitResolver(),
+                $this->getRefinery(),
             );
 
             $g = new Glyph(C\Symbol\Glyph\Glyph::SETTINGS, "aria_label");
@@ -248,7 +251,8 @@ namespace {
                 $this->image_path_resolver,
                 $this->getDataFactory(),
                 $this->help_text_retriever,
-                $this->getUploadLimitResolver()
+                $this->getUploadLimitResolver(),
+                $this->getRefinery(),
             );
 
             $g = new Glyph(C\Symbol\Glyph\Glyph::SETTINGS, "aria_label");

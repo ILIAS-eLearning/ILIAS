@@ -3135,12 +3135,6 @@ msgstr "Insert Italic - Click to insert italic text."
 msgid "item"
 msgstr "ნივთი"
 
-msgid "itgr_add"
-msgstr "Add Item Group"
-
-msgid "itgr_new"
-msgstr "New Item Group"
-
 msgid "java_server"
 msgstr "ჯავა სერვერი"
 
@@ -4559,6 +4553,12 @@ msgstr "მომხმარებელთა რაოდენობა"
 msgid "numberedlist_action"
 msgstr "Insert Numbered List - Click to insert a numbered list."
 
+msgid "obgr_add"
+msgstr "Add Object Group"
+
+msgid "obgr_new"
+msgstr "New Object Group"
+
 msgid "obj"
 msgstr "ობიექტი"
 
@@ -4914,9 +4914,6 @@ msgstr "Copy Individual Assessment"
 msgid "obj_iass_select"
 msgstr "-- Please select one individual assessment --"
 
-msgid "obj_itgr"
-msgstr "Item Group"
-
 msgid "obj_ldap_desc"
 msgstr "გლობალური LDAP პარამეტრების დაყენება"
 
@@ -5058,6 +5055,9 @@ msgstr "სიახლეები და ვებ სიახლეები
 
 msgid "obj_nwss_desc"
 msgstr "შიდა სიახლეებისა და გარე ვებ სიახლეების პარამეტრები"
+
+msgid "obj_obgr"
+msgstr "Object Group"
 
 msgid "obj_objf"
 msgstr "ობიექტის განსაზღვრებები"
@@ -5627,9 +5627,6 @@ msgstr "HTML სასწავლო მოდულები"
 msgid "objs_iass"
 msgstr "Individual Assessments"
 
-msgid "objs_itgr"
-msgstr "Item Groups"
-
 msgid "objs_lm"
 msgstr "ილიასის სასწავლო მოდულები"
 
@@ -5652,6 +5649,9 @@ msgstr "მედიაქასთები"
 
 msgid "objs_mep"
 msgstr "მედია ნაკადები"
+
+msgid "objs_obgr"
+msgstr "Object Groups"
 
 #, fuzzy
 msgid "objs_orgu"
@@ -8458,3 +8458,4 @@ msgstr "ზიპ ტესტირებული ფაილი. გთხ�
 
 msgid "zipcode"
 msgstr "ზიპ კოდი"
+

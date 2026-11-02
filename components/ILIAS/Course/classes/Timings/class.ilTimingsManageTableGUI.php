@@ -242,8 +242,8 @@ class ilTimingsManageTableGUI extends ilTable2GUI
         foreach ($a_item_data as $item) {
             $current_row = array();
 
-            // no item groups
-            if ($item['type'] == 'itgr') {
+            // no object groups
+            if ($item['type'] == 'obgr') {
                 continue;
             }
             $current_row['ref_id'] = $item['ref_id'];

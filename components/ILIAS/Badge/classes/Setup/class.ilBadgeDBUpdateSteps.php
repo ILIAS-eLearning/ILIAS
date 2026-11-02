@@ -58,4 +58,26 @@ class ilBadgeDBUpdateSteps implements ilDatabaseUpdateSteps
             );
         }
     }
+
+    public function step_3(): void
+    {
+        $this->db->manipulate(
+            'UPDATE badge_badge SET image_rid = NULL WHERE image_rid = ' . $this->db->quote(
+                '-',
+                ilDBConstants::T_TEXT
+            )
+        );
+        $this->db->manipulate(
+            'UPDATE badge_image_template SET image_rid = NULL WHERE image_rid = ' . $this->db->quote(
+                '-',
+                ilDBConstants::T_TEXT
+            )
+        );
+        if ($this->db->tableColumnExists('badge_badge', 'image')) {
+            $this->db->dropTableColumn('badge_badge', 'image');
+        }
+        if ($this->db->tableColumnExists('badge_image_template', 'image')) {
+            $this->db->dropTableColumn('badge_image_template', 'image');
+        }
+    }
 }

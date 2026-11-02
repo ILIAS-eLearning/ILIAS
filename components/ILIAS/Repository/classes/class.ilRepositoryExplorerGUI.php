@@ -79,7 +79,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
         } elseif ($ilSetting->get("repository_tree_pres") === "all_types") {
             $white = [];
             foreach ($objDefinition->getSubObjectsRecursively("root") as $rtype) {
-                if (/* $rtype["name"] != "itgr" && */ !$objDefinition->isSideBlock($rtype["name"])) {
+                if (/* $rtype["name"] != "obgr" && */ !$objDefinition->isSideBlock($rtype["name"])) {
                     $white[] = $rtype["name"];
                 }
             }
@@ -272,26 +272,26 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
         $this->type_grps[$parent_type] =
             $objDefinition::getGroupedRepositoryObjectTypes($parent_type);
 
-        // #14465 - item groups
+        // #14465 - object groups
         $type_white_list = $this->getTypeWhiteList();
         $group = [];
-        $igroup = []; // used for item groups, see bug #0015978
+        $ogroup = []; // used for object groups, see bug #0015978
         $in_any_group = [];
         foreach ($a_childs as $child) {
-            // item group: get childs
-            if ($child["type"] === "itgr") {
+            // object group: get childs
+            if ($child["type"] === "obgr") {
                 $g = $child["child"];
-                $items = ilObjectActivation::getItemsByItemGroup($g);
+                $items = ilObjectActivation::getItemsByObjectGroup($g);
                 if ($items) {
-                    // add item group ref id to item group block
-                    $this->type_grps[$parent_type]["itgr"]["ref_ids"][] = $g;
+                    // add object group ref id to object group block
+                    $this->type_grps[$parent_type]["obgr"]["ref_ids"][] = $g;
 
-                    // #16697 - check item group permissions
+                    // #16697 - check object group permissions
                     $may_read = $ilAccess->checkAccess('read', '', $g);
 
                     // see bug #0015978
                     if ($may_read) {
-                        $items = ilContainerSorting::_getInstance($parent_obj_id)->sortSubItems('itgr', $child["obj_id"], $items);
+                        $items = ilContainerSorting::_getInstance($parent_obj_id)->sortSubItems('obgr', $child["obj_id"], $items);
                     }
 
                     foreach ($items as $item) {
@@ -301,7 +301,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
                         $in_any_group[] = $item["child"];
 
                         if ($may_read) {
-                            $igroup[$g][] = $item;
+                            $ogroup[$g][] = $item;
                             $group[$g][] = $item;
                         }
                     }
@@ -333,9 +333,9 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
                     $this->type_grps[$parent_type][$block_type] = $tmp[$block_type];
                     unset($tmp[$block_type]);
                 }
-                // item group
+                // object group
                 else {
-                    // using item group ref id directly
+                    // using object group ref id directly
                     $this->type_grps[$parent_type][$block_type] = [];
                 }
             }
@@ -357,9 +357,9 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
             // type group
             if (isset($group[$t]) && is_array($group[$t])) {
                 // see bug #0015978
-                // custom sorted igroups
-                if (isset($igroup[$t]) && is_array($igroup[$t])) {
-                    foreach ($igroup[$t] as $k => $item) {
+                // custom sorted object groups
+                if (isset($ogroup[$t]) && is_array($ogroup[$t])) {
+                    foreach ($ogroup[$t] as $k => $item) {
                         if (!in_array($item["child"], $done)) {
                             $childs[] = $item;
                             $done[] = $item["child"];
@@ -388,8 +388,8 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
                     }
                 }
             }
-            // item groups (if not custom block sorting)
-            elseif ($t === "itgr" &&
+            // object groups (if not custom block sorting)
+            elseif ($t === "obgr" &&
                 isset($g["ref_ids"]) &&
                 is_array($g["ref_ids"])) {
                 foreach ($g["ref_ids"] as $ref_id) {

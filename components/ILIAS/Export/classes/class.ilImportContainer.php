@@ -56,7 +56,8 @@ class ilImportContainer extends ilImport
         $first = true;
         $ret = [];
         foreach ($parser->getExportSets() as $set) {
-            $import_info = parent::doImportObject($dir . DIRECTORY_SEPARATOR . $set['path'], $set['type']);
+            $set_type = $set['type'] === 'itgr' ? 'obgr' : $set['type'];
+            $import_info = parent::doImportObject($dir . DIRECTORY_SEPARATOR . $set['path'], $set_type);
             $all_importers = array_merge($all_importers, $import_info['importers']);
             if ($first) {
                 $ret = $import_info;
@@ -72,6 +73,7 @@ class ilImportContainer extends ilImport
 
     protected function createDummy(string $a_type, string $a_title): ilObject
     {
+        $a_type = $a_type === 'itgr' ? 'obgr' : $a_type;
         $class_name = "ilObj" . $this->objDefinition->getClassName($a_type);
 
         $new = new $class_name();

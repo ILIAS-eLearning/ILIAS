@@ -1,0 +1,84 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: qsts\n"
+
+msgid "cloze_text"
+msgstr "Cloze fråga"
+
+msgid "confirm_delete_questions"
+msgstr "Är du säker på att du vill ta bort följande frågor?"
+
+msgid "create_question"
+msgstr "Skapa fråga"
+
+msgid "gap"
+msgstr "Gap"
+
+msgid "gaps"
+msgstr "Gaps"
+
+msgid "insert_gap"
+msgstr "Insert gap"
+
+msgid "min_auto_complete"
+msgstr "Autokomplett"
+
+msgid "msg_no_questions_selected"
+msgstr "No questions were selected."
+
+msgid "out_of_range"
+msgstr "Utanför intervall"
+
+msgid "qst_lifecycle"
+msgstr "Livscykel"
+
+msgid "qst_lifecycle_draft"
+msgstr "Draft"
+
+msgid "qst_lifecycle_filter_all"
+msgstr "Alla livscykler"
+
+msgid "qst_lifecycle_final"
+msgstr "Final"
+
+msgid "qst_lifecycle_outdated"
+msgstr "Veraltet"
+
+msgid "qst_lifecycle_rejected"
+msgstr "Avvisad"
+
+msgid "qst_lifecycle_review"
+msgstr "Revision nödvändig"
+
+msgid "qst_lifecycle_sharable"
+msgstr "Distribuerbar"
+
+msgid "questionlist"
+msgstr "Questionlist"
+
+msgid "questions"
+msgstr "Questions"
+
+msgid "range_lower_limit"
+msgstr "Lägre barriär"
+
+msgid "range_upper_limit"
+msgstr "Övre barriär"
+
+msgid "reset_preview"
+msgstr "Återställ förhandsgranskning"
+
+msgid "select_gap"
+msgstr "Selektionsgap"
+
+msgid "shuffle_answers"
+msgstr "Svar från Shuffle"
+
+msgid "suggested_learning_content"
+msgstr "Innehåll för repetition"

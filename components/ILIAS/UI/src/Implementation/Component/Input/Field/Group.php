@@ -104,7 +104,7 @@ class Group extends FormInput implements C\Input\Field\Group, GroupInternal
      */
     public function getUpdateOnLoadCode(): Closure
     {
-        return function () {
+        return function ($id) {
             /*
              * Currently, there is no use case for Group here. The single Inputs
              * within the Group are responsible for handling getUpdateOnLoadCode().

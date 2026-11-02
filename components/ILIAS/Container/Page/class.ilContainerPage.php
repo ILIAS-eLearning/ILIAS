@@ -102,7 +102,7 @@ class ilContainerPage extends ilPageObject
 
         if ($block instanceof \ILIAS\Container\Content\TypeBlock) {
             $pc_resources->setResourceListType($id);
-        } elseif ($block instanceof \ILIAS\Container\Content\ItemGroupBlock) {
+        } elseif ($block instanceof \ILIAS\Container\Content\ObjectGroupBlock) {
             $pc_resources->setItemGroupRefId((int) $id);
         } elseif ($block instanceof \ILIAS\Container\Content\OtherBlock) {
             $pc_resources->setResourceListType("_other");

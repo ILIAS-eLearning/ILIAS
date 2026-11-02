@@ -26,100 +26,53 @@ use ILIAS\UI\Component\Prompt as I;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\Data\URI;
 
-/**
- *
- */
 class State implements I\State\State
 {
     use ComponentHelper;
 
-    public const string CMD_CLOSE = 'close';
-    public const string CMD_REDIRECT = 'redirect';
+    protected ?string $title = null;
 
-    protected array $buttons = [];
-    protected string $cmd = 'show';
-    protected array $params = [];
-    protected string $title = '';
-    /** @var I\IsPromptContent[]  */
-    protected array $secondary_content = [];
-
+    /**
+     * @param I\IsPromptContent[] $secondary_content
+     */
     public function __construct(
+        protected Instruction $instruction,
+        protected ?URI $redirect,
         protected ?I\IsPromptContent $primary_content,
-        I\IsPromptContent ...$secondary_content
+        protected array $secondary_content = [],
     ) {
-        $this->secondary_content = $secondary_content;
     }
 
-    public function getTitle(): string
-    {
-        return $this->title;
-    }
-
-    public function withTitle(string $title): self
+    public function withTitle(string $title): static
     {
         $clone = clone $this;
         $clone->title = $title;
         return $clone;
     }
 
-    public function withPrimaryContent(I\IsPromptContent $content): self
+    public function getTitle(): ?string
     {
-        $clone = clone $this;
-        $clone->primary_content = $content;
-        return $clone;
+        return $this->title;
     }
 
-    public function withAdditionalSecondaryContent(I\IsPromptContent ...$content): self
+    public function getInstruction(): Instruction
     {
-        $clone = clone $this;
-        $clone->secondary_content = array_merge($clone->secondary_content, $content);
-        return $clone;
+        return $this->instruction;
     }
 
-    /**
-     * @return Component[]
-     */
+    public function getRedirect(): ?URI
+    {
+        return $this->redirect;
+    }
+
     public function getPrimaryContent(): ?I\IsPromptContent
     {
         return $this->primary_content;
     }
 
-    /**
-     * @return I\IsPromptContent[]
-     */
+    /** @return I\IsPromptContent[] */
     public function getSecondaryContent(): array
     {
         return $this->secondary_content;
-    }
-
-    public function withCloseModal(bool $flag): self
-    {
-        return $this->withCommand($flag ? self::CMD_CLOSE : '');
-    }
-
-    public function withRedirect(URI $redirect): self
-    {
-        $clone = $this->withCommand(self::CMD_REDIRECT);
-        $clone->params = [
-            self::CMD_REDIRECT => $redirect->__toString()
-        ];
-        return $clone;
-    }
-
-    protected function withCommand(string $cmd)
-    {
-        $clone = clone $this;
-        $clone->cmd = $cmd;
-        return $clone;
-    }
-
-    public function getCommand(): string
-    {
-        return $this->cmd;
-    }
-
-    public function getParameters(): array
-    {
-        return $this->params;
     }
 }

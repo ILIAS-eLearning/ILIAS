@@ -3184,14 +3184,6 @@ msgstr "Insert Italic - Click to insert italic text."
 msgid "item"
 msgstr "Položka"
 
-#, fuzzy
-msgid "itgr_add"
-msgstr "Add Item Group"
-
-#, fuzzy
-msgid "itgr_new"
-msgstr "New Item Group"
-
 msgid "java_server"
 msgstr "Java-Server"
 
@@ -4617,6 +4609,14 @@ msgstr "Počet uživatelů"
 msgid "numberedlist_action"
 msgstr "Insert Numbered List - Click to insert a numbered list."
 
+#, fuzzy
+msgid "obgr_add"
+msgstr "Add Object Group"
+
+#, fuzzy
+msgid "obgr_new"
+msgstr "New Object Group"
+
 msgid "obj"
 msgstr "Objekt"
 
@@ -4986,10 +4986,6 @@ msgstr "Copy Individual Assessment"
 msgid "obj_iass_select"
 msgstr "-- Please select one individual assessment --"
 
-#, fuzzy
-msgid "obj_itgr"
-msgstr "Item Group"
-
 msgid "obj_ldap_desc"
 msgstr "Zde zkonfigurujte globální nastavení LDAP."
 
@@ -5134,6 +5130,10 @@ msgstr "Nastavení zpráv a webového zásobníku"
 
 msgid "obj_nwss_desc"
 msgstr "Nastavení pro interní nebo externí zprávy a webový zásobník."
+
+#, fuzzy
+msgid "obj_obgr"
+msgstr "Object Group"
 
 msgid "obj_objf"
 msgstr "Definice objektů"
@@ -5725,10 +5725,6 @@ msgstr "Výukové moduly HTML"
 msgid "objs_iass"
 msgstr "Individual Assessments"
 
-#, fuzzy
-msgid "objs_itgr"
-msgstr "Item Groups"
-
 msgid "objs_lm"
 msgstr "Výukové moduly ILIAS"
 
@@ -5751,6 +5747,10 @@ msgstr "MediaCasty"
 
 msgid "objs_mep"
 msgstr "Zásobníky multimédií"
+
+#, fuzzy
+msgid "objs_obgr"
+msgstr "Object Groups"
 
 #, fuzzy
 msgid "objs_orgu"
@@ -8592,3 +8592,4 @@ msgstr "Zip-Test failed. Please contact you ILIAS administrator"
 
 msgid "zipcode"
 msgstr "Poštovní směrovací číslo"
+

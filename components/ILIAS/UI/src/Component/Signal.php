@@ -37,7 +37,14 @@ interface Signal
     public function getId(): string;
 
     /**
+     * Get a Signal like this, but provide it with a set of options.
+     * @param array<string, string> $options (key => value)
+     */
+    public function withOptions(array $options): static;
+
+    /**
      * Get the options of this signal
+     * @return array<string, string> (key => value)
      */
     public function getOptions(): array;
 }

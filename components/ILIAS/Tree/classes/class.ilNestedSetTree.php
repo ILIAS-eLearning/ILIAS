@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Logging\Logger\LoggerInterface;
+
 /**
  * Base class for nested set path based trees
  * @author  Stefan Meyer <meyer@leifos.com>
@@ -26,18 +28,11 @@ declare(strict_types=1);
  */
 class ilNestedSetTree implements ilTreeImplementation
 {
-    protected ilTree $tree;
-    protected ilDBInterface $db;
-
-    /**
-     * Constructor
-     */
-    public function __construct(ilTree $a_tree)
-    {
-        global $DIC;
-
-        $this->tree = $a_tree;
-        $this->db = $DIC->database();
+    public function __construct(
+        protected ilTree $tree,
+        protected ilDBInterface $db,
+        protected LoggerInterface $logger
+    ) {
     }
 
     protected function getTree(): \ilTree

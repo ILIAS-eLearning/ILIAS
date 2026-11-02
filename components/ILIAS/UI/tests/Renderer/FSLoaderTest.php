@@ -28,10 +28,13 @@ use ILIAS\UI\Implementation\Component\Input\Field\FormInput;
 use ILIAS\UI\Implementation\Component\MessageBox\MessageBox;
 use ILIAS\UI\Implementation\Component\Input\Container\Form\Form;
 use ILIAS\UI\Implementation\Component\Menu\Menu;
+use ILIAS\UI\Implementation\Component\Entity\Entity;
+use ILIAS\UI\Implementation\Component\Transfer\Transfer;
 use ILIAS\UI\Component\Component;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 
 class FSLoaderTest extends TestCase
 {
@@ -41,7 +44,9 @@ class FSLoaderTest extends TestCase
     protected RendererFactory & MockObject $message_box_renderer_factory;
     protected RendererFactory & MockObject $form_renderer_factory;
     protected RendererFactory & MockObject $menu_renderer_factory;
+    protected RendererFactory & Stub $entity_renderer_factory;
     protected RendererFactory & MockObject $list_renderer_factory;
+    protected RendererFactory & Stub $transfer_renderer_factory;
 
     protected FSLoader $fs_loader;
 
@@ -53,7 +58,9 @@ class FSLoaderTest extends TestCase
         $this->message_box_renderer_factory = $this->createMock(RendererFactory::class);
         $this->form_renderer_factory = $this->createMock(RendererFactory::class);
         $this->menu_renderer_factory = $this->createMock(RendererFactory::class);
+        $this->entity_renderer_factory = $this->createStub(RendererFactory::class);
         $this->list_renderer_factory = $this->createMock(RendererFactory::class);
+        $this->transfer_renderer_factory = $this->createStub(RendererFactory::class);
 
         $this->fs_loader = new FSLoader(
             $this->default_renderer_factory,
@@ -62,7 +69,9 @@ class FSLoaderTest extends TestCase
             $this->message_box_renderer_factory,
             $this->form_renderer_factory,
             $this->menu_renderer_factory,
+            $this->entity_renderer_factory,
             $this->list_renderer_factory,
+            $this->transfer_renderer_factory,
         );
 
         parent::setUp();
@@ -140,6 +149,20 @@ class FSLoaderTest extends TestCase
         $component_mock = $this->createMock(Button::class);
         $factory = $this->fs_loader->getRendererFactoryFor($component_mock);
         $this->assertSame($factory, $this->button_renderer_factory);
+    }
+
+    public function testGetRendererFactoryForEntity(): void
+    {
+        $component_stub = $this->createStub(Entity::class);
+        $factory = $this->fs_loader->getRendererFactoryFor($component_stub);
+        $this->assertSame($factory, $this->entity_renderer_factory);
+    }
+
+        public function testGetRendererFactoryForTransfer(): void
+    {
+        $component_mock = $this->createStub(Transfer::class);
+        $factory = $this->fs_loader->getRendererFactoryFor($component_mock);
+        $this->assertSame($factory, $this->transfer_renderer_factory);
     }
 
     public function testGetRendererFactoryForOther(): void

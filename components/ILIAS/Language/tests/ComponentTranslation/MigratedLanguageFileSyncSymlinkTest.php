@@ -37,6 +37,8 @@ use PHPUnit\Framework\TestCase;
  */
 class MigratedLanguageFileSyncSymlinkTest extends TestCase
 {
+    use RestoresProcessState;
+
     private const string MODULE = 'stest';
 
     private string $fixture_directory;

@@ -1067,24 +1067,6 @@ msgstr "Internt postsystem"
 msgid "invite"
 msgstr "Inbjudan till undersökning"
 
-msgid "itgr_copy"
-msgstr "Kopiera objektblock"
-
-msgid "itgr_delete"
-msgstr "Ta bort eller flytta objektblock"
-
-msgid "itgr_edit_permission"
-msgstr "Ändra rättighetsinställningarna för objektblocket"
-
-msgid "itgr_read"
-msgstr "Läsa åtkomst till objektblock"
-
-msgid "itgr_visible"
-msgstr "Objektblocket är synligt"
-
-msgid "itgr_write"
-msgstr "Redigera innehåll och inställningar för ett objektblock"
-
 msgid "leave"
 msgstr "Avbryt medlemskap"
 
@@ -1432,6 +1414,24 @@ msgstr "Administration av nyheter och webbflöden är synlig"
 
 msgid "nwss_write"
 msgstr "Ändra inställningar i administrationen för nyheter och webbflöden"
+
+msgid "obgr_copy"
+msgstr "Kopiera objektblock"
+
+msgid "obgr_delete"
+msgstr "Ta bort eller flytta objektblock"
+
+msgid "obgr_edit_permission"
+msgstr "Ändra rättighetsinställningarna för objektblocket"
+
+msgid "obgr_read"
+msgstr "Läsa åtkomst till objektblock"
+
+msgid "obgr_visible"
+msgstr "Objektblocket är synligt"
+
+msgid "obgr_write"
+msgstr "Redigera innehåll och inställningar för ett objektblock"
 
 msgid "obj_skee"
 msgstr "Kompetens träd"
@@ -1866,9 +1866,6 @@ msgstr "Skapa HTML utbildningsmodul"
 msgid "rbac_create_iass"
 msgstr "Skapa individuell utvärdering"
 
-msgid "rbac_create_itgr"
-msgstr "Skapa objektblock"
-
 msgid "rbac_create_lm"
 msgstr "Skapa utbildningsmodul för ILIAS"
 
@@ -1883,6 +1880,9 @@ msgstr "Skapa Mediacast"
 
 msgid "rbac_create_mep"
 msgstr "Skapa en mediapool"
+
+msgid "rbac_create_obgr"
+msgstr "Skapa objektblock"
 
 msgid "rbac_create_orgu"
 msgstr "Skapa organisatoriska enheter"
@@ -2872,3 +2872,4 @@ msgstr "Redigera inställningar i wikiadministrationen"
 
 msgid "write"
 msgstr "Redigera inställningar"
+

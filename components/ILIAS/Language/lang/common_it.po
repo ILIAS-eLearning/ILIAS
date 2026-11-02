@@ -3013,12 +3013,6 @@ msgstr "Insert Italic - Click to insert italic text."
 msgid "item"
 msgstr "voce"
 
-msgid "itgr_add"
-msgstr "Aggiungi gruppo di elementi"
-
-msgid "itgr_new"
-msgstr "Nuovo gruppo di elementi"
-
 msgid "java_server"
 msgstr "Server Java"
 
@@ -4353,6 +4347,12 @@ msgstr "Numero di utenti"
 msgid "numberedlist_action"
 msgstr "Insert Numbered List - Click to insert a numbered list."
 
+msgid "obgr_add"
+msgstr "Aggiungi gruppo di elementi"
+
+msgid "obgr_new"
+msgstr "Nuovo gruppo di elementi"
+
 msgid "obj"
 msgstr "Oggetto"
 
@@ -4671,9 +4671,6 @@ msgstr "Copia assegnazione individuale"
 msgid "obj_iass_select"
 msgstr "-- Si prega di selezionare un’assegnazione individuale --"
 
-msgid "obj_itgr"
-msgstr "Voce gruppo"
-
 msgid "obj_ldap_desc"
 msgstr "Configura le impostazioni globali LDAP."
 
@@ -4801,6 +4798,9 @@ msgstr "Impostazioni notizie e feed Web"
 
 msgid "obj_nwss_desc"
 msgstr "Impostazioni per novità interne e feed web esterni."
+
+msgid "obj_obgr"
+msgstr "Voce gruppo"
 
 msgid "obj_objf"
 msgstr "Gestione oggetti"
@@ -5310,9 +5310,6 @@ msgstr "Moduli HTML"
 msgid "objs_iass"
 msgstr "Assegnazioni individuali"
 
-msgid "objs_itgr"
-msgstr "Voce gruppi"
-
 msgid "objs_lm"
 msgstr "Moduli ILIAS"
 
@@ -5333,6 +5330,9 @@ msgstr "Mediacast"
 
 msgid "objs_mep"
 msgstr "Librerie multimediali"
+
+msgid "objs_obgr"
+msgstr "Voce gruppi"
 
 msgid "objs_orgu"
 msgstr "Unità organizzative"
@@ -7999,3 +7999,4 @@ msgstr "Zip-test non riuscito. Si prega di contattare il proprio amministratore 
 
 msgid "zipcode"
 msgstr "Codice postale"
+

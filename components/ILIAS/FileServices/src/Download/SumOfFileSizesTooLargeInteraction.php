@@ -1,0 +1,109 @@
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+namespace ILIAS\FileServices\Download;
+
+use ILIAS\BackgroundTasks\Bucket;
+use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractUserInteraction;
+use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionOption;
+use ILIAS\BackgroundTasks\Task\UserInteraction\Option;
+use ILIAS\BackgroundTasks\Types\SingleType;
+use ILIAS\BackgroundTasks\Types\Type;
+use ILIAS\BackgroundTasks\Value;
+use ILIAS\Language\Language;
+
+class SumOfFileSizesTooLargeInteraction extends AbstractUserInteraction
+{
+    /**
+     * @var string
+     */
+    private const OPTION_OK = 'ok';
+
+    public function __construct(
+        protected readonly Language $lng
+    ) {
+    }
+
+    /**
+     * @return SingleType[]
+     */
+    public function getInputTypes(): array
+    {
+        return [
+            new SingleType(CopyDefinition::class),
+        ];
+    }
+
+    public function getOutputType(): Type
+    {
+        return new SingleType(CopyDefinition::class);
+    }
+
+    #[\Override]
+    public function getRemoveOption(): Option
+    {
+        return new UserInteractionOption('ok', self::OPTION_OK);
+    }
+
+    public function interaction(array $input, Option $user_selected_option, Bucket $bucket): Value
+    {
+        if ($user_selected_option->getValue() === self::OPTION_OK) {
+            // Set state to finished to stop the BackgroundTask and remove it from the popover.
+            $bucket->setState(3);
+        }
+
+        return $input[0];
+    }
+
+    /**
+     * @return mixed[]
+     */
+    public function getOptions(array $input): array
+    {
+        return [];
+    }
+
+    #[\Override]
+    public function getMessage(array $input): string
+    {
+        $this->lng->loadLanguageModule('background_tasks');
+        return $this->lng->txt('ui_msg_files_violate_maxsize');
+    }
+
+    #[\Override]
+    public function canBeSkipped(array $input): bool
+    {
+        $copy_definition = $input[0];
+        // skip the user interaction if the adherence to the global limit for the sum of file sizes
+        // hasn't been violated (as this interaction is used as an error message and mustn't be
+        // shown when everything is fine))
+        return (bool) $copy_definition->getAdheresToLimit()->getValue();
+    }
+
+    #[\Override]
+    public function getSkippedValue(array $input): Value
+    {
+        return $input[0];
+    }
+
+    #[\Override]
+    public function isFinal(): bool
+    {
+        return false;
+    }
+}

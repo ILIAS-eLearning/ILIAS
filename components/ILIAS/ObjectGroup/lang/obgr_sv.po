@@ -1,0 +1,120 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: sv\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: obgr\n"
+
+msgid "obgr_always_open"
+msgstr "Alltid öppen"
+
+#, fuzzy
+msgid "obgr_assign"
+msgstr "Assign"
+
+msgid "obgr_assign_materials"
+msgstr "Välj objekt"
+
+#, fuzzy
+msgid "obgr_assigned_first"
+msgstr "Assigned First"
+
+msgid "obgr_assigned_materials"
+msgstr "Objekt i objektblocket"
+
+msgid "obgr_assignment"
+msgstr "Integrerad"
+
+#, fuzzy
+msgid "obgr_assignment_to_other_obgr"
+msgstr "Already assigned to another Object Group"
+
+msgid "obgr_behaviour"
+msgstr "Beteende"
+
+msgid "obgr_behaviour_info"
+msgstr "Systemet kommer ihåg status (öppen/stängd) för varje användare fram till utloggningen."
+
+#, fuzzy
+msgid "obgr_create_and_assign_object"
+msgstr "Create and Assign Object"
+
+msgid "obgr_desc_info"
+msgstr "Beskrivningen visas inte när objektblocket visas."
+
+#, fuzzy
+msgid "obgr_display"
+msgstr "Display"
+
+#, fuzzy
+msgid "obgr_display_with_title"
+msgstr "With Title"
+
+#, fuzzy
+msgid "obgr_display_with_title_and_toggleable"
+msgstr "With Title, Object Group collapsible"
+
+#, fuzzy
+msgid "obgr_display_with_title_and_toggleable_initially"
+msgstr "Initial state"
+
+#, fuzzy
+msgid "obgr_display_with_title_and_toggleable_initially_closed"
+msgstr "initially closed"
+
+#, fuzzy
+msgid "obgr_display_with_title_and_toggleable_initially_open"
+msgstr "initially opened"
+
+#, fuzzy
+msgid "obgr_display_without_title"
+msgstr "Without Title"
+
+msgid "obgr_edit"
+msgstr "Inställningar för objektblocket"
+
+msgid "obgr_expandable_closed"
+msgstr "Fold-out (ursprungligen stängd)"
+
+msgid "obgr_expandable_open"
+msgstr "Fold-out (inledningsvis öppen)"
+
+msgid "obgr_item"
+msgstr "Objekt som kan inkluderas"
+
+msgid "obgr_list"
+msgstr "Lista"
+
+msgid "obgr_list_default"
+msgstr "Standard"
+
+msgid "obgr_list_default_info"
+msgstr "Tar över inställningarna för den överordnade behållaren."
+
+msgid "obgr_list_presentation"
+msgstr "Presentationsvy för innehåll"
+
+msgid "obgr_materials"
+msgstr "Objekt"
+
+#, fuzzy
+msgid "obgr_organise_objects"
+msgstr "Manage Objects"
+
+msgid "obgr_tile"
+msgstr "Kakelplattor"
+
+msgid "obgr_tile_size"
+msgstr "Storlek på kakel"
+
+#, fuzzy
+msgid "obgr_unassign"
+msgstr "Unassign"
+
+#, fuzzy
+msgid "obgr_unassigned_first"
+msgstr "Unassigned First"
+

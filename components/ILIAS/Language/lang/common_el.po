@@ -3252,14 +3252,6 @@ msgstr "Insert Italic - Click to insert italic text."
 msgid "item"
 msgstr "Αντικείμενο"
 
-#, fuzzy
-msgid "itgr_add"
-msgstr "Add Item Group"
-
-#, fuzzy
-msgid "itgr_new"
-msgstr "New Item Group"
-
 msgid "java_server"
 msgstr "Διακομιστής-Java"
 
@@ -4715,6 +4707,14 @@ msgstr "Αριθμός χρηστών"
 msgid "numberedlist_action"
 msgstr "Insert Numbered List - Click to insert a numbered list."
 
+#, fuzzy
+msgid "obgr_add"
+msgstr "Add Object Group"
+
+#, fuzzy
+msgid "obgr_new"
+msgstr "New Object Group"
+
 msgid "obj"
 msgstr "Αντικείμενο"
 
@@ -5090,10 +5090,6 @@ msgstr "Copy Individual Assessment"
 msgid "obj_iass_select"
 msgstr "-- Please select one individual assessment --"
 
-#, fuzzy
-msgid "obj_itgr"
-msgstr "Item Group"
-
 msgid "obj_ldap_desc"
 msgstr "Ρύθμιση καθολικών ρυθμίσεων LDAP εδώ."
 
@@ -5242,6 +5238,10 @@ msgstr "Ρυθμίσεις Ειδήσεων και τροφοδότησης Δι
 
 msgid "obj_nwss_desc"
 msgstr "Ρυθμίσεις για εσωτερικά νέα και εξωτερική τροφοδότηση Διαδικτύου.<br />"
+
+#, fuzzy
+msgid "obj_obgr"
+msgstr "Object Group"
 
 msgid "obj_objf"
 msgstr "Ορισμοί αντικειμένου"
@@ -5837,10 +5837,6 @@ msgstr "Εκπαιδευτικές μονάδες HTML"
 msgid "objs_iass"
 msgstr "Individual Assessments"
 
-#, fuzzy
-msgid "objs_itgr"
-msgstr "Item Groups"
-
 msgid "objs_lm"
 msgstr "Εκπαιδευτικές μονάδες ILIAS"
 
@@ -5864,6 +5860,10 @@ msgstr "Εκπομπές Μέσων"
 
 msgid "objs_mep"
 msgstr "Δεξαμενή πολυμέσων"
+
+#, fuzzy
+msgid "objs_obgr"
+msgstr "Object Groups"
 
 #, fuzzy
 msgid "objs_orgu"
@@ -8787,3 +8787,4 @@ msgstr "Zip-Test failed. Please contact you ILIAS administrator."
 
 msgid "zipcode"
 msgstr "Τ.Κ."
+

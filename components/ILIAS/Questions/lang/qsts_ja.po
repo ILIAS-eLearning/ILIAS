@@ -1,0 +1,87 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: qsts\n"
+
+msgid "answer_options"
+msgstr "解答オプション"
+
+msgid "cloze_text"
+msgstr "穴埋め問題のテキスト"
+
+msgid "confirm_delete_questions"
+msgstr "本当に次の問題を削除しますか?"
+
+msgid "create_question"
+msgstr "問題を作成"
+
+msgid "gap"
+msgstr "穴埋め"
+
+msgid "gaps"
+msgstr "Gaps"
+
+msgid "insert_gap"
+msgstr "ギャップを挿入"
+
+msgid "min_auto_complete"
+msgstr "オートコンプリート"
+
+msgid "msg_no_questions_selected"
+msgstr "問題が選択されませんでした。"
+
+msgid "out_of_range"
+msgstr "範囲外"
+
+msgid "qst_lifecycle"
+msgstr "ライフサイクル"
+
+msgid "qst_lifecycle_draft"
+msgstr "ドラフト"
+
+msgid "qst_lifecycle_filter_all"
+msgstr "全てのライフサイクル"
+
+msgid "qst_lifecycle_final"
+msgstr "最終"
+
+msgid "qst_lifecycle_outdated"
+msgstr "旧"
+
+msgid "qst_lifecycle_rejected"
+msgstr "拒否されました"
+
+msgid "qst_lifecycle_review"
+msgstr "要レビュー"
+
+msgid "qst_lifecycle_sharable"
+msgstr "共有化"
+
+msgid "questionlist"
+msgstr "問題リスト"
+
+msgid "questions"
+msgstr "問題"
+
+msgid "range_lower_limit"
+msgstr "下限"
+
+msgid "range_upper_limit"
+msgstr "上限"
+
+msgid "reset_preview"
+msgstr "プレビューをリセット"
+
+msgid "select_gap"
+msgstr "穴埋めを選択"
+
+msgid "shuffle_answers"
+msgstr "解答をシャッフル"
+
+msgid "suggested_learning_content"
+msgstr "要約用のコンテンツを追加"

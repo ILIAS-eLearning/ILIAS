@@ -39,6 +39,9 @@ use ILIAS\File\Activities\ListContainerContent;
 use ILIAS\File\Activities\ListFiles;
 use ILIAS\File\Activities\ReplaceFileContent;
 use ILIAS\File\Activities\RepositoryProvider;
+use ILIAS\FileServices\Download\DownloadLimit;
+use ILIAS\components\File\Settings\General;
+use ILIAS\Database\Connection;
 use ILIAS\FileDelivery\Activities\FilePayloadFactory;
 use ILIAS\ResourceStorage\Activities\DeliverResource;
 use ILIAS\ResourceStorage\Activities\ServiceProvider as StorageProvider;
@@ -61,6 +64,11 @@ class File implements Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
+        $implement[DownloadLimit::class] = static fn() =>
+            new General(
+                $pull[Connection::class]
+            );
+
         $contribute[Agent::class] = static fn() =>
             new \ilFileObjectAgent(
                 $pull[Factory::class]

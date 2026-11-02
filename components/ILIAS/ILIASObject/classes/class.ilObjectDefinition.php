@@ -842,7 +842,7 @@ class ilObjectDefinition
         foreach ($cnt_grp as $grp) {
             $res = array_merge($res, $grp_map[$grp]);
         }
-        $res[] = "itgr";
+        $res[] = "obgr";
 
         return array_unique($res);
     }

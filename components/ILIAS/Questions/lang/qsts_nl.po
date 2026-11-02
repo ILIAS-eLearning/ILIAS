@@ -1,0 +1,87 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: nl\n"
+"Language-Team: Dutch\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Domain: qsts\n"
+
+msgid "answer_options"
+msgstr "Answer Options"
+
+msgid "cloze_text"
+msgstr "Verhaspelde zin"
+
+msgid "confirm_delete_questions"
+msgstr "Weet je zeker dat je de volgende vraag(vragen) wilt verwijderen Als je een geblokkeerde vraag verwijderd, dan worden de resultaten van alle toetsen die deze geblokkeerde vraag bevatten, ook verwijderd."
+
+msgid "create_question"
+msgstr "Vraag aanmaken"
+
+msgid "gap"
+msgstr "Gat"
+
+msgid "gaps"
+msgstr "Gaps"
+
+msgid "insert_gap"
+msgstr "Insert Gap"
+
+msgid "min_auto_complete"
+msgstr "Autocomplete"
+
+msgid "msg_no_questions_selected"
+msgstr "No questions were selected."
+
+msgid "out_of_range"
+msgstr "Out of range"
+
+msgid "qst_lifecycle"
+msgstr "Lifecycle"
+
+msgid "qst_lifecycle_draft"
+msgstr "Draft"
+
+msgid "qst_lifecycle_filter_all"
+msgstr "All Lifecycles"
+
+msgid "qst_lifecycle_final"
+msgstr "Final"
+
+msgid "qst_lifecycle_outdated"
+msgstr "Outdated"
+
+msgid "qst_lifecycle_rejected"
+msgstr "Rejected"
+
+msgid "qst_lifecycle_review"
+msgstr "To be Reviewed"
+
+msgid "qst_lifecycle_sharable"
+msgstr "Sharable"
+
+msgid "questionlist"
+msgstr "Questionlist"
+
+msgid "questions"
+msgstr "Questions"
+
+msgid "range_lower_limit"
+msgstr "Verlaag limit"
+
+msgid "range_upper_limit"
+msgstr "Verhoog limit"
+
+msgid "reset_preview"
+msgstr "Herstel beeld"
+
+msgid "select_gap"
+msgstr "Selecteer gaten"
+
+msgid "shuffle_answers"
+msgstr "Antwoorden mixen"
+
+msgid "suggested_learning_content"
+msgstr "Voeg voorgestelde oplossing toe"

@@ -651,6 +651,17 @@ class PageQueryActionHandler implements Server\QueryActionHandler
                 ""
             );
         }
+
+        foreach ($this->component_factory->getActivePluginsInSlot("pgcp") as $plugin) {
+            if ($plugin->isValidParentType($this->page_gui->getPageObject()->getParentType())) {
+                $actions["Plugged"] = $this->ctrl->getFormActionByClass(
+                    [\ilPageEditorGUI::class, "ilPCPluggedGUI"],
+                    ""
+                );
+                break;
+            }
+        }
+
         return $actions;
     }
 

@@ -238,28 +238,28 @@ class ilSessionTest extends TestCase
         );
 
         $result = '';
-        ilSession::_writeData('123456', 'Testdata');
-        if (ilSession::_exists('123456')) {
+        ilSession::writeData('123456', 'Testdata');
+        if (ilSession::exists('123456')) {
             $result .= 'exists-';
         }
-        if (ilSession::_getData('123456') === 'Testdata') {
+        if (ilSession::getData('123456') === 'Testdata') {
             $result .= 'write-get-';
         }
-        $duplicate = ilSession::_duplicate('123456');
-        if (ilSession::_getData($duplicate) === 'Testdata') {
+        $duplicate = ilSession::duplicate('123456');
+        if (ilSession::getData($duplicate) === 'Testdata') {
             $result .= 'duplicate-';
         }
-        ilSession::_destroy('123456');
-        if (!ilSession::_exists('123456')) {
+        ilSession::destroy('123456');
+        if (!ilSession::exists('123456')) {
             $result .= 'destroy-';
         }
-        ilSession::_destroyExpiredSessions();
-        if (ilSession::_exists($duplicate)) {
+        ilSession::destroyExpiredSessions();
+        if (ilSession::exists($duplicate)) {
             $result .= 'destroyExp-';
         }
 
-        ilSession::_destroyByUserId(17);
-        if (!ilSession::_exists($duplicate)) {
+        ilSession::destroyByUserId(17);
+        if (!ilSession::exists($duplicate)) {
             $result .= 'destroyByUser-';
         }
 
@@ -386,5 +386,144 @@ SQL;
         $this->assertEquals('find-read-destroy-', $actual);
 
         $sqlite = null;
+    }
+
+    public function testUpdateTimestampTouchesExpiryWithoutRewritingPayload(): void
+    {
+        $client_ini = $this->getMockBuilder(ilIniFile::class)->disableOriginalConstructor()->getMock();
+        $client_ini
+            ->expects($this->once())
+            ->method('readVariable')
+            ->with('session', 'expire')
+            ->willReturn('1800');
+        $this->setGlobalVariable('ilClientIniFile', $client_ini);
+
+        $ilDB = $GLOBALS['DIC']['ilDB'];
+
+        $before = time();
+        $ilDB
+            ->expects($this->once())
+            ->method('update')
+            ->with(
+                'usr_session',
+                $this->callback(static function (array $values) use ($before): bool {
+                    if (array_key_exists('data', $values) || array_key_exists('user_id', $values)) {
+                        return false;
+                    }
+
+                    $expires = $values['expires'][1] ?? null;
+                    $ctime = $values['ctime'][1] ?? null;
+
+                    return $values['expires'][0] === ilDBConstants::T_INTEGER
+                        && $values['ctime'][0] === ilDBConstants::T_INTEGER
+                        && is_int($expires)
+                        && $expires >= $before + 1800
+                        && $expires <= time() + 1800
+                        && is_int($ctime)
+                        && $ctime >= $before
+                        && $ctime <= time();
+                }),
+                ['session_id' => [ilDBConstants::T_TEXT, 'known-session-id']]
+            )
+            ->willReturn(1);
+
+        self::assertTrue(ilSession::updateTimestamp('known-session-id'));
+    }
+
+    public function testUpdateTimestampSkipsEmptySessionId(): void
+    {
+        $ilDB = $GLOBALS['DIC']['ilDB'];
+        $ilDB->expects($this->never())->method('update');
+
+        self::assertTrue(ilSession::updateTimestamp(''));
+    }
+
+    public function testUpdateTimestampSkipsWebAccessWithoutSession(): void
+    {
+        $ilDB = $GLOBALS['DIC']['ilDB'];
+        $ilDB->expects($this->never())->method('update');
+
+        ilSession::enableWebAccessWithoutSession(true);
+        try {
+            self::assertTrue(ilSession::updateTimestamp('wac-session-id'));
+        } finally {
+            ilSession::enableWebAccessWithoutSession(false);
+        }
+    }
+
+    public function testHandlerKeepsExistingSessionOnTimestampUpdate(): void
+    {
+        $client_ini = $this->getMockBuilder(ilIniFile::class)->disableOriginalConstructor()->getMock();
+        $client_ini
+            ->expects($this->once())
+            ->method('readVariable')
+            ->with('session', 'expire')
+            ->willReturn('1800');
+        $this->setGlobalVariable('ilClientIniFile', $client_ini);
+
+        $ilDB = $GLOBALS['DIC']['ilDB'];
+        $ilDB->expects($this->once())->method('update')->willReturn(1);
+        $ilDB->expects($this->never())->method('manipulate');
+
+        $handler = new ilSessionDBHandler();
+
+        self::assertTrue($handler->updateTimestamp('known-session-id', 'unchanged-payload'));
+    }
+
+    public function testHandlerStoresPayloadWhenTimestampUpdateMatchesNoRow(): void
+    {
+        ilSession::enableWebAccessWithoutSession(false);
+
+        $client_ini = $this->createStub(ilIniFile::class);
+        $client_ini->method('readVariable')->willReturnCallback(
+            static function (string $group, string $key): string {
+                if ($group === 'session' && $key === 'expire') {
+                    return '1800';
+                }
+
+                return '';
+            }
+        );
+        $this->setGlobalVariable('ilClientIniFile', $client_ini);
+
+        $cron_manager = $this->createMock(\ILIAS\Cron\Job\JobManager::class);
+        $cron_manager
+            ->expects($this->once())
+            ->method('isJobActive')
+            ->with('auth_destroy_expired_sessions')
+            ->willReturn(true);
+        $this->setGlobalVariable('cron.manager', $cron_manager);
+
+        $ilDB = $GLOBALS['DIC']['ilDB'];
+        $ilDB->expects($this->once())->method('update')->willReturn(0);
+        $ilDB->method('quote')->willReturnCallback(
+            static fn(mixed $value, ?string $type = null): string => '[' . (string) $value . ']'
+        );
+        $ilDB->expects($this->once())->method('query')->willReturn($this->createStub(ilDBStatement::class));
+        $ilDB->expects($this->once())->method('numRows')->willReturn(0);
+        $ilDB
+            ->expects($this->once())
+            ->method('manipulate')
+            ->with($this->callback(static function (string $sql): bool {
+                return str_contains($sql, 'INSERT INTO usr_session')
+                    && str_contains($sql, '[expired-session-id]')
+                    && str_contains($sql, '[expired-flag-payload]');
+            }))
+            ->willReturn(1);
+
+        $working_directory = getcwd();
+        if (is_string($working_directory) && !defined('IL_INITIAL_WD')) {
+            define('IL_INITIAL_WD', $working_directory);
+        }
+
+        try {
+            $handler = new ilSessionDBHandler();
+
+            self::assertTrue($handler->updateTimestamp('expired-session-id', 'expired-flag-payload'));
+        } finally {
+            if (is_string($working_directory)) {
+                chdir($working_directory);
+            }
+        }
     }
 }

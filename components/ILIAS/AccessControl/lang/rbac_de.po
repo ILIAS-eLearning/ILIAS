@@ -1043,24 +1043,6 @@ msgstr "Internes Mail-System"
 msgid "invite"
 msgstr "Zu Umfrage einladen"
 
-msgid "itgr_copy"
-msgstr "Objekteblock kopieren"
-
-msgid "itgr_delete"
-msgstr "Objekteblock löschen oder verschieben"
-
-msgid "itgr_edit_permission"
-msgstr "Rechteeinstellungen des Objekteblocks ändern"
-
-msgid "itgr_read"
-msgstr "Lesezugriff auf Objekteblock"
-
-msgid "itgr_visible"
-msgstr "Objekteblock ist sichtbar"
-
-msgid "itgr_write"
-msgstr "Inhalt und Einstellungen eines Objekteblocks bearbeiten"
-
 msgid "leave"
 msgstr "Mitgliedschaft beenden"
 
@@ -1402,6 +1384,24 @@ msgstr "News- und Webfeeds-Administration ist sichtbar"
 
 msgid "nwss_write"
 msgstr "Einstellungen in der News- und Webfeeds-Administration bearbeiten"
+
+msgid "obgr_copy"
+msgstr "Objekteblock kopieren"
+
+msgid "obgr_delete"
+msgstr "Objekteblock löschen oder verschieben"
+
+msgid "obgr_edit_permission"
+msgstr "Rechteeinstellungen des Objekteblocks ändern"
+
+msgid "obgr_read"
+msgstr "Lesezugriff auf Objekteblock"
+
+msgid "obgr_visible"
+msgstr "Objekteblock ist sichtbar"
+
+msgid "obgr_write"
+msgstr "Inhalt und Einstellungen eines Objekteblocks bearbeiten"
 
 msgid "obj_skee"
 msgstr "Kompetenzbaum"
@@ -1826,9 +1826,6 @@ msgstr "HTML-Lernmodul anlegen"
 msgid "rbac_create_iass"
 msgstr "Individuelle Bewertung anlegen"
 
-msgid "rbac_create_itgr"
-msgstr "Objekteblock anlegen"
-
 msgid "rbac_create_lm"
 msgstr "ILIAS-Lernmodul anlegen"
 
@@ -1843,6 +1840,9 @@ msgstr "Mediacast anlegen"
 
 msgid "rbac_create_mep"
 msgstr "Medienpool anlegen"
+
+msgid "rbac_create_obgr"
+msgstr "Objekteblock anlegen"
 
 msgid "rbac_create_orgu"
 msgstr "Organisationseinheiten anlegen"
@@ -2806,3 +2806,4 @@ msgstr "Einstellungen in Wiki-Verwaltung bearbeiten"
 
 msgid "write"
 msgstr "Einstellungen bearbeiten"
+

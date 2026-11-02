@@ -77,17 +77,10 @@ class DefaultRenderer implements Renderer
      */
     public function renderAsync($component, ?Renderer $root = null)
     {
-        $root = $root ?? $this;
+        // prevent JavaScript of render() from leaking into async responses
+        $this->java_script_binding->clearOnLoadCodeAsync();
 
-        $out = '';
-        if (is_array($component)) {
-            foreach ($component as $_component) {
-                $out .= $root->renderAsync($_component);
-            }
-        } else {
-            $out = $this->render($component, $root) . $this->java_script_binding->getOnLoadCodeAsync();
-        }
-        return $out;
+        return $this->render($component, $root) . $this->java_script_binding->getOnLoadCodeAsync();
     }
 
     /**

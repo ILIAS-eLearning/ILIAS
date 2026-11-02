@@ -91,6 +91,9 @@ class ilImportExportFactory
         # Object changed to ILIASObject with the component revision
         $a_component = ($a_component === "components/ILIAS/Object") ? "components/ILIAS/ILIASObject" : $a_component;
         $a_component = ($a_component === "Services/Object") ? "components/ILIAS/ILIASObject" : $a_component;
+        # Item groups (itgr) were renamed to object groups (obgr)
+        $a_component = ($a_component === "Modules/ItemGroup") ? "components/ILIAS/ObjectGroup" : $a_component;
+        $a_component = ($a_component === "components/ILIAS/ItemGroup") ? "components/ILIAS/ObjectGroup" : $a_component;
         /**
          * @var $objDefinition ilObjectDefinition
          */

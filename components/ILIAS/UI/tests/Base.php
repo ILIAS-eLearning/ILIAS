@@ -46,6 +46,7 @@ use ILIAS\UI\Help;
 use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
 use ILIAS\UI\Implementation\Component\MessageBox\MessageBoxRendererFactory;
 use ILIAS\UI\Implementation\Component\Input\Container\Form\FormRendererFactory;
+use PHPUnit\Framework\MockObject\Stub;
 
 class ilIndependentTemplateFactory implements TemplateFactory
 {
@@ -159,6 +160,9 @@ class NoUIFactory implements FactoryInternal
     public function navigation(): I\Navigation\Factory
     {
     }
+    public function transfer(): I\Transfer\Factory
+    {
+    }
 }
 
 class LoggingRegistry implements ResourceRegistry
@@ -223,6 +227,11 @@ class LoggingJavaScriptBinding implements JavaScriptBinding
     public function getOnLoadCodeAsync(): string
     {
         return "";
+    }
+
+    public function clearOnLoadCodeAsync(): void
+    {
+        $this->on_load_code = [];
     }
 }
 
@@ -396,14 +405,16 @@ trait BaseUITestTrait
     }
 
     /**
-     * @param Component[] $with_stub_renderings
-     * @param Component[] $with_additional_contexts
+     * @param Component&Stub[] $with_stub_renderings
+     * @param Component&Stub[] $with_additional_contexts
      */
     public function getDefaultRenderer(
         ?JavaScriptBinding $js_binding = null,
         array $with_stub_renderings = [],
         array $with_additional_contexts = [],
     ): TestDefaultRenderer {
+        // we need a real context matcher instance for testing context rendering
+        $real_context_matcher = new Render\ContextMatcher();
         $ui_factory = $this->getUIFactory();
         $tpl_factory = $this->getTemplateFactory();
         $resource_registry = $this->getResourceRegistry();
@@ -421,6 +432,7 @@ trait BaseUITestTrait
                 $resource_registry,
                 new Render\FSLoader(
                     new DefaultRendererFactory(
+                        $real_context_matcher,
                         $ui_factory,
                         $tpl_factory,
                         $lng,
@@ -428,9 +440,11 @@ trait BaseUITestTrait
                         $image_path_resolver,
                         $data_factory,
                         $help_text_retriever,
-                        $this->getUploadLimitResolver()
+                        $this->getUploadLimitResolver(),
+                        $this->getRefinery(),
                     ),
                     new ButtonRendererFactory(
+                        $real_context_matcher,
                         $ui_factory,
                         $tpl_factory,
                         $lng,
@@ -438,9 +452,11 @@ trait BaseUITestTrait
                         $image_path_resolver,
                         $data_factory,
                         $help_text_retriever,
-                        $this->getUploadLimitResolver()
+                        $this->getUploadLimitResolver(),
+                        $this->getRefinery(),
                     ),
                     new FieldRendererFactory(
+                        $real_context_matcher,
                         $ui_factory,
                         $tpl_factory,
                         $lng,
@@ -448,9 +464,11 @@ trait BaseUITestTrait
                         $image_path_resolver,
                         $data_factory,
                         $help_text_retriever,
-                        $this->getUploadLimitResolver()
+                        $this->getUploadLimitResolver(),
+                        $this->getRefinery(),
                     ),
                     new MessageBoxRendererFactory(
+                        $real_context_matcher,
                         $ui_factory,
                         $tpl_factory,
                         $lng,
@@ -458,9 +476,11 @@ trait BaseUITestTrait
                         $image_path_resolver,
                         $data_factory,
                         $help_text_retriever,
-                        $this->getUploadLimitResolver()
+                        $this->getUploadLimitResolver(),
+                        $this->getRefinery(),
                     ),
                     new FormRendererFactory(
+                        $real_context_matcher,
                         $ui_factory,
                         $tpl_factory,
                         $lng,
@@ -468,9 +488,11 @@ trait BaseUITestTrait
                         $image_path_resolver,
                         $data_factory,
                         $help_text_retriever,
-                        $this->getUploadLimitResolver()
+                        $this->getUploadLimitResolver(),
+                        $this->getRefinery(),
                     ),
                     new I\Menu\MenuRendererFactory(
+                        $real_context_matcher,
                         $ui_factory,
                         $tpl_factory,
                         $lng,
@@ -479,8 +501,22 @@ trait BaseUITestTrait
                         $data_factory,
                         $help_text_retriever,
                         $this->getUploadLimitResolver(),
+                        $this->getRefinery(),
+                    ),
+                    new I\Entity\EntityRendererFactory(
+                        $real_context_matcher,
+                        $ui_factory,
+                        $tpl_factory,
+                        $lng,
+                        $js_binding,
+                        $image_path_resolver,
+                        $data_factory,
+                        $help_text_retriever,
+                        $this->getUploadLimitResolver(),
+                        $this->getRefinery(),
                     ),
                     new I\Listing\ListingRendererFactory(
+                        $real_context_matcher,
                         $ui_factory,
                         $tpl_factory,
                         $lng,
@@ -489,6 +525,19 @@ trait BaseUITestTrait
                         $data_factory,
                         $help_text_retriever,
                         $this->getUploadLimitResolver(),
+                        $this->getRefinery(),
+                    ),
+                    new I\Transfer\TransferRendererFactory(
+                        $real_context_matcher,
+                        $ui_factory,
+                        $tpl_factory,
+                        $lng,
+                        $js_binding,
+                        $image_path_resolver,
+                        $data_factory,
+                        $help_text_retriever,
+                        $this->getUploadLimitResolver(),
+                        $this->getRefinery(),
                     )
                 )
             )

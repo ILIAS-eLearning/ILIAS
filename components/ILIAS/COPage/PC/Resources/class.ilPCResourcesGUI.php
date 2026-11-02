@@ -85,7 +85,7 @@ class ilPCResourcesGUI extends ilPageContentGUI
         $objDefinition = $this->obj_definition;
 
         $op_type = null;
-        $op_itemgroup = null;
+        $op_objectgroup = null;
 
         // edit form
         $form = new ilPropertyFormGUI();
@@ -96,12 +96,12 @@ class ilPCResourcesGUI extends ilPageContentGUI
             $form->setTitle($this->lng->txt("cont_update_resources"));
         }
 
-        // count number of existing objects per type and collect item groups
+        // count number of existing objects per type and collect object groups
         $ref_id = $this->requested_ref_id;
         $childs = $this->rep_tree->getChilds($ref_id);
 
         $type_counts = array();
-        $item_groups = array();
+        $object_groups = array();
         foreach ($childs as $c) {
             // see bug #12471
             //echo "<br>-".$c["type"]."-".$objDefinition->getGroupOfObj($c["type"])."-";
@@ -109,8 +109,8 @@ class ilPCResourcesGUI extends ilPageContentGUI
                 ? $objDefinition->getGroupOfObj($c["type"])
                 : $c["type"];
             $type_counts[$key] = ($type_counts[$key] ?? 0) + 1;
-            if ($c["type"] == "itgr") {
-                $item_groups[$c["ref_id"]] = $c["title"];
+            if ($c["type"] == "obgr") {
+                $object_groups[$c["ref_id"]] = $c["title"];
             }
         }
 
@@ -118,7 +118,7 @@ class ilPCResourcesGUI extends ilPageContentGUI
         $radg = new ilRadioGroupInputGUI($lng->txt("cont_resources"), "res_type");
         $form->addItem($radg);
         if (!$a_insert && $this->content_obj->getMainType() == "ItemGroup") {
-            $radg->setValue("itgr");
+            $radg->setValue("obgr");
         } else {
             $radg->setValue("by_type");
         }
@@ -129,9 +129,9 @@ class ilPCResourcesGUI extends ilPageContentGUI
         //if ($this->supportsTypeBlocks()) {
         //}
 
-        if ($this->supportsItemGroups() && count($item_groups) > 0) {
-            $op_itemgroup = new ilRadioOption($lng->txt("cont_manual_item_group"), "itgr", "");
-            $radg->addOption($op_itemgroup);
+        if ($this->supportsObjectGroups() && count($object_groups) > 0) {
+            $op_objectgroup = new ilRadioOption($lng->txt("cont_manual_object_group"), "obgr", "");
+            $radg->addOption($op_objectgroup);
         }
 
         $radg->addOption($op_type);
@@ -151,7 +151,7 @@ class ilPCResourcesGUI extends ilPageContentGUI
                 continue;
             }
             if (!$objDefinition->isPlugin($k)) {
-                if ($k != "itgr") {
+                if ($k != "obgr") {
                     $types[$k] = $this->lng->txt("objs_" . $k) . " (" . $cnt . ")";
                 }
             } else {
@@ -166,18 +166,18 @@ class ilPCResourcesGUI extends ilPageContentGUI
         $type_prop->setValue($selected);
         $op_type->addSubItem($type_prop);
 
-        if ($this->supportsItemGroups() && count($item_groups) > 0) {
-            // item groups
-            $options = $item_groups;
+        if ($this->supportsObjectGroups() && count($object_groups) > 0) {
+            // object groups
+            $options = $object_groups;
             asort($options);
-            $si = new ilSelectInputGUI($this->lng->txt("obj_itgr"), "itgr");
+            $si = new ilSelectInputGUI($this->lng->txt("obj_obgr"), "obgr");
             $si->setOptions($options);
             $selected = ($a_insert)
                 ? ""
                 : $this->content_obj->getItemGroupRefId();
-            $op_itemgroup->addSubItem($si);
+            $op_objectgroup->addSubItem($si);
             if ($a_insert) {
-                $radg->setValue("itgr");
+                $radg->setValue("obgr");
             }
         }
 
@@ -235,10 +235,10 @@ class ilPCResourcesGUI extends ilPageContentGUI
         return $view_manager;
     }
 
-    protected function supportsItemGroups(): bool
+    protected function supportsObjectGroups(): bool
     {
         foreach ($this->getContainerViewManager()->getBlockSequence()->getParts() as $part) {
-            if ($part instanceof \ILIAS\Container\Content\ItemGroupBlocks) {
+            if ($part instanceof \ILIAS\Container\Content\ObjectGroupBlocks) {
                 return true;
             }
         }
@@ -284,13 +284,13 @@ class ilPCResourcesGUI extends ilPageContentGUI
             $this->content_obj->setResourceListType("_other");
         } elseif ($this->request->getString("res_type") === "_lobj") {
             $this->content_obj->setResourceListType("_lobj");
-        } elseif ($this->request->getString("res_type") !== "itgr") {
+        } elseif ($this->request->getString("res_type") !== "obgr") {
             $this->content_obj->setResourceListType(
                 $this->request->getString("type")
             );
         } else {
             $this->content_obj->setItemGroupRefId(
-                $this->request->getString("itgr")
+                $this->request->getString("obgr")
             );
         }
         $this->updated = $this->pg_obj->update();
@@ -307,13 +307,13 @@ class ilPCResourcesGUI extends ilPageContentGUI
             $this->content_obj->setResourceListType("_other");
         } elseif ($this->request->getString("res_type") === "_lobj") {
             $this->content_obj->setResourceListType("_lobj");
-        } elseif ($this->request->getString("res_type") !== "itgr") {
+        } elseif ($this->request->getString("res_type") !== "obgr") {
             $this->content_obj->setResourceListType(
                 $this->request->getString("type")
             );
         } else {
             $this->content_obj->setItemGroupRefId(
-                $this->request->getString("itgr")
+                $this->request->getString("obgr")
             );
         }
         $this->updated = $this->pg_obj->update();
@@ -391,7 +391,7 @@ class ilPCResourcesGUI extends ilPageContentGUI
                 foreach ($block->getItemRefIds() as $ref_id) {
                     $data = $item_presentation_manager->getRawDataByRefId($ref_id);
                     if ($block->getBlock() instanceof \ILIAS\Container\Content\OtherBlock) {
-                        if ($data["type"] === "itgr" || in_array($ref_id, $item_ref_ids)) {
+                        if ($data["type"] === "obgr" || in_array($ref_id, $item_ref_ids)) {
                             continue;
                         }
                     }
@@ -485,7 +485,7 @@ class ilPCResourcesGUI extends ilPageContentGUI
                 $type = $block->getId();
                 $tpl->setVariable("HEADER", $lng->txt("objs_sess"));
                 $a_content = str_replace("[list-" . $type . "]", $tpl->get(), $a_content);
-            } elseif ($block->getBlock() instanceof \ILIAS\Container\Content\ItemGroupBlock) {
+            } elseif ($block->getBlock() instanceof \ILIAS\Container\Content\ObjectGroupBlock) {
                 $id = $block->getId();
                 $tpl->setVariable("HEADER", \ilObject::_lookupTitle(
                     \ilObject::_lookupObjId((int) $id)

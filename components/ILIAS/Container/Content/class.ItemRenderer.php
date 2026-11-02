@@ -64,7 +64,7 @@ class ItemRenderer
         int $a_position = 0,
         bool $a_force_icon = false,
         string $a_pos_prefix = "",
-        string $item_group_list_presentation = "",
+        string $object_group_list_presentation = "",
         int $checkbox = self::CHECKBOX_NONE,
         bool $item_ordering = false,
         int $details_level = \ilObjectListGUI::DETAILS_ALL
@@ -79,8 +79,8 @@ class ItemRenderer
             return '';
         }*/
         $view_mode = $this->view_mode;
-        if ($item_group_list_presentation != "") {
-            $view_mode = ($item_group_list_presentation === "tile")
+        if ($object_group_list_presentation != "") {
+            $view_mode = ($object_group_list_presentation === "tile")
                 ? \ilContainerContentGUI::VIEW_MODE_TILE
                 : \ilContainerContentGUI::VIEW_MODE_LIST;
         }

@@ -1,0 +1,120 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ja\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: obgr\n"
+
+msgid "obgr_always_open"
+msgstr "常時オープン"
+
+#, fuzzy
+msgid "obgr_assign"
+msgstr "Assign"
+
+msgid "obgr_assign_materials"
+msgstr "教材を割当てる"
+
+#, fuzzy
+msgid "obgr_assigned_first"
+msgstr "Assigned First"
+
+msgid "obgr_assigned_materials"
+msgstr "割り当てる教材"
+
+msgid "obgr_assignment"
+msgstr "割り当て"
+
+#, fuzzy
+msgid "obgr_assignment_to_other_obgr"
+msgstr "Already assigned to another Object Group"
+
+msgid "obgr_behaviour"
+msgstr "ブロックの動作"
+
+msgid "obgr_behaviour_info"
+msgstr "現在のユーザがログアウトするまでの間システムは開いたもの/閉じたものを保存します。"
+
+#, fuzzy
+msgid "obgr_create_and_assign_object"
+msgstr "Create and Assign Object"
+
+msgid "obgr_desc_info"
+msgstr "説明はコンテナ内のグループプレゼンテーションの部分アイテムにはなりません。"
+
+#, fuzzy
+msgid "obgr_display"
+msgstr "Display"
+
+#, fuzzy
+msgid "obgr_display_with_title"
+msgstr "With Title"
+
+#, fuzzy
+msgid "obgr_display_with_title_and_toggleable"
+msgstr "With Title, Object Group collapsible"
+
+#, fuzzy
+msgid "obgr_display_with_title_and_toggleable_initially"
+msgstr "Initial state"
+
+#, fuzzy
+msgid "obgr_display_with_title_and_toggleable_initially_closed"
+msgstr "initially closed"
+
+#, fuzzy
+msgid "obgr_display_with_title_and_toggleable_initially_open"
+msgstr "initially opened"
+
+#, fuzzy
+msgid "obgr_display_without_title"
+msgstr "Without Title"
+
+msgid "obgr_edit"
+msgstr "アイテムグループを編集"
+
+msgid "obgr_expandable_closed"
+msgstr "拡張可(初期値は閉じている)"
+
+msgid "obgr_expandable_open"
+msgstr "拡張可(初期値は開いている)"
+
+msgid "obgr_item"
+msgstr "アイテム"
+
+msgid "obgr_list"
+msgstr "List"
+
+msgid "obgr_list_default"
+msgstr "Default"
+
+msgid "obgr_list_default_info"
+msgstr "上位コンテナからボリュームを引き継ぐ"
+
+msgid "obgr_list_presentation"
+msgstr "アイテムプレゼンテーション"
+
+msgid "obgr_materials"
+msgstr "材料"
+
+#, fuzzy
+msgid "obgr_organise_objects"
+msgstr "Manage Objects"
+
+msgid "obgr_tile"
+msgstr "Tiles"
+
+msgid "obgr_tile_size"
+msgstr "Tile Size"
+
+#, fuzzy
+msgid "obgr_unassign"
+msgstr "Unassign"
+
+#, fuzzy
+msgid "obgr_unassigned_first"
+msgstr "Unassigned First"
+

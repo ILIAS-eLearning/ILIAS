@@ -19,10 +19,19 @@ import copyright from '../../../../../../scripts/Copyright-Checker/copyright.js'
 import preserveCopyright from '../../../../../../scripts/Copyright-Checker/preserveCopyright.js';
 
 export default {
-  input: './src/prompt.js',
+  input: './src/facade.js',
+  external: [
+    'document',
+    'ilias',
+  ],
   output: {
+    // file: '../../../../../../public/assets/js/prompt.min.js',
     file: './dist/prompt.min.js',
     format: 'iife',
+    globals: {
+      document: 'document',
+      ilias: 'il',
+    },
     banner: copyright,
     plugins: [
       terser({
@@ -31,10 +40,5 @@ export default {
         },
       }),
     ],
-    globals: {
-      il: 'il',
-      DOMParser: 'DOMParser',
-    },
   },
-  external: ['il', 'DOMParser'],
 };

@@ -40,7 +40,7 @@ $il-modal-dark-carousel-color: $il-main-bg !default;
 // --------------------------------------------------
 
 .c-modal,
-.il-prompt dialog {
+.c-prompt dialog {
 	border: none;
 	background: none;
 	@include box-shadow($il-shadow--large);
@@ -150,7 +150,7 @@ $il-modal-dark-carousel-color: $il-main-bg !default;
   }
 
   // Actual modal
-  .modal-content, .il-prompt dialog {
+  .modal-content, .c-prompt dialog {
 	position: relative;
 	background-color: $modal-content-bg;
 	background-clip: padding-box;
@@ -162,7 +162,7 @@ $il-modal-dark-carousel-color: $il-main-bg !default;
 	outline: 0;
   }
 
-  .il-prompt dialog hr {
+  .c-prompt dialog hr {
 	  margin: 0;
   }
 
@@ -181,11 +181,11 @@ $il-modal-dark-carousel-color: $il-main-bg !default;
   }
 
   .modal-header,
-  .il-prompt__header,
+  .c-prompt__header,
   .modal-body,
-  .il-prompt__contents,
+  .c-prompt__contents,
   .modal-footer,
-  .il-prompt__buttons {
+  .c-prompt__buttons {
 	  padding: $modal-title-padding;
 	  @include clearfix;
   }
@@ -221,24 +221,18 @@ $il-modal-dark-carousel-color: $il-main-bg !default;
   }
 
   // Footer (for actions)
-  .modal-footer {
+  .modal-footer,
+  .c-prompt__buttons {
 	text-align: right; // right align buttons
 	border-top: 1px solid $modal-footer-border-color;
 	@include clearfix; // clear it in case folks use .pull-* classes on buttons
 
-	// Properly space out buttons
-	.btn + .btn {
-	  margin-bottom: 0; // account for input[type="submit"] which gets the bottom margin like all other inputs
-	  margin-left: 5px;
-	}
-	// but override that for button groups
-	.btn-group .btn + .btn {
-	  margin-left: -1px;
-	}
-	// and override it for block buttons as well
-	.btn-block + .btn-block {
-	  margin-left: 0;
-	}
+	display: flex;
+	justify-content: flex-end;
+	gap: 5px;
+
+	// ensure no spacing is applied other than gap
+	.btn { margin: 0; }
   }
 
   // Measure scrollbar width for padding body during modal show/hide
@@ -275,7 +269,7 @@ $il-modal-dark-carousel-color: $il-main-bg !default;
 	// end of section based on bootstrap 3
 
 // modal sizes responsive and variants
-.c-modal, .il-prompt {
+.c-modal, .c-prompt {
 	@include on-screen-size(small) {
 		margin: 0;
 		padding: 0;

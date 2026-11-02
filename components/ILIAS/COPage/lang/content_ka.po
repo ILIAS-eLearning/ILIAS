@@ -2031,8 +2031,8 @@ msgid "cont_manifest"
 msgstr "მანიფესტი"
 
 #, fuzzy
-msgid "cont_manual_item_group"
-msgstr "Manually Create Item Group"
+msgid "cont_manual_object_group"
+msgstr "Manually Created Object Group"
 
 msgid "cont_map_file_not_generated"
 msgstr "ბოდიშს გიხდით. შეუძლებელირუკის ფაილის წარმოქმნა რედაქტირებისთვის შეუძლებელია"
@@ -4077,3 +4077,5 @@ msgstr "ტექსტის წარმომადგენლობა"
 
 msgid "text_repr_info"
 msgstr "გამოყენებულია სურათისთვის \"ალტ\" განსაზღვრება"
+
+
