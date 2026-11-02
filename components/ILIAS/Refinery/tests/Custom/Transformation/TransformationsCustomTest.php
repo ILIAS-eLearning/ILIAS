@@ -22,17 +22,19 @@ use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Refinery\Transformation;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\MockObject\Stub;
 
 class TransformationsCustomTest extends TestCase
 {
-    private const TEST_STRING = "Test";
+    private const string TEST_STRING = 'Test';
 
     private ?Transformation $custom;
     private ?Refinery $f;
 
     protected function setUp(): void
     {
-        $language = $this->createMock(ILIAS\Language\Language::class);
+        /** @var ILIAS\Language\Language&Stub $language */
+        $language = $this->createStub(ILIAS\Language\Language::class);
         $this->f = new Refinery(new DataFactory(), $language);
 
         $this->custom = $this->f->custom()->transformation(

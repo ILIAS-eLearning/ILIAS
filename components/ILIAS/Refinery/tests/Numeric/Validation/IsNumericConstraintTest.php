@@ -20,23 +20,20 @@ declare(strict_types=1);
 
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 
 class IsNumericConstraintTest extends TestCase
 {
     private DataFactory $df;
-    private ILIAS\Language\Language $lng;
-    private Refinery $f;
+    private ILIAS\Language\Language&Stub $lng;
     private \ILIAS\Refinery\Constraint $c;
 
     protected function setUp(): void
     {
         $this->df = new DataFactory();
-        $this->lng = $this->createMock(ILIAS\Language\Language::class);
-
-        $this->f = new Refinery($this->df, $this->lng);
-
-        $this->c = $this->f->numeric()->isNumeric();
+        $this->lng = $this->createStub(ILIAS\Language\Language::class);
+        $this->c = $this->numericConstraint($this->lng);
     }
 
     public function testAccepts1(): void
@@ -46,7 +43,7 @@ class IsNumericConstraintTest extends TestCase
 
     public function testAccepts2(): void
     {
-        $this->assertTrue($this->c->accepts("1"));
+        $this->assertTrue($this->c->accepts('1'));
     }
 
     public function testAccepts3(): void
@@ -86,7 +83,7 @@ class IsNumericConstraintTest extends TestCase
 
     public function testNotAccepts2(): void
     {
-        $this->assertFalse($this->c->accepts("foo"));
+        $this->assertFalse($this->c->accepts('foo'));
     }
 
     public function testCheckSucceed(): void
@@ -99,12 +96,9 @@ class IsNumericConstraintTest extends TestCase
     {
         $this->lng
             ->method('txt')
-            ->willReturnCallback(static function (string $value): string {
-                return $value;
-            })
-        ;
+            ->willReturnCallback(static fn(string $value): string => $value);
         $this->expectException(\UnexpectedValueException::class);
-        $this->c->check("");
+        $this->c->check('');
     }
 
     public function testNoProblemWith(): void
@@ -114,13 +108,14 @@ class IsNumericConstraintTest extends TestCase
 
     public function testProblemWith(): void
     {
-        $this->lng
+        $lng = $this->createMock(ILIAS\Language\Language::class);
+        $lng
             ->expects($this->once())
-            ->method("txt")
-            ->with("not_numeric")
-            ->willReturn("-%s-");
+            ->method('txt')
+            ->with('not_numeric')
+            ->willReturn('-%s-');
 
-        $this->assertEquals("-aa-", $this->c->problemWith("aa"));
+        $this->assertEquals('-aa-', $this->numericConstraint($lng)->problemWith('aa'));
     }
 
     public function testRestrictOk(): void
@@ -133,21 +128,22 @@ class IsNumericConstraintTest extends TestCase
 
     public function testRestrictNotOk(): void
     {
-        $not_ok = $this->df->ok("");
-
-        $this->lng
+        $lng = $this->createMock(ILIAS\Language\Language::class);
+        $lng
             ->expects($this->once())
-            ->method("txt")
-            ->with("not_numeric_empty_string")
-            ->willReturn("-%s-");
+            ->method('txt')
+            ->with('not_numeric_empty_string')
+            ->willReturn('-%s-');
 
-        $res = $this->c->applyTo($not_ok);
+        $not_ok = $this->df->ok('');
+
+        $res = $this->numericConstraint($lng)->applyTo($not_ok);
         $this->assertFalse($res->isOk());
     }
 
     public function testRestrictError(): void
     {
-        $error = $this->df->error("error");
+        $error = $this->df->error('error');
 
         $res = $this->c->applyTo($error);
         $this->assertSame($error, $res);
@@ -155,9 +151,12 @@ class IsNumericConstraintTest extends TestCase
 
     public function testWithProblemBuilder(): void
     {
-        $new_c = $this->c->withProblemBuilder(static function (): string {
-            return "This was a fault";
-        });
-        $this->assertEquals("This was a fault", $new_c->problemWith(""));
+        $new_c = $this->c->withProblemBuilder(static fn(): string => 'This was a fault');
+        $this->assertEquals('This was a fault', $new_c->problemWith(''));
+    }
+
+    private function numericConstraint(ILIAS\Language\Language $lng): \ILIAS\Refinery\Constraint
+    {
+        return (new Refinery($this->df, $lng))->numeric()->isNumeric();
     }
 }

@@ -22,11 +22,12 @@ use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Refinery\Transformation;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\MockObject\Stub;
 
 class StripTagsTest extends TestCase
 {
-    private const STRING_TO_STRIP = "I <script>contain</a> tags.";
-    private const EXPECTED_RESULT = "I contain tags.";
+    private const string STRING_TO_STRIP = 'I <script>contain</a> tags.';
+    private const string EXPECTED_RESULT = 'I contain tags.';
 
     private Refinery $f;
     private Transformation $strip_tags;
@@ -34,8 +35,9 @@ class StripTagsTest extends TestCase
     protected function setUp(): void
     {
         $this->f = new Refinery(
-            $this->createMock(DataFactory::class),
-            $language = $this->createMock(ILIAS\Language\Language::class)
+            $this->createStub(DataFactory::class),
+            /** @var ILIAS\Language\Language&Stub $language */
+            $language = $this->createStub(ILIAS\Language\Language::class)
         );
         $this->strip_tags = $this->f->string()->stripTags();
     }

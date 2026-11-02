@@ -26,19 +26,22 @@ use PHPUnit\Framework\TestCase;
 use ILIAS\Language\Language;
 use UnexpectedValueException;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\Stub;
 
 class InArrayTransformationTest extends TestCase
 {
     public function testConstruct(): void
     {
-        $language = $this->getMockBuilder(Language::class)->disableOriginalConstructor()->getMock();
+        /** @var Language&Stub $language */
+        $language = $this->createStub(Language::class);
         $this->assertInstanceOf(InArrayTransformation::class, new InArrayTransformation([], $language));
     }
 
     #[DataProvider('memberProvider')]
     public function testAccept(string $value, bool $successful): void
     {
-        $language = $this->getMockBuilder(Language::class)->disableOriginalConstructor()->getMock();
+        /** @var Language&Stub $language */
+        $language = $this->createStub(Language::class);
         $transformation = new InArrayTransformation(['foo', 'bar'], $language);
 
         $this->assertSame($successful, $transformation->accepts($value));
@@ -51,7 +54,8 @@ class InArrayTransformationTest extends TestCase
             $this->expectException(UnexpectedValueException::class);
         }
 
-        $language = $this->getMockBuilder(Language::class)->disableOriginalConstructor()->getMock();
+        /** @var Language&Stub $language */
+        $language = $this->createStub(Language::class);
         $transformation = new InArrayTransformation(['foo', 'bar'], $language);
 
         $this->assertSame($value, $transformation->transform($value));
@@ -60,7 +64,8 @@ class InArrayTransformationTest extends TestCase
     #[DataProvider('memberProvider')]
     public function testApplyTo(string $value, bool $successful): void
     {
-        $language = $this->getMockBuilder(Language::class)->disableOriginalConstructor()->getMock();
+        /** @var Language&Stub $language */
+        $language = $this->createStub(Language::class);
         $transformation = new InArrayTransformation(['foo', 'bar'], $language);
 
         $result = $transformation->applyTo(new Ok($value));

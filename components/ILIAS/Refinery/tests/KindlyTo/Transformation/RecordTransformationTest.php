@@ -33,10 +33,6 @@ class RecordTransformationTest extends TestCase
     private const INT_KEY = 'integerKey';
     private const SECOND_INT_KEY = 'integerKey2';
 
-    /**
-     * @param array $originVal
-     * @param array $expectedVal
-     */
     #[DataProvider('RecordTransformationDataProvider')]
     public function testRecordTransformationIsValid(array $originVal, array $expectedVal): void
     {
@@ -51,9 +47,6 @@ class RecordTransformationTest extends TestCase
         $this->assertEquals($expectedVal, $transformedValue);
     }
 
-    /**
-     * @param array $origVal
-     */
     #[DataProvider('RecordFailureDataProvider')]
     public function testRecordTransformationFailures(array $origVal): void
     {
@@ -89,9 +82,6 @@ class RecordTransformationTest extends TestCase
         $this->fail();
     }
 
-    /**
-     * @param array $originalValue
-     */
     #[DataProvider('RecordValueInvalidDataProvider')]
     public function testInvalidValueDoesNotMatch(array $originalValue): void
     {

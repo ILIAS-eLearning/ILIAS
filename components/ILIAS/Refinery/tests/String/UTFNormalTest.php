@@ -23,9 +23,9 @@ namespace ILIAS\src\Refinery\String;
 use ILIAS\Data\Factory;
 use ILIAS\Refinery\String\Group;
 use PHPUnit\Framework\TestCase;
-use ILIAS\Refinery\String\Transformation\UTFNormalTransformation;
 use ILIAS\Refinery\Transformation;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\Stub;
 
 class UTFNormalTest extends TestCase
 {
@@ -36,9 +36,8 @@ class UTFNormalTest extends TestCase
 
     public function setUp(): void
     {
-        $language = $this->getMockBuilder(\ILIAS\Language\Language::class)
-                         ->disableOriginalConstructor()
-                         ->getMock();
+        /** @var \ILIAS\Language\Language&Stub $language */
+        $language = $this->createStub(\ILIAS\Language\Language::class);
         $group = new Group(new Factory(), $language);
 
         $this->form_d = $group->utfnormal()->formD();

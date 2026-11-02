@@ -81,8 +81,8 @@ class LevenshteinTransformation implements Transformation
         $cost_matrix = [];
         $primary_string_array = $this->stringToCharacterArray($this->primary_string);
         $secondary_string_array = $this->stringToCharacterArray($secondary_string);
-        $primary_string_length = count($primary_string_array);
-        $secondary_string_length = count($secondary_string_array);
+        $primary_string_length = \count($primary_string_array);
+        $secondary_string_length = \count($secondary_string_array);
 
         // if the difference between string length is bigger than the maximum allowed levenshtein distance
         // the code can be skipped
@@ -146,8 +146,8 @@ class LevenshteinTransformation implements Transformation
      */
     public function transform($from): float
     {
-        if (!is_string($from)) {
-            throw new InvalidArgumentException(__METHOD__ . " the argument is not a string.");
+        if (!\is_string($from)) {
+            throw new InvalidArgumentException(__METHOD__ . ' the argument is not a string.');
         }
 
         return $this->levenshtein($from);

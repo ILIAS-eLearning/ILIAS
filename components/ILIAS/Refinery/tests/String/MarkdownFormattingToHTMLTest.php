@@ -26,6 +26,7 @@ use PHPUnit\Framework\TestCase;
 use ilLanguage;
 use ILIAS\Refinery\Transformation;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\Stub;
 
 class MarkdownFormattingToHTMLTest extends TestCase
 {
@@ -33,9 +34,8 @@ class MarkdownFormattingToHTMLTest extends TestCase
 
     protected function setUp(): void
     {
-        $language = $this->getMockBuilder(ilLanguage::class)
-                         ->disableOriginalConstructor()
-                         ->getMock();
+        /** @var ilLanguage&Stub $language */
+        $language = $this->createStub(ilLanguage::class);
         $group = new Group(new Factory(), $language);
 
         $this->markdown = $group->markdown()->toHTML();
@@ -44,15 +44,15 @@ class MarkdownFormattingToHTMLTest extends TestCase
     public static function stringProvider(): array
     {
         return [
-            ["lorem", "<p>lorem</p>\n"],
-            ["lorem **ipsum**", "<p>lorem <strong>ipsum</strong></p>\n"],
-            ["_lorem_ **ipsum**", "<p><em>lorem</em> <strong>ipsum</strong></p>\n"],
-            ["# Headline", "<h1>Headline</h1>\n"],
-            ["## Headline", "<h2>Headline</h2>\n"],
-            ["### Headline", "<h3>Headline</h3>\n"],
+            ['lorem', "<p>lorem</p>\n"],
+            ['lorem **ipsum**', "<p>lorem <strong>ipsum</strong></p>\n"],
+            ['_lorem_ **ipsum**', "<p><em>lorem</em> <strong>ipsum</strong></p>\n"],
+            ['# Headline', "<h1>Headline</h1>\n"],
+            ['## Headline', "<h2>Headline</h2>\n"],
+            ['### Headline', "<h3>Headline</h3>\n"],
             ["1. Lorem\n2. Ipsum", "<ol>\n<li>Lorem</li>\n<li>Ipsum</li>\n</ol>\n"],
             ["- Lorem\n- Ipsum", "<ul>\n<li>Lorem</li>\n<li>Ipsum</li>\n</ul>\n"],
-            ["[Link Titel](https://www.ilias.de)", "<p><a href=\"https://www.ilias.de\">Link Titel</a></p>\n"],
+            ['[Link Titel](https://www.ilias.de)', "<p><a href=\"https://www.ilias.de\">Link Titel</a></p>\n"],
         ];
     }
 

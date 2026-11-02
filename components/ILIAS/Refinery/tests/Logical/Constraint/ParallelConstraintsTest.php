@@ -26,35 +26,12 @@ use PHPUnit\Framework\TestCase;
 class ParallelConstraintsTest extends TestCase
 {
     private DataFactory $df;
-    private ILIAS\Language\Language $lng;
     private Constraint $c;
-    private Refinery $refinery;
 
     protected function setUp(): void
     {
         $this->df = new DataFactory();
-        $this->lng = $this->createMock(ILIAS\Language\Language::class);
-        $this->refinery = new Refinery($this->df, $this->lng);
-
-        $group = $this->refinery->custom();
-
-        $less_than_3 = $group->constraint(
-            static function ($value): bool {
-                return $value < 3;
-            },
-            "not_less_than_3"
-        );
-
-        $less_than_5 = $group->constraint(
-            static function ($value): bool {
-                return $value < 5;
-            },
-            "not_less_than_5"
-        );
-
-        $this->c = $this->refinery
-            ->logical()
-            ->parallel([$less_than_3, $less_than_5]);
+        $this->c = $this->parallelConstraint($this->createStub(ILIAS\Language\Language::class));
     }
 
     public function testAccepts(): void
@@ -86,20 +63,22 @@ class ParallelConstraintsTest extends TestCase
 
     public function testProblemWith1(): void
     {
-        $this->lng
+        $lng = $this->createMock(ILIAS\Language\Language::class);
+        $lng
             ->expects($this->never())
-            ->method("txt");
+            ->method('txt');
 
-        $this->assertEquals("not_less_than_3", $this->c->problemWith(4));
+        $this->assertEquals('not_less_than_3', $this->parallelConstraint($lng)->problemWith(4));
     }
 
     public function testProblemWith2(): void
     {
-        $this->lng
+        $lng = $this->createMock(ILIAS\Language\Language::class);
+        $lng
             ->expects($this->never())
-            ->method("txt");
+            ->method('txt');
 
-        $this->assertEquals("not_less_than_3 not_less_than_5", $this->c->problemWith(6));
+        $this->assertEquals('not_less_than_3 not_less_than_5', $this->parallelConstraint($lng)->problemWith(6));
     }
 
     public function testRestrictOk(): void
@@ -120,7 +99,7 @@ class ParallelConstraintsTest extends TestCase
 
     public function testRestrictError(): void
     {
-        $error = $this->df->error("error");
+        $error = $this->df->error('error');
 
         $res = $this->c->applyTo($error);
         $this->assertSame($error, $res);
@@ -128,9 +107,25 @@ class ParallelConstraintsTest extends TestCase
 
     public function testWithProblemBuilder(): void
     {
-        $new_c = $this->c->withProblemBuilder(static function (): string {
-            return "This was a fault";
-        });
-        $this->assertEquals("This was a fault", $new_c->problemWith(7));
+        $new_c = $this->c->withProblemBuilder(static fn(): string => 'This was a fault');
+        $this->assertEquals('This was a fault', $new_c->problemWith(7));
+    }
+
+    private function parallelConstraint(ILIAS\Language\Language $lng): Constraint
+    {
+        $refinery = new Refinery($this->df, $lng);
+        $group = $refinery->custom();
+
+        $less_than_3 = $group->constraint(
+            static fn($value): bool => $value < 3,
+            'not_less_than_3'
+        );
+
+        $less_than_5 = $group->constraint(
+            static fn($value): bool => $value < 5,
+            'not_less_than_5'
+        );
+
+        return $refinery->logical()->parallel([$less_than_3, $less_than_5]);
     }
 }

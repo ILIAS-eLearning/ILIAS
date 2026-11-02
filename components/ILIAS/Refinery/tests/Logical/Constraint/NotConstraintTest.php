@@ -26,32 +26,15 @@ use PHPUnit\Framework\TestCase;
 class NotConstraintTest extends TestCase
 {
     private DataFactory $df;
-    private ILIAS\Language\Language $lng;
-    private Refinery $refinery;
     private Constraint $not_true;
     private Constraint $not_false;
 
     protected function setUp(): void
     {
         $this->df = new DataFactory();
-        $this->lng = $this->createMock(ILIAS\Language\Language::class);
-        $this->refinery = new Refinery($this->df, $this->lng);
-
-        $group = $this->refinery->custom();
-
-        $this->not_true = $this->refinery->logical()->not($group->constraint(
-            static function ($v): bool {
-                return true;
-            },
-            "not_true"
-        ));
-
-        $this->not_false = $this->refinery->logical()->not($group->constraint(
-            static function ($v): bool {
-                return false;
-            },
-            "not_false"
-        ));
+        [$this->not_true, $this->not_false] = $this->notConstraints(
+            $this->createStub(ILIAS\Language\Language::class)
+        );
     }
 
     public function testAccepts(): void
@@ -83,13 +66,16 @@ class NotConstraintTest extends TestCase
 
     public function testProblemWith(): void
     {
-        $this->lng
+        $lng = $this->createMock(ILIAS\Language\Language::class);
+        $lng
             ->expects($this->once())
-            ->method("txt")
-            ->with("not_generic")
-            ->willReturn("-%s-");
+            ->method('txt')
+            ->with('not_generic')
+            ->willReturn('-%s-');
 
-        $this->assertEquals("-not_true-", $this->not_true->problemWith(null));
+        [$not_true] = $this->notConstraints($lng);
+
+        $this->assertEquals('-not_true-', $not_true->problemWith(null));
     }
 
     public function testRestrictOk(): void
@@ -110,7 +96,7 @@ class NotConstraintTest extends TestCase
 
     public function testRestrictError(): void
     {
-        $error = $this->df->error("error");
+        $error = $this->df->error('error');
 
         $res = $this->not_false->applyTo($error);
         $this->assertSame($error, $res);
@@ -118,9 +104,27 @@ class NotConstraintTest extends TestCase
 
     public function testWithProblemBuilder(): void
     {
-        $new_c = $this->not_true->withProblemBuilder(static function (): string {
-            return "This was a fault";
-        });
-        $this->assertEquals("This was a fault", $new_c->problemWith(null));
+        $new_c = $this->not_true->withProblemBuilder(static fn(): string => 'This was a fault');
+        $this->assertEquals('This was a fault', $new_c->problemWith(null));
+    }
+
+    /**
+     * @return array{Constraint, Constraint}
+     */
+    private function notConstraints(ILIAS\Language\Language $lng): array
+    {
+        $refinery = new Refinery($this->df, $lng);
+        $group = $refinery->custom();
+
+        return [
+            $refinery->logical()->not($group->constraint(
+                static fn($v): bool => true,
+                'not_true'
+            )),
+            $refinery->logical()->not($group->constraint(
+                static fn($v): bool => false,
+                'not_false'
+            )),
+        ];
     }
 }

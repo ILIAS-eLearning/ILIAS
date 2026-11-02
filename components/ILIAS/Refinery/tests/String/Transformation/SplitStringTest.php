@@ -22,13 +22,14 @@ use ILIAS\Refinery\Transformation;
 use ILIAS\Data\Factory as DataFactory;
 use PHPUnit\Framework\TestCase;
 use ILIAS\Refinery\Factory as Refinery;
+use PHPUnit\Framework\MockObject\Stub;
 
 class SplitStringTest extends TestCase
 {
-    private const STRING_TO_SPLIT = "I am#a test string#for split";
+    private const STRING_TO_SPLIT = 'I am#a test string#for split';
 
     /** @var string[] */
-    protected static array $result = ["I am", "a test string", "for split"];
+    protected static array $result = ['I am', 'a test string', 'for split'];
 
     private ?Transformation $split_string;
     private ?Refinery $f;
@@ -36,9 +37,10 @@ class SplitStringTest extends TestCase
     protected function setUp(): void
     {
         $dataFactory = new DataFactory();
-        $language = $this->createMock(ILIAS\Language\Language::class);
+        /** @var ILIAS\Language\Language&Stub $language */
+        $language = $this->createStub(ILIAS\Language\Language::class);
         $this->f = new Refinery($dataFactory, $language);
-        $this->split_string = $this->f->string()->splitString("#");
+        $this->split_string = $this->f->string()->splitString('#');
     }
 
     protected function tearDown(): void
@@ -85,14 +87,14 @@ class SplitStringTest extends TestCase
 
     public function testInvoke(): void
     {
-        $split_string = $this->f->string()->splitString("#");
+        $split_string = $this->f->string()->splitString('#');
         $arr = $split_string(self::STRING_TO_SPLIT);
         $this->assertEquals(static::$result, $arr);
     }
 
     public function testInvokeFails(): void
     {
-        $split_string = $this->f->string()->splitString("#");
+        $split_string = $this->f->string()->splitString('#');
 
         $raised = false;
         try {

@@ -30,6 +30,7 @@ use ILIAS\Refinery\Integer\LessThanOrEqual;
 use ILIAS\Refinery\In\Group as InGroup;
 use ILIAS\Refinery\Constraint;
 use ILIAS\Language\Language;
+use PHPUnit\Framework\MockObject\Stub;
 
 class GroupTest extends TestCase
 {
@@ -38,12 +39,10 @@ class GroupTest extends TestCase
     protected function setUp(): void
     {
         $dataFactory = new Factory();
-        $language = $this->getMockBuilder(Language::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $in = $this->getMockBuilder(InGroup::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var Language&Stub $language */
+        $language = $this->createStub(Language::class);
+        /** @var InGroup&Stub $in */
+        $in = $this->createStub(InGroup::class);
 
         $this->group = new IntegerGroup($dataFactory, $language, $in);
     }
@@ -73,13 +72,16 @@ class GroupTest extends TestCase
 
     public function testIsBetween(): void
     {
-        $dataFactory = $this->getMockBuilder(Factory::class)->disableOriginalConstructor()->getMock();
-        $language = $this->getMockBuilder(Language::class)->disableOriginalConstructor()->getMock();
+        /** @var Factory&Stub $dataFactory */
+        $dataFactory = $this->createStub(Factory::class);
+        /** @var Language&Stub $language */
+        $language = $this->createStub(Language::class);
         $in = $this->getMockBuilder(InGroup::class)->disableOriginalConstructor()->getMock();
-        $series = $this->getMockBuilder(Constraint::class)->getMock();
+        /** @var Constraint&Stub $series */
+        $series = $this->createStub(Constraint::class);
 
-        $in->expects(self::once())->method('series')->willReturnCallback(function (array $array) use ($series) {
-            $this->assertSame(2, count($array));
+        $in->expects($this->once())->method('series')->willReturnCallback(function (array $array) use ($series) {
+            $this->assertCount(2, $array);
             $this->assertInstanceOf(GreaterThanOrEqual::class, $array[0]);
             $this->assertInstanceOf(LessThanOrEqual::class, $array[1]);
 

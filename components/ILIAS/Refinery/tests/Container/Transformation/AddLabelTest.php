@@ -22,6 +22,7 @@ use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
 use PHPUnit\Framework\TestCase;
 use ILIAS\Data\Factory as DataFactory;
+use PHPUnit\Framework\MockObject\Stub;
 
 class AddLabelTest extends TestCase
 {
@@ -38,7 +39,8 @@ class AddLabelTest extends TestCase
     protected function setUp(): void
     {
         $dataFactory = new DataFactory();
-        $language = $this->createMock(ILIAS\Language\Language::class);
+        /** @var ILIAS\Language\Language&Stub $language */
+        $language = $this->createStub(ILIAS\Language\Language::class);
 
         $this->f = new Refinery($dataFactory, $language);
         $this->add_label = $this->f->container()->addLabels(self::$labels);

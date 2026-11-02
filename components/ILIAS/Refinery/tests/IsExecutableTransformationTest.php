@@ -23,18 +23,21 @@ namespace ILIAS\Tests\Refinery;
 use ILIAS\Refinery\IsExecutableTransformation;
 use PHPUnit\Framework\TestCase;
 use ILIAS\Language\Language;
+use PHPUnit\Framework\MockObject\Stub;
 
 class IsExecutableTransformationTest extends TestCase
 {
     public function testConstruct(): void
     {
-        $language = $this->getMockBuilder(Language::class)->disableOriginalConstructor()->getMock();
+        /** @var Language&Stub $language */
+        $language = $this->createStub(Language::class);
         $this->assertInstanceOf(IsExecutableTransformation::class, new IsExecutableTransformation($language));
     }
 
     public function testFailingAccept(): void
     {
-        $language = $this->getMockBuilder(Language::class)->disableOriginalConstructor()->getMock();
+        /** @var Language&Stub $language */
+        $language = $this->createStub(Language::class);
         $transformation = new IsExecutableTransformation($language);
 
         $this->assertFalse($transformation->accepts('I hope this string is no valid path...'));
@@ -46,7 +49,8 @@ class IsExecutableTransformationTest extends TestCase
             $this->markTestSkipped('Shell /bin/sh is not available.');
             return;
         }
-        $language = $this->getMockBuilder(Language::class)->disableOriginalConstructor()->getMock();
+        /** @var Language&Stub $language */
+        $language = $this->createStub(Language::class);
         $transformation = new IsExecutableTransformation($language);
 
         $this->assertTrue($transformation->accepts('/bin/sh'));

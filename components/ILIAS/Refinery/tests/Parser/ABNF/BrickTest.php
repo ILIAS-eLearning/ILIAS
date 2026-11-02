@@ -29,6 +29,7 @@ use ILIAS\Refinery\Parser\ABNF\Intermediate;
 use ILIAS\Refinery\Transformation;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\Stub;
 
 class BrickTest extends TestCase
 {
@@ -40,10 +41,12 @@ class BrickTest extends TestCase
     public function testApply(): void
     {
         $expected = 'aloha';
-        $ok = $this->getMockBuilder(Result::class)->getMock();
+        /** @var Result&Stub $ok */
+        $ok = $this->createStub(Result::class);
         $ok->method('isOk')->willReturn(true);
         $ok->method('value')->willReturn($expected);
-        $intermediate = $this->getMockBuilder(Intermediate::class)->disableOriginalConstructor()->getMock();
+        /** @var Intermediate&Stub $intermediate */
+        $intermediate = $this->createStub(Intermediate::class);
         $intermediate->method('done')->willReturn(true);
         $intermediate->method('transform')->willReturnCallback(fn() => $ok);
         $brick = new Brick();
@@ -259,10 +262,12 @@ class BrickTest extends TestCase
     {
         $brick = new Brick();
 
-        $intermediate = $this->getMockBuilder(Intermediate::class)->disableOriginalConstructor()->getMock();
+        /** @var Intermediate&Stub $intermediate */
+        $intermediate = $this->createStub(Intermediate::class);
         $intermediate->method('done')->willReturn(true);
 
-        $ok = $this->getMockBuilder(Result::class)->getMock();
+        /** @var Result&Stub $ok */
+        $ok = $this->createStub(Result::class);
         $ok->method('isOk')->willReturn(true);
         $ok->method('value')->willReturn($intermediate);
         $ok->method('map')->willReturn($ok);
