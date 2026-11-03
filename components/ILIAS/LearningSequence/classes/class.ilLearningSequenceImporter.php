@@ -146,9 +146,14 @@ class ilLearningSequenceImporter extends ilXmlImporter
     {
         $collection = ilLPCollection::getInstanceByMode($this->obj->getId(), (int) $lp_settings["lp_mode"]);
 
-        $new_ref_ids = array_map(function ($old_ref_id) use ($mapping) {
-            return $mapping->getMapping("components/ILIAS/Container", "refs", $old_ref_id);
-        }, $lp_settings["lp_item_ref_ids"]);
+        $new_ref_ids = [];
+        foreach ($lp_settings["lp_item_ref_ids"] as $old_ref_id) {
+            $new_ref_id = $mapping->getMapping("components/ILIAS/Container", "refs", (string) $old_ref_id);
+            if ($new_ref_id === null) {
+                continue;
+            }
+            $new_ref_ids[] = (int) $new_ref_id;
+        }
 
         if (!is_null($collection)) {
             $collection->activateEntries($new_ref_ids);
