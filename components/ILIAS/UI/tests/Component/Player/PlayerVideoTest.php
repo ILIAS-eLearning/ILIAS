@@ -128,7 +128,7 @@ EOT;
         $html = $r->render($video);
         $expected = <<<EOT
 <div class="il-video-container">
-    <video controls class="il-video-player" id="id_1" src="/foo" preload="metadata" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" style="background-image:url('bar.jpg')">
+    <video controls class="il-video-player" id="id_1" src="/foo" preload="metadata" poster="bar.jpg" >
     </video>
 </div>
 EOT;
