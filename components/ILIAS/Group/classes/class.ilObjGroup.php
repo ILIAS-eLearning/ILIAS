@@ -1517,28 +1517,13 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
         }
     }
 
-    public static function mayLeave(int $a_group_id, int $a_user_id = null, ?ilDate &$a_date = null): bool
+    public static function mayLeave(int $a_group_id, int $a_user_id = 0, ?ilDate &$a_date = null): bool
     {
-        global $DIC;
+        $grp = ilObjectFactory::getInstanceByObjId($a_group_id);
+        $a_date = $grp->getCancellationEnd();
 
-        $ilUser = $DIC->user();
-        $ilDB = $DIC->database();
-
-        if (!$a_user_id) {
-            $a_user_id = $ilUser->getId();
-        }
-
-        $set = $ilDB->query("SELECT leave_end" .
-            " FROM grp_settings" .
-            " WHERE obj_id = " . $ilDB->quote($a_group_id, "integer"));
-        $row = $ilDB->fetchAssoc($set);
-        if ($row && isset($row["leave_end"]) && is_numeric($row["leave_end"])) {
-            // timestamp to date
-            $limit = date("Ymd", (int) $row["leave_end"]);
-            if ($limit < date("Ymd")) {
-                $a_date = new ilDate(date("Y-m-d", (int) $row["leave_end"]), IL_CAL_DATE);
-                return false;
-            }
+        if ($grp->getMembersObject()->isLastAdmin($a_user_id) || $a_date < new ilDate(time(), IL_CAL_UNIX)) {
+            return false;
         }
         return true;
     }

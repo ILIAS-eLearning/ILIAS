@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=0);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=0);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=0);
 
 /**
  * Class ilObjCourseAccess
@@ -127,13 +127,15 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
                 if ($permission == 'leave') {
                     $limit = null;
                     if (!ilObjCourse::mayLeave($obj_id, $user_id, $limit)) {
-                        $this->access->addInfoItem(
-                            ilAccessInfo::IL_STATUS_INFO,
-                            sprintf(
-                                $this->lng->txt("crs_cancellation_end_rbac_info"),
-                                ilDatePresentation::formatDate($limit)
-                            )
-                        );
+                        if ($limit instanceof ilDate) {
+                            $this->access->addInfoItem(
+                                ilAccessInfo::IL_STATUS_INFO,
+                                sprintf(
+                                    $this->lng->txt("crs_cancellation_end_rbac_info"),
+                                    ilDatePresentation::formatDate($limit)
+                                )
+                            );
+                        }
                         return false;
                     }
 
