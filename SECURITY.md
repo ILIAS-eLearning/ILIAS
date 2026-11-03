@@ -90,6 +90,17 @@ existing ILIAS installations. If you don't have access to the corresponding issu
 in our internal security tracker please give access to the corresponding patch 
 files to the issue manager through a secure channel.
 
+### Form of report
+Please note that we need to put some constraints on how security issues are supposed to be reported due to our limited time and resources:
+
+* Please make sure to follow our [issue template](#template-for-reporting-of-security-issues) in this document
+* Each email you send should contain only one security issue. If you want to submit multiple security issues, please send an email for each issue separately or make sure that the issues are clearly separated in attached files
+* Emails containing generalized bug reports (e.g. reports created automatically through pen-testing systems) should not be sent directly to us without further evaluation. Please review them beforehand and explain us the security issue you want to report (as explained in [Reporting a Security Issue](#reporting-a-security-issue) point 1.). A generalized report can provide great additional information but should not be the only information we receive. We may ask you to create a new report if this requirement has not been met.
+
+### Email Encryption
+
+To encrypt your email to security@ilias.de, please use the following PGP key: https://docu.ilias.de/go/file/18565 (fingerprint: 09A2 88B4 CDD7 AF59 9716 0A54 10B3 A0F9 B020 B44D)
+
 [//]: # (END reporting)
 
 ## Addressing a Security Issue
@@ -215,3 +226,17 @@ which provides more details on affected and fixed versions of ILIAS.
 * Guido Vollbach, Databay AG, Würselen, Germany
 
 [//]: # (END contributors)
+
+[//]: # (BEGIN vulnerability_template)
+
+## Template for reporting of security issues
+For easier processing we ask you to contribute your security advisory according to the following template:
+
+Summary: A very brief description of the problem\
+Affected Versions: Please list every affected major release and its latest minor release that is affected\
+Description: A description of the issue\
+Steps to Reproduce: Please list all steps and prerequisites that are necessary to reproduce the issue\
+Additional Information: Optional: Please give us further information about your report\
+CVSS-Score: Optional: If you have a cvss estimation (3.1 or 4.0) please let us know about it
+
+[//]: # (END vulnerability_template)
