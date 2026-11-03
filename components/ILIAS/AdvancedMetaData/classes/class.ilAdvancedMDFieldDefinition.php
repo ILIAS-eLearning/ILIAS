@@ -25,6 +25,10 @@ use ILIAS\AdvancedMetaData\Repository\FieldDefinition\GenericData\Gateway as DBG
 use ILIAS\AdvancedMetaData\Data\FieldDefinition\GenericData\GenericData;
 use ILIAS\AdvancedMetaData\Data\FieldDefinition\GenericData\GenericDataImplementation;
 use ILIAS\AdvancedMetaData\Repository\FieldDefinition\GenericData\DatabaseGatewayImplementation;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Table\Data as DataTable;
 
 /**
  * AMD field abstract base class
@@ -74,6 +78,9 @@ abstract class ilAdvancedMDFieldDefinition
     protected ilLogger $logger;
     protected GlobalHttpState $http;
     protected RefineryFactory $refinery;
+    protected UIFactory $ui_factory;
+    protected UIRenderer $ui_renderer;
+    protected ilCtrl $ctrl;
 
     public function __construct(GenericData $generic_data, string $language = '')
     {
@@ -83,6 +90,9 @@ abstract class ilAdvancedMDFieldDefinition
         $this->language = $DIC->language()->getLangKey();
         $this->refinery = $DIC->refinery();
         $this->http = $DIC->http();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
+        $this->ctrl = $DIC->ctrl();
 
 
         if ($language) {
@@ -1036,11 +1046,9 @@ abstract class ilAdvancedMDFieldDefinition
     }
 
     /**
-     * @param object $a_parent_gui
-     * @param string $parent_cmd
      * @return null
      */
-    public function getComplexOptionsOverview(object $a_parent_gui, string $parent_cmd): ?string
+    public function getComplexOptionsOverview(): ?DataTable
     {
         return null;
     }

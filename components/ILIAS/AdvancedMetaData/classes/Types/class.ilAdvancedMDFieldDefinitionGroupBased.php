@@ -18,6 +18,11 @@
 
 declare(strict_types=1);
 
+use ILIAS\AdvancedMetaData\Types\Group\ComplexOptions\Table\DataRetrieval as ComplexOptionsDataRetrieval;
+use ILIAS\AdvancedMetaData\Types\Group\ComplexOptions\Table\TableBuilder as ComplexOptionsTableBuilder;
+use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Table\Data as DataTable;
+
 /**
  * AMD field type address
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -191,13 +196,20 @@ abstract class ilAdvancedMDFieldDefinitionGroupBased extends ilAdvancedMDFieldDe
         return $adt;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getComplexOptionsOverview(object $a_parent_gui, string $a_parent_cmd): ?string
+
+    public function getComplexOptionsOverview(): ?DataTable
     {
-        $tbl = new ilAdvancedMDFieldDefinitionGroupTableGUI($a_parent_gui, $a_parent_cmd, $this);
-        return $tbl->getHTML();
+        $data_retrieval = new ComplexOptionsDataRetrieval($this);
+        $table_builder = new ComplexOptionsTableBuilder(
+            $data_retrieval,
+            $this->lng,
+            $this->ui_factory,
+            $this->http,
+            $this->ctrl,
+            $this
+        );
+
+        return $table_builder->get();
     }
 
     public function exportOptionToTableGUI($a_option, array &$a_item): void
