@@ -747,14 +747,10 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
     protected function saveAndAssignMaterialsObject(): void
     {
-        $this->saveObject(false);
-
-        $this->ctrl->setParameter($this, 'ref_id', $this->object->getRefId());
-        $this->ctrl->setParameter($this, 'new_type', '');
-        $this->ctrl->redirect($this, 'materials');
+        $this->saveObject(true);
     }
 
-    public function saveObject(bool $a_redirect_on_success = true): void
+    public function saveObject(bool $redirect_to_materials_on_success = false): void
     {
         $ilUser = $this->user;
         $object_service = $this->object_service;
@@ -832,7 +828,11 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         $this->createRecurringSessions((bool) $this->form->getInput("lp_preset"));
 
-        if ($a_redirect_on_success) {
+        if ($redirect_to_materials_on_success) {
+            $this->ctrl->setParameter($this, 'ref_id', $this->object->getRefId());
+            $this->ctrl->setParameter($this, 'new_type', '');
+            $this->ctrl->redirect($this, 'materials');
+        } else {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('event_add_new_event'), true);
             $this->ctrl->returnToParent($this);
         }
