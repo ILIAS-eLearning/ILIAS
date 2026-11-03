@@ -208,6 +208,10 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
     // create global role LTI-User
     protected function createLtiUserRole(): void
     {
+        if (ilObject::_getIdsForTitle("il_lti_global_role", "role", false) !== []) {
+            $this->ctrl->redirect($this, 'listConsumers');
+        }
+
         $role = new ilObjRole();
         $role->setTitle("il_lti_global_role");
         $role->setDescription("This global role should only contain the permission 'read' for repository and categories. Do not rename this role.");
@@ -225,7 +229,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
         );
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("lti_user_role_created"), true);
-        $this->listConsumers();
+        $this->ctrl->redirect($this, 'listConsumers');
     }
 
 
