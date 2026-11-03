@@ -48,10 +48,10 @@ msgid "ascending_order"
 msgstr "Neueste Beiträge unten"
 
 msgid "autosave_draft_info"
-msgstr "<span class=\"asterisk\">Dieser Entwurf wird alle %s Sekunden automatisch gespeichert.<span/>"
+msgstr "<span class=\"asterisk\">Dieser Entwurf wird alle %s Sekunden automatisch gespeichert.</span>"
 
 msgid "autosave_post_draft_info"
-msgstr "<span class=\"asterisk\">Dieser Beitrag wird alle %s Sekunden automatisch als Entwurf gespeichert.<span/>"
+msgstr "<span class=\"asterisk\">Dieser Beitrag wird alle %s Sekunden automatisch als Entwurf gespeichert.</span>"
 
 msgid "close_topics"
 msgstr "Schließen"
