@@ -240,36 +240,4 @@ class TreeBuilder
             $this->language
         );
     }
-
-    /**
-     * Static factory method to create a builder with the tree ID.
-     *
-     * @param int $tree_id Tree identifier
-     * @return self
-     */
-    public static function forTree(int $tree_id): self
-    {
-        return new self($tree_id);
-    }
-
-    /**
-     * Static factory method to create a main tree builder.
-     *
-     * @return self
-     */
-    public static function forMain(): self
-    {
-        return (new self(1))->forMainTree();
-    }
-
-    /**
-     * Static factory method to create a setup tree builder.
-     *
-     * @param \ilDBInterface $db Database connection
-     * @return self
-     */
-    public static function forSetup(\ilDBInterface $db, Setting $setting): self
-    {
-        return (new self(1))->forSetupEnvironment($db, $setting);
-    }
 }
