@@ -563,7 +563,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
                                            "offline"
                         )
                         )) {
-                            $data["set"][$idx][$col_id] = null;
+                            $data["set"][$idx][$col_id] = $this->isArrayColumn($col_id) ? [] : null;
                         }
                     }
                     $data["set"][$idx]["privacy_conflict"] = true;
