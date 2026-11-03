@@ -22,6 +22,7 @@ namespace ILIAS\StaticURL\Builder;
 
 use ILIAS\Data\URI;
 use ILIAS\Data\ReferenceId;
+use ILIAS\StaticURL\Request\Intent;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -31,7 +32,8 @@ interface URIBuilder
     public function build(
         string $namespace,
         ?ReferenceId $reference_id = null,
-        array $additional_parameters = []
+        array $additional_parameters = [],
+        Intent $intent = Intent::DEFAULT
     ): URI;
 
     /**

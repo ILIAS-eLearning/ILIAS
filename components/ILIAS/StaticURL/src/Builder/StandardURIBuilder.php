@@ -24,6 +24,7 @@ use ILIAS\Data\URI;
 use ILIAS\Data\ReferenceId;
 use ILIAS\StaticURL\Configuration;
 use ILIAS\StaticURL\Config;
+use ILIAS\StaticURL\Request\Intent;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -77,13 +78,20 @@ class StandardURIBuilder implements URIBuilder
     public function build(
         string $namespace,
         ?ReferenceId $reference_id = null,
-        array $additional_parameters = []
+        array $additional_parameters = [],
+        Intent $intent = Intent::DEFAULT
     ): URI {
-        $uri = $this->getBaseURI()
+        $uri = new URI(
+            $this->getBaseURI()
             . $this->config->get(Config::STATIC_LINK_ENDPOINT)
-            . $this->buildTarget($namespace, $reference_id, $additional_parameters);
+            . $this->buildTarget($namespace, $reference_id, $additional_parameters)
+        );
 
-        return new URI($uri);
+        if ($intent === Intent::DEFAULT) {
+            return $uri;
+        }
+
+        return $uri->withParameter(Intent::PARAMETER, $intent->value);
     }
 
     public function buildTarget(

@@ -41,6 +41,7 @@ use ILIAS\StaticURL\Builder\StandardURIBuilder;
 use ILIAS\Data\ReferenceId;
 use ILIAS\StaticURL\Configuration;
 use ILIAS\StaticURL\Config;
+use ILIAS\StaticURL\Request\Intent;
 
 require_once "Base.php";
 
@@ -78,18 +79,26 @@ final class URIBuilderTest extends Base
         yield ['wiki', 42, [], 'https://test9.ilias.de/goto.php/wiki/42'];
         yield ['file', 42, ['download'], 'https://test9.ilias.de/goto.php/file/42/download'];
         yield ['dashboard', null, [], 'https://test9.ilias.de/goto.php/dashboard'];
+        yield ['file', 42, [], 'https://test9.ilias.de/goto.php/file/42', Intent::DEFAULT];
+        yield ['file', 42, [], 'https://test9.ilias.de/goto.php/file/42?intent=show', Intent::SHOW];
     }
 
     #[DataProvider('getBuilderParts')]
-    public function testFullBuilder(string $namespace, ?int $ref_id, array $params, string $expected): void
-    {
+    public function testFullBuilder(
+        string $namespace,
+        ?int $ref_id,
+        array $params,
+        string $expected,
+        Intent $intent = Intent::DEFAULT
+    ): void {
         $uri_builder = new StandardURIBuilder(
             $this->getConfig('https://test9.ilias.de')
         );
         $uri = $uri_builder->build(
             $namespace,
             $ref_id === null ? null : new ReferenceId($ref_id),
-            $params
+            $params,
+            $intent
         );
         $this->assertSame($expected, (string) $uri);
     }

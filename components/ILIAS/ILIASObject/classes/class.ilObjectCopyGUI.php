@@ -29,6 +29,7 @@ use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\Component\Input\Container\Form\Standard;
 use ILIAS\Object\ImplementsCreationCallback;
+use ILIAS\StaticURL\Request\Intent;
 
 /**
  * GUI class for the workflow of copying objects
@@ -923,7 +924,7 @@ class ilObjectCopyGUI
         }
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("objects_duplicated"), true);
-        ilUtil::redirect(ilLink::_getLink($ref_id));
+        ilUtil::redirect(ilLink::_getLink($ref_id, '', [], '', Intent::SHOW));
     }
 
     protected function copyContainerToTargets(): void
@@ -949,7 +950,7 @@ class ilObjectCopyGUI
             if ($this->getSubMode() == self::SUBMODE_CONTENT_ONLY) {
                 $this->ctrl->returnToParent($this);
             }
-            $link = ilLink::_getLink($result['ref_id']);
+            $link = ilLink::_getLink($result['ref_id'], '', [], '', Intent::SHOW);
             $this->ctrl->redirectToURL($link);
         } else {
             $this->log->debug('Object copy in progress.');
@@ -1014,7 +1015,7 @@ class ilObjectCopyGUI
         $progress->setObjectInfo($this->targets_copy_id);
         $progress->parse();
         $progress->init();
-        $link = ilLink::_getLink($ref_id);
+        $link = ilLink::_getLink($ref_id, '', [], '', Intent::SHOW);
         $progress->setRedirectionUrl($link);
 
         $this->tpl->setContent($progress->getHTML());
