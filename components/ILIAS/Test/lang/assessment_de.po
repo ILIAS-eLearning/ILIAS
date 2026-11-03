@@ -2427,7 +2427,7 @@ msgid "result_frac"
 msgstr "Bruch"
 
 msgid "result_frac_info"
-msgstr "Angaben als Brüche werden als gültig gewertet. Brüche müssen nicht vollständig gekürzt sein. So sind beispielsweise sowohl 1/3 als auch 2/6 gültig. "
+msgstr "Angaben als Brüche werden als gültig gewertet. Brüche müssen nicht vollständig gekürzt sein. So sind beispielsweise sowohl 1/3 als auch 2/6 gültig."
 
 msgid "result_type_selection"
 msgstr "Vorgeschriebenes Antwortformat"
