@@ -186,34 +186,14 @@ class ilPRGMembersExportGUI extends ilMemberExportGUI
         $this->ctrl->redirect($this, 'show');
     }
 
-    public function downloadExportFile(): void
+    /**
+     * @param string[] $ids
+     */
+    public function downloadExportFile(array $ids): void
     {
-        $fl = '';
-        if ($this->http->wrapper()->query()->has('fl')) {
-            $fl = $this->http->wrapper()->query()->retrieve(
-                'fl',
-                $this->refinery->kindlyTo()->string()
-            );
-        }
-
-        if ($fl === '') {
-            list($url_builder, $id_token, $action_token) = $this->getTableActionURLBuilder();
-            if ($this->http->wrapper()->query()->has($id_token->getName())) {
-                $ids = $this->http->wrapper()->query()->retrieve(
-                    $id_token->getName(),
-                    $this->refinery->byTrying([
-                        $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string()),
-                        $this->refinery->kindlyTo()->string()
-                    ])
-                );
-                $data_retrieval = new DataRetrieval($this->fss_export, $this->lng);
-                $ids = $data_retrieval->resolveIDs($ids);
-                $fl = $ids[0] ?? '';
-            }
-        }
-
-        $hash = trim($fl);
+        $hash = $ids[0] ?? '';
         if (!$hash) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('ps_select_one'), true);
             $this->ctrl->redirect($this, 'show');
         }
 

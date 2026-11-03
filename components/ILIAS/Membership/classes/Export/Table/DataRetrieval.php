@@ -20,6 +20,8 @@ class DataRetrieval implements DataRetrievalInterface
     protected ilFileSystemAbstractionStorage $fss_export;
     protected ilLanguage $lng;
 
+    protected ?array $raw_data = null;
+
     public function __construct(
         ilFileSystemAbstractionStorage $fss_export,
         ilLanguage $lng
@@ -74,20 +76,6 @@ class DataRetrieval implements DataRetrievalInterface
         return count($this->getRawData());
     }
 
-    public function resolveIDs(array|string $ids): array
-    {
-        if ($ids === ['ALL_OBJECTS'] || $ids === 'ALL_OBJECTS') {
-            return $this->getAllIDs();
-        }
-        if (is_array($ids)) {
-            return array_values(array_filter($ids, 'is_string'));
-        }
-        if (is_string($ids)) {
-            return [$ids];
-        }
-        return [];
-    }
-
     public function getAllIDs(): array
     {
         return array_keys($this->getRawData());
@@ -95,6 +83,9 @@ class DataRetrieval implements DataRetrievalInterface
 
     protected function getRawData(): array
     {
+        if ($this->raw_data !== null) {
+            return $this->raw_data;
+        }
         $data = [];
         foreach ($this->fss_export->getMemberExportFiles() as $exp_file) {
             $id = md5($exp_file['name']);
@@ -106,6 +97,6 @@ class DataRetrieval implements DataRetrievalInterface
                 TableBuilder::COL_SIZE => $exp_file['size']
             ];
         }
-        return $data;
+        return $this->raw_data = $data;
     }
 }
