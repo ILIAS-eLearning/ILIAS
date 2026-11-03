@@ -291,7 +291,7 @@ msgid "ass_mc_sel_lim_setting"
 msgstr "Antwortbeschränkung"
 
 msgid "ass_mc_sel_lim_setting_desc"
-msgstr "Die maximale Anzahl an Antworten, die ein Teilnehmer auswählen kann. "
+msgstr "Die maximale Anzahl an Antworten, die ein Teilnehmer auswählen kann."
 
 msgid "ass_process_lock"
 msgstr "Verwende einen Locking-Mechanismus während der Testdurchläufe"
@@ -459,7 +459,7 @@ msgid "cloze_fixed_textlength"
 msgstr "Länge des Eingabefeldes"
 
 msgid "cloze_fixed_textlength_description"
-msgstr "Legen Sie eine feste Länge in Zeichen für die Eingabefelder von Lücken fest, die keine eigene Längeneinstellung haben. Dies beeinflusst die sichtbare Größe der Eingabefelder und verhindert außerdem, dass mehr Zeichen eingegeben werden können als zulässig. Bitte beachten Sie: Bei numerischen Lücken wird das Dezimaltrennzeichen als reguläres Zeichen mitgezählt. "
+msgstr "Legen Sie eine feste Länge in Zeichen für die Eingabefelder von Lücken fest, die keine eigene Längeneinstellung haben. Dies beeinflusst die sichtbare Größe der Eingabefelder und verhindert außerdem, dass mehr Zeichen eingegeben werden können als zulässig. Bitte beachten Sie: Bei numerischen Lücken wird das Dezimaltrennzeichen als reguläres Zeichen mitgezählt."
 
 msgid "cloze_gap_size_info"
 msgstr "Legen Sie eine feste Länge in Zeichen für das Eingabefeld dieser Lücke fest. Dies beeinflusst die sichtbare Länge des Eingabefelds und verhindert außerdem, dass mehr Zeichen eingegeben werden können als zulässig. Wenn hier kein Wert eingetragen wird, ergibt sich die Länge des Eingabefelds aus der festen Länge, die für die gesamte Frage festgelegt ist."
@@ -750,13 +750,13 @@ msgid "essay_scoring_mode_keyword_relation_all_desc"
 msgstr "Punkte werden automatisch vergeben, wenn alle geforderten Begriffe gefunden werden."
 
 msgid "essay_scoring_mode_keyword_relation_any"
-msgstr "Pro Begriff "
+msgstr "Pro Begriff"
 
 msgid "essay_scoring_mode_keyword_relation_any_desc"
 msgstr "Für jeden gefundenen Begriff werden Punkte vergeben."
 
 msgid "essay_scoring_mode_keyword_relation_one"
-msgstr "Mindestens ein Begriff "
+msgstr "Mindestens ein Begriff"
 
 msgid "essay_scoring_mode_keyword_relation_one_desc"
 msgstr "Punkte werden automatisch vergeben, wenn mindestens ein Begriff gefunden wird."
@@ -1710,7 +1710,7 @@ msgid "ordertext"
 msgstr "Anzuordnender Text"
 
 msgid "ordertext_info"
-msgstr "Bitte geben Sie den Text in der korrekten horizontalen Reihenfolge ein. Diese gilt als richtige Reihenfolge für die Bewertung. Die Leerzeichen zwischen den Wörtern dienen automatisch als Trennzeichen für die Elemente. Das bedeutet, dass in einem normalen Satz die einzelnen Wörter als zu sortierende Elemente fungieren. Wenn Sie unterschiedliche Elementgruppen erstellen möchten, um beispielsweise einen Satz in Wortgruppen aufzuteilen, verwenden Sie %s als Trennzeichen. "
+msgstr "Bitte geben Sie den Text in der korrekten horizontalen Reihenfolge ein. Diese gilt als richtige Reihenfolge für die Bewertung. Die Leerzeichen zwischen den Wörtern dienen automatisch als Trennzeichen für die Elemente. Das bedeutet, dass in einem normalen Satz die einzelnen Wörter als zu sortierende Elemente fungieren. Wenn Sie unterschiedliche Elementgruppen erstellen möchten, um beispielsweise einen Satz in Wortgruppen aufzuteilen, verwenden Sie %s als Trennzeichen."
 
 msgid "out_of_range"
 msgstr "Ausserhalb des Bereichs"
@@ -1869,7 +1869,7 @@ msgid "polygon"
 msgstr "Polygonzug"
 
 msgid "polygon_click_next_or_save"
-msgstr "Bitte klicken Sie auf den nächsten Punkt des Polygonzugs oder klicken Sie auf „Speichern“, um den Polygonbereich zu speichern. Es ist nicht notwendig, noch einmal auf den Ausgangspunkt des Polygons zu klicken! "
+msgstr "Bitte klicken Sie auf den nächsten Punkt des Polygonzugs oder klicken Sie auf „Speichern“, um den Polygonbereich zu speichern. Es ist nicht notwendig, noch einmal auf den Startpunkt zu klicken!"
 
 msgid "polygon_click_next_point"
 msgstr "Bitte klicken Sie auf den nächsten Punkt im Polygonzug."
@@ -2412,7 +2412,7 @@ msgid "result"
 msgstr "Ergebnis"
 
 msgid "result_co_frac"
-msgstr "Voll gekürzter Bruch "
+msgstr "Voll gekürzter Bruch"
 
 msgid "result_co_frac_info"
 msgstr "Nur ein vollständig gekürzter Bruch (z.B. 1/3) ist ein gültiges Ergebnis"
@@ -2499,7 +2499,7 @@ msgid "score_anon"
 msgstr "Anonym bewerten"
 
 msgid "score_partsol_enabled"
-msgstr "Halbe-Punkte-Bewertung "
+msgstr "Halbe-Punkte-Bewertung"
 
 msgid "score_partsol_enabled_info"
 msgstr "Bei drei von vier richtig bewerteten Aussagen wird die Hälfte der maximal erreichbaren Punktzahl vergeben. Bei weniger als drei richtig bewerteten Aussagen werden keine Punkte vergeben."
