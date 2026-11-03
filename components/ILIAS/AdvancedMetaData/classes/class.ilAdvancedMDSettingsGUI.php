@@ -2018,7 +2018,7 @@ class ilAdvancedMDSettingsGUI
         $this->tpl->setContent($a_form->getHTML());
     }
 
-    protected function initComplexOptionForm(ilAdvancedMDFieldDefinition $a_def, ?string $oid = null): ilPropertyFormGUI
+    protected function initComplexOptionForm(ilAdvancedMDFieldDefinition $a_def, string $oid): ilPropertyFormGUI
     {
         $this->ctrl->saveParameter($this, "record_id");
         $this->ctrl->saveParameter($this, "field_id");
