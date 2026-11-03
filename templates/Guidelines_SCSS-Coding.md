@@ -21,7 +21,19 @@ Sass extends the CSS language, adding features that allow advanced variables, mi
 
 The Sass pre-processor compiles the entry point delos.scss and all connected files to the one delos.css file which can then be rendered by the browser.
 
-**You MUST use the exact SASS version referenced in the package.json (see devDependencies) that is installed in your local environment by executing 'npm install' at the root.**
+The repository pins the SASS version in `package.json` and `package-lock.json`.
+From the ILIAS root, install the pinned dependencies with:
+
+```
+npm ci
+```
+
+Do not install or use SASS globally. A global installation may use a different
+version and produce different CSS output. Check the installed version with:
+
+```
+./node_modules/.bin/sass --version
+```
 
 From the root directory, you can compile your SCSS as a source file that will be committed to the git repository:
 
