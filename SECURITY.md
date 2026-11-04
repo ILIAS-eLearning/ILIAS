@@ -97,10 +97,10 @@ files to the issue manager through a secure channel.
 
 Please note that because of our limited time and resources we employ the following requirements on emails you send:
 
-* Please make sure to follow our [Issue Template](#template-for-reporting-security-issues) in this document
-* Each email you send must contain only one security issue. If you want to submit multiple security issues, please send an email for each issue separately. We may ask you to resend each issue as a separate email if you send us an email containing several issues.
-* Emails containing generalized bug reports (e.g. reports created automatically through pen-testing systems) should not be sent directly to us without further information. Please review them beforehand and explain us the security issue you want to report (as explained in [Reporting a Security Issue](#reporting-a-security-issue) point 1.), the generalized report is great as additional information but should not be the only information we get. We may ask you to create a new report if this requirement has not been met.
-* Emails must contain information on how to reproduce the issue. We may ask you to create a new report if the issue describes no steps on how to reproduce / trigger it, this includes issues consisting only of static analysis.
+* Please make sure to follow our [issue template](#template-for-reporting-of-security-issues) in this document
+* Each email you send should contain only one security issue. If you want to submit multiple security issues, please send an email for each issue separately or make sure that the issues are clearly separated in attached files
+* Emails containing generalized bug reports (e.g. reports created automatically through pen-testing systems) should not be sent directly to us without further evaluation. Please review them beforehand and explain us the security issue you want to report (as explained in [Reporting a Security Issue](#reporting-a-security-issue) point 1.). A generalized report can provide great additional information but should not be the only information we receive. We may ask you to create a new report if this requirement has not been met.
+* Emails should contain information on how to reproduce the issue. We may ask you to create a new report if the issue describes no steps on how to reproduce / trigger it, this includes issues consisting only of static analysis.
 
 ### Email Encryption
 
