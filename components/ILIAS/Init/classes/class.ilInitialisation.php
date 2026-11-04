@@ -849,11 +849,6 @@ class ilInitialisation
     {
         global $DIC;
 
-        /**
-         * @var $rbacsystem ilRbacSystem
-         */
-        global $rbacsystem;
-
         if ($a_use_user_language) {
             if ($DIC->offsetExists('lng')) {
                 $DIC->offsetUnset('lng');
@@ -862,8 +857,9 @@ class ilInitialisation
         } else {
             self::initGlobal('lng', ilLanguage::getFallbackInstance());
         }
-        if (is_object($rbacsystem) && $DIC->offsetExists('tree')) {
-            $rbacsystem->initMemberView();
+
+        if ($DIC->offsetExists('rbacsystem') && $DIC->offsetExists('tree')) {
+            $DIC['rbacsystem']->initMemberView();
         }
     }
 
