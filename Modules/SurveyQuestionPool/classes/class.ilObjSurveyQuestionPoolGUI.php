@@ -322,6 +322,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
 
     public function confirmDeleteQuestionsObject(): void
     {
+        $this->checkPermission('write');
+
         // delete questions after confirmation
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("qpl_questions_deleted"), true);
         $qids = $this->edit_request->getQuestionIds();
