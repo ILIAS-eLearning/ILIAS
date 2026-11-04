@@ -354,6 +354,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
      */
     public function uploadQuestionsObject(): void
     {
+        $this->checkPermission("write");
+
         $form = $this->getImportForm();
         if ($form->checkInput()) {
             // check if file was uploaded
