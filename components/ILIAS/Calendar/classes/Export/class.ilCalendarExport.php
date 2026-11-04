@@ -174,7 +174,7 @@ class ilCalendarExport
         }
 
         usort($single_appointments, function (ilCalendarEntry $a, ilCalendarEntry $b) {
-            if($a->getStart() === $b->getStart()) {
+            if ($a->getStart() === $b->getStart()) {
                 return 0;
             }
             return $a->getStart() > $b->getStart() ? 1 : -1;
@@ -304,9 +304,12 @@ class ilCalendarExport
     protected function createRecurrences(ilCalendarEntry $app): ilICalWriter
     {
         $str_writer = new ilICalWriter();
+        $timezone = $this->getUserSettings()->getExportTimeZoneType() == ilCalendarUserSettings::CAL_EXPORT_TZ_UTC
+            ? ilTimeZone::UTC
+            : $this->il_user->getTimeZone();
         foreach (ilCalendarRecurrences::_getRecurrences($app->getEntryId()) as $rec) {
             foreach (ilCalendarRecurrenceExclusions::getExclusionDates($app->getEntryId()) as $excl) {
-                $str_writer->addLine($excl->toICal());
+                $str_writer->addLine($excl->toICal($timezone));
             }
             $recurrence_ical = $rec->toICal($this->il_user->getId());
             if (strlen($recurrence_ical)) {
