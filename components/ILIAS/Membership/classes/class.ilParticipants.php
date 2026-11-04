@@ -852,6 +852,13 @@ abstract class ilParticipants
 
         ilWaitingList::deleteUserEntry($a_usr_id, $this->obj_id);
 
+        if ($this instanceof ilCourseParticipants) {
+            // Refresh participant status in cached instances of ilCourseParticipant,
+            // needed for lp status determination (#47389)
+            // Needs to be done before the 'addParticipant' event is raised.
+            ilCourseParticipant::_getInstanceByObjId($this->obj_id, $a_usr_id)->reinitialize();
+        }
+
         $this->eventHandler->raise(
             $this->getComponent(),
             "addParticipant",

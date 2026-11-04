@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -72,6 +73,12 @@ abstract class ilParticipant
         $this->objectDataCache = $DIC['ilObjDataCache'];
         $this->eventHandler = $DIC->event();
 
+        $this->readParticipant();
+        $this->readParticipantStatus();
+    }
+
+    public function reinitialize(): void
+    {
         $this->readParticipant();
         $this->readParticipantStatus();
     }
