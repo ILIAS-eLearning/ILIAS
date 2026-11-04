@@ -77,6 +77,12 @@ abstract class ilParticipant
         $this->readParticipantStatus();
     }
 
+    public function reinitialize(): void
+    {
+        $this->readParticipant();
+        $this->readParticipantStatus();
+    }
+
     public static function updateMemberRoles(int $a_obj_id, int $a_usr_id, int $a_role_id, int $a_status): void
     {
         global $DIC;
