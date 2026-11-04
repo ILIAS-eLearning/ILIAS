@@ -977,9 +977,11 @@ class ilObjGroupGUI extends ilContainerGUI
                     $tmp_data['access_time_unix'] = 0;
                 }
             }
-            $tmp_data['prtf'] = [];
+            $tmp_data['prtf_data'] = [];
+            $tmp_data['prtf'] = '';
             if ($do_prtf) {
-                $tmp_data['prtf'] = ($all_prtf[$usr_id] ?? []);
+                $tmp_data['prtf_data'] = ($all_prtf[$usr_id] ?? []);
+                $tmp_data['prtf'] = implode(', ', $all_prtf[$usr_id] ?? []); // just for sorting
             }
             $members[$usr_id] = $tmp_data;
         }
