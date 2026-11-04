@@ -174,8 +174,8 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 
                 case 'prtf':
                     $tmp = array();
-                    if (is_array($a_set['prtf'])) {
-                        foreach ($a_set['prtf'] as $prtf_url => $prtf_txt) {
+                    if (is_array($a_set['prtf_data'])) {
+                        foreach ($a_set['prtf_data'] as $prtf_url => $prtf_txt) {
                             $tmp[] = '<a href="' . $prtf_url . '">' . $prtf_txt . '</a>';
                         }
                     }
