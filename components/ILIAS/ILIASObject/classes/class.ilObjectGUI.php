@@ -1094,9 +1094,11 @@ class ilObjectGUI implements ImplementsCreationCallback
         if ($create_form instanceof StandardForm) {
             try {
                 $data = $create_form->withRequest($this->request)->getData();
-                return isset($data['didactic_templates'])
-                    ? $this->parseDidacticTemplateVar($data['didactic_templates'], $type)
-                    : 0;
+                if ($data !== null) {
+                    return isset($data['didactic_templates'])
+                        ? $this->parseDidacticTemplateVar($data['didactic_templates'], $type)
+                        : 0;
+                }
             } catch (InvalidArgumentException|TypeError $e) {
             }
         }
