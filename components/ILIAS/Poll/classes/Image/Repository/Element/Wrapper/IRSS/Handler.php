@@ -80,7 +80,7 @@ class Handler implements ilPollImageRepositoryElementIRSSWrapperInterface
         $definition = new CropToSquare(true, $this->processed_size);
         $flavour = $this->irss->flavours()->get($rid, $definition);
         $urls_of_flavour_streams = $this->irss->consume()->flavourUrls($flavour);
-        return $urls_of_flavour_streams->getURLsAsArray(true)[0];
+        return $urls_of_flavour_streams->getURLsAsArray(true)[0] ?? null;
     }
 
     public function getThumbnailImageURL(): null|string
@@ -92,7 +92,7 @@ class Handler implements ilPollImageRepositoryElementIRSSWrapperInterface
         $definition = new CropToSquare(true, $this->thumbnail_size);
         $flavour = $this->irss->flavours()->get($rid, $definition);
         $urls_of_flavour_streams = $this->irss->consume()->flavourUrls($flavour);
-        return $urls_of_flavour_streams->getURLsAsArray(true)[0];
+        return $urls_of_flavour_streams->getURLsAsArray(true)[0] ?? null;
     }
 
     public function getUnprocessedImageURL(): null|string
