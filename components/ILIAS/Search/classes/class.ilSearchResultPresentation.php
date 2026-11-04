@@ -273,6 +273,12 @@ class ilSearchResultPresentation
         $preloader->preload();
         unset($preloader);
 
+        // Bandaid-fix for objects in courses set to timing view, ILIAS 10 only (#48451)
+        foreach ($set as $key => $item) {
+            // Use pre-loaded data from tree
+            $set[$key]['parent'] = $this->tree->getParentCache()[$item['ref_id']] ?? 0;
+        }
+
         $result_table = new ilSearchResultTableGUI($this->container, "showSavedResults", $this);
         $result_table->setCustomPreviousNext($this->prev, $this->next);
 
