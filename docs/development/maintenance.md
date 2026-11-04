@@ -1705,7 +1705,7 @@ Components are listed alphabetically by their folder name in `components/ILIAS/`
 * Authority to Curate Test Cases: [jcopado](https://docu.ilias.de/go/usr/30511)
 * Authority to (De-)Assign Authorities: [jcopado](https://docu.ilias.de/go/usr/30511)
 * Assignee for Issues: [jcopado](https://docu.ilias.de/go/usr/30511)
-* Assignee for Security Reports: [jcopado](https://docu.ilias.de/go/usr/30511)
+* Assignee for Security Reports: [jcopado](https://docu.ilias.de/go/usr/30511), [Saaweel](https://docu.ilias.de/go/usr/105654)
 
 [//]: # (END LTI)
 
@@ -2563,7 +2563,7 @@ Components are listed alphabetically by their folder name in `components/ILIAS/`
 * Authority to Curate Test Cases: [jcopado](https://docu.ilias.de/go/usr/30511)
 * Authority to (De-)Assign Authorities: [jcopado](https://docu.ilias.de/go/usr/30511)
 * Assignee for Issues: [abrahammordev](https://docu.ilias.de/go/usr/110909)
-* Assignee for Security Reports: [jcopado](https://docu.ilias.de/go/usr/30511)
+* Assignee for Security Reports: [jcopado](https://docu.ilias.de/go/usr/30511), [abrahammordev](https://docu.ilias.de/go/usr/110909)
 
 [//]: # (END Survey)
 
@@ -2579,7 +2579,7 @@ Components are listed alphabetically by their folder name in `components/ILIAS/`
 * Authority to Curate Test Cases: [jcopado](https://docu.ilias.de/go/usr/30511)
 * Authority to (De-)Assign Authorities: [jcopado](https://docu.ilias.de/go/usr/30511)
 * Assignee for Issues: [abrahammordev](https://docu.ilias.de/go/usr/110909)
-* Assignee for Security Reports: [jcopado](https://docu.ilias.de/go/usr/30511)
+* Assignee for Security Reports: [jcopado](https://docu.ilias.de/go/usr/30511), [abrahammordev](https://docu.ilias.de/go/usr/110909)
 
 [//]: # (END SurveyQuestionPool)
 
