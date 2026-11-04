@@ -9,6 +9,7 @@
 * [Security Update Notifications](#security-update-notifications)
 * [Security Goals](#security-goals)
 * [Security Measures](#security-measures)
+* [Template For Reporting Security Issues](#template-for-reporting-security-issues)
 * [Contributors](#contributors)
 
 ## About this Document
@@ -46,6 +47,8 @@ The ILIAS Release Manager is responsible for packaging and publishing security b
 in coordination with the Security Group. Once a security release has been published, the
 release manager sends a related notification to the admin mailing list.
 
+Please note that this only covers the ILIAS core. ILIAS-Plugins and third party applications are not covered by the Security Group.
+
 [//]: # (END responsibilities)
 
 ## Reporting a Security Issue
@@ -60,11 +63,11 @@ from a member of the ILIAS Security Group about further steps.
 
 Important: **Never file a security issue in the bugtracker of ILIAS!**
 
-1. Write an e-mail to security@ilias.de about your discovery. This e-mail has to 
-contain a description of the issue with the scenario in which the problem is triggered 
-and a description of its implications. Please let us know if the vulnerability has 
-been actively exploited and/or a severe incident has happened. Please provide all 
-necessary steps to reproduce the issue. We kindly ask you to withhold full disclosure 
+1. Write an e-mail to **security@ilias.de** about your discovery. This e-mail has to
+contain a description of the issue with the scenario in which the problem is triggered
+and a description of its implications. Please let us know if the vulnerability has
+been actively exploited and/or a severe incident has happened. **Please provide all
+necessary steps to reproduce the issue.** We kindly ask you to withhold full disclosure
 of the issue until a fix is ready and the new release has been built and made available 
 to everyone (full disclosure about one week after the new release is published).
 2. Your e-mail creates a new ticket in our internal ticket system for security issues.
@@ -94,8 +97,10 @@ files to the issue manager through a secure channel.
 
 Please note that because of our limited time and resources we employ the following requirements on emails you send:
 
+* Please make sure to follow our [Issue Template](#template-for-reporting-security-issues) in this document
 * Each email you send must contain only one security issue. If you want to submit multiple security issues, please send an email for each issue separately. We may ask you to resend each issue as a separate email if you send us an email containing several issues.
 * Emails containing generalized bug reports (e.g. reports created automatically through pen-testing systems) should not be sent directly to us without further information. Please review them beforehand and explain us the security issue you want to report (as explained in [Reporting a Security Issue](#reporting-a-security-issue) point 1.), the generalized report is great as additional information but should not be the only information we get. We may ask you to create a new report if this requirement has not been met.
+* Emails must contain information on how to reproduce the issue. We may ask you to create a new report if the issue describes no steps on how to reproduce / trigger it, this includes issues consisting only of static analysis.
 
 ### Email Encryption
 
@@ -212,6 +217,20 @@ all affected versions can be made available in a short timespan, ideally on the 
 which provides more details on affected and fixed versions of ILIAS.
 
 [//]: # (END measures)
+
+[//]: # (BEGIN vulnerability_template)
+
+## Template For Reporting Security Issues
+
+For easier processing we ask you to contribute your security advisory according to the following template:
+Summary: A very brief description of the problem\
+Affected Versions: Please list every affected major release and its latest minor release that is affected\
+Description: A description of the issue\
+Steps to Reproduce: Please list all steps and prerequisites that are necessary to reproduce the issue\
+Additional Information: Optional: Please give us further information about your report\
+CVSS-Score: Optional: If you have a cvss estimation (3.1 or 4.0) please let us know about it
+
+[//]: # (END vulnerability_template)
 
 ## Contributors
 [//]: # (BEGIN contributors)
