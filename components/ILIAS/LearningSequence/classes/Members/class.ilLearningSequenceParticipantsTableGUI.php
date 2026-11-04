@@ -15,7 +15,6 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
-declare(strict_types=1);
 
 declare(strict_types=1);
 
@@ -136,8 +135,8 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
             switch ($field) {
                 case 'prtf':
                     $tmp = array();
-                    if (array_key_exists('prtf', $a_set) && is_array($a_set['prtf'])) {
-                        foreach ($a_set['prtf'] as $prtf_url => $prtf_txt) {
+                    if (array_key_exists('prtf_data', $a_set) && is_array($a_set['prtf_data'])) {
+                        foreach ($a_set['prtf_data'] as $prtf_url => $prtf_txt) {
                             $tmp[] = '<a href="' . $prtf_url . '">' . $prtf_txt . '</a>';
                         }
                     }
