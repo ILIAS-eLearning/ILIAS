@@ -82,6 +82,7 @@ class Renderer extends AbstractComponentRenderer
             } else {
                 $button = $button->withEngagedState(false);
             }
+            $button = $button->withUnavailableAction($component->isActionDisabled($label));
             $tpl->setVariable("BUTTON", $default_renderer->render($button));
             $tpl->parseCurrentBlock();
         }

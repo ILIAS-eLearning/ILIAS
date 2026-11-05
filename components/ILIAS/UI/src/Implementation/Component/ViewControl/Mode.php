@@ -22,6 +22,7 @@ namespace ILIAS\UI\Implementation\Component\ViewControl;
 
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
+use InvalidArgumentException;
 
 class Mode implements C\ViewControl\Mode
 {
@@ -30,6 +31,8 @@ class Mode implements C\ViewControl\Mode
     protected array $labeled_actions;
     protected string $aria_label;
     protected ?string $active = null;
+    /** @var bool[] */
+    protected array $disabled_actions = [];
 
     public function __construct($labelled_actions, string $aria_label)
     {
@@ -57,5 +60,39 @@ class Mode implements C\ViewControl\Mode
     public function getAriaLabel(): string
     {
         return $this->aria_label;
+    }
+
+    public function isActionDisabled(string $label): bool
+    {
+        return $this->disabled_actions[$label] ?? false;
+    }
+
+    public function withDisableAllActions(bool $disabled = true): C\ViewControl\Mode
+    {
+        return $this->withDisableActions(array_fill_keys(array_keys($this->labeled_actions), $disabled));
+    }
+
+    public function withDisableAction(string $label, bool $disabled = true): C\ViewControl\Mode
+    {
+        $clone = clone $this;
+        $this->checkLabelExists($label);
+        $clone->disabled_actions[$label] = $disabled;
+        return $clone;
+    }
+
+    public function withDisableActions(array $label_disable_map): C\ViewControl\Mode
+    {
+        $clone = clone $this;
+        foreach ($label_disable_map as $label => $disabled) {
+            $clone = $clone->withDisableAction($label, $disabled);
+        }
+        return $clone;
+    }
+
+    private function checkLabelExists(string $label): void
+    {
+        if (!array_key_exists($label, $this->labeled_actions)) {
+            throw new InvalidArgumentException("Label '$label' does not exist in Mode control.");
+        }
     }
 }
