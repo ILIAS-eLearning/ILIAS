@@ -208,6 +208,24 @@ class ilUIFilterService
         ))) {
             $filter = $this->request->getFilterWithRequest($filter);
 
+            if ($this->request->getFilterCmd() === self::CMD_APPLY) {
+                $filter = $filter->withAdditionalOnLoadCode(
+                    static fn(string $id): string => <<<JS
+window.setTimeout(function() {
+    const filterSection = document.getElementById('section_inputs_{$id}');
+    if (!filterSection) {
+        return;
+    }
+
+    const firstFocusable = filterSection.querySelector('input:not([type="hidden"]):not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), [tabindex]:not([tabindex="-1"])');
+    if (firstFocusable instanceof HTMLElement) {
+        firstFocusable.focus();
+    }
+}, 25);
+JS
+                );
+            }
+
             // always expand the filter, when it is activated with empty input values
             if ($this->request->getFilterCmd() == self::CMD_TOGGLE_ON) {
                 $result = $filter->getData();
