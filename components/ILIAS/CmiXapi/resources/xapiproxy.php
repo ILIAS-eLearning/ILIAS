@@ -35,7 +35,7 @@ if (strtoupper($_SERVER["REQUEST_METHOD"]) == "OPTIONS") {
     header('Access-Control-Allow-Origin: ' . $_SERVER["HTTP_ORIGIN"]);
     header('Access-Control-Allow-Credentials: true');
     header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
-    header('Access-Control-Allow-Headers: X-Experience-API-Version,Accept,Authorization,Etag,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With');
+    header('Access-Control-Allow-Headers: X-Experience-API-Version,Accept,Authorization,Etag,Cache-Control,Content-Type,DNT,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With');
     exit;
 }
 
@@ -54,7 +54,7 @@ if (!empty($_SERVER['PHP_AUTH_USER']) && !empty($_SERVER['PHP_AUTH_PW'])) {
     header('Access-Control-Allow-Origin: ' . $_SERVER["HTTP_ORIGIN"]);
     header('Access-Control-Allow-Credentials: true');
     header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
-    header('Access-Control-Allow-Headers: X-Experience-API-Version,Accept,Authorization,Etag,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With');
+    header('Access-Control-Allow-Headers: X-Experience-API-Version,Accept,Authorization,Etag,Cache-Control,Content-Type,DNT,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With');
     exit;
 }
 
