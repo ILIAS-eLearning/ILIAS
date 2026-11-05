@@ -15,7 +15,7 @@
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
 
-import { describe, it } from 'node:test';
+import { describe, it, mock } from 'node:test';
 import { strict } from 'node:assert/strict';
 import loadHighResolutionSource
   from '../../../resources/js/Image/src/loadHighResolutionSource.js';
@@ -58,11 +58,14 @@ describe('loadHighResolutionSource', () => {
       addEventListener(e, fn) {
         this.loader = fn;
       },
+      checkVisibility() {
+        return true;
+      },
     };
 
     for (let width = 0, maxWidth = 35; width <= maxWidth; width += 5) {
       imageElement.width = width;
-      loadHighResolutionSource(imageElement, definitions);
+      loadHighResolutionSource(class {}, imageElement, definitions);
 
       // we manually need to call the "load" event, since this will
       // actually replace the element, which updates the src property
@@ -74,5 +77,50 @@ describe('loadHighResolutionSource', () => {
 
       strict.equal(imageElement.src, expectedSources.get(width));
     }
+  });
+  it('should initialize observer.', () => {
+    const initialSource = 'source_0';
+    const sourceAbove10 = 'source_10';
+    const sourceAbove20 = 'source_20';
+    const sourceAbove30 = 'source_30';
+
+    // note the definitions are NOT ordered by min-width
+    const definitions = new Map([
+      [10, sourceAbove10],
+      [30, sourceAbove30],
+      [20, sourceAbove20],
+    ]);
+
+    const imageElement = {
+      width: 0,
+      loader: null,
+      src: initialSource,
+      cloneNode() {
+        return this;
+      },
+      replaceWith(otherImage) {
+        this.src = otherImage.src;
+      },
+      addEventListener(e, fn) {
+        this.loader = fn;
+      },
+      checkVisibility() {
+        return false;
+      },
+    };
+
+    const imageObserver = mock.fn(class {
+      initialized = false;
+
+      constructor() {
+        this.initialized = true;
+      }
+
+      observe() {}
+    });
+
+    loadHighResolutionSource(imageObserver, imageElement, definitions);
+
+    strict.equal(imageObserver.mock.calls.length, 1);
   });
 });
