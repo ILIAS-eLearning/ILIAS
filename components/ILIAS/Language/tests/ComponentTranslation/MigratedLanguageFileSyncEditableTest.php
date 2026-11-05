@@ -28,6 +28,8 @@ use PHPUnit\Framework\Attributes\DataProvider;
  */
 class MigratedLanguageFileSyncEditableTest extends MigratedLanguageFileSyncTestCase
 {
+    use CapturesErrorLog;
+
     /**
      * @return array<string, string>|null identifier => value
      */
@@ -59,8 +61,8 @@ class MigratedLanguageFileSyncEditableTest extends MigratedLanguageFileSyncTestC
         $this->seedOverlay(['greeting' => 'Moin']);
         file_put_contents($this->overlayBase() . '.po', "msgid \"kaputt\n");
 
-        $this->expectOutputRegex('/The local changes of module "stest" for "de" cannot be read, the shipped values are used/');
         $this->assertSame(['greeting' => 'Hallo'], $this->editable());
+        $this->assertLoggedErrorMatches('/The local changes of module "stest" for "de" cannot be read, the shipped values are used/');
     }
 
     /** For writing, the shipped values alone would drop the other local changes of the overlay: it throws instead. */
@@ -87,16 +89,19 @@ class MigratedLanguageFileSyncEditableTest extends MigratedLanguageFileSyncTestC
         $this->seedShipped(['greeting' => 'Hallo']);
 
         $this->assertSame(['greeting' => 'Hallo'], $this->editable(null));
-        $this->expectOutputString('');
+        $this->assertNothingLogged();
     }
 
     public function testAnUnreadableShippedPoThrows(): void
     {
         file_put_contents($this->shippedPo(), "msgid \"kaputt\n");
 
-        $this->expectOutputRegex('/cannot be read/');
-        $this->expectException(\RuntimeException::class);
-        $this->editable();
+        try {
+            $this->editable();
+            $this->fail('A RuntimeException was expected.');
+        } catch (\RuntimeException) {
+            $this->assertLoggedErrorMatches('/cannot be read/');
+        }
     }
 
     /**

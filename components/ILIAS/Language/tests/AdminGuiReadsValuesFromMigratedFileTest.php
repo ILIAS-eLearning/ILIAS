@@ -39,6 +39,8 @@ use PHPUnit\Framework\SkippedWithMessageException;
 #[PreserveGlobalState(false)]
 class AdminGuiReadsValuesFromMigratedFileTest extends ilLanguageBaseTestCase
 {
+    use CapturesErrorLog;
+
     private ?string $fixture_directory = null;
     /** True if this test defined CLIENT_DATA_DIR itself; tearDown() removes only such a root. */
     private bool $created_client_data_dir_root = false;
@@ -538,10 +540,10 @@ class AdminGuiReadsValuesFromMigratedFileTest extends ilLanguageBaseTestCase
             ['module' => 'rep_robj_xtst', 'identifier' => 'hello', 'value' => 'Welt'],
         ]);
 
-        $this->expectOutputRegex('/Without the language file directories the values of module "poll" are not shown/');
         $values = ilObjLanguageExt::_getValues('de');
 
         $this->assertSame(['rep_robj_xtst#:#hello' => 'Welt'], $values);
+        $this->assertLoggedErrorMatches('/Without the language file directories the values of module "poll" are not shown/');
     }
 
     /** A shipped `.po` that cannot be read: the module is missing (reported), its lng_data rows are not shown instead. */
@@ -558,8 +560,8 @@ class AdminGuiReadsValuesFromMigratedFileTest extends ilLanguageBaseTestCase
             ['module' => 'rep_robj_xtst', 'identifier' => 'hello', 'value' => 'Welt'],
         ]);
 
-        $this->expectOutputRegex('/The language file of module "mtest" for "de" cannot be read, its values are not shown/');
         $this->assertSame(['rep_robj_xtst#:#hello' => 'Welt'], ilObjLanguageExt::_getValues('de'));
+        $this->assertLoggedErrorMatches('/The language file of module "mtest" for "de" cannot be read, its values are not shown/');
     }
 
     public function testGetModulesIncludesAMigratedModuleEvenWithoutAnyLngDataRow(): void

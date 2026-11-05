@@ -22,6 +22,8 @@ declare(strict_types=1);
 /** ilObjLanguageExt::withFuzzyMarkers(): the "not translated yet" marker falls back to the default language. */
 class FuzzyMarkerDefaultLanguageTest extends ilLanguageBaseTestCase
 {
+    use CapturesErrorLog;
+
     /** @var list<string> */
     private array $queries = [];
 
@@ -62,11 +64,11 @@ class FuzzyMarkerDefaultLanguageTest extends ilLanguageBaseTestCase
     public function testAMarkerMissingInTheUserLanguageComesFromTheDefaultLanguage(): void
     {
         // "lng" is shipped: the default language comes from the build (none here), never from lng_data
-        $this->expectOutputRegex('/There is no build of the language files/');
         $comments = $this->markersWith('-lng_not_translated-', 'Not translated en');
 
         $this->assertSame(['lng.#:#.a' => 'note - -lng_not_translated-', 'lng.#:#.b' => '-lng_not_translated-'], $comments);
         $this->assertSame([], $this->queries);
+        $this->assertLoggedErrorMatches('/There is no build of the language files/');
     }
 
     public function testAMarkerOfTheUserLanguageIsUsedWithoutFurtherQuery(): void
@@ -79,10 +81,10 @@ class FuzzyMarkerDefaultLanguageTest extends ilLanguageBaseTestCase
 
     public function testAMarkerMissingEverywhereStaysTheMissingKeyMarker(): void
     {
-        $this->expectOutputRegex('/There is no build of the language files/');
         $comments = $this->markersWith('-lng_not_translated-', null);
 
         $this->assertSame('-lng_not_translated-', $comments['lng.#:#.b']);
         $this->assertSame('note - -lng_not_translated-', $comments['lng.#:#.a']);
+        $this->assertLoggedErrorMatches('/There is no build of the language files/');
     }
 }
