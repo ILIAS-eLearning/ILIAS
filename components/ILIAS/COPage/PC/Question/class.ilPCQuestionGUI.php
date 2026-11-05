@@ -35,6 +35,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
     protected ilTree $tree;
     protected ilToolbarGUI $toolbar;
     protected bool $ipe_for_questions_enabled;
+    protected ?ilPageObjectGUI $parent_page_gui = null;
 
     public function __construct(
         ilPageObject $a_pg_obj,
@@ -89,6 +90,11 @@ class ilPCQuestionGUI extends ilPageContentGUI
         }
 
         return $ret;
+    }
+
+    public function setParentPageGUI(ilPageObjectGUI $parent_page_gui): void
+    {
+        $this->parent_page_gui = $parent_page_gui;
     }
 
     public function setSelfAssessmentMode(bool $a_selfassessmentmode): void
@@ -327,7 +333,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
             }
         }
 
-        $edit_gui = new ilQuestionEditGUI();
+        $edit_gui = new ilQuestionEditGUI($this->parent_page_gui);
         if ($q_id > 0) {
             $edit_gui->setQuestionId($q_id);
         }

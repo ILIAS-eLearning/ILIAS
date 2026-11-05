@@ -35,7 +35,10 @@ class ilQuestionEditGUITest extends assBaseTestCase
     {
         parent::setUp();
 
-        $this->object = new ilQuestionEditGUI();
+        $parent_gui = $this->getMockBuilder(ilPageObjectGUI::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->object = new ilQuestionEditGUI($parent_gui);
     }
 
     public function testConstruct(): void
