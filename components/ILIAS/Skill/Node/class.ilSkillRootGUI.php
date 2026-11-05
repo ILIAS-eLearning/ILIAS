@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Skill\Node;
+use ILIAS\Skill\Table\SkillCategoryTable;
 
 /**
  * Skill root GUI class
@@ -92,14 +93,15 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
             ilSkillTemplateCategoryGUI::addCreationButtons();
         }
 
-        $table = new ilSkillCatTableGUI(
+        $table = $this->table_manager->getSkillCategoryTable(
             $this,
-            "listTemplates",
             $this->requested_node_id,
-            ilSkillCatTableGUI::MODE_SCTP
-        );
+            SkillCategoryTable::MODE_SCTP,
+            0,
+            $this->skill_tree_node_manager
+        )->getComponent();
 
-        $tpl->setContent($table->getHTML());
+        $tpl->setContent($this->ui_ren->render($table));
     }
 
     public function listSkills(): void
@@ -123,14 +125,15 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
             ilSkillCategoryGUI::addCreationButtons();
         }
 
-        $table = new ilSkillCatTableGUI(
+        $table = $this->table_manager->getSkillCategoryTable(
             $this,
-            "listSkills",
             $this->requested_node_id,
-            ilSkillCatTableGUI::MODE_SCAT
-        );
+            SkillCategoryTable::MODE_SCAT,
+            0,
+            $this->skill_tree_node_manager
+        )->getComponent();
 
-        $tpl->setContent($table->getHTML());
+        $tpl->setContent($this->ui_ren->render($table));
     }
 
     public function cancelDelete(): void

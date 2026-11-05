@@ -115,6 +115,18 @@ class ilSkillTreeNodeGUI
         $this->tree_repo = $DIC->skills()->internal()->repo()->getTreeRepo();
         $this->skill_tree_id = $this->tree_repo->getTreeIdForNodeId($this->requested_node_id);
 
+        $table_node_ids = $this->admin_gui_request->getTableSkillCatNodeIds();
+        if (!empty($table_node_ids)) {
+            $skill_category_table = $this->table_manager->getSkillCategoryTable(
+                $this,
+                $this->requested_node_id,
+                $this->requested_tmpmode ? Table\SkillCategoryTable::MODE_SCTP : Table\SkillCategoryTable::MODE_SCAT,
+                $this->admin_gui_request->getTrefId(),
+                $this->skill_tree_node_manager
+            );
+            $this->requested_node_ids = $skill_category_table->resolveNodeIds($table_node_ids);
+        }
+
         if ($a_node_id > 0 &&
             $this->getType() == ilSkillTreeNode::_lookupType($a_node_id)) {
             $this->readNodeObject($a_node_id);
@@ -172,7 +184,12 @@ class ilSkillTreeNodeGUI
     {
         $ilCtrl = $this->ctrl;
 
+        if (!$this->hasManagePermissionForCurrentMode()) {
+            return;
+        }
+
         $ilCtrl->setParameter($this, "backcmd", $this->requested_backcmd);
+        $this->getParentGUI()->setRequestedNodeIds($this->requested_node_ids);
         $this->getParentGUI()->deleteNodes($this);
     }
 
@@ -263,11 +280,17 @@ class ilSkillTreeNodeGUI
     {
         $ilCtrl = $this->ctrl;
 
-        if (!$this->tree_access_manager->hasManageCompetencesPermission()) {
+        if (!$this->hasManagePermissionForCurrentMode()) {
             return;
         }
 
-        $this->getParentGUI()->confirmedDelete(false);
+        $this->requested_node_ids = $this->getSkillCategoryTable()->resolveNodeIds($this->requested_node_ids);
+        if (empty($this->requested_node_ids)) {
+            $this->redirectToParent();
+        }
+
+        $this->getParentGUI()->setRequestedNodeIds($this->requested_node_ids);
+        $this->getParentGUI()->confirmedDelete();
         $this->skill_tree_node_manager->saveChildsOrder(
             $this->requested_node_id,
             [],
@@ -492,17 +515,37 @@ class ilSkillTreeNodeGUI
     {
         $lng = $this->lng;
 
-        if (!$this->tree_access_manager->hasManageCompetencesPermission()) {
+        if (!$this->hasManagePermissionForCurrentMode()) {
             return;
         }
 
-        $this->skill_tree_node_manager->saveChildsOrder(
-            $this->requested_node_id,
-            $this->requested_node_order,
-            $this->requested_tmpmode
-        );
+        $table = $this->getSkillCategoryTable();
+        $ordered_row_ids = $table->getComponent()->getData();
+        if (!empty($ordered_row_ids)) {
+            $table->setOrder($ordered_row_ids);
+        }
         $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $this->redirectToParent($this->requested_tmpmode);
+    }
+
+    protected function getSkillCategoryTable(): Table\SkillCategoryTable
+    {
+        return $this->table_manager->getSkillCategoryTable(
+            $this,
+            $this->requested_node_id,
+            $this->requested_tmpmode ? Table\SkillCategoryTable::MODE_SCTP : Table\SkillCategoryTable::MODE_SCAT,
+            $this->admin_gui_request->getTrefId(),
+            $this->skill_tree_node_manager
+        );
+    }
+
+    protected function hasManagePermissionForCurrentMode(): bool
+    {
+        if ($this->requested_tmpmode) {
+            return $this->tree_access_manager->hasManageCompetenceTemplatesPermission();
+        }
+
+        return $this->tree_access_manager->hasManageCompetencesPermission();
     }
 
     public function insertBasicSkillClip(): void

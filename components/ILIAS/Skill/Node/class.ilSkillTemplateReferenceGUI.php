@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Skill\Node;
+use ILIAS\Skill\Table\SkillCategoryTable;
 
 /**
  * Skill template reference GUI class
@@ -333,14 +334,14 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
         $obj_type = ilSkillTreeNode::_lookupType($sk_id);
 
         if ($obj_type == "sctp") {
-            $table = new ilSkillCatTableGUI(
+            $table = $this->table_manager->getSkillCategoryTable(
                 $this,
-                "listItems",
                 (int) $sk_id,
-                ilSkillCatTableGUI::MODE_SCTP,
-                $this->node_object->getId()
-            );
-            $tpl->setContent($table->getHTML());
+                SkillCategoryTable::MODE_SCTP,
+                $this->node_object->getId(),
+                $this->skill_tree_node_manager
+            )->getComponent();
+            $tpl->setContent($this->ui_ren->render($table));
         } elseif ($obj_type == "sktp") {
             $table = new ilSkillLevelTableGUI(
                 (int) $sk_id,

@@ -103,16 +103,15 @@ class ProfileLevelsTable implements UI\Component\Table\OrderingRetrieval
         }
     }
 
-    public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int
-    {
-        return count($this->getRecords());
-    }
-
     /**
      * @param string[] $ordered_row_ids
      */
     public function setOrder(array $ordered_row_ids): void
     {
+        if (!$this->tree_access_manager->hasManageProfilesPermission()) {
+            return;
+        }
+
         $records = $this->getRecords();
         // Reject incomplete or modified submissions; the manager expects a permutation of this profile's rows.
         if (count($ordered_row_ids) !== count($records)

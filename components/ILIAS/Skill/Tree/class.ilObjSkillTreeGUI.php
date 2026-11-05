@@ -146,6 +146,14 @@ class ilObjSkillTreeGUI extends ilObjectGUI
         $this->skill_usage_manager = $skill_manager->getUsageManager();
     }
 
+    /**
+     * @param int[] $requested_node_ids
+     */
+    public function setRequestedNodeIds(array $requested_node_ids): void
+    {
+        $this->requested_node_ids = $requested_node_ids;
+    }
+
     public function executeCommand(): void
     {
         $rbacsystem = $this->rbacsystem;

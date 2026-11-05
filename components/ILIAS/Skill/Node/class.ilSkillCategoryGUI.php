@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Skill\Node;
+use ILIAS\Skill\Table\SkillCategoryTable;
 
 /**
  * Skill category GUI class
@@ -267,14 +268,15 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
         }
         $this->setTabs("content");
 
-        $table = new ilSkillCatTableGUI(
+        $table = $this->table_manager->getSkillCategoryTable(
             $this,
-            "listItems",
             $this->requested_node_id,
-            ilSkillCatTableGUI::MODE_SCAT
-        );
+            SkillCategoryTable::MODE_SCAT,
+            0,
+            $this->skill_tree_node_manager
+        )->getComponent();
 
-        $tpl->setContent($table->getHTML());
+        $tpl->setContent($this->ui_ren->render($table));
     }
 
     public static function addCreationButtons(): void

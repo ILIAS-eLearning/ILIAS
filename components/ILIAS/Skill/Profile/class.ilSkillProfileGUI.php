@@ -769,7 +769,7 @@ class ilSkillProfileGUI
             $this->skill_tree_access_manager
         );
         $ordered_row_ids = $ordering_table->getComponent()->getData();
-        if ($ordered_row_ids !== []) {
+        if (!empty($ordered_row_ids)) {
             $ordering_table->setOrder($ordered_row_ids);
         }
 

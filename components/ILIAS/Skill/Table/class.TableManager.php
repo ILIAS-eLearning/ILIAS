@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Skill\Table;
 
 use ILIAS\Skill\Access;
+use ILIAS\Skill\Node;
 use ILIAS\Skill\Profile;
 
 /**
@@ -36,6 +37,16 @@ class TableManager
         int $ref_id
     ): TreeTable {
         return new TreeTable($ref_id);
+    }
+
+    public function getSkillCategoryTable(
+        object $parent_obj,
+        int $node_id,
+        int $mode,
+        int $tref_id,
+        Node\SkillTreeNodeManager $node_manager
+    ): SkillCategoryTable {
+        return new SkillCategoryTable($parent_obj, $node_id, $mode, $tref_id, $node_manager);
     }
 
     public function getLevelResourcesTable(

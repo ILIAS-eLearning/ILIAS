@@ -156,6 +156,14 @@ class SkillAdminGUIRequest extends SkillGUIRequest
     }
 
     /**
+     * @return string[]
+     */
+    public function getTableSkillCatNodeIds(): array
+    {
+        return $this->getTableIds("skl_skill_cat_table_node_ids");
+    }
+
+    /**
      * @return int[]
      */
     public function getProfileIds(): array
