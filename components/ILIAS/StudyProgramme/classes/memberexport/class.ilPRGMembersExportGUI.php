@@ -19,8 +19,6 @@
 declare(strict_types=1);
 
 use ILIAS\Data\Factory as DataFactory;
-use ILIAS\Membership\Export\Table\DataRetrieval;
-use ILIAS\Membership\Export\Table\TableBuilder;
 
 /**
  * export assignments of PRG

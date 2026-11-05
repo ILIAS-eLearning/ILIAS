@@ -47,6 +47,7 @@ class ilMemberExportGUI
     protected ilGlobalTemplateInterface $tpl;
     protected ilLanguage $lng;
     protected ilToolbarGUI $toolbar;
+    protected ilObjUser $user;
     protected Profile $profile;
     protected UIRenderer $ui_renderer;
     protected UIFactory $ui_factory;
@@ -72,6 +73,7 @@ class ilMemberExportGUI
         $this->ctrl = $DIC->ctrl();
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->toolbar = $DIC->toolbar();
+        $this->user = $DIC->user();
         $this->profile = $DIC['user']->getProfile();
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('ps');
@@ -187,7 +189,7 @@ class ilMemberExportGUI
         }
 
         // consultation hours
-        if (ilBookingEntry::hasObjectBookingEntries($this->obj_id, $GLOBALS['DIC']['ilUser']->getId())) {
+        if (ilBookingEntry::hasObjectBookingEntries($this->obj_id, $this->user->getId())) {
             $this->lng->loadLanguageModule('dateplaner');
             $chours = new ilCheckboxInputGUI($this->lng->txt('cal_ch_field_ch'), 'export_members[]');
             $chours->setValue('consultation_hour');
@@ -313,7 +315,9 @@ class ilMemberExportGUI
             new DataRetrieval($this->fss_export, $this->lng),
             $this->lng,
             $this->ui_factory,
-            $this->http
+            $this->http,
+            $this->user,
+            $this->data_factory
         );
 
         $this->tpl->setContent(

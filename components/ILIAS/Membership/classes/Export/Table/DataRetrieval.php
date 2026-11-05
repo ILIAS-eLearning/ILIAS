@@ -30,6 +30,7 @@ use ilLanguage;
 use ilUtil;
 use ilDatePresentation;
 use ilDateTime;
+use DateTimeImmutable;
 
 class DataRetrieval implements DataRetrievalInterface
 {
@@ -76,9 +77,7 @@ class DataRetrieval implements DataRetrievalInterface
         foreach ($data as $id => $row) {
             $row_copy = $row;
             $row_copy[TableBuilder::COL_SIZE] = ilUtil::formatSize((int) $row[TableBuilder::COL_SIZE]);
-            $row_copy[TableBuilder::COL_DATE] = ilDatePresentation::formatDate(
-                new ilDateTime((int) $row[TableBuilder::COL_DATE], 3)
-            );
+            $row_copy[TableBuilder::COL_DATE] = new DateTimeImmutable('@' . $row[TableBuilder::COL_DATE]);
 
             yield $row_builder->buildDataRow((string) $id, $row_copy);
         }

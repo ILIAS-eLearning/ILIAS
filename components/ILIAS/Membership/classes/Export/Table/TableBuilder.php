@@ -26,6 +26,9 @@ use ilLanguage;
 use ILIAS\HTTP\Services as HTTP;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
+use ilObjUser;
+use ILIAS\Data\Factory as DataFactory;
+use ilCalendarSettings;
 
 class TableBuilder
 {
@@ -42,7 +45,9 @@ class TableBuilder
         protected DataRetrieval $data_retrieval,
         protected ilLanguage $lng,
         protected UIFactory $ui_factory,
-        protected HTTP $http
+        protected HTTP $http,
+        protected ilObjUser $user,
+        protected DataFactory $data_factory
     ) {
     }
 
@@ -51,6 +56,13 @@ class TableBuilder
         URLBuilderToken $id_token,
         URLBuilderToken $action_token
     ): DataTable {
+        $date_format = $this->user->getDateFormat();
+        if ($this->user->getTimeFormat() == ilCalendarSettings::TIME_FORMAT_24) {
+            $date_format = $this->data_factory->dateFormat()->withTime24($date_format);
+        } else {
+            $date_format = $this->data_factory->dateFormat()->withTime12($date_format);
+        }
+
         $columns = [];
         $columns[self::COL_TYPE] = $this->ui_factory->table()->column()->text(
             $this->lng->txt('type')
@@ -58,8 +70,9 @@ class TableBuilder
         $columns[self::COL_SIZE] = $this->ui_factory->table()->column()->text(
             $this->lng->txt('ps_size')
         )->withIsSortable(true);
-        $columns[self::COL_DATE] = $this->ui_factory->table()->column()->text(
-            $this->lng->txt('date')
+        $columns[self::COL_DATE] = $this->ui_factory->table()->column()->date(
+            $this->lng->txt('date'),
+            $date_format
         )->withIsSortable(true);
 
         $actions = [];
