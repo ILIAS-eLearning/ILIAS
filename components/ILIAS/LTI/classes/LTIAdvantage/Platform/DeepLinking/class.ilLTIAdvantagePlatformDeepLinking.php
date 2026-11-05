@@ -27,7 +27,7 @@ use Random\RandomException;
  * LTI Advantage Deep Linking with ILIAS as platform: a user who creates LTI objects in a container picks the
  * content in the tool, and each resource link the tool sends back becomes an object.
  *
- * A request waits in the session of the user, for that user and container, and is used once: its state goes
+ * A request waits for the session of the user, for that user and container, and is used once: its state goes
  * to the tool as the data of the request and has to come back with the response. The session cookie is sent
  * as SameSite=None when the request starts, because the tool posts the response from its own site.
  *
