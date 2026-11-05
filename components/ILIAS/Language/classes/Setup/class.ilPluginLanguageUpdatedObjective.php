@@ -142,10 +142,6 @@ class ilPluginLanguageUpdatedObjective implements Setup\Objective
             public function __construct()
             {
             }
-            public static function getRootLogger(): ilLogger
-            {
-                return $GLOBALS["DIC"]["ilLog"];
-            }
             public static function getLogger(string $a_component_id): ilLogger
             {
                 return $GLOBALS["DIC"]["ilLog"];
@@ -188,7 +184,11 @@ class ilPluginLanguageUpdatedObjective implements Setup\Objective
         $GLOBALS["DIC"]["ilUser"] = new class () extends ilObjUser {
             public function __construct()
             {
-                $this->prefs["language"] = "en";
+            }
+
+            public function getLanguage(): string
+            {
+                return 'en';
             }
         };
 

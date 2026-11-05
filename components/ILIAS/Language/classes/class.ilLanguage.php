@@ -25,6 +25,7 @@ use ILIAS\Language\ComponentTranslation\MigratedTranslations;
 use ILIAS\Language\ComponentTranslation\TranslationGettextRepository;
 use ILIAS\Language\ComponentTranslation\TranslationRepository;
 use ILIAS\Language\LanguageIdentifier;
+use ILIAS\components\Logging\NullLogger;
 
 /**
  * language handling
@@ -112,7 +113,9 @@ class ilLanguage implements \ILIAS\Language\Language
         $this->translations = $translations;
         $client_ini = $DIC->clientIni();
 
-        $this->log = $DIC->logger()->forComponent('lang');
+        $this->log = isset($DIC['ilLoggerFactory'], $DIC['logging.factory'])
+            ? $DIC->logger()->forComponent('lang')
+            : new NullLogger();
 
         $this->lang_key = $a_lang_key;
 
