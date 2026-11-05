@@ -29,7 +29,6 @@ use ILIAS\UI\URLBuilderToken;
 use ilCtrl;
 use ILIAS\Data\URI;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
-use ILIAS\UI\Component\Symbol\Glyph\Glyph;
 use ilAdvancedMDRecordTranslationGUI;
 use ILIAS\Data\Range;
 use ILIAS\Data\Factory as DataFactory;
