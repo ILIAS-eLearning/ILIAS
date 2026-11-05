@@ -148,7 +148,7 @@ class ilObjMediaObject extends ilObject
         $this->domain->metadata()->learningObjectMetadata()->derive()->fromBasicProperties(
             $this->getTitle(),
             $this->getLongDescription(),
-            $ilUser->getPref('language')
+            $ilUser->getLanguage()
         )->forObject(0, $this->getId(), $this->getType());
 
         return false;   // avoid parent to create md
