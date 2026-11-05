@@ -108,7 +108,7 @@ class CertificateOverviewTable implements DataRetrieval
          */
         [$order_field, $order_direction] = $order->join([], fn($ret, $key, $value) => [$key, $value]);
 
-        $ui_filter_data = $this->mapUiFilterData($this->ui_service->filter()->getData($this->filter));
+        $ui_filter_data = $this->mapUiFilterData($this->ui_service->filter()->getData($this->filter) ?? []);
 
         $table_rows = $this->buildTableRows($this->repo->fetchCertificatesForOverview(
             $this->user->getLanguage(),
@@ -166,7 +166,7 @@ class CertificateOverviewTable implements DataRetrieval
         mixed $filter_data,
         mixed $additional_parameters
     ): ?int {
-        $ui_filter_data = $this->mapUiFilterData($this->ui_service->filter()->getData($this->filter));
+        $ui_filter_data = $this->mapUiFilterData($this->ui_service->filter()->getData($this->filter) ?? []);
 
         return $this->repo->fetchCertificatesForOverviewCount($ui_filter_data);
     }
