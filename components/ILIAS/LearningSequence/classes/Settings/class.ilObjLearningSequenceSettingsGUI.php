@@ -209,10 +209,13 @@ class ilObjLearningSequenceSettingsGUI
             return $this->renderer->render($form);
         }
 
+        /** @var ilObjectPropertyTitleAndDescription $property_title_and_description */
+        $property_title_and_description = $data['object'];
+
         $lso = $this->obj;
         $obj_props = $lso->getObjectProperties();
 
-        $obj_props->storePropertyTitleAndDescription($data['object']);
+        $obj_props->storePropertyTitleAndDescription($property_title_and_description);
         list($online, $availability) = $data['online'];
         $obj_props->storePropertyIsOnline($online);
         $lso->storeAvailabilityPeriod($availability);
@@ -227,6 +230,9 @@ class ilObjLearningSequenceSettingsGUI
             $obj_props->storePropertyIcon($data['common']['custom_icon']);
         }
         $obj_props->storePropertyTileImage($data['common']['image']);
+
+        $lso->setTitle($property_title_and_description->getTitle());
+        $lso->setDescription($property_title_and_description->getDescription());
 
         $lso->update();
 
