@@ -26,6 +26,7 @@ use ILIAS\Blog\InternalDomainService;
 use ILIAS\Blog\InternalGUIService;
 use ILIAS\Blog\Contributor\ContributorGUI;
 use ILIAS\Blog\Editing\EditingGUI;
+use ILIAS\Blog\Presentation\PresentationGUI;
 
 /**
  * @ilCtrl_Calls ilObjBlogGUI: ilWorkspaceAccessGUI
@@ -152,6 +153,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
     public function edit(): void
     {
         $this->ctrl->redirectByClass(SettingsGUI::class, "");
+    }
+
+    public function preview(): void
+    {
+        $this->ctrl->redirectByClass(PresentationGUI::class, "preview");
     }
 
     protected function setTabs(): void
