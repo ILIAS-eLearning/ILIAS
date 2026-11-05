@@ -82,8 +82,8 @@ class ParticipantTableExtraTimeAction implements TableAction
         $participant_rows = array_map(
             fn(Participant $participant) => sprintf(
                 '%s, %s (%s)',
-                $participant->getLastname(),
-                $participant->getFirstname(),
+                $participant->getUser()->getLastname(),
+                $participant->getUser()->getFirstname(),
                 sprintf($this->lng->txt('already_added_extra_time'), $participant->getExtraTime())
             ),
             $selected_participants
@@ -154,7 +154,7 @@ class ParticipantTableExtraTimeAction implements TableAction
 
     public function allowActionForRecord(Participant $record): bool
     {
-        return $record->getUserId() !== ANONYMOUS_USER_ID;
+        return $record->getUser()->getUserId() !== ANONYMOUS_USER_ID;
     }
 
     private function resolveInfoMessage(
@@ -204,7 +204,7 @@ class ParticipantTableExtraTimeAction implements TableAction
                     TestAdministrationInteractionTypes::EXTRA_TIME_ADDED,
                     [
                         AdditionalInformationGenerator::KEY_USERS => array_map(
-                            fn(Participant $participant) => $participant->getUserId(),
+                            fn(Participant $participant) => $participant->getUser()->getUserId(),
                             $participants
                         ),
                         AdditionalInformationGenerator::KEY_TEST_ADDED_PROCESSING_TIME => $minutes

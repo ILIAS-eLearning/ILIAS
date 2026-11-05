@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Test\Tests\ExportImport;
 
 use ILIAS\Test\ExportImport\ExportRandomQuestionSet;
+use ILIAS\Test\Participants\ParticipantRepository;
 
 /**
  * @author Marvin Beym <mbeym@databay.de>
@@ -48,7 +49,8 @@ class ExportRandomQuestionSetTest extends \ilTestBaseTestCase
             $this->createMock(\ILIAS\FileDelivery\Services::class),
             $this->getTestObjMock(),
             $DIC['resource_storage'],
-            $DIC['ilUser']
+            $DIC['ilUser'],
+            $this->createMock(ParticipantRepository::class)
         );
     }
 
