@@ -166,11 +166,13 @@ class ilLTIAdvantagePlatformConnection extends Platform
 
     /**
      * The page that starts the launch of an object: it sends the browser to the login initiation URL of
-     * the tool. The launch itself waits for the authentication request of the tool.
+     * the tool. The launch itself waits for the authentication request of the tool, under a hint of its own,
+     * so launches of the same object running at the same time, in two tabs for one, do not replace each other.
      *
      * @param array $parameters see ilLTIAdvantagePlatformLaunchParameterBuilder
      * @param bool $embedded true when the tool opens in an iframe of the page that handles the platform storage
      * @param string $url the target link of the object, when it has its own instead of the one of the tool
+     * @throws RandomException
      */
     public function getLaunchPage(int $ref_id, array $parameters, bool $embedded, string $url = ''): string
     {
@@ -178,7 +180,7 @@ class ilLTIAdvantagePlatformConnection extends Platform
             $url !== '' ? $url : Tool::$defaultTool->messageUrl,
             self::MESSAGE_LAUNCH,
             $parameters,
-            (string) $ref_id,
+            $ref_id . '.' . bin2hex(random_bytes(8)),
             $embedded
         );
     }
