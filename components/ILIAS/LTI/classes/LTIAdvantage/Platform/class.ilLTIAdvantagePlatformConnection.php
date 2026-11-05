@@ -36,7 +36,7 @@ use Random\RandomException;
  * the library, with its key and URLs. The library does the protocol: the OpenID Connect login, the
  * id_token, the check of the client assertion of a token request and the access token.
  *
- * The login a launch starts is kept in the session of the user until the tool asks for the id_token at
+ * The login a launch starts is kept for the session of the user until the tool asks for the id_token at
  * ltiauth.php. Unlike the library, an authentication request without such a login is refused.
  *
  * An embedded launch offers the tool the platform storage of LTI (postMessage to the page around the
@@ -166,7 +166,7 @@ class ilLTIAdvantagePlatformConnection extends Platform
 
     /**
      * The page that starts the launch of an object: it sends the browser to the login initiation URL of
-     * the tool. The launch itself waits in the session for the authentication request of the tool.
+     * the tool. The launch itself waits for the authentication request of the tool.
      *
      * @param array $parameters see ilLTIAdvantagePlatformLaunchParameterBuilder
      * @param bool $embedded true when the tool opens in an iframe of the page that handles the platform storage

@@ -31,7 +31,7 @@ use Random\RandomException;
  * ltiregistration.php, with the token, from its server: that request has no session of ILIAS, so the token
  * carries who registers and the client id the tool gets. The tool is stored as an own tool of that user, and
  * the token is used up with it. When the tool says it is done, the page of the user takes the tool the
- * registration left in the session and creates the object for it.
+ * registration left for the session and creates the object for it.
  *
  * @author Saúl Díaz <sdiaz@surlabs.com>
  */
