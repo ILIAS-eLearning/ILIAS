@@ -30,6 +30,7 @@ class ilMathTest extends TestCase
      */
     protected function setUp(): void
     {
+        ilMath::setDefaultAdapter(ilMath::getFirstValidAdapter());
         $this->eval_math = new EvalMath();
     }
 
@@ -50,5 +51,25 @@ class ilMathTest extends TestCase
             ['1254', '5298', '6'],
             ['41414124', '41414124', '41414124']
         ];
+    }
+
+    public function testPlusScientificNotationIsPowerOfTen(): void
+    {
+        $this->assertEqualsWithDelta(100.0, (float) $this->eval_math->evaluate('1E+2'), 0.000001);
+        $this->assertEqualsWithDelta(5400000.0, (float) $this->eval_math->evaluate('5.4E+6'), 0.001);
+        $this->assertEqualsWithDelta(5400000.0, (float) $this->eval_math->evaluate('54E5'), 0.001);
+        $this->assertEqualsWithDelta(0.0054, (float) $this->eval_math->evaluate('5.4E-3'), 0.0000001);
+
+        $lower = (float) $this->eval_math->evaluate('5.4E+24');
+        $upper = (float) $this->eval_math->evaluate('5.6E+24');
+        $this->assertGreaterThan(38000.0, $lower);
+        $this->assertGreaterThan($lower, $upper);
+
+        if (extension_loaded('bcmath')) {
+            $lower_text = (string) $this->eval_math->evaluate('5.4E+24');
+            $upper_text = (string) $this->eval_math->evaluate('5.6E+24');
+            $this->assertSame(0, bccomp($lower_text, '5400000000000000000000000', 0), $lower_text);
+            $this->assertSame(0, bccomp($upper_text, '5600000000000000000000000', 0), $upper_text);
+        }
     }
 }
