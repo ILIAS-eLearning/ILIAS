@@ -68,7 +68,7 @@ if (empty($ltiMessageHint)) {
     }
 }
 
-$parts = explode(":", $ltiMessageHint);
+$parts = explode(":", ilLTIConsumerContentGUI::getUnsignedLTI13MessageHint($ltiMessageHint));
 $isContentSelection = false;
 $ref_id = '';
 $il_client_id = '';
@@ -84,12 +84,19 @@ if (count($parts) === 2) {
     [$ref_id, $il_client_id, $redirect_uri] = $parts;
 }
 
-ilSession::set('lti13_login_data', $data);
-
-if ($isContentSelection) {
-    $url = "../../../" . base64_decode($redirect_uri);
+if (count($parts) === 2) {
+    // the launch of an object gets the authentication request with the link, not in the session: a parallel
+    // request of the same session would remove it again when it writes the session back
+    $data['client_id'] = $clientId;
+    $url = ilObjLTIConsumer::getIliasHttpPath() . '/'
+        . ilLTIConsumerContentGUI::getLTI13LaunchLink((int) $ref_id, $il_client_id, $data);
 } else {
-    $url = "../../../goto.php?target=lti_" . $ref_id . "&client_id=" . $il_client_id;
+    ilSession::set('lti13_login_data', $data);
+    if ($isContentSelection) {
+        $url = "../../../" . base64_decode($redirect_uri);
+    } else {
+        $url = "../../../goto.php?target=lti_" . $ref_id . "&client_id=" . $il_client_id;
+    }
 }
 
 function buildSameSiteNoneSessionCookieHeader(): ?string
