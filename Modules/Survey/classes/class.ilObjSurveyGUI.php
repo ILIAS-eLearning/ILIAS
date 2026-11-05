@@ -521,6 +521,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
     public function savePropertiesObject(): void
     {
+        $this->checkPermission("write");
         $settings_ui = $this->survey_service->gui()->surveySettings($this->survey);
 
         $form = $settings_ui->form("ilObjSurveyGUI");
