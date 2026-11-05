@@ -269,7 +269,8 @@ class ilLearningSequenceRoles
             }
 
             if ($portfolio_enabled && array_key_exists($usr_id, $portfolios)) {
-                $data['prtf'] = $portfolios[$usr_id];
+                $data['prtf_data'] = $portfolios[$usr_id];
+                $data['prtf'] = implode(', ', $portfolios[$usr_id]);  // just for sorting
             }
 
             $members[$usr_id] = $data;
