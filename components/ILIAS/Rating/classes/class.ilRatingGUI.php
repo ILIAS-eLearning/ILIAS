@@ -625,29 +625,28 @@ class ilRatingGUI implements ilCtrlSecurityInterface
         $ttpl->setVariable("TTID", $unique_id);
         $rating_html = $ttpl->get();
 
-        $summary = $this->getSummaryPopover(
-            (int) ($rating["cnt"] ?? 0),
-            (float) ($rating["avg"] ?? 0),
-            (int) ($user_rating ?? 0)
-        );
+        $summary_cnt = (int) ($rating["cnt"] ?? 0);
+        $summary_avg = (float) ($rating["avg"] ?? 0);
+        $summary_user = (int) ($user_rating ?? 0);
 
         $button = $f->button()->shy('###button###', '#')
-            ->withOnHover($summary->getShowSignal())
             ->withOnLoadCode(function (string $id): string {
                 return "document.getElementById('$id').classList.add('ilRating');";
             });
-        $elements = [$summary];
+        $elements = [];
         if ($has_overlay) {
-            $ttpl->setVariable(
-                "RATING_DETAILS",
-                $this->renderDetails("rtov_", $may_rate, $categories, $a_onclick)
-            );
-
             $popover = $f->popover()->standard(
-                $f->legacy()->content($this->renderDetails("rtov_", $may_rate, $categories, $a_onclick))
+                $f->legacy()->content(
+                    $this->getSummaryHtml($summary_cnt, $summary_avg, $summary_user)
+                    . $this->renderDetails("rtov_", $may_rate, $categories, $a_onclick)
+                )
             );
             $button = $button->withOnClick($popover->getShowSignal());
             $elements[] = $popover;
+        } else {
+            $summary = $this->getSummaryPopover($summary_cnt, $summary_avg, $summary_user);
+            $button = $button->withOnHover($summary->getShowSignal());
+            $elements[] = $summary;
         }
         $elements[] = $button;
         $html = $this->async_rendering
@@ -683,18 +682,23 @@ class ilRatingGUI implements ilCtrlSecurityInterface
         return $topics;
     }
 
-    protected function getSummaryPopover(
-        int $cnt = 0,
-        float $avg = 0,
-        int $user = 0
-    ): \ILIAS\UI\Component\Popover\Popover {
+    protected function getSummaryHtml(int $cnt = 0, float $avg = 0, int $user = 0): string
+    {
         $lines = "";
         foreach ($this->getTooltipTopics($cnt, $avg, $user) as $line) {
             $lines .= "<p>" . htmlspecialchars($line, ENT_QUOTES | ENT_SUBSTITUTE, "UTF-8") . "</p>";
         }
 
+        return $lines;
+    }
+
+    protected function getSummaryPopover(
+        int $cnt = 0,
+        float $avg = 0,
+        int $user = 0
+    ): \ILIAS\UI\Component\Popover\Popover {
         return $this->ui->factory()->popover()->standard(
-            $this->ui->factory()->legacy()->content($lines)
+            $this->ui->factory()->legacy()->content($this->getSummaryHtml($cnt, $avg, $user))
         );
     }
 
