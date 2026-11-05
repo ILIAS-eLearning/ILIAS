@@ -34,7 +34,9 @@ class DataRetrieval implements BaseDataRetrieval
 {
     protected ilAdvancedMDRecord $record;
     protected ilLanguage $lng;
-    protected ilAdvancedMDRecordTranslations $record_translations;
+    protected ?ilAdvancedMDRecordTranslations $record_translations = null;
+    protected ?array $raw_data_cache = null;
+    protected ?array $all_ids_cache = null;
 
     public function __construct(
         ilAdvancedMDRecord $record,
@@ -42,9 +44,16 @@ class DataRetrieval implements BaseDataRetrieval
     ) {
         $this->record = $record;
         $this->lng = $lng;
-        $this->record_translations = ilAdvancedMDRecordTranslations::getInstanceByRecordId(
-            $this->record->getRecordId()
-        );
+    }
+
+    protected function getRecordTranslations(): ilAdvancedMDRecordTranslations
+    {
+        if ($this->record_translations === null) {
+            $this->record_translations = ilAdvancedMDRecordTranslations::getInstanceByRecordId(
+                $this->record->getRecordId()
+            );
+        }
+        return $this->record_translations;
     }
 
     public function getRows(
@@ -98,39 +107,42 @@ class DataRetrieval implements BaseDataRetrieval
         mixed $filter_data,
         mixed $additional_parameters
     ): ?int {
-        return count(self::getAllIDs());
+        return count($this->getAllIDs());
     }
 
-    public static function getAllIDs(): array
+    public function getAllIDs(): array
     {
-        $languages = ilObject::_getObjectsByType('lng');
-        $parsed_languages = [];
-        foreach ($languages as $language) {
-            $parsed_languages[] = $language['title'];
+        if ($this->all_ids_cache === null) {
+            $languages = ilObject::_getObjectsByType('lng');
+            $parsed_languages = [];
+            foreach ($languages as $language) {
+                $lang = $language['title'];
+                $parsed_languages[] = $lang;
+            }
+            $this->all_ids_cache = $parsed_languages;
         }
-        return array_values(array_filter($parsed_languages, static fn($lang) => is_string($lang) && strlen($lang) >= 2 && strlen($lang) <= 10 && $lang !== 'ALL_OBJECTS'));
+        return $this->all_ids_cache;
     }
 
     protected function getRawData(): array
     {
-        $all_languages = self::getAllIDs();
-        $installed_languages = ilLanguage::_getInstalledLanguages();
+        if ($this->raw_data_cache === null) {
+            $all_languages = $this->getAllIDs();
+            $installed_languages = ilLanguage::_getInstalledLanguages();
+            $record_translations = $this->getRecordTranslations();
+            $default_language = $this->record->getDefaultLanguage();
 
-        $record_translations = ilAdvancedMDRecordTranslations::getInstanceByRecordId(
-            $this->record->getRecordId()
-        );
-
-        $default_language = $this->record->getDefaultLanguage();
-
-        $data = [];
-        foreach ($all_languages as $lang_code) {
-            $data[$lang_code] = [
-                TableBuilder::COL_LANGUAGE => $this->lng->txt('meta_l_' . $lang_code),
-                TableBuilder::COL_DEFAULT => ($lang_code === $default_language),
-                TableBuilder::COL_ACTIVE => $record_translations->isConfigured($lang_code),
-                TableBuilder::COL_INSTALLED => in_array($lang_code, $installed_languages)
-            ];
+            $data = [];
+            foreach ($all_languages as $lang_code) {
+                $data[$lang_code] = [
+                    TableBuilder::COL_LANGUAGE => $this->lng->txt('meta_l_' . $lang_code),
+                    TableBuilder::COL_DEFAULT => ($lang_code === $default_language),
+                    TableBuilder::COL_ACTIVE => $record_translations->isConfigured($lang_code),
+                    TableBuilder::COL_INSTALLED => in_array($lang_code, $installed_languages)
+                ];
+            }
+            $this->raw_data_cache = $data;
         }
-        return $data;
+        return $this->raw_data_cache;
     }
 }

@@ -34,11 +34,6 @@ use ILIAS\UI\URLBuilderToken;
 class ilAdvancedMDRecordTranslationGUI
 {
     protected const CMD_DEFAULT = 'translations';
-    protected const CMD_ADD_TRANSLATION = 'addTranslations';
-    protected const CMD_SAVE_ADDITIONAL_TRANSLATIONS = 'saveAdditionalTranslations';
-    protected const CMD_ACTIVATE = 'activate';
-    protected const CMD_DEACTIVATE = 'deactivate';
-    protected const CMD_SET_DEFAULT = 'setDefault';
 
     protected ilCtrl $ctrl;
     protected ilGlobalTemplateInterface $tpl;
@@ -88,7 +83,15 @@ class ilAdvancedMDRecordTranslationGUI
 
         switch ($next_class) {
             default:
-                $this->$cmd();
+                switch ($cmd) {
+                    case self::CMD_DEFAULT:
+                        $this->translations();
+                        break;
+                    case 'handleTableAction':
+                        $this->handleTableAction();
+                        break;
+                }
+                break;
         }
     }
 
@@ -132,33 +135,16 @@ class ilAdvancedMDRecordTranslationGUI
         return $url_builder->acquireParameters(['advmd_ml'], 'table_ids', 'table_action');
     }
 
-    protected function getLanguageCodes(URLBuilderToken $id_token): array
+    protected function getLanguageCodes(URLBuilderToken $id_token, DataRetrieval $data_retrieval): array
     {
         $parameter_name = $id_token->getName();
-        $raw_ids = $this->getPostParameter($parameter_name, true);
-        if ($raw_ids === null) {
-            $raw_ids = $this->getQueryParameter($parameter_name, true);
-        }
+        $raw_ids = $this->getQueryParameter($parameter_name, true);
 
-        if ($raw_ids === ['ALL_OBJECTS'] || $raw_ids === 'ALL_OBJECTS') {
-            return DataRetrieval::getAllIDs();
+        if ($raw_ids === ['ALL_OBJECTS']) {
+            return $data_retrieval->getAllIDs();
         }
 
         return (array) ($raw_ids ?? []);
-    }
-
-    protected function getPostParameter(string $name, bool $is_list = false): mixed
-    {
-        $wrapper = $this->http->wrapper()->post();
-
-        if ($wrapper->has($name)) {
-            $refinery = $is_list ?
-                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string()) :
-                $this->refinery->kindlyTo()->string();
-            return $wrapper->retrieve($name, $refinery);
-        }
-
-        return null;
     }
 
     protected function getQueryParameter(string $name, bool $is_list = false): mixed
@@ -177,21 +163,22 @@ class ilAdvancedMDRecordTranslationGUI
 
     public function handleTableAction(): void
     {
+        $data_retrieval = new DataRetrieval(
+            $this->record,
+            $this->language
+        );
         [$url_builder, $id_token, $action_token] = $this->getTableActionURLBuilder();
-        $ids = $this->getLanguageCodes($id_token);
-        $action = $this->getPostParameter($action_token->getName());
-        if ($action === null) {
-            $action = $this->getQueryParameter($action_token->getName());
-        }
+        $ids = $this->getLanguageCodes($id_token, $data_retrieval);
+        $action = $this->getQueryParameter($action_token->getName());
 
         switch ($action) {
-            case 'activate':
+            case TableBuilder::ACTION_ACTIVATE:
                 $this->activate($ids);
                 break;
-            case 'deactivate':
+            case TableBuilder::ACTION_DEACTIVATE:
                 $this->deactivate($ids);
                 break;
-            case 'setDefault':
+            case TableBuilder::ACTION_SET_DEFAULT:
                 $this->setDefault($ids);
                 break;
         }
@@ -257,83 +244,6 @@ class ilAdvancedMDRecordTranslationGUI
 
         $this->record->setDefaultLanguage($lang_key);
         $this->record->update();
-
-        $this->tpl->setOnScreenMessage('success', $this->language->txt('settings_saved'), true);
-        $this->ctrl->redirect($this, self::CMD_DEFAULT);
-    }
-
-    /**
-     * show translation creation form
-     */
-    protected function addTranslations(?ilPropertyFormGUI $form = null)
-    {
-        $this->tabs->activateTab(self::CMD_DEFAULT);
-        if (!$form instanceof ilPropertyFormGUI) {
-            $form = $this->initCreateTranslationForm();
-        }
-        $this->tpl->setContent($form->getHTML());
-    }
-
-    protected function initCreateTranslationForm(): ilPropertyFormGUI
-    {
-        $form = new \ilPropertyFormGUI();
-        $form->setFormAction($this->ctrl->getFormAction($this));
-        $form->setTitle($this->language->txt('obj_add_languages'));
-
-        $language_options = $this->getAvailableLanguagesOptions();
-        $languages = new ilSelectInputGUI(
-            $this->language->txt('obj_additional_langs'),
-            'languages'
-        );
-        $languages->setOptions($language_options);
-        $languages->setMulti(true);
-        $languages->setRequired(true);
-        $form->addItem($languages);
-
-        $form->addCommandButton(
-            self::CMD_SAVE_ADDITIONAL_TRANSLATIONS,
-            $this->language->txt('save')
-        );
-        $form->addCommandButton(
-            self::CMD_DEFAULT,
-            $this->language->txt('cancel')
-        );
-        return $form;
-    }
-
-    /**
-     * @return array<string, string>
-     * @todo handle generic isConfigured
-     */
-    protected function getAvailableLanguagesOptions(): array
-    {
-        $languages = ilAdvancedMDRecordTranslations::getInstanceByRecordId($this->record->getRecordId());
-
-        $installed_languages = ilLanguage::_getInstalledLanguages();
-        $options = [];
-        $options[''] = $this->language->txt('select_one');
-        foreach ($installed_languages as $key => $language) {
-            if ($languages->isConfigured($language)) {
-                continue;
-            }
-            $options[$language] = $this->language->txt('meta_l_' . $language);
-        }
-        return $options;
-    }
-
-    protected function saveAdditionalTranslations(): void
-    {
-        $form = $this->initCreateTranslationForm();
-        if (!$form->checkInput()) {
-            $form->setValuesByPost();
-            $this->tpl->setOnScreenMessage('failure', $this->language->txt('err_check_input'));
-            $this->addTranslations($form);
-            return;
-        }
-        foreach (array_unique((array) $form->getInput('languages')) as $language_code) {
-            $languages = ilAdvancedMDRecordTranslations::getInstanceByRecordId($this->record->getRecordId());
-            $languages->addTranslationEntry($language_code);
-        }
 
         $this->tpl->setOnScreenMessage('success', $this->language->txt('settings_saved'), true);
         $this->ctrl->redirect($this, self::CMD_DEFAULT);
