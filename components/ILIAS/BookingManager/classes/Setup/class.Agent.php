@@ -82,6 +82,7 @@ class Agent extends Setup\Agent\NullAgent
             new \ilBookingManagerObjectInfoMigration(),
             new \ilBookingManagerBookingInfoMigration(),
             new \ilBookingManagerOfflineMigration(),
+            new \ilBookingManagerReservationTimestampMigration(),
         ];
     }
 
