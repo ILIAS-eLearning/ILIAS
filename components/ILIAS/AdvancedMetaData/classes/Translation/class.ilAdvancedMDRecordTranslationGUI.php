@@ -34,6 +34,7 @@ use ILIAS\UI\URLBuilderToken;
 class ilAdvancedMDRecordTranslationGUI
 {
     protected const CMD_DEFAULT = 'translations';
+    protected const CMD_TABLE_ACTION = 'handleTableAction';
 
     protected ilCtrl $ctrl;
     protected ilGlobalTemplateInterface $tpl;
@@ -47,6 +48,7 @@ class ilAdvancedMDRecordTranslationGUI
     protected HTTP $http;
     protected RefineryFactory $refinery;
     protected DataFactory $data_factory;
+    protected ilAdvancedMDRecordTranslations $record_translations;
 
     public function __construct(ilAdvancedMDRecord $record)
     {
@@ -65,6 +67,9 @@ class ilAdvancedMDRecordTranslationGUI
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
         $this->data_factory = new DataFactory();
+        $this->record_translations = ilAdvancedMDRecordTranslations::getInstanceByRecordId(
+            $this->record->getRecordId()
+        );
     }
 
     /**
@@ -87,7 +92,7 @@ class ilAdvancedMDRecordTranslationGUI
                     case self::CMD_DEFAULT:
                         $this->translations();
                         break;
-                    case 'handleTableAction':
+                    case self::CMD_TABLE_ACTION:
                         $this->handleTableAction();
                         break;
                 }
@@ -106,7 +111,8 @@ class ilAdvancedMDRecordTranslationGUI
 
         $data_retrieval = new DataRetrieval(
             $this->record,
-            $this->language
+            $this->language,
+            $this->record_translations
         );
 
         $table_builder = new TableBuilder(
@@ -128,7 +134,7 @@ class ilAdvancedMDRecordTranslationGUI
     {
         $link = ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass(
             ilAdvancedMDRecordTranslationGUI::class,
-            'handleTableAction'
+            $this::CMD_TABLE_ACTION
         );
         $url_builder = new URLBuilder($this->data_factory->uri($link));
 
@@ -138,7 +144,15 @@ class ilAdvancedMDRecordTranslationGUI
     protected function getLanguageCodes(URLBuilderToken $id_token, DataRetrieval $data_retrieval): array
     {
         $parameter_name = $id_token->getName();
-        $raw_ids = $this->getQueryParameter($parameter_name, true);
+        $wrapper = $this->http->wrapper()->query();
+
+        $raw_ids = null;
+        if ($wrapper->has($parameter_name)) {
+            $raw_ids = $wrapper->retrieve(
+                $parameter_name,
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string())
+            );
+        }
 
         if ($raw_ids === ['ALL_OBJECTS']) {
             return $data_retrieval->getAllIDs();
@@ -147,29 +161,31 @@ class ilAdvancedMDRecordTranslationGUI
         return (array) ($raw_ids ?? []);
     }
 
-    protected function getQueryParameter(string $name, bool $is_list = false): mixed
+    protected function getTableActionFromQuery(URLBuilderToken $action_token): string
     {
+        $name = $action_token->getName();
         $wrapper = $this->http->wrapper()->query();
 
         if ($wrapper->has($name)) {
-            $refinery = $is_list ?
-                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string()) :
-                $this->refinery->kindlyTo()->string();
-            return $wrapper->retrieve($name, $refinery);
+            return (string) $wrapper->retrieve(
+                $name,
+                $this->refinery->kindlyTo()->string()
+            );
         }
 
-        return null;
+        return '';
     }
 
     public function handleTableAction(): void
     {
         $data_retrieval = new DataRetrieval(
             $this->record,
-            $this->language
+            $this->language,
+            $this->record_translations
         );
         [$url_builder, $id_token, $action_token] = $this->getTableActionURLBuilder();
         $ids = $this->getLanguageCodes($id_token, $data_retrieval);
-        $action = $this->getQueryParameter($action_token->getName());
+        $action = $this->getTableActionFromQuery($action_token);
 
         switch ($action) {
             case TableBuilder::ACTION_ACTIVATE:

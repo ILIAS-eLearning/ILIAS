@@ -34,27 +34,22 @@ class DataRetrieval implements BaseDataRetrieval
 {
     protected ilAdvancedMDRecord $record;
     protected ilLanguage $lng;
-    protected ?ilAdvancedMDRecordTranslations $record_translations = null;
-    protected ?array $raw_data_cache = null;
-    protected ?array $all_ids_cache = null;
+    protected ilAdvancedMDRecordTranslations $record_translations;
+    /** @var array<string, array{language: string, default: bool, active: bool, installed: bool}> */
+    protected array $raw_data_cache;
+    /** @var string[] */
+    protected array $all_ids_cache;
 
     public function __construct(
         ilAdvancedMDRecord $record,
-        ilLanguage $lng
+        ilLanguage $lng,
+        ilAdvancedMDRecordTranslations $record_translations
     ) {
         $this->record = $record;
         $this->lng = $lng;
+        $this->record_translations = $record_translations;
     }
 
-    protected function getRecordTranslations(): ilAdvancedMDRecordTranslations
-    {
-        if ($this->record_translations === null) {
-            $this->record_translations = ilAdvancedMDRecordTranslations::getInstanceByRecordId(
-                $this->record->getRecordId()
-            );
-        }
-        return $this->record_translations;
-    }
 
     public function getRows(
         DataRowBuilder $row_builder,
@@ -112,7 +107,7 @@ class DataRetrieval implements BaseDataRetrieval
 
     public function getAllIDs(): array
     {
-        if ($this->all_ids_cache === null) {
+        if (!isset($this->all_ids_cache)) {
             $languages = ilObject::_getObjectsByType('lng');
             $parsed_languages = [];
             foreach ($languages as $language) {
@@ -126,10 +121,9 @@ class DataRetrieval implements BaseDataRetrieval
 
     protected function getRawData(): array
     {
-        if ($this->raw_data_cache === null) {
+        if (!isset($this->raw_data_cache)) {
             $all_languages = $this->getAllIDs();
             $installed_languages = ilLanguage::_getInstalledLanguages();
-            $record_translations = $this->getRecordTranslations();
             $default_language = $this->record->getDefaultLanguage();
 
             $data = [];
@@ -137,7 +131,7 @@ class DataRetrieval implements BaseDataRetrieval
                 $data[$lang_code] = [
                     TableBuilder::COL_LANGUAGE => $this->lng->txt('meta_l_' . $lang_code),
                     TableBuilder::COL_DEFAULT => ($lang_code === $default_language),
-                    TableBuilder::COL_ACTIVE => $record_translations->isConfigured($lang_code),
+                    TableBuilder::COL_ACTIVE => $this->record_translations->isConfigured($lang_code),
                     TableBuilder::COL_INSTALLED => in_array($lang_code, $installed_languages)
                 ];
             }
