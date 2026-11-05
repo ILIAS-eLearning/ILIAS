@@ -211,8 +211,16 @@ class SkillGUIRequest
     /**
      * @return int[]
      */
-    protected function getInterruptiveItemIds(): array
+    protected function getInterruptiveItemIdsAsInt(): array
     {
         return $this->intArray("interruptive_items");
+    }
+
+    /**
+     * @return string[]
+     */
+    protected function getInterruptiveItemIdsAsString(): array
+    {
+        return $this->strArray("interruptive_items");
     }
 }

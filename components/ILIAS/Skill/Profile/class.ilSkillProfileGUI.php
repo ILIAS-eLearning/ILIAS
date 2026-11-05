@@ -77,15 +77,6 @@ class ilSkillProfileGUI
     protected bool $requested_local_context = false;
     protected string $requested_cskill_id = "";
 
-    /**
-     * @var string[]
-     */
-    protected array $requested_level_ass_ids = [];
-
-    /**
-     * @var int[]
-     */
-    protected array $requested_level_order = [];
     protected string $requested_user_login = "";
 
     /**
@@ -141,8 +132,9 @@ class ilSkillProfileGUI
         $this->requested_profile_ids = $this->admin_gui_request->getProfileIds();
         $this->requested_local_context = $this->admin_gui_request->getLocalContext();
         $this->requested_cskill_id = $this->admin_gui_request->getCombinedSkillId();
-        $this->requested_level_ass_ids = $this->admin_gui_request->getAssignedLevelIds();
-        $this->requested_level_order = $this->admin_gui_request->getOrder();
+        if ($this->requested_cskill_id === "" && !empty($this->admin_gui_request->getTableProfileLevelsSkillIds())) {
+            $this->requested_cskill_id = $this->admin_gui_request->getTableProfileLevelsSkillIds()[0];
+        }
         $this->requested_user_login = $this->admin_gui_request->getUserLogin();
         $this->requested_users = $this->admin_gui_request->getUsers();
         $this->requested_user_ids = $this->admin_gui_request->getUserIds();
@@ -189,8 +181,7 @@ class ilSkillProfileGUI
                 if (in_array($cmd, array("listProfiles", "create", "edit", "save", "update",
                     "deleteProfiles", "showLevels", "assignLevel",
                     "assignLevelSelectSkill", "updateLevelOfSelectedSkill",
-                    "assignLevelToProfile", "updateLevelOfProfile",
-                    "confirmLevelAssignmentRemoval", "removeLevelAssignments",
+                    "assignLevelToProfile", "updateLevelOfProfile", "removeLevelAssignments",
                     "showUsers", "assignUser", "assignRole",
                     "confirmUserRemoval", "removeUsers", "exportProfiles", "showImportForm",
                     "importProfiles", "saveLevelOrder", "createLocal", "saveLocal",
@@ -544,12 +535,11 @@ class ilSkillProfileGUI
             );
         }
 
-        $tab = new ilSkillProfileLevelsTableGUI(
-            $this,
-            "showLevels",
-            $this->profile
-        );
-        $tpl->setContent($tab->getHTML());
+        $table = $this->table_manager->getProfileLevelsTable(
+            $this->profile,
+            $this->skill_tree_access_manager
+        )->getComponent();
+        $tpl->setContent($this->ui_ren->render($table));
     }
 
     public function showLevelsWithLocalContext(): void
@@ -573,12 +563,11 @@ class ilSkillProfileGUI
             );
         }
 
-        $tab = new ilSkillProfileLevelsTableGUI(
-            $this,
-            "showLevelsWithLocalContext",
-            $this->profile
-        );
-        $tpl->setContent($tab->getHTML());
+        $table = $this->table_manager->getProfileLevelsTable(
+            $this->profile,
+            $this->skill_tree_access_manager
+        )->getComponent();
+        $tpl->setContent($this->ui_ren->render($table));
     }
 
     public function assignLevel(): void
@@ -635,8 +624,6 @@ class ilSkillProfileGUI
         $ilTabs = $this->tabs;
         $local = $this->local_context;
 
-        $ilCtrl->saveParameter($this, "cskill_id");
-
         $tpl->setTitle($lng->txt("skmg_profile") . ": " .
             $this->profile->getTitle());
         $tpl->setDescription("");
@@ -653,6 +640,8 @@ class ilSkillProfileGUI
                 $ilCtrl->getLinkTarget($this, "showLevels")
             );
         }
+
+        $ilCtrl->setParameter($this, "cskill_id", $this->requested_cskill_id);
 
         $id_parts = explode(":", $this->requested_cskill_id);
         $skill_id = (int) $id_parts[0];
@@ -734,51 +723,6 @@ class ilSkillProfileGUI
         $this->assignLevelToProfile($level_updated);
     }
 
-    public function confirmLevelAssignmentRemoval(): void
-    {
-        $ilCtrl = $this->ctrl;
-        $tpl = $this->tpl;
-        $lng = $this->lng;
-        $tabs = $this->tabs;
-        $local = $this->local_context;
-
-        if ($local) {
-            $tabs->clearTargets();
-        } else {
-            $this->setTabs("levels");
-        }
-
-        if (empty($this->requested_level_ass_ids)) {
-            $this->tpl->setOnScreenMessage('info', $lng->txt("no_checkbox"), true);
-            if ($local) {
-                $ilCtrl->redirect($this, "showLevelsWithLocalContext");
-            }
-            $ilCtrl->redirect($this, "showLevels");
-        } else {
-            $cgui = new ilConfirmationGUI();
-            $cgui->setFormAction($ilCtrl->getFormAction($this));
-            $cgui->setHeaderText($lng->txt("skmg_confirm_remove_level_ass"));
-            if ($local) {
-                $cgui->setCancel($lng->txt("cancel"), "showLevelsWithLocalContext");
-            } else {
-                $cgui->setCancel($lng->txt("cancel"), "showLevels");
-            }
-            $cgui->setConfirm($lng->txt("remove"), "removeLevelAssignments");
-
-            foreach ($this->requested_level_ass_ids as $i) {
-                $id_arr = explode(":", $i);
-                $cgui->addItem(
-                    "ass_id[]",
-                    $i,
-                    ilBasicSkill::_lookupTitle((int) $id_arr[0]) . ": " .
-                    ilBasicSkill::lookupLevelTitle((int) $id_arr[2])
-                );
-            }
-
-            $tpl->setContent($cgui->getHTML());
-        }
-    }
-
     public function removeLevelAssignments(): void
     {
         $ilCtrl = $this->ctrl;
@@ -788,23 +732,21 @@ class ilSkillProfileGUI
             return;
         }
 
-        if (!empty($this->requested_level_ass_ids)) {
-            foreach ($this->requested_level_ass_ids as $i) {
+        $requested_profile_level_skill_ids = $this->admin_gui_request->getProfileLevelSkillIds();
+        if (!empty($requested_profile_level_skill_ids)) {
+            foreach ($requested_profile_level_skill_ids as $i) {
                 $id_arr = explode(":", $i);
-                $level = $this->skill_factory->profile()->profileLevel(
+                $level = $this->profile_manager->getSkillLevel(
                     $this->profile->getId(),
                     (int) $id_arr[0],
-                    (int) $id_arr[1],
-                    (int) $id_arr[2],
-                    (int) $id_arr[3]
+                    (int) $id_arr[1]
                 );
                 $this->profile_manager->removeSkillLevel($level);
             }
-            $this->profile_manager->fixSkillOrderNumbering($this->profile->getId());
+            // profile completion check because of profile editing
+            $this->profile_completion_manager->writeCompletionEntryForAllAssignedUsersOfProfile($this->profile->getId());
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("msg_obj_modified"), true);
         }
-
-        // profile completion check because of profile editing
-        $this->profile_completion_manager->writeCompletionEntryForAllAssignedUsersOfProfile($this->profile->getId());
 
         if ($local) {
             $ilCtrl->redirect($this, "showLevelsWithLocalContext");
@@ -822,8 +764,14 @@ class ilSkillProfileGUI
             return;
         }
 
-        $order = ilArrayUtil::stripSlashesArray($this->requested_level_order);
-        $this->profile_manager->updateSkillOrder($this->profile->getId(), $order);
+        $ordering_table = $this->table_manager->getProfileLevelsTable(
+            $this->profile,
+            $this->skill_tree_access_manager
+        );
+        $ordered_row_ids = $ordering_table->getComponent()->getData();
+        if ($ordered_row_ids !== []) {
+            $ordering_table->setOrder($ordered_row_ids);
+        }
 
         $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         if ($local) {

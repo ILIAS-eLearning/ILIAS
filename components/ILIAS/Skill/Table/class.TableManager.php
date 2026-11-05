@@ -64,6 +64,13 @@ class TableManager
         return new ProfileTable($ref_id, $skill_tree_id);
     }
 
+    public function getProfileLevelsTable(
+        Profile\SkillProfile $profile,
+        Access\SkillTreeAccess $tree_access_manager
+    ): ProfileLevelsTable {
+        return new ProfileLevelsTable($profile, $tree_access_manager);
+    }
+
     public function getProfileUserAssignmentTable(
         Profile\SkillProfile $profile,
         Access\SkillTreeAccess $tree_access_manager

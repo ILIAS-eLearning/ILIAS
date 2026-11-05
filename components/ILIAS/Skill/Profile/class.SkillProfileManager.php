@@ -148,14 +148,7 @@ class SkillProfileManager implements Usage\SkillUsageInfo
 
     public function updateSkillOrder(int $profile_id, array $order): void
     {
-        asort($order);
-
         $this->profile_levels_repo->updateSkillOrder($profile_id, $order);
-    }
-
-    public function fixSkillOrderNumbering(int $profile_id): void
-    {
-        $this->profile_levels_repo->fixSkillOrderNumbering($profile_id);
     }
 
     public function getMaxLevelOrderNr(int $profile_id): int

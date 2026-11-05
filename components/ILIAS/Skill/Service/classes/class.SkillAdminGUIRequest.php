@@ -116,19 +116,11 @@ class SkillAdminGUIRequest extends SkillGUIRequest
     }
 
     /**
-     * @return string[]
-     */
-    public function getAssignedLevelIds(): array
-    {
-        return $this->strArray("ass_id");
-    }
-
-    /**
      * @return int[]
      */
     public function getResourceIds(): array
     {
-        return $this->getInterruptiveItemIds();
+        return $this->getInterruptiveItemIdsAsInt();
     }
 
     /**
@@ -168,7 +160,7 @@ class SkillAdminGUIRequest extends SkillGUIRequest
      */
     public function getProfileIds(): array
     {
-        return $this->getInterruptiveItemIds();
+        return $this->getInterruptiveItemIdsAsInt();
     }
 
     public function getUserLogin(): string
@@ -189,7 +181,7 @@ class SkillAdminGUIRequest extends SkillGUIRequest
      */
     public function getUserIds(): array
     {
-        return $this->getInterruptiveItemIds();
+        return $this->getInterruptiveItemIdsAsInt();
     }
 
     /**
@@ -224,6 +216,27 @@ class SkillAdminGUIRequest extends SkillGUIRequest
     public function getTableProfileIds(): array
     {
         return $this->getTableIds("skl_profile_table_profile_ids");
+    }
+
+    public function getTableProfileLevelsAction(): string
+    {
+        return $this->getTableAction("skl_profile_levels_table_action");
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getTableProfileLevelsSkillIds(): array
+    {
+        return $this->getTableIds("skl_profile_levels_table_skill_ids");
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getProfileLevelSkillIds(): array
+    {
+        return $this->getInterruptiveItemIdsAsString();
     }
 
     public function getTableProfileUserAssignmentAction(): string

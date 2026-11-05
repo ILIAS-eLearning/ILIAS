@@ -167,28 +167,6 @@ class SkillProfileLevelsDBRepository
         }
     }
 
-    public function fixSkillOrderNumbering(int $profile_id): void
-    {
-        $ilDB = $this->db;
-
-        $set = $ilDB->query(
-            "SELECT profile_id, base_skill_id, tref_id, order_nr FROM skl_profile_level WHERE " .
-            " profile_id = " . $ilDB->quote($profile_id, "integer") .
-            " ORDER BY order_nr ASC"
-        );
-        $cnt = 1;
-        while ($rec = $ilDB->fetchAssoc($set)) {
-            $ilDB->manipulate(
-                "UPDATE skl_profile_level SET " .
-                " order_nr = " . $ilDB->quote(($cnt * 10), "integer") .
-                " WHERE profile_id = " . $ilDB->quote($rec["profile_id"], "integer") .
-                " AND base_skill_id = " . $ilDB->quote($rec["base_skill_id"], "integer") .
-                " AND tref_id = " . $ilDB->quote($rec["tref_id"], "integer")
-            );
-            $cnt++;
-        }
-    }
-
     public function getMaxOrderNr(int $profile_id): int
     {
         $ilDB = $this->db;
