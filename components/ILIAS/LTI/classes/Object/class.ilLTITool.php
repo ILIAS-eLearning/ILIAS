@@ -567,14 +567,16 @@ class ilLTITool
     }
 
     /**
-     * Number of LTI objects using one of the given tools. A tool in use must not be deleted.
+     * Number of LTI objects, in the repository or in the trash, using one of the given tools.
+     * A tool in use must not be deleted. Settings of objects that no longer exist are not usages.
      */
     public static function countUsages(array $ids): int
     {
         $db = self::db();
         $result = $db->query(
-            'SELECT COUNT(*) cnt FROM ' . ilObjLTITool::TABLE_NAME
-            . ' WHERE ' . $db->in('provider_id', $ids, false, 'integer')
+            'SELECT COUNT(DISTINCT s.obj_id) cnt FROM ' . ilObjLTITool::TABLE_NAME . ' s'
+            . ' JOIN object_reference r ON r.obj_id = s.obj_id'
+            . ' WHERE ' . $db->in('s.provider_id', $ids, false, 'integer')
         );
 
         return (int) $db->fetchAssoc($result)['cnt'];
