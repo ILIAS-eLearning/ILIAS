@@ -774,7 +774,7 @@ class ilMediaCreationGUI
     /**
      * Insert media from pool
      */
-    protected function insertFromPool(?array $ids = null): void
+    public function insertFromPool(?array $ids = null): void
     {
         $ids ??= $this->request->getIds();
         if (count($ids) == 0) {
