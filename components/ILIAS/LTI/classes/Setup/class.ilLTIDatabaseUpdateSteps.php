@@ -517,4 +517,23 @@ class ilLTIDatabaseUpdateSteps implements ilDatabaseUpdateSteps
             ]);
         }
     }
+
+    /**
+     * The requests of LTI Advantage a session waits to be answered: logins, Deep Linking requests and Dynamic
+     * Registrations. They are not kept in the session, which a parallel request of it writes back later.
+     */
+    public function step_35(): void
+    {
+        if (!$this->db->tableExists('lti_pending_requests')) {
+            $this->db->createTable('lti_pending_requests', [
+                'session_id' => ['type' => 'text', 'length' => 64, 'notnull' => true],
+                'kind' => ['type' => 'text', 'length' => 64, 'notnull' => true],
+                'request_key' => ['type' => 'text', 'length' => 64, 'notnull' => true],
+                'request_data' => ['type' => 'clob', 'notnull' => true],
+                'created' => ['type' => 'integer', 'length' => 4, 'notnull' => true, 'default' => 0]
+            ]);
+            $this->db->addPrimaryKey('lti_pending_requests', ['session_id', 'kind', 'request_key']);
+            $this->db->addIndex('lti_pending_requests', ['kind', 'created'], 'i1');
+        }
+    }
 }

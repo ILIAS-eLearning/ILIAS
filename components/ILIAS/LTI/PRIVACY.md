@@ -44,6 +44,7 @@ In Administration > LTI, the privacy-related settings can be configured.
 - For LTI Advantage tools, the Names and Role Provisioning Services can be activated (“Names and Role Provisioning Services”). A tool then can read the members of the course or group an object of it is in, with their roles (instructor or learner) and their status (active or inactive). Each member is described as a launch of the object describes the user, under the same privacy settings: user id, name and email only as far as “User identification” and “User name” allow. With a random user id per object, only the members who launched the object are given to the tool. ILIAS does not store this list; it is sent to the tool on request.
 - An LTI Advantage tool can be registered through Dynamic Registration. ILIAS and the tool exchange their configuration (URLs, keys, client id, the scopes and messages the tool uses); no personal data is part of it. ILIAS stores the tool as an own tool of the user who registered it, as if that user had entered it.
 - When a tool supports Deep Linking, the user who creates an LTI object picks its content in the tool. The request describes the user as a launch does, under the same privacy settings, with the role of an instructor. Each resource link the tool sends back becomes an object with the title, description and URL the tool gave; they hold no personal data.
+- While a launch, a Deep Linking request or a Dynamic Registration of an LTI Advantage tool waits for the tool to answer, ILIAS keeps it for the session of the user in the table `lti_pending_requests`. For a launch and a Deep Linking request this is the message for the tool, which describes the user as set out above; the session is only stored as a hash. A request is deleted when the tool answers it, and an expired one (after at most an hour) with the next request of the same kind.
 - If the provider or tool supports xAPI statements, refer to the PRIVACY.md file for xAPI. Typically, xAPI generates and transmits large amounts of behavioral data, often highly personalized. Proper privacy considerations must be taken into account when using xAPI.
 
 ### Data being stored by ILIAS as LTI Tool (Provider)
@@ -73,7 +74,7 @@ The log of the component `lti` names the users of each launch and score by their
 
 ### Data being deleted
 
-- As LTI Tool (Consumer), the scores and results of the users of an object are deleted with the object when it is deleted from trash. Personal data transferred to a tool can only be deleted within that tool; how much is transferred depends on the privacy settings described above.
+- As LTI Tool (Consumer), the scores and results of the users of an object are deleted with the object when it is deleted from trash. The requests waiting for a tool to answer are deleted when it answers them, or with the next request of the same kind once they expired. Personal data transferred to a tool can only be deleted within that tool; how much is transferred depends on the privacy settings described above.
 - As LTI Tool (Provider), the accounts created for the users of a platform are deleted like any other account, in Administration > Users and Roles. Deleting a platform in Administration > LTI deletes its registration and the releases of objects to it, not the accounts.
 
 ### Data being exported

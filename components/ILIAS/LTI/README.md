@@ -40,7 +40,7 @@ LTI/
 │   │   ├── Consumer/
 │   │   └── Provider/
 │   ├── LTIAdvantage/         LTI Advantage (LTI 1.3 and its services)
-│   │   ├── Common/           Key pair, responses of the endpoints, requests waiting in the session
+│   │   ├── Common/           Key pair, responses of the endpoints, requests a session waits for
 │   │   ├── Platform/         ILIAS launches tools: Launch, DynamicRegistration, DeepLinking, AGS, NRPS
 │   │   └── Tool/             Platforms launch ILIAS: DynamicRegistration, DeepLinking, NRPS
 │   └── Setup/                Setup agent and database update steps
@@ -103,7 +103,7 @@ the endpoints:
 * **ILIAS as platform:** `ilLTIAdvantagePlatformConnection` sets up the library for one tool: ILIAS is the
   platform, with the client id it gave the tool and the id of the tool as deployment id, and the tool is the
   default tool of the library, with its PEM key or key set URL. A launch starts the OpenID Connect login at
-  the tool, which gets the id_token from `ltiauth.php`; the login waits in the session and is used once.
+  the tool, which gets the id_token from `ltiauth.php`; the login waits for the session and is used once.
   Tools often ask `ltiauth.php` with a POST from their own site, which does not carry a SameSite=Lax cookie,
   so the page that starts the launch sends the session cookie again as SameSite=None, as `ilLTILoginGUI`
   does for LTI sessions. An embedded launch also offers the platform storage of LTI (`Platform::getStorageJS()`
@@ -119,8 +119,10 @@ the endpoints:
   URLs of `ltiservices.php` come from the configured HTTP path, because under that script the base URL of the
   request ends in the script and its path. `ilLTIResponse` ends the requests of the endpoints, of the pages
   that post a message to the other side and of the modals the tables load asynchronously, and
-  `ilLTIAdvantagePendingRequests` keeps in the session what waits to be answered: a login, a Deep Linking
-  request, a Dynamic Registration.
+  `ilLTIAdvantagePendingRequests` keeps for the session what waits to be answered: a login, a Deep Linking
+  request, a Dynamic Registration. They are kept in the database (`lti_pending_requests`), one row each, and
+  not in the session itself: ILIAS writes the whole session back when a request ends, so a request running in
+  parallel, like the asynchronous ones of the main bar during an embedded launch, would remove them again.
 * **ILIAS as tool:** `lti.php` takes the OpenID Connect login and the id_token of a platform as well as an
   LTI 1.1 launch. `ilLTIDataConnector` finds the platform by issuer, client id and deployment id, keeps the
   key the library fetched from the key set of the platform and the access tokens of its services. The
