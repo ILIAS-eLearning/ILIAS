@@ -36,6 +36,8 @@ use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 #[PreserveGlobalState(false)]
 class ShippedModulesNeverReadFromDatabaseTest extends ilLanguageBaseTestCase
 {
+    use CapturesErrorLog;
+
     private const string LANG_DIRECTORY = 'components/Vendor/Comp/lang/';
 
     private string $root;
@@ -118,7 +120,6 @@ class ShippedModulesNeverReadFromDatabaseTest extends ilLanguageBaseTestCase
         $this->buildShippedModule(false);
         $this->forbidDatabase();
 
-        $this->expectOutputRegex('/There is no build of the language files/');
         $this->assertSame('-greeting-', ilLanguage::_lookupEntry('de', 'zzs', 'greeting'), 'fresh installation: no client directory, no build');
 
         $this->buildShippedModule();
@@ -130,6 +131,7 @@ class ShippedModulesNeverReadFromDatabaseTest extends ilLanguageBaseTestCase
         MigratedTranslations::reset();
 
         $this->assertSame('Overlay', ilLanguage::_lookupEntry('de', 'zzs', 'greeting'));
+        $this->assertLoggedErrorMatches('/There is no build of the language files/');
     }
 
     public function testTheClientDataDirectoryIsResolvedOncePerResetAlsoWhenMissing(): void
@@ -202,8 +204,8 @@ class ShippedModulesNeverReadFromDatabaseTest extends ilLanguageBaseTestCase
         $this->buildShippedModule(false);
         $this->forbidDatabase();
 
-        $this->expectOutputRegex('/There is no build of the language files/');
         $this->assertSame('-greeting-', ilLanguage::_lookupEntry('de', 'zzs', 'greeting'));
+        $this->assertLoggedErrorMatches('/There is no build of the language files/');
     }
 
     public function testALanguageWithAPoButNotInTheBuildIsReportedAsNotBuilt(): void
@@ -211,8 +213,8 @@ class ShippedModulesNeverReadFromDatabaseTest extends ilLanguageBaseTestCase
         $this->buildShippedModule(true, true);
         $this->forbidDatabase();
 
-        $this->expectOutputRegex('/ships a language file for "fr" that is not built/');
         $this->assertSame('-greeting-', ilLanguage::_lookupEntry('fr', 'zzs', 'greeting'));
+        $this->assertLoggedErrorMatches('/ships a language file for "fr" that is not built/');
     }
 
     public function testALanguageWithoutAPoHasNoValuesAndNoReport(): void
@@ -221,7 +223,7 @@ class ShippedModulesNeverReadFromDatabaseTest extends ilLanguageBaseTestCase
         $this->forbidDatabase();
 
         $this->assertSame('-greeting-', ilLanguage::_lookupEntry('it', 'zzs', 'greeting'));
-        $this->expectOutputString('');
+        $this->assertNothingLogged();
     }
 
     /**
@@ -239,7 +241,7 @@ class ShippedModulesNeverReadFromDatabaseTest extends ilLanguageBaseTestCase
         $this->forbidDatabase(['en']);
 
         $this->assertSame('-greeting-', ilLanguage::_lookupEntry($lang_key, 'zzs', 'greeting'));
-        $this->expectOutputString('');
+        $this->assertNothingLogged();
     }
 
     public function testAModuleOfNoComponentIsStillReadFromTheDatabase(): void

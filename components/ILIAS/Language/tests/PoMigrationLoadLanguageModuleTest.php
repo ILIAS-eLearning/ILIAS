@@ -50,6 +50,8 @@ enum PoMigrationLoadLanguageModuleTestTosIdentifier: string implements \ILIAS\La
 #[PreserveGlobalState(false)]
 class PoMigrationLoadLanguageModuleTest extends ilLanguageBaseTestCase
 {
+    use CapturesErrorLog;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -288,8 +290,8 @@ class PoMigrationLoadLanguageModuleTest extends ilLanguageBaseTestCase
         );
 
         // a shipped module (lang/poll.pot) without a build: no identifiers, never the database
-        $this->expectOutputRegex('/There is no build of the language files/');
         $this->assertSame([], MigratedPoFixture::servedTexts('poll', 'de', false));
+        $this->assertLoggedErrorMatches('/There is no build of the language files/');
     }
 
     /** "Migrated for a language" means a shipped `.po` exists: its absence yields no identifiers, not a missing overlay `.mo`. */
@@ -305,8 +307,8 @@ class PoMigrationLoadLanguageModuleTest extends ilLanguageBaseTestCase
     public function testAShippedModuleIsRecognisedByItsTemplateWithoutADirectoryManager(): void
     {
         // tos is recognised by its shipped template without the component graph; there is no build
-        $this->expectOutputRegex('/There is no build of the language files/');
         $this->assertSame([], $this->callLoadFromMigratedLanguageFile('tos', 'de'));
+        $this->assertLoggedErrorMatches('/There is no build of the language files/');
     }
 
     /**
@@ -409,10 +411,10 @@ class PoMigrationLoadLanguageModuleTest extends ilLanguageBaseTestCase
             ['tos' => ['tos_agreement' => 'FROM THE lng_modules CACHE']]
         );
 
-        $this->expectOutputRegex('/There is no build of the language files/');
         $language->loadLanguageModule('tos');
 
         $this->assertSame('-tos_agreement-', $language->txt('tos_agreement'));
+        $this->assertLoggedErrorMatches('/There is no build of the language files/');
     }
 
     /** Setup/CLI: no build, no component graph - a LanguageIdentifier of a shipped module has no value and never reaches lng_data/lng_modules. */
@@ -421,8 +423,8 @@ class PoMigrationLoadLanguageModuleTest extends ilLanguageBaseTestCase
         $this->setGlobalVariable('ilDB', $this->databaseThatMustNotBeQueried());
         $language = $this->buildLanguageWithoutRunningConstructor('de', 'en');
 
-        $this->expectOutputRegex('/There is no build of the language files/');
         $this->assertSame('-tos_agreement-', $language->txt(PoMigrationLoadLanguageModuleTestTosIdentifier::AGREEMENT));
+        $this->assertLoggedErrorMatches('/There is no build of the language files/');
     }
 
     /** The prefix index is built per manager: another manager (e.g. a test or a re-initialised container) is never answered from the old one; the first directory of a prefix wins. */
