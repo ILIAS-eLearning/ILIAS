@@ -32,6 +32,26 @@ class ilLTIConsumerContentGUI
     public const CMD_LAUNCH = 'launch';
     public const CMD_SHOW_EMBEDDED = 'showEmbedded';
 
+    /**
+     * Query parameter that carries the authentication request of the tool from ltiauth.php to the launch,
+     * instead of the session: a parallel request of the same session writing the session back later would
+     * remove it again, e.g. the asynchronous requests of the main bar while an embedded launch is running.
+     */
+    public const LTI13_LOGIN_PARAM = 'lti13_login';
+
+    private const LTI13_LOGIN_KEYS = [
+        'scope',
+        'response_type',
+        'client_id',
+        'redirect_uri',
+        'login_hint',
+        'lti_message_hint',
+        'state',
+        'response_mode',
+        'nonce',
+        'prompt'
+    ];
+
     protected ilObjLTIConsumer $object;
 
     protected ilCmiXapiUser $cmixUser;
@@ -94,7 +114,8 @@ class ilLTIConsumerContentGUI
                 $this->dic->toolbar()->addText($this->getStartButtonTxt11());
             }
         } else {
-            if ($this->object->isLaunchMethodEmbedded() && (ilSession::get('lti13_login_data') == null)) {
+            $loginData = $this->getLTI13LoginData();
+            if ($this->object->isLaunchMethodEmbedded() && $loginData === null) {
                 $tpl = new ilTemplate('tpl.lti_content.html', true, true, 'components/ILIAS/LTIConsumer');
                 $tpl->setVariable("EMBEDDED_IFRAME_SRC", $this->dic->ctrl()->getLinkTarget(
                     $this,
@@ -102,8 +123,8 @@ class ilLTIConsumerContentGUI
                 ));
                 $this->dic->ui()->mainTemplate()->setContent($tpl->get());
             } else {
-                if (ilSession::get('lti13_login_data') != null) {
-                    $form = $this->getLoginLTI13Form();
+                if ($loginData !== null) {
+                    $form = $this->getLoginLTI13Form($loginData);
                     if ($form == null) {
                         //                        $this->dic->ui()->mainTemplate()->setOnScreenMessage('failure', 'initialLogin Error: ' . $err, true);
                         $this->dic->ui()->mainTemplate()->setOnScreenMessage('failure', 'initialLogin Error: ', true);
@@ -120,10 +141,11 @@ class ilLTIConsumerContentGUI
         }
     }
 
-    protected function getLoginLTI13Form(): ?string
+    protected function getLoginLTI13Form(array $loginData): ?string
     {
-        $loginData = ilSession::get('lti13_login_data');
-        ilSession::clear('lti13_login_data');
+        if (!$this->dic->access()->checkAccess('read', '', $this->object->getRefId())) {
+            return null;
+        }
         $err = $this->validateLTI13InitalLogin($loginData);
         if ($err !== null) {
             return null;
@@ -134,7 +156,6 @@ class ilLTIConsumerContentGUI
             if (isset($loginData['state'])) {
                 $params['state'] = $loginData['state'];
             }
-            ilSession::clear('lti_message_hint');
             $r = '<form action="' . $loginData['redirect_uri'] . "\" name=\"ltiAuthForm\" id=\"ltiAuthForm\" " .
                 "method=\"post\" enctype=\"application/x-www-form-urlencoded\">\n";
             if (!empty($params)) {
@@ -252,9 +273,8 @@ class ilLTIConsumerContentGUI
 
         $target = $this->object->getLaunchMethod() == "newWin" ? "_blank" : "_self";
         $button = '<input class="btn btn-default ilPre" type="button" onClick="ltilaunch()" value = "' . $this->lng->txt("show_content") . '" />';
-        $ltiMessageHint = (string) $this->object->getRefId() . ":" . CLIENT_ID;
+        $ltiMessageHint = self::getLTI13MessageHint($this->object->getRefId());
         $html = $this->dic->refinery()->encode()->htmlSpecialCharsAsEntities();
-        ilSession::set('lti_message_hint', $ltiMessageHint);
         $output = '<form id="lti_launch_form" name="lti_launch_form" action="' . $html->transform($this->object->getProvider()->getInitiateLogin()) . '" method="post" target="' . $target . '" encType="application/x-www-form-urlencoded">';
 
         $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'iss', $html->transform(ilObjLTIConsumer::getIliasHttpPath())) . "\n";
@@ -290,9 +310,8 @@ class ilLTIConsumerContentGUI
 
         $target = "_self";
         $output = '';
-        $ltiMessageHint = (string) $this->object->getRefId() . ":" . CLIENT_ID;
+        $ltiMessageHint = self::getLTI13MessageHint($this->object->getRefId());
         $html = $this->dic->refinery()->encode()->htmlSpecialCharsAsEntities();
-        ilSession::set('lti_message_hint', $ltiMessageHint);
         $output = '<form id="lti_launch_form" name="lti_launch_form" action="' . $html->transform($this->object->getProvider()->getInitiateLogin()) . '" method="post" target="' . $target . '" encType="application/x-www-form-urlencoded">';
         $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'iss', $html->transform(ilObjLTIConsumer::getIliasHttpPath())) . "\n";
         $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'target_link_uri', $html->transform($this->getTargetLinkUri())) . "\n";
@@ -460,7 +479,7 @@ class ilLTIConsumerContentGUI
 
         $ok = !empty($scope) && !empty($responsetype) && !empty($clientid) &&
             !empty($redirecturi) && !empty($loginhint) &&
-            !empty($nonce) && (ilSession::get('lti_message_hint') != null);
+            !empty($nonce) && self::isValidLTI13MessageHint((string) $ltimessagehint, $this->object->getRefId());
 
         if (!$ok) {
             $error = 'invalid_request';
@@ -474,11 +493,6 @@ class ilLTIConsumerContentGUI
             $error = 'unsupported_response_type';
         }
         if ($ok) {
-            list($ref_id, $ilias_client_id) = explode(':', ilSession::get('lti_message_hint'), 2);
-            if ((int) $this->object->getRefId() !== (int) $ref_id) {
-                $ok = false;
-                $error = 'invalid_request';
-            }
             if ($this->object->getProvider()->getClientId() !== $clientid) {
                 $ok = false;
                 $error = 'unauthorized_client';
@@ -533,6 +547,97 @@ class ilLTIConsumerContentGUI
         } else {
             return $error;
         }
+    }
+
+    /**
+     * The lti_message_hint of a launch: the object and the ILIAS client, signed for the session and the user.
+     * The tool sends it back unchanged with its authentication request, so the launch can be checked without
+     * keeping anything in the session.
+     */
+    public static function getLTI13MessageHint(int $ref_id): string
+    {
+        $hint = $ref_id . ':' . CLIENT_ID;
+
+        return $hint . '.' . self::signLTI13MessageHint($hint);
+    }
+
+    /**
+     * The lti_message_hint without its signature, as ltiauth.php reads the object and the ILIAS client from it.
+     */
+    public static function getUnsignedLTI13MessageHint(string $hint): string
+    {
+        if (preg_match('/^(.+)\.[0-9a-f]{64}$/', $hint, $matches) === 1) {
+            return $matches[1];
+        }
+
+        return $hint;
+    }
+
+    private static function isValidLTI13MessageHint(string $hint, int $ref_id): bool
+    {
+        return session_id() !== '' && hash_equals(self::getLTI13MessageHint($ref_id), $hint);
+    }
+
+    private static function signLTI13MessageHint(string $hint): string
+    {
+        global $DIC;
+
+        return hash_hmac('sha256', $hint . '|' . $DIC->user()->getId(), (string) session_id());
+    }
+
+    /**
+     * The link ltiauth.php sends the browser to with the authentication request of the tool, which goes on
+     * with the launch of the object.
+     */
+    public static function getLTI13LaunchLink(int $ref_id, string $ilias_client_id, array $data): string
+    {
+        global $DIC;
+
+        $login_data = [];
+        foreach (self::LTI13_LOGIN_KEYS as $key) {
+            if (isset($data[$key]) && is_string($data[$key])) {
+                $login_data[$key] = $data[$key];
+            }
+        }
+        $encoded = rtrim(strtr(base64_encode(json_encode($login_data, JSON_THROW_ON_ERROR)), '+/', '-_'), '=');
+
+        $ctrl = $DIC->ctrl();
+        $ctrl->setParameterByClass(ilObjLTIConsumerGUI::class, 'ref_id', $ref_id);
+        $ctrl->setParameterByClass(self::class, self::LTI13_LOGIN_PARAM, $encoded);
+        $ctrl->setParameterByClass(self::class, 'client_id', $ilias_client_id);
+
+        return $ctrl->getLinkTargetByClass(
+            [ilRepositoryGUI::class, ilObjLTIConsumerGUI::class, self::class],
+            self::CMD_LAUNCH,
+            '',
+            false,
+            false
+        );
+    }
+
+    /**
+     * The authentication request of the tool passed on by ltiauth.php, null when the request has none.
+     */
+    private function getLTI13LoginData(): ?array
+    {
+        $value = $this->getRequestValue(self::LTI13_LOGIN_PARAM);
+        if (!is_string($value) || $value === '') {
+            return null;
+        }
+        $json = base64_decode(strtr($value, '-_', '+/'), true);
+        $data = is_string($json) ? json_decode($json, true) : null;
+        if (!is_array($data)) {
+            return null;
+        }
+
+        $login_data = array_fill_keys(self::LTI13_LOGIN_KEYS, null);
+        foreach (self::LTI13_LOGIN_KEYS as $key) {
+            if (isset($data[$key]) && is_string($data[$key])) {
+                $login_data[$key] = $data[$key];
+            }
+        }
+
+        return $login_data;
     }
 
     // TODO: request_wrapper?

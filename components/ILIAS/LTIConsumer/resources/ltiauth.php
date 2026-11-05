@@ -158,7 +158,7 @@ if ($isDlMode) {
 
 }
 
-$parts = explode(":", $ltiMessageHint, 3);
+$parts = explode(":", ilLTIConsumerContentGUI::getUnsignedLTI13MessageHint($ltiMessageHint), 3);
 $isContentSelection = false;
 $ref_id = '';
 $il_client_id = '';
@@ -189,13 +189,16 @@ if ($isContentSelection) {
         $DIC->http()->close();
     }
     $url = "../../../" . $redirect_target;
+    // only persist the login data once the request has fully passed validation,
+    // so a rejected request never leaves unvalidated data behind in the session
+    ilSession::set('lti13_login_data', $data);
 } else {
-    $url = "../../../goto.php?target=lti_" . $ref_id . "&client_id=" . $il_client_id;
+    // the launch of an object gets the authentication request with the link, not in the session: a parallel
+    // request of the same session would remove it again when it writes the session back
+    $data['client_id'] = $clientId;
+    $url = ilObjLTIConsumer::getIliasHttpPath() . '/'
+        . ilLTIConsumerContentGUI::getLTI13LaunchLink((int) $ref_id, $il_client_id, $data);
 }
-
-// only persist the login data once the request has fully passed validation,
-// so a rejected request never leaves unvalidated data behind in the session
-ilSession::set('lti13_login_data', $data);
 
 function buildSameSiteNoneSessionCookieHeader(): ?string
 {
