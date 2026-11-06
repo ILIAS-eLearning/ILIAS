@@ -273,7 +273,7 @@ msgid "forums_thread_marked"
 msgstr "The thread has been marked as read."
 
 msgid "forums_thread_new_entry"
-msgstr "New topic has been created"
+msgstr "New thread successfully created."
 
 msgid "forums_threads_deleted"
 msgstr "The selected threads including all posts have been deleted."
