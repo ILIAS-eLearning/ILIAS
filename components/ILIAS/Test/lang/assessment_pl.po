@@ -3053,12 +3053,6 @@ msgstr "Wartość tolerancyjna określa dopuszczalną procentową odchyłkę od 
 msgid "too_many_targets_selected_for_move"
 msgstr "Musisz wybrać dokładnie jedną pozycję docelową!"
 
-msgid "toplist_by_score"
-msgstr "Lista rankingowa wg punktów"
-
-msgid "toplist_by_time"
-msgstr "Lista rankingowa wg czasu przetwarzania"
-
 msgid "toplist_col_achieved"
 msgstr "Data"
 
@@ -3070,9 +3064,6 @@ msgstr "Wartość procentowa"
 
 msgid "toplist_col_rank"
 msgstr "Miejsce"
-
-msgid "toplist_col_score"
-msgstr "Liczba punktów"
 
 msgid "toplist_col_wtime"
 msgstr "Czas przetwarzania"
@@ -4723,9 +4714,6 @@ msgstr "Pokaż podsumowanie pytań"
 
 msgid "tst_show_summary_description"
 msgstr "Pokaż stronę podsumowującą z wszystkimi pytaniami uczestnikom testu podczas jego wykonania. Za pomocą przycisku 'Status przetwarzania' uczestnicy aktywują widok ogólny, w którym widzą, jakie pytanie już przetworzyli i jakie zaznaczyli. Reakcję podglądu 'Status przetwarzania' można poddać dalszej konfiguracji:"
-
-msgid "tst_show_toplist"
-msgstr "Pokaż listę rankingową"
 
 msgid "tst_shuffle_questions"
 msgstr "Przemieszaj pytania"

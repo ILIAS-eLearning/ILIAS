@@ -3523,14 +3523,6 @@ msgid "too_many_targets_selected_for_move"
 msgstr "You must select exactly one target position!"
 
 #, fuzzy
-msgid "toplist_by_score"
-msgstr "Highscore by score"
-
-#, fuzzy
-msgid "toplist_by_time"
-msgstr "Highscore by working time"
-
-#, fuzzy
 msgid "toplist_col_achieved"
 msgstr "Date"
 
@@ -3545,10 +3537,6 @@ msgstr "Percentage"
 #, fuzzy
 msgid "toplist_col_rank"
 msgstr "Rank"
-
-#, fuzzy
-msgid "toplist_col_score"
-msgstr "Score"
 
 #, fuzzy
 msgid "toplist_col_wtime"
@@ -5524,10 +5512,6 @@ msgstr "Rodyti klausimų santrauką"
 
 msgid "tst_show_summary_description"
 msgstr "Rodo visų prieinamų testo klausimų santrauką puslapyje testo dalyviams sprendžiant testą"
-
-#, fuzzy
-msgid "tst_show_toplist"
-msgstr "Show Highscores"
 
 msgid "tst_shuffle_questions"
 msgstr "Išmaišyti klausimus"

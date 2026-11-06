@@ -2813,12 +2813,6 @@ msgstr "Die Toleranz legt eine erlaubte prozentuale Abweichung vom Ergebniswert 
 msgid "too_many_targets_selected_for_move"
 msgstr "Sie müssen genau eine Zielposition auswählen!"
 
-msgid "toplist_by_score"
-msgstr "Platzierung nach Punkten"
-
-msgid "toplist_by_time"
-msgstr "Platzierung nach Bearbeitungszeit"
-
 msgid "toplist_col_achieved"
 msgstr "Datum"
 
@@ -2830,9 +2824,6 @@ msgstr "Prozentwert"
 
 msgid "toplist_col_rank"
 msgstr "Platz"
-
-msgid "toplist_col_score"
-msgstr "Punktzahl"
 
 msgid "toplist_col_wtime"
 msgstr "Bearbeitungszeit"
@@ -4399,9 +4390,6 @@ msgstr "Übersicht Testdurchlauf"
 
 msgid "tst_show_summary_description"
 msgstr "Mit dem Button „Übersicht Testdurchlauf“ können Teilnehmer eine Übersicht aufrufen, die zeigt, welche Fragen sie jeweils bereits bearbeitet haben. Außerdem werden angezeigt, welche Fragen markiert wurden und wie viele Punkte eine Frage wert ist, je nachdem, welche dieser Optionen aktiviert wurden. Das Verhalten des „Übersicht Testdurchlauf“ können Sie unten noch weiter konfigurieren:"
-
-msgid "tst_show_toplist"
-msgstr "Platzierung"
 
 msgid "tst_shuffle_questions"
 msgstr "Fragen mischen"

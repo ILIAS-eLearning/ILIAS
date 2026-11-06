@@ -3591,14 +3591,6 @@ msgid "too_many_targets_selected_for_move"
 msgstr "You must select exactly one target position!"
 
 #, fuzzy
-msgid "toplist_by_score"
-msgstr "Highscore by score"
-
-#, fuzzy
-msgid "toplist_by_time"
-msgstr "Highscore by working time"
-
-#, fuzzy
 msgid "toplist_col_achieved"
 msgstr "Date"
 
@@ -3613,10 +3605,6 @@ msgstr "Percentage"
 #, fuzzy
 msgid "toplist_col_rank"
 msgstr "Rank"
-
-#, fuzzy
-msgid "toplist_col_score"
-msgstr "Score"
 
 #, fuzzy
 msgid "toplist_col_wtime"
@@ -5642,10 +5630,6 @@ msgstr "Show List of Questions"
 #, fuzzy
 msgid "tst_show_summary_description"
 msgstr "Offers a list with all test questions available for the test participants during the test"
-
-#, fuzzy
-msgid "tst_show_toplist"
-msgstr "Show Highscores"
 
 #, fuzzy
 msgid "tst_shuffle_questions"
