@@ -21,11 +21,12 @@ declare(strict_types=1);
 namespace ILIAS\UI\Component\Panel\Listing;
 
 use ILIAS\UI\Component\ViewControl\HasViewControls;
+use ILIAS\UI\Component\Panel\IsExpandable;
 
 /**
  * Interface Standard
  * @package ILIAS\UI\Component\Panel\Listing
  */
-interface Standard extends Listing, HasViewControls
+interface Standard extends Listing, HasViewControls, IsExpandable
 {
 }

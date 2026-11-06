@@ -40,6 +40,7 @@ class Standard extends Item implements C\Item\Standard
     protected ?C\Chart\ProgressMeter\ProgressMeter $chart = null;
     protected ?Audio $audio = null;
     protected ButtonStandard|LinkStandard|null $main_action = null;
+    protected int $heading_level = 4;
 
     /**
      * @inheritdoc
@@ -175,5 +176,17 @@ class Standard extends Item implements C\Item\Standard
     public function getMainAction(): ButtonStandard|LinkStandard|null
     {
         return $this->main_action;
+    }
+
+    public function withHeadingLevel(int $level): C\Item\Standard
+    {
+        $clone = clone $this;
+        $clone->heading_level = $level;
+        return $clone;
+    }
+
+    public function getHeadingLevel(): int
+    {
+        return $this->heading_level;
     }
 }

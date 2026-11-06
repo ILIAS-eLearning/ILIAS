@@ -29,11 +29,14 @@ use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Implementation\Render\Template;
 use ILIAS\UI\Component\Button;
 use ILIAS\UI\Component\Link\Link;
+use ILIAS\UI\Implementation\Component\Dropdown\ContextualizesDropdownActions;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Component\Symbol\Avatar\Avatar;
 
 class Renderer extends AbstractComponentRenderer
 {
+    use ContextualizesDropdownActions;
+
     /**
      * @inheritdoc
      */
@@ -67,12 +70,14 @@ class Renderer extends AbstractComponentRenderer
         if ($title != "") {
             $tpl->setCurrentBlock("title");
             $tpl->setVariable("TITLE", $title);
+            $tpl->setVariable("HEADING_LEVEL", (string) $component->getHeadingLevel());
             $tpl->parseCurrentBlock();
         }
 
         // actions
         $actions = $component->getActions();
         if ($actions !== null) {
+            $actions = $this->contextualizeDropdownActions($actions, $title);
             $tpl->setVariable("ACTIONS", $default_renderer->render($actions));
         } else {
             $tpl->setVariable("ACTIONS", "");
@@ -81,9 +86,10 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function renderStandard(Item $component, RendererInterface $default_renderer): string
+    protected function renderStandard(Standard $component, RendererInterface $default_renderer): string
     {
         $tpl = $this->getTemplate("tpl.item_standard.html", true, true);
+        $tpl->setVariable("HEADING_LEVEL", (string) $component->getHeadingLevel());
 
         $this->renderTitle($component, $default_renderer, $tpl);
         $this->renderDescription($component, $tpl);
@@ -162,6 +168,7 @@ class Renderer extends AbstractComponentRenderer
         // actions
         $actions = $component->getActions();
         if ($actions !== null) {
+            $actions = $this->contextualizeDropdownActions($actions, $this->getPlainTitle($component));
             $tpl->setCurrentBlock("actions");
             $tpl->setVariable("ACTIONS", $default_renderer->render($actions));
             $tpl->parseCurrentBlock();
@@ -284,6 +291,14 @@ class Renderer extends AbstractComponentRenderer
         $tpl->parseCurrentBlock();
 
         return $tpl->get();
+    }
+
+    protected function getPlainTitle(Item $component): string
+    {
+        $title = $component->getTitle();
+        return $title instanceof Button\Shy || $title instanceof Link
+            ? $title->getLabel()
+            : (string) $title;
     }
 
     protected function renderTitle(Item $component, RendererInterface $default_renderer, Template $tpl): void

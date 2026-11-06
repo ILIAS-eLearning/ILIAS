@@ -111,7 +111,7 @@ class PaginationTest extends ILIAS_UI_TestBase
         //browse-left not rendered
         $expected_html = <<<EOT
 <div class="il-viewcontrol-pagination l-bar__element">
-    <button class="btn btn-link engaged" aria-pressed="true" data-action="?pagination_offset=0" id="id_1">1</button>
+    <button class="btn btn-link engaged" aria-current="page" data-action="?pagination_offset=0" id="id_1">1</button>
     <button class="btn btn-link" data-action="?pagination_offset=1" id="id_2">2</button>
     <button class="btn btn-default" aria-label="next" data-action="?pagination_offset=1" id="id_3">
         <span class="glyph" aria-hidden="true"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></span>
@@ -138,7 +138,7 @@ EOT;
         <span class="glyph" aria-hidden="true"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></span>
     </button>
     <button class="btn btn-link" data-action="?pagination_offset=0" id="id_1">1</button>
-    <button class="btn btn-link engaged" aria-pressed="true" data-action="?pagination_offset=1" id="id_2">2</button>
+    <button class="btn btn-link engaged" aria-current="page" data-action="?pagination_offset=1" id="id_2">2</button>
 </div>
 EOT;
 
@@ -161,7 +161,7 @@ EOT;
         //boundary-button right
         $expected_html = <<<EOT
 <div class="il-viewcontrol-pagination l-bar__element">
-    <button class="btn btn-link engaged" aria-pressed="true" data-action="?pagination_offset=0" id="id_1">1</button>
+    <button class="btn btn-link engaged" aria-current="page" data-action="?pagination_offset=0" id="id_1">1</button>
     <span class="last"><button class="btn btn-link" data-action="?pagination_offset=2" id="id_2">3</button></span>
     <button class="btn btn-default" aria-label="next" data-action="?pagination_offset=1" id="id_3">
         <span class="glyph" aria-hidden="true"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></span>
@@ -191,7 +191,7 @@ EOT;
     <button class="btn btn-default" aria-label="back" data-action="?pagination_offset=0" id="id_4">
         <span class="glyph" aria-hidden="true"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></span>
     </button><span class="first"><button class="btn btn-link" data-action="?pagination_offset=0" id="id_2">1</button></span>
-    <button class="btn btn-link engaged" aria-pressed="true" data-action="?pagination_offset=1" id="id_1">2</button>
+    <button class="btn btn-link engaged" aria-current="page" data-action="?pagination_offset=1" id="id_1">2</button>
     <span class="last"><button class="btn btn-link" data-action="?pagination_offset=2" id="id_3">3</button></span>
     <button class="btn btn-default" aria-label="next" data-action="?pagination_offset=2" id="id_5">
         <span class="glyph" aria-hidden="true"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></span>
@@ -222,7 +222,7 @@ EOT;
         <span class="glyph" aria-hidden="true"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></span>
     </button>
     <span class="first"><button class="btn btn-link" data-action="?pagination_offset=0" id="id_2">1</button></span>
-    <button class="btn btn-link engaged" aria-pressed="true" data-action="?pagination_offset=2" id="id_1">3</button>
+    <button class="btn btn-link engaged" aria-current="page" data-action="?pagination_offset=2" id="id_1">3</button>
 </div>
 EOT;
         $html = $this->getDefaultRenderer()->render($p);
@@ -242,10 +242,10 @@ EOT;
         $expected_html = <<<EOT
 <div class="il-viewcontrol-pagination l-bar__element">
     <div class="dropdown" id="id_4">
-        <button class="btn btn-default dropdown-toggle" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="id_4_menu">pagination_label_x_of_y<span class="caret"></span></button>
+        <button class="btn btn-default dropdown-toggle" type="button" aria-expanded="false" aria-controls="id_4_menu">pagination_label_x_of_y<span class="caret"></span></button>
         <ul id="id_4_menu" class="dropdown-menu">
             <li>
-                <button class="btn btn-link engaged" aria-pressed="true" data-action="?pagination_offset=0" id="id_1">1</button>
+                <button class="btn btn-link engaged" aria-current="page" data-action="?pagination_offset=0" id="id_1">1</button>
             </li>
             <li>
                 <button class="btn btn-link" data-action="?pagination_offset=1" id="id_2">2</button>
