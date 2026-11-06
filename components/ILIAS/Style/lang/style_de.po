@@ -311,6 +311,9 @@ msgstr "Ordner für das Speichern von Tönen vom betreffenden Skin. Dieser Ordne
 msgid "sty_acopy"
 msgstr "Kopie"
 
+msgid "sty_activate"
+msgstr "Aktivieren"
+
 msgid "sty_add_assignment"
 msgstr "Zuordnung hinzufügen"
 
@@ -520,6 +523,9 @@ msgstr "Zusatzparameter"
 
 msgid "sty_custom_par_info"
 msgstr "Definieren Sie Zusatzparameter im Format \"Parameter: Wert\"."
+
+msgid "sty_deactivate"
+msgstr "Deaktivieren"
 
 msgid "sty_default"
 msgstr "Standard"

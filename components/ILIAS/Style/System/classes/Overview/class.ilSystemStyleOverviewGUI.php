@@ -18,12 +18,15 @@
 
 declare(strict_types=1);
 
+use ILIAS\HTTP\Services as HttpServices;
+use ILIAS\UI\Component\Modal\RoundTrip;
 use ILIAS\UI\Factory;
 use ILIAS\HTTP\Wrapper\WrapperFactory;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Renderer;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\Language\Language;
+use Psr\Http\Message\ServerRequestInterface;
 
 class ilSystemStyleOverviewGUI
 {
@@ -43,9 +46,6 @@ class ilSystemStyleOverviewGUI
     protected ilHelpGUI $help;
     protected FileUpload $upload;
     protected string $ref_id;
-    protected bool $read_only = true;
-    protected bool $management_enabled = false;
-
     protected string $style_id;
 
     public function __construct(
@@ -61,11 +61,13 @@ class ilSystemStyleOverviewGUI
         FileUpload $upload,
         ilTabsGUI $tabs,
         ilHelpGUI $help,
+        private readonly ServerRequestInterface $request,
+        private readonly HttpServices $http,
         string $skin_id,
         string $style_id,
         string $ref_id,
-        bool $read_only,
-        bool $management_enabled
+        private readonly bool $read_only = true,
+        private readonly bool $management_enabled = false
     ) {
         $this->ctrl = $ctrl;
         $this->lng = $lng;
@@ -84,57 +86,38 @@ class ilSystemStyleOverviewGUI
         $this->ref_id = $ref_id;
         $this->upload = $upload;
         $this->config = new ilSystemStyleConfig();
-        $this->setReadOnly($read_only);
-        $this->setManagementEnabled($management_enabled);
     }
 
     public function executeCommand(): void
     {
-        $cmd = $this->ctrl->getCmd();
+        $cmd = $this->ctrl->getCmd() ?? '';
 
-        if ($cmd == '') {
-            $cmd = $this->isReadOnly() ? 'view' : 'edit';
+        if ($cmd === '') {
+            $cmd = $this->read_only ? 'view' : 'edit';
         }
 
         switch ($cmd) {
-            case 'addSystemStyle':
-            case 'addSubStyle':
-            case 'saveNewSystemStyle':
-            case 'saveNewSubStyle':
-            case 'copyStyle':
-            case 'importStyle':
-            case 'deleteStyles':
-            case 'deleteStyle':
-            case 'confirmDelete':
-                if (!$this->isManagementEnabled()) {
-                    throw new ilObjectException($this->lng->txt('permission_denied'));
-                }
-                $this->$cmd();
-                break;
             case 'cancel':
             case 'edit':
-            case 'export':
+                $this->edit();
+                break;
             case 'moveUserStyles':
-            case 'saveStyleSettings':
-                if ($this->isReadOnly()) {
-                    throw new ilObjectException($this->lng->txt('permission_denied'));
-                }
-                $this->$cmd();
+                $this->moveUserStyles();
                 break;
             case 'view':
-                $this->$cmd();
+                $this->view();
                 break;
         }
+
         $this->message_stack->sendMessages();
     }
 
     protected function view(): void
     {
-        $table = new ilSystemStylesTableGUI($this, 'edit');
-        $this->tpl->setContent($table->getHTML() . $table->getModalsHtml());
+        $this->showOverview(false);
     }
 
-    public function getAssignmentCreationModal(string $style_name = ""): ?\ILIAS\UI\Component\Modal\RoundTrip
+    public function getAssignmentCreationModal(string $style_name = ''): ?RoundTrip
     {
         $options = [];
         foreach (ilStyleDefinition::getAllSkinStyles() as $id => $skin_style) {
@@ -143,8 +126,8 @@ class ilSystemStyleOverviewGUI
             }
         }
 
-        $default = "default:delos";
-        if ($style_name == "Delos") {
+        $default = 'default:delos';
+        if ($style_name == 'Delos') {
             $default = key($options);
         }
 
@@ -166,74 +149,58 @@ class ilSystemStyleOverviewGUI
         return $this->ui_factory->modal()->roundtrip(
             $this->lng->txt('change_assignment'),
             [],
-            ["new_style" => $select],
+            ['new_style' => $select],
             $this->ctrl->getLinkTargetByClass(ilSystemStyleOverviewGUI::class, 'moveUserStyles')
         );
     }
 
-    protected function cancel(): void
-    {
-        $this->edit();
-    }
-
     public function edit(): void
     {
-        $table = new ilSystemStylesTableGUI($this, 'edit');
-        $table->addActions($this->isManagementEnabled());
-        $this->tpl->setContent($table->getHTML() . $table->getModalsHtml());
+        if ($this->read_only) {
+            throw new ilObjectException($this->lng->txt('permission_denied'));
+        }
+
+        $this->showOverview($this->management_enabled);
     }
 
-    public function saveStyleSettings(): void
+    private function showOverview(bool $actions_enabled): void
     {
-        $active_styles = $this->request_wrapper->post()->retrieve('st_act', $this->refinery->identity());
+        $table = new SystemStylesTable(
+            $this->ui_factory,
+            $this->ui_factory->table()->column(),
+            $this->ui_factory->table()->action(),
+            $this->lng,
+            $this->request,
+            $this->renderer,
+            $this->refinery,
+            $this->skin_factory,
+            $this->ctrl,
+            $this->message_stack,
+            $this,
+            $this->http,
+        );
+        $table->performAction($this->request_wrapper->query(), $actions_enabled);
 
-        if ($this->checkStyleSettings($this->message_stack, $active_styles)) {
-            $all_styles = ilStyleDefinition::getAllSkinStyles();
-            foreach ($all_styles as $style) {
-                if (!isset($active_styles[$style['id']])) {
-                    ilSystemStyleSettings::_deactivateStyle($style['template_id'], $style['style_id']);
-                } else {
-                    ilSystemStyleSettings::_activateStyle($style['template_id'], $style['style_id']);
-                }
-            }
-
-            //set default skin and style
-            if ($this->request_wrapper->post()->has('default_skin_style')) {
-                $sknst = $this->request_wrapper->post()->retrieve(
-                    'default_skin_style',
-                    $this->refinery->string()->splitString(':')
-                );
-                ilSystemStyleSettings::setCurrentDefaultStyle($sknst[0], $sknst[1]);
-            }
-            $this->message_stack->addMessage(new ilSystemStyleMessage(
-                $this->lng->txt('msg_obj_modified'),
-                ilSystemStyleMessage::TYPE_SUCCESS
-            ));
-        }
-        $this->message_stack->sendMessages();
-        $this->ctrl->redirect($this, 'edit');
+        $this->tpl->setContent($this->renderer->render($table->build($actions_enabled)));
     }
 
     public function moveUserStyles(): void
     {
-        global $DIC;
+        if ($this->read_only) {
+            throw new ilObjectException($this->lng->txt('permission_denied'));
+        }
 
-        $request = $DIC->http()->request();
-
-        $modal = $this->getAssignmentCreationModal()->withRequest($request);
-        [$new_skin, $new_style] = $modal->getData()["new_style"];
+        $modal = $this->getAssignmentCreationModal()->withRequest($this->request);
+        [$new_skin, $new_style] = $modal->getData()['new_style'];
 
         $old_skin = $this->request_wrapper->query()->retrieve('old_skin_id', $this->refinery->kindlyTo()->string());
         $old_style = $this->request_wrapper->query()->retrieve('old_style_id', $this->refinery->kindlyTo()->string());
-
-
 
         if ($old_style == 'other') {
             // get all user assigned styles
             $all_user_styles = ilObjUser::_getAllUserAssignedStyles();
 
-            // move users that are not assigned to
-            // currently existing style
+            // move users that are not assigned to currently existing style
             foreach ($all_user_styles as $style) {
                 if (!ilStyleDefinition::styleExists($style)) {
                     [$old_skin, $old_style] = explode(':', $style);
@@ -248,88 +215,5 @@ class ilSystemStyleOverviewGUI
         $this->message_stack->addMessage(new ilSystemStyleMessage($message, ilSystemStyleMessage::TYPE_SUCCESS));
         $this->message_stack->sendMessages();
         $this->ctrl->redirect($this, 'edit');
-    }
-
-    protected function checkStyleSettings(ilSystemStyleMessageStack $message_stack, ?array $active_styles): bool
-    {
-        $passed = true;
-
-        if (!$active_styles || count($active_styles) < 1) {
-            $passed = false;
-            $message_stack->addMessage(new ilSystemStyleMessage(
-                $this->lng->txt('at_least_one_style'),
-                ilSystemStyleMessage::TYPE_ERROR
-            ));
-        }
-
-        if ($this->request_wrapper->post()->has('default_skin_style')) {
-            $default_style = $this->request_wrapper->post()->retrieve(
-                'default_skin_style',
-                $this->refinery->kindlyTo()->string()
-            );
-        } else {
-            $default_style = $this->config->getDefaultStyleId();
-        }
-
-
-
-        if (!isset($active_styles[$default_style])) {
-            $passed = false;
-            $message_stack->addMessage(new ilSystemStyleMessage(
-                $this->lng->txt('cant_deactivate_default_style'),
-                ilSystemStyleMessage::TYPE_ERROR
-            ));
-        }
-
-        // check if a style should be deactivated, that still has
-        // a user assigned to
-        $all_styles = ilStyleDefinition::getAllSkinStyles();
-
-        foreach ($all_styles as $style) {
-            if (!isset($active_styles[$style['id']])) {
-                if (ilObjUser::_getNumberOfUsersForStyle($style['template_id'], $style['style_id']) > 0) {
-                    $passed = false;
-                    $message_stack->addMessage(new ilSystemStyleMessage(
-                        $style['style_name'] . ': ' . $this->lng->txt('cant_deactivate_if_users_assigned'),
-                        ilSystemStyleMessage::TYPE_ERROR
-                    ));
-                }
-            }
-        }
-        return $passed;
-    }
-
-
-    protected function export(): void
-    {
-        try {
-            $this->style_container->export();
-        } catch (Exception $e) {
-            $this->message_stack->addMessage(new ilSystemStyleMessage(
-                $this->lng->txt('zip_export_failed') . ' ' . $e->getMessage(),
-                ilSystemStyleMessage::TYPE_ERROR
-            ));
-        }
-    }
-
-
-    public function isReadOnly(): bool
-    {
-        return $this->read_only;
-    }
-
-    public function setReadOnly(bool $read_only): void
-    {
-        $this->read_only = $read_only;
-    }
-
-    public function isManagementEnabled(): bool
-    {
-        return $this->management_enabled;
-    }
-
-    public function setManagementEnabled(bool $management_enabled): void
-    {
-        $this->management_enabled = $management_enabled;
     }
 }
