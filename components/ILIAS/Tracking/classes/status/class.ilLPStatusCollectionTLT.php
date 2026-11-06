@@ -102,7 +102,7 @@ class ilLPStatusCollectionTLT extends ilLPStatus
                 $set = $ilDB->query(
                     "SELECT obj_id,usr_id,spent_seconds" .
                     " FROM lm_read_event" .
-                    " WHERE " . $ilDB->in("obj_id", $chapter_ids, "", "integer")
+                    " WHERE " . $ilDB->in("obj_id", $chapter_ids, false, "integer")
                 );
                 while ($row = $ilDB->fetchAssoc($set)) {
                     if ($row["spent_seconds"] < $status_info["tlt"][$row["obj_id"]]) {
