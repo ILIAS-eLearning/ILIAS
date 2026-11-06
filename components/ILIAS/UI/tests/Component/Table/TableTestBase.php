@@ -87,9 +87,9 @@ abstract class TableTestBase extends ILIAS_UI_TestBase
         );
     }
 
-    protected function getMockStorage(): ArrayAccess
+    protected function getMockStorage(): \ILIAS\UI\Storage
     {
-        return new class () implements ArrayAccess {
+        return new class () implements \ILIAS\UI\Storage {
             protected array $data = [];
             public function offsetExists(mixed $offset): bool
             {

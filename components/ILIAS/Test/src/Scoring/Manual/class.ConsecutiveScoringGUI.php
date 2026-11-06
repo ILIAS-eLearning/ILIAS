@@ -60,7 +60,6 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
     private const FILTER_SCOREDBY = 'fscrby';
 
     private ?array $filter_values = null;
-    private Prompt $prompt;
 
     public function __construct(
         protected readonly \ilCtrlInterface $ctrl,
@@ -78,7 +77,6 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
         protected readonly ConsecutiveScoringURLs $scoring_url_builder,
         protected readonly \ilUIFilterService $filter_service,
     ) {
-        $this->prompt = $this->ui_factory->prompt()->standard($this->scoring_url_builder->buildURI());
     }
     public function executeCommand(): void
     {
@@ -254,7 +252,7 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
                         $viewcontrol_values->isUserCentric()
                             ? $this->collectForUser($usr_active_id, $question_ids)
                             : $this->collectForQuestion($question_id, $usr_active_ids),
-                        $this->prompt
+                        $this->ui_factory->prompt()->standard(new \ILIAS\UI\URLBuilder($this->scoring_url_builder->buildURI()))
                     ]
             )
         )
@@ -663,17 +661,22 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
         );
     }
 
-    protected function getSingleFormButton(int $question_id, int $usr_active_id, int $attempt_id): StdButton
+    /** @return array{0: StdButton, 1: Prompt} */
+    protected function getSingleFormButton(int $question_id, int $usr_active_id, int $attempt_id): array
     {
         $url = $this->scoring_url_builder
             ->withAction(self::ACTION_FORM_STATE)
             ->withIdParameters($question_id, $usr_active_id, $attempt_id)
             ->buildURI();
 
-        return $this->ui_factory->button()->standard(
+        $prompt = $this->ui_factory->prompt()->standard(new \ILIAS\UI\URLBuilder($url));
+
+        $button = $this->ui_factory->button()->standard(
             $this->lng->txt('edit_score'),
-            $this->prompt->getShowSignal($url)
+            $prompt->getShowSignal()
         );
+
+        return [$button, $prompt];
     }
 
     protected function getSegmentActionsForUser(int $usr_active_id): array

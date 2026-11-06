@@ -20,8 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Table;
 
-use ILIAS\UI\Component\Input\ViewControl\FieldSelection;
-use ILIAS\UI\Component\Table\Column\Column;
+use ILIAS\UI\Implementation\Component as I;
+use ILIAS\UI\Component as C;
 
 trait TableViewControlFieldSelection
 {
@@ -31,14 +31,14 @@ trait TableViewControlFieldSelection
     protected ?array $selected_optional_column_ids = null;
 
     /**
-     * @param array<string, Column> $columns
+     * @param array<string, I\Table\Column\Column> $columns
      */
     protected function initViewControlFieldSelection(array $columns): void
     {
         $this->selected_optional_column_ids = $this->filterVisibleColumnIds($columns);
     }
 
-    protected function getViewControlFieldSelection(): ?FieldSelection
+    protected function getViewControlFieldSelection(): ?I\Input\ViewControl\FieldSelection
     {
         $optional_cols = $this->getOptionalColumns();
         if ($optional_cols === []) {
@@ -54,7 +54,7 @@ trait TableViewControlFieldSelection
     }
 
     /**
-     * @param array<string, Column> $columns
+     * @param array<string, I\Table\Column\Column> $columns
      * @return array<string>
      */
     protected function filterVisibleColumnIds(array $columns): array
@@ -89,7 +89,7 @@ trait TableViewControlFieldSelection
     }
 
     /**
-     * @return array<int, Column>
+     * @return array<int, I\Table\Column\Column>
      */
     protected function getOptionalColumns(): array
     {
@@ -100,7 +100,7 @@ trait TableViewControlFieldSelection
     }
 
     /**
-     * @return array<int, Column>
+     * @return array<int, I\Table\Column\Column>
      */
     protected function getInitiallyVisibleColumns(): array
     {
@@ -111,14 +111,14 @@ trait TableViewControlFieldSelection
     }
 
     /**
-     * @return array<string, Column>
+     * @return array<string, I\Table\Column\Column>
      */
     public function getVisibleColumns(): array
     {
         $visible_optional_columns = $this->getSelectedOptionalColumns();
         return array_filter(
             $this->getColumns(),
-            fn(Column $col, string $col_id): bool => !$col->isOptional() || in_array($col_id, $visible_optional_columns, true),
+            fn(I\Table\Column\Column $col, string $col_id): bool => !$col->isOptional() || in_array($col_id, $visible_optional_columns, true),
             ARRAY_FILTER_USE_BOTH
         );
     }

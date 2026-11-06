@@ -99,7 +99,7 @@ class Overview implements Viewable
         return $this->environment->getUIFactory()->prompt()->standard(
             $this->environment->withSubActionParameter(
                 self::SUB_ACTION_SELECT_TYPE
-            )->getUrlBuilder()->buildURI()
+            )->getUrlBuilder(),
         );
     }
 
