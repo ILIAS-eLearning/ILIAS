@@ -20,12 +20,12 @@ declare(strict_types=1);
 
 namespace ILIAS\Environment\Configuration\Installation;
 
-use ILIAS\Environment\Configuration\Ini\IniFileReadRepository;
+use ILIAS\Environment\Configuration\Ini\IniFileWriteRepository;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-class ClientIniFile extends IniFileReadRepository implements ClientIni
+class ClientIniFile extends IniFileWriteRepository implements ClientIni
 {
     // [server]
 
