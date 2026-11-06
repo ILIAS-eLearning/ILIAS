@@ -214,6 +214,10 @@ class ilForumProperties
                 ]
             );
 
+            // The target instance may already be cached with default values (e.g. by ilObjForum::create()),
+            // so it has to be read again from the database on the next access.
+            unset(self::$instances[$a_new_obj_id]);
+
             return true;
         }
 
