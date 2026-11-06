@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace AdvancedMetadata\Field\Table;
@@ -27,8 +43,7 @@ class TableBuilder
         protected DataRetrieval $data_retrieval,
         protected ilLanguage $lng,
         protected UIFactory $ui_factory,
-        protected HTTP $http,
-        protected DataFactory $data_factory
+        protected HTTP $http
     ) {
     }
 
@@ -45,7 +60,7 @@ class TableBuilder
         $columns[self::TYPE_COLUMN] = $this->ui_factory->table()->column()->text(
             $this->lng->txt('type')
         );
-        $columns[self::CONFIGURATION_COLUMN] = $this->ui_factory->table()->column()->text(
+        $columns[self::CONFIGURATION_COLUMN] = $this->ui_factory->table()->column()->listing(
             $this->lng->txt('configuration')
         );
         $columns[self::SEARCHABLE_COLUMN] = $this->ui_factory->table()->column()->statusIcon(

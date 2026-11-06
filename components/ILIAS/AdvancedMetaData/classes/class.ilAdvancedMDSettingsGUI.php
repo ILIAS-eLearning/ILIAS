@@ -27,9 +27,9 @@ use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
 use ILIAS\Data\Factory as DataFactory;
-use AdvancedMetadata\Field\Table\TableBuilder;
-use AdvancedMetadata\Field\Table\DataRetrieval;
-use ILIAS\UI\Component\Table\Ordering;
+use AdvancedMetadata\Field\Table\TableBuilder as EditFieldsTableBuilder;
+use AdvancedMetadata\Field\Table\DataRetrieval as EditFieldsDataRetrieval;
+use ILIAS\UI\Component\Table\Ordering as OrderingTable;
 
 /**
  * @author       Stefan Meyer <meyer@leifos.com>
@@ -121,15 +121,8 @@ class ilAdvancedMDSettingsGUI
         $this->permissions = ilAdvancedMDPermissionHelper::getInstance($DIC->user()->getId(), $this->ref_id);
     }
 
-    protected array $requested_record_ids = [];
-    protected array $requested_field_ids = [];
-
     protected function getRecordIdFromQuery(): ?int
     {
-        if (count($this->requested_record_ids) === 1) {
-            return (int) $this->requested_record_ids[0];
-        }
-
         if ($this->http->wrapper()->query()->has('record_id')) {
             return $this->http->wrapper()->query()->retrieve(
                 'record_id',
@@ -141,10 +134,6 @@ class ilAdvancedMDSettingsGUI
 
     protected function getRecordIdsFromPost(): SplFixedArray
     {
-        if (count($this->requested_record_ids) > 0) {
-            return SplFixedArray::fromArray($this->requested_record_ids);
-        }
-
         if ($this->http->wrapper()->post()->has('record_id')) {
             return SplFixedArray::fromArray(
                 $this->http->wrapper()->post()->retrieve(
@@ -160,10 +149,6 @@ class ilAdvancedMDSettingsGUI
 
     protected function getFieldIdFromQuery(): ?int
     {
-        if (count($this->requested_field_ids) === 1) {
-            return (int) $this->requested_field_ids[0];
-        }
-
         if ($this->http->wrapper()->query()->has('field_id')) {
             return $this->http->wrapper()->query()->retrieve(
                 'field_id',
@@ -175,10 +160,6 @@ class ilAdvancedMDSettingsGUI
 
     protected function getFieldIdsFromPost(): SplFixedArray
     {
-        if (count($this->requested_field_ids) > 0) {
-            return SplFixedArray::fromArray($this->requested_field_ids);
-        }
-
         if ($this->http->wrapper()->post()->has('field_id')) {
             return SplFixedArray::fromArray(
                 $this->http->wrapper()->post()->retrieve(
@@ -294,7 +275,7 @@ class ilAdvancedMDSettingsGUI
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
         switch ($next_class) {
-            case "iladvancedmdrecordtranslationgui":
+            case strtolower(\ilAdvancedMDRecordTranslationGUI::class):
                 $record = $this->initRecordObject();
                 $this->setRecordSubTabs(1, true);
                 $int_gui = new \ilAdvancedMDRecordTranslationGUI($record);
@@ -309,12 +290,6 @@ class ilAdvancedMDSettingsGUI
                 $GLOBALS['DIC']->ctrl()->forwardCommand($this->form);
                 break;
 
-            case "iladvancedmdsettingsgui":
-                if ($cmd === 'handleFieldTableAction') {
-                    $this->handleFieldTableAction();
-                    break;
-                }
-                // no break
             default:
                 if (!$cmd) {
                     $cmd = 'showRecords';
@@ -827,9 +802,11 @@ class ilAdvancedMDSettingsGUI
         $this->ctrl->redirect($this, "showRecords");
     }
 
-    public function confirmDeleteFields(): void
+    /**
+     * @param array<int> $field_ids
+     */
+    public function confirmDeleteFields(int ...$field_ids): void
     {
-        $field_ids = $this->getFieldIdsFromPost();
         if (!count($field_ids)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->editFields();
@@ -909,28 +886,25 @@ class ilAdvancedMDSettingsGUI
         $this->tpl->setContent($this->form->getHTML());
     }
 
-    protected function getDataRetrieval(int $record_id): DataRetrieval
+    protected function getEditFieldsDataRetrieval(int $record_id): EditFieldsDataRetrieval
     {
-        return new DataRetrieval(
+        return new EditFieldsDataRetrieval(
             $record_id,
             $this->active_language,
             $this->getPermissions(),
             $this->lng,
-            $this->ui_factory,
-            $this->data_factory,
-            $this->refinery
+            $this->ui_factory
         );
     }
 
-    protected function getFieldTable(int $record_id): Ordering
+    protected function getFieldTable(int $record_id): OrderingTable
     {
         $url_params = $this->getFieldTableActionURLBuilder();
-        return new TableBuilder(
-            $this->getDataRetrieval($record_id),
+        return new EditFieldsTableBuilder(
+            $this->getEditFieldsDataRetrieval($record_id),
             $this->lng,
             $this->ui_factory,
-            $this->http,
-            $this->data_factory
+            $this->http
         )->get(
             $url_params[0],
             $url_params[1],
@@ -975,17 +949,15 @@ class ilAdvancedMDSettingsGUI
             $this->refinery->kindlyTo()->string()
         );
 
-        $retrieval = $this->getDataRetrieval($record_id);
-        $ids = $this->getIdsFromQuery(
+        $retrieval = $this->getEditFieldsDataRetrieval($record_id);
+        $ids = $this->getFieldTableIdsFromQuery(
             $id_token->getName(),
             $retrieval
         );
 
-        $this->requested_field_ids = $ids;
         switch ($action) {
             case 'editField':
                 if (count($ids) === 1) {
-                    $this->requested_field_ids = [];
                     $this->ctrl->setParameter($this, 'field_id', $ids[0]);
                     $this->ctrl->redirect($this, 'editField');
                 }
@@ -995,35 +967,32 @@ class ilAdvancedMDSettingsGUI
                 $this->updateFields();
                 break;
             case 'confirmDeleteFields':
-                $this->confirmDeleteFields();
+                $this->confirmDeleteFields(...$ids);
                 break;
         }
     }
 
-    protected function getIdsFromQuery(string $name, DataRetrieval $retrieval): array
+
+    /**
+     * @return array<int>
+     */
+    protected function getFieldTableIdsFromQuery(string $name, EditFieldsDataRetrieval $retrieval): array
     {
         if (!$this->http->wrapper()->query()->has($name)) {
             return [];
         }
 
-        $raw_ids = $this->http->wrapper()->query()->retrieve(
+        $ids = $this->http->wrapper()->query()->retrieve(
             $name,
-            $this->refinery->identity()
+            $this->refinery->kindlyTo()->listOf(
+                $this->refinery->kindlyTo()->string()
+            )
         );
 
-        if ($raw_ids === 'ALL_OBJECTS' || $raw_ids === ['ALL_OBJECTS']) {
+        if ($ids === ['ALL_OBJECTS']) {
             return array_map('intval', $retrieval->getAllIDs());
         }
-
-        if (is_array($raw_ids)) {
-            return array_map('intval', array_filter($raw_ids, fn($id) => is_string($id) && $id !== ''));
-        }
-
-        if (is_string($raw_ids) && $raw_ids !== '') {
-            return [(int) $raw_ids];
-        }
-
-        return [];
+        return array_map('intval', $ids);
     }
 
     protected function editFields(): void
@@ -1093,9 +1062,7 @@ class ilAdvancedMDSettingsGUI
 
         $this->tpl->setContent(
             $this->ui_renderer->render([
-                $table,
-                $this->ui_factory->divider()->horizontal(),
-                $cancel_button
+                $table
             ])
         );
     }
