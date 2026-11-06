@@ -41,6 +41,8 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 {
     private const ILIAS_LANGUAGE_MODULE = "components/ILIAS/Language";
     private string $langmode;
+    /** rejected input shown again instead of stored values: key => [translation, comment] */
+    private array $rejected_input = [];
 
     /**
     * Constructor
@@ -357,8 +359,8 @@ class ilObjLanguageExtGUI extends ilObjectGUI
             $row["module"] = $keys[0];
             $row["topic"] = $keys[1];
             $row["name"] = $name;
-            $row["translation"] = $translation;
-            $row["comment"] = $comments[$name] ?? "";
+            $row["translation"] = $this->rejected_input[$name][0] ?? $translation;
+            $row["comment"] = $this->rejected_input[$name][1] ?? $comments[$name] ?? "";
             $row["default"] = $compare_content[$name] ?? "";
             $row["default_comment"] = $compare_comments[$name] ?? "";
 
@@ -429,11 +431,15 @@ class ilObjLanguageExtGUI extends ilObjectGUI
             }
         }
 
-        // save the translations
-        ilObjLanguageExt::_saveValues($this->object->key, $save_array, $remarks_array);
-
-        // set successful changes bool to true;
-        $changesSuccessBool = 1;
+        try {
+            ilObjLanguageExt::_saveValues($this->object->key, $save_array, $remarks_array);
+            $changesSuccessBool = 1;
+        } catch (ilLanguageException $e) {
+            $this->tpl->setOnScreenMessage('failure', $this->getLanguageExceptionMessage($e));
+            foreach ($save_array as $key => $value) {
+                $this->rejected_input[$key] = [$value, $remarks_array[$key] ?? ""];
+            }
+        }
 
         // view the list
         $this->viewObject($changesSuccessBool);
@@ -517,7 +523,11 @@ class ilObjLanguageExtGUI extends ilObjectGUI
                 $tempfs = $DIC->filesystem()->temp();
                 $tempfs->delete(basename($tempfile));
             } catch (Exception $e) {
-                $this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);
+                $this->tpl->setOnScreenMessage(
+                    'failure',
+                    $e instanceof ilLanguageException ? $this->getLanguageExceptionMessage($e) : $e->getMessage(),
+                    true
+                );
                 $this->ctrl->redirect($this, 'import');
             }
 
@@ -687,9 +697,13 @@ class ilObjLanguageExtGUI extends ilObjectGUI
             case "load":
                 $lang_file = $this->object->getCustLangPath() . "/ilias_" . $this->object->key . ".lang.local";
                 if (is_file($lang_file) and is_readable($lang_file)) {
-                    $this->object->importLanguageFile($lang_file, "replace");
-                    $this->object->setLocal(true);
-                    $this->tpl->setOnScreenMessage('success', $this->lng->txt("language_loaded_local"), true);
+                    try {
+                        $this->object->importLanguageFile($lang_file, "replace");
+                        $this->object->setLocal(true);
+                        $this->tpl->setOnScreenMessage('success', $this->lng->txt("language_loaded_local"), true);
+                    } catch (ilLanguageException $e) {
+                        $this->tpl->setOnScreenMessage('failure', $this->getLanguageExceptionMessage($e), true);
+                    }
                 } else {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt("language_error_read_local"), true);
                 }
@@ -699,9 +713,13 @@ class ilObjLanguageExtGUI extends ilObjectGUI
             case "clear":
                 $lang_file = $this->object->getLangPath() . "/ilias_" . $this->object->key . ".lang";
                 if (is_file($lang_file) and is_readable($lang_file)) {
-                    $this->object->importLanguageFile($lang_file, "replace");
-                    $this->object->setLocal(false);
-                    $this->tpl->setOnScreenMessage('success', $this->lng->txt("language_cleared_local"), true);
+                    try {
+                        $this->object->importLanguageFile($lang_file, "replace");
+                        $this->object->setLocal(false);
+                        $this->tpl->setOnScreenMessage('success', $this->lng->txt("language_cleared_local"), true);
+                    } catch (ilLanguageException $e) {
+                        $this->tpl->setOnScreenMessage('failure', $this->getLanguageExceptionMessage($e), true);
+                    }
                 } else {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt("language_error_clear_local"), true);
                 }
@@ -1025,9 +1043,20 @@ class ilObjLanguageExtGUI extends ilObjectGUI
             $mod = $form->getInput("mod");
             $id = $form->getInput("id");
 
-            $lang = array();
+            $translations = [];
             foreach ($this->lng->getInstalledLanguages() as $lang_key) {
-                $trans = trim($form->getInput("trans_" . $lang_key));
+                $translations[$lang_key] = trim($form->getInput("trans_" . $lang_key));
+            }
+            try {
+                ilObjLanguageExt::_assertStorableValues($translations);
+            } catch (ilLanguageException $e) {
+                $this->tpl->setOnScreenMessage('failure', $this->getLanguageExceptionMessage($e));
+                $form->setValuesByPost();
+                $this->addNewEntryObject($form);
+                return;
+            }
+
+            foreach ($translations as $lang_key => $trans) {
                 if ($trans) {
                     // add single entry
                     ilObjLanguage::replaceLangEntry(
@@ -1044,8 +1073,8 @@ class ilObjLanguageExtGUI extends ilObjectGUI
                         " WHERE lang_key = " . $ilDB->quote($lang_key, "text") .
                         " AND module = " . $ilDB->quote($mod, "text"));
                     $row = $ilDB->fetchAssoc($set);
-                    $entries = unserialize($row["lang_array"], ["allowed_classes" => false]);
-                    if (is_array($entries)) {
+                    if ($row) {
+                        $entries = ilLanguage::readModuleEntries($ilDB, $lang_key, $mod, $row["lang_array"]);
                         $entries[$id] = $trans;
                         ilObjLanguage::replaceLangModule($lang_key, $mod, $entries);
                     }
@@ -1070,6 +1099,20 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         $renderer = $DIC->ui()->renderer();
 
         return $renderer->render($f->messageBox()->success($this->lng->txt("language_variables_saved")));
+    }
+
+    private function getLanguageExceptionMessage(ilLanguageException $e): string
+    {
+        $keys = $e->getUnstorableKeys();
+        if ($keys === []) {
+            return $e->getMessage();
+        }
+        // str_replace instead of sprintf: a locally changed text may contain further %
+        return str_replace(
+            "%s",
+            htmlspecialchars(implode(", ", $keys), ENT_QUOTES),
+            $this->lng->txt("language_unsupported_characters")
+        );
     }
 
     private function getSession(): array
