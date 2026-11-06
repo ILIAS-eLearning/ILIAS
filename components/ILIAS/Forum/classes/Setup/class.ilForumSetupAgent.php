@@ -23,8 +23,6 @@ use ILIAS\Refinery;
 
 class ilForumSetupAgent implements Setup\Agent
 {
-    use Setup\Agent\HasNoNamedObjective;
-
     public function hasConfig(): bool
     {
         return false;
@@ -50,7 +48,8 @@ class ilForumSetupAgent implements Setup\Agent
             true,
             new ilDatabaseUpdateStepsExecutedObjective(
                 new ilForumDatabaseUpdateSteps11()
-            )
+            ),
+            new ilForumNotificationSubscriptionsRepairedObjective()
         );
     }
 
@@ -71,5 +70,15 @@ class ilForumSetupAgent implements Setup\Agent
     public function getMigrations(): array
     {
         return [];
+    }
+
+    public function getNamedObjectives(?Setup\Config $config = null): array
+    {
+        return [
+            'repairNotificationSubscriptions' => new Setup\ObjectiveConstructor(
+                'Create missing forced notification subscriptions of forums notifying all participants',
+                static fn(): Setup\Objective => new ilForumNotificationSubscriptionsRepairedObjective()
+            )
+        ];
     }
 }
