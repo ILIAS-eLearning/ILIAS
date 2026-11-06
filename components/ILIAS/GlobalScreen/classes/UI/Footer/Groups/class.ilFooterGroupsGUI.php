@@ -153,7 +153,7 @@ final class ilFooterGroupsGUI extends AbstractPonsGUI implements SupportsTransla
         $confirm_reset = $this->ui_factory
             ->prompt()
             ->standard(
-                $this->pons->flow()->getHereAsURI(self::CMD_CONFIRM_RESET),
+                new \ILIAS\UI\URLBuilder($this->pons->flow()->getHereAsURI(self::CMD_CONFIRM_RESET)),
             );
 
         $this->dic
