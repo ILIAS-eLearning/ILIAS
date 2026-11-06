@@ -2093,6 +2093,7 @@ button {
 }
 button:focus-visible {
   outline: 3px solid #0078D7;
+  outline-offset: 0px;
   box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 5px #FFFFFF;
 }
 
@@ -2170,6 +2171,7 @@ input[type=password]:focus-visible,
 input[type=number]:focus-visible,
 textarea:focus-visible {
   outline: 3px solid #0078D7;
+  outline-offset: 0px;
   box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 5px #FFFFFF;
 }
 
@@ -2203,24 +2205,24 @@ img {
   }
 }
 
-a:has(img):focus {
+a:has(img):not(.link-bulky):focus {
   border: inherit;
   box-shadow: inherit;
   outline: none;
   outline-offset: 0px;
 }
-a:has(img):focus-visible {
+a:has(img):not(.link-bulky):focus-visible {
   border: inherit;
   box-shadow: inherit;
   outline: none;
   outline-offset: 0px;
 }
-a:has(img):focus, a:has(img):focus-visible {
+a:has(img):not(.link-bulky):focus-visible {
   position: relative;
   outline: 2px solid #FFFFFF;
   outline-offset: 5px;
 }
-a:has(img):focus::after, a:has(img):focus-visible::after {
+a:has(img):not(.link-bulky):focus-visible::after {
   content: " ";
   position: absolute;
   top: -2px;
@@ -2362,8 +2364,8 @@ a:hover, a:focus {
   text-decoration: underline;
 }
 a:focus-visible {
-  outline: none;
-  border: 3px solid #0078D7;
+  outline: 3px solid #0078D7;
+  outline-offset: -3px;
   box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 2px #FFFFFF;
 }
 
@@ -2599,32 +2601,33 @@ code {
   padding: 6px;
   padding-left: 20px;
 }
-.breadcrumb-wrapper .breadcrumb div.breadcrumb-crumb a {
+.breadcrumb-wrapper .breadcrumb .breadcrumb-crumb a {
   color: #4c6586;
 }
-.breadcrumb-wrapper .breadcrumb div.breadcrumb-crumb a:hover {
+.breadcrumb-wrapper .breadcrumb .breadcrumb-crumb a:hover {
   color: rgb(22.5658263305%, 29.9887955182%, 39.7871148459%);
 }
-.breadcrumb-wrapper .breadcrumb div.breadcrumb-crumb a:focus {
+.breadcrumb-wrapper .breadcrumb .breadcrumb-crumb a:focus {
   border: inherit;
   box-shadow: inherit;
   outline: none;
   outline-offset: 0px;
 }
-.breadcrumb-wrapper .breadcrumb div.breadcrumb-crumb a:focus::after {
+.breadcrumb-wrapper .breadcrumb .breadcrumb-crumb a:focus::after {
   content: none;
 }
-.breadcrumb-wrapper .breadcrumb div.breadcrumb-crumb a:focus-visible {
+.breadcrumb-wrapper .breadcrumb .breadcrumb-crumb a:focus-visible {
   border: inherit;
   box-shadow: inherit;
   outline: none;
   outline-offset: 0px;
 }
-.breadcrumb-wrapper .breadcrumb div.breadcrumb-crumb a:focus-visible::after {
+.breadcrumb-wrapper .breadcrumb .breadcrumb-crumb a:focus-visible::after {
   content: none;
 }
-.breadcrumb-wrapper .breadcrumb div.breadcrumb-crumb a:focus-visible {
+.breadcrumb-wrapper .breadcrumb .breadcrumb-crumb a:focus-visible {
   outline: 3px solid #0078D7;
+  outline-offset: 2px;
   box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 5px #FFFFFF;
 }
 .breadcrumb-wrapper .breadcrumb .breadcrumb-separator {
@@ -2643,6 +2646,29 @@ code {
 .breadcrumb {
   margin: 0.8em 0 20px 0;
   font-size: 0.75rem;
+}
+.breadcrumb > li > a:focus {
+  border: inherit;
+  box-shadow: inherit;
+  outline: none;
+  outline-offset: 0px;
+}
+.breadcrumb > li > a:focus::after {
+  content: none;
+}
+.breadcrumb > li > a:focus-visible {
+  border: inherit;
+  box-shadow: inherit;
+  outline: none;
+  outline-offset: 0px;
+}
+.breadcrumb > li > a:focus-visible::after {
+  content: none;
+}
+.breadcrumb > li > a:focus-visible {
+  outline: 3px solid #0078D7;
+  outline-offset: 2px;
+  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 5px #FFFFFF;
 }
 .breadcrumb > li + li:before {
   font-family: "il-icons";
@@ -2700,6 +2726,7 @@ ol.breadcrumb > li + li:before {
 .btn:focus-visible, .il-link.link-bulky:focus-visible,
 .il-drilldown .menulevel:focus-visible, .navbar-form > a:focus-visible {
   outline: 3px solid #0078D7;
+  outline-offset: 0px;
   box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 5px #FFFFFF;
 }
 .btn, .il-link.link-bulky,
@@ -3564,6 +3591,7 @@ input.btn, input.il-link.link-bulky,
 .ilTableNav > table > tbody > tr > td > .dropdown > .btn-default:focus-visible,
 .ilTableNav > table > tbody > tr > td > .dropdown.navbar-form > a:focus-visible {
   outline: 3px solid #0078D7;
+  outline-offset: 0px;
   box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 5px #FFFFFF;
 }
 .btn-ctrl, .il-viewcontrol-sortation > .btn-default, .il-viewcontrol-sortation > .btn-link,
@@ -3954,8 +3982,8 @@ input.btn, input.il-link.link-bulky,
 }
 .btn-bulky:focus-visible, .il-link.link-bulky:focus-visible,
 .il-drilldown .menulevel:focus-visible {
-  outline: none;
-  border: 3px solid #0078D7;
+  outline: 3px solid #0078D7;
+  outline-offset: -3px;
   box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 2px #FFFFFF;
 }
 
@@ -5496,6 +5524,29 @@ hr.il-divider-with-label {
   font-size: inherit;
   line-height: 1.428571429;
 }
+.il-item .il-item-title .btn-link:focus, .il-item .il-item-title a:focus {
+  border: inherit;
+  box-shadow: inherit;
+  outline: none;
+  outline-offset: 0px;
+}
+.il-item .il-item-title .btn-link:focus::after, .il-item .il-item-title a:focus::after {
+  content: none;
+}
+.il-item .il-item-title .btn-link:focus-visible, .il-item .il-item-title a:focus-visible {
+  border: inherit;
+  box-shadow: inherit;
+  outline: none;
+  outline-offset: 0px;
+}
+.il-item .il-item-title .btn-link:focus-visible::after, .il-item .il-item-title a:focus-visible::after {
+  content: none;
+}
+.il-item .il-item-title .btn-link:focus-visible, .il-item .il-item-title a:focus-visible {
+  outline: 3px solid #0078D7;
+  outline-offset: 2px;
+  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 5px #FFFFFF;
+}
 .il-item .il-item-title .btn-link:focus-visible, .il-item .il-item-title a:focus-visible {
   display: block;
 }
@@ -5776,8 +5827,8 @@ hr.il-divider-with-label {
   font-size: 1.4375rem;
 }
 .il-maincontrols-metabar > li > .btn.btn-bulky:focus-visible, .il-maincontrols-metabar > li > a.il-link.link-bulky:focus-visible {
-  outline: none;
-  border: 3px solid #0078D7;
+  outline: 3px solid #0078D7;
+  outline-offset: -3px;
   box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 2px #FFFFFF;
 }
 .il-maincontrols-metabar > li > .btn.btn-bulky, .il-maincontrols-metabar > li > a.il-link.link-bulky {
@@ -5802,8 +5853,8 @@ hr.il-divider-with-label {
   border: none;
 }
 .il-maincontrols-metabar > li > .btn.btn-bulky.engaged:focus-visible, .il-maincontrols-metabar > li > a.il-link.link-bulky.engaged:focus-visible {
-  outline: none;
-  border: 3px solid #0078D7;
+  outline: 3px solid #0078D7;
+  outline-offset: -3px;
   box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 2px #FFFFFF;
 }
 .il-maincontrols-metabar > li > .btn.btn-bulky .glyphicon, .il-maincontrols-metabar > li > a.il-link.link-bulky .glyphicon {
@@ -5969,8 +6020,31 @@ div.il-system-infos {
   display: flex;
   align-items: center;
 }
-.il-logo a {
+.il-logo a:has(img):not(.link-bulky) {
   display: block;
+}
+.il-logo a:has(img):not(.link-bulky):focus {
+  border: inherit;
+  box-shadow: inherit;
+  outline: none;
+  outline-offset: 0px;
+}
+.il-logo a:has(img):not(.link-bulky):focus::after {
+  content: none;
+}
+.il-logo a:has(img):not(.link-bulky):focus-visible {
+  border: inherit;
+  box-shadow: inherit;
+  outline: none;
+  outline-offset: 0px;
+}
+.il-logo a:has(img):not(.link-bulky):focus-visible::after {
+  content: none;
+}
+.il-logo a:has(img):not(.link-bulky):focus-visible {
+  outline: 3px solid #0078D7;
+  outline-offset: -3px;
+  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 2px #FFFFFF;
 }
 
 .il-pagetitle {
@@ -6788,8 +6862,8 @@ a[aria-disabled].il-link.link-bulky:hover {
   font-size: 1.4375rem;
 }
 .il-maincontrols-metabar > li > .btn.btn-bulky:focus-visible, .il-maincontrols-metabar > li > a.il-link.link-bulky:focus-visible {
-  outline: none;
-  border: 3px solid #0078D7;
+  outline: 3px solid #0078D7;
+  outline-offset: -3px;
   box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 2px #FFFFFF;
 }
 .il-maincontrols-metabar > li > .btn.btn-bulky, .il-maincontrols-metabar > li > a.il-link.link-bulky {
@@ -6814,8 +6888,8 @@ a[aria-disabled].il-link.link-bulky:hover {
   border: none;
 }
 .il-maincontrols-metabar > li > .btn.btn-bulky.engaged:focus-visible, .il-maincontrols-metabar > li > a.il-link.link-bulky.engaged:focus-visible {
-  outline: none;
-  border: 3px solid #0078D7;
+  outline: 3px solid #0078D7;
+  outline-offset: -3px;
   box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 2px #FFFFFF;
 }
 .il-maincontrols-metabar > li > .btn.btn-bulky .glyphicon, .il-maincontrols-metabar > li > a.il-link.link-bulky .glyphicon {
@@ -6958,8 +7032,8 @@ a[aria-disabled].il-link.link-bulky:hover {
 .il-mainbar-tools-button .il-link.link-bulky:focus-visible,
 .il-mainbar-tool-trigger-item .btn-bulky:focus-visible,
 .il-mainbar-tool-trigger-item .il-link.link-bulky:focus-visible {
-  outline: none;
-  border: 3px solid #0078D7;
+  outline: 3px solid #0078D7;
+  outline-offset: -3px;
   box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 2px #FFFFFF;
 }
 .il-mainbar-triggers .btn-bulky .bulky-label,
@@ -7498,8 +7572,8 @@ a:hover, a:focus {
 }
 
 a:focus-visible {
-  outline: none;
-  border: 3px solid #0078D7;
+  outline: 3px solid #0078D7;
+  outline-offset: -3px;
   box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 2px #FFFFFF;
 }
 
@@ -7992,6 +8066,7 @@ code {
 .btn:focus-visible, .c-drilldown .c-drilldown__menulevel--trigger:focus-visible, .il-link.link-bulky:focus-visible,
 .il-drilldown .menulevel:focus-visible, .navbar-form > a:focus-visible {
   outline: 3px solid #0078D7;
+  outline-offset: 0px;
   box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 5px #FFFFFF;
 }
 
@@ -8188,6 +8263,7 @@ input.btn, .c-drilldown input.c-drilldown__menulevel--trigger, input.il-link.lin
 .ilTableNav > table > tbody > tr > td > .dropdown > .btn-default:focus-visible,
 .ilTableNav > table > tbody > tr > td > .dropdown.navbar-form > a:focus-visible {
   outline: 3px solid #0078D7;
+  outline-offset: 0px;
   box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 5px #FFFFFF;
 }
 
@@ -8403,8 +8479,8 @@ input.btn, .c-drilldown input.c-drilldown__menulevel--trigger, input.il-link.lin
 
 .btn-bulky:focus-visible, .c-drilldown .c-drilldown__menulevel--trigger:focus-visible, .il-link.link-bulky:focus-visible,
 .il-drilldown .menulevel:focus-visible {
-  outline: none;
-  border: 3px solid #0078D7;
+  outline: 3px solid #0078D7;
+  outline-offset: -3px;
   box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 2px #FFFFFF;
 }
 
@@ -8547,8 +8623,8 @@ button .minimize, button .close {
   justify-content: start;
 }
 .c-drilldown header .c-drilldown__backnav .btn-bulky:focus-visible, .c-drilldown header .c-drilldown__backnav .c-drilldown__menulevel--trigger:focus-visible {
-  outline: none;
-  border: 3px solid #0078D7;
+  outline: 3px solid #0078D7;
+  outline-offset: -3px;
   box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 2px #FFFFFF;
 }
 .c-drilldown header.c-drilldown__header--showbacknav {
@@ -13089,8 +13165,8 @@ tbody.collapse.in {
 }
 .btn-group .dropdown-toggle:active:focus-visible:focus-visible,
 .btn-group.open .dropdown-toggle:focus-visible:focus-visible {
-  outline: none;
-  border: 3px solid #0078D7;
+  outline: 3px solid #0078D7;
+  outline-offset: -3px;
   box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 2px #FFFFFF;
 }
 
@@ -18149,6 +18225,7 @@ select[size] {
 }
 .form-control:focus-visible {
   outline: 3px solid #0078D7;
+  outline-offset: 0px;
   box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 5px #FFFFFF;
 }
 .form-control::-moz-placeholder {
@@ -19155,8 +19232,8 @@ a.mailunread, a.mailunread:visited {
 }
 
 .mejs__container:focus-visible {
-  outline: none;
-  border: 3px solid #0078D7;
+  outline: 3px solid #0078D7;
+  outline-offset: -3px;
   box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 2px #FFFFFF;
 }
 
@@ -19179,8 +19256,8 @@ a.mejs__volume-slider:focus-visible {
 .mejs__button button:focus-visible,
 .ilPageVideo button:focus-visible,
 a.mejs__volume-slider:focus-visible {
-  outline: none;
-  border: 1px solid #0078D7;
+  outline: 1px solid #0078D7;
+  outline-offset: -1px;
   box-shadow: inset 0px 0px 0px 1px #FFFFFF, 0px 0px 0px 1px #FFFFFF;
 }
 
@@ -21189,9 +21266,9 @@ a.ilMediaLightboxClose:hover {
   border-color: transparent;
   border-radius: 0px 0px 0 0;
 }
-#ilTab > li > a:hover, #ilTab > li > a:focus,
+#ilTab > li > a:hover, #ilTab > li > a:focus-visible,
 #ilTab > li > .c-tooltip__container > a:hover,
-#ilTab > li > .c-tooltip__container > a:focus {
+#ilTab > li > .c-tooltip__container > a:focus-visible {
   border-bottom-color: #161616;
 }
 #ilTab > li > a:focus,
@@ -21216,15 +21293,13 @@ a.ilMediaLightboxClose:hover {
 #ilTab > li > .c-tooltip__container > a:focus-visible::after {
   content: none;
 }
-#ilTab > li > a:focus, #ilTab > li > a:focus-visible,
-#ilTab > li > .c-tooltip__container > a:focus,
+#ilTab > li > a:focus-visible,
 #ilTab > li > .c-tooltip__container > a:focus-visible {
   position: relative;
   outline: 2px solid #FFFFFF;
   outline-offset: 5px;
 }
-#ilTab > li > a:focus::after, #ilTab > li > a:focus-visible::after,
-#ilTab > li > .c-tooltip__container > a:focus::after,
+#ilTab > li > a:focus-visible::after,
 #ilTab > li > .c-tooltip__container > a:focus-visible::after {
   content: " ";
   position: absolute;
@@ -21235,7 +21310,7 @@ a.ilMediaLightboxClose:hover {
   border: 2px solid #FFFFFF;
   outline: 3px solid #0078D7;
 }
-#ilTab > li.active > a, #ilTab > li.active > a:hover, #ilTab > li.active > a:focus, #ilTab > li.active > .c-tooltip__container > a, #ilTab > li.active > .c-tooltip__container > a:hover, #ilTab > li.active > .c-tooltip__container > a:focus {
+#ilTab > li.active > a, #ilTab > li.active > a:hover, #ilTab > li.active > a:focus-visible, #ilTab > li.active > .c-tooltip__container > a, #ilTab > li.active > .c-tooltip__container > a:hover, #ilTab > li.active > .c-tooltip__container > a:focus-visible {
   color: white;
   cursor: default;
   background-color: #161616;
@@ -21246,7 +21321,7 @@ a.ilMediaLightboxClose:hover {
   z-index: 3;
 }
 
-#ilTab > li > a:focus {
+#ilTab > li > a:focus-visible {
   border-bottom: 2px solid #161616;
 }
 
@@ -21295,15 +21370,13 @@ a.ilMediaLightboxClose:hover {
 #ilSubTab > li > .c-tooltip__container > a:focus-visible::after {
   content: none;
 }
-#ilSubTab > li > a:focus, #ilSubTab > li > a:focus-visible,
-#ilSubTab > li > .c-tooltip__container > a:focus,
+#ilSubTab > li > a:focus-visible,
 #ilSubTab > li > .c-tooltip__container > a:focus-visible {
   position: relative;
   outline: 2px solid #FFFFFF;
   outline-offset: 5px;
 }
-#ilSubTab > li > a:focus::after, #ilSubTab > li > a:focus-visible::after,
-#ilSubTab > li > .c-tooltip__container > a:focus::after,
+#ilSubTab > li > a:focus-visible::after,
 #ilSubTab > li > .c-tooltip__container > a:focus-visible::after {
   content: " ";
   position: absolute;
@@ -21314,7 +21387,7 @@ a.ilMediaLightboxClose:hover {
   border: 2px solid #FFFFFF;
   outline: 3px solid #0078D7;
 }
-#ilSubTab > li.active > a, #ilSubTab > li.active > a:hover, #ilSubTab > li.active > a:focus, #ilSubTab > li.active > .c-tooltip__container > a, #ilSubTab > li.active > .c-tooltip__container > a:hover, #ilSubTab > li.active > .c-tooltip__container > a:focus {
+#ilSubTab > li.active > a, #ilSubTab > li.active > a:hover, #ilSubTab > li.active > a:focus-visible, #ilSubTab > li.active > .c-tooltip__container > a, #ilSubTab > li.active > .c-tooltip__container > a:hover, #ilSubTab > li.active > .c-tooltip__container > a:focus-visible {
   color: #4c6586;
   background-color: transparent;
   text-decoration: underline;
@@ -22013,5 +22086,3 @@ div.Access {
 .light {
   color: rgb(43.6274509804%, 43.6274509804%, 43.6274509804%);
 }
-
-/*# sourceMappingURL=delos.css.map */

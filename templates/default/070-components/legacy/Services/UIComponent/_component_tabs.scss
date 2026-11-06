@@ -31,12 +31,13 @@ $nav-tabs-border: 1px solid $il-main-border-color !default;
 			border-color: transparent;
 			border-radius: $il-border-radius-base $il-border-radius-base 0 0;
 
+			// Retain the tab's clicked state without displaying a keyboard focus ring.
 			&:hover,
-			&:focus {
+			&:focus-visible {
 				border-bottom-color: $nav-tabs-active-link-hover-bg;
 			}
 			@include focus.clear-focus-for-override($clearAfter: true);
-			@include focus.il-focus();
+			@include focus.il-focus-visible();
 		}
 
 		// Active state, and its :hover to override normal :hover
@@ -44,7 +45,7 @@ $nav-tabs-border: 1px solid $il-main-border-color !default;
         &.active > .c-tooltip__container > a {
 			&,
 			&:hover,
-			&:focus {
+			&:focus-visible {
 				color: $nav-tabs-active-link-hover-color;
 				cursor: default;
 				background-color: $nav-tabs-active-link-hover-bg;
@@ -58,7 +59,7 @@ $nav-tabs-border: 1px solid $il-main-border-color !default;
 	z-index: 3;
 }
 
-#ilTab > li > a:focus {
+#ilTab > li > a:focus-visible {
 	border-bottom: 2px solid $nav-tabs-active-link-hover-bg;
 }
 
@@ -87,13 +88,13 @@ $nav-tabs-border: 1px solid $il-main-border-color !default;
 				background-color: transparent;
 			}
 			@include focus.clear-focus-for-override($clearAfter: true);
-			@include focus.il-focus();
+			@include focus.il-focus-visible();
 		}
 		&.active > a,
         &.active > .c-tooltip__container > a {
 			&,
 			&:hover,
-			&:focus {
+			&:focus-visible {
 				color: $il-link-color;
 				background-color: transparent;
 				text-decoration: underline;

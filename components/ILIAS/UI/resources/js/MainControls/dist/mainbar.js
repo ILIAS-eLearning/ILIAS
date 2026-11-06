@@ -116,13 +116,9 @@ var mainbar = function() {
                             if(state.entries[id].engaged) {
                                 mb.model.actions.disengageEntry(id);
                             } else {
+                                // Keep pointer focus on the trigger; Tab enters the slate in the renderer.
                                 mb.model.actions.engageEntry(id);
 
-                                if(state.entries[id].isTopLevel()) {
-                                    after_render = function() {
-                                        mb.renderer.focusSubentry(id);
-                                    };
-                                }
                             }
                         }
                         break;
@@ -919,6 +915,13 @@ var persistence = function() {
                 triggerer.getElement().attr('aria-labelledby', triggerer.html_id);
                 //a11y
 
+            // The slate is outside the trigger's DOM tab order, so enter it on the next Tab.
+            triggerer.getElement().off('keydown.mainbar-slate').on('keydown.mainbar-slate', function(event) {
+                if(event.key === 'Tab' && !event.shiftKey && entry.engaged) {
+                    event.preventDefault();
+                    actions.focusSubentry(entry.id);
+                }
+            });
             if(entry.hidden) {
                 triggerer.mb_hide(is_tool);
             } else {
@@ -1022,22 +1025,28 @@ var persistence = function() {
             //unfortunately, this does not work properly via a class
             $('.' + css.mainbar_entries).css('visibility', 'visible');
         },
+        // Slate contents vary in structure; use the first visible focusable control.
+        getFirstFocusableSubentry: function(triggered_entry_id) {
+            var dom_id = dom_references[triggered_entry_id];
+            return $('#' + dom_id.slate)
+                .find('a, button, input, select, textarea, [tabindex]')
+                .filter(function() {
+                    return actions.isFocusable(this) && $(this).is(':visible');
+                })
+                .first();
+        },
         focusSubentry: function(triggered_entry_id) {
-            var dom_id = dom_references[triggered_entry_id],
-                someting_to_focus_on = $('#' + dom_id.slate)
-                    .children().first()
-                    .children().first();
-            someting_to_focus_on_if_listing = someting_to_focus_on.children().first().children().first();
-            if(someting_to_focus_on[0]) {
-                if(!actions.isFocusable(someting_to_focus_on[0])) {
-                    someting_to_focus_on.attr('tabindex', '-1');
-                    if(someting_to_focus_on_if_listing[0]
-                      && actions.isFocusable(someting_to_focus_on_if_listing[0])) {
-                        someting_to_focus_on_if_listing[0].focus();
+            var subentry = actions.getFirstFocusableSubentry(triggered_entry_id),
+                triggerer = dom_references[triggered_entry_id].triggerer;
+            if(subentry[0]) {
+                // Reverse Tab from the first slate control returns to its owning trigger.
+                subentry.off('keydown.mainbar-slate-first').on('keydown.mainbar-slate-first', function(event) {
+                    if(event.key === 'Tab' && event.shiftKey) {
+                        event.preventDefault();
+                        document.getElementById(triggerer).focus();
                     }
-                } else {
-                    someting_to_focus_on[0].focus();
-                }
+                });
+                subentry[0].focus();
             }
         },
 
