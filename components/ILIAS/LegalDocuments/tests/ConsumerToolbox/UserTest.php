@@ -48,11 +48,11 @@ class UserTest extends TestCase
     public function testConstruct(): void
     {
         $this->assertInstanceOf(User::class, new User(
-            $this->mock(ilObjUser::class),
-            $this->mock(Settings::class),
-            $this->mock(UserSettings::class),
-            $this->mock(Provide::class),
-            $this->mock(Clock::class)
+            $this->stub(ilObjUser::class),
+            $this->stub(Settings::class),
+            $this->stub(UserSettings::class),
+            $this->stub(Provide::class),
+            $this->stub(Clock::class)
         ));
     }
 
@@ -65,10 +65,10 @@ class UserTest extends TestCase
 
         $instance = new User(
             $user,
-            $this->mock(Settings::class),
-            $this->mock(UserSettings::class),
-            $this->mock(Provide::class),
-            $this->mock(Clock::class)
+            $this->stub(Settings::class),
+            $this->stub(UserSettings::class),
+            $this->stub(Provide::class),
+            $this->stub(Clock::class)
         );
 
         $this->assertFalse($instance->isLoggedIn());
@@ -88,10 +88,10 @@ class UserTest extends TestCase
 
         $instance = new User(
             $user,
-            $this->mock(Settings::class),
-            $this->mock(UserSettings::class),
-            $this->mock(Provide::class),
-            $this->mock(Clock::class)
+            $this->stub(Settings::class),
+            $this->stub(UserSettings::class),
+            $this->stub(Provide::class),
+            $this->stub(Clock::class)
         );
 
         $this->assertTrue($instance->cannotAgree());
@@ -110,11 +110,11 @@ class UserTest extends TestCase
         $user_settings->expects($this->exactly(2))->method('agreeDate')->willReturn($setting);
 
         $instance = new User(
-            $this->mock(ilObjUser::class),
-            $this->mock(Settings::class),
+            $this->stub(ilObjUser::class),
+            $this->stub(Settings::class),
             $user_settings,
-            $this->mock(Provide::class),
-            $this->mock(Clock::class)
+            $this->stub(Provide::class),
+            $this->stub(Clock::class)
         );
 
         $this->assertTrue($instance->neverAgreed());
@@ -123,14 +123,14 @@ class UserTest extends TestCase
 
     public function testWithdrawalRequested(): void
     {
-        $setting = $this->mock(Setting::class);
+        $setting = $this->stub(Setting::class);
 
         $instance = new User(
-            $this->mock(ilObjUser::class),
-            $this->mock(Settings::class),
+            $this->stub(ilObjUser::class),
+            $this->stub(Settings::class),
             $this->mockMethod(UserSettings::class, 'withdrawalRequested', [], $setting),
-            $this->mock(Provide::class),
-            $this->mock(Clock::class)
+            $this->stub(Provide::class),
+            $this->stub(Clock::class)
         );
 
         $this->assertSame($setting, $instance->withdrawalRequested());
@@ -138,14 +138,14 @@ class UserTest extends TestCase
 
     public function testAgreeDate(): void
     {
-        $setting = $this->mock(Setting::class);
+        $setting = $this->stub(Setting::class);
 
         $instance = new User(
-            $this->mock(ilObjUser::class),
-            $this->mock(Settings::class),
+            $this->stub(ilObjUser::class),
+            $this->stub(Settings::class),
             $this->mockMethod(UserSettings::class, 'agreeDate', [], $setting),
-            $this->mock(Provide::class),
-            $this->mock(Clock::class)
+            $this->stub(Provide::class),
+            $this->stub(Clock::class)
         );
 
         $this->assertSame($setting, $instance->agreeDate());
@@ -153,18 +153,18 @@ class UserTest extends TestCase
 
     public function testDidNotAcceptCurrentVersion(): void
     {
-        $user = $this->mock(ilObjUser::class);
-        $document = $this->mock(Document::class);
+        $user = $this->stub(ilObjUser::class);
+        $document = $this->stub(Document::class);
 
         $instance = new User(
             $user,
-            $this->mockTree(Settings::class, ['validateOnLogin' => ['value' => true]]),
-            $this->mock(UserSettings::class),
-            $this->mockTree(Provide::class, [
+            $this->stubTree(Settings::class, ['validateOnLogin' => ['value' => true]]),
+            $this->stub(UserSettings::class),
+            $this->stubTree(Provide::class, [
                 'document' => $this->mockMethod(ProvideDocument::class, 'chooseDocumentFor', [$user], new Ok($document)),
                 'history' => $this->mockMethod(ProvideHistory::class, 'alreadyAccepted', [$user, $document], false),
             ]),
-            $this->mock(Clock::class)
+            $this->stub(Clock::class)
         );
 
         $this->assertTrue($instance->didNotAcceptCurrentVersion());
@@ -173,11 +173,11 @@ class UserTest extends TestCase
     public function testNeedsToAcceptNewDocumentWhereNeverAgreed(): void
     {
         $instance = new User(
-            $this->mock(ilObjUser::class),
-            $this->mock(Settings::class),
-            $this->mockTree(UserSettings::class, ['agreeDate' => ['value' => null]]),
-            $this->mock(Provide::class),
-            $this->mock(Clock::class)
+            $this->stub(ilObjUser::class),
+            $this->stub(Settings::class),
+            $this->stubTree(UserSettings::class, ['agreeDate' => ['value' => null]]),
+            $this->stub(Provide::class),
+            $this->stub(Clock::class)
         );
 
         $this->assertTrue($instance->needsToAcceptNewDocument());
@@ -185,15 +185,15 @@ class UserTest extends TestCase
 
     public function testNeedsToAcceptNewDocumentReturnsTrue(): void
     {
-        $user = $this->mock(ilObjUser::class);
+        $user = $this->stub(ilObjUser::class);
         $history = $this->mockMethod(ProvideHistory::class, 'currentDocumentOfAcceptedVersion', [$user], new Error('Not found.'));
 
         $instance = new User(
             $user,
-            $this->mockTree(Settings::class, ['validateOnLogin' => ['value' => true]]),
-            $this->mockTree(UserSettings::class, ['agreeDate' => ['value' => new DateTimeImmutable()]]),
-            $this->mockTree(Provide::class, ['history' => $history]),
-            $this->mock(Clock::class)
+            $this->stubTree(Settings::class, ['validateOnLogin' => ['value' => true]]),
+            $this->stubTree(UserSettings::class, ['agreeDate' => ['value' => new DateTimeImmutable()]]),
+            $this->stubTree(Provide::class, ['history' => $history]),
+            $this->stub(Clock::class)
         );
 
         $this->assertTrue($instance->needsToAcceptNewDocument());
@@ -201,19 +201,19 @@ class UserTest extends TestCase
 
     public function testNeedsToAcceptNewDocumentReturnsFalse(): void
     {
-        $user = $this->mock(ilObjUser::class);
-        $document = $this->mock(Document::class);
+        $user = $this->stub(ilObjUser::class);
+        $document = $this->stub(Document::class);
         $history = $this->mockMethod(ProvideHistory::class, 'currentDocumentOfAcceptedVersion', [$user], new Ok($document));
 
         $instance = new User(
             $user,
-            $this->mockTree(Settings::class, ['validateOnLogin' => ['value' => true]]),
-            $this->mockTree(UserSettings::class, ['agreeDate' => ['value' => new DateTimeImmutable()]]),
-            $this->mockTree(Provide::class, [
+            $this->stubTree(Settings::class, ['validateOnLogin' => ['value' => true]]),
+            $this->stubTree(UserSettings::class, ['agreeDate' => ['value' => new DateTimeImmutable()]]),
+            $this->stubTree(Provide::class, [
                 'document' => $this->mockMethod(ProvideDocument::class, 'documentMatches', [$document, $user], true),
                 'history' => $history,
             ]),
-            $this->mock(Clock::class)
+            $this->stub(Clock::class)
         );
 
         $this->assertFalse($instance->needsToAcceptNewDocument());
@@ -221,17 +221,17 @@ class UserTest extends TestCase
 
     public function testDoesntMatch(): void
     {
-        $document = $this->mock(Document::class);
-        $user = $this->mock(ilObjUser::class);
+        $document = $this->stub(Document::class);
+        $user = $this->stub(ilObjUser::class);
 
         $instance = new User(
             $user,
-            $this->mock(Settings::class),
-            $this->mock(UserSettings::class),
-            $this->mockTree(Provide::class, [
+            $this->stub(Settings::class),
+            $this->stub(UserSettings::class),
+            $this->stubTree(Provide::class, [
                 'document' => $this->mockMethod(ProvideDocument::class, 'documentMatches', [$document, $user], true),
             ]),
-            $this->mock(Clock::class)
+            $this->stub(Clock::class)
         );
 
         $this->assertFalse($instance->doesntMatch($document));
@@ -239,17 +239,17 @@ class UserTest extends TestCase
 
     public function testMatchingDocument(): void
     {
-        $user = $this->mock(ilObjUser::class);
-        $result = $this->mock(Result::class);
+        $user = $this->stub(ilObjUser::class);
+        $result = $this->stub(Result::class);
 
         $instance = new User(
             $user,
-            $this->mock(Settings::class),
-            $this->mock(UserSettings::class),
-            $this->mockTree(Provide::class, [
+            $this->stub(Settings::class),
+            $this->stub(UserSettings::class),
+            $this->stubTree(Provide::class, [
                 'document' => $this->mockMethod(ProvideDocument::class, 'chooseDocumentFor', [$user], $result),
             ]),
-            $this->mock(Clock::class)
+            $this->stub(Clock::class)
         );
 
         $this->assertSame($result, $instance->matchingDocument());
@@ -260,16 +260,16 @@ class UserTest extends TestCase
         $this->ensureDefined('ANONYMOUS_USER_ID', 13);
         $this->ensureDefined('SYSTEM_USER_ID', 9);
 
-        $result = $this->mock(Result::class);
+        $result = $this->stub(Result::class);
 
-        $user = $this->mockTree(ilObjUser::class, ['getId' => 67]);
+        $user = $this->stubTree(ilObjUser::class, ['getId' => 67]);
 
         $instance = new User(
             $user,
-            $this->mock(Settings::class),
-            $this->mockTree(UserSettings::class, ['agreeDate' => ['value' => new DateTimeImmutable()]]),
-            $this->mockTree(Provide::class, ['history' => $this->mockMethod(ProvideHistory::class, 'acceptedVersion', [$user], $result)]),
-            $this->mock(Clock::class)
+            $this->stub(Settings::class),
+            $this->stubTree(UserSettings::class, ['agreeDate' => ['value' => new DateTimeImmutable()]]),
+            $this->stubTree(Provide::class, ['history' => $this->mockMethod(ProvideHistory::class, 'acceptedVersion', [$user], $result)]),
+            $this->stub(Clock::class)
         );
 
         $this->assertSame($result, $instance->acceptedVersion());
@@ -280,14 +280,14 @@ class UserTest extends TestCase
         $this->ensureDefined('ANONYMOUS_USER_ID', 13);
         $this->ensureDefined('SYSTEM_USER_ID', 9);
 
-        $user = $this->mockTree(ilObjUser::class, ['getId' => 67]);
+        $user = $this->stubTree(ilObjUser::class, ['getId' => 67]);
 
         $instance = new User(
             $user,
-            $this->mock(Settings::class),
-            $this->mockTree(UserSettings::class, ['agreeDate' => ['value' => null]]),
-            $this->mock(Provide::class),
-            $this->mock(Clock::class)
+            $this->stub(Settings::class),
+            $this->stubTree(UserSettings::class, ['agreeDate' => ['value' => null]]),
+            $this->stub(Provide::class),
+            $this->stub(Clock::class)
         );
 
         $result = $instance->acceptedVersion();
@@ -297,8 +297,8 @@ class UserTest extends TestCase
 
     public function testAcceptMatchingDocument(): void
     {
-        $user = $this->mock(ilObjUser::class);
-        $document = $this->mock(Document::class);
+        $user = $this->stub(ilObjUser::class);
+        $document = $this->stub(Document::class);
         $date = new DateTimeImmutable();
 
         $history = $this->mock(ProvideHistory::class);
@@ -309,13 +309,13 @@ class UserTest extends TestCase
 
         $instance = new User(
             $user,
-            $this->mock(Settings::class),
-            $this->mockTree(UserSettings::class, ['agreeDate' => $setting]),
-            $this->mockTree(Provide::class, [
+            $this->stub(Settings::class),
+            $this->stubTree(UserSettings::class, ['agreeDate' => $setting]),
+            $this->stubTree(Provide::class, [
                 'document' => $this->mockMethod(ProvideDocument::class, 'chooseDocumentFor', [$user], new Ok($document)),
                 'history' => $history,
             ]),
-            $this->mockTree(Clock::class, ['now' => $date])
+            $this->stubTree(Clock::class, ['now' => $date])
         );
 
         $instance->acceptMatchingDocument();
@@ -324,11 +324,11 @@ class UserTest extends TestCase
     public function testIsLDAPUser(): void
     {
         $instance = new User(
-            $this->mockTree(ilObjUser::class, ['getAuthMode' => 'default']),
-            $this->mockTree(Settings::class, ['authMode' => ['value' => (string) ilAuthUtils::AUTH_LDAP]]),
-            $this->mock(UserSettings::class),
-            $this->mock(Provide::class),
-            $this->mock(Clock::class)
+            $this->stubTree(ilObjUser::class, ['getAuthMode' => 'default']),
+            $this->stubTree(Settings::class, ['authMode' => ['value' => (string) ilAuthUtils::AUTH_LDAP]]),
+            $this->stub(UserSettings::class),
+            $this->stub(Provide::class),
+            $this->stub(Clock::class)
         );
 
         $this->assertTrue($instance->isLDAPUser());
@@ -338,11 +338,11 @@ class UserTest extends TestCase
     public function testIsExternalUser(int $auth_mode, bool $is_external_account): void
     {
         $instance = new User(
-            $this->mockTree(ilObjUser::class, ['getAuthMode' => 'default']),
-            $this->mockTree(Settings::class, ['authMode' => ['value' => (string) $auth_mode]]),
-            $this->mock(UserSettings::class),
-            $this->mock(Provide::class),
-            $this->mock(Clock::class)
+            $this->stubTree(ilObjUser::class, ['getAuthMode' => 'default']),
+            $this->stubTree(Settings::class, ['authMode' => ['value' => (string) $auth_mode]]),
+            $this->stub(UserSettings::class),
+            $this->stub(Provide::class),
+            $this->stub(Clock::class)
         );
 
         $this->assertSame($is_external_account, $instance->isExternalAccount());
@@ -351,15 +351,15 @@ class UserTest extends TestCase
     public function testFormat(): void
     {
         $instance = new User(
-            $this->mockTree(ilObjUser::class, [
+            $this->stubTree(ilObjUser::class, [
                 'getFullname' => 'foo',
                 'getLogin' => 'bar',
                 'getExternalAccount' => 'baz',
             ]),
-            $this->mock(Settings::class),
-            $this->mock(UserSettings::class),
-            $this->mock(Provide::class),
-            $this->mock(Clock::class)
+            $this->stub(Settings::class),
+            $this->stub(UserSettings::class),
+            $this->stub(Provide::class),
+            $this->stub(Clock::class)
         );
 
         $this->assertSame('', $instance->format(''));
@@ -368,14 +368,14 @@ class UserTest extends TestCase
 
     public function testRaw(): void
     {
-        $user = $this->mock(ilObjUser::class);
+        $user = $this->stub(ilObjUser::class);
 
         $instance = new User(
             $user,
-            $this->mock(Settings::class),
-            $this->mock(UserSettings::class),
-            $this->mock(Provide::class),
-            $this->mock(Clock::class)
+            $this->stub(Settings::class),
+            $this->stub(UserSettings::class),
+            $this->stub(Provide::class),
+            $this->stub(Clock::class)
         );
 
         $this->assertSame($user, $instance->raw());
@@ -383,20 +383,20 @@ class UserTest extends TestCase
 
     public function testAcceptAnyDocument(): void
     {
-        $user = $this->mock(ilObjUser::class);
+        $user = $this->stub(ilObjUser::class);
         $history = $this->mock(ProvideHistory::class);
-        $doc = $this->mock(Document::class);
+        $doc = $this->stub(Document::class);
         $history->expects($this->once())->method('acceptDocument')->with($user, $doc);
 
         $instance = new User(
             $user,
-            $this->mock(Settings::class),
-            $this->mock(UserSettings::class),
-            $this->mockTree(Provide::class, [
+            $this->stub(Settings::class),
+            $this->stub(UserSettings::class),
+            $this->stubTree(Provide::class, [
                 'document' => ['repository' => ['all' => [$doc]]],
                 'history' => $history,
             ]),
-            $this->mock(Clock::class)
+            $this->stub(Clock::class)
         );
 
         $instance->acceptAnyDocument();

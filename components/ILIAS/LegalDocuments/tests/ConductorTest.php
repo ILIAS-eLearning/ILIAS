@@ -57,25 +57,25 @@ class ConductorTest extends TestCase
 
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(Conductor::class, new Conductor($this->mock(Container::class), $this->mock(Internal::class), $this->mock(Routing::class)));
+        $this->assertInstanceOf(Conductor::class, new Conductor($this->stub(Container::class), $this->stub(Internal::class), $this->stub(Routing::class)));
     }
 
     public function testProvide(): void
     {
-        $instance = new Conductor($this->mock(Container::class), $this->mock(Internal::class), $this->mock(Routing::class));
+        $instance = new Conductor($this->stub(Container::class), $this->stub(Internal::class), $this->stub(Routing::class));
         $this->assertInstanceOf(Provide::class, $instance->provide('foo'));
     }
 
     public function testLoginPageHTML(): void
     {
         $components = [
-            $this->mock(Component::class),
-            $this->mock(Component::class),
+            $this->stub(Component::class),
+            $this->stub(Component::class),
         ];
 
-        $space = $this->mock(Content::class);
+        $space = $this->stub(Content::class);
 
-        $container = $this->mockTree(Container::class, [
+        $container = $this->stubTree(Container::class, [
             'ui' => [
                 'renderer' => $this->mockMethod(Renderer::class, 'render', [
                     $components,
@@ -85,24 +85,24 @@ class ConductorTest extends TestCase
 
         $internal = $this->mockMethod(Internal::class, 'get', ['show-on-login-page', 'foo'], fn() => $components);
 
-        $instance = new Conductor($container, $internal, $this->mock(Routing::class));
+        $instance = new Conductor($container, $internal, $this->stub(Routing::class));
 
         $this->assertSame('rendered', $instance->loginPageHTML('foo'));
     }
 
     public function testLogoutText(): void
     {
-        $constraint = $this->mock(Constraint::class);
-        $component = $this->mock(Component::class);
+        $constraint = $this->stub(Constraint::class);
+        $component = $this->stub(Component::class);
 
-        $container = $this->mockTree(Container::class, [
+        $container = $this->stubTree(Container::class, [
             'refinery' => ['to' => ['string' => $constraint]],
             'http' => ['wrapper' => ['query' => $this->mockMethod(ArrayBasedRequestWrapper::class, 'retrieve', ['withdraw_consent', $constraint], 'foo')]],
             'ui' => ['renderer' => $this->mockMethod(Renderer::class, 'render', [$component], 'rendered')],
         ]);
 
 
-        $internal = $this->mock(Internal::class);
+        $internal = $this->stub(Internal::class);
         $internal->method('get')->willReturnCallback(function ($param1, $param2) use (&$called, $component) {
             if ($param1 === 'logout-text' && $param2 === 'foo') {
                 return static function () use ($component): Component {
@@ -113,7 +113,7 @@ class ConductorTest extends TestCase
             return null;
         });
 
-        $instance = new Conductor($container, $internal, $this->mock(Routing::class));
+        $instance = new Conductor($container, $internal, $this->stub(Routing::class));
 
         $logoutText = $instance->logoutText();
 
@@ -129,10 +129,10 @@ class ConductorTest extends TestCase
             return $f;
         };
 
-        $instance = new Conductor($this->mock(Container::class), $this->mockMethod(Internal::class, 'all', ['footer'], [
+        $instance = new Conductor($this->stub(Container::class), $this->mockMethod(Internal::class, 'all', ['footer'], [
             $modify_footer,
             $modify_footer,
-        ]), $this->mock(Routing::class));
+        ]), $this->stub(Routing::class));
 
         $this->assertSame($footer, $instance->modifyFooter($footer));
     }
@@ -156,12 +156,12 @@ class ConductorTest extends TestCase
         $this->expectExceptionMessage('Not available.');
         $routing = $this->mock(Routing::class);
         $routing->expects($this->once())->method('redirectToOriginalTarget');
-        $constraint = $this->mock(Constraint::class);
-        $container = $this->mockTree(Container::class, [
+        $constraint = $this->stub(Constraint::class);
+        $container = $this->stubTree(Container::class, [
             'refinery' => ['to' => ['string' => $constraint]],
             'http' => ['wrapper' => ['query' => $this->mockMethod(ArrayBasedRequestWrapper::class, 'retrieve', ['id', $constraint], 'foo')]],
         ]);
-        $internal = $this->mock(Internal::class);
+        $internal = $this->stub(Internal::class);
         $internal = $this->mockMethod(Internal::class, 'get', ['agreement-form', 'foo'], function (string $g, string $cmd): Result {
             return new Error('Not available.');
         });
@@ -182,7 +182,7 @@ class ConductorTest extends TestCase
             fn() => [4, 5, 6],
             fn() => [5, 6],
         ]);
-        $instance = new Conductor($this->mock(Container::class), $internal, $this->mock(Routing::class));
+        $instance = new Conductor($this->stub(Container::class), $internal, $this->stub(Routing::class));
 
         $this->assertSame(
             [1, 2, 3, 4, 7, 8, 9],
@@ -193,13 +193,13 @@ class ConductorTest extends TestCase
     public function testUserCanReadInternalMail(): void
     {
         $constraints = [
-            'foo' => $this->mock(Constraint::class),
-            'bar' => $this->mock(Constraint::class),
+            'foo' => $this->stub(Constraint::class),
+            'bar' => $this->stub(Constraint::class),
         ];
 
-        $series = $this->mock(Transformation::class);
+        $series = $this->stub(Transformation::class);
 
-        $container = $this->mockTree(Container::class, [
+        $container = $this->stubTree(Container::class, [
             'refinery' => ['in' => $this->mockMethod(
                 InGroup::class,
                 'series',
@@ -210,24 +210,24 @@ class ConductorTest extends TestCase
 
         $internal = $this->mockMethod(Internal::class, 'all', ['constrain-internal-mail'], $constraints);
 
-        $instance = new Conductor($container, $internal, $this->mock(Routing::class));
+        $instance = new Conductor($container, $internal, $this->stub(Routing::class));
         $this->assertSame($series, $instance->userCanReadInternalMail());
     }
 
     public function testCanUseSoapApi(): void
     {
         $constraints = [
-            'foo' => $this->mock(Constraint::class),
-            'bar' => $this->mock(Constraint::class),
+            'foo' => $this->stub(Constraint::class),
+            'bar' => $this->stub(Constraint::class),
         ];
 
-        $container = $this->mockTree(Container::class, [
-            'refinery' => ['in' => $this->mockMethod(InGroup::class, 'series', [array_values($constraints)], $this->mock(Transformation::class))]
+        $container = $this->stubTree(Container::class, [
+            'refinery' => ['in' => $this->mockMethod(InGroup::class, 'series', [array_values($constraints)], $this->stub(Transformation::class))]
         ]);
 
         $internal = $this->mockMethod(Internal::class, 'all', ['use-soap-api'], $constraints);
 
-        $instance = new Conductor($container, $internal, $this->mock(Routing::class));
+        $instance = new Conductor($container, $internal, $this->stub(Routing::class));
         $this->assertInstanceOf(Transformation::class, $instance->canUseSoapApi());
     }
 
@@ -244,7 +244,7 @@ class ConductorTest extends TestCase
             }
         ]);
 
-        $instance = new Conductor($this->mock(Container::class), $internal, $this->mock(Routing::class));
+        $instance = new Conductor($this->stub(Container::class), $internal, $this->stub(Routing::class));
 
         $instance->afterLogin();
 
@@ -253,13 +253,13 @@ class ConductorTest extends TestCase
 
     public function testFindGotoLink(): void
     {
-        $foo = $this->mock(Target::class);
+        $foo = $this->stub(Target::class);
         $internal = $this->mockMethod(Internal::class, 'all', ['goto'], [
-            $this->mockTree(GotoLink::class, ['name' => 'bar']),
-            $this->mockTree(GotoLink::class, ['name' => 'foo', 'target' => $foo]),
+            $this->stubTree(GotoLink::class, ['name' => 'bar']),
+            $this->stubTree(GotoLink::class, ['name' => 'foo', 'target' => $foo]),
         ]);
 
-        $instance = new Conductor($this->mock(Container::class), $internal, $this->mock(Routing::class));
+        $instance = new Conductor($this->stub(Container::class), $internal, $this->stub(Routing::class));
 
         $target = $instance->findGotoLink('foo');
         $this->assertTrue($target->isOk());
@@ -270,23 +270,23 @@ class ConductorTest extends TestCase
     public function testIntercepting(): void
     {
         $intercepting = [
-            'foo' => $this->mock(Intercept::class),
-            'bar' => $this->mock(Intercept::class)
+            'foo' => $this->stub(Intercept::class),
+            'bar' => $this->stub(Intercept::class)
         ];
 
         $internal = $this->mockMethod(Internal::class, 'all', ['intercept'], $intercepting);
 
-        $instance = new Conductor($this->mock(Container::class), $internal, $this->mock(Routing::class));
+        $instance = new Conductor($this->stub(Container::class), $internal, $this->stub(Routing::class));
         $this->assertSame($intercepting, $instance->intercepting());
     }
 
     public function testSelfRegistration(): void
     {
         $internal = $this->mockMethod(Internal::class, 'all', ['self-registration'], [
-            $this->mock(SelfRegistration::class),
+            $this->stub(SelfRegistration::class),
         ]);
 
-        $instance = new Conductor($this->mock(Container::class), $internal, $this->mock(Routing::class));
+        $instance = new Conductor($this->stub(Container::class), $internal, $this->stub(Routing::class));
 
         $this->assertInstanceOf(Bundle::class, $instance->selfRegistration());
     }
@@ -298,13 +298,13 @@ class ConductorTest extends TestCase
             fn() => ['hoo' => 'har'],
         ]);
 
-        $instance = new Conductor($this->mock(Container::class), $internal, $this->mock(Routing::class));
+        $instance = new Conductor($this->stub(Container::class), $internal, $this->stub(Routing::class));
 
         $this->assertSame([
             'foo' => 'bar',
             'baz' => 'hej',
             'hoo' => 'har',
-        ], $instance->userManagementFields($this->mock(ilObjUser::class)));
+        ], $instance->userManagementFields($this->stub(ilObjUser::class)));
     }
 
     public static function agreeTypes(): array
@@ -317,17 +317,17 @@ class ConductorTest extends TestCase
 
     private function agreement(string $method, string $gui, string $key, ?ilGlobalTemplateInterface $main_template = null)
     {
-        $constraint = $this->mock(Constraint::class);
+        $constraint = $this->stub(Constraint::class);
 
         $ctrl = $this->mock(ilCtrl::class);
         $ctrl->expects($this->once())->method('setParameterByClass')->with($gui, 'id', 'foo');
 
-        $container = $this->mockTree(Container::class, [
+        $container = $this->stubTree(Container::class, [
             'refinery' => ['to' => ['string' => $constraint]],
             'http' => ['wrapper' => ['query' => $this->mockMethod(ArrayBasedRequestWrapper::class, 'retrieve', ['id', $constraint], 'foo')]],
             'ui' => [
-                'mainTemplate' => $main_template ?? $this->mock(ilGlobalTemplateInterface::class),
-                'renderer' => $this->mock(Renderer::class),
+                'mainTemplate' => $main_template ?? $this->stub(ilGlobalTemplateInterface::class),
+                'renderer' => $this->stub(Renderer::class),
             ],
             'ctrl' => $ctrl,
         ]);
@@ -340,7 +340,7 @@ class ConductorTest extends TestCase
             return new Ok($fragment);
         });
 
-        $instance = new Conductor($container, $internal, $this->mock(Routing::class));
+        $instance = new Conductor($container, $internal, $this->stub(Routing::class));
 
         return $instance->$method($gui, 'some cmd');
     }

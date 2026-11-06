@@ -38,16 +38,16 @@ class MarshalTest extends TestCase
 
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(Marshal::class, new Marshal($this->mock(Refinery::class)));
+        $this->assertInstanceOf(Marshal::class, new Marshal($this->stub(Refinery::class)));
     }
 
     public function testDateTime(): void
     {
-        $from = $this->mock(Transformation::class);
-        $custom = $this->mock(Transformation::class);
-        $date = $this->mock(Transformation::class);
+        $from = $this->stub(Transformation::class);
+        $custom = $this->stub(Transformation::class);
+        $date = $this->stub(Transformation::class);
 
-        $refinery = $this->mockTree(Refinery::class, [
+        $refinery = $this->stubTree(Refinery::class, [
             'in' => $this->mockMethod(In::class, 'series', [[$custom, $date]], $from),
             'custom' => ['transformation' => $custom],
             'to' => ['dateTime' => $date],
@@ -60,10 +60,10 @@ class MarshalTest extends TestCase
 
     public function testBoolean(): void
     {
-        $from = $this->mock(ByTrying::class);
-        $custom = $this->mock(Transformation::class);
-        $bool = $this->mock(Transformation::class);
-        $to = $this->mock(Transformation::class);
+        $from = $this->stub(ByTrying::class);
+        $custom = $this->stub(Transformation::class);
+        $bool = $this->stub(Transformation::class);
+        $to = $this->stub(Transformation::class);
 
         $refinery = $this->mockTree(Refinery::class, [
             'custom' => ['transformation' => $custom],
@@ -78,16 +78,16 @@ class MarshalTest extends TestCase
 
     public function testNullable(): void
     {
-        $decorate = $this->mockTree(Convert::class, [
-            'fromString' => $this->mock(Transformation::class),
-            'toString' => $this->mock(Transformation::class),
+        $decorate = $this->stubTree(Convert::class, [
+            'fromString' => $this->stub(Transformation::class),
+            'toString' => $this->stub(Transformation::class),
         ]);
 
-        $by_trying = $this->mock(ByTrying::class);
-        $nice_null = $this->mock(Transformation::class);
-        $null = $this->mock(Constraint::class);
-        $always = $this->mock(Transformation::class);
-        $series = $this->mock(Transformation::class);
+        $by_trying = $this->stub(ByTrying::class);
+        $nice_null = $this->stub(Transformation::class);
+        $null = $this->stub(Constraint::class);
+        $always = $this->stub(Transformation::class);
+        $series = $this->stub(Transformation::class);
 
         $refinery = $this->mockTree(Refinery::class, [
             'kindlyTo' => ['null' => $nice_null],
@@ -110,9 +110,9 @@ class MarshalTest extends TestCase
 
     public function testString(): void
     {
-        $id = $this->mock(Transformation::class);
+        $id = $this->stub(Transformation::class);
 
-        $convert = (new Marshal($this->mockTree(Refinery::class, ['identity' => $id])))->string();
+        $convert = (new Marshal($this->stubTree(Refinery::class, ['identity' => $id])))->string();
         $this->assertSame($id, $convert->fromString());
         $this->assertSame($id, $convert->toString());
     }

@@ -35,14 +35,14 @@ class ShowOnScreenMessageTest extends TestCase
 
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(ShowOnScreenMessage::class, new ShowOnScreenMessage($this->mock(PageFragment::class), 'foo', 'bar', false));
+        $this->assertInstanceOf(ShowOnScreenMessage::class, new ShowOnScreenMessage($this->stub(PageFragment::class), 'foo', 'bar', false));
     }
 
     public function testRender(): void
     {
         $template = $this->mock(ilGlobalTemplateInterface::class);
         $template->expects($this->once())->method('setOnScreenMessage')->with('foo', 'bar', true);
-        $renderer = $this->mock(Renderer::class);
+        $renderer = $this->stub(Renderer::class);
         $page = $this->mockMethod(PageFragment::class, 'render', [$template, $renderer], 'rendered');
 
         $instance = new ShowOnScreenMessage($page, 'foo', 'bar', true);

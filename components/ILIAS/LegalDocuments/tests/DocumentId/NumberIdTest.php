@@ -33,7 +33,7 @@ class NumberIdTest extends TestCase
 
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(NumberId::class, new NumberId($this->mock(Document::class)));
+        $this->assertInstanceOf(NumberId::class, new NumberId($this->stub(Document::class)));
     }
 
     public function testNumber(): void

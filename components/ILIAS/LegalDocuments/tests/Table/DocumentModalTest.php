@@ -42,25 +42,25 @@ class DocumentModalTest extends TestCase
 
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(DocumentModal::class, new DocumentModal($this->mock(UIServices::class), $this->fail(...)));
+        $this->assertInstanceOf(DocumentModal::class, new DocumentModal($this->stub(UIServices::class), $this->fail(...)));
     }
 
     public function testCreate(): void
     {
-        $content = $this->mockTree(DocumentContent::class, ['title' => 'foo']);
-        $component = $this->mock(Component::class);
-        $signal = $this->mock(Signal::class);
-        $modal_component = $this->mockTree(Lightbox::class, ['getShowSignal' => $signal]);
+        $content = $this->stubTree(DocumentContent::class, ['title' => 'foo']);
+        $component = $this->stub(Component::class);
+        $signal = $this->stub(Signal::class);
+        $modal_component = $this->stubTree(Lightbox::class, ['getShowSignal' => $signal]);
         $button_component = $this->mock(Shy::class);
         $button_component->expects($this->once())->method('withOnClick')->with($signal)->willReturn($button_component);
 
-        $text_page = $this->mock(LightboxTextPage::class);
+        $text_page = $this->stub(LightboxTextPage::class);
 
         $modal = $this->mock(ModalFactory::class);
         $modal->expects($this->once())->method('lightboxTextPage')->with('rendered', 'foo')->willReturn($text_page);
         $modal->expects($this->once())->method('lightbox')->with([$text_page])->willReturn($modal_component);
 
-        $instance = new DocumentModal($this->mockTree(UIServices::class, [
+        $instance = new DocumentModal($this->stubTree(UIServices::class, [
             'renderer' => $this->mockMethod(Renderer::class, 'render', [$component], 'rendered'),
             'factory' => [
                 'modal' => $modal,

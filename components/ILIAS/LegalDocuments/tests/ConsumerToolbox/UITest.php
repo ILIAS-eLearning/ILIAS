@@ -36,19 +36,19 @@ class UITest extends TestCase
 
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(UI::class, new UI('foo', $this->mock(UIServices::class), $this->mock(ilLanguage::class)));
+        $this->assertInstanceOf(UI::class, new UI('foo', $this->stub(UIServices::class), $this->stub(ilLanguage::class)));
     }
 
     public function testCreate(): void
     {
-        $ui_factory = $this->mock(UIFactory::class);
-        $this->assertSame($ui_factory, (new UI('foo', $this->mockTree(UIServices::class, ['factory' => $ui_factory]), $this->mock(ilLanguage::class)))->create());
+        $ui_factory = $this->stub(UIFactory::class);
+        $this->assertSame($ui_factory, (new UI('foo', $this->stubTree(UIServices::class, ['factory' => $ui_factory]), $this->stub(ilLanguage::class)))->create());
     }
 
     public function testMainTemplate(): void
     {
-        $template = $this->mock(ilGlobalTemplateInterface::class);
-        $this->assertSame($template, (new UI('foo', $this->mockTree(UIServices::class, ['mainTemplate' => $template]), $this->mock(ilLanguage::class)))->mainTemplate());
+        $template = $this->stub(ilGlobalTemplateInterface::class);
+        $this->assertSame($template, (new UI('foo', $this->stubTree(UIServices::class, ['mainTemplate' => $template]), $this->stub(ilLanguage::class)))->mainTemplate());
     }
 
     public function testTxt(): void
@@ -68,7 +68,7 @@ class UITest extends TestCase
                     return $return;
                 }
             );
-        $instance = new UI('bar', $this->mock(UIServices::class), $language);
+        $instance = new UI('bar', $this->stub(UIServices::class), $language);
         $this->assertSame('baz', $instance->txt('foo'));
     }
 
@@ -86,7 +86,7 @@ class UITest extends TestCase
                 }
             );
 
-        $instance = new UI('bar', $this->mock(UIServices::class), $language);
+        $instance = new UI('bar', $this->stub(UIServices::class), $language);
         $this->assertSame('baz', $instance->txt('foo'));
     }
 }

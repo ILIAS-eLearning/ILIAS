@@ -33,7 +33,7 @@ class ConfirmationTest extends TestCase
 
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(Confirmation::class, new Confirmation($this->mock(ilLanguage::class), $this->fail(...)));
+        $this->assertInstanceOf(Confirmation::class, new Confirmation($this->stub(ilLanguage::class), $this->fail(...)));
     }
 
     public function testRender(): void

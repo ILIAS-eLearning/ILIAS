@@ -34,14 +34,14 @@ class UserActionTest extends TestCase
 
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(UserAction::class, new UserAction($this->mock(ilObjUser::class), $this->mock(Clock::class)));
+        $this->assertInstanceOf(UserAction::class, new UserAction($this->stub(ilObjUser::class), $this->stub(Clock::class)));
     }
 
     public function testModifiedNow(): void
     {
         $date = new DateTimeImmutable();
 
-        $instance = new UserAction($this->mockTree(ilObjUser::class, ['getId' => 34]), $this->mockTree(Clock::class, ['now' => $date]));
+        $instance = new UserAction($this->stubTree(ilObjUser::class, ['getId' => 34]), $this->stubTree(Clock::class, ['now' => $date]));
 
         $edit = $instance->modifiedNow();
         $this->assertSame(34, $edit->user());
