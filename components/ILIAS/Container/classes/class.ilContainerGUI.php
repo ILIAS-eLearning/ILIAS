@@ -2635,6 +2635,31 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $this->trashObject();
     }
 
+    public function undelete(array $trash_ids): void
+    {
+        $this->checkTrashAccess();
+        $ru = new ilRepositoryTrashGUI($this);
+        $ru->restoreObjects($this->requested_ref_id, $trash_ids);
+        $this->ctrl->redirect($this, "trash");
+    }
+
+    public function restoreToNewLocation(array $trash_ids): void
+    {
+        $this->checkTrashAccess();
+        $this->tabs_gui->activateTab('trash');
+
+        $ru = new ilRepositoryTrashGUI($this);
+        $ru->restoreToNewLocation(null, $trash_ids);
+    }
+
+    public function confirmRemoveFromSystem(array $trash_ids): void
+    {
+        $this->checkTrashAccess();
+        $this->checkPermission("write");
+        $ru = new ilRepositoryTrashGUI($this);
+        $ru->confirmRemoveFromSystemObject($trash_ids);
+    }
+
     public function removeFromSystemObject(?int $trash_id = null): void
     {
         $this->checkPermission("write");

@@ -99,12 +99,9 @@ class TrashTableBuilder extends CommonTableBuilder
             ->textColumn('deleted_by', $lng->txt('rep_trash_table_col_deleted_by'), true)
             ->dateColumn('deleted', $lng->txt('rep_trash_table_col_deleted_on'), true)
             ->textColumn('num_subs', $lng->txt('rep_trash_table_col_num_subs'), true)
-            ->multiAction('undelete', $lng->txt('btn_undelete_origin_location'))
-            ->multiAction('restoreToNewLocation', $lng->txt('btn_undelete_new_location'))
-            ->multiAction('confirmRemoveFromSystem', $lng->txt('btn_remove_system'))
-            ->singleAction('undeleteObject', $lng->txt('btn_undelete_origin_location'))
-            ->singleAction('restoreToNewLocationObject', $lng->txt('btn_undelete_new_location'))
-            ->singleAction('confirmRemoveFromSystemObject', $lng->txt('btn_remove_system'));
+            ->standardAction('undelete', $lng->txt('btn_undelete_origin_location'))
+            ->standardAction('restoreToNewLocation', $lng->txt('btn_undelete_new_location'))
+            ->standardAction('confirmRemoveFromSystem', $lng->txt('btn_remove_system'));
     }
 
     public function getFilter(): FilterAdapterGUI
