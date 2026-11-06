@@ -3815,6 +3815,12 @@ msgstr "Participant"
 msgid "tst_participant_fullname_pattern"
 msgstr "%2$s, %1$s"
 
+msgid "tst_participant_last_attempts"
+msgstr "Last Attempts"
+
+msgid "tst_participant_scored_attempts"
+msgstr "Scored Attempts"
+
 msgid "tst_participant_status"
 msgstr "Participant Status"
 
