@@ -22,6 +22,13 @@ use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
 use ILIAS\User\Profile\Profile;
 use ILIAS\User\Context;
+use ILIAS\UI\URLBuilder;
+use ILIAS\UI\URLBuilderToken;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Membership\Export\Table\TableBuilder;
+use ILIAS\Membership\Export\Table\DataRetrieval;
+use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\UI\Factory as UIFactory;
 
 /**
  * @author  Stefan Meyer <meyer@leifos.com>
@@ -40,7 +47,11 @@ class ilMemberExportGUI
     protected ilGlobalTemplateInterface $tpl;
     protected ilLanguage $lng;
     protected ilToolbarGUI $toolbar;
+    protected ilObjUser $user;
     protected Profile $profile;
+    protected UIRenderer $ui_renderer;
+    protected UIFactory $ui_factory;
+    protected DataFactory $data_factory;
 
     protected ?ilMemberExport $export = null;
     protected ?ilExportFieldsInfo $fields_info = null;
@@ -62,9 +73,13 @@ class ilMemberExportGUI
         $this->ctrl = $DIC->ctrl();
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->toolbar = $DIC->toolbar();
+        $this->user = $DIC->user();
         $this->profile = $DIC['user']->getProfile();
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('ps');
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
+        $this->data_factory = new DataFactory();
         $this->ref_id = $a_ref_id;
         $this->obj_id = ilObject::_lookupObjId($this->ref_id);
         $this->type = ilObject::_lookupType($this->obj_id);
@@ -174,7 +189,7 @@ class ilMemberExportGUI
         }
 
         // consultation hours
-        if (ilBookingEntry::hasObjectBookingEntries($this->obj_id, $GLOBALS['DIC']['ilUser']->getId())) {
+        if (ilBookingEntry::hasObjectBookingEntries($this->obj_id, $this->user->getId())) {
             $this->lng->loadLanguageModule('dateplaner');
             $chours = new ilCheckboxInputGUI($this->lng->txt('cal_ch_field_ch'), 'export_members[]');
             $chours->setValue('consultation_hour');
@@ -296,25 +311,81 @@ class ilMemberExportGUI
      */
     public function showFileList(): void
     {
-        $tbl = new ilMemberExportFileTableGUI($this, 'show', $this->fss_export);
-        $this->tpl->setContent($tbl->getHTML());
+        $table = new TableBuilder(
+            new DataRetrieval($this->fss_export, $this->lng),
+            $this->lng,
+            $this->ui_factory,
+            $this->http,
+            $this->user,
+            $this->data_factory
+        );
+
+        $this->tpl->setContent(
+            $this->ui_renderer->render(
+                $table->get(...$this->getTableActionURLBuilder())
+            )
+        );
+    }
+
+    /**
+     * @return array{0: URLBuilder, 1: URLBuilderToken, 2: URLBuilderToken}
+     */
+    protected function getTableActionURLBuilder(): array
+    {
+        $link = ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTarget(
+            $this,
+            'handleTableAction'
+        );
+        $url_builder = new URLBuilder($this->data_factory->uri($link));
+        return $url_builder->acquireParameters(['mem_exp_tbl'], 'table_ids', 'table_action');
+    }
+
+    protected function handleTableAction(): void
+    {
+        list($url_builder, $id_token, $action_token) = $this->getTableActionURLBuilder();
+
+        if (!$this->http->wrapper()->query()->has($action_token->getName())) {
+            return;
+        }
+
+        $action = $this->http->wrapper()->query()->retrieve(
+            $action_token->getName(),
+            $this->refinery->kindlyTo()->string()
+        );
+
+        $ids = [];
+        if ($this->http->wrapper()->query()->has($id_token->getName())) {
+            $ids = $this->http->wrapper()->query()->retrieve(
+                $id_token->getName(),
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string())
+            );
+
+            if ($ids === ['ALL_OBJECTS']) {
+                $data_retrieval = new DataRetrieval($this->fss_export, $this->lng);
+                $ids = $data_retrieval->getAllIDs();
+            }
+        }
+
+        switch ($action) {
+            case TableBuilder::ACTION_DOWNLOAD:
+                $this->downloadExportFile($ids);
+                break;
+
+            case TableBuilder::ACTION_DELETE:
+                $this->confirmDeleteExportFile($ids);
+                break;
+        }
     }
 
     /**
      * Download export file
+     * @param string[] $ids
      */
-    public function downloadExportFile(): void
+    public function downloadExportFile(array $ids): void
     {
-        $fl = '';
-        if ($this->http->wrapper()->query()->has('fl')) {
-            $fl = $this->http->wrapper()->query()->retrieve(
-                'fl',
-                $this->refinery->kindlyTo()->string()
-            );
-        }
-
-        $hash = trim($fl);
+        $hash = $ids[0] ?? '';
         if (!$hash) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('ps_select_one'), true);
             $this->ctrl->redirect($this, 'show');
         }
 
@@ -377,16 +448,17 @@ class ilMemberExportGUI
                 )
             );
         }
+
         return $ids;
     }
 
     /**
      * Confirm deletion of export files
+     * @param string[] $ids
      */
-    public function confirmDeleteExportFile(): void
+    public function confirmDeleteExportFile(array $ids): void
     {
-        $file_ids = $this->initFileIdsFromPost();
-        if (!count($file_ids)) {
+        if (!count($ids)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('ps_select_one'), true);
             $this->ctrl->redirect($this, 'show');
         }
@@ -396,7 +468,7 @@ class ilMemberExportGUI
         $confirmation_gui->setCancel($this->lng->txt('cancel'), 'show');
         $confirmation_gui->setConfirm($this->lng->txt('delete'), 'deleteExportFile');
         foreach ($this->fss_export->getMemberExportFiles() as $file) {
-            if (!in_array(md5($file['name']), $file_ids)) {
+            if (!in_array(md5($file['name']), $ids)) {
                 continue;
             }
             $confirmation_gui->addItem(

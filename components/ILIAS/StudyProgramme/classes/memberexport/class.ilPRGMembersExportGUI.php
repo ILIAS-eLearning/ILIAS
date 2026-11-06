@@ -174,7 +174,7 @@ class ilPRGMembersExportGUI extends ilMemberExportGUI
         }
 
         foreach ($this->fss_export->getMemberExportFiles() as $file) {
-            if (!in_array(md5($file['name']), $_POST['id'])) {
+            if (!in_array(md5($file['name']), $file_ids)) {
                 continue;
             }
             $this->fss_export->deleteMemberExportFile($file['name']);
@@ -184,18 +184,14 @@ class ilPRGMembersExportGUI extends ilMemberExportGUI
         $this->ctrl->redirect($this, 'show');
     }
 
-    public function downloadExportFile(): void
+    /**
+     * @param string[] $ids
+     */
+    public function downloadExportFile(array $ids): void
     {
-        $fl = '';
-        if ($this->http->wrapper()->query()->has('fl')) {
-            $fl = $this->http->wrapper()->query()->retrieve(
-                'fl',
-                $this->refinery->kindlyTo()->string()
-            );
-        }
-
-        $hash = trim($fl);
+        $hash = $ids[0] ?? '';
         if (!$hash) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('ps_select_one'), true);
             $this->ctrl->redirect($this, 'show');
         }
 
