@@ -76,6 +76,10 @@ class Manager
         $ref_ids = ilObject::_getAllReferences($obj_id);
         $ref_id = current($ref_ids);
 
+        if (!$ref_id) {
+            return null;
+        }
+
         if ($cont_ref_id = $this->domain->repositoryTree()->checkForParentType($ref_id, 'grp', true)) {
             $parent_obj_id = ilObject::_lookupObjId($cont_ref_id);
             $parent_settings = $this->getSettingsForObject($parent_obj_id);
