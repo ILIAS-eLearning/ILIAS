@@ -28,8 +28,6 @@ use Generator;
 use ilFileSystemAbstractionStorage;
 use ilLanguage;
 use ilUtil;
-use ilDatePresentation;
-use ilDateTime;
 use DateTimeImmutable;
 
 class DataRetrieval implements DataRetrievalInterface
