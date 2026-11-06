@@ -112,6 +112,7 @@ class ilPluginLanguage
             $local_changes = ilObjLanguage::_getLocalChangesByModule($lang['key'], $prefix);
 
             // get language data
+            $unstorable = [];
             if (is_array($txt)) {
                 foreach ($txt as $row) {
                     if ($row[0] !== "#" && strpos($row, "#:#") > 0) {
@@ -121,17 +122,41 @@ class ilPluginLanguage
 
                         if (isset($local_changes[$identifier])) {
                             $lang_array[$identifier] = $local_changes[$identifier];
+                        } elseif (!ilObjLanguageExt::isStorableValue($identifier)) {
+                            // not even usable in a WHERE clause, so there can be no stored row either
+                            $unstorable[] = $identifier;
+                        } elseif (!ilObjLanguageExt::isStorableValue($value)) {
+                            // an older stored value would otherwise remain in lng_data only
+                            ilObjLanguage::deleteLangEntry($prefix, $identifier, $lang["key"]);
+                            $unstorable[] = $identifier;
                         } else {
                             $lang_array[$identifier] = $value;
                             ilObjLanguage::replaceLangEntry($prefix, $identifier, $lang["key"], $value);
                         }
-                        //echo "<br>-$prefix-".$prefix."_".trim($a[0])."-".$lang["key"]."-";
                     }
                 }
             }
 
             ilObjLanguage::replaceLangModule($lang["key"], $prefix, $lang_array);
+            if ($unstorable !== []) {
+                $this->logUnstorableEntries($lang["key"], $unstorable);
+            }
         }
+    }
+
+    /**
+     * @param list<string> $identifiers
+     */
+    private function logUnstorableEntries(string $lang_key, array $identifiers): void
+    {
+        global $DIC;
+        if (!isset($DIC) || !$DIC->offsetExists("ilLoggerFactory")) {
+            return;
+        }
+        $DIC->logger()->root()->warning(
+            "Plugin language file of '{$this->getPrefix()}' for language '{$lang_key}': entries with invalid " .
+            "or unsupported characters (e.g. emojis) were not installed: " . implode(", ", $identifiers)
+        );
     }
 
     public function uninstall(): void

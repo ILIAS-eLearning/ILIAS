@@ -472,17 +472,21 @@ class ilObjLanguageExt extends ilObjLanguage
     }
 
     /**
-     * lng_* columns are utf8mb3: rejects characters outside the BMP (e.g. emojis) and invalid UTF-8.
-     *
+     * lng_* columns are utf8mb3: false for characters outside the BMP (e.g. emojis) and for invalid UTF-8.
+     */
+    public static function isStorableValue(string $value): bool
+    {
+        return preg_match('/[\x{10000}-\x{10FFFF}]/u', $value) === 0;
+    }
+
+    /**
      * @param array<string, string> $a_values
      * @param array<string, ?string> $a_remarks
      * @throws ilLanguageException listing the affected keys
      */
     public static function _assertStorableValues(array $a_values, array $a_remarks = []): void
     {
-        // preg_match() returns false on invalid UTF-8, which is rejected as well
-        $is_unstorable = static fn($value): bool => is_string($value)
-            && preg_match('/[\x{10000}-\x{10FFFF}]/u', $value) !== 0;
+        $is_unstorable = static fn($value): bool => is_string($value) && !self::isStorableValue($value);
         $keys = array_unique(array_merge(
             array_keys(array_filter($a_values, $is_unstorable)),
             array_keys(array_filter($a_remarks, $is_unstorable))
