@@ -26,12 +26,6 @@ use ilLanguage;
 use ILIAS\HTTP\Services as HTTP;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
-use ilCtrl;
-use ILIAS\Data\URI;
-use ILIAS\UI\Component\Symbol\Icon\Icon;
-use ilAdvancedMDRecordTranslationGUI;
-use ILIAS\Data\Range;
-use ILIAS\Data\Factory as DataFactory;
 
 class TableBuilder
 {
@@ -48,9 +42,7 @@ class TableBuilder
         protected DataRetrieval $data_retrieval,
         protected ilLanguage $lng,
         protected UIFactory $ui_factory,
-        protected HTTP $http,
-        protected ilCtrl $ctrl,
-        protected DataFactory $data_factory
+        protected HTTP $http
     ) {
     }
 

@@ -35,8 +35,7 @@ class DataRetrieval implements BaseDataRetrieval
     protected ilAdvancedMDRecord $record;
     protected ilLanguage $lng;
     protected ilAdvancedMDRecordTranslations $record_translations;
-    /** @var array<string, array{language: string, default: bool, active: bool, installed: bool}> */
-    protected array $raw_data_cache;
+
     /** @var string[] */
     protected array $all_ids_cache;
 
@@ -121,22 +120,19 @@ class DataRetrieval implements BaseDataRetrieval
 
     protected function getRawData(): array
     {
-        if (!isset($this->raw_data_cache)) {
-            $all_languages = $this->getAllIDs();
-            $installed_languages = ilLanguage::_getInstalledLanguages();
-            $default_language = $this->record->getDefaultLanguage();
+        $all_languages = $this->getAllIDs();
+        $installed_languages = ilLanguage::_getInstalledLanguages();
+        $default_language = $this->record->getDefaultLanguage();
 
-            $data = [];
-            foreach ($all_languages as $lang_code) {
-                $data[$lang_code] = [
-                    TableBuilder::COL_LANGUAGE => $this->lng->txt('meta_l_' . $lang_code),
-                    TableBuilder::COL_DEFAULT => ($lang_code === $default_language),
-                    TableBuilder::COL_ACTIVE => $this->record_translations->isConfigured($lang_code),
-                    TableBuilder::COL_INSTALLED => in_array($lang_code, $installed_languages)
-                ];
-            }
-            $this->raw_data_cache = $data;
+        $data = [];
+        foreach ($all_languages as $lang_code) {
+            $data[$lang_code] = [
+                TableBuilder::COL_LANGUAGE => $this->lng->txt('meta_l_' . $lang_code),
+                TableBuilder::COL_DEFAULT => ($lang_code === $default_language),
+                TableBuilder::COL_ACTIVE => $this->record_translations->isConfigured($lang_code),
+                TableBuilder::COL_INSTALLED => in_array($lang_code, $installed_languages)
+            ];
         }
-        return $this->raw_data_cache;
+        return $data;
     }
 }

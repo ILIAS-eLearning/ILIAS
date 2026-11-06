@@ -19,7 +19,6 @@
 declare(strict_types=1);
 
 use ilLanguage;
-use ilSelectInputGUI;
 use Psr\Http\Message\RequestInterface;
 use ILIAS\HTTP\Services as HTTP;
 use ILIAS\Data\Factory as DataFactory;
@@ -31,10 +30,13 @@ use ILIAS\AdvancedMetaData\Record\Multilingualism\TableBuilder;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
 
+/**
+ * @ilCtrl_IsCalledBy ilAdvancedMDRecordTranslationGUI: ilAdvancedMDSettingsGUI
+ */
 class ilAdvancedMDRecordTranslationGUI
 {
-    protected const CMD_DEFAULT = 'translations';
-    protected const CMD_TABLE_ACTION = 'handleTableAction';
+    protected const string CMD_DEFAULT = 'translations';
+    protected const string CMD_TABLE_ACTION = 'handleTableAction';
 
     protected ilCtrl $ctrl;
     protected ilGlobalTemplateInterface $tpl;
@@ -119,9 +121,7 @@ class ilAdvancedMDRecordTranslationGUI
             $data_retrieval,
             $this->language,
             $this->ui_factory,
-            $this->http,
-            $this->ctrl,
-            $this->data_factory
+            $this->http
         );
 
         [$url_builder, $id_token, $action_token] = $this->getTableActionURLBuilder();
@@ -141,7 +141,7 @@ class ilAdvancedMDRecordTranslationGUI
         return $url_builder->acquireParameters(['advmd_ml'], 'table_ids', 'table_action');
     }
 
-    protected function getLanguageCodes(URLBuilderToken $id_token, DataRetrieval $data_retrieval): array
+    protected function getLanguageCodesFromQuery(URLBuilderToken $id_token, DataRetrieval $data_retrieval): array
     {
         $parameter_name = $id_token->getName();
         $wrapper = $this->http->wrapper()->query();
@@ -158,7 +158,7 @@ class ilAdvancedMDRecordTranslationGUI
             return $data_retrieval->getAllIDs();
         }
 
-        return (array) ($raw_ids ?? []);
+        return $raw_ids ?? [];
     }
 
     protected function getTableActionFromQuery(URLBuilderToken $action_token): string
@@ -184,7 +184,7 @@ class ilAdvancedMDRecordTranslationGUI
             $this->record_translations
         );
         [$url_builder, $id_token, $action_token] = $this->getTableActionURLBuilder();
-        $ids = $this->getLanguageCodes($id_token, $data_retrieval);
+        $ids = $this->getLanguageCodesFromQuery($id_token, $data_retrieval);
         $action = $this->getTableActionFromQuery($action_token);
 
         switch ($action) {
@@ -208,7 +208,7 @@ class ilAdvancedMDRecordTranslationGUI
 
         foreach ($lang_keys as $lang_key) {
             if (!$translations->isConfigured($lang_key)) {
-                $translations->addTranslationEntry($lang_key, false);
+                $translations->addTranslationEntry($lang_key);
             }
         }
 
