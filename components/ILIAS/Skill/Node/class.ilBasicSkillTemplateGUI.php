@@ -188,6 +188,11 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
                     $ilCtrl->getLinkTargetByClass("ilobjskilltreegui", "editSkillTemplates")
                 );
             }
+        } else {
+            $ilTabs->setBackTarget(
+                $lng->txt("back"),
+                $ilCtrl->getLinkTargetByClass("ilskilltemplatereferencegui", "listItems")
+            );
         }
 
         if (is_object($this->node_object)) {

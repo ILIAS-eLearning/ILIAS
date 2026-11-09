@@ -39,12 +39,13 @@ class TableManager
     }
 
     public function getLevelResourcesTable(
+        object $parent_obj,
         int $ref_id,
         int $base_skill_id,
         int $tref_id,
         int $requested_level_id
     ): LevelResourcesTable {
-        return new LevelResourcesTable($ref_id, $base_skill_id, $tref_id, $requested_level_id);
+        return new LevelResourcesTable($parent_obj, $ref_id, $base_skill_id, $tref_id, $requested_level_id);
     }
 
     public function getAssignedObjectsTable(

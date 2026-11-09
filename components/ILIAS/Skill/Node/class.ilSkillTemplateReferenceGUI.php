@@ -74,6 +74,51 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
         }
     }
 
+    public function setLevelHead(): void
+    {
+        $ilTabs = $this->tabs;
+        $ilCtrl = $this->ctrl;
+        $tpl = $this->tpl;
+        $lng = $this->lng;
+        $ilHelp = $this->help;
+
+        // tabs
+        $ilTabs->clearTargets();
+        $ilHelp->setScreenIdComponent("skmg_lev");
+        $ilTabs->setBackTarget(
+            $lng->txt("back"),
+            $ilCtrl->getLinkTarget($this, "listItems")
+        );
+
+        if ($this->requested_level_id > 0) {
+            $ilTabs->addTab(
+                "level_resources",
+                $lng->txt("skmg_resources"),
+                $ilCtrl->getLinkTarget($this, "showLevelResources")
+            );
+        }
+
+        // title
+        if ($this->requested_level_id > 0) {
+            $tpl->setTitle($lng->txt("skmg_skill_level") . ": " .
+                ilBasicSkill::lookupLevelTitle($this->requested_level_id));
+        } else {
+            $tpl->setTitle($lng->txt("skmg_skill_level"));
+        }
+
+        $desc = $this->skill_tree_node_manager->getWrittenPath($this->node_object->getId());
+        $tpl->setDescription($desc);
+
+        $tpl->setTitleIcon(
+            ilSkillTreeNode::getIconPath(
+                0,
+                "sktp",
+                "",
+                0
+            )
+        );
+    }
+
     public function setTabs($a_tab = "levels"): void
     {
         $ilTabs = $this->tabs;
