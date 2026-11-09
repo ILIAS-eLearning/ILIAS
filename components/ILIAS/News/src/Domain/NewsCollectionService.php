@@ -191,8 +191,10 @@ class NewsCollectionService
         $ac_result = [];
 
         foreach ($contexts as $context) {
-            // Filter object and skip access check if the parent object was denied
-            if (isset($ac_result[$context->getParentRefId()]) && !$ac_result[$context->getParentRefId()]) {
+            // Skip the access check if the parent object was denied.
+            // Root contexts have no parent ref id and must not be used as an array offset.
+            $parent_ref_id = $context->getParentRefId();
+            if ($parent_ref_id !== null && isset($ac_result[$parent_ref_id]) && !$ac_result[$parent_ref_id]) {
                 continue;
             }
 
