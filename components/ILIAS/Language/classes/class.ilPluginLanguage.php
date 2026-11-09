@@ -139,24 +139,9 @@ class ilPluginLanguage
 
             ilObjLanguage::replaceLangModule($lang["key"], $prefix, $lang_array);
             if ($unstorable !== []) {
-                $this->logUnstorableEntries($lang["key"], $unstorable);
+                ilObjLanguage::logUnstorableEntries($prefix, $lang["key"], $unstorable);
             }
         }
-    }
-
-    /**
-     * @param list<string> $identifiers
-     */
-    private function logUnstorableEntries(string $lang_key, array $identifiers): void
-    {
-        global $DIC;
-        if (!isset($DIC) || !$DIC->offsetExists("ilLoggerFactory")) {
-            return;
-        }
-        $DIC->logger()->root()->warning(
-            "Plugin language file of '{$this->getPrefix()}' for language '{$lang_key}': entries with invalid " .
-            "or unsupported characters (e.g. emojis) were not installed: " . mb_scrub(implode(", ", $identifiers), "UTF-8")
-        );
     }
 
     public function uninstall(): void

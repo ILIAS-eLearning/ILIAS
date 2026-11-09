@@ -453,6 +453,8 @@ class ilSetupLanguage extends ilLanguage
                     $local_changes = $this->getLocalChanges($lang_key, $min_date);
                 }
 
+                $unstorable = [];
+                $outdated = [];
                 $query_check = false;
                 $query = "INSERT INTO lng_data (module,identifier,lang_key,value,local_change,remarks) VALUES ";
                 foreach ($content as $key => $val) {
@@ -491,6 +493,18 @@ class ilSetupLanguage extends ilLanguage
                             continue;
                         }
                     }
+                    if (!ilObjLanguage::isStorableValue($separated[0] . $this->separator . $separated[1])) {
+                        $unstorable[] = $separated[0] . $this->separator . $separated[1];
+                        continue;
+                    }
+                    if (!ilObjLanguage::isStorableValue($separated[2])) {
+                        $unstorable[] = $separated[0] . $this->separator . $separated[1];
+                        // local files keep the global value (stays in lng_modules via the merge below)
+                        if ($scope !== "local") {
+                            $outdated[$separated[0]][] = $separated[1];
+                        }
+                        continue;
+                    }
 
                     $query .= sprintf(
                         "(%s,%s,%s,%s,%s,%s),",
@@ -508,6 +522,10 @@ class ilSetupLanguage extends ilLanguage
                 if ($query_check) {
                     $ilDB->manipulate($query);
                 }
+                if ($unstorable !== []) {
+                    ilObjLanguage::deleteSkippedLangEntries($ilDB, $lang_key, $outdated);
+                    ilObjLanguage::logUnstorableEntries($lang_file, $lang_key, $unstorable);
+                }
             }
 
             $query = "INSERT INTO lng_modules (module, lang_key, lang_array) VALUES ";
@@ -522,10 +540,10 @@ class ilSetupLanguage extends ilLanguage
                     if ($row === null) {
                         continue;
                     }
-                    $arr2 = unserialize($row["lang_array"], ["allowed_classes" => false]);
-                    if (is_array($arr2)) {
-                        $lang_arr = array_merge($arr2, $lang_arr);
-                    }
+                    $lang_arr = array_merge(
+                        ilObjLanguage::readModuleEntries($ilDB, $lang_key, $module, $row["lang_array"]),
+                        $lang_arr
+                    );
                 }
                 $query .= sprintf(
                     "(%s,%s,%s),",

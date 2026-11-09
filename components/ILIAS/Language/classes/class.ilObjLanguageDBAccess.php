@@ -51,6 +51,8 @@ class ilObjLanguageDBAccess
         $lang_array["common"] = array();
 
         $double_checker = [];
+        $unstorable = [];
+        $outdated = [];
         $query_check = false;
         $query = "INSERT INTO lng_data (module,identifier,lang_key,value,local_change,remarks) VALUES ";
         foreach ($this->content as $val) {
@@ -84,6 +86,18 @@ class ilObjLanguageDBAccess
                     continue;
                 }
             }
+            if (!ilObjLanguage::isStorableValue($separated[0] . $this->separator . $separated[1])) {
+                $unstorable[] = $separated[0] . $this->separator . $separated[1];
+                continue;
+            }
+            if (!ilObjLanguage::isStorableValue($separated[2] . ($separated[3] ?? ""))) {
+                $unstorable[] = $separated[0] . $this->separator . $separated[1];
+                // local files keep the global value (stays in lng_modules via the merge below)
+                if ($this->scope !== "local") {
+                    $outdated[$separated[0]][] = $separated[1];
+                }
+                continue;
+            }
             if ($double_checker[$separated[0]][$separated[1]][$this->key] ?? false) {
                 global $DIC;
                 $DIC->ui()->mainTemplate()->setOnScreenMessage(
@@ -111,6 +125,10 @@ class ilObjLanguageDBAccess
         if ($query_check) {
             $this->ilDB->manipulate($query);
         }
+        if ($unstorable !== []) {
+            ilObjLanguage::deleteSkippedLangEntries($this->ilDB, $this->key, $outdated);
+            ilObjLanguage::logUnstorableEntries($lang_file, $this->key, $unstorable);
+        }
 
         return $lang_array;
     }
@@ -132,10 +150,10 @@ class ilObjLanguageDBAccess
                 if ($row === null) {
                     continue;
                 }
-                $arr2 = unserialize($row["lang_array"], ["allowed_classes" => false]);
-                if (is_array($arr2)) {
-                    $lang_arr = array_merge($arr2, $lang_arr);
-                }
+                $lang_arr = array_merge(
+                    ilObjLanguage::readModuleEntries($this->ilDB, $this->key, $module, $row["lang_array"]),
+                    $lang_arr
+                );
             }
             $query .= sprintf(
                 "(%s,%s,%s),",
@@ -169,7 +187,11 @@ class ilObjLanguageDBAccess
         );
 
         foreach ($this->ilDB->fetchAll($result) as $module) {
-            $unserialied = unserialize($module["lang_array"], ["allowed_classes" => false]);
+            try {
+                $unserialied = unserialize($module["lang_array"], ["allowed_classes" => false]);
+            } catch (Throwable) {
+                $unserialied = null;
+            }
             if (!is_array($unserialied)) {
                 global $DIC;
                 $DIC->ui()->mainTemplate()->setOnScreenMessage(
