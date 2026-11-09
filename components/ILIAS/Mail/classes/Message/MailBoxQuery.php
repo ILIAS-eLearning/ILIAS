@@ -26,7 +26,6 @@ use DateTimeImmutable;
 use DateTimeZone;
 use ILIAS\Data\Order;
 use ilUserSearchOptions;
-use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 
 class MailBoxQuery
 {
@@ -263,6 +262,7 @@ class MailBoxQuery
 
         if ($short) {
             $query = 'SELECT m.mail_id, m.user_id, m.folder_id, m.sender_id, m.send_time, '
+                . 'm.schedule_datetime, m.schedule_timezone, '
                 . 'm.m_status, m.m_subject, m.import_name, m.rcp_to, m.attachments'
                 . $this->getFrom()
                 . $this->getWhere();
@@ -286,34 +286,12 @@ class MailBoxQuery
         $res = $this->db->query($query);
 
         $set = [];
+        $mapper = new MailRecordMapper();
         while ($row = $this->db->fetchAssoc($res)) {
-            if (isset($row['attachments']) && \is_string($row['attachments']) && str_contains($row['attachments'], '{')) {
-                $unserialized_attachments = unserialize($row['attachments'], ['allowed_classes' => false]);
-                $row['attachments'] = \is_array($unserialized_attachments) ? $unserialized_attachments : null;
-            } elseif (isset($row['attachments']) && \is_string($row['attachments']) && $row['attachments'] !== '') {
-                $row['attachments'] = new ResourceCollectionIdentification($row['attachments']);
-            } else {
-                $row['attachments'] = null;
+            $record = $mapper->fromRow($row);
+            if ($record !== null) {
+                $set[] = $record;
             }
-
-            $set[] = new MailRecordData(
-                isset($row['mail_id']) ? (int) $row['mail_id'] : 0,
-                isset($row['user_id']) ? (int) $row['user_id'] : 0,
-                isset($row['folder_id']) ? (int) $row['folder_id'] : 0,
-                isset($row['sender_id']) ? (int) $row['sender_id'] : null,
-                isset($row['send_time']) ? new DateTimeImmutable($row['send_time']) : null,
-                isset($row['m_status']) ? (string) $row['m_status'] : null,
-                isset($row['m_subject']) ? (string) $row['m_subject'] : null,
-                isset($row['import_name']) ? (string) $row['import_name'] : null,
-                isset($row['use_placeholders']) ? (bool) $row['use_placeholders'] : false,
-                isset($row['m_message']) ? (string) $row['m_message'] : null,
-                isset($row['rcp_to']) ? (string) $row['rcp_to'] : null,
-                isset($row['rcp_cc']) ? (string) $row['rcp_cc'] : null,
-                isset($row['rcp_bcc']) ? (string) $row['rcp_bcc'] : null,
-                $row['attachments'],
-                isset($row['tpl_ctx_id']) ? (string) $row['tpl_ctx_id'] : null,
-                isset($row['tpl_ctx_params']) ? (string) $row['tpl_ctx_params'] : null
-            );
         }
 
         return $set;

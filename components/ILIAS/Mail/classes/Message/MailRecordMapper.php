@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Mail\Message;
 
 use DateTimeImmutable;
+use DateTimeZone;
 use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 
 final readonly class MailRecordMapper
@@ -48,6 +49,7 @@ final readonly class MailRecordMapper
             (int) ($row['folder_id'] ?? 0),
             isset($row['sender_id']) ? (int) $row['sender_id'] : null,
             isset($row['send_time']) ? new DateTimeImmutable((string) $row['send_time']) : null,
+            $this->scheduleDatetimeFromRow($row),
             isset($row['m_status']) ? (string) $row['m_status'] : null,
             (string) $row['m_subject'],
             isset($row['import_name']) ? (string) $row['import_name'] : null,
@@ -60,6 +62,22 @@ final readonly class MailRecordMapper
             isset($row['tpl_ctx_id']) ? (string) $row['tpl_ctx_id'] : null,
             $tpl_ctx_params
         );
+    }
+
+    /**
+     * @param array<string, mixed> $row
+     */
+    public function scheduleDatetimeFromRow(array $row): ?DateTimeImmutable
+    {
+        if (empty($row['schedule_datetime']) || !\is_string($row['schedule_datetime'])) {
+            return null;
+        }
+
+        $timezone = !empty($row['schedule_timezone']) && \is_string($row['schedule_timezone'])
+            ? new DateTimeZone($row['schedule_timezone'])
+            : new DateTimeZone('UTC');
+
+        return new DateTimeImmutable($row['schedule_datetime'], $timezone);
     }
 
     /**
