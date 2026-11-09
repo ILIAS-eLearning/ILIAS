@@ -122,10 +122,10 @@ class ilPluginLanguage
 
                         if (isset($local_changes[$identifier])) {
                             $lang_array[$identifier] = $local_changes[$identifier];
-                        } elseif (!ilObjLanguageExt::isStorableValue($identifier)) {
-                            // not even usable in a WHERE clause, so there can be no stored row either
+                        } elseif (!ilObjLanguage::isStorableValue($identifier)) {
+                            // such an identifier cannot have a stored row
                             $unstorable[] = $identifier;
-                        } elseif (!ilObjLanguageExt::isStorableValue($value)) {
+                        } elseif (!ilObjLanguage::isStorableValue($value)) {
                             // an older stored value would otherwise remain in lng_data only
                             ilObjLanguage::deleteLangEntry($prefix, $identifier, $lang["key"]);
                             $unstorable[] = $identifier;
@@ -155,7 +155,7 @@ class ilPluginLanguage
         }
         $DIC->logger()->root()->warning(
             "Plugin language file of '{$this->getPrefix()}' for language '{$lang_key}': entries with invalid " .
-            "or unsupported characters (e.g. emojis) were not installed: " . implode(", ", $identifiers)
+            "or unsupported characters (e.g. emojis) were not installed: " . mb_scrub(implode(", ", $identifiers), "UTF-8")
         );
     }
 

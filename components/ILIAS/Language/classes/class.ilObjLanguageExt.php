@@ -472,21 +472,13 @@ class ilObjLanguageExt extends ilObjLanguage
     }
 
     /**
-     * lng_* columns are utf8mb3: false for characters outside the BMP (e.g. emojis) and for invalid UTF-8.
-     */
-    public static function isStorableValue(string $value): bool
-    {
-        return preg_match('/[\x{10000}-\x{10FFFF}]/u', $value) === 0;
-    }
-
-    /**
      * @param array<string, string> $a_values
      * @param array<string, ?string> $a_remarks
      * @throws ilLanguageException listing the affected keys
      */
     public static function _assertStorableValues(array $a_values, array $a_remarks = []): void
     {
-        $is_unstorable = static fn($value): bool => is_string($value) && !self::isStorableValue($value);
+        $is_unstorable = static fn($value): bool => is_string($value) && !ilObjLanguage::isStorableValue($value);
         $keys = array_unique(array_merge(
             array_keys(array_filter($a_values, $is_unstorable)),
             array_keys(array_filter($a_remarks, $is_unstorable))
@@ -514,7 +506,7 @@ class ilObjLanguageExt extends ilObjLanguage
         }
 
         global $DIC;
-        $languageEntries = ilLanguage::readModuleEntries(
+        $languageEntries = ilObjLanguage::readModuleEntries(
             $DIC->database(),
             $lang_key,
             $module,
@@ -567,7 +559,7 @@ class ilObjLanguageExt extends ilObjLanguage
                 continue;
             }
 
-            $arr = ilLanguage::readModuleEntries($ilDB, $a_lang_key, $module, $row["lang_array"]);
+            $arr = ilObjLanguage::readModuleEntries($ilDB, $a_lang_key, $module, $row["lang_array"]);
             ilObjLanguage::replaceLangModule($a_lang_key, $module, array_diff_key($arr, $entries));
         }
     }

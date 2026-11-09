@@ -1074,7 +1074,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
                         " AND module = " . $ilDB->quote($mod, "text"));
                     $row = $ilDB->fetchAssoc($set);
                     if ($row) {
-                        $entries = ilLanguage::readModuleEntries($ilDB, $lang_key, $mod, $row["lang_array"]);
+                        $entries = ilObjLanguage::readModuleEntries($ilDB, $lang_key, $mod, $row["lang_array"]);
                         $entries[$id] = $trans;
                         ilObjLanguage::replaceLangModule($lang_key, $mod, $entries);
                     }

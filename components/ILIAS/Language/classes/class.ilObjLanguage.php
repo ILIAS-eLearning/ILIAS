@@ -625,6 +625,53 @@ class ilObjLanguage extends ilObject
         return true;
     }
 
+    /**
+     * lng_* columns are utf8mb3: false for characters outside the BMP (e.g. emojis) and for invalid UTF-8.
+     */
+    public static function isStorableValue(string $value): bool
+    {
+        return preg_match('/[\x{10000}-\x{10FFFF}]/u', $value) === 0;
+    }
+
+    /**
+     * Falls back to lng_data if lng_modules.lang_array is unreadable; repairing lng_modules is up to the caller.
+     *
+     * @return array<string, string> identifier => value
+     */
+    public static function readModuleEntries(
+        ilDBInterface $db,
+        string $lang_key,
+        string $module,
+        ?string $lang_array
+    ): array {
+        try {
+            $entries = unserialize((string) $lang_array, ["allowed_classes" => false]);
+        } catch (Throwable) {
+            $entries = null;
+        }
+        if (is_array($entries)) {
+            return $entries;
+        }
+
+        global $DIC;
+        if (isset($DIC) && $DIC->offsetExists("ilLoggerFactory")) {
+            $DIC->logger()->root()->warning(
+                "Language module '{$module}' of language '{$lang_key}' in lng_modules is unreadable, " .
+                "falling back to lng_data. Refresh the language in the administration or run the setup update."
+            );
+        }
+
+        $res = $db->query(
+            "SELECT identifier, value FROM lng_data WHERE lang_key = " . $db->quote($lang_key, "text") .
+            " AND module = " . $db->quote($module, "text")
+        );
+        $entries = [];
+        while ($rec = $db->fetchAssoc($res)) {
+            $entries[$rec["identifier"]] = $rec["value"];
+        }
+        return $entries;
+    }
+
 
     /**
      * search ILIAS for users which have selected '$lang_key' as their prefered language and
