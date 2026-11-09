@@ -154,7 +154,9 @@ class MailFolderTableUI implements \ILIAS\UI\Component\Table\DataRetrieval
                 ->table()
                 ->column()
                 ->date(
-                    $this->lng->txt('date'),
+                    $this->current_folder->isOutbox()
+                        ? $this->lng->txt('mail_schedule_scheduled_datetime')
+                        : $this->lng->txt('date'),
                     $date_format
                 )
                 ->withIsSortable(true),
@@ -274,7 +276,9 @@ class MailFolderTableUI implements \ILIAS\UI\Component\Table\DataRetrieval
             'subject' => MailBoxOrderColumn::SUBJECT,
             'sender' => MailBoxOrderColumn::FROM,
             'recipients' => MailBoxOrderColumn::RCP_TO,
-            'date' => MailBoxOrderColumn::SEND_TIME,
+            'date' => $this->current_folder->isOutbox()
+                ? MailBoxOrderColumn::SCHEDULE_DATETIME
+                : MailBoxOrderColumn::SEND_TIME,
             'attachments' => MailBoxOrderColumn::ATTACHMENTS
         ];
 
@@ -435,7 +439,11 @@ class MailFolderTableUI implements \ILIAS\UI\Component\Table\DataRetrieval
 
     private function getDate(MailRecordData $record): ?DateTimeImmutable
     {
-        return empty($record->getSendTime()) ? null : $record->getSendTime()->setTimezone($this->user_time_zone);
+        $instant = $this->current_folder->isOutbox()
+            ? ($record->getScheduleDatetime() ?? $record->getSendTime())
+            : $record->getSendTime();
+
+        return $instant?->setTimezone($this->user_time_zone);
     }
 
     private function getAttachments(MailRecordData $record): string
