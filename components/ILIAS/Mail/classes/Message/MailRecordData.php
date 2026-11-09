@@ -37,6 +37,7 @@ class MailRecordData
         private readonly int $folder_id,
         private readonly ?int $sender_id = null,
         private readonly ?DateTimeImmutable $send_time = null,
+        private readonly ?DateTimeImmutable $schedule_datetime = null,
         private readonly ?string $status = null,
         private readonly ?string $subject = null,
         private readonly ?string $import_name = null,
@@ -74,6 +75,11 @@ class MailRecordData
     public function getSendTime(): ?DateTimeImmutable
     {
         return $this->send_time;
+    }
+
+    public function getScheduleDatetime(): ?DateTimeImmutable
+    {
+        return $this->schedule_datetime;
     }
 
     public function getStatus(): ?string

@@ -26,6 +26,7 @@ enum MailBoxOrderColumn: string
     case STATUS = 'm_status';
     case SUBJECT = 'm_subject';
     case SEND_TIME = 'send_time';
+    case SCHEDULE_DATETIME = 'schedule_datetime';
     case RCP_TO = 'rcp_to';
     case ATTACHMENTS = 'attachments';
 }
