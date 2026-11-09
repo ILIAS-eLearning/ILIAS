@@ -202,7 +202,7 @@ class BasicPersistence implements Persistence
     protected function saveObserver(Bucket $bucket): void
     {
         // If the instance has a known container we use it, otherwise we create a new container.
-        if ($this->bucketHashToObserverContainerId->contains($bucket)) {
+        if ($this->bucketHashToObserverContainerId->offsetExists($bucket)) {
             $bucketContainer = new BucketContainer($this->bucketHashToObserverContainerId[$bucket], $this->connector);
         } else {
             $bucketContainer = new BucketContainer(0, $this->connector);
@@ -243,7 +243,7 @@ class BasicPersistence implements Persistence
     protected function saveTask(Task $task, int $bucketId): void
     {
         // If the instance has a known container we use it, otherwise we create a new container.
-        if ($this->taskHashToTaskContainerId->contains($task)) {
+        if ($this->taskHashToTaskContainerId->offsetExists($task)) {
             $taskContainer = new TaskContainer($this->taskHashToTaskContainerId[$task]);
         } else {
             $taskContainer = new TaskContainer(0);
@@ -306,7 +306,7 @@ class BasicPersistence implements Persistence
     protected function saveValue(Value $value, int $bucketId, int $position): void
     {
         // If we have previous values to task associations we delete them.
-        if ($this->valueHashToValueContainerId->contains($value)) {
+        if ($this->valueHashToValueContainerId->offsetExists($value)) {
             $valueContainer = new ValueContainer($this->valueHashToValueContainerId[$value], $this->connector);
         } else {
             $valueContainer = new ValueContainer(0, $this->connector);
@@ -339,7 +339,7 @@ class BasicPersistence implements Persistence
      */
     public function getBucketContainerId(Bucket $bucket): int
     {
-        if (!$this->bucketHashToObserverContainerId->contains($bucket)) {
+        if (!$this->bucketHashToObserverContainerId->offsetExists($bucket)) {
             throw new SerializationException("Could not resolve container id of task: "
                 . print_r($bucket, true));
         }
@@ -353,7 +353,7 @@ class BasicPersistence implements Persistence
      */
     protected function getTaskContainerId(Task $task): int
     {
-        if (!$this->taskHashToTaskContainerId->contains($task)) {
+        if (!$this->taskHashToTaskContainerId->offsetExists($task)) {
             throw new SerializationException("Could not resolve container id of task: "
                 . print_r($task, true));
         }
@@ -366,7 +366,7 @@ class BasicPersistence implements Persistence
      */
     protected function getValueContainerId(Value $value): int
     {
-        if (!$this->valueHashToValueContainerId->contains($value)) {
+        if (!$this->valueHashToValueContainerId->offsetExists($value)) {
             throw new SerializationException("Could not resolve container id of value: "
                 . print_r($value, true));
         }
