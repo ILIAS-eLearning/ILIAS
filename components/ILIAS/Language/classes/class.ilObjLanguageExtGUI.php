@@ -1110,7 +1110,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         // str_replace instead of sprintf: a locally changed text may contain further %
         return str_replace(
             "%s",
-            htmlspecialchars(implode(", ", $keys), ENT_QUOTES),
+            htmlspecialchars(ilObjLanguage::toStorableText(implode(", ", $keys)), ENT_QUOTES),
             $this->lng->txt("language_unsupported_characters")
         );
     }

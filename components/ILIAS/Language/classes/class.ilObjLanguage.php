@@ -28,6 +28,8 @@ declare(strict_types=1);
  */
 class ilObjLanguage extends ilObject
 {
+    private const NON_BMP_PATTERN = '/[\x{10000}-\x{10FFFF}]/u';
+
     /**
      * separator of module, comment separator, identifier & values
      * in language files
@@ -634,7 +636,16 @@ class ilObjLanguage extends ilObject
      */
     public static function isStorableValue(string $value): bool
     {
-        return preg_match('/[\x{10000}-\x{10FFFF}]/u', $value) === 0;
+        return preg_match(self::NON_BMP_PATTERN, $value) === 0;
+    }
+
+    /**
+     * Makes text storable in utf8mb3 columns (e.g. session data): invalid bytes become "?", characters outside
+     * the BMP become U+FFFD.
+     */
+    public static function toStorableText(string $text): string
+    {
+        return preg_replace(self::NON_BMP_PATTERN, "\u{FFFD}", mb_scrub($text, "UTF-8"));
     }
 
     /**
@@ -838,19 +849,21 @@ class ilObjLanguage extends ilObject
             $separated = explode($this->separator, trim($val));
             $num = count($separated);
             ++$n;
+            $line = $n + 36;
             if ($num !== 3) {
-                $line = $n + 36;
+                $shown_value = htmlspecialchars(self::toStorableText($val), ENT_QUOTES);
                 $DIC->ui()->mainTemplate()->setOnScreenMessage(
                     'failure',
-                    "Wrong parameter count in " . $lang_file . " in line $line (Value: $val)! Please check your language file!",
+                    "Wrong parameter count in " . $lang_file . " in line $line (Value: $shown_value)! Please check your language file!",
                     true
                 );
                 $DIC->ctrl()->redirectByClass(ilobjlanguagefoldergui::class, 'view');
             }
             if (!ilStr::isUtf8($separated[2])) {
+                $shown_value = htmlspecialchars(self::toStorableText($val), ENT_QUOTES);
                 $DIC->ui()->mainTemplate()->setOnScreenMessage(
                     'failure',
-                    "Non UTF8 character found in " . $lang_file . " in line $line (Value: $val)! Please check your language file!",
+                    "Non UTF8 character found in " . $lang_file . " in line $line (Value: $shown_value)! Please check your language file!",
                     true
                 );
                 $DIC->ctrl()->redirectByClass(ilobjlanguagefoldergui::class, 'view');
