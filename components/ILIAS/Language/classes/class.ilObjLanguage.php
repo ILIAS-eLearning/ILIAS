@@ -662,11 +662,19 @@ class ilObjLanguage extends ilObject
         if (!isset($DIC) || !$DIC->offsetExists("ilLoggerFactory")) {
             return;
         }
-        $DIC->logger()->root()->warning(mb_scrub(
+        $DIC->logger()->root()->warning(self::getUnstorableEntriesMessage($source, $lang_key, $keys));
+    }
+
+    /**
+     * @param list<string> $keys
+     */
+    public static function getUnstorableEntriesMessage(string $source, string $lang_key, array $keys): string
+    {
+        return mb_scrub(
             "Language data of '{$source}' for language '{$lang_key}': entries with invalid or unsupported " .
             "characters (e.g. emojis) were not installed: " . implode(", ", $keys),
             "UTF-8"
-        ));
+        );
     }
 
     /**

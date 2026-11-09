@@ -83,6 +83,13 @@ class ilPluginLanguageUpdatedObjective implements Setup\Objective
         $GLOBALS["DIC"] = $ORIG_DIC;
         $GLOBALS["ilDB"] = $ORIG_ilDB;
 
+        $io = $environment->getResource(Setup\Environment::RESOURCE_ADMIN_INTERACTION);
+        if ($io instanceof Setup\AdminInteraction) {
+            foreach ($language_handler->getUnstorableEntriesMessages() as $message) {
+                $io->inform($message);
+            }
+        }
+
         return $environment;
     }
 

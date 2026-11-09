@@ -90,6 +90,13 @@ class ilLanguagesUpdatedObjective implements Setup\Objective
 
         $GLOBALS["ilDB"] = $db_tmp;
 
+        $io = $environment->getResource(Setup\Environment::RESOURCE_ADMIN_INTERACTION);
+        if ($io instanceof Setup\AdminInteraction) {
+            foreach ($this->il_setup_language->getUnstorableEntriesMessages() as $message) {
+                $io->inform($message);
+            }
+        }
+
         return $environment;
     }
 

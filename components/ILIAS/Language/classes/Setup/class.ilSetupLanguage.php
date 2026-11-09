@@ -48,6 +48,8 @@ class ilSetupLanguage extends ilLanguage
     public string $separator = "#:#";
     public string $comment_separator = "###";
     protected ilDBInterface $db;
+    /** @var list<string> */
+    private array $unstorable_entries_messages = [];
 
     public function __construct(string $a_lang_key)
     {
@@ -110,6 +112,7 @@ class ilSetupLanguage extends ilLanguage
         }
 
         $err_lang = array();
+        $this->unstorable_entries_messages = [];
 
         $db_langs = $this->getAvailableLanguages();
 
@@ -524,7 +527,12 @@ class ilSetupLanguage extends ilLanguage
                 }
                 if ($unstorable !== []) {
                     ilObjLanguage::deleteSkippedLangEntries($ilDB, $lang_key, $outdated);
-                    ilObjLanguage::logUnstorableEntries($lang_file, $lang_key, $unstorable);
+                    // the setup has no logger, the objectives show these messages instead
+                    $this->unstorable_entries_messages[] = ilObjLanguage::getUnstorableEntriesMessage(
+                        $path . "/" . $lang_file,
+                        $lang_key,
+                        $unstorable
+                    );
                 }
             }
 
@@ -614,6 +622,12 @@ class ilSetupLanguage extends ilLanguage
         chdir($tmpPath);
 
         return $installableLanguages;
+    }
+
+    /** @return list<string> skipped entries of the last installLanguages() call */
+    public function getUnstorableEntriesMessages(): array
+    {
+        return $this->unstorable_entries_messages;
     }
 
     /**

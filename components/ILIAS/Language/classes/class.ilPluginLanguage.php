@@ -24,6 +24,8 @@ declare(strict_types=1);
 class ilPluginLanguage
 {
     protected ilPluginInfo $plugin_info;
+    /** @var list<string> */
+    private array $unstorable_entries_messages = [];
 
     public function __construct(ilPluginInfo $plugin_info)
     {
@@ -90,6 +92,7 @@ class ilPluginLanguage
      */
     public function updateLanguages(?array $a_lang_keys = null): void
     {
+        $this->unstorable_entries_messages = [];
         // get the keys of all installed languages if keys are not provided
         if (!isset($a_lang_keys)) {
             $a_lang_keys = ilObjLanguage::getLangKeysOfInstalledLanguages();
@@ -140,8 +143,19 @@ class ilPluginLanguage
             ilObjLanguage::replaceLangModule($lang["key"], $prefix, $lang_array);
             if ($unstorable !== []) {
                 ilObjLanguage::logUnstorableEntries($prefix, $lang["key"], $unstorable);
+                $this->unstorable_entries_messages[] = ilObjLanguage::getUnstorableEntriesMessage(
+                    $prefix,
+                    $lang["key"],
+                    $unstorable
+                );
             }
         }
+    }
+
+    /** @return list<string> skipped entries of the last updateLanguages() call */
+    public function getUnstorableEntriesMessages(): array
+    {
+        return $this->unstorable_entries_messages;
     }
 
     public function uninstall(): void
