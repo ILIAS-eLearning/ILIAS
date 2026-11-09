@@ -49,12 +49,18 @@ class LevelResourcesTable
      * @var string[]
      */
     protected array $requested_table_rep_ref_ids = [];
+    protected object $parent_obj;
     protected int $base_skill_id = 0;
     protected int $tref_id = 0;
     protected int $requested_level_id = 0;
 
-    public function __construct(int $ref_id, int $base_skill_id, int $tref_id, int $requested_level_id)
-    {
+    public function __construct(
+        object $parent_obj,
+        int $ref_id,
+        int $base_skill_id,
+        int $tref_id,
+        int $requested_level_id
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -70,6 +76,7 @@ class LevelResourcesTable
         $this->admin_gui_request = $DIC->skills()->internal()->gui()->admin_request();
         $this->requested_table_action = $this->admin_gui_request->getTableLevelResourcesAction();
         $this->requested_table_rep_ref_ids = $this->admin_gui_request->getTableRepoRefIds();
+        $this->parent_obj = $parent_obj;
         $this->base_skill_id = $base_skill_id;
         $this->tref_id = $tref_id;
         $this->requested_level_id = $requested_level_id;
@@ -119,7 +126,7 @@ class LevelResourcesTable
                 $this->ui_fac->modal()->interruptive(
                     "",
                     empty($items) ? $this->lng->txt("no_checkbox") : $this->lng->txt("skmg_confirm_level_resources_removal"),
-                    $this->ctrl->getFormActionByClass("ilbasicskillgui", "removeLevelResources")
+                    $this->ctrl->getFormAction($this->parent_obj, "removeLevelResources")
                 )
                     ->withAffectedItems($items)
                     ->withActionButtonLabel(empty($items) ? $this->lng->txt("ok") : $this->lng->txt("delete"))
@@ -163,7 +170,7 @@ class LevelResourcesTable
         $query_params_namespace = ["skl_level_resources_table"];
 
         $uri_suggested = $this->df->uri(
-            ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTargetByClass("ilbasicskillgui", "saveResourcesAsSuggested")
+            ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTarget($this->parent_obj, "saveResourcesAsSuggested")
         );
         $url_builder_suggested = new UI\URLBuilder($uri_suggested);
         list($url_builder_suggested, $action_parameter_token_suggested, $row_id_token_suggested) =
@@ -174,7 +181,7 @@ class LevelResourcesTable
             );
 
         $uri_not_suggested = $this->df->uri(
-            ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTargetByClass("ilbasicskillgui", "saveResourcesAsNotSuggested")
+            ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTarget($this->parent_obj, "saveResourcesAsNotSuggested")
         );
         $url_builder_not_suggested = new UI\URLBuilder($uri_not_suggested);
         list($url_builder_not_suggested, $action_parameter_token_not_suggested, $row_id_token_not_suggested) =
@@ -185,7 +192,7 @@ class LevelResourcesTable
             );
 
         $uri_trigger = $this->df->uri(
-            ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTargetByClass("ilbasicskillgui", "saveResourcesAsTrigger")
+            ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTarget($this->parent_obj, "saveResourcesAsTrigger")
         );
         $url_builder_trigger = new UI\URLBuilder($uri_trigger);
         list($url_builder_trigger, $action_parameter_token_trigger, $row_id_token_trigger) =
@@ -196,7 +203,7 @@ class LevelResourcesTable
             );
 
         $uri_no_trigger = $this->df->uri(
-            ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTargetByClass("ilbasicskillgui", "saveResourcesAsNoTrigger")
+            ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTarget($this->parent_obj, "saveResourcesAsNoTrigger")
         );
         $url_builder_no_trigger = new UI\URLBuilder($uri_no_trigger);
         list($url_builder_no_trigger, $action_parameter_token_no_trigger, $row_id_token_no_trigger) =
