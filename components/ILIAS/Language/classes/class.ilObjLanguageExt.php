@@ -474,14 +474,16 @@ class ilObjLanguageExt extends ilObjLanguage
     /**
      * @param array<string, string> $a_values
      * @param array<string, ?string> $a_remarks
-     * @throws ilLanguageException listing the affected keys
+     * @throws ilLanguageException listing the keys whose key, value or remark is not storable
      */
     public static function _assertStorableValues(array $a_values, array $a_remarks = []): void
     {
         $is_unstorable = static fn($value): bool => is_string($value) && !ilObjLanguage::isStorableValue($value);
         $keys = array_unique(array_merge(
             array_keys(array_filter($a_values, $is_unstorable)),
-            array_keys(array_filter($a_remarks, $is_unstorable))
+            array_keys(array_filter($a_remarks, $is_unstorable)),
+            array_filter(array_keys($a_values), $is_unstorable),
+            array_filter(array_keys($a_remarks), $is_unstorable)
         ));
         if ($keys !== []) {
             throw ilLanguageException::forUnstorableValues(array_map('strval', array_values($keys)));
