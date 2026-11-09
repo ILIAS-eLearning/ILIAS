@@ -18,13 +18,13 @@ msgid "enable_osd"
 msgstr "Pop-up-Benachrichtigungen aktivieren"
 
 msgid "enable_osd_desc"
-msgstr "Wenn aktiviert, werden Benutzer durch ein Pop-up über neue Benachrichtigungen informiert."
+msgstr "Ein Pop-up erscheint bei neuen Benachrichtigungen."
 
 msgid "enable_push"
 msgstr "Push-Benachrichtigungen aktivieren"
 
 msgid "enable_push_desc"
-msgstr "Wenn aktiviert, werden Benutzer durch Push-Benachrichtigungen informiert. Nutzer können diese Benachrichtigungen in den Benutzereinstellungen anpassen."
+msgstr "Benachrichtigungen werden im Browser gepusht, auch wenn ILIAS aktuell nicht im Vordergrund ist. Diese Einstellung muss zusätzlich von jeder Person unter „Kommunikation > Push-Benachrichtigungen“ aktiviert werden."
 
 msgid "notification_settings"
 msgstr "Benachrichtigungseinstellungen"
@@ -36,37 +36,37 @@ msgid "osd_interval"
 msgstr "Abfrageintervall"
 
 msgid "osd_interval_desc"
-msgstr "Abfrageintervall für Nachrichten in Millisekunden.Eine geringere Zeit ermöglicht zeitnähere Benachrichtigungen, erhöht aber die Serverlast."
+msgstr "Abfrageintervall für Benachrichtigungen in Millisekunden. Ein geringerer Wert ermöglicht schnellere Benachrichtigungen, erhöht aber die Serverlast."
 
 msgid "osd_play_sound"
 msgstr "Ton abspielen"
 
 msgid "osd_play_sound_desc"
-msgstr "Ton abspielen bei Erhalt einer neuen Benachrichtigung."
+msgstr "Beim Erhalt einer neuen Benachrichtigung wird ein Ton abgespielt."
 
 msgid "osd_settings"
 msgstr "Pop-up-Benachrichtigungen"
 
 msgid "push_client_already_used"
-msgstr "Push-Benachrichtigungen für diesen Browser werden bereits von einem anderen Nutzer genutzt."
+msgstr "Push-Benachrichtigungen wurden in diesem Browser schon von einem anderen ILIAS-Konto aus aktiviert."
 
 msgid "push_client_edge_case"
-msgstr "Möglicherweise hat der Edge Browser ihre Benachrichtigungen automatisch deaktiviert. Gehen Sie in die Browsereinstellungen um diese zu reaktivieren."
+msgstr "Möglicherweise wurden Benachrichtigungen durch Microsoft Edge deaktiviert. Reaktivieren Sie die Anzeige von Benachrichtigungen in den Einstellungen Ihres Browsers."
 
 msgid "push_client_inactive"
-msgstr "Push-Benachrichtigungen für diese Webseite sind deaktiviert. Öffnen sie die Browsereinstellungen um sie zu aktivieren."
+msgstr "Push-Benachrichtigungen sind für diese Webseite deaktiviert. Reaktivieren Sie diese in den Einstellungen Ihres Browsers."
 
 msgid "push_client_ios_case"
-msgstr "Wenn sie IOS (IPhone, IPad, IPod) nutzen werden keine Benachrichtigungen durch Webseiten unterstützt. Erstellen sie einen Web App Zugriff um Benachrichtigungen nutzen zu können."
+msgstr "Wenn sie iOS (iPhone, iPad, iPod) nutzen, werden keine Benachrichtigungen durch Webseiten unterstützt. Erstellen sie einen Web-App-Zugriff, um Benachrichtigungen nutzen zu können."
 
 msgid "push_settings"
 msgstr "Push-Benachrichtigungen"
 
 msgid "push_subscription_successfull"
-msgstr "Aktivierung der Push-Benachrichtigungen erfolgreich"
+msgstr "Die Aktivierung der Push-Benachrichtigungen war erfolgreich."
 
 msgid "push_subscription_successfull_desc"
-msgstr "Dies ist eine Test Benachrichtigungen um die erfolgreiche Aktivierung der Push Benachrichtigungen zu bestätigen."
+msgstr "Dies ist eine Test-Benachrichtigung, um die erfolgreiche Aktivierung der Push-Benachrichtigungen zu bestätigen."
 
 msgid "user_settings"
-msgstr "Benutzereinstellungen"
+msgstr "Persönliche Einstellungen"
