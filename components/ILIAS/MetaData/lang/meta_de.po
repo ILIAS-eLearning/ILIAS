@@ -143,8 +143,14 @@ msgstr "Datensätze"
 msgid "md_adv_record_lng_table"
 msgstr "Sprachenverwaltung"
 
+msgid "md_adv_record_lng_table_activate"
+msgstr "Aktivieren"
+
 msgid "md_adv_record_lng_table_active"
 msgstr "Aktiv"
+
+msgid "md_adv_record_lng_table_deactivate"
+msgstr "Deaktivieren"
 
 msgid "md_adv_record_lng_table_default"
 msgstr "Default"
@@ -154,6 +160,9 @@ msgstr "Installiert"
 
 msgid "md_adv_record_lng_table_lng"
 msgstr "Sprache"
+
+msgid "md_adv_record_lng_table_set_default"
+msgstr "Als Standard festlegen"
 
 msgid "md_adv_records"
 msgstr "Enthaltene Datensätze"
