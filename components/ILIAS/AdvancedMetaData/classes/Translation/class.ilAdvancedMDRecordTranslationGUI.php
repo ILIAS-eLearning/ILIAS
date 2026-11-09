@@ -18,7 +18,6 @@
 
 declare(strict_types=1);
 
-use ilLanguage;
 use Psr\Http\Message\RequestInterface;
 use ILIAS\HTTP\Services as HTTP;
 use ILIAS\Data\Factory as DataFactory;
