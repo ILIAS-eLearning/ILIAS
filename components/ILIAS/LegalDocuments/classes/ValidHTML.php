@@ -48,15 +48,13 @@ class ValidHTML
                 throw new ErrorException($message, $severity, $severity, $file, $line);
             });
 
-            $dom = new DOMDocument();
-            $import_succeeded = $dom->loadHTML($string);
+            $dom = \Dom\HtmlDocument::createFromString($string, LIBXML_HTML_NOIMPLIED);
 
             $errors = libxml_get_errors();
             libxml_clear_errors();
             libxml_use_internal_errors($error_state);
 
             if (
-                !$import_succeeded ||
                 [] !== array_filter(
                     $errors,
                     static fn(LibXMLError $error): bool => $error->code !== self::UNKNOWN_TAG
@@ -65,22 +63,15 @@ class ValidHTML
                 return false;
             }
 
-            $iter = new RecursiveIteratorIterator(
-                new ilHtmlDomNodeIterator($dom),
-                RecursiveIteratorIterator::SELF_FIRST
-            );
-            foreach ($iter as $element) {
-                /** @var DOMNode $element */
-                if (strtolower($element->nodeName) === 'body') {
-                    continue;
+            for ($nodes = [$dom]; $nodes !== []; array_shift($nodes)) {
+                $element = current($nodes);
+                if ($element->nodeType === XML_ELEMENT_NODE && !preg_match('/^[a-zA-Z0-9-]+$/', $element->nodeName)) {
+                    return false;
                 }
-
-                if ($element->nodeType === XML_ELEMENT_NODE) {
-                    return true;
-                }
+                $nodes = array_merge($nodes, iterator_to_array($element->childNodes));
             }
 
-            return false;
+            return true;
         } catch (Throwable) {
             $errors = libxml_get_errors();
             libxml_clear_errors();
