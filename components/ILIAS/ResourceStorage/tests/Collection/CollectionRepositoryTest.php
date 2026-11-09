@@ -71,10 +71,6 @@ class CollectionRepositoryTest extends TestCase
                       ->method('manipulateF')
                       ->with('DELETE FROM il_resource_rca WHERE rcid = %s AND rid NOT IN("rid_one", "rid_one")');
 
-        $this->db_mock->expects($this->once())
-                      ->method('manipulateF')
-                      ->with('DELETE FROM il_resource_rca WHERE rcid = %s AND rid NOT IN("rid_one", "rid_one")');
-
         $called_table_names = [
             'il_resource_rca',
             'il_resource_rca',
