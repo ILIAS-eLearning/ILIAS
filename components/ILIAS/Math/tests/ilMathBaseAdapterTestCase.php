@@ -17,8 +17,6 @@
  *********************************************************************/
 
 use PHPUnit\Framework\TestCase;
-use SebastianBergmann\Diff\Differ;
-use SebastianBergmann\Diff\Output\UnifiedDiffOutputBuilder;
 
 /**
  * @author Michael Jansen <mjansen@databay.de>
@@ -45,15 +43,16 @@ abstract class ilMathBaseAdapterTestCase extends TestCase
      * In PHPUnit 8 the ScalarComparators uses a strict string comparison, so numbers with a different amount of trailing
      * 0 decimals are not equal anymore
      * @see \SebastianBergmann\Comparator\ScalarComparator
-     * @param string $actual
      * @param string $expected
+     * @param string $actual
      */
-    private function assertEqualNumbers(string $actual, string $expected): void
+    private function assertEqualNumbers(string $expected, string $actual): void
     {
-        $differ = new Differ(new UnifiedDiffOutputBuilder("\n--- Expected\n+++ Actual\n"));
-
         /** @noinspection PhpUnitTestsInspection */
-        $this->assertTrue($actual == $expected, $differ->diff($actual, $expected));
+        $this->assertTrue(
+            $actual == $expected,
+            sprintf("Failed asserting that '%s' is numerically equal to '%s'.", $actual, $expected)
+        );
     }
 
     #[\PHPUnit\Framework\Attributes\DataProvider('addData')]
