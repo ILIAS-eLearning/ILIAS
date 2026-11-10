@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 class ilMapUtil
 {
-    public const DEFAULT_TILE = "a.tile.openstreetmap.org b.tile.openstreetmap.org c.tile.openstreetmap.org";
+    public const DEFAULT_TILE = "tile.openstreetmap.org";
     public const DEFAULT_GEOLOCATION = null;
 
     public static ?ilSetting $_settings = null;
