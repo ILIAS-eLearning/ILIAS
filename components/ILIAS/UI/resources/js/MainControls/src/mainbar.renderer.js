@@ -218,7 +218,16 @@ const renderer = function ($) {
 
       // The slate is outside the trigger's DOM tab order, so enter it on the next Tab.
       triggerer.getElement().off('keydown.mainbar-slate').on('keydown.mainbar-slate', (event) => {
-        if (event.key === 'Tab' && !event.shiftKey && entry.engaged) {
+        if (event.key === ' ' || event.key === 'Enter') {
+          event.preventDefault();
+          if (!event.repeat) {
+            const opening = !entry.engaged;
+            triggerer.getElement().trigger('click');
+            if (opening) {
+              actions.focusSubentry(entry.id);
+            }
+          }
+        } else if (event.key === 'Tab' && !event.shiftKey && entry.engaged) {
           event.preventDefault();
           actions.focusSubentry(entry.id);
         }

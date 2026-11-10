@@ -169,3 +169,51 @@ describe('mainbar model', () => {
     strict.equal(m.isInView('apparently_nonsense'), true);
   });
 });
+
+describe('mainbar keyboard activation', () => {
+  it('opens on Space and Enter and focuses the first slate item', async () => {
+    const { JSDOM } = await import('jsdom');
+    const { default: jquery } = await import('jquery');
+    const dom = new JSDOM('<button id="entry">Repository</button><div id="slate"><a href="#home">Repository - Home</a></div><button id="more">More</button><div id="more-slate"></div>');
+    const $ = jquery(dom.window);
+    $.expr.pseudos.visible = () => true; // jsdom has no layout.
+    const names = ['document', 'HTMLInputElement', 'HTMLSelectElement', 'HTMLTextAreaElement', 'HTMLButtonElement', 'il', 'btns', 'idx'];
+    const saved = names.map((name) => globalThis[name]);
+    try {
+      names.slice(0, 5).forEach((name) => { globalThis[name] = dom.window[name]; });
+      globalThis.btns = undefined;
+      globalThis.idx = undefined;
+      const m = model();
+      m.actions.addEntry('entry');
+      m.actions.addEntry('more');
+      const r = renderer($);
+      globalThis.il = { UI: { page: { isSmallScreen: () => false }, maincontrols: { mainbar: { model: m } } } };
+      for (const [id, slate] of [['entry', 'slate'], ['more', 'more-slate']]) {
+        r.addEntry(id, 'triggerer', id);
+        r.addEntry(id, 'slate', slate);
+      }
+      $('#entry').on('click', () => {
+        if (m.getState().entries.entry.engaged) {
+          m.actions.disengageEntry('entry');
+        } else {
+          m.actions.engageEntry('entry');
+        }
+        r.render(m.getState());
+      });
+      r.render(m.getState());
+      for (const key of [' ', 'Enter']) {
+        $('#entry')[0].focus();
+        $('#entry').trigger($.Event('keydown', { key }));
+        strict.equal(dom.window.document.activeElement.textContent, 'Repository - Home');
+        $('a').trigger($.Event('keydown', { key: 'Tab', shiftKey: true }));
+        strict.equal(dom.window.document.activeElement.id, 'entry');
+        $('#entry').trigger($.Event('keydown', { key }));
+        strict.equal(m.getState().entries.entry.engaged, false);
+        strict.equal(dom.window.document.activeElement.id, 'entry');
+      }
+    } finally {
+      names.forEach((name, index) => { globalThis[name] = saved[index]; });
+      dom.window.close();
+    }
+  });
+});
