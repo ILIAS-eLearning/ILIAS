@@ -113,11 +113,10 @@ class MailPageTest extends ILIAS_UI_TestBase
 <table class="table">
 	<tr class="header">
 		<td class="spacing">
-			<table class="w-750 center">
-				<tr class="rowheight"></tr>
+			<table class="w-mail center">
 				<tr>
 					<td class="image-data">
-						<img class="logo" src="' . $this->logo . '" alt="Logo">
+						<img class="logo" src="' . $this->logo . '" alt="">
 					</td>
 					<td class="installation-text">
 						<span>
@@ -125,26 +124,23 @@ class MailPageTest extends ILIAS_UI_TestBase
 						</span>
 					</td>
 				</tr>
-				<tr class="rowheight"></tr>
 			</table>
 		</td>
 	</tr>
 	<tr class="content">
 		<td class="spacing">
-			<table class="w-750 center">
-				<tr class="headerheight"></tr>
+			<table class="w-mail center">
 				<tr>
 					<td class="font-definition">
 						' . $renderer->render($this->html_content) . '
 					</td>
 				</tr>
-				<tr class="headerheight"></tr>
 			</table>
 		</td>
 	</tr>
 	<tr class="footer">
 		<td class="spacing">
-			<table class="w-750 center">
+			<table class="w-mail center">
 				<tr>
 					<td class="font-definition">
 						<span>' . $this->installation_title . '</span>
