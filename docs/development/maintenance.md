@@ -2755,7 +2755,7 @@ Components are listed alphabetically by their folder name in `components/ILIAS/`
 
 * Authority to Sign off on Conceptual Changes: [tfuhrer](https://docu.ilias.de/go/usr/81947), [oliver.samoila](https://docu.ilias.de/go/usr/26160)
 * Authority to Sign off on Code Changes: [tfuhrer](https://docu.ilias.de/go/usr/81947), [oliver.samoila](https://docu.ilias.de/go/usr/26160)
-* Authority to Curate Test Cases: [Fabian](https://docu.ilias.de/go/usr/27631)
+* Authority to Curate Test Cases: [Fabian](https://docu.ilias.de/go/usr/27631), [oliver.samoila](https://docu.ilias.de/go/usr/26160)
 * Authority to (De-)Assign Authorities: [tfuhrer](https://docu.ilias.de/go/usr/81947), [oliver.samoila](https://docu.ilias.de/go/usr/26160)
 * Assignee for Issues: [oliver.samoila](https://docu.ilias.de/go/usr/26160)
 * Assignee for Security Reports: [oliver.samoila](https://docu.ilias.de/go/usr/26160)
