@@ -30,7 +30,7 @@ class FloatTransformation implements Transformation
     use DeriveApplyToFromTransform;
     use DeriveInvokeFromTransform;
     private const REG_STRING = '/^\s*(-?(0|([1-9]\d*)))([.,]\d*)?\s*$/';
-    private const REG_STRING_FLOATING = '/^\s*-?\d+[eE]-?\d+\s*$/';
+    private const REG_STRING_FLOATING = '/^\s*-?\d+(?:[.,]\d+)?[eE][+-]?\d+\s*$/';
 
     /**
      * @inheritDoc
@@ -57,7 +57,7 @@ class FloatTransformation implements Transformation
 
             $preg_match_floating_string = preg_match(self::REG_STRING_FLOATING, $from, $RegMatch);
             if ($preg_match_floating_string) {
-                return (float) $from;
+                return (float) str_replace(',', '.', $from);
             }
 
             throw new ConstraintViolationException(
