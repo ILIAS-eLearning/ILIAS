@@ -247,7 +247,7 @@ class ilDclBaseRecordFieldModel
      */
     public function getValueFromExcel(ilExcel $excel, int $row, int $col)
     {
-        return (string) $excel->getCell($row, $col);
+        return ilUtil::secureString((string) $excel->getCell($row, $col));
     }
 
     /**
