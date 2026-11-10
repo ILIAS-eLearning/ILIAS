@@ -49,7 +49,7 @@ class ValidHTML
             });
 
             $dom = new DOMDocument();
-            $import_succeeded = $dom->loadHTML($string);
+            $import_succeeded = $dom->loadHTML($string, LIBXML_PEDANTIC);
 
             $errors = libxml_get_errors();
             libxml_clear_errors();
@@ -69,6 +69,7 @@ class ValidHTML
                 new ilHtmlDomNodeIterator($dom),
                 RecursiveIteratorIterator::SELF_FIRST
             );
+            $ret = false;
             foreach ($iter as $element) {
                 /** @var DOMNode $element */
                 if (strtolower($element->nodeName) === 'body') {
@@ -76,11 +77,14 @@ class ValidHTML
                 }
 
                 if ($element->nodeType === XML_ELEMENT_NODE) {
-                    return true;
+                    if (!preg_match('/^[a-zA-Z0-9-]+$/', $element->localName)) {
+                        return false;
+                    }
+                    $ret = true;
                 }
             }
 
-            return false;
+            return $ret;
         } catch (Throwable) {
             $errors = libxml_get_errors();
             libxml_clear_errors();

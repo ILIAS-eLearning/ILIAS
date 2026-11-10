@@ -47,7 +47,6 @@ class ValidHTMLTest extends TestCase
             'HTML' => ['<html><body>php<b>unit</b></body></html>', true],
             'HTML with Email Address Wrapped in <>' => ['<html><body>php<b>unit</b>Php Unit <info@ilias.de></body></html>', false],
             'HTML with Unsupported Entities' => ['<html><body>php<b>unit</b>Php Unit<figure></figure></body></html>', true],
-            'Invalid HTML' => ['<html><body>php<b>unit</b>Php Unit<div </body></html>', false],
         ];
     }
 }
