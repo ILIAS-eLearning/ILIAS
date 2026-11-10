@@ -84,8 +84,8 @@ class Group
      * This supports:
      *   - strings in natural notation matching \s*(0|(-?[1-9]\d*([.,]\d+)?))\s*,
      *     trimming is supported
-     *   - strings in floating point representation matching \s*-?\d+[eE]-?\d+\s*,
-     *     trimming is supported
+     *   - strings in floating point representation matching \s*-?\d+(?:[.,]\d+)?[eE][+-]?\d+\s*,
+     *     trimming is supported. A comma in the mantissa is a decimal separator.
      *   - ints, which will be typecasted to float
      *   - bools, where true maps to 1.0 and false to 0.0
      * This doesn't support:
