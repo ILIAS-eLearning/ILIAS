@@ -37,7 +37,7 @@ class TableBuilder
 
     public const string EDIT_FIELD_ACTION = 'editField';
     public const string DELETE_ACTION = 'confirmDeleteFields';
-    public const string SAVE_ACTION = 'updateFields';
+    public const string SAVE_ACTION = 'updateFieldPositions'; // action for reordering
 
     public function __construct(
         protected DataRetrieval $data_retrieval,
@@ -50,9 +50,11 @@ class TableBuilder
     public function get(
         URLBuilder $url_builder,
         URLBuilderToken $id_token,
-        URLBuilderToken $action_token,
-        bool $has_write_access
+        URLBuilderToken $action_token
     ): OrderingTable {
+        $has_write_access = $this->data_retrieval->hasWriteAccess();
+        $has_position_access = $this->data_retrieval->hasPositionAccess();
+
         $columns = [];
         $columns[self::TITLE_COLUMN] = $this->ui_factory->table()->column()->text(
             $this->lng->txt('title')
@@ -63,8 +65,10 @@ class TableBuilder
         $columns[self::CONFIGURATION_COLUMN] = $this->ui_factory->table()->column()->listing(
             $this->lng->txt('configuration')
         );
-        $columns[self::SEARCHABLE_COLUMN] = $this->ui_factory->table()->column()->statusIcon(
-            $this->lng->txt('md_adv_searchable')
+        $columns[self::SEARCHABLE_COLUMN] = $this->ui_factory->table()->column()->boolean(
+            $this->lng->txt('md_adv_searchable'),
+            $this->ui_factory->symbol()->icon()->custom('assets/images/standard/icon_ok.svg', '', 'small'),
+            $this->ui_factory->symbol()->icon()->custom('assets/images/standard/icon_not_ok.svg', '', 'small')
         );
 
         $actions = [];
@@ -74,21 +78,28 @@ class TableBuilder
             $id_token
         );
 
-        if ($has_write_access) {
-            $actions[self::DELETE_ACTION] = $this->ui_factory->table()->action()->multi(
-                $this->lng->txt('delete'),
-                $url_builder->withParameter($action_token, self::DELETE_ACTION),
-                $id_token
-            );
-        }
+        $actions[self::DELETE_ACTION] = $this->ui_factory->table()->action()->multi(
+            $this->lng->txt('delete'),
+            $url_builder->withParameter($action_token, self::DELETE_ACTION),
+            $id_token
+        );
 
         $target = $url_builder->withParameter($action_token, self::SAVE_ACTION)->buildURI();
-        return $this->ui_factory->table()->ordering(
+        $table = $this->ui_factory->table()->ordering(
             $this->data_retrieval,
             $target,
             $this->lng->txt('md_adv_field_table'),
             $columns
-        )->withActions($actions)
-            ->withRequest($this->http->request());
+        )->withRequest($this->http->request());
+
+        if (count($actions) > 0 && $has_write_access) {
+            $table = $table->withActions($actions);
+        }
+
+        if (!$has_position_access) {
+            $table = $table->withOrderingDisabled(true);
+        }
+
+        return $table;
     }
 }

@@ -42,6 +42,24 @@ class DataRetrieval implements OrderingRetrieval
     ) {
     }
 
+    public function hasWriteAccess(): bool
+    {
+        return $this->permissions->hasPermission(
+            ilAdvancedMDPermissionHelper::CONTEXT_RECORD,
+            $this->record_id,
+            ilAdvancedMDPermissionHelper::ACTION_RECORD_EDIT_FIELDS
+        );
+    }
+
+    public function hasPositionAccess(): bool
+    {
+        return $this->permissions->hasPermission(
+            ilAdvancedMDPermissionHelper::CONTEXT_RECORD,
+            $this->record_id,
+            ilAdvancedMDPermissionHelper::ACTION_RECORD_FIELD_POSITIONS
+        );
+    }
+
     protected function getRawData(): array
     {
         if (isset($this->raw_data)) {
@@ -55,11 +73,8 @@ class DataRetrieval implements OrderingRetrieval
         );
 
         $res = [];
-        $ok_icon = $this->ui_factory->symbol()->icon()->custom('assets/images/standard/icon_ok.svg', '', 'small');
-        $not_ok_icon = $this->ui_factory->symbol()->icon()->custom('assets/images/standard/icon_not_ok.svg', '', 'small');
-
+        $field_translations = ilAdvancedMDFieldTranslations::getInstanceByRecordId($this->record_id);
         foreach ($fields as $definition) {
-            $field_translations = ilAdvancedMDFieldTranslations::getInstanceByRecordId($definition->getRecordId());
             $id = $definition->getFieldId();
 
             $properties = $definition->getFieldDefinitionForTableGUI($this->active_language);
@@ -69,26 +84,12 @@ class DataRetrieval implements OrderingRetrieval
             }
             $configuration = $this->ui_factory->listing()->unordered($configuration_items);
 
-            $searchable_icon = $definition->isSearchable() ? $ok_icon : $not_ok_icon;
-
             $res[$id] = [
-                'position' => $definition->getPosition(),
                 'title' => $field_translations->getTitleForLanguage($id, $this->active_language),
                 'description' => $field_translations->getDescriptionForLanguage($id, $this->active_language),
                 'type' => $this->lng->txt($definition->getTypeTitle()),
                 'configuration' => $configuration,
-                'searchable' => $searchable_icon,
-                'perm' => $this->permissions->hasPermissions(
-                    ilAdvancedMDPermissionHelper::CONTEXT_FIELD,
-                    (int) $id,
-                    [
-                        ilAdvancedMDPermissionHelper::ACTION_FIELD_EDIT,
-                        [
-                            ilAdvancedMDPermissionHelper::ACTION_FIELD_EDIT_PROPERTY,
-                            ilAdvancedMDPermissionHelper::SUBACTION_FIELD_SEARCHABLE
-                        ]
-                    ]
-                )
+                'searchable' => $definition->isSearchable(),
             ];
         }
 
@@ -116,8 +117,11 @@ class DataRetrieval implements OrderingRetrieval
         return count($this->getRawData());
     }
 
+    /**
+     * @return int[]
+     */
     public function getAllIDs(): array
     {
-        return array_keys($this->getRawData());
+        return array_map('intval', array_keys($this->getRawData()));
     }
 }
