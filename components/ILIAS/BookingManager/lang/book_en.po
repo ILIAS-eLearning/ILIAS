@@ -60,10 +60,10 @@ msgid "book_book"
 msgstr "Book"
 
 msgid "book_book_available"
-msgstr "Book Available Dates"
+msgstr "Book Available Time Slots"
 
 msgid "book_book_recurrence"
-msgstr "Book multiple dates"
+msgstr "Book multiple time slots"
 
 msgid "book_booked_in"
 msgstr "Booked In"
@@ -141,7 +141,7 @@ msgid "book_deadline_hours"
 msgstr "X hours before time slot begins"
 
 msgid "book_deadline_info"
-msgstr "Minimum time between booking and booked period"
+msgstr "Minimum time between booking and time slot"
 
 msgid "book_deadline_options"
 msgstr "Bookings Can Be Made Until:"
@@ -195,7 +195,7 @@ msgid "book_fromto"
 msgstr "Date Range"
 
 msgid "book_hours"
-msgstr "Hours before start of timeslot."
+msgstr "Hours before start of time slot."
 
 msgid "book_is_used"
 msgstr "In Use"
@@ -213,7 +213,7 @@ msgid "book_mail_permanent_link"
 msgstr "Link to Booking Pool"
 
 msgid "book_mail_to_booker"
-msgstr "Mail to User"
+msgstr "Mail to Participant"
 
 msgid "book_message"
 msgstr "Message"
@@ -228,7 +228,7 @@ msgid "book_messages_info"
 msgstr "Allow users to add a message when booking an item."
 
 msgid "book_missing_availability"
-msgstr "It was not possible to book all items on all dates."
+msgstr "Unfortunately, not all time slots can be booked."
 
 msgid "book_missing_items"
 msgstr "$1 missing item(s)."
@@ -243,16 +243,13 @@ msgid "book_modal_recurrence"
 msgstr "Recurrence"
 
 msgid "book_modal_recurrence_multiple"
-msgstr "Book multiple dates"
-
-msgid "book_modal_recurrence_single"
-msgstr "Book only this date"
+msgstr "Book multiple time slots"
 
 msgid "book_modal_skipped_unknown_item"
 msgstr "Unknown or invalid selection (%s)."
 
 msgid "book_modal_warning_skipped_selections"
-msgstr "Some selected items or periods are not available for booking and are excluded from this confirmation."
+msgstr "Some selected items or time slots are not available for booking and are therefore excluded from this confirmation."
 
 msgid "book_new"
 msgstr "New Booking Pool"
@@ -276,7 +273,7 @@ msgid "book_no_preferences_for_you"
 msgstr "No preferences have been recorded for you."
 
 msgid "book_no_recurrence"
-msgstr "Book only this date"
+msgstr "Book only this time slot"
 
 msgid "book_not"
 msgstr "Not"
@@ -291,10 +288,10 @@ msgid "book_notification"
 msgstr "Send Booking Notifications"
 
 msgid "book_notification_cron_not_active"
-msgstr "Note: The necessary cron job, 'Send Reservation Notifications', is currently not active."
+msgstr "Note: The necessary cron job, 'Send Booking Notifications', is currently not active."
 
 msgid "book_notification_info"
-msgstr "Send a list of the next day’s bookings to users (own bookings) and admins (if activated)."
+msgstr "Send a list of the next day’s bookings to participants (own bookings) and admins (if activated)."
 
 msgid "book_nr_of_preferences"
 msgstr "Number of Preferences"
@@ -330,7 +327,7 @@ msgid "book_open"
 msgstr "Open Booking Pool"
 
 msgid "book_overall_limit"
-msgstr "Limit Total Number of Bookings per User"
+msgstr "Limit Total Number of Bookings per Participant"
 
 msgid "book_overall_limit_warning"
 msgstr "You have reached the maximum number of bookings allowed."
@@ -393,7 +390,7 @@ msgid "book_pref_overview"
 msgstr "Overview"
 
 msgid "book_preference_info"
-msgstr "Please select %1 preference(s) by %2. After this deadline, bookings will be allocated automatically, taking into consideration the preferences of all users."
+msgstr "Please select %1 preference(s) by %2. After this deadline, bookings will be allocated automatically, taking into consideration the preferences of all participants."
 
 msgid "book_preferences"
 msgstr "Preferences"
@@ -417,7 +414,7 @@ msgid "book_refresh"
 msgstr "Refresh"
 
 msgid "book_rem_intro"
-msgstr "This is an overview of upcoming reservations:"
+msgstr "This is an overview of upcoming bookings:"
 
 msgid "book_rem_reason"
 msgstr "You have received this mail because you are subscribed to notifications for the booking pool mentioned in this mail."
@@ -426,7 +423,7 @@ msgid "book_reminder_day"
 msgstr "Send Reminder"
 
 msgid "book_reminder_day_info"
-msgstr "Send list of own bookings to users and full list of all upcoming bookings to admins. Please note: in order to receive reminders, users need to have activated notifications via the ‘Actions’ menu at the top right-hand corner of the booking pool."
+msgstr "Send list of own bookings to participants and full list of all upcoming bookings to users with the ‘Edit Settings’ permission. Please note: in order to receive reminders, participants need to have activated notifications via the ‘Actions’ menu at the top right-hand corner of the booking pool."
 
 msgid "book_reminder_days"
 msgstr "day(s) before time-slot of booking"
@@ -447,7 +444,7 @@ msgid "book_reservation_available"
 msgstr "%s available"
 
 msgid "book_reservation_cancelled"
-msgstr "Reservation(s) cancelled."
+msgstr "Booking(s) cancelled."
 
 msgid "book_reservation_confirmed"
 msgstr "Your booking has been confirmed."
@@ -473,9 +470,6 @@ msgstr "Bookings Overview"
 msgid "book_reservation_status_5"
 msgstr "Cancelled"
 
-msgid "book_reservation_title"
-msgstr "Booking Reservation for"
-
 msgid "book_reservations_list"
 msgstr "Bookings"
 
@@ -486,10 +480,10 @@ msgid "book_schedule_added"
 msgstr "Booking schedule added."
 
 msgid "book_schedule_all_day"
-msgstr "All-Day Schedule"
+msgstr "Full-day schedule"
 
 msgid "book_schedule_days"
-msgstr "Time Slots"
+msgstr "Time slots"
 
 msgid "book_schedule_days_info"
 msgstr "Valid booking times for each day (HH:MM-HH:MM)"
@@ -509,17 +503,11 @@ msgstr "Fixed Schedule"
 msgid "book_schedule_type_fixed_info"
 msgstr "This booking mode can be used for things that can be booked for specific periods of time, such as rooms, services and equipment."
 
-msgid "book_schedule_type_none"
-msgstr "No Schedule"
-
 msgid "book_schedule_type_none_direct"
 msgstr "No Schedule, Direct Booking"
 
 msgid "book_schedule_type_none_direct_info"
 msgstr "This booking mode is ideal for presentation topics or places in seminars that do not require set times. Participants can book items directly on a first come, first served basis. Each item can only be booked once per participant."
-
-msgid "book_schedule_type_none_info"
-msgstr "This type can be used for seminar papers, seminar places and such."
 
 msgid "book_schedule_type_none_preference"
 msgstr "No Schedule, Using Preferences"
