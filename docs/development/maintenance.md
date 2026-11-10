@@ -202,8 +202,8 @@ Components are listed alphabetically by their folder name in `components/ILIAS/`
 * Authority to Sign off on Code Changes: NONE
 * Authority to Curate Test Cases: NONE
 * Authority to (De-)Assign Authorities: NONE
-* Assignee for Issues: NONE
-* Assignee for Security Reports: NONE
+* Assignee for Issues: [oliver.samoila](https://docu.ilias.de/go/usr/26160)
+* Assignee for Security Reports: [oliver.samoila](https://docu.ilias.de/go/usr/26160)
 
 [//]: # (END Accessibility)
 
