@@ -102,8 +102,14 @@ const mainbar = function () {
               if (state.entries[id].engaged) {
                 mb.model.actions.disengageEntry(id);
               } else {
-                // Keep pointer focus on the trigger; Tab enters the slate in the renderer.
                 mb.model.actions.engageEntry(id);
+
+                // Native keyboard activation produces a click with no click count.
+                if (signalData.originalEvent && signalData.originalEvent.detail === 0) {
+                  after_render = function () {
+                    mb.renderer.focusSubentry(id);
+                  };
+                }
               }
             }
             break;

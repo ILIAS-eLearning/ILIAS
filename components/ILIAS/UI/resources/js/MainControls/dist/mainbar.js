@@ -116,9 +116,14 @@ var mainbar = function() {
                             if(state.entries[id].engaged) {
                                 mb.model.actions.disengageEntry(id);
                             } else {
-                                // Keep pointer focus on the trigger; Tab enters the slate in the renderer.
                                 mb.model.actions.engageEntry(id);
 
+                                // Native keyboard activation produces a click with no click count.
+                                if(signalData.originalEvent && signalData.originalEvent.detail === 0) {
+                                    after_render = function() {
+                                        mb.renderer.focusSubentry(id);
+                                    };
+                                }
                             }
                         }
                         break;
@@ -915,22 +920,15 @@ var persistence = function() {
                 triggerer.getElement().attr('aria-labelledby', triggerer.html_id);
                 //a11y
 
-            // The slate is outside the trigger's DOM tab order, so enter it on the next Tab.
-            triggerer.getElement().off('keydown.mainbar-slate').on('keydown.mainbar-slate', function(event) {
-                if(event.key === ' ' || event.key === 'Enter') {
-                    event.preventDefault();
-                    if(!event.repeat) {
-                        const opening = !entry.engaged;
-                        triggerer.getElement().trigger('click');
-                        if(opening) {
-                            actions.focusSubentry(entry.id);
-                        }
+            // The slate is outside the trigger’s natural Tab order.
+            if(slate.html_id) {
+                triggerer.getElement().off('keydown.mainbar-slate').on('keydown.mainbar-slate', function(event) {
+                    if(event.key === 'Tab' && !event.shiftKey && entry.engaged && actions.focusSubentry(entry.id)) {
+                        event.preventDefault();
                     }
-                } else if(event.key === 'Tab' && !event.shiftKey && entry.engaged) {
-                    event.preventDefault();
-                    actions.focusSubentry(entry.id);
-                }
-            });
+                });
+            }
+
             if(entry.hidden) {
                 triggerer.mb_hide(is_tool);
             } else {
@@ -1034,48 +1032,27 @@ var persistence = function() {
             //unfortunately, this does not work properly via a class
             $('.' + css.mainbar_entries).css('visibility', 'visible');
         },
-        // Slate contents vary in structure; use the first visible focusable control.
-        getFirstFocusableSubentry: function(triggered_entry_id) {
-            var dom_id = dom_references[triggered_entry_id];
-            return $('#' + dom_id.slate)
-                .find('a, button, input, select, textarea, [tabindex]')
-                .filter(function() {
-                    return actions.isFocusable(this) && $(this).is(':visible');
-                })
-                .first();
-        },
         focusSubentry: function(triggered_entry_id) {
-            var subentry = actions.getFirstFocusableSubentry(triggered_entry_id),
-                triggerer = dom_references[triggered_entry_id].triggerer;
-            if(subentry[0]) {
-                // Reverse Tab from the first slate control returns to its owning trigger.
-                subentry.off('keydown.mainbar-slate-first').on('keydown.mainbar-slate-first', function(event) {
-                    if(event.key === 'Tab' && event.shiftKey) {
-                        event.preventDefault();
-                        document.getElementById(triggerer).focus();
-                    }
-                });
-                subentry[0].focus();
+            var ids = dom_references[triggered_entry_id];
+            var controls = $('#' + ids.slate).find('a[href], button, input, select, textarea, [tabindex]');
+            for(var control of controls) {
+                if(control.tabIndex < 0 || $(control).is(':disabled')) {
+                    continue;
+                }
+                control.focus();
+                if(document.activeElement === control) {
+                    $(control).off('keydown.mainbar-slate-first').on('keydown.mainbar-slate-first', function(event) {
+                        if(event.key === 'Tab' && event.shiftKey) {
+                            actions.focusTopentry(triggered_entry_id);
+                            if(document.activeElement.id === ids.triggerer) {
+                                event.preventDefault();
+                            }
+                        }
+                    });
+                    return true;
+                }
             }
-        },
-
-        /**
-         * this replaces the :focusable selector from https://api.jqueryui.com/focusable-selector/
-         */
-        isFocusable: function(element) {
-            return (
-                (   element instanceof HTMLInputElement
-                    || element instanceof HTMLSelectElement
-                    || element instanceof HTMLTextAreaElement
-                    || element instanceof HTMLButtonElement
-                )
-                && element.getAttribute('disabled') === null
-            )
-            || element.getAttribute('href') !== null
-            || (
-                element.getAttribute('tabindex') !== null
-                && element.getAttribute('tabindex') !== -1
-            );
+            return false;
         },
         focusTopentry: function(top_entry_id) {
             var  triggerer = dom_references[top_entry_id];

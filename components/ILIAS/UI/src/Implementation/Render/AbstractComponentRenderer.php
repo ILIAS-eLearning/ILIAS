@@ -231,6 +231,7 @@ abstract class AbstractComponentRenderer implements ComponentRenderer, HelpTextR
 							{
 								'id' : '$signal', 'event' : '$event',
 								'triggerer' : $(this),
+								'originalEvent' : event.originalEvent,
 								'options' : JSON.parse('$options')
 							}
 						);
