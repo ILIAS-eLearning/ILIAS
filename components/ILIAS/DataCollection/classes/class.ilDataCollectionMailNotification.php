@@ -76,7 +76,7 @@ class ilDataCollectionMailNotification extends ilMailNotification
             $this->appendBody($lng->txt('dcl_table') . ": $table");
             if ($visible_ids !== []) {
                 $message = $lng->txt('dcl_record') . ":\n";
-                $message .= "------------------------------------\n";
+                $message .= "\------------------------------------\n";
                 foreach ($this->record->getTable()->getFields() as $field) {
                     if (in_array($field->getId(), $visible_ids)) {
                         $value = '-undefined-';
@@ -89,7 +89,7 @@ class ilDataCollectionMailNotification extends ilMailNotification
                         $message .= $field->getTitle() . ': ' . $value . "\n";
                     }
                 }
-                $message .= "------------------------------------";
+                $message .= "\------------------------------------";
                 $this->appendBody($message);
             }
 
