@@ -156,14 +156,6 @@ class SkillAdminGUIRequest extends SkillGUIRequest
     }
 
     /**
-     * @return string[]
-     */
-    public function getTableSkillCatNodeIds(): array
-    {
-        return $this->getTableIds("skl_skill_cat_table_node_ids");
-    }
-
-    /**
      * @return int[]
      */
     public function getProfileIds(): array
@@ -211,6 +203,35 @@ class SkillAdminGUIRequest extends SkillGUIRequest
     public function getTableTreeIds(): array
     {
         return $this->getTableIds("skl_tree_table_tree_ids");
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getTableSkillCatNodeIds(): array
+    {
+        return $this->getTableIds("skl_skill_cat_table_node_ids");
+    }
+
+    public function getTableSkillLevelAction(): string
+    {
+        return $this->getTableAction("skl_skill_level_table_action");
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getTableSkillLevelIds(): array
+    {
+        return $this->getTableIds("skl_skill_level_table_level_ids");
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getSkillLevelIds(): array
+    {
+        return $this->getInterruptiveItemIdsAsString();
     }
 
     public function getTableProfileAction(): string

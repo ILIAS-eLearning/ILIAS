@@ -109,10 +109,13 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
         // tabs
         $ilTabs->clearTargets();
         $ilHelp->setScreenIdComponent("skmg_lev");
+
+        $ilCtrl->setParameter($this, "level_id", "");
         $ilTabs->setBackTarget(
             $lng->txt("skmg_skill_levels"),
             $ilCtrl->getLinkTarget($this, "edit")
         );
+        $ilCtrl->setParameter($this, "level_id", $this->requested_level_id);
 
         if ($this->requested_level_id > 0) {
             if ($this->tref_id == 0) {
@@ -291,15 +294,20 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
             }
         }
 
-        $table = new ilSkillLevelTableGUI(
+        $table = $this->table_manager->getSkillLevelsTable(
             $this->requested_node_id,
             $this,
-            "edit",
             $this->tref_id,
             $this->isInUse(),
             $this->tree_access_manager->hasManageCompetenceTemplatesPermission()
-        );
-        $tpl->setContent($table->getHTML());
+        )->getComponent();
+        $level_info = "";
+        if ($this->tref_id === 0) {
+            $level_info = $this->ui_ren->render(
+                $this->ui_fac->messageBox()->info($lng->txt("skmg_from_lower_to_higher_levels"))
+            );
+        }
+        $tpl->setContent($level_info . $this->ui_ren->render($table));
     }
 
     public function showUsage(): void

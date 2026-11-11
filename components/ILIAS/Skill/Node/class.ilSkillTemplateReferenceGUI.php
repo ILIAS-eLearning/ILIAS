@@ -86,10 +86,13 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
         // tabs
         $ilTabs->clearTargets();
         $ilHelp->setScreenIdComponent("skmg_lev");
+
+        $ilCtrl->setParameter($this, "level_id", "");
         $ilTabs->setBackTarget(
             $lng->txt("back"),
             $ilCtrl->getLinkTarget($this, "listItems")
         );
+        $ilCtrl->setParameter($this, "level_id", $this->requested_level_id);
 
         if ($this->requested_level_id > 0) {
             $ilTabs->addTab(
@@ -388,15 +391,14 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
             )->getComponent();
             $tpl->setContent($this->ui_ren->render($table));
         } elseif ($obj_type == "sktp") {
-            $table = new ilSkillLevelTableGUI(
+            $table = $this->table_manager->getSkillLevelsTable(
                 (int) $sk_id,
                 $this,
-                "edit",
                 $this->node_object->getId(),
                 false,
                 $this->tree_access_manager->hasManageCompetencesPermission()
-            );
-            $tpl->setContent($table->getHTML());
+            )->getComponent();
+            $tpl->setContent($this->ui_ren->render($table));
         }
     }
 

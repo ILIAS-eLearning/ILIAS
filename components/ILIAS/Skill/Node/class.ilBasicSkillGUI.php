@@ -57,11 +57,6 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
     /**
      * @var int[]
      */
-    protected array $requested_level_ids = [];
-
-    /**
-     * @var int[]
-     */
     protected array $requested_resource_ids = [];
 
     /**
@@ -103,9 +98,14 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         parent::__construct($node_manager, $a_node_id);
 
         $this->requested_level_id = $this->admin_gui_request->getLevelId();
+        $table_skill_level_ids = $this->admin_gui_request->getTableSkillLevelIds();
+        if ($this->admin_gui_request->getTableSkillLevelAction() === "editLevel"
+            && isset($table_skill_level_ids[0])
+        ) {
+            $this->requested_level_id = (int) $table_skill_level_ids[0];
+        }
         $this->requested_root_id = $this->admin_gui_request->getRootId();
         $this->requested_level_order = $this->admin_gui_request->getOrder();
-        $this->requested_level_ids = $this->admin_gui_request->getLevelIds();
         $this->requested_resource_ids = $this->admin_gui_request->getResourceIds();
         $this->requested_suggested = $this->admin_gui_request->getSuggested();
         $this->requested_trigger = $this->admin_gui_request->getTrigger();
@@ -205,15 +205,17 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
             );
         }
 
-        $table = new ilSkillLevelTableGUI(
+        $table = $this->table_manager->getSkillLevelsTable(
             $this->base_skill_id,
             $this,
-            "edit",
             0,
             $this->isInUse(),
             $this->tree_access_manager->hasManageCompetencesPermission()
+        )->getComponent();
+        $level_info = $this->ui_ren->render(
+            $this->ui_fac->messageBox()->info($lng->txt("skmg_from_lower_to_higher_levels"))
         );
-        $tpl->setContent($table->getHTML());
+        $tpl->setContent($level_info . $this->ui_ren->render($table));
     }
 
     public function initForm(string $a_mode = "edit"): void
@@ -384,7 +386,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $ilCtrl = $this->ctrl;
         $ilTabs = $this->tabs;
 
-        $ilCtrl->saveParameter($this, "level_id");
+        $ilCtrl->setParameter($this, "level_id", $this->requested_level_id);
         $this->setLevelHead();
         $ilTabs->activateTab("level_settings");
 
@@ -438,62 +440,59 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
             return;
         }
 
-        $order = ilArrayUtil::stripSlashesArray($this->requested_level_order);
-        $this->node_object->updateLevelOrder($order);
+        $table = $this->table_manager->getSkillLevelsTable(
+            $this->base_skill_id,
+            $this,
+            $this->tref_id,
+            $this->isInUse(),
+            $this->getType() === "sktp"
+                ? $this->tree_access_manager->hasManageCompetenceTemplatesPermission()
+                : $this->tree_access_manager->hasManageCompetencesPermission()
+        );
+        $ordering_table = $table->getComponent();
+        $table->setOrder($ordering_table->getData());
         $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $ilCtrl->redirect($this, "edit");
     }
 
-    public function confirmLevelDeletion(): void
+    public function deleteSkillLevels(): void
     {
-        $ilCtrl = $this->ctrl;
-        $tpl = $this->tpl;
         $lng = $this->lng;
+        $ilCtrl = $this->ctrl;
+        $has_manage_permission =
+            ($this->tree_access_manager->hasManageCompetencesPermission()
+                && in_array($this->getType(), ["skll", "sktr"], true))
+            || ($this->tree_access_manager->hasManageCompetenceTemplatesPermission()
+                && $this->getType() === "sktp");
 
-        if (!($this->tree_access_manager->hasManageCompetencesPermission() && in_array($this->getType(), ["skll", "sktr"]))
-            && !($this->tree_access_manager->hasManageCompetenceTemplatesPermission() && $this->getType() == "sktp")
-        ) {
+        if (!$has_manage_permission || $this->tref_id !== 0 || $this->isInUse()) {
             return;
         }
 
-        $this->setTabs("levels");
+        $manage_permission = $this->getType() === "sktp"
+            ? $this->tree_access_manager->hasManageCompetenceTemplatesPermission()
+            : $this->tree_access_manager->hasManageCompetencesPermission();
+        $table = $this->table_manager->getSkillLevelsTable(
+            $this->base_skill_id,
+            $this,
+            $this->tref_id,
+            $this->isInUse(),
+            $manage_permission
+        );
+        $level_ids = $table->resolveLevelIds($this->admin_gui_request->getSkillLevelIds());
 
-        if (empty($this->requested_level_ids)) {
-            $this->tpl->setOnScreenMessage('info', $lng->txt("no_checkbox"), true);
+        if (empty($level_ids)) {
+            $this->tpl->setOnScreenMessage("info", $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "edit");
-        } else {
-            $cgui = new ilConfirmationGUI();
-            $cgui->setFormAction($ilCtrl->getFormAction($this));
-            $cgui->setHeaderText($lng->txt("skmg_really_delete_levels"));
-            $cgui->setCancel($lng->txt("cancel"), "edit");
-            $cgui->setConfirm($lng->txt("delete"), "deleteLevel");
-
-            foreach ($this->requested_level_ids as $i) {
-                $cgui->addItem("id[]", (string) $i, ilBasicSkill::lookupLevelTitle($i));
-            }
-
-            $tpl->setContent($cgui->getHTML());
-        }
-    }
-
-    public function deleteLevel(): void
-    {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-
-        if (!($this->tree_access_manager->hasManageCompetencesPermission() && in_array($this->getType(), ["skll", "sktr"]))
-            && !($this->tree_access_manager->hasManageCompetenceTemplatesPermission() && $this->getType() == "sktp")
-        ) {
             return;
         }
 
-        if (!empty($this->requested_level_ids)) {
-            foreach ($this->requested_level_ids as $id) {
-                $this->node_object->deleteLevel($id);
-            }
-            $this->node_object->fixLevelNumbering();
+        foreach ($level_ids as $level_id) {
+            $this->node_object->deleteLevel($level_id);
         }
-        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
+        $this->node_object->fixLevelNumbering();
+
+        $this->tpl->setOnScreenMessage("success", $lng->txt("msg_obj_modified"), true);
         $ilCtrl->redirect($this, "edit");
     }
 
@@ -509,10 +508,12 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $ilTabs->clearTargets();
         $ilHelp->setScreenIdComponent("skmg_lev");
 
+        $ilCtrl->setParameter($this, "level_id", "");
         $ilTabs->setBackTarget(
             $lng->txt("back"),
             $ilCtrl->getLinkTarget($this, "edit")
         );
+        $ilCtrl->setParameter($this, "level_id", $this->requested_level_id);
 
         if ($this->requested_level_id > 0) {
             $ilTabs->addTab(

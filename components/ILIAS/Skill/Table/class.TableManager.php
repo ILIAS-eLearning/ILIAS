@@ -49,6 +49,16 @@ class TableManager
         return new SkillCategoryTable($parent_obj, $node_id, $mode, $tref_id, $node_manager);
     }
 
+    public function getSkillLevelsTable(
+        int $skill_id,
+        object $parent_obj,
+        int $tref_id = 0,
+        bool $in_use = false,
+        bool $manage_perm = false
+    ): SkillLevelsTable {
+        return new SkillLevelsTable($skill_id, $parent_obj, $tref_id, $in_use, $manage_perm);
+    }
+
     public function getLevelResourcesTable(
         object $parent_obj,
         int $ref_id,

@@ -175,7 +175,6 @@ class ilBasicSkill extends ilSkillTreeNode implements Usage\SkillUsageInfo
 
     public function updateLevelOrder(array $order): void
     {
-        asort($order);
         $this->bsc_skl_lvl_db_rep->updateLevelOrder($order);
     }
 
