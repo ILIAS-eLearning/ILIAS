@@ -85,8 +85,7 @@ class DataRetrieval implements OrderingRetrieval
                     ilAdvancedMDPermissionHelper::CONTEXT_FIELD,
                     $id,
                     [
-                        ilAdvancedMDPermissionHelper::ACTION_FIELD_EDIT,
-                        ilAdvancedMDPermissionHelper::ACTION_FIELD_DELETE
+                        ilAdvancedMDPermissionHelper::ACTION_FIELD_EDIT
                     ]
                 )
             ];
