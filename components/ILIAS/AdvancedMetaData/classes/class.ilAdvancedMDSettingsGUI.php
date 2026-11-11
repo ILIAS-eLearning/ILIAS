@@ -1002,8 +1002,7 @@ class ilAdvancedMDSettingsGUI
             ilAdvancedMDPermissionHelper::CONTEXT_RECORD,
             (int) $this->record->getRecordId(),
             array(
-                ilAdvancedMDPermissionHelper::ACTION_RECORD_CREATE_FIELD
-                ,
+                ilAdvancedMDPermissionHelper::ACTION_RECORD_CREATE_FIELD,
                 ilAdvancedMDPermissionHelper::ACTION_RECORD_FIELD_POSITIONS
             )
         );
@@ -1324,6 +1323,15 @@ class ilAdvancedMDSettingsGUI
             $this->editFields();
             return;
         }
+
+        if (!$this->getPermissions()->hasPermission(
+            ilAdvancedMDPermissionHelper::CONTEXT_FIELD,
+            (int) $field_id,
+            ilAdvancedMDPermissionHelper::ACTION_FIELD_EDIT
+        )) {
+            $this->ctrl->redirect($this, 'editFields');
+        }
+
         $this->ctrl->saveParameter($this, 'field_id');
         $this->ctrl->saveParameter($this, 'record_id');
         $this->initRecordObject();
@@ -1357,6 +1365,14 @@ class ilAdvancedMDSettingsGUI
         if (!$record_id || !$field_id) {
             $this->editFields();
             return;
+        }
+
+        if (!$this->getPermissions()->hasPermission(
+            ilAdvancedMDPermissionHelper::CONTEXT_FIELD,
+            (int) $field_id,
+            ilAdvancedMDPermissionHelper::ACTION_FIELD_EDIT
+        )) {
+            $this->ctrl->redirect($this, 'editFields');
         }
 
         $this->initRecordObject();
@@ -1404,6 +1420,15 @@ class ilAdvancedMDSettingsGUI
         }
 
         $this->initRecordObject();
+
+        if (!$this->getPermissions()->hasPermission(
+            ilAdvancedMDPermissionHelper::CONTEXT_RECORD,
+            (int) $this->record->getRecordId(),
+            ilAdvancedMDPermissionHelper::ACTION_RECORD_CREATE_FIELD
+        )) {
+            $this->ctrl->redirect($this, 'editFields');
+        }
+
         $this->ctrl->setParameter($this, 'ftype', $field_type);
         $this->setRecordSubTabs(2);
         if (!$record_id || !$field_type) {
@@ -1430,6 +1455,15 @@ class ilAdvancedMDSettingsGUI
         }
 
         $this->initRecordObject();
+
+        if (!$this->getPermissions()->hasPermission(
+            ilAdvancedMDPermissionHelper::CONTEXT_RECORD,
+            (int) $this->record->getRecordId(),
+            ilAdvancedMDPermissionHelper::ACTION_RECORD_CREATE_FIELD
+        )) {
+            $this->ctrl->redirect($this, 'editFields');
+        }
+
         $this->initLanguage($record_id);
         $this->ctrl->saveParameter($this, 'ftype');
 

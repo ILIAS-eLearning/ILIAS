@@ -26,7 +26,6 @@ use ilLanguage;
 use ILIAS\HTTP\Services as HTTP;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
-use ILIAS\Data\Factory as DataFactory;
 
 class TableBuilder
 {
@@ -52,8 +51,7 @@ class TableBuilder
         URLBuilderToken $id_token,
         URLBuilderToken $action_token
     ): OrderingTable {
-        $has_write_access = $this->data_retrieval->hasWriteAccess();
-        $has_position_access = $this->data_retrieval->hasPositionAccess();
+        $may_edit_field_position = $this->data_retrieval->mayEditFieldPosition();
 
         $columns = [];
         $columns[self::TITLE_COLUMN] = $this->ui_factory->table()->column()->text(
@@ -72,6 +70,7 @@ class TableBuilder
         );
 
         $actions = [];
+
         $actions[self::EDIT_FIELD_ACTION] = $this->ui_factory->table()->action()->single(
             $this->lng->txt('edit'),
             $url_builder->withParameter($action_token, self::EDIT_FIELD_ACTION),
@@ -92,11 +91,11 @@ class TableBuilder
             $columns
         )->withRequest($this->http->request());
 
-        if (count($actions) > 0 && $has_write_access) {
+        if (count($actions) > 0) {
             $table = $table->withActions($actions);
         }
 
-        if (!$has_position_access) {
+        if (!$may_edit_field_position) {
             $table = $table->withOrderingDisabled(true);
         }
 

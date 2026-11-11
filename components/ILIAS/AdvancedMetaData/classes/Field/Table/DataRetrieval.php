@@ -42,16 +42,7 @@ class DataRetrieval implements OrderingRetrieval
     ) {
     }
 
-    public function hasWriteAccess(): bool
-    {
-        return $this->permissions->hasPermission(
-            ilAdvancedMDPermissionHelper::CONTEXT_RECORD,
-            $this->record_id,
-            ilAdvancedMDPermissionHelper::ACTION_RECORD_EDIT_FIELDS
-        );
-    }
-
-    public function hasPositionAccess(): bool
+    public function mayEditFieldPosition(): bool
     {
         return $this->permissions->hasPermission(
             ilAdvancedMDPermissionHelper::CONTEXT_RECORD,
@@ -90,6 +81,14 @@ class DataRetrieval implements OrderingRetrieval
                 'type' => $this->lng->txt($definition->getTypeTitle()),
                 'configuration' => $configuration,
                 'searchable' => $definition->isSearchable(),
+                'permissions' => $this->permissions->hasPermissions(
+                    ilAdvancedMDPermissionHelper::CONTEXT_FIELD,
+                    $id,
+                    [
+                        ilAdvancedMDPermissionHelper::ACTION_FIELD_EDIT,
+                        ilAdvancedMDPermissionHelper::ACTION_FIELD_DELETE
+                    ]
+                )
             ];
         }
 
@@ -102,10 +101,16 @@ class DataRetrieval implements OrderingRetrieval
         array $visible_column_ids
     ): Generator {
         foreach ($this->getRawData() as $id => $datum) {
-            yield $row_builder->buildOrderingRow(
+            $row = $row_builder->buildOrderingRow(
                 (string) $id,
                 $datum
             );
+
+            if (!($datum['permissions'][ilAdvancedMDPermissionHelper::ACTION_FIELD_EDIT] ?? false)) {
+                $row = $row->withDisabledAction(TableBuilder::EDIT_FIELD_ACTION);
+            }
+
+            yield $row;
         }
     }
 
