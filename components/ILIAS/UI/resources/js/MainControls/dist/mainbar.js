@@ -118,8 +118,9 @@ var mainbar = function() {
                             } else {
                                 mb.model.actions.engageEntry(id);
 
-                                // Native keyboard activation produces a click with no click count.
-                                if(signalData.originalEvent && signalData.originalEvent.detail === 0) {
+                                // Keyboard activation produces a native click with detail 0.
+                                // Move focus after rendering so the newly opened top-level slate is visible.
+                                if(state.entries[id].isTopLevel() && signalData.originalEvent && signalData.originalEvent.detail === 0) {
                                     after_render = function() {
                                         mb.renderer.focusSubentry(id);
                                     };
@@ -920,9 +921,10 @@ var persistence = function() {
                 triggerer.getElement().attr('aria-labelledby', triggerer.html_id);
                 //a11y
 
-            // The slate is outside the trigger’s natural Tab order.
+            // Slate controls are elsewhere in the DOM. Enter the open slate directly from its trigger.
             if(slate.html_id) {
                 triggerer.getElement().off('keydown.mainbar-slate').on('keydown.mainbar-slate', function(event) {
+                    // Cancel Tab only after focus moves, so empty or loading slates cannot trap it.
                     if(event.key === 'Tab' && !event.shiftKey && entry.engaged && actions.focusSubentry(entry.id)) {
                         event.preventDefault();
                     }
@@ -1040,7 +1042,9 @@ var persistence = function() {
             }
             for(var control of actions.getTabbableCandidates(slate)) {
                 control.focus();
+                // Hidden controls can pass the candidate filter. Check that focus actually moved.
                 if(document.activeElement === control) {
+                    // From the first focused control, Shift+Tab retraces the jump from the trigger.
                     $(control).off('keydown.mainbar-slate-first').on('keydown.mainbar-slate-first', function(event) {
                         if(event.key === 'Tab' && event.shiftKey) {
                             actions.focusTopentry(triggered_entry_id);
@@ -1055,6 +1059,7 @@ var persistence = function() {
             return false;
         },
         getTabbableCandidates: function(slate) {
+            // Slate layouts vary, so look for controls throughout the slate in DOM order.
             var controls = slate.querySelectorAll('a[href], button, input, select, textarea, [tabindex]');
             return Array.from(controls).filter((element) => element.tabIndex >= 0 && !element.matches(':disabled'));
         },
