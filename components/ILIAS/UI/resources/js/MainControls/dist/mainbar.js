@@ -1034,11 +1034,11 @@ var persistence = function() {
         },
         focusSubentry: function(triggered_entry_id) {
             var ids = dom_references[triggered_entry_id];
-            var controls = $('#' + ids.slate).find('a[href], button, input, select, textarea, [tabindex]');
-            for(var control of controls) {
-                if(control.tabIndex < 0 || $(control).is(':disabled')) {
-                    continue;
-                }
+            var slate = document.getElementById(ids.slate);
+            if(!slate) {
+                return false;
+            }
+            for(var control of actions.getTabbableCandidates(slate)) {
                 control.focus();
                 if(document.activeElement === control) {
                     $(control).off('keydown.mainbar-slate-first').on('keydown.mainbar-slate-first', function(event) {
@@ -1053,6 +1053,10 @@ var persistence = function() {
                 }
             }
             return false;
+        },
+        getTabbableCandidates: function(slate) {
+            var controls = slate.querySelectorAll('a[href], button, input, select, textarea, [tabindex]');
+            return Array.from(controls).filter((element) => element.tabIndex >= 0 && !element.matches(':disabled'));
         },
         focusTopentry: function(top_entry_id) {
             var  triggerer = dom_references[top_entry_id];

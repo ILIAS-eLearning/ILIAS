@@ -333,11 +333,11 @@ const renderer = function ($) {
     },
     focusSubentry(triggered_entry_id) {
       const ids = dom_references[triggered_entry_id];
-      const controls = $(`#${ids.slate}`).find('a[href], button, input, select, textarea, [tabindex]');
-      for (const control of controls) {
-        if (control.tabIndex < 0 || $(control).is(':disabled')) {
-          continue;
-        }
+      const slate = document.getElementById(ids.slate);
+      if (!slate) {
+        return false;
+      }
+      for (const control of actions.getTabbableCandidates(slate)) {
         control.focus();
         if (document.activeElement === control) {
           $(control).off('keydown.mainbar-slate-first').on('keydown.mainbar-slate-first', (event) => {
@@ -352,6 +352,10 @@ const renderer = function ($) {
         }
       }
       return false;
+    },
+    getTabbableCandidates(slate) {
+      const controls = slate.querySelectorAll('a[href], button, input, select, textarea, [tabindex]');
+      return Array.from(controls).filter((element) => element.tabIndex >= 0 && !element.matches(':disabled'));
     },
     focusTopentry(top_entry_id) {
       const triggerer = dom_references[top_entry_id];
