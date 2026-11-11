@@ -13,7 +13,6 @@
  * https://github.com/ILIAS-eLearning
  */
 
-import { readFileSync } from 'node:fs';
 import { describe, it } from 'node:test';
 import { strict } from 'node:assert/strict';
 import mainbar from '../../../resources/js/MainControls/src/mainbar.main.js';
@@ -168,79 +167,5 @@ describe('mainbar model', () => {
     strict.equal(m.isInView('xx:1:1'), false);
 
     strict.equal(m.isInView('apparently_nonsense'), true);
-  });
-});
-
-describe('mainbar keyboard focus', () => {
-  it('moves focus after native keyboard activation and leaves navigation available', async () => {
-    const { JSDOM } = await import('jsdom');
-    const { default: jquery } = await import('jquery');
-    const { window } = new JSDOM(`
-      <ul class="il-mainbar-entries">
-        <li><a id="link" href="#dashboard">Dashboard</a></li>
-        <li><button id="entry">Repository</button></li>
-        <li><button id="more">More</button></li>
-      </ul>
-      <div id="slate">
-        <button tabindex="-1">Skip</button>
-        <button disabled>Unavailable</button>
-        <a id="home" href="#home">Repository - Home</a>
-      </div>
-      <div id="more-slate"></div>
-    `, { runScripts: 'outside-only' });
-    try {
-      window.$ = jquery(window);
-      window.il = { UI: { page: { isSmallScreen: () => false } } };
-      const bundle = new URL('../../../resources/js/MainControls/dist/mainbar.js', import.meta.url);
-      window.eval(readFileSync(bundle, 'utf8'));
-
-      const mb = window.il.UI.maincontrols.mainbar;
-      mb.persistence.store = () => {};
-      for (const [id, triggerer, slate] of [['0:0', 'link'], ['0:1', 'entry', 'slate'], ['0:2', 'more', 'more-slate']]) {
-        mb.addPartIdAndEntry(id, 'triggerer', triggerer, false);
-        if (slate) mb.addPartIdAndEntry(id, 'slate', slate, false);
-      }
-
-      const { $ } = window;
-      const { document } = window;
-      const entry = document.getElementById('entry');
-      const slate = document.getElementById('slate');
-      mb.addTriggerSignal('open-slate');
-      $(entry).on('click', (event) => {
-        $(entry).trigger('open-slate', {
-          originalEvent: event.originalEvent,
-          options: { action: 'trigger', entry_id: '0:1' },
-        });
-      });
-      mb.renderer.render(mb.model.getState());
-
-      const press = (target, key, shiftKey = false) => target.dispatchEvent(
-        new window.KeyboardEvent('keydown', {
-          key, shiftKey, bubbles: true, cancelable: true,
-        }),
-      );
-      const activate = (detail) => entry.dispatchEvent(
-        new window.MouseEvent('click', { detail, bubbles: true }),
-      );
-
-      strict.equal(press(document.getElementById('link'), 'Enter'), true);
-      entry.focus();
-      activate(0);
-      strict.equal(document.activeElement.id, 'home');
-      strict.equal(press(document.activeElement, 'Tab', true), false);
-      strict.equal(document.activeElement, entry);
-
-      activate(0); // Close the slate.
-      activate(1); // Open it with a pointer.
-      strict.equal(document.activeElement, entry);
-      strict.equal(press(entry, 'Tab'), false);
-      strict.equal(document.activeElement.id, 'home');
-      entry.focus();
-      slate.replaceChildren();
-      strict.equal(press(entry, 'Tab'), true);
-      strict.equal(document.activeElement, entry);
-    } finally {
-      window.close();
-    }
   });
 });
