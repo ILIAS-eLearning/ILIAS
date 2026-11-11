@@ -36,6 +36,16 @@ class ilSCORM13PlayerGUI
     public const WRITEONLY = 2;
     public const READWRITE = 3;
 
+    /** @var array<string, string> */
+    private const JS_STRING_ESCAPES = [
+        '\\' => '\\\\',
+        '\'' => '\\\'',
+        "\r" => '\\r',
+        "\n" => '\\n',
+        "\t" => '\\t',
+        "\0" => '\\0',
+    ];
+
     /**
      * @var array<string, array<string, array<string, mixed>>>
      */
@@ -1424,7 +1434,7 @@ class ilSCORM13PlayerGUI
             $fHandle2 = fopen($path_txt, 'a') or die("can't open file");
             $logtpl = $this->getLogTemplate();
             $logtpl->setCurrentBlock('NewLog');
-            $logtpl->setVariable("COURSETITLE", $this->slm->getTitle());
+            $logtpl->setVariable("COURSETITLE", $this->encodeDebugLogForHtml((string) $this->slm->getTitle()));
             $logtpl->setVariable("COURSEID", $this->packageId);
             $logtpl->setVariable("TIMESTAMP", date("d.m.Y H:i", time()));
             $logtpl->setVariable("SESSION", $this->get_actual_attempts());
@@ -1583,6 +1593,7 @@ class ilSCORM13PlayerGUI
     public function openLog(): void
     {
         global $DIC;
+        $this->ensureDebugWriteEnabled();
         $filename = ilUtil::stripSlashes($DIC->http()->wrapper()->query()->retrieve('logFile', $DIC->refinery()->kindlyTo()->string()));
         $filename = str_replace('/', '', $filename);
         //Header
@@ -1594,6 +1605,7 @@ class ilSCORM13PlayerGUI
     public function downloadLog(): void
     {
         global $DIC;
+        $this->ensureDebugWriteEnabled();
         $filename = ilUtil::stripSlashes($DIC->http()->wrapper()->query()->retrieve('logFile', $DIC->refinery()->kindlyTo()->string()));
         $filename = str_replace('/', '', $filename);
         //Header
@@ -1645,6 +1657,7 @@ class ilSCORM13PlayerGUI
 
     public function liveLogContent(): void
     {
+        $this->ensureDebugWriteEnabled();
         header('Content-Type: text/html; charset=UTF-8');
         print file_get_contents($this->logFileName() . ".html");
     }
@@ -1652,6 +1665,7 @@ class ilSCORM13PlayerGUI
     public function debugGUI(): void
     {
         global $DIC;
+        $this->ensureDebugWriteEnabled();
         $lng = $DIC->language();
         $lng->loadLanguageModule("scormdebug");
 
@@ -1731,12 +1745,38 @@ class ilSCORM13PlayerGUI
         return $dvalues;
     }
 
+    private function ensureDebugWriteEnabled(): void
+    {
+        global $DIC;
+
+        if ($this->slm->getDebug() && $this->slm->getDebugActivated()) {
+            return;
+        }
+
+        $DIC['ilErr']->raiseError($DIC->language()->txt("permission_denied"), $DIC['ilErr']->WARNING);
+    }
+
+    private function encodeDebugLogForHtml(string $value): string
+    {
+        return htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    }
+
+    private function encodeDebugLogForJsAndHtml(string $value): string
+    {
+        return htmlspecialchars(
+            strtr($value, self::JS_STRING_ESCAPES),
+            ENT_QUOTES | ENT_SUBSTITUTE,
+            'UTF-8'
+        );
+    }
+
     public function postLogEntry(): void
     {
         global $DIC;
         $ilLog = ilLoggerFactory::getLogger('sc13');
         $lng = $DIC->language();
         $lng->loadLanguageModule("scormdebug");
+        $this->ensureDebugWriteEnabled();
 
         $logdata = json_decode(file_get_contents('php://input'));
         $filename = $this->logFileName();
@@ -1886,9 +1926,9 @@ class ilSCORM13PlayerGUI
                     $color = "green";
                     $logtpl->setCurrentBlock("InitializeStart");
                     $logtpl->setVariable("SCO-title", $lng->txt("SCO-title"));
-                    $logtpl->setVariable("SCO_TITLE", $logdata->scotitle);
+                    $logtpl->setVariable("SCO_TITLE", $this->encodeDebugLogForHtml((string) $logdata->scotitle));
                     $logtpl->setVariable("SCO-name", $lng->txt("SCO-name"));
-                    $logtpl->setVariable("SCO_NAME", $logdata->scoid);
+                    $logtpl->setVariable("SCO_NAME", $this->encodeDebugLogForHtml((string) $logdata->scoid));
                     $logtpl->setVariable("started", $lng->txt("started"));
                     $logtpl->setVariable("TIMESTAMP", $timestamp);
                     $logtpl->setVariable("milliseconds", $lng->txt("milliseconds"));
@@ -1919,22 +1959,22 @@ class ilSCORM13PlayerGUI
                 break;
             case 'GetLastError':
                 $logtpl->setCurrentBlock("GetLastError");
-                $logtpl->setVariable("TIMESPAN", $logdata->timespan);
-                $logtpl->setVariable("RESULT", $logdata->result);
+                $logtpl->setVariable("TIMESPAN", $this->encodeDebugLogForJsAndHtml((string) $logdata->timespan));
+                $logtpl->setVariable("RESULT", $this->encodeDebugLogForHtml((string) $logdata->result));
                 $logtpl->parseCurrentBlock();
                 break;
             case 'GetDiagnostic':
                 $logtpl->setCurrentBlock("GetDiagnostic");
-                $logtpl->setVariable("TIMESPAN", $logdata->timespan);
-                $logtpl->setVariable("KEY", $logdata->key);
-                $logtpl->setVariable("RESULT", $logdata->result);
+                $logtpl->setVariable("TIMESPAN", $this->encodeDebugLogForJsAndHtml((string) $logdata->timespan));
+                $logtpl->setVariable("KEY", $this->encodeDebugLogForHtml((string) $logdata->key));
+                $logtpl->setVariable("RESULT", $this->encodeDebugLogForHtml((string) $logdata->result));
                 $logtpl->parseCurrentBlock();
                 break;
             case 'INFO':
                 $logtpl->setCurrentBlock("INFO");
                 $logtpl->setVariable("hint", $lng->txt("hint"));
-                $logtpl->setVariable("KEY", $lng->txt($logdata->key));
-                $logtpl->setVariable("VALUE", $logdata->value);
+                $logtpl->setVariable("KEY", $this->encodeDebugLogForHtml($lng->txt((string) $logdata->key)));
+                $logtpl->setVariable("VALUE", $this->encodeDebugLogForHtml((string) $logdata->value));
                 $logtpl->parseCurrentBlock();
                 break;
             case 'COMMENT':
@@ -1942,17 +1982,22 @@ class ilSCORM13PlayerGUI
                 $logtpl->setVariable("comment", $lng->txt("comment"));
                 $logtpl->setVariable("generated", $lng->txt("generated"));
                 $logtpl->setVariable("TIMESTAMP", $timestamp);
-                $logtpl->setVariable("VALUE", $logdata->value);
+                $logtpl->setVariable("VALUE", $this->encodeDebugLogForHtml((string) $logdata->value));
                 $logtpl->parseCurrentBlock();
                 break;
             case 'ANALYZE':
                 $logtpl->setCurrentBlock("ANALYZE");
-                if (count($logdata->value) == 0) {
+                $analyze_values = is_array($logdata->value) ? $logdata->value : [];
+                if (count($analyze_values) == 0) {
                     $color = "green";
                     $logtpl->setVariable("ANALYZE_SUMMARY", $lng->txt("no_missing_API-calls"));
                     $logtpl->setVariable("VALUE", "");
                 } else {
-                    $tmpvalue = "SetValue(\"" . implode("\", ... ),<br/>SetValue(\"", $logdata->value) . "\", ... )";
+                    $escaped_values = [];
+                    foreach ($analyze_values as $analyze_value) {
+                        $escaped_values[] = $this->encodeDebugLogForHtml((string) $analyze_value);
+                    }
+                    $tmpvalue = "SetValue(\"" . implode("\", ... ),<br/>SetValue(\"", $escaped_values) . "\", ... )";
                     foreach ($ArGetValues as $value) {
                         $tmpvalue = str_replace("SetValue(\"cmi." . $value . "\", ... )", "GetValue(\"cmi." . $value . "\")", $tmpvalue);
                     }
@@ -1967,12 +2012,17 @@ class ilSCORM13PlayerGUI
                 break;
             case 'ANALYZETEST':
                 $logtpl->setCurrentBlock("ANALYZETEST");
-                if (count($logdata->value) == 0) {
+                $analyze_values = is_array($logdata->value) ? $logdata->value : [];
+                if (count($analyze_values) == 0) {
                     $color = "green";
                     $logtpl->setVariable("ANALYZE_SUMMARY", $lng->txt("no_missing_API-calls"));
                     $logtpl->setVariable("VALUE", "");
                 } else {
-                    $tmpvalue = "SetValue(\"" . implode("\", ... ),<br/>SetValue(\"", $logdata->value) . "\", ... )";
+                    $escaped_values = [];
+                    foreach ($analyze_values as $analyze_value) {
+                        $escaped_values[] = $this->encodeDebugLogForHtml((string) $analyze_value);
+                    }
+                    $tmpvalue = "SetValue(\"" . implode("\", ... ),<br/>SetValue(\"", $escaped_values) . "\", ... )";
                     foreach ($ArGetValues as $value) {
                         $tmpvalue = str_replace("SetValue(\"cmi." . $value . "\", ... )", "GetValue(\"cmi." . $value . "\")", $tmpvalue);
                     }
@@ -1999,11 +2049,11 @@ class ilSCORM13PlayerGUI
         }
         if ($logdata->action === 'SetValue' || $logdata->action === 'GetValue') {
             $logtpl->setCurrentBlock($logdata->action);
-            $logtpl->setVariable("ACTION", $logdata->action);
-            $logtpl->setVariable("TIMESPAN", $logdata->timespan);
-            $logtpl->setVariable("KEY", $logdata->key);
-            $logtpl->setVariable("VALUE", $logdata->value);
-            $logtpl->setVariable("RESULT", $logdata->result);
+            $logtpl->setVariable("ACTION", $this->encodeDebugLogForJsAndHtml((string) $logdata->action));
+            $logtpl->setVariable("TIMESPAN", $this->encodeDebugLogForJsAndHtml((string) $logdata->timespan));
+            $logtpl->setVariable("KEY", $this->encodeDebugLogForJsAndHtml((string) $logdata->key));
+            $logtpl->setVariable("VALUE", $this->encodeDebugLogForHtml((string) $logdata->value));
+            $logtpl->setVariable("RESULT", $this->encodeDebugLogForHtml((string) $logdata->result));
             $logtpl->setVariable("ERRORCODE", $errorcode);
             $debugfields = $this->getDebugValues(true);
             $importantkey = 0;
@@ -2017,11 +2067,11 @@ class ilSCORM13PlayerGUI
             $logtpl->parseCurrentBlock();
         } elseif ($logdata->action !== 'INFO' && $logdata->action !== 'ANALYZE' && $logdata->action !== 'ANALYZETEST' && $logdata->action !== 'SUMMARY' && $logdata->action !== 'COMMENT' && $logdata->action !== 'GetDiagnostic' && $logdata->action !== 'GetLastError') {
             $logtpl->setCurrentBlock("defaultCall");
-            $logtpl->setVariable("ACTION", $logdata->action);
-            $logtpl->setVariable("TIMESPAN", $logdata->timespan);
-            $logtpl->setVariable("KEY", $logdata->key);
-            $logtpl->setVariable("VALUE", $logdata->value);
-            $logtpl->setVariable("RESULT", $logdata->result);
+            $logtpl->setVariable("ACTION", $this->encodeDebugLogForJsAndHtml((string) $logdata->action));
+            $logtpl->setVariable("TIMESPAN", $this->encodeDebugLogForJsAndHtml((string) $logdata->timespan));
+            $logtpl->setVariable("KEY", $this->encodeDebugLogForJsAndHtml((string) $logdata->key));
+            $logtpl->setVariable("VALUE", $this->encodeDebugLogForHtml((string) $logdata->value));
+            $logtpl->setVariable("RESULT", $this->encodeDebugLogForHtml((string) $logdata->result));
             $logtpl->setVariable("ERRORCODE", $errorcode);
             $logtpl->setVariable("IMPORTANTKEY", "" . $importantkey);
             $logtpl->setVariable("COLOR", $color);
