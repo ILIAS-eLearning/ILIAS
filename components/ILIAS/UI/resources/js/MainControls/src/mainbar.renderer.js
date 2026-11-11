@@ -216,10 +216,9 @@ const renderer = function ($) {
       triggerer.getElement().attr('aria-labelledby', triggerer.html_id);
       // a11y
 
-      // Slate controls are elsewhere in the DOM. Enter the open slate directly from its trigger.
+      // The slate is outside the trigger’s natural Tab order.
       if (slate.html_id) {
         triggerer.getElement().off('keydown.mainbar-slate').on('keydown.mainbar-slate', (event) => {
-          // Cancel Tab only after focus moves, so empty or loading slates cannot trap it.
           if (event.key === 'Tab' && !event.shiftKey && entry.engaged && actions.focusSubentry(entry.id)) {
             event.preventDefault();
           }
@@ -340,9 +339,7 @@ const renderer = function ($) {
       }
       for (const control of actions.getTabbableCandidates(slate)) {
         control.focus();
-        // Hidden controls can pass the candidate filter. Check that focus actually moved.
         if (document.activeElement === control) {
-          // From the first focused control, Shift+Tab retraces the jump from the trigger.
           $(control).off('keydown.mainbar-slate-first').on('keydown.mainbar-slate-first', (event) => {
             if (event.key === 'Tab' && event.shiftKey) {
               actions.focusTopentry(triggered_entry_id);
@@ -357,7 +354,6 @@ const renderer = function ($) {
       return false;
     },
     getTabbableCandidates(slate) {
-      // Slate layouts vary, so look for controls throughout the slate in DOM order.
       const controls = slate.querySelectorAll('a[href], button, input, select, textarea, [tabindex]');
       return Array.from(controls).filter((element) => element.tabIndex >= 0 && !element.matches(':disabled'));
     },

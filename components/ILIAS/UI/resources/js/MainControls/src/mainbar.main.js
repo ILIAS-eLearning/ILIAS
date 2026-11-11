@@ -104,9 +104,8 @@ const mainbar = function () {
               } else {
                 mb.model.actions.engageEntry(id);
 
-                // Keyboard activation produces a native click with detail 0.
-                // Move focus after rendering so the newly opened top-level slate is visible.
-                if (state.entries[id].isTopLevel() && signalData.originalEvent && signalData.originalEvent.detail === 0) {
+                // Native keyboard activation produces a click with no click count.
+                if (signalData.originalEvent && signalData.originalEvent.detail === 0) {
                   after_render = function () {
                     mb.renderer.focusSubentry(id);
                   };

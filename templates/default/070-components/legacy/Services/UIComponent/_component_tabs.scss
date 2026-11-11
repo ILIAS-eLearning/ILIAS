@@ -31,7 +31,7 @@ $nav-tabs-border: 1px solid $il-main-border-color !default;
 			border-color: transparent;
 			border-radius: $il-border-radius-base $il-border-radius-base 0 0;
 
-			// Keep hover feedback and reserve the focus cue for keyboard navigation.
+			// Retain the tab's clicked state without displaying a keyboard focus ring.
 			&:hover,
 			&:focus-visible {
 				border-bottom-color: $nav-tabs-active-link-hover-bg;

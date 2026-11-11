@@ -225,7 +225,6 @@ abstract class AbstractComponentRenderer implements ComponentRenderer, HelpTextR
 							}
 						);";
                 } else {
-                    // Forward the native event so signal listeners can inspect how a control was activated.
                     $code .=
                     "$('#$id').on('$event', function(event) {
 						$(this).trigger('$signal',
