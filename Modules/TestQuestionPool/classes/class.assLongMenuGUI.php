@@ -257,19 +257,27 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         ];
 
         $question_parts = [
-            'list' => json_decode($this->object->getJsonStructure()),
+            'list' => json_decode(
+                $this->request->isset('hidden_text_files')
+                    ? $this->request->string('hidden_correct_answers')
+                    : $this->object->getJsonStructure(),
+                true
+            ),
             'gap_placeholder' => assLongMenu::GAP_PLACEHOLDER,
             'last_updated_element' => 0,
             'replacement_word' => '',
             'filereader_usable' => false,
             'max_input_fields' => assLongMenu::MAX_INPUT_FIELDS
         ];
-        $answers = $this->object->getAnswersObject();
 
-        if ($this->request->isset('hidden_text_files')) {
-            $question_parts['list'] = json_decode($this->request->raw('hidden_correct_answers'));
-            $answers = $this->request->raw('hidden_text_files');
-        }
+        $answers = json_decode(
+            $this->request->isset('hidden_text_files')
+                ? $this->request->string('hidden_text_files')
+                : $this->object->getAnswersObject(),
+            true
+        );
+
+        $answers = json_encode(is_array($answers) ? $answers : []) ?: '[]';
 
         $this->tpl->addJavaScript('./Modules/TestQuestionPool/templates/default/longMenuQuestionGapBuilder.js');
         $this->tpl->addJavaScript('./Modules/TestQuestionPool/templates/default/longMenuQuestion.js');
