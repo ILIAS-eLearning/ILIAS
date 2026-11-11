@@ -106,7 +106,7 @@ readonly class ilLTIAdministrationReleasedObjectTable implements DataRetrieval
 
     private function getFrom(): string
     {
-        // releases of objects that no longer exist are listed too; an LTI 1.1 release that was withdrawn
+        // only the releases of objects that still exist are listed; an LTI 1.1 release that was withdrawn
         // keeps its row with a disabled registration, and older registrations for one object may have no row;
         // ref_id 0 is the LTI Advantage registration of a platform, not a released object
         return " FROM (SELECT o.ref_id, o.ext_consumer_id FROM lti_int_provider_obj o"
@@ -114,8 +114,8 @@ readonly class ilLTIAdministrationReleasedObjectTable implements DataRetrieval
             . " AND d.ext_consumer_id = o.ext_consumer_id AND d.enabled = 0)"
             . " UNION SELECT e.ref_id, e.ext_consumer_id FROM lti2_consumer e WHERE e.enabled = 1 AND e.ref_id > 0) l"
             . " JOIN lti_ext_consumer c ON c.id = l.ext_consumer_id"
-            . " LEFT JOIN object_reference r ON r.ref_id = l.ref_id"
-            . " LEFT JOIN object_data od ON od.obj_id = r.obj_id"
-            . " WHERE l.ref_id > 0 AND (od.type IS NULL OR od.type <> 'rolf')";
+            . " JOIN object_reference r ON r.ref_id = l.ref_id"
+            . " JOIN object_data od ON od.obj_id = r.obj_id"
+            . " WHERE l.ref_id > 0 AND od.type <> 'rolf'";
     }
 }
