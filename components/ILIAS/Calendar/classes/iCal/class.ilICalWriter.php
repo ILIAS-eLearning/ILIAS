@@ -40,21 +40,14 @@ class ilICalWriter
 
     public static function escapeText(string $a_text): string
     {
-        $a_text = str_replace("\r\n", '\\n', $a_text);
-
-        return preg_replace(
-            array(
-                '/\\\/',
-                '/;/',
-                '/,/',
-            ),
-            array(
-                '\\',
-                '\;',
-                '\,',
-            ),
-            $a_text
-        );
+        return strtr($a_text, [
+            '\\' => '\\\\',
+            "\r\n" => '\\n',
+            "\n" => '\\n',
+            "\r" => '\\n',
+            ';' => '\\;',
+            ',' => '\\,',
+        ]);
     }
 
     public function addLine(string $a_line): void
