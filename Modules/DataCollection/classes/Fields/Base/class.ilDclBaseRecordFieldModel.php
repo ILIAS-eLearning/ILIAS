@@ -330,7 +330,7 @@ class ilDclBaseRecordFieldModel
                 $set = $this->db->query($query);
                 $rec = $this->db->fetchAssoc($set);
                 $value = $this->deserializeData($rec['value'] ?? null);
-                $this->value = $value;
+                $this->value = ilUtil::secureString($value);
             }
         }
     }
