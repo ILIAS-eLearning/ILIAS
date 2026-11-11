@@ -87,15 +87,23 @@ final class ilLTIAdvantagePlatformLaunchParameterBuilder
             return self::ROLE_ADMINISTRATOR;
         }
 
-        $context_type = ilObject::_lookupType($DIC->repositoryTree()->getParentId($ref_id), true);
+        // the object may sit in folders inside the course or group, so every container above it counts
+        $instructor_titles = [];
+        foreach ($DIC->repositoryTree()->getPathId($ref_id) as $path_ref_id) {
+            $context_type = ilObject::_lookupType($path_ref_id, true);
+            $instructor_titles[] = 'il_' . $context_type . '_admin';
+            $instructor_titles[] = 'il_' . $context_type . '_tutor';
+        }
         $roles = array_intersect(
             $rbac_review->assignedRoles($usr_id),
             array_keys($rbac_review->getParentRoleIds($ref_id, true))
         );
         foreach ($roles as $role_id) {
             $title = ilObject::_lookupTitle($role_id);
-            if (str_starts_with($title, 'il_' . $context_type . '_admin') || str_starts_with($title, 'il_' . $context_type . '_tutor')) {
-                return self::ROLE_INSTRUCTOR;
+            foreach ($instructor_titles as $instructor_title) {
+                if (str_starts_with($title, $instructor_title)) {
+                    return self::ROLE_INSTRUCTOR;
+                }
             }
         }
 
