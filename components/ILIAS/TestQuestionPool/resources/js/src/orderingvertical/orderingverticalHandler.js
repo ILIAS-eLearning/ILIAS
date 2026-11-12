@@ -33,23 +33,6 @@ const answerElementClass = 'dd-item';
  */
 const placeholderClass = 'c-test__dropzone';
 
-function setup(parentElement) {
-  const answers = parentElement.querySelectorAll(`.${answerElementClass}`);
-  let elementHeight = 0;
-  answers.forEach(
-    (elem) => {
-      if (elem.offsetHeight < elementHeight) {
-        elementHeight = elem.offsetHeight;
-      }
-    },
-  );
-  parentElement.querySelectorAll(`.${placeholderClass}`).forEach(
-    (elem) => {
-      elem.style.height = `${answers.item(0).offsetHeight}px`;
-    },
-  );
-}
-
 function updatePlaceholders(parentElement) {
   const placeholderElement = parentElement.querySelector(`.${placeholderClass}`);
   parentElement.querySelectorAll(`.${answerElementClass}`).forEach(
@@ -115,7 +98,6 @@ function onStartPrepareHandler(draggedElement, parentElement) {
 }
 
 export default function orderingVerticalHandler(parentElement, makeDraggable) {
-  setup(parentElement);
   makeDraggable(
     'move',
     parentElement,
