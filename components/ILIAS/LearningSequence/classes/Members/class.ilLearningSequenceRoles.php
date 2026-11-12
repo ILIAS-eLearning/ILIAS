@@ -300,9 +300,14 @@ class ilLearningSequenceRoles
         return $this->participants->isMember($usr_id);
     }
 
+    /**
+     * Checks whether the user has completed the learning sequence.
+     */
     public function isCompletedByUser(int $usr_id): bool
     {
-        ilLPStatusWrapper::_updateStatus($this->obj_id, $usr_id);
+        if ($this->isMember($usr_id)) {
+            ilLPStatusWrapper::_updateStatus($this->obj_id, $usr_id);
+        }
         $tracking_active = ilObjUserTracking::_enabledLearningProgress();
         $user_completion = ilLPStatus::_hasUserCompleted($this->obj_id, $usr_id);
         return ($tracking_active && $user_completion);
