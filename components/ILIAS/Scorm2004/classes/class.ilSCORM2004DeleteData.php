@@ -247,7 +247,7 @@ class ilSCORM2004DeleteData
             array($packageId, 'mapInfo')
         );
         while ($data = $ilDB->fetchAssoc($res)) {
-            $existing_key_template .= "'" . $data['targetobjectiveid'] . "',";
+            $existing_key_template .= $ilDB->quote($data['targetobjectiveid'], 'text') . ",";
         }
         //remove trailing ','
         $existing_key_template = substr($existing_key_template, 0, -1);
