@@ -363,6 +363,7 @@ footer {
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
+			display: inline-block;
 			&:before {
 			    content: " \e606";
 			    font-family: "il-icons";
