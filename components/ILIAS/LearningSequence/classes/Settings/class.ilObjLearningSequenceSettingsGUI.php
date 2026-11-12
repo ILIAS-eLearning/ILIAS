@@ -340,6 +340,9 @@ class ilObjLearningSequenceSettingsGUI
         }
         $obj_props->storePropertyTileImage($data['common']['image']);
 
+        // Refresh the object, so ilContainer::update() syncs the translation
+        // with the title and description stored via the object properties above.
+        $lso->read();
         $lso->update();
 
         $this->tpl->setOnScreenMessage("success", $this->lng->txt("msg_obj_modified"), true);
