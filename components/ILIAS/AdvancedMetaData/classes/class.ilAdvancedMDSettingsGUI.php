@@ -24,6 +24,12 @@ use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\UI\Renderer;
 use Psr\Http\Message\RequestInterface;
 use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\UI\URLBuilder;
+use ILIAS\UI\URLBuilderToken;
+use ILIAS\Data\Factory as DataFactory;
+use AdvancedMetadata\Field\Table\TableBuilder as EditFieldsTableBuilder;
+use AdvancedMetadata\Field\Table\DataRetrieval as EditFieldsDataRetrieval;
+use ILIAS\UI\Component\Table\Ordering as OrderingTable;
 
 /**
  * @author       Stefan Meyer <meyer@leifos.com>
@@ -57,6 +63,7 @@ class ilAdvancedMDSettingsGUI
     protected ilTabsGUI $tabs_gui;
     protected UIFactory $ui_factory;
     protected Renderer $ui_renderer;
+    protected DataFactory $data_factory;
     protected ilToolbarGUI $toolbar;
     protected ilLogger $logger;
     protected ilObjUser $user;
@@ -92,6 +99,7 @@ class ilAdvancedMDSettingsGUI
         $this->toolbar = $DIC->toolbar();
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
+        $this->data_factory = new DataFactory();
         $this->request = $DIC->http()->request();
         $this->http = $DIC->http();
         $this->db = $DIC->database();
@@ -286,7 +294,7 @@ class ilAdvancedMDSettingsGUI
             case strtolower(ilAdvancedMDRecordTranslationGUI::class):
                 $record = $this->initRecordObject();
                 $this->setRecordSubTabs(1, true);
-                $int_gui = new \ilAdvancedMDRecordTranslationGUI($record);
+                $int_gui = new ilAdvancedMDRecordTranslationGUI($record);
                 $this->ctrl->forwardCommand($int_gui);
                 break;
 
@@ -810,9 +818,11 @@ class ilAdvancedMDSettingsGUI
         $this->ctrl->redirect($this, "showRecords");
     }
 
-    public function confirmDeleteFields(): void
+    /**
+     * @param array<int> $field_ids
+     */
+    public function confirmDeleteFields(int ...$field_ids): void
     {
-        $field_ids = $this->getFieldIdsFromPost();
         if (!count($field_ids)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->editFields();
@@ -832,7 +842,7 @@ class ilAdvancedMDSettingsGUI
 
         // add items to delete
         foreach ($field_ids as $field_id) {
-            $field = ilAdvancedMDFieldDefinition::getInstance($field_id);
+            $field = ilAdvancedMDFieldDefinition::getInstance((int) $field_id);
             $c_gui->addItem("field_id[]", (string) $field_id, $field->getTitle() ?: 'No Title');
         }
         $this->tpl->setContent($c_gui->getHTML());
@@ -857,7 +867,7 @@ class ilAdvancedMDSettingsGUI
                 (int) $field_id,
                 ilAdvancedMDPermissionHelper::ACTION_FIELD_DELETE
             )) {
-                $field = ilAdvancedMDFieldDefinition::getInstance($field_id);
+                $field = ilAdvancedMDFieldDefinition::getInstance((int) $field_id);
                 $fail[] = $field->getTitle();
             }
         }
@@ -867,7 +877,7 @@ class ilAdvancedMDSettingsGUI
         }
 
         foreach ($field_ids as $field_id) {
-            $field = ilAdvancedMDFieldDefinition::getInstance($field_id);
+            $field = ilAdvancedMDFieldDefinition::getInstance((int) $field_id);
             $field->delete();
         }
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('md_adv_deleted_fields'), true);
@@ -892,13 +902,113 @@ class ilAdvancedMDSettingsGUI
         $this->tpl->setContent($this->form->getHTML());
     }
 
+    protected function getEditFieldsDataRetrieval(int $record_id): EditFieldsDataRetrieval
+    {
+        return new EditFieldsDataRetrieval(
+            $record_id,
+            $this->active_language,
+            $this->getPermissions(),
+            $this->lng,
+            $this->ui_factory
+        );
+    }
+
+    protected function getFieldTable(int $record_id): OrderingTable
+    {
+        $url_params = $this->getFieldTableActionURLBuilder();
+        return new EditFieldsTableBuilder(
+            $this->getEditFieldsDataRetrieval($record_id),
+            $this->lng,
+            $this->ui_factory,
+            $this->http
+        )->get(
+            $url_params[0],
+            $url_params[1],
+            $url_params[2]
+        );
+    }
+
+    /**
+     * @return array{0: URLBuilder, 1: URLBuilderToken, 2: URLBuilderToken}
+     */
+    protected function getFieldTableActionURLBuilder(): array
+    {
+        $link = ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTarget(
+            $this,
+            'handleFieldTableAction'
+        );
+        $url_builder = new URLBuilder($this->data_factory->uri($link));
+        return $url_builder->acquireParameters(['advmd_field'], 'field_ids', 'field_action');
+    }
+
+    protected function handleFieldTableAction(): void
+    {
+        $this->ctrl->saveParameter($this, 'record_id');
+        list($url_builder, $id_token, $action_token) = $this->getFieldTableActionURLBuilder();
+
+        if (!$this->http->wrapper()->query()->has($action_token->getName())) {
+            $this->ctrl->redirect($this, 'editFields');
+            return;
+        }
+
+        $action = $this->http->wrapper()->query()->retrieve(
+            $action_token->getName(),
+            $this->refinery->kindlyTo()->string()
+        );
+
+        $record_id = (int) $this->getRecordIdFromQuery();
+        $retrieval = $this->getEditFieldsDataRetrieval($record_id);
+        $ids = $this->getFieldTableIdsFromQuery(
+            $id_token->getName(),
+            $retrieval
+        );
+
+        switch ($action) {
+            case EditFieldsTableBuilder::EDIT_FIELD_ACTION:
+                if (count($ids) === 1) {
+                    $this->ctrl->setParameter($this, 'field_id', $ids[0]);
+                    $this->ctrl->redirect($this, 'editField');
+                }
+                $this->ctrl->redirect($this, 'editFields');
+                break;
+            case EditFieldsTableBuilder::SAVE_ACTION:
+                $this->updateFieldPositions();
+                break;
+            case EditFieldsTableBuilder::DELETE_ACTION:
+                $this->confirmDeleteFields(...$ids);
+                break;
+        }
+    }
+
+
+    /**
+     * @return array<int>
+     */
+    protected function getFieldTableIdsFromQuery(string $name, EditFieldsDataRetrieval $retrieval): array
+    {
+        if (!$this->http->wrapper()->query()->has($name)) {
+            return [];
+        }
+
+        $ids = $this->http->wrapper()->query()->retrieve(
+            $name,
+            $this->refinery->kindlyTo()->listOf(
+                $this->refinery->kindlyTo()->string()
+            )
+        );
+
+        if ($ids === ['ALL_OBJECTS']) {
+            return array_map('intval', $retrieval->getAllIDs());
+        }
+        return array_map('intval', $ids);
+    }
+
     protected function editFields(): void
     {
         $record_id = $this->getRecordIdFromQuery();
         if (!$record_id) {
             $this->ctrl->redirect($this, 'showRecords');
         }
-        $this->ctrl->saveParameter($this, 'record_id');
         $this->initRecordObject();
         $this->setRecordSubTabs();
         $this->initLanguage($record_id);
@@ -908,8 +1018,7 @@ class ilAdvancedMDSettingsGUI
             ilAdvancedMDPermissionHelper::CONTEXT_RECORD,
             (int) $this->record->getRecordId(),
             array(
-                ilAdvancedMDPermissionHelper::ACTION_RECORD_CREATE_FIELD
-                ,
+                ilAdvancedMDPermissionHelper::ACTION_RECORD_CREATE_FIELD,
                 ilAdvancedMDPermissionHelper::ACTION_RECORD_FIELD_POSITIONS
             )
         );
@@ -950,78 +1059,52 @@ class ilAdvancedMDSettingsGUI
             $this->tpl->setOnScreenMessage('info', sprintf($this->lng->txt("md_adv_field_filter_warning"), implode(", ", $filter_warn)));
         }
 
-        // show field table
-        $fields = ilAdvancedMDFieldDefinition::getInstancesByRecordId(
-            $this->record->getRecordId(),
-            false,
-            $this->active_language
-        );
+        $table = $this->getFieldTable((int) $this->record->getRecordId());
 
-        $table_gui = new ilAdvancedMDFieldTableGUI(
-            $this,
-            'editFields',
-            $this->getPermissions(),
-            $perm[ilAdvancedMDPermissionHelper::ACTION_RECORD_FIELD_POSITIONS],
-            $this->record->getDefaultLanguage()
+        $this->ctrl->saveParameter($this, 'record_id');
+        $this->tpl->setContent(
+            $this->ui_renderer->render([
+                $table
+            ])
         );
-        $table_gui->setTitle($this->lng->txt("md_adv_field_table"));
-        $table_gui->parseDefinitions($fields);
-        if (sizeof($fields)) {
-            $table_gui->addCommandButton("updateFields", $this->lng->txt("save"));
-        }
-        $table_gui->addCommandButton("showRecords", $this->lng->txt('cancel'));
-        $table_gui->addMultiCommand("confirmDeleteFields", $this->lng->txt("delete"));
-        $table_gui->setSelectAllCheckbox("field_id");
-
-        $this->tpl->setContent($table_gui->getHTML());
     }
 
     /**
      * Update fields
      * @access public
      */
-    public function updateFields(): void
+    public function updateFieldPositions(): void
     {
-        $this->ctrl->saveParameter($this, 'record_id');
-        $positions = $this->getPositionsFromPost();
-        asort($positions, SORT_NUMERIC);
-        $record_id = $this->getRecordIdFromQuery();
+        $record_id = (int) $this->getRecordIdFromQuery();
         if (!$record_id) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->editFields();
             return;
         }
 
+        $table = $this->getFieldTable($record_id);
+        $ordered_ids = $table->getData();
         $fields = ilAdvancedMDFieldDefinition::getInstancesByRecordId($record_id);
 
+        $i = 0;
         if ($this->getPermissions()->hasPermission(
             ilAdvancedMDPermissionHelper::CONTEXT_RECORD,
             $record_id,
             ilAdvancedMDPermissionHelper::ACTION_RECORD_FIELD_POSITIONS
         )) {
-            $positions_flipped = array_flip(array_keys($positions));
-            foreach ($fields as $field) {
-                $field->setPosition((int) $positions_flipped[$field->getFieldId()]);
-                $field->update();
+            foreach ($ordered_ids as $field_id) {
+                $field_id = (int) $field_id;
+                if (isset($fields[$field_id])) {
+                    $field = $fields[$field_id];
+                    $field->setPosition($i++);
+                    $field->update();
+                }
             }
         }
 
-        foreach ($fields as $field) {
-            if ($this->getPermissions()->hasPermission(
-                ilAdvancedMDPermissionHelper::CONTEXT_FIELD,
-                (int) $field->getFieldId(),
-                ilAdvancedMDPermissionHelper::ACTION_FIELD_EDIT_PROPERTY,
-                ilAdvancedMDPermissionHelper::SUBACTION_FIELD_SEARCHABLE
-            )) {
-                $post_searchable = (array) ($this->http->request()->getParsedBody()['searchable'] ?? []);
-                $field->setSearchable((bool) ($post_searchable[$field->getFieldId()] ?? false));
-                $field->update();
-            }
-        }
-
-        $language = $this->request->getQueryParams()['mdlang'] ?? false;
+        $language = $this->http->request()->getQueryParams()['mdlang'] ?? false;
         if ($language) {
-            $this->ctrl->setParameter($this, 'mdlang', $this->request->getQueryParams()['mdlang']);
+            $this->ctrl->setParameter($this, 'mdlang', $language);
         }
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, "editFields");
@@ -1046,6 +1129,7 @@ class ilAdvancedMDSettingsGUI
         if (!$this->form->checkInput()) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
             $this->form->setValuesByPost();
+            $this->ctrl->saveParameter($this, 'record_id');
             $this->editRecord($this->form);
             return;
         }
@@ -1255,6 +1339,15 @@ class ilAdvancedMDSettingsGUI
             $this->editFields();
             return;
         }
+
+        if (!$this->getPermissions()->hasPermission(
+            ilAdvancedMDPermissionHelper::CONTEXT_FIELD,
+            (int) $field_id,
+            ilAdvancedMDPermissionHelper::ACTION_FIELD_EDIT
+        )) {
+            $this->ctrl->redirect($this, 'editFields');
+        }
+
         $this->ctrl->saveParameter($this, 'field_id');
         $this->ctrl->saveParameter($this, 'record_id');
         $this->initRecordObject();
@@ -1291,6 +1384,14 @@ class ilAdvancedMDSettingsGUI
         if (!$record_id || !$field_id) {
             $this->editFields();
             return;
+        }
+
+        if (!$this->getPermissions()->hasPermission(
+            ilAdvancedMDPermissionHelper::CONTEXT_FIELD,
+            (int) $field_id,
+            ilAdvancedMDPermissionHelper::ACTION_FIELD_EDIT
+        )) {
+            $this->ctrl->redirect($this, 'editFields');
         }
 
         $this->initRecordObject();
@@ -1338,6 +1439,15 @@ class ilAdvancedMDSettingsGUI
         }
 
         $this->initRecordObject();
+
+        if (!$this->getPermissions()->hasPermission(
+            ilAdvancedMDPermissionHelper::CONTEXT_RECORD,
+            (int) $this->record->getRecordId(),
+            ilAdvancedMDPermissionHelper::ACTION_RECORD_CREATE_FIELD
+        )) {
+            $this->ctrl->redirect($this, 'editFields');
+        }
+
         $this->ctrl->setParameter($this, 'ftype', $field_type);
         $this->setRecordSubTabs(2);
         if (!$record_id || !$field_type) {
@@ -1364,6 +1474,15 @@ class ilAdvancedMDSettingsGUI
         }
 
         $this->initRecordObject();
+
+        if (!$this->getPermissions()->hasPermission(
+            ilAdvancedMDPermissionHelper::CONTEXT_RECORD,
+            (int) $this->record->getRecordId(),
+            ilAdvancedMDPermissionHelper::ACTION_RECORD_CREATE_FIELD
+        )) {
+            $this->ctrl->redirect($this, 'editFields');
+        }
+
         $this->initLanguage($record_id);
         $this->ctrl->saveParameter($this, 'ftype');
 
