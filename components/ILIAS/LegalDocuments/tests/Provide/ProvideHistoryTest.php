@@ -47,13 +47,13 @@ class ProvideHistoryTest extends TestCase
 
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(ProvideHistory::class, new ProvideHistory('foo', $this->mock(HistoryRepository::class), $this->mock(ProvideDocument::class), $this->mock(Container::class)));
+        $this->assertInstanceOf(ProvideHistory::class, new ProvideHistory('foo', $this->stub(HistoryRepository::class), $this->stub(ProvideDocument::class), $this->stub(Container::class)));
     }
 
     public function testTable(): void
     {
         $dummy_gui = new stdClass();
-        $legacy = $this->mock(Legacy\Content::class);
+        $legacy = $this->stub(Legacy\Content::class);
         $legacy_factory = $this->mock(Legacy\Factory::class);
         $legacy_factory
             ->expects($this->once())
@@ -62,12 +62,12 @@ class ProvideHistoryTest extends TestCase
 
         $table = $this->mockMethod(LegacyTable::class, 'getHTML', [], 'table html');
 
-        $container = $this->mockTree(Container::class, [
-            'ctrl' => $this->mock(ilCtrl::class),
-            'language' => $this->mock(ilLanguage::class),
+        $container = $this->stubTree(Container::class, [
+            'ctrl' => $this->stub(ilCtrl::class),
+            'language' => $this->stub(ilLanguage::class),
             'ui' => [
                 'factory' => $this->mockMethod(UIFactory::class, 'legacy', [], $legacy_factory),
-                'mainTemplate' => $this->mock(ilGlobalTemplateInterface::class)
+                'mainTemplate' => $this->stub(ilGlobalTemplateInterface::class)
             ],
         ]);
 
@@ -78,52 +78,52 @@ class ProvideHistoryTest extends TestCase
             return $table;
         };
 
-        $instance = new ProvideHistory('foo', $this->mock(HistoryRepository::class), $this->mock(ProvideDocument::class), $container, $create_table_gui);
+        $instance = new ProvideHistory('foo', $this->stub(HistoryRepository::class), $this->stub(ProvideDocument::class), $container, $create_table_gui);
 
         $this->assertSame($legacy, $instance->table($dummy_gui, 'dummy command', 'reset command', 'auto complete command'));
     }
 
     public function testAcceptDocument(): void
     {
-        $user = $this->mock(ilObjUser::class);
-        $document = $this->mock(Document::class);
+        $user = $this->stub(ilObjUser::class);
+        $document = $this->stub(Document::class);
 
         $repository = $this->mock(HistoryRepository::class);
         $repository->expects($this->once())->method('acceptDocument')->with($user, $document);
 
-        $instance = new ProvideHistory('foo', $repository, $this->mock(ProvideDocument::class), $this->mock(Container::class));
+        $instance = new ProvideHistory('foo', $repository, $this->stub(ProvideDocument::class), $this->stub(Container::class));
         $instance->acceptDocument($user, $document);
     }
 
     public function testAlreadyAccepted(): void
     {
-        $user = $this->mock(ilObjUser::class);
-        $document = $this->mock(Document::class);
+        $user = $this->stub(ilObjUser::class);
+        $document = $this->stub(Document::class);
 
         $repository = $this->mockMethod(HistoryRepository::class, 'alreadyAccepted', [$user, $document], true);
 
-        $instance = new ProvideHistory('foo', $repository, $this->mock(ProvideDocument::class), $this->mock(Container::class));
+        $instance = new ProvideHistory('foo', $repository, $this->stub(ProvideDocument::class), $this->stub(Container::class));
         $this->assertTrue($instance->alreadyAccepted($user, $document));
     }
 
     public function testAcceptedVersion(): void
     {
-        $user = $this->mock(ilObjUser::class);
+        $user = $this->stub(ilObjUser::class);
 
-        $result = $this->mock(Result::class);
+        $result = $this->stub(Result::class);
 
         $repository = $this->mockMethod(HistoryRepository::class, 'acceptedVersion', [$user], $result);
 
-        $instance = new ProvideHistory('foo', $repository, $this->mock(ProvideDocument::class), $this->mock(Container::class));
+        $instance = new ProvideHistory('foo', $repository, $this->stub(ProvideDocument::class), $this->stub(Container::class));
         $this->assertSame($result, $instance->acceptedVersion($user));
     }
 
     public function testCurrentDocumentOfAcceptedVersion(): void
     {
-        $user = $this->mock(ilObjUser::class);
-        $result = $this->mock(Result::class);
+        $user = $this->stub(ilObjUser::class);
+        $result = $this->stub(Result::class);
         $repository = $this->mockMethod(HistoryRepository::class, 'currentDocumentOfAcceptedVersion', [$user], $result);
-        $instance = new ProvideHistory('foo', $repository, $this->mock(ProvideDocument::class), $this->mock(Container::class));
+        $instance = new ProvideHistory('foo', $repository, $this->stub(ProvideDocument::class), $this->stub(Container::class));
 
         $this->assertSame($result, $instance->currentDocumentOfAcceptedVersion($user));
     }

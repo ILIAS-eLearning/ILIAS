@@ -37,20 +37,20 @@ class UserLanguageDefinitionTest extends TestCase
 
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(UserLanguageDefinition::class, new UserLanguageDefinition($this->mock(UI::class), [], $this->fail(...)));
+        $this->assertInstanceOf(UserLanguageDefinition::class, new UserLanguageDefinition($this->stub(UI::class), [], $this->fail(...)));
     }
 
     public function testFormGroup(): void
     {
-        $instance = new UserLanguageDefinition($this->mock(UI::class), [], fn() => $this->mock(Constraint::class));
+        $instance = new UserLanguageDefinition($this->stub(UI::class), [], fn() => $this->stub(Constraint::class));
 
         $this->assertInstanceOf(Group::class, $instance->formGroup());
     }
 
     public function testWithCriterion(): void
     {
-        $instance = new UserLanguageDefinition($this->mock(UI::class), [], $this->fail(...));
-        $this->assertInstanceOf(UserLanguage::class, $instance->withCriterion($this->mock(CriterionContent::class)));
+        $instance = new UserLanguageDefinition($this->stub(UI::class), [], $this->fail(...));
+        $this->assertInstanceOf(UserLanguage::class, $instance->withCriterion($this->stub(CriterionContent::class)));
     }
 
     public function testTranslatedType(): void

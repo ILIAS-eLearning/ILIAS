@@ -40,13 +40,13 @@ class ProvideTest extends TestCase
 
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(Provide::class, new Provide('foo', $this->mock(Internal::class), $this->mock(Container::class)));
+        $this->assertInstanceOf(Provide::class, new Provide('foo', $this->stub(Internal::class), $this->stub(Container::class)));
     }
 
     public function testWithdrawal(): void
     {
-        $container = $this->mockTree(Container::class, ['ctrl' => $this->mock(ilCtrl::class)]);
-        $container->expects($this->once())->method('offsetGet')->with('ilAuthSession')->willReturn($this->mock(ilAuthSession::class));
+        $container = $this->mockTree(Container::class, ['ctrl' => $this->stub(ilCtrl::class)]);
+        $container->expects($this->once())->method('offsetGet')->with('ilAuthSession')->willReturn($this->stub(ilAuthSession::class));
 
         $instance = new Provide('foo', $this->mockMethod(Internal::class, 'get', ['withdraw'], 'foo'), $container);
 
@@ -55,7 +55,7 @@ class ProvideTest extends TestCase
 
     public function testPublicPage(): void
     {
-        $container = $this->mockTree(Container::class, ['ctrl' => $this->mock(ilCtrl::class)]);
+        $container = $this->stubTree(Container::class, ['ctrl' => $this->stub(ilCtrl::class)]);
 
         $this->assertInstanceOf(ProvidePublicPage::class, (new Provide('foo', $this->mockMethod(
             Internal::class,
@@ -67,25 +67,25 @@ class ProvideTest extends TestCase
 
     public function testDocument(): void
     {
-        $document = $this->mock(ProvideDocument::class);
+        $document = $this->stub(ProvideDocument::class);
         $internal = $this->mockMethod(Internal::class, 'get', ['document', 'foo'], $document);
 
-        $instance = new Provide('foo', $internal, $this->mock(Container::class));
+        $instance = new Provide('foo', $internal, $this->stub(Container::class));
         $this->assertSame($document, $instance->document());
     }
 
     public function testHistory(): void
     {
-        $history = $this->mock(ProvideHistory::class);
+        $history = $this->stub(ProvideHistory::class);
         $internal = $this->mockMethod(Internal::class, 'get', ['history', 'foo'], $history);
 
-        $instance = new Provide('foo', $internal, $this->mock(Container::class));
+        $instance = new Provide('foo', $internal, $this->stub(Container::class));
         $this->assertSame($history, $instance->history());
     }
 
     public function testAllowEditing(): void
     {
-        $document = $this->mock(ProvideDocument::class);
+        $document = $this->stub(ProvideDocument::class);
 
         $internal = $this->mock(Internal::class);
         $consecutive = [
@@ -104,23 +104,23 @@ class ProvideTest extends TestCase
                 }
             );
 
-        $instance = new Provide('foo', $internal, $this->mock(Container::class));
+        $instance = new Provide('foo', $internal, $this->stub(Container::class));
         $instance->document();
         $instance->allowEditing()->document();
     }
 
     public function testPublicApi(): void
     {
-        $public_api = $this->mock(PublicApi::class);
+        $public_api = $this->stub(PublicApi::class);
         $internal = $this->mockMethod(Internal::class, 'get', ['public-api', 'foo'], $public_api);
 
-        $instance = new Provide('foo', $internal, $this->mock(Container::class));
+        $instance = new Provide('foo', $internal, $this->stub(Container::class));
 
         $this->assertSame($public_api, $instance->publicApi());
     }
 
     public function testId(): void
     {
-        $this->assertSame('foo', (new Provide('foo', $this->mock(Internal::class), $this->mock(Container::class)))->id());
+        $this->assertSame('foo', (new Provide('foo', $this->stub(Internal::class), $this->stub(Container::class)))->id());
     }
 }

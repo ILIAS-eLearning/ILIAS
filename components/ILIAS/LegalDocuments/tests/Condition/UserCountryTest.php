@@ -39,15 +39,15 @@ class UserCountryTest extends TestCase
     public function testConstruct(): void
     {
         $this->assertInstanceOf(UserCountry::class, new UserCountry(
-            $this->mock(CriterionContent::class),
-            $this->mock(UserCountryDefinition::class),
-            $this->mock(UIFactory::class)
+            $this->stub(CriterionContent::class),
+            $this->stub(UserCountryDefinition::class),
+            $this->stub(UIFactory::class)
         ));
     }
 
     public function testAsComponent(): void
     {
-        $legacy = $this->mock(Legacy\Content::class);
+        $legacy = $this->stub(Legacy\Content::class);
         $legacy_factory = $this->mock(Legacy\Factory::class);
         $legacy_factory
             ->expects($this->once())
@@ -55,9 +55,9 @@ class UserCountryTest extends TestCase
             ->willReturn($legacy);
 
         $instance = new UserCountry(
-            $this->mockTree(CriterionContent::class, ['arguments' => ['country' => 'foo']]),
-            $this->mock(UserCountryDefinition::class),
-            $this->mockTree(UIFactory::class, ['legacy' => $legacy_factory])
+            $this->stubTree(CriterionContent::class, ['arguments' => ['country' => 'foo']]),
+            $this->stub(UserCountryDefinition::class),
+            $this->stubTree(UIFactory::class, ['legacy' => $legacy_factory])
         );
 
         $this->assertSame($legacy, $instance->asComponent());
@@ -66,21 +66,21 @@ class UserCountryTest extends TestCase
     public function testEval(): void
     {
         $instance = new UserCountry(
-            $this->mockTree(CriterionContent::class, ['arguments' => ['country' => 'foo']]),
-            $this->mock(UserCountryDefinition::class),
-            $this->mock(UIFactory::class)
+            $this->stubTree(CriterionContent::class, ['arguments' => ['country' => 'foo']]),
+            $this->stub(UserCountryDefinition::class),
+            $this->stub(UIFactory::class)
         );
 
-        $this->assertTrue($instance->eval($this->mockTree(ilObjUser::class, ['getCountry' => 'foo'])));
+        $this->assertTrue($instance->eval($this->stubTree(ilObjUser::class, ['getCountry' => 'foo'])));
     }
 
     public function testDefinition(): void
     {
-        $definition = $this->mock(UserCountryDefinition::class);
+        $definition = $this->stub(UserCountryDefinition::class);
         $instance = new UserCountry(
-            $this->mock(CriterionContent::class),
+            $this->stub(CriterionContent::class),
             $definition,
-            $this->mock(UIFactory::class)
+            $this->stub(UIFactory::class)
         );
 
         $this->assertSame($definition, $instance->definition());
@@ -89,18 +89,18 @@ class UserCountryTest extends TestCase
     public function testKnownToNeverMatchWith(): void
     {
         $instance = new UserCountry(
-            $this->mock(CriterionContent::class),
-            $this->mock(UserCountryDefinition::class),
-            $this->mock(UIFactory::class)
+            $this->stub(CriterionContent::class),
+            $this->stub(UserCountryDefinition::class),
+            $this->stub(UIFactory::class)
         );
 
         $second = new UserCountry(
-            $this->mock(CriterionContent::class),
-            $this->mock(UserCountryDefinition::class),
-            $this->mock(UIFactory::class)
+            $this->stub(CriterionContent::class),
+            $this->stub(UserCountryDefinition::class),
+            $this->stub(UIFactory::class)
         );
 
         $this->assertTrue($instance->knownToNeverMatchWith($second));
-        $this->assertFalse($instance->knownToNeverMatchWith($this->mock(Condition::class)));
+        $this->assertFalse($instance->knownToNeverMatchWith($this->stub(Condition::class)));
     }
 }

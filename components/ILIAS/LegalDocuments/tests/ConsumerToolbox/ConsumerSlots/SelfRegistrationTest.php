@@ -41,9 +41,9 @@ class SelfRegistrationTest extends TestCase
     {
         $this->assertInstanceOf(SelfRegistration::class, new SelfRegistration(
             'foo',
-            $this->mock(UI::class),
-            $this->mock(User::class),
-            $this->mock(Provide::class),
+            $this->stub(UI::class),
+            $this->stub(User::class),
+            $this->stub(Provide::class),
             $this->fail(...),
             $this->fail(...)
         ));
@@ -53,12 +53,12 @@ class SelfRegistrationTest extends TestCase
     {
         $instance = new SelfRegistration(
             'foo',
-            $this->mock(UI::class),
-            $this->mockTree(User::class, ['matchingDocument' => new Ok($this->mock(Document::class))]),
-            $this->mock(Provide::class),
+            $this->stub(UI::class),
+            $this->stubTree(User::class, ['matchingDocument' => new Ok($this->stub(Document::class))]),
+            $this->stub(Provide::class),
             fn() => 'rendered',
             $this->fail(...),
-            $this->mock(...)
+            $this->stub(...)
         );
 
         $guis = $instance->legacyInputGUIs();
@@ -69,24 +69,24 @@ class SelfRegistrationTest extends TestCase
     {
         $instance = new SelfRegistration(
             'foo',
-            $this->mock(UI::class),
-            $this->mockTree(User::class, ['matchingDocument' => new Ok($this->mock(Document::class))]),
-            $this->mock(Provide::class),
+            $this->stub(UI::class),
+            $this->stubTree(User::class, ['matchingDocument' => new Ok($this->stub(Document::class))]),
+            $this->stub(Provide::class),
             $this->fail(...),
             $this->fail(...),
             $this->fail(...)
         );
 
-        $this->assertTrue($instance->saveLegacyForm($this->mockTree(ilPropertyFormGUI::class, ['getInput' => true])));
+        $this->assertTrue($instance->saveLegacyForm($this->stubTree(ilPropertyFormGUI::class, ['getInput' => true])));
     }
 
     public function testSaveLegacyFormFailed(): void
     {
         $instance = new SelfRegistration(
             'foo',
-            $this->mock(UI::class),
-            $this->mockTree(User::class, ['matchingDocument' => new Ok($this->mock(Document::class))]),
-            $this->mock(Provide::class),
+            $this->stub(UI::class),
+            $this->stubTree(User::class, ['matchingDocument' => new Ok($this->stub(Document::class))]),
+            $this->stub(Provide::class),
             $this->fail(...),
             $this->fail(...),
             $this->fail(...)
@@ -103,15 +103,15 @@ class SelfRegistrationTest extends TestCase
 
     public function testUserCreation(): void
     {
-        $user = $this->mock(ilObjUser::class);
+        $user = $this->stub(ilObjUser::class);
         $ldoc_user = $this->mock(User::class);
         $ldoc_user->expects($this->once())->method('acceptMatchingDocument');
 
         $instance = new SelfRegistration(
             'foo',
-            $this->mock(UI::class),
-            $this->mock(User::class),
-            $this->mock(Provide::class),
+            $this->stub(UI::class),
+            $this->stub(User::class),
+            $this->stub(Provide::class),
             $this->fail(...),
             function (ilObjUser $u) use ($user, $ldoc_user): User {
                 $this->assertSame($user, $u);
@@ -125,7 +125,7 @@ class SelfRegistrationTest extends TestCase
 
     public function testUserCreationFailed(): void
     {
-        $user = $this->mock(ilObjUser::class);
+        $user = $this->stub(ilObjUser::class);
         $ldoc_user = $this->mock(User::class);
         $ldoc_user->expects($this->once())->method('acceptMatchingDocument')->willReturnCallback(function () {
             throw new \ILIAS\Data\NotOKException('This is not ok.');
@@ -135,9 +135,9 @@ class SelfRegistrationTest extends TestCase
 
         $instance = new SelfRegistration(
             'foo',
-            $this->mock(UI::class),
-            $this->mock(User::class),
-            $this->mock(Provide::class),
+            $this->stub(UI::class),
+            $this->stub(User::class),
+            $this->stub(Provide::class),
             $this->fail(...),
             function (ilObjUser $u) use ($user, $ldoc_user): User {
                 $this->assertSame($user, $u);

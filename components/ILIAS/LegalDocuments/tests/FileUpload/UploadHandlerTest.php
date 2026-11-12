@@ -65,7 +65,7 @@ class UploadHandlerTest extends TestCase
     public function testInfoResultWithResult(): void
     {
         $value = 'Lorem ipsum';
-        $document_content = $this->mockTree(DocumentContent::class, [
+        $document_content = $this->stubTree(DocumentContent::class, [
             'value' => $value,
             'type' => 'html',
         ]);

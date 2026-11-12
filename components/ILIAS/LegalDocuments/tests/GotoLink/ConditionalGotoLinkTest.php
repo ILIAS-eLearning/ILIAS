@@ -51,7 +51,7 @@ class ConditionalGotoLinkTest extends TestCase
 
     public function testTarget(): void
     {
-        $target = $this->mock(Target::class);
+        $target = $this->stub(Target::class);
 
         $instance = new ConditionalGotoLink(
             'foo',

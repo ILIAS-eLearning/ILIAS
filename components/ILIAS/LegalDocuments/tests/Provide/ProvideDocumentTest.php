@@ -20,8 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\LegalDocuments\test\Provide;
 
-use ilCtrl;
-use ILIAS\HTTP\Services;
 use ILIAS\UI\Component\Component;
 use ILIAS\LegalDocuments\Value\DocumentContent;
 use ILIAS\UI\Component\Input\Field\Group;
@@ -31,23 +29,13 @@ use ILIAS\LegalDocuments\ConditionDefinition;
 use ILIAS\LegalDocuments\Value\Criterion;
 use ILIAS\LegalDocuments\Value\Document;
 use ILIAS\LegalDocuments\EditLinks;
-use ILIAS\UI\Component\Legacy\Legacy;
-use ILIAS\LegalDocuments\Legacy\Table as LegacyTable;
-use ILIAS\LegalDocuments\Table as TableInterface;
 use ILIAS\LegalDocuments\Table\DocumentTable;
-use ILIAS\UI\Component\Table\Action\Factory;
-use ILIAS\UI\Factory as UIFactory;
 use ILIAS\LegalDocuments\test\ContainerMock;
 use ILIAS\DI\Container;
 use ILIAS\LegalDocuments\Repository\DocumentRepository;
-use ILIAS\UI\Implementation\Component\Table\Action\Multi;
 use PHPUnit\Framework\TestCase;
 use ILIAS\LegalDocuments\Provide\ProvideDocument;
 use ILIAS\LegalDocuments\SelectionMap;
-use ilGlobalTemplateInterface;
-use ilLanguage;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\UriInterface;
 use stdClass;
 use ilObjUser;
 
@@ -61,10 +49,10 @@ class ProvideDocumentTest extends TestCase
     {
         $this->assertInstanceOf(ProvideDocument::class, new ProvideDocument(
             'foo',
-            $this->mock(DocumentRepository::class),
+            $this->stub(DocumentRepository::class),
             new SelectionMap(),
             [],
-            $this->mockTree(Container::class, ['user' => ['getTimeZone' => 'europe/berlin']])
+            $this->stubTree(Container::class, ['user' => ['getTimeZone' => 'europe/berlin']])
         ));
     }
 
@@ -74,7 +62,7 @@ class ProvideDocumentTest extends TestCase
 
         $uri = 'http://myIlias/ilias.php?baseClass=iladministrationgui&cmdNode=2g.qo.gq&cmdClass=ilLegalDocumentsAdministrationGUI&cmd=documents&ref_id=50';
 
-        $container = $this->mockTree(Container::class, [
+        $container = $this->stubTree(Container::class, [
             'ui' => [
                 'factory' => [],
                 'mainTemplate' => [],
@@ -85,7 +73,7 @@ class ProvideDocumentTest extends TestCase
             'user' => ['getTimeZone' => 'europe/berlin'],
         ]);
 
-        $instance = new ProvideDocument('foo', $this->mock(DocumentRepository::class), new SelectionMap(), [], $container);
+        $instance = new ProvideDocument('foo', $this->stub(DocumentRepository::class), new SelectionMap(), [], $container);
         $this->assertInstanceOf(DocumentTable::class, $instance->table($dummy_gui));
     }
 
@@ -99,7 +87,7 @@ class ProvideDocumentTest extends TestCase
 
         $uri = 'http://myIlias/ilias.php?baseClass=iladministrationgui&cmdNode=2g.qo.gq&cmdClass=ilLegalDocumentsAdministrationGUI&cmd=documents&ref_id=50';
 
-        $container = $this->mockTree(Container::class, [
+        $container = $this->stubTree(Container::class, [
             'ui' => [
                 'factory' => ['table' => ['action' => ['multi' => []]]],
                 'mainTemplate' => [],
@@ -110,16 +98,16 @@ class ProvideDocumentTest extends TestCase
             'user' => ['getTimeZone' => 'europe/berlin'],
         ]);
 
-        $instance = new ProvideDocument('foo', $this->mock(DocumentRepository::class), new SelectionMap(), [], $container);
-        $this->assertInstanceOf(DocumentTable::class, $instance->table($dummy_gui, $this->mock(EditLinks::class)));
+        $instance = new ProvideDocument('foo', $this->stub(DocumentRepository::class), new SelectionMap(), [], $container);
+        $this->assertInstanceOf(DocumentTable::class, $instance->table($dummy_gui, $this->stub(EditLinks::class)));
     }
 
     public function testChooseDocumentFor(): void
     {
         $document = $this->mockMethod(Document::class, 'criteria', [], []);
-        $user = $this->mock(ilObjUser::class);
+        $user = $this->stub(ilObjUser::class);
 
-        $criterion = $this->mockTree(Criterion::class, ['content' => ['type' => 'bar']]);
+        $criterion = $this->stubTree(Criterion::class, ['content' => ['type' => 'bar']]);
 
         $repository = $this->mockMethod(DocumentRepository::class, 'all', [], [
             $this->mockMethod(Document::class, 'criteria', [], [$criterion]),
@@ -133,7 +121,7 @@ class ProvideDocumentTest extends TestCase
                 [$user],
                 false
             )),
-        ]), [], $this->mock(Container::class));
+        ]), [], $this->stub(Container::class));
         $result = $instance->chooseDocumentFor($user);
         $this->assertTrue($result->isOk());
         $this->assertSame($document, $result->value());
@@ -141,32 +129,32 @@ class ProvideDocumentTest extends TestCase
 
     public function testDocumentMatches(): void
     {
-        $criterion = $this->mockTree(Criterion::class, ['content' => ['type' => 'bar']]);
+        $criterion = $this->stubTree(Criterion::class, ['content' => ['type' => 'bar']]);
         $document = $this->mockMethod(Document::class, 'criteria', [], [$criterion]);
-        $user = $this->mock(ilObjUser::class);
+        $user = $this->stub(ilObjUser::class);
 
-        $instance = new ProvideDocument('doo', $this->mock(DocumentRepository::class), new SelectionMap([
+        $instance = new ProvideDocument('doo', $this->stub(DocumentRepository::class), new SelectionMap([
             'bar' => $this->mockMethod(ConditionDefinition::class, 'withCriterion', [$criterion->content()], $this->mockMethod(
                 Condition::class,
                 'eval',
                 [$user],
                 true
             )),
-        ]), [], $this->mock(Container::class));
+        ]), [], $this->stub(Container::class));
 
         $this->assertTrue($instance->documentMatches($document, $user));
     }
 
     public function testRepository(): void
     {
-        $repository = $this->mock(DocumentRepository::class);
-        $instance = new ProvideDocument('foo', $repository, new SelectionMap(), [], $this->mock(Container::class));
+        $repository = $this->stub(DocumentRepository::class);
+        $instance = new ProvideDocument('foo', $repository, new SelectionMap(), [], $this->stub(Container::class));
         $this->assertSame($repository, $instance->repository());
     }
 
     public function testHash(): void
     {
-        $instance = new ProvideDocument('foo', $this->mock(DocumentRepository::class), new SelectionMap(), [], $this->mock(Container::class));
+        $instance = new ProvideDocument('foo', $this->stub(DocumentRepository::class), new SelectionMap(), [], $this->stub(Container::class));
         $hash = $instance->hash();
         $this->assertTrue(is_string($hash));
         $this->assertSame(254, strlen($hash));
@@ -174,40 +162,40 @@ class ProvideDocumentTest extends TestCase
 
     public function testToCondition(): void
     {
-        $condition = $this->mock(Condition::class);
+        $condition = $this->stub(Condition::class);
         $content = $this->mockMethod(CriterionContent::class, 'type', [], 'bar');
 
-        $instance = new ProvideDocument('foo', $this->mock(DocumentRepository::class), new SelectionMap([
+        $instance = new ProvideDocument('foo', $this->stub(DocumentRepository::class), new SelectionMap([
             'bar' => $this->mockMethod(ConditionDefinition::class, 'withCriterion', [$content], $condition),
-        ]), [], $this->mock(Container::class));
+        ]), [], $this->stub(Container::class));
 
         $this->assertSame($condition, $instance->toCondition($content));
     }
 
     public function testConditionGroupsWithoutContent(): void
     {
-        $group = $this->mock(Group::class);
+        $group = $this->stub(Group::class);
 
-        $instance = new ProvideDocument('foo', $this->mock(DocumentRepository::class), new SelectionMap([
+        $instance = new ProvideDocument('foo', $this->stub(DocumentRepository::class), new SelectionMap([
             'bar' => $this->mockMethod(ConditionDefinition::class, 'formGroup', [[]], $group),
             'baz' => $this->mockMethod(ConditionDefinition::class, 'formGroup', [[]], $group),
-        ]), [], $this->mock(Container::class));
+        ]), [], $this->stub(Container::class));
 
         $this->assertSame(['bar' => $group, 'baz' => $group], $instance->conditionGroups()->choices());
     }
 
     public function testConditionGroups(): void
     {
-        $group = $this->mock(Group::class);
-        $content = $this->mockTree(CriterionContent::class, [
+        $group = $this->stub(Group::class);
+        $content = $this->stubTree(CriterionContent::class, [
             'type' => 'baz',
             'arguments' => ['a', 'b', 'c'],
         ]);
 
-        $instance = new ProvideDocument('foo', $this->mock(DocumentRepository::class), new SelectionMap([
+        $instance = new ProvideDocument('foo', $this->stub(DocumentRepository::class), new SelectionMap([
             'bar' => $this->mockMethod(ConditionDefinition::class, 'formGroup', [[]], $group),
             'baz' => $this->mockMethod(ConditionDefinition::class, 'formGroup', [$content->arguments()], $group),
-        ]), [], $this->mock(Container::class));
+        ]), [], $this->stub(Container::class));
 
         $this->assertSame(['bar' => $group, 'baz' => $group], $instance->conditionGroups($content)->choices());
     }
@@ -230,14 +218,14 @@ class ProvideDocumentTest extends TestCase
             })
         )->willReturn($condition);
 
-        $instance = new ProvideDocument('foo', $this->mock(DocumentRepository::class), new SelectionMap([
+        $instance = new ProvideDocument('foo', $this->stub(DocumentRepository::class), new SelectionMap([
             'hoo' => $this->mockMethod(ConditionDefinition::class, 'withCriterion', [$existing_content], $condition),
             'foo' => $definition,
-        ]), [], $this->mock(Container::class));
+        ]), [], $this->stub(Container::class));
 
         $result = $instance->validateCriteriaContent([
-            $this->mockTree(Criterion::class, ['content' => $existing_content]),
-            $this->mockTree(Criterion::class, ['content' => $other_existing_content]),
+            $this->stubTree(Criterion::class, ['content' => $existing_content]),
+            $this->stubTree(Criterion::class, ['content' => $other_existing_content]),
         ], $content);
         $this->assertTrue($result->isOk());
         $this->assertSame($content, $result->value());
@@ -247,9 +235,9 @@ class ProvideDocumentTest extends TestCase
     {
         $content = new CriterionContent('foo', ['bar']);
 
-        $instance = new ProvideDocument('foo', $this->mock(DocumentRepository::class), new SelectionMap(), [], $this->mock(Container::class));
+        $instance = new ProvideDocument('foo', $this->stub(DocumentRepository::class), new SelectionMap(), [], $this->stub(Container::class));
         $result = $instance->validateCriteriaContent([
-            $this->mockTree(Criterion::class, ['content' => new CriterionContent('foo', ['bar'])])
+            $this->stubTree(Criterion::class, ['content' => new CriterionContent('foo', ['bar'])])
         ], $content);
         $this->assertFalse($result->isOk());
         $this->assertSame(ProvideDocument::CRITERION_ALREADY_EXISTS, $result->error());
@@ -263,13 +251,13 @@ class ProvideDocumentTest extends TestCase
         $condition = $this->mock(Condition::class);
         $condition->expects($this->once())->method('knownToNeverMatchWith')->with($condition)->willReturn(true);
 
-        $instance = new ProvideDocument('foo', $this->mock(DocumentRepository::class), new SelectionMap([
+        $instance = new ProvideDocument('foo', $this->stub(DocumentRepository::class), new SelectionMap([
             'hoo' => $this->mockMethod(ConditionDefinition::class, 'withCriterion', [$existing_content], $condition),
             'foo' => $this->mockMethod(ConditionDefinition::class, 'withCriterion', [$content], $condition),
-        ]), [], $this->mock(Container::class));
+        ]), [], $this->stub(Container::class));
 
         $result = $instance->validateCriteriaContent([
-            $this->mockTree(Criterion::class, ['content' => $existing_content]),
+            $this->stubTree(Criterion::class, ['content' => $existing_content]),
         ], $content);
         $this->assertFalse($result->isOk());
         $this->assertSame(ProvideDocument::CRITERION_WOULD_NEVER_MATCH, $result->error());
@@ -277,15 +265,15 @@ class ProvideDocumentTest extends TestCase
 
     public function testContentAsComponent(): void
     {
-        $content = $this->mockTree(DocumentContent::class, ['type' => 'html']);
-        $component = $this->mock(Component::class);
+        $content = $this->stubTree(DocumentContent::class, ['type' => 'html']);
+        $component = $this->stub(Component::class);
 
-        $instance = new ProvideDocument('foo', $this->mock(DocumentRepository::class), new SelectionMap(), [
+        $instance = new ProvideDocument('foo', $this->stub(DocumentRepository::class), new SelectionMap(), [
             'html' => function (DocumentContent $c) use ($content, $component): Component {
                 $this->assertSame($content, $c);
                 return $component;
             }
-        ], $this->mock(Container::class));
+        ], $this->stub(Container::class));
 
         $this->assertSame($component, $instance->contentAsComponent($content));
     }

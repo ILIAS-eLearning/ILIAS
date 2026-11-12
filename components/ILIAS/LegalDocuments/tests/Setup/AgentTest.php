@@ -38,47 +38,47 @@ class AgentTest extends TestCase
 
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(Agent::class, new Agent($this->mock(Refinery::class)));
+        $this->assertInstanceOf(Agent::class, new Agent($this->stub(Refinery::class)));
     }
 
     public function testHasConfig(): void
     {
-        $this->assertFalse((new Agent($this->mock(Refinery::class)))->hasConfig());
+        $this->assertFalse((new Agent($this->stub(Refinery::class)))->hasConfig());
     }
 
     public function testGetArrayToConfigTransformation(): void
     {
-        $identity = $this->mock(Transformation::class);
-        $this->assertSame($identity, (new Agent($this->mockTree(Refinery::class, ['identity' => $identity])))->getArrayToConfigTransformation());
+        $identity = $this->stub(Transformation::class);
+        $this->assertSame($identity, (new Agent($this->stubTree(Refinery::class, ['identity' => $identity])))->getArrayToConfigTransformation());
     }
 
     public function testGetInstallObjective(): void
     {
-        $this->assertInstanceOf(NullObjective::class, (new Agent($this->mock(Refinery::class)))->getInstallObjective());
+        $this->assertInstanceOf(NullObjective::class, (new Agent($this->stub(Refinery::class)))->getInstallObjective());
     }
 
     public function testGetUpdateObjective(): void
     {
-        $this->assertInstanceOf(ilDatabaseUpdateStepsExecutedObjective::class, (new Agent($this->mock(Refinery::class)))->getUpdateObjective());
+        $this->assertInstanceOf(ilDatabaseUpdateStepsExecutedObjective::class, (new Agent($this->stub(Refinery::class)))->getUpdateObjective());
     }
 
     public function testGetBuildArtifactObjective(): void
     {
-        $this->assertInstanceOf(ConsumerObjective::class, (new Agent($this->mock(Refinery::class)))->getBuildObjective());
+        $this->assertInstanceOf(ConsumerObjective::class, (new Agent($this->stub(Refinery::class)))->getBuildObjective());
     }
 
     public function testGetStatusObjective(): void
     {
-        $this->assertInstanceOf(\ilDatabaseUpdateStepsMetricsCollectedObjective::class, (new Agent($this->mock(Refinery::class)))->getStatusObjective($this->mock(Storage::class)));
+        $this->assertInstanceOf(\ilDatabaseUpdateStepsMetricsCollectedObjective::class, (new Agent($this->stub(Refinery::class)))->getStatusObjective($this->stub(Storage::class)));
     }
 
     public function testGetMigrations(): void
     {
-        $this->assertSame([], (new Agent($this->mock(Refinery::class)))->getMigrations());
+        $this->assertSame([], (new Agent($this->stub(Refinery::class)))->getMigrations());
     }
 
     public function testGetNamedObjectives(): void
     {
-        $this->assertSame([], (new Agent($this->mock(Refinery::class)))->getNamedObjectives());
+        $this->assertSame([], (new Agent($this->stub(Refinery::class)))->getNamedObjectives());
     }
 }

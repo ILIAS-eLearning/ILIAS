@@ -36,14 +36,14 @@ class ShowOnLoginPageTest extends TestCase
 
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(ShowOnLoginPage::class, new ShowOnLoginPage($this->mock(Provide::class), $this->mock(UI::class), $this->fail(...)));
+        $this->assertInstanceOf(ShowOnLoginPage::class, new ShowOnLoginPage($this->stub(Provide::class), $this->stub(UI::class), $this->fail(...)));
     }
 
     public function testInvokeWithoutDocuments(): void
     {
-        $instance = new ShowOnLoginPage($this->mockTree(Provide::class, [
+        $instance = new ShowOnLoginPage($this->stubTree(Provide::class, [
             'document' => ['repository' => ['countAll' => 0]],
-        ]), $this->mock(UI::class), $this->fail(...));
+        ]), $this->stub(UI::class), $this->fail(...));
 
         $this->assertSame([], $instance());
     }
@@ -53,7 +53,7 @@ class ShowOnLoginPageTest extends TestCase
         $translated = 'Translated<br/>';
         $url = 'Dummy URL';
 
-        $legacy = $this->mock(Legacy\Content::class);
+        $legacy = $this->stub(Legacy\Content::class);
         $legacy_factory = $this->mock(Legacy\Factory::class);
         $legacy_factory
             ->expects($this->once())
@@ -79,10 +79,10 @@ class ShowOnLoginPageTest extends TestCase
 
         $template->expects($this->once())->method('get')->willReturn('Rendered');
 
-        $instance = new ShowOnLoginPage($this->mockTree(Provide::class, [
+        $instance = new ShowOnLoginPage($this->stubTree(Provide::class, [
             'document' => ['repository' => ['countAll' => 1]],
             'publicPage' => ['url' => $url],
-        ]), $this->mockTree(UI::class, [
+        ]), $this->stubTree(UI::class, [
             'txt' => $translated,
             'create' => $this->mockMethod(UIFactory::class, 'legacy', [], $legacy_factory),
         ]), fn() => $template);

@@ -32,6 +32,7 @@ use ILIAS\LegalDocuments\SlotConstructor;
 use PHPUnit\Framework\TestCase;
 use ILIAS\LegalDocuments\Wiring;
 use ILIAS\LegalDocuments\SelectionMap;
+use PHPUnit\Framework\MockObject\MockObject;
 
 require_once __DIR__ . '/ContainerMock.php';
 
@@ -41,32 +42,32 @@ class WiringTest extends TestCase
 
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(Wiring::class, new Wiring($this->mock(SlotConstructor::class), $this->mock(Map::class)));
+        $this->assertInstanceOf(Wiring::class, new Wiring($this->stub(SlotConstructor::class), $this->stub(Map::class)));
     }
 
     public function testAfterLogin(): void
     {
-        $map = $this->mock(Map::class);
         $proc = $this->fail(...);
+        $map = $this->mapExpecting('add', ['after-login', $proc]);
 
-        $instance = new Wiring($this->mock(SlotConstructor::class), $this->mockMethod(Map::class, 'add', ['after-login', $proc], $map));
+        $instance = new Wiring($this->stub(SlotConstructor::class), $map);
         $this->assertSame($map, $instance->afterLogin($proc)->map());
     }
 
     public function testShowInFooter(): void
     {
-        $map = $this->mock(Map::class);
         $proc = $this->fail(...);
+        $map = $this->mapExpecting('set', ['footer', 'foo', $proc]);
 
-        $instance = new Wiring($this->mockTree(SlotConstructor::class, ['id' => 'foo']), $this->mockMethod(Map::class, 'set', ['footer', 'foo', $proc], $map));
+        $instance = new Wiring($this->stubTree(SlotConstructor::class, ['id' => 'foo']), $map);
         $this->assertSame($map, $instance->showInFooter($proc)->map());
     }
 
     public function testCanWithdraw(): void
     {
-        $withdraw_process = $this->mock(WithdrawProcess::class);
+        $withdraw_process = $this->stub(WithdrawProcess::class);
 
-        $instance = new Wiring($this->mock(SlotConstructor::class), new Map());
+        $instance = new Wiring($this->stub(SlotConstructor::class), new Map());
 
         $map = $instance->canWithdraw($withdraw_process)->map()->value();
 
@@ -86,14 +87,14 @@ class WiringTest extends TestCase
     public function testShowOnLoginPage(): void
     {
         $proc = $this->fail(...);
-        $instance = new Wiring($this->mockTree(SlotConstructor::class, ['id' => 'foo']), new Map());
+        $instance = new Wiring($this->stubTree(SlotConstructor::class, ['id' => 'foo']), new Map());
         $this->assertSame(['show-on-login-page' => ['foo' => $proc]], $instance->showOnLoginPage($proc)->map()->value());
     }
 
     public function testHasAgreement(): void
     {
-        $instance = new Wiring($this->mock(SlotConstructor::class), new Map());
-        $map = $instance->hasAgreement($this->mock(Agreement::class), 'bar')->map()->value();
+        $instance = new Wiring($this->stub(SlotConstructor::class), new Map());
+        $map = $instance->hasAgreement($this->stub(Agreement::class), 'bar')->map()->value();
 
         $this->assertSame([
             'public-page',
@@ -110,8 +111,8 @@ class WiringTest extends TestCase
 
     public function testHasHistory(): void
     {
-        $document = $this->mock(ProvideDocument::class);
-        $history = $this->mock(ProvideHistory::class);
+        $document = $this->stub(ProvideDocument::class);
+        $history = $this->stub(ProvideHistory::class);
         $slot = $this->mockMethod(SlotConstructor::class, 'history', [$document], $history);
         $slot->method('id')->willReturn('foo');
         $map = $this->mockTree(Map::class, ['value' => ['document' => ['foo' => $document]]]);
@@ -123,43 +124,43 @@ class WiringTest extends TestCase
 
     public function testOnSelfRegistration(): void
     {
-        $map = $this->mock(Map::class);
-        $self_registration = $this->mock(SelfRegistration::class);
+        $self_registration = $this->stub(SelfRegistration::class);
+        $map = $this->mapExpecting('add', ['self-registration', $self_registration]);
 
-        $instance = new Wiring($this->mock(SlotConstructor::class), $this->mockMethod(Map::class, 'add', ['self-registration', $self_registration], $map));
+        $instance = new Wiring($this->stub(SlotConstructor::class), $map);
         $this->assertSame($map, $instance->onSelfRegistration($self_registration)->map());
     }
 
     public function testHasOnlineStatusFilter(): void
     {
-        $map = $this->mock(Map::class);
         $proc = $this->fail(...);
+        $map = $this->mapExpecting('add', ['filter-online-users', $proc]);
 
-        $instance = new Wiring($this->mock(SlotConstructor::class), $this->mockMethod(Map::class, 'add', ['filter-online-users', $proc], $map));
+        $instance = new Wiring($this->stub(SlotConstructor::class), $map);
         $this->assertSame($map, $instance->hasOnlineStatusFilter($proc)->map());
     }
 
     public function testCanReadInternalMails(): void
     {
-        $map = $this->mock(Map::class);
-        $constraint = $this->mock(Constraint::class);
+        $constraint = $this->stub(Constraint::class);
+        $map = $this->mapExpecting('add', ['constrain-internal-mail', $constraint]);
 
-        $instance = new Wiring($this->mock(SlotConstructor::class), $this->mockMethod(Map::class, 'add', ['constrain-internal-mail', $constraint], $map));
+        $instance = new Wiring($this->stub(SlotConstructor::class), $map);
         $this->assertSame($map, $instance->canReadInternalMails($constraint)->map());
     }
 
     public function testCanUseSoapApi(): void
     {
-        $map = $this->mock(Map::class);
-        $constraint = $this->mock(Constraint::class);
+        $constraint = $this->stub(Constraint::class);
+        $map = $this->mapExpecting('add', ['use-soap-api', $constraint]);
 
-        $instance = new Wiring($this->mock(SlotConstructor::class), $this->mockMethod(Map::class, 'add', ['use-soap-api', $constraint], $map));
+        $instance = new Wiring($this->stub(SlotConstructor::class), $map);
         $this->assertSame($map, $instance->canUseSoapApi($constraint)->map());
     }
 
     public function testHasDocuments(): void
     {
-        $instance = new Wiring($this->mock(SlotConstructor::class), new Map());
+        $instance = new Wiring($this->stub(SlotConstructor::class), new Map());
         $map = $instance->hasDocuments([], new SelectionMap())->map()->value();
 
         $this->assertSame([
@@ -173,12 +174,12 @@ class WiringTest extends TestCase
 
     public function testHasUserManagementFields(): void
     {
-        $map = $this->mock(Map::class);
         $proc = $this->fail(...);
+        $map = $this->mapExpecting('set', ['user-management-fields', 'foo', $proc]);
 
         $instance = new Wiring(
-            $this->mockTree(SlotConstructor::class, ['id' => 'foo']),
-            $this->mockMethod(Map::class, 'set', ['user-management-fields', 'foo', $proc], $map)
+            $this->stubTree(SlotConstructor::class, ['id' => 'foo']),
+            $map
         );
 
         $this->assertSame($map, $instance->hasUserManagementFields($proc)->map());
@@ -186,12 +187,12 @@ class WiringTest extends TestCase
 
     public function testHasPublicApi(): void
     {
-        $map = $this->mock(Map::class);
-        $public_api = $this->mock(PublicApi::class);
+        $public_api = $this->stub(PublicApi::class);
+        $map = $this->mapExpecting('set', ['public-api', 'foo', $public_api]);
 
         $instance = new Wiring(
-            $this->mockTree(SlotConstructor::class, ['id' => 'foo']),
-            $this->mockMethod(Map::class, 'set', ['public-api', 'foo', $public_api], $map)
+            $this->stubTree(SlotConstructor::class, ['id' => 'foo']),
+            $map
         );
 
         $this->assertSame($map, $instance->hasPublicApi($public_api)->map());
@@ -199,12 +200,12 @@ class WiringTest extends TestCase
 
     public function testHasPublicPage(): void
     {
-        $map = $this->mock(Map::class);
         $public_page = fn() => null;
+        $map = $this->mapExpecting('set', ['public-page', 'foo']);
 
         $instance = new Wiring(
-            $this->mockTree(SlotConstructor::class, ['id' => 'foo']),
-            $this->mockMethod(Map::class, 'set', ['public-page', 'foo'], $map)
+            $this->stubTree(SlotConstructor::class, ['id' => 'foo']),
+            $map
         );
 
         $this->assertSame($map, $instance->hasPublicPage($public_page)->map());
@@ -212,21 +213,32 @@ class WiringTest extends TestCase
 
     public function testHasPublicPageWithGotoLink(): void
     {
-        $m = $this->mock(Map::class);
-        $map = $this->mockMethod(Map::class, 'add', ['goto'], $m);
         $public_page = fn() => null;
+        $map = $this->mock(Map::class);
+        $map->expects($this->once())->method('add')->with('goto')->willReturnSelf();
 
         $instance = new Wiring(
-            $this->mockTree(SlotConstructor::class, ['id' => 'foo']),
+            $this->stubTree(SlotConstructor::class, ['id' => 'foo']),
             $this->mockMethod(Map::class, 'set', ['public-page', 'foo'], $map)
         );
 
-        $this->assertSame($m, $instance->hasPublicPage($public_page, 'foo')->map());
+        $this->assertSame($map, $instance->hasPublicPage($public_page, 'foo')->map());
     }
 
     public function testMap(): void
     {
+        $map = $this->stub(Map::class);
+        $this->assertSame($map, (new Wiring($this->stub(SlotConstructor::class), $map))->map());
+    }
+
+    /**
+     * @param list<mixed> $arguments
+     */
+    private function mapExpecting(string $method, array $arguments): Map&MockObject
+    {
         $map = $this->mock(Map::class);
-        $this->assertSame($map, (new Wiring($this->mock(SlotConstructor::class), $map))->map());
+        $map->expects($this->once())->method($method)->with(...$arguments)->willReturnSelf();
+
+        return $map;
     }
 }

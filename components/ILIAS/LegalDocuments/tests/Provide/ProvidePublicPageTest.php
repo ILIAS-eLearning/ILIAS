@@ -34,7 +34,7 @@ class ProvidePublicPageTest extends TestCase
 
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(ProvidePublicPage::class, new ProvidePublicPage('foo', $this->mock(ilCtrl::class)));
+        $this->assertInstanceOf(ProvidePublicPage::class, new ProvidePublicPage('foo', $this->stub(ilCtrl::class)));
     }
 
     public function testUrl(): void

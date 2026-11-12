@@ -39,19 +39,19 @@ class UserLanguageTest extends TestCase
     public function testConstruct(): void
     {
         $this->assertInstanceOf(UserLanguage::class, new UserLanguage(
-            $this->mock(CriterionContent::class),
-            $this->mock(UserLanguageDefinition::class),
-            $this->mock(UI::class)
+            $this->stub(CriterionContent::class),
+            $this->stub(UserLanguageDefinition::class),
+            $this->stub(UI::class)
         ));
     }
 
     public function testAsComponent(): void
     {
-        $legacy = $this->mock(Legacy\Content::class);
+        $legacy = $this->stub(Legacy\Content::class);
         $instance = new UserLanguage(
-            $this->mockTree(CriterionContent::class, ['arguments' => ['lng' => 'foo']]),
-            $this->mock(UserLanguageDefinition::class),
-            $this->mockTree(UI::class, ['create' => ['legacy' => ['content' => $legacy]]])
+            $this->stubTree(CriterionContent::class, ['arguments' => ['lng' => 'foo']]),
+            $this->stub(UserLanguageDefinition::class),
+            $this->stubTree(UI::class, ['create' => ['legacy' => ['content' => $legacy]]])
         );
 
         $this->assertSame($legacy, $instance->asComponent());
@@ -60,21 +60,21 @@ class UserLanguageTest extends TestCase
     public function testEval(): void
     {
         $instance = new UserLanguage(
-            $this->mockTree(CriterionContent::class, ['arguments' => ['lng' => 'foo']]),
-            $this->mock(UserLanguageDefinition::class),
-            $this->mock(UI::class)
+            $this->stubTree(CriterionContent::class, ['arguments' => ['lng' => 'foo']]),
+            $this->stub(UserLanguageDefinition::class),
+            $this->stub(UI::class)
         );
 
-        $this->assertTrue($instance->eval($this->mockTree(ilObjUser::class, ['getLanguage' => 'foo'])));
+        $this->assertTrue($instance->eval($this->stubTree(ilObjUser::class, ['getLanguage' => 'foo'])));
     }
 
     public function testDefinition(): void
     {
-        $definition = $this->mock(UserLanguageDefinition::class);
+        $definition = $this->stub(UserLanguageDefinition::class);
         $instance = new UserLanguage(
-            $this->mock(CriterionContent::class),
+            $this->stub(CriterionContent::class),
             $definition,
-            $this->mock(UI::class)
+            $this->stub(UI::class)
         );
 
         $this->assertSame($definition, $instance->definition());
@@ -83,18 +83,18 @@ class UserLanguageTest extends TestCase
     public function testKnownToNeverMatchWith(): void
     {
         $instance = new UserLanguage(
-            $this->mock(CriterionContent::class),
-            $this->mock(UserLanguageDefinition::class),
-            $this->mock(UI::class)
+            $this->stub(CriterionContent::class),
+            $this->stub(UserLanguageDefinition::class),
+            $this->stub(UI::class)
         );
 
         $second = new UserLanguage(
-            $this->mock(CriterionContent::class),
-            $this->mock(UserLanguageDefinition::class),
-            $this->mock(UI::class)
+            $this->stub(CriterionContent::class),
+            $this->stub(UserLanguageDefinition::class),
+            $this->stub(UI::class)
         );
 
         $this->assertTrue($instance->knownToNeverMatchWith($second));
-        $this->assertFalse($instance->knownToNeverMatchWith($this->mock(Condition::class)));
+        $this->assertFalse($instance->knownToNeverMatchWith($this->stub(Condition::class)));
     }
 }
