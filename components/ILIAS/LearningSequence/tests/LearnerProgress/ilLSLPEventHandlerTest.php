@@ -27,8 +27,14 @@ class ilLPStatusWrapperStub extends ilLPStatusWrapper
         throw new \Exception('Do not use ilLPStatusWrapper::_refreshStatus here; use _updateStatus instead');
     }
 
+    /**
+     * @var array<int, array{0: int, 1: int}>
+     */
+    public static array $updated = [];
+
     public static function _updateStatus(int $a_obj_id, int $a_usr_id, ?object $a_obj = null, bool $a_percentage = false, bool $a_force_raise = false): void
     {
+        self::$updated[] = [$a_obj_id, $a_usr_id];
     }
 }
 
@@ -41,6 +47,13 @@ class ilLSLPEventHandlerStub extends ilLSLPEventHandler
     {
         return [14, 20];
     }
+
+    public bool $is_member = true;
+
+    protected function isMemberOfLSO(int $lso_obj_id, int $usr_id): bool
+    {
+        return $this->is_member;
+    }
 }
 
 class ilLSLPEventHandlerTest extends TestCase
@@ -52,6 +65,7 @@ class ilLSLPEventHandlerTest extends TestCase
     {
         $this->tree = $this->createMock(ilTree::class);
         $this->lp_status = new ilLPStatusWrapperStub();
+        ilLPStatusWrapperStub::$updated = [];
     }
 
     public function testCreateObject(): void
@@ -83,5 +97,27 @@ class ilLSLPEventHandlerTest extends TestCase
         $obj->updateLPForChildEvent($values);
         //do not call getParentNodeData again!
         $obj->updateLPForChildEvent($values);
+
+        $this->assertSame(
+            [[$obj_id, 101], [$obj_id, 101], [$obj_id, 101], [$obj_id, 101]],
+            ilLPStatusWrapperStub::$updated
+        );
+    }
+
+    public function testUpdateLPForChildEventSkipsNonMembers(): void
+    {
+        $this->tree
+            ->method('getParentNodeData')
+            ->willReturn([
+                "type" => "lso",
+                "obj_id" => 43
+            ])
+        ;
+
+        $obj = new ilLSLPEventHandlerStub($this->tree, $this->lp_status);
+        $obj->is_member = false;
+        $obj->updateLPForChildEvent(['obj_id' => 12, 'usr_id' => 101]);
+
+        $this->assertSame([], ilLPStatusWrapperStub::$updated);
     }
 }
