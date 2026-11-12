@@ -36,16 +36,28 @@ class ilLSLPEventHandler
         $this->lpstatus = $lp_status_wrapper;
     }
 
+    /**
+     * Re-determines the LP status of the parent learning sequence(s) when the
+     * status of a child object changed.
+     */
     public function updateLPForChildEvent(array $parameter): void
     {
+        $usr_id = (int) $parameter['usr_id'];
         $refs = $this->getRefIdsOfObjId((int) $parameter['obj_id']);
         foreach ($refs as $ref_id) {
             $lso_id = $this->getParentLSOObjId((int) $ref_id);
-            if ($lso_id !== null) {
-                $usr_id = $parameter['usr_id'];
+            if ($lso_id !== null && $this->isMemberOfLSO($lso_id, $usr_id)) {
                 $this->lpstatus::_updateStatus($lso_id, $usr_id);
             }
         }
+    }
+
+    /**
+     * Check whether a user is a member of the LSO
+     */
+    protected function isMemberOfLSO(int $lso_obj_id, int $usr_id): bool
+    {
+        return ilLearningSequenceParticipants::_getInstanceByObjId($lso_obj_id)->isMember($usr_id);
     }
 
     /**
