@@ -216,10 +216,10 @@ The file `components/ILIAS/UI/src/templates/default/Layout/tpl.mailpage.html` fo
 
 ##### Step 4.3: Logo
 When a custom system style is enabled, a logo is searched for along the following paths and in the given sequence:
-1. `public/Customizing/skin/<myskin>/images/logo/Logo.svg`
-2. `public/Customizing/skin/<myskin>/images/logo/HeaderIcon.svg`
-3. `public/Customizing/skin/<myskin>/<mystyle>/images/logo/Logo.svg`
-4. `public/Customizing/skin/<myskin>/<mystyle>/images/logo/HeaderIcon.svg`
+1. `public/Customizing/skin/<myskin>/images/logo/HeaderIcon.svg`
+2. `public/Customizing/skin/<myskin>/images/logo/Logo.svg`
+3. `public/Customizing/skin/<myskin>/<mystyle>/images/logo/HeaderIcon.svg`
+4. `public/Customizing/skin/<myskin>/<mystyle>/images/logo/Logo.svg`
 5. The first compatible file in `public/Customizing/skin/<myskin>/images/logo/`
 6. The first compatible file in `public/Customizing/skin/<myskin>/<mystyle>/images/logo/`
 7. The ILIAS standard logo
