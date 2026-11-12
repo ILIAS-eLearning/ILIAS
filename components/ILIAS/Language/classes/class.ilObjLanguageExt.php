@@ -246,6 +246,8 @@ class ilObjLanguageExt extends ilObjLanguage
         if (!$import_file_obj->read()) {
             $ilErr->raiseError($import_file_obj->getErrorMessage(), $ilErr->MESSAGE);
         }
+        // before the switch, as mode "delete" removes existing entries
+        self::_assertStorableValues($import_file_obj->getAllValues(), $import_file_obj->getAllComments());
 
         switch ($a_mode_existing) {
             // keep all existing entries
@@ -407,6 +409,7 @@ class ilObjLanguageExt extends ilObjLanguage
         if (!is_array($a_values)) {
             return;
         }
+        self::_assertStorableValues($a_values, $a_remarks);
         $save_array = [];
         $save_date = (new DateTimeImmutable('now', new DateTimeZone('UTC')))
             ->format('Y-m-d H:i:s');
@@ -460,12 +463,31 @@ class ilObjLanguageExt extends ilObjLanguage
                 continue;
             }
 
-            $entries = self::_mergeLanguageEntriesFromRow($row, $entries);
+            $entries = self::_mergeLanguageEntriesFromRow($row, $entries, $a_lang_key, $module);
 
             ilObjLanguage::replaceLangModule($a_lang_key, $module, $entries);
         }
 
         ilCachedLanguage::getInstance($a_lang_key)->flush();
+    }
+
+    /**
+     * @param array<string, string> $a_values
+     * @param array<string, ?string> $a_remarks
+     * @throws ilLanguageException listing the keys whose key, value or remark is not storable
+     */
+    public static function _assertStorableValues(array $a_values, array $a_remarks = []): void
+    {
+        $is_unstorable = static fn($value): bool => is_string($value) && !ilObjLanguage::isStorableValue($value);
+        $keys = array_unique(array_merge(
+            array_keys(array_filter($a_values, $is_unstorable)),
+            array_keys(array_filter($a_remarks, $is_unstorable)),
+            array_filter(array_keys($a_values), $is_unstorable),
+            array_filter(array_keys($a_remarks), $is_unstorable)
+        ));
+        if ($keys !== []) {
+            throw ilLanguageException::forUnstorableValues(array_map('strval', array_values($keys)));
+        }
     }
 
     /**
@@ -475,16 +497,23 @@ class ilObjLanguageExt extends ilObjLanguage
      * $entries         array of existing language entries to be merged
      * Return array     merged array of language entries
      */
-    private static function _mergeLanguageEntriesFromRow(?array $databaseRow, array $entries): array
-    {
+    private static function _mergeLanguageEntriesFromRow(
+        ?array $databaseRow,
+        array $entries,
+        string $lang_key,
+        string $module
+    ): array {
         if ($databaseRow === null || !isset($databaseRow["lang_array"])) {
             return $entries;
         }
 
-        $languageEntries = unserialize($databaseRow["lang_array"], ["allowed_classes" => false]);
-        if (!is_array($languageEntries)) {
-            return $entries;
-        }
+        global $DIC;
+        $languageEntries = ilObjLanguage::readModuleEntries(
+            $DIC->database(),
+            $lang_key,
+            $module,
+            $databaseRow["lang_array"]
+        );
 
         return array_merge($languageEntries, $entries);
     }
@@ -528,12 +557,12 @@ class ilObjLanguageExt extends ilObjLanguage
                 $ilDB->quote($module, "text")
             ));
             $row = $ilDB->fetchAssoc($set);
-
-            $arr = unserialize($row["lang_array"], ["allowed_classes" => false]);
-            if (is_array($arr)) {
-                $entries = array_diff_key($arr, $entries);
+            if (!$row) {
+                continue;
             }
-            ilObjLanguage::replaceLangModule($a_lang_key, $module, $entries);
+
+            $arr = ilObjLanguage::readModuleEntries($ilDB, $a_lang_key, $module, $row["lang_array"]);
+            ilObjLanguage::replaceLangModule($a_lang_key, $module, array_diff_key($arr, $entries));
         }
     }
 } // END class.ilObjLanguageExt

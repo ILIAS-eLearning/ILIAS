@@ -251,6 +251,7 @@ administration#:#language_settings#:#Language Settings
 administration#:#language_statistics#:#Statistics
 administration#:#language_translation#:#Page translation
 administration#:#language_translation_enabled#:#Page translation enabled
+administration#:#language_unsupported_characters#:#Nothing was saved. The following entries contain invalid or unsupported characters (e.g. emojis): %s
 administration#:#language_variables_saved#:#The changes to the language variables were saved successfully.
 administration#:#log_scan#:#Log scan results
 administration#:#log_scan_desc#:#Write scan results to ‘scanlog.log’ in client data directory.

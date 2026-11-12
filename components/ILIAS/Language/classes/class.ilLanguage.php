@@ -265,14 +265,12 @@ class ilLanguage implements \ILIAS\Language\Language
             return;
         }
 
-        $new_text = unserialize($row["lang_array"], ["allowed_classes" => false]);
-        if (is_array($new_text)) {
-            $this->text = array_merge($this->text, $new_text);
+        $new_text = ilObjLanguage::readModuleEntries($ilDB, $lang_key, $a_module, $row["lang_array"]);
+        $this->text = array_merge($this->text, $new_text);
 
-            if ($this->usage_log_enabled) {
-                foreach (array_keys($new_text) as $key) {
-                    $this->map_modules_txt[$key] = $a_module;
-                }
+        if ($this->usage_log_enabled) {
+            foreach (array_keys($new_text) as $key) {
+                $this->map_modules_txt[$key] = $a_module;
             }
         }
     }

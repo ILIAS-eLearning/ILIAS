@@ -27,4 +27,24 @@ declare(strict_types=1);
  */
 class ilLanguageException extends ilException
 {
+    /** @var list<string> */
+    private array $unstorable_keys = [];
+
+    /**
+     * @param list<string> $keys
+     */
+    public static function forUnstorableValues(array $keys): self
+    {
+        $e = new self("Invalid or unsupported characters in language entries: " . implode(", ", $keys));
+        $e->unstorable_keys = $keys;
+        return $e;
+    }
+
+    /**
+     * @return list<string>
+     */
+    public function getUnstorableKeys(): array
+    {
+        return $this->unstorable_keys;
+    }
 }

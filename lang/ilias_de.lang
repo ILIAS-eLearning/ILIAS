@@ -251,6 +251,7 @@ administration#:#language_settings#:#Spracheinstellungen
 administration#:#language_statistics#:#Statistik
 administration#:#language_translation#:#Seitenübersetzung
 administration#:#language_translation_enabled#:#Seitenübersetzung aktiviert
+administration#:#language_unsupported_characters#:#Nichts wurde gespeichert. Folgende Einträge enthalten ungültige oder nicht unterstützte Zeichen (z. B. Emojis): %s
 administration#:#language_variables_saved#:#Die Änderungen an den Sprachvariablen wurden erfolgreich gespeichert.
 administration#:#log_scan#:#Untersuchungsergebnisse festhalten
 administration#:#log_scan_desc#:#Untersuchungsergebnisse in Datei 'scanlog.log' im Datenverzeichnis des Mandanten speichern

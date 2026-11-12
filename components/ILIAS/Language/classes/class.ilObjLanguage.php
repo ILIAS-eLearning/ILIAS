@@ -28,6 +28,8 @@ declare(strict_types=1);
  */
 class ilObjLanguage extends ilObject
 {
+    private const NON_BMP_PATTERN = '/[\x{10000}-\x{10FFFF}]/u';
+
     /**
      * separator of module, comment separator, identifier & values
      * in language files
@@ -505,7 +507,11 @@ class ilObjLanguage extends ilObject
         );
         $row = $ilDB->fetchAssoc($result);
 
-        $unserialied = unserialize($row["lang_array"], ["allowed_classes" => false]);
+        try {
+            $unserialied = unserialize($row["lang_array"] ?? "", ["allowed_classes" => false]);
+        } catch (Throwable) {
+            $unserialied = null;
+        }
         if (!is_array($unserialied)) {
             $DIC->ui()->mainTemplate()->setOnScreenMessage(
                 'failure',
@@ -623,6 +629,102 @@ class ilObjLanguage extends ilObject
         ));
 
         return true;
+    }
+
+    /**
+     * lng_* columns are utf8mb3: false for characters outside the BMP (e.g. emojis) and for invalid UTF-8.
+     */
+    public static function isStorableValue(string $value): bool
+    {
+        return preg_match(self::NON_BMP_PATTERN, $value) === 0;
+    }
+
+    /**
+     * Makes text storable in utf8mb3 columns (e.g. session data): invalid bytes become "?", characters outside
+     * the BMP become U+FFFD.
+     */
+    public static function toStorableText(string $text): string
+    {
+        return preg_replace(self::NON_BMP_PATTERN, "\u{FFFD}", mb_scrub($text, "UTF-8"));
+    }
+
+    /**
+     * Drops rows whose new value was skipped, so no stale value stays in lng_data.
+     *
+     * @param array<string, list<string>> $identifiers_by_module
+     */
+    public static function deleteSkippedLangEntries(ilDBInterface $db, string $lang_key, array $identifiers_by_module): void
+    {
+        foreach ($identifiers_by_module as $module => $identifiers) {
+            $db->manipulate(
+                "DELETE FROM lng_data WHERE lang_key = " . $db->quote($lang_key, "text") .
+                " AND module = " . $db->quote((string) $module, "text") .
+                " AND " . $db->in("identifier", $identifiers, false, "text")
+            );
+        }
+    }
+
+    /**
+     * @param list<string> $keys
+     */
+    public static function logUnstorableEntries(string $source, string $lang_key, array $keys): void
+    {
+        global $DIC;
+        if (!isset($DIC) || !$DIC->offsetExists("ilLoggerFactory")) {
+            return;
+        }
+        $DIC->logger()->root()->warning(self::getUnstorableEntriesMessage($source, $lang_key, $keys));
+    }
+
+    /**
+     * @param list<string> $keys
+     */
+    public static function getUnstorableEntriesMessage(string $source, string $lang_key, array $keys): string
+    {
+        return mb_scrub(
+            "Language data of '{$source}' for language '{$lang_key}': entries with invalid or unsupported " .
+            "characters (e.g. emojis) were not installed: " . implode(", ", $keys),
+            "UTF-8"
+        );
+    }
+
+    /**
+     * Falls back to lng_data if lng_modules.lang_array is unreadable; repairing lng_modules is up to the caller.
+     *
+     * @return array<string, string> identifier => value
+     */
+    public static function readModuleEntries(
+        ilDBInterface $db,
+        string $lang_key,
+        string $module,
+        ?string $lang_array
+    ): array {
+        try {
+            $entries = unserialize((string) $lang_array, ["allowed_classes" => false]);
+        } catch (Throwable) {
+            $entries = null;
+        }
+        if (is_array($entries)) {
+            return $entries;
+        }
+
+        global $DIC;
+        if (isset($DIC) && $DIC->offsetExists("ilLoggerFactory")) {
+            $DIC->logger()->root()->warning(
+                "Language module '{$module}' of language '{$lang_key}' in lng_modules is unreadable, " .
+                "falling back to lng_data. Refresh the language in the administration or run the setup update."
+            );
+        }
+
+        $res = $db->query(
+            "SELECT identifier, value FROM lng_data WHERE lang_key = " . $db->quote($lang_key, "text") .
+            " AND module = " . $db->quote($module, "text")
+        );
+        $entries = [];
+        while ($rec = $db->fetchAssoc($res)) {
+            $entries[$rec["identifier"]] = $rec["value"];
+        }
+        return $entries;
     }
 
 
@@ -747,19 +849,21 @@ class ilObjLanguage extends ilObject
             $separated = explode($this->separator, trim($val));
             $num = count($separated);
             ++$n;
+            $line = $n + 36;
             if ($num !== 3) {
-                $line = $n + 36;
+                $shown_value = htmlspecialchars(self::toStorableText($val), ENT_QUOTES);
                 $DIC->ui()->mainTemplate()->setOnScreenMessage(
                     'failure',
-                    "Wrong parameter count in " . $lang_file . " in line $line (Value: $val)! Please check your language file!",
+                    "Wrong parameter count in " . $lang_file . " in line $line (Value: $shown_value)! Please check your language file!",
                     true
                 );
                 $DIC->ctrl()->redirectByClass(ilobjlanguagefoldergui::class, 'view');
             }
             if (!ilStr::isUtf8($separated[2])) {
+                $shown_value = htmlspecialchars(self::toStorableText($val), ENT_QUOTES);
                 $DIC->ui()->mainTemplate()->setOnScreenMessage(
                     'failure',
-                    "Non UTF8 character found in " . $lang_file . " in line $line (Value: $val)! Please check your language file!",
+                    "Non UTF8 character found in " . $lang_file . " in line $line (Value: $shown_value)! Please check your language file!",
                     true
                 );
                 $DIC->ctrl()->redirectByClass(ilobjlanguagefoldergui::class, 'view');

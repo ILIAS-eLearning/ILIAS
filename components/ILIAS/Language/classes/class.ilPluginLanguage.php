@@ -24,6 +24,8 @@ declare(strict_types=1);
 class ilPluginLanguage
 {
     protected ilPluginInfo $plugin_info;
+    /** @var list<string> */
+    private array $unstorable_entries_messages = [];
 
     public function __construct(ilPluginInfo $plugin_info)
     {
@@ -90,6 +92,7 @@ class ilPluginLanguage
      */
     public function updateLanguages(?array $a_lang_keys = null): void
     {
+        $this->unstorable_entries_messages = [];
         // get the keys of all installed languages if keys are not provided
         if (!isset($a_lang_keys)) {
             $a_lang_keys = ilObjLanguage::getLangKeysOfInstalledLanguages();
@@ -112,6 +115,7 @@ class ilPluginLanguage
             $local_changes = ilObjLanguage::_getLocalChangesByModule($lang['key'], $prefix);
 
             // get language data
+            $unstorable = [];
             if (is_array($txt)) {
                 foreach ($txt as $row) {
                     if ($row[0] !== "#" && strpos($row, "#:#") > 0) {
@@ -121,17 +125,37 @@ class ilPluginLanguage
 
                         if (isset($local_changes[$identifier])) {
                             $lang_array[$identifier] = $local_changes[$identifier];
+                        } elseif (!ilObjLanguage::isStorableValue($identifier)) {
+                            // such an identifier cannot have a stored row
+                            $unstorable[] = $identifier;
+                        } elseif (!ilObjLanguage::isStorableValue($value)) {
+                            // an older stored value would otherwise remain in lng_data only
+                            ilObjLanguage::deleteLangEntry($prefix, $identifier, $lang["key"]);
+                            $unstorable[] = $identifier;
                         } else {
                             $lang_array[$identifier] = $value;
                             ilObjLanguage::replaceLangEntry($prefix, $identifier, $lang["key"], $value);
                         }
-                        //echo "<br>-$prefix-".$prefix."_".trim($a[0])."-".$lang["key"]."-";
                     }
                 }
             }
 
             ilObjLanguage::replaceLangModule($lang["key"], $prefix, $lang_array);
+            if ($unstorable !== []) {
+                ilObjLanguage::logUnstorableEntries($prefix, $lang["key"], $unstorable);
+                $this->unstorable_entries_messages[] = ilObjLanguage::getUnstorableEntriesMessage(
+                    $prefix,
+                    $lang["key"],
+                    $unstorable
+                );
+            }
         }
+    }
+
+    /** @return list<string> skipped entries of the last updateLanguages() call */
+    public function getUnstorableEntriesMessages(): array
+    {
+        return $this->unstorable_entries_messages;
     }
 
     public function uninstall(): void
