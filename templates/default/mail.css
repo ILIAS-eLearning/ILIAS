@@ -1,3 +1,9 @@
+@charset "UTF-8";
+/*
+ATTENTION!
+This file belongs to the new ‘UI/Layout/Page/Mail’ component.
+This will be used to generate emails starting with ILIAS 12 and currently does NOT affect the styling of emails.
+*/
 .table {
   background-color: #f0f0f0;
   width: 100%;
@@ -13,7 +19,7 @@
 }
 
 .image-data {
-  width: 90px;
+  width: 60px;
 }
 
 td.spacing {
@@ -41,15 +47,11 @@ td.spacing {
 }
 
 .content .spacing {
-  padding: 80px 0;
+  padding: 60px 0;
 }
 
 .content td td {
   background-color: white;
-}
-
-.text-color {
-  color: #4c6586;
 }
 
 .footer .font-definition {
@@ -58,9 +60,11 @@ td.spacing {
 
 .font-definition {
   font-family: "Open Sans", Arial, Helvetica, sans-serif;
-  font-size: 16px;
-  line-height: 22px;
   padding: 30px;
+}
+.font-definitionp {
+  line-height: 22px;
+  font-size: 16px;
 }
 
 body {
@@ -68,6 +72,7 @@ body {
   margin: 0;
   padding: 0;
   width: 100% !important;
+  color: #161616;
   mso-margin-top-alt: 0px;
   mso-margin-bottom-alt: 0px;
   mso-padding-alt: 0px 0px 0px 0px;
@@ -81,11 +86,11 @@ body {
   margin-right: auto;
 }
 
-.w-750 {
-  width: 750px;
+.w-mail {
+  width: 80%;
 }
 
-.link-color {
+a {
   color: #4c6586;
 }
 
@@ -114,8 +119,11 @@ body, table, td, th, p, a, li {
 }
 
 @media only screen and (max-width: 760px) {
-  .w-750 {
-    width: 100%;
+  .w-mail {
+    width: 90%;
+  }
+  .content .spacing {
+    padding: 40px 0;
   }
 }
 
