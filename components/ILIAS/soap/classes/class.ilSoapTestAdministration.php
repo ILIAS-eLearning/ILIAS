@@ -28,12 +28,11 @@ use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
 class ilSoapTestAdministration extends ilSoapAdministration
 {
-    private GeneralQuestionPropertiesRepository $questionrepository;
-    public function __construct(bool $use_nusoap = true)
+    private function getQuestionRepository(): GeneralQuestionPropertiesRepository
     {
-        $this->questionrepository = TestDIC::dic()['question.general_properties.repository'];
-        parent::__construct($use_nusoap);
+        return TestDIC::dic()['question.general_properties.repository'];
     }
+
     private function hasWritePermissionForTest(int $active_id): bool
     {
         global $DIC;
@@ -441,7 +440,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
         $row = $ilDB->fetchAssoc($result);
         $is_random = $row["random_test"];
 
-        $sequence = new ilTestSequence($ilDB, $active_id, $pass, $this->questionrepository);
+        $sequence = new ilTestSequence($ilDB, $active_id, $pass, $this->getQuestionRepository());
         return $sequence->getSequenceForQuestion($question_id);
     }
 
@@ -476,7 +475,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
         $row = $ilDB->fetchAssoc($result);
         $is_random = $row["random_test"];
 
-        $sequence = new ilTestSequence($ilDB, $active_id, $pass, $this->questionrepository);
+        $sequence = new ilTestSequence($ilDB, $active_id, $pass, $this->getQuestionRepository());
         $result = $ilDB->queryF(
             "SELECT question_fi, points FROM tst_test_result WHERE active_fi = %s AND pass = %s",
             array('integer', 'integer'),
@@ -532,7 +531,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
         $row = $ilDB->fetchAssoc($result);
         $is_random = $row["random_test"];
 
-        $sequence = new ilTestSequence($ilDB, $active_id, $pass, $this->questionrepository);
+        $sequence = new ilTestSequence($ilDB, $active_id, $pass, $this->getQuestionRepository());
         return $sequence->getUserQuestionCount();
     }
 
@@ -555,9 +554,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
         }
         global $DIC;
 
-        $rbacsystem = $DIC['rbacsystem'];
-        $tree = $DIC['tree'];
-        $ilLog = $DIC['ilLog'];
+        $ilAccess = $DIC->access();
 
         if (!$this->checkManageParticipantsAccess($test_ref_id)) {
             return $this->raiseError('no permission. Aborting!', 'Client');
@@ -570,6 +567,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
             );
         }
 
+        /** @var ?ilObjTest $tst */
         if (!$tst = ilObjectFactory::getInstanceByRefId($test_ref_id, false)) {
             return $this->raiseError('No test found for id: ' . $test_ref_id, 'Client');
         }
@@ -585,9 +583,9 @@ class ilSoapTestAdministration extends ilSoapAdministration
             $a_user_ids = $a_user_ids['item'];
         }
 
-        $part = new ilTestParticipantData($GLOBALS['DIC']['ilDB'], $GLOBALS['DIC']['lng']);
+        $part = new ilTestParticipantData($DIC->database(), $DIC->language());
         $part->setParticipantAccessFilter(
-            ilTestParticipantAccessFilter::getManageParticipantsUserFilter($test_ref_id)
+            (new ilTestParticipantAccessFilterFactory($ilAccess))->getManageParticipantsUserFilter($test_ref_id)
         );
         $part->setUserIdsFilter((array) $a_user_ids);
         $part->load($tst->getTestId());
@@ -615,9 +613,11 @@ class ilSoapTestAdministration extends ilSoapAdministration
         }
         global $DIC;
 
-        $rbacsystem = $DIC['rbacsystem'];
-        $tree = $DIC['tree'];
-        $ilLog = $DIC['ilLog'];
+        $rbacsystem = $DIC->rbac()->system();
+        $ilAccess = $DIC->access();
+        $ilUser = $DIC->user();
+        $ilLanguage = $DIC->language();
+        $ilDB = $DIC->database();
 
         if (ilObject::_isInTrash($test_ref_id)) {
             return $this->raiseError(
@@ -636,7 +636,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
         $permission_ok = false;
         foreach ($ref_ids = ilObject::_getAllReferences($obj_id) as $ref_id) {
             // use explicit user as the rbacsystem singleton may hold a stale user
-            if ($rbacsystem->checkAccessOfUser($DIC->user()->getId(), 'write', $ref_id)) {
+            if ($rbacsystem->checkAccessOfUser($ilUser->getId(), 'write', $ref_id)) {
                 $permission_ok = true;
                 break;
             }
@@ -662,8 +662,8 @@ class ilSoapTestAdministration extends ilSoapAdministration
         $test_obj = new ilObjTest($obj_id, false);
         $participants = $test_obj->getTestParticipants();
 
-        $accessFilter = ilTestParticipantAccessFilter::getAccessResultsUserFilter($test_ref_id);
-        $participantList = new ilTestParticipantList($test_obj);
+        $accessFilter = (new ilTestParticipantAccessFilterFactory($ilAccess))->getAccessResultsUserFilter($test_ref_id);
+        $participantList = new ilTestParticipantList($test_obj, $ilUser, $ilLanguage, $ilDB);
         $participantList->initializeFromDbRows($participants);
         $participantList = $participantList->getAccessFilteredList($accessFilter);
         $participantList = $participantList->getScoredParticipantList();
