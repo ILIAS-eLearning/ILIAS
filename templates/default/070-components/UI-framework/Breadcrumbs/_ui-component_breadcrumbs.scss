@@ -19,13 +19,15 @@
 		padding: ($il-padding-small-vertical * 2);
 		padding-left: $il-standard-page-content-padding;
 
-		div.breadcrumb-crumb a {
+		// Crumbs render as spans, so use their class instead of an element selector.
+		.breadcrumb-crumb a {
 			color: $il-standard-page-breadcrumbs-color;
 			&:hover {
 				color: $il-standard-page-breadcrumbs-active-color;
 			}
 			@include clear-focus-for-override($clearAfter: true);
-			@include il-focus-outline-only();
+			// Keep the focus ring clear of inline breadcrumb text.
+			@include il-focus-outline-only($outline-offset: $il-focus-outline-outer-width);
 		}
 
 		.breadcrumb-separator {
@@ -71,6 +73,12 @@ $il-breadcrumb-resp-padding-horizontal: 5px;
 .breadcrumb {
 	margin: $il-breadcrumb-margin-top $il-breadcrumb-margin-right $il-breadcrumb-margin-bottom $il-breadcrumb-margin-left;
 	font-size: $il-font-size-small;
+
+	> li > a {
+		@include clear-focus-for-override($clearAfter: true);
+		// Apply the same gap to the legacy list markup.
+		@include il-focus-outline-only($outline-offset: $il-focus-outline-outer-width);
+	}
 
 	> li + li:before {
 		font-family: 'il-icons';

@@ -118,7 +118,9 @@ var mainbar = function() {
                             } else {
                                 mb.model.actions.engageEntry(id);
 
-                                if(state.entries[id].isTopLevel()) {
+                                // Keyboard activation produces a native click with detail 0.
+                                // Move focus after rendering so the newly opened top-level slate is visible.
+                                if(state.entries[id].isTopLevel() && signalData.originalEvent && signalData.originalEvent.detail === 0) {
                                     after_render = function() {
                                         mb.renderer.focusSubentry(id);
                                     };
@@ -919,6 +921,16 @@ var persistence = function() {
                 triggerer.getElement().attr('aria-labelledby', triggerer.html_id);
                 //a11y
 
+            // Slate controls are elsewhere in the DOM. Enter the open slate directly from its trigger.
+            if(slate.html_id) {
+                triggerer.getElement().off('keydown.mainbar-slate').on('keydown.mainbar-slate', function(event) {
+                    // Cancel Tab only after focus moves, so empty or loading slates cannot trap it.
+                    if(event.key === 'Tab' && !event.shiftKey && entry.engaged && actions.focusSubentry(entry.id)) {
+                        event.preventDefault();
+                    }
+                });
+            }
+
             if(entry.hidden) {
                 triggerer.mb_hide(is_tool);
             } else {
@@ -1023,41 +1035,33 @@ var persistence = function() {
             $('.' + css.mainbar_entries).css('visibility', 'visible');
         },
         focusSubentry: function(triggered_entry_id) {
-            var dom_id = dom_references[triggered_entry_id],
-                someting_to_focus_on = $('#' + dom_id.slate)
-                    .children().first()
-                    .children().first();
-            someting_to_focus_on_if_listing = someting_to_focus_on.children().first().children().first();
-            if(someting_to_focus_on[0]) {
-                if(!actions.isFocusable(someting_to_focus_on[0])) {
-                    someting_to_focus_on.attr('tabindex', '-1');
-                    if(someting_to_focus_on_if_listing[0]
-                      && actions.isFocusable(someting_to_focus_on_if_listing[0])) {
-                        someting_to_focus_on_if_listing[0].focus();
-                    }
-                } else {
-                    someting_to_focus_on[0].focus();
+            var ids = dom_references[triggered_entry_id];
+            var slate = document.getElementById(ids.slate);
+            if(!slate) {
+                return false;
+            }
+            for(var control of actions.getTabbableCandidates(slate)) {
+                control.focus();
+                // Hidden controls can pass the candidate filter. Check that focus actually moved.
+                if(document.activeElement === control) {
+                    // From the first focused control, Shift+Tab retraces the jump from the trigger.
+                    $(control).off('keydown.mainbar-slate-first').on('keydown.mainbar-slate-first', function(event) {
+                        if(event.key === 'Tab' && event.shiftKey) {
+                            actions.focusTopentry(triggered_entry_id);
+                            if(document.activeElement.id === ids.triggerer) {
+                                event.preventDefault();
+                            }
+                        }
+                    });
+                    return true;
                 }
             }
+            return false;
         },
-
-        /**
-         * this replaces the :focusable selector from https://api.jqueryui.com/focusable-selector/
-         */
-        isFocusable: function(element) {
-            return (
-                (   element instanceof HTMLInputElement
-                    || element instanceof HTMLSelectElement
-                    || element instanceof HTMLTextAreaElement
-                    || element instanceof HTMLButtonElement
-                )
-                && element.getAttribute('disabled') === null
-            )
-            || element.getAttribute('href') !== null
-            || (
-                element.getAttribute('tabindex') !== null
-                && element.getAttribute('tabindex') !== -1
-            );
+        getTabbableCandidates: function(slate) {
+            // Slate layouts vary, so look for controls throughout the slate in DOM order.
+            var controls = slate.querySelectorAll('a[href], button, input, select, textarea, [tabindex]');
+            return Array.from(controls).filter((element) => element.tabIndex >= 0 && !element.matches(':disabled'));
         },
         focusTopentry: function(top_entry_id) {
             var  triggerer = dom_references[top_entry_id];
