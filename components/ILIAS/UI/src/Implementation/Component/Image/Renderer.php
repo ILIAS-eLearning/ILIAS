@@ -68,6 +68,12 @@ class Renderer extends AbstractComponentRenderer
                 $tpl->setCurrentBlock("with_href");
                 $tpl->setVariable("HREF", $component->getAction());
                 $tpl->parseCurrentBlock();
+
+                if ($component->getOpenInNewViewport()) {
+                    $tpl->setCurrentBlock("with_target");
+                    $tpl->setVariable("TARGET", "_blank");
+                    $tpl->parseCurrentBlock();
+                }
             }
 
             if (is_array($component->getAction())) {
