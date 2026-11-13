@@ -44,12 +44,6 @@ msgstr "Threshold"
 msgid "cron_news_delete_old_threshold_info"
 msgstr "All news items older than the specified period will be deleted. The creation date is used as the criterion. Comments or any attached media from manually created news items will also be permanently deleted."
 
-msgid "lso_news_online_title"
-msgstr "新しい学習シーケンスオブジェクトはオンラインです!"
-
-msgid "lso_news_online_txt"
-msgstr "学習シーケンス用の新しいオブジェクトは公開されたばかりです。"
-
 msgid "new_test_online"
 msgstr "オンラインに設定されました。"
 
