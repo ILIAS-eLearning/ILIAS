@@ -40,10 +40,12 @@ class GroupReferenceObjectPropertiesProviders implements ilObjectTypeSpecificPro
         IconFactory $icon_factory,
         StorageService $irss
     ): ?CustomIcon {
-        $category = new ilObjGroup(
-            ilContainerReference::_lookupTargetId($obj_id),
-            false
-        );
+        $target_obj_id = ilContainerReference::_lookupTargetId($obj_id);
+        if (ilObject::_lookupType($target_obj_id) !== 'grp') {
+            return null;
+        }
+
+        $category = new ilObjGroup($target_obj_id, false);
 
         /** @var ilObjectCustomIcon $custom_icon */
         $custom_icon = $category->getObjectProperties()->getPropertyIcon()->getCustomIcon();

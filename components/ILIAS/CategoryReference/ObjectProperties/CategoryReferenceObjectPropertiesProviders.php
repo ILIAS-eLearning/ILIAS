@@ -40,10 +40,12 @@ class CategoryReferenceObjectPropertiesProviders implements ilObjectTypeSpecific
         IconFactory $icon_factory,
         StorageService $irss
     ): ?CustomIcon {
-        $category = new ilObjCategory(
-            ilContainerReference::_lookupTargetId($obj_id),
-            false
-        );
+        $target_obj_id = ilContainerReference::_lookupTargetId($obj_id);
+        if (ilObject::_lookupType($target_obj_id) !== 'cat') {
+            return null;
+        }
+
+        $category = new ilObjCategory($target_obj_id, false);
 
         /** @var ilObjectCustomIcon $custom_icon */
         $custom_icon = $category->getObjectProperties()->getPropertyIcon()->getCustomIcon();
