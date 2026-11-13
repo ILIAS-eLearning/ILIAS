@@ -83,6 +83,12 @@ msgstr "Zeitraum für Neuigkeiten in Container-Objekten"
 msgid "news_co_period_info"
 msgstr "Legen Sie den Standardzeitraum fest, für den Neuigkeiten in Container-Objekten angezeigt werden. Diese Einstellung kann für jedes Objekt individuell überschrieben werden. Wählen Sie einen kürzeren Zeitraum, wenn Sie Performanzprobleme haben."
 
+msgid "news_co_period_object"
+msgstr "Zeitraum für Neuigkeiten"
+
+msgid "news_co_period_object_info"
+msgstr "Legen Sie fest, wie lange Neuigkeiten in diesem Objekt angezeigt werden. Der hier ausgewählte Wert überschreibt den globalen Wert (siehe unten)."
+
 msgid "news_container_object_visibility_settings"
 msgstr "Sichtbarkeitseinstellungen für Neuigkeiten in Container-Objekten"
 
@@ -225,7 +231,7 @@ msgid "news_nr_of_items_info"
 msgstr "Anzahl der Neuigkeiten, die für ein Objekt (z. B. eine Datei oder ein Lernmodul) in der Datenbank vorgehalten werden. Beachten Sie bitte, dass Containerobjekte wie Kategorien oder Kurse mehr Neuigkeiten enthalten können, da Sie auch die Neuigkeiten ihrer Unterobjekte anzeigen."
 
 msgid "news_old_period"
-msgstr "Wert für '%s': %s"
+msgstr "Globaler Wert für '%s': %s"
 
 msgid "news_pd_period"
 msgstr "Zeitraum für Neuigkeitenanzeige auf dem Dashboard"

@@ -216,9 +216,9 @@ class ilContainerNewsSettingsGUI
             $radio->addOption($opt_per_date);
 
             $opt_by_period = new ilRadioOption($this->lng->txt("news_hide_news_by_period"), "by_period");
-            $per_sel = new ilSelectInputGUI($this->lng->txt("news_co_period"), "news_co_period");
+            $per_sel = new ilSelectInputGUI($this->lng->txt("news_co_period_object"), "news_co_period");
             $per_sel->setRequired(true);
-            $per_sel->setInfo($this->lng->txt("news_co_period_info"));
+            $per_sel->setInfo($this->lng->txt("news_co_period_object_info"));
             $per_sel->setOptions([
                 7 => "1 {$this->lng->txt("week")}",
                 30 => "1 {$this->lng->txt("month")}",
