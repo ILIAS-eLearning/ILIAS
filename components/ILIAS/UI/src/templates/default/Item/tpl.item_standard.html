@@ -35,7 +35,7 @@
 		</div>
 		<div class="media-body">
 			<!-- END lead_start_icon -->
-			<h4 class="il-item-title">{TITLE}</h4>
+			<h{HEADING_LEVEL} class="il-item-title">{TITLE}</h{HEADING_LEVEL}>
 			<!-- BEGIN action_bar -->
 			<div class="il-item-actions l-bar__space-keeper">
 				<!-- BEGIN main_action --><div class="l-bar__element">{MAIN_ACTION}</div><!-- END main_action -->
@@ -48,16 +48,18 @@
 			<div class="il-item-audio">{AUDIO}</div><!-- END audio -->
 			<!-- BEGIN properties -->
 			<hr class="il-item-divider" />
+			<dl class="il-item-properties">
 			<!-- BEGIN property_row -->
 			<div class="row">
 				<div class="col-md-6 il-multi-line-cap-3">
-					<span class="il-item-property-name">{PROP_NAME_A}</span><span class="il-item-property-value">{PROP_VAL_A}</span>
+					<dt class="il-item-property-name">{PROP_NAME_A}</dt><dd class="il-item-property-value">{PROP_VAL_A}</dd>
 				</div>
 				<div class="col-md-6 il-multi-line-cap-3">
-					<span class="il-item-property-name">{PROP_NAME_B}</span><span class="il-item-property-value">{PROP_VAL_B}</span>
+					<dt class="il-item-property-name">{PROP_NAME_B}</dt><dd class="il-item-property-value">{PROP_VAL_B}</dd>
 				</div>
 			</div>
 			<!-- END property_row -->
+			</dl>
 			<!-- END properties -->
 			<!-- BEGIN progress_end_with_lead_icon -->
 		</div>

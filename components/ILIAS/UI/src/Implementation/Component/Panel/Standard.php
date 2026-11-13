@@ -30,4 +30,5 @@ use ILIAS\UI\Component as C;
 class Standard extends Panel implements C\Panel\Standard
 {
     use HasViewControls;
+    use IsExpandable;
 }
