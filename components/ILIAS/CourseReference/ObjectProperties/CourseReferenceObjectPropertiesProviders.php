@@ -40,10 +40,12 @@ class CourseReferenceObjectPropertiesProviders implements ObjectTypeSpecificProp
         IconFactory $factory,
         StorageService $irss
     ): ?CustomIcon {
-        $course = new ilObjCourse(
-            ilObjCategoryReference::_lookupTargetId($object_id),
-            false
-        );
+        $target_obj_id = ilObjCategoryReference::_lookupTargetId($object_id);
+        if (ilObject::_lookupType($target_obj_id) !== 'crs') {
+            return null;
+        }
+
+        $course = new ilObjCourse($target_obj_id, false);
 
         $custom_icon = $course->getObjectProperties()->getPropertyIcon()->getCustomIcon();
         if ($custom_icon?->exists()) {
