@@ -22,23 +22,23 @@ namespace ILIAS\UI\Implementation\Component\ViewControl;
 
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
-use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Button\Month;
 use ILIAS\UI\Component\Button\Button;
+use ILIAS\UI\Component\Dropdown\Standard as StandardDropdown;
 
 class Section implements C\ViewControl\Section
 {
     use ComponentHelper;
 
     protected Button $previous_action;
-    protected Component $button;
+    protected Button|Month|StandardDropdown $button;
     protected Button $next_action;
 
-    public function __construct(Button $previous_action, Component $button, Button $next_action)
-    {
-        if (!$button instanceof Month) {
-            $this->checkArgInstanceOf("button", $button, Button::class);
-        }
+    public function __construct(
+        Button $previous_action,
+        Button|Month|StandardDropdown $button,
+        Button $next_action
+    ) {
         $this->previous_action = $previous_action;
         $this->button = $button;
         $this->next_action = $next_action;
@@ -61,11 +61,10 @@ class Section implements C\ViewControl\Section
     }
 
     /**
-     * Returns the Default-Button placed in the middle of the control
-     *
-     * @return Component the Default-Button placed in the middle of the control
+     * Returns the Default-, Month Button or Dropdown placed in the middle of the control.
+     * @return Button|Month|StandardDropdown the Default-Button placed in the middle of the control
      */
-    public function getSelectorButton(): Component
+    public function getSelectorButton(): Button|Month|StandardDropdown
     {
         return $this->button;
     }
