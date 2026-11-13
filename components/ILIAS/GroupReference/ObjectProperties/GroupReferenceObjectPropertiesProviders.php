@@ -40,19 +40,12 @@ class GroupReferenceObjectPropertiesProviders implements ObjectTypeSpecificPrope
         IconFactory $factory,
         StorageService $irss
     ): ?CustomIcon {
-<<<<<<< HEAD
-        $category = new ilObjGroup(
-            ilContainerReference::_lookupTargetId($object_id),
-            false
-        );
-=======
-        $target_obj_id = ilContainerReference::_lookupTargetId($obj_id);
+        $target_obj_id = ilContainerReference::_lookupTargetId($object_id);
         if (ilObject::_lookupType($target_obj_id) !== 'grp') {
             return null;
         }
 
         $category = new ilObjGroup($target_obj_id, false);
->>>>>>> 6bc6fd9dd11 (48743: Course crash on category reference with wrong target type)
 
         $custom_icon = $category->getObjectProperties()->getPropertyIcon()->getCustomIcon();
         if ($custom_icon?->exists()) {
