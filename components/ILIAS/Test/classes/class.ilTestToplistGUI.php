@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Participants\ParticipantRepository;
 use ILIAS\Test\Results\Toplist\TestTopListRepository;
 use ILIAS\Test\Results\Toplist\DataRetrieval;
 use ILIAS\Test\Results\Toplist\TopListOrder;
@@ -45,7 +46,8 @@ class ilTestToplistGUI
         protected readonly UIFactory $ui_factory,
         protected readonly UIRenderer $ui_renderer,
         protected readonly DataFactory $data_factory,
-        protected readonly GlobalHttpState $http_state
+        protected readonly GlobalHttpState $http_state,
+        protected readonly ParticipantRepository $participant_repository
     ) {
     }
 
@@ -127,6 +129,7 @@ class ilTestToplistGUI
         $table = new DataRetrieval(
             $this->test_obj,
             $this->repository,
+            $this->participant_repository,
             $this->lng,
             $this->user,
             $this->ui_factory,

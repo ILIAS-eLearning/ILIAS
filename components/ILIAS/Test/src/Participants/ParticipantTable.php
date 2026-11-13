@@ -112,9 +112,9 @@ class ParticipantTable implements DataRetrieval
             $status_of_attempt = $record->getAttemptOverviewInformation()?->getStatusOfAttempt() ?? StatusOfAttempt::NOT_YET_STARTED;
 
             $row = [
-                'name' => $record->getDisplayName($this->lng, $this->test_object->getAnonymity()),
-                'login' => $record->getLogin(),
-                'matriculation' => $record->getMatriculation(),
+                'name' => $record->getUser()->getDisplayName($this->lng, $this->test_object->getAnonymity()),
+                'login' => $record->getUser()->getLogin(),
+                'matriculation' => $record->getUser()->getMatriculation(),
                 'total_time_on_task' => $record->getAttemptOverviewInformation()?->getHumanReadableTotalTimeOnTask() ?? '',
                 'status_of_attempt' => $this->lng->txt($status_of_attempt->value),
                 'id_of_attempt' => $record->getAttemptOverviewInformation()?->getExamId(),
@@ -161,7 +161,7 @@ class ParticipantTable implements DataRetrieval
 
             yield $this->table_actions->onDataRow(
                 $row_builder->buildDataRow(
-                    "{$record->getUserId()}_{$record->getActiveId()}",
+                    "{$record->getUser()->getUserId()}_{$record->getActiveId()}",
                     $row
                 ),
                 $record
@@ -252,7 +252,7 @@ class ParticipantTable implements DataRetrieval
             'matriculation' => static fn(
                 Participant $a,
                 Participant $b
-            ) => $a->getMatriculation() <=> $b->getMatriculation(),
+            ) => $a->getUser()->getMatriculation() <=> $b->getUser()->getMatriculation(),
             'id_of_attempt' => static fn(
                 Participant $a,
                 Participant $b
@@ -461,7 +461,7 @@ class ParticipantTable implements DataRetrieval
         $this->records = array_filter(
             $records,
             fn(Participant $participant) => in_array(
-                $participant->getUserId(),
+                $participant->getUser()->getUserId(),
                 $this->buildAccessFilteredParticipantsList($records)
             )
         );
@@ -481,7 +481,7 @@ class ParticipantTable implements DataRetrieval
         $access_results_access_filter = $this->participant_access_filter
             ->getAccessResultsUserFilter($this->test_object->getRefId());
         $participant_ids = array_map(
-            fn(Participant $participant) => $participant->getUserId(),
+            fn(Participant $participant) => $participant->getUser()->getUserId(),
             $records
         );
         return $manage_access_filter($participant_ids) + $access_results_access_filter($participant_ids);

@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\Test\RequestDataCollector;
 use ILIAS\Test\Logging\TestLogger;
+use ILIAS\Test\Participants\ParticipantRepository;
 use ILIAS\Test\Results\Data\Factory as ResultsDataFactory;
 use ILIAS\Test\Results\Presentation\Factory as ResultsPresentationFactory;
 use ILIAS\Test\Results\Presentation\TitlesBuilder as ResultsTitlesBuilder;
@@ -97,6 +98,7 @@ class ilTestServiceGUI
     protected ?ilTestSequenceFactory $test_sequence_factory = null;
     protected ?ilTestParticipantData $participantData = null;
     protected TestResultRepository $test_pass_result_repository;
+    protected ParticipantRepository $participant_repository;
 
     protected ilTestParticipantAccessFilterFactory $participant_access_filter;
 
@@ -161,6 +163,7 @@ class ilTestServiceGUI
         $this->questionrepository = $local_dic['question.general_properties.repository'];
         $this->testquestionsrepository = $local_dic['questions.properties.repository'];
         $this->test_pass_result_repository = $local_dic['results.data.test_result_repository'];
+        $this->participant_repository = $local_dic['participant.repository'];
 
         $this->service = new ilTestService($this->object, $this->db, $this->questionrepository);
 
