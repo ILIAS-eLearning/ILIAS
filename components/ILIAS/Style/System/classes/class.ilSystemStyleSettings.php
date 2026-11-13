@@ -273,7 +273,7 @@ class ilSystemStyleSettings
     {
         $system_style_conf = new ilSystemStyleConfig();
 
-        self::setCurrentDefaultStyle($system_style_conf->getDefaultSkinId(), $system_style_conf->getDefaultSkinId());
+        self::setCurrentDefaultStyle($system_style_conf->getDefaultSkinId(), $system_style_conf->getDefaultStyleId());
     }
 
     /**
