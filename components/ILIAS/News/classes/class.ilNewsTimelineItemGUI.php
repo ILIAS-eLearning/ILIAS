@@ -109,7 +109,7 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         $obj_id = $this->news_item->getContextObjId();
 
         // edited?
-        if ($this->news_item->getCreationDate() !== $this->news_item->getUpdateDate()) {
+        if ($this->news_item->getCreationDate() != $this->news_item->getUpdateDate()) {
             $tpl->setCurrentBlock("edited");
             $update_date = new ilDateTime($this->news_item->getUpdateDate()->format('c'), IL_CAL_DATETIME);
             $tpl->setVariable("TXT_EDITED", $this->lng->txt("cont_news_edited"));
