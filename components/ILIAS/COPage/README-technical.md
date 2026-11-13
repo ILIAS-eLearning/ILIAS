@@ -87,7 +87,7 @@ public function init()
 
 **Embedding in ilCtrl control flow**
 
-Depending on where you want to use the presentation or editing features of the component, you will need to init and embed your {BASIC_CLASS_NAME}GUI in your `executeCommand()` methods.
+Depending on where you want to use the presentation or editing features of the component, you will need to init and embed your {BASIC_CLASS_NAME}GUI in your `executeCommand()` methods. Ensure to call `setEnableEditing()` according to the permissions of the context.
 
 A good example for how this can be done is `components/ILIAS/ContentPage/classes/class.ilContentPagePageCommandForwarder.php`.
 
