@@ -78,6 +78,9 @@ class ilSAHSMigration implements Migration
                 FROM " . self::TABLE_NAME . " lm
                 LEFT JOIN object_data ON object_data.obj_id = lm.id
                 WHERE rid IS NULL OR rid = ''
+                ORDER BY
+                    COALESCE(object_data.last_update, object_data.create_date) DESC,
+                    lm.id DESC
                 LIMIT 1;"
         );
 
