@@ -236,7 +236,6 @@ CVSS-Score: Optional: If you have a cvss estimation (3.1 or 4.0) please let us k
 [//]: # (BEGIN contributors)
 
 * Robin Baumgartner, sr solutions ag, Burgdorf, Switzerland
-* Tim Bongers, CaT Concepts and Training GmbH, Cologne, Germany
 * Alex Hartwig, Qualitus GmbH, Cologne, Germany
 * Matthias Kunkel, ILIAS open source e-Learning e.V., Cologne, Germany
 * Lukas Scharmer, Databay AG, Würselen, Germany
