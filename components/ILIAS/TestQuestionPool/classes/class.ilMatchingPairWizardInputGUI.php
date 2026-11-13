@@ -16,7 +16,6 @@
  *
  *********************************************************************/
 
-use ILIAS\TestQuestionPool\QuestionPoolDIC;
 use ILIAS\TestQuestionPool\ilTestLegacyFormsHelper;
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Component\Symbol\Glyph\Factory as GlyphFactory;
@@ -142,7 +141,6 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
      */
     public function checkInput(): bool
     {
-        $to_int = $this->refinery->kindlyTo()->int();
         $data = $this->raw($this->getPostVar());
 
         if (!is_array($data)) {
@@ -157,14 +155,25 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
             return false;
         }
 
+        if (!$this->getRequired()) {
+            return $this->checkSubItemsInput();
+        }
+
         // check answers
+        $to_int = $this->refinery->kindlyTo()->int();
         $terms = $this->forms_helper->transformArray($data, 'term', $to_int);
         $definitions = $this->forms_helper->transformArray($data, 'definition', $to_int);
-        foreach ([$terms, $definitions] as $value) {
-            if ($value < 1 && $this->getRequired()) {
-                $this->setAlert($this->lng->txt('msg_input_is_required'));
-                return false;
+        $points_keys = array_keys(
+            $this->forms_helper->transformArray($data, 'points', $this->refinery->kindlyTo()->float())
+        );
+
+        foreach ($points_keys as $key) {
+            if (($terms[$key] ?? 0) >= 1 && ($definitions[$key] ?? 0) >= 1) {
+                continue;
             }
+
+            $this->setAlert($this->lng->txt('msg_input_is_required'));
+            return false;
         }
 
         return $this->checkSubItemsInput();

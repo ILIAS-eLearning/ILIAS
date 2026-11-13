@@ -139,64 +139,81 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $this->rebuildThumbnails();
 
         $this->db->manipulateF(
-            "DELETE FROM qpl_a_mterm WHERE question_fi = %s",
-            [ 'integer' ],
-            [ $this->getId() ]
+            'DELETE FROM qpl_a_mterm WHERE question_fi = %s',
+            [ilDBConstants::T_INTEGER],
+            [$this->getId()]
         );
 
         // delete old definitions
         $this->db->manipulateF(
-            "DELETE FROM qpl_a_mdef WHERE question_fi = %s",
-            [ 'integer' ],
-            [ $this->getId() ]
+            'DELETE FROM qpl_a_mdef WHERE question_fi = %s',
+            [ilDBConstants::T_INTEGER],
+            [$this->getId()]
         );
 
         $termids = [];
         // write terms
-        foreach ($this->terms as $key => $term) {
+        foreach ($this->terms as $term) {
             $next_id = $this->db->nextId('qpl_a_mterm');
-            $this->db->insert('qpl_a_mterm', [
-                'term_id' => ['integer', $next_id],
-                'question_fi' => ['integer', $this->getId()],
-                'picture' => ['text', $term->getPicture()],
-                'term' => ['text', $term->getText()],
-                'ident' => ['integer', $term->getIdentifier()]
-            ]);
+            $this->db->insert(
+                'qpl_a_mterm',
+                [
+                    'term_id' => [ilDBConstants::T_INTEGER, $next_id],
+                    'question_fi' => [ilDBConstants::T_INTEGER, $this->getId()],
+                    'picture' => [ilDBConstants::T_TEXT, $term->getPicture()],
+                    'term' => [ilDBConstants::T_TEXT, $term->getText()],
+                    'ident' => [ilDBConstants::T_INTEGER, $term->getIdentifier()]
+                ]
+            );
             $termids[$term->getIdentifier()] = $next_id;
         }
 
         $definitionids = [];
         // write definitions
-        foreach ($this->definitions as $key => $definition) {
+        foreach ($this->definitions as $definition) {
             $next_id = $this->db->nextId('qpl_a_mdef');
-            $this->db->insert('qpl_a_mdef', [
-                'def_id' => ['integer', $next_id],
-                'question_fi' => ['integer', $this->getId()],
-                'picture' => ['text', $definition->getPicture()],
-                'definition' => ['text', $definition->getText()],
-                'ident' => ['integer', $definition->getIdentifier()]
-            ]);
+            $this->db->insert(
+                'qpl_a_mdef',
+                [
+                    'def_id' => [ilDBConstants::T_INTEGER, $next_id],
+                    'question_fi' => [ilDBConstants::T_INTEGER, $this->getId()],
+                    'picture' => [ilDBConstants::T_TEXT, $definition->getPicture()],
+                    'definition' => [ilDBConstants::T_TEXT, $definition->getText()],
+                    'ident' => [ilDBConstants::T_INTEGER, $definition->getIdentifier()]
+                ]
+            );
             $definitionids[$definition->getIdentifier()] = $next_id;
         }
 
         $this->db->manipulateF(
-            "DELETE FROM qpl_a_matching WHERE question_fi = %s",
-            [ 'integer' ],
-            [ $this->getId() ]
+            'DELETE FROM qpl_a_matching WHERE question_fi = %s',
+            [ilDBConstants::T_INTEGER],
+            [$this->getId()]
         );
-        $matchingpairs = $this->getMatchingPairs();
-        foreach ($matchingpairs as $key => $pair) {
-            $next_id = $this->db->nextId('qpl_a_matching');
+
+        foreach ($this->getMatchingPairs() as $pair) {
+            $term_id = $termids[$pair->getTerm()->getIdentifier()] ?? null;
+            $definition_id = $definitionids[$pair->getDefinition()->getIdentifier()] ?? null;
+            if ($term_id === null || $definition_id === null) {
+                continue;
+            }
+
             $this->db->manipulateF(
-                "INSERT INTO qpl_a_matching (answer_id, question_fi, points, term_fi, definition_fi) VALUES (%s, %s, %s, %s, %s)",
-                [ 'integer', 'integer', 'float', 'integer', 'integer' ],
+                'INSERT INTO qpl_a_matching (answer_id, question_fi, points, term_fi, definition_fi) VALUES (%s, %s, %s, %s, %s)',
                 [
-                                    $next_id,
-                                    $this->getId(),
-                                    $pair->getPoints(),
-                                    $termids[$pair->getTerm()->getIdentifier()],
-                                    $definitionids[$pair->getDefinition()->getIdentifier()]
-                                ]
+                    ilDBConstants::T_INTEGER,
+                    ilDBConstants::T_INTEGER,
+                    ilDBConstants::T_FLOAT,
+                    ilDBConstants::T_INTEGER,
+                    ilDBConstants::T_INTEGER
+                ],
+                [
+                    $this->db->nextId('qpl_a_matching'),
+                    $this->getId(),
+                    $pair->getPoints(),
+                    $term_id,
+                    $definition_id
+                ]
             );
         }
     }

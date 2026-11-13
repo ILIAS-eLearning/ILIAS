@@ -16,6 +16,12 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Language\Language;
+
 /**
 * Unit tests
 *
@@ -38,11 +44,89 @@ class ilMatchingPairWizardInputGUITest extends assBaseTestCase
         $this->addGlobal_uiFactory();
         $this->addGlobal_uiRenderer();
 
-        $this->object = new ilMatchingPairWizardInputGUI();
+        $lng_mock = $this->getMockBuilder(Language::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->setGlobalVariable('refinery', new Refinery(new DataFactory(), $lng_mock));
+
+        $this->object = new ilMatchingPairWizardInputGUI('', 'pairs');
+        $this->object->setRequired(true);
     }
 
     public function testConstruct(): void
     {
         $this->assertInstanceOf(ilMatchingPairWizardInputGUI::class, $this->object);
+    }
+
+    /**
+     * @dataProvider checkInputDataProvider
+     */
+    public function testCheckInput(array $data, bool $expected): void
+    {
+        $this->object->setRequestParam('pairs', $data);
+
+        $this->assertSame($expected, $this->object->checkInput());
+    }
+
+    public static function checkInputDataProvider(): array
+    {
+        return [
+            'all rows valid' => [
+                [
+                    'points' => ['0' => '1'],
+                    'term' => ['0' => '75904'],
+                    'definition' => ['0' => '15104'],
+                ],
+                true,
+            ],
+            'minimum valid identifier value one' => [
+                [
+                    'points' => ['0' => '1'],
+                    'term' => ['0' => '1'],
+                    'definition' => ['0' => '1'],
+                ],
+                true,
+            ],
+            'term please select' => [
+                [
+                    'points' => ['0' => '1'],
+                    'term' => ['0' => '0'],
+                    'definition' => ['0' => '15104'],
+                ],
+                false,
+            ],
+            'definition please select' => [
+                [
+                    'points' => ['0' => '1'],
+                    'term' => ['0' => '75904'],
+                    'definition' => ['0' => '0'],
+                ],
+                false,
+            ],
+            'mantis reported case with extra empty pair row' => [
+                [
+                    'points' => ['0' => '1', '1' => '1'],
+                    'term' => ['0' => '75904', '1' => '0'],
+                    'definition' => ['0' => '15104', '1' => '0'],
+                ],
+                false,
+            ],
+            'missing term key for row' => [
+                [
+                    'points' => ['0' => '1', '1' => '1'],
+                    'term' => ['0' => '75904'],
+                    'definition' => ['0' => '15104', '1' => '28131'],
+                ],
+                false,
+            ],
+            'non-integer term value' => [
+                [
+                    'points' => ['0' => '1'],
+                    'term' => ['0' => 'not-an-id'],
+                    'definition' => ['0' => '15104'],
+                ],
+                false,
+            ],
+        ];
     }
 }
