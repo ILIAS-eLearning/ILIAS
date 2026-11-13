@@ -22,6 +22,10 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
+use ILIAS\ILIASObject\Definition\ObjectTypeSource;
+use ILIAS\ILIASObject\Definition\ObjectGroup;
+use ILIAS\ILIASObject\Definition\ObjectTypeRegistry;
 
 class ILIASObject implements Component\Component
 {
@@ -35,9 +39,17 @@ class ILIASObject implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
+        $provide[ObjectTypeRegistry::class] = static fn(): ObjectTypeRegistry =>
+            new ObjectTypeRegistry(
+                $seek[ObjectType::class],
+                $seek[ObjectTypeSource::class],
+                $seek[ObjectGroup::class]
+            );
+
         $contribute[\ILIAS\Setup\Agent::class] = static fn() =>
             new \ILIAS\ILIASObject\Setup\Agent(
-                $pull[\ILIAS\Refinery\Factory::class]
+                $pull[\ILIAS\Refinery\Factory::class],
+                $seek[ObjectType::class]
             );
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "ilContainer.js");
@@ -47,5 +59,7 @@ class ILIASObject implements Component\Component
             $this,
             'obj'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new ILIASObject\ObjectType\ObjectFolderObjectType();
     }
 }

@@ -22,6 +22,9 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
+use ILIAS\Administration\Node\AdministrationNode;
+use ILIAS\Administration\Settings\ExternalSettings;
 
 class Calendar implements Component\Component
 {
@@ -66,5 +69,11 @@ class Calendar implements Component\Component
             $this,
             'dateplaner'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Calendar\ObjectType\CalendarSettingsObjectType();
+
+        $contribute[AdministrationNode::class] = static fn(): AdministrationNode => new Calendar\AdministrationNode\CalendarSettingsAdministrationNode();
+        $contribute[ExternalSettings::class] = static fn(): ExternalSettings => new Calendar\AdministrationNode\CalendarSettingsExternalSettings();
+
     }
 }

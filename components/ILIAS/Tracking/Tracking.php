@@ -25,6 +25,9 @@ use ILIAS\Setup\Agent as SetupAgentInterface;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
+use ILIAS\Administration\Node\AdministrationNode;
+use ILIAS\Administration\Settings\ExternalSettings;
 
 class Tracking implements Component\Component
 {
@@ -43,5 +46,11 @@ class Tracking implements Component\Component
             $this,
             'trac'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Tracking\ObjectType\UserTrackingObjectType();
+
+        $contribute[AdministrationNode::class] = static fn(): AdministrationNode => new Tracking\AdministrationNode\UserTrackingAdministrationNode();
+        $contribute[ExternalSettings::class] = static fn(): ExternalSettings => new Tracking\AdministrationNode\UserTrackingExternalSettings();
+
     }
 }

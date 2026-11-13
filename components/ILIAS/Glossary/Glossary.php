@@ -22,6 +22,8 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectGroup;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class Glossary implements Component\Component
 {
@@ -43,5 +45,8 @@ class Glossary implements Component\Component
             $this,
             'glo'
         );
+
+        $contribute[ObjectGroup::class] = static fn(): ObjectGroup => new Glossary\ObjectType\GlossariesObjectGroup();
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Glossary\ObjectType\GlossaryObjectType();
     }
 }

@@ -22,6 +22,8 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
+use ILIAS\Administration\Node\AdministrationNode;
 
 class ContentPage implements Component\Component
 {
@@ -47,5 +49,10 @@ class ContentPage implements Component\Component
             $this,
             'copa'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new ContentPage\ObjectType\ContentPageObjectType();
+        $contribute[ObjectType::class] = static fn(): ObjectType => new ContentPage\ObjectType\ContentPageAdministrationObjectType();
+
+        $contribute[AdministrationNode::class] = static fn(): AdministrationNode => new ContentPage\AdministrationNode\ContentPageAdministrationAdministrationNode();
     }
 }

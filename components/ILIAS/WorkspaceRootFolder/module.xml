@@ -3,9 +3,4 @@
 	id="wsrt">
 	<baseclasses>
 	</baseclasses>
-	<objects>
-		<object id="wsrt" class_name="WorkspaceRootFolder" dir="classes" checkbox="0" inherit="0"
-			translate="0" rbac="0" system="1" repository="0" workspace="1">
-		</object>
-	</objects>
 </module>

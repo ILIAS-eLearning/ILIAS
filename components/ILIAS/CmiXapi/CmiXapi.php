@@ -22,6 +22,8 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
+use ILIAS\Administration\Node\AdministrationNode;
 
 class CmiXapi implements Component\Component
 {
@@ -55,5 +57,11 @@ class CmiXapi implements Component\Component
             $this,
             'cmix'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new CmiXapi\ObjectType\CmiXapiObjectType();
+        $contribute[ObjectType::class] = static fn(): ObjectType => new CmiXapi\ObjectType\CmiXapiAdministrationObjectType();
+        $contribute[ObjectType::class] = static fn(): ObjectType => new CmiXapi\ObjectType\CmiXapiVerificationObjectType();
+
+        $contribute[AdministrationNode::class] = static fn(): AdministrationNode => new CmiXapi\AdministrationNode\CmiXapiAdministrationAdministrationNode();
     }
 }

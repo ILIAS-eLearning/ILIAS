@@ -22,6 +22,8 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
+use ILIAS\Administration\Node\AdministrationNode;
 
 class Awareness implements Component\Component
 {
@@ -43,5 +45,9 @@ class Awareness implements Component\Component
             $this,
             'awrn'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Awareness\ObjectType\AwarenessAdministrationObjectType();
+
+        $contribute[AdministrationNode::class] = static fn(): AdministrationNode => new Awareness\AdministrationNode\AwarenessAdministrationAdministrationNode();
     }
 }

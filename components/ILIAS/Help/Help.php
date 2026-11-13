@@ -22,6 +22,8 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
+use ILIAS\Administration\Node\AdministrationNode;
 
 class Help implements Component\Component
 {
@@ -54,5 +56,10 @@ class Help implements Component\Component
             $this,
             'help'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Help\ObjectType\HelpSettingsObjectType();
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Help\ObjectType\GuidedTourObjectType();
+
+        $contribute[AdministrationNode::class] = static fn(): AdministrationNode => new Help\AdministrationNode\HelpSettingsAdministrationNode();
     }
 }

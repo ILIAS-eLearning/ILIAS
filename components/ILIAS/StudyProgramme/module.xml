@@ -3,24 +3,7 @@
 	id="prg">
 	<baseclasses>
 	</baseclasses>
-	<objectgroups>
-		<objectgroup id="prg" name="StudyProgramme" default_pres_pos="30"/>
-	</objectgroups>
 	<objects>
-		<object id="prg" class_name="StudyProgramme" dir="classes" default_pos="30" default_pres_pos="30" checkbox="1" inherit="1" translate="db" allow_link="0" allow_copy="1" rbac="1" export="0" workspace="0" repository="1" orgunit_permissions="1">
-			<subobj id="rolf" max="1">rolf</subobj>
-			<subobj id="crsr" max="1">crsr</subobj>
-
-			<sub_type id="prg_type" amet="1" />
-
-			<parent id="prg">prg</parent>
-			<parent id="cat">cat</parent>
-			<parent id="recf">recf</parent>
-			<parent id="root">root</parent>
-		</object>
-		<object id="prgs" class_name="StudyProgrammeAdmin" dir="classes" checkbox="0" inherit="0" translate="sys" rbac="1" system="1" administration="1">
-			<parent id="adm" max="1">adm</parent>
-		</object>
 		<copage>
 			<pagecontent pc_type="prgstatusinfo" name="PRGStatusInfo" directory="classes/PageEditor" int_links="0" style_classes="0" xsl="0" def_enabled="0" top_item="1" order_nr="127"/>
 			<pagecontent pc_type="prgactionnote" name="PRGActionNote" directory="classes/PageEditor" int_links="0" style_classes="0" xsl="0" def_enabled="0" top_item="1" order_nr="128"/>

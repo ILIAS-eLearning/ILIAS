@@ -22,6 +22,8 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
+use ILIAS\Administration\Node\AdministrationNode;
 
 class DidacticTemplate implements Component\Component
 {
@@ -43,5 +45,9 @@ class DidacticTemplate implements Component\Component
             $this,
             'didactic'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new DidacticTemplate\ObjectType\ObjectTemplateAdministrationObjectType();
+
+        $contribute[AdministrationNode::class] = static fn(): AdministrationNode => new DidacticTemplate\AdministrationNode\ObjectTemplateAdministrationAdministrationNode();
     }
 }

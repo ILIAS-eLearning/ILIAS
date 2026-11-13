@@ -22,6 +22,7 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class RemoteTest implements Component\Component
 {
@@ -40,5 +41,7 @@ class RemoteTest implements Component\Component
             $this,
             'rtst'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new RemoteTest\ObjectType\RemoteTestObjectType();
     }
 }

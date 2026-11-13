@@ -23,6 +23,7 @@ namespace ILIAS;
 use ILIAS\MediaPool\Setup\Agent;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class MediaPool implements Component\Component
 {
@@ -46,5 +47,7 @@ class MediaPool implements Component\Component
             $this,
             'mep'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new MediaPool\ObjectType\MediaPoolObjectType();
     }
 }

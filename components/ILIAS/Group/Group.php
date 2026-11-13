@@ -22,6 +22,10 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectGroup;
+use ILIAS\ILIASObject\Definition\ObjectType;
+use ILIAS\Administration\Node\AdministrationNode;
+use ILIAS\Administration\Settings\ExternalSettings;
 
 class Group implements Component\Component
 {
@@ -41,5 +45,13 @@ class Group implements Component\Component
             $this,
             'grp'
         );
+
+        $contribute[ObjectGroup::class] = static fn(): ObjectGroup => new Group\ObjectType\GroupsObjectGroup();
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Group\ObjectType\GroupObjectType();
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Group\ObjectType\GroupAdministrationObjectType();
+
+        $contribute[AdministrationNode::class] = static fn(): AdministrationNode => new Group\AdministrationNode\GroupAdministrationAdministrationNode();
+        $contribute[ExternalSettings::class] = static fn(): ExternalSettings => new Group\AdministrationNode\GroupAdministrationExternalSettings();
+
     }
 }

@@ -22,6 +22,8 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
+use ILIAS\Administration\Node\AdministrationNode;
 
 class MediaCast implements Component\Component
 {
@@ -46,5 +48,10 @@ class MediaCast implements Component\Component
             $this,
             'mcst'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new MediaCast\ObjectType\MediaCastObjectType();
+        $contribute[ObjectType::class] = static fn(): ObjectType => new MediaCast\ObjectType\MediaCastSettingsObjectType();
+
+        $contribute[AdministrationNode::class] = static fn(): AdministrationNode => new MediaCast\AdministrationNode\MediaCastSettingsAdministrationNode();
     }
 }

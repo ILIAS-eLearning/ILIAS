@@ -22,6 +22,8 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectGroup;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class OrgUnit implements Component\Component
 {
@@ -47,5 +49,8 @@ class OrgUnit implements Component\Component
             $this,
             'orgu'
         );
+
+        $contribute[ObjectGroup::class] = static fn(): ObjectGroup => new OrgUnit\ObjectType\OrganisationalUnitObjectGroup();
+        $contribute[ObjectType::class] = static fn(): ObjectType => new OrgUnit\ObjectType\OrgUnitObjectType();
     }
 }

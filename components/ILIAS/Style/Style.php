@@ -22,6 +22,8 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
+use ILIAS\Administration\Node\AdministrationNode;
 
 class Style implements Component\Component
 {
@@ -56,5 +58,10 @@ class Style implements Component\Component
             $this,
             'style'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Style\ObjectType\StyleSheetObjectType();
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Style\ObjectType\StyleSettingsObjectType();
+
+        $contribute[AdministrationNode::class] = static fn(): AdministrationNode => new Style\AdministrationNode\StyleSettingsAdministrationNode();
     }
 }
