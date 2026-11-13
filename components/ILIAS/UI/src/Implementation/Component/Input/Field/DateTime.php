@@ -20,10 +20,12 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
+use ILIAS\Language\Language;
 use ILIAS\UI\Component as C;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\DateFormat\DateFormat;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
+use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use DateTimeImmutable;
 use ILIAS\Refinery\Custom\Transformation;
@@ -40,6 +42,8 @@ class DateTime extends FormInput implements C\Input\Field\DateTime
 
     public const TIME_FORMAT = 'HH:mm';
 
+    protected Language $lng;
+
     protected DateFormat $format;
     protected ?DateTimeImmutable $min_date = null;
     protected ?DateTimeImmutable $max_date = null;
@@ -55,10 +59,12 @@ class DateTime extends FormInput implements C\Input\Field\DateTime
     public function __construct(
         DataFactory $data_factory,
         \ILIAS\Refinery\Factory $refinery,
+        Language $lng,
         string $label,
         ?string $byline
     ) {
         parent::__construct($data_factory, $refinery, $label, $byline);
+        $this->lng = $lng;
 
         $this->format = $data_factory->dateFormat()->standard();
 
@@ -95,6 +101,28 @@ class DateTime extends FormInput implements C\Input\Field\DateTime
             $value = $value->format(Renderer::HTML5_NATIVE_DATETIME_FORMAT);
         }
         return parent::withValue($value);
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * User input may be unparseable as a datetime (e.g. a 5-digit year submitted
+     * by the browser). Surface that as a soft validation error rather than letting
+     * the strict isClientSideValueOk check raise InvalidArgumentException out of
+     * withValue. See Mantis #46714.
+     */
+    public function withInput(InputData $input): self
+    {
+        if (!$this->isDisabled() && $this->getName() !== null) {
+            $value = $input->getOr($this->getName(), null);
+            if (is_string($value) && $value !== '' && !$this->isClientSideValueOk($value)) {
+                $clone = clone $this;
+                $clone->value = $value;
+                $clone->content = $this->data_factory->error($this->lng->txt('exc_date_not_valid'));
+                return $clone->withError($this->lng->txt('exc_date_not_valid'));
+            }
+        }
+        return parent::withInput($input);
     }
 
     public function withFormat(DateFormat $format): self

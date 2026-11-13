@@ -164,7 +164,7 @@ class Factory implements I\Factory
      */
     public function dateTime(string $label, ?string $byline = null): I\DateTime
     {
-        return new DateTime($this->data_factory, $this->refinery, $label, $byline);
+        return new DateTime($this->data_factory, $this->refinery, $this->lng, $label, $byline);
     }
 
     /**
