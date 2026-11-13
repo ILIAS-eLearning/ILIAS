@@ -83,6 +83,12 @@ msgstr "News Period for Container-Objects"
 msgid "news_co_period_info"
 msgstr "Select the default period for which news is displayed in container-objects. This setting can be overridden for each object individually. Select a shorter period if you experience performance problems."
 
+msgid "news_co_period_object"
+msgstr "News Period"
+
+msgid "news_co_period_object_info"
+msgstr "Select for how long news is to be displayed in this object. The value selected here will override the global value (see below)."
+
 msgid "news_container_object_visibility_settings"
 msgstr "Visibility Settings of News in Container-Objects"
 
@@ -225,7 +231,7 @@ msgid "news_nr_of_items_info"
 msgstr "Number of news items that are stored for an object (e.g. a file or a learning module). Please note, that container objects (e.g. categories, courses) may list more items, because they aggregate the news of their sub-objects."
 
 msgid "news_old_period"
-msgstr "Value for '%s': %s"
+msgstr "Global value for '%s': %s"
 
 msgid "news_pd_period"
 msgstr "Dashboard News Period"
