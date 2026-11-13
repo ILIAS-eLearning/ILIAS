@@ -272,7 +272,8 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         $inner_join_object_data = "INNER JOIN object_data ON (object_data.obj_id = tax_node_assignment.tax_id AND object_data.type = 'tax' $like_taxonomy_title)";
         $inner_join_tax_node = "INNER JOIN tax_node ON (tax_node.tax_id = tax_node_assignment.tax_id AND tax_node.type = 'taxn' AND tax_node_assignment.node_id = tax_node.obj_id $like_taxonomy_node_title)";
 
-        $expressions[] = "qpl_questions.question_id IN ($base $inner_join_object_data $inner_join_tax_node)";
+        $quest_item_type = $this->db->quote('quest', ilDBConstants::T_TEXT);
+        $expressions[] = "qpl_questions.question_id IN ($base $inner_join_object_data $inner_join_tax_node WHERE tax_node_assignment.item_type = $quest_item_type)";
 
         return $expressions;
     }
@@ -386,39 +387,123 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         };
     }
 
-    private function getTableJoinExpression(): string
+    private function getQuestionTypeJoinExpression(): string
     {
-        $tableJoin = '
+        return '
 			INNER JOIN	qpl_qst_type
 			ON			qpl_qst_type.question_type_id = qpl_questions.question_type_fi
 		';
+    }
+
+    private function getObjectDataJoinExpression(): string
+    {
+        return '
+            INNER JOIN	object_data
+            ON			object_data.obj_id = qpl_questions.obj_fi
+		';
+    }
+
+    private function getTestQuestionJoinExpression(): string
+    {
+        return '
+			INNER JOIN tst_test_question tstquest
+			ON tstquest.question_fi = qpl_questions.question_id
+		';
+    }
+
+    private function getTestResultJoinExpression(): string
+    {
+        return "
+            LEFT JOIN	tst_test_result
+			ON			tst_test_result.question_fi = qpl_questions.question_id
+			AND			tst_test_result.active_fi = {$this->db->quote($this->answerStatusActiveId, ilDBConstants::T_INTEGER)}
+		";
+    }
+
+    private function usesTestQuestionJoin(): bool
+    {
+        return $this->parentObjType === 'tst'
+            && $this->questionInstanceTypeFilter === self::QUESTION_INSTANCE_TYPE_ALL;
+    }
+
+    private function getTableJoinExpression(): string
+    {
+        $table_join = $this->getQuestionTypeJoinExpression();
 
         if ($this->join_obj_data) {
-            $tableJoin .= '
-				INNER JOIN	object_data
-				ON			object_data.obj_id = qpl_questions.obj_fi
-			';
+            $table_join .= $this->getObjectDataJoinExpression();
         }
 
-        if (
-            $this->parentObjType === 'tst'
-            && $this->questionInstanceTypeFilter === self::QUESTION_INSTANCE_TYPE_ALL
-        ) {
-            $tableJoin .= 'INNER JOIN tst_test_question tstquest ON tstquest.question_fi = qpl_questions.question_id';
+        if ($this->usesTestQuestionJoin()) {
+            $table_join .= $this->getTestQuestionJoinExpression();
         }
 
-        $tableJoin = $this->handleFeedbackJoin($tableJoin);
-        $tableJoin = $this->handleHintJoin($tableJoin);
+        $table_join = $this->handleFeedbackJoin($table_join);
+        $table_join = $this->handleHintJoin($table_join);
 
         if ($this->answerStatusActiveId) {
-            $tableJoin .= "
-				LEFT JOIN	tst_test_result
-				ON			tst_test_result.question_fi = qpl_questions.question_id
-				AND			tst_test_result.active_fi = {$this->db->quote($this->answerStatusActiveId, ilDBConstants::T_INTEGER)}
-			";
+            $table_join .= $this->getTestResultJoinExpression();
         }
 
-        return $tableJoin;
+        return $table_join;
+    }
+
+    private function getEnrichmentJoinExpression(): string
+    {
+        $table_join = $this->getQuestionTypeJoinExpression();
+
+        if ($this->join_obj_data) {
+            $table_join .= $this->getObjectDataJoinExpression();
+        }
+
+        if ($this->answerStatusActiveId) {
+            $table_join .= $this->getTestResultJoinExpression();
+        }
+
+        return $table_join;
+    }
+
+    /**
+     * The row-selecting (paging) query must join qpl_qst_type and, if enabled,
+     * object_data unconditionally, mirroring getEnrichmentJoinExpression(). Both
+     * are INNER JOINs there, so a question_id that is selected for a page here but
+     * does not satisfy those same INNER JOINs would silently be dropped later on
+     * when the enriched row data is fetched, shrinking the page below its LIMIT
+     * and leaving the dropped question unreachable on any page.
+     */
+    private function getRowSelectingJoinExpression(): string
+    {
+        $table_join = $this->getQuestionTypeJoinExpression();
+
+        if ($this->join_obj_data) {
+            $table_join .= $this->getObjectDataJoinExpression();
+        }
+
+        if ($this->usesTestQuestionJoin()) {
+            $table_join .= $this->getTestQuestionJoinExpression();
+        }
+
+        $table_join = $this->handleFeedbackJoin($table_join);
+        $table_join = $this->handleHintJoin($table_join);
+
+        if ($this->pagingNeedsTestResultJoin()) {
+            $table_join .= $this->getTestResultJoinExpression();
+        }
+
+        return $table_join;
+    }
+
+    private function pagingNeedsTestResultJoin(): bool
+    {
+        if ($this->answerStatusActiveId === null) {
+            return false;
+        }
+
+        if ($this->answerStatusFilter !== '') {
+            return true;
+        }
+
+        return in_array($this->resolveOrder()['field'], ['reached_points', 'question_answer_status'], true);
     }
 
     private function getConditionalFilterExpression(): string
@@ -445,7 +530,10 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         return $conditions !== '' ? "AND $conditions" : '';
     }
 
-    private function getSelectFieldsExpression(): string
+    /**
+     * @return list<string>
+     */
+    private function getBaseSelectFieldsExpression(): array
     {
         $select_fields = [
             'qpl_questions.*',
@@ -461,23 +549,51 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 
         if ($this->answerStatusActiveId) {
             $select_fields[] = 'tst_test_result.points reached_points';
-            $select_fields[] = "CASE
+            $select_fields[] = "{$this->questionAnswerStatusExpression()} question_answer_status";
+        }
+
+        return $select_fields;
+    }
+
+    /**
+     * @param list<string> $flags
+     * @return list<string>
+     */
+    private function getFlagSelectFieldsExpression(array $flags): array
+    {
+        $fields = [];
+        foreach ($flags as $flag) {
+            $fields[] = match ($flag) {
+                'feedback' => $this->generateFeedbackSubquery(),
+                'hints' => $this->generateHintSubquery(),
+                'taxonomies' => $this->generateTaxonomySubquery(),
+                default => throw new ilTestQuestionPoolException('Unsupported question list flag.'),
+            };
+        }
+
+        return $fields;
+    }
+
+    private function getSelectFieldsExpression(): string
+    {
+        $select_fields = array_merge(
+            $this->getBaseSelectFieldsExpression(),
+            $this->getFlagSelectFieldsExpression(['feedback', 'hints', 'taxonomies'])
+        );
+
+        return 'SELECT DISTINCT ' . implode(', ', $select_fields);
+    }
+
+    private function questionAnswerStatusExpression(): string
+    {
+        return "CASE
 					WHEN tst_test_result.points IS NULL THEN '" . self::QUESTION_ANSWER_STATUS_NON_ANSWERED . "'
 					WHEN tst_test_result.points < qpl_questions.points THEN '" . self::QUESTION_ANSWER_STATUS_WRONG_ANSWERED . "'
 					ELSE '" . self::QUESTION_ANSWER_STATUS_CORRECT_ANSWERED . "'
-				END question_answer_status
-			";
-        }
-
-        $select_fields[] = $this->generateFeedbackSubquery();
-        $select_fields[] = $this->generateHintSubquery();
-        $select_fields[] = $this->generateTaxonomySubquery();
-
-        $select_fields = implode(', ', $select_fields);
-        return "SELECT DISTINCT $select_fields";
+				END";
     }
 
-    private function generateFeedbackSubquery(): string
+    private function feedbackFlagExpression(): string
     {
         $cases = [];
         $tables = ['qpl_fb_generic', 'qpl_fb_specific'];
@@ -497,21 +613,39 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
             $cases[] = "WHEN EXISTS ($subquery) THEN TRUE";
         }
 
-        $feedback_case_subquery = implode(' ', $cases);
-        return "CASE $feedback_case_subquery ELSE FALSE END AS feedback";
+        return 'CASE ' . implode(' ', $cases) . ' ELSE FALSE END';
+    }
+
+    private function generateFeedbackSubquery(): string
+    {
+        return $this->feedbackFlagExpression() . ' AS feedback';
+    }
+
+    private function hintFlagExpression(): string
+    {
+        $hint_subquery = 'SELECT 1 FROM qpl_hints WHERE qpl_hints.qht_question_fi = qpl_questions.question_id';
+        return "CASE WHEN EXISTS ($hint_subquery) THEN TRUE ELSE FALSE END";
     }
 
     private function generateHintSubquery(): string
     {
-        $hint_subquery = 'SELECT 1 FROM qpl_hints WHERE qpl_hints.qht_question_fi = qpl_questions.question_id';
-        return "CASE WHEN EXISTS ($hint_subquery) THEN TRUE ELSE FALSE END AS hints";
+        return "{$this->hintFlagExpression()} AS hints";
+    }
+
+    private function taxonomyFlagExpression(): string
+    {
+        $assignment_exists = "WHEN EXISTS (SELECT 1 FROM tax_node_assignment WHERE tax_node_assignment.component = '%s' AND tax_node_assignment.item_type = 'quest' AND tax_node_assignment.item_id = qpl_questions.question_id) THEN TRUE";
+
+        return sprintf(
+            'CASE ' . $assignment_exists . ' ' . $assignment_exists . ' ELSE FALSE END',
+            'qpl',
+            'tst'
+        );
     }
 
     private function generateTaxonomySubquery(): string
     {
-        $tax_node_assignment_table = 'tax_node_assignment';
-        $tax_subquery = "SELECT 1 FROM $tax_node_assignment_table WHERE $tax_node_assignment_table.item_id = qpl_questions.question_id AND $tax_node_assignment_table.item_type = 'quest'";
-        return "CASE WHEN EXISTS ($tax_subquery) THEN TRUE ELSE FALSE END AS taxonomies";
+        return $this->taxonomyFlagExpression() . ' AS taxonomies';
     }
 
     protected function buildBasicQuery(): string
@@ -519,40 +653,109 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         return "{$this->getSelectFieldsExpression()} FROM qpl_questions {$this->getTableJoinExpression()} WHERE qpl_questions.tstamp > 0";
     }
 
+    /**
+     * @return list<string>
+     */
+    private function activeHavingFlags(): array
+    {
+        $flags = [];
+        foreach (['feedback', 'hints'] as $flag) {
+            $field_value = $this->fieldFilters[$flag] ?? null;
+            if (!is_string($field_value)) {
+                continue;
+            }
+
+            $field_value = strtoupper($field_value);
+            if (in_array($field_value, ['TRUE', 'FALSE'], true)) {
+                $flags[] = $flag;
+            }
+        }
+
+        return $flags;
+    }
+
     private function getHavingFilterExpression(): string
     {
         $expressions = [];
-
-        foreach ($this->fieldFilters as $fieldName => $fieldValue) {
-            if ($fieldName === 'feedback') {
-                $fieldValue = strtoupper($fieldValue);
-                if (in_array($fieldValue, ['TRUE', 'FALSE'], true)) {
-                    $expressions[] = "feedback IS $fieldValue";
-                }
-                continue;
-
-            }
-
-            if ($fieldName === 'hints') {
-                $fieldValue = strtoupper($fieldValue);
-                if (in_array($fieldValue, ['TRUE', 'FALSE'], true)) {
-                    $expressions[] = "hints IS $fieldValue";
-                }
-            }
+        foreach ($this->activeHavingFlags() as $flag) {
+            $expressions[] = "{$flag} IS " . strtoupper((string) $this->fieldFilters[$flag]);
         }
 
         $having = implode(' AND ', $expressions);
         return $having !== '' ? "HAVING $having" : '';
     }
 
-    private function buildOrderQueryExpression(): string
+    /**
+     * @return list<string>
+     */
+    private function getRequiredFlagsForPaging(): array
     {
-        $order = $this->order;
-        if ($order === null) {
-            return '';
+        $flags = $this->activeHavingFlags();
+        $order_field = $this->resolveOrder()['field'];
+        if (
+            in_array($order_field, ['feedback', 'hints', 'taxonomies'], true)
+            && !in_array($order_field, $flags, true)
+        ) {
+            $flags[] = $order_field;
         }
 
-        [$order_field, $order_direction] = $order->join(
+        return $flags;
+    }
+
+    private function resolveOrderSourceExpression(string $field): string
+    {
+        $question_columns = [
+            'question_id',
+            'question_type_fi',
+            'obj_fi',
+            'title',
+            'description',
+            'author',
+            'owner',
+            'question_text',
+            'points',
+            'nr_of_tries',
+            'complete',
+            'created',
+            'original_id',
+            'tstamp',
+            'external_id',
+            'add_cont_edit_mode',
+            'lifecycle',
+        ];
+        if (in_array($field, $question_columns, true)) {
+            return "qpl_questions.{$field}";
+        }
+
+        return match ($field) {
+            'type_tag' => 'qpl_qst_type.type_tag',
+            'plugin' => 'qpl_qst_type.plugin',
+            'plugin_name' => 'qpl_qst_type.plugin_name',
+            'max_points' => 'qpl_questions.points',
+            'parent_title' => 'object_data.title',
+            'reached_points' => 'tst_test_result.points',
+            'question_answer_status' => $this->questionAnswerStatusExpression(),
+            'feedback' => $this->feedbackFlagExpression(),
+            'hints' => $this->hintFlagExpression(),
+            'taxonomies' => $this->taxonomyFlagExpression(),
+            default => throw new ilTestQuestionPoolException('Unsupported question list order field.'),
+        };
+    }
+
+    /**
+     * @return array{field: string, expression: string, direction: string}
+     */
+    private function resolveOrder(): array
+    {
+        if ($this->order === null) {
+            return [
+                'field' => 'question_id',
+                'expression' => 'qpl_questions.question_id',
+                'direction' => Order::ASC,
+            ];
+        }
+
+        [$order_field, $order_direction] = $this->order->join(
             '',
             static fn(string $index, string $key, string $value): array => [$key, $value]
         );
@@ -562,7 +765,21 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
             $order_direction = Order::ASC;
         }
 
-        return " ORDER BY `$order_field` $order_direction";
+        return [
+            'field' => $order_field,
+            'expression' => $this->resolveOrderSourceExpression($order_field),
+            'direction' => $order_direction,
+        ];
+    }
+
+    private function buildOrderQueryExpression(): string
+    {
+        if ($this->order === null) {
+            return '';
+        }
+
+        $order = $this->resolveOrder();
+        return " ORDER BY {$order['expression']} {$order['direction']}";
     }
 
     private function buildLimitQueryExpression(): string
@@ -578,15 +795,64 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         return " LIMIT $limit OFFSET $offset";
     }
 
+    private function buildPagingSubquery(): string
+    {
+        $order = $this->resolveOrder();
+        $flags = $this->getRequiredFlagsForPaging();
+        $select = [
+            'qpl_questions.question_id',
+            "{$order['expression']} AS sort_key",
+        ];
+        if (!in_array($order['field'], $this->activeHavingFlags(), true)) {
+            $flags = array_values(
+                array_filter(
+                    $flags,
+                    static fn(string $flag): bool => $flag !== $order['field']
+                )
+            );
+        }
+        $select = array_merge($select, $this->getFlagSelectFieldsExpression($flags));
+
+        $query = 'SELECT DISTINCT ' . implode(', ', $select)
+            . ' FROM qpl_questions ' . $this->getRowSelectingJoinExpression()
+            . ' WHERE qpl_questions.tstamp > 0 ' . $this->getConditionalFilterExpression()
+            . ' ' . $this->getHavingFilterExpression()
+            . " ORDER BY sort_key {$order['direction']}, qpl_questions.question_id ASC";
+
+        return trim($query);
+    }
+
+    private function buildEnrichedQuery(): string
+    {
+        $order = $this->resolveOrder();
+        $paging = $this->buildPagingSubquery() . $this->buildLimitQueryExpression();
+
+        return implode(PHP_EOL, [
+            $this->getSelectFieldsExpression() . ', paged.sort_key, paged.question_id',
+            'FROM qpl_questions ' . $this->getEnrichmentJoinExpression(),
+            'INNER JOIN (',
+            $paging,
+            ') paged ON paged.question_id = qpl_questions.question_id',
+            "ORDER BY paged.sort_key {$order['direction']}, paged.question_id ASC",
+        ]);
+    }
+
     private function buildQuery(): string
     {
-        return implode(PHP_EOL, array_filter([
-            $this->buildBasicQuery(),
-            $this->getConditionalFilterExpression(),
-            $this->getHavingFilterExpression(),
-            $this->buildOrderQueryExpression(),
-            $this->buildLimitQueryExpression(),
-        ]));
+        if ($this->range !== null) {
+            return $this->buildEnrichedQuery();
+        }
+
+        return implode(
+            PHP_EOL,
+            array_filter([
+                $this->buildBasicQuery(),
+                $this->getConditionalFilterExpression(),
+                $this->getHavingFilterExpression(),
+                $this->buildOrderQueryExpression(),
+                $this->buildLimitQueryExpression(),
+            ])
+        );
     }
 
     public function load(): void
@@ -611,6 +877,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
             $row['feedback'] = $row['feedback'] === 1;
             $row['hints'] = $row['hints'] === 1;
             $row['comments'] = $this->getNumberOfCommentsForQuestion($row['question_id']);
+            unset($row['sort_key']);
 
             if (
                 $this->filter_comments === self::QUESTION_COMMENTED_ONLY && $row['comments'] === 0
@@ -628,7 +895,11 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         $this->checkFilters();
 
         $count = 'COUNT(*)';
-        $query = "SELECT $count FROM qpl_questions {$this->getTableJoinExpression()} WHERE qpl_questions.tstamp > 0 {$this->getConditionalFilterExpression()}";
+        if ($this->activeHavingFlags() !== []) {
+            $query = "SELECT $count FROM ({$this->buildPagingSubquery()}) t";
+        } else {
+            $query = "SELECT $count FROM qpl_questions {$this->getTableJoinExpression()} WHERE qpl_questions.tstamp > 0 {$this->getConditionalFilterExpression()}";
+        }
 
         return (int) ($this->db->query($query)->fetch()[$count] ?? 0);
     }
