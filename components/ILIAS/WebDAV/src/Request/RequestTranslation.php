@@ -97,7 +97,7 @@ class RequestTranslation
         'as long as we use '
         . \ILIAS\HTTP\Wrapper\SuperGlobalDropInReplacement::class
         . ', we must cast back to array to make SabreDAV work.',
-        12
+        13
     )]
     public function setup(): void
     {
@@ -106,7 +106,7 @@ class RequestTranslation
         $HTTP_POST_VARS = $_POST;
     }
 
-    #[AllowSuperglobalWrite('restores what setup() replaced, so the superglobal is left as SabreDAV found it.', 12)]
+    #[AllowSuperglobalWrite('restores what setup() replaced, so the superglobal is left as SabreDAV found it.', 13)]
     public function close(): void
     {
         $_POST = $this->post;
