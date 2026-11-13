@@ -40,10 +40,19 @@ class CategoryReferenceObjectPropertiesProviders implements ObjectTypeSpecificPr
         IconFactory $factory,
         StorageService $irss
     ): ?CustomIcon {
+<<<<<<< HEAD
         $category = new ilObjCategory(
             ilContainerReference::_lookupTargetId($object_id),
             false
         );
+=======
+        $target_obj_id = ilContainerReference::_lookupTargetId($obj_id);
+        if (ilObject::_lookupType($target_obj_id) !== 'cat') {
+            return null;
+        }
+
+        $category = new ilObjCategory($target_obj_id, false);
+>>>>>>> 6bc6fd9dd11 (48743: Course crash on category reference with wrong target type)
 
         $custom_icon = $category->getObjectProperties()->getPropertyIcon()->getCustomIcon();
         if ($custom_icon?->exists()) {
