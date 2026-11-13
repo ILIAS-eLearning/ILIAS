@@ -197,26 +197,26 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
             if (($next_class === "ilobjrolegui" || $next_class === "ilobjusergui"
                 || $next_class === "ilobjroletemplategui")) {
                 if ($this->requested_obj_id > 0) {
-                    $this->gui_obj = new $class_name(null, $this->requested_obj_id, false, false);
+                    $this->gui_obj = $this->ctrl->getCommandClassInstance($class_name, null, $this->requested_obj_id, false, false);
                     $this->gui_obj->setCreationMode(false);
                 } else {
-                    $this->gui_obj = new $class_name(null, $this->cur_ref_id, true, false);
+                    $this->gui_obj = $this->ctrl->getCommandClassInstance($class_name, null, $this->cur_ref_id, true, false);
                     $this->gui_obj->setCreationMode(true);
                 }
             } else {
                 if ($this->obj_definition->isPlugin(ilObject::_lookupType($this->cur_ref_id, true))) {
-                    $this->gui_obj = new $class_name($this->cur_ref_id);
+                    $this->gui_obj = $this->ctrl->getCommandClassInstance($class_name, $this->cur_ref_id);
                 } elseif (!$creation_mode) {
                     if (is_subclass_of($class_name, "ilObject2GUI")) {
-                        $this->gui_obj = new $class_name($this->cur_ref_id, ilObject2GUI::REPOSITORY_NODE_ID);
+                        $this->gui_obj = $this->ctrl->getCommandClassInstance($class_name, $this->cur_ref_id, ilObject2GUI::REPOSITORY_NODE_ID);
                     } else {
-                        $this->gui_obj = new $class_name(null, $this->cur_ref_id, true, false);
+                        $this->gui_obj = $this->ctrl->getCommandClassInstance($class_name, null, $this->cur_ref_id, true, false);
                     }
                 } else {
                     if (is_subclass_of($class_name, "ilObject2GUI")) {
-                        $this->gui_obj = new $class_name(null, ilObject2GUI::REPOSITORY_NODE_ID, $this->cur_ref_id);
+                        $this->gui_obj = $this->ctrl->getCommandClassInstance($class_name, null, ilObject2GUI::REPOSITORY_NODE_ID, $this->cur_ref_id);
                     } else {
-                        $this->gui_obj = new $class_name("", 0, true, false);
+                        $this->gui_obj = $this->ctrl->getCommandClassInstance($class_name, "", 0, true, false);
                     }
                 }
                 $this->gui_obj->setCreationMode($creation_mode);

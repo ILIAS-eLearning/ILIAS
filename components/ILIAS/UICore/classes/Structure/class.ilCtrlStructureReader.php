@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/../../../../../vendor/composer/vendor/autoload.php';
 
+use ILIAS\UICore\Ctrl\BaseClass;
+
 /**
  * Class ilCtrlStructureReader is responsible for reading
  * ilCtrl's control structure.
@@ -139,7 +141,7 @@ class ilCtrlStructureReader
 
                 // temporarily store base classes in order to filer the
                 // structure afterwards.
-                if (in_array(ilCtrlBaseClassInterface::class, $reflection->getInterfaceNames(), true)) {
+                if (in_array(BaseClass::class, $reflection->getInterfaceNames(), true)) {
                     $base_classes[] = $lower_class_name;
                 }
             } catch (ReflectionException $e) {

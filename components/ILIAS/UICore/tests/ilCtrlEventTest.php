@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\HTTP\Message\MessageFactory;
 use PHPUnit\Framework\TestCase;
+use ILIAS\UICore\Ctrl\CommandClassResolver;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\HTTP\Response\Sender\ResponseSenderStrategy;
@@ -133,6 +134,7 @@ class ilCtrlEventTest extends TestCase
             $subject ?? $this->subject,
             $this->createStub(ilCtrlQueryParserInterface::class),
             $this->createStub(MessageFactory::class),
+            $this->createStub(CommandClassResolver::class),
         );
     }
 }

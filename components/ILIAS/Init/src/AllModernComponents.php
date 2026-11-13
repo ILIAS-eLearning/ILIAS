@@ -158,7 +158,8 @@ class AllModernComponents implements \ILIAS\Component\EntryPoint
         protected \ILIAS\Language\Activities\AddLanguageEntry $add_language_entry,
         protected \ILIAS\Language\Activities\SetLanguageDetectionEnabled $set_language_detection_enabled,
         protected \ILIAS\Language\Activities\SetLanguageTranslationEnabled $set_language_translation_enabled,
-        protected BackgroundTasksRegistry $background_tasks_registry
+        protected BackgroundTasksRegistry $background_tasks_registry,
+        protected \ILIAS\UICore\Ctrl\CommandClassResolver $command_class_resolver
     ) {
     }
 
@@ -282,6 +283,7 @@ class AllModernComponents implements \ILIAS\Component\EntryPoint
         $DIC[\ILIAS\Language\Activities\SetLanguageDetectionEnabled::class] = fn(): \ILIAS\Language\Activities\SetLanguageDetectionEnabled => $this->set_language_detection_enabled;
         $DIC[\ILIAS\Language\Activities\SetLanguageTranslationEnabled::class] = fn(): \ILIAS\Language\Activities\SetLanguageTranslationEnabled => $this->set_language_translation_enabled;
         $DIC[BackgroundTasksRegistry::class] = fn(): BackgroundTasksRegistry => $this->background_tasks_registry;
+        $DIC[\ILIAS\UICore\Ctrl\CommandClassResolver::class] = fn(): \ILIAS\UICore\Ctrl\CommandClassResolver => $this->command_class_resolver;
     }
 
     public function getName(): string

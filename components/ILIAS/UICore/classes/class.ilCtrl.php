@@ -25,6 +25,9 @@ use ILIAS\HTTP\Wrapper\RequestWrapper;
 use ILIAS\Filesystem\Stream\Streams;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\HTTP\Message\MessageFactory;
+use ILIAS\UICore\Ctrl\CommandClassResolver;
+use ILIAS\UICore\Ctrl\Observer;
+use ILIAS\UICore\Ctrl\SecureCommands;
 
 /**
  * Class ilCtrl provides processing control methods. A global
@@ -60,6 +63,7 @@ class ilCtrl implements ilCtrlInterface
         protected ilCtrlSubject $subject,
         protected ilCtrlQueryParserInterface $query_parser,
         protected MessageFactory $message_factory,
+        protected CommandClassResolver $command_class_resolver,
     ) {
     }
 
@@ -92,7 +96,15 @@ class ilCtrl implements ilCtrlInterface
 
         // no null-check needed as previous isBaseClass() was true.
         $obj_name = $this->structure->getObjNameByName($a_base_class);
-        $this->forwardCommand(new $obj_name());
+        $this->forwardCommand($this->getCommandClassInstance($obj_name));
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getCommandClassInstance(string $class_name, mixed ...$arguments): object
+    {
+        return $this->command_class_resolver->create($this, $class_name, ...$arguments);
     }
 
     /**
@@ -694,7 +706,7 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function attachObserver(ilCtrlObserver $observer, ilCtrlEvent $event = ilCtrlEvent::ALL): void
+    public function attachObserver(Observer $observer, ilCtrlEvent $event = ilCtrlEvent::ALL): void
     {
         $this->subject->attach($observer, $event);
     }
@@ -702,7 +714,7 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function detachObserver(ilCtrlObserver $observer, ilCtrlEvent $event = ilCtrlEvent::ALL): void
+    public function detachObserver(Observer $observer, ilCtrlEvent $event = ilCtrlEvent::ALL): void
     {
         $this->subject->detach($observer, $event);
     }
@@ -1021,7 +1033,7 @@ class ilCtrl implements ilCtrlInterface
         // if the command class does not yet implement the
         // ilCtrlSecurityInterface, the command is considered
         // safe if it's not a POST command.
-        if (!is_a($obj_name, ilCtrlSecurityInterface::class, true)) {
+        if (!is_a($obj_name, SecureCommands::class, true)) {
             return !$is_post;
         }
 
