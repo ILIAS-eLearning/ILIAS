@@ -72,6 +72,10 @@ class assFormulaQuestionResult
         }
     }
 
+    /**
+     * @param array<string, assFormulaQuestionVariable> $variables
+     * @param array<string, assFormulaQuestionResult> $results
+     */
     public function substituteFormula(array $variables, array $results): false|string
     {
         $formula = $this->getFormula();
@@ -138,39 +142,55 @@ class assFormulaQuestionResult
         return $result;
     }
 
-    public function findValidRandomVariables($variables, $results): void
+    /**
+     * @param array<string, assFormulaQuestionVariable> $variables
+     * @param array<string, assFormulaQuestionResult> $results
+     */
+    public function findValidRandomVariables(array $variables, array $results): void
     {
         $i = 0;
-        $inRange = false;
-        while ($i < 1000 && !$inRange) {
+        $in_range = false;
+        $math = new EvalMath();
+        $math->suppress_errors = true;
+
+        while ($i < 1000 && !$in_range) {
             $formula = $this->substituteFormula($variables, $results);
             if (preg_match_all("/(\\\$v\\d+)/ims", $formula, $matches)) {
                 foreach ($matches[1] as $variable) {
-                    $varObj = $variables[$variable];
-                    if (!is_object($varObj)) {
+                    $var_obj = $variables[$variable];
+                    if (!$var_obj instanceof assFormulaQuestionVariable) {
                         continue;
                     }
-                    $varObj->setRandomValue();
-                    $formula = preg_replace("/\\\$" . substr($variable, 1) . "(?![0-9]+)/", "(" . $varObj->getBaseValue() . ")" . "\\1", $formula);
+
+                    $var_obj->setRandomValue();
+                    $formula = preg_replace("/\\\$" . substr($variable, 1) . "(?![0-9]+)/", "(" . $var_obj->getBaseValue() . ")" . "\\1", $formula);
                 }
             }
-            $math = new EvalMath();
-            $math->suppress_errors = true;
+
             $result = $math->evaluate($formula);
-            $inRange = (is_numeric($result)) ? true : false;
-            if ($inRange) {
-                if (is_numeric($this->getRangeMin())) {
-                    if ($result < $this->getRangeMinBase()) {
-                        $inRange = false;
-                    }
-                }
-                if (is_numeric($this->getRangeMax())) {
-                    if ($result > $this->getRangeMaxBase()) {
-                        $inRange = false;
-                    }
-                }
+            $in_range = is_numeric($result);
+
+            if (!$in_range) {
+                $i++;
+                continue;
             }
+
+            if (
+                (is_numeric($this->getRangeMin()) && $result < $this->getRangeMinBase())
+                || (is_numeric($this->getRangeMax()) && $result > $this->getRangeMaxBase())
+            ) {
+                $in_range = false;
+            }
+
             $i++;
+        }
+
+        foreach ($variables as $variable) {
+            if (!$variable instanceof assFormulaQuestionVariable || $variable->getValue() !== null) {
+                continue;
+            }
+
+            $variable->setRandomValue();
         }
     }
 
