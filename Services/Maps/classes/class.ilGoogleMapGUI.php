@@ -48,7 +48,7 @@ class ilGoogleMapGUI extends ilMapGUI
             "Services/Maps"
         );
 
-        $this->tpl->addJavaScript("//maps.google.com/maps/api/js?key=" . ilMapUtil::getApiKey(), false);
+        $this->tpl->addJavaScript("//maps.google.com/maps/api/js?key=" . rawurlencode((string) ilMapUtil::getApiKey()), false);
 
         // add user markers
         $cnt = 0;
