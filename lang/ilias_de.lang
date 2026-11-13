@@ -2577,6 +2577,7 @@ book#:#book_confirm_cancel#:#Sind Sie sicher, dass Sie die folgenden Buchungen s
 book#:#book_confirm_cancel_aggregation#:#Anzahl Stornierungen
 book#:#book_confirm_cancel_info#:#Die ausgewählten Buchungen werden storniert.
 book#:#book_confirm_delete#:#Sind Sie sicher, dass Sie die folgenden Angebote löschen wollen inklusive aller zugehörigen Zeitfenster? Dabei werden auch alle zugehörigen Buchungen gelöscht.
+book#:#book_confirm_delete_booking#:#Sind Sie sicher, dass Sie die folgenden Buchungen löschen möchten?###02 11 2026 new variable
 book#:#book_confirm_remove_participant#:#Sind Sie sicher, dass Sie die folgende(n) Teilnehmer entfernen wollen? Dabei werden alle zugehörigen Buchungen gelöscht.
 book#:#book_copy#:#Buchungspool kopieren
 book#:#book_create_objects#:#Angebote erstellen

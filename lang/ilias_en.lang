@@ -2578,6 +2578,7 @@ book#:#book_confirm_cancel#:#Are you sure you want to cancel the following booki
 book#:#book_confirm_cancel_aggregation#:#Number of Cancellations
 book#:#book_confirm_cancel_info#:#The selected bookings will be cancelled.
 book#:#book_confirm_delete#:#Are you sure you want to delete the following items including all related time slots? This will also delete all related Bookings.
+book#:#book_confirm_delete_booking#:#Are you sure you want to delete the following booking(s)?###02 11 2026 new variable
 book#:#book_confirm_remove_participant#:#Are you sure you want to remove the following Participant(s)? This will delete all related Bookings.
 book#:#book_copy#:#Copy Booking Pool
 book#:#book_create_objects#:#Create Items
