@@ -255,7 +255,7 @@ class ilBookingProcessWithScheduleGUI implements \ILIAS\BookingManager\BookingPr
         $this->log->debug("showNumberForm");
         $object_id = $this->book_obj_id;
         $from = $this->book_request->getSlotFrom();
-        $to = $this->book_request->getSlotTo() - 1;
+        $to = $this->book_request->getSlotTo();
         $this->tabs_gui->clearTargets();
         $this->tabs_gui->setBackTarget(
             $this->lng->txt('book_back_to_list'),

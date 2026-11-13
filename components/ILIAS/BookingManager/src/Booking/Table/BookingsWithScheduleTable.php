@@ -54,8 +54,6 @@ class BookingsWithScheduleTable extends BookingsTable
         foreach ($records as $record) {
             $user_id = $record['user_id'];
 
-            $record['date_to']++;
-
             $date_from = new DateTimeImmutable("@{$record['date_from']}");
             $time_slot = $this->isAllDayBooking($record)
                 ? $this->lng->txt('book_all_day')
