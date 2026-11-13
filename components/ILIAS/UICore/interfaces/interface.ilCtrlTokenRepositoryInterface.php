@@ -16,17 +16,13 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\UICore\Ctrl\TokenRepository;
+
 /**
- * Interface ilCtrlTokenRepositoryInterface describes an ilCtrl token.
- *
- * @author Thibeau Fuhrer <thf@studer-raimann.ch>
+ * @deprecated Use {@see TokenRepository} instead.
  */
-interface ilCtrlTokenRepositoryInterface
+interface ilCtrlTokenRepositoryInterface extends TokenRepository
 {
-    /**
-     * Returns a temporary ilCtrlToken for the given session (id).
-     *
-     * @return ilCtrlTokenInterface
-     */
-    public function getToken(): ilCtrlTokenInterface;
 }

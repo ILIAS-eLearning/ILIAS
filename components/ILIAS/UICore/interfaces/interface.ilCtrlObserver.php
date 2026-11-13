@@ -18,23 +18,11 @@
 
 declare(strict_types=1);
 
-/**
- * @author       Fabian Schmid <fabian@sr.solutions>
- * @author       Thibeau Fuhrer <thibeau@sr.solutions>
- * @noinspection AutoloadingIssuesInspection
- */
-interface ilCtrlObserver
-{
-    /**
-     * Unique identifier of the implementing event-listener.
-     */
-    public function getId(): string;
+use ILIAS\UICore\Ctrl\Observer;
 
-    /**
-     * Recieves an ilCtrl event and handles it appropriately.
-     *
-     * @param string|null $data ilCtrlEvent::COMMAND_CLASS_FORWARD: the class name in SnakeCase
-     *                          ilCtrlEvent::COMMAND_DETERMINATION: the determined command or null
-     */
-    public function update(ilCtrlEvent $event, ?string $data): void;
+/**
+ * @deprecated Use {@see Observer} instead.
+ */
+interface ilCtrlObserver extends Observer
+{
 }

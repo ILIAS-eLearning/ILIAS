@@ -3,18 +3,6 @@
 	id="cat">
 	<baseclasses>
 	</baseclasses>
-	<objectgroups>
-		<objectgroup id="cat" name="Categories" default_pres_pos="10"/>
-	</objectgroups>
-	<objects>
-		<object id="cat" class_name="Category" dir="classes" checkbox="1"
-			inherit="1" translate="db" allow_copy="1" export="1" rbac="1" default_pres_pos="10"
-			default_pos="10" force_active="1" group="cat" amet="1">
-			<parent id="cat">cat</parent>
-			<parent id="recf">recf</parent>
-			<parent id="root">root</parent>
-		</object>
-	</objects>
 	<events>
 		<event type="raise" id="delete" />
 	</events>

@@ -22,6 +22,7 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class Blog implements Component\Component
 {
@@ -55,5 +56,8 @@ class Blog implements Component\Component
             $this,
             'blog'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Blog\ObjectType\BlogObjectType();
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Blog\ObjectType\BlogAdministrationObjectType();
     }
 }

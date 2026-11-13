@@ -22,6 +22,7 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class Portfolio implements Component\Component
 {
@@ -50,5 +51,9 @@ class Portfolio implements Component\Component
             $this,
             'prtt'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Portfolio\ObjectType\PortfolioObjectType();
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Portfolio\ObjectType\PortfolioTemplateObjectType();
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Portfolio\ObjectType\PortfolioAdministrationObjectType();
     }
 }

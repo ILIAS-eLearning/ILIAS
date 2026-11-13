@@ -19,6 +19,7 @@
 // TODO:
 use ILIAS\BackgroundTasks\Dependencies\DependencyMap\BaseDependencyMap;
 use ILIAS\DI\Container;
+use ILIAS\ILIASObject\Definition\ObjectTypeRegistry;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\GlobalScreen\Services;
 use ILIAS\HTTP\Wrapper\SuperGlobalDropInReplacement;
@@ -861,6 +862,12 @@ class ilInitialisation
             self::initGlobal('lng', ilLanguage::getGlobalInstance());
         } else {
             self::initGlobal('lng', ilLanguage::getFallbackInstance());
+        }
+        // texts of object types contributed by components are used everywhere
+        if ($DIC->offsetExists(ObjectTypeRegistry::class)) {
+            foreach ($DIC[ObjectTypeRegistry::class]->getLanguageModules() as $module) {
+                $DIC->language()->loadLanguageModule($module);
+            }
         }
         if (is_object($rbacsystem) && $DIC->offsetExists('tree')) {
             $rbacsystem->initMemberView();

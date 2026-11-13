@@ -22,6 +22,7 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class Logging implements Component\Component
 {
@@ -96,5 +97,7 @@ class Logging implements Component\Component
             $this,
             'log'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Logging\ObjectType\LoggingSettingsObjectType();
     }
 }

@@ -22,6 +22,7 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class HTMLLearningModule implements Component\Component
 {
@@ -43,5 +44,7 @@ class HTMLLearningModule implements Component\Component
             $this,
             'htlm'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new HTMLLearningModule\ObjectType\FileBasedLMObjectType();
     }
 }

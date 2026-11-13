@@ -138,10 +138,10 @@ class ilPersonalWorkspaceGUI
         $class_path = $ilCtrl->lookupClassPath($next_class);
         $class_name = $ilCtrl->getClassForClasspath($class_path);
         if ($this->std_request->getNewType()) {
-            $gui = new $class_name(0, ilObject2GUI::WORKSPACE_NODE_ID, $this->node_id);
+            $gui = $ilCtrl->getCommandClassInstance($class_name, 0, ilObject2GUI::WORKSPACE_NODE_ID, $this->node_id);
             $gui->setCreationMode();
         } else {
-            $gui = new $class_name($this->node_id, ilObject2GUI::WORKSPACE_NODE_ID, false);
+            $gui = $ilCtrl->getCommandClassInstance($class_name, $this->node_id, ilObject2GUI::WORKSPACE_NODE_ID, 0);
         }
         $ilCtrl->forwardCommand($gui);
 

@@ -49,6 +49,7 @@ use ILIAS\StaticURL\Legacy\UserProxy;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class StaticURL implements Component
 {
@@ -126,5 +127,7 @@ class StaticURL implements Component
             $this,
             'stus'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new StaticURL\ObjectType\StaticUrlServiceObjectType();
     }
 }

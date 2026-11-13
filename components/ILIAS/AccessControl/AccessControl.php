@@ -31,6 +31,7 @@ use ILIAS\Database\Connection;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class AccessControl implements Component\Component
 {
@@ -107,5 +108,9 @@ class AccessControl implements Component\Component
             $this,
             'rbac'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new AccessControl\ObjectType\RoleFolderObjectType();
+        $contribute[ObjectType::class] = static fn(): ObjectType => new AccessControl\ObjectType\RoleObjectType();
+        $contribute[ObjectType::class] = static fn(): ObjectType => new AccessControl\ObjectType\RoleTemplateObjectType();
     }
 }

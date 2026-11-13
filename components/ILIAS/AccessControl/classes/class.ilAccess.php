@@ -664,11 +664,11 @@ class ilAccess implements Access
         int $a_obj_id,
         string $a_type
     ): bool {
-        // check for a deactivated plugin
-        if ($this->objDefinition->isPluginTypeName($a_type) && !$this->objDefinition->isPlugin($a_type)) {
+        if (!$a_type) {
             return false;
         }
-        if (!$a_type) {
+        // types of deactivated plugins and removed components are not accessible
+        if (!$this->objDefinition->isAvailable($a_type)) {
             return false;
         }
 

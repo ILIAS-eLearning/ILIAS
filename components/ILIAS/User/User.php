@@ -31,6 +31,7 @@ use ILIAS\User\Profile\ChangeListeners\UserFieldAttributesChangeListener;
 use ILIAS\Setup\Agent as SetupAgent;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class User implements Component\Component
 {
@@ -68,5 +69,8 @@ class User implements Component\Component
             $this,
             'user'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new User\ObjectType\UserObjectType();
+        $contribute[ObjectType::class] = static fn(): ObjectType => new User\ObjectType\UserFolderObjectType();
     }
 }

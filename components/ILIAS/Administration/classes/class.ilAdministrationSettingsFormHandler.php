@@ -103,9 +103,9 @@ class ilAdministrationSettingsFormHandler
         $class_name = $objDefinition->getClassName($obj_type);
         $class_name = "ilObj" . $class_name . "GUI";
         if (is_subclass_of($class_name, "ilObject2GUI")) {
-            $gui_obj = new $class_name($ref_id, ilObject2GUI::REPOSITORY_NODE_ID);
+            $gui_obj = $DIC->ctrl()->getCommandClassInstance($class_name, $ref_id, ilObject2GUI::REPOSITORY_NODE_ID);
         } else {
-            $gui_obj = new $class_name([], $ref_id, true, false);
+            $gui_obj = $DIC->ctrl()->getCommandClassInstance($class_name, [], $ref_id, true, false);
         }
 
         $gui_obj->setCreationMode(true);

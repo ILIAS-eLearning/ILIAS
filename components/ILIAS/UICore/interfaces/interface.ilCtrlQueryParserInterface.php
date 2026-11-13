@@ -16,15 +16,13 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\UICore\Ctrl\QueryParser;
+
 /**
- * @author Fabian Schmid <fabian@sr.solutions>
+ * @deprecated Use {@see QueryParser} instead.
  */
-interface ilCtrlQueryParserInterface
+interface ilCtrlQueryParserInterface extends QueryParser
 {
-    /**
-     * Must return an associative array of key => value pairs from the given query string.
-     * @param string $query_string
-     * @return array<string, string>
-     */
-    public function parseQueriesOfURL(string $query_string): array;
 }

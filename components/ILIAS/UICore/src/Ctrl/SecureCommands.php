@@ -1,0 +1,60 @@
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+
+namespace ILIAS\UICore\Ctrl;
+
+/**
+ * Interface SecureCommands provides ilCtrl security
+ * information.
+ *
+ * @author Thibeau Fuhrer <thf@studer-raimann.ch>
+ *
+ * Information gathered by this interface is stored in an artifact
+ * as well. Currently, the only purpose is to gather a list of safe
+ * commands which determines whether a CSRF-protection is necessary.
+ */
+interface SecureCommands
+{
+    /**
+     * This method must return a list of unsafe GET commands.
+     *
+     * Unsafe get commands returned by this method will now be CSRF
+     * protected, which means an ilCtrlToken is appended each time
+     * a link-target is generated to the class implementing this
+     * interface with a command from that list.
+     *
+     * Tokens will be validated in @see Ctrl::getCmd(),
+     * whereas the fallback command will be used if the CSRF
+     * validation fails.
+     *
+     * @return string[]
+     */
+    public function getUnsafeGetCommands(): array;
+
+    /**
+     * This method must return a list of safe POST commands.
+     *
+     * Safe post commands returned by this method will no longer be
+     * CSRF protected and will NOT be appended by an ilCtrlToken.
+     *
+     * @return string[]
+     */
+    public function getSafePostCommands(): array;
+}

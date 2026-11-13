@@ -3,12 +3,6 @@
 	<baseclasses>
             <baseclass name="ilNotificationGUI" dir="classes" />
 	</baseclasses>
-	<objects>
-		<object id="nota" class_name="NotificationAdmin" dir="classes"
-			checkbox="0" inherit="0" translate="sys" rbac="0" system="1" administration="1">
-			<parent id="adm" max="1">adm</parent>
-		</object>
-	</objects>
 	<events>
 		<event type="listen" id="Services/User" />
 	</events>
