@@ -60,10 +60,10 @@ msgid "allow_images"
 msgstr "Grafikunterstützung für Antworten"
 
 msgid "allowedextensions"
-msgstr "Erlaubte Dateierweiterungen"
+msgstr "Erlaubte Dateitypen"
 
 msgid "allowedextensions_info"
-msgstr "Geben Sie eine kommagetrennte Liste der erlaubten Dateierweiterungen an, wenn Sie das Hochladen auf bestimmte Dateitypen einschränken wollen (z.B. doc, pdf, odt)."
+msgstr "Geben Sie eine kommagetrennte Liste der erlaubten Dateierweiterungen an, wenn Sie das Hochladen auf bestimmte Dateitypen einschränken wollen (z.B. docx, pdf, odt)."
 
 msgid "already_added_extra_time"
 msgstr "bereits hinzugefügt: %s min"
@@ -243,7 +243,7 @@ msgid "ass_competence_respect_level_ordering"
 msgstr "Bitte beachten Sie, dass die Kompetenzschwellenwerte gemäß der Reihenfolge der Kompetenzstufen in aufsteigender Reihenfolge definiert werden müssen."
 
 msgid "ass_completion_by_submission"
-msgstr "Bestehen durch Abgabe"
+msgstr "Punkte durch Abgabe"
 
 msgid "ass_completion_by_submission_info"
 msgstr "Falls aktiviert, führt die Abgabe einer Lösungsdatei zur Vergabe der Maximalpunktzahl für diese Frage. Die Bewertung kann jederzeit manuell angepasst werden. Das Ändern dieser Einstellung hat keine nachträglichen Auswirkungen auf bereits eingereichte Lösungen."
@@ -291,25 +291,25 @@ msgid "ass_mc_sel_lim_setting"
 msgstr "Antwortbeschränkung"
 
 msgid "ass_mc_sel_lim_setting_desc"
-msgstr "Mit dieser Einstellung lässt sich die Anzahl durch den Teilnehmer wählbarer Antworten einschränken."
+msgstr "Die maximale Anzahl an Antworten, die ein Teilnehmer auswählen kann."
 
 msgid "ass_process_lock"
-msgstr "Verwende Locking-Mechanismus während der Testdurchläufe"
+msgstr "Verwende einen Locking-Mechanismus während der Testdurchläufe"
 
 msgid "ass_process_lock_desc"
 msgstr "Ohne die Verwendung eines Locking-Mechanismus sind Race Conditions möglich. Diese können zu inkonsistenten Testergebnissen führen."
 
 msgid "ass_process_lock_mode"
-msgstr "Locking-Modus während der Einreichung von Teilnehmer-Lösungen"
+msgstr "Typ des Locking-Mechanismus"
 
 msgid "ass_process_lock_mode_db"
-msgstr "Verwende Datenbanktabellen-Locks"
+msgstr "Datenbanktabellen-Locks"
 
 msgid "ass_process_lock_mode_db_desc"
 msgstr "Dieser Locking-Mechanismus erstellt Locks auf den entsprechenden Tabellen der Datenbank. Konkurrierende Prozesse für den selben oder anderere Benutzer im selben oder einem anderen Test für die selbe oder andere Fragen müssen warten, bis der andere Prozess den Lock wieder freigibt."
 
 msgid "ass_process_lock_mode_file"
-msgstr "Verwende Dateisystem-Locks"
+msgstr "Dateisystem-Locks"
 
 msgid "ass_process_lock_mode_file_desc"
 msgstr "Dieser Locking-Mechanismus erstellt Locks auf leeren Dateien im Dateisystem. Konkurrierende Prozesse für den selben Benutzer und den selben Test / die selbe Frage müssen warten, bis der andere Prozess den Lock wieder freigibt."
@@ -339,7 +339,7 @@ msgid "assessment_scoring_adjust"
 msgstr "Nachkorrekturmodus aktivieren"
 
 msgid "assessment_scoring_adjust_desc"
-msgstr "Aktiviert den Nachkorrekturmodus, um nachträglich die Bewertung von Fragen in Tests anzupassen."
+msgstr "Ermöglicht es Testadministratoren, die Punktwerte von Fragen anzupassen, nachdem ein Test durchgeführt wurde. Ermöglicht zusätzlich, Antwortoptionen bei einigen Fragetypen zu löschen und bei Lückentextfragen alternative Antworten als korrekt zu markieren."
 
 msgid "autocomplete_error"
 msgstr "Ihre Wert für die Autovervollständigung ist zu groß, Sie haben Antworten in Ihren Antwortoptionen, welche weniger Zeichen besitzen und somit niemals ausgewählt werden können."
@@ -450,19 +450,19 @@ msgid "clientip"
 msgstr "Client IP"
 
 msgid "close_text_hint"
-msgstr "Um eine Lücke in den Text einzufügen, setzen Sie den Cursor an die entsprechende Position und nutzen Sie die Schaltfläche „Textlücke“. Anschließend stehen weiter unten entsprechende Bearbeitungsbereiche zur Verfügung. Ebenso können Sie die Lücken zur Bearbeitung im Lückentext direkt anklicken."
+msgstr "Um eine neue Lücke hinzuzufügen, setzen Sie den Cursor an die gewünschte Position und klicken Sie dann auf einen der Buttons, um den gewünschten Lückentyp zu erstellen. Dadurch wird der von Ihnen gewählte Lückentyp in den Text eingefügt und ein entsprechender Bearbeitungsabschnitt weiter unten erstellt."
 
 msgid "cloze_answer_text_info"
 msgstr "Vorangestellte oder nachfolgende Leerzeichen werden beim Speichern aus der Antwort gelöscht."
 
 msgid "cloze_fixed_textlength"
-msgstr "Länge des Textfeldes"
+msgstr "Länge des Eingabefeldes"
 
 msgid "cloze_fixed_textlength_description"
-msgstr "Wenn Sie hier einen Wert eintragen, werden Textlücken, welche keinen eigenen Wert für eine maximale Länge definieren, sowie numerische Lücken mit dieser Länge erzeugt, so dass es nicht möglich ist eine größere Anzahl an Zeichen einzugeben. Für numerische Lücken ist darüber hinaus zu beachten, dass das Dezimaltrennzeichen dabei mit gezählt wird."
+msgstr "Legen Sie eine feste Länge in Zeichen für die Eingabefelder von Lücken fest, die keine eigene Längeneinstellung haben. Dies beeinflusst die sichtbare Größe der Eingabefelder und verhindert außerdem, dass mehr Zeichen eingegeben werden können als zulässig. Bitte beachten Sie: Bei numerischen Lücken wird das Dezimaltrennzeichen als reguläres Zeichen mitgezählt."
 
 msgid "cloze_gap_size_info"
-msgstr "Ist ein Wert größer 0 eingetragen, wird diese Lücke mit der hier angegebenen Länge erzeugt. Ist kein Wert angegeben, wird diese Lücke mit der global angegebenen Textfeldlänge erzeugt."
+msgstr "Legen Sie eine feste Länge in Zeichen für das Eingabefeld dieser Lücke fest. Dies beeinflusst die sichtbare Länge des Eingabefelds und verhindert außerdem, dass mehr Zeichen eingegeben werden können als zulässig. Wenn hier kein Wert eingetragen wird, ergibt sich die Länge des Eingabefelds aus der festen Länge, die für die gesamte Frage festgelegt ist."
 
 msgid "cloze_text"
 msgstr "Lückentextfrage"
@@ -570,7 +570,7 @@ msgid "delete_user_data"
 msgstr "Testergebnisse entfernen"
 
 msgid "description_maxchars"
-msgstr "Wenn nichts eingegeben wird, ist die maximale Anzahl von Zeichen für diese Textantwort unbegrenzt."
+msgstr "Wenn hier kein Wert eingetragen wird, ist die maximale Anzahl an Zeichen für diese Textantwort unbegrenzt."
 
 msgid "detail_ending_time_reached"
 msgstr "Sie haben die längstmögliche Bearbeitungsdauer des Tests überschritten. Der Test konnte nur bis %s Uhr bearbeitet werden."
@@ -639,7 +639,7 @@ msgid "edit_score"
 msgstr "Bewerten"
 
 msgid "edit_test_questions"
-msgstr "Listenansicht"
+msgstr "Liste der Fragen"
 
 msgid "element_height"
 msgstr "Minimale Höhe"
@@ -663,7 +663,7 @@ msgid "enter_anonymous_code"
 msgstr "Zugangsschlüssel eingeben, um bereits gestarteten Tests fortzuführen:"
 
 msgid "enter_enough_positive_points"
-msgstr "Die maximale Punktezahl für die Frage muss größer als Null sein! Bitte geben Sie ausreichend viele nicht-negative Punkte für die Antworten ein."
+msgstr "Die maximal erreichbare Punktzahl muss größer als 0 sein! Bitte stellen Sie sicher, dass die Summe aller positiven und negativen Punkte eine positive Zahl ergibt."
 
 msgid "enter_enough_positive_points_checked"
 msgstr "Mindestens eine Antwort muss Punkte erzielen. Bitte geben Sie eine positive Punktezahl für das Auswählen einer Antwort ein."
@@ -741,31 +741,31 @@ msgid "errortext_info"
 msgstr "Bitte geben Sie einen Text ein. Um ein Wort als fehlerhaft zu markieren, setzen Sie bitte eine Raute (#) direkt vor das gewünschte Wort. Um eine Gruppe von Fehlerwörtern zu definieren, umklammern Sie die Wörter mit doppelten Klammern und lassen in diesem Fall das Rautezeichen weg. Beispiel: Dies ist ((ein Beispiel)) für mehrere falsche Wörter. Wichtig: bei einer Gruppe von Fehlerwörtern muss jedes einzelne ausgewählt werden, um die für die Gruppe vorgesehene Punktzahl zu erzielen. Wenn Sie auf die Schaltfläche &quot;Text analysieren&quot; klicken, werden die markierten Wörter für die weitere Bearbeitung extrahiert."
 
 msgid "essay_scoring_mode"
-msgstr "Bewertungsmodus"
+msgstr "Automatischer Bewertungsmodus"
 
 msgid "essay_scoring_mode_keyword_relation_all"
-msgstr "Automatische Bewertung bei Nennung aller Begriffe"
+msgstr "Alle Begriffe erforderlich"
 
 msgid "essay_scoring_mode_keyword_relation_all_desc"
-msgstr "Die Punkte werden automatisch vergeben, wenn alle Begriffe gefunden werden."
+msgstr "Punkte werden automatisch vergeben, wenn alle geforderten Begriffe gefunden werden."
 
 msgid "essay_scoring_mode_keyword_relation_any"
-msgstr "Automatische Bewertung bei Nennung einzelner Begriffe"
+msgstr "Pro Begriff"
 
 msgid "essay_scoring_mode_keyword_relation_any_desc"
-msgstr "Für jeden gefundenen Begriff werden die entsprechenden Punkte vergeben."
+msgstr "Für jeden gefundenen Begriff werden Punkte vergeben."
 
 msgid "essay_scoring_mode_keyword_relation_one"
-msgstr "Automatische Bewertung bei Nennung eines Begriffs"
+msgstr "Mindestens ein Begriff"
 
 msgid "essay_scoring_mode_keyword_relation_one_desc"
-msgstr "Die Punkte werden automatisch vergeben, wenn mindestens ein Begriff gefunden wird."
+msgstr "Punkte werden automatisch vergeben, wenn mindestens ein Begriff gefunden wird."
 
 msgid "essay_scoring_mode_without_keywords"
 msgstr "Keine automatische Bewertung"
 
 msgid "essay_scoring_mode_without_keywords_desc"
-msgstr "Es werden keine Punkte automatisiert vergeben. Die Punktevergabe ist nur mit manueller Bewertung möglich."
+msgstr "Punkte werden nicht automatisch vergeben, sie können nur manuell vergeben werden."
 
 msgid "eval_all_users"
 msgstr "Auswertung für alle Benutzer"
@@ -816,7 +816,7 @@ msgid "exp_type_excel"
 msgstr "Microsoft Excel"
 
 msgid "expected_result_type"
-msgstr "Erwarteter Ergebnistyp"
+msgstr "Vorgeschriebenes Antwortformat"
 
 msgid "export_cert_failed_for_users_p"
 msgstr "Für die folgenden %s Konten konnte kein Zertifikat generiert und in das Archiv gelegt werden: %s. Kontaktieren Sie die technische Betreuung zur Sichtung der Protokolldateien."
@@ -825,10 +825,10 @@ msgid "export_cert_failed_for_users_s"
 msgstr "Für das folgende Konto konnte kein Zertifikat generiert und in das Archiv gelegt werden: %s. Kontaktieren Sie die technische Betreuung zur Sichtung der Protokolldateien."
 
 msgid "export_cert_ignored_for_users_p"
-msgstr "Für die folgenden %s Konten liegt kein Zertifikat im generierten Archiv, da noch kein Zertifikat für diese Konten ausgestellt wurde: %s"
+msgstr "Für die folgenden %s Konten wurde kein Zertifikat exportiert, da für diese kein Zertifikat ausgestellt wurde: %s"
 
 msgid "export_cert_ignored_for_users_s"
-msgstr "Für das folgende Konto liegt kein Zertifikat im generierten Archiv, da noch kein Zertifikat für dieses Konto ausgestellt wurde: %s"
+msgstr "Für das folgende Konto wurde kein Zertifikat exportiert, da für dieses kein Zertifikat ausgestellt wurde: %s"
 
 msgid "export_cert_no_users"
 msgstr "Ein Zertifikats-Archiv kann nicht generiert werden, da aktuell keine Teilnehmer existierten."
@@ -1017,7 +1017,7 @@ msgid "fq_formula_desc"
 msgstr "Erlaubt ist die Verwendung von bereits definierten Variablen ($v1 bis $vn), von bereits definierten Ergebnissen (z.B. $r1), das beliebige Klammern von Ausdrücken, die mathematischen Operatoren + (Addition), - (Subtraktion), * (Multiplikation), / (Division), ^ (Potenzieren), die Verwendung der Konstanten 'pi' für die Zahl Pi und 'e‘ für die Eulersche Zahl, sowie die mathematischen Funktionen 'sin', 'sinh', 'arcsin', 'asin', 'arcsinh', 'asinh', 'cos', 'cosh', 'arccos', 'acos', 'arccosh', 'acosh', 'tan', 'tanh', 'arctan', 'atan', 'arctanh', 'atanh', 'sqrt', 'abs', 'ln', 'log'."
 
 msgid "fq_no_restriction_info"
-msgstr "Sowohl Dezimalzahlen als auch Brüche werden als Eingabe akzeptiert."
+msgstr "Als Antwortformate werden sowohl Dezimalzahlen als auch Brüche akzeptiert."
 
 msgid "fq_precision_info"
 msgstr "Geben Sie hier die Anzahl der gewünschten Nachkommastellen an."
@@ -1404,7 +1404,7 @@ msgid "logs_test_run_finished"
 msgstr "Testdurchlauf beendet"
 
 msgid "logs_test_run_of_participant_closed"
-msgstr "Testdurchlauf beendet"
+msgstr "Testdurchlauf von Admin beendet"
 
 msgid "logs_test_run_started"
 msgstr "Testdurchlauf gestartet"
@@ -1692,10 +1692,10 @@ msgid "oq_btn_use_order_pictures"
 msgstr "Verwende Antwort mit Bildern"
 
 msgid "oq_btn_use_order_terms"
-msgstr "Verwende Antwort mit Termen"
+msgstr "Verwende Antwort mit Text"
 
 msgid "oq_header_ordering_elements"
-msgstr "Anordnungs-Elemente"
+msgstr "Antwortelemente"
 
 msgid "or"
 msgstr "oder"
@@ -1710,7 +1710,7 @@ msgid "ordertext"
 msgstr "Anzuordnender Text"
 
 msgid "ordertext_info"
-msgstr "Bitte geben Sie den Text in der Reihenfolge ein, in der er horizontal angeordnet werden soll. Die einzelnen Bestandteile werden durch Leerzeichen getrennt. Wenn Sie eine abweichende Trennung benötigen, verwenden Sie bitte den Trenner %s anstelle der Leerzeichen."
+msgstr "Bitte geben Sie den Text in der korrekten horizontalen Reihenfolge ein. Diese gilt als richtige Reihenfolge für die Bewertung. Die Leerzeichen zwischen den Wörtern dienen automatisch als Trennzeichen für die Elemente. Das bedeutet, dass in einem normalen Satz die einzelnen Wörter als zu sortierende Elemente fungieren. Wenn Sie unterschiedliche Elementgruppen erstellen möchten, um beispielsweise einen Satz in Wortgruppen aufzuteilen, verwenden Sie %s als Trennzeichen."
 
 msgid "out_of_range"
 msgstr "Ausserhalb des Bereichs"
@@ -1863,13 +1863,13 @@ msgid "points_wrong"
 msgstr "Falsche Selektionen"
 
 msgid "points_wrong_info"
-msgstr "Geben Sie Punkte für die Auswahl von Wörtern an, die nicht in der Liste der markierten Fehler enthalten sind."
+msgstr "Geben Sie die negative Punktzahl, z. B. -1, -2 usw., für jedes Wort ein, das nicht zu den Fehlern gehört, aber dennoch ausgewählt wurde."
 
 msgid "polygon"
 msgstr "Polygonzug"
 
 msgid "polygon_click_next_or_save"
-msgstr "Bitte klicken Sie auf den nächsten Punkt im Polygonzug oder speichern Sie die Region. (Es ist nicht nötig, noch einmal auf den Startpunkt zu klicken, um den Polygonzug zu schließen!)"
+msgstr "Bitte klicken Sie auf den nächsten Punkt des Polygonzugs oder klicken Sie auf „Speichern“, um den Polygonbereich zu speichern. Es ist nicht notwendig, noch einmal auf den Startpunkt zu klicken!"
 
 msgid "polygon_click_next_point"
 msgstr "Bitte klicken Sie auf den nächsten Punkt im Polygonzug."
@@ -2019,7 +2019,7 @@ msgid "qpl_lac_legend_label_operators"
 msgstr "Operatoren"
 
 msgid "qpl_maxchars_info_numeric_question"
-msgstr "Wenn Sie hier einen Wert eintragen, wird das Feld für die numerische Antwort mit der angegebenen Länge erzeugt, so dass es nicht möglich ist eine größere Anzahl an Zeichen einzugeben. Zu beachten ist dabei, dass das Dezimaltrennzeichen dabei mit gezählt wird."
+msgstr "Legen Sie eine feste Länge in Zeichen für das Eingabefeld der Lösung dieser numerischen Frage fest. Dies beeinflusst die visuelle Länge des Eingabefeldes und verhindert zudem, dass Teilnehmer mehr Zeichen eingeben können als zugelassen sind. Bitte beachten Sie, dass das Dezimaltrennzeichen als normales Zeichen gezählt wird."
 
 msgid "qpl_move_insert_clipboard"
 msgstr "Die ausgewählten Fragen wurden zum Verschieben markiert"
@@ -2052,10 +2052,10 @@ msgid "qpl_qst_inp_matching_mode"
 msgstr "Zuordnungsmodus"
 
 msgid "qpl_qst_inp_matching_mode_all_on_all"
-msgstr "Ein oder mehrere Terme können einer oder mehreren Definitionen zugeordnet werden (n:n)"
+msgstr "Ein oder mehrere Begriffe können einer oder mehreren Definitionen zugeordnet werden (n:n)"
 
 msgid "qpl_qst_inp_matching_mode_one_on_one"
-msgstr "Ein Term kann einer Definition zugeordnet werden (1:1)"
+msgstr "Ein Begriff kann einer Definition zugeordnet werden (1:1)"
 
 msgid "qpl_qst_skl_assign_properties_modified"
 msgstr "Die Eigenschaften der Zuweisung wurden gespeichert."
@@ -2148,7 +2148,7 @@ msgid "qpl_skl_view_control_mode_aria:"
 msgstr "Ansichtssteuerungsmodus"
 
 msgid "qpl_sync_quest_skl_assigns_confirmation"
-msgstr "Die Frage wurde aus einem anderen Magazinobjekt eingefügt. Soll die aktuelle Konfiguration von Kompetenzzuweisungen auf das Original der Frage übertragen werden?"
+msgstr "Diese Frage wurde aus einem Fragenpool oder einem anderen Test hinzugefügt. Soll die Originalversion der Frage ebenfalls mit den neuen Kompetenzzuweisungen aktualisiert werden?"
 
 msgid "qpl_tab_competences"
 msgstr "Kompetenzen"
@@ -2412,7 +2412,7 @@ msgid "result"
 msgstr "Ergebnis"
 
 msgid "result_co_frac"
-msgstr "Teilerfremder Bruch"
+msgstr "Voll gekürzter Bruch"
 
 msgid "result_co_frac_info"
 msgstr "Nur ein vollständig gekürzter Bruch (z.B. 1/3) ist ein gültiges Ergebnis"
@@ -2427,10 +2427,10 @@ msgid "result_frac"
 msgstr "Bruch"
 
 msgid "result_frac_info"
-msgstr "Die Eingaben 1/3 und 2/6  sind beides gültige Ergebnisse"
+msgstr "Angaben als Brüche werden als gültig gewertet. Brüche müssen nicht vollständig gekürzt sein. So sind beispielsweise sowohl 1/3 als auch 2/6 gültig."
 
 msgid "result_type_selection"
-msgstr "Ergebnistypauswahl"
+msgstr "Vorgeschriebenes Antwortformat"
 
 msgid "result_unit_info"
 msgstr "Bitte beachten Sie, dass die hier festgelegte Einheit auch innerhalb der „Auswählbaren Einheiten“ selektiert werden muss."
@@ -2499,10 +2499,10 @@ msgid "score_anon"
 msgstr "Anonym bewerten"
 
 msgid "score_partsol_enabled"
-msgstr "Halbpunktebewertung aktivieren"
+msgstr "Halbe-Punkte-Bewertung"
 
 msgid "score_partsol_enabled_info"
-msgstr "Es hat sich als sinnvoll erwiesen, drei korrekte Antworten bereits mit der Hälfte der maximal erreichbaren Punktezahl zu honorieren. Bei weniger als drei korrekten Antworten werden keine Punkte vergeben."
+msgstr "Bei drei von vier richtig bewerteten Aussagen wird die Hälfte der maximal erreichbaren Punktzahl vergeben. Bei weniger als drei richtig bewerteten Aussagen werden keine Punkte vergeben."
 
 msgid "scored_by"
 msgstr "Bewertet von"
@@ -2793,7 +2793,7 @@ msgid "thumb_size"
 msgstr "Vorschaugröße"
 
 msgid "thumb_size_info"
-msgstr "Geben Sie einen Wert in Bildpunkten für die maximale Vorschaugröße der Grafiken an. Abhängig vom Seitenverhältnis wird die Vorschau entweder in der Höhe oder in der Breite auf die maximale Vorschaugröße umgewandelt."
+msgstr "Skalieren Sie die längste Kante von Antwortbildern auf diese Länge in Pixeln um. Das Seitenverhältnis des Bildes bleibt erhalten."
 
 msgid "thumb_size_unit_pixel"
 msgstr "Pixel"
@@ -2865,7 +2865,7 @@ msgid "tst_add_quest_cont_edit_mode_IPE_info"
 msgstr "Beim Erstellen oder Bearbeiten von Fragen und Antwortmöglichkeiten kann der Text nicht formatiert werden. Rückmeldungen können jedoch mit dem ILIAS-Seiteneditor formatiert und auch wiederverwendet werden, wenn die Frage in ein ILIAS-Lernmodul eingebettet ist."
 
 msgid "tst_add_quest_cont_edit_mode_RTE"
-msgstr "Rich-Text-Editor (TinyMCE) für das Editieren der Fragen, Antwortoptionen und Rückmeldungen"
+msgstr "Rich-Text-Editor (TinyMCE) für das Bearbeiten von Fragen, Antwortoptionen und Rückmeldungen verwenden"
 
 msgid "tst_add_quest_cont_edit_mode_RTE_info"
 msgstr "Beim Erstellen oder Bearbeiten von Fragen, Antwortoptionen und Rückmeldungen kann der Text formatiert werden. Rückmeldungen werden jedoch nicht übernommen, wenn die Frage in ein ILIAS-Lernmodul eingebettet wird."
@@ -3072,7 +3072,7 @@ msgid "tst_corrections_incompatible_question_set_type"
 msgstr "Eine Nachkorrektur ist nur möglich, wenn der Test eine fest definierte Fragenauswahl verwendet."
 
 msgid "tst_corrections_manscore_reset_warning"
-msgstr "Es liegen %s Bewertungen für die Frage „%s (ID: %s)” vor. Alle Bewertungen werden zurückgesetzt wenn die Frage gespeichert wird."
+msgstr "Diese Frage wurde bereits %s Mal manuell bewertet: „%s“ (ID: %s). Beim Speichern der Frage werden alle diese Bewertungen zurückgesetzt."
 
 msgid "tst_corrections_qst_form"
 msgstr "Korrektur der Punkte"
@@ -3408,16 +3408,16 @@ msgid "tst_instant_feedback"
 msgstr "Direkte Rückmeldung"
 
 msgid "tst_instant_feedback_answer_generic"
-msgstr "Rückmeldung zur richtigen Lösung"
+msgstr "Rückmeldung zu richtiger bzw. falscher Antwort"
 
 msgid "tst_instant_feedback_answer_generic_desc"
-msgstr "Ist die Gesamtheit der Antwort richtig, so zeigt ILIAS beim Anklicken des „Rückmeldung anfordern“-Buttons die eine Art hinterlegter Rückmeldung an. Ist die Gesamtheit der Antwort nicht vollständig richtig, wird eine andere Rückmeldung angezeigt. Beide Versionen müssen bei der Frage im Reiter „Rückmeldung“ hinterlegt werden."
+msgstr "Je nachdem, ob die gegebene Antwort vollständig richtig oder nicht vollständig richtig ist, wird eine unterschiedliche Rückmeldung angezeigt. Beide Rückmeldungen müssen bei der Frage im Reiter „Rückmeldung" hinterlegt werden. Ob diese Rückmeldung automatisch angezeigt wird oder erst nach manuellem Anfordern, kann weiter unten eingestellt werden."
 
 msgid "tst_instant_feedback_answer_specific"
-msgstr "Unterschiedliche Rückmeldungen pro gegebener Antwort"
+msgstr "Spezifische Rückmeldung je Antwort"
 
 msgid "tst_instant_feedback_answer_specific_desc"
-msgstr "Bei Anklicken des 'Rückmeldung anfordern'-Buttons zeigt ILIAS zu jeder abgegebenen Antwort die jeweils hinterlegte  Rückmeldung an. Nicht alle Fragetypen unterstützen diese Art von Rückmeldungen. Die Rückmeldungen müssen bei der Frage im Reiter „Rückmeldung“ hinterlegt werden."
+msgstr "Für jede beantwortete Antwortoption wird die jeweils hinterlegte spezifische Rückmeldung angezeigt. Diese Rückmeldungen müssen bei der Frage im Reiter „Rückmeldung" hinterlegt werden. Ob diese Rückmeldung automatisch angezeigt wird oder erst nach manuellem Anfordern, kann weiter unten eingestellt werden."
 
 msgid "tst_instant_feedback_contents"
 msgstr "Inhalte der Rückmeldung"
@@ -3528,7 +3528,7 @@ msgid "tst_man_scoring_finalized_only"
 msgstr "Nur bewertete Fragen anzeigen"
 
 msgid "tst_man_scoring_only_answered"
-msgstr "Nur beantwortete"
+msgstr "Beantwortet / unbeantwortet"
 
 msgid "tst_man_scoring_questionselection"
 msgstr "Fragen"
@@ -3621,7 +3621,7 @@ msgid "tst_msg_rand_quest_set_incomplete_quest_amount_cfg"
 msgstr "Ohne die Angabe einer Fragenanzahl kann kein Test mit zufälliger Fragenauswahl erzeugt werden."
 
 msgid "tst_msg_rand_quest_set_lost_pools"
-msgstr "Die Fragenziehungskonfiguration des Tests wurde eingefroren, da die folgenden in der Konfiguration involvierten Fragenpools nicht mehr zur Verfügung stehen. Die nicht verfügbaren Fragenpools können neu abgeleitet werden.<br />%s"
+msgstr "Die Fragenziehungskonfiguration des Tests wurde eingefroren, da die folgenden Fragenpools, die in dieser Konfiguration verwendet wurden, nicht mehr zur Verfügung stehen. Wenn Sie möchten, können die Fragen dieser Pools zum Erstellen neuer Fragenpools verwendet werden.<br />%s"
 
 msgid "tst_msg_rand_quest_set_lost_pools_link"
 msgstr "Öffne Auswahl der Fragenpools"
@@ -4746,7 +4746,7 @@ msgid "user_not_invited"
 msgstr "Sie sind kein Teilnehmer der Prüfung."
 
 msgid "usr_manscoring_complete"
-msgstr "Als bewertet markiert"
+msgstr "Bewertung durchgeführt"
 
 msgid "value_between_x_and_y"
 msgstr "Der Wert muss zwischen %s und %s liegen"
