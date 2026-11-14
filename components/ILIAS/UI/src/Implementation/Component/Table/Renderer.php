@@ -22,49 +22,47 @@ namespace ILIAS\UI\Implementation\Component\Table;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
-use ILIAS\UI\Renderer as RendererInterface;
-use ILIAS\UI\Component;
 use ILIAS\UI\Implementation\Render\Template;
+use ILIAS\UI\Renderer as RendererInterface;
+use ILIAS\UI\Implementation\Component as I;
+use ILIAS\UI\Component as C;
 use ILIAS\Data\Order;
 use ILIAS\Data\URI;
-use ILIAS\UI\Implementation\Component\Table\Action\Action;
-use ILIAS\UI\Implementation\Component\Input\ViewControl\Pagination;
-use ILIAS\UI\Implementation\Component\Input\NameSource;
+use ILIAS\UI\URLBuilder;
 
 class Renderer extends AbstractComponentRenderer
 {
+    protected const string KEY_ACTION_ID = 'action_id';
+    protected const string KEY_ROW_ID = 'row_id';
+
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer): string
+    public function render(C\Component $component, RendererInterface $default_renderer): string
     {
-        if ($component instanceof Component\Table\Presentation) {
+        if ($component instanceof Presentation) {
             return $this->renderPresentationTable($component, $default_renderer);
         }
-        if ($component instanceof Component\Table\PresentationRow) {
+        if ($component instanceof PresentationRow) {
             return $this->renderPresentationRow($component, $default_renderer);
         }
-        if ($component instanceof Component\Table\Data) {
+        if ($component instanceof Data) {
             return $this->renderDataTable($component, $default_renderer);
         }
-        if ($component instanceof Component\Table\DataRow
-            && !$component instanceof Component\Table\OrderingRow
-        ) {
+        if ($component instanceof DataRow && !$component instanceof OrderingRow) {
             return $this->renderDataRow($component, $default_renderer);
         }
-        if ($component instanceof Component\Table\Ordering) {
+        if ($component instanceof Ordering) {
             return $this->renderOrderingTable($component, $default_renderer);
         }
-        if ($component instanceof Component\Table\OrderingRow) {
+        if ($component instanceof OrderingRow) {
             return $this->renderOrderingRow($component, $default_renderer);
         }
         $this->cannotHandleComponent($component);
     }
 
-    protected function renderPresentationTable(
-        Component\Table\Presentation $component,
-        RendererInterface $default_renderer
-    ): string {
+    protected function renderPresentationTable(Presentation $component, RendererInterface $default_renderer): string
+    {
         $tpl = $this->getTemplate("tpl.presentationtable.html", true, true);
         $tpl->setVariable("TITLE", $component->getTitle());
         $expcollapsebtns = [];
@@ -72,13 +70,13 @@ class Renderer extends AbstractComponentRenderer
             $sig_ta_expand = clone $sig_ta;
             $sig_ta_expand->addOption('expand', true);
             $expcollapsebtns[] = $this->getUIFactory()->button()
-                ->standard($this->txt('presentation_table_expand'), '')
-                ->withOnClick($sig_ta_expand);
+                                      ->standard($this->txt('presentation_table_expand'), '')
+                                      ->withOnClick($sig_ta_expand);
             $sig_ta_collapse = clone $sig_ta;
             $sig_ta_collapse->addOption('expand', false);
             $expcollapsebtns[] = $this->getUIFactory()->button()
-                ->standard($this->txt('presentation_table_collapse'), '')
-                ->withOnClick($sig_ta_collapse);
+                                      ->standard($this->txt('presentation_table_collapse'), '')
+                                      ->withOnClick($sig_ta_collapse);
             $component = $component->withAdditionalOnLoadCode(
                 static fn($id) => "
                     il.UI.table.presentation.init('{$id}');
@@ -122,10 +120,8 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function renderPresentationRow(
-        Component\Table\PresentationRow $component,
-        RendererInterface $default_renderer
-    ): string {
+    protected function renderPresentationRow(PresentationRow $component, RendererInterface $default_renderer): string
+    {
         $f = $this->getUIFactory();
         $tpl = $this->getTemplate("tpl.presentationrow.html", true, true);
 
@@ -136,11 +132,11 @@ class Renderer extends AbstractComponentRenderer
         $id = $this->bindJavaScript($component);
 
         $expander = $f->button()->shy('', '')->withSymbol($f->symbol()->glyph()->expand())
-            ->withOnClick($sig_show);
+                      ->withOnClick($sig_show);
         $collapser = $f->button()->shy('', '')->withSymbol($f->symbol()->glyph()->collapse())
-            ->withOnClick($sig_hide);
+                       ->withOnClick($sig_hide);
         $shy_expander = $f->button()->shy($this->txt("presentation_table_more"), "")
-            ->withOnClick($sig_show);
+                          ->withOnClick($sig_show);
 
         $tpl->setVariable("ID", $id);
         $tpl->setVariable("EXPANDER", $default_renderer->render($expander));
@@ -204,10 +200,11 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    public function renderDataTable(Component\Table\Data $component, RendererInterface $default_renderer): string
+    public function renderDataTable(Data $component, RendererInterface $default_renderer): string
     {
         $tpl = $this->getTemplate("tpl.datatable.html", true, true);
-        $component = $this->registerActions($component);
+
+        [$component, $prompts] = $this->registerActions($component);
 
         [$component, $view_controls] = $component->applyViewControls(
             $component->getFilter(),
@@ -242,6 +239,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable('TITLE', $component->getTitle());
         $tpl->setVariable('COL_COUNT', (string) $component->getColumnCount() + $compensate_col_count);
         $tpl->setVariable('VIEW_CONTROLS', $default_renderer->render($view_controls));
+        $tpl->setVariable('DIALOG', $default_renderer->render($prompts));
 
         $sortation_signal = null;
         // if the generator is empty, and thus invalid, we render an empty row.
@@ -269,7 +267,7 @@ class Renderer extends AbstractComponentRenderer
 
             $sortation_view_control = array_filter(
                 $view_controls->getInputs(),
-                static fn($i): bool => $i instanceof Component\Input\ViewControl\Sortation
+                static fn($i): bool => $i instanceof C\Input\ViewControl\Sortation
             );
             if ($sortation_view_control) {
                 $sortation_signal = array_shift($sortation_view_control)->getInternalSignal();
@@ -283,9 +281,9 @@ class Renderer extends AbstractComponentRenderer
 
     protected function renderTableHeader(
         RendererInterface $default_renderer,
-        Component\Table\Data $component,
+        Data $component,
         Template $tpl,
-        ?Component\Signal $sortation_signal,
+        ?C\Signal $sortation_signal,
         int $compensate_col_index,
     ): void {
         $order = $component->getOrder();
@@ -321,12 +319,12 @@ class Renderer extends AbstractComponentRenderer
 
                 if ($col_id === $sort_col) {
                     $sortation_glyph = $this->getUIFactory()->button()->shy('', '')
-                          ->withSymbol(
-                              $sort_direction === Order::ASC ?
-                                  $glyph_factory->sortAscending() :
-                                  $glyph_factory->sortDescending()
-                          )
-                          ->withOnClick($sort_signal);
+                                            ->withSymbol(
+                                                $sort_direction === Order::ASC ?
+                                                    $glyph_factory->sortAscending() :
+                                                    $glyph_factory->sortDescending()
+                                            )
+                                            ->withOnClick($sort_signal);
                     $tpl->setVariable('COL_SORTATION', $sortation);
                     $tpl->setVariable('COL_SORTATION_GLYPH', $default_renderer->render($sortation_glyph));
                 }
@@ -340,7 +338,7 @@ class Renderer extends AbstractComponentRenderer
 
     protected function renderActionsHeader(
         RendererInterface $default_renderer,
-        Component\Table\Table $component,
+        AbstractTable $component,
         Template $tpl,
         int $compensate_col_count,
     ): void {
@@ -356,17 +354,17 @@ class Renderer extends AbstractComponentRenderer
             $sig_all = clone $signal;
             $sig_all->addOption('select', true);
             $select_all = $f->button()->shy('', '')
-                  ->withSymbol($glyph_factory->add())
-                  ->withOnClick($sig_all);
+                            ->withSymbol($glyph_factory->add())
+                            ->withOnClick($sig_all);
             $signal->addOption('select', false);
             $select_none = $f->button()->shy('', '')
-                   ->withSymbol($glyph_factory->close())
-                   ->withOnClick($signal);
+                             ->withSymbol($glyph_factory->close())
+                             ->withOnClick($signal);
             $tpl->setVariable('SELECTION_CONTROL_SELECT', $default_renderer->render($select_all));
             $tpl->setVariable('SELECTION_CONTROL_DESELECT', $default_renderer->render($select_none));
         }
 
-        if ($component instanceof Component\Table\Ordering) {
+        if ($component instanceof Ordering) {
             if (!$component->isOrderingDisabled() && !$component->hasMultiActions()) {
                 $tpl->touchBlock('header_rowselection_cell');
             }
@@ -377,7 +375,7 @@ class Renderer extends AbstractComponentRenderer
      * Renders a full-width cell with a single message within, indication there is no
      * data to display. This is achieved using a <td> colspan attribute.
      */
-    protected function renderFullWidthDataCell(Component\Table\Data $component, Template $tpl, string $content): void
+    protected function renderFullWidthDataCell(Data $component, Template $tpl, string $content): void
     {
         $cell_tpl = $this->getTemplate('tpl.datacell.html', true, true);
         $cell_tpl->setCurrentBlock('cell');
@@ -393,39 +391,61 @@ class Renderer extends AbstractComponentRenderer
         $tpl->parseCurrentBlock();
     }
 
-    protected function registerActions(Component\Table\Table $component): Component\Table\Table
-    {
-        $opt_action_id = Action::OPT_ACTIONID;
-        $opt_row_id = Action::OPT_ROWID;
 
+    /**
+     * @return array{0: AbstractTable, 1: C\Prompt\Prompt[]}
+     */
+    protected function registerActions(AbstractTable $component): array
+    {
         if ($component->hasMultiActions()) {
             $component = $component->withAdditionalOnLoadCode(
                 static fn($id): string => "il.UI.table.data.get('{$id}').selectAll(false);"
             );
         }
 
+        $prompts = [];
         $actions = [];
         foreach ($component->getAllActions() as $action_id => $action) {
-            $component = $component->withAdditionalOnLoadCode($this->getActionRegistration((string) $action_id, $action));
-            if ($action->isAsync()) {
-                $signal = clone $component->getAsyncActionSignal();
-                $signal->addOption(Action::OPT_ACTIONID, $action_id);
-                $action = $action->withSignalTarget($signal);
+            $target = $action->getTarget();
+            $signal = null;
+            if ($target instanceof C\Prompt\Prompt) {
+                $url_builder = $target->getUrlBuilder();
+                $signal = $target->getShowSignal();
+                $prompts[] = $target;
+            } else {
+                $url_builder = $target;
             }
+
+            if ($action->isTargetLegacyAsync()) {
+                $signal = clone $component->getAsyncActionSignal();
+                $signal = $signal->withOptions([self::KEY_ACTION_ID => $action_id]);
+                $action = $action->withLegacyAsyncSignal($signal);
+            }
+
+            $url_builder_js = $url_builder->renderObject([$action->getRowIdParameter()]);
+            $tokens_js = $url_builder->renderTokens([$action->getRowIdParameter()]);
+            $is_legacy_async_js = $action->isTargetLegacyAsync() ? 'true' : 'false';
+
+            $component = $component->withAdditionalOnLoadCode(
+                static fn($id): string =>
+                    "il.UI.table.data.get('{$id}').registerAction('{$action_id}', {$is_legacy_async_js}, '{$signal}', {$url_builder_js}, {$tokens_js});"
+            );
+
             $actions[$action_id] = $action;
         }
         $component = $component->withActions($actions);
 
+        $opt_action_id = self::KEY_ACTION_ID;
+        $opt_row_id = self::KEY_ROW_ID;
         $component = $component
             ->withAdditionalOnLoadCode(
-                static fn($id): string =>
-                    "il.UI.table.data.init('{$id}','{$opt_action_id}','{$opt_row_id}');"
+                static fn($id): string => "il.UI.table.data.init('{$id}','{$opt_action_id}','{$opt_row_id}');"
             )
             ->withAdditionalOnLoadCode($this->getAsyncActionHandler($component->getAsyncActionSignal()))
             ->withAdditionalOnLoadCode($this->getMultiActionHandler($component->getMultiActionSignal()))
             ->withAdditionalOnLoadCode($this->getSelectionHandler($component->getSelectionSignal()));
 
-        return $component;
+        return [$component, $prompts];
     }
 
     protected function appendTableRows(
@@ -444,15 +464,18 @@ class Renderer extends AbstractComponentRenderer
         }
     }
 
-    protected function renderEmptyPresentationRow(Template $tpl, RendererInterface $default_renderer, string $content): void
-    {
+    protected function renderEmptyPresentationRow(
+        Template $tpl,
+        RendererInterface $default_renderer,
+        string $content
+    ): void {
         $row_tpl = $this->getTemplate('tpl.presentationrow_empty.html', true, true);
         $row_tpl->setVariable('CONTENT', $content);
         $tpl->setVariable('ROW', $row_tpl->get());
     }
 
     /**
-     * @param array<string, Action> $actions
+     * @param array<string, I\Table\Action\Action> $actions
      */
     protected function buildMultiActionsAllObjectsModal(
         array $actions,
@@ -471,12 +494,14 @@ class Renderer extends AbstractComponentRenderer
             ""
         )->withRequired(true);
         $submit = $f->button()->primary($this->txt('datatable_multiactionmodal_apply'), '')
-            ->withOnLoadCode(
-                static fn($id): string => "$('#{$id}').click(function() { il.UI.table.data.get('{$table_id}').doActionForAll(this); return false; });"
-            );
+                    ->withOnLoadCode(
+                        static fn(
+                            $id
+                        ): string => "$('#{$id}').click(function() { il.UI.table.data.get('{$table_id}').doActionForAll(this); return false; });"
+                    );
         $modal = $f->modal()
-            ->roundtrip($this->txt('datatable_multiactionmodal_title'), [$msg, $select])
-            ->withActionButtons([$submit]);
+                   ->roundtrip($this->txt('datatable_multiactionmodal_title'), [$msg, $select])
+                   ->withActionButtons([$submit]);
         return $modal;
     }
 
@@ -487,13 +512,13 @@ class Renderer extends AbstractComponentRenderer
     }
 
     /**
-     * @param array<string, Action> $actions
+     * @param array<string, I\Table\Action\Action> $actions
      */
     protected function buildMultiActionsDropdown(
         array $actions,
-        Component\Signal $action_signal,
-        Component\Signal $modal_signal,
-    ): ?\ILIAS\UI\Component\Dropdown\Dropdown {
+        C\Signal $action_signal,
+        C\Signal $modal_signal
+    ): ?I\Dropdown\Dropdown {
         if ($actions === []) {
             return null;
         }
@@ -503,17 +528,19 @@ class Renderer extends AbstractComponentRenderer
         $all_obj_buttons = [];
         foreach ($actions as $action_id => $act) {
             $signal = clone $action_signal;
-            $signal->addOption(Action::OPT_ACTIONID, $action_id);
+            $signal->addOption(self::KEY_ACTION_ID, $action_id);
             $buttons[] = $f->button()->shy($act->getLabel(), $signal);
         }
 
         $buttons[] = $f->divider()->horizontal();
-        $buttons[] = $f->button()->shy($this->txt('datatable_multiactionmodal_listentry'), '#')->withOnClick($modal_signal);
+        $buttons[] = $f->button()->shy($this->txt('datatable_multiactionmodal_listentry'), '#')->withOnClick(
+            $modal_signal
+        );
 
         return $f->dropdown()->standard($buttons)->withLabel($this->txt('datatable_multiaction_label'));
     }
 
-    protected function getAsyncActionHandler(Component\Signal $action_signal): \Closure
+    protected function getAsyncActionHandler(C\Signal $action_signal): \Closure
     {
         return static function ($id) use ($action_signal): string {
             return "
@@ -523,7 +550,8 @@ class Renderer extends AbstractComponentRenderer
                 });";
         };
     }
-    protected function getMultiActionHandler(Component\Signal $action_signal): \Closure
+
+    protected function getMultiActionHandler(C\Signal $action_signal): \Closure
     {
         return static function ($id) use ($action_signal): string {
             return "
@@ -534,7 +562,7 @@ class Renderer extends AbstractComponentRenderer
         };
     }
 
-    protected function getSelectionHandler(Component\Signal $selection_signal): \Closure
+    protected function getSelectionHandler(C\Signal $selection_signal): \Closure
     {
         return static function ($id) use ($selection_signal): string {
             return "
@@ -546,45 +574,29 @@ class Renderer extends AbstractComponentRenderer
         };
     }
 
-    protected function getActionRegistration(
-        string $action_id,
-        Action $action
-    ): \Closure {
-        $async = $action->isAsync() ? 'true' : 'false';
-        $url_builder_js = $action->getURLBuilderJS();
-        $tokens_js = $action->getURLBuilderTokensJS();
-
-        return static function ($id) use ($action_id, $async, $url_builder_js, $tokens_js): string {
-            return "
-                il.UI.table.data.get('{$id}').registerAction('{$action_id}', {$async}, {$url_builder_js}, {$tokens_js});
-            ";
-        };
-    }
-
-    public function renderDataRow(Component\Table\DataRow $component, RendererInterface $default_renderer): string
+    public function renderDataRow(DataRow $component, RendererInterface $default_renderer): string
     {
         $cell_tpl = $this->getTemplate("tpl.datacell.html", true, true);
         $this->fillCells($component, $cell_tpl, $default_renderer);
 
-
         return $cell_tpl->get();
     }
 
-    public function renderOrderingRow(Component\Table\OrderingRow $component, RendererInterface $default_renderer): string
+    public function renderOrderingRow(OrderingRow $component, RendererInterface $default_renderer): string
     {
         $cell_tpl = $this->getTemplate("tpl.orderingcell.html", true, true);
         $this->fillCells($component, $cell_tpl, $default_renderer);
-
 
         if ($component->isOrderingDisabled()) {
             return $cell_tpl->get();
         }
 
-        $namesource = new class () implements NameSource {
+        $namesource = new class () implements I\Input\NameSource {
             public function getNewName(): string
             {
                 return '';
             }
+
             public function getNewDedicatedName(string $dedicated_name): string
             {
                 return $dedicated_name;
@@ -593,20 +605,16 @@ class Renderer extends AbstractComponentRenderer
 
         $numeric_label = $this->txt("ui_table_order");
         $input = $this->getUIFactory()->input()->field()->numeric($numeric_label)
-            ->withDedicatedName($component->getId())
-            ->withNameFrom($namesource)
-            ->withValue($component->getPosition() * 10);
+                      ->withDedicatedName($component->getId())
+                      ->withNameFrom($namesource)
+                      ->withValue($component->getPosition() * 10);
         $cell_tpl->setVariable('ORDER_INPUT', $default_renderer->render($input));
 
         return $cell_tpl->get();
     }
 
-
-    protected function fillCells(
-        Component\Table\DataRow $row,
-        Template $cell_tpl,
-        RendererInterface $default_renderer
-    ) {
+    protected function fillCells(DataRow $row, Template $cell_tpl, RendererInterface $default_renderer): void
+    {
         $cols = $row->getColumns();
         foreach ($cols as $col_id => $column) {
             if ($column->isHighlighted()) {
@@ -615,7 +623,7 @@ class Renderer extends AbstractComponentRenderer
             $cell_tpl->setCurrentBlock('cell');
             $cell_tpl->setVariable('COL_TYPE', strtolower($column->getType()));
             $cell_content = $row->getCellContent($col_id);
-            if ($cell_content instanceof Component\Component) {
+            if ($cell_content instanceof C\Component) {
                 $cell_content = $default_renderer->render($cell_content);
             }
             $cell_tpl->setVariable('CELL_CONTENT', $cell_content);
@@ -634,7 +642,7 @@ class Renderer extends AbstractComponentRenderer
             $cell_tpl->setVariable('ACTION_CONTENT', $default_renderer->render($row_actions_dropdown));
         }
 
-        if ($row instanceof Component\Table\OrderingRow) {
+        if ($row instanceof OrderingRow) {
             if (!$row->isOrderingDisabled()) {
                 $drag_handle = $this->getUIFactory()->symbol()->glyph()->dragHandle();
                 $drag_handle = $default_renderer->render($drag_handle);
@@ -644,36 +652,38 @@ class Renderer extends AbstractComponentRenderer
     }
 
     /**
-     * @param array<string, Action> $actions
+     * @param array<string, I\Table\Action\Action> $actions
      */
-    protected function getSingleActionsForRow(string $row_id, array $actions): \ILIAS\UI\Component\Dropdown\Standard
+    protected function getSingleActionsForRow(string $row_id, array $actions): I\Dropdown\Dropdown
     {
         $f = $this->getUIFactory();
         $buttons = [];
-        foreach ($actions as $act) {
-            $act = $act->withRowId($row_id);
-            $target = $act->getTarget();
-            if ($target instanceof URI) {
-                $target = (string) $target;
+        foreach ($actions as $action) {
+            $action = $action->withRowId($row_id);
+            $target = $action->getTarget();
+            if ($target instanceof C\Prompt\Prompt) {
+                $btn_action = $target->getShowSignal();
+            } elseif ($action->isTargetLegacyAsync()) {
+                $btn_action = $action->getLegacyAsyncSignal();
+            } else {
+                $btn_action = (string) $target->buildURI();
             }
-            $buttons[] = $f->button()->shy($act->getLabel(), $target);
+            $buttons[] = $f->button()->shy($action->getLabel(), $btn_action);
         }
         return $f->dropdown()->standard($buttons);
     }
 
-
-    public function renderOrderingTable(Component\Table\Ordering $component, RendererInterface $default_renderer): string
+    public function renderOrderingTable(Ordering $component, RendererInterface $default_renderer): string
     {
         $tpl = $this->getTemplate("tpl.orderingtable.html", true, true);
-        $component = $this->registerActions($component);
 
+        [$component, $prompts] = $this->registerActions($component);
         [$component, $view_controls] = $component->applyViewControls();
 
         $rows = $component->getDataBinding()->getRows(
             $component->getRowBuilder(),
             array_keys($component->getVisibleColumns()),
         );
-
 
         if (!$component->isOrderingDisabled()) {
             $component = $component->withAdditionalOnLoadCode(
@@ -706,12 +716,13 @@ class Renderer extends AbstractComponentRenderer
 
         if (!$component->isOrderingDisabled()) {
             $submit = $this->getUIFactory()->button()->standard($this->txt('sorting_save'), "")
-                ->withOnLoadCode(static fn($id) => "document.getElementById('$id').addEventListener('click',
-                    function() {document.querySelector('#$tableid form.c-table-ordering__form').submit();return false;});");
+                           ->withOnLoadCode(
+                               static fn($id) => "document.getElementById('$id').addEventListener('click',
+                    function() {document.querySelector('#$tableid form.c-table-ordering__form').submit();return false;});"
+                           );
 
             $tpl->setVariable('FORM_BUTTONS', $default_renderer->render($submit));
             $tpl->setVariable('POS_INPUT_TITLE', $this->txt('table_posinput_col_title'));
-
         }
 
         $tpl->setVariable('ID', $tableid);
@@ -719,6 +730,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable('TITLE', $component->getTitle());
         $tpl->setVariable('COL_COUNT', (string) $component->getColumnCount() + $compensate_col_count);
         $tpl->setVariable('VIEW_CONTROLS', $default_renderer->render($view_controls));
+        $tpl->setVariable('DIALOG', $default_renderer->render($prompts));
 
         $columns = $component->getVisibleColumns();
         foreach ($columns as $col_id => $col) {
@@ -773,17 +785,18 @@ class Renderer extends AbstractComponentRenderer
         $registry->register('assets/js/modal.min.js');
     }
 
-    protected function registerSignals(Component\Table\PresentationRow $component): Component\JavaScriptBindable
+    protected function registerSignals(PresentationRow $component): C\JavaScriptBindable
     {
         $show = $component->getShowSignal();
         $close = $component->getCloseSignal();
         $toggle = $component->getToggleSignal();
         $table_id = $component->getTableId();
         return $component->withAdditionalOnLoadCode(
-            static fn($id): string =>
-            "$(document).on('$show', function() { il.UI.table.presentation.get('$table_id').expandRow('$id'); return false; });" .
-            "$(document).on('$close', function() { il.UI.table.presentation.get('$table_id').collapseRow('$id'); return false; });" .
-            "$(document).on('$toggle', function() { il.UI.table.presentation.get('$table_id').toggleRow('$id'); return false; });"
+            static fn(
+                $id
+            ): string => "$(document).on('$show', function() { il.UI.table.presentation.get('$table_id').expandRow('$id'); return false; });" .
+                "$(document).on('$close', function() { il.UI.table.presentation.get('$table_id').collapseRow('$id'); return false; });" .
+                "$(document).on('$toggle', function() { il.UI.table.presentation.get('$table_id').toggleRow('$id'); return false; });"
         );
     }
 }

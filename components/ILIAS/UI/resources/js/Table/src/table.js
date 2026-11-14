@@ -15,12 +15,15 @@
 
 import il from 'il';
 import $ from 'jquery';
-import DataTableFactory from './datatable.factory';
-import PresentationTableFactory from './presentationtable.factory';
-import OrderingTableFactory from './orderingtable.factory';
+import DataTableFactory from './datatable.factory.js';
+import PresentationTableFactory from './presentationtable.factory.js';
+import OrderingTableFactory from './orderingtable.factory.js';
+import JQueryEventDispatcher from '../../Core/src/jqueryeventdispatcher.js';
+
+const eventDispatcher = new JQueryEventDispatcher($);
 
 il.UI = il.UI || {};
 il.UI.table = il.UI.table || {};
-il.UI.table.data = new DataTableFactory($);
+il.UI.table.data = new DataTableFactory($, eventDispatcher);
 il.UI.table.presentation = new PresentationTableFactory();
 il.UI.table.ordering = new OrderingTableFactory();

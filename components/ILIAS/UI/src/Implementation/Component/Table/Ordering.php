@@ -20,13 +20,11 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Table;
 
-use ILIAS\UI\Component\Table as T;
-use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
+use ILIAS\UI\Implementation\Component as I;
+use ILIAS\UI\Component as C;
 use ILIAS\Data\URI;
-use ILIAS\UI\Component\Input\ViewControl;
-use ILIAS\UI\Component\Input\Container\ViewControl as ViewControlContainer;
 
-class Ordering extends AbstractTable implements T\Ordering
+class Ordering extends AbstractTable implements C\Table\Ordering
 {
     use TableViewControlFieldSelection;
 
@@ -36,15 +34,15 @@ class Ordering extends AbstractTable implements T\Ordering
     protected bool $ordering_disabled = false;
 
     public function __construct(
-        SignalGeneratorInterface $signal_generator,
-        ViewControl\Factory $view_control_factory,
-        ViewControlContainer\Factory $view_control_container_factory,
+        I\SignalGeneratorInterface $signal_generator,
+        I\Input\ViewControl\Factory $view_control_factory,
+        I\Input\Container\ViewControl\Factory $view_control_container_factory,
         protected OrderingRowBuilder $row_builder,
         string $title,
         array $columns,
-        protected T\OrderingRetrieval $binding,
+        protected C\Table\OrderingRetrieval $binding,
         protected URI $target_url,
-        \ArrayAccess $storage
+        \ILIAS\UI\Storage $storage
     ) {
         parent::__construct(
             $signal_generator,
@@ -65,7 +63,7 @@ class Ordering extends AbstractTable implements T\Ordering
             ->withVisibleColumns($this->getVisibleColumns());
     }
 
-    public function getDataBinding(): T\OrderingRetrieval
+    public function getDataBinding(): C\Table\OrderingRetrieval
     {
         return $this->binding;
     }
@@ -90,7 +88,7 @@ class Ordering extends AbstractTable implements T\Ordering
     public function getData(): array
     {
         if (!$request = $this->getRequest()) {
-            return null;
+            return [];
         }
         $ordered = $request->getParsedBody();
         asort($ordered, SORT_NUMERIC);
@@ -98,7 +96,7 @@ class Ordering extends AbstractTable implements T\Ordering
     }
 
     /**
-     * @return array<self, ViewControlContainer\ViewControl>
+     * @return array<self, I\Input\Container\ViewControl\ViewControl>
      */
     public function applyViewControls(): array
     {
@@ -118,7 +116,7 @@ class Ordering extends AbstractTable implements T\Ordering
         ];
     }
 
-    protected function getViewControls(): ViewControlContainer\ViewControl
+    protected function getViewControls(): I\Input\Container\ViewControl\ViewControl
     {
         $view_controls = [
             self::VIEWCONTROL_KEY_FIELDSELECTION => $this->getViewControlFieldSelection(),
