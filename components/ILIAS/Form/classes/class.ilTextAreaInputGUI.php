@@ -325,6 +325,15 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
             $ttpl->setCurrentBlock("disabled_rte");
             $ttpl->setVariable("DR_VAL", $this->getValue());
         } else {
+            // the block brings its own leading space, so the ids never run together
+            // custom skins may use an older copy of this template without this block
+            // and keep working without the reference
+            if ($this->getAlert() !== '' && $ttpl->blockExists('described_by_alert')) {
+                $ttpl->setCurrentBlock('described_by_alert');
+                $ttpl->setVariable('DESCRIBED_BY_ALERT_FIELD_ID', $this->getFieldId());
+                $ttpl->parseCurrentBlock();
+            }
+
             if ($this->getUseRte()) {
                 $ttpl->touchBlock("rteditor");
                 $rtestring = ilRTE::_getRTEClassname();

@@ -255,8 +255,18 @@ class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTab
                     $tpl->parseCurrentBlock();
                 }
 
+                // combination items get no alert of their own in the form, so hide their alert
+                // while rendering to avoid a reference to a missing id
+                $alert = $obj->getAlert();
+                $obj->setAlert('');
+                try {
+                    $field_html = $obj->render();
+                } finally {
+                    $obj->setAlert($alert);
+                }
+
                 $tpl->setCurrentBlock("prop_combination");
-                $tpl->setVariable("FIELD", $obj->render());
+                $tpl->setVariable("FIELD", $field_html);
                 $tpl->parseCurrentBlock();
             }
         }
