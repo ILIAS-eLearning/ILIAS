@@ -82,12 +82,12 @@ class RoundTripTest extends ModalBase
     protected function getExpectedHTML(): string
     {
         return <<<EOT
-<dialog class="c-modal il-modal-roundtrip" tabindex="-1" id="id_1">
+<dialog class="c-modal il-modal-roundtrip" tabindex="-1" id="id_1" aria-modal="true" aria-labelledby="id_1_title">
    <div class="modal-dialog" role="document" data-replace-marker="component">
       <div class="modal-content">
          <div class="modal-header">
             <form><button formmethod="dialog" class="close" aria-label="close"><span aria-hidden="true">&times;</span></button></form>
-            <h1 class="modal-title">Title</h1>
+            <h1 id="id_1_title" class="modal-title">Title</h1>
          </div>
          <div class="modal-body">Content</div>
          <div class="modal-footer">
