@@ -24,7 +24,7 @@ class ilRegistrationAppEventListener implements ilAppEventListener
 {
     public static function handleEvent(string $a_component, string $a_event, array $a_parameter): void
     {
-        if ($a_component === 'Services/User' && $a_event === 'deleteUser') {
+        if ($a_component === 'components/ILIAS/User' && $a_event === 'deleteUser') {
             global $DIC;
 
             $pending_reg_repository = new PendingRegistrationDatabaseRepository($DIC->database());

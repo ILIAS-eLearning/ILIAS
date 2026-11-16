@@ -28,7 +28,7 @@ class ilExerciseAppEventListener
         global $DIC;
 
         switch ($a_component) {
-            case "Services/User":
+            case "components/ILIAS/User":
                 switch ($a_event) {
                     case "deleteUser":
                         $DIC->exercise()->internal()->domain()->userEvent()->handleDeletion((int) $a_parameter["usr_id"]);

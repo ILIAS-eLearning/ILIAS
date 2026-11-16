@@ -488,7 +488,7 @@ class ilObjUser extends ilObject
     public function delete(): bool
     {
         $this->app_event_handler->raise(
-            'Services/User',
+            'components/ILIAS/User',
             'deleteUser',
             ['usr_id' => $this->getId()]
         );
