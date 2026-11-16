@@ -1117,7 +1117,7 @@ class ilObjUser extends ilObject
 
         $ilAppEventHandler = $DIC['ilAppEventHandler'];
         $ilAppEventHandler->raise(
-            'Services/User',
+            'components/ILIAS/User',
             'deleteUser',
             ['usr_id' => $this->getId()]
         );
