@@ -24,7 +24,7 @@ class ilDashboardAppEventListener implements ilAppEventListener
 
     public static function handleEvent(string $component, string $event, array $parameter): void
     {
-        if ($event === 'deleteUser') {
+        if ($component === 'components/ILIAS/User' && $event === 'deleteUser') {
             global $DIC;
             self::$clean_up ??= $DIC->database()->prepare(
                 'DELETE FROM desktop_item WHERE user_id = ?',
