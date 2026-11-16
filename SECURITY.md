@@ -222,7 +222,7 @@ which provides more details on affected and fixed versions of ILIAS.
 
 ## Template For Reporting Security Issues
 
-For easier processing we ask you to contribute your security advisory according to the following template:
+For easier processing we ask you to contribute your security advisory according to the following template:\
 Summary: A very brief description of the problem\
 Affected Versions: Please list every affected major release and its latest minor release that is affected\
 Description: A description of the issue\
@@ -237,9 +237,13 @@ CVSS-Score: Optional: If you have a cvss estimation (3.1 or 4.0) please let us k
 
 * Robin Baumgartner, sr solutions ag, Burgdorf, Switzerland
 * Alex Hartwig, Qualitus GmbH, Cologne, Germany
+* Jonas Hillebrand, Katholische Hochschule NRW, Germany
+* Daniel Kipp, Kröpelin Projekte GmbH, Berlin, Germany
 * Matthias Kunkel, ILIAS open source e-Learning e.V., Cologne, Germany
+* Kevin Pulfermüller, vimotion GmbH, Crailsheim, Germany
 * Lukas Scharmer, Databay AG, Würselen, Germany
 * André Schweigert, FAU Kompetenzzentrum Lehre, Fürth, Germany
+* Alexandra Tödt, Leifos GmbH, Cologne, Germany
 * David Tokar, WEKA Intelligence GmbH & Co. KG, Kissing, Germany
 * Guido Vollbach, Databay AG, Würselen, Germany
 
