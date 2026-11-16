@@ -52,7 +52,7 @@ class ilAuthenticationAppEventListener implements ilAppEventListener
             return false;
         }
 
-        return $component === 'Services/User' || $component === 'components/ILIAS/User';
+        return $component === 'components/ILIAS/User';
     }
 
     private function preparePurge(): ?AuthenticatedSubjectPurge
