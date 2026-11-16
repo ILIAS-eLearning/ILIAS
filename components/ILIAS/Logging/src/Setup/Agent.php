@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Logging\Setup;
 
-use ILIAS\Setup\Agent as AgentInterface;
+use ILIAS\Setup\NamedAgent as NamedAgentInterface;
 use ILIAS\Setup\Agent\HasNoNamedObjective;
 use ILIAS\Setup\Objective\NullObjective;
 use ILIAS\Setup\ObjectiveCollection;
@@ -32,7 +32,7 @@ use ILIAS\Refinery\Transformation;
 use ilDatabaseUpdateStepsExecutedObjective;
 use ILIAS\Logging\Setup\Steps\DBUpdateSteps12;
 
-class Agent implements AgentInterface
+class Agent implements NamedAgentInterface
 {
     use HasNoNamedObjective;
 
@@ -41,6 +41,16 @@ class Agent implements AgentInterface
     public function __construct(Factory $refinery)
     {
         $this->refinery = $refinery;
+    }
+
+    /*
+     * We need to keep the "legacy" name of this agent, so that the correct
+     * fields are found in the current `config.json`. Otherwise the Setup
+     * looks for the logging config under `ILIAS\Logging\Setup\Agent`.
+     */
+    public function getAgentName(): string
+    {
+        return 'logging';
     }
 
     public function hasConfig(): bool
