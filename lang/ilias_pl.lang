@@ -251,6 +251,7 @@ administration#:#language_settings#:#Ustawienia wersji językowej
 administration#:#language_statistics#:#Statystyki
 administration#:#language_translation#:#Page translation###29 10 2025 new variable
 administration#:#language_translation_enabled#:#Tłumaczenie strony aktywne
+administration#:#language_unsupported_characters#:#Nothing was saved. The following entries contain invalid or unsupported characters (e.g. emojis): %s###17 11 2026 new variable
 administration#:#language_variables_saved#:#The changes to the language variables were saved successfully.###29 07 2022 new variable
 administration#:#log_scan#:#Log rezultatów skanowania
 administration#:#log_scan_desc#:#Zapisz rezultaty skanowania do 'scanlog.log' w katalogu danych klienta.
@@ -2207,6 +2208,8 @@ awrn#:#user_awrn_default#:#Default###29 07 2022 new variable
 awrn#:#user_awrn_hide#:#Hide my status###29 07 2022 new variable
 awrn#:#user_awrn_show#:#Show my status###29 07 2022 new variable
 background_tasks#:#abort#:#Przerwij
+background_tasks#:#background_task_garbage_collection#:#Background Tasks GC###17 11 2026 new variable
+background_tasks#:#background_task_garbage_collection_info#:#This job cleans up stale tasks and related database tables.###17 11 2026 new variable
 background_tasks#:#background_tasks#:#Zadania w tle
 background_tasks#:#background_tasks_running#:#Zadania w tle
 background_tasks#:#completed#:#Skończony
@@ -7299,6 +7302,8 @@ content#:#cont_versions#:#Wersje
 content#:#cont_whole_glossary#:#Kompletny słownik
 content#:#cont_width#:#Szerokość
 content#:#cont_width_height_info#:#Wielkość prezentowanych elementów można ustalić. W praktyce sprawdziły się elementy o szerokości 950 i wysokości 650 pikseli. Jeśli nie zostaną podane wartości, przeglądarka zadecyduje o wielkości okna.
+content#:#cont_width_px_perc#:#Width###17 11 2026 new variable
+content#:#cont_width_px_perc_info#:#(e.g. px or % value)###17 11 2026 new variable
 content#:#cont_wiki_link_dialog#:#Link do strony Wiki (dialog)
 content#:#cont_wiki_page#:#Strona Wiki
 content#:#cont_wiki_page_link#:#Link do strony Wiki

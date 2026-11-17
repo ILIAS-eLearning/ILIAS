@@ -251,6 +251,7 @@ administration#:#language_settings#:#Language Settings
 administration#:#language_statistics#:#Statistics
 administration#:#language_translation#:#Page translation###29 10 2025 new variable
 administration#:#language_translation_enabled#:#Page translation enabled
+administration#:#language_unsupported_characters#:#Nothing was saved. The following entries contain invalid or unsupported characters (e.g. emojis): %s###17 11 2026 new variable
 administration#:#language_variables_saved#:#The changes to the language variables were saved successfully.
 administration#:#log_scan#:#Log scan results
 administration#:#log_scan_desc#:#Write scan results to ‘scanlog.log’ in client data directory.
@@ -2207,6 +2208,8 @@ awrn#:#user_awrn_default#:#Default
 awrn#:#user_awrn_hide#:#Hide my status
 awrn#:#user_awrn_show#:#Show my status
 background_tasks#:#abort#:#Abort
+background_tasks#:#background_task_garbage_collection#:#Background Tasks GC###17 11 2026 new variable
+background_tasks#:#background_task_garbage_collection_info#:#This job cleans up stale tasks and related database tables.###17 11 2026 new variable
 background_tasks#:#background_tasks#:#Background Tasks
 background_tasks#:#background_tasks_running#:#Background Tasks
 background_tasks#:#completed#:#Completed
@@ -7299,6 +7302,8 @@ content#:#cont_versions#:#Različice
 content#:#cont_whole_glossary#:#Celoten glosar
 content#:#cont_width#:#Širina
 content#:#cont_width_height_info#:#Velikost prikaza lahko določite. V praksi se je za najboljšo izkazala širina 950 pikslov in višina 650 pikslov. Če ni vnesena nobena vrednost, bo brskalnik določil velikost okna.
+content#:#cont_width_px_perc#:#Width###17 11 2026 new variable
+content#:#cont_width_px_perc_info#:#(e.g. px or % value)###17 11 2026 new variable
 content#:#cont_wiki_link_dialog#:#Povezava do strani Wiki (pogovorno okno)
 content#:#cont_wiki_page#:#Stran Wiki
 content#:#cont_wiki_page_link#:#Povezava do strani Wiki

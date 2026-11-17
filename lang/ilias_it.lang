@@ -250,6 +250,7 @@ administration#:#language_settings#:#Impostazioni lingua
 administration#:#language_statistics#:#Statistiche
 administration#:#language_translation#:#Page translation###28 11 2025 new variable
 administration#:#language_translation_enabled#:#Traduzione pagina abilitata
+administration#:#language_unsupported_characters#:#Nothing was saved. The following entries contain invalid or unsupported characters (e.g. emojis): %s###17 11 2026 new variable
 administration#:#language_variables_saved#:#Le modifiche alle variabili della lingua sono state salvate con successo.
 administration#:#log_scan#:#Scrivi nel file di log i risultati
 administration#:#log_scan_desc#:#Scrive i risultati nel file 'scanlog.log' nella cartella del client.
@@ -2206,6 +2207,8 @@ awrn#:#user_awrn_default#:#Predefinito
 awrn#:#user_awrn_hide#:#Nascondi
 awrn#:#user_awrn_show#:#Mostra
 background_tasks#:#abort#:#Interrompi
+background_tasks#:#background_task_garbage_collection#:#Background Tasks GC###17 11 2026 new variable
+background_tasks#:#background_task_garbage_collection_info#:#This job cleans up stale tasks and related database tables.###17 11 2026 new variable
 background_tasks#:#background_tasks#:#Attività in background
 background_tasks#:#background_tasks_running#:#Attività in background
 background_tasks#:#completed#:#Completato
@@ -7298,6 +7301,8 @@ content#:#cont_versions#:#Versioni
 content#:#cont_whole_glossary#:#Glossario completo
 content#:#cont_width#:#Larghezza
 content#:#cont_width_height_info#:#La dimensione del display può essere impostata su una dimensione fissa. 950 pixel per Larghezza e 650 pixel per Altezza sono valori comprovati per l'impostazione delle dimensioni. Se non viene effettuata alcuna immissione, il browser determinerà le dimensioni del display.
+content#:#cont_width_px_perc#:#Width###17 11 2026 new variable
+content#:#cont_width_px_perc_info#:#(e.g. px or % value)###17 11 2026 new variable
 content#:#cont_wiki_link_dialog#:#Link alla pagina Wiki (Dialogo)
 content#:#cont_wiki_page#:#Pagina Wiki
 content#:#cont_wiki_page_link#:#Link pagina Wiki

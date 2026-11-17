@@ -251,6 +251,7 @@ administration#:#language_settings#:#Språkinställningar
 administration#:#language_statistics#:#Statistik
 administration#:#language_translation#:#Page translation###29 10 2025 new variable
 administration#:#language_translation_enabled#:#Sidöversättning aktiverad
+administration#:#language_unsupported_characters#:#Nothing was saved. The following entries contain invalid or unsupported characters (e.g. emojis): %s###17 11 2026 new variable
 administration#:#language_variables_saved#:#Ändringarna av språkvariablerna har sparats framgångsrikt.
 administration#:#log_scan#:#Registrera resultaten av undersökningen
 administration#:#log_scan_desc#:#Spara undersökningsresultaten i filen 'scanlog.log' i kundens datakatalog
@@ -2207,6 +2208,8 @@ awrn#:#user_awrn_default#:#Standard
 awrn#:#user_awrn_hide#:#Visa inte
 awrn#:#user_awrn_show#:#Display
 background_tasks#:#abort#:#Avbryt
+background_tasks#:#background_task_garbage_collection#:#Background Tasks GC###17 11 2026 new variable
+background_tasks#:#background_task_garbage_collection_info#:#This job cleans up stale tasks and related database tables.###17 11 2026 new variable
 background_tasks#:#background_tasks#:#Bakgrundsuppgifter
 background_tasks#:#background_tasks_running#:#Bakgrundsuppgifter
 background_tasks#:#completed#:#Fullbordad
@@ -7299,6 +7302,8 @@ content#:#cont_versions#:#Versioner
 content#:#cont_whole_glossary#:#Övergripande ordlista
 content#:#cont_width#:#Bredd
 content#:#cont_width_height_info#:#Storleken på displayen kan specificeras. I praktiken har en bredd på 950 pixlar och en höjd på 650 pixlar visat sig vara användbar. Om ingen specifikation görs bestämmer webbläsaren fönsterstorleken.
+content#:#cont_width_px_perc#:#Width###17 11 2026 new variable
+content#:#cont_width_px_perc_info#:#(e.g. px or % value)###17 11 2026 new variable
 content#:#cont_wiki_link_dialog#:#Wiki-sida (dialog)
 content#:#cont_wiki_page#:#Wiki-sida
 content#:#cont_wiki_page_link#:#Länk till Wiki-sida

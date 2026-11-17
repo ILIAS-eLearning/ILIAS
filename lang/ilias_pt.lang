@@ -236,6 +236,7 @@ administration#:#language_settings#:#Definições de idioma
 administration#:#language_statistics#:#Estatísticas
 administration#:#language_translation#:#Page translation###03 09 2026 new variable
 administration#:#language_translation_enabled#:#Tradução da página ativada
+administration#:#language_unsupported_characters#:#Nothing was saved. The following entries contain invalid or unsupported characters (e.g. emojis): %s###17 11 2026 new variable
 administration#:#language_variables_saved#:#The changes to the language variables were saved successfully.###25 06 2021 new variable
 administration#:#log_scan#:#Resultados da análise do registo
 administration#:#log_scan_desc#:#Escrever resultados de análise para ‘scanlog.log’ no diretório dos dados do cliente.
@@ -2192,6 +2193,8 @@ awrn#:#user_awrn_default#:#Default###30 04 2021 new variable
 awrn#:#user_awrn_hide#:#Hide my status###30 04 2021 new variable
 awrn#:#user_awrn_show#:#Show my status###30 04 2021 new variable
 background_tasks#:#abort#:#Abortar
+background_tasks#:#background_task_garbage_collection#:#Background Tasks GC###17 11 2026 new variable
+background_tasks#:#background_task_garbage_collection_info#:#This job cleans up stale tasks and related database tables.###17 11 2026 new variable
 background_tasks#:#background_tasks#:#Tarefas secundárias
 background_tasks#:#background_tasks_running#:#Adicionar sala de chat
 background_tasks#:#completed#:#Completado
@@ -7284,6 +7287,8 @@ content#:#cont_versions#:#Versões
 content#:#cont_whole_glossary#:#Inscreveu-se no curso
 content#:#cont_width#:#Tempo para acabar
 content#:#cont_width_height_info#:#Última data de fim
+content#:#cont_width_px_perc#:#Width###17 11 2026 new variable
+content#:#cont_width_px_perc_info#:#(e.g. px or % value)###17 11 2026 new variable
 content#:#cont_wiki_link_dialog#:#Link para página wiki (diálogo)
 content#:#cont_wiki_page#:#Página wiki
 content#:#cont_wiki_page_link#:#Link página wiki

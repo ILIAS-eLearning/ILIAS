@@ -251,6 +251,7 @@ administration#:#language_settings#:#Sprogindstillinger
 administration#:#language_statistics#:#Statistik
 administration#:#language_translation#:#Page translation###29 10 2025 new variable
 administration#:#language_translation_enabled#:#Sideoversættelse aktiveret
+administration#:#language_unsupported_characters#:#Nothing was saved. The following entries contain invalid or unsupported characters (e.g. emojis): %s###17 11 2026 new variable
 administration#:#language_variables_saved#:#The changes to the language variables were saved successfully.###29 07 2022 new variable
 administration#:#log_scan#:#Log scannede resultater
 administration#:#log_scan_desc#:#Skriv scannede resultater til 'scanlog.log' i klientdatabiblioteket
@@ -2207,6 +2208,8 @@ awrn#:#user_awrn_default#:#Default###29 07 2022 new variable
 awrn#:#user_awrn_hide#:#Hide my status###29 07 2022 new variable
 awrn#:#user_awrn_show#:#Show my status###29 07 2022 new variable
 background_tasks#:#abort#:#Abort###23 10 2017 new variable
+background_tasks#:#background_task_garbage_collection#:#Background Tasks GC###17 11 2026 new variable
+background_tasks#:#background_task_garbage_collection_info#:#This job cleans up stale tasks and related database tables.###17 11 2026 new variable
 background_tasks#:#background_tasks#:#Background Tasks###31 08 2017 new variable
 background_tasks#:#background_tasks_running#:#Running Tasks###31 08 2017 new variable
 background_tasks#:#completed#:#Completed###31 08 2017 new variable
@@ -7299,6 +7302,8 @@ content#:#cont_versions#:#Versioner
 content#:#cont_whole_glossary#:#Whole Glossary###16 07 2010 new variable
 content#:#cont_width#:#Bredde
 content#:#cont_width_height_info#:#The size of the display can be set at a fixed size. 950 pixels for Width and 650 pixels for Height are proven values for setting the size. If no entry is made the browser will determine the size of the display.###25 10 2015 new variable
+content#:#cont_width_px_perc#:#Width###17 11 2026 new variable
+content#:#cont_width_px_perc_info#:#(e.g. px or % value)###17 11 2026 new variable
 content#:#cont_wiki_link_dialog#:#Link to Wiki Page (Dialog)###30 08 2015 new variable
 content#:#cont_wiki_page#:#Wiki Page###30 12 2013 new variable
 content#:#cont_wiki_page_link#:#Wiki sidelink
