@@ -80,6 +80,12 @@ msgstr ""
 msgid "news_co_period_info"
 msgstr ""
 
+msgid "news_co_period_object"
+msgstr ""
+
+msgid "news_co_period_object_info"
+msgstr ""
+
 msgid "news_container_object_visibility_settings"
 msgstr ""
 
