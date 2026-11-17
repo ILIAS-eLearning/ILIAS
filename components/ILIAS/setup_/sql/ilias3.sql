@@ -1143,8 +1143,8 @@ CREATE TABLE `booking_object` (
   `info_file` varchar(500) DEFAULT NULL,
   `post_text` varchar(4000) DEFAULT NULL,
   `post_file` varchar(500) DEFAULT NULL,
-  `obj_info_rid` varchar(64) DEFAULT NULL,
-  `book_info_rid` varchar(64) DEFAULT NULL,
+  `obj_info_rid` varchar(64) NOT NULL DEFAULT '',
+  `book_info_rid` varchar(64) NOT NULL DEFAULT '',
   PRIMARY KEY (`booking_object_id`),
   KEY `i1_idx` (`pool_id`),
   KEY `i2_idx` (`schedule_id`)
@@ -2124,9 +2124,9 @@ CREATE TABLE `cmi_interaction` (
   `weighting` double DEFAULT NULL,
   `learner_response` longtext DEFAULT NULL,
   PRIMARY KEY (`cmi_interaction_id`),
-  KEY `i2_idx` (`id`(1024)),
   KEY `i3_idx` (`c_type`),
-  KEY `i4_idx` (`cmi_node_id`)
+  KEY `i4_idx` (`cmi_node_id`),
+  KEY `i2_idx` (`id`(255))
 ) ;
 
 --
@@ -3343,6 +3343,7 @@ CREATE TABLE `cron_job` (
 --
 
 INSERT INTO `cron_job` VALUES ('auth_destroy_expired_sessions','components/ILIAS/Authentication',3,1,1,0,0,1702399177,NULL,NULL,NULL,NULL,NULL,NULL,'ilAuthDestroyExpiredSessionsCron',NULL,NULL,NULL,NULL);
+INSERT INTO `cron_job` VALUES ('background_task_garbage_collection','components/ILIAS/BackgroundTasks',3,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'ilBackgroundTaskGarbageCollection',NULL,NULL,NULL,NULL);
 INSERT INTO `cron_job` VALUES ('book_notification','components/ILIAS/BookingManager',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'ilBookCronNotification',NULL,NULL,NULL,NULL);
 INSERT INTO `cron_job` VALUES ('book_pref_book','components/ILIAS/BookingManager',1,NULL,1,0,0,1702399177,NULL,NULL,NULL,NULL,NULL,NULL,'ilBookingPrefBookCron',NULL,NULL,NULL,NULL);
 INSERT INTO `cron_job` VALUES ('cal_consultation','components/ILIAS/Calendar',0,0,0,0,0,0,0,0,'','',0,0,'ilConsultationHourCron','Services/Calendar/classes/ConsultationHours/',0,0,0);
@@ -6786,7 +6787,12 @@ CREATE TABLE `il_bt_bucket` (
   `title` varchar(255) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
   `last_heartbeat` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `i1_idx` (`user_id`,`state`),
+  KEY `il_bt_bucket_fk_root_task` (`root_task_id`),
+  KEY `il_bt_bucket_fk_current_task` (`current_task_id`),
+  CONSTRAINT `il_bt_bucket_fk_current_task` FOREIGN KEY (`current_task_id`) REFERENCES `il_bt_task` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `il_bt_bucket_fk_root_task` FOREIGN KEY (`root_task_id`) REFERENCES `il_bt_task` (`id`) ON DELETE SET NULL
 ) ;
 
 --
@@ -6818,7 +6824,9 @@ CREATE TABLE `il_bt_task` (
   `class_path` varchar(256) DEFAULT NULL,
   `class_name` varchar(256) DEFAULT NULL,
   `bucket_id` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `i1_idx` (`bucket_id`),
+  CONSTRAINT `il_bt_task_fk_bucket` FOREIGN KEY (`bucket_id`) REFERENCES `il_bt_bucket` (`id`) ON DELETE CASCADE
 ) ;
 
 --
@@ -6856,7 +6864,10 @@ CREATE TABLE `il_bt_value` (
   `bucket_id` bigint(20) DEFAULT NULL,
   `position` bigint(20) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
-  KEY `i1_idx` (`bucket_id`)
+  KEY `i1_idx` (`bucket_id`),
+  KEY `il_bt_value_fk_parent_task` (`parent_task_id`),
+  CONSTRAINT `il_bt_value_fk_bucket` FOREIGN KEY (`bucket_id`) REFERENCES `il_bt_bucket` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `il_bt_value_fk_parent_task` FOREIGN KEY (`parent_task_id`) REFERENCES `il_bt_task` (`id`) ON DELETE CASCADE
 ) ;
 
 --
@@ -6890,7 +6901,11 @@ CREATE TABLE `il_bt_value_to_task` (
   `position` bigint(20) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `i1_idx` (`task_id`),
-  KEY `i2_idx` (`value_id`)
+  KEY `i2_idx` (`value_id`),
+  KEY `i3_idx` (`bucket_id`),
+  CONSTRAINT `il_bt_value_to_task_fk_bucket` FOREIGN KEY (`bucket_id`) REFERENCES `il_bt_bucket` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `il_bt_value_to_task_fk_task` FOREIGN KEY (`task_id`) REFERENCES `il_bt_task` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `il_bt_value_to_task_fk_value` FOREIGN KEY (`value_id`) REFERENCES `il_bt_value` (`id`) ON DELETE CASCADE
 ) ;
 
 --
@@ -7117,6 +7132,8 @@ INSERT INTO `il_db_steps` VALUES ('ilAccessRBACDeleteDbkSteps',2,'2023-12-12 16:
 INSERT INTO `il_db_steps` VALUES ('ilAccessRBACDeleteDbkSteps',3,'2023-12-12 16:39:39.337997','2023-12-12 16:39:39.339521');
 INSERT INTO `il_db_steps` VALUES ('ilADNDatabaseObjective',1,'2023-12-12 16:39:39.302966','2023-12-12 16:39:39.315435');
 INSERT INTO `il_db_steps` VALUES ('ilAuthenticationDatabaseUpdateSteps8',1,'2023-12-12 16:39:39.340519','2023-12-12 16:39:39.348635');
+INSERT INTO `il_db_steps` VALUES ('ilBackgroundTasksDBHotfixes10',1,'2026-11-17 16:46:01.991812','2026-11-17 16:46:02.000796');
+INSERT INTO `il_db_steps` VALUES ('ilBackgroundTasksDBHotfixes10',2,'2026-11-17 16:46:02.001144','2026-11-17 16:46:02.896013');
 INSERT INTO `il_db_steps` VALUES ('ilBadgeDBUpdateSteps',1,'2025-07-18 06:53:07.022218','2025-07-18 06:53:07.024081');
 INSERT INTO `il_db_steps` VALUES ('ilBadgeDBUpdateSteps',2,'2025-07-18 06:53:07.024360','2025-07-18 06:53:07.026215');
 INSERT INTO `il_db_steps` VALUES ('ilBibliograficDB80',1,'2023-12-12 16:39:39.349499','2023-12-12 16:39:39.355083');
@@ -7171,6 +7188,7 @@ INSERT INTO `il_db_steps` VALUES ('ilCtrlDatabaseUpdateSteps',5,'2023-12-12 16:3
 INSERT INTO `il_db_steps` VALUES ('ilCtrlDatabaseUpdateSteps',6,'2023-12-12 16:39:41.364838','2023-12-12 16:39:41.371618');
 INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps10',1,'2025-08-26 15:16:08.639522','2025-08-26 15:16:08.640706');
 INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps10',2,'2026-07-07 14:57:25.355149','2026-07-07 14:57:25.355840');
+INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps10',3,'2026-11-17 16:46:03.242846','2026-11-17 16:46:03.243918');
 INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps11',1,'2026-05-04 14:42:11.820636','2026-05-04 14:42:11.822789');
 INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps11',2,'2026-05-04 14:42:11.823073','2026-05-04 14:42:11.825106');
 INSERT INTO `il_db_steps` VALUES ('ilDataCollectionDBUpdateSteps11',3,'2026-05-04 14:42:11.825394','2026-05-04 14:42:11.825941');
@@ -7266,6 +7284,7 @@ INSERT INTO `il_db_steps` VALUES ('ILIAS\\BookingManager\\Setup\\ilBookingManage
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\BookingManager\\Setup\\ilBookingManagerDBUpdateSteps',8,'2025-07-18 06:53:07.031473','2025-07-18 06:53:07.033393');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\BookingManager\\Setup\\ilBookingManagerDBUpdateSteps',9,'2025-07-18 06:53:07.033694','2025-07-18 06:53:07.035764');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\BookingManager\\Setup\\ilBookingManagerDBUpdateSteps',10,'2026-07-07 14:57:25.332722','2026-07-07 14:57:25.335418');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\BookingManager\\Setup\\ilBookingManagerDBUpdateSteps',11,'2026-11-17 16:46:03.219629','2026-11-17 16:46:03.228705');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Chatroom\\Setup\\UpdateSteps',1,'2023-12-12 16:39:39.450025','2023-12-12 16:39:39.490305');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Chatroom\\Setup\\UpdateSteps',2,'2023-12-12 16:39:39.490976','2023-12-12 16:39:39.502927');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Chatroom\\Setup\\UpdateSteps',3,'2023-12-12 16:39:39.503552','2023-12-12 16:39:39.510145');
@@ -7424,6 +7443,7 @@ INSERT INTO `il_db_steps` VALUES ('ILIAS\\Style\\Content\\Setup\\ilStyleDBUpdate
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Style\\Content\\Setup\\ilStyleDBUpdateSteps',21,'2025-07-18 06:53:06.838357','2025-07-18 06:53:06.840247');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Style\\Content\\Setup\\ilStyleDBUpdateSteps',22,'2026-04-21 16:00:11.283501','2026-04-21 16:00:11.283884');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Style\\Content\\Setup\\ilStyleDBUpdateSteps',23,'2026-09-03 12:52:05.983748','2026-09-03 12:52:05.984209');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Style\\Content\\Setup\\ilStyleDBUpdateSteps',24,'2026-11-17 16:46:03.216334','2026-11-17 16:46:03.217077');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\SurveyQuestionPool\\Setup\\SurveyQuestionPoolDBUpdateSteps',1,'2025-07-18 06:53:07.066560','2025-07-18 06:53:07.068398');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Test\\Setup\\ilTestNoHintsDBUpdateSteps',1,'2026-05-04 14:42:11.838918','2026-05-04 14:42:11.843622');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Test\\Setup\\ilTestNoHintsDBUpdateSteps',2,'2026-05-04 14:42:11.843899','2026-05-04 14:42:11.847493');
@@ -7604,6 +7624,7 @@ INSERT INTO `il_db_steps` VALUES ('ilMDLOMUpdateSteps',11,'2023-12-12 16:39:40.6
 INSERT INTO `il_db_steps` VALUES ('ilMDUpdateSteps10',1,'2025-07-18 06:53:06.901643','2025-07-18 06:53:06.905399');
 INSERT INTO `il_db_steps` VALUES ('ilMDUpdateSteps11',1,'2026-05-04 14:42:11.830895','2026-05-04 14:42:11.832768');
 INSERT INTO `il_db_steps` VALUES ('ilMigrateStudyProgrammeCertificateProviderDBUpdateSteps',1,'2025-07-18 06:53:07.313584','2025-07-18 06:53:07.313812');
+INSERT INTO `il_db_steps` VALUES ('ilNewsDBUpdateSteps',1,'2026-11-17 16:46:03.246643','2026-11-17 16:46:03.249745');
 INSERT INTO `il_db_steps` VALUES ('ilNotificationUpdateSteps',1,'2023-12-12 16:39:40.745514','2023-12-12 16:39:40.746045');
 INSERT INTO `il_db_steps` VALUES ('ilNotificationUpdateSteps',2,'2023-12-12 16:39:40.746642','2023-12-12 16:39:40.747782');
 INSERT INTO `il_db_steps` VALUES ('ilNotificationUpdateSteps',3,'2023-12-12 16:39:40.748371','2023-12-12 16:39:40.749597');
@@ -7655,6 +7676,7 @@ INSERT INTO `il_db_steps` VALUES ('ilScorm2004DatabaseUpdateSteps',2,'2025-11-04
 INSERT INTO `il_db_steps` VALUES ('ilScorm2004DatabaseUpdateSteps',3,'2026-03-10 16:31:24.633455','2026-03-10 16:31:24.637422');
 INSERT INTO `il_db_steps` VALUES ('ilScorm2004DatabaseUpdateSteps',4,'2026-07-07 14:57:25.336300','2026-07-07 14:57:25.338214');
 INSERT INTO `il_db_steps` VALUES ('ilScorm2004DatabaseUpdateSteps',5,'2026-07-07 14:57:25.338496','2026-07-07 14:57:25.341074');
+INSERT INTO `il_db_steps` VALUES ('ilScorm2004DatabaseUpdateSteps',6,'2026-11-17 16:46:03.235473','2026-11-17 16:46:03.240857');
 INSERT INTO `il_db_steps` VALUES ('ilScormAiccDatabaseUpdateSteps',1,'2024-01-31 14:38:25.408514','2024-01-31 14:38:25.417677');
 INSERT INTO `il_db_steps` VALUES ('ilSessionDBUpdateSteps9',1,'2023-12-12 16:39:40.848750','2023-12-12 16:39:40.854713');
 INSERT INTO `il_db_steps` VALUES ('ilSessionDBUpdateSteps9',2,'2023-12-12 16:39:40.855241','2023-12-12 16:39:40.869825');
@@ -8607,13 +8629,13 @@ CREATE TABLE `il_md_cpr_selections` (
 -- Dumping data for table `il_md_cpr_selections`
 --
 
-INSERT INTO `il_md_cpr_selections` VALUES (1,'Attribution Non-commercial No Derivatives (by-nc-nd)','Creative Commons License','<a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nc-nd/4.0/\"><img alt=\"Creative Commons License\" style=\"border-width:0\" src=\"https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png\" /></a><br />This work is licensed under a <a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nc-nd/4.0/\">Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License</a>.','en',0,1,0,0,0,NULL,NULL,NULL,NULL,0,NULL);
-INSERT INTO `il_md_cpr_selections` VALUES (2,'Attribution Non-commercial Share Alike (by-nc-sa)','Creative Commons License','<a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nc-sa/4.0/\"><img alt=\"Creative Commons License\" style=\"border-width:0\" src=\"https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png\" /></a><br />This work is licensed under a <a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nc-sa/4.0/\">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.','en',0,1,0,0,0,NULL,NULL,NULL,NULL,0,NULL);
-INSERT INTO `il_md_cpr_selections` VALUES (3,'Attribution Non-commercial (by-nc)','Creative Commons License','<a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nc/4.0/\"><img alt=\"Creative Commons License\" style=\"border-width:0\" src=\"https://i.creativecommons.org/l/by-nc/4.0/88x31.png\" /></a><br />This work is licensed under a <a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nc/4.0/\">Creative Commons Attribution-NonCommercial 4.0 International License</a>.','en',0,1,0,0,0,NULL,NULL,NULL,NULL,0,NULL);
-INSERT INTO `il_md_cpr_selections` VALUES (4,'Attribution No Derivatives (by-nd)','Creative Commons License','<a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nd/4.0/\"><img alt=\"Creative Commons License\" style=\"border-width:0\" src=\"https://i.creativecommons.org/l/by-nd/4.0/88x31.png\" /></a><br />This work is licensed under a <a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nd/4.0/\">Creative Commons Attribution-NoDerivatives 4.0 International License</a>.','en',0,1,0,0,0,NULL,NULL,NULL,NULL,0,NULL);
-INSERT INTO `il_md_cpr_selections` VALUES (5,'Attribution Share Alike (by-sa)','Creative Commons License','<a rel=\"license\" href=\"http://creativecommons.org/licenses/by-sa/4.0/\"><img alt=\"Creative Commons License\" style=\"border-width:0\" src=\"https://i.creativecommons.org/l/by-sa/4.0/88x31.png\" /></a><br />This work is licensed under a <a rel=\"license\" href=\"http://creativecommons.org/licenses/by-sa/4.0/\">Creative Commons Attribution-ShareAlike 4.0 International License</a>.','en',0,1,0,0,0,NULL,NULL,NULL,NULL,0,NULL);
-INSERT INTO `il_md_cpr_selections` VALUES (6,'Attribution (by)','Creative Commons License','<a rel=\"license\" href=\"http://creativecommons.org/licenses/by/4.0/\"><img alt=\"Creative Commons License\" style=\"border-width:0\" src=\"https://i.creativecommons.org/l/by/4.0/88x31.png\" /></a><br />This work is licensed under a <a rel=\"license\" href=\"http://creativecommons.org/licenses/by/4.0/\">Creative Commons Attribution 4.0 International License</a>.','en',0,1,0,0,0,NULL,NULL,NULL,NULL,0,NULL);
-INSERT INTO `il_md_cpr_selections` VALUES (7,'All rights reserved','The copyright holder reserves, or holds for their own use, all the rights provided by copyright law.','This work has all rights reserved by the owner.','en',0,1,1,0,0,NULL,NULL,NULL,NULL,0,NULL);
+INSERT INTO `il_md_cpr_selections` VALUES (1,'Attribution Non-commercial No Derivatives (BY-NC-ND) 4.0','Creative Commons License','<a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nc-nd/4.0/\"><img alt=\"Creative Commons License\" style=\"border-width:0\" src=\"https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png\" /></a><br />This work is licensed under a <a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nc-nd/4.0/\">Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License</a>.','en',0,1,0,0,0,'Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License','http://creativecommons.org/licenses/by-nc-nd/4.0/','https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-nc-nd.svg','Creative Commons License',1,NULL);
+INSERT INTO `il_md_cpr_selections` VALUES (2,'Attribution Non-commercial Share Alike (BY-NC-SA) 4.0','Creative Commons License','<a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nc-sa/4.0/\"><img alt=\"Creative Commons License\" style=\"border-width:0\" src=\"https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png\" /></a><br />This work is licensed under a <a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nc-sa/4.0/\">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.','en',0,1,0,0,0,'Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License','http://creativecommons.org/licenses/by-nc-sa/4.0/','https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-nc-sa.svg','Creative Commons License',1,NULL);
+INSERT INTO `il_md_cpr_selections` VALUES (3,'Attribution Non-commercial (BY-NC) 4.0','Creative Commons License','<a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nc/4.0/\"><img alt=\"Creative Commons License\" style=\"border-width:0\" src=\"https://i.creativecommons.org/l/by-nc/4.0/88x31.png\" /></a><br />This work is licensed under a <a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nc/4.0/\">Creative Commons Attribution-NonCommercial 4.0 International License</a>.','en',0,1,0,0,0,'Creative Commons Attribution-NonCommercial 4.0 International License','http://creativecommons.org/licenses/by-nc/4.0/','https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-nc.svg','Creative Commons License',1,NULL);
+INSERT INTO `il_md_cpr_selections` VALUES (4,'Attribution No Derivatives (BY-ND) 4.0','Creative Commons License','<a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nd/4.0/\"><img alt=\"Creative Commons License\" style=\"border-width:0\" src=\"https://i.creativecommons.org/l/by-nd/4.0/88x31.png\" /></a><br />This work is licensed under a <a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nd/4.0/\">Creative Commons Attribution-NoDerivatives 4.0 International License</a>.','en',0,1,0,0,0,'Creative Commons Attribution-NoDerivatives 4.0 International License','http://creativecommons.org/licenses/by-nd/4.0/','https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-nd.svg','Creative Commons License',1,NULL);
+INSERT INTO `il_md_cpr_selections` VALUES (5,'Attribution Share Alike (BY-SA) 4.0','Creative Commons License','<a rel=\"license\" href=\"http://creativecommons.org/licenses/by-sa/4.0/\"><img alt=\"Creative Commons License\" style=\"border-width:0\" src=\"https://i.creativecommons.org/l/by-sa/4.0/88x31.png\" /></a><br />This work is licensed under a <a rel=\"license\" href=\"http://creativecommons.org/licenses/by-sa/4.0/\">Creative Commons Attribution-ShareAlike 4.0 International License</a>.','en',0,1,0,0,0,'Creative Commons Attribution-ShareAlike 4.0 International License','http://creativecommons.org/licenses/by-sa/4.0/','https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-sa.svg','Creative Commons License',1,NULL);
+INSERT INTO `il_md_cpr_selections` VALUES (6,'Attribution (BY) 4.0','Creative Commons License','<a rel=\"license\" href=\"http://creativecommons.org/licenses/by/4.0/\"><img alt=\"Creative Commons License\" style=\"border-width:0\" src=\"https://i.creativecommons.org/l/by/4.0/88x31.png\" /></a><br />This work is licensed under a <a rel=\"license\" href=\"http://creativecommons.org/licenses/by/4.0/\">Creative Commons Attribution 4.0 International License</a>.','en',0,1,0,0,0,'Creative Commons Attribution 4.0 International License','http://creativecommons.org/licenses/by/4.0/','https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by.svg','Creative Commons License',1,NULL);
+INSERT INTO `il_md_cpr_selections` VALUES (7,'All rights reserved','The copyright holder reserves, or holds for their own use, all the rights provided by copyright law.','This work has all rights reserved by the owner.','en',0,1,1,0,0,'All rights reserved','','','',1,NULL);
 INSERT INTO `il_md_cpr_selections` VALUES (8,'Public Domain','Creative work to which no exclusive intellectual property rights apply.',NULL,NULL,0,1,0,0,1,'Public Domain','http://creativecommons.org/publicdomain/zero/1.0/','https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/cc-zero.svg','CC0',1,'');
 
 --
@@ -8819,7 +8841,8 @@ CREATE TABLE `il_meta_context` (
   `parent_id` int(11) DEFAULT NULL,
   `context` varchar(255) DEFAULT NULL,
   `context_src` varchar(64) NOT NULL DEFAULT '',
-  PRIMARY KEY (`meta_context_id`)
+  PRIMARY KEY (`meta_context_id`),
+  KEY `i1_idx` (`rbac_id`,`obj_id`)
 ) ;
 
 --
@@ -8893,7 +8916,8 @@ CREATE TABLE `il_meta_coverage` (
   `parent_id` int(11) DEFAULT NULL,
   `coverage` varchar(4000) DEFAULT NULL,
   `coverage_language` char(2) DEFAULT NULL,
-  PRIMARY KEY (`meta_coverage_id`)
+  PRIMARY KEY (`meta_coverage_id`),
+  KEY `i1_idx` (`rbac_id`,`obj_id`)
 ) ;
 
 --
@@ -9010,7 +9034,8 @@ CREATE TABLE `il_meta_end_usr_role` (
   `parent_id` int(11) DEFAULT NULL,
   `intended_end_user_role` varchar(255) DEFAULT NULL,
   `intended_end_user_role_src` varchar(64) NOT NULL DEFAULT '',
-  PRIMARY KEY (`meta_end_usr_role_id`)
+  PRIMARY KEY (`meta_end_usr_role_id`),
+  KEY `i1_idx` (`rbac_id`,`obj_id`)
 ) ;
 
 --
@@ -9369,7 +9394,8 @@ CREATE TABLE `il_meta_lr_type` (
   `parent_id` int(11) DEFAULT NULL,
   `learning_resource_type` varchar(255) DEFAULT NULL,
   `learning_resource_type_src` varchar(64) NOT NULL DEFAULT '',
-  PRIMARY KEY (`meta_lr_type_id`)
+  PRIMARY KEY (`meta_lr_type_id`),
+  KEY `i1_idx` (`rbac_id`,`obj_id`)
 ) ;
 
 --
@@ -9437,7 +9463,8 @@ CREATE TABLE `il_meta_meta_schema` (
   `parent_type` varchar(16) DEFAULT NULL,
   `parent_id` int(11) DEFAULT NULL,
   `meta_data_schema` varchar(16) DEFAULT NULL,
-  PRIMARY KEY (`meta_meta_schema_id`)
+  PRIMARY KEY (`meta_meta_schema_id`),
+  KEY `i1_idx` (`rbac_id`,`obj_id`)
 ) ;
 
 --
@@ -9510,7 +9537,8 @@ CREATE TABLE `il_meta_or_composite` (
   `max_version` varchar(255) DEFAULT NULL,
   `type_src` varchar(64) NOT NULL DEFAULT '',
   `name_src` varchar(64) NOT NULL DEFAULT '',
-  PRIMARY KEY (`meta_or_composite_id`)
+  PRIMARY KEY (`meta_or_composite_id`),
+  KEY `i1_idx` (`rbac_id`,`obj_id`)
 ) ;
 
 --
@@ -9929,7 +9957,8 @@ CREATE TABLE `il_news_item` (
   PRIMARY KEY (`id`),
   KEY `i1_idx` (`context_obj_id`),
   KEY `i2_idx` (`creation_date`),
-  KEY `mo_idx` (`mob_id`)
+  KEY `mo_idx` (`mob_id`),
+  KEY `i3_idx` (`context_obj_type`)
 ) ;
 
 --
@@ -10062,7 +10091,7 @@ INSERT INTO `il_object_def` VALUES ('exc','Exercise','components/ILIAS/Exercise'
 INSERT INTO `il_object_def` VALUES ('excs','ExerciseAdministration','components/ILIAS/Exercise','components/ILIAS/Exercise/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('excv','ExerciseVerification','components/ILIAS/Exercise','components/ILIAS/Exercise/classes',0,0,'0',0,0,0,0,0,0,100,NULL,160,0,0,0,0,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('facs','FileAccessSettings','components/ILIAS/File','components/ILIAS/File/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
-INSERT INTO `il_object_def` VALUES ('file','File','components/ILIAS/File','components/ILIAS/File/classes',1,0,'0',0,1,1,1,0,0,90,NULL,150,1,1,1,0,1,0,0,0);
+INSERT INTO `il_object_def` VALUES ('file','File','components/ILIAS/File','components/ILIAS/File/classes',1,0,'0',0,1,1,1,0,0,90,NULL,150,1,1,1,0,1,0,0,1);
 INSERT INTO `il_object_def` VALUES ('fils','FileServices','components/ILIAS/FileServices','components/ILIAS/FileServices/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('fold','Folder','components/ILIAS/Folder','components/ILIAS/Folder/classes',1,1,'db',0,0,1,1,0,0,40,NULL,20,1,1,0,0,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('frm','Forum','components/ILIAS/Forum','components/ILIAS/Forum/classes',1,1,'0',0,1,1,1,0,0,70,NULL,90,1,1,0,0,0,0,0,1);
@@ -13161,6 +13190,7 @@ INSERT INTO `mail_obj_data` VALUES (4,6,'c_trash','trash');
 INSERT INTO `mail_obj_data` VALUES (5,6,'d_drafts','drafts');
 INSERT INTO `mail_obj_data` VALUES (6,6,'f_sent','sent');
 INSERT INTO `mail_obj_data` VALUES (7,6,'z_local','local');
+INSERT INTO `mail_obj_data` VALUES (9,6,'e_outbox','outbox');
 
 --
 -- Table structure for table `mail_obj_data_seq`
@@ -13169,13 +13199,13 @@ INSERT INTO `mail_obj_data` VALUES (7,6,'z_local','local');
 CREATE TABLE `mail_obj_data_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-)  AUTO_INCREMENT=9;
+)  AUTO_INCREMENT=10;
 
 --
 -- Dumping data for table `mail_obj_data_seq`
 --
 
-INSERT INTO `mail_obj_data_seq` VALUES (8);
+INSERT INTO `mail_obj_data_seq` VALUES (9);
 
 --
 -- Table structure for table `mail_options`
@@ -13310,12 +13340,13 @@ CREATE TABLE `mail_tree` (
 -- Dumping data for table `mail_tree`
 --
 
-INSERT INTO `mail_tree` VALUES (6,2,0,1,12,1);
+INSERT INTO `mail_tree` VALUES (6,2,0,1,14,1);
 INSERT INTO `mail_tree` VALUES (6,3,2,2,3,2);
 INSERT INTO `mail_tree` VALUES (6,4,2,4,5,2);
 INSERT INTO `mail_tree` VALUES (6,5,2,6,7,2);
-INSERT INTO `mail_tree` VALUES (6,6,2,8,9,2);
-INSERT INTO `mail_tree` VALUES (6,7,2,10,11,2);
+INSERT INTO `mail_tree` VALUES (6,6,2,10,11,2);
+INSERT INTO `mail_tree` VALUES (6,7,2,12,13,2);
+INSERT INTO `mail_tree` VALUES (6,9,2,8,9,2);
 
 --
 -- Table structure for table `manscoring_done`
@@ -13822,22 +13853,6 @@ INSERT INTO `notification_usercfg` VALUES (-1,'lso_completion','osd');
 INSERT INTO `notification_usercfg` VALUES (-1,'who_is_online','osd');
 
 --
--- Table structure for table `obj_content_master_lng`
---
-
-CREATE TABLE `obj_content_master_lng` (
-  `obj_id` int(11) NOT NULL DEFAULT 0,
-  `master_lang` varchar(2) NOT NULL DEFAULT '',
-  `fallback_lang` varchar(2) DEFAULT NULL,
-  PRIMARY KEY (`obj_id`)
-) ;
-
---
--- Dumping data for table `obj_content_master_lng`
---
-
-
---
 -- Table structure for table `obj_lp_stat`
 --
 
@@ -14109,7 +14124,7 @@ INSERT INTO `object_data` VALUES (34,'typ','lm','Learning module Object',-1,'200
 INSERT INTO `object_data` VALUES (35,'typ','notf','Note Folder Object',-1,'2002-12-21 00:04:00','2002-12-21 00:04:00','',NULL,NULL);
 INSERT INTO `object_data` VALUES (36,'typ','note','Note Object',-1,'2002-12-21 00:04:00','2002-12-21 00:04:00','',NULL,NULL);
 INSERT INTO `object_data` VALUES (37,'typ','frm','Forum object',-1,'2002-07-15 15:54:22','2003-08-15 12:36:40','',NULL,NULL);
-INSERT INTO `object_data` VALUES (70,'lng','en','installed',-1,NULL,'2026-10-06 14:23:22','',NULL,NULL);
+INSERT INTO `object_data` VALUES (70,'lng','en','installed',-1,NULL,'2026-11-17 16:46:03','',NULL,NULL);
 INSERT INTO `object_data` VALUES (71,'lng','de','not_installed',6,'2003-08-15 10:25:19','2015-12-22 16:29:24','',NULL,NULL);
 INSERT INTO `object_data` VALUES (72,'lng','es','not_installed',6,'2003-08-15 10:25:19','2003-08-15 10:25:19','',NULL,NULL);
 INSERT INTO `object_data` VALUES (73,'lng','it','not_installed',6,'2003-08-15 10:25:19','2003-08-15 10:25:19','',NULL,NULL);
@@ -20930,7 +20945,7 @@ INSERT INTO `settings` VALUES ('common','ilfrmnoti1','1');
 INSERT INTO `settings` VALUES ('common','ilfrmreadidx1','1');
 INSERT INTO `settings` VALUES ('common','ilfrmthri2','1');
 INSERT INTO `settings` VALUES ('common','ilGlobalTstPoolUsageSettingInitilisation','1');
-INSERT INTO `settings` VALUES ('common','ilias_version','11.5.0');
+INSERT INTO `settings` VALUES ('common','ilias_version','11.6.0');
 INSERT INTO `settings` VALUES ('common','ilinc_akclassvalues_required','1');
 INSERT INTO `settings` VALUES ('common','ilmpathix','1');
 INSERT INTO `settings` VALUES ('common','iloscmsgidx1','1');
@@ -21154,41 +21169,16 @@ INSERT INTO `settings` VALUES ('common','rep_shorten_description','1');
 INSERT INTO `settings` VALUES ('common','rep_shorten_description_length','128');
 INSERT INTO `settings` VALUES ('common','rep_tree_limit_grp_crs','');
 INSERT INTO `settings` VALUES ('common','rep_tree_synchronize','1');
-INSERT INTO `settings` VALUES ('common','require_city','');
 INSERT INTO `settings` VALUES ('common','require_default_role','1');
-INSERT INTO `settings` VALUES ('common','require_department','');
-INSERT INTO `settings` VALUES ('common','require_email','1');
-INSERT INTO `settings` VALUES ('common','require_fax','');
-INSERT INTO `settings` VALUES ('common','require_firstname','1');
-INSERT INTO `settings` VALUES ('common','require_gender','0');
-INSERT INTO `settings` VALUES ('common','require_hobby','');
-INSERT INTO `settings` VALUES ('common','require_institution','');
-INSERT INTO `settings` VALUES ('common','require_lastname','1');
 INSERT INTO `settings` VALUES ('common','require_login','1');
 INSERT INTO `settings` VALUES ('common','require_old_country','');
 INSERT INTO `settings` VALUES ('common','require_passwd','1');
 INSERT INTO `settings` VALUES ('common','require_passwd2','1');
-INSERT INTO `settings` VALUES ('common','require_phone_home','');
-INSERT INTO `settings` VALUES ('common','require_phone_mobile','');
-INSERT INTO `settings` VALUES ('common','require_phone_office','');
-INSERT INTO `settings` VALUES ('common','require_referral_comment','');
-INSERT INTO `settings` VALUES ('common','require_street','');
-INSERT INTO `settings` VALUES ('common','require_zipcode','');
 INSERT INTO `settings` VALUES ('common','reuse_of_loginnames','1');
 INSERT INTO `settings` VALUES ('common','rpc_server_host','');
 INSERT INTO `settings` VALUES ('common','rpc_server_port','0');
 INSERT INTO `settings` VALUES ('common','save_user_related_data','0');
 INSERT INTO `settings` VALUES ('common','search_date_filter','');
-INSERT INTO `settings` VALUES ('common','search_enabled_firstname','0');
-INSERT INTO `settings` VALUES ('common','search_enabled_gender','0');
-INSERT INTO `settings` VALUES ('common','search_enabled_hobby','0');
-INSERT INTO `settings` VALUES ('common','search_enabled_institution','0');
-INSERT INTO `settings` VALUES ('common','search_enabled_interests_general','0');
-INSERT INTO `settings` VALUES ('common','search_enabled_interests_help_looking','0');
-INSERT INTO `settings` VALUES ('common','search_enabled_interests_help_offered','0');
-INSERT INTO `settings` VALUES ('common','search_enabled_lastname','0');
-INSERT INTO `settings` VALUES ('common','search_enabled_matriculation','0');
-INSERT INTO `settings` VALUES ('common','search_enabled_title','0');
 INSERT INTO `settings` VALUES ('common','search_index','0');
 INSERT INTO `settings` VALUES ('common','search_lucene','0');
 INSERT INTO `settings` VALUES ('common','search_max_hits','10');
@@ -21224,173 +21214,46 @@ INSERT INTO `settings` VALUES ('common','user_delete_own_account','0');
 INSERT INTO `settings` VALUES ('common','user_delete_own_account_email','');
 INSERT INTO `settings` VALUES ('common','user_portfolios','1');
 INSERT INTO `settings` VALUES ('common','user_reactivate_code','0');
+INSERT INTO `settings` VALUES ('common','usr_profile_migration_completed','1');
 INSERT INTO `settings` VALUES ('common','usr_settings_changeable_by_user_date_format','1');
 INSERT INTO `settings` VALUES ('common','usr_settings_changeable_by_user_last_visited','1');
 INSERT INTO `settings` VALUES ('common','usr_settings_changeable_by_user_new_mail_notification','1');
 INSERT INTO `settings` VALUES ('common','usr_settings_changeable_by_user_timezone','1');
 INSERT INTO `settings` VALUES ('common','usr_settings_changeable_by_user_time_format','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_allow_contact_request','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_avatar','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_awrn_user_show','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_birthday','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_city','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_country','0');
 INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_date_format','1');
 INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_delicious','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_department','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_email','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_fax','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_firstname','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_gender','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_hobby','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_incoming_mail','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_institution','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_interests_general','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_interests_help_looking','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_interests_help_offered','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_language','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_lastname','1');
 INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_last_visited','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_matriculation','0');
 INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_new_mail_notification','1');
 INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_old_country','0');
 INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_password','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_phone_home','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_phone_mobile','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_phone_office','0');
 INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_preferences','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_referral_comment','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_roles','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_second_email','0');
 INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_starting_point','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_street','0');
 INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_style','1');
 INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_timezone','1');
 INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_time_format','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_title','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_changeable_lua_zipcode','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_disable_birthday','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_disable_city','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_disable_country','1');
 INSERT INTO `settings` VALUES ('common','usr_settings_disable_delicious','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_disable_department','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_disable_fax','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_disable_hobby','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_disable_institution','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_disable_interests_general','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_disable_interests_help_looking','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_disable_interests_help_offered','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_disable_matriculation','1');
 INSERT INTO `settings` VALUES ('common','usr_settings_disable_old_country','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_disable_phone_home','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_disable_phone_mobile','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_disable_phone_office','1');
 INSERT INTO `settings` VALUES ('common','usr_settings_disable_preferences','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_disable_referral_comment','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_disable_second_email','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_disable_street','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_disable_title','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_disable_zipcode','1');
 INSERT INTO `settings` VALUES ('common','usr_settings_export_date_format','1');
 INSERT INTO `settings` VALUES ('common','usr_settings_export_last_visited','1');
 INSERT INTO `settings` VALUES ('common','usr_settings_export_new_mail_notification','1');
 INSERT INTO `settings` VALUES ('common','usr_settings_export_starting_point','1');
 INSERT INTO `settings` VALUES ('common','usr_settings_export_timezone','1');
 INSERT INTO `settings` VALUES ('common','usr_settings_export_time_format','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_hide_awrn_user_show','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_hide_birthday','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_hide_city','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_hide_country','1');
 INSERT INTO `settings` VALUES ('common','usr_settings_hide_delicious','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_hide_department','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_hide_fax','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_hide_hobby','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_hide_institution','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_hide_interests_general','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_hide_interests_help_looking','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_hide_interests_help_offered','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_hide_matriculation','1');
 INSERT INTO `settings` VALUES ('common','usr_settings_hide_old_country','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_hide_org_units','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_hide_phone_home','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_hide_phone_mobile','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_hide_phone_office','1');
 INSERT INTO `settings` VALUES ('common','usr_settings_hide_preferences','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_hide_referral_comment','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_hide_roles','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_hide_second_email','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_hide_street','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_hide_title','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_hide_zipcode','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_allow_contact_request','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_avatar','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_awrn_user_show','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_birthday','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_city','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_country','0');
 INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_delicious','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_department','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_email','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_fax','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_firstname','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_gender','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_hobby','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_incoming_mail','1');
 INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_instant_messengers','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_institution','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_interests_general','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_interests_help_looking','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_interests_help_offered','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_language','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_lastname','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_matriculation','0');
 INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_old_country','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_org_units','0');
 INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_password','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_phone_home','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_phone_mobile','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_phone_office','0');
 INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_preferences','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_referral_comment','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_roles','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_second_email','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_street','0');
 INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_style','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_title','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_lua_zipcode','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_allow_contact_request','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_avatar','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_birthday','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_city','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_country','0');
 INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_delicious','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_department','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_email','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_fax','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_firstname','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_gender','1');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_hobby','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_incoming_mail','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_institution','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_interests_general','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_interests_help_looking','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_interests_help_offered','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_language','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_lastname','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_matriculation','0');
 INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_old_country','0');
 INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_password','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_phone_home','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_phone_mobile','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_phone_office','0');
 INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_preferences','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_referral_comment','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_roles','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_second_email','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_street','0');
 INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_style','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_title','0');
-INSERT INTO `settings` VALUES ('common','usr_settings_visib_reg_zipcode','0');
 INSERT INTO `settings` VALUES ('common','usr_starting_point','1');
 INSERT INTO `settings` VALUES ('common','zip_path','');
 INSERT INTO `settings` VALUES ('file','copied_perm_read_view_content','1');
@@ -24243,8 +24106,6 @@ CREATE TABLE `tst_test_defaults` (
   `user_fi` int(11) NOT NULL DEFAULT 0,
   `name` varchar(255) DEFAULT NULL,
   `tstamp` int(11) NOT NULL DEFAULT 0,
-  `marks` longtext DEFAULT NULL,
-  `defaults` longtext DEFAULT NULL,
   `settings_id` int(11) DEFAULT NULL,
   `description` varchar(4000) DEFAULT NULL,
   `author` varchar(255) DEFAULT NULL,
@@ -24487,94 +24348,11 @@ CREATE TABLE `tst_test_settings_seq` (
 CREATE TABLE `tst_tests` (
   `test_id` int(11) NOT NULL DEFAULT 0,
   `obj_fi` int(11) NOT NULL DEFAULT 0,
-  `introduction` varchar(4000) DEFAULT NULL,
-  `sequence_settings` tinyint(4) NOT NULL DEFAULT 0,
-  `score_reporting` tinyint(4) NOT NULL DEFAULT 0,
-  `instant_verification` varchar(1) DEFAULT '0',
-  `answer_feedback` varchar(1) DEFAULT '0',
-  `answer_feedback_points` varchar(1) DEFAULT '0',
-  `fixed_participants` varchar(1) DEFAULT '0',
-  `suspend_test_allowed` varchar(1) DEFAULT '0',
-  `anonymity` varchar(1) DEFAULT '0',
-  `nr_of_tries` smallint(6) NOT NULL DEFAULT 0,
-  `use_previous_answers` varchar(1) DEFAULT '0',
-  `title_output` varchar(1) DEFAULT '0',
-  `processing_time` varchar(8) DEFAULT NULL,
-  `enable_processing_time` tinyint(4) NOT NULL DEFAULT 0,
-  `reset_processing_time` tinyint(4) NOT NULL DEFAULT 0,
-  `reporting_date` varchar(14) DEFAULT NULL,
-  `shuffle_questions` varchar(1) DEFAULT '0',
-  `ects_output` varchar(1) DEFAULT '0',
-  `ects_fx` double DEFAULT NULL,
   `complete` varchar(1) DEFAULT '1',
-  `ects_a` double NOT NULL DEFAULT 90,
-  `ects_b` double NOT NULL DEFAULT 65,
-  `ects_c` double NOT NULL DEFAULT 35,
-  `ects_d` double NOT NULL DEFAULT 10,
-  `ects_e` double NOT NULL DEFAULT 0,
-  `keep_questions` tinyint(4) NOT NULL DEFAULT 0,
-  `count_system` varchar(1) DEFAULT '0',
-  `mc_scoring` varchar(1) DEFAULT '0',
-  `score_cutting` varchar(1) DEFAULT '0',
-  `pass_scoring` varchar(1) DEFAULT '0',
-  `password` varchar(20) DEFAULT NULL,
-  `results_presentation` int(11) NOT NULL DEFAULT 3,
-  `usr_pass_overview_mode` int(11) NOT NULL DEFAULT 0,
-  `show_question_titles` varchar(1) DEFAULT '1',
-  `certificate_visibility` varchar(1) DEFAULT '0',
-  `show_marker` tinyint(4) NOT NULL DEFAULT 0,
-  `kiosk` int(11) NOT NULL DEFAULT 0,
-  `resultoutput` int(11) NOT NULL DEFAULT 0,
-  `finalstatement` varchar(4000) DEFAULT NULL,
-  `showfinalstatement` int(11) NOT NULL DEFAULT 0,
   `tstamp` int(11) NOT NULL DEFAULT 0,
   `created` int(11) NOT NULL DEFAULT 0,
-  `exportsettings` int(11) NOT NULL DEFAULT 0,
   `template_id` int(11) DEFAULT NULL,
-  `pool_usage` tinyint(4) DEFAULT NULL,
   `online_status` tinyint(4) NOT NULL DEFAULT 0,
-  `print_bs_with_res` tinyint(4) NOT NULL DEFAULT 1,
-  `highscore_enabled` int(11) DEFAULT 0,
-  `highscore_anon` int(11) DEFAULT 0,
-  `highscore_achieved_ts` int(11) DEFAULT 0,
-  `highscore_score` int(11) DEFAULT 0,
-  `highscore_percentage` int(11) DEFAULT 0,
-  `highscore_wtime` int(11) DEFAULT 0,
-  `highscore_own_table` int(11) DEFAULT 0,
-  `highscore_top_table` int(11) DEFAULT 0,
-  `highscore_top_num` int(11) DEFAULT 0,
-  `specific_feedback` int(11) DEFAULT 0,
-  `autosave` tinyint(4) NOT NULL DEFAULT 0,
-  `autosave_ival` int(11) NOT NULL DEFAULT 0,
-  `pass_deletion_allowed` int(11) NOT NULL DEFAULT 0,
-  `redirection_mode` int(11) NOT NULL DEFAULT 0,
-  `redirection_url` varchar(4000) DEFAULT NULL,
-  `examid_in_test_pass` int(11) NOT NULL DEFAULT 0,
-  `examid_in_test_res` int(11) NOT NULL DEFAULT 0,
-  `enable_examview` tinyint(4) DEFAULT NULL,
-  `question_set_type` varchar(32) NOT NULL DEFAULT 'FIXED_QUEST_SET',
-  `skill_service` tinyint(4) DEFAULT NULL,
-  `show_grading_status` tinyint(4) DEFAULT 0,
-  `show_grading_mark` tinyint(4) DEFAULT 0,
-  `inst_fb_answer_fixation` tinyint(4) DEFAULT NULL,
-  `intro_enabled` tinyint(4) DEFAULT NULL,
-  `starting_time_enabled` tinyint(4) DEFAULT NULL,
-  `ending_time_enabled` tinyint(4) DEFAULT NULL,
-  `password_enabled` tinyint(4) DEFAULT NULL,
-  `force_inst_fb` tinyint(4) DEFAULT 0,
-  `starting_time` bigint(20) NOT NULL DEFAULT 0,
-  `ending_time` bigint(20) NOT NULL DEFAULT 0,
-  `pass_waiting` varchar(15) DEFAULT NULL,
-  `follow_qst_answer_fixation` tinyint(4) DEFAULT 0,
-  `block_after_passed` tinyint(4) DEFAULT 0,
-  `info_screen` tinyint(4) DEFAULT NULL,
-  `introduction_page_id` bigint(20) DEFAULT NULL,
-  `concluding_remarks_page_id` bigint(20) DEFAULT NULL,
-  `show_questionlist` tinyint(4) DEFAULT NULL,
-  `hide_info_tab` tinyint(4) NOT NULL DEFAULT 0,
-  `conditions_checkbox_enabled` tinyint(4) NOT NULL DEFAULT 0,
-  `ip_range_from` varchar(39) DEFAULT NULL,
-  `ip_range_to` varchar(39) DEFAULT NULL,
   `settings_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`test_id`),
   KEY `i1_idx` (`obj_fi`),
@@ -24679,18 +24457,6 @@ CREATE TABLE `udf_definition` (
   `field_name` char(255) DEFAULT NULL,
   `field_type` varchar(4000) NOT NULL DEFAULT '0',
   `field_values` longtext DEFAULT NULL,
-  `visible` tinyint(4) NOT NULL DEFAULT 0,
-  `changeable` tinyint(4) NOT NULL DEFAULT 0,
-  `required` tinyint(4) NOT NULL DEFAULT 0,
-  `searchable` tinyint(4) NOT NULL DEFAULT 0,
-  `export` tinyint(4) NOT NULL DEFAULT 0,
-  `course_export` tinyint(4) NOT NULL DEFAULT 0,
-  `registration_visible` tinyint(4) DEFAULT 0,
-  `visible_lua` tinyint(4) NOT NULL DEFAULT 0,
-  `changeable_lua` tinyint(4) NOT NULL DEFAULT 0,
-  `group_export` tinyint(4) DEFAULT 0,
-  `certificate` tinyint(4) NOT NULL DEFAULT 0,
-  `prg_export` tinyint(4) NOT NULL DEFAULT 0,
   `section` varchar(64) NOT NULL DEFAULT 'other',
   PRIMARY KEY (`field_id`)
 ) ;
@@ -24699,6 +24465,7 @@ CREATE TABLE `udf_definition` (
 -- Dumping data for table `udf_definition`
 --
 
+INSERT INTO `udf_definition` VALUES ('369e5643-63a3-4541-ac2f-5a3ab7545bbb','Country','ILIAS\\User\\Profile\\Fields\\Custom\\Text',NULL,'contact_data');
 
 --
 -- Table structure for table `user_action_activation`
@@ -24918,7 +24685,41 @@ CREATE TABLE `usr_field_config` (
 -- Dumping data for table `usr_field_config`
 --
 
+INSERT INTO `usr_field_config` VALUES ('369e5643-63a3-4541-ac2f-5a3ab7545bbb',0,0,0,0,0,0,0,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('allow_contact_request',0,1,1,0,0,0,1,1,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('avatar',0,1,0,0,0,0,1,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('awrn_user_show',0,0,1,0,0,0,1,1,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('birthday',0,0,0,0,0,0,0,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('city',0,0,0,0,0,0,0,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('country',0,0,0,0,0,0,0,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('department',0,0,0,0,0,0,0,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('email',1,1,1,0,0,0,1,1,1,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('fax',0,0,0,0,0,0,0,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('firstname',0,1,0,0,0,0,1,1,1,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('gender',1,1,0,0,0,0,1,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('hobby',0,0,0,0,0,0,0,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('incoming_mail',0,1,1,0,0,0,1,1,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('institution',0,0,0,0,0,0,0,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('interests_general',0,0,0,0,0,0,0,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('interests_help_looking',0,0,0,0,0,0,0,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('interests_help_offered',0,0,0,0,0,0,0,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('language',0,1,1,0,0,0,1,1,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('lastname',0,1,0,0,0,0,1,1,1,0,0,0);
 INSERT INTO `usr_field_config` VALUES ('location',0,1,0,0,0,0,1,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('matriculation',0,0,0,0,0,0,0,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('org_units',0,0,0,0,0,0,1,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('phone_home',0,0,0,0,0,0,0,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('phone_mobile',0,0,0,0,0,0,0,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('phone_office',0,0,0,0,0,0,0,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('referral_comment',0,0,0,0,0,0,0,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('roles',0,0,0,0,0,0,1,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('second_email',0,0,0,0,0,0,0,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('session_reminder',0,1,0,0,0,0,1,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('skin_style',0,1,0,0,0,0,1,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('street',0,0,0,0,0,0,0,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('title',0,0,0,0,0,0,0,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('username',0,1,0,0,0,0,0,0,0,0,0,0);
+INSERT INTO `usr_field_config` VALUES ('zipcode',0,0,0,0,0,0,0,0,0,0,0,0);
 
 --
 -- Table structure for table `usr_form_settings`
@@ -25947,5 +25748,5 @@ CREATE TABLE `xmlvalue_seq` (
 
 
 
--- Dump completed on 2026-10-06 14:23:23
+-- Dump completed on 2026-11-17 16:48:06
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
