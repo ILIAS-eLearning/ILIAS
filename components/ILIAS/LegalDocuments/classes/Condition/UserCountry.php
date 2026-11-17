@@ -26,6 +26,7 @@ use ILIAS\LegalDocuments\Condition\Definition\UserCountryDefinition;
 use ILIAS\LegalDocuments\Value\CriterionContent;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Factory as UIFactory;
+use ILIAS\Data\Privacy\TechnicalRequirement\TechnicalRequirements;
 use ilObjUser;
 
 class UserCountry implements Condition
@@ -33,7 +34,8 @@ class UserCountry implements Condition
     public function __construct(
         private readonly CriterionContent $criterion,
         private readonly UserCountryDefinition $definition,
-        private readonly UIFactory $create
+        private readonly UIFactory $create,
+        private readonly TechnicalRequirements $requirements = new TechnicalRequirements()
     ) {
     }
 
@@ -48,7 +50,10 @@ class UserCountry implements Condition
 
     public function eval(ilObjUser $user): bool
     {
-        return strtoupper($user->getCountry()) === strtoupper($this->criterion->arguments()['country']);
+        $country = $user->getProfileData()->getPostalAddress()->resolve(
+            $this->requirements->technicalProcessing('check whether a legal document applies to the person by their country')
+        )->country;
+        return strtoupper($country) === strtoupper($this->criterion->arguments()['country']);
     }
 
     public function definition(): ConditionDefinition
