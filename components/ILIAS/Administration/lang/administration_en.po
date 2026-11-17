@@ -768,10 +768,10 @@ msgid "tree_corrupt"
 msgstr "Tree is corrupted! See scan log for details."
 
 msgid "user_criteria"
-msgstr "Unique user criteria"
+msgstr "Unique User Characteristic"
 
 msgid "user_criteria_desc"
-msgstr "Unique user criteria that is used for test results import/export. This is needed to identify identical users on different ILIAS systems."
+msgstr "A unique user characteristic that is used for the import/export of test results. This is needed to identify identical users on different ILIAS systems."
 
 msgid "usr_loginname_history_info"
 msgstr "The user changed its login at last at %s. The former login was: %s."
