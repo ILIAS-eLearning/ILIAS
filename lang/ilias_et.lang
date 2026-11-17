@@ -2256,6 +2256,8 @@ awrn#:#user_awrn_default#:#Default###29 07 2022 new variable
 awrn#:#user_awrn_hide#:#Hide my status###29 07 2022 new variable
 awrn#:#user_awrn_show#:#Show my status###29 07 2022 new variable
 background_tasks#:#abort#:#Abort###23 10 2017 new variable
+background_tasks#:#background_task_garbage_collection#:#Background Tasks GC###17 11 2026 new variable
+background_tasks#:#background_task_garbage_collection_info#:#This job cleans up stale tasks and related database tables.###17 11 2026 new variable
 background_tasks#:#background_tasks#:#Background Tasks###31 08 2017 new variable
 background_tasks#:#background_tasks_running#:#Running Tasks###31 08 2017 new variable
 background_tasks#:#completed#:#Completed###31 08 2017 new variable
@@ -7296,6 +7298,8 @@ content#:#cont_versions#:#Versioonid
 content#:#cont_whole_glossary#:#Kogu sõnastik
 content#:#cont_width#:#Laius
 content#:#cont_width_height_info#:#The size of the display can be set at a fixed size. 950 pixels for Width and 650 pixels for Height are proven values for setting the size. If no entry is made the browser will determine the size of the display.###25 10 2015 new variable
+content#:#cont_width_px_perc#:#Width###17 11 2026 new variable
+content#:#cont_width_px_perc_info#:#(e.g. px or % value)###17 11 2026 new variable
 content#:#cont_wiki_link_dialog#:#Link to Wiki Page (Dialog)###30 08 2015 new variable
 content#:#cont_wiki_page#:#Wiki Page
 content#:#cont_wiki_page_link#:#Wiki lehe link

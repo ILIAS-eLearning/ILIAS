@@ -2256,6 +2256,8 @@ awrn#:#user_awrn_default#:#Defaul
 awrn#:#user_awrn_hide#:#ステータスを表示しない
 awrn#:#user_awrn_show#:#ステータスを表示する
 background_tasks#:#abort#:#強制終了
+background_tasks#:#background_task_garbage_collection#:#Background Tasks GC###17 11 2026 new variable
+background_tasks#:#background_task_garbage_collection_info#:#This job cleans up stale tasks and related database tables.###17 11 2026 new variable
 background_tasks#:#background_tasks#:#バックグラウンドタスク
 background_tasks#:#background_tasks_running#:#バックグラウンドタスク
 background_tasks#:#completed#:#完了しました
@@ -7296,6 +7298,8 @@ content#:#cont_versions#:#バージョン
 content#:#cont_whole_glossary#:#用語集全体
 content#:#cont_width#:#幅
 content#:#cont_width_height_info#:#表示サイズは固定サイズに設定できます。幅950 pixels高さ650 pixelはサイズ設定用の検証値です。入力値がない場合はブラウザが表示サイズを決定します。
+content#:#cont_width_px_perc#:#Width###17 11 2026 new variable
+content#:#cont_width_px_perc_info#:#(e.g. px or % value)###17 11 2026 new variable
 content#:#cont_wiki_link_dialog#:#Wiki Page (Dialog)へリンク
 content#:#cont_wiki_page#:#Wikiページ
 content#:#cont_wiki_page_link#:#Wikiページリンク

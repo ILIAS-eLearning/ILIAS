@@ -2241,6 +2241,8 @@ awrn#:#user_awrn_default#:#Default###30 04 2021 new variable
 awrn#:#user_awrn_hide#:#Hide my status###30 04 2021 new variable
 awrn#:#user_awrn_show#:#Show my status###30 04 2021 new variable
 background_tasks#:#abort#:#Abortar
+background_tasks#:#background_task_garbage_collection#:#Background Tasks GC###17 11 2026 new variable
+background_tasks#:#background_task_garbage_collection_info#:#This job cleans up stale tasks and related database tables.###17 11 2026 new variable
 background_tasks#:#background_tasks#:#Tarefas secundárias
 background_tasks#:#background_tasks_running#:#Adicionar sala de chat
 background_tasks#:#completed#:#Completado
@@ -7281,6 +7283,8 @@ content#:#cont_versions#:#Versões
 content#:#cont_whole_glossary#:#Inscreveu-se no curso
 content#:#cont_width#:#Tempo para acabar
 content#:#cont_width_height_info#:#Última data de fim
+content#:#cont_width_px_perc#:#Width###17 11 2026 new variable
+content#:#cont_width_px_perc_info#:#(e.g. px or % value)###17 11 2026 new variable
 content#:#cont_wiki_link_dialog#:#Link para página wiki (diálogo)
 content#:#cont_wiki_page#:#Página wiki
 content#:#cont_wiki_page_link#:#Link página wiki

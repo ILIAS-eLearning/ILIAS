@@ -2256,6 +2256,8 @@ awrn#:#user_awrn_default#:#Alapértelmezett
 awrn#:#user_awrn_hide#:#Állapotom elrejtése
 awrn#:#user_awrn_show#:#Állapotom megjelenítése
 background_tasks#:#abort#:#Megállított
+background_tasks#:#background_task_garbage_collection#:#Background Tasks GC###17 11 2026 new variable
+background_tasks#:#background_task_garbage_collection_info#:#This job cleans up stale tasks and related database tables.###17 11 2026 new variable
 background_tasks#:#background_tasks#:#Háttérfolyamatok
 background_tasks#:#background_tasks_running#:#Háttérfolyamatok
 background_tasks#:#completed#:#Befejeződött
@@ -7296,6 +7298,8 @@ content#:#cont_versions#:#Verziók
 content#:#cont_whole_glossary#:#Teljes fogalomtár
 content#:#cont_width#:#Szélesség (pixel)
 content#:#cont_width_height_info#:#A megjelenítés fix méretűre állítható. Bevált érték a 950 pixel szélesség és a 650 pixel magasság. Amennyiben nem ad meg értéket, a böngésző megpróbálja meghatározni a megjelenítés méretét.
+content#:#cont_width_px_perc#:#Width###17 11 2026 new variable
+content#:#cont_width_px_perc_info#:#(e.g. px or % value)###17 11 2026 new variable
 content#:#cont_wiki_link_dialog#:#Wikilap (párbeszédablakos)
 content#:#cont_wiki_page#:#Wiki oldal
 content#:#cont_wiki_page_link#:#Wikilap link

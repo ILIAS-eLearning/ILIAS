@@ -2256,6 +2256,8 @@ awrn#:#user_awrn_default#:#Default###29 07 2022 new variable
 awrn#:#user_awrn_hide#:#Hide my status###29 07 2022 new variable
 awrn#:#user_awrn_show#:#Show my status###29 07 2022 new variable
 background_tasks#:#abort#:#Přerušit
+background_tasks#:#background_task_garbage_collection#:#Background Tasks GC###17 11 2026 new variable
+background_tasks#:#background_task_garbage_collection_info#:#This job cleans up stale tasks and related database tables.###17 11 2026 new variable
 background_tasks#:#background_tasks#:#Úlohy na pozadí
 background_tasks#:#background_tasks_running#:#Spuštěné úlohy
 background_tasks#:#completed#:#Dokončeno
@@ -7296,6 +7298,8 @@ content#:#cont_versions#:#Verze
 content#:#cont_whole_glossary#:#Celý glosář
 content#:#cont_width#:#Šířka
 content#:#cont_width_height_info#:#Velikost zobrazení lze nastavit na pevnou velikost. Pro nastavení velikosti jsou vyzkoušené hodnoty 950 pixelů pro šířku a 650 pixelů pro výšku. Pokud není zadán žádný vstup, prohlížeč určí velikost zobrazení.
+content#:#cont_width_px_perc#:#Width###17 11 2026 new variable
+content#:#cont_width_px_perc_info#:#(e.g. px or % value)###17 11 2026 new variable
 content#:#cont_wiki_link_dialog#:#Odkaz na stránku Wiki (dialogové okno)
 content#:#cont_wiki_page#:#Stránka Wiki
 content#:#cont_wiki_page_link#:#Odkaz na stránku Wiki

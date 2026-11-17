@@ -2259,6 +2259,8 @@ awrn#:#user_awrn_default#:#Predeterminado
 awrn#:#user_awrn_hide#:#Ocultar mi estado
 awrn#:#user_awrn_show#:#Mostrar mi estado
 background_tasks#:#abort#:#Abortar
+background_tasks#:#background_task_garbage_collection#:#Background Tasks GC###17 11 2026 new variable
+background_tasks#:#background_task_garbage_collection_info#:#This job cleans up stale tasks and related database tables.###17 11 2026 new variable
 background_tasks#:#background_tasks#:#Tareas en segundo plano
 background_tasks#:#background_tasks_running#:#Tareas en segundo plano
 background_tasks#:#completed#:#Completado
@@ -7300,6 +7302,8 @@ content#:#cont_versions#:#Versiones
 content#:#cont_whole_glossary#:#Glosario completo
 content#:#cont_width#:#Ancho en píxeles
 content#:#cont_width_height_info#:#La presentación puede ajustarse a un tamaño fijo. 950 píxeles de ancho y 650 píxeles de alto son valores probados para configurar el tamaño. Si no se introduce ningún valor, el navegador determinará el tamaño de la presentación.
+content#:#cont_width_px_perc#:#Width###17 11 2026 new variable
+content#:#cont_width_px_perc_info#:#(e.g. px or % value)###17 11 2026 new variable
 content#:#cont_wiki_link_dialog#:#Página de Wiki (Diálogo)
 content#:#cont_wiki_page#:#Página de Wiki
 content#:#cont_wiki_page_link#:#Enlace a Página de Wiki
