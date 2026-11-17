@@ -185,6 +185,11 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
                 $sub_id
             );
 
+            if ($obj_id && !ilObject::_hasUntrashedReference($obj_id)) {
+                $this->log->info('Course/group with obj_id '. $obj_id .' is deleted. Skip processing participants.');
+                continue;
+            }
+            
             $this->refreshAssignmentStatus($course_member, $obj_id, $sub_id, $assigned);
         }
         return true;
