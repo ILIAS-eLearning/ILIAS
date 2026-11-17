@@ -28,7 +28,7 @@ jobs:
 
       - name: Start MySQL Service
         run: |
-           sudo /etc/init.d/mysql start
+           sudo systemctl start mysql.service
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
