@@ -35,6 +35,7 @@
     "logging" : {
         "enable" : true,
         "path_to_logfile" : "/home/runner/work/ILIAS/ILIAS/logs/ilias.log",
+        "default_level" : "INFO",
         "errorlog_dir" : "/home/runner/work/ILIAS/ILIAS/logs/"
     },
     "utilities" : {
