@@ -288,7 +288,7 @@ msgid "assf_allowed_questiontypes"
 msgstr "Available Question Types"
 
 msgid "assf_allowed_questiontypes_desc"
-msgstr "All the checked question types will be available in this ILIAS installation. If you don't want to allow the creation of a certain question type in this installation, you must remove the selection in the associated check box."
+msgstr "All of the selected question types will be available on this ILIAS installation. If you don't want to allow the creation of a certain question type, you need to deselect the checkbox corresponding to that question type."
 
 msgid "assf_questiontypes"
 msgstr "Question Settings"
@@ -1353,7 +1353,7 @@ msgid "delete"
 msgstr "Delete"
 
 msgid "delete_existing_file"
-msgstr "Delete existing file"
+msgstr "Delete Existing File"
 
 msgid "delete_inactivated_user_accounts"
 msgstr "Delete inactivated user accounts"
@@ -1401,7 +1401,7 @@ msgid "deleted"
 msgstr "Deleted"
 
 msgid "deleted_user"
-msgstr "The user has been deleted"
+msgstr "This user account has been deleted"
 
 msgid "deleted_users"
 msgstr "Deleted users"
@@ -3067,7 +3067,7 @@ msgid "lastname"
 msgstr "Last Name"
 
 msgid "latex_edit_info"
-msgstr "You can enter LaTeX code in the delimiters <code>[tex]</code> and <code>[/tex]</code>."
+msgstr "You can enter LaTeX code between the delimiters <code>[tex]</code> and <code>[/tex]</code>."
 
 msgid "laugh"
 msgstr "Laugh"
