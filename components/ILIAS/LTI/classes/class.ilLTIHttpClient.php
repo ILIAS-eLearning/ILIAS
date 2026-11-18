@@ -45,13 +45,20 @@ final readonly class ilLTIHttpClient implements ClientInterface
 
         $start = hrtime(true);
         $ok = $this->client->send($message);
-        $this->logger->debug('LTI call {method} {url}: {status} in {ms} ms{error}', [
+        $context = [
             'method' => $message->getMethod(),
             'url' => ilLTILibraryLogger::hideSecrets($message->getUrl()),
             'status' => $message->status,
             'ms' => intdiv(hrtime(true) - $start, 1_000_000),
             'error' => $message->error !== '' ? ', ' . $message->error : '',
-        ]);
+        ];
+        if (!$ok && $message->status === 0) {
+            // no answer at all: the network, a proxy or a certificate is in the way, which the library only
+            // reports as a failed signature or service call
+            $this->logger->warning('LTI call {method} {url} got no answer in {ms} ms{error}', $context);
+        } else {
+            $this->logger->debug('LTI call {method} {url}: {status} in {ms} ms{error}', $context);
+        }
 
         return $ok;
     }

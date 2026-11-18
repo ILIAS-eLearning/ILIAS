@@ -66,7 +66,12 @@ final class ilLTILibraryLogger extends AbstractLogger
             $logger->isHandling(ilLogLevel::WARNING) => LogLevel::Error,
             default => LogLevel::None,
         };
-        HttpMessage::setHttpClient(new ilLTIHttpClient(HttpMessage::getHttpClient(), $logger));
+        // the calls go through the proxy of ILIAS like the other calls of ILIAS; without one, the library keeps its
+        // own client, which still follows the proxy the environment of the server sets
+        $client = ilCurlConnection::_isCurlExtensionLoaded() && ilProxySettings::_getInstance()->isActive()
+            ? new ilLTICurlClient()
+            : HttpMessage::getHttpClient();
+        HttpMessage::setHttpClient(new ilLTIHttpClient($client, $logger));
         $request = isset($DIC['http']) ? $DIC->http()->request() : null;
         $logger->debug('LTI request {method} {uri} on ILIAS {ilias}, celtic/lti {library}, PHP {php}', [
             'method' => $request?->getMethod() ?? 'CLI',
