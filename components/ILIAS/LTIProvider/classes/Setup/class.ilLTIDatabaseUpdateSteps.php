@@ -137,4 +137,101 @@ class ilLTIDatabaseUpdateSteps implements ilDatabaseUpdateSteps
     {
         $this->db->modifyTableColumn("lti2_consumer", "settings", array("type" => "clob", "notnull" => false));
     }
+
+    /**
+     * The LTI User role could be created more than once. Its title starts with "il_", so the copies
+     * cannot be deleted from the user interface. Keep one of them and move everything to it.
+     */
+    public function step_10(): void
+    {
+        $role_ids = [];
+        $res = $this->db->query(
+            "SELECT obj_id FROM object_data WHERE type = " . $this->db->quote('role', 'text') .
+            " AND title = " . $this->db->quote('il_lti_global_role', 'text') . " ORDER BY obj_id"
+        );
+        while ($row = $this->db->fetchAssoc($res)) {
+            $role_ids[] = (int) $row['obj_id'];
+        }
+
+        if (count($role_ids) < 2) {
+            return;
+        }
+
+        $keep_role_id = $this->getLtiRoleToKeep($role_ids);
+
+        foreach ($role_ids as $role_id) {
+            if ($role_id === $keep_role_id) {
+                continue;
+            }
+
+            $this->db->manipulateF(
+                "UPDATE lti_ext_consumer SET role = %s WHERE role = %s",
+                ['integer', 'integer'],
+                [$keep_role_id, $role_id]
+            );
+            foreach (['admin', 'tutor', 'member'] as $column) {
+                $this->db->manipulateF(
+                    "UPDATE lti_int_provider_obj SET " . $column . " = %s WHERE " . $column . " = %s",
+                    ['integer', 'integer'],
+                    [$keep_role_id, $role_id]
+                );
+            }
+
+            $res = $this->db->queryF(
+                "SELECT usr_id FROM rbac_ua WHERE rol_id = %s AND usr_id NOT IN " .
+                "(SELECT usr_id FROM rbac_ua WHERE rol_id = %s)",
+                ['integer', 'integer'],
+                [$role_id, $keep_role_id]
+            );
+            $user_ids = [];
+            while ($row = $this->db->fetchAssoc($res)) {
+                $user_ids[] = (int) $row['usr_id'];
+            }
+            foreach ($user_ids as $user_id) {
+                $this->db->insert('rbac_ua', [
+                    'usr_id' => ['integer', $user_id],
+                    'rol_id' => ['integer', $keep_role_id]
+                ]);
+            }
+
+            foreach (['rbac_ua', 'rbac_pa', 'rbac_templates', 'rbac_fa'] as $table) {
+                $this->db->manipulateF("DELETE FROM " . $table . " WHERE rol_id = %s", ['integer'], [$role_id]);
+            }
+            $this->db->manipulateF("DELETE FROM role_data WHERE role_id = %s", ['integer'], [$role_id]);
+            $this->db->manipulateF("DELETE FROM ldap_rg_mapping WHERE role = %s", ['integer'], [$role_id]);
+            foreach (['object_translation', 'object_description', 'object_data'] as $table) {
+                $this->db->manipulateF("DELETE FROM " . $table . " WHERE obj_id = %s", ['integer'], [$role_id]);
+            }
+        }
+    }
+
+    /**
+     * Prefer the role used by the most consumers, then the one with the most users, then the oldest one.
+     *
+     * @param int[] $role_ids
+     */
+    protected function getLtiRoleToKeep(array $role_ids): int
+    {
+        $keep_role_id = $role_ids[0];
+        $best = [-1, -1];
+        foreach ($role_ids as $role_id) {
+            $consumers = $this->db->fetchAssoc($this->db->queryF(
+                "SELECT COUNT(*) cnt FROM lti_ext_consumer WHERE role = %s",
+                ['integer'],
+                [$role_id]
+            ));
+            $users = $this->db->fetchAssoc($this->db->queryF(
+                "SELECT COUNT(*) cnt FROM rbac_ua WHERE rol_id = %s",
+                ['integer'],
+                [$role_id]
+            ));
+            $score = [(int) $consumers['cnt'], (int) $users['cnt']];
+            if ($score > $best) {
+                $best = $score;
+                $keep_role_id = $role_id;
+            }
+        }
+
+        return $keep_role_id;
+    }
 }
