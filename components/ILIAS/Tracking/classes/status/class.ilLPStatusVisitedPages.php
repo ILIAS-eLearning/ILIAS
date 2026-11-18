@@ -127,7 +127,7 @@ class ilLPStatusVisitedPages extends ilLPStatus
         }
         $sql = "SELECT obj_id, usr_id" .
             " FROM lm_read_event" .
-            " WHERE " . $ilDB->in("obj_id", $all_page_ids, "", "integer");
+            " WHERE " . $ilDB->in("obj_id", $all_page_ids, false, "integer");
         if ($a_user_id) {
             $sql .= " AND usr_id = " . $ilDB->quote($a_user_id, "integer");
         }

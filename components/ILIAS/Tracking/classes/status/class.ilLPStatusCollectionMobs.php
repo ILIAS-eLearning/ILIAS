@@ -65,7 +65,7 @@ class ilLPStatusCollectionMobs extends ilLPStatus
             }
             $set = $ilDB->query(
                 "SELECT obj_id, usr_id FROM read_event" .
-                " WHERE " . $ilDB->in("obj_id", $res["items"], "", "integer")
+                " WHERE " . $ilDB->in("obj_id", $res["items"], false, "integer")
             );
             while ($row = $ilDB->fetchAssoc($set)) {
                 $res["completed"][(int) $row["obj_id"]][] = (int) $row["usr_id"];
