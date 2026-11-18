@@ -296,6 +296,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
                 $this->lng->txt('err_check_input')
             );
             $this->tpl->setContent($this->ui_renderer->render($form));
+            return;
         }
 
         $obj_props = $this->object->getObjectProperties();
@@ -316,7 +317,9 @@ class ilObjLinkResourceGUI extends ilObject2GUI
             );
         }
         $obj_props->storePropertyIsOnline($data['activation']['is_online']);
-        $obj_props->storePropertyTileImage($data['presentation']['tile_image']);
+        if (($data['presentation']['tile_image'] ?? null) !== null) {
+            $obj_props->storePropertyTileImage($data['presentation']['tile_image']);
+        }
         $ordering = $data['presentation']['sor'] ?? null;
         if ($ordering !== null && $this->getWebLinkRepo()->doesListExist()) {
             $sort = new ilContainerSortingSettings($this->object->getId());
@@ -359,17 +362,19 @@ class ilObjLinkResourceGUI extends ilObject2GUI
 
         $presentation_inputs = [];
 
-        // tile image
-        $tile_input = $obj_props->getPropertyTileImage()->toForm(
-            $this->lng,
-            $field_factory,
-            $this->refinery
-        );
-        $presentation_inputs['tile_image'] = $tile_input;
+        if ($this->id_type === self::REPOSITORY_NODE_ID) {
+            // tile image
+            $tile_input = $obj_props->getPropertyTileImage()->toForm(
+                $this->lng,
+                $field_factory,
+                $this->refinery
+            );
+            $presentation_inputs['tile_image'] = $tile_input;
+        }
 
         // Sorting
         if ($this->getWebLinkRepo()->doesListExist()) {
-            $current_mode = (string) ilContainerSortingSettings::_lookupSortMode($this->object->getId());
+            $current_mode = ilContainerSortingSettings::_lookupSortMode($this->object->getId());
             $order_input = $field_factory->radio($this->lng->txt('webr_sorting'))
                                          ->withOption(
                                              (string) ilContainer::SORT_TITLE,
@@ -379,15 +384,19 @@ class ilObjLinkResourceGUI extends ilObject2GUI
                                              (string) ilContainer::SORT_MANUAL,
                                              $this->lng->txt('webr_sort_manual')
                                          )
-                                         ->withValue($current_mode)
                                          ->withRequired(true);
+            if (in_array($current_mode, [ilContainer::SORT_TITLE, ilContainer::SORT_MANUAL])) {
+                $order_input = $order_input->withValue((string) $current_mode);
+            }
             $presentation_inputs['sor'] = $order_input;
         }
 
-        $inputs['presentation'] = $field_factory->section(
-            $presentation_inputs,
-            $this->lng->txt('obj_presentation')
-        );
+        if ($presentation_inputs !== []) {
+            $inputs['presentation'] = $field_factory->section(
+                $presentation_inputs,
+                $this->lng->txt('obj_presentation')
+            );
+        }
 
         $form = $this->ui_factory->input()->container()->form()->standard(
             $this->ctrl->getFormAction($this, 'saveSettings'),
