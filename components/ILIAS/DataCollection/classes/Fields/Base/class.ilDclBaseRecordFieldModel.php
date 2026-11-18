@@ -247,7 +247,11 @@ class ilDclBaseRecordFieldModel
      */
     public function getValueFromExcel(ilExcel $excel, int $row, int $col)
     {
-        return ilUtil::secureString((string) $excel->getCell($row, $col));
+        $value = (string) $excel->getCell($row, $col);
+        if ($this->getStorageLocation() === 1) {
+            $value = ilUtil::secureString($value);
+        }
+        return $value;
     }
 
     /**
@@ -320,9 +324,7 @@ class ilDclBaseRecordFieldModel
     protected function loadValue(): void
     {
         if ($this->value === null) {
-            $datatype = $this->getField()->getDatatype();
-
-            $storage_location = ($this->getField()->getStorageLocationOverride() !== null) ? $this->getField()->getStorageLocationOverride() : $datatype->getStorageLocation();
+            $storage_location = $this->getStorageLocation();
             if ($storage_location != 0) {
                 $query = "SELECT * FROM il_dcl_stloc" . $storage_location . "_value WHERE record_field_id = "
                     . $this->db->quote($this->id, "integer");
@@ -330,7 +332,10 @@ class ilDclBaseRecordFieldModel
                 $set = $this->db->query($query);
                 $rec = $this->db->fetchAssoc($set);
                 $value = $this->deserializeData($rec['value'] ?? null);
-                $this->value = ilUtil::secureString($value);
+                if ($storage_location === 1) {
+                    $value = ilUtil::secureString($value);
+                }
+                $this->value = $value;
             }
         }
     }
@@ -384,5 +389,13 @@ class ilDclBaseRecordFieldModel
     public function setFieldRepresentation(ilDclBaseFieldRepresentation $field_representation): void
     {
         $this->field_representation = $field_representation;
+    }
+
+    private function getStorageLocation(): int
+    {
+        return ($this->getField()->getStorageLocationOverride() !== null) ?
+            $this->getField()->getStorageLocationOverride() :
+            $this->getField()->getDatatype()->getStorageLocation()
+        ;
     }
 }
