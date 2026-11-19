@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Test\Results\Data;
 
 use ILIAS\Test\Results\Presentation\Settings as ResultPresentationSettings;
+use ILIAS\Test\Participants\AttemptSpecifiers;
 use ILIAS\Test\Participants\Participant;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
@@ -130,36 +131,37 @@ class Factory
 
     /**
      *
-     * @param array<ILIAS\Test\Participants\Participant> $participants
-     * @return array<ILIAS\Test\Participants\Participant>
+     * @param array<Participant> $participants
+     * @return array<Participant>
      */
     public function addAttemptOverviewInformationToParticipants(
         ResultPresentationSettings $settings,
         \ilObjTest $test_obj,
-        array $participants
+        array $participants,
+        AttemptSpecifiers $attempt_specifier
     ): array {
         return array_map(
-            function (Participant $v) use ($settings, $test_obj, $participants): Participant {
+            function (Participant $v) use ($settings, $test_obj, $attempt_specifier): Participant {
                 if ($v->getActiveId() === null) {
                     return $v;
                 }
 
-                $scored_attempt = $this->getAttemptOverviewFor(
+                $attempt_overview = $this->getAttemptOverviewFor(
                     $settings,
                     $test_obj,
                     $v->getActiveId(),
-                    null
+                    $attempt_specifier->getAttemptId($v)
                 );
 
-                if ($scored_attempt !== null
-                    && $scored_attempt->getStatusOfAttempt() === StatusOfAttempt::RUNNING
-                    && $scored_attempt->getStartedDate() !== null) {
-                    $v = $v->withRunningAttemptStart($scored_attempt->getStartedDate());
+                if (
+                    $attempt_overview !== null
+                    && $attempt_overview->getStatusOfAttempt() === StatusOfAttempt::RUNNING
+                    && $attempt_overview->getStartedDate() !== null
+                ) {
+                    $v = $v->withRunningAttemptStart($attempt_overview->getStartedDate());
                 }
 
-                return $v->withAttemptOverviewInformation(
-                    $scored_attempt
-                );
+                return $v->withAttemptOverviewInformation($attempt_overview);
             },
             $participants
         );
