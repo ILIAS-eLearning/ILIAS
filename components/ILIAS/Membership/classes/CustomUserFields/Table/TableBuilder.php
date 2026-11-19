@@ -28,6 +28,7 @@ use ILIAS\UI\URLBuilder;
 use ilCtrl;
 use ILIAS\Data\URI;
 use ilObject;
+use ILIAS\UI\URLBuilderToken;
 
 class TableBuilder
 {
@@ -45,8 +46,11 @@ class TableBuilder
     ) {
     }
 
-    public function get(): DataTable
-    {
+    public function get(
+        URLBuilder $url_builder,
+        URLBuilderToken $id_token,
+        URLBuilderToken $cmd_token
+    ): DataTable {
         $columns = [];
         $columns[self::COL_NAME] = $this->ui_factory->table()->column()->text(
             $this->lng->txt('ps_cdf_name')
@@ -56,12 +60,13 @@ class TableBuilder
             $this->lng->txt('ps_cdf_type')
         )->withIsSortable(true);
 
-        $columns[self::COL_REQUIRED] = $this->ui_factory->table()->column()->statusIcon(
-            $this->lng->txt('ps_cdf_required')
+        $columns[self::COL_REQUIRED] = $this->ui_factory->table()->column()->boolean(
+            $this->lng->txt('ps_cdf_required'),
+            $this->ui_factory->symbol()->icon()->custom('assets/images/standard/icon_ok.svg', '', 'small'),
+            $this->ui_factory->symbol()->icon()->custom('assets/images/standard/icon_not_ok.svg', '', 'small')
         )->withIsSortable(true);
 
         $actions = [];
-        list($url_builder, $id_token, $cmd_token) = $this->getTableActionURLBuilder();
 
         $actions['edit'] = $this->ui_factory->table()->action()->single(
             $this->lng->txt('edit'),
@@ -81,16 +86,5 @@ class TableBuilder
             $columns
         )->withActions($actions)->withRequest($this->http->request())
             ->withId('membership_custom_user_fields_table');
-    }
-
-    public function getTableActionURLBuilder(): array
-    {
-        $link = ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass(
-            'ilobjectcustomuserfieldsgui',
-            ''
-        );
-        $url_builder = new URLBuilder(new URI($link));
-
-        return $url_builder->acquireParameters(['field'], 'field_id', 'cmd');
     }
 }

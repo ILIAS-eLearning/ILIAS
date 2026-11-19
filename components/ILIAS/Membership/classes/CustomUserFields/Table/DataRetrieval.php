@@ -31,11 +31,19 @@ use ILIAS\UI\Factory as UIFactory;
 
 class DataRetrieval implements BaseDataRetrieval
 {
+    protected ?array $field_ids = null;
+
     public function __construct(
         protected int $obj_id,
         protected ilLanguage $lng,
         protected UIFactory $ui_factory
     ) {
+    }
+
+    protected function getFieldIds(): array
+    {
+        return $this->field_ids ??= ilCourseDefinedFieldDefinition::_getFieldIds($this->obj_id);
+
     }
 
     public function getRows(
@@ -47,13 +55,11 @@ class DataRetrieval implements BaseDataRetrieval
         mixed $filter_data,
         mixed $additional_parameters
     ): Generator {
-        $fields = ilCourseDefinedFieldDefinition::_getFields($this->obj_id);
+        $field_ids = $this->getFieldIds();
         $data = [];
 
-        $ok_icon = $this->ui_factory->symbol()->icon()->custom('assets/images/standard/icon_ok.svg', '', 'small');
-        $not_ok_icon = $this->ui_factory->symbol()->icon()->custom('assets/images/standard/icon_not_ok.svg', '', 'small');
-
-        foreach ($fields as $def) {
+        foreach ($field_ids as $field_id) {
+            $def = new ilCourseDefinedFieldDefinition($this->obj_id, $field_id);
             $type = '';
             switch ($def->getType()) {
                 case ilCourseDefinedFieldDefinition::IL_CDF_TYPE_SELECT:
@@ -68,7 +74,7 @@ class DataRetrieval implements BaseDataRetrieval
                 'id' => (int) $def->getId(),
                 'name' => $def->getName(),
                 'type' => $type,
-                'required' => $def->isRequired() ? $ok_icon : $not_ok_icon
+                'required' => (bool) $def->isRequired()
             ];
         }
 
@@ -92,8 +98,7 @@ class DataRetrieval implements BaseDataRetrieval
 
     public function getAllIDs(): array
     {
-        $fields = ilCourseDefinedFieldDefinition::_getFields($this->obj_id);
-        return array_map(static fn($f) => (string) $f->getId(), $fields);
+        return array_map('strval', $this->getFieldIds());
     }
 
     public function getTotalRowCount(
@@ -101,6 +106,6 @@ class DataRetrieval implements BaseDataRetrieval
         mixed $filter_data,
         mixed $additional_parameters
     ): int {
-        return ilCourseDefinedFieldDefinition::_hasFields($this->obj_id);
+        return count($this->getFieldIds());
     }
 }
