@@ -1894,7 +1894,7 @@ assessment#:#tst_show_solution_answers_only_desc#:#Wenn „Druckausgabe der Erge
 assessment#:#tst_show_solution_details_singlepage#:#Bewertete Antworten auf Einzelseiten
 assessment#:#tst_show_solution_details_singlepage_desc#:#Teilnehmerinnen und Teilnehmer können jede Frage einzeln aufrufen und sehen, ob ihre Antworten richtig waren und wie viele Punkte sie damit erreicht haben.
 assessment#:#tst_show_solution_feedback#:#Rückmeldungen
-assessment#:#tst_show_solution_feedback_desc#:#Falls Rückmeldungen zu den gegebenen Antworten bei der Frage hinterlegt worden sind, werden diese angezeigt. Sie müssen die Option „Detallierte Testergebnisse anzeigen“ aktivieren, um diese Funktion zu nutzen.
+assessment#:#tst_show_solution_feedback_desc#:#Teilnehmern wird eine Rückmeldung zu ihren gegebenen Antworten angezeigt. Dafür müssen Rückmeldungen zu den einzelnen Fragen hinterlegt und die Optionen „Eigenes Testergebnis einsehen" und anschließend „Detaillierte Testergebnisse zugänglich machen" (siehe oben) aktiviert sein. Manuelle Rückmeldungen werden nur angezeigt, wenn die Frage für den jeweiligen Teilnehmer als „Bewertet" markiert wurde.
 assessment#:#tst_show_solution_printview#:#Druckbare Liste der Antworten
 assessment#:#tst_show_solution_printview_desc#:#Nach dem Klick auf „Test beenden“ wird im Reiter „Meine Ergebnisse“ ein zusätzlicher Reiter „Druckbare Liste der Antworten“ eingeblendet. Den Teilnehmerinnen und Teilnehmern werden hier ihre Antworten zu den einzelnen Testfragen angezeigt.
 assessment#:#tst_show_solution_signature#:#Platzhalter für Unterschrift
