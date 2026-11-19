@@ -1939,7 +1939,7 @@ assessment#:#tst_show_solution_details_desc#:#The ‘Table of Detailed Test Resu
 assessment#:#tst_show_solution_details_singlepage#:#Scored Answers on single pages
 assessment#:#tst_show_solution_details_singlepage_desc#:#Participants can access each question individually and see if their answers were correct and how many points they scored.
 assessment#:#tst_show_solution_feedback#:#Feedback
-assessment#:#tst_show_solution_feedback_desc#:#Feedback related to the answers provided by the participant is displayed. Please mind  that this option becomes effective only if you have activated ‘Scored Answers of Participant’  and feedback was prepared along with the questions in the first place.
+assessment#:#tst_show_solution_feedback_desc#:#Provide participants with feedback on the answers they have given. For this, feedback needs to have been added to the individual questions and 'Access to Test Results' and then 'Make Detailed Results Available' (see above) need to have been activated. Feedback entered during manual scoring is only displayed if the question has been marked as 'Scoring Completed' for the respective participant.
 assessment#:#tst_show_solution_printview#:#Additional ‘List of Answers’ for Printing
 assessment#:#tst_show_solution_printview_desc#:#An overview of all questions with the answers of the respective participant is generated. This list will be offered within the ‘My Results’-tab in a subtab 'Review of Scored Answers'.
 assessment#:#tst_show_solution_signature#:#Signature Placeholder
