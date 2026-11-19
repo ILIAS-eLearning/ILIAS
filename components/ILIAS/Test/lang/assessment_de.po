@@ -4374,7 +4374,7 @@ msgid "tst_show_solution_feedback"
 msgstr "Rückmeldungen"
 
 msgid "tst_show_solution_feedback_desc"
-msgstr "Falls Rückmeldungen zu den gegebenen Antworten bei der Frage hinterlegt worden sind, werden diese angezeigt. Sie müssen die Option „Detallierte Testergebnisse anzeigen“ aktivieren, um diese Funktion zu nutzen."
+msgstr "Teilnehmern wird eine Rückmeldung zu ihren gegebenen Antworten angezeigt. Dafür müssen Rückmeldungen zu den einzelnen Fragen hinterlegt und die Optionen „Eigenes Testergebnis einsehen" und anschließend „Detaillierte Testergebnisse zugänglich machen" (siehe oben) aktiviert sein. Manuelle Rückmeldungen werden nur angezeigt, wenn die Frage für den jeweiligen Teilnehmer als „Bewertet" markiert wurde."
 
 msgid "tst_show_solution_printview"
 msgstr "Druckbare Liste der Antworten"
