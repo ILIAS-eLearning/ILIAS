@@ -308,6 +308,15 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
             $tpl->parseCurrentBlock();
         }
 
+        // the block brings its own leading space, so the ids never run together
+        // custom skins may use an older copy of this template without this block
+        // and keep working without the reference
+        if ($this->getAlert() !== '' && $tpl->blockExists('described_by_alert')) {
+            $tpl->setCurrentBlock('described_by_alert');
+            $tpl->setVariable('DESCRIBED_BY_ALERT_FIELD_ID', $this->getFieldId());
+            $tpl->parseCurrentBlock();
+        }
+
         $tpl->setCurrentBlock("prop_number");
 
         $tpl->setVariable("POST_VAR", $this->getPostVar());

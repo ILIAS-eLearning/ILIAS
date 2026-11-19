@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * This class represents a number property in a property form.
@@ -255,8 +255,18 @@ class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTab
                     $tpl->parseCurrentBlock();
                 }
 
+                // combination items get no alert of their own in the form, so hide their alert
+                // while rendering to avoid a reference to a missing id
+                $alert = $obj->getAlert();
+                $obj->setAlert('');
+                try {
+                    $field_html = $obj->render();
+                } finally {
+                    $obj->setAlert($alert);
+                }
+
                 $tpl->setCurrentBlock("prop_combination");
-                $tpl->setVariable("FIELD", $obj->render());
+                $tpl->setVariable("FIELD", $field_html);
                 $tpl->parseCurrentBlock();
             }
         }

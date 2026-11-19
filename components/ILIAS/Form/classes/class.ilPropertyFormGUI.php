@@ -757,6 +757,12 @@ class ilPropertyFormGUI extends ilFormGUI
                     "TXT_ALERT",
                     $item->getAlert()
                 );
+                // same hidden prefix as the error message of the UI framework
+                $lng->loadLanguageModule("ui");
+                $this->tpl->setVariable(
+                    "TXT_ALERT_LABEL",
+                    $lng->txt("ui_error")
+                );
                 $this->tpl->setVariable(
                     "ALERT_FOR_ID",
                     $item->getFieldId()

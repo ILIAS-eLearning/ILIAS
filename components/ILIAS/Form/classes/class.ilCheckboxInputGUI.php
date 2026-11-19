@@ -148,8 +148,21 @@ class ilCheckboxInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolba
         }
 
         $tpl->setVariable("ARIA_LABEL", ilLegacyFormElementsUtil::prepareFormOutput($this->getTitle()));
+
+        $described_by = [];
+
         if ($this->getInfo() !== '') {
+            // still used by older copies of the template in custom skins
             $tpl->setVariable('DESCRIBED_BY_FIELD_ID', $this->getFieldId());
+            $described_by[] = 'desc_' . $this->getFieldId();
+        }
+
+        if ($this->getAlert() !== '') {
+            $described_by[] = 'alert_' . $this->getFieldId();
+        }
+
+        if ($described_by !== []) {
+            $tpl->setVariable('DESCRIBED_BY_IDS', implode(' ', $described_by));
         }
 
         return $tpl->get();
