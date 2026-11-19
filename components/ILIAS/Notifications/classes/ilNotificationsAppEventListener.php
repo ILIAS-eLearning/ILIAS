@@ -24,7 +24,7 @@ class ilNotificationsAppEventListener implements ilAppEventListener
 {
     public static function handleEvent(string $component, string $event, array $parameter): void
     {
-        if ($event === 'deleteUser') {
+        if ($component === 'components/ILIAS/User' && $event === 'deleteUser') {
             global $DIC;
             $repo = new PushRepository($DIC->database(), new ilObjUser($parameter['usr_id']));
             foreach ($repo->getUserSubscriptions() as $subscription) {

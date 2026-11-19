@@ -24,7 +24,7 @@ class ilDataCollectionAppEventListener implements ilAppEventListener
 
     public static function handleEvent(string $component, string $event, array $parameter): void
     {
-        if ($event === 'deleteUser') {
+        if ($component === 'components/ILIAS/User' && $event === 'deleteUser') {
             if (self::$notification === null) {
                 global $DIC;
                 self::$notification = new ilDclNotification($DIC->database());

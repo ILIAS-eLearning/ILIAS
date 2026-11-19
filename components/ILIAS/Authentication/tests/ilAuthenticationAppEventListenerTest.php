@@ -65,7 +65,6 @@ class ilAuthenticationAppEventListenerTest extends TestCase
     public static function userDeletedComponents(): array
     {
         return [
-            'legacy component' => ['Services/User'],
             'component revision' => ['components/ILIAS/User'],
         ];
     }
@@ -74,7 +73,7 @@ class ilAuthenticationAppEventListenerTest extends TestCase
     {
         $this->dic()[Services::class] = $this->storageThatMustNotPurge();
 
-        ilAuthenticationAppEventListener::handleEvent('Services/User', 'afterCreate', ['usr_id' => 42]);
+        ilAuthenticationAppEventListener::handleEvent('components/ILIAS/User', 'afterCreate', ['usr_id' => 42]);
     }
 
     public function testAnotherComponentDoesNotPurge(): void
@@ -88,21 +87,21 @@ class ilAuthenticationAppEventListenerTest extends TestCase
     {
         $this->dic()[Services::class] = $this->storageThatMustNotPurge();
 
-        ilAuthenticationAppEventListener::handleEvent('Services/User', 'deleteUser', ['usr_id' => 0]);
+        ilAuthenticationAppEventListener::handleEvent('components/ILIAS/User', 'deleteUser', ['usr_id' => 0]);
     }
 
     public function testAMissingUserIdDoesNotPurge(): void
     {
         $this->dic()[Services::class] = $this->storageThatMustNotPurge();
 
-        ilAuthenticationAppEventListener::handleEvent('Services/User', 'deleteUser', []);
+        ilAuthenticationAppEventListener::handleEvent('components/ILIAS/User', 'deleteUser', []);
     }
 
     public function testAMissingKeyValueStorageServiceDoesNotPurge(): void
     {
         $this->expectNotToPerformAssertions();
 
-        ilAuthenticationAppEventListener::handleEvent('Services/User', 'deleteUser', ['usr_id' => 42]);
+        ilAuthenticationAppEventListener::handleEvent('components/ILIAS/User', 'deleteUser', ['usr_id' => 42]);
     }
 
     private function dic(): Container
