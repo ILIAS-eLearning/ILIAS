@@ -43,9 +43,6 @@ use ILIAS\UI\URLBuilder;
 use ILIAS\Data\URI;
 use ILIAS\Data\ObjectId;
 
-/**
- * @ilCtrl_IsCalledBy ILIAS\AdvancedMetaData\Record\Export\ilAdvancedMDRecordExportFilesGUI: ilAdvancedMDSettingsGUI
- */
 class ilAdvancedMDRecordExportFilesGUI
 {
     public const string CMD_SHOW_FILES = 'showFiles';
@@ -122,7 +119,8 @@ class ilAdvancedMDRecordExportFilesGUI
 
     protected function showFiles(): void
     {
-        if (!$this->access->checkAccess('read', '', $this->ref_id)) {
+        if (($this->context === ilAdvancedMDSettingsGUI::CONTEXT_ADMINISTRATION && !$this->access->checkAccess('read', '', $this->ref_id)) ||
+            ($this->context === ilAdvancedMDSettingsGUI::CONTEXT_OBJECT && !$this->access->checkAccess('write', '', $this->ref_id))) {
             $this->checkPermissionFailed();
             return;
         }
@@ -169,12 +167,14 @@ class ilAdvancedMDRecordExportFilesGUI
             );
         }
 
+        $ids = $this->getExportFileIdsFromQuery($parameter_name);
+
         switch ($action) {
             case TableBuilder::ACTION_DOWNLOAD:
-                $this->downloadExportFile($parameter_name);
+                $this->downloadExportFile($ids);
                 break;
             case TableBuilder::ACTION_DELETE:
-                $this->confirmDeleteExportFiles($parameter_name);
+                $this->confirmDeleteExportFiles($ids, $parameter_name);
                 break;
             default:
                 $this->showFiles();
@@ -182,13 +182,13 @@ class ilAdvancedMDRecordExportFilesGUI
         }
     }
 
-    protected function downloadExportFile(string $parameter_name): void
+    protected function downloadExportFile(array $ids): void
     {
-        if (!$this->access->checkAccess('read', '', $this->ref_id)) {
+        if (($this->context === ilAdvancedMDSettingsGUI::CONTEXT_ADMINISTRATION && !$this->access->checkAccess('read', '', $this->ref_id)) ||
+            ($this->context === ilAdvancedMDSettingsGUI::CONTEXT_OBJECT && !$this->access->checkAccess('write', '', $this->ref_id))) {
             $this->checkPermissionFailed();
             return;
         }
-        $ids = $this->getExportFileIdsFromQuery($parameter_name);
         $file_id = (string) ($ids[0] ?? '');
 
         if ($file_id === '') {
@@ -200,13 +200,12 @@ class ilAdvancedMDRecordExportFilesGUI
         $this->getExportFilesHandler()->download($file_id, 'ilias_meta_data_record.xml');
     }
 
-    protected function confirmDeleteExportFiles(string $parameter_name): void
+    protected function confirmDeleteExportFiles(array $file_ids, string $parameter_name): void
     {
         if (!$this->access->checkAccess('write', '', $this->ref_id)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
             $this->ctrl->redirect($this, self::CMD_SHOW_FILES);
         }
-        $file_ids = $this->getExportFileIdsFromQuery($parameter_name);
 
         if (count($file_ids) === 0) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
@@ -239,9 +238,9 @@ class ilAdvancedMDRecordExportFilesGUI
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
             $this->ctrl->redirect($this, self::CMD_SHOW_FILES);
         }
-        [$url_builder, $id_token, $action_token] = $this->getExportTableActionURLBuilder();
-        $parameter_name = $id_token->getName();
-        $file_ids = $this->getExportFileIdsFromPost($parameter_name);
+
+        [$url_builder, $id_token] = $this->getExportTableActionURLBuilder();
+        $file_ids = $this->getExportFileIdsFromPost($id_token->getName());
         if (count($file_ids) === 0) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->showFiles();
@@ -267,16 +266,8 @@ class ilAdvancedMDRecordExportFilesGUI
         if ($wrapper->has($parameter_name)) {
             $ids = $wrapper->retrieve(
                 $parameter_name,
-                $this->refinery->byTrying([
-                    $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string()),
-                    $this->refinery->kindlyTo()->string()
-                ])
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string())
             );
-            $ids = (array) $ids;
-        }
-
-        if (in_array('ALL_OBJECTS', $ids, true)) {
-            return $this->getExportFileDataRetrieval()->getAllIds();
         }
 
         return $ids;
@@ -289,12 +280,8 @@ class ilAdvancedMDRecordExportFilesGUI
         if ($wrapper->has($parameter_name)) {
             $ids = $wrapper->retrieve(
                 $parameter_name,
-                $this->refinery->byTrying([
-                    $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string()),
-                    $this->refinery->kindlyTo()->string()
-                ])
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string())
             );
-            $ids = (array) $ids;
         }
 
         if (in_array('ALL_OBJECTS', $ids, true)) {
