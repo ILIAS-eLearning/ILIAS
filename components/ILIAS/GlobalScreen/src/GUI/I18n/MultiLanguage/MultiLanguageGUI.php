@@ -115,7 +115,7 @@ class MultiLanguageGUI extends AbstractPonsGUI
         }
 
         $prompt = $this->ui_factory->prompt()->standard(
-            $this->pons->flow()->getHereAsURI(self::CMD_LANGUAGE_SELECTION)
+            new \ILIAS\UI\URLBuilder($this->pons->flow()->getHereAsURI(self::CMD_LANGUAGE_SELECTION)),
         );
 
         // Edit Button

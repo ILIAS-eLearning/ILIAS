@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Table\Action;
 
+use ILIAS\UI\Component as C;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
 
@@ -29,47 +30,68 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *       The Standard Action applies to both a single and multiple records.
-     *       A typical example would be "delete".
-     *
+     *     The Standard Action applies to both a single and multiple records.
+     *     A typical example would be "delete".
+     *   effect: >
+     *     When a Standard Action created with a Prompt is operated, an asynchronous
+     *     request to the Prompt's endpoint is triggered, carrying the row id(s)
+     *     inside the given token. When created with an URLBuilder, the request
+     *     is performed synchronous instead.
      * ---
+     * @param string                                       $label
+     * @param \ILIAS\UI\Component\Prompt\Prompt|URLBuilder $target
+     * @param URLBuilderToken                              $row_id_parameter
      * @return \ILIAS\UI\Component\Table\Action\Standard
      */
     public function standard(
         string $label,
-        URLBuilder $url_builder,
-        URLBuilderToken $row_id_parameter
+        C\Prompt\Prompt|URLBuilder $target,
+        URLBuilderToken $row_id_parameter,
     ): Standard;
 
     /**
      * ---
      * description:
      *   purpose: >
-     *       The Single Action applies to a single record only.
-     *       A typical example would be "edit".
-     *
+     *     The Single Action applies to a single record only.
+     *     A typical example would be "edit".
+     *   effect: >
+     *     When a Single Action created with a Prompt is operated, an asynchronous
+     *     request to the Prompt's endpoint is triggered, carrying the row id(s)
+     *     inside the given token. When created with an URLBuilder, the request
+     *     is performed synchronous instead.
      * ---
+     * @param string                                       $label
+     * @param \ILIAS\UI\Component\Prompt\Prompt|URLBuilder $target
+     * @param URLBuilderToken                              $row_id_parameter
      * @return \ILIAS\UI\Component\Table\Action\Single
      */
     public function single(
         string $label,
-        URLBuilder $url_builder,
-        URLBuilderToken $row_id_parameter
+        C\Prompt\Prompt|URLBuilder $target,
+        URLBuilderToken $row_id_parameter,
     ): Single;
 
     /**
      * ---
      * description:
      *   purpose: >
-     *       The Multi Action can only be used with more than one record.
-     *       A typical example would be "compare".
-     *
+     *     The Multi Action can only be used with more than one record.
+     *     A typical example would be "compare".
+     *   effect: >
+     *     When a Multi Action created with a Prompt is operated, an asynchronous
+     *     request to the Prompt's endpoint is triggered, carrying the row id(s)
+     *     inside the given token. When created with an URLBuilder, the request
+     *     is performed synchronous instead.
      * ---
+     * @param string                                       $label
+     * @param \ILIAS\UI\Component\Prompt\Prompt|URLBuilder $target
+     * @param URLBuilderToken                              $row_id_parameter
      * @return \ILIAS\UI\Component\Table\Action\Multi
      */
     public function multi(
         string $label,
-        URLBuilder $url_builder,
-        URLBuilderToken $row_id_parameter
+        C\Prompt\Prompt|URLBuilder $target,
+        URLBuilderToken $row_id_parameter,
     ): Multi;
 }

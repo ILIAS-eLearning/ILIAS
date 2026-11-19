@@ -20,25 +20,22 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Table;
 
-use ILIAS\UI\Component\Table as T;
-use ILIAS\UI\Component\Table\Column\Column;
-use ILIAS\UI\Component\Table\Action\Action;
+use ILIAS\UI\Implementation\Component as I;
+use ILIAS\UI\Component as C;
 
 abstract class RowBuilder
 {
     protected bool $table_has_multiactions = false;
 
     /**
-     * @var array<string, Action>
+     * @var array<string, I\Table\Action\Action>
      */
     protected array $row_actions = [];
 
     /**
-     * @var array<string, Column>
+     * @var array<string, I\Table\Column\Column>
      */
     protected array $columns = [];
-
-    //abstract function buildRow(string $id, array $record);
 
     public function withMultiActionsPresent(bool $flag): self
     {
@@ -48,7 +45,7 @@ abstract class RowBuilder
     }
 
     /**
-     * @param array<string, Action> $row_actions
+     * @param array<string, I\Table\Action\Action> $row_actions
      */
     public function withSingleActions(array $row_actions): self
     {
@@ -57,7 +54,7 @@ abstract class RowBuilder
         return $clone;
     }
     /**
-     * @param array<string, Column> $columns
+     * @param array<string, I\Table\Column\Column> $columns
      */
     public function withVisibleColumns(array $columns): self
     {

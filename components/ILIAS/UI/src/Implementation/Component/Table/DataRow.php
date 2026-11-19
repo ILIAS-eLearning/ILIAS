@@ -20,13 +20,12 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Table;
 
-use ILIAS\UI\Component\Table as T;
-use ILIAS\UI\Component\Component;
-use ILIAS\UI\Implementation\Component\ComponentHelper;
+use ILIAS\UI\Implementation\Component as I;
+use ILIAS\UI\Component as C;
 
-class DataRow implements T\DataRow
+class DataRow implements C\Table\DataRow
 {
-    use ComponentHelper;
+    use I\ComponentHelper;
 
     /**
      * @var array<string, bool>
@@ -37,8 +36,8 @@ class DataRow implements T\DataRow
      * The records's key is the column-id of the table.
      * Its value will be formatted by the respective colum type's format-method.
      *
-     * @param array<string, T\Column\Column> $columns
-     * @param array<string, T\Action\Action> $actions
+     * @param array<string, I\Table\Column\Column> $columns
+     * @param array<string, I\Table\Action\Action> $actions
      * @param array<string, mixed> $record
      */
     public function __construct(
@@ -91,7 +90,7 @@ class DataRow implements T\DataRow
         );
     }
 
-    public function getCellContent(string $col_id): string|Component
+    public function getCellContent(string $col_id): C\Component|string
     {
         if (!array_key_exists($col_id, $this->record)) {
             return '';

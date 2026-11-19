@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Prompt;
 
-use ILIAS\Data\URI;
+use ILIAS\UI\URLBuilder;
 
 interface Factory
 {
@@ -46,11 +46,12 @@ interface Factory
      *   usage:
      *     1: >
      *      The server MUST answer with an Prompt State Component
-     *      to a request to the url provided to the Prompt.
+     *      to a request to the url provided to the Prompt via the URLBuilder.
      * ---
+     * @param \ILIAS\UI\URLBuilder $async_url_builder
      * @return \ILIAS\UI\Component\Prompt\Prompt
      */
-    public function standard(URI $async_url): Prompt;
+    public function standard(URLBuilder $async_url_builder): Prompt;
 
     /**
      * ---

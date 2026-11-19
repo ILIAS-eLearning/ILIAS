@@ -20,10 +20,13 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Table\Action;
 
-use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Component as C;
 use ILIAS\Data\URI;
 
-interface Action extends \ILIAS\UI\Component\Component
+interface Action extends C\Component
 {
-    public function withAsync(bool $async = true): self;
+    /**
+     * @deprecated construct the Action using a {@see C\Prompt\Prompt} instead.
+     */
+    public function withAsync(bool $is_async = true): self;
 }

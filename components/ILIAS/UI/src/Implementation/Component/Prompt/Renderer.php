@@ -60,7 +60,6 @@ class Renderer extends AbstractComponentRenderer
 
         $show_signal = $component->getShowSignal();
         $close_signal = $component->getCloseSignal();
-        $url = $component->getAsyncUrl()->__toString();
         $component = $component->withAdditionalOnLoadCode(
             fn($id) => "(function() {
                 const prompt = il.UI.Prompt.createPrompt(document.getElementById('$id'));

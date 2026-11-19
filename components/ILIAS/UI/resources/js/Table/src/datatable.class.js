@@ -40,7 +40,12 @@ export default class DataTable {
   #jquery;
 
   /**
-   * @type {actionId: string, rowId: string}
+   * @type {JQueryEventDispatcher}
+   */
+  #eventDispatcher;
+
+  /**
+   * @type {actionId: string, rowId: string, async: string}
    */
   #signalConstants;
 
@@ -70,18 +75,19 @@ export default class DataTable {
   #table;
 
   /**
-   * @type {array<string, {async: bool, urlBuilder: URLBuilder, urlTokens: Map}>}
+   * @type {array<string, {async: bool, signalId: string, urlBuilder: URLBuilder, urlTokens: Map}>}
    */
   #actionsRegistry;
 
   /**
    * @param {jQuery} jquery
+   * @param {JQueryEventDispatcher} eventDispatcher
    * @param {string} optActionId
    * @param {string} optRowId
    * @param {string} tableId
    * @throws {Error} if DOM element is missing
    */
-  constructor(jquery, optActionId, optRowId, componentId) {
+  constructor(jquery, eventDispatcher, optActionId, optRowId, componentId) {
     this.#component = document.getElementById(componentId);
     if (this.#component === null) {
       throw new Error(`Could not find a DataTable for id '${componentId}'.`);
@@ -95,6 +101,7 @@ export default class DataTable {
     this.#responseContent = this.#responseContainer.getElementsByClassName('c-table-data__async_messageresponse').item(0);
 
     this.#jquery = jquery;
+    this.#eventDispatcher = eventDispatcher;
     this.#signalConstants = {
       actionId: optActionId,
       rowId: optRowId,
@@ -113,13 +120,15 @@ export default class DataTable {
   /**
    * @param {string} actionId
    * @param {bool} async
+   * @param {string} signalId
    * @param {URLBuilder} urlBuilder
    * @param {Map} urlTokens
    * @return {void}
    */
-  registerAction(actionId, async, urlBuilder, urlTokens) {
+  registerAction(actionId, async, signalId, urlBuilder, urlTokens) {
     this.#actionsRegistry[actionId] = {
       async,
+      signalId,
       urlBuilder,
       urlTokens,
     };
@@ -164,7 +173,7 @@ export default class DataTable {
    * @return {void}
    */
   #disableRowSelection(flag) {
-    this.#table.querySelectorAll('.c-table-data__row-selector').forEach(
+    this.#table.querySelectorAll('.c-table-data__row-selector')?.forEach(
       (chk) => {
         chk.disabled = (flag === true && !chk.checked);
       },
@@ -207,7 +216,7 @@ export default class DataTable {
   collectSelectedRowIds() {
     const ret = [];
 
-    this.#table.querySelectorAll('.c-table-data__row-selector').forEach(
+    this.#table.querySelectorAll('.c-table-data__row-selector')?.forEach(
       (chk) => {
         if (chk.checked) {
           ret.push(chk.value);
@@ -249,7 +258,6 @@ export default class DataTable {
       const k = this.#signalConstants.actionId;
       const signalData = { options: {} };
       signalData.options[k] = selectedAction;
-
       modalClose.click();
       this.doAction(signalData, ['ALL_OBJECTS']);
     }
@@ -267,10 +275,13 @@ export default class DataTable {
     action.urlBuilder.writeParameter(token, rowIds);
     const target = decodeURI(action.urlBuilder.getUrl().toString());
 
-    if (!action.async) {
+    if (action.signalId === '') {
       window.location.href = target;
-    } else {
+    } else if (action.async) {
       this.asyncAction(target);
+    } else {
+      signalData.options.url = target;
+      this.#eventDispatcher.dispatch(this.#component, action.signalId, signalData);
     }
   }
 

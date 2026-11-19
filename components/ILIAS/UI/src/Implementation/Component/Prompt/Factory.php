@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Prompt;
 
-use ILIAS\Data\URI;
 use ILIAS\UI\Component\Prompt as I;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
+use ILIAS\UI\URLBuilder;
 
 class Factory implements I\Factory
 {
@@ -32,9 +32,9 @@ class Factory implements I\Factory
     ) {
     }
 
-    public function standard(URI $async_url): Prompt
+    public function standard(URLBuilder $async_url_builder): Prompt
     {
-        return new Prompt($this->signal_generator, $async_url);
+        return new Prompt($this->signal_generator, $async_url_builder);
     }
 
     public function state(): State\Factory

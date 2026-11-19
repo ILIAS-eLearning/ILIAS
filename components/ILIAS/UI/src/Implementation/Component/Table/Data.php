@@ -20,23 +20,14 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Table;
 
-use ILIAS\UI\Component\Table as T;
-use ILIAS\UI\Component\Table\Column\Column;
-use ILIAS\UI\Component\Table\Action\Action;
-use Psr\Http\Message\ServerRequestInterface;
-use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
-use ILIAS\UI\Component\Signal;
-use ILIAS\UI\Implementation\Component\JavaScriptBindable;
-use ILIAS\UI\Component\JavaScriptBindable as JSBindable;
-use ILIAS\Data\Factory as DataFactory;
-use ILIAS\UI\Component\Input\ViewControl;
-use ILIAS\UI\Component\Input\Container\ViewControl as ViewControlContainer;
+use ILIAS\UI\Implementation\Component as I;
+use ILIAS\UI\Component as C;
 use ILIAS\Data\Range;
 use ILIAS\Data\Order;
 
-class Data extends AbstractTable implements T\Data
+class Data extends AbstractTable implements C\Table\Data
 {
-    use JavaScriptBindable;
+    use I\JavaScriptBindable;
     use TableViewControlFieldSelection;
     use TableViewControlPagination;
     use TableViewControlOrdering;
@@ -50,21 +41,21 @@ class Data extends AbstractTable implements T\Data
     protected mixed $filter = null;
     protected mixed $additional_parameters = null;
     protected mixed $additional_viewcontrol_data = null;
-    protected ?ViewControlContainer\ViewControlInput $additional_view_control = null;
+    protected C\Input\Container\ViewControl\ViewControlInput|null $additional_view_control = null;
 
     /**
-     * @param array<string, Column> $columns
+     * @param array<string, I\Table\Column\Column> $columns
      */
     public function __construct(
-        SignalGeneratorInterface $signal_generator,
-        ViewControl\Factory $view_control_factory,
-        ViewControlContainer\Factory $view_control_container_factory,
-        protected DataFactory $data_factory,
+        I\SignalGeneratorInterface $signal_generator,
+        I\Input\ViewControl\Factory $view_control_factory,
+        I\Input\Container\ViewControl\Factory $view_control_container_factory,
+        protected \ILIAS\Data\Factory $data_factory,
         protected DataRowBuilder $data_row_builder,
         string $title,
         array $columns,
-        protected T\DataRetrieval $data_retrieval,
-        \ArrayAccess $storage
+        protected C\Table\DataRetrieval $data_retrieval,
+        \ILIAS\UI\Storage $storage
     ) {
         parent::__construct(
             $signal_generator,
@@ -79,7 +70,7 @@ class Data extends AbstractTable implements T\Data
         $this->initViewControlpagination();
     }
 
-    public function getDataRetrieval(): T\DataRetrieval
+    public function getDataRetrieval(): C\Table\DataRetrieval
     {
         return $this->data_retrieval;
     }
@@ -130,7 +121,7 @@ class Data extends AbstractTable implements T\Data
     }
 
     /**
-     * @return array<self, ViewControlContainer\ViewControl>
+     * @return array{0: self, 1: I\Input\Container\ViewControl\ViewControl}
      */
     public function applyViewControls(
         mixed $filter_data,
@@ -179,7 +170,7 @@ class Data extends AbstractTable implements T\Data
         ];
     }
 
-    protected function getViewControls(?int $total_count = null): ViewControlContainer\ViewControl
+    protected function getViewControls(?int $total_count = null): I\Input\Container\ViewControl\ViewControl
     {
         $view_controls = [
             self::VIEWCONTROL_KEY_PAGINATION => $this->getViewControlPagination($total_count),
@@ -196,7 +187,7 @@ class Data extends AbstractTable implements T\Data
     }
 
     public function withAdditionalViewControl(
-        ViewControlContainer\ViewControlInput $view_control
+        C\Input\Container\ViewControl\ViewControlInput $view_control
     ): self {
         $clone = clone $this;
         $clone->additional_view_control = $view_control

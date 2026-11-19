@@ -20,16 +20,15 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Table;
 
-use ILIAS\UI\Component\Table as T;
-use ILIAS\UI\Component\Table\Column\Column;
-use ILIAS\UI\Component\Table\Action\Action;
+use ILIAS\UI\Implementation\Component as I;
+use ILIAS\UI\Component as C;
 
-class DataRowBuilder extends RowBuilder implements T\DataRowBuilder
+class DataRowBuilder extends RowBuilder implements C\Table\DataRowBuilder
 {
     /**
      * @param array<string, mixed> $record
      */
-    public function buildDataRow(string $id, array $record): T\DataRow
+    public function buildDataRow(string $id, array $record): DataRow
     {
         return new DataRow(
             $this->row_actions !== [],

@@ -57,8 +57,7 @@ function parameters()
     list($url_builder, $action_token, $amount_token) = $url_builder->acquireParameters($query_namespace, "action", "amount");
     $url_builder = $url_builder->withParameter($action_token, "showprompt");
 
-    $default_uri = $url_builder->withParameter($amount_token, "1")->buildURI();
-    $prompt = $factory->prompt()->standard($default_uri);
+    $prompt = $factory->prompt()->standard($url_builder)->withParameter($amount_token, "1");
 
     //build some endpoint
     $query = $DIC->http()->wrapper()->query();
@@ -117,11 +116,11 @@ function parameters()
         $show_button = $factory->button()->standard('Show Simple Prompt', $prompt->getShowSignal());
         $close_button = $factory->button()->standard('close Simple Prompt', $prompt->getCloseSignal());
 
-        $uri = $url_builder->withParameter($amount_token, "8")->buildURI();
-        $show_button8 = $factory->button()->standard('Show Prompt with Parameter', $prompt->getShowSignal($uri));
+        $prompt = $prompt->withParameter($amount_token, "8");
+        $show_button8 = $factory->button()->standard('Show Prompt with Parameter', $prompt->getShowSignal());
 
-        $uri = $url_builder->withParameter($amount_token, "78")->buildURI();
-        $show_button78 = $factory->button()->standard('Show Prompt with a lot of Items', $prompt->getShowSignal($uri));
+        $prompt = $prompt->withParameter($amount_token, "78");
+        $show_button78 = $factory->button()->standard('Show Prompt with a lot of Items', $prompt->getShowSignal());
 
         return $renderer->render([
             $prompt,

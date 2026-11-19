@@ -20,60 +20,52 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Table;
 
-use ILIAS\UI\Component\Table as T;
-use ILIAS\UI\Component\Table\Column\Column;
-use ILIAS\UI\Component\Table\Action\Action;
+use ILIAS\UI\Implementation\Component as I;
+use ILIAS\UI\Component as C;
 use Psr\Http\Message\ServerRequestInterface;
-use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
-use ILIAS\UI\Component\Signal;
-use ILIAS\UI\Implementation\Component\JavaScriptBindable;
-use ILIAS\UI\Component\JavaScriptBindable as JSBindable;
-use ILIAS\UI\Component\Input\ViewControl;
-use ILIAS\UI\Component\Input\Container\ViewControl as ViewControlContainer;
-use ILIAS\UI\Implementation\Component\Input\ArrayInputData;
 
-abstract class AbstractTable extends Table implements JSBindable
+abstract class AbstractTable extends Table implements C\JavaScriptBindable
 {
-    use JavaScriptBindable;
+    use I\JavaScriptBindable;
 
     /**
-     * @var array<string, Column>
+     * @var array<string, I\Table\Column\Column>
      */
     protected $columns = [];
 
     /**
-     * @var array<string, Action>
+     * @var array<string, I\Table\Action\Action>
      */
     protected $actions_single = [];
 
     /**
-     * @var array<string, Action>
+     * @var array<string, I\Table\Action\Action>
      */
     protected $actions_multi = [];
 
     /**
-     * @var array<string, Action>
+     * @var array<string, I\Table\Action\Action>
      */
     protected $actions_std = [];
 
     protected ?string $id = null;
-    protected Signal $multi_action_signal;
-    protected Signal $selection_signal;
-    protected Signal $async_action_signal;
+    protected C\Signal $multi_action_signal;
+    protected C\Signal $selection_signal;
+    protected C\Signal $async_action_signal;
     protected ?ServerRequestInterface $request = null;
 
     /**
-     * @param array<string, Column> $columns
+     * @param array<string, I\Table\Column\Column> $columns
      */
     public function __construct(
-        SignalGeneratorInterface $signal_generator,
-        protected ViewControl\Factory $view_control_factory,
-        protected ViewControlContainer\Factory $view_control_container_factory,
-        protected \ArrayAccess $storage,
+        I\SignalGeneratorInterface $signal_generator,
+        protected I\Input\ViewControl\Factory $view_control_factory,
+        protected I\Input\Container\ViewControl\Factory $view_control_container_factory,
+        protected \ILIAS\UI\Storage $storage,
         string $title,
-        array $columns
+        array $columns,
     ) {
-        $this->checkArgListElements('columns', $columns, [Column::class]);
+        $this->checkArgListElements('columns', $columns, [I\Table\Column\Column::class]);
         if ($columns === []) {
             throw new \InvalidArgumentException('cannot construct a table without columns.');
         }
@@ -86,8 +78,8 @@ abstract class AbstractTable extends Table implements JSBindable
     }
 
     /**
-     * @param array<string, Column> $columns
-     * @return array<string, Column>
+     * @param array<string, I\Table\Column\Column> $columns
+     * @return array<string, I\Table\Column\Column>
      */
     private function enumerateColumns(array $columns): array
     {
@@ -100,7 +92,7 @@ abstract class AbstractTable extends Table implements JSBindable
     }
 
     /**
-     * @return array<string, Column>
+     * @return array<string, I\Table\Column\Column>
      */
     public function getColumns(): array
     {
@@ -112,18 +104,20 @@ abstract class AbstractTable extends Table implements JSBindable
      */
     public function withActions(array $actions): static
     {
-        $this->checkArgListElements('actions', $actions, [T\Action\Action::class]);
+        // check actions against internal interface, will not be
+        // deletaged to rendering chain and cannot be customised
+        $this->checkArgListElements('actions', $actions, [I\Table\Action\Action::class]);
         $clone = clone $this;
 
         foreach ($actions as $id => $action) {
             switch (true) {
-                case ($action instanceof T\Action\Single):
+                case ($action instanceof I\Table\Action\Single):
                     $clone->actions_single[$id] = $action;
                     break;
-                case ($action instanceof T\Action\Multi):
+                case ($action instanceof I\Table\Action\Multi):
                     $clone->actions_multi[$id] = $action;
                     break;
-                case ($action instanceof T\Action\Standard):
+                case ($action instanceof I\Table\Action\Standard):
                     $clone->actions_std[$id] = $action;
                     break;
             }
@@ -142,17 +136,17 @@ abstract class AbstractTable extends Table implements JSBindable
         return $this->request;
     }
 
-    public function getMultiActionSignal(): Signal
+    public function getMultiActionSignal(): C\Signal
     {
         return $this->multi_action_signal;
     }
 
-    public function getSelectionSignal(): Signal
+    public function getSelectionSignal(): C\Signal
     {
         return $this->selection_signal;
     }
 
-    public function getAsyncActionSignal(): Signal
+    public function getAsyncActionSignal(): C\Signal
     {
         return $this->async_action_signal;
     }
@@ -168,7 +162,7 @@ abstract class AbstractTable extends Table implements JSBindable
     }
 
     /**
-     * @return array<string, T\Action\Action>
+     * @return array<string, I\Table\Action\Action>
      */
     public function getMultiActions(): array
     {
@@ -176,7 +170,7 @@ abstract class AbstractTable extends Table implements JSBindable
     }
 
     /**
-     * @return array<string, T\Action\Action>
+     * @return array<string, I\Table\Action\Action>
      */
     public function getSingleActions(): array
     {
@@ -184,7 +178,7 @@ abstract class AbstractTable extends Table implements JSBindable
     }
 
     /**
-     * @return array<string, T\Action\Action>
+     * @return array<string, I\Table\Action\Action>
      */
     public function getAllActions(): array
     {
@@ -232,15 +226,14 @@ abstract class AbstractTable extends Table implements JSBindable
     }
 
     protected function applyValuesToViewcontrols(
-        ViewControlContainer\ViewControl $view_controls,
+        I\Input\Container\ViewControl\ViewControl $view_controls,
         ServerRequestInterface $request
-    ): ViewControlContainer\ViewControl {
-        $stored_values = new ArrayInputData($this->getStorageData() ?? []);
+    ): I\Input\Container\ViewControl\ViewControl {
+        $stored_values = new I\Input\ArrayInputData($this->getStorageData() ?? []);
         $view_controls = $view_controls
             ->withStoredInput($stored_values)
             ->withRequest($request);
         $this->setStorageData($view_controls->getComponentInternalValues());
         return $view_controls;
     }
-
 }

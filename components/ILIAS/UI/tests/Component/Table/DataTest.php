@@ -77,7 +77,6 @@ class DataTest extends TableTestBase
         $table = $this->getTableFactory()->data($data, 'title', $cols);
         $this->assertInstanceOf(Order::class, $table->getOrder());
         $this->assertInstanceOf(Range::class, $table->getRange());
-        $this->assertInstanceOf(I\Signal::class, $table->getAsyncActionSignal());
         $this->assertInstanceOf(I\Signal::class, $table->getMultiActionSignal());
         $this->assertInstanceOf(I\Signal::class, $table->getSelectionSignal());
         $this->assertFalse($table->hasSingleActions());
@@ -239,7 +238,7 @@ class DataTest extends TableTestBase
 
         $table = new class ($storage) extends C\Table\Data {
             public function __construct(
-                protected \ArrayAccess $storage,
+                protected \ILIAS\UI\Storage $storage,
             ) {
             }
             public function mockGetStorageData(): ?array

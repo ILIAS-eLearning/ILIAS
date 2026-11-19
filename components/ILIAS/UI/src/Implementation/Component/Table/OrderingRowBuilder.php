@@ -20,14 +20,15 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Table;
 
-use ILIAS\UI\Component\Table as T;
+use ILIAS\UI\Implementation\Component as I;
+use ILIAS\UI\Component as C;
 
-class OrderingRowBuilder extends RowBuilder implements T\OrderingRowBuilder
+class OrderingRowBuilder extends RowBuilder implements C\Table\OrderingRowBuilder
 {
     /**
      * @param array<string, mixed> $record
      */
-    public function buildOrderingRow(string $id, array $record): T\OrderingRow
+    public function buildOrderingRow(string $id, array $record): OrderingRow
     {
         return new OrderingRow(
             $this->row_actions !== [],

@@ -26,8 +26,9 @@ use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
+use ILIAS\UI\URLBuilderToken;
+use ILIAS\UI\URLBuilder;
 use ILIAS\Data\URI;
-
 
 class Prompt implements I\Prompt
 {
@@ -40,15 +41,10 @@ class Prompt implements I\Prompt
 
     public function __construct(
         SignalGeneratorInterface $signal_generator,
-        protected URI $async_url
+        protected URLBuilder $async_url_builder,
     ) {
         $this->show_signal = $signal_generator->create();
         $this->close_signal = $signal_generator->create();
-    }
-
-    public function getAsyncUrl(): URI
-    {
-        return $this->async_url;
     }
 
     public function getTitle(): ?string
@@ -63,11 +59,29 @@ class Prompt implements I\Prompt
         return $clone;
     }
 
+    public function withParameter(URLBuilderToken $token, string|array $value): static
+    {
+        $clone = clone $this;
+        $clone->async_url_builder = $clone->async_url_builder->withParameter($token, $value);
+        return $clone;
+    }
+
+    public function getUrlBuilder(): URLBuilder
+    {
+        return $this->async_url_builder;
+    }
+
+    /**
+     * @param URI|null $uri @deprecated, legacy usages should fail loudly since another endpoint
+     *                      would be used, which most likely results in weird behaviour.
+     */
     public function getShowSignal(?URI $uri = null): Signal
     {
-        $target = $uri ?? $this->async_url;
+        if (null !== $uri) {
+            throw new \LogicException('Prompt target must be changed using withParameter() instead.');
+        }
         $signal = clone $this->show_signal;
-        $signal->addOption('url', $target->__toString());
+        $signal = $signal->withOptions(['url' => (string) $this->getUrlBuilder()->buildURI()]);
         return $signal;
     }
 

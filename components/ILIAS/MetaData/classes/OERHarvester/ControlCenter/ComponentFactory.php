@@ -51,7 +51,7 @@ class ComponentFactory implements ComponentFactoryInterface
             rtrim(ILIAS_HTTP_PATH, '/') . '/' .
             ltrim($this->link_factory->getViewLink($ref_id, $obj_id, $type), '/')
         );
-        $prompt = $this->ui_factory->prompt()->standard($view_link);
+        $prompt = $this->ui_factory->prompt()->standard(new \ILIAS\UI\URLBuilder($view_link));
         $button = $this->ui_factory->button()->standard($this->getButtonLabel(), $prompt->getShowSignal());
         $message = $this->ui_factory->messageBox()->info($this->getStatusInfo($status))->withButtons([$button]);
         return [$message, $prompt];

@@ -406,6 +406,26 @@ contain an object that is exported from a `.js` file, which can be imported dire
 Alternatively, we build this as a string and store this in an `.php` artifact and ship its content via our component
 renderers, so it is available as global state (e.g. `il.UI.Config`).
 
+### Refactoring `UI\Component\Table\Data` and `Ordering` components (advanced, ~8d)
+
+The Data and Ordering Table have accumulated some structural debt on both server and client, which makes it increasingly
+hard to maintain and extend it. We should therefore refactor these components internally and focus on the following
+aspects:
+
+- Remove the unnecessary `Table\AbstractTable` and `Table\Table` inheritance level.
+- Refine the public interface of `Table\Action` and `Table\Column` so consumers can contribute custom implementations in
+theory. Today they expose too little information for the UI framework to process them and since they are passed to
+Tables by composition, we should also support less concrete implementations than our internals. A symptom of this is the
+check that given Actions and Columns are an instanfe of our implementation.
+- Simplify the rendering by reusing more UI components internally, e.g. for warning dialog and replace implementation of
+`Input\NameSource` with proper context rendering.
+- Stop carrying around Action information between rendering steps via the composable DTO. This can most likely be
+avoided by delegating more of this work to the client.
+- Modularise the current client-side facility which has grown into a god object. Create smaller more managable modules
+e.g. for selection, action handling, async rendering, navigation.
+- Modernise the client-side architecture to fit modern patterns and remove the use of globals. Remove dynamic DOM
+lookups (which potentially happen many times) and follow correctness on construction.
+
 ## Long Term
 
 ### Mark Some Components as Internal
