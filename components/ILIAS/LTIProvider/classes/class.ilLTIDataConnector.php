@@ -22,6 +22,7 @@ use ceLTIc\LTI\Context;
 use ceLTIc\LTI\DataConnector\DataConnector;
 use ceLTIc\LTI\Enum\IdScope;
 use ceLTIc\LTI\Enum\LtiVersion;
+use ceLTIc\LTI\Http\HttpMessage;
 use ceLTIc\LTI\Platform;
 use ceLTIc\LTI\PlatformNonce;
 use ceLTIc\LTI\ResourceLink;
@@ -45,6 +46,12 @@ class ilLTIDataConnector extends DataConnector
         $this->logger = ilLoggerFactory::getLogger('ltis');
         $this->db = null;
         $this->dbTableNamePrefix = "";
+
+        // the calls of the library go through the proxy of ILIAS like the other calls of ILIAS; without one, the
+        // library keeps its own client, which still follows the proxy the environment of the server sets
+        if (ilCurlConnection::_isCurlExtensionLoaded() && ilProxySettings::_getInstance()->isActive()) {
+            HttpMessage::setHttpClient(new ilLTICurlClient());
+        }
     }
 
     //

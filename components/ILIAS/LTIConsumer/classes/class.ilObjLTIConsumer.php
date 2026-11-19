@@ -1276,6 +1276,38 @@ class ilObjLTIConsumer extends ilObject2
         return self::getIliasHttpPath() . "/lticerts.php";
     }
 
+    public static function fetchPublicKeyset(string $url): string
+    {
+        $connection = new ilCurlConnection($url);
+
+        try {
+            $connection->init();
+            if (parse_url($url, PHP_URL_SCHEME) === 'http') {
+                // many proxies only open tunnels to port 443: a call over plain HTTP is handed to the proxy as it is
+                $connection->setOpt(CURLOPT_HTTPPROXYTUNNEL, false);
+            }
+            $connection->setOpt(CURLOPT_RETURNTRANSFER, true);
+            $connection->setOpt(CURLOPT_FOLLOWLOCATION, true);
+            $connection->setOpt(CURLOPT_MAXREDIRS, 3);
+            $connection->setOpt(CURLOPT_CONNECTTIMEOUT, 10);
+            $connection->setOpt(CURLOPT_TIMEOUT, 20);
+            $connection->setOpt(CURLOPT_HTTPHEADER, array(
+                'Accept: application/json, application/jwk-set+json',
+                'User-Agent: ILIAS LTI Consumer'
+            ));
+
+            $keyset = $connection->exec();
+            $status = (int) $connection->getInfo(CURLINFO_RESPONSE_CODE);
+            if ($status < 200 || $status >= 300 || !is_string($keyset)) {
+                throw new ilLtiConsumerException('cannot fetch public keyset');
+            }
+
+            return $keyset;
+        } finally {
+            $connection->close();
+        }
+    }
+
     public static function getRegistrationUrl(): string
     {
         return self::getIliasHttpPath() . "/ltiregistration.php";
