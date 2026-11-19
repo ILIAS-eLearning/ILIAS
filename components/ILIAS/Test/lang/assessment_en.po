@@ -4365,7 +4365,7 @@ msgid "tst_show_solution_feedback"
 msgstr "Feedback"
 
 msgid "tst_show_solution_feedback_desc"
-msgstr "Provide participants with feedback on the answers they have given. For this, feedback needs to have been added to the individual questions and 'Access to Test Results' and then 'Make Detailed Results Available' (see above) need to have been activated."
+msgstr "Provide participants with feedback on the answers they have given. For this, feedback needs to have been added to the individual questions and 'Access to Test Results' and then 'Make Detailed Results Available' (see above) need to have been activated. Feedback entered during manual scoring is only displayed if the question has been marked as 'Scoring Completed' for the respective participant."
 
 msgid "tst_show_solution_printview"
 msgstr "Printable List of Answers"
