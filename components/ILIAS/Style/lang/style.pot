@@ -308,6 +308,9 @@ msgstr ""
 msgid "sty_acopy"
 msgstr ""
 
+msgid "sty_activate"
+msgstr ""
+
 msgid "sty_add_assignment"
 msgstr ""
 
@@ -516,6 +519,9 @@ msgid "sty_custom_par"
 msgstr ""
 
 msgid "sty_custom_par_info"
+msgstr ""
+
+msgid "sty_deactivate"
 msgstr ""
 
 msgid "sty_default"
