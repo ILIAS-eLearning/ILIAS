@@ -1349,6 +1349,10 @@ class ilObjLTIConsumer extends ilObject2
 
         try {
             $connection->init();
+            if (parse_url($url, PHP_URL_SCHEME) === 'http') {
+                // many proxies only open tunnels to port 443: a call over plain HTTP is handed to the proxy as it is
+                $connection->setOpt(CURLOPT_HTTPPROXYTUNNEL, false);
+            }
             $connection->setOpt(CURLOPT_RETURNTRANSFER, true);
             $connection->setOpt(CURLOPT_FOLLOWLOCATION, true);
             $connection->setOpt(CURLOPT_MAXREDIRS, 3);
