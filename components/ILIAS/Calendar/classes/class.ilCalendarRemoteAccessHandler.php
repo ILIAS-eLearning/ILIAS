@@ -47,22 +47,6 @@ class ilCalendarRemoteAccessHandler
         return $this->token_handler;
     }
 
-    /**
-     * Fetch client id, the chosen calendar...
-     */
-    #[AllowSuperglobalWrite('resolves the client id for the remote calendar entry point before ilInitialisation runs, so no HTTP service exists yet.', 12)]
-    public function parseRequest(): void
-    {
-        // before initialization: $_GET and $_COOKIE is required is unavoidable
-        // in the moment.
-        if ($_GET['client_id']) {
-            $_COOKIE['ilClientId'] = $_GET['client_id'];
-        } else {
-            $path_info_components = explode('/', $_SERVER['PATH_INFO']);
-            $_COOKIE['ilClientId'] = $path_info_components[1];
-        }
-    }
-
     public function handleRequest(): bool
     {
         session_name('ILCALSESSID');
