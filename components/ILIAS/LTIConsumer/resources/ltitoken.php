@@ -110,7 +110,7 @@ function validateServiceToken(string $token, ilLTIConsumeProvider $provider): vo
     try {
         ilObjLTIConsumer::getLogger()->debug("validateServiceToken");
         // ToDo: caching
-        $jwks = file_get_contents($provider->getPublicKeyset());
+        $jwks = ilObjLTIConsumer::fetchPublicKeyset($provider->getPublicKeyset());
         $keyset = json_decode($jwks, true);
         $keys = JWK::parseKeySet($keyset);
         $data = JWT::decode($token, $keys);
