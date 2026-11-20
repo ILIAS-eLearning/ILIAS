@@ -4769,75 +4769,61 @@ class ilObjTest extends ilObject
     /**
      * returns all test results for all participants
      *
-     * @param array $partipants array of user ids
+     * @param array<int, ilTestParticipant> $participants active_id => participant
      *
      * @return array of fields, see code for column titles
      */
-    public function getAllTestResults($participants): array
+    public function getAllTestResults(array $participants): array
     {
-        $results = [];
-        $row = [
-            "user_id" => $this->lng->txt("user_id"),
-            "matriculation" => $this->lng->txt("matriculation"),
-            "lastname" => $this->lng->txt("lastname"),
-            "firstname" => $this->lng->txt("firstname"),
-            "login" => $this->lng->txt("login"),
-            "reached_points" => $this->lng->txt("tst_reached_points"),
-            "max_points" => $this->lng->txt("tst_maximum_points"),
-            "percent_value" => $this->lng->txt("tst_percent_solved"),
-            "mark" => $this->lng->txt("tst_mark"),
-            "passed" => $this->lng->txt("tst_mark_passed"),
+        $results = [
+            [
+                'user_id' => $this->lng->txt('user_id'),
+                'matriculation' => $this->lng->txt('matriculation'),
+                'lastname' => $this->lng->txt('lastname'),
+                'firstname' => $this->lng->txt('firstname'),
+                'login' => $this->lng->txt('login'),
+                'reached_points' => $this->lng->txt('tst_reached_points'),
+                'max_points' => $this->lng->txt('tst_maximum_points'),
+                'percent_value' => $this->lng->txt('tst_percent_solved'),
+                'mark' => $this->lng->txt('tst_mark'),
+                'passed' => $this->lng->txt('tst_mark_passed'),
+            ]
         ];
-        $results[] = $row;
-        if (count($participants)) {
-            foreach ($participants as $active_id => $user_rec) {
-                $mark = '';
-                $row = [];
-                $reached_points = 0;
-                $max_points = 0;
-                $pass = ilObjTest::_getResultPass($active_id);
-                // abort if no valid pass can be found
-                if (!is_int($pass)) {
-                    continue;
-                }
-                foreach ($this->questions as $value) {
-                    $question = ilObjTest::_instanciateQuestion($value);
-                    if (is_object($question)) {
-                        $max_points += $question->getMaximumPoints();
-                        $reached_points += $question->getReachedPoints($active_id, $pass);
-                    }
-                }
-                if ($max_points > 0) {
-                    $percentvalue = $reached_points / $max_points;
-                    if ($percentvalue < 0) {
-                        $percentvalue = 0.0;
-                    }
-                } else {
-                    $percentvalue = 0;
-                }
-                $mark_obj = $this->getMarkSchema()->getMatchingMark($percentvalue * 100);
-                $passed = "";
-                if ($mark_obj !== null) {
-                    $mark = $mark_obj->getOfficialName();
-                }
-                if ($this->getAnonymity()) {
-                    $user_rec['firstname'] = "";
-                    $user_rec['lastname'] = $this->lng->txt("anonymous");
-                }
-                $results[] = [
-                    "user_id" => $user_rec['usr_id'],
-                    "matriculation" => $user_rec['matriculation'],
-                    "lastname" => $user_rec['lastname'],
-                    "firstname" => $user_rec['firstname'],
-                    "login" => $user_rec['login'],
-                    "reached_points" => $reached_points,
-                    "max_points" => $max_points,
-                    "percent_value" => $percentvalue,
-                    "mark" => $mark,
-                    "passed" => $user_rec['passed'] ? '1' : '0',
-                ];
+
+        foreach ($participants as $active_id => $test_participant) {
+            $pass = ilObjTest::_getResultPass($active_id);
+            if ($pass === null) {
+                continue;
             }
+
+            $scoring = $test_participant->getScoring();
+            $reached_points = $scoring->getReachedPoints();
+            $max_points = $scoring->getMaxPoints();
+
+            $percentvalue = $max_points > 0
+                ? max($reached_points / $max_points, 0.0)
+                : 0.0;
+
+            $mark = $this->getMarkSchema()->getMatchingMark($percentvalue * 100)?->getOfficialName() ?? '';
+
+            $results[] = [
+                'user_id' => $test_participant->getUsrId(),
+                'matriculation' => $test_participant->getMatriculation(),
+                'lastname' => !$this->getAnonymity()
+                    ? $test_participant->getLastname()
+                    : $this->lng->txt('anonymous'),
+                'firstname' => !$this->getAnonymity()
+                    ? $test_participant->getFirstname()
+                    : '',
+                'login' => $test_participant->getLogin(),
+                'reached_points' => $reached_points,
+                'max_points' => $max_points,
+                'percent_value' => $percentvalue,
+                'mark' => $mark,
+                'passed' => $test_participant->getScoring()->isPassed() ? '1' : '0',
+            ];
         }
+
         return $results;
     }
 
@@ -6384,52 +6370,40 @@ class ilObjTest extends ilObject
     /**
      * returns all test results for all participants
      *
-     * @param array $partipants array of user ids
+     * @param array<int, ilTestParticipant> $participants active_id => participant
      *
      * @return array of fields, see code for column titles
      */
-    public function getDetailedTestResults($participants): array
+    public function getDetailedTestResults(array $participants): array
     {
         $results = [];
-        if (count($participants)) {
-            foreach ($participants as $active_id => $user_rec) {
-                $row = [];
-                $reached_points = 0;
-                $max_points = 0;
-                $pass = ilObjTest::_getResultPass($active_id);
-                foreach ($this->questions as $value) {
-                    $question = ilObjTest::_instanciateQuestion($value);
-                    if (is_object($question)) {
-                        $max_points += $question->getMaximumPoints();
-                        $reached_points += $question->getReachedPoints($active_id, $pass);
-                        if ($max_points > 0) {
-                            $percentvalue = $reached_points / $max_points;
-                            if ($percentvalue < 0) {
-                                $percentvalue = 0.0;
-                            }
-                        } else {
-                            $percentvalue = 0;
-                        }
-                        if ($this->getAnonymity()) {
-                            $user_rec['firstname'] = "";
-                            $user_rec['lastname'] = $this->lng->txt("anonymous");
-                        }
-                        $results[] = [
-                            "user_id" => $user_rec['usr_id'],
-                            "matriculation" => $user_rec['matriculation'],
-                            "lastname" => $user_rec['lastname'],
-                            "firstname" => $user_rec['firstname'],
-                            "login" => $user_rec['login'],
-                            "question_id" => $question->getId(),
-                            "question_title" => $question->getTitle(),
-                            "reached_points" => $reached_points,
-                            "max_points" => $max_points,
-                            "passed" => $user_rec['passed'] ? '1' : '0',
-                        ];
-                    }
+
+        foreach ($participants as $active_id => $test_participant) {
+            $pass = ilObjTest::_getResultPass($active_id);
+            if ($pass === null) {
+                continue;
+            }
+
+            foreach ($this->getTestResult($active_id, $pass) as $key => $question) {
+                if (!is_int($key)) {
+                    continue;
                 }
+
+                $results[] = [
+                    'user_id' => $test_participant->getUsrId(),
+                    'matriculation' => $test_participant->getMatriculation(),
+                    'lastname' => !$this->getAnonymity() ? $test_participant->getLastname() : $this->lng->txt('anonymous'),
+                    'firstname' => !$this->getAnonymity() ? $test_participant->getFirstname() : '',
+                    'login' => $test_participant->getLogin(),
+                    'question_id' => $question['qid'],
+                    'question_title' => $question['title'],
+                    'reached_points' => $question['reached'],
+                    'max_points' => $question['max'],
+                    'passed' => $test_participant->getScoring()->isPassed() ? '1' : '0',
+                ];
             }
         }
+
         return $results;
     }
 

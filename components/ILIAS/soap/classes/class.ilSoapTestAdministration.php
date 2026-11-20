@@ -667,14 +667,13 @@ class ilSoapTestAdministration extends ilSoapAdministration
         $participantList->initializeFromDbRows($participants);
         $participantList = $participantList->getAccessFilteredList($accessFilter);
         $participantList = $participantList->getScoredParticipantList();
-        foreach ($participants as $activeId => $part) {
-            if ($participantList->isActiveIdInList($activeId)) {
-                $participants[$activeId]['passed'] = $participantList->getParticipantByActiveId($activeId)->getScoring()->isPassed();
-                continue;
-            }
-
-            unset($participants[$activeId]);
-        }
+        $participants = array_map(
+            static fn(array $participant): ilTestParticipant => $participantList->getParticipantByActiveId((int) $participant['active_id']),
+            array_filter(
+                $participants,
+                static fn(array $participant): bool => $participantList->isActiveIdInList((int) $participant['active_id'])
+            )
+        );
 
         if ($sum_only) {
             $data = $test_obj->getAllTestResults($participants);
