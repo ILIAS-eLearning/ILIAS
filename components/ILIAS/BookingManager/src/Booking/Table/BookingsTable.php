@@ -517,7 +517,7 @@ abstract class BookingsTable implements Table
     protected function getBookingTimeSlotFilterLabel(array $booking): string
     {
         $date_from = new DateTimeImmutable("@{$booking['date_from']}");
-        $date_to = new DateTimeImmutable('@' . ((int) $booking['date_to'] + 1));
+        $date_to = new DateTimeImmutable('@' . (int) $booking['date_to']);
 
         return "{$date_from->format('H:i')} - {$date_to->format('H:i')}";
     }
