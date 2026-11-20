@@ -213,12 +213,14 @@ class ilForumSettingsGUI implements ilForumObjectConstants
             );
         }
 
-        $this->tabs->addSubTabTarget(
-            self::UI_SUB_TAB_ID_NEWS,
-            $this->ctrl->getLinkTargetByClass(ilContainerNewsSettingsGUI::class),
-            '',
-            [strtolower(ilContainerNewsSettingsGUI::class)]
-        );
+        if ($this->settings->get('block_activated_news')) {
+            $this->tabs->addSubTabTarget(
+                self::UI_SUB_TAB_ID_NEWS,
+                $this->ctrl->getLinkTargetByClass(ilContainerNewsSettingsGUI::class),
+                '',
+                [strtolower(ilContainerNewsSettingsGUI::class)]
+            );
+        }
 
         $this->tabs->addSubTabTarget(
             self::UI_SUB_TAB_ID_STYLE,
