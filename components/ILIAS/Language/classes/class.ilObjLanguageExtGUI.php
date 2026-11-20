@@ -756,9 +756,8 @@ class ilObjLanguageExtGUI extends ilObjectGUI implements ilCtrlSecurityInterface
             $this->ctrl->getFormAction($this, 'upload'),
             [
                 'file' => $field->file($this->getImportUploadHandler(), $this->lng->txt('file'))
-                    ->withRequired(true)
                     // no type filter: dropzone checks only the name end, exports end in .lang.local etc.
-                    ->withMaxFileSize(ilLanguageImportUploadHandlerGUI::MAX_FILE_SIZE),
+                    ->withRequired(true),
                 'mode' => $mode->withValue(in_array($preset, self::IMPORT_MODES, true) ? $preset : 'keepall'),
             ]
         )->withSubmitLabel($this->lng->txt('upload'));

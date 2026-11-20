@@ -47,6 +47,7 @@ class ilObjLanguageExtGUITest extends TestCase
         tearDown as private tearDownGuiTestSupport;
     }
 
+    private ?\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver $upload_limit_resolver = null;
     private InMemoryKeyValueStorage $key_value_storage;
 
     protected function setUp(): void
@@ -1691,6 +1692,9 @@ class ilObjLanguageExtGUITest extends TestCase
         string $method = 'POST'
     ): array {
         $dic = $this->init();
+        if ($this->upload_limit_resolver !== null) {
+            $dic['ui.upload_limit_resolver'] = $this->upload_limit_resolver;
+        }
         $settings = $this->createStub(ilSetting::class);
         $settings->method('get')->willReturnCallback(
             fn(string $name, ?string $default = null): ?string => $this->settings_values[$name] ?? $default
@@ -2293,14 +2297,29 @@ class ilObjLanguageExtGUITest extends TestCase
         self::assertArrayNotHasKey(self::IMPORT_PENDING, $_SESSION);
     }
 
-    public function testTheImportFileFieldFiltersNoFileTypesButLimitsTheSize(): void
+    public function testTheImportFileFieldFiltersNoFileTypesAndTakesTheLimitOfTheFileFieldDefault(): void
     {
+        $this->upload_limit_resolver = new \ILIAS\UI\Implementation\Component\Input\UploadLimitResolver(
+            new class () implements \ILIAS\UI\Component\Input\Field\PhpUploadLimit {
+                public function getPhpUploadLimitInBytes(): int
+                {
+                    return 5000;
+                }
+            },
+            new class () implements \ILIAS\UI\Component\Input\Field\GlobalUploadLimit {
+                public function getGlobalUploadLimitInBytes(): ?int
+                {
+                    return null;
+                }
+            }
+        );
         [$gui] = $this->createGuiForForms();
         $file = $this->invokeProtectedMethod($gui, 'buildImportForm')->getInputs()['file'];
 
         self::assertInstanceOf(\ILIAS\UI\Implementation\Component\Input\Field\File::class, $file);
         self::assertSame([], $file->getAcceptedMimeTypes());
-        self::assertLessThanOrEqual(ilLanguageImportUploadHandlerGUI::MAX_FILE_SIZE, $file->getMaxFileSize());
+        // no withMaxFileSize(): the limit is the one of the resolver (a fixed local limit would win)
+        self::assertSame(5000, $file->getMaxFileSize());
     }
 
     public function testImportObjectWithoutTheShowMarkerShowsOnlyTheFormAndCleansUp(): void

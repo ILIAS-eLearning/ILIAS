@@ -6,8 +6,8 @@
  *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
- * You should have received a copy of said license along with
- * the source code, too.
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
@@ -27,15 +27,20 @@ use ILIAS\FileUpload\DTO\ProcessingStatus;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\FileUpload\Handler\HandlerResult;
+use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
 use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\TestCase;
 
 class ilLanguageImportUploadHandlerGUITest extends TestCase
 {
+    use RestoresProcessState;
+
     private const string SESSION_KEY = 'lang_ext_import_uploads';
+    private const int LIMIT = 1000;
 
     private string $root;
     private Filesystem $temp;
+    private UploadLimitResolver $upload_limit;
 
     protected function setUp(): void
     {
@@ -43,6 +48,8 @@ class ilLanguageImportUploadHandlerGUITest extends TestCase
         mkdir($this->root);
         $this->temp = (new FlySystemLocalFilesystemFactory())->getInstance(new LocalConfig($this->root));
         $_SESSION = [];
+        $this->upload_limit = $this->createStub(UploadLimitResolver::class);
+        $this->upload_limit->method('getBestPossibleUploadLimitInBytes')->willReturn(self::LIMIT);
     }
 
     protected function tearDown(): void
@@ -64,6 +71,7 @@ class ilLanguageImportUploadHandlerGUITest extends TestCase
     {
         $handler = (new ReflectionClass(ilLanguageImportUploadHandlerGUI::class))->newInstanceWithoutConstructor();
         (new ReflectionProperty(ilLanguageImportUploadHandlerGUI::class, 'temp_system'))->setValue($handler, $temp ?? $this->temp);
+        (new ReflectionProperty(ilLanguageImportUploadHandlerGUI::class, 'upload_limit'))->setValue($handler, $this->upload_limit);
         if ($upload !== null) {
             (new ReflectionProperty(\ILIAS\FileUpload\Handler\AbstractCtrlAwareUploadHandler::class, 'upload'))
                 ->setValue($handler, $upload);
@@ -241,7 +249,7 @@ class ilLanguageImportUploadHandlerGUITest extends TestCase
 
     public function testAnUploadOverTheServerSideSizeLimitIsRefusedAndStoresNothing(): void
     {
-        $result = $this->runUpload('big.lang', ilLanguageImportUploadHandlerGUI::MAX_FILE_SIZE + 1, static fn(string $n): string => $n);
+        $result = $this->runUpload('big.lang', self::LIMIT + 1, static fn(string $n): string => $n);
 
         self::assertSame(HandlerResult::STATUS_FAILED, $result->getStatus());
         self::assertSame('', $result->getFileIdentifier());
@@ -251,10 +259,25 @@ class ilLanguageImportUploadHandlerGUITest extends TestCase
 
     public function testAnUploadExactlyAtTheSizeLimitIsAccepted(): void
     {
-        $result = $this->runUpload('edge.lang', ilLanguageImportUploadHandlerGUI::MAX_FILE_SIZE, static fn(string $n): string => $n);
+        $result = $this->runUpload('edge.lang', self::LIMIT, static fn(string $n): string => $n);
 
         self::assertSame(HandlerResult::STATUS_OK, $result->getStatus());
         self::assertSame([$result->getFileIdentifier()], $_SESSION[self::SESSION_KEY]);
+    }
+
+    public function testTheMaxFileSizeIsAskedFromTheResolverForTheHandlerItself(): void
+    {
+        $handler = null;
+        $this->upload_limit = $this->createMock(UploadLimitResolver::class);
+        $this->upload_limit->expects($this->once())
+            ->method('getBestPossibleUploadLimitInBytes')
+            ->with($this->callback(static function ($h) use (&$handler): bool {
+                return $h === $handler;
+            }))
+            ->willReturn(4242);
+        $handler = $this->createHandler();
+
+        self::assertSame(4242, (new ReflectionMethod($handler, 'getMaxFileSize'))->invoke($handler));
     }
 
     public function testAFileNameThatSanitizesToNothingGetsTheFallbackName(): void

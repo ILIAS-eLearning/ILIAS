@@ -27,6 +27,8 @@ use ILIAS\FileUpload\Handler\FileInfoResult;
 use ILIAS\FileUpload\Handler\HandlerResult;
 use ILIAS\Filesystem\Exception\IOException;
 use ILIAS\Filesystem\Filesystem;
+use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
 
 /**
  * Only identifiers issued to this session are accepted, so a request can never point to another file.
@@ -37,14 +39,15 @@ class ilLanguageImportUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
     private const string NAMES_SESSION_KEY = 'lang_ext_import_upload_names';
     private const string STORED_FILE_NAME = 'language.lang';
     private const int MAX_NAME_LENGTH = 200;
-    public const int MAX_FILE_SIZE = 10 * 1024 * 1024;
 
     private readonly Filesystem $temp_system;
+    private readonly UploadLimitResolver $upload_limit;
 
     public function __construct()
     {
         global $DIC;
         $this->temp_system = $DIC->filesystem()->temp();
+        $this->upload_limit = $DIC['ui.upload_limit_resolver'];
         parent::__construct();
     }
 
@@ -65,7 +68,7 @@ class ilLanguageImportUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
             );
         }
         // the size limit of the File field is only checked in the browser
-        if ($result->getSize() > self::MAX_FILE_SIZE) {
+        if ($result->getSize() > $this->getMaxFileSize()) {
             return new BasicHandlerResult(
                 $this->getFileIdentifierParameterName(),
                 HandlerResult::STATUS_FAILED,
@@ -74,10 +77,20 @@ class ilLanguageImportUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
             );
         }
 
+        $resource = fopen($result->getPath(), 'rb');
+        if ($resource === false) {
+            return new BasicHandlerResult(
+                $this->getFileIdentifierParameterName(),
+                HandlerResult::STATUS_FAILED,
+                '',
+                'upload not readable'
+            );
+        }
+
         $identifier = uniqid('lng', true);
         $this->temp_system->createDir($identifier);
         // a fixed name on disk: getValidFilename() would mangle exports like ilias_de.lang.local
-        $this->temp_system->put($identifier . '/' . self::STORED_FILE_NAME, file_get_contents($result->getPath()));
+        $this->temp_system->writeStream($identifier . '/' . self::STORED_FILE_NAME, Streams::ofResource($resource));
         ilSession::set(self::SESSION_KEY, [...$this->getOwnIdentifiers(), $identifier]);
         ilSession::set(
             self::NAMES_SESSION_KEY,
@@ -90,6 +103,12 @@ class ilLanguageImportUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
             $identifier,
             'Upload ok'
         );
+    }
+
+    /** Same limit as the File field without withMaxFileSize(). */
+    protected function getMaxFileSize(): int
+    {
+        return $this->upload_limit->getBestPossibleUploadLimitInBytes($this);
     }
 
     protected function getRemoveResult(string $identifier): HandlerResult
