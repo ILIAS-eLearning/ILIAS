@@ -179,4 +179,21 @@ class ViewControlTest extends ILIAS_UI_TestBase
 </div>
 EOT;
     }
+
+    public function testViewControlSectionRendersDropdown(): void
+    {
+        $f = $this->getViewControlFactory();
+
+        $back = new I\Component\Button\Standard("", "http://www.ilias.de");
+        $next = new I\Component\Button\Standard("", "http://www.github.com");
+        $dropdown = $this->createStub(C\Dropdown\Standard::class);
+        $dropdown->method('getCanonicalName')->willReturn('dropdown-rendering-stub');
+        $r = $this->getDefaultRenderer(null, [$dropdown]);
+
+        $section = $f->section($back, $dropdown, $next);
+        $html = $this->normalizeHTML($r->render($section));
+
+        $this->assertStringContainsString('dropdown-rendering-stub', $html);
+    }
+
 }
