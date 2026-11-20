@@ -22,6 +22,9 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectGroup;
+use ILIAS\ILIASObject\Definition\ObjectType;
+use ILIAS\Administration\Node\AdministrationNode;
 
 class Test implements Component\Component
 {
@@ -61,5 +64,12 @@ class Test implements Component\Component
             $this,
             'assessment'
         );
+
+        $contribute[ObjectGroup::class] = static fn(): ObjectGroup => new Test\ObjectType\TestsObjectGroup();
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Test\ObjectType\TestObjectType();
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Test\ObjectType\TestFolderObjectType();
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Test\ObjectType\TestVerificationObjectType();
+
+        $contribute[AdministrationNode::class] = static fn(): AdministrationNode => new Test\AdministrationNode\TestFolderAdministrationNode();
     }
 }

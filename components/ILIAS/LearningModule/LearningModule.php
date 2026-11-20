@@ -22,6 +22,10 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectGroup;
+use ILIAS\ILIASObject\Definition\ObjectType;
+use ILIAS\Administration\Node\AdministrationNode;
+use ILIAS\Administration\Settings\ExternalSettings;
 
 class LearningModule implements Component\Component
 {
@@ -50,5 +54,13 @@ class LearningModule implements Component\Component
             $this,
             'lm'
         );
+
+        $contribute[ObjectGroup::class] = static fn(): ObjectGroup => new LearningModule\ObjectType\LearningResourcesObjectGroup();
+        $contribute[ObjectType::class] = static fn(): ObjectType => new LearningModule\ObjectType\LearningModuleObjectType();
+        $contribute[ObjectType::class] = static fn(): ObjectType => new LearningModule\ObjectType\LearningResourcesSettingsObjectType();
+
+        $contribute[AdministrationNode::class] = static fn(): AdministrationNode => new LearningModule\AdministrationNode\LearningResourcesSettingsAdministrationNode();
+        $contribute[ExternalSettings::class] = static fn(): ExternalSettings => new LearningModule\AdministrationNode\LearningResourcesSettingsExternalSettings();
+
     }
 }

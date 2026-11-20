@@ -22,6 +22,7 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class RemoteWiki implements Component\Component
 {
@@ -40,5 +41,7 @@ class RemoteWiki implements Component\Component
             $this,
             'rwik'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new RemoteWiki\ObjectType\RemoteWikiObjectType();
     }
 }

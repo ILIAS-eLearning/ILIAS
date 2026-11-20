@@ -22,6 +22,7 @@ use ILIAS\Setup\Artifact\BuildArtifactObjective;
 use ILIAS\Setup\ImplementationOfInterfaceFinder;
 use ILIAS\Setup\Artifact\ArrayArtifact;
 use ILIAS\Setup\Artifact;
+use ILIAS\UICore\Ctrl\BaseClass;
 
 /**
  * Class ilCtrlSecurityArtifactObjective
@@ -43,7 +44,7 @@ class ilCtrlBaseClassArtifactObjective extends BuildArtifactObjective
         $finder = new ImplementationOfInterfaceFinder();
 
         $base_classes = [];
-        foreach ($finder->getMatchingClassNames(ilCtrlBaseClassInterface::class) as $base_class) {
+        foreach ($finder->getMatchingClassNames(BaseClass::class) as $base_class) {
             $base_classes[] = strtolower($base_class);
         }
 

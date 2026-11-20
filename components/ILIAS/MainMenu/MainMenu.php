@@ -23,6 +23,8 @@ namespace ILIAS;
 use ILIAS\Component\Component;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
+use ILIAS\Administration\Node\AdministrationNode;
 
 class MainMenu implements Component
 {
@@ -41,5 +43,9 @@ class MainMenu implements Component
             $this,
             'mme'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new MainMenu\ObjectType\MainMenuObjectType();
+
+        $contribute[AdministrationNode::class] = static fn(): AdministrationNode => new MainMenu\AdministrationNode\MainMenuAdministrationNode();
     }
 }

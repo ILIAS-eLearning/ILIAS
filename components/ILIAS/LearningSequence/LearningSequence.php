@@ -22,6 +22,9 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectGroup;
+use ILIAS\ILIASObject\Definition\ObjectType;
+use ILIAS\Administration\Node\AdministrationNode;
 
 class LearningSequence implements \ILIAS\Component\Component
 {
@@ -90,5 +93,11 @@ class LearningSequence implements \ILIAS\Component\Component
             $this,
             'lso'
         );
+
+        $contribute[ObjectGroup::class] = static fn(): ObjectGroup => new LearningSequence\ObjectType\LearningSequenceObjectGroup();
+        $contribute[ObjectType::class] = static fn(): ObjectType => new LearningSequence\ObjectType\LearningSequenceObjectType();
+        $contribute[ObjectType::class] = static fn(): ObjectType => new LearningSequence\ObjectType\LearningSequenceAdminObjectType();
+
+        $contribute[AdministrationNode::class] = static fn(): AdministrationNode => new LearningSequence\AdministrationNode\LearningSequenceAdminAdministrationNode();
     }
 }

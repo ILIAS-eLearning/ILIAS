@@ -34,6 +34,9 @@ use ilAccessRBACOperationDeletedObjective;
 use ILIAS\Administration\Setup\Objective\DropPermissions;
 use ILIAS\Administration\Setup\Objective\CopyPermissions;
 use ilObjBenchmark;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Administration\Node\AdministrationNode;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 /**
  * Class ilAdministrationSetupAgent
@@ -47,6 +50,18 @@ class ilAdministrationSetupAgent extends NullAgent
         4, // ilTreeAdminNodeAddedObjective::RBAC_OP_WRITE,
     ];
 
+    /**
+     * @param AdministrationNode[] $nodes
+     * @param ObjectType[]         $object_types
+     */
+    public function __construct(
+        Refinery $refinery,
+        private readonly array $nodes = [],
+        private readonly array $object_types = []
+    ) {
+        parent::__construct($refinery);
+    }
+
     public function getUpdateObjective(?Config $config = null): Objective
     {
         $drop_visible = new DropPermissions('adm', [2]); // ilTreeAdminNodeAddedObjective::RBAC_OP_VISIBLE
@@ -56,6 +71,7 @@ class ilAdministrationSetupAgent extends NullAgent
             new ilDatabaseUpdateStepsExecutedObjective(new ilAdministrationDBUpdateSteps()),
             new ilTreeAdminNodeAddedObjective(ilObjGeneralSettings::TYPE, 'General Settings'),
             new ilTreeAdminNodeAddedObjective(ilObjServerInfo::TYPE, 'Server Info'),
+            $this->getNodesAddedObjective(),
             new AdminNodesVisibilityRemovedObjective(),
             new ExternalToolsRemovedObjective(),
             // First drop visible then copy permissions then drop all except READ.
@@ -65,6 +81,29 @@ class ilAdministrationSetupAgent extends NullAgent
                 new CopyPermissions('adm', 'cron', [$drop_visible]),
                 new CopyPermissions('adm', ilObjBenchmark::TYPE, [$drop_visible]),
             ]),
+        );
+    }
+
+    /**
+     * Adds the nodes of all contributed administration nodes which do not
+     * exist yet, e.g. the one of a newly added component.
+     */
+    private function getNodesAddedObjective(): Objective
+    {
+        $titles = [];
+        foreach ($this->object_types as $object_type) {
+            $titles[$object_type->getId()] = $object_type->getClassName();
+        }
+        return new ObjectiveCollection(
+            'Administration nodes of the components',
+            false,
+            ...array_map(
+                static fn(AdministrationNode $node): Objective => new ilTreeAdminNodeAddedObjective(
+                    $node->getObjectType(),
+                    $titles[$node->getObjectType()] ?? $node->getObjectType()
+                ),
+                $this->nodes
+            )
         );
     }
 

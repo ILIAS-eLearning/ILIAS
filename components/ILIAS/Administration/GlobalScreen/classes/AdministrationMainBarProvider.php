@@ -27,6 +27,8 @@ use ILIAS\UI\Component\Symbol\Icon\Icon;
 use ILIAS\DI\Container;
 use ilRbacReview;
 use ilObjUser;
+use ILIAS\Administration\Node\AdministrationNodes;
+use ILIAS\Administration\Node\Group;
 
 /**
  * Class AdministrationMainBarProvider
@@ -80,7 +82,10 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
                         continue;
                     }
 
-                    $icon = $this->dic->ui()->factory()->symbol()->icon()->standard($titems[$group_item]["type"], $titems[$group_item]["title"]);
+                    $icon_path = $this->dic['objDefinition']->getIconPath($titems[$group_item]["type"]);
+                    $icon = $icon_path === null
+                        ? $this->dic->ui()->factory()->symbol()->icon()->standard($titems[$group_item]["type"], $titems[$group_item]["title"])
+                        : $this->dic->ui()->factory()->symbol()->icon()->custom($icon_path, $titems[$group_item]["title"]);
 
                     $ref_id = $titems[$group_item]["ref_id"];
                     if ($admin_request->getAdminMode() !== 'repository' && $ref_id == ROOT_FOLDER_ID) {
@@ -129,19 +134,7 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
 
     protected function getIconForGroup(string $group, string $title): Icon
     {
-        $icon_map = array(
-            "maintenance" => "icon_sysa",
-            "layout_and_navigation" => "icon_laya",
-            "repository_and_objects" => "icon_repa",
-            "personal_workspace" => "icon_pwsa",
-            "achievements" => "icon_achva",
-            "communication" => "icon_coma",
-            "user_administration" => "icon_usra",
-            "search_and_find" => "icon_safa",
-            "extending_ilias" => "icon_exta",
-            'legal_regulations' => 'icon_lega',
-        );
-        $icon_path = \ilUtil::getImagePath("standard/" . $icon_map[$group] . ".svg");
+        $icon_path = \ilUtil::getImagePath("standard/" . Group::from($group)->getIconName() . ".svg");
         return $this->dic->ui()->factory()->symbol()->icon()->custom($icon_path, $title);
     }
 
@@ -222,46 +215,16 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
             $titems[$i["type"]] = $i;
         }
 
-        // admin menu layout
-        $layout = array(
-            "maintenance" =>
-                array("adma", "serv", "cron", "bnmk", "lngf", "hlps", "wfe", 'fils', 'qsts', 'logs', 'sysc', "recf", "root"),
-            "layout_and_navigation" =>
-                array("mme", "gsfo", "dshs", "stys", "adve", "stus"),
-            "repository_and_objects" =>
-                array("reps", "crss", "grps", "prgs", "bibs", "blga", "cpad", "chta", "facs", "frma", "lrss",
-                      "mcts", "mobs", "svyf", "assf", "wbrs", 'lsos'),
-            "personal_workspace" =>
-                array("tags", "cals", "prfa", "prss", "nots"),
-            "achievements" =>
-                array("lhts", "skmg", "trac", "bdga", "cert"),
-            "communication" =>
-                array("mail", "cadm", "nwss", "coms", "adn", "awra", "nota"),
-            "user_administration" =>
-                array("usrf", "rolf", "otpl", "auth", "ps"),
-            "search_and_find" =>
-                array("seas", "mds", "taxs"),
-            "extending_ilias" =>
-                array('ecss', "ltis", "wbdv", "cmis", "maps", "cmps"),
-            "legal_regulations" =>
-                array("impr" ,"tos", "accs", 'dpro')
-        );
+        // the nodes are contributed by the components, only nodes which exist
+        // in the tree are shown
+        $nodes = $this->dic->offsetExists(AdministrationNodes::class)
+            ? $this->dic[AdministrationNodes::class]->getGrouped()
+            : [];
         $groups = [];
-        // now get all items and groups that are accessible
-        foreach ($layout as $group => $entries) {
-            $groups[$group] = array();
-            $entries_since_last_sep = false;
-            foreach ($entries as $e) {
-                if ($e === "---" || (isset($titems[$e]["type"]) && $titems[$e]["type"] != "")) {
-                    if ($e === "---" && $entries_since_last_sep) {
-                        $groups[$group][] = $e;
-                        $entries_since_last_sep = false;
-                    } else {
-                        if ($e !== "---") {
-                            $groups[$group][] = $e;
-                            $entries_since_last_sep = true;
-                        }
-                    }
+        foreach ($nodes as $group => $group_nodes) {
+            foreach ($group_nodes as $node) {
+                if (($titems[$node->getObjectType()]["type"] ?? "") !== "") {
+                    $groups[$group][] = $node->getObjectType();
                 }
             }
         }

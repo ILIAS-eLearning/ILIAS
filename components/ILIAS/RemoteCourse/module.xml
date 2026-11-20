@@ -4,14 +4,4 @@
 	<baseclasses>
 		<baseclass name="ilObjRemoteCourseGUI" dir="classes" />
 	</baseclasses>
-	<objects>
-		<object id="rcrs" class_name="RemoteCourse" dir="classes" default_pos="30" default_pres_pos="40"
-			checkbox="1" inherit="0" allow_link="1" allow_copy="1" translate="0" rbac="1" devmode="0" group="crs"
-			repository="0" workspace="0" amet="1">
-			<parent id="cat">cat</parent>
-			<parent id="root">root</parent>
-			<parent id="crs">crs</parent>
-			<parent id="grp">grp</parent>
-		</object>
-	</objects>
 </module>
