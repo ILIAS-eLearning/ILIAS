@@ -47,6 +47,10 @@ $il-item-gap-xs: 1px;
 		margin: 0;
 	}
 
+	h6.il-item-title {
+		margin: 0;
+	}
+
 	.il-item-actions {
 		float: right;
 	}
@@ -75,6 +79,8 @@ $il-item-gap-xs: 1px;
 		font-size: $il-font-size-small;
 		color: $il-text-light-color;
 		overflow: hidden;
+		display: inline;
+		margin: 0;
 		&:not(:empty):after {
 			content: ": "
 		}
@@ -83,6 +89,14 @@ $il-item-gap-xs: 1px;
 	.il-item-property-value {
 		font-size: $il-font-size-small;
 		overflow: hidden;
+		display: inline;
+		margin: 0;
+	}
+
+	.il-item-properties {
+		dt, dd {
+			margin: 0;
+		}
 	}
 
 	.il-chart-progressmeter-box {
@@ -120,6 +134,15 @@ $il-item-gap-xs: 1px;
 	background-color: $il-main-dark-bg;
 
 	> h3 {
+		float:left;
+		color: $il-panel-heading-color;
+		font-size: $il-font-size-large;
+		font-weight: $il-font-weight-base;
+		padding: $il-panel-heading-padding;
+		margin: 0;
+	}
+
+	> h5 {
 		float:left;
 		color: $il-panel-heading-color;
 		font-size: $il-font-size-large;

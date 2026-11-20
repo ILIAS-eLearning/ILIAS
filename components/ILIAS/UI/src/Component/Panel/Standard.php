@@ -25,6 +25,6 @@ use ILIAS\UI\Component\ViewControl\HasViewControls;
 /**
  * This describes a Standard Panel.
  */
-interface Standard extends Panel, HasViewControls
+interface Standard extends Panel, HasViewControls, IsExpandable
 {
 }

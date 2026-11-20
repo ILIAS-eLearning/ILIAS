@@ -38,6 +38,7 @@ class Group implements Item\Group
      */
     protected array $items;
     protected ?Dropdown\Standard $actions = null;
+    protected int $heading_level = 3;
 
     /**
      * @param Item\Item[] $items
@@ -80,5 +81,27 @@ class Group implements Item\Group
     public function getActions(): ?Dropdown\Standard
     {
         return $this->actions;
+    }
+
+    public function withHeadingLevel(int $level): Item\Group
+    {
+        $clone = clone $this;
+        $clone->heading_level = $level;
+        return $clone;
+    }
+
+    public function getHeadingLevel(): int
+    {
+        return $this->heading_level;
+    }
+
+    /**
+     * @param Item\Item[] $items
+     */
+    public function withItems(array $items): Item\Group
+    {
+        $clone = clone $this;
+        $clone->items = $items;
+        return $clone;
     }
 }
