@@ -1287,7 +1287,7 @@ class ilCalendarCategoryGUI
     public function invitations(): void
     {
         $this->addSubTabs("invitations");
-        $table = new ilCalendarInboxSharedTableGUI($this, 'inbox');
+        $table = new ilCalendarInboxSharedTableGUI($this, 'invitations');
         $table->setCalendars(ilCalendarShared::getSharedCalendarsForUser());
         $this->tpl->setContent($table->getHTML());
     }
