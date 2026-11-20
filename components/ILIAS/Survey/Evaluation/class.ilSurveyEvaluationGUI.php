@@ -1200,9 +1200,36 @@ class ilSurveyEvaluationGUI
             $data = $this->evaluation_manager->getUserSpecificResults();
         }
 
-        $table_gui = new ilSurveyResultsUserTableGUI($this, 'evaluationuser');
-        $table_gui->setData($data);
-        $this->tpl->setContent($table_gui->getHTML());
+        $this->tpl->setContent($this->getResultsPerUserTableHTML($data));
+    }
+
+    protected function getResultsPerUserTableHTML(array $data): string
+    {
+        \ilDatePresentation::setUseRelativeDates(false);
+
+        $ui_factory = $this->gui->ui()->factory();
+        $column_factory = $ui_factory->table()->column();
+        $retrieval = \ILIAS\Survey\Evaluation\ResultsPerUserTableRetrieval::class;
+
+        $columns = [
+            $retrieval::COL_USERNAME => $column_factory->text($this->lng->txt("username")),
+            $retrieval::COL_QUESTION => $column_factory->text($this->lng->txt("question"))
+                ->withIsSortable(false),
+            $retrieval::COL_RESULTS => $column_factory->text($this->lng->txt("results"))
+                ->withIsSortable(false),
+            $retrieval::COL_WORKINGTIME => $column_factory->text($this->lng->txt("workingtime")),
+            $retrieval::COL_FINISHED => $column_factory->text($this->lng->txt("survey_results_finished"))
+        ];
+
+        $table = $ui_factory->table()->data(
+            new \ILIAS\Survey\Evaluation\ResultsPerUserTableRetrieval($this->lng, $data),
+            $this->lng->txt("svy_eval_user"),
+            $columns
+        )
+            ->withId("svy_res_usr")
+            ->withRequest($this->gui->http()->request());
+
+        return $this->gui->ui()->renderer()->render($table);
     }
 
     public function competenceEval(): void
