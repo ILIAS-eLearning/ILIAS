@@ -117,7 +117,7 @@ class ilSCORMObject
 			FROM scorm_object sob, sc_item sit
 			WHERE sob.slm_id = %s
 			AND sob.obj_id = sit.obj_id
-			AND sit.identifierref IS NOT NULL",
+			AND TRIM(COALESCE(sit.identifierref, '')) <> ''",
             array('integer'),
             array($a_slm_id)
         );
