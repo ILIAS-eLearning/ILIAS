@@ -39,12 +39,15 @@ use Psr\Http\Message\ServerRequestInterface;
 class ParticipantTable implements DataRetrieval
 {
     private const ID = 'pt';
+
     private ?iterable $records = null;
+    private AttemptSpecifiers $attempt_specifier;
 
     public function __construct(
         private readonly UIFactory $ui_factory,
         private readonly \ilUIService $ui_service,
         private readonly Language $lng,
+        private readonly \ilCtrl $ctrl,
         private readonly \ilTestAccess $test_access,
         private readonly RequestDataCollector $test_request,
         private readonly \ilTestParticipantAccessFilterFactory $participant_access_filter,
@@ -55,6 +58,7 @@ class ParticipantTable implements DataRetrieval
         private readonly \ilObjTest $test_object,
         private readonly ParticipantTableActions $table_actions
     ) {
+        $this->attempt_specifier = AttemptSpecifiers::tryFrom($this->test_request->getViewMode()) ?? AttemptSpecifiers::LastAttempt;
     }
 
     public function execute(URLBuilder $url_builder): ?Modal
@@ -83,6 +87,7 @@ class ParticipantTable implements DataRetrieval
 
         return [
             $summary_information,
+            $this->attempt_specifier->buildViewControl($this->ctrl, $this->lng, $this->ui_factory),
             $filter,
             $table->withActions($this->table_actions->getEnabledActions(...$this->acquireParameters($url_builder)))
         ];
@@ -443,10 +448,10 @@ class ParticipantTable implements DataRetrieval
         return $columns;
     }
 
-    private function loadRecords(?array $filter, Order $order): iterable
+    private function loadRecords(?array $filter, Order $order): void
     {
         if ($this->records !== null) {
-            return $this->records;
+            return;
         }
 
         $records = iterator_to_array(
@@ -457,14 +462,31 @@ class ParticipantTable implements DataRetrieval
                 $order
             )
         );
+        $accessible_user_ids = $this->buildAccessFilteredParticipantsList($records);
 
-        $this->records = array_filter(
-            $records,
-            fn(Participant $participant) => in_array(
-                $participant->getUserId(),
-                $this->buildAccessFilteredParticipantsList($records)
-            )
+        $this->records = $this->results_data_factory->addAttemptOverviewInformationToParticipants(
+            $this->results_presentation_settings,
+            $this->test_object,
+            array_filter(
+                $records,
+                static fn(Participant $participant): bool => in_array(
+                    $participant->getUserId(),
+                    $accessible_user_ids,
+                    true
+                )
+            ),
+            $this->attempt_specifier
         );
+    }
+
+    /**
+     * @return iterable<Participant>
+     */
+    private function retrieveRecords(?array $filter, Order $order): iterable
+    {
+        if ($this->records === null) {
+            $this->loadRecords($filter, $order);
+        }
 
         return $this->records;
     }
@@ -496,11 +518,7 @@ class ParticipantTable implements DataRetrieval
         return $this->limitRecords(
             $this->orderRecords(
                 $this->filterRecords(
-                    $this->results_data_factory->addAttemptOverviewInformationToParticipants(
-                        $this->results_presentation_settings,
-                        $this->test_object,
-                        $this->loadRecords($filter_data, $order)
-                    ),
+                    $this->retrieveRecords($filter_data, $order),
                     $filter_data
                 ),
                 $order
