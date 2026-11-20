@@ -96,6 +96,11 @@ class RequestDataCollector implements RequestDataCollectorInterface
         return $this->int('pass_id');
     }
 
+    public function getViewMode(): string
+    {
+        return $this->str('view_mode');
+    }
+
     public function retrieveBoolFromPost(string $key): ?bool
     {
         if (!$this->http->wrapper()->post()->has($key)) {
