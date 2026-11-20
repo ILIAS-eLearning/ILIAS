@@ -220,7 +220,7 @@ class ilSCORMPackageParser extends ilSaxParser
                 $item = new ilSCORMItem();
                 $item->setSLMId($this->slm_object->getId());
                 $item->setImportId($a_attribs["identifier"]);
-                $item->setIdentifierRef((string) $a_attribs["identifierref"]);
+                $item->setIdentifierRef((string) ($a_attribs["identifierref"] ?? ''));
                 if (isset($a_attribs["isvisible"])) {
                     if (strtolower((string) $a_attribs["isvisible"]) !== "false") {
                         $item->setVisible(true);
