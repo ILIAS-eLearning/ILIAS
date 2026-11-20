@@ -24,6 +24,8 @@ use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
+use ILIAS\UI\Component\Button\Button;
+use ILIAS\UI\Implementation\Render\Template;
 use LogicException;
 
 class Renderer extends AbstractComponentRenderer
@@ -54,6 +56,8 @@ class Renderer extends AbstractComponentRenderer
                 return '';
             case ($component instanceof Component\Input\ViewControl\Mode):
                 return $this->renderMode($component, $default_renderer);
+            case ($component instanceof Component\Input\ViewControl\Section):
+                return $this->renderSection($component, $default_renderer);
 
             default:
                 $this->cannotHandleComponent($component);
@@ -119,6 +123,44 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable("BUTTON", $default_renderer->render($button));
 
         return $tpl->get();
+    }
+
+    protected function renderSection(Section $component, RendererInterface $default_renderer): string
+    {
+        $tpl = $this->getTemplate("tpl.section.html", true, true);
+
+        $tpl->setVariable("BUTTON", $default_renderer->render($component->getSelectorButton()));
+        $this->renderSectionButton($component->getPreviousActions(), $tpl, "prev");
+        $this->renderSectionButton($component->getNextActions(), $tpl, "next");
+
+        return $tpl->get();
+    }
+
+    protected function renderSectionButton(Button $component, Template $tpl, string $type): void
+    {
+        $upper_type = strtoupper($type);
+        $action = $component->getAction();
+        $tpl->setVariable($upper_type . "_ACTION", $action);
+        $tpl->setVariable(
+            $upper_type . "_LABEL",
+            $this->txt($type === "next" ? "next" : "previous")
+        );
+
+        if ($component->isActive()) {
+            $tpl->setCurrentBlock($type . "_with_href");
+            $tpl->setVariable($upper_type . "_HREF", $action);
+            $tpl->parseCurrentBlock();
+        } else {
+            $tpl->touchBlock($type . "_disabled");
+        }
+
+        $id = $this->bindJavaScript($component);
+        if (!$id) {
+            $id = $this->createId();
+        }
+        $tpl->setCurrentBlock($type . "_with_id");
+        $tpl->setVariable($upper_type . "_ID", $id);
+        $tpl->parseCurrentBlock();
     }
 
     protected function renderSortation(Sortation $component, RendererInterface $default_renderer): string
