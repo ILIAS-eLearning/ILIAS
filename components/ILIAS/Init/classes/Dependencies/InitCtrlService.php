@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\DI\Container;
+use ILIAS\UICore\Ctrl\CommandClassResolver;
 use ILIAS\components\Help\ScreenId\HelpScreenIdObserver;
 
 /**
@@ -74,6 +75,7 @@ final class InitCtrlService
             new ilCtrlSubject(),
             new ilCtrlQueryRegexParser(),
             $dic->http()->messages(),
+            $dic[CommandClassResolver::class],
         );
 
         // add helper function to DI container that
@@ -98,6 +100,10 @@ final class InitCtrlService
 
         if (!$dic->offsetExists('refinery')) {
             throw new ilCtrlException("Cannot initialize ilCtrl if Refinery Factory is not yet available.");
+        }
+
+        if (!$dic->offsetExists(CommandClassResolver::class)) {
+            throw new ilCtrlException("Cannot initialize ilCtrl if the Command Class Resolver is not yet available.");
         }
 
         // if (!$dic->offsetExists('ilDB')) {

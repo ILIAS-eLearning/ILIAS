@@ -45,6 +45,12 @@ class ObjectDefinitionAccessProxy
         return $DIC['objDefinition']->isPluginTypeName($str);
     }
 
+    public function isAvailable(string $type): bool
+    {
+        global $DIC;
+        return $DIC['objDefinition']->isAvailable($type);
+    }
+
     public function isPlugin(string $obj_name): bool
     {
         global $DIC;

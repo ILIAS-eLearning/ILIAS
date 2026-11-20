@@ -39,6 +39,7 @@ use ILIAS\Questions\Persistence\TableSubNameSpace;
 use ILIAS\Questions\Question\Persistence\Repository as QuestionRepository;
 use ILIAS\Questions\Setup\Agent;
 use ILIAS\Setup\Agent as AgentInterface;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class Questions implements Component\Component
 {
@@ -135,5 +136,7 @@ class Questions implements Component\Component
             $this,
             'qsts'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Questions\ObjectType\QuestionsObjectType();
     }
 }

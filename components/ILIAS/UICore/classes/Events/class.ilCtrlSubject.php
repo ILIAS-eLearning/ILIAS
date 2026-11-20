@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\UICore\Ctrl\Observer;
+
 /**
  * @author       Fabian Schmid <fabian@sr.solutions>
  * @author       Thibeau Fuhrer <thibeau@sr.solutions>
@@ -26,7 +28,7 @@ declare(strict_types=1);
 class ilCtrlSubject
 {
     /**
-     * @var array<ilCtrlEvent, ilCtrlObserver[]>
+     * @var array<ilCtrlEvent, Observer[]>
      */
     protected array $observer_groups = [];
 
@@ -35,14 +37,14 @@ class ilCtrlSubject
         $this->initObserverGroup((ilCtrlEvent::ALL)->value);
     }
 
-    public function attach(ilCtrlObserver $observer, ilCtrlEvent $event): void
+    public function attach(Observer $observer, ilCtrlEvent $event): void
     {
         $this->initObserverGroup($event->value);
 
         $this->observer_groups[$event->value][] = $observer;
     }
 
-    public function detach(ilCtrlObserver $observer, ilCtrlEvent $event = ilCtrlEvent::ALL): void
+    public function detach(Observer $observer, ilCtrlEvent $event = ilCtrlEvent::ALL): void
     {
         $this->initObserverGroup($event->value);
 

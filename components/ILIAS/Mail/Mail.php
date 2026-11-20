@@ -23,6 +23,7 @@ namespace ILIAS;
 use ILIAS\Component\Resource\ComponentCSS;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class Mail implements Component\Component
 {
@@ -52,5 +53,7 @@ class Mail implements Component\Component
             $this,
             'mail'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Mail\ObjectType\MailObjectType();
     }
 }

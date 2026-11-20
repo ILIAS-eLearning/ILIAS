@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\HTTP\Message\MessageFactory;
 use PHPUnit\Framework\TestCase;
+use ILIAS\UICore\Ctrl\CommandClassResolver;
 use ILIAS\HTTP\Response\Sender\ResponseSenderStrategy;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\HTTP\Wrapper\RequestWrapper;
@@ -63,6 +64,7 @@ class ilCtrlTest extends TestCase
             new ilCtrlSubject(),
             $this->createStub(ilCtrlQueryParserInterface::class),
             $this->createStub(MessageFactory::class),
+            $this->createStub(CommandClassResolver::class),
         );
 
         $invalid_baseclass = ilCtrlInvalidGuiClass::class;
@@ -148,6 +150,7 @@ class ilCtrlTest extends TestCase
             new ilCtrlSubject(),
             $this->createStub(ilCtrlQueryParserInterface::class),
             $this->createStub(MessageFactory::class),
+            $this->createStub(CommandClassResolver::class),
         );
 
         $fallback_cmd = 'fallback_cmd_test';
@@ -239,6 +242,7 @@ class ilCtrlTest extends TestCase
             new ilCtrlSubject(),
             $this->createStub(ilCtrlQueryParserInterface::class),
             $this->createStub(MessageFactory::class),
+            $this->createStub(CommandClassResolver::class),
         );
     }
 }

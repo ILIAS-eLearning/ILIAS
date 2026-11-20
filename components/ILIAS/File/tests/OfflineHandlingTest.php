@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\File\ObjectType\FileObjectType;
+use ILIAS\ILIASObject\Definition\ObjectTypeFlag;
 use ILIAS\ILIASObject\Properties\CoreProperties\Online;
 use ILIAS\ILIASObject\Properties\Properties;
 use PHPUnit\Framework\TestCase;
@@ -31,15 +33,9 @@ class OfflineHandlingTest extends TestCase
 {
     public function testFileObjectSupportsOfflineHandling(): void
     {
-        $module = simplexml_load_file(__DIR__ . '/../module.xml');
-        $this->assertNotFalse($module);
-
-        $file_definitions = array_filter(
-            iterator_to_array($module->objects->object, false),
-            static fn(SimpleXMLElement $object): bool => (string) $object['id'] === 'file'
+        $this->assertTrue(
+            (new FileObjectType())->hasFlag(ObjectTypeFlag::OFFLINE_HANDLING)
         );
-        $this->assertCount(1, $file_definitions);
-        $this->assertSame('1', (string) reset($file_definitions)['offline_handling']);
     }
 
     public function testNewFileIsOnline(): void

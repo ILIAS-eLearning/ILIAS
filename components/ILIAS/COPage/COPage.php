@@ -22,6 +22,7 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class COPage implements Component\Component
 {
@@ -149,5 +150,7 @@ class COPage implements Component\Component
             $this,
             'content'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new COPage\ObjectType\AdvancedEditingObjectType();
     }
 }

@@ -25,6 +25,7 @@ use ILIAS\Setup\Agent;
 use ILIAS\Refinery\Factory;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class AdministrativeNotification implements Component
 {
@@ -46,5 +47,7 @@ class AdministrativeNotification implements Component
             $this,
             'adn'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new AdministrativeNotification\ObjectType\AdministrativeNotificationObjectType();
     }
 }

@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\UICore\Ctrl\Context;
+
 /**
  * Class ilCtrlAbstractPath
  *
@@ -169,11 +171,11 @@ abstract class ilCtrlAbstractPath implements ilCtrlPathInterface
      * Returns the path to a class within the given contexts current path
      * that has a relation to the given target.
      *
-     * @param ilCtrlContextInterface $context
+     * @param Context $context
      * @param string                 $target_class
      * @return string|null
      */
-    protected function getPathToRelatedClassInContext(ilCtrlContextInterface $context, string $target_class): ?string
+    protected function getPathToRelatedClassInContext(Context $context, string $target_class): ?string
     {
         if (null !== $context->getPath()->getCidPath()) {
             foreach ($context->getPath()->getCidArray() as $index => $cid) {

@@ -22,6 +22,7 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class Notifications implements Component\Component
 {
@@ -60,5 +61,7 @@ class Notifications implements Component\Component
             $this,
             'noti'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Notifications\ObjectType\NotificationAdminObjectType();
     }
 }

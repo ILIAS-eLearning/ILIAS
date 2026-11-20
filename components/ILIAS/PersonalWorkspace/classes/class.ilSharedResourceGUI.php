@@ -111,7 +111,7 @@ class ilSharedResourceGUI implements ilCtrlBaseClassInterface
                 break;
 
             case "ilobjfilegui":
-                $fgui = new ilObjFileGUI($this->node_id, ilObject2GUI::WORKSPACE_NODE_ID);
+                $fgui = $ilCtrl->getCommandClassInstance(ilObjFileGUI::class, $this->node_id, ilObject2GUI::WORKSPACE_NODE_ID);
                 $ilCtrl->forwardCommand($fgui);
                 break;
 

@@ -22,6 +22,7 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class Chatroom implements Component\Component
 {
@@ -60,5 +61,8 @@ class Chatroom implements Component\Component
             $this,
             'chatroom_adm'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Chatroom\ObjectType\ChatroomObjectType();
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Chatroom\ObjectType\ChatroomAdminObjectType();
     }
 }

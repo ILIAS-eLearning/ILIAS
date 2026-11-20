@@ -42,6 +42,7 @@ use ILIAS\Logging\Logger\LoggerFactoryInterface;
 use ILIAS\FileServices\Download;
 use ILIAS\FileServices\Legacy\RepositoryTreeProxy;
 use ILIAS\AccessControl\PublicInterface\Access;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class FileServices implements Component
 {
@@ -143,5 +144,7 @@ class FileServices implements Component
             );
 
         $internal[RepositoryTreeProxy::class] = static fn() => new RepositoryTreeProxy();
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new FileServices\ObjectType\FileServicesObjectType();
     }
 }

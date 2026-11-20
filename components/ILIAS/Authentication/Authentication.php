@@ -22,6 +22,7 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class Authentication implements Component\Component
 {
@@ -84,5 +85,7 @@ class Authentication implements Component\Component
             $this,
             'auth'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Authentication\ObjectType\AuthSettingsObjectType();
     }
 }

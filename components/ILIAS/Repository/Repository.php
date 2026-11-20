@@ -22,6 +22,7 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class Repository implements Component\Component
 {
@@ -50,5 +51,10 @@ class Repository implements Component\Component
             $this,
             'rep'
         );
+
+        $contribute[\ILIAS\ILIASObject\Definition\ObjectTypeSource::class] = static fn(): \ILIAS\ILIASObject\Definition\ObjectTypeSource =>
+            new \ILIAS\Repository\PluginSlot\RepositoryObjectPluginTypes();
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Repository\ObjectType\RepositorySettingsObjectType();
     }
 }

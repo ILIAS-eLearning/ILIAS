@@ -38,6 +38,7 @@ use ILIAS\Environment\Configuration\Installation\Directories;
 use ILIAS\Environment\Configuration\Installation\ClientIdProvider;
 use ILIAS\Language\ComponentTranslation\MigratedLanguageFilePaths;
 use ILIAS\Logging\Logger\LoggerFactoryInterface;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class Language implements Component\Component
 {
@@ -226,5 +227,8 @@ class Language implements Component\Component
             $this,
             'common'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Language\ObjectType\LanguageFolderObjectType();
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Language\ObjectType\LanguageObjectType();
     }
 }

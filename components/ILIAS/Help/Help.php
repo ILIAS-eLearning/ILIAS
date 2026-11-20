@@ -22,6 +22,7 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class Help implements Component\Component
 {
@@ -54,5 +55,8 @@ class Help implements Component\Component
             $this,
             'help'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Help\ObjectType\HelpSettingsObjectType();
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Help\ObjectType\GuidedTourObjectType();
     }
 }
