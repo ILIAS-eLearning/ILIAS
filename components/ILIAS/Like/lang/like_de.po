@@ -11,5 +11,8 @@ msgstr ""
 msgid "like"
 msgstr "Like"
 
+msgid "react"
+msgstr "Reagieren"
+
 msgid "reaction"
 msgstr "Reaktion"

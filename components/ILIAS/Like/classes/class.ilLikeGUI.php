@@ -137,7 +137,7 @@ class ilLikeGUI
         $ctrl->setParameter($this, "repl_sig", $popover->getReplaceContentSignal()->getId());
         $asyn_url = $ctrl->getLinkTarget($this, "renderEmoticons", "", true, false);
         $popover = $popover->withAsyncContentUrl($asyn_url);
-        $button = $f->button()->shy($lng->txt("like"), '#')
+        $button = $f->button()->standard($lng->txt("react"), '#')
             ->withOnClick($popover->getShowSignal());
 
         $tpl->setVariable("LIKE", $r->render([$popover, $button]));
@@ -188,10 +188,6 @@ class ilLikeGUI
         }
         if ($modal_signal !== null) {
             $tpl->setVariable("ID", $this->dom_id);
-        }
-
-        if (count($comps) > 0 && $modal_signal !== null) {
-            $tpl->setVariable("SEP", $r->render($f->divider()->vertical()));
         }
 
         return $tpl->get();

@@ -342,10 +342,7 @@ class ilNoteGUI
                 }
             }
 
-            $ascending = $this->manager->getSortAscending();
-            if ($this->only_latest) {
-                $order = false;
-            }
+            $ascending = !$this->only_latest && $this->manager->getSortAscending();
             $author_id = ($this->note_type === Note::PRIVATE)
                 ? $ilUser->getId()
                 : 0;
@@ -1508,34 +1505,34 @@ class ilNoteGUI
         $ctrl->setParameter($this, "hash", $hash);
         $update_url = $ctrl->getLinkTarget($this, "updateWidget", "", true, false);
         $query_url = $ctrl->getLinkTarget($this, "getListHtml", "", true, false);
-        $comps = array();
-        if ($cnt > 0) {
-            $c = $f->counter()->status((int) $cnt);
-            $comps[] = $f->button()->shy('', '#')
-                ->withSymbol($f->symbol()->glyph()->comment()->withCounter($c))
-                ->withAdditionalOnLoadCode(function ($id) use ($hash, $query_url) {
-                    $code = "$('#$id').attr('data-note-key','$hash');\n";
-                    $code .= "$('#$id').attr('data-note-ui-type','trigger');\n";
-                    $code .= "$('#$id').attr('data-note-query-url','" . $query_url . "');\n";
-                    $code .= "$(\"#$id\").click(function(event) { ilNotes.clickTrigger(event)});";
-                    return $code;
-                });
-            $comps[] = $f->divider()->vertical();
-            $tpl->setVariable("GLYPH", $r->render($comps));
-            $tpl->setVariable("TXT_LATEST", $this->getLatestItemText());
-        }
 
-        $b = $f->button()->shy($this->getAddEditItemText(), "#")->withAdditionalOnLoadCode(function ($id) use ($hash, $query_url) {
-            $code = "$('#$id').attr('data-note-key','$hash');\n";
-            $code .= "$('#$id').attr('data-note-ui-type','trigger');\n";
-            $code .= "$('#$id').attr('data-note-query-url','" . $query_url . "');\n";
-            $code .= "$(\"#$id\").click(function(event) { ilNotes.clickTrigger(event)});";
-            return $code;
-        });
-        if ($ctrl->isAsynch()) {
-            $tpl->setVariable("SHY_BUTTON", $r->renderAsync($b));
+        $additional_on_load_code = static fn(string $id): string => <<<JS
+            $('#$id').attr('data-note-key','{$hash}');
+            $('#$id').attr('data-note-ui-type','trigger');
+            $('#$id').attr('data-note-query-url','{$query_url}');
+            $('#$id').click((event) => ilNotes.clickTrigger(event));
+        JS;
+
+        if ($cnt > 0) {
+            $b = $f
+                ->button()
+                ->shy('', '#')
+                ->withSymbol(
+                    $f->symbol()->glyph()->comment()->withCounter(
+                        $f->counter()->status((int) $cnt)
+                    )
+                )
+                ->withAdditionalOnLoadCode($additional_on_load_code);
+
+            $tpl->setVariable("GLYPH", $r->render($b));
+            $tpl->setVariable("TXT_LATEST", $this->getLatestItemText());
         } else {
-            $tpl->setVariable("SHY_BUTTON", $r->render($b));
+            $b = $f
+                ->button()
+                ->standard($this->getAddEditItemText(), '#')
+                ->withAdditionalOnLoadCode($additional_on_load_code);
+
+            $tpl->setVariable("SHY_BUTTON", $ctrl->isAsynch() ? $r->renderAsync($b) : $r->render($b));
         }
 
         $this->widget_header = $tpl->get();
