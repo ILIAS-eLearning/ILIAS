@@ -714,12 +714,18 @@ class Renderer extends AbstractComponentRenderer
 
         $this->applyValue($component, $tpl, function (?string $value) use ($dt_type) {
             if ($value !== null) {
-                $value = new \DateTimeImmutable($value);
-                return $value->format(match ($dt_type) {
-                    self::TYPE_DATETIME => self::HTML5_NATIVE_DATETIME_FORMAT,
-                    self::TYPE_DATE => self::HTML5_NATIVE_DATE_FORMAT,
-                    self::TYPE_TIME => self::HTML5_NATIVE_TIME_FORMAT,
-                });
+                try {
+                    $datetime = new \DateTimeImmutable($value);
+                    return $datetime->format(match ($dt_type) {
+                        self::TYPE_DATETIME => self::HTML5_NATIVE_DATETIME_FORMAT,
+                        self::TYPE_DATE => self::HTML5_NATIVE_DATE_FORMAT,
+                        self::TYPE_TIME => self::HTML5_NATIVE_TIME_FORMAT,
+                    });
+                } catch (\Exception) {
+                    // Display unparseable user input verbatim so the
+                    // submitter can correct it (Mantis #46714).
+                    return $value;
+                }
             }
             return null;
         });
