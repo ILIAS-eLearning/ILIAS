@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\TestQuestionPool\QuestionPoolDIC;
+
 /**
  * Class ilHtmlImageMapFileInputGUI
  */
@@ -41,7 +43,7 @@ class ilHtmlImageMapFileInputGUI extends ilFileInputGUI
             return false;
         }
 
-        $tmp_file_name = $_FILES[$this->getPostVar()]['tmp_name'];
+        $tmp_file_name = QuestionPoolDIC::dic()['upload_submit']->get($this->getPostVar())['tmp_name'] ?? '';
         if (strlen($tmp_file_name) == 0) {
             return true;
         }

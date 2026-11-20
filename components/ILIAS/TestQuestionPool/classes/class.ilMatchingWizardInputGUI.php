@@ -17,10 +17,12 @@
  *********************************************************************/
 
 use ILIAS\TestQuestionPool\ilTestLegacyFormsHelper;
+use ILIAS\TestQuestionPool\QuestionPoolDIC;
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Component\Symbol\Glyph\Factory as GlyphFactory;
 use ILIAS\UI\Component\Button\Factory as ButtonFactory;
 use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
+use ILIAS\TestQuestionPool\UploadSubmit;
 
 /**
  * This class represents a single choice wizard property in a property form.
@@ -47,6 +49,7 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
     protected ButtonFactory $button_factory;
     protected Renderer $renderer;
     protected UploadLimitResolver $upload_limit;
+    protected UploadSubmit $upload_submit;
 
     public function __construct($a_title = "", $a_postvar = "")
     {
@@ -59,6 +62,7 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
         $this->button_factory = $DIC->ui()->factory()->button();
         $this->renderer = $DIC->ui()->renderer();
         $this->upload_limit = $DIC['ui.upload_limit_resolver'];
+        $this->upload_submit = QuestionPoolDIC::dic()['upload_submit'];
 
         $this->setSuffixes(["jpg", "jpeg", "png", "gif"]);
         $this->setSize('40');
@@ -186,7 +190,7 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
             if (
                 $value === ''
                 && !$this->forms_helper->inArray($images, $index)
-                && !isset($_FILES[$this->getPostVar()]['tmp_name']['image'][$index])
+                && !isset($this->upload_submit->get($this->getPostVar())['tmp_name']['image'][$index])
             ) {
                 $this->setAlert($this->lng->txt('msg_input_is_required'));
                 return false;
@@ -194,8 +198,8 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
         }
 
         if (!$this->hideImages) {
-            if (is_array($_FILES[$this->getPostVar()]['error']['image'])) {
-                foreach ($_FILES[$this->getPostVar()]['error']['image'] as $index => $error) {
+            if (is_array($this->upload_submit->get($this->getPostVar())['error']['image'])) {
+                foreach ($this->upload_submit->get($this->getPostVar())['error']['image'] as $index => $error) {
                     // error handling
                     if ($error > 0) {
                         switch ($error) {
@@ -240,9 +244,9 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
                 }
             }
 
-            if (is_array($_FILES[$this->getPostVar()]['tmp_name']['image'])) {
-                foreach ($_FILES[$this->getPostVar()]['tmp_name']['image'] as $index => $tmpname) {
-                    $filename = $_FILES[$this->getPostVar()]['name']['image'][$index];
+            if (is_array($this->upload_submit->get($this->getPostVar())['tmp_name']['image'])) {
+                foreach ($this->upload_submit->get($this->getPostVar())['tmp_name']['image'] as $index => $tmpname) {
+                    $filename = $this->upload_submit->get($this->getPostVar())['name']['image'][$index];
                     $filename_arr = pathinfo($filename);
                     $suffix = $filename_arr['extension'] ?? '';
 

@@ -732,20 +732,24 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
                         ilFileUtils::makeDirParents($this->getPreviewFileUploadPath($previewSession->getUserId()));
                     }
 
+                    $upload_results = $this->file_upload->getResults();
+                    $upload_result = end($upload_results);
+                    if ($upload_result === false || !$upload_result->isOK()) {
+                        return;
+                    }
+
                     $version = time();
-                    $filename_arr = pathinfo($_FILES['upload']['name']);
-                    $extension = $filename_arr['extension'];
-                    $newfile = 'file_' . md5($_FILES['upload']['name']) . '_' . $version . '.' . $extension;
-                    ilFileUtils::moveUploadedFile(
-                        $_FILES['upload']['tmp_name'],
-                        $_FILES['upload']['name'],
-                        $this->getPreviewFileUploadPath($previewSession->getUserId()) . $newfile
-                    );
+                    $original_name = $upload_result->getName();
+                    $filename_arr = pathinfo($original_name);
+                    $extension = $filename_arr['extension'] ?? '';
+                    $newfile = 'file_' . md5($original_name) . "_{$version}.{$extension}";
+                    $destination = $this->getPreviewFileUploadPath($previewSession->getUserId()) . $newfile;
+                    ilFileUtils::copy($upload_result->getPath(), $destination);
 
                     $userSolution[$newfile] = [
                         'solution_id' => $newfile,
                         'value1' => $newfile,
-                        'value2' => $_FILES['upload']['name'],
+                        'value2' => $original_name,
                         'tstamp' => $version,
                         'webpath' => $this->getPreviewFileUploadPathWeb($previewSession->getUserId())
                     ];
@@ -958,8 +962,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     public function toNormalized(
         Transformations $transformations,
         array $context = []
-    ): array|float|bool|int|string|null
-    {
+    ): array|float|bool|int|string|null {
         return [
             ...$transformations->normalize(parent::toNormalized($transformations, $context)),
             'maxsize' => $this->maxsize,
@@ -972,8 +975,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     public function fromNormalized(
         array $normalized,
         Transformations $transformations
-    ): static
-    {
+    ): static {
         $clone = parent::fromNormalized($normalized, $transformations);
         $clone->maxsize = $transformations->nullableInt($normalized['maxsize']);
         $clone->allowedextensions = $transformations->string($normalized['allowedextensions']);

@@ -20,6 +20,8 @@ use ILIAS\UI\Renderer;
 use ILIAS\UI\Component\Button\Factory as ButtonFactory;
 use ILIAS\UI\Component\Symbol\Glyph\Factory as GlyphFactory;
 use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
+use ILIAS\TestQuestionPool\UploadSubmit;
+use ILIAS\TestQuestionPool\QuestionPoolDIC;
 
 /**
  * @author        Björn Heyser <bheyser@databay.de>
@@ -61,7 +63,7 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
     protected ButtonFactory $button_factory;
     protected Renderer $renderer;
     protected UploadLimitResolver $upload_limit;
-
+    protected UploadSubmit $upload_submit;
     /**
      * Constructor
      *
@@ -79,6 +81,7 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
         $this->button_factory = $DIC->ui()->factory()->button();
         $this->renderer = $DIC->ui()->renderer();
         $this->upload_limit = $DIC['ui.upload_limit_resolver'];
+        $this->upload_submit = QuestionPoolDIC::dic()['upload_submit'];
 
         $this->setSuffixes(["jpg", "jpeg", "png", "gif"]);
         $this->setSize(25);
@@ -199,7 +202,7 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
      */
     public function onCheckInput(): bool
     {
-        $F = $_FILES[$this->getPostVar()];
+        $F = $this->upload_submit->get($this->getPostVar());
 
         $submittedElements = $this->getInput();
 

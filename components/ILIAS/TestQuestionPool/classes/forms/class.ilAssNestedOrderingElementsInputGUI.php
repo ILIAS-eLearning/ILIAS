@@ -69,11 +69,6 @@ class ilAssNestedOrderingElementsInputGUI extends ilIdentifiedMultiValuesInputGU
         $this->nesting_enabled = $nesting_enabled;
     }
 
-    private function getGlobalTpl()
-    {
-        return isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['tpl'] : $GLOBALS['tpl'];
-    }
-
     private function initListTemplate(): void
     {
         $this->list_tpl = new ilTemplate('tpl.prop_nested_ordering_list.html', true, true, 'components/ILIAS/TestQuestionPool');
@@ -396,8 +391,8 @@ class ilAssNestedOrderingElementsInputGUI extends ilIdentifiedMultiValuesInputGU
 
     private function initializePlayerJS(): void
     {
-        $this->getGlobalTpl()->addJavascript('assets/js/orderingvertical.js');
-        $this->getGlobalTpl()->addOnLoadCode(
+        $this->global_tpl->addJavascript('assets/js/orderingvertical.js');
+        $this->global_tpl->addOnLoadCode(
             'il.test.orderingvertical.init(document.querySelector("#nestable_ordering"));'
         );
     }

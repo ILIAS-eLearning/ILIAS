@@ -419,7 +419,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
                 $this->getObject()->getRefId(),
                 $active_id,
                 $pass,
-                $this->logger->isIPLoggingEnabled() ? $_SERVER['REMOTE_ADDR'] : '',
+                $this->logger->isIPLoggingEnabled() ? $this->clientIp() : '',
                 TestParticipantInteractionTypes::ANSWER_SUBMITTED
             )) !== null) {
             $this->logger->logParticipantInteraction($interaction);
@@ -1003,7 +1003,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
                 $this->ref_id,
                 null,
                 $this->user->getId(),
-                $this->logger->isIPLoggingEnabled() ? $_SERVER['REMOTE_ADDR'] : '',
+                $this->logger->isIPLoggingEnabled() ? $this->clientIp() : '',
                 TestParticipantInteractionTypes::TEST_RUN_FINISHED,
                 []
             )) !== null) {
@@ -1434,7 +1434,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
                             $this->object->getRefId(),
                             $question_id,
                             $this->user->getId(),
-                            $this->logger->isIPLoggingEnabled() ? $_SERVER['REMOTE_ADDR'] : '',
+                            $this->logger->isIPLoggingEnabled() ? $this->clientIp() : '',
                             TestParticipantInteractionTypes::QUESTION_SHOWN,
                             []
                         )
@@ -1557,7 +1557,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
                     $this->object->getRefId(),
                     $this->test_sequence->getQuestionForSequence($current_sequence_element),
                     $this->user->getId(),
-                    $this->logger->isIPLoggingEnabled() ? $_SERVER['REMOTE_ADDR'] : '',
+                    $this->logger->isIPLoggingEnabled() ? $this->clientIp() : '',
                     TestParticipantInteractionTypes::ANSWER_DELETED,
                     []
                 )
@@ -1592,7 +1592,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
                     $this->object->getRefId(),
                     $this->test_sequence->getQuestionForSequence($current_sequence_element),
                     $this->user->getId(),
-                    $this->logger->isIPLoggingEnabled() ? $_SERVER['REMOTE_ADDR'] : '',
+                    $this->logger->isIPLoggingEnabled() ? $this->clientIp() : '',
                     TestParticipantInteractionTypes::QUESTION_SKIPPED,
                     []
                 )
@@ -1686,7 +1686,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
                     $this->object->getRefId(),
                     null,
                     $this->user->getId(),
-                    $this->logger->isIPLoggingEnabled() ? $_SERVER['REMOTE_ADDR'] : '',
+                    $this->logger->isIPLoggingEnabled() ? $this->clientIp() : '',
                     TestParticipantInteractionTypes::TEST_RUN_STARTED,
                     []
                 )
@@ -2057,7 +2057,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
                         $this->object->getRefId(),
                         $question_id,
                         $this->user->getId(),
-                        $this->logger->isIPLoggingEnabled() ? $_SERVER['REMOTE_ADDR'] : '',
+                        $this->logger->isIPLoggingEnabled() ? $this->clientIp() : '',
                         TestParticipantInteractionTypes::QUESTION_SKIPPED,
                         []
                     )
@@ -3080,5 +3080,10 @@ JS;
         }
 
         return $this->ui_renderer->render($title_content);
+    }
+
+    private function clientIp(): string
+    {
+        return $this->http->request()->getServerParams()['REMOTE_ADDR'] ?? '';
     }
 }

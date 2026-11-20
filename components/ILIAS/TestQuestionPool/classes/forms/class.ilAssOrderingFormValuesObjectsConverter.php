@@ -18,6 +18,7 @@
 
 use ILIAS\TestQuestionPool\QuestionPoolDIC;
 use ILIAS\TestQuestionPool\RequestDataCollector;
+use ILIAS\TestQuestionPool\UploadSubmit;
 
 /**
  * @author        Björn Heyser <bheyser@databay.de>
@@ -66,10 +67,13 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 
     private readonly RequestDataCollector $request_data_collector;
 
+    private readonly UploadSubmit $upload_submit;
+
     public function __construct()
     {
         $local_dic = QuestionPoolDIC::dic();
         $this->request_data_collector = $local_dic['request_data_collector'];
+        $this->upload_submit = $local_dic['upload_submit'];
     }
 
     /**
@@ -375,7 +379,7 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 
     protected function getFileSubmitData(): array
     {
-        return $_FILES[$this->getPostVar()] ?? [];
+        return $this->upload_submit->get($this->getPostVar());
     }
 
     /**
