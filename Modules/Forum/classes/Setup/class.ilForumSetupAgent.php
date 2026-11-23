@@ -76,7 +76,8 @@ class ilForumSetupAgent implements Setup\Agent
     {
         return [
             new ilForumPostingFilesMigration(),
-            new ilForumDraftsFilesMigration()
+            new ilForumDraftsFilesMigration(),
+            new ilForumThreadAndPostCounterMigration(),
         ];
     }
 }
