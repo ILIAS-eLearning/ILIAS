@@ -1973,14 +1973,14 @@ s     */
         string $a_tpcid = ""
     ): array|bool {
         $cm = $this->page_manager->content($this->getDomDoc());
-        $cm->moveContentAfter(
+        $moved = $cm->moveContentAfter(
             $this,
             $a_source,
             $a_target,
             $a_spcid,
             $a_tpcid
         );
-        return $this->update();
+        return $moved ? $this->update() : true;
     }
 
     /**
