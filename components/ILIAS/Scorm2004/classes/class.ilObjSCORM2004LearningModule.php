@@ -492,10 +492,10 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
             $data = array_combine($fields, $csv_rows);
             //no check the format - sufficient to import users
             if (isset($data["Login"])) {
-                $user_id = $this->get_user_id($data["Login"]);
+                $user_id = $this->get_user_id($data["Login"]) ?? 0;
             }
             if (isset($data["login"])) {
-                $user_id = $this->get_user_id($data["login"]);
+                $user_id = $this->get_user_id($data["login"]) ?? 0;
             }
             //add mail in future
             if (isset($data["user"]) && is_numeric($data["user"])) {
