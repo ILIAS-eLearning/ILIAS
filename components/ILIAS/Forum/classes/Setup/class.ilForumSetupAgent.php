@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\Forum\Setup\Database\V10\RecalculateThreadAndPostCountersHotfix;
 use ILIAS\Setup;
 use ILIAS\Refinery;
 
@@ -55,7 +56,10 @@ class ilForumSetupAgent implements Setup\Agent
             new ilDatabaseUpdateStepsExecutedObjective(
                 new ilForumDatabaseUpdateSteps10()
             ),
-            new ilForumNotificationSubscriptionsRepairedObjective()
+            new ilForumNotificationSubscriptionsRepairedObjective(),
+            new ilDatabaseUpdateStepsExecutedObjective(
+                new RecalculateThreadAndPostCountersHotfix()
+            ),
         );
     }
 
@@ -71,7 +75,8 @@ class ilForumSetupAgent implements Setup\Agent
             true,
             new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilForumDatabaseUpdateSteps()),
             new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilForumDatabaseUpdateSteps9()),
-            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilForumDatabaseUpdateSteps10())
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilForumDatabaseUpdateSteps10()),
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new RecalculateThreadAndPostCountersHotfix()),
         );
     }
 
