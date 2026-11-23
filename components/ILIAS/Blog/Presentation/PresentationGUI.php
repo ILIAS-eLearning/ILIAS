@@ -165,6 +165,9 @@ class PresentationGUI
             $tpl->setOnScreenMessage('info', $lng->txt("no_permission"));
             return;
         }
+        if ($this->add_header_callback) {
+            ($this->add_header_callback)();
+        }
         $list_items = $this->domain->postingList($this->context->getBlog()->getId())
                ->getPostingsForView(
                    $this->context->getAuthor() ?? 0,
