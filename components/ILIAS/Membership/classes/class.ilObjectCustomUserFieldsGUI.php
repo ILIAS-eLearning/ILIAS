@@ -54,7 +54,7 @@ class ilObjectCustomUserFieldsGUI
     protected UIRenderer $ui_renderer;
     private int $obj_id;
     private int $ref_id;
-    protected ?DataRetrieval $data_retrieval = null;
+    protected DataRetrieval $data_retrieval;
 
     public function __construct(int $a_obj_id)
     {
@@ -96,9 +96,9 @@ class ilObjectCustomUserFieldsGUI
 
     protected function initFielIdFromQuery(): int
     {
-        if ($this->http->wrapper()->query()->has('field_field_id')) {
+        if ($this->http->wrapper()->query()->has('field_id')) {
             $values = $this->http->wrapper()->query()->retrieve(
-                'field_field_id',
+                'field_id',
                 $this->refinery->kindlyTo()->listOf(
                     $this->refinery->kindlyTo()->string()
                 )
@@ -153,7 +153,7 @@ class ilObjectCustomUserFieldsGUI
         $link = ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTarget($this, 'handleTableAction');
         $url_builder = new URLBuilder(new URI($link));
 
-        return $url_builder->acquireParameters(['field'], 'field_id', 'cmd');
+        return $url_builder->acquireParameters(['member', 'export'], 'field_id', 'cmd');
     }
 
     protected function handleTableAction(): void
@@ -175,7 +175,7 @@ class ilObjectCustomUserFieldsGUI
         switch ($action) {
             case 'editField':
                 if (count($ids) === 1) {
-                    $this->ctrl->setParameter($this, 'field_field_id', (string) $ids[0]);
+                    $this->ctrl->setParameter($this, 'field_id', (string) $ids[0]);
                     $this->ctrl->redirect($this, 'editField');
                 }
                 $this->ctrl->redirect($this, 'show');
@@ -367,7 +367,7 @@ class ilObjectCustomUserFieldsGUI
             // Finally reset member agreements
             ilMemberAgreement::_deleteByObjId($this->getObjId());
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'));
-            $this->ctrl->setParameter($this, 'field_field_id', ''); // Clear parameter for list
+            $this->ctrl->setParameter($this, 'field_id', ''); // Clear parameter for list
             $this->listFields();
             return;
         }
@@ -393,7 +393,7 @@ class ilObjectCustomUserFieldsGUI
                 break;
 
             case self::MODE_UPDATE:
-                $this->ctrl->setParameter($this, 'field_field_id', (string) $this->initFielIdFromQuery());
+                $this->ctrl->setParameter($this, 'field_id', (string) $this->initFielIdFromQuery());
                 $this->form->setFormAction($this->ctrl->getFormAction($this));
                 $this->form->setTitle($this->lng->txt('ps_cdf_edit_field'));
                 $this->form->addCommandButton('updateField', $this->lng->txt('save'));

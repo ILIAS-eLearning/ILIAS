@@ -31,7 +31,8 @@ use ILIAS\UI\Factory as UIFactory;
 
 class DataRetrieval implements BaseDataRetrieval
 {
-    protected ?array $field_ids = null;
+    /** @var ilCourseDefinedFieldDefinition[] */
+    protected array $fields;
 
     public function __construct(
         protected int $obj_id,
@@ -42,8 +43,12 @@ class DataRetrieval implements BaseDataRetrieval
 
     protected function getFieldIds(): array
     {
-        return $this->field_ids ??= ilCourseDefinedFieldDefinition::_getFieldIds($this->obj_id);
+        return ilCourseDefinedFieldDefinition::_getFieldIds($this->obj_id);
+    }
 
+    protected function getFields(): array
+    {
+        return $this->fields ??= ilCourseDefinedFieldDefinition::_getFields($this->obj_id);
     }
 
     public function getRows(
@@ -55,11 +60,10 @@ class DataRetrieval implements BaseDataRetrieval
         mixed $filter_data,
         mixed $additional_parameters
     ): Generator {
-        $field_ids = $this->getFieldIds();
+        $fields = $this->getFields();
         $data = [];
 
-        foreach ($field_ids as $field_id) {
-            $def = new ilCourseDefinedFieldDefinition($this->obj_id, $field_id);
+        foreach ($fields as $def) {
             $type = '';
             switch ($def->getType()) {
                 case ilCourseDefinedFieldDefinition::IL_CDF_TYPE_SELECT:
@@ -96,9 +100,12 @@ class DataRetrieval implements BaseDataRetrieval
         }
     }
 
+    /**
+     * @return int[]
+     */
     public function getAllIDs(): array
     {
-        return array_map('strval', $this->getFieldIds());
+        return array_map('intval', $this->getFieldIds());
     }
 
     public function getTotalRowCount(
@@ -106,6 +113,6 @@ class DataRetrieval implements BaseDataRetrieval
         mixed $filter_data,
         mixed $additional_parameters
     ): int {
-        return count($this->getFieldIds());
+        return count($this->getFields());
     }
 }
