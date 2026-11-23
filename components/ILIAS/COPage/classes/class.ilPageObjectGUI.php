@@ -2426,6 +2426,10 @@ class ilPageObjectGUI
         $this->lng->toJS("cont_ed_new_item_before");
         $this->lng->toJS("cont_ed_item_up");
         $this->lng->toJS("cont_ed_item_down");
+        $this->lng->toJSMap([
+            "cont_ed_item_indent" => $this->lng->txt("cont_ed_item_indent", "content"),
+            "cont_ed_item_outdent" => $this->lng->txt("cont_ed_item_outdent", "content")
+        ]);
         $this->lng->toJS("cont_ed_delete_item");
         $this->lng->toJS("copg_edit_iframe_title");
         $this->lng->toJS("copg_par_format_selection");

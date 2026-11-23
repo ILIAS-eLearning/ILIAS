@@ -1715,6 +1715,15 @@
 	<xsl:if test="../@ItemClass">
 		<xsl:attribute name="class">ilc_list_item_<xsl:value-of select="../@ItemClass"/></xsl:attribute>
 	</xsl:if>
+	<xsl:if test="$mode = 'edit' and $javascript = 'enable' and not($activated_protection = 'y' and ancestor::Section[@Protected = '1'])">
+		<xsl:if test="preceding-sibling::ListItem">
+			<xsl:attribute name="data-copg-can-indent">1</xsl:attribute>
+		</xsl:if>
+		<xsl:if test="../../self::PageContent and ../../../self::ListItem and ../../../../self::List
+			and (../ListItem[2] or not(../Title or ../@Id or ../../BibItemIdentifier))">
+			<xsl:attribute name="data-copg-can-outdent">1</xsl:attribute>
+		</xsl:if>
+	</xsl:if>
 	<xsl:call-template name="EditReturnAnchors"/>
 	<!-- insert commands -->
 	<!-- <xsl:value-of select="@HierId"/> -->

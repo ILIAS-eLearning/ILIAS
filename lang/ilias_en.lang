@@ -6493,6 +6493,8 @@ content#:#cont_ed_insert_tabs#:#Insert Accordion/Carousel
 content#:#cont_ed_insert_templ#:#Insert Content Template
 content#:#cont_ed_insert_vrfc#:#Insert Certificate
 content#:#cont_ed_item_down#:#Move Item Down
+content#:#cont_ed_item_indent#:#Indent
+content#:#cont_ed_item_outdent#:#Outdent
 content#:#cont_ed_item_up#:#Move Item Up
 content#:#cont_ed_list#:# Advanced List
 content#:#cont_ed_moveafter#:#Move After

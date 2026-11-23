@@ -172,7 +172,7 @@ EOT;
     }
 
     //
-    // Test file items
+    // Test list items
     //
 
     protected function getPageWithList(): ilPageObject
@@ -298,5 +298,108 @@ EOT;
             $expected,
             $page->getXMLFromDom()
         );
+    }
+
+    public function testIndentAndOutdentKeepItemAndItsContent(): void
+    {
+        $page = $this->getPageWithList();
+        $item = $this->getItemForHierId($page, "1_2");
+        $node = $item->getDomNode();
+        $list = $node->parentNode;
+        $previous_item = $node->previousElementSibling;
+        $list->setAttribute("Type", "Ordered");
+        $list->setAttribute("NumberingType", "Roman");
+        $list->setAttribute("StartValue", "4");
+        $original = $page->getDomDoc()->saveXML();
+
+        $this->assertTrue($item->indentItem());
+        $nested_list = $previous_item->lastElementChild->firstElementChild;
+        $this->assertSame($node, $nested_list->firstElementChild);
+        $this->assertSame("Ordered", $nested_list->getAttribute("Type"));
+        $this->assertSame("Roman", $nested_list->getAttribute("NumberingType"));
+        $this->assertFalse($nested_list->hasAttribute("StartValue"));
+
+        $this->assertTrue($item->outdentItem());
+        $this->assertSame($original, $page->getDomDoc()->saveXML());
+    }
+
+    public function testOutdentFirstItemKeepsFollowingItemsNestedInReadingOrder(): void
+    {
+        $page = $this->getPageWithList();
+        $second = $this->getItemForHierId($page, "1_2");
+        $third = $this->getItemForHierId($page, "1_3");
+        $first_node = $second->getDomNode()->previousElementSibling;
+
+        $this->assertTrue($second->indentItem());
+        $nested_list = $first_node->lastElementChild->firstElementChild;
+        $this->assertTrue($third->indentItem());
+        $this->assertSame($third->getDomNode(), $nested_list->lastElementChild);
+
+        $this->assertTrue($second->outdentItem());
+        $this->assertSame($second->getDomNode(), $first_node->nextElementSibling);
+        $this->assertSame($nested_list, $second->getDomNode()->lastElementChild->firstElementChild);
+        $this->assertSame($third->getDomNode(), $nested_list->firstElementChild);
+    }
+
+    public function testOutdentMiddleItemSplitsTheNestedList(): void
+    {
+        $page = $this->getPageWithList();
+        $second = $this->getItemForHierId($page, "1_2");
+        $third = $this->getItemForHierId($page, "1_3");
+        $first_node = $second->getDomNode()->previousElementSibling;
+        $this->assertTrue($second->indentItem());
+        $this->assertTrue($third->indentItem());
+        $second->newItemBefore();
+        $nested_list = $first_node->lastElementChild->firstElementChild;
+        $nested_list->setAttribute("Type", "Ordered");
+        $nested_list->setAttribute("NumberingType", "Roman");
+        $nested_list->setAttribute("Id", "OriginalList");
+        $leading_item = $nested_list->firstElementChild;
+
+        $this->assertTrue($second->outdentItem());
+        $this->assertSame($second->getDomNode(), $first_node->nextElementSibling);
+        $this->assertSame($leading_item, $nested_list->lastElementChild);
+        $following_list = $second->getDomNode()->lastElementChild->firstElementChild;
+        $this->assertSame($third->getDomNode(), $following_list->firstElementChild);
+        $this->assertSame("Ordered", $following_list->getAttribute("Type"));
+        $this->assertSame("Roman", $following_list->getAttribute("NumberingType"));
+        $this->assertFalse($following_list->hasAttribute("Id"));
+    }
+
+    public function testIndentCreatesAListAfterTheLastContentBlock(): void
+    {
+        $page = $this->getPageWithList();
+        $second = $this->getItemForHierId($page, "1_2");
+        $third = $this->getItemForHierId($page, "1_3");
+        $first_node = $second->getDomNode()->previousElementSibling;
+        $first_paragraph = $first_node->firstElementChild;
+
+        $this->assertTrue($second->indentItem());
+        $earlier_list_block = $first_node->lastElementChild;
+        $first_node->appendChild($first_paragraph);
+
+        $this->assertTrue($third->indentItem());
+        $new_list_block = $first_node->lastElementChild;
+        $this->assertSame($first_paragraph, $new_list_block->previousElementSibling);
+        $this->assertSame($third->getDomNode(), $new_list_block->firstElementChild->firstElementChild);
+        $this->assertSame($second->getDomNode(), $earlier_list_block->firstElementChild->firstElementChild);
+    }
+
+    public function testUnavailableListItemMovesPreservePageXml(): void
+    {
+        $page = $this->getPageWithList();
+        $first = $this->getItemForHierId($page, "1_1");
+        $second = $this->getItemForHierId($page, "1_2");
+        $original = $page->getDomDoc()->saveXML();
+        $this->assertFalse($first->indentItem());
+        $this->assertFalse($first->outdentItem());
+        $this->assertSame($original, $page->getDomDoc()->saveXML());
+
+        $this->assertTrue($second->indentItem());
+        $list = $second->getDomNode()->parentNode;
+        $list->insertBefore($page->getDomDoc()->createElement("Title", "Nested title"), $list->firstChild);
+        $titled = $page->getDomDoc()->saveXML();
+        $this->assertFalse($second->outdentItem());
+        $this->assertSame($titled, $page->getDomDoc()->saveXML());
     }
 }
