@@ -920,6 +920,12 @@ msgstr ""
 msgid "cont_ed_item_down"
 msgstr ""
 
+msgid "cont_ed_item_indent"
+msgstr ""
+
+msgid "cont_ed_item_outdent"
+msgstr ""
+
 msgid "cont_ed_item_up"
 msgstr ""
 
@@ -3646,4 +3652,3 @@ msgstr ""
 
 msgid "text_repr_info"
 msgstr ""
-

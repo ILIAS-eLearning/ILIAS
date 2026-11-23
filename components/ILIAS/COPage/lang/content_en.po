@@ -923,6 +923,12 @@ msgstr "Insert Certificate"
 msgid "cont_ed_item_down"
 msgstr "Move Item Down"
 
+msgid "cont_ed_item_indent"
+msgstr "Indent"
+
+msgid "cont_ed_item_outdent"
+msgstr "Outdent"
+
 msgid "cont_ed_item_up"
 msgstr "Move Item Up"
 
@@ -3649,4 +3655,3 @@ msgstr "Text Representation"
 
 msgid "text_repr_info"
 msgstr "Used for image ‘alt’ attribute."
-

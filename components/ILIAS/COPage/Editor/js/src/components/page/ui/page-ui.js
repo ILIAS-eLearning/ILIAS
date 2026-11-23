@@ -372,6 +372,12 @@ export default class PageUI {
           if (li1.nextSibling) {
             list_commands.moveItemDown = il.Language.txt('cont_ed_item_down');
           }
+          if (li1.dataset.copgCanIndent === '1') {
+            list_commands.indentItem = il.Language.txt('cont_ed_item_indent');
+          }
+          if (li1.dataset.copgCanOutdent === '1') {
+            list_commands.outdentItem = il.Language.txt('cont_ed_item_outdent');
+          }
 
           // add each components
           for (const [listCommand, txt] of Object.entries(list_commands)) {

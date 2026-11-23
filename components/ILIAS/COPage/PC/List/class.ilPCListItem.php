@@ -95,4 +95,78 @@ class ilPCListItem extends ilPageContent
         $li_copy = $prev->parentNode->insertBefore($li_copy, $prev);
         $li->parentNode->removeChild($li);
     }
+
+    public function indentItem(): bool
+    {
+        $item = $this->getDomNode();
+        if (!$item instanceof DOMElement) {
+            return false;
+        }
+
+        $source_list = $item->parentNode;
+        $previous_item = $item->previousElementSibling;
+        if (!$source_list instanceof DOMElement || $source_list->nodeName !== "List"
+            || $previous_item?->nodeName !== "ListItem") {
+            return false;
+        }
+
+        $last_block = $previous_item->lastElementChild;
+        $target_list = $last_block?->firstElementChild;
+        if ($last_block?->nodeName !== "PageContent" || $target_list?->nodeName !== "List") {
+            $target_list = $this->createNestedList($previous_item, $source_list);
+        }
+
+        $target_list->appendChild($item);
+        return true;
+    }
+
+    public function outdentItem(): bool
+    {
+        $item = $this->getDomNode();
+        $source_list = $item?->parentNode;
+        $block = $source_list?->parentNode;
+        $parent_item = $block?->parentNode;
+        $target_list = $parent_item?->parentNode;
+        if ($source_list?->nodeName !== "List" || $block?->nodeName !== "PageContent"
+            || $parent_item?->nodeName !== "ListItem" || $target_list?->nodeName !== "List") {
+            return false;
+        }
+
+        $xpath = new DOMXPath($this->dom_doc);
+        $only_item = !$xpath->evaluate("boolean(../ListItem[2])", $item);
+        if ($only_item && $xpath->evaluate("boolean(../Title | ../@Id | ../../BibItemIdentifier)", $item)) {
+            return false;
+        }
+
+        $next_item = $item->nextElementSibling;
+        $has_previous_item = $item->previousElementSibling?->nodeName === "ListItem";
+        $target_list->insertBefore($item, $parent_item->nextSibling);
+        if ($next_item !== null && !$has_previous_item) {
+            // The source list now contains just the following siblings.
+            $item->appendChild($block);
+        } elseif ($next_item !== null) {
+            // Keep following siblings one level deeper and in reading order.
+            $following_list = $this->createNestedList($item, $source_list);
+            while ($next_item !== null) {
+                $following_item = $next_item;
+                $next_item = $following_item->nextElementSibling;
+                $following_list->appendChild($following_item);
+            }
+        } elseif ($only_item) {
+            $parent_item->removeChild($block);
+        }
+        return true;
+    }
+
+    private function createNestedList(DOMElement $item, DOMElement $source_list): DOMElement
+    {
+        $block = $item->appendChild($this->createPageContentNode(false));
+        $list = $block->appendChild($this->dom_doc->createElement("List"));
+        foreach (["Type", "Class", "ItemClass", "NumberingType"] as $attribute) {
+            if ($source_list->hasAttribute($attribute)) {
+                $list->setAttribute($attribute, $source_list->getAttribute($attribute));
+            }
+        }
+        return $list;
+    }
 }
