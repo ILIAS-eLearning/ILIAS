@@ -177,7 +177,10 @@ class NavigationGUI
 
         $this->gui->locator()->addItem(
             $blog->getTitle(),
-            $this->gui->ctrl()->getLinkTargetByClass(ilObjBlogGUI::class, "preview"),
+            $this->gui->ctrl()->getLinkTargetByClass(
+                [ilObjBlogGUI::class, \ILIAS\Blog\Presentation\PresentationGUI::class],
+                "preview"
+            ),
             "",
             $context->getNodeId()
         );

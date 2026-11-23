@@ -229,6 +229,15 @@ class ilPersonalWorkspaceGUI
                         break;
 
                     case "blog":
+                        $ilLocator->addItem(
+                            $node["title"],
+                            $ilCtrl->getLinkTargetByClass(
+                                [ilObjBlogGUI::class, \ILIAS\Blog\Presentation\PresentationGUI::class],
+                                "preview"
+                            )
+                        );
+                        break;
+
                     case $objDefinition->isContainer($node["type"]):
                         $ilLocator->addItem($node["title"], $ilCtrl->getLinkTargetByClass($obj_class, "render"));
                         break;
