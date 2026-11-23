@@ -249,7 +249,7 @@ class ilUserCertificateGUI
 
     protected function getCurrentSortation(): string
     {
-        $sorting = ilSession::get(self::SORTATION_SESSION_KEY);
+        $sorting = ilSession::get(self::SORTATION_SESSION_KEY) ?? $this->default_sorting;
         if (!array_key_exists($sorting, $this->sortation_options)) {
             $sorting = $this->default_sorting;
         }
