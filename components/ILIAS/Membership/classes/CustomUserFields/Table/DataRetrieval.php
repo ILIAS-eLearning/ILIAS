@@ -41,11 +41,9 @@ class DataRetrieval implements BaseDataRetrieval
     ) {
     }
 
-    protected function getFieldIds(): array
-    {
-        return ilCourseDefinedFieldDefinition::_getFieldIds($this->obj_id);
-    }
-
+    /**
+     * @return ilCourseDefinedFieldDefinition[]
+     */
     protected function getFields(): array
     {
         return $this->fields ??= ilCourseDefinedFieldDefinition::_getFields($this->obj_id);
@@ -105,7 +103,7 @@ class DataRetrieval implements BaseDataRetrieval
      */
     public function getAllIDs(): array
     {
-        return array_map('intval', $this->getFieldIds());
+        return ilCourseDefinedFieldDefinition::_getFieldIds($this->obj_id);
     }
 
     public function getTotalRowCount(
