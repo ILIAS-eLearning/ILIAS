@@ -391,20 +391,28 @@ class ilLTIToolForm
             return $inputs;
         }
 
-        // read only data the tool needs when it is registered without dynamic registration
-        $platform_data = [
-            "lti_13_platform_id" => ilLTIEndpoint::getBaseUrl(),
-            "lti_13_client_id" => (string) ($row["client_id"] ?? ""),
-            "lti_13_deployment_id" => (string) $this->tool_id,
-            "lti_13_keyset_url" => ilLTIAdvantageKeyPair::getJwksUrl(),
-            "lti_13_token_url" => ilLTIEndpoint::getUrl(ilLTIEndpoint::TOKEN),
-            "lti_13_authentication_url" => ilLTIEndpoint::getUrl(ilLTIEndpoint::AUTHENTICATION),
-        ];
-        foreach ($platform_data as $txt => $value) {
+        foreach (self::getPlatformData($this->tool_id, (string) ($row["client_id"] ?? "")) as $txt => $value) {
             $inputs[$txt] = $field->text($this->lng->txt($txt))->withValue($value)->withDisabled(true);
         }
 
         return $inputs;
+    }
+
+    /**
+     * The data the tool needs when it is registered without dynamic registration, by language variable.
+     *
+     * @return array<string, string>
+     */
+    public static function getPlatformData(int $tool_id, string $client_id): array
+    {
+        return [
+            "lti_13_platform_id" => ilLTIEndpoint::getBaseUrl(),
+            "lti_13_client_id" => $client_id,
+            "lti_13_deployment_id" => (string) $tool_id,
+            "lti_13_keyset_url" => ilLTIAdvantageKeyPair::getJwksUrl(),
+            "lti_13_token_url" => ilLTIEndpoint::getUrl(ilLTIEndpoint::TOKEN),
+            "lti_13_authentication_url" => ilLTIEndpoint::getUrl(ilLTIEndpoint::AUTHENTICATION),
+        ];
     }
 
     /**

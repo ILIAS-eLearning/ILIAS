@@ -409,7 +409,7 @@ class ilObjLTIToolGUI extends ilObject2GUI
     }
 
     /**
-     * Stores a tool of the user and creates the object for it.
+     * Stores a tool of the user and creates the object for it, or shows what the tool needs to know first.
      *
      * @throws ilCtrlException
      * @throws ilMDServicesException
@@ -427,7 +427,45 @@ class ilObjLTIToolGUI extends ilObject2GUI
             return;
         }
 
-        $this->createOrSelectContent(new ilLTITool($form->getSavedId()));
+        $tool = new ilLTITool($form->getSavedId());
+        if ($tool->offersDeepLinking()) {
+            $this->showRegistrationData($tool);
+            return;
+        }
+
+        $this->createOrSelectContent($tool);
+    }
+
+    /**
+     * A tool registered without dynamic registration only accepts a request of ILIAS once the data ILIAS gave
+     * it on saving is entered there, so the content is picked once the user says it is.
+     *
+     * @throws ilCtrlException
+     */
+    private function showRegistrationData(ilLTITool $tool): void
+    {
+        $this->ctrl->setParameter($this, 'new_type', $this->getType());
+        $this->ctrl->setParameter($this, 'tool_id', $tool->getId());
+        $select_url = $this->ctrl->getLinkTarget($this, self::CMD_SELECT_CONTENT);
+        $this->ctrl->setParameter($this, 'tool_id', null);
+
+        $platform_data = [];
+        foreach (ilLTIToolForm::getPlatformData($tool->getId(), $tool->getClientId()) as $txt => $value) {
+            $platform_data[$this->lng->txt($txt)] = $value;
+        }
+
+        $this->tpl->setTitleIcon(ilObject::getIconForType($this->getType()));
+        $this->tpl->setTitle($tool->getTitle());
+        $this->tabs_gui->setBackTarget($this->lng->txt('cancel'), $this->ctrl->getLinkTarget($this, 'create'));
+        $this->tpl->setContent($this->ui_renderer->render([
+            $this->ui_factory->messageBox()->info($this->lng->txt('lti_deep_linking_register_first'))->withButtons([
+                $this->ui_factory->button()->standard($this->lng->txt('lti_deep_linking_select'), $select_url),
+            ]),
+            $this->ui_factory->panel()->standard(
+                $this->lng->txt('lti_con_prov_authentication'),
+                $this->ui_factory->listing()->descriptive($platform_data)
+            ),
+        ]));
     }
 
     /**
