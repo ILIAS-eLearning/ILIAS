@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilObjLTIConsumer
@@ -76,14 +76,14 @@ class ilObjLTIConsumerListGUI extends ilObjectListGUI
                 $this->tpl->setVariable('EXP_HREF', $this->ctrl->getLinkTarget($this->container_obj, 'view', $this->getUniqueItemId(true)));
                 $this->ctrl->clearParameters($this->container_obj);
                 $this->tpl->setVariable('EXP_IMG', ilUtil::getImagePath('nav/tree_exp.svg'));
-                $this->tpl->setVariable('EXP_ALT', $this->lng->txt('collapse'));
+                $this->tpl->setVariable('EXP_ALT', $this->lng->txt('collapse_reload'));
             } else {
                 $this->ctrl->setParameter($this->container_obj, 'expand', $this->obj_id);
                 // "view" added, see #19922
                 $this->tpl->setVariable('EXP_HREF', $this->ctrl->getLinkTarget($this->container_obj, 'view', $this->getUniqueItemId(true)));
                 $this->ctrl->clearParameters($this->container_obj);
                 $this->tpl->setVariable('EXP_IMG', ilUtil::getImagePath('nav/tree_col.svg'));
-                $this->tpl->setVariable('EXP_ALT', $this->lng->txt('expand'));
+                $this->tpl->setVariable('EXP_ALT', $this->lng->txt('expand_reload'));
             }
 
             $this->tpl->parseCurrentBlock();
