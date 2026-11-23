@@ -89,4 +89,53 @@ class ExcPeerReviewTest extends TestCase
             }
         }
     }
+
+    public function testGetPeerReviewValuesReturnsEmptyForInvalidSerializedComment(): void
+    {
+        $peer_review = new class () extends ilExPeerReview {
+            public function __construct()
+            {
+            }
+
+            public function getPeerReviewsByGiver(int $a_user_id): array
+            {
+                return [[
+                    "peer_id" => 200,
+                    "pcomment" => 'a:1:{s:4:"text";s:10:"short";}'
+                ]];
+            }
+        };
+
+        $this->assertSame([], $peer_review->getPeerReviewValues(100, 200));
+    }
+
+    public function testRemoveFourByteCharactersFromPeerReviewValues(): void
+    {
+        $peer_review = new class () extends ilExPeerReview {
+            public function __construct()
+            {
+            }
+
+            public function removeFourByteCharactersFromValues(array $values): array
+            {
+                return $this->removeFourByteCharacters($values);
+            }
+        };
+
+        $values = [
+            "text" => "Before 😀 after café",
+            "details" => [
+                "comment" => "Nested 🚀 text",
+                "count" => 3
+            ]
+        ];
+
+        $this->assertSame([
+            "text" => "Before  after café",
+            "details" => [
+                "comment" => "Nested  text",
+                "count" => 3
+            ]
+        ], $peer_review->removeFourByteCharactersFromValues($values));
+    }
 }
