@@ -4,8 +4,9 @@
 
 * Accelerated language update (no more need to introduce background tasks)
 * Removed language installation in config (only English is installed by Setup)
-* Substituted LegacyUI Button by KS Button in the folder GUI's toolbar (`ilObjLanguageFolderGUI`);
-  the form action buttons in `ilObjLanguageExtGUI` (`addCommandButton()`) are still legacy `ilPropertyFormGUI` buttons
+* Substituted LegacyUI Button by KS Button in the folder GUI's toolbar (`ilObjLanguageFolderGUI`)
+* Replaced the `ilPropertyFormGUI` forms of `ilObjLanguageExtGUI` (with their `addCommandButton()` buttons)
+  by KS forms
 * Migrated the component to the Component Revision's dependency graph
   (`$define`/`$implement`/`$use`/`$contribute`/`$seek`/`$provide`/`$pull`/`$internal` in `Language.php`)
   and introduced the Activities pattern: seven `ILIAS\Language\Activities\*` classes now hold this
@@ -26,7 +27,6 @@
 * Fixing PHP 8.2 issues
 * Analysing use of language variables on test9
 * GitHook for preventing duplicate use of same variable_ID in language files
-* Migrate the remaining `addCommandButton()` form buttons in `ilObjLanguageExtGUI` to KS Button
 * Take the system settings of `SetLanguageDetectionEnabled`/`SetLanguageTranslationEnabled` from the
   dependency graph as soon as Administration offers them there; until then `LanguageSettingsLegacyProxy`
   reads them from the legacy container
