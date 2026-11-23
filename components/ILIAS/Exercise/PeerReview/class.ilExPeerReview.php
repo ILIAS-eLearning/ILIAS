@@ -206,7 +206,21 @@ class ilExPeerReview
         }
         $data = $peer["pcomment"];
         if ($data) {
-            $items = unserialize($data, ['allowed_classes' => false]);
+            set_error_handler(static function (
+                int $severity,
+                string $message,
+                string $file,
+                int $line
+            ): never {
+                throw new \ErrorException($message, 0, $severity, $file, $line);
+            });
+            try {
+                $items = unserialize($data, ['allowed_classes' => false]);
+            } catch (\Throwable $t) {
+                return [];
+            } finally {
+                restore_error_handler();
+            }
             if (!is_array($items)) {
                 // v1 - pcomment == text
                 $items = array("text" => $data);
@@ -371,12 +385,30 @@ class ilExPeerReview
             " AND ass_id = " . $ilDB->quote($this->assignment_id, "integer"));
     }
 
+    protected function removeFourByteCharacters(array $a_values): array
+    {
+        $values = [];
+        foreach ($a_values as $key => $value) {
+            if (is_array($value)) {
+                $values[$key] = $this->removeFourByteCharacters($value);
+            } elseif (is_string($value)) {
+                $sanitized_value = preg_replace('/[\x{10000}-\x{10FFFF}]/u', '', $value);
+                $values[$key] = $sanitized_value ?? $value;
+            } else {
+                $values[$key] = $value;
+            }
+        }
+
+        return $values;
+    }
+
     public function updatePeerReview(
         int $a_peer_id,
         array $a_values
     ): void {
         $ilDB = $this->db;
         $ilUser = $this->user;
+        $a_values = $this->removeFourByteCharacters($a_values);
 
         $data = [
             "pcomment" => serialize($a_values),
@@ -387,7 +419,7 @@ class ilExPeerReview
 
         $sql = "UPDATE exc_assignment_peer" .
             " SET tstamp = " . $ilDB->quote(ilUtil::now(), "timestamp") .
-            ",pcomment  = " . $ilDB->quote(serialize($a_values), "text") .
+            ",pcomment  = " . $ilDB->quote($data["pcomment"], "text") .
             ",is_valid = " . $ilDB->quote((int) $valid, "integer") .
             " WHERE giver_id = " . $ilDB->quote($ilUser->getId(), "integer") .
             " AND peer_id = " . $ilDB->quote($a_peer_id, "integer") .
