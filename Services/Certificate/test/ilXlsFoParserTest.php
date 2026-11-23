@@ -454,7 +454,7 @@ class ilXlsFoParserTest extends ilCertificateBaseTestCase
         </fo:static-content>
         <fo:flow flow-name="xsl-region-body">
             <fo:block>
-                <fo:block text-align="center">&#160;</fo:block>
+                <fo:block margin="0" text-align="center">&#160;</fo:block>
             </fo:block>
         </fo:flow>
     </fo:page-sequence>
@@ -496,7 +496,7 @@ EOT;
         </fo:static-content>
         <fo:flow flow-name="xsl-region-body">
             <fo:block>
-                <fo:block>&#160;</fo:block>
+                <fo:block margin="0">&#160;</fo:block>
             </fo:block>
         </fo:flow>
     </fo:page-sequence>
@@ -552,7 +552,7 @@ EOT;
         </fo:static-content>
         <fo:flow flow-name="xsl-region-body">
             <fo:block>
-                <fo:block>[USER_FULLNAME]</fo:block>
+                <fo:block margin="0">[USER_FULLNAME]</fo:block>
             </fo:block>
         </fo:flow>
     </fo:page-sequence>
@@ -594,7 +594,7 @@ EOT;
         </fo:static-content>
         <fo:flow flow-name="xsl-region-body">
             <fo:block>
-                <fo:block><fo:inline font-size="24pt">[USER_FULLNAME]</fo:inline></fo:block>
+                <fo:block margin="0"><fo:inline font-size="24pt">[USER_FULLNAME]</fo:inline></fo:block>
             </fo:block>
         </fo:flow>
     </fo:page-sequence>
