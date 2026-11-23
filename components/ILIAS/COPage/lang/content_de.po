@@ -924,6 +924,12 @@ msgstr "Zertifikat einfügen"
 msgid "cont_ed_item_down"
 msgstr "Eintrag nach unten verschieben"
 
+msgid "cont_ed_item_indent"
+msgstr "Einrücken"
+
+msgid "cont_ed_item_outdent"
+msgstr "Ausrücken"
+
 msgid "cont_ed_item_up"
 msgstr "Eintrag nach oben verschieben"
 
@@ -3651,4 +3657,3 @@ msgstr "Alternativtext"
 
 msgid "text_repr_info"
 msgstr "Wird verwendet, wenn die Grafik nicht angezeigt werden kann."
-

@@ -275,20 +275,18 @@ class PageCommandActionHandler implements Server\CommandActionHandler
         return $this->sendPage($updated);
     }
 
-    /**
-     * Activate command
-     * @param $body
-     * @return Server\Response
-     */
-    protected function listEdit($body): Server\Response
+    protected function listEdit(array $body): Server\Response
     {
         $pcid = $body["data"]["pcid"];
         $list_cmd = $body["data"]["list_cmd"];
         $page = $this->page_gui->getPageObject();
 
-        $pc = $page->getContentObjectForPcId($pcid);
+        $hier_ids = $page->getHierIdsForPCIds([$pcid]);
+        $pc = isset($hier_ids[$pcid]) ? $page->getContentObject($hier_ids[$pcid], $pcid) : null;
+        if ($pc === null) {
+            return $this->sendPage(true);
+        }
 
-        $updated = true;
         switch ($list_cmd) {
             case "newItemAfter":
                 $pc->newItemAfter();
@@ -305,9 +303,22 @@ class PageCommandActionHandler implements Server\CommandActionHandler
             case "moveItemDown":
                 $pc->moveItemDown();
                 break;
+            case "indentItem":
+            case "outdentItem":
+                if (!$pc instanceof \ilPCListItem) {
+                    return $this->sendPage(true);
+                }
+                if ($this->page_gui->getPageConfig()->getSectionProtection() === \ilPageConfig::SEC_PROTECT_PROTECTED) {
+                    $node = $pc->getDomNode();
+                    $xpath = new \DOMXPath($node->ownerDocument);
+                    if ($xpath->evaluate("boolean(ancestor::Section[@Protected = '1'])", $node)) {
+                        return $this->sendPage(true);
+                    }
+                }
+                $moved = $list_cmd === "indentItem" ? $pc->indentItem() : $pc->outdentItem();
+                return $this->sendPage($moved ? $page->update() : true);
         }
-        $updated = $page->update();
 
-        return $this->sendPage($updated);
+        return $this->sendPage($page->update());
     }
 }
