@@ -43,7 +43,7 @@ use ILIAS\UI\URLBuilder;
 use ILIAS\Data\URI;
 use ILIAS\Data\ObjectId;
 
-class ilAdvancedMDRecordExportFilesGUI
+class ExportFilesGUI
 {
     public const string CMD_SHOW_FILES = 'showFiles';
     public const string CMD_HANDLE_EXPORT_FILES_TABLE_ACTION = 'handleExportFilesTableAction';

@@ -29,16 +29,16 @@ use ILIAS\AdvancedMetaData\Record\Export\DataRetrieval as ExportDataRetrieval;
 use ILIAS\UI\URLBuilder;
 use ILIAS\Data\URI;
 use ILIAS\Data\Factory as DataFactory;
+use ILIAS\AdvancedMetaData\Record\Export\ExportFilesGUI;
 use ILIAS\AdvancedMetaData\Record\Export\ilAdvancedMDRecordExportFilesGUI;
 use ILIAS\UI\URLBuilderToken;
 use AdvancedMetadata\Field\Table\TableBuilder as EditFieldsTableBuilder;
 use AdvancedMetadata\Field\Table\DataRetrieval as EditFieldsDataRetrieval;
 use ILIAS\UI\Component\Table\Ordering as OrderingTable;
-use ILIAS\AdvancedMetaData\Record\Export\ilAdvancedMDRecordExportFilesGUI as ExportFilesGUI;
 
 /**
  * @author       Stefan Meyer <meyer@leifos.com>
- * @ilCtrl_Calls ilAdvancedMDSettingsGUI: ilPropertyFormGUI, ILIAS\AdvancedMetaData\Record\Export\ilAdvancedMDRecordExportFilesGUI, ilAdvancedMDRecordTranslationGUI
+ * @ilCtrl_Calls ilAdvancedMDSettingsGUI: ilPropertyFormGUI, ILIAS\AdvancedMetaData\Record\Export\ExportFilesGUI, ilAdvancedMDRecordTranslationGUI
  * @ingroup      ServicesAdvancedMetaData
  */
 class ilAdvancedMDSettingsGUI
@@ -523,7 +523,7 @@ class ilAdvancedMDSettingsGUI
         $this->getExportFilesHandler()->create($xml_writer->xmlDumpMem(false));
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('md_adv_records_exported'));
-        $this->ctrl->redirectByClass([strtolower(self::class), ExportFilesGUI::class], "showFiles");
+        $this->ctrl->redirectByClass(ExportFilesGUI::class, "showFiles");
     }
 
 
@@ -1885,7 +1885,7 @@ class ilAdvancedMDSettingsGUI
 
         $this->tabs_gui->addSubTabTarget(
             "md_adv_file_list",
-            $this->ctrl->getLinkTargetByClass([strtolower(self::class), ExportFilesGUI::class], "showFiles")
+            $this->ctrl->getLinkTargetByClass(ExportFilesGUI::class, "showFiles")
         );
     }
 
