@@ -1474,6 +1474,7 @@ class ilObjLanguageExtGUITest extends TestCase
         $this->inject($gui, 'request_wrapper', $request_wrapper);
         $this->inject($gui, 'refinery', $refinery);
         $this->inject($gui, 'ctrl', $this->createMock(ilCtrl::class));
+        $this->inject($gui, 'lng', $this->createMock(ilLanguage::class));
         (new ReflectionClass(ilObjLanguageExtGUI::class))->getProperty('action_token')->setValue($gui, $action_token);
         (new ReflectionClass(ilObjLanguageExtGUI::class))->getProperty('row_id_token')->setValue($gui, $row_id_token);
 
@@ -1484,8 +1485,10 @@ class ilObjLanguageExtGUITest extends TestCase
     {
         $this->stubMaintenanceGranted();
 
-        $gui = $this->createGuiForExecuteCommandExercisingRealIdsTransformation(['a', 123]);
-        $gui->expects($this->once())->method('editSelectedObject')->with(['a', '123']);
+        $gui = $this->createGuiForExecuteCommandExercisingRealIdsTransformation(
+            [ilLanguageEntriesTable::encodeRowId('m#:#a'), 1234]
+        );
+        $gui->expects($this->once())->method('editSelectedObject')->with(['m#:#a']);
 
         $gui->executeCommand();
     }
@@ -1494,7 +1497,9 @@ class ilObjLanguageExtGUITest extends TestCase
     {
         $this->stubMaintenanceGranted();
 
-        $gui = $this->createGuiForExecuteCommandExercisingRealIdsTransformation('common#:#access');
+        $gui = $this->createGuiForExecuteCommandExercisingRealIdsTransformation(
+            ilLanguageEntriesTable::encodeRowId('common#:#access')
+        );
         $gui->expects($this->once())->method('editSelectedObject')->with(['common#:#access']);
 
         $gui->executeCommand();
@@ -2975,5 +2980,249 @@ class ilObjLanguageExtGUITest extends TestCase
         [$gui] = $this->createGuiForForms();
 
         self::assertNull($this->invokeProtectedMethod($gui, 'buildMissingEntries', [[]]));
+    }
+
+    /** @return array<string, array{0: mixed, 1: list<string>}> */
+    public static function rowIdsFromQueryProvider(): array
+    {
+        $enc = static fn(string $n): string => ilLanguageEntriesTable::encodeRowId($n);
+
+        return [
+            'ALL_OBJECTS is passed through undecoded' => [['ALL_OBJECTS'], ['ALL_OBJECTS']],
+            'invalid ids are dropped' => [['a+b', 'a/b', 'a=', '!', ''], []],
+            'mixed list keeps valid ids and ALL_OBJECTS in order' => [
+                [$enc('common#:#a<b>'), '+++', 'ALL_OBJECTS', $enc('mod#:#ä')],
+                ['common#:#a<b>', 'ALL_OBJECTS', 'mod#:#ä'],
+            ],
+        ];
+    }
+
+    /**
+     * @param list<string> $raw
+     * @param list<string> $expected
+     */
+    #[DataProvider('rowIdsFromQueryProvider')]
+    public function testGetIdsFromQueryTokenDecodesRowIdsAndDropsInvalidOnes(array $raw, array $expected): void
+    {
+        $gui = $this->createGuiForExecuteCommandExercisingRealIdsTransformation($raw);
+
+        self::assertSame($expected, $this->invokeProtectedMethod($gui, 'getIdsFromQueryToken'));
+    }
+
+    /** @return array<string, array{0: array<string, string>, 1: bool}> */
+    public static function filterCmdProvider(): array
+    {
+        return [
+            'apply' => [['cmdFilter' => 'apply'], true],
+            'reset' => [['cmdFilter' => 'reset'], true],
+            'toggle on' => [['cmdFilter' => 'toggleOn'], true],
+            'toggle off' => [['cmdFilter' => 'toggleOff'], true],
+            'other filter command' => [['cmdFilter' => 'expand'], false],
+            'no filter command' => [[], false],
+        ];
+    }
+
+    /** @param array<string, string> $query */
+    #[DataProvider('filterCmdProvider')]
+    public function testIsFilterChangedOnlyForCommandsThatChangeTheResult(array $query, bool $expected): void
+    {
+        $gui = $this->getMockBuilder(ilObjLanguageExtGUI::class)->disableOriginalConstructor()->onlyMethods([])->getMock();
+        $this->inject($gui, 'request', (new \GuzzleHttp\Psr7\ServerRequest('GET', 'http://localhost/'))->withQueryParams($query));
+
+        self::assertSame($expected, $this->invokeProtectedMethod($gui, 'isFilterChanged'));
+    }
+
+    /**
+     * A real KS table whose stored view-control state has offset 100 and page size 25.
+     *
+     * @return array{0: \ILIAS\UI\Implementation\Component\Table\Data, 1: \ILIAS\UI\Storage, 2: string, 3: string, 4: string}
+     *         table, storage, storage id, offset input name, limit input name
+     */
+    private function createTableWithStoredPageTwoState(): array
+    {
+        $this->init();
+        $storage = $this->dic_with_ui['ui.storage'];
+        $retrieval = $this->createStub(\ILIAS\UI\Component\Table\DataRetrieval::class);
+        $retrieval->method('getTotalRowCount')->willReturn(500);
+        $table = $this->factory()->table()->data(
+            $retrieval,
+            'T',
+            ['c' => $this->factory()->table()->column()->text('C')]
+        )->withId(ilLanguageEntriesTable::tableId())
+            ->withRequest(new \GuzzleHttp\Psr7\ServerRequest('GET', 'http://localhost/'));
+        self::assertInstanceOf(\ILIAS\UI\Implementation\Component\Table\Data::class, $table);
+
+        $view_controls = $table->applyViewControls(null)[1];
+        self::assertInstanceOf(\ILIAS\UI\Implementation\Component\Input\Container\ViewControl\ViewControl::class, $view_controls);
+        $pagination = $view_controls->getInputGroup()->getInputs()['range'];
+        self::assertInstanceOf(\ILIAS\UI\Implementation\Component\Input\ViewControl\Pagination::class, $pagination);
+        $offset_input = $pagination->getInputGroup()->getInputs()['offset'];
+        $limit_input = $pagination->getInputGroup()->getInputs()['limit'];
+        self::assertInstanceOf(\ILIAS\UI\Implementation\Component\Input\Input::class, $offset_input);
+        self::assertInstanceOf(\ILIAS\UI\Implementation\Component\Input\Input::class, $limit_input);
+
+        $storage_id = \ILIAS\UI\Implementation\Component\Table\Data::STORAGE_ID_PREFIX . ilLanguageEntriesTable::tableId();
+        $stored = $storage[$storage_id];
+        $stored[$offset_input->getName()] = 100;
+        $stored[$limit_input->getName()] = 25;
+        $storage[$storage_id] = $stored;
+
+        return [$table, $storage, $storage_id, (string) $offset_input->getName(), (string) $limit_input->getName()];
+    }
+
+    /** Filter apply/reset goes back to page 1 but keeps page size and sorting. */
+    public function testResetEntriesTableOffsetZeroesOnlyTheOffsetInTheStoredViewControlState(): void
+    {
+        $this->stubGlobalDicIsPageTranslation(false);
+        [$table, $storage, $storage_id, $offset_name, $limit_name] = $this->createTableWithStoredPageTwoState();
+        $expected = $storage[$storage_id];
+        $expected[$offset_name] = 0;
+
+        $gui = $this->getMockBuilder(ilObjLanguageExtGUI::class)->disableOriginalConstructor()->onlyMethods([])->getMock();
+        $this->inject($gui, 'ui_storage', $storage);
+        $this->invokeProtectedMethod($gui, 'resetEntriesTableOffset', [$table, null]);
+
+        self::assertSame($expected, $storage[$storage_id]);
+        self::assertSame(25, $storage[$storage_id][$limit_name]);
+    }
+
+    public function testResetEntriesTableOffsetIgnoresATableThatIsNotAKsDataTable(): void
+    {
+        $this->stubGlobalDicIsPageTranslation(false);
+        [, $storage, $storage_id] = $this->createTableWithStoredPageTwoState();
+        $before = $storage[$storage_id];
+
+        $gui = $this->getMockBuilder(ilObjLanguageExtGUI::class)->disableOriginalConstructor()->onlyMethods([])->getMock();
+        $this->inject($gui, 'ui_storage', $storage);
+        $this->invokeProtectedMethod($gui, 'resetEntriesTableOffset', [$this->createStub(\ILIAS\UI\Component\Table\Data::class), null]);
+
+        self::assertSame($before, $storage[$storage_id]);
+    }
+
+    /** @return array<string, array{0: array<string, string>, 1: bool}> */
+    public static function viewObjectFilterCmdProvider(): array
+    {
+        return [
+            'apply goes back to page 1' => [['cmdFilter' => 'apply'], true],
+            'no filter command keeps the page' => [[], false],
+        ];
+    }
+
+    /**
+     * viewObject() is wired up with mocks around the entries table, filter and renderer. The real KS table and storage stay.
+     *
+     * @param array<string, string> $query
+     */
+    #[DataProvider('viewObjectFilterCmdProvider')]
+    public function testViewObjectResetsTheOffsetOnlyWhenTheFilterChanged(array $query, bool $offset_is_reset): void
+    {
+        $this->stubGlobalDicIsPageTranslation(false);
+        [$table, $storage, $storage_id, $offset_name, $limit_name] = $this->createTableWithStoredPageTwoState();
+        $expected = $storage[$storage_id];
+        if ($offset_is_reset) {
+            $expected[$offset_name] = 0;
+        }
+
+        $filter = $this->createStub(\ILIAS\UI\Component\Input\Container\Filter\Standard::class);
+        $filter->method('isActivated')->willReturn(false);
+        $filter_service = $this->createStub(ilUIFilterService::class);
+        $filter_service->method('standard')->willReturn($filter);
+        $ui_service = $this->createStub(ilUIService::class);
+        $ui_service->method('filter')->willReturn($filter_service);
+        $result = $this->createStub(ilDBStatement::class);
+        $result->method('fetchRow')->willReturn(null);
+        $db = $this->createStub(ilDBInterface::class);
+        $db->method('query')->willReturn($result);
+        $dic = new class ($ui_service) extends \ILIAS\DI\Container {
+            public function __construct(private readonly ilUIService $ui_service)
+            {
+                parent::__construct();
+            }
+
+            public function uiService(): ilUIService
+            {
+                return $this->ui_service;
+            }
+        };
+        $dic['http'] = $GLOBALS['DIC']['http'];
+        $dic['refinery'] = $GLOBALS['DIC']['refinery'];
+        $dic['ilDB'] = $db;
+        $GLOBALS['DIC'] = $dic;
+
+        $lng = $this->createStub(ilLanguage::class);
+        $lng->separator = '#:#';
+        $lng->method('txt')->willReturnArgument(0);
+        $lng->method('getInstalledLanguages')->willReturn(['en']);
+        $lng->method('getDefaultLanguage')->willReturn('en');
+        $lng->method('getLangKey')->willReturn('en');
+        $entries_table = $this->createStub(ilLanguageEntriesTable::class);
+        $entries_table->method('getConflictsNotice')->willReturn(null);
+        $entries_table->method('getTable')->willReturn($table);
+        $object = $this->createFakeLanguageObject('en');
+        $object->method('getUnreadableShippedPoModules')->willReturn([]);
+        $ctrl = $this->createStub(ilCtrl::class);
+        $ctrl->method('getLinkTarget')->willReturn('link');
+        $renderer = $this->createStub(\ILIAS\UI\Renderer::class);
+        $renderer->method('render')->willReturn('');
+
+        $gui = $this->getMockBuilder(ilObjLanguageExtGUI::class)->disableOriginalConstructor()->onlyMethods([])->getMock();
+        $this->inject($gui, 'ui_storage', $storage);
+        $this->inject($gui, 'request', (new \GuzzleHttp\Psr7\ServerRequest('GET', 'http://localhost/'))->withQueryParams($query));
+        $this->inject($gui, 'request_wrapper', $this->createStub(RequestWrapper::class));
+        $this->inject($gui, 'ui_factory', $this->factory());
+        $this->inject($gui, 'ui_renderer', $renderer);
+        $this->inject($gui, 'tpl', $this->createStub(ilGlobalTemplateInterface::class));
+        $this->inject($gui, 'lng', $lng);
+        $this->inject($gui, 'ctrl', $ctrl);
+        $this->inject($gui, 'object', $object);
+        $this->inject($gui, 'entries_table', $entries_table);
+        $this->inject($gui, 'langmode', false);
+
+        $gui->viewObject();
+
+        self::assertSame($expected, $storage[$storage_id]);
+        self::assertSame(25, $storage[$storage_id][$limit_name]);
+    }
+
+    /** @return array{0: ilObjLanguageExtGUI, 1: ilObjLanguageExt&MockObject} */
+    private function createGuiForTranslationsOf(): array
+    {
+        $lng = $this->createStub(ilLanguage::class);
+        $lng->separator = '#:#';
+        $object = $this->createFakeLanguageObjectMock('de');
+        $gui = $this->getMockBuilder(ilObjLanguageExtGUI::class)->disableOriginalConstructor()->onlyMethods([])->getMock();
+        $this->inject($gui, 'lng', $lng);
+        $this->inject($gui, 'object', $object);
+
+        return [$gui, $object];
+    }
+
+    public function testGetTranslationsOfReadsOnlyTheModulesOfTheNamesAndCachesPerModuleSet(): void
+    {
+        [$gui, $object] = $this->createGuiForTranslationsOf();
+        $calls = [];
+        $object->method('getAllValues')->willReturnCallback(
+            function (array $modules) use (&$calls): array {
+                $calls[] = $modules;
+                return ['m' => implode(',', $modules)];
+            }
+        );
+
+        $first = $this->invokeProtectedMethod($gui, 'getTranslationsOf', [['b#:#x', 'a#:#y', 'b#:#z']]);
+        $same_set = $this->invokeProtectedMethod($gui, 'getTranslationsOf', [['a#:#q', 'b#:#r']]);
+        $other_set = $this->invokeProtectedMethod($gui, 'getTranslationsOf', [['c#:#x']]);
+
+        self::assertSame([['a', 'b'], ['c']], $calls);
+        self::assertSame(['m' => 'a,b'], $first);
+        self::assertSame($first, $same_set);
+        self::assertSame(['m' => 'c'], $other_set);
+    }
+
+    public function testGetTranslationsOfWithoutNamesDoesNotReadAnyValues(): void
+    {
+        [$gui, $object] = $this->createGuiForTranslationsOf();
+        $object->expects($this->never())->method('getAllValues');
+
+        self::assertSame([], $this->invokeProtectedMethod($gui, 'getTranslationsOf', [[]]));
     }
 }

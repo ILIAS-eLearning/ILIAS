@@ -575,7 +575,7 @@ class ilLanguageEntriesTableTest extends ilLanguageBaseTestCase
         $row_builder = $this->createMock(DataRowBuilder::class);
         $row_builder->method('buildDataRow')->willReturnCallback(
             function (string $id, array $record) use (&$captured) {
-                $captured[$id] = $record['translation'];
+                $captured[ilLanguageEntriesTable::decodeRowId($id, '#:#')] = $record['translation'];
                 return $this->createMock(DataRow::class);
             }
         );
@@ -607,7 +607,7 @@ class ilLanguageEntriesTableTest extends ilLanguageBaseTestCase
         $captured = [];
         $row_builder->method('buildDataRow')->willReturnCallback(
             function (string $id, array $record) use (&$captured) {
-                $captured[] = [$id, $record];
+                $captured[] = [ilLanguageEntriesTable::decodeRowId($id, '#:#'), $record];
                 return $this->createMock(DataRow::class);
             }
         );
@@ -682,7 +682,7 @@ class ilLanguageEntriesTableTest extends ilLanguageBaseTestCase
         $row_builder = $this->createMock(DataRowBuilder::class);
         $row_builder->method('buildDataRow')->willReturnCallback(
             function (string $id, array $record) use (&$captured) {
-                $captured[] = $id;
+                $captured[] = ilLanguageEntriesTable::decodeRowId($id, '#:#');
                 return $this->createMock(DataRow::class);
             }
         );
@@ -979,7 +979,7 @@ class ilLanguageEntriesTableTest extends ilLanguageBaseTestCase
         $row_builder = $this->createMock(DataRowBuilder::class);
         $row_builder->method('buildDataRow')->willReturnCallback(
             function (string $id, array $record) use (&$captured) {
-                $captured[$id] = $record;
+                $captured[ilLanguageEntriesTable::decodeRowId($id, '#:#')] = $record;
                 return $this->createMock(DataRow::class);
             }
         );
@@ -1031,7 +1031,7 @@ class ilLanguageEntriesTableTest extends ilLanguageBaseTestCase
         $row_builder = $this->createMock(DataRowBuilder::class);
         $row_builder->method('buildDataRow')->willReturnCallback(
             function (string $id, array $record) use (&$captured) {
-                $captured[$id] = $record['commented'];
+                $captured[ilLanguageEntriesTable::decodeRowId($id, '#:#')] = $record['commented'];
                 return $this->createMock(DataRow::class);
             }
         );
@@ -1295,7 +1295,8 @@ class ilLanguageEntriesTableTest extends ilLanguageBaseTestCase
         $row_builder = $this->createMock(DataRowBuilder::class);
         $row_builder->method('buildDataRow')->willReturnCallback(
             function (string $id, array $record) use (&$captured) {
-                $captured[] = $id;
+                // not decodeRowId(): it rejects names without separator like '12'
+                $captured[] = base64_decode(strtr($id, '-_', '+/'));
                 return $this->createMock(DataRow::class);
             }
         );
@@ -1379,7 +1380,7 @@ class ilLanguageEntriesTableTest extends ilLanguageBaseTestCase
         );
     }
 
-    public function testGetRowsEscapesModuleTopicTranslationAndDefaultButKeepsTheRowIdRaw(): void
+    public function testGetRowsEscapesModuleTopicTranslationAndDefaultAndEncodesTheRowId(): void
     {
         $this->setIsPageTranslation(false);
 
@@ -1406,7 +1407,8 @@ class ilLanguageEntriesTableTest extends ilLanguageBaseTestCase
             null
         ));
 
-        self::assertSame('<b>m#:#"t"', $captured[0]);
+        self::assertMatchesRegularExpression('/^[A-Za-z0-9_-]+$/', $captured[0]);
+        self::assertSame('<b>m#:#"t"', ilLanguageEntriesTable::decodeRowId($captured[0], '#:#'));
         self::assertSame('&lt;b&gt;m', $captured[1]['module']);
         self::assertSame('&quot;t&quot;', $captured[1]['topic']);
         self::assertSame('&lt;b&gt;x&lt;/b&gt; &amp; &#039;y&#039;', $captured[1]['translation']);
@@ -1641,5 +1643,59 @@ class ilLanguageEntriesTableTest extends ilLanguageBaseTestCase
         $this->setIsPageTranslation(false);
 
         self::assertSame('lang_ext_entries_admin', ilLanguageEntriesTable::tableId());
+    }
+
+    /** @return array<string, array{0: string}> */
+    public static function rowIdNameProvider(): array
+    {
+        return [
+            'plain' => ['common#:#access'],
+            'html and quote characters' => ['m#:#"<>&\''],
+            'multibyte' => ['mod#:#grüße_日本語_😀'],
+            'characters that produce + and / in plain base64' => ['?>>???#:#x'],
+            'padding length 1' => ['m#:#a'],
+            'padding length 2' => ['m#:#'],
+            'padding length 0' => ['m#:#ab'],
+        ];
+    }
+
+    #[DataProvider('rowIdNameProvider')]
+    public function testRowIdRoundTripsAndOnlyUsesUrlAndHtmlSafeCharacters(string $name): void
+    {
+        $row_id = ilLanguageEntriesTable::encodeRowId($name);
+
+        self::assertMatchesRegularExpression('/^[A-Za-z0-9_-]*$/', $row_id);
+        self::assertSame($name, ilLanguageEntriesTable::decodeRowId($row_id, '#:#'));
+    }
+
+    /** @return array<string, array{0: string}> */
+    public static function invalidRowIdProvider(): array
+    {
+        return [
+            'plus' => ['ab+c'],
+            'slash' => ['ab/c'],
+            'padding' => ['YWI='],
+            'standard base64 alphabet instead of url-safe' => ['+/+/'],
+            'not canonical, trailing bits set' => ['YR'],
+            'impossible length' => ['A'],
+            'whitespace' => ['YW Jj'],
+            'html' => ['<b>'],
+            'multibyte' => ['ä'],
+            'trailing newline' => ["YWJj\n"],
+            'name without separator' => [ilLanguageEntriesTable::encodeRowId('1234')],
+            'name that is invalid UTF-8' => [ilLanguageEntriesTable::encodeRowId("m#:#\xfb\xff\xbe")],
+        ];
+    }
+
+    #[DataProvider('invalidRowIdProvider')]
+    public function testDecodeRowIdRejectsInvalidAndNonCanonicalValues(string $row_id): void
+    {
+        self::assertNull(ilLanguageEntriesTable::decodeRowId($row_id, '#:#'));
+    }
+
+    public function testAnEmptyNameEncodesToAnEmptyIdWhichDecodeRejects(): void
+    {
+        self::assertSame('', ilLanguageEntriesTable::encodeRowId(''));
+        self::assertNull(ilLanguageEntriesTable::decodeRowId('', '#:#'), 'an empty id is not a valid row id');
     }
 }

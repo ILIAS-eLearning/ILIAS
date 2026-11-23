@@ -61,6 +61,28 @@ class ilLanguageEntriesTable implements DataTable\DataRetrieval
         return 'lang_ext_entries_' . (ilObjLanguageAccess::_isPageTranslation() ? 'trans' : 'admin');
     }
 
+    /** KS puts the row id unescaped into HTML attributes and URLs, identifiers may contain any character. */
+    public static function encodeRowId(string $name): string
+    {
+        return rtrim(strtr(base64_encode($name), '+/', '-_'), '=');
+    }
+
+    /** Only canonical ids of UTF-8 names with a module part, the module goes into queries and paths. */
+    public static function decodeRowId(string $row_id, string $separator): ?string
+    {
+        if (preg_match('/^[A-Za-z0-9_-]+$/', $row_id) !== 1) {
+            return null;
+        }
+        $name = base64_decode(strtr($row_id, '-_', '+/'), true);
+
+        return $name !== false
+            && self::encodeRowId($name) === $row_id
+            && mb_check_encoding($name, 'UTF-8')
+            && str_contains($name, $separator)
+            ? $name
+            : null;
+    }
+
     public function getTable(mixed $filter_data): DataTable\Data
     {
         return $this->ui_factory->table()->data(
@@ -192,7 +214,7 @@ class ilLanguageEntriesTable implements DataTable\DataRetrieval
                 $record['commented'] = $this->effectiveRemarkOf($name) !== '';
             }
 
-            yield $row_builder->buildDataRow($name, $record);
+            yield $row_builder->buildDataRow(self::encodeRowId($name), $record);
         }
     }
 
