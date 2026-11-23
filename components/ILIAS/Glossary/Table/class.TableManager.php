@@ -48,13 +48,6 @@ class TableManager
         return new TermUsagesTable($term_id);
     }
 
-    public function getTermDefinitionBulkCreationTable(
-        string $raw_data,
-        \ilObjGlossary $glossary
-    ): TermDefinitionBulkCreationTable {
-        return new TermDefinitionBulkCreationTable($raw_data, $glossary);
-    }
-
     public function getTermListTable(
         \ilObjGlossary $glossary,
         int $tax_node
