@@ -17,7 +17,7 @@
  *********************************************************************/
 
 declare(strict_types=1);
-use ILIAS\AdvancedMetaData\Record\Export\ilAdvancedMDRecordExportFilesGUI;
+use ILIAS\AdvancedMetaData\Record\Export\ilAdvancedMDRecordExportFilesGUI as ExportFilesGUI;
 
 /**
  * Class ilObjectMetaDataGUI
@@ -428,7 +428,7 @@ class ilObjectMetaDataGUI
                     "md_adv_file_list",
                     $this->lng->txt("md_adv_file_list"),
                     $this->ctrl->getLinkTargetByClass(
-                        ["iladvancedmdsettingsgui", ilAdvancedMDRecordExportFilesGUI::class],
+                        ["iladvancedmdsettingsgui", ExportFilesGUI::class],
                         "showFiles"
                     )
                 );

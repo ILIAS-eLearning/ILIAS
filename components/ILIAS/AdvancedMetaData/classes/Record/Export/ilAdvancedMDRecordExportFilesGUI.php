@@ -157,24 +157,23 @@ class ilAdvancedMDRecordExportFilesGUI
     public function handleExportFilesTableAction(): void
     {
         [$url_builder, $id_token, $action_token] = $this->getExportTableActionURLBuilder();
-        $parameter_name = $id_token->getName();
 
         $action = '';
-        if ($this->http->wrapper()->query()->has($action_token->getName())) {
+        if ($this->http->wrapper()->query()->has('advmd_export_action')) {
             $action = $this->http->wrapper()->query()->retrieve(
-                $action_token->getName(),
+                'advmd_export_action',
                 $this->refinery->kindlyTo()->string()
             );
         }
 
-        $ids = $this->getExportFileIdsFromQuery($parameter_name);
+        $ids = $this->getExportFileIdsFromQuery('advmd_file_id');
 
         switch ($action) {
             case TableBuilder::ACTION_DOWNLOAD:
                 $this->downloadExportFile($ids);
                 break;
             case TableBuilder::ACTION_DELETE:
-                $this->confirmDeleteExportFiles($ids, $parameter_name);
+                $this->confirmDeleteExportFiles($ids);
                 break;
             default:
                 $this->showFiles();
@@ -182,6 +181,9 @@ class ilAdvancedMDRecordExportFilesGUI
         }
     }
 
+    /**
+     * @param string[] $ids
+     */
     protected function downloadExportFile(array $ids): void
     {
         if (($this->context === ilAdvancedMDSettingsGUI::CONTEXT_ADMINISTRATION && !$this->access->checkAccess('read', '', $this->ref_id)) ||
@@ -200,7 +202,10 @@ class ilAdvancedMDRecordExportFilesGUI
         $this->getExportFilesHandler()->download($file_id, 'ilias_meta_data_record.xml');
     }
 
-    protected function confirmDeleteExportFiles(array $file_ids, string $parameter_name): void
+    /**
+     * @param string[] $file_ids
+     */
+    protected function confirmDeleteExportFiles(array $file_ids): void
     {
         if (!$this->access->checkAccess('write', '', $this->ref_id)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
@@ -224,7 +229,7 @@ class ilAdvancedMDRecordExportFilesGUI
         foreach ($file_ids as $file_id) {
             $info = $file_data[$file_id];
             $c_gui->addItem(
-                $parameter_name . '[]',
+                'advmd_file_id[]',
                 (string) $file_id,
                 is_array($info['name'] ?? false) ? implode(',', $info['name']) : 'No Records'
             );
@@ -239,8 +244,7 @@ class ilAdvancedMDRecordExportFilesGUI
             $this->ctrl->redirect($this, self::CMD_SHOW_FILES);
         }
 
-        [$url_builder, $id_token] = $this->getExportTableActionURLBuilder();
-        $file_ids = $this->getExportFileIdsFromPost($id_token->getName());
+        $file_ids = $this->getExportFileIdsFromPost('advmd_file_id');
         if (count($file_ids) === 0) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->showFiles();
