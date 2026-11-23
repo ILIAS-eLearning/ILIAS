@@ -10291,6 +10291,7 @@ glo#:#glo_introduction#:#Introduction
 glo#:#glo_link_glo_in_glo#:#Should all glossary terms of the target glossary be linked in the current glossary now?
 glo#:#glo_link_to_usages#:#Link
 glo#:#glo_md_advanced#:#Further Details
+glo#:#glo_no_definition#:#No Definition Provided
 glo#:#glo_page_type_gdf#:#Term Definition
 glo#:#glo_please_select_other_glo#:#Please select another glossary.
 glo#:#glo_quit_box#:#Quit Box
