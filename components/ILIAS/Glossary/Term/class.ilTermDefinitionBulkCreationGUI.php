@@ -173,12 +173,23 @@ EOT;
         )->withButtons([$button]);
 
         $ctrl->setParameter($this, "term_language", $language);
-        $table = $this->domain->table()->getTermDefinitionBulkCreationTable($data, $this->glossary)->getComponent();
+        $data_array = $this->term_manager->getDataArrayFromInputString($data);
+        $listing_entries = [];
+        foreach ($data_array as $pair) {
+            $definition = $pair["definition"];
+            if ($definition === "") {
+                $definition = $lng->txt("glo_no_definition");
+            }
+
+            $listing_entries[] = $f->listing()->descriptive([
+                $pair["term"] => $definition
+            ]);
+        }
 
         $conf_tpl->setVariable("HIDDEN_VALUE", $html_util->escape($data));
         $conf_tpl->setVariable("ACTION", $ctrl->getFormAction($this, "createTermDefinitionPairs"));
         $conf_tpl->setVariable("MBOX", $r->render($mbox));
-        $conf_tpl->setVariable("TABLE", $r->render($table));
+        $conf_tpl->setVariable("LISTING", $r->render($listing_entries));
 
         return $conf_tpl->get();
     }
