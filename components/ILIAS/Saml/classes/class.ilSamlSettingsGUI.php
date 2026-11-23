@@ -721,9 +721,11 @@ final class ilSamlSettingsGUI implements ilCtrlSecurityInterface, ilSamlCommands
                 $this->lng->txt(self::LNG_SAVED_SUCCESSFULLY),
                 true
             );
+            $this->ctrl->redirect($this, self::CMD_SHOW_IDP_SETTINGS);
         }
-
-        $this->ctrl->redirect($this, self::CMD_SHOW_IDP_SETTINGS);
+        
+        $this->showIdpSettingsCommand($form);
+       
     }
 
     private function getIdpForm(): StandardForm
