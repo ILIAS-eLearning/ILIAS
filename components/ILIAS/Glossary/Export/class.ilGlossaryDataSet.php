@@ -68,7 +68,9 @@ class ilGlossaryDataSet extends ilDataSet
                         "PresMode" => "text",
                         "SnippetLength" => "integer",
                         "GloMenuActive" => "text",
-                        "ShowTax" => "integer"
+                        "ShowTax" => "integer",
+                        "FlashActive" => "text",
+                        "FlashMode" => "text"
                     );
             }
         }
@@ -139,10 +141,10 @@ class ilGlossaryDataSet extends ilDataSet
                 case "5.1.0":
                 case "5.4.0":
                 case "9.0.0":
-                    $this->getDirectDataFromQuery("SELECT o.title, o.description, g.id, g.virtual, pres_mode, snippet_length, show_tax, glo_menu_active" .
-                        " FROM glossary g JOIN object_data o " .
-                        " ON (g.id = o.obj_id) " .
-                        " WHERE " . $ilDB->in("g.id", $a_ids, false, "integer"));
+                    $this->getDirectDataFromQuery("SELECT o.title, o.description, g.id, g.virtual, pres_mode, snippet_length, show_tax, glo_menu_active, flash_active, flash_mode" .
+                            " FROM glossary g JOIN object_data o " .
+                            " ON (g.id = o.obj_id) " .
+                            " WHERE " . $ilDB->in("g.id", $a_ids, false, "integer"));
                     break;
             }
         }
@@ -283,7 +285,7 @@ class ilGlossaryDataSet extends ilDataSet
                 $newObj->setSnippetLength((int) ($a_rec["SnippetLength"] ?? 0));
                 $newObj->setActiveGlossaryMenu((bool) ($a_rec["GloMenuActive"] ?? false));
                 $newObj->setShowTaxonomy((bool) ($a_rec["ShowTax"] ?? false));
-                $newObj->setActiveFlashcards((bool) ($a_rec["FlashActive"] ?? false));
+                $newObj->setActiveFlashcards((($a_rec["FlashActive"] ?? "n") === "y") ? true : false);
                 $newObj->setFlashcardsMode($a_rec["FlashMode"] ?? "");
                 if ($this->getCurrentInstallationId() > 0) {
                     $newObj->setImportId("il_" . $this->getCurrentInstallationId() . "_glo_" . $a_rec["Id"]);
