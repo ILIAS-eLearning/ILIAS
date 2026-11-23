@@ -16,6 +16,7 @@
  *
  *********************************************************************/
 
+use ILIAS\components\ResourceStorage\Collections\View\EditForm;
 use ILIAS\FileUpload\Handler\BasicHandlerResult;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
@@ -34,7 +35,6 @@ use ILIAS\components\ResourceStorage\Collections\View\UploadBuilder;
 use ILIAS\components\ResourceStorage\Collections\View\PreviewDefinition;
 use ILIAS\Filesystem\Util\Archive\UnzipOptions;
 use ILIAS\Refinery\ConstraintViolationException;
-use ILIAS\Services\ResourceStorage\Collections\View\EditForm;
 use ILIAS\Filesystem\Util\Archive\ZipDirectoryHandling;
 
 /**
