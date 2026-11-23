@@ -651,11 +651,6 @@ class PageContentManager
     /**
      * move content object from position $a_source before position $a_target
      * (both hierarchical content ids)
-     * @param string $a_source
-     * @param string $a_target
-     * @param string $a_spcid
-     * @param string $a_tpcid
-     * @return array|bool
      * @throws \ilCOPagePCEditException
      * @throws \ilCOPageUnknownPCTypeException
      * @throws \ilDateTimeException
@@ -666,25 +661,38 @@ class PageContentManager
         string $a_target,
         string $a_spcid = "",
         string $a_tpcid = ""
-    ): void {
+    ): bool {
         // nothing to do...
         if ($a_source === $a_target || $a_spcid === $a_tpcid) {
-            return;
+            return false;
         }
 
-        // clone the node
         $content = $page->getContentObject($a_source, $a_spcid);
         $source_node = $content?->getDomNode();
-        $clone_node = $source_node?->cloneNode(true);
+        if ($a_target === "" && $a_tpcid === "") {
+            $a_target = "pg";
+        }
+        $target_node = $this->getContentDomNode($a_target, $a_tpcid);
+        if ($source_node === null || $target_node === null) {
+            return false;
+        }
+
+        // Removing the source would also remove any target in its subtree.
+        for ($node = $target_node; $node !== null; $node = $node->parentNode) {
+            if ($source_node->isSameNode($node)) {
+                return false;
+            }
+        }
+
+        $clone_node = $source_node->cloneNode(true);
 
         // delete source node
         $this->deleteContent($page, $a_source, $a_spcid, true);
 
         // insert cloned node at target
-        if ($content) {
-            $content->setDomNode($clone_node);
-            $this->insertContent($content, $a_target, IL_INSERT_AFTER, $a_tpcid);
-        }
+        $content->setDomNode($clone_node);
+        $this->insertContent($content, $a_target, IL_INSERT_AFTER, $a_tpcid);
+        return true;
     }
 
     /**
