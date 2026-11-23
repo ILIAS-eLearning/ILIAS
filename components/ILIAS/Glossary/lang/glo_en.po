@@ -122,6 +122,9 @@ msgstr "Link"
 msgid "glo_md_advanced"
 msgstr "Further Details"
 
+msgid "glo_no_definition"
+msgstr "No Definition Provided"
+
 msgid "glo_page_type_gdf"
 msgstr "Term Definition"
 
