@@ -601,6 +601,28 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
             $roles[$role['obj_id']] = $role['title'];
         }
 
+        $resolve_default_role = static function (string $stored_role_id, array $roles): int|string {
+            if ($roles === []) {
+                return '';
+            }
+
+            $role_id = (int) $stored_role_id;
+            if (array_key_exists($role_id, $roles)) {
+                return $role_id;
+            }
+
+            if (array_key_exists(4, $roles)) {
+                return 4;
+            }
+
+            return array_key_first($roles);
+        };
+
+        $default_role_value = $resolve_default_role(
+            $this->settings->get('soap_auth_user_default_role', '4'),
+            $roles
+        );
+
         $active = $this->ui_factory
             ->input()
             ->field()
@@ -689,7 +711,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 $roles,
                 $this->lng->txt('auth_soap_user_default_role_desc')
             )
-            ->withValue($this->settings->get('soap_auth_user_default_role', '4'))
+            ->withValue($default_role_value)
             ->withAdditionalTransformation($this->refinery->int()->isGreaterThan(0));
 
         $allowlocal = $this->ui_factory
@@ -699,7 +721,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 $this->lng->txt('auth_allow_local'),
                 $this->lng->txt('auth_soap_allow_local_desc')
             )
-            ->withValue((bool) $this->settings->get('soap_auth_user_default_role', ''));
+            ->withValue((bool) $this->settings->get('soap_auth_allow_local', ''));
 
         $access = $this->rbac_system->checkAccess('write', $this->object->getRefId());
         $inputs = [
