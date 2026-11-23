@@ -6493,6 +6493,8 @@ content#:#cont_ed_insert_tabs#:#Akkordeon/Karussell einfügen
 content#:#cont_ed_insert_templ#:#Inhaltsvorlage einfügen
 content#:#cont_ed_insert_vrfc#:#Zertifikat einfügen
 content#:#cont_ed_item_down#:#Eintrag nach unten verschieben
+content#:#cont_ed_item_indent#:#Einrücken
+content#:#cont_ed_item_outdent#:#Ausrücken
 content#:#cont_ed_item_up#:#Eintrag nach oben verschieben
 content#:#cont_ed_list#:#Erweiterte Liste
 content#:#cont_ed_moveafter#:#Verschieben nach
