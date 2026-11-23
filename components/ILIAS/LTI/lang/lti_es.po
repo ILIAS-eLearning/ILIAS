@@ -555,6 +555,10 @@ msgid "lti_deep_linking_no_content"
 msgstr "La herramienta no ha enviado ningún contenido que se pueda añadir como objeto LTI."
 
 #, fuzzy
+msgid "lti_deep_linking_register_first"
+msgstr "Introduzca primero los siguientes datos en la herramienta. Después seleccione el contenido en la herramienta. Se crea un objeto por cada contenido que devuelva la herramienta."
+
+#, fuzzy
 msgid "lti_deep_linking_running"
 msgstr "Seleccione el contenido en la herramienta. Se crea un objeto por cada contenido que devuelva la herramienta."
 

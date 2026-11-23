@@ -542,6 +542,9 @@ msgstr ""
 msgid "lti_deep_linking_no_content"
 msgstr ""
 
+msgid "lti_deep_linking_register_first"
+msgstr ""
+
 msgid "lti_deep_linking_running"
 msgstr ""
 

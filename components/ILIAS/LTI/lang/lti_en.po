@@ -568,6 +568,10 @@ msgid "lti_deep_linking_no_content"
 msgstr "The tool did not send any content that can be added as an LTI object."
 
 #, fuzzy
+msgid "lti_deep_linking_register_first"
+msgstr "Enter the following data in the tool first. Then select the content in the tool. An object is created for each content item the tool sends back."
+
+#, fuzzy
 msgid "lti_deep_linking_running"
 msgstr "Select the content in the tool. An object is created for each content item the tool sends back."
 
