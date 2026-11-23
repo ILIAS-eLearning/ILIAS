@@ -463,7 +463,7 @@ Components are listed alphabetically by their folder name in `components/ILIAS/`
 * Authority to Curate Test Cases: [maalers](https://docu.ilias.de/go/usr/119188), [mhomann-tf](https://docu.ilias.de/go/usr/120211)
 * Authority to (De-)Assign Authorities: [maalers](https://docu.ilias.de/go/usr/119188)
 * Assignee for Issues: [maalers](https://docu.ilias.de/go/usr/119188)
-* Assignee for Security Reports: [maalers](https://docu.ilias.de/go/usr/119188)
+* Assignee for Security Reports: [mhomann-tf](https://docu.ilias.de/go/usr/120211)
 
 [//]: # (END Bibliographic)
 
@@ -1998,7 +1998,7 @@ Components are listed alphabetically by their folder name in `components/ILIAS/`
 * Authority to Curate Test Cases: [wischniak](https://docu.ilias.de/go/usr/21896)
 * Authority to (De-)Assign Authorities: [maalers](https://docu.ilias.de/go/usr/119188)
 * Assignee for Issues: [maalers](https://docu.ilias.de/go/usr/119188)
-* Assignee for Security Reports: [maalers](https://docu.ilias.de/go/usr/119188)
+* Assignee for Security Reports: [mhomann-tf](https://docu.ilias.de/go/usr/120211)
 
 [//]: # (END OrgUnit)
 
@@ -2531,7 +2531,7 @@ Components are listed alphabetically by their folder name in `components/ILIAS/`
 * Authority to Curate Test Cases: [maalers](https://docu.ilias.de/go/usr/119188), [mhomann-tf](https://docu.ilias.de/go/usr/120211)
 * Authority to (De-)Assign Authorities: [maalers](https://docu.ilias.de/go/usr/119188)
 * Assignee for Issues: [maalers](https://docu.ilias.de/go/usr/119188)
-* Assignee for Security Reports: [maalers](https://docu.ilias.de/go/usr/119188)
+* Assignee for Security Reports: [mhomann-tf](https://docu.ilias.de/go/usr/120211)
 
 [//]: # (END StudyProgrammeReference)
 
