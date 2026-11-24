@@ -137,7 +137,7 @@ class ilDBUpdateNewObjectType
     /**
      * Add new type to object data
      *
-     * @deprecated use Services/Object/classes/Setup/class.ilObjectNewTypeAddedObjective.php instead
+     * @deprecated use ILIAS\ILIASObject\Setup\NewTypeAddedObjective instead
      */
     public static function addNewType(string $type_id, string $type_title): int
     {
