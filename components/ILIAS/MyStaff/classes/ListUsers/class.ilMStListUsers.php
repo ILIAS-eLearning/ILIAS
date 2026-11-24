@@ -22,6 +22,7 @@ namespace ILIAS\MyStaff\ListUsers;
 
 use ILIAS\DI\Container;
 use ILIAS\components\MyStaff\Utils\ListFetcherResult;
+use ILIAS\Data\Privacy\Types\PostalAddressValue;
 
 /**
  * Class ilListUser
@@ -104,10 +105,17 @@ class ilMStListUsers
             $list_user->setTitle($user['title'] ?? "");
             $list_user->setInstitution($user['institution'] ?? "");
             $list_user->setDepartment($user['department'] ?? "");
-            $list_user->setStreet($user['street'] ?? "");
-            $list_user->setZipcode($user['zipcode'] ?? "");
-            $list_user->setCity($user['city'] ?? "");
-            $list_user->setCountry($user['country'] ?? "");
+            $list_user->setPostalAddress(
+                new \ILIAS\Data\Privacy\Factory()->postalAddress(
+                    new PostalAddressValue(
+                        $user['street'] ?? "",
+                        $user['city'] ?? "",
+                        $user['zipcode'] ?? "",
+                        $user['country'] ?? ""
+                    ),
+                    new \ILIAS\Data\Privacy\Source\Sources()->user()->postalAddress()
+                )
+            );
             $list_user->setHobby($user['hobby'] ?? "");
             $list_user->setMatriculation($user['matriculation'] ?? "");
             $list_user->setActive(intval($user['active']));

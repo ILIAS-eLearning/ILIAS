@@ -38,6 +38,7 @@ class ilMStListUsersTableGUI extends \ilTable2GUI
     private \ILIAS\UI\Renderer $uiRenderer;
     private \ilLanguage $language;
     private Profile $profile;
+    private \ILIAS\Data\Privacy\TechnicalRequirement\TechnicalRequirements $requirements;
 
     /**
      * @param \ilMStListUsersGUI $parent_obj
@@ -49,6 +50,7 @@ class ilMStListUsersTableGUI extends \ilTable2GUI
 
         $this->access = ilMyStaffAccess::getInstance();
         $this->profile = $DIC['user']->getProfile();
+        $this->requirements = new \ILIAS\Data\Privacy\TechnicalRequirement\TechnicalRequirements();
 
         $this->setPrefix('myst_lu');
         $this->setFormName('myst_lu');
@@ -230,6 +232,18 @@ class ilMStListUsersTableGUI extends \ilTable2GUI
         $this->tpl->setVariable('user_profile_picture', $this->uiRenderer->render($avatar));
         $this->tpl->parseCurrentBlock();
 
+        $postal_address = null;
+        if (array_intersect(['street', 'zipcode', 'city', 'country'], array_keys($this->getSelectedColumns())) !== []) {
+            $postal_address = $set->getPostalAddress()?->resolve(
+                $this->requirements->displayToUser(
+                    'in the column of the "Staff List" that shows it',
+                    'persons with authority over the account by their position in an organisational unit',
+                    'show the profile data of their staff',
+                    'the column is selected'
+                )
+            );
+        }
+
         foreach ($this->getSelectedColumns() as $k => $v) {
             switch ($k) {
                 case 'org_units':
@@ -238,6 +252,14 @@ class ilMStListUsersTableGUI extends \ilTable2GUI
                         'VALUE',
                         $this->getTextRepresentationOfUsersOrgUnits($set->getUsrId())
                     );
+                    $this->tpl->parseCurrentBlock();
+                    break;
+                case 'street':
+                case 'zipcode':
+                case 'city':
+                case 'country':
+                    $this->tpl->setCurrentBlock('td');
+                    $this->tpl->setVariable('VALUE', $postal_address->{$k} ?? '');
                     $this->tpl->parseCurrentBlock();
                     break;
                 case 'gender':
@@ -377,10 +399,28 @@ class ilMStListUsersTableGUI extends \ilTable2GUI
 
         $field_values = array();
 
+        $postal_address = null;
+        if (array_intersect(['street', 'zipcode', 'city', 'country'], array_keys($this->getSelectedColumns())) !== []) {
+            $postal_address = $my_staff_user->getPostalAddress()?->resolve(
+                $this->requirements->export(
+                    'from the "Staff List" as Excel or CSV file',
+                    'persons with authority over the account by their position in an organisational unit',
+                    'process the profile data of their staff outside of ILIAS',
+                    'the column is selected'
+                )
+            );
+        }
+
         foreach ($this->getSelectedColumns() as $k => $v) {
             switch ($k) {
                 case 'org_units':
                     $field_values[$k] = $this->getTextRepresentationOfUsersOrgUnits($my_staff_user->getUsrId());
+                    break;
+                case 'street':
+                case 'zipcode':
+                case 'city':
+                case 'country':
+                    $field_values[$k] = strip_tags($postal_address->{$k} ?? '');
                     break;
                 case 'gender':
                     $field_values[$k] = $DIC->language()->txt('gender_' . $my_staff_user->getGender());

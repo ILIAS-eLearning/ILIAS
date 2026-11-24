@@ -83,8 +83,8 @@ class ilOpenLayersMapGUI extends ilMapGUI
         foreach ($this->user_marker as $user_id) {
             if (ilObject::_exists($user_id)) {
                 $user = new ilObjUser($user_id);
-                if ($user->getLatitude() != 0 && $user->getLongitude() != 0 &&
-                    $user->getPref("public_location") == "y") {
+                $location = $this->userMarkerLocation($user);
+                if ($location !== null) {
                     $js_tpl->setCurrentBlock("user_marker");
                     $js_tpl->setVariable(
                         "UMAP_ID",
@@ -92,35 +92,11 @@ class ilOpenLayersMapGUI extends ilMapGUI
                     );
                     $js_tpl->setVariable("CNT", $cnt);
 
-                    $js_tpl->setVariable("ULAT", htmlspecialchars($user->getLatitude()));
-                    $js_tpl->setVariable("ULONG", htmlspecialchars($user->getLongitude()));
-                    $info = htmlspecialchars($user->getFirstName() . " " . $user->getLastName());
-                    $delim = "<br />";
-                    if ($user->getPref("public_institution") == "y") {
-                        $info .= $delim . htmlspecialchars($user->getInstitution());
-                        $delim = ", ";
-                    }
-                    if ($user->getPref("public_department") == "y") {
-                        $info .= $delim . htmlspecialchars($user->getDepartment());
-                    }
-                    $delim = "<br />";
-                    if ($user->getPref("public_street") == "y") {
-                        $info .= $delim . htmlspecialchars($user->getStreet());
-                    }
-                    if ($user->getPref("public_zip") == "y") {
-                        $info .= $delim . htmlspecialchars($user->getZipcode());
-                        $delim = " ";
-                    }
-                    if ($user->getPref("public_city") == "y") {
-                        $info .= $delim . htmlspecialchars($user->getCity());
-                    }
-                    $delim = "<br />";
-                    if ($user->getPref("public_country") == "y") {
-                        $info .= $delim . htmlspecialchars($user->getCountry());
-                    }
+                    $js_tpl->setVariable("ULAT", htmlspecialchars($location->latitude));
+                    $js_tpl->setVariable("ULONG", htmlspecialchars($location->longitude));
                     $js_tpl->setVariable(
                         "USER_INFO",
-                        $info
+                        $this->userMarkerInfo($user)
                     );
                     $js_tpl->setVariable(
                         "IMG_USER",
@@ -189,7 +165,7 @@ class ilOpenLayersMapGUI extends ilMapGUI
                 $this->css_row = ($this->css_row != "tblrow1_mo")
                     ? "tblrow1_mo"
                     : "tblrow2_mo";
-                if ($user->getLatitude() != 0 && $user->getLongitude() != 0
+                if ($user->getProfileData()->getGeoLocation() !== null
                     && $user->getPref("public_location") == "y") {
                     $list_tpl->setCurrentBlock("item");
                     $list_tpl->setVariable("MARKER_CNT", $cnt);
@@ -199,7 +175,7 @@ class ilOpenLayersMapGUI extends ilMapGUI
                     $list_tpl->setCurrentBlock("item_no_link");
                 }
                 $list_tpl->setVariable("CSS_ROW", $this->css_row);
-                $list_tpl->setVariable("TXT_USER", $user->getLogin());
+                $list_tpl->setVariable("TXT_USER", $this->userListLogin($user));
                 $list_tpl->setVariable(
                     "IMG_USER",
                     $user->getPersonalPicturePath("xxsmall")
