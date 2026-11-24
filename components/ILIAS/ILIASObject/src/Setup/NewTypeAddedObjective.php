@@ -20,8 +20,11 @@ declare(strict_types=1);
 
 namespace ILIAS\ILIASObject\Setup;
 
+use ilDatabaseInitializedObjective;
 use ILIAS\Setup;
 use ILIAS\Setup\Environment;
+use ILIAS\Setup\Objective;
+use ilObject;
 
 class NewTypeAddedObjective implements Setup\Objective
 {
@@ -50,7 +53,7 @@ class NewTypeAddedObjective implements Setup\Objective
     }
 
     /**
-     * @return \ilDatabaseInitializedObjective[]
+     * @return list<Objective>
      */
     public function getPreconditions(Environment $environment): array
     {
