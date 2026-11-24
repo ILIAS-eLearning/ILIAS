@@ -27,7 +27,6 @@ use Generator;
 use ilCourseDefinedFieldDefinition;
 use ILIAS\UI\Component\Table\DataRetrieval as BaseDataRetrieval;
 use ilLanguage;
-use ILIAS\UI\Factory as UIFactory;
 
 class DataRetrieval implements BaseDataRetrieval
 {
@@ -36,8 +35,7 @@ class DataRetrieval implements BaseDataRetrieval
 
     public function __construct(
         protected int $obj_id,
-        protected ilLanguage $lng,
-        protected UIFactory $ui_factory
+        protected ilLanguage $lng
     ) {
     }
 

@@ -25,7 +25,6 @@ use ILIAS\UI\Component\Table\Data as DataTable;
 use ilLanguage;
 use ILIAS\HTTP\Services as HTTP;
 use ILIAS\UI\URLBuilder;
-use ilCtrl;
 use ILIAS\Data\URI;
 use ilObject;
 use ILIAS\UI\URLBuilderToken;
@@ -41,7 +40,6 @@ class TableBuilder
         protected ilLanguage $lng,
         protected UIFactory $ui_factory,
         protected HTTP $http,
-        protected ilCtrl $ctrl,
         protected int $obj_id
     ) {
     }

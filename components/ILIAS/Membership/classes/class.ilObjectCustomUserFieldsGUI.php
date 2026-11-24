@@ -97,16 +97,10 @@ class ilObjectCustomUserFieldsGUI
     protected function initFielIdFromQuery(): int
     {
         if ($this->http->wrapper()->query()->has('field_id')) {
-            $values = $this->http->wrapper()->query()->retrieve(
+            return $this->http->wrapper()->query()->retrieve(
                 'field_id',
-                $this->refinery->kindlyTo()->listOf(
-                    $this->refinery->kindlyTo()->string()
-                )
+                $this->refinery->kindlyTo()->int()
             );
-
-            if (count($values) > 0) {
-                return (int) $values[0];
-            }
         }
         return 0;
     }
@@ -235,7 +229,6 @@ class ilObjectCustomUserFieldsGUI
             $this->lng,
             $this->ui_factory,
             $this->http,
-            $this->ctrl,
             $this->getObjId()
         );
 
@@ -271,7 +264,7 @@ class ilObjectCustomUserFieldsGUI
         foreach ($field_ids as $field_id) {
             $tmp_field = new ilCourseDefinedFieldDefinition($this->getObjId(), $field_id);
 
-            $confirm->addItem('field_field_id[]', (string) $field_id, $tmp_field->getName());
+            $confirm->addItem('field_id[]', (string) $field_id, $tmp_field->getName());
         }
 
         $confirm->setConfirm($this->lng->txt('delete'), 'deleteFields');
@@ -282,9 +275,9 @@ class ilObjectCustomUserFieldsGUI
     protected function deleteFields(): void
     {
         $field_ids = [];
-        if ($this->http->wrapper()->post()->has('field_field_id')) {
+        if ($this->http->wrapper()->post()->has('field_id')) {
             $field_ids = $this->http->wrapper()->post()->retrieve(
-                'field_field_id',
+                'field_id',
                 $this->refinery->kindlyTo()->listOf(
                     $this->refinery->kindlyTo()->int()
                 )
@@ -516,6 +509,6 @@ class ilObjectCustomUserFieldsGUI
 
     protected function getDataRetrieval(): DataRetrieval
     {
-        return $this->data_retrieval ??= new DataRetrieval($this->getObjId(), $this->lng, $this->ui_factory);
+        return $this->data_retrieval ??= new DataRetrieval($this->getObjId(), $this->lng);
     }
 }
