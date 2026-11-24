@@ -124,6 +124,11 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
                 $this->ctrl->forwardCommand($settings_gui);
                 break;
 
+            case strtolower(ilDashboardPageGUI::class):
+                $page_gui = new ilDashboardPageGUI($this->lng->lang_key);
+                $this->ctrl->forwardCommand($page_gui);
+                break;
+
             case strtolower(ilCalendarPresentationGUI::class):
                 $this->getStandardTemplates();
                 $this->displayHeader();
