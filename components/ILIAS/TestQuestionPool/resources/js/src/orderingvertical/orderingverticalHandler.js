@@ -71,18 +71,15 @@ function updatePlaceholders(parentElement) {
   );
 }
 
-function updateIndentationInputs(draggedElement, target, parentElement) {
-  let i = 0;
-  let root = target.parentElement.parentElement;
-  while (root !== parentElement) {
-    root = root.parentElement.parentElement;
-    i += 1;
-  }
-  draggedElement.querySelector(indentationInputQuery).value = i;
-
-  draggedElement.querySelectorAll(`.${answerElementClass}`).forEach(
+function updateIndentationInputs(parentElement) {
+  parentElement.querySelectorAll(`.${answerElementClass}`).forEach(
     (elem) => {
-      i += 1;
+      let i = 0;
+      let ancestor = elem.parentElement.closest(`.${answerElementClass}`);
+      while (ancestor !== null && parentElement.contains(ancestor)) {
+        ancestor = ancestor.parentElement.closest(`.${answerElementClass}`);
+        i += 1;
+      }
       elem.querySelector(indentationInputQuery).value = i;
     },
   );
@@ -99,7 +96,7 @@ function updatePositionInputs(parentElement) {
 }
 
 function changeHandler(draggedElement, target, parentElement) {
-  updateIndentationInputs(draggedElement, target, parentElement);
+  updateIndentationInputs(parentElement);
   updatePositionInputs(parentElement);
 }
 

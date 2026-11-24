@@ -335,9 +335,12 @@ class ilAssNestedOrderingElementsInputGUI extends ilIdentifiedMultiValuesInputGU
     {
         $values_with_parent = [];
         $levels_array = [];
+        $max_indentation = 0;
         foreach ($values as $k => $v) {
             $v['parent'] = null;
             $v['children'] = [];
+            $v['ordering_indentation'] = min($v['ordering_indentation'], $max_indentation);
+            $max_indentation = $v['ordering_indentation'] + 1;
 
             if ($v['ordering_indentation'] > 0) {
                 $v['parent'] = $levels_array[$v['ordering_indentation'] - 1];
