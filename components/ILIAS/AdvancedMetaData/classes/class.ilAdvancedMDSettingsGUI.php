@@ -27,7 +27,6 @@ use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\AdvancedMetaData\Record\Export\TableBuilder as ExportTableBuilder;
 use ILIAS\AdvancedMetaData\Record\Export\DataRetrieval as ExportDataRetrieval;
 use ILIAS\UI\URLBuilder;
-use ILIAS\Data\URI;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\AdvancedMetaData\Record\Export\ExportFilesGUI;
 use ILIAS\AdvancedMetaData\Record\Export\ilAdvancedMDRecordExportFilesGUI;
