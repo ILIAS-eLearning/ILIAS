@@ -951,13 +951,13 @@ const ClozeQuestionGapBuilder = (function () {
   };
 
   pro.checkInputIsNumeric = function (number, row, field) {
-    if (isNaN(number.toString().replace(',', '.')) || number === '' || number.match(/^0[1-9][0-9\.]*$/) !== null) {
-      pro.highlightRed($(`.gap_${row}_numeric${field}`));
+    const value = number.toString().replace(',', '.');
+    if (isNaN(value) || value === '' || value.match(/^0[1-9][0-9\.]*$/) !== null) {
+      pro.highlightRed($(`#gap_${row}_numeric${field}`));
       return 1;
     }
 
-    pro.removeHighlight($(`.gap_${row}_numeric${field}`));
-
+    pro.removeHighlight($(`#gap_${row}_numeric${field}`));
     return 0;
   };
 
