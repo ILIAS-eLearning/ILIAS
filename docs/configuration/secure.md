@@ -259,6 +259,10 @@ To improve the security of your ILIAS users you SHOULD set the following Headers
     add_header Content-Security-Policy "default-src 'self'; connect-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' 'unsafe-inline' data:; font-src 'self' 'unsafe-inline' data:; media-src 'self' 'unsafe-inline' data:";
 ```
 
+A strict `Referrer-Policy` such as `strict-origin` hardens the installation. Features that
+rely on the Referer may then not behave as intended. It has to be weighed whether a slightly
+looser configuration, `Referrer-Policy "strict-origin-when-cross-origin"`, should be used instead.
+
 *Backward compatibility to  Microsoft Internet Explorer 10*:
 
 ```

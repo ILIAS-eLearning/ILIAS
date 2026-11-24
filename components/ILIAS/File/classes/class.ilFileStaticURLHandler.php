@@ -79,6 +79,11 @@ class ilFileStaticURLHandler extends BaseHandler implements Handler
         $capabilities = $this->capabilities->get($capability_context);
 
         // special case for cloned objects
+        /**
+         * Collides with Referrer-Policy strict-origin.
+         *
+         * @see ../../../../docs/configuration/secure.md
+         */
         $forced = null;
         $referrer = $context->http()->request()->getServerParams()['HTTP_REFERER'] ?? '';
         if (str_contains(strtolower($referrer), strtolower(ilObjectCopyGUI::class))) {
