@@ -39,7 +39,7 @@ use ILIAS\components\ResourceStorage\Collections\View\ViewControlBuilder;
 use ILIAS\components\ResourceStorage\Collections\View\UploadBuilder;
 use ILIAS\components\ResourceStorage\Collections\View\PreviewDefinition;
 use ILIAS\Refinery\ConstraintViolationException;
-use ILIAS\Services\ResourceStorage\Collections\View\EditForm;
+use ILIAS\components\ResourceStorage\Collections\View\EditForm;
 use ILIAS\Filesystem\Util\Archive\ZipDirectoryHandling;
 
 /**
