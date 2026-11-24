@@ -2330,7 +2330,13 @@ class ilObjTest extends ilObject
      */
     public function getAnonOnlyParticipantIds(): array
     {
-        $list = new ilTestParticipantList($this, $this->user, $this->lng, $this->db);
+        $list = new ilTestParticipantList(
+            $this,
+            $this->user,
+            $this->lng,
+            $this->db,
+            $this->participant_repository
+        );
         $list->initializeFromDbRows($this->getTestParticipants());
         if ($this->getAnonymity()) {
             return $list->getAllUserIds();
