@@ -18,9 +18,6 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Survey\Evaluation;
-
-use Generator;
 use ILIAS\Data\Order;
 use ILIAS\Data\Range;
 use ILIAS\UI\Component\Table\DataRetrieval;
@@ -33,7 +30,7 @@ use ILIAS\UI\Component\Table\DataRowBuilder;
  * The rows keep the order of the grid, i.e. the order of the
  * answer categories / matrix rows, which is meaningful.
  */
-class ResultsDetailsTableRetrieval implements DataRetrieval
+class ilSurveyResultsDetailsTable implements DataRetrieval
 {
     /**
      * @param array<int, array<int, mixed>> $grid_rows positional cells as returned by getGrid()["rows"]

@@ -18,9 +18,6 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Survey\Mode\IndividualFeedback;
-
-use Generator;
 use ILIAS\Data\Order;
 use ILIAS\Data\Range;
 use ILIAS\UI\Component\Table\DataRetrieval;
@@ -30,7 +27,7 @@ use ILIAS\UI\Component\Table\DataRowBuilder;
  * Provides the answers of the raters to a single (non matrix) question
  * (Results > Details, individual feedback mode) for a KS data table.
  */
-class RaterAnswersTableRetrieval implements DataRetrieval
+class ilSurveyRaterAnswersTable implements DataRetrieval
 {
     public const COL_RATER = "rater";
     public const COL_DATE = "date";
