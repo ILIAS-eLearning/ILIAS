@@ -380,7 +380,8 @@ abstract class AbstractUIModifier implements UIModifier
     public function getDetailPanels(
         array $participants,
         \ILIAS\Survey\Evaluation\EvaluationGUIRequest $request,
-        \SurveyQuestionEvaluation $a_eval
+        \SurveyQuestionEvaluation $a_eval,
+        bool $for_print = false
     ): array {
         $a_results = $a_eval->getResults();
         $panels = [];
@@ -421,7 +422,8 @@ abstract class AbstractUIModifier implements UIModifier
             $this->getPanelTable(
                 $participants,
                 $request,
-                $a_eval
+                $a_eval,
+                $for_print
             )
         );
 
@@ -449,10 +451,63 @@ abstract class AbstractUIModifier implements UIModifier
     protected function getPanelTable(
         array $participants,
         \ILIAS\Survey\Evaluation\EvaluationGUIRequest $request,
-        \SurveyQuestionEvaluation $a_eval
+        \SurveyQuestionEvaluation $a_eval,
+        bool $for_print = false
     ): string {
-        $a_results = $a_eval->getResults();
+        if (!$request->getShowTable()) {
+            return "";
+        }
 
+        $a_results = $a_eval->getResults();
+        $grid = $a_eval->getGrid(
+            $a_results,
+            $request->getShowAbsolute(),
+            $request->getShowPercentage()
+        );
+
+        if ($for_print) {
+            return $this->getPanelTablePrintHtml($grid);
+        }
+
+        if (!$grid || !($grid["rows"] ?? [])) {
+            return "";
+        }
+
+        $question_res = is_array($a_results)
+            ? $a_results[0][1]
+            : $a_results;
+        $question = $question_res->getQuestion();
+
+        $lng = $this->gui->lng();
+        $ui_factory = $this->gui->ui()->factory();
+        $column_factory = $ui_factory->table()->column();
+
+        // first column: answer category or matrix row, values follow
+        $first_caption = is_array($a_results)
+            ? $lng->txt("matrix_rows")
+            : $lng->txt("category");
+        $columns = [
+            \ilSurveyResultsDetailsTable::getColumnId(0) =>
+                $column_factory->text($first_caption)->withIsSortable(false)
+        ];
+        foreach (array_values($grid["cols"]) as $index => $col) {
+            $columns[\ilSurveyResultsDetailsTable::getColumnId($index + 1)] =
+                $column_factory->text((string) $col)->withIsSortable(false);
+        }
+
+        $table = $ui_factory->table()->data(
+            new \ilSurveyResultsDetailsTable($grid["rows"]),
+            $question->getTitle(),
+            $columns
+        )
+            ->withId("svy_res_det_" . $question->getId())
+            ->withRequest($this->gui->http()->request());
+
+        return $this->gui->ui()->renderer()->render($table);
+    }
+
+    protected function getPanelTablePrintHtml(array $grid): string
+    {
         $a_tpl = new \ilTemplate(
             "tpl.svy_results_details_table.html",
             true,
@@ -460,32 +515,27 @@ abstract class AbstractUIModifier implements UIModifier
             "components/ILIAS/Survey/Evaluation"
         );
 
-        if ($request->getShowTable()) {
-            $grid = $a_eval->getGrid(
-                $a_results,
-                $request->getShowAbsolute(),
-                $request->getShowPercentage()
-            );
-            if ($grid) {
-                foreach ($grid["cols"] as $col) {
-                    $a_tpl->setCurrentBlock("grid_col_header_bl");
-                    $a_tpl->setVariable("COL_HEADER", $col);
-                    $a_tpl->parseCurrentBlock();
-                }
-                foreach ($grid["rows"] as $cols) {
-                    foreach ($cols as $idx => $col) {
-                        if ($idx > 0) {
-                            $a_tpl->touchBlock("grid_col_nowrap_bl");
-                        }
+        if (!$grid) {
+            return "";
+        }
 
-                        $a_tpl->setCurrentBlock("grid_col_bl");
-                        $a_tpl->setVariable("COL_CAPTION", trim((string) ($col ?? "")));
-                        $a_tpl->parseCurrentBlock();
-                    }
-
-                    $a_tpl->touchBlock("grid_row_bl");
+        foreach ($grid["cols"] as $col) {
+            $a_tpl->setCurrentBlock("grid_col_header_bl");
+            $a_tpl->setVariable("COL_HEADER", $col);
+            $a_tpl->parseCurrentBlock();
+        }
+        foreach ($grid["rows"] as $cols) {
+            foreach ($cols as $idx => $col) {
+                if ($idx > 0) {
+                    $a_tpl->touchBlock("grid_col_nowrap_bl");
                 }
+
+                $a_tpl->setCurrentBlock("grid_col_bl");
+                $a_tpl->setVariable("COL_CAPTION", trim((string) ($col ?? "")));
+                $a_tpl->parseCurrentBlock();
             }
+
+            $a_tpl->touchBlock("grid_row_bl");
         }
         return $a_tpl->get();
     }

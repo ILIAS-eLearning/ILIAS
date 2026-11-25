@@ -219,6 +219,162 @@ class UIModifier extends Mode\AbstractUIModifier
     protected function getPanelTable(
         array $participants,
         \ILIAS\Survey\Evaluation\EvaluationGUIRequest $request,
+        \SurveyQuestionEvaluation $a_eval,
+        bool $for_print = false
+    ): string {
+        if (!$request->getShowTable()) {
+            return "";
+        }
+        if ($for_print) {
+            return $this->getPanelTablePrintHtmlForRaters($participants, $a_eval);
+        }
+
+        \ilDatePresentation::setUseRelativeDates(false);
+
+        $a_results = $a_eval->getResults();
+        if (is_array($a_results)) {
+            return $this->getMatrixRaterTables($participants, $a_results);
+        }
+        return $this->getRaterAnswersTable($participants, $a_results);
+    }
+
+    protected function getRaterAnswersTable(
+        array $participants,
+        \ilSurveyEvaluationResults $a_results
+    ): string {
+        $lng = $this->gui->lng();
+        $q = $a_results->getQuestion();
+
+        // condense the answers per rater (multiple choice: one answer per selected option)
+        $condensed_answers = [];
+        foreach ($a_results->getAnswers() as $answer) {
+            $condensed_answers[$answer->active_id]["tstamp"] = $answer->tstamp;
+            $condensed_answers[$answer->active_id]["value"][] = $answer->value;
+            $condensed_answers[$answer->active_id]["text"] = $answer->text;
+        }
+
+        $records = [];
+        foreach ($condensed_answers as $active_id => $answer) {
+            $participant = $this->getParticipantByActiveId($participants, (int) $active_id);
+            if ($q->getQuestionType() === "SurveyTextQuestion") {
+                $answer_text = (string) $a_results->getScaleText($answer["text"]);
+            } else {
+                $answer_text = implode(", ", array_map(
+                    static fn($v): string => (string) $a_results->getScaleText($v),
+                    $answer["value"]
+                ));
+            }
+            $records[(int) $active_id] = [
+                "rater" => $participant
+                    ? $this->getCaptionForParticipant($participant)
+                    : "",
+                "date" => \ilDatePresentation::formatDate(
+                    new \ilDate((int) $answer["tstamp"], IL_CAL_UNIX)
+                ),
+                "tstamp" => (int) $answer["tstamp"],
+                "answer" => $answer_text
+            ];
+        }
+
+        $ui_factory = $this->gui->ui()->factory();
+        $column_factory = $ui_factory->table()->column();
+        $columns = [
+            \ilSurveyRaterAnswersTable::COL_RATER => $column_factory->text($lng->txt("svy_rater")),
+            \ilSurveyRaterAnswersTable::COL_DATE => $column_factory->text($lng->txt("date")),
+            \ilSurveyRaterAnswersTable::COL_ANSWER => $column_factory->text($lng->txt("answers"))
+        ];
+
+        $table = $ui_factory->table()->data(
+            new \ilSurveyRaterAnswersTable($records),
+            $q->getTitle(),
+            $columns
+        )
+            ->withId("svy_if_det_" . $q->getId())
+            ->withRequest($this->gui->http()->request());
+
+        return $this->gui->ui()->renderer()->render($table);
+    }
+
+    /**
+     * One table per answer of the first matrix row (= per rater),
+     * matrix rows x columns, same logic as the former HTML tables.
+     *
+     * @param array $a_results list of [row title, \ilSurveyEvaluationResults] per matrix row
+     */
+    protected function getMatrixRaterTables(
+        array $participants,
+        array $a_results
+    ): string {
+        $lng = $this->gui->lng();
+        $ui_factory = $this->gui->ui()->factory();
+        $renderer = $this->gui->ui()->renderer();
+        $column_factory = $ui_factory->table()->column();
+
+        /** @var \SurveyMatrixQuestion $q */
+        $q = $a_results[0][1]->getQuestion();
+        $answers = $a_results[0][1]->getAnswers();
+        $cats = $q->getColumns();
+        $cats_rows = $q->getRows();
+
+        $columns = [
+            \ilSurveyResultsDetailsTable::getColumnId(0) =>
+                $column_factory->text($lng->txt("matrix_rows"))->withIsSortable(false)
+        ];
+        foreach (array_values($cats->getCategories()) as $index => $cat) {
+            $columns[\ilSurveyResultsDetailsTable::getColumnId($index + 1)] =
+                $column_factory->text((string) $cat->title)->withIsSortable(false);
+        }
+
+        $ret = "";
+        /** @var $answer \ilSurveyEvaluationResultsAnswer */
+        foreach ($answers as $answer_index => $answer) {
+            $rows = [];
+            reset($a_results);
+            foreach ($cats_rows->getCategories() as $cat) {
+                $cells = [(string) $cat->title];
+
+                $r = current($a_results);
+                $row_answers = $r[1]->getAnswers();
+                $user_answers = null;
+                foreach ($row_answers as $ra) {
+                    if ($ra->active_id == $answer->active_id) {
+                        $user_answers = $ra;
+                    }
+                }
+
+                foreach ($cats->getCategories() as $catr) {
+                    $cells[] = ($user_answers && $user_answers->value == $catr->scale)
+                        ? "X"
+                        : "";
+                }
+                $rows[] = $cells;
+                next($a_results);
+            }
+
+            // rater
+            $participant = $this->getParticipantByActiveId($participants, $answer->active_id);
+            $part_caption = "";
+            if ($participant) {
+                $part_caption = $participant["sortname"];
+            }
+            $date = new \ilDate($answer->tstamp, IL_CAL_UNIX);
+            $part_caption .= ", " . \ilDatePresentation::formatDate($date);
+
+            $table = $ui_factory->table()->data(
+                new \ilSurveyResultsDetailsTable($rows),
+                $part_caption,
+                $columns
+            )
+                ->withId("svy_if_det_" . $q->getId() . "_" . $answer_index)
+                ->withRequest($this->gui->http()->request());
+
+            $ret .= $renderer->render($table);
+        }
+        return $ret;
+    }
+
+    protected function getPanelTablePrintHtmlForRaters(
+        array $participants,
         \SurveyQuestionEvaluation $a_eval
     ): string {
         $a_results = $a_eval->getResults();
@@ -255,144 +411,142 @@ class UIModifier extends Mode\AbstractUIModifier
 
         // table
         $ret = "";
-        if ($request->getShowTable()) {
-            if (!$matrix) {
+        if (!$matrix) {
+            // rater
+            $a_tpl->setCurrentBlock("grid_col_header_bl");
+            $a_tpl->setVariable("COL_HEADER", $lng->txt("svy_rater"));
+            $a_tpl->parseCurrentBlock();
+
+            // date
+            $a_tpl->setCurrentBlock("grid_col_header_bl");
+            $a_tpl->setVariable("COL_HEADER", $lng->txt("date"));
+            $a_tpl->parseCurrentBlock();
+
+            // answer
+            $a_tpl->setCurrentBlock("grid_col_header_bl");
+            $a_tpl->setVariable("COL_HEADER", $lng->txt("answers"));
+            $a_tpl->parseCurrentBlock();
+
+            $condensed_answers = [];
+            foreach ($answers as $answer) {
+                $condensed_answers[$answer->active_id]["tstamp"] = $answer->tstamp;
+                $condensed_answers[$answer->active_id]["active_id"] = $answer->active_id;
+                // this moves the original multiple answers items of muliple choice question into one array
+                $condensed_answers[$answer->active_id]["value"][] = $answer->value;
+                $condensed_answers[$answer->active_id]["text"] = $answer->text;
+            }
+
+            /** @var $answer \ilSurveyEvaluationResultsAnswer */
+            foreach ($condensed_answers as $answer) {
                 // rater
-                $a_tpl->setCurrentBlock("grid_col_header_bl");
-                $a_tpl->setVariable("COL_HEADER", $lng->txt("svy_rater"));
+                $a_tpl->setCurrentBlock("grid_col_bl");
+                $a_tpl->setVariable("COL_CAPTION", " ");
+                $a_tpl->parseCurrentBlock();
+
+                // rater
+                $participant = $this->getParticipantByActiveId($participants, $answer["active_id"]);
+                $part_caption = "";
+                if ($participant) {
+                    $part_caption = $this->getCaptionForParticipant($participant);
+                }
+                $a_tpl->setCurrentBlock("grid_col_bl");
+                $a_tpl->setVariable("COL_CAPTION", $part_caption);
                 $a_tpl->parseCurrentBlock();
 
                 // date
-                $a_tpl->setCurrentBlock("grid_col_header_bl");
-                $a_tpl->setVariable("COL_HEADER", $lng->txt("date"));
+                $a_tpl->setCurrentBlock("grid_col_bl");
+                $date = new \ilDate($answer["tstamp"], IL_CAL_UNIX);
+                $a_tpl->setVariable(
+                    "COL_CAPTION",
+                    \ilDatePresentation::formatDate($date)
+                );
                 $a_tpl->parseCurrentBlock();
 
                 // answer
-                $a_tpl->setCurrentBlock("grid_col_header_bl");
-                $a_tpl->setVariable("COL_HEADER", $lng->txt("answers"));
-                $a_tpl->parseCurrentBlock();
-
-                $condensed_answers = [];
-                foreach ($answers as $answer) {
-                    $condensed_answers[$answer->active_id]["tstamp"] = $answer->tstamp;
-                    $condensed_answers[$answer->active_id]["active_id"] = $answer->active_id;
-                    // this moves the original multiple answers items of muliple choice question into one array
-                    $condensed_answers[$answer->active_id]["value"][] = $answer->value;
-                    $condensed_answers[$answer->active_id]["text"] = $answer->text;
-                }
-
-                /** @var $answer \ilSurveyEvaluationResultsAnswer */
-                foreach ($condensed_answers as $answer) {
-                    // rater
-                    $a_tpl->setCurrentBlock("grid_col_bl");
-                    $a_tpl->setVariable("COL_CAPTION", " ");
-                    $a_tpl->parseCurrentBlock();
-
-                    // rater
-                    $participant = $this->getParticipantByActiveId($participants, $answer["active_id"]);
-                    $part_caption = "";
-                    if ($participant) {
-                        $part_caption = $this->getCaptionForParticipant($participant);
-                    }
-                    $a_tpl->setCurrentBlock("grid_col_bl");
-                    $a_tpl->setVariable("COL_CAPTION", $part_caption);
-                    $a_tpl->parseCurrentBlock();
-
-                    // date
-                    $a_tpl->setCurrentBlock("grid_col_bl");
-                    $date = new \ilDate($answer["tstamp"], IL_CAL_UNIX);
+                $a_tpl->setCurrentBlock("grid_col_bl");
+                if ($q->getQuestionType() === "SurveyTextQuestion") {
                     $a_tpl->setVariable(
                         "COL_CAPTION",
-                        \ilDatePresentation::formatDate($date)
+                        $a_results->getScaleText($answer["text"])
                     );
+                } else {
+                    $scale_texts = array_map(static function ($v) use ($a_results): string {
+                        return $a_results->getScaleText($v);
+                    }, $answer["value"]);
+                    $a_tpl->setVariable(
+                        "COL_CAPTION",
+                        implode(", ", $scale_texts)
+                    );
+                }
+                $a_tpl->parseCurrentBlock();
+
+                $a_tpl->touchBlock("grid_row_bl");
+            }
+            $ret = $a_tpl->get();
+        } else {
+            /** @var $answer \ilSurveyEvaluationResultsAnswer */
+            foreach ($answers as $answer) {
+                /** @var $q \SurveyMatrixQuestion */
+
+                $cats = $q->getColumns();
+                foreach ($cats->getCategories() as $cat) {
+                    $a_tpl->touchBlock("grid_col_head_center");
+                    $a_tpl->setCurrentBlock("grid_col_header_bl");
+                    $a_tpl->setVariable("COL_HEADER", $cat->title);
+                    $a_tpl->parseCurrentBlock();
+                }
+
+                $cats_rows = $q->getRows();
+
+                reset($a_results);
+                foreach ($cats_rows->getCategories() as $cat) {
+                    $a_tpl->setCurrentBlock("grid_col_bl");
+                    $a_tpl->setVariable("COL_CAPTION", $cat->title);
                     $a_tpl->parseCurrentBlock();
 
-                    // answer
-                    $a_tpl->setCurrentBlock("grid_col_bl");
-                    if ($q->getQuestionType() === "SurveyTextQuestion") {
-                        $a_tpl->setVariable(
-                            "COL_CAPTION",
-                            $a_results->getScaleText($answer["text"])
-                        );
-                    } else {
-                        $scale_texts = array_map(static function ($v) use ($a_results): string {
-                            return $a_results->getScaleText($v);
-                        }, $answer["value"]);
-                        $a_tpl->setVariable(
-                            "COL_CAPTION",
-                            implode(", ", $scale_texts)
-                        );
+                    $r = current($a_results);
+                    $row_answers = $r[1]->getAnswers();
+                    $user_answers = null;
+                    foreach ($row_answers as $ra) {
+                        if ($ra->active_id == $answer->active_id) {
+                            $user_answers = $ra;
+                        }
                     }
-                    $a_tpl->parseCurrentBlock();
+
+                    foreach ($cats->getCategories() as $catr) {
+                        if ($user_answers && $user_answers->value == $catr->scale) {
+                            $a_tpl->touchBlock("grid_col_center");
+                            $a_tpl->setCurrentBlock("grid_col_bl");
+                            $a_tpl->setVariable("COL_CAPTION", "X");
+                        } else {
+                            $a_tpl->setCurrentBlock("grid_col_bl");
+                            $a_tpl->setVariable("COL_CAPTION", " ");
+                        }
+
+                        $a_tpl->parseCurrentBlock();
+                    }
 
                     $a_tpl->touchBlock("grid_row_bl");
+                    next($a_results);
                 }
-                $ret = $a_tpl->get();
-            } else {
-                /** @var $answer \ilSurveyEvaluationResultsAnswer */
-                foreach ($answers as $answer) {
-                    /** @var $q \SurveyMatrixQuestion */
 
-                    $cats = $q->getColumns();
-                    foreach ($cats->getCategories() as $cat) {
-                        $a_tpl->touchBlock("grid_col_head_center");
-                        $a_tpl->setCurrentBlock("grid_col_header_bl");
-                        $a_tpl->setVariable("COL_HEADER", $cat->title);
-                        $a_tpl->parseCurrentBlock();
-                    }
-
-                    $cats_rows = $q->getRows();
-
-                    reset($a_results);
-                    foreach ($cats_rows->getCategories() as $cat) {
-                        $a_tpl->setCurrentBlock("grid_col_bl");
-                        $a_tpl->setVariable("COL_CAPTION", $cat->title);
-                        $a_tpl->parseCurrentBlock();
-
-                        $r = current($a_results);
-                        $row_answers = $r[1]->getAnswers();
-                        $user_answers = null;
-                        foreach ($row_answers as $ra) {
-                            if ($ra->active_id == $answer->active_id) {
-                                $user_answers = $ra;
-                            }
-                        }
-
-                        foreach ($cats->getCategories() as $catr) {
-                            if ($user_answers && $user_answers->value == $catr->scale) {
-                                $a_tpl->touchBlock("grid_col_center");
-                                $a_tpl->setCurrentBlock("grid_col_bl");
-                                $a_tpl->setVariable("COL_CAPTION", "X");
-                            } else {
-                                $a_tpl->setCurrentBlock("grid_col_bl");
-                                $a_tpl->setVariable("COL_CAPTION", " ");
-                            }
-
-                            $a_tpl->parseCurrentBlock();
-                        }
-
-                        $a_tpl->touchBlock("grid_row_bl");
-                        next($a_results);
-                    }
-
-                    // rater
-                    $participant = $this->getParticipantByActiveId($participants, $answer->active_id);
-                    $part_caption = "";
-                    if ($participant) {
-                        $part_caption = $participant["sortname"];
-                    }
-                    $date = new \ilDate($answer->tstamp, IL_CAL_UNIX);
-                    $part_caption .= ", " . \ilDatePresentation::formatDate($date);
-
-                    $a_tpl->setVariable("HEADER", $part_caption);
-                    $ret .= $a_tpl->get();
-                    $a_tpl = new \ilTemplate(
-                        "tpl.svy_results_details_table.html",
-                        true,
-                        true,
-                        "components/ILIAS/Survey/Evaluation"
-                    );
+                // rater
+                $participant = $this->getParticipantByActiveId($participants, $answer->active_id);
+                $part_caption = "";
+                if ($participant) {
+                    $part_caption = $participant["sortname"];
                 }
+                $date = new \ilDate($answer->tstamp, IL_CAL_UNIX);
+                $part_caption .= ", " . \ilDatePresentation::formatDate($date);
+
+                $a_tpl->setVariable("HEADER", $part_caption);
+                $ret .= $a_tpl->get();
+                $a_tpl = new \ilTemplate(
+                    "tpl.svy_results_details_table.html",
+                    true,
+                    true,
+                    "components/ILIAS/Survey/Evaluation"
+                );
             }
         }
         return $ret;
