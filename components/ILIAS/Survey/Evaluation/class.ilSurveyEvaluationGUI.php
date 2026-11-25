@@ -927,8 +927,7 @@ class ilSurveyEvaluationGUI
         }
 
         if (!$details) {
-            $table_gui = new ilSurveyResultsCumulatedTableGUI($this, 'evaluation', $results);
-            $eval_tpl->setVariable('CUMULATED', $table_gui->getHTML());
+            $eval_tpl->setVariable('CUMULATED', $this->getResultsCumulatedTableHTML($results));
         }
 
         //
@@ -1200,9 +1199,75 @@ class ilSurveyEvaluationGUI
             $data = $this->evaluation_manager->getUserSpecificResults();
         }
 
-        $table_gui = new ilSurveyResultsUserTableGUI($this, 'evaluationuser');
-        $table_gui->setData($data);
-        $this->tpl->setContent($table_gui->getHTML());
+        $this->tpl->setContent($this->getResultsPerUserTableHTML($data));
+    }
+
+    protected function getResultsCumulatedTableHTML(array $results): string
+    {
+        $ui_factory = $this->gui->ui()->factory();
+        $column_factory = $ui_factory->table()->column();
+        $retrieval = ilSurveyResultsCumulatedTable::class;
+
+        // column id => [optional, visible by default]
+        $column_defs = [
+            $retrieval::COL_TITLE => [false, true],
+            $retrieval::COL_QUESTION => [true, true],
+            $retrieval::COL_QUESTION_TYPE => [true, true],
+            $retrieval::COL_USERS_ANSWERED => [true, true],
+            $retrieval::COL_USERS_SKIPPED => [true, true],
+            $retrieval::COL_MODE => [true, false],
+            $retrieval::COL_MODE_NR_OF_SELECTIONS => [true, false],
+            $retrieval::COL_MEDIAN => [true, true],
+            $retrieval::COL_ARITHMETIC_MEAN => [true, true]
+        ];
+        $columns = [];
+        foreach ($column_defs as $col_id => [$optional, $visible]) {
+            $column = $column_factory->text($this->lng->txt($col_id))
+                ->withIsSortable(false);
+            if ($optional) {
+                $column = $column->withIsOptional(true, $visible);
+            }
+            $columns[$col_id] = $column;
+        }
+
+        $table = $ui_factory->table()->data(
+            new ilSurveyResultsCumulatedTable($results),
+            $this->lng->txt("svy_eval_cumulated"),
+            $columns
+        )
+            ->withId("svy_res_cum")
+            ->withRequest($this->gui->http()->request());
+
+        return $this->gui->ui()->renderer()->render($table);
+    }
+
+    protected function getResultsPerUserTableHTML(array $data): string
+    {
+        \ilDatePresentation::setUseRelativeDates(false);
+
+        $ui_factory = $this->gui->ui()->factory();
+        $column_factory = $ui_factory->table()->column();
+        $retrieval = ilSurveyResultsPerUserTable::class;
+
+        $columns = [
+            $retrieval::COL_USERNAME => $column_factory->text($this->lng->txt("username")),
+            $retrieval::COL_QUESTION => $column_factory->text($this->lng->txt("question"))
+                ->withIsSortable(false),
+            $retrieval::COL_RESULTS => $column_factory->text($this->lng->txt("results"))
+                ->withIsSortable(false),
+            $retrieval::COL_WORKINGTIME => $column_factory->text($this->lng->txt("workingtime")),
+            $retrieval::COL_FINISHED => $column_factory->text($this->lng->txt("survey_results_finished"))
+        ];
+
+        $table = $ui_factory->table()->data(
+            new ilSurveyResultsPerUserTable($this->lng, $data),
+            $this->lng->txt("svy_eval_user"),
+            $columns
+        )
+            ->withId("svy_res_usr")
+            ->withRequest($this->gui->http()->request());
+
+        return $this->gui->ui()->renderer()->render($table);
     }
 
     public function competenceEval(): void

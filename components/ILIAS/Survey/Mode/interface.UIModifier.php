@@ -87,6 +87,7 @@ interface UIModifier
     public function getDetailPanels(
         array $participants,
         \ILIAS\Survey\Evaluation\EvaluationGUIRequest $request,
-        \SurveyQuestionEvaluation $a_eval
+        \SurveyQuestionEvaluation $a_eval,
+        bool $for_print = false
     ): array;
 }

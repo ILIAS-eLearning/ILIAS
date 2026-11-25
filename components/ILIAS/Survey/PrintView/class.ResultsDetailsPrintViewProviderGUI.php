@@ -145,7 +145,8 @@ class ResultsDetailsPrintViewProviderGUI extends Export\AbstractPrintViewProvide
             $panels = $this->ui_modifier->getDetailPanels(
                 $this->survey->getSurveyParticipants(),
                 $this->request,
-                $q_eval
+                $q_eval,
+                true
             );
             $panel_report = $this->gui->ui()->factory()->panel()->report(
                 $this->lng->txt("svy_eval_detail"),
