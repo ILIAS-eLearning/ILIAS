@@ -57,12 +57,10 @@ class TableBuilder
         URLBuilderToken $action_token
     ): DataTable {
         $date_format = $this->user->getDateFormat();
-        if (class_exists(ilCalendarUserSettings::class)) {
-            if (ilCalendarUserSettings::_getInstanceByUserId($this->user->getId())->getTimeFormat() == ilCalendarSettings::TIME_FORMAT_24) {
-                $date_format = $this->data_factory->dateFormat()->withTime24($date_format);
-            } else {
-                $date_format = $this->data_factory->dateFormat()->withTime12($date_format);
-            }
+        if (ilCalendarUserSettings::_getInstanceByUserId($this->user->getId())->getTimeFormat() == ilCalendarSettings::TIME_FORMAT_24) {
+            $date_format = $this->data_factory->dateFormat()->withTime24($date_format);
+        } else {
+            $date_format = $this->data_factory->dateFormat()->withTime12($date_format);
         }
 
         $columns = [];

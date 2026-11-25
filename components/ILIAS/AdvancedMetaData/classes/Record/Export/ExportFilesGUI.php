@@ -24,14 +24,12 @@ use ilLanguage;
 use ilGlobalTemplateInterface;
 use ilCtrl;
 use ilTabsGUI;
-use ilToolbarGUI;
 use ilObjUser;
 use ilAccess;
 use ilAdvancedMDRecordExportFiles;
 use ilAdvancedMDSettingsGUI;
 use ilAdministrationGUI;
 use ilConfirmationGUI;
-use Psr\Http\Message\RequestInterface;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\UI\Factory as UIFactory;
@@ -52,13 +50,11 @@ class ExportFilesGUI
     protected ilLanguage $lng;
     protected ilGlobalTemplateInterface $tpl;
     protected ilCtrl $ctrl;
-    protected RequestInterface $request;
     protected GlobalHttpState $http;
     protected RefineryFactory $refinery;
     protected ilTabsGUI $tabs_gui;
     protected UIFactory $ui_factory;
     protected UIRenderer $ui_renderer;
-    protected ilToolbarGUI $toolbar;
     protected ilObjUser $user;
     protected ilAccess $access;
 
@@ -80,10 +76,8 @@ class ExportFilesGUI
         $this->tabs_gui = $DIC->tabs();
 
         $this->refinery = $DIC->refinery();
-        $this->toolbar = $DIC->toolbar();
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
-        $this->request = $DIC->http()->request();
         $this->http = $DIC->http();
         $this->user = $DIC->user();
         $this->access = $DIC->access();
