@@ -592,6 +592,7 @@ class ilCourseObjectivesGUI
                     $this->finalTestAssignment();
                     return;
 
+                default:
                 case self::MODE_UPDATE:
                     $this->selfAssessmentAssignment();
                     $this->tpl->setOnScreenMessage('success', $this->lng->txt('crs_objectives_assigned_lm'));
