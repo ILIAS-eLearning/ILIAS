@@ -20,6 +20,13 @@ declare(strict_types=1);
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
+use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\Membership\CustomUserFields\Table\TableBuilder;
+use ILIAS\Membership\CustomUserFields\Table\DataRetrieval;
+use ILIAS\UI\URLBuilder;
+use ILIAS\UI\URLBuilderToken;
+use ILIAS\Data\URI;
 
 /**
  * @author       Stefan Meyer <meyer@leifos.com>
@@ -29,8 +36,8 @@ use ILIAS\Refinery\Factory;
  */
 class ilObjectCustomUserFieldsGUI
 {
-    protected const MODE_CREATE = 1;
-    protected const MODE_UPDATE = 2;
+    protected const int MODE_CREATE = 1;
+    protected const int MODE_UPDATE = 2;
 
     private ?ilPropertyFormGUI $form = null;
     private ilLanguage $lng;
@@ -43,8 +50,11 @@ class ilObjectCustomUserFieldsGUI
     protected ilObjUser $user;
     protected GlobalHttpState $http;
     protected Factory $refinery;
+    protected UIFactory $ui_factory;
+    protected UIRenderer $ui_renderer;
     private int $obj_id;
     private int $ref_id;
+    protected DataRetrieval $data_retrieval;
 
     public function __construct(int $a_obj_id)
     {
@@ -52,6 +62,8 @@ class ilObjectCustomUserFieldsGUI
 
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
 
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('ps');
@@ -112,15 +124,83 @@ class ilObjectCustomUserFieldsGUI
             $this->errorHandling->raiseError($this->lng->txt('permission_denied'), $this->errorHandling->WARNING);
         }
 
+        $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
-        switch ($next_class = $this->ctrl->getNextClass($this)) {
+
+        switch ($next_class) {
             default:
                 if (!$cmd) {
                     $cmd = 'show';
                 }
+                if ($cmd === 'handleTableAction') {
+                    $this->handleTableAction();
+                    return;
+                }
+
                 $this->$cmd();
                 break;
         }
+    }
+
+    protected function getTableActionURLBuilder(): array
+    {
+        $link = ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTarget($this, 'handleTableAction');
+        $url_builder = new URLBuilder(new URI($link));
+
+        return $url_builder->acquireParameters(['member', 'export'], 'field_id', 'cmd');
+    }
+
+    protected function handleTableAction(): void
+    {
+        list($url_builder, $id_token, $cmd_token) = $this->getTableActionURLBuilder();
+
+        if (!$this->http->wrapper()->query()->has($cmd_token->getName())) {
+            $this->ctrl->redirect($this, 'show');
+            return;
+        }
+
+        $action = $this->http->wrapper()->query()->retrieve(
+            $cmd_token->getName(),
+            $this->refinery->kindlyTo()->string()
+        );
+
+        $ids = $this->getTableIdsFromQuery($id_token->getName());
+
+        switch ($action) {
+            case 'editField':
+                if (count($ids) === 1) {
+                    $this->ctrl->setParameter($this, 'field_id', (string) $ids[0]);
+                    $this->ctrl->redirect($this, 'editField');
+                }
+                $this->ctrl->redirect($this, 'show');
+                break;
+
+            case 'confirmDeleteFields':
+                $this->confirmDeleteFields(...$ids);
+                break;
+        }
+    }
+
+    /**
+     * @return int[]
+     */
+    protected function getTableIdsFromQuery(string $name): array
+    {
+        if (!$this->http->wrapper()->query()->has($name)) {
+            return [];
+        }
+
+        $ids = $this->http->wrapper()->query()->retrieve(
+            $name,
+            $this->refinery->kindlyTo()->listOf(
+                $this->refinery->kindlyTo()->string()
+            )
+        );
+
+        if ($ids === ['ALL_OBJECTS']) {
+            return array_map('intval', $this->getDataRetrieval()->getAllIDs());
+        }
+        return array_map('intval', $ids);
     }
 
     public function getObjId(): int
@@ -142,9 +222,19 @@ class ilObjectCustomUserFieldsGUI
             $this->lng->txt('ps_cdf_add_field'),
             $this->ctrl->getLinkTarget($this, 'addField')
         );
-        $table = new ilObjectCustomUserFieldsTableGUI($this, 'listFields');
-        $table->parse(ilCourseDefinedFieldDefinition::_getFields($this->getObjId()));
-        $this->tpl->setContent($table->getHTML());
+
+        $data_retrieval = $this->getDataRetrieval();
+        $table_builder = new TableBuilder(
+            $data_retrieval,
+            $this->lng,
+            $this->ui_factory,
+            $this->http,
+            $this->getObjId()
+        );
+
+        list($url_builder, $id_token, $cmd_token) = $this->getTableActionURLBuilder();
+        $table = $table_builder->get($url_builder, $id_token, $cmd_token);
+        $this->tpl->setContent($this->ui_renderer->render($table));
     }
 
     protected function saveFields(): void
@@ -160,18 +250,8 @@ class ilObjectCustomUserFieldsGUI
         $this->listFields();
     }
 
-    protected function confirmDeleteFields(): void
+    protected function confirmDeleteFields(int ...$field_ids): void
     {
-        $field_ids = [];
-        if ($this->http->wrapper()->post()->has('field_ids')) {
-            $field_ids = $this->http->wrapper()->post()->retrieve(
-                'field_ids',
-                $this->refinery->kindlyTo()->listOf(
-                    $this->refinery->kindlyTo()->int()
-                )
-            );
-        }
-
         if (!count($field_ids)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('ps_cdf_select_one'));
             $this->listFields();
@@ -184,7 +264,7 @@ class ilObjectCustomUserFieldsGUI
         foreach ($field_ids as $field_id) {
             $tmp_field = new ilCourseDefinedFieldDefinition($this->getObjId(), $field_id);
 
-            $confirm->addItem('field_ids[]', (string) $field_id, $tmp_field->getName());
+            $confirm->addItem('field_id[]', (string) $field_id, $tmp_field->getName());
         }
 
         $confirm->setConfirm($this->lng->txt('delete'), 'deleteFields');
@@ -195,9 +275,9 @@ class ilObjectCustomUserFieldsGUI
     protected function deleteFields(): void
     {
         $field_ids = [];
-        if ($this->http->wrapper()->post()->has('field_ids')) {
+        if ($this->http->wrapper()->post()->has('field_id')) {
             $field_ids = $this->http->wrapper()->post()->retrieve(
-                'field_ids',
+                'field_id',
                 $this->refinery->kindlyTo()->listOf(
                     $this->refinery->kindlyTo()->int()
                 )
@@ -267,7 +347,8 @@ class ilObjectCustomUserFieldsGUI
     {
         $this->initFieldForm(self::MODE_UPDATE);
         if ($this->form->checkInput()) {
-            $udf = new ilCourseDefinedFieldDefinition($this->getObjId(), $this->initFielIdFromQuery());
+            $field_id = $this->initFielIdFromQuery();
+            $udf = new ilCourseDefinedFieldDefinition($this->getObjId(), $field_id);
             $udf->setName($this->form->getInput('na'));
             $udf->setType((int) $this->form->getInput('ty'));
             $prepared = $udf->prepareValues($this->form->getInput('va'));
@@ -279,6 +360,7 @@ class ilObjectCustomUserFieldsGUI
             // Finally reset member agreements
             ilMemberAgreement::_deleteByObjId($this->getObjId());
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'));
+            $this->ctrl->setParameter($this, 'field_id', ''); // Clear parameter for list
             $this->listFields();
             return;
         }
@@ -304,7 +386,7 @@ class ilObjectCustomUserFieldsGUI
                 break;
 
             case self::MODE_UPDATE:
-                $this->ctrl->setParameter($this, 'field_id', $this->initFielIdFromQuery());
+                $this->ctrl->setParameter($this, 'field_id', (string) $this->initFielIdFromQuery());
                 $this->form->setFormAction($this->ctrl->getFormAction($this));
                 $this->form->setTitle($this->lng->txt('ps_cdf_edit_field'));
                 $this->form->addCommandButton('updateField', $this->lng->txt('save'));
@@ -423,5 +505,10 @@ class ilObjectCustomUserFieldsGUI
         $form->setValuesByPost();
         $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
         $this->editMember($form);
+    }
+
+    protected function getDataRetrieval(): DataRetrieval
+    {
+        return $this->data_retrieval ??= new DataRetrieval($this->getObjId(), $this->lng);
     }
 }
