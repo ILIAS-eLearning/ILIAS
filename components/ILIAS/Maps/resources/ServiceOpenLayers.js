@@ -21234,13 +21234,14 @@ class ServiceOpenLayers {
 			let zoom = map[2];
 			let central_marker = map[3];
 			let replace_marker = map[5];
+			let tile_servers = map[6];
 			let geo = map[7];
 			let pos = this.posToOSM([map[1], map[0]]);
 
 			this.geolocationURL = geo;
 
 			this.initView(id, pos, zoom);
-			this.initMap(id, replace_marker);
+			this.initMap(id, replace_marker, tile_servers);
 			this.initUserMarkers(id, pos, replace_marker, central_marker);
         }
     }
@@ -21274,14 +21275,18 @@ class ServiceOpenLayers {
      *
      * @param 	{string} 	id
      * @param 	{boolean} 	replace_marker
+     * @param 	{array} 	tile_servers
      * @return 	{void}
      */
-    initMap(id, replace_marker) {
+    initMap(id, replace_marker, tile_servers) {
+        let source = new OSM();
+        source.setUrls(tile_servers.map((server) => 'https://' + server + '/{z}/{x}/{y}.png'));
+
         this.map = new OLMap({
             layers: [
                 new TileLayer({
                     preload: 4,
-                    source: new OSM()
+                    source: source
                 }),
             ],
             target: id,
