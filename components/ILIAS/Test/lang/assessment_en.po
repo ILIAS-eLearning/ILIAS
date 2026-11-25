@@ -2664,7 +2664,7 @@ msgid "suggested_solution_added_successfully"
 msgstr "You successfully set a content for recapitulation!"
 
 msgid "sync_question_to_pool"
-msgstr "Synchronise Question"
+msgstr "Apply"
 
 msgid "ta_resulttable_vc_mode_aria"
 msgstr "switch question mode"
