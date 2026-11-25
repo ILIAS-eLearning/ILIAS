@@ -927,8 +927,7 @@ class ilSurveyEvaluationGUI
         }
 
         if (!$details) {
-            $table_gui = new ilSurveyResultsCumulatedTableGUI($this, 'evaluation', $results);
-            $eval_tpl->setVariable('CUMULATED', $table_gui->getHTML());
+            $eval_tpl->setVariable('CUMULATED', $this->getResultsCumulatedTableHTML($results));
         }
 
         //
@@ -1201,6 +1200,45 @@ class ilSurveyEvaluationGUI
         }
 
         $this->tpl->setContent($this->getResultsPerUserTableHTML($data));
+    }
+
+    protected function getResultsCumulatedTableHTML(array $results): string
+    {
+        $ui_factory = $this->gui->ui()->factory();
+        $column_factory = $ui_factory->table()->column();
+        $retrieval = \ILIAS\Survey\Evaluation\ResultsCumulatedTableRetrieval::class;
+
+        // column id => [optional, visible by default]
+        $column_defs = [
+            $retrieval::COL_TITLE => [false, true],
+            $retrieval::COL_QUESTION => [true, true],
+            $retrieval::COL_QUESTION_TYPE => [true, true],
+            $retrieval::COL_USERS_ANSWERED => [true, true],
+            $retrieval::COL_USERS_SKIPPED => [true, true],
+            $retrieval::COL_MODE => [true, false],
+            $retrieval::COL_MODE_NR_OF_SELECTIONS => [true, false],
+            $retrieval::COL_MEDIAN => [true, true],
+            $retrieval::COL_ARITHMETIC_MEAN => [true, true]
+        ];
+        $columns = [];
+        foreach ($column_defs as $col_id => [$optional, $visible]) {
+            $column = $column_factory->text($this->lng->txt($col_id))
+                ->withIsSortable(false);
+            if ($optional) {
+                $column = $column->withIsOptional(true, $visible);
+            }
+            $columns[$col_id] = $column;
+        }
+
+        $table = $ui_factory->table()->data(
+            new \ILIAS\Survey\Evaluation\ResultsCumulatedTableRetrieval($results),
+            $this->lng->txt("svy_eval_cumulated"),
+            $columns
+        )
+            ->withId("svy_res_cum")
+            ->withRequest($this->gui->http()->request());
+
+        return $this->gui->ui()->renderer()->render($table);
     }
 
     protected function getResultsPerUserTableHTML(array $data): string
