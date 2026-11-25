@@ -75,7 +75,7 @@ class ilSoapAdministration
             return false;
         }
 
-        if (!ilSession::_exists($sid)) {
+        if (!ilSession::exists($sid)) {
             if (session_status() === PHP_SESSION_ACTIVE) {
                 session_abort();
             }
