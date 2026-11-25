@@ -55,7 +55,7 @@ il.Form = {
       let label = '';
 
       input.parents('.input-group').next().addClass('help-block').removeClass('ui-input-file-input-error-msg');
-      input.get(0).files.forEach(
+      Array.from(input.get(0).files).forEach(
         (item) => {
           if (item.size <= input.attr('data-maxsize')) {
             dt.items.add(item);
