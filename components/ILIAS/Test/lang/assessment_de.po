@@ -492,7 +492,7 @@ msgid "confirm_log_deletion"
 msgstr "Sind Sie sicher, dass Sie die ausgewählten Protokolleinträge löschen möchten? Die gelöschten Einträge werden unwiderruflich gelöscht."
 
 msgid "confirm_sync_questions"
-msgstr "Die Frage, die Sie geändert haben, wurde mit dem Einfügen in den Test als Kopie eines Originals angelegt. Wollen Sie Ihre Änderungen jetzt auch auf die Originalfrage anwenden?"
+msgstr "Die Frage, die Sie geändert haben, wurde mit dem Einfügen in den Test als Kopie des Originals angelegt. Wollen Sie Ihre Änderungen jetzt auch auf die Originalfrage anwenden?"
 
 msgid "contained_question_types"
 msgstr "Enthaltene Fragentypen"
@@ -2664,7 +2664,7 @@ msgid "suggested_solution_added_successfully"
 msgstr "Der Hinweis auf Inhalte zur Wiederholung wurde erfolgreich hinzugefügt!"
 
 msgid "sync_question_to_pool"
-msgstr "Frage synchronisieren"
+msgstr "Anwenden"
 
 msgid "ta_resulttable_vc_mode_aria"
 msgstr "Anzeigeoptionen für Fragen"
