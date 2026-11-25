@@ -35,9 +35,9 @@ use ILIAS\Setup\CLI\IOWrapper;
  */
 class ilForumNotificationSubscriptionsRepairedObjective extends ilSetupObjective
 {
-    private const int SYSTEM_USER_ID = 6;
-    private const int ANONYMOUS_USER_ID = 13;
-    private const int MAIN_TREE_ID = 1;
+    private const SYSTEM_USER_ID = 6;
+    private const ANONYMOUS_USER_ID = 13;
+    private const MAIN_TREE_ID = 1;
 
     private ilDBInterface $db;
     /** @var array<int, array{parent: int, type: string}|null> */
