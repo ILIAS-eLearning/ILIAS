@@ -470,7 +470,14 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         $op0 = new ilRadioOption($this->lng->txt("lm_type_scorm2004"), "scorm2004");
         $op0->setInfo($this->lng->txt("lm_type_scorm2004_info"));
         $radg->addOption($op0);
-        $radg->setValue("scorm");
+        $sub_type = "scorm";
+        if ($DIC->http()->wrapper()->post()->has('sub_type')) {
+            $post_sub_type = $DIC->http()->wrapper()->post()->retrieve('sub_type', $DIC->refinery()->kindlyTo()->string());
+            if (in_array($post_sub_type, ["scorm", "scorm2004"], true)) {
+                $sub_type = $post_sub_type;
+            }
+        }
+        $radg->setValue($sub_type);
         $form->addItem($radg);
 
         $options = array();
@@ -489,7 +496,14 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
             $radg->addOption($op0);
             $op1 = new ilRadioOption($this->lng->txt("cont_choose_upload_dir"), "upload_dir");
             $radg->addOption($op1);
-            $radg->setValue("local");
+            $file_source = "local";
+            if ($DIC->http()->wrapper()->post()->has('file_source')) {
+                $post_file_source = $DIC->http()->wrapper()->post()->retrieve('file_source', $DIC->refinery()->kindlyTo()->string());
+                if (in_array($post_file_source, ["local", "upload_dir"], true)) {
+                    $file_source = $post_file_source;
+                }
+            }
+            $radg->setValue($file_source);
 
             $fi = new ilFileInputGUI($this->lng->txt("select_file"), "scormfile");
             $fi->setRequired(true);
@@ -539,35 +553,49 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
             // check if file was uploaded
             $source = $_FILES["scormfile"]["tmp_name"];
             if (($source === 'none') || (!$source)) {
-                $ilErr->raiseError($this->lng->txt("msg_no_file"), $ilErr->MESSAGE);
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_no_files_selected"), true);
+                $this->createObject();
+                return;
             }
             // get_cfg_var("upload_max_filesize"); // get the may filesize form t he php.ini
             switch ($_FILES["scormfile"]["error"]) {
                 case UPLOAD_ERR_INI_SIZE:
                 case UPLOAD_ERR_FORM_SIZE:
-                    $ilErr->raiseError($this->lng->txt("err_max_file_size_exceeds"), $ilErr->MESSAGE);
-                    break;
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt("err_max_file_size_exceeds"), true);
+                    $this->createObject();
+                    return;
 
                 case UPLOAD_ERR_PARTIAL:
-                    $ilErr->raiseError($this->lng->txt("err_partial_file_upload"), $ilErr->MESSAGE);
-                    break;
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt("err_partial_file_upload"), true);
+                    $this->createObject();
+                    return;
 
                 case UPLOAD_ERR_NO_FILE:
-                    $ilErr->raiseError($this->lng->txt("err_no_file_uploaded"), $ilErr->MESSAGE);
-                    break;
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_no_files_selected"), true);
+                    $this->createObject();
+                    return;
             }
 
             $file = pathinfo($_FILES["scormfile"]["name"]);
         } elseif ($DIC->http()->wrapper()->post()->has('uploaded_file')) {
             $uploadedFile = $DIC->http()->wrapper()->post()->retrieve('uploaded_file', $DIC->refinery()->kindlyTo()->string());
+            if (trim($uploadedFile) === '') {
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_no_files_selected"), true);
+                $this->createObject();
+                return;
+            }
             // check if the file is in the upload directory and readable
             if (!ilUploadFiles::_checkUploadFile($uploadedFile)) {
-                $ilErr->raiseError($this->lng->txt("upload_error_file_not_found"), $ilErr->MESSAGE);
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("upload_error_file_not_found"), true);
+                $this->createObject();
+                return;
             }
 
             $file = pathinfo($uploadedFile);
         } else {
-            $ilErr->raiseError($this->lng->txt("msg_no_file"), $ilErr->MESSAGE);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_no_files_selected"), true);
+            $this->createObject();
+            return;
         }
 
         $name = substr($file["basename"], 0, strlen($file["basename"]) - strlen($file["extension"]) - 1);
@@ -579,7 +607,10 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
         $subType = "scorm2004";
         if ($DIC->http()->wrapper()->post()->has('sub_type')) {
-            $subType = $DIC->http()->wrapper()->post()->retrieve('sub_type', $DIC->refinery()->kindlyTo()->string());
+            $post_sub_type = $DIC->http()->wrapper()->post()->retrieve('sub_type', $DIC->refinery()->kindlyTo()->string());
+            if (in_array($post_sub_type, ["scorm", "scorm2004"], true)) {
+                $subType = $post_sub_type;
+            }
         }
 
         // always import authoring packages as scorm2004, see bug #27801
