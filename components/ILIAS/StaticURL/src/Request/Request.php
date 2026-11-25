@@ -31,6 +31,7 @@ final class Request
         private string $namespace,
         private ?ReferenceId $reference_id = null,
         private ?array $additional_parameters = null,
+        private Intent $intent = Intent::DEFAULT,
     ) {
     }
 
@@ -47,6 +48,11 @@ final class Request
     public function getAdditionalParameters(): ?array
     {
         return $this->additional_parameters;
+    }
+
+    public function getIntent(): Intent
+    {
+        return $this->intent;
     }
 
 }

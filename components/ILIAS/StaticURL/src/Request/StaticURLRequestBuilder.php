@@ -31,6 +31,12 @@ class StaticURLRequestBuilder implements RequestBuilder
 {
     public function buildRequest(Services $http, Factory $refinery, array $handlers): ?Request
     {
+        $intent = $http->wrapper()->query()->has(Intent::PARAMETER)
+            ? Intent::tryFrom(
+                $http->wrapper()->query()->retrieve(Intent::PARAMETER, $refinery->to()->string())
+            ) ?? Intent::DEFAULT
+            : Intent::DEFAULT;
+
         // maybe we have a legacy parameter during transition phase
         $target = $http->wrapper()->query()->has("target")
             ? $http->wrapper()->query()->retrieve(
@@ -52,13 +58,14 @@ class StaticURLRequestBuilder implements RequestBuilder
             return new Request(
                 $namespace,
                 $reference_id,
-                $additional_parameters
+                $additional_parameters,
+                $intent
             );
         }
 
         // This part is for new urls
-        // everything behind goto.php/ is the requested target
-        $requested_url = (string) $http->request()->getUri();
+        // everything behind goto.php/ is the requested target, the query is not part of it
+        $requested_url = $http->request()->getUri()->getPath();
 
         if (str_contains($requested_url, '/go/')) {
             $offset = strpos($requested_url, '/go/') + strlen('/go/');
@@ -85,7 +92,8 @@ class StaticURLRequestBuilder implements RequestBuilder
         return new Request(
             $namespace,
             $reference_id,
-            $additional_parameters
+            $additional_parameters,
+            $intent
         );
     }
 }
