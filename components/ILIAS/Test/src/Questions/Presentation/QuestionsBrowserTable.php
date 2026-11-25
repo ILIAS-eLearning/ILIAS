@@ -219,31 +219,31 @@ class QuestionsBrowserTable implements DataRetrieval
         return implode('', $taxonomies);
     }
 
-    private function loadTaxonomyAssignmentData(int $parentObjId, int $questionId, array $available_taxonomy_ids): array
+    private function loadTaxonomyAssignmentData(int $parent_obj_id, int $question_id, array $available_taxonomy_ids): array
     {
-        $taxonomyAssignmentData = [];
+        $taxonomy_assignment_data = [];
 
-        foreach ($available_taxonomy_ids as $taxId) {
-            $taxTree = new \ilTaxonomyTree($taxId);
+        foreach ($available_taxonomy_ids as $tax_id) {
+            $tax_tree = new \ilTaxonomyTree($tax_id);
             $assignments = (new \ilTaxNodeAssignment(
                 'qpl',
-                $parentObjId,
+                $parent_obj_id,
                 'quest',
-                $taxId
-            ))->getAssignmentsOfItem($questionId);
+                $tax_id
+            ))->getAssignmentsOfItem($question_id);
 
-            foreach ($assignments as $assData) {
-                $taxId = $assData['tax_id'];
-                if (!isset($taxonomyAssignmentData[$taxId])) {
-                    $taxonomyAssignmentData[$taxId] = [];
+            foreach ($assignments as $ass_data) {
+                $assigned_tax_id = $ass_data['tax_id'];
+                if (!isset($taxonomy_assignment_data[$assigned_tax_id])) {
+                    $taxonomy_assignment_data[$assigned_tax_id] = [];
                 }
 
-                $nodeId = $assData['node_id'];
-                $assData['node_lft'] = $taxTree->getNodeData($nodeId)['lft'];
-                $taxonomyAssignmentData[$taxId][$nodeId] = $assData;
+                $node_id = $ass_data['node_id'];
+                $ass_data['node_lft'] = $tax_tree->getNodeData($node_id)['lft'];
+                $taxonomy_assignment_data[$assigned_tax_id][$node_id] = $ass_data;
             }
         }
 
-        return $taxonomyAssignmentData;
+        return $taxonomy_assignment_data;
     }
 }
