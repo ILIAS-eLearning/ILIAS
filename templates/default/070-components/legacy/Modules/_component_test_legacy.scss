@@ -680,10 +680,13 @@ div.ilc_Page.readonly textarea[disabled]
 }
 
 /* In matching questions the zone covers the whole column of the definition
-   or the source area, the order within it does not matter. */
+   or the source area, the order within it does not matter. An empty column
+   needs a minimum height, otherwise the zone has no area when the columns are
+   stacked on small screens. */
 .ilMatchingQuestionTerm,
 .source_area {
     position: relative;
+    min-height: $il-test-dropzone-hit-size;
 
     > .c-test__dropzone {
         position: absolute;
