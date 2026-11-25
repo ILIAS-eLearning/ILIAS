@@ -71,7 +71,7 @@ class DatabaseGatewayImplementation implements Gateway
                 'import_id' => [\ilDBConstants::T_TEXT, $import_id],
                 'title' => [\ilDBConstants::T_TEXT, $data->getTitle()],
                 'description' => [\ilDBConstants::T_TEXT, $data->getDescription()],
-                'position' => [\ilDBConstants::T_INTEGER, $data->getPosition()],
+                'position' => [\ilDBConstants::T_INTEGER, $position],
                 'searchable' => [\ilDBConstants::T_INTEGER, $data->isSearchable()],
                 'required' => [\ilDBConstants::T_INTEGER, $data->isRequired()],
                 'field_values' => [\ilDBConstants::T_TEXT, serialize($data->getFieldValues())]
