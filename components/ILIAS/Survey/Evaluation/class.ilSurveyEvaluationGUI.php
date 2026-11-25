@@ -1206,7 +1206,7 @@ class ilSurveyEvaluationGUI
     {
         $ui_factory = $this->gui->ui()->factory();
         $column_factory = $ui_factory->table()->column();
-        $retrieval = \ILIAS\Survey\Evaluation\ResultsCumulatedTableRetrieval::class;
+        $retrieval = ilSurveyResultsCumulatedTable::class;
 
         // column id => [optional, visible by default]
         $column_defs = [
@@ -1231,7 +1231,7 @@ class ilSurveyEvaluationGUI
         }
 
         $table = $ui_factory->table()->data(
-            new \ILIAS\Survey\Evaluation\ResultsCumulatedTableRetrieval($results),
+            new ilSurveyResultsCumulatedTable($results),
             $this->lng->txt("svy_eval_cumulated"),
             $columns
         )
@@ -1247,7 +1247,7 @@ class ilSurveyEvaluationGUI
 
         $ui_factory = $this->gui->ui()->factory();
         $column_factory = $ui_factory->table()->column();
-        $retrieval = \ILIAS\Survey\Evaluation\ResultsPerUserTableRetrieval::class;
+        $retrieval = ilSurveyResultsPerUserTable::class;
 
         $columns = [
             $retrieval::COL_USERNAME => $column_factory->text($this->lng->txt("username")),
@@ -1260,7 +1260,7 @@ class ilSurveyEvaluationGUI
         ];
 
         $table = $ui_factory->table()->data(
-            new \ILIAS\Survey\Evaluation\ResultsPerUserTableRetrieval($this->lng, $data),
+            new ilSurveyResultsPerUserTable($this->lng, $data),
             $this->lng->txt("svy_eval_user"),
             $columns
         )

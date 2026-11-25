@@ -487,16 +487,16 @@ abstract class AbstractUIModifier implements UIModifier
             ? $lng->txt("matrix_rows")
             : $lng->txt("category");
         $columns = [
-            \ILIAS\Survey\Evaluation\ResultsDetailsTableRetrieval::getColumnId(0) =>
+            \ilSurveyResultsDetailsTable::getColumnId(0) =>
                 $column_factory->text($first_caption)->withIsSortable(false)
         ];
         foreach (array_values($grid["cols"]) as $index => $col) {
-            $columns[\ILIAS\Survey\Evaluation\ResultsDetailsTableRetrieval::getColumnId($index + 1)] =
+            $columns[\ilSurveyResultsDetailsTable::getColumnId($index + 1)] =
                 $column_factory->text((string) $col)->withIsSortable(false);
         }
 
         $table = $ui_factory->table()->data(
-            new \ILIAS\Survey\Evaluation\ResultsDetailsTableRetrieval($grid["rows"]),
+            new \ilSurveyResultsDetailsTable($grid["rows"]),
             $question->getTitle(),
             $columns
         )

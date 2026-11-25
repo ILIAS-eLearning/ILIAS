@@ -279,13 +279,13 @@ class UIModifier extends Mode\AbstractUIModifier
         $ui_factory = $this->gui->ui()->factory();
         $column_factory = $ui_factory->table()->column();
         $columns = [
-            RaterAnswersTableRetrieval::COL_RATER => $column_factory->text($lng->txt("svy_rater")),
-            RaterAnswersTableRetrieval::COL_DATE => $column_factory->text($lng->txt("date")),
-            RaterAnswersTableRetrieval::COL_ANSWER => $column_factory->text($lng->txt("answers"))
+            \ilSurveyRaterAnswersTable::COL_RATER => $column_factory->text($lng->txt("svy_rater")),
+            \ilSurveyRaterAnswersTable::COL_DATE => $column_factory->text($lng->txt("date")),
+            \ilSurveyRaterAnswersTable::COL_ANSWER => $column_factory->text($lng->txt("answers"))
         ];
 
         $table = $ui_factory->table()->data(
-            new RaterAnswersTableRetrieval($records),
+            new \ilSurveyRaterAnswersTable($records),
             $q->getTitle(),
             $columns
         )
@@ -317,11 +317,11 @@ class UIModifier extends Mode\AbstractUIModifier
         $cats_rows = $q->getRows();
 
         $columns = [
-            \ILIAS\Survey\Evaluation\ResultsDetailsTableRetrieval::getColumnId(0) =>
+            \ilSurveyResultsDetailsTable::getColumnId(0) =>
                 $column_factory->text($lng->txt("matrix_rows"))->withIsSortable(false)
         ];
         foreach (array_values($cats->getCategories()) as $index => $cat) {
-            $columns[\ILIAS\Survey\Evaluation\ResultsDetailsTableRetrieval::getColumnId($index + 1)] =
+            $columns[\ilSurveyResultsDetailsTable::getColumnId($index + 1)] =
                 $column_factory->text((string) $cat->title)->withIsSortable(false);
         }
 
@@ -361,7 +361,7 @@ class UIModifier extends Mode\AbstractUIModifier
             $part_caption .= ", " . \ilDatePresentation::formatDate($date);
 
             $table = $ui_factory->table()->data(
-                new \ILIAS\Survey\Evaluation\ResultsDetailsTableRetrieval($rows),
+                new \ilSurveyResultsDetailsTable($rows),
                 $part_caption,
                 $columns
             )
