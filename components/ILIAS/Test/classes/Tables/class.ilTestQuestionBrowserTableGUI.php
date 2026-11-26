@@ -231,7 +231,12 @@ class ilTestQuestionBrowserTableGUI
             return $question_list;
         }
 
-        $question_list->setParentObjIdsFilter($this->getQuestionParentObjIds(self::REPOSITORY_ROOT_NODE_ID));
+        $parent_obj_ids = $this->getQuestionParentObjIds(self::REPOSITORY_ROOT_NODE_ID);
+        if ($parent_obj_ids === []) {
+            // An empty filter is ignored by ilAssQuestionList and would list all questions of the platform.
+            $parent_obj_ids = [0];
+        }
+        $question_list->setParentObjIdsFilter($parent_obj_ids);
         $question_list->setQuestionInstanceTypeFilter(\ilAssQuestionList::QUESTION_INSTANCE_TYPE_ORIGINALS);
         $question_list->setExcludeQuestionIdsFilter($this->test_obj->getExistingQuestions());
         return $question_list;
