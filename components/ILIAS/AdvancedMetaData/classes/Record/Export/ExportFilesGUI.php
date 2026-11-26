@@ -294,7 +294,8 @@ class ExportFilesGUI
         return new DataRetrieval(
             $this->getExportFilesHandler(),
             new DataFactory(),
-            $this->ui_factory
+            $this->ui_factory,
+            $this->user
         );
     }
 

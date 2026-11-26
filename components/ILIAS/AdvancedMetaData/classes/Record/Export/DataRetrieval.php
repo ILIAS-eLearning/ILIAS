@@ -29,6 +29,8 @@ use ILIAS\UI\Component\Table\DataRetrieval as BaseDataRetrieval;
 use ilAdvancedMDRecordExportFiles;
 use DateTimeImmutable;
 use ILIAS\Data\Factory as DataFactory;
+use DateTimeZone;
+use ilObjUser;
 
 class DataRetrieval implements BaseDataRetrieval
 {
@@ -37,7 +39,8 @@ class DataRetrieval implements BaseDataRetrieval
     public function __construct(
         protected ilAdvancedMDRecordExportFiles $export_files,
         protected DataFactory $data_factory,
-        protected UIFactory $ui_factory
+        protected UIFactory $ui_factory,
+        protected ilObjUser $user
     ) {
     }
 
@@ -63,9 +66,12 @@ class DataRetrieval implements BaseDataRetrieval
 
         foreach ($file_info as $id => $info) {
             $records = (array) ($info['name'] ?? []);
+            $date = new DateTimeImmutable()
+                ->setTimestamp((int) $info['date'])
+                ->setTimezone(new DateTimeZone($this->user->getTimezone()));
             $data[$id] = [
                 TableBuilder::COLUMN_RECORDS => $this->ui_factory->listing()->unordered($records),
-                TableBuilder::COLUMN_DATE => new DateTimeImmutable()->setTimestamp((int) $info['date']),
+                TableBuilder::COLUMN_DATE => $date,
                 TableBuilder::COLUMN_FILE_SIZE => (string) $this->data_factory->dataSize((int) $info['size'], 'B'),
                 'file_size_raw' => (int) $info['size'],
                 'records_raw' => $records
