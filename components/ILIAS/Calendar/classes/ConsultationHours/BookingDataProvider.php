@@ -37,6 +37,7 @@ use ilConsultationHoursGUI;
 use ilCalendarEntry;
 use ilDate;
 use ilDateTime;
+use DateTimeZone;
 
 class BookingDataProvider
 {
@@ -45,6 +46,7 @@ class BookingDataProvider
     private array $data = [];
     private StaticURL\Services $static_url_service;
     private \ILIAS\UI\Factory $ui_factory;
+    private ilObjUser $current_user;
 
     private string $vm_period = ilConsultationHoursGUI::VIEW_MODE_PERIOD_ALL;
     private string $vm_status = ilConsultationHoursGUI::VIEW_MODE_STATUS_ALL;
@@ -58,6 +60,7 @@ class BookingDataProvider
         $this->vm_period = $vm_period;
         $this->static_url_service = $DIC['static_url'];
         $this->ui_factory = $DIC->ui()->factory();
+        $this->current_user = $DIC->user();
         $this->read();
     }
 
@@ -79,7 +82,8 @@ class BookingDataProvider
 
             $row = [];
             $row['id'] = (string) $appointment->getEntryId();
-            $row['booking_start'] = (new \DateTimeImmutable())->setTimestamp($appointment->getStart()->getUnixTime());
+            $row['booking_start'] = (new \DateTimeImmutable())->setTimestamp($appointment->getStart()->getUnixTime())
+                                                              ->setTimezone(new DateTimeZone($this->current_user->getTimeZone()));
             $row['booking_duration'] =
                 (int) ($appointment->getEnd()->getUnixTime() - $appointment->getStart()->getUnixTime()) / 60;
             $row['booking_title'] = $appointment->getTitle();

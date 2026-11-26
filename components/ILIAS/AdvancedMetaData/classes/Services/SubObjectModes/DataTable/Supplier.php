@@ -26,6 +26,7 @@ use ILIAS\Data\Factory as DataFactory;
 use ILIAS\AdvancedMetaData\Services\SubObjectIDInterface;
 use ILIAS\StaticURL\Services as StaticURL;
 use ILIAS\AdvancedMetaData\Services\Constants;
+use DateTimeZone;
 
 class Supplier implements SupplierInterface
 {
@@ -195,9 +196,14 @@ class Supplier implements SupplierInterface
                 break;
 
             case \ilAdvancedMDFieldDefinition::TYPE_DATE:
-            case \ilAdvancedMDFieldDefinition::TYPE_DATETIME:
                 $timestamp = $adt->getDate()->getUnixTime();
                 $val = (new \DateTimeImmutable())->setTimestamp($timestamp);
+                break;
+
+            case \ilAdvancedMDFieldDefinition::TYPE_DATETIME:
+                $timestamp = $adt->getDate()->getUnixTime();
+                $val = (new \DateTimeImmutable())->setTimestamp($timestamp)
+                                                 ->setTimezone(new DateTimeZone($this->user->getTimeZone()));
                 break;
 
             case \ilAdvancedMDFieldDefinition::TYPE_INTERNAL_LINK:
