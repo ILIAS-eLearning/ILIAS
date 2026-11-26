@@ -2660,6 +2660,9 @@ msgstr ""
 msgid "suggested_solution_added_successfully"
 msgstr ""
 
+msgid "sync_question_do_not_apply"
+msgstr ""
+
 msgid "sync_question_to_pool"
 msgstr ""
 
