@@ -2663,6 +2663,9 @@ msgstr "Content for Recapitulation"
 msgid "suggested_solution_added_successfully"
 msgstr "You successfully set a content for recapitulation!"
 
+msgid "sync_question_do_not_apply"
+msgstr "Do Not Apply"
+
 msgid "sync_question_to_pool"
 msgstr "Apply"
 

@@ -2663,6 +2663,9 @@ msgstr "Inhalte zur Wiederholung"
 msgid "suggested_solution_added_successfully"
 msgstr "Der Hinweis auf Inhalte zur Wiederholung wurde erfolgreich hinzugefügt!"
 
+msgid "sync_question_do_not_apply"
+msgstr "Nicht Anwenden"
+
 msgid "sync_question_to_pool"
 msgstr "Anwenden"
 

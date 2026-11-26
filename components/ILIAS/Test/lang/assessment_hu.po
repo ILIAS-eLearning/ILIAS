@@ -2669,6 +2669,10 @@ msgstr "Ismétlő összefoglaló tartalma"
 msgid "suggested_solution_added_successfully"
 msgstr "Sikeresen beállított tartalmat ismétlő összefoglaláshoz."
 
+#, fuzzy
+msgid "sync_question_do_not_apply"
+msgstr "Do Not Apply"
+
 msgid "sync_question_to_pool"
 msgstr "Kérdés szinkronizálása"
 
