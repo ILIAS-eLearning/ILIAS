@@ -30,6 +30,7 @@ use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\UI\URLBuilderToken;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -3023,11 +3024,21 @@ class ilObjLanguageExtGUITest extends TestCase
     }
 
     /** @param array<string, string> $query */
+    private function requestWithQuery(array $query): ServerRequestInterface&Stub
+    {
+        $request = $this->createStub(ServerRequestInterface::class);
+        $request->method('getQueryParams')->willReturn($query);
+        $request->method('getMethod')->willReturn('GET');
+
+        return $request;
+    }
+
+    /** @param array<string, string> $query */
     #[DataProvider('filterCmdProvider')]
     public function testIsFilterChangedOnlyForCommandsThatChangeTheResult(array $query, bool $expected): void
     {
         $gui = $this->getMockBuilder(ilObjLanguageExtGUI::class)->disableOriginalConstructor()->onlyMethods([])->getMock();
-        $this->inject($gui, 'request', (new \GuzzleHttp\Psr7\ServerRequest('GET', 'http://localhost/'))->withQueryParams($query));
+        $this->inject($gui, 'request', $this->requestWithQuery($query));
 
         self::assertSame($expected, $this->invokeProtectedMethod($gui, 'isFilterChanged'));
     }
@@ -3049,7 +3060,7 @@ class ilObjLanguageExtGUITest extends TestCase
             'T',
             ['c' => $this->factory()->table()->column()->text('C')]
         )->withId(ilLanguageEntriesTable::tableId())
-            ->withRequest(new \GuzzleHttp\Psr7\ServerRequest('GET', 'http://localhost/'));
+            ->withRequest($this->requestWithQuery([]));
         self::assertInstanceOf(\ILIAS\UI\Implementation\Component\Table\Data::class, $table);
 
         $view_controls = $table->applyViewControls(null)[1];
@@ -3167,7 +3178,7 @@ class ilObjLanguageExtGUITest extends TestCase
 
         $gui = $this->getMockBuilder(ilObjLanguageExtGUI::class)->disableOriginalConstructor()->onlyMethods([])->getMock();
         $this->inject($gui, 'ui_storage', $storage);
-        $this->inject($gui, 'request', (new \GuzzleHttp\Psr7\ServerRequest('GET', 'http://localhost/'))->withQueryParams($query));
+        $this->inject($gui, 'request', $this->requestWithQuery($query));
         $this->inject($gui, 'request_wrapper', $this->createStub(RequestWrapper::class));
         $this->inject($gui, 'ui_factory', $this->factory());
         $this->inject($gui, 'ui_renderer', $renderer);
