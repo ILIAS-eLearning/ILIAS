@@ -3198,6 +3198,10 @@ msgid "suggested_solution_added_successfully"
 msgstr "您成功的设置了一个建议方案！"
 
 #, fuzzy
+msgid "sync_question_do_not_apply"
+msgstr "Do Not Apply"
+
+#, fuzzy
 msgid "sync_question_to_pool"
 msgstr "Synchronize Question"
 

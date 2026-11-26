@@ -2669,6 +2669,10 @@ msgstr "要約用のコンテンツ"
 msgid "suggested_solution_added_successfully"
 msgstr "要約用のコンテンツを正しくセットしました"
 
+#, fuzzy
+msgid "sync_question_do_not_apply"
+msgstr "Do Not Apply"
+
 msgid "sync_question_to_pool"
 msgstr "問題を同期"
 

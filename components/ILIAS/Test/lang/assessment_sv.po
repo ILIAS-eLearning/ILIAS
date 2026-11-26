@@ -2854,6 +2854,10 @@ msgid "suggested_solution_added_successfully"
 msgstr "Hänvisningen till innehåll för repetition har lagts till med framgång!"
 
 #, fuzzy
+msgid "sync_question_do_not_apply"
+msgstr "Do Not Apply"
+
+#, fuzzy
 msgid "sync_question_to_pool"
 msgstr "Synchronize Question"
 
