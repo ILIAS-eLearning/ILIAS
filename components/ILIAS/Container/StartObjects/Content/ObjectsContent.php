@@ -20,7 +20,7 @@ namespace ILIAS\Container\StartObjects\Content;
 
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
-use ILIAS\UI\Component\Panel\Sub as SubPanel;
+use ILIAS\UI\Component\Panel\Panel;
 use ilObjUser;
 use ilObjectDataCache;
 use ilAccessHandler;
@@ -259,7 +259,7 @@ class ObjectsContent
         return "";
     }
 
-    protected function getItemAsSubPanel(array $item): SubPanel
+    protected function getItemAsSubPanel(array $item): Panel
     {
         $status_icon = $this->ui_factory->symbol()->icon()->custom(
             $item['status_img'],
@@ -268,22 +268,19 @@ class ObjectsContent
 
         $actions = [];
         foreach ($item['actions'] as $url => $caption) {
-            $actions[] = $this->ui_factory->button()->shy($caption, $url);
+            $actions[] = $this->ui_factory->link()->standard($caption, $url);
         }
 
         $secondary_info = $this->ui_factory->listing()->property()->withItems([
             [$this->lng->txt('crs_objective_accomplished'), $status_icon],
-            [$this->lng->txt('actions'), $this->ui_renderer->render($actions)]
+            [$this->lng->txt('actions'), $this->ui_factory->listing()->inline($actions)]
         ]);
 
         return $this->ui_factory->panel()->sub(
             '',
             $this->ui_factory->legacy()->content($this->getListItem($item))
         )->withFurtherInformation(
-            $this->ui_factory->panel()->secondary()->legacy(
-                '',
-                $this->ui_factory->legacy()->content($this->ui_renderer->render($secondary_info))
-            )
+            $this->ui_factory->card()->standard('')->withSections([$secondary_info])
         );
     }
 
