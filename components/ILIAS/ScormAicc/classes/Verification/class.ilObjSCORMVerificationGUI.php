@@ -30,73 +30,30 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
         return "scov";
     }
 
-    /**
-     * @throws ilCtrlException
-     */
     public function create(): void
     {
-        global $DIC;
-        $ilTabs = $DIC->tabs();
-
-        $this->lng->loadLanguageModule("scov");
-
-        $ilTabs->setBackTarget(
-            $this->lng->txt("back"),
-            $this->ctrl->getLinkTarget($this, "cancel")
-        );
-
-        $table = new ilSCORMVerificationTableGUI($this, "create");
-        $this->tpl->setContent($table->getHTML());
+        $this->redirectRetiredCreationCommand();
     }
 
-    /**
-     * @throws JsonException
-     * @throws ilCtrlException
-     * @throws ilException
-     */
     public function save(): void
     {
-        global $DIC;
+        $this->redirectRetiredCreationCommand();
+    }
 
-        $ilUser = $DIC->user();
+    public function createObject(): void
+    {
+        $this->redirectRetiredCreationCommand();
+    }
 
-        $objectId = $this->getRequestValue("lm_id");
-        if ($objectId) {
-            $certificateVerificationFileService = new ilCertificateVerificationFileService(
-                $DIC->language(),
-                $DIC->database(),
-                $DIC->logger()->forComponent('sahs'),
-                new ilCertificateVerificationClassMap()
-            );
+    public function saveObject(): void
+    {
+        $this->redirectRetiredCreationCommand();
+    }
 
-            $userCertificateRepository = new ilUserCertificateRepository();
-
-            $userCertificatePresentation = $userCertificateRepository->fetchActiveCertificateForPresentation(
-                (int) $ilUser->getId(),
-                (int) $objectId
-            );
-
-            try {
-                $newObj = $certificateVerificationFileService->createFile($userCertificatePresentation);
-            } catch (\Exception $exception) {
-                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('error_creating_certificate_pdf'));
-                $this->create();
-            }
-
-            $newObj = null;
-            if ($newObj) {
-                $parent_id = $this->node_id;
-                $this->node_id = null;
-                $this->putObjectInTree($newObj, $parent_id);
-
-                $this->afterSave($newObj);
-            } else {
-                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_failed"));
-            }
-        } else {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("select_one"));
-        }
-        $this->create();
+    private function redirectRetiredCreationCommand(): void
+    {
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_create_permission'), true);
+        $this->ctrl->redirectByClass(ilPersonalWorkspaceGUI::class);
     }
 
     public function deliver(): void
@@ -172,12 +129,4 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
         $DIC->ctrl->redirectByClass(ilSharedResourceGUI::class);
     }
 
-    protected function getRequestValue(string $key, mixed $default = null): mixed
-    {
-        if (isset($this->request->getQueryParams()[$key])) {
-            return $this->request->getQueryParams()[$key];
-        }
-
-        return $this->request->getParsedBody()[$key] ?? $default ?? null;
-    }
 }
