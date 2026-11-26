@@ -32,6 +32,8 @@ use ILIAS\Export\ExportHandler\I\Table\HandlerInterface as ilExportHandlerTableI
 use ILIAS\UI\Component\Table\DataRowBuilder as ilTableDataRowBuilderInterface;
 use ilLanguage;
 use ilObject;
+use ilObjUser;
+use DateTimeZone;
 
 class Handler implements ilExportHandlerTableDataRetrievalInterface
 {
@@ -41,15 +43,18 @@ class Handler implements ilExportHandlerTableDataRetrievalInterface
     protected ilLanguage $lng;
     protected ilExportHandlerFactoryInterface $export_handler;
     protected ilExportGUI $export_gui;
+    protected ilObjUser $user;
     protected ilObject $export_object;
     protected ilExportHandlerConsumerExportOptionCollectionInterface $export_options;
 
     public function __construct(
         ilLanguage $lng,
-        ilExportHandlerFactoryInterface $export_handler
+        ilExportHandlerFactoryInterface $export_handler,
+        ilObjUser $user
     ) {
         $this->lng = $lng;
         $this->export_handler = $export_handler;
+        $this->user = $user;
     }
 
     public function withExportOptions(
@@ -98,7 +103,9 @@ class Handler implements ilExportHandlerTableDataRetrievalInterface
                 $rows[$row_id->getCompositId()] = $file_info;
             }
         }
-        $comparator = function (ilExportHandlerFileInfoInterface $f1, ilExportHandlerFileInfoInterface $f2) { return 0; };
+        $comparator = function (ilExportHandlerFileInfoInterface $f1, ilExportHandlerFileInfoInterface $f2) {
+            return 0;
+        };
         switch ($column_name) {
             case ilExportHandlerTableInterface::TABLE_COL_TYPE:
                 $comparator = function (ilExportHandlerFileInfoInterface $f1, ilExportHandlerFileInfoInterface $f2) {
@@ -146,7 +153,7 @@ class Handler implements ilExportHandlerTableDataRetrievalInterface
                 ilExportHandlerTableInterface::TABLE_COL_TYPE => $file_info->getFileType(),
                 ilExportHandlerTableInterface::TABLE_COL_FILE => $file_info->getFileName(),
                 ilExportHandlerTableInterface::TABLE_COL_SIZE => ((float) $file_info->getFileSize()) / ((float) pow(1024, 2)),
-                ilExportHandlerTableInterface::TABLE_COL_TIMESTAMP => $file_info->getLastChanged(),
+                ilExportHandlerTableInterface::TABLE_COL_TIMESTAMP => $file_info->getLastChanged()->setTimezone(new DateTimeZone($this->user->getTimeZone())),
                 ilExportHandlerTableInterface::TABLE_COL_PUBLIC_ACCESS => $file_info->getPublicAccessEnabled() ? $public_access_status[0] : $public_access_status[1]
             ])->withDisabledAction("enable_pa", !$file_info->getPublicAccessPossible());
         }

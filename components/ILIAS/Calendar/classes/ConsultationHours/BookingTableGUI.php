@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -177,7 +178,7 @@ class BookingTableGUI implements DataRetrieval
      */
     protected function getColumns(): array
     {
-        if ($this->user->getTimeFormat() === \ilCalendarSettings::TIME_FORMAT_12) {
+        if ((int) $this->user->getTimeFormat() === \ilCalendarSettings::TIME_FORMAT_12) {
             $format = $this->data_factory->dateFormat()->withTime12($this->user->getDateFormat());
         } else {
             $format = $this->data_factory->dateFormat()->withTime24($this->user->getDateFormat());
