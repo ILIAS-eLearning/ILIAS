@@ -321,22 +321,28 @@ class ilSurveyParticipantsGUI
         string $active
     ): void {
         $ilTabs = $this->tabs;
+        $ilTabs->clearSubTabs();
 
-        // not used in 360° mode
-
-        // overview
-        $ilTabs->addSubTab(
-            "overview",
-            $this->lng->txt("svy_part_overview"),
-            $this->ctrl->getLinkTarget($this, 'maintenance')
-        );
-
-        if ($this->isAnonymousListActive()) {
+        if ($this->object->get360Mode()) {
             $ilTabs->addSubTab(
-                "anon_participants",
-                $this->lng->txt("svy_anonymous_participants_svy"),
-                $this->ctrl->getLinkTarget($this, 'listParticipants')
+                "appraisees",
+                $this->lng->txt("survey_360_appraisees"),
+                $this->ctrl->getLinkTarget($this, 'listAppraisees')
             );
+        } else {
+            $ilTabs->addSubTab(
+                "overview",
+                $this->lng->txt("svy_part_overview"),
+                $this->ctrl->getLinkTarget($this, 'maintenance')
+            );
+
+            if ($this->isAnonymousListActive()) {
+                $ilTabs->addSubTab(
+                    "anon_participants",
+                    $this->lng->txt("svy_anonymous_participants_svy"),
+                    $this->ctrl->getLinkTarget($this, 'listParticipants')
+                );
+            }
         }
 
         if (!$this->object->isAccessibleWithoutCode()) {
@@ -1154,6 +1160,7 @@ class ilSurveyParticipantsGUI
         $ilCtrl = $this->ctrl;
 
         $this->handleWriteAccess();
+        $this->setParticipantSubTabs("appraisees");
 
         $this->ctrl->setParameter($this, "appr360", 1);
 
