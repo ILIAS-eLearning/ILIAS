@@ -280,7 +280,7 @@ class ilCalendarCategoryGUI
                 new OutgoingSharedCalendarsSearchRoleDataRetrieval((string) ilSession::get('cal_query'), $this->rbacreview),
             SharedCalendarsInboxTableBuilder::ACCEPT_INVITATION_ACTION,
             SharedCalendarsInboxTableBuilder::DECLINE_INVITATION_ACTION =>
-                new SharedCalendarsInboxDataRetrieval($this->user_id),
+                new SharedCalendarsInboxDataRetrieval($this->user),
             default => null
         };
         $all_ids = $data_retrieval?->getAllIDs() ?? [];
@@ -1236,7 +1236,7 @@ class ilCalendarCategoryGUI
     {
         $this->addSubTabs("invitations");
         $table = new SharedCalendarsInboxTableBuilder(
-            new SharedCalendarsInboxDataRetrieval($this->user_id),
+            new SharedCalendarsInboxDataRetrieval($this->user),
             $this->lng,
             $this->ui_factory,
             $this->http,
