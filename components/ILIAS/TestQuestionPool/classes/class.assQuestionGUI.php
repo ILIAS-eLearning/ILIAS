@@ -2041,9 +2041,10 @@ abstract class assQuestionGUI
         )->withAffectedItems([
             $this->ui->factory()->modal()->interruptiveItem()->standard(
                 (string) $this->object->getOriginalId(),
-                $this->object->getTitleForHTMLOutput()
+                "{$this->lng->txt('question_title')}: {$this->object->getTitleForHTMLOutput()}"
             )
-        ])->withActionButtonLabel($this->lng->txt('sync_question_to_pool'));
+        ])->withActionButtonLabel($this->lng->txt('sync_question_to_pool'))
+            ->withCancelButtonLabel($this->lng->txt('sync_question_do_not_apply'));
         return $this->ui->renderer()->render(
             $modal->withOnLoad($modal->getShowSignal())
         );
