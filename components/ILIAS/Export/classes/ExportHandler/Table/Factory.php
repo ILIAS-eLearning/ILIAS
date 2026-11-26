@@ -73,7 +73,8 @@ class Factory implements ilExportHandlerTableFactoryInterface
     {
         return new ilExportHandlerTableDataRetrievalFactory(
             $this->lng,
-            $this->export_handler
+            $this->export_handler,
+            $this->user
         );
     }
 }

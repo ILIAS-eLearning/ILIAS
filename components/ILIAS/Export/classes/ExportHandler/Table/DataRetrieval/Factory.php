@@ -28,6 +28,7 @@ use ILIAS\Export\ExportHandler\I\Table\DataRetrieval\HandlerInterface as ilExpor
 use ILIAS\Export\ExportHandler\Table\DataRetrieval\Handler as ilExportHandlerTableDataRetrieval;
 use ilLanguage;
 use ilObject;
+use ilObjUser;
 
 class Factory implements ilExportHandlerTableDataRetrievalFactoryInterface
 {
@@ -36,7 +37,8 @@ class Factory implements ilExportHandlerTableDataRetrievalFactoryInterface
         protected ilUIServices $ui_services,
         protected ilExportGUI $export_gui,
         protected ilObject $export_object,
-        protected ilLanguage $lng
+        protected ilLanguage $lng,
+        protected ilObjUser $user
     ) {
     }
 
@@ -44,7 +46,8 @@ class Factory implements ilExportHandlerTableDataRetrievalFactoryInterface
     {
         return new ilExportHandlerTableDataRetrieval(
             $this->lng,
-            $this->export_handler
+            $this->export_handler,
+            $this->user
         );
     }
 }
