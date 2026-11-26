@@ -29,20 +29,21 @@ use ilFileSystemAbstractionStorage;
 use ilLanguage;
 use ilUtil;
 use DateTimeImmutable;
+use DateTimeZone;
+use ilObjUser;
 
 class DataRetrieval implements DataRetrievalInterface
 {
-    protected ilFileSystemAbstractionStorage $fss_export;
-    protected ilLanguage $lng;
-
     protected ?array $raw_data = null;
 
     public function __construct(
-        ilFileSystemAbstractionStorage $fss_export,
-        ilLanguage $lng
+        protected ilFileSystemAbstractionStorage $fss_export,
+        protected ilLanguage $lng,
+        protected ilObjUser $user
     ) {
         $this->fss_export = $fss_export;
         $this->lng = $lng;
+        $this->user = $user;
     }
 
     public function getRows(
@@ -75,7 +76,8 @@ class DataRetrieval implements DataRetrievalInterface
         foreach ($data as $id => $row) {
             $row_copy = $row;
             $row_copy[TableBuilder::COL_SIZE] = ilUtil::formatSize((int) $row[TableBuilder::COL_SIZE]);
-            $row_copy[TableBuilder::COL_DATE] = new DateTimeImmutable('@' . $row[TableBuilder::COL_DATE]);
+            $row_copy[TableBuilder::COL_DATE] = new DateTimeImmutable('@' . $row[TableBuilder::COL_DATE])
+                ->setTimezone(new DateTimeZone($this->user->getTimeZone()));
 
             yield $row_builder->buildDataRow((string) $id, $row_copy);
         }

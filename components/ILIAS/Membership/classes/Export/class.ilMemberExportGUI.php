@@ -312,7 +312,7 @@ class ilMemberExportGUI
     public function showFileList(): void
     {
         $table = new TableBuilder(
-            new DataRetrieval($this->fss_export, $this->lng),
+            new DataRetrieval($this->fss_export, $this->lng, $this->user),
             $this->lng,
             $this->ui_factory,
             $this->http,
@@ -361,7 +361,7 @@ class ilMemberExportGUI
             );
 
             if ($ids === ['ALL_OBJECTS']) {
-                $data_retrieval = new DataRetrieval($this->fss_export, $this->lng);
+                $data_retrieval = new DataRetrieval($this->fss_export, $this->lng, $this->user);
                 $ids = $data_retrieval->getAllIDs();
             }
         }
