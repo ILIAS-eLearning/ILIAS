@@ -49,6 +49,7 @@ use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
  * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjSurveyGUI
  * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjFileUploadHandlerGUI
  * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjLearningSequenceEditIntroGUI, ilObjLearningSequenceEditExtroGUI
+ * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjLearningSequencePageViewGUI
  */
 class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClassInterface
 {
@@ -316,6 +317,14 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
             case 'ilobjlearningsequencelppollinggui':
                 $gui = $this->object->getLocalDI()["gui.learner.lp"];
                 $this->ctrl->forwardCommand($gui);
+                break;
+            case 'ilobjlearningsequencepageviewgui':
+                $out = $this->ctrl->forwardCommand(
+                    $this->object->getContentPageViewGUI($this->getRequestedPageType())
+                );
+                if (!is_null($out)) {
+                    $tpl->setContent($out);
+                }
                 break;
             case "ilobjlearningsequenceeditintrogui":
                 $which_page = LSOPageType::INTRO;
@@ -787,6 +796,10 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
             case 'ilobjlearningsequenceeditextrogui':
                 $this->assertAccessOrRedirect('write');
                 break;
+
+            case 'ilobjlearningsequencepageviewgui':
+                $this->assertAccessOrRedirect('read');
+                break;
         }
     }
 
@@ -796,12 +809,31 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
             return;
         }
 
-        $message = $permission === 'edit_permission'
-            ? $this->lng->txt('no_permission')
-            : $this->lng->txt('msg_no_perm_write');
-
-        $this->tpl->setOnScreenMessage('failure', $message, true);
+        $this->tpl->setOnScreenMessage('failure', $this->getNoPermissionMessage($permission), true);
         $this->ctrl->redirect($this, self::CMD_VIEW);
+    }
+
+    protected function getRequestedPageType(): LSOPageType
+    {
+        $value = $this->request_wrapper->retrieve(
+            ilObjLearningSequencePageViewGUI::PARAM_PAGE_TYPE,
+            $this->refinery->byTrying([$this->refinery->kindlyTo()->string(), $this->refinery->always('')])
+        );
+        $page_type = LSOPageType::tryFrom($value);
+        if ($page_type === null) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
+            $this->ctrl->redirect($this, self::CMD_VIEW);
+        }
+        return $page_type;
+    }
+
+    protected function getNoPermissionMessage(string $permission): string
+    {
+        return match ($permission) {
+            'edit_permission' => $this->lng->txt('no_permission'),
+            'read' => $this->lng->txt('msg_no_perm_read'),
+            default => $this->lng->txt('msg_no_perm_write'),
+        };
     }
 
     protected function checkLPAccess(): bool

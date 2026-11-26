@@ -602,14 +602,16 @@ class ilObjLearningSequence extends ilContainer
             return '';
         }
 
-        $gui = $page_type === LSOPageType::INTRO ?
-            new ilObjLearningSequenceEditIntroGUI(LSOPageType::INTRO->value, $this->getContentPageId()) :
-            new ilObjLearningSequenceEditExtroGUI(LSOPageType::EXTRO->value, $this->getContentPageId());
-
+        $gui = $this->getContentPageViewGUI($page_type);
         $gui->setPresentationTitle("");
         $gui->setTemplateOutput(false);
         $gui->setHeader("");
         $ret = $gui->showPage();
         return $ret;
+    }
+
+    public function getContentPageViewGUI(LSOPageType $page_type): ilObjLearningSequencePageViewGUI
+    {
+        return new ilObjLearningSequencePageViewGUI($page_type, $this->getContentPageId());
     }
 }
