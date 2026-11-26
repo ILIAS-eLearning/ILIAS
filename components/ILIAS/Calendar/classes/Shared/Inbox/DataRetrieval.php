@@ -28,19 +28,20 @@ use ilObjUser;
 use ILIAS\Calendar\Shared\DataRetrievalInterface;
 use ilCalendarSharedStatus;
 use DateTimeImmutable;
+use DateTimeZone;
 
 class DataRetrieval implements DataRetrievalInterface
 {
     protected array $open_invitations;
 
     public function __construct(
-        protected int $user_id
+        protected ilObjUser $user
     ) {
     }
 
     protected function getOpenInvitations(): array
     {
-        return $this->open_invitations ??= new ilCalendarSharedStatus($this->user_id)->getOpenInvitations();
+        return $this->open_invitations ??= new ilCalendarSharedStatus($this->user->getId())->getOpenInvitations();
     }
 
     public function getRows(
@@ -59,7 +60,8 @@ class DataRetrieval implements DataRetrievalInterface
             $name = ilObjUser::_lookupName((int) $item['owner']);
             $datum[TableBuilder::OWNER_COLUMN] = $name['lastname'] . ', ' . $name['firstname'];
             $datum[TableBuilder::APPOINTMENTS_COUNT_COLUMN] = (int) $item['apps'];
-            $datum[TableBuilder::CREATED_ON_COLUMN] = new DateTimeImmutable($item['create_date']);
+            $datum[TableBuilder::CREATED_ON_COLUMN] = new DateTimeImmutable($item['create_date'])
+                ->setTimezone(new DateTimeZone($this->user->getTimeZone()));
 
             $data[(int) $item['cal_id']] = $datum;
         }
