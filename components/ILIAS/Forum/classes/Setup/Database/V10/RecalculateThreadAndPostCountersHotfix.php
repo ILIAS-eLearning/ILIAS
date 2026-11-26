@@ -1,4 +1,21 @@
 <?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\Forum\Setup\Database\V10;
@@ -18,17 +35,17 @@ class RecalculateThreadAndPostCountersHotfix implements ilDatabaseUpdateSteps
     public function step_1(): void
     {
         $this->db->manipulate(
-            'UPDATE frm_data '
-            . 'INNER JOIN ('
-            . 'SELECT d.top_pk, '
-            . '(SELECT COUNT(*) FROM frm_threads WHERE thr_top_fk = d.top_pk) AS num_threads, '
-            . '(SELECT COUNT(*) FROM frm_posts WHERE pos_top_fk = d.top_pk) AS num_posts '
-            . 'FROM frm_data d'
-            . ') counted ON counted.top_pk = frm_data.top_pk '
-            . 'SET frm_data.top_num_threads = counted.num_threads, '
-            . 'frm_data.top_num_posts = counted.num_posts '
-            . 'WHERE frm_data.top_num_threads != counted.num_threads '
-            . 'OR frm_data.top_num_posts != counted.num_posts',
+            <<<'SQL'
+            UPDATE frm_data d
+            LEFT JOIN (SELECT thr_top_fk, COUNT(*) AS c FROM frm_threads GROUP BY thr_top_fk) t
+              ON t.thr_top_fk = d.top_pk
+            LEFT JOIN (SELECT pos_top_fk, COUNT(*) AS c FROM frm_posts GROUP BY pos_top_fk) p
+              ON p.pos_top_fk = d.top_pk
+            SET d.top_num_threads = COALESCE(t.c, 0),
+                d.top_num_posts = COALESCE(p.c, 0)
+            WHERE d.top_num_threads != COALESCE(t.c, 0)
+               OR d.top_num_posts != COALESCE(p.c, 0);
+            SQL,
         );
     }
 }
