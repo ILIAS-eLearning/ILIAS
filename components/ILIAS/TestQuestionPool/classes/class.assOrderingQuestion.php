@@ -388,6 +388,10 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             $solution_ordering_list->addElement($element);
         }
 
+        if ($this->isOrderingTypeNested()) {
+            $this->normalizeIndentations($solution_ordering_list);
+        }
+
         if (!$this->getOrderingElementList()->hasSameElementSetByRandomIdentifiers($solution_ordering_list)) {
             throw new ilTestQuestionPoolException('inconsistent solution values given');
         }
@@ -1009,7 +1013,26 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             $solution_ordering_element_list->addElement($solution_element);
         }
 
+        if ($this->isOrderingTypeNested()) {
+            $this->normalizeIndentations($solution_ordering_element_list);
+        }
+
         return $solution_ordering_element_list;
+    }
+
+    /**
+     * An element can be indented at most one level deeper than its predecessor.
+     * Older versions of the drag&drop handler could store larger jumps.
+     */
+    private function normalizeIndentations(ilAssOrderingElementList $element_list): void
+    {
+        $max_indentation = 0;
+        foreach ($element_list as $element) {
+            if ($element->getIndentation() > $max_indentation) {
+                $element->setIndentation($max_indentation);
+            }
+            $max_indentation = $element->getIndentation() + 1;
+        }
     }
 
     private ?ilAssOrderingElementList $postSolutionOrderingElementList = null;
