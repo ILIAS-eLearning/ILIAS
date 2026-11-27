@@ -914,7 +914,7 @@ class ilPageObjectGUI
 
             case "ilquestioneditgui":
                 $this->setQEditTabs("edit_question");
-                $edit_gui = new ilQuestionEditGUI();
+                $edit_gui = new ilQuestionEditGUI($this);
                 $edit_gui->setPageConfig($this->getPageConfig());
                 $edit_gui->setSelfAssessmentEditingMode(true);
                 $ret = $this->ctrl->forwardCommand($edit_gui);
@@ -943,7 +943,7 @@ class ilPageObjectGUI
                 $questionGUI->getObject()->setPreventRteUsage($this->getPageConfig()->getPreventRteUsage());
 
                 // forward to ilAssQuestionFeedbackGUI
-                (new ilQuestionEditGUI())->forwardToFeedbackEditGUI($questionGUI);
+                (new ilQuestionEditGUI($this))->forwardToFeedbackEditGUI($questionGUI);
                 break;
 
 
