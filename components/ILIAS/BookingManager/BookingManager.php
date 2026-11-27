@@ -22,6 +22,7 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class BookingManager implements Component\Component
 {
@@ -46,5 +47,7 @@ class BookingManager implements Component\Component
             $this,
             'book'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new BookingManager\ObjectType\BookingPoolObjectType();
     }
 }

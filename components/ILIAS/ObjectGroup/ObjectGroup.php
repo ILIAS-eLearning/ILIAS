@@ -22,6 +22,7 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class ObjectGroup implements Component\Component
 {
@@ -43,5 +44,7 @@ class ObjectGroup implements Component\Component
             $this,
             'obgr'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new ObjectGroup\ObjectType\ObjectGroupObjectType();
     }
 }

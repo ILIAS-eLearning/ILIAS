@@ -22,6 +22,7 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class DataCollection implements Component\Component
 {
@@ -47,5 +48,7 @@ class DataCollection implements Component\Component
             $this,
             'dcl'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new DataCollection\ObjectType\DataCollectionObjectType();
     }
 }

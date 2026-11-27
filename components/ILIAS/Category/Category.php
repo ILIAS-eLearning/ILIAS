@@ -22,6 +22,8 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectGroup;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class Category implements Component\Component
 {
@@ -40,5 +42,8 @@ class Category implements Component\Component
             $this,
             'cat'
         );
+
+        $contribute[ObjectGroup::class] = static fn(): ObjectGroup => new Category\ObjectType\CategoriesObjectGroup();
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Category\ObjectType\CategoryObjectType();
     }
 }

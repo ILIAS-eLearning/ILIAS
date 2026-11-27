@@ -22,6 +22,8 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectGroup;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class EmployeeTalk implements Component\Component
 {
@@ -42,5 +44,11 @@ class EmployeeTalk implements Component\Component
             $this,
             'etal'
         );
+
+        $contribute[ObjectGroup::class] = static fn(): ObjectGroup => new EmployeeTalk\ObjectType\EmployeeTalkTemplatesObjectGroup();
+        $contribute[ObjectType::class] = static fn(): ObjectType => new EmployeeTalk\ObjectType\TalkTemplateAdministrationObjectType();
+        $contribute[ObjectType::class] = static fn(): ObjectType => new EmployeeTalk\ObjectType\TalkTemplateObjectType();
+        $contribute[ObjectType::class] = static fn(): ObjectType => new EmployeeTalk\ObjectType\EmployeeTalkSeriesObjectType();
+        $contribute[ObjectType::class] = static fn(): ObjectType => new EmployeeTalk\ObjectType\EmployeeTalkObjectType();
     }
 }

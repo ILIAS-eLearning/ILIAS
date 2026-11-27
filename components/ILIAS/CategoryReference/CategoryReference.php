@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+use ILIAS\ILIASObject\Definition\ObjectType;
+
 class CategoryReference implements Component\Component
 {
     public function init(
@@ -33,5 +35,7 @@ class CategoryReference implements Component\Component
         array | \ArrayAccess &$internal,
     ): void {
         // ...
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new CategoryReference\ObjectType\CategoryReferenceObjectType();
     }
 }

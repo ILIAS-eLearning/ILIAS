@@ -18,13 +18,16 @@
 
 declare(strict_types=1);
 
+use ILIAS\ILIASObject\Definition\ObjectType;
+use ILIAS\ILIASObject\Definition\ObjectTypeFlag;
+use ILIAS\ILIASObject\Definition\ObjectTypeRegistry;
+
 /**
-* parses the objects.xml
-* it handles the xml-description of all ilias objects
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @externalTableAccess ilObjDefReader on il_object_def, il_object_subobj, il_object_group
-*/
+ * Provides the definitions of all object types. The types are contributed
+ * by the components via the bootstrap and collected in the ObjectTypeRegistry.
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilObjectDefinition
 {
     public const MODE_REPOSITORY = 1;
@@ -33,6 +36,7 @@ class ilObjectDefinition
 
     protected ilSetting $settings;
     protected ilComponentRepository $component_repository;
+    protected ?ObjectTypeRegistry $registry;
 
     protected array $obj_data = [];
     protected array $obj_group = [];
@@ -48,7 +52,53 @@ class ilObjectDefinition
 
         $this->component_repository = $DIC["component.repository"];
         $this->settings = $DIC->settings();
+        // the registry is not available in some setup objectives which build a fake $DIC
+        $this->registry = $DIC->offsetExists(ObjectTypeRegistry::class)
+            ? $DIC[ObjectTypeRegistry::class]
+            : null;
         $this->readDefinitionData();
+    }
+
+    /**
+     * @return array<string, ObjectType>
+     */
+    protected static function getObjectTypes(?ObjectTypeRegistry $registry): array
+    {
+        return $registry?->getAll() ?? [];
+    }
+
+    /**
+     * Row of an object type in the format of the former table il_object_def.
+     */
+    protected static function toDefinitionRecord(ObjectType $type): array
+    {
+        $flag = static fn(ObjectTypeFlag $flag): string => $type->hasFlag($flag) ? '1' : '0';
+        return [
+            'id' => $type->getId(),
+            'class_name' => $type->getClassName(),
+            'component' => $type->getComponent(),
+            'location' => $type->getLocation(),
+            'checkbox' => $flag(ObjectTypeFlag::CHECKBOX),
+            'inherit' => $flag(ObjectTypeFlag::INHERIT),
+            'translate' => $type->getTranslationType(),
+            'devmode' => $flag(ObjectTypeFlag::DEVMODE),
+            'allow_link' => $flag(ObjectTypeFlag::ALLOW_LINK),
+            'allow_copy' => $flag(ObjectTypeFlag::ALLOW_COPY),
+            'rbac' => $flag(ObjectTypeFlag::RBAC),
+            'system' => $flag(ObjectTypeFlag::SYSTEM),
+            'sideblock' => $flag(ObjectTypeFlag::SIDEBLOCK),
+            'default_pos' => (string) $type->getDefaultPosition(),
+            'grp' => $type->getGroup(),
+            'default_pres_pos' => (string) $type->getDefaultPresentationPosition(),
+            'export' => $flag(ObjectTypeFlag::EXPORT),
+            'repository' => $flag(ObjectTypeFlag::REPOSITORY),
+            'workspace' => $flag(ObjectTypeFlag::WORKSPACE),
+            'administration' => $flag(ObjectTypeFlag::ADMINISTRATION),
+            'amet' => $flag(ObjectTypeFlag::AMET),
+            'orgunit_permissions' => $flag(ObjectTypeFlag::ORGUNIT_PERMISSIONS),
+            'lti_provider' => $flag(ObjectTypeFlag::LTI_PROVIDER),
+            'offline_handling' => $flag(ObjectTypeFlag::OFFLINE_HANDLING),
+        ];
     }
 
     /**
@@ -56,8 +106,9 @@ class ilObjectDefinition
     */
     public function readDefinitionData(): void
     {
-        $global_cache = ilCachedObjectDefinition::getInstance();
-        foreach ($global_cache->getIlObjectDef() as $rec) {
+        $types = self::getObjectTypes($this->registry);
+        foreach ($types as $type) {
+            $rec = self::toDefinitionRecord($type);
             $this->obj_data[$rec["id"]] = [
                 "name" => $rec["id"],
                 "class_name" => $rec["class_name"],
@@ -72,7 +123,10 @@ class ilObjectDefinition
                 "rbac" => $rec["rbac"],
                 "group" => $rec["grp"],
                 "system" => $rec["system"],
-                "default_pos" => "9999" . str_pad((string) $rec["default_pos"], 4, "0", STR_PAD_LEFT), // "unassigned" group
+                "default_pos" => $type->isLegacyPlugin()
+                    ? $rec["default_pos"]
+                    : "9999" . str_pad($rec["default_pos"], 4, "0", STR_PAD_LEFT), // "unassigned" group
+                "default_pres_pos" => $rec["default_pres_pos"],
                 "sideblock" => $rec["sideblock"],
                 'export' => $rec['export'],
                 'repository' => $rec['repository'],
@@ -83,28 +137,57 @@ class ilObjectDefinition
                 'lti_provider' => $rec['lti_provider'],
                 'offline_handling' => $rec['offline_handling']
             ];
-            $this->obj_data[$rec["id"]]["subobjects"] = [];
-
-            $defIds[] = $rec["id"];
+            if ($type->isLegacyPlugin()) {
+                $this->obj_data[$rec["id"]]["plugin"] = "1";
+            }
+            if ($type->getIconPath() !== null) {
+                $this->obj_data[$rec["id"]]["icon"] = $type->getIconPath();
+            }
+            $this->obj_data[$rec["id"]]["subobjects"] ??= [];
+            foreach ($type->getSubTypes() as $sub_type => $amet) {
+                $this->sub_types[$rec["id"]][] = [
+                    "obj_type" => $rec["id"],
+                    "sub_type" => $sub_type,
+                    "amet" => $amet ? "1" : "0"
+                ];
+            }
         }
 
-        $subobj = $global_cache->lookupSubObjForParent($defIds);
-
-        foreach ($subobj as $rec2) {
-            $max = $rec2["mmax"];
-            if ($max <= 0) {
-                $max = "";
+        // relations are only added if both types are available, so components
+        // can be removed without leaving references to undefined types
+        foreach ($types as $type) {
+            foreach ($type->getSubObjectTypes() as $sub_object_type => $max) {
+                if (isset($types[$sub_object_type])) {
+                    $this->addSubObject($type->getId(), $types[$sub_object_type], $max);
+                }
             }
-            $this->obj_data[$rec2["parent"]]["subobjects"][$rec2["subobj"]] = [
-                "name" => $rec2["subobj"],
-                "max" => $max,
-                "lng" => $rec2["subobj"]
+            foreach ($type->getParentTypes() as $parent_type => $max) {
+                if (isset($types[$parent_type])) {
+                    $this->addSubObject($parent_type, $type, $max);
+                }
+            }
+        }
+
+        foreach ($this->registry?->getGroups() ?? [] as $group) {
+            $this->obj_group[$group->getId()] = [
+                "id" => $group->getId(),
+                "name" => $group->getName(),
+                "default_pres_pos" => (string) $group->getDefaultPresentationPosition()
             ];
         }
-
-        $this->obj_group = $global_cache->getIlObjectGroup();
         $this->readPluginData();
-        $this->sub_types = $global_cache->getIlObjectSubType();
+    }
+
+    protected function addSubObject(string $parent_type, ObjectType $type, int $max): void
+    {
+        $this->obj_data[$parent_type]["subobjects"][$type->getId()] = [
+            "name" => $type->getId(),
+            "max" => $max > 0 ? (string) $max : "",
+            "lng" => $type->getId()
+        ];
+        if ($type->isLegacyPlugin()) {
+            $this->obj_data[$parent_type]["subobjects"][$type->getId()]["plugin"] = true;
+        }
     }
 
     protected static function getGroupedPluginObjectTypes(array $grouped_obj, string $slotId): array
@@ -124,6 +207,14 @@ class ilObjectDefinition
             }
         }
         return $grouped_obj;
+    }
+
+    /**
+     * Icon of types which do not use a standard icon of the UI framework.
+     */
+    public function getIconPath(string $obj_name): ?string
+    {
+        return $this->obj_data[$obj_name]["icon"] ?? null;
     }
 
     public function getClassName(string $obj_name): string
@@ -249,9 +340,24 @@ class ilObjectDefinition
     /**
      * Check if given type is a plugin type name (starts with an "x")
      */
+    /**
+     * Types with the prefix "x" are no longer plugins per se, components of
+     * other vendors can contribute them, too. Only types of the plugin adapter
+     * and unknown "x" types (e.g. of a removed plugin) are treated as plugins.
+     */
     public function isPluginTypeName(string $str): bool
     {
-        return (substr($str, 0, 1) == "x");
+        return $this->isPlugin($str)
+            || (substr($str, 0, 1) == "x" && !$this->isAvailable($str));
+    }
+
+    /**
+     * false if no component (or plugin) provides the type (anymore), e.g. because
+     * the component has been removed.
+     */
+    public function isAvailable(string $type): bool
+    {
+        return isset($this->obj_data[$type]["class_name"]);
     }
 
     /**
@@ -596,21 +702,12 @@ class ilObjectDefinition
     public static function getRepositoryObjectTypesForComponent(string $component_type, string $component_name): array
     {
         global $DIC;
-        $ilDB = $DIC->database();
-
-        $sql =
-            "SELECT id, class_name, component, location, checkbox, inherit, translate, devmode, allow_link," . PHP_EOL
-            . "allow_copy, rbac, `system`, sideblock, default_pos, grp, default_pres_pos, `export`, repository," . PHP_EOL
-            . "workspace, administration, amet, orgunit_permissions, lti_provider, offline_handling" . PHP_EOL
-            . "FROM il_object_def" . PHP_EOL
-            . "WHERE component = %s" . PHP_EOL
-        ;
-        $result = $ilDB->queryF($sql, ["text"], [$component_type . "/" . $component_name]);
 
         $types = [];
-        while ($rec = $ilDB->fetchAssoc($result)) {
-            if ($rec["system"] != 1) {
-                $types[] = $rec;
+        foreach (self::getObjectTypes($DIC[ObjectTypeRegistry::class] ?? null) as $type) {
+            if ($type->getComponent() === $component_type . "/" . $component_name
+                && !$type->hasFlag(ObjectTypeFlag::SYSTEM)) {
+                $types[] = self::toDefinitionRecord($type);
             }
         }
         return $types;
@@ -622,15 +719,9 @@ class ilObjectDefinition
     public static function getComponentForType(string $obj_type): string
     {
         global $DIC;
-        $ilDB = $DIC->database();
 
-        $result = $ilDB->queryF("SELECT component FROM il_object_def WHERE id = %s", ["text"], [$obj_type]);
-
-        if ($rec = $ilDB->fetchAssoc($result)) {
-            return $rec["component"];
-        }
-
-        return "";
+        $types = self::getObjectTypes($DIC[ObjectTypeRegistry::class] ?? null);
+        return isset($types[$obj_type]) ? $types[$obj_type]->getComponent() : "";
     }
 
     /**
@@ -639,30 +730,31 @@ class ilObjectDefinition
     public static function getGroupedRepositoryObjectTypes($parent_obj_type): array
     {
         global $DIC;
-        $ilDB = $DIC->database();
-
-        $set = $ilDB->query("SELECT * FROM il_object_group");
-        $groups = [];
-        while ($gr_rec = $set->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
-            $groups[$gr_rec["id"]] = $gr_rec;
-        }
-
-        $global_cache = ilCachedObjectDefinition::getInstance();
-
-        $recs = $global_cache->lookupGroupedRepObj($parent_obj_type);
+        /** @var ilObjectDefinition $obj_definition */
+        $obj_definition = $DIC["objDefinition"];
+        $groups = $obj_definition->obj_group;
 
         $grouped_obj = [];
-        foreach ((array) $recs as $rec) {
-            if ($rec["grp"] != "") {
-                $grouped_obj[$rec["grp"]]["pos"] = (int) $groups[$rec["grp"]]["default_pres_pos"];
-                $grouped_obj[$rec["grp"]]["objs"][] = $rec["id"];
-            } else {
-                $grouped_obj[$rec["id"]]["pos"] = (int) $rec["default_pres_pos"];
-                $grouped_obj[$rec["id"]]["objs"][] = $rec["id"];
+        $seen = [];
+        foreach ((array) $parent_obj_type as $parent) {
+            foreach (array_keys($obj_definition->obj_data[$parent]["subobjects"] ?? []) as $type) {
+                $data = $obj_definition->obj_data[$type] ?? null;
+                if ($data === null || isset($seen[$type]) || $data["system"] === "1" || $data["sideblock"] === "1") {
+                    continue;
+                }
+                $seen[$type] = true;
+                $group = $data["group"] ?? "";
+                if ($group !== "" && isset($groups[$group])) {
+                    $grouped_obj[$group]["pos"] = (int) $groups[$group]["default_pres_pos"];
+                    $grouped_obj[$group]["objs"][] = $type;
+                } else {
+                    $grouped_obj[$type]["pos"] = isset($data["plugin"])
+                        ? 99992000
+                        : (int) $data["default_pres_pos"];
+                    $grouped_obj[$type]["objs"][] = $type;
+                }
             }
         }
-        // now get objects from repository plugin
-        $grouped_obj = self::getGroupedPluginObjectTypes($grouped_obj, "robj");
         $grouped_obj = self::getGroupedPluginObjectTypes($grouped_obj, "orguext");
 
         return ilArrayUtil::sortArray($grouped_obj, "pos", "asc", true, true);
@@ -712,12 +804,13 @@ class ilObjectDefinition
     /**
      * Check whether type belongs to inactive plugin
      */
+    /**
+     * Kept for the existing callers: true for every type which is not available,
+     * not only for plugins.
+     */
     public function isInactivePlugin(string $type): bool
     {
-        if (substr($type, 0, 1) == "x" && !$this->isPlugin($type)) {
-            return true;
-        }
-        return false;
+        return !$this->isAvailable($type);
     }
 
     /**
@@ -862,7 +955,8 @@ class ilObjectDefinition
      */
     protected function readPluginData(): void
     {
-        $this->parsePluginData("robj", false);
+        // repository object plugins are contributed as object types by the
+        // adapter in the Repository component
         $this->parsePluginData("orguext", true);
     }
 

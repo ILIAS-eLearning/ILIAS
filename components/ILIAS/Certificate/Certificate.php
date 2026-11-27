@@ -22,6 +22,8 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
+use ILIAS\Administration\Node\AdministrationNode;
 
 class Certificate implements Component\Component
 {
@@ -49,5 +51,9 @@ class Certificate implements Component\Component
             $this,
             'certificate'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Certificate\ObjectType\CertificateSettingsObjectType();
+
+        $contribute[AdministrationNode::class] = static fn(): AdministrationNode => new Certificate\AdministrationNode\CertificateSettingsAdministrationNode();
     }
 }

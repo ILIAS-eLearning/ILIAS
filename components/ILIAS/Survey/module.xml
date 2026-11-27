@@ -4,23 +4,6 @@
 	<baseclasses>
 		<baseclass name="ilObjSurveyGUI" dir="classes" />
 	</baseclasses>
-	<objects>
-		<object id="svy" class_name="Survey" dir="classes" default_pos="190" default_pres_pos="180"
-				checkbox="1" inherit="1" allow_link="1" allow_copy="1"
-				translate="0" rbac="1" export="1" lti_provider="1" orgunit_permissions="1" offline_handling="1"
-		>
-			<parent id="cat">cat</parent>
-			<parent id="crs">crs</parent>
-			<parent id="fold">fold</parent>
-			<parent id="grp">grp</parent>
-			<parent id="recf">recf</parent>
-			<parent id="root">root</parent>
-		</object>
-		<object id="svyf" class_name="SurveyAdministration" dir="classes"
-			checkbox="0" inherit="0" translate="sys" rbac="1" system="1" administration="1">
-			<parent id="adm" max="1">adm</parent>
-		</object>
-	</objects>
 	<crons>
 		<cron id="survey_notification" class="ilSurveyCronNotification" />
 	</crons>

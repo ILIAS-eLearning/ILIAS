@@ -22,6 +22,8 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
+use ILIAS\Administration\Node\AdministrationNode;
 
 class WebResource implements Component\Component
 {
@@ -43,5 +45,10 @@ class WebResource implements Component\Component
             $this,
             'webr'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new WebResource\ObjectType\LinkResourceObjectType();
+        $contribute[ObjectType::class] = static fn(): ObjectType => new WebResource\ObjectType\WebResourceAdministrationObjectType();
+
+        $contribute[AdministrationNode::class] = static fn(): AdministrationNode => new WebResource\AdministrationNode\WebResourceAdministrationAdministrationNode();
     }
 }

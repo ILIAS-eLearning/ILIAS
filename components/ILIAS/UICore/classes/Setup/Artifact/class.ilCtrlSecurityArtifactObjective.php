@@ -24,6 +24,7 @@ use ILIAS\Setup\Artifact\BuildArtifactObjective;
 use ILIAS\Setup\ImplementationOfInterfaceFinder;
 use ILIAS\Setup\Artifact\ArrayArtifact;
 use ILIAS\Setup\Artifact;
+use ILIAS\UICore\Ctrl\SecureCommands;
 
 /**
  * Class ilCtrlSecurityArtifactObjective
@@ -46,7 +47,7 @@ class ilCtrlSecurityArtifactObjective extends BuildArtifactObjective
         $finder = new ImplementationOfInterfaceFinder();
 
         $security_information = [];
-        foreach ($finder->getMatchingClassNames(ilCtrlSecurityInterface::class) as $class) {
+        foreach ($finder->getMatchingClassNames(SecureCommands::class) as $class) {
             try {
                 $reflection = new ReflectionClass($class);
 

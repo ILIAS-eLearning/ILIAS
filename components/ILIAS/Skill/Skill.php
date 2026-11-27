@@ -22,6 +22,8 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
+use ILIAS\Administration\Node\AdministrationNode;
 
 class Skill implements Component\Component
 {
@@ -49,5 +51,10 @@ class Skill implements Component\Component
             $this,
             'skmg'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Skill\ObjectType\SkillManagementObjectType();
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Skill\ObjectType\SkillTreeObjectType();
+
+        $contribute[AdministrationNode::class] = static fn(): AdministrationNode => new Skill\AdministrationNode\SkillManagementAdministrationNode();
     }
 }

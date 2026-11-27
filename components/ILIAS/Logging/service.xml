@@ -3,12 +3,6 @@
 	id="log">
 	<baseclasses>
 	</baseclasses>
-	<objects>
-		<object id="logs" class_name="LoggingSettings" dir="classes"
-			checkbox="0" inherit="1" translate="sys" rbac="1" system="1" administration="1">
-			<parent id="adm" max="1">adm</parent>
-		</object>
-	</objects>
 	<crons>
 		<cron id="log_error_file_cleanup" class="ilLoggerCronCleanErrorFiles" path="Services/Logging/classes/error/" />
 	</crons>

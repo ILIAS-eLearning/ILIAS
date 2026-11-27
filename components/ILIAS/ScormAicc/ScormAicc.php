@@ -22,6 +22,7 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class ScormAicc implements Component\Component
 {
@@ -84,5 +85,8 @@ class ScormAicc implements Component\Component
             $this,
             'sahs'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new ScormAicc\ObjectType\SAHSLearningModuleObjectType();
+        $contribute[ObjectType::class] = static fn(): ObjectType => new ScormAicc\ObjectType\SCORMVerificationObjectType();
     }
 }

@@ -37,6 +37,13 @@ class UICore implements Component\Component
         $implement[UICore\GlobalTemplate::class] = static fn() =>
             new UICore\GlobalTemplateLegacyInitialisationAdapter();
 
+        $define[] = UICore\Ctrl\CommandClassResolver::class;
+
+        $implement[UICore\Ctrl\CommandClassResolver::class] = static fn() =>
+            new UICore\Ctrl\ContributedCommandClassResolver(
+                $seek[UICore\Ctrl\CommandClassFactory::class]
+            );
+
         $contribute[\ILIAS\Setup\Agent::class] = fn() =>
             new \ilUICoreSetupAgent();
 

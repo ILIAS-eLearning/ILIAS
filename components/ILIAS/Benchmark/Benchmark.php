@@ -22,6 +22,8 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
+use ILIAS\Administration\Node\AdministrationNode;
 
 class Benchmark implements Component\Component
 {
@@ -43,5 +45,9 @@ class Benchmark implements Component\Component
             $this,
             'benchmark'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Benchmark\ObjectType\BenchmarkObjectType();
+
+        $contribute[AdministrationNode::class] = static fn(): AdministrationNode => new Benchmark\AdministrationNode\BenchmarkAdministrationNode();
     }
 }

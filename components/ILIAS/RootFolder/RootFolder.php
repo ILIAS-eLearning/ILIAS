@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+use ILIAS\ILIASObject\Definition\ObjectType;
+use ILIAS\Administration\Node\AdministrationNode;
+
 class RootFolder implements Component\Component
 {
     public function init(
@@ -33,5 +36,9 @@ class RootFolder implements Component\Component
         array | \ArrayAccess &$internal,
     ): void {
         // ...
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new RootFolder\ObjectType\RootFolderObjectType();
+
+        $contribute[AdministrationNode::class] = static fn(): AdministrationNode => new RootFolder\AdministrationNode\RootFolderAdministrationNode();
     }
 }

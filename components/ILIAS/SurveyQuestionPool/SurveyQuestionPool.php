@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+use ILIAS\ILIASObject\Definition\ObjectType;
+
 class SurveyQuestionPool implements Component\Component
 {
     public function init(
@@ -39,5 +41,7 @@ class SurveyQuestionPool implements Component\Component
         $contribute[\ILIAS\Setup\Agent::class] = static fn() => new \ILIAS\SurveyQuestionPool\Setup\Agent(
             $pull[\ILIAS\Refinery\Factory::class]
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new SurveyQuestionPool\ObjectType\SurveyQuestionPoolObjectType();
     }
 }

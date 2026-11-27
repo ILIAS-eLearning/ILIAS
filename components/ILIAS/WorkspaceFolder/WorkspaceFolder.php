@@ -22,6 +22,7 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class WorkspaceFolder implements Component\Component
 {
@@ -40,5 +41,7 @@ class WorkspaceFolder implements Component\Component
             $this,
             'wfld'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new WorkspaceFolder\ObjectType\WorkspaceFolderObjectType();
     }
 }
