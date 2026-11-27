@@ -24,7 +24,7 @@ class ilHelpAppEventListener implements ilAppEventListener
     {
         global $DIC;
 
-        if ($a_component === 'Services/User' && $a_event === 'deleteUser') {
+        if ($a_component === 'components/ILIAS/User' && $a_event === 'deleteUser') {
             $user_id = (int) ($a_parameter['usr_id'] ?? 0);
             if ($user_id > 0) {
                 $DIC->help()->internal()->domain()->guidedTour()->userFinished()->deleteByUser($user_id);

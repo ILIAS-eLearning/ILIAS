@@ -23,7 +23,7 @@ class ilBookingManagerAppEventListener
     /**
      * Handle an event in a listener.
      *
-     * @param	string	$a_component	component, e.g. "Modules/Forum" or "Services/User"
+     * @param	string	$a_component	component, e.g. "Modules/Forum" or "components/ILIAS/User"
      * @param	string	$a_event		event e.g. "createUser", "updateUser", "deleteUser", ...
      * @param	array	$a_parameter	parameter array (assoc), array("name" => ..., "phone_office" => ...)
      */
@@ -35,7 +35,7 @@ class ilBookingManagerAppEventListener
         global $DIC;
 
         switch ($a_component) {
-            case "Services/User":
+            case "components/ILIAS/User":
                 switch ($a_event) {
                     case "deleteUser":
                         $DIC->bookingManager()->internal()->domain()->userEvent()->handleDeletion((int) $a_parameter["usr_id"]);
