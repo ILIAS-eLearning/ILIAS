@@ -175,6 +175,39 @@ class DateTimeInputTest extends ILIAS_UI_TestBase
             ->withValue("this is no datetime...");
     }
 
+    /**
+     * Mantis #46714: a browser may submit a 5-digit year (e.g. "12345-01-01 10:00"),
+     * which PHP's DateTimeImmutable cannot parse. withInput must produce a soft
+     * validation error rather than letting InvalidArgumentException escape.
+     */
+    public function testWithInputFiveDigitYearProducesErrorNotException(): void
+    {
+        $datetime = $this->factory->datetime('label', 'byline')
+            ->withUseTime(true)
+            ->withNameFrom($this->name_source);
+        $post_data = new DefInputData(['name_0' => '12345-01-01 10:00']);
+
+        $clone = $datetime->withInput($post_data);
+
+        $this->assertNotNull($clone->getError());
+        $content = $clone->getContent();
+        $this->assertTrue($content->isError());
+        $this->assertSame('12345-01-01 10:00', $clone->getValue());
+    }
+
+    public function testWithInputUnparseableValueRendersRawValue(): void
+    {
+        $datetime = $this->factory->datetime('label', 'byline')
+            ->withUseTime(true)
+            ->withNameFrom($this->name_source);
+        $post_data = new DefInputData(['name_0' => '12345-01-01 10:00']);
+
+        $clone = $datetime->withInput($post_data);
+
+        $html = $this->getDefaultRenderer()->render($clone);
+        $this->assertStringContainsString('12345-01-01 10:00', $html);
+    }
+
     public function testRender(): void
     {
         $datetime = $this->factory->dateTime('label', 'byline');
