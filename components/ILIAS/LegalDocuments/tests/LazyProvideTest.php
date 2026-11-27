@@ -40,7 +40,7 @@ class LazyProvideTest extends TestCase
     public function testMethods(string $method, $return = []): void
     {
         $called = false;
-        $provide = $this->mockTree(Provide::class, [$method => $return]);
+        $provide = $this->stubTree(Provide::class, [$method => $return]);
 
         $create = function () use (&$called, $provide) {
             $called = true;

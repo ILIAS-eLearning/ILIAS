@@ -41,20 +41,20 @@ class BundleTest extends TestCase
 
     public function testLegacyInputGUIs(): void
     {
-        $a = $this->mock(ilFormPropertyGUI::class);
-        $b = $this->mock(ilFormPropertyGUI::class);
-        $c = $this->mock(ilFormPropertyGUI::class);
+        $a = $this->stub(ilFormPropertyGUI::class);
+        $b = $this->stub(ilFormPropertyGUI::class);
+        $c = $this->stub(ilFormPropertyGUI::class);
 
         $bundle = new Bundle([
-            $this->mockTree(SelfRegistration::class, ['legacyInputGUIs' => [$a]]),
-            $this->mockTree(SelfRegistration::class, ['legacyInputGUIs' => [$b, $c]])
+            $this->stubTree(SelfRegistration::class, ['legacyInputGUIs' => [$a]]),
+            $this->stubTree(SelfRegistration::class, ['legacyInputGUIs' => [$b, $c]])
         ]);
         $this->assertSame([$a, $b, $c], $bundle->legacyInputGUIs());
     }
 
     public function testSaveLegacyForm(): void
     {
-        $form = $this->mock(ilPropertyFormGUI::class);
+        $form = $this->stub(ilPropertyFormGUI::class);
 
         $bundle = new Bundle([
             $this->mockMethod(SelfRegistration::class, 'saveLegacyForm', [$form], true),
@@ -66,7 +66,7 @@ class BundleTest extends TestCase
 
     public function testUserCreation(): void
     {
-        $user = $this->mock(ilObjUser::class);
+        $user = $this->stub(ilObjUser::class);
         $self_registration = $this->mock(SelfRegistration::class);
         $self_registration->expects($this->exactly(2))->method('userCreation')->with($user);
 

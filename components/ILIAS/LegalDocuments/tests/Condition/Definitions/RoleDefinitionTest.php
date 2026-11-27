@@ -40,9 +40,9 @@ class RoleDefinitionTest extends TestCase
     public function testConstruct(): void
     {
         $this->assertInstanceOf(RoleDefinition::class, new RoleDefinition(
-            $this->mock(UI::class),
-            $this->mock(ilObjectDataCache::class),
-            $this->mock(ilRbacReview::class),
+            $this->stub(UI::class),
+            $this->stub(ilObjectDataCache::class),
+            $this->stub(ilRbacReview::class),
             $this->fail(...)
         ));
     }
@@ -54,10 +54,10 @@ class RoleDefinitionTest extends TestCase
         }
 
         $instance = new RoleDefinition(
-            $this->mock(UI::class),
-            $this->mock(ilObjectDataCache::class),
-            $this->mock(ilRbacReview::class),
-            fn() => $this->mock(Constraint::class)
+            $this->stub(UI::class),
+            $this->stub(ilObjectDataCache::class),
+            $this->stub(ilRbacReview::class),
+            fn() => $this->stub(Constraint::class)
         );
 
         $this->assertInstanceOf(Group::class, $instance->formGroup());
@@ -66,9 +66,9 @@ class RoleDefinitionTest extends TestCase
     public function testTranslatedRole(): void
     {
         $instance = new RoleDefinition(
-            $this->mock(UI::class),
+            $this->stub(UI::class),
             $this->mockMethod(ilObjectDataCache::class, 'lookupTitle', [87], 'foo'),
-            $this->mock(ilRbacReview::class),
+            $this->stub(ilRbacReview::class),
             $this->fail(...)
         );
 
@@ -79,8 +79,8 @@ class RoleDefinitionTest extends TestCase
     {
         $instance = new RoleDefinition(
             $this->mockMethod(UI::class, 'txt', ['crit_type_usr_global_role'], 'foo'),
-            $this->mock(ilObjectDataCache::class),
-            $this->mock(ilRbacReview::class),
+            $this->stub(ilObjectDataCache::class),
+            $this->stub(ilRbacReview::class),
             $this->fail(...)
         );
 
@@ -90,12 +90,12 @@ class RoleDefinitionTest extends TestCase
     public function testWithCriterion(): void
     {
         $instance = new RoleDefinition(
-            $this->mock(UI::class),
-            $this->mock(ilObjectDataCache::class),
-            $this->mock(ilRbacReview::class),
+            $this->stub(UI::class),
+            $this->stub(ilObjectDataCache::class),
+            $this->stub(ilRbacReview::class),
             $this->fail(...)
         );
 
-        $this->assertInstanceOf(Role::class, $instance->withCriterion($this->mock(CriterionContent::class)));
+        $this->assertInstanceOf(Role::class, $instance->withCriterion($this->stub(CriterionContent::class)));
     }
 }

@@ -32,30 +32,30 @@ class ConfigTest extends TestCase
 
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(Config::class, new Config($this->mock(Provide::class)));
+        $this->assertInstanceOf(Config::class, new Config($this->stub(Provide::class)));
     }
 
     public function testEditable(): void
     {
-        $this->assertFalse((new Config($this->mock(Provide::class)))->editable());
-        $this->assertTrue((new Config($this->mock(Provide::class), true))->editable());
+        $this->assertFalse((new Config($this->stub(Provide::class)))->editable());
+        $this->assertTrue((new Config($this->stub(Provide::class), true))->editable());
     }
 
     public function testAllowEditing(): void
     {
-        $this->assertTrue((new Config($this->mock(Provide::class)))->allowEditing()->editable());
+        $this->assertTrue((new Config($this->stub(Provide::class)))->allowEditing()->editable());
     }
 
     public function testEditableLegalDocuments(): void
     {
-        $readonly = $this->mock(Provide::class);
+        $readonly = $this->stub(Provide::class);
         $provide = $this->mockMethod(Provide::class, 'allowEditing', [], $readonly);
         $this->assertSame($readonly, (new Config($provide))->allowEditing()->legalDocuments());
     }
 
     public function testNonEditableLegalDocuments(): void
     {
-        $provide = $this->mockMethod(Provide::class, 'allowEditing', [], $this->mock(Provide::class), $this->never());
+        $provide = $this->mockMethod(Provide::class, 'allowEditing', [], $this->stub(Provide::class), $this->never());
         $this->assertSame($provide, (new Config($provide))->legalDocuments());
     }
 }

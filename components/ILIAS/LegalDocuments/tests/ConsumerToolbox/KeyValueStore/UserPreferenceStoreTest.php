@@ -33,7 +33,7 @@ class UserPreferenceStoreTest extends TestCase
 
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(UserPreferenceStore::class, new UserPreferenceStore($this->mock(ilObjUser::class)));
+        $this->assertInstanceOf(UserPreferenceStore::class, new UserPreferenceStore($this->stub(ilObjUser::class)));
     }
 
     public function testValue(): void

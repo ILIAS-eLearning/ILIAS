@@ -37,8 +37,8 @@ class ProvideWithdrawalTest extends TestCase
     {
         $this->assertInstanceOf(ProvideWithdrawal::class, new ProvideWithdrawal(
             'foo',
-            $this->mock(ilCtrl::class),
-            $this->mock(ilAuthSession::class)
+            $this->stub(ilCtrl::class),
+            $this->stub(ilAuthSession::class)
         ));
     }
 
@@ -46,8 +46,8 @@ class ProvideWithdrawalTest extends TestCase
     {
         $instance = new ProvideWithdrawal(
             'foo',
-            $this->mock(ilCtrl::class),
-            $this->mock(ilAuthSession::class),
+            $this->stub(ilCtrl::class),
+            $this->stub(ilAuthSession::class),
             function (array $params): string {
                 $this->assertSame(['withdraw_consent' => 'foo'], $params);
                 return 'logout url';

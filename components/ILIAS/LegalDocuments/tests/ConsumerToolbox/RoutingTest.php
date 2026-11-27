@@ -36,8 +36,8 @@ class RoutingTest extends TestCase
     public function testConstruct(): void
     {
         $this->assertInstanceOf(Routing::class, new Routing(
-            $this->mock(ilCtrl::class),
-            $this->mock(SelectSetting::class),
+            $this->stub(ilCtrl::class),
+            $this->stub(SelectSetting::class),
             $this->fail(...),
             $this->fail(...)
         ));
@@ -45,15 +45,15 @@ class RoutingTest extends TestCase
 
     public function testCtrl(): void
     {
-        $ctrl = $this->mock(ilCtrl::class);
-        $this->assertSame($ctrl, (new Routing($ctrl, $this->mock(SelectSetting::class), $this->fail(...), $this->fail(...)))->ctrl());
+        $ctrl = $this->stub(ilCtrl::class);
+        $this->assertSame($ctrl, (new Routing($ctrl, $this->stub(SelectSetting::class), $this->fail(...), $this->fail(...)))->ctrl());
     }
 
     public function testLogoutUrl(): void
     {
         $this->assertSame('dummy logout url', (new Routing(
-            $this->mock(ilCtrl::class),
-            $this->mock(SelectSetting::class),
+            $this->stub(ilCtrl::class),
+            $this->stub(SelectSetting::class),
             $this->fail(...),
             fn() => 'dummy logout url'
         ))->logoutUrl());
@@ -66,11 +66,11 @@ class RoutingTest extends TestCase
         $session = $this->mock(SelectSetting::class);
         $session->expects($this->once())->method('typed')->willReturnCallback(function (string $key, callable $proc) {
             $this->assertSame('orig_request_target', $key);
-            return $this->mockTree(Setting::class, ['value' => null]);
+            return $this->stubTree(Setting::class, ['value' => null]);
         });
 
         (new Routing(
-            $this->mock(ilCtrl::class),
+            $this->stub(ilCtrl::class),
             $session,
             static function () use (&$called): void {
                 $called = true;
@@ -87,7 +87,7 @@ class RoutingTest extends TestCase
         $setting->method('value')->willReturn('some url');
         $setting->expects($this->once())->method('update')->with(null);
 
-        $session = $this->mock(SelectSetting::class);
+        $session = $this->stub(SelectSetting::class);
         $session->method('typed')->willReturnCallback(function (string $key, callable $proc) use ($setting) {
             $this->assertSame('orig_request_target', $key);
 

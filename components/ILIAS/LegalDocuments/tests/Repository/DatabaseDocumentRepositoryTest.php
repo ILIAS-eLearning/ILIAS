@@ -34,6 +34,6 @@ class DatabaseDocumentRepositoryTest extends TestCase
 
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(DatabaseDocumentRepository::class, new DatabaseDocumentRepository('foo', $this->mock(ilDBInterface::class), $this->mock(UserAction::class)));
+        $this->assertInstanceOf(DatabaseDocumentRepository::class, new DatabaseDocumentRepository('foo', $this->stub(ilDBInterface::class), $this->stub(UserAction::class)));
     }
 }

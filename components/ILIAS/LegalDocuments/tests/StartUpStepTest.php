@@ -34,20 +34,20 @@ class StartUpStepTest extends TestCase
 
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(StartUpStep::class, new StartUpStep($this->mock(ilCtrl::class), $this->mock(Conductor::class)));
+        $this->assertInstanceOf(StartUpStep::class, new StartUpStep($this->stub(ilCtrl::class), $this->stub(Conductor::class)));
     }
 
     public function testShouldStoreRequestTarget(): void
     {
-        $instance = new StartUpStep($this->mock(ilCtrl::class), $this->mock(Conductor::class));
+        $instance = new StartUpStep($this->stub(ilCtrl::class), $this->stub(Conductor::class));
         $this->assertTrue($instance->shouldStoreRequestTarget());
     }
 
     public function testShouldInterceptRequest(): void
     {
-        $instance = new StartUpStep($this->mock(ilCtrl::class), $this->mockTree(Conductor::class, ['intercepting' => [
-            $this->mockTree(Intercept::class, ['intercept' => false]),
-            $this->mockTree(Intercept::class, ['intercept' => true]),
+        $instance = new StartUpStep($this->stub(ilCtrl::class), $this->stubTree(Conductor::class, ['intercepting' => [
+            $this->stubTree(Intercept::class, ['intercept' => false]),
+            $this->stubTree(Intercept::class, ['intercept' => true]),
         ]]));
 
         $this->assertTrue($instance->shouldInterceptRequest());
@@ -60,9 +60,9 @@ class StartUpStepTest extends TestCase
         $ctrl->expects($this->once())->method('getLinkTargetByClass')->with(['foo'], 'bar')->willReturn('link');
         $ctrl->expects($this->once())->method('redirectToURL')->with('link');
 
-        $instance = new StartUpStep($ctrl, $this->mockTree(Conductor::class, ['intercepting' => [
-            $this->mockTree(Intercept::class, ['intercept' => false, 'id' => 'ho', 'target' => ['guiName' => 'dummy', 'guiPath' => ['dummy'], 'command' => 'hej']]),
-            $this->mockTree(Intercept::class, ['intercept' => true, 'id' => 'baz', 'target' => ['guiName' => 'foo', 'guiPath' => ['foo'], 'command' => 'bar']]),
+        $instance = new StartUpStep($ctrl, $this->stubTree(Conductor::class, ['intercepting' => [
+            $this->stubTree(Intercept::class, ['intercept' => false, 'id' => 'ho', 'target' => ['guiName' => 'dummy', 'guiPath' => ['dummy'], 'command' => 'hej']]),
+            $this->stubTree(Intercept::class, ['intercept' => true, 'id' => 'baz', 'target' => ['guiName' => 'foo', 'guiPath' => ['foo'], 'command' => 'bar']]),
         ]]));
 
         $instance->execute();
@@ -70,11 +70,11 @@ class StartUpStepTest extends TestCase
 
     public function testIsInFulfillment(): void
     {
-        $ctrl = $this->mockTree(ilCtrl::class, ['getCmdClass' => 'foo']);
+        $ctrl = $this->stubTree(ilCtrl::class, ['getCmdClass' => 'foo']);
 
-        $instance = new StartUpStep($ctrl, $this->mockTree(Conductor::class, ['intercepting' => [
-            $this->mockTree(Intercept::class, ['intercept' => true, 'target' => ['guiName' => 'HEJ']]),
-            $this->mockTree(Intercept::class, ['intercept' => true, 'target' => ['guiName' => 'FOO']]),
+        $instance = new StartUpStep($ctrl, $this->stubTree(Conductor::class, ['intercepting' => [
+            $this->stubTree(Intercept::class, ['intercept' => true, 'target' => ['guiName' => 'HEJ']]),
+            $this->stubTree(Intercept::class, ['intercept' => true, 'target' => ['guiName' => 'FOO']]),
         ]]));
 
         $this->assertTrue($instance->isInFulfillment());

@@ -27,13 +27,16 @@ use ilLegalDocumentsAdministrationGUI;
 use ILIAS\LegalDocuments\Value\Document;
 use ILIAS\LegalDocuments\Value\Criterion;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\Stub;
 
 class AdministrationEditLinksTest extends TestCase
 {
     public function testConstruct(): void
     {
-        $admin = $this->getMockBuilder(Administration::class)->disableOriginalConstructor()->getMock();
-        $gui = $this->getMockBuilder(ilLegalDocumentsAdministrationGUI::class)->disableOriginalConstructor()->getMock();
+        /** @var Administration&Stub $admin */
+        $admin = $this->createStub(Administration::class);
+        /** @var ilLegalDocumentsAdministrationGUI&Stub $gui */
+        $gui = $this->createStub(ilLegalDocumentsAdministrationGUI::class);
         $this->assertInstanceOf(AdministrationEditLinks::class, new AdministrationEditLinks($gui, $admin));
     }
 
@@ -41,11 +44,12 @@ class AdministrationEditLinksTest extends TestCase
     public function testMethods(string $method, string $target, int $argc): void
     {
         $admin = $this->getMockBuilder(Administration::class)->disableOriginalConstructor()->getMock();
-        $gui = $this->getMockBuilder(ilLegalDocumentsAdministrationGUI::class)->disableOriginalConstructor()->getMock();
+        /** @var ilLegalDocumentsAdministrationGUI&Stub $gui */
+        $gui = $this->createStub(ilLegalDocumentsAdministrationGUI::class);
 
         $args = [
-            $this->getMockBuilder(Document::class)->disableOriginalConstructor()->getMock(),
-            $this->getMockBuilder(Criterion::class)->disableOriginalConstructor()->getMock(),
+            $this->createStub(Document::class),
+            $this->createStub(Criterion::class),
         ];
 
         $args = array_slice($args, 0, $argc);

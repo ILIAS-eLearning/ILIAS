@@ -43,12 +43,12 @@ class HistoryTableTest extends TestCase
     public function testConstruct(): void
     {
         $this->assertInstanceOf(HistoryTable::class, new HistoryTable(
-            $this->mock(HistoryRepository::class),
-            $this->mock(ProvideDocument::class),
+            $this->stub(HistoryRepository::class),
+            $this->stub(ProvideDocument::class),
             'reset',
             'auto-complete-link',
-            $this->mock(UI::class),
-            $this->mock(DocumentModal::class),
+            $this->stub(UI::class),
+            $this->stub(DocumentModal::class),
             $this->fail(...)
         ));
     }
@@ -59,12 +59,12 @@ class HistoryTableTest extends TestCase
         $ui->expects($this->exactly(6))->method('txt')->willReturnCallback(fn($key) => 'txt: ' . $key);
 
         $instance = new HistoryTable(
-            $this->mock(HistoryRepository::class),
-            $this->mock(ProvideDocument::class),
+            $this->stub(HistoryRepository::class),
+            $this->stub(ProvideDocument::class),
             'reset',
             'auto-complete-link',
             $ui,
-            $this->mock(DocumentModal::class),
+            $this->stub(DocumentModal::class),
             $this->fail(...)
         );
 
@@ -91,17 +91,17 @@ class HistoryTableTest extends TestCase
         $config->expects($this->once())->method('setSelectableColumns')->with('firstname', 'lastname', 'criteria');
         $config->expects($this->once())->method('asFilter')->with('reset command')->willReturn($filter);
 
-        $ui = $this->mock(UI::class);
+        $ui = $this->stub(UI::class);
         $ui->method('txt')->willReturnCallback(fn($key) => 'txt: ' . $key);
 
         $instance = new HistoryTable(
-            $this->mock(HistoryRepository::class),
-            $this->mock(ProvideDocument::class),
+            $this->stub(HistoryRepository::class),
+            $this->stub(ProvideDocument::class),
             'reset command',
             'auto-complete-link',
             $ui,
-            $this->mock(DocumentModal::class),
-            $this->mock(...)
+            $this->stub(DocumentModal::class),
+            $this->stub(...)
         );
 
         $instance->config($config);
@@ -118,8 +118,8 @@ class HistoryTableTest extends TestCase
             4,
             34
         )->willReturn([
-            $this->mock(History::class),
-            $this->mock(History::class),
+            $this->stub(History::class),
+            $this->stub(History::class),
         ]);
 
         $selection = $this->mockTree(TableSelection::class, [
@@ -133,12 +133,12 @@ class HistoryTableTest extends TestCase
 
         $instance = new HistoryTable(
             $repository,
-            $this->mock(ProvideDocument::class),
+            $this->stub(ProvideDocument::class),
             'reset command',
             'auto-complete-link',
-            $this->mock(UI::class),
-            $this->mock(DocumentModal::class),
-            $this->mock(...),
+            $this->stub(UI::class),
+            $this->stub(DocumentModal::class),
+            $this->stub(...),
             fn(DateTimeImmutable $date) => 'formated'
         );
 
@@ -162,12 +162,12 @@ class HistoryTableTest extends TestCase
     public function testName(): void
     {
         $instance = new HistoryTable(
-            $this->mock(HistoryRepository::class),
-            $this->mock(ProvideDocument::class),
+            $this->stub(HistoryRepository::class),
+            $this->stub(ProvideDocument::class),
             'reset command',
             'auto-complete-link',
-            $this->mock(UI::class),
-            $this->mock(DocumentModal::class),
+            $this->stub(UI::class),
+            $this->stub(DocumentModal::class),
             $this->fail(...)
         );
 

@@ -32,6 +32,6 @@ class SmoothTableFilterTest extends TestCase
 
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(SmoothTableFilter::class, new SmoothTableFilter($this->mock(ilTable2GUI::class), 'foo'));
+        $this->assertInstanceOf(SmoothTableFilter::class, new SmoothTableFilter($this->stub(ilTable2GUI::class), 'foo'));
     }
 }

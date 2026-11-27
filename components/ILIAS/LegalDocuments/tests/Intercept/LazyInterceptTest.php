@@ -39,7 +39,7 @@ class LazyInterceptTest extends TestCase
 
     public function testIntercept(): void
     {
-        $intercept = $this->mockTree(Intercept::class, ['intercept' => true]);
+        $intercept = $this->stubTree(Intercept::class, ['intercept' => true]);
         $instance = new LazyIntercept(fn() => $intercept);
 
         $this->assertTrue($intercept->intercept());
@@ -48,7 +48,7 @@ class LazyInterceptTest extends TestCase
 
     public function testId(): void
     {
-        $intercept = $this->mockTree(Intercept::class, ['id' => 'foo']);
+        $intercept = $this->stubTree(Intercept::class, ['id' => 'foo']);
         $instance = new LazyIntercept(fn() => $intercept);
 
         $this->assertSame('foo', $intercept->id());
@@ -56,8 +56,8 @@ class LazyInterceptTest extends TestCase
 
     public function testTarget(): void
     {
-        $target = $this->mock(Target::class);
-        $intercept = $this->mockTree(Intercept::class, ['target' => $target]);
+        $target = $this->stub(Target::class);
+        $intercept = $this->stubTree(Intercept::class, ['target' => $target]);
         $instance = new LazyIntercept(fn() => $intercept);
 
         $this->assertSame($target, $intercept->target());
