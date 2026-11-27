@@ -109,13 +109,15 @@ class ilCalendarSettings
         if (!self::lookupCalendarActivated($obj_id)) {
             return false;
         }
-        $settings = self::_getInstance();
         $type = ilObject::_lookupType($obj_id);
-        $default = $settings->isObjectCalendarVisible($type);
+        $default = match ($type) {
+            'crs', 'grp' => false,
+            default => self::_getInstance()->isObjectCalendarVisible($type),
+        };
         return (bool) ilContainer::_lookupContainerSetting(
             $obj_id,
             'cont_show_calendar',
-            (string) $default
+            (string) (int) $default
         );
     }
 
