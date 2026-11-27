@@ -17,10 +17,12 @@
  *********************************************************************/
 
 use ILIAS\TestQuestionPool\ilTestLegacyFormsHelper;
+use ILIAS\TestQuestionPool\QuestionPoolDIC;
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Component\Symbol\Glyph\Factory as GlyphFactory;
 use ILIAS\UI\Component\Button\Factory as ButtonFactory;
 use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
+use ILIAS\TestQuestionPool\UploadSubmit;
 
 /**
 * This class represents a single choice wizard property in a property form.
@@ -44,6 +46,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
     protected ButtonFactory $button_factory;
     protected Renderer $renderer;
     protected UploadLimitResolver $upload_limit;
+    protected UploadSubmit $upload_submit;
 
     /**
     * Constructor
@@ -65,6 +68,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
         $this->renderer = $DIC->ui()->renderer();
         $this->upload_limit = $DIC['ui.upload_limit_resolver'];
         $this->forms_helper = new ilTestLegacyFormsHelper();
+        $this->upload_submit = QuestionPoolDIC::dic()['upload_submit'];
     }
 
     public function setValue($a_value): void
@@ -275,9 +279,9 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
         }
         $image_names = $this->forms_helper->transformArray($data, 'imagename', $this->refinery->kindlyTo()->string());
 
-        if (is_array($_FILES) && count($_FILES) && $this->getSingleline() && (!$this->hideImages)) {
-            if (is_array($_FILES[$this->getPostVar()]['error']['image'])) {
-                foreach ($_FILES[$this->getPostVar()]['error']['image'] as $index => $error) {
+        if ($this->upload_submit->hasAny() && $this->getSingleline() && (!$this->hideImages)) {
+            if (is_array($this->upload_submit->get($this->getPostVar())['error']['image'])) {
+                foreach ($this->upload_submit->get($this->getPostVar())['error']['image'] as $index => $error) {
                     // error handling
                     if ($error > 0) {
                         switch ($error) {
@@ -325,14 +329,14 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
                 return false;
             }
 
-            if (is_array($_FILES[$this->getPostVar()]['tmp_name']['image'])) {
-                foreach ($_FILES[$this->getPostVar()]['tmp_name']['image'] as $index => $tmpname) {
-                    $filename = $_FILES[$this->getPostVar()]['name']['image'][$index];
+            if (is_array($this->upload_submit->get($this->getPostVar())['tmp_name']['image'])) {
+                foreach ($this->upload_submit->get($this->getPostVar())['tmp_name']['image'] as $index => $tmpname) {
+                    $filename = $this->upload_submit->get($this->getPostVar())['name']['image'][$index];
                     if ($filename !== '') {
                         $filename_arr = pathinfo($filename);
                         $suffix = $filename_arr['extension'];
-                        $mimetype = $_FILES[$this->getPostVar()]['type']['image'][$index];
-                        $size_bytes = $_FILES[$this->getPostVar()]['size']['image'][$index];
+                        $mimetype = $this->upload_submit->get($this->getPostVar())['type']['image'][$index];
+                        $size_bytes = $this->upload_submit->get($this->getPostVar())['size']['image'][$index];
                         // check suffixes
                         if (
                             $tmpname !== ''
@@ -346,14 +350,14 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
                 }
             }
 
-            if (is_array($_FILES[$this->getPostVar()]['tmp_name']['image'])) {
-                foreach ($_FILES[$this->getPostVar()]['tmp_name']['image'] as $index => $tmpname) {
-                    $filename = $_FILES[$this->getPostVar()]['name']['image'][$index];
+            if (is_array($this->upload_submit->get($this->getPostVar())['tmp_name']['image'])) {
+                foreach ($this->upload_submit->get($this->getPostVar())['tmp_name']['image'] as $index => $tmpname) {
+                    $filename = $this->upload_submit->get($this->getPostVar())['name']['image'][$index];
                     if ($filename !== '') {
                         $filename_arr = pathinfo($filename);
                         $suffix = $filename_arr['extension'];
-                        $mimetype = $_FILES[$this->getPostVar()]['type']['image'][$index];
-                        $size_bytes = $_FILES[$this->getPostVar()]['size']['image'][$index];
+                        $mimetype = $this->upload_submit->get($this->getPostVar())['type']['image'][$index];
+                        $size_bytes = $this->upload_submit->get($this->getPostVar())['size']['image'][$index];
                         // virus handling
                         if ($tmpname !== '') {
                             $vir = ilVirusScanner::virusHandling($tmpname, $filename);

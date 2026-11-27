@@ -16,7 +16,8 @@
  *
  *********************************************************************/
 
-use ILIAS\Scripts\PHPStan\Attributes\AllowSuperglobalWrite;
+use ILIAS\TestQuestionPool\QuestionPoolDIC;
+use ILIAS\TestQuestionPool\UploadSubmit;
 
 /**
  * @author        Björn Heyser <bheyser@databay.de>
@@ -24,6 +25,13 @@ use ILIAS\Scripts\PHPStan\Attributes\AllowSuperglobalWrite;
 class ilIdentifiedMultiFilesJsPositionIndexRemover extends ilIdentifiedMultiValuesJsPositionIndexRemover
 {
     protected $postVar = null;
+
+    private readonly UploadSubmit $upload_submit;
+
+    public function __construct()
+    {
+        $this->upload_submit = QuestionPoolDIC::dic()['upload_submit'];
+    }
 
     public function getPostVar()
     {
@@ -52,26 +60,16 @@ class ilIdentifiedMultiFilesJsPositionIndexRemover extends ilIdentifiedMultiValu
 
     protected function isFileSubmitAvailable(): bool
     {
-        if (!isset($_FILES[$this->getPostVar()])) {
-            return false;
-        }
-
-        if (!is_array($_FILES[$this->getPostVar()])) {
-            return false;
-        }
-
-        if (!in_array('tmp_name', array_keys($_FILES[$this->getPostVar()]))) {
-            return false;
-        }
-
-        return true;
+        return isset($this->upload_submit->get($this->getPostVar())['tmp_name']);
     }
 
-    #[AllowSuperglobalWrite('normalises the shape of $_FILES[postVar], because the inherited getInput() reads it back from there.', 12)]
     protected function prepareFileSubmit(): void
     {
-        $_FILES[$this->getPostVar()] = $this->prepareMultiFilesSubmitValues(
-            $_FILES[$this->getPostVar()]
+        $this->upload_submit->set(
+            $this->getPostVar(),
+            $this->prepareMultiFilesSubmitValues(
+                $this->upload_submit->get($this->getPostVar())
+            )
         );
     }
 

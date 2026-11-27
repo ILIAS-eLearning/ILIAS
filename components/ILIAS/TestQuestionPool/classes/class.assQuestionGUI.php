@@ -1185,15 +1185,35 @@ abstract class assQuestionGUI
                 $file->setRequired(true);
                 $file->enableFileNameSelection('filename');
 
-                if ($save && $_FILES && $_FILES['file']['tmp_name'] && $file->checkInput()) {
+                $upload_service = $this->request_data_collector->upload();
+                $upload_result = null;
+                if ($upload_service->hasBeenProcessed()) {
+                    foreach ($upload_service->getResults() as $result) {
+                        if (!$result->isOK()) {
+                            continue;
+                        }
+
+                        $upload_result = $result;
+                        break;
+                    }
+                }
+                $upload_temp_path = $this->request_data_collector->getUploadedFileTempPath(['file']);
+                $has_file_upload =
+                    ($upload_result !== null && $upload_result->getPath() !== '')
+                    || $upload_temp_path !== '';
+
+                if ($save && $has_file_upload && $file->checkInput()) {
                     if (!file_exists($this->object->getSuggestedSolutionPath())) {
                         ilFileUtils::makeDirParents($this->object->getSuggestedSolutionPath());
                     }
 
-                    $res = ilFileUtils::moveUploadedFile(
-                        $_FILES['file']['tmp_name'],
-                        $_FILES['file']['name'],
-                        $this->object->getSuggestedSolutionPath() . $_FILES['file']['name']
+                    $client_filename = $upload_result?->getName()
+                        ?? $this->request_data_collector->getUploadedFileClientFilename(['file']);
+                    $source_path = $upload_result?->getPath() ?: $upload_temp_path;
+
+                    $res = ilFileUtils::copy(
+                        $source_path,
+                        $this->object->getSuggestedSolutionPath() . $client_filename
                     );
                     if ($res) {
                         ilFileUtils::renameExecutables($this->object->getSuggestedSolutionPath());
@@ -1203,11 +1223,18 @@ abstract class assQuestionGUI
                             @unlink($this->object->getSuggestedSolutionPath() . $solution->getFilename());
                         }
 
-                        $file->setValue($_FILES['file']['name']);
+                        $file->setValue($client_filename);
                         $solution = $solution
-                            ->withFilename($_FILES['file']['name'])
-                            ->withMime($_FILES['file']['type'])
-                            ->withSize($_FILES['file']['size'])
+                            ->withFilename($client_filename)
+                            ->withMime(
+                                $upload_result?->getMimeType()
+                                    ?? $this->request_data_collector->getUploadedFile(['file'])?->getClientMediaType()
+                                    ?? ''
+                            )
+                            ->withSize(
+                                $upload_result?->getSize()
+                                    ?? (int) ($this->request_data_collector->getUploadedFile(['file'])?->getSize() ?? 0)
+                            )
                             ->withTitle($this->request_data_collector->string('filename'));
 
                         $this->getSuggestedSolutionsRepo()->update([$solution]);

@@ -655,8 +655,8 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         foreach ($choice['answer'] as $index => $answertext) {
             $answertext = htmlentities($answertext);
             $picturefile = $choice['imagename'][$index] ?? null;
-            $file_org_name = $_FILES['choice']['name']['image'][$index] ?? '';
-            $file_temp_name = $_FILES['choice']['tmp_name']['image'][$index] ?? '';
+            $file_org_name = $this->request_data_collector->getUploadedFileClientFilename(['choice', 'image', $index]);
+            $file_temp_name = $this->request_data_collector->getUploadedFileTempPath(['choice', 'image', $index]);
 
             if ($file_temp_name !== '') {
                 // check suffix

@@ -83,10 +83,10 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
         $image_names = $this->forms_helper->transformArray($data, 'imagename', $this->refinery->kindlyTo()->string());
 
         // check upload
-        if (is_array($_FILES) && count($_FILES) && $this->getSingleline()) {
+        if ($this->upload_submit->hasAny() && $this->getSingleline()) {
             if (!$this->hideImages) {
-                if (is_array($_FILES[$this->getPostVar()]['error']['image'])) {
-                    foreach ($_FILES[$this->getPostVar()]['error']['image'] as $index => $error) {
+                if (is_array($this->upload_submit->get($this->getPostVar())['error']['image'])) {
+                    foreach ($this->upload_submit->get($this->getPostVar())['error']['image'] as $index => $error) {
                         // error handling
                         if ($error > 0) {
                             switch ($error) {
@@ -136,14 +136,14 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                     }
                 }
 
-                if (is_array($_FILES[$this->getPostVar()]['tmp_name']['image'])) {
-                    foreach ($_FILES[$this->getPostVar()]['tmp_name']['image'] as $index => $tmpname) {
-                        $filename = $_FILES[$this->getPostVar()]['name']['image'][$index];
+                if (is_array($this->upload_submit->get($this->getPostVar())['tmp_name']['image'])) {
+                    foreach ($this->upload_submit->get($this->getPostVar())['tmp_name']['image'] as $index => $tmpname) {
+                        $filename = $this->upload_submit->get($this->getPostVar())['name']['image'][$index];
                         $filename_arr = pathinfo($filename);
                         if (isset($filename_arr['extension'])) {
                             $suffix = $filename_arr['extension'];
-                            $mimetype = $_FILES[$this->getPostVar()]['type']['image'][$index];
-                            $size_bytes = $_FILES[$this->getPostVar()]['size']['image'][$index];
+                            $mimetype = $this->upload_submit->get($this->getPostVar())['type']['image'][$index];
+                            $size_bytes = $this->upload_submit->get($this->getPostVar())['size']['image'][$index];
                             // check suffixes
                             if (strlen($tmpname) && is_array($this->getSuffixes())) {
                                 if (!in_array(strtolower($suffix), $this->getSuffixes())) {
@@ -155,14 +155,14 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                     }
                 }
 
-                if (is_array($_FILES[$this->getPostVar()]['tmp_name']['image'])) {
-                    foreach ($_FILES[$this->getPostVar()]['tmp_name']['image'] as $index => $tmpname) {
-                        $filename = $_FILES[$this->getPostVar()]['name']['image'][$index];
+                if (is_array($this->upload_submit->get($this->getPostVar())['tmp_name']['image'])) {
+                    foreach ($this->upload_submit->get($this->getPostVar())['tmp_name']['image'] as $index => $tmpname) {
+                        $filename = $this->upload_submit->get($this->getPostVar())['name']['image'][$index];
                         $filename_arr = pathinfo($filename);
                         if (isset($filename_arr['extension'])) {
                             $suffix = $filename_arr['extension'];
-                            $mimetype = $_FILES[$this->getPostVar()]['type']['image'][$index];
-                            $size_bytes = $_FILES[$this->getPostVar()]['size']['image'][$index];
+                            $mimetype = $this->upload_submit->get($this->getPostVar())['type']['image'][$index];
+                            $size_bytes = $this->upload_submit->get($this->getPostVar())['size']['image'][$index];
                             // virus handling
                             if (strlen($tmpname)) {
                                 $vir = ilVirusScanner::virusHandling($tmpname, $filename);

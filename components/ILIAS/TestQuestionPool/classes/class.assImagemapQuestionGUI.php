@@ -107,7 +107,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 }
             }
 
-            if ($_FILES['imagemapfile']['tmp_name'] !== '') {
+            if ($this->request_data_collector->getUploadedFileTempPath(['imagemapfile']) !== '') {
                 if ($this->object->getId() < 1) {
                     $this->object->createNewQuestion();
                 }
@@ -119,11 +119,16 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     public function writeQuestionSpecificPostData(ilPropertyFormGUI $form): void
     {
-        if ($_FILES['image']['tmp_name'] !== '') {
+        $image_temp = $this->request_data_collector->getUploadedFileTempPath(['image']);
+        if ($image_temp !== '') {
             if ($this->object->getId() < 1) {
                 $this->object->createNewQuestion();
             }
-            $this->object->uploadImageFile($_FILES['image']['name'], $_FILES['image']['tmp_name']);
+            $image_name = rtrim(
+                $this->request_data_collector->getUploadedFileClientFilename(['image']),
+                '/'
+            );
+            $this->object->uploadImageFile($image_name, $image_temp);
         }
 
         $is_multiple_choice = $this->request_data_collector->int('is_multiple_choice') ?? assImagemapQuestion::MODE_SINGLE_CHOICE;

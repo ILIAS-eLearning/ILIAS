@@ -60,6 +60,8 @@ class QuestionPoolDIC extends ServiceContainer
                 $DIC['refinery'],
                 $DIC['upload']
             );
+        $dic['upload_submit'] = static fn($c): UploadSubmit =>
+            new UploadSubmit($DIC->http());
         $dic['question.repo.suggestedsolutions'] = static fn($c): SuggestedSolutionsDatabaseRepository =>
             new SuggestedSolutionsDatabaseRepository($DIC['ilDB']);
         $dic['question.general_properties.repository'] = static fn($c): GeneralQuestionPropertiesRepository =>

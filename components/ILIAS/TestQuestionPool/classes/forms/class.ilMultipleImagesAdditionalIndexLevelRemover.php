@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-use ILIAS\Scripts\PHPStan\Attributes\AllowSuperglobalWrite;
+use ILIAS\TestQuestionPool\QuestionPoolDIC;
 
 /**
  * @author        Björn Heyser <bheyser@databay.de>
@@ -48,16 +48,21 @@ class ilMultipleImagesAdditionalIndexLevelRemover implements ilFormValuesManipul
         return $inputValues;
     }
 
-    #[AllowSuperglobalWrite('normalises the shape of $_FILES[postVar], because the inherited getInput() reads it back from there.', 12)]
     public function manipulateFormSubmitValues(array $submitValues): array
     {
         $submitValues = $this->removeAdditionalSubFieldsLevelFromSubmitValues($submitValues);
 
-        if ($_FILES) {
-            $_FILES[$this->getPostVar()] = $this->removeAdditionalSubFieldsLevelFromFilesSubmit(
-                $_FILES[$this->getPostVar()]
-            );
+        $upload_submit = QuestionPoolDIC::dic()['upload_submit'];
+        if (!$upload_submit->hasAny()) {
+            return $submitValues;
         }
+
+        $upload_submit->set(
+            $this->getPostVar(),
+            $this->removeAdditionalSubFieldsLevelFromFilesSubmit(
+                $upload_submit->get($this->getPostVar())
+            )
+        );
 
         return $submitValues;
     }

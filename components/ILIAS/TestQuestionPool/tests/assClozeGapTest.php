@@ -411,7 +411,6 @@ class assClozeGapTest extends assBaseTestCase
         global $DIC;
         unset($DIC['lng']);
         $DIC['lng'] = $lng_mock;
-        $GLOBALS['lng'] = $DIC['lng'];
 
         $instance->addItem($item1);
         $instance->addItem($item2);
@@ -438,7 +437,6 @@ class assClozeGapTest extends assBaseTestCase
         global $DIC;
         unset($DIC['lng']);
         $DIC['lng'] = $lng_mock;
-        $GLOBALS['lng'] = $DIC['lng'];
 
         $instance->setShuffle(true);
         $instance->addItem($item1);
@@ -467,7 +465,6 @@ class assClozeGapTest extends assBaseTestCase
         global $DIC;
         unset($DIC['lng']);
         $DIC['lng'] = $lng_mock;
-        $GLOBALS['lng'] = $DIC['lng'];
 
         $instance->addItem($item1);
         $instance->addItem($item2);
@@ -494,7 +491,6 @@ class assClozeGapTest extends assBaseTestCase
         global $DIC;
         unset($DIC['lng']);
         $DIC['lng'] = $lng_mock;
-        $GLOBALS['lng'] = $DIC['lng'];
 
         $instance->addItem($item1);
         $instance->addItem($item2);

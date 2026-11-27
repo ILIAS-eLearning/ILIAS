@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-use ILIAS\Scripts\PHPStan\Attributes\AllowSuperglobalWrite;
+use ILIAS\TestQuestionPool\QuestionPoolDIC;
 
 /**
  * @author        Björn Heyser <bheyser@databay.de>
@@ -66,13 +66,18 @@ class ilMultiFilesSubmitRecursiveSlashesStripper implements ilFormValuesManipula
     /**
      * perform the strip slashing on files submit
      */
-    #[AllowSuperglobalWrite('strips slashes in $_FILES[postVar], because the inherited getInput() reads it back from there.', 12)]
     protected function manipulateFileSubmitValues(): void
     {
-        if ($_FILES) {
-            $_FILES[$this->getPostVar()] = ilArrayUtil::stripSlashesRecursive(
-                $_FILES[$this->getPostVar()]
-            );
+        $upload_submit = QuestionPoolDIC::dic()['upload_submit'];
+        if (!$upload_submit->hasAny()) {
+            return;
         }
+
+        $upload_submit->set(
+            $this->getPostVar(),
+            ilArrayUtil::stripSlashesRecursive(
+                $upload_submit->get($this->getPostVar())
+            )
+        );
     }
 }

@@ -21,6 +21,8 @@ declare(strict_types=1);
 use ILIAS\Test\Settings\MainSettings\SettingsMainGUI;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\HTTP\Services as HTTPServices;
+use ILIAS\Refinery\Factory as RefineryFactory;
 
 /**
  * @author        Björn Heyser <bheyser@databay.de>
@@ -56,7 +58,9 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
         private UIFactory $ui_factory,
         private UIRenderer $ui_renderer,
         private ilGlobalTemplateInterface $main_tpl,
-        private ilToolbarGUI $global_toolbar
+        private ilToolbarGUI $global_toolbar,
+        private HTTPServices $http,
+        private RefineryFactory $refinery
     ) {
     }
 
@@ -208,7 +212,13 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 
     private function buildSessionLockString(): string
     {
-        return md5($_COOKIE[session_name()] . time());
+        $session_cookie_name = session_name();
+        $cookie = $this->http->wrapper()->cookie();
+        $session_id = $cookie->has($session_cookie_name)
+            ? (string) $cookie->retrieve($session_cookie_name, $this->refinery->kindlyTo()->string())
+            : '';
+
+        return md5($session_id . time());
     }
 
     public function build(): void

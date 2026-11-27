@@ -647,7 +647,6 @@ class assFormulaQuestionGUI extends assQuestionGUI
                     $result_unit = $form->getItemByPostVar('unit_' . $result->getResult());
                     $rating_advanced = $form->getItemByPostVar('rating_advanced_' . $result->getResult());
                     if (((int) $result_unit->getValue() <= 0) && $rating_advanced->getChecked()) {
-                        unset($_POST['rating_advanced_' . $result->getResult()]); // TODO
                         $rating_advanced->setDisabled(true);
                         $rating_advanced->setChecked(false);
                         $rating_advanced->setAlert($this->lng->txt('err_rating_advanced_not_allowed'));
