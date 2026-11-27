@@ -53,6 +53,12 @@ class UI implements Component\Component
             $internal[UI\Implementation\DefaultRenderer::class];
         $implement[UI\Component\Progress\AsyncRefreshInterval::class] = static fn() =>
             $internal[UI\Implementation\Component\Progress\DefaultAsyncRefreshInterval::class];
+        $implement[UI\Storage::class] = static fn() =>
+            new UI\Implementation\Storage\KeyValueStorageAdapter(
+                $use[Authentication\Domain\AuthenticatedSubjectResolver::class],
+                $use[KeyValueStorage\Services::class],
+                $pull[Refinery\Factory::class]
+            );
 
         // =================================================================================
         // ATTENTION: these factories are only populated inside $provide in order to

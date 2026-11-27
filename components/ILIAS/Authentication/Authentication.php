@@ -60,13 +60,6 @@ class Authentication implements Component\Component
         $implement[KeyValueStorage\SessionRepository::class] = static fn() =>
             new Authentication\KeyValueStorage\SessionRepository();
 
-        $implement[UI\Storage::class] = static fn() =>
-            new Authentication\KeyValueStorage\UiStorageAdapter(
-                $use[Authentication\Domain\AuthenticatedSubjectResolver::class],
-                $use[KeyValueStorage\Services::class],
-                $pull[\ILIAS\Refinery\Factory::class]
-            );
-
         $contribute[\ILIAS\Setup\Agent::class] = static fn() =>
             new \ilAuthenticationSetupAgent(
                 $pull[\ILIAS\Refinery\Factory::class]

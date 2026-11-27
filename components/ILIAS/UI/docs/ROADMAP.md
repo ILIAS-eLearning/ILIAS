@@ -329,20 +329,16 @@ with a custom implementation sometime soon.
 
 ### Persistent `UI\Component\Table\Data` user preferences (advanced, ~3d)
 
-The `Table\Data` component does not persist user preferenceses across different sessions. Preferences
-include things like selected row-count per page, column visibility, or column sortation. There already
-is a mechanism to store these preferences, however, they are transient and not stored accross sessions.
+`Table\Data` keeps view-control state, such as the selected row count, column visibility
+and column sortation, through `UI\Storage`. This component implements that storage on top
+of `ILIAS\KeyValueStorage`, under the namespace segments `ui` / `storage`. A fully
+authenticated user keeps the state in the persistent subject scope, so it survives the
+session. Everyone else keeps it in the session scope.
 
-Our goal is to persist these preferences in a structured manner accross different sessions. What
-preferences are stored for how long needs to be defined and documented. Its possible that there should
-be different durations (transient, persistent, none) for different preferences, and that this depends
-on context. This is why this task probably also benefits from semantic defaults (see below).
-
-We should also revise how the table ID is provided. Making them mandatory would also enforce persistent
-user preferences across all table usages.
-
-**This task is blocked until ILIAS implements a key-value storage component.** The UI framework should
-only be the consumer of such a storage mechanism, as is currently abstracted by `UI\Storage`.
+What remains is the preference policy: which values last how long, and whether that
+depends on context. Different durations (transient, persistent, none) are likely, which
+is why this task also benefits from semantic defaults (see below). Table ids are optional
+today; making them mandatory would apply that policy to every table.
 
 ### Implement semantic defaults (advanced, ~3d)
 
