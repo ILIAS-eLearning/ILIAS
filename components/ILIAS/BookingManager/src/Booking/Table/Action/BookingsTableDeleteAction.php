@@ -165,7 +165,7 @@ class BookingsTableDeleteAction implements TableAction
         if ($this->booking_pool->getScheduleType() !== ilObjBookingPool::TYPE_NO_SCHEDULE && $booking['date_from']) {
             $parts[] = ilDatePresentation::formatPeriod(
                 new ilDateTime($booking['date_from'], IL_CAL_UNIX),
-                new ilDateTime($booking['date_to'] + 1, IL_CAL_UNIX)
+                new ilDateTime($booking['date_to'], IL_CAL_UNIX)
             );
         }
         return implode(' – ', $parts);
