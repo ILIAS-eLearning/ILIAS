@@ -47,4 +47,11 @@ class ilTestQuestionPool10DBUpdateSteps implements ilDatabaseUpdateSteps
             $this->db->dropTableColumn('qpl_questionpool', 'show_taxonomies');
         }
     }
+
+    public function step_3(): void
+    {
+        if (!$this->db->indexExistsByFields('qpl_hints', ['qht_question_fi'])) {
+            $this->db->addIndex('qpl_hints', ['qht_question_fi'], 'i1');
+        }
+    }
 }
