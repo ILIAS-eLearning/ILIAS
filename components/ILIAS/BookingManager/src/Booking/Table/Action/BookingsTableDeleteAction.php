@@ -109,7 +109,7 @@ class BookingsTableDeleteAction implements TableAction
     ): ?Modal {
         return $this->ui_factory->modal()->interruptive(
             $this->lng->txt('confirm'),
-            $this->lng->txt('book_confirm_delete'),
+            $this->lng->txt('book_confirm_delete_booking'),
             $url_builder->buildURI()->__toString()
         )->withAffectedItems(
             array_map(
