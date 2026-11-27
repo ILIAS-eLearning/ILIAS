@@ -294,12 +294,12 @@ class FileInputTest extends ILIAS_UI_TestBase
                     <div class="ui-input-file-input">
                         <div class="ui-input-file-info">
                             <span data-action="expand">
-                                <a tabindex="0" class="glyph" href="#" aria-label="expand_content">
+                                <a tabindex="0" class="glyph" href="#" aria-label="expand_content" aria-expanded="false">
                                     <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
                                 </a>
                             </span>
                             <span data-action="collapse">
-                                <a tabindex="0" class="glyph" href="#" aria-label="collapse_content">
+                                <a tabindex="0" class="glyph" href="#" aria-label="collapse_content" aria-expanded="true">
                                     <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
                                 </a>
                             </span>
@@ -328,10 +328,10 @@ class FileInputTest extends ILIAS_UI_TestBase
                     <template>
                         <div class="ui-input-file-input">
                             <div class="ui-input-file-info"><span data-action="expand"><a tabindex="0" class="glyph"
-                                        href="#" aria-label="expand_content"><span
+                                        href="#" aria-label="expand_content" aria-expanded="false"><span
                                             class="glyphicon glyphicon-triangle-right"
                                             aria-hidden="true"></span></a></span><span data-action="collapse"><a
-                                        tabindex="0" class="glyph" href="#" aria-label="collapse_content"><span
+                                         tabindex="0" class="glyph" href="#" aria-label="collapse_content" aria-expanded="true"><span
                                             class="glyphicon glyphicon-triangle-bottom"
                                             aria-hidden="true"></span></a></span><span data-dz-name></span><span
                                     data-dz-size></span><span data-action="remove"><a tabindex="0" class="glyph" href="#"
@@ -401,12 +401,12 @@ class FileInputTest extends ILIAS_UI_TestBase
                     <div class="ui-input-file-input">
                         <div class="ui-input-file-info">
                             <span data-action="expand">
-                                <a tabindex="0" class="glyph" href="#" aria-label="expand_content">
+                                <a tabindex="0" class="glyph" href="#" aria-label="expand_content" aria-expanded="false">
                                     <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
                                 </a>
                             </span>
                             <span data-action="collapse">
-                                <a tabindex="0" class="glyph" href="#" aria-label="collapse_content">
+                                <a tabindex="0" class="glyph" href="#" aria-label="collapse_content" aria-expanded="true">
                                     <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
                                 </a>
                             </span>
@@ -436,12 +436,12 @@ class FileInputTest extends ILIAS_UI_TestBase
                         <div class="ui-input-file-input">
                             <div class="ui-input-file-info">
                             <span data-action="expand">
-                                <a tabindex="0" class="glyph" href="#" aria-label="expand_content">
+                                <a tabindex="0" class="glyph" href="#" aria-label="expand_content" aria-expanded="false">
                                     <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
                                 </a>
                             </span>
                             <span data-action="collapse">
-                                <a tabindex="0" class="glyph" href="#" aria-label="collapse_content">
+                                <a tabindex="0" class="glyph" href="#" aria-label="collapse_content" aria-expanded="true">
                                     <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
                                 </a>
                             </span>
