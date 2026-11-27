@@ -6,8 +6,8 @@
  *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
- * You should have received a copy of said license along with
- * the source code, too.
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Stub;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -40,6 +41,15 @@ trait ilObjLanguageExtGUITestFixture
     {
         /** @var ilObjLanguageExt&Stub $object */
         $object = $this->createStub(ilObjLanguageExt::class);
+        $object->key = $key;
+
+        return $object;
+    }
+
+    private function createFakeLanguageObjectMock(string $key): ilObjLanguageExt&MockObject
+    {
+        /** @var ilObjLanguageExt&MockObject $object */
+        $object = $this->createMock(ilObjLanguageExt::class);
         $object->key = $key;
 
         return $object;

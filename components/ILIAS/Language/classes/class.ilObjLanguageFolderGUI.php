@@ -46,6 +46,18 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
     use RendersActivityErrors;
 
     private const string CMD_TABLE_ACTION = 'executeTableAction';
+    private const string DETECTION_PARAMETER = 'lang_detection_enable';
+    private const string DETECTION_CONFIRM_SESSION_KEY = 'lang_detection_confirm';
+    private const array INSTALL_CONFIRMED_ACTIONS = ['installConfirmed' => 'install', 'installLocalConfirmed' => 'install_local'];
+    /** Only the POST of a confirmation modal runs these, a GET only shows the list. */
+    private const array CONFIRMED_TABLE_ACTIONS = [
+        'confirmRefresh',
+        'refreshConfirmed',
+        'uninstallConfirmed',
+        'uninstallChanges',
+        'installConfirmed',
+        'installLocalConfirmed',
+    ];
 
     protected ilLanguageFolderTable $languageFolderTable;
     protected ILIAS\Data\Factory $df;
@@ -108,6 +120,8 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
             self::CMD_TABLE_ACTION,
             'enableLanguageDetection',
             'disableLanguageDetection',
+            // sets the session marker, a foreign link without rtoken must not open the modal
+            'confirmLanguageDetection',
         ];
     }
 
@@ -124,6 +138,8 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
         global $DIC;
 
         $table = $this->languageFolderTable->getTable();
+        $confirm_detection = ilSession::get(self::DETECTION_CONFIRM_SESSION_KEY);
+        ilSession::clear(self::DETECTION_CONFIRM_SESSION_KEY);
 
         if ($this->checkPermissionBool("write")) {
             // refresh
@@ -173,10 +189,18 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
                 $this->ctrl->getFormActionByClass(self::class, "disableLanguageDetection")
             )
                                           ->withActionButtonLabel($this->lng->txt('ok'));
+            if (is_bool($confirm_detection)) {
+                if ($confirm_detection) {
+                    $modal_on = $modal_on->withOnLoad($modal_on->getShowSignal());
+                } else {
+                    $modal_off = $modal_off->withOnLoad($modal_off->getShowSignal());
+                }
+            }
+            // URL actions reload the page in the real state, so a cancelled modal leaves the Toggle correct
             $toggleButton = $this->ui_factory->button()->toggle(
                 $this->lng->txt("language_detection"),
-                $modal_on->getShowSignal(),
-                $modal_off->getShowSignal(),
+                $this->getConfirmDetectionUrl(true),
+                $this->getConfirmDetectionUrl(false),
                 (bool) ($this->settings->get("lang_detection"))
             )
                                              ->withAriaLabel($this->lng->txt("lng_switch_language_detection"));
@@ -237,7 +261,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
         return $this->lng->exists($identifier) ? $this->lng->txt($identifier) : $default;
     }
 
-    protected function buildConfirmModal(array $ids, string $title, string $action, string $text, string $add_text = ''): ILIAS\UI\Implementation\Component\Modal\Interruptive
+    protected function buildConfirmModal(array $ids, string $title, string $action, string $text, string $add_text = ''): ILIAS\UI\Component\Modal\Interruptive
     {
         $f = $this->ui_factory;
         $title = $this->lng->txt($title);
@@ -329,9 +353,6 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
         return false;
     }
 
-    /**
-     * $mode is the dispatched "install"/"install_local" command, both are InstallLanguage modes (MODE_INSTALL/MODE_INSTALL_LOCAL).
-     */
     public function installObject(array $ids, string $mode): void
     {
         $this->checkPermission('write');
@@ -840,9 +861,13 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
 
                 // exact match: ilCtrl compares the unsafe commands case-sensitively, PHP method calls are not
                 match ($cmd) {
-                    self::CMD_TABLE_ACTION,
+                    // only the POST of the confirmation modal may switch the setting (Mantis 36949)
                     'enableLanguageDetection',
-                    'disableLanguageDetection',
+                    'disableLanguageDetection' => $this->http->request()->getMethod() === 'POST'
+                        ? $this->{$cmd . 'Object'}()
+                        : $this->viewObject(),
+                    self::CMD_TABLE_ACTION,
+                    'confirmLanguageDetection',
                     'listDeprecated',
                     'downloadDeprecated' => $this->{$cmd . 'Object'}(),
                     default => $this->viewObject(),
@@ -857,7 +882,12 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
         $this->checkPermission("write");
         $this->lng->loadLanguageModule("meta");
         $r = $this->ui_renderer;
-        switch ($action = $this->getCommandFromQueryToken($this->action_token->getName())) {
+        $action = $this->getCommandFromQueryToken($this->action_token->getName());
+        if (in_array($action, self::CONFIRMED_TABLE_ACTIONS, true) && $this->http->request()->getMethod() !== 'POST') {
+            $this->viewObject();
+            return;
+        }
+        switch ($action) {
             case 'confirmRefresh':
                 $ids = $this->confirmRefreshObject();
                 $this->refreshSelectedObject($ids);
@@ -924,8 +954,17 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
                         $ids[] = (string) $lang["obj_id"];
                     }
                 }
-                // 'install'/'install_local' are the InstallLanguage mode values
-                $this->installObject($ids, $action);
+                $modal = $this->buildConfirmModal(
+                    $ids,
+                    $action,
+                    array_search($action, self::INSTALL_CONFIRMED_ACTIONS, true),
+                    $action === 'install' ? 'lang_install_confirm_selected' : 'lang_install_local_confirm_selected'
+                );
+                echo($r->renderAsync([$modal]));
+                exit();
+            case 'installConfirmed':
+            case 'installLocalConfirmed':
+                $this->installObject($this->getIdsFromQueryToken(), self::INSTALL_CONFIRMED_ACTIONS[$action]);
                 break;
             case 'lang_uninstall_changes':
                 $ids = $this->getIdsFromQueryToken();
@@ -991,6 +1030,29 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
         return $ids;
     }
 
+    protected function confirmLanguageDetectionObject(): void
+    {
+        $enable = $this->request_wrapper->has(self::DETECTION_PARAMETER)
+            ? $this->request_wrapper->retrieve(
+                self::DETECTION_PARAMETER,
+                $this->refinery->byTrying([$this->refinery->kindlyTo()->bool(), $this->refinery->always(null)])
+            )
+            : null;
+        if (is_bool($enable)) {
+            ilSession::set(self::DETECTION_CONFIRM_SESSION_KEY, $enable);
+        }
+        $this->ctrl->redirect($this, 'view');
+    }
+
+    private function getConfirmDetectionUrl(bool $enable): string
+    {
+        $this->ctrl->setParameter($this, self::DETECTION_PARAMETER, $enable ? '1' : '0');
+        $url = $this->ctrl->getLinkTarget($this, 'confirmLanguageDetection');
+        $this->ctrl->clearParameterByClass(self::class, self::DETECTION_PARAMETER);
+
+        return $url;
+    }
+
     protected function disableLanguageDetectionObject(): void
     {
         $this->setLanguageDetectionEnabledObject(false);
@@ -1023,9 +1085,8 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
             return;
         }
 
-        // rendered directly with a non-persisted message, no redirect (unlike installObject() & Co.)
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt("saved_successfully"));
-        $this->viewObject();
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("saved_successfully"), true);
+        $this->ctrl->redirect($this, 'view');
     }
 
     /**
@@ -1039,13 +1100,13 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
         );
         $this->toolbar->addComponent($button);
 
-        $d = new ilLangDeprecated();
-        $res = "";
-        foreach ($d->getDeprecatedLangVars() as $key => $mod) {
-            $res .= $mod . "," . $key . "\n";
+        // listing items given as string are not escaped by the KS renderer
+        $lines = [];
+        foreach ((new ilLangDeprecated())->getDeprecatedLangVars() as $key => $mod) {
+            $lines[] = htmlspecialchars($mod . ',' . $key, ENT_QUOTES, 'UTF-8');
         }
 
-        $this->tpl->setContent("<pre>" . $res . "</pre>");
+        $this->tpl->setContent($this->ui_renderer->render($this->ui_factory->listing()->unordered($lines)));
     }
 
     /**
@@ -1073,13 +1134,24 @@ class ilObjLanguageFolderGUI extends ilObjectGUI implements ilCtrlSecurityInterf
 
     private function getIdsFromQueryToken(): array
     {
-        $ids = [];
-        if ($this->request_wrapper->has($this->id_token->getName())) {
-            $ids = $this->request_wrapper->retrieve(
-                $this->id_token->getName(),
-                $this->refinery->custom()->transformation(fn($v) => $v)
-            );
+        if (!$this->request_wrapper->has($this->id_token->getName())) {
+            return [];
         }
-        return $ids;
+
+        return $this->request_wrapper->retrieve(
+            $this->id_token->getName(),
+            $this->refinery->byTrying([
+                $this->refinery->container()->mapValues($this->refinery->kindlyTo()->string()),
+                $this->refinery->custom()->transformation(
+                    static function ($value): array {
+                        if (!is_string($value)) {
+                            throw new \UnexpectedValueException('Not a string.');
+                        }
+                        return [$value];
+                    }
+                ),
+                $this->refinery->always([]),
+            ])
+        );
     }
 } // END class.ilObjLanguageFolderGUI

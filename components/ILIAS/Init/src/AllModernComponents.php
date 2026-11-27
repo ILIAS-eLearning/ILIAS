@@ -150,6 +150,7 @@ class AllModernComponents implements \ILIAS\Component\EntryPoint
         protected ConditionTypes $lso_condition_types,
         protected \ILIAS\LTI\View $lti_view,
         protected KeyValueStorage $key_value_storage,
+        protected \ILIAS\UI\Storage $ui_storage,
         protected \ILIAS\Language\ComponentTranslation\LanguageFileDirectoryManager $language_file_directory_manager,
         protected \ILIAS\Language\Activities\InstallLanguage $install_language,
         protected \ILIAS\Language\Activities\UpdateLanguage $update_language,
@@ -273,6 +274,7 @@ class AllModernComponents implements \ILIAS\Component\EntryPoint
         $DIC[ConditionTypes::class] = fn(): ConditionTypes => $this->lso_condition_types;
         $DIC['lti'] = fn(): \ILIAS\LTI\View => $this->lti_view;
         $DIC[KeyValueStorage::class] = fn(): KeyValueStorage => $this->key_value_storage;
+        $DIC[\ILIAS\UI\Storage::class] = fn(): \ILIAS\UI\Storage => $this->ui_storage;
         $DIC[\ILIAS\Language\ComponentTranslation\LanguageFileDirectoryManager::class] = fn(): \ILIAS\Language\ComponentTranslation\LanguageFileDirectoryManager => $this->language_file_directory_manager;
         $DIC[\ILIAS\Language\Activities\InstallLanguage::class] = fn(): \ILIAS\Language\Activities\InstallLanguage => $this->install_language;
         $DIC[\ILIAS\Language\Activities\UpdateLanguage::class] = fn(): \ILIAS\Language\Activities\UpdateLanguage => $this->update_language;

@@ -70,8 +70,20 @@ class ilObjLanguageFolderGUILanguageDetectionTest extends TestCase
         $this->inject($gui, 'tabs_gui', $this->createStub(ilTabsGUI::class));
         $this->inject($gui, 'request_wrapper', $request_wrapper);
         $this->inject($gui, 'action_token', $action_token);
+        $this->inject($gui, 'http', $this->stubHttpWithPostRequest());
 
         return $gui;
+    }
+
+    /** Only the POST of the confirmation modal switches the setting. */
+    private function stubHttpWithPostRequest(): \ILIAS\HTTP\Services&Stub
+    {
+        $request = $this->createStub(\Psr\Http\Message\ServerRequestInterface::class);
+        $request->method('getMethod')->willReturn('POST');
+        $http = $this->createStub(\ILIAS\HTTP\Services::class);
+        $http->method('request')->willReturn($request);
+
+        return $http;
     }
 
     /** @return array<string, array{string}> */

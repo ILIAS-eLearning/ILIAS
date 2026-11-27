@@ -37,17 +37,25 @@ class ilObjLanguageExtGUISaveSettingsTest extends TestCase
         \ILIAS\HTTP\GlobalHttpState $http,
         ilObjUser $user,
         ilGlobalTemplateInterface $tpl,
-        ?ilLanguage $lng = null
+        ?ilLanguage $lng = null,
+        ?\ILIAS\UI\Component\Input\Container\Form\Standard $form = null
     ): ilObjLanguageExtGUI {
         /** @var ilObjLanguageExtGUI&MockObject $gui */
         $gui = $this->getMockBuilder(ilObjLanguageExtGUI::class)
             ->disableOriginalConstructor()
-            ->onlyMethods(['initNewSettingsForm'])
+            ->onlyMethods(['buildSettingsForm', 'settingsObject'])
             ->getMock();
 
-        $form = $this->createStub(ilPropertyFormGUI::class);
-        $form->method('getHTML')->willReturn('');
-        $gui->method('initNewSettingsForm')->willReturn($form);
+        if ($form === null) {
+            $post = $http->request()->getParsedBody();
+            $form = $this->createStub(\ILIAS\UI\Component\Input\Container\Form\Standard::class);
+            $form->method('withRequest')->willReturnSelf();
+            $form->method('getData')->willReturn(['translation' => ($post['translation'] ?? '') === 'checked']);
+        }
+        $gui->method('buildSettingsForm')->willReturn($form);
+        $renderer = $this->createStub(\ILIAS\UI\Renderer::class);
+        $renderer->method('render')->willReturn('');
+        $this->inject($gui, 'ui_renderer', $renderer);
 
         $this->inject($gui, 'http', $http);
         $this->inject($gui, 'user', $user);
@@ -69,9 +77,9 @@ class ilObjLanguageExtGUISaveSettingsTest extends TestCase
         return $gui;
     }
 
-    /** A non-empty "translation" POST value means the checkbox was submitted; the parameters come from $this->object->key. */
+    /** A checked "translation" checkbox enables the translation; the parameters come from $this->object->key. */
     #[AllowMockObjectsWithoutExpectations]
-    public function testSaveSettingsObjectBuildsEnabledTrueFromANonEmptyTranslationPostValue(): void
+    public function testSaveSettingsObjectBuildsEnabledTrueFromACheckedTranslationPostValue(): void
     {
         $user = $this->createStub(ilObjUser::class);
         $user->method('getId')->willReturn(6);
@@ -84,7 +92,7 @@ class ilObjLanguageExtGUISaveSettingsTest extends TestCase
 
         $gui = $this->createGuiForSaveSettings(
             $set_language_translation_enabled,
-            $this->mockHttpWithParsedBody(['translation' => '1']),
+            $this->mockHttpWithParsedBody(['translation' => 'checked']),
             $user,
             $this->createStub(ilGlobalTemplateInterface::class)
         );
@@ -129,7 +137,7 @@ class ilObjLanguageExtGUISaveSettingsTest extends TestCase
 
         $gui = $this->createGuiForSaveSettings(
             $set_language_translation_enabled,
-            $this->mockHttpWithParsedBody(['translation' => '1']),
+            $this->mockHttpWithParsedBody(['translation' => 'checked']),
             $user,
             $tpl,
             $this->createLanguageMockReturningTopicAsIs()
@@ -153,7 +161,7 @@ class ilObjLanguageExtGUISaveSettingsTest extends TestCase
 
         $gui = $this->createGuiForSaveSettings(
             $set_language_translation_enabled,
-            $this->mockHttpWithParsedBody(['translation' => '1']),
+            $this->mockHttpWithParsedBody(['translation' => 'checked']),
             $user,
             $tpl,
             $this->createLanguageMockReturningTopicAsIs()
@@ -181,13 +189,39 @@ class ilObjLanguageExtGUISaveSettingsTest extends TestCase
 
         $gui = $this->createGuiForSaveSettings(
             $set_language_translation_enabled,
-            $this->mockHttpWithParsedBody(['translation' => '1']),
+            $this->mockHttpWithParsedBody(['translation' => 'checked']),
             $user,
             $tpl,
             $this->createLanguageMockReturningTopicAsIs()
         );
 
         // no $ctrl is injected: a redirect would fatally error instead of passing silently
+        $gui->saveSettingsObject();
+    }
+
+    /** A rejected request (e.g. a TypeError of a KS input) is logged and never switches the setting. */
+    public function testSaveSettingsObjectNeverCallsTheActivityForARejectedRequest(): void
+    {
+        $activity = $this->createMock(SetLanguageTranslationEnabled::class);
+        $activity->expects($this->never())->method('maybePerformAs');
+        $tpl = $this->createMock(ilGlobalTemplateInterface::class);
+        $tpl->expects($this->once())->method('setOnScreenMessage')->with('failure', 'form_input_not_valid');
+        $logger = $this->createMock(\ilLogger::class);
+        $logger->expects($this->once())->method('warning');
+        $this->stubbed_activity_error_logger = $logger;
+
+        $form = $this->createStub(\ILIAS\UI\Component\Input\Container\Form\Standard::class);
+        $form->method('withRequest')->willThrowException(new TypeError('array given'));
+        $gui = $this->createGuiForSaveSettings(
+            $activity,
+            $this->mockHttpWithParsedBody(['translation' => ['checked']]),
+            $this->createStub(ilObjUser::class),
+            $tpl,
+            null,
+            $form
+        );
+        $gui->expects($this->once())->method('settingsObject');
+
         $gui->saveSettingsObject();
     }
 }

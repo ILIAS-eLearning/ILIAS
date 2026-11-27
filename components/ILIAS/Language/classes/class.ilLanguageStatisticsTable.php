@@ -18,12 +18,11 @@
 
 declare(strict_types=1);
 
-use ILIAS\UI\Component\Table as DataTableInterface;
-use ILIAS\UI\Implementation\Component\Table as DataTable;
+use ILIAS\UI\Component\Table as DataTable;
 use ILIAS\Data\Range;
 use ILIAS\Data\Order;
 
-class ilLanguageStatisticsTable implements DataTableInterface\DataRetrieval
+class ilLanguageStatisticsTable implements DataTable\DataRetrieval
 {
     protected ?ilObject $object = null;
     protected ILIAS\UI\Factory $ui_factory;

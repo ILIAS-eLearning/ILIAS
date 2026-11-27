@@ -2976,6 +2976,12 @@ msgstr "Suchbereich"
 msgid "lang_dateformat"
 msgstr "d.m.Y"
 
+msgid "lang_install_confirm_selected"
+msgstr "Möchten Sie die ausgewählten Sprachen wirklich installieren?"
+
+msgid "lang_install_local_confirm_selected"
+msgstr "Möchten Sie die ausgewählten Sprachen wirklich mit Custom-Sprachdatei installieren? Die Custom-Sprachdatei überschreibt lokale Änderungen, die älter sind als ihr Speicherdatum."
+
 msgid "lang_path"
 msgstr "Sprachdateien-Pfad"
 

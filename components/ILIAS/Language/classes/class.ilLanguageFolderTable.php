@@ -18,8 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\UI\Component\Table as DataTableInterface;
-use ILIAS\UI\Implementation\Component\Table as DataTable;
+use ILIAS\UI\Component\Table as DataTable;
 use ILIAS\Data\Range;
 use ILIAS\Data\Order;
 use ILIAS\UI\URLBuilder;
@@ -34,7 +33,7 @@ use ILIAS\Data\URI;
  *
  * @ingroup Services
  */
-class ilLanguageFolderTable implements DataTableInterface\DataRetrieval
+class ilLanguageFolderTable implements DataTable\DataRetrieval
 {
     protected URLBuilder $url_builder;
     protected URLBuilderToken $action_token;
@@ -104,8 +103,8 @@ class ilLanguageFolderTable implements DataTableInterface\DataRetrieval
     {
         $actions = array_merge(
             $this->buildAction('refresh', 'standard', true),
-            $this->buildAction('install', 'standard'),
-            $this->buildAction('install_local', 'standard'),
+            $this->buildAction('install', 'standard', true),
+            $this->buildAction('install_local', 'standard', true),
             $this->buildAction('uninstall', 'standard', true),
             $this->buildAction('lang_uninstall_changes', 'standard', true),
             $this->buildAction('setSystemLanguage', 'single'),

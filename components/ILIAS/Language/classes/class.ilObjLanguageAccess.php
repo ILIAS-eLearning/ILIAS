@@ -17,6 +17,12 @@
  *********************************************************************/
 
 declare(strict_types=1);
+
+use ILIAS\KeyValueStorage\Exception\InvalidStoredValueException;
+use ILIAS\KeyValueStorage\Services as KeyValueStorage;
+use ILIAS\KeyValueStorage\Store;
+use ILIAS\Refinery\Transformation;
+
 /**
 * Class ilObjLanguageAccess
 *
@@ -32,6 +38,8 @@ declare(strict_types=1);
 */
 class ilObjLanguageAccess
 {
+    public const array MAINTENANCE_NAMESPACE = ['language', 'ext_maintenance'];
+
     protected static bool $cached_check_translate;
 
     /**
@@ -186,40 +194,66 @@ class ilObjLanguageAccess
         $lng = $DIC->language();
 
         if (self::_checkTranslate() and !self::_isPageTranslation()) {
-            ilSession::set("lang_ext_maintenance", array(
-                "used_modules" => array_keys($lng->getUsedModules()),
-                "used_topics" => array_keys($lng->getUsedTopics())
-            ));
+            self::maintenanceStore()->set('used_modules', self::encodableKeys($lng->getUsedModules()));
+            self::maintenanceStore()->set('used_topics', self::encodableKeys($lng->getUsedTopics()));
         }
     }
 
     /**
-     * Get the stored modules from the user session
+     * Drops invalid UTF-8 (topics may come from requests), which would make the JSON encoding throw.
      *
-     * Return list of module names
+     * @return list<string>
      */
+    private static function encodableKeys(array $usages): array
+    {
+        return array_values(array_filter(
+            array_map('strval', array_keys($usages)),
+            static fn(string $key): bool => mb_check_encoding($key, 'UTF-8')
+        ));
+    }
+
+    /** @return list<string> */
     public static function _getSavedModules(): array
     {
-        $saved = [];
-        $lang_ext_maintenance_from_session = ilSession::get("lang_ext_maintenance");
-        if (is_array($lang_ext_maintenance_from_session) && isset($lang_ext_maintenance_from_session["used_modules"])) {
-            $saved = $lang_ext_maintenance_from_session["used_modules"];
-        }
-        return $saved;
+        return self::readSavedList('used_modules');
+    }
+
+    /** @return list<string> */
+    public static function _getSavedTopics(): array
+    {
+        return self::readSavedList('used_topics');
+    }
+
+    /** @return list<string> */
+    private static function readSavedList(string $key): array
+    {
+        global $DIC;
+        $refinery = $DIC->refinery();
+
+        return self::readMaintenanceState($key, $refinery->to()->listOf($refinery->kindlyTo()->string()), []);
     }
 
     /**
-     * Get the stored topics from the user session
-     *
-     * Return list of module names
+     * @template T
+     * @param T $default
+     * @return T
      */
-    public static function _getSavedTopics(): array
+    private static function readMaintenanceState(string $key, Transformation $transformation, mixed $default): mixed
     {
-        $saved = [];
-        $lang_ext_maintenance_from_session = ilSession::get("lang_ext_maintenance");
-        if (is_array($lang_ext_maintenance_from_session) && isset($lang_ext_maintenance_from_session["used_topics"])) {
-            $saved = $lang_ext_maintenance_from_session["used_topics"];
+        global $DIC;
+        $refinery = $DIC->refinery();
+
+        try {
+            return self::maintenanceStore()->get($key, $refinery->byTrying([$transformation, $refinery->always($default)]));
+        } catch (InvalidStoredValueException) {
+            return $default;
         }
-        return $saved;
+    }
+
+    private static function maintenanceStore(): Store
+    {
+        global $DIC;
+
+        return $DIC[KeyValueStorage::class]->session(self::MAINTENANCE_NAMESPACE);
     }
 }

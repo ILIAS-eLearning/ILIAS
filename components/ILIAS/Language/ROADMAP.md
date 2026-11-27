@@ -4,8 +4,9 @@
 
 * Accelerated language update (no more need to introduce background tasks)
 * Removed language installation in config (only English is installed by Setup)
-* Substituted LegacyUI Button by KS Button in the folder GUI's toolbar (`ilObjLanguageFolderGUI`);
-  the form action buttons in `ilObjLanguageExtGUI` (`addCommandButton()`) are still legacy `ilPropertyFormGUI` buttons
+* Substituted LegacyUI Button by KS Button in the folder GUI's toolbar (`ilObjLanguageFolderGUI`)
+* Replaced the `ilPropertyFormGUI` forms of `ilObjLanguageExtGUI` (with their `addCommandButton()` buttons)
+  by KS forms
 * Migrated the component to the Component Revision's dependency graph
   (`$define`/`$implement`/`$use`/`$contribute`/`$seek`/`$provide`/`$pull`/`$internal` in `Language.php`)
   and introduced the Activities pattern: seven `ILIAS\Language\Activities\*` classes now hold this
@@ -17,13 +18,15 @@
 * Plural forms for modules maintained in PO files: `txt($a_topic, $n)`, `Plural-Forms` evaluated by
   `ILIAS\Language\ComponentTranslation\PluralForms` (pilot modules `tos` and `poll`, see
   [Translations Maintained in PO Files](README.md#translations-maintained-in-po-files))
+* Replaced the deprecated `ilLanguageExtTableGUI` (`ilTable2GUI`) with a read-only KS Data Table
+  (`ilLanguageEntriesTable`) plus a KS Round-Trip modal for editing the selected entries, with the compare
+  language's value as byline (KS Data Table has no editable column type); comment column and filter only in langmode
 
 ## Short Term
 
 * Fixing PHP 8.2 issues
 * Analysing use of language variables on test9
 * GitHook for preventing duplicate use of same variable_ID in language files
-* Migrate the remaining `addCommandButton()` form buttons in `ilObjLanguageExtGUI` to KS Button
 * Take the system settings of `SetLanguageDetectionEnabled`/`SetLanguageTranslationEnabled` from the
   dependency graph as soon as Administration offers them there; until then `LanguageSettingsLegacyProxy`
   reads them from the legacy container
@@ -35,9 +38,6 @@
 
 ## Mid Term
 
-* Move LegacyUI Table2GUI to KS Data Table - `ilLanguageFolderTable` and `ilLanguageStatisticsTable`
-  already implement the KS `DataRetrieval` table; only `ilLanguageExtTableGUI` (still `extends ilTable2GUI`,
-  used by `ilObjLanguageExtGUI::getViewTable()`) remains to be migrated
 * Remove unused language variables from language files
 * Improving export and import of customised language files
 * Improving online translation tool

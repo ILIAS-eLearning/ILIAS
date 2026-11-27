@@ -50,27 +50,44 @@ class ilObjLanguageExtGUIMaintenanceTest extends TestCase
         return $object;
     }
 
-    /** @param list<array{0: string, 1: string}> $messages type and message of every setOnScreenMessage() call */
+    /**
+     * Runs the maintenance action as the confirmed (or unconfirmed "save_dist") request does: executeMaintainOption().
+     *
+     * @param list<array{0: string, 1: string}> $messages type and message of every setOnScreenMessage() call
+     */
     private function runMaintenance(
         string $action,
         ilObjLanguageExt $object,
         array &$messages,
-        ?RemoveLocalLanguageChanges $remove_local_language_changes = null,
-        bool $langmode = true
+        ?RemoveLocalLanguageChanges $remove_local_language_changes = null
     ): void {
+        $gui = $this->createMaintenanceGui($object, $messages, $remove_local_language_changes);
+
+        try {
+            (new ReflectionMethod(ilObjLanguageExtGUI::class, 'executeMaintainOption'))->invoke($gui, $action);
+        } finally {
+            MigratedPoFixture::removeDirectory((string) $this->maintenance_directory);
+        }
+    }
+
+    /** @param list<array{0: string, 1: string}> $messages */
+    private function createMaintenanceGui(
+        ilObjLanguageExt $object,
+        array &$messages,
+        ?RemoveLocalLanguageChanges $remove_local_language_changes = null,
+        bool $langmode = true,
+        ?ilCtrl $ctrl = null
+    ): ilObjLanguageExtGUI {
         $tpl = $this->createStub(ilGlobalTemplateInterface::class);
         $tpl->method('setOnScreenMessage')->willReturnCallback(
             static function (string $type, string $message) use (&$messages): void {
                 $messages[] = [$type, $message];
             }
         );
-        $ctrl = $this->createMock(ilCtrl::class);
-        $ctrl->expects($this->once())->method('redirect')->with($this->isInstanceOf(ilObjLanguageExtGUI::class), 'maintain');
 
         $gui = $this->newGuiWithoutConstructor(ilObjLanguageExtGUI::class);
-        $this->inject($gui, 'http', $this->mockHttpWithParsedBody(['maintain' => $action]));
         $this->inject($gui, 'tpl', $tpl);
-        $this->inject($gui, 'ctrl', $ctrl);
+        $this->inject($gui, 'ctrl', $ctrl ?? $this->createStub(ilCtrl::class));
         $this->inject($gui, 'lng', $this->createLanguageMockWithFormatStrings());
         $this->inject($gui, 'object', $object);
         // "merge" escapes module names with the real Refinery classes, see importedMessageProvider()
@@ -89,17 +106,7 @@ class ilObjLanguageExtGUIMaintenanceTest extends TestCase
             $remove_local_language_changes ?? $this->createStub(RemoveLocalLanguageChanges::class)
         );
 
-        $session_before = $_SESSION ?? null;
-        try {
-            $gui->maintainExecuteObject();
-        } finally {
-            if ($session_before === null) {
-                unset($_SESSION);
-            } else {
-                $_SESSION = $session_before;
-            }
-            MigratedPoFixture::removeDirectory((string) $this->maintenance_directory);
-        }
+        return $gui;
     }
 
     private function stubRemoveLocalLanguageChanges(ResultOk|ResultError $result): RemoveLocalLanguageChanges&Stub
@@ -481,17 +488,33 @@ class ilObjLanguageExtGUIMaintenanceTest extends TestCase
         $this->assertSame([['success', 'language_merged_global']], $messages);
     }
 
-    /** "merge" (like "delete_added"/"remove_local_file") needs LANGMODE: without it the request is refused before the language object is touched. */
+    /** "merge" (like "delete_added"/"remove_local_file") needs LANGMODE: without it a pending option is not executed, the language object is not touched. */
     #[DataProvider('langmodeOnlyMaintenanceActions')]
-    public function testMaintenanceActionsRequiringLangmodeAreRefusedWithoutIt(string $action): void
+    public function testMaintenanceActionsRequiringLangmodeAreNotExecutedWithoutIt(string $action): void
     {
         $object = $this->maintenanceLanguageObject();
         $object->expects($this->never())->method('mergeLocalChangesIntoGlobalLanguageFile');
+        $object->expects($this->never())->method('setLocal');
+        $object->method('getId')->willReturn(7);
         $messages = [];
+        $ctrl = $this->createMock(ilCtrl::class);
+        $ctrl->expects($this->once())->method('redirect')->with($this->isInstanceOf(ilObjLanguageExtGUI::class), 'maintain');
 
-        $this->runMaintenance($action, $object, $messages, langmode: false);
+        $_SESSION = ['lang_ext_maintain_pending' => ['token' => 'tok', 'obj_id' => 7, 'show' => false, 'option' => $action]];
+        $request_wrapper = $this->createStub(\ILIAS\HTTP\Wrapper\RequestWrapper::class);
+        $request_wrapper->method('has')->willReturn(true);
+        $request_wrapper->method('retrieve')->willReturn('tok');
 
-        $this->assertSame([['failure', 'permission_denied']], $messages);
+        try {
+            $gui = $this->createMaintenanceGui($object, $messages, langmode: false, ctrl: $ctrl);
+            $this->inject($gui, 'request_wrapper', $request_wrapper);
+            $gui->maintainConfirmedObject();
+        } finally {
+            $_SESSION = [];
+            MigratedPoFixture::removeDirectory((string) $this->maintenance_directory);
+        }
+
+        $this->assertSame([['failure', 'action_aborted']], $messages);
     }
 
     /** @return array<string, array{0: string}> */
