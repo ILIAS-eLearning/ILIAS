@@ -17,6 +17,6 @@
 		</object>
 	</objects>
 	<events>
-		<event type="listen" id="Services/User" />
+		<event type="listen" id="components/ILIAS/User" />
 	</events>
 </service>
