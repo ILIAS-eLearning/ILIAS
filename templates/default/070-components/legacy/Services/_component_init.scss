@@ -23,6 +23,10 @@ div.ilStartupFrame {
 	width: fit-content;
 	margin-left: auto;
 	margin-right: auto;
+
+	> .c-form {
+		min-width: 34rem;
+	}
 	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
       padding-top: 15px;
 
@@ -33,6 +37,10 @@ div.ilStartupFrame {
         & + div {
           width: 100%;
         }
+      }
+
+      > .c-form {
+        min-width: 0;
       }
     }
 }
