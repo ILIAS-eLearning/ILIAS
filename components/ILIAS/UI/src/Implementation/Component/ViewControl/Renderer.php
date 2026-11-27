@@ -228,7 +228,7 @@ class Renderer extends AbstractComponentRenderer
         foreach ($range as $entry) {
             $shy = $this->getPaginationShyButton($entry, $component);
             if ($entry === $component->getCurrentPage()) {
-                $shy = $shy->withEngagedState(true);
+                $shy = $shy->withEngagedState(true)->withAriaCurrent('page');
             }
             $chunk_options[] = $shy;
         }

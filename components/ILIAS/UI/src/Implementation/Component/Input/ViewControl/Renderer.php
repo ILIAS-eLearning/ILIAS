@@ -265,7 +265,7 @@ class Renderer extends AbstractComponentRenderer
                         $tpl->setCurrentBlock("entry");
                         $entry = $ui_factory->button()->shy((string) ($idx + 1), '#')->withOnClick($signal);
                         if ($idx === $current) {
-                            $entry = $entry->withEngagedState(true);
+                            $entry = $entry->withEngagedState(true)->withAriaCurrent('page');
                         }
                         $tpl->setVariable("ENTRY", $default_renderer->render($entry));
                         $tpl->parseCurrentBlock();
