@@ -22,6 +22,7 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 /**
  * LTI component: LTI 1.1 (classes/LTI1p1) and LTI Advantage (classes/LTIAdvantage) for ILIAS as consumer and provider.
@@ -116,5 +117,9 @@ class LTI implements Component\Component
 
         $internal[\ILIAS\LTI\View\AuthSession::class] = static fn(): \ILIAS\LTI\View\AuthSession =>
             new \ILIAS\LTI\View\AuthSessionLegacyProxy();
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new LTI\ObjectType\LTIToolObjectType();
+        $contribute[ObjectType::class] = static fn(): ObjectType => new LTI\ObjectType\LTIToolVerificationObjectType();
+        $contribute[ObjectType::class] = static fn(): ObjectType => new LTI\ObjectType\LTIAdministrationObjectType();
     }
 }

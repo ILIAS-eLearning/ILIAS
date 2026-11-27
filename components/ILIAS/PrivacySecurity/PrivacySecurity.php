@@ -22,6 +22,7 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class PrivacySecurity implements Component\Component
 {
@@ -43,5 +44,7 @@ class PrivacySecurity implements Component\Component
             $this,
             'ps'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new PrivacySecurity\ObjectType\PrivacySecurityObjectType();
     }
 }

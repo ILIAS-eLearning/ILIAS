@@ -22,6 +22,7 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class RemoteCourse implements Component\Component
 {
@@ -40,5 +41,7 @@ class RemoteCourse implements Component\Component
             $this,
             'rcrs'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new RemoteCourse\ObjectType\RemoteCourseObjectType();
     }
 }

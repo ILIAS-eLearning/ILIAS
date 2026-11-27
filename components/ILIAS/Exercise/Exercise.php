@@ -22,6 +22,7 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class Exercise implements Component\Component
 {
@@ -59,5 +60,9 @@ class Exercise implements Component\Component
             $this,
             'exc'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Exercise\ObjectType\ExerciseObjectType();
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Exercise\ObjectType\ExerciseAdministrationObjectType();
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Exercise\ObjectType\ExerciseVerificationObjectType();
     }
 }

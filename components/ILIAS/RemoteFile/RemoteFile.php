@@ -22,6 +22,7 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class RemoteFile implements Component\Component
 {
@@ -40,5 +41,7 @@ class RemoteFile implements Component\Component
             $this,
             'rfil'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new RemoteFile\ObjectType\RemoteFileObjectType();
     }
 }

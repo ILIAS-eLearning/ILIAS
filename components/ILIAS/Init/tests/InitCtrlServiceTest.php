@@ -24,6 +24,7 @@ use ILIAS\HTTP\Response\Sender\DefaultResponseSenderStrategy;
 use ILIAS\HTTP\Services as HttpService;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\DI\Container;
+use ILIAS\UICore\Ctrl\CommandClassResolver;
 
 /**
  * Class InitCtrlServiceTest
@@ -77,6 +78,7 @@ final class InitCtrlServiceTest extends TestCase
                 $this->createStub(ServerRequestInterface::class)
             );
         $dic['component.factory'] = $this->createStub(ilComponentFactory::class);
+        $dic[CommandClassResolver::class] = $this->createStub(CommandClassResolver::class);
 
         $this->assertFalse(isset($dic['ilCtrl']));
 

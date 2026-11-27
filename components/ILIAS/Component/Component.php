@@ -22,6 +22,7 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class Component implements Component\Component
 {
@@ -60,5 +61,7 @@ class Component implements Component\Component
             $this,
             'cmps'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Component\ObjectType\ComponentSettingsObjectType();
     }
 }

@@ -22,6 +22,7 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class Forum implements Component\Component
 {
@@ -49,5 +50,8 @@ class Forum implements Component\Component
             $this,
             'forum'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Forum\ObjectType\ForumObjectType();
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Forum\ObjectType\ForumAdministrationObjectType();
     }
 }

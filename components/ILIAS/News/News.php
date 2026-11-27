@@ -23,6 +23,7 @@ namespace ILIAS;
 use ILIAS\Setup\Agent as SetupAgent;
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class News implements Component\Component
 {
@@ -48,5 +49,7 @@ class News implements Component\Component
             $this,
             'news'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new News\ObjectType\NewsSettingsObjectType();
     }
 }

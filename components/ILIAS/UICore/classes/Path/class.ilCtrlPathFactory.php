@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\UICore\Ctrl\Context;
+
 /**
  * Class ilCtrlPathFactory
  *
@@ -43,7 +45,7 @@ class ilCtrlPathFactory implements ilCtrlPathFactoryInterface
     /**
      * @inheritDoc
      */
-    public function find(ilCtrlContextInterface $context, $target): ilCtrlPathInterface
+    public function find(Context $context, $target): ilCtrlPathInterface
     {
         if (is_array($target)) {
             return new ilCtrlArrayClassPath($this->structure, $context, $target);

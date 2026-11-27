@@ -22,6 +22,7 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class Session implements Component\Component
 {
@@ -43,5 +44,7 @@ class Session implements Component\Component
             $this,
             'sess'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Session\ObjectType\SessionObjectType();
     }
 }

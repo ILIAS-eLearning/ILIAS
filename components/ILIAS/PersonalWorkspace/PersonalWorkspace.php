@@ -22,6 +22,7 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class PersonalWorkspace implements Component\Component
 {
@@ -45,5 +46,7 @@ class PersonalWorkspace implements Component\Component
             $this,
             'wsp'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new PersonalWorkspace\ObjectType\PersonalWorkspaceSettingsObjectType();
     }
 }

@@ -22,6 +22,7 @@ namespace ILIAS;
 
 use ILIAS\Language\ComponentTranslation\LanguageFileDirectory;
 use ILIAS\Language\ComponentTranslation\ComponentLanguageFileDirectory;
+use ILIAS\ILIASObject\Definition\ObjectType;
 
 class Dashboard implements Component\Component
 {
@@ -54,5 +55,7 @@ class Dashboard implements Component\Component
             $this,
             'pd'
         );
+
+        $contribute[ObjectType::class] = static fn(): ObjectType => new Dashboard\ObjectType\DashboardSettingsObjectType();
     }
 }
