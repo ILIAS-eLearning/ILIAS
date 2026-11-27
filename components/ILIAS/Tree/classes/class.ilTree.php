@@ -326,10 +326,18 @@ class ilTree
     /**
      * Do not use it
      * Store user language. This function is used by the "main"
-     * tree only (during initialisation).
+     * tree only (during initialisation). It will reassign the user and language because ilTree is used
+     * very early in the initiation, where ILIAS lacks a user his language.
+     *
+     * @deprecated This will be refactored in ILIAS 13
      */
     public function initLangCode(): void
     {
+        global $DIC; // Besides constructor and static functions, this is the only place allowed to use the DIC
+
+        $this->user = $user ?? ($DIC->isDependencyAvailable('user') ? $DIC->user() : null);
+        $this->lng = $language ?? ($DIC->isDependencyAvailable('language') ? $DIC->language() : new NullLanguage());
+
         if ($this->user !== null) {
             $this->lang_code = $this->user->getCurrentLanguage() ?
                 $this->user->getCurrentLanguage() : self::DEFAULT_LANGUAGE;
