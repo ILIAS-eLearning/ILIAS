@@ -306,11 +306,11 @@ class ilObjForum extends ilObject
             $this->db->update('frm_data', [
                 'top_name' => ['text', $topData->getTopName()],
                 'top_description' => ['text', $topData->getTopDescription()],
-                'top_num_posts' => ['integer', $topData->getTopNumPosts()],
-                'top_num_threads' => ['integer', $topData->getTopNumThreads()],
-                'top_last_post' => ['text', $topData->getTopLastPost()],
+                'top_num_posts' => ['integer', 0],
+                'top_num_threads' => ['integer', 0],
+                'top_last_post' => ['text', ''],
                 'top_date' => ['timestamp', $topData->getTopDate()],
-                'visits' => ['integer', $topData->getVisits()],
+                'visits' => ['integer', 0],
                 'top_update' => ['timestamp', $topData->getTopUpdate()],
                 'update_user' => ['integer', $topData->getUpdateUser()],
                 'top_usr_id' => ['integer', $topData->getTopUsrId()]
