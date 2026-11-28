@@ -43,8 +43,8 @@ class MarksDatabaseRepository implements MarksRepository
             $mark_steps = [];
             while ($data = $this->db->fetchAssoc($result)) {
                 $mark_steps[] = new Mark(
-                    $data['short_name'],
-                    $data['official_name'],
+                    $data['short_name'] ?? '',
+                    $data['official_name'] ?? '',
                     (float) $data['minimum_level'],
                     (bool) $data['passed']
                 );
